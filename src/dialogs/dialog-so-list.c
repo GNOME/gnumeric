@@ -89,7 +89,7 @@ cb_so_list_response (GtkWidget *dialog, gint response_id, GnmDialogSOList *state
 		content = gnm_expr_entry_parse (state->content_entry,
 						&pp, NULL, FALSE, GNM_EE_FORCE_ABS_REF);
 		cmd_so_set_links (WORKBOOK_CONTROL (state->wbcg), state->so, output, content,
-				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON 
+				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
 								(state->as_index_radio)));
 	}
 
@@ -121,7 +121,7 @@ so_list_init (GnmDialogSOList *state, WBCGtk *wbcg, SheetObject *so)
 	if (texpr) gnm_expr_top_unref (texpr);
 
 	state->as_index_radio = go_gtk_builder_get_widget (gui, "as-index-radio");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->as_index_radio), 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->as_index_radio),
 				      sheet_widget_list_base_result_type_is_index (so));
 
 	g_signal_connect (G_OBJECT (state->dialog), "response",

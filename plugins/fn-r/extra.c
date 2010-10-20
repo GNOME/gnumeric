@@ -60,7 +60,7 @@ qcauchy (gnm_float p, gnm_float location, gnm_float scale,
 #define LIM2 15.0
 #define LIM3 15.0
 #define LIM4 1E-5
- 
+
 #define TWOPI_INVERSE 1/(2*M_PIgnum)
 
 static gnm_float
@@ -103,7 +103,7 @@ gnm_owent (gnm_float h, gnm_float a)
 		for (;;)
 		{
 			gnm_float rt = as + 1.0;
-			h2 = h1 + (hs * as + LIM3 - log(rt)) 
+			h2 = h1 + (hs * as + LIM3 - log(rt))
 				/ (2.0 * h1 * (1.0 / rt - hs));
 			as = h2 * h2;
 			if (fabs(h2 - h1) < LIM4) break;
@@ -131,10 +131,10 @@ gnm_owent (gnm_float h, gnm_float a)
 
 /* The skew-normal distribution.  */
 
-gnm_float 
+gnm_float
 dsnorm (gnm_float x, gnm_float shape, gnm_float location, gnm_float scale, gboolean give_log)
 {
-	if (shape == 0.) 
+	if (shape == 0.)
 		return dnorm (x, location, scale, give_log);
 	else if (give_log)
 		return gnm_log (2.) + dnorm (x, location, scale, TRUE) + pnorm (shape * x, shape * location, scale, TRUE, TRUE);
@@ -142,12 +142,12 @@ dsnorm (gnm_float x, gnm_float shape, gnm_float location, gnm_float scale, gbool
 		return 2 * dnorm (x, location, scale, FALSE) * pnorm (shape * x, location/shape, scale, TRUE, FALSE);
 }
 
-gnm_float 
+gnm_float
 psnorm (gnm_float x, gnm_float shape, gnm_float location, gnm_float scale, gboolean lower_tail, gboolean log_p)
 {
 	gnm_float result;
 
-	if (shape == 0.) 
+	if (shape == 0.)
 		return pnorm (x, location, scale, lower_tail, log_p);
 
 	result = pnorm (x, location, scale, TRUE, FALSE) - 2 * gnm_owent ((x - location)/scale, shape);
@@ -162,10 +162,10 @@ psnorm (gnm_float x, gnm_float shape, gnm_float location, gnm_float scale, gbool
 }
 
 
-gnm_float 
+gnm_float
 qsnorm (gnm_float p, gnm_float shape, gnm_float location, gnm_float scale, gboolean lower_tail, gboolean log_p)
 {
-	if (shape == 0.) 
+	if (shape == 0.)
 		return qnorm (p, location, scale, lower_tail, log_p);
 	else if (log_p)
 		return 0.;
@@ -177,24 +177,24 @@ qsnorm (gnm_float p, gnm_float shape, gnm_float location, gnm_float scale, gbool
 
 /* The skew-t distribution.  */
 
-gnm_float 
+gnm_float
 dst (gnm_float x, gnm_float n, gnm_float shape, gboolean give_log)
 {
-	if (shape == 0.) 
+	if (shape == 0.)
 		return dt (x, n, give_log);
 	else {
 		gnm_float pdf = dt (x, n, give_log);
-		gnm_float cdf = pt (shape * x * gnm_sqrt ((n + 1)/(x * x + n)), 
+		gnm_float cdf = pt (shape * x * gnm_sqrt ((n + 1)/(x * x + n)),
 				    n + 1, TRUE, give_log);
 		return ((give_log) ? (gnm_log (2.) + pdf + cdf) : (2. * pdf * cdf));
 	}
 }
 
 
-gnm_float 
+gnm_float
 pst (gnm_float x, gnm_float n, gnm_float shape, gboolean lower_tail, gboolean log_p)
 {
-	if (shape == 0.) 
+	if (shape == 0.)
 		return pt (x, n, lower_tail, log_p);
 	else if (log_p)
 		return 0.;
@@ -203,10 +203,10 @@ pst (gnm_float x, gnm_float n, gnm_float shape, gboolean lower_tail, gboolean lo
 }
 
 
-gnm_float 
+gnm_float
 qst (gnm_float p, gnm_float n, gnm_float shape, gboolean lower_tail, gboolean log_p)
 {
-	if (shape == 0.) 
+	if (shape == 0.)
 		return qt (p, n, lower_tail, log_p);
 	else if (log_p)
 		return 0.;

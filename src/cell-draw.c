@@ -111,7 +111,7 @@ cell_calc_layout (GnmCell const *cell, GnmRenderedValue *rv, int y_direction,
 		if (sin_a < 0) {
 			hoffset += (width - indent) - rv->layout_natural_width;
 		}
-	} else if (!rv->rotation && rv->wrap_text 
+	} else if (!rv->rotation && rv->wrap_text
 		   && (rv->effective_halign != HALIGN_FILL)) {
 		int wanted_width = MAX (0, width - indent);
 		if (wanted_width != pango_layout_get_width (layout)) {
@@ -174,7 +174,7 @@ cell_calc_layout (GnmCell const *cell, GnmRenderedValue *rv, int y_direction,
 				pango_layout_get_extents (layout, NULL, &r);
 				hoffset += (width - indent) - r.width;
 			}
-			
+
 			rv->hfilled = TRUE;
 			break;
 		}

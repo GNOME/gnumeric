@@ -1355,7 +1355,7 @@ BC_R(lineformat)(XLChartHandler const *handle,
 		       ms_line_pattern [pattern]););
 
 	switch (pattern) {
-	default: 
+	default:
 	case 0:
 		s->style->line.dash_type = GO_LINE_SOLID;
 		break;
@@ -2275,7 +2275,7 @@ BC_R(tick)(XLChartHandler const *handle,
 		else
 			; // FIXME: not supported for now
 	}
-	
+
 	d (1, {
 	switch (major) {
 	case 0: g_printerr ("no major tick;\n"); break;

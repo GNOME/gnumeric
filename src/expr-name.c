@@ -58,14 +58,14 @@ expr_name_validate_a1 (const char *name)
 	const char *p = name;
 	gint i;
 
-	for (i = 0; *p && g_ascii_isalpha(p[0]); 
+	for (i = 0; *p && g_ascii_isalpha(p[0]);
 	     p = g_utf8_next_char (p))
 		i++;
 	if (i==0 || i>4) /* We want to allow "total2010" and it   */
 		         /* is unlikely to have more than  456976 */
 		         /* columns  atm */
 		return TRUE;
-	for (i = 0; *p && g_ascii_isdigit (p[0]); 
+	for (i = 0; *p && g_ascii_isdigit (p[0]);
 	     p = g_utf8_next_char (p))
 		i++;
 	if (i==0)
@@ -938,7 +938,7 @@ expr_name_in_use (GnmNamedExpr *nexpr)
 {
 	gchar const *name;
 
-	if (nexpr->dependents != NULL && 
+	if (nexpr->dependents != NULL &&
 	    g_hash_table_size (nexpr->dependents) != 0)
 		return TRUE;
 
@@ -953,7 +953,7 @@ expr_name_in_use (GnmNamedExpr *nexpr)
 		gboolean res;
 		GSList  *sheets, *sheets_orig;
 
-		res = expr_name_check_for_name 
+		res = expr_name_check_for_name
 			(name, nexpr->pos.wb->names, FALSE);
 		if (res)
 			return TRUE;
@@ -962,7 +962,7 @@ expr_name_in_use (GnmNamedExpr *nexpr)
 		for (sheets = sheets_orig;
 		     sheets != NULL; sheets = sheets->next) {
 			Sheet *this = sheets->data;
-			res = expr_name_check_for_name 
+			res = expr_name_check_for_name
 				(name, this->names, TRUE);
 			if (res) {
 				g_slist_free (sheets_orig);
@@ -975,7 +975,7 @@ expr_name_in_use (GnmNamedExpr *nexpr)
 		/* It can only be used by another sheet-level */
 		/* name of the same sheet.                    */
 
-		return expr_name_check_for_name 
+		return expr_name_check_for_name
 			(name, nexpr->pos.sheet->names, FALSE);
 	}
 

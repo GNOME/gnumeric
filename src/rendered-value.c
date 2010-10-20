@@ -289,7 +289,7 @@ gnm_rendered_value_new (GnmCell const *cell,
 	res->effective_valign = gnm_style_get_align_v (mstyle);
 	res->effective_halign = gnm_style_default_halign (mstyle, cell);
 	res->indent_left = res->indent_right = 0;
-	
+
 	if (res->effective_halign == HALIGN_FILL) {
 		pango_layout_set_single_paragraph_mode (layout, TRUE);
 		res->variable_width = TRUE;

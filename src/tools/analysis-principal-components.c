@@ -63,46 +63,46 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 	if (!dao_cell_is_visible (dao, l, 9 + 3 * l)) {
 		dao_set_bold (dao, 0, 0, 0, 0);
 		dao_set_italic (dao, 0, 0, 0, 0);
-		dao_set_cell (dao, 0, 0, 
+		dao_set_cell (dao, 0, 0,
 			      _("Principal components analysis has "
 				"insufficient space."));
 		return 0;
 	}
 
-	fd_mean = gnm_func_lookup_or_add_placeholder 
+	fd_mean = gnm_func_lookup_or_add_placeholder
 		("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_mean);
-	fd_var = gnm_func_lookup_or_add_placeholder 
+	fd_var = gnm_func_lookup_or_add_placeholder
 		("VAR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_var);
-	fd_eigen = gnm_func_lookup_or_add_placeholder 
+	fd_eigen = gnm_func_lookup_or_add_placeholder
 		("EIGEN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_eigen);
-	fd_mmult = gnm_func_lookup_or_add_placeholder 
+	fd_mmult = gnm_func_lookup_or_add_placeholder
 		("MMULT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_mmult);
-	fd_munit = gnm_func_lookup_or_add_placeholder 
+	fd_munit = gnm_func_lookup_or_add_placeholder
 		("MUNIT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_munit);
-	fd_sqrt = gnm_func_lookup_or_add_placeholder 
+	fd_sqrt = gnm_func_lookup_or_add_placeholder
 		("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_sqrt);
-	fd_count = gnm_func_lookup_or_add_placeholder 
+	fd_count = gnm_func_lookup_or_add_placeholder
 		("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_count);
-	fd_sum = gnm_func_lookup_or_add_placeholder 
+	fd_sum = gnm_func_lookup_or_add_placeholder
 		("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_sum);
-	fd_and = gnm_func_lookup_or_add_placeholder 
+	fd_and = gnm_func_lookup_or_add_placeholder
 		("AND", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_and);
-	fd_if = gnm_func_lookup_or_add_placeholder 
+	fd_if = gnm_func_lookup_or_add_placeholder
 		("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_if);
 
 	dao_set_bold (dao, 0, 0, 0, 0);
 	dao_set_italic (dao, 0, 0, 0, 11 + 3 * l);
-	dao_set_format (dao, 0, 0, 0, 0, 
+	dao_set_format (dao, 0, 0, 0, 0,
 			_("\"Principal Components Analysis\";"
 			  "[Red]\"Principal Components Analysis is invalid.\""));
 	dao_set_align (dao, 0, 0, 0, 0,
@@ -115,24 +115,24 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 	for (i = 1, inputdata = info->input; inputdata != NULL; i++, inputdata = inputdata->next)
 		analysis_tools_write_label (inputdata->data, dao, info, 0, 9 + 2 * l + i, i);
 
-	data_points = value_area_get_width (info->input->data, NULL) * 
+	data_points = value_area_get_width (info->input->data, NULL) *
 		value_area_get_height (info->input->data, NULL);
 	for (i = 0; i < l; i++)
-		and_args = gnm_expr_list_prepend 
-			(and_args, 
-			 gnm_expr_new_binary 
+		and_args = gnm_expr_list_prepend
+			(and_args,
+			 gnm_expr_new_binary
 			 (gnm_expr_new_constant (value_new_int (data_points)),
 			  GNM_EXPR_OP_EQUAL,
 			  make_cellref (1 + i, 3 + l)));
 	expr_and = gnm_expr_new_funcall	(fd_and, and_args);
-	dao_set_cell_expr (dao, 0, 0, 
-			   gnm_expr_new_funcall3 
+	dao_set_cell_expr (dao, 0, 0,
+			   gnm_expr_new_funcall3
 			   (fd_if,
 			    expr_and,
 			    gnm_expr_new_constant (value_new_int (1)),
 			    gnm_expr_new_constant (value_new_int (-1))));
 	dao_set_merge (dao,0,0,2,0);
-	set_cell_text_col (dao, 0, 3 + l, 
+	set_cell_text_col (dao, 0, 3 + l,
 			   _("/Count:"
 			     "/Mean:"
 			     "/Variance:"
@@ -145,9 +145,9 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 	for (i = 1, inputdata = info->input; inputdata != NULL; i++, inputdata = inputdata->next) {
 		expr = gnm_expr_new_constant (value_dup (inputdata->data));
 
-		dao_set_cell_expr (dao, i, 3 + l, 
+		dao_set_cell_expr (dao, i, 3 + l,
 				   gnm_expr_new_funcall1 (fd_count, gnm_expr_copy (expr)));
-		dao_set_cell_expr (dao, i, 4 + l,  
+		dao_set_cell_expr (dao, i, 4 + l,
 				   gnm_expr_new_funcall1 (fd_mean, gnm_expr_copy (expr)));
 		dao_set_cell_expr (dao, i, 5 + l,
 				   gnm_expr_new_funcall1 (fd_var, expr));
@@ -156,8 +156,8 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 	expr_count = gnm_expr_new_binary (make_cellref (0,-4), GNM_EXPR_OP_DIV,
 					  gnm_expr_new_binary (make_cellref (0,-4), GNM_EXPR_OP_SUB,
 							       gnm_expr_new_constant (value_new_int (1))));
-	expr = gnm_expr_new_funcall1 
-		(fd_eigen, gnm_expr_new_binary 
+	expr = gnm_expr_new_funcall1
+		(fd_eigen, gnm_expr_new_binary
 		 (expr_count, GNM_EXPR_OP_MULT, make_rangeref (0, - (5 + l), l - 1, - 6)));
 	dao_set_array_expr (dao, 1, 7 + l, l, l + 1, expr);
 
@@ -165,28 +165,28 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 		dao_set_align (dao, i, 9 + 2 * l, i, 9 + 2 * l,
 			       HALIGN_CENTER, VALIGN_BOTTOM);
 		dao_set_cell_printf (dao, i, 9 + 2 * l, "\xce\xbe%i", i);
-		dao_set_cell_expr (dao, i, 11 + 3 * l, 
+		dao_set_cell_expr (dao, i, 11 + 3 * l,
 				   gnm_expr_new_binary (make_cellref (0,- 4 - 2 * l),
 							GNM_EXPR_OP_DIV,
-							gnm_expr_new_funcall1 
+							gnm_expr_new_funcall1
 							(fd_sum,
 							 dao_get_rangeref (dao, 1, 7 + l, l, 7 + l))));
 	}
 
 	expr_munit =  gnm_expr_new_funcall1 (fd_munit, gnm_expr_new_constant (value_new_int (l)));
 	expr = gnm_expr_new_funcall2 (fd_mmult,
-				      gnm_expr_new_binary 
-				      (gnm_expr_new_funcall1 
-				       (fd_sqrt, gnm_expr_new_binary 
+				      gnm_expr_new_binary
+				      (gnm_expr_new_funcall1
+				       (fd_sqrt, gnm_expr_new_binary
 					(gnm_expr_new_constant (value_new_int (1)),
-					 GNM_EXPR_OP_DIV, 
+					 GNM_EXPR_OP_DIV,
 					 make_rangeref (0, - 5 - l, l - 1, - 5 - l))),
 				       GNM_EXPR_OP_MULT,
 				       gnm_expr_copy (expr_munit)),
 				      make_rangeref (0, - 2 - l, l - 1, - 3));
 	expr = gnm_expr_new_funcall2 (fd_mmult, expr,
-				      gnm_expr_new_binary 
-				      (gnm_expr_new_funcall1 
+				      gnm_expr_new_binary
+				      (gnm_expr_new_funcall1
 				       (fd_sqrt, make_rangeref (0, - 3 - l, l - 1, - 3 - l)),
 				       GNM_EXPR_OP_MULT,
 				       expr_munit));
@@ -215,7 +215,7 @@ analysis_tool_principal_components_engine (data_analysis_output_t *dao, gpointer
 
 	switch (selector) {
 	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor 
+		return (dao_command_descriptor
 			(dao, _("Principal Components Analysis (%s)"), result)
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO:

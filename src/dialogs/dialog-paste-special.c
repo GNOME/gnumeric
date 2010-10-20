@@ -109,7 +109,7 @@ static void
 paste_link_set_sensitive (PasteSpecialState *state)
 {
 	gboolean sensitive =
-		(!gtk_toggle_button_get_active 
+		(!gtk_toggle_button_get_active
 		 (GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui,"skip-blanks")))
 		 && 0 == gnm_gui_group_value (state->gui, paste_type_group)
 		 && 0 == gnm_gui_group_value (state->gui, cell_operation_group)
@@ -154,7 +154,7 @@ dialog_paste_special_type_toggled_cb (GtkWidget *button, PasteSpecialState *stat
 		char const * const *group;
 		gboolean permit_cell_ops = paste_type_group_props[i].permit_cell_ops;
 
-		for (group = cell_operation_group; *group != NULL; group++) 
+		for (group = cell_operation_group; *group != NULL; group++)
 			gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui,*group),
 						  permit_cell_ops);
 		paste_link_set_sensitive (state);
@@ -202,7 +202,7 @@ cb_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	int paste_type = gnm_gui_group_value (state->gui, paste_type_group);
 	int region_op_type = gnm_gui_group_value (state->gui, region_operation_group);
 
-	result = paste_type_group_props[paste_type].paste_enum 
+	result = paste_type_group_props[paste_type].paste_enum
 		| region_operation_props[region_op_type].paste_enum;
 
 	if (paste_type_group_props[paste_type].permit_cell_ops) {
@@ -210,10 +210,10 @@ cb_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		result |= cell_operation_props[cell_op_type].paste_enum;
 	}
 
-	if (gtk_toggle_button_get_active 
+	if (gtk_toggle_button_get_active
 	    (GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui,"skip-blanks"))))
 		result |= PASTE_SKIP_BLANKS;
-	if (gtk_toggle_button_get_active 
+	if (gtk_toggle_button_get_active
 	    (GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui,"dont-change-formulae"))))
 		result |= PASTE_EXPR_LOCAL_RELOCATE;
 
@@ -269,15 +269,15 @@ dialog_paste_special (WBCGtk *wbcg)
 			  G_CALLBACK (cb_tool_ok_clicked), state);
 
 
-	for (group = paste_type_group; *group != NULL; group++) 
+	for (group = paste_type_group; *group != NULL; group++)
 		g_signal_connect_after (go_gtk_builder_get_widget (state->gui,*group),
 					"toggled",
 					G_CALLBACK (dialog_paste_special_type_toggled_cb), state);
-	for (group = cell_operation_group; *group != NULL; group++) 
+	for (group = cell_operation_group; *group != NULL; group++)
 		g_signal_connect_after (go_gtk_builder_get_widget (state->gui,*group),
 					"toggled",
 					G_CALLBACK (dialog_paste_special_cell_op_toggled_cb), state);
-	for (group = region_operation_group; *group != NULL; group++) 
+	for (group = region_operation_group; *group != NULL; group++)
 		g_signal_connect_after (go_gtk_builder_get_widget (state->gui,*group),
 					"toggled",
 					G_CALLBACK (dialog_paste_special_region_op_toggled_cb), state);

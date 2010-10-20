@@ -510,7 +510,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 #undef BARF
 
 typedef struct {
-	WorkbookControl *wbc; 
+	WorkbookControl *wbc;
 	Sheet *sheet;
 	GnmCellPos const *pos;
 	gboolean *showed_dialog;
@@ -522,12 +522,12 @@ validation_eval_range_cb (GnmCellIter const *iter, validation_eval_t *closure)
 {
 	ValidationStatus status;
 	gboolean showed_dialog;
-	GnmStyle const *mstyle = sheet_style_get 
+	GnmStyle const *mstyle = sheet_style_get
 		(closure->sheet, iter->pp.eval.col, iter->pp.eval.row);
 
 	if (mstyle != NULL) {
 		status = validation_eval (closure->wbc, mstyle,
-					  closure->sheet, &iter->pp.eval, 
+					  closure->sheet, &iter->pp.eval,
 					  &showed_dialog);
 		if (closure->showed_dialog)
 			*closure->showed_dialog = *closure->showed_dialog || showed_dialog;
@@ -541,7 +541,7 @@ validation_eval_range_cb (GnmCellIter const *iter, validation_eval_t *closure)
 	return NULL;
 }
 
-ValidationStatus 
+ValidationStatus
 validation_eval_range (WorkbookControl *wbc,
 		       Sheet *sheet, GnmCellPos const *pos, GnmRange const *r,
 		       gboolean *showed_dialog)

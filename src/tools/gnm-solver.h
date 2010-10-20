@@ -146,7 +146,7 @@ GnmSolverParameters *gnm_solver_param_dup (GnmSolverParameters *src_param,
 
 gboolean gnm_solver_param_equal (GnmSolverParameters const *a,
 				 GnmSolverParameters const *b);
-				 
+
 GnmValue const *gnm_solver_param_get_input (GnmSolverParameters const *sp);
 void gnm_solver_param_set_input (GnmSolverParameters *sp, GnmValue *v);
 GSList *gnm_solver_param_get_input_cells (GnmSolverParameters const *sp);

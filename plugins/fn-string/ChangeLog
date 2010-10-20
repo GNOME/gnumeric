@@ -17,11 +17,11 @@
 2010-07-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_searchb): fix description
-	
+
 2010-07-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_char): fix description
-	
+
 2010-07-08  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_fixed): Use go_format_details_new and

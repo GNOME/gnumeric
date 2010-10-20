@@ -254,9 +254,9 @@ dialog_search_save_in_prefs (DialogState *dd)
 	SETW("column_major", gnm_conf_set_searchreplace_columnmajor);
 #undef SETW
 
-	gnm_conf_set_searchreplace_regex 
+	gnm_conf_set_searchreplace_regex
 		(go_gtk_builder_group_value (gui, search_type_group));
-	gnm_conf_set_searchreplace_scope 
+	gnm_conf_set_searchreplace_scope
 		(go_gtk_builder_group_value (gui, scope_group));
 }
 
@@ -363,7 +363,7 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 	if  (is_checked (gui, "save-in-prefs"))
 		dialog_search_save_in_prefs (dd);
-	
+
 	{
 		GnumericLazyList *ll;
 		GPtrArray *cells;
@@ -561,21 +561,21 @@ dialog_search (WBCGtk *wbcg)
 	SETW("match_words", gnm_conf_get_searchreplace_whole_words_only);
 #undef SETW
 
-	gtk_toggle_button_set_active 
-	  (GTK_TOGGLE_BUTTON 
+	gtk_toggle_button_set_active
+	  (GTK_TOGGLE_BUTTON
 	   (gtk_builder_get_object
-	    (gui, 
+	    (gui,
 	     search_type_group[gnm_conf_get_searchreplace_regex ()])), TRUE);
-	gtk_toggle_button_set_active 
-	  (GTK_TOGGLE_BUTTON 
-	   (gtk_builder_get_object 
-	    (gui, 
+	gtk_toggle_button_set_active
+	  (GTK_TOGGLE_BUTTON
+	   (gtk_builder_get_object
+	    (gui,
 	     direction_group
 	     [gnm_conf_get_searchreplace_columnmajor () ? 1 : 0])), TRUE);
-	gtk_toggle_button_set_active 
-	  (GTK_TOGGLE_BUTTON 
+	gtk_toggle_button_set_active
+	  (GTK_TOGGLE_BUTTON
 	   (gtk_builder_get_object
-	    (gui, 
+	    (gui,
 	     scope_group[gnm_conf_get_searchreplace_scope ()])), TRUE);
 
 	g_signal_connect (G_OBJECT (dd->matches_table), "cursor_changed",

@@ -193,7 +193,7 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 	return;
 }
 
-static void            
+static void
 cb_format_clicked (GtkButton *widget, gpointer _i)
 {
 	int i = GPOINTER_TO_INT (_i);
@@ -201,7 +201,7 @@ cb_format_clicked (GtkButton *widget, gpointer _i)
 		g_object_get_data (G_OBJECT (widget), "pagedata");
 	gint result;
 	GOFormat *sf;
-	GtkWidget *dialog = gtk_dialog_new_with_buttons 
+	GtkWidget *dialog = gtk_dialog_new_with_buttons
 		(_("Format Selector"),
 		 GTK_WINDOW (pagedata->dialog),
 		 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -229,7 +229,7 @@ cb_format_clicked (GtkButton *widget, gpointer _i)
 							  "formatlabel");
 			sf = g_ptr_array_index (pagedata->format.formats, i);
 			go_format_unref (sf);
-			
+
 			sf = go_format_ref (go_format_sel_get_fmt (format_selector));
 			gtk_button_set_label (GTK_BUTTON (format_label),
 					      go_format_sel_format_classification (sf));
@@ -591,14 +591,14 @@ format_page_update_preview (StfDialogData *pagedata)
 
 		if (NULL == g_object_get_data (G_OBJECT (column), "checkbox")) {
 			GtkWidget *vbox = gtk_vbox_new (FALSE,5);
-			GtkWidget *check, 
+			GtkWidget *check,
 				*check_autofit = gtk_check_button_new_with_label (_("Auto fit"));
 			char * label_text = g_strdup_printf
 				(pagedata->format.col_header, i+1);
 			GOFormat const *gf = go_format_general ();
 			GtkWidget *format_label = gtk_button_new_with_label
 				(go_format_sel_format_classification (gf));
-			GtkWidget *format_icon 
+			GtkWidget *format_icon
 				= gtk_image_new_from_stock (GTK_STOCK_INFO, GTK_ICON_SIZE_BUTTON);
 
 			check = gtk_check_button_new_with_label (label_text);

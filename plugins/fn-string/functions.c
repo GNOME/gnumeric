@@ -1087,7 +1087,7 @@ gnumeric_numbervalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		while (*p && g_unichar_isspace (g_utf8_get_char (p)))
 		       p = g_utf8_next_char (p);
 
-		v = format_match_decimal_number_with_locale 
+		v = format_match_decimal_number_with_locale
 			(p, &family, curr, thousand, decimal);
 
 		g_string_free (decimal, TRUE);
@@ -1095,7 +1095,7 @@ gnumeric_numbervalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		g_string_free (curr, TRUE);
 
 		if (v == NULL)
-			v = format_match_number 
+			v = format_match_number
 				(p, NULL,
 				 workbook_date_conv (ei->pos->sheet->workbook));
 

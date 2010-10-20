@@ -986,7 +986,7 @@ GSList *
 gnm_func_lookup_prefix   (char const *prefix, Workbook *scope)
 {
 	GSList *list = symbol_names (global_symbol_table, NULL, prefix);
-	
+
 	return list;
 }
 

@@ -188,8 +188,8 @@ cb_html_attrs_as_string (GsfOutput *output, PangoAttribute *a, html_version_t ve
 				gsf_output_puts (output, "<strike>");
 				closure = "</strike>";
 			} else {
-				gsf_output_puts 
-					(output, 
+				gsf_output_puts
+					(output,
 					 "<span style=\"text-decoration: "
 					 "line-through;\">");
 				closure = "</span>";
@@ -291,7 +291,7 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 				if (version == HTML32)
 					gsf_output_puts (output, "<strike>");
 				else
-					gsf_output_puts (output, 
+					gsf_output_puts (output,
 							 "<span style=\"text-decoration: line-through;\">");
 			}
 			switch (gnm_style_get_font_script (style)) {

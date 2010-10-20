@@ -1231,7 +1231,7 @@ print_info_set_breaks (PrintInformation *pi,
 	*target = breaks;
 }
 
-gboolean        
+gboolean
 print_info_has_manual_breaks (PrintInformation *pi)
 {
 	if (gnm_page_breaks_get_next_manual_break (pi->page_breaks.v, 0) > -1)

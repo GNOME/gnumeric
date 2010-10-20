@@ -1417,7 +1417,7 @@ dialog_doc_metadata_init_calculations_page (DialogDocMetaData *state)
 {
 	char *buf;
 
-	gtk_toggle_button_set_active 
+	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON ( workbook_get_recalcmode (state->wb) ? state->recalc_auto : state->recalc_manual),
 		 TRUE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->recalc_iteration),
@@ -1606,7 +1606,7 @@ typedef struct {
 	GtkTreePath *path;
 } page_search_t;
 
-static gboolean   
+static gboolean
 dialog_doc_metadata_select_page_search (GtkTreeModel *model,
 					GtkTreePath *path,
 					GtkTreeIter *iter,
@@ -1727,7 +1727,7 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 	for (i = 0; page_info[i].page > -1; i++) {
 		const page_info_t *this_page =  &page_info[i];
 		this_page->page_initializer (state);
-		dialog_doc_meta_data_add_item (state, this_page->page_name, this_page->icon_name, 
+		dialog_doc_meta_data_add_item (state, this_page->page_name, this_page->icon_name,
 					       this_page->page, this_page->parent_path);
 	}
 

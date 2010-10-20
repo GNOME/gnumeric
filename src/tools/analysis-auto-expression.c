@@ -100,7 +100,7 @@ analysis_tool_auto_expression_engine (data_analysis_output_t *dao, gpointer spec
 	case TOOL_ENGINE_UPDATE_DAO:
 		prepare_input_range (&info->base.input, info->base.group_by);
 		if (info->below)
-			dao_adjust (dao, 
+			dao_adjust (dao,
 				    (info->multiple ? 1 : 0)  + g_slist_length (info->base.input),
 				    1);
 		else

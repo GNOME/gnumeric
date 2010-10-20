@@ -2520,8 +2520,8 @@ gnm_insert_unique_value_cmp (gconstpointer a, gconstpointer b)
 static GSList *
 gnm_insert_unique_value (GSList *list, GnmValue *data)
 {
-	if (g_slist_find_custom (list, data, 
-				 gnm_insert_unique_value_cmp) 
+	if (g_slist_find_custom (list, data,
+				 gnm_insert_unique_value_cmp)
 	    == NULL)
 		return g_slist_prepend (list, data);
 	value_release (data);

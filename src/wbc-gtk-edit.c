@@ -162,7 +162,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			break;
 		}
 		case (WBC_EDIT_ACCEPT): {
-			GnmCell const *cell = sheet_cell_get 
+			GnmCell const *cell = sheet_cell_get
 				(sheet, sv->edit_pos.col, sv->edit_pos.row);
 			if (gnm_cell_is_nonsingleton_array (cell)) {
 				gnm_cmd_context_error_splits_array (GO_CMD_CONTEXT (wbc),
@@ -275,7 +275,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 								   GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
 
 				reedit = wb_control_validation_msg (WORKBOOK_CONTROL (wbcg),
-								    VALIDATION_STYLE_PARSE_ERROR, NULL, 
+								    VALIDATION_STYLE_PARSE_ERROR, NULL,
 								    perr.err->message);
 				if (showed_dialog != NULL)
 					*showed_dialog = TRUE;
@@ -346,7 +346,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 
 			u = go_undo_combine (u,  clipboard_copy_range_undo (sheet, r));
 			if (texpr) {
-				gnm_expr_top_ref (texpr); 
+				gnm_expr_top_ref (texpr);
 				gnm_cell_set_array_formula (sheet,
 							    r->start.col, r->start.row,
 							    r->end.col, r->end.row,
@@ -393,7 +393,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 					(GtkWidget *) wbcg_get_entry (wbcg));
 				g_free (free_txt);
 				if (texpr != NULL)
-					gnm_expr_top_unref (texpr); 
+					gnm_expr_top_unref (texpr);
 				return FALSE;
 			}
 		} else {
@@ -413,7 +413,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			}
 		}
 		if (texpr != NULL)
-			gnm_expr_top_unref (texpr); 
+			gnm_expr_top_unref (texpr);
 		g_free (free_txt);
 	} else {
 		if (sv == wb_control_cur_sheet_view (wbc)) {

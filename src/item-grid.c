@@ -198,12 +198,12 @@ item_grid_update_bounds (GocItem *item)
 }
 
 static void
-draw_function_marker (GnmCell const *cell, cairo_t *cr, 
+draw_function_marker (GnmCell const *cell, cairo_t *cr,
 		      double x, double y, double w, double h, int const dir)
 {
 	if (cell == NULL || !gnm_cell_has_expr (cell))
 		return;
-	
+
 	cairo_save (cr);
 	cairo_new_path (cr);
 	cairo_rectangle (cr, x, y, w+1, h+1);
@@ -224,7 +224,7 @@ draw_function_marker (GnmCell const *cell, cairo_t *cr,
 	cairo_set_source_rgb(cr, 0.3, 0.3, 0.3);
 	cairo_set_line_width (cr, 0.5);
 	cairo_stroke (cr);
-	cairo_restore (cr);				
+	cairo_restore (cr);
 }
 
 static void
@@ -310,13 +310,13 @@ item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
 
 		if (dir > 0) {
 			if (show_function_cell_markers)
-				draw_function_marker (cell, cr, l, t, 
+				draw_function_marker (cell, cr, l, t,
 						      r - l, b - t, dir);
 			cell_draw (cell, cr,
 				   l, t, r - l, b - t, -1);
 		} else {
 			if (show_function_cell_markers)
-				draw_function_marker (cell, cr, r, t, 
+				draw_function_marker (cell, cr, r, t,
 						      l - r, b - t, dir);
 			cell_draw (cell, cr,
 				   r, t, l - r, b - t, -1);
@@ -680,10 +680,10 @@ plain_draw : /* a quick hack to deal with 142267 */
 				GnmCell const *cell = sheet_cell_get (sheet, col, row);
 				if (!gnm_cell_is_empty (cell) && cell != edit_cell) {
 					if (show_function_cell_markers)
-						draw_function_marker (cell, cr, x, y, 
+						draw_function_marker (cell, cr, x, y,
 								      ci->size_pixels,
 								      ri->size_pixels,
-								      dir);	
+								      dir);
 					cell_draw (cell, cr,
 						   x, y, ci->size_pixels,
 						   ri->size_pixels, -1);
@@ -737,9 +737,9 @@ plain_draw : /* a quick hack to deal with 142267 */
 				}
 
 				if (show_function_cell_markers)
-					draw_function_marker (cell, cr, real_x, y, 
+					draw_function_marker (cell, cr, real_x, y,
 							      tmp_width,
-							      ri->size_pixels, dir);	
+							      ri->size_pixels, dir);
 				cell_draw (cell, cr,
 					   real_x, y, tmp_width,
 					   ri->size_pixels, center_offset);

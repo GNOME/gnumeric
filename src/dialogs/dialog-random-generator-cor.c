@@ -155,10 +155,10 @@ random_cor_tool_ok_clicked_cb (GtkWidget *button, RandomCorToolState *state)
 		(GNM_EXPR_ENTRY (state->base.input_entry),
 		 state->base.sheet);
 
-	data->variables = data->matrix->v_range.cell.b.row - 
+	data->variables = data->matrix->v_range.cell.b.row -
 		data->matrix->v_range.cell.a.row + 1;
 
-	data->matrix_type = gnm_gui_group_value 
+	data->matrix_type = gnm_gui_group_value
 		(state->base.gui, matrix_group);
 
 

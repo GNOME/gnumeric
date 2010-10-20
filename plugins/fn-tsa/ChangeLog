@@ -148,7 +148,7 @@
 
 2009-06-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* functions.c (gnm_fourier_fft): moved here from 
+	* functions.c (gnm_fourier_fft): moved here from
 	  src/tools/analysis-tools.c
 	(help_interpolation): changed to new form of desription
 	(help_periodogram): ditto

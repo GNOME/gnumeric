@@ -438,7 +438,7 @@ gnm_string_add_number (GString *buf, gnm_float d)
 
 /* ------------------------------------------------------------------------- */
 
-void       
+void
 gnm_insert_meta_date (GODoc *doc, char const *name)
 {
 	GValue *value = g_new0 (GValue, 1);
@@ -449,8 +449,8 @@ gnm_insert_meta_date (GODoc *doc, char const *name)
 	g_value_init (value, G_TYPE_STRING);
 	g_value_take_string (value,
 			     g_time_val_to_iso8601 (&time));
-	gsf_doc_meta_data_insert (go_doc_get_meta_data (doc), 
-				  g_strdup (name), 
+	gsf_doc_meta_data_insert (go_doc_get_meta_data (doc),
+				  g_strdup (name),
 				  value);
 }
 

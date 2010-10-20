@@ -78,7 +78,7 @@
 
 2009-12-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* functions.c (compare_doubles): rename to 
+	* functions.c (compare_doubles): rename to
 	  compare_gnumeric_eigen_ev and change all callers
 	(compare_gnumeric_eigen_ev): use the true type
 
@@ -88,7 +88,7 @@
 
 2009-12-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* functions.c (compare_doubles): rename to 
+	* functions.c (compare_doubles): rename to
 	  compare_gnumeric_eigen_ev and change all callers
 	(compare_gnumeric_eigen_ev): use the true type
 
@@ -805,5 +805,5 @@
 
 2002-05-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* functions.c : mark argument names for translation and adjust 
+	* functions.c : mark argument names for translation and adjust
 	  them for use by the formula guru.

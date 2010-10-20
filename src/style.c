@@ -514,12 +514,12 @@ gnm_style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 	return HALIGN_RIGHT;
 }
 
-PangoUnderline   
+PangoUnderline
 gnm_translate_underline_to_pango (GnmUnderline ul)
 {
 	g_return_val_if_fail (ul >= UNDERLINE_NONE, PANGO_UNDERLINE_NONE);
 	g_return_val_if_fail (ul <= UNDERLINE_DOUBLE_LOW, PANGO_UNDERLINE_NONE);
-	
+
 	switch (ul) {
 	case UNDERLINE_SINGLE:
 		return PANGO_UNDERLINE_SINGLE;
@@ -534,12 +534,12 @@ gnm_translate_underline_to_pango (GnmUnderline ul)
 	}
 }
 
-GnmUnderline   
+GnmUnderline
 gnm_translate_underline_from_pango (PangoUnderline pul)
 {
 	g_return_val_if_fail (pul >= PANGO_UNDERLINE_NONE, UNDERLINE_NONE);
 	g_return_val_if_fail (pul <= PANGO_UNDERLINE_LOW, UNDERLINE_NONE);
-	
+
 	switch (pul) {
 	case PANGO_UNDERLINE_SINGLE:
 		return UNDERLINE_SINGLE;
@@ -551,5 +551,5 @@ gnm_translate_underline_from_pango (PangoUnderline pul)
 	default:
 		return UNDERLINE_NONE;
 	}
-	
+
 }

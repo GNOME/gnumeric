@@ -36,7 +36,7 @@ void       gnm_string_add_number (GString *buf, gnm_float d);
 
 /* Some Meta handling functions */
 
-void       gnm_insert_meta_date (GODoc *doc, char const *name); 
+void       gnm_insert_meta_date (GODoc *doc, char const *name);
 
 G_END_DECLS
 

@@ -300,8 +300,8 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 			PangoRectangle r;
 			pango_layout_get_extents (pl, NULL, &r);
 			cairo_move_to (cr,
-			               (width - r.width / PANGO_SCALE * scale_h) / 2., 
-			               (height - r.height / PANGO_SCALE * scale_v) / 2.); 
+			               (width - r.width / PANGO_SCALE * scale_h) / 2.,
+			               (height - r.height / PANGO_SCALE * scale_v) / 2.);
 		} else
 			cairo_move_to (cr, sof->margin_pts.left,
 				       sof->margin_pts.top);

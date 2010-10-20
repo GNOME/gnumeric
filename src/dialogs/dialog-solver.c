@@ -1128,7 +1128,7 @@ dialog_init (SolverState *state)
 		gnm_expr_entry_load_from_text (state->target_entry,
 					       cell_name (target_cell));
 	else {
-		SheetView *sv = wb_control_cur_sheet_view 
+		SheetView *sv = wb_control_cur_sheet_view
 			(WORKBOOK_CONTROL (state->wbcg));
 		if (sv) {
 			GnmRange first = {sv->edit_pos, sv->edit_pos};

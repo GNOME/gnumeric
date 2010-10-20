@@ -308,12 +308,12 @@ cb_color_changed_fore (G_GNUC_UNUSED GOComboColor *go_combo_color,
 	GnmColor *gnm_color;
 
 	g_return_if_fail (selection != NULL);
-		
+
 	selected_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
 
 	p_gdk_color = (color == 0) ? NULL : go_color_to_gdk (color, &gdk_color);
 	gnm_color = (color == 0) ? NULL : style_color_new_gdk (&gdk_color);
-	
+
 	old_state = workbook_sheet_state_new (wb);
 
 	for (l = selected_rows; l != NULL; l = l->next) {
@@ -360,12 +360,12 @@ cb_color_changed_back (G_GNUC_UNUSED GOComboColor *go_combo_color,
 	GnmColor *gnm_color;
 
 	g_return_if_fail (selection != NULL);
-		
+
 	selected_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
 
 	p_gdk_color = (color == 0) ? NULL : go_color_to_gdk (color, &gdk_color);
 	gnm_color = (color == 0) ? NULL : style_color_new_gdk (&gdk_color);
-	
+
 	old_state = workbook_sheet_state_new (wb);
 
 	for (l = selected_rows; l != NULL; l = l->next) {
@@ -457,7 +457,7 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 				 &iter, (GtkTreePath *) selected_rows->data);
-	
+
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
 			    SHEET_POINTER, &sheet,
 			    BACKGROUND_COLOUR, &back,
@@ -482,13 +482,13 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 	has_iter = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (state->model), &iter);
 	g_return_if_fail (has_iter);
 	gtk_widget_set_sensitive (state->up_btn,
-				  single_sel && 
+				  single_sel &&
 				  !gtk_tree_selection_iter_is_selected (selection, &iter));
 	gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (state->model), &iter, NULL,
-				       gtk_tree_model_iter_n_children 
+				       gtk_tree_model_iter_n_children
 				       (GTK_TREE_MODEL (state->model), NULL) - 1);
 	gtk_widget_set_sensitive (state->down_btn,
-				  single_sel && 
+				  single_sel &&
 				  !gtk_tree_selection_iter_is_selected (selection, &iter));
 
 	if (sheet != NULL)
@@ -657,7 +657,7 @@ sheet_selection_can_toggle(GtkTreeSelection *selection,
 	GtkTreeIter iter;
 	gboolean is_visible;
 
-	if (path_currently_selected || 
+	if (path_currently_selected ||
 	    !gtk_tree_model_get_iter (model, &iter, path))
 		return TRUE;
 
@@ -878,10 +878,10 @@ cb_item_move (SheetManager *state, gnm_iter_search_t iter_search)
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
 	GtkTreeIter  a, b;
 	GList *selected_rows;
-	
+
 	g_return_if_fail (selection != NULL);
 	g_return_if_fail (gtk_tree_selection_count_selected_rows (selection) == 1);
-	
+
 	selected_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 				 &a, (GtkTreePath *) selected_rows->data);
@@ -921,12 +921,12 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 
 	g_return_if_fail (selection != NULL);
 	g_return_if_fail (gtk_tree_selection_count_selected_rows (selection) == 1);
-	
+
 	selected_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 				 &sel_iter, (GtkTreePath *) selected_rows->data);
 	go_list_free_custom (selected_rows, (GFreeFunc) gtk_tree_path_free);
-	
+
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &sel_iter,
 			    SHEET_POINTER, &old_sheet,
 			    -1);
@@ -1000,7 +1000,7 @@ cb_duplicate_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 
 	g_return_if_fail (selection != NULL);
 	g_return_if_fail (gtk_tree_selection_count_selected_rows (selection) == 1);
-	
+
 	selected_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 				 &sel_iter, (GtkTreePath *) selected_rows->data);
@@ -1043,11 +1043,11 @@ cb_delete_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	Workbook *wb = wb_control_get_workbook (wbc);
 
 	g_return_if_fail (selection != NULL);
-		
+
 	selected_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
-	
-	for (l = selected_rows; l != NULL; l = l->next) 
-		l->data = gtk_tree_row_reference_new (GTK_TREE_MODEL (state->model), 
+
+	for (l = selected_rows; l != NULL; l = l->next)
+		l->data = gtk_tree_row_reference_new (GTK_TREE_MODEL (state->model),
 						      (GtkTreePath *) l->data);
 	workbook_signals_block (state);
 	old_state = workbook_sheet_state_new (wb);
@@ -1068,7 +1068,7 @@ cb_delete_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 			workbook_sheet_delete (sheet);
 		}
 	}
-	
+
 	cmd_reorganize_sheets (wbc, old_state, NULL);
 	update_undo (state, wbc);
 	workbook_signals_unblock (state);

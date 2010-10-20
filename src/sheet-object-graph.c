@@ -217,7 +217,7 @@ gnm_sog_new_view (SheetObject *so, SheetObjectViewContainer *container)
 			      GOC_TYPE_GRAPH,
 			      "renderer", sog->renderer,
 			      NULL);
-		g_idle_add ((GSourceFunc) cb_post_new_view, item); 
+		g_idle_add ((GSourceFunc) cb_post_new_view, item);
 		g_signal_connect_swapped (canvas, "size_allocate", G_CALLBACK (cb_graph_size_changed), item);
 		return (SheetObjectView *) view;
 	}
@@ -846,7 +846,7 @@ legend_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	GuppiReadState *state = (GuppiReadState *) xin->user_state;
 	state->cur = gog_object_add_by_name (state->chart, "Legend", NULL);
 }
-	
+
 static void
 position_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 {
@@ -862,7 +862,7 @@ position_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 	if (0 == strcmp (xin->content->str, "south"))
 		g_object_set (G_OBJECT (state->cur), "compass", "bottom", NULL);
 }
-	
+
 static void
 series_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -920,7 +920,7 @@ dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (err)
 		g_error_free (err);
 }
-	
+
 static void
 marker_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 {
@@ -955,7 +955,7 @@ horiz_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 	if (xin->content->str)
 		g_object_set (G_OBJECT (state->plot), "horizontal", 0 == strcmp (xin->content->str, "true"), NULL);
 }
-	
+
 static void
 stacked_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 {
@@ -963,7 +963,7 @@ stacked_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 	if (xin->content->str && 0 == strcmp (xin->content->str, "true"))
 		g_object_set (G_OBJECT (state->plot), "type", "stacked", NULL);
 }
-	
+
 static void
 percent_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 {
@@ -983,7 +983,7 @@ separation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 			      NULL);
 	}
 }
-	
+
 static void
 bubble_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 {
@@ -1054,7 +1054,7 @@ gnm_sogg_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs,
 	state->data = g_ptr_array_new ();
 	state->max_data = 10;
 	g_ptr_array_set_size (state->data, state->max_data);
-	
+
 	sheet_object_graph_set_gog (so, state->graph);
 	gsf_xml_in_push_state (xin, doc, state,
 		(GsfXMLInExtDtor) gnm_sogg_sax_parser_done, attrs);

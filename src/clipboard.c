@@ -403,12 +403,12 @@ clipboard_paste_region (GnmCellRegion const *cr,
 	src_cols = cr->cols;
 	src_rows = cr->rows;
 
-	
+
 
 	/* If the source is a single cell or a single merge */
 	/* Treat a target of a single merge specially, don't split the merge */
 	if ((src_cols == 1 && src_rows == 1) ||
-	    (g_slist_length (cr->merged) == 1 && 
+	    (g_slist_length (cr->merged) == 1 &&
 	     (NULL != (merge_src = cr->merged->data)) &&
 	     range_height (merge_src) == cr->rows &&
 	     range_width (merge_src) == cr->cols)) {
@@ -523,22 +523,22 @@ clipboard_paste_region (GnmCellRegion const *cr,
 
 			/* Move the styles on here so we get correct formats before recalc */
 			if (pt->paste_flags & PASTE_FORMATS) {
-				if (pt->paste_flags & PASTE_TRANSPOSE) 
+				if (pt->paste_flags & PASTE_TRANSPOSE)
 					sheet_style_set_list (pt->sheet, &dat.top_left,
-							      cr->styles, 
+							      cr->styles,
 							      (sheet_style_set_list_cb_t)
-							      range_transpose, 
+							      range_transpose,
 							      &dat.top_left);
 				else if (pt->paste_flags & PASTE_FLIP_H) {
 					int data = 2 * left + src_cols - 1;
 					sheet_style_set_list (pt->sheet, &dat.top_left,
-							      cr->styles, 
+							      cr->styles,
 							      (sheet_style_set_list_cb_t)
 							      range_flip_h, &data);
 				} else if (pt->paste_flags & PASTE_FLIP_V) {
 					int data = 2 * top + src_rows - 1;
 					sheet_style_set_list (pt->sheet, &dat.top_left,
-							      cr->styles,  
+							      cr->styles,
 							      (sheet_style_set_list_cb_t)
 							      range_flip_v, &data);
 				} else
@@ -687,7 +687,7 @@ cb_clipboard_copy_range_undo (GnmCellRegion *cr, GnmSheetRange *sr,
 		 paste_target_init (&pt,
 				    sr->sheet,
 				    &sr->range,
-				    PASTE_CONTENTS | PASTE_FORMATS | 
+				    PASTE_CONTENTS | PASTE_FORMATS |
 				    PASTE_OBJECTS | PASTE_COMMENTS),
 		 cc);
 }

@@ -262,7 +262,7 @@ item_edit_button_pressed (GocItem *item, int button, double x, double y)
 			target_index = strlen (text);
 			trailing = 0;
 		}
-		ie->sel_start = g_utf8_pointer_to_offset (text, text + target_index) + trailing; 
+		ie->sel_start = g_utf8_pointer_to_offset (text, text + target_index) + trailing;
 		gtk_editable_set_position (GTK_EDITABLE (ie->entry), ie->sel_start);
 
 		return TRUE;

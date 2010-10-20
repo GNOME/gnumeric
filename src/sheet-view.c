@@ -641,9 +641,9 @@ sv_update (SheetView *sv)
 		sv->edit_pos_changed.location = FALSE;
 		if (wb_view_cur_sheet_view (sv->sv_wbv) == sv) {
 			wb_view_selection_desc (sv->sv_wbv, TRUE, NULL);
-			SHEET_VIEW_FOREACH_CONTROL 
-				(sv, sc, wb_control_menu_state_update 
-				 (sc_wbc (sc), 
+			SHEET_VIEW_FOREACH_CONTROL
+				(sv, sc, wb_control_menu_state_update
+				 (sc_wbc (sc),
 				  MS_COMMENT_LINKS | MS_PAGE_BREAKS););
 		}
 	}
@@ -657,12 +657,12 @@ sv_update (SheetView *sv)
 				cb_update_auto_expr, (gpointer) sv, NULL);
 		}
 		SHEET_VIEW_FOREACH_CONTROL (sv, sc,
-			wb_control_menu_state_update (sc_wbc (sc), MS_ADD_VS_REMOVE_FILTER | 
+			wb_control_menu_state_update (sc_wbc (sc), MS_ADD_VS_REMOVE_FILTER |
 						      MS_COMMENT_LINKS_RANGE););
 	}
 
 	SHEET_VIEW_FOREACH_CONTROL (sv, sc,
-				    wb_control_menu_state_update 
+				    wb_control_menu_state_update
 				    (sc_wbc (sc), MS_SELECT_OBJECT););
 
 }
@@ -703,7 +703,7 @@ sv_selection_intersects_filter_rows (SheetView const *sv)
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
 	r = selection_first_range (sv, NULL, NULL);
 
-	return gnm_sheet_filter_intersect_rows 
+	return gnm_sheet_filter_intersect_rows
 		(sv->sheet, r->start.row, r->end.row);
 }
 
@@ -712,7 +712,7 @@ sv_selection_intersects_filter_rows (SheetView const *sv)
  * @sv : #SheetView
  *
  * Returns: %NULL or GnmFilter whose rows intersect the rows
- *          of the current selectiona range to which the filter can be 
+ *          of the current selectiona range to which the filter can be
  *          extended.
  **/
 GnmRange *

@@ -101,7 +101,7 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 		expr_isnumber = gnm_expr_new_funcall3
 			(fd_if, gnm_expr_new_funcall1
 			 (fd_isnumber, gnm_expr_copy (expr_org)),
-			 gnm_expr_new_constant (value_new_int (1)), 
+			 gnm_expr_new_constant (value_new_int (1)),
 			 gnm_expr_new_constant (value_new_int (0)));
 
 		expr = gnm_expr_new_funcall1
@@ -111,26 +111,26 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 
 		expr_neg = gnm_expr_new_funcall1
 			(fd_sum,
-			 gnm_expr_new_binary 
+			 gnm_expr_new_binary
 			 (gnm_expr_copy (expr_isnumber), GNM_EXPR_OP_MULT,
 			  gnm_expr_new_funcall2
-			  (fd_iferror, 
+			  (fd_iferror,
 			   gnm_expr_new_funcall3
-			   (fd_if, gnm_expr_new_binary (gnm_expr_copy (expr_org), 
-							GNM_EXPR_OP_LT, make_cellref (0,-1)), 
-			    gnm_expr_new_constant (value_new_int (1)), 
+			   (fd_if, gnm_expr_new_binary (gnm_expr_copy (expr_org),
+							GNM_EXPR_OP_LT, make_cellref (0,-1)),
+			    gnm_expr_new_constant (value_new_int (1)),
 			    gnm_expr_new_constant (value_new_int (0))),
 			   gnm_expr_new_constant (value_new_int (0)))));
 		expr_pos = gnm_expr_new_funcall1
 			(fd_sum,
-			 gnm_expr_new_binary 
+			 gnm_expr_new_binary
 			 (gnm_expr_copy (expr_isnumber), GNM_EXPR_OP_MULT,
 			  gnm_expr_new_funcall2
-			  (fd_iferror, 
+			  (fd_iferror,
 			   gnm_expr_new_funcall3
-			   (fd_if, gnm_expr_new_binary (gnm_expr_copy (expr_org), 
-							GNM_EXPR_OP_GT, make_cellref (0,-1)), 
-			    gnm_expr_new_constant (value_new_int (1)), 
+			   (fd_if, gnm_expr_new_binary (gnm_expr_copy (expr_org),
+							GNM_EXPR_OP_GT, make_cellref (0,-1)),
+			    gnm_expr_new_constant (value_new_int (1)),
 			    gnm_expr_new_constant (value_new_int (0))),
 			   gnm_expr_new_constant (value_new_int (0)))));
 		expr = gnm_expr_new_funcall2
@@ -138,23 +138,23 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 		dao_set_cell_array_expr (dao, col + 1, 3, expr);
 
 		expr = gnm_expr_new_funcall1
-			(fd_sum, gnm_expr_new_binary 
-			 (expr_isnumber, GNM_EXPR_OP_MULT, 
+			(fd_sum, gnm_expr_new_binary
+			 (expr_isnumber, GNM_EXPR_OP_MULT,
 			  gnm_expr_new_funcall2
 			  (fd_iferror, gnm_expr_new_funcall3
-			   (fd_if, gnm_expr_new_binary (expr_org, 
-							GNM_EXPR_OP_NOT_EQUAL, make_cellref (0,-2)), 
-			    gnm_expr_new_constant (value_new_int (1)), 
-			    gnm_expr_new_constant (value_new_int (0))), 
+			   (fd_if, gnm_expr_new_binary (expr_org,
+							GNM_EXPR_OP_NOT_EQUAL, make_cellref (0,-2)),
+			    gnm_expr_new_constant (value_new_int (1)),
+			    gnm_expr_new_constant (value_new_int (0))),
 			   gnm_expr_new_constant (value_new_int (0)))));
 		dao_set_cell_array_expr (dao, col + 1, 4, expr);
 
-		expr = gnm_expr_new_funcall4 (fd_binomdist, make_cellref (0,-3), make_cellref (0,-2), 
-					      gnm_expr_new_constant (value_new_float (0.5)), 
+		expr = gnm_expr_new_funcall4 (fd_binomdist, make_cellref (0,-3), make_cellref (0,-2),
+					      gnm_expr_new_constant (value_new_float (0.5)),
 					      gnm_expr_new_constant (value_new_bool (TRUE)));
 		dao_set_cell_array_expr (dao, col + 1, 6, expr);
 
-		expr = gnm_expr_new_binary (gnm_expr_new_constant (value_new_int (2)), 
+		expr = gnm_expr_new_binary (gnm_expr_new_constant (value_new_int (2)),
 					    GNM_EXPR_OP_MULT, make_cellref (0,-1));
 		dao_set_cell_array_expr (dao, col + 1, 7, expr);
 	}
@@ -248,7 +248,7 @@ analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
 		 gnm_expr_copy (expr_2));
 	dao_set_cell_expr (dao, 2, 1, expr);
 
-	expr_diff = gnm_expr_new_binary (gnm_expr_copy (expr_1), 
+	expr_diff = gnm_expr_new_binary (gnm_expr_copy (expr_1),
 					 GNM_EXPR_OP_SUB,
 					 gnm_expr_copy (expr_2));
 
@@ -312,11 +312,11 @@ analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
 	expr = gnm_expr_new_funcall4 (fd_binomdist, make_cellref (0,-3), make_cellref (0,-2),
 				      gnm_expr_new_constant (value_new_float (0.5)),
 				      gnm_expr_new_constant (value_new_bool (TRUE)));
-	dao_set_cell_array_expr (dao, 1, 6, 
-				 gnm_expr_new_funcall2 
+	dao_set_cell_array_expr (dao, 1, 6,
+				 gnm_expr_new_funcall2
 				 (fd_min,
 				  gnm_expr_copy (expr),
-				  gnm_expr_new_binary 
+				  gnm_expr_new_binary
 				  (gnm_expr_new_constant (value_new_int (1)),
 				   GNM_EXPR_OP_SUB,
 				   expr)));

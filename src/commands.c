@@ -738,7 +738,7 @@ command_undo_sheet_delete (Sheet* sheet)
 static GnmValue *
 cmd_set_text_full_check_texpr (GnmCellIter const *iter, GnmExprTop const  *texpr)
 {
-	if (iter->cell == NULL || 
+	if (iter->cell == NULL ||
 	    !gnm_expr_top_equal (iter->cell->base.texpr, texpr))
 		return VALUE_TERMINATE;
 	return NULL;
@@ -759,10 +759,10 @@ cmd_set_text_full_check_text (GnmCellIter const *iter, char *text)
 	old_text = gnm_cell_get_entered_text (iter->cell);
 	same = strcmp (old_text, text) == 0;
 
-	if (!same && iter->cell->value && VALUE_IS_STRING (iter->cell->value) 
+	if (!same && iter->cell->value && VALUE_IS_STRING (iter->cell->value)
 	    && text[0] == '\'')
 		same = strcmp (old_text, text + 1) == 0;
- 
+
 	g_free (old_text);
 
 	return (same ? NULL : VALUE_TERMINATE);
@@ -838,13 +838,13 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		for (l = selection; l != NULL && same_texpr; l = l->next) {
 			GnmRange *r = l->data;
 			GnmValue *val =
-				sheet_foreach_cell_in_range 
+				sheet_foreach_cell_in_range
 				(sheet, CELL_ITER_ALL,
 				 r->start.col, r->start.row,
 				 r->end.col, r->end.row,
-				 (CellIterFunc) cmd_set_text_full_check_texpr, 
+				 (CellIterFunc) cmd_set_text_full_check_texpr,
 				 (gpointer) texpr);
-			
+
 			same_texpr = (val != VALUE_TERMINATE);
 			if (val != NULL && same_texpr)
 				value_release (val);
@@ -853,14 +853,14 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		if (same_texpr) {
 			gnm_expr_top_unref (texpr);
 			g_free (name);
-			range_fragment_free (selection);			
+			range_fragment_free (selection);
 			return TRUE;
 		}
 
 		text = g_strdup_printf (_("Inserting expression in %s"), name);
 
-		if (go_format_is_general 
-		    (gnm_style_get_format 
+		if (go_format_is_general
+		    (gnm_style_get_format
 		     (sheet_style_get (sheet, ep->eval.col, ep->eval.row)))) {
 			sf = auto_style_format_suggest (texpr, ep);
 			if (sf != NULL) {
@@ -872,14 +872,14 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 
 		for (l = selection; l != NULL; l = l->next) {
 			GnmSheetRange *sr;
-			undo = go_undo_combine 
+			undo = go_undo_combine
 				(undo, clipboard_copy_range_undo (sheet, l->data));
 			sr = gnm_sheet_range_new (sheet, l->data);
-			redo = go_undo_combine 
+			redo = go_undo_combine
 				(redo, sheet_range_set_expr_undo (sr, texpr));
 			if (new_style) {
 				sr = gnm_sheet_range_new (sheet, l->data);
-				redo = go_undo_combine 
+				redo = go_undo_combine
 					(redo, sheet_apply_style_undo (sr, new_style));
 			}
 		}
@@ -890,7 +890,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 	} else {
 		GString *text_str;
 		PangoAttrList *adj_markup = NULL;
-		char *corrected = (new_text != NULL) ? 
+		char *corrected = (new_text != NULL) ?
 			autocorrect_tool (new_text) : NULL;
 		gboolean same_text = TRUE;
 		gboolean same_markup = TRUE;
@@ -905,13 +905,13 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		for (l = selection; l != NULL && same_text; l = l->next) {
 			GnmRange *r = l->data;
 			GnmValue *val =
-				sheet_foreach_cell_in_range 
+				sheet_foreach_cell_in_range
 				(sheet, CELL_ITER_ALL,
 				 r->start.col, r->start.row,
 				 r->end.col, r->end.row,
-				 (CellIterFunc) cmd_set_text_full_check_text, 
+				 (CellIterFunc) cmd_set_text_full_check_text,
 				 (gpointer) corrected);
-			
+
 			same_text = (val != VALUE_TERMINATE);
 			if (val != NULL && same_text)
 				value_release (val);
@@ -923,18 +923,18 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 			markup = adj_markup = pango_attr_list_copy (markup);
 			go_pango_attr_list_erase (adj_markup, 0, 1);
 		}
-		
+
 		if (same_text) {
 			for (l = selection; l != NULL && same_text; l = l->next) {
 				GnmRange *r = l->data;
 				GnmValue *val =
-					sheet_foreach_cell_in_range 
+					sheet_foreach_cell_in_range
 					(sheet, CELL_ITER_IGNORE_BLANK,
 					 r->start.col, r->start.row,
 					 r->end.col, r->end.row,
-					 (CellIterFunc) cmd_set_text_full_check_markup, 
+					 (CellIterFunc) cmd_set_text_full_check_markup,
 					 (gpointer) markup);
-				
+
 				same_markup = (val != VALUE_TERMINATE);
 				if (val != NULL && same_markup)
 					value_release (val);
@@ -958,18 +958,18 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 
 		for (l = selection; l != NULL; l = l->next) {
 			GnmSheetRange *sr;
-			undo = go_undo_combine 
+			undo = go_undo_combine
 				(undo, clipboard_copy_range_undo (sheet, l->data));
 			if (corrected) {
 				sr = gnm_sheet_range_new (sheet, l->data);
-				redo = go_undo_combine 
-					(redo, sheet_range_set_text_undo 
+				redo = go_undo_combine
+					(redo, sheet_range_set_text_undo
 					 (sr, corrected));
 			}
 			if (markup) {
 				sr = gnm_sheet_range_new (sheet, l->data);
 				/* Note: order of combination matters!! */
-				redo = go_undo_combine 
+				redo = go_undo_combine
 					(sheet_range_set_markup_undo (sr, markup), redo);
 			}
 		}
@@ -981,10 +981,10 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		same_text_and_not_same_markup = (same_text && !same_markup);
 	}
 	g_free (name);
-	
+
 	/* We are combining this since we don't want to apply and undo twice.*/
 	if (same_text_and_not_same_markup || !autofit_col) {
-		GnmCell *cell = sheet_cell_fetch 
+		GnmCell *cell = sheet_cell_fetch
 			(sheet, ep->eval.col, ep->eval.row);
 		gboolean nvis;
 
@@ -1011,42 +1011,42 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		GnmRange *new_r;
 
 		new_r = g_new (GnmRange, 1);
-		*new_r = *r;		
-		redo  = go_undo_combine 
-			(go_undo_binary_new 
-			 (sheet, new_r, 
+		*new_r = *r;
+		redo  = go_undo_combine
+			(go_undo_binary_new
+			 (sheet, new_r,
 			  (GOUndoBinaryFunc) colrow_autofit_row,
 			  NULL, g_free),
 			 redo);
-		cri_row_list = colrow_get_index_list 
+		cri_row_list = colrow_get_index_list
 			(r->start.row, r->end.row, cri_row_list);
 
 		if (autofit_col) {
 			new_r = g_new (GnmRange, 1);
-			*new_r = *r;		
-			redo  = go_undo_combine 
-				(go_undo_binary_new 
-				 (sheet, new_r, 
+			*new_r = *r;
+			redo  = go_undo_combine
+				(go_undo_binary_new
+				 (sheet, new_r,
 				  (GOUndoBinaryFunc) colrow_autofit_col,
 				  NULL, g_free),
 				 redo);
-			cri_col_list = colrow_get_index_list 
+			cri_col_list = colrow_get_index_list
 				(r->start.col, r->end.col, cri_col_list);
 		}
 	}
 	undo = go_undo_combine (undo,
-				gnm_undo_colrow_restore_state_group_new 
-				(sheet, TRUE, 
-				 cri_col_list, 
+				gnm_undo_colrow_restore_state_group_new
+				(sheet, TRUE,
+				 cri_col_list,
 				 colrow_get_sizes (sheet, TRUE,
 						   cri_col_list, -1)));
 	undo = go_undo_combine (undo,
-				gnm_undo_colrow_restore_state_group_new 
-				(sheet, FALSE, 
-				 cri_row_list, 
+				gnm_undo_colrow_restore_state_group_new
+				(sheet, FALSE,
+				 cri_row_list,
 				 colrow_get_sizes (sheet, FALSE,
 						   cri_row_list, -1)));
-	
+
 
 	result = cmd_generic (wbc, text, undo, redo);
 	g_free (text);
@@ -1147,39 +1147,39 @@ cmd_area_set_array_expr (WorkbookControl *wbc, SheetView *sv,
 
 	r = selection->data;
 
-	cri_row_list = colrow_get_index_list 
+	cri_row_list = colrow_get_index_list
 		(r->start.row, r->end.row, NULL);
-	cri_col_list = colrow_get_index_list 
+	cri_col_list = colrow_get_index_list
 		(r->start.col, r->end.col, NULL);
 	undo = clipboard_copy_range_undo (sheet, selection->data);
 	undo = go_undo_combine (undo,
-				gnm_undo_colrow_restore_state_group_new 
-				(sheet, TRUE, 
-				 cri_col_list, 
+				gnm_undo_colrow_restore_state_group_new
+				(sheet, TRUE,
+				 cri_col_list,
 				 colrow_get_sizes (sheet, TRUE,
 						   cri_col_list, -1)));
 	undo = go_undo_combine (undo,
-				gnm_undo_colrow_restore_state_group_new 
-				(sheet, FALSE, 
-				 cri_row_list, 
+				gnm_undo_colrow_restore_state_group_new
+				(sheet, FALSE,
+				 cri_row_list,
 				 colrow_get_sizes (sheet, FALSE,
 						   cri_row_list, -1)));
-	
+
 	sr = gnm_sheet_range_new (sheet, r);
 	r_1 = g_new (GnmRange, 1);
 	*r_1 = *r;
 	r_2 = g_new (GnmRange, 1);
 	*r_2 = *r;
 	redo = gnm_cell_set_array_formula_undo (sr, texpr);
-	redo = go_undo_combine 
-		(go_undo_binary_new 
-		 (sheet, r_1, 
+	redo = go_undo_combine
+		(go_undo_binary_new
+		 (sheet, r_1,
 		  (GOUndoBinaryFunc) colrow_autofit_col,
 		  NULL, g_free),
 		 redo);
-	redo  = go_undo_combine 
-		(go_undo_binary_new 
-		 (sheet, r_2, 
+	redo  = go_undo_combine
+		(go_undo_binary_new
+		 (sheet, r_2,
 		  (GOUndoBinaryFunc) colrow_autofit_row,
 		  NULL, g_free),
 		 redo);
@@ -1440,11 +1440,11 @@ cmd_insert_cols (WorkbookControl *wbc,
 	r.end.col += count;
 
 	if (gnm_sheet_get_last_col (sheet) < r.end.col) {
-		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_ERROR, 
+		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_ERROR,
 				      ngettext ("Inserting %i column before column %s would push data off the sheet. "
 						"Please enlarge the sheet first.",
 						"Inserting %i columns before column %s would push data off the sheet. "
-						"Please enlarge the sheet first.", 
+						"Please enlarge the sheet first.",
 						count),
 				      count, col_name (start_col));
 		return TRUE;
@@ -1468,11 +1468,11 @@ cmd_insert_rows (WorkbookControl *wbc,
 	r.end.row += count;
 
 	if (gnm_sheet_get_last_row (sheet) < r.end.row) {
-		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_ERROR, 
+		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_ERROR,
 				      ngettext ("Inserting %i row before row %s would push data off the sheet. "
 						"Please enlarge the sheet first.",
 						"Inserting %i rows before row %s would push data off the sheet. "
-						"Please enlarge the sheet first.", 
+						"Please enlarge the sheet first.",
 						count),
 				      count, row_name (start_row));
 		return TRUE;
@@ -1512,11 +1512,11 @@ cmd_delete_rows (WorkbookControl *wbc,
 
 typedef struct {
 	GSList	  *selection;
-	GnmRange const *r;	
+	GnmRange const *r;
 } cmd_selection_clear_row_handler_t;
 
 static gboolean
-cmd_selection_clear_row_handler (GnmColRowIter const *iter, 
+cmd_selection_clear_row_handler (GnmColRowIter const *iter,
 				 cmd_selection_clear_row_handler_t *data)
 {
 	if ((!iter->cri->in_filter) || iter->cri->visible) {
@@ -1548,7 +1548,7 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 		for (ranges = selection; ranges != NULL ; ranges = ranges->next) {
 			GnmFilter *filter;
 			data.r = ranges->data;
-			filter = gnm_sheet_filter_intersect_rows  
+			filter = gnm_sheet_filter_intersect_rows
 				(sheet, data.r->start.row, data.r->end.row);
 			if (filter) {
 				colrow_foreach (&sheet->rows, data.r->start.row, data.r->end.row,
@@ -1563,7 +1563,7 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 	/* We should first determine whether we break anything by clearing */
 	/* Check for array subdivision *//* Check for locked cells */
 	if (sheet_ranges_split_region (sheet, selection,
-				       GO_CMD_CONTEXT (wbc), _("Clear")) || 
+				       GO_CMD_CONTEXT (wbc), _("Clear")) ||
 	    cmd_selection_is_locked_effective (sheet, selection, wbc, _("Clear"))) {
 		range_fragment_free (selection);
 		return TRUE;
@@ -1606,15 +1606,15 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 	g_string_free (types, TRUE);
 	size = g_slist_length (selection);
 
-	
+
 	/* We are now ready to build the redo and undo items */
 	for (ranges = selection; ranges != NULL ; ranges = ranges->next) {
 		GnmRange const *r = ranges->data;
 		GnmSheetRange *sr = gnm_sheet_range_new (sheet, r);
 
 		undo = go_undo_combine (undo, clipboard_copy_range_undo (sheet, r));
-		redo =  go_undo_combine 
-			(redo, sheet_clear_region_undo 
+		redo =  go_undo_combine
+			(redo, sheet_clear_region_undo
 			 (sr, clear_flags | CLEAR_NOCHECKARRAY | CLEAR_RECALC_DEPS));
 	}
 
@@ -1867,7 +1867,7 @@ cmd_selection_format (WorkbookControl *wbc,
 static gboolean
 cmd_selection_format_toggle_font_style_filter (PangoAttribute *attribute, PangoAttrType *pt)
 {
-	return ((attribute->klass->type == *pt) || 
+	return ((attribute->klass->type == *pt) ||
 		((PANGO_ATTR_RISE == *pt) && (attribute->klass->type == PANGO_ATTR_SCALE)));
 }
 
@@ -1885,7 +1885,7 @@ cmd_selection_format_toggle_font_style_cb (GnmCellIter const *iter, csftfs *clos
 			const PangoAttrList *old_markup =
 				go_format_get_markup (fmt);
 			PangoAttrList *new_markup = pango_attr_list_copy ((PangoAttrList *)old_markup);
-			PangoAttrList *other = pango_attr_list_filter 
+			PangoAttrList *other = pango_attr_list_filter
 				(new_markup,
 				 (PangoAttrFilterFunc) cmd_selection_format_toggle_font_style_filter,
 				 &closure->pt);
@@ -1894,7 +1894,7 @@ cmd_selection_format_toggle_font_style_cb (GnmCellIter const *iter, csftfs *clos
 				GnmRange r;
 				range_init_cellpos (&r, &iter->pp.eval);
 				sr = gnm_sheet_range_new (iter->pp.sheet, &r);
-				closure->undo = go_undo_combine (closure->undo, 
+				closure->undo = go_undo_combine (closure->undo,
 								 sheet_range_set_markup_undo (sr, new_markup));
 			}
 			pango_attr_list_unref (new_markup);
@@ -1904,7 +1904,7 @@ cmd_selection_format_toggle_font_style_cb (GnmCellIter const *iter, csftfs *clos
 	return NULL;
 }
 
-gboolean 
+gboolean
 cmd_selection_format_toggle_font_style (WorkbookControl *wbc,
 					GnmStyle *style, GnmStyleElement t)
 {
@@ -1938,7 +1938,7 @@ cmd_selection_format_toggle_font_style (WorkbookControl *wbc,
 		pt = PANGO_ATTR_INVALID;
 		break;
 	}
-	
+
 
 	name = undo_range_list_name (sheet, selection);
 	text = g_strdup_printf (_("Setting Font Style of %s"), name);
@@ -1946,10 +1946,10 @@ cmd_selection_format_toggle_font_style (WorkbookControl *wbc,
 
 	for (l = selection; l != NULL; l = l->next) {
 		GnmSheetRange *sr;
-		undo = go_undo_combine 
+		undo = go_undo_combine
 			(undo, clipboard_copy_range_undo (sheet, l->data));
 		sr = gnm_sheet_range_new (sheet, l->data);
-		redo = go_undo_combine 
+		redo = go_undo_combine
 			(redo, sheet_apply_style_undo (sr, style));
 		if (pt != PANGO_ATTR_INVALID) {
 			csftfs closure;
@@ -2027,7 +2027,7 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 	g_string_free (list, TRUE);
 
 	saved_state = colrow_get_sizes (sheet, is_cols, selection, new_size);;
-	undo = gnm_undo_colrow_restore_state_group_new 
+	undo = gnm_undo_colrow_restore_state_group_new
 		(sheet, is_cols, colrow_index_list_copy (selection), saved_state);
 
  	redo = gnm_undo_colrow_set_sizes_new (sheet, is_cols, selection, new_size, NULL);
@@ -2039,7 +2039,7 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 }
 
 gboolean
-cmd_autofit_selection (WorkbookControl *wbc, SheetView *sv, Sheet *sheet, gboolean fit_width, 
+cmd_autofit_selection (WorkbookControl *wbc, SheetView *sv, Sheet *sheet, gboolean fit_width,
 		       ColRowIndexList *selectionlist)
 {
 	GOUndo *undo = NULL;
@@ -2048,19 +2048,19 @@ cmd_autofit_selection (WorkbookControl *wbc, SheetView *sv, Sheet *sheet, gboole
 	ColRowStateGroup *saved_state;
 	GSList *l, *selection = selection_get_ranges (sv, TRUE);
 	gchar *names = undo_range_list_name (sheet, selection);
-	gchar const *format = fit_width ? 
+	gchar const *format = fit_width ?
 		N_("Autofitting width of %s") : N_("Autofitting height of %s");
 	gchar *text = g_strdup_printf (_(format), names);
-	
+
 	g_free (names);
-	
+
 	saved_state = colrow_get_sizes (sheet, fit_width, selectionlist, -1);;
-	undo = gnm_undo_colrow_restore_state_group_new 
+	undo = gnm_undo_colrow_restore_state_group_new
 		(sheet, fit_width, colrow_index_list_copy (selectionlist), saved_state);
 
 	for (l = selection; l != NULL; l = l->next)
-		redo = go_undo_combine 
-			(redo, gnm_undo_colrow_set_sizes_new 
+		redo = go_undo_combine
+			(redo, gnm_undo_colrow_set_sizes_new
 			 (sheet, fit_width, NULL, -1, l->data));
 
 	result = cmd_generic (wbc, text, undo, redo);
@@ -2289,16 +2289,16 @@ cmd_selection_colrow_hide (WorkbookControl *wbc,
 			int i, max = gnm_sheet_get_max_cols (sheet);
 			ColRowInfo *ci;
 			for (i = 0 ; i < max ; i++)
-				if (NULL == 
-				    (ci = sheet_col_get (sheet, i)) || 
+				if (NULL ==
+				    (ci = sheet_col_get (sheet, i)) ||
 				    (ci->visible))
 					count++;
 		} else {
 			int i, max = gnm_sheet_get_max_rows (sheet);
 			ColRowInfo *ci;
 			for (i = 0 ; i < max ; i++)
-				if (NULL == 
-				    (ci = sheet_row_get (sheet, i)) || 
+				if (NULL ==
+				    (ci = sheet_row_get (sheet, i)) ||
 				    (ci->visible))
 					count++;
 		}
@@ -2312,13 +2312,13 @@ cmd_selection_colrow_hide (WorkbookControl *wbc,
 				  "If you do so you can unhide them with the "
 				  "'Format\xe2\x86\x92Row\xe2\x86\x92Unhide' "
 				  "menu item.");
-			if (!go_gtk_query_yes_no (wbcg_toplevel (WBC_GTK (wbc)), 
+			if (!go_gtk_query_yes_no (wbcg_toplevel (WBC_GTK (wbc)),
 						  FALSE, "%s", text)) {
 				colrow_vis_list_destroy (show);
 				colrow_vis_list_destroy (hide);
 				return TRUE;
 			}
-		} 
+		}
 	}
 
 	me = g_object_new (CMD_COLROW_HIDE_TYPE, NULL);
@@ -3012,11 +3012,11 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 
 	/* Select the newly pasted contents  (this queues a redraw) */
 	if (me->only_objects && IS_WBC_GTK (wbc)) {
-		SheetControlGUI *scg = 
-			wbcg_get_nth_scg (WBC_GTK (wbc), 
+		SheetControlGUI *scg =
+			wbcg_get_nth_scg (WBC_GTK (wbc),
 					  cmd->sheet->index_in_wb);
 		scg_object_unselect (scg, NULL);
-		g_slist_foreach (me->pasted_objects, 
+		g_slist_foreach (me->pasted_objects,
 				 (GFunc) cmd_paste_copy_select_obj, scg);
 	}
 	select_range (me->dst.sheet, &me->dst.range, wbc);
@@ -3041,11 +3041,11 @@ cmd_paste_copy_finalize (GObject *cmd)
 {
 	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
 
-	me->saved_sizes_rows = colrow_state_group_destroy 
+	me->saved_sizes_rows = colrow_state_group_destroy
 		(me->saved_sizes_rows);
 	colrow_index_list_destroy (me->saved_list_rows);
 	me->saved_list_rows = NULL;
-	me->saved_sizes_cols = colrow_state_group_destroy 
+	me->saved_sizes_cols = colrow_state_group_destroy
 		(me->saved_sizes_cols);
 	colrow_index_list_destroy (me->saved_list_cols);
 	me->saved_list_cols = NULL;
@@ -3098,7 +3098,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 	if (!me->only_objects) {
                 /* see if we need to do any tiling */
 		GnmRange *r = &me->dst.range;
-		if (g_slist_length (cr->merged) == 1 && 
+		if (g_slist_length (cr->merged) == 1 &&
 		    (NULL != (merge_src = cr->merged->data)) &&
 		    range_height (merge_src) == cr->rows &&
 		    range_width (merge_src) == cr->cols) {
@@ -3168,9 +3168,9 @@ cmd_paste_copy (WorkbookControl *wbc,
 	}
 
 	if (n_c * (gnm_float)n_r > 10000.) {
-		char *number = g_strdup_printf ("%0.0" GNM_FORMAT_f, 
+		char *number = g_strdup_printf ("%0.0" GNM_FORMAT_f,
 						(gnm_float)n_c * (gnm_float)n_r);
-		gboolean result = go_gtk_query_yes_no (wbcg_toplevel (WBC_GTK (wbc)), FALSE, 
+		gboolean result = go_gtk_query_yes_no (wbcg_toplevel (WBC_GTK (wbc)), FALSE,
 						       _("Do you really want to paste "
 							 "%s copies?"), number);
 		g_free (number);
@@ -3192,7 +3192,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 
 	/* no need to test if all we have are objects or are copying from */
 	/*a single merge to a single merge*/
-	if ((!me->only_objects) && (!me->single_merge_to_single_merge)&& 
+	if ((!me->only_objects) && (!me->single_merge_to_single_merge)&&
 	    sheet_range_splits_region (pt->sheet, &me->dst.range,
 				       NULL, GO_CMD_CONTEXT (wbc), me->cmd.cmd_descriptor)) {
 		g_object_unref (me);
@@ -5967,7 +5967,7 @@ cmd_define_name (WorkbookControl *wbc, char const *name,
 	g_return_val_if_fail (texpr != NULL, TRUE);
 
 	if (name[0] == '\0') {
-		go_cmd_context_error_invalid 
+		go_cmd_context_error_invalid
 			(GO_CMD_CONTEXT (wbc), _("Defined Name"),
 			 _("An empty string is not allowed as defined name."));
 		gnm_expr_top_unref (texpr);
@@ -5976,9 +5976,9 @@ cmd_define_name (WorkbookControl *wbc, char const *name,
 
 	sheet = wb_control_cur_sheet (wbc);
 	if (!expr_name_validate (name)) {
-		gchar *err = g_strdup_printf 
+		gchar *err = g_strdup_printf
 			(_("'%s' is not allowed as defined name."), name);
-		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), 
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
 					      _("Defined Name"), err);
 		g_free (err);
 		gnm_expr_top_unref (texpr);
@@ -7765,16 +7765,16 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 		if (src == NULL)
 			return TRUE;
 
-		f_old = gnm_sheet_filter_intersect_rows 
+		f_old = gnm_sheet_filter_intersect_rows
 			(sv->sheet, src->start.row, src->end.row);
 
 		if (f_old != NULL) {
-			GnmRange *r = gnm_sheet_filter_can_be_extended 
+			GnmRange *r = gnm_sheet_filter_can_be_extended
 				(sv->sheet, f_old, src);
 			if (r == NULL) {
 				char *error;
 				name = undo_range_name (sv->sheet, &(f_old->r));
-				error = g_strdup_printf 
+				error = g_strdup_printf
 					(_("Auto Filter blocked by %s"),
 					 name);
 				g_free(name);
@@ -7785,13 +7785,13 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 				return TRUE;
 			}
 			/* extending existing filter. */
-			undo = go_undo_binary_new 
-				(gnm_filter_ref (f_old), sv->sheet, 
+			undo = go_undo_binary_new
+				(gnm_filter_ref (f_old), sv->sheet,
 				 (GOUndoBinaryFunc) gnm_filter_attach,
 				 (GFreeFunc) gnm_filter_unref,
 				 NULL);
 			redo = go_undo_unary_new
-				(gnm_filter_ref (f_old), 
+				(gnm_filter_ref (f_old),
 				 (GOUndoUnaryFunc) gnm_filter_remove,
 				 (GFreeFunc) gnm_filter_unref);
 			gnm_filter_remove (f_old);
@@ -7827,30 +7827,30 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 		if (f_old)
 			gnm_filter_attach (f_old, sv->sheet);
 
-		redo = go_undo_combine (go_undo_binary_new 
-					(gnm_filter_ref (f), sv->sheet, 
+		redo = go_undo_combine (go_undo_binary_new
+					(gnm_filter_ref (f), sv->sheet,
 					 (GOUndoBinaryFunc) gnm_filter_attach,
 					 (GFreeFunc) gnm_filter_unref,
 					 NULL), redo);
 		undo = go_undo_combine (undo,
 					go_undo_unary_new
-					(f, 
+					(f,
 					 (GOUndoUnaryFunc) gnm_filter_remove,
 					 (GFreeFunc) gnm_filter_unref));
 
 		name = undo_range_name (sv->sheet, &(f->r));
-		descr = g_strdup_printf 
+		descr = g_strdup_printf
 			((f_old == NULL) ? _("Add Autofilter to %s")
 			 : _("Extend Autofilter to %s"),
 			 name);
 	} else {
-		undo = go_undo_binary_new 
-			(gnm_filter_ref (f), sv->sheet, 
+		undo = go_undo_binary_new
+			(gnm_filter_ref (f), sv->sheet,
 			 (GOUndoBinaryFunc) gnm_filter_attach,
 			 (GFreeFunc) gnm_filter_unref,
 			 NULL);
 		redo = go_undo_unary_new
-			(gnm_filter_ref (f), 
+			(gnm_filter_ref (f),
 			 (GOUndoUnaryFunc) gnm_filter_remove,
 			 (GFreeFunc) gnm_filter_unref);
 		name = undo_range_name (sv->sheet, &(f->r));
@@ -7867,26 +7867,26 @@ cmd_autofilter_add_remove (WorkbookControl *wbc)
 
 /******************************************************************/
 
-gboolean cmd_autofilter_set_condition (WorkbookControl *wbc, 
-				       GnmFilter *filter, unsigned i, 
+gboolean cmd_autofilter_set_condition (WorkbookControl *wbc,
+				       GnmFilter *filter, unsigned i,
 				       GnmFilterCondition *cond)
 {
 	char *descr = NULL, *name = NULL;
 	GOUndo *undo = NULL;
 	GOUndo *redo = NULL;
 	gboolean result;
-	
-	undo = gnm_undo_filter_set_condition_new (filter, i, 
+
+	undo = gnm_undo_filter_set_condition_new (filter, i,
 						  NULL, TRUE);
 	g_return_val_if_fail (undo != NULL, TRUE);
-	redo = gnm_undo_filter_set_condition_new (filter, i, 
+	redo = gnm_undo_filter_set_condition_new (filter, i,
 						 cond, FALSE);
 	g_return_val_if_fail (redo != NULL, TRUE);
 
 	name = undo_range_name (filter->sheet, &(filter->r));
 	descr = g_strdup_printf (_("Change filter condition for %s"),
 				 name);
-	
+
 	result = cmd_generic (wbc, descr, undo, redo);
 	g_free (name);
 	g_free (descr);
@@ -7897,8 +7897,8 @@ gboolean cmd_autofilter_set_condition (WorkbookControl *wbc,
 
 /******************************************************************/
 
-static void 
-cmd_page_breaks_set_breaks (Sheet *sheet, 
+static void
+cmd_page_breaks_set_breaks (Sheet *sheet,
 				       GnmPageBreaks const *breaks)
 {
 	print_info_set_breaks (sheet->print_info, gnm_page_breaks_dup (breaks));
@@ -7916,39 +7916,39 @@ cmd_page_breaks_clear (WorkbookControl *wbc, Sheet *sheet)
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
 	if (sheet->print_info->page_breaks.v != NULL) {
-		redo = go_undo_binary_new 
-			(sheet, 
-			 gnm_page_breaks_new (TRUE), 
+		redo = go_undo_binary_new
+			(sheet,
+			 gnm_page_breaks_new (TRUE),
 			 (GOUndoBinaryFunc) cmd_page_breaks_set_breaks,
-			 NULL, 
+			 NULL,
 			 (GFreeFunc) gnm_page_breaks_free);
-		undo = go_undo_binary_new 
-			(sheet, 
-			 gnm_page_breaks_dup 
-			 (sheet->print_info->page_breaks.v), 
+		undo = go_undo_binary_new
+			(sheet,
+			 gnm_page_breaks_dup
+			 (sheet->print_info->page_breaks.v),
 			 (GOUndoBinaryFunc) cmd_page_breaks_set_breaks,
-			 NULL, 
+			 NULL,
 			 (GFreeFunc) gnm_page_breaks_free);
 	}
 
 	if (sheet->print_info->page_breaks.h != NULL) {
-		redo = go_undo_combine 
-			(redo, 
-			 go_undo_binary_new 
-			 (sheet, 
-			  gnm_page_breaks_new (FALSE), 
+		redo = go_undo_combine
+			(redo,
+			 go_undo_binary_new
+			 (sheet,
+			  gnm_page_breaks_new (FALSE),
 			  (GOUndoBinaryFunc) cmd_page_breaks_set_breaks,
-			  NULL, 
+			  NULL,
 			  (GFreeFunc) gnm_page_breaks_free));
-		
-		undo = go_undo_combine 
+
+		undo = go_undo_combine
 			(undo,
-			 go_undo_binary_new 
-			 (sheet, 
-			  gnm_page_breaks_dup 
-			  (sheet->print_info->page_breaks.h), 
+			 go_undo_binary_new
+			 (sheet,
+			  gnm_page_breaks_dup
+			  (sheet->print_info->page_breaks.h),
 			  (GOUndoBinaryFunc) cmd_page_breaks_set_breaks,
-			  NULL, 
+			  NULL,
 			  (GFreeFunc) gnm_page_breaks_free));
 	}
 
@@ -7958,7 +7958,7 @@ cmd_page_breaks_clear (WorkbookControl *wbc, Sheet *sheet)
 		return TRUE;
 }
 
-gboolean 
+gboolean
 cmd_page_break_toggle (WorkbookControl *wbc, Sheet *sheet, gboolean is_vert)
 {
 	SheetView const *sv  = wb_control_cur_sheet_view (wbc);
@@ -7971,7 +7971,7 @@ cmd_page_break_toggle (WorkbookControl *wbc, Sheet *sheet, gboolean is_vert)
 	GOUndo *undo;
 	GOUndo *redo;
 
-	target = is_vert ? sheet->print_info->page_breaks.v 
+	target = is_vert ? sheet->print_info->page_breaks.v
 		: sheet->print_info->page_breaks.h;
 
 	old = (target == NULL) ? gnm_page_breaks_new (is_vert)
@@ -7988,17 +7988,17 @@ cmd_page_break_toggle (WorkbookControl *wbc, Sheet *sheet, gboolean is_vert)
 
 	gnm_page_breaks_set_break (new, rc, type);
 
-	redo = go_undo_binary_new 
-		(sheet, new, 
+	redo = go_undo_binary_new
+		(sheet, new,
 		 (GOUndoBinaryFunc) cmd_page_breaks_set_breaks,
-		 NULL, 
+		 NULL,
 		 (GFreeFunc) gnm_page_breaks_free);
-	undo = go_undo_binary_new 
-		(sheet, old, 
+	undo = go_undo_binary_new
+		(sheet, old,
 		 (GOUndoBinaryFunc) cmd_page_breaks_set_breaks,
-		 NULL, 
+		 NULL,
 		 (GFreeFunc) gnm_page_breaks_free);
-	
+
 	return cmd_generic (wbc, label, undo, redo);
 }
 

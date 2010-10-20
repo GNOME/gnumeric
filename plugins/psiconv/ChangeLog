@@ -306,12 +306,12 @@
 	(psi_new_string, value_new_from_psi_cell, parse_subexpr,
 	expr_new_from_formula, add_cell, add_workbook): Remove iconv state
 	argument.
-	(psiconv_read): 
+	(psiconv_read):
 
 2004-08-17  Jon K Hellan  <hellan@acm.org>
 
 	* psiconv-read.c (psi_new_string): Change type of data argument to
-	psiconv_ucs2 
+	psiconv_ucs2
 	(cellref_init): Rename to p_cellref_init because of name collision.
 	(set_layout, parse_subexpr, expr_new_from_formula, add_cell):
 	Minor fixes to shut up warnings.

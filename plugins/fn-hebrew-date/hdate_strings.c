@@ -35,7 +35,7 @@
 
 /**
  @brief convert an integer to hebrew string UTF-8 (logical)
- 
+
  @param n The int to convert
  @attention ( 0 < n < 10000)
  @warning uses a static string, so output should be copied away.
@@ -91,9 +91,9 @@ hdate_int_to_hebrew (GString *res, int n)
 		g_string_append (res, UNICODE_GERESH);
 	else
 		g_string_insert
-			(res, 
+			(res,
 			 g_utf8_offset_to_pointer (res->str + oldlen,
-						   length - 1) - res->str, 
+						   length - 1) - res->str,
 			 UNICODE_GERSHAYIM);
 }
 
@@ -134,7 +134,7 @@ hdate_get_hebrew_month_name_heb (int month)
 {
 	static const char *h_heb_months[] = {
 		"ת\xd6\xbc\xd6\xb4ש\xd7\x81\xd6\xb0ר\xd6\xb5י", /* Tishri */
-		"ח\xd6\xb6ש\xd7\x81\xd6\xb0ו\xd7\x87ן",         /* Heshwan */ 
+		"ח\xd6\xb6ש\xd7\x81\xd6\xb0ו\xd7\x87ן",         /* Heshwan */
 		"כ\xd6\xbc\xd6\xb4ס\xd6\xb0ל\xd6\xb5ו",         /* Kislev */
 		"ט\xd6\xb5ב\xd6\xb5ת",                          /* Tebet */
 		"ש\xd7\x81\xd6\xb0ב\xd7\x87ט",                  /* Shebat */

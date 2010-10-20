@@ -1535,15 +1535,15 @@ sheet_apply_style_cb (GnmSheetRange *sr,
 	sheet_flag_style_update_range (sr->sheet, &sr->range);
 }
 
-GOUndo *     
-sheet_apply_style_undo (GnmSheetRange *sr, 
+GOUndo *
+sheet_apply_style_undo (GnmSheetRange *sr,
 			GnmStyle      *style)
 {
 	gnm_style_ref (style);
-	return go_undo_binary_new 
-		(sr, (gpointer)style, 
-		 (GOUndoBinaryFunc) sheet_apply_style_cb, 
-		 (GFreeFunc) gnm_sheet_range_free, 
+	return go_undo_binary_new
+		(sr, (gpointer)style,
+		 (GOUndoBinaryFunc) sheet_apply_style_cb,
+		 (GFreeFunc) gnm_sheet_range_free,
 		 (GFreeFunc) gnm_style_unref);
 }
 
@@ -2471,27 +2471,27 @@ sheet_range_set_expr_cb (GnmSheetRange const *sr, GnmExprTop const *texpr)
 
 	sheet_region_queue_recalc (sr->sheet, &sr->range);
 	/* Store the parsed result creating any cells necessary */
-	sheet_foreach_cell_in_range 
+	sheet_foreach_cell_in_range
 		(sr->sheet, CELL_ITER_ALL,
-		 sr->range.start.col, sr->range.start.row, 
+		 sr->range.start.col, sr->range.start.row,
 		 sr->range.end.col, sr->range.end.row,
 		 (CellIterFunc)&cb_set_cell_content, &closure);
 
 	merged = gnm_sheet_merge_get_overlap (sr->sheet, &sr->range);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 		GnmRange const *tmp = ptr->data;
-		sheet_foreach_cell_in_range 
+		sheet_foreach_cell_in_range
 			(sr->sheet, CELL_ITER_ALL,
-			 tmp->start.col, tmp->start.row, 
+			 tmp->start.col, tmp->start.row,
 			 tmp->end.col, tmp->end.row,
-			 (CellIterFunc)&cb_clear_non_corner, 
+			 (CellIterFunc)&cb_clear_non_corner,
 			 (gpointer)tmp);
 	}
 	g_slist_free (merged);
 
 	sheet_region_queue_recalc (sr->sheet, &sr->range);
 	sheet_flag_status_update_range (sr->sheet, &sr->range);
-	sheet_queue_respan (sr->sheet, sr->range.start.row, 
+	sheet_queue_respan (sr->sheet, sr->range.start.row,
 			    sr->range.end.row);
 }
 
@@ -2499,10 +2499,10 @@ GOUndo *
 sheet_range_set_expr_undo (GnmSheetRange *sr, GnmExprTop const  *texpr)
 {
 	gnm_expr_top_ref (texpr);
-	return go_undo_binary_new 
-		(sr, (gpointer)texpr, 
-		 (GOUndoBinaryFunc) sheet_range_set_expr_cb, 
-		 (GFreeFunc) gnm_sheet_range_free, 
+	return go_undo_binary_new
+		(sr, (gpointer)texpr,
+		 (GOUndoBinaryFunc) sheet_range_set_expr_cb,
+		 (GFreeFunc) gnm_sheet_range_free,
 		 (GFreeFunc) gnm_expr_top_unref);
 }
 
@@ -2585,18 +2585,18 @@ sheet_range_set_text_cb (GnmSheetRange const *sr, gchar const *text)
 	sheet_range_set_text (&pos, &sr->range, text);
 	sheet_region_queue_recalc (sr->sheet, &sr->range);
 	sheet_flag_status_update_range (sr->sheet, &sr->range);
-	sheet_queue_respan (sr->sheet, sr->range.start.row, 
+	sheet_queue_respan (sr->sheet, sr->range.start.row,
 			    sr->range.end.row);
 }
 
-GOUndo *     
-sheet_range_set_text_undo (GnmSheetRange *sr, 
+GOUndo *
+sheet_range_set_text_undo (GnmSheetRange *sr,
 			   char const *text)
 {
-	return go_undo_binary_new 
-		(sr, g_strdup (text), 
-		 (GOUndoBinaryFunc) sheet_range_set_text_cb, 
-		 (GFreeFunc) gnm_sheet_range_free, 
+	return go_undo_binary_new
+		(sr, g_strdup (text),
+		 (GOUndoBinaryFunc) sheet_range_set_text_cb,
+		 (GFreeFunc) gnm_sheet_range_free,
 		 (GFreeFunc) g_free);
 }
 
@@ -2623,27 +2623,27 @@ cb_set_markup (GnmCellIter const *iter, PangoAttrList *markup)
 static void
 sheet_range_set_markup_cb (GnmSheetRange const *sr, PangoAttrList *markup)
 {
-	sheet_foreach_cell_in_range 
+	sheet_foreach_cell_in_range
 		(sr->sheet, CELL_ITER_ALL,
-		 sr->range.start.col, sr->range.start.row, 
+		 sr->range.start.col, sr->range.start.row,
 		 sr->range.end.col, sr->range.end.row,
 		 (CellIterFunc)&cb_set_markup, markup);
 
 	sheet_region_queue_recalc (sr->sheet, &sr->range);
 	sheet_flag_status_update_range (sr->sheet, &sr->range);
-	sheet_queue_respan (sr->sheet, sr->range.start.row, 
+	sheet_queue_respan (sr->sheet, sr->range.start.row,
 			    sr->range.end.row);
 }
 
-GOUndo *     
+GOUndo *
 sheet_range_set_markup_undo (GnmSheetRange *sr, PangoAttrList *markup)
 {
 	if (markup == NULL)
 		return NULL;
-	return go_undo_binary_new 
-		(sr, pango_attr_list_ref (markup), 
-		 (GOUndoBinaryFunc) sheet_range_set_markup_cb, 
-		 (GFreeFunc) gnm_sheet_range_free, 
+	return go_undo_binary_new
+		(sr, pango_attr_list_ref (markup),
+		 (GOUndoBinaryFunc) sheet_range_set_markup_cb,
+		 (GFreeFunc) gnm_sheet_range_free,
 		 (GFreeFunc) pango_attr_list_unref);
 }
 
@@ -4312,10 +4312,10 @@ GOUndo *sheet_clear_region_undo (GnmSheetRange *sr, int clear_flags)
 {
 	int *flags = g_new(int, 1);
 	*flags = clear_flags;
-	return go_undo_binary_new 
-		(sr, (gpointer)flags, 
-		 (GOUndoBinaryFunc) sheet_clear_region_cb, 
-		 (GFreeFunc) gnm_sheet_range_free, 
+	return go_undo_binary_new
+		(sr, (gpointer)flags,
+		 (GOUndoBinaryFunc) sheet_clear_region_cb,
+		 (GFreeFunc) gnm_sheet_range_free,
 		 (GFreeFunc) g_free);
 }
 
@@ -6061,14 +6061,14 @@ gnm_sheet_get_sort_setups (Sheet *sheet)
 
 	if (hash == NULL)
 		hash = sheet->sort_setups =
-			g_hash_table_new_full 
-			(g_str_hash, g_str_equal, 
+			g_hash_table_new_full
+			(g_str_hash, g_str_equal,
 			 g_free, (GDestroyNotify)gnm_sort_data_destroy);
 
 	return hash;
 }
 
-void 
+void
 gnm_sheet_add_sort_setup (Sheet *sheet, char *key, gpointer setup)
 {
 	GHashTable *hash = gnm_sheet_get_sort_setups (sheet);
@@ -6076,7 +6076,7 @@ gnm_sheet_add_sort_setup (Sheet *sheet, char *key, gpointer setup)
 	g_hash_table_insert (hash, key, setup);
 }
 
-gconstpointer 
+gconstpointer
 gnm_sheet_find_sort_setup (Sheet *sheet, char const *key)
 {
 	if (sheet->sort_setups == NULL)

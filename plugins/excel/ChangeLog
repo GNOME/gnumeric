@@ -62,7 +62,7 @@
 
 2010-07-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* ms-excel-read.h (ExcelFont): change underline field from PangoUnderline 
+	* ms-excel-read.h (ExcelFont): change underline field from PangoUnderline
 	  to MsBiffFontUnderline
 	* ms-excel-read.c (excel_read_FONT): underline field of ExcelFont is not
 	  a GnmUnderline but (now) a MsBiffFontUnderline
@@ -707,7 +707,7 @@
 2009-01-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (axesused): Don't use g_return_val_if_fail for data
-	dependent errors. 
+	dependent errors.
 
 2009-01-11  Morten Welinder  <terra@gnome.org>
 
@@ -773,7 +773,7 @@
 
 	* xlsx-read.c (indexed_color) : return a GOColor.
 	(themed_color) : new.  Has some magic to use the theme indicies as
-	  lookups into a hard coded map.d 
+	  lookups into a hard coded map.d
 	(xlsx_draw_color_themed) : simplified, the theme_colors_by_name is always defined.
 	(hue_to_color) : new.
 	(apply_tint) : new.  Could be moved into goffice.
@@ -1139,7 +1139,7 @@
 	(end): a better auto marker test for #344950,
 	(ms_excel_chart_read), reparent invisible axis children before
 	deleting the axis.
-	(chart_write_axis_sets): write radar plots axes. 
+	(chart_write_axis_sets): write radar plots axes.
 	* ms-excel-read.c: (excel_read_BOF): reverse objects stack order.
 
 2007-11-23  Jody Goldberg <jody@gnome.org>
@@ -1371,7 +1371,7 @@
 
 	* ms-chart.c: (end): use "Backplane" instead of "Grid" when goffice is 0.5,
 	(chart_write_text), (ms_excel_chart_write): made some work on titles
-	position export. 
+	position export.
 
 2007-09-13  Jean Brefort  <jean.brefort@normalesup.org>
 
@@ -1632,7 +1632,7 @@
 	* ms-excel-write.c (excel_write_SETUP): use
 	  print_info_get_paper_orientation
 	(write_sheet_head): print_info might be modified
-	* ms-excel-read.c (excel_read_SETUP): use 
+	* ms-excel-read.c (excel_read_SETUP): use
 	  print_info_set_paper_orientation
 
 2007-04-21  Morten Welinder <terra@gnome.org>
@@ -1667,7 +1667,7 @@
 	(xlsx_write_workbook) : ditto.
 	(xlsx_write_col) : up the accuracy of width export to match XL 2007.
 	  put hidden before other flags to ease visual inspection of xml.
-	(xlsx_write_cols) : skip initial empty cols, and include the last col. 
+	(xlsx_write_cols) : skip initial empty cols, and include the last col.
 
 2007-03-16  Morten Welinder  <terra@gnome.org>
 
@@ -1834,7 +1834,7 @@
 
 2005-07-06  Jon K Hellan  <hellan@acm.org>
 
-	* ms-excel-read.c (ms_sheet_realize_obj): Realize Excel 95 images 
+	* ms-excel-read.c (ms_sheet_realize_obj): Realize Excel 95 images
 	[#155696].
 
 	* ms-obj.h: Add MS_OBJ_ATTR_IS_GOBJECT_MASK and
@@ -1922,7 +1922,7 @@
 	* boot.c: replaced gi18n.h by gi18n-lib.h.
 	* excel-xml-read.c: ditto.
 	* ms-excel-read.c: ditto.
-	* ms-excel-write.c: ditto. 
+	* ms-excel-write.c: ditto.
 	* ms-formula-read.c: ditto.
 	* ms-formula-write.c: ditto.
 	* xlsx-read.c: ditto.
@@ -2908,7 +2908,7 @@
 	* ms-excel-read.h (ms_biff_get_chars): Give g_iconv the right kind
 	of pointer.
 
-	* ms-excel-write.h (excel_write_string_len): Change second 
+	* ms-excel-write.h (excel_write_string_len): Change second
 	argument to be size_t*.
 
 	* ms-escher.c (ms_escher_get_data): Fix confusion between
@@ -3022,7 +3022,7 @@
 2004-09-18  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* ms-excel-read.c: Added comments on how the paper size information can
-	  be used once gnome-print's API has been extended. 
+	  be used once gnome-print's API has been extended.
 
 2004-09-17  Jody Goldberg <jody@gnome.org>
 
@@ -3038,7 +3038,7 @@
 2004-09-15  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c (txomarkup_new): New. Factored out of
-	cb_cell_pre_pass. 
+	cb_cell_pre_pass.
 	(cb_cell_pre_pass): See above.
 	(excel_write_ClientTextbox): Change first parameter to
 	ExcelWriteState. Save markup.
@@ -3217,7 +3217,7 @@
 	* crypt-md4.[ch]. New files. MD4 checksum to use as BLIP
 	id. Grabbed from Ethereal, originally from Samba.
 
-	* ms-excel-write.c: 
+	* ms-excel-write.c:
 	(blipinf_new): New function. Initialize a record for image data.
 	(blipinf_free): New function. Free an image data record.
 	(excel_write_image): New function. Write an image Sp record
@@ -3666,7 +3666,7 @@
 2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* ms-excel-read.c (excel_read_SETUP): use print_info_set_orientation
-	* ms-excel-write.c (excel_write_SETUP): ditto                  
+	* ms-excel-write.c (excel_write_SETUP): ditto
 
 2004-01-16  Jody Goldberg <jody@gnome.org>
 
@@ -3755,7 +3755,7 @@
 	(cb_enumerate_macros) : new.
 	(cb_write_macro_NAME) : new.
 	(excel_write_names) : new.
- 
+
 	* ms-excel-read.c (get_xtn_lens) : add a limiter on the rich text
 	  warning.
 	(excel_formula_shared) : add some debug.
@@ -3764,7 +3764,7 @@
 	(excel_read_CF) : ditto.
 	(excel_read_DIMENSIONS) : ditto.
 	(excel_read_GUTS) : ditto.
-	(excel_read_HLINK) : target frame is first (according to 
+	(excel_read_HLINK) : target frame is first (according to
 	  xls-export-crash.xls) and the docs.
 	(excel_read_SUPBOOK) : handle external workbooks with unicode names.
 
@@ -4205,7 +4205,7 @@
 
 	* boot.c (excel_file_probe): Guard against gsf read error.
 	(excel_file_open): Ditto.
-	(excel_file_open): 
+	(excel_file_open):
 
 2003-03-26  Jody Goldberg <jody@gnome.org>
 
@@ -4809,7 +4809,7 @@
 	  like XL2k generates different indicies when exporting as XL95 than
 	  XL95 did.  So have a fall back.  If the theory that
 	    a+1 == -ixals, a, b are 0 based
-	  fails.  Go back to 
+	  fails.  Go back to
 	    a   == ixals, and a, b are 1 based
 
 2002-10-21  Jody Goldberg <jody@gnome.org>
@@ -4930,7 +4930,7 @@
 
 2002-09-26  Jody Goldberg <jody@gnome.org>
 
-	* ms-formula-read.c (ms_excel_parse_formula) : fix handling of 26 & 27. 
+	* ms-formula-read.c (ms_excel_parse_formula) : fix handling of 26 & 27.
 	  The docs are confusing.  The cached data is appended not to the the
 	  subexpression but to the entire string.  While we're here add a stub
 	  for tables.
@@ -5151,7 +5151,7 @@
 
 	* ms-excel-write.c (init_base_char_width_for_write) : delete.
 	(style_get_char_width) : renamed from get_base_char_width as it is now
-	  just a wrapper around the 
+	  just a wrapper around the
 	(ms_excel_write_DEFCOLWIDTH) : renamed from write_default_col_width
 	  and use the right font in the width calculations.
 	(ms_excel_write_COLINFO) : renamed from write_colinfo and use the
@@ -5326,8 +5326,8 @@
 
 2002-05-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* ms-excel-read.c (ms_excel_init_margins) : margins are now in 
-	  print_config 
+	* ms-excel-read.c (ms_excel_init_margins) : margins are now in
+	  print_config
 	(ms_excel_read_setup) : ditto
 	(ms_excel_read_sheet) : ditto
 	* ms-excel-write.c (margin_write) : ditto

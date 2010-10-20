@@ -307,7 +307,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 	return wb_control_jump (wbc, sheet, &range);
 }
 
-void 
+void
 wb_control_navigate_to_cell (WorkbookControl *wbc, wb_control_navigator_t to)
 {
 	Sheet *sheet = wb_control_cur_sheet (wbc);

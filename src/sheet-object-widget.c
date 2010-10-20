@@ -99,7 +99,7 @@ draw_cairo_text (cairo_t *cr, char const *text, int *pwidth, int *pheight,
 	pango_cairo_show_layout (cr, layout);
 	g_object_unref (layout);
 	g_object_unref (style);
-	
+
 	if (pwidth)
 		*pwidth = width * scale_h;
 	if (pheight)
@@ -1121,18 +1121,18 @@ sheet_widget_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 		radius = width / 3.;
 	if (radius < 1)
 		radius = 1;
-	
+
 	cairo_save (cr);
 	cairo_set_line_width (cr, 2 * half_line);
 	cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
 
 	cairo_new_path (cr);
 	cairo_arc (cr, radius + half_line, radius + half_line, radius, M_PI, - M_PI/2);
-	cairo_arc (cr, width - (radius + half_line), radius + half_line, 
+	cairo_arc (cr, width - (radius + half_line), radius + half_line,
 		   radius, - M_PI/2, 0);
-	cairo_arc (cr, width - (radius + half_line), height - (radius + half_line), 
+	cairo_arc (cr, width - (radius + half_line), height - (radius + half_line),
 		   radius, 0, M_PI/2);
-	cairo_arc (cr, (radius + half_line), height - (radius + half_line), 
+	cairo_arc (cr, (radius + half_line), height - (radius + half_line),
 		   radius, M_PI/2, M_PI);
 	cairo_close_path (cr);
 	cairo_stroke (cr);
@@ -1365,7 +1365,7 @@ sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa,
 {
 	SheetObject *so;
 	g_return_if_fail (swa != NULL);
-	
+
 	so = SHEET_OBJECT (swa);
 	so->flags &= ~SHEET_OBJECT_PRINT;
 
@@ -1780,7 +1780,7 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControl *sc)
 						  N_("Scrollbar Properties"));
 }
 
-static void sheet_widget_slider_horizontal_draw_cairo 
+static void sheet_widget_slider_horizontal_draw_cairo
 (SheetObject const *so, cairo_t *cr, double width, double height);
 
 static void
@@ -1827,10 +1827,10 @@ sheet_widget_scrollbar_draw_cairo (SheetObject const *so, cairo_t *cr,
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
 	if (swa->horizontal)
-		sheet_widget_scrollbar_horizontal_draw_cairo 
+		sheet_widget_scrollbar_horizontal_draw_cairo
 			(so, cr, width, height);
 	else
-		sheet_widget_scrollbar_vertical_draw_cairo 
+		sheet_widget_scrollbar_vertical_draw_cairo
 			(so, cr, width, height);
 }
 static void
@@ -1919,7 +1919,7 @@ sheet_widget_spinbutton_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_rel_line_to (cr, -6, 0);
 	cairo_close_path (cr);
 	cairo_fill (cr);
-	
+
 	cairo_new_path (cr);
 	cairo_move_to (cr, width - 5, height - 3);
 	cairo_rel_line_to (cr, 3, -3);
@@ -1929,7 +1929,7 @@ sheet_widget_spinbutton_draw_cairo (SheetObject const *so, cairo_t *cr,
 
 	str = g_strdup_printf ("%i", ivalue);
 	cairo_set_source_rgb(cr, 0, 0, 0);
-	cairo_move_to (cr, 4., halfheight);	
+	cairo_move_to (cr, 4., halfheight);
 	draw_cairo_text (cr, str, NULL, NULL, TRUE);
 	g_free (str);
 
@@ -2000,7 +2000,7 @@ sheet_widget_slider_horizontal_draw_cairo (SheetObject const *so, cairo_t *cr,
 	double value = gtk_adjustment_get_value (adjustment);
 	double upper = gtk_adjustment_get_upper (adjustment);
 	double lower = gtk_adjustment_get_lower (adjustment);
-	double fraction = (upper == lower) ? 0.0 : (value - lower)/(upper- lower); 
+	double fraction = (upper == lower) ? 0.0 : (value - lower)/(upper- lower);
 
 	cairo_save (cr);
 	cairo_set_line_width (cr, 5);
@@ -2017,13 +2017,13 @@ sheet_widget_slider_horizontal_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_set_line_cap (cr, CAIRO_LINE_CAP_ROUND);
 
 	cairo_new_path (cr);
-	cairo_move_to (cr, fraction * (width - 8. - 20. - 5. - 5. + 2.5 + 2.5) 
+	cairo_move_to (cr, fraction * (width - 8. - 20. - 5. - 5. + 2.5 + 2.5)
 		       - 10. + 10. + 4. + 5. - 2.5, height/2);
 	cairo_rel_line_to (cr, 20, 0);
 	cairo_stroke (cr);
 
 	cairo_new_path (cr);
-	cairo_restore (cr);	
+	cairo_restore (cr);
 }
 
 static void
@@ -2553,7 +2553,7 @@ sheet_widget_checkbox_draw_cairo (SheetObject const *so, cairo_t *cr,
 	}
 
 	cairo_move_to (cr, 4. + 8. + 4, halfheight);
-	
+
 	draw_cairo_text (cr, swc->label, NULL, NULL, TRUE);
 
 	cairo_new_path (cr);
@@ -3172,7 +3172,7 @@ sheet_widget_radio_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 
 	cairo_new_path (cr);
 	cairo_move_to (cr, 4. + 8., halfheight);
-	cairo_arc (cr, 4. + 4., halfheight, 4., 0., 2*M_PI); 
+	cairo_arc (cr, 4. + 4., halfheight, 4., 0., 2*M_PI);
 	cairo_close_path (cr);
 	cairo_fill_preserve (cr);
 	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
@@ -3181,7 +3181,7 @@ sheet_widget_radio_button_draw_cairo (SheetObject const *so, cairo_t *cr,
 	if (swr->active) {
 		cairo_new_path (cr);
 		cairo_move_to (cr, 4. + 6.5, halfheight);
-		cairo_arc (cr, 4. + 4., halfheight, 2.5, 0., 2*M_PI); 
+		cairo_arc (cr, 4. + 4., halfheight, 2.5, 0., 2*M_PI);
 		cairo_close_path (cr);
 		cairo_fill (cr);
 	}
@@ -3281,7 +3281,7 @@ sheet_widget_list_base_set_selection (SheetWidgetListBase *swl, int selection,
 			else if (selection != 0) {
 				GtkTreeIter iter;
 				char *content;
-				gtk_tree_model_iter_nth_child 
+				gtk_tree_model_iter_nth_child
 					(swl->model, &iter, NULL, selection - 1);
 				gtk_tree_model_get (swl->model, &iter,
 						    0, &content, -1);
@@ -3333,9 +3333,9 @@ list_output_eval (GnmDependent *dep)
 		eval_pos_init_dep (&pos, dep),
 		GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	SheetWidgetListBase *swl = DEP_TO_LIST_BASE_OUTPUT (dep);
-	
+
 	if (swl->result_as_index)
-		sheet_widget_list_base_set_selection 
+		sheet_widget_list_base_set_selection
 			(swl, floor (value_get_as_float (v)), NULL);
 	else
 		sheet_widget_list_base_set_selection_value (swl, v);
@@ -3564,7 +3564,7 @@ sheet_widget_list_base_get_content_link (SheetObject const *so)
  	return texpr;
 }
 
-gboolean 
+gboolean
 sheet_widget_list_base_result_type_is_index (SheetObject const *so)
 {
 	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
@@ -3572,7 +3572,7 @@ sheet_widget_list_base_result_type_is_index (SheetObject const *so)
 	return swl->result_as_index;
 }
 
-void  
+void
 sheet_widget_list_base_set_result_type (SheetObject *so, gboolean as_index)
 {
 	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
@@ -3581,7 +3581,7 @@ sheet_widget_list_base_set_result_type (SheetObject *so, gboolean as_index)
 		return;
 
 	swl->result_as_index = as_index;
-	
+
 }
 
 /* Note: allocates a new adjustment.  */
@@ -3646,7 +3646,7 @@ cb_selection_changed (GtkTreeSelection *selection,
 				gtk_tree_path_free (path);
 			}
 		}
-		sheet_widget_list_base_set_selection 
+		sheet_widget_list_base_set_selection
 			(swl, pos,
 			 scg_wbc (GNM_SIMPLE_CANVAS (view->parent->parent->parent)->scg));
 	}
@@ -3693,8 +3693,8 @@ static void
 sheet_widget_list_draw_cairo (SheetObject const *so, cairo_t *cr,
 			 double width, double height)
 {
-	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);	
-	
+	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
+
 	cairo_save (cr);
 	cairo_set_line_width (cr, 0.5);
 	cairo_set_source_rgb(cr, 0, 0, 0);
@@ -3720,7 +3720,7 @@ sheet_widget_list_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_rel_line_to (cr, -3, 8);
 	cairo_close_path (cr);
 	cairo_fill (cr);
-	
+
 	cairo_new_path (cr);
 	cairo_move_to (cr, width - 5 -3, 12);
 	cairo_rel_line_to (cr, 6, 0);
@@ -3756,7 +3756,7 @@ sheet_widget_list_draw_cairo (SheetObject const *so, cairo_t *cr,
 				g_string_append_c (str, '\n');
 				g_free (astr);
 			} while (gtk_tree_model_iter_next (swl->model, &iter));
-		
+
 		pango_layout_set_font_description (layout, style->font_desc);
 		pango_layout_set_single_paragraph_mode (layout, FALSE);
 		pango_layout_set_spacing (layout, 3 * PANGO_SCALE);
@@ -3779,7 +3779,7 @@ sheet_widget_list_draw_cairo (SheetObject const *so, cairo_t *cr,
 				cairo_translate (cr, 0, (height - 4)/scale_v - dy1);
 
 			cairo_new_path (cr);
-			cairo_rectangle (cr, -4/scale_h, dy0, 
+			cairo_rectangle (cr, -4/scale_h, dy0,
 					 width/scale_h, dy1 - dy0);
 			cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
 			cairo_fill (cr);
@@ -3789,13 +3789,13 @@ sheet_widget_list_draw_cairo (SheetObject const *so, cairo_t *cr,
 		pango_cairo_show_layout (cr, layout);
 		g_object_unref (layout);
 		g_object_unref (style);
-		
-		
+
+
 		g_string_free (str, TRUE);
 	}
 
 	cairo_new_path (cr);
-	cairo_restore (cr);	
+	cairo_restore (cr);
 }
 
 static void
@@ -3882,9 +3882,9 @@ static void
 sheet_widget_combo_draw_cairo (SheetObject const *so, cairo_t *cr,
 			 double width, double height)
 {
-	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);	
+	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
 	double halfheight = height/2;
-	
+
 	cairo_save (cr);
 	cairo_set_line_width (cr, 0.5);
 	cairo_set_source_rgb(cr, 0, 0, 0);
@@ -3910,13 +3910,13 @@ sheet_widget_combo_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_rel_line_to (cr, -3, 8);
 	cairo_close_path (cr);
 	cairo_fill (cr);
-	
+
 	cairo_set_source_rgb(cr, 0, 0, 0);
 	cairo_move_to (cr, 4., halfheight);
 
 	if (swl->model != NULL) {
 		GtkTreeIter iter;
-		if (gtk_tree_model_iter_nth_child (swl->model, &iter, NULL, 
+		if (gtk_tree_model_iter_nth_child (swl->model, &iter, NULL,
 						   swl->selection - 1)) {
 			char *str = NULL;
 			gtk_tree_model_get (swl->model, &iter, 0, &str, -1);
@@ -3926,7 +3926,7 @@ sheet_widget_combo_draw_cairo (SheetObject const *so, cairo_t *cr,
 	}
 
 	cairo_new_path (cr);
-	cairo_restore (cr);	
+	cairo_restore (cr);
 }
 
 static void

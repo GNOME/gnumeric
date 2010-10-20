@@ -133,7 +133,7 @@ gnumeric_go_error_info_list_dialog_new (GSList *errs)
 			 NULL);
 		g_free (tag_name);
 	}
-	for (l = lf; l != NULL; l = l->next) { 
+	for (l = lf; l != NULL; l = l->next) {
 		GOErrorInfo *err = l->data;
 		insert_error_info (text, err, 0);
 	}
@@ -167,7 +167,7 @@ gnumeric_go_error_info_dialog_show (GtkWindow *parent, GOErrorInfo *error)
 	go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
 }
 
-void       
+void
 gnumeric_go_error_info_list_dialog_show (GtkWindow *parent,
 					 GSList *errs)
 {

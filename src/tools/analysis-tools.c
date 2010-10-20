@@ -199,7 +199,7 @@ analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao,
  *  analysis_tools_write_label:
  *  @val: range to extract label from
  *  @dao: data_analysis_output_t, where to write to
- *  @labels: analysis_tools_data_generic_t infowhether the 
+ *  @labels: analysis_tools_data_generic_t infowhether the
  *           @val contains label info
  *  @group_by: grouping info
  *  @x: output col number
@@ -572,12 +572,12 @@ int analysis_tool_calc_length (analysis_tools_data_generic_t *info)
 }
 
 GnmFunc *
-analysis_tool_get_function (char const *name, 
+analysis_tool_get_function (char const *name,
 			    data_analysis_output_t *dao)
 {
 	GnmFunc *fd;
 
-	fd = gnm_func_lookup_or_add_placeholder 
+	fd = gnm_func_lookup_or_add_placeholder
 		(name, dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd);
 	return fd;
@@ -666,7 +666,7 @@ static gboolean
 analysis_tool_correlation_engine_run (data_analysis_output_t *dao,
 				      analysis_tools_data_generic_t *info)
 {
-	return analysis_tool_table (dao, info, _("Correlations"), 
+	return analysis_tool_table (dao, info, _("Correlations"),
 				    "CORREL", FALSE);
 }
 
@@ -721,7 +721,7 @@ static gboolean
 analysis_tool_covariance_engine_run (data_analysis_output_t *dao,
 				      analysis_tools_data_generic_t *info)
 {
-	return analysis_tool_table (dao, info, _("Covariances"), 
+	return analysis_tool_table (dao, info, _("Covariances"),
 				    "COVAR", FALSE);
 }
 
@@ -3293,7 +3293,7 @@ analysis_tool_regression_simple_engine_run (data_analysis_output_t *dao,
 	guint row;
 
 	GnmValue *val_dep = value_dup (info->base.range_2);
-	GnmExpr const *expr_intercept 
+	GnmExpr const *expr_intercept
 		= gnm_expr_new_constant (value_new_bool (info->intercept));
 	GnmExpr const *expr_observ;
 	GnmExpr const *expr_val_dep;
@@ -3366,7 +3366,7 @@ analysis_tool_regression_simple_engine_run (data_analysis_output_t *dao,
 							gnm_expr_new_constant (value_new_int (1))));
 		dao_set_array_expr (dao, 2, row, 2, 1, expr_linest);
 
-		dao_set_cell_expr (dao, 5, row, gnm_expr_new_funcall3 
+		dao_set_cell_expr (dao, 5, row, gnm_expr_new_funcall3
 				   (fd_fdist,
 				    make_cellref (-1, 0),
 				    gnm_expr_new_constant (value_new_int (1)),
@@ -4111,7 +4111,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 			GnmExpr const *expr_one;
 			GnmExpr const *expr_count_one;
 
-			analysis_tools_remove_label (val_org, 
+			analysis_tools_remove_label (val_org,
 						     info->base.labels,
 						     info->base.group_by);
 			expr_one = gnm_expr_new_constant (value_dup (val_org));

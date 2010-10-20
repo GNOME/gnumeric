@@ -19,7 +19,7 @@
 2010-08-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric.xml: update the statistical analysis tools intro
-	* analysis-statistical.xml: restructure to match the new menu 
+	* analysis-statistical.xml: restructure to match the new menu
 	  structure
 	* doc/C/figures/analysistools-tools.png: updated to show the
 	  new menu structure
@@ -106,9 +106,9 @@
 
 2010-01-24 Andreas J. Guelzow <aguelzow@pyrshep>
 
-	* func.defs: propagate changes and additions in 
+	* func.defs: propagate changes and additions in
 	  the function descriptions (due to the changes in func.c)
-	* functions.xml: propagate changes and additions in 
+	* functions.xml: propagate changes and additions in
 	  the function descriptions (make-func-list.pl and func.c)
 	* gnumeric.xml: bump manual version number to 1.10
 
@@ -118,7 +118,7 @@
 
 2010-01-09 Andreas J. Guelzow <aguelzow@pyrshep>
 
-	* func.defs: propagate changes and additions in 
+	* func.defs: propagate changes and additions in
 	  the function descriptions (due to the changes in func.c)
 	* functions.xml: ditto
 
@@ -128,13 +128,13 @@
 
 2010-01-08 Andreas J. Guelzow <aguelzow@pyrshep>
 
-	* func.defs: propagate changes and additions in 
+	* func.defs: propagate changes and additions in
 	  the function descriptions (due to the changes in func.c)
 	* functions.xml: ditto
 
 2010-01-07 Andreas J. Guelzow <aguelzow@pyrshep>
 
-	* func.defs: propagate changes and additions in 
+	* func.defs: propagate changes and additions in
 	  the function descriptions
 	* functions.xml: ditto
 
@@ -490,7 +490,7 @@
 
 2007-09-04  Jody Goldberg <jody@gnome.org>
 
-	* quick-start.xml : validate 
+	* quick-start.xml : validate
 
 2007-09-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
@@ -499,7 +499,7 @@
 	and using an authorial "we".
 	* data-entry.xml, data-types.xml, extending-python.xml,
 	files-formats.xml, gnumeric.xml, gui-overview.xml, morehelp.xml,
-	quick-start.xml, welcome.xml: 
+	quick-start.xml, welcome.xml:
 	  * When referring to the desktop environment as a whole, capitalise
 	    "GNOME" consistently.
 	  * Removed spaces before colons.
@@ -718,7 +718,7 @@
 	* worksheet.xml: minor tweaks.
 	* workbook.xml: minor tweaks.
 	* graphics-overview.xml: Change the context menu shot, edit the
-	                         text. 
+	                         text.
 
 	* figures/menu-context-object-order.png: Added.
 	* figures/menu-context-graph-order.png: Added.
@@ -762,11 +762,11 @@
 
 2004-11-19  Adrian Custer <acuster@gnome.org>
 
-	* NEWS Bump version to 1.4. Start edits of worksheet 
+	* NEWS Bump version to 1.4. Start edits of worksheet
 	       chapter. Minor Edits.
 
-	* gnumeric.xml: Change title, edit paragraph. 
-	                Change guilabel -> emphasis. 
+	* gnumeric.xml: Change title, edit paragraph.
+	                Change guilabel -> emphasis.
 	* manual-usage.xml: Change title, edit paragraph.
 	* worksheets.xml: Major edits.
 	* welcome.xml: Edit for 1.4. Change guilabel -> emphasis.
@@ -807,7 +807,7 @@
 	* files-saving.xml: remove valign from <tgroup>. Add a link.
 	* bugs.xml: remove valign from <tgroup>.
 	* gui-toolbars.xml: rm discussion of "tearing off" since it broke
-	                      a ref. 
+	                      a ref.
 	* graphics-widgets.xml: added a link.
 	* graphics-drawings.xml: added a link.
 
@@ -827,9 +827,9 @@
 
 	* NEWS Updated the 'Elements' chapter.
 
-	* gnumeric.xml: Revert to Docbook 4.2. We actually need to back 
-	  down to 4.1.2 or clear this with the GDP. For the moment, I 
-	  only have 4.2 so we can change this when I get closer to a 
+	* gnumeric.xml: Revert to Docbook 4.2. We actually need to back
+	  down to 4.1.2 or clear this with the GDP. For the moment, I
+	  only have 4.2 so we can change this when I get closer to a
 	  real network. Bump this up to validate and back down to commit.
 
 	* figures/gnumeric-labelled.png: changed.
@@ -870,8 +870,8 @@
 
 	* figures/textguru-export-panel1-withTags.png: Added.
 	* figures/textguru-export-panel2-withTags.png: Added.
-	* figures/files-csv-export-ex1.png 
-	* figures/files-csv-export-ex2.png 
+	* figures/files-csv-export-ex1.png
+	* figures/files-csv-export-ex2.png
 	* figures/Makefile.am: Add and delete files above.
 
 	* gnumeric.xml: Disable the "About" chapter.
@@ -887,7 +887,7 @@
 			      intro paragraph for components section.
 	* files-saving.xml: Edits to make parallel to files-opening.
 	* files-textsave.xml: Edits to update, add figures.
-	* files-email.xml: 
+	* files-email.xml:
 	* files-ssconvert.xml: Edits.
 
 2004-10-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
@@ -930,7 +930,7 @@
 
 2004-10-01  Adrian Custer <acuster@gnome.org>
 
-	* NEWS 
+	* NEWS
 
 	* README: Tweak.
 	* data-types.xml: add TODO comment.
@@ -995,9 +995,9 @@
 2004-09-30  Adrian Custer <acuster@gnome.org>
 
 	* NEWS: Rewrite of the 'Text Import' section of the 'Working with
-	        Files' chapter. 
+	        Files' chapter.
 	* NEWS: Cleaned up the figures/ dir. Now only images in the text
-	        are present. 
+	        are present.
 
 	* gnumeric.xml: Add explicit encoding.
 
@@ -1280,9 +1280,9 @@
 	  started" section, moved to chapter header in gnumeric.xml.  Added
 	  section: "Parts of Gnm". Placed text correctly in <para> to
 	  validate.
-    	* data-selections.xml: Edit the multiple cell selection text, closes 
+    	* data-selections.xml: Edit the multiple cell selection text, closes
           http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=256777.
-    
+
 
 2004-05-15  Adrian Custer <acuster@gnome.org>
 
@@ -1306,7 +1306,7 @@
 
 2004-01-14  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
-	* gui-other-elements.xml, gui-overview.xml, gui-toolbars.xml, 
+	* gui-other-elements.xml, gui-overview.xml, gui-toolbars.xml,
 	printing.xml: Added missing '.png' suffix to figure filerefs.
 	* figures/Makefile.am: Added missing figures to EXTRA_DIST.
 
@@ -1391,7 +1391,7 @@
 	* figures/analysistools-ztest-ex2.png: updated
 	* figures/analysistools-ztest.png: updated
 	* figures/analysistools-descstats-ex1-options.png: new
-	* gnumeric_doc_analysistools.gnumeric: data for analysis tools 
+	* gnumeric_doc_analysistools.gnumeric: data for analysis tools
 	  screen shots
 
 2003-11-11  J.H.M. Dassen (Ray) <jdassen@debian.org>
@@ -1556,4 +1556,4 @@
 
 2003-06-01 Adrian Custer <acuster@nature.berkeley.edu>
 
-	* New ChangeLog 
+	* New ChangeLog

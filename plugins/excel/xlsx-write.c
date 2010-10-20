@@ -1413,7 +1413,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 		xlsx_write_comments (state, sheet_part, charts);
 		g_slist_free (charts);
 	}
-	                                               
+
 /*   charts   */
 	charts = sheet_objects_get (state->sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
 	if (NULL != charts) {
@@ -1583,8 +1583,8 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	gsf_xml_out_end_element (xml);
 
 	gsf_xml_out_start_element (xml, "workbookPr");
-	gsf_xml_out_add_int (xml, "date1904", 
-			     workbook_date_conv (state->base.wb)->use_1904 
+	gsf_xml_out_add_int (xml, "date1904",
+			     workbook_date_conv (state->base.wb)->use_1904
 			     ? 1 : 0);
 	gsf_xml_out_end_element (xml);
 

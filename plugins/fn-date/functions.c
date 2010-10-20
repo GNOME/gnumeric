@@ -807,7 +807,7 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		if (weekends != default_weekends)
 			g_free (weekends);
 		return make_date (value_new_int (go_date_g_to_serial (&date, conv)));
-	}	
+	}
 
 	if (argv[2]) {
 		int j;
@@ -910,7 +910,7 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 			while (dm_part_week) {
 				g_date_subtract_days (&date, 1);
-				weekday = (weekday > 0) ? (weekday - 1) 
+				weekday = (weekday > 0) ? (weekday - 1)
 					: G_DATE_SATURDAY;
 				if (!weekends[weekday])
 					dm_part_week--;

@@ -545,7 +545,7 @@ format_match_time (char const *text, gboolean allow_elapsed,
 		hour = handle_float (text, match + 3);
 		minute = handle_float (text, match + 4);
 		second = handle_float (text, match + 5);
-		
+
 		if (valid_hms (hour, minute, second, allow_elapsed, &elapsed)) {
 			time_format = elapsed ? "[h]:mm:ss" : "h:mm:ss";
 			goto got_time;
@@ -925,7 +925,7 @@ format_match_fraction (char const *text, int *denlen)
 
 
 GnmValue *
-format_match_decimal_number_with_locale (char const *text, GOFormatFamily *family, 
+format_match_decimal_number_with_locale (char const *text, GOFormatFamily *family,
 					 GString const *curr, GString const *thousand,
 					 GString const *decimal)
 {

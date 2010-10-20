@@ -103,9 +103,9 @@ typedef enum {
 	SIGNTEST_WILCOXON
 } signtest_type;
 
-int dialog_sign_test_tool        (WBCGtk *wbcg, Sheet *sheet, 
+int dialog_sign_test_tool        (WBCGtk *wbcg, Sheet *sheet,
 				  signtest_type type);
-int dialog_sign_test_two_tool    (WBCGtk *wbcg, Sheet *sheet, 
+int dialog_sign_test_two_tool    (WBCGtk *wbcg, Sheet *sheet,
 				  signtest_type type);
 
 typedef enum {

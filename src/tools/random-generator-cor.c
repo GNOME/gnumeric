@@ -53,18 +53,18 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 		GnmFunc *fd_cholesky;
 		GnmExpr const *expr_cholesky;
 
-		fd_cholesky = gnm_func_lookup_or_add_placeholder 
+		fd_cholesky = gnm_func_lookup_or_add_placeholder
 			("CHOLESKY", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 		gnm_func_ref (fd_cholesky);
-		expr_cholesky = gnm_expr_new_funcall1 
+		expr_cholesky = gnm_expr_new_funcall1
 			(fd_cholesky, expr_matrix);
 
 		dao_set_merge (dao, 0, 0, 2 * info->variables, 0);
 		dao_set_italic (dao, 0, 0, 0, 0);
 		dao_set_cell (dao, 0, 0, _("Cholesky Decomposition of the Covariance Matrix"));
-		dao_set_array_expr (dao, 0, 1, info->variables, info->variables, 
+		dao_set_array_expr (dao, 0, 1, info->variables, info->variables,
 				    expr_cholesky);
-		 
+
 		gnm_func_unref (fd_cholesky);
 
 		expr_matrix = dao_get_rangeref (dao, 0, 1, info->variables - 1, info->variables);
@@ -75,11 +75,11 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell (dao, 0, 0, _("Uncorrelated Random Variables"));
 
-	fd_rand = gnm_func_lookup_or_add_placeholder 
+	fd_rand = gnm_func_lookup_or_add_placeholder
 			("RANDNORM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_rand);
-	expr_rand = gnm_expr_new_funcall2 (fd_rand, 
-					   gnm_expr_new_constant (value_new_int (0)), 
+	expr_rand = gnm_expr_new_funcall2 (fd_rand,
+					   gnm_expr_new_constant (value_new_int (0)),
 					   gnm_expr_new_constant (value_new_int (1)));
 	for (i = 0; i < info->variables; i++)
 		for (j = 1; j <= info->count; j++)
@@ -89,10 +89,10 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 
 	dao->offset_col += info->variables + 1;
 
-	fd_mmult = gnm_func_lookup_or_add_placeholder 
+	fd_mmult = gnm_func_lookup_or_add_placeholder
 		("MMULT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_mmult);
-	fd_transpose = gnm_func_lookup_or_add_placeholder 
+	fd_transpose = gnm_func_lookup_or_add_placeholder
 		("TRANSPOSE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_transpose);
 
@@ -102,12 +102,12 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 
 	expr_rand = gnm_expr_new_funcall2 (fd_mmult,
 					   make_rangeref (-4, 0, -2, 0),
-					   gnm_expr_new_funcall1 
+					   gnm_expr_new_funcall1
 					   (fd_transpose,
 					    expr_matrix));
 
 	for (j = 1; j <= info->count; j++)
-		dao_set_array_expr (dao, 0, j, info->variables, 1, 
+		dao_set_array_expr (dao, 0, j, info->variables, 1,
 				    gnm_expr_copy (expr_rand));
 
 	gnm_expr_free (expr_rand);
@@ -139,11 +139,11 @@ tool_random_cor_engine (data_analysis_output_t *dao, gpointer specs,
 
 	switch (selector) {
 	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor 
+		return (dao_command_descriptor
 			(dao,_("Correlated Random Numbers (%s)"), result)
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO:
-		dao_adjust (dao, 2 * data->variables + 1, 
+		dao_adjust (dao, 2 * data->variables + 1,
 			    data->variables + data->count + 3 );
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:

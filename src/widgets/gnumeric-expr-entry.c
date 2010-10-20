@@ -578,7 +578,7 @@ gee_scan_for_range (GnmExprEntry *gee)
 						  gnm_pane_expr_cursor_bound_set
 						  (pane, &r, FALSE););
 			}
-			
+
 			go_slist_free_custom (list, (GFreeFunc)value_release);
 		}
 		gnm_expr_entry_find_range (gee);
@@ -589,7 +589,7 @@ gee_scan_for_range (GnmExprEntry *gee)
 			    NULL != (merge = gnm_sheet_merge_is_corner
 				     (parse_sheet, &range.start)))
 				range = *merge;
-			
+
 			SCG_FOREACH_PANE (gee->scg, pane,
 					  gnm_pane_expr_cursor_bound_set
 					  (pane, &range, TRUE););
@@ -650,7 +650,7 @@ cb_gee_focus_out_event (GtkWidget         *widget,
 			gpointer           user_data);
 
 static GtkWidget *
-gee_create_tooltip (GnmExprEntry *gee, gchar const *str, 
+gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 		    gchar const *marked_str, gboolean set_tabs)
 {
 	GtkWidget *toplevel, *label, *tip;
@@ -670,7 +670,7 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 	label = gnumeric_create_tooltip (toplevel);
 	tip = gtk_widget_get_toplevel (label);
 
-	if (str) 
+	if (str)
 		markup = gnm_func_convert_markup_to_pango (str);
 	string = g_string_new (markup);
 	if (marked_str)
@@ -682,9 +682,9 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 	if (set_tabs) {
 		PangoLayout *pl = gtk_label_get_layout (GTK_LABEL (label));
 		PangoTabArray *tabs;
-		tabs = pango_tab_array_new_with_positions 
-			(2, TRUE, 
-			 PANGO_TAB_LEFT, 120, 
+		tabs = pango_tab_array_new_with_positions
+			(2, TRUE,
+			 PANGO_TAB_LEFT, 120,
 			 PANGO_TAB_LEFT, 140);
 		pango_layout_set_tabs (pl, tabs);
 		pango_tab_array_free (tabs);
@@ -723,7 +723,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 	gnm_func_load_if_stub (fd);
 	function_def_count_args (fd, &min, &max);
 
-	if ((gee->tooltip.fd) 
+	if ((gee->tooltip.fd)
 	    && (gee->tooltip.fd == fd && gee->tooltip.args == args
 		&& gee->tooltip.had_stuff == (max == 0 && args == 0 && had_stuff)))
 			return;
@@ -807,12 +807,12 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 		if ((end - start) < (guint) g_utf8_strlen (name, -1))
 			/* xgettext: the first %s is a function name and */
 			/* the second %s the function description */
-			g_string_append_printf (str, _("%s : \t%s\n"), name, 
+			g_string_append_printf (str, _("%s : \t%s\n"), name,
 						gnm_func_get_description (fd));
 		else {
 			/* xgettext: the first %s is a function name and */
 			/* the second %s the function description */
-			g_string_append_printf (str, _("[%s : \t%s]\n"), name, 
+			g_string_append_printf (str, _("[%s : \t%s]\n"), name,
 						gnm_func_get_description (fd));
 			i--;
 		}
@@ -822,7 +822,7 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 	if (i == max)
 		g_string_append (str_marked, UNICODE_ELLIPSIS_VERT "\n");
 	if (i == 1) {
-		gee->tooltip.completion 
+		gee->tooltip.completion
 			= g_strdup (name);
 		/*xgettext: short form for: "type F4-key to complete the name"*/
 		g_string_append (str_marked, _("\n<i>F4 to complete</i>"));
@@ -836,7 +836,7 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 	gee->tooltip.completion_se_valid = TRUE;
 	show_tool_tip = gnm_conf_get_core_gui_editing_function_name_tooltips ();
 	if (show_tool_tip)
-		gee->tooltip.tooltip = gee_create_tooltip 
+		gee->tooltip.tooltip = gee_create_tooltip
 			(gee, str->str, str_marked->str, TRUE);
 	g_string_free (str, TRUE);
 	g_string_free (str_marked, TRUE);
@@ -848,17 +848,17 @@ static void
 gee_dump_lexer (GnmLexerItem *gli) {
 	g_print ("************\n");
 	do {
-		g_print ("%2" G_GSIZE_FORMAT " to %2" G_GSIZE_FORMAT ": %d\n", 
+		g_print ("%2" G_GSIZE_FORMAT " to %2" G_GSIZE_FORMAT ": %d\n",
 			 gli->start, gli->end, gli->token);
 	} while (gli++->token != 0);
 	g_print ("************\n");
-	
+
 }
 
 static  int
 func_def_cmp (gconstpointer a, gconstpointer b)
 {
-	return g_utf8_collate (gnm_func_get_name (a), 
+	return g_utf8_collate (gnm_func_get_name (a),
 			       gnm_func_get_name (b));
 }
 
@@ -888,14 +888,14 @@ gee_update_lexer_items (GnmExprEntry *gee)
 
 	gee->tooltip.is_expr = (NULL != gnm_expr_char_start_p (str));
 	if (!(gee->flags & GNM_EE_SINGLE_RANGE)) {
-		gee->lexer_items = gnm_expr_lex_all 
+		gee->lexer_items = gnm_expr_lex_all
 			(str, &gee->pp,
 			 GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
 			 NULL);
 		if (gnm_debug_flag ("functooltip"))
 			gee_dump_lexer (gee->lexer_items);
 	}
-	g_free (str);	
+	g_free (str);
 }
 
 static GnmLexerItem *
@@ -922,7 +922,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 	gboolean stuff = FALSE, completion_se_set = FALSE;
 	GnmLexerItem *gli, *gli_c;
 
-	if (gee->lexer_items == NULL || !gee->tooltip.enabled || 
+	if (gee->lexer_items == NULL || !gee->tooltip.enabled ||
 	    (!gee->tooltip.is_expr && !gee->is_cell_renderer)) {
 		gee_delete_tooltip (gee, TRUE);
 		return;
@@ -945,7 +945,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 	 * If we have an open string at the end of the entry, we
 	 * need to adjust.
 	 */
-	
+
 	for (; gli->token != 0; gli++) {
 		if (gli->start >= end_t) {
 			gli->token = 0;
@@ -970,14 +970,14 @@ gee_check_tooltip (GnmExprEntry *gee)
 
 		end_t = gli->end;
 		prefix = g_strndup (str + start_t, end_t - start_t);
-		list = gnm_func_lookup_prefix 
+		list = gnm_func_lookup_prefix
 			(prefix, gee->sheet->workbook);
 		g_free (prefix);
 		if (list != NULL) {
-			list = g_slist_sort 
-				(list, 
+			list = g_slist_sort
+				(list,
 				 (GCompareFunc)func_def_cmp);
-			if (gee_set_tooltip_completion 
+			if (gee_set_tooltip_completion
 			    (gee, list, start_t, end_t)) {
 				g_free (str);
 				g_free (gli_c);
@@ -990,22 +990,22 @@ gee_check_tooltip (GnmExprEntry *gee)
 			gee->tooltip.completion_end = end_t;
 			gee->tooltip.completion_se_valid = TRUE;
 		}
-		completion_se_set = TRUE; 
+		completion_se_set = TRUE;
 	} else {
 		g_free (gee->tooltip.completion);
 		gee->tooltip.completion = NULL;
-		gee->tooltip.completion_se_valid = FALSE;		
+		gee->tooltip.completion_se_valid = FALSE;
 	}
-		
+
 
 	if (!gnm_conf_get_core_gui_editing_function_argument_tooltips ())
 		goto not_found;
 
 	if (gnm_debug_flag ("functooltip"))
-		g_print ("last token consider is %d from %2" 
-			 G_GSIZE_FORMAT " to %2" G_GSIZE_FORMAT "\n", 
+		g_print ("last token consider is %d from %2"
+			 G_GSIZE_FORMAT " to %2" G_GSIZE_FORMAT "\n",
 			 gli->token, gli->start, gli->end);
-	
+
 
 	while (gli->start > 1) {
 		switch (gli->token) {
@@ -1013,7 +1013,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 			if ((gli - 1)->token == STRING) {
 				gint start_t = (gli - 1)->start;
 				gint end_t = (gli - 1)->end;
-				char *name = g_strndup (str + start_t, 
+				char *name = g_strndup (str + start_t,
 							end_t - start_t);
 				GnmFunc	*fd = gnm_func_lookup (name, NULL);
 				g_free (name);
@@ -1040,7 +1040,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 					para++;
 					break;
 				case TOKEN_PARENTHESIS_OPEN:
-					para--; 
+					para--;
 					break;
 				default:
 					break;
@@ -1060,7 +1060,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 					para++;
 					break;
 				case TOKEN_BRACE_OPEN:
-					para--; 
+					para--;
 					break;
 				default:
 					break;
@@ -1143,12 +1143,12 @@ cb_gee_key_press_event (GtkEntry	*entry,
 
 		if (state == GDK_SHIFT_MASK) {
 			if (gee->tooltip.completion_se_valid)
-				dialog_function_select_paste 
-					(gee->wbcg, 
+				dialog_function_select_paste
+					(gee->wbcg,
 					 gee->tooltip.completion_start,
 					 gee->tooltip.completion_end);
 			else
-				dialog_function_select_paste 
+				dialog_function_select_paste
 					(gee->wbcg, -1, -1);
 			return TRUE;
 		}
@@ -1699,7 +1699,7 @@ gee_rangesel_update_text (GnmExprEntry *gee)
 }
 
 static void
-gee_find_lexer_token (GnmLexerItem const *gli, guint token_pos, 
+gee_find_lexer_token (GnmLexerItem const *gli, guint token_pos,
 		      GnmLexerItem const **gli_before, GnmLexerItem const **gli_after)
 {
 	*gli_before = *gli_after = NULL;
@@ -1781,7 +1781,7 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		return TRUE;
 	}
 
-	cursor = g_utf8_offset_to_pointer 
+	cursor = g_utf8_offset_to_pointer
 		(text, gtk_editable_get_position (GTK_EDITABLE (gee->entry)));
 
 	ptr = gnm_expr_char_start_p (text);
@@ -1792,8 +1792,8 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		g_printerr ("text: >%s< -- cursor: >%s<\n", text, cursor);
 
 	if (ptr[0] == '\0') {
-		rs->text_end = rs->text_start = 
-			g_utf8_pointer_to_offset 
+		rs->text_end = rs->text_start =
+			g_utf8_pointer_to_offset
 			(text, ptr);
 		return TRUE;
 	}
@@ -1807,14 +1807,14 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		gli++;
 
 	if (gli->token == 0) {
-		rs->text_start = g_utf8_pointer_to_offset 
+		rs->text_start = g_utf8_pointer_to_offset
 			(text, ptr);
 		rs->text_end   = len;
-		return TRUE;		
+		return TRUE;
 	}
 
 	token_pos = cursor - text;
-	
+
 	gee_find_lexer_token (gli, (guint)token_pos, &gli_before, &gli_after);
 
 	if (gnm_debug_flag ("rangeselection")) {
@@ -1827,7 +1827,7 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 
 	if (gli_before == NULL && gli_after == NULL)
 		return FALSE;
-			
+
 	if (gli_before == gli_after) {
 		if ((gli_after + 1)->token == TOKEN_PARENTHESIS_OPEN ||
 		    (gli_after + 1)->token == TOKEN_BRACE_OPEN)
@@ -1836,9 +1836,9 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		    ((gli_before - 1)->token == TOKEN_PARENTHESIS_CLOSED ||
 		     (gli_before - 1)->token == TOKEN_BRACE_CLOSED))
 			return FALSE;
-		rs->text_start = g_utf8_pointer_to_offset 
+		rs->text_start = g_utf8_pointer_to_offset
 			(text, text + gli_before->start);
-		rs->text_end   = g_utf8_pointer_to_offset 
+		rs->text_end   = g_utf8_pointer_to_offset
 			(text, text + gli_before->end);
 	} else if (gli_before != NULL && gli_after != NULL) {
 		switch (gli_before->token) {
@@ -1850,9 +1850,9 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 			if (gli_after->token == TOKEN_PARENTHESIS_OPEN ||
 			    gli_after->token == TOKEN_BRACE_OPEN)
 				return FALSE;
-			rs->text_start = g_utf8_pointer_to_offset 
+			rs->text_start = g_utf8_pointer_to_offset
 				(text, text + gli_before->start);
-			rs->text_end   = g_utf8_pointer_to_offset 
+			rs->text_end   = g_utf8_pointer_to_offset
 				(text, text + gli_before->end);
 			break;
 		default:
@@ -1862,15 +1862,15 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 			case CONSTANT:
 			case RANGEREF:
 			case INVALID_TOKEN:
-				rs->text_start = g_utf8_pointer_to_offset 
+				rs->text_start = g_utf8_pointer_to_offset
 					(text, text + gli_after->start);
-				rs->text_end   = g_utf8_pointer_to_offset 
+				rs->text_end   = g_utf8_pointer_to_offset
 					(text, text + gli_after->end);
 				break;
 			default:
-				rs->text_start = g_utf8_pointer_to_offset 
+				rs->text_start = g_utf8_pointer_to_offset
 					(text, text + gli_before->end);
-				rs->text_end   = g_utf8_pointer_to_offset 
+				rs->text_end   = g_utf8_pointer_to_offset
 					(text, text + gli_after->start);
 				break;
 			}
@@ -1885,14 +1885,14 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 			if ((gli_after + 1)->token == TOKEN_PARENTHESIS_OPEN ||
 			    (gli_after + 1)->token == TOKEN_BRACE_OPEN)
 				return FALSE;
-			rs->text_start = g_utf8_pointer_to_offset 
+			rs->text_start = g_utf8_pointer_to_offset
 				(text, text + gli_after->start);
-			rs->text_end   = g_utf8_pointer_to_offset 
+			rs->text_end   = g_utf8_pointer_to_offset
 				(text, text + gli_after->end);
 			break;
 		default:
-			rs->text_end = rs->text_start = 
-				g_utf8_pointer_to_offset 
+			rs->text_end = rs->text_start =
+				g_utf8_pointer_to_offset
 				(text, text + gli_after->start);
 			break;
 		}
@@ -1906,23 +1906,23 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 			    ((gli_before - 1)->token == TOKEN_PARENTHESIS_CLOSED ||
 			     (gli_before - 1)->token == TOKEN_BRACE_CLOSED))
 				return FALSE;
-			rs->text_start = g_utf8_pointer_to_offset 
+			rs->text_start = g_utf8_pointer_to_offset
 				(text, text + gli_before->start);
-			rs->text_end   = g_utf8_pointer_to_offset 
+			rs->text_end   = g_utf8_pointer_to_offset
 				(text, text + gli_before->end);
 			break;
 		case TOKEN_PARENTHESIS_CLOSED:
 		case TOKEN_BRACE_CLOSED:
 			return FALSE;
 		default:
-			rs->text_end = rs->text_start = 
-				g_utf8_pointer_to_offset 
+			rs->text_end = rs->text_start =
+				g_utf8_pointer_to_offset
 				(text, text + gli_before->start);
 			break;
 		}
 
 	if (gnm_debug_flag ("rangeselection"))
-		g_print ("characters from %d to %d\n", 
+		g_print ("characters from %d to %d\n",
 			 rs->text_start, rs->text_end);
 
 	rs_text = gtk_editable_get_chars (GTK_EDITABLE (gee->entry),

@@ -658,7 +658,7 @@
 	* sylk.c (sylk_parse_sheet) : Return an error string.
 
 1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
- 
+
 	* sylk.c (sylk_cleanup_plugin): free pd->title
 
 1999-11-19  Jeff Garzik  <jgarzik@mandrakesoft.com>

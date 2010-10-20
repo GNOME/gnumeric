@@ -4278,7 +4278,7 @@ xlsx_run_weight (GsfXMLIn *xin, xmlChar const **attrs)
 			if (state->run_attrs == NULL)
 				state->run_attrs = pango_attr_list_new ();
 			pango_attr_list_insert (state->run_attrs, attr);
-			
+
 		}
 }
 
@@ -4292,7 +4292,7 @@ xlsx_run_style (GsfXMLIn *xin, xmlChar const **attrs)
 			if (state->run_attrs == NULL)
 				state->run_attrs = pango_attr_list_new ();
 			pango_attr_list_insert (state->run_attrs, attr);
-			
+
 		}
 }
 
@@ -4306,7 +4306,7 @@ xlsx_run_family (GsfXMLIn *xin, xmlChar const **attrs)
 			if (state->run_attrs == NULL)
 				state->run_attrs = pango_attr_list_new ();
 			pango_attr_list_insert (state->run_attrs, attr);
-			
+
 		}
 }
 
@@ -4320,7 +4320,7 @@ xlsx_run_size (GsfXMLIn *xin, xmlChar const **attrs)
 			if (state->run_attrs == NULL)
 				state->run_attrs = pango_attr_list_new ();
 			pango_attr_list_insert (state->run_attrs, attr);
-			
+
 		}
 }
 
@@ -4334,7 +4334,7 @@ xlsx_run_strikethrough (GsfXMLIn *xin, xmlChar const **attrs)
 			if (state->run_attrs == NULL)
 				state->run_attrs = pango_attr_list_new ();
 			pango_attr_list_insert (state->run_attrs, attr);
-			
+
 		}
 }
 
@@ -4356,7 +4356,7 @@ xlsx_run_underline (GsfXMLIn *xin, xmlChar const **attrs)
 			if (state->run_attrs == NULL)
 				state->run_attrs = pango_attr_list_new ();
 			pango_attr_list_insert (state->run_attrs, attr);
-			
+
 		}
 }
 
@@ -4377,7 +4377,7 @@ xlsx_run_color (GsfXMLIn *xin, xmlChar const **attrs)
 			if (state->run_attrs == NULL)
 				state->run_attrs = pango_attr_list_new ();
 			pango_attr_list_insert (state->run_attrs, attr);
-			
+
 		}
 }
 
@@ -4457,7 +4457,7 @@ xlsx_comment_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	}
 	sheet_object_set_sheet (SHEET_OBJECT (state->comment), state->sheet);
 	state->comment = NULL;
-	
+
 }
 
 static void
@@ -4520,7 +4520,7 @@ GSF_XML_IN_NODE_FULL (START, COMMENTS, XL_NS_SS, "comments", GSF_XML_NO_CONTENT,
         GSF_XML_IN_NODE (TEXTITEM, ITEM_PHONETIC_RUN, XL_NS_SS, "rPh", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (ITEM_PHONETIC_RUN, PHONETIC_TEXT, XL_NS_SS, "t", GSF_XML_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (TEXTITEM, ITEM_PHONETIC, XL_NS_SS, "phoneticPr", GSF_XML_NO_CONTENT, NULL, NULL),
-	
+
 GSF_XML_IN_NODE_END
 };
 
@@ -4564,7 +4564,7 @@ xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			continue;
 		}
 		/* load comments */
-		
+
 		cin = gsf_open_pkg_open_rel_by_type (sin,
 			"http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments", NULL);
 		xlsx_parse_stream (state, sin, xlsx_sheet_dtd);

@@ -1314,8 +1314,8 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	}
 	END_LOCALE_SWITCH;
 
-	for (lcol = 0, col = start_col; 
-	     lcol < parseoptions->col_import_array_len  && col < gnm_sheet_get_max_cols (sheet); 
+	for (lcol = 0, col = start_col;
+	     lcol < parseoptions->col_import_array_len  && col < gnm_sheet_get_max_cols (sheet);
 	     lcol++)
 		if (parseoptions->col_import_array == NULL ||
 		    parseoptions->col_import_array_len <= lcol ||

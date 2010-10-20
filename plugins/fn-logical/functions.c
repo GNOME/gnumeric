@@ -317,7 +317,7 @@ GnmFuncDescriptor const logical_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "ifna", "EE",  help_ifna,
 	  gnumeric_ifna, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE,  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, 
+	  GNM_FUNC_SIMPLE,  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 	{ "true", "", help_true, gnumeric_true,
 	  NULL, NULL, NULL, NULL,

@@ -212,7 +212,7 @@ create_stats (simulation_t *sim, gnm_float **outputs, simstats_t *stats)
 		stats->range[i] = stats->max[i] - stats->min[i];
 
 		/* Confidence (95%) */
-		stats->confidence[i] = 2 * qt (0.025, sim->n_iterations - 1, 
+		stats->confidence[i] = 2 * qt (0.025, sim->n_iterations - 1,
 					       FALSE, FALSE)
 			* (stats->stddev[i] / gnm_sqrt (sim->n_iterations));
 

@@ -97,8 +97,8 @@ fcombo_activate (SheetObject *so, GtkTreeView *list, WBCGtk *wbcg,
 		}
 
 		if (set_condition)
-			cmd_autofilter_set_condition 
-				(WORKBOOK_CONTROL (wbcg), 
+			cmd_autofilter_set_condition
+				(WORKBOOK_CONTROL (wbcg),
 				 fcombo->filter, field_num, cond);
 	}
 	return TRUE;

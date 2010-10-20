@@ -408,7 +408,7 @@ cmd_shift_rows (WorkbookControl *wbc, Sheet *sheet,
 		r.start.col = r.end.col - count + 1;
 
 		if (!sheet_is_region_empty (sheet, &r)) {
-			go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_ERROR, 
+			go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_ERROR,
 					      _("Inserting these cells would push data off the sheet. "
 						"Please enlarge the sheet first."));
 			return;
@@ -457,7 +457,7 @@ cmd_shift_cols (WorkbookControl *wbc, Sheet *sheet,
 		r.start.row = r.end.row - count + 1;
 
 		if (!sheet_is_region_empty (sheet, &r)) {
-			go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_ERROR, 
+			go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_ERROR,
 					      _("Inserting these cells would push data off the sheet. "
 						"Please enlarge the sheet first."));
 			return;

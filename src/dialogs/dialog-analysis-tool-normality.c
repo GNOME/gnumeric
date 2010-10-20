@@ -205,9 +205,9 @@ dialog_normality_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 0;
 
 
-	state->alpha_entry = tool_setup_update 
+	state->alpha_entry = tool_setup_update
 		(&state->base, "alpha-entry",
-		 G_CALLBACK (normality_tool_update_sensitivity_cb), 
+		 G_CALLBACK (normality_tool_update_sensitivity_cb),
 		 state);
 
 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);

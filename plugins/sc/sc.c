@@ -116,14 +116,14 @@ sc_warning (ScParseState *state, char const *fmt, ...)
 	if (0 != go_str_compare (msg, state->last_error)) {
 		GOErrorInfo *ei = sc_go_error_info_new_vprintf
 			(GO_WARNING, "%s", msg);
-		
+
 		go_io_error_info_set (state->context, ei);
 		g_free (state->last_error);
 		state->last_error = msg;
 	} else
 		g_free (msg);
 
-	go_error_info_add_details 
+	go_error_info_add_details
 		(state->context->info->data,
 		 sc_go_error_info_new_vprintf (GO_WARNING, "%s", detail));
 
@@ -141,17 +141,17 @@ sc_sheet_cell_fetch (ScParseState *state, int col, int row)
 	if (col >= size->max_cols
 	    || row >= size->max_rows) {
 		GOUndo   * goundo;
-		int cols_needed = (col >= size->max_cols) ? col + 1 
+		int cols_needed = (col >= size->max_cols) ? col + 1
 			: size->max_cols;
-		int rows_needed = (row >= size->max_rows) ? row + 1 
+		int rows_needed = (row >= size->max_rows) ? row + 1
 			: size->max_rows;
 		gnm_sheet_suggest_size (&cols_needed, &rows_needed);
 
-		goundo = gnm_sheet_resize 
+		goundo = gnm_sheet_resize
 			(state->sheet, cols_needed, rows_needed, NULL, &err);
 		if (goundo) g_object_unref (goundo);
 	}
-	
+
 	if (err) {
 		sc_warning (state, _("The cell in row %i and column %i is beyond "
 				     "Gnumeric's maximum sheet size."),
@@ -349,7 +349,7 @@ sc_parse_goto (ScParseState *state, char const *cmd, char const *str,
 		return FALSE;
 
 	SHEET_FOREACH_VIEW(state->sheet, sv,
-			   sv_selection_set 
+			   sv_selection_set
 			   (sv, &pos, pos.col, pos.row, pos.col, pos.row););
 
 	return TRUE;
@@ -374,7 +374,7 @@ sc_parse_format_set_width (ScParseState *state, int len, int col_from, int col_t
 		return;
 
 	mstyle = gnm_style_new_default ();
-	style_font = gnm_style_get_font 
+	style_font = gnm_style_get_font
 		(mstyle, state->sheet->rendered_values->context);
 	width = PANGO_PIXELS (len * style_font->go.metrics->avg_digit_width) + 4;
 	gnm_style_unref (mstyle);
@@ -400,7 +400,7 @@ sc_parse_format_get_precision (ScParseState *state, int col)
 }
 
 static void
-sc_parse_format_save_precision (ScParseState *state, int precision, 
+sc_parse_format_save_precision (ScParseState *state, int precision,
 				int col_from, int col_to)
 {
 	int col;
@@ -416,7 +416,7 @@ sc_parse_format_save_precision (ScParseState *state, int precision,
 }
 
 static char *
-sc_parse_format_apply_precision (ScParseState *state, char *format, int col) 
+sc_parse_format_apply_precision (ScParseState *state, char *format, int col)
 {
 	if (strchr (format, '&')) {
 		GString* str = g_string_new (format);
@@ -438,12 +438,12 @@ sc_parse_format_apply_precision (ScParseState *state, char *format, int col)
 				for (i = 0; i < p; i++)
 					g_string_insert_c (str, off, '0');
 			}
-			
+
 		}
 		format = g_string_free (str, FALSE);
 	}
 	return format;
-} 
+}
 
 static void
 sc_parse_format_set_type (ScParseState *state, int type, int col_from, int col_to)
@@ -470,7 +470,7 @@ sc_parse_format_set_type (ScParseState *state, int type, int col_from, int col_t
 		go_format_unref (gfmt);
 		g_free (fmt);
 	}
-	
+
 }
 
 static gboolean
@@ -483,17 +483,17 @@ sc_parse_format (ScParseState *state, char const *cmd, char const *str,
 
 	if (g_ascii_isdigit ((gchar) *str))
 		return sc_parse_format_definition (state, cmd, str);
-	
+
 	d = sc_colname_to_coords (s, &col_from);
 
-	if (d == 0) 
+	if (d == 0)
 		goto cannotparse;
 
 	s += d;
 	if (*s == ':') {
 		s++;
 		d = sc_colname_to_coords (s, &col_to);
-		if (d == 0) 
+		if (d == 0)
 			goto cannotparse;
 		s += d;
 	} else
@@ -502,7 +502,7 @@ sc_parse_format (ScParseState *state, char const *cmd, char const *str,
 		s++;
 
 	d = sscanf(s, "%i %i %i", &len, &precision, &format_type);
-	
+
 	if (d != 3)
 		goto cannotparse;
 
@@ -510,7 +510,7 @@ sc_parse_format (ScParseState *state, char const *cmd, char const *str,
 		sc_parse_format_set_width (state, len, col_from, col_to);
 	sc_parse_format_save_precision (state, precision, col_from, col_to);
 	sc_parse_format_set_type (state, format_type, col_from, col_to);
-	
+
 	return TRUE;
  cannotparse:
 		sc_warning (state, "Unable to parse: %s %s", cmd, str);

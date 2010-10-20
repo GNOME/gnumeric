@@ -96,7 +96,7 @@ adjust_year (int year, GODateConventions const *conv)
 		return 2000 + year;
 	else if (year <= 99)
 		return 1900 + year;
-	else if (year < (gnm_datetime_allow_negative () ? 1582 
+	else if (year < (gnm_datetime_allow_negative () ? 1582
 			 : go_date_convention_base (conv)))
 		return -1;
 	else if (year > 9956)

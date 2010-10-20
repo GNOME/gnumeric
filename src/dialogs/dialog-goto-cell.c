@@ -272,8 +272,8 @@ dialog_goto_init (GotoState *state)
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled),
 					     GTK_SHADOW_ETCHED_IN);
 
-	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING, 
-					   G_TYPE_STRING, G_TYPE_POINTER, 
+	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING,
+					   G_TYPE_STRING, G_TYPE_POINTER,
 					   G_TYPE_POINTER);
 	state->treeview = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));

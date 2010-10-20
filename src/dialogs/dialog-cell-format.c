@@ -2276,7 +2276,7 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 		/* since we are acting on the current selection   */
 		/* validation may have switched sheets.           */
 
-		wb_control_sheet_focus (WORKBOOK_CONTROL (state->wbcg), 
+		wb_control_sheet_focus (WORKBOOK_CONTROL (state->wbcg),
 					state->sheet);
 
 		if (state->validation.changed)

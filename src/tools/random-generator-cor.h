@@ -12,16 +12,16 @@ typedef enum {
 } random_gen_cor_type_t;
 
 typedef struct {
-	WorkbookControl *wbc;       
+	WorkbookControl *wbc;
 	GnmValue        *matrix;
 	random_gen_cor_type_t matrix_type;
 	gint count;
 	gint variables;
 } tools_data_random_cor_t;
 
-gboolean tool_random_cor_engine (data_analysis_output_t *dao, 
-				 gpointer specs, 
-				 analysis_tool_engine_t selector, 
+gboolean tool_random_cor_engine (data_analysis_output_t *dao,
+				 gpointer specs,
+				 analysis_tool_engine_t selector,
 				 gpointer result);
 
 #endif

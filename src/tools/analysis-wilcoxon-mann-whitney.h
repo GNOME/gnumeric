@@ -34,7 +34,7 @@
 #include "analysis-tools.h"
 #include "sheet.h"
 
-gboolean analysis_tool_wilcoxon_mann_whitney_engine 
+gboolean analysis_tool_wilcoxon_mann_whitney_engine
           (data_analysis_output_t *dao, gpointer specs,
 	   analysis_tool_engine_t selector, gpointer result);
 

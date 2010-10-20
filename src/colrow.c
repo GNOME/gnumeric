@@ -205,8 +205,8 @@ cb_colrow_index_counter (gpointer data, gpointer user_data)
 		*count += index->last - index->first + 1;
 }
 
-gint             
-colrow_vis_list_length (ColRowVisList *list) 
+gint
+colrow_vis_list_length (ColRowVisList *list)
 {
 	gint count = 0;
 	g_slist_foreach (list, cb_colrow_index_counter, &count);
@@ -526,7 +526,7 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 		for (i = index->first ; i <= index->last ; ++i) {
 			int tmp = new_size;
 			if (tmp < 0) {
-				int max = is_cols ? gnm_sheet_get_last_row (sheet) 
+				int max = is_cols ? gnm_sheet_get_last_row (sheet)
 					: gnm_sheet_get_last_col (sheet);
 				if (from < 0)
 					from = 0;
@@ -814,9 +814,9 @@ colrow_autofit_col (Sheet *sheet, GnmRange *r)
 	colrow_autofit (sheet, r, TRUE, TRUE,
 			TRUE, FALSE, NULL, NULL);
 	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
-				     r->start.col, 0, 
+				     r->start.col, 0,
 				     r->end.col, gnm_sheet_get_last_row (sheet),
-				     (CellIterFunc) &cb_clear_variable_width_content, 
+				     (CellIterFunc) &cb_clear_variable_width_content,
 				     NULL);
 }
 

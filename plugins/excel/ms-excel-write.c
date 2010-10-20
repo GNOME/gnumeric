@@ -2017,7 +2017,7 @@ excel_font_overlay_pango (ExcelWriteFont *efont, GSList *pango)
 			break;
 
 		case PANGO_ATTR_UNDERLINE :
-			efont->underline = gnm_translate_underline_from_pango 
+			efont->underline = gnm_translate_underline_from_pango
 				(((PangoAttrInt *)attr)->value);
 			break;
 

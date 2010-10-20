@@ -74,13 +74,13 @@ GnmStyle const    *style_list_get_style	 (GnmStyleList const *l, int col, int ro
 void		   style_list_free	 (GnmStyleList *l);
 GnmStyleList	  *sheet_style_get_range (Sheet const *sheet, GnmRange const *r);
 
-typedef  gboolean (*sheet_style_set_list_cb_t) (GnmRange *range, 
-						Sheet const *sheet, 
+typedef  gboolean (*sheet_style_set_list_cb_t) (GnmRange *range,
+						Sheet const *sheet,
 						gpointer data);
-GnmSpanCalcFlags   sheet_style_set_list  (Sheet *sheet, 
+GnmSpanCalcFlags   sheet_style_set_list  (Sheet *sheet,
 					  GnmCellPos const *corner,
 					  GnmStyleList const *l,
-					  sheet_style_set_list_cb_t range_modify, 
+					  sheet_style_set_list_cb_t range_modify,
 					  gpointer data);
 
 GnmStyleList *sheet_style_collect_conditions	(Sheet const *s, GnmRange const *r);

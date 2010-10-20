@@ -17,10 +17,10 @@ void command_list_release	(GSList *cmds);
 
 GString *gnm_cmd_trunc_descriptor (GString *src, gboolean *truncated);
 gboolean cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
-					     WorkbookControl *wbc, 
+					     WorkbookControl *wbc,
 					     char const *cmd_name);
 gboolean cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
-					    WorkbookControl *wbc, 
+					    WorkbookControl *wbc,
 					    char const *cmd_name);
 
 /* Commands: note that any extensions should ideally use cmd_generic* */
@@ -57,8 +57,8 @@ gboolean cmd_delete_rows	(WorkbookControl *wbc, Sheet *sheet,
 gboolean cmd_resize_colrow	(WorkbookControl *wbc, Sheet *sheet,
 				 gboolean is_col, ColRowIndexList *selection,
 				 int new_size);
-gboolean cmd_autofit_selection  (WorkbookControl *wbc, SheetView *sv, Sheet *sheet, 
-				 gboolean fit_width, 
+gboolean cmd_autofit_selection  (WorkbookControl *wbc, SheetView *sv, Sheet *sheet,
+				 gboolean fit_width,
 				 ColRowIndexList *selectionlist);
 
 gboolean cmd_paste_cut		(WorkbookControl *wbc,
@@ -138,7 +138,7 @@ gboolean cmd_define_name	(WorkbookControl *wbc, char const *name,
 				 GnmExprTop const *texpr,
 				 char const *descriptor);
 gboolean cmd_remove_name        (WorkbookControl *wbc, GnmNamedExpr *nexpr);
-gboolean cmd_rescope_name       (WorkbookControl *wbc, GnmNamedExpr *nexpr, 
+gboolean cmd_rescope_name       (WorkbookControl *wbc, GnmNamedExpr *nexpr,
 				 Sheet *scope);
 
 gboolean cmd_scenario_add (WorkbookControl *wbc, GnmScenario *s, Sheet *sheet);
@@ -163,8 +163,8 @@ gboolean cmd_tabulate (WorkbookControl *wbc, gpointer data);
 gboolean cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet);
 
 gboolean cmd_autofilter_add_remove (WorkbookControl *wbc);
-gboolean cmd_autofilter_set_condition (WorkbookControl *wbc, 
-				       GnmFilter *filter, unsigned i, 
+gboolean cmd_autofilter_set_condition (WorkbookControl *wbc,
+				       GnmFilter *filter, unsigned i,
 				       GnmFilterCondition *cond);
 
 /**************************  Sheet Objects **************************************/

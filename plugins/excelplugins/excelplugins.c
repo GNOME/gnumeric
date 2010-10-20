@@ -1,7 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * excelplugins.c:
- * 
+ *
  * Adapter interface to load worksheet functions defined in Excel
  * plugins (also known as XLLs).  Note that this adapter interface
  * only works for XLL worksheet functions that expect all their

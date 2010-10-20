@@ -6463,7 +6463,7 @@ mmult (gnm_float *A, gnm_float *B, int cols_a, int rows_a, int cols_b,
 /***************************************************************************/
 
 static int
-gnm_matrix_eigen_max_index (gnm_float *row, guint row_n, guint size) 
+gnm_matrix_eigen_max_index (gnm_float *row, guint row_n, guint size)
 {
 	guint i, res = row_n + 1;
 	gnm_float max;
@@ -6507,8 +6507,8 @@ gnm_matrix_eigen_update (guint k, gnm_float t, gnm_float *eigenvalues, gboolean 
 
 /* Calculates the eigenvalues and eigenvectors of a real symmetric matrix.
  */
-gboolean    
-gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigenvalues, int size) 
+gboolean
+gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigenvalues, int size)
 {
 	guint i, state, usize, *ind;
 	gboolean *changed;
@@ -6518,7 +6518,7 @@ gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigen
 		return FALSE;
 
 	usize = (guint) size;
-	state = usize; 
+	state = usize;
 
 	ind = g_new (guint, usize);
 	changed =  g_new (gboolean, usize);
@@ -6541,7 +6541,7 @@ gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigen
 		if (counter > 400000) {
 			g_free (ind);
 			g_free (changed);
-			g_print ("gnm_matrix_eigen exceeded iterations\n"); 
+			g_print ("gnm_matrix_eigen exceeded iterations\n");
 			return FALSE;
 		}
 		for (k = 1; k < (usize-1); k++)

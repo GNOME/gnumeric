@@ -141,11 +141,11 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 		 gnm_expr_copy (expr_pop_2));
 
 	dao_set_cell_array_expr (dao, 1, 2,
-				 gnm_expr_new_binary 
+				 gnm_expr_new_binary
 				 (gnm_expr_new_funcall1
 				  (fd_sum,
 				   gnm_expr_new_funcall3
-				   (fd_rank_avg, 
+				   (fd_rank_avg,
 				    expr_pop_1_adj,
 				    gnm_expr_copy (expr_total),
 				    gnm_expr_new_constant (value_new_int (1)))),
@@ -159,11 +159,11 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 				   (fd_rows,
 				    gnm_expr_copy (expr_pop_1)))));
 	dao_set_cell_array_expr (dao, 2, 2,
-				 gnm_expr_new_binary 
+				 gnm_expr_new_binary
 				 (gnm_expr_new_funcall1
 				  (fd_sum,
 				   gnm_expr_new_funcall3
-				   (fd_rank_avg, 
+				   (fd_rank_avg,
 				    expr_pop_2_adj,
 				    gnm_expr_copy (expr_total),
 				    gnm_expr_new_constant (value_new_int (1)))),
@@ -180,7 +180,7 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 	expr_count_total = gnm_expr_new_funcall1
 		(fd_count, gnm_expr_copy (expr_total));
 	dao_set_cell_expr (dao, 3, 2,
-			   gnm_expr_new_binary 
+			   gnm_expr_new_binary
 			   (gnm_expr_new_binary
 			    (gnm_expr_copy (expr_count_total),
 			     GNM_EXPR_OP_MULT,
@@ -204,31 +204,31 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 			   (fd_count,
 			    gnm_expr_copy (expr_total)));
 
-	expr_u = gnm_expr_new_binary 
+	expr_u = gnm_expr_new_binary
 		(make_cellref (0,- 2), GNM_EXPR_OP_SUB,
-		 gnm_expr_new_binary 
-		 (gnm_expr_new_binary 
+		 gnm_expr_new_binary
+		 (gnm_expr_new_binary
 		  (make_cellref (0,- 1),
 		   GNM_EXPR_OP_MULT,
-		   gnm_expr_new_binary 
+		   gnm_expr_new_binary
 		   (make_cellref (0,- 1),
 		    GNM_EXPR_OP_ADD,
 		    gnm_expr_new_constant (value_new_int (1)))),
 		  GNM_EXPR_OP_DIV,
 		  gnm_expr_new_constant (value_new_int (2))));
-		 
+
 	dao_set_cell_expr (dao, 1, 4, gnm_expr_copy (expr_u));
 	dao_set_cell_expr (dao, 2, 4, expr_u);
-	dao_set_cell_expr (dao, 3, 4, 
-			   gnm_expr_new_binary 
-			   (make_cellref (-2,-1), 
+	dao_set_cell_expr (dao, 3, 4,
+			   gnm_expr_new_binary
+			   (make_cellref (-2,-1),
 			    GNM_EXPR_OP_MULT,
 			    make_cellref (-1,-1)));
 
 	dao_set_cell_array_expr (dao, 1, 5,
 				 gnm_expr_new_funcall1
 				 (fd_sum,
-				  gnm_expr_new_binary 
+				  gnm_expr_new_binary
 				  (gnm_expr_new_funcall2
 				   (fd_rank_avg,
 				    gnm_expr_copy (expr_total),
@@ -250,8 +250,8 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 			 make_cellref (1,-5));
 		expr_sqrt = gnm_expr_new_funcall1
 			(fd_sqrt,
-			 gnm_expr_new_binary 
-			 (gnm_expr_new_binary 
+			 gnm_expr_new_binary
+			 (gnm_expr_new_binary
 			  (gnm_expr_copy(expr_prod),
 			   GNM_EXPR_OP_MULT,
 			   gnm_expr_new_binary
@@ -266,26 +266,26 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 		expr_normdist = gnm_expr_new_funcall4
 			(fd_normdist,
 			 make_cellref (0,-1),
-			 gnm_expr_new_binary 
+			 gnm_expr_new_binary
 			 (expr_prod,
 			  GNM_EXPR_OP_DIV,
 			  gnm_expr_new_constant (value_new_int (2))),
 			 expr_sqrt,
 			 gnm_expr_new_constant (value_new_bool (TRUE)));
 
-		dao_set_cell_expr (dao, 1, 6, 
+		dao_set_cell_expr (dao, 1, 6,
 				   gnm_expr_new_funcall2
-				   (fd_min, 
+				   (fd_min,
 				    make_cellref (0,-4),
 				    make_cellref (1,-4)));
-		dao_set_cell_expr (dao, 1, 7, 
+		dao_set_cell_expr (dao, 1, 7,
 				   gnm_expr_new_funcall2
-				   (fd_min, 
+				   (fd_min,
 				    make_cellref (0,-3),
 				    make_cellref (1,-3)));
 
-		dao_set_cell_expr (dao, 1, 8, 
-				   gnm_expr_new_binary 
+		dao_set_cell_expr (dao, 1, 8,
+				   gnm_expr_new_binary
 				   (gnm_expr_new_constant (value_new_int (2)),
 				    GNM_EXPR_OP_MULT,
 				    expr_normdist));
@@ -334,13 +334,13 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 }
 
 gboolean
-analysis_tool_wilcoxon_mann_whitney_engine 
+analysis_tool_wilcoxon_mann_whitney_engine
         (data_analysis_output_t *dao, gpointer specs,
 	 analysis_tool_engine_t selector, gpointer result)
 {
 	switch (selector) {
 	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor 
+		return (dao_command_descriptor
 			(dao, _("Wilcoxon-Mann-Whitney Test (%s)"), result)
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO:

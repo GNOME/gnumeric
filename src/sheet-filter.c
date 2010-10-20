@@ -865,7 +865,7 @@ gnm_sheet_filter_at_pos (Sheet const *sheet, GnmCellPos const *pos)
 
 /**
  * gnm_sheet_filter_intersect_rows :
- * 
+ *
  * Returns: the filter (if any) that intersect the rows from to to
  **/
 GnmFilter *

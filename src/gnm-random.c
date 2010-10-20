@@ -304,7 +304,7 @@ random_01_mersenne (void)
 		/*
 		 * It is conceivable that rounding turned the result
 		 * into 1, so repeat in that case.
-		 */		   
+		 */
 	} while (res >= 1);
 
 	return res;
@@ -1421,14 +1421,14 @@ random_landau (void)
 /* ------------------------------------------------------------------------ */
 
 /*
- * Generate a skew-normal distributed random number. 
- * 
+ * Generate a skew-normal distributed random number.
+ *
  * based on the information provided at
  * http://azzalini.stat.unipd.it/SN/faq-r.html
  *
  */
 
-gnm_float 
+gnm_float
 random_skew_normal (gnm_float a)
 {
 	gnm_float result;
@@ -1445,14 +1445,14 @@ random_skew_normal (gnm_float a)
 /* ------------------------------------------------------------------------ */
 
 /*
- * Generate a skew-t distributed random number. 
- * 
+ * Generate a skew-t distributed random number.
+ *
  * based on the information provided at
  * http://azzalini.stat.unipd.it/SN/faq-r.html
  *
  */
 
-gnm_float 
+gnm_float
 random_skew_tdist (gnm_float nu, gnm_float a)
 {
 	gnm_float chi = random_chisq (nu);

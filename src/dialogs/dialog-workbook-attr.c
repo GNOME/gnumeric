@@ -71,8 +71,8 @@ cb_widget_changed (GtkWidget *widget, AttrState *state)
 {
 	char const *key;
 
-	key = g_object_get_data (G_OBJECT (widget), "GNUMERIC:VIEWPROPERTY"); 
-	g_object_set (G_OBJECT (state->wbv), 
+	key = g_object_get_data (G_OBJECT (widget), "GNUMERIC:VIEWPROPERTY");
+	g_object_set (G_OBJECT (state->wbv),
 		      key, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)),
 		      NULL);
 }
@@ -105,7 +105,7 @@ attr_dialog_init_toggle (AttrState *state, char const *name, char const *key)
 	GtkWidget *w = go_gtk_builder_get_widget (state->gui, name);
 	gboolean val = FALSE;
 
-	g_object_get (G_OBJECT (state->wbv), key, &val, NULL); 
+	g_object_get (G_OBJECT (state->wbv), key, &val, NULL);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), val);
 
 	g_signal_connect (G_OBJECT (w),
@@ -118,13 +118,13 @@ attr_dialog_init_toggle (AttrState *state, char const *name, char const *key)
 static void
 attr_dialog_init_widget_page (AttrState *state)
 {
-	attr_dialog_init_toggle 
+	attr_dialog_init_toggle
 		(state,
 		 "WorkbookView::show_horizontal_scrollbar", "show_horizontal_scrollbar");
-	attr_dialog_init_toggle 
+	attr_dialog_init_toggle
 		(state,
 		 "WorkbookView::show_vertical_scrollbar", "show_vertical_scrollbar");
-	attr_dialog_init_toggle 
+	attr_dialog_init_toggle
 		(state,
 		 "WorkbookView::show_notebook_tabs", "show_notebook_tabs");
 }
@@ -132,7 +132,7 @@ attr_dialog_init_widget_page (AttrState *state)
 static void
 attr_dialog_init_autocompletion_page (AttrState *state)
 {
-	attr_dialog_init_toggle 
+	attr_dialog_init_toggle
 		(state,
 		 "WorkbookView::do_auto_completion", "do_auto_completion");
 }
@@ -140,7 +140,7 @@ attr_dialog_init_autocompletion_page (AttrState *state)
 static void
 attr_dialog_init_cell_marker_page (AttrState *state)
 {
-	attr_dialog_init_toggle 
+	attr_dialog_init_toggle
 		(state,
 		 "WorkbookView::show_function_cell_markers", "show_function_cell_markers");
 }
@@ -148,7 +148,7 @@ attr_dialog_init_cell_marker_page (AttrState *state)
 static void
 attr_dialog_init_protection_page (AttrState *state)
 {
-	attr_dialog_init_toggle 
+	attr_dialog_init_toggle
 		(state,
 		 "WorkbookView::workbook_protected", "protected");
 }
@@ -203,7 +203,7 @@ typedef struct {
 	GtkTreePath *path;
 } page_search_t;
 
-static gboolean   
+static gboolean
 attr_dialog_select_page_search (GtkTreeModel *model,
 				GtkTreePath *path,
 				GtkTreeIter *iter,
@@ -297,7 +297,7 @@ attr_dialog_impl (AttrState *state)
 	for (i = 0; page_info[i].page > -1; i++) {
 		const page_info_t *this_page =  &page_info[i];
 		this_page->page_initializer (state);
-		attr_dialog_add_item (state, this_page->page_name, this_page->icon_name, 
+		attr_dialog_add_item (state, this_page->page_name, this_page->icon_name,
 					       this_page->page, this_page->parent_path);
 	}
 

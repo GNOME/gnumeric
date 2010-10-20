@@ -436,7 +436,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* start collecting targets */
 	vals2 = collect_floats_value_with_info (argv[2], ei->pos, flags,
 						&n2, &missing2, &error);
-	                                        
+
 	if (argv[3]) {
 		interp = (int) gnm_floor (value_get_as_float (argv[3]));
 		if (interp < 0 || interp > INTERPOLATION_SPLINE_AVG) {
@@ -848,7 +848,7 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (argv[1]) {
 		inverse = 0 != (int) gnm_floor (value_get_as_float (argv[1]));
 		if (argv[2]) {
-			sep_columns = (0 != (int) 
+			sep_columns = (0 != (int)
 				       gnm_floor (value_get_as_float (argv[2])));
 		}
 	}
@@ -882,7 +882,7 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		for (i = 0; i < nb; i++) {
 			res->v_array.vals[0][i] = value_new_float (out[i].re);
 			res->v_array.vals[1][i] = value_new_float (out[i].im);
-		}		
+		}
 		g_free (out);
 	} else
 		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);

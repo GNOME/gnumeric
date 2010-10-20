@@ -421,7 +421,7 @@
 2002-03-28  Jon K Hellan  <hellan@acm.org>
 
 	* plugin.c (gnm_guile_helper): New function. Helper to call
-	scm_apply_0. 
+	scm_apply_0.
 	(gnm_guile_catcher): New function. Receives error info from Guile
 	if Guile throws an error.
 	(func_marshal_func): Handle errors from Guile gracefully. The old
@@ -572,7 +572,7 @@
 
 2001-08-11  Ariel Rios  <ariel@linuxppc.org>
 
-	* plugin.c (func_scm_apply): Use scm_c_eval_string instead of 
+	* plugin.c (func_scm_apply): Use scm_c_eval_string instead of
         scm_eval_0str which is now deprecated.
 	(plugin_init_general): Ditto.
 
@@ -685,7 +685,7 @@
 	* guile-support.c : Ditto for the functions removed on header file.
 	(scm_to_value): We now only call get_value_from_smob and things are
 	way easier and cleaner now.
-	* guile-support.h: (list_to_scm): Removed function. 
+	* guile-support.h: (list_to_scm): Removed function.
 	(cell_ref_to_scm): Ditto
 	(scm_to_cell_ref): Ditto
 	(scm_symbolfrom0str): Ditto
@@ -698,7 +698,7 @@
 2000-11-12  Ariel Rios  <ariel@arcavia.com>
 
 	* functions.scm (fibo): Use value-get-as-int for getting the integer value.
-	* guile-support.c (value_to_scm): We now create a new smob value instead of dealing 
+	* guile-support.c (value_to_scm): We now create a new smob value instead of dealing
 	with a case per case basis.
 
 2000-11-11  Ariel Rios  <ariel@arcavia.com>
@@ -759,16 +759,16 @@
 
 2000-11-05  Ariel Rios  <ariel@arcavia.com>
 
-	* guile-support.c (value_to_scm): Use value_get_as functions as per Jody 
+	* guile-support.c (value_to_scm): Use value_get_as functions as per Jody
 	recommendation.
 
 2000-11-04  Ariel Rios  <ariel@arcavia.com>
 
-	* plugin.c (scm_cell_expr): Return SCM_EOL instead of expr_to_scm. 
+	* plugin.c (scm_cell_expr): Return SCM_EOL instead of expr_to_scm.
 	* guile-support.c (value_to_scm): Correctly create the list unto the guile interpreter.
 	Greatest PBB ever! In the VALUE_EMPTY case we now return SCM_EOL instead of SCM_UNSPECIFIED.
 	Clean some comments.
-	(expr_to_scm): Comment this function that it is not needed 
+	(expr_to_scm): Comment this function that it is not needed
 
 2000-11-01  Ariel Rios  <ariel@arcavia.com>
 
@@ -776,7 +776,7 @@
 
 2000-10-30  Ariel Rios  <ariel@arcavia.com>
 
-	* guile-support.c (value_to_scm): Correct the VALUE_ARRAY case. 
+	* guile-support.c (value_to_scm): Correct the VALUE_ARRAY case.
 	We now correctly create the list, finish it and reverse it.
 
 2000-10-27 Ariel Rios  <ariel@arcavia.com>
@@ -786,7 +786,7 @@
 	(value_to_scm): Moved here from plugin.c
 	(scm_to_value): Ditto.
 	(expr_to_scm): Ditto.
-	(list_to_scm): Ditto. 
+	(list_to_scm): Ditto.
 	(cell_ref_to_scm): Ditto.
 	(scm_to_cell_ref): Ditto.
 	* guile-support.h (gnumeric_list2scm): Add prototype.
@@ -806,7 +806,7 @@
 2000-09-25  Ariel Rios <ariel@arcavia.com>
 
 	* functions.scm: Create the ggtest formula. Handle with care.
-        Shows possible use of guile-gtk inside gnumeric. It is commented.        
+        Shows possible use of guile-gtk inside gnumeric. It is commented.
 
 2000-09-09  Jon K Hellan  <hellan@acm.org>
 
@@ -893,7 +893,7 @@
 
 	* functions.scm: All the functions now use the scm_category argument.
 
-	* plugin.c (scm_register_function): Added the scm_category argument. From now on the user we'll be able to 
+	* plugin.c (scm_register_function): Added the scm_category argument. From now on the user we'll be able to
 	give the category his formula want's to be added upon.
 
 2000-02-10  Michael Meeks  <michael@helixcode.com>
@@ -956,7 +956,7 @@
 1999-12-30  Ariel Rios  <jarios@usa.net>
 
 	* plugin.c (init_plugin): Removed registration of func_scm_eval.
-	  (func_scm_eval): Removed. This function was not really used 
+	  (func_scm_eval): Removed. This function was not really used
 	  or needed so I chose to remove possible security hazard.
 
 1999-12-29  Ariel Rios  <jarios@usa.net>
@@ -969,7 +969,7 @@
 	* functions.scm: THe formula redefinitions for sign, lcm and gcd were commented.
 	  It is almost useless to redefine them on Scheme since C version are faster.
 	  However, for example purposes I leave them commented.
-	  
+
 
 1999-12-18  Ariel Rios <jarios@usa.net>
 
@@ -999,8 +999,8 @@
 
 1999-12-08  Ariel Rios <jarios@usa.net>
 
-	* plugin.c: (func_marshal_func) We now use func_def_count_arg to get the count 
-          number. Count variable was replaced with min and max int vars. 
+	* plugin.c: (func_marshal_func) We now use func_def_count_arg to get the count
+          number. Count variable was replaced with min and max int vars.
           (scm_to_value): The float cast when returning a number was replaced
           with a float_t cast as per Michael's recomendation.
 
@@ -1019,7 +1019,7 @@
 	* gnumeric_startup.scm: We now load the scheme
           functions from the new file functions.scm
 
-	* functions.scm: The guile functions and their 
+	* functions.scm: The guile functions and their
           registration are now located in this file.
           (=FIBO(num)): Added fibonacci formula.
 

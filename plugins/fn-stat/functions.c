@@ -3637,7 +3637,7 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			value_array_set (result, 0, i,
 					 value_new_float (res));
 		}
-	} else 
+	} else
 		switch (data.type) {
 		case gnm_reg_type_rect:
 			new_x_n = value_area_get_height (new_x, ei->pos);
@@ -3650,12 +3650,12 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 							(new_x, j, i, 0, 0, 1, ei->pos);
 					if (new_x_val != NULL) {
 						res += new_x_val[0] * linres[1];
-						value_array_set 
+						value_array_set
 							(result, j, i,
 							 value_new_float (res));
 						g_free (new_x_val);
 					} else
-						value_array_set 
+						value_array_set
 							(result, j, i,
 							 value_new_error_NA (ei->pos));
 				}
@@ -3705,7 +3705,7 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 							 value_new_error_NA (ei->pos));
 			}
 			break;
-		} 
+		}
 
 
  out:

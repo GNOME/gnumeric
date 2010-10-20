@@ -88,7 +88,7 @@
 
 2010-01-07 Andreas J. Guelzow <aguelzow@pyrshep>
 
-	* make-func-list.pl: also include the short 
+	* make-func-list.pl: also include the short
 	  description
 
 2009-12-15  Morten Welinder <terra@gnome.org>
@@ -149,7 +149,7 @@
 
 2009-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* C/.gitignore: add files created when building the gnumeric 
+	* C/.gitignore: add files created when building the gnumeric
 	  documentation
 
 2009-04-06  Jody Goldberg <jody@gnome.org>
@@ -251,7 +251,7 @@
 	* C/figures/analysistools-exp-smoothing-roberts-stderr.png: new
 	* C/figures/analysistools-exp-smoothing-holt-stderr.png: new
 	* C/figures/Makefile.am: add above files
-	* C/analysis-statistical.xml: Add info on standard error for 
+	* C/analysis-statistical.xml: Add info on standard error for
 	  exponential smoothing
 
 2008-10-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>

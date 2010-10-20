@@ -92,13 +92,13 @@ cb_dialog_so_size_value_changed_update_points (GtkSpinButton *spinbutton,
 static void
 dialog_so_size_button_sensitivity (SOSizeState *state)
 {
-	gboolean sensitive = state->so_size_needs_restore || 
-		state->so_pos_needs_restore || 
+	gboolean sensitive = state->so_size_needs_restore ||
+		state->so_pos_needs_restore ||
 		state->so_name_changed ||
 		state->so_print_check_changed;
-	gtk_widget_set_sensitive 
+	gtk_widget_set_sensitive
 		(state->ok_button, sensitive);
-	gtk_widget_set_sensitive 
+	gtk_widget_set_sensitive
 		(state->apply_button, sensitive);
 }
 
@@ -164,7 +164,7 @@ cb_dialog_so_size_value_changed (G_GNUC_UNUSED GtkSpinButton *spinbutton,
 		else
 			new_coords[1] = new_coords[3] + new_height;
 
-		scg_object_coords_to_anchor (state->scg, new_coords, 
+		scg_object_coords_to_anchor (state->scg, new_coords,
 					     state->active_anchor);
 	}
 
@@ -177,10 +177,10 @@ static void
 dialog_so_size_load (SOSizeState *state)
 {
 	g_free (state->old_anchor);
-	state->old_anchor = sheet_object_anchor_dup 
+	state->old_anchor = sheet_object_anchor_dup
 		(sheet_object_get_anchor (state->so));
-	scg_object_anchor_to_coords (state->scg, 
-				     state->old_anchor, 
+	scg_object_anchor_to_coords (state->scg,
+				     state->old_anchor,
 				     state->coords);
 	state->so_size_needs_restore = FALSE;
 	state->so_pos_needs_restore = FALSE;
@@ -220,10 +220,10 @@ cb_dialog_so_size_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		char const *label = state->so_pos_needs_restore ?
 			_("Move Object") : _("Resize Object");
 		sheet_object_set_anchor	(state->so, state->old_anchor);
-		if (!cmd_objects_move (WORKBOOK_CONTROL (state->wbcg), 
+		if (!cmd_objects_move (WORKBOOK_CONTROL (state->wbcg),
 				       g_slist_prepend (NULL, state->so),
-				       g_slist_prepend 
-				       (NULL, sheet_object_anchor_dup 
+				       g_slist_prepend
+				       (NULL, sheet_object_anchor_dup
 					(state->active_anchor)),
 				       FALSE, label))
 			dialog_so_size_load (state);
@@ -246,9 +246,9 @@ cb_dialog_so_size_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	}
 	if (state->so_print_check_changed) {
 		gboolean val = ((state->so->flags & SHEET_OBJECT_PRINT) != 0);
-		undo = go_undo_combine (undo, set_print_flag 
+		undo = go_undo_combine (undo, set_print_flag
 					(state->so,  val));
-		redo = go_undo_combine (redo, set_print_flag 
+		redo = go_undo_combine (redo, set_print_flag
 					(state->so, !val));
 		undo_name =  _("Set Object Print Property");
 		cnt++;
@@ -284,7 +284,7 @@ cb_dialog_so_size_name_changed (GtkEntry *entry,
 	char const *name = gtk_entry_get_text (entry);
 	if (name == NULL)
 		name = "";
-	state->so_name_changed 
+	state->so_name_changed
 		= (strcmp (name, state->old_name) != 0);
 	dialog_so_size_button_sensitivity (state);
 	return FALSE;
@@ -297,10 +297,10 @@ cb_dialog_so_size_print_check_toggled (GtkToggleButton *togglebutton,
 	gboolean new_print = !gtk_toggle_button_get_active (togglebutton);
 	gboolean old_print = ((state->so->flags & SHEET_OBJECT_PRINT) != 0);
 
-	state->so_print_check_changed 
-		= (new_print != old_print); 
+	state->so_print_check_changed
+		= (new_print != old_print);
 	dialog_so_size_button_sensitivity (state);
-	return;	
+	return;
 }
 
 void
@@ -351,10 +351,10 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 	state->xspin  = GTK_SPIN_BUTTON (go_gtk_builder_get_widget (state->gui, "x-spin"));
 	state->ypoints = GTK_WIDGET (go_gtk_builder_get_widget (state->gui, "y-pts-label"));
 	state->yspin  = GTK_SPIN_BUTTON (go_gtk_builder_get_widget (state->gui, "y-spin"));
-	state->print_check = GTK_WIDGET (go_gtk_builder_get_widget (state->gui, 
+	state->print_check = GTK_WIDGET (go_gtk_builder_get_widget (state->gui,
 							       "print-check"));
 	dialog_so_size_load (state);
-	state->active_anchor = sheet_object_anchor_dup (sheet_object_get_anchor 
+	state->active_anchor = sheet_object_anchor_dup (sheet_object_get_anchor
 							(state->so));
 	width = state->coords[2] - state->coords[0];
 	height = state->coords[3] - state->coords[1];
@@ -385,7 +385,7 @@ dialog_so_size (WBCGtk *wbcg, GObject *so)
 			  "toggled",
 			  G_CALLBACK (cb_dialog_so_size_print_check_toggled),
 			  state);
-	
+
 	cb_dialog_so_size_value_changed_update_points (state->wspin, GTK_LABEL (state->wpoints));
 	cb_dialog_so_size_value_changed_update_points (state->hspin, GTK_LABEL (state->hpoints));
 	cb_dialog_so_size_value_changed_update_points (state->xspin, GTK_LABEL (state->xpoints));

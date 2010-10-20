@@ -237,11 +237,11 @@ autocorrect_first_letter (const char *src)
 			if (seen_white) {
 				gunichar new = g_unichar_totitle (this_char);
 
-				if ((this_char != new) && 
+				if ((this_char != new) &&
 				    !autocorrect_first_letter_exception (src, last_end)) {
 					if (gstr == NULL)
 						gstr = g_string_new (NULL);
-					g_string_append_len (gstr, last_copy, 
+					g_string_append_len (gstr, last_copy,
 							     this - last_copy);
 					g_string_append_unichar (gstr, new);
 					last_copy = g_utf8_next_char (this);
@@ -253,7 +253,7 @@ autocorrect_first_letter (const char *src)
 	}
 
 	if (gstr != NULL) {
-		g_string_append_len (gstr, last_copy, 
+		g_string_append_len (gstr, last_copy,
 				     strlen (last_copy));
 		return g_string_free (gstr, FALSE);
 	}

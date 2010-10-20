@@ -89,10 +89,10 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 		g_assert_not_reached();
 	}
 
-	fd = gnm_func_lookup_or_add_placeholder 
+	fd = gnm_func_lookup_or_add_placeholder
 		(fdname, dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd);
-	fd_if = gnm_func_lookup_or_add_placeholder 
+	fd_if = gnm_func_lookup_or_add_placeholder
 		("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_if);
 
@@ -137,34 +137,34 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 
 		/* Note that analysis_tools_write_label may modify val_org */
 		dao_set_italic (dao, col, 0, col, 0);
-		analysis_tools_write_label (val_org, dao, &info->base, 
+		analysis_tools_write_label (val_org, dao, &info->base,
 					    col, 0, col);
 		if (info->graph) {
 			GogSeries    *series;
 
 			series = gog_plot_new_series (plot);
-			gog_series_set_dim (series, 0, 
-					    gnm_go_data_vector_new_expr 
+			gog_series_set_dim (series, 0,
+					    gnm_go_data_vector_new_expr
 					    (val_org->v_range.cell.a.sheet,
-					     gnm_expr_top_new (gnm_expr_new_constant (value_dup (val_org)))), 
+					     gnm_expr_top_new (gnm_expr_new_constant (value_dup (val_org)))),
 					    NULL);
 		}
 
 		if (col == 1)
 			dao_set_cell_float (dao, col, 1, info->alpha);
 		else
-			dao_set_cell_expr (dao, col, 1, 
+			dao_set_cell_expr (dao, col, 1,
 					   make_cellref (1 - col, 0));
 
-		dao_set_array_expr (dao, col, 2, 1, 3,  
+		dao_set_array_expr (dao, col, 2, 1, 3,
 				    gnm_expr_new_funcall1 (fd, gnm_expr_new_constant (val_org)));
 		dao_set_cell_expr (dao, col, 5,
-				   gnm_expr_new_funcall3 
-				   (fd_if, gnm_expr_new_binary 
-				    (make_cellref (0, -4), 
-				     GNM_EXPR_OP_GTE, 
+				   gnm_expr_new_funcall3
+				   (fd_if, gnm_expr_new_binary
+				    (make_cellref (0, -4),
+				     GNM_EXPR_OP_GTE,
 				     make_cellref (0, -3)),
-				    gnm_expr_new_constant (value_new_string (_("Not normal"))), 
+				    gnm_expr_new_constant (value_new_string (_("Not normal"))),
 				    gnm_expr_new_constant (value_new_string (_("Possibly normal")))));
 	}
 

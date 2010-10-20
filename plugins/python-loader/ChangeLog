@@ -367,7 +367,7 @@
 	* py-gnumeric.c (py_CellRef_object_getattr): Implement col, row,
 	sheet, col_relative, row_relative attributes.
 	(py_RangeRef_get_tuple_method): New. Return a Python tuple of
-	CellRefs. 
+	CellRefs.
 	(py_RangeRef_object_getattr): Implement start and end attributes.
 
 	CellRef, RangeRef, Cell: Note that lifecycle is broken.
@@ -395,7 +395,7 @@
 	* gnm-python.c, gnm-py-interpreter.c, py-gnumeric.c,
 	python-loader.c: Move Python.h include just after gnumeric-config,
 	to shut up redefinition warnings. Working around Python project
-	bug 107450 at sourceforge. 
+	bug 107450 at sourceforge.
 
 2004-07-19  Jody Goldberg <jody@gnome.org>
 
@@ -509,7 +509,7 @@
 2003-07-26  Jon K Hellan  <hellan@acm.org>
 
 	* py-gnumeric.c (py_Workbook_object_getattr): Reverse accidental
-	commit. 
+	commit.
 
 2003-07-25  Jon K Hellan  <hellan@acm.org>
 
@@ -583,7 +583,7 @@
 
 2003-07-10  Jon K Hellan  <hellan@acm.org>
 
-	* py-gnumeric.c (py_gnumeric_workbook_new): New. 
+	* py-gnumeric.c (py_gnumeric_workbook_new): New.
 	Implements Gnumeric.workbook_new()
 
 	* py-console.c (show_python_console): Make console window
@@ -595,7 +595,7 @@
 
 2003-06-20  Jon K Hellan  <hellan@acm.org>
 
-	* py-interpreter-selector.c (menu_find_item_with_interpreter): 
+	* py-interpreter-selector.c (menu_find_item_with_interpreter):
 	return NULL, not FALSE if no interpreter found.
 	(gnm_py_interpreter_selector_new): Replace gtk_type_new with
 	g_object_new.
@@ -891,7 +891,7 @@
 
 2002-05-06  Jon K Hellan  <hellan@acm.org>
 
-	* python-loader.c (gnumeric_plugin_loader_python_set_attributes) 
+	* python-loader.c (gnumeric_plugin_loader_python_set_attributes)
 	(gnumeric_plugin_loader_python_info_get_extra_info_list): Change
 	from GList to GSList, as the prototypes in
 	GnumericPluginLoaderClass already did a while ago. This silences
@@ -1140,7 +1140,7 @@
 
 	* py-gnumeric.c, py-gnumeric.h, python-loader.c: Fix include path
 	  for Python.h.
-	  
+
 	* .cvsignore: Add it.
 
 2001-03-05  Zbigniew Chyla  <cyba@gnome.pl>

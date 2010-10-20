@@ -532,7 +532,7 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 }
 
 
-GtkWidget *    
+GtkWidget *
 tool_setup_update (GenericToolState* state, char const *name, GCallback cb,
 		   gpointer closure)
 {
@@ -2173,11 +2173,11 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = go_gtk_builder_get_widget (state->base.gui, "intercept-button");
 	data->intercept = 1 - gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	data->multiple_regression 
-		= !gtk_toggle_button_get_active 
+	data->multiple_regression
+		= !gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->simple_linear_regression_radio));
 
-	data->multiple_y = gtk_toggle_button_get_active 
+	data->multiple_y = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->switch_variables_check));
 
 	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
@@ -2220,7 +2220,7 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gint x_h, x_w;
 	gboolean switch_v;
 
-	switch_v = gtk_toggle_button_get_active 
+	switch_v = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->switch_variables_check));
 
 	/* Checking Input Range */
@@ -2319,32 +2319,32 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 }
 
 static void
-regression_tool_regression_radio_toggled_cb (G_GNUC_UNUSED 
+regression_tool_regression_radio_toggled_cb (G_GNUC_UNUSED
 					     GtkToggleButton *togglebutton,
-					     RegressionToolState *state) 
+					     RegressionToolState *state)
 {
-	if (!gtk_toggle_button_get_active 
+	if (!gtk_toggle_button_get_active
 	    (GTK_TOGGLE_BUTTON (state->simple_linear_regression_radio)))
-		gtk_toggle_button_set_active 
-			(GTK_TOGGLE_BUTTON (state->switch_variables_check), 
+		gtk_toggle_button_set_active
+			(GTK_TOGGLE_BUTTON (state->switch_variables_check),
 			 FALSE);
 }
 
 static void
-regression_tool_regression_check_toggled_cb (G_GNUC_UNUSED 
+regression_tool_regression_check_toggled_cb (G_GNUC_UNUSED
 					     GtkToggleButton *togglebutton,
-					     RegressionToolState *state) 
+					     RegressionToolState *state)
 {
 	GtkWidget *w1, *w2;
 
 	w1 = go_gtk_builder_get_widget (state->base.gui, "var1-label");
 	w2 = go_gtk_builder_get_widget (state->base.gui, "var2-label");
 
-	if (gtk_toggle_button_get_active 
+	if (gtk_toggle_button_get_active
 	    (GTK_TOGGLE_BUTTON (state->switch_variables_check))) {
- 		gtk_toggle_button_set_active 
-			(GTK_TOGGLE_BUTTON 
-			 (state->simple_linear_regression_radio), 
+ 		gtk_toggle_button_set_active
+			(GTK_TOGGLE_BUTTON
+			 (state->simple_linear_regression_radio),
 			 TRUE);
 		gtk_label_set_markup_with_mnemonic  (GTK_LABEL (w1),
 						     _("_Y variables:"));
@@ -2407,29 +2407,29 @@ dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->confidence_entry));
 
-	state->simple_linear_regression_radio 
-		= go_gtk_builder_get_widget 
+	state->simple_linear_regression_radio
+		= go_gtk_builder_get_widget
 		(state->base.gui, "simple-regression-button");
-	state->switch_variables_check 
-		= go_gtk_builder_get_widget 
+	state->switch_variables_check
+		= go_gtk_builder_get_widget
 		(state->base.gui, "multiple-independent-check");
-	gtk_toggle_button_set_active 
+	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON (state->simple_linear_regression_radio),
 		 FALSE);
-	gtk_toggle_button_set_active 
+	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON (state->switch_variables_check),
 		 FALSE);
-	g_signal_connect 
+	g_signal_connect
 		(G_OBJECT (state->simple_linear_regression_radio),
 		 "toggled",
-		 G_CALLBACK (regression_tool_regression_radio_toggled_cb), 
+		 G_CALLBACK (regression_tool_regression_radio_toggled_cb),
 		 state);
-	g_signal_connect 
+	g_signal_connect
 		(G_OBJECT (state->switch_variables_check),
 		 "toggled",
-		 G_CALLBACK (regression_tool_regression_check_toggled_cb), 
+		 G_CALLBACK (regression_tool_regression_check_toggled_cb),
 		 state);
-   
+
 
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);

@@ -511,7 +511,7 @@
 	* signedness fixes/workarounds
 	* boot.c (xb_setdouble) : make s gchar* rather than guint8*.
 	* xbase.c (record_new) : cast g_strnfill result to guint8*.
-	* xbase.c, xbase.h (record_get_field) : return gchar* rather than 
+	* xbase.c, xbase.h (record_get_field) : return gchar* rather than
 	  guint8.
 	* xbase.h (XBfield) : made name gchar[] rather than guint8[].
 
@@ -757,7 +757,7 @@
 	* xbase.c: don't define type_descriptions if not debugging.
 
 1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
- 
+
         * boot.c (xbase_cleanup_plugin): free pd->title
 
 1999-08-11  Michael Meeks  <michael@imaginator.com>

@@ -156,8 +156,8 @@ cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 					!bottom, !percentage, count);
 	}
 	if (cond != NULL)
-		cmd_autofilter_set_condition (WORKBOOK_CONTROL (state->wbcg), 
-					      state->filter, state->field, 
+		cmd_autofilter_set_condition (WORKBOOK_CONTROL (state->wbcg),
+					      state->filter, state->field,
 					      cond);
 
 	gtk_widget_destroy (state->dialog);
@@ -240,7 +240,7 @@ dialog_auto_filter (WBCGtk *wbcg,
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists 
+	if (gnumeric_dialog_raise_if_exists
 	    (wbcg, is_expr ? DIALOG_KEY_EXPRESSION : DIALOG_KEY))
 		return;
 	gui = gnm_gtk_builder_new ((is_expr ? "autofilter-expression.ui" : "autofilter-top10.ui"),
@@ -269,18 +269,18 @@ dialog_auto_filter (WBCGtk *wbcg,
 			char *end = g_utf8_find_prev_char (content, content + len + 1 - strlen (UNICODE_ELLIPSIS));
 			strcpy (end, UNICODE_ELLIPSIS);
 		}
-		label = g_strdup_printf (_("Column %s (\"%s\")"), 
+		label = g_strdup_printf (_("Column %s (\"%s\")"),
 					 col_name (col), content);
 		g_free (content);
 	}
 
 	if (is_expr) {
-		gtk_label_set_text 
+		gtk_label_set_text
 			(GTK_LABEL (go_gtk_builder_get_widget (state->gui, "col-label1")), label);
-		gtk_label_set_text 
+		gtk_label_set_text
 			(GTK_LABEL (go_gtk_builder_get_widget (state->gui, "col-label2")), label);
 	} else {
-		gtk_label_set_text 
+		gtk_label_set_text
 			(GTK_LABEL (go_gtk_builder_get_widget (state->gui, "col-label")), label);
 		w = go_gtk_builder_get_widget (state->gui, "item_vs_percentage_option_menu");
 		g_signal_connect (G_OBJECT (w),
@@ -349,7 +349,7 @@ dialog_auto_filter (WBCGtk *wbcg,
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_autofilter_destroy);
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), 
+	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       is_expr ? DIALOG_KEY_EXPRESSION : DIALOG_KEY);
 	gtk_widget_show (state->dialog);
 }

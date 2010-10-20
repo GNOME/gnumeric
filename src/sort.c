@@ -335,7 +335,7 @@ gnm_sort_data_copy   (GnmSortData *data)
 
 	result = g_memdup (data, sizeof (GnmSortData));
 	result->range = g_memdup (result->range, sizeof (GnmRange));
-	result->clauses = g_memdup (result->clauses, 
+	result->clauses = g_memdup (result->clauses,
 				    result->num_clause * sizeof (GnmSortClause));
 	result->locale = g_strdup (result->locale);
 

@@ -78,7 +78,7 @@ typedef struct _GNMUndoFilterSetConditionClass GNMUndoFilterSetConditionClass;
 
 struct _GNMUndoFilterSetCondition {
 	GOUndo base;
-	GnmFilter *filter; 
+	GnmFilter *filter;
 	unsigned i;
 	GnmFilterCondition *cond;
 };
@@ -87,8 +87,8 @@ struct _GNMUndoFilterSetConditionClass {
 	GOUndoClass base;
 };
 
-GOUndo *gnm_undo_filter_set_condition_new (GnmFilter *filter, unsigned i, 
-					   GnmFilterCondition *cond, 
+GOUndo *gnm_undo_filter_set_condition_new (GnmFilter *filter, unsigned i,
+					   GnmFilterCondition *cond,
 					   gboolean retrieve_from_filter);
 
 /* ------------------------------------------------------------------------- */

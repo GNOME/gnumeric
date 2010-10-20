@@ -108,11 +108,11 @@ dhl_set_tip (HyperlinkState* state)
 			return;
 		} else
 			g_free (default_tip);
-	} 
+	}
 	w = go_gtk_builder_get_widget (state->gui, "use-this-tip");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 
-	tb = gtk_text_view_get_buffer 
+	tb = gtk_text_view_get_buffer
 		(GTK_TEXT_VIEW (go_gtk_builder_get_widget (state->gui, "tip-entry")));
 
 	gtk_text_buffer_set_text (tb, (tip == NULL) ? "" : tip, -1);
@@ -127,7 +127,7 @@ dhl_get_tip (HyperlinkState *state, char const *target)
 		return dhl_get_default_tip (target);
 	else {
 		char *tip;
-		GtkTextBuffer *tb = gtk_text_view_get_buffer 
+		GtkTextBuffer *tb = gtk_text_view_get_buffer
 			(GTK_TEXT_VIEW (go_gtk_builder_get_widget (state->gui, "tip-entry")));
 		GtkTextIter start_iter, end_iter;
 

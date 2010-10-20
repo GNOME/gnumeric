@@ -32,7 +32,7 @@
 
 2010-06-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* POTFILES.in: removed src/dialogs/dialog-paste-names.c and 
+	* POTFILES.in: removed src/dialogs/dialog-paste-names.c and
 	  src/dialogs/paste-names.glade
 
 2010-05-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -88,9 +88,9 @@
 
 2009-12-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* POTFILES.in: added 
+	* POTFILES.in: added
 	  src/dialogs/dialog-analysis-principal-components.c,
-	  src/tools/analysis-principal-components.c and 
+	  src/tools/analysis-principal-components.c and
 	  src/dialogs/principal-components.glade
 
 2009-12-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -274,10 +274,10 @@
 
 2008-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* POTFILES.in: added src/tools/analysis-frequency.c and 
+	* POTFILES.in: added src/tools/analysis-frequency.c and
 	  src/dialogs/dialog-analysis-tool-frequency.c
 
-2008-10-12  Jorge Gonzalez  <jorgegonz@svn.gnome.org>   
+2008-10-12  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation
 
@@ -301,9 +301,9 @@
 
 	* es.po: Updated Spanish translation.
 
-2008-09-12  Jorge Gonzalez  <joregegonz@svn.gnome.org> 
+2008-09-12  Jorge Gonzalez  <joregegonz@svn.gnome.org>
 
-	* es.po: Updated Spanish translation.   
+	* es.po: Updated Spanish translation.
 
 2008-09-10  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
@@ -317,7 +317,7 @@
 
 	* Release 1.9.2
 
-2008-07-31  Djihed Afifi <djihed@gmail.com> 
+2008-07-31  Djihed Afifi <djihed@gmail.com>
 
 	* ar.po: Updated Arabic Translation by Djihed Afifi.
 
@@ -331,7 +331,7 @@
 
 2008-07-05  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
-	* es.po: Updated Spanish translation 
+	* es.po: Updated Spanish translation
 
 2008-07-02  Yannig Marchegay <yannig@marchegay.org>
 
@@ -379,7 +379,7 @@
         * zh_HK.po: Added Traditional Chinese translation(Hong Kong).
         * zh_TW.po: Updated Traditional Chinese translation(Taiwan).
 
-2008-03-10  Jorge Gonzalez  <jorgegonz@svn.gnome.org> 
+2008-03-10  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation
 
@@ -441,7 +441,7 @@
 
 	* POTFILES.in: added src/dialogs/hf-dt-format.glade
 
-2007-11-14  Jorge Gonzalez  <jorgegonz@svn.gnome.org>  
+2007-11-14  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
         * es.po: Updated Spanish translation.
 
@@ -453,7 +453,7 @@
 
 	* Release 1.7.14
 
-2007-11-03  Jorge Gonzalez <jorgegonz@svn.gnome.org>  
+2007-11-03  Jorge Gonzalez <jorgegonz@svn.gnome.org>
 
         * es.po: Updated Spanish translation
 
@@ -473,7 +473,7 @@
 
 	* Release 1.7.13
 
-2007-10-15  Jorge Gonzalez  <jorgegonz@svn.gnome.org> 
+2007-10-15  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
         * es.po: Updated Spanish translation.
 
@@ -530,9 +530,9 @@
 
 	* es.po: Updated Spanish translation
 
-2007-08-01  Jorge Gonzalez  <jorgegonz@svn.gnome.org>                         
+2007-08-01  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
-	* es.po: Updated Spanish translation 
+	* es.po: Updated Spanish translation
 
 2007-07-29  Leonardo Ferreira Fontenelle  <leonardof@svn.gnome.org>
 
@@ -566,7 +566,7 @@
 
 	* vi.po: Updated Vietnamese translation.
 
-2007-06-18  Jorge Gonzalez <jorgegonz@svn.gnome.org> 
+2007-06-18  Jorge Gonzalez <jorgegonz@svn.gnome.org>
 
         * es.po: Updated Spanish translation
 
@@ -576,7 +576,7 @@
 
 2007-06-04  Jorge Gonzalez <jorgegonz@svn.gnome.org>
 
-        * es.po: Updated spanish translation. 
+        * es.po: Updated spanish translation.
 
 2007-05-15  David Lodge <dave@cirt.net>
 
@@ -606,7 +606,7 @@
 
 	* es.po: Updated Spanish translation
 
-2007-04-21  Djihed Afifi <djihed@gmail.com> 
+2007-04-21  Djihed Afifi <djihed@gmail.com>
 
 	* ar.po: Updated Arabic Translation by Djihed Afifi.
 
@@ -619,7 +619,7 @@
 	* oc.po: Added Occitan translation from
 	Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay>.
 
-2007-04-14  Djihed Afifi <djihed@gmail.com> 
+2007-04-14  Djihed Afifi <djihed@gmail.com>
 
 	* ar.po: Updated Arabic Translation by Djihed Afifi.
 
@@ -708,7 +708,7 @@
 
 	* Release 1.7.3
 
-2006-11-18  Djihed Afifi <djihed@gmail.com> 
+2006-11-18  Djihed Afifi <djihed@gmail.com>
 
 	* ar.po: Added Arabic Translation.
 
@@ -851,7 +851,7 @@
 
 2006-06-30  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
-	* es.po: Updated SPanish translation.			     
+	* es.po: Updated SPanish translation.
 
 2006-06-26  Valek Filippov  <frob@df.ru>
 
@@ -1265,7 +1265,7 @@
 
 2005-07-28  Ilkka Tuohela  <hile@iki.fi>
 
-	* fi.po: Bulk change to some Finnish translations.       
+	* fi.po: Bulk change to some Finnish translations.
 
 2005-07-25  Priit Laes  <plaes@cvs.gnome.org>
 
@@ -1663,9 +1663,9 @@
 	* no.po: Same.
 
 2005-02-13  David Lodge <dave@cirt.net>
-                                                                                
+
         * en_GB.po: Updated British translation.
-                                                                                
+
 2005-02-13  Miloslav Trmac  <mitr@volny.cz>
 
 	* cs.po: Updated Czech translation.
@@ -1836,7 +1836,7 @@
 2004-12-03  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
-	* Changelog: Reencoded into utf-8 
+	* Changelog: Reencoded into utf-8
 
 2004-11-30  Raphael Higino  <raphaelh@cvs.gnome.org>
 
@@ -1895,9 +1895,9 @@
 	* pt_BR.po: Updated Brazilian Portuguese translation.
 
 2004-11-21  David Lodge <dave@cirt.net>
-                                                                                
+
         * en_GB.po: Updated British translation.
-                                                                                
+
 2004-11-21  Vincent van Adrighem  <adrighem@gnome.org>
 
 	* nl.po: Translation updated by Tino Meinen.
@@ -2110,17 +2110,17 @@
 	* en_CA.po: Updated Canadian English translation.
 
 2004-10-06  David Lodge <dave@cirt.net>
-                                                                                
+
         * en_GB.po: Updated British English translation.
-                                                                                
+
 2004-10-05  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.91
 
 2004-10-05  David Lodge <dave@cirt.net>
-                                                                                
+
         * en_GB.po: Updated British English translation.
-                                                                                
+
 2004-10-04  Raphael Higino  <raphaelh@cvs.gnome.org>
 
 	* pt_BR.po: Updated Brazilian Portuguese translation.
@@ -2130,9 +2130,9 @@
 	* sv.po: Updated Swedish translation.
 
 2004-10-03  David Lodge <dave@cirt.net>
-                                                                                
+
         * en_GB.po: Updated British English translation.
-                                                                                
+
 2004-10-02  Vincent van Adrighem  <adrighem@gnome.org>
 
 	* nl.po: Translation updated by Tino Meinen.
@@ -2279,9 +2279,9 @@
 	* cs.po: Updated Czech translation.
 
 2004-09-08  David Lodge <dave@cirt.net>
-                                                                                
+
         * en_GB.po: Updated British translation.
-                                                                                
+
 2004-09-08  Adam Weinberger  <adamw@gnome.org>
 
 	* en_CA.po: Updated Canadian English translation.
@@ -2367,12 +2367,12 @@
 	  Medina - debian <afmedina@uol.com.br>
 
 2003-03-21  Evandro Fernandes Giovanini  <evandrofg@ig.com.br>
- 
+
 	* pt_BR.po: Updated Brazilian Portuguese translation
         from Afonso Celso Medina <medina@maua.br>.
 
 2003-03-19  Evandro Fernandes Giovanini  <evandrofg@ig.com.br>
- 
+
 	* pt_BR.po: Updated Brazilian Portuguese translation
         from Afonso Celso Medina <medina@maua.br>.
 
@@ -2538,7 +2538,7 @@
 
         * es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>.
-		 
+
 2003-11-01  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
@@ -2547,7 +2547,7 @@
 
 	* es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>.
-		 
+
 2003-10-31  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
@@ -2800,7 +2800,7 @@
 
 2003-09-08  Danilo Å egan  <dsegan@gmx.net>
 
-	* sr.po, sr@Latn.po: Updated Serbian translation by Serbian 
+	* sr.po, sr@Latn.po: Updated Serbian translation by Serbian
 	team (Prevod.org).
 
 2003-09-08  Andras Timar  <timar@gnome.hu>
@@ -2844,7 +2844,7 @@
 	* no.po: Updated Norwegian translation.
 
 2003-09-02  Pablo Gonzalo del Campo  <pablodc@bigfoot.com>
-                                                                                                                             
+
         * es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>.
 
@@ -2929,7 +2929,7 @@
 
 2003-08-15  Danilo Å egan  <dsegan@gmx.net>
 
-	* sr.po, sr@Latn.po: Added Serbian translation by Serbian 
+	* sr.po, sr@Latn.po: Added Serbian translation by Serbian
 	team (Prevod.org).
 
 2003-08-13  Pablo Gonzalo del Campo  <pablodc@bigfoot.com>
@@ -3320,7 +3320,7 @@
 	* POTFILES.in: Added new schema file.
 
 2003-06-11  Pablo Gonzalo del Campo  <pablodc@bigfoot.com>
-        
+
         * es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>
 
@@ -3333,7 +3333,7 @@
 	* sv.po: Updated Swedish translation.
 
 2003-06-10  Pablo Gonzalo del Campo  <pablodc@bigfoot.com>
-        
+
         * es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>
 
@@ -3397,7 +3397,7 @@
 	* cs.po: Updated Czech translation.
 
 2003-05-30  Pablo Gonzalo del Campo  <pablodc@bigfoot.com>
-        
+
         * es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>
 
@@ -3410,7 +3410,7 @@
 	* sv.po: Updated Swedish translation.
 
 2003-05-26  Pablo Gonzalo del Campo  <pablodc@bigfoot.com>
-        
+
         * es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>
 
@@ -3513,7 +3513,7 @@
 
 2003-05-05  Andreas Guelzow <aguelzow@taliesin.ca>
 
-	* POTFILES.in: remove src/charset.c and add 
+	* POTFILES.in: remove src/charset.c and add
 	  src/widgets/widget-charmap-selector.c
 
 2003-05-05  Andreas Guelzow <aguelzow@taliesin.ca>
@@ -4288,7 +4288,7 @@
 
 2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* POTFILES.in : added src/dialogs/dialog-row-height.c and 
+	* POTFILES.in : added src/dialogs/dialog-row-height.c and
 	  src/dialogs/dialog-col-width.c
 
 2002-04-03  Duarte Loreto <happyguy_pt@hotmail.com>
@@ -4341,7 +4341,7 @@
 
 2002-03-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* POTFILES.in : removed dialog-sheet-name.c and 
+	* POTFILES.in : removed dialog-sheet-name.c and
 	  sheet-rename.glade
 
 2002-03-13  Valek Filippov  <frob@df.ru>
@@ -6006,7 +6006,7 @@
 
 2001-01-02  Szabolcs Ban  <shooby@gnome.hu>
 
-	* hu.po: Updated some Hungarian translations, 
+	* hu.po: Updated some Hungarian translations,
           thanks to Andras Timar <timar@gnome.hu>
 
 2000-12-31  Yukihiro Nakai  <nakai@gnome.gr.jp>
@@ -6051,7 +6051,7 @@
 
 2000-12-12  Szabolcs Ban  <shooby@gnome.hu>
 
-	* hu.po: Updated some Hungarian translations, 
+	* hu.po: Updated some Hungarian translations,
           thanks to Andras Timar <timar@gnome.hu>
 
 2000-12-7  Jody Goldberg <jgoldberg@home.com>
@@ -6072,7 +6072,7 @@
 
 2000-12-04  Szabolcs Ban  <shooby@gnome.hu>
 
-	* hu.po: Updated some Hungarian translations, 
+	* hu.po: Updated some Hungarian translations,
           thanks to Andras Timar <timar_a@freemail.hu>
 
 2000-12-04  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
@@ -6125,7 +6125,7 @@
 
 2000-11-22  Szabolcs Ban  <shooby@gnome.hu>
 
-	* hu.po: Updated some Hungarian translations, 
+	* hu.po: Updated some Hungarian translations,
           thanks to Andras Timar <timar_a@freemail.hu>
 
 2000-11-21  Christian Rose  <menthos@menthos.com>
@@ -6154,7 +6154,7 @@
 
 2000-11-17  Szabolcs Ban  <shooby@gnome.hu>
 
-	* hu.po: Updated some Hungarian translations, 
+	* hu.po: Updated some Hungarian translations,
           thanks to Andras Timar <timar_a@freemail.hu>
 
 2000-11-17  Christian Rose  <menthos@menthos.com>
@@ -6216,7 +6216,7 @@
 
 2000-10-30  Szabolcs Ban  <shooby@gnome.hu>
 
-	* hu.po: Updated some Hungarian translations, 
+	* hu.po: Updated some Hungarian translations,
           thanks to Andras Timar <timar_a@freemail.hu>
 
 2000-10-30  Kenneth Christiansen  <kenneth@gnu.org>
@@ -6234,7 +6234,7 @@
 
 2000-10-25  Szabolcs Ban  <shooby@gnome.hu>
 
-	* hu.po: Updated some Hungarian translations, 
+	* hu.po: Updated some Hungarian translations,
           thanks to Andras Timar <timar_a@freemail.hu>
 
 2000-10-23  Kjartan Maraas  <kmaraas@gnome.org>
@@ -6277,7 +6277,7 @@
 
 2000-09-28  Kenneth Christiansen <kenneth@gnu.org>
 
-        * Makefile.in.in: Made 'make update-po' and 'make 
+        * Makefile.in.in: Made 'make update-po' and 'make
         dist' work with new update.pl script
         * update.pl: the same as above
 
@@ -6290,7 +6290,7 @@
 
 	* xml2pot.pl: Corrected small errors. Thanks to
 	Morten Welinder, for giving me suggestings to
-        improve the script, and thanks to all testers 
+        improve the script, and thanks to all testers
         also.
 
 2000-09-20  Kenneth Christiansen <kenneth@gnu.org>
@@ -6301,7 +6301,7 @@
         works with xml2pot.pl
 	* XMLFILES.in: New file which specifices which
         files should be processed by xml2pot.pl
-	* da.po: New update. 
+	* da.po: New update.
 
 2000-09-21  Jesus Bravo Alvarez  <jba@pobox.com>
 
@@ -6712,7 +6712,7 @@
 
 2000-04-29  Almer. S. Tigelaar.  <almer1@dds.nl>
 
-	* POTFILES.in : Add stf importer and 
+	* POTFILES.in : Add stf importer and
 	stf exporter files
 
 2000-04-27  Karl Eichwalder  <ke@suse.de>
@@ -6784,7 +6784,7 @@
 
 2000-04-11  Christopher R. Gabriel  <cgabriel@linux.it>
 
-	* it.po: Updated italian translation from 
+	* it.po: Updated italian translation from
 	Leandro Noferini <lnoferin@cybervalley.org>
 
 2000-04-04  Kjartan Maraas  <kmaraas@online.no>
@@ -6996,7 +6996,7 @@
 	* sv.po: Updated Swedish translation.
 
 1999-09-27  Zbigniew Chyla  <chyla@alice.ci.pwr.wroc.pl>
-          
+
 	* pl.po: Updated translation.
 
 1999-09-25  Lauris Kaplinski <lauris@ariman.ee>

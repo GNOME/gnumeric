@@ -185,17 +185,17 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 				gtk_tree_path_free (b);
 			}
 			if (argument && strlen (argument) > 0) {
-				GnmExprTop const *texpr = gnm_expr_parse_str 
-					(argument, state->pos, 
+				GnmExprTop const *texpr = gnm_expr_parse_str
+					(argument, state->pos,
 					 GNM_EXPR_PARSE_DEFAULT,
-					 sheet_get_conventions (state->pos->sheet), 
+					 sheet_get_conventions (state->pos->sheet),
 					 NULL);
 				if (texpr == NULL) {
 					text = g_string_append_c (text, '"');
 					text = g_string_append (text, argument);
 					text = g_string_append_c (text, '"');
 				} else {
-					if ((GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_NAME) 
+					if ((GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_NAME)
 					    && expr_name_is_placeholder (texpr->expr->name.name)
 					    && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->quote_button))) {
 						text = g_string_append_c (text, '"');
@@ -328,7 +328,7 @@ dialog_formula_guru_adjust_children (GtkTreeIter *parent, GnmFunc const *fd,
 			g_free (arg_name);
 			arg_name = mod_name;
 		}
-		desc = gnm_func_convert_markup_to_pango 
+		desc = gnm_func_convert_markup_to_pango
 			(gnm_func_get_arg_description (fd, i));
 		gtk_tree_store_set (state->model, &iter,
 				    ARG_NAME, arg_name,
@@ -819,7 +819,7 @@ cb_dialog_formula_guru_query_tooltip (GtkWidget  *widget,
 	GtkTreeIter iter;
 	GtkTreePath *path;
 
-	if (gtk_tree_view_get_tooltip_context 
+	if (gtk_tree_view_get_tooltip_context
 	    (state->treeview, &x_, &y_, keyboard_mode, NULL, &path, &iter)) {
 		char *markup;
 		GtkRcStyle *rc_style = gnumeric_create_tooltip_rc_style ();
@@ -840,20 +840,20 @@ cb_dialog_formula_guru_query_tooltip (GtkWidget  *widget,
 			gtk_widget_show_all (state->tooltip_widget);
 			g_object_ref (G_OBJECT (state->tooltip_widget));
 			g_object_ref (G_OBJECT (state->tooltip_label));
-		} 
+		}
 		gtk_tooltip_set_custom (tooltip, state->tooltip_widget);
 		window = gtk_widget_get_toplevel (state->tooltip_widget);
 		gtk_widget_modify_style /* Applying to window */
 			(window, rc_style);
 		gtk_widget_set_name (window, "gnumeric-tooltip");
 		gtk_widget_set_app_paintable (window, FALSE);
- 
+
 		parent = gtk_widget_get_parent (state->tooltip_widget);
 		if (parent != NULL && GTK_IS_BOX (parent)) {
 			gtk_box_set_spacing (GTK_BOX (parent),0);
 			parent = gtk_widget_get_parent (parent);
 			if (parent != NULL && GTK_IS_ALIGNMENT (parent))
-				gtk_alignment_set_padding 
+				gtk_alignment_set_padding
 					(GTK_ALIGNMENT (parent),
 					 0,0,0,0);
 		}
@@ -884,7 +884,7 @@ dialog_formula_guru_init (FormulaGuruState *state)
 	scrolled = go_gtk_builder_get_widget (state->gui, "scrolled");
 	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_BOOLEAN,
 					   G_TYPE_STRING, G_TYPE_STRING,
-					   G_TYPE_INT, G_TYPE_INT, G_TYPE_POINTER, 
+					   G_TYPE_INT, G_TYPE_INT, G_TYPE_POINTER,
 					   G_TYPE_STRING);
 	state->treeview = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));

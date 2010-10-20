@@ -37,16 +37,16 @@
 
 /* note: specs is a pointer to a analysis_tools_data_sign_test_t */
 
-gboolean analysis_tool_signed_rank_test_engine (data_analysis_output_t *dao, 
+gboolean analysis_tool_signed_rank_test_engine (data_analysis_output_t *dao,
 						    gpointer specs,
-						    analysis_tool_engine_t selector, 
+						    analysis_tool_engine_t selector,
 						    gpointer result);
 
 /* note: specs is a pointer to a analysis_tools_data_sign_test_two_t */
 
-gboolean analysis_tool_signed_rank_test_two_engine (data_analysis_output_t *dao, 
+gboolean analysis_tool_signed_rank_test_two_engine (data_analysis_output_t *dao,
 						    gpointer specs,
-						    analysis_tool_engine_t selector, 
+						    analysis_tool_engine_t selector,
 						    gpointer result);
 
 #endif

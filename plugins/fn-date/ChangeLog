@@ -14,7 +14,7 @@
 
 	* functions.c (help_networkdays): fix argument description according
 	to the changes in the OpenFormula draft, correct the situation with
-	respect to only weekend days 
+	respect to only weekend days
 	(help_workday): ditto
 
 2010-07-30  Morten Welinder <terra@gnome.org>

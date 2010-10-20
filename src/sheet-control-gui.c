@@ -1842,33 +1842,33 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 		dialog_cell_format (wbcg, FD_CURRENT);
 		break;
 	case CONTEXT_CELL_AUTOFIT_HEIGHT :
-		workbook_cmd_autofit_selection 
+		workbook_cmd_autofit_selection
 			(wbc, wb_control_cur_sheet (wbc), FALSE);
 		break;
 	case CONTEXT_CELL_AUTOFIT_WIDTH :
-		workbook_cmd_autofit_selection 
+		workbook_cmd_autofit_selection
 			(wbc, wb_control_cur_sheet (wbc), TRUE);
 		break;
 	case CONTEXT_CELL_MERGE : {
-		GSList *range_list = selection_get_ranges 
+		GSList *range_list = selection_get_ranges
 			(wb_control_cur_sheet_view (wbc), FALSE);
 		cmd_merge_cells (wbc, wb_control_cur_sheet (wbc), range_list, FALSE);
 		range_fragment_free (range_list);
 	}
 		break;
 	case CONTEXT_CELL_UNMERGE : {
-		GSList *range_list = selection_get_ranges 
+		GSList *range_list = selection_get_ranges
 			(wb_control_cur_sheet_view (wbc), FALSE);
 		cmd_unmerge_cells (wbc, wb_control_cur_sheet (wbc), range_list);
 		range_fragment_free (range_list);
-		
+
 	}
 		break;
 	case CONTEXT_COL_WIDTH :
 		dialog_col_width (wbcg, FALSE);
 		break;
 	case CONTEXT_COL_AUTOFIT :
-		workbook_cmd_resize_selected_colrow 
+		workbook_cmd_resize_selected_colrow
 			(wbc, wb_control_cur_sheet (wbc), TRUE, -1);
 		break;
 	case CONTEXT_COL_HIDE :
@@ -1881,7 +1881,7 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 		dialog_row_height (wbcg, FALSE);
 		break;
 	case CONTEXT_ROW_AUTOFIT :
-		workbook_cmd_resize_selected_colrow 
+		workbook_cmd_resize_selected_colrow
 			(wbc, wb_control_cur_sheet (wbc), FALSE, -1);
 		break;
 	case CONTEXT_ROW_HIDE :
@@ -2003,7 +2003,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		POPUPITEM_FORMAT
 	};
 
-	static GnumericPopupMenuElement popup_elements[] = { 
+	static GnumericPopupMenuElement popup_elements[] = {
 		{ N_("Cu_t"),           GTK_STOCK_CUT,
 		    0, 0, CONTEXT_CUT },
 		{ N_("_Copy"),          GTK_STOCK_COPY,
@@ -2016,25 +2016,25 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		{ "", NULL, 0, 0, 0 },
 
 		{ N_("_Insert Cells..."),	NULL,
-		    CONTEXT_DISPLAY_FOR_CELLS, 
+		    CONTEXT_DISPLAY_FOR_CELLS,
 		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION, CONTEXT_INSERT },
 		{ N_("_Delete Cells..."),	GTK_STOCK_DELETE,
-		    CONTEXT_DISPLAY_FOR_CELLS, 
+		    CONTEXT_DISPLAY_FOR_CELLS,
 		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION, CONTEXT_DELETE },
 		{ N_("_Insert Column(s)"), "Gnumeric_ColumnAdd",
-		    CONTEXT_DISPLAY_FOR_COLS, 
+		    CONTEXT_DISPLAY_FOR_COLS,
 		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
 		  CONTEXT_INSERT },
 		{ N_("_Delete Column(s)"), "Gnumeric_ColumnDelete",
-		    CONTEXT_DISPLAY_FOR_COLS, 
+		    CONTEXT_DISPLAY_FOR_COLS,
 		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
 		  CONTEXT_DELETE },
 		{ N_("_Insert Row(s)"), "Gnumeric_RowAdd",
-		    CONTEXT_DISPLAY_FOR_ROWS, 
+		    CONTEXT_DISPLAY_FOR_ROWS,
 		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
 		  CONTEXT_INSERT },
 		{ N_("_Delete Row(s)"), "Gnumeric_RowDelete",
-		    CONTEXT_DISPLAY_FOR_ROWS, 
+		    CONTEXT_DISPLAY_FOR_ROWS,
 		  CONTEXT_DISABLE_FOR_DISCONTIGUOUS_SELECTION,
 		  CONTEXT_DELETE },
 
@@ -2091,9 +2091,9 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		{ N_("_Format All Cells..."), GTK_STOCK_PROPERTIES,
 		    0, 0, CONTEXT_FORMAT_CELL },
 		{ N_("Cell"), NULL, 0, 0, -1},/* start sub menu */
-		{ N_("_Merge"), "Gnumeric_MergeCells",   0, 
+		{ N_("_Merge"), "Gnumeric_MergeCells",   0,
 		  CONTEXT_DISABLE_FOR_ONLYMERGES, CONTEXT_CELL_MERGE },
-		{ N_("_Unmerge"), "Gnumeric_SplitCells",   0, 
+		{ N_("_Unmerge"), "Gnumeric_SplitCells",   0,
 		  CONTEXT_DISABLE_FOR_NOMERGES, CONTEXT_CELL_UNMERGE },
 		{ N_("Auto Fit _Width"), "Gnumeric_ColumnSize",   0, 0, CONTEXT_CELL_AUTOFIT_WIDTH },
 		{ N_("Auto Fit _Height"), "Gnumeric_RowSize",   0, 0, CONTEXT_CELL_AUTOFIT_HEIGHT },
@@ -2208,9 +2208,9 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		sensitivity_filter |= CONTEXT_DISABLE_FOR_ONLYMERGES;
 	if (no_merges)
 		sensitivity_filter |= CONTEXT_DISABLE_FOR_NOMERGES;
-	
 
-	if ((display_filter & CONTEXT_DISPLAY_FOR_COLS) && 
+
+	if ((display_filter & CONTEXT_DISPLAY_FOR_COLS) &&
 	    (display_filter & CONTEXT_DISPLAY_FOR_ROWS))
 		display_filter = 0;
 	if (n_sel > 1)
@@ -2268,7 +2268,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		popup_elements[POPUPITEM_DELETE_COLUMN].allocated_name = g_strdup_printf (format, n_cols);
 		if (!(sensitivity_filter & (CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_ROWS))) {
 			format = ngettext ("_Format %d Column", "_Format %d Columns", n_cols);
-			popup_elements[POPUPITEM_FORMAT].allocated_name 
+			popup_elements[POPUPITEM_FORMAT].allocated_name
 				= g_strdup_printf (format, n_cols);
 		}
 	}
@@ -2281,7 +2281,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 		if (!(sensitivity_filter & (CONTEXT_DISABLE_FOR_CELLS | CONTEXT_DISABLE_FOR_COLS))) {
 			format = ngettext ("_Format %d Row", "_Format %d Rows", n_rows);
-			popup_elements[POPUPITEM_FORMAT].allocated_name 
+			popup_elements[POPUPITEM_FORMAT].allocated_name
 				= g_strdup_printf (format, n_rows);
 		}
 	}
@@ -2715,7 +2715,7 @@ cb_collect_objects_to_commit (SheetObject *so, double *coords, CollectObjectsDat
 }
 
 static char *
-scg_objects_drag_commit_get_undo_text (int drag_type, int n, 
+scg_objects_drag_commit_get_undo_text (int drag_type, int n,
 				       gboolean created_objects)
 {
 	char const *format;
@@ -2723,17 +2723,17 @@ scg_objects_drag_commit_get_undo_text (int drag_type, int n,
 	if (created_objects) {
 		if (drag_type == 8)
 			/* xgettext : %d gives the number of objects. This is input to ngettext. */
-			format = ngettext ("Duplicate %d Object", "Duplicate %d Objects", n); 
+			format = ngettext ("Duplicate %d Object", "Duplicate %d Objects", n);
 		else
 			/* xgettext : %d gives the number of objects. This is input to ngettext. */
-			format = ngettext ("Insert %d Object", "Insert %d Objects", n); 
+			format = ngettext ("Insert %d Object", "Insert %d Objects", n);
 	} else {
 		if (drag_type == 8)
 			/* xgettext : %d gives the number of objects. This is input to ngettext. */
-			format = ngettext ("Move %d Object", "Move %d Objects", n); 
+			format = ngettext ("Move %d Object", "Move %d Objects", n);
 		else
 			/* xgettext : %d gives the number of objects. This is input to ngettext. */
-			format = ngettext ("Resize %d Object", "Resize %d Objects", n); 
+			format = ngettext ("Resize %d Object", "Resize %d Objects", n);
 	}
 
 	return g_strdup_printf (format, n);
@@ -2757,7 +2757,7 @@ scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
 
 	undo = sheet_object_move_undo (data.objects, created_objects);
 	redo = sheet_object_move_do (data.objects, data.anchors, created_objects);
-	text = scg_objects_drag_commit_get_undo_text 
+	text = scg_objects_drag_commit_get_undo_text
 		(drag_type,  g_slist_length (data.objects), created_objects);
 
 	if (pundo && predo) {
@@ -2766,7 +2766,7 @@ scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
 		if (undo_title)
 			*undo_title = text;
 	} else {
-		cmd_generic (WORKBOOK_CONTROL (scg_wbcg (scg)), 
+		cmd_generic (WORKBOOK_CONTROL (scg_wbcg (scg)),
 			     text, undo, redo);
 		g_free (text);
 	}

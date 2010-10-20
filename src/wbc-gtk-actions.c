@@ -278,13 +278,13 @@ static GNM_ACTION_DEF (cb_file_print_area_show)
 
 static GNM_ACTION_DEF (cb_file_print_area_toggle_col)
 {
-	cmd_page_break_toggle (WORKBOOK_CONTROL (wbcg), 
+	cmd_page_break_toggle (WORKBOOK_CONTROL (wbcg),
 			       wbcg_cur_sheet (wbcg),
 			       TRUE);
 }
 static GNM_ACTION_DEF (cb_file_print_area_toggle_row)
 {
-	cmd_page_break_toggle (WORKBOOK_CONTROL (wbcg), 
+	cmd_page_break_toggle (WORKBOOK_CONTROL (wbcg),
 			       wbcg_cur_sheet (wbcg),
 			       FALSE);
 }
@@ -764,7 +764,7 @@ static GNM_ACTION_DEF (cb_view_freeze_panes)
 					unfrozen_tl.col = first->end.col + 1;
 				}
 			}
-		} 
+		}
 
                 /* If edit pos is out of visible range */
 		if (unfrozen_tl.col < pane->first.col ||
@@ -783,9 +783,9 @@ static GNM_ACTION_DEF (cb_view_freeze_panes)
 			unfrozen_tl.row = frozen_tl.row = 0;
 
 		if (center) {
-			unfrozen_tl.col = (pane->first.col + 
+			unfrozen_tl.col = (pane->first.col +
 					   pane->last_visible.col) / 2;
-			unfrozen_tl.row = (pane->first.row + 
+			unfrozen_tl.row = (pane->first.row +
 					   pane->last_visible.row) / 2;
 		}
 
@@ -1217,7 +1217,7 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 		}
 	}
 
-	not_acceptable = (cnt_non_singletons > 1 || 
+	not_acceptable = (cnt_non_singletons > 1 ||
 			  (cnt_non_singletons == 0 && cnt_singletons > 1));
 
 	if (!not_acceptable && cnt_singletons > 0 && cnt_non_singletons == 1) {
@@ -1239,7 +1239,7 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 			if (!t_b || !l_r) {
 				if (first) {
 					first = FALSE;
-					top_to_bottom = t_b;	
+					top_to_bottom = t_b;
 				} else {
 					if ((top_to_bottom && !t_b) ||
 					    (!top_to_bottom && !l_r)) {
@@ -1253,7 +1253,7 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 
 	if (not_acceptable) {
 		GError *msg = g_error_new (go_error_invalid(), 0,
-					   _("%s does not support multiple ranges"), 
+					   _("%s does not support multiple ranges"),
 					   _("Sort"));
 		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), msg);
 		g_error_free (msg);
@@ -1296,7 +1296,7 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 			if (!range_is_singleton (r))
 				continue;
 			if (i >= 0) {
-				clause[i].offset = (top_to_bottom) ? 
+				clause[i].offset = (top_to_bottom) ?
 					r->start.col - sel->start.col
 					: r->start.row - sel->start.row;
 				clause[i].asc = descending;
@@ -1536,7 +1536,7 @@ toggle_font_attr (WBCGtk *wbcg, GtkToggleAction *act,
 			attr = pango_attr_style_new (val ?  PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
 			break;
 		case MSTYLE_FONT_UNDERLINE:
-			attr = pango_attr_underline_new 
+			attr = pango_attr_underline_new
 				(gnm_translate_underline_to_pango (val));
 			break;
 		case MSTYLE_FONT_STRIKETHROUGH:
@@ -1824,15 +1824,15 @@ static GNM_ACTION_DEF (cb_copyright)
 static GNM_ACTION_DEF (cb_format_cells_auto_fit_height)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	workbook_cmd_autofit_selection 
-		(wbc, wb_control_cur_sheet (wbc), FALSE);	
+	workbook_cmd_autofit_selection
+		(wbc, wb_control_cur_sheet (wbc), FALSE);
 }
 
 static GNM_ACTION_DEF (cb_format_cells_auto_fit_width)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	workbook_cmd_autofit_selection 
-		(wbc, wb_control_cur_sheet (wbc), TRUE);	
+	workbook_cmd_autofit_selection
+		(wbc, wb_control_cur_sheet (wbc), TRUE);
 }
 
 static GNM_ACTION_DEF (cb_format_column_auto_fit)
@@ -1902,7 +1902,7 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuViewToolbars",		NULL, N_("_Toolbars") },
 	{ "MenuInsert",		NULL, N_("_Insert") },
 		{ "MenuInsertSpecial",		NULL, N_("S_pecial") },
-		{ "MenuInsertFormulaWrap", "Gnumeric_FormulaGuru", 
+		{ "MenuInsertFormulaWrap", "Gnumeric_FormulaGuru",
 		  N_("Func_tion Wrapper") },
 	{ "MenuFormat",		NULL, N_("F_ormat") },
 		{ "MenuFormatCells",		NULL, N_("_Cells") },
@@ -1921,7 +1921,7 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuStatisticsTwoSamples",	NULL,	N_("_Two Sample Tests") },
 			{ "MenuToolTwoMedians",	NULL,	N_("Two Me_dians") },
 			{ "MenuToolTTest",	NULL,	N_("Two _Means") },
-		{ "MenuStatisticsMultipleSamples",	NULL,	N_("_Multiple Sample Tests") },	        
+		{ "MenuStatisticsMultipleSamples",	NULL,	N_("_Multiple Sample Tests") },
 			{ "MenuANOVA",	NULL,	N_("_ANOVA") },
 			{ "MenuContingencyTests",	NULL,	N_("Contin_gency Table") },
 	{ "MenuData",		NULL, N_("_Data") },
@@ -2259,7 +2259,7 @@ static GtkActionEntry const actions[] = {
 	{ "InsertSortIncreasing", GTK_STOCK_SORT_ASCENDING, N_("Sort (_Ascending)"),
 		NULL, N_("Wrap with SORT (ascending)"),
 		G_CALLBACK (cb_insert_sort_ascending) },
-	
+
 /* Insert -> Special */
 	{ "InsertCurrentDate", NULL, N_("Current _date"),
 		"<control>semicolon", N_("Insert the current date into the selected cell(s)"),
@@ -2293,13 +2293,13 @@ static GtkActionEntry const actions[] = {
 	{ "FormatCells", NULL, N_("_Format..."),
 		"<control>1", N_("Modify the formatting of the selected cells"),
 		G_CALLBACK (cb_format_cells) },
-	{ "FormatCellsFitHeight", "Gnumeric_RowSize", N_("Auto Fit _Height"), NULL, 
+	{ "FormatCellsFitHeight", "Gnumeric_RowSize", N_("Auto Fit _Height"), NULL,
 	  N_("Ensure rows are just tall enough to display content of selection"),
 	  G_CALLBACK (cb_format_cells_auto_fit_height) },
-	{ "FormatCellsFitWidth", "Gnumeric_ColumnSize", N_("Auto Fit _Width"), NULL, 
+	{ "FormatCellsFitWidth", "Gnumeric_ColumnSize", N_("Auto Fit _Width"), NULL,
 	  N_("Ensure columns are just wide enough to display content of selection"),
 	  G_CALLBACK (cb_format_cells_auto_fit_width) },
-	
+
 
 /* Format -> Col */
 	{ "ColumnSize", "Gnumeric_ColumnSize", N_("_Width..."),
@@ -2399,7 +2399,7 @@ static GtkActionEntry const actions[] = {
 	{ "ToolsFourier", NULL, N_("_Fourier Analysis..."),
 		NULL, N_("Fourier Analysis"),
 		G_CALLBACK (cb_tools_fourier) },
-	{ "ToolsPrincipalComponents", NULL, 
+	{ "ToolsPrincipalComponents", NULL,
 	        N_("Principal Components Analysis..."),
 		NULL, N_("Principal Components Analysis"),
 		G_CALLBACK (cb_tools_principal_components) },
@@ -2528,9 +2528,9 @@ static GtkActionEntry const actions[] = {
 	{ "RandomGeneratorCorrelated", NULL, N_("_Correlated..."),
 		NULL, N_("Generate variates for correlated normal distributed random variables"),
 		G_CALLBACK (cb_tools_random_generator_correlated) },
-	{ "CopyDown", NULL, N_("Fill downwards"), "<control>D", 
+	{ "CopyDown", NULL, N_("Fill downwards"), "<control>D",
 	  N_("Copy the content from the top row to the cells below"), G_CALLBACK (cb_copydown) },
-	{ "CopyRight", NULL, N_("Fill to right"), "<control>R", 
+	{ "CopyRight", NULL, N_("Fill to right"), "<control>R",
 	  N_("Copy the content from the left column to the cells on the right"), G_CALLBACK (cb_copyright) },
 
 
@@ -2722,9 +2722,9 @@ static GtkToggleActionEntry const toggle_actions[] = {
 	{ "SheetOutlineRight", NULL, N_("Outlines _Right"),
 		NULL, N_("Toggle whether to display column outlines on the left or right"),
 		G_CALLBACK (cb_sheet_pref_outline_symbols_right) },
-	{ "SheetDisplayFormulas", "Gnumeric_FormulaGuru", 
+	{ "SheetDisplayFormulas", "Gnumeric_FormulaGuru",
 	  N_("Display _Formulas"),
-	  "<control>quoteleft", 
+	  "<control>quoteleft",
 	  N_("Display the value of a formula or the formula itself"),
 		G_CALLBACK (cb_sheet_pref_display_formulas) },
 	{ "SheetHideZeros", NULL, N_("_Hide Zeros"),

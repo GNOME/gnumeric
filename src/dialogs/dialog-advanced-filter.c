@@ -143,7 +143,7 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 				       dao, data, analysis_tool_advanced_filter_engine)) {
 			err = data->base.err;
 			g_free (data);
-		} else 
+		} else
 			err = analysis_tools_noerr;
 
 	}

@@ -113,7 +113,7 @@ gnm_undo_colrow_set_sizes_undo (GOUndo *u, gpointer data)
 	GNMUndoColrowSetSizes *ua = (GNMUndoColrowSetSizes *)u;
 	ColRowStateGroup *group;
 
-	group = colrow_set_sizes (ua->sheet, ua->is_cols, ua->selection, ua->new_size, 
+	group = colrow_set_sizes (ua->sheet, ua->is_cols, ua->selection, ua->new_size,
 				  ua->from, ua->to);
 	colrow_state_group_destroy (group);
 }
@@ -155,7 +155,7 @@ gnm_undo_colrow_set_sizes_new (Sheet *sheet, gboolean is_cols,
 	ua->sheet = sheet;
 	ua->is_cols = is_cols;
 	ua->new_size = new_size;
-	
+
 	if (r == NULL || new_size >= 0) {
 		ua->selection = selection;
 		ua->from = 0;
@@ -207,7 +207,7 @@ cb_filter_set_condition_undo_set_pb (SheetControl *control, char *text)
 	SheetControlGUI *scg = (SheetControlGUI *) control;
 	WBCGtk *wbcg = scg_wbcg (scg);
 	if (wbcg != NULL)
-		gtk_progress_bar_set_text 
+		gtk_progress_bar_set_text
 			(GTK_PROGRESS_BAR (wbcg->progress_bar), text);
 }
 
@@ -219,7 +219,7 @@ gnm_undo_filter_set_condition_undo (GOUndo *u, gpointer data)
 	char const *format;
 	char *text;
 
-	gnm_filter_set_condition (ua->filter, ua->i, 
+	gnm_filter_set_condition (ua->filter, ua->i,
 				  gnm_filter_condition_dup (ua->cond), TRUE);
 	sheet_update (ua->filter->sheet);
 
@@ -231,12 +231,12 @@ gnm_undo_filter_set_condition_undo (GOUndo *u, gpointer data)
 	format = ngettext ("%d row of %d match",
 			   "%d rows of %d match",
 			   count);
-	text = g_strdup_printf (format, count, 
-				ua->filter->r.end.row - 
+	text = g_strdup_printf (format, count,
+				ua->filter->r.end.row -
 				ua->filter->r.start.row);
 
 	SHEET_FOREACH_CONTROL (ua->filter->sheet, view, control, cb_filter_set_condition_undo_set_pb (control, text););
-	
+
 	g_free (text);
 }
 
@@ -245,7 +245,7 @@ gnm_undo_filter_set_condition_class_init (GObjectClass *gobject_class)
 {
 	GOUndoClass *uclass = (GOUndoClass *)gobject_class;
 
-	gnm_undo_filter_set_condition_parent_class = g_type_class_peek_parent 
+	gnm_undo_filter_set_condition_parent_class = g_type_class_peek_parent
 		(gobject_class);
 
 	gobject_class->finalize = gnm_undo_filter_set_condition_finalize;
@@ -265,8 +265,8 @@ GSF_CLASS (GNMUndoFilterSetCondition, gnm_undo_filter_set_condition,
  **/
 
 GOUndo *
-gnm_undo_filter_set_condition_new (GnmFilter *filter, unsigned i, 
-				   GnmFilterCondition *cond, 
+gnm_undo_filter_set_condition_new (GnmFilter *filter, unsigned i,
+				   GnmFilterCondition *cond,
 				   gboolean retrieve_from_filter)
 {
 	GNMUndoFilterSetCondition *ua;
@@ -280,7 +280,7 @@ gnm_undo_filter_set_condition_new (GnmFilter *filter, unsigned i,
 	ua->i = i;
 
 	if (retrieve_from_filter)
-		ua->cond = gnm_filter_condition_dup 
+		ua->cond = gnm_filter_condition_dup
 			(gnm_filter_get_condition (filter, i));
 	else
 		ua->cond = cond;

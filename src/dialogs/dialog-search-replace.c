@@ -111,11 +111,11 @@ dialog_search_replace_save_in_prefs (DialogState *dd)
 	SETW("column_major", gnm_conf_set_searchreplace_columnmajor);
 #undef SETW
 
-	gnm_conf_set_searchreplace_regex 
+	gnm_conf_set_searchreplace_regex
 		(gnm_gui_group_value (gui, search_type_group));
-	gnm_conf_set_searchreplace_error_behaviour 
+	gnm_conf_set_searchreplace_error_behaviour
 		(gnm_gui_group_value (gui, error_group));
-	gnm_conf_set_searchreplace_scope 
+	gnm_conf_set_searchreplace_scope
 		(gnm_gui_group_value (gui, scope_group));
 }
 
@@ -311,25 +311,25 @@ dialog_search_replace (WBCGtk *wbcg,
 	SETW("match_words", gnm_conf_get_searchreplace_whole_words_only);
 #undef SETW
 
-	gtk_toggle_button_set_active 
-	  (GTK_TOGGLE_BUTTON 
-	   (go_gtk_builder_get_widget 
-	    (gui, 
+	gtk_toggle_button_set_active
+	  (GTK_TOGGLE_BUTTON
+	   (go_gtk_builder_get_widget
+	    (gui,
 	     search_type_group[gnm_conf_get_searchreplace_regex () ? 1 : 0])), TRUE);
-	gtk_toggle_button_set_active 
-	  (GTK_TOGGLE_BUTTON 
-	   (go_gtk_builder_get_widget 
-	    (gui, 
+	gtk_toggle_button_set_active
+	  (GTK_TOGGLE_BUTTON
+	   (go_gtk_builder_get_widget
+	    (gui,
 	     direction_group[gnm_conf_get_searchreplace_columnmajor () ? 1 : 0])), TRUE);
-	gtk_toggle_button_set_active 
-	  (GTK_TOGGLE_BUTTON 
-	   (go_gtk_builder_get_widget 
-	    (gui, 
+	gtk_toggle_button_set_active
+	  (GTK_TOGGLE_BUTTON
+	   (go_gtk_builder_get_widget
+	    (gui,
 	     error_group[gnm_conf_get_searchreplace_error_behaviour ()])), TRUE);
-	gtk_toggle_button_set_active 
-	  (GTK_TOGGLE_BUTTON 
-	   (go_gtk_builder_get_widget 
-	    (gui, 
+	gtk_toggle_button_set_active
+	  (GTK_TOGGLE_BUTTON
+	   (go_gtk_builder_get_widget
+	    (gui,
 	     scope_group[gnm_conf_get_searchreplace_scope ()])), TRUE);
 
 

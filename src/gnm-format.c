@@ -115,8 +115,8 @@ format_value_common (PangoLayout *layout, GString *str,
 		/* Close enough: */
 		type = VALUE_IS_ERROR (value) ? 'E' : 'S';
 		sval = format_nonnumber (value);
-		if (sval != NULL && layout != NULL && 
-		    pango_layout_get_single_paragraph_mode (layout) 
+		if (sval != NULL && layout != NULL &&
+		    pango_layout_get_single_paragraph_mode (layout)
 		    && strchr (sval, '\n') != NULL) {
 			/* We are in single paragraph mode. This happens in HALIGN_FILL */
 			GString *str = g_string_new (sval);
@@ -129,12 +129,12 @@ format_value_common (PangoLayout *layout, GString *str,
 			line = pango_layout_get_line (layout, 0);
 			if (line) {
 				dir = line->resolved_dir;
-				rtl = (dir == PANGO_DIRECTION_RTL || dir == PANGO_DIRECTION_TTB_RTL 
+				rtl = (dir == PANGO_DIRECTION_RTL || dir == PANGO_DIRECTION_TTB_RTL
 				       || dir == PANGO_DIRECTION_WEAK_RTL);
 			}
 
 			while ((ptr = strchr (str->str, '\n')) != NULL)
-				go_string_replace 
+				go_string_replace
 					(str, ptr - str->str, 1, rtl ? UTF8_NEWLINE_RTL : UTF8_NEWLINE, -1);
 
 			sval = sval_free = g_string_free (str, FALSE);

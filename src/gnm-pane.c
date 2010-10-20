@@ -416,9 +416,9 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 				if (is_enter) {
 					horizontal = go_direction_is_horizontal (dir);
 					forward = go_direction_is_forward (dir);
-				} else if ((event->state & GDK_CONTROL_MASK) && 
+				} else if ((event->state & GDK_CONTROL_MASK) &&
 					   ((sc_sheet (sc))->sheet_objects != NULL)) {
-					scg_object_select_next 
+					scg_object_select_next
 						(scg, (event->state & GDK_SHIFT_MASK) != 0);
 					break;
 				}
@@ -2190,17 +2190,17 @@ gnm_pane_mouse_cursor_set (GnmPane *pane, GdkCursor *c)
 
 
 void
-gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r, 
+gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r,
 				gboolean main_color)
 {
-	gchar const *colours[5] 
+	gchar const *colours[5]
 		= {"green","yellow", "orange", "red", "purple"};
 	gint i;
 	ItemCursor *cursor;
 
 	i = g_slist_length (pane->cursor.expr_range) % 5;
 
-	cursor = (ItemCursor *) goc_item_new 
+	cursor = (ItemCursor *) goc_item_new
 		(GOC_GROUP (GOC_CANVAS (pane)->root),
 		 item_cursor_get_type (),
 		 "SheetControlGUI",	pane->simple.scg,
@@ -2209,7 +2209,7 @@ gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r,
 		 NULL);
 
 	item_cursor_bound_set (cursor, r);
-	pane->cursor.expr_range = g_slist_prepend 
+	pane->cursor.expr_range = g_slist_prepend
 		(pane->cursor.expr_range, cursor);
 }
 

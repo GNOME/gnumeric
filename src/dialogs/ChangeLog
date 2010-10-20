@@ -45,7 +45,7 @@
 
 2010-09-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-sheet-order.c (cb_color_changed_fore): handle multiple 
+	* dialog-sheet-order.c (cb_color_changed_fore): handle multiple
 	  selection
 	(cb_color_changed_back): ditto
 	(cb_selection_changed): ditto
@@ -72,7 +72,7 @@
 
 2010-07-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-autofilter.c (dialog_auto_filter): set up column label for 
+	* dialog-autofilter.c (dialog_auto_filter): set up column label for
 	top 10 dialog; use separate keys otherwise they share their size.
 	* src/dialogs/autofilter-top10.glade: add label
 
@@ -87,12 +87,12 @@
 
 2010-07-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-autofilter.c (cb_autofilter_ok): use 
+	* dialog-autofilter.c (cb_autofilter_ok): use
 	cmd_autofilter_set_condition
-	
+
 2010-07-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-row-height.c (dialog_row_height): make sure the spin 
+	* dialog-row-height.c (dialog_row_height): make sure the spin
 	  box is at least 1, since 0 stands for "default".
 
 2010-07-29  Morten Welinder  <terra@gnome.org>

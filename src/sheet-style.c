@@ -1939,7 +1939,7 @@ sheet_style_insert_colrow (GnmExprRelocateInfo const *rinfo)
 	sheet_style_relocate (rinfo);
 
 	if (styles != NULL) {
-		sheet_style_set_list (rinfo->target_sheet, &corner, styles, 
+		sheet_style_set_list (rinfo->target_sheet, &corner, styles,
 				      NULL, NULL);
 		style_list_free	(styles);
 	}
@@ -2392,7 +2392,7 @@ sheet_style_collect_validations (Sheet const *sheet, GnmRange const *r)
 GnmSpanCalcFlags
 sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
 		      GnmStyleList const *list,
-		      sheet_style_set_list_cb_t range_modify, 
+		      sheet_style_set_list_cb_t range_modify,
 		      gpointer data)
 {
 	GnmSpanCalcFlags spanflags = GNM_SPANCALC_SIMPLE;

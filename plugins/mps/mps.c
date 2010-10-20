@@ -576,7 +576,7 @@ make_constraint (MpsState *state, int x, int y, MpsRow *row,
 
 	param->constraints = g_slist_append (param->constraints, c);
 }
-		 
+
 
 
 static void

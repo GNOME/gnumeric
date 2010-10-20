@@ -961,11 +961,11 @@
 	(lotus_read) : Ditto.
 
 1999-12-21  Jon K Hellan  <hellan@acm.org>
- 
+
 	* README: I was credited for this, but I did not write it.
- 
+
 1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
- 
+
 	* boot.c (lotus_cleanup_plugin): free pd->title
 
 1999-10-13  Michael Meeks  <mmeeks@gnu.org>
@@ -985,7 +985,7 @@
 1999-08-09    <miguel@gnu.org>
 
 	* boot.c (lotus_cleanup_plugin): Change to new file open
-	conventions. 
+	conventions.
 
 1999-08-02  Michael Meeks  <michael@imaginator.com>
 

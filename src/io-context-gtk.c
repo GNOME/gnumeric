@@ -275,7 +275,7 @@ icg_error_error_info_list (GOCmdContext *cc, GSList *error)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 	if (icg->show_warnings && error != NULL && error->data != NULL) {
-		GtkWidget *dialog = gnumeric_go_error_info_dialog_new 
+		GtkWidget *dialog = gnumeric_go_error_info_dialog_new
 			(error->data);
 		gtk_widget_show_all (GTK_WIDGET (dialog));
 		gtk_dialog_run (GTK_DIALOG (dialog));

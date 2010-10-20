@@ -108,7 +108,7 @@ analysis_tool_signed_rank_test_engine_run (data_analysis_output_t *dao,
 		expr_isnumber = gnm_expr_new_funcall3
 			(fd_if, gnm_expr_new_funcall1
 			 (fd_isnumber, gnm_expr_copy (expr_org)),
-			 make_int (1), 
+			 make_int (1),
 			 make_int (0));
 
 		expr = gnm_expr_new_funcall1
@@ -130,29 +130,29 @@ analysis_tool_signed_rank_test_engine_run (data_analysis_output_t *dao,
 			 gnm_expr_new_funcall1
 			 (fd_isnumber, gnm_expr_copy (expr_org)),
 			 gnm_expr_new_funcall3
-			 (fd_if, 
+			 (fd_if,
 			  gnm_expr_new_binary
 			  (gnm_expr_copy (expr_org),
 			   GNM_EXPR_OP_EQUAL,
 			   make_cellref (0,-2)),
-			  gnm_expr_copy (expr_big), 
+			  gnm_expr_copy (expr_big),
 			  expr_abs),
 			 expr_big);
-		expr = gnm_expr_new_funcall3 
+		expr = gnm_expr_new_funcall3
 			(fd_rank,
-			 gnm_expr_new_unary (GNM_EXPR_OP_UNARY_NEG, 
+			 gnm_expr_new_unary (GNM_EXPR_OP_UNARY_NEG,
 					     expr_diff),
 			 expr,
 			 make_int (1));
 
-		dao_set_cell_array_expr 
+		dao_set_cell_array_expr
 			(dao, col + 1, 4,
 			 gnm_expr_new_funcall1
 			 (fd_sum,
 			  gnm_expr_new_binary
 			  (gnm_expr_copy (expr_isnumber),
 			   GNM_EXPR_OP_MULT,
-			   gnm_expr_new_funcall3 
+			   gnm_expr_new_funcall3
 			   (fd_if,
 			    gnm_expr_new_binary
 			    (gnm_expr_copy (expr_org),
@@ -162,41 +162,41 @@ analysis_tool_signed_rank_test_engine_run (data_analysis_output_t *dao,
 			    make_int (0)))));
 
 		expr = gnm_expr_new_funcall1
-			(fd_sum, gnm_expr_new_binary 
-			 (expr_isnumber, GNM_EXPR_OP_MULT, 
+			(fd_sum, gnm_expr_new_binary
+			 (expr_isnumber, GNM_EXPR_OP_MULT,
 			  gnm_expr_new_funcall2
 			  (fd_iferror, gnm_expr_new_funcall3
-			   (fd_if, gnm_expr_new_binary (expr_org, 
-							GNM_EXPR_OP_NOT_EQUAL, make_cellref (0,-1)), 
-			    make_int (1), 
-			    make_int (0)), 
+			   (fd_if, gnm_expr_new_binary (expr_org,
+							GNM_EXPR_OP_NOT_EQUAL, make_cellref (0,-1)),
+			    make_int (1),
+			    make_int (0)),
 			   make_int (0))));
 		dao_set_cell_array_expr (dao, col + 1, 3, expr);
 
-		dao_set_cell_expr (dao, col + 1, 5, 
-				   gnm_expr_new_binary 
-				   (gnm_expr_new_binary 
-				    (gnm_expr_new_binary 
-				     (make_cellref (0,-2), 
+		dao_set_cell_expr (dao, col + 1, 5,
+				   gnm_expr_new_binary
+				   (gnm_expr_new_binary
+				    (gnm_expr_new_binary
+				     (make_cellref (0,-2),
 				      GNM_EXPR_OP_MULT,
-				      gnm_expr_new_binary 
-				      (make_cellref (0,-2), 
+				      gnm_expr_new_binary
+				      (make_cellref (0,-2),
 				       GNM_EXPR_OP_ADD,
 				       make_int (1))),
 				     GNM_EXPR_OP_DIV,
 				     make_int (2)),
-				    GNM_EXPR_OP_SUB, 
+				    GNM_EXPR_OP_SUB,
 				    make_cellref (0,-1)));
 		dao_set_cell_expr (dao, col + 1, 6,
 				   gnm_expr_new_funcall2
 				   (fd_min, make_cellref (0,-1), make_cellref (0,-2)));
 
-		expr_expect = gnm_expr_new_binary 
-			  (gnm_expr_new_binary 
-			   (make_cellref (0,-5), 
+		expr_expect = gnm_expr_new_binary
+			  (gnm_expr_new_binary
+			   (make_cellref (0,-5),
 			   GNM_EXPR_OP_MULT,
-			    gnm_expr_new_binary 
-			    (make_cellref (0,-5), 
+			    gnm_expr_new_binary
+			    (make_cellref (0,-5),
 			     GNM_EXPR_OP_ADD,
 			     make_int (1))),
 			   GNM_EXPR_OP_DIV,
@@ -206,7 +206,7 @@ analysis_tool_signed_rank_test_engine_run (data_analysis_output_t *dao,
 			 (gnm_expr_copy (expr_expect),
 			  GNM_EXPR_OP_MULT,
 			  gnm_expr_new_binary
-			  (gnm_expr_new_binary 
+			  (gnm_expr_new_binary
 			   (make_int (2),
 			    GNM_EXPR_OP_MULT,
 			    make_cellref (0,-5)),
@@ -214,28 +214,28 @@ analysis_tool_signed_rank_test_engine_run (data_analysis_output_t *dao,
 			   make_int (1))),
 			 GNM_EXPR_OP_DIV,
 			 make_int (6));
-		expr = gnm_expr_new_funcall4 
-			(fd_normdist, gnm_expr_new_binary 
+		expr = gnm_expr_new_funcall4
+			(fd_normdist, gnm_expr_new_binary
 			 (make_cellref (0,-2),
 			  GNM_EXPR_OP_ADD,
 			  make_float (0.5)),
 			 expr_expect,
 			 gnm_expr_new_funcall1 (fd_sqrt, expr_var),
 			 gnm_expr_new_constant (value_new_bool (TRUE)));
-		dao_set_cell_expr (dao, col + 1, 8, 
-				   gnm_expr_new_funcall3 
-				   (fd_if, 
-				    gnm_expr_new_binary 
+		dao_set_cell_expr (dao, col + 1, 8,
+				   gnm_expr_new_funcall3
+				   (fd_if,
+				    gnm_expr_new_binary
 				    (make_cellref (0,-5),
 				     GNM_EXPR_OP_LT,
-				     make_int (12)), 
+				     make_int (12)),
 				    gnm_expr_new_constant (value_new_error_NA (NULL)),
 				    expr));
 		dao_set_cell_comment (dao,  col + 1, 8,
 				      _("This p-value is calculated by a normal approximation.\n"
 					"It is only valid if the sample size is at least 12."));
 
-		expr = gnm_expr_new_binary (make_int (2), 
+		expr = gnm_expr_new_binary (make_int (2),
 					    GNM_EXPR_OP_MULT, make_cellref (0,-1));
 		dao_set_cell_expr (dao, col + 1, 9, expr);
 	}
@@ -329,8 +329,8 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 		 make_int (1),
 		 make_int (0));
 	expr_isnumber = gnm_expr_new_binary
-		(expr_isnumber_1, 
-		 GNM_EXPR_OP_MULT, 
+		(expr_isnumber_1,
+		 GNM_EXPR_OP_MULT,
 		 expr_isnumber_2);
 
 	expr = gnm_expr_new_funcall1
@@ -357,11 +357,11 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 		  gnm_expr_new_constant (value_new_string(""))));
 	dao_set_cell_array_expr (dao, 2, 1, expr);
 
-	expr_diff = gnm_expr_new_binary (gnm_expr_copy (expr_1), 
+	expr_diff = gnm_expr_new_binary (gnm_expr_copy (expr_1),
 					 GNM_EXPR_OP_SUB,
 					 gnm_expr_copy (expr_2));
-	dao_set_cell_array_expr 
-		(dao, 1, 2,  
+	dao_set_cell_array_expr
+		(dao, 1, 2,
 		 gnm_expr_new_funcall1
 		 (fd_median,
 		  gnm_expr_new_funcall3
@@ -375,11 +375,11 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 
 	expr = gnm_expr_new_funcall1
 		(fd_sum, gnm_expr_new_binary
-		 (gnm_expr_copy (expr_isnumber), 
+		 (gnm_expr_copy (expr_isnumber),
 		  GNM_EXPR_OP_MULT,
 		   gnm_expr_new_funcall2
 		   (fd_iferror, gnm_expr_new_funcall3
-		    (fd_if, gnm_expr_new_binary 
+		    (fd_if, gnm_expr_new_binary
 		     (gnm_expr_copy (expr_diff),
 		      GNM_EXPR_OP_NOT_EQUAL, make_cellref (0,-2)),
 		     make_int (1),
@@ -388,8 +388,8 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 	dao_set_cell_array_expr (dao, 1, 4, expr);
 
 	expr_diff_pred = gnm_expr_new_binary
-		(gnm_expr_copy (expr_diff), 
-		 GNM_EXPR_OP_SUB, 
+		(gnm_expr_copy (expr_diff),
+		 GNM_EXPR_OP_SUB,
 		 make_cellref (0,-2));
 	expr_abs = gnm_expr_new_funcall1
 		(fd_abs, gnm_expr_copy (expr_diff_pred));
@@ -407,18 +407,18 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 		  gnm_expr_new_funcall1
 		  (fd_isnumber, expr_2),
 		  gnm_expr_new_funcall3
-		  (fd_if, 
+		  (fd_if,
 		   gnm_expr_new_binary
 		   (gnm_expr_copy (expr_diff),
 		    GNM_EXPR_OP_EQUAL,
 		    make_cellref (0,-2)),
-		   gnm_expr_copy (expr_big), 
+		   gnm_expr_copy (expr_big),
 		   expr_abs),
 		  gnm_expr_copy (expr_big)),
 		 expr_big);
-	expr = gnm_expr_new_funcall3 
+	expr = gnm_expr_new_funcall3
 		(fd_rank,
-		 gnm_expr_new_unary (GNM_EXPR_OP_UNARY_NEG, 
+		 gnm_expr_new_unary (GNM_EXPR_OP_UNARY_NEG,
 				     expr_diff_pred),
 		 expr,
 		 make_int (1));
@@ -427,7 +427,7 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 		 gnm_expr_new_binary
 		 (expr_isnumber,
 		  GNM_EXPR_OP_MULT,
-		  gnm_expr_new_funcall3 
+		  gnm_expr_new_funcall3
 		  (fd_if,
 		   gnm_expr_new_binary
 		   (expr_diff,
@@ -438,32 +438,32 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 
 	dao_set_cell_array_expr (dao, 1, 5, expr);
 
-	dao_set_cell_expr (dao, 1, 6, 
-			   gnm_expr_new_binary 
-			   (gnm_expr_new_binary 
-			    (gnm_expr_new_binary 
-			     (make_cellref (0,-2), 
+	dao_set_cell_expr (dao, 1, 6,
+			   gnm_expr_new_binary
+			   (gnm_expr_new_binary
+			    (gnm_expr_new_binary
+			     (make_cellref (0,-2),
 			      GNM_EXPR_OP_MULT,
-			      gnm_expr_new_binary 
-			      (make_cellref (0,-2), 
+			      gnm_expr_new_binary
+			      (make_cellref (0,-2),
 			       GNM_EXPR_OP_ADD,
 			       make_int (1))),
 			     GNM_EXPR_OP_DIV,
 			     make_int (2)),
-			    GNM_EXPR_OP_SUB, 
+			    GNM_EXPR_OP_SUB,
 			    make_cellref (0,-1)));
 
-	dao_set_cell_expr 
+	dao_set_cell_expr
 		(dao, 1, 7,
 		 gnm_expr_new_funcall2
 		 (fd_min, make_cellref (0,-1), make_cellref (0,-2)));
 
-	expr_expect = gnm_expr_new_binary 
-		(gnm_expr_new_binary 
-		 (make_cellref (0,-5), 
+	expr_expect = gnm_expr_new_binary
+		(gnm_expr_new_binary
+		 (make_cellref (0,-5),
 		  GNM_EXPR_OP_MULT,
-		  gnm_expr_new_binary 
-		  (make_cellref (0,-5), 
+		  gnm_expr_new_binary
+		  (make_cellref (0,-5),
 		   GNM_EXPR_OP_ADD,
 		   make_int (1))),
 		 GNM_EXPR_OP_DIV,
@@ -473,7 +473,7 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 		 (gnm_expr_copy (expr_expect),
 		  GNM_EXPR_OP_MULT,
 		  gnm_expr_new_binary
-		  (gnm_expr_new_binary 
+		  (gnm_expr_new_binary
 		   (make_int (2),
 		    GNM_EXPR_OP_MULT,
 		    make_cellref (0,-5)),
@@ -481,24 +481,24 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 		   make_int (1))),
 		 GNM_EXPR_OP_DIV,
 		 make_int (6));
-	expr = gnm_expr_new_funcall4 
-		(fd_normdist, gnm_expr_new_binary 
+	expr = gnm_expr_new_funcall4
+		(fd_normdist, gnm_expr_new_binary
 		 (make_cellref (0,-2),
 		  GNM_EXPR_OP_ADD,
 		  make_float (0.5)),
 		 expr_expect,
 		 gnm_expr_new_funcall1 (fd_sqrt, expr_var),
 		 gnm_expr_new_constant (value_new_bool (TRUE)));
-	dao_set_cell_expr (dao, 1, 9, 
-			   gnm_expr_new_funcall3 
-			   (fd_if, 
-			    gnm_expr_new_binary 
+	dao_set_cell_expr (dao, 1, 9,
+			   gnm_expr_new_funcall3
+			   (fd_if,
+			    gnm_expr_new_binary
 			    (make_cellref (0,-5),
 			     GNM_EXPR_OP_LT,
-			     make_int (12)), 
+			     make_int (12)),
 			    gnm_expr_new_constant (value_new_error_NA (NULL)),
 			    expr));
-	dao_set_cell_comment 
+	dao_set_cell_comment
 		(dao,  1, 9,
 		 _("This p-value is calculated by a normal approximation.\n"
 		   "It is only valid if the sample size is at least 12."));

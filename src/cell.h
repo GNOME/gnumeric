@@ -71,7 +71,7 @@ void gnm_cell_set_expr_unsafe	(GnmCell *cell, GnmExprTop const *texpr);
 void gnm_cell_set_array_formula	(Sheet *sheet,
 				 int cola, int rowa, int colb, int rowb,
 				 GnmExprTop const *texpr);
-GOUndo *gnm_cell_set_array_formula_undo (GnmSheetRange *sr, 
+GOUndo *gnm_cell_set_array_formula_undo (GnmSheetRange *sr,
 					 GnmExprTop const  *texpr);
 gboolean gnm_cell_set_array     (Sheet *sheet,
 				 const GnmRange *r,

@@ -227,17 +227,17 @@ dialog_chi_square_tool (WBCGtk *wbcg, Sheet *sheet, gboolean independence)
 		type ="test-of-independence";
 	else
 		type ="test-of-homogeneity";
-	gtk_toggle_button_set_active 
-		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->base.gui, 
+	gtk_toggle_button_set_active
+		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->base.gui,
 							  type)),
 		 TRUE);
 
-	state->label = tool_setup_update 
+	state->label = tool_setup_update
 		(&state->base, "labels_button",
 		 G_CALLBACK (chi_squared_tool_update_sensitivity_cb),
 		 state);
 
-	state->alpha_entry = tool_setup_update 
+	state->alpha_entry = tool_setup_update
 		(&state->base, "alpha-entry",
 		 G_CALLBACK (chi_squared_tool_update_sensitivity_cb),
 		 state);

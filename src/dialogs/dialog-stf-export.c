@@ -367,8 +367,8 @@ stf_export_dialog_finish (TextExportState *state)
 		      "locale", locale,
 		      NULL);
 
-	if (gtk_toggle_button_get_active 
-	    (GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, 
+	if (gtk_toggle_button_get_active
+	    (GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui,
 						      "save-as-default-check")))) {
 		gnm_conf_set_stf_export_separator (separator);
 		gnm_conf_set_stf_export_stringindicator (quote);

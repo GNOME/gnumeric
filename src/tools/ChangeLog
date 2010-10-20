@@ -1,7 +1,7 @@
 2010-10-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-tools.c (analysis_tool_fourier_engine_run): use new 
-	  FOURIER argument 
+	* analysis-tools.c (analysis_tool_fourier_engine_run): use new
+	  FOURIER argument
 
 2010-10-01  Morten Welinder <terra@gnome.org>
 
@@ -31,7 +31,7 @@
 
 2010-07-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dao.c: delete HAVE_G_DATE_SET_TIME_T throughout 
+	* dao.c: delete HAVE_G_DATE_SET_TIME_T throughout
 
 2010-07-12  Jean Brefort  <jean.brefort@normalesup.org>
 

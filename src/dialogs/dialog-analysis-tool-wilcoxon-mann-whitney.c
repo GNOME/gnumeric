@@ -82,8 +82,8 @@ wilcoxon_mann_whitney_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy
 		GnmRange r;
 
 		if (rr != NULL) {
-			group_by_t group_by 
-				= gnm_gui_group_value 
+			group_by_t group_by
+				= gnm_gui_group_value
 				(state->gui, grouped_by_group);
 			range_init_rangeref (&r, rr);
 			len = (group_by == GROUPED_BY_ROW)
@@ -172,7 +172,7 @@ int
 dialog_wilcoxon_m_w_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         GenericToolState *state;
-	char const * plugins[] = { "Gnumeric_fnstat", 
+	char const * plugins[] = { "Gnumeric_fnstat",
 				   "Gnumeric_fnmath",
 				   "Gnumeric_fnlookup",
 				   NULL};
@@ -197,7 +197,7 @@ dialog_wilcoxon_m_w_tool (WBCGtk *wbcg, Sheet *sheet)
 			      GNM_EE_SINGLE_RANGE))
 		return 0;
 
-	g_signal_connect_after 
+	g_signal_connect_after
 		(G_OBJECT (go_gtk_builder_get_widget
 			   (state->gui,
 			    "grouped_by_row")), "toggled",

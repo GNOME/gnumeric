@@ -52,7 +52,7 @@ write_program (GnmSolver *sol, WorkbookControl *wbc, GError **err)
 		return FALSE;
 	}
 
-	return gnm_solver_saveas (sol, wbc, fs, 
+	return gnm_solver_saveas (sol, wbc, fs,
 				  "program-XXXXXX.lp",
 				  &subsol->program_filename,
 				  err);

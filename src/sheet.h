@@ -319,16 +319,16 @@ void	     sheet_cell_set_value   (GnmCell *cell, GnmValue *v);
 void	     sheet_cell_set_text    (GnmCell *cell, char const *str,
 				     PangoAttrList *markup);
 GnmValue const *sheet_cell_get_value(Sheet *sheet, int col, int row);
-void	     sheet_range_set_text   (GnmParsePos const *pos, 
+void	     sheet_range_set_text   (GnmParsePos const *pos,
 				     GnmRange const *r, char const *str);
-GOUndo *     sheet_range_set_text_undo (GnmSheetRange *sr, 
+GOUndo *     sheet_range_set_text_undo (GnmSheetRange *sr,
 					char const *text);
-GOUndo *     sheet_range_set_expr_undo (GnmSheetRange *sr, 
+GOUndo *     sheet_range_set_expr_undo (GnmSheetRange *sr,
 					GnmExprTop const  *texpr);
-GOUndo *     sheet_range_set_markup_undo (GnmSheetRange *sr, 
+GOUndo *     sheet_range_set_markup_undo (GnmSheetRange *sr,
 					  PangoAttrList *markup);
 void	     sheet_apply_style	    (Sheet  *sheet, GnmRange const *range, GnmStyle *mstyle);
-GOUndo *     sheet_apply_style_undo (GnmSheetRange *sr, 
+GOUndo *     sheet_apply_style_undo (GnmSheetRange *sr,
 				     GnmStyle      *style);
 void	     sheet_apply_border	    (Sheet  *sheet, GnmRange const *range, GnmBorder **borders);
 void	     sheet_queue_respan     (Sheet const *sheet, int start_row, int end_row);
@@ -368,7 +368,7 @@ void  sheet_clear_region (Sheet *sheet,
 			  int end_col, int end_row,
 			  int clear_flags, GOCmdContext *cc);
 
-GOUndo *sheet_clear_region_undo (GnmSheetRange *sr, 
+GOUndo *sheet_clear_region_undo (GnmSheetRange *sr,
 				 int clear_flags);
 
 SheetView *sheet_get_view (Sheet const *sheet, WorkbookView const *wbv);

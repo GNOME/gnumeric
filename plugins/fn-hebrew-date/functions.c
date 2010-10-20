@@ -69,7 +69,7 @@ gnumeric_hdate_get_date (GnmValue const * const *arg, int *year, int *month, int
 }
 
 static GnmValue *
-gnumeric_date_get_date (GnmFuncEvalInfo * ei, GnmValue const * const val, 
+gnumeric_date_get_date (GnmFuncEvalInfo * ei, GnmValue const * const val,
 			int *year, int *month, int *day)
 {
 	GDate date;

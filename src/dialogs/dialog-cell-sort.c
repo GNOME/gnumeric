@@ -505,8 +505,8 @@ cb_dialog_ok_clicked (SortFlowState *state)
 	data_copy = gnm_sort_data_copy (data);
 	text = gnm_expr_entry_get_text (state->range_entry);
 	gnm_sheet_add_sort_setup
-		(data->sheet, 
-		 g_strdup((text != NULL && text[0] != '\0') ? text : "Other"), 
+		(data->sheet,
+		 g_strdup((text != NULL && text[0] != '\0') ? text : "Other"),
 		 data_copy);
 
 	cmd_sort (WORKBOOK_CONTROL (state->wbcg), data);
@@ -563,7 +563,7 @@ dialog_cell_sort_load_sort_setup (SortFlowState *state, GnmSortData const *data)
 					    ITEM_HEADER,  header,
 					    ITEM_NAME,  str,
 					    ITEM_DESCENDING, data->clauses[i].asc,
-					    ITEM_DESCENDING_IMAGE, 
+					    ITEM_DESCENDING_IMAGE,
 					    !data->clauses[i].asc
 					    ? state->image_ascending
 					    : state->image_descending,
@@ -598,11 +598,11 @@ dialog_load_selection (SortFlowState *state, gboolean *col_rb)
 			(*col_rb = TRUE));
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->cell_sort_header_check),
-				      sheet_range_has_heading 
+				      sheet_range_has_heading
 				      (state->sheet, first, *col_rb, FALSE));
 	cb_sort_header_check (state);
 
-	data = gnm_sheet_find_sort_setup (state->sheet, 
+	data = gnm_sheet_find_sort_setup (state->sheet,
 					  gnm_expr_entry_get_text (state->range_entry));
 	if (data != NULL)
 		dialog_cell_sort_load_sort_setup (state, data);

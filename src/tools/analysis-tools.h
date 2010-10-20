@@ -233,15 +233,15 @@ void analysis_tools_write_label       (GnmValue *val, /* depreceated */
 				       int x, int y, int i);
 void analysis_tools_write_label_ftest (GnmValue *val, /* depreceated */
 				       data_analysis_output_t *dao,
-				       int x, int y, 
+				       int x, int y,
 				       gboolean labels, int i);
-void analysis_tools_write_a_label     (GnmValue *val, 
+void analysis_tools_write_a_label     (GnmValue *val,
 				       data_analysis_output_t *dao,
-				       gboolean   labels, 
+				       gboolean   labels,
 				       group_by_t group_by,
 				       int x, int y);
 void analysis_tools_remove_label      (GnmValue *val,
-				       gboolean labels, 
+				       gboolean labels,
 				       group_by_t group_by);
 
 gboolean analysis_tool_table (data_analysis_output_t *dao,
@@ -261,7 +261,7 @@ void set_cell_text_row (data_analysis_output_t *dao,
 void set_cell_text_col (data_analysis_output_t *dao,
 			int col, int row, const char *text);
 
-GnmFunc *analysis_tool_get_function (char const *name, 
+GnmFunc *analysis_tool_get_function (char const *name,
 				     data_analysis_output_t *dao);
 
 #endif

@@ -62,7 +62,7 @@ typedef struct {
 	WorkbookView *wb_view;
 } GnmHtmlTableCtxt;
 
-static void html_read_table (htmlNodePtr cur, htmlDocPtr doc, 
+static void html_read_table (htmlNodePtr cur, htmlDocPtr doc,
 			     WorkbookView *wb_view,
 			     GnmHtmlTableCtxt *tc);
 
@@ -158,7 +158,7 @@ html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
 				tc->sheet = last_sheet;
 				tc->row = last_row;
 			} else
-				html_read_content 
+				html_read_content
 					(ptr, buf, mstyle, a_buf, hrefs, first, doc, tc);
 		}
 		first = FALSE;

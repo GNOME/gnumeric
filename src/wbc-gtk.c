@@ -1571,7 +1571,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 			new_label = _("Add Column Page Break");
 			new_tip = _("Add a page break to the left of the current column");
 		}
-		wbc_gtk_set_action_label (wbcg, "FilePrintAreaToggleColPageBreak", 
+		wbc_gtk_set_action_label (wbcg, "FilePrintAreaToggleColPageBreak",
 					  NULL, new_label, new_tip);
 		if (pi->page_breaks.h != NULL &&
 		    gnm_page_breaks_get_break (pi->page_breaks.h, col) == GNM_PAGE_BREAK_MANUAL) {
@@ -1581,17 +1581,17 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 			new_label = _("Add Row Page Break");
 			new_tip = _("Add a page break above current row");
 		}
-		wbc_gtk_set_action_label (wbcg, "FilePrintAreaToggleRowPageBreak", 
+		wbc_gtk_set_action_label (wbcg, "FilePrintAreaToggleRowPageBreak",
 					  NULL, new_label, new_tip);
-		wbc_gtk_set_action_sensitivity (wbcg, "FilePrintAreaToggleRowPageBreak", 
+		wbc_gtk_set_action_sensitivity (wbcg, "FilePrintAreaToggleRowPageBreak",
 						row != 0);
-		wbc_gtk_set_action_sensitivity (wbcg, "FilePrintAreaToggleColPageBreak", 
+		wbc_gtk_set_action_sensitivity (wbcg, "FilePrintAreaToggleColPageBreak",
 						col != 0);
-		wbc_gtk_set_action_sensitivity (wbcg, "FilePrintAreaClearAllPageBreak", 
+		wbc_gtk_set_action_sensitivity (wbcg, "FilePrintAreaClearAllPageBreak",
 						print_info_has_manual_breaks (sheet->print_info));
 	}
 	if (MS_SELECT_OBJECT & flags) {
-		wbc_gtk_set_action_sensitivity (wbcg, "EditSelectObject", 
+		wbc_gtk_set_action_sensitivity (wbcg, "EditSelectObject",
 						sheet->sheet_objects != NULL);
 	}
 
@@ -1619,23 +1619,23 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 			gchar *nlabel = NULL;
 			if (NULL != (r = sv_selection_extends_filter (sv, f))) {
 				active = TRUE;
-				nlabel = g_strdup_printf 
-					(_("Extend _Auto Filter to %s"), 
+				nlabel = g_strdup_printf
+					(_("Extend _Auto Filter to %s"),
 					 range_as_string (r));
 				new_tip = _("Extend the existing filter.");
-				wbc_gtk_set_action_label 
-					(wbcg, "DataAutoFilter", NULL, 
+				wbc_gtk_set_action_label
+					(wbcg, "DataAutoFilter", NULL,
 					 nlabel, new_tip);
 				g_free (r);
 			} else {
 				active = FALSE;
-				nlabel = g_strdup_printf 
-					(_("Auto Filter blocked by %s"), 
+				nlabel = g_strdup_printf
+					(_("Auto Filter blocked by %s"),
 					 range_as_string (&f->r));
 				new_tip = _("The selection intersects an "
 					    "existing auto filter.");
-				wbc_gtk_set_action_label 
-					(wbcg, "DataAutoFilter", NULL, 
+				wbc_gtk_set_action_label
+					(wbcg, "DataAutoFilter", NULL,
 					 nlabel, new_tip);
 			}
 			g_free (nlabel);
@@ -1652,16 +1652,16 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		wbc_gtk_set_action_sensitivity (wbcg, "DataAutoFilter", active);
 	}
 	if (MS_COMMENT_LINKS & flags) {
-		gboolean has_comment 
+		gboolean has_comment
 			= (sheet_get_comment (sheet, &sv->edit_pos) != NULL);
 		gboolean has_link;
 		GnmRange rge;
 		range_init_cellpos (&rge, &sv->edit_pos);
-		has_link = (NULL != 
+		has_link = (NULL !=
 			    sheet_style_region_contains_link (sheet, &rge));
-		wbc_gtk_set_action_sensitivity 
+		wbc_gtk_set_action_sensitivity
 			(wbcg, "EditComment", has_comment);
-		wbc_gtk_set_action_sensitivity 
+		wbc_gtk_set_action_sensitivity
 			(wbcg, "EditHyperlink", has_link);
 	}
 
@@ -1671,19 +1671,19 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		gboolean has_links = FALSE, has_comments = FALSE;
 		gboolean sel_is_vector = FALSE;
 		SheetView *sv = scg_view (scg);
-		for (l = sv->selections; 
+		for (l = sv->selections;
 		     l != NULL; l = l->next) {
 			GnmRange const *r = l->data;
 			GSList *objs;
 			GnmStyleList *styles;
 			if (!has_links) {
-				styles = sheet_style_collect_hlinks 
+				styles = sheet_style_collect_hlinks
 					(sheet, r);
 				has_links = (styles != NULL);
 				style_list_free (styles);
 			}
 			if (!has_comments) {
-				objs = sheet_objects_get 
+				objs = sheet_objects_get
 					(sheet, r, CELL_COMMENT_TYPE);
 				has_comments = (objs != NULL);
 				g_slist_free (objs);
@@ -1691,9 +1691,9 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 			if((count++ > 1) && has_comments && has_links)
 				break;
 		}
-		wbc_gtk_set_action_sensitivity 
+		wbc_gtk_set_action_sensitivity
 			(wbcg, "EditClearHyperlinks", has_links);
-		wbc_gtk_set_action_sensitivity 
+		wbc_gtk_set_action_sensitivity
 			(wbcg, "EditClearComments", has_comments);
 		if (count == 1) {
 			GnmRange const *r = sv->selections->data;
@@ -1701,9 +1701,9 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 					 range_height (r) == 1) &&
 				!range_is_singleton (r);
  		}
-		wbc_gtk_set_action_sensitivity 
+		wbc_gtk_set_action_sensitivity
 			(wbcg, "InsertSortDecreasing", sel_is_vector);
-		wbc_gtk_set_action_sensitivity 
+		wbc_gtk_set_action_sensitivity
 			(wbcg, "InsertSortIncreasing", sel_is_vector);
 	}
 	{
@@ -1965,7 +1965,7 @@ cb_accept_input_selected_merged (WBCGtk *wbcg)
 	Sheet *sheet = wbcg->editing_sheet;
 
 #warning FIXME: this creates 2 undo items!
-	if (wbcg_is_editing (wbcg) && 
+	if (wbcg_is_editing (wbcg) &&
 	    wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL)) {
 		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 		WorkbookView	*wbv = wb_control_view (wbc);
@@ -1991,13 +1991,13 @@ cb_accept_input_selected_merged (WBCGtk *wbcg)
 /* 	GSList *sheets = workbook_sheets  */
 /* 		(wb_control_get_workbook (WORKBOOK_CONTROL (wbcg))); */
 /* 	GSList *vis_sheets = NULL; */
-	
+
 /* 	g_slist_foreach (sheets,  */
 /* 			 (GFunc) cb_accept_input_sheets_collector, */
 /* 			 &vis_sheets); */
 
 /* 	wbcg_edit_multisheet_finish (wbcg, WBC_EDIT_ACCEPT, NULL, vis_sheets); */
-	
+
 /* 	g_slist_free (sheets); */
 /* 	g_slist_free (vis_sheets); */
 /* } */
@@ -2037,8 +2037,8 @@ cb_accept_input_selected_merged (WBCGtk *wbcg)
 /* 	return (n > 2); */
 /* } */
 
-static gboolean 
-cb_accept_input_menu_sensitive_selected_cells (WBCGtk *wbcg) 
+static gboolean
+cb_accept_input_menu_sensitive_selected_cells (WBCGtk *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookView	*wbv = wb_control_view (wbc);
@@ -2048,7 +2048,7 @@ cb_accept_input_menu_sensitive_selected_cells (WBCGtk *wbcg)
 
 	for (l = selection; l != NULL; l = l->next) {
 		GnmRange const *sel = l->data;
-		if (sheet_range_splits_array 
+		if (sheet_range_splits_array
 		    (wbcg->editing_sheet, sel, NULL, NULL, NULL)) {
 			result = FALSE;
 			break;
@@ -2058,18 +2058,18 @@ cb_accept_input_menu_sensitive_selected_cells (WBCGtk *wbcg)
 	return result;
 }
 
-static gboolean 
-cb_accept_input_menu_sensitive_selected_merged (WBCGtk *wbcg) 
+static gboolean
+cb_accept_input_menu_sensitive_selected_merged (WBCGtk *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookView	*wbv = wb_control_view (wbc);
 	SheetView *sv = sheet_get_view (wbcg->editing_sheet, wbv);
 	GnmRange const *sel = selection_first_range (sv, NULL, NULL);
-	
-	return (sel && !range_is_singleton (sel) && 
-		sv->edit_pos.col == sel->start.col && 
+
+	return (sel && !range_is_singleton (sel) &&
+		sv->edit_pos.col == sel->start.col &&
 		sv->edit_pos.row == sel->start.row &&
-		!sheet_range_splits_array 
+		!sheet_range_splits_array
 		(wbcg->editing_sheet, sel, NULL, NULL, NULL));
 }
 
@@ -2077,7 +2077,7 @@ static void
 cb_accept_input_menu (GtkMenuToolButton *button, WBCGtk *wbcg)
 {
 	GtkWidget *menu = gtk_menu_tool_button_get_menu (button);
-	GList     *l, *children 
+	GList     *l, *children
 		= gtk_container_get_children (GTK_CONTAINER (menu));
 
 	struct AcceptInputMenu {
@@ -2085,7 +2085,7 @@ cb_accept_input_menu (GtkMenuToolButton *button, WBCGtk *wbcg)
 		void (*function) (WBCGtk *wbcg);
 		gboolean (*sensitive) (WBCGtk *wbcg);
 	} const accept_input_actions [] = {
-		{ N_("Enter in current cell"),       cb_accept_input, 
+		{ N_("Enter in current cell"),       cb_accept_input,
 		  NULL },
 /* 		{ N_("Enter on all non-hidden sheets"), cb_accept_input_sheets,  */
 /* 		  cb_accept_input_menu_sensitive_sheets}, */
@@ -2097,7 +2097,7 @@ cb_accept_input_menu (GtkMenuToolButton *button, WBCGtk *wbcg)
 		{ NULL,                              NULL, NULL },
 		{ N_("Enter in selected ranges"), cb_accept_input_selected_cells,
 		  cb_accept_input_menu_sensitive_selected_cells },
-		{ N_("Enter in selected ranges as array"), cb_accept_input_array, 
+		{ N_("Enter in selected ranges as array"), cb_accept_input_array,
 		  cb_accept_input_menu_sensitive_selected_cells },
 	};
 	unsigned int ui;
@@ -2107,17 +2107,17 @@ cb_accept_input_menu (GtkMenuToolButton *button, WBCGtk *wbcg)
 	if (children == NULL)
 		for (ui = 0; ui < G_N_ELEMENTS (accept_input_actions); ui++) {
 			it = accept_input_actions + ui;
-				
+
 			if (it->text) {
-				item = gtk_image_menu_item_new_with_label 
+				item = gtk_image_menu_item_new_with_label
 					(_(it->text));
 				if (it->function)
-					g_signal_connect_swapped 
+					g_signal_connect_swapped
 						(G_OBJECT (item), "activate",
-						 G_CALLBACK (it->function), 
+						 G_CALLBACK (it->function),
 						 wbcg);
 				if (it->sensitive)
-					gtk_widget_set_sensitive 
+					gtk_widget_set_sensitive
 						(item, (it->sensitive) (wbcg));
 				else
 					gtk_widget_set_sensitive (item, TRUE);
@@ -2127,16 +2127,16 @@ cb_accept_input_menu (GtkMenuToolButton *button, WBCGtk *wbcg)
 			gtk_widget_show (item);
 		}
 	else
-		for (ui = 0, l = children; 
-		     ui < G_N_ELEMENTS (accept_input_actions) && l != NULL; 
+		for (ui = 0, l = children;
+		     ui < G_N_ELEMENTS (accept_input_actions) && l != NULL;
 		     ui++, l = l->next) {
 			it = accept_input_actions + ui;
 			if (it->sensitive)
-				gtk_widget_set_sensitive 
-					(GTK_WIDGET (l->data), 
+				gtk_widget_set_sensitive
+					(GTK_WIDGET (l->data),
 					 (it->sensitive) (wbcg));
 				else
-					gtk_widget_set_sensitive 
+					gtk_widget_set_sensitive
 						(GTK_WIDGET (l->data), TRUE);
 		}
 
@@ -2663,7 +2663,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 
 #ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
 
-static void cb_cs_go_up  (WBCGtk *wbcg) 
+static void cb_cs_go_up  (WBCGtk *wbcg)
 { wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_top); }
 static void cb_cs_go_down  (WBCGtk *wbcg)
 { wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_bottom); }
@@ -2696,7 +2696,7 @@ wbc_gtk_cell_selector_popup (G_GNUC_UNUSED GtkEntry *entry,
 		};
 		unsigned int ui;
 		GtkWidget *item, *menu = gtk_menu_new ();
-		gboolean active = (!wbcg_is_editing (wbcg) && 
+		gboolean active = (!wbcg_is_editing (wbcg) &&
 				   NULL == wbc_gtk_get_guru (wbcg));
 
 		for (ui = 0; ui < G_N_ELEMENTS (cell_selector_actions); ui++) {
@@ -2704,18 +2704,18 @@ wbc_gtk_cell_selector_popup (G_GNUC_UNUSED GtkEntry *entry,
 				cell_selector_actions + ui;
 			if (it->text) {
 				if (it->stock_id) {
-					item = gtk_image_menu_item_new_from_stock  
+					item = gtk_image_menu_item_new_from_stock
 						(it->stock_id, NULL);
-					gtk_menu_item_set_label 
+					gtk_menu_item_set_label
 						(GTK_MENU_ITEM (item), _(it->text));
 				} else
-					item = gtk_image_menu_item_new_with_label 
+					item = gtk_image_menu_item_new_with_label
 						(_(it->text));
 			} else
 				item = gtk_separator_menu_item_new ();
 
 			if (it->function)
-				g_signal_connect_swapped 
+				g_signal_connect_swapped
 					(G_OBJECT (item), "activate",
 					 G_CALLBACK (it->function), wbcg);
 			gtk_widget_set_sensitive (item, active);
@@ -2766,7 +2766,7 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 		 _("Cancel change"));
 	wbcg->ok_button = edit_area_button_menu
 		(wbcg, tb, FALSE,
-		 G_CALLBACK (cb_accept_input), 
+		 G_CALLBACK (cb_accept_input),
 		 G_CALLBACK (cb_accept_input_menu), GTK_STOCK_OK,
 		 _("Accept change"), _("Accept change in multiple cells"));
 	wbcg->func_button = edit_area_button
@@ -2808,7 +2808,7 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 
 #ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
 
-	gtk_entry_set_icon_from_stock 
+	gtk_entry_set_icon_from_stock
 		(GTK_ENTRY (wbcg->selection_descriptor),
 		 GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_JUMP_TO);
 	gtk_entry_set_icon_sensitive
@@ -4704,10 +4704,10 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 	specs->multiple = multiple;
 	specs->below = below;
 	specs->func = NULL;
-	g_object_get (G_OBJECT (wb_control_view (WORKBOOK_CONTROL (wbcg))), 
+	g_object_get (G_OBJECT (wb_control_view (WORKBOOK_CONTROL (wbcg))),
 		      "auto-expr-func", &(specs->func), NULL);
 	if (specs->func == NULL)
-		specs->func =  gnm_func_lookup_or_add_placeholder 
+		specs->func =  gnm_func_lookup_or_add_placeholder
 			("sum", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (specs->func);
 
@@ -5565,7 +5565,7 @@ wbcg_error_error_info (GOCmdContext *cc, GOErrorInfo *error)
 static void
 wbcg_error_error_info_list (GOCmdContext *cc, GSList *errs)
 {
-	gnumeric_go_error_info_list_dialog_show 
+	gnumeric_go_error_info_list_dialog_show
 		(wbcg_toplevel (WBC_GTK (cc)), errs);
 }
 

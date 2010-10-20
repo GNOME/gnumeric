@@ -154,18 +154,18 @@ cb_dialog_function_select_search_all (GtkTreeModel *model, GtkTreePath *path,
 		name_n = g_utf8_normalize (name, -1, G_NORMALIZE_ALL);
 		name_cf = g_utf8_casefold(name_n, -1);
 		visible = (NULL != g_strstr_len (name_cf, -1, text_cf));
-		g_free (name_n); 
+		g_free (name_n);
 		g_free (name_cf);
 
 		if (!visible) {
 			name_n = g_utf8_normalize (desc, -1, G_NORMALIZE_ALL);
 			name_cf = g_utf8_casefold(name_n, -1);
 			visible = (NULL != g_strstr_len (name_cf, -1, text_cf));
-			g_free (name_n); 
+			g_free (name_n);
 			g_free (name_cf);
 		}
 
-		g_free (text_n); 
+		g_free (text_n);
 		g_free (text_cf);
 
 
@@ -173,7 +173,7 @@ cb_dialog_function_select_search_all (GtkTreeModel *model, GtkTreePath *path,
 		g_free (desc);
 	}
 	if (visible != was_visible)
-		gtk_list_store_set (GTK_LIST_STORE (model), iter, 
+		gtk_list_store_set (GTK_LIST_STORE (model), iter,
 				    FUNCTION_VISIBLE, visible,
 				    -1);
 	return FALSE;
@@ -193,18 +193,18 @@ dialog_function_select_search (GtkEntry *entry, gpointer data)
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
 				    CATEGORY, &specs.cat,
 				    -1);
-		specs.recent_only 
-			= (specs.cat != NULL && 
+		specs.recent_only
+			= (specs.cat != NULL &&
 			   specs.cat == GINT_TO_POINTER(-1));
-		specs.used_only 
-			= (specs.cat != NULL && 
+		specs.used_only
+			= (specs.cat != NULL &&
 			   specs.cat == GINT_TO_POINTER(-2));
 		if (specs.recent_only || specs.used_only)
 			specs.cat = NULL;
 	}
 
 	gtk_tree_model_foreach (GTK_TREE_MODEL (state->model_functions),
-				cb_dialog_function_select_search_all, 
+				cb_dialog_function_select_search_all,
 				(gpointer) &specs);
 }
 
@@ -226,7 +226,7 @@ dialog_function_select_cat_changed (G_GNUC_UNUSED GtkComboBox *widget,
 {
 	FunctionSelectState *state = data;
 
-	dialog_function_select_search (GTK_ENTRY (state->search_entry), 
+	dialog_function_select_search (GTK_ENTRY (state->search_entry),
 				       data);
 }
 
@@ -299,7 +299,7 @@ dialog_function_write_recent_func (FunctionSelectState *state, GnmFunc const *fd
 }
 
 static gboolean
-cb_unref (GtkTreeModel *model, G_GNUC_UNUSED GtkTreePath *path, 
+cb_unref (GtkTreeModel *model, G_GNUC_UNUSED GtkTreePath *path,
 	  GtkTreeIter *iter, G_GNUC_UNUSED gpointer data)
 {
 	GnmFunc *f;
@@ -362,7 +362,7 @@ cb_dialog_function_select_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	GnmFunc *func;
 	GtkTreeSelection *the_selection = gtk_tree_view_get_selection (state->treeview);
 
-	if (state->formula_guru_key != NULL && 
+	if (state->formula_guru_key != NULL &&
 	    gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
 		WBCGtk *wbcg = state->wbcg;
 		gtk_tree_model_get (model, &iter,
@@ -397,7 +397,7 @@ cb_dialog_function_select_paste_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	if (gtk_tree_selection_get_selected (the_selection, &model, &iter) &&
 	    wbcg_edit_start (state->wbcg, FALSE, FALSE)) {
-		GtkEditable *entry 
+		GtkEditable *entry
 			= GTK_EDITABLE (wbcg_get_entry (state->wbcg));
 		gint position;
 		gtk_tree_model_get (model, &iter,
@@ -406,12 +406,12 @@ cb_dialog_function_select_paste_clicked (G_GNUC_UNUSED GtkWidget *button,
 		if (func != NULL) {
 			dialog_function_write_recent_func (state, func);
 			if (state->paste.from >= 0)
-				gtk_editable_select_region 
+				gtk_editable_select_region
 					(entry, state->paste.from,
 					 state->paste.to);
 			gtk_editable_delete_selection (entry);
 			position = gtk_editable_get_position (entry);
-			gtk_editable_insert_text 
+			gtk_editable_insert_text
 				(entry, func->name, -1, &position);
 			gtk_editable_set_position (entry, position);
 		}
@@ -472,7 +472,7 @@ cb_dialog_function_select_load_cb (GtkTreeModel *model,
 			    CATEGORY, &ptr,
 			    -1);
 
-	if (ptr == NULL || ptr == GINT_TO_POINTER(-1) 
+	if (ptr == NULL || ptr == GINT_TO_POINTER(-1)
 	    || ptr == GINT_TO_POINTER(-2))
 		return FALSE;
 	if (go_utf8_collate_casefold (specs->name, name) < 0) {
@@ -645,7 +645,7 @@ make_expr_example (Sheet *sheet, const char *text, gboolean localized)
 		GnmValue *val = gnm_expr_top_eval
 			(texpr, &ep, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 		GOFormat *format = auto_style_format_suggest (texpr, &ep);
-		char *vtxt = format_value(format, val, NULL, -1, 
+		char *vtxt = format_value(format, val, NULL, -1,
 					  workbook_date_conv (sheet->workbook));
 
 		go_format_unref (format);
@@ -890,16 +890,16 @@ dialog_function_select_find_func (FunctionSelectState *state, char* name)
 					&data);
 		if (data.path != NULL) {
 			GtkTreeIter iter;
-			if (gtk_tree_model_get_iter 
+			if (gtk_tree_model_get_iter
 			    (GTK_TREE_MODEL (state->model_functions), &iter,
                              data.path))
-				gtk_list_store_set (state->model_functions, 
-						    &iter, 
+				gtk_list_store_set (state->model_functions,
+						    &iter,
 						    FUNCTION_VISIBLE, TRUE,
 						    -1);
 
 			path = gtk_tree_model_filter_convert_child_path_to_path
-				(GTK_TREE_MODEL_FILTER (state->model_filter), 
+				(GTK_TREE_MODEL_FILTER (state->model_filter),
 				 data.path);
 
 			gtk_tree_selection_select_path (selection,
@@ -1007,7 +1007,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *selection,
 	}
 	gtk_widget_set_sensitive (state->ok_button, active);
 	gtk_widget_set_sensitive (state->paste_button, active);
-	
+
 }
 
 /**********************************************************************/
@@ -1110,12 +1110,12 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 
 	for (ptr = funcs; ptr; ptr = ptr->next) {
 		func = ptr->data;
-		if (!(func->flags & 
+		if (!(func->flags &
 		      (GNM_FUNC_INTERNAL | GNM_FUNC_IS_PLACEHOLDER))) {
 			gtk_list_store_append (state->model_functions, &iter);
 			gnm_func_ref (func);
 			desc = dialog_function_select_get_description (func, &pal);
-			gtk_list_store_set 
+			gtk_list_store_set
 				(state->model_functions, &iter,
 				 FUN_NAME, gnm_func_get_name (func),
 				 FUNCTION, func,
@@ -1150,29 +1150,29 @@ dialog_function_select_init (FunctionSelectState *state)
 			   state);
 
 	/* Set-up combo box */
-	state->cb = GTK_COMBO_BOX 
+	state->cb = GTK_COMBO_BOX
 		(go_gtk_builder_get_widget (state->gui, "category-box"));
-	state->model = gtk_list_store_new 
+	state->model = gtk_list_store_new
 		(NUM_COLMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN);
 
 	gtk_combo_box_set_model (state->cb, GTK_TREE_MODEL (state->model));
 	cell = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->cb), cell, TRUE);
-	gtk_cell_layout_add_attribute 
+	gtk_cell_layout_add_attribute
 		(GTK_CELL_LAYOUT (state->cb), cell, "text", CAT_NAME);
 	dialog_function_select_load_cb (state);
-	gtk_combo_box_set_row_separator_func 
+	gtk_combo_box_set_row_separator_func
 		(state->cb, dialog_function_select_cat_row_separator,
 		 state, NULL);
-	g_signal_connect (state->cb, "changed", 
+	g_signal_connect (state->cb, "changed",
 			  G_CALLBACK (dialog_function_select_cat_changed),
 			  state);
 	/* Finished set-up of combo box */
 
 	/* Set-up treeview */
 
-	state->model_functions = gtk_list_store_new 
-		(NUM_COLUMNS, 
+	state->model_functions = gtk_list_store_new
+		(NUM_COLUMNS,
 /* 	FUN_NAME, */
 /* 	FUNCTION, */
 /* 	FUNCTION_DESC, */
@@ -1181,37 +1181,37 @@ dialog_function_select_init (FunctionSelectState *state)
 /* 	FUNCTION_VISIBLE, */
 /* 	FUNCTION_RECENT, */
 /* 	FUNCTION_USED, */
-		 G_TYPE_STRING, G_TYPE_POINTER, 
-		 G_TYPE_STRING, PANGO_TYPE_ATTR_LIST, 
-		 G_TYPE_POINTER, G_TYPE_BOOLEAN, 
+		 G_TYPE_STRING, G_TYPE_POINTER,
+		 G_TYPE_STRING, PANGO_TYPE_ATTR_LIST,
+		 G_TYPE_POINTER, G_TYPE_BOOLEAN,
 		 G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
 
-	state->model_filter = gtk_tree_model_filter_new 
+	state->model_filter = gtk_tree_model_filter_new
 		(GTK_TREE_MODEL (state->model_functions), NULL);
 	gtk_tree_model_filter_set_visible_column
 		(GTK_TREE_MODEL_FILTER (state->model_filter), FUNCTION_VISIBLE);
 
-	state->treeview= GTK_TREE_VIEW 
+	state->treeview= GTK_TREE_VIEW
 		(go_gtk_builder_get_widget (state->gui, "function-list"));
-	gtk_tree_view_set_model (state->treeview, 
+	gtk_tree_view_set_model (state->treeview,
 				 state->model_filter);
 
 	selection = gtk_tree_view_get_selection (state->treeview);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 	g_signal_connect (selection, "changed",
-			  G_CALLBACK 
-			  (cb_dialog_function_select_fun_selection_changed), 
+			  G_CALLBACK
+			  (cb_dialog_function_select_fun_selection_changed),
 			  state);
 
-	column = gtk_tree_view_column_new_with_attributes 
+	column = gtk_tree_view_column_new_with_attributes
 		(_("Name"),
 		 gtk_cell_renderer_text_new (),
 		 "text", FUN_NAME, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
-	column = gtk_tree_view_column_new_with_attributes 
+	column = gtk_tree_view_column_new_with_attributes
 		(_("Description"),
 		 gtk_cell_renderer_text_new (),
-		 "text", FUNCTION_DESC, 
+		 "text", FUNCTION_DESC,
 		 "attributes", FUNCTION_PAL, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 
@@ -1221,18 +1221,18 @@ dialog_function_select_init (FunctionSelectState *state)
 	dialog_function_select_load_tree (state);
 	dialog_function_load_recent_funcs (state);
 
-	state->search_entry = go_gtk_builder_get_widget (state->gui, 
+	state->search_entry = go_gtk_builder_get_widget (state->gui,
 						    "search-entry");
 	if (state->paste.prefix != NULL)
-		gtk_entry_set_text (GTK_ENTRY (state->search_entry), 
+		gtk_entry_set_text (GTK_ENTRY (state->search_entry),
 				    state->paste.prefix);
-	
+
 #ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
 
-	gtk_entry_set_icon_from_stock 
+	gtk_entry_set_icon_from_stock
 		(GTK_ENTRY (state->search_entry),
 		 GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_CLEAR);
-	gtk_entry_set_icon_tooltip_text 
+	gtk_entry_set_icon_tooltip_text
 		(GTK_ENTRY (state->search_entry),
 		 GTK_ENTRY_ICON_SECONDARY,
 		 _("Erase the search entry."));
@@ -1245,7 +1245,7 @@ dialog_function_select_init (FunctionSelectState *state)
 
 	g_signal_connect (G_OBJECT (state->search_entry),
 			  "icon-press",
-			  G_CALLBACK 
+			  G_CALLBACK
 			  (dialog_function_select_erase_search_entry),
 			  state);
 #endif
@@ -1262,7 +1262,7 @@ dialog_function_select_init (FunctionSelectState *state)
 	gtk_paned_set_position (GTK_PANED (go_gtk_builder_get_widget
 					   (state->gui, "vpaned1")), 300);
 
-	state->description_view = GTK_TEXT_VIEW (go_gtk_builder_get_widget 
+	state->description_view = GTK_TEXT_VIEW (go_gtk_builder_get_widget
 						 (state->gui, "description"));
 	description = gtk_text_view_get_buffer (state->description_view);
 	gtk_text_buffer_get_start_iter (description, &where);
@@ -1289,7 +1289,7 @@ dialog_function_select_init (FunctionSelectState *state)
 	g_signal_connect (G_OBJECT (close_button), "clicked",
 		G_CALLBACK (cb_dialog_function_select_cancel_clicked), state);
 
-	gnm_dialog_setup_destroy_handlers 
+	gnm_dialog_setup_destroy_handlers
 		(GTK_DIALOG (state->dialog),
 		 state->wbcg,
 		 GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
@@ -1297,24 +1297,24 @@ dialog_function_select_init (FunctionSelectState *state)
 	gnumeric_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_FUNCTION_SELECT);
-	g_object_set_data_full 
+	g_object_set_data_full
 		(G_OBJECT (state->dialog),
-		 "state", state, 
+		 "state", state,
 		 (GDestroyNotify) cb_dialog_function_select_destroy);
 
 	if (state->paste.prefix != NULL)
-		dialog_function_select_search 
+		dialog_function_select_search
 			(GTK_ENTRY (state->search_entry), state);
-	
+
 	gtk_widget_set_visible (close_button, state->mode != GURU_MODE);
-	gtk_widget_set_visible (go_gtk_builder_get_widget 
-				(state->gui, "help_button"), 
+	gtk_widget_set_visible (go_gtk_builder_get_widget
+				(state->gui, "help_button"),
 				state->mode == GURU_MODE);
 	gtk_widget_set_visible (cancel_button, state->mode == GURU_MODE);
 	gtk_widget_set_visible (state->ok_button, state->mode == GURU_MODE);
 	gtk_widget_set_visible (state->paste_button, state->mode == PASTE_MODE);
-	gtk_widget_set_visible (go_gtk_builder_get_widget 
-				(state->gui, "title_label"), 
+	gtk_widget_set_visible (go_gtk_builder_get_widget
+				(state->gui, "title_label"),
 				state->mode == GURU_MODE);
 	gtk_combo_box_set_active (state->cb, state->mode == HELP_MODE ? 2 : 0);
 	switch (state->mode) {
@@ -1332,7 +1332,7 @@ dialog_function_select_init (FunctionSelectState *state)
 }
 
 static void
-dialog_function_select_full (WBCGtk *wbcg, char const *guru_key, 
+dialog_function_select_full (WBCGtk *wbcg, char const *guru_key,
 			     char const *key, DialogMode mode, gint from, gint to)
 {
 	FunctionSelectState* state;
@@ -1359,7 +1359,7 @@ dialog_function_select_full (WBCGtk *wbcg, char const *guru_key,
 	state->paste.to = to;
 
 	if (mode == PASTE_MODE && state->paste.from >= 0) {
-		GtkEditable *entry 
+		GtkEditable *entry
 			= GTK_EDITABLE (wbcg_get_entry (state->wbcg));
 		state->paste.prefix = gtk_editable_get_chars
 			(entry, state->paste.from,
@@ -1377,22 +1377,22 @@ dialog_function_select_full (WBCGtk *wbcg, char const *guru_key,
 void
 dialog_function_select (WBCGtk *wbcg, char const *key)
 {
-	dialog_function_select_full (wbcg, key, 
-				     FUNCTION_SELECT_KEY, GURU_MODE, -1, -1);	
+	dialog_function_select_full (wbcg, key,
+				     FUNCTION_SELECT_KEY, GURU_MODE, -1, -1);
 }
 
 void
 dialog_function_select_help (WBCGtk *wbcg)
 {
-	dialog_function_select_full (wbcg, NULL, 
-				     FUNCTION_SELECT_HELP_KEY, HELP_MODE, 
+	dialog_function_select_full (wbcg, NULL,
+				     FUNCTION_SELECT_HELP_KEY, HELP_MODE,
 				     -1, -1);
 }
 
 void
 dialog_function_select_paste (WBCGtk *wbcg, gint from, gint to)
 {
-	dialog_function_select_full (wbcg, NULL, 
-				     FUNCTION_SELECT_PASTE_KEY, PASTE_MODE, 
+	dialog_function_select_full (wbcg, NULL,
+				     FUNCTION_SELECT_PASTE_KEY, PASTE_MODE,
 				     from, to);
 }

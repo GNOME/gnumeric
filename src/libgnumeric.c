@@ -183,7 +183,7 @@ gnm_pre_parse_init (int argc, gchar const **argv)
 	/* We cannot use gnm_debug_flag yet.  See 627840.  */
 	gnm_debug = getenv ("GNM_DEBUG");
 	if (gnm_debug && strstr (gnm_debug, "gmemdebug")) {
-		g_mem_set_vtable (glib_mem_profiler_table);		
+		g_mem_set_vtable (glib_mem_profiler_table);
 	}
 
 	g_thread_init (NULL);

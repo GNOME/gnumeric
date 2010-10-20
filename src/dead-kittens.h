@@ -4,7 +4,7 @@
 /* To be included only from C files, not headers.  */
 
 #ifndef HAVE_GTK_ENTRY_GET_TEXT_LENGTH
-#define gtk_entry_get_text_length(x) g_utf8_strlen (gtk_entry_get_text (x), -1) 
+#define gtk_entry_get_text_length(x) g_utf8_strlen (gtk_entry_get_text (x), -1)
 #endif
 
 #ifndef HAVE_GTK_LAYOUT_GET_BIN_WINDOW

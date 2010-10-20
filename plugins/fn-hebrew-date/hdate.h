@@ -31,7 +31,7 @@ extern "C"
 
 /**
  @brief Return the days from the start
- 
+
  @param y The years
  @warning internal function.
 */
@@ -62,7 +62,7 @@ hdate_hdate_to_gdate (int d, int m, int y, int *gd, int *gm, int *gy);
 
 /**
  @brief Compute Julian day (jd from Gregorian day, month and year (d, m, y)
- Algorithm from 'Julian and Gregorian Day Numbers' by Peter Meyer 
+ Algorithm from 'Julian and Gregorian Day Numbers' by Peter Meyer
  @author Yaacov Zamir ( algorithm from Henry F. Fliegel and Thomas C. Van Flandern ,1968)
 
  @param d Day of month 1..31
@@ -74,7 +74,7 @@ hdate_gdate_to_jd (int d, int m, int y);
 
 /**
  @brief Converting from the Julian day to the Gregorian day
- Algorithm from 'Julian and Gregorian Day Numbers' by Peter Meyer 
+ Algorithm from 'Julian and Gregorian Day Numbers' by Peter Meyer
  @author Yaacov Zamir ( Algorithm, Henry F. Fliegel and Thomas C. Van Flandern ,1968)
 
  @param jd Julian day
@@ -112,7 +112,7 @@ hdate_hdate_to_jd (int d, int m, int y);
 
 /**
  @brief convert an integer to hebrew string UTF-8 (logical)
- 
+
  @param n The int to convert
  @attention ( 0 < n < 10000)
  @warning uses a static string, so output should be copied away.

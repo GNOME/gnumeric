@@ -64,8 +64,8 @@
 2010-05-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (gnumeric_accrint): make @{par} optional
-	(help_accrint): update 
-	(financial_functions): update 
+	(help_accrint): update
+	(financial_functions): update
 
 2010-04-16  Morten Welinder <terra@gnome.org>
 
@@ -85,7 +85,7 @@
 
 2010-01-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* functions.c (help_npv): there does not seem to be 
+	* functions.c (help_npv): there does not seem to be
 	  a type argument
 
 2010-01-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -107,7 +107,7 @@
 
 2009-12-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* functions.c (help_euro): add currencies added to 
+	* functions.c (help_euro): add currencies added to
 	  the euro in 2007 to 2009
 	(one_euro): ditto
 

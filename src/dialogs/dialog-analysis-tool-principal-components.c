@@ -152,7 +152,7 @@ int
 dialog_principal_components_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         GenericToolState *state;
-	char const * plugins[] = { "Gnumeric_fnstat", 
+	char const * plugins[] = { "Gnumeric_fnstat",
 				   "Gnumeric_fnmath",
 				   "Gnumeric_fnlogical",
 				   NULL};

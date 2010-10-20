@@ -248,7 +248,7 @@ finish:
 		else if (err == analysis_tools_invalid_field)
 			dao_set_cell (dao, 0, 0, _("The given criteria are invalid."));
 		else
-			dao_set_cell_printf (dao, 0, 0, 
+			dao_set_cell_printf (dao, 0, 0,
 					     _("An unexpected error has occurred: "
 					       "%d."), err);
 	}
@@ -270,9 +270,9 @@ analysis_tool_advanced_filter_engine (data_analysis_output_t *dao, gpointer spec
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO: {
 		int rows, cols;
-		rows = info->base.range_1->v_range.cell.b.row 
+		rows = info->base.range_1->v_range.cell.b.row
 			- info->base.range_1->v_range.cell.a.row + 1;
-		cols = info->base.range_1->v_range.cell.b.col 
+		cols = info->base.range_1->v_range.cell.b.col
 			- info->base.range_1->v_range.cell.a.col + 1;
 		if (cols < 2)
 			cols = 2;

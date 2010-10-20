@@ -32,8 +32,8 @@ void scg_objects_drag		(SheetControlGUI *scg, GnmPane *gcanvas,
 				 int drag_type, gboolean symmetric, gboolean snap_to_grid,
 				 gboolean is_mouse_move);
 void scg_objects_drag_commit	(SheetControlGUI *scg, int drag_type,
-				 gboolean created_objects, 
-				 GOUndo **pundo, GOUndo **predo, 
+				 gboolean created_objects,
+				 GOUndo **pundo, GOUndo **predo,
 				 gchar **undo_title);
 void scg_objects_nudge		(SheetControlGUI *scg, GnmPane *gcanvas,
 				 int drag_type, double dx, double dy,

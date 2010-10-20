@@ -656,7 +656,7 @@
 	* oleo.c (oleo_read) : Ditto.
 
 1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
- 
+
         * boot.c (oleo_cleanup_plugin): free pd->title
 
 1999-11-08  Robert Brady  <rwb197@ecs.soton.ac.uk>

@@ -1619,7 +1619,7 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 		case 0x22: fd->underline = XLS_ULINE_DOUBLE_ACC; break;	/* double accounting */
 		default:
 			g_printerr ("Unknown uline %#x\n", (int)data1);
-			break;			
+			break;
 		}
 		fd->fontname = excel_biff_text_1 (importer, q, 14);
 	}
@@ -1933,7 +1933,7 @@ xls_uline_to_gnm_underline (MsBiffFontUnderline mul)
 {
 	g_return_val_if_fail (mul >= XLS_ULINE_NONE, UNDERLINE_NONE);
 	g_return_val_if_fail (mul <= XLS_ULINE_DOUBLE_ACC, UNDERLINE_NONE);
-	
+
 	switch (mul) {
 	case XLS_ULINE_SINGLE:
 		return UNDERLINE_SINGLE;
@@ -1947,7 +1947,7 @@ xls_uline_to_gnm_underline (MsBiffFontUnderline mul)
 	default:
 		return UNDERLINE_NONE;
 	}
-	
+
 }
 
 /* Adds a ref the result */
@@ -1998,7 +1998,7 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 		gnm_style_set_font_italic (mstyle, fd->italic);
 		gnm_style_set_font_strike (mstyle, fd->struck_out);
 		gnm_style_set_font_script (mstyle, fd->script);
-		gnm_style_set_font_uline  
+		gnm_style_set_font_uline
 			(mstyle, xls_uline_to_gnm_underline (fd->underline));
 		font_index = fd->color_idx;
 	} else
@@ -3069,7 +3069,7 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 
 	if (fd->attrs == NULL) {
 		PangoAttrList *attrs;
-		PangoUnderline underline = gnm_translate_underline_to_pango 
+		PangoUnderline underline = gnm_translate_underline_to_pango
 			(xls_uline_to_gnm_underline (fd->underline));
 
 		attrs = pango_attr_list_new ();
@@ -3390,9 +3390,9 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 				   name for the sheet it specifies.  This
 				   triggers on the file from 632050.  */
 				gnm_rangeref_normalize_pp (value_get_rangeref (val),
-							   
+
 							   &pp,
-							   
+
 							   &start_sheet,
 							   &end_sheet,
 							   &dest);
@@ -5105,7 +5105,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 				mul = XLS_ULINE_DOUBLE_ACC;
 				break;
 			}
-			gnm_style_set_font_uline 
+			gnm_style_set_font_uline
 				(cond.overlay,
 				 xls_uline_to_gnm_underline (mul));
 		}

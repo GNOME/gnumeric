@@ -161,11 +161,11 @@ static void
 bool_pref_widget_to_conf (GtkToggleButton *button,
 			  gboolean_conf_setter_t setter)
 {
-	gboolean_conf_getter_t getter 
+	gboolean_conf_getter_t getter
 		= g_object_get_data (G_OBJECT (button), "getter");
 	gboolean val_in_button = gtk_toggle_button_get_active (button);
 	gboolean val_in_conf = getter ();
-	if ((!val_in_button) != (!val_in_conf)) 
+	if ((!val_in_button) != (!val_in_conf))
 		setter (val_in_button);
 }
 
@@ -323,7 +323,7 @@ enum_pref_create_widget (GOConfNode *node, GtkWidget *table,
 static void
 int_pref_widget_to_conf (GtkSpinButton *button, gint_conf_setter_t setter)
 {
-	gint_conf_getter_t getter 
+	gint_conf_getter_t getter
 		= g_object_get_data (G_OBJECT (button), "getter");
 	gint val_in_button = gtk_spin_button_get_value_as_int (button);
 	gint val_in_conf = getter ();
@@ -406,7 +406,7 @@ power_of_2_handlers (GtkWidget *w)
 static void
 double_pref_widget_to_conf (GtkSpinButton *button, double_conf_setter_t setter)
 {
-	double_conf_getter_t getter 
+	double_conf_getter_t getter
 		= g_object_get_data (G_OBJECT (button), "getter");
 	double val_in_button = gtk_spin_button_get_value (button);
 	double val_in_conf = getter();
@@ -431,7 +431,7 @@ double_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 static void
 double_pref_create_widget (GOConfNode *node, GtkWidget *table,
 			   gint row, gnm_float val, gnm_float from, gnm_float to,
-			   gnm_float step, gint digits, 
+			   gnm_float step, gint digits,
 			   double_conf_setter_t setter,
 			   double_conf_getter_t getter,
 			   char const *default_label)
@@ -482,7 +482,7 @@ wordlist_pref_conf_to_widget (GOConfNode *node, G_GNUC_UNUSED char const *key,
 	g_slist_free (list);
 }
 
-static void                
+static void
 wordlist_pref_remove (GtkButton *button, wordlist_conf_setter_t setter) {
 	GtkTreeView *tree = g_object_get_data (G_OBJECT (button), "treeview");
 	GtkTreeSelection *select = gtk_tree_view_get_selection (tree);
@@ -510,7 +510,7 @@ wordlist_pref_remove (GtkButton *button, wordlist_conf_setter_t setter) {
 	}
 }
 
-static void                
+static void
 wordlist_pref_add (GtkButton *button, wordlist_conf_setter_t setter)
 {
 	GtkEntry *entry = g_object_get_data (G_OBJECT (button), "entry");
@@ -540,7 +540,7 @@ static GtkWidget *
 wordlist_pref_create_widget (GOConfNode *node, GtkWidget *table,
 			     gint row, wordlist_conf_setter_t setter,
 			     wordlist_conf_getter_t getter,
-			     char const *default_label) 
+			     char const *default_label)
 {
 	GtkWidget *w= gtk_table_new (5, 2, FALSE);
 	GtkWidget *sw= gtk_scrolled_window_new (NULL, NULL);
@@ -551,7 +551,7 @@ wordlist_pref_create_widget (GOConfNode *node, GtkWidget *table,
 	GtkListStore	*model = gtk_list_store_new (1, G_TYPE_STRING);
 	GtkTreeSelection *selection;
 
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), 
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
 					     GTK_SHADOW_ETCHED_IN);
@@ -577,7 +577,7 @@ wordlist_pref_create_widget (GOConfNode *node, GtkWidget *table,
 	gtk_tree_view_set_model (GTK_TREE_VIEW (tv),
 				 GTK_TREE_MODEL (model));
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tv),
-				     gtk_tree_view_column_new_with_attributes 
+				     gtk_tree_view_column_new_with_attributes
 				     (NULL,
 				      gtk_cell_renderer_text_new (),
 				      "text", 0,
@@ -596,7 +596,7 @@ wordlist_pref_create_widget (GOConfNode *node, GtkWidget *table,
 		G_CALLBACK (wordlist_pref_add), setter);
 	g_signal_connect (G_OBJECT (selection), "changed",
 		G_CALLBACK (wordlist_pref_update_remove_button), remove_button);
-	wordlist_pref_update_remove_button (selection, 
+	wordlist_pref_update_remove_button (selection,
 					    GTK_BUTTON (remove_button));
 
 	connect_notification (node, (GOConfMonitorFunc)wordlist_pref_conf_to_widget,
@@ -892,7 +892,7 @@ custom_pref_conf_to_widget_ecd (GOConfNode *node, G_GNUC_UNUSED char const *key,
 	/* We can't use the getter here since the main preferences */
 	/* may be notified after us */
 	GSList *list = go_conf_get_str_list (node, NULL);
-	gboolean val_in_conf 
+	gboolean val_in_conf
 		= (NULL != g_slist_find_custom (list, "Gnumeric_stf:stf_assistant", go_str_compare));
 
 	if ((!val_in_button) != (!val_in_conf))
@@ -1188,7 +1188,7 @@ typedef struct {
 	GtkTreePath *path;
 } page_search_t;
 
-static gboolean   
+static gboolean
 dialog_pref_select_page_search (GtkTreeModel *model,
 				GtkTreePath *path,
 				GtkTreeIter *iter,
@@ -1352,8 +1352,8 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 			this_page->page_initializer (state, NULL,
 						     state->notebook, i);
 		gtk_notebook_append_page (state->notebook, page_widget, NULL);
-		dialog_pref_add_item (state, this_page->page_name, 
-				      this_page->icon_name, i, 
+		dialog_pref_add_item (state, this_page->page_name,
+				      this_page->icon_name, i,
 				      this_page->parent_path);
 	}
 

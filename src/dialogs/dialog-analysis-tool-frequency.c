@@ -261,18 +261,18 @@ dialog_frequency_tool (WBCGtk *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
-	state->predetermined_button = tool_setup_update 
+	state->predetermined_button = tool_setup_update
 		(&state->base, "pre_determined_button",
 		 G_CALLBACK (frequency_tool_update_sensitivity_cb),
-		 state); 
+		 state);
 
-	state->calculated_button  = tool_setup_update 
+	state->calculated_button  = tool_setup_update
 		(&state->base, "calculated_button",
 		 G_CALLBACK (frequency_tool_update_sensitivity_cb),
-		 state); 
+		 state);
 
-	state->n_entry = 
-		GTK_ENTRY(tool_setup_update 
+	state->n_entry =
+		GTK_ENTRY(tool_setup_update
 			  (&state->base, "n_entry",
 			   G_CALLBACK (frequency_tool_update_sensitivity_cb),
 			   state));

@@ -1672,7 +1672,7 @@ gnm_style_get_pango_attrs (GnmStyle const *style,
 	/* Handle underlining.  */
 	ul = gnm_style_get_font_uline (style);
 	if (ul != UNDERLINE_NONE)
-		add_attr (l, 
+		add_attr (l,
 			  pango_attr_underline_new (gnm_translate_underline_to_pango (ul)));
 
 	/* Handle strikethrough. */
@@ -1718,10 +1718,10 @@ gnm_style_generate_attrs_full (GnmStyle const *style)
 	add_attr (l, pango_attr_weight_new (gnm_style_get_font_bold (style)
 		? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL));
 	add_attr (l, go_color_to_pango (fore->go_color, TRUE));
-	add_attr (l, pango_attr_strikethrough_new 
+	add_attr (l, pango_attr_strikethrough_new
 		  (gnm_style_get_font_strike (style)));
-	add_attr (l, pango_attr_underline_new 
-		  (gnm_translate_underline_to_pango 
+	add_attr (l, pango_attr_underline_new
+		  (gnm_translate_underline_to_pango
 		   (gnm_style_get_font_uline (style))));
 	return l;
 }
@@ -1772,8 +1772,8 @@ gnm_style_set_from_pango_attribute (GnmStyle *style, PangoAttribute const *attr)
 			&((PangoAttrColor *)attr)->color));
 		break;
 	case PANGO_ATTR_UNDERLINE :
-		gnm_style_set_font_uline 
-			(style, gnm_translate_underline_from_pango 
+		gnm_style_set_font_uline
+			(style, gnm_translate_underline_from_pango
 			 (((PangoAttrInt *)attr)->value));
 		break;
 	case PANGO_ATTR_STRIKETHROUGH :

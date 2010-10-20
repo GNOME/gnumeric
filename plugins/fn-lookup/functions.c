@@ -1581,7 +1581,7 @@ gnumeric_sheets (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 				return value_new_int (1);
 
 			return value_new_int (ans_max - ans_min + 1);
-		} else 
+		} else
 			return value_new_int (1);
 	} else
 		return value_new_int (workbook_sheet_count (wb));
@@ -1615,26 +1615,26 @@ gnumeric_sheet (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 			b = g_slist_index (workbook_sheets (wb), r->b.sheet);
 
 			if (a == -1 && b == -1)
-				return value_new_int (1 + g_slist_index 
-						      (workbook_sheets (wb), 
+				return value_new_int (1 + g_slist_index
+						      (workbook_sheets (wb),
 						       ei->pos->sheet));
 			else if (a == b || (a * b) < 0)
 				return value_new_int (1 + ((a < b) ? b : a));
 			else
 				return value_new_error_NUM (ei->pos);
 		} else if (v->type == VALUE_STRING) {
-			Sheet *sheet = workbook_sheet_by_name 
+			Sheet *sheet = workbook_sheet_by_name
 				(wb, value_peek_string (v));
 			if (sheet == NULL)
 				return value_new_error_NUM (ei->pos);
 			else
-				return value_new_int 
-					(1 + g_slist_index (workbook_sheets (wb), 
+				return value_new_int
+					(1 + g_slist_index (workbook_sheets (wb),
 							    sheet));
 		} else
 			return value_new_error_VALUE (ei->pos);
 	} else
-		return value_new_int (1 + g_slist_index (workbook_sheets (wb), 
+		return value_new_int (1 + g_slist_index (workbook_sheets (wb),
 							 ei->pos->sheet));
 }
 /***************************************************************************/
@@ -1711,7 +1711,7 @@ callback_function_array (GnmEvalPos const *ep, GnmValue const *value, void *clos
 {
 	GSList **list = closure;
 
-	*list = g_slist_prepend 
+	*list = g_slist_prepend
 		(*list, value ? value_dup (value) : value_new_empty ());
 	return NULL;
 }
@@ -1721,7 +1721,7 @@ gnumeric_array (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	GSList *list = NULL, *l;
 	int len, i;
-	GnmValue *val = function_iterate_argument_values 
+	GnmValue *val = function_iterate_argument_values
 		(ei->pos, callback_function_array, &list,
 		 argc, argv, FALSE, CELL_ITER_ALL);
 
@@ -1736,7 +1736,7 @@ gnumeric_array (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		go_slist_free_custom (list, (GFreeFunc) value_release);
 		return value_new_error_VALUE (ei->pos);
 	}
-		
+
 	if (len == 1) {
 		val = list->data;
 		g_slist_free (list);
@@ -1744,7 +1744,7 @@ gnumeric_array (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	}
 
 	val = value_new_array_empty (1, len);
-	
+
 	for (l = list, i = 0; l != NULL; l = l->next, i++)
 		val->v_array.vals[0][i] = l->data;
 
@@ -1784,13 +1784,13 @@ gnumeric_sort (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	switch (argv[1] ? value_get_as_int (argv[1]) : 0) {
 	case 0:
 		result = value_new_array_empty (1, n);
-		
+
 		for (i = 0, j = n - 1; i < n; i++, j--)
 			result->v_array.vals[0][i] = value_new_float (xs[j]);
 		break;
 	case 1:
 		result = value_new_array_empty (1, n);
-		
+
 		for (i = 0; i < n; i++)
 			result->v_array.vals[0][i] = value_new_float (xs[i]);
 		break;

@@ -362,7 +362,7 @@
 
 2003-07-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* applix-read.c (applix_read): remove last argument 
+	* applix-read.c (applix_read): remove last argument
 	  in workbook_sheet_reorder, replace workbook_sheet_reorganize
 	  with workbook_sheet_rename
 

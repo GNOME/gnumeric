@@ -928,7 +928,7 @@ undo_range_name (Sheet const *sheet, GnmRange const *r)
 		g_string_free (str, TRUE);
 	}
 
-	return g_string_free 
+	return g_string_free
 		(gnm_cmd_trunc_descriptor (g_string_new (the_range_name), NULL), FALSE);
 }
 

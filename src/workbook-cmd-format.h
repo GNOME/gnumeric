@@ -7,7 +7,7 @@
 G_BEGIN_DECLS
 
 void workbook_cmd_resize_selected_colrow   (WorkbookControl *wbc, Sheet *sheet,
-					    gboolean is_cols, 
+					    gboolean is_cols,
 					    int new_size_pixels);
 void workbook_cmd_autofit_selection        (WorkbookControl *wbc, Sheet *sheet,
 					    gboolean is_cols);

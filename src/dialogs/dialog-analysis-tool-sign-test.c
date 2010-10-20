@@ -138,7 +138,7 @@ sign_test_two_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		 state->base.sheet);
 	if (input_range == NULL || input_range->type != VALUE_CELLRANGE) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
-				    (state->base.input_entry_2 == NULL) 
+				    (state->base.input_entry_2 == NULL)
 				    ? _("The input range is invalid.")
 				    : _("The first input range is invalid."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
@@ -167,12 +167,12 @@ sign_test_two_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			GnmRange r;
 			range_init_rangeref (&r, &(input_range->v_range.cell));
 			value_release (input_range);
-			if (w != range_width (&r) || 
+			if (w != range_width (&r) ||
 			    h != range_height (&r)) {
-				gtk_label_set_text 
+				gtk_label_set_text
 					(GTK_LABEL (state->base.warning),
 					 _("The input ranges do not have the same shape."));
-				gtk_widget_set_sensitive 
+				gtk_widget_set_sensitive
 					(state->base.ok_button, FALSE);
 			return;
 
@@ -206,7 +206,7 @@ sign_test_two_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-        data->base.labels = gtk_toggle_button_get_active 
+        data->base.labels = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (w));
 
 	err = entry_to_float
@@ -217,10 +217,10 @@ sign_test_two_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	w =  go_gtk_builder_get_widget (state->base.gui, "signtest");
 	engine =  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w))
-		? analysis_tool_sign_test_two_engine 
+		? analysis_tool_sign_test_two_engine
 		: analysis_tool_signed_rank_test_two_engine;
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), 
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
 				state->base.sheet,
 				dao, data, engine))
 		gtk_widget_destroy (state->base.dialog);
@@ -257,28 +257,28 @@ dialog_sign_test_two_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 			      GNUMERIC_HELP_LINK_SIGN_TEST,
 			      "sign-test-two.ui", "Sign-Test",
 			      _("Could not create the Sign Test Tool dialog."),
-			      SIGN_TEST_KEY_TWO, 
-			      G_CALLBACK (sign_test_two_tool_ok_clicked_cb), 
-			      NULL, 
-			      G_CALLBACK (sign_test_two_tool_update_sensitivity_cb), 
+			      SIGN_TEST_KEY_TWO,
+			      G_CALLBACK (sign_test_two_tool_ok_clicked_cb),
+			      NULL,
+			      G_CALLBACK (sign_test_two_tool_update_sensitivity_cb),
 			      GNM_EE_SINGLE_RANGE))
 		return 0;
 
 
-	state->alpha_entry = tool_setup_update 
+	state->alpha_entry = tool_setup_update
 		(&state->base, "alpha-entry",
-		 G_CALLBACK (sign_test_two_tool_update_sensitivity_cb), 
+		 G_CALLBACK (sign_test_two_tool_update_sensitivity_cb),
 		 state);
 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
 
-	state->median_entry = tool_setup_update 
+	state->median_entry = tool_setup_update
 		(&state->base, "median-entry",
 		 G_CALLBACK (sign_test_two_tool_update_sensitivity_cb),
-		 state); 
+		 state);
 	int_to_entry (GTK_ENTRY (state->median_entry), 0);
 
 	w =  go_gtk_builder_get_widget (state->base.gui,
-				   (type == SIGNTEST) ? "signtest" 
+				   (type == SIGNTEST) ? "signtest"
 				   : "signedranktest");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 
@@ -319,7 +319,7 @@ sign_test_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->base.group_by = gnm_gui_group_value (state->base.gui, grouped_by_group);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
-        data->base.labels = gtk_toggle_button_get_active 
+        data->base.labels = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (w));
 
 	err = entry_to_float
@@ -329,7 +329,7 @@ sign_test_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	w =  go_gtk_builder_get_widget (state->base.gui, "signtest");
 	engine =  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w))
-		? analysis_tool_sign_test_engine 
+		? analysis_tool_sign_test_engine
 		: analysis_tool_signed_rank_test_engine;
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
@@ -358,7 +358,7 @@ sign_test_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		 state->base.sheet);
 	if (input_range == NULL) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
-				    (state->base.input_entry_2 == NULL) 
+				    (state->base.input_entry_2 == NULL)
 				    ? _("The input range is invalid.")
 				    : _("The first input range is invalid."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
@@ -402,28 +402,28 @@ dialog_sign_test_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 			      GNUMERIC_HELP_LINK_SIGN_TEST,
 			      "sign-test.ui", "Sign-Test",
 			      _("Could not create the Sign Test Tool dialog."),
-			      SIGN_TEST_KEY_ONE, 
-			      G_CALLBACK (sign_test_tool_ok_clicked_cb), 
-			      NULL, 
-			      G_CALLBACK (sign_test_tool_update_sensitivity_cb), 
+			      SIGN_TEST_KEY_ONE,
+			      G_CALLBACK (sign_test_tool_ok_clicked_cb),
+			      NULL,
+			      G_CALLBACK (sign_test_tool_update_sensitivity_cb),
 			      0))
 		return 0;
 
 
-	state->alpha_entry = tool_setup_update 
+	state->alpha_entry = tool_setup_update
 		(&state->base, "alpha-entry",
-		 G_CALLBACK (sign_test_two_tool_update_sensitivity_cb), 
+		 G_CALLBACK (sign_test_two_tool_update_sensitivity_cb),
 		 state);
-	state->median_entry = tool_setup_update 
+	state->median_entry = tool_setup_update
 		(&state->base, "median-entry",
 		 G_CALLBACK (sign_test_two_tool_update_sensitivity_cb),
-		 state); 
+		 state);
 
 	int_to_entry (GTK_ENTRY (state->median_entry), 0);
 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
 
 	w =  go_gtk_builder_get_widget (state->base.gui,
-				   (type == SIGNTEST) ? "signtest" 
+				   (type == SIGNTEST) ? "signtest"
 				   : "signedranktest");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 

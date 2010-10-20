@@ -368,17 +368,17 @@ static GnmFuncHelp const help_accrint[] = {
         { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
         { GNM_FUNC_HELP_ARG, F_("basis:calendar basis, defaults to 0")},
         { GNM_FUNC_HELP_ARG, F_("calc_method:calculation method, defaults to TRUE")},
-	{ GNM_FUNC_HELP_DESCRIPTION, 
+	{ GNM_FUNC_HELP_DESCRIPTION,
 	  F_("If @{first_interest} < @{settlement} and @{calc_method} is "
 	     "TRUE, then ACCRINT returns the sum of the"
 	     " interest accrued in all coupon periods from @{issue} "
 	     " date until @{settlement} date.") },
-	{ GNM_FUNC_HELP_DESCRIPTION, 
+	{ GNM_FUNC_HELP_DESCRIPTION,
 	  F_("If @{first_interest} < @{settlement} and @{calc_method} is "
 	     "FALSE, then ACCRINT returns the sum of the"
 	     " interest accrued in all coupon periods from @{first_interest} "
 	     " date until @{settlement} date.") },
-	{ GNM_FUNC_HELP_DESCRIPTION, 
+	{ GNM_FUNC_HELP_DESCRIPTION,
 	  F_("Otherwise ACCRINT returns the sum of the"
 	     " interest accrued in all coupon periods from @{issue} "
 	     " date until @{settlement} date.") },
@@ -2907,7 +2907,7 @@ static GnmFuncHelp const help_amordegrc[] = {
 					"2.0 for an expected lifetime of at least 5 years but at most 6 years,\n"
 					"2.5 for an expected lifetime of more than 6 years.") },
 	{ GNM_FUNC_HELP_NOTE, F_("Special depreciation rules are applied for the last two periods resulting in a possible total "
-				 "depreciation exceeding the difference of @{cost} - @{salvage}.") },	
+				 "depreciation exceeding the difference of @{cost} - @{salvage}.") },
 	{ GNM_FUNC_HELP_NOTE, F_("Named for AMORtissement DEGRessif Comptabilite.") },
 	GNM_DATE_BASIS_HELP
 	{ GNM_FUNC_HELP_EXAMPLES, "=AMORDEGRC(2400,DATE(1998,8,19),DATE(1998,12,30),300,1,0.14,1)" },

@@ -158,7 +158,7 @@ dialog_data_table (WBCGtk *wbcg)
 	if (sheet_range_splits_region (sheet, &input_range, NULL,
 				       GO_CMD_CONTEXT (wbcg), _("Data Table")))
 		return;
-	if (cmd_cell_range_is_locked_effective 
+	if (cmd_cell_range_is_locked_effective
 	    (sheet, &input_range, WORKBOOK_CONTROL (wbcg),
 					   _("Data Table")))
 		return;
