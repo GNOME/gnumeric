@@ -1,3 +1,9 @@
+2010-10-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-cell-sort.c (dialog_cell_sort_load_sort_setup): set button
+	  sensitivity
+	(dialog_init): move cb_sort_selection_changed to the end
+	
 2010-10-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-printer-setup.c: do not destroy the GtkBuilder after intializing

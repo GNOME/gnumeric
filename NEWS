@@ -11,6 +11,7 @@ Andreas:
 	* Fix manual pagebreak handling when printing. [#631570]
 	* Add menu items to remove and add manual page breaks.
 	* Improve the sc import.
+	* Fix button sensitivity in sort dialog. [#632999]
 
 Jean:
 	* Fixed maximum for col/row number in sheet resize dialog. [#631702]

@@ -426,7 +426,7 @@ cb_update_to_new_range (SortFlowState *state)
 		}
 	} else
 		translate_range (range, state);
-	set_button_sensitivity(state);
+	set_button_sensitivity (state);
 }
 
 static void
@@ -576,6 +576,7 @@ dialog_cell_sort_load_sort_setup (SortFlowState *state, GnmSortData const *data)
 		}
 		this++;
 	}
+	set_button_sensitivity (state);
 }
 
 static GnmRange const *
@@ -1138,10 +1139,10 @@ dialog_init (SortFlowState *state)
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 				"state", state, (GDestroyNotify) cb_dialog_destroy);
-	cb_sort_selection_changed (state);
 
 	range = dialog_load_selection (state, &col_rb);
 
+	cb_sort_selection_changed (state);
 	gnm_expr_entry_grab_focus(GNM_EXPR_ENTRY (state->add_entry), TRUE);
 }
 
