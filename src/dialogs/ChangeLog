@@ -1,3 +1,8 @@
+2010-10-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-printer-setup.c: do not destroy the GtkBuilder after intializing
+	the Header/Footer setup dialog. [See #632999]
+
 2010-10-19  Morten Welinder  <terra@gnome.org>
 
 	* dialog-preferences.c (dialog_preferences): Use

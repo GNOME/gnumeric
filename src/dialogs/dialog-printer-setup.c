@@ -1664,6 +1664,11 @@ hf_attach_insert_cell_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 	gtk_widget_show_all (menu);
 }
 
+static void
+cb_hf_destroyed (GObject *obj) {
+	g_object_set_data (obj, "gui", NULL);
+}
+
 /*
  * Open up a DIALOG to allow the user to customize the header
  * or the footer.
@@ -1824,9 +1829,10 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	/* The following would cause the dialog to be below the page setup dialog: */
 /*	go_gtk_window_set_transient (GTK_WINDOW (dialog), GTK_WINDOW (state->dialog)); */
 
+	g_object_set_data_full (G_OBJECT (dialog), "gui", gui, g_object_unref);
+	g_signal_connect (G_OBJECT (dialog), "destroy", G_CALLBACK (cb_hf_destroyed), NULL);
 
 	gtk_widget_show_all (dialog);
-	g_object_unref (gui);
 }
 
 /*************  Header Footer Customization *********** End *************/
