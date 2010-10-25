@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&component=general\n"
 "POT-Creation-Date: 2010-09-16 19:26+0000\n"
-"PO-Revision-Date: 2010-09-26 21:58+0600\n"
+"PO-Revision-Date: 2010-10-24 21:37+0600\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -21,12 +21,12 @@ msgstr ""
 
 #: ../gnumeric.desktop.in.h:1
 msgid "Calculation, Analysis, and Visualization of Information"
-msgstr ""
+msgstr "Есептеу, талдау, және мәліметті бейнелік түрінде көрсету"
 
 #: ../gnumeric.desktop.in.h:2
 #: ../src/func-builtin.c:399
 msgid "Gnumeric"
-msgstr ""
+msgstr "Gnumeric"
 
 #. Keep in sync with .desktop file
 #: ../gnumeric.desktop.in.h:3
@@ -36,25 +36,25 @@ msgstr "Gnumeric электрондық кестесі"
 
 #: ../gnumeric.desktop.in.h:4
 msgid "Spreadsheet"
-msgstr ""
+msgstr "Электрондық кестелер"
 
 #: ../plugins/applix/applix-read.c:123
 msgid "Parse error while reading Applix file."
-msgstr ""
+msgstr "Applix файлын оқу кезіндегі талдау қатесі."
 
 #: ../plugins/applix/applix-read.c:321
 msgid "Missing characters for character encoding"
-msgstr ""
+msgstr "Кодталу үшін жоқ таңбалар"
 
 #: ../plugins/applix/applix-read.c:325
 #, c-format
 msgid "Invalid characters for encoding '%c%c'"
-msgstr ""
+msgstr "'%c%c' кодталуы үшін қате таңбалар"
 
 #: ../plugins/applix/applix-read.c:1201
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
-msgstr ""
+msgstr "Өрнек басталуы '=' ? '%s' емес"
 
 #: ../plugins/applix/applix-read.c:1212
 #, c-format
@@ -67,23 +67,23 @@ msgstr ""
 
 #: ../plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
-msgstr ""
+msgstr "Applix"
 
 #: ../plugins/applix/plugin.xml.in.h:2
 msgid "Applix (*.as)"
-msgstr ""
+msgstr "Applix (*.as)"
 
 #: ../plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
-msgstr ""
+msgstr "Нұсқасы 4.[234] эл. кестелерді импорттау"
 
 #: ../plugins/corba/plugin.xml.in.h:1
 msgid "CORBA Interface"
-msgstr ""
+msgstr "CORBA интерфейсі"
 
 #: ../plugins/corba/plugin.xml.in.h:2
 msgid "Provides a CORBA scripting interface"
-msgstr ""
+msgstr "CORBA скрипттеу интерфейсін ұсынады"
 
 #: ../plugins/dif/dif.c:70
 #: ../plugins/excel/ms-excel-read.c:6789
@@ -95,72 +95,72 @@ msgstr "Файлды оқу..."
 #: ../plugins/dif/dif.c:174
 #, c-format
 msgid "Syntax error at line %d. Ignoring."
-msgstr ""
+msgstr "%d жолындағы синтаксис қате. Елемейміз."
 
 #: ../plugins/dif/dif.c:196
 #, c-format
 msgid "Unknown value type '%s' at line %d. Ignoring."
-msgstr ""
+msgstr "'%s' мән түрі белгісіз, %d жолында. Елемейміз."
 
 #: ../plugins/dif/dif.c:235
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
-msgstr ""
+msgstr "\"%s\" мәлімет түрі белгісіз, %d жолында. Елемейміз."
 
 #: ../plugins/dif/dif.c:242
 #, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
-msgstr ""
+msgstr "%d мән түрі белгісіз, %d жолында. Елемейміз."
 
 #: ../plugins/dif/dif.c:251
 #, c-format
 msgid "DIF file has more than the maximum number of rows %d. Ignoring remaining rows."
-msgstr ""
+msgstr "DIF файлындағы жол саны %d максимум санынан үлкен. Қалған жолдарды елемейміз."
 
 #: ../plugins/dif/dif.c:255
 #, c-format
 msgid "DIF file has more than the maximum number of columns %d. Ignoring remaining columns."
-msgstr ""
+msgstr "DIF файлындағы баған саны %d максимум санынан үлкен. Қалған бағандарды елемейміз."
 
 #: ../plugins/dif/dif.c:269
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
-msgstr ""
+msgstr "Тақырыптаманы оқу кезіндегі %d жолындағы күтпеген файл соңы."
 
 #: ../plugins/dif/dif.c:273
 #, c-format
 msgid "Unexpected end of file at line %d while reading data."
-msgstr ""
+msgstr "Мәліметті оқу кезіндегі %d жолындағы күтпеген файл соңы."
 
 #: ../plugins/dif/dif.c:293
 msgid "Error while reading DIF file."
-msgstr ""
+msgstr "DIF файлын оқу қатесі."
 
 #: ../plugins/dif/dif.c:314
 #: ../plugins/paradox/paradox.c:311
 #: ../plugins/sylk/sylk-write.c:234
 msgid "Cannot get default sheet."
-msgstr ""
+msgstr "Негізгі бетті алу мүмкін емес."
 
 #: ../plugins/dif/dif.c:366
 msgid "Error while saving DIF file."
-msgstr ""
+msgstr "DIF файлын сақтау қатесі."
 
 #: ../plugins/dif/plugin.xml.in.h:1
 msgid "Data Interchange Format (*.dif)"
-msgstr ""
+msgstr "Data Interchange Format (*.dif)"
 
 #: ../plugins/dif/plugin.xml.in.h:2
 msgid "Data Interchange Format (DIF) module"
-msgstr ""
+msgstr "Data Interchange Format (DIF) модулі"
 
 #: ../plugins/dif/plugin.xml.in.h:3
 msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
-msgstr ""
+msgstr "Data Interchange Format (*.dif) пішіміндегі ақпаратты оқу мен жазу"
 
 #: ../plugins/excel/boot.c:185
 msgid "No Workbook or Book streams found."
-msgstr ""
+msgstr "Жұмыс кітабы не кітап ағымы табылмады."
 
 #: ../plugins/excel/boot.c:254
 msgid "Preparing to save..."
@@ -174,13 +174,13 @@ msgstr "Файлды сақтау…"
 #: ../src/xml-sax-read.c:434
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
-msgstr ""
+msgstr "Күтпеген атрибут %s::%s == '%s'."
 
 #: ../plugins/excel/excel-xml-read.c:1068
 #: ../plugins/openoffice/openoffice-read.c:8454
 #: ../src/xml-sax-read.c:3184
 msgid "XML document not well formed!"
-msgstr ""
+msgstr "XML құжаты дұрыс пішімделген емес!"
 
 #: ../plugins/excel/ms-excel-read.c:1352
 #: ../src/value.c:67
@@ -193,17 +193,17 @@ msgstr "#БЕЛГІСІЗ!"
 #: ../plugins/psiconv/psiconv-read.c:544
 #, c-format
 msgid "Sheet%d"
-msgstr ""
+msgstr "Бет%d"
 
 #: ../plugins/excel/ms-excel-read.c:1464
 #, c-format
 msgid "Macro%d"
-msgstr ""
+msgstr "Макрос%d"
 
 #: ../plugins/excel/ms-excel-read.c:1468
 #, c-format
 msgid "Chart%d"
-msgstr ""
+msgstr "График%d"
 
 #: ../plugins/excel/ms-excel-read.c:1471
 #, c-format
@@ -213,12 +213,12 @@ msgstr "Модуль%d"
 #: ../plugins/excel/ms-excel-read.c:3367
 #, c-format
 msgid "Failure parsing name '%s'"
-msgstr ""
+msgstr "'%s' атын талдау қатесі"
 
 #: ../plugins/excel/ms-excel-read.c:3481
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
-msgstr ""
+msgstr "'%s' аты үшін қате өрнек: құрамасы жоғалады.\n"
 
 #: ../plugins/excel/ms-excel-read.c:3486
 #, c-format
@@ -226,6 +226,8 @@ msgid ""
 "DDE links are not supported yet.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
+"DDE сілтемелеріне әлі қолдау жоқ.\n"
+"'%s' аты жоғалады.\n"
 
 #: ../plugins/excel/ms-excel-read.c:3490
 #, c-format
@@ -233,10 +235,12 @@ msgid ""
 "OLE links are not supported yet.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
+"OLE сілтемелеріне әлі қолдау жоқ.\n"
+"'%s' аты жоғалады.\n"
 
 #: ../plugins/excel/ms-excel-read.c:5935
 msgid "external references"
-msgstr ""
+msgstr "сыртқы сілтеулер"
 
 #: ../plugins/excel/ms-excel-read.c:5974
 msgid "No password supplied"
@@ -285,31 +289,31 @@ msgstr ""
 
 #: ../plugins/excel/plugin.xml.in.h:2
 msgid "MS Excel (tm)"
-msgstr ""
+msgstr "MS Excel (tm)"
 
 #: ../plugins/excel/plugin.xml.in.h:3
 msgid "MS Excel (tm) (*.xls)"
-msgstr ""
+msgstr "MS Excel (tm) (*.xls)"
 
 #: ../plugins/excel/plugin.xml.in.h:4
 msgid "MS Excel (tm) 2003 SpreadsheetML"
-msgstr ""
+msgstr "MS Excel (tm) 2003 SpreadsheetML"
 
 #: ../plugins/excel/plugin.xml.in.h:5
 msgid "MS Excel (tm) 2007"
-msgstr ""
+msgstr "MS Excel (tm) 2007"
 
 #: ../plugins/excel/plugin.xml.in.h:6
 msgid "MS Excel (tm) 5.0/95"
-msgstr ""
+msgstr "MS Excel (tm) 5.0/95"
 
 #: ../plugins/excel/plugin.xml.in.h:7
 msgid "MS Excel (tm) 97/2000/XP"
-msgstr ""
+msgstr "MS Excel (tm) 97/2000/XP"
 
 #: ../plugins/excel/plugin.xml.in.h:8
 msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
-msgstr ""
+msgstr "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 
 #: ../plugins/excel/xlsx-read.c:249
 #, c-format
@@ -962,43 +966,43 @@ msgstr ""
 
 #: ../plugins/html/plugin.xml.in.h:1
 msgid "HTML &amp; TeX"
-msgstr ""
+msgstr "HTML &amp; TeX"
 
 #: ../plugins/html/plugin.xml.in.h:2
 msgid "HTML (*.html) fragment"
-msgstr ""
+msgstr "HTML (*.html) үзіндісі"
 
 #: ../plugins/html/plugin.xml.in.h:3
 msgid "HTML (*.html, *.htm)"
-msgstr ""
+msgstr "HTML (*.html, *.htm)"
 
 #: ../plugins/html/plugin.xml.in.h:4
 msgid "HTML 3.2 (*.html)"
-msgstr ""
+msgstr "HTML 3.2 (*.html)"
 
 #: ../plugins/html/plugin.xml.in.h:5
 msgid "HTML 4.0 (*.html)"
-msgstr ""
+msgstr "HTML 4.0 (*.html)"
 
 #: ../plugins/html/plugin.xml.in.h:6
 msgid "Import/Export of HTML, TeX, DVI, roff"
-msgstr ""
+msgstr "HTML, TeX, DVI, roff экспорт/импорты"
 
 #: ../plugins/html/plugin.xml.in.h:7
 msgid "LaTeX 2e (*.tex)"
-msgstr ""
+msgstr "LaTeX 2e (*.tex)"
 
 #: ../plugins/html/plugin.xml.in.h:8
 msgid "LaTeX 2e (*.tex) table fragment"
-msgstr ""
+msgstr "LaTeX 2e (*.tex) кесте үзіндісі"
 
 #: ../plugins/html/plugin.xml.in.h:9
 msgid "TROFF (*.me)"
-msgstr ""
+msgstr "TROFF (*.me)"
 
 #: ../plugins/html/plugin.xml.in.h:10
 msgid "XHTML (*.html)"
-msgstr ""
+msgstr "XHTML (*.html)"
 
 #: ../plugins/html/plugin.xml.in.h:11
 msgid "XHTML range - for export to clipboard"
@@ -1014,11 +1018,11 @@ msgstr ""
 
 #: ../plugins/lotus-123/plugin.xml.in.h:2
 msgid "Lotus 123"
-msgstr ""
+msgstr "Lotus 123"
 
 #: ../plugins/lotus-123/plugin.xml.in.h:3
 msgid "Lotus 123 (*.wk1, *.wks, *.123)"
-msgstr ""
+msgstr "Lotus 123 (*.wk1, *.wks, *.123)"
 
 #: ../plugins/lpsolve/gnm-lpsolve.c:51
 #, c-format
@@ -1031,7 +1035,7 @@ msgstr ""
 
 #: ../plugins/lpsolve/plugin.xml.in.h:1
 msgid "LPSolve"
-msgstr ""
+msgstr "LPSolve"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:2
 msgid "LPSolve Linear Program Solver"
@@ -1162,19 +1166,19 @@ msgstr ""
 
 #: ../plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
-msgstr ""
+msgstr "GNU Oleo"
 
 #: ../plugins/oleo/plugin.xml.in.h:2
 msgid "GNU Oleo (*.oleo)"
-msgstr ""
+msgstr "GNU Oleo (*.oleo)"
 
 #: ../plugins/oleo/plugin.xml.in.h:3
 msgid "Imports GNU Oleo documents"
-msgstr ""
+msgstr "GNU Oleo құжаттарын импорттау"
 
 #: ../plugins/openoffice/openoffice-read.c:447
 msgid "General ODF error"
-msgstr ""
+msgstr "Жалпы ODF қатесі"
 
 #: ../plugins/openoffice/openoffice-read.c:501
 #, c-format
@@ -3943,7 +3947,7 @@ msgstr "Авторы:"
 
 #: ../src/dialogs/autoformat.glade.h:9
 msgid "Autoformat"
-msgstr ""
+msgstr "Автопішімдеу"
 
 #: ../src/dialogs/autoformat.glade.h:10
 msgid "C_ategory:"
@@ -4022,11 +4026,11 @@ msgstr "Автосақтау"
 
 #: ../src/dialogs/autosave.glade.h:3
 msgid "_Automatically save every"
-msgstr ""
+msgstr "_Автосақтау аралығы"
 
 #: ../src/dialogs/autosave.glade.h:4
 msgid "_Prompt Before Saving"
-msgstr ""
+msgstr "Сақ_тау алдында сұрау"
 
 #: ../src/dialogs/autosave.glade.h:5
 msgid "_minutes"
@@ -5086,11 +5090,11 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:134
 msgid "Ariel Rios"
-msgstr ""
+msgstr "Ariel Rios"
 
 #: ../src/dialogs/dialog-about.c:136
 msgid "Jakub Steiner"
-msgstr ""
+msgstr "Jakub Steiner"
 
 #: ../src/dialogs/dialog-about.c:137
 msgid "Icons and Images"
@@ -5098,7 +5102,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:138
 msgid "Uwe Steinmann"
-msgstr ""
+msgstr "Uwe Steinmann"
 
 #: ../src/dialogs/dialog-about.c:139
 msgid "Paradox Importer"
@@ -5106,7 +5110,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:140
 msgid "Arturo Tena"
-msgstr ""
+msgstr "Arturo Tena"
 
 #: ../src/dialogs/dialog-about.c:141
 msgid "Initial work on OLE2 for libgsf"
@@ -5114,7 +5118,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:142
 msgid "Almer S. Tigelaar"
-msgstr ""
+msgstr "Almer S. Tigelaar"
 
 #: ../src/dialogs/dialog-about.c:143
 msgid "Consolidation and Structured Text importer"
@@ -5122,7 +5126,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:144
 msgid "Bruno Unna"
-msgstr ""
+msgstr "Bruno Unna"
 
 #: ../src/dialogs/dialog-about.c:145
 msgid "Pieces of MS Excel import"
@@ -5130,7 +5134,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:146
 msgid "Arief Mulya Utama"
-msgstr ""
+msgstr "Arief Mulya Utama"
 
 #: ../src/dialogs/dialog-about.c:147
 msgid "Telecommunications functions"
@@ -5138,7 +5142,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:148
 msgid "Daniel Veillard"
-msgstr ""
+msgstr "Daniel Veillard"
 
 #: ../src/dialogs/dialog-about.c:149
 msgid "Initial XML support"
@@ -5146,7 +5150,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:150
 msgid "Vladimir Vuksan"
-msgstr ""
+msgstr "Vladimir Vuksan"
 
 #: ../src/dialogs/dialog-about.c:151
 msgid "Some financial functions"
@@ -5154,7 +5158,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:152
 msgid "Morten Welinder"
-msgstr ""
+msgstr "Morten Welinder"
 
 #: ../src/dialogs/dialog-about.c:153
 msgid "All round powerhouse"
@@ -5162,41 +5166,41 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:154
 msgid "Kevin Breit"
-msgstr ""
+msgstr "Kevin Breit"
 
 #: ../src/dialogs/dialog-about.c:155
 msgid "Thomas Canty"
-msgstr ""
+msgstr "Thomas Canty"
 
 #: ../src/dialogs/dialog-about.c:156
 msgid "Adrian Custer"
-msgstr ""
+msgstr "Adrian Custer"
 
 #: ../src/dialogs/dialog-about.c:157
 msgid "Adrian Likins"
-msgstr ""
+msgstr "Adrian Likins"
 
 #: ../src/dialogs/dialog-about.c:158
 msgid "Aaron Weber"
-msgstr ""
+msgstr "Aaron Weber"
 
 #: ../src/dialogs/dialog-about.c:159
 msgid "Alexander Kirillov"
-msgstr ""
+msgstr "Alexander Kirillov"
 
 #: ../src/dialogs/dialog-about.c:445
 msgid "Gnumeric is the result of"
-msgstr ""
+msgstr "Gnumeric - көп адамның"
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:451
 msgid "the efforts of many people."
-msgstr ""
+msgstr "еңбек нәтижесі."
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:458
 msgid "Your help is much appreciated!"
-msgstr ""
+msgstr "Көмегіңіз жоғары бағаланады!"
 
 #: ../src/dialogs/dialog-about.c:508
 msgid "We apologize if anyone was left out."
@@ -5210,7 +5214,7 @@ msgstr ""
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:524
 msgid "Report problems at http://bugzilla.gnome.org"
-msgstr ""
+msgstr "Ақаулықтар жөнінде хабарлыңыз: http://bugzilla.gnome.org"
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:529
@@ -5220,19 +5224,19 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:558
 msgid "About Gnumeric"
-msgstr ""
+msgstr "Gnumeric туралы"
 
 #: ../src/dialogs/dialog-about.c:561
 msgid "Visit the Gnumeric website"
-msgstr ""
+msgstr "Gnumeric веб сайтын шолу"
 
 #: ../src/dialogs/dialog-about.c:563
 msgid "Copyright © 1998-2010"
-msgstr ""
+msgstr "Copyright © 1998-2010"
 
 #: ../src/dialogs/dialog-about.c:564
 msgid "Free, Fast, Accurate - Pick Any Three!"
-msgstr ""
+msgstr "Еркін, жылдам, тиянақты - кез-келген үшеуін таңдаңыз!"
 
 #: ../src/dialogs/dialog-advanced-filter.c:72
 msgid "The list range is invalid."
@@ -6996,7 +7000,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-recent.c:70
 msgid "Recently Used Files"
-msgstr ""
+msgstr "Соңғы қолданылған файлдар"
 
 #: ../src/dialogs/dialog-recent.c:79
 msgid "All files"
@@ -7004,7 +7008,7 @@ msgstr "Барлық файлдар"
 
 #: ../src/dialogs/dialog-recent.c:84
 msgid "All files used by Gnumeric"
-msgstr ""
+msgstr "Gnumeric қолданған барлық файлдар"
 
 #: ../src/dialogs/dialog-row-height.c:229
 msgid "Set standard/default row height"
@@ -7133,7 +7137,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-sheet-order.c:758
 msgid "Current Name"
-msgstr ""
+msgstr "Ағымдағы аты"
 
 #: ../src/dialogs/dialog-sheet-order.c:771
 msgid "New Name"
@@ -11213,8 +11217,7 @@ msgstr "(бос)"
 #, c-format
 msgid "Remove %d Link"
 msgid_plural "Remove %d Links"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d сілтемені өшіру"
 
 #: ../src/sheet-control-gui.c:2007
 msgid "Cu_t"
@@ -11230,7 +11233,7 @@ msgstr "Ер_екше кірістіру"
 
 #: ../src/sheet-control-gui.c:2018
 msgid "_Insert Cells..."
-msgstr ""
+msgstr "Ұяш_ықтарды кірістіру..."
 
 #: ../src/sheet-control-gui.c:2021
 msgid "_Delete Cells..."
@@ -11238,7 +11241,7 @@ msgstr "Ұя_шықтарды өшіру..."
 
 #: ../src/sheet-control-gui.c:2024
 msgid "_Insert Column(s)"
-msgstr ""
+msgstr "Бағ_ан(дар)ды кірістіру"
 
 #: ../src/sheet-control-gui.c:2028
 msgid "_Delete Column(s)"
@@ -11246,31 +11249,31 @@ msgstr "Баға_н(дар)ды өшіру"
 
 #: ../src/sheet-control-gui.c:2032
 msgid "_Insert Row(s)"
-msgstr ""
+msgstr "Ж_ол(дар)ды кірістіру"
 
 #: ../src/sheet-control-gui.c:2036
 msgid "_Delete Row(s)"
-msgstr ""
+msgstr "Жомл(дар)ды өшіру"
 
 #: ../src/sheet-control-gui.c:2041
 msgid "Clear Co_ntents"
-msgstr ""
+msgstr "Құрамасын та_зарту"
 
 #: ../src/sheet-control-gui.c:2046
 msgid "Add _Co_mment"
-msgstr ""
+msgstr "_Пікірді кірістіру"
 
 #: ../src/sheet-control-gui.c:2048
 msgid "Edit Co_mment..."
-msgstr ""
+msgstr "Пі_кірді түзету..."
 
 #: ../src/sheet-control-gui.c:2050
 msgid "_Remove Comments"
-msgstr ""
+msgstr "Пікір_лірді өшіру"
 
 #: ../src/sheet-control-gui.c:2053
 msgid "Add _Hyperlink"
-msgstr ""
+msgstr "_Гиперсілтемені қосу"
 
 #: ../src/sheet-control-gui.c:2056
 msgid "Edit _Hyperlink"
@@ -11278,7 +11281,7 @@ msgstr "Гиперсі_лтемені түзету"
 
 #: ../src/sheet-control-gui.c:2059
 msgid "_Remove Hyperlink"
-msgstr ""
+msgstr "Гиперсілтемені ө_шіру"
 
 #: ../src/sheet-control-gui.c:2065
 msgid "_Edit DataSlicer"
@@ -11367,7 +11370,7 @@ msgstr[0] "%d сі_лтемені өшіру"
 #, c-format
 msgid "_Remove %d Comment"
 msgid_plural "_Remove %d Comments"
-msgstr[0] "%d _түсіндірмені өшіру"
+msgstr[0] "%d пі_кірді өшіру"
 
 #: ../src/sheet-control-gui.c:2257
 #, c-format
@@ -11979,7 +11982,7 @@ msgstr ""
 
 #: ../src/ssconvert.c:124
 msgid "Recalculate all cells before writing the result"
-msgstr ""
+msgstr "Нәтижені жазу алдында барлық ұяшықтарды қайта есептеу"
 
 #: ../src/ssconvert.c:135
 msgid "The range to export"
@@ -12074,7 +12077,7 @@ msgstr ""
 #: ../src/ssindex.c:266
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
-msgstr ""
+msgstr "Қолданылуы: %s [OPTION...] %s\n"
 
 #: ../src/ssgrep.c:60
 msgid "Only print a count of matches per file"
@@ -12138,7 +12141,7 @@ msgstr ""
 
 #: ../src/ssgrep.c:171
 msgid "Recalculate all cells"
-msgstr ""
+msgstr "Барлық ұяшықтарды қайта есептеу"
 
 #: ../src/ssgrep.c:363
 #, fuzzy
@@ -13555,7 +13558,7 @@ msgstr "_Файл"
 
 #: ../src/wbc-gtk-actions.c:1798
 msgid "New From Template"
-msgstr ""
+msgstr "Үлгіден жаңа"
 
 #: ../src/wbc-gtk-actions.c:1799
 msgid "_Edit"
@@ -13563,7 +13566,7 @@ msgstr "Тү_зету"
 
 #: ../src/wbc-gtk-actions.c:1800
 msgid "C_lear"
-msgstr ""
+msgstr "Та_зарту"
 
 #: ../src/wbc-gtk-actions.c:1801
 msgid "_Delete"
@@ -13767,7 +13770,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1873
 msgid "Full _History..."
-msgstr ""
+msgstr "Тол_ық тарихы..."
 
 #: ../src/wbc-gtk-actions.c:1874
 msgid "Access previously used file"
@@ -14145,11 +14148,11 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2083
 #: ../src/wbc-gtk-actions.c:2149
 msgid "Hyper_link..."
-msgstr ""
+msgstr "_Гиперсілтеме..."
 
 #: ../src/wbc-gtk-actions.c:2084
 msgid "Edit the selected cell's hyperlink"
-msgstr ""
+msgstr "Таңдалған ұяшықтың гиперсілтемесін түзету"
 
 #: ../src/wbc-gtk-actions.c:2087
 msgid "_Auto generate names..."
@@ -14161,11 +14164,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2092
 msgid "S_earch..."
-msgstr ""
+msgstr "І_здеу..."
 
 #: ../src/wbc-gtk-actions.c:2093
 msgid "Search for something"
-msgstr ""
+msgstr "Бірнәрсені іздеу"
 
 #: ../src/wbc-gtk-actions.c:2095
 msgid "Search _& Replace..."
@@ -14173,11 +14176,11 @@ msgstr "Іздеу мен ал_мастыру..."
 
 #: ../src/wbc-gtk-actions.c:2096
 msgid "Search for something and replace it with something else"
-msgstr ""
+msgstr "Бірнәрсені іздеп, оны басқа нәрсемен алмастыру"
 
 #: ../src/wbc-gtk-actions.c:2099
 msgid "Recalculate"
-msgstr ""
+msgstr "Қайта есептеу"
 
 #: ../src/wbc-gtk-actions.c:2100
 msgid "Recalculate the spreadsheet"
@@ -14189,7 +14192,7 @@ msgstr "Қалаулар..."
 
 #: ../src/wbc-gtk-actions.c:2104
 msgid "Change Gnumeric Preferences"
-msgstr ""
+msgstr "Gnumeric қалауларын өзгерту"
 
 #. View
 #: ../src/wbc-gtk-actions.c:2108
@@ -15520,19 +15523,19 @@ msgstr ""
 #: ../src/wbc-gtk.c:1724
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
-msgstr ""
+msgstr "'%s' жұмыс кітабына барлық өзгерістерді сақтау керек пе?"
 
 #: ../src/wbc-gtk.c:1729
 msgid "Save changes to workbook before closing?"
-msgstr ""
+msgstr "Жабу алдында жұмыс кітабына өзгерістерді сақтау керек пе?"
 
 #: ../src/wbc-gtk.c:1736
 msgid "If you close without saving, changes will be discarded."
-msgstr ""
+msgstr "Сақтамай жапсаңыз, өзгерістер жоғалады."
 
 #: ../src/wbc-gtk.c:1742
 msgid "Discard all"
-msgstr ""
+msgstr "Барлығын елемеу"
 
 #: ../src/wbc-gtk.c:1744
 #: ../src/wbc-gtk.c:1751
@@ -15551,7 +15554,7 @@ msgstr "Шықпау"
 
 #: ../src/wbc-gtk.c:1759
 msgid "Don't close"
-msgstr ""
+msgstr "Жаппау"
 
 #: ../src/wbc-gtk.c:2053
 msgid "Enter in current cell"
