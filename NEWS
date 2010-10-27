@@ -21,6 +21,7 @@ Morten:
 	* Fix crash related to broken xls.  [#632050]
 	* Fix print area problem from broken xls.
 	* Fix printing crash.  [#632439]
+	* Partially fix problem with undefined names.  [#633140]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.11

@@ -511,12 +511,18 @@ parser_simple_val_or_name (GnmExpr *str_expr)
 				res = NULL;
 			} else if (state->flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS) {
 				res = gnm_expr_new_constant (value_new_string (str));
-			} else {
+			} else if (expr_name_validate (str)) {
 				GnmParsePos pp = *state->pos;
 				pp.sheet = NULL;
 				/* Create a place holder */
 				nexpr = expr_name_add (&pp, str, NULL, NULL, TRUE, NULL);
 				res = gnm_expr_new_name (nexpr, NULL, NULL);
+			} else {
+				report_err (state, g_error_new (1, PERR_UNKNOWN_NAME,
+								_("'%s' cannot be used as a name"),
+								str),
+					    state->ptr, 0);
+				res = NULL;
 			}
 		} else
 			res = gnm_expr_new_name (nexpr, NULL, NULL);

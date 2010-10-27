@@ -1,3 +1,11 @@
+2010-10-27  Morten Welinder  <terra@gnome.org>
+
+	* src/parser.y (parser_simple_val_or_name): Check whether a name
+	is valid before defining it.  See bug #633140.
+
+	* src/expr-name.c (expr_name_validate): Improve check for clash
+	with boolean constants.  Also check untranslated.
+
 2010-10-20  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnm_xml_get_widget): Elminate.  Change all

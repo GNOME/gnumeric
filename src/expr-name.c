@@ -83,17 +83,20 @@ gboolean
 expr_name_validate (const char *name)
 {
 	const char *p;
+	GnmValue *v;
 
 	g_return_val_if_fail (name != NULL, FALSE);
 
 	if (name[0] == 0)
 		return FALSE;
 
-	/* What about other locales.  */
-	if (strcmp (name, go_locale_boolean_name (TRUE)) == 0 ||
-	    strcmp (name, go_locale_boolean_name (FALSE)) == 0)
+	v = value_new_from_string (VALUE_BOOLEAN, name, NULL, TRUE);
+	if (!v)
+		v = value_new_from_string (VALUE_BOOLEAN, name, NULL, FALSE);
+	if (v) {
+		value_release (v);
 		return FALSE;
-
+	}
 
 	/* Hmm...   Now what?  */
 	if (!g_unichar_isalpha (g_utf8_get_char (name)) &&
