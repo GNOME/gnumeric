@@ -1,3 +1,7 @@
+2010-10-27  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (fmt_dialog_impl): Fix destruction.
+
 2010-10-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-stf-csv-page.c (stf_dialog_csv_page_init): add back the text
@@ -9,7 +13,7 @@
 	* dialog-cell-sort.c (dialog_cell_sort_load_sort_setup): set button
 	  sensitivity
 	(dialog_init): move cb_sort_selection_changed to the end
-	
+
 2010-10-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-printer-setup.c: do not destroy the GtkBuilder after intializing

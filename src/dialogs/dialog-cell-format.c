@@ -2349,6 +2349,13 @@ cb_fmt_dialog_set_focus (G_GNUC_UNUSED GtkWidget *window,
 		validation_rebuild_validation (state);
 }
 
+static void
+cb_dialog_destroy (GtkDialog *dialog)
+{
+	g_object_set_data (G_OBJECT (dialog), "state", NULL);
+}
+
+
 /* Set initial focus */
 static void
 set_initial_focus (FormatState *s)
@@ -2652,6 +2659,8 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_fmt_dialog_dialog_destroy);
+	g_signal_connect (G_OBJECT (dialog), "destroy",
+			  G_CALLBACK (cb_dialog_destroy), NULL);
 
 	gnumeric_restore_window_geometry (GTK_WINDOW (state->dialog),
 					  CELL_FORMAT_KEY);
