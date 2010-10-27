@@ -1,3 +1,9 @@
+2010-10-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-stf-csv-page.c (stf_dialog_csv_page_init): add back the text
+	indicator combo box. [#633241]
+	* dialog-stf.ui: ditto.
+
 2010-10-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-cell-sort.c (dialog_cell_sort_load_sort_setup): set button

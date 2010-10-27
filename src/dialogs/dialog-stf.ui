@@ -604,7 +604,7 @@
                                     <property name="label" translatable="yes">Te_xt indicator: </property>
                                     <property name="use_underline">True</property>
                                     <property name="justify">center</property>
-                                    <property name="mnemonic_widget">csv_textfield</property>
+                                    <property name="mnemonic_widget">csv_textindicator</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -613,7 +613,15 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <placeholder/>
+                                  <object class="GtkComboBoxEntry" id="csv_textindicator">
+                                    <property name="visible">True</property>
+                                    <property name="model">csv-textindicator-list</property>
+                                    <property name="active">0</property>
+                                    <property name="text_column">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="position">1</property>
+                                  </packing>
                                 </child>
                               </object>
                               <packing>
@@ -1069,5 +1077,22 @@
       <action-widget response="0">forward_button</action-widget>
       <action-widget response="-5">finish_button</action-widget>
     </action-widgets>
+  </object>
+  <object class="GtkListStore" id="csv-textindicator-list">
+    <columns>
+      <!-- column-name text -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">"</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">'</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">`</col>
+      </row>
+    </data>
   </object>
 </interface>

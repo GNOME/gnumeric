@@ -237,8 +237,8 @@ stf_dialog_csv_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 	pagedata->csv.csv_customseparator = GTK_ENTRY        (go_gtk_builder_get_widget (gui, "csv_customseparator"));
 	pagedata->csv.csv_2x_indicator    = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "csv_2x_indicator"));
 	pagedata->csv.csv_textindicator   = go_gtk_builder_get_widget (gui, "csv_textindicator");
-	pagedata->csv.csv_textfield       = GTK_ENTRY    (go_gtk_builder_get_widget (gui, "csv_textfield"));
-
+	pagedata->csv.csv_textfield       = GTK_ENTRY    (gtk_bin_get_child (GTK_BIN (pagedata->csv.csv_textindicator)));
+	
 	pagedata->csv.csv_duplicates      = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "csv_duplicates"));
 	pagedata->csv.csv_trim_seps       = GTK_CHECK_BUTTON (go_gtk_builder_get_widget (gui, "csv_trim_seps"));
 	pagedata->csv.csv_data_container  =                   go_gtk_builder_get_widget (gui, "csv_data_container");
