@@ -42,6 +42,7 @@ Andreas:
 Jean:
 	* Export/import tick label rotation angle. [#629675]
 	* Read and write cell comments from/to OpenXML. [#630627]
+	* New contextual menu item: copy a graph to a new graph sheet.
 
 J.H.M. Dassen (Ray):
 	* Revised ssconvert man page.

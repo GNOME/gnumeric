@@ -36,6 +36,8 @@
 #include "application.h"
 #include "sheet.h"
 #include "print-info.h"
+#include "workbook.h"
+#include "workbook-view.h"
 #include <graph.h>
 
 #include <goffice/goffice.h>
@@ -365,11 +367,35 @@ sog_cb_open_in_new_window (SheetObject *so, SheetControl *sc)
 }
 
 static void
+sog_cb_copy_to_new_sheet (SheetObject *so, SheetControl *sc)
+{
+	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
+	WorkbookControl *wbc = scg_wbc (scg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	GogGraph *graph = GOG_GRAPH (gog_object_dup (GOG_OBJECT (sog->graph), NULL, NULL));
+	WorkbookSheetState *old_state = workbook_sheet_state_new (wb_control_get_workbook (wbc));
+	Sheet *new_sheet = workbook_sheet_add_with_type (
+		wb_control_get_workbook (wbc),
+		GNM_SHEET_OBJECT, -1,
+		gnm_sheet_get_max_cols (sheet),
+		gnm_sheet_get_max_rows (sheet));
+	SheetObject *new_sog = sheet_object_graph_new (graph);
+	print_info_set_paper_orientation (new_sheet->print_info, GTK_PAGE_ORIENTATION_LANDSCAPE);
+	sheet_object_set_sheet (new_sog, new_sheet);
+	wb_view_sheet_focus (wb_control_view (wbc), new_sheet);
+	cmd_reorganize_sheets (wbc, old_state, sheet);
+	g_object_unref (graph);
+	g_object_unref (new_sog);
+}
+
+static void
 gnm_sog_populate_menu (SheetObject *so, GPtrArray *actions)
 {
 	static SheetObjectAction const sog_actions[] = {
 		{ GTK_STOCK_SAVE_AS, N_("_Save as Image"),      NULL, 0, sog_cb_save_as },
-		{ NULL,              N_("Open in _New Window"), NULL, 0, sog_cb_open_in_new_window }
+		{ NULL,              N_("Open in _New Window"), NULL, 0, sog_cb_open_in_new_window },
+		{ NULL,              N_("Copy to New Graph S_heet"), NULL, 0, sog_cb_copy_to_new_sheet }
 	};
 
 	unsigned int i;

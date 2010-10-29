@@ -1,3 +1,9 @@
+2010-10-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-graph.c (sog_cb_copy_to_new_sheet),
+	(gnm_sog_populate_menu): New contextual menu item: copy a graph
+	to a new graph sheet.
+
 2010-10-27  Morten Welinder  <terra@gnome.org>
 
 	* src/parser.y (parser_simple_val_or_name): Check whether a name
