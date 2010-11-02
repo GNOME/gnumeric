@@ -488,6 +488,27 @@ handle_arrow_head (SheetObject *so, const char *prop_name,
 	g_object_set (so, prop_name, &arrow, NULL);
 }
 
+static void excel_fill_bmp_header(guint8 *bmphdr, guint8 *data, guint32 len)
+{
+	guint bpp;
+	guint offset;
+
+	bmphdr[0] = 'B';
+	bmphdr[1] = 'M';
+	GSF_LE_SET_GUINT32 (bmphdr + 2, len + sizeof bmphdr);
+	GSF_LE_SET_GUINT16 (bmphdr + 6, 0);
+	GSF_LE_SET_GUINT16 (bmphdr + 8, 0);
+	bpp = GSF_LE_GET_GUINT16 (data + 18);
+	switch (bpp) {
+	case 24: offset = 0;       break;
+	case 8:  offset = 256 * 3; break;
+	case 4:  offset = 16 * 3;  break;
+	default: offset = 2 * 3;   break;
+	}
+	offset += sizeof bmphdr + 12;
+	GSF_LE_SET_GUINT32 (bmphdr + 10, offset);
+}
+
 static gboolean
 ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 {
@@ -4077,26 +4098,11 @@ excel_read_os2bmp (BiffQuery *q, guint32 image_len)
 	GdkPixbuf	*pixbuf = NULL;
 	gboolean ret = FALSE;
 	guint8 bmphdr[14];
-	guint bpp;
-	guint offset;
 
 	loader = gdk_pixbuf_loader_new_with_type ("bmp", &err);
 	if (!loader)
 		return NULL;
-	bmphdr[0] = 'B';
-	bmphdr[1] = 'M';
-	GSF_LE_SET_GUINT32 (bmphdr + 2, image_len + sizeof bmphdr);
-	GSF_LE_SET_GUINT16 (bmphdr + 6, 0);
-	GSF_LE_SET_GUINT16 (bmphdr + 8, 0);
-	bpp = GSF_LE_GET_GUINT16 (q->data + 18);
-	switch (bpp) {
-	case 24: offset = 0;       break;
-	case 8:  offset = 256 * 3; break;
-	case 4:  offset = 16 * 3;  break;
-	default: offset = 2 * 3;   break;
-	}
-	offset += sizeof bmphdr + 12;
-	GSF_LE_SET_GUINT32 (bmphdr + 10, offset);
+	excel_fill_bmp_header(bmphdr, q->data, image_len);
 	ret = gdk_pixbuf_loader_write (loader, bmphdr, sizeof bmphdr, &err);
 	if (ret)
 		ret = gdk_pixbuf_loader_write (loader, q->data+8,
