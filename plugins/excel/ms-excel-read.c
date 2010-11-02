@@ -663,10 +663,20 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			MSEscherBlip *blip = ms_container_get_blip (container,
 				attr->v.v_uint - 1);
 			if (blip != NULL) {
-				sheet_object_image_set_image (SHEET_OBJECT_IMAGE (so),
-					blip->type, blip->data, blip->data_len,
-					!blip->needs_free);
-				blip->needs_free = FALSE; /* image took over managing data */
+			        if (blip->type && !strcmp (blip->type, "dib")) {
+					guint8 *data = g_malloc(blip->data_len + 14);
+					if (data) {
+						excel_fill_bmp_header(data, blip->data, blip->data_len);
+						memcpy(data + 14, blip->data, blip->data_len);
+						sheet_object_image_set_image (SHEET_OBJECT_IMAGE (so),
+							blip->type, data, blip->data_len + 14, FALSE);
+					}
+			        } else {
+					sheet_object_image_set_image (SHEET_OBJECT_IMAGE (so),
+						blip->type, blip->data, blip->data_len,
+						!blip->needs_free);
+					blip->needs_free = FALSE; /* image took over managing data */
+				}
 			}
 		} else if ((attr = ms_obj_attr_bag_lookup (obj->attrs,
 			MS_OBJ_ATTR_IMDATA)) != NULL) {
