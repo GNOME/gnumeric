@@ -90,6 +90,7 @@ typedef struct {
 } BiffBoundsheetData;
 
 #define N_BYTES_BETWEEN_PROGRESS_UPDATES   0x1000
+#define BMP_HDR_SIZE 14
 
 /*
  * Check whether the product of the first two arguments exceeds
@@ -664,12 +665,12 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 				attr->v.v_uint - 1);
 			if (blip != NULL) {
 			        if (blip->type && !strcmp (blip->type, "dib")) {
-					guint8 *data = g_malloc(blip->data_len + 14);
+					guint8 *data = g_malloc(blip->data_len + BMP_HDR_SIZE);
 					if (data) {
 						excel_fill_bmp_header(data, blip->data, blip->data_len);
-						memcpy(data + 14, blip->data, blip->data_len);
+						memcpy(data + BMP_HDR_SIZE, blip->data, blip->data_len);
 						sheet_object_image_set_image (SHEET_OBJECT_IMAGE (so),
-							blip->type, data, blip->data_len + 14, FALSE);
+							blip->type, data, blip->data_len + BMP_HDR_SIZE, FALSE);
 					}
 			        } else {
 					sheet_object_image_set_image (SHEET_OBJECT_IMAGE (so),
@@ -4107,7 +4108,7 @@ excel_read_os2bmp (BiffQuery *q, guint32 image_len)
 	GdkPixbufLoader *loader = NULL;
 	GdkPixbuf	*pixbuf = NULL;
 	gboolean ret = FALSE;
-	guint8 bmphdr[14];
+	guint8 bmphdr[BMP_HDR_SIZE];
 
 	loader = gdk_pixbuf_loader_new_with_type ("bmp", &err);
 	if (!loader)
