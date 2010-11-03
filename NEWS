@@ -13,6 +13,9 @@ Andreas:
 	* Improve the sc import.
 	* Fix button sensitivity in sort dialog. [#632999]
 
+Hans de Goede:
+	* Fix import of dib format images in XLS. [#553098]
+
 Jean:
 	* Fixed maximum for col/row number in sheet resize dialog. [#631702]
 	* Eliminate glade usage.  [#631717]
