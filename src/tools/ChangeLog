@@ -1,3 +1,9 @@
+2010-11-04  Morten Welinder  <terra@gnome.org>
+
+	* dao.c (dao_convert_to_values): Use sheet_foreach_cell_in_range
+	to avoid near-infinite loop.  Fix handling of arrays.  [Debian
+	602257]
+
 2010-10-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.c (analysis_tool_fourier_engine_run): use new

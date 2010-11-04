@@ -782,6 +782,21 @@ gnm_cell_set_format (GnmCell *cell, char const *format)
 	sheet_style_apply_range (cell->base.sheet, &r, mstyle);
 }
 
+static GnmValue *
+cb_set_array_value (GnmCellIter const *iter, gpointer user)
+{
+	GnmCell *cell = iter->cell;
+
+	/* Clipboard cells, e.g., are not attached to a sheet.  */
+	if (gnm_cell_expr_is_linked (cell))
+		dependent_unlink (GNM_CELL_TO_DEP (cell));
+
+	gnm_expr_top_unref (cell->base.texpr);
+	cell->base.texpr = NULL;
+
+	return NULL;
+}
+
 /**
  * gnm_cell_convert_expr_to_value : drops the expression keeps its value.  Then uses the formatted
  *      result as if that had been entered.
@@ -793,18 +808,31 @@ gnm_cell_set_format (GnmCell *cell, char const *format)
  *
  * WARNING : This is an internal routine that does not queue redraws,
  *           does not auto-resize, and does not calculate spans.
- *
- * NOTE : This DOES NOT check for array partitioning.
  */
 void
 gnm_cell_convert_expr_to_value (GnmCell *cell)
 {
+	GnmExprArrayCorner const *array;
+
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (gnm_cell_has_expr (cell));
 
 	/* Clipboard cells, e.g., are not attached to a sheet.  */
 	if (gnm_cell_expr_is_linked (cell))
 		dependent_unlink (GNM_CELL_TO_DEP (cell));
+
+	array = gnm_expr_top_get_array_corner (cell->base.texpr);
+	if (array) {
+		sheet_foreach_cell_in_range (cell->base.sheet, CELL_ITER_ALL,
+					     cell->pos.col, cell->pos.row,
+					     cell->pos.col + array->cols - 1,
+					     cell->pos.row + array->rows - 1,
+					     cb_set_array_value,
+					     NULL);
+		return;
+	}
+
+	g_return_if_fail (!gnm_cell_is_array (cell));
 
 	gnm_expr_top_unref (cell->base.texpr);
 	cell->base.texpr = NULL;

@@ -1073,23 +1073,35 @@ dao_put_formulas (data_analysis_output_t *dao)
 	return dao->put_formulas;
 }
 
+static GnmValue *
+cb_convert_to_value (GnmCellIter const *iter, gpointer user)
+{
+	GnmCell *cell = iter->cell;
+	if (!cell || !gnm_cell_has_expr (cell))
+		return NULL;
+
+	gnm_cell_eval (cell);
+
+	if (gnm_expr_top_is_array_elem (cell->base.texpr, NULL, NULL))
+		return NULL;
+
+	gnm_cell_convert_expr_to_value (cell);
+	return NULL;
+}
+
+
 void
 dao_convert_to_values (data_analysis_output_t *dao)
 {
-	int row, col;
-
 	if (dao->put_formulas)
 		return;
 
-	workbook_recalc (dao->sheet->workbook);
-	for (row = 0; row < dao->rows; row++) {
-		for (col = 0; col < dao->cols; col++) {
-			GnmCell *cell = sheet_cell_get (dao->sheet,
-				dao->start_col + col, dao->start_row + row);
-			if (cell != NULL && gnm_cell_has_expr (cell))
-				gnm_cell_convert_expr_to_value (cell);
-		}
-	}
+	sheet_foreach_cell_in_range (dao->sheet, CELL_ITER_IGNORE_BLANK,
+				     dao->start_col, dao->start_row,
+				     dao->start_col + dao->cols - 1,
+				     dao->start_row + dao->rows - 1,
+				     cb_convert_to_value,
+				     NULL);
 }
 
 void
