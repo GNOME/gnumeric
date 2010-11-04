@@ -1200,7 +1200,7 @@ add_item (GString *dst, char *item, char const *sep)
 		g_string_append (dst, "?");
 }
 
-static char *
+static GString *
 sheet_autofill_internal (Sheet *sheet, gboolean singleton,
 			 int base_col, int base_row,
 			 int w, int h,
@@ -1291,7 +1291,7 @@ sheet_autofill_internal (Sheet *sheet, gboolean singleton,
 		}
 	}
 
-	return doit ? NULL : g_string_free (res, FALSE);
+	return res;
 }
 
 
@@ -1315,7 +1315,7 @@ gnm_autofill_fill (Sheet *sheet, gboolean singleton,
 				 TRUE);
 }
 
-char *
+GString *
 gnm_autofill_hint (Sheet *sheet, gboolean default_increment,
 		   int base_col, int base_row,
 		   int w,        int h,

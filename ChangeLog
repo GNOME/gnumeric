@@ -1,5 +1,12 @@
 2010-11-04  Morten Welinder  <terra@gnome.org>
 
+	* src/item-cursor.c (cb_autofill_scroll): Limit size of tooltip to
+	200x200 characters.
+
+	* src/sheet-autofill.c (gnm_autofill_hint)
+	(sheet_autofill_internal): Change to return GString* instead of
+	char*.  All callers changed.
+
 	* src/cell.c (gnm_cell_convert_expr_to_value): Handle array
 	corners.
 

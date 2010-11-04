@@ -911,6 +911,33 @@ item_cursor_drag_motion (ItemCursor *ic, double x, double y)
 	return TRUE;
 }
 
+static void
+limit_string_height_and_width (GString *s, size_t wmax, size_t hmax)
+{
+	size_t l;
+	size_t p = 0;
+	for (l = 0; l < hmax; l++) {
+		size_t ll = 0;
+		size_t cut = 0;
+		while (s->str[p] != 0 && s->str[p] != '\n') {
+			if (ll == wmax)
+				cut = p;
+			ll++;
+			p += g_utf8_skip[(unsigned char)(s->str[p])];
+		}
+
+		if (cut) {
+			g_string_erase (s, cut, p - cut);
+			p = cut;
+		}
+		if (s->str[p] == 0)
+			return;
+		p++;
+	}
+	g_string_truncate (s, p);
+}
+
+
 static gboolean
 cb_autofill_scroll (GnmPane *pane, GnmPaneSlideInfo const *info)
 {
@@ -968,7 +995,7 @@ cb_autofill_scroll (GnmPane *pane, GnmPaneSlideInfo const *info)
 		gboolean default_increment =
 			ic->drag_button_state & GDK_CONTROL_MASK;
 		Sheet *sheet = scg_sheet (ic->scg);
-		char *hint;
+		GString *hint;
 
 		if (inverse_autofill)
 			hint = gnm_autofill_hint
@@ -984,8 +1011,9 @@ cb_autofill_scroll (GnmPane *pane, GnmPaneSlideInfo const *info)
 				 ic->pos.end.col, ic->pos.end.row);
 
 		if (hint) {
-			item_cursor_tip_setlabel (ic, hint);
-			g_free (hint);
+			limit_string_height_and_width (hint, 200, 200);
+			item_cursor_tip_setlabel (ic, hint->str);
+			g_string_free (hint, TRUE);
 		} else
 			item_cursor_tip_setlabel (ic, "");
 	}
