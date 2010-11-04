@@ -785,14 +785,21 @@ gnm_cell_set_format (GnmCell *cell, char const *format)
 static GnmValue *
 cb_set_array_value (GnmCellIter const *iter, gpointer user)
 {
+	GnmValue const *value = user;
 	GnmCell *cell = iter->cell;
+	int x, y;
 
 	/* Clipboard cells, e.g., are not attached to a sheet.  */
 	if (gnm_cell_expr_is_linked (cell))
 		dependent_unlink (GNM_CELL_TO_DEP (cell));
 
+	if (!gnm_expr_top_is_array_elem (cell->base.texpr, &x, &y))
+		return NULL;
+
 	gnm_expr_top_unref (cell->base.texpr);
 	cell->base.texpr = NULL;
+	value_release (cell->value);
+	cell->value = value_dup (value_area_get_x_y (value, x, y, NULL));
 
 	return NULL;
 }
@@ -828,11 +835,10 @@ gnm_cell_convert_expr_to_value (GnmCell *cell)
 					     cell->pos.col + array->cols - 1,
 					     cell->pos.row + array->rows - 1,
 					     cb_set_array_value,
-					     NULL);
-		return;
+					     array->value);
+	} else {
+		g_return_if_fail (!gnm_cell_is_array (cell));
 	}
-
-	g_return_if_fail (!gnm_cell_is_array (cell));
 
 	gnm_expr_top_unref (cell->base.texpr);
 	cell->base.texpr = NULL;
