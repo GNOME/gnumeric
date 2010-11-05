@@ -352,13 +352,6 @@ dialog_tool_init_buttons (GenericToolState *state,
 					   state->help_link);
 }
 
-static gint
-dialog_tool_cmp (GtkTableChild *tchild, GtkWidget *widget)
-{
-	return (tchild->widget != widget);
-}
-
-
 
 /**
  * dialog_tool_init:
@@ -411,25 +404,24 @@ dialog_tool_init (GenericToolState *state,
 	if (widget == NULL) {
 		state->input_entry = NULL;
 	} else {
-		GList *this_label_widget;
-		GtkTableChild *tchild;
-		GList *children;
+		guint right_attach, top_attach, bottom_attach;
 
 		table = GTK_TABLE (gtk_widget_get_parent (widget));
 		state->input_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 		gnm_expr_entry_disable_tips (state->input_entry);
-		gnm_expr_entry_set_flags (state->input_entry, flags | GNM_EE_FORCE_ABS_REF,
+		gnm_expr_entry_set_flags (state->input_entry,
+					  flags | GNM_EE_FORCE_ABS_REF,
 					  GNM_EE_MASK);
 
-		children = gtk_container_get_children (GTK_CONTAINER (table));
-		this_label_widget = g_list_find_custom
-		  (children, widget, (GCompareFunc) dialog_tool_cmp);
-		tchild = (GtkTableChild *)(this_label_widget->data);
-		g_list_free (children);
-
+		gtk_container_child_get (GTK_CONTAINER (table), widget,
+					 "right-attach", &right_attach,
+					 "top-attach", &top_attach,
+					 "bottom-attach", &bottom_attach,
+					 NULL);
+					 
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry),
-				  tchild->right_attach, tchild->right_attach + 1,
-				  tchild->top_attach, tchild->bottom_attach,
+				  right_attach, right_attach + 1,
+				  top_attach, bottom_attach,
 				  GTK_EXPAND | GTK_FILL, 0,
 				  0, 0);
 		g_signal_connect_after (G_OBJECT (state->input_entry),
@@ -451,9 +443,7 @@ dialog_tool_init (GenericToolState *state,
 	if (widget == NULL) {
 		state->input_entry_2 = NULL;
 	} else {
-		GList *this_label_widget;
-		GtkTableChild *tchild;
-		GList *children;
+		guint right_attach, top_attach, bottom_attach;
 
 		state->input_entry_2 = gnm_expr_entry_new (state->wbcg, TRUE);
 		gnm_expr_entry_disable_tips (state->input_entry_2);
@@ -461,15 +451,15 @@ dialog_tool_init (GenericToolState *state,
 					  GNM_EE_SINGLE_RANGE | GNM_EE_FORCE_ABS_REF, GNM_EE_MASK);
 		table = GTK_TABLE (gtk_widget_get_parent (widget));
 
-		children = gtk_container_get_children (GTK_CONTAINER (table));
-		this_label_widget = g_list_find_custom
-		  (children, widget, (GCompareFunc) dialog_tool_cmp);
-		tchild = (GtkTableChild *)(this_label_widget->data);
-		g_list_free (children);
+		gtk_container_child_get (GTK_CONTAINER (table), widget,
+					 "right-attach", &right_attach,
+					 "top-attach", &top_attach,
+					 "bottom-attach", &bottom_attach,
+					 NULL);
 
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
-				  tchild->right_attach, tchild->right_attach + 1,
-				  tchild->top_attach, tchild->bottom_attach,
+				  right_attach, right_attach + 1,
+				  top_attach, bottom_attach,
 				  GTK_EXPAND | GTK_FILL, 0,
 				  0, 0);
 		g_signal_connect_after (G_OBJECT (state->input_entry_2),
