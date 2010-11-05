@@ -406,6 +406,7 @@ margin_preview_page_available_size(PrinterSetupState *state,
 	guint *widths, *heights;
 	GtkRequisition requisition;
 	guint top_att, bottom_att, left_att, right_att, i;
+	int nrows, ncols;
 
 	/* Reset available size to zero*/
 	available_size->width = 0;
@@ -413,8 +414,9 @@ margin_preview_page_available_size(PrinterSetupState *state,
 
 	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "table-paper-selector"));
 
-	widths = g_new0(guint, table->ncols);
-	heights = g_new0(guint, table->nrows);
+	gtk_table_get_size (table, &nrows, &ncols);
+	widths = g_new0(guint, ncols);
+	heights = g_new0(guint, nrows);
 
 	container = GTK_BOX (go_gtk_builder_get_widget (state->gui,
 						   "container-paper-sample"));
@@ -2123,7 +2125,7 @@ display_order_icon (GtkToggleButton *toggle, PrinterSetupState *state)
 {
 	GtkWidget *show, *hide;
 
-	if (toggle->active){
+	if (gtk_toggle_button_get_active (toggle)){
 		show = state->icon_rd;
 		hide = state->icon_dr;
 	} else {

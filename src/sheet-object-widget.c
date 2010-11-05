@@ -49,6 +49,7 @@
 #include "commands.h"
 #include "gnm-format.h"
 #include "number-match.h"
+#include <dead-kittens.h>
 
 #include <goffice/goffice.h>
 
@@ -812,8 +813,8 @@ sheet_widget_button_create_widget (SheetObjectWidget *sow)
 {
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (sow);
 	GtkWidget *w = gtk_button_new_with_label (swb->label);
-	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
-	gtk_label_set_attributes (GTK_LABEL (GTK_BIN (w)->child),
+	gtk_widget_set_can_focus (w, FALSE);
+	gtk_label_set_attributes (GTK_LABEL (gtk_bin_get_child (GTK_BIN (w))),
 				  swb->markup);
 	g_signal_connect (G_OBJECT (w),
 			  "pressed",
@@ -852,7 +853,7 @@ typedef struct {
 
 static void
 cb_button_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-		       ButtonConfigState *state)
+		     ButtonConfigState *state)
 {
 	/* Note:  half of the set-focus action is handle by the default
 	 *        callback installed by wbc_gtk_attach_guru */
@@ -860,12 +861,12 @@ cb_button_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	/* Force an update of the content in case it needs tweaking (eg make it
 	 * absolute) */
 	if (state->old_focus != NULL &&
-	    IS_GNM_EXPR_ENTRY (state->old_focus->parent)) {
+	    IS_GNM_EXPR_ENTRY (gtk_widget_get_parent (state->old_focus))) {
 		GnmParsePos  pp;
-		GnmExprTop const *texpr = gnm_expr_entry_parse (
-			GNM_EXPR_ENTRY (state->old_focus->parent),
-			parse_pos_init_sheet (&pp, state->sheet),
-			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
+		GnmExprTop const *texpr = gnm_expr_entry_parse
+			(GNM_EXPR_ENTRY (gtk_widget_get_parent (state->old_focus)),
+			 parse_pos_init_sheet (&pp, state->sheet),
+			 NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 		if (texpr != NULL)
 			gnm_expr_top_unref (texpr);
 	}
@@ -1764,7 +1765,7 @@ sheet_widget_scrollbar_create_widget (SheetObjectWidget *sow)
 	bar = swa->horizontal
 		? gtk_hscrollbar_new (swa->adjustment)
 		: gtk_vscrollbar_new (swa->adjustment);
-	GTK_WIDGET_UNSET_FLAGS (bar, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (bar, FALSE);
 	g_signal_connect (G_OBJECT (bar),
 		"value_changed",
 		G_CALLBACK (cb_adjustment_widget_value_changed), swa);
@@ -1868,7 +1869,7 @@ sheet_widget_spinbutton_create_widget (SheetObjectWidget *sow)
 	swa->being_updated = TRUE;
 	spinbutton = gtk_spin_button_new (swa->adjustment,
 		swa->adjustment->step_increment, 0);
-	GTK_WIDGET_UNSET_FLAGS (spinbutton, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (spinbutton, FALSE);
 	g_signal_connect (G_OBJECT (spinbutton),
 		"value_changed",
 		G_CALLBACK (cb_adjustment_widget_value_changed), swa);
@@ -1975,7 +1976,7 @@ sheet_widget_slider_create_widget (SheetObjectWidget *sow)
 		? gtk_hscale_new (swa->adjustment)
 		: gtk_vscale_new (swa->adjustment);
 	gtk_scale_set_draw_value (GTK_SCALE (slider), FALSE);
-	GTK_WIDGET_UNSET_FLAGS (slider, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (slider, FALSE);
 	g_signal_connect (G_OBJECT (slider),
 		"value_changed",
 		G_CALLBACK (cb_adjustment_widget_value_changed), swa);
@@ -2251,7 +2252,7 @@ sheet_widget_checkbox_create_widget (SheetObjectWidget *sow)
 	g_return_val_if_fail (swc != NULL, NULL);
 
 	button = gtk_check_button_new_with_label (swc->label);
-	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (button, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), swc->value);
 	g_signal_connect (G_OBJECT (button),
 			  "toggled",
@@ -2597,7 +2598,7 @@ sheet_widget_toggle_button_create_widget (SheetObjectWidget *sow)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (sow);
 	GtkWidget *button = gtk_toggle_button_new_with_label (swc->label);
-	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (button, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), swc->value);
 	g_signal_connect (G_OBJECT (button),
 		"toggled",
@@ -2828,7 +2829,7 @@ sheet_widget_radio_button_create_widget (SheetObjectWidget *sow)
 				     "label", swrb->label,
 				     NULL) ;
 
-	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (w, FALSE);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), swrb->active);
 
@@ -3825,7 +3826,7 @@ cb_combo_selection_changed (SheetWidgetListBase *swl,
 {
 	int pos = swl->selection - 1;
 	if (pos < 0) {
-		gtk_entry_set_text (GTK_ENTRY (GTK_BIN (combo)->child), "");
+		gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (combo))), "");
 		pos = -1;
 	}
 	gtk_combo_box_set_active (combo, pos);
@@ -3860,7 +3861,8 @@ sheet_widget_combo_create_widget (SheetObjectWidget *sow)
 	GtkWidget *combo;
 
 	combo = g_object_new (gtk_combo_box_entry_get_type (), NULL);
-	GTK_WIDGET_UNSET_FLAGS ((GTK_BIN (combo)->child), GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (gtk_bin_get_child (GTK_BIN (combo)),
+				  FALSE);
 	if (swl->model != NULL)
 		g_object_set (G_OBJECT (combo),
                       "model",		swl->model,

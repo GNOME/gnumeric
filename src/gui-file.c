@@ -272,7 +272,7 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 
 	advanced_button = gtk_button_new_with_mnemonic (_("Advanc_ed"));
 	gtk_widget_show (advanced_button);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (fsel)->action_area),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_action_area (GTK_DIALOG (fsel))),
 			    advanced_button, FALSE, TRUE, 6);
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -562,9 +562,9 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 
 	if (wbcg2) {
 		GtkWidget *nb = GTK_WIDGET (wbcg2->notebook_area);
-		wb_view_preferred_size (wb_view,
-					nb->allocation.width,
-					nb->allocation.height);
+		GtkAllocation a;
+		gtk_widget_get_allocation (nb, &a);
+		wb_view_preferred_size (wb_view, a.width, a.height);
         }
 
 	success = check_multiple_sheet_support_if_needed (fs, GTK_WINDOW (fsel), wb_view);
@@ -599,9 +599,9 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 
 	if (wbcg2) {
 		GtkWidget *nb = GTK_WIDGET (wbcg2->notebook_area);
-		wb_view_preferred_size (wb_view,
-					nb->allocation.width,
-					nb->allocation.height);
+		GtkAllocation a;
+		gtk_widget_get_allocation (nb, &a);
+		wb_view_preferred_size (wb_view, a.width, a.height);
 	}
 
 	if (wb->file_format_level < GO_FILE_FL_AUTO)

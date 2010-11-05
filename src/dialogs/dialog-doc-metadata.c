@@ -1054,7 +1054,7 @@ cb_dialog_doc_metadata_remove_clicked (GtkWidget         *remove_bt,
 			       &list_iter);
 
 	/* Clear entries on 'Properties' page */
-	entry = GTK_ENTRY (GTK_BIN (state->ppt_name)->child);
+	entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (state->ppt_name)));
 	gtk_entry_set_text (entry, "");
 
 	gtk_entry_set_text (state->ppt_value, "");

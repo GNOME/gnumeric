@@ -141,7 +141,7 @@ gnumeric_go_error_info_list_dialog_new (GSList *errs)
 
 	gtk_container_add (GTK_CONTAINER (scrolled_window), GTK_WIDGET (view));
 	gtk_widget_show_all (GTK_WIDGET (scrolled_window));
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scrolled_window, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), scrolled_window, TRUE, TRUE, 0);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CLOSE);
 	return dialog;
@@ -248,7 +248,7 @@ cb_save_sizes (GtkWidget *dialog, const char *key)
 	}
 
 	r = g_memdup (&dialog->allocation, sizeof (dialog->allocation));
-	gdk_window_get_position (dialog->window, &r->x, &r->y);
+	gdk_window_get_position (gtk_widget_get_window (dialog), &r->x, &r->y);
 	g_hash_table_replace (h, g_strdup (key), r);
 }
 
@@ -341,7 +341,7 @@ gnumeric_dialog_raise_if_exists (WBCGtk *wbcg, char const *key)
 	/* Ensure we only pop up one copy per workbook */
 	ctxt = g_object_get_data (G_OBJECT (wbcg), key);
 	if (ctxt && GTK_IS_WINDOW (ctxt->dialog)) {
-		gdk_window_raise (ctxt->dialog->window);
+		gdk_window_raise (gtk_widget_get_window (ctxt->dialog));
 		return ctxt->dialog;
 	} else
 		return NULL;
@@ -355,7 +355,7 @@ cb_activate_default (GtkWindow *window)
 	 * to activate the focus widget.
 	 */
 	return window->default_widget &&
-		GTK_WIDGET_IS_SENSITIVE (window->default_widget) &&
+		gtk_widget_is_sensitive (window->default_widget) &&
 		gtk_window_activate_default (window);
 }
 
@@ -403,7 +403,7 @@ gtk_radio_group_get_selected (GSList *radio_group)
 	for (i = 0, l = radio_group; l; l = l->next, i++){
 		GtkRadioButton *button = l->data;
 
-		if (GTK_TOGGLE_BUTTON (button)->active)
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
 			return c - i - 1;
 	}
 
@@ -1023,7 +1023,8 @@ focus_on_entry (GtkEntry *entry)
 		return;
 	gtk_widget_grab_focus (GTK_WIDGET(entry));
 	gtk_editable_set_position (GTK_EDITABLE (entry), 0);
-	gtk_editable_select_region (GTK_EDITABLE (entry), 0, entry->text_length);
+	gtk_editable_select_region (GTK_EDITABLE (entry), 0,
+				    gtk_entry_get_text_length (entry));
 }
 
 gboolean
@@ -1201,13 +1202,13 @@ gnm_link_button_and_entry (GtkWidget *button, GtkWidget *entry)
 void
 gnm_widget_set_cursor (GtkWidget *w, GdkCursor *cursor)
 {
-	gdk_window_set_cursor (w->window, cursor);
+	gdk_window_set_cursor (gtk_widget_get_window (w), cursor);
 }
 
 void
 gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct)
 {
-	GdkDisplay *display = gdk_drawable_get_display (w->window);
+	GdkDisplay *display = gdk_drawable_get_display (gtk_widget_get_window (w));
 	GdkCursor *cursor = gdk_cursor_new_for_display (display, ct);
 	gnm_widget_set_cursor (w, cursor);
 	gdk_cursor_unref (cursor);
@@ -1300,18 +1301,18 @@ gnumeric_message_dialog_new (GtkWindow * parent,
 		hbox = gtk_hbox_new (FALSE, 0);
 		gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, TRUE, 0);
 		gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
-		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), hbox, TRUE, TRUE, 0);
 
 		gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 		gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 		gtk_misc_set_alignment (GTK_MISC (label), 0.0 , 0.0);
 		gtk_box_set_spacing (GTK_BOX (hbox), 12);
 		gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
-		gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 12);
+		gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), 12);
 		gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
 		gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 		gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
-		gtk_widget_show_all (GTK_WIDGET (GTK_DIALOG (dialog)->vbox));
+		gtk_widget_show_all (GTK_WIDGET (gtk_dialog_get_content_area (GTK_DIALOG (dialog))));
 	}
 
 	return dialog;

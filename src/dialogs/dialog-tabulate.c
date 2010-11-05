@@ -116,16 +116,20 @@ static GnmExprEntry *
 get_table_expr_entry (GtkTable *t, int y, int x)
 {
 	GList *l;
+	GList *children = gtk_container_get_children (GTK_CONTAINER (t));
+	GnmExprEntry *res = NULL;
 
-	for (l = t->children; l; l = l->next) {
+	for (l = children; l; l = l->next) {
 		GtkTableChild *child = l->data;
 		if (child->left_attach == x && child->top_attach == y &&
 		    IS_GNM_EXPR_ENTRY (child->widget)) {
-			return GNM_EXPR_ENTRY (child->widget);
+			res = GNM_EXPR_ENTRY (child->widget);
+			break;
 		}
 	}
 
-	return NULL;
+	g_list_free (children);
+	return res;
 }
 
 static int
@@ -134,22 +138,27 @@ get_table_float_entry (GtkTable *t, int y, int x, GnmCell *cell, gnm_float *numb
 {
 	GList *l;
 	GOFormat *format;
+	GList *children = gtk_container_get_children (GTK_CONTAINER (t));
+	int res = 3;
 
 	*wp = NULL;
-	for (l = t->children; l; l = l->next) {
+	for (l = children; l; l = l->next) {
 		GtkTableChild *child = l->data;
 		if (child->left_attach == x && child->top_attach == y &&
 		    GTK_IS_ENTRY (child->widget)) {
 			*wp = GTK_ENTRY (child->widget);
 			format = gnm_style_get_format (gnm_cell_get_style (cell));
-			return (with_default ?
+			res = (with_default ?
 				entry_to_float_with_format_default (GTK_ENTRY (child->widget), number,
 							   TRUE, format, default_float) :
 				entry_to_float_with_format (GTK_ENTRY (child->widget), number,
 							   TRUE, format));
+			break;
 		}
 	}
-	return 3;
+	g_list_free (children);
+
+	return res;
 }
 
 static void
@@ -176,13 +185,17 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	int row;
 	gboolean with_coordinates;
 	GnmTabulateInfo *data;
+	int nrows;
+	GnmCell **cells;
+	gnm_float *minima, *maxima, *steps;
 
-	GnmCell **cells = g_new (GnmCell *, dd->source_table->nrows);
-	gnm_float *minima = g_new (gnm_float, dd->source_table->nrows);
-	gnm_float *maxima = g_new (gnm_float, dd->source_table->nrows);
-	gnm_float *steps = g_new (gnm_float, dd->source_table->nrows);
+	gtk_table_get_size (dd->source_table, &nrows, NULL);
+	cells = g_new (GnmCell *, nrows);
+	minima = g_new (gnm_float, nrows);
+	maxima = g_new (gnm_float, nrows);
+	steps = g_new (gnm_float, nrows);
 
-	for (row = 1; row < dd->source_table->nrows; row++) {
+	for (row = 1; row < nrows; row++) {
 		GtkEntry *e_w;
 		GnmExprEntry *w = get_table_expr_entry (dd->source_table, row, COL_CELL);
 
@@ -312,6 +325,7 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 	GtkDialog *dialog;
 	DialogState *dd;
 	int i;
+	int nrows;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -339,7 +353,8 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 		NULL);
 
 	dd->source_table = GTK_TABLE (go_gtk_builder_get_widget (gui, "source_table"));
-	for (i = 1; i < dd->source_table->nrows; i++) {
+	gtk_table_get_size (dd->source_table, &nrows, NULL);
+	for (i = 1; i < nrows; i++) {
 		GnmExprEntry *ge = gnm_expr_entry_new (wbcg, TRUE);
 		gnm_expr_entry_set_flags (ge,
 			GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL,

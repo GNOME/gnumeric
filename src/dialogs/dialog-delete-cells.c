@@ -70,7 +70,7 @@ cb_delete_cell_ok_clicked (DeleteCellState *state)
 	g_return_if_fail (radio_0 != NULL);
 
 	i = gtk_radio_group_get_selected
-		(GTK_RADIO_BUTTON (radio_0)->group);
+	  (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio_0)));
 
 	cols = state->sel->end.col - state->sel->start.col + 1;
 	rows = state->sel->end.row - state->sel->start.row + 1;

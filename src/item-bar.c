@@ -240,10 +240,11 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 	      ColRowSelectionType const type,
 	      char const * const str, GocRect *rect)
 {
-	GtkLayout	*canvas = GTK_LAYOUT (ib->base.canvas);
-	GtkWidget   *widget = GTK_WIDGET (canvas);
-	PangoFont	*font;
-	PangoRectangle   size;
+	GtkLayout *canvas = GTK_LAYOUT (ib->base.canvas);
+	GtkWidget *widget = GTK_WIDGET (canvas);
+	GtkStyle *style = gtk_widget_get_style (widget);
+	PangoFont *font;
+	PangoRectangle size;
 	GOColor color, font_color;
 	int shadow, ascent;
 
@@ -252,24 +253,24 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 	case COL_ROW_NO_SELECTION:
 		shadow = GTK_SHADOW_OUT;
 		font   = ib->normal_font;
-		color = GO_COLOR_FROM_GDK (widget->style->bg[GTK_STATE_ACTIVE]);
-		font_color = GO_COLOR_FROM_GDK (widget->style->fg[GTK_STATE_ACTIVE]);
+		color = GO_COLOR_FROM_GDK (style->bg[GTK_STATE_ACTIVE]);
+		font_color = GO_COLOR_FROM_GDK (style->fg[GTK_STATE_ACTIVE]);
 		ascent = ib->normal_font_ascent;
 		break;
 
 	case COL_ROW_PARTIAL_SELECTION:
 		shadow = GTK_SHADOW_OUT;
 		font   = ib->bold_font;
-		color = GO_COLOR_FROM_GDK (widget->style->dark[GTK_STATE_PRELIGHT]);
-		font_color = GO_COLOR_FROM_GDK (widget->style->fg[GTK_STATE_PRELIGHT]);
+		color = GO_COLOR_FROM_GDK (style->dark[GTK_STATE_PRELIGHT]);
+		font_color = GO_COLOR_FROM_GDK (style->fg[GTK_STATE_PRELIGHT]);
 		ascent = ib->bold_font_ascent;
 		break;
 
 	case COL_ROW_FULL_SELECTION:
 		shadow = GTK_SHADOW_IN;
 		font   = ib->bold_font;
-		color = GO_COLOR_FROM_GDK (widget->style->dark[GTK_STATE_NORMAL]);
-		font_color = GO_COLOR_FROM_GDK (widget->style->fg[GTK_STATE_NORMAL]);
+		color = GO_COLOR_FROM_GDK (style->dark[GTK_STATE_NORMAL]);
+		font_color = GO_COLOR_FROM_GDK (style->fg[GTK_STATE_NORMAL]);
 		ascent = ib->bold_font_ascent;
 		break;
 	}
@@ -289,7 +290,7 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 
 	/* The widget parameters could be NULL, but if so some themes would emit a warning.
 	 * (Murrine is known to do this: http://bugzilla.gnome.org/show_bug.cgi?id=564410). */
-	gtk_paint_shadow (widget->style,
+	gtk_paint_shadow (style,
 			  gtk_layout_get_bin_window (canvas),
 			  GTK_STATE_NORMAL, shadow,
 			  NULL, widget, "GnmItemBarCell",
@@ -449,7 +450,8 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 							else if (size < 6)
 								safety = 6 - size;
 
-							gtk_paint_shadow (canvas->style, gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
+							gtk_paint_shadow (gtk_widget_get_style (canvas),
+									  gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
 								 GTK_STATE_NORMAL,
 								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
 								 NULL, NULL, "GnmItemBarCell",
@@ -481,7 +483,8 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 								safety = 6 - size;
 
 							right = (rtl ? (total + pixels) : total) - size;
-							gtk_paint_shadow (canvas->style, gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
+							gtk_paint_shadow (gtk_widget_get_style (canvas),
+									  gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
 								 GTK_STATE_NORMAL,
 								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
 								 NULL, NULL, "GnmItemBarCell",
@@ -610,7 +613,8 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 							left = pos - dir * (.2 * inc - 2);
 							if (rtl)
 								left -= size;
-							gtk_paint_shadow (canvas->style, gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
+							gtk_paint_shadow (gtk_widget_get_style (canvas),
+									  gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
 								 GTK_STATE_NORMAL,
 								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
 								 NULL, NULL, "GnmItemBarCell",
@@ -644,7 +648,8 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 							if (rtl)
 								left -= size;
 							bottom = total - size;
-							gtk_paint_shadow (canvas->style, gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
+							gtk_paint_shadow (gtk_widget_get_style (canvas),
+									  gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
 								 GTK_STATE_NORMAL,
 								 next->visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
 								 NULL, NULL, "GnmItemBarCell",
@@ -760,7 +765,7 @@ is_pointer_on_division (ItemBar const *ib, gint64 x, gint64 y,
 static void
 ib_set_cursor (ItemBar *ib, gint64 x, gint64 y)
 {
-	GdkWindow *window = GTK_WIDGET (ib->base.canvas)->window;
+	GdkWindow *window = gtk_widget_get_window (GTK_WIDGET (ib->base.canvas));
 	GdkCursor *cursor = ib->normal_cursor;
 
 	/* We might be invoked before we are realized */

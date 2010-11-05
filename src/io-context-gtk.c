@@ -91,7 +91,7 @@ cb_realize (GtkWindow *window, void *dummy)
 {
 	int sx, sy;
 	GdkWindowHints hints;
-	GtkAllocation *allocation;
+	GtkAllocation allocation;
 	GdkGeometry geom;
 	GdkRectangle rect;
 
@@ -100,10 +100,10 @@ cb_realize (GtkWindow *window, void *dummy)
 	gdk_screen_get_monitor_geometry (window->screen, 0, &rect);
 	sx = rect.width;
 	sy = rect.height;
-	allocation = &GTK_WIDGET (window)->allocation;
+	gtk_widget_get_allocation (GTK_WIDGET (window), &allocation);
 
-	geom.base_width = allocation->width;
-	geom.base_height = allocation->height;
+	geom.base_width = allocation.width;
+	geom.base_height = allocation.height;
 	geom.min_width = geom.max_width = geom.base_width;
 	geom.min_height = geom.max_height = geom.base_height;
 

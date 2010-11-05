@@ -288,12 +288,12 @@ fcombo_create_list (SheetObject *so,
 static void
 fcombo_arrow_format (GnmFilterCombo *fcombo, GtkWidget *arrow)
 {
-	if (NULL != arrow->parent) {
+	if (gtk_widget_get_parent (arrow)) {
 		char *desc = NULL;
 		if (NULL != fcombo->cond) {
 		}
 		if (desc) {
-			go_widget_set_tooltip_text (arrow->parent, desc);
+			go_widget_set_tooltip_text (gtk_widget_get_parent (arrow), desc);
 			g_free (desc);
 		}
 	}

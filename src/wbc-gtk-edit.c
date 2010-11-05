@@ -22,6 +22,7 @@
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
+#include <dead-kittens.h>
 
 #include "gnm-pane-impl.h"
 #include "wbc-gtk-impl.h"
@@ -548,7 +549,7 @@ cb_entry_insert_text (GtkEditable *editable,
 	if (wbcg->auto_completing &&
 	    len_bytes != 0 &&
 	    (!g_unichar_isalpha (g_utf8_get_char (text)) ||
-	     *pos_in_chars != GTK_ENTRY (editable)->text_length)) {
+	     *pos_in_chars != gtk_entry_get_text_length (GTK_ENTRY (editable)))) {
 		wbcg->auto_completing = FALSE;
 	}
 
@@ -620,7 +621,7 @@ cb_entry_cursor_pos (WBCGtk *wbcg)
 	if (str[0] == 0)
 		return;
 
-	if (edit_pos != GTK_ENTRY (entry)->text_length) {
+	if (edit_pos != gtk_entry_get_text_length (GTK_ENTRY (entry))) {
 		/* The cursor is no longer at the end.  */
 		wbcg->auto_completing = FALSE;
 	}
@@ -937,7 +938,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 		align = gtk_alignment_new (0.5, 0.5, 0, 0);
 		gtk_container_add (GTK_CONTAINER (align), check);
 		gtk_widget_show_all (align);
-		gtk_box_pack_end (GTK_BOX (GTK_DIALOG (d)->vbox), align, TRUE, TRUE, 0);
+		gtk_box_pack_end (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), align, TRUE, TRUE, 0);
 		res = go_gtk_dialog_run (GTK_DIALOG (d), wbcg_toplevel (wbcg));
 
 		switch (res) {
@@ -1305,8 +1306,9 @@ cb_guru_set_focus (G_GNUC_UNUSED GtkWidget *window,
 		   GtkWidget *focus_widget, WBCGtk *wbcg)
 {
 	GnmExprEntry *gee = NULL;
-	if (focus_widget != NULL && IS_GNM_EXPR_ENTRY (focus_widget->parent))
-		gee = GNM_EXPR_ENTRY (focus_widget->parent);
+	if (focus_widget != NULL &&
+	    IS_GNM_EXPR_ENTRY (gtk_widget_get_parent (focus_widget)))
+		gee = GNM_EXPR_ENTRY (gtk_widget_get_parent (focus_widget));
 	wbcg_set_entry (wbcg, gee);
 }
 

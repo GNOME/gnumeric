@@ -129,7 +129,7 @@ static void
 item_cursor_realize (GocItem *item)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
-	GdkWindow  *window = GTK_WIDGET (item->canvas)->window;
+	GdkWindow  *window = gtk_widget_get_window (GTK_WIDGET (item->canvas));
 
 	ic->gc = gdk_gc_new (window);
 

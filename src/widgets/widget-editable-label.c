@@ -25,6 +25,7 @@
 #include "widget-editable-label.h"
 #include <style-color.h>
 #include <gnm-marshalers.h>
+#include <dead-kittens.h>
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -91,12 +92,12 @@ el_set_style_label (EditableLabel *el)
 static void
 el_set_cursor (GtkEntry *entry, GdkCursorType cursor_type)
 {
-	if (entry->text_area) {
+	if (gtk_entry_get_text_area (entry)) {
 		GdkDisplay *display =
 			gtk_widget_get_display (GTK_WIDGET (entry));
 		GdkCursor *cursor =
 			gdk_cursor_new_for_display (display, cursor_type);
-		gdk_window_set_cursor (entry->text_area, cursor);
+		gdk_window_set_cursor (gtk_entry_get_text_area (entry), cursor);
 		gdk_cursor_unref (cursor);
 	}
 }
@@ -166,7 +167,7 @@ el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 {
 	EditableLabel *el = EDITABLE_LABEL (widget);
 
-	if (button->window != widget->window &&
+	if (button->window != gtk_widget_get_window (widget) &&
 	    button->window != el->entry.text_area) {
 		/* Accept the name change */
 		el_entry_activate (GTK_ENTRY (el), NULL);
@@ -231,7 +232,7 @@ el_state_changed (GtkWidget *widget, GtkStateType previous_state)
 {
 	parent_class->state_changed (widget, previous_state);
 	/* GtkEntry::state_changed changes the cursor */
-	if (GTK_WIDGET_REALIZED (widget))
+	if (gtk_widget_get_realized (widget))
 		el_set_cursor (GTK_ENTRY (widget), GDK_HAND2);
 }
 

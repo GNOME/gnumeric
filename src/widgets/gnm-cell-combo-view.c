@@ -83,13 +83,10 @@ ccombo_focus_change (GtkWidget *widget, gboolean in)
 
 	g_object_ref (widget);
 
-	if (in)
-		GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
-	else
-		GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
+	gtk_widget_set_can_focus (widget, in);
 
 	fevent.type = GDK_FOCUS_CHANGE;
-	fevent.window = widget->window;
+	fevent.window = gtk_widget_get_window (widget);
 	fevent.in = in;
 
 	gtk_widget_event (widget, (GdkEvent *)&fevent);
@@ -182,7 +179,8 @@ cb_ccombo_popup_motion (GtkWidget *widget, GdkEventMotion *event,
 {
 	int base, dir = 0;
 
-	gdk_window_get_origin (GTK_WIDGET (list)->window, NULL, &base);
+	gdk_window_get_origin (gtk_widget_get_window (GTK_WIDGET (list)),
+			       NULL, &base);
 	if (event->y_root < base)
 		dir = -1;
 	else if (event->y_root >= (base + GTK_WIDGET(list)->allocation.height))
@@ -227,7 +225,8 @@ cb_ccombo_button_press (GtkWidget *popup, GdkEventButton *event,
 			GtkWidget *list)
 {
 	/* btn1 down outside the popup cancels */
-	if (event->button == 1 && event->window != popup->window) {
+	if (event->button == 1 &&
+	    event->window != gtk_widget_get_window (popup)) {
 		ccombo_popup_destroy (list);
 		return TRUE;
 	}
@@ -274,8 +273,11 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	GtkTreePath	  *clip = NULL, *select = NULL;
 	GtkRequisition	req;
 	GtkWindow *toplevel = wbcg_toplevel (scg_wbcg (scg));
+	GdkWindow *popup_window;
 
 	popup = gtk_window_new (GTK_WINDOW_POPUP);
+	popup_window = gtk_widget_get_window (popup);
+
 	gtk_window_set_type_hint (GTK_WINDOW (popup), GDK_WINDOW_TYPE_HINT_COMBO);
 	gtk_window_group_add_window (gtk_window_get_group (toplevel), GTK_WINDOW (popup));
 	go_gtk_window_set_transient (toplevel, GTK_WINDOW (popup));
@@ -337,8 +339,8 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	gtk_container_add (GTK_CONTAINER (frame), container);
 
 	/* do the popup */
-	gdk_window_get_origin (GTK_WIDGET (pane)->window,
-		&root_x, &root_y);
+	gdk_window_get_origin (gtk_widget_get_window (GTK_WIDGET (pane)),
+			       &root_x, &root_y);
 	if (sheet->text_is_rtl) {
 		root_x += GTK_WIDGET (pane)->allocation.width;
 		root_x -= scg_colrow_distance_get (scg, TRUE,
@@ -383,16 +385,17 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	gtk_widget_grab_focus (GTK_WIDGET (list));
 	ccombo_focus_change (GTK_WIDGET (list), TRUE);
 
-	if (0 == gdk_pointer_grab (popup->window, TRUE,
+	if (0 == gdk_pointer_grab (popup_window, TRUE,
 		GDK_BUTTON_PRESS_MASK |
 		GDK_BUTTON_RELEASE_MASK |
 		GDK_POINTER_MOTION_MASK,
 		NULL, NULL, activate_time)) {
-		if (0 ==  gdk_keyboard_grab (popup->window, TRUE, activate_time)) {
+		if (0 ==  gdk_keyboard_grab (popup_window, TRUE, activate_time)) {
 			gtk_grab_add (popup);
 		} else {
-			gdk_display_pointer_ungrab (
-				gdk_drawable_get_display (popup->window), activate_time);
+			gdk_display_pointer_ungrab
+				(gdk_drawable_get_display (popup_window),
+				 activate_time);
 		}
 	}
 }
@@ -415,7 +418,7 @@ gnm_cell_combo_view_new (SheetObject *so, GType type,
 	goc_item_new (GOC_GROUP (ccombo), GOC_TYPE_WIDGET,
 		"widget",	view_widget,
 		NULL);
-	GTK_WIDGET_UNSET_FLAGS (view_widget, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (view_widget, FALSE);
 
 	gtk_container_add (GTK_CONTAINER (view_widget),
 		ccombo_create_arrow (GNM_CCOMBO_VIEW (ccombo), so));

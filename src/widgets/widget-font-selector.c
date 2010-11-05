@@ -11,6 +11,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "widget-font-selector.h"
+#include <dead-kittens.h>
 
 #include <value.h>
 #include <mstyle.h>
@@ -266,7 +267,7 @@ select_row (GtkTreeView *list, int row)
 		path = gtk_tree_path_new_from_indices (row, -1);
 
 		gtk_tree_selection_select_path (gtk_tree_view_get_selection (list), path);
-		if (GTK_WIDGET_REALIZED (list))
+		if (gtk_widget_get_realized (list))
 			cb_list_adjust (list);
 		gtk_tree_path_free (path);
 	}

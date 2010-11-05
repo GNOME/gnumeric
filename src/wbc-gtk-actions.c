@@ -22,6 +22,7 @@
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
+#include <dead-kittens.h>
 
 #include "libgnumeric.h"
 #include "application.h"
@@ -1158,7 +1159,8 @@ static GNM_ACTION_DEF (cb_autosum)
 		 * FIXME : This is crap!
 		 * When the function druid is more complete use that.
 		 */
-		gtk_editable_set_position (GTK_EDITABLE (entry), entry->text_length-1);
+		gtk_editable_set_position (GTK_EDITABLE (entry),
+					   gtk_entry_get_text_length (entry)-1);
 	}
 }
 

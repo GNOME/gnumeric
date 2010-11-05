@@ -22,6 +22,7 @@
 #include <gnumeric-config.h>
 #include "gnm-notebook.h"
 #include <gsf/gsf-impl-utils.h>
+#include <dead-kittens.h>
 
 #if !GTK_CHECK_VERSION(2,17,1)
 /* 582488 GtkNotebook behaves poorly when allocated less than reque... */
@@ -8278,7 +8279,8 @@ gnm_notebook_size_request (GtkWidget      *widget,
 {
 	((GtkWidgetClass *)gnm_notebook_parent_class)->size_request
 		(widget, requisition);
-	widget->requisition.height -= widget->style->ythickness;
+	widget->requisition.height -=
+		gtk_widget_get_style (widget)->ythickness;
 }
 
 static void
@@ -8291,13 +8293,15 @@ gnm_notebook_size_allocate (GtkWidget     *widget,
 
 	for (i = 0; TRUE; i++) {
 		GtkWidget *page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (widget), i);
+		GtkAllocation a;
 		if (!page)
 			break;
-		if (!GTK_WIDGET_VISIBLE (page))
+		if (!gtk_widget_get_visible (page))
 			continue;
-		h = MAX (h, page->allocation.height);
+		gtk_widget_get_allocation (page, &a);
+		h = MAX (h, a.height);
 	}
-	h += widget->style->ythickness;
+	h += gtk_widget_get_style (widget)->ythickness;
 
 	gnb->dummy_height = h;
 
@@ -8313,8 +8317,10 @@ gnm_notebook_expose (GtkWidget      *widget,
 	GnmNotebook *gnb = (GnmNotebook *)widget;
 	GdkEvent *ev = gdk_event_copy ((GdkEvent *)event);
 	GdkEventExpose *eve = (GdkEventExpose *)ev;
-	GtkAllocation alc = widget->allocation;
+	GtkAllocation alc;
 	int res = FALSE;
+
+	gtk_widget_get_allocation (widget, &alc);
 
 	alc.y += gnb->dummy_height;
 	if (gdk_rectangle_intersect (&alc, &eve->area, &eve->area)) {
@@ -8366,7 +8372,7 @@ gnm_notebook_get_n_visible (GnmNotebook *nb)
 
 	for (l = children; l; l = l->next) {
 		GtkWidget *child = l->data;
-		if (GTK_WIDGET_VISIBLE (child))
+		if (gtk_widget_get_visible (child))
 			count++;
 	}
 
@@ -8401,7 +8407,7 @@ cb_label_visibility (GtkWidget *label,
 		     GtkWidget *dummy)
 {
 	g_object_set (GTK_OBJECT (dummy),
-		      "visible", GTK_WIDGET_VISIBLE (label),
+		      "visible", gtk_widget_get_visible (label),
 		      NULL);
 }
 

@@ -157,7 +157,7 @@ tool_set_focus_output_range (G_GNUC_UNUSED GtkWidget *widget,
 static void
 cb_focus_on_entry (GtkWidget *widget, GtkWidget *entry)
 {
-        if (GTK_TOGGLE_BUTTON (widget)->active)
+        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
 		gtk_widget_grab_focus
 			(GTK_WIDGET (gnm_expr_entry_get_entry
 				     (GNM_EXPR_ENTRY (entry))));

@@ -990,7 +990,7 @@ cb_paned_size_allocate (GtkHPaned *hpaned,
 	 * used for auto-expr and other little things.  This helps with
 	 * wide windows.
 	 */
-	wp = GTK_WIDGET (hpaned)->parent->allocation.width;
+	wp = gtk_widget_get_parent (GTK_WIDGET (hpaned))->allocation.width;
 	p1 = MAX (p1, w - (wp - w) * 125 / 100);
 
 	/* However, never use more for tabs than we want.  */
@@ -2229,7 +2229,7 @@ cb_autofunction (WBCGtk *wbcg)
 		 * When the function druid is more complete use that.
 		 */
 		gtk_editable_set_position (GTK_EDITABLE (entry),
-			entry->text_length-1);
+					   gtk_entry_get_text_length (entry)-1);
 	}
 }
 
@@ -2305,7 +2305,7 @@ cb_scroll_wheel (GtkWidget *w, GdkEventScroll *event,
 	gboolean go_back = (event->direction == GDK_SCROLL_UP ||
 			    event->direction == GDK_SCROLL_LEFT);
 
-	if (!pane || !GTK_WIDGET_REALIZED (w))
+	if (!pane || !gtk_widget_get_realized (w))
 		return FALSE;
 
 	if ((event->state & GDK_MOD1_MASK))
@@ -2748,7 +2748,7 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 	/* Set a reasonable width for the selection box. */
 	len = go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg))),
-		GTK_WIDGET (entry)->style->font_desc,
+		gtk_widget_get_style (GTK_WIDGET (entry))->font_desc,
 		cell_coord_name (GNM_MAX_COLS - 1, GNM_MAX_ROWS - 1));
 	/*
 	 * Add a little extra since font might be proportional and since
@@ -3677,7 +3677,7 @@ cb_handlebox_dock_status (GtkHandleBox *hb,
 
 	/* BARF!  */
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=139184  */
-	GtkStyle *style = gtk_style_copy (box->style);
+	GtkStyle *style = gtk_style_copy (gtk_widget_get_style (box));
 	style->ythickness = attached ? 2 : 0;
 	gtk_widget_set_style (box, style);
 	g_object_unref (style);
@@ -3949,7 +3949,7 @@ cb_init_extra_ui (GnmAppExtraUI *extra_ui, WBCGtk *gtk)
 static void
 set_toolbar_style_for_position (GtkToolbar *tb, GtkPositionType pos)
 {
-	GtkWidget *box = GTK_WIDGET (tb)->parent;
+	GtkWidget *box = gtk_widget_get_parent (GTK_WIDGET (tb));
 
 	static const GtkOrientation orientations[] = {
 		GTK_ORIENTATION_VERTICAL, GTK_ORIENTATION_VERTICAL,
@@ -3977,8 +3977,8 @@ set_toolbar_style_for_position (GtkToolbar *tb, GtkPositionType pos)
 static void
 set_toolbar_position (GtkToolbar *tb, GtkPositionType pos, WBCGtk *gtk)
 {
-	GtkWidget *box = GTK_WIDGET (tb)->parent;
-	GtkContainer *zone = GTK_CONTAINER (GTK_WIDGET (box)->parent);
+	GtkWidget *box = gtk_widget_get_parent (GTK_WIDGET (tb));
+	GtkContainer *zone = GTK_CONTAINER (gtk_widget_get_parent (GTK_WIDGET (box)));
 	GtkContainer *new_zone = GTK_CONTAINER (gtk->toolbar_zones[pos]);
 	char const *name = g_object_get_data (G_OBJECT (box), "name");
 	const char *key = "toolbar-order";
@@ -4042,8 +4042,8 @@ cb_tcm_hide (GtkWidget *widget, GtkWidget *box)
 static void
 toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEventButton *event_button)
 {
-	GtkWidget *box = GTK_WIDGET (tb)->parent;
-	GtkWidget *zone = GTK_WIDGET (box)->parent;
+	GtkWidget *box = gtk_widget_get_parent (GTK_WIDGET (tb));
+	GtkWidget *zone = gtk_widget_get_parent (GTK_WIDGET (box));
 	GtkWidget *menu = gtk_menu_new ();
 	GtkWidget *item;
 
@@ -4073,8 +4073,9 @@ toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEventButton *event_button)
 			item = gtk_radio_menu_item_new_with_label (group, text);
 			group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
 
-			GTK_CHECK_MENU_ITEM (item)->active =
-				(zone == gtk->toolbar_zones[pos]);
+			gtk_check_menu_item_set_active
+				(GTK_CHECK_MENU_ITEM (item),
+				 (zone == gtk->toolbar_zones[pos]));
 
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 			g_object_set_data (G_OBJECT (item), "toolbar", tb);
@@ -4846,11 +4847,12 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	wbcg->auto_expr_label = tmp = gtk_label_new ("");
 	g_object_ref (wbcg->auto_expr_label);
 	gtk_label_set_ellipsize (GTK_LABEL (tmp), PANGO_ELLIPSIZE_START);
-	GTK_WIDGET_UNSET_FLAGS (tmp, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (tmp, FALSE);
 	gtk_widget_ensure_style (tmp);
 	gtk_widget_set_size_request (tmp, go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
-		tmp->style->font_desc, "Sumerage=-012345678901234"), -1);
+		gtk_widget_get_style (tmp)->font_desc,
+		"Sumerage=-012345678901234"), -1);
 	tmp = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (tmp), wbcg->auto_expr_label);
 	g_signal_connect (G_OBJECT (tmp),
@@ -4864,7 +4866,7 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	gtk_widget_ensure_style (tmp);
 	gtk_widget_set_size_request (tmp, go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
-		tmp->style->font_desc, "W") * 5, -1);
+		gtk_widget_get_style (tmp)->font_desc, "W") * 5, -1);
 
 	wbcg->tabs_paned = GTK_PANED (gtk_hpaned_new ());
 	gtk_paned_pack2 (wbcg->tabs_paned, wbcg->progress_bar, FALSE, TRUE);
@@ -5321,7 +5323,8 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 	/* Ignore changes while we are insensitive. useful for displaying
 	 * values, without storing them as Data.  Also ignore updates if the
 	 * dataset has been cleared via the weakref handler  */
-	if (!GTK_WIDGET_SENSITIVE (gee) || editor->dataset == NULL)
+	if (!gtk_widget_is_sensitive (GTK_WIDGET (gee)) ||
+	    editor->dataset == NULL)
 		return;
 
 	scg = gnm_expr_entry_get_scg (gee);

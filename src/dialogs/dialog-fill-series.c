@@ -98,17 +98,17 @@ cb_fill_series_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	/* Read the `Series in' radio buttons. */
 	radio = go_gtk_builder_get_widget (state->base.gui, "series_in_rows");
 	fs->series_in_rows = ! gtk_radio_group_get_selected
-	        (GTK_RADIO_BUTTON (radio)->group);
+	        (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio)));
 
 	/* Read the `Type' radio buttons. */
 	radio = go_gtk_builder_get_widget (state->base.gui, "type_linear");
 	fs->type = gtk_radio_group_get_selected
-	        (GTK_RADIO_BUTTON (radio)->group);
+	        (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio)));
 
 	/* Read the `Date unit' radio buttons. */
 	radio = go_gtk_builder_get_widget (state->base.gui, "unit_day");
 	fs->date_unit = gtk_radio_group_get_selected
-	        (GTK_RADIO_BUTTON (radio)->group);
+	        (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio)));
 
 	fs->is_step_set = ! entry_to_float (GTK_ENTRY (state->step_entry),
 					    &fs->step_value, TRUE);
@@ -133,7 +133,7 @@ cb_type_button_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	/* Read the `Type' radio buttons. */
 	radio = go_gtk_builder_get_widget (state->base.gui, "type_linear");
-	type = gtk_radio_group_get_selected (GTK_RADIO_BUTTON (radio)->group);
+	type = gtk_radio_group_get_selected (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio)));
 
 	if (type == FillSeriesTypeDate)
 		gtk_widget_set_sensitive (state->date_steps_type, TRUE);

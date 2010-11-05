@@ -924,7 +924,7 @@ gnm_pane_init (GnmPane *pane)
 	pane->im_block_edit_start = FALSE;
 	pane->im_first_focus = TRUE;
 
-	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (GTK_WIDGET (canvas), TRUE);
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);
 
 	g_signal_connect (G_OBJECT (pane->im_context), "commit",

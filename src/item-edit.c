@@ -16,6 +16,7 @@
 #include "gnumeric.h"
 #include "item-edit.h"
 #include "gnm-pane-impl.h"
+#include <dead-kittens.h>
 
 #include "item-cursor.h"
 #include "sheet-control-gui-priv.h"
@@ -425,6 +426,8 @@ item_edit_update_bounds (GocItem *item)
 
 		if ((dir == PANGO_DIRECTION_RTL && cdir == GOC_DIRECTION_RTL) ||
 		    (dir != PANGO_DIRECTION_RTL && cdir == GOC_DIRECTION_LTR)) {
+			GtkAllocation a;
+
 			while (col_size < width &&
 			       col <= pane->last_full.col &&
 			       col < gnm_sheet_get_last_col (sheet)) {
@@ -435,7 +438,8 @@ item_edit_update_bounds (GocItem *item)
 				if (ci->visible)
 					col_size += ci->size_pixels;
 			}
-			tmp = (pane->first_offset.x + canvas->allocation.width) / scale;
+			gtk_widget_get_allocation (GTK_WIDGET (canvas), &a);
+			tmp = (pane->first_offset.x + a.width) / scale;
 			item->x1 = item->x0 + (col_size + GNM_COL_MARGIN + GNM_COL_MARGIN + 1) / scale;
 
 			if (item->x1 >= tmp) {

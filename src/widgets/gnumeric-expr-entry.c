@@ -2644,7 +2644,8 @@ gnm_expr_entry_grab_focus (GnmExprEntry *gee, gboolean select_all)
 	gtk_widget_grab_focus (GTK_WIDGET (gee->entry));
 	if (select_all) {
 		gtk_editable_set_position (GTK_EDITABLE (gee->entry), 0);
-		gtk_editable_select_region (GTK_EDITABLE (gee->entry), 0, gee->entry->text_length);
+		gtk_editable_select_region (GTK_EDITABLE (gee->entry), 0,
+					    gtk_entry_get_text_length (gee->entry));
 	}
 }
 

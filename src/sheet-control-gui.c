@@ -23,6 +23,7 @@
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "sheet-control-gui-priv.h"
+#include <dead-kittens.h>
 
 #include "sheet.h"
 #include "sheet-private.h"
@@ -267,7 +268,7 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 		gtk_label_set_markup (GTK_LABEL (label), tmp);
 		g_free (tmp);
 
-		GTK_WIDGET_UNSET_FLAGS (btn, GTK_CAN_FOCUS);
+		gtk_widget_set_can_focus (btn, FALSE);
 		gtk_container_add (GTK_CONTAINER (in), label);
 		gtk_container_add (GTK_CONTAINER (btn), in);
 		gtk_container_add (GTK_CONTAINER (out), btn);
@@ -290,7 +291,7 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 	/* size all of the button so things work after a zoom */
 	for (i = 0 ; i < btns->len ; i++) {
 		GtkWidget *btn = g_ptr_array_index (btns, i);
-		GtkWidget *label = GTK_BIN (GTK_BIN (btn)->child)->child;
+		GtkWidget *label = gtk_bin_get_child (GTK_BIN (gtk_bin_get_child (GTK_BIN (btn))));
 		gtk_widget_set_size_request (GTK_WIDGET (btn), w, h);
 		gtk_widget_set_style (label, style);
 	}
@@ -558,17 +559,21 @@ static void
 cb_select_all_btn_expose (GtkWidget *widget, GdkEventExpose *event, SheetControlGUI *scg)
 {
 	int offset = scg_sheet (scg)->text_is_rtl ? -1 : 0;
+	GtkAllocation a;
 
 	/* This should be keep in sync with item_bar_cell code (item-bar.c) */
-	gdk_draw_rectangle (widget->window,
+	gdk_draw_rectangle (gtk_widget_get_window (widget),
 			    widget->style->bg_gc[GTK_STATE_ACTIVE],
 			    TRUE,
 			    offset + 1, 1, widget->allocation.width - 1, widget->allocation.height - 1);
 	/* The widget parameters could be NULL, but if so some themes would emit a warning.
 	 * (Murrine is known to do this: http://bugzilla.gnome.org/show_bug.cgi?id=564410). */
-	gtk_paint_shadow (widget->style, widget->window, GTK_STATE_NORMAL, GTK_SHADOW_OUT,
+	gtk_widget_get_allocation (widget, &a);
+	gtk_paint_shadow (gtk_widget_get_style (widget),
+			  gtk_widget_get_window (widget),
+			  GTK_STATE_NORMAL, GTK_SHADOW_OUT,
 			  NULL, widget, "GnmItemBarCell",
-			  offset, 0, widget->allocation.width + 1, widget->allocation.height + 1);
+			  offset, 0, a.width + 1, a.height + 1);
 }
 
 static gboolean
@@ -878,7 +883,7 @@ gnm_pane_make_cell_visible (GnmPane *pane, int col, int row,
 	 * visible area, and would unconditionally scroll the cell to the top
 	 * left of the viewport.
 	 */
-	if (!GTK_WIDGET_REALIZED (pane))
+	if (!gtk_widget_get_realized (pane))
 		return;
 
 	sheet = scg_sheet (pane->simple.scg);
@@ -1580,7 +1585,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 				GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 				0, 0);
 		}
-		style = gtk_style_copy (scg->vs->style);
+		style = gtk_style_copy (gtk_widget_get_style (scg->vs));
 		style->bg[GTK_STATE_NORMAL] = style->white;
 		gtk_widget_set_style (scg->vs, style);
 		g_object_unref (style);
@@ -3226,7 +3231,7 @@ scg_set_display_cursor (SheetControlGUI *scg)
 
 	SCG_FOREACH_PANE (scg, pane, {
 		GtkWidget *w = GTK_WIDGET (pane);
-		if (w->window) {
+		if (gtk_widget_get_window (w)) {
 			if (cursor == GDK_CURSOR_IS_PIXMAP)
 				gnm_widget_set_cursor (w, pane->mouse_cursor);
 			else

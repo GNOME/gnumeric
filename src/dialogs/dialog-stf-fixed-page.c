@@ -26,6 +26,7 @@
 #include <gui-util.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
+#include <dead-kittens.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS
@@ -205,7 +206,7 @@ select_column (StfDialogData *pagedata, int col)
 		return;
 
 	column = stf_preview_get_column (pagedata->fixed.renderdata, col);
-	gtk_widget_grab_focus (column->button);
+	gtk_widget_grab_focus (gtk_tree_view_column_get_button (column));
 }
 
 static gboolean
@@ -295,18 +296,29 @@ cb_col_button_press (GtkWidget *button,
 	StfDialogData *data = g_object_get_data (G_OBJECT (button), "fixed-data");
 
 	if (event->type == GDK_2BUTTON_PRESS && event->button == 1) {
+		GtkAllocation bca, ba;
+		int offset;
 		/* Split column.  */
 
 		/* Correct for indentation of button.  */
-		int offset = GTK_BIN (button)->child->allocation.x - button->allocation.x;
+		gtk_widget_get_allocation (gtk_bin_get_child (GTK_BIN (button)),
+					   &bca);
+		gtk_widget_get_allocation (button, &ba);
+		offset = bca.x - ba.x;
 		make_new_column (data, col, (int)event->x - offset, FALSE);
 
 		return TRUE;
 	}
 
 	if (event->type == GDK_BUTTON_PRESS && event->button == 3) {
+		GtkAllocation bca, ba;
+		int offset;
+
 		/* Correct for indentation of button.  */
-		int offset = GTK_BIN (button)->child->allocation.x - button->allocation.x;
+		gtk_widget_get_allocation (gtk_bin_get_child (GTK_BIN (button)),
+					   &bca);
+		gtk_widget_get_allocation (button, &ba);
+		offset = bca.x - ba.x;
 
 		fixed_context_menu (data, event, col, (int)event->x - offset);
 		return TRUE;
@@ -389,6 +401,8 @@ fixed_page_update_preview (StfDialogData *pagedata)
 			stf_preview_get_column (renderdata, i);
 		GtkCellRenderer *cell =
 			stf_preview_get_cell_renderer (renderdata, i);
+		GtkWidget *button =
+			gtk_tree_view_column_get_button (column);
 
 		gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 
@@ -396,12 +410,12 @@ fixed_page_update_preview (StfDialogData *pagedata)
 			      "family", "monospace",
 			      NULL);
 
-		g_object_set_data (G_OBJECT (column->button), "fixed-data", pagedata);
+		g_object_set_data (G_OBJECT (button), "fixed-data", pagedata);
 		g_object_set (G_OBJECT (column), "clickable", TRUE, NULL);
-		g_signal_connect (column->button, "button_press_event",
+		g_signal_connect (button, "button_press_event",
 				  G_CALLBACK (cb_col_button_press),
 				  GINT_TO_POINTER (i));
-		g_signal_connect (column->button, "key_press_event",
+		g_signal_connect (button, "key_press_event",
 				  G_CALLBACK (cb_col_key_press),
 				  GINT_TO_POINTER (i));
 	}
@@ -462,6 +476,7 @@ static void
 queue_redraw (GtkWidget *widget, int x)
 {
 	int hh, xo;
+	GtkAllocation a;
 
 	if (x < 0)
 		return;
@@ -469,9 +484,10 @@ queue_redraw (GtkWidget *widget, int x)
 	gtk_tree_view_convert_bin_window_to_widget_coords
 		(GTK_TREE_VIEW (widget), 0, 0, &xo, &hh);
 
+	gtk_widget_get_allocation (widget, &a);
 	gtk_widget_queue_draw_area (widget,
 				    x + xo, hh,
-				    1, widget->allocation.height - hh);
+				    1, a.height - hh);
 }
 
 
@@ -529,11 +545,15 @@ cb_treeview_expose (GtkWidget *widget,
 		    StfDialogData *pagedata)
 {
 	int ruler_x = pagedata->fixed.ruler_x;
-	int height = widget->allocation.height;
+	int height;
 	cairo_t *cr;
+	GtkAllocation a;
 
 	if (ruler_x < 0)
 		return FALSE;
+
+	gtk_widget_get_allocation (widget, &a);
+	height = a.height;
 
 	cr = gdk_cairo_create (event->window);
 	cairo_rectangle (cr, ruler_x, 0, ruler_x + 1, height);
