@@ -870,7 +870,7 @@ scg_set_top_left (SheetControl *sc, int col, int row)
 
 static void
 gnm_pane_make_cell_visible (GnmPane *pane, int col, int row,
-			      gboolean const force_scroll)
+			    gboolean const force_scroll)
 {
 	GocCanvas *canvas;
 	Sheet *sheet;
@@ -883,7 +883,7 @@ gnm_pane_make_cell_visible (GnmPane *pane, int col, int row,
 	 * visible area, and would unconditionally scroll the cell to the top
 	 * left of the viewport.
 	 */
-	if (!gtk_widget_get_realized (pane))
+	if (!gtk_widget_get_realized (GTK_WIDGET (pane)))
 		return;
 
 	sheet = scg_sheet (pane->simple.scg);
