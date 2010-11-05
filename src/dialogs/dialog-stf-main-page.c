@@ -30,6 +30,7 @@
 #include <gtk/gtk.h>
 #include <goffice/goffice.h>
 #include <string.h>
+#include <dead-kittens.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS
@@ -118,9 +119,8 @@ main_page_set_spin_button_adjustment (GtkSpinButton* spinbutton, int min, int ma
 	GtkAdjustment *spinadjust;
 
 	spinadjust = gtk_spin_button_get_adjustment (spinbutton);
-	spinadjust->lower = min;
-	spinadjust->upper = max;
-	gtk_spin_button_set_adjustment (spinbutton, spinadjust);
+	gtk_adjustment_set_lower (spinadjust, min);
+	gtk_adjustment_set_upper (spinadjust, max);
 }
 
 /**

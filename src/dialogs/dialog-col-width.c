@@ -26,6 +26,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
+#include <dead-kittens.h>
 
 #include <gui-util.h>
 #include <commands.h>
@@ -261,8 +262,8 @@ dialog_col_width (WBCGtk *wbcg, gboolean use_default)
 	state->points = GTK_WIDGET (go_gtk_builder_get_widget (gui, "pts-label"));
 
 	state->spin  = GTK_SPIN_BUTTON (go_gtk_builder_get_widget (gui, "spin"));
-	gtk_spin_button_get_adjustment (state->spin)->lower =
-		GNM_COL_MARGIN + GNM_COL_MARGIN;
+	gtk_adjustment_set_lower (gtk_spin_button_get_adjustment (state->spin),
+				  GNM_COL_MARGIN + GNM_COL_MARGIN);
 	g_signal_connect (G_OBJECT (state->spin),
 		"value-changed",
 		G_CALLBACK (cb_dialog_col_width_value_changed), state);

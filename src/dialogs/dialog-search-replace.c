@@ -27,6 +27,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
+#include <dead-kittens.h>
 
 #include <gnumeric-gconf.h>
 #include <gui-util.h>
@@ -352,7 +353,7 @@ dialog_search_replace (WBCGtk *wbcg,
 	g_object_set_data_full (G_OBJECT (dialog),
 		"state", dd, (GDestroyNotify) cb_dialog_destroy);
 
-	gtk_widget_show_all (dialog->vbox);
+	gtk_widget_show_all (gtk_dialog_get_content_area (dialog));
 	gtk_widget_grab_focus (GTK_WIDGET (dd->search_text));
 
 	gnm_dialog_setup_destroy_handlers (dialog, wbcg,

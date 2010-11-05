@@ -97,17 +97,18 @@ tree_view_clamp_column_visible (GtkTreeView       *tree_view,
 				GtkTreeViewColumn *column)
 {
 	GtkAdjustment *hadjustment = gtk_tree_view_get_hadjustment (tree_view);
+	double hval = gtk_adjustment_get_value (hadjustment);
+	double hps = gtk_adjustment_get_page_size (hadjustment);
 	GtkWidget *button = column->button;
+	GtkAllocation ba;
 
-	if ((hadjustment->value + hadjustment->page_size) <
-	    (button->allocation.x + button->allocation.width))
+	gtk_widget_get_allocation (button, &ba);
+	
+	if (hval + hps < ba.x + ba.width)
 		gtk_adjustment_set_value (hadjustment,
-					  button->allocation.x +
-					  button->allocation.width -
-					  hadjustment->page_size);
-	else if (hadjustment->value > button->allocation.x)
-		gtk_adjustment_set_value (hadjustment,
-					  button->allocation.x);
+					  ba.x + ba.width - hps);
+	else if (hval > ba.x)
+		gtk_adjustment_set_value (hadjustment, ba.x);
 }
 
 static void

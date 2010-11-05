@@ -28,6 +28,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
+#include <dead-kittens.h>
 
 #include <parse-util.h>
 #include <gui-util.h>
@@ -1100,7 +1101,7 @@ dialog_formula_guru (WBCGtk *wbcg, GnmFunc *fd)
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       FORMULA_GURU_KEY);
 
-	gtk_widget_show_all (GTK_DIALOG (state->dialog)->vbox);
+	gtk_widget_show_all (gtk_dialog_get_content_area (GTK_DIALOG (state->dialog)));
 	gtk_widget_realize (state->dialog);
 
 	if (fd == NULL) {

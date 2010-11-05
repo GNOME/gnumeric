@@ -28,6 +28,7 @@
 #include "application.h"
 #include "dialogs.h"
 #include "help.h"
+#include <dead-kittens.h>
 
 #include "mstyle.h"
 #include "value.h"
@@ -384,7 +385,7 @@ powerof2 (int i)
 static void
 cb_power_of_2 (GtkAdjustment *adj)
 {
-	int val = (int)adj->value;
+	int val = (int)gtk_adjustment_get_value (adj);
 
 	if (powerof2 (val - 1))
 		gtk_adjustment_set_value (adj, (val - 1) * 2);
@@ -1285,7 +1286,7 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 	w = g_object_get_data (gnm_app_get_app (), PREF_DIALOG_KEY);
 	if (w) {
 		gtk_widget_show (w);
-		gdk_window_raise (w->window);
+		gdk_window_raise (gtk_widget_get_window (w));
 		return;
 	}
 

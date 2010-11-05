@@ -29,6 +29,7 @@
 #include "help.h"
 #include "tool-dialogs.h"
 #include "random-generator.h"
+#include <dead-kittens.h>
 
 #include <workbook.h>
 #include <workbook-control.h>
@@ -504,9 +505,14 @@ dialog_random_realized (GtkWidget *widget, RandomToolState *state)
 {
 	GtkWidget *t = state->distribution_table;
 	GtkWidget *l = state->par1_label;
+	GtkAllocation a;
 
-	gtk_widget_set_size_request (t, t->allocation.width, t->allocation.height);
-	gtk_widget_set_size_request (l, l->allocation.width, l->allocation.height);
+	gtk_widget_get_allocation (t, &a);
+	gtk_widget_set_size_request (t, a.width, a.height);
+
+	gtk_widget_get_allocation (l, &a);
+	gtk_widget_set_size_request (l, a.width, a.height);
+
 	distribution_callback (widget, state);
 }
 

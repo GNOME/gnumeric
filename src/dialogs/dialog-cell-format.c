@@ -27,6 +27,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
+#include <dead-kittens.h>
 
 #include <sheet.h>
 #include <sheet-view.h>
@@ -2504,7 +2505,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	fmt_dialog_init_input_msg_page (state);
 	fmt_dialog_init_conditions_page (state);
 
-	default_border_color = GO_COLOR_FROM_GDK (GTK_WIDGET (state->dialog)->style->black);
+	default_border_color = GO_COLOR_FROM_GDK (gtk_widget_get_style (GTK_WIDGET (state->dialog))->black);
 
 	if (pageno == FD_CURRENT)
 		pageno = fmt_dialog_page;

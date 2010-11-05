@@ -25,9 +25,9 @@
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include <gtk/gtk.h>
-
 #include "dialogs.h"
 #include "help.h"
+#include <dead-kittens.h>
 
 #include <gui-util.h>
 #include <commands.h>
@@ -1691,8 +1691,8 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		dialog = state->customize_footer;
 
 	if (dialog != NULL) {
-		gdk_window_show (dialog->window);
-		gdk_window_raise (dialog->window);
+		gdk_window_show (gtk_widget_get_window (dialog));
+		gdk_window_raise (gtk_widget_get_window (dialog));
 		return;
 	}
 

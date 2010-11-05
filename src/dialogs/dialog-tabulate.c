@@ -27,6 +27,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
+#include <dead-kittens.h>
 
 #include <gui-util.h>
 #include <widgets/gnumeric-expr-entry.h>
@@ -379,7 +380,7 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
-	gtk_widget_show_all (dialog->vbox);
+	gtk_widget_show_all (gtk_dialog_get_content_area (dialog));
 	wbc_gtk_attach_guru (wbcg, GTK_WIDGET (dialog));
 
 	non_model_dialog (wbcg, dialog, TABULATE_KEY);

@@ -954,8 +954,8 @@ cb_paned_size_allocate (GtkHPaned *hpaned,
 	GtkWidget *child1 = paned->child1;
 	GtkWidget *child2 = paned->child2;
 
-	if (child1 == NULL || !GTK_WIDGET_VISIBLE (child1) ||
-	    child2 == NULL || !GTK_WIDGET_VISIBLE (child2))
+	if (child1 == NULL || !gtk_widget_get_visible (child1) ||
+	    child2 == NULL || !gtk_widget_get_visible (child2))
 		goto chain;
 
 	g_object_get (G_OBJECT (paned), "position-set", &position_set, NULL);
@@ -2412,7 +2412,7 @@ wbcg_toggle_visibility (WBCGtk *wbcg, GtkToggleAction *action)
 static void
 cb_visibility (char const *action, GtkWidget *orig_widget, WBCGtk *new_wbcg)
 {
-	set_visibility (new_wbcg, action, GTK_WIDGET_VISIBLE (orig_widget));
+	set_visibility (new_wbcg, action, gtk_widget_get_visible (orig_widget));
 }
 
 void
@@ -2568,7 +2568,7 @@ wbcg_get_label_for_position (WBCGtk *wbcg, GtkWidget *source,
 		GtkWidget *label = gnm_notebook_get_nth_label (wbcg->bnotebook, i);
 		int x0, x1;
 
-		if (!GTK_WIDGET_VISIBLE (label))
+		if (!gtk_widget_get_visible (label))
 			continue;
 
 		x0 = label->allocation.x;
@@ -4136,7 +4136,7 @@ cb_toolbar_box_visible (GtkWidget *box, G_GNUC_UNUSED GParamSpec *pspec,
 	GtkToggleAction *toggle_action = g_object_get_data (
 		G_OBJECT (box), "toggle_action");
 	char const *name = g_object_get_data (G_OBJECT (box), "name");
-	gboolean visible = GTK_WIDGET_VISIBLE (box);
+	gboolean visible = gtk_widget_get_visible (box);
 
 	gtk_toggle_action_set_active (toggle_action, visible);
 	if (!wbcg->is_fullscreen) {

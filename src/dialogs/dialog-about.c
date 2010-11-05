@@ -233,11 +233,12 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 	int age = state->now - r->start_time;
 	double rage = CLAMP (age / (double)r->duration, 0.0, 1.0);
 	GtkWidget *widget = state->anim_area;
-	GdkDrawable *drawable = widget->window;
+	GdkDrawable *drawable = gtk_widget_get_window (widget);
 	GtkStyle *style;
 	const int fade = 500;
 	int x, y, width, height;
 	cairo_t *cr;
+	GtkAllocation wa;
 
 	if (age >= r->duration)
 		return FALSE;
@@ -249,9 +250,10 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 
 	style = gtk_widget_get_style (widget);
 
-	x = (int)(PANGO_SCALE * widget->allocation.width *
+	gtk_widget_get_allocation (widget, &wa);
+	x = (int)(PANGO_SCALE * wa.width *
 		  (r->start.x + rage * (r->end.x - r->start.x)));
-	y = (int)(PANGO_SCALE * widget->allocation.height *
+	y = (int)(PANGO_SCALE * wa.height *
 		  (r->start.y + rage * (r->end.y - r->start.y)));
 
 	if (r->expansion.count) {

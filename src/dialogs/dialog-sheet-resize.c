@@ -26,6 +26,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
+#include <dead-kittens.h>
 
 #include <gui-util.h>
 #include <wbc-gtk.h>
@@ -52,10 +53,10 @@ get_sizes (ResizeState *state, int *cols, int *rows)
 	GtkAdjustment *adj;
 
 	adj = gtk_range_get_adjustment (GTK_RANGE (state->columns_scale));
-	*cols = 1 << (int)adj->value;
+	*cols = 1 << (int)gtk_adjustment_get_value (adj);
 
 	adj = gtk_range_get_adjustment (GTK_RANGE (state->rows_scale));
-	*rows = 1 << (int)adj->value;
+	*rows = 1 << (int)gtk_adjustment_get_value (adj);
 }
 
 static void
@@ -164,7 +165,7 @@ dialog_sheet_resize (WBCGtk *wbcg)
 				    GNM_MAX_COLS / GNM_MIN_COLS)) *
 		go_pango_measure_string
 		(gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg))),
-		 state->dialog->style->font_desc, "00");
+		 gtk_widget_get_style (state->dialog)->font_desc, "00");
 
 	state->columns_scale = go_gtk_builder_get_widget (gui, "columns_scale");
 	gtk_widget_set_size_request (state->columns_scale, slider_width, -1);

@@ -2,6 +2,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include "dialogs.h"
+#include <dead-kittens.h>
 
 static void
 cb_accept_password (GtkWidget *IGNORED, GtkDialog *d)
@@ -43,7 +44,7 @@ dialog_get_password (GtkWindow *parent, const char *filename)
 					 NULL);
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
 	hb = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox), hb,
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), hb,
 			    TRUE, TRUE, 8);
 	image = gtk_image_new_from_stock ("Gnumeric_Protection_Yes_Dialog",
 					  GTK_ICON_SIZE_DIALOG);

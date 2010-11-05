@@ -1,3 +1,20 @@
+2010-11-05  Morten Welinder  <terra@gnome.org>
+
+	* dialog-about.c: Celebrate dead kittens.
+	* dialog-analysis-tools.c: Ditto.
+	* dialog-autoformat.c: Ditto:
+	* dialog-cell-format.c: Ditto.
+	* dialog-col-width.c: Ditto.
+	* dialog-formula-guru.c: Ditto.
+	* dialog-password.c: Ditto.
+	* dialog-preferences.c: Ditto.
+	* dialog-quit.c: Ditto.
+	* dialog-random-generator.c: Ditto.
+	* dialog-row-height.c: Ditto.
+	* dialog-search-replace.c: Ditto.
+	* dialog-sheet-resize.c: Ditto.
+	* dialog-so-styled.c: Ditto.
+
 2010-10-27  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (fmt_dialog_impl): Fix destruction.
@@ -16,8 +33,8 @@
 
 2010-10-24  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* dialog-printer-setup.c: do not destroy the GtkBuilder after intializing
-	the Header/Footer setup dialog. [See #632999]
+	* dialog-printer-setup.c: do not destroy the GtkBuilder after
+	intializing the Header/Footer setup dialog. [See #632999]
 
 2010-10-19  Morten Welinder  <terra@gnome.org>
 

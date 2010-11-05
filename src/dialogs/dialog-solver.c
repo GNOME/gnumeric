@@ -28,6 +28,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
+#include <dead-kittens.h>
 
 #include <gui-util.h>
 #include <func.h>
@@ -688,9 +689,10 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 		gtk_widget_ensure_style (w);
 		gtk_widget_set_size_request
 			(w,
-			 go_pango_measure_string (context,
-						  w->style->font_desc,
-						  "0") * (5 + GNM_DIG),
+			 go_pango_measure_string
+			 (context,
+			  gtk_widget_get_style (w)->font_desc,
+			  "0") * (5 + GNM_DIG),
 			 -1);
 		gtk_table_attach_defaults (GTK_TABLE (table),
 					   w, 1, 2, y, y + 1);
@@ -703,7 +705,8 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 		}
 	}
 
-	gtk_box_pack_start (GTK_BOX (dialog->vbox), table, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (dialog)),
+			    table, TRUE, TRUE, 0);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 
 	state->run.sig_notify_result =

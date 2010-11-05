@@ -31,6 +31,7 @@
 #include "analysis-anova.h"
 #include "analysis-histogram.h"
 #include "analysis-exp-smoothing.h"
+#include <dead-kittens.h>
 
 #include <workbook.h>
 #include <workbook-control.h>
@@ -412,6 +413,7 @@ dialog_tool_init (GenericToolState *state,
 	} else {
 		GList *this_label_widget;
 		GtkTableChild *tchild;
+		GList *children;
 
 		table = GTK_TABLE (gtk_widget_get_parent (widget));
 		state->input_entry = gnm_expr_entry_new (state->wbcg, TRUE);
@@ -419,9 +421,11 @@ dialog_tool_init (GenericToolState *state,
 		gnm_expr_entry_set_flags (state->input_entry, flags | GNM_EE_FORCE_ABS_REF,
 					  GNM_EE_MASK);
 
+		children = gtk_container_get_children (GTK_CONTAINER (table));
 		this_label_widget = g_list_find_custom
-		  (table->children, widget, (GCompareFunc) dialog_tool_cmp);
+		  (children, widget, (GCompareFunc) dialog_tool_cmp);
 		tchild = (GtkTableChild *)(this_label_widget->data);
+		g_list_free (children);
 
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry),
 				  tchild->right_attach, tchild->right_attach + 1,
@@ -449,6 +453,7 @@ dialog_tool_init (GenericToolState *state,
 	} else {
 		GList *this_label_widget;
 		GtkTableChild *tchild;
+		GList *children;
 
 		state->input_entry_2 = gnm_expr_entry_new (state->wbcg, TRUE);
 		gnm_expr_entry_disable_tips (state->input_entry_2);
@@ -456,9 +461,11 @@ dialog_tool_init (GenericToolState *state,
 					  GNM_EE_SINGLE_RANGE | GNM_EE_FORCE_ABS_REF, GNM_EE_MASK);
 		table = GTK_TABLE (gtk_widget_get_parent (widget));
 
+		children = gtk_container_get_children (GTK_CONTAINER (table));
 		this_label_widget = g_list_find_custom
-		  (table->children, widget, (GCompareFunc) dialog_tool_cmp);
+		  (children, widget, (GCompareFunc) dialog_tool_cmp);
 		tchild = (GtkTableChild *)(this_label_widget->data);
+		g_list_free (children);
 
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
 				  tchild->right_attach, tchild->right_attach + 1,
@@ -1547,18 +1554,24 @@ static void
 dialog_ttest_realized (G_GNUC_UNUSED GtkWidget *widget,
 		       TTestState *state)
 {
+	GtkAllocation alloc;
+
+	gtk_widget_get_allocation (state->options_table, &alloc);
 	gtk_widget_set_size_request (state->options_table,
-				     state->options_table->allocation.width,
-				     state->options_table->allocation.height);
+				     alloc.width, alloc.height);
+
+	gtk_widget_get_allocation (state->paired_button, &alloc);
 	gtk_widget_set_size_request (state->paired_button,
-				     state->paired_button->allocation.width,
-				     state->paired_button->allocation.height);
+				     alloc.width, alloc.height);
+
+	gtk_widget_get_allocation (state->unpaired_button, &alloc);
 	gtk_widget_set_size_request (state->unpaired_button,
-				     state->unpaired_button->allocation.width,
-				     state->unpaired_button->allocation.height);
+				     alloc.width, alloc.height);
+
+	gtk_widget_get_allocation (state->variablespaired_label, &alloc);
 	gtk_widget_set_size_request (state->variablespaired_label,
-				     state->variablespaired_label->allocation.width,
-				     state->variablespaired_label->allocation.height);
+				     alloc.width, alloc.height);
+
 	ttest_paired_toggled_cb (state->paired_button, state);
 	dialog_ttest_adjust_to_invocation (state);
 }
@@ -1995,18 +2008,24 @@ static void
 dialog_sampling_realized (G_GNUC_UNUSED GtkWidget *widget,
 			  SamplingState *state)
 {
+	GtkAllocation alloc;
+
+	gtk_widget_get_allocation (state->options_table, &alloc);
 	gtk_widget_set_size_request (state->options_table,
-				     state->options_table->allocation.width,
-				     state->options_table->allocation.height);
+				     alloc.width, alloc.height);
+
+	gtk_widget_get_allocation (state->random_button, &alloc);
 	gtk_widget_set_size_request (state->random_button,
-				     state->random_button->allocation.width,
-				     state->random_button->allocation.height);
+				     alloc.width, alloc.height);
+
+	gtk_widget_get_allocation (state->periodic_button, &alloc);
 	gtk_widget_set_size_request (state->periodic_button,
-				     state->periodic_button->allocation.width,
-				     state->periodic_button->allocation.height);
+				     alloc.width, alloc.height);
+
+	gtk_widget_get_allocation (state->method_label, &alloc);
 	gtk_widget_set_size_request (state->method_label,
-				     state->method_label->allocation.width,
-				     state->method_label->allocation.height);
+				     alloc.width, alloc.height);
+
 	sampling_method_toggled_cb (state->periodic_button, state);
 }
 

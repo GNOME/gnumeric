@@ -24,6 +24,7 @@
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "dialogs.h"
+#include <dead-kittens.h>
 
 #include "gui-gnumeric.h"
 #include "gui-util.h"
@@ -156,7 +157,7 @@ dialog_so_styled (WBCGtk *wbcg,
 	editor = go_style_get_editor (orig, default_style,
 				      GO_CMD_CONTEXT (wbcg), G_OBJECT (so));
 
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
 		editor, TRUE, TRUE, TRUE);
 	g_object_unref (default_style);
 
@@ -168,7 +169,7 @@ dialog_so_styled (WBCGtk *wbcg,
 						  text_w,
 						  gtk_label_new (_("Content")));
 		else
-			gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
+			gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
 					    text_w, TRUE, TRUE, TRUE);
 	}
 

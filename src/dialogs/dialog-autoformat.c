@@ -29,6 +29,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
+#include <dead-kittens.h>
 
 #include <gui-util.h>
 #include <mstyle.h>
@@ -170,7 +171,7 @@ auto_format_grid_new (AutoFormatState *state, int i, GnmFormatTemplate *ft)
 	GocItem *item = goc_item_new (
 		goc_canvas_get_root (state->canvas[i]),
 		auto_format_grid_get_type (),
-		"render-gridlines",	state->gridlines->active,
+		"render-gridlines",	gtk_check_menu_item_get_active (state->gridlines),
 		"default-col-width",	DEFAULT_COL_WIDTH,
 		"default-row-height",	DEFAULT_ROW_HEIGHT,
 		"x",			0.,
@@ -234,15 +235,9 @@ templates_load (AutoFormatState *state)
 	state->previews_locked = TRUE;
 	{
 		GtkAdjustment *adjustment = gtk_range_get_adjustment (GTK_RANGE (state->scroll));
-
-		adjustment->value = 0;
-		adjustment->lower = 0;
-		adjustment->upper = n_templates / 2;
-		adjustment->step_increment = 1;
-		adjustment->page_increment = 3;
-		adjustment->page_size = 3;
-
-		gtk_adjustment_changed (adjustment);
+		gtk_adjustment_configure (adjustment,
+					  0, 0, n_templates / 2,
+					  1, 3, 3);
 	}
 	state->previews_locked = FALSE;
 
@@ -387,7 +382,7 @@ static void
 cb_scroll_value_changed (GtkAdjustment *adjustment, AutoFormatState *state)
 {
 	previews_free (state);
-	previews_load (state, rint (adjustment->value) * 2);
+	previews_load (state, rint (gtk_adjustment_get_value (adjustment)) * 2);
 }
 
 static gboolean
@@ -437,16 +432,16 @@ cb_check_item_toggled (G_GNUC_UNUSED GtkCheckMenuItem *item,
 	for (ptr = state->templates; ptr != NULL ; ptr = ptr->next) {
 		GnmFormatTemplate *ft = ptr->data;
 
-		ft->number    = state->number->active;
-		ft->border    = state->border->active;
-		ft->font      = state->font->active;
-		ft->patterns  = state->patterns->active;
-		ft->alignment = state->alignment->active;
+		ft->number    = gtk_check_menu_item_get_active (state->number);
+		ft->border    = gtk_check_menu_item_get_active (state->border);
+		ft->font      = gtk_check_menu_item_get_active (state->font);
+		ft->patterns  = gtk_check_menu_item_get_active (state->patterns);
+		ft->alignment = gtk_check_menu_item_get_active (state->alignment);
 
-		ft->edges.left   = state->edges.left->active;
-		ft->edges.right  = state->edges.right->active;
-		ft->edges.top    = state->edges.top->active;
-		ft->edges.bottom = state->edges.bottom->active;
+		ft->edges.left   = gtk_check_menu_item_get_active (state->edges.left);
+		ft->edges.right  = gtk_check_menu_item_get_active (state->edges.right);
+		ft->edges.top    = gtk_check_menu_item_get_active (state->edges.top);
+		ft->edges.bottom = gtk_check_menu_item_get_active (state->edges.bottom);
 
 		ft->invalidate_hash = TRUE;
 	}
@@ -549,7 +544,7 @@ static gboolean
 cb_canvas_focus (GtkWidget *canvas, GtkDirectionType direction,
 		 AutoFormatState *state)
 {
-	if (!GTK_WIDGET_HAS_FOCUS (canvas)) {
+	if (!gtk_widget_has_focus (canvas)) {
 		gtk_widget_grab_focus (canvas);
 		cb_canvas_button_press (GOC_CANVAS (canvas), NULL, state);
 		return TRUE;
@@ -654,7 +649,7 @@ dialog_autoformat (WBCGtk *wbcg)
 			G_CALLBACK (cb_canvas_focus), state);
 	}
 
-	g_signal_connect (G_OBJECT (GTK_RANGE (state->scroll)->adjustment),
+	g_signal_connect (G_OBJECT (gtk_range_get_adjustment (GTK_RANGE (state->scroll))),
 		"value_changed",
 		G_CALLBACK (cb_scroll_value_changed), state);
 	g_signal_connect (G_OBJECT (state->gridlines),

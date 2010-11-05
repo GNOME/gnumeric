@@ -29,6 +29,7 @@
 #include <wbc-gtk.h>
 #include <gui-clipboard.h>
 #include <application.h>
+#include <dead-kittens.h>
 
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>
@@ -213,7 +214,8 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 					     GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrollw),
 					GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-	gtk_box_pack_start (GTK_BOX (dialog->vbox), scrollw, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (dialog)),
+			    scrollw, TRUE, TRUE, 0);
 
 	gtk_dialog_set_default_response (dialog, GTK_RESPONSE_OK);
 

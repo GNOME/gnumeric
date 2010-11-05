@@ -25,6 +25,7 @@
 #include <gnumeric.h>
 #include "dialog-stf-preview.h"
 #include "dialog-stf.h"
+#include <dead-kittens.h>
 
 #include <gnm-format.h>
 #include <number-match.h>
@@ -201,7 +202,7 @@ stf_preview_set_lines (RenderData_t *renderdata,
 	 * If we are making large changes we need to hide the treeview
 	 * because performance otherwise suffers a lot.
 	 */
-	hidden = GTK_WIDGET_VISIBLE (GTK_WIDGET (renderdata->tree_view)) &&
+	hidden = gtk_widget_get_visible (GTK_WIDGET (renderdata->tree_view)) &&
 		(colcount < renderdata->colcount - 1 ||
 		 colcount > renderdata->colcount + 10);
 	if (hidden)
