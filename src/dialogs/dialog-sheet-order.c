@@ -1413,6 +1413,11 @@ cb_adv_check_toggled (G_GNUC_UNUSED GtkToggleButton *ignored,
 	gtk_tree_view_column_set_visible (state->row_max_column, visible);
 }
 
+static void
+destroy_cb (GObject *obj)
+{
+	g_object_set_data (obj, "state", NULL);
+}
 
 void
 dialog_sheet_order (WBCGtk *wbcg)
@@ -1548,6 +1553,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_sheet_order_destroy);
+	g_signal_connect (G_OBJECT (state->dialog), "destroy", G_CALLBACK (destroy_cb), NULL);
 
 	gnumeric_restore_window_geometry (GTK_WINDOW (state->dialog),
 					  SHEET_ORDER_KEY);

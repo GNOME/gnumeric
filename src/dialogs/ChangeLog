@@ -1,3 +1,8 @@
+2010-11-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-sheet-order.c (destroy_cb), (dialog_sheet_order): clear state on
+	destroy.
+
 2010-11-05  Morten Welinder  <terra@gnome.org>
 
 	* dialog-about.c: Celebrate dead kittens.
