@@ -120,10 +120,17 @@ get_table_expr_entry (GtkTable *t, int y, int x)
 	GnmExprEntry *res = NULL;
 
 	for (l = children; l; l = l->next) {
-		GtkTableChild *child = l->data;
-		if (child->left_attach == x && child->top_attach == y &&
-		    IS_GNM_EXPR_ENTRY (child->widget)) {
-			res = GNM_EXPR_ENTRY (child->widget);
+		GtkWidget *w = l->data;
+		int left_attach, top_attach;
+
+		gtk_container_child_get (GTK_CONTAINER (t), w,
+					 "left-attach", &left_attach,
+					 "top-attach", &top_attach,
+					 NULL);
+
+		if (left_attach == x && top_attach == y &&
+		    IS_GNM_EXPR_ENTRY (w)) {
+			res = GNM_EXPR_ENTRY (w);
 			break;
 		}
 	}
@@ -143,16 +150,22 @@ get_table_float_entry (GtkTable *t, int y, int x, GnmCell *cell, gnm_float *numb
 
 	*wp = NULL;
 	for (l = children; l; l = l->next) {
-		GtkTableChild *child = l->data;
-		if (child->left_attach == x && child->top_attach == y &&
-		    GTK_IS_ENTRY (child->widget)) {
-			*wp = GTK_ENTRY (child->widget);
+		GtkWidget *w = l->data;
+		int left_attach, top_attach;
+
+		gtk_container_child_get (GTK_CONTAINER (t), w,
+					 "left-attach", &left_attach,
+					 "top-attach", &top_attach,
+					 NULL);
+
+		if (left_attach == x && top_attach == y && GTK_IS_ENTRY (w)) {
+			GtkEntry *e = *wp = GTK_ENTRY (w);
 			format = gnm_style_get_format (gnm_cell_get_style (cell));
-			res = (with_default ?
-				entry_to_float_with_format_default (GTK_ENTRY (child->widget), number,
-							   TRUE, format, default_float) :
-				entry_to_float_with_format (GTK_ENTRY (child->widget), number,
-							   TRUE, format));
+			res = (with_default
+			       ? entry_to_float_with_format_default
+			       (e, number, TRUE, format, default_float)
+			       : entry_to_float_with_format
+			       (e, number, TRUE, format));
 			break;
 		}
 	}
@@ -400,3 +413,4 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 
 	non_model_dialog (wbcg, dialog, TABULATE_KEY);
 }
+
