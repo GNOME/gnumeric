@@ -1,3 +1,8 @@
+2010-11-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_sheet): get the correct extent
+	Fixes [#634135]
+
 2010-10-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_draw_control_start): use oc->as_index

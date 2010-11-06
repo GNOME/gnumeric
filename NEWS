@@ -12,6 +12,7 @@ Andreas:
 	* Add menu items to remove and add manual page breaks.
 	* Improve the sc import.
 	* Fix button sensitivity in sort dialog. [#632999]
+	* Fix ODF export of files with large formatted sheets. [#634135]
 
 Hans de Goede:
 	* Fix import of dib format images in XLS. [#553098]

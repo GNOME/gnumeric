@@ -3279,24 +3279,12 @@ odf_write_sheet (GnmOOExport *state)
 	int max_rows = gnm_sheet_get_max_rows (sheet);
 	GnmStyle **col_styles = g_new0 (GnmStyle *, max_cols);
 	GnmRange extent, style_extent;
-	int i;
 	GSList *sheet_merges = NULL;
 	GnmPageBreaks *pb = sheet->print_info->page_breaks.v;
 	extent = sheet_get_extent (sheet, FALSE);
 
-	/* include collapsed or hidden cols and rows */
-	for (i = max_rows ; i-- > extent.end.row ; )
-		if (!colrow_is_empty (sheet_row_get (sheet, i))) {
-			extent.end.row = i;
-			break;
-		}
-	for (i = max_cols ; i-- > extent.end.col ; )
-		if (!colrow_is_empty (sheet_col_get (sheet, i))) {
-			extent.end.col = i;
-			break;
-		}
-
 	style_extent = extent;
+	/* We only want to get the common column style */
 	sheet_style_get_extent (sheet, &style_extent, col_styles);
 
 	/* ODF does not allow us to mark soft page breaks between columns */
