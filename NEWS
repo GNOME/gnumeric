@@ -28,6 +28,9 @@ Morten:
 	* Fix analysis tools problems when "as values" is chosen.
 	* Fix gtk+/X crash with large tooltips.
 
+Sameer Morar:
+	* Add key combinations to move sheets. [#634139]
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.11
 

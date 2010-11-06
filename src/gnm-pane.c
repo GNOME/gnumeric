@@ -153,6 +153,8 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 	SheetView *sv = sc->view;
 	Sheet *sheet = sv->sheet;
 	WBCGtk *wbcg = scg->wbcg;
+	WorkbookControl * wbc = scg_wbc(scg);
+	Workbook * wb = wb_control_get_workbook(wbc);
 	gboolean delayed_movement = FALSE;
 	gboolean jump_to_bounds = event->state & GDK_CONTROL_MASK;
 	gboolean is_enter = FALSE;
@@ -261,9 +263,19 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 
 	case GDK_KP_Page_Up:
 	case GDK_Page_Up:
-		if ((event->state & GDK_CONTROL_MASK) != 0)
-			gnm_notebook_prev_page (wbcg->bnotebook);
-		else if ((event->state & GDK_MOD1_MASK) == 0) {
+		if ((event->state & GDK_CONTROL_MASK) != 0){
+			if ((event->state & GDK_SHIFT_MASK) != 0){
+				WorkbookSheetState * old_state = workbook_sheet_state_new(wb);
+				int old_pos = sheet->index_in_wb;
+
+				if (old_pos > 0){
+					workbook_sheet_move(sheet, -1);
+					cmd_reorganize_sheets (wbc, old_state, sheet);
+				}
+			} else {
+				gnm_notebook_prev_page (wbcg->bnotebook);
+			}
+		} else if ((event->state & GDK_MOD1_MASK) == 0) {
 			delayed_movement = TRUE;
 			scg_queue_movement (scg, movefn,
 					    -(pane->last_visible.row - pane->first.row),
@@ -278,9 +290,21 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 
 	case GDK_KP_Page_Down:
 	case GDK_Page_Down:
-		if ((event->state & GDK_CONTROL_MASK) != 0)
-			gnm_notebook_next_page (wbcg->bnotebook);
-		else if ((event->state & GDK_MOD1_MASK) == 0) {
+
+		if ((event->state & GDK_CONTROL_MASK) != 0){
+			if ((event->state & GDK_SHIFT_MASK) != 0){
+				WorkbookSheetState * old_state = workbook_sheet_state_new(wb);
+				int num_sheets = workbook_sheet_count(wb);
+				gint old_pos = sheet->index_in_wb;
+
+				if (old_pos < num_sheets - 1){
+					workbook_sheet_move(sheet, 1);
+					cmd_reorganize_sheets (wbc, old_state, sheet);
+				}
+			} else {
+				gnm_notebook_next_page (wbcg->bnotebook);
+			}
+		} else if ((event->state & GDK_MOD1_MASK) == 0) {
 			delayed_movement = TRUE;
 			scg_queue_movement (scg, movefn,
 					    pane->last_visible.row - pane->first.row,
