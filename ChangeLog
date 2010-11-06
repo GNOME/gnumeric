@@ -1,3 +1,7 @@
+2010-11-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/dead-kittens.h: fixed property name in gtk_table_get_size(). [#634149]
+
 2010-11-05   Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Sameer Morar <smorar@gmail.com>
 

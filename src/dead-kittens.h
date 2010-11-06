@@ -115,7 +115,7 @@
   int *_pr = (_r);					\
   int *_pc = (_c);					\
   if (_pr) g_object_get (_t, "n-rows", _pr, NULL);	\
-  if (_pc) g_object_get (_t, "n-cols", _pc, NULL);	\
+  if (_pc) g_object_get (_t, "n-columns", _pc, NULL);	\
 } while (0)
 #endif
 
