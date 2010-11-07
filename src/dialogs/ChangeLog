@@ -1,3 +1,14 @@
+2010-11-07  Sameer Morar <smorar@gmail.com>
+
+	* dialog-quit.c (foreach_is_file_set): new
+	(files_set): new
+	(cb_list_row_changed_save_sensitivity): new
+	(cb_list_row_changed_discard_sensitivity): new
+	(show_quit_dialog): Move Select all and Clear selection buttons to a
+	row above the Don't Quit and Save Selected buttons. Add a Discard
+	button. The Save Selected button becomes insensitive and the Discard
+	button becomes sensitive when no files are set to be saved. [#527133]
+
 2010-11-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* cell-sort.ui: add tooltip text for the checkboxes

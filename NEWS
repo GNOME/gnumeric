@@ -32,6 +32,8 @@ Morten:
 
 Sameer Morar:
 	* Add key combinations to move sheets. [#634139]
+	* Modify quit dialog to be able to discard multiple files without 
+	saving.  [#527133]	
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.11

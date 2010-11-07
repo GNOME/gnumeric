@@ -1,3 +1,5 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * dialog-quit.c:
  *   Dialog for quit (selecting what to save)
@@ -84,6 +86,32 @@ url_renderer_func (GtkTreeViewColumn *tree_column,
 	g_free (filename);
 }
 
+static gboolean
+foreach_is_file_set (GtkTreeModel *model, GtkTreePath *path,
+		     GtkTreeIter *iter, gboolean *data)
+{
+	gboolean value;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (model), iter,
+			    QUIT_COL_CHECK, &value, -1);
+
+	*data = value;
+
+	return value;
+}
+
+static gboolean
+files_set (GtkTreeModel *model)
+{
+	gboolean files_set_state = FALSE;
+
+	gtk_tree_model_foreach (GTK_TREE_MODEL (model),
+				(GtkTreeModelForeachFunc) foreach_is_file_set,
+				&files_set_state);
+
+	return files_set_state;
+}
+
 static void
 cb_toggled_save (GtkCellRendererToggle *cell,
 		 gchar                 *path_string,
@@ -102,7 +130,7 @@ cb_toggled_save (GtkCellRendererToggle *cell,
 	} else {
 		g_warning ("Did not get a valid iterator");
 	}
-
+	
 	gtk_tree_path_free (path);
 }
 
@@ -111,7 +139,7 @@ set_all (GtkTreeModel *model, gboolean value)
 {
 	GtkTreeIter iter;
 	gboolean ok = gtk_tree_model_get_iter_first (model, &iter);
-
+	
 	while (ok) {
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 				    QUIT_COL_CHECK, value, -1);
@@ -131,6 +159,32 @@ cb_clear_all (G_GNUC_UNUSED GtkWidget *button,
 	      GtkTreeModel *model)
 {
 	set_all (model, FALSE);
+}
+
+static void
+cb_list_row_changed_save_sensitivity (GtkListStore *list, GtkTreePath *path_string,
+				      GtkTreeIter *iter, GtkWidget *widget)
+{
+	GtkTreeModel *model = GTK_TREE_MODEL (list);
+	
+	if (files_set (model) == TRUE)
+		gtk_widget_set_sensitive (GTK_WIDGET (widget), TRUE);
+	else
+		gtk_widget_set_sensitive (GTK_WIDGET (widget), FALSE);
+}
+
+static void
+cb_list_row_changed_discard_sensitivity (GtkListStore *list, 
+					 GtkTreePath *path_string,
+					 GtkTreeIter *iter, 
+					 GtkWidget *widget)
+{
+	GtkTreeModel *model = GTK_TREE_MODEL (list);
+
+	if (files_set (model) == TRUE)
+		gtk_widget_set_sensitive (GTK_WIDGET (widget), FALSE);
+	else
+		gtk_widget_set_sensitive (GTK_WIDGET (widget), TRUE);
 }
 
 static gboolean
@@ -159,56 +213,44 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 		 wbcg_toplevel (wbcg), 0,
 		 NULL);
 
+	button = go_gtk_dialog_add_button (GTK_DIALOG (dialog),
+					   _("_Discard All"),
+					   GTK_STOCK_DELETE,
+					   GTK_RESPONSE_NO);
+	go_widget_set_tooltip_text (GTK_WIDGET (button), _("Discard changes in all files"));
+	
+	if (multiple)
+		g_signal_connect (G_OBJECT (list),
+				  "row-changed",
+				  G_CALLBACK (cb_list_row_changed_discard_sensitivity),
+				  GTK_WIDGET (button));
+	
+	button = go_gtk_dialog_add_button (GTK_DIALOG (dialog),
+					   _("Don't Quit"),
+					   GTK_STOCK_CANCEL,
+					   GTK_RESPONSE_CANCEL);
+	go_widget_set_tooltip_text (button, _("Resume editing"));
+	
 	if (multiple) {
-		button = go_gtk_dialog_add_button (dialog,
-						   _("Select _all"),
-						   GTK_STOCK_SELECT_ALL,
-						   RESPONSE_ALL);
-		go_widget_set_tooltip_text
-			(button,
-			 _("Select all documents for saving"));
-		g_signal_connect (G_OBJECT (button), "clicked",
-				  G_CALLBACK (cb_select_all),
-				  list);
-
-		button = go_gtk_dialog_add_button (dialog,
-						   _("_Clear Selection"),
-						   GTK_STOCK_CLEAR,
-						   RESPONSE_NONE);
-		go_widget_set_tooltip_text
-			(button,
-			 _("Unselect all documents for saving"));
-		g_signal_connect (G_OBJECT (button), "clicked",
-				  G_CALLBACK (cb_clear_all),
-				  list);
-
-		button = go_gtk_dialog_add_button (dialog,
+		button = go_gtk_dialog_add_button (GTK_DIALOG (dialog),
 						   _("_Save Selected"),
 						   GTK_STOCK_SAVE,
 						   GTK_RESPONSE_OK);
-		go_widget_set_tooltip_text
-			(button,
-			 _("Save selected documents and then quit"));
+		go_widget_set_tooltip_text (GTK_WIDGET (button),
+					    _("Save selected documents and then quit"));
+		
+		g_signal_connect (G_OBJECT (list),
+				  "row-changed",
+				  G_CALLBACK (cb_list_row_changed_save_sensitivity),
+				  GTK_WIDGET (button));
 	} else {
-		button = go_gtk_dialog_add_button (dialog,
-						   _("_Discard"),
-						   GTK_STOCK_DELETE,
-						   GTK_RESPONSE_NO);
-		go_widget_set_tooltip_text (button, _("Discard changes"));
-
-		button = go_gtk_dialog_add_button (dialog,
+		button = go_gtk_dialog_add_button (GTK_DIALOG (dialog),
 						   _("Save"),
 						   GTK_STOCK_SAVE,
 						   GTK_RESPONSE_OK);
 		go_widget_set_tooltip_text (button, _("Save document"));
 	}
-
-	button = go_gtk_dialog_add_button (dialog,
-					   _("Don't Quit"),
-					   GTK_STOCK_CANCEL,
-					   GTK_RESPONSE_CANCEL);
-	go_widget_set_tooltip_text (button, _("Resume editing"));
-
+	
 	scrollw = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrollw),
 					     GTK_SHADOW_IN);
@@ -216,6 +258,39 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 					GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (dialog)),
 			    scrollw, TRUE, TRUE, 0);
+
+	if (multiple) {
+		GtkWidget *hbox = gtk_hbutton_box_new ();
+		gtk_button_box_set_layout (GTK_BUTTON_BOX (hbox), GTK_BUTTONBOX_END);
+		gtk_box_set_spacing (GTK_BOX (hbox), 5);
+
+		button = go_gtk_button_new_with_stock (_("Select _All"),
+						       GTK_STOCK_SELECT_ALL);
+		go_widget_set_tooltip_text (GTK_WIDGET (button),
+					    _("Select all documents for saving"));
+		
+		g_signal_connect (G_OBJECT (button), "clicked",
+				  G_CALLBACK (cb_select_all),
+				  list);
+		
+		gtk_box_pack_end (GTK_BOX (hbox),
+				    GTK_WIDGET (button), FALSE, TRUE, 0);
+		
+		button = go_gtk_button_new_with_stock (_("_Clear Selection"),
+						       GTK_STOCK_CLEAR);
+		go_widget_set_tooltip_text (GTK_WIDGET(button),
+					    _("Unselect all documents for saving"));
+		
+		g_signal_connect (G_OBJECT (button), "clicked",
+				  G_CALLBACK (cb_clear_all),
+				  list);
+
+		gtk_box_pack_end (GTK_BOX (hbox),
+				  GTK_WIDGET (button), FALSE, TRUE, 0);
+
+		gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (dialog)),
+				    GTK_WIDGET (hbox), FALSE, FALSE, 0);
+	}
 
 	gtk_dialog_set_default_response (dialog, GTK_RESPONSE_OK);
 
