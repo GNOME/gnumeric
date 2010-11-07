@@ -21,6 +21,7 @@ Jean:
 	* Fixed maximum for col/row number in sheet resize dialog. [#631702]
 	* Eliminate glade usage.  [#631717]
 	* Fixed crash in print setup. [#634149]
+	* Fixed image bounds in zoomed sheets.
 
 Morten:
 	* Fix crash related to broken xls.  [#632050]

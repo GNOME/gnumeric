@@ -1,3 +1,8 @@
+2010-11-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-image.c (so_image_view_set_bounds): fixed image bounds
+	in zoomed sheets.
+
 2010-11-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/dead-kittens.h: fixed property name in gtk_table_get_size(). [#634149]
