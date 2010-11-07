@@ -1,3 +1,7 @@
+2010-11-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* cell-sort.ui: add tooltip text for the checkboxes
+	
 2010-11-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-sheet-order.c (destroy_cb), (dialog_sheet_order): clear state on
