@@ -12,7 +12,7 @@
 #endif
 
 #ifndef HAVE_GTK_ENTRY_GET_TEXT_LENGTH
-#define gtk_entry_get_text_length(x) g_utf8_strlen (gtk_entry_get_text (x), -1)
+#define gtk_entry_get_text_length(x) g_utf8_strlen(gtk_entry_get_text((x)),-1)
 #endif
 
 #ifndef HAVE_GTK_ENTRY_GET_TEXT_AREA
@@ -32,11 +32,11 @@
 #endif
 
 #ifndef HAVE_GTK_WIDGET_GET_VISIBLE
-#define gtk_widget_get_visible(_w_) GTK_WIDGET_VISIBLE(_w_)
+#define gtk_widget_get_visible(_w_) GTK_WIDGET_VISIBLE((_w_))
 #endif
 
 #ifndef HAVE_GTK_WIDGET_IS_SENSITIVE
-#define gtk_widget_is_sensitive(w) GTK_WIDGET_IS_SENSITIVE (w)
+#define gtk_widget_is_sensitive(w) GTK_WIDGET_IS_SENSITIVE ((w))
 #endif
 
 #ifndef HAVE_GTK_WIDGET_IS_TOPLEVEL
@@ -66,14 +66,14 @@
 #ifndef HAVE_GTK_WIDGET_SET_CAN_FOCUS
 #define gtk_widget_set_can_focus(w,t)					\
 	do {								\
-		if (t) GTK_WIDGET_SET_FLAGS ((w), GTK_CAN_FOCUS);	\
+		if ((t)) GTK_WIDGET_SET_FLAGS ((w), GTK_CAN_FOCUS);	\
 		else GTK_WIDGET_UNSET_FLAGS ((w), GTK_CAN_FOCUS);	\
 	} while (0)		     
 #endif
 
 #ifndef HAVE_GTK_WIDGET_GET_REALIZED
 #  ifdef HAVE_WORKING_GTK_WIDGET_REALIZED
-#    define gtk_widget_get_realized(w) GTK_WIDGET_REALIZED (w)
+#    define gtk_widget_get_realized(w) GTK_WIDGET_REALIZED ((w))
 #  else
 #    define gtk_widget_get_realized(wid) (((GTK_OBJECT (wid)->_g_sealed__flags) & GTK_REALIZED) != 0)
 #  endif
@@ -85,7 +85,7 @@
 
 #ifndef HAVE_GTK_ADJUSTMENT_CONFIGURE
 #define gtk_adjustment_configure(_a,_v,_l,_u,_si,_pi,_ps)	\
-  g_object_set (_a,						\
+  g_object_set ((_a),						\
                 "lower", (double)(_l),				\
                 "upper", (double)(_u),				\
                 "step-increment", (double)(_si),		\
@@ -110,13 +110,24 @@
 #endif
 
 #ifndef HAVE_GTK_TABLE_GET_SIZE
-/* At first sealed with no accessors.  */
-#define gtk_table_get_size(_t,_r,_c) do {		\
-  int *_pr = (_r);					\
-  int *_pc = (_c);					\
-  if (_pr) g_object_get (_t, "n-rows", _pr, NULL);	\
-  if (_pc) g_object_get (_t, "n-columns", _pc, NULL);	\
-} while (0)
+#  ifdef HAVE_GTK_TABLE_NROWS
+#     define gtk_table_get_size(_t,_r,_c) do {	\
+       int *_pr = (_r);				\
+       int *_pc = (_c);				\
+       GtkTable *_pt = (_t);			\
+       if (_pr) *_pr = _pt->nrows;		\
+       if (_pc) *_pc = _pt->ncols;		\
+     } while (0)
+#  else
+     /* At first sealed with no accessors.  */
+#     define gtk_table_get_size(_t,_r,_c) do {			\
+       int *_pr = (_r);						\
+       int *_pc = (_c);						\
+       GtkTable *_pt = (_t);					\
+       if (_pr) g_object_get (_pt, "n-rows", _pr, NULL);	\
+       if (_pc) g_object_get (_pt, "n-columns", _pc, NULL);	\
+     } while (0)
+#  endif
 #endif
 
 /* This function does not exist in gtk+ yet.  634100.  */

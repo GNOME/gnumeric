@@ -698,7 +698,7 @@ AC_CHECK_FUNCS(gtk_tree_view_column_get_button)
 AC_CHECK_FUNCS(gtk_widget_get_visible gtk_widget_set_visible gtk_widget_get_state gtk_widget_is_toplevel gtk_widget_get_window gtk_widget_get_can_focus gtk_widget_has_focus gtk_widget_get_style gtk_widget_get_allocation gtk_widget_is_sensitive gtk_widget_set_can_focus gtk_widget_get_realized)
 AC_CHECK_FUNCS(gsf_infile_msvba_steal_modules gsf_open_pkg_foreach_rel )
 
-AC_MSG_CHECKING([working GTK_WIDGET_REALIZED.])
+AC_MSG_CHECKING([for working GTK_WIDGET_REALIZED.])
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <gtk/gtk.h>]],
 				[[GtkWidget *w = NULL;
 				(void)(GTK_WIDGET_REALIZED (w));]])],
@@ -711,6 +711,14 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <gtk/gtk.h>]],
 				[[GtkEntry *e = NULL;
 				(void)(e->text_area);]])],
                [AC_DEFINE(HAVE_GTK_ENTRY_TEXT_AREA, 1, [Define if GtkEntry::text_area exists])
+		AC_MSG_RESULT(yes)],
+	       [AC_MSG_RESULT(no)])
+
+AC_MSG_CHECKING([for GtkTable::nrows])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <gtk/gtk.h>]],
+				[[GtkTable *t = NULL;
+				(void)(t->nrows == t->ncols);]])],
+               [AC_DEFINE(HAVE_GTK_TABLE_NROWS, 1, [Define if GtkTable::nrows exists])
 		AC_MSG_RESULT(yes)],
 	       [AC_MSG_RESULT(no)])
 
