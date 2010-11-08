@@ -38,6 +38,8 @@ void       gnm_string_add_number (GString *buf, gnm_float d);
 
 void       gnm_insert_meta_date (GODoc *doc, char const *name);
 
+gboolean   gnm_object_get_bool (gpointer o, const char *name);
+
 G_END_DECLS
 
 #endif /* _GNM_GUTILS_H_ */

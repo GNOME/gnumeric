@@ -138,6 +138,10 @@ void gnm_canvas_get_screen_position (GocCanvas *canvas,
 
 gboolean gnm_check_for_plugins_missing (char const **ids, GtkWindow *parent);
 
+void
+gnm_cell_renderer_text_copy_background_to_cairo (GtkCellRendererText *crt,
+						 cairo_t *cr);
+
 G_END_DECLS
 
 #endif /* _GNM_GUI_UTIL_H_ */

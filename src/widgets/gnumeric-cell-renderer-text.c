@@ -17,8 +17,9 @@
  */
 
 #include <gnumeric-config.h>
-#include <dead-kittens.h>
 #include "gnumeric-cell-renderer-text.h"
+#include <dead-kittens.h>
+#include <gui-util.h>
 
 static void gnumeric_cell_renderer_text_class_init
     (GnumericCellRendererTextClass *cell_text_class);
@@ -79,29 +80,30 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
 			state = GTK_STATE_NORMAL;
 	}
 
-	if (celltext->background_set) {
-		cairo_set_source_rgb (cr,
-				      celltext->background.red / 65535.,
-				      celltext->background.green / 65535.,
-				      celltext->background.blue / 65535.);
+	if (gtk_cell_renderer_text_get_background_set (celltext)) {
+		int ypad;
+
+		gnm_cell_renderer_text_copy_background_to_cairo
+			(celltext, cr);
 
 		if (expose_area) {
 			gdk_cairo_rectangle (cr, background_area);
 			cairo_clip (cr);
 		}
 
+		gtk_cell_renderer_get_padding (cell, NULL, &ypad);
 		cairo_rectangle (cr,
 				 background_area->x,
-				 background_area->y + cell->ypad,
+				 background_area->y + ypad,
 				 background_area->width,
-				 background_area->height - 2 * cell->ypad);
+				 background_area->height - 2 * ypad);
 		cairo_fill (cr);
 
 		if (expose_area)
 			cairo_reset_clip (cr);
 	}
 
-	if (celltext->editable) {
+	if (gtk_cell_renderer_text_get_editable (celltext)) {
 		GtkStyle *style = gtk_widget_get_style (widget);
 		gdk_cairo_set_source_color (cr, &style->bg[frame_state]);
 		gdk_cairo_rectangle (cr, background_area);
@@ -112,7 +114,7 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
 
 	cairo_destroy (cr);
 
-	if (celltext->foreground_set) {
+	if (gtk_cell_renderer_text_get_foreground_set (celltext)) {
 		GTK_CELL_RENDERER_CLASS (parent_class)->render
 			(cell, window, widget, background_area,
 			 cell_area, expose_area, 0);

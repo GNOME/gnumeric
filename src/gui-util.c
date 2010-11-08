@@ -1501,3 +1501,15 @@ gnm_check_for_plugins_missing (char const **ids, GtkWindow *parent)
 	}
 	return FALSE;
 }
+
+
+void
+gnm_cell_renderer_text_copy_background_to_cairo (GtkCellRendererText *crt,
+						 cairo_t *cr)
+{
+	GdkColor c;
+
+	/* FIXME: If we have GdkRGBA we can do better.  */
+	g_object_get (crt, "background-gdk", &c, NULL);
+	gdk_cairo_set_source_color (cr, &c);
+}

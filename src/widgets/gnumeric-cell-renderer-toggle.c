@@ -175,6 +175,8 @@ gnumeric_cell_renderer_toggle_get_size (GtkCellRenderer *cell,
 	gint pixbuf_height = 0;
 	gint calc_width;
 	gint calc_height;
+	int xpad, ypad;
+	gfloat xalign, yalign;
 
 	if (cellpixbuf->pixbuf)
 	{
@@ -182,8 +184,12 @@ gnumeric_cell_renderer_toggle_get_size (GtkCellRenderer *cell,
 		pixbuf_height = gdk_pixbuf_get_height (cellpixbuf->pixbuf);
 	}
 
-	calc_width = (gint) GTK_CELL_RENDERER (cellpixbuf)->xpad * 2 + pixbuf_width;
-	calc_height = (gint) GTK_CELL_RENDERER (cellpixbuf)->ypad * 2 + pixbuf_height;
+	gtk_cell_renderer_get_padding (GTK_CELL_RENDERER (cellpixbuf),
+				       &xpad, &ypad);
+	gtk_cell_renderer_get_alignment (GTK_CELL_RENDERER (cellpixbuf),
+					 &xalign, &yalign);
+	calc_width = xpad * 2 + pixbuf_width;
+	calc_height = ypad * 2 + pixbuf_height;
 
 	if (x_offset) *x_offset = 0;
 	if (y_offset) *y_offset = 0;
@@ -192,18 +198,15 @@ gnumeric_cell_renderer_toggle_get_size (GtkCellRenderer *cell,
 	{
 		if (x_offset)
 		{
-			*x_offset = GTK_CELL_RENDERER
-				(cellpixbuf)->xalign * (cell_area->width - calc_width -
-							(2 * GTK_CELL_RENDERER (cellpixbuf)->xpad));
-			*x_offset = MAX (*x_offset, 0) +
-				GTK_CELL_RENDERER (cellpixbuf)->xpad;
+			*x_offset = xalign * (cell_area->width - calc_width -
+					      (2 * xpad));
+			*x_offset = MAX (*x_offset, 0) + xpad;
 		}
 		if (y_offset)
 		{
-			*y_offset = GTK_CELL_RENDERER
-				(cellpixbuf)->yalign * (cell_area->height - calc_height -
-							(2 * GTK_CELL_RENDERER (cellpixbuf)->ypad));
-			*y_offset = MAX (*y_offset, 0) + GTK_CELL_RENDERER (cellpixbuf)->ypad;
+			*y_offset = yalign * (cell_area->height - calc_height -
+					      (2 * ypad));
+			*y_offset = MAX (*y_offset, 0) + ypad;
 		}
 	}
 
@@ -228,6 +231,7 @@ gnumeric_cell_renderer_toggle_render (GtkCellRenderer *cell,
 	GdkPixbuf *pixbuf;
 	GdkRectangle pix_rect;
 	GdkRectangle draw_rect;
+	int xpad, ypad;
 
 	pixbuf = cellpixbuf->pixbuf;
 
@@ -240,10 +244,12 @@ gnumeric_cell_renderer_toggle_render (GtkCellRenderer *cell,
 						&pix_rect.width,
 						&pix_rect.height);
 
+	gtk_cell_renderer_get_padding (cell, &xpad, &ypad);
+
 	pix_rect.x += cell_area->x;
 	pix_rect.y += cell_area->y;
-	pix_rect.width -= cell->xpad * 2;
-	pix_rect.height -= cell->ypad * 2;
+	pix_rect.width -= xpad * 2;
+	pix_rect.height -= ypad * 2;
 
 	if (gdk_rectangle_intersect (cell_area, &pix_rect, &draw_rect))
 		gdk_draw_pixbuf (window, NULL, pixbuf,

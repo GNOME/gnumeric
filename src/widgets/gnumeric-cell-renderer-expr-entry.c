@@ -20,6 +20,7 @@
 #include "gnumeric-cell-renderer-expr-entry.h"
 #include "gnumeric-expr-entry.h"
 #include "wbc-gtk.h"
+#include <dead-kittens.h>
 
 #define GNUMERIC_CELL_RENDERER_EXPR_ENTRY_PATH "gnumeric-cell-renderer-expr-entry-path"
 
@@ -118,18 +119,22 @@ gnumeric_cell_renderer_expr_entry_start_editing (GtkCellRenderer      *cell,
   GnumericCellRendererExprEntry *celltext;
   GtkEntry *entry;
   GnmExprEntry *gentry;
+  char *text;
 
   celltext = GNUMERIC_CELL_RENDERER_EXPR_ENTRY (cell);
 
   /* If the cell isn't editable we return NULL. */
-  if (celltext->parent.parent.editable == FALSE)
+  if (gtk_cell_renderer_text_get_editable (celltext) == FALSE)
     return NULL;
 
   gentry = gnm_expr_entry_new (celltext->wbcg, FALSE);
   celltext->entry = gentry;
   entry  = gnm_expr_entry_get_entry (gentry);
 
-  gtk_entry_set_text (entry, celltext->parent.parent.text);
+  g_object_get (celltext, "text", &text, NULL);
+  gtk_entry_set_text (entry, text);
+  g_free (text);
+
   g_object_set_data_full (G_OBJECT (gentry), GNUMERIC_CELL_RENDERER_EXPR_ENTRY_PATH, g_strdup (path), g_free);
 
   gtk_editable_select_region (GTK_EDITABLE (entry), 0, -1);

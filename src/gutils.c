@@ -455,3 +455,11 @@ gnm_insert_meta_date (GODoc *doc, char const *name)
 }
 
 /* ------------------------------------------------------------------------- */
+
+gboolean
+gnm_object_get_bool (gpointer o, const char *name)
+{
+	gboolean b;
+	g_object_get (o, name, &b, NULL);
+	return b;
+}

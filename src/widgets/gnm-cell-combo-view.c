@@ -178,12 +178,15 @@ cb_ccombo_popup_motion (GtkWidget *widget, GdkEventMotion *event,
 			GtkTreeView *list)
 {
 	int base, dir = 0;
+	GtkAllocation la;
+
+	gtk_widget_get_allocation (GTK_WIDGET (list), &la);
 
 	gdk_window_get_origin (gtk_widget_get_window (GTK_WIDGET (list)),
 			       NULL, &base);
 	if (event->y_root < base)
 		dir = -1;
-	else if (event->y_root >= (base + GTK_WIDGET(list)->allocation.height))
+	else if (event->y_root >= (base + la.height))
 		dir = 1;
 	else
 		dir = 0;
@@ -196,9 +199,12 @@ cb_ccombo_list_motion (GtkWidget *widget, GdkEventMotion *event,
 		       GtkTreeView *list)
 {
 	GtkTreePath *path;
+	GtkAllocation wa;
+
+	gtk_widget_get_allocation (widget, &wa);
+
 	if (event->x >= 0 && event->y >= 0 &&
-	    event->x < widget->allocation.width &&
-	    event->y < widget->allocation.height &&
+	    event->x < wa.width && event->y < wa.height &&
 	    gtk_tree_view_get_path_at_pos (list, event->x, event->y,
 					   &path, NULL, NULL, NULL)) {
 		gtk_tree_selection_select_path (gtk_tree_view_get_selection (list), path);
@@ -342,7 +348,9 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	gdk_window_get_origin (gtk_widget_get_window (GTK_WIDGET (pane)),
 			       &root_x, &root_y);
 	if (sheet->text_is_rtl) {
-		root_x += GTK_WIDGET (pane)->allocation.width;
+		GtkAllocation pa;
+		gtk_widget_get_allocation (GTK_WIDGET (pane), &pa);
+		root_x += pa.width;
 		root_x -= scg_colrow_distance_get (scg, TRUE,
 			pane->first.col,
 			so->anchor.cell_bound.start.col + 1);

@@ -1196,7 +1196,7 @@ cb_gee_key_press_event (GtkEntry	*entry,
 
 	case GDK_Escape:
 		if (gee->is_cell_renderer) {
-			entry->editing_canceled = TRUE;
+			gtk_entry_set_editing_cancelled (entry, TRUE);
 			gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (gee));
 			gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (gee));
 			return TRUE;
