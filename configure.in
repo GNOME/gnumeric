@@ -687,7 +687,7 @@ CFLAGS="$CFLAGS $GNUMERIC_CFLAGS"
 LIBS="$GNUMERIC_LIBS $LIBS"
 
 AC_CHECK_FUNCS(g_option_context_set_delocalize g_hash_table_get_keys)
-AC_CHECK_FUNCS(pango_font_map_create_context)
+AC_CHECK_FUNCS(gdk_cairo_set_source_rgba)
 AC_CHECK_FUNCS(gtk_adjustment_configure gtk_adjustment_set_lower gtk_adjustment_set_upper gtk_adjustment_get_page_size)
 AC_CHECK_FUNCS(gtk_cell_renderer_get_alignment gtk_cell_renderer_get_padding)
 AC_CHECK_FUNCS(gtk_cell_renderer_text_get_background_set gtk_cell_renderer_text_get_foreground_set gtk_cell_renderer_text_get_editable)
@@ -699,6 +699,7 @@ AC_CHECK_FUNCS(gtk_table_get_size)
 AC_CHECK_FUNCS(gtk_tree_view_column_get_button)
 AC_CHECK_FUNCS(gtk_widget_get_visible gtk_widget_set_visible gtk_widget_get_state gtk_widget_is_toplevel gtk_widget_get_window gtk_widget_get_can_focus gtk_widget_has_focus gtk_widget_get_style gtk_widget_get_allocation gtk_widget_is_sensitive gtk_widget_set_can_focus gtk_widget_get_realized)
 AC_CHECK_FUNCS(gsf_infile_msvba_steal_modules gsf_open_pkg_foreach_rel )
+AC_CHECK_FUNCS(pango_font_map_create_context)
 
 AC_MSG_CHECKING([for working GTK_WIDGET_REALIZED.])
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <gtk/gtk.h>]],
