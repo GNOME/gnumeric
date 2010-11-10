@@ -949,10 +949,10 @@ cb_paned_size_allocate (GtkHPaned *hpaned,
 	GtkRequisition child1_requisition;
 	gint handle_size;
 	gint p1, p2, h1, h2, w1, w2, w, wp;
-	gint border_width = GTK_CONTAINER (paned)->border_width;
+	gint border_width = gtk_container_get_border_width (GTK_CONTAINER (paned));
 	gboolean position_set;
-	GtkWidget *child1 = paned->child1;
-	GtkWidget *child2 = paned->child2;
+	GtkWidget *child1 = gtk_paned_get_child1 (paned);
+	GtkWidget *child2 = gtk_paned_get_child2 (paned);
 
 	if (child1 == NULL || !gtk_widget_get_visible (child1) ||
 	    child2 == NULL || !gtk_widget_get_visible (child2))
@@ -2393,7 +2393,7 @@ set_visibility (WBCGtk *wbcg,
 {
 	GtkWidget *w = g_hash_table_lookup (wbcg->visibility_widgets, action_name);
 	if (w)
-		(visible ? gtk_widget_show : gtk_widget_hide) (w);
+		gtk_widget_set_visible (w, visible);
 	wbc_gtk_set_toggle_action_state (wbcg, action_name, visible);
 }
 
@@ -2488,7 +2488,8 @@ show_gui (WBCGtk *wbcg)
 
 	/* In a Xinerama setup, we want the geometry of the actual display
 	 * unit, if available. See bug 59902.  */
-	gdk_screen_get_monitor_geometry (wbcg_toplevel (wbcg)->screen, 0, &rect);
+	gdk_screen_get_monitor_geometry
+		(gtk_window_get_screen (wbcg_toplevel (wbcg)), 0, &rect);
 	sx = MAX (rect.width, 600);
 	sy = MAX (rect.height, 200);
 

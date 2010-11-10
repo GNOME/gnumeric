@@ -97,7 +97,8 @@ cb_realize (GtkWindow *window, void *dummy)
 
 	/* In a Xinerama setup, we want the geometry of the actual display
 	 * unit, if available. See bug 59902.  */
-	gdk_screen_get_monitor_geometry (window->screen, 0, &rect);
+	gdk_screen_get_monitor_geometry (gtk_window_get_screen (window),
+					 0, &rect);
 	sx = rect.width;
 	sy = rect.height;
 	gtk_widget_get_allocation (GTK_WIDGET (window), &allocation);

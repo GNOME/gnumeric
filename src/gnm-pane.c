@@ -685,13 +685,14 @@ gnm_pane_realize (GtkWidget *w)
 
 	/* Set the default background color of the canvas itself to white.
 	 * This makes the redraws when the canvas scrolls flicker less. */
-	style = gtk_style_copy (w->style);
+	style = gtk_style_copy (gtk_widget_get_style (w));
 	style->bg[GTK_STATE_NORMAL] = style->white;
 	gtk_widget_set_style (w, style);
 	g_object_unref (style);
 
-	gtk_im_context_set_client_window (GNM_PANE (w)->im_context,
-					  gtk_widget_get_toplevel (w)->window);
+	gtk_im_context_set_client_window
+		(GNM_PANE (w)->im_context,
+		 gtk_widget_get_window (gtk_widget_get_toplevel (w)));
 }
 
 static void
@@ -747,7 +748,7 @@ cb_gnm_pane_commit (GtkIMContext *context, char const *str, GnmPane *pane)
 		gtk_editable_delete_selection (editable);
 	else {
 		tmp_pos = gtk_editable_get_position (editable);
-		if (GTK_ENTRY (editable)->overwrite_mode)
+		if (gtk_entry_get_overwrite_mode (GTK_ENTRY (editable)))
 			gtk_editable_delete_text (editable,tmp_pos,tmp_pos+1);
 	}
 
@@ -949,7 +950,7 @@ gnm_pane_init (GnmPane *pane)
 	pane->im_first_focus = TRUE;
 
 	gtk_widget_set_can_focus (GTK_WIDGET (canvas), TRUE);
-	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default (GTK_WIDGET (canvas), TRUE);
 
 	g_signal_connect (G_OBJECT (pane->im_context), "commit",
 			  G_CALLBACK (cb_gnm_pane_commit), pane);

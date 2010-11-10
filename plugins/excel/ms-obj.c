@@ -1560,11 +1560,11 @@ ms_objv8_write_adjustment (BiffPut *bp,
 	GSF_LE_SET_GUINT16 (data + 2, sizeof (data) - 4);
 	GSF_LE_SET_GUINT32 (data + 4, 0); /* Unused */
 #define SQUEEZE(f) ((guint16)CLAMP(f, -32768, 32767))
-	GSF_LE_SET_GUINT16 (data +  8, SQUEEZE (adj->value));
-	GSF_LE_SET_GINT16  (data + 10, SQUEEZE (adj->lower));
-	GSF_LE_SET_GINT16  (data + 12, SQUEEZE (adj->upper + adj->step_increment));
-	GSF_LE_SET_GINT16  (data + 14, SQUEEZE (adj->step_increment));
-	GSF_LE_SET_GINT16  (data + 16, SQUEEZE (adj->page_increment));
+	GSF_LE_SET_GUINT16 (data +  8, SQUEEZE (gtk_adjustment_get_value (adj)));
+	GSF_LE_SET_GINT16  (data + 10, SQUEEZE (gtk_adjustment_get_lower (adj)));
+	GSF_LE_SET_GINT16  (data + 12, SQUEEZE (gtk_adjustment_get_upper (adj) + gtk_adjustment_get_step_increment (adj)));
+	GSF_LE_SET_GINT16  (data + 14, SQUEEZE (gtk_adjustment_get_step_increment (adj)));
+	GSF_LE_SET_GINT16  (data + 16, SQUEEZE (gtk_adjustment_get_page_increment (adj)));
 #undef SQUEEZE
 	GSF_LE_SET_GINT16  (data + 18, !!horiz);
 	GSF_LE_SET_GINT16  (data + 20, 15);  /* widget in pixels */
@@ -1673,8 +1673,8 @@ ms_objv8_write_list (BiffPut *bp,
 	if (0 && macro_nexpr)
 		ms_objv8_write_macro_ref (bp, esheet, macro_nexpr);
 	ms_objv8_write_list_data (bp, esheet, data_texpr,
-				  (guint16)adj->upper - 1,
-				  (guint16)adj->value);
+				  (guint16)gtk_adjustment_get_upper (adj) - 1,
+				  (guint16)gtk_adjustment_get_value (adj));
 }
 
 void

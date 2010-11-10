@@ -61,6 +61,10 @@
 #  endif
 #endif
 
+#ifndef HAVE_GTK_ENTRY_GET_OVERWRITE_MODE
+#define gtk_entry_get_overwrite_mode(_e_) ((_e_)->overwrite_mode)
+#endif
+
 /* This function does not exist in gtk+ yet.  634342.  */
 #ifndef HAVE_GTK_ENTRY_SET_EDITING_CANCELLED
 #define gtk_entry_set_editing_cancelled(_e_,_b_) \
@@ -107,6 +111,18 @@
 #define gtk_widget_has_focus(w) GTK_WIDGET_HAS_FOCUS (w)
 #endif
 
+#ifndef HAVE_GTK_WIDGET_SET_CAN_DEFAULT
+#define gtk_widget_set_can_default(w,t)					\
+	do {								\
+	if (t) GTK_WIDGET_SET_FLAGS ((w), GTK_CAN_DEFAULT);	\
+		else GTK_WIDGET_UNSET_FLAGS ((w), GTK_CAN_DEFAULT);	\
+	} while (0)
+#endif
+
+#ifndef HAVE_GTK_WIDGET_GET_CAN_FOCUS
+#define gtk_widget_get_can_focus(_w_) GTK_WIDGET_CAN_FOCUS((_w_))
+#endif
+
 #ifndef HAVE_GTK_WIDGET_SET_CAN_FOCUS
 #define gtk_widget_set_can_focus(w,t)					\
 	do {								\
@@ -139,18 +155,44 @@
                 NULL)
 #endif
 
+#ifndef HAVE_GTK_ADJUSTMENT_GET_LOWER
+#define gtk_adjustment_get_lower(_a) ((_a)->lower)
+#endif
+
+#ifndef HAVE_GTK_ADJUSTMENT_GET_UPPER
+#define gtk_adjustment_get_lower(_a) ((_a)->upper)
+#endif
+
 #ifndef HAVE_GTK_ADJUSTMENT_GET_PAGE_SIZE
 #define gtk_adjustment_get_page_size(_a) ((_a)->page_size)
 #endif
 
+#ifndef HAVE_GTK_ADJUSTMENT_GET_PAGE_INCREMENT
+#define gtk_adjustment_get_page_increment(_a) ((_a)->page_increment)
+#endif
+
+#ifndef HAVE_GTK_ADJUSTMENT_GET_STEP_INCREMENT
+#define gtk_adjustment_get_step_increment(_a) ((_a)->step_increment)
+#endif
+
 #ifndef HAVE_GTK_ADJUSTMENT_SET_LOWER
-#define gtk_adjustment_set_lower (_a,_l) \
+#define gtk_adjustment_set_lower(_a,_l) \
   g_object_set ((_a), "lower", (double)(_l), NULL)
 #endif
 
 #ifndef HAVE_GTK_ADJUSTMENT_SET_UPPER
-#define gtk_adjustment_set_upper (_a,_u) \
+#define gtk_adjustment_set_upper(_a,_u) \
   g_object_set ((_a), "upper", (double)(_u), NULL)
+#endif
+
+#ifndef HAVE_GTK_ADJUSTMENT_PAGE_INCREMENT
+#define gtk_adjustment_set_page_increment(_a,_pi) \
+  g_object_set ((_a), "page-increment", (double)(_pi), NULL)
+#endif
+
+#ifndef HAVE_GTK_ADJUSTMENT_STEP_INCREMENT
+#define gtk_adjustment_set_step_increment(_a,_si) \
+  g_object_set ((_a), "step-increment", (double)(_si), NULL)
 #endif
 
 #ifndef HAVE_GTK_TABLE_GET_SIZE
@@ -181,6 +223,10 @@
 #  else
 #    define gtk_tree_view_column_get_button(_c) ((_c)->_g_sealed__button)
 #  endif
+#endif
+
+#ifndef HAVE_GTK_WINDOW_GET_DEFAULT_WIDGET
+#define gtk_window_get_default_widget(_w_) ((_w_)->default_widget)
 #endif
 
 #endif

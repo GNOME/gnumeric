@@ -76,6 +76,7 @@
 #include "tools/tabulate.h"
 #include "wbc-gtk.h"
 #include "undo.h"
+#include <dead-kittens.h>
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-doc-meta-data.h>
@@ -7623,19 +7624,6 @@ cmd_so_set_checkbox (WorkbookControl *wbc,
 
 #define CMD_SO_SET_ADJUSTMENT_TYPE (cmd_so_set_adjustment_get_type ())
 #define CMD_SO_SET_ADJUSTMENT(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SO_SET_ADJUSTMENT_TYPE, CmdSOSetAdjustment))
-
-#ifndef HAVE_GTK_ADJUSTMENT_CONFIGURE
-#       define gtk_adjustment_configure(adjustment,value,lower,upper,step_increment,page_increment,page_size) \
-		g_object_set (G_OBJECT (adjustment), "value", (double) (value), "lower", (double) (lower), "upper", (double) (upper), \
-				"step-increment", (double) (step_increment), "page-increment", (double) (page_increment), \
-				"page-size", (double) (page_size), NULL)
-#       define gtk_adjustment_get_value(adjustment)     (adjustment)->value
-#       define gtk_adjustment_get_lower(adjustment)     (adjustment)->lower
-#       define gtk_adjustment_get_upper(adjustment)     (adjustment)->upper
-#       define gtk_adjustment_get_step_increment(adjustment)     (adjustment)->step_increment
-#       define gtk_adjustment_get_page_increment(adjustment)     (adjustment)->page_increment
-#       define gtk_adjustment_get_page_size(adjustment)     (adjustment)->page_size
-#endif
 
 typedef struct {
 	GnmCommand cmd;

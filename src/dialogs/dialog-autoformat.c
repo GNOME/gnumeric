@@ -244,10 +244,8 @@ templates_load (AutoFormatState *state)
 	/*
 	 * Hide the scrollbar when it's not needed
 	 */
-	if (n_templates > NUM_PREVIEWS)
-		gtk_widget_show (GTK_WIDGET (state->scroll));
-	else
-		gtk_widget_hide (GTK_WIDGET (state->scroll));
+	gtk_widget_set_visible (GTK_WIDGET (state->scroll),
+				n_templates > NUM_PREVIEWS);
 
 	return TRUE;
 }

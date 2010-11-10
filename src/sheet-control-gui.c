@@ -424,34 +424,31 @@ scg_scrollbar_config (SheetControl const *sc)
 		int max_col = last_col;
 		int max_row = last_row;
 
-		if (sv_is_frozen (sv)) {
-			ha->lower = sv->unfrozen_top_left.col;
-			va->lower = sv->unfrozen_top_left.row;
-		} else
-			ha->lower = va->lower = 0;
-
 		if (max_row < sheet->rows.max_used)
 			max_row = sheet->rows.max_used;
 		if (max_row < sheet->max_object_extent.row)
 			max_row = sheet->max_object_extent.row;
-		va->upper = max_row + 1;
-		va->value = pane->first.row;
-		va->page_size = last_row - pane->first.row + 1;
-		va->page_increment = MAX (va->page_size - 3.0, 1.0);
-		va->step_increment = 1;
+		gtk_adjustment_configure
+			(va,
+			 pane->first.row,
+			 sv_is_frozen (sv) ? sv->unfrozen_top_left.row : 0,
+			 max_row + 1,
+			 1,
+			 MAX (gtk_adjustment_get_page_size (va) - 3.0, 1.0),
+			 last_row - pane->first.row + 1);
 
 		if (max_col < sheet->cols.max_used)
 			max_col = sheet->cols.max_used;
 		if (max_col < sheet->max_object_extent.col)
 			max_col = sheet->max_object_extent.col;
-		ha->upper = max_col + 1;
-		ha->page_size = last_col - pane->first.col + 1;
-		ha->value = pane->first.col;
-		ha->page_increment = MAX (ha->page_size - 3.0, 1.0);
-		ha->step_increment = 1;
-
-		gtk_adjustment_changed (va);
-		gtk_adjustment_changed (ha);
+		gtk_adjustment_configure
+			(ha,
+			 pane->first.col,
+			 sv_is_frozen (sv) ? sv->unfrozen_top_left.col : 0,
+			 max_col + 1,
+			 1,
+			 MAX (gtk_adjustment_get_page_size (ha) - 3.0, 1.0),
+			 last_col - pane->first.col + 1);
 	}
 }
 
@@ -563,7 +560,7 @@ cb_select_all_btn_expose (GtkWidget *widget, GdkEventExpose *event, SheetControl
 
 	/* This should be keep in sync with item_bar_cell code (item-bar.c) */
 	gdk_draw_rectangle (gtk_widget_get_window (widget),
-			    widget->style->bg_gc[GTK_STATE_ACTIVE],
+			    gtk_widget_get_style (widget)->bg_gc[GTK_STATE_ACTIVE],
 			    TRUE,
 			    offset + 1, 1, widget->allocation.width - 1, widget->allocation.height - 1);
 	/* The widget parameters could be NULL, but if so some themes would emit a warning.
@@ -590,34 +587,43 @@ cb_select_all_btn_event (GtkWidget *widget, GdkEvent *event, SheetControlGUI *sc
 static void
 cb_vscrollbar_value_changed (GtkRange *range, SheetControlGUI *scg)
 {
-	scg_set_top_row (scg, range->adjustment->value);
+	GtkAdjustment *adj = gtk_range_get_adjustment (range);
+	scg_set_top_row (scg, gtk_adjustment_get_value (adj));
 }
+
 static void
 cb_hscrollbar_value_changed (GtkRange *range, SheetControlGUI *scg)
 {
-	scg_set_left_col (scg, range->adjustment->value);
+	GtkAdjustment *adj = gtk_range_get_adjustment (range);
+	scg_set_left_col (scg, gtk_adjustment_get_value (adj));
 }
 
 static void
 cb_hscrollbar_adjust_bounds (GtkRange *range, gdouble new_value, Sheet *sheet)
 {
-	gdouble limit = range->adjustment->upper - range->adjustment->page_size;
-	if (range->adjustment->upper < gnm_sheet_get_max_cols (sheet) && new_value >= limit) {
-		range->adjustment->upper = new_value + range->adjustment->page_size + 1;
-		if (range->adjustment->upper > gnm_sheet_get_max_cols (sheet))
-			range->adjustment->upper = gnm_sheet_get_max_cols (sheet);
-		gtk_adjustment_changed (range->adjustment);
+	GtkAdjustment *adj = gtk_range_get_adjustment (range);
+	double upper = gtk_adjustment_get_upper (adj);
+	double page_size = gtk_adjustment_get_page_size (adj);
+	gdouble limit = upper - page_size;
+	if (upper < gnm_sheet_get_max_cols (sheet) && new_value >= limit) {
+		upper = new_value + page_size + 1;
+		if (upper > gnm_sheet_get_max_cols (sheet))
+			upper = gnm_sheet_get_max_cols (sheet);
+		gtk_adjustment_set_upper (adj, upper);
 	}
 }
 static void
 cb_vscrollbar_adjust_bounds (GtkRange *range, gdouble new_value, Sheet *sheet)
 {
-	gdouble limit = range->adjustment->upper - range->adjustment->page_size;
-	if (range->adjustment->upper < gnm_sheet_get_max_rows (sheet) && new_value >= limit) {
-		range->adjustment->upper = new_value + range->adjustment->page_size + 1;
-		if (range->adjustment->upper > gnm_sheet_get_max_rows (sheet))
-			range->adjustment->upper = gnm_sheet_get_max_rows (sheet);
-		gtk_adjustment_changed (range->adjustment);
+	GtkAdjustment *adj = gtk_range_get_adjustment (range);
+	double upper = gtk_adjustment_get_upper (adj);
+	double page_size = gtk_adjustment_get_page_size (adj);
+	gdouble limit = upper - page_size;
+	if (upper < gnm_sheet_get_max_rows (sheet) && new_value >= limit) {
+		upper = new_value + page_size + 1;
+		if (upper > gnm_sheet_get_max_rows (sheet))
+			upper = gnm_sheet_get_max_rows (sheet);
+		gtk_adjustment_set_upper (adj, upper);
 	}
 }
 
@@ -1740,37 +1746,27 @@ scg_adjust_preferences (SheetControlGUI *scg)
 
 	SCG_FOREACH_PANE (scg, pane, {
 		if (pane->col.canvas != NULL) {
-			if (sheet->hide_col_header)
-				gtk_widget_hide (GTK_WIDGET (pane->col.alignment));
-			else
-				gtk_widget_show (GTK_WIDGET (pane->col.alignment));
+			gtk_widget_set_visible (GTK_WIDGET (pane->col.alignment),
+						!sheet->hide_col_header);
 		}
 
 		if (pane->row.canvas != NULL) {
-			if (sheet->hide_row_header)
-				gtk_widget_hide (GTK_WIDGET (pane->row.alignment));
-			else
-				gtk_widget_show (GTK_WIDGET (pane->row.alignment));
+			gtk_widget_set_visible (GTK_WIDGET (pane->row.alignment),
+						!sheet->hide_row_header);
 		}
 	});
 
 	if (scg->corner) {
-		if (sheet->hide_col_header || sheet->hide_row_header)
-			gtk_widget_hide (GTK_WIDGET (scg->corner));
-		else
-			gtk_widget_show (GTK_WIDGET (scg->corner));
+		gtk_widget_set_visible (GTK_WIDGET (scg->corner),
+					!(sheet->hide_col_header || sheet->hide_row_header));
 
 		if (scg_wbc (scg) != NULL) {
 			WorkbookView *wbv = wb_control_view (scg_wbc (scg));
-			if (wbv->show_horizontal_scrollbar)
-				gtk_widget_show (scg->hs);
-			else
-				gtk_widget_hide (scg->hs);
+			gtk_widget_set_visible (scg->hs,
+						wbv->show_horizontal_scrollbar);
 
-			if (wbv->show_vertical_scrollbar)
-				gtk_widget_show (scg->vs);
-			else
-				gtk_widget_hide (scg->vs);
+			gtk_widget_set_visible (scg->vs,
+						wbv->show_vertical_scrollbar);
 		}
 	}
 }

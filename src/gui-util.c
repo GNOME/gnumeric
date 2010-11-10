@@ -227,6 +227,7 @@ static void
 cb_save_sizes (GtkWidget *dialog, const char *key)
 {
 	GdkRectangle *r;
+	GtkAllocation da;
 	GdkScreen *screen = gtk_widget_get_screen (dialog);
 	GHashTable *h = g_object_get_data (G_OBJECT (screen),
 					   SAVE_SIZES_SCREEN_KEY);
@@ -247,7 +248,8 @@ cb_save_sizes (GtkWidget *dialog, const char *key)
 					(GDestroyNotify)g_hash_table_destroy);
 	}
 
-	r = g_memdup (&dialog->allocation, sizeof (dialog->allocation));
+	gtk_widget_get_allocation (dialog, &da);
+	r = g_memdup (&da, sizeof (da));
 	gdk_window_get_position (gtk_widget_get_window (dialog), &r->x, &r->y);
 	g_hash_table_replace (h, g_strdup (key), r);
 }
@@ -350,12 +352,12 @@ gnumeric_dialog_raise_if_exists (WBCGtk *wbcg, char const *key)
 static gboolean
 cb_activate_default (GtkWindow *window)
 {
+	GtkWidget *dw = gtk_window_get_default_widget (window);
 	/*
 	 * gtk_window_activate_default has a bad habit of trying
 	 * to activate the focus widget.
 	 */
-	return window->default_widget &&
-		gtk_widget_is_sensitive (window->default_widget) &&
+	return dw && gtk_widget_is_sensitive (dw) &&
 		gtk_window_activate_default (window);
 }
 

@@ -345,7 +345,7 @@ static GSF_CLASS (SheetObjectWidget, sheet_object_widget,
 static WorkbookControl *
 widget_wbc (GtkWidget *widget)
 {
-	return scg_wbc (GNM_SIMPLE_CANVAS (widget->parent)->scg);
+	return scg_wbc (GNM_SIMPLE_CANVAS (gtk_widget_get_parent (widget))->scg);
 }
 
 
@@ -1098,8 +1098,9 @@ sheet_widget_button_set_markup (SheetObject *so, PangoAttrList *markup)
 	for (ptr = swb->sow.so.realized_list; ptr != NULL; ptr = ptr->next) {
 		SheetObjectView *view = ptr->data;
 		GocWidget *item = get_goc_widget (view);
-		gtk_label_set_attributes (GTK_LABEL (GTK_BIN (item->widget)->child),
-					  swb->markup);
+		GtkLabel *lab =
+			GTK_LABEL (gtk_bin_get_child (GTK_BIN (item->widget)));
+		gtk_label_set_attributes (lab, swb->markup);
 	}
 }
 
@@ -1213,10 +1214,8 @@ sheet_widget_adjustment_set_value (SheetWidgetAdjustment *swa, double new_val)
 {
 	if (swa->being_updated)
 		return;
-	swa->adjustment->value = new_val;
-
 	swa->being_updated = TRUE;
-	gtk_adjustment_value_changed (swa->adjustment);
+	gtk_adjustment_set_value (swa->adjustment, new_val);
 	swa->being_updated = FALSE;
 }
 
@@ -1287,7 +1286,7 @@ cb_adjustment_widget_value_changed (GtkWidget *widget,
 	if (so_get_ref (SHEET_OBJECT (swa), &ref, TRUE) != NULL) {
 		GnmCell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
 		/* TODO : add more control for precision, XL is stupid */
-		int new_val = gnm_fake_round (swa->adjustment->value);
+		int new_val = gnm_fake_round (gtk_adjustment_get_value (swa->adjustment));
 		if (cell->value != NULL &&
 		    VALUE_IS_FLOAT (cell->value) &&
 		    value_get_as_float (cell->value) == new_val)
@@ -1420,11 +1419,14 @@ sheet_widget_adjustment_copy (SheetObject *dst, SheetObject const *src)
 	dst_adjust = dst_swa->adjustment;
 	src_adjust = src_swa->adjustment;
 
-	dst_adjust->lower = src_adjust->lower;
-	dst_adjust->upper = src_adjust->upper;
-	dst_adjust->value = src_adjust->value;
-	dst_adjust->step_increment = src_adjust->step_increment;
-	dst_adjust->page_increment = src_adjust->page_increment;
+	gtk_adjustment_configure
+		(dst_adjust,
+		 gtk_adjustment_get_value (src_adjust),
+		 gtk_adjustment_get_lower (src_adjust),
+		 gtk_adjustment_get_upper (src_adjust),
+		 gtk_adjustment_get_step_increment (src_adjust),
+		 gtk_adjustment_get_page_increment (src_adjust),
+		 gtk_adjustment_get_page_size (src_adjust));
 }
 
 typedef struct {
@@ -1449,16 +1451,20 @@ static void
 cb_adjustment_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 			 AdjustmentConfigState *state)
 {
+	GtkWidget *ofp;
+
 	/* Note:  half of the set-focus action is handle by the default
 	 *        callback installed by wbc_gtk_attach_guru. */
 
+	ofp = state->old_focus
+		? gtk_widget_get_parent (state->old_focus)
+		: NULL;
 	/* Force an update of the content in case it needs tweaking (eg make it
 	 * absolute) */
-	if (state->old_focus != NULL &&
-	    IS_GNM_EXPR_ENTRY (state->old_focus->parent)) {
+	if (ofp && IS_GNM_EXPR_ENTRY (ofp)) {
 		GnmParsePos  pp;
 		GnmExprTop const *texpr = gnm_expr_entry_parse (
-			GNM_EXPR_ENTRY (state->old_focus->parent),
+			GNM_EXPR_ENTRY (ofp),
 			parse_pos_init_sheet (&pp, state->sheet),
 			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 		if (texpr != NULL)
@@ -1576,13 +1582,17 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 
 	/* TODO : This is silly, no need to be similar to XL here. */
 	state->min = go_gtk_builder_get_widget (gui, "spin_min");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->min), swa->adjustment->lower);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->min),
+				   gtk_adjustment_get_lower (swa->adjustment));
 	state->max = go_gtk_builder_get_widget (gui, "spin_max");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->max), swa->adjustment->upper);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->max),
+				   gtk_adjustment_get_upper (swa->adjustment));
 	state->inc = go_gtk_builder_get_widget (gui, "spin_increment");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->inc), swa->adjustment->step_increment);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->inc),
+				   gtk_adjustment_get_step_increment (swa->adjustment));
 	state->page = go_gtk_builder_get_widget (gui, "spin_page");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->page), swa->adjustment->page_increment);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->page),
+				   gtk_adjustment_get_page_increment (swa->adjustment));
 
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->expression));
@@ -1654,11 +1664,21 @@ sheet_widget_adjustment_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 	SheetWidgetAdjustment const *swa = SHEET_WIDGET_ADJUSTMENT (so);
 	SheetWidgetAdjustmentClass *swa_class = SWA_CLASS (so);
 
-	gsf_xml_out_add_float (output, "Min",   swa->adjustment->lower, 2);
-	gsf_xml_out_add_float (output, "Max",   swa->adjustment->upper, 2); /* allow scrolling to max */
-	gsf_xml_out_add_float (output, "Inc",   swa->adjustment->step_increment, 2);
-	gsf_xml_out_add_float (output, "Page",  swa->adjustment->page_increment, 2);
-	gsf_xml_out_add_float (output, "Value", swa->adjustment->value, 2);
+	gsf_xml_out_add_float (output, "Min",
+			       gtk_adjustment_get_lower (swa->adjustment),
+			       2);
+	gsf_xml_out_add_float (output, "Max",
+			       gtk_adjustment_get_upper (swa->adjustment),
+			       2); /* allow scrolling to max */
+	gsf_xml_out_add_float (output, "Inc",
+			       gtk_adjustment_get_step_increment (swa->adjustment),
+			       2);
+	gsf_xml_out_add_float (output, "Page",
+			       gtk_adjustment_get_page_increment (swa->adjustment),
+			       2);
+	gsf_xml_out_add_float (output, "Value",
+			       gtk_adjustment_get_value (swa->adjustment),
+			       2);
 
 	if (swa_class->htype != G_TYPE_NONE && swa_class->vtype != G_TYPE_NONE)
 		gsf_xml_out_add_bool (output, "Horizontal", swa->horizontal);
@@ -1680,15 +1700,15 @@ sheet_widget_adjustment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 		gboolean b;
 
 		if (gnm_xml_attr_double (attrs, "Min", &tmp))
-			swa->adjustment->lower = tmp;
+			gtk_adjustment_set_lower (swa->adjustment, tmp);
 		else if (gnm_xml_attr_double (attrs, "Max", &tmp))
-			swa->adjustment->upper = tmp;  /* allow scrolling to max */
+			gtk_adjustment_set_upper (swa->adjustment, tmp);  /* allow scrolling to max */
 		else if (gnm_xml_attr_double (attrs, "Inc", &tmp))
-			swa->adjustment->step_increment = tmp;
+			gtk_adjustment_set_step_increment (swa->adjustment, tmp);
 		else if (gnm_xml_attr_double (attrs, "Page", &tmp))
-			swa->adjustment->page_increment = tmp;
+			gtk_adjustment_set_step_increment (swa->adjustment, tmp);
 		else if (gnm_xml_attr_double (attrs, "Value", &tmp))
-			swa->adjustment->value = tmp;
+			gtk_adjustment_set_value (swa->adjustment, tmp);
 		else if (sax_read_dep (attrs, "Input", &swa->dep, xin, convs))
 			;
 		else if (swa_class->htype != G_TYPE_NONE &&
@@ -1698,7 +1718,6 @@ sheet_widget_adjustment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 	}
 
 	swa->dep.flags = adjustment_get_dep_type ();
-	gtk_adjustment_changed	(swa->adjustment);
 }
 
 void
@@ -1707,17 +1726,17 @@ sheet_widget_adjustment_set_details (SheetObject *so, GnmExprTop const *tlink,
 				     int inc, int page)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
+	double page_size;
+
 	g_return_if_fail (swa != NULL);
-	swa->adjustment->value = value;
-	swa->adjustment->lower = min;
-	swa->adjustment->upper = max; /* allow scrolling to max */
-	swa->adjustment->step_increment = inc;
-	swa->adjustment->page_increment = page;
+
 	dependent_set_expr (&swa->dep, tlink);
 	if (NULL != tlink)
 		dependent_link (&swa->dep);
-	else
-		gtk_adjustment_changed (swa->adjustment);
+
+	page_size = gtk_adjustment_get_page_size (swa->adjustment); /* ??? */
+	gtk_adjustment_configure (swa->adjustment,
+				  value, min, max, inc, page, page_size);
 }
 
 static GtkWidget *
@@ -1867,8 +1886,10 @@ sheet_widget_spinbutton_create_widget (SheetObjectWidget *sow)
 	GtkWidget *spinbutton;
 
 	swa->being_updated = TRUE;
-	spinbutton = gtk_spin_button_new (swa->adjustment,
-		swa->adjustment->step_increment, 0);
+	spinbutton = gtk_spin_button_new
+		(swa->adjustment,
+		 gtk_adjustment_get_step_increment (swa->adjustment),
+		 0);
 	gtk_widget_set_can_focus (spinbutton, FALSE);
 	g_signal_connect (G_OBJECT (spinbutton),
 		"value_changed",
@@ -2290,16 +2311,21 @@ static void
 cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 		       CheckboxConfigState *state)
 {
+	GtkWidget *ofp;
+
 	/* Note:  half of the set-focus action is handle by the default
-	 *        callback installed by wbc_gtk_attach_guru */
+	 *        callback installed by wbc_gtk_attach_guru. */
+
+	ofp = state->old_focus
+		? gtk_widget_get_parent (state->old_focus)
+		: NULL;
 
 	/* Force an update of the content in case it needs tweaking (eg make it
 	 * absolute) */
-	if (state->old_focus != NULL &&
-	    IS_GNM_EXPR_ENTRY (state->old_focus->parent)) {
+	if (ofp && IS_GNM_EXPR_ENTRY (ofp)) {
 		GnmParsePos  pp;
 		GnmExprTop const *texpr = gnm_expr_entry_parse (
-			GNM_EXPR_ENTRY (state->old_focus->parent),
+			GNM_EXPR_ENTRY (ofp),
 			parse_pos_init_sheet (&pp, state->sheet),
 			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 		if (texpr != NULL)
@@ -2984,16 +3010,21 @@ static void
 cb_radio_button_set_focus (GtkWidget *window, GtkWidget *focus_widget,
  			   RadioButtonConfigState *state)
 {
+	GtkWidget *ofp;
+
  	/* Note:  half of the set-focus action is handle by the default
  	 *        callback installed by wbc_gtk_attach_guru */
 
+	ofp = state->old_focus
+		? gtk_widget_get_parent (state->old_focus)
+		: NULL;
+
  	/* Force an update of the content in case it needs tweaking (eg make it
  	 * absolute) */
- 	if (state->old_focus != NULL &&
- 	    IS_GNM_EXPR_ENTRY (state->old_focus->parent)) {
+ 	if (ofp && IS_GNM_EXPR_ENTRY (ofp)) {
  		GnmParsePos  pp;
  		GnmExprTop const *texpr = gnm_expr_entry_parse (
- 			GNM_EXPR_ENTRY (state->old_focus->parent),
+ 			GNM_EXPR_ENTRY (ofp),
  			parse_pos_init_sheet (&pp, state->sheet),
  			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
  		if (texpr != NULL)
@@ -3636,6 +3667,7 @@ cb_selection_changed (GtkTreeSelection *selection,
 		      SheetWidgetListBase *swl)
 {
 	GtkWidget    *view = (GtkWidget *)gtk_tree_selection_get_tree_view (selection);
+	GnmSimpleCanvas *scanvas = GNM_SIMPLE_CANVAS (gtk_widget_get_parent (gtk_widget_get_parent (gtk_widget_get_parent (view))));
 	GtkTreeModel *model;
 	GtkTreeIter   iter;
 	int	      pos = 0;
@@ -3648,8 +3680,7 @@ cb_selection_changed (GtkTreeSelection *selection,
 			}
 		}
 		sheet_widget_list_base_set_selection
-			(swl, pos,
-			 scg_wbc (GNM_SIMPLE_CANVAS (view->parent->parent->parent)->scg));
+			(swl, pos, scg_wbc (scanvas->scg));
 	}
 }
 
