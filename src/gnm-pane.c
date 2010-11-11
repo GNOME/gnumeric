@@ -1727,10 +1727,10 @@ gnm_pane_handle_motion (GnmPane *pane,
 	gtk_widget_get_allocation (GTK_WIDGET (pane0), &p0a);
 
 	pane1 = scg_pane (pane->simple.scg, 1);
-	gtk_widget_get_allocation (GTK_WIDGET (pane1), &p1a);
+	if (pane1) gtk_widget_get_allocation (GTK_WIDGET (pane1), &p1a);
 
 	pane3 = scg_pane (pane->simple.scg, 3);
-	gtk_widget_get_allocation (GTK_WIDGET (pane3), &p3a);
+	if (pane3) gtk_widget_get_allocation (GTK_WIDGET (pane3), &p3a);
 
 	if (slide_flags & GNM_PANE_SLIDE_X) {
 		if (x < left)
