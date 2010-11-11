@@ -695,6 +695,7 @@ AC_CHECK_FUNCS(gtk_dialog_get_content_area gtk_dialog_get_action_area)
 AC_CHECK_FUNCS(gtk_entry_get_text_length gtk_entry_set_icon_from_stock gtk_entry_get_buffer gtk_entry_get_text_area gtk_entry_set_editing_cancelled gtk_entry_get_overwrite_mode)
 AC_CHECK_FUNCS(gtk_layout_get_bin_window)
 AC_CHECK_FUNCS(gtk_orientable_set_orientation)
+AC_CHECK_FUNCS(gtk_selection_data_get_data gtk_selection_data_get_length gtk_selection_data_get_target)
 AC_CHECK_FUNCS(gtk_table_get_size)
 AC_CHECK_FUNCS(gtk_tree_view_column_get_button)
 AC_CHECK_FUNCS(gtk_widget_get_visible gtk_widget_set_visible gtk_widget_get_state gtk_widget_is_toplevel gtk_widget_get_window gtk_widget_get_can_focus gtk_widget_has_focus gtk_widget_get_style gtk_widget_get_allocation gtk_widget_is_sensitive gtk_widget_set_can_focus gtk_widget_set_can_default gtk_widget_get_realized)
@@ -715,6 +716,14 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <gtk/gtk.h>]],
 				[[GtkEntry *e = NULL;
 				(void)(e->text_area);]])],
                [AC_DEFINE(HAVE_GTK_ENTRY_TEXT_AREA, 1, [Define if GtkEntry::text_area exists])
+		AC_MSG_RESULT(yes)],
+	       [AC_MSG_RESULT(no)])
+
+AC_MSG_CHECKING([for GtkHandleBox::float_window])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <gtk/gtk.h>]],
+				[[GtkHandleBox *hb = NULL;
+				(void)(hb->float_window);]])],
+               [AC_DEFINE(HAVE_GTK_HANDLE_BOX_FLOAT_WINDOW, 1, [Define if GtkHandleBox::float_window exists])
 		AC_MSG_RESULT(yes)],
 	       [AC_MSG_RESULT(no)])
 

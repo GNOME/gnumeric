@@ -1044,7 +1044,7 @@ cb_pane_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	double wx, wy;
 
 	if (gnm_debug_flag ("dnd")) {
-		gchar *target_name = gdk_atom_name (selection_data->target);
+		gchar *target_name = gdk_atom_name (gtk_selection_data_get_target (selection_data));
 		g_printerr ("drag-data-received - %s\n", target_name);
 		g_free (target_name);
 	}
@@ -1062,7 +1062,7 @@ cb_pane_drag_data_get (GtkWidget *widget, GdkDragContext *context,
 		       SheetControlGUI *scg)
 {
 	if (gnm_debug_flag ("dnd")) {
-		gchar *target_name = gdk_atom_name (selection_data->target);
+		gchar *target_name = gdk_atom_name (gtk_selection_data_get_target (selection_data));
 		g_printerr ("drag-data-get - %s \n", target_name);
 		g_free (target_name);
 	}
@@ -1335,11 +1335,14 @@ gnm_pane_compute_visible_region (GnmPane *pane,
 	GocCanvas   *canvas = GOC_CANVAS (pane);
 	gint64 pixels;
 	int col, row, width, height;
+	GtkAllocation ca;
 
 #if 0
 	g_warning ("compute_vis(W)[%d] = %d", pane->index,
 		   GTK_WIDGET (pane)->allocation.width);
 #endif
+
+	gtk_widget_get_allocation (GTK_WIDGET (canvas), &ca);
 
 	/* When col/row sizes change we need to do a full recompute */
 	if (full_recompute) {
@@ -1361,7 +1364,7 @@ gnm_pane_compute_visible_region (GnmPane *pane,
 	/* Find out the last visible col and the last full visible column */
 	pixels = 0;
 	col = pane->first.col;
-	width = GTK_WIDGET (canvas)->allocation.width;
+	width = ca.width;
 
 	do {
 		ColRowInfo const * const ci = sheet_col_get_info (sheet, col);
@@ -1394,7 +1397,7 @@ gnm_pane_compute_visible_region (GnmPane *pane,
 	/* Find out the last visible row and the last fully visible row */
 	pixels = 0;
 	row = pane->first.row;
-	height = GTK_WIDGET (canvas)->allocation.height;
+	height = ca.height;
 	do {
 		ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
 		if (ri->visible) {
@@ -1530,17 +1533,21 @@ cb_pane_sliding (GnmPane *pane)
 	int col = -1, row = -1;
 	Sheet *sheet = scg_sheet (pane->simple.scg);
 	GnmPaneSlideInfo info;
+	GtkAllocation pa;
 
 #if 0
 	g_warning ("slide: %d, %d", pane->sliding_dx, pane->sliding_dy);
 #endif
+
+	gtk_widget_get_allocation (GTK_WIDGET (pane), &pa);
+
 	if (pane->sliding_dx > 0) {
 		GnmPane *target_pane = pane;
 
 		slide_x = TRUE;
 		if (pane_index == 1 || pane_index == 2) {
 			if (!pane->sliding_adjacent_h) {
-				int width = GTK_WIDGET (pane)->allocation.width;
+				int width = pa.width;
 				int x = pane->first_offset.x + width + pane->sliding_dx;
 
 				/* in case pane is narrow */
@@ -1569,7 +1576,13 @@ cb_pane_sliding (GnmPane *pane)
 
 		if (pane1 != NULL) {
 			if (pane_index == 0 || pane_index == 3) {
-				int width = GTK_WIDGET (pane1)->allocation.width;
+				GtkAllocation p1a;
+				int width;
+
+				gtk_widget_get_allocation (GTK_WIDGET (pane1),
+							   &p1a);
+
+				width = p1a.width;
 				if (pane->sliding_dx > (-width) &&
 				    col <= pane1->last_visible.col) {
 					int x = pane1->first_offset.x + width + pane->sliding_dx;
@@ -1594,7 +1607,7 @@ cb_pane_sliding (GnmPane *pane)
 		slide_y = TRUE;
 		if (pane_index == 3 || pane_index == 2) {
 			if (!pane->sliding_adjacent_v) {
-				int height = GTK_WIDGET (pane)->allocation.height;
+				int height = pa.height;
 				int y = pane->first_offset.y + height + pane->sliding_dy;
 
 				/* in case pane is short */
@@ -1623,7 +1636,13 @@ cb_pane_sliding (GnmPane *pane)
 
 		if (pane3 != NULL) {
 			if (pane_index == 0 || pane_index == 1) {
-				int height = GTK_WIDGET (pane3)->allocation.height;
+				GtkAllocation p3a;
+				int height;
+
+				gtk_widget_get_allocation (GTK_WIDGET (pane3),
+							   &p3a);
+
+				height = p3a.height;
 				if (pane->sliding_dy > (-height) &&
 				    row <= pane3->last_visible.row) {
 					int y = pane3->first_offset.y + height + pane->sliding_dy;
@@ -1691,6 +1710,7 @@ gnm_pane_handle_motion (GnmPane *pane,
 	GnmPane *pane0, *pane1, *pane3;
 	int pindex, width, height;
 	gint64 dx = 0, dy = 0, left, top;
+	GtkAllocation pa, p0a, p1a, p3a;
 
 	g_return_val_if_fail (IS_GNM_PANE (pane), FALSE);
 	g_return_val_if_fail (GOC_IS_CANVAS (canvas), FALSE);
@@ -1699,12 +1719,18 @@ gnm_pane_handle_motion (GnmPane *pane,
 	pindex = pane->index;
 	left = pane->first_offset.x;
 	top = pane->first_offset.y;
-	width = GTK_WIDGET (pane)->allocation.width;
-	height = GTK_WIDGET (pane)->allocation.height;
+	gtk_widget_get_allocation (GTK_WIDGET (pane), &pa);
+	width = pa.width;
+	height = pa.height;
 
 	pane0 = scg_pane (pane->simple.scg, 0);
+	gtk_widget_get_allocation (GTK_WIDGET (pane0), &p0a);
+
 	pane1 = scg_pane (pane->simple.scg, 1);
+	gtk_widget_get_allocation (GTK_WIDGET (pane1), &p1a);
+
 	pane3 = scg_pane (pane->simple.scg, 3);
+	gtk_widget_get_allocation (GTK_WIDGET (pane3), &p3a);
 
 	if (slide_flags & GNM_PANE_SLIDE_X) {
 		if (x < left)
@@ -1724,7 +1750,7 @@ gnm_pane_handle_motion (GnmPane *pane,
 		if (pindex == 0 || pindex == 3) {
 			if (dx < 0) {
 				x = pane1->first_offset.x;
-				dx += GTK_WIDGET (pane1)->allocation.width;
+				dx += p1a.width;
 				if (dx > 0)
 					x += dx;
 				dx = 0;
@@ -1733,7 +1759,7 @@ gnm_pane_handle_motion (GnmPane *pane,
 		} else {
 			if (dx > 0) {
 				x = pane0->first_offset.x + dx;
-				dx -= GTK_WIDGET (pane0)->allocation.width;
+				dx -= p0a.width;
 				if (dx < 0)
 					dx = 0;
 			} else if (dx == 0) {
@@ -1749,7 +1775,7 @@ gnm_pane_handle_motion (GnmPane *pane,
 		if (pindex == 0 || pindex == 1) {
 			if (dy < 0) {
 				y = pane3->first_offset.y;
-				dy += GTK_WIDGET (pane3)->allocation.height;
+				dy += p3a.height;
 				if (dy > 0)
 					y += dy;
 				dy = 0;
@@ -1758,7 +1784,7 @@ gnm_pane_handle_motion (GnmPane *pane,
 		} else {
 			if (dy > 0) {
 				y = pane0->first_offset.y + dy;
-				dy -= GTK_WIDGET (pane0)->allocation.height;
+				dy -= p0a.height;
 				if (dy < 0)
 					dy = 0;
 			} else if (dy == 0) {
@@ -1859,29 +1885,40 @@ gnm_pane_object_autoscroll (GnmPane *pane, GdkDragContext *context,
 	GnmPane *pane1 = scg_pane (scg, 1);
 	GnmPane *pane3 = scg_pane (scg, 3);
 	GtkWidget *w = GTK_WIDGET (pane);
+	GtkAllocation wa;
 	gint dx, dy;
 
-	if (y < w->allocation.y) {
-		if (pane_index < 2 && pane3 != NULL)
+	gtk_widget_get_allocation (w, &wa);
+
+	if (y < wa.y) {
+		if (pane_index < 2 && pane3 != NULL) {
 			w = GTK_WIDGET (pane3);
-		dy = y - w->allocation.y;
+			gtk_widget_get_allocation (w, &wa);
+		}
+		dy = y - wa.y;
 		g_return_if_fail (dy <= 0);
-	} else if (y >= (w->allocation.y + w->allocation.height)) {
-		if (pane_index >= 2)
+	} else if (y >= (wa.y + wa.height)) {
+		if (pane_index >= 2) {
 			w = GTK_WIDGET (pane0);
-		dy = y - (w->allocation.y + w->allocation.height);
+			gtk_widget_get_allocation (w, &wa);
+		}
+		dy = y - (wa.y + wa.height);
 		g_return_if_fail (dy >= 0);
 	} else
 		dy = 0;
-	if (x < w->allocation.x) {
-		if ((pane_index == 0 || pane_index == 3) && pane1 != NULL)
+	if (x < wa.x) {
+		if ((pane_index == 0 || pane_index == 3) && pane1 != NULL) {
 			w = GTK_WIDGET (pane1);
-		dx = x - w->allocation.x;
+			gtk_widget_get_allocation (w, &wa);
+		}
+		dx = x - wa.x;
 		g_return_if_fail (dx <= 0);
-	} else if (x >= (w->allocation.x + w->allocation.width)) {
-		if (pane_index >= 2)
+	} else if (x >= (wa.x + wa.width)) {
+		if (pane_index >= 2) {
 			w = GTK_WIDGET (pane0);
-		dx = x - (w->allocation.x + w->allocation.width);
+			gtk_widget_get_allocation (w, &wa);
+		}
+		dx = x - (wa.x + wa.width);
 		g_return_if_fail (dx >= 0);
 	} else
 		dx = 0;

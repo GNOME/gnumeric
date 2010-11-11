@@ -558,14 +558,15 @@ cb_select_all_btn_expose (GtkWidget *widget, GdkEventExpose *event, SheetControl
 	int offset = scg_sheet (scg)->text_is_rtl ? -1 : 0;
 	GtkAllocation a;
 
+	gtk_widget_get_allocation (widget, &a);
+
 	/* This should be keep in sync with item_bar_cell code (item-bar.c) */
 	gdk_draw_rectangle (gtk_widget_get_window (widget),
 			    gtk_widget_get_style (widget)->bg_gc[GTK_STATE_ACTIVE],
 			    TRUE,
-			    offset + 1, 1, widget->allocation.width - 1, widget->allocation.height - 1);
+			    offset + 1, 1, a.width - 1, a.height - 1);
 	/* The widget parameters could be NULL, but if so some themes would emit a warning.
 	 * (Murrine is known to do this: http://bugzilla.gnome.org/show_bug.cgi?id=564410). */
-	gtk_widget_get_allocation (widget, &a);
 	gtk_paint_shadow (gtk_widget_get_style (widget),
 			  gtk_widget_get_window (widget),
 			  GTK_STATE_NORMAL, GTK_SHADOW_OUT,
@@ -646,7 +647,7 @@ cb_table_destroy (SheetControlGUI *scg)
 
 		/* Only pane-0 ever gets focus */
 		if (NULL != toplevel &&
-		    toplevel->focus_widget == GTK_WIDGET (scg_pane (scg, 0)))
+		    gtk_window_get_focus (toplevel) == GTK_WIDGET (scg_pane (scg, 0)))
 			gtk_window_set_focus (toplevel, NULL);
 	}
 
@@ -882,6 +883,7 @@ gnm_pane_make_cell_visible (GnmPane *pane, int col, int row,
 	Sheet *sheet;
 	int   new_first_col, new_first_row;
 	GnmRange range;
+	GtkAllocation ca;
 
 	g_return_if_fail (IS_GNM_PANE (pane));
 
@@ -903,11 +905,13 @@ gnm_pane_make_cell_visible (GnmPane *pane, int col, int row,
 	range.start.row = range.end.row = row;
 	gnm_sheet_merge_find_container (sheet, &range);
 
+	gtk_widget_get_allocation (GTK_WIDGET (canvas), &ca);
+
 	/* Find the new pane->first.col */
 	if (range.start.col < pane->first.col) {
 		new_first_col = range.start.col;
 	} else if (range.end.col > pane->last_full.col) {
-		int width = GTK_WIDGET (canvas)->allocation.width;
+		int width = ca.width;
 		ColRowInfo const * const ci = sheet_col_get_info (sheet, range.end.col);
 		if (ci->size_pixels < width) {
 			int first_col = (pane->last_visible.col == pane->first.col)
@@ -933,7 +937,7 @@ gnm_pane_make_cell_visible (GnmPane *pane, int col, int row,
 	if (range.start.row < pane->first.row) {
 		new_first_row = range.start.row;
 	} else if (range.end.row > pane->last_full.row) {
-		int height = GTK_WIDGET (canvas)->allocation.height;
+		int height = ca.height;
 		ColRowInfo const * const ri = sheet_row_get_info (sheet, range.end.row);
 		if (ri->size_pixels < height) {
 			int first_row = (pane->last_visible.row == pane->first.row)
@@ -1217,30 +1221,40 @@ resize_pane_pos (SheetControlGUI *scg, GtkPaned *p,
 	gtk_widget_style_get (GTK_WIDGET (p), "handle-size", &handle, NULL);
 	pos += handle / 2;
 	if (vert) {
-		pos -= GTK_WIDGET (scg->pane[0]->row.canvas)->allocation.width;
+		GtkAllocation ca;
+		gtk_widget_get_allocation (GTK_WIDGET (scg->pane[0]->row.canvas), &ca);
+		pos -= ca.width;
 		if (scg->pane[1]) {
-			int const w = GTK_WIDGET (scg->pane[1])->allocation.width;
-			if (pos < w)
+			GtkAllocation pa;
+			gtk_widget_get_allocation (GTK_WIDGET (scg->pane[1]),
+						   &pa);
+
+			if (pos < pa.width)
 				pane = scg_pane (scg, 1);
 			else
-				pos -= w;
+				pos -= pa.width;
 		}
 		pos += pane->first_offset.x;
 		colrow = gnm_pane_find_col (pane, pos, guide_pos);
 	} else {
-		pos -= GTK_WIDGET (scg->pane[0]->col.canvas)->allocation.height;
+		GtkAllocation ca;
+		gtk_widget_get_allocation (GTK_WIDGET (scg->pane[0]->col.canvas), &ca);
+
+		pos -= ca.height;
 		if (scg->pane[3]) {
-			int const h = GTK_WIDGET (scg->pane[3])->allocation.height;
-			if (pos < h)
+			GtkAllocation pa;
+			gtk_widget_get_allocation (GTK_WIDGET (scg->pane[3]),
+						   &pa);
+			if (pos < pa.height)
 				pane = scg_pane (scg, 3);
 			else
-				pos -= h;
+				pos -= pa.height;
 		}
 		pos += pane->first_offset.y;
 		colrow = gnm_pane_find_row (pane, pos, guide_pos);
 	}
 	cri = sheet_colrow_get_info (scg_sheet (scg), colrow, vert);
-	if (pos >= (*guide_pos + cri->size_pixels/2)) {
+	if (pos >= (*guide_pos + cri->size_pixels / 2)) {
 		*guide_pos += cri->size_pixels;
 		colrow++;
 	}
@@ -3898,15 +3912,15 @@ void
 scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
 			double x, double y, GtkSelectionData *selection_data)
 {
-	gchar *target_type = gdk_atom_name (selection_data->target);
-	const char *sel_data = (const char *)selection_data->data;
-	gsize sel_len = selection_data->length;
+	gchar *target_type = gdk_atom_name (gtk_selection_data_get_target (selection_data));
+	const char *sel_data = (const char *)gtk_selection_data_get_data (selection_data);
+	gsize sel_len = gtk_selection_data_get_length (selection_data);
 
 	if (!strcmp (target_type, "text/uri-list")) {
 		scg_drag_receive_uri_list (scg, x, y, sel_data, sel_len);
 
 	} else if (!strncmp (target_type, "image/", 6)) {
-		scg_drag_receive_img_data (scg, x, y, selection_data->data, sel_len);
+		scg_drag_receive_img_data (scg, x, y, sel_data, sel_len);
 	} else if (!strcmp (target_type, "GNUMERIC_SAME_PROC")) {
 		scg_drag_receive_same_process (scg, source_widget, x, y);
 	} else if (!strcmp (target_type, "application/x-gnumeric")) {
@@ -3978,7 +3992,8 @@ scg_drag_send_image (SheetControlGUI *scg,
 	osize = gsf_output_size (output);
 
 	gtk_selection_data_set
-		(selection_data, selection_data->target,
+		(selection_data,
+		 gtk_selection_data_get_target (selection_data),
 		 8, gsf_output_memory_get_bytes (omem), osize);
 	gsf_output_close (output);
 	g_object_unref (output);
@@ -4015,7 +4030,8 @@ scg_drag_send_graph (SheetControlGUI *scg,
 	osize = gsf_output_size (output);
 
 	gtk_selection_data_set
-		(selection_data, selection_data->target,
+		(selection_data,
+		 gtk_selection_data_get_target (selection_data),
 		 8, gsf_output_memory_get_bytes (omem), osize);
 	gsf_output_close (output);
 	g_object_unref (output);
@@ -4033,9 +4049,12 @@ scg_drag_send_clipboard_objects (SheetControl *sc,
 		return;
 
 	output  = gnm_cellregion_to_xml (content);
-	gtk_selection_data_set (selection_data, selection_data->target, 8,
-		gsf_output_memory_get_bytes (output),
-		gsf_output_size (GSF_OUTPUT (output)));
+	gtk_selection_data_set
+		(selection_data,
+		 gtk_selection_data_get_target (selection_data),
+		 8,
+		 gsf_output_memory_get_bytes (output),
+		 gsf_output_size (GSF_OUTPUT (output)));
 	g_object_unref (output);
 	cellregion_unref (content);
 }
@@ -4052,24 +4071,26 @@ scg_drag_send_text (SheetControlGUI *scg, GtkSelectionData *sd)
 	cellregion_unref (reg);
 	if (!s)
 		return;
-	gtk_selection_data_set (sd, sd->target, 8, s->str, s->len);
+	gtk_selection_data_set (sd, gtk_selection_data_get_target (sd),
+				8, s->str, s->len);
 	g_string_free (s, TRUE);
 }
 
 void
 scg_drag_data_get (SheetControlGUI *scg, GtkSelectionData *selection_data)
 {
-	gchar *target_name = gdk_atom_name (selection_data->target);
+	GdkAtom target = gtk_selection_data_get_target (selection_data);
+	gchar *target_name = gdk_atom_name (target);
 	GSList *objects = scg->selected_objects
 		? go_hash_keys (scg->selected_objects)
 		: NULL;
 
 	if (strcmp (target_name, "GNUMERIC_SAME_PROC") == 0)
 		/* Set dummy selection for process internal dnd */
-		gtk_selection_data_set (selection_data, selection_data->target,
+		gtk_selection_data_set (selection_data, target,
 					8, (const guint8 *)"", 1);
 	else if (strcmp (target_name, "GNUMERIC_SHEET") == 0)
-		gtk_selection_data_set (selection_data, selection_data->target,
+		gtk_selection_data_set (selection_data, target,
 					8, (void *)scg, sizeof (scg));
 	else if (strcmp (target_name, "application/x-gnumeric") == 0)
 		scg_drag_send_clipboard_objects (SHEET_CONTROL (scg),

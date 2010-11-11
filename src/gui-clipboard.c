@@ -188,36 +188,37 @@ text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
 	GnmPasteTarget	   *pt   = ctxt->paste_target;
 	GnmCellRegion *content = NULL;
+	GdkAtom target = gtk_selection_data_get_target (sel);
 
 	if (debug_clipboard ()) {
 		int maxlen = 1024;
-		char *name = gdk_atom_name (sel->target);
+		char *name = gdk_atom_name (gtk_selection_data_get_target (sel));
 		g_printerr ("Received %d bytes of text for target %s\n",
-			    sel->length,
+			    gtk_selection_data_get_length (sel),
 			    name);
 		g_free (name);
-		if (sel->length > 0) {
-			gsf_mem_dump (sel->data, MIN (sel->length, maxlen));
-			if (sel->length > maxlen)
+		if (gtk_selection_data_get_length (sel) > 0) {
+			gsf_mem_dump (gtk_selection_data_get_data (sel), MIN (gtk_selection_data_get_length (sel), maxlen));
+			if (gtk_selection_data_get_length (sel) > maxlen)
 				g_printerr ("...\n");
 		}
 	}
 
 	/* Nothing on clipboard? */
-	if (sel->length < 0) {
+	if (gtk_selection_data_get_length (sel) < 0) {
 		;
-	} else if (sel->target == gdk_atom_intern (UTF8_ATOM_NAME, FALSE)) {
-		content = text_to_cell_region (wbcg, (const char *)sel->data, sel->length, "UTF-8", TRUE);
-	} else if (sel->target == gdk_atom_intern (CTEXT_ATOM_NAME, FALSE)) {
+	} else if (target == gdk_atom_intern (UTF8_ATOM_NAME, FALSE)) {
+		content = text_to_cell_region (wbcg, (const char *)gtk_selection_data_get_data (sel), gtk_selection_data_get_length (sel), "UTF-8", TRUE);
+	} else if (target == gdk_atom_intern (CTEXT_ATOM_NAME, FALSE)) {
 		/* COMPOUND_TEXT is icky.  Just let GTK+ do the work.  */
 		char *data_utf8 = (char *)gtk_selection_data_get_text (sel);
 		content = text_to_cell_region (wbcg, data_utf8, strlen (data_utf8), "UTF-8", TRUE);
 		g_free (data_utf8);
-	} else if (sel->target == gdk_atom_intern (STRING_ATOM_NAME, FALSE)) {
+	} else if (target == gdk_atom_intern (STRING_ATOM_NAME, FALSE)) {
 		char const *locale_encoding;
 		g_get_charset (&locale_encoding);
 
-		content = text_to_cell_region (wbcg, (const char *)sel->data, sel->length, locale_encoding, FALSE);
+		content = text_to_cell_region (wbcg, (const char *)gtk_selection_data_get_data (sel), gtk_selection_data_get_length (sel), locale_encoding, FALSE);
 	}
 	if (content) {
 		/*
@@ -275,7 +276,7 @@ utf8_content_received (GtkClipboard *clipboard,  const gchar *text,
  **/
 static GnmCellRegion *
 table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
-		       GnmPasteTarget *pt, guchar *buffer, int length)
+		       GnmPasteTarget *pt, const guchar *buffer, int length)
 {
 	WorkbookView *wb_view = NULL;
 	Workbook *wb = NULL;
@@ -344,21 +345,21 @@ image_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 
 	if (debug_clipboard ()) {
 		int maxlen = 1024;
-		char *name = gdk_atom_name (sel->target);
+		char *name = gdk_atom_name (gtk_selection_data_get_target (sel));
 		g_printerr ("Received %d bytes of image for target %s\n",
-			    sel->length,
+			    gtk_selection_data_get_length (sel),
 			    name);
 		g_free (name);
-		if (sel->length > 0) {
-			gsf_mem_dump (sel->data, MIN (sel->length, maxlen));
-			if (sel->length > maxlen)
+		if (gtk_selection_data_get_length (sel) > 0) {
+			gsf_mem_dump (gtk_selection_data_get_data (sel), MIN (gtk_selection_data_get_length (sel), maxlen));
+			if (gtk_selection_data_get_length (sel) > maxlen)
 				g_printerr ("...\n");
 		}
 	}
 
-	if (sel->length > 0) {
+	if (gtk_selection_data_get_length (sel) > 0) {
 		scg_paste_image (wbcg_cur_scg (wbcg), &pt->range,
-				 sel->data, sel->length);
+				 gtk_selection_data_get_data (sel), gtk_selection_data_get_length (sel));
 		g_free (ctxt->paste_target);
 		g_free (ctxt);
 	} else  if (ctxt->string_atom !=  GDK_NONE) {
@@ -456,25 +457,26 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
 	GnmPasteTarget	   *pt   = ctxt->paste_target;
 	GnmCellRegion *content = NULL;
+	GdkAtom target = gtk_selection_data_get_target (sel);
 
 	if (debug_clipboard ()) {
 		int maxlen = 1024;
-		char *name = gdk_atom_name (sel->target);
+		char *name = gdk_atom_name (gtk_selection_data_get_target (sel));
 		g_printerr ("Received %d bytes of table for target %s\n",
-			    sel->length,
+			    gtk_selection_data_get_length (sel),
 			    name);
 		g_free (name);
-		if (sel->length > 0) {
-			gsf_mem_dump (sel->data, MIN (sel->length, maxlen));
-			if (sel->length > maxlen)
+		if (gtk_selection_data_get_length (sel) > 0) {
+			gsf_mem_dump (gtk_selection_data_get_data (sel), MIN (gtk_selection_data_get_length (sel), maxlen));
+			if (gtk_selection_data_get_length (sel) > maxlen)
 				g_printerr ("...\n");
 		}
 	}
 
 	/* Nothing on clipboard? */
-	if (sel->length < 0) {
+	if (gtk_selection_data_get_length (sel) < 0) {
 		;
-	} else if (sel->target == gdk_atom_intern (GNUMERIC_ATOM_NAME,
+	} else if (target == gdk_atom_intern (GNUMERIC_ATOM_NAME,
 						   FALSE)) {
 		/* The data is the gnumeric specific XML interchange format */
 		GOIOContext *io_context =
@@ -482,37 +484,37 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		content = xml_cellregion_read
 			(wbc, io_context,
 			 pt->sheet,
-			 (const char *)sel->data, sel->length);
+			 (const char *)gtk_selection_data_get_data (sel), gtk_selection_data_get_length (sel));
 		g_object_unref (io_context);
-	} else if (sel->target == gdk_atom_intern (OOO_ATOM_NAME, FALSE) ||
-		   sel->target == gdk_atom_intern (OOO_ATOM_NAME_WINDOWS, FALSE) ||
-		   sel->target == gdk_atom_intern (OOO11_ATOM_NAME, FALSE)) {
+	} else if (target == gdk_atom_intern (OOO_ATOM_NAME, FALSE) ||
+		   target == gdk_atom_intern (OOO_ATOM_NAME_WINDOWS, FALSE) ||
+		   target == gdk_atom_intern (OOO11_ATOM_NAME, FALSE)) {
 		content = table_cellregion_read (wbc, "Gnumeric_OpenCalc:openoffice",
-						 pt, sel->data,
-						 sel->length);
-	} else if (sel->target == gdk_atom_intern (HTML_ATOM_NAME_UNIX, FALSE) ||
-		   sel->target == gdk_atom_intern (HTML_ATOM_NAME_WINDOWS, FALSE)) {
-		size_t length = sel->length;
+						 pt, gtk_selection_data_get_data (sel),
+						 gtk_selection_data_get_length (sel));
+	} else if (target == gdk_atom_intern (HTML_ATOM_NAME_UNIX, FALSE) ||
+		   target == gdk_atom_intern (HTML_ATOM_NAME_WINDOWS, FALSE)) {
+		size_t length = gtk_selection_data_get_length (sel);
 		size_t start = 0, end = length;
 
-		if (sel->target == gdk_atom_intern (HTML_ATOM_NAME_WINDOWS, FALSE)) {
+		if (target == gdk_atom_intern (HTML_ATOM_NAME_WINDOWS, FALSE)) {
 			/* See bug 143084 */
-			parse_ms_headers (sel->data, length, &start, &end);
+			parse_ms_headers (gtk_selection_data_get_data (sel), length, &start, &end);
 		}
 
 		content = table_cellregion_read (wbc, "Gnumeric_html:html",
 						 pt,
-						 sel->data + start,
+						 gtk_selection_data_get_data (sel) + start,
 						 end - start);
-	} else if ((sel->target == gdk_atom_intern ( BIFF8_ATOM_NAME, FALSE)) ||
-		   (sel->target == gdk_atom_intern ( BIFF8_ATOM_NAME_CITRIX, FALSE)) ||
-		   (sel->target == gdk_atom_intern ( BIFF5_ATOM_NAME, FALSE)) ||
-		   (sel->target == gdk_atom_intern ( BIFF4_ATOM_NAME, FALSE)) ||
-		   (sel->target == gdk_atom_intern ( BIFF3_ATOM_NAME, FALSE)) ||
-		   (sel->target == gdk_atom_intern ( BIFF_ATOM_NAME,  FALSE))) {
+	} else if ((target == gdk_atom_intern ( BIFF8_ATOM_NAME, FALSE)) ||
+		   (target == gdk_atom_intern ( BIFF8_ATOM_NAME_CITRIX, FALSE)) ||
+		   (target == gdk_atom_intern ( BIFF5_ATOM_NAME, FALSE)) ||
+		   (target == gdk_atom_intern ( BIFF4_ATOM_NAME, FALSE)) ||
+		   (target == gdk_atom_intern ( BIFF3_ATOM_NAME, FALSE)) ||
+		   (target == gdk_atom_intern ( BIFF_ATOM_NAME,  FALSE))) {
 		content = table_cellregion_read (wbc, "Gnumeric_Excel:excel",
-						 pt, sel->data,
-						 sel->length);
+						 pt, gtk_selection_data_get_data (sel),
+						 gtk_selection_data_get_length (sel));
 	}
 	if (content) {
 		/*
@@ -838,7 +840,8 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 	Sheet *sheet = gnm_app_clipboard_sheet_get ();
 	GnmRange const *a = gnm_app_clipboard_area_get ();
 	GOCmdContext *ctx = cmd_context_stderr_new ();
-	gchar *target_name = gdk_atom_name (selection_data->target);
+	GdkAtom target = gtk_selection_data_get_target (selection_data);
+	gchar *target_name = gdk_atom_name (target);
 
 	if (debug_clipboard ())
 		g_printerr ("clipboard target=%s\n", target_name);
@@ -864,7 +867,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		goto out;
 
 	/* What format does the other application want? */
-	if (selection_data->target == gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE)) {
+	if (target == gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE)) {
 		GsfOutputMemory *output  = gnm_cellregion_to_xml (clipboard);
 		if (output) {
 			gsf_off_t size = gsf_output_size (GSF_OUTPUT (output));
@@ -872,13 +875,13 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 				g_printerr ("clipboard .gnumeric of %d bytes\n",
 					   (int)size);
 			gtk_selection_data_set
-				(selection_data, selection_data->target, 8,
+				(selection_data, target, 8,
 				 gsf_output_memory_get_bytes (output),
 				 size);
 			g_object_unref (output);
 			to_gnumeric = TRUE;
 		}
-	} else if (selection_data->target == gdk_atom_intern (HTML_ATOM_NAME, FALSE)) {
+	} else if (target == gdk_atom_intern (HTML_ATOM_NAME, FALSE)) {
 		char *saver_id = (char *) "Gnumeric_html:xhtml_range";
 		int buffer_size;
 		guchar *buffer = table_cellregion_write (ctx, clipboard,
@@ -888,7 +891,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 			g_message ("clipboard html of %d bytes",
 				    buffer_size);
 		gtk_selection_data_set (selection_data,
-					selection_data->target, 8,
+					target, 8,
 					(guchar *) buffer, buffer_size);
 		g_free (buffer);
 	} else if (strcmp (target_name, "application/x-goffice-graph") == 0) {
@@ -899,7 +902,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 			g_message ("clipboard graph of %d bytes",
 				   buffer_size);
 		gtk_selection_data_set (selection_data,
-					selection_data->target, 8,
+					target, 8,
 					(guchar *) buffer, buffer_size);
 		g_free (buffer);
 	} else if (strncmp (target_name, "image/", 6) == 0) {
@@ -910,7 +913,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 			g_message ("clipboard image of %d bytes",
 				    buffer_size);
 		gtk_selection_data_set (selection_data,
-					selection_data->target, 8,
+					target, 8,
 					(guchar *) buffer, buffer_size);
 		g_free (buffer);
 	} else if (strcmp (target_name, "SAVE_TARGETS") == 0) {

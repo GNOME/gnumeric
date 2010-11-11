@@ -661,8 +661,7 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 				       old_state,
 				       s_src);
 	} else {
-
-		g_return_if_fail (IS_SHEET_CONTROL_GUI (data->data));
+		g_return_if_fail (IS_SHEET_CONTROL_GUI (gtk_selection_data_get_data (data)));
 
 		/* Different workbook, same process */
 		g_warning ("Not yet implemented!");
@@ -735,6 +734,7 @@ cb_sheet_label_drag_motion (GtkWidget *widget, GdkDragContext *context,
 	SheetControlGUI *scg_src, *scg_dst;
 	GtkWidget *w_source, *arrow, *window;
 	gint root_x, root_y, pos_x, pos_y;
+	GtkAllocation wa, wsa;
 
 	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
 	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
@@ -757,10 +757,12 @@ cb_sheet_label_drag_motion (GtkWidget *widget, GdkDragContext *context,
 	/* Move the arrow to the correct position and show it. */
 	window = gtk_widget_get_ancestor (widget, GTK_TYPE_WINDOW);
 	gtk_window_get_position (GTK_WINDOW (window), &root_x, &root_y);
-	pos_x = root_x + widget->allocation.x;
-	pos_y = root_y + widget->allocation.y;
-	if (w_source->allocation.x < widget->allocation.x)
-		pos_x += widget->allocation.width;
+	gtk_widget_get_allocation (widget ,&wa);
+	pos_x = root_x + wa.x;
+	pos_y = root_y + wa.y;
+	gtk_widget_get_allocation (w_source ,&wsa);
+	if (wsa.x < wa.x)
+		pos_x += wa.width;
 	gtk_window_move (GTK_WINDOW (arrow), pos_x, pos_y);
 	gtk_widget_show (arrow);
 
@@ -953,6 +955,7 @@ cb_paned_size_allocate (GtkHPaned *hpaned,
 	gboolean position_set;
 	GtkWidget *child1 = gtk_paned_get_child1 (paned);
 	GtkWidget *child2 = gtk_paned_get_child2 (paned);
+	GtkAllocation pa;
 
 	if (child1 == NULL || !gtk_widget_get_visible (child1) ||
 	    child2 == NULL || !gtk_widget_get_visible (child2))
@@ -990,7 +993,9 @@ cb_paned_size_allocate (GtkHPaned *hpaned,
 	 * used for auto-expr and other little things.  This helps with
 	 * wide windows.
 	 */
-	wp = gtk_widget_get_parent (GTK_WIDGET (hpaned))->allocation.width;
+	gtk_widget_get_allocation (gtk_widget_get_parent (GTK_WIDGET (hpaned)),
+				   &pa);
+	wp = pa.width;
 	p1 = MAX (p1, w - (wp - w) * 125 / 100);
 
 	/* However, never use more for tabs than we want.  */
@@ -2286,7 +2291,7 @@ edit_area_button_menu (WBCGtk *wbcg, GtkToolbar *tb,
 static void
 cb_set_focus (GtkWindow *window, GtkWidget *focus, WBCGtk *wbcg)
 {
-	if (focus && !window->focus_widget)
+	if (focus && !gtk_window_get_focus (window))
 		wbcg_focus_cur_scg (wbcg);
 }
 
@@ -2359,13 +2364,12 @@ cb_scroll_wheel (GtkWidget *w, GdkEventScroll *event,
 static void
 cb_realize (GtkWindow *toplevel, WBCGtk *wbcg)
 {
-	GtkAllocation *allocation;
+	GtkAllocation ta;
 
 	g_return_if_fail (GTK_IS_WINDOW (toplevel));
 
-	allocation = &GTK_WIDGET (toplevel)->allocation;
-	gtk_window_set_default_size (toplevel,
-		allocation->width, allocation->height);
+	gtk_widget_get_allocation (GTK_WIDGET (toplevel), &ta);
+	gtk_window_set_default_size (toplevel, ta.width, ta.height);
 
 	/* if we are already initialized set the focus.  Without this loading a
 	 * multpage book sometimes leaves focus on the last book rather than
@@ -2568,12 +2572,14 @@ wbcg_get_label_for_position (WBCGtk *wbcg, GtkWidget *source,
 	for (i = 0; i < n; i++) {
 		GtkWidget *label = gnm_notebook_get_nth_label (wbcg->bnotebook, i);
 		int x0, x1;
+		GtkAllocation la;
 
 		if (!gtk_widget_get_visible (label))
 			continue;
 
-		x0 = label->allocation.x;
-		x1 = x0 + label->allocation.width;
+		gtk_widget_get_allocation (label, &la);
+		x0 = la.x;
+		x1 = x0 + la.width;
 
 		if (x <= x1) {
 			/*
@@ -2636,7 +2642,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 			    gint x, gint y, GtkSelectionData *selection_data,
 			    guint info, guint time, WBCGtk *wbcg)
 {
-	gchar *target_type = gdk_atom_name (selection_data->target);
+	gchar *target_type = gdk_atom_name (gtk_selection_data_get_target (selection_data));
 
 	if (!strcmp (target_type, "text/uri-list")) { /* filenames from nautilus */
 		scg_drag_data_received (wbcg_cur_scg (wbcg),
@@ -4021,6 +4027,7 @@ cb_set_toolbar_position (GtkMenuItem *item, WBCGtk *gtk)
 	set_toolbar_position (tb, side, gtk);
 }
 
+#ifdef HAVE_GTK_HANDLE_BOX_FLOAT_WINDOW
 static void
 cb_tcm_reattach (GtkWidget *widget, GtkHandleBox *hdlbox)
 {
@@ -4031,12 +4038,15 @@ cb_tcm_reattach (GtkWidget *widget, GtkHandleBox *hdlbox)
 	gtk_main_do_event (event);
 	gdk_event_free (event);
 }
+#endif
 
 static void
 cb_tcm_hide (GtkWidget *widget, GtkWidget *box)
 {
+#ifdef HAVE_GTK_HANDLE_BOX_FLOAT_WINDOW
 	if (GTK_IS_HANDLE_BOX (box) && GTK_HANDLE_BOX (box)->child_detached)
 		cb_tcm_reattach (widget, GTK_HANDLE_BOX (box));
+#endif
 	gtk_widget_hide (box);
 }
 
@@ -4047,6 +4057,7 @@ toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEventButton *event_button)
 	GtkWidget *zone = gtk_widget_get_parent (GTK_WIDGET (box));
 	GtkWidget *menu = gtk_menu_new ();
 	GtkWidget *item;
+	gboolean detached;
 
 	static struct {
 		char const *text;
@@ -4057,12 +4068,20 @@ toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEventButton *event_button)
 		{ N_("Display to the right of sheets"), GTK_POS_RIGHT }
 	};
 
-	if (GTK_IS_HANDLE_BOX (box) && GTK_HANDLE_BOX (box)->child_detached) {
+#ifdef HAVE_GTK_HANDLE_BOX_FLOAT_WINDOW
+	detached = (GTK_IS_HANDLE_BOX (box) &&
+		    GTK_HANDLE_BOX (box)->child_detached);
+#else
+	detached = FALSE;
+#endif
+	if (detached) {
+#ifdef HAVE_GTK_HANDLE_BOX_FLOAT_WINDOW
 		item = gtk_menu_item_new_with_label (_("Reattach to main window"));
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		g_signal_connect (G_OBJECT (item), "activate",
 				  G_CALLBACK (cb_tcm_reattach),
 				  box);
+#endif
 	} else {
 		size_t ui;
 		GSList *group = NULL;

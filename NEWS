@@ -30,6 +30,7 @@ Morten:
 	* Partially fix problem with undefined names.  [#633140]
 	* Fix analysis tools problems when "as values" is chosen.
 	* Fix gtk+/X crash with large tooltips.
+	* Take care of dead kittens.
 
 Sameer Morar:
 	* Add key combinations to move sheets. [#634139]
