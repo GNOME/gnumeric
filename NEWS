@@ -31,6 +31,7 @@ Morten:
 	* Fix analysis tools problems when "as values" is chosen.
 	* Fix gtk+/X crash with large tooltips.
 	* Take care of dead kittens.
+	* Fix text object clipping issue.  [#634597]
 
 Sameer Morar:
 	* Add key combinations to move sheets. [#634139]

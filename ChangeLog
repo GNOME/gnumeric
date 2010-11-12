@@ -1,3 +1,8 @@
+2010-11-12  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-so-filled.c (so_filled_view_set_bounds): Ensure that
+	clipping width and height do not become non-positive.  Fixes #634597.
+
 2010-11-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-image.c (so_image_view_set_bounds): fixed image bounds

@@ -93,8 +93,12 @@ so_filled_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean 
 		if (fiv->text != NULL && GOC_ITEM (fiv->text)) {
 			w -= (sof->margin_pts.left + sof->margin_pts.right)
 				/ scale;
+			w = MAX (w, DBL_MIN);
+
 			h -= (sof->margin_pts.top + sof->margin_pts.bottom)
 				/ scale;
+			h = MAX (h, DBL_MIN);
+
 			if (sof->is_oval)
 				goc_item_set (GOC_ITEM (fiv->text),
 				              "x", w / 2.,
