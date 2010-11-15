@@ -32,6 +32,7 @@ Morten:
 	* Fix gtk+/X crash with large tooltips.
 	* Take care of dead kittens.
 	* Fix text object clipping issue.  [#634597]
+	* Fix problem with disappearing window for empty file.  [#634792]
 
 Sameer Morar:
 	* Add key combinations to move sheets. [#634139]

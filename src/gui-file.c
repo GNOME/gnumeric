@@ -577,6 +577,8 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 			if (wbcg2)
 				wbcg2->current_saver = fs;
 			workbook_update_history (wb);
+			/* See 634792.  */
+			go_doc_set_pristine (GO_DOC (wb), FALSE);
 		}
 	}
 
@@ -615,8 +617,10 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 		g_object_ref (wb);
 
 		ok = wb_view_save (wb_view, GO_CMD_CONTEXT (wbcg));
-		if (ok)
+		if (ok) {
 			workbook_update_history (wb);
+			go_doc_set_pristine (GO_DOC (wb), FALSE);
+		}
 		g_object_unref (wb);
 		return ok;
 	}
