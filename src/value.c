@@ -528,7 +528,7 @@ value_release (GnmValue *value)
 		return;
 
 	if (VALUE_FMT (value) != NULL)
-		go_format_unref ((GOFormat *)VALUE_FMT (value));
+		go_format_unref (VALUE_FMT (value));
 
 	switch (value->type) {
 	case VALUE_EMPTY:
@@ -1322,9 +1322,9 @@ value_set_fmt (GnmValue *v, GOFormat const *fmt)
 		return;
 	g_return_if_fail (v->type != VALUE_EMPTY && v->type != VALUE_BOOLEAN);
 	if (fmt != NULL)
-		go_format_ref ((GOFormat *)fmt);
+		go_format_ref (fmt);
 	if (VALUE_FMT (v) != NULL)
-		go_format_unref ((GOFormat *)VALUE_FMT (v));
+		go_format_unref (VALUE_FMT (v));
 	v->v_any.fmt = (GOFormat *)fmt;
 }
 

@@ -1309,7 +1309,7 @@ gnm_style_set_format (GnmStyle *style, GOFormat const *format)
 	g_return_if_fail (format != NULL);
 
 	elem_changed (style, MSTYLE_FORMAT);
-	go_format_ref ((GOFormat *)format);
+	go_format_ref (format);
 	elem_clear_contents (style, MSTYLE_FORMAT);
 	elem_set (style, MSTYLE_FORMAT);
 	style->format = (GOFormat *)format;
