@@ -48,7 +48,7 @@ struct _GnmStyle {
 		double		size;
 	} font_detail;
 
-	GOFormat *format;
+	GOFormat const *format;
 	GnmHAlign	 h_align;
 	GnmVAlign	 v_align;
 	int		 indent;

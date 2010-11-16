@@ -62,9 +62,9 @@
 static GnmFuncFlags do_af_suggest_list (int argc,
 					GnmExprConstPtr const *argv,
 					GnmEvalPos const *epos,
-					GOFormat **explicit);
+					GOFormat const **explicit);
 
-struct cb_af_suggest { GnmFuncFlags typ; GOFormat **explicit; };
+struct cb_af_suggest { GnmFuncFlags typ; GOFormat const **explicit; };
 
 static GnmValue *
 cb_af_suggest (GnmCellIter const *iter, gpointer user)
@@ -80,14 +80,14 @@ cb_af_suggest (GnmCellIter const *iter, gpointer user)
 }
 
 static gboolean
-is_date (GnmFuncFlags typ, GOFormat *explicit)
+is_date (GnmFuncFlags typ, GOFormat const *explicit)
 {
 	return (typ == GNM_FUNC_AUTO_DATE ||
 		(typ == AF_EXPLICIT && go_format_is_date (explicit)));
 }
 
 static GnmFuncFlags
-do_af_suggest (GnmExpr const *expr, GnmEvalPos const *epos, GOFormat **explicit)
+do_af_suggest (GnmExpr const *expr, GnmEvalPos const *epos, GOFormat const **explicit)
 {
 #if 0
 	{
@@ -122,7 +122,7 @@ do_af_suggest (GnmExpr const *expr, GnmEvalPos const *epos, GOFormat **explicit)
 
 	case GNM_EXPR_OP_SUB: {
 		GnmFuncFlags typ1, typ2;
-		GOFormat *explicit1 = NULL, *explicit2 = NULL;
+		GOFormat const *explicit1 = NULL, *explicit2 = NULL;
 
 		typ1 = do_af_suggest (expr->binary.value_a, epos, &explicit1);
 		typ2 = do_af_suggest (expr->binary.value_b, epos, &explicit2);
@@ -231,7 +231,7 @@ do_af_suggest (GnmExpr const *expr, GnmEvalPos const *epos, GOFormat **explicit)
 
 static GnmFuncFlags
 do_af_suggest_list (int argc, GnmExprConstPtr const *argv,
-		    GnmEvalPos const *epos, GOFormat **explicit)
+		    GnmEvalPos const *epos, GOFormat const **explicit)
 {
 	int i;
 
@@ -247,10 +247,10 @@ do_af_suggest_list (int argc, GnmExprConstPtr const *argv,
 
 /* ------------------------------------------------------------------------- */
 
-GOFormat *
+GOFormat const *
 auto_style_format_suggest (GnmExprTop const *texpr, GnmEvalPos const *epos)
 {
-	GOFormat *explicit = NULL;
+	GOFormat const *explicit = NULL;
 
 	g_return_val_if_fail (texpr != NULL, NULL);
 	g_return_val_if_fail (epos != NULL, NULL);

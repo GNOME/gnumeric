@@ -91,10 +91,15 @@ void focus_on_entry (GtkEntry *entry);
  * We should be passing in a DateConvention */
 #define entry_to_float(entry, the_float, update)	\
 	entry_to_float_with_format (entry, the_float, update, NULL)
-gboolean entry_to_float_with_format (GtkEntry *entry, gnm_float *the_float, gboolean update,
-				     GOFormat *format);
-gboolean entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float, gboolean update,
-					     GOFormat *format, gnm_float num);
+gboolean entry_to_float_with_format (GtkEntry *entry,
+				     gnm_float *the_float,
+				     gboolean update,
+				     GOFormat const *format);
+gboolean entry_to_float_with_format_default (GtkEntry *entry,
+					     gnm_float *the_float,
+					     gboolean update,
+					     GOFormat const *format,
+					     gnm_float num);
 gboolean entry_to_int	(GtkEntry *entry, gint *the_int, gboolean update);
 void	 float_to_entry	(GtkEntry *entry, gnm_float the_float);
 void	 int_to_entry	(GtkEntry *entry, gint the_int);

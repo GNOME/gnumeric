@@ -1187,7 +1187,7 @@ stf_cell_set_text (GnmCell *cell, char const *text)
 {
 	GnmExprTop const *texpr;
 	GnmValue *val;
-	GOFormat *fmt = gnm_style_get_format (gnm_cell_get_style (cell));
+	GOFormat const *fmt = gnm_style_get_format (gnm_cell_get_style (cell));
 	const GODateConventions *date_conv =
 		workbook_date_conv (cell->base.sheet->workbook);
 

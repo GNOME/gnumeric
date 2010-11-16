@@ -118,7 +118,7 @@ GnmFont     *gnm_style_get_font		   (GnmStyle const *style,
 					    PangoContext *context);
 void         gnm_style_set_format	   (GnmStyle *style, GOFormat const *fmt);
 void         gnm_style_set_format_text	   (GnmStyle *style, char const *fmt);
-GOFormat    *gnm_style_get_format	   (GnmStyle const *style);
+GOFormat const*gnm_style_get_format	   (GnmStyle const *style);
 void         gnm_style_set_align_h	   (GnmStyle *style, GnmHAlign a);
 GnmHAlign    gnm_style_get_align_h	   (GnmStyle const *style);
 void         gnm_style_set_align_v	   (GnmStyle *style, GnmVAlign a);

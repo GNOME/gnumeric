@@ -1312,7 +1312,7 @@ gnm_style_set_format (GnmStyle *style, GOFormat const *format)
 	go_format_ref (format);
 	elem_clear_contents (style, MSTYLE_FORMAT);
 	elem_set (style, MSTYLE_FORMAT);
-	style->format = (GOFormat *)format;
+	style->format = format;
 }
 
 /*
@@ -1334,7 +1334,7 @@ gnm_style_set_format_text (GnmStyle *style, char const *format)
 	go_format_unref (sf);
 }
 
-GOFormat *
+const GOFormat *
 gnm_style_get_format (GnmStyle const *style)
 {
 	g_return_val_if_fail (style != NULL, NULL);

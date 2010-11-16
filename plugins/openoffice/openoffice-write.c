@@ -1308,7 +1308,7 @@ odf_write_style_text_properties (GnmOOExport *state, GnmStyle const *style)
 
 
 static void
-odf_write_style_goformat_name (GnmOOExport *state, GOFormat *gof)
+odf_write_style_goformat_name (GnmOOExport *state, GOFormat const *gof)
 {
 	char const *name;
 
@@ -1447,7 +1447,7 @@ odf_write_style (GnmOOExport *state, GnmStyle const *style, gboolean is_default)
 	guint i;
 
 	if ((!is_default) && gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
-		GOFormat *format = gnm_style_get_format(style);
+		GOFormat const *format = gnm_style_get_format(style);
 		if (format != NULL)
 			odf_write_style_goformat_name (state, format);
 	}

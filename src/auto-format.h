@@ -6,8 +6,8 @@
 
 G_BEGIN_DECLS
 
-GOFormat *auto_style_format_suggest (GnmExprTop const *texpr,
-				     GnmEvalPos const *epos);
+GOFormat const *auto_style_format_suggest (GnmExprTop const *texpr,
+					   GnmEvalPos const *epos);
 
 G_END_DECLS
 

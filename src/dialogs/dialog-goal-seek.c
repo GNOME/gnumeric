@@ -314,7 +314,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	GoalSeekStatus status;
 	GnmValue *target;
 	GnmRangeRef const *r;
-	GOFormat *format;
+	GOFormat const *format;
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);

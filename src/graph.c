@@ -166,7 +166,7 @@ gnm_go_data_preferred_fmt (GOData const *dat)
 
 	eval_pos_init_dep (&ep, dep);
 	return dep->texpr
-		? auto_style_format_suggest (dep->texpr, &ep)
+		? (GOFormat *)auto_style_format_suggest (dep->texpr, &ep)
 		: NULL;
 }
 

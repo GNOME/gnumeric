@@ -1,3 +1,7 @@
+2010-11-16  Morten Welinder  <terra@gnome.org>
+
+	* src/*.c: Constify GOFormat handling.
+
 2010-11-15  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-file.c (gui_file_save_as): Clear "pristine" flag.  Fixes

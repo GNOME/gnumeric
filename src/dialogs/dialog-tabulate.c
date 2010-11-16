@@ -144,7 +144,7 @@ get_table_float_entry (GtkTable *t, int y, int x, GnmCell *cell, gnm_float *numb
 		       GtkEntry **wp, gboolean with_default, gnm_float default_float)
 {
 	GList *l;
-	GOFormat *format;
+	GOFormat const *format;
 	GList *children = gtk_container_get_children (GTK_CONTAINER (t));
 	int res = 3;
 

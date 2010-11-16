@@ -517,7 +517,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 	if (v) {
 		GString *str = g_string_new (wbv->auto_expr_descr);
 		GOFormat const *format = NULL;
-		GOFormat *tmp_format = NULL;
+		GOFormat const *tmp_format = NULL;
 		PangoAttrList *attrs;
 
 		g_string_append_c (str, '=');

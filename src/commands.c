@@ -831,7 +831,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 			 sheet_get_conventions (sheet), NULL);
 
 	if (texpr != NULL) {
-		GOFormat *sf;
+		GOFormat const *sf;
 		GnmStyle *new_style = NULL;
 		gboolean same_texpr = TRUE;
 
