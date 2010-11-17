@@ -71,7 +71,7 @@ cb_af_suggest (GnmCellIter const *iter, gpointer user)
 {
 	struct cb_af_suggest *data = user;
 
-	*(data->explicit) = (GOFormat *)gnm_cell_get_format (iter->cell);
+	*(data->explicit) = gnm_cell_get_format (iter->cell);
 	if (*(data->explicit)) {
 		data->typ = AF_EXPLICIT;
 		return VALUE_TERMINATE;
@@ -207,7 +207,7 @@ do_af_suggest (GnmExpr const *expr, GnmEvalPos const *epos, GOFormat const **exp
 		if (cell == NULL)
 			return GNM_FUNC_AUTO_UNKNOWN;
 
-		*explicit = (GOFormat *)gnm_cell_get_format (cell);
+		*explicit = gnm_cell_get_format (cell);
 		return *explicit ? AF_EXPLICIT : GNM_FUNC_AUTO_UNKNOWN;
 	}
 

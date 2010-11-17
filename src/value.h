@@ -34,7 +34,7 @@ typedef enum {
 
 typedef struct {
 	GnmValueType const type;
-	GOFormat *fmt;
+	GOFormat const *fmt;
 } GnmValueAny;
 struct _GnmValueBool {
 	GnmValueType const type;
@@ -79,7 +79,7 @@ union _GnmValue {
 	GnmValueArray	v_array;
 };
 
-#define	VALUE_FMT(v)			((GOFormat const *)(v)->v_any.fmt)
+#define	VALUE_FMT(v)			((v)->v_any.fmt)
 #define VALUE_IS_EMPTY(v)		(((v) == NULL) || ((v)->type == VALUE_EMPTY))
 #define VALUE_IS_EMPTY_OR_ERROR(v)	(VALUE_IS_EMPTY(v) || (v)->type == VALUE_ERROR)
 #define VALUE_IS_STRING(v)		((v)->type == VALUE_STRING)

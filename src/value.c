@@ -1325,7 +1325,7 @@ value_set_fmt (GnmValue *v, GOFormat const *fmt)
 		go_format_ref (fmt);
 	if (VALUE_FMT (v) != NULL)
 		go_format_unref (VALUE_FMT (v));
-	v->v_any.fmt = (GOFormat *)fmt;
+	v->v_any.fmt = fmt;
 }
 
 /****************************************************************************/
