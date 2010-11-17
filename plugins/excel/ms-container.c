@@ -132,11 +132,10 @@ ms_container_add_obj (MSContainer *container, MSObj *obj)
 MSObj *
 ms_container_get_obj (MSContainer *c, int obj_id)
 {
-	MSObj *obj;
 	GSList *ptr;
 
 	for (ptr = c->obj_queue ; ptr != NULL ; ptr = ptr->next) {
-		obj = (MSObj *)ptr->data;
+		MSObj *obj = ptr->data;
 		if (obj != NULL && obj->id == obj_id)
 			return obj;
 	}
@@ -155,14 +154,13 @@ void
 ms_container_realize_objs (MSContainer *container)
 {
 	GSList *ptr;
-	MSObj *obj;
 
 	g_return_if_fail (container != NULL);
 	g_return_if_fail (container->vtbl != NULL);
 	g_return_if_fail (container->vtbl->realize_obj != NULL);
 
 	for (ptr = container->obj_queue; ptr != NULL; ptr = ptr->next) {
-		obj = (MSObj *)ptr->data;
+		MSObj *obj = ptr->data;
 		if (obj->gnum_obj != NULL)
 			(void) (*container->vtbl->realize_obj) (container, obj);
 	}

@@ -6187,9 +6187,9 @@ excel_write_workbook (ExcelWriteState *ewb)
 				num_objs += s->num_objs + 1;
 			}
 			for (b = s->blips; b; b = b->next) {
-					BlipInf *bi = (BlipInf *) b->data;
+				BlipInf *bi = b->data;
 				bliplen += (bi->header_len + bi->bytes.len);
-				}
+			}
 		}
 
 		if (ewb->num_obj_groups > 0) {

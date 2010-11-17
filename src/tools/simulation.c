@@ -84,7 +84,7 @@ eval_inputs_list (simulation_t *sim, gnm_float **outputs, int iter,
 
 	/* Recompute inputs. */
 	for (cur = sim->list_inputs; cur != NULL; cur = cur->next) {
-		GnmCell *cell = (GnmCell *) cur->data;
+		GnmCell *cell = cur->data;
 
 		cell_queue_recalc (cell);
 		gnm_cell_eval (cell);
@@ -111,7 +111,7 @@ eval_outputs_list (simulation_t *sim, gnm_float **outputs, int iter,
 
 	/* Recompute outputs. */
 	for (cur = sim->list_outputs; cur != NULL; cur = cur->next) {
-		GnmCell *cell = (GnmCell *) cur->data;
+		GnmCell *cell = cur->data;
 
 		gnm_cell_eval (cell);
 		if (cell->value == NULL || ! VALUE_IS_NUMBER (cell->value)) {
@@ -376,14 +376,14 @@ simulation_tool (WorkbookControl        *wbc,
 
 	i = 0;
 	for (cur = sim->list_outputs; cur != NULL; cur = cur->next) {
-		GnmCell *cell = (GnmCell *) cur->data;
+		GnmCell *cell = cur->data;
 
 		sim->cellnames[i++] =
 			(gchar *) dao_find_name (sheet, cell->pos.col,
 						 cell->pos.row);
 	}
 	for (cur = sim->list_inputs; cur != NULL; cur = cur->next) {
-		GnmCell *cell = (GnmCell *) cur->data;
+		GnmCell *cell = cur->data;
 		gchar *tmp = dao_find_name (sheet, cell->pos.col,
 					    cell->pos.row);
 		gchar *prefix = _("(Input) ");

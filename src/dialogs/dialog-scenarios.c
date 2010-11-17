@@ -604,7 +604,7 @@ scenarios_cancel_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	/* Remove report sheets created on this dialog session. */
 	for (cur = state->new_report_sheets; cur != NULL;
 	     cur = cur->next) {
-		Sheet *sheet = (Sheet *) cur->data;
+		Sheet *sheet = cur->data;
 
 		/* Check that if the focus is on a deleted sheet. */
 		if (wb_control_cur_sheet (wbc) == sheet)

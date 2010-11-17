@@ -245,7 +245,7 @@ cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
 				   WorkbookControl *wbc, char const *cmd_name)
 {
 	for (; selection; selection = selection->next) {
-		GnmRange *range = (GnmRange *)selection->data;
+		GnmRange *range = selection->data;
 		if (cmd_cell_range_is_locked_effective (sheet, range, wbc, cmd_name))
 			return TRUE;
 	}

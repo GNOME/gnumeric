@@ -54,7 +54,7 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 			ri->in_advanced_filter = TRUE;
 		}
 		while (rows != NULL) {
-			gint *row = (gint *) rows->data;
+			const gint *row = rows->data;
 			colrow_set_visibility (sheet, FALSE, TRUE, *row, *row);
 			rows = rows->next;
 		}
@@ -75,7 +75,7 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 		++r;
 
 		while (rows != NULL) {
-			gint *row = (gint *) rows->data;
+			const gint *row = rows->data;
 			for (i=input_col_b; i<=input_col_e; i++) {
 				cell = sheet_cell_get (sheet, i, *row);
 				if (cell == NULL)

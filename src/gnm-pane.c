@@ -2539,7 +2539,6 @@ static void
 target_list_add_list (GtkTargetList *targets, GtkTargetList *added_targets)
 {
 	GList *ptr;
-	GtkTargetPair *tp;
 
 	g_return_if_fail (targets != NULL);
 
@@ -2547,7 +2546,7 @@ target_list_add_list (GtkTargetList *targets, GtkTargetList *added_targets)
 		return;
 
 	for (ptr = added_targets->list; ptr !=  NULL; ptr = ptr->next) {
-		tp = (GtkTargetPair *)ptr->data;
+		GtkTargetPair *tp = ptr->data;
 		gtk_target_list_add (targets, tp->target, tp->flags, tp->info);
 	}
 }
@@ -2602,7 +2601,7 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 		GList *l;
 		g_printerr ("%d offered formats:\n", g_list_length (targets->list));
 		for (l = targets->list; l; l = l->next) {
-			GtkTargetPair *pair = (GtkTargetPair *)l->data;
+			GtkTargetPair *pair = l->data;
 			char *target_name = gdk_atom_name (pair->target);
 			g_printerr ("%s\n", target_name);
 			g_free (target_name);

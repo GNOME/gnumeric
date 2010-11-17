@@ -615,7 +615,6 @@ x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 	if (table_atom == GDK_NONE) {
 		GtkTargetList *tl = gtk_target_list_new (NULL, 0);
 		GList *l;
-		GtkTargetPair *tp;
 		gboolean found = FALSE;
 
 		gtk_target_list_add_image_targets (tl, 0, FALSE);
@@ -623,7 +622,7 @@ x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 		/* Find an image format */
 		for (i = 0 ; i < n_targets && !found; i++) {
 			for (l = tl->list; l && !found; l = l->next) {
-				tp = (GtkTargetPair *)l->data;
+				GtkTargetPair *tp = l->data;
 				if (tp->target == targets[i]) {
 					ctxt->image_atom = targets[i];
 					found = TRUE;
@@ -1009,7 +1008,6 @@ target_list_to_entries (GtkTargetList *target_list, int *n_entries)
 	GtkTargetEntry *entries;
 	int n_targets, i;
 	GList *p;
-	GtkTargetPair *tp;
 
 	if (!target_list || !target_list->list || n_entries == NULL)
 		return NULL;
@@ -1020,7 +1018,7 @@ target_list_to_entries (GtkTargetList *target_list, int *n_entries)
 
 	entries = g_new0 (GtkTargetEntry, n_targets);
 	for (p = target_list->list, i = 0; p != NULL; p = p->next, i++) {
-		tp = (GtkTargetPair *) p->data;
+		GtkTargetPair *tp = p->data;
 		entries[i].target = gdk_atom_name (tp->target);
 		entries[i].flags  = tp->flags;
 		entries[i].info   = tp->info;

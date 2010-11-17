@@ -146,12 +146,9 @@ category_list_get_from_dir_list (GSList *dir_list)
 	g_return_val_if_fail (dir_list != NULL, NULL);
 
 	for (dir_iterator = dir_list; dir_iterator != NULL; dir_iterator = dir_iterator->next) {
-		gchar *dir_name;
+		gchar *dir_name = dir_iterator->data;
 		GDir *dir;
 		char const *d_name;
-
-		dir_name = (gchar *) dir_iterator->data;
-		g_assert (dir_name != NULL);
 
 		dir = g_dir_open (dir_name, 0, NULL);
 		if (dir == NULL)
@@ -229,9 +226,7 @@ category_group_list_get (void)
 
 	current_group = NULL;
 	for (l = categories; l != NULL; l = l->next) {
-		FormatTemplateCategory *category;
-
-		category = (FormatTemplateCategory *) l->data;
+		FormatTemplateCategory *category = l->data;
 		if (current_group == NULL || strcmp (current_group->name, category->name) != 0) {
 			if (current_group != NULL) {
 				category_groups = g_list_prepend (category_groups, current_group);

@@ -1039,17 +1039,15 @@ cb_sheet_objects_dup (GnmDependent *dep, SheetObject *so, gpointer user)
 void
 sheet_objects_dup (Sheet const *src, Sheet *dst, GnmRange *range)
 {
-	SheetObject *so;
-	SheetObject *new_so;
 	GSList *list;
 
 	g_return_if_fail (IS_SHEET (dst));
 	g_return_if_fail (dst->sheet_objects == NULL);
 
 	for (list = src->sheet_objects; list != NULL; list = list->next) {
-		so = (SheetObject *) list->data;
+		SheetObject *so = list->data;
 		if (range == NULL || range_overlap (range, &so->anchor.cell_bound)) {
-			new_so = sheet_object_dup (so);
+			SheetObject *new_so = sheet_object_dup (so);
 			if (new_so != NULL) {
 				sheet_object_set_sheet (new_so, dst);
 				sheet_object_foreach_dep (new_so, cb_sheet_objects_dup,

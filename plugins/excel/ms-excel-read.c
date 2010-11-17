@@ -4686,7 +4686,7 @@ excel_read_MERGECELLS (BiffQuery *q, ExcelReadSheet *esheet)
 		xls_read_range16 (&r, data);
 		overlap = gnm_sheet_merge_get_overlap (esheet->sheet, &r);
 		if (overlap) {
-			GnmRange *r2 = (GnmRange *) overlap->data;
+			GnmRange *r2 = overlap->data;
 
 			/* Unmerge r2, then merge (r U r2) */
 			gnm_sheet_merge_remove (esheet->sheet, r2,
