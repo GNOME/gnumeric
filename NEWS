@@ -13,6 +13,7 @@ Andreas:
 	* Improve the sc import.
 	* Fix button sensitivity in sort dialog. [#632999]
 	* Fix ODF export of files with large formatted sheets. [#634135]
+	* Fix extensions of supported ODF files. [#635111]
 
 Hans de Goede:
 	* Fix import of dib format images in XLS. [#553098]

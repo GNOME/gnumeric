@@ -1,3 +1,7 @@
+2010-11-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugin.xml.in: we are supporting ots not odt files. [#635111]
+	
 2010-11-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_sheet): get the correct extent
