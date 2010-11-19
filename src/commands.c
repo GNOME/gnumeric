@@ -3774,9 +3774,11 @@ cmd_unmerge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		GSList *ptr, *merged = gnm_sheet_merge_get_overlap (me->cmd.sheet,
 			&(g_array_index (me->ranges, GnmRange, i)));
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
-			GnmRange const tmp = *(GnmRange *)(ptr->data);
+			GnmRange const *pr = ptr->data;
+			GnmRange const tmp = *pr;
 			g_array_append_val (me->unmerged_regions, tmp);
-			gnm_sheet_merge_remove (me->cmd.sheet, &tmp, GO_CMD_CONTEXT (wbc));
+			gnm_sheet_merge_remove (me->cmd.sheet, &tmp,
+						GO_CMD_CONTEXT (wbc));
 			sheet_range_calc_spans (me->cmd.sheet, &tmp,
 						GNM_SPANCALC_RE_RENDER);
 		}

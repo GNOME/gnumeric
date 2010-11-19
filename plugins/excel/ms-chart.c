@@ -5825,7 +5825,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 				(GCompareFunc) cb_axis_set_cmp);
 			if (ptr != NULL) {
 				g_free (axis_set);
-				axis_set = (XLAxisSet *)(ptr->data);
+				axis_set = ptr->data;
 			} else
 				sets = g_slist_append (sets, axis_set);
 			axis_set->plots = g_slist_append (axis_set->plots, cur_plot);
