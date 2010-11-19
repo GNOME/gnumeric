@@ -202,3 +202,13 @@
    ...
    fun:dlopen   
 }
+
+{
+   Leak/Mystery-fontconfig
+   Memcheck:Leak
+   fun:malloc
+   obj:*libfontconfig.so*
+   ...
+   obj:*libpangoft2-*.so*
+   fun:style_font_new_simple
+}
