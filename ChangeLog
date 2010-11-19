@@ -1,3 +1,7 @@
+2010-11-19  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (wb_view_save_as): Better fix for 634792.
+
 2010-11-16  Morten Welinder  <terra@gnome.org>
 
 	* src/*.c: Constify GOFormat handling.
@@ -14,12 +18,13 @@
 
 2010-11-07  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/sheet-object-image.c (so_image_view_set_bounds): fixed image bounds
-	in zoomed sheets.
+	* src/sheet-object-image.c (so_image_view_set_bounds): fixed image
+	bounds in zoomed sheets.
 
 2010-11-06  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/dead-kittens.h: fixed property name in gtk_table_get_size(). [#634149]
+	* src/dead-kittens.h: fixed property name in
+	gtk_table_get_size. [#634149]
 
 2010-11-05   Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Sameer Morar <smorar@gmail.com>

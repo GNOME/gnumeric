@@ -1128,8 +1128,11 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 	if (!has_error) {
 		if (workbook_set_saveinfo (wb,
 			go_file_saver_get_format_level (fs), fs) &&
-		    go_doc_set_uri (GO_DOC (wb), uri))
+		    go_doc_set_uri (GO_DOC (wb), uri)) {
 			go_doc_set_dirty (GO_DOC (wb), FALSE);
+			/* See 634792.  */
+			go_doc_set_pristine (GO_DOC (wb), FALSE);
+		}
 	}
 	if (has_error || has_warning)
 		go_io_error_display (io_context);
