@@ -1,7 +1,7 @@
 2010-11-19  Morten Welinder  <terra@gnome.org>
 
 	* commondots.supp: Be more aggressive about ignoring fontconfig
-	leaks.
+	leaks.  Move stuff from common.supp and use "..." more.
 
 2010-10-01  Morten Welinder <terra@gnome.org>
 

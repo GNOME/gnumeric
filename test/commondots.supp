@@ -55,6 +55,13 @@
 }
 
 {
+   Leak/g_type_init
+   Memcheck:Leak
+   ...
+   fun:g_type_init
+}
+
+{
    Leak/g_type_init_with_debug_flags
    Memcheck:Leak
    ...
@@ -157,4 +164,41 @@
    fun:realloc
    ...
    fun:FcDefaultSubstitute
+}
+
+{
+   getpwuid_r
+   Memcheck:Addr4
+   ...
+   fun:getpwuid_r
+}
+
+{
+   Leak/getpwuid_r
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:getpwuid_r
+}
+
+{
+   Leak/pango_language_get_default
+   Memcheck:Leak
+   ...
+   fun:pango_language_get_default
+}
+
+{
+   gconf_activate_server
+   Memcheck:Param
+   writev(vector[...])
+   ...
+   fun:gconf_activate_server
+}
+
+{
+   dlopen
+   Memcheck:Addr4
+   ...
+   fun:dlopen   
 }
