@@ -126,3 +126,35 @@
    ...
    fun:type_iface_vtable_base_init_Wm
 }
+
+{
+   Leak/FcFontRenderPrepare1
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:FcFontRenderPrepare
+}
+
+{
+   Leak/FcFontRenderPrepare2
+   Memcheck:Leak
+   fun:realloc
+   ...
+   fun:FcFontRenderPrepare
+}
+
+{
+   Leak/FcDefaultSubstitute1
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:FcDefaultSubstitute
+}
+
+{
+   Leak/FcDefaultSubstitute2
+   Memcheck:Leak
+   fun:realloc
+   ...
+   fun:FcDefaultSubstitute
+}
