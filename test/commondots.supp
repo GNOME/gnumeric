@@ -212,3 +212,27 @@
    obj:*libpangoft2-*.so*
    fun:style_font_new_simple
 }
+
+{
+   Leak/FT_Open_Face1
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:FT_Open_Face
+}
+
+{
+   Leak/FT_Open_Face2
+   Memcheck:Leak
+   fun:realloc
+   ...
+   fun:FT_Open_Face
+}
+
+{
+   Leak/FT_Init_FreeType
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:FT_Init_FreeType
+}
