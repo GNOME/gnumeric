@@ -1,3 +1,8 @@
+2010-11-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-sheet-order.c (cb_toggled_lock): bail on error
+	(cb_toggled_direction): ditto
+
 2010-11-07  Sameer Morar <smorar@gmail.com>
 
 	* dialog-quit.c (foreach_is_file_set): new

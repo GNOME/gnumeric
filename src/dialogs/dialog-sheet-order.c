@@ -532,6 +532,8 @@ cb_toggled_lock (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 		}
 	} else {
 		g_warning ("Did not get a valid iterator");
+		gtk_tree_path_free (path);
+		return;
 	}
 	gtk_tree_path_free (path);
 
@@ -570,6 +572,8 @@ cb_toggled_direction (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 			 -1);
 	} else {
 		g_warning ("Did not get a valid iterator");
+		gtk_tree_path_free (path);
+		return;
 	}
 
 	gtk_tree_path_free (path);
