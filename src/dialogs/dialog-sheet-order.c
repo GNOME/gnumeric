@@ -507,9 +507,9 @@ cb_toggled_lock (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	GtkTreeModel *model = GTK_TREE_MODEL (state->model);
 	GtkTreeIter iter;
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
-	gboolean is_locked;
-	Sheet *this_sheet;
-	WorkbookSheetState *old_state;
+	gboolean is_locked = TRUE;
+	Sheet *this_sheet = NULL;
+	WorkbookSheetState *old_state = NULL;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 
@@ -551,9 +551,9 @@ cb_toggled_direction (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	GtkTreeModel *model = GTK_TREE_MODEL (state->model);
 	GtkTreePath  *path  = gtk_tree_path_new_from_string (path_string);
 	GtkTreeIter iter;
-	gboolean is_rtl;
-	Sheet *this_sheet;
-	WorkbookSheetState *old_state;
+	gboolean is_rtl = TRUE;
+	Sheet *this_sheet = NULL;
+	WorkbookSheetState *old_state = NULL;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 
