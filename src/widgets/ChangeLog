@@ -2,6 +2,7 @@
 
 	* gnumeric-expr-entry.c (gee_scan_for_range): Fix criticals with
 	file from 635711.
+	(gee_update_lexer_items): Parse relative to correct position.
 
 2010-10-01  Morten Welinder <terra@gnome.org>
 

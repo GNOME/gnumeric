@@ -871,7 +871,6 @@ gee_update_lexer_items (GnmExprEntry *gee)
 {
 	GtkEditable *editable = GTK_EDITABLE (gee->entry);
 	char *str = gtk_editable_get_chars (editable, 0, -1);
-	GnmParsePos pp;
 	Sheet *sheet = scg_sheet (gee->scg);
 
 	g_free (gee->lexer_items);
@@ -882,10 +881,12 @@ gee_update_lexer_items (GnmExprEntry *gee)
 		gee->texpr = NULL;
 	}
 
+	parse_pos_init_editpos (&gee->pp, scg_view (gee->scg));
+
 	if (!gee->feedback_disabled) {
-		parse_pos_init_sheet (&pp, sheet);
 		gee->texpr = gnm_expr_parse_str
-			((str[0] == '=') ? str+1 : str, &pp, GNM_EXPR_PARSE_DEFAULT,
+			((str[0] == '=') ? str+1 : str,
+			 &gee->pp, GNM_EXPR_PARSE_DEFAULT,
 			 sheet_get_conventions (sheet), NULL);
 	}
 
