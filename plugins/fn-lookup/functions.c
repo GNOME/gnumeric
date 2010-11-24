@@ -928,7 +928,7 @@ static GnmFuncHelp const help_vlookup[] = {
 					"is returned.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{approximate} is true, "
 				 "then the values must be sorted in order of ascending value.")},
-	{ GNM_FUNC_HELP_NOTE, F_("VLOOKUP returns #REF! if @{row} falls outside @{range}.")},
+	{ GNM_FUNC_HELP_NOTE, F_("VLOOKUP returns #REF! if @{column} falls outside @{range}.")},
         { GNM_FUNC_HELP_SEEALSO, "HLOOKUP"},
         { GNM_FUNC_HELP_END}
 };
@@ -975,17 +975,17 @@ static GnmFuncHelp const help_hlookup[] = {
 	{ GNM_FUNC_HELP_NAME, F_("HLOOKUP:search the first row of @{range} for @{value}")},
         { GNM_FUNC_HELP_ARG, F_("value:search value")},
         { GNM_FUNC_HELP_ARG, F_("range:range to search")},
-        { GNM_FUNC_HELP_ARG, F_("row:1-based column offset indicating the return values ")},
+        { GNM_FUNC_HELP_ARG, F_("row:1-based row offset indicating the return values ")},
         { GNM_FUNC_HELP_ARG, F_("approximate:if false, an exact match of @{value} "
 				"must be found; defaults to TRUE")},
-        { GNM_FUNC_HELP_ARG, F_("as_index:if true, the 0-based row offset is "
+        { GNM_FUNC_HELP_ARG, F_("as_index:if true, the 0-based column offset is "
 				"returned; defaults to FALSE")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("HLOOKUP function finds the row in @{range} that has a first "
 					"cell similar to @{value}.  If @{approximate} is not true it "
-					"finds the row with an exact equality. If @{approximate} is "
-					"true, it finds the last row with first value less than or "
+					"finds the column with an exact equality. If @{approximate} is "
+					"true, it finds the last column with first value less than or "
 					"equal to "
-					"@{value}. If @{as_index} is true the 0-based row offset "
+					"@{value}. If @{as_index} is true the 0-based column offset "
 					"is returned.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{approximate} is true, "
 				 "then the values must be sorted in order of ascending value.")},
