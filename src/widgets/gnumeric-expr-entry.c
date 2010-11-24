@@ -562,14 +562,17 @@ gee_scan_for_range (GnmExprEntry *gee)
 			GSList *list = gnm_expr_top_get_ranges (gee->texpr);
 			for (ptr = list ; ptr != NULL ; ptr = ptr->next) {
 				GnmValue *v = ptr->data;
-				GnmRange  r;
+				GnmRange r;
+				Sheet *start_sheet, *end_sheet;
 				GnmRangeRef const *rr = value_get_rangeref (v);
 				GnmRange const *merge; /* [#127415] */
-				if (rr->a.sheet != NULL && rr->a.sheet != sheet)
+				gnm_rangeref_normalize_pp (rr, &gee->pp,
+							   &start_sheet,
+							   &end_sheet,
+							   &r);
+
+				if (start_sheet != sheet || end_sheet != sheet)
 					continue;
-				if (rr->b.sheet != NULL && rr->b.sheet != sheet)
-					continue;
-				range_init_rangeref (&r, rr);
 				if (range_is_singleton  (&r) &&
 				    NULL != (merge = gnm_sheet_merge_is_corner
 					     (sheet, &r.start)))
