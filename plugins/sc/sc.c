@@ -168,7 +168,7 @@ sc_colname_to_coords (char const *colname, gint *m)
 	int mult;
 	int digits = 1;
 
-	g_return_val_if_fail (colname, FALSE);
+	g_return_val_if_fail (colname, 0);
 
 	if (!colname || !*colname || !g_ascii_isalpha (*colname))
 		return 0;
