@@ -1,3 +1,7 @@
+2010-11-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.12
+
 2010-11-19  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wb_view_save_as): Better fix for 634792.

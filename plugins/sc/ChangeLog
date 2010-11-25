@@ -1,3 +1,7 @@
+2010-11-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.12
+
 2010-10-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* sc.c (sc_colname_to_coords): new

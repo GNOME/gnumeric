@@ -1,3 +1,7 @@
+2010-11-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.12
+
 2010-10-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (gnm_reg_data_collect): remember the shape of the arrays

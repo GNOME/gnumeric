@@ -1,3 +1,7 @@
+2010-11-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.12
+
 2010-11-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugins/fn-lookup/functions.c (help_vlookup): fix fn_note
