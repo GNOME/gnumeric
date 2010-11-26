@@ -1,4 +1,10 @@
-<<<<<<< HEAD
+2010-11-26 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.c (analysis_tool_regression_engine_run): show
+	  internally and externally studentized residuals
+	(analysis_tool_regression_engine): allocate space for studentized
+	  residuals
+
 2010-11-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.h (analysis_tools_data_regression_t): add field
