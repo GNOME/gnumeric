@@ -1,3 +1,11 @@
+2010-11-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* regression.ui: added residuals checkbox
+	* dialog-analysis-tools.c (RegressionToolState): add field
+	(regression_tool_ok_clicked_cb): handle residuals checkbox
+	(regression_tool_regression_radio_toggled_cb): ditto
+	(dialog_regression_tool): ditto
+
 2010-11-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.12

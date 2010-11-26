@@ -2820,6 +2820,22 @@ calculate_xdim (GnmValue *input, group_by_t  group_by)
 		return range_width (&r);
 }
 
+static gint
+calculate_n_obs (GnmValue *input, group_by_t  group_by)
+{
+		GnmRange r;
+
+		g_return_val_if_fail (input != NULL, 0);
+
+		if (NULL == range_init_value (&r, input))
+			return 0;
+
+		if (group_by == GROUPED_BY_ROW)
+			return range_width (&r);
+
+		return range_height (&r);
+}
+
 
 static gboolean
 analysis_tool_regression_engine_run (data_analysis_output_t *dao,
@@ -2859,6 +2875,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_concatenate = NULL;
 	GnmFunc *fd_cell = NULL;
 	GnmFunc *fd_offset = NULL;
+	GnmFunc *fd_sumproduct = NULL;
 
 	char const *str = ((info->group_by == GROUPED_BY_ROW) ? "row" : "col");
 	char const *label = ((info->group_by == GROUPED_BY_ROW) ? _("Row")
@@ -2870,6 +2887,8 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		fd_cell        = analysis_tool_get_function ("CELL", dao);
 		fd_offset      = analysis_tool_get_function ("OFFSET", dao);
 	}
+	if (info->residual)
+		fd_sumproduct  = analysis_tool_get_function ("SUMPRODUCT", dao);
 
 	cb_adjust_areas (val_1, NULL);
 	cb_adjust_areas (val_2, NULL);
@@ -3253,10 +3272,58 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	gnm_expr_free (expr_lower);
 	gnm_expr_free (expr_upper);
 
-	value_release (val_1);
-	value_release (val_2);
 	value_release (val_1_cp);
 	value_release (val_2_cp);
+
+	if (info->residual) {
+		gint n_obs = calculate_n_obs (val_1, info->group_by);
+		GnmExpr const *expr_diff;
+		GnmExpr const *expr_prediction;
+
+		dao->offset_row += xdim + 1;
+		dao_set_italic (dao, 0, 0, xdim + 3, 0);
+		dao_set_array_expr (dao, 0, 0, xdim, 1, 
+				    gnm_expr_new_funcall1 
+				    (fd_transpose, 
+				     make_rangeref (0, - xdim - 1, 0, -2)));
+		set_cell_text_row (dao, xdim, 0, _("/Prediction"
+						   "/"
+						   "/Residual"));
+		dao_set_cell_expr (dao, xdim + 1, 0, make_cellref (2 - xdim, - 18 - xdim));
+		if (info->group_by == GROUPED_BY_ROW) {
+			dao_set_array_expr (dao, 0, 1, xdim, n_obs,
+					    gnm_expr_new_funcall1
+					    (fd_transpose,
+					     gnm_expr_new_constant (val_1)));
+			dao_set_array_expr (dao, xdim + 1, 1, 1, n_obs,
+					    gnm_expr_new_funcall1
+					    (fd_transpose,
+					     gnm_expr_new_constant (val_2)));
+		} else {
+			dao_set_array_expr (dao, 0, 1, xdim, n_obs,
+					    gnm_expr_new_constant (val_1));
+			dao_set_array_expr (dao, xdim + 1, 1, 1, n_obs,
+					    gnm_expr_new_constant (val_2));
+		}
+
+		expr_prediction =  gnm_expr_new_binary 
+			(gnm_expr_new_funcall2 (fd_sumproduct,
+						dao_get_rangeref (dao, 1, - 1 - xdim, 1, - 2),
+						gnm_expr_new_funcall1
+						(fd_transpose, make_rangeref (- xdim, 0, -1, 0))), 
+			 GNM_EXPR_OP_ADD, dao_get_cellref (dao, 1, - 2 - xdim));
+		expr_diff = gnm_expr_new_binary (make_cellref (-1, 0), GNM_EXPR_OP_SUB,make_cellref (-2, 0));
+
+		for (i = 0; i < n_obs; i++) {
+			dao_set_cell_expr (dao, xdim, i + 1, gnm_expr_copy (expr_prediction));
+			dao_set_cell_expr (dao, xdim + 2, i + 1, gnm_expr_copy (expr_diff));
+		}
+		gnm_expr_free (expr_diff);
+		gnm_expr_free (expr_prediction);
+	} else {
+		value_release (val_1);
+		value_release (val_2);
+	}
 
 	gnm_func_unref (fd_linest);
 	gnm_func_unref (fd_index);
@@ -3273,6 +3340,8 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		gnm_func_unref (fd_cell);
 	if (fd_offset != NULL)
 		gnm_func_unref (fd_offset);
+	if (fd_sumproduct != NULL)
+		gnm_func_unref (fd_sumproduct);
 
 	dao_redraw_respan (dao);
 
@@ -3404,16 +3473,28 @@ analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
 	case TOOL_ENGINE_UPDATE_DAO:
 	{
 		gint xdim = calculate_xdim (info->base.range_1, info->group_by);
+		gint cols, rows;
 
 		if (info->multiple_regression) {
+			cols = 7;
+			rows = 17 + xdim;
 			info->indep_vars = NULL;
-			dao_adjust (dao, 7, 17 + xdim);
+			if (info->residual) {
+				gint residual_cols = xdim + 3;
+				GnmValue *val = info->base.range_1;
+				
+				if (cols < residual_cols)
+					cols = residual_cols;
+				rows += 2 + calculate_n_obs (val, info->group_by); 
+			}
 		} else {
 			info->indep_vars = g_slist_prepend (NULL, info->base.range_1);
 			info->base.range_1 = NULL;
 			prepare_input_range (&info->indep_vars, info->group_by);
-			dao_adjust (dao, 6, 3 + xdim);
+			cols = 6;
+			rows = 3 + xdim;
 		}
+		dao_adjust (dao, cols, rows);
 		return FALSE;
 	}
 	case TOOL_ENGINE_CLEAN_UP:

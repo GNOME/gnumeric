@@ -1,5 +1,8 @@
 Gnumeric 1.10.13
 
+Andreas:
+	* Calculate residuals when using the regression tool. [#635064]
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.12
 

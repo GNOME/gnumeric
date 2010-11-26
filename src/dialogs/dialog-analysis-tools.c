@@ -235,6 +235,7 @@ typedef struct {
 	GtkWidget *confidence_entry;
 	GtkWidget *simple_linear_regression_radio;
 	GtkWidget *switch_variables_check;
+	GtkWidget *residuals_check;
 } RegressionToolState;
 
 typedef struct {
@@ -2180,7 +2181,10 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->base.alpha = 1 - confidence;
 
 	w = go_gtk_builder_get_widget (state->base.gui, "intercept-button");
-	data->intercept = 1 - gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	data->intercept = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	data->residual = gtk_toggle_button_get_active
+		(GTK_TOGGLE_BUTTON (state->residuals_check));
 
 	data->multiple_regression
 		= !gtk_toggle_button_get_active
@@ -2332,11 +2336,17 @@ regression_tool_regression_radio_toggled_cb (G_GNUC_UNUSED
 					     GtkToggleButton *togglebutton,
 					     RegressionToolState *state)
 {
-	if (!gtk_toggle_button_get_active
-	    (GTK_TOGGLE_BUTTON (state->simple_linear_regression_radio)))
+	gboolean simple = gtk_toggle_button_get_active
+		(GTK_TOGGLE_BUTTON (state->simple_linear_regression_radio));
+	if (!simple)
 		gtk_toggle_button_set_active
 			(GTK_TOGGLE_BUTTON (state->switch_variables_check),
 			 FALSE);
+	
+	gtk_toggle_button_set_active
+		(GTK_TOGGLE_BUTTON (state->residuals_check), !simple);
+	gtk_widget_set_sensitive (state->residuals_check, !simple);
+	
 }
 
 static void
@@ -2422,12 +2432,18 @@ dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 	state->switch_variables_check
 		= go_gtk_builder_get_widget
 		(state->base.gui, "multiple-independent-check");
+	state->residuals_check
+		= go_gtk_builder_get_widget
+		(state->base.gui, "residuals-button");
 	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON (state->simple_linear_regression_radio),
 		 FALSE);
 	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON (state->switch_variables_check),
 		 FALSE);
+	gtk_toggle_button_set_active
+		(GTK_TOGGLE_BUTTON (state->residuals_check),
+		 TRUE);
 	g_signal_connect
 		(G_OBJECT (state->simple_linear_regression_radio),
 		 "toggled",

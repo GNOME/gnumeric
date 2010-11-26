@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef GNUMERIC_ANALYSIS_TOOLS_H
 #define GNUMERIC_ANALYSIS_TOOLS_H
 
@@ -167,10 +168,11 @@ gboolean analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs
 
 typedef struct {
 	analysis_tools_data_generic_b_t base;
-	gint       intercept;
 	group_by_t group_by;
+	gboolean   intercept;
 	gboolean   multiple_regression;
         gboolean   multiple_y;
+        gboolean   residual;
 	GSList    *indep_vars;
 } analysis_tools_data_regression_t;
 
