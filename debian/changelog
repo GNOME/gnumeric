@@ -1,3 +1,24 @@
+gnumeric (1.10.12-1) unstable; urgency=low
+
+  * New upstream stable release. Changes include
+    * patches to fix the crashes and extreme slowness reported by Andres
+      Cimmarusti <acimmarusti@gmail.com>. (Closes: #602257)
+  * Fixed in earlier upstream releases:
+    * Please let the user choose whether to display grids above or below
+      plots. (Closes: #599051) 
+    * Fix column and row fitting on paste. (Closes: #592611)
+  * [debian/control, debian/gnumeric-common.install] libglade is no longer
+    used, and there are no glade files to install anymore.
+  * [debian/gnumeric-doc.postinst, debian/gnumeric-doc.postrm] Unused;
+    remove.
+  * Translation updates: 
+    * [debian/po/vi.po] Updated Vietnamese translation courtesy of Clytie
+      Siddall <clytie@riverland.net.au>. (Closes: #601548)
+    * [debian/po/da.po] Updated Danish translation courtesy of Joe Dalton
+      <joedalton2@yahoo.dk>. (Closes: #601792)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 26 Nov 2010 20:59:23 +0100
+
 gnumeric (1.10.11-1) unstable; urgency=low
 
   * New upstream stable release. Changes include:

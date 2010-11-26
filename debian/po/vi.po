@@ -1,13 +1,13 @@
 # Vietnamese translation for Gnumeric.
-# Copyright © 2007 Free Software Foundation, Inc.
-# Clytie Siddall <clytie@riverland.net.au>, 2007
+# Copyright © 2010 Free Software Foundation, Inc.
+# Clytie Siddall <clytie@riverland.net.au>, 2007-2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric\n"
+"Project-Id-Version: gnumeric 1.10.11-1\n"
 "Report-Msgid-Bugs-To: gnumeric@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-31 12:15+0200\n"
-"PO-Revision-Date: 2007-11-30 19:23+1030\n"
+"PO-Revision-Date: 2010-10-27 18:54+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "Language: vi\n"
@@ -15,19 +15,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: LocFactoryEditor 1.7b1\n"
+"X-Generator: LocFactoryEditor 1.8\n"
 
 #. Type: title
 #. Description
 #: ../gnumeric.templates:2001
 msgid "Detected a running gnumeric process"
-msgstr ""
+msgstr "Phát hiện được một tiến trình gnumeric đang chạy"
 
 #. Type: boolean
 #. Description
 #: ../gnumeric.templates:3001
 msgid "Really upgrade gnumeric?"
-msgstr "Thực sự nâng cấp gnumeric không?"
+msgstr "Thực sự nâng cấp gnumeric ?"
 
 #. Type: boolean
 #. Description
@@ -36,8 +36,8 @@ msgid ""
 "An instance of gnumeric is currently running. If you upgrade now, it may no "
 "longer be able to save its data."
 msgstr ""
-"Một tiến trình gnumeric vẫn đang chạy. Nâng cấp lập tức thì tiến trình này "
-"không thể lưu dữ liệu."
+"Một tiến trình gnumeric vẫn còn đang chạy. Nâng cấp ngay bây giờ thì tiến "
+"trình này có thể không lưu được dữ liệu."
 
 #. Type: boolean
 #. Description
@@ -46,5 +46,4 @@ msgid ""
 "You should close the running instances of gnumeric before upgrading this "
 "package."
 msgstr ""
-"Khuyên bạn đóng mỗi tiến trình gnumeric vẫn đang chạy, trước khi nâng cấp "
-"gói này."
+"Có nên đóng mỗi tiến trình gnumeric đang chạy trước khi nâng cấp gói này."
