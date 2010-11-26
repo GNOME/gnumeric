@@ -43,7 +43,6 @@ system ("perl -e '\$/=undef; \$_=<STDIN>; s{^.*\n(\\S(\\S| |\t)+\n\n\t\\* Releas
 
 my $v2 = $newgnumeric2;
 $v2 =~ s/\./\\./;
-print STDERR "$v2\n";
 system ("perl -pi -e 's{$v2\\.\\d+\\.tar\\.}{$newgnumeric.tar.} if m{ftp\.gnome\.org/pub/GNOME/sources};' $wwwdir/header-end.shtml");
 
 system ("perl -pi -e 's{$v2\\.\\d+\\.tar\\.}{$newgnumeric.tar.} if m{ftp\.gnome\.org/pub/GNOME/sources}; s{$v2\\.\\d+}{$newgnumeric} if m{current stable version} || m {gnumeric-$v2\\.\\d+.shtml};' $wwwdir/downloads.shtml");
