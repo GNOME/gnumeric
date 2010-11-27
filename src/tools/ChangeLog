@@ -1,6 +1,14 @@
 2010-11-26 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.c (analysis_tool_regression_engine_run): show
+	  internally and externally studentized residuals also for non-affine
+	  regression
+	(analysis_tool_regression_engine): allocate space for studentized
+	  residuals for intercept == 0
+
+2010-11-26 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.c (analysis_tool_regression_engine_run): show
 	  internally and externally studentized residuals
 	(analysis_tool_regression_engine): allocate space for studentized
 	  residuals

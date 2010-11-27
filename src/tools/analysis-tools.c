@@ -3292,24 +3292,19 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		GnmExpr const *expr_prediction;
 
 		dao->offset_row += xdim + 1;
-		dao_set_italic (dao, 0, 0, info->intercept ? (xdim + 7) : (xdim + 3), 0);
+		dao_set_italic (dao, 0, 0, xdim + 7, 0);
 		dao_set_cell (dao, 0, 0, _("Constant"));
 		dao_set_array_expr (dao, 1, 0, xdim, 1, 
 				    gnm_expr_new_funcall1 
 				    (fd_transpose, 
 				     make_rangeref (-1, - xdim - 1, -1, -2)));
-		if (info->intercept) {
-			set_cell_text_row (dao, xdim + 1, 0, _("/Prediction"
-							       "/"
-							       "/Residual"
-							       "/Leverages"
-							       "/Internally studentized"
-							       "/Externally studentized"
-							       "/p-Value"));
-		} else
-			set_cell_text_row (dao, xdim + 1, 0, _("/Prediction"
-							       "/"
-							       "/Residual"));			
+		set_cell_text_row (dao, xdim + 1, 0, _("/Prediction"
+						       "/"
+						       "/Residual"
+						       "/Leverages"
+						       "/Internally studentized"
+						       "/Externally studentized"
+						       "/p-Value"));
 		dao_set_cell_expr (dao, xdim + 2, 0, make_cellref (1 - xdim, - 18 - xdim));
 		if (info->group_by == GROUPED_BY_ROW) {
 			dao_set_array_expr (dao, 1, 1, xdim, n_obs,
@@ -3343,7 +3338,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		gnm_expr_free (expr_prediction);
 
 		if (dao_cell_is_visible (dao, xdim + 4, n_obs)) {
-			GnmExpr const *expr_X = dao_get_rangeref (dao, 0, 1, xdim, n_obs);
+			GnmExpr const *expr_X = dao_get_rangeref (dao, info->intercept ? 0 : 1, 1, xdim, n_obs);
 			GnmExpr const *expr_X_t = 
 				gnm_expr_new_funcall1 (fd_transpose, gnm_expr_copy (expr_X));
 			GnmExpr const *expr_X_hat =
@@ -3612,9 +3607,7 @@ analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
 				GnmValue *val = info->base.range_1;
 
 				rows += 2 + calculate_n_obs (val, info->group_by); 
-				if (info->intercept) {
-					residual_cols += 4;
-				}
+				residual_cols += 4;
 				if (cols < residual_cols)
 					cols = residual_cols;
 			}
