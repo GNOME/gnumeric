@@ -388,6 +388,7 @@ wbcg_update_action_sensitivity (WorkbookControl *wbc)
 		gtk_action_set_sensitive (action, TRUE);
 		action = gtk_action_group_get_action (wbcg->permanent_actions, "EditCut");
 		gtk_action_set_sensitive (action, TRUE);
+		gtk_widget_set_sensitive (GTK_WIDGET (wbcg->edit_line.entry), TRUE);
 		gtk_widget_set_sensitive (GTK_WIDGET (wbcg->selection_descriptor), TRUE);
 	}
 }

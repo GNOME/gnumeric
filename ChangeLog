@@ -1,3 +1,8 @@
+2010-11-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/wbc-gtk.c (wbcg_update_action_sensitivity): only disable the formula
+	bar when a chart sheet is selected. [#636031]
+
 2010-11-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.h (cmd_set_text): add autocorrect flag

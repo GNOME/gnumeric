@@ -3,6 +3,9 @@ Gnumeric 1.10.13
 Andreas:
 	* Calculate residuals when using the regression tool. [#635064]
 	* Permit data entry by-passing autocorrection.
+	
+Jean
+	* Only disable the formula bar when a chart sheet is selected. [#636031]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.12
