@@ -33,7 +33,7 @@ gboolean cmd_generic_with_size (WorkbookControl *wbc, const char *text,
 
 gboolean cmd_set_text		(WorkbookControl *wbc, Sheet *sheet,
 				 GnmCellPos const *pos, char const *new_text,
-				 PangoAttrList *markup);
+				 PangoAttrList *markup, gboolean autocorrect);
 
 gboolean cmd_area_set_text	(WorkbookControl *wbc, SheetView *sv,
 				 char const *text, PangoAttrList *markup);

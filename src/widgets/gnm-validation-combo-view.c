@@ -59,7 +59,7 @@ vcombo_activate (SheetObject *so, GtkTreeView *list, WBCGtk *wbcg,
 			1, &strval,
 			-1);
 		cmd_set_text (WORKBOOK_CONTROL (wbcg),
-			sv_sheet (sv), &sv->edit_pos, strval, NULL);
+			      sv_sheet (sv), &sv->edit_pos, strval, NULL, TRUE);
 		g_free (strval);
 	}
 	return TRUE;

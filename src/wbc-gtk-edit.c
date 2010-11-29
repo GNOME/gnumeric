@@ -162,6 +162,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			}
 			break;
 		}
+		case (WBC_EDIT_ACCEPT_WO_AC):
 		case (WBC_EDIT_ACCEPT): {
 			GnmCell const *cell = sheet_cell_get
 				(sheet, sv->edit_pos.col, sv->edit_pos.row);
@@ -196,6 +197,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			}
 			break;
 		}
+		case (WBC_EDIT_ACCEPT_WO_AC):
 		case (WBC_EDIT_ACCEPT): {
 			GnmRange r;
 			r.end = r.start = pp.eval;
@@ -358,6 +360,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 						       showed_dialog);
 			break;
 		}
+		case (WBC_EDIT_ACCEPT_WO_AC):
 		case (WBC_EDIT_ACCEPT): {
 			GnmRange r;
 			GnmCell *cell;
@@ -406,7 +409,9 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 					? pango_attr_list_copy (wbcg->edit_line.markup)
 					: NULL;
 				if (result == WBC_EDIT_ACCEPT)
-					cmd_set_text (wbc, sheet, &sv->edit_pos, txt, res_markup);
+					cmd_set_text (wbc, sheet, &sv->edit_pos, txt, res_markup, TRUE);
+				else if (result == WBC_EDIT_ACCEPT_WO_AC)
+					cmd_set_text (wbc, sheet, &sv->edit_pos, txt, res_markup, FALSE);
 				else
 					cmd_area_set_text (wbc, sv, txt, res_markup);
 				if (res_markup)

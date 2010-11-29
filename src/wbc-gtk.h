@@ -54,6 +54,8 @@ WBCGtk *wbcg_find_for_workbook (Workbook *wb,
 typedef enum {
 	WBC_EDIT_REJECT = 0,
 	WBC_EDIT_ACCEPT,	/* assign content to current edit pos */
+	WBC_EDIT_ACCEPT_WO_AC,	/* assign content to current edit pos not */
+	                        /* autocorrecting*/
 	WBC_EDIT_ACCEPT_RANGE,	/* assign content to first range in selection */
 	WBC_EDIT_ACCEPT_ARRAY	/* assign content as an array to the first range in selection */
 } WBCEditResult;

@@ -1953,6 +1953,12 @@ cb_accept_input (WBCGtk *wbcg)
 }
 
 static void
+cb_accept_input_wo_ac (WBCGtk *wbcg)
+{
+	wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT_WO_AC, NULL);
+}
+
+static void
 cb_accept_input_array (WBCGtk *wbcg)
 {
 	wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT_ARRAY, NULL);
@@ -2091,6 +2097,8 @@ cb_accept_input_menu (GtkMenuToolButton *button, WBCGtk *wbcg)
 		gboolean (*sensitive) (WBCGtk *wbcg);
 	} const accept_input_actions [] = {
 		{ N_("Enter in current cell"),       cb_accept_input,
+		  NULL },
+		{ N_("Enter in current cell without autocorrection"), cb_accept_input_wo_ac,
 		  NULL },
 /* 		{ N_("Enter on all non-hidden sheets"), cb_accept_input_sheets,  */
 /* 		  cb_accept_input_menu_sensitive_sheets}, */

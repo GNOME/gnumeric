@@ -62,7 +62,7 @@ sscombo_activate (SheetObject *so, GtkTreeView *list, WBCGtk *wbcg, gboolean but
 	GnmSheetSlicerCombo *sscombo = GNM_SHEET_SLICER_COMBO (so);
 		SheetView	*sv  = sscombo->sv;
 		cmd_set_text (WORKBOOK_CONTROL (wbcg),
-			sv_sheet (sv), &sv->edit_pos, strval, NULL);
+			      sv_sheet (sv), &sv->edit_pos, strval, NULL, TRUE);
 #endif
 		g_free (strval);
 	}

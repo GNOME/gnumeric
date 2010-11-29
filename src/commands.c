@@ -806,7 +806,8 @@ cmd_set_text_full_check_markup (GnmCellIter const *iter, PangoAttrList *markup)
 
 static gboolean
 cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
-		   char const *new_text, PangoAttrList *markup)
+		   char const *new_text, PangoAttrList *markup, 
+		   gboolean autocorrect)
 {
 	GSList	*l;
 	char const *expr_txt;
@@ -891,10 +892,16 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 	} else {
 		GString *text_str;
 		PangoAttrList *adj_markup = NULL;
-		char *corrected = (new_text != NULL) ?
-			autocorrect_tool (new_text) : NULL;
+		char *corrected;
 		gboolean same_text = TRUE;
 		gboolean same_markup = TRUE;
+		
+		if (new_text == NULL)
+			corrected = NULL;
+		else if (autocorrect)
+			corrected = autocorrect_tool (new_text);
+		else
+			corrected = g_strdup (new_text);
 
 		if (corrected && (corrected[0] == '\'') && corrected[1] == '\0') {
 			g_free (corrected);
@@ -1075,7 +1082,7 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 
 	eval_pos_init_editpos (&ep, sv);
 	result = cmd_set_text_full (wbc, selection, &ep,
-				    new_text, markup);
+				    new_text, markup, TRUE);
 	return result;
 }
 
@@ -1083,7 +1090,8 @@ gboolean
 cmd_set_text (WorkbookControl *wbc,
 	      Sheet *sheet, GnmCellPos const *pos,
 	      char const *new_text,
-	      PangoAttrList *markup)
+	      PangoAttrList *markup,
+	      gboolean autocorrect)
 {
 	GnmCell const *cell;
 	GnmEvalPos ep;
@@ -1107,7 +1115,7 @@ cmd_set_text (WorkbookControl *wbc,
 	r->start = r->end = *pos;
 	selection = g_slist_prepend (NULL, r);
 	result = cmd_set_text_full (wbc, selection, &ep,
-				    new_text, markup);
+				    new_text, markup, autocorrect);
 	return result;
 }
 
