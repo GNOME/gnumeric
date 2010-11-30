@@ -1312,8 +1312,7 @@ odf_write_style_goformat_name (GnmOOExport *state, GOFormat const *gof)
 {
 	char const *name;
 
-	if ((gof == NULL) || go_format_is_markup (gof)
-	    || go_format_is_text (gof))
+	if ((gof == NULL) || go_format_is_markup (gof))
 		return;
 
 	if (go_format_is_general (gof))
