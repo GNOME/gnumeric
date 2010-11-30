@@ -1859,7 +1859,9 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				val = value_new_float (secs / (gnm_float)86400);
 				has_time = TRUE;
 			}
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "string-value"))
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					       (state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE, 
+					       "string-value"))
 			val = value_new_string (CXML2C (attrs[1]));
 		else if (oo_attr_float (xin, attrs,
 			(state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
@@ -2971,6 +2973,13 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+odf_text_content (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	g_string_append_c (state->cur_format.accum, '@');
+}
+
+static void
 odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -3132,6 +3141,7 @@ odf_number_style (GsfXMLIn *xin, xmlChar const **attrs)
 	state->conditions = NULL;
 	state->cond_formats = NULL;
 }
+
 
 static void
 odf_number_percentage_style (GsfXMLIn *xin, xmlChar const **attrs)
@@ -7110,9 +7120,10 @@ GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_XML_NO_CONTEN
     GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
 
   GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_TEXT, OO_NS_NUMBER, "text-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
-    GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_CONTENT, OO_NS_NUMBER,	"text-content", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_PROP, OO_NS_NUMBER,		"text", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_CONTENT, OO_NS_NUMBER,	"text-content", GSF_XML_NO_CONTENT,  &odf_text_content, NULL),
+    GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_PROP, OO_NS_NUMBER,		"text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
     GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
+    GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
 
 GSF_XML_IN_NODE_END
 };

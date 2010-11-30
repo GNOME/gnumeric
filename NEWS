@@ -4,6 +4,7 @@ Andreas:
 	* Calculate residuals when using the regression tool. [#635064]
 	* Permit data entry by-passing autocorrection.
 	* Work around OpenOffice date formatting bugs. [#636131]
+	* Export text formats to and import from ODF. [#636158]
 
 Jean:
 	* Only disable the formula bar when a chart sheet is selected. [#636031]

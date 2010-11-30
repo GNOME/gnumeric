@@ -1,5 +1,14 @@
 2010-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_cell): Write office:string-value.
+	The element content may differ also for strings depending on format.
+	* openoffice-read.c (oo_cell_start): ODF uses office:string-value, 
+	while oldstyle OOo uses table:string-value.
+	(odf_text_content): new
+	(styles_dtd): connect handlers for children of number:text-style
+	
+2010-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_style_goformat_name): also write
 	data styles for text formats
 	
