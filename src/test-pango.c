@@ -17,7 +17,7 @@
 #include "sheet-control.h"
 #include "gnumeric-paths.h"
 #include "gnm-plugin.h"
-
+#include "wbc-gtk-impl.h"
 
 #include <gtk/gtk.h>
 
@@ -65,11 +65,11 @@ int
 main (int argc, char const **argv)
 {
 	GOCmdContext *cc;
-	WorkbookControl *wbc;
+	WBCGtk *wbc;
 	GOIOContext *ioc;
 
 	argv = gnm_pre_parse_init (argc, argv);
-	gtk_init (&argc, &argv);
+	gtk_init (&argc, (char ***)&argv);
 	gnm_init ();
 
 	cc  = cmd_context_stderr_new ();

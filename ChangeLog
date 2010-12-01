@@ -1,19 +1,23 @@
+2010-12-01  Morten Welinder  <terra@gnome.org>
+
+	* src/test-pango.c: Kill warnings.
+
 2010-11-29  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/wbc-gtk.c (wbcg_update_action_sensitivity): only disable the formula
-	bar when a chart sheet is selected. [#636031]
+	* src/wbc-gtk.c (wbcg_update_action_sensitivity): only disable the
+	formula bar when a chart sheet is selected. [#636031]
 
 2010-11-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.h (cmd_set_text): add autocorrect flag
-	* src/commands.c (cmd_set_text): add autocorrect flag, change 
+	* src/commands.c (cmd_set_text): add autocorrect flag, change
 	all callers
 	(cmd_set_text_full): add autocorrect flag, change all callers
 	* src/wbc-gtk-edit.c (wbcg_edit_finish): handle WBC_EDIT_ACCEPT_WO_AC
 	* src/wbc-gtk.h (WBCEditResult): add WBC_EDIT_ACCEPT_WO_AC
 	* src/wbc-gtk.c (cb_accept_input_wo_ac): new
 	(cb_accept_input_menu): connect cb_accept_input_wo_ac
-	
+
 2010-11-25  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
