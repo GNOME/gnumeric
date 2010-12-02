@@ -1211,7 +1211,7 @@ gnm_widget_set_cursor (GtkWidget *w, GdkCursor *cursor)
 void
 gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct)
 {
-	GdkDisplay *display = gdk_drawable_get_display (gtk_widget_get_window (w));
+	GdkDisplay *display = gtk_widget_get_display (w);
 	GdkCursor *cursor = gdk_cursor_new_for_display (display, ct);
 	gnm_widget_set_cursor (w, cursor);
 	gdk_cursor_unref (cursor);

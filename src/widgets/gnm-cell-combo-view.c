@@ -402,7 +402,7 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 			gtk_grab_add (popup);
 		} else {
 			gdk_display_pointer_ungrab
-				(gdk_drawable_get_display (popup_window),
+				(gtk_widget_get_display (popup),
 				 activate_time);
 		}
 	}
