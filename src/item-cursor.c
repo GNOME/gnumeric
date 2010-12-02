@@ -218,7 +218,7 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	gboolean draw_stippled, draw_center, draw_external, draw_internal, draw_xor;
 	double scale = item->canvas->pixels_per_unit;
 	GdkEventExpose *expose = (GdkEventExpose *) goc_canvas_get_cur_event (item->canvas);
-	GdkDrawable *drawable = GDK_DRAWABLE (expose->window);
+	GdkWindow *window = expose->window;
 	GdkColor *fore = NULL, *back = NULL;
 
 #if 0
@@ -380,7 +380,7 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 		default :
 			g_assert_not_reached ();
 		}
-		gdk_draw_lines (drawable, ic->gc, points, 5);
+		gdk_draw_lines (window, ic->gc, points, 5);
 	}
 
 	if (draw_external && draw_internal && draw_handle) {
@@ -403,33 +403,33 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 			points [3].y += 2;
 			points [4].y += 2;
 		}
-		gdk_draw_lines (drawable, ic->gc, points, 5);
+		gdk_draw_lines (window, ic->gc, points, 5);
 	}
 
 	if (draw_handle == 1 || draw_handle == 2) {
 		int const y_off = (draw_handle == 1) ? y1 - y0 : 0;
-		gdk_draw_rectangle (drawable, ic->gc, TRUE,
+		gdk_draw_rectangle (window, ic->gc, TRUE,
 				    x1 - 2,
 				    y0 + y_off - 2,
 				    2, 2);
-		gdk_draw_rectangle (drawable, ic->gc, TRUE,
+		gdk_draw_rectangle (window, ic->gc, TRUE,
 				    x1 + 1,
 				    y0 + y_off - 2,
 				    2, 2);
-		gdk_draw_rectangle (drawable, ic->gc, TRUE,
+		gdk_draw_rectangle (window, ic->gc, TRUE,
 				    x1 - 2,
 				    y0 + y_off + 1,
 				    2, 2);
-		gdk_draw_rectangle (drawable, ic->gc, TRUE,
+		gdk_draw_rectangle (window, ic->gc, TRUE,
 				    x1 + 1,
 				    y0 + y_off + 1,
 				    2, 2);
 	} else if (draw_handle == 3) {
-		gdk_draw_rectangle (drawable, ic->gc, TRUE,
+		gdk_draw_rectangle (window, ic->gc, TRUE,
 				    x1 - 2,
 				    y0 + 1,
 				    2, 4);
-		gdk_draw_rectangle (drawable, ic->gc, TRUE,
+		gdk_draw_rectangle (window, ic->gc, TRUE,
 				    x1 + 1,
 				    y0 + 1,
 				    2, 4);
@@ -453,7 +453,7 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 			x0++;
 			y0++;
 		}
-		gdk_draw_rectangle (drawable, ic->gc, FALSE,
+		gdk_draw_rectangle (window, ic->gc, FALSE,
 				    x0, y0,
 				    abs (x1 - x0), abs (y1 - y0));
 	}

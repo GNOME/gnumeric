@@ -233,7 +233,7 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 	int age = state->now - r->start_time;
 	double rage = CLAMP (age / (double)r->duration, 0.0, 1.0);
 	GtkWidget *widget = state->anim_area;
-	GdkDrawable *drawable = gtk_widget_get_window (widget);
+	GdkWindow *window = gtk_widget_get_window (widget);
 	GtkStyle *style;
 	const int fade = 500;
 	int x, y, width, height;
@@ -287,7 +287,7 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 	x -= width / 2;
 	y -= height / 2;
 
-	cr = gdk_cairo_create (drawable);
+	cr = gdk_cairo_create (window);
 	gdk_cairo_set_source_color (cr, &style->text[GTK_STATE_NORMAL]);
 	cairo_move_to (cr, x / (double)PANGO_SCALE, y / (double)PANGO_SCALE);
 	pango_cairo_show_layout (cr, layout);
