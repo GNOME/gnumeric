@@ -5,6 +5,7 @@ Andreas:
 	* Permit data entry by-passing autocorrection.
 	* Work around OpenOffice date formatting bugs. [#636131]
 	* Export text formats to and import from ODF. [#636158]
+	* Support --export-range in LaTeX export.
 
 Jean:
 	* Only disable the formula bar when a chart sheet is selected. [#636031]

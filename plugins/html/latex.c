@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * latex.c
  *
@@ -1163,6 +1164,27 @@ latex2e_print_hhline (GsfOutput *output, GnmStyleBorderType *clines, int n, GnmS
 	gsf_output_printf (output, "}\n");
 }
 
+static GnmRange
+file_saver_sheet_get_extent (Sheet *sheet)
+{
+  	GnmRangeRef *range 
+		= g_object_get_data (G_OBJECT (sheet->workbook), 
+				     "ssconvert-range");
+	if (range) {
+		Sheet *start_sheet, *end_sheet;
+		GnmEvalPos ep;
+		GnmRange r;
+
+		gnm_rangeref_normalize (range,
+					eval_pos_init_sheet (&ep, sheet),
+					&start_sheet, &end_sheet,
+					&r);
+		if (start_sheet == sheet)
+			return r;
+	}
+	return sheet_get_extent (sheet, TRUE);
+}
+
 /**
  * latex_file_save :  The LaTeX2e exporter plugin function.
  *
@@ -1194,7 +1216,7 @@ latex_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 
 	/* Get the topmost sheet and its range from the plugin function argument. */
 	current_sheet = wb_view_cur_sheet(wb_view);
-	total_range = sheet_get_extent (current_sheet, TRUE);
+	total_range = file_saver_sheet_get_extent (current_sheet);
 
 	num_cols = total_range.end.col - total_range.start.col + 1;
 
@@ -1465,7 +1487,7 @@ latex_table_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 
 	/* Get the topmost sheet and its range from the plugin function argument. */
 	current_sheet = wb_view_cur_sheet(wb_view);
-	total_range = sheet_get_extent (current_sheet, TRUE);
+	total_range = file_saver_sheet_get_extent (current_sheet);
 
 	/* Step through the sheet, writing cells as appropriate. */
 	for (row = total_range.start.row; row <= total_range.end.row; row++) {
