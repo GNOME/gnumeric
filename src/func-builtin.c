@@ -299,7 +299,8 @@ gnumeric_if (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 
 GnmValue *
-gnumeric_if2 (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_if2 (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv,
+	      GnmExprEvalFlags flags)
 {
 	gboolean err;
 	int i, branch;
@@ -311,7 +312,7 @@ gnumeric_if2 (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 	/*
 	 * In this version of IF, we evaluate the arguments ourselves,
-	 * the call the regular IF.  However, arguments we do not need
+	 * then call the regular IF.  However, arguments we do not need
 	 * we do not evaluate.
 	 *
 	 * IF is sometimes used to avoid expensive calculations.  Always
@@ -326,10 +327,6 @@ gnumeric_if2 (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 	branch = value_get_as_bool (args[0], &err) ? 1 : 2;
 	for (i = 1; i <= 2; i++) {
-		GnmExprEvalFlags flags =
-			GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
-			GNM_EXPR_EVAL_PERMIT_EMPTY;
-
 		args[i] = NULL;
 		if (i < argc && i == branch && !gnm_expr_is_empty (argv[i])) {
 			args[i] = gnm_expr_eval (argv[i], ei->pos, flags);

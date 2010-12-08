@@ -1479,7 +1479,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei, GnmExprEvalFlags flags)
 	/* Optimization for IF when implicit iteration is not used.  */
 	if (ei->func_call->func->fn.args.func == gnumeric_if &&
 	    iter_count == -1)
-		return gnumeric_if2 (ei, argc, argv);
+		return gnumeric_if2 (ei, argc, argv, flags);
 
 	for (i = 0; i < argc; i++) {
 		char arg_type = fn_def->fn.args.arg_types[i];

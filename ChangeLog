@@ -1,3 +1,9 @@
+2010-12-08  Morten Welinder  <terra@gnome.org>
+
+	* src/func-builtin.c (gnumeric_if2): Take flags argument and use
+	it for "then" and "else" branches.  Caller changed.  Fixes
+	#636433.
+
 2010-12-01  Morten Welinder  <terra@gnome.org>
 
 	* src/test-pango.c: Kill warnings.

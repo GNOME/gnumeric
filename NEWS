@@ -10,6 +10,9 @@ Andreas:
 Jean:
 	* Only disable the formula bar when a chart sheet is selected. [#636031]
 
+Morten:
+	* Fix array intersection problem with IF.  [#633433]
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.12
 
