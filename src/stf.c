@@ -160,6 +160,22 @@ stf_store_results (DialogStfResult_t *dialogresult,
 				start_col, start_row);
 }
 
+static void
+resize_columns (Sheet *sheet)
+{
+	GnmRange r;
+
+	range_init_full_sheet (&r, sheet);
+	colrow_autofit (sheet, &r, TRUE,
+			TRUE, /* Ignore strings */
+			TRUE, /* Don't shrink */
+			TRUE, /* Don't shrink */
+			NULL, NULL);
+
+	sheet_queue_respan (sheet, 0, gnm_sheet_get_last_row (sheet));
+}
+
+
 /**
  * stf_read_workbook
  * @fo       : file opener
@@ -208,7 +224,7 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 		workbook_sheet_attach (book, sheet);
 		if (stf_store_results (dialogresult, sheet, 0, 0)) {
 			workbook_recalc_all (book);
-			sheet_queue_respan (sheet, 0, gnm_sheet_get_last_row (sheet));
+			resize_columns (sheet);
 		} else {
 			/* the user has cancelled */
 			/* the caller should notice that we have no sheets */
@@ -405,7 +421,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 
 	if (stf_parse_sheet (po, utf8data, NULL, sheet, 0, 0)) {
 		workbook_recalc_all (book);
-		sheet_queue_respan (sheet, 0, gnm_sheet_get_last_row (sheet));
+		resize_columns (sheet);
 		if (po->cols_exceeded || po->rows_exceeded) {
 			const char *msg =
 				_("Some data did not fit on the sheet and was dropped.");

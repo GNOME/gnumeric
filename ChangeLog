@@ -1,3 +1,10 @@
+2010-12-10  Morten Welinder  <terra@gnome.org>
+
+	* src/stf.c (resize_columns): Expand columns to fit
+	numbers (including dates).
+	(stf_read_workbook): Call resize_columns.
+	(stf_read_workbook_auto_csvtab): Ditto.
+
 2010-12-08  Morten Welinder  <terra@gnome.org>
 
 	* src/func-builtin.c (gnumeric_if2): Take flags argument and use
