@@ -1054,6 +1054,8 @@ oo_cellref_parse (GnmCellRef *ref, char const *start, GnmParsePos const *pp)
 {
 	char const *tmp1, *tmp2, *ptr = start;
 	GnmSheetSize const *ss;
+	GnmSheetSize ss_max = { GNM_MAX_COLS, GNM_MAX_ROWS};
+	Sheet *sheet;
 
 	if (*ptr != '.') {
 		char *name, *accum;
@@ -1120,19 +1122,35 @@ two_quotes :
 		ref->sheet = NULL;
 	}
 
-	ss = gnm_sheet_get_size (eval_sheet (ref->sheet, pp->sheet));
-
-	tmp1 = col_parse (ptr, ss, &ref->col, &ref->col_relative);
+	tmp1 = col_parse (ptr, &ss_max, &ref->col, &ref->col_relative);
 	if (!tmp1)
 		return start;
-	tmp2 = row_parse (tmp1, ss, &ref->row, &ref->row_relative);
+	tmp2 = row_parse (tmp1, &ss_max, &ref->row, &ref->row_relative);
 	if (!tmp2)
 		return start;
 
+	sheet = eval_sheet (ref->sheet, pp->sheet);
+	ss = gnm_sheet_get_size (sheet);
+
+	if (ss->max_cols <= ref->col || ss->max_rows <= ref->row) {
+		int new_cols = ref->col + 1, new_rows = ref->row + 1;
+		GOUndo   * goundo;
+		gboolean err;
+
+		gnm_sheet_suggest_size (&new_cols, &new_rows);
+		goundo = gnm_sheet_resize (sheet, new_cols, new_rows, NULL, &err);
+		if (goundo) g_object_unref (goundo);
+
+		ss = gnm_sheet_get_size (sheet);
+		if (ss->max_cols <= ref->col || ss->max_rows <= ref->row)
+			return start;
+	}
+	
 	if (ref->col_relative)
 		ref->col -= pp->eval.col;
 	if (ref->row_relative)
 		ref->row -= pp->eval.row;
+
 	return tmp2;
 }
 
