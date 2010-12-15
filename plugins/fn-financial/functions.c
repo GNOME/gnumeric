@@ -2007,6 +2007,7 @@ static GnmFuncHelp const help_euro[] = {
 				 "BEF (Belgium), "
 				 "CYP (Cyprus), "
 				 "DEM (Germany), "
+				 "EEK (Estonia), "
 				 "ESP (Spain), "
 				 "EUR (Euro), "
 				 "FIM (Finland), "
@@ -2053,6 +2054,8 @@ one_euro (char const *str)
 	case 'E':
 		if (strncmp ("ESP", str, 3) == 0)
 			return GNM_const (166.386);
+		else if (strncmp ("EEK", str, 3) == 0)
+			return GNM_const (15.6466);
 		else if (strncmp ("EUR", str, 3) == 0)
 			return GNM_const (1.0);
 		break;
@@ -2140,6 +2143,8 @@ euro_local_rounding (char const *str)
 	case 'E':
 		if (strncmp ("ESP", str, 3) == 0)
 			return 0;
+/* 		else if (strncmp ("EEK", str, 3) == 0) */
+/* 			return 2; */
 /* 		else if (strncmp ("EUR", str, 3) == 0) */
 /* 			return 2; */
 		break;

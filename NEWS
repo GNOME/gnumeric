@@ -6,6 +6,7 @@ Andreas:
 	* Work around OpenOffice date formatting bugs. [#636131]
 	* Export text formats to and import from ODF. [#636158]
 	* Fix ODF import of sheets with far forward references. [#636968]
+	* Add EEK support to EURO and EUROCONVERT.
 
 Jean:
 	* Only disable the formula bar when a chart sheet is selected. [#636031]
