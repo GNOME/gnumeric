@@ -625,9 +625,8 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			 GO_COLOR_BLACK, &style->line.auto_color);
 		style->line.width = ms_obj_attr_get_uint (obj->attrs,
 			MS_OBJ_ATTR_OUTLINE_WIDTH, 0) / 256.;
-		style->line.auto_dash =
-			(ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE) != NULL);
-		style->line.dash_type = style->line.auto_dash
+		style->line.auto_dash = FALSE;
+		style->line.dash_type = (ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE) != NULL)
 			? GO_LINE_NONE
 			: ms_escher_xl_to_line_type (ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 0));
 		style->fill.pattern.back = ms_sheet_map_color
