@@ -1,3 +1,7 @@
+2010-12-17  Morten Welinder  <terra@gnome.org>
+
+	* options.c (opt_binomial): Fix leak on error.
+
 2010-11-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.12

@@ -1910,10 +1910,6 @@ opt_binomial(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (n < 0 || n > 100000)
 		return value_new_error_NUM (ei->pos);
 
-	value_array = (gnm_float *) g_try_malloc ((n + 2)* sizeof(gnm_float));
-	if (value_array == NULL)
-		return value_new_error_NUM (ei->pos);
-
 	if (OS_Call == call_put_flag)
 		z = 1;
         else if (OS_Put == call_put_flag)
@@ -1922,6 +1918,10 @@ opt_binomial(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_NUM (ei->pos);
 
 	if (OT_Error == amer_euro_flag)
+		return value_new_error_NUM (ei->pos);
+
+	value_array = (gnm_float *) g_try_malloc ((n + 2)* sizeof(gnm_float));
+	if (value_array == NULL)
 		return value_new_error_NUM (ei->pos);
 
 	dt = t / n;

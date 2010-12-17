@@ -2089,6 +2089,7 @@ dependents_relocate (GnmExprRelocateInfo const *rinfo)
 
 			tmp->dep_type = t;
 			if (t == DEPENDENT_NAME) {
+#warning "What should we do here and why do we leak tmp?"
 			} else {
 				if (t == DEPENDENT_CELL)
 					tmp->u.pos = local_rinfo.pos;
