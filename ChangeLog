@@ -1,3 +1,8 @@
+2010-12-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-so-line.c (so_line_view_set_bounds): take zoom level into
+	account when setting the coordinates. [#637453]
+
 2010-12-10  Morten Welinder  <terra@gnome.org>
 
 	* src/stf.c (resize_columns): Expand columns to fit

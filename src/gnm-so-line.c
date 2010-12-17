@@ -61,16 +61,17 @@ so_line_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 	GocItem	*view = GOC_ITEM (sov), *item = GOC_ITEM (GOC_GROUP (view)->children->data);
 	SheetObject	*so = sheet_object_view_get_so (sov);
 	GOStyleLine const *style = &GNM_SO_LINE (so)->style->line;
+	double scale = goc_canvas_get_pixels_per_unit (view->canvas);
 
 	sheet_object_direction_set (so, coords);
 
 	if (visible &&
 	    style->color != 0 && style->width >= 0 && style->dash_type != GO_LINE_NONE) {
 		goc_item_set (item,
-		              "x0", coords[0],
-		              "y0", coords[1],
-		              "x1", coords[2],
-		              "y1", coords[3],
+		              "x0", coords[0] / scale,
+		              "y0", coords[1] / scale,
+		              "x1", coords[2] / scale,
+		              "y1", coords[3] / scale,
 		              NULL);
 		goc_item_show (view);
 	} else
