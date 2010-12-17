@@ -1092,7 +1092,8 @@ hf_delete_tag_cb (HFCustomizeState *hf_state)
 
 
 static void
-hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer, HFFieldType type, char *options)
+hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer,
+			HFFieldType type, const char *options)
 {
 	GtkTextIter iter;
 	gchar const *stock_id;
@@ -1155,7 +1156,8 @@ hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer, HFFie
 }
 
 static void
-hf_insert_hf_tag (HFCustomizeState *hf_state, HFFieldType type, char *options)
+hf_insert_hf_tag (HFCustomizeState *hf_state, HFFieldType type,
+		  const char *options)
 {
 	GtkWidget* focus;
 
@@ -1210,10 +1212,10 @@ hf_insert_custom_time_cb (GtkWidget *widget, HFCustomizeState *hf_state)
 static void
 hf_insert_cell_cb (GtkWidget *widget, HFCustomizeState *hf_state)
 {
-	char *options;
+	const char *options;
 	options = g_object_get_data (G_OBJECT (widget), "options");
 	if (options == NULL)
-		options = g_strdup ("A1");
+		options = "A1";
 	hf_insert_hf_tag (hf_state, HF_FIELD_CELL, options);
 }
 
@@ -1489,7 +1491,11 @@ is_known_tag (HFCustomizeState* hf_state, GtkTextBuffer *buffer, char const *tag
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_TIME, options);
 	else if (check_hf_tag (tag, "CELL", &options, length))
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_CELL, options);
-	else return FALSE;
+	else
+		return FALSE;
+
+	g_free (options);
+
 	return TRUE;
 }
 

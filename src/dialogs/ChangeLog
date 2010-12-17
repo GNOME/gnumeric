@@ -1,3 +1,11 @@
+2010-12-17  Morten Welinder  <terra@gnome.org>
+
+	* dialog-printer-setup.c (hf_insert_hf_stock_tag)
+	(hf_insert_hf_tag): Make "options" argument const to clarify
+	ownership rules.
+	(is_known_tag): Free "options".
+	(hf_insert_cell_cb): Plug leak.
+
 2010-11-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* regression.ui: added residuals checkbox
@@ -29,7 +37,7 @@
 2010-11-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* cell-sort.ui: add tooltip text for the checkboxes
-	
+
 2010-11-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-sheet-order.c (destroy_cb), (dialog_sheet_order): clear state on

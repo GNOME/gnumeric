@@ -16,6 +16,7 @@ Jean:
 Morten:
 	* Fix array intersection problem with IF.  [#633433]
 	* Make sure columns are wide enough for dates in csv import.
+	* Plug a few leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.12
