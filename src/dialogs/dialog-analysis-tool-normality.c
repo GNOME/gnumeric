@@ -161,8 +161,10 @@ normality_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = go_gtk_builder_get_widget (state->base.gui, "normalprobabilityplot");
 	data->graph = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
-				dao, data, analysis_tool_normality_engine))
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), 
+				state->base.sheet,
+				dao, data, analysis_tool_normality_engine, 
+				TRUE))
 		gtk_widget_destroy (state->base.dialog);
 
 	return;

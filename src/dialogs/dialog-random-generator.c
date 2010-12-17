@@ -698,7 +698,7 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
 				state->base.sheet,
-				dao, data, tool_random_engine) &&
+				dao, data, tool_random_engine, TRUE) &&
 	    (button == state->base.ok_button))
 		gtk_widget_destroy (state->base.dialog);
 }

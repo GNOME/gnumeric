@@ -119,7 +119,7 @@ cb_fill_series_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
 				state->base.sheet,
-				dao, fs, fill_series_engine))
+				dao, fs, fill_series_engine, TRUE))
 		gtk_widget_destroy (state->base.dialog);
 }
 

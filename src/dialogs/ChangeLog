@@ -1,3 +1,42 @@
+2010-12-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-advanced-filter.c (advanced_filter_ok_clicked_cb):
+	add argument to cmd_analysis_tool
+	* dialog-analysis-tool-chi-squared.c (chi_squared_tool_ok_clicked_cb):
+	ditto
+	* dialog-analysis-tool-frequency.c (frequency_tool_ok_clicked_cb):
+	ditto
+	* dialog-analysis-tool-kaplan-meier.c (kaplan_meier_tool_ok_clicked_cb):
+	ditto
+	* dialog-analysis-tool-normality.c (normality_tool_ok_clicked_cb):
+	ditto
+	* dialog-analysis-tool-sign-test.c (sign_test_two_tool_ok_clicked_cb):
+	ditto
+	(sign_test_tool_ok_clicked_cb): ditto
+	* dialog-analysis-tools.c (corr_tool_ok_clicked_cb): ditto
+	(cov_tool_ok_clicked_cb): ditto
+	(rank_tool_ok_clicked_cb): ditto
+	(fourier_tool_ok_clicked_cb): ditto
+	(cb_desc_stat_tool_ok_clicked): ditto
+	(ttest_tool_ok_clicked_cb): ditto
+	(ftest_tool_ok_clicked_cb): ditto
+	(sampling_tool_ok_clicked_cb): ditto
+	(regression_tool_ok_clicked_cb): ditto
+	(exp_smoothing_tool_ok_clicked_cb): ditto
+	(average_tool_ok_clicked_cb): ditto
+	(histogram_tool_ok_clicked_cb): ditto
+	(anova_single_tool_ok_clicked_cb): ditto
+	(anova_two_factor_tool_ok_clicked_cb): ditto
+	* dialog-consolidate.c (cb_consolidate_ok_clicked): ditto
+	* dialog-fill-series.c (cb_fill_series_ok_clicked): ditto
+	* dialog-random-generator-cor.c (random_cor_tool_ok_clicked_cb): ditto
+	* dialog-random-generator.c (random_tool_ok_clicked_cb): ditto
+	* dialog-analysis-tool-principal-components.c
+	(principal_components_tool_ok_clicked_cb): ditto, note that the tool 
+	never returns errors.
+	* dialog-analysis-tool-wilcoxon-mann-whitney.c
+	(wilcoxon_mann_whitney_tool_ok_clicked_cb): ditto
+
 2010-12-17  Morten Welinder  <terra@gnome.org>
 
 	* dialog-printer-setup.c (hf_insert_hf_stock_tag)

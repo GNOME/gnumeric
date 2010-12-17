@@ -5349,7 +5349,7 @@ cmd_analysis_tool_finalize (GObject *cmd)
 gboolean
 cmd_analysis_tool (WorkbookControl *wbc, G_GNUC_UNUSED Sheet *sheet,
 		   data_analysis_output_t *dao, gpointer specs,
-		   analysis_tool_engine engine)
+		   analysis_tool_engine engine, gboolean always_take_ownership)
 {
 	CmdAnalysis_Tool *me;
 	gboolean trouble;
@@ -5364,7 +5364,7 @@ cmd_analysis_tool (WorkbookControl *wbc, G_GNUC_UNUSED Sheet *sheet,
 
 	/* Store the specs for the object */
 	me->specs = specs;
-	me->specs_owned = FALSE;
+	me->specs_owned = always_take_ownership;
 	me->dao = dao;
 	me->engine = engine;
 	me->cmd.cmd_descriptor = NULL;

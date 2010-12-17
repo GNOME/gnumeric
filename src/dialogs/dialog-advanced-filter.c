@@ -140,7 +140,7 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		data->unique_only_flag = unique;
 
 		if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-				       dao, data, analysis_tool_advanced_filter_engine)) {
+				       dao, data, analysis_tool_advanced_filter_engine, FALSE)) {
 			err = data->base.err;
 			g_free (data);
 		} else

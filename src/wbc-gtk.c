@@ -4742,7 +4742,8 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 	gnm_func_ref (specs->func);
 
 	cmd_analysis_tool (WORKBOOK_CONTROL (wbcg), scg_sheet (scg),
-			   dao, specs, analysis_tool_auto_expression_engine);
+			   dao, specs, analysis_tool_auto_expression_engine, 
+			   TRUE);
 }
 
 static void

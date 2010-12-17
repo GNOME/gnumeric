@@ -292,8 +292,10 @@ kaplan_meier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->std_err = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->std_error_button));
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
-				dao, data, analysis_tool_kaplan_meier_engine))
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), 
+				state->base.sheet,
+				dao, data, analysis_tool_kaplan_meier_engine,
+				TRUE))
 		gtk_widget_destroy (state->base.dialog);
 
 	return;

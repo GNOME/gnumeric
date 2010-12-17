@@ -107,7 +107,6 @@ principal_components_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data_analysis_output_t  *dao;
 	analysis_tools_data_generic_t  *data;
 
-        char   *text;
 	GtkWidget *w;
 
 	if (state->warning_dialog != NULL)
@@ -124,15 +123,15 @@ principal_components_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-			       dao, data, analysis_tool_principal_components_engine)) {
+			       dao, data, 
+			       analysis_tool_principal_components_engine,
+			       TRUE)) {
+		char   *text;
 		text = g_strdup_printf (
-			_("An unexpected error has occurred: %d."), data->err);
+			_("An unexpected error has occurred."));
 		error_in_entry ((GenericToolState *) state,
 				GTK_WIDGET (state->input_entry), text);
 		g_free (text);
-		range_list_destroy (data->input);
-		g_free (dao);
-		g_free (data);
 	} else
 		gtk_widget_destroy (state->dialog);
 	return;
