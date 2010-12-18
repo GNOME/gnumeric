@@ -1,3 +1,7 @@
+2010-12-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-excel-read.c (excel_read_FONT): try to make cppcheck happy
+
 2010-12-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-excel-read.c (ms_sheet_realize_obj): make object invisible outline
