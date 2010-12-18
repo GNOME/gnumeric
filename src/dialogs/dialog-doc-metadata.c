@@ -561,7 +561,6 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 	GsfDocProp *doc_prop;
 	GValue     *existing_value = NULL;
 	char const *existing_link  = NULL;
-	GValue     *doc_prop_value;
 	GType       val_type;
 
 	existing_prop = gsf_doc_meta_data_lookup (state->metadata, name);
@@ -607,12 +606,14 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 	/* Create a new GsfDocProp */
 	doc_prop = gsf_doc_prop_new (g_strdup (name));
 
-	/* Create a new Value */
-	doc_prop_value = g_new0 (GValue, 1);
-
 	val_type = dialog_doc_metadata_get_gsf_prop_val_type (state, name);
 
 	if (val_type != G_TYPE_INVALID) {
+		GValue     *doc_prop_value;
+		
+		/* Create a new Value */
+		doc_prop_value = g_new0 (GValue, 1);
+
 		g_value_init (doc_prop_value, val_type);
 		dialog_doc_metadata_set_gsf_prop_val (state, doc_prop_value, value);
 		gsf_doc_prop_set_val (doc_prop, doc_prop_value);

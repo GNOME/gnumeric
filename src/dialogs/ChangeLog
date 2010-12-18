@@ -1,5 +1,9 @@
 2010-12-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-doc-metadata.c (dialog_doc_metadata_set_gsf_prop): avoid leak
+
+2010-12-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-advanced-filter.c (advanced_filter_ok_clicked_cb):
 	add argument to cmd_analysis_tool
 	* dialog-analysis-tool-chi-squared.c (chi_squared_tool_ok_clicked_cb):
