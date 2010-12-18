@@ -1,5 +1,9 @@
 2010-12-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/stf-export.c (gnm_stf_export): make cppcheck happy
+
+2010-12-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/wbc-gtk.c
 	* src/commands.h (cmd_analysis_tool): add argument
 	* src/commands.c (cmd_analysis_tool): use always_take_ownership
