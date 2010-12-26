@@ -13,6 +13,8 @@ Jean:
 	* Only disable the formula bar when a chart sheet is selected. [#636031]
 	* Make sheet objects invisible outline from .xls files persistent. [#637393]
 	* Fixed arrows and line object position when zoomed. [#637453]
+	* Fixed series lines color export to .xls. [#637658]
+	* Fixed sheet objects position on zoomed sheets. [#637739]
 
 Morten:
 	* Fix array intersection problem with IF.  [#633433]

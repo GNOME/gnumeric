@@ -1,3 +1,8 @@
+2010-12-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (areaformat), (chart_write_LINEFORMAT): enhance color support.
+	[#637658]
+
 2010-12-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ms-excel-read.c (excel_read_FONT): try to make cppcheck happy

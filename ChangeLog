@@ -1,3 +1,8 @@
+2010-12-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-control-gui.c (scg_scale_changed): reposition sheet objects to
+	avoid rounding errors related to the rounding of cells limits. [#637739]
+
 2010-12-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/stf-export.c (gnm_stf_export): make cppcheck happy

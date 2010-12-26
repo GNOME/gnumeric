@@ -3492,11 +3492,13 @@ static void
 scg_scale_changed (SheetControl *sc)
 {
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
+	Sheet *sheet = scg_sheet (scg);
 	double z;
+	GSList *ptr;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	z = scg_sheet (scg)->last_zoom_factor_used;
+	z = sheet->last_zoom_factor_used;
 
 	SCG_FOREACH_PANE (scg, pane, {
 		if (pane->col.canvas != NULL)
@@ -3509,6 +3511,9 @@ scg_scale_changed (SheetControl *sc)
 	scg_resize (scg, TRUE);
 	set_resize_pane_pos (scg, scg->vpane);
 	set_resize_pane_pos (scg, scg->hpane);
+	/* now, update sheet objects positions and sizes */
+	for (ptr = sheet->sheet_objects; ptr; ptr = ptr->next)
+		sheet_object_update_bounds (SHEET_OBJECT (ptr->data), NULL);
 }
 
 

@@ -464,7 +464,6 @@ BC_R(areaformat)(XLChartHandler const *handle,
 	BC_R(get_style) (s);
 	if (pattern > 0) {
 		s->style->fill.type = GO_STYLE_FILL_PATTERN;
-		s->style->fill.auto_back = auto_format;
 		s->style->fill.invert_if_negative = invert_if_negative;
 		s->style->fill.pattern.pattern = pattern - 1;
 		s->style->fill.pattern.fore = BC_R(color) (q->data+0, "AreaFore");
@@ -473,6 +472,11 @@ BC_R(areaformat)(XLChartHandler const *handle,
 			GOColor tmp = s->style->fill.pattern.fore;
 			s->style->fill.pattern.fore = s->style->fill.pattern.back;
 			s->style->fill.pattern.back = tmp;
+			s->style->fill.auto_fore = auto_format;
+			s->style->fill.auto_back = FALSE;
+		} else {
+			s->style->fill.auto_fore = FALSE;
+			s->style->fill.auto_back = auto_format;
 		}
 	} else if (auto_format) {
 		s->style->fill.type = GO_STYLE_FILL_PATTERN;
@@ -4066,7 +4070,7 @@ chart_write_LINEFORMAT (XLChartWriteState *s, GOStyleLine const *lstyle,
 			w = 2;	/* wide */
 		/* seems that excel understand auto as solid, so if pattern is not solid
 		   do not set the auto flag, see #605043 */
-		flags |= (lstyle->auto_color && pat > 0)? 9: 8;	/* docs only mention 1, but there is an 8 in there too */
+		flags |= (lstyle->auto_color && pat > 0)? 1: 0;
 	} else {
 		color_index = chart_write_color (s, data, 0);
 		if (clear_lines_for_null) {
