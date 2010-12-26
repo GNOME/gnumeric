@@ -215,9 +215,18 @@ go_data_cache_field_get_val (GODataCacheField const *field, unsigned int record_
 	switch (field->ref_type) {
 	case GO_DATA_CACHE_FIELD_TYPE_NONE   : return NULL;
 	case GO_DATA_CACHE_FIELD_TYPE_INLINE : return *((GOVal **)p);
-	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8  : idx = *(guint8 *)p; break;
-	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 : idx = *(guint16 *)p; break;
-	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 : idx = *(guint32 *)p; break;
+	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I8  : 
+		g_return_val_if_fail (field->offset > 0, NULL);
+		idx = *(guint8 *)p; 
+		break;
+	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I16 : 
+		g_return_val_if_fail (field->offset > 0, NULL);
+		idx = *(guint16 *)p; 
+		break;
+	case GO_DATA_CACHE_FIELD_TYPE_INDEXED_I32 : 
+		g_return_val_if_fail (field->offset > 0, NULL);
+		idx = *(guint32 *)p; 
+		break;
 	default :
 		g_warning ("unknown field type %d", field->ref_type);
 		return NULL;

@@ -1,3 +1,8 @@
+2010-12-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/go-data-cache-field.c (go_data_cache_field_get_val): protect 
+	against crashes
+	
 2010-12-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-control-gui.c (scg_scale_changed): reposition sheet objects to
