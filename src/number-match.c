@@ -854,7 +854,7 @@ format_match_datetime (char const *text,
  * The number of digits in the denominator is stored in @denlen.
  */
 static GnmValue *
-format_match_fraction (char const *text, int *denlen)
+format_match_fraction (char const *text, int *denlen, gboolean mixed_only)
 {
 	char sign = 0;
 	gnm_float whole, num, den, f;
@@ -874,6 +874,8 @@ format_match_fraction (char const *text, int *denlen)
 	SKIP_SPACES (text);
 
 	if (*text == '/') {
+		if (mixed_only)
+			return NULL;
 		whole = 0;
 	} else {
 		whole = gnm_strto (start, NULL);
@@ -1215,7 +1217,7 @@ format_match (char const *text, GOFormat const *cur_fmt,
 	}
 
 	case GO_FORMAT_FRACTION:
-		v = format_match_fraction (text, &denlen);
+		v = format_match_fraction (text, &denlen, FALSE);
 		if (!v)
 			v = format_match_decimal_number (text, &fam);
 		if (!v)
@@ -1263,7 +1265,7 @@ format_match (char const *text, GOFormat const *cur_fmt,
 	if (v)
 		return v;
 
-	v = format_match_fraction (text, &denlen);
+	v = format_match_fraction (text, &denlen, TRUE);
 	if (v) {
 		char fmtstr[20];
 		char const *qqq = "?????" + 5;

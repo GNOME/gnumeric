@@ -1,8 +1,15 @@
+2010-12-30  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (format_match_fraction): Add option for
+	accepting mixed-format numbers only.
+	(format_match): When the existing format is "General", allow only
+	mixed-format number.
+
 2010-12-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/go-data-cache-field.c (go_data_cache_field_get_val): protect 
+	* src/go-data-cache-field.c (go_data_cache_field_get_val): protect
 	against crashes
-	
+
 2010-12-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-control-gui.c (scg_scale_changed): reposition sheet objects to
@@ -18,7 +25,7 @@
 	* src/commands.h (cmd_analysis_tool): add argument
 	* src/commands.c (cmd_analysis_tool): use always_take_ownership
 	  argument
-	
+
 2010-12-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-so-line.c (so_line_view_set_bounds): take zoom level into
