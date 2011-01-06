@@ -1,0 +1,33 @@
+#!/usr/bin/perl -w
+
+my %names;
+
+while (<STDIN>) {
+    chomp;
+    s{/\*.*\*/}{ };
+    if (/^\s*\#\s*define\s+([A-Za-z_][A-Za-z_0-9]*)\s+(.*\S)\s*/) {
+	my $name = $1;
+	my $opcode = $2;
+
+	if (exists $names{$opcode}) {
+	    $names{$opcode} .= "/$name";
+	} else {
+	    $names{$opcode} .= $name;
+	}
+    }
+}
+
+print "#include <stdlib.h>\n";
+print "#include <biff-types.h>\n";
+print "\n";
+print "const char *\n";
+print "biff_opcode_name (unsigned int opcode)\n";
+print "{\n";
+print "  switch (opcode) {\n";
+foreach my $opcode (sort keys %names) {
+    my $name = $names{$opcode};
+    print "  case $opcode: return \"$name\";\n";
+}
+print "  default: return NULL;\n";
+print "  }\n";
+print "}\n";

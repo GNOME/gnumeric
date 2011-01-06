@@ -5,4 +5,5 @@ EXTRA_DIST = dumpdef.pl \
 	check-gtk-includes \
 	check-null-false-returns \
 	check-glade-parsing \
-	handle-conf-options
+	handle-conf-options \
+	biffnames

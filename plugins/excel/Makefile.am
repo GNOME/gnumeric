@@ -3,6 +3,9 @@ AM_CPPFLAGS = \
     -I$(top_srcdir)/src	-I$(top_builddir)/src		\
     $(GNUMERIC_CFLAGS) $(Z_CPPFLAGS)
 
+BUILT_SOURCES =					\
+	biff-types.c
+
 gnumeric_plugin_exceldir = $(gnumeric_plugindir)/excel
 xmldir = $(gnumeric_plugin_exceldir)
 gnumeric_plugin_excel_LTLIBRARIES = excel.la
@@ -27,6 +30,7 @@ excel_la_SOURCES =		\
 	ms-excel-biff.h		\
 	ms-biff.c		\
 	ms-biff.h		\
+	biff-types.c		\
 	biff-types.h		\
 	escher-types.h		\
 	ms-container.c		\
@@ -64,6 +68,10 @@ excel_la_SOURCES =		\
 	xlsx-utils.c		\
 	xlsx-read.c		\
 	xlsx-write.c
+
+biff-types.c: biff-types.h $(top_srcdir)/tools/biffnames
+	$(PERL) $(top_srcdir)/tools/biffnames <$< >$@.tmp
+	mv $@.tmp $@
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

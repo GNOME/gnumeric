@@ -4334,7 +4334,7 @@ excel_read_GUTS (BiffQuery *q, ExcelReadSheet *esheet)
 	if (row_gut >= 1)
 		row_gut--;
 	col_gut = GSF_LE_GET_GUINT16 (q->data + 6);
-	d (2, g_printerr ("col_gut = %d", col_gut););
+	d (2, g_printerr ("col_gut = %d\n", col_gut););
 	if (col_gut >= 1)
 		col_gut--;
 	sheet_colrow_gutter (esheet->sheet, TRUE, col_gut);
@@ -6343,7 +6343,12 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 	for (; ms_biff_query_next (q) ;
 	     go_io_value_progress_update (importer->context, q->streamPos)) {
 
-		d (5, g_printerr ("Opcode: 0x%x\n", q->opcode););
+		d (5, {
+			const char *opname = biff_opcode_name (q->opcode);
+			g_printerr ("Opcode: 0x%x %s\n",
+				    q->opcode,
+				    opname ? opname : "unknown");
+			});
 
 		switch (q->opcode) {
 		case BIFF_DIMENSIONS_v0: break; /* ignore ancient XL2 variant */
@@ -6864,7 +6869,12 @@ excel_read_workbook (GOIOContext *context, WorkbookView *wb_view, GsfInput *inpu
 	       problem_loading == NULL && /* there were no problems so far */
 	       ms_biff_query_next (q)) {  /* we can load the record */
 
-		d (5, g_printerr ("Opcode: 0x%x\n", q->opcode););
+		d (5, {
+			const char *opname = biff_opcode_name (q->opcode);
+			g_printerr ("Opcode: 0x%x %s\n",
+				    q->opcode,
+				    opname ? opname : "unknown");
+			});
 
 		switch (q->opcode) {
 		case BIFF_BOF_v0:

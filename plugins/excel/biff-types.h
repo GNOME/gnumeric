@@ -13,6 +13,8 @@
  * (C) 2002-2005 Jody Goldberg
  */
 
+const char *biff_opcode_name (unsigned int opcode);
+
 #define BIFF_DIMENSIONS_v0		0x000
 #define BIFF_DIMENSIONS_v2			0x200
 #define BIFF_BLANK_v0			0x001

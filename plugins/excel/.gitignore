@@ -7,3 +7,4 @@ Makefile.in
 plugin.xml
 *.loT
 *.sw*
+biff-types.c
