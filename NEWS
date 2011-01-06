@@ -21,6 +21,7 @@ Morten:
 	* Make sure columns are wide enough for dates in csv import.
 	* Plug a few leaks.
 	* Fix number-match issue regarding fraction.
+	* Fix problems with pivot reading from xls.  [#638776]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.12

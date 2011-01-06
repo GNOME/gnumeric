@@ -2,6 +2,7 @@
 
 	* xls-read-pivot.c (xls_read_SXVIEW): The record contains a cache
 	index, not a cache id.
+	(xls_read_SXVI): Fix debug print.
 
 2010-12-26  Jean Brefort  <jean.brefort@normalesup.org>
 

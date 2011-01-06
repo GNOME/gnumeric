@@ -646,9 +646,11 @@ xls_read_SXVI (BiffQuery *q, ExcelReadSheet *esheet, unsigned int i)
 	if (type == 0x00 && (flags & 1))
 	{
 		XL_CHECK_CONDITION (cache_index != 0xffff);
-		g_print ("hide : ");
-		go_data_cache_dump_value (go_data_cache_field_get_val (dcf, cache_index));
-		g_print ("\n");
+		d(0, {
+			g_printerr ("hide : ");
+			go_data_cache_dump_value (go_data_cache_field_get_val (dcf, cache_index));
+			g_printerr ("\n");
+			});
 	}
 }
 
