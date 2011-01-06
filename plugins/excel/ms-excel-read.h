@@ -117,7 +117,7 @@ struct _GnmXLImporter {
 		GnmSheetSlicer	  *slicer;
 		GODataSlicerField *slicer_field;
 
-		GPtrArray	  *cache_by_id;
+		GPtrArray	  *cache_by_index;
 		unsigned int	  field_count, record_count;
 
 		unsigned int	  ivd_index; /* 0 = row, 1 = col, > 1 == err */

@@ -500,20 +500,12 @@ xls_read_SXStreamID (GnmXLImporter *imp, BiffQuery *q, GsfInfile *container)
 	GODataCacheSource *cache_src = NULL;
 
 	XL_CHECK_CONDITION (q->length >= 2);
-
 	cache_id = GSF_LE_GET_GUINT16 (q->data);
 
 	s.imp = imp;
 	s.cache = NULL;
-	if (cache_id < imp->pivot.cache_by_id->len)
-		s.cache = g_ptr_array_index (imp->pivot.cache_by_id, cache_id);
-	else
-		g_ptr_array_set_size (imp->pivot.cache_by_id, cache_id+1);
-
-	if (NULL == s.cache) {
-		xls_read_pivot_cache_by_id (&s, container, cache_id);
-		g_ptr_array_index (imp->pivot.cache_by_id, cache_id) = s.cache;
-	}
+	xls_read_pivot_cache_by_id (&s, container, cache_id);
+	g_ptr_array_add (imp->pivot.cache_by_index, s.cache);
 
 	if (ms_biff_query_peek_next (q, &opcode) &&
 	    opcode == BIFF_SXVS &&
@@ -717,7 +709,7 @@ void
 xls_read_SXVIEW (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	GnmXLImporter *imp = esheet->container.importer;
-	unsigned int first_header_row, cache_id, name_len, data_field_name_len,
+	unsigned int first_header_row, cache_idx, name_len, data_field_name_len,
 		     data_field_axis, data_field_pos, num_fields,
 		     num_row_fields, num_column_fields, num_page_fields,
 		     num_data_fields, num_data_rows, data_columns, flags, autoformat;
@@ -725,14 +717,14 @@ xls_read_SXVIEW (BiffQuery *q, ExcelReadSheet *esheet)
 	GOString *name = NULL, *data_field_name = NULL;
 	GnmCellPos	 first_data;
 	GnmRange	 range;
-	GODataCache	*cache = NULL;
+	GODataCache	*cache;
 
 	XL_CHECK_CONDITION (q->length >= 44);
 	xls_read_range16 (&range, q->data);
 	first_header_row	= GSF_LE_GET_GINT16 (q->data +  8);
 	first_data.row		= GSF_LE_GET_GINT16 (q->data + 10);
 	first_data.col		= GSF_LE_GET_GINT16 (q->data + 12);
-	cache_id		= GSF_LE_GET_GINT16 (q->data + 14) + 1;
+	cache_idx		= GSF_LE_GET_GINT16 (q->data + 14);
 	data_field_axis		= GSF_LE_GET_GUINT16 (q->data + 18); /* Default axis for a data field */
 	data_field_pos		= GSF_LE_GET_GUINT16 (q->data + 20); /* Default position for a data field */
 	num_fields		= GSF_LE_GET_GUINT16 (q->data + 22); /* Number of fields */
@@ -747,8 +739,10 @@ xls_read_SXVIEW (BiffQuery *q, ExcelReadSheet *esheet)
 	name_len		= GSF_LE_GET_GINT16 (q->data + 40);
 	data_field_name_len	= GSF_LE_GET_GINT16 (q->data + 42);
 
-	if (cache_id < imp->pivot.cache_by_id->len)
-		cache = g_ptr_array_index (imp->pivot.cache_by_id, cache_id);
+	cache = (cache_idx < imp->pivot.cache_by_index->len
+		 ? g_ptr_array_index (imp->pivot.cache_by_index, cache_idx)
+		 : NULL);
+
 	name = go_string_new_nocopy (
 		excel_get_text (imp, q->data + 44, name_len,
 			       &len, q->length - 44));

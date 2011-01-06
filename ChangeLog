@@ -1,3 +1,8 @@
+2011-01-06  Morten Welinder  <terra@gnome.org>
+
+	* src/go-data-cache-field.c (go_data_cache_field_get_val): Undo
+	previous change.
+
 2010-12-30  Morten Welinder  <terra@gnome.org>
 
 	* src/number-match.c (format_match_fraction): Add option for

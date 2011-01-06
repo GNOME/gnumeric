@@ -3163,7 +3163,7 @@ gnm_xl_importer_new (GOIOContext *context, WorkbookView *wb_view)
 		NULL, (GDestroyNotify)excel_font_free);
 	importer->excel_sheets     = g_ptr_array_new ();
 	importer->XF_cell_records  = g_ptr_array_new ();
-	importer->pivot.cache_by_id= g_ptr_array_new ();
+	importer->pivot.cache_by_index = g_ptr_array_new ();
 	importer->pivot.slicer= NULL;
 	importer->format_table     = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,
@@ -3231,13 +3231,13 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 		g_object_unref (importer->pivot.slicer);
 		importer->pivot.slicer = NULL;
 	}
-	for (i = 0; i < importer->pivot.cache_by_id->len; i++) {
-		GObject *cache = g_ptr_array_index (importer->pivot.cache_by_id, i);
+	for (i = 0; i < importer->pivot.cache_by_index->len; i++) {
+		GObject *cache = g_ptr_array_index (importer->pivot.cache_by_index, i);
 		if (NULL != cache)
 			g_object_unref (cache);
 	}
-	g_ptr_array_free (importer->pivot.cache_by_id, TRUE);
-	importer->pivot.cache_by_id = NULL;
+	g_ptr_array_free (importer->pivot.cache_by_index, TRUE);
+	importer->pivot.cache_by_index = NULL;
 
 	for (i = 0; i < importer->XF_cell_records->len; i++)
 		biff_xf_data_destroy (g_ptr_array_index (importer->XF_cell_records, i));
