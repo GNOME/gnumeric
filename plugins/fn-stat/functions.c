@@ -4339,7 +4339,7 @@ gnumeric_logistic (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_pareto[] = {
-	{ GNM_FUNC_HELP_NAME, F_("PARETO:probability density function of the pareto distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("PARETO:probability density function of the Pareto distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("a:exponent")},
 	{ GNM_FUNC_HELP_ARG, F_("b:scale parameter")},
