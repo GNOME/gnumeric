@@ -649,13 +649,27 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 				g_hash_table_insert (allargs, argname, argname);
 			break;
 		}
-		case GNM_FUNC_HELP_DESCRIPTION:
+		case GNM_FUNC_HELP_DESCRIPTION: {
+			const char *p;
+
 			if (check_argument_refs (h->text, fd)) {
 				g_printerr ("%s: Invalid argument reference in description\n",
 					    fd->name);
 				res = 1;
 			}
+
+			p = h->text;
+			while (*p && g_ascii_isupper (*p))
+				p++;
+			if (*p == ' ' && p - h->text >= 2) {
+				if (g_ascii_strncasecmp (h->text, fd->name, nlen)) {
+					g_printerr ("%s: Wrong function name in description\n",
+						    fd->name);
+					res = 1;
+				}
+			}
 			break;
+		}
 
 		case GNM_FUNC_HELP_EXAMPLES:
 			if (h->text[0] == '=') {
