@@ -452,7 +452,7 @@ static GnmFuncHelp const help_accrintm[] = {
         { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
         { GNM_FUNC_HELP_ARG, F_("par:par value")},
         { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("ACCRINT calculates the accrued interest from @{issue} to @{maturity}.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ACCRINTM calculates the accrued interest from @{issue} to @{maturity}.") },
 	{ GNM_FUNC_HELP_NOTE, F_("@{par} defaults to $1000.") },
 	GNM_DATE_BASIS_HELP
         { GNM_FUNC_HELP_SEEALSO, "ACCRINT"},

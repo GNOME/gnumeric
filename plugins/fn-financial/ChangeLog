@@ -1,3 +1,7 @@
+2011-01-07  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (help_accrintm): Typo.  #631504.
+
 2010-12-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_euro): add EEK (Estonia)
