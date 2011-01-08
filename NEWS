@@ -8,6 +8,7 @@ Andreas:
 	* Fix ODF import of sheets with far forward references. [#636968]
 	* Add EEK support to EURO and EUROCONVERT.
 	* Fix leaks in potentially failing analysis tools.
+	* Make the row and column headers math the theme better.
 
 Jean:
 	* Only disable the formula bar when a chart sheet is selected. [#636031]

@@ -1,3 +1,7 @@
+2011-01-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/item-bar.c (ib_draw_cell): use selection colours
+	
 2011-01-07  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (gnm_func_sanity_check1): Improve check of

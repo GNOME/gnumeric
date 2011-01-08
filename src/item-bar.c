@@ -253,24 +253,24 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 	case COL_ROW_NO_SELECTION:
 		shadow = GTK_SHADOW_OUT;
 		font   = ib->normal_font;
-		color = GO_COLOR_FROM_GDK (style->bg[GTK_STATE_ACTIVE]);
-		font_color = GO_COLOR_FROM_GDK (style->fg[GTK_STATE_ACTIVE]);
+		color = GO_COLOR_FROM_GDK (style->bg[GTK_STATE_NORMAL]);
+		font_color = GO_COLOR_FROM_GDK (style->fg[GTK_STATE_NORMAL]);
 		ascent = ib->normal_font_ascent;
 		break;
 
 	case COL_ROW_PARTIAL_SELECTION:
 		shadow = GTK_SHADOW_OUT;
 		font   = ib->bold_font;
-		color = GO_COLOR_FROM_GDK (style->dark[GTK_STATE_PRELIGHT]);
-		font_color = GO_COLOR_FROM_GDK (style->fg[GTK_STATE_PRELIGHT]);
+		color = GO_COLOR_FROM_GDK (style->bg[GTK_STATE_SELECTED]);
+		font_color = GO_COLOR_FROM_GDK (style->fg[GTK_STATE_SELECTED]);
 		ascent = ib->bold_font_ascent;
 		break;
 
 	case COL_ROW_FULL_SELECTION:
 		shadow = GTK_SHADOW_IN;
 		font   = ib->bold_font;
-		color = GO_COLOR_FROM_GDK (style->dark[GTK_STATE_NORMAL]);
-		font_color = GO_COLOR_FROM_GDK (style->fg[GTK_STATE_NORMAL]);
+		color = GO_COLOR_FROM_GDK (style->dark[GTK_STATE_SELECTED]);
+		font_color = GO_COLOR_FROM_GDK (style->fg[GTK_STATE_SELECTED]);
 		ascent = ib->bold_font_ascent;
 		break;
 	}
