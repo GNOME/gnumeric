@@ -4277,7 +4277,7 @@ gnumeric_cronbach (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_geomdist[] = {
-	{ GNM_FUNC_HELP_NAME, F_("GEOMDIST:probability mass or cumulative distribution function of the hypergeometric distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("GEOMDIST:probability mass or cumulative distribution function of the geometric distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("k:number of trials")},
 	{ GNM_FUNC_HELP_ARG, F_("p:probability of success in any trial")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the mass function or the cumulative distribution function")},
