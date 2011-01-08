@@ -1,3 +1,7 @@
+2011-01-07 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_binomdist): Fix typo.  [#638953]
+
 2011-01-07  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (help_pareto): Fix typo.  [#638895]

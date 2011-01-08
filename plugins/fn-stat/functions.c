@@ -1468,7 +1468,7 @@ gnumeric_finv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_binomdist[] = {
-	{ GNM_FUNC_HELP_NAME, F_("BINOMDIST:probability mass of cumulative distribution function of the binomial distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("BINOMDIST:probability mass or cumulative distribution function of the binomial distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("n:number of successes")},
 	{ GNM_FUNC_HELP_ARG, F_("trials:number of trials")},
 	{ GNM_FUNC_HELP_ARG, F_("p:probability of success in each trial")},
