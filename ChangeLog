@@ -1,5 +1,17 @@
 2011-01-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/pixmaps/gnm_subscript_16.png: new
+	* src/pixmaps/gnm_subscript_24.png: new
+	* src/pixmaps/gnm_superscript_16.png: new
+	* src/pixmaps/gnm_superscript_24.png: new
+	* src/pixmaps/Makefile.am: add the above files
+	* src/wbc-gtk.c (wbc_gtk_setup_icons): set up Gnumeric_Superscript
+	  and Gnumeric_Subscript icons
+	* src/wbc-gtk-actions.c (font_toggle_actions) use Gnumeric_Superscript
+	  and Gnumeric_Subscript icons
+
+2011-01-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sort.c (sort_compare_cells): add argument and use it to
 	  decide whether to use the cacheing version of value_compare
 	(sort_compare_sets): add argument and change all callers

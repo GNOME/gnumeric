@@ -46,6 +46,8 @@ IMAGES = 							\
 	expr_entry.png		\
 	\
 	gnumeric_splash_1.4.png	\
+	gnm_subscript_16.png		gnm_subscript_24.png	\
+	gnm_superscript_16.png		gnm_superscript_24.png	\
 	unknown_image.png	\
 	\
 	object_arrow_24.png 	\
@@ -214,6 +216,10 @@ VARIABLES = 		 									\
 	gnm_money				$(srcdir)/format_money_24.png			\
 	gnm_percent				$(srcdir)/format_percent_24.png			\
 	gnm_thousand				$(srcdir)/thousands.xpm				\
+	gnm_subscript_16			$(srcdir)/gnm_subscript_16.png			\
+	gnm_subscript_24			$(srcdir)/gnm_subscript_24.png			\
+	gnm_superscript_16			$(srcdir)/gnm_superscript_16.png		\
+	gnm_superscript_24			$(srcdir)/gnm_superscript_24.png		\
 	\
 	gnm_auto				$(srcdir)/auto-sum.xpm				\
 	gnm_equal				$(srcdir)/equal-sign.xpm			\

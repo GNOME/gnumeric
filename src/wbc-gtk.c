@@ -4553,6 +4553,8 @@ wbc_gtk_setup_icons (void)
 		{ gnm_money,				NULL,				"Gnumeric_FormatAsAccounting" },
 		{ gnm_percent,				NULL,				"Gnumeric_FormatAsPercentage" },
 		{ gnm_thousand,				NULL,				"Gnumeric_FormatThousandSeparator" },
+		{ gnm_subscript_24,			gnm_subscript_16,		"Gnumeric_Subscript" },
+		{ gnm_superscript_24,			gnm_superscript_16,		"Gnumeric_Superscript" },
 
 		{ gnm_auto,				NULL,				"Gnumeric_AutoSum" },
 		{ gnm_equal,				NULL,				"Gnumeric_Equal" },

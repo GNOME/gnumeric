@@ -11,6 +11,7 @@ Andreas:
 	* Make the row and column headers and selection match the theme better.
 	  [#639019]
 	* Fix locale specific sorting. [#638874]
+	* Ensure we have sub- and sperscript icons. [#639086]
 
 Jean:
 	* Only disable the formula bar when a chart sheet is selected. [#636031]

@@ -2811,10 +2811,10 @@ static GtkToggleActionEntry const font_toggle_actions[] = {
 	{ "FontStrikeThrough", GTK_STOCK_STRIKETHROUGH,
 		N_("_Strike Through"), "<control>5",
 		N_("Strike Through"), G_CALLBACK (cb_font_strikethrough), FALSE },
-	{ "FontSuperscript", "stock_superscript",	/* from icon theme */
+	{ "FontSuperscript", "Gnumeric_Superscript",
 		N_("Su_perscript"), "<control>asciicircum",
 		N_("Superscript"), G_CALLBACK (cb_font_superscript), FALSE },
-	{ "FontSubscript", "stock_subscript",	/* from icon theme */
+	{ "FontSubscript", "Gnumeric_Subscript",
 		N_("Subscrip_t"), "<control>underscore",
 		N_("Subscript"), G_CALLBACK (cb_font_subscript), FALSE }
 };
