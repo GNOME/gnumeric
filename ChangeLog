@@ -1,3 +1,18 @@
+2011-01-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sort.c (sort_compare_cells): add argument and use it to
+	  decide whether to use the cacheing version of value_compare
+	(sort_compare_sets): add argument and change all callers
+	(gnm_sort_contents): if we are not in the default locale, do not cache
+	  collation keys
+	* src/value.h (value_compare_no_cache): new
+	* src/value.c (value_compare_no_cache): new
+	(value_compare_real): new
+	(value_cmp): use value_compare_real
+	(value_compare): use value_compare_real
+	(gnm_string_cmp): new
+	(gnm_string_cmp_ignorecase): new
+	
 2011-01-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/item-edit.c (item_edit_draw): add NULL argument to call of

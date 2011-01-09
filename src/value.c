@@ -650,6 +650,12 @@ value_dup (GnmValue const *src)
 	return res;
 }
 
+static GnmValDiff
+value_compare_real (GnmValue const *a, GnmValue const *b, 
+		    gboolean case_sensitive,
+		    gboolean default_locale);
+
+
 /**
  * value_cmp :
  * @ptr_a :
@@ -662,7 +668,7 @@ value_cmp (void const *ptr_a, void const *ptr_b)
 {
 	GnmValue const *a = *(GnmValue const **)ptr_a;
 	GnmValue const *b = *(GnmValue const **)ptr_b;
-	switch (value_compare (a, b, TRUE)) {
+	switch (value_compare_real (a, b, TRUE, TRUE)) {
 	case IS_EQUAL :   return  0;
 	case IS_LESS :    return -1;
 	case IS_GREATER : return  1;
@@ -1224,6 +1230,37 @@ value_diff (GnmValue const *a, GnmValue const *b)
 	}
 }
 
+static int
+gnm_string_cmp (gconstpointer gstr_a, gconstpointer gstr_b)
+{
+	return (gstr_a == gstr_b)
+		? 0
+		: g_utf8_collate (((GOString const *)gstr_a)->str, 
+				  ((GOString const *)gstr_b)->str);
+}
+
+static int
+gnm_string_cmp_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
+{
+	gchar *a;
+	gchar *b;
+	int res;
+	
+	if (gstr_a == gstr_b)
+		return 0;
+
+	a = g_utf8_casefold (((GOString const *)gstr_a)->str, -1);
+	b = g_utf8_casefold (((GOString const *)gstr_b)->str, -1);
+	
+	res = g_utf8_collate (a, b);
+
+	g_free (a);
+	g_free (b);
+
+	return res;
+}
+
+
 /**
  * value_compare :
  *
@@ -1233,8 +1270,10 @@ value_diff (GnmValue const *a, GnmValue const *b)
  *
  * IGNORES format.
  */
-GnmValDiff
-value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
+static GnmValDiff
+value_compare_real (GnmValue const *a, GnmValue const *b, 
+		    gboolean case_sensitive,
+		    gboolean default_locale)
 {
 	GnmValueType ta, tb;
 	int t;
@@ -1263,9 +1302,18 @@ value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 
 		/* If both are strings compare as string */
 		case VALUE_STRING :
-			t = case_sensitive
-				? go_string_cmp (a->v_str.val, b->v_str.val)
-				: go_string_cmp_ignorecase (a->v_str.val, b->v_str.val);
+			t = (default_locale) ? 
+				(case_sensitive
+				 ? go_string_cmp 
+				 (a->v_str.val, b->v_str.val)
+				 : go_string_cmp_ignorecase 
+				 (a->v_str.val, b->v_str.val))
+				: (case_sensitive
+				   ? gnm_string_cmp 
+				   (a->v_str.val, b->v_str.val)
+				   : gnm_string_cmp_ignorecase 
+				   (a->v_str.val, b->v_str.val));
+					
 			if (t > 0)
 				return IS_GREATER;
 			else if (t < 0)
@@ -1313,6 +1361,19 @@ value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 	default:
 		return TYPE_MISMATCH;
 	}
+}
+
+GnmValDiff
+value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
+{
+	return value_compare_real (a, b, case_sensitive, TRUE);
+}
+
+GnmValDiff
+value_compare_no_cache (GnmValue const *a, GnmValue const *b, 
+			gboolean case_sensitive)
+{
+	return value_compare_real (a, b, case_sensitive, FALSE);
 }
 
 void

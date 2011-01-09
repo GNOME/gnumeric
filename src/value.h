@@ -136,6 +136,8 @@ GnmValue   *value_dup		   (GnmValue const *v);
 gnm_float   value_diff		   (GnmValue const *a, GnmValue const *b);
 GnmValDiff  value_compare	   (GnmValue const *a, GnmValue const *b,
 				    gboolean case_sensitive);
+GnmValDiff  value_compare_no_cache (GnmValue const *a, GnmValue const *b,
+				    gboolean case_sensitive);
 int	    value_cmp		   (void const *ptr_a, void const *ptr_b);
 int	    value_cmp_reverse	   (void const *ptr_a, void const *ptr_b);
 gboolean    value_equal		   (GnmValue const *a, GnmValue const *b);

@@ -1,3 +1,5 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * sort.c : Routines for sorting cell ranges
  *
@@ -47,7 +49,8 @@ gnm_sort_data_length (GnmSortData const *data)
 
 /* The routines to do the sorting */
 static int
-sort_compare_cells (GnmCell const *ca, GnmCell const *cb, GnmSortClause *clause)
+sort_compare_cells (GnmCell const *ca, GnmCell const *cb, 
+		    GnmSortClause *clause, gboolean default_locale)
 {
 	GnmValue *a, *b;
 	GnmValueType ta, tb;
@@ -75,7 +78,8 @@ sort_compare_cells (GnmCell const *ca, GnmCell const *cb, GnmSortClause *clause)
 	} else if (tb == VALUE_ERROR && ta != VALUE_ERROR) {
 		comp = IS_LESS;
 	} else {
-		comp = value_compare (a, b, clause->cs);
+		comp = default_locale ? value_compare (a, b, clause->cs)
+			: value_compare_no_cache (a, b, clause->cs);
 	}
 
 	if (comp == IS_LESS) {
@@ -88,7 +92,8 @@ sort_compare_cells (GnmCell const *ca, GnmCell const *cb, GnmSortClause *clause)
 }
 
 static int
-sort_compare_sets (GnmSortData const *data, int indexa, int indexb)
+sort_compare_sets (GnmSortData const *data, int indexa, int indexb,
+		   gboolean default_locale)
 {
 	GnmCell *ca, *cb;
 	int clause = 0;
@@ -113,7 +118,8 @@ sort_compare_sets (GnmSortData const *data, int indexa, int indexb)
 					     data->range->start.row + offset);
 		}
 
-		result = sort_compare_cells (ca, cb, &(data->clauses[clause]));
+		result = sort_compare_cells (ca, cb, &(data->clauses[clause]),
+					     default_locale);
 		if (result) {
 			return result;
 		}
@@ -130,7 +136,16 @@ sort_qsort_compare (void const *_a, void const *_b)
 	SortDataPerm const *a = (SortDataPerm const *)_a;
 	SortDataPerm const *b = (SortDataPerm const *)_b;
 
-	return sort_compare_sets (a->data, a->index, b->index);
+	return sort_compare_sets (a->data, a->index, b->index, TRUE);
+}
+
+static int
+sort_qsort_compare_in_locale (void const *_a, void const *_b)
+{
+	SortDataPerm const *a = (SortDataPerm const *)_a;
+	SortDataPerm const *b = (SortDataPerm const *)_b;
+
+	return sort_compare_sets (a->data, a->index, b->index, FALSE);
 }
 
 
@@ -285,19 +300,22 @@ gnm_sort_contents (GnmSortData *data, GOCmdContext *cc)
 	}
 
 	if (real_length > 1) {
-		char *old_locale = NULL;
-
 		if (data->locale) {
-			old_locale = g_strdup (go_setlocale (LC_ALL, NULL));
+			char *old_locale 
+				= g_strdup (go_setlocale (LC_ALL, NULL));
 			go_setlocale (LC_ALL, data->locale);
-		}
 
-		qsort (perm, real_length, sizeof (SortDataPerm), sort_qsort_compare);
+			qsort (perm, real_length, sizeof (SortDataPerm), 
+			       g_str_has_prefix 
+			       (old_locale, data->locale) 
+			       ? sort_qsort_compare
+			       : sort_qsort_compare_in_locale);
 
-		if (old_locale) {
 			go_setlocale (LC_ALL, old_locale);
 			g_free (old_locale);
-		}
+		} else
+			qsort (perm, real_length, sizeof (SortDataPerm), 
+			       sort_qsort_compare);
 	}
 
 	cur = 0;
