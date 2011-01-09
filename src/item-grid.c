@@ -231,7 +231,7 @@ static void
 item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
 			     int start_x, int start_y,
 			     GnmRange const *view, GnmRange const *range,
-			     gboolean draw_selection)
+			     gboolean draw_selection, GtkStyle *theme)
 {
 	int l, r, t, b, last;
 	SheetView const *sv = scg_view (ig->scg);
@@ -278,7 +278,7 @@ item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
 
 	/* Check for background THEN selection */
 	if (gnumeric_background_set (style, cr,
-		is_selected) || is_selected) {
+				     is_selected, theme) || is_selected) {
 		/* Remember X excludes the far pixels */
 		if (dir > 0)
 			cairo_rectangle (cr, l, t, r-l+1, b-t+1);
@@ -332,7 +332,7 @@ static void
 item_grid_draw_background (cairo_t *cr, ItemGrid *ig,
 			   GnmStyle const *style,
 			   int col, int row, int x, int y, int w, int h,
-			   gboolean draw_selection)
+			   gboolean draw_selection, GtkStyle *theme)
 {
 	SheetView const *sv = scg_view (ig->scg);
 	gboolean const is_selected = draw_selection &&
@@ -340,7 +340,7 @@ item_grid_draw_background (cairo_t *cr, ItemGrid *ig,
 		sv_is_pos_selected (sv, col, row);
 	gboolean const has_back =
 		gnumeric_background_set (style, cr,
-					    is_selected);
+					 is_selected, theme);
 
 #if DEBUG_SELECTION_PAINT
 	if (is_selected) {
@@ -393,6 +393,7 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0,
 	SheetView const *sv = scg_view (ig->scg);
 	WorkbookView *wbv = sv_wbv (sv);
 	gboolean show_function_cell_markers = wbv->show_function_cell_markers;
+	GtkStyle *theme = gtk_widget_get_style (GTK_WIDGET (canvas));
 
 	/* To ensure that far and near borders get drawn we pretend to draw +-2
 	 * pixels around the target area which would include the surrounding
@@ -565,7 +566,9 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0,
 
 					if (ci->visible)
 						item_grid_draw_merged_range (cr, ig,
-							start_x, y, &view, r, draw_selection);
+									     start_x, y, &view, r, 
+									     draw_selection,
+									     theme);
 				}
 			} else {
 				lag = &(ptr->next);
@@ -661,7 +664,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 			item_grid_draw_background (cr, ig,
 				style, col, row, x, y,
 				ci->size_pixels, ri->size_pixels,
-				draw_selection);
+						   draw_selection, theme);
 
 
 			/* Is this part of a span?

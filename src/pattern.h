@@ -10,7 +10,8 @@ G_BEGIN_DECLS
 
 gboolean    gnumeric_background_set	(GnmStyle const *style,
 					 cairo_t *cr,
-					 gboolean const is_selected);
+					 gboolean const is_selected,
+					 GtkStyle *theme);
 gboolean    gnumeric_background_set_gtk	(GnmStyle const *style,
 					 cairo_t *context);
 

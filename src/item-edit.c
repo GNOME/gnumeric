@@ -117,7 +117,7 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	/* avoid a weak/strong cursor to extent outside the item,
 	 a better fix would be to have enough room for cursors */
 	cairo_clip_preserve (cr);
-	if (!gnumeric_background_set (ie->style, cr, FALSE))
+	if (!gnumeric_background_set (ie->style, cr, FALSE, NULL))
 		cairo_set_source_rgba (cr, 1., 1., 0.878431373, 1.);
 	cairo_fill (cr);
 

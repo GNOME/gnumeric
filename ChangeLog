@@ -1,5 +1,20 @@
 2011-01-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/item-edit.c (item_edit_draw): add NULL argument to call of
+	  gnumeric_background_set
+	* src/item-grid.c (item_grid_draw_merged_range): add theme argument
+	  to pass to gnumeric_background_set
+	(item_grid_draw_background): ditto
+	(item_grid_draw_region): pass theme to item_grid_draw_merged_range and
+	  item_grid_draw_background
+	* src/pattern.h (gnumeric_background_set): add theme argument
+	* src/pattern.c (gnumeric_background_set): add and use theme argument
+	(gnm_get_light): new
+	* src/preview-grid.c (preview_grid_draw_background): add NULL argument 
+	  to call of gnumeric_background_set
+
+2011-01-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/item-bar.c (ib_draw_cell): use selection colours
 	
 2011-01-07  Morten Welinder  <terra@gnome.org>

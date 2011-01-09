@@ -47,9 +47,16 @@ static GOPatternType patterns[] = {
  *                              of a cell.
  * return : TRUE if there is a background to paint.
  */
+
+static double 
+gnm_get_light (guint16 c)
+{
+	return ((1 + c/65535.)/2);
+}
+
 gboolean
 gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
-			    gboolean const is_selected)
+			 gboolean const is_selected, GtkStyle *theme)
 {
 	int pattern;
 
@@ -68,8 +75,18 @@ gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
 		cairo_set_source (cr, crpat);
 		cairo_pattern_destroy (crpat);
 		return TRUE;
-	} else if (is_selected)
-		cairo_set_source_rgb (cr, .901960784, .901960784, .980392157);
+	} else if (is_selected) {
+		if (theme == NULL)
+			cairo_set_source_rgb 
+				(cr, .901960784, .901960784, .980392157);
+		else {
+			GdkColor color = theme->light[GTK_STATE_SELECTED];
+			cairo_set_source_rgb
+				(cr, gnm_get_light (color.red), 
+				 gnm_get_light (color.green), 
+				 gnm_get_light (color.blue));
+		}
+	}
 	return FALSE;
 }
 
