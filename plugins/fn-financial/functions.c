@@ -981,7 +981,7 @@ static GnmFuncHelp const help_dollarfr[] = {
         { GNM_FUNC_HELP_NAME, F_("DOLLARFR:convert to dollar fraction")},
         { GNM_FUNC_HELP_ARG, F_("decimal_dollar:amount to convert")},
         { GNM_FUNC_HELP_ARG, F_("fraction:denominator")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("DOLLARFR converts a fractional dollar amount into a fraction which is represented as the digits after the decimal point.  For example, 2/8 would be represented as .2 while 3/16 would be represented as .03.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("DOLLARFR converts a decimal dollar amount into a fractional amount which is represented as the digits after the decimal point.  For example, 2/8 would be represented as .2 while 3/16 would be represented as .03. This is the inverse of the DOLLARDE function.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=DOLLARFR(0.25,8)" },
         { GNM_FUNC_HELP_SEEALSO, "DOLLARDE"},
 	{ GNM_FUNC_HELP_END }
