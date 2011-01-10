@@ -3231,14 +3231,14 @@ gnumeric_cumprinc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_mduration[] = {
-        { GNM_FUNC_HELP_NAME, F_("MDURATION:the Macauley duration of a security")},
+        { GNM_FUNC_HELP_NAME, F_("MDURATION:the Macaulay duration of a security")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("coupon:annual coupon rate")},
         { GNM_FUNC_HELP_ARG, F_("yield:annual yield of security")},
         { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
         { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("MDURATION calculates the Macauley duration of a security.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("MDURATION calculates the Macaulay duration of a security.") },
 	FREQ_HELP,
 	GNM_DATE_BASIS_HELP
         { GNM_FUNC_HELP_SEEALSO, "DURATION"},

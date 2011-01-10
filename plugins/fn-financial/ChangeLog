@@ -1,5 +1,9 @@
 2011-01-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_mduration): Typo. #639142
+
+2011-01-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_dollarfr): Typo. #638992
 
 2011-01-07  Morten Welinder  <terra@gnome.org>

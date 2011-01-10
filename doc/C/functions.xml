@@ -4674,7 +4674,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>ACCRINT calculates the accrued interest from <parameter>issue</parameter> to <parameter>maturity</parameter>.</para>
+        <para><function>ACCRINTM</function> calculates the accrued interest from <parameter>issue</parameter> to <parameter>maturity</parameter>.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -4717,9 +4717,9 @@
         <title>Description</title>
         <para><function>AMORDEGRC</function> calculates the depreciation of an asset using French accounting conventions. Assets purchased in the middle of a period take prorated depreciation into account. This is similar to AMORLINC, except that a depreciation coefficient is applied in the calculation depending on the life of the assets.</para>
         <para>The depreciation coefficient used is:</para>
-        <para>1   for an expected lifetime less than 3 years,</para>
+        <para>1.0 for an expected lifetime less than 3 years,</para>
         <para>1.5 for an expected lifetime of at least 3 years but less than 5 years,</para>
-        <para>2   for an expected lifetime of at least 5 years but at most 6 years,</para>
+        <para>2.0 for an expected lifetime of at least 5 years but at most 6 years,</para>
         <para>2.5 for an expected lifetime of more than 6 years.</para>
       </refsect1>
       <refsect1>
@@ -5321,7 +5321,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>DOLLARFR</function> converts a fractional dollar amount into a fraction which is represented as the digits after the decimal point.  For example, 2/8 would be represented as .2 while 3/16 would be represented as .03.</para>
+        <para><function>DOLLARFR</function> converts a decimal dollar amount into a fractional amount which is represented as the digits after the decimal point.  For example, 2/8 would be represented as .2 while 3/16 would be represented as .03. This is the inverse of the DOLLARDE function.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -5428,7 +5428,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para><parameter>currency</parameter> must be one of ATS (Austria), BEF (Belgium), CYP (Cyprus), DEM (Germany), ESP (Spain), EUR (Euro), FIM (Finland), FRF (France), GRD (Greece), IEP (Ireland), ITL (Italy), LUF (Luxembourg), MTL (Malta), NLG (The Netherlands), PTE (Portugal), SIT (Slovenia), or SKK (Slovakia). This function is not likely to be useful anymore.</para>
+        <para><parameter>currency</parameter> must be one of ATS (Austria), BEF (Belgium), CYP (Cyprus), DEM (Germany), EEK (Estonia), ESP (Spain), EUR (Euro), FIM (Finland), FRF (France), GRD (Greece), IEP (Ireland), ITL (Italy), LUF (Luxembourg), MTL (Malta), NLG (The Netherlands), PTE (Portugal), SIT (Slovenia), or SKK (Slovakia). This function is not likely to be useful anymore.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -5744,7 +5744,7 @@
           <function>MDURATION</function>
         </refname>
         <refpurpose>
-        the Macauley duration of a security
+        the Macaulay duration of a security
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -5761,7 +5761,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>MDURATION</function> calculates the Macauley duration of a security.</para>
+        <para><function>MDURATION</function> calculates the Macaulay duration of a security.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -9448,13 +9448,13 @@
         <title>Arguments</title>
         <para><parameter>value</parameter>: search value</para>
         <para><parameter>range</parameter>: range to search</para>
-        <para><parameter>row</parameter>: 1-based column offset indicating the return values </para>
+        <para><parameter>row</parameter>: 1-based row offset indicating the return values </para>
         <para><parameter>approximate</parameter>: if false, an exact match of <parameter>value</parameter> must be found; defaults to TRUE</para>
-        <para><parameter>as_index</parameter>: if true, the 0-based row offset is returned; defaults to FALSE</para>
+        <para><parameter>as_index</parameter>: if true, the 0-based column offset is returned; defaults to FALSE</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>HLOOKUP</function> function finds the row in <parameter>range</parameter> that has a first cell similar to <parameter>value</parameter>.  If <parameter>approximate</parameter> is not true it finds the row with an exact equality. If <parameter>approximate</parameter> is true, it finds the last row with first value less than or equal to <parameter>value</parameter>. If <parameter>as_index</parameter> is true the 0-based row offset is returned.</para>
+        <para><function>HLOOKUP</function> function finds the row in <parameter>range</parameter> that has a first cell similar to <parameter>value</parameter>.  If <parameter>approximate</parameter> is not true it finds the column with an exact equality. If <parameter>approximate</parameter> is true, it finds the last column with first value less than or equal to <parameter>value</parameter>. If <parameter>as_index</parameter> is true the 0-based column offset is returned.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -9904,7 +9904,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>approximate</parameter> is true, then the values must be sorted in order of ascending value. <function>VLOOKUP</function> returns #REF! if <parameter>row</parameter> falls outside <parameter>range</parameter>.</para>
+        <para>If <parameter>approximate</parameter> is true, then the values must be sorted in order of ascending value. <function>VLOOKUP</function> returns #REF! if <parameter>column</parameter> falls outside <parameter>range</parameter>.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -14517,7 +14517,7 @@
           <function>BINOMDIST</function>
         </refname>
         <refpurpose>
-        probability mass of cumulative distribution function of the binomial distribution
+        probability mass or cumulative distribution function of the binomial distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -15458,7 +15458,7 @@
           <function>GEOMDIST</function>
         </refname>
         <refpurpose>
-        probability mass or cumulative distribution function of the hypergeometric distribution
+        probability mass or cumulative distribution function of the geometric distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -16591,7 +16591,7 @@
           <function>PARETO</function>
         </refname>
         <refpurpose>
-        probability density function of the pareto distribution
+        probability density function of the Pareto distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -19403,14 +19403,14 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>known_ys</parameter>: known y-values</para>
-        <para><parameter>known_xs</parameter>: known x-values; defaults to the array {1, 2, 3, …}</para>
-        <para><parameter>new_xs</parameter>: x-values for which to estimate the y-values; defaults to <parameter>known_xs</parameter></para>
+        <para><parameter>known_ys</parameter>: vector of values of dependent variable</para>
+        <para><parameter>known_xs</parameter>: array of values of independent variables, defaults to a single vector {1,…,n}</para>
+        <para><parameter>new_xs</parameter>: array of x-values for which to estimate the y-values; defaults to <parameter>known_xs</parameter></para>
         <para><parameter>affine</parameter>: if true, the model contains a constant term, defaults to true</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>known_ys</parameter> and <parameter>known_xs</parameter> have unequal number of data points, this function returns a #NUM! error.</para>
+        <para>If the length of <parameter>known_ys</parameter> does not match the corresponding length of <parameter>known_xs</parameter>, this function returns a #NUM! error.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>

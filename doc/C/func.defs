@@ -1338,7 +1338,7 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @{rate}: nominal annual interest rate
 @{par}: par value
 @{basis}: calendar basis
-@DESCRIPTION=ACCRINT calculates the accrued interest from @{issue} to @{maturity}.
+@DESCRIPTION=ACCRINTM calculates the accrued interest from @{issue} to @{maturity}.
 @NOTE=@{par} defaults to $1000. If @{basis} is 0, then the US 30/360 method is used. If @{basis} is 1, then actual number of days is used. If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days. If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days. If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=ACCRINT
 
@@ -1355,9 +1355,9 @@ Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods 
 @{basis}: calendar basis
 @DESCRIPTION=AMORDEGRC calculates the depreciation of an asset using French accounting conventions. Assets purchased in the middle of a period take prorated depreciation into account. This is similar to AMORLINC, except that a depreciation coefficient is applied in the calculation depending on the life of the assets.
 The depreciation coefficient used is:
-1   for an expected lifetime less than 3 years,
+1.0 for an expected lifetime less than 3 years,
 1.5 for an expected lifetime of at least 3 years but less than 5 years,
-2   for an expected lifetime of at least 5 years but at most 6 years,
+2.0 for an expected lifetime of at least 5 years but at most 6 years,
 2.5 for an expected lifetime of more than 6 years.
 @NOTE=Special depreciation rules are applied for the last two periods resulting in a possible total depreciation exceeding the difference of @{cost} - @{salvage}. Named for AMORtissement DEGRessif Comptabilite. If @{basis} is 0, then the US 30/360 method is used. If @{basis} is 1, then actual number of days is used. If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days. If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days. If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=AMORLINC
@@ -1552,7 +1552,7 @@ The depreciation coefficient used is:
 @SYNTAX=DOLLARFR(decimal_dollar,fraction)
 @ARGUMENTDESCRIPTION=@{decimal_dollar}: amount to convert
 @{fraction}: denominator
-@DESCRIPTION=DOLLARFR converts a fractional dollar amount into a fraction which is represented as the digits after the decimal point.  For example, 2/8 would be represented as .2 while 3/16 would be represented as .03.
+@DESCRIPTION=DOLLARFR converts a decimal dollar amount into a fractional amount which is represented as the digits after the decimal point.  For example, 2/8 would be represented as .2 while 3/16 would be represented as .03. This is the inverse of the DOLLARDE function.
 @SEEALSO=DOLLARDE
 
 @CATEGORY=Finance
@@ -1584,7 +1584,7 @@ The depreciation coefficient used is:
 @SYNTAX=EURO(currency)
 @ARGUMENTDESCRIPTION=@{currency}: three-letter currency code
 @DESCRIPTION=EURO calculates the national currency amount corresponding to 1 EUR for any of the national currencies that were replaced by the Euro on its introduction.
-@NOTE=@{currency} must be one of ATS (Austria), BEF (Belgium), CYP (Cyprus), DEM (Germany), ESP (Spain), EUR (Euro), FIM (Finland), FRF (France), GRD (Greece), IEP (Ireland), ITL (Italy), LUF (Luxembourg), MTL (Malta), NLG (The Netherlands), PTE (Portugal), SIT (Slovenia), or SKK (Slovakia). This function is not likely to be useful anymore.
+@NOTE=@{currency} must be one of ATS (Austria), BEF (Belgium), CYP (Cyprus), DEM (Germany), EEK (Estonia), ESP (Spain), EUR (Euro), FIM (Finland), FRF (France), GRD (Greece), IEP (Ireland), ITL (Italy), LUF (Luxembourg), MTL (Malta), NLG (The Netherlands), PTE (Portugal), SIT (Slovenia), or SKK (Slovakia). This function is not likely to be useful anymore.
 @SEEALSO=EUROCONVERT
 
 @CATEGORY=Finance
@@ -1683,7 +1683,7 @@ The depreciation coefficient used is:
 
 @CATEGORY=Finance
 @FUNCTION=MDURATION
-@SHORTDESC=the Macauley duration of a security
+@SHORTDESC=the Macaulay duration of a security
 @SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency,basis)
 @ARGUMENTDESCRIPTION=@{settlement}: settlement date
 @{maturity}: maturity date
@@ -1691,7 +1691,7 @@ The depreciation coefficient used is:
 @{yield}: annual yield of security
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
-@DESCRIPTION=MDURATION calculates the Macauley duration of a security.
+@DESCRIPTION=MDURATION calculates the Macaulay duration of a security.
 @NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly). If @{basis} is 0, then the US 30/360 method is used. If @{basis} is 1, then actual number of days is used. If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days. If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days. If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=DURATION
 
@@ -2881,10 +2881,10 @@ The depreciation coefficient used is:
 @SYNTAX=HLOOKUP(value,range,row,approximate,as_index)
 @ARGUMENTDESCRIPTION=@{value}: search value
 @{range}: range to search
-@{row}: 1-based column offset indicating the return values 
+@{row}: 1-based row offset indicating the return values 
 @{approximate}: if false, an exact match of @{value} must be found; defaults to TRUE
-@{as_index}: if true, the 0-based row offset is returned; defaults to FALSE
-@DESCRIPTION=HLOOKUP function finds the row in @{range} that has a first cell similar to @{value}.  If @{approximate} is not true it finds the row with an exact equality. If @{approximate} is true, it finds the last row with first value less than or equal to @{value}. If @{as_index} is true the 0-based row offset is returned.
+@{as_index}: if true, the 0-based column offset is returned; defaults to FALSE
+@DESCRIPTION=HLOOKUP function finds the row in @{range} that has a first cell similar to @{value}.  If @{approximate} is not true it finds the column with an exact equality. If @{approximate} is true, it finds the last column with first value less than or equal to @{value}. If @{as_index} is true the 0-based column offset is returned.
 @NOTE=If @{approximate} is true, then the values must be sorted in order of ascending value. HLOOKUP returns #REF! if @{row} falls outside @{range}.
 @SEEALSO=VLOOKUP
 
@@ -3010,7 +3010,7 @@ The depreciation coefficient used is:
 @{approximate}: if false, an exact match of @{value} must be found; defaults to TRUE
 @{as_index}: if true, the 0-based row offset is returned; defaults to FALSE
 @DESCRIPTION=VLOOKUP function finds the row in @{range} that has a first cell similar to @{value}.  If @{approximate} is not true it finds the row with an exact equality. If @{approximate} is true, it finds the last row with first value less than or equal to @{value}. If @{as_index} is true the 0-based row offset is returned.
-@NOTE=If @{approximate} is true, then the values must be sorted in order of ascending value. VLOOKUP returns #REF! if @{row} falls outside @{range}.
+@NOTE=If @{approximate} is true, then the values must be sorted in order of ascending value. VLOOKUP returns #REF! if @{column} falls outside @{range}.
 @SEEALSO=HLOOKUP
 
 @CATEGORY=Mathematics
@@ -4219,7 +4219,7 @@ The successive use of the simulation tool also requires that you give to the too
 
 @CATEGORY=Statistics
 @FUNCTION=BINOMDIST
-@SHORTDESC=probability mass of cumulative distribution function of the binomial distribution
+@SHORTDESC=probability mass or cumulative distribution function of the binomial distribution
 @SYNTAX=BINOMDIST(n,trials,p,cumulative)
 @ARGUMENTDESCRIPTION=@{n}: number of successes
 @{trials}: number of trials
@@ -4483,7 +4483,7 @@ If the @{bins_array} is empty, this function returns the number of data points i
 
 @CATEGORY=Statistics
 @FUNCTION=GEOMDIST
-@SHORTDESC=probability mass or cumulative distribution function of the hypergeometric distribution
+@SHORTDESC=probability mass or cumulative distribution function of the geometric distribution
 @SYNTAX=GEOMDIST(k,p,cumulative)
 @ARGUMENTDESCRIPTION=@{k}: number of trials
 @{p}: probability of success in any trial
@@ -4798,7 +4798,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 
 @CATEGORY=Statistics
 @FUNCTION=PARETO
-@SHORTDESC=probability density function of the pareto distribution
+@SHORTDESC=probability density function of the Pareto distribution
 @SYNTAX=PARETO(x,a,b)
 @ARGUMENTDESCRIPTION=@{x}: number
 @{a}: exponent
@@ -5661,11 +5661,11 @@ This function is Excel compatible for non-negative @{x}.
 @FUNCTION=TREND
 @SHORTDESC=estimates future values of a given data set using a least squares approximation
 @SYNTAX=TREND(known_ys,known_xs,new_xs,affine)
-@ARGUMENTDESCRIPTION=@{known_ys}: known y-values
-@{known_xs}: known x-values; defaults to the array {1, 2, 3, …}
-@{new_xs}: x-values for which to estimate the y-values; defaults to @{known_xs}
+@ARGUMENTDESCRIPTION=@{known_ys}: vector of values of dependent variable
+@{known_xs}: array of values of independent variables, defaults to a single vector {1,…,n}
+@{new_xs}: array of x-values for which to estimate the y-values; defaults to @{known_xs}
 @{affine}: if true, the model contains a constant term, defaults to true
-@NOTE=If @{known_ys} and @{known_xs} have unequal number of data points, this function returns a #NUM! error.
+@NOTE=If the length of @{known_ys} does not match the corresponding length of @{known_xs}, this function returns a #NUM! error.
 @SEEALSO=LINEST
 
 @CATEGORY=Statistics
