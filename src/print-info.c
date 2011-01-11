@@ -1037,6 +1037,21 @@ page_setup_set_paper (GtkPageSetup *page_setup, char const *paper)
 		paper = GTK_PAPER_NAME_LEGAL;
 	else if (g_ascii_strncasecmp ("Executive", paper, 9) == 0)
 		paper = GTK_PAPER_NAME_EXECUTIVE;
+ /* GTK behaves stupid on some string it should recognize:*/
+	else if (g_str_has_prefix (paper, "iso_a3_"))
+		paper = GTK_PAPER_NAME_A3;
+	else if (g_str_has_prefix (paper, "iso_a4_"))
+		paper = GTK_PAPER_NAME_A4;
+	else if (g_str_has_prefix (paper, "iso_a5_"))
+		paper = GTK_PAPER_NAME_A5;
+	else if (g_str_has_prefix (paper, "iso_b5_"))
+		paper = GTK_PAPER_NAME_B5;
+	else if (g_str_has_prefix (paper, "na_letter_"))
+		paper = GTK_PAPER_NAME_LETTER;
+	else if (g_str_has_prefix (paper, "na_legal_"))
+		paper = GTK_PAPER_NAME_LEGAL;
+	else if (g_str_has_prefix (paper, "na_executive_"))
+		paper = GTK_PAPER_NAME_EXECUTIVE;
 
 	/* Hack: gtk_paper_size_new warns on bad paper, so shut it up.  */
 	/* http://bugzilla.gnome.org/show_bug.cgi?id=493880 */
