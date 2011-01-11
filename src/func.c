@@ -659,9 +659,14 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 			}
 
 			p = h->text;
-			while (*p && (*p == '_' || g_ascii_isupper (*p)))
+			while (g_ascii_isupper (*p) ||
+			       (p != h->text && (*p == '_' ||
+						 *p == '.' ||
+						 g_ascii_isdigit (*p))))
 				p++;
-			if (*p == ' ' && p - h->text >= 2) {
+			if (*p == ' ' &&
+			    p - h->text >= 2 &&
+			    strncmp (h->text, "CP1252", 6) != 0) {
 				if (g_ascii_strncasecmp (h->text, fd->name, nlen)) {
 					g_printerr ("%s: Wrong function name in description\n",
 						    fd->name);

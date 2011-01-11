@@ -1,7 +1,7 @@
 2011-01-11  Morten Welinder  <terra@gnome.org>
 
-	* src/func.c (gnm_func_sanity_check1): Allow for _ in function
-	names.
+	* src/func.c (gnm_func_sanity_check1): Allow for "_", ".", and
+	digits in function names.
 
 2011-01-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
