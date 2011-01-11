@@ -1,3 +1,8 @@
+2011-01-11  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (gnm_func_sanity_check1): Allow for _ in function
+	names.
+
 2011-01-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print-info.c (page_setup_set_paper): work around a gtk bug
@@ -10,9 +15,9 @@
 	* src/pixmaps/gnm_superscript_16.png: new
 	* src/pixmaps/gnm_superscript_24.png: new
 	* src/pixmaps/Makefile.am: add the above files
-	* src/wbc-gtk.c (wbc_gtk_setup_icons): set up 
+	* src/wbc-gtk.c (wbc_gtk_setup_icons): set up
 	  Gnumeric_Superscript and Gnumeric_Subscript icons
-	* src/wbc-gtk-actions.c (font_toggle_actions) use 
+	* src/wbc-gtk-actions.c (font_toggle_actions) use
 	  Gnumeric_Superscript and Gnumeric_Subscript icons
 
 2011-01-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -29,7 +34,7 @@
 	(value_compare): use value_compare_real
 	(gnm_string_cmp): new
 	(gnm_string_cmp_ignorecase): new
-	
+
 2011-01-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/item-edit.c (item_edit_draw): add NULL argument to call of
@@ -42,13 +47,13 @@
 	* src/pattern.h (gnumeric_background_set): add theme argument
 	* src/pattern.c (gnumeric_background_set): add and use theme argument
 	(gnm_get_light): new
-	* src/preview-grid.c (preview_grid_draw_background): add NULL argument 
+	* src/preview-grid.c (preview_grid_draw_background): add NULL argument
 	  to call of gnumeric_background_set
 
 2011-01-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/item-bar.c (ib_draw_cell): use selection colours
-	
+
 2011-01-07  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (gnm_func_sanity_check1): Improve check of

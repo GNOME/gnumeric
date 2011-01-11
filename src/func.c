@@ -659,7 +659,7 @@ gnm_func_sanity_check1 (GnmFunc const *fd)
 			}
 
 			p = h->text;
-			while (*p && g_ascii_isupper (*p))
+			while (*p && (*p == '_' || g_ascii_isupper (*p)))
 				p++;
 			if (*p == ' ' && p - h->text >= 2) {
 				if (g_ascii_strncasecmp (h->text, fd->name, nlen)) {
