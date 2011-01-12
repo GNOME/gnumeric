@@ -1,3 +1,8 @@
+2011-01-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* gnumeric-expr-entry.c (gee_set_property), (gee_get_property),
+	(gee_class_init): override edition-canceled property. [#639287]
+
 2010-11-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.12

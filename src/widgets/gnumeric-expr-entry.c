@@ -156,7 +156,8 @@ enum {
 	PROP_FLAGS,
 	PROP_SCG,
 	PROP_WBCG,
-	PROP_CONSTANT_FORMAT
+	PROP_CONSTANT_FORMAT,
+	PROP_EDITING_CANCELED
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
@@ -490,6 +491,8 @@ gee_set_property (GObject      *object,
 	case PROP_CONSTANT_FORMAT:
 		gee_set_format (gee, g_value_get_pointer (value));
 		break;
+	case PROP_EDITING_CANCELED:
+		gee->editing_canceled = g_value_get_boolean (value);
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 	}
@@ -524,6 +527,8 @@ gee_get_property (GObject      *object,
 	case PROP_CONSTANT_FORMAT:
 		g_value_set_pointer (value, (gpointer)gee->constant_format);
 		break;
+	case PROP_EDITING_CANCELED:
+		g_value_set_boolean (value, gee->editing_canceled);
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 	}
@@ -1519,6 +1524,12 @@ gee_class_init (GObjectClass *gobject_class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+
+
+#if GTK_CHECK_VERSION(2,20,0)
+	g_object_class_override_property
+		(gobject_class, PROP_EDITING_CANCELED, "editing-canceled");
+#endif
 
 	g_object_class_install_property
 		(gobject_class, PROP_UPDATE_POLICY,
