@@ -1,5 +1,10 @@
 2011-01-12  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* gnumeric-expr-entry.c (gee_class_init): dynamically test for
+	the edition-canceled property.
+
+2011-01-12  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* gnumeric-expr-entry.c (gee_set_property), (gee_get_property),
 	(gee_class_init): override edition-canceled property. [#639287]
 
