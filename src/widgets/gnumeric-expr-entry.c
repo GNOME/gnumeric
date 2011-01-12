@@ -1527,7 +1527,7 @@ gee_class_init (GObjectClass *gobject_class)
 
 
 	/* FIXME: remove the test when we require gtk+ 2.20 or later */
-	if (g_object_interface_find_property (g_type_interface_peek (gobject_class, gtk_cell_editable_get_type ()), "editing-canceled")) puts("found it!");else puts("does not work");
+	if (g_object_interface_find_property (g_type_interface_peek (gobject_class, gtk_cell_editable_get_type ()), "editing-canceled"))
 		g_object_class_override_property
 			(gobject_class, PROP_EDITING_CANCELED, "editing-canceled");
 
