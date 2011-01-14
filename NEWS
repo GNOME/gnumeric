@@ -12,6 +12,7 @@ Andreas:
 	  [#639019]
 	* Fix locale specific sorting. [#638874]
 	* Ensure we have sub- and sperscript icons. [#639086]
+	* Fix advanced filter. [#639444]
 
 Jean:
 	* Only disable the formula bar when a chart sheet is selected. [#636031]

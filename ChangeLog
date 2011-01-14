@@ -1,3 +1,7 @@
+2011-01-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/value.c (find_rows_that_match): only one criteria row has to match!
+
 2011-01-11  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (gnm_func_sanity_check1): Allow for "_", ".", and

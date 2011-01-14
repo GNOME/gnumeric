@@ -1828,7 +1828,7 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 				}
 			}
 
-			if (!add_flag)
+			if (add_flag)
 				break;
 		}
 		if (add_flag) {
