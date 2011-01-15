@@ -282,7 +282,6 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	GdkWindow *popup_window;
 
 	popup = gtk_window_new (GTK_WINDOW_POPUP);
-	popup_window = gtk_widget_get_window (popup);
 
 	gtk_window_set_type_hint (GTK_WINDOW (popup), GDK_WINDOW_TYPE_HINT_COMBO);
 	gtk_window_group_add_window (gtk_window_get_group (toplevel), GTK_WINDOW (popup));
@@ -392,6 +391,8 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	gtk_widget_grab_focus (popup);
 	gtk_widget_grab_focus (GTK_WIDGET (list));
 	ccombo_focus_change (GTK_WIDGET (list), TRUE);
+
+	popup_window = gtk_widget_get_window (popup);
 
 	if (0 == gdk_pointer_grab (popup_window, TRUE,
 		GDK_BUTTON_PRESS_MASK |
