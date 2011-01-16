@@ -820,16 +820,21 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 	Sheet *sheet = ep->sheet;
 	GnmParsePos pp;
 	ColRowIndexList *cri_col_list = NULL, *cri_row_list = NULL;
+	GOFormat const *format = gnm_style_get_format
+		(sheet_style_get (sheet, ep->eval.col, ep->eval.row));
 
 	g_return_val_if_fail (selection != NULL , TRUE);
 
 	parse_pos_init_evalpos (&pp, ep);
 	name = undo_range_list_name (sheet, selection);
-	expr_txt = gnm_expr_char_start_p (new_text);
-	if (expr_txt != NULL)
-		texpr = gnm_expr_parse_str
-			(expr_txt, &pp, GNM_EXPR_PARSE_DEFAULT,
-			 sheet_get_conventions (sheet), NULL);
+
+	if ((format == NULL) || !go_format_is_text (format)) {
+		expr_txt = gnm_expr_char_start_p (new_text);
+		if (expr_txt != NULL)
+			texpr = gnm_expr_parse_str
+				(expr_txt, &pp, GNM_EXPR_PARSE_DEFAULT,
+				 sheet_get_conventions (sheet), NULL);
+	}
 
 	if (texpr != NULL) {
 		GOFormat const *sf;
@@ -861,9 +866,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 
 		text = g_strdup_printf (_("Inserting expression in %s"), name);
 
-		if (go_format_is_general
-		    (gnm_style_get_format
-		     (sheet_style_get (sheet, ep->eval.col, ep->eval.row)))) {
+		if (go_format_is_general (format)) {
 			sf = auto_style_format_suggest (texpr, ep);
 			if (sf != NULL) {
 				new_style = gnm_style_new ();

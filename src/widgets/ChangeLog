@@ -1,3 +1,8 @@
+2011-01-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_update_lexer_items): check for text 
+	formatted cells
+
 2011-01-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnm-cell-combo-view.c (gnm_cell_combo_view_popdown): wait for the

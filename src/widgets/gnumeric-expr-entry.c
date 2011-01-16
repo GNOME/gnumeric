@@ -877,6 +877,8 @@ gee_update_lexer_items (GnmExprEntry *gee)
 	GtkEditable *editable = GTK_EDITABLE (gee->entry);
 	char *str = gtk_editable_get_chars (editable, 0, -1);
 	Sheet *sheet = scg_sheet (gee->scg);
+	GOFormat const *format;
+	gboolean forced_text;
 
 	g_free (gee->lexer_items);
 	gee->lexer_items = NULL;
@@ -887,15 +889,19 @@ gee_update_lexer_items (GnmExprEntry *gee)
 	}
 
 	parse_pos_init_editpos (&gee->pp, scg_view (gee->scg));
+	format = gnm_style_get_format
+		(sheet_style_get (sheet, gee->pp.eval.col, gee->pp.eval.row));
+	forced_text = ((format != NULL) && go_format_is_text (format));
 
-	if (!gee->feedback_disabled) {
+	if (!gee->feedback_disabled && !forced_text) {
 		gee->texpr = gnm_expr_parse_str
 			((str[0] == '=') ? str+1 : str,
 			 &gee->pp, GNM_EXPR_PARSE_DEFAULT,
 			 sheet_get_conventions (sheet), NULL);
 	}
 
-	gee->tooltip.is_expr = (NULL != gnm_expr_char_start_p (str));
+	gee->tooltip.is_expr =  (!forced_text) &&
+		(NULL != gnm_expr_char_start_p (str));
 	if (!(gee->flags & GNM_EE_SINGLE_RANGE)) {
 		gee->lexer_items = gnm_expr_lex_all
 			(str, &gee->pp,

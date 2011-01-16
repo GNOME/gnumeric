@@ -13,6 +13,7 @@ Andreas:
 	* Fix locale specific sorting. [#638874]
 	* Ensure we have sub- and sperscript icons. [#639086]
 	* Fix advanced filter. [#639444]
+	* Suppress function tooltips on text-formatted cells. [#638832]
 
 Jean:
 	* Only disable the formula bar when a chart sheet is selected. [#636031]
