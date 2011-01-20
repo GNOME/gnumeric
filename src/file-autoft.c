@@ -212,7 +212,10 @@ category_group_list_get (void)
 		 gnm_sys_data_dir ());
 	add_dir (&dir_list,
 		 gnm_conf_get_autoformat_usr_dir (),
-		 gnm_usr_dir ());
+		 gnm_usr_dir (FALSE));
+	add_dir (&dir_list,
+		 gnm_conf_get_autoformat_usr_dir (),
+		 gnm_usr_dir (TRUE));
 
 	for (sl = gnm_conf_get_autoformat_extra_dirs (); sl; sl = sl->next) {
 		const char *dir = sl->data;

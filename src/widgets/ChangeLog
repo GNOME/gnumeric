@@ -1,13 +1,17 @@
+2011-01-20  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c: Fix warning.
+
 2011-01-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* gnumeric-expr-entry.c (gee_update_lexer_items): check for text 
+	* gnumeric-expr-entry.c (gee_update_lexer_items): check for text
 	formatted cells
 
 2011-01-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnm-cell-combo-view.c (gnm_cell_combo_view_popdown): wait for the
 	gdkwindow to be set before rtetrieving it.
-	
+
 2011-01-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* gnumeric-expr-entry.c (gee_class_init): dynamically test for

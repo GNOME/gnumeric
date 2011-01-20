@@ -5073,8 +5073,13 @@ wbc_gtk_reload_templates (WBCGtk *gtk)
 	add_template_dir (path, h);
 	g_free (path);
 
-	/* Let user override system templates by doing this last.  */
-	path = g_build_filename (gnm_usr_dir (), "templates", NULL);
+	/* Possibly override the above with user templates without version.  */
+	path = g_build_filename (gnm_usr_dir (FALSE), "templates", NULL);
+	add_template_dir (path, h);
+	g_free (path);
+
+	/* Possibly override the above with user templates with version.  */
+	path = g_build_filename (gnm_usr_dir (TRUE), "templates", NULL);
 	add_template_dir (path, h);
 	g_free (path);
 

@@ -29,6 +29,7 @@ Morten:
 	* Plug a few leaks.
 	* Fix number-match issue regarding fraction.
 	* Fix problems with pivot reading from xls.  [#638776]
+	* Allow version-agnostic template files.  [#630247]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.12

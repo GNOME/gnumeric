@@ -265,6 +265,8 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	GTypeModule *module;
 	char const *env_var;
 	GSList *dir_list;
+	const char *usr_dir = gnm_usr_dir (TRUE);
+
 	bindtextdomain (GETTEXT_PACKAGE, gnm_locale_dir ());
 	bindtextdomain (GETTEXT_PACKAGE "-functions", gnm_locale_dir ());
 #ifdef ENABLE_NLS
@@ -277,8 +279,8 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 		gutils_init ();
 	dir_list = go_slist_create (
 		g_build_filename (gnm_sys_lib_dir (), PLUGIN_SUBDIR, NULL),
-		(gnm_usr_dir () == NULL ? NULL :
-			g_build_filename (gnm_usr_dir (), PLUGIN_SUBDIR, NULL)),
+		(usr_dir == NULL ? NULL :
+			g_build_filename (usr_dir, PLUGIN_SUBDIR, NULL)),
 		NULL);
 	dir_list = g_slist_concat
 		(dir_list,

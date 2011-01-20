@@ -1,11 +1,20 @@
+2011-01-20  Morten Welinder  <terra@gnome.org>
+
+	* src/gutils.c (gnm_usr_dir): Add parameter controlling whether to
+	return versioned or unversioned directory.  All callers changed.
+
+	* src/file-autoft.c (category_group_list_get): Search both
+	unversioned and versioned directories.
+	* src/wbc-gtk.c (wbc_gtk_reload_templates): Ditto.
+
 2011-01-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_set_text_full): do not enter expressions
 	into text-formatted cells
-	
+
 2011-01-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/value.c (find_rows_that_match): only one criteria row has 
+	* src/value.c (find_rows_that_match): only one criteria row has
 	to match!
 
 2011-01-11  Morten Welinder  <terra@gnome.org>

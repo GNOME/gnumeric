@@ -36,6 +36,7 @@ static char *gnumeric_data_dir;
 static char *gnumeric_icon_dir;
 static char *gnumeric_locale_dir;
 static char *gnumeric_usr_dir;
+static char *gnumeric_usr_dir_unversioned;
 
 static gboolean
 running_in_tree (void)
@@ -105,8 +106,12 @@ gutils_init (void)
 	gnumeric_locale_dir = g_strdup (GNUMERIC_LOCALEDIR);
 #endif
 	home_dir = g_get_home_dir ();
-	gnumeric_usr_dir = (home_dir == NULL ? NULL :
-	   g_build_filename (home_dir, ".gnumeric", GNM_VERSION_FULL, NULL));
+	gnumeric_usr_dir_unversioned = home_dir
+		? g_build_filename (home_dir, ".gnumeric", NULL)
+		: NULL;
+	gnumeric_usr_dir = gnumeric_usr_dir_unversioned
+		? g_build_filename (gnumeric_usr_dir_unversioned, GNM_VERSION_FULL, NULL)
+		: NULL;
 }
 
 void
@@ -122,6 +127,8 @@ gutils_shutdown (void)
 	gnumeric_locale_dir = NULL;
 	g_free (gnumeric_usr_dir);
 	gnumeric_usr_dir = NULL;
+	g_free (gnumeric_usr_dir_unversioned);
+	gnumeric_usr_dir_unversioned = NULL;
 }
 
 char const *
@@ -149,9 +156,9 @@ gnm_locale_dir (void)
 }
 
 char const *
-gnm_usr_dir (void)
+gnm_usr_dir (gboolean versioned)
 {
-	return gnumeric_usr_dir;
+	return versioned ? gnumeric_usr_dir : gnumeric_usr_dir_unversioned;
 }
 
 int

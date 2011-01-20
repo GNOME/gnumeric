@@ -25,6 +25,7 @@
 #include <func.h>
 #include <dependent.h>
 #include <sheet.h>
+#include <sheet-style.h>
 #include <workbook.h>
 #include <sheet-view.h>
 #include <selection.h>
