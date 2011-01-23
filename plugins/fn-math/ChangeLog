@@ -1,3 +1,7 @@
+2011-01-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_atan2): fix order of arguments
+	
 2010-11-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.12

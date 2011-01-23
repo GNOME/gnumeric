@@ -408,13 +408,20 @@ gnumeric_atanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_atan2[] = {
-        { GNM_FUNC_HELP_NAME, F_("ATAN2:the arc tangent of the ratio of @{y} and @{x}")},
-        { GNM_FUNC_HELP_ARG, F_("y:y-coordinate")},
+        { GNM_FUNC_HELP_NAME, F_("ATAN2:the arc tangent of the ratio of "
+				 "@{y}/@{x}")},
         { GNM_FUNC_HELP_ARG, F_("x:x-coordinate")},
-        { GNM_FUNC_HELP_DESCRIPTION, F_("ATAN2 calculates the direction from the origin to (@{x},@{y}) as an angle in radians.")},
-	{ GNM_FUNC_HELP_NOTE, F_("The result will be between \xcf\x80 and +\xcf\x80.")},
-	{ GNM_FUNC_HELP_NOTE, F_("The order of the arguments may be unexpected.")},
+        { GNM_FUNC_HELP_ARG, F_("y:y-coordinate")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("ATAN2 calculates the direction from "
+					"the origin to the point (@{x},@{y}) "
+					"as an angle from the x-axis in "
+					"radians.")},
+	{ GNM_FUNC_HELP_NOTE, F_("The result will be between \xcf\x80 and "
+				 "+\xcf\x80.")},
+	{ GNM_FUNC_HELP_NOTE, F_("The order of the arguments may be "
+				 "unexpected.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ATAN2(0.5,1.0)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ATAN2(-0.5,2.0)" },
         { GNM_FUNC_HELP_SEEALSO, "ATAN,ATANH,COS,SIN"},

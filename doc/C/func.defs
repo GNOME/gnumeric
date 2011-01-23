@@ -1967,7 +1967,7 @@ The depreciation coefficient used is:
 @{rate}: risk-free interest rate to the exercise date in percent
 @{volatility}: annualized volatility of the asset in percent for the period through to the exercise date
 @{cost_of_carry}: net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0
-@DESCRIPTION=OPT_BS_DELTA uses the Black-Scholes model to calculate the 'theta' of a European option struck at @{strike} on an asset with spot price @{spot}. The theta of an option is the rate of change of its price with respect to time to expiry.
+@DESCRIPTION=OPT_BS_THETA uses the Black-Scholes model to calculate the 'theta' of a European option struck at @{strike} on an asset with spot price @{spot}. The theta of an option is the rate of change of its price with respect to time to expiry.
 @NOTE=Theta is expressed as the negative of the rate of change of the option value, per 365.25 days.
 @SEEALSO=OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_VEGA,OPT_BS_GAMMA
 
@@ -3091,13 +3091,14 @@ The depreciation coefficient used is:
 
 @CATEGORY=Mathematics
 @FUNCTION=ATAN2
-@SHORTDESC=the arc tangent of the ratio of @{y} and @{x}
-@SYNTAX=ATAN2(y,x)
-@ARGUMENTDESCRIPTION=@{y}: y-coordinate
-@{x}: x-coordinate
-@DESCRIPTION=ATAN2 calculates the direction from the origin to (@{x},@{y}) as an angle in radians.
+@SHORTDESC=the arc tangent of the ratio of @{y}/@{x}
+@SYNTAX=ATAN2(x,y)
+@ARGUMENTDESCRIPTION=@{x}: x-coordinate
+@{y}: y-coordinate
+@DESCRIPTION=ATAN2 calculates the direction from the origin to the point (@{x},@{y}) as an angle from the x-axis in radians.
 @NOTE=The result will be between π and +π. The order of the arguments may be unexpected.
 @EXCEL=This function is Excel compatible.
+@ODF=This function is OpenFormula compatible.
 @SEEALSO=ATAN,ATANH,COS,SIN
 
 @CATEGORY=Mathematics

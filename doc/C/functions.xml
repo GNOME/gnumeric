@@ -6548,7 +6548,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>OPT_BS_DELTA uses the Black-Scholes model to calculate the 'theta' of a European option struck at <parameter>strike</parameter> on an asset with spot price <parameter>spot</parameter>. The theta of an option is the rate of change of its price with respect to time to expiry.</para>
+        <para><function>OPT_BS_THETA</function> uses the Black-Scholes model to calculate the 'theta' of a European option struck at <parameter>strike</parameter> on an asset with spot price <parameter>spot</parameter>. The theta of an option is the rate of change of its price with respect to time to expiry.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -10242,20 +10242,20 @@
           <function>ATAN2</function>
         </refname>
         <refpurpose>
-        the arc tangent of the ratio of <parameter>y</parameter> and <parameter>x</parameter>
+        the arc tangent of the ratio of <parameter>y</parameter>/<parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>ATAN2</function>(<parameter>y</parameter>,<parameter>x</parameter>)</synopsis>
+        <synopsis><function>ATAN2</function>(<parameter>x</parameter>,<parameter>y</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>y</parameter>: y-coordinate</para>
         <para><parameter>x</parameter>: x-coordinate</para>
+        <para><parameter>y</parameter>: y-coordinate</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>ATAN2</function> calculates the direction from the origin to (<parameter>x</parameter>,<parameter>y</parameter>) as an angle in radians.</para>
+        <para><function>ATAN2</function> calculates the direction from the origin to the point (<parameter>x</parameter>,<parameter>y</parameter>) as an angle from the x-axis in radians.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -10264,6 +10264,10 @@
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
         <para>This function is Excel compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>OpenDocument Format (ODF) Compatibility</title>
+        <para>This function is OpenFormula compatible.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
