@@ -408,7 +408,7 @@ gnumeric_atanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_atan2[] = {
-        { GNM_FUNC_HELP_NAME, F_("ATAN2:the arc tangent of the ratio of "
+        { GNM_FUNC_HELP_NAME, F_("ATAN2:the arc tangent of the ratio "
 				 "@{y}/@{x}")},
         { GNM_FUNC_HELP_ARG, F_("x:x-coordinate")},
         { GNM_FUNC_HELP_ARG, F_("y:y-coordinate")},
