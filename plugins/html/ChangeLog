@@ -1,3 +1,7 @@
+2011-02-02  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.13
+
 2010-12-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* latex.c (file_saver_sheet_get_extent): new

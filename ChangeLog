@@ -1,3 +1,7 @@
+2011-02-02  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.13
+
 2011-01-20  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (gnm_usr_dir): Add parameter controlling whether to

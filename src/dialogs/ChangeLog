@@ -1,3 +1,7 @@
+2011-02-02  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.13
+
 2010-12-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-doc-metadata.c (dialog_doc_metadata_set_gsf_prop): avoid leak
