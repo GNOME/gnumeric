@@ -1,3 +1,7 @@
+2011-02-05  Morten Welinder  <terra@gnome.org>
+
+	* sc.c (sc_file_open): Support columns up to ZZ.  Fixes #641581.
+
 2011-02-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.13
