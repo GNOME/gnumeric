@@ -132,8 +132,8 @@ sc_warning (ScParseState *state, char const *fmt, ...)
 	return FALSE; /* convenience */
 }
 
-static GnmCell  *
-sc_sheet_cell_fetch (ScParseState *state, int col, int row)
+static gboolean
+enlarge (ScParseState *state, int col, int row)
 {
 	GnmSheetSize const *size = gnm_sheet_get_size (state->sheet);
 	gboolean err = FALSE;
@@ -151,6 +151,15 @@ sc_sheet_cell_fetch (ScParseState *state, int col, int row)
 			(state->sheet, cols_needed, rows_needed, NULL, &err);
 		if (goundo) g_object_unref (goundo);
 	}
+
+	return err;
+}
+
+
+static GnmCell  *
+sc_sheet_cell_fetch (ScParseState *state, int col, int row)
+{
+	gboolean err = enlarge (state, col, row);
 
 	if (err) {
 		sc_warning (state, _("The cell in row %i and column %i is beyond "
@@ -369,9 +378,17 @@ sc_parse_format_set_width (ScParseState *state, int len, int col_from, int col_t
 	int width;
 	int col;
 	GnmStyle *mstyle;
+	gboolean err;
 
 	if (len < 1)
 		return;
+
+	err = enlarge (state, col_to, 0);
+	if (err) {
+		sc_warning (state, _("The sheet is wider than "
+				     "Gnumeric can handle."));
+		return;
+	}
 
 	mstyle = gnm_style_new_default ();
 	style_font = gnm_style_get_font
@@ -994,20 +1011,10 @@ sc_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	char      *name;
 	GOErrorInfo *error;
 	ScParseState state;
-	int cols, rows;
 
 	wb = wb_view_get_workbook (wb_view);
 	name = workbook_sheet_get_free_name (wb, "SC", FALSE, TRUE);
-
-	 /*
-	  * A through ZZ although the source suggests that a few are not
-	  * actually valid.  "PI", for example.
-	  */
-	cols = 702;
-	rows = 65536;
-	gnm_sheet_suggest_size (&cols, &rows);
-	state.sheet = sheet_new (wb, name, cols, rows);
-
+	state.sheet = sheet_new (wb, name, 256, 65536);
 	g_free (name);
 	workbook_sheet_attach (wb, state.sheet);
 

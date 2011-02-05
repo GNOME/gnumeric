@@ -1,6 +1,9 @@
 2011-02-05  Morten Welinder  <terra@gnome.org>
 
-	* sc.c (sc_file_open): Support columns up to ZZ.  Fixes #641581.
+	* sc.c (sc_parse_format_set_width): Enlarge sheet if needed.
+	Fixes #641581.
+	(enlarge): New function, split from...
+	(sc_sheet_cell_fetch): ...here.
 
 2011-02-02  Morten Welinder <terra@gnome.org>
 
