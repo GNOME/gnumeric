@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
@@ -6,11 +6,9 @@
     <property name="border_width">6</property>
     <property name="title">Document Properties</property>
     <property name="type_hint">dialog</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkHBox" id="hbox1">
@@ -18,11 +16,10 @@
             <property name="spacing">10</property>
             <child>
               <object class="GtkScrolledWindow" id="scrolledwindow3">
-                <property name="width_request">120</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="hscrollbar_policy">never</property>
-                <property name="vscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">never</property>
                 <property name="shadow_type">in</property>
                 <child>
                   <object class="GtkTreeView" id="itemlist">
@@ -33,6 +30,7 @@
                 </child>
               </object>
               <packing>
+                <property name="expand">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -48,7 +46,6 @@
                   <object class="GtkVBox" id="vbox5">
                     <property name="visible">True</property>
                     <property name="border_width">5</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkLabel" id="label79">
@@ -719,7 +716,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="tooltip_text">The document keywords</property>
-                        <property name="invisible_char">&#x2022;</property>
+                        <property name="invisible_char">•</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -787,7 +784,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="tooltip_text">The document category</property>
-                        <property name="invisible_char">&#x2022;</property>
+                        <property name="invisible_char">•</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -802,7 +799,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="tooltip_text">The document company</property>
-                        <property name="invisible_char">&#x2022;</property>
+                        <property name="invisible_char">•</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -817,7 +814,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="tooltip_text">The document manager</property>
-                        <property name="invisible_char">&#x2022;</property>
+                        <property name="invisible_char">•</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -832,7 +829,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="tooltip_text">The document author</property>
-                        <property name="invisible_char">&#x2022;</property>
+                        <property name="invisible_char">•</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -847,7 +844,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="tooltip_text">The document subject</property>
-                        <property name="invisible_char">&#x2022;</property>
+                        <property name="invisible_char">•</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -862,7 +859,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="tooltip_text">The document title (not filename)</property>
-                        <property name="invisible_char">&#x2022;</property>
+                        <property name="invisible_char">•</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -973,7 +970,6 @@
                   <object class="GtkVBox" id="vbox10">
                     <property name="visible">True</property>
                     <property name="border_width">5</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkScrolledWindow" id="scrolledwindow2">
@@ -1041,7 +1037,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="tooltip_text">This property's content (text)</property>
-                            <property name="invisible_char">&#x2022;</property>
+                            <property name="invisible_char">•</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1069,7 +1065,7 @@
                           <object class="GtkEntry" id="ppt_link">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x2022;</property>
+                            <property name="invisible_char">•</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1173,7 +1169,6 @@
                   <object class="GtkVBox" id="vbox4">
                     <property name="visible">True</property>
                     <property name="border_width">4</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkTable" id="table6">
@@ -1298,7 +1293,6 @@
                   <object class="GtkVBox" id="vbox1">
                     <property name="visible">True</property>
                     <property name="border_width">12</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">12</property>
                     <child>
                       <object class="GtkHBox" id="hbox2">
@@ -1398,7 +1392,7 @@
                               <object class="GtkEntry" id="max_iterations">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="invisible_char">&#x2022;</property>
+                                <property name="invisible_char">•</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1410,7 +1404,7 @@
                               <object class="GtkEntry" id="iteration_tolerance">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="invisible_char">&#x2022;</property>
+                                <property name="invisible_char">•</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>

@@ -1,5 +1,8 @@
 Gnumeric 1.10.14
 
+Andreas:
+	* Fix width of translated lists in various dialogs [#641626]
+
 Morten:
 	* Import wide sc files.  [#641581]
 

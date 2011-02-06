@@ -1,15 +1,13 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkDialog" id="WorkbookAttr">
     <property name="title" translatable="yes">View Properties</property>
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkHBox" id="hbox1">
@@ -18,12 +16,10 @@
             <property name="spacing">12</property>
             <child>
               <object class="GtkScrolledWindow" id="scrolledwindow1">
-                <property name="width_request">160</property>
-                <property name="height_request">120</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="hscrollbar_policy">never</property>
-                <property name="vscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">never</property>
                 <property name="shadow_type">in</property>
                 <child>
                   <object class="GtkTreeView" id="itemlist">
@@ -35,6 +31,7 @@
                 </child>
               </object>
               <packing>
+                <property name="expand">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -47,7 +44,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox2">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkCheckButton" id="WorkbookView::show_notebook_tabs">
                         <property name="label" translatable="yes">Notebook _Tabs for Sheets</property>
@@ -131,7 +127,7 @@
                         <property name="can_focus">True</property>
                         <property name="tooltip_text" translatable="yes">Unimplementented</property>
                         <property name="visibility">False</property>
-                        <property name="invisible_char">&#x2022;</property>
+                        <property name="invisible_char">•</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -176,7 +172,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox1">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkCheckButton" id="WorkbookView::do_auto_completion">
                         <property name="label" translatable="yes">A_uto Complete Text in Cells</property>
@@ -209,7 +204,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox-f-marker">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkCheckButton" id="WorkbookView::show_function_cell_markers">
                         <property name="label" translatable="yes">Show _Formula Cell Markers</property>
