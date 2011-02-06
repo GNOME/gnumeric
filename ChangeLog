@@ -1,6 +1,6 @@
 2011-02-06  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* libspreadsheet.pc.in: removed libglagde-2.0 from requirements.
+	* libspreadsheet.pc.in: removed libglade-2.0 from requirements.
 
 2011-02-02  Morten Welinder <terra@gnome.org>
 
