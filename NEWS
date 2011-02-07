@@ -3,6 +3,9 @@ Gnumeric 1.10.14
 Andreas:
 	* Fix width of translated lists in various dialogs [#641626]
 
+Jean:
+	* Fix cursor position inside a cell edited in a zoomed sheet. [#641709]
+
 Morten:
 	* Import wide sc files.  [#641581]
 

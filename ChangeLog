@@ -1,3 +1,8 @@
+2011-02-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-edit.c (item_edit_button_pressed), (item_edit_motion): fix
+	cursor position inside a cell edited in a zoomed sheet. [#641709]
+
 2011-02-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* libspreadsheet.pc.in: removed libglade-2.0 from requirements.

@@ -241,9 +241,13 @@ item_edit_button_pressed (GocItem *item, int button, double x, double y)
 		y = y - item->y0;
 		if (dir == PANGO_DIRECTION_RTL) {
 			pango_layout_get_pixel_extents (ie->layout, NULL, &pos);
-			x -=  item->x1 - item->x0 - pos.width
-				- 2 * GNM_COL_MARGIN / goc_canvas_get_pixels_per_unit (item->canvas);
+			x -=  item->x1 - item->x0 - (pos.width
+				+ 2 * GNM_COL_MARGIN) / goc_canvas_get_pixels_per_unit (item->canvas);
 		}
+		/* the layout might be zoomed, we need to adjust x and y accordingly */
+		x *= goc_canvas_get_pixels_per_unit (item->canvas);
+		y *= goc_canvas_get_pixels_per_unit (item->canvas);
+
 		if (pango_layout_xy_to_index (ie->layout,
 					      x * PANGO_SCALE, y * PANGO_SCALE,
 					      &target_index, &trailing)) {
@@ -291,9 +295,12 @@ item_edit_motion (GocItem *item, double x, double y)
 		y = y - item->y0;
 		if (dir == PANGO_DIRECTION_RTL) {
 			pango_layout_get_pixel_extents (ie->layout, NULL, &pos);
-			x -=  item->x1 - item->x0 - pos.width
-				- 2 * GNM_COL_MARGIN / goc_canvas_get_pixels_per_unit (item->canvas);
+			x -=  item->x1 - item->x0 - (pos.width
+				+ 2 * GNM_COL_MARGIN) / goc_canvas_get_pixels_per_unit (item->canvas);
 		}
+		/* the layout might be zoomed, we need to adjust x and y accordingly */
+		x *= goc_canvas_get_pixels_per_unit (item->canvas);
+		y *= goc_canvas_get_pixels_per_unit (item->canvas);
 
 		if (pango_layout_xy_to_index (ie->layout,
 					      x * PANGO_SCALE, y * PANGO_SCALE,
