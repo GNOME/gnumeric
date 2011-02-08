@@ -603,6 +603,11 @@ gnm_stf_get_stfe (GObject *obj)
 		const char * string_indicator = gnm_conf_get_stf_export_stringindicator ();
 		const char * terminator = gnm_conf_get_stf_export_terminator ();
 		GString *triggers = g_string_new (NULL);
+
+		/* Workaround GConf bug #641807. */
+		if (terminator == NULL || strlen (terminator) == 0)
+			terminator = "\n";
+
 		g_string_append (triggers, " \t");
 		g_string_append (triggers, terminator);
 		g_string_append (triggers, string_indicator);

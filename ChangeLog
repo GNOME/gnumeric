@@ -1,3 +1,10 @@
+2011-02-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* schemas/gnumeric-dialogs.schemas.in 
+	(/apps/gnumeric/stf/export/terminator): use escape
+	* src/stf-export.c (gnm_stf_get_stfe): do not leave the terminator
+	as "" (this could happen due to gconf bug #641807)
+	
 2011-02-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-edit.c (item_edit_button_pressed), (item_edit_motion): fix
