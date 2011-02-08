@@ -1,3 +1,7 @@
+2011-02-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* excelplugins.c (scan_for_XLLs_and_register_functions): use ngettext
+
 2011-02-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.13

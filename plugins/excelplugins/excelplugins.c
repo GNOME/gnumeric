@@ -992,7 +992,11 @@ scan_for_XLLs_and_register_functions (const gchar *dir_name)
 									g_warning (_("No loadable worksheet functions found in XLL/DLL/SO file %s ."),full_entry_name);
 								} else {
 									GO_SLIST_PREPEND (XLLs,xll);
-									g_message (_("Loaded %lu functions from XLL/DLL/SO %s ."),xll->number_of_functions,full_entry_name);
+									/* xgettext : %lu gives the number of functions. This is input to ngettext. */
+									g_message (ngettext("Loaded %lu function from XLL/DLL/SO %s.", 
+											    "Loaded %lu functions from XLL/DLL/SO %s.",
+											    xll->number_of_functions), 
+										   xll->number_of_functions, full_entry_name);
 								}
 							}
 							if (0 == xll->number_of_functions) {
