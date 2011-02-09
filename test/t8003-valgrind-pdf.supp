@@ -246,3 +246,13 @@
    fun:*
    fun:pango_layout_get_line_count
 }
+
+{
+   Leak/FT_Outline_Decompose
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:FT_Outline_Decompose
+   ...
+   fun:cairo_surface_show_page
+}
