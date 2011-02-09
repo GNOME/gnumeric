@@ -24,14 +24,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-28 18:59+0300\n"
+"POT-Creation-Date: 2011-02-09 11:12-0500\n"
 "PO-Revision-Date: 2010-09-20 11:35+0200\n"
 "Last-Translator: Giannis Katsampirhs <juankatsampirhs@gmail.com>\n"
 "Language-Team: Greek <team@gnome.gr>\n"
-"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
 "X-Poedit-Bookmarks: 1528,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Poedit-Language: Greek\n"
@@ -206,29 +206,29 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:243 ../plugins/fn-math/functions.c:266
 #: ../plugins/fn-math/functions.c:326 ../plugins/fn-math/functions.c:351
 #: ../plugins/fn-math/functions.c:370 ../plugins/fn-math/functions.c:389
-#: ../plugins/fn-math/functions.c:417 ../plugins/fn-math/functions.c:462
-#: ../plugins/fn-math/functions.c:536 ../plugins/fn-math/functions.c:648
-#: ../plugins/fn-math/functions.c:716 ../plugins/fn-math/functions.c:745
-#: ../plugins/fn-math/functions.c:765 ../plugins/fn-math/functions.c:819
-#: ../plugins/fn-math/functions.c:838 ../plugins/fn-math/functions.c:872
-#: ../plugins/fn-math/functions.c:933 ../plugins/fn-math/functions.c:1011
-#: ../plugins/fn-math/functions.c:1068 ../plugins/fn-math/functions.c:1101
-#: ../plugins/fn-math/functions.c:1123 ../plugins/fn-math/functions.c:1151
-#: ../plugins/fn-math/functions.c:1175 ../plugins/fn-math/functions.c:1201
-#: ../plugins/fn-math/functions.c:1275 ../plugins/fn-math/functions.c:1318
-#: ../plugins/fn-math/functions.c:1336 ../plugins/fn-math/functions.c:1433
-#: ../plugins/fn-math/functions.c:1451 ../plugins/fn-math/functions.c:1498
-#: ../plugins/fn-math/functions.c:1522 ../plugins/fn-math/functions.c:1568
-#: ../plugins/fn-math/functions.c:1585 ../plugins/fn-math/functions.c:1620
-#: ../plugins/fn-math/functions.c:1655 ../plugins/fn-math/functions.c:1690
-#: ../plugins/fn-math/functions.c:1727 ../plugins/fn-math/functions.c:1806
-#: ../plugins/fn-math/functions.c:1831 ../plugins/fn-math/functions.c:1857
-#: ../plugins/fn-math/functions.c:1883 ../plugins/fn-math/functions.c:1907
-#: ../plugins/fn-math/functions.c:1948 ../plugins/fn-math/functions.c:1993
-#: ../plugins/fn-math/functions.c:2120 ../plugins/fn-math/functions.c:2368
-#: ../plugins/fn-math/functions.c:2412 ../plugins/fn-math/functions.c:2455
-#: ../plugins/fn-math/functions.c:2498 ../plugins/fn-math/functions.c:2555
-#: ../plugins/fn-math/functions.c:2812 ../plugins/fn-math/functions.c:2879
+#: ../plugins/fn-math/functions.c:423 ../plugins/fn-math/functions.c:469
+#: ../plugins/fn-math/functions.c:543 ../plugins/fn-math/functions.c:655
+#: ../plugins/fn-math/functions.c:723 ../plugins/fn-math/functions.c:752
+#: ../plugins/fn-math/functions.c:772 ../plugins/fn-math/functions.c:826
+#: ../plugins/fn-math/functions.c:845 ../plugins/fn-math/functions.c:879
+#: ../plugins/fn-math/functions.c:940 ../plugins/fn-math/functions.c:1018
+#: ../plugins/fn-math/functions.c:1075 ../plugins/fn-math/functions.c:1108
+#: ../plugins/fn-math/functions.c:1130 ../plugins/fn-math/functions.c:1158
+#: ../plugins/fn-math/functions.c:1182 ../plugins/fn-math/functions.c:1208
+#: ../plugins/fn-math/functions.c:1282 ../plugins/fn-math/functions.c:1325
+#: ../plugins/fn-math/functions.c:1343 ../plugins/fn-math/functions.c:1440
+#: ../plugins/fn-math/functions.c:1458 ../plugins/fn-math/functions.c:1505
+#: ../plugins/fn-math/functions.c:1529 ../plugins/fn-math/functions.c:1575
+#: ../plugins/fn-math/functions.c:1592 ../plugins/fn-math/functions.c:1627
+#: ../plugins/fn-math/functions.c:1662 ../plugins/fn-math/functions.c:1697
+#: ../plugins/fn-math/functions.c:1734 ../plugins/fn-math/functions.c:1813
+#: ../plugins/fn-math/functions.c:1838 ../plugins/fn-math/functions.c:1864
+#: ../plugins/fn-math/functions.c:1890 ../plugins/fn-math/functions.c:1914
+#: ../plugins/fn-math/functions.c:1955 ../plugins/fn-math/functions.c:2000
+#: ../plugins/fn-math/functions.c:2127 ../plugins/fn-math/functions.c:2375
+#: ../plugins/fn-math/functions.c:2419 ../plugins/fn-math/functions.c:2462
+#: ../plugins/fn-math/functions.c:2505 ../plugins/fn-math/functions.c:2562
+#: ../plugins/fn-math/functions.c:2819 ../plugins/fn-math/functions.c:2886
 #: ../plugins/fn-random/functions.c:48 ../plugins/fn-random/functions.c:249
 #: ../plugins/fn-stat/functions.c:83 ../plugins/fn-stat/functions.c:111
 #: ../plugins/fn-stat/functions.c:138 ../plugins/fn-stat/functions.c:166
@@ -263,9 +263,9 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2582 ../plugins/fn-stat/functions.c:2609
 #: ../plugins/fn-stat/functions.c:2733 ../plugins/fn-stat/functions.c:2776
 #: ../plugins/fn-stat/functions.c:2817 ../plugins/fn-stat/functions.c:2883
-#: ../plugins/fn-stat/functions.c:3052 ../plugins/fn-stat/functions.c:3870
-#: ../plugins/fn-stat/functions.c:3927 ../plugins/fn-stat/functions.c:3975
-#: ../plugins/fn-stat/functions.c:4040 ../plugins/fn-string/functions.c:68
+#: ../plugins/fn-stat/functions.c:3052 ../plugins/fn-stat/functions.c:3916
+#: ../plugins/fn-stat/functions.c:3973 ../plugins/fn-stat/functions.c:4021
+#: ../plugins/fn-stat/functions.c:4086 ../plugins/fn-string/functions.c:68
 #: ../plugins/fn-string/functions.c:140 ../plugins/fn-string/functions.c:202
 #: ../plugins/fn-string/functions.c:221 ../plugins/fn-string/functions.c:238
 #: ../plugins/fn-string/functions.c:258 ../plugins/fn-string/functions.c:322
@@ -979,8 +979,8 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:80
 msgid ""
-"For spreadsheets created with the Mac version of Excel, serial 1 is 1-"
-"Jan-1904."
+"For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-"
+"1904."
 msgstr ""
 "Για υπολογστικά φύλλα που δημιουργήθηκαν από την έκδοση MAC του Excel, ο "
 "σειριακός αριθμός 1 είναι 1-Ιαν-1904."
@@ -1381,12 +1381,12 @@ msgstr ""
 #: ../plugins/fn-date/functions.c:742 ../plugins/fn-date/functions.c:964
 #: ../plugins/fn-date/functions.c:1254 ../plugins/fn-eng/functions.c:213
 #: ../plugins/fn-eng/functions.c:380 ../plugins/fn-eng/functions.c:748
-#: ../plugins/fn-financial/functions.c:1312
-#: ../plugins/fn-math/functions.c:1012 ../plugins/fn-math/functions.c:1039
-#: ../plugins/fn-math/functions.c:1356 ../plugins/fn-math/functions.c:1376
-#: ../plugins/fn-math/functions.c:2041 ../plugins/fn-math/functions.c:2774
+#: ../plugins/fn-financial/functions.c:1312 ../plugins/fn-math/functions.c:424
+#: ../plugins/fn-math/functions.c:1019 ../plugins/fn-math/functions.c:1046
+#: ../plugins/fn-math/functions.c:1363 ../plugins/fn-math/functions.c:1383
+#: ../plugins/fn-math/functions.c:2048 ../plugins/fn-math/functions.c:2781
 #: ../plugins/fn-stat/functions.c:1515 ../plugins/fn-stat/functions.c:2383
-#: ../plugins/fn-stat/functions.c:4466 ../plugins/fn-string/functions.c:259
+#: ../plugins/fn-stat/functions.c:4512 ../plugins/fn-string/functions.c:259
 #: ../plugins/fn-string/functions.c:343 ../plugins/fn-string/functions.c:470
 #: ../plugins/fn-string/functions.c:1058 ../plugins/fn-string/functions.c:1400
 #: ../plugins/fn-string/functions.c:1530
@@ -1481,23 +1481,23 @@ msgstr "YEARFRAC:κλασματικός αριθμός ετών μεταξύ η�
 #: ../plugins/fn-financial/functions.c:608
 #: ../plugins/fn-financial/functions.c:652
 #: ../plugins/fn-financial/functions.c:1895
-#: ../plugins/fn-financial/functions.c:2253
-#: ../plugins/fn-financial/functions.c:2303
-#: ../plugins/fn-financial/functions.c:2410
-#: ../plugins/fn-financial/functions.c:2456
-#: ../plugins/fn-financial/functions.c:2498
-#: ../plugins/fn-financial/functions.c:2648
-#: ../plugins/fn-financial/functions.c:2743
-#: ../plugins/fn-financial/functions.c:2821
-#: ../plugins/fn-financial/functions.c:2898
-#: ../plugins/fn-financial/functions.c:2946
-#: ../plugins/fn-financial/functions.c:2989
-#: ../plugins/fn-financial/functions.c:3013
-#: ../plugins/fn-financial/functions.c:3037
-#: ../plugins/fn-financial/functions.c:3061
-#: ../plugins/fn-financial/functions.c:3087
-#: ../plugins/fn-financial/functions.c:3113
-#: ../plugins/fn-financial/functions.c:3227
+#: ../plugins/fn-financial/functions.c:2258
+#: ../plugins/fn-financial/functions.c:2308
+#: ../plugins/fn-financial/functions.c:2415
+#: ../plugins/fn-financial/functions.c:2461
+#: ../plugins/fn-financial/functions.c:2503
+#: ../plugins/fn-financial/functions.c:2653
+#: ../plugins/fn-financial/functions.c:2748
+#: ../plugins/fn-financial/functions.c:2826
+#: ../plugins/fn-financial/functions.c:2903
+#: ../plugins/fn-financial/functions.c:2959
+#: ../plugins/fn-financial/functions.c:3002
+#: ../plugins/fn-financial/functions.c:3026
+#: ../plugins/fn-financial/functions.c:3050
+#: ../plugins/fn-financial/functions.c:3074
+#: ../plugins/fn-financial/functions.c:3100
+#: ../plugins/fn-financial/functions.c:3126
+#: ../plugins/fn-financial/functions.c:3240
 msgid "basis:calendar basis"
 msgstr "basis:η αρχή του ημερολογίου"
 
@@ -1689,8 +1689,9 @@ msgid "OPT_BS_THETA:theta of a European option"
 msgstr "OPT_BS_THETA:το θήτα ενός ευρωπαϊκού παραγώγου"
 
 #: ../plugins/fn-derivatives/options.c:409
+#, fuzzy
 msgid ""
-"OPT_BS_DELTA uses the Black-Scholes model to calculate the 'theta' of a "
+"OPT_BS_THETA uses the Black-Scholes model to calculate the 'theta' of a "
 "European option struck at @{strike} on an asset with spot price @{spot}. The "
 "theta of an option is the rate of change of its price with respect to time "
 "to expiry."
@@ -2461,7 +2462,7 @@ msgid "BASE:string of digits representing the number @{n} in base @{b}"
 msgstr ""
 "BASE:αλφαριθμητικό με ψηφία που αντιπροσωπεύουν τον αριθμό @{n} στη βάση @{b}"
 
-#: ../plugins/fn-eng/functions.c:208 ../plugins/fn-math/functions.c:1272
+#: ../plugins/fn-eng/functions.c:208 ../plugins/fn-math/functions.c:1279
 #: ../plugins/fn-numtheory/numtheory.c:578
 #: ../plugins/fn-numtheory/numtheory.c:608
 msgid "n:integer"
@@ -2536,7 +2537,7 @@ msgid "DEC2BIN:binary representation of the decimal number @{x}"
 msgstr "DEC2BIN:η δυαδική αναπαράσταση του δυαδικού αριθμού @{x}"
 
 #: ../plugins/fn-eng/functions.c:308 ../plugins/fn-eng/functions.c:332
-#: ../plugins/fn-eng/functions.c:355 ../plugins/fn-math/functions.c:1271
+#: ../plugins/fn-eng/functions.c:355 ../plugins/fn-math/functions.c:1278
 msgid "x:integer"
 msgstr "x:ακέραιος"
 
@@ -2735,30 +2736,30 @@ msgstr "CONVERT:μία τροποποιημένη μονάδα μέτρησης"
 #: ../plugins/fn-math/functions.c:265 ../plugins/fn-math/functions.c:306
 #: ../plugins/fn-math/functions.c:324 ../plugins/fn-math/functions.c:349
 #: ../plugins/fn-math/functions.c:368 ../plugins/fn-math/functions.c:387
-#: ../plugins/fn-math/functions.c:440 ../plugins/fn-math/functions.c:711
-#: ../plugins/fn-math/functions.c:764 ../plugins/fn-math/functions.c:782
-#: ../plugins/fn-math/functions.c:800 ../plugins/fn-math/functions.c:836
-#: ../plugins/fn-math/functions.c:854 ../plugins/fn-math/functions.c:871
-#: ../plugins/fn-math/functions.c:902 ../plugins/fn-math/functions.c:932
-#: ../plugins/fn-math/functions.c:956 ../plugins/fn-math/functions.c:980
-#: ../plugins/fn-math/functions.c:1064 ../plugins/fn-math/functions.c:1100
-#: ../plugins/fn-math/functions.c:1196 ../plugins/fn-math/functions.c:1374
-#: ../plugins/fn-math/functions.c:1414 ../plugins/fn-math/functions.c:1432
-#: ../plugins/fn-math/functions.c:1584 ../plugins/fn-math/functions.c:1617
-#: ../plugins/fn-math/functions.c:1654 ../plugins/fn-math/functions.c:1689
-#: ../plugins/fn-math/functions.c:1829 ../plugins/fn-math/functions.c:1878
-#: ../plugins/fn-math/functions.c:1902 ../plugins/fn-math/functions.c:1943
-#: ../plugins/fn-math/functions.c:1990 ../plugins/fn-stat/functions.c:410
+#: ../plugins/fn-math/functions.c:447 ../plugins/fn-math/functions.c:718
+#: ../plugins/fn-math/functions.c:771 ../plugins/fn-math/functions.c:789
+#: ../plugins/fn-math/functions.c:807 ../plugins/fn-math/functions.c:843
+#: ../plugins/fn-math/functions.c:861 ../plugins/fn-math/functions.c:878
+#: ../plugins/fn-math/functions.c:909 ../plugins/fn-math/functions.c:939
+#: ../plugins/fn-math/functions.c:963 ../plugins/fn-math/functions.c:987
+#: ../plugins/fn-math/functions.c:1071 ../plugins/fn-math/functions.c:1107
+#: ../plugins/fn-math/functions.c:1203 ../plugins/fn-math/functions.c:1381
+#: ../plugins/fn-math/functions.c:1421 ../plugins/fn-math/functions.c:1439
+#: ../plugins/fn-math/functions.c:1591 ../plugins/fn-math/functions.c:1624
+#: ../plugins/fn-math/functions.c:1661 ../plugins/fn-math/functions.c:1696
+#: ../plugins/fn-math/functions.c:1836 ../plugins/fn-math/functions.c:1885
+#: ../plugins/fn-math/functions.c:1909 ../plugins/fn-math/functions.c:1950
+#: ../plugins/fn-math/functions.c:1997 ../plugins/fn-stat/functions.c:410
 #: ../plugins/fn-stat/functions.c:462 ../plugins/fn-stat/functions.c:523
 #: ../plugins/fn-stat/functions.c:843 ../plugins/fn-stat/functions.c:912
 #: ../plugins/fn-stat/functions.c:975 ../plugins/fn-stat/functions.c:1117
 #: ../plugins/fn-stat/functions.c:1189 ../plugins/fn-stat/functions.c:1276
 #: ../plugins/fn-stat/functions.c:1306 ../plugins/fn-stat/functions.c:1539
 #: ../plugins/fn-stat/functions.c:1718 ../plugins/fn-stat/functions.c:1754
-#: ../plugins/fn-stat/functions.c:1921 ../plugins/fn-stat/functions.c:4266
-#: ../plugins/fn-stat/functions.c:4297 ../plugins/fn-stat/functions.c:4331
-#: ../plugins/fn-stat/functions.c:4366 ../plugins/fn-stat/functions.c:4405
-#: ../plugins/fn-stat/functions.c:4438
+#: ../plugins/fn-stat/functions.c:1921 ../plugins/fn-stat/functions.c:4312
+#: ../plugins/fn-stat/functions.c:4343 ../plugins/fn-stat/functions.c:4377
+#: ../plugins/fn-stat/functions.c:4412 ../plugins/fn-stat/functions.c:4451
+#: ../plugins/fn-stat/functions.c:4484
 msgid "x:number"
 msgstr "x:αριθμός"
 
@@ -3169,9 +3170,9 @@ msgstr "ACCRINT:οι δεδουλευμένοι τόκοι"
 #: ../plugins/fn-financial/functions.c:363
 #: ../plugins/fn-financial/functions.c:450
 #: ../plugins/fn-financial/functions.c:605
-#: ../plugins/fn-financial/functions.c:2453
-#: ../plugins/fn-financial/functions.c:2492
-#: ../plugins/fn-financial/functions.c:2642
+#: ../plugins/fn-financial/functions.c:2458
+#: ../plugins/fn-financial/functions.c:2497
+#: ../plugins/fn-financial/functions.c:2647
 msgid "issue:date of issue"
 msgstr "issue:η ημερομηνία έκδοσης"
 
@@ -3189,21 +3190,21 @@ msgstr "first_interest:η ημερομηνία της πρώτης πληρωμ�
 #: ../plugins/fn-financial/functions.c:1124
 #: ../plugins/fn-financial/functions.c:1158
 #: ../plugins/fn-financial/functions.c:1890
-#: ../plugins/fn-financial/functions.c:2247
-#: ../plugins/fn-financial/functions.c:2297
-#: ../plugins/fn-financial/functions.c:2406
-#: ../plugins/fn-financial/functions.c:2451
-#: ../plugins/fn-financial/functions.c:2490
-#: ../plugins/fn-financial/functions.c:2640
-#: ../plugins/fn-financial/functions.c:2736
-#: ../plugins/fn-financial/functions.c:2814
-#: ../plugins/fn-financial/functions.c:2986
-#: ../plugins/fn-financial/functions.c:3010
-#: ../plugins/fn-financial/functions.c:3034
-#: ../plugins/fn-financial/functions.c:3058
-#: ../plugins/fn-financial/functions.c:3084
-#: ../plugins/fn-financial/functions.c:3110
-#: ../plugins/fn-financial/functions.c:3222
+#: ../plugins/fn-financial/functions.c:2252
+#: ../plugins/fn-financial/functions.c:2302
+#: ../plugins/fn-financial/functions.c:2411
+#: ../plugins/fn-financial/functions.c:2456
+#: ../plugins/fn-financial/functions.c:2495
+#: ../plugins/fn-financial/functions.c:2645
+#: ../plugins/fn-financial/functions.c:2741
+#: ../plugins/fn-financial/functions.c:2819
+#: ../plugins/fn-financial/functions.c:2999
+#: ../plugins/fn-financial/functions.c:3023
+#: ../plugins/fn-financial/functions.c:3047
+#: ../plugins/fn-financial/functions.c:3071
+#: ../plugins/fn-financial/functions.c:3097
+#: ../plugins/fn-financial/functions.c:3123
+#: ../plugins/fn-financial/functions.c:3235
 msgid "settlement:settlement date"
 msgstr "settlement:η ημερομηνία διακανονισμού"
 
@@ -3211,13 +3212,13 @@ msgstr "settlement:η ημερομηνία διακανονισμού"
 #: ../plugins/fn-financial/functions.c:452
 #: ../plugins/fn-financial/functions.c:529
 #: ../plugins/fn-financial/functions.c:686
-#: ../plugins/fn-financial/functions.c:2249
-#: ../plugins/fn-financial/functions.c:2299
-#: ../plugins/fn-financial/functions.c:2454
-#: ../plugins/fn-financial/functions.c:2494
-#: ../plugins/fn-financial/functions.c:2644
-#: ../plugins/fn-financial/functions.c:2739
-#: ../plugins/fn-financial/functions.c:2817
+#: ../plugins/fn-financial/functions.c:2254
+#: ../plugins/fn-financial/functions.c:2304
+#: ../plugins/fn-financial/functions.c:2459
+#: ../plugins/fn-financial/functions.c:2499
+#: ../plugins/fn-financial/functions.c:2649
+#: ../plugins/fn-financial/functions.c:2744
+#: ../plugins/fn-financial/functions.c:2822
 msgid "rate:nominal annual interest rate"
 msgstr "rate:ονομαστικό ετήσιο επιτόκιο"
 
@@ -3227,19 +3228,19 @@ msgstr "par:παρούσα αξία, εξ ορισμού είναι $1000"
 
 #: ../plugins/fn-financial/functions.c:368
 #: ../plugins/fn-financial/functions.c:1894
-#: ../plugins/fn-financial/functions.c:2252
-#: ../plugins/fn-financial/functions.c:2302
-#: ../plugins/fn-financial/functions.c:2497
-#: ../plugins/fn-financial/functions.c:2647
-#: ../plugins/fn-financial/functions.c:2742
-#: ../plugins/fn-financial/functions.c:2820
-#: ../plugins/fn-financial/functions.c:2988
-#: ../plugins/fn-financial/functions.c:3012
-#: ../plugins/fn-financial/functions.c:3036
-#: ../plugins/fn-financial/functions.c:3060
-#: ../plugins/fn-financial/functions.c:3086
-#: ../plugins/fn-financial/functions.c:3112
-#: ../plugins/fn-financial/functions.c:3226
+#: ../plugins/fn-financial/functions.c:2257
+#: ../plugins/fn-financial/functions.c:2307
+#: ../plugins/fn-financial/functions.c:2502
+#: ../plugins/fn-financial/functions.c:2652
+#: ../plugins/fn-financial/functions.c:2747
+#: ../plugins/fn-financial/functions.c:2825
+#: ../plugins/fn-financial/functions.c:3001
+#: ../plugins/fn-financial/functions.c:3025
+#: ../plugins/fn-financial/functions.c:3049
+#: ../plugins/fn-financial/functions.c:3073
+#: ../plugins/fn-financial/functions.c:3099
+#: ../plugins/fn-financial/functions.c:3125
+#: ../plugins/fn-financial/functions.c:3239
 msgid "frequency:number of interest payments per year"
 msgstr "frequency:ο αριθμός των πληρωμών τόκων ανά έτος"
 
@@ -3310,21 +3311,21 @@ msgstr "ACCRINTM:οι δεδουλευμένοι τόκοι"
 #: ../plugins/fn-financial/functions.c:1125
 #: ../plugins/fn-financial/functions.c:1159
 #: ../plugins/fn-financial/functions.c:1891
-#: ../plugins/fn-financial/functions.c:2248
-#: ../plugins/fn-financial/functions.c:2298
-#: ../plugins/fn-financial/functions.c:2407
-#: ../plugins/fn-financial/functions.c:2452
-#: ../plugins/fn-financial/functions.c:2491
-#: ../plugins/fn-financial/functions.c:2641
-#: ../plugins/fn-financial/functions.c:2737
-#: ../plugins/fn-financial/functions.c:2815
-#: ../plugins/fn-financial/functions.c:2987
-#: ../plugins/fn-financial/functions.c:3011
-#: ../plugins/fn-financial/functions.c:3035
-#: ../plugins/fn-financial/functions.c:3059
-#: ../plugins/fn-financial/functions.c:3085
-#: ../plugins/fn-financial/functions.c:3111
-#: ../plugins/fn-financial/functions.c:3223
+#: ../plugins/fn-financial/functions.c:2253
+#: ../plugins/fn-financial/functions.c:2303
+#: ../plugins/fn-financial/functions.c:2412
+#: ../plugins/fn-financial/functions.c:2457
+#: ../plugins/fn-financial/functions.c:2496
+#: ../plugins/fn-financial/functions.c:2646
+#: ../plugins/fn-financial/functions.c:2742
+#: ../plugins/fn-financial/functions.c:2820
+#: ../plugins/fn-financial/functions.c:3000
+#: ../plugins/fn-financial/functions.c:3024
+#: ../plugins/fn-financial/functions.c:3048
+#: ../plugins/fn-financial/functions.c:3072
+#: ../plugins/fn-financial/functions.c:3098
+#: ../plugins/fn-financial/functions.c:3124
+#: ../plugins/fn-financial/functions.c:3236
 msgid "maturity:maturity date"
 msgstr "maturity:ημερομηνία λήξης"
 
@@ -3333,7 +3334,8 @@ msgid "par:par value"
 msgstr "par:παρούσα αξία"
 
 #: ../plugins/fn-financial/functions.c:455
-msgid "ACCRINT calculates the accrued interest from @{issue} to @{maturity}."
+#, fuzzy
+msgid "ACCRINTM calculates the accrued interest from @{issue} to @{maturity}."
 msgstr ""
 "Η συνάρτηση ACCRINT υπολογίζει τους δεδουλευμένου τόκους από την @{issue} "
 "μέχρι την @{maturity}."
@@ -3354,13 +3356,13 @@ msgstr "investment:το ποσό πληρωμής στον διακανονισ�
 #: ../plugins/fn-financial/functions.c:491
 #: ../plugins/fn-financial/functions.c:570
 #: ../plugins/fn-financial/functions.c:651
-#: ../plugins/fn-financial/functions.c:2251
-#: ../plugins/fn-financial/functions.c:2301
-#: ../plugins/fn-financial/functions.c:2409
-#: ../plugins/fn-financial/functions.c:2496
-#: ../plugins/fn-financial/functions.c:2646
-#: ../plugins/fn-financial/functions.c:2741
-#: ../plugins/fn-financial/functions.c:2819
+#: ../plugins/fn-financial/functions.c:2256
+#: ../plugins/fn-financial/functions.c:2306
+#: ../plugins/fn-financial/functions.c:2414
+#: ../plugins/fn-financial/functions.c:2501
+#: ../plugins/fn-financial/functions.c:2651
+#: ../plugins/fn-financial/functions.c:2746
+#: ../plugins/fn-financial/functions.c:2824
 msgid "redemption:amount received at maturity"
 msgstr "redemption:το ποσό λήψης στη λήξη"
 
@@ -3403,10 +3405,10 @@ msgstr "PRICEMAT:η τιμή στη λήξη"
 
 #: ../plugins/fn-financial/functions.c:607
 #: ../plugins/fn-financial/functions.c:1893
-#: ../plugins/fn-financial/functions.c:2250
-#: ../plugins/fn-financial/functions.c:2495
-#: ../plugins/fn-financial/functions.c:2740
-#: ../plugins/fn-financial/functions.c:3225
+#: ../plugins/fn-financial/functions.c:2255
+#: ../plugins/fn-financial/functions.c:2500
+#: ../plugins/fn-financial/functions.c:2745
+#: ../plugins/fn-financial/functions.c:3238
 msgid "yield:annual yield of security"
 msgstr "yield:η ετήσια απόδοση της εγγύησης"
 
@@ -3488,8 +3490,8 @@ msgstr "per:αριθμός περιόδου"
 #: ../plugins/fn-financial/functions.c:1729
 #: ../plugins/fn-financial/functions.c:1760
 #: ../plugins/fn-financial/functions.c:1800
-#: ../plugins/fn-financial/functions.c:3135
-#: ../plugins/fn-financial/functions.c:3179
+#: ../plugins/fn-financial/functions.c:3148
+#: ../plugins/fn-financial/functions.c:3192
 msgid "nper:number of periods"
 msgstr "nper:ο αριθμός περιόδων"
 
@@ -3502,8 +3504,8 @@ msgstr "nper:ο αριθμός περιόδων"
 #: ../plugins/fn-financial/functions.c:1801
 #: ../plugins/fn-financial/functions.c:1844
 #: ../plugins/fn-financial/functions.c:1935
-#: ../plugins/fn-financial/functions.c:3136
-#: ../plugins/fn-financial/functions.c:3180
+#: ../plugins/fn-financial/functions.c:3149
+#: ../plugins/fn-financial/functions.c:3193
 msgid "pv:present value"
 msgstr "pv:παρούσα αξία"
 
@@ -3521,9 +3523,9 @@ msgstr "DB:η απόσβεση ενός περιουσιακού στοιχεί�
 #: ../plugins/fn-financial/functions.c:822
 #: ../plugins/fn-financial/functions.c:871
 #: ../plugins/fn-financial/functions.c:901
-#: ../plugins/fn-financial/functions.c:2892
-#: ../plugins/fn-financial/functions.c:2940
-#: ../plugins/fn-financial/functions.c:3267
+#: ../plugins/fn-financial/functions.c:2897
+#: ../plugins/fn-financial/functions.c:2953
+#: ../plugins/fn-financial/functions.c:3280
 msgid "cost:initial cost of asset"
 msgstr "cost:το αρχικό κόστος ενός περιουσιακού στοιχείου"
 
@@ -3531,9 +3533,9 @@ msgstr "cost:το αρχικό κόστος ενός περιουσιακού σ
 #: ../plugins/fn-financial/functions.c:823
 #: ../plugins/fn-financial/functions.c:872
 #: ../plugins/fn-financial/functions.c:902
-#: ../plugins/fn-financial/functions.c:2895
-#: ../plugins/fn-financial/functions.c:2943
-#: ../plugins/fn-financial/functions.c:3268
+#: ../plugins/fn-financial/functions.c:2900
+#: ../plugins/fn-financial/functions.c:2956
+#: ../plugins/fn-financial/functions.c:3281
 msgid "salvage:value after depreciation"
 msgstr "salvage:η αξία ύστερα από την απόσβεση"
 
@@ -3541,15 +3543,15 @@ msgstr "salvage:η αξία ύστερα από την απόσβεση"
 #: ../plugins/fn-financial/functions.c:824
 #: ../plugins/fn-financial/functions.c:873
 #: ../plugins/fn-financial/functions.c:903
-#: ../plugins/fn-financial/functions.c:3269
+#: ../plugins/fn-financial/functions.c:3282
 msgid "life:number of periods"
 msgstr "life:ο αριθμός περιόδων"
 
 #: ../plugins/fn-financial/functions.c:775
 #: ../plugins/fn-financial/functions.c:825
 #: ../plugins/fn-financial/functions.c:904
-#: ../plugins/fn-financial/functions.c:2896
-#: ../plugins/fn-financial/functions.c:2944
+#: ../plugins/fn-financial/functions.c:2901
+#: ../plugins/fn-financial/functions.c:2957
 msgid "period:subject period"
 msgstr "period:υποκείμενη περίοδος"
 
@@ -3570,7 +3572,7 @@ msgid "DDB:depreciation of an asset"
 msgstr "DDB:η απόσβεση ενός περιουσιακού στοιχείου"
 
 #: ../plugins/fn-financial/functions.c:826
-#: ../plugins/fn-financial/functions.c:3272
+#: ../plugins/fn-financial/functions.c:3285
 msgid "factor:factor at which the balance declines"
 msgstr "factor:ο παράγοντας στον οποίο το υπόλοιπο μειώνεται"
 
@@ -3634,10 +3636,12 @@ msgid "decimal_dollar:amount to convert"
 msgstr "decimal_dollar:ποσό για μετατροπή"
 
 #: ../plugins/fn-financial/functions.c:984
+#, fuzzy
 msgid ""
-"DOLLARFR converts a fractional dollar amount into a fraction which is "
+"DOLLARFR converts a decimal dollar amount into a fractional amount which is "
 "represented as the digits after the decimal point.  For example, 2/8 would "
-"be represented as .2 while 3/16 would be represented as .03."
+"be represented as .2 while 3/16 would be represented as .03. This is the "
+"inverse of the DOLLARDE function."
 msgstr ""
 "Η συνάρτηση DOLLARFR μετατρέπει ένα κλασματικό ποσό δολλαρίου σε ένα κλάσμα "
 "το οποίο απεικονίζεται από ψηφία ύστερα από την υποδιαστολή. Για παράδειγμα, "
@@ -3731,8 +3735,8 @@ msgstr "fv:η μελλοντική αξία"
 #: ../plugins/fn-financial/functions.c:1763
 #: ../plugins/fn-financial/functions.c:1803
 #: ../plugins/fn-financial/functions.c:1846
-#: ../plugins/fn-financial/functions.c:3139
-#: ../plugins/fn-financial/functions.c:3183
+#: ../plugins/fn-financial/functions.c:3152
+#: ../plugins/fn-financial/functions.c:3196
 msgid "type:payment type"
 msgstr "type:ο τύπος πληρωμής"
 
@@ -3924,7 +3928,7 @@ msgid "DURATION:the duration of a security"
 msgstr "DURATION:η διάρκεια μίας εγγύησης"
 
 #: ../plugins/fn-financial/functions.c:1892
-#: ../plugins/fn-financial/functions.c:3224
+#: ../plugins/fn-financial/functions.c:3237
 msgid "coupon:annual coupon rate"
 msgstr "coupon:ετήσιο τοκομερίδιο"
 
@@ -3987,11 +3991,13 @@ msgstr ""
 "εισαγωγή του."
 
 #: ../plugins/fn-financial/functions.c:2005
+#, fuzzy
 msgid ""
 "@{currency} must be one of ATS (Austria), BEF (Belgium), CYP (Cyprus), DEM "
-"(Germany), ESP (Spain), EUR (Euro), FIM (Finland), FRF (France), GRD "
-"(Greece), IEP (Ireland), ITL (Italy), LUF (Luxembourg), MTL (Malta), NLG "
-"(The Netherlands), PTE (Portugal), SIT (Slovenia), or SKK (Slovakia)."
+"(Germany), EEK (Estonia), ESP (Spain), EUR (Euro), FIM (Finland), FRF "
+"(France), GRD (Greece), IEP (Ireland), ITL (Italy), LUF (Luxembourg), MTL "
+"(Malta), NLG (The Netherlands), PTE (Portugal), SIT (Slovenia), or SKK "
+"(Slovakia)."
 msgstr ""
 "Το όρισμα @{currency} πρέπει να είναι ένα από τα εξής: ATS (Αυστρία), BEF "
 "(Βέλγιο), CYP (Κύπρος), DEM (Γερμανία), ESP (Ισπανία), EUR (Ευρώ), FIM "
@@ -3999,33 +4005,33 @@ msgstr ""
 "(Λουξεμβούργο), MTL (Μάλτα), NLG (Κάτω χώρες), PTE (Πορτογαλία), SIT "
 "(Σλοβενία), ή SKK (Σλοβακία)."
 
-#: ../plugins/fn-financial/functions.c:2023
-#: ../plugins/fn-financial/functions.c:2203
+#: ../plugins/fn-financial/functions.c:2024
+#: ../plugins/fn-financial/functions.c:2208
 msgid "This function is not likely to be useful anymore."
 msgstr "Η συνάρτηση αυτή πιθανόν να μην είναι χρήσιμη πια."
 
-#: ../plugins/fn-financial/functions.c:2194
+#: ../plugins/fn-financial/functions.c:2199
 msgid "EUROCONVERT:pre-Euro amount from one currency to another"
 msgstr "EUROCONVERT:προ-ευρωπαϊκό ποσό από ένα νόμισμα σε ένα άλλο"
 
-#: ../plugins/fn-financial/functions.c:2195
+#: ../plugins/fn-financial/functions.c:2200
 msgid "n:amount"
 msgstr "n:ποσό"
 
-#: ../plugins/fn-financial/functions.c:2196
+#: ../plugins/fn-financial/functions.c:2201
 msgid "source:three-letter source currency code"
 msgstr "source:κωδικός πηγαίου νομίσματος τριών γραμμάτων"
 
-#: ../plugins/fn-financial/functions.c:2197
+#: ../plugins/fn-financial/functions.c:2202
 msgid "target:three-letter target currency code"
 msgstr "target:κωδικός νομίσματος προορισμού τριών γραμμάτων"
 
-#: ../plugins/fn-financial/functions.c:2198
+#: ../plugins/fn-financial/functions.c:2203
 msgid "full_precision:whether to provide the full precision; defaults to false"
 msgstr ""
 "full_precision:αν θα παρέχεται πλήρηςη ακρίβεια, εξ ορισμού είναι ψευδής"
 
-#: ../plugins/fn-financial/functions.c:2199
+#: ../plugins/fn-financial/functions.c:2204
 msgid ""
 "triangulation_precision:number of digits (at least 3) to be rounded to after "
 "conversion of the source currency to euro; defaults to no rounding"
@@ -4034,7 +4040,7 @@ msgstr ""
 "στρογγυλοποίηση ύστερα από τη μετατροπή του νομίσματος σε ευρώ,  εξ ορισμού "
 "δε γίνεται στρογγυλοποίηση"
 
-#: ../plugins/fn-financial/functions.c:2200
+#: ../plugins/fn-financial/functions.c:2205
 msgid ""
 "EUROCONVERT converts @{n} units of currency @{source} to currency @"
 "{target}.  The rates used are the official ones used on the introduction of "
@@ -4044,7 +4050,7 @@ msgstr ""
 "στο νόμισμα @{target}.  Οι αναλογίες που χρησιμοποιήθηκαν είναι οι επίσημες "
 "που χρησιμοποιήθηκαν στην εισαγωγή του ευρώ."
 
-#: ../plugins/fn-financial/functions.c:2201
+#: ../plugins/fn-financial/functions.c:2206
 msgid ""
 "If @{full_precision} is true, the result is not rounded; if it false the "
 "result is rounded to 0 or 2 decimals depending on the target currency; "
@@ -4054,7 +4060,7 @@ msgstr ""
 "είναι ψευδές το αποτέλεσμα στρογγυλοποιείται σε 0 ή 2 δεκαδικά ψηφία ανάλογα "
 "με το νόμσμα προορισμού, εξ ορισμού είναι ψευδής."
 
-#: ../plugins/fn-financial/functions.c:2202
+#: ../plugins/fn-financial/functions.c:2207
 msgid ""
 "@{source} and @{target} must be one of the currencies listed for the EURO "
 "function."
@@ -4062,11 +4068,11 @@ msgstr ""
 "Το όρισμα @{source} και το @{target} θα πρέπει να είναι ένα από νομίσματα "
 "που υπάρχουν στη λίστα για τη συνάρτηση EURO."
 
-#: ../plugins/fn-financial/functions.c:2246
+#: ../plugins/fn-financial/functions.c:2251
 msgid "PRICE:price of a security"
 msgstr "PRICE:η τιμή μίας εγγύησης"
 
-#: ../plugins/fn-financial/functions.c:2254
+#: ../plugins/fn-financial/functions.c:2259
 msgid ""
 "PRICE calculates the price per $100 face value of a security that pays "
 "periodic interest."
@@ -4074,38 +4080,38 @@ msgstr ""
 "Η συνάρτηση PRICE υπολογίζει την αξία ανά $100 ονομαστικής αξίας μίας "
 "εγγύησης όπου ο τόκος πληρώνεται περιοδικά."
 
-#: ../plugins/fn-financial/functions.c:2296
+#: ../plugins/fn-financial/functions.c:2301
 msgid "YIELD:yield of a security"
 msgstr "YIELD:η απόδοση μίας εγγύησης"
 
-#: ../plugins/fn-financial/functions.c:2300
-#: ../plugins/fn-financial/functions.c:2408
-#: ../plugins/fn-financial/functions.c:2455
-#: ../plugins/fn-financial/functions.c:2645
-#: ../plugins/fn-financial/functions.c:2818
+#: ../plugins/fn-financial/functions.c:2305
+#: ../plugins/fn-financial/functions.c:2413
+#: ../plugins/fn-financial/functions.c:2460
+#: ../plugins/fn-financial/functions.c:2650
+#: ../plugins/fn-financial/functions.c:2823
 msgid "price:price of security"
 msgstr "price:η τιμή εγγύησης"
 
-#: ../plugins/fn-financial/functions.c:2304
+#: ../plugins/fn-financial/functions.c:2309
 msgid "YIELD calculates the yield of a security that pays periodic interest."
 msgstr ""
 "Η συνάρτηση YIELD υπολογίζει την απόδοσης μίας εγγύησης που πληρώνει "
 "περιοδικό τόκο."
 
-#: ../plugins/fn-financial/functions.c:2405
+#: ../plugins/fn-financial/functions.c:2410
 msgid "YIELDDISC:yield of a discounted security"
 msgstr "YIELDDISC:η απόδοση μίας προεξοφλημένης εγγύησης"
 
-#: ../plugins/fn-financial/functions.c:2411
+#: ../plugins/fn-financial/functions.c:2416
 msgid "YIELDDISC calculates the yield of a discounted security."
 msgstr ""
 "Η συνάρτηση YIELDDISC υπολογίζει την απόδοση για μία προεξοφλημένη εγγύηση."
 
-#: ../plugins/fn-financial/functions.c:2450
+#: ../plugins/fn-financial/functions.c:2455
 msgid "YIELDMAT:yield of a security"
 msgstr "YIELDMAT:η απόδοση μίας εγγύησης"
 
-#: ../plugins/fn-financial/functions.c:2457
+#: ../plugins/fn-financial/functions.c:2462
 msgid ""
 "YIELDMAT calculates the yield of a security for which the interest is paid "
 "at maturity date."
@@ -4113,16 +4119,16 @@ msgstr ""
 "Η συνάρτηση YIELDMAT υπολογίζει την απόδοση μίας εγγύησης για την οποία ο "
 "τόκος πληρώνεται στην ημερομηνία λήξης."
 
-#: ../plugins/fn-financial/functions.c:2489
+#: ../plugins/fn-financial/functions.c:2494
 msgid "ODDFPRICE:price of a security that has an odd first period"
 msgstr "ODDFPRICE:η τιμή μίας εγγύησης που έχει περιττό αριθμό πρώτης περιόδου"
 
-#: ../plugins/fn-financial/functions.c:2493
-#: ../plugins/fn-financial/functions.c:2643
+#: ../plugins/fn-financial/functions.c:2498
+#: ../plugins/fn-financial/functions.c:2648
 msgid "first_interest:first interest date"
 msgstr "first_interest:η ημερομηνία του πρώτου τόκου"
 
-#: ../plugins/fn-financial/functions.c:2499
+#: ../plugins/fn-financial/functions.c:2504
 msgid ""
 "ODDFPRICE calculates the price per $100 face value of a security that pays "
 "periodic interest, but has an odd first period."
@@ -4131,12 +4137,12 @@ msgstr ""
 "εγγύησης που πληρώνει περιοδικό τόκο, αλλά έχει περιττό αριθμό πρώτης "
 "περιόδου."
 
-#: ../plugins/fn-financial/functions.c:2639
+#: ../plugins/fn-financial/functions.c:2644
 msgid "ODDFYIELD:yield of a security that has an odd first period"
 msgstr ""
 "ODDFYIELD:η απόδοση μίας εγγύησης πο έχει περιττό αριθμό πρώτης περιόδου"
 
-#: ../plugins/fn-financial/functions.c:2649
+#: ../plugins/fn-financial/functions.c:2654
 msgid ""
 "ODDFYIELD calculates the yield of a security that pays periodic interest, "
 "but has an odd first period."
@@ -4144,17 +4150,17 @@ msgstr ""
 "Η συνάρτηση ODDFYIELD υπολογίζει την απόδοση μίας εγγύησης που πληρώνει "
 "περιοδικό τόκο, αλλά έχει περιττό αριθμό πρώτης περιόδου."
 
-#: ../plugins/fn-financial/functions.c:2735
+#: ../plugins/fn-financial/functions.c:2740
 msgid "ODDLPRICE:price of a security that has an odd last period"
 msgstr ""
 "ODDLPRICE:η τιμή μίας εγγύησηςπου έχει περιττό αριθμό τελευταίας περιόδου"
 
-#: ../plugins/fn-financial/functions.c:2738
-#: ../plugins/fn-financial/functions.c:2816
+#: ../plugins/fn-financial/functions.c:2743
+#: ../plugins/fn-financial/functions.c:2821
 msgid "last_interest:last interest date"
 msgstr "last_interest:η ημερομηνία του τελευταίου τόκου"
 
-#: ../plugins/fn-financial/functions.c:2744
+#: ../plugins/fn-financial/functions.c:2749
 msgid ""
 "ODDLPRICE calculates the price per $100 face value of a security that pays "
 "periodic interest, but has an odd last period."
@@ -4163,12 +4169,12 @@ msgstr ""
 "εγγύησης που πληρώνει περιοδικό τόκο, αλλά έχει περιττό αριθμό τελευταίας "
 "περιόδου."
 
-#: ../plugins/fn-financial/functions.c:2813
+#: ../plugins/fn-financial/functions.c:2818
 msgid "ODDLYIELD:yield of a security that has an odd last period"
 msgstr ""
 "ODDLYIELD:η απόδοση μίας εγγύησης που έχει περιττό αριθμό τελευταίας περιόδου"
 
-#: ../plugins/fn-financial/functions.c:2822
+#: ../plugins/fn-financial/functions.c:2827
 msgid ""
 "ODDLYIELD calculates the yield of a security that pays periodic interest, "
 "but has an odd last period."
@@ -4176,28 +4182,28 @@ msgstr ""
 "Η συνάρτηση ODDLYIELD υπολογίζει την απόδοση μίας εγγύησης που πληρώνει "
 "περιοδικό τόκο, αλλά έχει περιττό αριθμό τελευταίας περιόδου."
 
-#: ../plugins/fn-financial/functions.c:2891
+#: ../plugins/fn-financial/functions.c:2896
 msgid "AMORDEGRC:depreciation of an asset using French accounting conventions"
 msgstr ""
 "AMORDEGRC:η απόσβεση ενός περιουσιακού στοιχείου χρησιμοποιώντας γαλλικούς "
 "μετασχηματισμούς λογιστικής"
 
-#: ../plugins/fn-financial/functions.c:2893
-#: ../plugins/fn-financial/functions.c:2941
+#: ../plugins/fn-financial/functions.c:2898
+#: ../plugins/fn-financial/functions.c:2954
 msgid "purchase_date:date of purchase"
 msgstr "purchase_date:η ημερομηνία αγοράς"
 
-#: ../plugins/fn-financial/functions.c:2894
-#: ../plugins/fn-financial/functions.c:2942
+#: ../plugins/fn-financial/functions.c:2899
+#: ../plugins/fn-financial/functions.c:2955
 msgid "first_period:end of first period"
 msgstr "first_period:το τέλος της πρώτης περιόδου"
 
-#: ../plugins/fn-financial/functions.c:2897
-#: ../plugins/fn-financial/functions.c:2945
+#: ../plugins/fn-financial/functions.c:2902
+#: ../plugins/fn-financial/functions.c:2958
 msgid "rate:depreciation rate"
 msgstr "rate:το ποσοστό απόδοσης"
 
-#: ../plugins/fn-financial/functions.c:2900
+#: ../plugins/fn-financial/functions.c:2905
 msgid ""
 "AMORDEGRC calculates the depreciation of an asset using French accounting "
 "conventions. Assets purchased in the middle of a period take prorated "
@@ -4212,17 +4218,33 @@ msgstr ""
 "εδώ ο συντελεστής απόσβεσης εφαρμόζεται στον υπολογισμό που εξαρτάται από τη "
 "ζωή των περιουσιακών στοιχείων."
 
-#: ../plugins/fn-financial/functions.c:2903
+#: ../plugins/fn-financial/functions.c:2909
+msgid ""
+"The depreciation coefficient used is:\n"
+"1.0 for an expected lifetime less than 3 years,\n"
+"1.5 for an expected lifetime of at least 3 years but less than 5 years,\n"
+"2.0 for an expected lifetime of at least 5 years but at most 6 years,\n"
+"2.5 for an expected lifetime of more than 6 years."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:2914
+msgid ""
+"Special depreciation rules are applied for the last two periods resulting in "
+"a possible total depreciation exceeding the difference of @{cost} - @"
+"{salvage}."
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:2916
 msgid "Named for AMORtissement DEGRessif Comptabilite."
 msgstr "Ονομασία για AMORtissement DEGRessif Comptabilite."
 
-#: ../plugins/fn-financial/functions.c:2939
+#: ../plugins/fn-financial/functions.c:2952
 msgid "AMORLINC:depreciation of an asset using French accounting conventions"
 msgstr ""
 "AMORLINC:η απόσβεση ενός περιουσιακού στοιχείου χρησιμοποιώντας γαλλικούς "
 "μετασχηματισμούς λογιστικής."
 
-#: ../plugins/fn-financial/functions.c:2948
+#: ../plugins/fn-financial/functions.c:2961
 msgid ""
 "AMORLINC calculates the depreciation of an asset using French accounting "
 "conventions. Assets purchased in the middle of a period take prorated "
@@ -4233,26 +4255,26 @@ msgstr ""
 "στοιχεία που αγοράζονται στο μέσο μίας περιόδου λαμβάνουν προϋπολογιζόμενη "
 "απόσβεση στο λογαριασμό."
 
-#: ../plugins/fn-financial/functions.c:2950
+#: ../plugins/fn-financial/functions.c:2963
 msgid "Named for AMORtissement LINeaire Comptabilite."
 msgstr "Ονομασία για AMORtissement LINeaire Comptabilite."
 
-#: ../plugins/fn-financial/functions.c:2985
+#: ../plugins/fn-financial/functions.c:2998
 msgid "COUPDAYBS:number of days from coupon period to settlement"
 msgstr ""
 "COUPDAYBS:ο αριθμός των ημερών από την περίοδο του τοκομεριδίου μέχρι το "
 "διακανονισμό"
 
-#: ../plugins/fn-financial/functions.c:2990
-#: ../plugins/fn-financial/functions.c:3014
-#: ../plugins/fn-financial/functions.c:3038
-#: ../plugins/fn-financial/functions.c:3062
-#: ../plugins/fn-financial/functions.c:3088
-#: ../plugins/fn-financial/functions.c:3114
+#: ../plugins/fn-financial/functions.c:3003
+#: ../plugins/fn-financial/functions.c:3027
+#: ../plugins/fn-financial/functions.c:3051
+#: ../plugins/fn-financial/functions.c:3075
+#: ../plugins/fn-financial/functions.c:3101
+#: ../plugins/fn-financial/functions.c:3127
 msgid "eom:end-of-month flag"
 msgstr "eom:επισήμανση στο τέλος του μήνα"
 
-#: ../plugins/fn-financial/functions.c:2991
+#: ../plugins/fn-financial/functions.c:3004
 msgid ""
 "COUPDAYBS calculates the number of days from the beginning of the coupon "
 "period to the settlement date."
@@ -4260,13 +4282,13 @@ msgstr ""
 "Η συνάρτηση COUPDAYBS υπολογίζει τον αριθμό των ημερών από την αρχή της "
 "περιόδου τοκομεριδίων μέχρι την ημερομηνία διακανονισμού."
 
-#: ../plugins/fn-financial/functions.c:3009
+#: ../plugins/fn-financial/functions.c:3022
 msgid "COUPDAYS:number of days in the coupon period of the settlement date"
 msgstr ""
 "COUPDAYS:ο αριθμός των ημερών στην περίοδο των τοκομεριδίων της ημερομηνίας "
 "διακονονισμού"
 
-#: ../plugins/fn-financial/functions.c:3015
+#: ../plugins/fn-financial/functions.c:3028
 msgid ""
 "COUPDAYS calculates the number of days in the coupon period of the "
 "settlement date."
@@ -4274,14 +4296,14 @@ msgstr ""
 "Η συνάρτηση COUPDAYS υπολογίζει τον αριθμό των ημερών στην περίοδο των "
 "τοκομεριδίων της ημερομηνίας διακανονισμού."
 
-#: ../plugins/fn-financial/functions.c:3033
+#: ../plugins/fn-financial/functions.c:3046
 msgid ""
 "COUPDAYSNC:number of days from the settlement date to the next coupon period"
 msgstr ""
 "COUPDAYSNC:ο αριθμός ημερών από την ημερομηνία διακανονισμού μέχρι την "
 "επόμενη περίοδο τοκομεριδίων."
 
-#: ../plugins/fn-financial/functions.c:3039
+#: ../plugins/fn-financial/functions.c:3052
 msgid ""
 "COUPDAYSNC calculates number of days from the settlement date to the next "
 "coupon period."
@@ -4289,32 +4311,32 @@ msgstr ""
 "Η συνάρτηση COUPDAYSNC υπολογίζει τον αριθμό ημερών από την ημερομηνία "
 "διακανονισμού μέχρι την επόμενη περίοδο τοκομεριδίων."
 
-#: ../plugins/fn-financial/functions.c:3057
+#: ../plugins/fn-financial/functions.c:3070
 msgid "COUPNCD:the next coupon date after settlement"
 msgstr ""
 "COUPNCD:η ημερομηνία του επόμενου τοκομεριδίου ύστερα από το διακανονισμό"
 
-#: ../plugins/fn-financial/functions.c:3063
+#: ../plugins/fn-financial/functions.c:3076
 msgid "COUPNCD calculates the coupon date following settlement."
 msgstr ""
 "Η συνάρτηση COUPNCD υπολογίζει την ημερομηνία του τοκομεριδίου που ακολουθεί "
 "το διακανονισμό."
 
-#: ../plugins/fn-financial/functions.c:3083
+#: ../plugins/fn-financial/functions.c:3096
 msgid "COUPPCD:the last coupon date before settlement"
 msgstr "COUPPCD:η ημερομηνία του τελευταίου τοκομεριδίου πριν το διακανονισμό"
 
-#: ../plugins/fn-financial/functions.c:3089
+#: ../plugins/fn-financial/functions.c:3102
 msgid "COUPPCD calculates the coupon date preceding settlement."
 msgstr ""
 "Η συνάρτηση COUPPCD υπολογίζει την ημερομηνία του τοκομεριδίου που "
 "προηγείται του διακανονισμού."
 
-#: ../plugins/fn-financial/functions.c:3109
+#: ../plugins/fn-financial/functions.c:3122
 msgid "COUPNUM:number of coupons"
 msgstr "COUPNUM:number of coupons"
 
-#: ../plugins/fn-financial/functions.c:3115
+#: ../plugins/fn-financial/functions.c:3128
 msgid ""
 "COUPNUM calculates the number of coupons to be paid between the settlement "
 "and maturity dates, rounded up."
@@ -4322,28 +4344,28 @@ msgstr ""
 "Η συνάρτηση COUPNUM υπολογίζει τον αριθμό των τοκομεριδίων που θα πληρωθούν "
 "μεταξύ των ημερομηνιών διακανονισμού και λήξης, ύστερα από στρογγυλοποίηση."
 
-#: ../plugins/fn-financial/functions.c:3133
+#: ../plugins/fn-financial/functions.c:3146
 msgid "CUMIPMT:cumulative interest payment"
 msgstr "CUMIPMT:συσσωρευμένη πληρωμή τόκων"
 
-#: ../plugins/fn-financial/functions.c:3134
-#: ../plugins/fn-financial/functions.c:3178
+#: ../plugins/fn-financial/functions.c:3147
+#: ../plugins/fn-financial/functions.c:3191
 msgid "rate:interest rate per period"
 msgstr "rate:το επιτόκιο ανά περίοδο"
 
-#: ../plugins/fn-financial/functions.c:3137
-#: ../plugins/fn-financial/functions.c:3181
-#: ../plugins/fn-financial/functions.c:3270
+#: ../plugins/fn-financial/functions.c:3150
+#: ../plugins/fn-financial/functions.c:3194
+#: ../plugins/fn-financial/functions.c:3283
 msgid "start_period:first period to accumulate for"
 msgstr "start_period:η πρώτη περίοδος συσσώρευσης για"
 
-#: ../plugins/fn-financial/functions.c:3138
-#: ../plugins/fn-financial/functions.c:3182
-#: ../plugins/fn-financial/functions.c:3271
+#: ../plugins/fn-financial/functions.c:3151
+#: ../plugins/fn-financial/functions.c:3195
+#: ../plugins/fn-financial/functions.c:3284
 msgid "end_period:last period to accumulate for"
 msgstr "end_period:η τελευταία περίοδος συσσώρευσης για"
 
-#: ../plugins/fn-financial/functions.c:3140
+#: ../plugins/fn-financial/functions.c:3153
 msgid ""
 "CUMIPMT calculates the cumulative interest paid on a loan from @"
 "{start_period} to @{end_period}."
@@ -4351,11 +4373,11 @@ msgstr ""
 "Η συνάρτηση CUMIPMT υπολογίζει το συσσωρευμένο τόκο που πληρώθηκε σε ένα "
 "δάνειο από την @{start_period} μέχρι την @{end_period}."
 
-#: ../plugins/fn-financial/functions.c:3177
+#: ../plugins/fn-financial/functions.c:3190
 msgid "CUMPRINC:cumulative principal"
 msgstr "CUMPRINC:αθροιστικό κεφάλαιο"
 
-#: ../plugins/fn-financial/functions.c:3184
+#: ../plugins/fn-financial/functions.c:3197
 msgid ""
 "CUMPRINC calculates the cumulative principal paid on a loan from @"
 "{start_period} to @{end_period}."
@@ -4363,23 +4385,25 @@ msgstr ""
 "Η συνάρτηση CUMPRINC υπολογίζει το αθροιστικό κεφάλαιο που πληρώθηκε σε ένα "
 "δάνεια από την @{start_period} μέχρι την @{end_period}."
 
-#: ../plugins/fn-financial/functions.c:3221
-msgid "MDURATION:the Macauley duration of a security"
+#: ../plugins/fn-financial/functions.c:3234
+#, fuzzy
+msgid "MDURATION:the Macaulay duration of a security"
 msgstr "MDURATION:η διάρκεια Macauley μίας εγγύησης"
 
-#: ../plugins/fn-financial/functions.c:3228
-msgid "MDURATION calculates the Macauley duration of a security."
+#: ../plugins/fn-financial/functions.c:3241
+#, fuzzy
+msgid "MDURATION calculates the Macaulay duration of a security."
 msgstr "Η MDURATION υπολογίζει τη διάρκεια Macauley μίας εγγύησης."
 
-#: ../plugins/fn-financial/functions.c:3266
+#: ../plugins/fn-financial/functions.c:3279
 msgid "VDB:depreciation of an asset"
 msgstr "VDB:η απόσβεση ενός περιουσιακού στοιχείου"
 
-#: ../plugins/fn-financial/functions.c:3273
+#: ../plugins/fn-financial/functions.c:3286
 msgid "no_switch:do not switch to straight-line depreciation"
 msgstr "no_switch:να μη γίνεται γραμμική απόσβεση"
 
-#: ../plugins/fn-financial/functions.c:3274
+#: ../plugins/fn-financial/functions.c:3287
 msgid ""
 "VDB calculates the depreciation of an asset for a given period range using "
 "the variable-rate declining balance method."
@@ -4388,7 +4412,7 @@ msgstr ""
 "δοθέν εύρος περιόδων χρησιμοποιώντας τη φθίνουσα μέθοδο υπολογισμού με "
 "κυμαινόμενο επιτόκιο."
 
-#: ../plugins/fn-financial/functions.c:3275
+#: ../plugins/fn-financial/functions.c:3288
 msgid ""
 "If @{no_switch} is FALSE, the calculation switches to straight-line "
 "depreciation when depreciation is greater than the declining balance "
@@ -5099,7 +5123,7 @@ msgstr ""
 "approximate:αν είναι αληθής, πρέπει να βρεθεί ακριβώς ένα αποτέλεσμα για την "
 "@{value}, εξ ορισμού είναι ΑΛΗΘΗΣ"
 
-#: ../plugins/fn-lookup/functions.c:920 ../plugins/fn-lookup/functions.c:981
+#: ../plugins/fn-lookup/functions.c:920
 msgid "as_index:if true, the 0-based row offset is returned; defaults to FALSE"
 msgstr ""
 "as_index:αν είναι αληθής, επιστρέφεται μία αντιστάθμιση με καμία γραμμή, εξ "
@@ -5129,7 +5153,8 @@ msgstr ""
 "αύξουσα σειρά."
 
 #: ../plugins/fn-lookup/functions.c:931
-msgid "VLOOKUP returns #REF! if @{row} falls outside @{range}."
+#, fuzzy
+msgid "VLOOKUP returns #REF! if @{column} falls outside @{range}."
 msgstr ""
 "Η συνάρτηση VLOOKUP επιστρέφει #REF! αν το @{row} είναι έξω από το @{range}."
 
@@ -5138,16 +5163,26 @@ msgid "HLOOKUP:search the first row of @{range} for @{value}"
 msgstr "HLOOKUP:αναζήτηση στην πρώτη γραμμή του @{range} για @{value}"
 
 #: ../plugins/fn-lookup/functions.c:978
-msgid "row:1-based column offset indicating the return values "
+#, fuzzy
+msgid "row:1-based row offset indicating the return values "
 msgstr "row:αντιστάθμιση με 1 στήλη που παρουσιάζει τις επιστρεφόμενος τιμές"
 
+#: ../plugins/fn-lookup/functions.c:981
+#, fuzzy
+msgid ""
+"as_index:if true, the 0-based column offset is returned; defaults to FALSE"
+msgstr ""
+"as_index:αν είναι αληθής, επιστρέφεται μία αντιστάθμιση με καμία γραμμή, εξ "
+"ορισμού είναι ΨΕΥΔΗΣ"
+
 #: ../plugins/fn-lookup/functions.c:983
+#, fuzzy
 msgid ""
 "HLOOKUP function finds the row in @{range} that has a first cell similar to @"
-"{value}.  If @{approximate} is not true it finds the row with an exact "
-"equality. If @{approximate} is true, it finds the last row with first value "
-"less than or equal to @{value}. If @{as_index} is true the 0-based row "
-"offset is returned."
+"{value}.  If @{approximate} is not true it finds the column with an exact "
+"equality. If @{approximate} is true, it finds the last column with first "
+"value less than or equal to @{value}. If @{as_index} is true the 0-based "
+"column offset is returned."
 msgstr ""
 "Η συνάρτηαη HLOOKUP αναζητεί τη γραμμή μέσα στη @{range} που το πρώτο της "
 "κελί είναι παρόμοιο με το @{value}. Αν το @{approximate} δεν είναι αληθές, "
@@ -5654,9 +5689,9 @@ msgstr "ACOT:αντίστροφη συνεφαπτομένη του @{x}"
 msgid "wolfram:InverseCotangent.html"
 msgstr "wolfram:InverseCotangent.html"
 
-#: ../plugins/fn-math/functions.c:292 ../plugins/fn-math/functions.c:747
-#: ../plugins/fn-math/functions.c:786 ../plugins/fn-math/functions.c:1340
-#: ../plugins/fn-math/functions.c:1360 ../plugins/fn-math/functions.c:1400
+#: ../plugins/fn-math/functions.c:292 ../plugins/fn-math/functions.c:754
+#: ../plugins/fn-math/functions.c:793 ../plugins/fn-math/functions.c:1347
+#: ../plugins/fn-math/functions.c:1367 ../plugins/fn-math/functions.c:1407
 msgid "wiki:en:Trigonometric_functions"
 msgstr "wiki:el:Τριγωνομετρικές_συναρτήσεις"
 
@@ -5732,61 +5767,63 @@ msgstr ""
 "επιστρέφει #NUM!"
 
 #: ../plugins/fn-math/functions.c:411
-msgid "ATAN2:the arc tangent of the ratio of @{y} and @{x}"
+#, fuzzy
+msgid "ATAN2:the arc tangent of the ratio @{y}/@{x}"
 msgstr "ATAN2:το τόξο εφαπτομένης του λόγου των @{y} και @{x}"
-
-#: ../plugins/fn-math/functions.c:412
-msgid "y:y-coordinate"
-msgstr "y:y-συντεταγμένη"
 
 #: ../plugins/fn-math/functions.c:413
 msgid "x:x-coordinate"
 msgstr "x:x-συντεταγμένη"
 
 #: ../plugins/fn-math/functions.c:414
+msgid "y:y-coordinate"
+msgstr "y:y-συντεταγμένη"
+
+#: ../plugins/fn-math/functions.c:415
+#, fuzzy
 msgid ""
-"ATAN2 calculates the direction from the origin to (@{x},@{y}) as an angle in "
-"radians."
+"ATAN2 calculates the direction from the origin to the point (@{x},@{y}) as "
+"an angle from the x-axis in radians."
 msgstr ""
 "Η ATAN2 υπολογίζει την κατεύθυνση από την αρχή μέχρι τα (@{x},@{y}) ως γωνία "
 "σε ακτίνια."
 
-#: ../plugins/fn-math/functions.c:415
+#: ../plugins/fn-math/functions.c:419
 msgid "The result will be between π and +π."
 msgstr "Το αποτέλεσμα θα βρίσκεται μεταξυ -π και π."
 
-#: ../plugins/fn-math/functions.c:416
+#: ../plugins/fn-math/functions.c:421
 msgid "The order of the arguments may be unexpected."
 msgstr "Η σειρά των ορισμάτων ενδεχομένων να είναι απροσδόκητη."
 
-#: ../plugins/fn-math/functions.c:439
+#: ../plugins/fn-math/functions.c:446
 msgid "CEIL:smallest integer larger than or equal to @{x}"
 msgstr "CEIL:ο μικρότερος ακέραιος που είναι μεγαλύτερος ή ίσος με το @{x}"
 
-#: ../plugins/fn-math/functions.c:441
+#: ../plugins/fn-math/functions.c:448
 msgid "CEIL(@{x}) is the smallest integer that is at least as large as @{x}."
 msgstr ""
 "Το CEIL(@{x}) είναι ο μικρότερος ακέραιος που είναι τουλάχιστον ή μεγαλύτερο "
 "από το @{x}."
 
-#: ../plugins/fn-math/functions.c:442
+#: ../plugins/fn-math/functions.c:449
 msgid "This function is the OpenFormula function CEILING(@{x})."
 msgstr "Η συνάρτηση αυτή είναι η OpenFormula συνάρτηση CEILING(@{x})."
 
-#: ../plugins/fn-math/functions.c:459
+#: ../plugins/fn-math/functions.c:466
 msgid "COUNTIF:count of the cells meeting the given @{criteria}"
 msgstr "COUNTIF:το πλήθος των κελιών που τηρούν τα δοθέντα @{criteria}"
 
-#: ../plugins/fn-math/functions.c:460 ../plugins/fn-math/functions.c:533
-#: ../plugins/fn-math/functions.c:645
+#: ../plugins/fn-math/functions.c:467 ../plugins/fn-math/functions.c:540
+#: ../plugins/fn-math/functions.c:652
 msgid "range:cell area"
 msgstr "range:η περιοχή κελιών"
 
-#: ../plugins/fn-math/functions.c:461
+#: ../plugins/fn-math/functions.c:468
 msgid "criteria:condition for a cell to be counted"
 msgstr "criteria:η συνθήκη για ένα κελί που θα καταμετρηθεί"
 
-#: ../plugins/fn-math/functions.c:532
+#: ../plugins/fn-math/functions.c:539
 msgid ""
 "SUMIF:sum of the cells in @{actual_range} for which the corresponding cells "
 "in the range meet the given @{criteria}"
@@ -5794,15 +5831,15 @@ msgstr ""
 "SUMIF:το άθροισμα των κελιών στο @{actual_range} για το οποία τα αντίστοιχα "
 "κελιά στην περιοχή καλύπτουν τα δοθέντα @{criteria}"
 
-#: ../plugins/fn-math/functions.c:534
+#: ../plugins/fn-math/functions.c:541
 msgid "criteria:condition for a cell to be summed"
 msgstr "criteria:η συνθήκη για ένα κελί ώστε να ληφθεί υπόψη"
 
-#: ../plugins/fn-math/functions.c:535 ../plugins/fn-math/functions.c:647
+#: ../plugins/fn-math/functions.c:542 ../plugins/fn-math/functions.c:654
 msgid "actual_range:cell area, defaults to @{range}"
 msgstr "actual_range:η περιοχή κελιών, εξ ορισμού είναι το @{range}"
 
-#: ../plugins/fn-math/functions.c:644
+#: ../plugins/fn-math/functions.c:651
 msgid ""
 "AVERAGEIF:average of the cells in @{actual range} for which the "
 "corresponding cells in the range meet the given @{criteria}"
@@ -5810,11 +5847,11 @@ msgstr ""
 "AVERAGEIF:ο μέσος όρος των κελίών στο @{actual range} για τα οποία τα "
 "αντίστοιχα κελιά στην περιοχή καλύπτουν τα δοθέντα @{criteria}"
 
-#: ../plugins/fn-math/functions.c:646
+#: ../plugins/fn-math/functions.c:653
 msgid "criteria:condition for a cell to be included"
 msgstr "criteria:η σνυθήκη για ένα κελί που θα συμπεριληφθεί"
 
-#: ../plugins/fn-math/functions.c:710
+#: ../plugins/fn-math/functions.c:717
 msgid ""
 "CEILING:nearest multiple of @{significance} whose absolute value is at least "
 "ABS(@{x})"
@@ -5822,14 +5859,14 @@ msgstr ""
 "CEILING:το πιο κοντινό πολλαπλάσιο του @{significance} του οποίου η απόλυτη "
 "τιμή είναι τουλάχιστον ABS(@{x})"
 
-#: ../plugins/fn-math/functions.c:712 ../plugins/fn-math/functions.c:1065
+#: ../plugins/fn-math/functions.c:719 ../plugins/fn-math/functions.c:1072
 msgid ""
 "significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)"
 msgstr ""
 "significance:το βασικό πολλαπλα΄σιο (εξ ορισμού είναι 1 για @x > 0 και -1 "
 "για @x <0)"
 
-#: ../plugins/fn-math/functions.c:713
+#: ../plugins/fn-math/functions.c:720
 msgid ""
 "CEILING(@{x},@{significance}) is the nearest multiple of @{significance} "
 "whose absolute value is at least ABS(@{x})."
@@ -5837,14 +5874,14 @@ msgstr ""
 "Το CEILING(@{x},@{significance}) είναι το πιο κοντινό πολλαπλάσιο του @"
 "{significance} του οποίου η απόλυτη τιμή είναι τουλάχιστον ABS(@{x})."
 
-#: ../plugins/fn-math/functions.c:714
+#: ../plugins/fn-math/functions.c:721
 msgid ""
 "If @{x} or @{significance} is non-numeric, CEILING returns a #VALUE! error."
 msgstr ""
 "Αν το @{x} ή το @{significance} δεν είναι αριθμητικό, η συνάρτηση CEILING "
 "επιστρέφει σφάλμα #VALUE!."
 
-#: ../plugins/fn-math/functions.c:715
+#: ../plugins/fn-math/functions.c:722
 msgid ""
 "If @{x} and @{significance} have different signs, CEILING returns a #NUM! "
 "error."
@@ -5852,7 +5889,7 @@ msgstr ""
 "Αν το @{x} και το @{significance} έχουν διαφορετικά πρόσημα, η συνάρτηση "
 "CEILING επιστρέφει σφάλμα #NUM!."
 
-#: ../plugins/fn-math/functions.c:717
+#: ../plugins/fn-math/functions.c:724
 msgid ""
 "CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). CEILING(@{x},"
 "@{significance}) is the OpenFormula function CEILING(@{x},@{significance},1)."
@@ -5861,96 +5898,96 @@ msgstr ""
 "συνάρτηση CEILING(@{x},@{significance}) είναι η συνάρτηση CEILING(@{x},@"
 "{significance},1) της OpenFormula."
 
-#: ../plugins/fn-math/functions.c:743
+#: ../plugins/fn-math/functions.c:750
 msgid "COS:the cosine of @{x}"
 msgstr "COS:το συνημίτονο του @{x}"
 
-#: ../plugins/fn-math/functions.c:744 ../plugins/fn-math/functions.c:818
-#: ../plugins/fn-math/functions.c:1335 ../plugins/fn-math/functions.c:1354
-#: ../plugins/fn-math/functions.c:1394 ../plugins/fn-math/functions.c:1567
+#: ../plugins/fn-math/functions.c:751 ../plugins/fn-math/functions.c:825
+#: ../plugins/fn-math/functions.c:1342 ../plugins/fn-math/functions.c:1361
+#: ../plugins/fn-math/functions.c:1401 ../plugins/fn-math/functions.c:1574
 msgid "x:angle in radians"
 msgstr "x:η γωνία σε ακτίνια"
 
-#: ../plugins/fn-math/functions.c:746
+#: ../plugins/fn-math/functions.c:753
 msgid "wolfram:Cosine.html"
 msgstr "wolfram:Cosine.html"
 
-#: ../plugins/fn-math/functions.c:763
+#: ../plugins/fn-math/functions.c:770
 msgid "COSH:the hyperbolic cosine of @{x}"
 msgstr "COSH:το συνημίτονο της υπερβολής του @{x}"
 
-#: ../plugins/fn-math/functions.c:781
+#: ../plugins/fn-math/functions.c:788
 msgid "COT:the cotangent of @{x}"
 msgstr "COT:η συνεφαπτομένη του @{x}"
 
-#: ../plugins/fn-math/functions.c:785
+#: ../plugins/fn-math/functions.c:792
 msgid "wolfram:Cotangent.html"
 msgstr "wolfram:Cotangent.html"
 
-#: ../plugins/fn-math/functions.c:799
+#: ../plugins/fn-math/functions.c:806
 msgid "COTH:the hyperbolic cotangent of @{x}"
 msgstr "COTH:η συνεφαπτομένη υπερβολής του @{x}"
 
-#: ../plugins/fn-math/functions.c:803
+#: ../plugins/fn-math/functions.c:810
 msgid "wolfram:HyperbolicCotangent.html"
 msgstr "wolfram:HyperbolicCotangent.html"
 
-#: ../plugins/fn-math/functions.c:804 ../plugins/fn-math/functions.c:1380
-#: ../plugins/fn-math/functions.c:1420
+#: ../plugins/fn-math/functions.c:811 ../plugins/fn-math/functions.c:1387
+#: ../plugins/fn-math/functions.c:1427
 msgid "wiki:en:Hyperbolic_function"
 msgstr "wiki:el:Συνάρτηση_υπερβολής"
 
-#: ../plugins/fn-math/functions.c:817
+#: ../plugins/fn-math/functions.c:824
 msgid "DEGREES:equivalent degrees to @{x} radians"
 msgstr "DEGREES:οι ισοδύναμες μοίρες σε @{x} ακτίνια"
 
-#: ../plugins/fn-math/functions.c:835
+#: ../plugins/fn-math/functions.c:842
 msgid "EXP:e raised to the power of @{x}"
 msgstr "EXP:το e στη δύναμη του @{x}"
 
-#: ../plugins/fn-math/functions.c:837
+#: ../plugins/fn-math/functions.c:844
 msgid "e is the base of the natural logarithm."
 msgstr "Το e είναι η βάση του φυσικού λογαρίθμου."
 
-#: ../plugins/fn-math/functions.c:853
+#: ../plugins/fn-math/functions.c:860
 msgid "EXPM1:EXP(@{x})-1"
 msgstr "EXPM1:EXP(@{x})-1"
 
-#: ../plugins/fn-math/functions.c:855
+#: ../plugins/fn-math/functions.c:862
 msgid ""
 "This function has a higher resulting precision than evaluating EXP(@{x})-1."
 msgstr ""
 "Η συνάρτηση αυτή έχει μεγαλύτερη ακρίβεια αποτελέσματος από την εκτίμηση της "
 "EXP(@{x})-1."
 
-#: ../plugins/fn-math/functions.c:870
+#: ../plugins/fn-math/functions.c:877
 msgid "FACT:the factorial of @{x}, i.e. @{x}!"
 msgstr "FACT:το παραγοντικό του @{x}, για παράδειγμα το @{x}!"
 
-#: ../plugins/fn-math/functions.c:873
+#: ../plugins/fn-math/functions.c:880
 msgid "The domain of this function has been extended using the GAMMA function."
 msgstr ""
 "Το πεδίο της συνάρτησης αυτής έχει επεκταθεί χρησιμοποιώντας τη συνάρτηση "
 "GAMMA."
 
-#: ../plugins/fn-math/functions.c:901
+#: ../plugins/fn-math/functions.c:908
 msgid "GAMMA:the Gamma function"
 msgstr "GAMMA:η Γάμμα συνάρτηση"
 
-#: ../plugins/fn-math/functions.c:931
+#: ../plugins/fn-math/functions.c:938
 msgid "GAMMALN:natural logarithm of the Gamma function"
 msgstr "GAMMALN:ο φυσικός λογάριθμος της Γάμμα συνάρτησης"
 
-#: ../plugins/fn-math/functions.c:955
+#: ../plugins/fn-math/functions.c:962
 msgid "BETA:Euler beta function"
 msgstr "BETA:συνάρτηση Euler Βήτα"
 
-#: ../plugins/fn-math/functions.c:957 ../plugins/fn-math/functions.c:981
-#: ../plugins/fn-math/functions.c:1197
+#: ../plugins/fn-math/functions.c:964 ../plugins/fn-math/functions.c:988
+#: ../plugins/fn-math/functions.c:1204
 msgid "y:number"
 msgstr "y:αριθμός"
 
-#: ../plugins/fn-math/functions.c:958
+#: ../plugins/fn-math/functions.c:965
 msgid ""
 "BETA function returns the value of the Euler beta function extended to all "
 "real numbers except 0 and negative integers."
@@ -5959,24 +5996,24 @@ msgstr ""
 "σε όλους τους πραγματικούς αριθμούς εκτός από το 0 και τους αρνητικούς "
 "ακεραίους."
 
-#: ../plugins/fn-math/functions.c:959
+#: ../plugins/fn-math/functions.c:966
 msgid ""
 "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETA returns #NUM!"
 msgstr ""
 "Αν το @{x}, το @{y}, ή το (@{x} + @{y}) είναι μη-θετικοι ακέραιοι, η "
 "συνάρτηση BETA επιστρέφει #NUM!"
 
-#: ../plugins/fn-math/functions.c:963 ../plugins/fn-math/functions.c:987
+#: ../plugins/fn-math/functions.c:970 ../plugins/fn-math/functions.c:994
 msgid "wiki:en:Beta_function"
 msgstr "wiki:el:Συνάρτηση Beta"
 
-#: ../plugins/fn-math/functions.c:979
+#: ../plugins/fn-math/functions.c:986
 msgid ""
 "BETALN:natural logarithm of the absolute value of the Euler beta function"
 msgstr ""
 "BETALN:ο φυσικός λογάριθμος της απόλυτης τιμής της συνάρτησης Euler βήτα"
 
-#: ../plugins/fn-math/functions.c:982
+#: ../plugins/fn-math/functions.c:989
 msgid ""
 "BETALN function returns the natural logarithm of the absolute value of the "
 "Euler beta function extended to all real numbers except 0 and negative "
@@ -5986,7 +6023,7 @@ msgstr ""
 "συνάρτηση Euler βήτα επεκταμένη σε όλους τους πραγματικούς αριθμούς εκτός "
 "από το 0 και τους αρνητικούς αριθμούς."
 
-#: ../plugins/fn-math/functions.c:983
+#: ../plugins/fn-math/functions.c:990
 msgid ""
 "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETALN returns "
 "#NUM!"
@@ -5994,20 +6031,20 @@ msgstr ""
 "Αν @{x}, @{y}, ή (@{x} + @{y}) δεν είναι θετικοί αριθμοί, η συνάρτηση BETALN "
 "επιστρέφει #NUM!"
 
-#: ../plugins/fn-math/functions.c:1004
+#: ../plugins/fn-math/functions.c:1011
 msgid "COMBIN:binomial coefficient"
 msgstr "COMBIN:διωνυμικός συντελεστής"
 
-#: ../plugins/fn-math/functions.c:1005 ../plugins/fn-math/functions.c:1037
-#: ../plugins/fn-math/functions.c:2114
+#: ../plugins/fn-math/functions.c:1012 ../plugins/fn-math/functions.c:1044
+#: ../plugins/fn-math/functions.c:2121
 msgid "n:non-negative integer"
 msgstr "n:μη αρνητικός ακέραιος"
 
-#: ../plugins/fn-math/functions.c:1006 ../plugins/fn-math/functions.c:1038
+#: ../plugins/fn-math/functions.c:1013 ../plugins/fn-math/functions.c:1045
 msgid "k:non-negative integer"
 msgstr "k:μη αρνητικός ακέραιος"
 
-#: ../plugins/fn-math/functions.c:1007
+#: ../plugins/fn-math/functions.c:1014
 msgid ""
 "COMBIN returns the binomial coefficient \"@{n} choose @{k}\", the number of @"
 "{k}-combinations of an @{n}-element set without repetition."
@@ -6015,26 +6052,26 @@ msgstr ""
 "Η συνάρτηση COMBIN επιστρέφει το διωνυμικό συντελεστή \"@{n} από @{k}\", ο "
 "αριθμός των @{k}-συνδυασμών ενός συνόλου από @{n}-στοιχεία χωρίς επανάθεση."
 
-#: ../plugins/fn-math/functions.c:1010
+#: ../plugins/fn-math/functions.c:1017
 msgid "If @{n} is less than @{k} COMBIN returns #NUM!"
 msgstr "Αν το @{n} είναι λιγότερο από @{k} η συνάρτηση COMBIN επιστρέφει #NUM!"
 
-#: ../plugins/fn-math/functions.c:1015
+#: ../plugins/fn-math/functions.c:1022
 msgid "wiki:en:Binomial_coefficient"
 msgstr "wiki:el:Διωνυμικός_συντελεστής"
 
-#: ../plugins/fn-math/functions.c:1035
+#: ../plugins/fn-math/functions.c:1042
 msgid ""
 "COMBINA:the number of @{k}-combinations of an @{n}-element set with "
 "repetition"
 msgstr ""
 "COMBINA:ο αριθμός @{k}-συνδυασμών ενός συνόλου με @{n}-στοιχεία με επανάθεση"
 
-#: ../plugins/fn-math/functions.c:1043
+#: ../plugins/fn-math/functions.c:1050
 msgid "wiki:en:Multiset"
 msgstr "wiki:el:Πολυσύνολο"
 
-#: ../plugins/fn-math/functions.c:1063
+#: ../plugins/fn-math/functions.c:1070
 msgid ""
 "FLOOR:nearest multiple of @{significance} whose absolute value is at most ABS"
 "(@{x})"
@@ -6042,7 +6079,7 @@ msgstr ""
 "FLOOR:το πιο κοντινό πολλαπλάσιο του @{significance} του οποίου η απόλυτη "
 "τιμή είναι το πολύ ABS(@{x})"
 
-#: ../plugins/fn-math/functions.c:1067
+#: ../plugins/fn-math/functions.c:1074
 msgid ""
 "FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} whose "
 "absolute value is at most ABS(@{x})"
@@ -6050,7 +6087,7 @@ msgstr ""
 "Το FLOOR(@{x},@{significance}) είναι το πιο κοντινό πολλαπλάσιο του @"
 "{significance} του οποίου η απόλυτη τιμή είναι το πολύ ABS(@{x})"
 
-#: ../plugins/fn-math/functions.c:1069
+#: ../plugins/fn-math/functions.c:1076
 msgid ""
 "FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},@"
 "{significance}) is the OpenFormula function FLOOR(@{x},@{significance},1)."
@@ -6059,45 +6096,45 @@ msgstr ""
 "συνάρτηση FLOOR(@{x},@{significance}) είναι η συνάρτηση FLOOR(@{x},@"
 "{significance},1) της OpenFormula."
 
-#: ../plugins/fn-math/functions.c:1099
+#: ../plugins/fn-math/functions.c:1106
 msgid "INT:largest integer not larger than @{x}"
 msgstr "INT:ο μεγαλύτερος ακέραιος που δεν είναι μεγαλύτερος από το @{x}"
 
-#: ../plugins/fn-math/functions.c:1118
+#: ../plugins/fn-math/functions.c:1125
 msgid "LOG:logarithm of @{x} with base @{base}"
 msgstr "LOG:ο λογάριθμος του @{x} με βάση @{base}"
 
-#: ../plugins/fn-math/functions.c:1119 ../plugins/fn-math/functions.c:1149
-#: ../plugins/fn-math/functions.c:1172 ../plugins/fn-math/functions.c:1227
-#: ../plugins/fn-math/functions.c:1249
+#: ../plugins/fn-math/functions.c:1126 ../plugins/fn-math/functions.c:1156
+#: ../plugins/fn-math/functions.c:1179 ../plugins/fn-math/functions.c:1234
+#: ../plugins/fn-math/functions.c:1256
 msgid "x:positive number"
 msgstr "x:θετικός αριθμός"
 
-#: ../plugins/fn-math/functions.c:1120
+#: ../plugins/fn-math/functions.c:1127
 msgid "base:base of the logarithm, defaults to 10"
 msgstr "base:η βάση του αλγορίθμου, εξ ορισμού είναι 10"
 
-#: ../plugins/fn-math/functions.c:1121
+#: ../plugins/fn-math/functions.c:1128
 msgid "@{base} must be positive and not equal to 1."
 msgstr "Η @{base} πρέπει να είναι θετική και διάφορη του 1."
 
-#: ../plugins/fn-math/functions.c:1122
+#: ../plugins/fn-math/functions.c:1129
 msgid "If @{x} ≤ 0, LOG returns #NUM! error."
 msgstr "Αν @{x} ≤ 0, η συνάρτηση LOG επιστρέφει σφάλμα #NUM!."
 
-#: ../plugins/fn-math/functions.c:1148
+#: ../plugins/fn-math/functions.c:1155
 msgid "LN:the natural logarithm of @{x}"
 msgstr "LN:ο φυσικός λογάριθμος του @{x}"
 
-#: ../plugins/fn-math/functions.c:1150
+#: ../plugins/fn-math/functions.c:1157
 msgid "If @{x} ≤ 0, LN returns #NUM! error."
 msgstr "Αν @{x} ≤ 0, η συνάρτηση LN επιστρέφιε σφάλμα #NUM!."
 
-#: ../plugins/fn-math/functions.c:1171
+#: ../plugins/fn-math/functions.c:1178
 msgid "LN1P:LN(1+@{x})"
 msgstr "LN1P:LN(1+@{x})"
 
-#: ../plugins/fn-math/functions.c:1173
+#: ../plugins/fn-math/functions.c:1180
 msgid ""
 "LN1P calculates LN(1+@{x}) but yielding a higher precision than evaluating LN"
 "(1+@{x})."
@@ -6105,219 +6142,219 @@ msgstr ""
 "Η συνάρτηση LN1P υπολογίζιε το LN(1+@{x}) αλλά αποδίδει μεγαλύτερη ακρίβεια "
 "από την εκτίμηση του LN(1+@{x})."
 
-#: ../plugins/fn-math/functions.c:1174
+#: ../plugins/fn-math/functions.c:1181
 msgid "If @{x} ≤ -1, LN returns #NUM! error."
 msgstr "Αν @{x} ≤ -1, η συνάρτηση LN επιστρέφει σφάλμα #NUM!."
 
-#: ../plugins/fn-math/functions.c:1195
+#: ../plugins/fn-math/functions.c:1202
 msgid "POWER:the value of @{x} raised to the power @{y}"
 msgstr "POWER:η τιμή του @{x} υψωμένη στη δύναμη του @{y}"
 
-#: ../plugins/fn-math/functions.c:1198
+#: ../plugins/fn-math/functions.c:1205
 msgid "If both @{x} and @{y} equal 0, POWER returns #NUM!"
 msgstr ""
 "Αν το @{x} και το @{y} είναι ίσα με 0, η συνάρτηση POWER επιστρέφει #NUM!"
 
-#: ../plugins/fn-math/functions.c:1199
+#: ../plugins/fn-math/functions.c:1206
 msgid "If @{x} = 0 and @{y} < 0, POWER returns #DIV/0!"
 msgstr "Αν @{x} = 0 και @{y} < 0, η συνάρτηση POWER επιστρέφει #DIV/0!"
 
-#: ../plugins/fn-math/functions.c:1200
+#: ../plugins/fn-math/functions.c:1207
 msgid "If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!"
 msgstr ""
 "Αν @{x} < 0 και το @{y} δεν είναι ακέραιος, η συνάρτηση POWER επιστρέφει "
 "#NUM!"
 
-#: ../plugins/fn-math/functions.c:1226
+#: ../plugins/fn-math/functions.c:1233
 msgid "LOG2:the base-2 logarithm of @{x}"
 msgstr "LOG2:η βάση-2 του λογαρίθμου του @{x}"
 
-#: ../plugins/fn-math/functions.c:1228
+#: ../plugins/fn-math/functions.c:1235
 msgid "If @{x} ≤ 0, LOG2 returns #NUM!"
 msgstr "Αν @{x} ≤ 0, η συνάρτηση LOG2 επιστρέφει #NUM!"
 
-#: ../plugins/fn-math/functions.c:1248
+#: ../plugins/fn-math/functions.c:1255
 msgid "LOG10:the base-10 logarithm of @{x}"
 msgstr "LOG10:η βάση-10 του λογαρίθμου του @{x}"
 
-#: ../plugins/fn-math/functions.c:1250
+#: ../plugins/fn-math/functions.c:1257
 msgid "If @{x} ≤ 0, LOG10 returns #NUM!"
 msgstr "Αν @{x} ≤ 0, η συνάρτηση LOG10 επιστρέφει #NUM!"
 
-#: ../plugins/fn-math/functions.c:1270
+#: ../plugins/fn-math/functions.c:1277
 msgid "MOD:the remainder of @{x} under division by @{n}"
 msgstr "MOD:το υπόλοιπο της διαίρεσης του @{x} με το @{n}"
 
-#: ../plugins/fn-math/functions.c:1273
+#: ../plugins/fn-math/functions.c:1280
 msgid "MOD function returns the remainder when @{x} is divided by @{n}."
 msgstr ""
 "Η συνάρτηση MOD επιστρέεφει το υπόλοιπο όταν το @{x} διαιρείται με @{n}."
 
-#: ../plugins/fn-math/functions.c:1274
+#: ../plugins/fn-math/functions.c:1281
 msgid "If @{n} is 0, MOD returns #DIV/0!"
 msgstr "Αν το @{n} είναι 0, η συνάρτηση MOD επιστρέφει #DIV/0!"
 
-#: ../plugins/fn-math/functions.c:1316
+#: ../plugins/fn-math/functions.c:1323
 msgid "RADIANS:the number of radians equivalent to @{x} degrees"
 msgstr "RADIANS:ο αριθμός των ακτινίων που ισοδυναμούν σε @{x} μοίρες"
 
-#: ../plugins/fn-math/functions.c:1317
+#: ../plugins/fn-math/functions.c:1324
 msgid "x:angle in degrees"
 msgstr "x:η γωνία σε μοίρες"
 
-#: ../plugins/fn-math/functions.c:1334
+#: ../plugins/fn-math/functions.c:1341
 msgid "SIN:the sine of @{x}"
 msgstr "SIN:το ημίτονο του @{x}"
 
-#: ../plugins/fn-math/functions.c:1339
+#: ../plugins/fn-math/functions.c:1346
 msgid "wolfram:Sine.html"
 msgstr "wolfram:Sine.html"
 
-#: ../plugins/fn-math/functions.c:1353
+#: ../plugins/fn-math/functions.c:1360
 msgid "CSC:the cosecant of @{x}"
 msgstr "CSC:η συντέμνουσα του @{x}"
 
-#: ../plugins/fn-math/functions.c:1355 ../plugins/fn-math/functions.c:1375
-#: ../plugins/fn-math/functions.c:1395 ../plugins/fn-math/functions.c:1415
+#: ../plugins/fn-math/functions.c:1362 ../plugins/fn-math/functions.c:1382
+#: ../plugins/fn-math/functions.c:1402 ../plugins/fn-math/functions.c:1422
 msgid "This function is not Excel compatible."
 msgstr "Η συνάρτηση αυτή δεν είναι συμβατή με το Excel."
 
-#: ../plugins/fn-math/functions.c:1359
+#: ../plugins/fn-math/functions.c:1366
 msgid "wolfram:Cosecant.html"
 msgstr "wolfram:Cosecant.html"
 
-#: ../plugins/fn-math/functions.c:1373
+#: ../plugins/fn-math/functions.c:1380
 msgid "CSCH:the hyperbolic cosecant of @{x}"
 msgstr "CSCH:η συντέμνουσα υπερβολής του @{x}"
 
-#: ../plugins/fn-math/functions.c:1379
+#: ../plugins/fn-math/functions.c:1386
 msgid "wolfram:HyperbolicCosecant.html"
 msgstr "wolfram:HyperbolicCosecant.html"
 
-#: ../plugins/fn-math/functions.c:1393
+#: ../plugins/fn-math/functions.c:1400
 msgid "SEC:Secant"
 msgstr "SEC:Διατέμνουσα"
 
-#: ../plugins/fn-math/functions.c:1396
+#: ../plugins/fn-math/functions.c:1403
 msgid "SEC(@{x}) is exported to OpenFormula as 1/COS(@{x})."
 msgstr "Η συνάρτηση SEC(@{x}) έχει εξαχθεί στην  OpenFormula ως 1/COS(@{x})."
 
-#: ../plugins/fn-math/functions.c:1399
+#: ../plugins/fn-math/functions.c:1406
 msgid "wolfram:Secant.html"
 msgstr "wolfram:Secant.html"
 
-#: ../plugins/fn-math/functions.c:1413
+#: ../plugins/fn-math/functions.c:1420
 msgid "SECH:the hyperbolic secant of @{x}"
 msgstr "SECH:η διατέμνουσα υπερβολής του @{x}"
 
-#: ../plugins/fn-math/functions.c:1416
+#: ../plugins/fn-math/functions.c:1423
 msgid "SECH(@{x}) is exported to OpenFormula as 1/COSH(@{x})."
 msgstr "Η συνάρτηση SECH(@{x}) έχει εξαχθεί στην OpenFormula ως 1/COSH(@{x})."
 
-#: ../plugins/fn-math/functions.c:1419
+#: ../plugins/fn-math/functions.c:1426
 msgid "wolfram:HyperbolicSecant.html"
 msgstr "wolfram:HyperbolicSecant.html"
 
-#: ../plugins/fn-math/functions.c:1431
+#: ../plugins/fn-math/functions.c:1438
 msgid "SINH:the hyperbolic sine of @{x}"
 msgstr "SINH:το ημίτονο υπερβολής του @{x}"
 
-#: ../plugins/fn-math/functions.c:1449
+#: ../plugins/fn-math/functions.c:1456
 msgid "SQRT:square root of @{x}"
 msgstr "SQRT:η τετραγωνική ρίζα του @{x}"
 
-#: ../plugins/fn-math/functions.c:1450 ../plugins/fn-math/functions.c:1856
+#: ../plugins/fn-math/functions.c:1457 ../plugins/fn-math/functions.c:1863
 msgid "x:non-negative number"
 msgstr "x:μη-αρνητικός αριθμός"
 
-#: ../plugins/fn-math/functions.c:1452
+#: ../plugins/fn-math/functions.c:1459
 msgid "If @{x} is negative, SQRT returns #NUM!"
 msgstr "Αν το @{x} είναι αρνητικό, η συνάρτηση SQRT επιστρέφει #NUM!"
 
-#: ../plugins/fn-math/functions.c:1471
+#: ../plugins/fn-math/functions.c:1478
 msgid "SUMA:sum of all values and cells referenced"
 msgstr "SUMA:το άθροισμα όλων των τιμών και κελιών που έχουν δηλωθεί"
 
-#: ../plugins/fn-math/functions.c:1472 ../plugins/fn-math/functions.c:1496
+#: ../plugins/fn-math/functions.c:1479 ../plugins/fn-math/functions.c:1503
 msgid "area0:first cell area"
 msgstr "area0:η πρώτη περιοχή κελιών"
 
-#: ../plugins/fn-math/functions.c:1473 ../plugins/fn-math/functions.c:1497
+#: ../plugins/fn-math/functions.c:1480 ../plugins/fn-math/functions.c:1504
 msgid "area1:second cell area"
 msgstr "area1:η δεύτερη περιοχή κελιών"
 
-#: ../plugins/fn-math/functions.c:1495
+#: ../plugins/fn-math/functions.c:1502
 msgid "SUMSQ:sum of the squares of all values and cells referenced"
 msgstr ""
 "SUMSQ:το άθροισμα τετραγώνων όλων των τιμών και κελιών που έχουν δηλωθεί"
 
-#: ../plugins/fn-math/functions.c:1518
+#: ../plugins/fn-math/functions.c:1525
 msgid ""
 "MULTINOMIAL:multinomial coefficient (@{x1}+⋯+@{xn}) choose (@{x1},…,@{xn})"
 msgstr ""
 "MULTINOMIAL:ο πολυωνυμικός συντελεστής (@{x1}+⋯+@{xn}) επιλέξτε (@{x1},…,@"
 "{xn})"
 
-#: ../plugins/fn-math/functions.c:1519
+#: ../plugins/fn-math/functions.c:1526
 msgid "x1:first number"
 msgstr "x1:ο πρώτος αριθμός"
 
-#: ../plugins/fn-math/functions.c:1520
+#: ../plugins/fn-math/functions.c:1527
 msgid "x2:second number"
 msgstr "x2:ο δεύτερος αριθμός"
 
-#: ../plugins/fn-math/functions.c:1521
+#: ../plugins/fn-math/functions.c:1528
 msgid "xn:nth number"
 msgstr "n:ο n-οστός αριθμός"
 
-#: ../plugins/fn-math/functions.c:1525
+#: ../plugins/fn-math/functions.c:1532
 msgid "wiki:en:Multinomial_theorem"
 msgstr "wiki:el:Πολυωνυμικό_θεώρημα"
 
-#: ../plugins/fn-math/functions.c:1543
+#: ../plugins/fn-math/functions.c:1550
 msgid "G_PRODUCT:product of all the values and cells referenced"
 msgstr "G_PRODUCT:το γινόμενο όλων των τιμών και κελιών που έχουν δηλωθεί"
 
-#: ../plugins/fn-math/functions.c:1544
+#: ../plugins/fn-math/functions.c:1551
 msgid "x1:number"
 msgstr "x1:αριθμός"
 
-#: ../plugins/fn-math/functions.c:1545
+#: ../plugins/fn-math/functions.c:1552
 msgid "x2:number"
 msgstr "x2:αριθμός"
 
-#: ../plugins/fn-math/functions.c:1546
+#: ../plugins/fn-math/functions.c:1553
 msgid "Empty cells are ignored and the empty product is 1."
 msgstr "Τα κενά κελιά παραβλπεπονται και το κενό γινόμενο είναι 1."
 
-#: ../plugins/fn-math/functions.c:1566
+#: ../plugins/fn-math/functions.c:1573
 msgid "TAN:the tangent of @{x}"
 msgstr "TAN:η εφαπτομένη του @{x}"
 
-#: ../plugins/fn-math/functions.c:1583
+#: ../plugins/fn-math/functions.c:1590
 msgid "TANH:the hyperbolic tangent of @{x}"
 msgstr "TANH:η εφαπτομένη υπερβολής του @{x}"
 
-#: ../plugins/fn-math/functions.c:1600
+#: ../plugins/fn-math/functions.c:1607
 msgid "PI:the constant π"
 msgstr "PI:η σταθερά π"
 
-#: ../plugins/fn-math/functions.c:1601
+#: ../plugins/fn-math/functions.c:1608
 msgid ""
 "This function is Excel compatible, but it returns π with a better precision."
 msgstr ""
 "Η συνάρτηση αυτή είναι συμβατή με το Excel, αλλά επιστρέφει π με καλύτερη "
 "ακρίβεια."
 
-#: ../plugins/fn-math/functions.c:1616
+#: ../plugins/fn-math/functions.c:1623
 msgid "TRUNC:@{x} truncated to @{d} digits"
 msgstr "TRUNC:το @{x} κατατμήθηκε σε @{d} ψηφία"
 
-#: ../plugins/fn-math/functions.c:1618
+#: ../plugins/fn-math/functions.c:1625
 msgid "d:non-negative integer, defaults to 0"
 msgstr "d:μη-αρνητικός αριθμός, εξ ορισμού είναι 0"
 
-#: ../plugins/fn-math/functions.c:1619
+#: ../plugins/fn-math/functions.c:1626
 msgid ""
 "If @{d} is omitted or negative then it defaults to zero. If it is not an "
 "integer then it is truncated to an integer."
@@ -6325,27 +6362,27 @@ msgstr ""
 "Αν το @{d} παραλείπεται ή είναι αρνητικό τότε εξ ορισμού είναι μηδέν. Αν δεν "
 "είναι ακέραιος τότε κατατέμνεται σε έναν ακέραιο αριθμό."
 
-#: ../plugins/fn-math/functions.c:1653
+#: ../plugins/fn-math/functions.c:1660
 msgid "EVEN:@{x} rounded away from 0 to the next even integer"
 msgstr "EVEN:το @{x} στρογγυλοποιημένο από το 0 στον επόμενο άρτιο ακέραιο"
 
-#: ../plugins/fn-math/functions.c:1688
+#: ../plugins/fn-math/functions.c:1695
 msgid "ODD:@{x} rounded away from 0 to the next odd integer"
 msgstr "ODD:το @{x} με στρογγυλοποίηση από το 0 στο επόμενο περιττό ακέραιο"
 
-#: ../plugins/fn-math/functions.c:1723
+#: ../plugins/fn-math/functions.c:1730
 msgid "FACTDOUBLE:double factorial"
 msgstr "FACTDOUBLE:το διπλό παραγοντικό"
 
-#: ../plugins/fn-math/functions.c:1724
+#: ../plugins/fn-math/functions.c:1731
 msgid "x:non-negative integer"
 msgstr "x:μη-αρνητικός ακέραιος"
 
-#: ../plugins/fn-math/functions.c:1725
+#: ../plugins/fn-math/functions.c:1732
 msgid "FACTDOUBLE function returns the double factorial @{x}!!"
 msgstr "Η συνάρτηση FACTDOUBLE επιστρέφει το διπλό παραγοντικό @{x}!!"
 
-#: ../plugins/fn-math/functions.c:1726
+#: ../plugins/fn-math/functions.c:1733
 msgid ""
 "If @{x} is not an integer, it is truncated. If @{x} is negative, FACTDOUBLE "
 "returns #NUM!"
@@ -6353,11 +6390,11 @@ msgstr ""
 "Αν το @{x} δεν είναι ακέραιος, τότε παραλείπεται. Αν το @{x} είναι αρνητικό, "
 "η συνάρτηση FACTDOUBLE επιστρέφει #NUM!"
 
-#: ../plugins/fn-math/functions.c:1760
+#: ../plugins/fn-math/functions.c:1767
 msgid "FIB:Fibonacci numbers"
 msgstr "FIB:Αριθμοί Fibonacci"
 
-#: ../plugins/fn-math/functions.c:1761 ../plugins/fn-numtheory/numtheory.c:219
+#: ../plugins/fn-math/functions.c:1768 ../plugins/fn-numtheory/numtheory.c:219
 #: ../plugins/fn-numtheory/numtheory.c:253
 #: ../plugins/fn-numtheory/numtheory.c:294
 #: ../plugins/fn-numtheory/numtheory.c:326
@@ -6367,11 +6404,11 @@ msgstr "FIB:Αριθμοί Fibonacci"
 msgid "n:positive integer"
 msgstr "n:θετικός αριθμός"
 
-#: ../plugins/fn-math/functions.c:1762
+#: ../plugins/fn-math/functions.c:1769
 msgid "FIB(@{n}) is the @{n}th Fibonacci number."
 msgstr "Το FIB(@{n}) είναι ο @{n}οστός αριθμός Fibonacci."
 
-#: ../plugins/fn-math/functions.c:1763
+#: ../plugins/fn-math/functions.c:1770
 msgid ""
 "If @{n} is not an integer, it is truncated. If it is negative or zero FIB "
 "returns #NUM!"
@@ -6379,19 +6416,19 @@ msgstr ""
 "Αν το @{n} δεν είναι ακέραιος, τότε παραλείπεται. Αν είναι αρνητικός ή μηδέν "
 "η συνάρτηση FIB επιστρέφει #NUM!"
 
-#: ../plugins/fn-math/functions.c:1801
+#: ../plugins/fn-math/functions.c:1808
 msgid "QUOTIENT:integer portion of a division"
 msgstr "QUOTIENT:το ακέραιο πολλαπλάσιο μίας διαίρεσης"
 
-#: ../plugins/fn-math/functions.c:1802
+#: ../plugins/fn-math/functions.c:1809
 msgid "numerator:integer"
 msgstr "numerator:ακέραιος"
 
-#: ../plugins/fn-math/functions.c:1803
+#: ../plugins/fn-math/functions.c:1810
 msgid "denominator:non-zero integer"
 msgstr "denominator:μη.μηδενικός ακέραιος"
 
-#: ../plugins/fn-math/functions.c:1804
+#: ../plugins/fn-math/functions.c:1811
 msgid ""
 "QUOTIENT yields the integer portion of the division @{numerator}/@"
 "{denominator}.\n"
@@ -6403,31 +6440,31 @@ msgstr ""
 "QUOTIENT (@{numerator},@{denominator})⨉@{denominator}+MOD(@{numerator},@"
 "{denominator})=@{numerator}"
 
-#: ../plugins/fn-math/functions.c:1828
+#: ../plugins/fn-math/functions.c:1835
 msgid "SIGN:sign of @{x}"
 msgstr "SIGN:το πρόσημο του @{x}"
 
-#: ../plugins/fn-math/functions.c:1830
+#: ../plugins/fn-math/functions.c:1837
 msgid ""
 "SIGN returns 1 if the @{x} is positive and it returns -1 if @{x} is negative."
 msgstr ""
 "Η συνάρτηση SIGN επιστρέφει 1 αν το @{x} είναι θετικό και επιστρέφει -1 αν "
 "το @{x} είναι αρνητικό."
 
-#: ../plugins/fn-math/functions.c:1855
+#: ../plugins/fn-math/functions.c:1862
 msgid "SQRTPI:the square root of @{x} times π"
 msgstr "SQRTPI:η τετραγωνική ρίζα του @{x} επί π"
 
-#: ../plugins/fn-math/functions.c:1877
+#: ../plugins/fn-math/functions.c:1884
 msgid "ROUNDDOWN:@{x} rounded towards 0"
 msgstr "ROUNDDOWN:Το @{x} στρογγυλοποιείται προς το 0"
 
-#: ../plugins/fn-math/functions.c:1879 ../plugins/fn-math/functions.c:1903
-#: ../plugins/fn-math/functions.c:1944
+#: ../plugins/fn-math/functions.c:1886 ../plugins/fn-math/functions.c:1910
+#: ../plugins/fn-math/functions.c:1951
 msgid "d:integer, defaults to 0"
 msgstr "d:ακέραιος, εξ ορισμού είναι 0"
 
-#: ../plugins/fn-math/functions.c:1880
+#: ../plugins/fn-math/functions.c:1887
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded toward 0 to the given number "
 "of digits.\n"
@@ -6442,11 +6479,11 @@ msgstr ""
 "Αν το @{d} είναι μικρότερο από μηδέν, το @{x} στρογγυλοποιείται προς το "
 "μηδέν στα αριστερά του δεκαδικού ψηφίου."
 
-#: ../plugins/fn-math/functions.c:1901
+#: ../plugins/fn-math/functions.c:1908
 msgid "ROUND:rounded @{x}"
 msgstr "ROUND:στρογγυλοποιημένο @{x}"
 
-#: ../plugins/fn-math/functions.c:1904
+#: ../plugins/fn-math/functions.c:1911
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded to the given number of "
 "digits.\n"
@@ -6459,11 +6496,11 @@ msgstr ""
 "Αν το @{d} είναι μικρότερο από μηδέν, το @{x} στρογγυλοποιείται στα αριστερά "
 "του δεκαδικού σημείου."
 
-#: ../plugins/fn-math/functions.c:1942
+#: ../plugins/fn-math/functions.c:1949
 msgid "ROUNDUP:@{x} rounded away from 0"
 msgstr "ROUNDUP:το @{x} στρογγυλοποιημένο από το 0"
 
-#: ../plugins/fn-math/functions.c:1945
+#: ../plugins/fn-math/functions.c:1952
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded away from 0 to the given "
 "number of digits.\n"
@@ -6478,29 +6515,29 @@ msgstr ""
 "Αν το @{d} είναι μικρότερο από μηδέν, το @{x} στρογγυλοποιείται από το 0 στα "
 "αριστερά του δεκαδικού σημείου."
 
-#: ../plugins/fn-math/functions.c:1989
+#: ../plugins/fn-math/functions.c:1996
 msgid "MROUND:@{x} rounded to a multiple of @{m}"
 msgstr "MROUND:το @{x} στρογγυλοποιήθηκε σε ένα πολαπλάσιο του @{m}"
 
-#: ../plugins/fn-math/functions.c:1991
+#: ../plugins/fn-math/functions.c:1998
 msgid "m:number"
 msgstr "m:αριθμός"
 
-#: ../plugins/fn-math/functions.c:1992
+#: ../plugins/fn-math/functions.c:1999
 msgid "If @{x} and @{m} have different sign, MROUND returns #NUM!"
 msgstr ""
 "Αν τα @{x} και @{m} έχουν διαφορετικό πρόσημο, η συνάρτηση MROUND επιστρέφει "
 "#NUM!"
 
-#: ../plugins/fn-math/functions.c:2035
+#: ../plugins/fn-math/functions.c:2042
 msgid "ARABIC:the Roman numeral @{roman} as number"
 msgstr "ARABIC:το Ρωμαϊκό αριθμητικό @{roman} ως αριθμός"
 
-#: ../plugins/fn-math/functions.c:2036
+#: ../plugins/fn-math/functions.c:2043
 msgid "roman:Roman numeral"
 msgstr "roman:Ρωμαϊκό αριθμητικό"
 
-#: ../plugins/fn-math/functions.c:2037
+#: ../plugins/fn-math/functions.c:2044
 msgid ""
 "Any Roman symbol to the left of a larger symbol (directly or indirectly) "
 "reduces the final value by the symbol amount, otherwise, it increases the "
@@ -6510,15 +6547,15 @@ msgstr ""
 "έμμεσα) μειώνει την τελική τιμή του ποσού των συμβόλων, ειδάλλως, αυξάνει το "
 "τελικό ποσό από το ποσό συμβόλων."
 
-#: ../plugins/fn-math/functions.c:2113
+#: ../plugins/fn-math/functions.c:2120
 msgid "ROMAN:@{n} as a roman numeral text"
 msgstr "ROMAN:το @{n} ως ρωμαϊκό αριθμητικό κείμενο"
 
-#: ../plugins/fn-math/functions.c:2115
+#: ../plugins/fn-math/functions.c:2122
 msgid "type:0,1,2,3,or 4, defaults to 0"
 msgstr "type:0,1,2,3,ή 4, εξ ορισμού είναι 0"
 
-#: ../plugins/fn-math/functions.c:2116
+#: ../plugins/fn-math/functions.c:2123
 msgid ""
 "ROMAN returns the arabic number @{n} as a roman numeral text.\n"
 "If @{type} is 0 or it is omitted, ROMAN returns classic roman numbers.\n"
@@ -6533,21 +6570,21 @@ msgstr ""
 "ακριβής από τον τύπο 1 και, ο τύπος 3 είναι πιο ακριβής από τον τύπο 2. Ο "
 "τύπος 4 είναι ένας απλοποιημένος τύπος."
 
-#: ../plugins/fn-math/functions.c:2363
+#: ../plugins/fn-math/functions.c:2370
 msgid "SUMX2MY2:sum of the difference of squares"
 msgstr "SUMX2MY2:το άθροισμα της διαφοράς τετραγώνων"
 
-#: ../plugins/fn-math/functions.c:2364 ../plugins/fn-math/functions.c:2406
-#: ../plugins/fn-math/functions.c:2449
+#: ../plugins/fn-math/functions.c:2371 ../plugins/fn-math/functions.c:2413
+#: ../plugins/fn-math/functions.c:2456
 msgid "array0:first cell area"
 msgstr "array0:η πρώτη περιοχή κελιών"
 
-#: ../plugins/fn-math/functions.c:2365 ../plugins/fn-math/functions.c:2407
-#: ../plugins/fn-math/functions.c:2450
+#: ../plugins/fn-math/functions.c:2372 ../plugins/fn-math/functions.c:2414
+#: ../plugins/fn-math/functions.c:2457
 msgid "array1:second cell area"
 msgstr "array1:η δεύτερη περιοχή κελιών"
 
-#: ../plugins/fn-math/functions.c:2366
+#: ../plugins/fn-math/functions.c:2373
 msgid ""
 "SUMX2MY2 function returns the sum of the difference of squares of "
 "corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2)."
@@ -6556,11 +6593,11 @@ msgstr ""
 "αντίστοιχων τιμών σε δύο πίνακες στοιχείων. Η εξίσωση του SUMX2MY2 είναι SUM"
 "(x^2-y^2)."
 
-#: ../plugins/fn-math/functions.c:2405
+#: ../plugins/fn-math/functions.c:2412
 msgid "SUMX2PY2:sum of the sum of squares"
 msgstr "SUMX2PY2:το άθροισμα του αθροίσματος τετραγώνων"
 
-#: ../plugins/fn-math/functions.c:2408
+#: ../plugins/fn-math/functions.c:2415
 msgid ""
 "SUMX2PY2 function returns the sum of the sum of squares of corresponding "
 "values in two arrays. The equation of SUMX2PY2 is SUM(x^2+y^2)."
@@ -6569,7 +6606,7 @@ msgstr ""
 "αντίστοιχων τιμών σε δύο πίνακες στοιχείων. Η εξίσωση SUMX2PY2 είναι η SUM"
 "(x^2+y^2)."
 
-#: ../plugins/fn-math/functions.c:2410
+#: ../plugins/fn-math/functions.c:2417
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMX2PY2 "
 "returns #N/A.\n"
@@ -6579,11 +6616,11 @@ msgstr ""
 "δεδομένων, η συνάρτηση SUMX2PY2 επιστρέφει #N/A.\n"
 "Τα αλφαριθμητικά και τα κενά κελιά απλώς παραβλέπονται."
 
-#: ../plugins/fn-math/functions.c:2448
+#: ../plugins/fn-math/functions.c:2455
 msgid "SUMXMY2:sum of the squares of differences"
 msgstr "SUMXMY2:άθροισμα τετραγώνων των διαφορών"
 
-#: ../plugins/fn-math/functions.c:2451
+#: ../plugins/fn-math/functions.c:2458
 msgid ""
 "SUMXMY2 function returns the sum of the squares of the differences of "
 "corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2)."
@@ -6592,7 +6629,7 @@ msgstr ""
 "αντίστοιχες τιμές σε δύο πίνακες στοιχείων. Η εξίσωση της SUMXMY2 είναι η SUM"
 "((x-y)^2)."
 
-#: ../plugins/fn-math/functions.c:2453
+#: ../plugins/fn-math/functions.c:2460
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMXMY2 "
 "returns #N/A.\n"
@@ -6602,40 +6639,40 @@ msgstr ""
 "δεδομένων, η συνάρτηση SUMXMY2 επιστρέφει #N/A.\n"
 "Τα αλφαριθμητικά και τα κενά κελιά απλώς παραβλέπονται."
 
-#: ../plugins/fn-math/functions.c:2493
+#: ../plugins/fn-math/functions.c:2500
 msgid "SERIESSUM:sum of a power series at @{x}"
 msgstr "SERIESSUM:το άθροισμα της δυναμοσειράς στο @{x}"
 
-#: ../plugins/fn-math/functions.c:2494
+#: ../plugins/fn-math/functions.c:2501
 msgid "x:number where to evaluate the power series"
 msgstr "x:ο αριθμός στον οποίο θα υπολογιστεί η δυναμοσειρά"
 
-#: ../plugins/fn-math/functions.c:2495
+#: ../plugins/fn-math/functions.c:2502
 msgid "n:non-negative integer, exponent of the lowest term of the series"
 msgstr "n:μη-αρνητικός ακέραιος, εκθέτης του μικρότερου όρου της δυναμοσειράς"
 
-#: ../plugins/fn-math/functions.c:2496
+#: ../plugins/fn-math/functions.c:2503
 msgid "m:increment to each exponent"
 msgstr "m:προσαύξηση σε κάθε εκθέτη"
 
-#: ../plugins/fn-math/functions.c:2497
+#: ../plugins/fn-math/functions.c:2504
 msgid "coeff:coefficients of the power series"
 msgstr "coeff:συντελεστές και δυναμοσειρές"
 
-#: ../plugins/fn-math/functions.c:2551
+#: ../plugins/fn-math/functions.c:2558
 msgid "MINVERSE:the inverse matrix of @{matrix}"
 msgstr "MINVERSE:ο αντίστροφος πίνακας του @{matrix}"
 
-#: ../plugins/fn-math/functions.c:2552 ../plugins/fn-math/functions.c:2877
+#: ../plugins/fn-math/functions.c:2559 ../plugins/fn-math/functions.c:2884
 msgid "matrix:a square matrix"
 msgstr "matrix:ένας τετραγωνικός πίνακας"
 
-#: ../plugins/fn-math/functions.c:2553
+#: ../plugins/fn-math/functions.c:2560
 msgid "If @{matrix} is not invertible, MINVERSE returns #NUM!"
 msgstr ""
 "Αν ο @{matrix} δεν είναι αντιστρέψιμος, η συνάρτηση MINVERSE επιστρέφει #NUM!"
 
-#: ../plugins/fn-math/functions.c:2554
+#: ../plugins/fn-math/functions.c:2561
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, MINVERSE "
 "returns #VALUE!"
@@ -6643,18 +6680,18 @@ msgstr ""
 "Αν ο @{matrix} δεν περιέχει ισοδύναμο αριθμό στηλών και γραμμών, η συνάρτηση "
 "MINVERSE επιστρέφει #VALUE!"
 
-#: ../plugins/fn-math/functions.c:2685
+#: ../plugins/fn-math/functions.c:2692
 msgid ""
 "CHOLESKY:the Cholesky decomposition of the symmetric positive-definite @"
 "{matrix}"
 msgstr ""
 "CHOLESKY:η αποσύνθεση Cholesky του συμμετρικού θετικά ορισμένου @{matrix}"
 
-#: ../plugins/fn-math/functions.c:2686
+#: ../plugins/fn-math/functions.c:2693
 msgid "matrix:a symmetric positive definite matrix"
 msgstr "matrix:συμμετρικός θετικά ορισμένος πίνακας"
 
-#: ../plugins/fn-math/functions.c:2687
+#: ../plugins/fn-math/functions.c:2694
 msgid ""
 "If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky "
 "returns #NUM!"
@@ -6662,7 +6699,7 @@ msgstr ""
 "Αν ο αλγόριθμος Cholesky-Banachiewicz εφαρμόστηκε σε @{matrix} αποτυχίες, η "
 "συνάρτηση Cholesky επιστρέφει #NUM!"
 
-#: ../plugins/fn-math/functions.c:2688
+#: ../plugins/fn-math/functions.c:2695
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, CHOLESKY "
 "returns #VALUE!"
@@ -6670,35 +6707,35 @@ msgstr ""
 "Αν ο @{matrix} δεν περιέχει ένα ισοδύναμο αριθμό στηλών και γραμμών, η "
 "συνάρτηση CHOLESKY επιστρέφει #VALUE!"
 
-#: ../plugins/fn-math/functions.c:2772
+#: ../plugins/fn-math/functions.c:2779
 msgid "MUNIT:the @{n} by @{n} identity matrix"
 msgstr "MUNIT:ο ταυτοτικός πίνακας @{n} επί @{n}"
 
-#: ../plugins/fn-math/functions.c:2773
+#: ../plugins/fn-math/functions.c:2780
 msgid "n:size of the matrix"
 msgstr "n:το μέγεθος του πίνακα"
 
-#: ../plugins/fn-math/functions.c:2809
+#: ../plugins/fn-math/functions.c:2816
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
 msgstr "MMULT:το γινόμενο πινάκων του @{mat1} και του @{mat2}"
 
-#: ../plugins/fn-math/functions.c:2810
+#: ../plugins/fn-math/functions.c:2817
 msgid "mat1:a matrix"
 msgstr "mat1:ένας πίνακας"
 
-#: ../plugins/fn-math/functions.c:2811
+#: ../plugins/fn-math/functions.c:2818
 msgid "mat2:a matrix"
 msgstr "mat2:ένας πίνακας"
 
-#: ../plugins/fn-math/functions.c:2876
+#: ../plugins/fn-math/functions.c:2883
 msgid "MDETERM:the determinant of the matrix @{matrix}"
 msgstr "MDETERM:η ορίζουσα του πίνακα @{matrix}"
 
-#: ../plugins/fn-math/functions.c:2912
+#: ../plugins/fn-math/functions.c:2919
 msgid "SUMPRODUCT:multiplies components and adds the results"
 msgstr "SUMPRODUCT:πολλαπλασιάζει τα στοιχεία και προσθέτει τα αποτελέσματα"
 
-#: ../plugins/fn-math/functions.c:2914
+#: ../plugins/fn-math/functions.c:2921
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
@@ -6706,11 +6743,11 @@ msgstr ""
 "Πολλαπλασιάζει τις αντίστοιχες εισόδους δεδομένων στους δοθέντες πίνακες ή "
 "περιοχές, και μετά επιστρέφει το άθροισμα των προϊόντων."
 
-#: ../plugins/fn-math/functions.c:2917
+#: ../plugins/fn-math/functions.c:2924
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr "Αν μια είσοδος δεν είναι αριθμητικό. η τιμή μηδέν χρησιμοποιείται."
 
-#: ../plugins/fn-math/functions.c:2918
+#: ../plugins/fn-math/functions.c:2925
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
@@ -6718,7 +6755,7 @@ msgstr ""
 "Αν οι πίνακες λη τα ορίσματα των περιοχών δεν έχουν τις ίδιες διαστάσεις, "
 "επιστρέφουν σφάλμα #VALUE! ."
 
-#: ../plugins/fn-math/functions.c:2920
+#: ../plugins/fn-math/functions.c:2927
 msgid ""
 "SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5>0 will "
 "not work, implicit intersection will kick in. Instead use --(A1:A5>0)"
@@ -6727,20 +6764,20 @@ msgstr ""
 "χρησιμοποιήστε Α1:Α5>0 δεν θα δουλέψει, η υπονοούμενη τομή θα τερματίσει. "
 "Αντίθετα χρησιμοποιήστε ---(Α1:Α5>0)"
 
-#: ../plugins/fn-math/functions.c:3034
+#: ../plugins/fn-math/functions.c:3041
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN:οι ιδιοτιμές και τα ιδιοδιανύσματα του συμμετρικού @{matrix}"
 
-#: ../plugins/fn-math/functions.c:3035
+#: ../plugins/fn-math/functions.c:3042
 msgid "matrix:a symmetric matrix"
 msgstr "matrix:συμμετρικός πίνακας"
 
-#: ../plugins/fn-math/functions.c:3036
+#: ../plugins/fn-math/functions.c:3043
 msgid "If @{matrix} is not symmetric, EIGEN returns #NUM!"
 msgstr ""
 "Αν ο @{matrix} δεν είναι συμμετρικός, η συνάρτηση EIGEN επιστρέφει #NUM!"
 
-#: ../plugins/fn-math/functions.c:3037
+#: ../plugins/fn-math/functions.c:3044
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
@@ -8588,8 +8625,8 @@ msgstr "Τα αλφαριθμητικά και τα κενά κελιά απλώ
 
 #: ../plugins/fn-stat/functions.c:325 ../plugins/fn-stat/functions.c:355
 #: ../plugins/fn-stat/functions.c:2325 ../plugins/fn-stat/functions.c:2818
-#: ../plugins/fn-stat/functions.c:2884 ../plugins/fn-stat/functions.c:3871
-#: ../plugins/fn-stat/functions.c:3928 ../plugins/fn-stat/functions.c:3980
+#: ../plugins/fn-stat/functions.c:2884 ../plugins/fn-stat/functions.c:3917
+#: ../plugins/fn-stat/functions.c:3974 ../plugins/fn-stat/functions.c:4026
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, "
@@ -9011,7 +9048,7 @@ msgstr "Αν@{k} != 0 και @{k} != 1 η συνάρτηση αυτή επιστ
 #: ../plugins/fn-stat/functions.c:879 ../plugins/fn-stat/functions.c:948
 #: ../plugins/fn-stat/functions.c:1159 ../plugins/fn-stat/functions.c:1446
 #: ../plugins/fn-stat/functions.c:1479 ../plugins/fn-stat/functions.c:1513
-#: ../plugins/fn-stat/functions.c:1574 ../plugins/fn-stat/functions.c:4239
+#: ../plugins/fn-stat/functions.c:1574 ../plugins/fn-stat/functions.c:4285
 msgid "If @{p} < 0 or @{p} > 1 this function returns a #NUM! error."
 msgstr "Αν @{p} < 0 ή @{p} > 1 η συνάρτηση αυτή επιστρέφει σφάλμα #NUM!."
 
@@ -9247,8 +9284,9 @@ msgid "FINV is the OpenFormula function LEGACY.FINV."
 msgstr "Η συνάρτησγ FINV είναι η συνάρτηση LEGACY.FINV της OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1471
+#, fuzzy
 msgid ""
-"BINOMDIST:probability mass of cumulative distribution function of the "
+"BINOMDIST:probability mass or cumulative distribution function of the "
 "binomial distribution"
 msgstr ""
 "BINOMDIST:η μάζα πιθανότητας της αθροιστικής συνάρτησης κατανομής της "
@@ -9269,7 +9307,7 @@ msgid "p:probability of success in each trial"
 msgstr "p:η πιθανότητα επιτυχίας σε κάθε δοκιμή"
 
 #: ../plugins/fn-stat/functions.c:1475 ../plugins/fn-stat/functions.c:1629
-#: ../plugins/fn-stat/functions.c:1952 ../plugins/fn-stat/functions.c:4237
+#: ../plugins/fn-stat/functions.c:1952 ../plugins/fn-stat/functions.c:4283
 msgid ""
 "cumulative:whether to evaluate the mass function or the cumulative "
 "distribution function"
@@ -9325,8 +9363,8 @@ msgstr ""
 "CAUCHY:η συνάρτηση πιθανότητας ή η αθροιστική συνάρτηση κατανομής της "
 "κατανομής Cauchy, της Lorentz ή της Breit-Wigner"
 
-#: ../plugins/fn-stat/functions.c:1540 ../plugins/fn-stat/functions.c:4267
-#: ../plugins/fn-stat/functions.c:4406
+#: ../plugins/fn-stat/functions.c:1540 ../plugins/fn-stat/functions.c:4313
+#: ../plugins/fn-stat/functions.c:4452
 msgid "a:scale parameter"
 msgstr "a:παράμετρος κλίμακας"
 
@@ -9334,7 +9372,7 @@ msgstr "a:παράμετρος κλίμακας"
 msgid "If @{a} < 0 this function returns a #NUM! error."
 msgstr "Αν @{a} < 0 η συνάρτηση αυτή επιστρέφει σφάλμα #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1543 ../plugins/fn-stat/functions.c:4240
+#: ../plugins/fn-stat/functions.c:1543 ../plugins/fn-stat/functions.c:4286
 msgid ""
 "If @{cumulative} is neither TRUE nor FALSE this function returns a #VALUE! "
 "error."
@@ -9794,17 +9832,16 @@ msgstr ""
 msgid "STEYX:standard error of the predicted y-value in the regression"
 msgstr "STEYX:το τυπικό σφάλμα της y-τιμής που προσβλέφθηκε στην παλινδρόμηση"
 
-#: ../plugins/fn-stat/functions.c:2320 ../plugins/fn-stat/functions.c:3354
-#: ../plugins/fn-stat/functions.c:3470 ../plugins/fn-stat/functions.c:3565
-#: ../plugins/fn-stat/functions.c:3677 ../plugins/fn-stat/functions.c:3775
-#: ../plugins/fn-stat/functions.c:3862 ../plugins/fn-stat/functions.c:3921
-#: ../plugins/fn-stat/functions.c:3973
+#: ../plugins/fn-stat/functions.c:2320 ../plugins/fn-stat/functions.c:3365
+#: ../plugins/fn-stat/functions.c:3481 ../plugins/fn-stat/functions.c:3723
+#: ../plugins/fn-stat/functions.c:3821 ../plugins/fn-stat/functions.c:3908
+#: ../plugins/fn-stat/functions.c:3967 ../plugins/fn-stat/functions.c:4019
 msgid "known_ys:known y-values"
 msgstr "known_ys:γνωστές y-τιμές"
 
-#: ../plugins/fn-stat/functions.c:2321 ../plugins/fn-stat/functions.c:3471
-#: ../plugins/fn-stat/functions.c:3863 ../plugins/fn-stat/functions.c:3922
-#: ../plugins/fn-stat/functions.c:3974
+#: ../plugins/fn-stat/functions.c:2321 ../plugins/fn-stat/functions.c:3482
+#: ../plugins/fn-stat/functions.c:3909 ../plugins/fn-stat/functions.c:3968
+#: ../plugins/fn-stat/functions.c:4020
 msgid "known_xs:known x-values"
 msgstr "known_xs:γνωστές x-τιμές"
 
@@ -10169,17 +10206,17 @@ msgstr ""
 "Αν το @{bin_array} είναι κενό, η συνάρτηση αυτή επιστρέφει τον αριθμό των "
 "σημείων δεδομένων στο @{data_array}."
 
-#: ../plugins/fn-stat/functions.c:3256
+#: ../plugins/fn-stat/functions.c:3267
 msgid "LINEST:multiple linear regression coefficients and statistics"
 msgstr ""
 "LINEST:συντελεστές και στατιστικοί έλεγχοι της πολλαπλής γραμμής "
 "παλινδρόμησης"
 
-#: ../plugins/fn-stat/functions.c:3257
+#: ../plugins/fn-stat/functions.c:3268 ../plugins/fn-stat/functions.c:3576
 msgid "known_ys:vector of values of dependent variable"
 msgstr "known_ys:διάνυσμα τιμών της εξαρτημένης μεταβλητής"
 
-#: ../plugins/fn-stat/functions.c:3258
+#: ../plugins/fn-stat/functions.c:3269 ../plugins/fn-stat/functions.c:3577
 msgid ""
 "known_xs:array of values of independent variables, defaults to a single "
 "vector {1,…,n}"
@@ -10187,22 +10224,22 @@ msgstr ""
 "known_xs:πίνακας στοιχείων με τις τιμές των ανεξάρτητων μεταβλητών, εξ "
 "ορισμού είναι ένα απλό διάνυσμα {1,…,n}"
 
-#: ../plugins/fn-stat/functions.c:3259 ../plugins/fn-stat/functions.c:3356
-#: ../plugins/fn-stat/functions.c:3568 ../plugins/fn-stat/functions.c:3679
-#: ../plugins/fn-stat/functions.c:3778
+#: ../plugins/fn-stat/functions.c:3270 ../plugins/fn-stat/functions.c:3367
+#: ../plugins/fn-stat/functions.c:3579 ../plugins/fn-stat/functions.c:3725
+#: ../plugins/fn-stat/functions.c:3824
 msgid "affine:if true, the model contains a constant term, defaults to true"
 msgstr ""
 "affine:αν είναι αληθής, το μοντέλο περιέχει ένα σταθερό όρο, εξ ορισμού "
 "είναι αληθής"
 
-#: ../plugins/fn-stat/functions.c:3260
+#: ../plugins/fn-stat/functions.c:3271
 msgid ""
 "stats:if true, some additional statistics are provided, defaults to false"
 msgstr ""
 "stats:αν είναι αληθής, παρέχονται μερικά πρόσθετα στατιστικά στοιχεία, εξ "
 "ορισμού είναι ψευδής"
 
-#: ../plugins/fn-stat/functions.c:3261
+#: ../plugins/fn-stat/functions.c:3272
 msgid ""
 "This function returns an array with the first row giving the regression "
 "coefficients for the independent variables x_m, x_(m-1),…,x_2, x_1 followed "
@@ -10213,7 +10250,7 @@ msgstr ""
 "(m-1),…,x_2, x_1 που ακολουθούνται από την συνιστώσα y αν το @{affine} είναι "
 "αληθές."
 
-#: ../plugins/fn-stat/functions.c:3264
+#: ../plugins/fn-stat/functions.c:3275
 msgid ""
 "If @{stats} is true, the second row contains the corresponding standard "
 "errors of the regression coefficients.In this case, the third row contains "
@@ -10228,7 +10265,7 @@ msgstr ""
 "ελευθερίας της. Τέλος, η πέμπτη γραμμή περιέχει το άθροισμα τετραγώνων της "
 "παλινδρόμησης και το άθροισμα τετραγώνων των καταλοίπων."
 
-#: ../plugins/fn-stat/functions.c:3271
+#: ../plugins/fn-stat/functions.c:3282
 msgid ""
 "If @{affine} is false, R^2 is the uncentered version of the coefficient of "
 "determination; that is the proportion of the sum of squares explained by the "
@@ -10238,7 +10275,7 @@ msgstr ""
 "συντελεστή προσδιοριμού, δηλαδή το ποσοστό του αθροίσματος τετραγώνων που "
 "εξηγούνται από το μοντέλο."
 
-#: ../plugins/fn-stat/functions.c:3274
+#: ../plugins/fn-stat/functions.c:3285 ../plugins/fn-stat/functions.c:3580
 msgid ""
 "If the length of @{known_ys} does not match the corresponding length of @"
 "{known_xs}, this function returns a #NUM! error."
@@ -10246,18 +10283,17 @@ msgstr ""
 "Αν το μήκος του @{known_ys} δεν ταιριάζει στο αντίστοιχο μήκος του @"
 "{known_xs}, η συνάρτηση αυτή επιστρέφει σφάλμα #NUM!."
 
-#: ../plugins/fn-stat/functions.c:3353
+#: ../plugins/fn-stat/functions.c:3364
 msgid "LOGREG:the logarithmic regression"
 msgstr "LOGREG:η λογιστική παλινδρόμηση"
 
-#: ../plugins/fn-stat/functions.c:3355 ../plugins/fn-stat/functions.c:3566
-#: ../plugins/fn-stat/functions.c:3776
+#: ../plugins/fn-stat/functions.c:3366 ../plugins/fn-stat/functions.c:3822
 msgid "known_xs:known x-values; defaults to the array {1, 2, 3, …}"
 msgstr ""
 "known_xs:οι γνωστές x-τιμές, εξ ορισμού είναι ο πίνακας στοιχείων {1, 2, 3, "
 "…}"
 
-#: ../plugins/fn-stat/functions.c:3357 ../plugins/fn-stat/functions.c:3680
+#: ../plugins/fn-stat/functions.c:3368 ../plugins/fn-stat/functions.c:3726
 msgid ""
 "stat:if true, extra statistical information will be returned; defaults to "
 "FALSE"
@@ -10265,7 +10301,7 @@ msgstr ""
 "stat:αν είναι αληθής, θα επιστραφούν επιπρόσθετες στατιστικές πληροφορίες, "
 "εξ ορισμού είναι ΨΕΥΔΗΣ"
 
-#: ../plugins/fn-stat/functions.c:3358
+#: ../plugins/fn-stat/functions.c:3369
 msgid ""
 "LOGREG function transforms your x's to z=ln(x) and applies the “least "
 "squares” method to fit the linear equation y = m * z + b to your y's and z's "
@@ -10279,7 +10315,7 @@ msgstr ""
 "+ b στα y και τα x. Η LOGREG επιστρέφιε έναν πίνακα στοιχείων με δύο στήλες "
 "και μία γραμμή. Το m δίνεται στην πρώτη στήλη και το b στη δεύτερη. "
 
-#: ../plugins/fn-stat/functions.c:3366
+#: ../plugins/fn-stat/functions.c:3377
 msgid ""
 "Any extra statistical information is written below m and b in the result "
 "array.  This extra statistical information consists of four rows of data:  "
@@ -10299,8 +10335,8 @@ msgstr ""
 "άθροισμα τετραγώνων των καταλοίπων. Η προεπιλεγμένη τιμή του @{stat} είναι "
 "ΨΕΥΔΗΣ."
 
-#: ../plugins/fn-stat/functions.c:3375 ../plugins/fn-stat/functions.c:3569
-#: ../plugins/fn-stat/functions.c:3695 ../plugins/fn-stat/functions.c:3786
+#: ../plugins/fn-stat/functions.c:3386 ../plugins/fn-stat/functions.c:3741
+#: ../plugins/fn-stat/functions.c:3832
 msgid ""
 "If @{known_ys} and @{known_xs} have unequal number of data points, this "
 "function returns a #NUM! error."
@@ -10308,13 +10344,13 @@ msgstr ""
 "Αν το @{known_ys} και το @{known_xs} έχουν άνισο αριθμό σημείων δεδομένων, η "
 "συνάρτηση αυτή επιστρέφει σφάλμα #NUM!."
 
-#: ../plugins/fn-stat/functions.c:3469
+#: ../plugins/fn-stat/functions.c:3480
 msgid "LOGFIT:logarithmic least square fit (using a trial and error method)"
 msgstr ""
 "LOGFIT:λογαριθμική προσαρμογή ελαχίστων τετραγώνων (χρησιμοποιώντας μία "
 "μέθοδο δοκιμών και σφαλμάτων)"
 
-#: ../plugins/fn-stat/functions.c:3473
+#: ../plugins/fn-stat/functions.c:3484
 msgid ""
 "LOGFIT function applies the “least squares” method to fit the logarithmic "
 "equation y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. "
@@ -10327,7 +10363,7 @@ msgstr ""
 "καμπύλη μετατοπισμένη οριζόντια κατά c και πιθανόν θα είναι συμμετρική με "
 "τον άξονα y (αν sign = -1)."
 
-#: ../plugins/fn-stat/functions.c:3479
+#: ../plugins/fn-stat/functions.c:3490
 msgid ""
 "LOGFIT returns an array having five columns and one row. `Sign' is given in "
 "the first column, `a', `b', and `c' are given in columns 2 to 4. Column 5 "
@@ -10338,7 +10374,7 @@ msgstr ""
 "στις στήλες 2 μέχρι 4. Η στήλη 5 περιέχει το άθροισμα τετραγώνων των "
 "καταλοίπων."
 
-#: ../plugins/fn-stat/functions.c:3483
+#: ../plugins/fn-stat/functions.c:3494
 msgid ""
 "An error is returned when there are less than 3 different x's or y's, or "
 "when the shape of the point cloud is too different from a ``logarithmic'' "
@@ -10347,7 +10383,7 @@ msgstr ""
 "Επιστρέφεται ένα σφάλμα ότε υπάρχουν λιγότερα από 3 x ή y, ή όταν το σχήμα "
 "του σύννεφου των σημείων είναι επίσης διαφορετικό από το \"λογαριθμικό\"."
 
-#: ../plugins/fn-stat/functions.c:3486
+#: ../plugins/fn-stat/functions.c:3497
 msgid ""
 "You can use the above formula = a + b * ln(sign * (x - c)) or rearrange it "
 "to = (exp((y - a) / b)) / sign + c to compute unknown y's or x's, "
@@ -10357,7 +10393,7 @@ msgstr ""
 "να το μετασχηματίσετε σε = (exp((y - a) / b)) / sign + c για να υπολογίζετε "
 "άγνωστα y ή x αντίστοιχα."
 
-#: ../plugins/fn-stat/functions.c:3491
+#: ../plugins/fn-stat/functions.c:3502
 msgid ""
 "This is non-linear fitting by trial-and-error. The accuracy of `c' is: width "
 "of x-range -> rounded to the next smaller (10^integer), times 0.000001. "
@@ -10368,7 +10404,7 @@ msgstr ""
 "επόμενο μικρότερο (10^ακέραιο), επί 0.000001. Ενδεχομένως να υπάρχουν "
 "περιπτώσεις όπου η προσαρμογή δεν είναι η καλύτερη δυνατή."
 
-#: ../plugins/fn-stat/functions.c:3564
+#: ../plugins/fn-stat/functions.c:3575
 msgid ""
 "TREND:estimates future values of a given data set using a least squares "
 "approximation"
@@ -10376,14 +10412,16 @@ msgstr ""
 "TREND:εκτιμά τις μελλοντικές τιμές από ένα δοθέν σύνολο δεδομένων "
 "χρησιμοποιώντας τη μέθοδο των ελαχίστων τετραγώνων"
 
-#: ../plugins/fn-stat/functions.c:3567 ../plugins/fn-stat/functions.c:3777
+#: ../plugins/fn-stat/functions.c:3578
+#, fuzzy
 msgid ""
-"new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}"
+"new_xs:array of x-values for which to estimate the y-values; defaults to @"
+"{known_xs}"
 msgstr ""
 "new_xs:οι  x-τιμές για τις οποίες θα υπολογιστούν οι y-τιμές, εξ ορισμού "
 "είναι @{known_xs}"
 
-#: ../plugins/fn-stat/functions.c:3571
+#: ../plugins/fn-stat/functions.c:3582
 msgid ""
 "Let us assume that the cells A1, A2, …, A5 contain numbers 11.4, 17.3, 21.3, "
 "25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and "
@@ -10393,20 +10431,20 @@ msgstr ""
 "21.3, 25.9, και 40.1, και τα κελιά B1, B2, …, B5  τους 23.2, 25.8, 29.9, "
 "33.5, και 42.7."
 
-#: ../plugins/fn-stat/functions.c:3574
+#: ../plugins/fn-stat/functions.c:3585
 msgid "Then TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}."
 msgstr "Τότε το TREND(A1:A5,B1:B5) ισούται με {12.1, 15.7, 21.6, 26.7, 39.7}."
 
-#: ../plugins/fn-stat/functions.c:3676
+#: ../plugins/fn-stat/functions.c:3722
 msgid "LOGEST:exponential least square fit"
 msgstr "LOGEST:εκθετική προσαρμογή ελαχίστων τετραγώνων"
 
-#: ../plugins/fn-stat/functions.c:3678
+#: ../plugins/fn-stat/functions.c:3724
 msgid "known_xs:known x-values; default to an array {1, 2, 3, …}"
 msgstr ""
 "known_xs:γνωστές x-τιμές, εξ ορισμού σε έναν πίνακα στοιχείων {1, 2, 3, …}"
 
-#: ../plugins/fn-stat/functions.c:3681
+#: ../plugins/fn-stat/functions.c:3727
 msgid ""
 "LOGEST function applies the “least squares” method to fit an exponential "
 "curve of the form\ty = b * m{1}^x{1} * m{2}^x{2}... to your data."
@@ -10415,13 +10453,13 @@ msgstr ""
 "ποσαρμόσει μία εκθετική καμπύλη στο σχήμα\ty = b * m{1}^x{1} * m{2}^x{2}… "
 "στα δεδομένα σας."
 
-#: ../plugins/fn-stat/functions.c:3685
+#: ../plugins/fn-stat/functions.c:3731
 msgid "LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }."
 msgstr ""
 "Η συνάρτηση LOGEST επιστρέφει έναν πίνακα στοιχείων { m{n},m{n-1}, …,m{1},"
 "b }."
 
-#: ../plugins/fn-stat/functions.c:3686
+#: ../plugins/fn-stat/functions.c:3732
 msgid ""
 "Extra statistical information is written below the regression line "
 "coefficients in the result array.  Extra statistical information consists of "
@@ -10441,11 +10479,18 @@ msgstr ""
 "το άθροισμα τετραγώνων της παλινδρόμησης και το άθροισμα τετραγώνων των "
 "καταλοίπων."
 
-#: ../plugins/fn-stat/functions.c:3774
+#: ../plugins/fn-stat/functions.c:3820
 msgid "GROWTH:exponential growth prediction"
 msgstr "GROWTH:εκθετική αυξητική πρόβλεψη"
 
-#: ../plugins/fn-stat/functions.c:3779
+#: ../plugins/fn-stat/functions.c:3823
+msgid ""
+"new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}"
+msgstr ""
+"new_xs:οι  x-τιμές για τις οποίες θα υπολογιστούν οι y-τιμές, εξ ορισμού "
+"είναι @{known_xs}"
+
+#: ../plugins/fn-stat/functions.c:3825
 msgid ""
 "GROWTH function applies the “least squares” method to fit an exponential "
 "curve to your data and predicts the exponential growth by using this curve."
@@ -10454,7 +10499,7 @@ msgstr ""
 "προσαρμόσει μία εκθετική καμπύλη στα δεοδμένα σας και προβλέπει την εκθετική "
 "αύξηση χρησιμοποιώντας την καμπύλη αυτή."
 
-#: ../plugins/fn-stat/functions.c:3784
+#: ../plugins/fn-stat/functions.c:3830
 msgid ""
 "GROWTH returns an array having one column and a row for each data point in @"
 "{new_xs}."
@@ -10462,7 +10507,7 @@ msgstr ""
 "Η συνάρτηση GROWTH επιστρέφει έναν πίνακα στοιχείων με μία στήλη και μία "
 "γραμμή για κάθε σημείο δεδομένων στο @{new_xs}."
 
-#: ../plugins/fn-stat/functions.c:3859
+#: ../plugins/fn-stat/functions.c:3905
 msgid ""
 "FORECAST:estimates a future value according to existing values using simple "
 "linear regression"
@@ -10470,11 +10515,11 @@ msgstr ""
 "FORECAST:εκτιμά μία μελλοντική τιμή σύμφωνα με τις υπάρχουσες τιμές "
 "χρησιμοποιώντας την απλή γραμμική παλινδρόμηση"
 
-#: ../plugins/fn-stat/functions.c:3861
+#: ../plugins/fn-stat/functions.c:3907
 msgid "x:x-value whose matching y-value should be forecast"
 msgstr "x:x-τιμή της οποίας η y-τιμή θα προβλεφθεί"
 
-#: ../plugins/fn-stat/functions.c:3864
+#: ../plugins/fn-stat/functions.c:3910
 msgid ""
 "This function estimates a future value according to existing values using "
 "simple linear regression."
@@ -10482,8 +10527,8 @@ msgstr ""
 "Η συνάρτηση αυτή εκτιμά μία μελλοντική αξία σύμφωνα με τις υπάρχουσες τιμές "
 "χρησιμοποιώντας την απλή γραμμική παλινδρόμηση."
 
-#: ../plugins/fn-stat/functions.c:3866 ../plugins/fn-stat/functions.c:3923
-#: ../plugins/fn-stat/functions.c:3976
+#: ../plugins/fn-stat/functions.c:3912 ../plugins/fn-stat/functions.c:3969
+#: ../plugins/fn-stat/functions.c:4022
 msgid ""
 "If @{known_xs} or @{known_ys} contains no data entries or different number "
 "of data entries, this function returns a #N/A error."
@@ -10492,7 +10537,7 @@ msgstr ""
 "διαφορετικό αριθμό εισόδων δεδομένων, η συνάρτηση αυτή επιστρέφει σφάλμα #N/"
 "A."
 
-#: ../plugins/fn-stat/functions.c:3868
+#: ../plugins/fn-stat/functions.c:3914
 msgid ""
 "If the variance of the @{known_xs} is zero, this function returns a #DIV/0 "
 "error."
@@ -10500,15 +10545,15 @@ msgstr ""
 "Αν η διακύμανση του @{known_xs} είναι μηδέν, η συνάρτηση αυτή επιστρέφει "
 "σφάλμα #DIV/0."
 
-#: ../plugins/fn-stat/functions.c:3874
+#: ../plugins/fn-stat/functions.c:3920
 msgid "Then FORECAST(7,A1:A5,B1:B5) equals -10.859397661."
 msgstr "Τότε το FORECAST(7,A1:A5,B1:B5) ισούται με -10.859397661."
 
-#: ../plugins/fn-stat/functions.c:3920
+#: ../plugins/fn-stat/functions.c:3966
 msgid "INTERCEPT:the intercept of a linear regression line"
 msgstr "INTERCEPT:η στθαερά μίας γραμμής γραμμικής παλινδρόμησης"
 
-#: ../plugins/fn-stat/functions.c:3925 ../plugins/fn-stat/functions.c:3978
+#: ../plugins/fn-stat/functions.c:3971 ../plugins/fn-stat/functions.c:4024
 msgid ""
 "If the variance of the @{known_xs} is zero, this function returns #DIV/0 "
 "error."
@@ -10516,23 +10561,23 @@ msgstr ""
 "Αη η διακύμανση του @{known_xs} είναι μηδέν, η συνάρτηση αυτή επιστρέφει "
 "σφάλμα #DIV/0."
 
-#: ../plugins/fn-stat/functions.c:3931
+#: ../plugins/fn-stat/functions.c:3977
 msgid "Then INTERCEPT(A1:A5,B1:B5) equals -20.785117212."
 msgstr "Τότε το INTERCEPT(A1:A5,B1:B5) ισούται με -20.785117212."
 
-#: ../plugins/fn-stat/functions.c:3972
+#: ../plugins/fn-stat/functions.c:4018
 msgid "SLOPE:the slope of a linear regression line"
 msgstr "SLOPE:η κλίση μίας γραμμής παλινδρόμησης"
 
-#: ../plugins/fn-stat/functions.c:3983
+#: ../plugins/fn-stat/functions.c:4029
 msgid "Then SLOPE(A1:A5,B1:B5) equals 1.417959936."
 msgstr "Τότε το SLOPE(A1:A5,B1:B5) ισούται με 1.417959936."
 
-#: ../plugins/fn-stat/functions.c:4024
+#: ../plugins/fn-stat/functions.c:4070
 msgid "SUBTOTAL:the subtotal of the given list of arguments"
 msgstr "SUBTOTAL:το υποσύνολο της δοθείσας λίστας ορισμάτων"
 
-#: ../plugins/fn-stat/functions.c:4025
+#: ../plugins/fn-stat/functions.c:4071
 msgid ""
 "function_nbr:determines which function to use according to the following "
 "table:\n"
@@ -10562,15 +10607,15 @@ msgstr ""
 "\t10   VAR\n"
 "\t11   VARP"
 
-#: ../plugins/fn-stat/functions.c:4038
+#: ../plugins/fn-stat/functions.c:4084
 msgid "ref1:first value"
 msgstr "ref1:η πρώτη τιμή"
 
-#: ../plugins/fn-stat/functions.c:4039
+#: ../plugins/fn-stat/functions.c:4085
 msgid "ref2:second value"
 msgstr "ref2:η δεύτερη τιμή"
 
-#: ../plugins/fn-stat/functions.c:4041
+#: ../plugins/fn-stat/functions.c:4087
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, "
 "and 39."
@@ -10578,7 +10623,7 @@ msgstr ""
 "Ας θεωρήσουμε ότι τα κελιά A1, A2, …, A5 περιέχουν τους αριθμούς 23, 27, 28, "
 "33, και 39."
 
-#: ../plugins/fn-stat/functions.c:4042
+#: ../plugins/fn-stat/functions.c:4088
 msgid ""
 "Then SUBTOTAL(1,A1:A5) equals 30.SUBTOTAL(6,A1:A5) equals 22378356.SUBTOTAL"
 "(7,A1:A5) equals 6.164414003.SUBTOTAL(9,A1:A5) equals 150.SUBTOTAL(11,A1:A5) "
@@ -10588,78 +10633,80 @@ msgstr ""
 "SUBTOTAL(7,A1:A5) με 6.164414003.Το SUBTOTAL(9,A1:A5) με 150.Το SUBTOTAL(11,"
 "A1:A5) με 30.4."
 
-#: ../plugins/fn-stat/functions.c:4121
+#: ../plugins/fn-stat/functions.c:4167
 msgid "CRONBACH:Cronbach's alpha"
 msgstr "CRONBACH:Το άλφα του Cronbach"
 
-#: ../plugins/fn-stat/functions.c:4122
+#: ../plugins/fn-stat/functions.c:4168
 msgid "ref1:first data set"
 msgstr "ref1:το πρώτο σύνολο δεδομένων"
 
-#: ../plugins/fn-stat/functions.c:4123
+#: ../plugins/fn-stat/functions.c:4169
 msgid "ref2:second data set"
 msgstr "ref2:το δεύτερο σύνολο δεδομένων"
 
-#: ../plugins/fn-stat/functions.c:4234
+#: ../plugins/fn-stat/functions.c:4280
+#, fuzzy
 msgid ""
 "GEOMDIST:probability mass or cumulative distribution function of the "
-"hypergeometric distribution"
+"geometric distribution"
 msgstr ""
 "GEOMDIST:η συνάρτησης πιθανότητας ή η αθροιστική συνάρτηση κατανομή της "
 "υπεργεωμετρικής κατανομής"
 
-#: ../plugins/fn-stat/functions.c:4235
+#: ../plugins/fn-stat/functions.c:4281
 msgid "k:number of trials"
 msgstr "k:ο αριθμός των δοκιμών"
 
-#: ../plugins/fn-stat/functions.c:4236
+#: ../plugins/fn-stat/functions.c:4282
 msgid "p:probability of success in any trial"
 msgstr "p:η πιθανότητα επιτυχίας για κάθε δοκιμή"
 
-#: ../plugins/fn-stat/functions.c:4238
+#: ../plugins/fn-stat/functions.c:4284
 msgid "If @{k} < 0 this function returns a #NUM! error."
 msgstr "Αν @{k} < 0 η συνάρτηση αυτή επιστρέφει το σφάλμα #NUM!."
 
-#: ../plugins/fn-stat/functions.c:4265
+#: ../plugins/fn-stat/functions.c:4311
 msgid "LOGISTIC:probability density function of the logistic distribution"
 msgstr "LOGISTIC:η συνάρτηση πυκνότητας πιθανότητας της λογιστικής κατανομής"
 
-#: ../plugins/fn-stat/functions.c:4296
-msgid "PARETO:probability density function of the pareto distribution"
+#: ../plugins/fn-stat/functions.c:4342
+#, fuzzy
+msgid "PARETO:probability density function of the Pareto distribution"
 msgstr "PARETO:η συνάρτηση πυκνότητας πιθανότητας της κατανομής Pareto"
 
-#: ../plugins/fn-stat/functions.c:4298
+#: ../plugins/fn-stat/functions.c:4344
 msgid "a:exponent"
 msgstr "a:εκθέτης"
 
-#: ../plugins/fn-stat/functions.c:4299 ../plugins/fn-stat/functions.c:4407
+#: ../plugins/fn-stat/functions.c:4345 ../plugins/fn-stat/functions.c:4453
 msgid "b:scale parameter"
 msgstr "b:παράμετρος κλίμακας"
 
-#: ../plugins/fn-stat/functions.c:4330
+#: ../plugins/fn-stat/functions.c:4376
 msgid "RAYLEIGH:probability density function of the Rayleigh distribution"
 msgstr "RAYLEIGH:η συνάρτηησ πυκνότητας πιθανότητας της κατανομής Rayleigh"
 
-#: ../plugins/fn-stat/functions.c:4332 ../plugins/fn-stat/functions.c:4368
+#: ../plugins/fn-stat/functions.c:4378 ../plugins/fn-stat/functions.c:4414
 msgid "sigma:scale parameter"
 msgstr "sigma:παράμετρος κλίμακας"
 
-#: ../plugins/fn-stat/functions.c:4365
+#: ../plugins/fn-stat/functions.c:4411
 msgid ""
 "RAYLEIGHTAIL:probability density function of the Rayleigh tail distribution"
 msgstr "RAYLEIGHTAIL:η συνάρτηση πυκνότητας πιθανότητας της κατανομής Rayleigh"
 
-#: ../plugins/fn-stat/functions.c:4367
+#: ../plugins/fn-stat/functions.c:4413
 msgid "a:lower limit"
 msgstr "a:κατώτερο όριο"
 
-#: ../plugins/fn-stat/functions.c:4403
+#: ../plugins/fn-stat/functions.c:4449
 msgid ""
 "EXPPOWDIST:the probability density function of the Exponential Power "
 "distribution"
 msgstr "EXPPOWDIST:η συνάρτηση πυκνότητας πιθανότητας της εκθετικής κατανομής"
 
-#: ../plugins/fn-stat/functions.c:4409
+#: ../plugins/fn-stat/functions.c:4455
 msgid ""
 "This distribution has been recommended for lifetime analysis when a U-shaped "
 "hazard function is desired. This corresponds to rapid failure once the "
@@ -10671,15 +10718,15 @@ msgstr ""
 "προϊόν αρχίζει να φθείρεται ύστερα από μία περίοδο σταθερής ή ακόμη και "
 "βελτιωμένης αξιοπιστίας."
 
-#: ../plugins/fn-stat/functions.c:4437
+#: ../plugins/fn-stat/functions.c:4483
 msgid "LAPLACE:probability density function of the Laplace distribution"
 msgstr "LAPLACE:η συνάρτηση πυκνότητας πιθανότητας της κατανομής Laplace"
 
-#: ../plugins/fn-stat/functions.c:4439
+#: ../plugins/fn-stat/functions.c:4485
 msgid "a:mean"
 msgstr "a:μέση τιμή"
 
-#: ../plugins/fn-stat/functions.c:4460
+#: ../plugins/fn-stat/functions.c:4506
 msgid ""
 "PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} "
 "objects with repetition allowed"
@@ -10687,38 +10734,38 @@ msgstr ""
 "PERMUTATIONA:ο αριθμός μεταθέσεων των @{y} αντικειμένων που επιλέχθηκαν από "
 "τα @{x} αντικείμενα με επανάθεση"
 
-#: ../plugins/fn-stat/functions.c:4461
+#: ../plugins/fn-stat/functions.c:4507
 msgid "x:total number of objects"
 msgstr "x:ο συνολικός αριθμός αντικειμένων"
 
-#: ../plugins/fn-stat/functions.c:4462
+#: ../plugins/fn-stat/functions.c:4508
 msgid "y:number of selected objects"
 msgstr "y:ο αριθμός των επιλεγμένων αντικειμένων"
 
-#: ../plugins/fn-stat/functions.c:4463
+#: ../plugins/fn-stat/functions.c:4509
 msgid "If both @{x} and @{y} equal 0, PERMUTATIONA returns 1."
 msgstr ""
 "Αν τα @{x} και @{y} είναι και τα δύο ίσα με 0, η συνάρτηση PERMUTATIONA "
 "επιστρέφει 1."
 
-#: ../plugins/fn-stat/functions.c:4464
+#: ../plugins/fn-stat/functions.c:4510
 msgid "If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!"
 msgstr "Αν @{x} < 0 ή @{y} < 0, η συνάρτηση PERMUTATIONA επιστρέφει #NUM!"
 
-#: ../plugins/fn-stat/functions.c:4465
+#: ../plugins/fn-stat/functions.c:4511
 msgid "If @{x} or @{y} are not integers, they are truncated"
 msgstr "Αν το @{x} ή το @{y} δεν είναι ακέραιοι, τότε παραλείπονται"
 
-#: ../plugins/fn-stat/functions.c:4493
+#: ../plugins/fn-stat/functions.c:4539
 msgid "LKSTEST:Lilliefors (Kolmogorov-Smirnov) Test of Normality"
 msgstr "LKSTEST:ο έλεγχος κανονικότητας Lilliefors (Kolmogorov-Smirnov)"
 
-#: ../plugins/fn-stat/functions.c:4494 ../plugins/fn-stat/functions.c:4611
-#: ../plugins/fn-stat/functions.c:4695 ../plugins/fn-stat/functions.c:4780
+#: ../plugins/fn-stat/functions.c:4540 ../plugins/fn-stat/functions.c:4657
+#: ../plugins/fn-stat/functions.c:4741 ../plugins/fn-stat/functions.c:4826
 msgid "x:array of sample values"
 msgstr "x:το σύνολο τιμών του δείγματος"
 
-#: ../plugins/fn-stat/functions.c:4495
+#: ../plugins/fn-stat/functions.c:4541
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Lilliefors (Kolmogorov-Smirnov) Test, the second row the test statistic of "
@@ -10729,21 +10776,21 @@ msgstr ""
 "δεύτερη το στατιστικό έλεγχο και, την τρίτη τον αριθμό πρατηρήσεων του "
 "δείγματος."
 
-#: ../plugins/fn-stat/functions.c:4497
+#: ../plugins/fn-stat/functions.c:4543
 msgid "If there are less than 5 sample values, LKSTEST returns #VALUE!"
 msgstr ""
 "Αν υπάρχουν λιγότερες από 5 τιμές στο δείγμα, η συνάρτηση LKSTEST επιστρέφει "
 "#VALUE!"
 
-#: ../plugins/fn-stat/functions.c:4499
+#: ../plugins/fn-stat/functions.c:4545
 msgid "wiki:en:Lilliefors_test"
 msgstr "wiki:el:Έλεγχος_Lilliefors"
 
-#: ../plugins/fn-stat/functions.c:4610
+#: ../plugins/fn-stat/functions.c:4656
 msgid "SFTEST:Shapiro-Francia Test of Normality"
 msgstr "SFTEST:Έλεγχος κανονικότητας Shapiro-Francia"
 
-#: ../plugins/fn-stat/functions.c:4612
+#: ../plugins/fn-stat/functions.c:4658
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Shapiro-Francia Test, the second row the test statistic of the test, and the "
@@ -10753,7 +10800,7 @@ msgstr ""
 "περιέχει την p-value του ελέγχου Shapiro-Francia, τη δεύτερα γραμμή το "
 "στατιστικός έλεγχο και, την τρίτη τον αριθμό παρατηρήσεων του δείγματος."
 
-#: ../plugins/fn-stat/functions.c:4614
+#: ../plugins/fn-stat/functions.c:4660
 msgid ""
 "If there are less than 5 or more than 5000 sample values, SFTEST returns "
 "#VALUE!"
@@ -10761,11 +10808,11 @@ msgstr ""
 "Αν υπάρχουν λιγότερες από 5 τιμές στο δείγμα ή περισσότερες από 5000, η "
 "συνάρτηση SFTEST επιστρέφει #VALUE!"
 
-#: ../plugins/fn-stat/functions.c:4694
+#: ../plugins/fn-stat/functions.c:4740
 msgid "CVMTEST:Cramér-von Mises Test of Normality"
 msgstr "CVMTEST:Ο έλεγχος Cramér-von Mises για κανονικότητα"
 
-#: ../plugins/fn-stat/functions.c:4696
+#: ../plugins/fn-stat/functions.c:4742
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Cramér-von Mises Test, the second row the test statistic of the test, and "
@@ -10775,21 +10822,21 @@ msgstr ""
 "περιέχει την p-value του ελέγχου Cramér-von Mises, στη δεύτερη γραμμή το "
 "στατιστικό έλεγχο, και στην τρίτη τον αριθμό παρατηρήσεων στο δείγμα."
 
-#: ../plugins/fn-stat/functions.c:4698
+#: ../plugins/fn-stat/functions.c:4744
 msgid "If there are less than 8 sample values, CVMTEST returns #VALUE!"
 msgstr ""
 "Αν τπάρχουν λιγότερες από 8 τιμές στο δείγμα, η συνάρτηση CVMTEST επιστρέφει "
 "#VALUE!"
 
-#: ../plugins/fn-stat/functions.c:4700
+#: ../plugins/fn-stat/functions.c:4746
 msgid "wiki:en:Cramér–von-Mises_criterion"
 msgstr "wiki:el:Κριτήριο_Cramér–von-Mises"
 
-#: ../plugins/fn-stat/functions.c:4779
+#: ../plugins/fn-stat/functions.c:4825
 msgid "ADTEST:Anderson-Darling Test of Normality"
 msgstr "ADTEST:ΈλεγχοςAnderson-Darling για κανονικότητα"
 
-#: ../plugins/fn-stat/functions.c:4781
+#: ../plugins/fn-stat/functions.c:4827
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Anderson-Darling Test, the second row the test statistic of the test, and "
@@ -10799,13 +10846,13 @@ msgstr ""
 "περιέχει την p-value του ελέγχου Anderson-Darling, στη δεύτερη το στατιστικό "
 "έλεγχο, και στην τρίτη τον αριθμό παρατηρήσεων στο δείγμα."
 
-#: ../plugins/fn-stat/functions.c:4783
+#: ../plugins/fn-stat/functions.c:4829
 msgid "If there are less than 8 sample values, ADTEST returns #VALUE!"
 msgstr ""
 "Αν υπάρχουν λιγότερες από 8 τιμές στο δείγμα, η συνάρτηση ADTEST επιστρέφει "
 "#VALUE!"
 
-#: ../plugins/fn-stat/functions.c:4785
+#: ../plugins/fn-stat/functions.c:4831
 msgid "wiki:en:Anderson–Darling_test"
 msgstr "wiki:el:Έλεγχος_Anderson–Darling"
 
@@ -10841,9 +10888,9 @@ msgid ""
 "all of its printable characters. It also contains all of ISO-8859-15's "
 "printable characters (but partially at different positions.)"
 msgstr ""
-"Η κωδικοποίηση CP1252 (Windows-1252) βασίζεται σε ένα πρώιμο στάδιο της "
-"ISO-8859-1 και, περιέχει όλους τους εκτυπώσιμους χαρακτήρες της. Επίσης "
-"περιέχει όλους τους εκτυπώσιμους χαρακτήρες της ISO-8859-15 (αλλά μερικώς σε "
+"Η κωδικοποίηση CP1252 (Windows-1252) βασίζεται σε ένα πρώιμο στάδιο της ISO-"
+"8859-1 και, περιέχει όλους τους εκτυπώσιμους χαρακτήρες της. Επίσης περιέχει "
+"όλους τους εκτυπώσιμους χαρακτήρες της ISO-8859-15 (αλλά μερικώς σε "
 "διαφορετικές θέσεις.)"
 
 #: ../plugins/fn-string/functions.c:66 ../plugins/fn-string/functions.c:138
@@ -10891,9 +10938,9 @@ msgid ""
 "CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains "
 "all of its printable characters (but partially at different positions.)"
 msgstr ""
-"Η κωδικοποίηση CP1252 (Windows-1252) βασίζεται σε ένα πρώιμο στάδιο της "
-"ISO-8859-1 και, περιέχει όλους τους εκτυπώσιμους χαρακτήρες της (αλλά "
-"μερικώς σε διαφορετικές θέσεις.)"
+"Η κωδικοποίηση CP1252 (Windows-1252) βασίζεται σε ένα πρώιμο στάδιο της ISO-"
+"8859-1 και, περιέχει όλους τους εκτυπώσιμους χαρακτήρες της (αλλά μερικώς σε "
+"διαφορετικές θέσεις.)"
 
 #: ../plugins/fn-string/functions.c:178
 msgid "UNICODE:the Unicode code point for the character @{c}"
@@ -11542,6 +11589,15 @@ msgstr ""
 "Fourier, εξ ορισμού είναι ψευδής"
 
 #: ../plugins/fn-tsa/functions.c:800
+#, fuzzy
+msgid ""
+"Separate:if true, the real and imaginary parts are given separately, "
+"defaults to false"
+msgstr ""
+"stats:αν είναι αληθής, παρέχονται μερικά πρόσθετα στατιστικά στοιχεία, εξ "
+"ορισμού είναι ψευδής"
+
+#: ../plugins/fn-tsa/functions.c:801
 msgid ""
 "This array function returns the Fourier or inverse Fourier transform of the "
 "given data sequence."
@@ -11549,11 +11605,19 @@ msgstr ""
 "Αυτή η συνάρτηση πίνακα στοιχείων επιστρέφει τον Fourier ή αντίστροφο "
 "Fourier μετασχηματισμό της δοθείσας ακολουθίας δεδομένων."
 
-#: ../plugins/fn-tsa/functions.c:801
-msgid "The output consists always of one column of complex numbers."
-msgstr "Η έξοδος αποτελείται πάντα από μία στήλη μιγαδικών αριθμών."
-
 #: ../plugins/fn-tsa/functions.c:802
+msgid ""
+"The output consists of one column of complex numbers if @{Separate} is false "
+"and of two columns of real numbers if @{Separate} is true."
+msgstr ""
+
+#: ../plugins/fn-tsa/functions.c:803
+msgid ""
+"If @{Separate} is true the first output column contains the real parts and "
+"the second column the imaginary parts."
+msgstr ""
+
+#: ../plugins/fn-tsa/functions.c:804
 msgid ""
 "If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns "
 "#NUM!"
@@ -11619,6 +11683,9 @@ msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr ""
 "Δεν προορίζεται να είναι γενικά ενεργοποιημένο και εξ ορισμού είναι "
 "απενεργοποιημένο (OFF)."
+
+#~ msgid "The output consists always of one column of complex numbers."
+#~ msgstr "Η έξοδος αποτελείται πάντα από μία στήλη μιγαδικών αριθμών."
 
 #, fuzzy
 #~ msgid "x:number."
@@ -12858,8 +12925,8 @@ msgstr ""
 #~ "@FUNCTION=IMARCTANH\n"
 #~ "@SYNTAX=IMARCTANH(inumber)\n"
 #~ "@DESCRIPTION=IMARCTANH returns the complex hyperbolic arctangent of the "
-#~ "complex number @inumber. The branch cuts are on the real axis, less than "
-#~ "-1 and greater than 1.\n"
+#~ "complex number @inumber. The branch cuts are on the real axis, less than -"
+#~ "1 and greater than 1.\n"
 #~ "\n"
 #~ "* If @inumber is not a valid complex number, IMARCTANH returns #VALUE! "
 #~ "error.\n"
@@ -16859,8 +16926,8 @@ msgstr ""
 #~ "@DESCRIPTION=Η SUMX2PY2 επιστρέφει το άθρροισμα του αθροίσματος των "
 #~ "τετγραγώνων των αντίστοιχων τιμών σε δύο πίνακες. Ο @πίνακας1 είναι ο "
 #~ "πρώτος πίνακας ή διάστημα δεδομένων και ο @πίνακας2 είναι ο δεύτερος "
-#~ "πίνακας ή διάστημα δεδομένων. Η εξίσωση του SUMX2PY2 είναι SUM "
-#~ "(x^2+y^2). \n"
+#~ "πίνακας ή διάστημα δεδομένων. Η εξίσωση του SUMX2PY2 είναι SUM (x^2"
+#~ "+y^2). \n"
 #~ "Αλφαριθμητικά και άδεια κελιά απλώς αγνοούνται.\n"
 #~ "Εάν οι @πίνακας1 και @πίνακας2 έχουν διαφορετικό πλήθος στοιχείων, η "
 #~ "SUMX2PY2 επιστρέφει σφάλμα #Δ/Ε!. Η συνάρτηση είναι συμβατή με Excel. \n"
@@ -20621,8 +20688,8 @@ msgstr ""
 #~ "the logarithmic equation\n"
 #~ "y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 \n"
 #~ "to your data. The graph of the equation is a logarithmic curve moved "
-#~ "horizontally by c and possibly mirrored across the y-axis (if sign = "
-#~ "-1).\n"
+#~ "horizontally by c and possibly mirrored across the y-axis (if sign = -"
+#~ "1).\n"
 #~ "\n"
 #~ "LOGFIT returns an array having five columns and one row. `Sign' is given "
 #~ "in the first column, `a', `b', and `c' are given in columns 2 to 4. "

@@ -6,9 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gnumeric&component=general\n"
-"POT-Creation-Date: 2011-01-29 04:39+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-02-09 11:12-0500\n"
 "PO-Revision-Date: 2011-01-30 12:44+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -931,8 +930,8 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:80
 msgid ""
-"For spreadsheets created with the Mac version of Excel, serial 1 is 1-"
-"Jan-1904."
+"For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-"
+"1904."
 msgstr ""
 "Pro sešity vytvořené v Excelu ve verzi pro Mac je první sériová hodnota 1-"
 "led-1904."
@@ -5523,7 +5522,6 @@ msgstr ""
 "Pokud je absolutní hodnota @{x} větší než 1,0, funkce ATANH vrací #NUM!."
 
 #: ../plugins/fn-math/functions.c:411
-#| msgid "ATAN2:the arc tangent of the ratio of @{y} and @{x}"
 msgid "ATAN2:the arc tangent of the ratio @{y}/@{x}"
 msgstr "ATAN2:arkus tangens podílu @{y}:@{x}"
 
@@ -5536,9 +5534,6 @@ msgid "y:y-coordinate"
 msgstr "y:souřadnice y"
 
 #: ../plugins/fn-math/functions.c:415
-#| msgid ""
-#| "ATAN2 calculates the direction from the origin to (@{x},@{y}) as an angle "
-#| "in radians."
 msgid ""
 "ATAN2 calculates the direction from the origin to the point (@{x},@{y}) as "
 "an angle from the x-axis in radians."
@@ -7925,9 +7920,9 @@ msgid ""
 "(Ann Math Stat 32, 894-899 (1961)), with this aspect explained in Knuth, v2, "
 "3rd ed, p139, 586 (exercise 11)."
 msgstr ""
-"Metoda je založená na Marsagliaově slavném algoritmu (Ann Math Stat 32, "
-"894-899 (1961)), jehož aspekty jsou vysvětleny v Knuth, v2, 3. vydání, str. "
-"139, 586 (cvičení 11)."
+"Metoda je založená na Marsagliaově slavném algoritmu (Ann Math Stat 32, 894-"
+"899 (1961)), jehož aspekty jsou vysvětleny v Knuth, v2, 3. vydání, str. 139, "
+"586 (cvičení 11)."
 
 #: ../plugins/fn-random/functions.c:816
 msgid ""
