@@ -528,9 +528,18 @@ paradox_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 				}
 				case pxfAlpha: {
 					char *value = fieldstr;
-					if ((int)strlen (value) > pxf[i].px_flen) {
-					       g_warning (_("Field %d in line %d has possibly been cut off. Data has %d chars."), i+1, row+1, strlen (value));
-					}
+					int nlen = strlen (value);
+					if (nlen > pxf[i].px_flen)
+						/* xgettext : last %d gives the number of characters.*/
+						/* This is input to ngettext. */
+						g_warning 
+							(ngettext
+							 ("Field %d in line %d has possibly "
+							  "been cut off. Data has %d character.",
+							  "Field %d in line %d has possibly "
+							  "been cut off. Data has %d characters.",
+							  nlen),
+							 i+1, row+1, nlen);
 					PX_put_data_alpha (pxdoc, &data[offset], pxf[i].px_flen, value);
 					break;
 				}
