@@ -3086,17 +3086,18 @@ The depreciation coefficient used is:
 @SYNTAX=ATAN(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @DESCRIPTION=ATAN calculates the arc tangent of @{x}; that is the value whose tangent is @{x}.
+@NOTE=The result will be between −π/2 and +π/2.
 @EXCEL=This function is Excel compatible.
 @SEEALSO=TAN,COS,SIN,DEGREES,RADIANS
 
 @CATEGORY=Mathematics
 @FUNCTION=ATAN2
-@SHORTDESC=the arc tangent of the ratio of @{y}/@{x}
+@SHORTDESC=the arc tangent of the ratio @{y}/@{x}
 @SYNTAX=ATAN2(x,y)
 @ARGUMENTDESCRIPTION=@{x}: x-coordinate
 @{y}: y-coordinate
 @DESCRIPTION=ATAN2 calculates the direction from the origin to the point (@{x},@{y}) as an angle from the x-axis in radians.
-@NOTE=The result will be between π and +π. The order of the arguments may be unexpected.
+@NOTE=The result will be between −π and +π. The order of the arguments may be unexpected.
 @EXCEL=This function is Excel compatible.
 @ODF=This function is OpenFormula compatible.
 @SEEALSO=ATAN,ATANH,COS,SIN

@@ -10218,6 +10218,10 @@
         <para><function>ATAN</function> calculates the arc tangent of <parameter>x</parameter>; that is the value whose tangent is <parameter>x</parameter>.</para>
       </refsect1>
       <refsect1>
+        <title>Note</title>
+        <para>The result will be between −π/2 and +π/2.</para>
+      </refsect1>
+      <refsect1>
         <title>Microsoft Excel Compatibility</title>
         <para>This function is Excel compatible.</para>
       </refsect1>
@@ -10242,7 +10246,7 @@
           <function>ATAN2</function>
         </refname>
         <refpurpose>
-        the arc tangent of the ratio of <parameter>y</parameter>/<parameter>x</parameter>
+        the arc tangent of the ratio <parameter>y</parameter>/<parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -10259,7 +10263,7 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>The result will be between π and +π. The order of the arguments may be unexpected.</para>
+        <para>The result will be between −π and +π. The order of the arguments may be unexpected.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>

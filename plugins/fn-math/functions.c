@@ -42,6 +42,9 @@
 #include <math.h>
 #include <string.h>
 
+#define UNICODE_PI "\xcf\x80"
+#define UNICODE_MINUS "\xe2\x88\x92"
+
 GNM_PLUGIN_MODULE_HEADER;
 
 
@@ -254,7 +257,6 @@ gnumeric_acos (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (t < -1.0 || t > 1.0)
 		return value_new_error_NUM (ei->pos);
-
 	return value_new_float (gnm_acos (t));
 }
 
@@ -324,7 +326,8 @@ static GnmFuncHelp const help_asin[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
         { GNM_FUNC_HELP_DESCRIPTION, F_("ASIN calculates the arc sine of @{x}; that is the value whose sine is @{x}.")},
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{x} falls outside the range -1 to 1, ASIN returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} falls outside the range -1 to 1, "
+				 "ASIN returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=ASIN(0.5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ASIN(1)" },
         { GNM_FUNC_HELP_SEEALSO, "SIN,COS,ASINH,DEGREES,RADIANS"},
@@ -366,7 +369,12 @@ gnumeric_asinh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_atan[] = {
         { GNM_FUNC_HELP_NAME, F_("ATAN:the arc tangent of @{x}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
-        { GNM_FUNC_HELP_DESCRIPTION, F_("ATAN calculates the arc tangent of @{x}; that is the value whose tangent is @{x}.")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("ATAN calculates the arc tangent "
+					"of @{x}; that is the value whose "
+					"tangent is @{x}.")},
+	{ GNM_FUNC_HELP_NOTE, F_("The result will be between "
+				 UNICODE_MINUS UNICODE_PI "/2 and "
+				 "+" UNICODE_PI "/2.")},
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ATAN(0.5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ATAN(1)" },
@@ -416,8 +424,9 @@ static GnmFuncHelp const help_atan2[] = {
 					"the origin to the point (@{x},@{y}) "
 					"as an angle from the x-axis in "
 					"radians.")},
-	{ GNM_FUNC_HELP_NOTE, F_("The result will be between \xcf\x80 and "
-				 "+\xcf\x80.")},
+	{ GNM_FUNC_HELP_NOTE, F_("The result will be between "
+				 UNICODE_MINUS UNICODE_PI " and "
+				 "+" UNICODE_PI ".")},
 	{ GNM_FUNC_HELP_NOTE, F_("The order of the arguments may be "
 				 "unexpected.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -1604,8 +1613,10 @@ gnumeric_tanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_pi[] = {
-        { GNM_FUNC_HELP_NAME, F_("PI:the constant \xcf\x80")},
-	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible, but it returns \xcf\x80 with a better precision.") },
+        { GNM_FUNC_HELP_NAME, F_("PI:the constant " UNICODE_PI)},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible, but it "
+				  "returns " UNICODE_PI " with a better "
+				  "precision.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=PI()" },
         { GNM_FUNC_HELP_SEEALSO, "SQRTPI"},
         { GNM_FUNC_HELP_END}
@@ -1859,7 +1870,8 @@ gnumeric_sign (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sqrtpi[] = {
-        { GNM_FUNC_HELP_NAME, F_("SQRTPI:the square root of @{x} times \xcf\x80")},
+        { GNM_FUNC_HELP_NAME, F_("SQRTPI:the square root of @{x} times " 
+				 UNICODE_PI)},
 	{ GNM_FUNC_HELP_ARG, F_("x:non-negative number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=SQRTPI(2)"},

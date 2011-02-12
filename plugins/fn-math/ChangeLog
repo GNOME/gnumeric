@@ -1,3 +1,8 @@
+2011-02-12 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_atan2): Correct result range.
+	(help_atan): add result range note
+
 2011-02-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.13
