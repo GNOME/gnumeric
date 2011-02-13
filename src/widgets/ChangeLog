@@ -1,3 +1,8 @@
+2011-02-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_set_tooltip): add Ctrl-F4 info
+	(cb_gee_key_press_event): Ctrl-F4 temporarily closes the tooltip
+
 2011-02-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.13
