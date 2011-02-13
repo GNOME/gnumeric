@@ -311,7 +311,7 @@ gnumeric_imtan (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imsec[] = {
         { GNM_FUNC_HELP_NAME, F_("IMSEC:the secant of the complex number @{z}") },
         { GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-        { GNM_FUNC_HELP_DESCRIPTION, F_("secz = 1/cosz.") },
+        { GNM_FUNC_HELP_DESCRIPTION, F_("IMSEC(@{z}) = 1/IMCOS(@{z}).") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
         { GNM_FUNC_HELP_EXAMPLES, "=IMSEC(\"2-j\")" },
         { GNM_FUNC_HELP_SEEALSO, "IMCSC,IMCOT" },
@@ -338,7 +338,7 @@ gnumeric_imsec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imcsc[] = {
         { GNM_FUNC_HELP_NAME, F_("IMCSC:the cosecant of the complex number @{z}") },
         { GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-        { GNM_FUNC_HELP_DESCRIPTION, F_("cscz = 1/sinz.") },
+        { GNM_FUNC_HELP_DESCRIPTION, F_("IMCSC(@{z}) = 1/IMSIN(@{z}).") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
         { GNM_FUNC_HELP_EXAMPLES, "=IMCSC(\"2-j\")" },
         { GNM_FUNC_HELP_SEEALSO, "IMSEC,IMCOT" },
@@ -364,9 +364,10 @@ gnumeric_imcsc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imcot[] = {
         { GNM_FUNC_HELP_NAME, F_("IMCOT:the cotangent of the complex number @{z}") },
         { GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-        { GNM_FUNC_HELP_DESCRIPTION, F_("cotz = cosz/sinz.") },
+        { GNM_FUNC_HELP_DESCRIPTION, F_("IMCOT(@{z}) = IMCOS(@{z})/IMSIN(@{z}).") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=IMCOT(\"2-j\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=IMCOT(\"2-i\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=IMCOT(\"2+j\")" },
         { GNM_FUNC_HELP_SEEALSO, "IMSEC,IMCSC" },
         { GNM_FUNC_HELP_END}
 };
@@ -392,7 +393,8 @@ static GnmFuncHelp const help_imexp[] = {
         { GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=IMEXP(\"2-j\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=IMEXP(\"2-i\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=IMEXP(\"2+j\")" },
         { GNM_FUNC_HELP_SEEALSO, "IMLN" },
         { GNM_FUNC_HELP_END}
 };
