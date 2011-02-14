@@ -311,6 +311,7 @@ typedef struct {
 
 	GHashTable	*formats;
 	GHashTable	*controls;
+	GHashTable	*validations;
 
 	struct {
 		GHashTable	*cell;
@@ -1385,6 +1386,92 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 						state->default_style.columns->size_pts);
 }
 
+/* odf_validation <table:name> <val1> */
+/* odf_validation <table:condition> <of:cell-content-is-in-list("1";"2";"3")> */
+/* odf_validation <table:display-list> <unsorted> */
+/* odf_validation <table:base-cell-address> <Tabelle1.A1> */
+
+typedef struct {
+	char *condition;
+	char *base_cell_address;
+	gboolean allow_blank;
+	gboolean use_dropdown;
+} odf_validation_t;
+
+static GnmValidation *
+odf_validations_translate (GsfXMLIn *xin, char const *name)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	odf_validation_t *val = g_hash_table_lookup (state->validations, name);
+
+	if (val == NULL) {
+		oo_warning 
+			(xin, _("Undefined validation style encountered: %s"), 
+			 name);
+		return NULL;
+	}
+
+	oo_warning (xin, _("Unsupported validation condition "
+			   "encountered: \"%s\" with base address: \"%s\""),
+		    val->condition, val->base_cell_address);
+
+	return NULL;
+}
+
+static void
+odf_validation_free (odf_validation_t *val)
+{
+	g_free (val->condition);
+	g_free (val->base_cell_address);
+}
+
+static odf_validation_t *
+odf_validation_new (void)
+{
+	odf_validation_t *val = g_new0 (odf_validation_t, 1);
+	val->use_dropdown = TRUE;
+	val->allow_blank = TRUE;
+	return val;
+}
+
+static void
+odf_validation (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static OOEnum const dropdown_types [] = {
+		{ "none",	  0 },
+		{ "sort-ascending",	  1 },
+		{ "unsorted", 1 },
+		{ NULL,	0 },
+	};
+
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *name = NULL;
+	int tmp;
+	odf_validation_t *validation = odf_validation_new ();
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					 OO_NS_TABLE, "name" )) {
+				name = CXML2C (attrs[1]);
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					       OO_NS_TABLE, "condition")) {
+			validation->condition = g_strdup (CXML2C (attrs[1]));
+		} else if (oo_attr_bool (xin, attrs,
+					 OO_NS_TABLE, "allow-empty-cell", 
+					 &validation->allow_blank)) {
+		} else if (oo_attr_enum (xin, attrs, OO_NS_TABLE, "display-list", dropdown_types, &tmp)) {
+			validation->use_dropdown = (tmp == 1);
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					       OO_NS_TABLE, "base-cell-address")) {
+			validation->base_cell_address = g_strdup (CXML2C (attrs[1]));
+		}
+	}
+	if (name != NULL)
+		g_hash_table_insert (state->validations, g_strdup (name), validation);
+	else
+		odf_validation_free (validation);
+}
+
 static void
 cb_find_default_colrow_style (gpointer *key, OOColRowStyle *val,
 			   OOColRowStyle **cri)
@@ -1803,10 +1890,12 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int merge_cols = 1, merge_rows = 1;
 	GnmStyle *style = NULL;
 	char const *style_name = NULL;
+	char const *validation_name = NULL;
 	char const *expr_string;
 	GnmRange tmp;
 	int max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
 	int max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
+	GnmValidation *validation = NULL;
 
 	maybe_update_progress (xin);
 
@@ -1893,9 +1982,10 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-rows-spanned", &merge_rows, 0, INT_MAX))
 			;
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name")) {
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			style_name = attrs[1];
-		}
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "content-validation-name"))
+			validation_name = attrs[1];
 	}
 
 	if (state->pos.eval.col >= max_cols ||
@@ -1948,6 +2038,13 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 		if (style != NULL)
 			gnm_style_ref (style);
+	}
+
+	if ((validation_name != NULL) && 
+	    (NULL != (validation = odf_validations_translate (xin, validation_name)))) {
+		if (style == NULL)
+			style = gnm_style_new_default ();
+		gnm_style_set_validation (style, validation);
 	}
 
 	if (style != NULL) {
@@ -7354,7 +7451,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	            GSF_XML_IN_NODE (DATA_PILOT_SUBTOTALS, DATA_PILOT_SUBTOTAL, OO_NS_TABLE, "data-pilot-subtotal", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (DATA_PILOT_FIELD, DATA_PILOT_GROUPS, OO_NS_TABLE, "data-pilot-groups", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (SPREADSHEET, CONTENT_VALIDATIONS, OO_NS_TABLE, "content-validations", GSF_XML_NO_CONTENT, NULL, NULL),
- 	      GSF_XML_IN_NODE (CONTENT_VALIDATIONS, CONTENT_VALIDATION, OO_NS_TABLE, "content-validation", GSF_XML_NO_CONTENT, NULL, NULL),
+ 	      GSF_XML_IN_NODE (CONTENT_VALIDATIONS, CONTENT_VALIDATION, OO_NS_TABLE, "content-validation", GSF_XML_NO_CONTENT, &odf_validation, NULL),
  	        GSF_XML_IN_NODE (CONTENT_VALIDATION, ERROR_MESSAGE, OO_NS_TABLE, "error-message", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (ERROR_MESSAGE, ERROR_MESSAGE_P, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
 		    GSF_XML_IN_NODE (ERROR_MESSAGE_P, ERROR_MESSAGE_P_S, OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -8387,6 +8484,9 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.formats = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) go_format_unref);
+	state.validations = g_hash_table_new_full (g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) odf_validation_free);
 	state.chart.saved_graph_styles = NULL;
 	state.chart.saved_hatches = NULL;
 	state.chart.saved_dash_styles = NULL;
@@ -8562,6 +8662,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	g_hash_table_destroy (state.chart.gradient_styles);
 	g_hash_table_destroy (state.formats);
 	g_hash_table_destroy (state.controls);
+	g_hash_table_destroy (state.validations);
 	g_hash_table_destroy (state.chart.arrow_markers);
 	g_object_unref (contents);
 

@@ -1,3 +1,14 @@
+2011-02-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_validations_translate): new
+	(odf_validation_t): new
+	(odf_validation_free): new
+	(odf_validation_new): new
+	(odf_validation): new
+	(oo_cell_start): read validation name
+	(opendoc_content_dtd): connect odf_validation
+	(openoffice_file_open): initialize and free validation hash
+	
 2011-02-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.13
