@@ -1,3 +1,7 @@
+2011-02-14 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c do not use macros in _() arguments.
+
 2011-02-12 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_atan2): Correct result range.

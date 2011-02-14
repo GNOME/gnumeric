@@ -373,8 +373,8 @@ static GnmFuncHelp const help_atan[] = {
 					"of @{x}; that is the value whose "
 					"tangent is @{x}.")},
 	{ GNM_FUNC_HELP_NOTE, F_("The result will be between "
-				 UNICODE_MINUS UNICODE_PI "/2 and "
-				 "+" UNICODE_PI "/2.")},
+				 "\xe2\x88\x92" "\xcf\x80" "/2 and "
+				 "+" "\xcf\x80" "/2.")},
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ATAN(0.5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ATAN(1)" },
@@ -425,8 +425,8 @@ static GnmFuncHelp const help_atan2[] = {
 					"as an angle from the x-axis in "
 					"radians.")},
 	{ GNM_FUNC_HELP_NOTE, F_("The result will be between "
-				 UNICODE_MINUS UNICODE_PI " and "
-				 "+" UNICODE_PI ".")},
+				 "\xe2\x88\x92" "\xcf\x80" " and "
+				 "+" "\xcf\x80" ".")},
 	{ GNM_FUNC_HELP_NOTE, F_("The order of the arguments may be "
 				 "unexpected.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -1613,9 +1613,9 @@ gnumeric_tanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_pi[] = {
-        { GNM_FUNC_HELP_NAME, F_("PI:the constant " UNICODE_PI)},
+        { GNM_FUNC_HELP_NAME, F_("PI:the constant " "\xcf\x80")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible, but it "
-				  "returns " UNICODE_PI " with a better "
+				  "returns " "\xcf\x80" " with a better "
 				  "precision.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=PI()" },
         { GNM_FUNC_HELP_SEEALSO, "SQRTPI"},
@@ -1871,7 +1871,7 @@ gnumeric_sign (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_sqrtpi[] = {
         { GNM_FUNC_HELP_NAME, F_("SQRTPI:the square root of @{x} times " 
-				 UNICODE_PI)},
+				 "\xcf\x80")},
 	{ GNM_FUNC_HELP_ARG, F_("x:non-negative number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=SQRTPI(2)"},
