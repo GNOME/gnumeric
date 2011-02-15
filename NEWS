@@ -3,6 +3,7 @@ Gnumeric 1.10.14
 Andreas:
 	* Fix width of translated lists in various dialogs [#641626]
 	* Allow function tooltips to be closed temporarily [#641355]
+	* Import list validation from ODF files. [#640701]
 
 Jean:
 	* Fix cursor position inside a cell edited in a zoomed sheet. [#641709]

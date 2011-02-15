@@ -382,7 +382,7 @@ typedef struct {
 static GsfXMLInNode const * get_dtd (void);
 static GsfXMLInNode const * get_styles_dtd (void);
 static void oo_chart_style_free (OOChartStyle *pointer);
-
+static OOFormula odf_get_formula_type (GsfXMLIn *xin, char const **str);
 
 /* Implementations */
 static void
@@ -1396,19 +1396,100 @@ typedef struct {
 	char *base_cell_address;
 	gboolean allow_blank;
 	gboolean use_dropdown;
+	OOFormula f_type;
 } odf_validation_t;
+
+static GnmValidation *
+odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	GnmValidation *validation = NULL;
+	char *start, *end;
+	GString *str;          
+	GnmExprTop const *texpr = NULL;
+	GnmParsePos   pp;
+
+	
+	start = strchr (val->condition, '(');
+	end = strrchr (val->condition, ')');
+
+	if (start == NULL || end == NULL)
+		return NULL;
+
+	pp = state->pos;
+	if (val->base_cell_address != NULL) {
+		char *tmp = g_strconcat ("[", val->base_cell_address, "]", NULL);
+		texpr = oo_expr_parse_str 
+			(xin, tmp, &pp,
+			 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES, 
+			 FORMULA_OPENFORMULA);
+		g_free (tmp);
+		if (texpr != NULL) {
+			if (GNM_EXPR_GET_OPER (texpr->expr) == 
+			    GNM_EXPR_OP_CELLREF) {
+				GnmCellRef const *ref = &texpr->expr->cellref.ref;
+				parse_pos_init (&pp, state->pos.wb, ref->sheet,
+						ref->col, ref->row);
+			}
+			gnm_expr_top_unref (texpr);
+		}
+	}
+
+	str = g_string_new ("{");
+	g_string_append_len (str, start + 1, end - start - 1);
+	g_string_append_c (str, '}');
+
+	texpr = oo_expr_parse_str (xin, str->str, &pp, 
+				   GNM_EXPR_PARSE_DEFAULT, 
+				   val->f_type);
+
+	if (texpr != NULL)
+		validation = validation_new (VALIDATION_STYLE_WARNING,
+					     VALIDATION_TYPE_IN_LIST,
+					     VALIDATION_OP_NONE,
+					     NULL, NULL,
+					     texpr, 
+					     NULL,
+					     val->allow_blank,
+					     val->use_dropdown);
+	
+	g_string_free (str, TRUE);
+
+	return validation;
+}
 
 static GnmValidation *
 odf_validations_translate (GsfXMLIn *xin, char const *name)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	odf_validation_t *val = g_hash_table_lookup (state->validations, name);
+	GnmValidation *validation = NULL;
 
 	if (val == NULL) {
 		oo_warning 
 			(xin, _("Undefined validation style encountered: %s"), 
 			 name);
 		return NULL;
+	}
+	
+	if (val->condition != NULL && val->f_type != FORMULA_NOT_SUPPORTED) {
+		
+		if (g_str_has_prefix (val->condition, "cell-content-is-in-list"))
+			validation = odf_validation_new_list (xin, val);
+
+		if (validation != NULL) {
+			GError   *err;
+			if (NULL == (err = validation_is_ok (validation)))
+				return validation;
+			else {
+				oo_warning (xin, 
+					    _("Ignoring invalid data "
+					      "validation because : %s"), 
+					    _(err->message));
+				validation_unref (validation);
+				return NULL;
+			}
+		}
 	}
 
 	oo_warning (xin, _("Unsupported validation condition "
@@ -1431,6 +1512,7 @@ odf_validation_new (void)
 	odf_validation_t *val = g_new0 (odf_validation_t, 1);
 	val->use_dropdown = TRUE;
 	val->allow_blank = TRUE;
+	val->f_type = FORMULA_NOT_SUPPORTED;
 	return val;
 }
 
@@ -1455,7 +1537,9 @@ odf_validation (GsfXMLIn *xin, xmlChar const **attrs)
 				name = CXML2C (attrs[1]);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       OO_NS_TABLE, "condition")) {
-			validation->condition = g_strdup (CXML2C (attrs[1]));
+			char const *cond = CXML2C (attrs[1]);
+			validation->f_type = odf_get_formula_type (xin, &cond);
+			validation->condition = g_strdup (cond);
 		} else if (oo_attr_bool (xin, attrs,
 					 OO_NS_TABLE, "allow-empty-cell", 
 					 &validation->allow_blank)) {
