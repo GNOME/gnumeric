@@ -1208,6 +1208,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	case GNM_EXPR_OP_LT:
 	case GNM_EXPR_OP_LTE:
 		flags |= GNM_EXPR_EVAL_PERMIT_EMPTY;
+		flags &= ~GNM_EXPR_EVAL_WANT_REF;
 
 		a = gnm_expr_eval (expr->binary.value_a, pos, flags);
 		if (a != NULL) {
@@ -1253,6 +1254,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 		/* Guarantees value != NULL */
 		flags &= ~GNM_EXPR_EVAL_PERMIT_EMPTY;
+		flags &= ~GNM_EXPR_EVAL_WANT_REF;
 
 		/* 1) Error from A */
 		a = gnm_expr_eval (expr->binary.value_a, pos, flags);
@@ -1327,6 +1329,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	case GNM_EXPR_OP_UNARY_PLUS:
 		/* Guarantees value != NULL */
 		flags &= ~GNM_EXPR_EVAL_PERMIT_EMPTY;
+		flags &= ~GNM_EXPR_EVAL_WANT_REF;
 
 		a = gnm_expr_eval (expr->unary.value, pos, flags);
 		if (VALUE_IS_ERROR (a))
@@ -1367,6 +1370,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 	case GNM_EXPR_OP_CAT:
 		flags |= GNM_EXPR_EVAL_PERMIT_EMPTY;
+		flags &= ~GNM_EXPR_EVAL_WANT_REF;
 		a = gnm_expr_eval (expr->binary.value_a, pos, flags);
 		if (a != NULL) {
 			if (VALUE_IS_ERROR (a))
@@ -1441,19 +1445,21 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 	case GNM_EXPR_OP_CELLREF: {
 		GnmCell *cell;
-		GnmCellPos dest;
+		GnmCellRef r;
 
-		gnm_cellpos_init_cellref (&dest, &expr->cellref.ref,
-					  &pos->eval, pos->sheet);
+		gnm_cellref_make_abs (&r, &expr->cellref.ref, pos);
 
-		cell = sheet_cell_get (eval_sheet (expr->cellref.ref.sheet, pos->sheet),
-			dest.col, dest.row);
-		if (cell == NULL)
-			return handle_empty (NULL, flags);
+		cell = sheet_cell_get (eval_sheet (r.sheet, pos->sheet),
+				       r.col, r.row);
+		if (cell)
+			gnm_cell_eval (cell);
 
-		gnm_cell_eval (cell);
-
-		return handle_empty (value_dup (cell->value), flags);
+		if (flags & GNM_EXPR_EVAL_WANT_REF) {
+			return value_new_cellrange_unsafe (&r, &r);
+		} else {
+			GnmValue *v = cell ? value_dup (cell->value) : NULL;
+			return handle_empty (v, flags);
+		}
 	}
 
 	case GNM_EXPR_OP_CONSTANT:

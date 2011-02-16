@@ -172,7 +172,8 @@ typedef enum {
 typedef enum {
 	GNM_EXPR_EVAL_SCALAR_NON_EMPTY	= 0,
 	GNM_EXPR_EVAL_PERMIT_NON_SCALAR	= 0x1,
-	GNM_EXPR_EVAL_PERMIT_EMPTY	= 0x2
+	GNM_EXPR_EVAL_PERMIT_EMPTY	= 0x2,
+	GNM_EXPR_EVAL_WANT_REF		= 0x4
 } GnmExprEvalFlags;
 
 typedef struct _XmlParseContext		XmlParseContext;

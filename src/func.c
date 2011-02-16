@@ -1507,31 +1507,26 @@ function_call_with_exprs (GnmFuncEvalInfo *ei, GnmExprEvalFlags flags)
 		GnmExpr const *expr = argv[i];
 
 		if (arg_type == 'A' || arg_type == 'r') {
-			if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CELLREF) {
-				GnmCellRef r;
-				gnm_cellref_make_abs (&r, &expr->cellref.ref, ei->pos);
-				args[i] = value_new_cellrange_unsafe (&r, &r);
-			} else {
-				tmp = args[i] = gnm_expr_eval (expr, ei->pos,
-					GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
-				if (VALUE_IS_ERROR (tmp)) {
-					free_values (args, i);
-					return tmp;
-				}
+			tmp = args[i] = gnm_expr_eval
+				(expr, ei->pos,
+				 GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
+				 GNM_EXPR_EVAL_WANT_REF);
+			if (VALUE_IS_ERROR (tmp)) {
+				free_values (args, i);
+				return tmp;
+			}
 
-				if (tmp->type == VALUE_CELLRANGE) {
-					gnm_cellref_make_abs (&tmp->v_range.cell.a,
-						&tmp->v_range.cell.a,
-						ei->pos);
-					gnm_cellref_make_abs (&tmp->v_range.cell.b,
-						&tmp->v_range.cell.b,
-						ei->pos);
-
+			if (tmp->type == VALUE_CELLRANGE) {
+				gnm_cellref_make_abs (&tmp->v_range.cell.a,
+						      &tmp->v_range.cell.a,
+						      ei->pos);
+				gnm_cellref_make_abs (&tmp->v_range.cell.b,
+						      &tmp->v_range.cell.b,
+						      ei->pos);
 				/* Array args accept scalars */
-				} else if (arg_type != 'A' && tmp->type != VALUE_ARRAY) {
-					free_values (args, i + 1);
-					return value_new_error_VALUE (ei->pos);
-				}
+			} else if (arg_type != 'A' && tmp->type != VALUE_ARRAY) {
+				free_values (args, i + 1);
+				return value_new_error_VALUE (ei->pos);
 			}
 			continue;
 		}
