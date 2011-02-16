@@ -13,6 +13,7 @@ typedef struct {
 } GnmValidationCombo;
 
 #define GNM_VALIDATION_COMBO_TYPE     (gnm_validation_combo_get_type ())
+#define IS_GNM_VALIDATION_COMBO(obj)  (G_TYPE_CHECK_INSTANCE_TYPE((obj), GNM_VALIDATION_COMBO_TYPE))
 #define GNM_VALIDATION_COMBO(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_VALIDATION_COMBO_TYPE, GnmValidationCombo))
 
 GType gnm_validation_combo_get_type (void);

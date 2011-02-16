@@ -1435,9 +1435,14 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val)
 		}
 	}
 
-	str = g_string_new ("{");
-	g_string_append_len (str, start + 1, end - start - 1);
-	g_string_append_c (str, '}');
+	if (*(start + 1) == '\"') {
+		str = g_string_new ("{");
+		g_string_append_len (str, start + 1, end - start - 1);
+		g_string_append_c (str, '}');
+	} else {
+		str = g_string_new (NULL);
+		g_string_append_len (str, start + 1, end - start - 1);
+	}
 
 	texpr = oo_expr_parse_str (xin, str->str, &pp, 
 				   GNM_EXPR_PARSE_DEFAULT, 
@@ -1476,6 +1481,32 @@ odf_validations_translate (GsfXMLIn *xin, char const *name)
 		
 		if (g_str_has_prefix (val->condition, "cell-content-is-in-list"))
 			validation = odf_validation_new_list (xin, val);
+		else if (g_str_has_prefix (val->condition, 
+					   "cell-content-text-length()"))
+			/* validation = odf_validation_new_ (xin, val) */;
+		else if (g_str_has_prefix (val->condition, 
+					   "cell-content-text-length-is-between"))
+			/* validation = odf_validation_new_ (xin, val) */;
+		else if (g_str_has_prefix 
+			 (val->condition, 
+			  "cell-content-text-length-is-not-between"))
+			/* validation = odf_validation_new_ (xin, val) */;
+		else if (g_str_has_prefix 
+			 (val->condition, 
+			  "cell-content-is-decimal-number () and"))
+			/* validation = odf_validation_new_ (xin, val) */;
+		else if (g_str_has_prefix 
+			 (val->condition, 
+			  "cell-content-is-whole-number() and"))
+			/* validation = odf_validation_new_ (xin, val) */;
+		else if (g_str_has_prefix (val->condition, 
+					   "cell-content-is-date() and"))
+			/* validation = odf_validation_new_ (xin, val) */;
+		else if (g_str_has_prefix (val->condition, 
+					   "cell-content-is-time() and "))
+			/* validation = odf_validation_new_ (xin, val) */;
+		else if (g_str_has_prefix (val->condition, "is-true-formula"))
+			/* validation = odf_validation_new_ (xin, val) */;
 
 		if (validation != NULL) {
 			GError   *err;

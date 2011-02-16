@@ -1,3 +1,7 @@
+2011-02-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/validation-combo.h (IS_GNM_VALIDATION_COMBO): new
+	
 2011-02-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* schemas/gnumeric-dialogs.schemas.in 

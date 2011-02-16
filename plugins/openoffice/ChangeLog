@@ -1,8 +1,23 @@
+2011-02-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_validation_new_list): also read 
+	expressions as allowed in ODF1.2
+	(odf_validations_translate): add a few stubs for other 
+	validation types.
+	* openoffice-write.c (odf_write_objects): don't write 
+	validation combos
+	(odf_write_cell): write validation name
+	(odf_validation_general_attributes): new
+	(odf_validation_in_list): new
+	(odf_print_spreadsheet_content_validations): new
+	(odf_print_spreadsheet_content_prelude): connect the above
+	
 2011-02-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_validation_t): add field
 	(odf_validation_new_list): new
-	(odf_validations_translate): call odf_validation_new_list if applicable
+	(odf_validations_translate): call odf_validation_new_list 
+	if applicable
 	(odf_validation_new): initialize new field
 	(odf_validation): determine name space
 	

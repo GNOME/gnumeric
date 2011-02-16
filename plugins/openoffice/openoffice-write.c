@@ -50,6 +50,7 @@
 #include <input-msg.h>
 #include <style-border.h>
 #include <validation.h>
+#include <validation-combo.h>
 #include <hlink.h>
 #include <sheet-filter.h>
 #include <print-info.h>
@@ -2741,7 +2742,7 @@ odf_write_objects (GnmOOExport *state, GSList *objects)
 			g_warning ("NULL sheet object encountered.");
 			continue;
 		}
-		if (IS_GNM_FILTER_COMBO (so))
+		if (IS_GNM_FILTER_COMBO (so) || IS_GNM_VALIDATION_COMBO(so))
 			continue;
 		if (id != NULL)
 			odf_write_control (state, so, id);
@@ -2788,9 +2789,17 @@ odf_write_empty_cell (GnmOOExport *state, int num, GnmStyle const *style, GSList
 					     num);
 		if (style != NULL) {
 			char const * name = odf_find_style (state, style);
+			GnmValidation const *val = gnm_style_get_validation (style);
 			if (name != NULL)
 				gsf_xml_out_add_cstr (state->xml,
 						      TABLE "style-name", name);
+			if (val != NULL) {
+				char *vname = g_strdup_printf ("VAL-%p", val);
+				gsf_xml_out_add_cstr (state->xml,
+						      TABLE "content-validation-name", vname);
+				g_free (vname);
+			}
+				
 		}
 		odf_write_objects (state, objects);
 		gsf_xml_out_end_element (state->xml);   /* table-cell */
@@ -2839,9 +2848,16 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 
 		if (style) {
 			char const * name = odf_find_style (state, style);
+			GnmValidation const *val = gnm_style_get_validation (style);
 			if (name != NULL)
 				gsf_xml_out_add_cstr (state->xml,
 						      TABLE "style-name", name);
+			if (val != NULL) {
+				char *vname = g_strdup_printf ("VAL-%p", val);
+				gsf_xml_out_add_cstr (state->xml,
+						      TABLE "content-validation-name", vname);
+				g_free (vname);
+			}
 			link = gnm_style_get_hlink (style);
 		}
 
@@ -3719,6 +3735,91 @@ odf_write_autofilter (GnmOOExport *state, GnmFilter const *filter)
 }
 
 static void
+odf_validation_general_attributes (GnmOOExport *state, GnmValidation const *val)
+{
+	char *name = g_strdup_printf ("VAL-%p", val);
+	
+	gsf_xml_out_add_cstr (state->xml, TABLE "name", name);
+	g_free (name);
+	odf_add_bool (state->xml,  TABLE "allow-empty-cell", val->allow_blank);
+	gsf_xml_out_add_cstr (state->xml,  TABLE "display-list", 
+			      val->use_dropdown ? "unsorted" : "none");
+}
+
+static void
+odf_validation_in_list (GnmOOExport *state, GnmValidation const *val, 
+			Sheet *sheet, GnmStyleRegion const *sr)
+{
+	GnmExprTop const *texpr;
+	GnmParsePos pp;
+	char *formula;
+	GnmCellRef ref;
+	GString *str;
+
+	gnm_cellref_init (&ref, sheet, 
+			  sr->range.start.col, 
+			  sr->range.start.row, TRUE);
+	texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
+	parse_pos_init (&pp, (Workbook *)state->wb, sheet, 
+			sr->range.start.col, 
+			sr->range.start.row);
+	formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
+	gsf_xml_out_add_cstr (state->xml, TABLE "base-cell-address", 
+			      odf_strip_brackets (formula));
+	g_free (formula);
+	gnm_expr_top_unref (texpr);
+
+	/* Note that this is really not valid ODF1.1 but will be valid in ODF1.2 */
+	formula = gnm_expr_top_as_string (val->texpr[0], &pp, state->conv);
+	str = g_string_new ("of:cell-content-is-in-list(");
+	g_string_append (str, formula);
+	g_string_append_c (str, ')');
+
+	g_free (formula);
+	gsf_xml_out_add_cstr (state->xml, TABLE "condition", str->str);
+	g_string_free (str, TRUE);
+}
+
+static void
+odf_print_spreadsheet_content_validations (GnmOOExport *state)
+{
+	gboolean element_written = FALSE;
+	int i;
+	
+	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
+		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
+		GnmStyleList *list, *l;
+
+		list = sheet_style_collect_validations (sheet, NULL);
+
+		for (l = list; l != NULL; l = l->next) {
+			GnmStyleRegion const *sr  = l->data;
+			GnmValidation const *val = gnm_style_get_validation (sr->style);
+
+			if (val->type == VALIDATION_TYPE_IN_LIST) {
+				if (!element_written) {
+					gsf_xml_out_start_element 
+						(state->xml, TABLE "content-validations");
+					element_written = TRUE;
+				}
+				gsf_xml_out_start_element (state->xml, 
+							   TABLE "content-validation");
+				odf_validation_general_attributes (state, val);
+				odf_validation_in_list (state, val, sheet, sr);
+				gsf_xml_out_end_element (state->xml); 
+				/* </table:content-validation> */
+			}
+		}
+
+		style_list_free (list);
+	}
+
+	if (element_written)
+		gsf_xml_out_end_element (state->xml); /* </table:content-validations> */
+
+}
+
+static void
 odf_print_spreadsheet_content_prelude (GnmOOExport *state)
 {
 	gsf_xml_out_start_element (state->xml, TABLE "calculation-settings");
@@ -3746,6 +3847,8 @@ odf_print_spreadsheet_content_prelude (GnmOOExport *state)
 	gsf_xml_out_add_int (state->xml, TABLE "steps", state->wb->iteration.max_number);
 	gsf_xml_out_end_element (state->xml); /* </table:iteration> */
 	gsf_xml_out_end_element (state->xml); /* </table:calculation-settings> */
+
+	odf_print_spreadsheet_content_validations (state);
 }
 
 
