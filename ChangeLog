@@ -1,5 +1,7 @@
 2011-02-17  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbc_gtk_finalize): Remove custum UIs.
+
 	* src/stf.c (stf_shutdown): Unregister stf_csv too.
 
 2011-02-16  Morten Welinder  <terra@gnome.org>

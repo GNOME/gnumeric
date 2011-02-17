@@ -5263,6 +5263,15 @@ wbc_gtk_finalize (GObject *obj)
 		gtk_ui_manager_remove_ui (wbcg->ui, wbcg->templates.merge_id);
 	UNREF_OBJ (templates.actions);
 
+	{
+		GSList *l, *uis = go_hash_keys (wbcg->custom_uis);
+		for (l = uis; l; l = l->next) {
+			GnmAppExtraUI *extra_ui = l->data;
+			cb_remove_custom_ui (NULL, extra_ui, wbcg);
+		}
+		g_slist_free (uis);
+	}
+
 	g_hash_table_destroy (wbcg->custom_uis);
 
 	UNREF_OBJ (zoom_vaction);
