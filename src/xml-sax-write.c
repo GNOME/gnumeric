@@ -1551,6 +1551,5 @@ gnm_xml_sax_write_init (void)
 void
 gnm_xml_sax_write_shutdown (void)
 {
-	go_file_saver_unregister
-		(go_file_saver_for_id (XML_SAX_ID));
+	go_file_saver_unregister (go_file_saver_for_id (XML_SAX_ID));
 }

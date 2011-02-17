@@ -1,3 +1,7 @@
+2011-02-17  Morten Welinder  <terra@gnome.org>
+
+	* src/stf.c (stf_shutdown): Unregister stf_csv too.
+
 2011-02-16  Morten Welinder  <terra@gnome.org>
 
 	* src/gnumeric.h (GnmExprEvalFlags): Add new want-ref flag.

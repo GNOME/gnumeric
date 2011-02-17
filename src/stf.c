@@ -612,6 +612,8 @@ stf_shutdown (void)
 {
 	go_file_saver_unregister
 		(go_file_saver_for_id ("Gnumeric_stf:stf_assistant"));
+	go_file_saver_unregister
+		(go_file_saver_for_id ("Gnumeric_stf:stf_csv"));
 
 	go_file_opener_unregister
 		(go_file_opener_for_id ("Gnumeric_stf:stf_csvtab"));
