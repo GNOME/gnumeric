@@ -1,3 +1,7 @@
+2011-02-18  Morten Welinder  <terra@gnome.org>
+
+	* widget-font-selector.c (list_init): Plug leak.
+
 2011-02-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_set_tooltip): add Ctrl-F4 info

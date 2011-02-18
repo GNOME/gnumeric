@@ -1,5 +1,9 @@
 2011-02-18  Morten Welinder  <terra@gnome.org>
 
+	* dialog-cell-format.c (build_validation_error_combo): Don't leak
+	a ref to "store".
+	(fmt_dialog_init_conditions_page): Plug leak.
+
 	* dialog-solver.c (fill_algorithm_combo): Don't leak a ref to
 	"store".
 	(dialog_init): Ditto.

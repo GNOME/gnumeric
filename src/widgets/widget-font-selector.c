@@ -141,6 +141,7 @@ list_init (GtkTreeView* view)
 	gtk_tree_view_set_headers_visible (view, FALSE);
 	store = gtk_list_store_new (1, G_TYPE_STRING);
 	gtk_tree_view_set_model (view, GTK_TREE_MODEL (store));
+	g_object_unref (store);
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes
 		(NULL, renderer, "text", 0, NULL);

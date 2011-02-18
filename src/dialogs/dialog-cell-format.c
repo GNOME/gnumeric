@@ -1772,48 +1772,52 @@ build_validation_error_combo (GtkComboBox *box)
 
 	gtk_list_store_append (store, &iter);
 	gtk_list_store_set (store, &iter,
-				1, _("None          (silently accept invalid input)"),
-				-1);
+			    1, _("None          (silently accept invalid input)"),
+			    -1);
 
 	pixbuf = gtk_widget_render_icon (GTK_WIDGET (box), GTK_STOCK_STOP,
-										 GTK_ICON_SIZE_BUTTON, NULL);
+					 GTK_ICON_SIZE_BUTTON, NULL);
 	gtk_list_store_append (store, &iter);
 	gtk_list_store_set (store, &iter,
-				0, pixbuf,
-				1, _("Stop            (never allow invalid input)"),
-				-1);
+			    0, pixbuf,
+			    1, _("Stop            (never allow invalid input)"),
+			    -1);
 
-	pixbuf = gtk_widget_render_icon (GTK_WIDGET (box), GTK_STOCK_DIALOG_WARNING,
-										 GTK_ICON_SIZE_BUTTON, NULL);
+	pixbuf = gtk_widget_render_icon (GTK_WIDGET (box),
+					 GTK_STOCK_DIALOG_WARNING,
+					 GTK_ICON_SIZE_BUTTON, NULL);
 	gtk_list_store_append (store, &iter);
 	gtk_list_store_set (store, &iter,
-				0, pixbuf,
-				1, _("Warning     (accept/discard invalid input)"),
-				-1);
+			    0, pixbuf,
+			    1, _("Warning     (accept/discard invalid input)"),
+			    -1);
 
-	pixbuf = gtk_widget_render_icon (GTK_WIDGET (box), GTK_STOCK_DIALOG_INFO,
-										 GTK_ICON_SIZE_BUTTON, NULL);
+	pixbuf = gtk_widget_render_icon (GTK_WIDGET (box),
+					 GTK_STOCK_DIALOG_INFO,
+					 GTK_ICON_SIZE_BUTTON, NULL);
 	gtk_list_store_append (store, &iter);
 	gtk_list_store_set (store, &iter,
-				0, pixbuf,
-				1, _("Information (allow invalid input)"),
-				-1);
+			    0, pixbuf,
+			    1, _("Information (allow invalid input)"),
+			    -1);
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (box),
-								renderer,
-								FALSE);
+				    renderer,
+				    FALSE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (box), renderer,
-									"pixbuf", 0,
-									NULL);
+					"pixbuf", 0,
+					NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (box),
-								renderer,
-								TRUE);
+				    renderer,
+				    TRUE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (box), renderer,
-									"text", 1,
-									NULL);
+					"text", 1,
+					NULL);
+
+	g_object_unref (store);
 }
 
 static void
@@ -2212,6 +2216,8 @@ fmt_dialog_init_conditions_page (FormatState *state)
 	treeview = GTK_TREE_VIEW (go_gtk_builder_get_widget (state->gui, "conditions_treeview"));
 	gtk_tree_view_set_fixed_height_mode (treeview, FALSE);
 	gtk_tree_view_set_model (treeview, GTK_TREE_MODEL (state->conditions.model));
+	g_object_unref (state->conditions.model);
+
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes
 		("Range", renderer, "text", CONDITIONS_RANGE, NULL);
