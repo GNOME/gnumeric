@@ -330,6 +330,8 @@ fill_algorithm_combo (SolverState *state, GnmSolverModelType type)
 
 	gtk_combo_box_set_active (state->algorithm_combo, sel);
 
+	g_object_unref (store);
+
 	return TRUE;
 }
 
@@ -1116,6 +1118,7 @@ dialog_init (SolverState *state)
 		gtk_list_store_set (store, &iter, 0, str, 1, c, -1);
 		g_free (str);
 	}
+	g_object_unref (store);
 
 	INIT_BOOL_ENTRY ("autoscale_button", options.automatic_scaling);
 	INIT_BOOL_ENTRY ("non_neg_button", options.assume_non_negative);

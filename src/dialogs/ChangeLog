@@ -1,5 +1,9 @@
 2011-02-18  Morten Welinder  <terra@gnome.org>
 
+	* dialog-solver.c (fill_algorithm_combo): Don't leak a ref to
+	"store".
+	(dialog_init): Ditto.
+
 	* dialog-quit.c (show_quit_dialog): Don't leak a ref to "list".
 
 2011-02-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
