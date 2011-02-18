@@ -362,6 +362,8 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 				    -1);
 	}
 
+	g_object_unref (list);
+
 	/* ---------------------------------------- */
 
 	atk_object_set_role (gtk_widget_get_accessible (GTK_WIDGET (dialog)),
@@ -378,7 +380,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 		return TRUE;
 	}
 
-	model = GTK_TREE_MODEL (list);
+	model = gtk_tree_view_get_model (tree);
 	ok = gtk_tree_model_get_iter_first (model, &iter);
 	g_return_val_if_fail (ok, FALSE);
 	quit = TRUE;
