@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
@@ -6,11 +6,9 @@
     <property name="border_width">6</property>
     <property name="title" translatable="yes">Histogram</property>
     <property name="type_hint">dialog</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkNotebook" id="notebook1">
@@ -20,7 +18,6 @@
             <child>
               <object class="GtkVBox" id="vbox5">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkTable" id="input-table">
                     <property name="visible">True</property>
@@ -168,7 +165,6 @@
               <object class="GtkVBox" id="vbox4">
                 <property name="visible">True</property>
                 <property name="border_width">12</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkTable" id="table2">
                     <property name="visible">True</property>
@@ -367,10 +363,9 @@
             <child>
               <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkRadioButton" id="bintype_pm_inf_upper">
-                    <property name="label" translatable="yes">(&#x2212;&#x221E;,&#x2219;), [&#x2219;,&#x2219;), &#x22EF;, [&#x2219;,&#x2219;), [&#x2219;,&#x221E;)</property>
+                    <property name="label" translatable="yes">(−∞,∙), [∙,∙), ⋯, [∙,∙), [∙,∞)</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -383,7 +378,7 @@
                 </child>
                 <child>
                   <object class="GtkRadioButton" id="bintype_pm_inf_lower">
-                    <property name="label" translatable="yes">(&#x2212;&#x221E;,&#x2219;], (&#x2219;,&#x2219;], &#x22EF;, (&#x2219;,&#x2219;], (&#x2219;,&#x221E;)</property>
+                    <property name="label" translatable="yes">(−∞,∙], (∙,∙], ⋯, (∙,∙], (∙,∞)</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -406,7 +401,7 @@
                 </child>
                 <child>
                   <object class="GtkRadioButton" id="bintype_p_inf_upper">
-                    <property name="label" translatable="yes">[&#x2219;,&#x2219;),[&#x2219;,&#x2219;),&#x22EF;,[&#x2219;,&#x2219;),[&#x2219;,&#x221E;)</property>
+                    <property name="label" translatable="yes">[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∞)</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -420,7 +415,7 @@
                 </child>
                 <child>
                   <object class="GtkRadioButton" id="bintype_p_inf_lower">
-                    <property name="label" translatable="yes">(&#x2219;,&#x2219;],(&#x2219;,&#x2219;],&#x22EF;,(&#x2219;,&#x2219;],(&#x2219;,&#x221E;)</property>
+                    <property name="label" translatable="yes">(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∞)</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -434,7 +429,7 @@
                 </child>
                 <child>
                   <object class="GtkRadioButton" id="bintype_m_inf_upper">
-                    <property name="label" translatable="yes">(&#x2212;&#x221E;,&#x2219;),[&#x2219;,&#x2219;),&#x22EF;,[&#x2219;,&#x2219;),[&#x2219;,&#x2219;)</property>
+                    <property name="label" translatable="yes">(−∞,∙),[∙,∙),⋯,[∙,∙),[∙,∙)</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -448,7 +443,7 @@
                 </child>
                 <child>
                   <object class="GtkRadioButton" id="bintype_m_inf_lower">
-                    <property name="label" translatable="yes">(&#x2212;&#x221E;,&#x2219;],(&#x2219;,&#x2219;],&#x22EF;,(&#x2219;,&#x2219;],(&#x2219;,&#x2219;]</property>
+                    <property name="label" translatable="yes">(−∞,∙],(∙,∙],⋯,(∙,∙],(∙,∙]</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -471,7 +466,7 @@
                 </child>
                 <child>
                   <object class="GtkRadioButton" id="bintype_no_inf_upper">
-                    <property name="label" translatable="yes">[&#x2219;,&#x2219;),[&#x2219;,&#x2219;),&#x22EF;,[&#x2219;,&#x2219;),[&#x2219;,&#x2219;)</property>
+                    <property name="label" translatable="yes">[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∙)</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -485,7 +480,7 @@
                 </child>
                 <child>
                   <object class="GtkRadioButton" id="bintype_no_inf_lower">
-                    <property name="label" translatable="yes">(&#x2219;,&#x2219;],(&#x2219;,&#x2219;],&#x22EF;,(&#x2219;,&#x2219;],(&#x2219;,&#x2219;]</property>
+                    <property name="label" translatable="yes">(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∙]</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -517,7 +512,6 @@
               <object class="GtkVBox" id="vbox3">
                 <property name="visible">True</property>
                 <property name="border_width">12</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkRadioButton" id="nochart-button">
@@ -616,6 +610,21 @@
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="position">6</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="only-num-button">
+                    <property name="label" translatable="yes">Count numbers only</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">7</property>
                   </packing>
                 </child>
                 <child>

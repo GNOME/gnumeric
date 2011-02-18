@@ -1,3 +1,9 @@
+2011-02-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-histogram.h (analysis_tools_data_histogram_t): add field
+	* analysis-histogram.c (make_hist_expr): ignore blanks and restrict to
+	  numbers if requested
+
 2011-02-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.13

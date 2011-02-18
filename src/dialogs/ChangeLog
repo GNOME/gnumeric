@@ -1,3 +1,9 @@
+2011-02-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* histogram.ui: add checkbox
+	* dialog-analysis-tools.c (histogram_tool_ok_clicked_cb): read new 
+	checkbox
+	
 2011-02-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* doc-meta-data.ui: don't fix the width of the selection list 

@@ -51,7 +51,11 @@ make_hist_expr (analysis_tools_data_histogram_t *info,
 	GnmExprOp from, to;
 	GnmFunc *fd_if = gnm_func_lookup_or_add_placeholder ("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	GnmFunc *fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	GnmFunc *fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	GnmFunc *fd_count = info->percentage ?
+		gnm_func_lookup_or_add_placeholder (info->only_numbers ? "COUNT" : "COUNTA", 
+						    dao->sheet ? dao->sheet->workbook : NULL, FALSE) : NULL;
+	GnmFunc *fd_isnumber = gnm_func_lookup_or_add_placeholder (info->only_numbers ? "ISNUMBER" : "ISBLANK", 
+								   dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gint to_col = (info->cumulative) ? 0 : 1;
 
 	if (info->bin_type & bintype_no_inf_upper) {
@@ -75,7 +79,7 @@ make_hist_expr (analysis_tools_data_histogram_t *info,
 			 gnm_expr_new_constant (value_new_int (1)));
 
 	if (info->cumulative)
-		expr = gnm_expr_new_funcall1 (fd_sum, expr_if_to);
+		expr = expr_if_to;
 	else {
 		GnmExpr const *one = gnm_expr_new_constant (value_new_int (1));
 		if (fromminf)
@@ -88,12 +92,30 @@ make_hist_expr (analysis_tools_data_histogram_t *info,
 				  from, make_cellref (- col, 0)),
 				 gnm_expr_new_constant (value_new_int (0)),
 				 one);
-		expr = gnm_expr_new_funcall1
-			(fd_sum,
-			 gnm_expr_new_binary (expr_if_from,
+		expr = gnm_expr_new_binary (expr_if_from,
 					      GNM_EXPR_OP_MULT,
-					      expr_if_to));
+					      expr_if_to);
 	}
+
+	if (info->only_numbers)
+		expr = gnm_expr_new_binary (expr,
+					    GNM_EXPR_OP_MULT,
+					    gnm_expr_new_funcall3
+					    (fd_if,gnm_expr_new_funcall1
+					     (fd_isnumber, gnm_expr_copy (expr_data)),
+					     gnm_expr_new_constant (value_new_int (1)),
+					     gnm_expr_new_constant (value_new_int (0))));
+	else
+		expr = gnm_expr_new_binary (expr,
+					    GNM_EXPR_OP_MULT,
+					    gnm_expr_new_funcall3
+					    (fd_if,gnm_expr_new_funcall1
+					     (fd_isnumber, gnm_expr_copy (expr_data)),
+					     gnm_expr_new_constant (value_new_int (0)),
+					     gnm_expr_new_constant (value_new_int (1))));
+		
+
+	expr = gnm_expr_new_funcall1 (fd_sum, expr);
 
 	if (info->percentage)
 		expr = gnm_expr_new_binary (expr,

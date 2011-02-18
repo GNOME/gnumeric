@@ -66,6 +66,7 @@ typedef struct {
 	gint       n;
 	gboolean   percentage;
 	gboolean   cumulative;
+	gboolean   only_numbers;
 	chart_t   chart;
 } analysis_tools_data_histogram_t;
 
