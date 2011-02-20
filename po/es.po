@@ -10,16 +10,18 @@
 # Juan Manuel García Molina <juanma_gm@wanadoo.es>, 2002.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2004, 2005, 2006.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
 #
 #: ../src/sheet-control-gui.c:2115 ../src/sheet-control-gui.c:2124
 #: ../src/sheet-control-gui.c:2132
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-09 11:05-0500\n"
-"PO-Revision-Date: 2010-10-08 12:03+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gnumeric&component=general\n"
+"POT-Creation-Date: 2011-02-18 08:01+0000\n"
+"PO-Revision-Date: 2011-02-20 19:01+0100\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -92,7 +94,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Proporciona un interfaz para scripts de CORBA"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6854
-#: ../plugins/openoffice/openoffice-read.c:8441 ../src/xml-sax-read.c:3178
+#: ../plugins/openoffice/openoffice-read.c:8656 ../src/xml-sax-read.c:3178
 msgid "Reading file..."
 msgstr "Leyendo archivo…"
 
@@ -193,7 +195,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atributo inesperado %s::%s == «%s»."
 
 #: ../plugins/excel/excel-xml-read.c:1068
-#: ../plugins/openoffice/openoffice-read.c:8539 ../src/xml-sax-read.c:3195
+#: ../plugins/openoffice/openoffice-read.c:8754 ../src/xml-sax-read.c:3195
 msgid "XML document not well formed!"
 msgstr "El documento XML no se encuentra bien definido"
 
@@ -450,6 +452,7 @@ msgid "Ignoring column information that does not specify first or last."
 msgstr "Ignorar la información de columnas que no especifica primero o último."
 
 #: ../plugins/excel/xlsx-read.c:3099
+#: ../plugins/openoffice/openoffice-read.c:1517
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignorando datos inválidos debido a: %s"
@@ -515,8 +518,8 @@ msgstr "Falló al encontrar la función «%s» en XLL/DLL/SO %s .\n"
 msgid ""
 "Excel plugin loader / xlfRegister: at least three XLOPER arguments must be "
 "provided (DLL name[ignored],exported name[mandatory],types string"
-"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file %"
-"s."
+"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file "
+"%s."
 msgstr ""
 "Complemento cargador para Excel / xlfRegister: se deben proporcionar al "
 "menos tres argumentos XLOPER (nombre DLL [ignorado],nombre exportado "
@@ -1238,312 +1241,324 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "Importa documentos GNU Oleo"
 
-#: ../plugins/openoffice/openoffice-read.c:448
+#: ../plugins/openoffice/openoffice-read.c:449
 msgid "General ODF error"
 msgstr "Error ODF general"
 
-#: ../plugins/openoffice/openoffice-read.c:502
+#: ../plugins/openoffice/openoffice-read.c:503
 #, c-format
 msgid "Invalid integer '%s', for '%s'"
 msgstr "Entero «%s» inválido para «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:517
+#: ../plugins/openoffice/openoffice-read.c:518
 #, c-format
 msgid "Possible corrupted integer '%s' for '%s'"
 msgstr "Entero «%s» posiblemente corrupto para «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:561
+#: ../plugins/openoffice/openoffice-read.c:562
 #, c-format
 msgid "Invalid attribute '%s', expected number, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:584
+#: ../plugins/openoffice/openoffice-read.c:585
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:605
+#: ../plugins/openoffice/openoffice-read.c:606
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:776
+#: ../plugins/openoffice/openoffice-read.c:777
 #, fuzzy, c-format
 msgid "Unknown hatch name '%s' encountered!"
 msgstr "Se encontró la condición desconocida «%s», ignorando."
 
-#: ../plugins/openoffice/openoffice-read.c:784
+#: ../plugins/openoffice/openoffice-read.c:785
 msgid "Hatch fill without hatch name encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:792
+#: ../plugins/openoffice/openoffice-read.c:793
 #, fuzzy, c-format
 msgid "Unknown gradient name '%s' encountered!"
 msgstr "Se encontró la condición desconocida «%s», ignorando."
 
-#: ../plugins/openoffice/openoffice-read.c:805
+#: ../plugins/openoffice/openoffice-read.c:806
 msgid "Gradient fill without gradient name encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:813
+#: ../plugins/openoffice/openoffice-read.c:814
 #, fuzzy, c-format
 msgid "Unknown image fill name '%s' encountered!"
 msgstr "Se encontró la condición desconocida «%s», ignorando."
 
-#: ../plugins/openoffice/openoffice-read.c:823
+#: ../plugins/openoffice/openoffice-read.c:824
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:836
+#: ../plugins/openoffice/openoffice-read.c:837
 #, fuzzy, c-format
 msgid "Unable to open '%s'."
 msgstr "No ha sido posible abrir el archivo «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:864
-#: ../plugins/openoffice/openoffice-read.c:5102
+#: ../plugins/openoffice/openoffice-read.c:865
+#: ../plugins/openoffice/openoffice-read.c:5314
 #, fuzzy, c-format
 msgid "Unable to load the file '%s'."
 msgstr "Es imposible abrir el archivo «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:872
+#: ../plugins/openoffice/openoffice-read.c:873
 msgid "Image fill without image name encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:948
-#: ../plugins/openoffice/openoffice-read.c:998
+#: ../plugins/openoffice/openoffice-read.c:949
+#: ../plugins/openoffice/openoffice-read.c:999
 #, fuzzy, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Entero «%s» inválido para el atributo %s"
 
-#: ../plugins/openoffice/openoffice-read.c:953
+#: ../plugins/openoffice/openoffice-read.c:954
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1004
+#: ../plugins/openoffice/openoffice-read.c:1005
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1048
+#: ../plugins/openoffice/openoffice-read.c:1049
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1247
+#: ../plugins/openoffice/openoffice-read.c:1248
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "No se puede analizar «%s» («%s»)"
 
-#: ../plugins/openoffice/openoffice-read.c:1310
+#: ../plugins/openoffice/openoffice-read.c:1311
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1315
+#: ../plugins/openoffice/openoffice-read.c:1316
 #, c-format
 msgid ""
-"This file is corrupted with a duplicate sheet name \"%s\", now renamed to \"%"
-"s\"."
+"This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
+"\"%s\"."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1328
+#: ../plugins/openoffice/openoffice-read.c:1329
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr ""
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:1336
+#: ../plugins/openoffice/openoffice-read.c:1337
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1687
-#: ../plugins/openoffice/openoffice-read.c:2011
+#: ../plugins/openoffice/openoffice-read.c:1475
+#, fuzzy, c-format
+msgid "Undefined validation style encountered: %s"
+msgstr "Se encontró la condición desconocida «%s», ignorando."
+
+#: ../plugins/openoffice/openoffice-read.c:1526
+#, c-format
+msgid ""
+"Unsupported validation condition encountered: \"%s\" with base address: \"%s"
+"\""
+msgstr ""
+
+#: ../plugins/openoffice/openoffice-read.c:1889
+#: ../plugins/openoffice/openoffice-read.c:2223
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "El contenido excedió el número máximo de filas soportadas (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:1822
+#: ../plugins/openoffice/openoffice-read.c:2026
 msgid "Missing expression"
 msgstr "Expresión perdida"
 
-#: ../plugins/openoffice/openoffice-read.c:1833
+#: ../plugins/openoffice/openoffice-read.c:2037
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "La expresión «%s» no empieza con un carácter reconocido"
 
-#: ../plugins/openoffice/openoffice-read.c:1984
+#: ../plugins/openoffice/openoffice-read.c:2196
 msgid "Invalid array expression does not specify number of columns."
 msgstr "La expresión del array no indica el número de columnas."
 
-#: ../plugins/openoffice/openoffice-read.c:1987
+#: ../plugins/openoffice/openoffice-read.c:2199
 msgid "Invalid array expression does not specify number of rows."
 msgstr "La expresión del array no indica el número de filas."
 
-#: ../plugins/openoffice/openoffice-read.c:2003
+#: ../plugins/openoffice/openoffice-read.c:2215
 #, fuzzy, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr "El contenido excedió el número máximo de filas soportadas (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:2217
+#: ../plugins/openoffice/openoffice-read.c:2429
 #, fuzzy
 msgid "Unnamed dash style encountered."
 msgstr "Se encontró un estilo de fila predeterminado duplicado."
 
-#: ../plugins/openoffice/openoffice-read.c:2235
+#: ../plugins/openoffice/openoffice-read.c:2447
 #, fuzzy
 msgid "Unnamed image fill style encountered."
 msgstr "Se encontró un estilo de columna predeterminado duplicado."
 
-#: ../plugins/openoffice/openoffice-read.c:2237
+#: ../plugins/openoffice/openoffice-read.c:2449
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2274
-#: ../plugins/openoffice/openoffice-read.c:2280
+#: ../plugins/openoffice/openoffice-read.c:2486
+#: ../plugins/openoffice/openoffice-read.c:2492
 #, fuzzy, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "No es posible pegar en la selección"
 
-#: ../plugins/openoffice/openoffice-read.c:2300
+#: ../plugins/openoffice/openoffice-read.c:2512
 #, fuzzy
 msgid "Unnamed gradient style encountered."
 msgstr "Se encontró un estilo de fila predeterminado duplicado."
 
-#: ../plugins/openoffice/openoffice-read.c:2321
+#: ../plugins/openoffice/openoffice-read.c:2533
 #, fuzzy, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "Ha sido imposible analizar el HTML."
 
-#: ../plugins/openoffice/openoffice-read.c:2395
+#: ../plugins/openoffice/openoffice-read.c:2607
 msgid "Unnamed hatch encountered!"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2475
+#: ../plugins/openoffice/openoffice-read.c:2687
 msgid "Duplicate default column style encountered."
 msgstr "Se encontró un estilo de columna predeterminado duplicado."
 
-#: ../plugins/openoffice/openoffice-read.c:2491
+#: ../plugins/openoffice/openoffice-read.c:2703
 msgid "Duplicate default row style encountered."
 msgstr "Se encontró un estilo de fila predeterminado duplicado."
 
-#: ../plugins/openoffice/openoffice-read.c:2892
+#: ../plugins/openoffice/openoffice-read.c:3104
 msgid "Unnamed date style ignored."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:3187
+#: ../plugins/openoffice/openoffice-read.c:3399
 msgid "Corrupted file: unnamed number style ignored."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:3220
-#: ../plugins/openoffice/openoffice-read.c:3247
-#: ../plugins/openoffice/openoffice-read.c:3275
-#: ../plugins/openoffice/openoffice-read.c:3312
-#: ../plugins/openoffice/openoffice-read.c:3338
-#: ../plugins/openoffice/openoffice-read.c:3366
+#: ../plugins/openoffice/openoffice-read.c:3432
+#: ../plugins/openoffice/openoffice-read.c:3459
+#: ../plugins/openoffice/openoffice-read.c:3487
+#: ../plugins/openoffice/openoffice-read.c:3524
+#: ../plugins/openoffice/openoffice-read.c:3550
+#: ../plugins/openoffice/openoffice-read.c:3578
 msgid "This file appears corrupted, required formats are missing."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:3682
+#: ../plugins/openoffice/openoffice-read.c:3894
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Tipo de salto «%s» desconocido, cambiando a NINGUNO"
 
-#: ../plugins/openoffice/openoffice-read.c:3750
+#: ../plugins/openoffice/openoffice-read.c:3962
 #, fuzzy, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Es imposible abrir el archivo «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:3762
+#: ../plugins/openoffice/openoffice-read.c:3974
 #, fuzzy, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "No ha sido posible activar la URL «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:3927
+#: ../plugins/openoffice/openoffice-read.c:4139
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Se encontró la condición desconocida «%s», ignorando."
 
-#: ../plugins/openoffice/openoffice-read.c:4269
+#: ../plugins/openoffice/openoffice-read.c:4481
 #, fuzzy, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Se encontró la condición desconocida «%s», ignorando."
 
-#: ../plugins/openoffice/openoffice-read.c:4522
+#: ../plugins/openoffice/openoffice-read.c:4734
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "la expresión «%s» @ «%s» no es una referencia de celda"
 
-#: ../plugins/openoffice/openoffice-read.c:4563
+#: ../plugins/openoffice/openoffice-read.c:4775
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Rango DB «%s» no válido"
 
-#: ../plugins/openoffice/openoffice-read.c:4799
-#: ../plugins/openoffice/openoffice-read.c:4838
+#: ../plugins/openoffice/openoffice-read.c:5011
+#: ../plugins/openoffice/openoffice-read.c:5050
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:4804
+#: ../plugins/openoffice/openoffice-read.c:5016
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
 "range' element."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:5392
+#: ../plugins/openoffice/openoffice-read.c:5604
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:5932
+#: ../plugins/openoffice/openoffice-read.c:6144
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:6074
+#: ../plugins/openoffice/openoffice-read.c:6286
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:6144
+#: ../plugins/openoffice/openoffice-read.c:6356
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:6615
+#: ../plugins/openoffice/openoffice-read.c:6827
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8330
+#: ../plugins/openoffice/openoffice-read.c:8542
 msgid "Unknown mimetype for openoffice file."
 msgstr "Tipo mime desconocido para el archivo openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:8338
+#: ../plugins/openoffice/openoffice-read.c:8550
 msgid "No stream named content.xml found."
 msgstr "No se encontró ningún flujo llamado content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:8346
+#: ../plugins/openoffice/openoffice-read.c:8558
 msgid "No stream named styles.xml found."
 msgstr "No se encontró ningún flujo llamado styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:8451
+#: ../plugins/openoffice/openoffice-read.c:8666
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Metadato inválido: «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:8512
+#: ../plugins/openoffice/openoffice-read.c:8727
 msgid "settings.xml stream is malformed!"
 msgstr "El flujo settings.xml está mal formado."
 
-#: ../plugins/openoffice/openoffice-write.c:6425
+#: ../plugins/openoffice/openoffice-write.c:6528
 msgid "Writing Sheets..."
 msgstr "Escribiendo hojas…"
 
-#: ../plugins/openoffice/openoffice-write.c:6454
+#: ../plugins/openoffice/openoffice-write.c:6557
 msgid "Writing Sheet Objects..."
 msgstr "Escribiendo objetos de hojas…"
 
@@ -1651,19 +1666,25 @@ msgstr "Reservar memoria para grabar los datos."
 msgid "Could not allocate memory for record data."
 msgstr "No se pudo reservar memoria para grabar los datos."
 
-#: ../plugins/paradox/paradox.c:532
-#, c-format
-msgid "Field %d in line %d has possibly been cut off. Data has %d chars."
-msgstr ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen %"
-"d caracteres."
+#: ../plugins/paradox/paradox.c:537
+#, fuzzy, c-format
+#| msgid "Field %d in line %d has possibly been cut off. Data has %d chars."
+msgid "Field %d in line %d has possibly been cut off. Data has %d character."
+msgid_plural ""
+"Field %d in line %d has possibly been cut off. Data has %d characters."
+msgstr[0] ""
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
+"%d caracteres."
+msgstr[1] ""
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
+"%d caracteres."
 
-#: ../plugins/paradox/paradox.c:541
+#: ../plugins/paradox/paradox.c:550
 #, c-format
 msgid "Field %d in row %d could not be written."
 msgstr "No se puede escribir el campo %d en la columna %d."
 
-#: ../plugins/paradox/paradox.c:578
+#: ../plugins/paradox/paradox.c:587
 #, c-format
 msgid "Could not write record number %d."
 msgstr "No se pudo escribir el número de registro %d."
@@ -2625,9 +2646,9 @@ msgid ""
 "this value."
 msgstr ""
 "Este valor determina la configuración predeterminada en el diálogo de "
-"«Configuración de impresión» para indicar si se debe imprimir primero el lado "
-"derecho, luego hacia abajo. Use el diálogo de «Configuración de impresión» "
-"para editar este valor."
+"«Configuración de impresión» para indicar si se debe imprimir primero el "
+"lado derecho, luego hacia abajo. Use el diálogo de «Configuración de "
+"impresión» para editar este valor."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:107
 msgid ""
@@ -2636,9 +2657,9 @@ msgid ""
 "this value."
 msgstr ""
 "Este valor determina la configuración predeterminada en el diálogo de "
-"«Configuración de impresión» para indicar si se deben imprimir sólo en blanco "
-"y negro. Use el diálogo de «Configuración de impresión» para editar este "
-"valor."
+"«Configuración de impresión» para indicar si se deben imprimir sólo en "
+"blanco y negro. Use el diálogo de «Configuración de impresión» para editar "
+"este valor."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:108
 msgid ""
@@ -2696,8 +2717,8 @@ msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
 msgstr ""
-"Este valor determina si de manera predeterminada el diálogo de «Configuración "
-"de impresión» se aplica a todas las hojas simultáneamente."
+"Este valor determina si de manera predeterminada el diálogo de "
+"«Configuración de impresión» se aplica a todas las hojas simultáneamente."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:114
 msgid ""
@@ -4596,7 +4617,7 @@ msgstr "No se encontraron registros coincidentes."
 #: ../src/dialogs/dialog-analysis-tools.c:666
 #: ../src/dialogs/dialog-analysis-tools.c:786
 #: ../src/dialogs/dialog-analysis-tools.c:2203
-#: ../src/dialogs/dialog-analysis-tools.c:3649 ../src/tools/filter.c:252
+#: ../src/dialogs/dialog-analysis-tools.c:3651 ../src/tools/filter.c:252
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Ha ocurrido un error inesperado: %d."
@@ -4622,8 +4643,8 @@ msgstr "_Filtro en el lugar"
 #: ../src/dialogs/dialog-analysis-tools.c:2549
 #: ../src/dialogs/dialog-analysis-tools.c:2908
 #: ../src/dialogs/dialog-analysis-tools.c:3196
-#: ../src/dialogs/dialog-analysis-tools.c:3475
-#: ../src/dialogs/dialog-analysis-tools.c:3689
+#: ../src/dialogs/dialog-analysis-tools.c:3477
+#: ../src/dialogs/dialog-analysis-tools.c:3691
 #: ../src/dialogs/dialog-shuffle.c:74
 msgid "The input range is invalid."
 msgstr "El rango de entrada no es válido."
@@ -4635,8 +4656,8 @@ msgstr "El rango de entrada es demasiado pequeño."
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:165
 #: ../src/dialogs/dialog-analysis-tool-normality.c:109
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:102
-#: ../src/dialogs/dialog-analysis-tools.c:3486
-#: ../src/dialogs/dialog-analysis-tools.c:3700
+#: ../src/dialogs/dialog-analysis-tools.c:3488
+#: ../src/dialogs/dialog-analysis-tools.c:3702
 msgid "The alpha value should be a number between 0 and 1."
 msgstr "El valor alfa debería ser un número entre 0 y 1."
 
@@ -4654,8 +4675,8 @@ msgstr "El valor alfa debería ser un número entre 0 y 1."
 #: ../src/dialogs/dialog-analysis-tools.c:2603
 #: ../src/dialogs/dialog-analysis-tools.c:2939
 #: ../src/dialogs/dialog-analysis-tools.c:3224
-#: ../src/dialogs/dialog-analysis-tools.c:3495
-#: ../src/dialogs/dialog-analysis-tools.c:3721
+#: ../src/dialogs/dialog-analysis-tools.c:3497
+#: ../src/dialogs/dialog-analysis-tools.c:3723
 #: ../src/dialogs/dialog-random-generator-cor.c:116
 msgid "The output specification is invalid."
 msgstr "La especificación de salida no es válida."
@@ -4997,17 +5018,17 @@ msgstr "El rango de entrada no es válido."
 msgid "The number of to be calculated cutoffs is invalid."
 msgstr "El numero de cutoffs que se calcula no es valido"
 
-#: ../src/dialogs/dialog-analysis-tools.c:3358
+#: ../src/dialogs/dialog-analysis-tools.c:3360
 msgid "Could not create the Histogram Tool dialog."
 msgstr "No se puede crear el diálogo para la herramienta de histograma."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3535
+#: ../src/dialogs/dialog-analysis-tools.c:3537
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr ""
 "No se puede crear el diálogo para la herramienta de análisis de varianza (un "
 "factor)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3615
+#: ../src/dialogs/dialog-analysis-tools.c:3617
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -5015,7 +5036,7 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos columnas y dos filas de "
 "datos y la etiquetas."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3618
+#: ../src/dialogs/dialog-analysis-tools.c:3620
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -5023,7 +5044,7 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos columnas y dos filas de "
 "datos."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3624
+#: ../src/dialogs/dialog-analysis-tools.c:3626
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -5031,13 +5052,13 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos o más columnas de datos "
 "y las etiquetas."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3627
+#: ../src/dialogs/dialog-analysis-tools.c:3629
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 "El rango de entrada dado debe contener al menos dos o más columnas de datos "
 "y las etiquetas."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3633
+#: ../src/dialogs/dialog-analysis-tools.c:3635
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
@@ -5045,20 +5066,20 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos filas de datos y las "
 "etiquetas."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3636
+#: ../src/dialogs/dialog-analysis-tools.c:3638
 msgid "The given input range should contain at least two rows of data."
 msgstr "El rango de entrada dado debe contener al menos dos filas de datos."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3643
+#: ../src/dialogs/dialog-analysis-tools.c:3645
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 "El número de filas de datos debe ser múltiplo del número de replicación."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3712
+#: ../src/dialogs/dialog-analysis-tools.c:3714
 msgid "The number of rows per sample should be a positive integer."
 msgstr "El número de filas por muestra debe ser un entero positivo."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3765
+#: ../src/dialogs/dialog-analysis-tools.c:3767
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr ""
 "No se puede crear el diálogo para la herramienta análisis de varianza (dos "
@@ -5511,8 +5532,8 @@ msgstr "Cambiar el ancho estándar/predeterminado de columna"
 msgid ""
 "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
-"Fijar el ancho de columna de selección a <span style='italic' weight='bold'>%"
-"s</span>"
+"Fijar el ancho de columna de selección a <span style='italic' weight='bold'>"
+"%s</span>"
 
 #: ../src/dialogs/dialog-consolidate.c:192
 #, c-format
@@ -6967,7 +6988,7 @@ msgstr "Si se selecciona esta casilla, la columna será importada a Gnumeric."
 #: ../src/tools/analysis-exp-smoothing.c:517
 #: ../src/tools/analysis-exp-smoothing.c:781
 #: ../src/tools/analysis-exp-smoothing.c:1103
-#: ../src/tools/analysis-frequency.c:148 ../src/tools/analysis-histogram.c:294
+#: ../src/tools/analysis-frequency.c:148 ../src/tools/analysis-histogram.c:316
 #: ../src/tools/analysis-tools.c:1216 ../src/tools/analysis-tools.c:3775
 #, c-format
 msgid "Column %d"
@@ -6992,7 +7013,7 @@ msgid "Line"
 msgstr "Línea"
 
 #: ../src/dialogs/dialog-stf-main-page.c:401
-#: ../src/widgets/gnumeric-expr-entry.c:1560
+#: ../src/widgets/gnumeric-expr-entry.c:1568
 msgid "Text"
 msgstr "Texto"
 
@@ -7132,7 +7153,7 @@ msgstr "Análisis de varianza - Un factor"
 #: ../src/dialogs/correlation.ui.h:2 ../src/dialogs/covariance.ui.h:2
 #: ../src/dialogs/descriptive-stats.ui.h:5 ../src/dialogs/exp-smoothing.ui.h:5
 #: ../src/dialogs/fourier-analysis.ui.h:2 ../src/dialogs/frequency.ui.h:7
-#: ../src/dialogs/histogram.ui.h:13 ../src/dialogs/moving-averages.ui.h:6
+#: ../src/dialogs/histogram.ui.h:14 ../src/dialogs/moving-averages.ui.h:6
 #: ../src/dialogs/normality-tests.ui.h:4
 #: ../src/dialogs/principal-components.ui.h:1 ../src/dialogs/rank.ui.h:1
 #: ../src/dialogs/sampling.ui.h:4 ../src/dialogs/sign-test.ui.h:1
@@ -7161,7 +7182,7 @@ msgstr "_Alfa:"
 #: ../src/dialogs/anova-one.ui.h:7 ../src/dialogs/chi-squared.ui.h:9
 #: ../src/dialogs/correlation.ui.h:5 ../src/dialogs/covariance.ui.h:5
 #: ../src/dialogs/descriptive-stats.ui.h:13 ../src/dialogs/frequency.ui.h:11
-#: ../src/dialogs/histogram.ui.h:22 ../src/dialogs/normality-tests.ui.h:12
+#: ../src/dialogs/histogram.ui.h:23 ../src/dialogs/normality-tests.ui.h:12
 #: ../src/dialogs/principal-components.ui.h:5 ../src/dialogs/rank.ui.h:7
 #: ../src/dialogs/sampling.ui.h:14 ../src/dialogs/sign-test.ui.h:9
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:5
@@ -7172,7 +7193,7 @@ msgstr "Á_reas"
 #: ../src/dialogs/colrow.ui.h:2 ../src/dialogs/correlation.ui.h:6
 #: ../src/dialogs/covariance.ui.h:6 ../src/dialogs/descriptive-stats.ui.h:14
 #: ../src/dialogs/fourier-analysis.ui.h:6 ../src/dialogs/frequency.ui.h:12
-#: ../src/dialogs/histogram.ui.h:24 ../src/dialogs/normality-tests.ui.h:13
+#: ../src/dialogs/histogram.ui.h:25 ../src/dialogs/normality-tests.ui.h:13
 #: ../src/dialogs/principal-components.ui.h:6 ../src/dialogs/rank.ui.h:9
 #: ../src/dialogs/sampling.ui.h:15 ../src/dialogs/shuffle.ui.h:5
 #: ../src/dialogs/sign-test.ui.h:10
@@ -7196,7 +7217,7 @@ msgstr "Rango de _entrada:"
 #: ../src/dialogs/chi-squared.ui.h:12 ../src/dialogs/correlation.ui.h:8
 #: ../src/dialogs/covariance.ui.h:8 ../src/dialogs/descriptive-stats.ui.h:17
 #: ../src/dialogs/exp-smoothing.ui.h:19 ../src/dialogs/fourier-analysis.ui.h:9
-#: ../src/dialogs/frequency.ui.h:15 ../src/dialogs/histogram.ui.h:27
+#: ../src/dialogs/frequency.ui.h:15 ../src/dialogs/histogram.ui.h:28
 #: ../src/dialogs/mean-tests.ui.h:15 ../src/dialogs/moving-averages.ui.h:19
 #: ../src/dialogs/normality-tests.ui.h:15
 #: ../src/dialogs/principal-components.ui.h:8 ../src/dialogs/rank.ui.h:11
@@ -7213,7 +7234,7 @@ msgstr "E_tiquetas"
 #: ../src/dialogs/covariance.ui.h:9 ../src/dialogs/descriptive-stats.ui.h:18
 #: ../src/dialogs/exp-smoothing.ui.h:20
 #: ../src/dialogs/fourier-analysis.ui.h:10 ../src/dialogs/frequency.ui.h:20
-#: ../src/dialogs/histogram.ui.h:32 ../src/dialogs/moving-averages.ui.h:20
+#: ../src/dialogs/histogram.ui.h:33 ../src/dialogs/moving-averages.ui.h:20
 #: ../src/dialogs/normality-tests.ui.h:16
 #: ../src/dialogs/principal-components.ui.h:9 ../src/dialogs/rank.ui.h:12
 #: ../src/dialogs/sampling.ui.h:22 ../src/dialogs/shuffle.ui.h:6
@@ -7233,7 +7254,7 @@ msgid "ANOVA - Two-Factor"
 msgstr "Análisis de varianza - Dos factores"
 
 #: ../src/dialogs/anova-two.ui.h:4 ../src/dialogs/frequency.ui.h:8
-#: ../src/dialogs/histogram.ui.h:16
+#: ../src/dialogs/histogram.ui.h:17
 msgid "Input _range:"
 msgstr "Rango de _entrada:"
 
@@ -7267,9 +7288,8 @@ msgid "begins with"
 msgstr ""
 
 #: ../src/dialogs/autofilter-expression.ui.h:6
-#, fuzzy
 msgid "contains"
-msgstr "contenido"
+msgstr "contiene"
 
 #: ../src/dialogs/autofilter-expression.ui.h:7
 msgid "does not begin with"
@@ -7326,7 +7346,7 @@ msgstr "Abajo"
 
 #: ../src/dialogs/autofilter-top10.ui.h:3
 msgid "Items"
-msgstr ""
+msgstr "Elementos"
 
 #: ../src/dialogs/autofilter-top10.ui.h:4 ../src/wbc-gtk-actions.c:2656
 msgid "Percentage"
@@ -7682,7 +7702,7 @@ msgstr "Sup_eríndice"
 
 #: ../src/dialogs/cell-format.ui.h:74
 msgid "Text length"
-msgstr ""
+msgstr "Longitud del texto"
 
 #: ../src/dialogs/cell-format.ui.h:75
 msgid "Thatch"
@@ -8057,9 +8077,8 @@ msgid "C_lear output range"
 msgstr "_Limpiar rango de salida"
 
 #: ../src/dialogs/dao.ui.h:6
-#, fuzzy
 msgid "Formulas"
-msgstr "_Formatos"
+msgstr "Fórmulas"
 
 #: ../src/dialogs/dao.ui.h:7
 msgid "New _sheet"
@@ -8082,9 +8101,8 @@ msgid "Retain output range co_mments"
 msgstr "Retener co_mentarios del rango de salida"
 
 #: ../src/dialogs/dao.ui.h:12
-#, fuzzy
 msgid "Values"
-msgstr "Valor"
+msgstr "Valores"
 
 #: ../src/dialogs/dao.ui.h:13
 msgid "_Enter into cells:"
@@ -8211,32 +8229,28 @@ msgstr ""
 "hojas:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:8
-#, fuzzy
 msgid "Colon (:)"
-msgstr "_Dos puntos (:)"
+msgstr "Dos puntos (:)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:9
-#, fuzzy
 msgid "Comma (,)"
-msgstr "_Coma (,)"
+msgstr "Coma (,)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:11
 msgid "Deselect all sheets for export."
 msgstr "Deseleccione todas las hojas para exportar."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:12
-#, fuzzy
 msgid "Escape"
-msgstr "Paisaje"
+msgstr "Escape"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:13
 msgid "Export as Text"
 msgstr "Exportar como texto"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:14
-#, fuzzy
 msgid "Hyphen (-)"
-msgstr "_Guión (-)"
+msgstr "Guión (-)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:15
 msgid "Line _termination:"
@@ -8317,23 +8331,20 @@ msgid "Select all non-empty sheets for export."
 msgstr "Seleccionar todas las hojas no vacías para exportar."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
-#, fuzzy
 msgid "Semicolon (;)"
-msgstr "_Punto y coma (;)"
+msgstr "Punto y coma (;)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:32
 msgid "Slash (/)"
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.ui.h:33
-#, fuzzy
 msgid "Space"
-msgstr "_Espacio"
+msgstr "Espacio"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:34
-#, fuzzy
 msgid "Tab"
-msgstr "_Tabulador"
+msgstr "Tabulador"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:35
 #, fuzzy
@@ -8864,15 +8875,15 @@ msgstr "n"
 
 #: ../src/dialogs/exp-smoothing.ui.h:23 ../src/dialogs/moving-averages.ui.h:23
 msgid "n&#x2212;1"
-msgstr ""
+msgstr "n&#x2212;1"
 
 #: ../src/dialogs/exp-smoothing.ui.h:24 ../src/dialogs/moving-averages.ui.h:24
 msgid "n&#x2212;2"
-msgstr ""
+msgstr "n&#x2212;2"
 
 #: ../src/dialogs/exp-smoothing.ui.h:25
 msgid "n&#x2212;3"
-msgstr ""
+msgstr "n&#x2212;3"
 
 #: ../src/dialogs/fill-series.ui.h:1
 msgid "D_ay"
@@ -9000,7 +9011,7 @@ msgstr "Gráfico de columnas"
 msgid "Frequency Tables"
 msgstr "Tablas de frecuencia"
 
-#: ../src/dialogs/frequency.ui.h:9 ../src/dialogs/histogram.ui.h:19
+#: ../src/dialogs/frequency.ui.h:9 ../src/dialogs/histogram.ui.h:20
 msgid "No chart"
 msgstr "Sin gráfico"
 
@@ -9008,11 +9019,11 @@ msgstr "Sin gráfico"
 msgid "Use e_xact comparisons"
 msgstr "Usar comparaciones e_xactas"
 
-#: ../src/dialogs/frequency.ui.h:13 ../src/dialogs/histogram.ui.h:25
+#: ../src/dialogs/frequency.ui.h:13 ../src/dialogs/histogram.ui.h:26
 msgid "_Graphs & Options"
 msgstr "_Gráficas y opciones"
 
-#: ../src/dialogs/frequency.ui.h:14 ../src/dialogs/histogram.ui.h:26
+#: ../src/dialogs/frequency.ui.h:14 ../src/dialogs/histogram.ui.h:27
 #: ../src/dialogs/kaplan-meier.ui.h:14 ../src/dialogs/mean-tests.ui.h:13
 #: ../src/dialogs/regression.ui.h:9 ../src/dialogs/sampling.ui.h:16
 #: ../src/dialogs/sign-test-two.ui.h:9
@@ -9023,14 +9034,14 @@ msgstr "_Entrada"
 msgid "_Maximum number of categories:"
 msgstr "Número _máximo de categorías:"
 
-#: ../src/dialogs/frequency.ui.h:17 ../src/dialogs/histogram.ui.h:29
+#: ../src/dialogs/frequency.ui.h:17 ../src/dialogs/histogram.ui.h:30
 #: ../src/dialogs/kaplan-meier.ui.h:15 ../src/dialogs/mean-tests.ui.h:16
 #: ../src/dialogs/regression.ui.h:12 ../src/dialogs/sampling.ui.h:19
 #: ../src/dialogs/sign-test-two.ui.h:11
 msgid "_Output"
 msgstr "_Salida"
 
-#: ../src/dialogs/frequency.ui.h:18 ../src/dialogs/histogram.ui.h:30
+#: ../src/dialogs/frequency.ui.h:18 ../src/dialogs/histogram.ui.h:31
 msgid "_Percentages"
 msgstr "_Porcentajes"
 
@@ -9167,40 +9178,28 @@ msgid "<b>Select a date format:</b>"
 msgstr "<b>Seleccione un formato de fecha:</b>"
 
 #: ../src/dialogs/histogram.ui.h:1
-msgid ""
-"(&#x2212;&#x221E;,&#x2219;), [&#x2219;,&#x2219;), &#x22EF;, [&#x2219;,"
-"&#x2219;), [&#x2219;,&#x221E;)"
-msgstr ""
+msgid "(−∞,∙), [∙,∙), ⋯, [∙,∙), [∙,∞)"
+msgstr "(−∞,∙), [∙,∙), ⋯, [∙,∙), [∙,∞)"
 
 #: ../src/dialogs/histogram.ui.h:2
-msgid ""
-"(&#x2212;&#x221E;,&#x2219;),[&#x2219;,&#x2219;),&#x22EF;,[&#x2219;,&#x2219;),"
-"[&#x2219;,&#x2219;)"
-msgstr ""
+msgid "(−∞,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
+msgstr "(−∞,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
 
 #: ../src/dialogs/histogram.ui.h:3
-msgid ""
-"(&#x2212;&#x221E;,&#x2219;], (&#x2219;,&#x2219;], &#x22EF;, (&#x2219;,"
-"&#x2219;], (&#x2219;,&#x221E;)"
-msgstr ""
+msgid "(−∞,∙], (∙,∙], ⋯, (∙,∙], (∙,∞)"
+msgstr "(−∞,∙], (∙,∙], ⋯, (∙,∙], (∙,∞)"
 
 #: ../src/dialogs/histogram.ui.h:4
-msgid ""
-"(&#x2212;&#x221E;,&#x2219;],(&#x2219;,&#x2219;],&#x22EF;,(&#x2219;,&#x2219;],"
-"(&#x2219;,&#x2219;]"
-msgstr ""
+msgid "(−∞,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
+msgstr "(−∞,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
 
 #: ../src/dialogs/histogram.ui.h:5
-msgid ""
-"(&#x2219;,&#x2219;],(&#x2219;,&#x2219;],&#x22EF;,(&#x2219;,&#x2219;],"
-"(&#x2219;,&#x2219;]"
-msgstr ""
+msgid "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
+msgstr "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
 
 #: ../src/dialogs/histogram.ui.h:6
-msgid ""
-"(&#x2219;,&#x2219;],(&#x2219;,&#x2219;],&#x22EF;,(&#x2219;,&#x2219;],"
-"(&#x2219;,&#x221E;)"
-msgstr ""
+msgid "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∞)"
+msgstr "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∞)"
 
 #: ../src/dialogs/histogram.ui.h:8
 #, fuzzy
@@ -9217,51 +9216,51 @@ msgid "C_utoffs"
 msgstr "Pe_rsonalizado"
 
 #: ../src/dialogs/histogram.ui.h:12
+msgid "Count numbers only"
+msgstr ""
+
+#: ../src/dialogs/histogram.ui.h:13
 #, fuzzy
 msgid "Cutoff _range:"
 msgstr "Rango de _entrada:"
 
-#: ../src/dialogs/histogram.ui.h:14 ../src/tools/analysis-histogram.c:138
-#: ../src/tools/analysis-histogram.c:440 ../src/tools/analysis-histogram.c:443
+#: ../src/dialogs/histogram.ui.h:15 ../src/tools/analysis-histogram.c:160
+#: ../src/tools/analysis-histogram.c:462 ../src/tools/analysis-histogram.c:465
 msgid "Histogram"
 msgstr "Histograma"
 
-#: ../src/dialogs/histogram.ui.h:15
+#: ../src/dialogs/histogram.ui.h:16
 msgid "Histogram chart"
 msgstr "Gráfico de histograma"
 
-#: ../src/dialogs/histogram.ui.h:17
+#: ../src/dialogs/histogram.ui.h:18
 #, fuzzy
 msgid "M_inimum cutoff:"
 msgstr "Mínimo"
 
-#: ../src/dialogs/histogram.ui.h:18
+#: ../src/dialogs/histogram.ui.h:19
 #, fuzzy
 msgid "Ma_ximum cutoff:"
 msgstr "(Má_ximo):"
 
-#: ../src/dialogs/histogram.ui.h:20
-msgid ""
-"[&#x2219;,&#x2219;),[&#x2219;,&#x2219;),&#x22EF;,[&#x2219;,&#x2219;),"
-"[&#x2219;,&#x2219;)"
-msgstr ""
-
 #: ../src/dialogs/histogram.ui.h:21
-msgid ""
-"[&#x2219;,&#x2219;),[&#x2219;,&#x2219;),&#x22EF;,[&#x2219;,&#x2219;),"
-"[&#x2219;,&#x221E;)"
-msgstr ""
+msgid "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
+msgstr "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
 
-#: ../src/dialogs/histogram.ui.h:23
+#: ../src/dialogs/histogram.ui.h:22
+msgid "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∞)"
+msgstr "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∞)"
+
+#: ../src/dialogs/histogram.ui.h:24
 msgid "_Bins"
 msgstr "_Binarios"
 
-#: ../src/dialogs/histogram.ui.h:28
+#: ../src/dialogs/histogram.ui.h:29
 #, fuzzy
 msgid "_Number of cutoffs:"
 msgstr "Número de iteraciones"
 
-#: ../src/dialogs/histogram.ui.h:31
+#: ../src/dialogs/histogram.ui.h:32
 #, fuzzy
 msgid "_Predetermined cutoffs"
 msgstr "Binarios _predeterminados"
@@ -10753,15 +10752,15 @@ msgstr "_Vertical"
 
 #: ../src/dialogs/solver.ui.h:1
 msgid "&#x2264;"
-msgstr ""
+msgstr "&#x2264;"
 
 #: ../src/dialogs/solver.ui.h:2
 msgid "&#x2265;"
-msgstr ""
+msgstr "&#x2265;"
 
 #: ../src/dialogs/solver.ui.h:3
 msgid "="
-msgstr ""
+msgstr "="
 
 #: ../src/dialogs/solver.ui.h:4
 msgid "Assume _Integer (Discrete)"
@@ -10975,7 +10974,7 @@ msgstr "_Autocompletar texto en las celdas"
 
 #: ../src/dialogs/workbook-attr.ui.h:2
 msgid "Notebook _Tabs for Sheets"
-msgstr "Encuadernar _solapas para las hojas"
+msgstr "Encuadernar pe_stañas para las hojas"
 
 #: ../src/dialogs/workbook-attr.ui.h:3
 msgid "Pa_ssword:"
@@ -12648,19 +12647,19 @@ msgstr "Cómo formatear las expresiones mostradas, (un interfaz conveniente)"
 
 #: ../src/sheet.c:983
 msgid "Tab Foreground"
-msgstr "Primer plano de la solapa"
+msgstr "Primer plano de la pestaña"
 
 #: ../src/sheet.c:984
 msgid "The foreground color of the tab."
-msgstr "El color de la solapa en primer plano."
+msgstr "El color de la pestaña en primer plano."
 
 #: ../src/sheet.c:989
 msgid "Tab Background"
-msgstr "Fondo de la solapa"
+msgstr "Fondo de la pestaña"
 
 #: ../src/sheet.c:990
 msgid "The background color of the tab."
-msgstr "El color de fonde de la solapa."
+msgstr "El color de fondo de la pestaña."
 
 #: ../src/sheet.c:997
 msgid "Zoom Factor"
@@ -13252,7 +13251,7 @@ msgstr "«α =» * 0.000"
 #: ../src/tools/analysis-exp-smoothing.c:517
 #: ../src/tools/analysis-exp-smoothing.c:781
 #: ../src/tools/analysis-exp-smoothing.c:1103
-#: ../src/tools/analysis-frequency.c:145 ../src/tools/analysis-histogram.c:291
+#: ../src/tools/analysis-frequency.c:145 ../src/tools/analysis-histogram.c:313
 #: ../src/tools/analysis-tools.c:1213 ../src/tools/analysis-tools.c:3772
 #, c-format
 msgid "Row %d"
@@ -13318,7 +13317,7 @@ msgstr "Suavizado exponencial (%s)"
 msgid "/Frequency Table/Category"
 msgstr ""
 
-#: ../src/tools/analysis-frequency.c:151 ../src/tools/analysis-histogram.c:297
+#: ../src/tools/analysis-frequency.c:151 ../src/tools/analysis-histogram.c:319
 #: ../src/tools/analysis-tools.c:1219
 #, c-format
 msgid "Area %d"
@@ -13336,34 +13335,34 @@ msgstr "Frecuencia"
 
 #. translator note: do not translate the "General"
 #. part of the following strings.
-#: ../src/tools/analysis-histogram.c:158
+#: ../src/tools/analysis-histogram.c:180
 msgid "\"to below\" * General"
 msgstr ""
 
-#: ../src/tools/analysis-histogram.c:158
+#: ../src/tools/analysis-histogram.c:180
 msgid "\"up to\" * General"
 msgstr ""
 
-#: ../src/tools/analysis-histogram.c:243
+#: ../src/tools/analysis-histogram.c:265
 msgid "\"to\" * \"∞\""
 msgstr "«de» * «∞»"
 
 #. translator note: do not translate the "General" part
 #. of the following strings.
-#: ../src/tools/analysis-histogram.c:255
+#: ../src/tools/analysis-histogram.c:277
 #, fuzzy
 msgid "\"from\" * General"
 msgstr "Formatear como general"
 
-#: ../src/tools/analysis-histogram.c:255
+#: ../src/tools/analysis-histogram.c:277
 msgid "\"above\" * General"
 msgstr ""
 
-#: ../src/tools/analysis-histogram.c:259
+#: ../src/tools/analysis-histogram.c:281
 msgid "\"from\" * \"−∞\";\"from\" * \"−∞\""
 msgstr ""
 
-#: ../src/tools/analysis-histogram.c:415
+#: ../src/tools/analysis-histogram.c:437
 #, c-format
 msgid "Histogram (%s)"
 msgstr "Histograma (%s)"
@@ -13978,7 +13977,6 @@ msgid "Failed to save linear program"
 msgstr ""
 
 #: ../src/tools/gnm-solver.c:1192
-#, fuzzy
 msgid "status"
 msgstr "estado"
 
@@ -13996,18 +13994,16 @@ msgid "Current best feasible result"
 msgstr ""
 
 #: ../src/tools/gnm-solver.c:1215
-#, fuzzy
 msgid "Start Time"
-msgstr "Iniciar búsqueda"
+msgstr "Tiempo de inicio"
 
 #: ../src/tools/gnm-solver.c:1216
 msgid "Time the solver was started"
 msgstr ""
 
 #: ../src/tools/gnm-solver.c:1222
-#, fuzzy
 msgid "End Time"
-msgstr "Hora"
+msgstr "Tiempo de finalización"
 
 #: ../src/tools/gnm-solver.c:1223
 msgid "Time the solver finished"
@@ -14450,7 +14446,7 @@ msgstr "_Borrar"
 
 #: ../src/wbc-gtk-actions.c:1899
 msgid "_Modify"
-msgstr ""
+msgstr "_Modificar"
 
 #: ../src/wbc-gtk-actions.c:1900
 msgid "S_heet"
@@ -16751,19 +16747,19 @@ msgstr "Introducir fórmula…"
 msgid "Open %s"
 msgstr "Abrir %s"
 
-#: ../src/wbc-gtk.c:5681
+#: ../src/wbc-gtk.c:5690
 msgid "Autosave prompt"
 msgstr "Preguntar si autoguardar"
 
-#: ../src/wbc-gtk.c:5682
+#: ../src/wbc-gtk.c:5691
 msgid "Ask about autosave?"
 msgstr "¿Preguntar si autoguardar?"
 
-#: ../src/wbc-gtk.c:5688
+#: ../src/wbc-gtk.c:5697
 msgid "Autosave time in seconds"
 msgstr "Tiempo de autoguardar en segundos"
 
-#: ../src/wbc-gtk.c:5689
+#: ../src/wbc-gtk.c:5698
 msgid "Seconds before autosave"
 msgstr "Seguntos antes de autoguardar"
 
@@ -16802,22 +16798,35 @@ msgstr "%s no admite argumentos"
 msgid "Too many arguments for %s"
 msgstr "Demasiados argumentos para %s"
 
+#: ../src/widgets/gnumeric-expr-entry.c:793
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "<i>F4 to complete</i>"
+msgid ""
+"\n"
+"\n"
+"<i>Ctrl-F4 to close tooltip</i>"
+msgstr ""
+"\n"
+"<i>F4 para completar</i>"
+
 #. xgettext: the first %s is a function name and
 #. the second %s the function description
-#: ../src/widgets/gnumeric-expr-entry.c:819
+#: ../src/widgets/gnumeric-expr-entry.c:820
 #, c-format
 msgid "%s : \t%s\n"
 msgstr "%s : \t%s\n"
 
 #. xgettext: the first %s is a function name and
 #. the second %s the function description
-#: ../src/widgets/gnumeric-expr-entry.c:824
+#: ../src/widgets/gnumeric-expr-entry.c:825
 #, c-format
 msgid "[%s : \t%s]\n"
 msgstr "[%s : \t%s]\n"
 
 #. xgettext: short form for: "type F4-key to complete the name"
-#: ../src/widgets/gnumeric-expr-entry.c:837
+#: ../src/widgets/gnumeric-expr-entry.c:838
 msgid ""
 "\n"
 "<i>F4 to complete</i>"
@@ -16826,7 +16835,7 @@ msgstr ""
 "<i>F4 para completar</i>"
 
 #. xgettext: short form for: "type shift-F4-keys to select the completion"
-#: ../src/widgets/gnumeric-expr-entry.c:840
+#: ../src/widgets/gnumeric-expr-entry.c:841
 msgid ""
 "\n"
 "<i>⇧F4 to select</i>"
@@ -16834,51 +16843,51 @@ msgstr ""
 "\n"
 "<i>⇧F4 para seleccionar</i>"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1544
+#: ../src/widgets/gnumeric-expr-entry.c:1552
 msgid "Update policy"
 msgstr "Actualizar política"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1545
+#: ../src/widgets/gnumeric-expr-entry.c:1553
 msgid "How frequently changes to the entry should be applied"
 msgstr "Con qué frecuencia se deben aplicar los cambios sobre la entrada"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1552
+#: ../src/widgets/gnumeric-expr-entry.c:1560
 msgid "With icon"
 msgstr "Con icono"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1553
+#: ../src/widgets/gnumeric-expr-entry.c:1561
 msgid "Should there be an icon to the right of the entry?"
 msgstr "¿Debería existir un icono a la derecha de la entrada?"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1561
+#: ../src/widgets/gnumeric-expr-entry.c:1569
 msgid "The contents of the entry"
 msgstr "El contenido de la entrada"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1574
+#: ../src/widgets/gnumeric-expr-entry.c:1582
 msgid "SheetControlGUI"
 msgstr "IGU de control de hoja"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1575
+#: ../src/widgets/gnumeric-expr-entry.c:1583
 msgid "The GUI container associated with the entry."
 msgstr "El contenedor IGU asociada con la entrada"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1582
+#: ../src/widgets/gnumeric-expr-entry.c:1590
 msgid "WBCGtk"
 msgstr "WBCGtk"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1583
+#: ../src/widgets/gnumeric-expr-entry.c:1591
 msgid "The toplevel GUI container associated with the entry."
 msgstr "El contenedor IGU de nivel superior asociado con la entrada."
 
-#: ../src/widgets/gnumeric-expr-entry.c:1590
+#: ../src/widgets/gnumeric-expr-entry.c:1598
 msgid "Constant Format"
 msgstr "Formato constante"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1591
+#: ../src/widgets/gnumeric-expr-entry.c:1599
 msgid "Format for constants"
 msgstr "Formatear para constantes"
 
-#: ../src/widgets/gnumeric-expr-entry.c:2491
+#: ../src/widgets/gnumeric-expr-entry.c:2499
 #, c-format
 msgid "Expecting a single range"
 msgstr "Se espera un rango simple"
@@ -17045,11 +17054,11 @@ msgstr "Mostrar la barra de desplazamiento vertical"
 
 #: ../src/workbook-view.c:928
 msgid "Show notebook tabs"
-msgstr "Mostrar las solapas del libro de notas"
+msgstr "Mostrar las pestañas del libro de notas"
 
 #: ../src/workbook-view.c:929
 msgid "Show the notebook tabs for sheets"
-msgstr "Mostrar las solapas del libro de notas para las hojas"
+msgstr "Mostrar las pestañas del libro de notas para las hojas"
 
 #: ../src/workbook-view.c:937
 msgid "Show formula cell markers"
@@ -17145,7 +17154,7 @@ msgstr "Insertando %d hojas"
 
 #: ../src/workbook.c:1423
 msgid "Changing sheet tab colors"
-msgstr "Cambiando colores de solapa de la hoja"
+msgstr "Cambiando colores de pestaña de la hoja"
 
 #: ../src/workbook.c:1425
 msgid "Changing sheet properties"
@@ -17579,30 +17588,6 @@ msgstr "Una plantilla de lista simple"
 
 #~ msgid "n−3"
 #~ msgstr "n−3"
-
-#~ msgid "(−∞,∙), [∙,∙), ⋯, [∙,∙), [∙,∞)"
-#~ msgstr "(−∞,∙), [∙,∙), ⋯, [∙,∙), [∙,∞)"
-
-#~ msgid "(−∞,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
-#~ msgstr "(−∞,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
-
-#~ msgid "(−∞,∙], (∙,∙], ⋯, (∙,∙], (∙,∞)"
-#~ msgstr "(−∞,∙], (∙,∙], ⋯, (∙,∙], (∙,∞)"
-
-#~ msgid "(−∞,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
-#~ msgstr "(−∞,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
-
-#~ msgid "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
-#~ msgstr "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
-
-#~ msgid "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∞)"
-#~ msgstr "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∞)"
-
-#~ msgid "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
-#~ msgstr "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
-
-#~ msgid "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∞)"
-#~ msgstr "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∞)"
 
 #~ msgid ""
 #~ "≤\n"
