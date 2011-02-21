@@ -395,12 +395,13 @@ setup_color_pickers (FormatState *state,
 		 wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
 	combo = go_combo_color_new (NULL, default_caption,
 		def_sc ? def_sc->go_color : GO_COLOR_BLACK, cg);
+	g_object_unref (cg);
 	go_combo_box_set_title (GO_COMBO_BOX (combo), caption);
 
 	/* Connect to the sample canvas and redraw it */
 	g_signal_connect (G_OBJECT (combo),
-		"color_changed",
-		G_CALLBACK (preview_update), state);
+			  "color_changed",
+			  G_CALLBACK (preview_update), state);
 
 	if (mcolor && !mcolor->is_auto)
 		go_combo_color_set_color (GO_COMBO_COLOR (combo),
@@ -494,11 +495,11 @@ fmt_dialog_init_format_page (FormatState *state)
 	if (state->value)
 		gnm_format_sel_set_value (gfs, state->value);
 	go_format_sel_set_dateconv (gfs,
-		workbook_date_conv (state->sheet->workbook));
+				    workbook_date_conv (state->sheet->workbook));
 	go_format_sel_editable_enters (gfs, GTK_WINDOW (state->dialog));
 
 	g_signal_connect (G_OBJECT (state->format_sel), "format_changed",
-		G_CALLBACK (cb_number_format_changed), state);
+			  G_CALLBACK (cb_number_format_changed), state);
 }
 
 /*****************************************************************************/
@@ -527,7 +528,7 @@ cb_align_h_toggle (GtkToggleButton *button, FormatState *state)
 	if (state->enable_edit) {
 		GnmHAlign const new_h =
 			GPOINTER_TO_INT (g_object_get_data (
-				G_OBJECT (button), "align"));
+						 G_OBJECT (button), "align"));
 		gboolean const supports_indent =
 			(new_h == HALIGN_LEFT || new_h == HALIGN_RIGHT);
 		gnm_style_set_align_h (state->result, new_h);
@@ -550,7 +551,7 @@ cb_align_v_toggle (GtkToggleButton *button, FormatState *state)
 		gnm_style_set_align_v (
 			state->result,
 			GPOINTER_TO_INT (g_object_get_data (
-			G_OBJECT (button), "align")));
+						 G_OBJECT (button), "align")));
 		fmt_dialog_changed (state);
 	}
 }
@@ -560,7 +561,7 @@ cb_align_wrap_toggle (GtkToggleButton *button, FormatState *state)
 {
 	if (state->enable_edit) {
 		gnm_style_set_wrap_text (state->result,
-				      gtk_toggle_button_get_active (button));
+					 gtk_toggle_button_get_active (button));
 		fmt_dialog_changed (state);
 	}
 }
@@ -576,10 +577,10 @@ fmt_dialog_init_align_radio (char const *const name,
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp),
 					      val == target);
 		g_object_set_data (G_OBJECT (tmp), "align",
-				     GINT_TO_POINTER (val));
+				   GINT_TO_POINTER (val));
 		g_signal_connect (G_OBJECT (tmp),
-			"toggled",
-			handler, state);
+				  "toggled",
+				  handler, state);
 	}
 }
 
@@ -653,8 +654,8 @@ fmt_dialog_init_align_page (FormatState *state)
 	state->align.wrap = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), wrap);
 	g_signal_connect (G_OBJECT (w),
-		"toggled",
-		G_CALLBACK (cb_align_wrap_toggle), state);
+			  "toggled",
+			  G_CALLBACK (cb_align_wrap_toggle), state);
 
 	if (0 == (state->conflicts & (1 << MSTYLE_INDENT)) ||
 	    (h != HALIGN_LEFT && h != HALIGN_RIGHT))
@@ -674,8 +675,8 @@ fmt_dialog_init_align_page (FormatState *state)
 
 	/* Catch changes to the spin box */
 	g_signal_connect (G_OBJECT (w),
-		"value-changed",
-		G_CALLBACK (cb_indent_changed), state);
+			  "value-changed",
+			  G_CALLBACK (cb_indent_changed), state);
 
 	/* Catch <return> in the spin box */
 	gnumeric_editable_enters (
@@ -694,7 +695,7 @@ fmt_dialog_init_align_page (FormatState *state)
 	                    GTK_WIDGET (state->align.rotation), TRUE, TRUE, 0);
 	go_rotation_sel_set_rotation (state->align.rotation, r);
 	g_signal_connect (G_OBJECT (state->align.rotation), "rotation-changed",
-		G_CALLBACK (cb_rotation_changed), state);
+			  G_CALLBACK (cb_rotation_changed), state);
 }
 
 /*****************************************************************************/
@@ -751,8 +752,8 @@ cb_font_preview_color (G_GNUC_UNUSED GOComboColor *combo,
 		return;
 
 	col = is_default
-	       ? style_color_auto_font ()
-	       : style_color_new_go (c);
+		? style_color_auto_font ()
+		: style_color_new_go (c);
 	font_selector_set_color (state->font.selector, col);
 }
 
@@ -857,10 +858,10 @@ fmt_dialog_init_font_page (FormatState *state)
 	} else
 		uline_str = "";
 	go_combo_text_set_text	(GO_COMBO_TEXT (uline), uline_str,
-		GO_COMBO_TEXT_FROM_TOP);
+				 GO_COMBO_TEXT_FROM_TOP);
 	g_signal_connect (G_OBJECT (uline),
-		"entry_changed",
-		G_CALLBACK (cb_font_underline_changed), state);
+			  "entry_changed",
+			  G_CALLBACK (cb_font_underline_changed), state);
 	gtk_widget_show_all (uline);
 	gtk_box_pack_start (GTK_BOX (go_gtk_builder_get_widget (state->gui, "underline-box")),
 	                    uline, TRUE, TRUE, 0);
@@ -873,8 +874,8 @@ fmt_dialog_init_font_page (FormatState *state)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (strike), strikethrough);
 	font_selector_set_strike (state->font.selector, strikethrough);
 	g_signal_connect (G_OBJECT (strike),
-		"toggled",
-		G_CALLBACK (cb_font_strike_toggle), state);
+			  "toggled",
+			  G_CALLBACK (cb_font_strike_toggle), state);
 
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_SCRIPT)))
 		script = gnm_style_get_font_script (state->style);
@@ -882,16 +883,16 @@ fmt_dialog_init_font_page (FormatState *state)
 	if (NULL != (tmp = go_gtk_builder_get_widget (state->gui, "superscript_button"))) {
 		state->font.superscript = GTK_TOGGLE_BUTTON (tmp);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp),
-			script == GO_FONT_SCRIPT_SUPER);
+					      script == GO_FONT_SCRIPT_SUPER);
 		g_signal_connect (G_OBJECT (tmp), "toggled",
-			G_CALLBACK (cb_font_script_toggle), state);
+				  G_CALLBACK (cb_font_script_toggle), state);
 	}
 	if (NULL != (tmp =  go_gtk_builder_get_widget (state->gui, "subscript_button"))) {
 		state->font.subscript = GTK_TOGGLE_BUTTON (tmp);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp),
-			script == GO_FONT_SCRIPT_SUB);
+					      script == GO_FONT_SCRIPT_SUB);
 		g_signal_connect (G_OBJECT (tmp), "toggled",
-			G_CALLBACK (cb_font_script_toggle), state);
+				  G_CALLBACK (cb_font_script_toggle), state);
 	}
 
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_COLOR)))
@@ -900,8 +901,8 @@ fmt_dialog_init_font_page (FormatState *state)
 			style_color_ref (gnm_style_get_font_color (state->style)));
 
 	g_signal_connect (G_OBJECT (font_widget),
-		"font_changed",
-		G_CALLBACK (cb_font_changed), state);
+			  "font_changed",
+			  G_CALLBACK (cb_font_changed), state);
 }
 
 /*****************************************************************************/
@@ -918,8 +919,8 @@ back_style_changed (FormatState *state)
 		gnm_style_merge_element (state->result, state->back.style, MSTYLE_COLOR_BACK);
 		gnm_style_merge_element (state->result, state->back.style, MSTYLE_COLOR_PATTERN);
 		goc_item_set (GOC_ITEM (state->back.grid),
-			"default-style",	state->back.style,
-			NULL);
+			      "default-style",	state->back.style,
+			      NULL);
 	}
 }
 
@@ -955,8 +956,8 @@ cb_pattern_preview_color (G_GNUC_UNUSED GOComboColor *combo,
 			  gboolean is_default, FormatState *state)
 {
 	GnmColor *col = is_default
-			   ? sheet_style_get_auto_pattern_color (state->sheet)
-			   : style_color_new_go (c);
+		? sheet_style_get_auto_pattern_color (state->sheet)
+		: style_color_new_go (c);
 
 	gnm_style_set_pattern_color (state->back.style, col);
 
@@ -983,17 +984,17 @@ fmt_dialog_init_background_page (FormatState *state)
 
 	widget = go_gtk_builder_get_widget (state->gui, "back_sample_frame");
 	gtk_container_add (GTK_CONTAINER (widget),
-		GTK_WIDGET (state->back.canvas));
+			   GTK_WIDGET (state->back.canvas));
 	gtk_widget_show_all (widget);
 
 	state->back.grid = PREVIEW_GRID (goc_item_new (
-		goc_canvas_get_root (state->back.canvas),
-		preview_grid_get_type (),
-		"render-gridlines",	FALSE,
-		"default-col-width",	w,
-		"default-row-height",	h,
-		"default-style",	state->back.style,
-		NULL));
+						 goc_canvas_get_root (state->back.canvas),
+						 preview_grid_get_type (),
+						 "render-gridlines",	FALSE,
+						 "default-col-width",	w,
+						 "default-row-height",	h,
+						 "default-style",	state->back.style,
+						 NULL));
 }
 
 /*****************************************************************************/
@@ -1022,10 +1023,10 @@ static struct
 } const line_info[] =
 {
 	/*
-	state 1 = single cell;
-	state 2 = multi vert, single horiz (A1:A2);
-	state 3 = single vert, multi horiz (A1:B1);
-	state 4 = multi vertical & multi horizontal
+	  state 1 = single cell;
+	  state 2 = multi vert, single horiz (A1:A2);
+	  state 3 = single vert, multi horiz (A1:B1);
+	  state 4 = multi vertical & multi horizontal
 	*/
 
 	/* 1, 2, 3, 4 */
@@ -1170,58 +1171,58 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 	else if (y >= B-5.)	which = GNM_STYLE_BORDER_BOTTOM;
 	else if (x >= R-5.)	which = GNM_STYLE_BORDER_RIGHT;
 	else switch (state->selection_mask) {
-	case 1:
-		if ((x < V) == (y < H))
-			which = GNM_STYLE_BORDER_REV_DIAG;
-		else
-			which = GNM_STYLE_BORDER_DIAG;
-		break;
-	case 2:
-		if (H-5. < y  && y < H+5.)
-			which = GNM_STYLE_BORDER_HORIZ;
-		else {
-			/* Map everything back to the top */
-			if (y > H) y -= H-10.;
-
-			if ((x < V) == (y < H/2.))
+		case 1:
+			if ((x < V) == (y < H))
 				which = GNM_STYLE_BORDER_REV_DIAG;
 			else
 				which = GNM_STYLE_BORDER_DIAG;
-		}
-		break;
-	case 4:
-		if (V-5. < x  && x < V+5.)
-			which = GNM_STYLE_BORDER_VERT;
-		else {
-			/* Map everything back to the left */
-			if (x > V) x -= V-10.;
+			break;
+		case 2:
+			if (H-5. < y  && y < H+5.)
+				which = GNM_STYLE_BORDER_HORIZ;
+			else {
+				/* Map everything back to the top */
+				if (y > H) y -= H-10.;
 
-			if ((x < V/2.) == (y < H))
-				which = GNM_STYLE_BORDER_REV_DIAG;
-			else
-				which = GNM_STYLE_BORDER_DIAG;
-		}
-		break;
-	case 8:
-		if (V-5. < x  && x < V+5.)
-			which = GNM_STYLE_BORDER_VERT;
-		else if (H-5. < y  && y < H+5.)
-			which = GNM_STYLE_BORDER_HORIZ;
-		else {
-			/* Map everything back to the 1st quadrant */
-			if (x > V) x -= V-10.;
-			if (y > H) y -= H-10.;
+				if ((x < V) == (y < H/2.))
+					which = GNM_STYLE_BORDER_REV_DIAG;
+				else
+					which = GNM_STYLE_BORDER_DIAG;
+			}
+			break;
+		case 4:
+			if (V-5. < x  && x < V+5.)
+				which = GNM_STYLE_BORDER_VERT;
+			else {
+				/* Map everything back to the left */
+				if (x > V) x -= V-10.;
 
-			if ((x < V/2.) == (y < H/2.))
-				which = GNM_STYLE_BORDER_REV_DIAG;
-			else
-				which = GNM_STYLE_BORDER_DIAG;
-		}
-		break;
+				if ((x < V/2.) == (y < H))
+					which = GNM_STYLE_BORDER_REV_DIAG;
+				else
+					which = GNM_STYLE_BORDER_DIAG;
+			}
+			break;
+		case 8:
+			if (V-5. < x  && x < V+5.)
+				which = GNM_STYLE_BORDER_VERT;
+			else if (H-5. < y  && y < H+5.)
+				which = GNM_STYLE_BORDER_HORIZ;
+			else {
+				/* Map everything back to the 1st quadrant */
+				if (x > V) x -= V-10.;
+				if (y > H) y -= H-10.;
 
-	default:
-		g_assert_not_reached ();
-	}
+				if ((x < V/2.) == (y < H/2.))
+					which = GNM_STYLE_BORDER_REV_DIAG;
+				else
+					which = GNM_STYLE_BORDER_DIAG;
+			}
+			break;
+
+		default:
+			g_assert_not_reached ();
+		}
 
 	edge = &state->border.edge[which];
 	if (!border_format_has_changed (state, edge) || !edge->is_selected)
@@ -1237,22 +1238,22 @@ static void
 draw_border_preview (FormatState *state)
 {
 	static double const corners[12][6] = {
-	    { L-5., T, L, T, L, T-5. },
-	    { R+5., T, R, T, R, T-5 },
-	    { L-5., B, L, B, L, B+5. },
-	    { R+5., B, R, B, R, B+5. },
+		{ L-5., T, L, T, L, T-5. },
+		{ R+5., T, R, T, R, T-5 },
+		{ L-5., B, L, B, L, B+5. },
+		{ R+5., B, R, B, R, B+5. },
 
-	    { V-5., T-1., V, T-1., V, T-5. },
-	    { V+5., T-1., V, T-1., V, T-5. },
+		{ V-5., T-1., V, T-1., V, T-5. },
+		{ V+5., T-1., V, T-1., V, T-5. },
 
-	    { V-5., B+1., V, B+1., V, B+5. },
-	    { V+5., B+1., V, B+1., V, B+5. },
+		{ V-5., B+1., V, B+1., V, B+5. },
+		{ V+5., B+1., V, B+1., V, B+5. },
 
-	    { L-1., H-5., L-1., H, L-5., H },
-	    { L-1., H+5., L-1., H, L-5., H },
+		{ L-1., H-5., L-1., H, L-5., H },
+		{ L-1., H+5., L-1., H, L-5., H },
 
-	    { R+1., H-5., R+1., H, R+5., H },
-	    { R+1., H+5., R+1., H, R+5., H }
+		{ R+1., H-5., R+1., H, R+5., H },
+		{ R+1., H+5., R+1., H, R+5., H }
 	};
 	int i, j, k;
 
@@ -1271,14 +1272,14 @@ draw_border_preview (FormatState *state)
 		group = GOC_GROUP (goc_canvas_get_root (state->border.canvas));
 
 		g_signal_connect (G_OBJECT (state->border.canvas),
-			"button-press-event",
-			G_CALLBACK (border_event), state);
+				  "button-press-event",
+				  G_CALLBACK (border_event), state);
 
 		state->border.back = goc_item_new (group,
-			GOC_TYPE_RECTANGLE,
-			"x", L-10.,		"y", T-10.,
-			"width", R-L+20.,	"height", B-T+20.,
-			NULL);
+						   GOC_TYPE_RECTANGLE,
+						   "x", L-10.,		"y", T-10.,
+						   "width", R-L+20.,	"height", B-T+20.,
+						   NULL);
 		style = go_styled_object_get_style (GO_STYLED_OBJECT (state->border.back));
 		style->line.dash_type = GO_LINE_NONE;
 
@@ -1301,10 +1302,10 @@ draw_border_preview (FormatState *state)
 
 
 			style = go_styled_object_get_style (GO_STYLED_OBJECT (
-				goc_item_new (group,
-					       goc_polyline_get_type (),
-					       "points",	points,
-					       NULL)));
+								    goc_item_new (group,
+										  goc_polyline_get_type (),
+										  "points",	points,
+										  NULL)));
 			style->line.color = GO_COLOR_FROM_RGBA (0xa1, 0xa1, 0xa1, 0xff); /* gray63 */
 			style->line.width = 0.;
 		}
@@ -1313,7 +1314,7 @@ draw_border_preview (FormatState *state)
 		for (i = 0; line_info[i].states != 0 ; ++i ) {
 			if (line_info[i].states & state->selection_mask) {
 				BorderPicker const *p =
-				    & state->border.edge[line_info[i].location];
+					& state->border.edge[line_info[i].location];
 				state->border.lines[i] =
 					goc_item_new (group,
 						      gnumeric_dashed_canvas_line_get_type (),
@@ -1321,7 +1322,7 @@ draw_border_preview (FormatState *state)
 					              "y0", line_info[i].points[1],
 					              "x1", line_info[i].points[2],
 					              "y1", line_info[i].points[3],
-						       NULL);
+						      NULL);
 				style = go_styled_object_get_style (GO_STYLED_OBJECT (state->border.lines[i]));
 				style->line.color = p->rgba;
 				gnumeric_dashed_canvas_line_set_dash_index (
@@ -1382,7 +1383,7 @@ cb_border_preset_clicked (GtkButton *btn, FormatState *state)
 				state->border.edge[i].button,
 				TRUE);
 		else if (gtk_toggle_button_get_active (
-				state->border.edge[i].button))
+				 state->border.edge[i].button))
 			/* Turn off damn it !
 			 * we really want things off not just to pick up
 			 * the new colours.
@@ -1469,8 +1470,8 @@ init_border_button (FormatState *state, GnmStyleBorderLocation const i,
 				      state->border.edge[i].is_selected);
 
 	g_signal_connect (G_OBJECT (button),
-		"toggled",
-		G_CALLBACK (cb_border_toggle), &state->border.edge[i]);
+			  "toggled",
+			  G_CALLBACK (cb_border_toggle), &state->border.edge[i]);
 
 	if ((i == GNM_STYLE_BORDER_HORIZ && !(state->selection_mask & 0xa)) ||
 	    (i == GNM_STYLE_BORDER_VERT  && !(state->selection_mask & 0xc)))
@@ -1484,7 +1485,7 @@ cb_protection_locked_toggle (GtkToggleButton *button, FormatState *state)
 {
 	if (state->enable_edit) {
 		gnm_style_set_contents_locked (state->result,
-			gtk_toggle_button_get_active (button));
+					       gtk_toggle_button_get_active (button));
 		fmt_dialog_changed (state);
 	}
 }
@@ -1494,7 +1495,7 @@ cb_protection_hidden_toggle (GtkToggleButton *button, FormatState *state)
 {
 	if (state->enable_edit) {
 		gnm_style_set_contents_hidden (state->result,
-			gtk_toggle_button_get_active (button));
+					       gtk_toggle_button_get_active (button));
 		fmt_dialog_changed (state);
 	}
 }
@@ -1522,8 +1523,8 @@ fmt_dialog_init_protection_page (FormatState *state)
 	state->protection.locked = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
 	g_signal_connect (G_OBJECT (w),
-		"toggled",
-		G_CALLBACK (cb_protection_locked_toggle), state);
+			  "toggled",
+			  G_CALLBACK (cb_protection_locked_toggle), state);
 
 	flag = (state->conflicts & (1 << MSTYLE_CONTENTS_HIDDEN))
 		? FALSE : gnm_style_get_contents_hidden (state->style);
@@ -1531,8 +1532,8 @@ fmt_dialog_init_protection_page (FormatState *state)
 	state->protection.hidden = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
 	g_signal_connect (G_OBJECT (w),
-		"toggled",
-		G_CALLBACK (cb_protection_hidden_toggle), state);
+			  "toggled",
+			  G_CALLBACK (cb_protection_hidden_toggle), state);
 
 	state->protection.sheet_protected_changed = FALSE;
 	flag = state->sheet->is_protected;
@@ -1540,8 +1541,8 @@ fmt_dialog_init_protection_page (FormatState *state)
 	state->protection.sheet_protected = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
 	g_signal_connect (G_OBJECT (w),
-		"toggled",
-		G_CALLBACK (cb_protection_sheet_protected_toggle), state);
+			  "toggled",
+			  G_CALLBACK (cb_protection_sheet_protected_toggle), state);
 }
 
 /*****************************************************************************/
@@ -1616,7 +1617,7 @@ validation_rebuild_validation (FormatState *state)
 
 static void
 cb_validation_error_action_changed (G_GNUC_UNUSED GtkMenuShell *ignored,
-				       FormatState *state)
+				    FormatState *state)
 {
 	int index = gtk_combo_box_get_active (state->validation.error.action);
 	gboolean const flag = (index > 0) &&
@@ -1635,8 +1636,8 @@ cb_validation_error_action_changed (G_GNUC_UNUSED GtkMenuShell *ignored,
 		case 2: s = GTK_STOCK_DIALOG_WARNING;	break;
 		case 3: s = GTK_STOCK_DIALOG_INFO;	break;
 		default:
-			 g_warning ("Unknown validation style");
-			 return;
+			g_warning ("Unknown validation style");
+			return;
 		}
 
 		if (s != NULL)
@@ -1709,18 +1710,18 @@ cb_validation_sensitivity (G_GNUC_UNUSED GtkMenuShell *ignored,
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr1.entry), *msg1 != '\0');
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.op),
-		has_operators);
+				  has_operators);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.operator_label),
-		has_operators);
+				  has_operators);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.action_label),
-		type != VALIDATION_TYPE_ANY);
+				  type != VALIDATION_TYPE_ANY);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.action),
-		type != VALIDATION_TYPE_ANY);
+				  type != VALIDATION_TYPE_ANY);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.allow_blank),
-		type != VALIDATION_TYPE_ANY);
+				  type != VALIDATION_TYPE_ANY);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.use_dropdown),
-		type == VALIDATION_TYPE_IN_LIST);
+				  type == VALIDATION_TYPE_IN_LIST);
 
 	validation_rebuild_validation (state);
 }
