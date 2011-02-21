@@ -1,3 +1,8 @@
+2011-02-21  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_finalize): Cancel template loader handler
+	if necessary.
+
 2011-02-17  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_finalize): Remove custum UIs.

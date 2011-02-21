@@ -5148,6 +5148,7 @@ wbc_gtk_load_templates (WBCGtk *wbcg)
 		wbc_gtk_reload_templates (wbcg);
 	}
 
+	wbcg->template_loader_handler = 0;
 	return FALSE;
 }
 
@@ -5246,6 +5247,11 @@ wbc_gtk_finalize (GObject *obj)
 
 	if (wbcg->idle_update_style_feedback != 0)
 		g_source_remove (wbcg->idle_update_style_feedback);
+
+	if (wbcg->template_loader_handler != 0) {
+		g_source_remove (wbcg->template_loader_handler);
+		wbcg->template_loader_handler = 0;
+	}
 
 	if (wbcg->file_history.merge_id != 0)
 		gtk_ui_manager_remove_ui (wbcg->ui, wbcg->file_history.merge_id);
@@ -5990,7 +5996,8 @@ wbc_gtk_new (WorkbookView *optional_view,
 	   updated right then -- and that looks sub-optimal because the
 	   "Templates" menu is empty (and thus not shown) until the
 	   update is done. */
-	g_timeout_add (1000, (GSourceFunc)wbc_gtk_load_templates, wbcg);
+	wbcg->template_loader_handler =
+		g_timeout_add (1000, (GSourceFunc)wbc_gtk_load_templates, wbcg);
 
 	wb_control_init_state (wbc);
 	return wbcg;

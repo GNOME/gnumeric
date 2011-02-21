@@ -13,6 +13,7 @@ Morten:
 	* Import wide sc files.  [#641581]
 	* Fix problem with single-cell names and 'r'-type arguments.  [#613273]
 	* Plug a few leaks.
+	* Fix potential crash on quick exit.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.13

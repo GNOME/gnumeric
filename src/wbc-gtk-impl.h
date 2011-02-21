@@ -114,6 +114,8 @@ struct _WBCGtk {
 		guint		  merge_id;
 	} file_history, toolbar, windows, templates;
 
+	guint template_loader_handler;
+
 	GOActionComboStack	*undo_haction, *redo_haction;
 	GtkAction		*undo_vaction, *redo_vaction;
 	GOActionComboColor	*fore_color, *back_color;
