@@ -469,7 +469,7 @@ trim_spaces_inplace (char *field, StfParseOptions_t const *parseoptions)
 			s = g_utf8_next_char (s);
 
 		if (s != field)
-			strcpy (field, s);
+			memmove (field, s, 1 + strlen (s));
 	}
 
 	if (parseoptions->trim_spaces & TRIM_TYPE_RIGHT) {
