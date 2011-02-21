@@ -1090,6 +1090,8 @@ wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 					"tab-hborder", 0,
 					"tab-vborder", 0,
 					NULL);
+	g_object_ref (wbcg->bnotebook);
+
 	g_signal_connect_after (G_OBJECT (wbcg->bnotebook),
 		"switch_page",
 		G_CALLBACK (cb_notebook_switch_page), wbcg);
@@ -5279,6 +5281,7 @@ wbc_gtk_finalize (GObject *obj)
 	}
 
 	g_hash_table_destroy (wbcg->custom_uis);
+	wbcg->custom_uis = NULL;
 
 	UNREF_OBJ (zoom_vaction);
 	UNREF_OBJ (zoom_haction);
@@ -5308,6 +5311,8 @@ wbc_gtk_finalize (GObject *obj)
 		g_signal_handlers_disconnect_by_func (
 			G_OBJECT (wbcg->bnotebook),
 			G_CALLBACK (cb_notebook_switch_page), wbcg);
+	UNREF_OBJ (bnotebook);
+
 	g_signal_handlers_disconnect_by_func (
 		G_OBJECT (wbcg->toplevel),
 		G_CALLBACK (cb_set_focus), wbcg);

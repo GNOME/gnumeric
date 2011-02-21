@@ -2,6 +2,8 @@
 
 	* src/wbc-gtk.c (wbc_gtk_finalize): Cancel template loader handler
 	if necessary.
+	(wbc_gtk_create_notebook_area): Hold a ref to bnotebook so it
+	cannot disappear underneath us.
 
 2011-02-17  Morten Welinder  <terra@gnome.org>
 
