@@ -1,5 +1,10 @@
 2011-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_write_comments): skip NULL author 
+	(see glib bug #642944)
+
+2011-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-read.c (xlsx_chart_dtd): add c:crossesAt
 	(xlsx_cell_expr_begin): don't ignore shared expressions with 
 	duplicate id
