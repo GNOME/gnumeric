@@ -227,17 +227,6 @@ range_focused (G_GNUC_UNUSED GtkWidget *widget,
 	return FALSE;
 }
 
-static void
-non_modal_dialog (WBCGtk *wbcg,
-		  GtkDialog *dialog,
-		  const char *key)
-{
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (dialog), key);
-
-	gtk_widget_show (GTK_WIDGET (dialog));
-}
-
-
 void
 dialog_search_replace (WBCGtk *wbcg,
 		       SearchDialogCallback cb)
@@ -262,6 +251,9 @@ dialog_search_replace (WBCGtk *wbcg,
                 return;
 
 	dialog = GTK_DIALOG (go_gtk_builder_get_widget (gui, "search_replace_dialog"));
+
+	/* Fairly silly: we need to destroy the other dialog in the file. */
+	gtk_widget_destroy (go_gtk_builder_get_widget (gui, "query_dialog"));
 
 	dd = g_new (DialogState, 1);
 	dd->wbcg = wbcg;
@@ -360,7 +352,9 @@ dialog_search_replace (WBCGtk *wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
 	wbc_gtk_attach_guru (wbcg, GTK_WIDGET (dialog));
-	non_modal_dialog (wbcg, dialog, SEARCH_REPLACE_KEY);
+
+	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (dialog), SEARCH_REPLACE_KEY);
+	gtk_widget_show (GTK_WIDGET (dialog));
 }
 
 int
@@ -381,6 +375,9 @@ dialog_search_replace_query (WBCGtk *wbcg,
                 return 0;
 
 	dialog = GTK_DIALOG (go_gtk_builder_get_widget (gui, "query_dialog"));
+
+	/* Fairly silly: we need to destroy the other dialog in the file. */
+	gtk_widget_destroy (go_gtk_builder_get_widget (gui, "search_replace_dialog"));
 
 	gtk_entry_set_text (GTK_ENTRY (go_gtk_builder_get_widget (gui, "qd_location")),
 			    location);
@@ -409,6 +406,7 @@ dialog_search_replace_query (WBCGtk *wbcg,
 	}
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
+	g_object_unref (gui);
 
 	return res;
 }

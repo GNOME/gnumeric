@@ -1,3 +1,7 @@
+2011-02-22  Morten Welinder  <terra@gnome.org>
+
+	* dialog-search-replace.c (dialog_search_replace): Plug leak.
+
 2011-02-18  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (build_validation_error_combo): Don't leak
