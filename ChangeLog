@@ -1,3 +1,8 @@
+2011-02-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-clipboard.c (text_is_single_cell): new
+	(text_to_cell_region): use text_is_single_cell
+
 2011-02-21  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (trim_spaces_inplace): Don't use strcpy for

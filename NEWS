@@ -9,6 +9,7 @@ Andreas:
 	  [#642850]
 	* Fix crash on resaving LibreOffice created xlsx files with unauthored 
 	  comments. [#642850]
+	* Trigger configurable text importer on paste of tabs. [#395631]
 
 Jean:
 	* Fix cursor position inside a cell edited in a zoomed sheet. [#641709]

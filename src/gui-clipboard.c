@@ -100,6 +100,20 @@ typedef struct {
 #define CTEXT_ATOM_NAME "COMPOUND_TEXT"
 #define STRING_ATOM_NAME "STRING"
 
+	/* See if this is a "single line + line end", a "multiline" or a "tab separated"
+	 * string. If this is _not_ the case we won't invoke the STF, it is
+	 * unlikely that the user will actually need it in this case. */
+static gboolean
+text_is_single_cell (gchar const *data, int data_len)
+{
+	int i;
+
+	for (i = 0; i < data_len; i++)
+		if (data[i] == '\n' || data[i] == '\t')
+			return FALSE;
+	return TRUE;
+}
+
 
 static GnmCellRegion *
 text_to_cell_region (WBCGtk *wbcg,
@@ -112,19 +126,8 @@ text_to_cell_region (WBCGtk *wbcg,
 	GnmCellRegion *cr = NULL;
 	gboolean oneline;
 	char *data_converted = NULL;
-	int i;
 
-	/* See if this is a "single line + line end" or a "multiline"
-	 * string. If this is _not_ the case we won't invoke the STF, it is
-	 * unlikely that the user will actually need it in this case.
-	 * NOTE: This is making an assumption on what the user 'wants', this
-	 * is not really a good thing. We should put this in a config dialog. */
-	oneline = TRUE;
-	for (i = 0; i < data_len; i++)
-		if (data[i] == '\n') {
-			oneline = FALSE;
-			break;
-		}
+	oneline = text_is_single_cell (data, data_len);
 
 	if (oneline && (opt_encoding == NULL || strcmp (opt_encoding, "UTF-8") != 0)) {
 		size_t bytes_written;
@@ -208,7 +211,8 @@ text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 	if (gtk_selection_data_get_length (sel) < 0) {
 		;
 	} else if (target == gdk_atom_intern (UTF8_ATOM_NAME, FALSE)) {
-		content = text_to_cell_region (wbcg, (const char *)gtk_selection_data_get_data (sel), gtk_selection_data_get_length (sel), "UTF-8", TRUE);
+		content = text_to_cell_region (wbcg, (const char *)gtk_selection_data_get_data (sel), 
+					       gtk_selection_data_get_length (sel), "UTF-8", TRUE);
 	} else if (target == gdk_atom_intern (CTEXT_ATOM_NAME, FALSE)) {
 		/* COMPOUND_TEXT is icky.  Just let GTK+ do the work.  */
 		char *data_utf8 = (char *)gtk_selection_data_get_text (sel);
@@ -218,7 +222,8 @@ text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 		char const *locale_encoding;
 		g_get_charset (&locale_encoding);
 
-		content = text_to_cell_region (wbcg, (const char *)gtk_selection_data_get_data (sel), gtk_selection_data_get_length (sel), locale_encoding, FALSE);
+		content = text_to_cell_region (wbcg, (const char *)gtk_selection_data_get_data (sel), 
+					       gtk_selection_data_get_length (sel), locale_encoding, FALSE);
 	}
 	if (content) {
 		/*
