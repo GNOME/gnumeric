@@ -1,3 +1,9 @@
+2011-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-read.c (xlsx_chart_dtd): add c:crossesAt
+	(xlsx_cell_expr_begin): don't ignore shared expressions with 
+	duplicate id
+
 2011-02-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.13

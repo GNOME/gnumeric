@@ -5,6 +5,8 @@ Andreas:
 	* Allow function tooltips to be closed temporarily [#641355]
 	* Import & export list validation from and to ODF files. [#640701]
 	* Minor histogram improvements.
+	* Fix import of LibreOffice created xlsx files using shared formulas. 
+	  [#642850]
 
 Jean:
 	* Fix cursor position inside a cell edited in a zoomed sheet. [#641709]

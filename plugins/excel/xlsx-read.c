@@ -1750,6 +1750,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
       GSF_XML_IN_NODE (PLOTAREA, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
       GSF_XML_IN_NODE_FULL (PLOTAREA, CAT_AXIS, XL_NS_CHART, "catAx", GSF_XML_NO_CONTENT, FALSE, TRUE,
 			    &xlsx_axis_start, &xlsx_axis_end, XLSX_AXIS_CAT),
+        GSF_XML_IN_NODE (CAT_AXIS, AXIS_CROSSES_AT, XL_NS_CHART, "crossesAt", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_AXID, XL_NS_CHART, "axId", GSF_XML_NO_CONTENT, &xlsx_axis_id, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_NO_CONTENT, &xlsx_axis_delete, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
@@ -1830,6 +1831,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 
       GSF_XML_IN_NODE_FULL (PLOTAREA, VAL_AXIS, XL_NS_CHART, "valAx", GSF_XML_NO_CONTENT, FALSE, TRUE,
 			    &xlsx_axis_start, &xlsx_axis_end, XLSX_AXIS_VAL),
+        GSF_XML_IN_NODE (VAL_AXIS, AXIS_CROSSES_AT, XL_NS_CHART, "crossesAt", GSF_XML_NO_CONTENT, NULL, NULL),	        /* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_AXID, XL_NS_CHART, "axId", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, TITLE, XL_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
@@ -2577,22 +2579,28 @@ static void
 xlsx_cell_expr_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gboolean has_range = FALSE, is_array = FALSE;
+	gboolean has_range = FALSE, is_array = FALSE, is_shared = FALSE;
 	GnmRange range;
 	xmlChar const *shared_id = NULL;
+
+	/* See https://bugzilla.gnome.org/show_bug.cgi?id=642850 */
+	/* for some of the issues surrounding shared formulas.   */
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "t")) {
 			if (0 == strcmp (attrs[1], "array"))
 				is_array = TRUE;
+			else if (0 == strcmp (attrs[1], "shared"))
+				is_shared = TRUE;
 		} else if (0 == strcmp (attrs[0], "si"))
 			shared_id = attrs[1];
 		else if (attr_range (xin, attrs, "ref", &range))
 			has_range = TRUE;
 
 	state->shared_id = NULL;
-	if (NULL != shared_id) {
-		state->texpr = g_hash_table_lookup (state->shared_exprs, shared_id);
+	if (is_shared &&  NULL != shared_id) {
+		if (!has_range)
+			state->texpr = g_hash_table_lookup (state->shared_exprs, shared_id);
 		if (NULL != state->texpr)
 			gnm_expr_top_ref (state->texpr);
 		else
