@@ -3,7 +3,7 @@
  * undo.c:
  *
  * Authors:
-  * apparently missing chain Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+ * Andreas J. Guelzow  <aguelzow@pyrshep.ca>
  *
  * (C) Copyright 2010 by Andreas J. Guelzow  <aguelzow@pyrshep.ca>
  *
