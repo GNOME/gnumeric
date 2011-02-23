@@ -1,5 +1,7 @@
 2011-02-23  Morten Welinder  <terra@gnome.org>
 
+	* dialog-autoformat.c (dialog_autoformat): Plug leak.
+
 	* dialog-scenarios.c (update_scenarios_treeview): Plug leak.
 
 	* dialog-workbook-attr.c (attr_dialog_impl): Plug leak.

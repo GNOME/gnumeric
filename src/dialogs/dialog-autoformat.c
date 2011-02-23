@@ -679,10 +679,11 @@ dialog_autoformat (WBCGtk *wbcg)
 		GtkTreeIter iter;
 		GtkCellRenderer *renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
 		gtk_combo_box_set_model (state->category, GTK_TREE_MODEL (store));
+		g_object_unref (store);
 		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->category), renderer, TRUE);
 		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (state->category), renderer,
-											"text", 0,
-											NULL);
+						"text", 0,
+						NULL);
 
 		for (i = 0 ; ptr != NULL ; ptr = ptr->next, i++) {
 			FormatTemplateCategoryGroup *group = ptr->data;
