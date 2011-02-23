@@ -481,10 +481,11 @@ dhl_init (HyperlinkState *state)
 	for (i = 0 ; i < G_N_ELEMENTS (label); i++)
 		gtk_size_group_add_widget (size_group,
 					   go_gtk_builder_get_widget (state->gui, label[i]));
+	g_object_unref (size_group);
 
-	w  = go_gtk_builder_get_widget (state->gui, "link-type-image");
+	w = go_gtk_builder_get_widget (state->gui, "link-type-image");
 	state->type_image = GTK_IMAGE (w);
-	w  = go_gtk_builder_get_widget (state->gui, "link-type-descriptor");
+	w = go_gtk_builder_get_widget (state->gui, "link-type-descriptor");
 	state->type_descriptor = GTK_LABEL (w);
 
 	w = go_gtk_builder_get_widget (state->gui, "internal-link-box");
@@ -510,8 +511,9 @@ dhl_init (HyperlinkState *state)
 		GNUMERIC_HELP_LINK_HYPERLINK);
 
 	store = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
-	w  = go_gtk_builder_get_widget (state->gui, "link-type-menu");
+	w = go_gtk_builder_get_widget (state->gui, "link-type-menu");
 	gtk_combo_box_set_model (GTK_COMBO_BOX (w), GTK_TREE_MODEL (store));
+	g_object_unref (store);
 
 	for (i = 0 ; i < G_N_ELEMENTS (type); i++) {
 		pixbuf = gtk_widget_render_icon (w, type[i].image_name,

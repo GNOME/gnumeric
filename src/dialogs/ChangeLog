@@ -1,5 +1,7 @@
 2011-02-23  Morten Welinder  <terra@gnome.org>
 
+	* dialog-hyperlink.c (dhl_init): Plug leaks.
+
 	* dialog-autoformat.c (dialog_autoformat): Plug leak.
 
 	* dialog-scenarios.c (update_scenarios_treeview): Plug leak.
