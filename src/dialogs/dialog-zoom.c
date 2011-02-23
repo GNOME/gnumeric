@@ -72,6 +72,11 @@ static const struct {
 static void
 cb_zoom_destroy (ZoomState *state)
 {
+	if (state->sheet_list_model) {
+		g_object_unref (state->sheet_list_model);
+		state->sheet_list_model = NULL;
+	}
+
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
