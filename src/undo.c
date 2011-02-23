@@ -3,7 +3,7 @@
  * undo.c:
  *
  * Authors:
-  *  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+  * apparently missing chain Andreas J. Guelzow  <aguelzow@pyrshep.ca>
  *
  * (C) Copyright 2010 by Andreas J. Guelzow  <aguelzow@pyrshep.ca>
  *
@@ -48,6 +48,8 @@ gnm_undo_colrow_restore_state_group_finalize (GObject *o)
 	ua->saved_state = NULL;
 	colrow_index_list_destroy (ua->selection);
 	ua->selection = NULL;
+
+	G_OBJECT_CLASS (gnm_undo_colrow_restore_state_group_parent_class)->finalize (o);
 }
 
 static void
@@ -105,6 +107,8 @@ gnm_undo_colrow_set_sizes_finalize (GObject *o)
 
 	colrow_index_list_destroy (ua->selection);
 	ua->selection = NULL;
+
+	G_OBJECT_CLASS (gnm_undo_colrow_set_sizes_parent_class)->finalize (o);
 }
 
 static void
@@ -191,6 +195,8 @@ gnm_undo_filter_set_condition_finalize (GObject *o)
 
 	gnm_filter_condition_free (ua->cond);
 	ua->cond = NULL;
+
+	G_OBJECT_CLASS (gnm_undo_filter_set_condition_parent_class)->finalize (o);
 }
 
 static gboolean

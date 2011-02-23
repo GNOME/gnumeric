@@ -1,3 +1,7 @@
+2011-02-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/undo.c (gnm_undo_colrow_*_group_finalize): chain to parent
+	
 2011-02-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gui-clipboard.c (text_is_single_cell): new
