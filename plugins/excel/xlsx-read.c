@@ -1109,6 +1109,25 @@ xlsx_axis_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->axis.info = NULL;
 	xlsx_chart_push_obj (state, GOG_OBJECT (state->axis.obj));
 }
+
+static void
+xlsx_axis_crosses_at (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	/* This element specifies where on the axis the perpendicular axis crosses. 
+	   The units are dependent on the type of axis.
+	   When specified as a child element of valAx, the value is a decimal number on the value axis. When specified as a
+	   child element of dateAx, the date is defined as a integer number of days relative to the base date of the current
+	   date base. When specified as a child element of catAx, the value is an integer category number, starting with 1
+	   as the first category.
+	*/
+/* 	XLSXReadState *state = (XLSXReadState *)xin->user_state; */
+	gnm_float res;
+
+	if (simple_float (xin, attrs, &res)) {
+			
+	}
+}
+
 static void
 xlsx_axis_id (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -1750,7 +1769,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
       GSF_XML_IN_NODE (PLOTAREA, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
       GSF_XML_IN_NODE_FULL (PLOTAREA, CAT_AXIS, XL_NS_CHART, "catAx", GSF_XML_NO_CONTENT, FALSE, TRUE,
 			    &xlsx_axis_start, &xlsx_axis_end, XLSX_AXIS_CAT),
-        GSF_XML_IN_NODE (CAT_AXIS, AXIS_CROSSES_AT, XL_NS_CHART, "crossesAt", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (CAT_AXIS, AXIS_CROSSES_AT, XL_NS_CHART, "crossesAt", GSF_XML_NO_CONTENT, &xlsx_axis_crosses_at, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_AXID, XL_NS_CHART, "axId", GSF_XML_NO_CONTENT, &xlsx_axis_id, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_NO_CONTENT, &xlsx_axis_delete, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */

@@ -1,3 +1,8 @@
+2011-02-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-write.c (xlsx_axis_crosses_at): new
+	(xlsx_chart_dtd): connect xlsx_axis_crosses_at
+
 2011-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write.c (xlsx_write_comments): skip NULL author 
