@@ -420,6 +420,7 @@ setup_widgets (ConsolidateState *state, GtkBuilder *gui)
 						  G_TYPE_INT));
 	gtk_tree_view_set_model (state->source_view,
 				 state->source_areas);
+	g_object_unref (state->source_areas);
 
 	selection = gtk_tree_view_get_selection
 			(state->source_view );

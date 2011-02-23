@@ -1156,6 +1156,7 @@ dialog_function_select_init (FunctionSelectState *state)
 		(NUM_COLMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN);
 
 	gtk_combo_box_set_model (state->cb, GTK_TREE_MODEL (state->model));
+	g_object_unref (state->model);
 	cell = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->cb), cell, TRUE);
 	gtk_cell_layout_add_attribute
@@ -1188,6 +1189,7 @@ dialog_function_select_init (FunctionSelectState *state)
 
 	state->model_filter = gtk_tree_model_filter_new
 		(GTK_TREE_MODEL (state->model_functions), NULL);
+	g_object_unref (state->model_functions);
 	gtk_tree_model_filter_set_visible_column
 		(GTK_TREE_MODEL_FILTER (state->model_filter), FUNCTION_VISIBLE);
 
@@ -1195,6 +1197,7 @@ dialog_function_select_init (FunctionSelectState *state)
 		(go_gtk_builder_get_widget (state->gui, "function-list"));
 	gtk_tree_view_set_model (state->treeview,
 				 state->model_filter);
+	g_object_unref (state->model_filter);
 
 	selection = gtk_tree_view_get_selection (state->treeview);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);

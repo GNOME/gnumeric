@@ -1271,6 +1271,7 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 
 	gtk_combo_box_set_model (GTK_COMBO_BOX (state->ppt_name),
 				 GTK_TREE_MODEL (state->ppt_name_store));
+	g_object_unref (state->ppt_name_store);
 
 	gtk_combo_box_entry_set_text_column (state->ppt_name, 0);
 
@@ -1282,6 +1283,7 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 
 	gtk_tree_view_set_model (state->properties,
 				 GTK_TREE_MODEL (state->properties_store));
+	g_object_unref (state->properties_store);
 
 	/* Append Columns */
 	gtk_tree_view_insert_column_with_attributes (state->properties,
@@ -1688,6 +1690,7 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 					   G_TYPE_STRING,
 					   G_TYPE_INT);
 	gtk_tree_view_set_model (state->view, GTK_TREE_MODEL(state->store));
+	g_object_unref (state->store);
 	selection = gtk_tree_view_get_selection (state->view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 	column = gtk_tree_view_column_new_with_attributes ("",

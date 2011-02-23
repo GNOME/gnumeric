@@ -510,6 +510,7 @@ update_scenarios_treeview (GtkWidget *view, GList *scenarios)
 
 	  gtk_tree_view_set_model (GTK_TREE_VIEW (view),
 				   GTK_TREE_MODEL (store));
+	  g_object_unref (store);
 	  gtk_tree_view_append_column
 	          (GTK_TREE_VIEW (view),
 		   gtk_tree_view_column_new_with_attributes

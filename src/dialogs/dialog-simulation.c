@@ -221,6 +221,7 @@ update_log (SimulationState *state, simulation_t *sim)
 		 (_("Value"),
 		  gtk_cell_renderer_text_new (), "text", 1, NULL));
 	gtk_tree_view_set_model (GTK_TREE_VIEW (view), GTK_TREE_MODEL (store));
+	g_object_unref (store);
 }
 
 static void

@@ -276,6 +276,7 @@ attr_dialog_impl (AttrState *state)
 					   G_TYPE_STRING,
 					   G_TYPE_INT);
 	gtk_tree_view_set_model (state->tview, GTK_TREE_MODEL(state->store));
+	g_object_unref (state->store);
 	selection = gtk_tree_view_get_selection (state->tview);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	column = gtk_tree_view_column_new_with_attributes ("",

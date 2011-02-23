@@ -1095,6 +1095,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 
 	gtk_tree_view_set_model (GTK_TREE_VIEW (state->treeview),
 				 state->model_f);
+	g_object_unref (state->model_f);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (state->treeview),
 					   FALSE);
 	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW (state->treeview),
