@@ -4025,7 +4025,7 @@ set_toolbar_position (GtkToolbar *tb, GtkPositionType pos, WBCGtk *gtk)
 
 	g_object_unref (box);
 
-	if (zone)
+	if (zone && name)
 		gnm_conf_set_toolbar_position (name, pos);
 }
 
