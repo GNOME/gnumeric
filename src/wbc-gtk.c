@@ -4035,7 +4035,8 @@ cb_set_toolbar_position (GtkMenuItem *item, WBCGtk *gtk)
 	GtkToolbar *tb = g_object_get_data (G_OBJECT (item), "toolbar");
 	GtkPositionType side = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "side"));
 
-	set_toolbar_position (tb, side, gtk);
+	if (gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item)))
+		set_toolbar_position (tb, side, gtk);
 }
 
 #ifdef HAVE_GTK_HANDLE_BOX_FLOAT_WINDOW

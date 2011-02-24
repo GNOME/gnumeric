@@ -20,6 +20,7 @@ Morten:
 	* Plug a few leaks.
 	* Fix potential crash on quick exit.
 	* Fix stf import problem diagnosed by Andreas.  [#642477]
+	* Restore toolbar positioning code.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.13

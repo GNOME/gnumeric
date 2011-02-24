@@ -1,7 +1,12 @@
+2011-02-24  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (cb_set_toolbar_position): Only actually set
+	toolbar position when the item is active.  (We now get extra signals.)
+
 2011-02-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/undo.c (gnm_undo_colrow_*_group_finalize): chain to parent
-	
+
 2011-02-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gui-clipboard.c (text_is_single_cell): new
