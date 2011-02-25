@@ -506,6 +506,7 @@ dialog_kaplan_meier_tool_setup_treeview (KaplanMeierToolState *state)
 						 G_TYPE_STRING, G_TYPE_UINT, G_TYPE_UINT, G_TYPE_OBJECT, G_TYPE_OBJECT);
 	state->groups_treeview = GTK_TREE_VIEW (gtk_tree_view_new_with_model
 						(GTK_TREE_MODEL (state->groups_list)));
+	g_object_unref (state->groups_list);
 	selection = gtk_tree_view_get_selection (state->groups_treeview);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 
