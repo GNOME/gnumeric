@@ -1506,6 +1506,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 	state->ccombo_back = go_combo_color_new (
 		gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), "bucket", 24, 0, NULL),
 		_("Default"), 0, cg);
+	g_object_unref (cg);
 	go_combo_color_set_instant_apply (
 		GO_COMBO_COLOR (state->ccombo_back), TRUE);
 	gtk_table_attach (table, state->ccombo_back, 0, 1, 4, 5, GTK_FILL, GTK_FILL, 0, 0);
@@ -1516,6 +1517,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 	state->ccombo_fore = go_combo_color_new (
 		gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), "font", 24, 0, NULL),
 		_("Default"), 0, cg);
+	g_object_unref (cg);
 	go_combo_color_set_instant_apply (
 		GO_COMBO_COLOR (state->ccombo_fore), TRUE);
 	gtk_table_attach (table, state->ccombo_fore, 1, 2, 4, 5, GTK_FILL, GTK_FILL, 0, 0);

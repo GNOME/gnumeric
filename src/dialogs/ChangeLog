@@ -1,5 +1,8 @@
 2011-02-25  Morten Welinder  <terra@gnome.org>
 
+	* dialog-sheet-order.c (dialog_sheet_order): Don't leak two
+	GOColorGroup refs.
+
 	* dialog-printer-setup.c (fill_hf): Plug leak.
 
 2011-02-23  Morten Welinder  <terra@gnome.org>
