@@ -744,6 +744,7 @@ dialog_random_tool_init (RandomToolState *state)
 	store = gtk_list_store_new (1, G_TYPE_STRING);
 	gtk_combo_box_set_model (GTK_COMBO_BOX (state->distribution_combo),
 				 GTK_TREE_MODEL (store));
+	g_object_unref (store);
 	for (i = 0, dist_str_no = 0; distribution_strs[i].name != NULL; i++) {
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
