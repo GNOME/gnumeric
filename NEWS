@@ -17,7 +17,7 @@ Jean:
 Morten:
 	* Import wide sc files.  [#641581]
 	* Fix problem with single-cell names and 'r'-type arguments.  [#613273]
-	* Plug a few leaks.
+	* Plug leaks.
 	* Fix potential crash on quick exit.
 	* Fix stf import problem diagnosed by Andreas.  [#642477]
 	* Restore toolbar positioning code.

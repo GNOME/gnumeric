@@ -1019,6 +1019,7 @@ fill_hf (PrinterSetupState *state, GtkComboBox *om, GCallback callback, gboolean
 
 	store = gtk_list_store_new (1, G_TYPE_STRING);
 	gtk_combo_box_set_model (om, GTK_TREE_MODEL (store));
+	g_object_unref (store);
 
 	for (i = 0, l = hf_formats; l; l = l->next, i++) {
 		PrintHF *format = l->data;
