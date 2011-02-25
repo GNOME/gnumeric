@@ -300,6 +300,7 @@ enum_pref_create_widget (GOConfNode *node, GtkWidget *table,
 	g_type_class_unref (enum_class);
 
 	gtk_combo_box_set_model (GTK_COMBO_BOX (combo), GTK_TREE_MODEL (model));
+	g_object_unref (model);
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, TRUE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), renderer, "text", 0, NULL);
@@ -577,6 +578,7 @@ wordlist_pref_create_widget (GOConfNode *node, GtkWidget *table,
 
 	gtk_tree_view_set_model (GTK_TREE_VIEW (tv),
 				 GTK_TREE_MODEL (model));
+	g_object_unref (model);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tv),
 				     gtk_tree_view_column_new_with_attributes
 				     (NULL,
