@@ -178,7 +178,7 @@ gnm_solver_constraint_valid (GnmSolverConstraint const *c,
 		return FALSE;
 
 	if (gnm_solver_constraint_has_rhs (c)) {
-		GnmValue const *rhs = gnm_solver_constraint_get_lhs (c);
+		GnmValue const *rhs = gnm_solver_constraint_get_rhs (c);
 		if (rhs == NULL)
 			return FALSE;
 		if (rhs->type == VALUE_CELLRANGE) {
