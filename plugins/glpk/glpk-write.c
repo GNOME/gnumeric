@@ -138,8 +138,14 @@ glpk_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
 		any = TRUE;
 	}
 
-	if (!any || y)
+	if (!any || y) {
+		if (any) {
+			g_string_append_c (dst, ' ');
+			if (y > 0)
+				g_string_append_c (dst, '+');
+		}
 		gnm_string_add_number (dst, y);
+	}
 
 fail:
  	for (l = input_cells, ol = old_values;

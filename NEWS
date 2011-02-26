@@ -22,6 +22,8 @@ Morten:
 	* Fix stf import problem diagnosed by Andreas.  [#642477]
 	* Restore toolbar positioning code.
 	* Fix solver crash.  [Redhat #680572]
+	* Fix xml reading of constraints.  [Redhat #680572]
+	* Fix lpsolve/glpk writing of affine part.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.13

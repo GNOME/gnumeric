@@ -1,3 +1,8 @@
+2011-02-26  Morten Welinder  <terra@gnome.org>
+
+	* lpsolve-write.c (lpsolve_affine_func): Fix writing of affine
+	part.
+
 2011-02-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.13

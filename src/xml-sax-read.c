@@ -61,6 +61,7 @@
 #include "application.h"
 #include "gutils.h"
 #include "clipboard.h"
+#include "number-match.h"
 
 #include <goffice/goffice.h>
 
@@ -2382,6 +2383,21 @@ xml_sax_object_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	 */
 }
 
+static GnmValue *
+parse_contraint_side (const char *s, const GnmParsePos *pp)
+{
+	GODateConventions const *date_conv =
+		workbook_date_conv (pp->sheet->workbook);
+	GnmValue *v = format_match_number (s, NULL, date_conv);
+
+	if (!v) {
+		GnmExprParseFlags flags = GNM_EXPR_PARSE_DEFAULT;
+		v = value_new_cellrange_parsepos_str (pp, s, flags);
+	}
+
+	return v;
+}
+
 static void
 xml_sax_solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -2393,7 +2409,6 @@ xml_sax_solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int cols = 1, rows = 1;
 	gboolean old = FALSE;
 	GnmParsePos pp;
-	GnmExprParseFlags flags = GNM_EXPR_PARSE_DEFAULT;
 
 	c = gnm_solver_constraint_new (sheet);
 
@@ -2410,12 +2425,12 @@ xml_sax_solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gnm_xml_attr_int (attrs, "Type", &type))
 			; /* Nothing */
 		else if (attr_eq (attrs[0], "lhs")) {
-			GnmValue *v = value_new_cellrange_parsepos_str
-				(&pp, CXML2C (attrs[1]), flags);
+			GnmValue *v = parse_contraint_side (CXML2C (attrs[1]),
+							    &pp);
 			gnm_solver_constraint_set_lhs (c, v);
 		} else if (attr_eq (attrs[0], "rhs")) {
-			GnmValue *v = value_new_cellrange_parsepos_str
-				(&pp, CXML2C (attrs[1]), flags);
+			GnmValue *v = parse_contraint_side (CXML2C (attrs[1]),
+							    &pp);
 			gnm_solver_constraint_set_rhs (c, v);
 		}
 	}
