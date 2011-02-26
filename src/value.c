@@ -371,7 +371,7 @@ value_new_cellrange_str (Sheet *sheet, char const *str)
  * succesfully parsed or NULL on failure.
  */
 GnmValue *
-value_new_cellrange_parsepos_str (GnmParsePos *pp, char const *str,
+value_new_cellrange_parsepos_str (GnmParsePos const *pp, char const *str,
 				  GnmExprParseFlags flags)
 {
 	GnmExprTop const *texpr;

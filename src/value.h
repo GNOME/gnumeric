@@ -120,7 +120,8 @@ GnmValue *value_new_cellrange        (GnmCellRef const *a, GnmCellRef const *b,
 				      int eval_col, int eval_row);
 GnmValue *value_new_cellrange_r      (Sheet *sheet, GnmRange const *r);
 GnmValue *value_new_cellrange_str    (Sheet *sheet, char const *str);
-GnmValue *value_new_cellrange_parsepos_str (GnmParsePos *pp, char const *str,
+GnmValue *value_new_cellrange_parsepos_str (GnmParsePos const *pp,
+					    char const *str,
 					    GnmExprParseFlags flags);
 GnmValue *value_new_array            (guint cols, guint rows);
 GnmValue *value_new_array_empty      (guint cols, guint rows);
