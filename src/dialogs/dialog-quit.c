@@ -362,8 +362,6 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 				    -1);
 	}
 
-	g_object_unref (list);
-
 	/* ---------------------------------------- */
 
 	atk_object_set_role (gtk_widget_get_accessible (GTK_WIDGET (dialog)),
@@ -374,37 +372,43 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 	switch (res) {
 	case GTK_RESPONSE_CANCEL:
 	case GTK_RESPONSE_DELETE_EVENT:
-		return FALSE;
+		quit = FALSE;
+		break;
 
 	case GTK_RESPONSE_NO:
-		return TRUE;
+		quit = TRUE;
+		break;
+
+	default:
+		model = GTK_TREE_MODEL (list);
+		ok = gtk_tree_model_get_iter_first (model, &iter);
+
+		g_return_val_if_fail (ok, FALSE);
+		quit = TRUE;
+		do {
+			gboolean save = TRUE;
+			GODoc *doc = NULL;
+
+			gtk_tree_model_get (model, &iter,
+					    QUIT_COL_CHECK, &save,
+					    QUIT_COL_DOC, &doc,
+					    -1);
+			if (save) {
+				gboolean ok;
+				Workbook *wb = WORKBOOK (doc);
+				WBCGtk *wbcg2 = wbcg_find_for_workbook (wb, wbcg, NULL, NULL);
+
+				ok = wbcg2 && gui_file_save (wbcg2, wb_control_view (WORKBOOK_CONTROL (wbcg2)));
+				if (!ok)
+					quit = FALSE;
+			}
+
+			ok = gtk_tree_model_iter_next (model, &iter);
+		} while (ok);
+		break;
 	}
 
-	model = gtk_tree_view_get_model (tree);
-	ok = gtk_tree_model_get_iter_first (model, &iter);
-	g_return_val_if_fail (ok, FALSE);
-	quit = TRUE;
-	do {
-		gboolean save = TRUE;
-		GODoc *doc = NULL;
-
-		gtk_tree_model_get (model, &iter,
-				    QUIT_COL_CHECK, &save,
-				    QUIT_COL_DOC, &doc,
-				    -1);
-		if (save) {
-			gboolean ok;
-			Workbook *wb = WORKBOOK (doc);
-			WBCGtk *wbcg2 = wbcg_find_for_workbook (wb, wbcg, NULL, NULL);
-
-			ok = wbcg2 && gui_file_save (wbcg2, wb_control_view (WORKBOOK_CONTROL (wbcg2)));
-			if (!ok)
-				quit = FALSE;
-		}
-
-		ok = gtk_tree_model_iter_next (model, &iter);
-	} while (ok);
-
+	g_object_unref (list);
 	return quit;
 }
 

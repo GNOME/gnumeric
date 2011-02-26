@@ -1,3 +1,7 @@
+2011-02-26  Morten Welinder  <terra@gnome.org>
+
+	* dialog-quit.c (show_quit_dialog): Fix the fix.
+
 2011-02-25  Morten Welinder  <terra@gnome.org>
 
 	* dialog-preferences.c (wordlist_pref_create_widget): Plug leak.
