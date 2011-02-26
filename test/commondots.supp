@@ -236,3 +236,10 @@
    ...
    fun:FT_Init_FreeType
 }
+
+{
+   Leak/fontconfig
+   Memcheck:Leak
+   fun:malloc
+   fun:FcConfigValues
+}
