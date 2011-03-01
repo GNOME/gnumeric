@@ -100,7 +100,7 @@ get_node (const char *key)
 {
 	GOConfNode *res = g_hash_table_lookup (node_pool, key);
 	if (!res) {
-		res = go_conf_get_node (root, key);
+		res = go_conf_get_node (key[0] == '/' ? NULL : root, key);
 		g_hash_table_insert (node_pool, (gpointer)key, res);
 	}
 	return res;

@@ -1,3 +1,8 @@
+2011-03-01  Morten Welinder  <terra@gnome.org>
+
+	* src/gnumeric-gconf.c (get_node): Handle absolute keys, assuming
+	goffice handles them.
+
 2011-02-26  Morten Welinder  <terra@gnome.org>
 
 	* src/value.c (value_new_cellrange_parsepos_str): Constify.
