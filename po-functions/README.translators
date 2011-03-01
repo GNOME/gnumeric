@@ -15,7 +15,7 @@ support translated function names but currently the name needs to remain as it
 is. The same all-uppercase names may appear elsewhere in strings in this file 
 and they must, at this time, also remain eactly as given.)
 
-If the text preceding the colon is in all lower or mixed case (as inthe second 
+If the text preceding the colon is in all lower or mixed case (as in the second 
 example) then it is an argument name and should be translated. Argument names 
 that appear in other strings are surrounded by @{} and you must translate the 
 content of @{} exactly like you translated the argument name when it preceded 
