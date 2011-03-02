@@ -1,3 +1,8 @@
+2011-03-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* formula-guru.ui: make sure everything is visible (also in 
+	translations)
+
 2011-02-26  Morten Welinder  <terra@gnome.org>
 
 	* dialog-quit.c (show_quit_dialog): Fix the fix.
