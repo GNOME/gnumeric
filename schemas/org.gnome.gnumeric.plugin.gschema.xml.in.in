@@ -1,0 +1,28 @@
+<schemalist>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.plugin" path="/apps/gnumeric/plugin/">
+    <child name="latex" schema="org.gnome.gnumeric.plugin.latex"/>
+    <child name="lpsolve" schema="org.gnome.gnumeric.plugin.lpsolve"/>
+    <child name="glpk" schema="org.gnome.gnumeric.plugin.glpk"/>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.plugin.latex" path="/apps/gnumeric/plugin/latex/">
+    <key name="use-utf8" type="b">
+      <default>false</default>
+      <_summary>Use UTF-8 in LaTeX Export</_summary>
+      <_description>This setting determines whether created LaTeX files use UTF-8 (unicode) or ISO-8859-1 (Latin1). To use the UTF-8 files, you must have the ucs LaTeX package installed.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.plugin.lpsolve" path="/apps/gnumeric/plugin/lpsolve/">
+    <key name="lpsolve-path" type="s">
+      <default>''</default>
+      <_summary>Full path of lp_solve program to use</_summary>
+      <_description>This is the full path to the lp_solve binary that the lpsolve plugin should use.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.plugin.glpk" path="/apps/gnumeric/plugin/glpk/">
+    <key name="glpsol-path" type="s">
+      <default>''</default>
+      <_summary>Full path of glpsol program to use</_summary>
+      <_description>This is the full path to the glpsol binary that the lpsolve plugin should use.</_description>
+    </key>
+  </schema>
+</schemalist>

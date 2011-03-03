@@ -1,0 +1,268 @@
+<schemalist>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric" path="/apps/gnumeric/">
+    <child name="undo" schema="org.gnome.gnumeric.undo"/>
+    <child name="core" schema="org.gnome.gnumeric.core"/>
+    <child name="cut-and-paste" schema="org.gnome.gnumeric.cut-and-paste" />
+    <!-- Override the global setting because our toolbars look terrible with text -->
+    <key name="toolbar-style" type="s">
+      <default>'icons'</default>
+      <_summary>Toolbar Style</_summary>
+      <_description>Toolbar Style. Valid values are both, both_horiz, icon, and text.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.undo" path="/apps/gnumeric/undo/">
+    <key name="show-sheet-name" type="b">
+      <default>false</default>
+      <_summary>Show Sheet Name in Undo List</_summary>
+      <_description>This value determines whether to show the sheet names in the undo and redo lists.</_description>
+    </key>
+    <key name="size" type="i">
+      <default>100</default>
+      <_summary>Maximal Undo Size</_summary>
+      <_description>This value determines the length of the undo chain. Each editing action has a size associate with it, to compare it with the memory requirements of a simple one-cell edit (size of 1). The undo list will be truncated when its total size exceeds this configurable value.</_description>
+    </key>
+    <key name="maxnum" type="i">
+      <default>20</default>
+      <_summary>Number of Undo Items</_summary>
+      <_description>This value determines the maximum number of items in the undo/redo list.</_description>
+    </key>
+    <key name="max-descriptor-width" type="i">
+      <default>40</default>
+      <_summary>Length of the Undo Descriptors</_summary>
+      <_description>This value is indicative of the maximum length of the command descriptors in the undo and redo chains.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core" path="/apps/gnumeric/core/">
+    <child name="defaultfont" schema="org.gnome.gnumeric.core.defaultfont"/>
+    <child name="workbook" schema="org.gnome.gnumeric.core.workbook"/>
+    <child name="gui" schema="org.gnome.gnumeric.core.gui"/>
+    <child name="xml" schema="org.gnome.gnumeric.core.xml" />
+    <child name="file" schema="org.gnome.gnumeric.core.file" />
+   <child name="sort" schema="org.gnome.gnumeric.core.sort" />
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.defaultfont" path="/apps/gnumeric/core/defaultfont/">
+    <key name="size" type="d">
+      <default>10</default>
+      <_summary>Default Font Size</_summary>
+      <_description>The default font size for new workbooks.</_description>
+    </key>
+    <key name="name" type="s">
+      <default>'Sans'</default>
+      <_summary>Default font name</_summary>
+      <_description>The default font name for new workbooks.</_description>
+    </key>
+    <key name="bold" type="b">
+      <default>false</default>
+      <_summary>The default font is bold.</_summary>
+      <_description>This value determines whether the default font for a new workbook is bold.</_description>
+    </key>
+    <key name="italic" type="b">
+      <default>false</default>
+      <_summary>The default font is italic.</_summary>
+      <_description>This value determines whether the default font for a new workbook is italic.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.workbook" path="/apps/gnumeric/core/workbook/">
+    <key name="n-sheet" type="i">
+      <default>3</default>
+      <_summary>Default Number of Sheets</_summary>
+      <_description>The number of sheets initially created in a new workbook.</_description>
+    </key>
+    <key name="n-rows" type="i">
+      <default>65536</default>
+      <_summary>Default Number of rows in a sheet</_summary>
+      <_description>The number of rows in each sheet. This setting will be used only in a new gnumeric session.</_description>
+    </key>
+    <key name="n-cols" type="i">
+      <default>256</default>
+      <_summary>Default Number of columns in a sheet</_summary>
+      <_description>The number of columns in each sheet. This setting will be used only in a new gnumeric session.</_description>
+    </key>
+    <key name="autosave-time" type="i">
+      <default>0</default>
+      <_summary>Autosave frequency</_summary>
+      <_description>The number of seconds between autosaves.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui" path="/apps/gnumeric/core/gui/">
+    <child name="screen" schema="org.gnome.gnumeric.core.gui.screen"/>
+    <child name="toolbars" schema="org.gnome.gnumeric.core.gui.toolbars"/>
+    <child name="editing" schema="org.gnome.gnumeric.core.gui.editing"/>
+    <child name="window" schema="org.gnome.gnumeric.core.gui.window"/>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.screen" path="/apps/gnumeric/core/gui/screen/">
+    <key name="horizontaldpi" type="d">
+      <default>96</default>
+      <_summary>Horizontal DPI</_summary>
+      <_description>Screen resolution in the horizontal direction.</_description>
+    </key>
+    <key name="verticaldpi" type="d">
+      <default>96</default>
+      <_summary>Vertical DPI</_summary>
+      <_description>Screen resolution in the vertical direction.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.toolbars" path="/apps/gnumeric/core/gui/toolbars/">
+    <key name="standardtoolbar" type="b">
+      <default>true</default>
+      <_summary>Standard toolbar visible</_summary>
+      <_description>This variable determines whether the standard toolbar should be visible initially.</_description>
+    </key>
+    <key name="standardtoolbar-position" type="i">
+      <default>2</default>
+      <_summary>Standard toolbar position</_summary>
+      <_description>This variable determines where the standard toolbar should be shown.  0 is left, 1 is right, 2 is top.</_description>
+    </key>
+    <key name="formattoolbar" type="b">
+      <default>true</default>
+      <_summary>Format toolbar visible</_summary>
+      <_description>This variable determines whether the format toolbar should be visible initially.</_description>
+    </key>
+    <key name="formattoolbar-position" type="i">
+      <default>2</default>
+      <_summary>Format toolbar position</_summary>
+      <_description>This variable determines where the format toolbar should be shown.  0 is left, 1 is right, 2 is top.</_description>
+    </key>
+    <key name="longformattoolbar" type="b">
+      <default>true</default>
+      <_summary>Long format toolbar visible</_summary>
+      <_description>This variable determines whether the long format toolbar should be visible initially.</_description>
+    </key>
+    <key name="longformattoolbar-position" type="i">
+      <default>2</default>
+      <_summary>Long format toolbar position</_summary>
+      <_description>This variable determines where the long format toolbar should be shown.  0 is left, 1 is right, 2 is top.</_description>
+    </key>
+    <key name="objecttoolbar" type="b">
+      <default>true</default>
+      <_summary>Object toolbar visible</_summary>
+      <_description>This variable determines whether the object toolbar should be visible initially.</_description>
+    </key>
+    <key name="objecttoolbar-position" type="i">
+      <default>2</default>
+      <_summary>Object toolbar position</_summary>
+      <_description>This variable determines where the object toolbar should be shown.  0 is left, 1 is right, 2 is top.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.editing" path="/apps/gnumeric/core/gui/editing/">
+    <key name="autocomplete" type="b">
+      <default>true</default>
+      <_summary>Autocomplete</_summary>
+      <_description>This variable determines whether autocompletion is set on.</_description>
+    </key>
+    <key name="function-name-tooltips" type="b">
+      <default>true</default>
+      <_summary>Show Function Name Tooltips</_summary>
+      <_description>This variable determines whether to show function name tooltips.</_description>
+    </key>
+    <key name="function-argument-tooltips" type="b">
+      <default>true</default>
+      <_summary>Show Function Argument Tooltips</_summary>
+      <_description>This variable determines whether to show function argument tooltips.</_description>
+    </key>
+    <key name="enter-moves-dir" type="s">
+      <default>'down'</default>
+      <_summary>Enter Direction</_summary>
+      <_description>Which direction pressing Enter will move the edit position.</_description>
+    </key>
+    <key name="livescrolling" type="b">
+      <default>true</default>
+      <_summary>Live Scrolling</_summary>
+      <_description>This variable determines whether live (versus delayed) scrolling is performed.</_description>
+    </key>
+    <key name="recalclag" type="i">
+      <default>200</default>
+      <_summary>Auto Expression Recalculation Lag</_summary>
+      <_description>If `lag' is 0, gnumeric recalculates all auto expressions immediately after every change.  Non-zero values of `lag' allow gnumeric to accumulate more changes before each recalculation.
+If `lag' is positive, then whenever a change appears, gnumeric waits `lag'
+milleseconds and then recalculates; if more changes appear during that period,
+they are also processed at that time. If `lag' is negative, then recalculation happens only after a quiet period of
+|lag| milleseconds.</_description>
+    </key>
+    <key name="transitionkeys" type="b">
+      <default>false</default>
+      <_summary>>Transition Keys</_summary>
+      <_description>This variable determines whether transition keys are set on. Transition keys are a throw back to 1-2-3 style event handling.
+	     They turn Ctrl-arrow into page movement rather than jumping to the start/end of series.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.window" path="/apps/gnumeric/core/gui/window/">
+    <key name="x" type="d">
+      <default>0.75</default>
+      <_summary>Default Horizontal Window Size</_summary>
+      <_description>This number (between 0.25 and 1.00) gives the horizontal fraction of the screen size covered by the default window.</_description>
+    </key>
+    <key name="y" type="d">
+      <default>0.75</default>
+      <_summary>Default Vertical Window Size</_summary>
+      <_description>This number (between 0.25 and 1.00) gives the vertical fraction of the screen size covered by the default window.</_description>
+    </key>
+    <key name="zoom" type="d">
+      <default>1</default>
+      <_summary>Default Zoom Factor</_summary>
+      <_description>The initial zoom factor for new workbooks.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.xml" path="/apps/gnumeric/core/xml/">
+    <key name="compression-level" type="i">
+      <default>9</default>
+      <_summary>Default Compression Level For Gnumeric Files</_summary>
+      <_description>This integer (between 0 and 9) specifies the amount of compression performed by Gnumeric when saving files in the default file format. 0 is minimal compression while 9 is maximal compression.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.file" path="/apps/gnumeric/core/file/">
+    <child name="save" schema="org.gnome.gnumeric.core.file.save" />
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.file.save" path="/apps/gnumeric/core/file/save/">
+    <key name="single-sheet" type="b">
+      <default>true</default>
+      <_summary>Warn When Exporting Into Single Sheet Format</_summary>
+      <_description>Some file formats can contain only a single sheet. This variable determines whether the user will be warned if only a single sheet of a multi-sheet workbook is being saved.</_description>
+    </key>
+    <key name="def-overwrite" type="b">
+      <default>false</default>
+      <_summary>Default To Overwriting Files</_summary>
+      <_description>Before an existing file is being overwritten, gnumeric will present a warning dialog. Setting this option will make the overwrite button in that dialog the default button.</_description>
+    </key>
+    <key name="extension-check-disabled" type="as">
+      <default>[]</default>
+      <_summary>List of file savers with disabled extension check.</_summary>
+      <_description>This list contains the ids of the file savers for which the extension check is disabled.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.sort" path="/apps/gnumeric/core/sort/">
+    <child name="default" schema="org.gnome.gnumeric.core.sort.default" />
+    <child name="dialog" schema="org.gnome.gnumeric.core.sort.dialog" />
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.sort.default" path="/apps/gnumeric/core/sort/default/">
+    <key name="by-case" type="b">
+      <default>false</default>
+      <_summary>Sort is Case-Sensitive</_summary>
+      <_description>Setting this option will cause the sort buttons on the toolbar to perform a case-sensitive sort and determine the initial state of the case-sensitive checkbox in the sort dialog.</_description>
+    </key>
+    <key name="retain-formats" type="b">
+      <default>true</default>
+      <_summary>Sorting Preserves Formats</_summary>
+      <_description>Setting this option will cause the sort buttons on the toolbar to preserve the cell formats while sorting and determines the initial state of the preserve-formats checkbox in the sort dialog.</_description>
+    </key>
+    <key name="ascending" type="b">
+      <default>true</default>
+      <_summary>Sort Ascending</_summary>
+      <_description>This option determines the initial state of the sort-order button in the sort dialog.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.sort.dialog" path="/apps/gnumeric/core/sort/dialog/">
+    <key name="max-initial-clauses" type="i">
+      <default>10</default>
+      <_summary>Number of Automatic Clauses</_summary>
+      <_description>When selecting a sort region in the sort dialog, sort clauses are automatically added. This number determines the maximum number of clauses to be added automatically.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.cut-and-paste" path="/apps/gnumeric/cut-and-paste/">
+    <key name="prefer-clipboard" type="b">
+      <default>true</default>
+      <_summary>Prefer CLIPBOARD over PRIMARY selection</_summary>
+      <_description>When TRUE, Gnumeric will prefer the modern CLIPBOARD selection over the legacy PRIMARY selections.  Set to FALSE if you have to deal with older applications, like Xterm or Emacs, which set only the PRIMARY selection.</_description>
+    </key>
+  </schema>
+</schemalist>

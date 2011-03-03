@@ -13,6 +13,7 @@ Andreas:
 
 Jean:
 	* Fix cursor position inside a cell edited in a zoomed sheet. [#641709]
+	* Add GSettings schemas.
 
 Morten:
 	* Import wide sc files.  [#641581]

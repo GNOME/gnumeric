@@ -1,3 +1,7 @@
+2011-03-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* POTFILES.in: add gschema files.
+
 2011-02-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.13

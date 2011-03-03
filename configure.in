@@ -843,6 +843,13 @@ AC_ARG_WITH(long_double,
 )
 
 dnl **************************************************
+dnl * Check for GSettings
+dnl **************************************************
+AC_CHECK_LIB(gio-2.0,[g_settings_new])
+GLIB_GSETTINGS
+AM_CONDITIONAL(HAVE_GSETTINGS, test $ac_cv_lib_gio_2_0_g_settings_new=yes)
+
+dnl **************************************************
 dnl * Check for Perl
 dnl **************************************************
 
@@ -1167,6 +1174,9 @@ plugins/xbase/Makefile
 po/Makefile.in
 po-functions/Makefile.in
 schemas/Makefile
+schemas/org.gnome.gnumeric.gschema.xml.in
+schemas/org.gnome.gnumeric.dialogs.gschema.xml.in
+schemas/org.gnome.gnumeric.plugin.gschema.xml.in
 templates/Makefile
 templates/english/Makefile
 templates/autoformat/Makefile

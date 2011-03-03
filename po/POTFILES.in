@@ -121,6 +121,9 @@ plugins/xbase/xbase.c
 schemas/gnumeric-dialogs.schemas.in
 schemas/gnumeric-general.schemas.in
 schemas/gnumeric-plugins.schemas.in
+schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in
+schemas/org.gnome.gnumeric.gschema.xml.in.in
+schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in
 src/GNOME_Gnumeric-gtk.xml.in
 src/HILDON_Gnumeric-gtk.xml.in
 src/application.c

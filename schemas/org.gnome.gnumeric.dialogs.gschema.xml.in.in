@@ -1,0 +1,353 @@
+<schemalist>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.functionselector" path="/apps/gnumeric/functionselector/">
+    <key name="recentfunctions" type="as">
+      <default>[]</default>
+      <_summary>List of recently used functions.</_summary>
+      <_description>The function selector keeps a list of recently used functions. This is that list.</_description>
+    </key>
+    <key name="num-of-recent" type="i">
+      <default>12</default>
+      <_summary>Maximum Length of Recently Used Functions List</_summary>
+      <_description>The function selector keeps a list of recently used functions. This is the maximum length of that list.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.autocorrect" path="/apps/gnumeric/autocorrect/">
+    <key name="init-caps" type="b">
+      <default>true</default>
+      <_summary>Autocorrect initial caps</_summary>
+      <_description>Autocorrect initial caps</_description>
+    </key>
+    <key name="first-letter" type="b">
+      <default>true</default>
+      <_summary>Autocorrect first letter</_summary>
+      <_description>Autocorrect first letter</_description>
+    </key>
+    <key name="first-letter-list" type="as">
+      <default>[]</default>
+      <_summary>List of First Letter Exception</_summary>
+      <_description>The autocorrect engine does not correct the first letter for words in this list.</_description>
+    </key>
+    <key name="names-of-days" type="b">
+      <default>true</default>
+      <_summary>Autocorrect names of days</_summary>
+      <_description>Autocorrect names of days</_description>
+    </key>
+    <key name="replace" type="b">
+      <default>true</default>
+      <_summary>Autocorrect replace</_summary>
+      <_description>Autocorrect replace</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.plugins" path="/apps/gnumeric/plugins/">
+    <key name="activate-new" type="b">
+      <default>true</default>
+      <_summary>Activate New Plugins</_summary>
+      <_description>This variable determines whether to activate every new encountered plugin.</_description>
+    </key>
+    <key name="active" type="as">
+      <default>[]</default>
+      <_summary>List of Active Plugins.</_summary>
+      <_description>This list contains all plugins that are supposed to be automatically activated.</_description>
+    </key>
+    <key name="known" type="as">
+      <default>[]</default>
+      <_summary>List of Known Plugins.</_summary>
+      <_description>This list contains all known plugins.</_description>
+    </key>
+    <key name="file-states" type="as">
+      <default>[]</default>
+      <_summary>List of Plugin File States.</_summary>
+      <_description>This list contains all plugin file states.</_description>
+    </key>
+    <key name="extra-dirs" type="as">
+      <default>[]</default>
+      <_summary>List of Extra Plugin Directories.</_summary>
+      <_description>This list contains all extra directories containing plugins.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.autoformat" path="/apps/gnumeric/autoformat/">
+    <key name="extra-dirs" type="as">
+      <default>[]</default>
+      <_summary>List of Extra Autoformat Directories.</_summary>
+      <_description>This list contains all extra directories containing autoformat templates.</_description>
+    </key>
+    <key name="sys-dir" type="s">
+      <default>'autoformat-templates'</default>
+      <_summary>System Directory for Autoformats</_summary>
+      <_description>This directory contains the pre-installed autoformat templates.</_description>
+    </key>
+    <key name="usr-dir" type="s">
+      <default>'autoformat-templates'</default>
+      <_summary>User Directory for Autoformats</_summary>
+      <_description>The main directory for user specific autoformat templates.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.printsetup" path="/apps/gnumeric/printsetup/">
+    <key name="all-sheets" type="b">
+      <default>false</default>
+      <_summary>Apply print-setup to all sheets</_summary>
+      <_description>This value determines whether by default the print set-up dialog applies to all sheets simultaneously.</_description>
+    </key>
+    <key name="gtk-setting" type="as">
+      <default>[]</default>
+      <_summary>GTKPrintSetting</_summary>
+      <_description>The configuration of GTKPrintSetting. Do not edit this variable.</_description>
+    </key>
+    <key name="header" type="as">
+      <default>['','&amp;\[TAB\]','']</default>
+      <_summary>Page Header</_summary>
+      <_description>The default page header for new documents that can be modified using the 
+	page setup dialog.</_description>
+    </key>
+    <key name="footer" type="as">
+      <default>['','Page &amp;\[PAGE\]','']</default>
+      <_summary>Page Footer</_summary>
+      <_description>The default page footer for new documents that can be modified using the 
+	page setup dialog.</_description>
+    </key>
+    <key name="hf-font-size" type="d">
+      <default>10</default>
+      <_summary>Default Header/Footer Font Size</_summary>
+      <_description>The default font size for headers and footers.</_description>
+    </key>
+    <key name="hf-font-name" type="s">
+      <default>'Sans'</default>
+      <_summary>Default header/footer font name</_summary>
+      <_description>The default font name for headers and footers.</_description>
+    </key>
+    <key name="hf-font-bold" type="b">
+      <default>false</default>
+      <_summary>The default header/footer font is bold.</_summary>
+      <_description>This value determines whether the default font for headers and footers is bold.</_description>
+    </key>
+    <key name="hf-font-italic" type="b">
+      <default>false</default>
+      <_summary>The default header/footer font is italic.</_summary>
+      <_description>This value determines whether the default font for headers and footers is italic.</_description>
+    </key>
+    <key name="center-horizontally" type="b">
+      <default>false</default>
+      <_summary>Default Horizontal Centering</_summary>
+      <_description>This value determines whether the default setting in the Print Setup dialog is to center pages horizontally.</_description>
+    </key>
+    <key name="center-vertically" type="b">
+      <default>false</default>
+      <_summary>Default Vertical Centering</_summary>
+      <_description>This value determines whether the default setting in the Print Setup dialog is to center pages vertically.</_description>
+    </key>
+    <key name="print-grid-lines" type="b">
+      <default>false</default>
+      <_summary>Default Grid Line Printing</_summary>
+      <_description>This value determines the default setting in the Print Setup dialog whether print grid lines. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="print-even-if-only-styles" type="b">
+      <default>false</default>
+      <_summary>Default Print Cells with Only Styles</_summary>
+      <_description>This value determines the default setting in the Print Setup dialog whether to print empty but formatted cells. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="print-black-n-white" type="b">
+      <default>false</default>
+      <_summary>Default Black and White Printing</_summary>
+      <_description>This value determines the default setting in the Print Setup dialog whether to print in only black and white. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="print-titles" type="b">
+      <default>false</default>
+      <_summary>Default Title Printing</_summary>
+      <_description>This value determines the default setting in the Print Setup dialog whether to print row and column headers. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="across-then-down" type="b">
+      <default>false</default>
+      <_summary>Default Print Direction</_summary>
+      <_description>This value determines the default setting in the Print Setup dialog whether to print first right then down. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="scale-percentage" type="b">
+      <default>true</default>
+      <_summary>Default Scale Type</_summary>
+      <_description>This value determines the default setting in the Print Setup dialog whether to scale pages by a given percentage. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="scale-percentage-value" type="d">
+      <default>100</default>
+      <_summary>Default Scale Percentage</_summary>
+      <_description>This value gives the percentage by which to scale each printed page. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="scale-width" type="i">
+      <default>0</default>
+      <_summary>Default Scaling Width</_summary>
+      <_description>This value determines the maximum number of pages that make up the width of a printout of the current sheet. The sheet will be reduced to fit within this width. This value can be changed in the Page Setup dialog.</_description>
+    </key>
+    <key name="scale-height" type="i">
+      <default>0</default>
+      <_summary>Default Scaling Height</_summary>
+      <_description>This value determines the maximum number of pages that make up the height of a printout of the current sheet. The sheet will be reduced to fit within this height. This value can be changed in the Page Setup dialog.</_description>
+    </key>
+    <key name="repeat-top" type="s">
+      <default>''</default>
+      <_summary>Default Repeated Top Region</_summary>
+      <_description>This string gives the default region to be repeated at the top of each printed sheet. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="repeat-left" type="s">
+      <default>''</default>
+      <_summary>Default Repeated Left Region</_summary>
+      <_description>This string gives the default region to be repeated at the left of each printed sheet. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="preferred-unit" type="s">
+      <default>'mm'</default>
+      <_summary>Preferred Display Unit</_summary>
+      <_description>This string gives the default unit to be used in the page setup dialog.</_description>
+    </key>
+    <key name="margin-top" type="d">
+      <default>120</default>
+      <_summary>Default Top Margin</_summary>
+      <_description>This value gives the default number of points from the top of a page to the start of the body. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="margin-bottom" type="d">
+      <default>120</default>
+      <_summary>Default Bottom Margin</_summary>
+      <_description>This value gives the default number of points from the bottom of a page to the end of the body. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="margin-gtk-bottom" type="d">
+      <default>72</default>
+      <_summary>Default Bottom Outside Margin</_summary>
+      <_description>This value gives the default number of points from the bottom of a page to the end of the footer. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="margin-gtk-top" type="d">
+      <default>72</default>
+      <_summary>Default Top Outside Margin</_summary>
+      <_description>This value gives the default number of points from the top of a page to the top of the header. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="margin-gtk-left" type="d">
+      <default>72</default>
+      <_summary>Default Left Margin</_summary>
+      <_description>This value gives the default number of points from the left of a page to the left of the body. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="margin-gtk-right" type="d">
+      <default>72</default>
+      <_summary>Default Bottom Margin</_summary>
+      <_description>This value gives the default number of points from the right of a page to the right of the body. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="paper" type="s">
+      <default>''</default>
+      <_summary>Paper</_summary>
+      <_description>This is the default paper specification. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="paper-orientation" type="i">
+      <default>0</default>
+      <_summary>Paper orientation</_summary>
+      <_description>This is the default paper orientation. Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="hf-left" type="as">
+      <default>[]</default>
+      <_summary>Header/Footer Format (Left Portion)</_summary>
+      <_description>Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="hf-middle" type="as">
+      <default>[]</default>
+      <_summary>Header/Footer Format (Middle Portion)</_summary>
+      <_description>Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+    <key name="hf-right" type="as">
+      <default>[]</default>
+      <_summary>Header/Footer Format (Right Portion)</_summary>
+      <_description>Please use the Print Setup dialog to edit this value.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.dialogs.rs" path="/apps/gnumeric/dialogs/rs/">
+    <key name="unfocused" type="b">
+      <default>false</default>
+      <_summary>Allow Unfocused Range Selections</_summary>
+      <_description>Some dialogs contain only a single entry field that allows range selections in the workbook. Setting this variable to TRUE directs selections to this entry even if the entry does not have keyboard focus.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.stf" path="/apps/gnumeric/stf/">
+    <child name="export" schema="org.gnome.gnumeric.stf.export" />
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.stf.export" path="/apps/gnumeric/stf/export/">
+    <key name="stringindicator" type="s">
+      <default>'"'</default>
+      <_summary>Text Export String Indicator</_summary>
+      <_description>Please use the Text Export dialog to edit this value.</_description>
+    </key>
+    <key name="separator" type="s">
+      <default>','</default>
+      <_summary>Text Export Field Separator</_summary>
+      <_description>Please use the Text Export dialog to edit this value.</_description>
+    </key>
+    <key name="terminator" type="s">
+      <default>'&#10;'</default>
+      <_summary>Text Export Record Terminator</_summary>
+      <_description>Please use the Text Export dialog to edit this value.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.searchreplace" path="/apps/gnumeric/searchreplace/">
+    <key name="ignore-case" type="b">
+      <default>true</default>
+      <_summary>Search &amp; Replace Ignores Case</_summary>
+      <_description>Search &amp; Replace ignores case as default</_description>
+    </key>
+    <key name="preserve-case" type="b">
+      <default>false</default>
+      <_summary>Search &amp; Replace Preserves Case</_summary>
+      <_description>Search &amp; Replace preserves case as default</_description>
+    </key>
+    <key name="query" type="b">
+      <default>false</default>
+      <_summary>Search &amp; Replace Poses Query</_summary>
+      <_description>Search &amp; Replace poses query before each change as default</_description>
+    </key>
+    <key name="whole-words-only" type="b">
+      <default>false</default>
+      <_summary>Search &amp; Replace Whole Words Only</_summary>
+      <_description>Search &amp; Replace replaces whole words only as default</_description>
+    </key>
+    <key name="scope" type="i">
+      <default>0</default>
+      <_summary>Search &amp; Replace Scope</_summary>
+      <_description>This is the default scope of Search &amp; Replace. 0: entire workbook; 1: current sheet; 2: range</_description>
+    </key>
+    <key name="change-cell-strings" type="b">
+      <default>true</default>
+      <_summary>Search &amp; Replace Changes Strings</_summary>
+      <_description>Search &amp; Replace changes cells containing strings as default</_description>
+    </key>
+    <key name="change-cell-expressions" type="b">
+      <default>true</default>
+      <_summary>Search &amp; Replace Changes Expressions</_summary>
+      <_description>Search &amp; Replace changes cells containing expressions as default</_description>
+    </key>
+    <key name="change-cell-other" type="b">
+      <default>true</default>
+      <_summary>Search &amp; Replace Changes Other Values</_summary>
+      <_description>Search &amp; Replace changes cells containing other values as default</_description>
+    </key>
+    <key name="change-comments" type="b">
+      <default>false</default>
+      <_summary>Search &amp; Replace Changes Comments</_summary>
+      <_description>Search &amp; Replace changes comments as default</_description>
+    </key>
+    <key name="search-results" type="b">
+      <default>true</default>
+      <_summary>Search searches in results</_summary>
+      <_description>Search searches in results as default</_description>
+    </key>
+    <key name="keep-strings" type="b">
+      <default>true</default>
+      <_summary>Search &amp; Replace Keeps Strings as Strings</_summary>
+      <_description>Search &amp; Replace keeps strings as strings even if they look like numbers as default</_description>
+    </key>
+    <key name="regex" type="i">
+      <default>0</default>
+      <_summary>Search &amp; Replace Search Type</_summary>
+      <_description>This value determines the input type for Search &amp; Replace. 0: text; 1: regular expression; 2: number</_description>
+    </key>
+    <key name="columnmajor" type="b">
+      <default>true</default>
+      <_summary>Search &amp; Replace Column Major</_summary>
+      <_description>Search &amp; Replace proceeds in column major order as default</_description>
+    </key>
+    <key name="error-behaviour" type="i">
+      <default>0</default>
+      <_summary>Search &amp; Replace Error Behavior</_summary>
+      <_description>This is the default error behavior of Search &amp; Replace indicated by an integer from 0 to 4.</_description>
+    </key>
+  </schema>
+</schemalist>  

@@ -1,3 +1,11 @@
+2011-03-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: add gschema files.
+	* schemas/Makefile.am: ditto.
+	* schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in: ditto.
+	* schemas/org.gnome.gnumeric.gschema.xml.in.in: ditto.
+	* schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in: ditto.
+
 2011-03-01  Morten Welinder  <terra@gnome.org>
 
 	* src/gnumeric-gconf.c (get_node): Handle absolute keys, assuming

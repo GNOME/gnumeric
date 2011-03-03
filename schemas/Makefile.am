@@ -4,10 +4,27 @@ schemadir   	= @GCONF_SCHEMA_FILE_DIR@
 schema_DATA 	= $(schema_in_files:.schemas.in=.schemas)
 endif
 
-EXTRA_DIST = $(schema_in_files)
+EXTRA_DIST =
 CLEANFILES = $(schema_DATA)
 
 @INTLTOOL_SCHEMAS_RULE@
+
+if HAVE_GSETTINGS
+gsettings_SCHEMAS =	\
+	org.gnome.gnumeric.gschema.xml	\
+	org.gnome.gnumeric.dialogs.gschema.xml	\
+	org.gnome.gnumeric.plugin.gschema.xml
+
+@INTLTOOL_XML_NOMERGE_RULE@
+
+@GSETTINGS_RULES@
+
+endif
+
+EXTRA_DIST += $(schema_in_files)	\
+	org.gnome.gnumeric.gschema.xml.in.in	\
+	org.gnome.gnumeric.dialogs.gschema.xml.in.in	\
+	org.gnome.gnumeric.plugin.gschema.xml.in.in
 
 if GCONF_SCHEMAS_INSTALL
 # don't do this if we are building in eg. rpm
