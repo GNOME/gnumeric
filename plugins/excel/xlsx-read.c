@@ -71,6 +71,8 @@
 
 /*****************************************************************************/
 
+#define CXML2C(s) ((char const *)(s))
+
 typedef enum {
 	XLXS_TYPE_NUM,
 	XLXS_TYPE_SST_STR,	/* 0 based index into sst */
@@ -4213,11 +4215,24 @@ xlsx_sheet_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	char const *name = NULL;
 	char const *part_id = NULL;
 	Sheet *sheet;
+	GnmSheetVisibility viz = GNM_SHEET_VISIBILITY_VISIBLE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "name"))
 			name = attrs[1];
-		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
+		else if (0 == strcmp (attrs[0], "state")) {
+			const char *s = CXML2C (attrs[1]);
+			if (strcmp (s, "visible") == 0)
+				viz = GNM_SHEET_VISIBILITY_VISIBLE;
+			else if (strcmp (s, "hidden") == 0)
+				viz = GNM_SHEET_VISIBILITY_HIDDEN;
+			else if (strcmp (s, "veryHidden") == 0)
+				viz = GNM_SHEET_VISIBILITY_VERY_HIDDEN;
+			else
+				xlsx_warning (xin,
+					      _("Unrecognized sheet state %s"),
+					      s);
+		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
 			part_id = attrs[1];
 
 	if (NULL == name) {
@@ -4230,6 +4245,7 @@ xlsx_sheet_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		sheet = sheet_new (state->wb, name, XLSX_MaxCol, XLSX_MaxRow);
 		workbook_sheet_attach (state->wb, sheet);
 	}
+	g_object_set (sheet, "visibility", viz, NULL);
 
 	g_object_set_data_full (G_OBJECT (sheet), "_XLSX_RelID", g_strdup (part_id),
 		(GDestroyNotify) g_free);
