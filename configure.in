@@ -845,9 +845,15 @@ AC_ARG_WITH(long_double,
 dnl **************************************************
 dnl * Check for GSettings
 dnl **************************************************
-AC_CHECK_LIB(gio-2.0,[g_settings_new])
-GLIB_GSETTINGS
-AM_CONDITIONAL(HAVE_GSETTINGS, test $ac_cv_lib_gio_2_0_g_settings_new=yes)
+have_gsettings=no
+AC_CHECK_LIB(gio-2.0,[g_settings_new],
+	[AC_DEFINE(HAVE_G_SETTINGS_NEW, 1,
+		[Define if the g_settings_new function is available])
+        GLIB_GSETTINGS
+        have_gsettings=yes],
+	[GSETTINGS_RULES=""
+	AC_SUBST(GSETTINGS_RULES)])
+AM_CONDITIONAL(HAVE_GSETTINGS, test $have_gsettings=yes)
 
 dnl **************************************************
 dnl * Check for Perl
