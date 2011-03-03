@@ -228,7 +228,11 @@ value_error_classify (GnmValue const *v)
 GnmValue *
 value_new_string_str (GOString *str)
 {
-	GnmValueStr *v = CHUNK_ALLOC (GnmValueStr, value_string_pool);
+	GnmValueStr *v;
+
+	g_return_val_if_fail (str != NULL, NULL);
+
+	v = CHUNK_ALLOC (GnmValueStr, value_string_pool);
 	*((GnmValueType *)&(v->type)) = VALUE_STRING;
 	v->fmt = NULL;
 	v->val = str;

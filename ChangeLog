@@ -6,6 +6,12 @@
 	* schemas/org.gnome.gnumeric.gschema.xml.in.in: ditto.
 	* schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in: ditto.
 
+2011-03-03  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (value_new_string_str): Add precondition.
+
+	* src/expr.c (gnm_expr_new_constant): Add precondition.
+
 2011-03-01  Morten Welinder  <terra@gnome.org>
 
 	* src/gnumeric-gconf.c (get_node): Handle absolute keys, assuming

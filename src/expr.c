@@ -77,6 +77,8 @@ gnm_expr_new_constant (GnmValue *v)
 {
 	GnmExprConstant *ans;
 
+	g_return_val_if_fail (v != NULL, NULL);
+
 	ans = CHUNK_ALLOC (GnmExprConstant, expression_pool_small);
 	if (!ans)
 		return NULL;
