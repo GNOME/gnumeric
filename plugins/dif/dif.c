@@ -319,8 +319,8 @@ dif_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 
 	/* Write out the standard headers */
 	gsf_output_puts   (out, "TABLE\n"   "0,1\n" "\"GNUMERIC\"\n");
-	gsf_output_printf (out, "VECTORS\n" "0,%d\n" "\"\"\n", r.end.row+1);
-	gsf_output_printf (out, "TUPLES\n"  "0,%d\n" "\"\"\n", r.end.col+1);
+	gsf_output_printf (out, "VECTORS\n" "0,%d\n" "\"\"\n", r.end.col+1);
+	gsf_output_printf (out, "TUPLES\n"  "0,%d\n" "\"\"\n", r.end.row+1);
 	gsf_output_puts   (out, "DATA\n"    "0,0\n"  "\"\"\n");
 
 	locale = gnm_push_C_locale ();
@@ -355,9 +355,6 @@ dif_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		}
 	}
 
-	/* This BOT is not required as far as I can tel, but MS seems to puts
-	 * one here, and it may be useful to be compatible  */
-	gsf_output_puts (out, "-1,0\n" "BOT\n");
 	gsf_output_puts (out, "-1,0\n" "EOD\n");
 
 	gnm_pop_C_locale (locale);

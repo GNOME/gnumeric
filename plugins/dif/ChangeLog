@@ -1,3 +1,9 @@
+2011-03-03  Morten Welinder  <terra@gnome.org>
+
+	* dif.c (dif_file_save): Swap row/column counts so we match the
+	spec (and thus differ from Excel).  Avoid extre "BOT".  Fixes
+	#624771.  Patch by Stanley Pinchak.
+
 2011-02-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.13

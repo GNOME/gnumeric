@@ -25,6 +25,9 @@ Morten:
 	* Fix xml reading of constraints.  [Redhat #680572]
 	* Fix lpsolve/glpk writing of affine part.
 
+Stanley Pinchak:
+	* Improve "dif" output.
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.13
 
