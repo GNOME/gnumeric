@@ -1,3 +1,8 @@
+2011-03-03  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_chart_text): Avoid criticals in the absense of
+	chart text.
+
 2011-02-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write.c (xlsx_axis_crosses_at): new
@@ -5,13 +10,13 @@
 
 2011-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* xlsx-write.c (xlsx_write_comments): skip NULL author 
+	* xlsx-write.c (xlsx_write_comments): skip NULL author
 	(see glib bug #642944)
 
 2011-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-read.c (xlsx_chart_dtd): add c:crossesAt
-	(xlsx_cell_expr_begin): don't ignore shared expressions with 
+	(xlsx_cell_expr_begin): don't ignore shared expressions with
 	duplicate id
 
 2011-02-02  Morten Welinder <terra@gnome.org>

@@ -25,6 +25,7 @@ Morten:
 	* Fix solver crash.  [Redhat #680572]
 	* Fix xml reading of constraints.  [Redhat #680572]
 	* Fix lpsolve/glpk writing of affine part.
+	* Fix xlsx import crash.  [#643808]
 
 Stanley Pinchak:
 	* Improve "dif" output.

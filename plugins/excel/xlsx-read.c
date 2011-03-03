@@ -1667,7 +1667,7 @@ xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (NULL == state->series) {
 		GogObject *label = gog_object_add_by_name (state->cur_obj,
 			(state->cur_obj == (GogObject *)state->chart) ? "Title" : "Label", NULL);
-		if (NULL != label) {
+		if (NULL != label && state->chart_tx) {
 			GnmValue *value = value_new_string_nocopy (state->chart_tx);
 			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
 			gog_dataset_set_dim (GOG_DATASET (label), 0,
