@@ -185,7 +185,7 @@
 2010-04-23  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (supbook_get_sheet): Return "deleted sheet" for
-	exernal references so we don't end up with sheet-local refs.
+	external references so we don't end up with sheet-local refs.
 	(excel_read_SUPBOOK): Clean up using new docs.
 
 2010-04-21  Jean Brefort  <jean.brefort@normalesup.org>
