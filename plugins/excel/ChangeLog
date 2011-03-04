@@ -1,3 +1,8 @@
+2011-03-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* xlsx-read.c (xlsx_axis_end), (xlsx_chart_p_start),
+	(xlsx_chart_text_content): import multiple runs chart titles. [#643814]
+
 2011-03-03  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_chart_text): Avoid criticals in the absense of

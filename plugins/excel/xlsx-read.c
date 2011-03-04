@@ -92,7 +92,8 @@ typedef enum {
 typedef enum {
 	XLSX_AXIS_UNKNOWN,
 	XLSX_AXIS_CAT,
-	XLSX_AXIS_VAL
+	XLSX_AXIS_VAL,
+	XLSX_AXIS_DATE
 } XLSXAxisType;
 typedef struct {
 	char	*id;
@@ -1261,7 +1262,8 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 		if (0 == strcmp (type, "GogRadarPlot") ||
 		    0 == strcmp (type, "GogRadarAreaPlot")) {
-			role = (state->axis.type == XLSX_AXIS_CAT) ? "Radial-Axis" : "Circular-Axis";
+			role = (state->axis.type == XLSX_AXIS_CAT
+				|| state->axis.type == XLSX_AXIS_DATE) ? "Radial-Axis" : "Circular-Axis";
 		} else if (0 == strcmp (type, "GogBubblePlot") ||
 			   0 == strcmp (type, "GogXYPlot")) {
 			/* both are VAL, use the position to decide */
@@ -1275,11 +1277,13 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			/* swap for bar plots */
 			g_object_get (G_OBJECT (plot), "horizontal", &h, NULL);
 			if (h)
-				role = (state->axis.type == XLSX_AXIS_CAT) ? "Y-Axis" : "X-Axis";
+				role = (state->axis.type == XLSX_AXIS_CAT
+				        || state->axis.type == XLSX_AXIS_DATE) ? "Y-Axis" : "X-Axis";
 		}
 
 		if (NULL == role)
-			role = (state->axis.type == XLSX_AXIS_CAT) ? "X-Axis" : "Y-Axis";
+			role = (state->axis.type == XLSX_AXIS_CAT
+				|| state->axis.type == XLSX_AXIS_DATE) ? "X-Axis" : "Y-Axis";
 
 		/* absorb a ref, and set the id, and atype */
 		gog_object_add_by_name (GOG_OBJECT (state->chart),
@@ -1682,11 +1686,28 @@ xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+xlsx_chart_p_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (state->chart_tx) {
+		char *buf = g_strconcat (state->chart_tx, "\n", NULL);
+		g_free (state->chart_tx);
+		state->chart_tx = buf;
+	}
+}
+
+static void
 xlsx_chart_text_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	g_return_if_fail (state->chart_tx == NULL);
-	state->chart_tx = g_strdup (xin->content->str);
+	/* a rich node can contain several t children, if this happens, concatenate
+	 the contents */
+	if (state->chart_tx) {
+		char *buf = g_strconcat (state->chart_tx, xin->content->str, NULL);
+		g_free (state->chart_tx);
+		state->chart_tx = buf;
+	} else
+		state->chart_tx = g_strdup (xin->content->str);
 }
 
 static void
@@ -1831,7 +1852,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_BODY, XL_NS_CHART, "bodyP", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_BODY_PR, XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_STYLES, XL_NS_DRAW, "lstStyle", GSF_XML_NO_CONTENT, NULL, NULL),
-              GSF_XML_IN_NODE (TX_RICH, TX_RICH_P, XL_NS_DRAW, "p", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (TX_RICH, TX_RICH_P, XL_NS_DRAW, "p", GSF_XML_NO_CONTENT, &xlsx_chart_p_start, NULL),
                 GSF_XML_IN_NODE (TX_RICH_P, PR_P_PR, XL_NS_DRAW, "pPr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
                 GSF_XML_IN_NODE (TX_RICH_P, TX_RICH_R, XL_NS_DRAW, "r", GSF_XML_NO_CONTENT, NULL, NULL),
                   GSF_XML_IN_NODE (TX_RICH_R, TX_RICH_R_PR, XL_NS_DRAW, "rPr", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1871,6 +1892,15 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (VAL_AXIS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
 
+      GSF_XML_IN_NODE_FULL (PLOTAREA, DATE_AXIS, XL_NS_CHART, "dateAx", GSF_XML_NO_CONTENT, FALSE, TRUE,
+		    &xlsx_axis_start, &xlsx_axis_end, XLSX_AXIS_DATE),
+        GSF_XML_IN_NODE (DATE_AXIS, DATE_AXIS_AUTO, XL_NS_CHART, "auto", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+        GSF_XML_IN_NODE (DATE_AXIS, DATE_AXIS_AXID, XL_NS_CHART, "axId", GSF_XML_NO_CONTENT, &xlsx_axis_id, NULL),			/* 2nd Def */
+        GSF_XML_IN_NODE (DATE_AXIS, DATE_AXIS_POS, XL_NS_CHART, "axPos", GSF_XML_NO_CONTENT, &xlsx_axis_pos, NULL),			/* 2nd Def */
+        GSF_XML_IN_NODE (DATE_AXIS, DATE_AXIS_CROSSAX, XL_NS_CHART, "crossAx", GSF_XML_NO_CONTENT, &xlsx_axis_crossax, NULL),
+        GSF_XML_IN_NODE (DATE_AXIS, ADATE_XIS_CROSSES, XL_NS_CHART, "crosses", GSF_XML_NO_CONTENT, &xlsx_axis_crosses, NULL),
+        GSF_XML_IN_NODE (DATE_AXIS, DATE_AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_NO_CONTENT, &xlsx_axis_delete, NULL),
+	
       GSF_XML_IN_NODE (PLOTAREA, LAYOUT, XL_NS_CHART, "layout", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (LAYOUT, LAST_LAYOUT,	    XL_NS_CHART, "lastLayout", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (LAST_LAYOUT, LAYOUT_X, XL_NS_CHART, "x", GSF_XML_NO_CONTENT, NULL, NULL),

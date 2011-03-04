@@ -14,6 +14,7 @@ Andreas:
 Jean:
 	* Fix cursor position inside a cell edited in a zoomed sheet. [#641709]
 	* Add GSettings schemas.
+	* Import multiple runs chart titles from xlsx. [#643814]
 
 Morten:
 	* Import wide sc files.  [#641581]
