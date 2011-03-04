@@ -17,10 +17,15 @@
       <_summary>Autocorrect initial caps</_summary>
       <_description>Autocorrect initial caps</_description>
     </key>
-    <key name="first-letter" type="b">
+     <key name="init-caps-list" type="as">
       <default>true</default>
-      <_summary>Autocorrect first letter</_summary>
-      <_description>Autocorrect first letter</_description>
+      <_summary>Autocorrect initial caps</_summary>
+      <_description>Autocorrect initial caps</_description>
+    </key>
+   <key name="first-letter" type="b">
+      <default>[]</default>
+      <_summary>List of Init Caps Exceptions</_summary>
+      <_description>The autocorrect engine does not correct the initial caps for words in this list.</_description>
     </key>
     <key name="first-letter-list" type="as">
       <default>[]</default>
