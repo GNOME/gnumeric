@@ -1,3 +1,7 @@
+2011-03-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in: fix schema
+
 2011-03-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: add gschema files.

@@ -18,12 +18,12 @@
       <_description>Autocorrect initial caps</_description>
     </key>
      <key name="init-caps-list" type="as">
-      <default>true</default>
+      <default>[]</default>
       <_summary>Autocorrect initial caps</_summary>
       <_description>Autocorrect initial caps</_description>
     </key>
    <key name="first-letter" type="b">
-      <default>[]</default>
+      <default>true</default>
       <_summary>List of Init Caps Exceptions</_summary>
       <_description>The autocorrect engine does not correct the initial caps for words in this list.</_description>
     </key>
