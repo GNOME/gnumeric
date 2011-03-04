@@ -199,6 +199,9 @@ typedef struct {
 		XLSXAxisInfo *info;
 	} axis;
 
+	char *defined_name;
+	GList *delayed_names;
+
 	/* external refs */
        	Workbook *external_ref;
 	Sheet 	 *external_ref_sheet;
@@ -4241,28 +4244,24 @@ xlsx_CT_CalcPr (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_sheet_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	static EnumVal const visibilities[] = {
+		{ "visible",	GNM_SHEET_VISIBILITY_VISIBLE },
+		{ "hidden",	GNM_SHEET_VISIBILITY_HIDDEN },
+		{ "veryHidden",	GNM_SHEET_VISIBILITY_VERY_HIDDEN },
+		{ NULL, 0 }
+	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	char const *name = NULL;
 	char const *part_id = NULL;
 	Sheet *sheet;
-	GnmSheetVisibility viz = GNM_SHEET_VISIBILITY_VISIBLE;
+	int viz = (int)GNM_SHEET_VISIBILITY_VISIBLE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "name"))
 			name = attrs[1];
-		else if (0 == strcmp (attrs[0], "state")) {
-			const char *s = CXML2C (attrs[1]);
-			if (strcmp (s, "visible") == 0)
-				viz = GNM_SHEET_VISIBILITY_VISIBLE;
-			else if (strcmp (s, "hidden") == 0)
-				viz = GNM_SHEET_VISIBILITY_HIDDEN;
-			else if (strcmp (s, "veryHidden") == 0)
-				viz = GNM_SHEET_VISIBILITY_VERY_HIDDEN;
-			else
-				xlsx_warning (xin,
-					      _("Unrecognized sheet state %s"),
-					      s);
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
+		else if (attr_enum (xin, attrs, "state", visibilities, &viz))
+			; /* Nothing */
+		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
 			part_id = attrs[1];
 
 	if (NULL == name) {
@@ -4280,6 +4279,77 @@ xlsx_sheet_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	g_object_set_data_full (G_OBJECT (sheet), "_XLSX_RelID", g_strdup (part_id),
 		(GDestroyNotify) g_free);
 }
+
+static void
+xlsx_wb_name_begin (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	const char *name = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (0 == strcmp (attrs[0], "name"))
+			name = attrs[1];
+	}
+
+	state->defined_name = g_strdup (name);
+}
+
+static void
+xlsx_wb_name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GnmParsePos pp;
+	Sheet *sheet = NULL;
+	GnmNamedExpr *nexpr;
+
+	g_return_if_fail (state->defined_name != NULL);
+
+	parse_pos_init (&pp, state->wb, sheet, 0, 0);
+	nexpr = expr_name_add (&pp, state->defined_name,
+			       gnm_expr_top_new_constant (value_new_empty ()),
+			       NULL,
+			       TRUE,
+			       NULL);
+
+	state->delayed_names = g_list_prepend (state->delayed_names,
+					       g_strdup (xin->content->str));
+	state->delayed_names = g_list_prepend (state->delayed_names,
+					       nexpr);
+	g_free (state->defined_name);
+	state->defined_name = NULL;
+}
+
+static void
+handle_delayed_names (GsfXMLIn *xin)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GList *l;
+
+	for (l = state->delayed_names; l; l = l->next->next) {
+		GnmNamedExpr *nexpr = l->data;
+		char *expr_str = l->next->data;
+		Sheet *sheet = NULL;
+		GnmExprTop const *texpr;
+		GnmParsePos pp;
+
+		parse_pos_init (&pp, state->wb, sheet, 0, 0);
+		texpr = xlsx_parse_expr (xin, expr_str, &pp);
+		if (texpr) {
+			expr_name_set_expr (nexpr, texpr);
+		}
+		g_free (expr_str);
+	}
+
+	g_list_free (state->delayed_names);
+	state->delayed_names = NULL;
+}
+
+static void
+xlsx_wb_names_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	handle_delayed_names (xin);
+}
+
 
 /**************************************************************************************************/
 
@@ -4669,8 +4739,8 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "workbook", GSF_XML_NO_CONTENT,
   GSF_XML_IN_NODE (WORKBOOK, WEB_PUB,	 XL_NS_SS, "webPublishing", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, EXTERNS,	 XL_NS_SS, "externalReferences", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (EXTERNS, EXTERN,	 XL_NS_SS, "externalReference", GSF_XML_NO_CONTENT, xlsx_wb_external_ref, NULL),
-  GSF_XML_IN_NODE (WORKBOOK, NAMES,	 XL_NS_SS, "definedNames", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (NAMES, NAME,	 XL_NS_SS, "definedName", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (WORKBOOK, NAMES,	 XL_NS_SS, "definedNames", GSF_XML_NO_CONTENT, NULL, xlsx_wb_names_end),
+    GSF_XML_IN_NODE (NAMES, NAME,	 XL_NS_SS, "definedName", GSF_XML_CONTENT, xlsx_wb_name_begin, xlsx_wb_name_end),
   GSF_XML_IN_NODE (WORKBOOK, PIVOTCACHES,      XL_NS_SS, "pivotCaches", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (PIVOTCACHES, PIVOTCACHE,      XL_NS_SS, "pivotCache", GSF_XML_NO_CONTENT, &xlsx_CT_PivotCache, NULL),
 
