@@ -849,13 +849,10 @@ wbref_parse (GnmConventions const *convs,
 		} else
 			unquote (name, start+2, end-start-2);
 
-		if (convs->input.external_wb)
-			tmp_wb = (*convs->input.external_wb) (convs, ref_wb, name);
-		else
-			tmp_wb = gnm_app_workbook_get_by_name (name,
-				 ref_wb ? go_doc_get_uri ((GODoc *)ref_wb) : NULL);
+		tmp_wb = (*convs->input.external_wb) (convs, ref_wb, name);
 		if (tmp_wb == NULL)
 			return NULL;
+
 		*wb = tmp_wb;
 		return end + 1;
 	}
@@ -1325,6 +1322,16 @@ std_func_map (GnmConventions const *convs, Workbook *scope,
 	return gnm_expr_new_funcall (f, args);
 }
 
+static Workbook *
+std_external_wb (G_GNUC_UNUSED GnmConventions const *convs,
+		 Workbook *ref_wb,
+		 const char *wb_name)
+{
+	const char *ref_uri = ref_wb ? go_doc_get_uri ((GODoc *)ref_wb) : NULL;
+	return gnm_app_workbook_get_by_name (wb_name, ref_uri);
+}
+
+
 /**
  * gnm_conventions_new_full :
  * @size :
@@ -1350,7 +1357,7 @@ gnm_conventions_new_full (unsigned size)
 	convs->input.range_ref		= rangeref_parse;
 	convs->input.name		= std_name_parser;
 	convs->input.func		= std_func_map;
-	convs->input.external_wb	= NULL;
+	convs->input.external_wb	= std_external_wb;
 
 	convs->output.decimal_digits	= GNM_DIG;
 	convs->output.translated	= TRUE;

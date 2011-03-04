@@ -1,3 +1,9 @@
+2011-03-04  Morten Welinder  <terra@gnome.org>
+
+	* src/parse-util.c (std_external_wb): New function.
+	(gnm_conventions_new_full): Always set input.external_wb.
+	(wbref_parse): Use that.
+
 2011-03-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in: fix schema
