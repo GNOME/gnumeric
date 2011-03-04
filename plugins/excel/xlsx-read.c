@@ -200,6 +200,7 @@ typedef struct {
 	} axis;
 
 	char *defined_name;
+	Sheet *defined_name_sheet;
 	GList *delayed_names;
 
 	/* external refs */
@@ -4285,13 +4286,20 @@ xlsx_wb_name_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	const char *name = NULL;
+	int sheet_idx = -1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (0 == strcmp (attrs[0], "name"))
 			name = attrs[1];
+		else if (attr_int (xin, attrs, "localSheetId", &sheet_idx))
+			; /* Nothing */
 	}
 
 	state->defined_name = g_strdup (name);
+	state->defined_name_sheet =
+		sheet_idx >= 0
+		? workbook_sheet_by_index (state->wb, sheet_idx)
+		: NULL;
 }
 
 static void
@@ -4299,22 +4307,30 @@ xlsx_wb_name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmParsePos pp;
-	Sheet *sheet = NULL;
+	Sheet *sheet = state->defined_name_sheet;
 	GnmNamedExpr *nexpr;
+	char *error_msg = NULL;
 
 	g_return_if_fail (state->defined_name != NULL);
 
 	parse_pos_init (&pp, state->wb, sheet, 0, 0);
 	nexpr = expr_name_add (&pp, state->defined_name,
 			       gnm_expr_top_new_constant (value_new_empty ()),
-			       NULL,
-			       TRUE,
-			       NULL);
+			       &error_msg, TRUE, NULL);
 
-	state->delayed_names = g_list_prepend (state->delayed_names,
-					       g_strdup (xin->content->str));
-	state->delayed_names = g_list_prepend (state->delayed_names,
-					       nexpr);
+	if (nexpr) {
+		state->delayed_names =
+			g_list_prepend (state->delayed_names, sheet);
+		state->delayed_names =
+			g_list_prepend (state->delayed_names,
+					g_strdup (xin->content->str));
+		state->delayed_names =
+			g_list_prepend (state->delayed_names, nexpr);
+	} else {
+		xlsx_warning (xin, _("Failed to define name: %s"), error_msg);
+		g_free (error_msg);
+	}
+
 	g_free (state->defined_name);
 	state->defined_name = NULL;
 }
@@ -4325,10 +4341,10 @@ handle_delayed_names (GsfXMLIn *xin)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GList *l;
 
-	for (l = state->delayed_names; l; l = l->next->next) {
+	for (l = state->delayed_names; l; l = l->next->next->next) {
 		GnmNamedExpr *nexpr = l->data;
 		char *expr_str = l->next->data;
-		Sheet *sheet = NULL;
+		Sheet *sheet = l->next->next->data;
 		GnmExprTop const *texpr;
 		GnmParsePos pp;
 

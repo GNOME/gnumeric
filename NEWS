@@ -28,7 +28,7 @@ Morten:
 	* Fix lpsolve/glpk writing of affine part.
 	* Fix xlsx import crash.  [#643808]
 	* Import sheet visibility from xlsx.  [#643815]
-	* Import global names from xlsx.  [#643874]
+	* Import names from xlsx.  [#643874]
 
 Stanley Pinchak:
 	* Improve "dif" output.

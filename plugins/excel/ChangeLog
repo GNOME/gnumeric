@@ -1,8 +1,8 @@
 2011-03-04  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_sheet_begin): Use attr_enum.
-	(xlsx_wb_name_begin, xlsx_wb_name_end): Collect global names and
-	define as stubs.
+	(xlsx_wb_name_begin, xlsx_wb_name_end): Collect names and define
+	as stubs.
 	(handle_delayed_names): Define all collected names properly.
 
 2011-03-04  Jean Brefort  <jean.brefort@normalesup.org>
