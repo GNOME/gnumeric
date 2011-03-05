@@ -1423,6 +1423,13 @@ xlsx_chart_ser_f (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			(state->dim_type != GOG_MS_DIM_LABELS)
 			? gnm_go_data_vector_new_expr (state->sheet, texpr)
 			: gnm_go_data_scalar_new_expr (state->sheet, texpr));
+	} else if (GOG_IS_LABEL (state->cur_obj)) {
+		GnmParsePos pp;
+		GnmExprTop const *texpr = xlsx_parse_expr (xin, xin->content->str,
+			parse_pos_init_sheet (&pp, state->sheet));
+
+		gog_dataset_set_dim (GOG_DATASET (state->cur_obj), 0,
+			gnm_go_data_scalar_new_expr (state->sheet, texpr), NULL);
 	}
 }
 
@@ -1722,20 +1729,30 @@ xlsx_chart_marker_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+xlsx_chart_text_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (NULL == state->series) { /* Hmm, why? */
+		GogObject *label = gog_object_add_by_name (state->cur_obj,
+			(state->cur_obj == (GogObject *)state->chart) ? "Title" : "Label", NULL);
+		xlsx_chart_push_obj (state, label);
+	}
+}
+
+static void
 xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	if (NULL == state->series) {
-		GogObject *label = gog_object_add_by_name (state->cur_obj,
-			(state->cur_obj == (GogObject *)state->chart) ? "Title" : "Label", NULL);
-		if (NULL != label && state->chart_tx) {
+		if (state->cur_obj && state->chart_tx) {
 			GnmValue *value = value_new_string_nocopy (state->chart_tx);
 			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
-			gog_dataset_set_dim (GOG_DATASET (label), 0,
+			gog_dataset_set_dim (GOG_DATASET (state->cur_obj), 0,
 				gnm_go_data_scalar_new_expr (state->sheet, texpr), NULL);
 			state->chart_tx = NULL;
 		}
+		xlsx_chart_pop_obj (state);
 	}
 	g_free (state->chart_tx);
 	state->chart_tx = NULL;
@@ -1903,7 +1920,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 	      GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_Y, XL_NS_CHART, "y", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_YMODE, XL_NS_CHART, "yMode", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (TITLE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-          GSF_XML_IN_NODE (TITLE, TEXT, XL_NS_CHART, "tx", GSF_XML_NO_CONTENT, NULL, &xlsx_chart_text),
+          GSF_XML_IN_NODE (TITLE, TEXT, XL_NS_CHART, "tx", GSF_XML_NO_CONTENT, &xlsx_chart_text_start, &xlsx_chart_text),
             GSF_XML_IN_NODE (TEXT, TX_RICH, XL_NS_CHART, "rich", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_BODY, XL_NS_CHART, "bodyP", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_BODY_PR, XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, NULL, NULL),

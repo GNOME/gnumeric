@@ -1,5 +1,12 @@
 2011-03-05  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* xlsx-read.c (xlsx_chart_ser_f), (xlsx_chart_text_start),
+	(xlsx_chart_text): accept formulas in labels.
+	* xlsx-write.c (xlsx_write_series_dim), (xlsx_write_rgbarea),
+	(xlsx_write_go_style), (xlsx_write_chart): export chart background.
+
+2011-03-05  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* xlsx-read.c (xlsx_chart_xy), (xlsx_scatter_style): import the scatter
 	plot default series style.
 

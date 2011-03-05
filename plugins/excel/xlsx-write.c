@@ -955,9 +955,18 @@ xlsx_write_plot_1_5_type (GsfXMLOut *xml, GogObject const *plot)
 
 static void
 xlsx_write_series_dim (XLSXWriteState *state, GsfXMLOut *xml, GogSeries const *series,
-		       char const *name, int dim)
+		       char const *name, GogMSDimType ms_type)
 {
-	GOData const *dat = gog_dataset_get_dim (GOG_DATASET (series), dim);
+	GogSeriesDesc const *desc = &gog_plot_description (gog_series_get_plot (series))->series;
+	unsigned dim;
+	GOData const *dat;
+
+	for (dim = 0; dim < desc->num_dim; dim++)
+		if (desc->dim[dim].ms_type == ms_type)
+			break;
+	if (dim == desc->num_dim)
+		return;
+	dat = gog_dataset_get_dim (GOG_DATASET (series), dim);
 	if (NULL != dat) {
 		GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
 		if (NULL != texpr) {
@@ -973,6 +982,60 @@ xlsx_write_series_dim (XLSXWriteState *state, GsfXMLOut *xml, GogSeries const *s
 
 			g_free (str);
 		}
+	}
+}
+
+static void
+xlsx_write_rgbarea (GsfXMLOut *xml, GOColor color)
+{
+	char *buf = g_strdup_printf ("%06x", (guint) color >> 8);
+	int alpha = GO_COLOR_UINT_A (color); 
+	gsf_xml_out_start_element (xml, "a:srgbClr");
+	gsf_xml_out_add_cstr_unchecked (xml, "val", buf);
+	g_free (buf);
+	if (alpha < 255) {
+		gsf_xml_out_start_element (xml, "a:alpha");
+		gsf_xml_out_add_int (xml, "val", alpha * 100000 / 255);
+		gsf_xml_out_end_element (xml);
+	}
+	gsf_xml_out_end_element (xml);
+}
+
+static void
+xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
+{
+	if (style->interesting_fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE)) {
+		gsf_xml_out_start_element (xml, "c:spPr");
+		switch (style->fill.type) {
+		default :
+			g_warning ("invalid fill type, saving as none");
+		case GO_STYLE_FILL_IMAGE:
+			/* FIXME: export image */
+		case GO_STYLE_FILL_NONE:
+			/* hmm, how should we do that? */
+			break;
+		case GO_STYLE_FILL_PATTERN:
+			switch (style->fill.pattern.pattern) {
+			case GO_PATTERN_SOLID:
+				gsf_xml_out_start_element (xml, "a:solidFill");
+				xlsx_write_rgbarea (xml, style->fill.pattern.back);
+				gsf_xml_out_end_element (xml);
+				break;
+			case GO_PATTERN_FOREGROUND_SOLID:
+				gsf_xml_out_start_element (xml, "a:solidFill");
+				xlsx_write_rgbarea (xml, style->fill.pattern.fore);
+				gsf_xml_out_end_element (xml);
+				break;
+			}
+			break;
+		case GO_STYLE_FILL_GRADIENT:
+			break;
+		}
+		gsf_xml_out_end_element (xml);
+	}
+	if (style->interesting_fields & GO_STYLE_FILL) {
+	}
+	if (style->interesting_fields & GO_STYLE_MARKER) {
 	}
 }
 
@@ -1003,9 +1066,11 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:c", ns_chart);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:a", ns_drawing);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
+	xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (chart)));
 
 	gsf_xml_out_start_element (xml, "c:chart");
 	gsf_xml_out_start_element (xml, "c:plotArea");
+	/* save grid style here */
 	if (0 == strcmp (plot_type, "GogAreaPlot")) {
 		gsf_xml_out_start_element (xml, "c:areaChart");
 		xlsx_write_plot_1_5_type (xml, plot);
@@ -1025,7 +1090,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 		gsf_xml_out_start_element (xml, "c:overlap");
 		gsf_xml_out_add_int (xml, "val", -overlap_percentage);
 		gsf_xml_out_end_element (xml); /* </c:grouping> */
-
+		
 		gsf_xml_out_start_element (xml, "c:gapWidth");
 		gsf_xml_out_add_int (xml, "val", gap_percentage);
 		gsf_xml_out_end_element (xml); /* </c:grouping> */
@@ -1076,8 +1141,21 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 			xlsx_write_chart_bool (xml, "c:bubble3D", TRUE);
 		use_xy = TRUE;
 	} else if ( 0 == strcmp (plot_type, "GogXYPlot")) {
+		gboolean has_lines, has_markers, use_splines;
+		char const *style;
+		g_object_get (G_OBJECT (plot),
+		              "default-style-has-lines", &has_lines,
+		              "default-style-has-markers", &has_markers,
+		              "use-splines", &use_splines,
+		              NULL);
+		style = (has_lines)?
+				(use_splines?
+					(has_markers? "smoothMarker": "smooth"):
+					(has_markers? "lineMarker": "line")):
+				(has_markers? "markers": "none"); 
 		use_xy = TRUE;
 		gsf_xml_out_start_element (xml, "c:scatterChart");
+		xlsx_write_chart_cstr_unchecked (xml, "c:scatterStyle", style);
 	} else if (0 == strcmp (plot_type, "GogContourPlot") ||
 		   0 == strcmp (plot_type, "XLContourPlot")) {
 		gsf_xml_out_start_element (xml, "c:surfaceChart");
