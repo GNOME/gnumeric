@@ -1,3 +1,8 @@
+2011-03-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* xlsx-read.c (xlsx_plot_axis_id), (xlsx_axis_crosses_at),
+	(cb_axis_set_position): import axis crossing position. [#642941]
+
 2011-03-04  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_sheet_begin): Use attr_enum.

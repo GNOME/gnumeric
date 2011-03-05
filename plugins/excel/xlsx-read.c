@@ -103,6 +103,7 @@ typedef struct {
 	GogObjectPosition compass;
 	GogAxisPosition	  cross;
 	char	*cross_id;
+	gnm_float cross_value;
 
 	gboolean deleted;
 } XLSXAxisInfo;
@@ -1095,6 +1096,7 @@ xlsx_plot_axis_id (GsfXMLIn *xin, xmlChar const **attrs)
 				res->type	= XLSX_AXIS_UNKNOWN;
 				res->compass	= GOG_POSITION_AUTO;
 				res->cross	= GOG_AXIS_CROSS;
+				res->cross_value = go_nan;
 				g_hash_table_replace (state->axis.by_id, res->id, res);
 #ifdef DEBUG_AXIS
 				g_print ("create %s = %p\n", attrs[1], res);
@@ -1127,12 +1129,9 @@ xlsx_axis_crosses_at (GsfXMLIn *xin, xmlChar const **attrs)
 	   date base. When specified as a child element of catAx, the value is an integer category number, starting with 1
 	   as the first category.
 	*/
-/* 	XLSXReadState *state = (XLSXReadState *)xin->user_state; */
-	gnm_float res;
+ 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
-	if (simple_float (xin, attrs, &res)) {
-			
-	}
+	simple_float (xin, attrs, &state->axis.info->cross_value);
 }
 
 static void
@@ -1796,7 +1795,6 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
       GSF_XML_IN_NODE (PLOTAREA, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
       GSF_XML_IN_NODE_FULL (PLOTAREA, CAT_AXIS, XL_NS_CHART, "catAx", GSF_XML_NO_CONTENT, FALSE, TRUE,
 			    &xlsx_axis_start, &xlsx_axis_end, XLSX_AXIS_CAT),
-        GSF_XML_IN_NODE (CAT_AXIS, AXIS_CROSSES_AT, XL_NS_CHART, "crossesAt", GSF_XML_NO_CONTENT, &xlsx_axis_crosses_at, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_AXID, XL_NS_CHART, "axId", GSF_XML_NO_CONTENT, &xlsx_axis_id, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_NO_CONTENT, &xlsx_axis_delete, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
@@ -1826,6 +1824,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_AUTO, XL_NS_CHART, "auto", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_CROSSAX, XL_NS_CHART, "crossAx", GSF_XML_NO_CONTENT, &xlsx_axis_crossax, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_CROSSES, XL_NS_CHART, "crosses", GSF_XML_NO_CONTENT, &xlsx_axis_crosses, NULL),
+        GSF_XML_IN_NODE (CAT_AXIS, AXIS_CROSSES_AT, XL_NS_CHART, "crossesAt", GSF_XML_NO_CONTENT, &xlsx_axis_crosses_at, NULL),
 
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_LBLALGN, XL_NS_CHART, "lblAlgn", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_LBLOFFSET, XL_NS_CHART, "lblOffset", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1878,7 +1877,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
       GSF_XML_IN_NODE_FULL (PLOTAREA, VAL_AXIS, XL_NS_CHART, "valAx", GSF_XML_NO_CONTENT, FALSE, TRUE,
 			    &xlsx_axis_start, &xlsx_axis_end, XLSX_AXIS_VAL),
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_CROSSES_AT, XL_NS_CHART, "crossesAt", GSF_XML_NO_CONTENT, NULL, NULL),	        /* 2nd Def */
-        GSF_XML_IN_NODE (VAL_AXIS, AXIS_AXID, XL_NS_CHART, "axId", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+	GSF_XML_IN_NODE (VAL_AXIS, AXIS_AXID, XL_NS_CHART, "axId", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, TITLE, XL_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_SCALING, XL_NS_CHART, "scaling", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
@@ -1890,8 +1889,9 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_MAJORTICK_UNIT, XL_NS_CHART, "majorUnit", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_MINORTICK_UNIT, XL_NS_CHART, "minorUnit", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (VAL_AXIS, VAL_AXIS_TICKLBLPOS, XL_NS_CHART, "tickLblPos", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-        GSF_XML_IN_NODE (VAL_AXIS, AXIS_CROSSAX, XL_NS_CHART, "crossAx", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-        GSF_XML_IN_NODE (VAL_AXIS, AXIS_CROSSES, XL_NS_CHART, "crosses", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+        GSF_XML_IN_NODE (VAL_AXIS, VAL_AXIS_CROSSAX, XL_NS_CHART, "crossAx", GSF_XML_NO_CONTENT, &xlsx_axis_crossax, NULL),		/* 2nd Def */
+        GSF_XML_IN_NODE (VAL_AXIS, VAL_AXIS_CROSSES, XL_NS_CHART, "crosses", GSF_XML_NO_CONTENT, &xlsx_axis_crosses, NULL),		/* 2nd Def */
+        GSF_XML_IN_NODE (VAL_AXIS, VAL_AXIS_CROSSES_AT, XL_NS_CHART, "crossesAt", GSF_XML_NO_CONTENT, &xlsx_axis_crosses_at, NULL),
         GSF_XML_IN_NODE (VAL_AXIS, VAL_AXIS_CROSSBETWEEN, XL_NS_CHART, "crossBetween", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (VAL_AXIS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
@@ -1903,6 +1903,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (DATE_AXIS, DATE_AXIS_POS, XL_NS_CHART, "axPos", GSF_XML_NO_CONTENT, &xlsx_axis_pos, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (DATE_AXIS, DATE_AXIS_CROSSAX, XL_NS_CHART, "crossAx", GSF_XML_NO_CONTENT, &xlsx_axis_crossax, NULL),
         GSF_XML_IN_NODE (DATE_AXIS, ADATE_XIS_CROSSES, XL_NS_CHART, "crosses", GSF_XML_NO_CONTENT, &xlsx_axis_crosses, NULL),
+        GSF_XML_IN_NODE (DATE_AXIS, DATE_AXIS_CROSSES_AT, XL_NS_CHART, "crossesAt", GSF_XML_NO_CONTENT, &xlsx_axis_crosses_at, NULL),
         GSF_XML_IN_NODE (DATE_AXIS, DATE_AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_NO_CONTENT, &xlsx_axis_delete, NULL),
 	
       GSF_XML_IN_NODE (PLOTAREA, LAYOUT, XL_NS_CHART, "layout", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2132,8 +2133,16 @@ cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
 		}
 	} else {
 		XLSXAxisInfo *cross_info = g_hash_table_lookup (state->axis.by_id, info->cross_id);
+		GogObject *obj;
 		g_return_if_fail (cross_info != NULL);
-		g_object_set (axis, "pos", info->cross, "cross-axis-id", gog_object_get_id (GOG_OBJECT (cross_info->axis)), NULL);
+		obj = GOG_OBJECT (cross_info->axis);
+		if (go_finite (cross_info->cross_value)) {
+			GnmValue *value = value_new_float (cross_info->cross_value);
+			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
+			gog_dataset_set_dim (GOG_DATASET (obj), GOG_AXIS_ELEM_CROSS_POINT,
+				gnm_go_data_scalar_new_expr (state->sheet, texpr), NULL);
+		}
+		g_object_set (obj, "pos", info->cross, "cross-axis-id", gog_object_get_id (GOG_OBJECT (axis)), NULL);
 	}
 }
 
