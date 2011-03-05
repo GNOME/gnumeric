@@ -1,5 +1,10 @@
 2011-03-05  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* xlsx-read.c (xlsx_chart_xy), (xlsx_scatter_style): import the scatter
+	plot default series style.
+
+2011-03-05  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* xlsx-read.c (xlsx_plot_axis_id), (xlsx_axis_crosses_at),
 	(cb_axis_set_position): import axis crossing position. [#642941]
 

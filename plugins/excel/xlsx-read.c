@@ -1309,7 +1309,60 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 static void xlsx_chart_area (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogAreaPlot"); }
 static void xlsx_chart_line (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogLinePlot"); }
-static void xlsx_chart_xy (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogXYPlot"); }
+
+static void
+xlsx_chart_xy (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	xlsx_chart_add_plot (xin, "GogXYPlot");
+	g_object_set (G_OBJECT (state->plot), "default-style-has-fill", FALSE, NULL);
+}
+
+static void
+xlsx_scatter_style (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal styles[] = {
+		{"line",	0},
+		{"lineMarker",  1},
+		{"marker",      2},
+		{"none",	3},
+		{"smooth",      4},
+		{"smoothMarker", 5}
+	};
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int style;
+
+	if (simple_enum (xin, attrs, styles, &style))
+		switch (style) {
+		case 0:
+			g_object_set (G_OBJECT (state->plot),
+			              "default-style-has-markers", FALSE,
+			              NULL);
+			break;
+		case 2:
+			g_object_set (G_OBJECT (state->plot),
+			              "default-style-has-lines", FALSE,
+			              NULL);
+			break;
+		case 3:
+			g_object_set (G_OBJECT (state->plot),
+			              "default-style-has-markers", FALSE,
+			              "default-style-has-lines", FALSE,
+			              NULL);
+			break;
+		case 4:
+			g_object_set (G_OBJECT (state->plot),
+			              "use-splines", TRUE,
+			              "default-style-has-markers", FALSE, NULL);
+			break;
+		case 5:
+			g_object_set (G_OBJECT (state->plot),
+			              "use-splines", TRUE,
+			              NULL);
+			break;
+		}
+}
+
 static void xlsx_chart_bubble (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogBubblePlot"); }
 static void xlsx_chart_radar (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogRadarPlot"); }
 #if 0
@@ -1926,8 +1979,8 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
           GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_YMODE, XL_NS_CHART, "yMode", GSF_XML_NO_CONTENT, NULL, NULL),
 
       GSF_XML_IN_NODE (PLOTAREA, SCATTER, XL_NS_CHART,	"scatterChart", GSF_XML_NO_CONTENT, xlsx_chart_xy, &xlsx_plot_end),
-        GSF_XML_IN_NODE (SCATTER, SCATTER_STYLE, XL_NS_CHART,	"scatterStyle", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (SCATTER, PLOT_AXIS_ID, XL_NS_CHART,		"axId", GSF_XML_NO_CONTENT, &xlsx_plot_axis_id, NULL),
+        GSF_XML_IN_NODE (SCATTER, SCATTER_STYLE, XL_NS_CHART,	"scatterStyle", GSF_XML_NO_CONTENT, &xlsx_scatter_style, NULL),
+        GSF_XML_IN_NODE (SCATTER, PLOT_AXIS_ID, XL_NS_CHART,           "axId", GSF_XML_NO_CONTENT, &xlsx_plot_axis_id, NULL),
 
         GSF_XML_IN_NODE (SCATTER, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, &xlsx_chart_ser_start, &xlsx_chart_ser_end),
           GSF_XML_IN_NODE (SERIES, SERIES_IDX, XL_NS_CHART,	"idx", GSF_XML_NO_CONTENT, NULL, NULL),
