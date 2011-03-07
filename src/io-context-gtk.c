@@ -19,6 +19,7 @@
 #include "libgnumeric.h"
 #include "dialogs.h"
 #include "pixmaps/gnumeric-stock-pixbufs.h"
+#include <dead-kittens.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>

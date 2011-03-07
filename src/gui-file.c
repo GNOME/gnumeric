@@ -25,6 +25,7 @@
 #include "workbook-priv.h"
 #include "gnumeric-gconf.h"
 #include "application.h"
+#include <dead-kittens.h>
 
 #include <goffice/goffice.h>
 
