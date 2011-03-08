@@ -1,6 +1,11 @@
+2011-03-08  Morten Welinder  <terra@gnome.org>
+
+	* dialog-doc-metadata.c (dialog_doc_metadata_transform_timestamp_to_str):
+	Use time2str.
+
 2011-03-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* formula-guru.ui: make sure everything is visible (also in 
+	* formula-guru.ui: make sure everything is visible (also in
 	translations)
 
 2011-02-26  Morten Welinder  <terra@gnome.org>

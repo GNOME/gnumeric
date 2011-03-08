@@ -163,6 +163,23 @@ dialog_doc_metadata_transform_str_to_docprop_vect (const GValue *string_value,
 	/* TODO */
 }
 
+static char *
+time2str (time_t t)
+{
+	char buffer[4000];
+	gsize len;
+	char const *format = "%c";
+
+	if (t == -1)
+		return NULL;
+
+	len = strftime (buffer, sizeof (buffer), format, localtime (&t));
+	if (len == 0)
+		return NULL;
+
+	return g_locale_to_utf8 (buffer, len, NULL, NULL, NULL);
+}
+
 /*
  * OTHER TO G_TYPE_STRING
  */
@@ -170,16 +187,15 @@ static void
 dialog_doc_metadata_transform_timestamp_to_str (const GValue *timestamp_value,
 						GValue       *string_value)
 {
-	GsfTimestamp *timestamp = NULL;
+	GsfTimestamp const *timestamp = NULL;
 
 	g_return_if_fail (VAL_IS_GSF_TIMESTAMP (timestamp_value));
 	g_return_if_fail (G_VALUE_HOLDS_STRING (string_value));
 
-	timestamp = (GsfTimestamp *) g_value_get_boxed (timestamp_value);
-
+	timestamp = g_value_get_boxed (timestamp_value);
 	if (timestamp != NULL)
-		g_value_set_string (string_value,
-				    gsf_timestamp_as_string (timestamp));
+		g_value_take_string (string_value,
+				     time2str (timestamp->timet));
 }
 
 static void
@@ -267,23 +283,6 @@ dialog_doc_metadata_set_up_permissions (DialogDocMetaData *state)
 	gtk_widget_set_sensitive (GTK_WIDGET (state->group_write), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->others_read), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->others_write), FALSE);
-}
-
-static char *
-time2str (time_t t)
-{
-	char buffer[4000];
-	gsize len;
-	char const *format = "%c";
-
-	if (t == -1)
-		return NULL;
-
-	len = strftime (buffer, sizeof (buffer), format, localtime (&t));
-	if (len == 0)
-		return NULL;
-
-	return g_locale_to_utf8 (buffer, len, NULL, NULL, NULL);
 }
 
  /* @auto_fill : if TRUE and the text is NULL, try to set the label text with an automatic value. */
