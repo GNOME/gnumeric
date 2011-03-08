@@ -1,7 +1,13 @@
+2011-03-08  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_sheet): Delete lines as we are done
+	with them.
+	(stf_parse_general_free): Handle freed lines.
+
 2011-03-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-control-gui.c (scg_cursor_move): check one row at a time.
-	
+
 2011-03-04  Morten Welinder  <terra@gnome.org>
 
 	* src/parse-util.c (std_external_wb): New function.

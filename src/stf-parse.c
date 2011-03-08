@@ -792,8 +792,9 @@ stf_parse_general_free (GPtrArray *lines)
 	unsigned lineno;
 	for (lineno = 0; lineno < lines->len; lineno++) {
 		GPtrArray *line = g_ptr_array_index (lines, lineno);
-		/* Fields are not free here.  */
-		g_ptr_array_free (line, TRUE);
+		/* Fields are not freed here.  */
+		if (line)
+			g_ptr_array_free (line, TRUE);
 	}
 	g_ptr_array_free (lines, TRUE);
 }
@@ -1311,12 +1312,15 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 			}
 			col++;
 		}
+
+		g_ptr_array_index (lines, lrow) = NULL;
+		g_ptr_array_free (line, TRUE);
 	}
 	END_LOCALE_SWITCH;
 
 	for (lcol = 0, col = start_col;
 	     lcol < parseoptions->col_import_array_len  && col < gnm_sheet_get_max_cols (sheet);
-	     lcol++)
+	     lcol++) {
 		if (parseoptions->col_import_array == NULL ||
 		    parseoptions->col_import_array_len <= lcol ||
 		    parseoptions->col_import_array[lcol]) {
@@ -1329,11 +1333,11 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 			}
 			col++;
 		}
+	}
 
-
+	g_string_chunk_free (lines_chunk);
 	if (lines)
 		stf_parse_general_free (lines);
-	g_string_chunk_free (lines_chunk);
 	if (result)
 		stf_read_remember_settings (sheet->workbook, parseoptions);
 	return result;
