@@ -1,3 +1,8 @@
+2011-03-08  Morten Welinder  <terra@gnome.org>
+
+	* xbase.c (xbase_read_header): Add more codepages from some
+	googling.
+
 2011-03-08  Andreas J. Guelzow <aguelzow@prshep.ca>
 
 	* boot.c (xbase_file_open): do not overwrite the
