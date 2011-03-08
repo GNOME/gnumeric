@@ -114,7 +114,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="ok_button">
-                    <property name="label">Apply _Name Changes</property>
+                    <property name="label" translatable="yes">Apply _Name Changes</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="can_default">True</property>
@@ -150,7 +150,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="add_button">
-                    <property name="label">_Insert</property>
+                    <property name="label" translatable="yes">_Insert</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
