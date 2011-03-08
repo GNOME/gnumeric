@@ -1648,7 +1648,7 @@ hf_attach_insert_cell_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 
 	menu = gtk_menu_new ();
 
-	item = gtk_menu_item_new_with_label (("A1 (first cell of the page area)"));
+	item = gtk_menu_item_new_with_label (_("A1 (first cell of the page area)"));
 	g_signal_connect
 		(G_OBJECT (item),
 		 "activate", G_CALLBACK (hf_insert_cell_cb), hf_state);
@@ -1662,7 +1662,7 @@ hf_attach_insert_cell_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 	g_object_set_data_full (G_OBJECT (item), "options", g_strdup("$A$1"), g_free);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
-	item = gtk_menu_item_new_with_label (("First Printed Cell Of The Page)"));
+	item = gtk_menu_item_new_with_label (_("First Printed Cell Of The Page"));
 	g_signal_connect
 		(G_OBJECT (item),
 		 "activate", G_CALLBACK (hf_insert_cell_cb), hf_state);
