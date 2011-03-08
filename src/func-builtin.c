@@ -70,7 +70,7 @@ static GnmFuncHelp const help_product[] = {
 	{ GNM_FUNC_HELP_NAME, N_("PRODUCT:product  of the given values")},
 	/* xgettext : see po-functions/README.translators */
 	{ GNM_FUNC_HELP_ARG, N_("values:a list of values to multiply")},
-	{ GNM_FUNC_HELP_DESCRIPTION, N_("Product computes the product of all the values and cells referenced in the argument list.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, N_("PRODUCT computes the product of all the values and cells referenced in the argument list.")},
 	{ GNM_FUNC_HELP_NOTE, N_("If all cells are empty, the result will be 0.") },
 	{ GNM_FUNC_HELP_EXCEL, N_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, N_("This function is OpenFormula compatible.") },
