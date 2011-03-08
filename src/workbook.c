@@ -1404,21 +1404,15 @@ workbook_sheet_state_diff (const WorkbookSheetState *wss_a, const WorkbookSheetS
 
 	switch (what) {
 	case WSS_SHEET_RENAMED:
-		return (n == 1)
-			? g_strdup (_("Renaming sheet"))
-			: g_strdup_printf (_("Renaming %d sheets"), n);
+		return g_strdup_printf (ngettext ("Renaming sheet", "Renaming %d sheets", n), n);
 	case WSS_SHEET_ADDED:
-		return (n == 1)
-			? g_strdup (_("Adding sheet"))
-			: g_strdup_printf (_("Adding %d sheets"), n);
+		return g_strdup_printf (ngettext ("Adding sheet", "Adding %d sheets", n), n);
 	case WSS_SHEET_ADDED | WSS_SHEET_ORDER:
 		/*
 		 * This is most likely just a sheet inserted, but it just
 		 * might be a compound operation.  Lie.
 		 */
-		return (n == 1)
-			? g_strdup (_("Inserting sheet"))
-			: g_strdup_printf (_("Inserting %d sheets"), n);
+		return g_strdup_printf (ngettext ("Inserting sheet", "Inserting %d sheets", n), n);
 	case WSS_SHEET_TAB_COLOR:
 		return g_strdup (_("Changing sheet tab colors"));
 	case WSS_SHEET_PROPERTIES:
@@ -1429,9 +1423,7 @@ workbook_sheet_state_diff (const WorkbookSheetState *wss_a, const WorkbookSheetS
 		 * This is most likely just a sheet delete, but it just
 		 * might be a compound operation.  Lie.
 		 */
-		return (n == 1)
-			? g_strdup (_("Deleting sheet"))
-			: g_strdup_printf (_("Deleting %d sheets"), n);
+		return g_strdup_printf (ngettext ("Deleting sheet", "Deleting %d sheets", n), n);
 	case WSS_SHEET_ORDER:
 		return g_strdup (_("Changing sheet order"));
 	default:
