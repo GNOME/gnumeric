@@ -783,10 +783,14 @@ colrow_tip_setlabel (ItemBar *ib, gboolean const is_cols, int size_pixels)
 		char *buffer;
 		double const scale = 72. / gnm_app_display_dpi_get (!is_cols);
 		if (is_cols)
-			buffer = g_strdup_printf (_("Width: %.2f pts (%d pixels)"),
+			buffer = g_strdup_printf (ngettext ("Width: %.2f pts (%d pixel)",
+							"Width: %.2f pts (%d pixels)",
+							size_pixels),
 						  scale*size_pixels, size_pixels);
 		else
-			buffer = g_strdup_printf (_("Height: %.2f pts (%d pixels)"),
+			buffer = g_strdup_printf (ngettext ("Height: %.2f pts (%d pixel)",
+							"Height: %.2f pts (%d pixels)",
+							size_pixels),
 						  scale*size_pixels, size_pixels);
 		gtk_label_set_text (GTK_LABEL (ib->tip), buffer);
 		g_free(buffer);
