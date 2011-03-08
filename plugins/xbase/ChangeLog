@@ -1,3 +1,8 @@
+2011-03-08  Andreas J. Guelzow <aguelzow@prshep.ca>
+
+	* boot.c (xbase_file_open): do not overwrite the
+	correct initialization of the row counter
+
 2011-02-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.13

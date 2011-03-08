@@ -11,6 +11,7 @@ Andreas:
 	  comments. [#642850]
 	* Trigger configurable text importer on paste of tabs. [#395631]
 	* Fix ctrl-end in presence of hidden rows. [#643971]
+	* Fix import of dbf files with more than 65536 rows. [#644189]
 
 Jean:
 	* Fix cursor position inside a cell edited in a zoomed sheet. [#641709]

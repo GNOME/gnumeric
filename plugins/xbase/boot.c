@@ -162,7 +162,6 @@ xbase_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		return;
 	}
 
-	rows = 0;
 	wb = wb_view_get_workbook (wb_view);
 
 	for (pass = 1; pass <= 2; pass++) {
