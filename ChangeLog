@@ -1,3 +1,7 @@
+2011-03-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-control-gui.c (scg_cursor_move): check one row at a time.
+	
 2011-03-04  Morten Welinder  <terra@gnome.org>
 
 	* src/parse-util.c (std_external_wb): New function.
