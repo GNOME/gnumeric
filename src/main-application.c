@@ -172,7 +172,7 @@ gnumeric_arg_parse (int argc, char **argv)
 			break;
 		}
 
-	ocontext = g_option_context_new ("[FILE ...]");
+	ocontext = g_option_context_new (_("[FILE ...]"));
 	g_option_context_add_main_entries (ocontext, gnumeric_options, GETTEXT_PACKAGE);
 	g_option_context_add_group	  (ocontext, gnm_get_option_group ());
 
