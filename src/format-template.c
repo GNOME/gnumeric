@@ -690,18 +690,27 @@ format_template_range_check (GnmFormatTemplate *ft, GnmRange const *r,
 		int diff_row_high_ft = diff_row_high + range_height (r);
 		int diff_col_high_ft = diff_col_high + range_width (r);
 		char *errmsg;
+		char *rows, *cols;
 
-		if (diff_col_high > 0 && diff_row_high > 0)
+		if (diff_col_high > 0 && diff_row_high > 0) {
+			rows = g_strdup_printf (ngettext ("%d row", "%d rows", diff_row_high_ft), diff_row_high_ft);
+			cols = g_strdup_printf (ngettext ("%d col", "%d cols", diff_col_high_ft), diff_col_high_ft);
 			errmsg = g_strdup_printf (
-				_("The target region is too small.  It should be at least %d rows by %d columns"),
-				diff_row_high_ft, diff_col_high_ft);
-		else if (diff_col_high > 0)
+				_("The target region is too small.  It should be at least %s by %s"),
+				rows, cols);
+			g_free (rows);
+			g_free (cols);
+		} else if (diff_col_high > 0)
 			errmsg = g_strdup_printf (
-				_("The target region is too small.  It should be at least %d columns wide"),
+				ngettext ("The target region is too small.  It should be at least %d column wide",
+					"The target region is too small.  It should be at least %d columns wide",
+					diff_col_high_ft),
 				diff_col_high_ft);
 		else if (diff_row_high > 0)
 			errmsg = g_strdup_printf (
-				_("The target region is too small.  It should be at least %d rows high"),
+				ngettext ("The target region is too small.  It should be at least %d row high",
+					"The target region is too small.  It should be at least %d rows high",
+					diff_row_high_ft),
 				diff_row_high_ft);
 		else {
 			errmsg = NULL;
