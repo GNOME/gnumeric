@@ -397,7 +397,7 @@ fs_init (FontSelector *fs)
 		goc_canvas_get_root (fs->font_preview_canvas),
 		preview_grid_get_type (),
 		"render-gridlines",	FALSE,
-		"default-value",	value_new_string ("AaBbCcDdEe12345"),
+		"default-value",	value_new_string (_("AaBbCcDdEe12345")),
 		"default-style",	fs->mstyle,
 		NULL));
 
@@ -475,7 +475,7 @@ font_selector_set_value (FontSelector *fs, GnmValue const *v)
 
 	val = (v != NULL)
 		? value_dup (v)
-		: value_new_string ("AaBbCcDdEe12345");
+		: value_new_string (_("AaBbCcDdEe12345"));
 	goc_item_set (fs->font_preview_grid,
 		"default-value",  val,
 		NULL);
