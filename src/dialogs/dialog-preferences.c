@@ -1122,7 +1122,7 @@ pref_autocorrect_initialcaps_page_initializer (PrefState *state,
 	wordlist_pref_create_widget (gnm_conf_get_autocorrect_init_caps_list_node (), page,
 				     row++, gnm_conf_set_autocorrect_init_caps_list,
 				     gnm_conf_get_autocorrect_init_caps_list,
-				     "Do _not correct:");
+				     _("Do _not correct:"));
 
 	gtk_widget_show_all (page);
 	return page;
@@ -1149,7 +1149,7 @@ pref_autocorrect_firstletter_page_initializer (PrefState *state,
 	wordlist_pref_create_widget (gnm_conf_get_autocorrect_first_letter_list_node (), page,
 				     row++, gnm_conf_set_autocorrect_first_letter_list,
 				     gnm_conf_get_autocorrect_first_letter_list,
-				     "Do _not capitalize after:");
+				     _("Do _not capitalize after:"));
 
 	gtk_widget_show_all (page);
 	return page;
