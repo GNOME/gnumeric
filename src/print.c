@@ -1408,7 +1408,7 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 	gtk_table_attach (GTK_TABLE (table), button_ignore_page_breaks, 1, 7, 7, 8,
 		  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,5,5);
 
-	button_ignore_page_breaks = gtk_check_button_new_with_mnemonic ("Ignore all _manual page breaks");
+	button_ignore_page_breaks = gtk_check_button_new_with_mnemonic (_("Ignore all _manual page breaks"));
 	gtk_table_attach (GTK_TABLE (table), button_ignore_page_breaks, 1, 7, 8, 9,
 		  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_ignore_page_breaks), TRUE);
