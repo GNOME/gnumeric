@@ -397,6 +397,8 @@ fs_init (FontSelector *fs)
 		goc_canvas_get_root (fs->font_preview_canvas),
 		preview_grid_get_type (),
 		"render-gridlines",	FALSE,
+		/*Translators: "AaBbCcDdEe12345" is preview text for selected font.
+		You can change it to any text suitable for your language.*/
 		"default-value",	value_new_string (_("AaBbCcDdEe12345")),
 		"default-style",	fs->mstyle,
 		NULL));
