@@ -2725,7 +2725,7 @@ static GtkToggleActionEntry const toggle_actions[] = {
 		NULL, N_("Toggle whether to display column outlines on the left or right"),
 		G_CALLBACK (cb_sheet_pref_outline_symbols_right) },
 	{ "SheetDisplayFormulas", "Gnumeric_FormulaGuru",
-	  N_("Display _Formulas"),
+	  N_("Display _Formul\303\246"),
 	  "<control>quoteleft",
 	  N_("Display the value of a formula or the formula itself"),
 		G_CALLBACK (cb_sheet_pref_display_formulas) },

@@ -854,8 +854,8 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_DISPLAY_FORMULAS,
-		 g_param_spec_boolean ("display-formulas", _("Display Formulas"),
-				       _("Control whether formulas are shown instead of values."),
+		 g_param_spec_boolean ("display-formulas", _("Display Formul\303\246"),
+				       _("Control whether formul\303\246 are shown instead of values."),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));

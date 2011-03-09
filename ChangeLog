@@ -1,3 +1,8 @@
+2011-03-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet.c: formulas -> formulæ
+	* src/wbc-gtk-actions.c: formulas -> formulæ
+	
 2011-03-08  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_sheet): Delete lines as we are done

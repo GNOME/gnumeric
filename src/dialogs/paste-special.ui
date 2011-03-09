@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
@@ -6,11 +6,9 @@
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Paste Special</property>
     <property name="type_hint">dialog</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkTable" id="table1">
@@ -31,7 +29,6 @@
                     <child>
                       <object class="GtkVBox" id="vbox1">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkRadioButton" id="paste-type-all">
                             <property name="label" translatable="yes">_All</property>
@@ -128,7 +125,6 @@
                     <child>
                       <object class="GtkVBox" id="vbox2">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkRadioButton" id="region-operation-none">
                             <property name="label" translatable="yes">None</property>
@@ -217,7 +213,6 @@
                     <child>
                       <object class="GtkVBox" id="vbox3">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkRadioButton" id="cell-operation-none">
                             <property name="label" translatable="yes">_None</property>
@@ -324,7 +319,7 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="dont-change-formulae">
-                    <property name="label" translatable="yes">D_o not change formul&#xE6;</property>
+                    <property name="label" translatable="yes">D_o not change formulæ</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>

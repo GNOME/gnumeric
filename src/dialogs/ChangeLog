@@ -1,3 +1,9 @@
+2011-03-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* cell-format.ui: formulas -> formulæ
+	* dao.ui: ditto
+	* paste-special.ui: ditto
+	
 2011-03-08  Morten Welinder  <terra@gnome.org>
 
 	* dialog-doc-metadata.c (dialog_doc_metadata_transform_timestamp_to_str):
