@@ -264,7 +264,7 @@
                           <object class="GtkLabel" id="label8">
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Seasonal damping factor (&#x3B4;):</property>
+                            <property name="label" translatable="yes">Seasonal damping factor (δ):</property>
                             <property name="use_underline">True</property>
                           </object>
                           <packing>
@@ -310,7 +310,7 @@
                           <object class="GtkLabel" id="label6">
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Growth damping factor (&#x3B3;):</property>
+                            <property name="label" translatable="yes">Growth damping factor (γ):</property>
                             <property name="use_underline">True</property>
                           </object>
                           <packing>
@@ -338,7 +338,7 @@
                           <object class="GtkLabel" id="label3">
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">_Damping factor (&#x3B1;):</property>
+                            <property name="label" translatable="yes">_Damping factor (α):</property>
                             <property name="use_underline">True</property>
                           </object>
                           <packing>
