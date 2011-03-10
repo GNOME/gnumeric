@@ -3788,11 +3788,13 @@ sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 		cell->base.flags |= GNM_CELL_IS_MERGED;
 }
 
-#define USE_CELL_POOL
+#undef USE_CELL_POOL
 
 #ifdef USE_CELL_POOL
 /* The pool from which all cells are allocated.  */
 static GOMemChunk *cell_pool;
+#else
+static int cell_allocations = 0;
 #endif
 
 static GnmCell *
@@ -3802,7 +3804,7 @@ cell_new (void)
 #ifdef USE_CELL_POOL
 		go_mem_chunk_alloc0 (cell_pool)
 #else
-		g_new0 (GnmCell, 1)
+		(cell_allocations++, g_slice_new0 (GnmCell))
 #endif
 	;
 
@@ -3820,7 +3822,7 @@ cell_free (GnmCell *cell)
 #ifdef USE_CELL_POOL
 	go_mem_chunk_free (cell_pool, cell);
 #else
-	g_free (cell);
+	cell_allocations--, g_slice_free1 (sizeof (*cell), cell);
 #endif
 }
 
@@ -3850,8 +3852,12 @@ gnm_sheet_cell_shutdown (void)
 	go_mem_chunk_foreach_leak (cell_pool, cb_cell_pool_leak, NULL);
 	go_mem_chunk_destroy (cell_pool, FALSE);
 	cell_pool = NULL;
+#else
+	if (cell_allocations)
+		g_printerr ("Leaking %d cells.\n", cell_allocations);
 #endif
 }
+
 /****************************************************************************/
 
 /**

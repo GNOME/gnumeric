@@ -1,9 +1,17 @@
+2011-03-10  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (cell_new, cell_free): Use slice allocator, not
+	g_new.
+
 2011-03-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet.c: formulas -> formulæ
 	* src/wbc-gtk-actions.c: formulas -> formulæ
-	
+
 2011-03-08  Morten Welinder  <terra@gnome.org>
+
+	* src/gutils.c (gnm_insert_meta_date): Use GsfTimestamp, not
+	string.
 
 	* src/stf-parse.c (stf_parse_sheet): Delete lines as we are done
 	with them.
