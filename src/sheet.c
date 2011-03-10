@@ -1004,14 +1004,14 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 
 	g_object_class_install_property (gobject_class, PROP_COLUMNS,
 		g_param_spec_int ("columns",
-			_("Columns"),
+			C_("sheetsize", "Columns"),
 			_("Columns number in the sheet"),
 			0, GNM_MAX_COLS, GNM_DEFAULT_COLS,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_install_property (gobject_class, PROP_ROWS,
 		g_param_spec_int ("rows",
-			_("Rows"),
+			C_("sheetsize", "Rows"),
 			_("Rows number in the sheet"),
 			0, GNM_MAX_ROWS, GNM_DEFAULT_ROWS,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
