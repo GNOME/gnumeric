@@ -69,7 +69,7 @@
                   <object class="GtkLabel" id="label4">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">Columns</property>
+                    <property name="label" translatable="yes" context="sheetsize" comments="Number of 'Columns' in sheet">Columns</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -82,7 +82,7 @@
                   <object class="GtkLabel" id="label5">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">Rows</property>
+                    <property name="label" translatable="yes" context="sheetsize" comments="Number of 'Rows' in sheet">Rows</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
