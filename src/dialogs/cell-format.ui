@@ -990,7 +990,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="tooltip_text" translatable="yes">None</property>
+                                    <property name="tooltip_text" translatable="yes" context="border" comments="Cell border">None</property>
                                     <property name="border_width">6</property>
                                     <child>
                                       <placeholder/>
@@ -1397,7 +1397,7 @@
                                             </child>
                                             <child>
                                               <object class="GtkToggleButton" id="line_pattern_none">
-                                                <property name="label" translatable="yes">None</property>
+                                                <property name="label" translatable="yes" context="line" comments="Cell border line">None</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
