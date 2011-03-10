@@ -2080,9 +2080,11 @@ static GtkActionEntry const actions[] = {
 		G_CALLBACK (cb_edit_clear_content_filtered) },
 
 /* Edit -> Delete */
+	/*Translators: Delete "Rows"*/
 	{ "EditDeleteRows", "Gnumeric_RowDelete", N_("_Rows"),
 		NULL, N_("Delete the row(s) containing the selected cells"),
 		G_CALLBACK (cb_edit_delete_rows) },
+	/*Translators: Delete "Columns"*/
 	{ "EditDeleteColumns", "Gnumeric_ColumnDelete", N_("_Columns"),
 		NULL, N_("Delete the column(s) containing the selected cells"),
 		G_CALLBACK (cb_edit_delete_columns) },
@@ -2235,9 +2237,11 @@ static GtkActionEntry const actions[] = {
 	{ "InsertCellsXL", NULL, N_("C_ells..."),
 		"<control>KP_Add", N_("Insert new cells"),
 		G_CALLBACK (cb_insert_cells) },
+	/*Translators: Insert "Columns"*/
 	{ "InsertColumns", "Gnumeric_ColumnAdd", N_("_Columns"),
 		NULL, N_("Insert new columns"),
 		G_CALLBACK (cb_insert_cols) },
+	/*Translators: Insert "Rows"*/
 	{ "InsertRows", "Gnumeric_RowAdd", N_("_Rows"),
 		NULL, N_("Insert new rows"),
 		G_CALLBACK (cb_insert_rows) },
