@@ -2030,9 +2030,13 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 				: g_strdup_printf (_("Autofitting rows %s"), list->str);
 		else if (new_size >  0)
 			text = is_cols
-				? g_strdup_printf (_("Setting width of columns %s to %d pixels"),
+				? g_strdup_printf (ngettext("Setting width of columns %s to %d pixel",
+							"Setting width of columns %s to %d pixels",
+							new_size),
 						   list->str, new_size)
-				: g_strdup_printf (_("Setting height of rows %s to %d pixels"),
+				: g_strdup_printf (ngettext("Setting height of rows %s to %d pixel",
+							"Setting height of rows %s to %d pixels",
+							new_size),
 						   list->str, new_size);
 		else text = is_cols
 			     ? g_strdup_printf (
