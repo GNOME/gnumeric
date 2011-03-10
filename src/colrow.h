@@ -78,7 +78,8 @@ gboolean colrow_is_default (ColRowInfo const *cri);
 gboolean colrow_is_empty   (ColRowInfo const *cri);
 gboolean colrow_equal	   (ColRowInfo const *a, ColRowInfo const *b);
 void     colrow_copy	   (ColRowInfo *dst, ColRowInfo const *src);
-#define  colrow_free	   g_free
+ColRowInfo *colrow_new (void);
+void colrow_free (ColRowInfo *cri);
 
 typedef struct {
 	int	pos;

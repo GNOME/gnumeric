@@ -1565,10 +1565,11 @@ sheet_apply_border (Sheet       *sheet,
 static ColRowInfo *
 sheet_row_new (Sheet *sheet)
 {
-	ColRowInfo *ri = g_new (ColRowInfo, 1);
+	ColRowInfo *ri;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
+	ri = colrow_new ();
 	*ri = sheet->rows.default_style;
 	ri->is_default = FALSE;
 	ri->needs_respan = TRUE;
@@ -1579,10 +1580,11 @@ sheet_row_new (Sheet *sheet)
 static ColRowInfo *
 sheet_col_new (Sheet *sheet)
 {
-	ColRowInfo *ci = g_new (ColRowInfo, 1);
+	ColRowInfo *ci;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
+	ci = colrow_new ();
 	*ci = sheet->cols.default_style;
 	ci->is_default = FALSE;
 

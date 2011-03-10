@@ -1,7 +1,10 @@
 2011-03-10  Morten Welinder  <terra@gnome.org>
 
+	* src/colrow.c (colrow_new, colrow_free): New functions.
+
 	* src/sheet.c (cell_new, cell_free): Use slice allocator, not
 	g_new.
+	(sheet_row_new, sheet_col_new): Use colrow_new.
 
 2011-03-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

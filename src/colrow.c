@@ -142,6 +142,18 @@ colrow_copy (ColRowInfo *dst, ColRowInfo const *src)
 	dst->visible       = src->visible;
 }
 
+ColRowInfo *
+colrow_new (void)
+{
+	return g_slice_new (ColRowInfo);
+}
+
+void
+colrow_free (ColRowInfo *cri)
+{
+	g_slice_free1 (sizeof (*cri), cri);
+}
+
 /**
  * colrow_foreach:
  * @sheet	the sheet
