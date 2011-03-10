@@ -70,13 +70,14 @@ static struct {
 	char const *Cname;
 	GnmUnderline ut;
 } const underline_types[] = {
-	{ N_("None"), UNDERLINE_NONE },
-	{ N_("Single"), UNDERLINE_SINGLE },
-	{ N_("Double"), UNDERLINE_DOUBLE },
+	/* xgettext: This refers to a "none underline" */
+	{ NC_("underline", "None"), UNDERLINE_NONE },
+	{ NC_("underline", "Single"), UNDERLINE_SINGLE },
+	{ NC_("underline", "Double"), UNDERLINE_DOUBLE },
 	/* xgettext: This refers to a "single low underline" */
-	{ N_("Single Low"), UNDERLINE_SINGLE_LOW },
+	{ NC_("underline", "Single Low"), UNDERLINE_SINGLE_LOW },
 	/* xgettext: This refers to a "double low underline" */
-	{ N_("Double Low"), UNDERLINE_DOUBLE_LOW }
+	{ NC_("underline", "Double Low"), UNDERLINE_DOUBLE_LOW }
 };
 
 /* The order corresponds to border_preset_buttons */
@@ -798,7 +799,7 @@ cb_font_underline_changed (G_GNUC_UNUSED GtkWidget *ct,
 		return FALSE;
 
 	for (i = G_N_ELEMENTS (underline_types); i-- > 0; )
-		if (go_utf8_collate_casefold (new_text, _(underline_types[i].Cname)) == 0) {
+		if (go_utf8_collate_casefold (new_text, g_dpgettext2 (NULL, "underline", underline_types[i].Cname)) == 0) {
 			res = underline_types[i].ut;
 			break;
 		}
@@ -850,10 +851,10 @@ fmt_dialog_init_font_page (FormatState *state)
 					  gnm_style_get_font_size (state->style));
 
 	for (i = 0; i < (int)G_N_ELEMENTS (underline_types); i++)
-		go_combo_text_add_item	(GO_COMBO_TEXT (uline), _(underline_types[i].Cname));
+		go_combo_text_add_item	(GO_COMBO_TEXT (uline), g_dpgettext2 (NULL, "underline", underline_types[i].Cname));
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_UNDERLINE))) {
 		GnmUnderline ut = gnm_style_get_font_uline (state->style);
-		uline_str = _(underline_types[ut].Cname);
+		uline_str = g_dpgettext2 (NULL, "underline", underline_types[ut].Cname);
 		font_selector_set_underline (state->font.selector, ut);
 	} else
 		uline_str = "";
