@@ -127,7 +127,7 @@
                         <property name="visible">True</property>
                         <child>
                           <object class="GtkRadioButton" id="region-operation-none">
-                            <property name="label" translatable="yes">None</property>
+                            <property name="label" translatable="yes" context="operation" comments="Region operation while paste">None</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -215,7 +215,7 @@
                         <property name="visible">True</property>
                         <child>
                           <object class="GtkRadioButton" id="cell-operation-none">
-                            <property name="label" translatable="yes">_None</property>
+                            <property name="label" translatable="yes" context="operation" comments="Cell operation while paste">_None</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
