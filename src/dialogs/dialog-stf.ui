@@ -767,7 +767,7 @@
                     <child type="label">
                       <object class="GtkLabel" id="label26">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Columns</property>
+                        <property name="label" translatable="yes" context="import" comments="Columns in importet text">Columns</property>
                       </object>
                     </child>
                   </object>
