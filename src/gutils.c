@@ -30,6 +30,7 @@
 #include <locale.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-doc-meta-data.h>
+#include <gsf/gsf-timestamp.h>
 
 static char *gnumeric_lib_dir;
 static char *gnumeric_data_dir;
@@ -449,13 +450,17 @@ void
 gnm_insert_meta_date (GODoc *doc, char const *name)
 {
 	GValue *value = g_new0 (GValue, 1);
-	GTimeVal time;
+	GTimeVal tm;
+	GsfTimestamp *ts = gsf_timestamp_new ();
 
-	g_get_current_time (&time);
-	time.tv_usec = 0L;
-	g_value_init (value, G_TYPE_STRING);
-	g_value_take_string (value,
-			     g_time_val_to_iso8601 (&time));
+	g_get_current_time (&tm);
+	tm.tv_usec = 0L;
+
+	gsf_timestamp_set_time (ts, tm.tv_sec);
+	g_value_init (value, GSF_TIMESTAMP_TYPE);
+	gsf_value_set_timestamp (value, ts);
+	gsf_timestamp_free (ts);
+
 	gsf_doc_meta_data_insert (go_doc_get_meta_data (doc),
 				  g_strdup (name),
 				  value);
