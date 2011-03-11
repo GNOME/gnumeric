@@ -740,8 +740,7 @@ create_sheet_list (SheetManager *state)
 	state->dir_column = column;
 
 	column = gtk_tree_view_column_new_with_attributes
-		/*Translators: Table header for column with number of "Rows"*/
-		(C_("sheetlist", "Rows"),
+		(_("Rows"),
 		 gnumeric_cell_renderer_text_new (),
 		 "text", SHEET_ROW_MAX,
 		 NULL);
@@ -751,8 +750,7 @@ create_sheet_list (SheetManager *state)
 
 	renderer = gnumeric_cell_renderer_toggle_new ();
 	column = gtk_tree_view_column_new_with_attributes
-		/*Translators: Table header for column with number of "Cols"*/
-		(C_("sheetlist", "Cols"),
+		(_("Cols"),
 		 gnumeric_cell_renderer_text_new (),
 		 "text", SHEET_COL_MAX,
 		 NULL);

@@ -16,7 +16,7 @@
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkRadioButton" id="cols">
-                <property name="label" translatable="yes" context="group" comments="Group Columns">_Columns</property>
+                <property name="label" translatable="yes">_Columns</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
@@ -31,7 +31,7 @@
             </child>
             <child>
               <object class="GtkRadioButton" id="rows">
-                <property name="label" translatable="yes" context="group" comments="Group Rows">_Rows</property>
+                <property name="label" translatable="yes">_Rows</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>

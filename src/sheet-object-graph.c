@@ -745,10 +745,8 @@ sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 		gtk_table_attach (GTK_TABLE (custom), w, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 		w = gtk_combo_box_new_text ();
 		gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Auto"));
-		/*Translators: Series as "Columns"*/
-		gtk_combo_box_append_text (GTK_COMBO_BOX (w), C_("graph", "Columns"));
-		/*Translators: Series as "Rows"*/
-		gtk_combo_box_append_text (GTK_COMBO_BOX (w), C_("graph", "Rows"));
+		gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Columns"));
+		gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Rows"));
 		gtk_combo_box_set_active (GTK_COMBO_BOX (w), 0);
 		g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_selection_mode_changed), data);
 		gtk_table_attach (GTK_TABLE (custom), w, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
