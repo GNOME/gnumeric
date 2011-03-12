@@ -360,7 +360,7 @@ simulation_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	if (err != NULL)
 		error_in_entry ((GenericToolState *) state,
-				GTK_WIDGET (state->input_entry_2), err);
+				GTK_WIDGET (state->input_entry_2), _(err));
 	return;
 }
 
