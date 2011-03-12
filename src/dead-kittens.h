@@ -151,10 +151,6 @@
 #  endif
 #endif
 
-#ifndef  HAVE_GTK_DIALOG_GET_CONTENT_AREA
-#define gtk_dialog_get_content_area(w) ((w)->vbox)
-#endif
-
 #ifndef HAVE_GTK_ADJUSTMENT_CONFIGURE
 #define gtk_adjustment_configure(_a,_v,_l,_u,_si,_pi,_ps)	\
   g_object_set ((_a),						\
@@ -172,7 +168,7 @@
 #endif
 
 #ifndef HAVE_GTK_ADJUSTMENT_GET_UPPER
-#define gtk_adjustment_get_lower(_a) ((_a)->upper)
+#define gtk_adjustment_get_upper(_a) ((_a)->upper)
 #endif
 
 #ifndef HAVE_GTK_ADJUSTMENT_GET_PAGE_SIZE

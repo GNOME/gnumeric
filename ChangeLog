@@ -1,3 +1,9 @@
+2011-03-12  Morten Welinder  <terra@gnome.org>
+
+	* src/dead-kittens.h (gtk_adjustment_get_upper): Macro had wrong
+	name.
+	(gtk_dialog_get_content_area): We only need one of these.
+
 2011-03-11  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (gnm_insert_meta_date): Use GsfTimestamp.
