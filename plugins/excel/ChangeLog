@@ -1,3 +1,11 @@
+2011-03-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* Makefile.am: add new xlsx drawing/chart files.
+	* xlsx-read-drawing.c: new file, better import of styles.
+	* xlsx-read.c: moved drawing/chart code to xlsx-read-drawing.c.
+	* xlsx-write-drawing.c: new file with enhanced chart export.
+	* xlsx-write.c: moved drawing/chart code to xlsx-write-drawing.c.
+
 2011-03-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* xlsx-read.c (xlsx_chart_ser_f), (xlsx_chart_text_start),

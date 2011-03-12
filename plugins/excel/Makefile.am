@@ -80,6 +80,8 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 EXTRA_DIST = $(xml_in_files)	\
 	xlsx-read-pivot.c	\
-	xlsx-write-pivot.c
+	xlsx-write-pivot.c	\
+	xlsx-read-drawing.c	\
+	xlsx-write-drawing.c
 
 DISTCLEANFILES = $(xml_DATA)
