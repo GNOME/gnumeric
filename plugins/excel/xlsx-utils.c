@@ -34,6 +34,7 @@
 #include "gnm-format.h"
 #include <goffice/goffice.h>
 #include <glib-object.h>
+#include <string.h>
 
 typedef struct {
 	GnmConventions base;
@@ -63,7 +64,9 @@ xlsx_lookup_external_wb (GnmConventions const *convs,
 			 char const *name)
 {
 	XLSXExprConventions const *xconv = (XLSXExprConventions const *)convs;
-	g_print ("lookup '%s'\n", name);
+	if (strcmp (name, "0") == 0)
+		return ref_wb;
+	if (0) g_printerr ("lookup '%s'\n", name);
 	return g_hash_table_lookup (xconv->extern_wb_by_id, name);
 }
 
@@ -113,7 +116,7 @@ xlsx_conventions_add_extern_ref (GnmConventions *convs, char const *path)
 	g_hash_table_insert (xconv->extern_wb_by_id,
 		g_strdup_printf ("%d", g_hash_table_size (xconv->extern_wb_by_id) + 1),
 		res);
-	g_print ("add %d = '%s'\n", g_hash_table_size (xconv->extern_wb_by_id), path);
+	if (0) g_printerr ("add %d = '%s'\n", g_hash_table_size (xconv->extern_wb_by_id), path);
 	return res;
 }
 

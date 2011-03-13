@@ -1,3 +1,8 @@
+2011-03-13  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-utils.c (xlsx_lookup_external_wb): It looks like [0] is
+	used to refer to the "self" workbook.
+
 2011-03-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* Makefile.am: add new xlsx drawing/chart files.
