@@ -231,12 +231,12 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 		xlsx_write_plot_1_5_type (xml, plot);
 
 		gsf_xml_out_start_element (xml, "c:overlap");
-		gsf_xml_out_add_int (xml, "val", -overlap_percentage);
-		gsf_xml_out_end_element (xml); /* </c:grouping> */
+		gsf_xml_out_add_int (xml, "val", overlap_percentage);
+		gsf_xml_out_end_element (xml);
 		
 		gsf_xml_out_start_element (xml, "c:gapWidth");
 		gsf_xml_out_add_int (xml, "val", gap_percentage);
-		gsf_xml_out_end_element (xml); /* </c:grouping> */
+		gsf_xml_out_end_element (xml);
 	} else if (0 == strcmp (plot_type, "GogLinePlot")) {
 		gsf_xml_out_start_element (xml, "c:lineChart");
 		xlsx_write_plot_1_5_type (xml, plot);
@@ -268,6 +268,8 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 	} else if (0 == strcmp (plot_type, "GogRadarPlot") ||
 		   0 == strcmp (plot_type, "GogRadarAreaPlot")) {
 		gsf_xml_out_start_element (xml, "c:radarChart");
+		axis_type[0] = GOG_AXIS_CIRCULAR;
+		axis_type[1] = GOG_AXIS_RADIAL;
 	} else if (0 == strcmp (plot_type, "GogBubblePlot")) {
 		gboolean show_neg = FALSE, in_3d = FALSE, as_area = TRUE;
 		g_object_get (G_OBJECT (plot),

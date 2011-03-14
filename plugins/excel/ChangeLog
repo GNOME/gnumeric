@@ -1,3 +1,8 @@
+2011-03-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* xlsx-write-drawing.c (xlsx_write_chart): export radial plot axes,
+	anf fix overlap in barcol plots.
+
 2011-03-13  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-utils.c (xlsx_lookup_external_wb): It looks like [0] is
