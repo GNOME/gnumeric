@@ -13,6 +13,7 @@ Andreas:
 	* Fix ctrl-end in presence of hidden rows. [#643971]
 	* Fix import of dbf files with more than 65536 rows. [#644189]
 	* Export workbook-scoped named expressions and ranges to ODF.
+	* Improve reading of named expressions from ODF files. 
 
 Jean:
 	* Fix cursor position inside a cell edited in a zoomed sheet. [#641709]

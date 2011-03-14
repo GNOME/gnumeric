@@ -3896,6 +3896,11 @@ odf_write_named_expression (gpointer key, GnmNamedExpr *nexpr, GnmOOExport *stat
 			(state->xml, TABLE "range-usable-as", 
 			 "print-range filter repeat-row repeat-column");
 		
+		if (nexpr->pos.sheet != NULL && state->with_extension 
+		    && (get_gsf_odf_version () < 102))
+			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "scope", 
+					      nexpr->pos.sheet->name_unquoted);
+
 		gsf_xml_out_end_element (state->xml); /* </table:named-range> */
 	} else {
 		gsf_xml_out_start_element 
@@ -3923,7 +3928,8 @@ odf_write_named_expression (gpointer key, GnmNamedExpr *nexpr, GnmOOExport *stat
 		g_free (formula);
 		gnm_expr_top_unref (texpr);
 
-		if (nexpr->pos.sheet != NULL && state->with_extension)
+		if (nexpr->pos.sheet != NULL && state->with_extension 
+		    && (get_gsf_odf_version () < 102))
 			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "scope", 
 					      nexpr->pos.sheet->name_unquoted);
 		

@@ -1685,6 +1685,7 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	oo_row_reset_defaults (state);
 
 	state->pos.eval.col = state->pos.eval.row = 0;
+	state->pos.sheet = NULL;
 }
 
 static void
@@ -4706,6 +4707,7 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 	char const *name      = NULL;
 	char const *base_str  = NULL;
 	char const *expr_str  = NULL;
+	char const *scope  = NULL;
 	char *range_str = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -4717,37 +4719,70 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 			expr_str = CXML2C (attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "cell-range-address"))
 			expr_str = range_str = g_strconcat ("[", CXML2C (attrs[1]), "]", NULL);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "scope"))
+			scope = CXML2C (attrs[1]);
 
-	if (name != NULL && base_str != NULL && expr_str != NULL) {
+
+	if (name != NULL && expr_str != NULL) {
 		GnmParsePos   pp;
 		GnmExprTop const *texpr;
-		char *tmp = g_strconcat ("[", base_str, "]", NULL);
+		OOFormula f_type;
 
 		parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
-		texpr = oo_expr_parse_str (xin, tmp, &pp,
-					   GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES, FORMULA_OPENFORMULA);
-		g_free (tmp);
 
-		if (texpr == NULL)
-			;
-		else if (GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_CELLREF) {
-			oo_warning (xin, _("expression '%s' @ '%s' is not a cellref"),
-				    name, base_str);
-			gnm_expr_top_unref (texpr);
+		/* Note that base_str is not required */
+		if (base_str != NULL) {
+			char *tmp = g_strconcat ("[", base_str, "]", NULL);
+			
+			texpr = oo_expr_parse_str 
+				(xin, tmp, &pp,
+				 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES, 
+				 FORMULA_OPENFORMULA);
+			g_free (tmp);
+			
+			if (texpr == NULL ||
+			    GNM_EXPR_GET_OPER (texpr->expr) 
+			    != GNM_EXPR_OP_CELLREF) {
+				oo_warning (xin, _("expression '%s' @ '%s' "
+						   "is not a cellref"),
+					    name, base_str);
+			} else {
+				GnmCellRef const *ref = 
+					&texpr->expr->cellref.ref;
+				parse_pos_init (&pp, state->pos.wb, ref->sheet,
+						ref->col, ref->row);
+			}
+			if (texpr != NULL)
+				gnm_expr_top_unref (texpr);
+			
+		}
+
+		f_type = odf_get_formula_type (xin, &expr_str);
+		if (f_type == FORMULA_NOT_SUPPORTED) {
+			oo_warning 
+				(xin, _("Expression '%s' has "
+					"unknown namespace"), 
+				 expr_str);
 		} else {
-			GnmCellRef const *ref = &texpr->expr->cellref.ref;
-			parse_pos_init (&pp, state->pos.wb, ref->sheet,
-				ref->col, ref->row);
-
-			gnm_expr_top_unref (texpr);
+		
+			/* Note that  an = sign is only required if a  */
+			/* name space is given. */
+			if (*expr_str == '=')
+				expr_str++;
+			
 			texpr = oo_expr_parse_str (xin, expr_str,
-						   &pp, GNM_EXPR_PARSE_DEFAULT, FORMULA_OPENFORMULA);
+						   &pp, GNM_EXPR_PARSE_DEFAULT,
+						   f_type);
 			if (texpr != NULL) {
-				pp.sheet = NULL;
-				expr_name_add (&pp, name, texpr, NULL, TRUE, NULL);
+				pp.sheet = state->pos.sheet;
+				if (pp.sheet == NULL && scope != NULL)
+					pp.sheet = workbook_sheet_by_name (pp.wb, scope);
+				expr_name_add (&pp, name, texpr, NULL, 
+					       TRUE, NULL);
 			}
 		}
 	}
+
 	g_free (range_str);
 }
 
@@ -7701,8 +7736,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW_GROUP, OO_NS_TABLE, "table-row-group", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (TABLE, TABLE_ROW_GROUP,	      OO_NS_TABLE, "table-row-group", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW,	    OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-
-	  GSF_XML_IN_NODE (SPREADSHEET, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (TABLE, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (SPREADSHEET, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	    GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_EXPR, OO_NS_TABLE, "named-expression", GSF_XML_NO_CONTENT, &oo_named_expr, NULL),
 	    GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_RANGE, OO_NS_TABLE, "named-range", GSF_XML_NO_CONTENT, &oo_named_expr, NULL),
 
