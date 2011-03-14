@@ -1,3 +1,10 @@
+2011-03-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_named_expression): new
+	(odf_write_content): call odf_write_named_expression as 
+	appropriate
+	(odf_write_gnm_settings): use odf_add_bool
+
 2011-02-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_validation_new_list): also read 

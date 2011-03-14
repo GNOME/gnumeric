@@ -3851,6 +3851,86 @@ odf_print_spreadsheet_content_prelude (GnmOOExport *state)
 	odf_print_spreadsheet_content_validations (state);
 }
 
+static void
+odf_write_named_expression (gpointer key, GnmNamedExpr *nexpr, GnmOOExport *state)
+{
+	char const *name;
+	gboolean is_range;
+	char *formula;
+	GnmCellRef ref;
+	GnmExprTop const *texpr;
+	Sheet *sheet;
+	
+	g_return_if_fail (nexpr != NULL);
+
+	sheet = nexpr->pos.sheet;
+        if (sheet == NULL)
+		sheet = workbook_sheet_by_index (state->wb, 0);
+
+	name = expr_name_name (nexpr);
+	is_range = nexpr->texpr && !expr_name_is_placeholder (nexpr) 
+		&& gnm_expr_top_is_rangeref (nexpr->texpr);
+
+	if (is_range) {
+		gsf_xml_out_start_element (state->xml, TABLE "named-range");
+		gsf_xml_out_add_cstr (state->xml, TABLE "name", name);
+		
+		formula = gnm_expr_top_as_string (nexpr->texpr,
+						  &nexpr->pos,
+						  state->conv);
+		gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address",
+				      odf_strip_brackets (formula));
+		g_free (formula);
+		
+		gnm_cellref_init (&ref, sheet, nexpr->pos.eval.col, 
+				  nexpr->pos.eval.row, FALSE);
+		texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
+		formula = gnm_expr_top_as_string (texpr, &nexpr->pos, state->conv);
+		gsf_xml_out_add_cstr (state->xml,
+				      TABLE "base-cell-address",
+				      odf_strip_brackets (formula));
+		g_free (formula);
+		gnm_expr_top_unref (texpr);
+		
+		gsf_xml_out_add_cstr_unchecked
+			(state->xml, TABLE "range-usable-as", 
+			 "print-range filter repeat-row repeat-column");
+		
+		gsf_xml_out_end_element (state->xml); /* </table:named-range> */
+	} else {
+		gsf_xml_out_start_element 
+			(state->xml, TABLE "named-expression");
+		gsf_xml_out_add_cstr (state->xml, TABLE "name", name);
+		
+		formula = gnm_expr_top_as_string (nexpr->texpr,
+						  &nexpr->pos,
+						  state->conv);
+		if (get_gsf_odf_version () > 101) {
+			char *eq_formula = g_strdup_printf ("of:=%s", formula);
+			gsf_xml_out_add_cstr (state->xml,  TABLE "expression", eq_formula);
+			g_free (eq_formula);
+		} else
+			gsf_xml_out_add_cstr (state->xml,  TABLE "expression", formula);
+		g_free (formula);
+		
+		gnm_cellref_init (&ref, sheet, nexpr->pos.eval.col, 
+				  nexpr->pos.eval.row, FALSE);
+		texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
+		formula = gnm_expr_top_as_string (texpr, &nexpr->pos, state->conv);
+		gsf_xml_out_add_cstr (state->xml,
+				      TABLE "base-cell-address",
+				      odf_strip_brackets (formula));
+		g_free (formula);
+		gnm_expr_top_unref (texpr);
+
+		if (nexpr->pos.sheet != NULL && state->with_extension)
+			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "scope", 
+					      nexpr->pos.sheet->name_unquoted);
+		
+		gsf_xml_out_end_element (state->xml); /* </table:named-expression> */
+	}
+}
+
 
 static void
 odf_write_content (GnmOOExport *state, GsfOutput *child)
@@ -3944,10 +4024,23 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 
 		odf_write_sheet_controls (state);
 		odf_write_sheet (state);
+		if (get_gsf_odf_version () > 101 && sheet->names) {
+			gsf_xml_out_start_element (state->xml, TABLE "named-expressions");
+			gnm_sheet_foreach_name (sheet,
+						(GHFunc)&odf_write_named_expression, state);
+			gsf_xml_out_end_element (state->xml); /* </table:named-expressions> */
+		}
 		gsf_xml_out_end_element (state->xml); /* </table:table> */
 
 		has_autofilters |= (sheet->filters != NULL);
 		odf_update_progress (state, state->sheet_progress);
+	}
+	if (state->wb->names != NULL) {
+		gsf_xml_out_start_element (state->xml, TABLE "named-expressions");
+		workbook_foreach_name 
+			(state->wb, (get_gsf_odf_version () > 101),
+			 (GHFunc)&odf_write_named_expression, state);
+		gsf_xml_out_end_element (state->xml); /* </table:named-expressions> */
 	}
 	if (has_autofilters) {
 		gsf_xml_out_start_element (state->xml, TABLE "database-ranges");
@@ -4381,7 +4474,8 @@ odf_write_gnm_settings (GnmOOExport *state)
 	gsf_xml_out_start_element (state->xml, CONFIG "config-item");
 	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", GNMSTYLE "has_foreign");
 	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "boolean");
-	gsf_xml_out_add_cstr_unchecked (state->xml, NULL, state->with_extension ? "true" : "false");
+	odf_add_bool (state->xml, NULL, state->with_extension);
+
 	gsf_xml_out_end_element (state->xml); /* </config:config-item> */
 	gsf_xml_out_end_element (state->xml); /* </config:config-item-set> */
 }
