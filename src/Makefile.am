@@ -358,12 +358,6 @@ test_pango_LDFLAGS = -export-dynamic
 test_pango_SOURCES =				\
 	test-pango.c
 
-# A stub program for testing
-#bin_PROGRAMS += harness
-#harness_LDADD   = $(gnumeric_LDADD)
-#harness_LDFLAGS = -export-dynamic
-#harness_SOURCES = test-harness.c
-
 if WITH_NATIVE_WIN32
     gnumeric_LDADD += gnumeric_rc.o
     gnumeric_LDFLAGS	+= -mwindows -Wl,--stack,0x4000000
