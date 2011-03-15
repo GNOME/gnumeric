@@ -795,12 +795,13 @@ xlsx_draw_color_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	if (state->gocolor) {
-		*state->gocolor = state->color;
-		if (state->auto_color) {
-			*state->auto_color = FALSE;
-			state->auto_color = NULL;
+		if (*state->gocolor != state->color) {
+			*state->gocolor = state->color;
+			if (state->auto_color)
+				*state->auto_color = FALSE;
 		}
 		state->gocolor = NULL;
+		state->auto_color = NULL;
 	} else if (state->color_setter) {
 		state->color_setter (state->color_data, state->color);
 		state->color_setter = NULL;

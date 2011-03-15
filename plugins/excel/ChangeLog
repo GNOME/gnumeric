@@ -1,3 +1,9 @@
+2011-03-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* xlsx-read-drawing.c (xlsx_draw_color_end): fixed some auto style issues.
+	* xlsx-write-drawing.c (xlsx_write_plot_1_5_type),
+	(xlsx_write_series_dim), (xlsx_write_go_style), (xlsx_write_chart): ditto.
+
 2011-03-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* xlsx-write-drawing.c (xlsx_write_chart): export radial plot axes,

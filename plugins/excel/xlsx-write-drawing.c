@@ -65,7 +65,7 @@ xlsx_write_chart_float (GsfXMLOut *xml, char const *name, double def_val, double
 }
 
 static void
-xlsx_write_plot_1_5_type (GsfXMLOut *xml, GogObject const *plot)
+xlsx_write_plot_1_5_type (GsfXMLOut *xml, GogObject const *plot, gboolean is_barcol)
 {
 	char const *type;
 	g_object_get (G_OBJECT (plot), "type", &type, NULL);
@@ -74,7 +74,7 @@ xlsx_write_plot_1_5_type (GsfXMLOut *xml, GogObject const *plot)
 	else if (0 == strcmp (type, "stacked"))
 		type = "stacked";
 	else
-		type = "clustered";
+		type = (is_barcol)? "clustered": "standard";
 	xlsx_write_chart_cstr_unchecked (xml, "c:grouping", type);
 }
 
@@ -83,13 +83,13 @@ xlsx_write_series_dim (XLSXWriteState *state, GsfXMLOut *xml, GogSeries const *s
 		       char const *name, GogMSDimType ms_type)
 {
 	GogSeriesDesc const *desc = &gog_plot_description (gog_series_get_plot (series))->series;
-	unsigned dim;
+	int dim;
 	GOData const *dat;
 
-	for (dim = 0; dim < desc->num_dim; dim++)
+	for (dim = -1; dim < (int) desc->num_dim; dim++)
 		if (desc->dim[dim].ms_type == ms_type)
 			break;
-	if (dim == desc->num_dim)
+	if (dim == (int) desc->num_dim)
 		return;
 	dat = gog_dataset_get_dim (GOG_DATASET (series), dim);
 	if (NULL != dat) {
@@ -100,9 +100,10 @@ xlsx_write_series_dim (XLSXWriteState *state, GsfXMLOut *xml, GogSeries const *s
 				parse_pos_init (&pp, (Workbook *)state->base.wb, NULL, 0,0 ),
 				state->convs);
 			gsf_xml_out_start_element (xml, name);
-			gsf_xml_out_start_element (xml, "c:numRef");
+			gsf_xml_out_start_element (xml, (strcmp (name, "c:tx"))? "c:numRef": "c:strRef");
 			gsf_xml_out_simple_element (xml, "c:f", str);
 			gsf_xml_out_end_element (xml);
+			/* FIXME: write values, they are mandatory, according to the schema */
 			gsf_xml_out_end_element (xml);
 
 			g_free (str);
@@ -135,10 +136,12 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 		/* export the line color */
 		gsf_xml_out_start_element (xml, "a:ln");
 		if (style->line.width > 0)
-			gsf_xml_out_add_int (xml, "w", style->line.width * 12700); 
-		gsf_xml_out_start_element (xml, "a:solidFill");
-		xlsx_write_rgbarea (xml, style->line.color);
-		gsf_xml_out_end_element (xml);
+			gsf_xml_out_add_int (xml, "w", style->line.width * 12700);
+		if (!style->line.auto_color) {
+			gsf_xml_out_start_element (xml, "a:solidFill");
+			xlsx_write_rgbarea (xml, style->line.color);
+			gsf_xml_out_end_element (xml);
+		}
 		
 		gsf_xml_out_end_element (xml);
 	}
@@ -152,14 +155,18 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 		case GO_STYLE_FILL_PATTERN:
 			switch (style->fill.pattern.pattern) {
 			case GO_PATTERN_SOLID:
-				gsf_xml_out_start_element (xml, "a:solidFill");
-				xlsx_write_rgbarea (xml, style->fill.pattern.back);
-				gsf_xml_out_end_element (xml);
+				if (!style->fill.auto_back) {
+					gsf_xml_out_start_element (xml, "a:solidFill");
+					xlsx_write_rgbarea (xml, style->fill.pattern.back);
+					gsf_xml_out_end_element (xml);
+				}
 				break;
 			case GO_PATTERN_FOREGROUND_SOLID:
-				gsf_xml_out_start_element (xml, "a:solidFill");
-				xlsx_write_rgbarea (xml, style->fill.pattern.fore);
-				gsf_xml_out_end_element (xml);
+				if (!style->fill.auto_fore) {
+					gsf_xml_out_start_element (xml, "a:solidFill");
+					xlsx_write_rgbarea (xml, style->fill.pattern.fore);
+					gsf_xml_out_end_element (xml);
+				}
 				break;
 			}
 			break;
@@ -186,6 +193,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 	GogAxisType axis_type[3] = {GOG_AXIS_X, GOG_AXIS_Y, GOG_AXIS_UNKNOWN};
 	unsigned i;
 	double explosion = 0.;
+	gboolean vary_by_element;
 
 	graph = sheet_object_graph_get_gog (so);
 	if (NULL == graph)
@@ -196,6 +204,9 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 	plot = gog_object_get_child_by_name (GOG_OBJECT (chart), "Plot");
 	if (NULL == plot)
 		return;
+	g_object_get (G_OBJECT (plot),
+		      "vary-style-by-element", &vary_by_element,
+		      NULL);
 	plot_type = G_OBJECT_TYPE_NAME (plot);
 	xml = gsf_xml_out_new (chart_part);
 	gsf_xml_out_start_element (xml, "c:chartSpace");
@@ -212,7 +223,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 		xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (obj)));
 	if (0 == strcmp (plot_type, "GogAreaPlot")) {
 		gsf_xml_out_start_element (xml, "c:areaChart");
-		xlsx_write_plot_1_5_type (xml, plot);
+		xlsx_write_plot_1_5_type (xml, plot, FALSE);
 	} else if (0 == strcmp (plot_type, "GogBarColPlot")) {
 		gboolean horizontal;
 		int overlap_percentage, gap_percentage;
@@ -228,7 +239,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 		gsf_xml_out_start_element (xml, "c:barChart");
 		gsf_xml_out_simple_element (xml, "c:barDir",
 			horizontal ? "bar" : "col");
-		xlsx_write_plot_1_5_type (xml, plot);
+		xlsx_write_plot_1_5_type (xml, plot, TRUE);
 
 		gsf_xml_out_start_element (xml, "c:overlap");
 		gsf_xml_out_add_int (xml, "val", overlap_percentage);
@@ -239,7 +250,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 		gsf_xml_out_end_element (xml);
 	} else if (0 == strcmp (plot_type, "GogLinePlot")) {
 		gsf_xml_out_start_element (xml, "c:lineChart");
-		xlsx_write_plot_1_5_type (xml, plot);
+		xlsx_write_plot_1_5_type (xml, plot, FALSE);
 	} else if (0 == strcmp (plot_type, "GogPiePlot") ||
 		   0 == strcmp (plot_type, "GogRingPlot")) {
 		double initial_angle = 0., center_size = 0.;
@@ -253,6 +264,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 		} else
 			gsf_xml_out_start_element (xml, "c:pieChart");
 
+		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
 		g_object_get (G_OBJECT (plot),
 			"initial-angle",	 &initial_angle,
 			NULL);
@@ -278,6 +290,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 			"size-as-area",		&as_area,
 			NULL);
 		gsf_xml_out_start_element (xml, "c:bubbleChart");
+		xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
 		xlsx_write_chart_bool (xml, "c:showNegBubbles", show_neg);
 		xlsx_write_chart_cstr_unchecked (xml, "c:sizeRepresents",
 			as_area ? "area" : "w");
@@ -309,14 +322,8 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 		axis_type[0] = axis_type[1] = GOG_AXIS_UNKNOWN;
 	}
 	if (!failed) {
-		gboolean vary_by_element;
 		GSList const *series = gog_plot_get_series (GOG_PLOT (plot));
 		unsigned count = 0;
-		g_object_get (G_OBJECT (plot),
-			      "vary-style-by-element", &vary_by_element,
-			      NULL);
-		if (vary_by_element)
-			xlsx_write_chart_bool (xml, "c:varyColors", vary_by_element);
 		for ( ; NULL != series ; series = series->next) {
 			gsf_xml_out_start_element (xml, "c:ser");
 
@@ -324,6 +331,8 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 			xlsx_write_chart_int (xml, "c:order", -1, count);
 			if (!vary_by_element) /* FIXME: we might loose some style elements */
 				xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (series->data)));
+			xlsx_write_series_dim (state, xml, series->data,
+				"c:tx", GOG_MS_DIM_LABELS);
 			if (use_xy) {
 				xlsx_write_series_dim (state, xml, series->data,
 					"c:yVal", GOG_MS_DIM_VALUES);
