@@ -52,6 +52,11 @@
 #include <unistd.h>
 #include <errno.h>
 
+#ifdef G_OS_WIN32
+/* see bug #533795. */
+#define PREVIEW_VIA_PDF
+#endif
+
 /*  The following structure is used by the printing system */
 
 typedef struct {
@@ -1557,125 +1562,168 @@ gnm_custom_widget_apply_cb (GtkPrintOperation *operation,
 	pi->ignore_pb = ignore_pb;
 }
 
+static void
+cb_delete_and_free (char *tmp_file_name)
+{
+	if (tmp_file_name) {
+		g_unlink (tmp_file_name);
+		g_free (tmp_file_name);
+	}
+}
+
 void
 gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 		 gboolean preview, PrintRange default_range,
 		 GsfOutput *export_dst)
 {
-  GtkPrintOperation *print;
-  GtkPrintOperationResult res;
-  GtkPageSetup *page_setup;
-  PrintingInstance *pi;
-  GtkPrintSettings* settings;
-  GtkWindow *parent;
-  GtkPrintOperationAction action;
-  gchar *tmp_file_name = NULL;
-  int tmp_file_fd = -1;
+	GtkPrintOperation *print;
+	GtkPrintOperationResult res;
+	GtkPageSetup *page_setup;
+	PrintingInstance *pi;
+	GtkPrintSettings* settings;
+	GtkWindow *parent = NULL;
+	GtkPrintOperationAction action;
+	gchar *tmp_file_name = NULL;
+	int tmp_file_fd = -1;
+	gboolean preview_via_pdf = FALSE;
 
-  print = gtk_print_operation_new ();
+#ifdef PREVIEW_VIA_PDF
+	preview_via_pdf = preview;
+#endif
 
-  pi = printing_instance_new ();
-  pi->wb = sheet->workbook;
-  pi->wbc = wbc ? WORKBOOK_CONTROL (wbc) : NULL;
-  pi->sheet = sheet;
+	if (preview)
+		g_return_if_fail (!export_dst && wbc);
 
-  settings = gnm_conf_get_print_settings ();
-  gtk_print_settings_set_int (settings, GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY,
-			      default_range);
-  pi->pr = default_range;
-  gtk_print_settings_set_use_color (settings, !sheet->print_info->print_black_and_white);
-  gtk_print_operation_set_print_settings (print, settings);
-  g_object_unref (settings);
+	print = gtk_print_operation_new ();
 
-  page_setup = print_info_get_page_setup (sheet->print_info);
-  if (page_setup) {
-	  gtk_print_operation_set_default_page_setup (print, page_setup);
-	  g_object_unref (page_setup);
-  }
+	pi = printing_instance_new ();
+	pi->wb = sheet->workbook;
+	pi->wbc = wbc ? WORKBOOK_CONTROL (wbc) : NULL;
+	pi->sheet = sheet;
 
-  g_signal_connect (print, "begin-print", G_CALLBACK (gnm_begin_print_cb), pi);
-  g_signal_connect (print, "paginate", G_CALLBACK (gnm_paginate_cb), pi);
-  g_signal_connect (print, "draw-page", G_CALLBACK (gnm_draw_page_cb), pi);
-  g_signal_connect (print, "end-print", G_CALLBACK (gnm_end_print_cb), pi);
-  g_signal_connect (print, "request-page-setup", G_CALLBACK (gnm_request_page_setup_cb), pi);
+	settings = gnm_conf_get_print_settings ();
+	gtk_print_settings_set_int (settings,
+				    GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY,
+				    default_range);
+	pi->pr = default_range;
+	gtk_print_settings_set_use_color (settings,
+					  !sheet->print_info->print_black_and_white);
+	gtk_print_operation_set_print_settings (print, settings);
+	g_object_unref (settings);
 
-  gtk_print_operation_set_use_full_page (print, FALSE);
-  gtk_print_operation_set_unit (print, GTK_UNIT_POINTS);
+	page_setup = print_info_get_page_setup (sheet->print_info);
+	if (page_setup) {
+		gtk_print_operation_set_default_page_setup (print, page_setup);
+		g_object_unref (page_setup);
+	}
 
-  if (export_dst) {
-	  GError *err = NULL;
+	g_signal_connect (print, "begin-print", G_CALLBACK (gnm_begin_print_cb), pi);
+	g_signal_connect (print, "paginate", G_CALLBACK (gnm_paginate_cb), pi);
+	g_signal_connect (print, "draw-page", G_CALLBACK (gnm_draw_page_cb), pi);
+	g_signal_connect (print, "end-print", G_CALLBACK (gnm_end_print_cb), pi);
+	g_signal_connect (print, "request-page-setup", G_CALLBACK (gnm_request_page_setup_cb), pi);
 
-	  tmp_file_fd = g_file_open_tmp ("pdfXXXXXX", &tmp_file_name, &err);
-	  if (err) {
-		  gsf_output_set_error (export_dst, 0, "%s", err->message);
-		  g_error_free (err);
-		  goto out;
-	  }
-	  gtk_print_operation_set_export_filename (print, tmp_file_name);
+	gtk_print_operation_set_use_full_page (print, FALSE);
+	gtk_print_operation_set_unit (print, GTK_UNIT_POINTS);
 
-	  action = GTK_PRINT_OPERATION_ACTION_EXPORT;
-	  parent = NULL;
-	  gtk_print_operation_set_show_progress (print, FALSE);
-  } else {
-	  if (NULL != wbc && IS_WBC_GTK(wbc))
-		  parent = wbcg_toplevel (WBC_GTK (wbc));
-	  else
-		  parent = NULL;
-	  action = preview
-		  ? GTK_PRINT_OPERATION_ACTION_PREVIEW
-		  : GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
-	  gtk_print_operation_set_show_progress (print, TRUE);
-	  gtk_print_operation_set_custom_tab_label (print, _("Gnumeric Print Range"));
-	  g_signal_connect (print, "create-custom-widget", G_CALLBACK (gnm_create_widget_cb), pi);
-	  g_signal_connect (print, "custom-widget-apply", G_CALLBACK (gnm_custom_widget_apply_cb), pi);
-  }
+	if (preview_via_pdf) {
+		GError *err = NULL;
 
-  res = gtk_print_operation_run (print, action, parent, NULL);
+		if (NULL != wbc && IS_WBC_GTK(wbc))
+			parent = wbcg_toplevel (WBC_GTK (wbc));
 
-  switch (res) {
-  case GTK_PRINT_OPERATION_RESULT_APPLY:
-	  gnm_conf_set_print_settings (gtk_print_operation_get_print_settings (print));
-	  gnm_insert_meta_date (GO_DOC (sheet->workbook), GSF_META_NAME_PRINT_DATE);
-	  break;
-  case GTK_PRINT_OPERATION_RESULT_CANCEL:
-	  printing_instance_delete (pi);
-	  break;
-  case GTK_PRINT_OPERATION_RESULT_ERROR:
-	  /* FIXME? */
-	  break;
-  case GTK_PRINT_OPERATION_RESULT_IN_PROGRESS:
-	  /* FIXME? */
-	  break;
-  default: ;
-  }
+		tmp_file_fd = g_file_open_tmp ("pdfXXXXXX", &tmp_file_name, &err);
+		if (err) {
+			/* FIXME */
+			g_error_free (err);
+			goto out;
+		}
+		action = GTK_PRINT_OPERATION_ACTION_EXPORT;
+		gtk_print_operation_set_export_filename (print, tmp_file_name);
+		gtk_print_operation_set_show_progress (print, TRUE);
+	} else if (export_dst) {
+		GError *err = NULL;
 
-  if (tmp_file_name) {
-	  char buffer[64 * 1024];
-	  gssize bytes_read;
+		tmp_file_fd = g_file_open_tmp ("pdfXXXXXX", &tmp_file_name, &err);
+		if (err) {
+			gsf_output_set_error (export_dst, 0, "%s", err->message);
+			g_error_free (err);
+			goto out;
+		}
+		action = GTK_PRINT_OPERATION_ACTION_EXPORT;
+		gtk_print_operation_set_export_filename (print, tmp_file_name);
+		gtk_print_operation_set_show_progress (print, FALSE);
+	} else {
+		if (NULL != wbc && IS_WBC_GTK(wbc))
+			parent = wbcg_toplevel (WBC_GTK (wbc));
+		action = preview
+			? GTK_PRINT_OPERATION_ACTION_PREVIEW
+			: GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
+		gtk_print_operation_set_show_progress (print, TRUE);
+		gtk_print_operation_set_custom_tab_label (print, _("Gnumeric Print Range"));
+		g_signal_connect (print, "create-custom-widget", G_CALLBACK (gnm_create_widget_cb), pi);
+		g_signal_connect (print, "custom-widget-apply", G_CALLBACK (gnm_custom_widget_apply_cb), pi);
+	}
 
-	  if (lseek (tmp_file_fd, 0, SEEK_SET) < 0)
-		  bytes_read = -1;
-	  else {
-		  while ((bytes_read = read (tmp_file_fd, buffer, sizeof (buffer))) > 0) {
-			  gsf_output_write (export_dst, bytes_read, buffer);
-		  }
-	  }
-	  if (bytes_read < 0) {
-		  int save_errno = errno;
-		  if (!gsf_output_error (export_dst))
-			  gsf_output_set_error (export_dst,
-						g_file_error_from_errno (save_errno),
-						"%s", g_strerror (save_errno));
-	  }
-  }
+	res = gtk_print_operation_run (print, action, parent, NULL);
+
+	switch (res) {
+	case GTK_PRINT_OPERATION_RESULT_APPLY:
+		gnm_conf_set_print_settings (gtk_print_operation_get_print_settings (print));
+		gnm_insert_meta_date (GO_DOC (sheet->workbook), GSF_META_NAME_PRINT_DATE);
+		break;
+	case GTK_PRINT_OPERATION_RESULT_CANCEL:
+		printing_instance_delete (pi);
+		break;
+	case GTK_PRINT_OPERATION_RESULT_ERROR:
+		/* FIXME? */
+		break;
+	case GTK_PRINT_OPERATION_RESULT_IN_PROGRESS:
+		/* FIXME? */
+		break;
+	default: ;
+	}
+
+	if (preview_via_pdf) {
+		GdkScreen *screen = parent
+			? gtk_widget_get_screen (GTK_WIDGET (parent))
+			: NULL;
+		char *url = go_filename_to_uri (tmp_file_name);
+		go_gtk_url_show (url, screen);
+		g_free (url);
+
+		/* We hook this up to delete the temp file when the workbook
+		   is closed or when a new preview is done for the same
+		   workbook.  That's not perfect, but good enough while
+		   we wait for gtk+ to fix printing.  */
+		g_object_set_data_full (G_OBJECT (wbc),
+					"temp-file", tmp_file_name,
+					(GDestroyNotify)cb_delete_and_free);
+		tmp_file_name = NULL;
+	} else if (tmp_file_name) {
+		char buffer[64 * 1024];
+		gssize bytes_read;
+
+		if (lseek (tmp_file_fd, 0, SEEK_SET) < 0)
+			bytes_read = -1;
+		else {
+			while ((bytes_read = read (tmp_file_fd, buffer, sizeof (buffer))) > 0) {
+				gsf_output_write (export_dst, bytes_read, buffer);
+			}
+		}
+		if (bytes_read < 0) {
+			int save_errno = errno;
+			if (!gsf_output_error (export_dst))
+				gsf_output_set_error (export_dst,
+						      g_file_error_from_errno (save_errno),
+						      "%s", g_strerror (save_errno));
+		}
+	}
 
  out:
-  if (tmp_file_fd >= 0)
-	  close (tmp_file_fd);
-  if (tmp_file_name) {
-	  g_unlink (tmp_file_name);
-	  g_free (tmp_file_name);
-  }
+	if (tmp_file_fd >= 0)
+		close (tmp_file_fd);
+	cb_delete_and_free (tmp_file_name);
 
-  g_object_unref (print);
+	g_object_unref (print);
 }

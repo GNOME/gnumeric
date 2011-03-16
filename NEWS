@@ -36,6 +36,7 @@ Morten:
 	* Import names from xlsx.  [#643874]
 	* Improve dbf codepage support.  [#644189]
 	* Improve date format consistency in document properies.  [#644217]
+	* Hopefully make print preview work on win32.  [#533795]
 
 Stanley Pinchak:
 	* Improve "dif" output.

@@ -1,3 +1,8 @@
+2011-03-16  Morten Welinder  <terra@gnome.org>
+
+	* src/print.c (gnm_print_sheet): On WIN32, do previews as
+	export-to-pdf plus show-url.  Hopefully works around #533795.
+
 2011-03-12  Morten Welinder  <terra@gnome.org>
 
 	* src/dead-kittens.h (gtk_adjustment_get_upper): Macro had wrong
