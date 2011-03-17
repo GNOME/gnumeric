@@ -34,9 +34,9 @@
 	</dependencies>
     </tarball>
 
-    <tarball id="pcre" version="8.00">
-	<source href="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.00.tar.bz2"/>
-    </tarball>
+<!--    <tarball id="pcre" version="8.12">
+	<source href="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.12.tar.bz2"/>
+    </tarball> -->
 
 <!-- Compression -->
     <autotools id="zlib"
@@ -357,7 +357,6 @@
 	<dependencies>
 	    <dep package="glib"/>
 	    <dep package="libgsf"/>
-	    <dep package="pcre"/>
 	    <dep package="libxml2"/>
 	    <dep package="pango"/>
 	    <!-- <dep package="lasem"/> -->
