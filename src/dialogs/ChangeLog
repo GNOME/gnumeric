@@ -1,3 +1,8 @@
+2011-03-17  Morten Welinder  <terra@gnome.org>
+
+	* dialog-quit.c (url_renderer_func): Decode URIs before display.
+	Fixes #644982.
+
 2011-03-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* cell-format.ui: formulas -> formulæ

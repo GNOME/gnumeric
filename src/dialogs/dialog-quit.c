@@ -61,7 +61,7 @@ url_renderer_func (GtkTreeViewColumn *tree_column,
 {
 	GODoc *doc = NULL;
 	const char *uri;
-	char *markup, *shortname, *filename;
+	char *markup, *shortname, *filename, *longname, *duri;
 
 	gtk_tree_model_get (model, iter,
 			    QUIT_COL_DOC, &doc,
@@ -76,13 +76,20 @@ url_renderer_func (GtkTreeViewColumn *tree_column,
 		shortname = g_filename_display_basename (uri);
 	}
 
+	duri = go_url_decode (uri);
+	longname = duri
+		? g_filename_display_name (duri)
+		: g_strdup (uri);
+
 	markup = g_markup_printf_escaped (_("<b>%s</b>\n"
 					    "<small>Location: %s</small>"),
 					  shortname,
-					  uri);
+					  longname);
 	g_object_set (cell, "markup", markup, NULL);
 	g_free (markup);
 	g_free (shortname);
+	g_free (longname);
+	g_free (duri);
 	g_free (filename);
 }
 
