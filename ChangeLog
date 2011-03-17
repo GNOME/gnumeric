@@ -1,3 +1,7 @@
+2011-03-17  Morten Welinder  <terra@gnome.org>
+
+	* src/print.c (gnm_print_sheet): Improve error handling.
+
 2011-03-16  Morten Welinder  <terra@gnome.org>
 
 	* src/print.c (gnm_print_sheet): On WIN32, do previews as

@@ -1626,36 +1626,34 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	gtk_print_operation_set_use_full_page (print, FALSE);
 	gtk_print_operation_set_unit (print, GTK_UNIT_POINTS);
 
-	if (preview_via_pdf) {
+	if (NULL != wbc && IS_WBC_GTK(wbc))
+		parent = wbcg_toplevel (WBC_GTK (wbc));
+
+	if (preview_via_pdf || export_dst) {
 		GError *err = NULL;
 
-		if (NULL != wbc && IS_WBC_GTK(wbc))
-			parent = wbcg_toplevel (WBC_GTK (wbc));
-
-		tmp_file_fd = g_file_open_tmp ("pdfXXXXXX", &tmp_file_name, &err);
+		tmp_file_fd = g_file_open_tmp ("gnmXXXXXX.pdf",
+					       &tmp_file_name, &err);
 		if (err) {
-			/* FIXME */
+			if (export_dst)
+				gsf_output_set_error (export_dst, 0,
+						      "%s", err->message);
+			else {
+				char *text = g_strdup_printf
+					(_("Failed to create temporary file for printing: %s"),
+					 err->message);
+				go_cmd_context_error_export
+					(GO_CMD_CONTEXT (wbc), text);
+				g_free (text);
+			}
 			g_error_free (err);
 			goto out;
 		}
-		action = GTK_PRINT_OPERATION_ACTION_EXPORT;
-		gtk_print_operation_set_export_filename (print, tmp_file_name);
-		gtk_print_operation_set_show_progress (print, TRUE);
-	} else if (export_dst) {
-		GError *err = NULL;
 
-		tmp_file_fd = g_file_open_tmp ("pdfXXXXXX", &tmp_file_name, &err);
-		if (err) {
-			gsf_output_set_error (export_dst, 0, "%s", err->message);
-			g_error_free (err);
-			goto out;
-		}
 		action = GTK_PRINT_OPERATION_ACTION_EXPORT;
 		gtk_print_operation_set_export_filename (print, tmp_file_name);
-		gtk_print_operation_set_show_progress (print, FALSE);
+		gtk_print_operation_set_show_progress (print, preview_via_pdf);
 	} else {
-		if (NULL != wbc && IS_WBC_GTK(wbc))
-			parent = wbcg_toplevel (WBC_GTK (wbc));
 		action = preview
 			? GTK_PRINT_OPERATION_ACTION_PREVIEW
 			: GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
