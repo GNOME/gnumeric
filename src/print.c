@@ -53,6 +53,7 @@
 #include <errno.h>
 
 #ifdef G_OS_WIN32
+#include <windows.h>
 /* see bug #533795. */
 #define PREVIEW_VIA_PDF
 #endif
@@ -1683,12 +1684,27 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	}
 
 	if (preview_via_pdf) {
+#ifdef G_OS_WIN32
+		/* For some reason the general code doesn't work for me.
+		   Be brutal, even if this might not work for non-ASCII
+		   filenames.  */
+		int res = (int)ShellExecute (NULL, "open",
+					     tmp_file_name,
+					     NULL,
+					     NULL,
+					     SW_SHOW);
+		if (gnm_debug_flag ("preview")) {
+			g_printerr ("tmp_file_name=%s\n", tmp_file_name);
+			g_printerr ("res=%d\n", res);
+		}
+#else
 		GdkScreen *screen = parent
 			? gtk_widget_get_screen (GTK_WIDGET (parent))
 			: NULL;
 		char *url = go_filename_to_uri (tmp_file_name);
 		go_gtk_url_show (url, screen);
 		g_free (url);
+#endif
 
 		/* We hook this up to delete the temp file when the workbook
 		   is closed or when a new preview is done for the same

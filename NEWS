@@ -38,6 +38,7 @@ Morten:
 	* Improve date format consistency in document properies.  [#644217]
 	* Hopefully make print preview work on win32.  [#533795]
 	* Improve quit dialog's non-ascii handling.  [#644982]
+	* Make print-preview work on win32 by avoiding gtk+.  [#533795]
 
 Stanley Pinchak:
 	* Improve "dif" output.

@@ -1,3 +1,7 @@
+2011-03-18  Morten Welinder  <terra@gnome.org>
+
+	* src/print.c (gnm_print_sheet): Punt and use ShellExecute.
+
 2011-03-17  Morten Welinder  <terra@gnome.org>
 
 	* src/print.c (gnm_print_sheet): Improve error handling.
