@@ -1,5 +1,12 @@
 2011-03-18  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* xlsx-read-drawing.c (xlsx_chart_user_shapes),
+	(xlsx_chart_text_start), (xlsx_chart_text): add chartDrawing namespace.
+	* xlsx-read.c: ditto.
+	* xlsx-utils.h: ditto.
+
+2011-03-18  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* xlsx-read-drawing.c (xlsx_chart_text_start), (xlsx_chart_text): import
 	text in sheet filled objects.
 	* xlsx-write-drawing.c (xlsx_write_series_dim): don't export strings as

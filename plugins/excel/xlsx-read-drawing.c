@@ -20,8 +20,34 @@
  * USA
  */
 
-/*****************************************************************************/
+/*****************************************************************************
+ * User shapes                                                               *
+ *****************************************************************************/
 
+static GsfXMLInNode const xlsx_chart_drawing_dtd[] =
+{
+GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+GSF_XML_IN_NODE_FULL (START, USER_SHAPES, XL_NS_CHART, "userShapes", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+  GSF_XML_IN_NODE (USER_SHAPES, REL_SIZE_ANCHOR, XL_NS_CHART_DRAW, "relSizeAnchor", GSF_XML_NO_CONTENT, NULL, NULL),
+GSF_XML_IN_NODE_END
+};
+
+static void
+xlsx_chart_user_shapes (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	xmlChar const *part_id = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
+			part_id = attrs[1];
+	if (NULL != part_id) {
+		xlsx_parse_rel_by_id (xin, part_id, xlsx_chart_drawing_dtd, xlsx_ns);
+
+	}
+}
+
+/*****************************************************************************/
 static void
 xlsx_chart_push_obj (XLSXReadState *state, GogObject *obj)
 {
@@ -893,7 +919,7 @@ static void
 xlsx_chart_text_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (NULL == state->so && NULL == state->series) { /* Hmm, why? */
+	if (IS_SHEET_OBJECT_GRAPH (state->so) && NULL == state->series) { /* Hmm, why? */
 		GogObject *label = gog_object_add_by_name (state->cur_obj,
 			(state->cur_obj == (GogObject *)state->chart) ? "Title" : "Label", NULL);
 		xlsx_chart_push_obj (state, label);
@@ -905,10 +931,9 @@ xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
-	if (state->so) {
-		if (IS_GNM_SO_FILLED (state->so))
-			g_object_set (G_OBJECT (state->so), "text", state->chart_tx, NULL);
-	} else if (NULL == state->series) {
+	if (IS_GNM_SO_FILLED (state->so))
+		g_object_set (G_OBJECT (state->so), "text", state->chart_tx, NULL);
+	else if (NULL == state->series) {
 		if (state->cur_obj && state->chart_tx) {
 			GnmValue *value = value_new_string_nocopy (state->chart_tx);
 			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
@@ -1346,7 +1371,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
       GSF_XML_IN_NODE (HEADER_FOOTER, ODD_HEADER, XL_NS_CHART, "oddHeader", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (HEADER_FOOTER, ODD_FOOTER, XL_NS_CHART, "oddFooter", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (CHART_SPACE, LANG, XL_NS_CHART, "lang", GSF_XML_NO_CONTENT, NULL, NULL),
-  GSF_XML_IN_NODE (CHART_SPACE, USER_SHAPE, XL_NS_CHART, "userShapes", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (CHART_SPACE, USER_SHAPE, XL_NS_CHART, "userShapes", GSF_XML_NO_CONTENT, &xlsx_chart_user_shapes, NULL),
 GSF_XML_IN_NODE_END
 };
 
