@@ -581,6 +581,7 @@ int yyparse (void);
 %token		ARG_SEP ARRAY_COL_SEP ARRAY_ROW_SEP SHEET_SEP INVALID_TOKEN
 %type  <sheet>	sheetref
 %type  <wb>	workbookref
+%token <wb>     tok_WORKBOOKREF
 
 %left '<' '>' '=' tok_GTE tok_LTE tok_NE
 %left '&'
@@ -743,8 +744,12 @@ string_opt_quote : STRING
 		 | QUOTED_STRING
 		 ;
 
+opt_sheet_sep    : SHEET_SEP
+	         | ;
+
 /* only used for names */
-workbookref : '[' string_opt_quote ']'  {
+workbookref : tok_WORKBOOKREF opt_sheet_sep
+	    | '[' string_opt_quote ']'  {
 		char const *wb_name = value_peek_string ($2->constant.value);
 		Workbook *ref_wb = state->pos
 			? (state->pos->wb
@@ -753,12 +758,10 @@ workbookref : '[' string_opt_quote ']'  {
 			      ? state->pos->sheet->workbook
 			      : NULL))
 			: NULL;
-		Workbook *wb;
-		if (state->convs->input.external_wb)
-			wb = (*state->convs->input.external_wb) (state->convs, ref_wb, wb_name);
-		else
-			wb = gnm_app_workbook_get_by_name (wb_name,
-			 ref_wb ? go_doc_get_uri ((GODoc *)ref_wb) : NULL);
+		Workbook *wb =
+			state->convs->input.external_wb (state->convs,
+							 ref_wb,
+							 wb_name);
 
 		if (wb != NULL) {
 			unregister_allocation ($2); gnm_expr_free ($2);
@@ -1378,6 +1381,53 @@ yylex (void)
 			yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
 			return eat_space (state, QUOTED_STRING);
 		}
+	}
+
+	case '[': {
+		const char *p = state->ptr;
+		GString *s = g_string_new (NULL);
+		Workbook *ref_wb = state->pos
+			? (state->pos->wb
+			   ? state->pos->wb
+			   : (state->pos->sheet
+			      ? state->pos->sheet->workbook
+			      : NULL))
+			: NULL;
+
+		while (g_unichar_isspace (g_utf8_get_char (p)))
+			p = g_utf8_next_char (p);
+
+		if (p[0] == '"' || p[0] == '\'') {
+			p = go_strunescape (s, p);
+		} else {
+			gunichar uc;
+			while (1) {
+				uc = g_utf8_get_char (p);
+				if (!uc || uc == ']' || g_unichar_isspace (uc))
+					break;
+				p = g_utf8_next_char (p);
+				g_string_append_unichar (s, uc);
+			}
+		}
+
+		while (g_unichar_isspace (g_utf8_get_char (p)))
+			p = g_utf8_next_char (p);
+
+		if (s->len == 0 || p[0] != ']') {
+			g_string_free (s, TRUE);
+			break;
+		}
+
+		yylval.wb = state->convs->input.external_wb (state->convs,
+							     ref_wb,
+							     s->str);
+		g_printerr ("XXX: %s %p\n", s->str, yylval.wb);
+		g_string_free (s, TRUE);
+		if (!yylval.wb)
+			break;
+
+		state->ptr = p + 1;
+		return tok_WORKBOOKREF;
 	}
 	}
 

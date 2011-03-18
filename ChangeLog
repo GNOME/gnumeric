@@ -1,5 +1,8 @@
 2011-03-18  Morten Welinder  <terra@gnome.org>
 
+	* src/parser.y: Apply ugly patch for xlsx global names.  See bug
+	643873 for discussions.
+
 	* src/print.c (gnm_print_sheet): Punt and use ShellExecute.
 
 2011-03-17  Morten Welinder  <terra@gnome.org>
