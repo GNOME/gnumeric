@@ -100,7 +100,7 @@ xlsx_write_series_dim (XLSXWriteState *state, GsfXMLOut *xml, GogSeries const *s
 				parse_pos_init (&pp, (Workbook *)state->base.wb, NULL, 0,0 ),
 				state->convs);
 			gsf_xml_out_start_element (xml, name);
-			gsf_xml_out_start_element (xml, (strcmp (name, "c:tx"))? "c:numRef": "c:strRef");
+			gsf_xml_out_start_element (xml, (strcmp (name, "c:tx") && strcmp (name, "c:cat"))? "c:numRef": "c:strRef");
 			gsf_xml_out_simple_element (xml, "c:f", str);
 			gsf_xml_out_end_element (xml);
 			/* FIXME: write values, they are mandatory, according to the schema */

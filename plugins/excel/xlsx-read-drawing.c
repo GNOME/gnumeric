@@ -893,7 +893,7 @@ static void
 xlsx_chart_text_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (NULL == state->series) { /* Hmm, why? */
+	if (NULL == state->so && NULL == state->series) { /* Hmm, why? */
 		GogObject *label = gog_object_add_by_name (state->cur_obj,
 			(state->cur_obj == (GogObject *)state->chart) ? "Title" : "Label", NULL);
 		xlsx_chart_push_obj (state, label);
@@ -905,7 +905,10 @@ xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
-	if (NULL == state->series) {
+	if (state->so) {
+		if (IS_GNM_SO_FILLED (state->so))
+			g_object_set (G_OBJECT (state->so), "text", state->chart_tx, NULL);
+	} else if (NULL == state->series) {
 		if (state->cur_obj && state->chart_tx) {
 			GnmValue *value = value_new_string_nocopy (state->chart_tx);
 			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
@@ -1715,7 +1718,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
 		GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_UFILLTX, XL_NS_DRAW, "uFillTx", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_ULNTX, XL_NS_DRAW, "uLnTx", GSF_XML_NO_CONTENT, NULL, NULL),
 
-	      GSF_XML_IN_NODE (TX_RICH_R, TX_RICH_R_T, XL_NS_DRAW,  "t", GSF_XML_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (TX_RICH_R, TX_RICH_R_T, XL_NS_DRAW,  "t", GSF_XML_CONTENT, NULL,  &xlsx_chart_text_content),
 	    GSF_XML_IN_NODE (TEXT_PR_P, PR_P_PR,	XL_NS_DRAW, "pPr", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (PR_P_PR, PR_P_PR_DEF, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_CS, XL_NS_DRAW, "cs", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1735,7 +1738,7 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
           GSF_XML_IN_NODE (CXN_SP, SP_XFRM_STYLE, XL_NS_SS_DRAW, "style", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (SHAPE_PR, SP_PR_PRST_GEOM, XL_NS_DRAW, "prstGeom", GSF_XML_NO_CONTENT, NULL, NULL),
 
-      GSF_XML_IN_NODE (SHAPE, TX_BODY, XL_NS_SS_DRAW, "txBody", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SHAPE, TX_BODY, XL_NS_SS_DRAW, "txBody", GSF_XML_NO_CONTENT, &xlsx_chart_text_start, &xlsx_chart_text),
         GSF_XML_IN_NODE (TX_BODY, LST_STYLE, XL_NS_DRAW, "lstStyle", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (TX_BODY, TX_BODY_PR, XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (TX_BODY, TEXT_PR_P,	XL_NS_DRAW, "p", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
