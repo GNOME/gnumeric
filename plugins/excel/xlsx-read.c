@@ -198,6 +198,9 @@ typedef struct {
 	GSList		 *obj_stack;
 	unsigned int	  sp_type;
 	char		 *chart_tx;
+	gnm_float	  chart_pos[4];
+	gboolean	  chart_pos_mode[2];
+	gboolean	  chart_pos_target; /* true if "inner" */
 
 	struct {
 		GogAxis *obj;

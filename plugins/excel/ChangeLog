@@ -1,3 +1,11 @@
+2011-03-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* xlsx-read-drawing.c (xlsx_chart_user_shapes): add missing dtd entries,
+	(xlsx_chart_legend), (xlsx_chart_legend_pos), (xlsx_plot_area),
+	(xlsx_chart_layout_manual), (xlsx_chart_layout_target),
+	(xlsx_chart_layout_dim), (xlsx_chart_layout_mode): work on positions.
+	* xlsx-read.c: ditto.
+
 2011-03-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* xlsx-read-drawing.c (xlsx_chart_user_shapes),

@@ -29,13 +29,79 @@ static GsfXMLInNode const xlsx_chart_drawing_dtd[] =
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, USER_SHAPES, XL_NS_CHART, "userShapes", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
   GSF_XML_IN_NODE (USER_SHAPES, REL_SIZE_ANCHOR, XL_NS_CHART_DRAW, "relSizeAnchor", GSF_XML_NO_CONTENT, NULL, NULL),
-GSF_XML_IN_NODE_END
+    GSF_XML_IN_NODE (REL_SIZE_ANCHOR, FROM, XL_NS_CHART_DRAW, "from", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (FROM, X, XL_NS_CHART_DRAW, "x", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (FROM, Y, XL_NS_CHART_DRAW, "y", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (REL_SIZE_ANCHOR, TO, XL_NS_CHART_DRAW, "to", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (TO, X, XL_NS_CHART_DRAW, "x", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (TO, Y, XL_NS_CHART_DRAW, "y", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (REL_SIZE_ANCHOR, SHAPE, XL_NS_CHART_DRAW, "sp", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SHAPE, NV_SP_PR, XL_NS_CHART_DRAW, "nvSpPr", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (NV_SP_PR, C_NV_PR, XL_NS_CHART_DRAW, "cNvPr", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (NV_SP_PR, C_NV_SP_PR, XL_NS_CHART_DRAW, "cNvSpPr", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE_FULL (SHAPE, SHAPE_PR, XL_NS_CHART_DRAW, "spPr", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+        GSF_XML_IN_NODE (SHAPE_PR, SP_PR_PRST_GEOM, XL_NS_DRAW, "prstGeom", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (SP_PR_PRST_GEOM, AV_LST, XL_NS_DRAW, "avLst", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (SHAPE_PR, SP_PR_XFRM, XL_NS_DRAW, "xfrm", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (SP_PR_XFRM, SP_XFRM_OFF, XL_NS_DRAW, "off", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (SP_PR_XFRM, SP_XFRM_EXT, XL_NS_DRAW, "ext", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SHAPE, TX_BODY, XL_NS_CHART_DRAW, "txBody", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (TX_BODY, LST_STYLE, XL_NS_DRAW, "lstStyle", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LST_STYLE, DEF_P_PR, XL_NS_DRAW, "defPPr", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LST_STYLE, EXT_LST, XL_NS_DRAW, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LST_STYLE, LVL1_P_PR, XL_NS_DRAW, "lvl1pPr", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (LVL1_P_PR, DEF_R_PR, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (DEF_R_PR, CS, XL_NS_DRAW, "cs", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (DEF_R_PR, EA, XL_NS_DRAW, "ea", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (DEF_R_PR, LATIN, XL_NS_DRAW, "latin", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LST_STYLE, LVL2_P_PR, XL_NS_DRAW, "lvl2pPr", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (LVL2_P_PR, DEF_R_PR, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LST_STYLE, LVL3_P_PR, XL_NS_DRAW, "lvl3pPr", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (LVL3_P_PR, DEF_R_PR, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LST_STYLE, LVL4_P_PR, XL_NS_DRAW, "lvl4pPr", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (LVL4_P_PR, DEF_R_PR, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LST_STYLE, LVL5_P_PR, XL_NS_DRAW, "lvl5pPr", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (LVL5_P_PR, DEF_R_PR, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LST_STYLE, LVL6_P_PR, XL_NS_DRAW, "lvl6pPr", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (LVL6_P_PR, DEF_R_PR, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LST_STYLE, LVL7_P_PR, XL_NS_DRAW, "lvl7pPr", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (LVL7_P_PR, DEF_R_PR, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LST_STYLE, LVL8_P_PR, XL_NS_DRAW, "lvl8pPr", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (LVL8_P_PR, DEF_R_PR, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LST_STYLE, LVL9_P_PR, XL_NS_DRAW, "lvl9pPr", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (LVL9_P_PR, DEF_R_PR, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (TX_BODY, TX_BODY_PR, XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (TX_BODY, TEXT_PR_P, XL_NS_DRAW, "p", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (TEXT_PR_P, TX_RICH_FLD, XL_NS_DRAW, "fld", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (TX_RICH_FLD, TX_RICH_R_PR, XL_NS_DRAW, "rPr", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_CS, XL_NS_DRAW, "cs", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_EA, XL_NS_DRAW, "ea", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_LATIN, XL_NS_DRAW, "latin", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (TX_RICH_R_PR, TEXT_FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),
+                GSF_XML_IN_NODE (TEXT_FILL_SOLID, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_UFILLTX, XL_NS_DRAW, "uFillTx", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_ULNTX, XL_NS_DRAW, "uLnTx", GSF_XML_NO_CONTENT, NULL, NULL),
+ 	    GSF_XML_IN_NODE (TX_RICH_FLD, PR_P_PR,	XL_NS_DRAW, "pPr", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (PR_P_PR, PR_P_PR_DEF, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, NULL, NULL),
+                GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_CS, XL_NS_DRAW, "cs", GSF_XML_NO_CONTENT, NULL, NULL),
+                GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_EA, XL_NS_DRAW, "ea", GSF_XML_NO_CONTENT, NULL, NULL),
+                GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_LATIN, XL_NS_DRAW, "latin", GSF_XML_NO_CONTENT, NULL, NULL),
+                GSF_XML_IN_NODE (PR_P_PR_DEF, FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),
+                GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_UFILLTX, XL_NS_DRAW, "uFillTx", GSF_XML_NO_CONTENT, NULL, NULL),
+                GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_ULNTX, XL_NS_DRAW, "uLnTx", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (TX_RICH_FLD, TX_RICH_R_T, XL_NS_DRAW,  "t", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+	GSF_XML_IN_NODE (TEXT_PR_P, TX_RICH_R, XL_NS_DRAW, "r", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (TX_RICH_R, TX_RICH_R_PR, XL_NS_DRAW, "rPr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+           GSF_XML_IN_NODE (TX_RICH_R, TX_RICH_R_T, XL_NS_DRAW,  "t", GSF_XML_NO_CONTENT, NULL, NULL /*&xlsx_chart_text_content*/),	/* 2nd Def */
+	  GSF_XML_IN_NODE (TEXT_PR_P, PR_P_PR,	XL_NS_DRAW, "pPr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+	  GSF_XML_IN_NODE (TEXT_PR_P, PR_P_PR_END,XL_NS_DRAW, "endParaRPr", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (TEXT_PR_P, TX_RICH_R_T, XL_NS_DRAW,  "t", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+	GSF_XML_IN_NODE_END
 };
 
 static void
 xlsx_chart_user_shapes (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	xmlChar const *part_id = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -555,7 +621,25 @@ static void
 xlsx_chart_legend (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	gog_object_add_by_name (GOG_OBJECT (state->chart), "Legend", NULL);
+	xlsx_chart_push_obj (state, gog_object_add_by_name (GOG_OBJECT (state->chart), "Legend", NULL));
+}
+
+static void
+xlsx_chart_legend_pos (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const positions[] = {
+		{ "t",	 GOG_POSITION_N },
+		{ "b",	 GOG_POSITION_S },
+		{ "l",	 GOG_POSITION_W },
+		{ "r",	 GOG_POSITION_E },
+		{ "rt",	 GOG_POSITION_N | GOG_POSITION_E },
+		{ NULL, 0 }
+	};
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int position;
+	if (GOG_IS_LEGEND (state->cur_obj) && simple_enum (xin, attrs, positions, &position)) {
+		gog_object_set_position_flags (state->cur_obj, position, GOG_POSITION_COMPASS);
+	}
 }
 
 static void
@@ -978,16 +1062,60 @@ xlsx_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GogObject *backplane = gog_object_add_by_name (
 		GOG_OBJECT (state->chart), "Backplane", NULL);
-	// set a transparent default background
+	/* set a transparent default background */
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (backplane));
 	style->fill.type = GO_STYLE_FILL_NONE;
 	style->fill.auto_type = FALSE;
 	xlsx_chart_push_obj (state, backplane);
 }
+
 static void
 xlsx_chart_pop (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	xlsx_chart_pop_obj ((XLSXReadState *)xin->user_state);
+}
+
+static void
+xlsx_chart_layout_manual (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	/* FIXME: we don't take xMode and yMode into account for now */
+	GogViewAllocation alloc;
+	alloc.x = state->chart_pos[0];
+	alloc.w = state->chart_pos[1];
+	alloc.y = state->chart_pos[2];
+	alloc.h = state->chart_pos[3];
+	if (GOG_IS_GRID (state->cur_obj)) {
+		if (state->chart_pos_target) {/* inner mode */
+			gog_chart_set_plot_area (state->chart, &alloc);
+		}
+		/* else FIXME: how can we deal cleanly with an outer target? */
+	} else {
+		/* FIXME: this is correct only for chart children */
+		gog_object_set_position_flags (state->cur_obj, GOG_POSITION_MANUAL, GOG_POSITION_ANY_MANUAL);
+		gog_object_set_manual_position (state->cur_obj, &alloc);
+	}
+}
+
+static void
+xlsx_chart_layout_target (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->chart_pos_target = !(attrs[1] && strcmp (attrs[1], "inner"));
+}
+
+static void
+xlsx_chart_layout_dim (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	simple_float (xin, attrs, state->chart_pos + xin->node->user_data.v_int);
+}
+
+static void
+xlsx_chart_layout_mode (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	simple_bool (xin, attrs, state->chart_pos_mode + xin->node->user_data.v_int);
 }
 
 static GsfXMLInNode const xlsx_chart_dtd[] =
@@ -1104,16 +1232,16 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 	      GSF_XML_IN_NODE (LAST_LAYOUT_OUTER, LAYOUT_Y, XL_NS_CHART, "y", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (LAST_LAYOUT_OUTER, LAYOUT_W, XL_NS_CHART, "w", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (LAST_LAYOUT_OUTER, LAYOUT_H, XL_NS_CHART, "h", GSF_XML_NO_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (LAYOUT, MAN_LAYOUT, XL_NS_CHART, "manualLayout", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_TARGET, XL_NS_CHART, "layoutTarget", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_H, XL_NS_CHART, "h", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_W, XL_NS_CHART, "w", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_X, XL_NS_CHART, "x", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_XMODE, XL_NS_CHART, "xMode", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_Y, XL_NS_CHART, "y", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_YMODE, XL_NS_CHART, "yMode", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (TITLE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-          GSF_XML_IN_NODE (TITLE, TEXT, XL_NS_CHART, "tx", GSF_XML_NO_CONTENT, &xlsx_chart_text_start, &xlsx_chart_text),
+	    GSF_XML_IN_NODE (LAYOUT, MAN_LAYOUT, XL_NS_CHART, "manualLayout", GSF_XML_NO_CONTENT, NULL, &xlsx_chart_layout_manual),
+	      GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_TARGET, XL_NS_CHART, "layoutTarget", GSF_XML_NO_CONTENT, &xlsx_chart_layout_target, NULL),
+              GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_H, XL_NS_CHART, "h", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_layout_dim, NULL, 3),
+              GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_W, XL_NS_CHART, "w", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_layout_dim, NULL, 1),
+              GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_X, XL_NS_CHART, "x", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_layout_dim, NULL, 0),
+              GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_XMODE, XL_NS_CHART, "xMode", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_layout_mode, NULL, 0),
+              GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_Y, XL_NS_CHART, "y", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_chart_layout_dim, NULL, 2),
+              GSF_XML_IN_NODE_FULL (MAN_LAYOUT, MAN_LAYOUT_YMODE, XL_NS_CHART, "yMode", GSF_XML_NO_CONTENT, FALSE, TRUE,  &xlsx_chart_layout_mode, NULL, 1),
+              GSF_XML_IN_NODE (TITLE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+              GSF_XML_IN_NODE (TITLE, TEXT, XL_NS_CHART, "tx", GSF_XML_NO_CONTENT, &xlsx_chart_text_start, &xlsx_chart_text),
             GSF_XML_IN_NODE (TEXT, TX_RICH, XL_NS_CHART, "rich", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_BODY, XL_NS_CHART, "bodyP", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_BODY_PR, XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1189,12 +1317,6 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
           GSF_XML_IN_NODE (LAST_LAYOUT_OUTER, LAYOUT_W, XL_NS_CHART, "w", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (LAST_LAYOUT_OUTER, LAYOUT_H, XL_NS_CHART, "h", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (LAYOUT, MAN_LAYOUT, XL_NS_CHART, "manualLayout", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_H, XL_NS_CHART, "h", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_W, XL_NS_CHART, "w", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_X, XL_NS_CHART, "x", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_XMODE, XL_NS_CHART, "xMode", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_Y, XL_NS_CHART, "y", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_YMODE, XL_NS_CHART, "yMode", GSF_XML_NO_CONTENT, NULL, NULL),
 
       GSF_XML_IN_NODE (PLOTAREA, SCATTER, XL_NS_CHART,	"scatterChart", GSF_XML_NO_CONTENT, xlsx_chart_xy, &xlsx_plot_end),
         GSF_XML_IN_NODE (SCATTER, SCATTER_STYLE, XL_NS_CHART,	"scatterStyle", GSF_XML_NO_CONTENT, &xlsx_scatter_style, NULL),
@@ -1354,11 +1476,11 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 
     GSF_XML_IN_NODE (CHART, TITLE, XL_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 
-    GSF_XML_IN_NODE (CHART, LEGEND, XL_NS_CHART, "legend", GSF_XML_NO_CONTENT, &xlsx_chart_legend, NULL),
+    GSF_XML_IN_NODE (CHART, LEGEND, XL_NS_CHART, "legend", GSF_XML_NO_CONTENT, &xlsx_chart_legend, &xlsx_chart_pop),
       GSF_XML_IN_NODE (LEGEND, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
       GSF_XML_IN_NODE (LEGEND, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
       GSF_XML_IN_NODE (LEGEND, LAYOUT, XL_NS_CHART, "layout", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-      GSF_XML_IN_NODE (LEGEND, LEGEND_POS, XL_NS_CHART, "legendPos", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (LEGEND, LEGEND_POS, XL_NS_CHART, "legendPos", GSF_XML_NO_CONTENT, &xlsx_chart_legend_pos, NULL),
     GSF_XML_IN_NODE (CHART, CHART_HIDDEN, XL_NS_CHART, "plotVisOnly", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CHART, CHART_BLANKS, XL_NS_CHART, "dispBlanksAs", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CHART, AUTO_TITLE_DEL, XL_NS_CHART, "autoTitleDeleted", GSF_XML_NO_CONTENT, NULL, NULL),
