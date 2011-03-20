@@ -1,3 +1,15 @@
+2011-03-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* xlsx-read-drawing.c (xlsx_chart_push_obj), (xlsx_chart_pop_obj),
+	(xlsx_chart_text_start), (xlsx_chart_text), (xlsx_chart_p_start),
+	(xlsx_chart_text_content), (xlsx_draw_text_run_props),
+	(xlsx_rel_size_anchor_start), (xlsx_rel_size_anchor),
+	(xlsx_user_shape_pos), (xlsx_user_shape), (xlsx_user_shape_end),
+	(xlsx_axis_crosses), (xlsx_chart_style_end),
+	(xlsx_draw_color_themed), (xlsx_chart_marker_end),
+	(xlsx_chart_layout_manual), (cb_axis_set_position),
+	(xlsx_read_chart): import labels and positions.
+
 2011-03-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* xlsx-read-drawing.c (xlsx_chart_user_shapes): add missing dtd entries,
