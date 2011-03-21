@@ -257,6 +257,9 @@ static GsfXMLInNS const xlsx_ns[] = {
 	GSF_XML_IN_NS (XL_NS_DRAW,	"http://schemas.openxmlformats.org/drawingml/2006/main"),		  /* Office 12 BETA-2 Technical Refresh */
 	GSF_XML_IN_NS (XL_NS_DOC_REL,	"http://schemas.openxmlformats.org/officeDocument/2006/relationships"),
 	GSF_XML_IN_NS (XL_NS_PKG_REL,	"http://schemas.openxmlformats.org/package/2006/relationships"),
+	GSF_XML_IN_NS (XL_NS_LEG_OFF,   "urn:schemas-microsoft-com:office:office"),
+	GSF_XML_IN_NS (XL_NS_LEG_XL,    "urn:schemas-microsoft-com:office:excel"),
+	GSF_XML_IN_NS (XL_NS_LEG_VML,   "urn:schemas-microsoft-com:vml"),
 	{ NULL }
 };
 
@@ -1990,17 +1993,6 @@ xlsx_CT_SheetProtection (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_sheet_drawing (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	xmlChar const *part_id = NULL;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
-			part_id = attrs[1];
-	if (NULL != part_id)
-		xlsx_parse_rel_by_id (xin, part_id, xlsx_drawing_dtd, xlsx_ns);
-}
-
-static void
 xlsx_cond_fmt_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -2671,7 +2663,7 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
 			FALSE, FALSE, &xlsx_CT_PageBreaks_begin, &xlsx_CT_PageBreaks_end, 0),
     GSF_XML_IN_NODE (COL_BREAKS, CT_PageBreak, XL_NS_SS, "brk", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
 
-  GSF_XML_IN_NODE (SHEET, LEGACY_DRAW, XL_NS_SS, "legacyDrawing", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SHEET, LEGACY_DRAW, XL_NS_SS, "legacyDrawing", GSF_XML_NO_CONTENT, &xlsx_sheet_legacy_drawing, NULL),
   GSF_XML_IN_NODE (SHEET, OLE_OBJECTS, XL_NS_SS, "oleObjects", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (OLE_OBJECTS, OLE_OBJECT, XL_NS_SS, "oleObject", GSF_XML_NO_CONTENT, &xlsx_ole_object, NULL),
 

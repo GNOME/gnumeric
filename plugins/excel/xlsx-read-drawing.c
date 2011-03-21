@@ -142,6 +142,8 @@ xlsx_draw_text_run_props (GsfXMLIn *xin, xmlChar const **attrs)
 		PangoFontDescription *desc = pango_font_description_new ();
 		int size;
 		GOFont const *font;
+		/* looks like the default font is Calibri, FIXME: import that from file instead */
+		pango_font_description_set_family (desc, "Calibri");
 		for (; *attrs; attrs += 2)
 			if (attr_int (xin, attrs, "sz", &size))
 				pango_font_description_set_size (desc, size * PANGO_SCALE / 100);
@@ -2099,3 +2101,80 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
     GSF_XML_IN_NODE (ONE_CELL, GRAPHIC_FRAME, XL_NS_SS_DRAW, "graphicFrame", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 GSF_XML_IN_NODE_END
 };
+
+static void
+xlsx_sheet_drawing (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	xmlChar const *part_id = NULL;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
+			part_id = attrs[1];
+	if (NULL != part_id)
+		xlsx_parse_rel_by_id (xin, part_id, xlsx_drawing_dtd, xlsx_ns);
+}
+
+/******************************************************************************
+ * Legacy drawing, just need to import, but should not be exported            *
+ ******************************************************************************/
+
+static GsfXMLInNode const xlsx_legacy_drawing_dtd[] = {
+GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+GSF_XML_IN_NODE_FULL (START, SP_LAYOUT, XL_NS_LEG_OFF, "shapelayout", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+  GSF_XML_IN_NODE (SP_LAYOUT, IDMAP, XL_NS_LEG_OFF, "idmap", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SP_LAYOUT, REGROUPTABLE, XL_NS_LEG_OFF, "regrouptable", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (REGROUPTABLE, ENTRY, XL_NS_LEG_OFF, "entry", GSF_XML_NO_CONTENT, NULL, NULL),
+GSF_XML_IN_NODE_FULL (START, SP_TYPE, XL_NS_LEG_VML, "shapetype", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+  GSF_XML_IN_NODE (SP_TYPE, PATH, XL_NS_LEG_VML, "path", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SP_TYPE, STROKE, XL_NS_LEG_VML, "stroke", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SP_TYPE, LOCK, XL_NS_LEG_OFF, "lock", GSF_XML_NO_CONTENT, NULL, NULL),
+GSF_XML_IN_NODE_FULL (START, SP, XL_NS_LEG_VML, "shape", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+  GSF_XML_IN_NODE (SP, FILL, XL_NS_LEG_VML, "fill", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SP, PATH, XL_NS_LEG_VML, "path", GSF_XML_NO_CONTENT, NULL, NULL), /* already defined */
+  GSF_XML_IN_NODE (SP, SHADOW, XL_NS_LEG_VML, "shadow", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SP, STROKE, XL_NS_LEG_VML, "stroke", GSF_XML_NO_CONTENT, NULL, NULL), /* already defined */
+  GSF_XML_IN_NODE (SP, TEXTBOX, XL_NS_LEG_VML, "textbox", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (TEXTBOX, DIV, -1, "div", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SP, LOCK, XL_NS_LEG_OFF, "lock", GSF_XML_NO_CONTENT, NULL, NULL), /* already defined */
+  GSF_XML_IN_NODE (SP, CLIENT_DATA, XL_NS_LEG_XL, "ClientData", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, ANCHOR, XL_NS_LEG_XL, "Anchor", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, AUTO_FILL, XL_NS_LEG_XL, "AutoFill", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, AUTO_LINE, XL_NS_LEG_XL, "AutoLine", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, DROP_LINES, XL_NS_LEG_XL, "DropLines", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, COLUMN, XL_NS_LEG_XL, "Column", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, DROP_STYLE, XL_NS_LEG_XL, "DropStyle", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, DX, XL_NS_LEG_XL, "Dx", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, FMLA_LINK, XL_NS_LEG_XL, "FmlaLink", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, FMLA_RANGE, XL_NS_LEG_XL, "FmlaRange", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, INC, XL_NS_LEG_XL, "Inc", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, LCT, XL_NS_LEG_XL, "LCT", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, XMIN, XL_NS_LEG_XL, "Min", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, MOVE_WITH_CELLS, XL_NS_LEG_XL, "MoveWithCells", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, XMAX, XL_NS_LEG_XL, "Max", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, MOVE_WITH_CELLS, XL_NS_LEG_XL, "MoveWithCells", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, PAGE, XL_NS_LEG_XL, "Page", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, PRINT_OBJECT, XL_NS_LEG_XL, "PrintObject", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, RECALC_ALWAYS, XL_NS_LEG_XL, "RecalcAlways", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, ROW, XL_NS_LEG_XL, "Row", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, SEL, XL_NS_LEG_XL, "Sel", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, SEL_TYPE, XL_NS_LEG_XL, "SelType", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, SIZE_WITH_CELLS, XL_NS_LEG_XL, "SizeWithCells", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CLIENT_DATA, VAL, XL_NS_LEG_XL, "Val", GSF_XML_NO_CONTENT, NULL, NULL),
+GSF_XML_IN_NODE_FULL (START, GROUP, XL_NS_LEG_VML, "group", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+  GSF_XML_IN_NODE (GROUP, LOCK, XL_NS_LEG_OFF, "lock", GSF_XML_NO_CONTENT, NULL, NULL), /* already defined */
+	GSF_XML_IN_NODE (LOCK, SP, XL_NS_LEG_VML, "shape", GSF_XML_NO_CONTENT, NULL, NULL),  /* already defined */
+  GSF_XML_IN_NODE (GROUP, GROUP, XL_NS_LEG_VML, "group", GSF_XML_NO_CONTENT, NULL, NULL),  /* already defined */
+  GSF_XML_IN_NODE (GROUP, SP, XL_NS_LEG_VML, "shape", GSF_XML_NO_CONTENT, NULL, NULL),  /* already defined */
+  GSF_XML_IN_NODE (GROUP, SP_TYPE, XL_NS_LEG_VML, "shapetype", GSF_XML_NO_CONTENT, NULL, NULL),  /* already defined */
+GSF_XML_IN_NODE_END
+};
+
+static void
+xlsx_sheet_legacy_drawing (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	xmlChar const *part_id = NULL;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
+			part_id = attrs[1];
+	if (NULL != part_id)
+		xlsx_parse_rel_by_id (xin, part_id, xlsx_legacy_drawing_dtd, xlsx_ns);
+}
