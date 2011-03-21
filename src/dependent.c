@@ -41,6 +41,7 @@
 #include <string.h>
 
 static void dependent_changed (GnmDependent *dep);
+static void dependent_clear_dynamic_deps (GnmDependent *dep);
 
 /* ------------------------------------------------------------------------- */
 
@@ -365,6 +366,8 @@ dependent_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr)
 
 	if (dependent_is_linked (dep))
 		dependent_unlink (dep);
+	if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS)
+		dependent_clear_dynamic_deps (dep);
 
 	if (t == DEPENDENT_CELL) {
 		/*
@@ -1330,7 +1333,7 @@ dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr)
 		workbook_link_3d_dep (dep);
 }
 
-static inline void
+static void
 dependent_clear_dynamic_deps (GnmDependent *dep)
 {
 	g_hash_table_remove (dep->sheet->deps->dynamic_deps, dep);
@@ -2969,6 +2972,17 @@ gnm_dep_container_dump (GnmDepContainer const *deps,
 		}
 		g_slist_free (names);
 	}
+}
+
+void
+dependents_dump (Workbook *wb)
+{
+	WORKBOOK_FOREACH_SHEET
+		(wb, sheet,
+		 {
+			 g_printerr ("Dependencies for %s:\n", sheet->name_unquoted);
+			 gnm_dep_container_dump (sheet->deps, sheet);
+		 });
 }
 
 void

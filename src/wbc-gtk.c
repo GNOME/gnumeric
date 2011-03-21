@@ -2206,9 +2206,7 @@ cb_workbook_debug_info (WBCGtk *wbcg)
 	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
 	if (gnm_debug_flag ("deps")) {
-		WORKBOOK_FOREACH_SHEET (wb, sheet,
-			g_printerr ("Dependencies for %s:\n", sheet->name_unquoted);
-			gnm_dep_container_dump (sheet->deps, sheet););
+		dependents_dump (wb);
 	}
 
 	if (gnm_debug_flag ("expr-sharer")) {

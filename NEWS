@@ -39,6 +39,7 @@ Morten:
 	* Hopefully make print preview work on win32.  [#533795]
 	* Improve quit dialog's non-ascii handling.  [#644982]
 	* Make print-preview work on win32 by avoiding gtk+.  [#533795]
+	* Fix crash related to dynamic deps.  [#645209]
 
 Stanley Pinchak:
 	* Improve "dif" output.

@@ -1,3 +1,10 @@
+2011-03-21  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (dependent_set_expr): Make sure we clear dynamic
+	deps, even if not linked.  Fixes #645209.
+	(dependents_dump): New function extracted from...
+	* src/wbc-gtk.c (cb_workbook_debug_info): ...here.
+
 2011-03-18  Morten Welinder  <terra@gnome.org>
 
 	* src/parser.y: Apply ugly patch for xlsx global names.  See bug
