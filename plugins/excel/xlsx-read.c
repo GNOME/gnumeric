@@ -196,6 +196,7 @@ typedef struct {
 	GOMarkerShape	  marker_symbol;
 	GogObject	 *cur_obj;
 	GSList		 *obj_stack;
+	GSList		 *style_stack;
 	unsigned int	  sp_type;
 	char		 *chart_tx;
 	gnm_float	  chart_pos[4];

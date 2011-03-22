@@ -29,7 +29,8 @@ xlsx_chart_push_obj (XLSXReadState *state, GogObject *obj)
 {
 	state->obj_stack = g_slist_prepend (state->obj_stack, state->cur_obj);
 	state->cur_obj = obj;
-
+	state->style_stack = g_slist_prepend (state->style_stack, state->cur_style);
+	state->cur_style = GO_IS_STYLED_OBJECT (obj)? go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (obj))): NULL;
 #if 0
 	g_print ("push %s\n", G_OBJECT_TYPE_NAME (obj));
 #endif
@@ -45,11 +46,18 @@ xlsx_chart_pop_obj (XLSXReadState *state)
 	g_print ("push %s\n", G_OBJECT_TYPE_NAME (state->cur_obj));
 #endif
 
+	if (state->cur_style) {
+		g_object_set (G_OBJECT (state->cur_obj), "style", state->cur_style, NULL);
+		g_object_unref (state->cur_style);
+	}
 	state->cur_obj = obj_stack->data;
 	state->obj_stack = g_slist_remove (state->obj_stack, state->cur_obj);
+	state->cur_style = state->style_stack->data;
+	state->style_stack = g_slist_remove (state->style_stack, state->cur_style);
+	/* Should not be needed, but we might not fully import some color */
+	state->gocolor = NULL;
+	state->color_setter = NULL;
 }
-
-	
 
 static void
 xlsx_chart_text_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
@@ -59,7 +67,6 @@ xlsx_chart_text_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 		GogObject *label = gog_object_add_by_name (state->cur_obj,
 			(state->cur_obj == (GogObject *)state->chart) ? "Title" : "Label", NULL);
 		xlsx_chart_push_obj (state, label);
-		state->cur_style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (label)));
 	}
 }
 
@@ -93,9 +100,6 @@ xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				gog_object_set_position_flags (state->cur_obj, GOG_POSITION_MANUAL, GOG_POSITION_ANY_MANUAL);
 				gog_object_set_manual_position (state->cur_obj, &alloc);
 			}
-			g_object_set (G_OBJECT (state->cur_obj), "style", state->cur_style, NULL);
-			g_object_unref (state->cur_style);
-			state->cur_style = NULL;
 			xlsx_chart_pop_obj (state);
 		}
 	}
@@ -151,6 +155,23 @@ xlsx_draw_text_run_props (GsfXMLIn *xin, xmlChar const **attrs)
 		 * anyway, this has to wait until we support rich text in chart labels */
 		font = go_font_new_by_desc (desc);
 		go_style_set_font (state->cur_style, font);
+	}
+}
+
+static void
+xlsx_body_pr (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (GO_IS_STYLED_OBJECT (state->cur_obj) && state->cur_style) {
+		for (; attrs && *attrs; attrs += 2)
+			if (!strcmp (attrs[0], "rot")) {
+				/* FIXME: be careful if the "vert" property exists (not yet supported) */
+				int rotation;
+				if (attr_int (xin, attrs, "rot", &rotation)) {
+					state->cur_style->text_layout.auto_angle = FALSE;
+					state->cur_style->text_layout.angle = (double) rotation / 60000.;
+				}
+			}
 	}
 }
 
@@ -585,6 +606,32 @@ xlsx_chart_gridlines (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_axis_mark (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	static EnumVal marks[] = {
+		{"none",	0},
+		{"in",		1},
+		{"out",		2},
+		{"cross",	3},
+	};
+	int res;
+	simple_enum (xin, attrs, marks, &res);
+	if (xin->node->user_data.v_int == 0)
+		g_object_set (G_OBJECT (state->axis.obj), "major_tick_in", res & 1, "major_tick_out", res & 2, NULL);
+	else
+		g_object_set (G_OBJECT (state->axis.obj), "minor_tick_in", res & 1, "minor_tick_out", res & 2, NULL);
+}
+
+static void
+xslx_chart_tick_label_pos (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (attrs && !strcmp (attrs[0], "val") && !strcmp (attrs[1], "none"))
+	    g_object_set (G_OBJECT (state->axis.obj), "major-tick-labeled", FALSE, NULL);
+}
+
+static void
 xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -854,32 +901,6 @@ xlsx_chart_pt_sep (GsfXMLIn *xin, xmlChar const **attrs)
 		g_object_set (state->series_pt, "separation", (double)sep / 100., NULL);
 }
 
-static void
-xlsx_chart_style_start (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (NULL != state->cur_obj &&
-	    GOG_IS_STYLED_OBJECT (state->cur_obj) &&
-	    NULL == state->marker) {
-		g_return_if_fail (state->cur_style == NULL);
-		state->cur_style = go_style_dup (
-			go_styled_object_get_style (GO_STYLED_OBJECT (state->cur_obj)));
-	}
-}
-static void
-xlsx_chart_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-
-	if (NULL != state->cur_style) {
-		go_styled_object_set_style (GO_STYLED_OBJECT (state->cur_obj),
-			state->cur_style);
-		g_object_unref (state->cur_style);
-		state->cur_style = NULL;
-		state->gocolor = NULL;
-		state->color_setter = NULL;
-	}
-}
 static void
 xlsx_style_line_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -1165,13 +1186,11 @@ xlsx_chart_marker_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->cur_obj && GOG_IS_STYLED_OBJECT (state->cur_obj)) {
-		GOStyle *style = go_styled_object_get_style (
-			GO_STYLED_OBJECT (state->cur_obj));
 		if (state->marker_symbol != GO_MARKER_MAX) {
-			style->marker.auto_shape = FALSE;
+			state->cur_style->marker.auto_shape = FALSE;
 			go_marker_set_shape (state->marker, state->marker_symbol);
 		}
-		go_style_set_marker (style, state->marker);
+		go_style_set_marker (state->cur_style, state->marker);
 		state->marker = NULL;
 		state->gocolor = NULL;
 		state->color_setter = NULL;
@@ -1195,6 +1214,13 @@ static void
 xlsx_chart_pop (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	xlsx_chart_pop_obj ((XLSXReadState *)xin->user_state);
+}
+
+/* this adds a NULL object so that the style is not polluted by unsupported things */
+static void
+xlsx_chart_start_dummy (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	xlsx_chart_push_obj ((XLSXReadState *)xin->user_state, NULL);
 }
 
 static void
@@ -1245,7 +1271,7 @@ static GsfXMLInNode const xlsx_chart_dtd[] =
 {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
-  GSF_XML_IN_NODE (CHART_SPACE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, &xlsx_chart_style_start, &xlsx_chart_style_end),
+  GSF_XML_IN_NODE (CHART_SPACE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (SHAPE_PR, SP_XFRM, XL_NS_DRAW, "xfrm", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SP_XFRM, SP_XFRM_OFF, XL_NS_DRAW, "off", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SP_XFRM, SP_XFRM_EXT, XL_NS_DRAW, "ext", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1289,7 +1315,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
       GSF_XML_IN_NODE (SHAPE_PR_LN, LN_HEAD,	XL_NS_DRAW, "headEnd", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SHAPE_PR_LN, LN_TAIL,	XL_NS_DRAW, "tailEnd", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (SHAPE_PR, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE (TEXT_PR, TEXT_PR_BODY,	XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (TEXT_PR, TEXT_PR_BODY,	XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, &xlsx_body_pr, NULL),
       GSF_XML_IN_NODE (TEXT_PR, TEXT_PR_STYLE,	XL_NS_DRAW, "lstStyle", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (TEXT_PR, TEXT_PR_P,	XL_NS_DRAW, "p", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (TEXT_PR_P, PR_P_PR,	XL_NS_DRAW, "pPr", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1314,8 +1340,8 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (CAT_AXIS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_NUMFMT, XL_NS_CHART, "numFmt", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (CAT_AXIS, AXIS_MAJORTICKMARK, XL_NS_CHART, "majorTickMark", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (CAT_AXIS, AXIS_MINORTICKMARK, XL_NS_CHART, "minorTickMark", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE_FULL (CAT_AXIS, AXIS_MAJORTICKMARK, XL_NS_CHART, "majorTickMark", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_axis_mark, NULL, 0),
+        GSF_XML_IN_NODE_FULL (CAT_AXIS, AXIS_MINORTICKMARK, XL_NS_CHART, "minorTickMark", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_axis_mark, NULL, 1),
         GSF_XML_IN_NODE_FULL (CAT_AXIS, AXIS_MAJORTICK_UNIT, XL_NS_CHART, "majorUnit", GSF_XML_NO_CONTENT, FALSE, TRUE,
 			      &xlsx_axis_bound, NULL, GOG_AXIS_ELEM_MAJOR_TICK),
         GSF_XML_IN_NODE_FULL (CAT_AXIS, AXIS_MINORTICK_UNIT, XL_NS_CHART, "minorUnit", GSF_XML_NO_CONTENT, FALSE, TRUE,
@@ -1334,7 +1360,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 			 &xlsx_chart_gridlines, &xlsx_chart_pop),
           GSF_XML_IN_NODE (MAJOR_GRID, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_POS, XL_NS_CHART, "axPos", GSF_XML_NO_CONTENT, &xlsx_axis_pos, NULL),
-        GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_TICKLBLPOS, XL_NS_CHART, "tickLblPos", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_TICKLBLPOS, XL_NS_CHART, "tickLblPos", GSF_XML_NO_CONTENT, &xslx_chart_tick_label_pos, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_AUTO, XL_NS_CHART, "auto", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_CROSSAX, XL_NS_CHART, "crossAx", GSF_XML_NO_CONTENT, &xlsx_axis_crossax, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_CROSSES, XL_NS_CHART, "crosses", GSF_XML_NO_CONTENT, &xlsx_axis_crosses, NULL),
@@ -1490,7 +1516,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
           GSF_XML_IN_NODE (SERIES, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 	GSF_XML_IN_NODE (SERIES, SERIES_SMOOTH, XL_NS_CHART, "smooth", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SERIES, SERIES_IDX, XL_NS_CHART,	"idx", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (SERIES, SERIES_D_LBLS, XL_NS_CHART,	"dLbls", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (SERIES, SERIES_D_LBLS, XL_NS_CHART,	"dLbls", GSF_XML_NO_CONTENT, &xlsx_chart_start_dummy, &xlsx_chart_pop),
             GSF_XML_IN_NODE (SERIES_D_LBLS, SERIES_D_LBL_POS, XL_NS_CHART,	"dLblPos", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (SERIES_D_LBLS, SERIES_D_LBL, XL_NS_CHART,	"dLbl", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (SERIES_D_LBL, SERIES_D_LBL_POS, XL_NS_CHART,	"dLblPos", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1714,8 +1740,9 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		state->graph	 = sheet_object_graph_get_gog (state->so);
 		state->cur_obj   = gog_object_add_by_name (GOG_OBJECT (state->graph), "Chart", NULL);
 		state->chart	 = GOG_CHART (state->cur_obj);
-		state->cur_style = NULL;
+		state->cur_style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (state->chart)));
 		state->obj_stack = NULL;
+		state->style_stack = NULL;
 		state->dim_type  = GOG_MS_DIM_LABELS;
 		state->axis.by_id  = g_hash_table_new_full (g_str_hash, g_str_equal,
 			NULL, (GDestroyNotify) xlsx_axis_info_free);
@@ -1729,10 +1756,13 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 
 		xlsx_axis_cleanup (state);
-		if (NULL != state->cur_style) {
+		g_object_set (state->chart, "style", state->cur_style, NULL);
+		g_object_unref (state->cur_style);
+		state->cur_style = NULL;
+		if (NULL != state->style_stack) {
 			g_warning ("left over style");
-			g_object_unref (state->cur_style);
-			state->cur_style = NULL;
+			g_slist_free (state->style_stack);
+			state->style_stack = NULL;
 		}
 		state->chart_pos[0] = go_nan;
 		state->gocolor = NULL;
