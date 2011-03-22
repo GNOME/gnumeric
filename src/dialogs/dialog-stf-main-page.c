@@ -143,19 +143,17 @@ main_page_import_range_changed (StfDialogData *data)
 	startrow = gtk_spin_button_get_value_as_int (data->main.main_startrow);
 	stoprow  = gtk_spin_button_get_value_as_int (data->main.main_stoprow);
 
-	if (startrow > stoprow) {
-		startrow = stoprow;
-		gtk_spin_button_set_value (data->main.main_startrow, startrow);
-	}
+	stoprow = MAX (1, stoprow);
+	startrow = MIN (stoprow, MAX (1, startrow));
 
 	stoplimit = MIN ((int)renderdata->lines->len,
 			 startrow + (GNM_MAX_ROWS - 1));
-	if (stoprow > stoplimit) {
-		stoprow = stoplimit;
-		gtk_spin_button_set_value (data->main.main_stoprow, stoprow);
-	}
+	stoprow = MIN (stoprow, stoplimit);
 
+	gtk_spin_button_set_value (data->main.main_startrow, startrow);
 	main_page_set_spin_button_adjustment (data->main.main_startrow, 1, stoprow);
+
+	gtk_spin_button_set_value (data->main.main_stoprow, stoprow);
 	main_page_set_spin_button_adjustment (data->main.main_stoprow, startrow, stoplimit);
 
 	data->cur = stf_parse_find_line (data->parseoptions, data->utf8_data, startrow - 1);

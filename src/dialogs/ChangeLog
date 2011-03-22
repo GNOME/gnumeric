@@ -1,3 +1,8 @@
+2011-03-22  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-main-page.c (main_page_import_range_changed): Avoid
+	line number 0 issue including crash #645555.
+
 2011-03-17  Morten Welinder  <terra@gnome.org>
 
 	* dialog-quit.c (url_renderer_func): Decode URIs before display.
@@ -8,7 +13,7 @@
 	* cell-format.ui: formulas -> formulæ
 	* dao.ui: ditto
 	* paste-special.ui: ditto
-	
+
 2011-03-08  Morten Welinder  <terra@gnome.org>
 
 	* dialog-doc-metadata.c (dialog_doc_metadata_transform_timestamp_to_str):
