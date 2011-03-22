@@ -1421,7 +1421,6 @@ yylex (void)
 		yylval.wb = state->convs->input.external_wb (state->convs,
 							     ref_wb,
 							     s->str);
-		g_printerr ("XXX: %s %p\n", s->str, yylval.wb);
 		g_string_free (s, TRUE);
 		if (!yylval.wb)
 			break;
