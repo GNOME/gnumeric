@@ -420,6 +420,42 @@ merge (Workbook *wb, char const *inputs[],
 	return result;
 }
 
+static char *
+resolve_template (const char *template, Sheet *sheet)
+{
+	GString *s = g_string_new (NULL);
+	while (1) {
+		switch (*template) {
+		done:
+		case 0: {
+			char *res = go_shell_arg_to_uri (s->str);
+			g_string_free (s, TRUE);
+			return res;
+		}
+		case '%':
+			template++;
+			switch (*template) {
+			case 0:
+				goto done;
+			case 'n':
+				g_string_append_printf (s, "%d", sheet->index_in_wb);
+				break;
+			case 's':
+				g_string_append (s, sheet->name_unquoted);
+				break;
+			case '%':
+				g_string_append_c (s, '%');
+				break;
+			}
+			template++;
+			break;
+		default:
+			g_string_append_c (s, *template);
+			template++;
+		}
+	}
+}
+
 static void
 run_solver (Sheet *sheet, WorkbookView *wbv)
 {
@@ -493,6 +529,9 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	GOFileOpener *fo = NULL;
 	char *infile = go_shell_arg_to_uri (inarg);
 	char *outfile = outarg ? go_shell_arg_to_uri (outarg) : NULL;
+	WorkbookView *wbv;
+	GOIOContext *io_context = NULL;
+	Workbook *wb = NULL;
 
 	if (ssconvert_export_id != NULL) {
 		fs = go_file_saver_for_id (ssconvert_export_id);
@@ -545,91 +584,103 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		}
 	}
 
-	if (fs != NULL) {
-		GOIOContext *io_context = go_io_context_new (cc);
-		WorkbookView *wbv;
-		if (mergeargs==NULL) {
-			wbv = wb_view_new_from_uri (infile, fo,
-						    io_context,
-						    ssconvert_import_encoding);
-		} else {
-			wbv = workbook_view_new (NULL);
-		}
+	if (!fs)
+		goto out;
 
-		if (wbv == NULL || go_io_error_occurred (io_context)) {
-			go_io_error_display (io_context);
-			res = 1;
-		} else {
-			Workbook *wb = wb_view_get_workbook (wbv);
-			Sheet *sheet = wb_view_cur_sheet (wbv);
-
-			res = handle_export_options (fs, GO_DOC (wb));
-			if (res) {
-				g_object_unref (wb);
-				goto out;
-			}
-
-			if (mergeargs!=NULL) {
-				if (merge (wb, mergeargs, fo, io_context, cc))
-					goto out;
-			}
-
-			if (ssconvert_goal_seek) {
-				int i;
-
-				for (i = 0; ssconvert_goal_seek[i]; i++) {
-					setup_range (G_OBJECT (sheet),
-						     "ssconvert-goal-seek",
-						     wb,
-						     ssconvert_goal_seek[i]);
-					dialog_goal_seek (NULL, sheet);
-				}
-			}
-
-			if (ssconvert_solve)
-				run_solver (sheet, wbv);
-
-			if (ssconvert_recalc)
-				workbook_recalc_all (wb);
-			else
-				workbook_recalc (wb);
-
-			if (ssconvert_range)
-				setup_range (G_OBJECT (wb),
-					     "ssconvert-range",
-					     wb,
-					     ssconvert_range);
-			else if (workbook_sheet_count (wb) > 1 &&
-				 go_file_saver_get_save_scope (fs) != GO_FILE_SAVE_WORKBOOK) {
-				if (ssconvert_one_file_per_sheet) {
-					GSList *ptr;
-					GString *s;
-					char *tmpfile;
-					int idx = 0;
-					res = 0;
-
-					for (ptr = workbook_sheets(wb); ptr && !res; ptr = ptr->next, idx++) {
-						wb_view_sheet_focus(wbv, (Sheet *)ptr->data);
-						s = g_string_new (outfile);
-						g_string_append_printf(s, ".%d", idx);
-						tmpfile = g_string_free (s, FALSE);
-						res = !wb_view_save_as (wbv, fs, tmpfile, cc);
-						g_free(tmpfile);
-					}
-					goto printing_done;
-				} else
-					g_printerr (_("Selected exporter (%s) does not support saving multiple sheets in one file.\n"
-						      "Only the current sheet will be saved.\n"),
-						    go_file_saver_get_id (fs));
-			}
-			res = !wb_view_save_as (wbv, fs, outfile, cc);
-		printing_done:
-			g_object_unref (wb);
-		}
-		g_object_unref (io_context);
+	io_context = go_io_context_new (cc);
+	if (mergeargs == NULL) {
+		wbv = wb_view_new_from_uri (infile, fo,
+					    io_context,
+					    ssconvert_import_encoding);
+	} else {
+		wbv = workbook_view_new (NULL);
 	}
 
+	if (wbv == NULL || go_io_error_occurred (io_context)) {
+		go_io_error_display (io_context);
+		res = 1;
+		goto out;
+	}
+
+	wb = wb_view_get_workbook (wbv);
+
+	res = handle_export_options (fs, GO_DOC (wb));
+	if (res) {
+		g_object_unref (wb);
+		goto out;
+	}
+
+	if (mergeargs != NULL) {
+		if (merge (wb, mergeargs, fo, io_context, cc))
+			goto out;
+	}
+
+	if (ssconvert_goal_seek) {
+		int i;
+		Sheet *sheet = wb_view_cur_sheet (wbv);
+
+		for (i = 0; ssconvert_goal_seek[i]; i++) {
+			setup_range (G_OBJECT (sheet),
+				     "ssconvert-goal-seek",
+				     wb,
+				     ssconvert_goal_seek[i]);
+			dialog_goal_seek (NULL, sheet);
+		}
+	}
+
+	if (ssconvert_solve) {
+		Sheet *sheet = wb_view_cur_sheet (wbv);
+		run_solver (sheet, wbv);
+	}
+
+	if (ssconvert_recalc)
+		workbook_recalc_all (wb);
+	else
+		workbook_recalc (wb);
+
+	if (ssconvert_range)
+		setup_range (G_OBJECT (wb),
+			     "ssconvert-range",
+			     wb,
+			     ssconvert_range);
+	else if (ssconvert_one_file_per_sheet ||
+		 (workbook_sheet_count (wb) > 1 &&
+		  go_file_saver_get_save_scope (fs) != GO_FILE_SAVE_WORKBOOK)) {
+		if (ssconvert_one_file_per_sheet) {
+			GSList *ptr, *sheets;
+			char *template;
+			res = 0;
+
+			template = strchr (outarg, '%')
+				? g_strdup (outarg)
+				: g_strconcat (outarg, ".%n", NULL);
+
+			sheets = workbook_sheets (wb);
+			for (ptr = sheets; ptr; ptr = ptr->next) {
+				Sheet *sheet = ptr->data;
+				char *tmpfile =	resolve_template (template, sheet);
+				wb_view_sheet_focus (wbv, sheet);
+				res = !wb_view_save_as (wbv, fs, tmpfile, cc);
+				g_free (tmpfile);
+				if (res)
+					break;
+			}
+
+			g_free (template);
+			g_slist_free (sheets);
+			goto out;
+		} else
+			g_printerr (_("Selected exporter (%s) does not support saving multiple sheets in one file.\n"
+				      "Only the current sheet will be saved.  To get around this limitation, use -S.\n"),
+				    go_file_saver_get_id (fs));
+	}
+	res = !wb_view_save_as (wbv, fs, outfile, cc);
+
  out:
+	if (wb)
+		g_object_unref (wb);
+	if (io_context)
+		g_object_unref (io_context);
 	g_free (infile);
 	g_free (outfile);
 

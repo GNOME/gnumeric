@@ -41,6 +41,7 @@ Morten:
 	* Make print-preview work on win32 by avoiding gtk+.  [#533795]
 	* Fix crash related to dynamic deps.  [#645209]
 	* Fix stf import crash.  [#645555]
+	* Allow templates for multi-sheet ssconvert.  [#645287]
 
 Stanley Pinchak:
 	* Improve "dif" output.

@@ -1,3 +1,9 @@
+2011-03-22  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (resolve_template): New function.
+	(convert): Simplify code.  Treat output filename as template when
+	ssconvert_one_file_per_sheet is set.
+
 2011-03-21  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (dependent_set_expr): Make sure we clear dynamic
