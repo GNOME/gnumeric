@@ -243,3 +243,19 @@
    fun:malloc
    fun:FcConfigValues
 }
+
+{
+   Leak/FcConfigSubstituteWithPat
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:FcConfigSubstituteWithPat
+}
+
+{
+   Leak/g_type_class_ref
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:g_type_class_ref
+}
