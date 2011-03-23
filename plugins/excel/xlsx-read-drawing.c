@@ -578,7 +578,7 @@ xlsx_axis_crosses (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int cross;
+	int cross = GOG_AXIS_CROSS;
 
 	if (state->axis.info && simple_enum (xin, attrs, crosses, &cross))
 		state->axis.info->cross = cross;
