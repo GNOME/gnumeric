@@ -215,7 +215,7 @@
 @SHORTDESC=the cotangent of the complex number @{z}
 @SYNTAX=IMCOT(z)
 @ARGUMENTDESCRIPTION=@{z}: a complex number
-@DESCRIPTION=cotz = cosz/sinz.
+@DESCRIPTION=IMCOT(@{z}) = IMCOS(@{z})/IMSIN(@{z}).
 @NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMSEC,IMCSC
 
@@ -232,7 +232,7 @@
 @SHORTDESC=the cosecant of the complex number @{z}
 @SYNTAX=IMCSC(z)
 @ARGUMENTDESCRIPTION=@{z}: a complex number
-@DESCRIPTION=cscz = 1/sinz.
+@DESCRIPTION=IMCSC(@{z}) = 1/IMSIN(@{z}).
 @NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMSEC,IMCOT
 
@@ -340,7 +340,7 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SHORTDESC=the secant of the complex number @{z}
 @SYNTAX=IMSEC(z)
 @ARGUMENTDESCRIPTION=@{z}: a complex number
-@DESCRIPTION=secz = 1/cosz.
+@DESCRIPTION=IMSEC(@{z}) = 1/IMCOS(@{z}).
 @NOTE=If @{z} is not a valid complex number, #VALUE! is returned.
 @SEEALSO=IMCSC,IMCOT
 
@@ -1376,14 +1376,6 @@ The depreciation coefficient used is:
 @DESCRIPTION=AMORLINC calculates the depreciation of an asset using French accounting conventions. Assets purchased in the middle of a period take prorated depreciation into account. 
 @NOTE=Named for AMORtissement LINeaire Comptabilite. If @{basis} is 0, then the US 30/360 method is used. If @{basis} is 1, then actual number of days is used. If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days. If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days. If @{basis} is 4, then the European 30/360 method is used.
 @SEEALSO=AMORDEGRC
-
-@CATEGORY=Finance
-@FUNCTION=ATL_LAST
-@SHORTDESC=sample real-time data source
-@SYNTAX=ATL_LAST(tag)
-@ARGUMENTDESCRIPTION=@{tag}: tag to watch
-@DESCRIPTION=ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.
-@NOTE=This is not intended to be generally enabled and is OFF by default.
 
 @CATEGORY=Finance
 @FUNCTION=COUPDAYBS
@@ -3534,7 +3526,7 @@ The depreciation coefficient used is:
 @SHORTDESC=product  of the given values
 @SYNTAX=PRODUCT(values)
 @ARGUMENTDESCRIPTION=@{values}: a list of values to multiply
-@DESCRIPTION=Product computes the product of all the values and cells referenced in the argument list.
+@DESCRIPTION=PRODUCT computes the product of all the values and cells referenced in the argument list.
 @NOTE=If all cells are empty, the result will be 0.
 @EXCEL=This function is Excel compatible.
 @ODF=This function is OpenFormula compatible.
