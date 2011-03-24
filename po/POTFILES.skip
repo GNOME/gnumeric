@@ -24,3 +24,8 @@ component/plugin.xml.in
 #
 # Needs to go to goffice
 src/go-val.c
+
+# Source is .in.in
+schemas/org.gnome.gnumeric.dialogs.gschema.xml.in
+schemas/org.gnome.gnumeric.gschema.xml.in
+schemas/org.gnome.gnumeric.plugin.gschema.xml.in

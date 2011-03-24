@@ -10,6 +10,10 @@ component/Gnumeric-embed.xml.in
 component/gnumeric.c
 component/plugin.xml.in
 src/go-val.c
+
+schemas/org.gnome.gnumeric.dialogs.gschema.xml.in
+schemas/org.gnome.gnumeric.gschema.xml.in
+schemas/org.gnome.gnumeric.plugin.gschema.xml.in
 gnumeric.desktop.in
 plugins/applix/plugin.xml.in
 plugins/corba/plugin.xml.in
