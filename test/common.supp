@@ -323,3 +323,10 @@
    fun:?alloc
    fun:_cairo_hash_table_create
 }
+
+{
+   Leak/allocate_dtv
+   Memcheck:Leak
+   fun:calloc
+   fun:allocate_dtv
+}
