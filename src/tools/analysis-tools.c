@@ -3704,7 +3704,8 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 	SheetObject *so = NULL;
 	GogPlot	     *plot = NULL;
 
-	if (info->base.labels) {
+	if (info->base.labels || info->ma_type == moving_average_type_wma
+	    || info->ma_type== moving_average_type_spencer_ma) {
 		fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 		gnm_func_ref (fd_index);
 	}
