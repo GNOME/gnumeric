@@ -1,3 +1,7 @@
+2011-03-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.14
+
 2011-03-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.c (analysis_tool_moving_average_engine_run): load

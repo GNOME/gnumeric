@@ -1,3 +1,7 @@
+2011-03-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.14
+
 2011-03-23  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read-drawing.c (xlsx_axis_crosses): Avoid using
