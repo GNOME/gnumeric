@@ -9,7 +9,7 @@ die "$0: must specify version number as argument.\n" unless $version;
 my $version2 = $version;
 $version2 =~ s/^(\d+\.\d+)\..*/$1/;
 
-my $bug_prefix = "http://bugzilla.gnome.org/show_bug.cgi?id=";
+my $bug_prefix = "https://bugzilla.gnome.org/show_bug.cgi?id=";
 
 my $state = 0;
 my $who = undef;
