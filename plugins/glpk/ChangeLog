@@ -1,3 +1,7 @@
+2011-03-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.14
+
 2011-02-26  Morten Welinder  <terra@gnome.org>
 
 	* glpk-write.c (glpk_affine_func): Fix writing of affine part.

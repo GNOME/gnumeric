@@ -14,6 +14,7 @@ gsettings_SCHEMAS =	\
 	org.gnome.gnumeric.gschema.xml	\
 	org.gnome.gnumeric.dialogs.gschema.xml	\
 	org.gnome.gnumeric.plugin.gschema.xml
+CLEANFILES += $(gsettings_SCHEMAS)
 
 @INTLTOOL_XML_NOMERGE_RULE@
 

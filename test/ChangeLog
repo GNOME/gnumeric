@@ -1,3 +1,7 @@
+2011-03-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.14
+
 2011-02-09  Morten Welinder  <terra@gnome.org>
 
 	* t8003-valgrind-pdf.supp: Small work-around for old OpenSuSE.

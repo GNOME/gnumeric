@@ -1,3 +1,7 @@
+2011-03-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.14
+
 2011-02-14 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c do not use macros in _() arguments.
