@@ -2,15 +2,16 @@ Source: gnumeric
 Section: math
 Priority: optional
 Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
-Build-Depends: debhelper (>= 7.0.0), python-central (>= 0.5), dh-buildinfo, 
+Build-Depends: debhelper (>= 7.0.0), dh-buildinfo, 
  po-debconf, gettext, bison, flex, rarian-compat | scrollkeeper,
  intltool (>= 0.29), libxml-parser-perl,
  zlib1g-dev, libglib2.0-dev (>= 2.12.0), libgsf-1-dev (>= 1.14.18),
  libgoffice-0.8-dev (>= 0.8.10), libxml2-dev (>= 2.6.10-2),
  libpango1.0-dev (>= 1.12.0),
  libgtk2.0-dev (>= 2.12.0), libart-2.0-dev (>= 2.3.16-5),
- pxlib-dev (>= 0.5.1-2+b1), libpsiconv-dev (>= 0.9.8-2), libperl-dev,
- python-dev, python-gtk2-dev, python-gobject-dev
+ pxlib-dev (>= 0.5.1-2+b1), libperl-dev,
+ python-dev (>= 2.6.6-3), python-gtk2-dev, python-gobject-dev
+X-Python-Version: >= 2.5
 Homepage: http://www.gnumeric.org/
 Vcs-git: git://git.gnome.org/gnumeric
 Vcs-Browser: http://git.gnome.org/cgit/gnumeric
@@ -25,8 +26,6 @@ Suggests: gnumeric-doc (>= ${Upstream-Version}), gnumeric-plugins-extra,
  epiphany-browser, ttf-liberation | ttf-mscorefonts-installer
 Breaks: gnumeric1.0, gnumeric1.0-doc, gnumeric-doc (<< ${Upstream-Version})
 Replaces: zh-trans (<< 0.8-1), gnumeric1.0
-XS-Python-Version: current
-XB-Python-Version: ${python:Versions}
 Description: spreadsheet application for GNOME - main program
  Gnumeric is a spreadsheet application that interoperates well
  with other spreadsheets. It comes with plugins that enable it to deal with
@@ -94,8 +93,6 @@ Depends: gnumeric (= ${binary:Version}), python-gtk2, ${python:Depends},
 Breaks: gnumeric1.0-python, gnumeric1.0-gda, gnumeric-python, gnumeric-gda
 Replaces: gnumeric1.0-gda, gnumeric1.0-python, gnumeric-python, gnumeric-gda,
  gnumeric (<= 1.3.92-1)
-XS-Python-Version: current
-XB-Python-Version: ${python:Versions}
 Description: spreadsheet application for GNOME - additional plugins
  Gnumeric is a spreadsheet application that interoperates well
  with other spreadsheets. It comes with plugins that enable it to deal with

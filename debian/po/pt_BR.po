@@ -1,38 +1,36 @@
-# Brazilian Portuguese translation (gnumeric)
+# Brazilian Portuguese translation of gnumeric
 # Copyright (C)2007 The gnumeric's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnumeric package.
-# Eder L. Marques <frolic@debian-ce.org>, 2007.
+# Eder L. Marques <eder@edermarques.net>, 2007-2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.6.3-5\n"
 "Report-Msgid-Bugs-To: gnumeric@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-31 12:15+0200\n"
-"PO-Revision-Date: 2007-03-27 10:05-0300\n"
-"Last-Translator: Eder L. Marques <frolic@debian-ce.org>\n"
-"Language-Team: l10n Portuguese <debian-l10n-portuguese@lists.debian.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2011-03-19 18:03-0300\n"
+"Last-Translator: Eder L. Marques <eder@edermarques.net>\n"
+"Language-Team: Brazilian Portuguese <debian-l10n-portuguese@lists.debian.org>"
+"\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"pt_BR utf-8\n"
-"X-Generator: KBabel 1.11.4\n"
+"Language: pt_BR\n"
 
 #. Type: title
 #. Description
 #: ../gnumeric.templates:2001
 msgid "Detected a running gnumeric process"
-msgstr ""
+msgstr "Foi detectado um processo gnumeric em execução"
 
 #. Type: boolean
 #. Description
 #: ../gnumeric.templates:3001
 msgid "Really upgrade gnumeric?"
-msgstr ""
+msgstr "Realmente atualizar o gnumeric?"
 
 #. Type: boolean
 #. Description
 #: ../gnumeric.templates:3001
-#, fuzzy
 #| msgid ""
 #| "It appears there is an instance of gnumeric running currently. If you "
 #| "upgrade gnumeric now, that instance may not be able to save its data "
@@ -41,14 +39,12 @@ msgid ""
 "An instance of gnumeric is currently running. If you upgrade now, it may no "
 "longer be able to save its data."
 msgstr ""
-"Parece que existe uma instância do gnumeric sendo atualmente executada. Se "
-"você atualizar o gnumeric agora, esta instância pode não ser mais capaz de "
-"salvar seus dados."
+"Uma instância do gnumeric está atualmente em execução. Se você "
+"atualizar agora, ela pode não ser mais capaz de salvar seus dados."
 
 #. Type: boolean
 #. Description
 #: ../gnumeric.templates:3001
-#, fuzzy
 #| msgid ""
 #| "You are strongly recommended to close the running instances of gnumeric "
 #| "prior to upgrading this package."
@@ -56,8 +52,8 @@ msgid ""
 "You should close the running instances of gnumeric before upgrading this "
 "package."
 msgstr ""
-"Você é fortemente recomendado a fechar as instâncias em execução do gnumeric "
-"antes de atualizar este pacote."
+"Você deve fechar as instâncias em execução do gnumeric antes de atualizar "
+"esse pacote."
 
 #~ msgid "Are you sure you want to upgrade gnumeric right now?"
 #~ msgstr "Você tem certeza de que você quer atualizar o gnumeric agora?"

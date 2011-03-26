@@ -1,3 +1,21 @@
+gnumeric (1.10.14-1) unstable; urgency=low
+
+  * New upstream stable release. Changes include
+    * Improve "dif" output. (Closes: #616152)
+  * [debian/control, debian/rules, debian/pycompat] Convert from
+    python-central to dh_python2. (Closes: #616831)
+  * [debian/control, debian/rules, gnumeric-plugins-extra.install] Removed
+    psiconv support. Psion file support is a fairly obscure feature and
+    should not block gnumeric packages from entering testing.
+  * [debian/control] Cleanup: there is no --with-gnomedb option any more.
+  * [debian/gnumeric-common.install] Install GSettings schemas.
+  * [debian/po/ja.po] Updated, courtesy of Nobuhiro Iwamatsu
+    <iwamatsu@nigauri.org>. (Closes: #611051)
+  * [debian/po/pt_BR.po] Updated, courtesy of Eder L. Marques
+    <eder@edermarques.net>. (Closes: #619607)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 26 Mar 2011 11:52:00 +0100
+
 gnumeric (1.10.13-1) unstable; urgency=low
 
   * New upstream stable release.

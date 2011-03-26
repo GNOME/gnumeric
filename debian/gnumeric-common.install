@@ -10,3 +10,4 @@
 # /usr/share/mime-info/gnumeric.*
 /usr/share/pixmaps/*
 /usr/share/icons/
+/usr/share/glib-*/schemas/org.gnome.gnumeric.*.xml

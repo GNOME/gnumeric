@@ -34,17 +34,15 @@ features:=
 # Spreadsheet indexer for beagle
 features+= --enable-ssindex
 
-# Plugins to access databases through the GDA framework and through GnomeDB.
+# Plugins to access databases through the GDA framework.
 #
 # The GnomeDB plugin for gnumeric requires a version of GnomeDB that is not
 # available as packages yet.
 #	Tue, 01 Sep 2009 20:49:41 +0200
-# Likewise for GDA.
-#	Sun, 29 Nov 2009 22:29:18 +0100
-features+= --without-gda --without-gnomedb
+features+= --without-gda
 
-# Psion files support
-features+= --with-psiconv
+# Psion files support?
+features+= --without-psiconv
 
 # Paradox database files plugin
 features+= --with-paradox
@@ -231,8 +229,7 @@ binary-indep: build install
 	dh_installdocs -i
 
 	dh_installexamples -i
-	dh_pycentral -i
-	#dh_python -i
+	dh_python2 -i
 	dh_installmenu -i
 #	dh_installlogrotate -i
 #	dh_installemacsen -i
@@ -264,8 +261,7 @@ binary-arch: build install
 	dh_installdocs -a --noscripts
 	rm -rf `pwd`/debian/gnumeric-doc/usr/share/doc-base
 	dh_installexamples -a
-	dh_pycentral -a
-	#dh_python -a
+	dh_python2 -a
 	dh_installmenu -a
 #	dh_installlogrotate -a
 #	dh_installemacsen -a
