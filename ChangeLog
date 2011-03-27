@@ -1,3 +1,8 @@
+2011-03-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-control-gui.c (snap_pos_to_grid): don't move an aligned
+	object
+
 2011-03-24  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

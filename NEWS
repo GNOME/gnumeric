@@ -1,5 +1,8 @@
 Gnumeric 1.10.15
 
+Andreas:
+	* Fix shift-arrow movement for sheet objects. [#645805]
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.14
 

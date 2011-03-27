@@ -2540,7 +2540,7 @@ typedef struct {
 } ObjDragInfo;
 
 static double
-snap_pos_to_grid (ObjDragInfo const *info, gboolean is_col, double w_pos,
+snap_pos_to_grid (ObjDragInfo const *info, gboolean is_col, double pos,
 		  gboolean to_min)
 {
 	GnmPane const *pane = info->pane;
@@ -2551,8 +2551,6 @@ snap_pos_to_grid (ObjDragInfo const *info, gboolean is_col, double w_pos,
 	int length = 0;
 	ColRowInfo const *cr_info;
 	int sheet_max = colrow_max (is_col, sheet);
-
-	double pos = w_pos + .5;
 
 	if (pos < pixel) {
 		while (cell > 0 && pos < pixel) {
