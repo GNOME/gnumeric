@@ -1,3 +1,11 @@
+2011-03-28  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (dump_guessed_options): New function.
+	(stf_parse_options_guess,stf_parse_options_guess_csv): Optionally
+	call dump_guessed_options.
+
+	* src/stf-parse.h (enum StfTrimType_t): Use the values intended.
+
 2011-03-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-control-gui.c (snap_pos_to_grid): don't move an aligned

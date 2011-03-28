@@ -145,7 +145,7 @@ stf_parse_options_new (void)
 
 	parseoptions->stringindicator = '"';
 	parseoptions->indicator_2x_is_single = TRUE;
-	parseoptions->duplicates = FALSE;
+	parseoptions->sep.duplicates = FALSE;
 	parseoptions->trim_seps = FALSE;
 
 	parseoptions->sep.str = NULL;
@@ -336,7 +336,7 @@ stf_parse_options_csv_set_duplicates (StfParseOptions_t *parseoptions, gboolean 
 {
 	g_return_if_fail (parseoptions != NULL);
 
-	parseoptions->duplicates = duplicates;
+	parseoptions->sep.duplicates = duplicates;
 }
 
 /**
@@ -656,7 +656,7 @@ stf_parse_csv_cell (GString *text, Source_t *src, StfParseOptions_t *parseoption
 
 	src->position = cur;
 
-	if (saw_sep && parseoptions->duplicates)
+	if (saw_sep && parseoptions->sep.duplicates)
 		stf_parse_eat_separators (src, parseoptions);
 
 	return saw_sep ? STF_CELL_FIELD_SEP : STF_CELL_FIELD_NO_SEP;
@@ -1457,6 +1457,46 @@ count_character (GPtrArray *lines, gunichar c, double quantile)
 	return res;
 }
 
+static void
+dump_guessed_options (const StfParseOptions_t *res)
+{
+	GSList *l;
+	char ubuffer[6 + 1];
+
+	g_printerr ("Guessed format:\n");
+	switch (res->parsetype) {
+	case PARSE_TYPE_CSV:
+		g_printerr ("  type = sep\n");
+		g_printerr ("  separator = %s\n", res->sep.chr);
+		g_printerr ("    see two as one = %s\n",
+			    res->sep.duplicates ? "yes" : "no");
+		break;
+	case PARSE_TYPE_FIXED:
+		g_printerr ("  type = sep\n");
+		break;
+	default:
+		;
+	}
+	g_printerr ("  trim space = %d\n", res->trim_spaces);
+
+	ubuffer[g_unichar_to_utf8 (res->stringindicator, ubuffer)] = 0;
+	g_printerr ("  string indicator = %s\n", ubuffer);
+	g_printerr ("    see two as one = %s\n",
+		    res->indicator_2x_is_single ? "yes" : "no");
+
+	g_printerr ("  line terminators =");
+	for (l = res->terminator; l; l = l->next) {
+		const char *t = l->data;
+		if (strcmp (t, "\n"))
+			g_printerr (" unix");
+		else if (strcmp (t, "\r"))
+			g_printerr (" mac");
+		else if (strcmp (t, "\r\n"))
+			g_printerr (" dos");
+	}
+	g_printerr ("\n");
+}
+
 
 StfParseOptions_t *
 stf_parse_options_guess (char const *data)
@@ -1529,6 +1569,9 @@ stf_parse_options_guess (char const *data)
 
 	stf_parse_general_free (lines);
 	g_string_chunk_free (lines_chunk);
+
+	if (gnm_debug_flag ("stf"))
+		dump_guessed_options (res);
 
 	return res;
 }
@@ -1613,6 +1656,9 @@ stf_parse_options_guess_csv (char const *data)
 
 	stf_parse_general_free (lines);
 	g_string_chunk_free (lines_chunk);
+
+	if (gnm_debug_flag ("stf"))
+		dump_guessed_options (res);
 
 	return res;
 }

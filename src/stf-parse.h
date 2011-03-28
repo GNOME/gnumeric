@@ -17,7 +17,7 @@ typedef enum {
 typedef enum {
 	TRIM_TYPE_NEVER      = 0,
 	TRIM_TYPE_LEFT       = 1 << 0,
-	TRIM_TYPE_RIGHT      = 2 << 1
+	TRIM_TYPE_RIGHT      = 1 << 1
 } StfTrimType_t;
 
 typedef struct {
@@ -35,10 +35,10 @@ typedef struct {
 	struct {
 		GSList *str;
 		char   *chr;
+		gboolean duplicates;         /* See two text separators as one? */
 	} sep;
 	gunichar             stringindicator;       /* String indicator */
 	gboolean             indicator_2x_is_single;/* 2 quote chars form a single non-terminating quote */
-	gboolean             duplicates;            /* See two text separators as one? */
 	gboolean             trim_seps;             /* Ignore initial seps.  */
 
 	/* Fixed width related */

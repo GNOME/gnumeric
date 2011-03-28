@@ -165,12 +165,16 @@ resize_columns (Sheet *sheet)
 {
 	GnmRange r;
 
+	if (gnm_debug_flag ("stf"))
+		g_printerr ("Auto-fitting columns...\n");
 	range_init_full_sheet (&r, sheet);
 	colrow_autofit (sheet, &r, TRUE,
 			TRUE, /* Ignore strings */
 			TRUE, /* Don't shrink */
 			TRUE, /* Don't shrink */
 			NULL, NULL);
+	if (gnm_debug_flag ("stf"))
+		g_printerr ("Auto-fitting columns...  done\n");
 
 	sheet_queue_respan (sheet, 0, gnm_sheet_get_last_row (sheet));
 }

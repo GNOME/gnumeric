@@ -176,7 +176,7 @@ csv_page_parseoptions_to_gui (StfDialogData *pagedata)
 	}
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_duplicates),
-				      po->duplicates);
+				      po->sep.duplicates);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_trim_seps),
 				      po->trim_seps);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_2x_indicator),
