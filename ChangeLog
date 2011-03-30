@@ -1,5 +1,13 @@
 2011-03-30  Morten Welinder  <terra@gnome.org>
 
+	* src/func.c (dump_externals): Properly use translation domain.
+	(function_dump_defs): Ditto.
+	(function_def_create_arg_names): Ditto.
+	(gnm_func_get_description): Ditto.
+	(gnm_func_get_arg_description): Ditto.
+	(gnm_func_get_name): Get the translated name from
+	GNM_FUNC_HELP_NAME.
+
 	* src/parse-util.h (GnmConventions): Add field for localized
 	function names.
 

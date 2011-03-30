@@ -193,6 +193,7 @@ struct _GnmFunc {
 	GPtrArray  *arg_names_p;
 	GnmFuncHelp const *help;
 	GOString *textdomain;
+	char *localized_name;
 	GnmFuncType fn_type;
 	union {
 		GnmFuncNodes nodes;
