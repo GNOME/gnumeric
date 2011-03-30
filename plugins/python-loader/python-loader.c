@@ -476,7 +476,7 @@ call_python_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (go_plugin_service_get_plugin (service));
 	fn_info_tuple = PyDict_GetItemString (loader_data->python_fn_info_dict,
-	                                      (gchar *) gnm_func_get_name (fndef));
+	                                      (gchar *) gnm_func_get_name (fndef, FALSE));
 	g_assert (fn_info_tuple != NULL);
 	python_fn = PyTuple_GetItem (fn_info_tuple, 2);
 	function_def_count_args (fndef, &min_n_args, &max_n_args);
@@ -506,7 +506,7 @@ call_python_function_nodes (GnmFuncEvalInfo *ei,
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (go_plugin_service_get_plugin (service));
 	python_fn = PyDict_GetItemString (loader_data->python_fn_info_dict,
-	                                  (gchar *) gnm_func_get_name (fndef));
+	                                  (gchar *) gnm_func_get_name (fndef, FALSE));
 
 	values = g_new (GnmValue *, argc);
 	for (i = 0; i < argc; i++) {
