@@ -1153,13 +1153,13 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 static void
 std_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 {
-		char const *name = gnm_func_get_name (func->func);
-		GString *target = out->accum;
+	char const *name = gnm_func_get_name (func->func,
+					      out->convs->localized_function_names);
+	GString *target = out->accum;
 
-		g_string_append (target, name);
-		/* FIXME: possibly a space here.  */
-		gnm_expr_list_as_string (func->argc, func->argv, out);
-		return;
+	g_string_append (target, name);
+	/* FIXME: possibly a space here.  */
+	gnm_expr_list_as_string (func->argc, func->argv, out);
 }
 
 static void
@@ -1170,7 +1170,8 @@ std_expr_name_handler (GnmConventionsOut *out, GnmExprName const *name)
 
 	if (!thename->active) {
 		g_string_append (target,
-			value_error_name (GNM_ERROR_REF, out->convs->output.translated));
+				 value_error_name (GNM_ERROR_REF,
+						   out->convs->output.translated));
 		return;
 	}
 
@@ -1350,6 +1351,9 @@ gnm_conventions_new_full (unsigned size)
 
 	convs = g_malloc0 (size);
 	convs->ref_count = 1;
+
+	convs->r1c1_addresses           = FALSE;
+	convs->localized_function_names = FALSE;
 
 	convs->sheet_name_sep		= '!';
 	convs->intersection_char	= ' ';

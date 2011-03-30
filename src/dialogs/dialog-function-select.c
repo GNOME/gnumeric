@@ -65,6 +65,8 @@ typedef struct {
 	Workbook *wb;
 	Sheet *sheet;
 
+	gboolean localized_function_names;
+
 	GtkBuilder  *gui;
 	GtkWidget *dialog;
 	GtkWidget *ok_button;
@@ -292,7 +294,9 @@ dialog_function_write_recent_func (FunctionSelectState *state, GnmFunc const *fd
 
 	for (rec_funcs = state->recent_funcs; rec_funcs; rec_funcs = rec_funcs->next) {
 		gconf_value_list = g_slist_prepend
-			(gconf_value_list, g_strdup (gnm_func_get_name (rec_funcs->data)));
+			(gconf_value_list,
+			 g_strdup (gnm_func_get_name (rec_funcs->data,
+						      state->localized_function_names)));
 	}
 	gnm_conf_set_functionselector_recentfunctions (gconf_value_list);
 	go_slist_free_custom (gconf_value_list, g_free);
@@ -440,12 +444,16 @@ cb_dialog_function_row_activated (GtkTreeView *tree_view,
 }
 
 static gint
-dialog_function_select_by_name (gconstpointer _a, gconstpointer _b)
+dialog_function_select_by_name (gconstpointer a_, gconstpointer b_,
+				gpointer user)
 {
-	GnmFunc const * const a = (GnmFunc const * const)_a;
-	GnmFunc const * const b = (GnmFunc const * const)_b;
+	GnmFunc const * const a = (GnmFunc const * const)a_;
+	GnmFunc const * const b = (GnmFunc const * const)b_;
+	FunctionSelectState const *state = user;
+	gboolean localized = state->localized_function_names;
 
-	return strcmp (gnm_func_get_name (a), gnm_func_get_name (b));
+	return g_utf8_collate (gnm_func_get_name (a, localized),
+			       gnm_func_get_name (b, localized));
 }
 
 /*************************************************************************/
@@ -1105,8 +1113,9 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 		funcs = g_slist_concat (funcs,
 					g_slist_copy (cat->functions));
 
-	funcs = g_slist_sort (funcs,
-			      dialog_function_select_by_name);
+	funcs = g_slist_sort_with_data (funcs,
+					dialog_function_select_by_name,
+					state);
 
 	for (ptr = funcs; ptr; ptr = ptr->next) {
 		func = ptr->data;
@@ -1117,7 +1126,7 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 			desc = dialog_function_select_get_description (func, &pal);
 			gtk_list_store_set
 				(state->model_functions, &iter,
-				 FUN_NAME, gnm_func_get_name (func),
+				 FUN_NAME, gnm_func_get_name (func, state->localized_function_names),
 				 FUNCTION, func,
 				 FUNCTION_DESC, desc,
 				 FUNCTION_PAL, pal,
@@ -1352,6 +1361,7 @@ dialog_function_select_full (WBCGtk *wbcg, char const *guru_key,
 	state = g_new (FunctionSelectState, 1);
 	state->wbcg  = wbcg;
 	state->sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	state->localized_function_names = state->sheet->convs->localized_function_names;
 	state->wb    = state->sheet->workbook;
         state->gui   = gui;
         state->dialog = go_gtk_builder_get_widget (state->gui, "selection_dialog");

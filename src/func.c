@@ -53,7 +53,7 @@ functions_shutdown (void)
 		GnmFunc *func = unknown_cat->functions->data;
 		if (func->ref_count > 0) {
 			g_warning ("Function %s still has %d refs.\n",
-				   gnm_func_get_name (func),
+				   gnm_func_get_name (func, FALSE),
 				   func->ref_count);
 			func->ref_count = 0;
 		}
@@ -1193,11 +1193,13 @@ gnm_func_set_user_data (GnmFunc *func, gpointer user_data)
 }
 
 char const *
-gnm_func_get_name (GnmFunc const *func)
+gnm_func_get_name (GnmFunc const *func, gboolean localized_function_names)
 {
 	g_return_val_if_fail (func != NULL, NULL);
 
-	return func->name;
+	return localized_function_names
+		? dgettext (func->textdomain->str, func->name)
+		: func->name;
 }
 
 /**

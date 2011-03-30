@@ -7083,7 +7083,7 @@ excel_read_init (void)
 
 		/* Fix case.  */
 		if (func)
-			name = gnm_func_get_name (func);
+			name = gnm_func_get_name (func, FALSE);
 
 		g_assert (g_hash_table_lookup (excel_func_by_name, name) ==
 			  NULL);

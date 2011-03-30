@@ -155,7 +155,7 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 	g_return_if_fail (!is_non_fun);
 	g_return_if_fail (fd != NULL);
 
-	text = g_string_append (text, gnm_func_get_name (fd));
+	text = g_string_append (text, gnm_func_get_name (fd, sheet_get_conventions (state->pos->sheet)->localized_function_names));
 	text = g_string_append (text, "(");
 
 	if (gtk_tree_model_iter_children (GTK_TREE_MODEL(state->model), &iter, parent)) {

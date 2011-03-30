@@ -2347,7 +2347,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 	static GHashTable *namemap = NULL;
 	static GHashTable *handlermap = NULL;
 
-	char const *name = gnm_func_get_name (func->func);
+	char const *name = gnm_func_get_name (func->func, FALSE);
 	gboolean (*handler) (GnmConventionsOut *out, GnmExprFunction const *func);
 
 	if (NULL == namemap) {

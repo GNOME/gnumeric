@@ -728,6 +728,8 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 	gint min, max, i;
 	gboolean first = TRUE;
 	char *extra = NULL;
+	gboolean localized_function_names = gee->sheet->convs->localized_function_names;
+	const char *fdname;
 
 	gnm_func_load_if_stub (fd);
 	function_def_count_args (fd, &min, &max);
@@ -741,7 +743,9 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 	gee->tooltip.fd = fd;
 	gnm_func_ref (gee->tooltip.fd);
 
-	str = g_string_new (gnm_func_get_name (fd));
+	fdname = gnm_func_get_name (fd, localized_function_names);
+
+	str = g_string_new (fdname);
 	g_string_append_c (str, '(');
 
 	for (i = 0; i < max; i++) {
@@ -776,11 +780,11 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 	}
 	if (max == 0 && args == 0 && !had_stuff) {
 		extra = g_strdup_printf (_("%s takes no arguments"),
-					 gnm_func_get_name (fd));
+					 fdname);
 	} else if (args >= max) {
 		g_string_append (str, UNICODE_RIGHT_TRIANGLE UNICODE_CROSS_AND_SKULLBONES UNICODE_LEFT_TRIANGLE);
 		extra = g_strdup_printf (_("Too many arguments for %s"),
-					 gnm_func_get_name (fd));
+					 fdname);
 	}
 	g_string_append_c (str, ')');
 	if (extra) {
@@ -807,13 +811,14 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 	GSList *list_c = list;
 	gchar const *name = NULL;
 	gboolean show_tool_tip;
+	gboolean localized_function_names = gee->sheet->convs->localized_function_names;
 
 	gee_delete_tooltip (gee, TRUE);
 
 	str = g_string_new (NULL);
 	for (; list_c != NULL && ++i < max; list_c = list_c->next) {
 		GnmFunc *fd = list_c->data;
-		name = gnm_func_get_name (fd);
+		name = gnm_func_get_name (fd, localized_function_names);
 		if ((end - start) < (guint) g_utf8_strlen (name, -1))
 			/* xgettext: the first %s is a function name and */
 			/* the second %s the function description */
@@ -865,11 +870,16 @@ gee_dump_lexer (GnmLexerItem *gli) {
 
 }
 
-static  int
-func_def_cmp (gconstpointer a, gconstpointer b)
+static gint
+func_def_cmp (gconstpointer a_, gconstpointer b_, gpointer user)
 {
-	return g_utf8_collate (gnm_func_get_name (a),
-			       gnm_func_get_name (b));
+	GnmFunc const * const a = (GnmFunc const * const)a_;
+	GnmFunc const * const b = (GnmFunc const * const)b_;
+	GnmExprEntry *gee = user;
+	gboolean localized = gee->sheet->convs->localized_function_names;
+
+	return g_utf8_collate (gnm_func_get_name (a, localized),
+			       gnm_func_get_name (b, localized));
 }
 
 
@@ -991,9 +1001,10 @@ gee_check_tooltip (GnmExprEntry *gee)
 			(prefix, gee->sheet->workbook);
 		g_free (prefix);
 		if (list != NULL) {
-			list = g_slist_sort
+			list = g_slist_sort_with_data
 				(list,
-				 (GCompareFunc)func_def_cmp);
+				 func_def_cmp,
+				 gee);
 			if (gee_set_tooltip_completion
 			    (gee, list, start_t, end_t)) {
 				g_free (str);

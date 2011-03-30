@@ -2624,7 +2624,7 @@ gboolean
 gnm_expr_is_data_table (GnmExpr const *expr, GnmCellPos *c_in, GnmCellPos *r_in)
 {
 	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL) {
-		char const *name = gnm_func_get_name (expr->func.func);
+		char const *name = gnm_func_get_name (expr->func.func, FALSE);
 		if (name && 0 == strcmp (name, "table")) {
 			if (NULL != r_in) {
 				GnmExpr const *r = (expr->func.argc <= 0)

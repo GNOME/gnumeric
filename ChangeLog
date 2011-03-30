@@ -1,3 +1,11 @@
+2011-03-30  Morten Welinder  <terra@gnome.org>
+
+	* src/parse-util.h (GnmConventions): Add field for localized
+	function names.
+
+	* src/func.c (gnm_func_get_name): Take extra argument indicating
+	whether the name should be localized.  All callers changed.
+
 2011-03-28  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (dump_guessed_options): New function.

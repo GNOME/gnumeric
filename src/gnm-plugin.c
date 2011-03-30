@@ -165,7 +165,7 @@ plugin_service_function_group_func_desc_load (GnmFunc const *fn_def,
 		return FALSE;
 	}
 	return sfg->cbs.func_desc_load (service,
-					gnm_func_get_name (fn_def),
+					gnm_func_get_name (fn_def, FALSE),
 					res);
 }
 

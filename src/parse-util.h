@@ -105,6 +105,9 @@ struct _GnmConventions {
 #endif
 	gboolean r1c1_addresses;
 
+	/* Whether function names should be translated.  */
+	gboolean localized_function_names;
+
 	/* Separate elements in lists, 0 will use go_locale. */
 	gunichar arg_sep;
 	/* Separate array columns, 0 will use go_locale. */
