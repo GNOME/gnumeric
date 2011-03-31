@@ -5,6 +5,7 @@ Andreas:
 
 Morten:
 	* Fix problems with localized function docs.
+	* Plug leak.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.14

@@ -329,8 +329,9 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 		gtk_label_set_mnemonic_widget (GTK_LABEL (data.charmap_label),
 					       go_charmap_sel);
 
+		g_object_ref_sink (box);
 		g_object_set_data_full (G_OBJECT (advanced_button), "extra",
-			g_object_ref (box), g_object_unref);
+					box, g_object_unref);
 #ifdef GNM_USE_HILDON
 		/*
 		 * Don't need to show the vbox. This is here just to avoid the warning :
