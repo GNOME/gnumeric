@@ -1791,7 +1791,7 @@ static void
 gnm_style_dump_color (GnmColor *color, GnmStyleElement elem)
 {
 	if (color)
-		g_printerr ("\t%s: %hx:%hx:%hx\n", gnm_style_element_name [elem],
+		g_printerr ("\t%s: %x:%x:%x\n", gnm_style_element_name [elem],
 			    GO_COLOR_UINT_R (color->go_color),
 			    GO_COLOR_UINT_G (color->go_color),
 			    GO_COLOR_UINT_B (color->go_color));
@@ -1863,9 +1863,9 @@ gnm_style_dump (GnmStyle const *style)
 		g_printerr ("\tformat '%s'\n", fmt);
 	}
 	if (elem_is_set (style, MSTYLE_ALIGN_V))
-		g_printerr ("\tvalign %hd\n", style->v_align);
+		g_printerr ("\tvalign %hd\n", (short)style->v_align);
 	if (elem_is_set (style, MSTYLE_ALIGN_H))
-		g_printerr ("\thalign %hd\n", style->h_align);
+		g_printerr ("\thalign %hd\n", (short)style->h_align);
 	if (elem_is_set (style, MSTYLE_INDENT))
 		g_printerr ("\tindent %d\n", style->indent);
 	if (elem_is_set (style, MSTYLE_ROTATION))
