@@ -7628,7 +7628,7 @@ msgid "Left"
 msgstr "Links"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "Das Sperren von Zellen oder das Verbergen von Formeln betrifft nur "
 "geschützte Arbeitsblätter."
@@ -8064,7 +8064,7 @@ msgid "C_lear output range"
 msgstr "Ausgabebereich _leeren"
 
 #: ../src/dialogs/dao.ui.h:6
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "Formeln"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9576,7 +9576,7 @@ msgid "D_ivide"
 msgstr "D_ividieren"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr "F_ormeln nicht ändern"
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12396,7 +12396,7 @@ msgid "How visible the sheet is."
 msgstr "Wie sichtbar das Blatt ist."
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Formeln anzeigen"
 
 #: ../src/sheet.c:858
@@ -12656,7 +12656,7 @@ msgid "cannot operate on merged cells"
 msgstr "kann nicht auf zusammengeführte Zellen angewendet werden"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "kann nicht auf Datenfeld-Formeln angewendet werden"
 
 #: ../src/sheet.c:4630
@@ -16121,7 +16121,7 @@ msgstr ""
 "Festlegen, ob der Spaltenüberblick links oder rechts angezeigt werden soll."
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "_Formeln anzeigen"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17488,7 +17488,7 @@ msgstr "Eine einfache Listenvorlage"
 
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr ""
 #~ "Werte\n"
 #~ "Formeln"

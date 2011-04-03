@@ -7531,7 +7531,7 @@ msgid "Left"
 msgstr "左"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr "セルのロックや式を隠すのは保護されたワークシートのみに有効です"
 
 #: ../src/dialogs/cell-format.ui.h:60
@@ -7969,7 +7969,7 @@ msgstr "出力先範囲のクリア(_L)"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "公式"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9532,7 +9532,7 @@ msgid "D_ivide"
 msgstr "除算(_I)"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12455,7 +12455,7 @@ msgstr ""
 
 #: ../src/sheet.c:857
 #, fuzzy
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "公式を表示する(_F)"
 
 #: ../src/sheet.c:858
@@ -12727,7 +12727,7 @@ msgid "cannot operate on merged cells"
 msgstr "結合セルを操作できません"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "配列式を操作できません"
 
 #: ../src/sheet.c:4630
@@ -16176,7 +16176,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "左/右の列のアウトラインの表示/非表示を切り替えます"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "公式を表示する(_F)"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17516,7 +17516,7 @@ msgstr "シンプルなリストテンプレート"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "公式"
 
 #~ msgid "<b>Available Names</b>"

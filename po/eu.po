@@ -7587,7 +7587,7 @@ msgid "Left"
 msgstr "Ezkerrean"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "Formulak blokeatzeak edo ezkutatzeak laneko liburu babestuetan soilik du \n"
 "eragina."
@@ -8024,7 +8024,7 @@ msgstr "Ga_rbitu irteerako barrutia"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "For_matuak"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9538,7 +9538,7 @@ msgid "D_ivide"
 msgstr "Za_titu"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12373,7 +12373,7 @@ msgid "How visible the sheet is."
 msgstr "Orriaren ikusgaitasun-maila."
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Bistaratu formulak"
 
 #: ../src/sheet.c:858
@@ -12624,7 +12624,7 @@ msgid "cannot operate on merged cells"
 msgstr "ezin da batutako gelaxketan erabili"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "ezin da array formuletan erabili"
 
 #: ../src/sheet.c:4630
@@ -16035,7 +16035,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Txandakatu zutabe-eskemak ezkerrean edo eskuinean bistaratuko diren"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "Bistaratu _formulak"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17409,7 +17409,7 @@ msgstr "Zerrenda-txantiloia sinplea"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Formula"
 
 #~ msgid "<b>Available Names</b>"

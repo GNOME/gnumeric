@@ -7960,7 +7960,7 @@ msgid "Left"
 msgstr "يسار"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 
 #: ../src/dialogs/cell-format.ui.h:60
@@ -8446,7 +8446,7 @@ msgstr "إمسح نافذة الخَرْج"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "ال_تهيئة:"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -10144,7 +10144,7 @@ msgid "D_ivide"
 msgstr "قسمة"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -13289,7 +13289,7 @@ msgstr ""
 
 #: ../src/sheet.c:857
 #, fuzzy
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "عرض X الذي سيستعمل"
 
 #: ../src/sheet.c:858
@@ -13562,7 +13562,7 @@ msgstr "لا يمكن إنشاء الرّسالة: %s"
 
 #: ../src/sheet.c:3383
 #, fuzzy
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "خطأ في عملية حسابية"
 
 #: ../src/sheet.c:4630
@@ -17205,7 +17205,7 @@ msgstr "تحديد ما إذا كنت تريد إظهار الفئات"
 
 #: ../src/wbc-gtk-actions.c:2728
 #, fuzzy
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "فلاتر عرض..."
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -18641,7 +18641,7 @@ msgstr "الملف فارغ"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "معادلات"
 
 #, fuzzy

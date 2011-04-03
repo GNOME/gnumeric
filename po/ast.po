@@ -7477,7 +7477,7 @@ msgid "Left"
 msgstr "Manzorga"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "El bloquiar caxelles o anubrir fórmules namái afeuta a les fueyes de cálculu "
 "protexíes."
@@ -7914,7 +7914,7 @@ msgstr "_Llimpiar rangu de salida"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "_Formatos"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9419,7 +9419,7 @@ msgid "D_ivide"
 msgstr "_Dividir"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12219,7 +12219,7 @@ msgid "How visible the sheet is."
 msgstr "Cómo de visible ye la fueya."
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Amosar fórmules"
 
 #: ../src/sheet.c:858
@@ -12475,7 +12475,7 @@ msgid "cannot operate on merged cells"
 msgstr "non puede operase sobro caxelles entemecíes"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "non puede operase sobro un array de fórmulas"
 
 #: ../src/sheet.c:4630
@@ -15839,7 +15839,7 @@ msgstr ""
 "Camuda la visualización de los contornos de columna ente manzorga y mandrecha"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "A_mosar fórmules"
 
 #: ../src/wbc-gtk-actions.c:2730

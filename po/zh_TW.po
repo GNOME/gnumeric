@@ -7403,7 +7403,7 @@ msgid "Left"
 msgstr "左"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr "鎖定儲存格式隱藏公式只對已保護的工作表有效。"
 
 #: ../src/dialogs/cell-format.ui.h:60
@@ -7836,7 +7836,7 @@ msgstr "清除輸出範圍中原本的內容(_L)"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "格式(_F)"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9373,8 +9373,8 @@ msgid "D_ivide"
 msgstr "相除(_I)"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
-msgstr "請勿改變 formul&#xE6;"
+msgid "D_o not change formulæ"
+msgstr "請勿改變 formulæ"
 
 #: ../src/dialogs/paste-special.ui.h:10
 msgid "Fli_p Vertically"
@@ -12253,7 +12253,7 @@ msgid "How visible the sheet is."
 msgstr "本指令是否為可見。"
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "顯示公式"
 
 #: ../src/sheet.c:858
@@ -12507,7 +12507,7 @@ msgid "cannot operate on merged cells"
 msgstr ""
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr ""
 
 #: ../src/sheet.c:4630
@@ -15822,7 +15822,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "顯示公式(_F)"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17098,7 +17098,7 @@ msgstr "簡易清單範本"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "是否改變數值？"
 
 #, fuzzy

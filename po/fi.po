@@ -7505,7 +7505,7 @@ msgid "Left"
 msgstr "Vasen"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "Solujen lukitseminen tai kaavojen piilottaminen vaikuttaa vain suojattuihin "
 "taulukkoihin."
@@ -7942,7 +7942,7 @@ msgstr "_Tyhjennä tulosalue"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "_Muotoilut"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9443,7 +9443,7 @@ msgid "D_ivide"
 msgstr "_Jaa"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr "Älä muuta kaav_oja"
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12267,7 +12267,7 @@ msgid "How visible the sheet is."
 msgstr "Kuinka näkyvä taulukko on."
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Näytä kaavat"
 
 #: ../src/sheet.c:858
@@ -12517,7 +12517,7 @@ msgid "cannot operate on merged cells"
 msgstr "ei toimi yhdistetyissä soluissa"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "ei toimi matriisikaavoilla"
 
 #: ../src/sheet.c:4630
@@ -15940,7 +15940,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Näytetäänkö sarakkeiden Jäsennykset vasemmalla vai oikealla"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "Näytä _kaavat"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17312,7 +17312,7 @@ msgstr "Yksinkertainen listapohja"
 
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr ""
 #~ "Arvot\n"
 #~ "Kaavat"

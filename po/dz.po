@@ -7642,7 +7642,7 @@ msgid "Left"
 msgstr "གཡོན་"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "ནང་ཐིག་ཚུ་ལྡེ་མིག་རྐྱབས་ནི་ཡང་ན་མན་ངག་ཚུ་སྦ་བཞག་ནི་འདི་གིས་ ཉེན་སྐྱོབ་འབད་ཡོད་པའི་ལཱ་གི་ལེབ་གྲངས་ཚུ་"
 "རྐྱངམ་ཅིག་གནོདཔ་ཨིན།"
@@ -8084,7 +8084,7 @@ msgstr "ཨའུཊི་པུཊི་ཁྱབ་ཚད་བསལ་(_l)"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "རྩ་སྒྲིག་ཚུ་(_F)"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9646,7 +9646,7 @@ msgid "D_ivide"
 msgstr "བགོ་ནི་(_i)"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12542,7 +12542,7 @@ msgid "How visible the sheet is."
 msgstr "ལེབ་གྲངས་འདི་ག་དེ་ཅིག་མཐོང་ཚུགསཔ་སྨོ།"
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "མན་ངག་ཚུ་བཀྲམ་སྟོན་འབད་"
 
 #: ../src/sheet.c:858
@@ -12797,7 +12797,7 @@ msgid "cannot operate on merged cells"
 msgstr "མཉམ་བསྡོམས་འབད་ཡོད་པའི་ནང་ཐིག་ཚུ་གུ་བཀོལ་སྤྱོད་འབད་མི་ཚུགས་"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "ཨེ་རེ་མན་ངག་གུ་བཀོལ་སྤྱོད་འབད་མི་ཚུགས་"
 
 #: ../src/sheet.c:4630
@@ -16250,7 +16250,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "ཀེར་ཐིག་གི་མཐའ་ཐིག་ཚུ་ གཡོན་ཡང་ན་གཡས་ཁ་ཐུག་ལུ་བཀྲམ་སྟོན་འབད་ནི་ཨིན་ན་སོར་སྟོན་འབད་"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "མན་ངག་ཚུ་བཀྲམ་སྟོན་འབད་(_F)"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17657,7 +17657,7 @@ msgstr "འཇམ་སམ་ཊེམ་པེལེཊི་གི་ཐོ་
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "མན་ངག་"
 
 #~ msgid "<b>Available Names</b>"

@@ -12942,7 +12942,7 @@ msgid "cannot operate on merged cells"
 msgstr "nelze vykonat na sloučených buňkách"
 
 #: ../src/sheet.c:3385
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "nelze vykonat na poli vzorců"
 
 #: ../src/sheet.c:4638

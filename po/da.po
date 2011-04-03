@@ -27,7 +27,7 @@
 # corrupt -> ødelagt
 # custom -> selvvalgt, brugerdefineret (afhængig af sammenhæng)
 # df (degree freedom) -> fg (frihedsgrader)
-# formulae/formulas -> formler (ikke "formularer", altså "blanketter")
+# formulæ/formulas -> formler (ikke "formularer", altså "blanketter")
 # equal -> lig med
 # equal size -> samme størrelse
 # evaluate -> finde værdien af
@@ -7618,7 +7618,7 @@ msgid "Left"
 msgstr "Venstre"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "Låsning af celler eller skjulning af formler påvirker kun beskyttede "
 "arbejdsark."
@@ -8071,7 +8071,7 @@ msgstr "_Uddatainterval:"
 # navneord, er knyttet til næste tekst
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "_Formater"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9672,7 +9672,7 @@ msgid "D_ivide"
 msgstr "Dividér"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12647,7 +12647,7 @@ msgstr ""
 
 #: ../src/sheet.c:857
 #, fuzzy
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Vis _formler"
 
 #: ../src/sheet.c:858
@@ -12910,7 +12910,7 @@ msgid "cannot operate on merged cells"
 msgstr "kan ikke behandle flettede celler"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "kan ikke behandle matrixformler"
 
 #: ../src/sheet.c:4630
@@ -16386,7 +16386,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Skift mellem at vise rækkeomrids til højre eller til venstre"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "Vis _formler"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17734,7 +17734,7 @@ msgstr "Navn på skabelon"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Formel"
 
 # værktøjstip

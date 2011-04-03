@@ -7760,7 +7760,7 @@ msgid "Left"
 msgstr "Esquerda"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 
 #: ../src/dialogs/cell-format.ui.h:60
@@ -8230,7 +8230,7 @@ msgstr "Rango de _Saída:"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "Fo"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9904,7 +9904,7 @@ msgid "D_ivide"
 msgstr "Dividir"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12973,7 +12973,7 @@ msgstr ""
 
 #: ../src/sheet.c:857
 #, fuzzy
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Amosar _Fórmulas"
 
 #: ../src/sheet.c:858
@@ -13244,7 +13244,7 @@ msgstr ""
 
 #: ../src/sheet.c:3383
 #, fuzzy
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "Non se pode crear o ficheiro %s\n"
 
 #: ../src/sheet.c:4630
@@ -16805,7 +16805,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "Amosar _Fórmulas"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -18191,7 +18191,7 @@ msgstr "Nome do modelo"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Fórmula"
 
 #, fuzzy

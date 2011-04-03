@@ -7882,7 +7882,7 @@ msgid "Left"
 msgstr "Links"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "Het blokkeren van cellen of verbergen van formules heeft alleen effect als\n"
 "U het blad ook beveiligt."
@@ -8330,7 +8330,7 @@ msgstr "_Uitvoerbereik resetten"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "_Opmaak"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9914,7 +9914,7 @@ msgid "D_ivide"
 msgstr "_Delen"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12875,7 +12875,7 @@ msgstr "Hoe zichtbaar het werkblad is."
 
 # tonen/weergeven
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Formules tonen"
 
 #: ../src/sheet.c:858
@@ -13137,7 +13137,7 @@ msgid "cannot operate on merged cells"
 msgstr "kan niet toepassen op samengevoegde cellen"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "kan niet worden toegepast op array formules"
 
 #: ../src/sheet.c:4630
@@ -16667,7 +16667,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Zet de weergave van kolom-outlines links of rechts"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "_Formules weergeven"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -18093,7 +18093,7 @@ msgstr "Een eenvoudige lijst"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Formule"
 
 #~ msgid "<b>Available Names</b>"

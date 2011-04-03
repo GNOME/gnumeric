@@ -7680,7 +7680,7 @@ msgid "Left"
 msgstr "Lewa"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "Blokowanie komórek oraz ukrywanie formuł funkcjonuje tylko w zabezpieczonych "
 "zeszytach."
@@ -8133,7 +8133,7 @@ msgstr "Czyszczenie zakresu wyjściowego"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "Formuła"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9763,7 +9763,7 @@ msgid "D_ivide"
 msgstr "Podziel"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12748,7 +12748,7 @@ msgstr ""
 
 #: ../src/sheet.c:857
 #, fuzzy
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Wyświetlanie _formuł"
 
 #: ../src/sheet.c:858
@@ -13020,7 +13020,7 @@ msgid "cannot operate on merged cells"
 msgstr "nie można operować na scalonych komórkach"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "nie można operować na wyrażeniach tablicowych"
 
 #: ../src/sheet.c:4630
@@ -16495,7 +16495,7 @@ msgstr ""
 "szczegółów"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "Wyświetlanie _formuł"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17873,7 +17873,7 @@ msgstr "Nazwa szablonu"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Formuły"
 
 #, fuzzy

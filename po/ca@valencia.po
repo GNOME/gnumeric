@@ -7639,7 +7639,7 @@ msgid "Left"
 msgstr "Esquerra"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "El bloqueig de cel·les o l'ocultació de fórmules només afecta els fulls de "
 "treball protegits."
@@ -8078,7 +8078,7 @@ msgstr "Neteja e_l rang d'eixida"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "_Formats"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9608,7 +9608,7 @@ msgid "D_ivide"
 msgstr "D_ivideix"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12470,7 +12470,7 @@ msgid "How visible the sheet is."
 msgstr "Com és el full de visible."
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Mostra les fórmules"
 
 #: ../src/sheet.c:858
@@ -12727,7 +12727,7 @@ msgid "cannot operate on merged cells"
 msgstr "no es pot treballar en cel·les fusionades"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "no es pot treballar en fórmules de vector"
 
 #: ../src/sheet.c:4630
@@ -16188,7 +16188,7 @@ msgstr ""
 "dreta"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "Mostra les _fórmules"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17580,7 +17580,7 @@ msgstr "Una plantilla de llista senzilla"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Fórmula"
 
 #~ msgid ""

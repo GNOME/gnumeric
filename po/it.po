@@ -7692,7 +7692,7 @@ msgid "Left"
 msgstr "Sinistra"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "Bloccare le celle o nascondere le formule funziona solo sulle cartelle di "
 "lavoro protette."
@@ -8144,7 +8144,7 @@ msgstr "Cance_lla intervallo d'uscita"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "_Formati"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9726,7 +9726,7 @@ msgid "D_ivide"
 msgstr "_Dividi"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12660,7 +12660,7 @@ msgid "How visible the sheet is."
 msgstr "Come il foglio risulta visibile."
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Mostra formule"
 
 #: ../src/sheet.c:858
@@ -12921,7 +12921,7 @@ msgstr "impossibile operare su celle unite"
 
 #: ../src/sheet.c:3383
 #, fuzzy
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "impossibile operare su formule di vettory"
 
 #: ../src/sheet.c:4630
@@ -16383,7 +16383,7 @@ msgstr ""
 "sinistra o sulla destra"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "Mostra _formule"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17794,7 +17794,7 @@ msgstr "Un modello a lista semplice"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Formula"
 
 #~ msgid "<b>Available Names</b>"

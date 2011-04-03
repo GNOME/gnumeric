@@ -7687,7 +7687,7 @@ msgid "Left"
 msgstr "Esquerda"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr "Bloquear células ou ocultar fórmulas afeta apenas pastas protegidas."
 
 #: ../src/dialogs/cell-format.ui.h:60
@@ -8127,7 +8127,7 @@ msgstr "Esva_ziar região de saída"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "_Formatos"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9701,7 +9701,7 @@ msgid "D_ivide"
 msgstr "D_ividir"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12592,7 +12592,7 @@ msgid "How visible the sheet is."
 msgstr "Como é a visibilidade da planilha."
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Exibir fórmulas"
 
 #: ../src/sheet.c:858
@@ -12862,7 +12862,7 @@ msgid "cannot operate on merged cells"
 msgstr "não pode operar em células mescladas"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "não pode operar em fórmulas de vetor"
 
 #: ../src/sheet.c:4630
@@ -16344,7 +16344,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Alterna exibição de contornos de colunas para direita ou esquerda"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "Mostrar _Fórmulas"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17758,7 +17758,7 @@ msgstr "Um modelo de lista simples"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Fórmula"
 
 #~ msgid "<b>Available Names</b>"

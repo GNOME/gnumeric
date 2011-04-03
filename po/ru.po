@@ -7473,7 +7473,7 @@ msgid "Left"
 msgstr "Влево"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "Защита ячеек или скрытие формул действуют только в защищенных таблицах."
 
@@ -7909,7 +7909,7 @@ msgstr "Очистить диапазон вывода"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "Формат"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9408,7 +9408,7 @@ msgid "D_ivide"
 msgstr "Разделить"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr "_Не изменять формулу"
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12213,7 +12213,7 @@ msgid "How visible the sheet is."
 msgstr "Видим ли лист."
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Показать _формулы"
 
 #: ../src/sheet.c:858
@@ -12463,7 +12463,7 @@ msgid "cannot operate on merged cells"
 msgstr "невозможно использовать на объединенных ячейках"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "невозможно использовать на формулах массива"
 
 #: ../src/sheet.c:4630
@@ -15794,7 +15794,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Переключение отображения столбца структуры слева или справа"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "Показать _формулы"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17144,7 +17144,7 @@ msgstr "Простой шаблон для списка"
 
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr ""
 #~ "Значения\n"
 #~ "Формулы"

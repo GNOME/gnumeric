@@ -7549,7 +7549,7 @@ msgid "Left"
 msgstr "Kairėje"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "Užrakinti langelius ar slėpti formules galima tik apsaugotuose lakštuose."
 
@@ -7985,7 +7985,7 @@ msgstr "Išva_lyti išvesties sritį"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "_Formatai"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9493,7 +9493,7 @@ msgid "D_ivide"
 msgstr "_Dalinti"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr "Nekeisti f_ormulės"
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12311,7 +12311,7 @@ msgid "How visible the sheet is."
 msgstr "Koks yra lakšto matomumas."
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Rodyti formules"
 
 #: ../src/sheet.c:858
@@ -12563,7 +12563,7 @@ msgid "cannot operate on merged cells"
 msgstr "negalima vykdyti veiksmų su sujungtais laukais"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "negalima vykdyti veiksmų su masyvo formule"
 
 #: ../src/sheet.c:4630
@@ -15983,7 +15983,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Perjungia stulpelių grupių rodymą kairėje / dešinėje"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "Rodyti _formules"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17340,7 +17340,7 @@ msgstr "Paprastas sąrašo šablonas"
 
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr ""
 #~ "Reikšmės\n"
 #~ "Formulės"

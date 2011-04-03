@@ -7723,7 +7723,7 @@ msgid "Left"
 msgstr "Lijevo"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "Zaključavanje polja i skrivanje funkcija se odnosi samo na zaštićene radne "
 "listove."
@@ -8173,7 +8173,7 @@ msgstr "Obriši izlazni raspon"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "Formula"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9798,7 +9798,7 @@ msgid "D_ivide"
 msgstr "Dijeli"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12771,7 +12771,7 @@ msgstr ""
 
 #: ../src/sheet.c:857
 #, fuzzy
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Prikaži _formule"
 
 #: ../src/sheet.c:858
@@ -13043,7 +13043,7 @@ msgid "cannot operate on merged cells"
 msgstr "ne mogu raditi nad spojenim ćelijama"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "Ne mogu raditi na formuli polja"
 
 #: ../src/sheet.c:4630
@@ -16539,7 +16539,7 @@ msgstr ""
 "Isključivanje i uključivanje prikaza kontura stupaca s lijeva ili s desna"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "Prikaži _formule"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17914,7 +17914,7 @@ msgstr "Ime uzorka"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Formule"
 
 #, fuzzy

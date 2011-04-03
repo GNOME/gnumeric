@@ -7628,8 +7628,8 @@ msgid "Left"
 msgstr "Left"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
-msgstr "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
+msgstr "Locking cells or hiding formulæ only affects protected worksheets."
 
 #: ../src/dialogs/cell-format.ui.h:60
 #, fuzzy
@@ -8068,7 +8068,7 @@ msgstr "C_lear output range"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "_Formats"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9640,7 +9640,7 @@ msgid "D_ivide"
 msgstr "D_ivide"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12560,8 +12560,8 @@ msgid "How visible the sheet is."
 msgstr "How visible the sheet is."
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
-msgstr "Display Formulas"
+msgid "Display Formulæ"
+msgstr "Display Formulæ"
 
 #: ../src/sheet.c:858
 msgid "Control whether formulas are shown instead of values."
@@ -12816,8 +12816,8 @@ msgid "cannot operate on merged cells"
 msgstr "cannot operate on merged cells"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
-msgstr "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
+msgstr "cannot operate on array formulæ"
 
 #: ../src/sheet.c:4630
 msgid "Insert Columns"
@@ -16273,8 +16273,8 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Toggle whether to display column outlines on the left or right"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
-msgstr "Display _Formulas"
+msgid "Display _Formulæ"
+msgstr "Display _Formulæ"
 
 #: ../src/wbc-gtk-actions.c:2730
 msgid "Display the value of a formula or the formula itself"
@@ -17681,7 +17681,7 @@ msgstr "A simple list template"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Formula"
 
 #~ msgid "<b>Available Names</b>"

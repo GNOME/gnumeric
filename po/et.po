@@ -7446,7 +7446,7 @@ msgid "Left"
 msgstr "Vasak"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "Lahtrite lukustamine ja valemite peitmine mõjub ainult kaitstud tabelitele."
 
@@ -7883,7 +7883,7 @@ msgstr "_Puhasta väljundvahemik:"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "Valem"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9487,7 +9487,7 @@ msgid "D_ivide"
 msgstr "_Jaga"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12469,7 +12469,7 @@ msgstr ""
 
 #: ../src/sheet.c:857
 #, fuzzy
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "_Näita valemeid"
 
 #: ../src/sheet.c:858
@@ -12739,7 +12739,7 @@ msgid "cannot operate on merged cells"
 msgstr "ei saa opereerida ühendatud lahtritega"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "ei saa opereerida massiivi valemitega"
 
 #: ../src/sheet.c:4630
@@ -16221,7 +16221,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Lülita veergudes gruppide näitamine paremale või vasakule"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "_Näita valemeid"
 
 #: ../src/wbc-gtk-actions.c:2730

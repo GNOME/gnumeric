@@ -7351,7 +7351,7 @@ msgid "Left"
 msgstr "ግራ"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 
 #: ../src/dialogs/cell-format.ui.h:60
@@ -7794,7 +7794,7 @@ msgstr "ውጤት"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "ፎርማት"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9390,7 +9390,7 @@ msgid "D_ivide"
 msgstr "ደብቅ (_H)"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12295,7 +12295,7 @@ msgid "How visible the sheet is."
 msgstr ""
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr ""
 
 #: ../src/sheet.c:858
@@ -12547,7 +12547,7 @@ msgid "cannot operate on merged cells"
 msgstr ""
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr ""
 
 #: ../src/sheet.c:4630
@@ -15919,7 +15919,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2730

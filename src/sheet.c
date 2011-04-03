@@ -3382,7 +3382,7 @@ sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
 		cb_cell_is_array, NULL)) {
 		if (cc != NULL)
 			go_cmd_context_error_invalid (cc, cmd,
-				_("cannot operate on array formulae"));
+				_("cannot operate on array formul\303\246"));
 		return TRUE;
 	}
 

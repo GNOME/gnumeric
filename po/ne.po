@@ -7555,7 +7555,7 @@ msgid "Left"
 msgstr "बायाँ"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr "कक्ष गांठो पार्नु अथवा सूत्रहरू लुकाउनुले केवल संरक्षित कार्यपत्रलाई प्रभाव पार्छ"
 
 #: ../src/dialogs/cell-format.ui.h:60
@@ -7993,7 +7993,7 @@ msgstr "आगत दायरा खाली गर्नुहोस्"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "ढाँचाहरू"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9547,7 +9547,7 @@ msgid "D_ivide"
 msgstr "भाग गर्नुहोस्"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12459,7 +12459,7 @@ msgid "How visible the sheet is."
 msgstr "यो पाना कसरी दृश्यात्मक हुन्छ।"
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "सूत्रहरू प्रदर्शन गर्नुहोस्"
 
 #: ../src/sheet.c:858
@@ -12715,7 +12715,7 @@ msgid "cannot operate on merged cells"
 msgstr "गाभिएको कक्षहरूमा सञ्चालन गर्न सक्दैन"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "एरे सूत्रमा सञ्चालन गर्न सकिँदैन"
 
 #: ../src/sheet.c:4630
@@ -16163,7 +16163,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "स्तम्भ रूपरेखाहरू दायाँ कि बायाँ प्रदर्शन गर्ने टगल गर्नुहोस्"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "सूत्रहरू प्रदर्शन गर्नुहोस्"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17576,7 +17576,7 @@ msgstr "एउटा साधारण सूची टेम्प्लेट
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "सूत्र"
 
 #~ msgid "<b>Available Names</b>"

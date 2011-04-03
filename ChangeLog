@@ -1,5 +1,9 @@
 2011-04-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet.c (sheet_range_contains_region): formulas ->formul\303\246
+
+2011-04-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/mstyle.c (gnm_style_dump_color): fix format warning
 	(gnm_style_dump): ditto, fixes #646571
 

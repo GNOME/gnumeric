@@ -8531,7 +8531,7 @@ msgstr "Ibumoso"
 
 #: ../src/dialogs/cell-format.ui.h:58
 #, fuzzy
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr "Utudirishya... Cyangwa Inzira Birinzwe"
 
 # #-#-#-#-#  officecfg.pot (PACKAGE VERSION)  #-#-#-#-#
@@ -9151,7 +9151,7 @@ msgstr "Ibisohoka Urutonde"
 # sc/source\ui\src\miscdlgs.src:RID_SCDLG_INSCONT.BTN_INSATTRS.text
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "Imiterere"
 
 # sc/source\ui\miscdlgs\instbdlg.src:RID_SCDLG_INSERT_TABLE.RB_NEW.text
@@ -11024,7 +11024,7 @@ msgid "D_ivide"
 msgstr "Kugabanya"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 # sc/source\ui\drawfunc\objdraw.src:MN_MIRRORSUB.SUBMENU_OBJMIRROR.SID_MIRROR_VERTICAL.text
@@ -14572,7 +14572,7 @@ msgstr ""
 
 #: ../src/sheet.c:857
 #, fuzzy
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Kugaragaza Kuri Gukoresha"
 
 #: ../src/sheet.c:858
@@ -14848,7 +14848,7 @@ msgstr "ku Utudirishya..."
 
 #: ../src/sheet.c:3383
 #, fuzzy
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "ku Imbonerahamwe"
 
 # sc/sdi\scslots.src:FID_INS_COLUMN.text
@@ -18980,7 +18980,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Kuri Kugaragaza Inkingi ku i Ibumoso: Cyangwa Iburyo:"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -20539,7 +20539,7 @@ msgstr "A Byoroheje Urutonde Inyandikorugero"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Inzira"
 
 #, fuzzy

@@ -7753,7 +7753,7 @@ msgid "Left"
 msgstr "Stânga"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "Blocarea celulelor sau ascunderea formulelor afectează doar registrele "
 "protejate."
@@ -8227,7 +8227,7 @@ msgstr "Zonă i_eşire:"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "Formulă"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9913,7 +9913,7 @@ msgid "D_ivide"
 msgstr "Împarte"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12977,7 +12977,7 @@ msgstr ""
 
 #: ../src/sheet.c:857
 #, fuzzy
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Afişează _formulele"
 
 #: ../src/sheet.c:858
@@ -13249,7 +13249,7 @@ msgid "cannot operate on merged cells"
 msgstr "nu pot opera pe celule combinate"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "nu pot opera pe formule cu şiruri"
 
 #: ../src/sheet.c:4630
@@ -16782,7 +16782,7 @@ msgstr ""
 "Comută între a afişa sau nu schemele pe coloană de la stânga la dreapta"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "Afişează _formulele"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -18172,7 +18172,7 @@ msgstr "Numele şablonului"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Formule"
 
 #, fuzzy

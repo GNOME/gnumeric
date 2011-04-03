@@ -7691,7 +7691,7 @@ msgid "Left"
 msgstr "Levo"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 
 #: ../src/dialogs/cell-format.ui.h:60
@@ -8157,7 +8157,7 @@ msgstr "Vrednost je izven območja.\n"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "Vrste zapisov"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9857,7 +9857,7 @@ msgstr "_Deli"
 
 #: ../src/dialogs/paste-special.ui.h:9
 #, fuzzy
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr "Ni mogoče spremeniti gesla."
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -13035,7 +13035,7 @@ msgid "How visible the sheet is."
 msgstr "Ali je gradnik viden"
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Pokaži formule"
 
 #: ../src/sheet.c:858
@@ -13302,7 +13302,7 @@ msgid "cannot operate on merged cells"
 msgstr ""
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr ""
 
 #: ../src/sheet.c:4630
@@ -16834,7 +16834,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2728
 #, fuzzy
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "Pokaži obvestilo"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -18237,7 +18237,7 @@ msgstr "Enostavna predloga seznama"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Vrednosti spremenljivke:"
 
 #~ msgid "Select _all"

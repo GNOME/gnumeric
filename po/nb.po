@@ -7377,7 +7377,7 @@ msgid "Left"
 msgstr "Venstre"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "Låsing av celler eller skjuling av formler påvirker bare beskyttede ark."
 
@@ -7812,7 +7812,7 @@ msgstr "_Tøm utdataområde"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "_Formater"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9319,7 +9319,7 @@ msgid "D_ivide"
 msgstr "D_ivider"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12128,7 +12128,7 @@ msgid "How visible the sheet is."
 msgstr "Hvor synlig arket er."
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Vis formler"
 
 #: ../src/sheet.c:858
@@ -12385,7 +12385,7 @@ msgid "cannot operate on merged cells"
 msgstr "kan ikke operere på flettede celler"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "kan ikke operere på matriseformularer"
 
 #: ../src/sheet.c:4630
@@ -15701,7 +15701,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Slå av/på visning av kolonne-disposisjon til venstre eller høyre"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "Vis _formler"
 
 #: ../src/wbc-gtk-actions.c:2730

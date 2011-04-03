@@ -7707,7 +7707,7 @@ msgid "Left"
 msgstr "Balra"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "A cellák zárolásának vagy a képletek elrejtésének csak akkor van hatása, ha "
 "védett a munkalap."
@@ -8152,7 +8152,7 @@ msgstr "Kimeneti tartomány törlése"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "_Formátumot"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9799,7 +9799,7 @@ msgid "D_ivide"
 msgstr "Osztás"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12773,7 +12773,7 @@ msgid "How visible the sheet is."
 msgstr ""
 
 #: ../src/sheet.c:857
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "Képletek megjelenítése"
 
 #: ../src/sheet.c:858
@@ -13039,7 +13039,7 @@ msgstr "nem működik összefűzött cellákon"
 
 #: ../src/sheet.c:3383
 #, fuzzy
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "nem működik tömbformulákon"
 
 #: ../src/sheet.c:4630
@@ -16458,7 +16458,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "_Képletek megjelenítése"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17839,7 +17839,7 @@ msgstr "Sablon neve"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Képlet"
 
 #, fuzzy

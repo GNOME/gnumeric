@@ -7768,7 +7768,7 @@ msgid "Left"
 msgstr "Sol"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "Göze kilitlemesi ve formüllerin gizlenmesi sadece korumalı çizelgelerde "
 "geçelidir."
@@ -8226,7 +8226,7 @@ msgstr "Çıktı Aralığını Temizle"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "Formül"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9881,7 +9881,7 @@ msgid "D_ivide"
 msgstr "Böl"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12894,7 +12894,7 @@ msgstr ""
 
 #: ../src/sheet.c:857
 #, fuzzy
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "_Formülleri Göster"
 
 #: ../src/sheet.c:858
@@ -13166,7 +13166,7 @@ msgid "cannot operate on merged cells"
 msgstr "birleşik gözelerde işlem yapılamıyor"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "dizi formülünde işlem yapılamıyor"
 
 #: ../src/sheet.c:4630
@@ -16716,7 +16716,7 @@ msgstr ""
 "Sütunun sol ve sağındaki sınırların gösterilip gösterilmeyeceği seçilir"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "_Formülleri Göster"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -18102,7 +18102,7 @@ msgstr "Şablon ismi"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Formüller"
 
 #, fuzzy

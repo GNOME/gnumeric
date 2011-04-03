@@ -10057,7 +10057,7 @@ msgstr "D_ivideix"
 #: ../src/dialogs/paste-special.ui.h:9
 #, fuzzy
 msgid "D_o not change formulæ"
-msgstr "N_o canviïs la fórmul&#xE6;"
+msgstr "N_o canviïs la fórmulæ"
 
 #: ../src/dialogs/paste-special.ui.h:10
 #, fuzzy
@@ -13221,7 +13221,7 @@ msgid "cannot operate on merged cells"
 msgstr "no es pot treballar en cel·les fusionades"
 
 #: ../src/sheet.c:3385
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "no es pot treballar en fórmules de vector"
 
 #: ../src/sheet.c:4638
@@ -18171,7 +18171,7 @@ msgstr "Una plantilla de llista senzilla"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "Fórmula"
 
 #~ msgid "<b>Available Names</b>"

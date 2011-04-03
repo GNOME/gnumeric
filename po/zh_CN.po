@@ -7523,7 +7523,7 @@ msgid "Left"
 msgstr "靠左"
 
 #: ../src/dialogs/cell-format.ui.h:58
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr "锁定单元格或隐藏公式只对被保护的工作表起作用。"
 
 #: ../src/dialogs/cell-format.ui.h:60
@@ -7962,7 +7962,7 @@ msgstr "清除输出范围(_L)"
 
 #: ../src/dialogs/dao.ui.h:6
 #, fuzzy
-msgid "Formulas"
+msgid "Formulæ"
 msgstr "格式(_F)"
 
 #: ../src/dialogs/dao.ui.h:7
@@ -9543,7 +9543,7 @@ msgid "D_ivide"
 msgstr "除(_I)"
 
 #: ../src/dialogs/paste-special.ui.h:9
-msgid "D_o not change formul&#xE6;"
+msgid "D_o not change formulæ"
 msgstr ""
 
 #: ../src/dialogs/paste-special.ui.h:10
@@ -12462,7 +12462,7 @@ msgstr ""
 
 #: ../src/sheet.c:857
 #, fuzzy
-msgid "Display Formulas"
+msgid "Display Formulæ"
 msgstr "显示公式(_F)"
 
 #: ../src/sheet.c:858
@@ -12732,7 +12732,7 @@ msgid "cannot operate on merged cells"
 msgstr "不能在合并的单元格上操作"
 
 #: ../src/sheet.c:3383
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr "不能在数组公式上操作"
 
 #: ../src/sheet.c:4630
@@ -16184,7 +16184,7 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "切换是否在左边或右边显示列轮廓"
 
 #: ../src/wbc-gtk-actions.c:2728
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr "显示公式(_F)"
 
 #: ../src/wbc-gtk-actions.c:2730
@@ -17527,7 +17527,7 @@ msgstr "简单列表模板"
 #, fuzzy
 #~ msgid ""
 #~ "Values\n"
-#~ "Formulas"
+#~ "Formulæ"
 #~ msgstr "公式"
 
 #~ msgid "<b>Available Names</b>"

@@ -11695,7 +11695,7 @@ msgid "Decrease the number of decimals displayed"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3684
-msgid "Display _Formulas"
+msgid "Display _Formulæ"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3903
@@ -15313,7 +15313,7 @@ msgid "Left"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:59
-msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:61
@@ -15537,7 +15537,7 @@ msgid "Delete the currently selected source area"
 msgstr ""
 
 #: src/dialogs/consolidate.glade.h:9
-msgid "Formulas"
+msgid "Formulæ"
 msgstr ""
 
 #: src/dialogs/consolidate.glade.h:10
@@ -21241,7 +21241,7 @@ msgid "cannot operate on merged cells"
 msgstr ""
 
 #: src/sheet.c:2043
-msgid "cannot operate on array formulae"
+msgid "cannot operate on array formulæ"
 msgstr ""
 
 #: src/sheet.c:3142
