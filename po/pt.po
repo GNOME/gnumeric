@@ -12972,7 +12972,7 @@ msgstr "incapaz de operar em células unidas"
 
 #: ../src/sheet.c:3383
 msgid "cannot operate on array formulæ"
-msgstr "incapaz de operar no formulæ de matriz"
+msgstr "incapaz de operar no formulae de matriz"
 
 #: ../src/sheet.c:4630
 msgid "Insert Columns"
