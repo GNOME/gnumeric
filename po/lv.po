@@ -12338,7 +12338,7 @@ msgstr ""
 #: ../src/sheet.c:857
 #, fuzzy
 msgid "Display Formulæ"
-msgstr "Parādīt _Formulæ"
+msgstr "Parādīt _Formulas"
 
 #: ../src/sheet.c:858
 msgid "Control whether formulas are shown instead of values."
@@ -12347,7 +12347,7 @@ msgstr ""
 #: ../src/sheet.c:863
 #, fuzzy
 msgid "Display Zeros"
-msgstr "Parādīt _Formulæ"
+msgstr "Parādīt _Formulas"
 
 #: ../src/sheet.c:864
 msgid "Control whether zeros are shown are blanked out."
@@ -12356,7 +12356,7 @@ msgstr ""
 #: ../src/sheet.c:869
 #, fuzzy
 msgid "Display Grid"
-msgstr "Parādīt _Formulæ"
+msgstr "Parādīt _Formulas"
 
 #: ../src/sheet.c:870
 msgid "Control whether the grid is shown."
@@ -12365,7 +12365,7 @@ msgstr ""
 #: ../src/sheet.c:875
 #, fuzzy
 msgid "Display Column Headers"
-msgstr "Parādīt _Formulæ"
+msgstr "Parādīt _Formulas"
 
 #: ../src/sheet.c:876
 msgid "Control whether column headers are shown."
@@ -12374,7 +12374,7 @@ msgstr ""
 #: ../src/sheet.c:881
 #, fuzzy
 msgid "Display Row Headers"
-msgstr "Parādīt _Formulæ"
+msgstr "Parādīt _Formulas"
 
 #: ../src/sheet.c:882
 msgid "Control whether row headers are shown."
@@ -12383,7 +12383,7 @@ msgstr ""
 #: ../src/sheet.c:887
 #, fuzzy
 msgid "Display Outlines"
-msgstr "Parādīt _Formulæ"
+msgstr "Parādīt _Formulas"
 
 #: ../src/sheet.c:888
 msgid "Control whether outlines are shown."
@@ -12620,7 +12620,7 @@ msgstr ""
 #: ../src/ssconvert.c:57 ../src/ssgrep.c:157 ../src/ssindex.c:44
 #, fuzzy
 msgid "Display program version"
-msgstr "Parādīt _Formulæ"
+msgstr "Parādīt _Formulas"
 
 #: ../src/ssconvert.c:66 ../src/ssindex.c:65
 msgid "Optionally specify an encoding for imported content"
@@ -15990,7 +15990,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2728
 msgid "Display _Formulæ"
-msgstr "Parādīt _Formulæ"
+msgstr "Parādīt _Formulas"
 
 #: ../src/wbc-gtk-actions.c:2730
 msgid "Display the value of a formula or the formula itself"
@@ -16581,7 +16581,7 @@ msgstr ""
 #: ../src/wbc-gtk.c:4075
 #, fuzzy
 msgid "Display above sheets"
-msgstr "Parādīt _Formulæ"
+msgstr "Parādīt _Formulas"
 
 #: ../src/wbc-gtk.c:4076
 msgid "Display to the left of sheets"
