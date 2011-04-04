@@ -6,6 +6,7 @@ Andreas:
 Morten:
 	* Fix problems with localized function docs.
 	* Plug leak.
+	* Fix minor problem reading old xls objects.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.14

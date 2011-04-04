@@ -663,9 +663,10 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 	gboolean has_name;
 	guint8 *anchor;
 
-	XL_CHECK_CONDITION_VAL (q->length >= 32, TRUE);
+	XL_CHECK_CONDITION_VAL (q->length >= 26, TRUE);
 
-	has_name = GSF_LE_GET_GUINT16 (q->data+30) != 0; /* undocumented */
+	has_name = (q->length >= 32 &&
+		    GSF_LE_GET_GUINT16 (q->data+30) != 0); /* undocumented */
 #if 0
 	guint16 const flags = GSF_LE_GET_GUINT16(q->data+8);
 #endif
