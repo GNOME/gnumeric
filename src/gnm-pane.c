@@ -841,7 +841,7 @@ cb_pane_init_objs (GnmPane *pane)
 }
 
 static void
-cb_ctrl_pts_free (GtkObject **ctrl_pts)
+cb_ctrl_pts_free (GObject **ctrl_pts)
 {
 	int i = 10;
 	while (i-- > 0)

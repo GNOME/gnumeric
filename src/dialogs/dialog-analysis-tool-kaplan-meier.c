@@ -417,7 +417,7 @@ cb_change_from (GtkCellRendererText *cell,
 		GtkTreePath *path;
 		guint val = (guint) (atoi (new_text));
 		guint old_to;
-		GtkObject *adjustment_to;
+		GObject *adjustment_to;
 
 
 		path = gtk_tree_path_new_from_string (path_string);
@@ -439,7 +439,7 @@ cb_change_from (GtkCellRendererText *cell,
 			gtk_list_store_set (state->groups_list, &iter,
 					    GROUP_TO, val,
 					    -1);
-		g_object_set (G_OBJECT (adjustment_to), "lower", (gdouble) val, NULL);
+		g_object_set (adjustment_to, "lower", (gdouble) val, NULL);
 
 	}
 }
@@ -478,8 +478,10 @@ dialog_kaplan_meier_tool_treeview_add_item  (KaplanMeierToolState *state, guint 
 {
 		GtkTreeIter iter;
 		char * name = g_strdup_printf (_("Group %d"), i);
-		GtkObject *adjustment_to = gtk_adjustment_new (0, 0, G_MAXUSHORT, 1, 1, 1);
-		GtkObject *adjustment_from = gtk_adjustment_new (0, 0, G_MAXUSHORT, 1, 1, 1);
+		GObject *adjustment_to =
+			G_OBJECT (gtk_adjustment_new (0, 0, G_MAXUSHORT, 1, 1, 1));
+		GObject *adjustment_from =
+			G_OBJECT (gtk_adjustment_new (0, 0, G_MAXUSHORT, 1, 1, 1));
 		gtk_list_store_append (state->groups_list, &iter);
 		gtk_list_store_set (state->groups_list, &iter,
 				    GROUP_NAME, name,

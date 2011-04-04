@@ -280,9 +280,9 @@ cb_page_select (G_GNUC_UNUSED GtkNotebook *notebook,
 }
 
 static void
-cb_notebook_destroy (GtkObject *obj, gpointer page_sig_ptr)
+cb_notebook_destroy (GtkWidget *nb, gpointer page_sig_ptr)
 {
-	g_signal_handler_disconnect (obj, GPOINTER_TO_UINT (page_sig_ptr));
+	g_signal_handler_disconnect (nb, GPOINTER_TO_UINT (page_sig_ptr));
 }
 
 /*
