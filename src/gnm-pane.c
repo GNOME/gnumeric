@@ -856,12 +856,12 @@ gnm_pane_dispose (GObject *obj)
 	GnmPane *pane = GNM_PANE (obj);
 
 	if (pane->col.canvas != NULL) {
-		gtk_object_destroy (GTK_OBJECT (pane->col.canvas));
+		gtk_widget_destroy (GTK_WIDGET (pane->col.canvas));
 		pane->col.canvas = NULL;
 	}
 
 	if (pane->row.canvas != NULL) {
-		gtk_object_destroy (GTK_OBJECT (pane->row.canvas));
+		gtk_widget_destroy (GTK_WIDGET (pane->row.canvas));
 		pane->row.canvas = NULL;
 	}
 

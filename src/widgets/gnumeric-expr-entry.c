@@ -464,7 +464,7 @@ gee_set_property (GObject      *object,
 						  G_CALLBACK (cb_icon_clicked), gee);
 			}
 		} else if (gee->icon != NULL)
-			gtk_object_destroy (GTK_OBJECT (gee->icon));
+			gtk_widget_destroy (gee->icon);
 		break;
 
 	case PROP_TEXT: {

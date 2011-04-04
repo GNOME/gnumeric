@@ -1072,7 +1072,7 @@ item_bar_dispose (GObject *obj)
 	ib_fonts_unref (ib);
 
 	if (ib->tip) {
-		gtk_object_destroy (GTK_OBJECT (ib->tip));
+		gtk_widget_destroy (ib->tip);
 		ib->tip = NULL;
 	}
 

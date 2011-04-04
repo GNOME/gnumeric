@@ -86,7 +86,7 @@ cb_data_table_response (GtkWidget *dialog, gint response_id, GnmDialogDataTable 
 			state->sheet, &state->input_range,
 			gnm_expr_entry_get_text	(state->col_entry),
 			gnm_expr_entry_get_text (state->row_entry));
-	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 static gboolean

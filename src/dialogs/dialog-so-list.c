@@ -93,7 +93,7 @@ cb_so_list_response (GtkWidget *dialog, gint response_id, GnmDialogSOList *state
 								(state->as_index_radio)));
 	}
 
-	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 static gboolean

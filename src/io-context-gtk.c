@@ -346,7 +346,7 @@ icg_finalize (GObject *obj)
 			G_CALLBACK (cb_icg_window_destroyed), icg);
 		gtk_window_set_focus (icg->window, NULL);
 		gtk_window_set_default (icg->window, NULL);
-		gtk_object_destroy (GTK_OBJECT (icg->window));
+		gtk_widget_destroy (GTK_WIDGET (icg->window));
 	}
 	g_free (icg->progress_msg);
 	icg->window = NULL;

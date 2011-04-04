@@ -2329,7 +2329,7 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 	}
 
 	if (btn != state->apply_button)
-		gtk_object_destroy (GTK_OBJECT (state->dialog));
+		gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
 
 /* Handler for destroy */

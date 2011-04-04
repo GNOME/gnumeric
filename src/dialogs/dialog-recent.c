@@ -52,13 +52,13 @@ cb_response (GtkWidget *dialog,
 		 * This causes crashes with gtk+ 2.10.6, at least.
 		 */
 #if 0
-		gtk_object_destroy (GTK_OBJECT (dialog));
+		gtk_widget_destroy (dialog);
 #endif
 		break;
 	}
 
 	default:
-		gtk_object_destroy (GTK_OBJECT (dialog));
+		gtk_widget_destroy (dialog);
 	}
 }
 

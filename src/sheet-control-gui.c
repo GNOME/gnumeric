@@ -653,7 +653,7 @@ cb_table_destroy (SheetControlGUI *scg)
 
 	for (i = scg->active_panes; i-- > 0 ; )
 		if (NULL != scg->pane[i]) {
-			gtk_object_destroy (GTK_OBJECT (scg->pane[i]));
+			gtk_widget_destroy (GTK_WIDGET (scg->pane[i]));
 			scg->pane[i] = NULL;
 		}
 
@@ -1137,7 +1137,7 @@ scg_set_panes (SheetControl *sc)
 		int i;
 		for (i = 1 ; i <= 3 ; i++)
 			if (scg->pane[i]) {
-				gtk_object_destroy (GTK_OBJECT (scg->pane[i]));
+				gtk_widget_destroy (GTK_WIDGET (scg->pane[i]));
 				scg->pane[i] = NULL;
 			}
 
@@ -1681,7 +1681,7 @@ scg_finalize (GObject *object)
 	}
 
 	if (scg->table) {
-		gtk_object_destroy (GTK_OBJECT (scg->table));
+		gtk_widget_destroy (GTK_WIDGET (scg->table));
 		g_object_unref (scg->table);
 		scg->table = NULL;
 	}
@@ -3013,7 +3013,7 @@ scg_comment_unselect (SheetControlGUI *scg, GnmComment *cc)
 		scg_comment_timer_clear (scg);
 
 		if (scg->comment.item != NULL) {
-			gtk_object_destroy (GTK_OBJECT (scg->comment.item));
+			gtk_widget_destroy (scg->comment.item);
 			scg->comment.item = NULL;
 		}
 	}

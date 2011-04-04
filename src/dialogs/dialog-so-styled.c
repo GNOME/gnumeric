@@ -81,7 +81,7 @@ cb_dialog_so_styled_response (GtkWidget *dialog,
 		pango_attr_list_unref (pref->orig_attributes);
 		pref->orig_attributes = NULL;
 	}
-	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 static void

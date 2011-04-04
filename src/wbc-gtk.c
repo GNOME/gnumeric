@@ -709,7 +709,7 @@ cb_sheet_label_drag_end (GtkWidget *widget, GdkDragContext *context,
 
 	/* Destroy the arrow. */
 	arrow = g_object_get_data (G_OBJECT (widget), "arrow");
-	gtk_object_destroy (GTK_OBJECT (arrow));
+	gtk_widget_destroy (arrow);
 	g_object_unref (arrow);
 	g_object_set_data (G_OBJECT (widget), "arrow", NULL);
 }
@@ -5321,7 +5321,7 @@ wbc_gtk_finalize (GObject *obj)
 	gtk_window_set_focus (wbcg_toplevel (wbcg), NULL);
 
 	if (wbcg->toplevel != NULL) {
-		gtk_object_destroy (GTK_OBJECT (wbcg->toplevel));
+		gtk_widget_destroy (wbcg->toplevel);
 		wbcg->toplevel = NULL;
 	}
 
