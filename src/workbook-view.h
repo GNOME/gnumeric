@@ -44,7 +44,7 @@ struct _WorkbookView {
 };
 
 typedef struct {
-	GObjectClass   gtk_object_class;
+	GObjectClass   base_class;
 	void (*sheet_entered) (Sheet *sheet);
 } WorkbookViewClass;
 
