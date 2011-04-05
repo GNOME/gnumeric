@@ -1,3 +1,7 @@
+2011-04-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-define-names.c (name_guru_init): use the correct key
+
 2011-03-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.14

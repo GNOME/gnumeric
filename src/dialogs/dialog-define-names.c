@@ -1260,7 +1260,8 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 
 	/* a candidate for merging into attach guru */
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
-			       DEFINE_NAMES_KEY);
+			       is_paste_dialog ? PASTE_NAMES_KEY 
+			       : DEFINE_NAMES_KEY);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
 
