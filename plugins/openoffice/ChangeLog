@@ -1,3 +1,9 @@
+2011-04-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_interpolation_attribute):
+	only include foreign attribute values if asked to do
+	(odf_write_axis_style): ditto
+
 2011-03-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.14

@@ -5067,12 +5067,14 @@ odf_write_interpolation_attribute (GnmOOExport *state, GOStyle const *style, Gog
 			gsf_xml_out_add_cstr
 				(state->xml, CHART "interpolation",
 				 "cubic-spline");
-		else {
+		else if (state->with_extension) {
 			char *tag = g_strdup_printf ("gnm:%s", interpolation);
 			gsf_xml_out_add_cstr
 				(state->xml, CHART "interpolation", tag);
 			g_free (tag);
-		}
+		} else
+			gsf_xml_out_add_cstr
+				(state->xml, CHART "interpolation", "none");
 	}
 
 	g_free (interpolation);
@@ -5158,18 +5160,22 @@ odf_write_plot_style (GnmOOExport *state, GogObject const *plot)
 
 	if (state->with_extension) {
 		if (0 == strcmp ( "XLSurfacePlot", plot_type))
-			odf_add_bool (state->xml, GNMSTYLE "multi-series", TRUE);
+			odf_add_bool (state->xml, GNMSTYLE "multi-series", 
+				      TRUE);
 		odf_write_plot_style_bool (state->xml, plot, klass,
-				   "outliers", GNMSTYLE "outliers");
+					   "outliers", GNMSTYLE "outliers");
 
-	odf_write_plot_style_double (state->xml, plot, klass,
-				     "radius-ratio", GNMSTYLE "radius-ratio");
-
-	odf_write_plot_style_bool (state->xml, plot, klass,
-				   "vary-style-by-element", GNMSTYLE "vary-style-by-element");
-
-	odf_write_plot_style_bool (state->xml, plot, klass,
-				   "show-negatives", GNMSTYLE "show-negatives");
+		odf_write_plot_style_double (state->xml, plot, klass,
+					     "radius-ratio", GNMSTYLE 
+					     "radius-ratio");
+		
+		odf_write_plot_style_bool (state->xml, plot, klass,
+					   "vary-style-by-element", 
+					   GNMSTYLE "vary-style-by-element");
+		
+		odf_write_plot_style_bool (state->xml, plot, klass,
+				   "show-negatives", 
+					   GNMSTYLE "show-negatives");
 	}
 
 
@@ -5236,7 +5242,7 @@ odf_write_axis_style (GnmOOExport *state, GOStyle const *style, GogObject const 
 		odf_write_plot_style_bool
 			(state->xml, axis, klass,
 			 "invert-axis", CHART "reverse-direction");
-	else
+	else if (state->with_extension)
 		odf_write_plot_style_bool
 			(state->xml, axis, klass,
 			 "invert-axis", GNMSTYLE "reverse-direction");
