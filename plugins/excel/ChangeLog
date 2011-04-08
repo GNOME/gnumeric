@@ -1,3 +1,8 @@
+2011-04-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* xlsx-read-drawing.c: import some legacy drwawings.
+	* xlsx-read.c: ditto.
+
 2011-04-04  Morten Welinder  <terra@gnome.org>
 
 	* ms-obj.c (ms_obj_read_pre_biff8_obj): Improve record length

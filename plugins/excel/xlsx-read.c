@@ -177,7 +177,12 @@ typedef struct {
 	SheetObject	   *so;
 	gint64		    drawing_pos[8];
 	int		    drawing_pos_flags;
+	GnmExprTop const *link_texpr;
 
+	/* Legacy drawing state */
+	double		  grp_offset[4];
+	GSList		 *grp_stack;
+	
 	/* Charting state */
 	GogGraph	 *graph;
 	GogChart	 *chart;
