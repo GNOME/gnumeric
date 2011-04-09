@@ -4773,6 +4773,36 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-ATL_LAST">
+      <refmeta>
+        <refentrytitle>
+          <function>ATL_LAST</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>ATL_LAST</function>
+        </refname>
+        <refpurpose>
+        sample real-time data source
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ATL_LAST</function>(<parameter>tag</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>tag</parameter>: tag to watch</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para><function>ATL_LAST</function> is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>This is not intended to be generally enabled and is OFF by default.</para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-COUPDAYBS">
       <refmeta>
         <refentrytitle>
@@ -18993,11 +19023,17 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>The data points given in <parameter>array</parameter> are assumed to be the result of grouping data into intervals of length <parameter>interval</parameter></para>
+        <para>The data is assumed to be grouped into intervals of width <parameter>interval</parameter>. Each data point in <parameter>array</parameter> is the midpoint of the interval containing the true data value. The median is calculated by interpolation within the median interval (the interval containing the median value), assuming that the true values within that interval are distributed uniformly:</para>
+        <para>median = L + <parameter>interval</parameter>*(N/2 - CF)/F</para>
+        <para>where:</para>
+        <para>L = the lower limit of the median interval</para>
+        <para>N = the total number of data points</para>
+        <para>CF = the number of data points below the median interval</para>
+        <para>F = the number of data points in the median interval</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>array</parameter> is empty, this function returns a #NUM! error. If <parameter>interval</parameter> &lt;= 0, this function returns a #NUM! error.<function>SSMEDIAN</function> does not check whether the data points are at least <parameter>interval</parameter> apart.</para>
+        <para>If <parameter>array</parameter> is empty, this function returns a #NUM! error. If <parameter>interval</parameter> &lt;= 0, this function returns a #NUM! error. <function>SSMEDIAN</function> does not check whether the data points are at least <parameter>interval</parameter> apart.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>

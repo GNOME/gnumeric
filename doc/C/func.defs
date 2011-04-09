@@ -1378,6 +1378,14 @@ The depreciation coefficient used is:
 @SEEALSO=AMORDEGRC
 
 @CATEGORY=Finance
+@FUNCTION=ATL_LAST
+@SHORTDESC=sample real-time data source
+@SYNTAX=ATL_LAST(tag)
+@ARGUMENTDESCRIPTION=@{tag}: tag to watch
+@DESCRIPTION=ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.
+@NOTE=This is not intended to be generally enabled and is OFF by default.
+
+@CATEGORY=Finance
 @FUNCTION=COUPDAYBS
 @SHORTDESC=number of days from coupon period to settlement
 @SYNTAX=COUPDAYBS(settlement,maturity,frequency,basis,eom)
@@ -5538,8 +5546,14 @@ If the data set does not contain any duplicates this function returns a #N/A err
 @SYNTAX=SSMEDIAN(array,interval)
 @ARGUMENTDESCRIPTION=@{array}: data set
 @{interval}: length of each grouping interval, defaults to 1
-@DESCRIPTION=The data points given in @{array} are assumed to be the result of grouping data into intervals of length @{interval}
-@NOTE=If @{array} is empty, this function returns a #NUM! error. If @{interval} <= 0, this function returns a #NUM! error.SSMEDIAN does not check whether the data points are at least @{interval} apart.
+@DESCRIPTION=The data is assumed to be grouped into intervals of width @{interval}. Each data point in @{array} is the midpoint of the interval containing the true data value. The median is calculated by interpolation within the median interval (the interval containing the median value), assuming that the true values within that interval are distributed uniformly:
+median = L + @{interval}*(N/2 - CF)/F
+where:
+L = the lower limit of the median interval
+N = the total number of data points
+CF = the number of data points below the median interval
+F = the number of data points in the median interval
+@NOTE=If @{array} is empty, this function returns a #NUM! error. If @{interval} <= 0, this function returns a #NUM! error. SSMEDIAN does not check whether the data points are at least @{interval} apart.
 @SEEALSO=MEDIAN
 
 @CATEGORY=Statistics

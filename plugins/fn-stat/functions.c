@@ -2051,17 +2051,27 @@ gnumeric_median (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ssmedian[] = {
-	{ GNM_FUNC_HELP_NAME, F_("SSMEDIAN:median for grouped data as commonly determined in the social sciences")},
+	{ GNM_FUNC_HELP_NAME, F_("SSMEDIAN:median for grouped data")},
 	{ GNM_FUNC_HELP_ARG, F_("array:data set")},
 	{ GNM_FUNC_HELP_ARG, F_("interval:length of each grouping interval, defaults to 1")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("The data points given in @{array} are assumed to be the result of "
-	   "grouping data into intervals of length @{interval}") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The data are assumed to be grouped into intervals of width @{interval}. "
+					"Each data point in @{array} is the midpoint of the interval containing the true value. "
+					"The median is calculated by interpolation within the median interval "
+					"(the interval containing the median value), "
+					"assuming that the true values within that interval are distributed uniformly:\n"
+					"median = L + @{interval}*(N/2 - CF)/F\n"
+					"where:\n"
+					"L = the lower limit of the median interval\n"
+					"N = the total number of data points\n"
+					"CF = the number of data points below the median interval\n"
+					"F = the number of data points in the median interval") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{array} is empty, this function returns a #NUM! error.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{interval} <= 0, this function returns a #NUM! error."
+	{ GNM_FUNC_HELP_NOTE, F_("If @{interval} <= 0, this function returns a #NUM! error. "
 	   "SSMEDIAN does not check whether the data points are "
 	   "at least @{interval} apart.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, A3 contain numbers 7, 8, 8.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SSMEDIAN(A1:A3, 1) equals 7.75.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=SSMEDIAN(ARRAY(7,7,8,9), 1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=SSMEDIAN(ARRAY(7,7,8,8,9), 1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=SSMEDIAN(ARRAY(7,7,8,8,8,9), 1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "MEDIAN"},
 	{ GNM_FUNC_HELP_END }
 };

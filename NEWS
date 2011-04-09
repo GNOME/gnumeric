@@ -2,6 +2,7 @@ Gnumeric 1.10.15
 
 Andreas:
 	* Fix shift-arrow movement for sheet objects. [#645805]
+	* Expand the description of SSMEDIAN. [#647247]
 
 Morten:
 	* Fix problems with localized function docs.
