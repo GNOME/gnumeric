@@ -2124,7 +2124,7 @@ gnumeric_ssmedian (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			gnm_float m1 = data[n / 2];
 			gnm_float m0 = data[n / 2 - 1];
 			result = value_new_float
-				(m1 == m1
+				(m0 == m1
 				 ? gnumeric_ssmedian_calc (data, n,
 							   m1, interval)
 				 : (m0 + m1) / 2);
