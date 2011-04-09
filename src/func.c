@@ -1429,7 +1429,7 @@ gnm_func_get_arg_description (GnmFunc const *fn_def, guint arg_idx)
 
 		if (fn_def->help[i].type != GNM_FUNC_HELP_ARG)
 			continue;
-		if (--arg_idx)
+		if (arg_idx--)
 			continue;
 
 		desc = strchr (F2 (fn_def, fn_def->help[i].text), ':');

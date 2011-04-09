@@ -1,3 +1,8 @@
+2011-04-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/func.c (gnm_func_get_arg_description): fix zero-based index 
+	counting, fixes #647240
+	
 2011-04-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet.c (sheet_range_contains_region): formulas ->formul\303\246
