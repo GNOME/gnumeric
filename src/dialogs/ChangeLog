@@ -1,3 +1,16 @@
+2011-04-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* autofilter-top10.ui: redesign
+	* dialog-autofilter.c (type_group): new
+	(autofilter_get_type): new
+	(cb_autofilter_ok): access radio buttons
+	(cb_top10_count_changed): new
+	(cb_autofilter_ok): access radio buttons
+	(cb_top10_type_changed): use autofilter_get_type
+	(dialog_auto_filter_get_col_name): new
+	(dialog_auto_filter): split into dialog_auto_filter and
+	(dialog_auto_filter_expression): extracted from dialog_auto_filter
+
 2011-04-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-define-names.c (name_guru_init): use the correct key

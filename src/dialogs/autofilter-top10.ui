@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
@@ -41,11 +41,9 @@
     <property name="title" translatable="yes">Gnumeric : AutoFilter</property>
     <property name="window_position">mouse</property>
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="col-label">
@@ -65,12 +63,7 @@
             <child>
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Show:</property>
-                <accessibility>
-                  <relation type="label-for" target="top_vs_bottom_option_menu"/>
-                  <relation type="label-for" target="item_vs_percentage_option_menu"/>
-                  <relation type="label-for" target="item_count"/>
-                </accessibility>
+                <property name="label" translatable="yes">Count or percentage:</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -79,75 +72,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkAlignment" id="alignment1">
-                <property name="visible">True</property>
-                <property name="yscale">0</property>
-                <child>
-                  <object class="GtkComboBox" id="top_vs_bottom_option_menu">
-                    <property name="visible">True</property>
-                    <property name="model">model1</property>
-                    <accessibility>
-                      <relation type="labelled-by" target="label1"/>
-                      <relation type="label-for" target="item_vs_percentage_option_menu"/>
-                      <relation type="label-for" target="item_count"/>
-                    </accessibility>
-                    <child>
-                      <object class="GtkCellRendererText" id="renderer1"/>
-                      <attributes>
-                        <attribute name="text">0</attribute>
-                      </attributes>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkSpinButton" id="item_count">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="adjustment">adjustment1</property>
                 <property name="climb_rate">1</property>
-                <accessibility>
-                  <relation type="labelled-by" target="top_vs_bottom_option_menu"/>
-                  <relation type="labelled-by" target="label1"/>
-                  <relation type="label-for" target="item_vs_percentage_option_menu"/>
-                </accessibility>
               </object>
               <packing>
-                <property name="position">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkAlignment" id="alignment2">
-                <property name="visible">True</property>
-                <property name="yscale">0</property>
-                <child>
-                  <object class="GtkComboBox" id="item_vs_percentage_option_menu">
-                    <property name="visible">True</property>
-                    <property name="model">model2</property>
-                    <accessibility>
-                      <relation type="labelled-by" target="top_vs_bottom_option_menu"/>
-                      <relation type="labelled-by" target="label1"/>
-                      <relation type="labelled-by" target="item_count"/>
-                    </accessibility>
-                    <child>
-                      <object class="GtkCellRendererText" id="renderer2"/>
-                      <attributes>
-                        <attribute name="text">0</attribute>
-                      </attributes>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">3</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </object>
@@ -155,6 +87,65 @@
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkRadioButton" id="items-largest">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="active">True</property>
+            <property name="draw_indicator">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkRadioButton" id="items-smallest">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="active">True</property>
+            <property name="draw_indicator">True</property>
+            <property name="group">items-largest</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkRadioButton" id="percentage-largest">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="active">True</property>
+            <property name="draw_indicator">True</property>
+            <property name="group">items-largest</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkRadioButton" id="percentage-smallest">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="active">True</property>
+            <property name="draw_indicator">True</property>
+            <property name="group">items-largest</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">6</property>
           </packing>
         </child>
         <child internal-child="action_area">
