@@ -1,5 +1,10 @@
 2011-04-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-autofilter.c (cb_top10_count_changed): clarify the meaning of the 
+	percentage option
+
+2011-04-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* autofilter-top10.ui: redesign
 	* dialog-autofilter.c (type_group): new
 	(autofilter_get_type): new

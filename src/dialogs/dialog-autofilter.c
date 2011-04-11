@@ -217,21 +217,21 @@ cb_top10_count_changed (GtkSpinButton *button,
 		val = 100;
 
 	w = go_gtk_builder_get_widget (state->gui, type_group[2]);
-	/* xgettext : %d gives the percentage of items in the autofilter. */
+	/* xgettext : %d gives the percentage of the data range in the autofilter. */
 	/* This is input to ngettext. */
 	label = g_strdup_printf 
-		(ngettext ("Show the largest %3d%% of the items", 
-			   "Show the largest %3d%% of the items", val), 
+		(ngettext ("Show the items in the top %3d%% of the data range", 
+			   "Show the items in the top %3d%% of the data range", val), 
 		 val);
 	gtk_button_set_label (GTK_BUTTON (w),label);
 	g_free(label);
 
 	w = go_gtk_builder_get_widget (state->gui, type_group[3]);
-	/* xgettext : %d gives the percentage of items in the autofilter. */
+	/* xgettext : %d gives the percentage of the data range in the autofilter. */
 	/* This is input to ngettext. */
 	label = g_strdup_printf 
-		(ngettext ("Show the smallest %3d%% of the items", 
-			   "Show the smallest %3d%% of the items", val), 
+		(ngettext ("Show the items in the bottom %3d%% of the data range", 
+			   "Show the items in the bottom %3d%% of the data range", val), 
 		 val);
 	gtk_button_set_label (GTK_BUTTON (w),label);
 	g_free(label);
