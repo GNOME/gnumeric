@@ -5912,7 +5912,8 @@ wbc_gtk_init (GObject *obj)
 	/* updates the undo/redo menu labels before check_underlines
 	 * to avoid problems like #324692. */
 	wb_control_undo_redo_labels (WORKBOOK_CONTROL (wbcg), NULL, NULL);
-	if (GNM_VERSION_MAJOR % 2) {
+	if (GNM_VERSION_MAJOR % 2 != 0 ||
+	    gnm_debug_flag ("underlines")) {
 		gtk_container_foreach (GTK_CONTAINER (wbcg->menu_zone),
 				       (GtkCallback)check_underlines,
 				       (gpointer)"");
