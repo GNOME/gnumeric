@@ -15606,7 +15606,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2470
 #, fuzzy
-msgid "_Wilcoxon-Mann-Whitney Test..."
+msgid "Wilcoxon-_Mann-Whitney Test..."
 msgstr "Prueba-t (%s)"
 
 #: ../src/wbc-gtk-actions.c:2471

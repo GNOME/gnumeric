@@ -1,3 +1,8 @@
+2011-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* *.po: change "_Wilcoxon-Mann-Whitney Test..." to
+	"Wilcoxon-_Mann-Whitney Test..."
+
 2011-04-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* lv.po: revert some of the previous changes

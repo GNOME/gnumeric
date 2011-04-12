@@ -1,3 +1,8 @@
+2011-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk-actions.c (actions): change 
+	"_Wilcoxon-Mann-Whitney Test..." to "Wilcoxon-_Mann-Whitney Test..."
+
 2011-04-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/func.c (gnm_func_get_arg_description): fix zero-based index 

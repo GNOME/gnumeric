@@ -15863,7 +15863,7 @@ msgid "Comparing the values of two medians of paired observations"
 msgstr "Porovnání hodnot dvou mediánů párových pozorovaných hodnot"
 
 #: ../src/wbc-gtk-actions.c:2474
-msgid "_Wilcoxon-Mann-Whitney Test..."
+msgid "Wilcoxon-_Mann-Whitney Test..."
 msgstr "_Wilcoxonův-Mannův-Whitheyův test…"
 
 #: ../src/wbc-gtk-actions.c:2475

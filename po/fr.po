@@ -15552,7 +15552,7 @@ msgid "Comparing the values of two medians of paired observations"
 msgstr "Compare les valeurs de deux médianes d'observations appairées"
 
 #: ../src/wbc-gtk-actions.c:2470
-msgid "_Wilcoxon-Mann-Whitney Test..."
+msgid "Wilcoxon-_Mann-Whitney Test..."
 msgstr "Test de _Wilcoxon-Mann-Whitney..."
 
 #: ../src/wbc-gtk-actions.c:2471

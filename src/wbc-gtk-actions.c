@@ -2471,7 +2471,7 @@ static GtkActionEntry const actions[] = {
 	{ "ToolsTwoMedianWilcoxonSignedRank", NULL, N_("_Wilcoxon Signed Rank Test..."),
 		NULL, N_("Comparing the values of two medians of paired observations"),
 		G_CALLBACK (cb_tools_wilcoxon_signed_rank_two_medians) },
-	{ "ToolsTwoMedianWilcoxonMannWhitney", NULL, N_("_Wilcoxon-Mann-Whitney Test..."),
+	{ "ToolsTwoMedianWilcoxonMannWhitney", NULL, N_("Wilcoxon-_Mann-Whitney Test..."),
 		NULL, N_("Comparing the values of two medians of unpaired observations"),
 		G_CALLBACK (cb_tools_wilcoxon_mann_whitney) },
 
