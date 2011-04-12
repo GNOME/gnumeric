@@ -49,6 +49,8 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
+#include <dead-kittens.h>
+
 #define SHEET_ORDER_KEY          "sheet-order-dialog"
 
 typedef struct {
@@ -1469,26 +1471,21 @@ dialog_sheet_order (WBCGtk *wbcg)
 	state->cancel_btn  = go_gtk_builder_get_widget (gui, "cancel_button");
 	state->advanced_check  = go_gtk_builder_get_widget (gui, "advanced-check");
 	state->initial_colors_set = FALSE;
-	state->image_padlock =  gtk_widget_render_icon (state->dialog,
+	state->image_padlock =  gtk_widget_render_icon_pixbuf (state->dialog,
                                              "Gnumeric_Protection_Yes",
-                                             GTK_ICON_SIZE_LARGE_TOOLBAR,
-                                             "Gnumeric-Sheet-Manager");
-	state->image_padlock_no =  gtk_widget_render_icon (state->dialog,
+                                             GTK_ICON_SIZE_LARGE_TOOLBAR);
+	state->image_padlock_no =  gtk_widget_render_icon_pixbuf (state->dialog,
                                              "Gnumeric_Protection_No",
-                                             GTK_ICON_SIZE_LARGE_TOOLBAR,
-                                             "Gnumeric-Sheet-Manager");
-	state->image_visible = gtk_widget_render_icon (state->dialog,
+                                             GTK_ICON_SIZE_LARGE_TOOLBAR);
+	state->image_visible = gtk_widget_render_icon_pixbuf (state->dialog,
                                              "Gnumeric_Visible",
-                                             GTK_ICON_SIZE_LARGE_TOOLBAR,
-                                             "Gnumeric-Sheet-Manager");
-	state->image_ltr =  gtk_widget_render_icon (state->dialog,
+                                             GTK_ICON_SIZE_LARGE_TOOLBAR);
+	state->image_ltr =  gtk_widget_render_icon_pixbuf (state->dialog,
                                              "gtk-go-forward",
-                                             GTK_ICON_SIZE_LARGE_TOOLBAR,
-                                             "Gnumeric-Sheet-Manager");
-	state->image_rtl =  gtk_widget_render_icon (state->dialog,
+                                             GTK_ICON_SIZE_LARGE_TOOLBAR);
+	state->image_rtl =  gtk_widget_render_icon_pixbuf (state->dialog,
                                              "gtk-go-back",
-                                             GTK_ICON_SIZE_LARGE_TOOLBAR,
-                                             "Gnumeric-Sheet-Manager");
+                                             GTK_ICON_SIZE_LARGE_TOOLBAR);
 	/* Listen for changes in the sheet order. */
 	state->sheet_order_changed_listener = g_signal_connect (G_OBJECT (wb),
 		"sheet_order_changed", G_CALLBACK (cb_sheet_order_changed),

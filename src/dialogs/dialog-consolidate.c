@@ -45,6 +45,8 @@
 
 #include <string.h>
 
+#include <dead-kittens.h>
+
 #define CONSOLIDATE_KEY            "consolidate-dialog"
 
 enum {
@@ -503,11 +505,10 @@ dialog_consolidate_tool_init (ConsolidateState *state)
 	state->areas_index = -1;
 
 	setup_widgets (state, state->base.gui);
-	state->pixmap =  gtk_widget_render_icon
+	state->pixmap =  gtk_widget_render_icon_pixbuf
 		(GTK_WIDGET(state->base.dialog),
 		 "Gnumeric_ExprEntry",
-		 GTK_ICON_SIZE_LARGE_TOOLBAR,
-		 "Gnumeric-Consolidate-Dialog");
+		 GTK_ICON_SIZE_LARGE_TOOLBAR);
 
 	/* Dynamic initialization */
 	cb_source_changed (NULL, state);

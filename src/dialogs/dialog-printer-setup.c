@@ -1139,9 +1139,9 @@ hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer,
 		gtk_text_buffer_get_iter_at_mark
 			(buffer, &iter, gtk_text_buffer_get_insert (buffer));
 
-		pix = gtk_widget_render_icon (GTK_WIDGET (hf_state->dialog),
+		pix = gtk_widget_render_icon_pixbuf (GTK_WIDGET (hf_state->dialog),
 					      stock_id,
-					      GTK_ICON_SIZE_MENU, NULL);
+					      GTK_ICON_SIZE_MENU);
 		gtk_text_buffer_insert_pixbuf (buffer, &iter, pix);
 		gtk_text_iter_backward_char (&iter);
 		new_mark = gtk_text_buffer_create_mark (buffer, NULL,

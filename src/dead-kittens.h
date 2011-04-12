@@ -87,6 +87,10 @@
 #define gtk_selection_data_get_target(_s_) ((_s_)->target)
 #endif
 
+#ifndef HAVE_GTK_WIDGET_RENDER_ICON_PIXBUF
+#define gtk_widget_render_icon_pixbuf(_w_,_sid_,_size_) gtk_widget_render_icon((_w_),(_sid_),(_size_),NULL)
+#endif
+
 #ifndef HAVE_GTK_WIDGET_SET_VISIBLE
 #define gtk_widget_set_visible(_w_,_v_) do { if (_v_) gtk_widget_show (_w_); else gtk_widget_hide (_w_); } while (0)
 #endif

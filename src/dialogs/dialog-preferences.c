@@ -87,9 +87,8 @@ dialog_pref_add_item (PrefState *state, char const *page_name,
 	GdkPixbuf * icon = NULL;
 
 	if (icon_name != NULL)
-		icon = gtk_widget_render_icon (state->dialog, icon_name,
-					       GTK_ICON_SIZE_MENU,
-					       "Gnumeric-Preference-Dialog");
+		icon = gtk_widget_render_icon_pixbuf (state->dialog, icon_name,
+					       GTK_ICON_SIZE_MENU);
 	if ((parent_path != NULL) && gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (state->store),
 									  &parent, parent_path))
 		gtk_tree_store_append (state->store, &iter, &parent);

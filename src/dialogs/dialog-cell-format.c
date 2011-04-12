@@ -272,7 +272,7 @@ static int fmt_dialog_currency = 0;
  */
 static void
 cb_page_select (G_GNUC_UNUSED GtkNotebook *notebook,
-		G_GNUC_UNUSED GtkNotebookPage *page,
+		G_GNUC_UNUSED GtkWidget *page,
 		gint page_num,
 		G_GNUC_UNUSED	gpointer user_data)
 {
@@ -1776,26 +1776,26 @@ build_validation_error_combo (GtkComboBox *box)
 			    1, _("None          (silently accept invalid input)"),
 			    -1);
 
-	pixbuf = gtk_widget_render_icon (GTK_WIDGET (box), GTK_STOCK_STOP,
-					 GTK_ICON_SIZE_BUTTON, NULL);
+	pixbuf = gtk_widget_render_icon_pixbuf (GTK_WIDGET (box), GTK_STOCK_STOP,
+					 GTK_ICON_SIZE_BUTTON);
 	gtk_list_store_append (store, &iter);
 	gtk_list_store_set (store, &iter,
 			    0, pixbuf,
 			    1, _("Stop            (never allow invalid input)"),
 			    -1);
 
-	pixbuf = gtk_widget_render_icon (GTK_WIDGET (box),
+	pixbuf = gtk_widget_render_icon_pixbuf (GTK_WIDGET (box),
 					 GTK_STOCK_DIALOG_WARNING,
-					 GTK_ICON_SIZE_BUTTON, NULL);
+					 GTK_ICON_SIZE_BUTTON);
 	gtk_list_store_append (store, &iter);
 	gtk_list_store_set (store, &iter,
 			    0, pixbuf,
 			    1, _("Warning     (accept/discard invalid input)"),
 			    -1);
 
-	pixbuf = gtk_widget_render_icon (GTK_WIDGET (box),
+	pixbuf = gtk_widget_render_icon_pixbuf (GTK_WIDGET (box),
 					 GTK_STOCK_DIALOG_INFO,
-					 GTK_ICON_SIZE_BUTTON, NULL);
+					 GTK_ICON_SIZE_BUTTON);
 	gtk_list_store_append (store, &iter);
 	gtk_list_store_set (store, &iter,
 			    0, pixbuf,

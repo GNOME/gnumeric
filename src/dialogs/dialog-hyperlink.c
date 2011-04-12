@@ -44,6 +44,8 @@
 
 #include <string.h>
 
+#include <dead-kittens.h>
+
 typedef struct {
 	WBCGtk  *wbcg;
 	Workbook  *wb;
@@ -516,8 +518,8 @@ dhl_init (HyperlinkState *state)
 	g_object_unref (store);
 
 	for (i = 0 ; i < G_N_ELEMENTS (type); i++) {
-		pixbuf = gtk_widget_render_icon (w, type[i].image_name,
-						 GTK_ICON_SIZE_MENU, NULL);
+		pixbuf = gtk_widget_render_icon_pixbuf (w, type[i].image_name,
+						 GTK_ICON_SIZE_MENU);
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
 				    0, pixbuf,
