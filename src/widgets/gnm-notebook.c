@@ -8406,9 +8406,7 @@ cb_label_visibility (GtkWidget *label,
 		     G_GNUC_UNUSED GParamSpec *pspec,
 		     GtkWidget *dummy)
 {
-	g_object_set (GTK_OBJECT (dummy),
-		      "visible", gtk_widget_get_visible (label),
-		      NULL);
+	gtk_widget_set_visible (dummy, gtk_widget_get_visible (label));
 }
 
 void

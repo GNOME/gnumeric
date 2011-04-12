@@ -335,7 +335,7 @@ dialog_search_replace (WBCGtk *wbcg,
 	g_signal_connect (G_OBJECT (go_gtk_builder_get_widget (gui, "cancel_button")),
 		"clicked",
 		G_CALLBACK (cancel_clicked), dd);
-	g_signal_connect (GTK_OBJECT (gnm_expr_entry_get_entry (dd->rangetext)),
+	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (dd->rangetext)),
 		"focus-in-event",
 		G_CALLBACK (range_focused), dd);
 
