@@ -4,6 +4,9 @@
 #include <gutils.h>
 
 /* To be included only from C files, not headers.  */
+#ifndef HAVE_GDK_WINDOW_GET_SCREEN
+#define gdk_window_get_screen gdk_drawable_get_screen
+#endif
 
 #ifndef HAVE_GTK_CELL_RENDERER_GET_ALIGNMENT
 #define gtk_cell_renderer_get_alignment(_cr_,_px_,_py_) do {	\
