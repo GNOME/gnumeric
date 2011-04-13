@@ -29,6 +29,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
+#include <dead-kittens.h>
 
 struct _GnmTextView {
 	GtkVBox	parent;
@@ -271,12 +272,12 @@ gtv_build_button_bold (GtkWidget *tb, GnmTextView *gtv)
 
 /* Object routines */
 
-static GtkObjectClass *parent_class = NULL;
+static GObjectClass *parent_class = NULL;
 
 static void
-gtv_destroy (GtkObject *object)
+gtv_destroy (GtkWidget *widget)
 {
-	parent_class->destroy (object);
+	gnm_destroy_class_chain (parent_class, widget);
 }
 
 
@@ -376,13 +377,11 @@ gtv_init (GnmTextView *gtv)
 static void
 gtv_class_init (GObjectClass *gobject_class)
 {
-	GtkObjectClass *gtk_object_class = (GtkObjectClass *)gobject_class;
-
 	parent_class = g_type_class_peek_parent (gobject_class);
 
 	gobject_class->set_property	= gtv_set_property;
 	gobject_class->get_property	= gtv_get_property;
-	gtk_object_class->destroy	= gtv_destroy;
+	gnm_destroy_class_set (gobject_class, gtv_destroy);
 
 	signals [CHANGED] = g_signal_new ("changed",
 		GNM_TEXT_VIEW_TYPE,

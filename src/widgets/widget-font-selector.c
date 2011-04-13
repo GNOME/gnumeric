@@ -413,9 +413,9 @@ fs_init (FontSelector *fs)
 }
 
 static void
-fs_destroy (GtkObject *object)
+fs_destroy (GtkWidget *widget)
 {
-	FontSelector *fs = FONT_SELECTOR (object);
+	FontSelector *fs = FONT_SELECTOR (widget);
 
 	if (fs->mstyle) {
 		gnm_style_unref (fs->mstyle);
@@ -433,15 +433,13 @@ fs_destroy (GtkObject *object)
 	g_slist_free (fs->font_sizes);
 	fs->font_sizes = NULL;
 
-	((GtkObjectClass *)fs_parent_class)->destroy (object);
+	gnm_destroy_class_chain (fs_parent_class, widget);
 }
 
 static void
 fs_class_init (GObjectClass *klass)
 {
-	GtkObjectClass *gto_class = (GtkObjectClass *) klass;
-
-	gto_class->destroy = fs_destroy;
+	gnm_destroy_class_set (klass, fs_destroy);
 
 	fs_parent_class = g_type_class_peek (gtk_hbox_get_type ());
 

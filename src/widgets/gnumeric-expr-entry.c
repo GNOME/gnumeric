@@ -217,12 +217,12 @@ gee_rangesel_reset (GnmExprEntry *gee)
 }
 
 static void
-gee_destroy (GtkObject *object)
+gee_destroy (GtkWidget *widget)
 {
-	GnmExprEntry *gee = GNM_EXPR_ENTRY (object);
+	GnmExprEntry *gee = GNM_EXPR_ENTRY (widget);
 	gee_remove_update_timer (gee);
 	gee_detach_scg (gee);
-	parent_class->destroy (object);
+	gnm_destroy_class_chain (parent_class, widget);
 }
 
 static void
@@ -1516,7 +1516,6 @@ gee_go_plot_data_editor_init (GogDataEditorClass *iface)
 static void
 gee_class_init (GObjectClass *gobject_class)
 {
-	GtkObjectClass *gtk_object_class = (GtkObjectClass *)gobject_class;
 	GtkWidgetClass *widget_class = (GtkWidgetClass *)gobject_class;
 
 	parent_class = g_type_class_peek_parent (gobject_class);
@@ -1524,7 +1523,7 @@ gee_class_init (GObjectClass *gobject_class)
 	gobject_class->set_property	= gee_set_property;
 	gobject_class->get_property	= gee_get_property;
 	gobject_class->finalize		= gee_finalize;
-	gtk_object_class->destroy	= gee_destroy;
+	gnm_destroy_class_set (gobject_class, gee_destroy);
 	widget_class->mnemonic_activate = gee_mnemonic_activate;
 
 	signals[UPDATE] = g_signal_new ("update",

@@ -153,13 +153,13 @@ el_entry_activate (GtkEntry *entry, G_GNUC_UNUSED gpointer ignored)
 }
 
 static void
-el_destroy (GtkObject *object)
+el_destroy (GtkWidget *widget)
 {
-	EditableLabel *el = EDITABLE_LABEL (object);
+	EditableLabel *el = EDITABLE_LABEL (widget);
 
 	el_cancel_editing (el);
 
-	((GtkObjectClass *)parent_class)->destroy (object);
+	gnm_destroy_class_chain (parent_class, widget);
 }
 
 static gint
@@ -253,13 +253,13 @@ el_motion_notify (GtkWidget      *widget,
 }
 
 static void
-el_class_init (GtkObjectClass *object_class)
+el_class_init (GObjectClass *object_class)
 {
 	GtkWidgetClass *widget_class;
 
 	parent_class = g_type_class_peek_parent (object_class);
 
-	object_class->destroy = el_destroy;
+	gnm_destroy_class_set (object_class, el_destroy);
 
 	widget_class = (GtkWidgetClass *) object_class;
 	widget_class->button_press_event  = el_button_press_event;

@@ -29,6 +29,7 @@
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
+#include <dead-kittens.h>
 
 struct  _GnmDao {
 	GtkHBox		box;
@@ -105,22 +106,22 @@ gnm_dao_init (GnmDao *gdao)
 }
 
 static void
-gnm_dao_destroy (GtkObject *object)
+gnm_dao_destroy (GtkWidget *widget)
 {
-	GnmDao *gdao = GNM_DAO (object);
+	GnmDao *gdao = GNM_DAO (widget);
 
 	if (gdao->gui) {
 		g_object_unref (G_OBJECT (gdao->gui));
 		gdao->gui = NULL;
 	}
 
-	((GtkObjectClass *)gnm_dao_parent_class)->destroy (object);
+	gnm_destroy_class_chain (gnm_dao_parent_class, widget);
 }
 
 static void
-gnm_dao_class_init (GtkObjectClass *klass)
+gnm_dao_class_init (GObjectClass *klass)
 {
-	klass->destroy = gnm_dao_destroy;
+	gnm_destroy_class_set (klass, gnm_dao_destroy);
 
 	gnm_dao_parent_class = g_type_class_peek (gtk_hbox_get_type ());
 

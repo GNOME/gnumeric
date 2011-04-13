@@ -1522,6 +1522,16 @@
   gnm_object_get_bool ((_cr_), "editable")
 #endif
 
+#ifdef HAVE_GTK_OBJECT_DESTROY
+#define gnm_destroy_class(_class_) ((GtkObjectClass *)(_class_))
+#define gnm_destroy_class_chain(_class_,_obj_) gnm_destroy_class(_class_)->destroy((GtkObject*)(_obj_))
+#define gnm_destroy_class_set(_class_,_func_) gnm_destroy_class(_class_)->destroy = ((void (*)(GtkObject*))(_func_))
+#else
+#define gnm_destroy_class(_class_) ((GtkWidgetClass *)(_class_))
+#define gnm_destroy_class_chain(_class_,_obj_) gnm_destroy_class(_class_)->destroy((GtkWidget*)(_obj_))
+#define gnm_destroy_class_set(_class_,_func_) gnm_destroy_class(_class_)->destroy = (_func_)
+#endif
+
 #ifndef HAVE_GTK_DIALOG_GET_ACTION_AREA
 #define gtk_dialog_get_action_area(x) ((x)->action_area)
 #endif
