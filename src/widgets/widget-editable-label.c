@@ -199,7 +199,7 @@ el_key_press_event (GtkWidget *w, GdkEventKey *event)
 	if (el->unedited_text == NULL)
 		return FALSE;
 
-	if (event->keyval == GDK_Escape) {
+	if (event->keyval == GDK_KEY_Escape) {
 		el_cancel_editing (el);
 		return TRUE;
 	}

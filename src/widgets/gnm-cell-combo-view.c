@@ -152,20 +152,20 @@ static gint
 cb_ccombo_key_press (GtkWidget *popup, GdkEventKey *event, GtkWidget *list)
 {
 	switch (event->keyval) {
-	case GDK_Escape :
+	case GDK_KEY_Escape :
 		ccombo_popup_destroy (list);
 		return TRUE;
 
-	case GDK_KP_Down :
-	case GDK_Down :
-	case GDK_KP_Up :
+	case GDK_KEY_KP_Down :
+	case GDK_KEY_Down :
+	case GDK_KEY_KP_Up :
 		/* fallthrough */
-	case GDK_Up :
+	case GDK_KEY_Up :
 		if (!(event->state & GDK_MOD1_MASK))
 			return FALSE;
 
 	case GDK_KP_Enter :
-	case GDK_Return :
+	case GDK_KEY_Return :
 		ccombo_activate (GTK_TREE_VIEW (list), FALSE);
 		return TRUE;
 	default :

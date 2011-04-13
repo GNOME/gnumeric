@@ -2,6 +2,7 @@
 #define GNUMERIC_GTK_DEAD_KITTENS_H
 
 #include <gutils.h>
+#include <gdk/gdkkeysyms.h>
 
 /* To be included only from C files, not headers.  */
 #ifndef HAVE_GDK_WINDOW_GET_SCREEN
@@ -16,6 +17,9 @@
 #endif
 #ifndef GDK_KEY_Tab
 #define GDK_KEY_Tab GDK_Tab
+#endif
+#ifndef GDK_KEY_ISO_Left_Tab
+#define GDK_KEY_ISO_Left_Tab GDK_ISO_Left_Tab
 #endif
 #ifndef GDK_KEY_Linefeed
 #define GDK_KEY_Linefeed GDK_Linefeed

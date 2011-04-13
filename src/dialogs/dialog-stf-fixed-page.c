@@ -337,25 +337,25 @@ cb_col_key_press (GtkWidget *button,
 
 	if (event->type == GDK_KEY_PRESS) {
 		switch (event->keyval) {
-		case GDK_plus:
-		case GDK_KP_Add:
-		case GDK_greater:
+		case GDK_KEY_plus:
+		case GDK_KEY_KP_Add:
+		case GDK_KEY_greater:
 			widen_column (data, col, FALSE);
 			return TRUE;
 
-		case GDK_minus:
-		case GDK_KP_Subtract:
-		case GDK_less:
+		case GDK_KEY_minus:
+		case GDK_KEY_KP_Subtract:
+		case GDK_KEY_less:
 			narrow_column (data, col, FALSE);
 			return TRUE;
 
-		case GDK_Left:
-		case GDK_Up:
+		case GDK_KEY_Left:
+		case GDK_KEY_Up:
 			select_column (data, col - 1);
 			return TRUE;
 
-		case GDK_Right:
-		case GDK_Down:
+		case GDK_KEY_Right:
+		case GDK_KEY_Down:
 			select_column (data, col + 1);
 			return TRUE;
 

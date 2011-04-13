@@ -214,7 +214,7 @@ static gint
 cb_keyed_dialog_keypress (GtkWidget *dialog, GdkEventKey *event,
 			  G_GNUC_UNUSED gpointer user)
 {
-	if (event->keyval == GDK_Escape) {
+	if (event->keyval == GDK_KEY_Escape) {
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		return TRUE;
 	}

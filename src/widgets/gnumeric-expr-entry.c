@@ -1153,15 +1153,15 @@ cb_gee_key_press_event (GtkEntry	*entry,
 	int state = gnumeric_filter_modifiers (event->state);
 
 	switch (event->keyval) {
-	case GDK_Up:	case GDK_KP_Up:
-	case GDK_Down:	case GDK_KP_Down:
+	case GDK_KEY_Up:	case GDK_KEY_KP_Up:
+	case GDK_KEY_Down:	case GDK_KEY_KP_Down:
 		if (gee->is_cell_renderer)
 			return FALSE;
 		/* Ignore these keys */
 		return TRUE;
-		/* GDK_F2 starts editing */
-		/* GDK_F3 opens the paste names dialog */
-	case GDK_F4: {
+		/* GDK_KEY_F2 starts editing */
+		/* GDK_KEY_F3 opens the paste names dialog */
+	case GDK_KEY_F4: {
 		/* Cycle absolute reference mode through the sequence rel/rel,
 		 * abs/abs, rel/abs, abs/rel and back to rel/rel. Update text
 		 * displayed in entry.
@@ -1229,7 +1229,7 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		return TRUE;
 	}
 
-	case GDK_Escape:
+	case GDK_KEY_Escape:
 		if (gee->is_cell_renderer) {
 			gtk_entry_set_editing_cancelled (entry, TRUE);
 			gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (gee));
@@ -1240,7 +1240,7 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		return TRUE;
 
 	case GDK_KP_Enter:
-	case GDK_Return:
+	case GDK_KEY_Return:
 		if (gee->is_cell_renderer)
 			return FALSE;
 		/* Is this the right way to append a newline ?? */
@@ -1258,9 +1258,9 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		is_enter = TRUE;
 		/* fall through */
 
-	case GDK_Tab:
-	case GDK_ISO_Left_Tab:
-	case GDK_KP_Tab:
+	case GDK_KEY_Tab:
+	case GDK_KEY_ISO_Left_Tab:
+	case GDK_KEY_KP_Tab:
 		/* Tab is only applicable for the main entry */
 		 if (gee->is_cell_renderer || !wbcg_is_editing (wbcg))
 			break;
@@ -1302,8 +1302,8 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		return TRUE;
 	}
 
-	case GDK_KP_Separator:
-	case GDK_KP_Decimal: {
+	case GDK_KEY_KP_Separator:
+	case GDK_KEY_KP_Decimal: {
 		GtkEditable *editable = GTK_EDITABLE (entry);
 		gint start, end, l;
 		GString const* s = go_locale_get_decimal ();
@@ -1316,7 +1316,7 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		return TRUE;
 	}
 
-	case GDK_F9: {
+	case GDK_KEY_F9: {
 		/* Replace selection by its evaluated result.  */
 		GtkEditable *editable = GTK_EDITABLE (entry);
 		gint start, end;

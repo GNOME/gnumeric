@@ -3708,7 +3708,7 @@ get_accel_label (GtkMenuItem *item, guint *key)
 	GList *l;
 	char const *res = NULL;
 
-	*key = GDK_VoidSymbol;
+	*key = GDK_KEY_VoidSymbol;
 	for (l = children; l; l = l->next) {
 		GtkWidget *w = l->data;
 
@@ -3742,7 +3742,7 @@ check_underlines (GtkWidget *w, char const *path)
 			g_free (newpath);
 		}
 
-		if (key != GDK_VoidSymbol) {
+		if (key != GDK_KEY_VoidSymbol) {
 			char const *prev = g_hash_table_lookup (used, GUINT_TO_POINTER (key));
 			if (prev) {
 				/* xgettext: Translators: if this warning shows up when

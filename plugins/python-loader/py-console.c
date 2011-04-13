@@ -54,7 +54,7 @@ cb_delete_app (GtkWidget *caller, GdkEvent *event, gpointer data)
 static gint
 cb_key_event (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
-	if (event->keyval == GDK_w && (event->state & GDK_CONTROL_MASK)) {
+	if (event->keyval == GDK_KEY_w && (event->state & GDK_CONTROL_MASK)) {
 		g_signal_stop_emission_by_name (G_OBJECT (widget),
 						"key_press_event");
 		gtk_widget_destroy (app->win);

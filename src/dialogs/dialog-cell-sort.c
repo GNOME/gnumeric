@@ -867,12 +867,12 @@ cb_treeview_keypress (G_GNUC_UNUSED GtkWidget *w, GdkEventKey *event,
 	GtkTreeIter iter;
 
 	switch (event->keyval) {
-	case GDK_Delete:
-	case GDK_KP_Delete:
+	case GDK_KEY_Delete:
+	case GDK_KEY_KP_Delete:
 		cb_delete_clicked (w, state);
 		return TRUE;
-	case GDK_KP_Up:
-	case GDK_Up:
+	case GDK_KEY_KP_Up:
+	case GDK_KEY_Up:
 		if (ctrl) {
 			cb_up (state);
 			return TRUE;
@@ -884,8 +884,8 @@ cb_treeview_keypress (G_GNUC_UNUSED GtkWidget *w, GdkEventKey *event,
 							&iter);
 		return TRUE;
 
-	case GDK_KP_Down:
-	case GDK_Down:
+	case GDK_KEY_KP_Down:
+	case GDK_KEY_Down:
 		if (ctrl) {
 			cb_down (state);
 			return TRUE;

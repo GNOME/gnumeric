@@ -491,22 +491,22 @@ cb_treeview_key_press (GtkWidget *treeview,
 {
 	if (event->type == GDK_KEY_PRESS) {
 		switch (event->keyval) {
-		case GDK_Left:
-		case GDK_KP_Left:
+		case GDK_KEY_Left:
+		case GDK_KEY_KP_Left:
 			if (pagedata->format.index > 0)
 				activate_column (pagedata,
 						 pagedata->format.index - 1);
 			return TRUE;
 
-		case GDK_Right:
-		case GDK_KP_Right:
+		case GDK_KEY_Right:
+		case GDK_KEY_KP_Right:
 			if (pagedata->format.index + 1 < (int)pagedata->format.formats->len)
 				activate_column (pagedata,
 						 pagedata->format.index + 1);
 			return TRUE;
 
-		case GDK_space:
-		case GDK_Return: {
+		case GDK_KEY_space:
+		case GDK_KEY_Return: {
 			GtkTreeViewColumn *column = stf_preview_get_column
 				(pagedata->format.renderdata,
 				 pagedata->format.index);
