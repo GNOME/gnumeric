@@ -228,7 +228,7 @@ gnm_py_interpreter_selector_new (GOErrorInfo **err)
 	sel->py_object = gnm_python_object_get (err);
 	if (sel->py_object == NULL) {
 		g_object_ref_sink (obj);
-#warning Does this need an unref ?  All other calls did not add the ref beforehand
+		g_object_unref (obj);
 		return NULL;
 	}
 	g_signal_connect (
