@@ -227,12 +227,8 @@ gnm_py_interpreter_selector_new (GOErrorInfo **err)
 	GO_INIT_RET_ERROR_INFO (err);
 	sel->py_object = gnm_python_object_get (err);
 	if (sel->py_object == NULL) {
-#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 		g_object_ref_sink (obj);
 #warning Does this need an unref ?  All other calls did not add the ref beforehand
-#else
-		gtk_object_sink (GTK_OBJECT (obj));
-#endif
 		return NULL;
 	}
 	g_signal_connect (
