@@ -32,6 +32,7 @@
 #include <wbc-gtk.h>
 #include <sheet.h>
 #include <cell.h>
+#include <ranges.h>
 #include <value.h>
 #include <sheet-filter.h>
 #include <number-match.h>
@@ -194,13 +195,20 @@ cb_top10_count_changed (GtkSpinButton *button,
 	int val = 0.5 + gtk_spin_button_get_value (button);
 	GtkWidget *w;
 	gchar *label;
+	int cval = val, count;
+
+	count = range_height(&(state->filter->r)) - 1;
+
+	if (cval > count)
+		cval = count;
 
 	w = go_gtk_builder_get_widget (state->gui, type_group[0]);
 	/* xgettext : %d gives the number of items in the autofilter. */
 	/* This is input to ngettext. */
 	label = g_strdup_printf (ngettext ("Show the largest item", 
-					   "Show the %3d largest items", val), 
-				 val);
+					   "Show the %3d largest items", 
+					   cval), 
+				 cval);
 	gtk_button_set_label (GTK_BUTTON (w),label);
 	g_free(label);
 
@@ -208,8 +216,9 @@ cb_top10_count_changed (GtkSpinButton *button,
 	/* xgettext : %d gives the number of items in the autofilter. */
 	/* This is input to ngettext. */
 	label = g_strdup_printf (ngettext ("Show the smallest item", 
-					   "Show the %3d smallest items", val), 
-				 val);
+					   "Show the %3d smallest items", 
+					   cval), 
+				 cval);
 	gtk_button_set_label (GTK_BUTTON (w),label);
 	g_free(label);
 
@@ -245,11 +254,19 @@ cb_top10_type_changed (G_GNUC_UNUSED GtkToggleButton *button,
 {
 	GnmFilterOp op = autofilter_get_type (state);
 	GtkWidget *spin = go_gtk_builder_get_widget (state->gui, "item_count");
+	GtkWidget *label = go_gtk_builder_get_widget (state->gui, "cp-label");
 
-	gtk_spin_button_set_range (GTK_SPIN_BUTTON (spin), 1.,
-				   (op == GNM_FILTER_OP_TOP_N_PERCENT || 
-				    op == GNM_FILTER_OP_BOTTOM_N_PERCENT) ? 100. 
-				   : 500.);
+	if (op == GNM_FILTER_OP_TOP_N_PERCENT || 
+	    op == GNM_FILTER_OP_BOTTOM_N_PERCENT) {
+		gtk_spin_button_set_range (GTK_SPIN_BUTTON (spin), 1.,
+					   100.);
+		gtk_label_set_text (GTK_LABEL (label), _("Percentage:"));
+	} else {
+		gtk_spin_button_set_range 
+			(GTK_SPIN_BUTTON (spin), 1.,
+			 range_height(&(state->filter->r)) - 1);
+		gtk_label_set_text (GTK_LABEL (label), _("Count:"));
+	}
 }
 
 static void
@@ -490,6 +507,9 @@ dialog_auto_filter (WBCGtk *wbcg,
 			  "value-changed",
 			  G_CALLBACK (cb_top10_count_changed), state);
 	cb_top10_count_changed (GTK_SPIN_BUTTON (w), state);
+	cb_top10_type_changed (NULL, state);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), 
+				   range_height(&(state->filter->r))/2);
 
 	rb = type_group;
 	while (*rb != NULL) {
@@ -500,7 +520,6 @@ dialog_auto_filter (WBCGtk *wbcg,
 		rb++;
 	}
 	
-	cb_top10_type_changed (NULL, state);
 
 	w = go_gtk_builder_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (w),

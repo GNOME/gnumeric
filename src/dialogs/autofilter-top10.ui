@@ -56,40 +56,6 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="hbox1">
-            <property name="visible">True</property>
-            <property name="border_width">6</property>
-            <property name="spacing">12</property>
-            <child>
-              <object class="GtkLabel" id="label1">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">Count or percentage:</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="item_count">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="adjustment">adjustment1</property>
-                <property name="climb_rate">1</property>
-              </object>
-              <packing>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkRadioButton" id="items-largest">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
@@ -100,7 +66,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
-            <property name="position">3</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -115,7 +81,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
-            <property name="position">4</property>
+            <property name="position">3</property>
           </packing>
         </child>
         <child>
@@ -130,7 +96,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
-            <property name="position">5</property>
+            <property name="position">4</property>
           </packing>
         </child>
         <child>
@@ -141,6 +107,40 @@
             <property name="active">True</property>
             <property name="draw_indicator">True</property>
             <property name="group">items-largest</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox1">
+            <property name="visible">True</property>
+            <property name="border_width">6</property>
+            <property name="spacing">12</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkLabel" id="cp-label">
+                <property name="visible">True</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Count or Percentage:</property>
+              </object>
+              <packing>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="item_count">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="adjustment">adjustment1</property>
+                <property name="climb_rate">1</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
