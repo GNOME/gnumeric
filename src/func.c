@@ -1229,6 +1229,9 @@ gnm_func_get_name (GnmFunc const *func, gboolean localized_function_names)
 		g_free (U);
 	}
 
+	if (!func->localized_name)
+		((GnmFunc *)func)->localized_name = g_strdup (func->name);
+
 	return func->localized_name;
 }
 
