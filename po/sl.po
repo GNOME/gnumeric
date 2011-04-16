@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2011-04-11 01:12+0000\n"
-"PO-Revision-Date: 2011-04-16 21:04+0100\n"
+"PO-Revision-Date: 2011-04-16 21:12+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -403,7 +403,7 @@ msgstr "MusicBrainz ID albuma v UUID obliki."
 #: ../plugins/excel/xlsx-read.c:3061
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
-msgstr "Neveljaven zapis barve '%s' za atribut %s"
+msgstr "Neveljaven zapis barve '%s' za atribut rgb"
 
 #: ../plugins/excel/xlsx-read.c:1105
 #: ../plugins/excel/xlsx-read.c:1114
