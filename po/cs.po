@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-04-11 01:12+0000\n"
-"PO-Revision-Date: 2011-04-12 00:28+0200\n"
+"POT-Creation-Date: 2011-04-14 05:57+0000\n"
+"PO-Revision-Date: 2011-04-17 10:13+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -872,7 +872,7 @@ msgid ""
 msgstr "Statistické funkce s pojmenováním a volacími konvencemi z projektu R"
 
 #: ../plugins/fn-r/plugin.xml.in.h:3 ../plugins/fn-stat/plugin.xml.in.h:2
-#: ../src/dialogs/dialog-doc-metadata.c:1599
+#: ../src/dialogs/dialog-doc-metadata.c:1600
 #: ../src/dialogs/descriptive-stats.ui.h:11
 #: ../src/dialogs/doc-meta-data.ui.h:36
 msgid "Statistics"
@@ -1177,7 +1177,7 @@ msgid "Constraint"
 msgstr "Omezení"
 
 #: ../plugins/mps/mps.c:593 ../plugins/mps/mps.c:655
-#: ../src/dialogs/dialog-doc-metadata.c:1295
+#: ../src/dialogs/dialog-doc-metadata.c:1297
 #: ../src/dialogs/dialog-simulation.c:221
 msgid "Value"
 msgstr "Hodnota"
@@ -2142,7 +2142,7 @@ msgstr "Aktivovat nové zásuvné moduly"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:4
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:2
-#: ../src/dialogs/dialog-preferences.c:1046
+#: ../src/dialogs/dialog-preferences.c:1045
 msgid "Allow Unfocused Range Selections"
 msgstr "Povolit nezaměřené výběry oblastí"
 
@@ -2331,7 +2331,7 @@ msgstr "Seznam nedávno použitých funkcí."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:42
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:39
-#: ../src/dialogs/dialog-preferences.c:1051
+#: ../src/dialogs/dialog-preferences.c:1050
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Maximální délka seznamu nedávno použitých funkcí"
 
@@ -2906,7 +2906,7 @@ msgstr "Prodleva automatického přepočítávání výrazů"
 
 #: ../schemas/gnumeric-general.schemas.in.h:2
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:3
-#: ../src/dialogs/dialog-preferences.c:1031
+#: ../src/dialogs/dialog-preferences.c:1030
 msgid "Autocomplete"
 msgstr "Automatické doplňování"
 
@@ -2928,7 +2928,7 @@ msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:5
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:6
-#: ../src/dialogs/dialog-preferences.c:942
+#: ../src/dialogs/dialog-preferences.c:941
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Výchozí úroveň komprimace souborů Gnumeric"
 
@@ -2939,13 +2939,13 @@ msgstr "Výchozí velikost písma"
 
 #: ../schemas/gnumeric-general.schemas.in.h:7
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:8
-#: ../src/dialogs/dialog-preferences.c:830
+#: ../src/dialogs/dialog-preferences.c:829
 msgid "Default Horizontal Window Size"
 msgstr "Výchozí vodorovná velikost okna"
 
 #: ../schemas/gnumeric-general.schemas.in.h:8
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:9
-#: ../src/dialogs/dialog-preferences.c:840
+#: ../src/dialogs/dialog-preferences.c:839
 msgid "Default Number of Sheets"
 msgstr "Výchozí počet listů"
 
@@ -2961,19 +2961,19 @@ msgstr "Výchozí počet řádků v listu"
 
 #: ../schemas/gnumeric-general.schemas.in.h:11
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:12
-#: ../src/dialogs/dialog-preferences.c:953
+#: ../src/dialogs/dialog-preferences.c:952
 msgid "Default To Overwriting Files"
 msgstr "Výchozí je přepisovat soubory"
 
 #: ../schemas/gnumeric-general.schemas.in.h:12
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:13
-#: ../src/dialogs/dialog-preferences.c:825
+#: ../src/dialogs/dialog-preferences.c:824
 msgid "Default Vertical Window Size"
 msgstr "Výchozí svislá velikost okna"
 
 #: ../schemas/gnumeric-general.schemas.in.h:13
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:14
-#: ../src/dialogs/dialog-preferences.c:835
+#: ../src/dialogs/dialog-preferences.c:834
 msgid "Default Zoom Factor"
 msgstr "Výchozí měřítko přiblížení"
 
@@ -2994,7 +2994,7 @@ msgstr "Viditelnost lišty nástrojů Formát"
 
 #: ../schemas/gnumeric-general.schemas.in.h:17
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:19
-#: ../src/dialogs/dialog-preferences.c:992
+#: ../src/dialogs/dialog-preferences.c:991
 msgid "Horizontal DPI"
 msgstr "DPI vodorovně"
 
@@ -3029,7 +3029,7 @@ msgstr "Seznam programů k ukládání souborů se zakázanou kontrolou rozší�
 
 #: ../schemas/gnumeric-general.schemas.in.h:21
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:23
-#: ../src/dialogs/dialog-preferences.c:862
+#: ../src/dialogs/dialog-preferences.c:861
 msgid "Live Scrolling"
 msgstr "Živé posouvání"
 
@@ -3045,19 +3045,19 @@ msgstr "Viditelnost lišty nástrojů Formát – dlouhá"
 
 #: ../schemas/gnumeric-general.schemas.in.h:24
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:26
-#: ../src/dialogs/dialog-preferences.c:753
+#: ../src/dialogs/dialog-preferences.c:752
 msgid "Maximal Undo Size"
 msgstr "Maximální množství operací zpět"
 
 #: ../schemas/gnumeric-general.schemas.in.h:25
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:27
-#: ../src/dialogs/dialog-preferences.c:786
+#: ../src/dialogs/dialog-preferences.c:785
 msgid "Number of Automatic Clauses"
 msgstr "Počet automatických podmínek"
 
 #: ../schemas/gnumeric-general.schemas.in.h:26
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:28
-#: ../src/dialogs/dialog-preferences.c:758
+#: ../src/dialogs/dialog-preferences.c:757
 msgid "Number of Undo Items"
 msgstr "Počet položek zpět"
 
@@ -3111,19 +3111,19 @@ msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:35
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:36
-#: ../src/dialogs/dialog-preferences.c:1041
+#: ../src/dialogs/dialog-preferences.c:1040
 msgid "Show Function Argument Tooltips"
 msgstr "Zobrazovat místní nápovědy s argumenty funkcí"
 
 #: ../schemas/gnumeric-general.schemas.in.h:36
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:37
-#: ../src/dialogs/dialog-preferences.c:1036
+#: ../src/dialogs/dialog-preferences.c:1035
 msgid "Show Function Name Tooltips"
 msgstr "Zobrazovat místní nápovědy s názvy funkcí"
 
 #: ../schemas/gnumeric-general.schemas.in.h:37
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:38
-#: ../src/dialogs/dialog-preferences.c:763
+#: ../src/dialogs/dialog-preferences.c:762
 msgid "Show Sheet Name in Undo List"
 msgstr "Zobrazovat název listu v seznamu operací zpět"
 
@@ -3140,7 +3140,7 @@ msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:39
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:40
-#: ../src/dialogs/dialog-preferences.c:801 ../src/wbc-gtk-actions.c:2592
+#: ../src/dialogs/dialog-preferences.c:800 ../src/wbc-gtk-actions.c:2592
 msgid "Sort Ascending"
 msgstr "Seřadit vzestupně"
 
@@ -3151,7 +3151,7 @@ msgstr "Při řazení rozlišovat velikost písmen"
 
 #: ../schemas/gnumeric-general.schemas.in.h:41
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:42
-#: ../src/dialogs/dialog-preferences.c:791
+#: ../src/dialogs/dialog-preferences.c:790
 msgid "Sorting Preserves Formats"
 msgstr "Při řazení zachovávat formát"
 
@@ -3433,19 +3433,19 @@ msgstr ""
 "vodorovně), icon (ikona) a text (text)."
 
 #: ../schemas/gnumeric-general.schemas.in.h:79
-#: ../src/dialogs/dialog-preferences.c:1026
+#: ../src/dialogs/dialog-preferences.c:1025
 msgid "Transition Keys"
 msgstr "Klávesy pro přechod"
 
 #: ../schemas/gnumeric-general.schemas.in.h:80
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:80
-#: ../src/dialogs/dialog-preferences.c:997
+#: ../src/dialogs/dialog-preferences.c:996
 msgid "Vertical DPI"
 msgstr "DPI svisle"
 
 #: ../schemas/gnumeric-general.schemas.in.h:81
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:81
-#: ../src/dialogs/dialog-preferences.c:958
+#: ../src/dialogs/dialog-preferences.c:957
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Varovat při exportu do formátu s jediným listem"
 
@@ -3513,7 +3513,7 @@ msgstr ""
 
 #: ../schemas/gnumeric-plugins.schemas.in.h:6
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:6
-#: ../src/dialogs/dialog-preferences.c:964
+#: ../src/dialogs/dialog-preferences.c:963
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Používat UTF-8 v exportu do LaTeXu"
 
@@ -4054,7 +4054,7 @@ msgstr "Automatická šířka %s"
 msgid "Autofitting height of %s"
 msgstr "Automatická výška %s"
 
-#: ../src/commands.c:2146 ../src/dialogs/dialog-preferences.c:1182
+#: ../src/commands.c:2146 ../src/dialogs/dialog-preferences.c:1181
 msgid "Sorting"
 msgstr "Seřadit"
 
@@ -4251,7 +4251,7 @@ msgid "Format Object"
 msgstr "Formátovat objekt"
 
 #: ../src/commands.c:4903 ../src/commands.c:5931
-#: ../src/dialogs/dialog-doc-metadata.c:1289
+#: ../src/dialogs/dialog-doc-metadata.c:1291
 #: ../src/dialogs/dialog-formula-guru.c:901
 #: ../src/dialogs/dialog-function-select.c:1219
 #: ../src/dialogs/dialog-scenarios.c:517
@@ -5399,9 +5399,8 @@ msgstr "Nelze vytvořit dialogové okno nástroje Analýzu rozptylu (dva faktory
 
 #. xgettext : %d gives the number of items in the autofilter.
 #. This is input to ngettext.
-#: ../src/dialogs/dialog-autofilter.c:201
+#: ../src/dialogs/dialog-autofilter.c:208
 #, c-format
-#| msgid "Show this dialog next time."
 msgid "Show the largest item"
 msgid_plural "Show the %3d largest items"
 msgstr[0] "Zobrazit největší položku"
@@ -5410,41 +5409,48 @@ msgstr[2] "Zobrazit %3d největších položek"
 
 #. xgettext : %d gives the number of items in the autofilter.
 #. This is input to ngettext.
-#: ../src/dialogs/dialog-autofilter.c:210
+#: ../src/dialogs/dialog-autofilter.c:218
 #, c-format
-#| msgid "Show this dialog next time."
 msgid "Show the smallest item"
 msgid_plural "Show the %3d smallest items"
 msgstr[0] "Zobrazit nejmenší položku"
 msgstr[1] "Zobrazit %3d nejmenší položky"
 msgstr[2] "Zobrazit %3d nejmenších položek"
 
-#: ../src/dialogs/dialog-autofilter.c:223
+#: ../src/dialogs/dialog-autofilter.c:232
 #, c-format
-#| msgid "Go to the top of the data"
 msgid "Show the items in the top %3d%% of the data range"
 msgid_plural "Show the items in the top %3d%% of the data range"
 msgstr[0] "Zobrazit položky v horních %3d %% datové oblasti"
 msgstr[1] "Zobrazit položky v horních %3d %% datové oblasti"
 msgstr[2] "Zobrazit položky v horních %3d %% datové oblasti"
 
-#: ../src/dialogs/dialog-autofilter.c:233
+#: ../src/dialogs/dialog-autofilter.c:242
 #, c-format
-#| msgid "Go to the bottom of the data"
 msgid "Show the items in the bottom %3d%% of the data range"
 msgid_plural "Show the items in the bottom %3d%% of the data range"
 msgstr[0] "Zobrazit položky v dolních %3d %% datové oblasti"
 msgstr[1] "Zobrazit položky v dolních %3d %% datové oblasti"
 msgstr[2] "Zobrazit položky v dolních %3d %% datové oblasti"
 
-#: ../src/dialogs/dialog-autofilter.c:310
+#: ../src/dialogs/dialog-autofilter.c:263
+#| msgid "Percentage"
+msgid "Percentage:"
+msgstr "Procenta:"
+
+#: ../src/dialogs/dialog-autofilter.c:268
+#| msgid "Count"
+msgid "Count:"
+msgstr "Počet:"
+
+#: ../src/dialogs/dialog-autofilter.c:327
 #, c-format
 msgid "Column %s (\"%s\")"
 msgstr "Sloupec %s („%s“)"
 
-#: ../src/dialogs/dialog-autofilter.c:352
-#: ../src/dialogs/dialog-autofilter.c:452
-#: ../src/dialogs/dialog-cell-sort.c:137
+#: ../src/dialogs/dialog-autofilter.c:369
+#: ../src/dialogs/dialog-autofilter.c:469
+#: ../src/dialogs/dialog-cell-sort.c:138
 #, c-format
 msgid "Column %s"
 msgstr "Sloupec %s"
@@ -5816,42 +5822,42 @@ msgstr "Pozadí"
 msgid "Pattern"
 msgstr "Vzorek"
 
-#: ../src/dialogs/dialog-cell-sort.c:139
+#: ../src/dialogs/dialog-cell-sort.c:140
 #, c-format
 msgid "Row %s"
 msgstr "Řádek %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:146
+#: ../src/dialogs/dialog-cell-sort.c:147
 #, c-format
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/dialogs/dialog-cell-sort.c:318
+#: ../src/dialogs/dialog-cell-sort.c:319
 #, c-format
 msgid "%s to %s"
 msgstr "%s do %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:761
+#: ../src/dialogs/dialog-cell-sort.c:762
 msgid "no available row"
 msgstr "není k dispozici žádný řádek"
 
-#: ../src/dialogs/dialog-cell-sort.c:761
+#: ../src/dialogs/dialog-cell-sort.c:762
 msgid "no available column"
 msgstr "není k dispozici žádný sloupec"
 
-#: ../src/dialogs/dialog-cell-sort.c:1015
+#: ../src/dialogs/dialog-cell-sort.c:1016
 msgid "Header"
 msgstr "Záhlaví"
 
-#: ../src/dialogs/dialog-cell-sort.c:1020
+#: ../src/dialogs/dialog-cell-sort.c:1021
 msgid "Row/Column"
 msgstr "Řádek/Sloupec"
 
-#: ../src/dialogs/dialog-cell-sort.c:1040
+#: ../src/dialogs/dialog-cell-sort.c:1041
 msgid "Case Sensitive"
 msgstr "Rozlišovat velikost písmen"
 
-#: ../src/dialogs/dialog-cell-sort.c:1060
+#: ../src/dialogs/dialog-cell-sort.c:1061
 msgid "By Value"
 msgstr "Podle hodnoty"
 
@@ -5867,21 +5873,21 @@ msgstr ""
 "Nastavit šířku sloupců ve výběru na listu <span style='italic' weight='bold'>"
 "%s</span>"
 
-#: ../src/dialogs/dialog-consolidate.c:192
+#: ../src/dialogs/dialog-consolidate.c:194
 #, c-format
 msgid "Specification %s does not define a region"
 msgstr "Specifikace %s nedefinuje oblast"
 
-#: ../src/dialogs/dialog-consolidate.c:201
+#: ../src/dialogs/dialog-consolidate.c:203
 #, c-format
 msgid "Source region %s overlaps with the destination region"
 msgstr "Zdrojová oblast %s se překrývá s cílovou oblastí"
 
-#: ../src/dialogs/dialog-consolidate.c:326
+#: ../src/dialogs/dialog-consolidate.c:328
 msgid "The output range overlaps with the input ranges."
 msgstr "Výstupní oblast se překrývá se vstupními oblastmi."
 
-#: ../src/dialogs/dialog-consolidate.c:551
+#: ../src/dialogs/dialog-consolidate.c:552
 msgid "Could not create the Consolidate dialog."
 msgstr "Nelze vytvořit dialogové okno Sjednocení."
 
@@ -5985,17 +5991,17 @@ msgstr "Tento název se již používá!"
 msgid "content"
 msgstr "obsah"
 
-#: ../src/dialogs/dialog-define-names.c:1235
+#: ../src/dialogs/dialog-define-names.c:1229
 #: ../src/dialogs/dialog-function-select.c:1250
 msgid "Erase the search entry."
 msgstr "Vyčistit zadání pro hledání."
 
-#: ../src/dialogs/dialog-define-names.c:1273
+#: ../src/dialogs/dialog-define-names.c:1267
 msgid "Paste Defined Names"
 msgstr "Vložit definované názvy"
 
-#: ../src/dialogs/dialog-define-names.c:1307
-#: ../src/dialogs/dialog-define-names.c:1337
+#: ../src/dialogs/dialog-define-names.c:1301
+#: ../src/dialogs/dialog-define-names.c:1331
 msgid "Could not create the Name Guru."
 msgstr "Nelze vytvořit průvodce vytvořením názvu."
 
@@ -6009,38 +6015,38 @@ msgstr "Odstranit"
 msgid "Could not create the Delete Cell dialog."
 msgstr "Nelze vytvořit dialogové okno Odstranění buněk."
 
-#: ../src/dialogs/dialog-doc-metadata.c:359
+#: ../src/dialogs/dialog-doc-metadata.c:361
 msgid "Unknown"
 msgstr "Neznámý"
 
-#: ../src/dialogs/dialog-doc-metadata.c:1301
+#: ../src/dialogs/dialog-doc-metadata.c:1303
 msgid "Linked To"
 msgstr "Odkaz na"
 
 #. IMPORTANT: OBEY THE ORDER 0 - 3 - 2 - 1
-#: ../src/dialogs/dialog-doc-metadata.c:1598
+#: ../src/dialogs/dialog-doc-metadata.c:1599
 #: ../src/dialogs/doc-meta-data.ui.h:27 ../src/dialogs/hf-config.ui.h:6
 msgid "File"
 msgstr "Soubor"
 
-#: ../src/dialogs/dialog-doc-metadata.c:1600
+#: ../src/dialogs/dialog-doc-metadata.c:1601
 #: ../src/dialogs/doc-meta-data.ui.h:34
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: ../src/dialogs/dialog-doc-metadata.c:1601
+#: ../src/dialogs/dialog-doc-metadata.c:1602
 #: ../src/dialogs/dialog-function-select.c:1224
 #: ../src/dialogs/dialog-plugin-manager.c:721
 #: ../src/dialogs/doc-meta-data.ui.h:25
 msgid "Description"
 msgstr "Popis"
 
-#: ../src/dialogs/dialog-doc-metadata.c:1602
+#: ../src/dialogs/dialog-doc-metadata.c:1603
 #: ../src/dialogs/doc-meta-data.ui.h:21
 msgid "Calculation"
 msgstr "Výpočet"
 
-#: ../src/dialogs/dialog-doc-metadata.c:1798
+#: ../src/dialogs/dialog-doc-metadata.c:1799
 msgid "Could not create the Properties dialog."
 msgstr "Nelze vytvořit dialogové okno Vlastnosti."
 
@@ -6179,7 +6185,7 @@ msgstr "Buňka"
 msgid "Could not create the goto dialog."
 msgstr "Nelze vytvořit dialog pro přechod."
 
-#: ../src/dialogs/dialog-hyperlink.c:79
+#: ../src/dialogs/dialog-hyperlink.c:81
 msgid ""
 "Left click once to follow this link.\n"
 "Middle click once to select this cell"
@@ -6187,55 +6193,55 @@ msgstr ""
 "Kliknutím levým tlačítkem přejdete na odkaz.\n"
 "Kliknutím prostředním tlačítkem vyberete tuto buňku."
 
-#: ../src/dialogs/dialog-hyperlink.c:185
+#: ../src/dialogs/dialog-hyperlink.c:187
 msgid "Not a range or name"
 msgstr "Není oblast nebo název"
 
-#: ../src/dialogs/dialog-hyperlink.c:301
+#: ../src/dialogs/dialog-hyperlink.c:303
 msgid "Internal Link"
 msgstr "Interní odkaz"
 
-#: ../src/dialogs/dialog-hyperlink.c:303
+#: ../src/dialogs/dialog-hyperlink.c:305
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr "Přejít na specifické buňky nebo pojmenovanou oblast v aktuálním sešitě"
 
-#: ../src/dialogs/dialog-hyperlink.c:307
+#: ../src/dialogs/dialog-hyperlink.c:309
 msgid "External Link"
 msgstr "Externí odkaz"
 
-#: ../src/dialogs/dialog-hyperlink.c:309
+#: ../src/dialogs/dialog-hyperlink.c:311
 msgid "Open an external file with the specified name"
 msgstr "Otevřít externí soubor se zadaným názvem"
 
-#: ../src/dialogs/dialog-hyperlink.c:312
+#: ../src/dialogs/dialog-hyperlink.c:314
 msgid "Email Link"
 msgstr "Odkaz na e-mail"
 
-#: ../src/dialogs/dialog-hyperlink.c:314
+#: ../src/dialogs/dialog-hyperlink.c:316
 msgid "Prepare an email"
 msgstr "Připravit e-mail"
 
-#: ../src/dialogs/dialog-hyperlink.c:317
+#: ../src/dialogs/dialog-hyperlink.c:319
 msgid "Web Link"
 msgstr "Odkaz na web"
 
-#: ../src/dialogs/dialog-hyperlink.c:319
+#: ../src/dialogs/dialog-hyperlink.c:321
 msgid "Browse to the specified URL"
 msgstr "Prohlížet zadané URL"
 
-#: ../src/dialogs/dialog-hyperlink.c:392
+#: ../src/dialogs/dialog-hyperlink.c:394
 msgid "Add Hyperlink"
 msgstr "Přidat hypertextový odkaz"
 
-#: ../src/dialogs/dialog-hyperlink.c:397
+#: ../src/dialogs/dialog-hyperlink.c:399
 msgid "Edit Hyperlink"
 msgstr "Upravit hypertextový odkaz"
 
-#: ../src/dialogs/dialog-hyperlink.c:406
+#: ../src/dialogs/dialog-hyperlink.c:408
 msgid "Remove Hyperlink"
 msgstr "Odstranit hypertextový odkaz"
 
-#: ../src/dialogs/dialog-hyperlink.c:609
+#: ../src/dialogs/dialog-hyperlink.c:611
 msgid "Could not create the hyperlink dialog."
 msgstr "Nelze vytvořit dialogové okno Hypertextový odkaz."
 
@@ -6359,100 +6365,100 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Složka"
 
-#: ../src/dialogs/dialog-preferences.c:748
+#: ../src/dialogs/dialog-preferences.c:747
 msgid "Length of Undo Descriptors"
 msgstr "Délka popisovačů operací zpět"
 
-#: ../src/dialogs/dialog-preferences.c:796
+#: ../src/dialogs/dialog-preferences.c:795
 msgid "Sorting is Case-Sensitive"
 msgstr "Řazení rozlišuje velikost písmen"
 
-#: ../src/dialogs/dialog-preferences.c:847
+#: ../src/dialogs/dialog-preferences.c:846
 msgid "Default Number of Rows in a Sheet"
 msgstr "Výchozí počet řádků v listu"
 
-#: ../src/dialogs/dialog-preferences.c:855
+#: ../src/dialogs/dialog-preferences.c:854
 msgid "Default Number of Columns in a Sheet"
 msgstr "Výchozí počet sloupců v listu"
 
-#: ../src/dialogs/dialog-preferences.c:948
+#: ../src/dialogs/dialog-preferences.c:947
 msgid "Default autosave frequency in seconds"
 msgstr "Výchozí interval automatického ukládání v sekundách"
 
-#: ../src/dialogs/dialog-preferences.c:969
+#: ../src/dialogs/dialog-preferences.c:968
 msgid "Disable Extension Check for Configurable Text Exporter"
 msgstr "Vypnout kontrolu rozšíření pro nastavitelné exporty textu"
 
-#: ../src/dialogs/dialog-preferences.c:1021
+#: ../src/dialogs/dialog-preferences.c:1020
 msgid "Enter _Moves Selection"
 msgstr "Enter _přesouvá zaměření"
 
-#: ../src/dialogs/dialog-preferences.c:1075
+#: ../src/dialogs/dialog-preferences.c:1074
 msgid "Prefer CLIPBOARD Over PRIMARY Selection"
 msgstr "Upřednostnit výběr CLIPBOARD před PRIMARY"
 
-#: ../src/dialogs/dialog-preferences.c:1098
+#: ../src/dialogs/dialog-preferences.c:1097
 msgid "Capitalize _names of days"
 msgstr "První písmeno _názvů dní měnit na velké"
 
-#: ../src/dialogs/dialog-preferences.c:1121
+#: ../src/dialogs/dialog-preferences.c:1120
 msgid "Correct _TWo INitial CApitals"
 msgstr "Opravova_t DVě PRvní PÍsmena VElká"
 
-#: ../src/dialogs/dialog-preferences.c:1125
+#: ../src/dialogs/dialog-preferences.c:1124
 msgid "Do _not correct:"
 msgstr "_Neopravovat:"
 
-#: ../src/dialogs/dialog-preferences.c:1148
+#: ../src/dialogs/dialog-preferences.c:1147
 msgid "Capitalize _first letter of sentence"
 msgstr "První písmeno _věty měnit na velké"
 
-#: ../src/dialogs/dialog-preferences.c:1152
+#: ../src/dialogs/dialog-preferences.c:1151
 msgid "Do _not capitalize after:"
 msgstr "Neměnit na velké písmeno _po:"
 
-#: ../src/dialogs/dialog-preferences.c:1174
+#: ../src/dialogs/dialog-preferences.c:1173
 msgid "Copy and Paste"
 msgstr "Kopírovat a vložit"
 
-#: ../src/dialogs/dialog-preferences.c:1175
+#: ../src/dialogs/dialog-preferences.c:1174
 msgid "Auto Correct"
 msgstr "Automatické opravy"
 
-#: ../src/dialogs/dialog-preferences.c:1176 ../src/dialogs/cell-format.ui.h:43
+#: ../src/dialogs/dialog-preferences.c:1175 ../src/dialogs/cell-format.ui.h:43
 #: ../src/wbc-gtk.c:3484
 msgid "Font"
 msgstr "Písmo"
 
-#: ../src/dialogs/dialog-preferences.c:1177
+#: ../src/dialogs/dialog-preferences.c:1176
 msgid "Files"
 msgstr "Soubory"
 
-#: ../src/dialogs/dialog-preferences.c:1178
+#: ../src/dialogs/dialog-preferences.c:1177
 msgid "Tools"
 msgstr "Nástroje"
 
-#: ../src/dialogs/dialog-preferences.c:1179
+#: ../src/dialogs/dialog-preferences.c:1178
 msgid "Undo"
 msgstr "Zpět"
 
-#: ../src/dialogs/dialog-preferences.c:1180
+#: ../src/dialogs/dialog-preferences.c:1179
 msgid "Windows"
 msgstr "Okna"
 
-#: ../src/dialogs/dialog-preferences.c:1181
+#: ../src/dialogs/dialog-preferences.c:1180
 msgid "Header/Footer"
 msgstr "Záhlaví/zápatí"
 
-#: ../src/dialogs/dialog-preferences.c:1183
+#: ../src/dialogs/dialog-preferences.c:1182
 msgid "Screen"
 msgstr "Obrazovka"
 
-#: ../src/dialogs/dialog-preferences.c:1184
+#: ../src/dialogs/dialog-preferences.c:1183
 msgid "INitial CApitals"
 msgstr "POčáteční VElká PÍsmena"
 
-#: ../src/dialogs/dialog-preferences.c:1185
+#: ../src/dialogs/dialog-preferences.c:1184
 msgid "First Letter"
 msgstr "První písmeno"
 
@@ -6644,7 +6650,7 @@ msgstr "Rovnoměrné celé číslo"
 
 #: ../src/dialogs/dialog-random-generator.c:111
 #: ../src/dialogs/search-replace.ui.h:17 ../src/dialogs/search.ui.h:13
-#: ../src/widgets/gnumeric-text-view.c:250
+#: ../src/widgets/gnumeric-text-view.c:251
 #: ../src/widgets/widget-font-selector.c:198
 msgid "Normal"
 msgstr "Normální"
@@ -6957,57 +6963,57 @@ msgstr "Jiná hodnota"
 msgid "Content"
 msgstr "Obsah"
 
-#: ../src/dialogs/dialog-sheet-order.c:185
+#: ../src/dialogs/dialog-sheet-order.c:187
 msgid "<b>Note:</b> A sheet name change is pending."
 msgstr "<b>Upozornění:</b> Změna názvu listu čeká na provedení."
 
-#: ../src/dialogs/dialog-sheet-order.c:622
+#: ../src/dialogs/dialog-sheet-order.c:624
 msgid "At least one sheet must remain visible!"
 msgstr "Aspoň jeden list musí zůstat viditelný!"
 
 #. xgettext : "Lock" is short for locked.  Keep this short.
-#: ../src/dialogs/dialog-sheet-order.c:708
+#: ../src/dialogs/dialog-sheet-order.c:710
 msgid "Lock"
 msgstr "Zámek"
 
 #. xgettext : "Viz" is short for visibility.  Keep this short.
-#: ../src/dialogs/dialog-sheet-order.c:721
+#: ../src/dialogs/dialog-sheet-order.c:723
 msgid "Viz"
 msgstr "Zobr"
 
 #. xgettext : "Dir" is short for direction.  Keep this short.
-#: ../src/dialogs/dialog-sheet-order.c:733
+#: ../src/dialogs/dialog-sheet-order.c:735
 msgid "Dir"
 msgstr "Směr"
 
-#: ../src/dialogs/dialog-sheet-order.c:743 ../src/dialogs/sheet-resize.ui.h:5
+#: ../src/dialogs/dialog-sheet-order.c:745 ../src/dialogs/sheet-resize.ui.h:5
 #: ../src/sheet-object-graph.c:749 ../src/sheet.c:1014
 msgid "Rows"
 msgstr "Řádky"
 
-#: ../src/dialogs/dialog-sheet-order.c:753
+#: ../src/dialogs/dialog-sheet-order.c:755
 msgid "Cols"
 msgstr "Sloupce"
 
-#: ../src/dialogs/dialog-sheet-order.c:761
+#: ../src/dialogs/dialog-sheet-order.c:763
 msgid "Current Name"
 msgstr "Současný název"
 
-#: ../src/dialogs/dialog-sheet-order.c:774
+#: ../src/dialogs/dialog-sheet-order.c:776
 msgid "New Name"
 msgstr "Nový název"
 
-#: ../src/dialogs/dialog-sheet-order.c:1117
+#: ../src/dialogs/dialog-sheet-order.c:1119
 #, c-format
 msgid "You may not call more than one sheet \"%s\"."
 msgstr "Nemůže nazvat více listů jako „%s“."
 
-#: ../src/dialogs/dialog-sheet-order.c:1448
+#: ../src/dialogs/dialog-sheet-order.c:1450
 msgid "Another view is already managing sheets"
 msgstr "Jiné zobrazení již s listem pracuje"
 
-#: ../src/dialogs/dialog-sheet-order.c:1508
-#: ../src/dialogs/dialog-sheet-order.c:1519
+#: ../src/dialogs/dialog-sheet-order.c:1505
+#: ../src/dialogs/dialog-sheet-order.c:1516
 msgid "Default"
 msgstr "Výchozí"
 
@@ -7342,7 +7348,7 @@ msgid "Line"
 msgstr "Čára"
 
 #: ../src/dialogs/dialog-stf-main-page.c:399
-#: ../src/widgets/gnumeric-expr-entry.c:1579
+#: ../src/widgets/gnumeric-expr-entry.c:1578
 msgid "Text"
 msgstr "Text"
 
@@ -7670,8 +7676,8 @@ msgid "Bottom"
 msgstr "Dole"
 
 #: ../src/dialogs/autofilter-top10.ui.h:2
-#| msgid "_Custom Percentage"
-msgid "Count or percentage:"
+#| msgid "Count or percentage:"
+msgid "Count or Percentage:"
 msgstr "Počet nebo procenta:"
 
 #: ../src/dialogs/autofilter-top10.ui.h:4
@@ -16508,7 +16514,7 @@ msgid "_Bold"
 msgstr "_Tučné"
 
 #. ALSO "<control>2"
-#: ../src/wbc-gtk-actions.c:2799 ../src/widgets/gnumeric-text-view.c:253
+#: ../src/wbc-gtk-actions.c:2799 ../src/widgets/gnumeric-text-view.c:254
 #: ../src/widgets/widget-font-selector.c:199
 msgid "Bold"
 msgstr "Tučné"
@@ -17065,86 +17071,86 @@ msgstr ""
 "\n"
 "<i>⇧F4 vybere</i>"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1563
+#: ../src/widgets/gnumeric-expr-entry.c:1562
 msgid "Update policy"
 msgstr "Zásady aktualizace"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1564
+#: ../src/widgets/gnumeric-expr-entry.c:1563
 msgid "How frequently changes to the entry should be applied"
 msgstr "Jak často se mají změny pro položku použít"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1571
+#: ../src/widgets/gnumeric-expr-entry.c:1570
 msgid "With icon"
 msgstr "S ikonou"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1572
+#: ../src/widgets/gnumeric-expr-entry.c:1571
 msgid "Should there be an icon to the right of the entry?"
 msgstr "Měla by být vpravo vedle položky ikona?"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1580
+#: ../src/widgets/gnumeric-expr-entry.c:1579
 msgid "The contents of the entry"
 msgstr "Obsah vstupu"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1593
+#: ../src/widgets/gnumeric-expr-entry.c:1592
 msgid "SheetControlGUI"
 msgstr "GUI ovládání listu"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1594
+#: ../src/widgets/gnumeric-expr-entry.c:1593
 msgid "The GUI container associated with the entry."
 msgstr "Kontejner grafického uživatelského rozhraní sdružený s položkou."
 
-#: ../src/widgets/gnumeric-expr-entry.c:1601
+#: ../src/widgets/gnumeric-expr-entry.c:1600
 msgid "WBCGtk"
 msgstr "WBCGtk"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1602
+#: ../src/widgets/gnumeric-expr-entry.c:1601
 msgid "The toplevel GUI container associated with the entry."
 msgstr ""
 "Kontejner nejvyšší úrovně grafického uživatelského rozhraní sdružený s "
 "položkou."
 
-#: ../src/widgets/gnumeric-expr-entry.c:1609
+#: ../src/widgets/gnumeric-expr-entry.c:1608
 msgid "Constant Format"
 msgstr "Formát konstant"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1610
+#: ../src/widgets/gnumeric-expr-entry.c:1609
 msgid "Format for constants"
 msgstr "Formát pro konstanty"
 
-#: ../src/widgets/gnumeric-expr-entry.c:2510
+#: ../src/widgets/gnumeric-expr-entry.c:2509
 #, c-format
 msgid "Expecting a single range"
 msgstr "Očekává se jedna oblast"
 
-#: ../src/widgets/gnumeric-text-view.c:247
+#: ../src/widgets/gnumeric-text-view.c:248
 msgid "Thin"
 msgstr "Tenké"
 
-#: ../src/widgets/gnumeric-text-view.c:248
+#: ../src/widgets/gnumeric-text-view.c:249
 msgid "Ultralight"
 msgstr "Ultraslabé"
 
-#: ../src/widgets/gnumeric-text-view.c:249
+#: ../src/widgets/gnumeric-text-view.c:250
 msgid "Light"
 msgstr "Slabé"
 
-#: ../src/widgets/gnumeric-text-view.c:251
+#: ../src/widgets/gnumeric-text-view.c:252
 msgid "Medium"
 msgstr "Střední"
 
-#: ../src/widgets/gnumeric-text-view.c:252
+#: ../src/widgets/gnumeric-text-view.c:253
 msgid "Semibold"
 msgstr "Polotučné"
 
-#: ../src/widgets/gnumeric-text-view.c:254
+#: ../src/widgets/gnumeric-text-view.c:255
 msgid "Ultrabold"
 msgstr "Ultratučné"
 
-#: ../src/widgets/gnumeric-text-view.c:255
+#: ../src/widgets/gnumeric-text-view.c:256
 msgid "Heavy"
 msgstr "Silné"
 
-#: ../src/widgets/gnumeric-text-view.c:256
+#: ../src/widgets/gnumeric-text-view.c:257
 msgid "Ultraheavy"
 msgstr "Ultrasilné"
 
@@ -17155,7 +17161,7 @@ msgstr "Tučná kurzíva"
 #. Translators: "AaBbCcDdEe12345" is preview text for selected font.
 #. You can change it to any text suitable for your language.
 #: ../src/widgets/widget-font-selector.c:402
-#: ../src/widgets/widget-font-selector.c:480
+#: ../src/widgets/widget-font-selector.c:478
 msgid "AaBbCcDdEe12345"
 msgstr "Příliš žluťoučký kůň úpěl ďábelské ódy"
 
