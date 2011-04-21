@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2011-04-17 08:15+0000\n"
-"PO-Revision-Date: 2011-04-21 21:25+0100\n"
+"PO-Revision-Date: 2011-04-21 21:26+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -11804,7 +11804,7 @@ msgstr ""
 #: ../src/func.c:239
 #, c-format
 msgid "Cannot create file %s\n"
-msgstr "Ni mogoče ustvariti datoteke %s"
+msgstr "Ni mogoče ustvariti datoteke %s\n"
 
 #: ../src/func.c:862
 #, fuzzy
