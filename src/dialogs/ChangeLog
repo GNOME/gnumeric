@@ -1,3 +1,8 @@
+2011-04-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-preferences.c (enum_pref_create_widget),
+	(pref_tool_page_initializer): translate GODirection nicks.
+
 2011-04-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-autofilter.c (cb_top10_count_changed): use the true count

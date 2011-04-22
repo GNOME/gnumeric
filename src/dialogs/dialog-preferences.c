@@ -274,7 +274,8 @@ enum_pref_create_widget (GOConfNode *node, GtkWidget *table,
 			 gint row, GType enum_type,
 			 enum_conf_setter_t setter,
 			 enum_conf_getter_t getter,
-			 gchar const *default_label)
+			 gchar const *default_label,
+                         char const *(*label_getter)(int))
 {
 	unsigned int	 i;
 	GtkTreeIter	 iter;
@@ -289,7 +290,7 @@ enum_pref_create_widget (GOConfNode *node, GtkWidget *table,
 	for (i = 0; i < enum_class->n_values ; i++) {
 		gtk_list_store_append (model, &iter);
 		gtk_list_store_set (model, &iter,
-			0,	enum_class->values[i].value_nick,
+			0,	label_getter ((int) enum_class->values[i].value),
 			1,	enum_class->values + i,
 			-1);
 		if (enum_class->values[i].value == current)
@@ -1017,7 +1018,7 @@ pref_tool_page_initializer (PrefState *state,
 				 GO_TYPE_DIRECTION,
 				 (enum_conf_setter_t)gnm_conf_set_core_gui_editing_enter_moves_dir,
 				 (enum_conf_getter_t)gnm_conf_get_core_gui_editing_enter_moves_dir,
-				 _("Enter _Moves Selection"));
+				 _("Enter _Moves Selection"), (char const *(*) (int)) go_direction_get_name);
 	bool_pref_create_widget (gnm_conf_get_core_gui_editing_transitionkeys_node (),
 				 page, row++,
 				 gnm_conf_set_core_gui_editing_transitionkeys,
