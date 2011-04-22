@@ -1,3 +1,12 @@
+2011-04-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/stf.c (stf_warning): new
+	(stf_open_and_read): add context argument and change all callers,
+	check for null characters in input. Fixes #648354
+	(stf_preparse): change type pf context argument and change all
+	callers.
+	(stf_read_workbook_auto_csvtab): use stf_warning
+	
 2011-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk-actions.c (actions): change 

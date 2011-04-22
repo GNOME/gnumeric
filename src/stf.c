@@ -58,6 +58,29 @@
 #include <locale.h>
 
 
+static void
+stf_warning (GOIOContext *context, char const *msg)
+{
+	/*
+	 * Using go_cmd_context_error_import will destroy the
+	 * successfully imported portion.  We ought to have a
+	 * way to issue a warning.
+	 */
+	if (IS_WBC_GTK (context->impl))
+		go_gtk_notice_dialog
+			(wbcg_toplevel (WBC_GTK (context->impl)),
+			 GTK_MESSAGE_WARNING,
+			 "%s", msg);
+	else
+		g_warning ("%s", msg);
+#if 0
+	go_cmd_context_error_import
+		(GO_CMD_CONTEXT (context),
+		 msg);
+#endif
+}
+
+
 /**
  * stf_open_and_read
  * @filename : name of the file to open&read
@@ -69,11 +92,13 @@
  * returns : a buffer containing the file contents
  **/
 static char *
-stf_open_and_read (GsfInput *input, size_t *readsize)
+stf_open_and_read (GOIOContext *context, GsfInput *input, size_t *readsize)
 {
 	gpointer result;
 	gulong    allocsize;
 	gsf_off_t size = gsf_input_size (input);
+	char *cpointer;
+	int null_chars = 0;
 
 	if (gsf_input_seek (input, 0, G_SEEK_SET))
 		return NULL;
@@ -97,19 +122,40 @@ stf_open_and_read (GsfInput *input, size_t *readsize)
 		result = NULL;
 	}
 
+	cpointer = (char *)result;
+	while (*cpointer != 0)
+		cpointer++;
+	while (cpointer != ((char *)result + *readsize)) {
+		null_chars++;
+		*cpointer = ' ';
+		while (*cpointer != 0)
+			cpointer++;
+	}	
+	if (null_chars > 0) {
+		gchar const *format;
+		gchar *msg;
+		format = ngettext ("The file contains %d NULL character. "
+				   "It has been changed to a space.", 
+				   "The file contains %d NULL characters. "
+				   "They have been changed to spaces.",
+				   null_chars);
+		msg = g_strdup_printf (format, null_chars);
+		stf_warning (context, msg);
+		g_free (msg);
+	}
 	return result;
 }
 
 static char *
-stf_preparse (GOCmdContext *context, GsfInput *input, size_t *data_len)
+stf_preparse (GOIOContext *context, GsfInput *input, size_t *data_len)
 {
 	char *data;
 
-	data = stf_open_and_read (input, data_len);
+	data = stf_open_and_read (context, input, data_len);
 
 	if (!data) {
 		if (context)
-			go_cmd_context_error_import (context,
+			go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 				_("Error while trying to read file"));
 		return NULL;
 	}
@@ -211,7 +257,7 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 		goto out;
 	}
 
-	data = stf_preparse (GO_CMD_CONTEXT (context), input, &data_len);
+	data = stf_preparse (context, input, &data_len);
 	if (!data)
 		goto out;
 
@@ -377,7 +423,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 	book = wb_view_get_workbook (wbv);
 	old_sheet = wb_view_cur_sheet (wbv);
 
-	data = stf_preparse (GO_CMD_CONTEXT (context), input, &data_len);
+	data = stf_preparse (context, input, &data_len);
 	if (!data)
 		return;
 
@@ -427,26 +473,9 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 		workbook_recalc_all (book);
 		resize_columns (sheet);
 		if (po->cols_exceeded || po->rows_exceeded) {
-			const char *msg =
-				_("Some data did not fit on the sheet and was dropped.");
-
-			/*
-			 * Using go_cmd_context_error_import will destroy the
-			 * successfully imported portion.  We ought to have a
-			 * way to issue a warning.
-			 */
-			if (IS_WBC_GTK (context->impl))
-				go_gtk_notice_dialog
-					(wbcg_toplevel (WBC_GTK (context->impl)),
-					 GTK_MESSAGE_WARNING,
-					 "%s", msg);
-			else
-				g_warning ("%s", msg);
-#if 0
-				go_cmd_context_error_import
-					(GO_CMD_CONTEXT (context),
-					 msg);
-#endif
+			stf_warning (context, 
+				     _("Some data did not fit on the "
+				       "sheet and was dropped."));
 		}
 	} else {
 		workbook_sheet_delete (sheet);
