@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-04-14 05:57+0000\n"
-"PO-Revision-Date: 2011-04-17 10:13+0200\n"
+"POT-Creation-Date: 2011-04-22 03:05+0000\n"
+"PO-Revision-Date: 2011-04-24 11:39+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -897,7 +897,7 @@ msgid "Functions for manipulating strings"
 msgstr "Funkce pro práci s řetězci"
 
 #: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:151
-#: ../src/func.c:1368
+#: ../src/func.c:1371
 msgid "String"
 msgstr "Řetězcové"
 
@@ -5434,12 +5434,10 @@ msgstr[1] "Zobrazit položky v dolních %3d %% datové oblasti"
 msgstr[2] "Zobrazit položky v dolních %3d %% datové oblasti"
 
 #: ../src/dialogs/dialog-autofilter.c:263
-#| msgid "Percentage"
 msgid "Percentage:"
 msgstr "Procenta:"
 
 #: ../src/dialogs/dialog-autofilter.c:268
-#| msgid "Count"
 msgid "Count:"
 msgstr "Počet:"
 
@@ -5649,7 +5647,7 @@ msgid "Double Low"
 msgstr "Dvojité dolní"
 
 #: ../src/dialogs/dialog-cell-format.c:488 ../src/dialogs/dialog-search.c:153
-#: ../src/func.c:1366 ../src/wbc-gtk-actions.c:2651
+#: ../src/func.c:1369 ../src/wbc-gtk-actions.c:2651
 msgid "Number"
 msgstr "Číslo"
 
@@ -7676,7 +7674,6 @@ msgid "Bottom"
 msgstr "Dole"
 
 #: ../src/dialogs/autofilter-top10.ui.h:2
-#| msgid "Count or percentage:"
 msgid "Count or Percentage:"
 msgstr "Počet nebo procenta:"
 
@@ -11457,28 +11454,28 @@ msgstr "Implementace funkce není k dispozici."
 msgid "Unknown Function"
 msgstr "Neznámá funkce"
 
-#: ../src/func.c:1370
+#: ../src/func.c:1373
 msgid "Boolean"
 msgstr "Pravdivostní hodnota"
 
-#: ../src/func.c:1372
+#: ../src/func.c:1375
 msgid "Cell Range"
 msgstr "Oblast buněk"
 
-#: ../src/func.c:1374
+#: ../src/func.c:1377
 msgid "Area"
 msgstr "Oblast"
 
-#: ../src/func.c:1376
+#: ../src/func.c:1379
 msgid "Scalar, Blank, or Error"
 msgstr "Skalár, prázdné nebo chyba"
 
-#: ../src/func.c:1378
+#: ../src/func.c:1381
 msgid "Scalar"
 msgstr "Skalár"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1381
+#: ../src/func.c:1384
 msgid "Any"
 msgstr "Cokoli"
 
@@ -13357,52 +13354,61 @@ msgstr ""
 "Je více sloupců dat, než na kolik je v listu místa. Další sloupce budou "
 "ignorovány."
 
-#: ../src/stf.c:113
+#: ../src/stf.c:137
+#, c-format
+msgid "The file contains %d NULL character. It has been changed to a space."
+msgid_plural ""
+"The file contains %d NULL characters. They have been changed to spaces."
+msgstr[0] "Soubor obsahuje %d prázdný znak NULL. Bude změněn na mezeru."
+msgstr[1] "Soubor obsahuje %d prázdné znaky NULL. Budou změněny na mezery."
+msgstr[2] "Soubor obsahuje %d prázdných znaků NULL. Budou změněny na mezery."
+
+#: ../src/stf.c:159
 msgid "Error while trying to read file"
 msgstr "Chyba při pokusu o čtení souboru"
 
-#: ../src/stf.c:290 ../src/stf.c:325
+#: ../src/stf.c:336 ../src/stf.c:371
 msgid "Text to Columns"
 msgstr "Text do sloupců"
 
-#: ../src/stf.c:295
+#: ../src/stf.c:341
 #, c-format
 msgid "Only one column of input data can be parsed at a time"
 msgstr "Najednou lze zpracovat pouze jeden sloupec vstupních dat"
 
-#: ../src/stf.c:320
+#: ../src/stf.c:366
 msgid "There is no data to convert"
 msgstr "Nejsou žádná data pro konverzi"
 
-#: ../src/stf.c:340
+#: ../src/stf.c:386
 msgid "Error while trying to parse data into sheet"
 msgstr "Chyba při pokusu o zpracování dat do listu"
 
-#: ../src/stf.c:389
+#: ../src/stf.c:435
 msgid "That file is not in the given encoding."
 msgstr "Tento soubor není v daném kódování."
 
-#: ../src/stf.c:431
+#: ../src/stf.c:477
 msgid "Some data did not fit on the sheet and was dropped."
 msgstr "Některá data nepasují do listu a budou zahozena."
 
-#: ../src/stf.c:454
+#: ../src/stf.c:483
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Chyba zpracování při pokusu o zpracování dat do listu"
 
-#: ../src/stf.c:488
+#: ../src/stf.c:517
 msgid "Error while trying to write CSV file"
 msgstr "Chyba při pokusu zapsat soubor CSV"
 
-#: ../src/stf.c:587
+#: ../src/stf.c:616
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Hodnoty oddělené čárkou nebo tabelátorem (CSV/TSV)"
 
-#: ../src/stf.c:595
+#: ../src/stf.c:624
 msgid "Text import (configurable)"
 msgstr "Import textu (nastavitelný)"
 
-#: ../src/stf.c:607
+#: ../src/stf.c:636
 msgid "Comma separated values (CSV)"
 msgstr "Hodnoty oddělené čárkou (CSV)"
 
@@ -17638,49 +17644,3 @@ msgstr "Šablona fialového seznamu"
 msgid "A simple list template"
 msgstr "Šablona jednoduchého seznamu"
 
-#~ msgid "Show:"
-#~ msgstr "Zobrazit:"
-
-#~ msgctxt "groupby"
-#~ msgid "_Columns"
-#~ msgstr "Sloup_ců"
-
-#~ msgctxt "groupby"
-#~ msgid "_Rows"
-#~ msgstr "Řá_dků"
-
-#~ msgctxt "group"
-#~ msgid "_Columns"
-#~ msgstr "Sloup_ce"
-
-#~ msgctxt "group"
-#~ msgid "_Rows"
-#~ msgstr "Řá_dky"
-
-#~ msgctxt "operation"
-#~ msgid "None"
-#~ msgstr "Žádná"
-
-#~ msgctxt "sheetsize"
-#~ msgid "Columns"
-#~ msgstr "Sloupce"
-
-#~ msgctxt "sheetsize"
-#~ msgid "Rows"
-#~ msgstr "Řádky"
-
-#~ msgctxt "shuffle"
-#~ msgid "_Columns"
-#~ msgstr "Sloup_ce"
-
-#~ msgctxt "shuffle"
-#~ msgid "_Rows"
-#~ msgstr "Řá_dky"
-
-#~ msgctxt "graph"
-#~ msgid "Columns"
-#~ msgstr "Sloupce"
-
-#~ msgctxt "graph"
-#~ msgid "Rows"
-#~ msgstr "Řádky"
