@@ -2217,6 +2217,13 @@ cb_workbook_debug_info (WBCGtk *wbcg)
 			    es->nodes_in, es->nodes_stored, es->nodes_killed);
 		gnm_expr_sharer_destroy (es);
 	}
+
+	if (gnm_debug_flag ("style-optimize")) {
+		WORKBOOK_FOREACH_SHEET (wb, sheet, (
+			{
+				sheet_style_optimize (sheet);
+			}));
+	}
 }
 
 static void
@@ -2791,7 +2798,9 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 		 _("Enter formula..."));
 
 	/* Dependency debugger */
-	if (gnm_debug_flag ("deps") || gnm_debug_flag ("expr-sharer")) {
+	if (gnm_debug_flag ("deps") ||
+	    gnm_debug_flag ("expr-sharer") ||
+	    gnm_debug_flag ("style-optimize")) {
 		(void)edit_area_button (wbcg, tb, TRUE,
 					G_CALLBACK (cb_workbook_debug_info),
 					GTK_STOCK_DIALOG_INFO,
