@@ -4,7 +4,7 @@ Andreas:
 	* Fix shift-arrow movement for sheet objects. [#645805]
 	* Expand the description of SSMEDIAN. [#647247]
 	* Redesign autofilter Top10 dialog. [#646641]
-	* Handle NULL characters in cvs import. [#648354]
+	* Handle NUL characters in cvs import. [#648354]
 
 Morten:
 	* Fix problems with localized function docs.
