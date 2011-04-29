@@ -49,6 +49,17 @@ struct _GnmSheetStyleData {
 	GnmColor   *auto_pattern_color;
 };
 
+static gboolean debug_style_optimize;
+
+typedef struct {
+	GnmSheetSize const *ss;
+} CellTileOptimize;
+
+static void
+cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
+		    int ccol, int crow);
+
+
 /**
  * sheet_style_unlink
  * For internal use only
@@ -559,6 +570,8 @@ sheet_style_init (Sheet *sheet)
 	int cols = gnm_sheet_get_max_cols (sheet);
 	int rows = gnm_sheet_get_max_rows (sheet);
 
+	debug_style_optimize = gnm_debug_flag ("style-optimize");
+
 	sheet_style_sanity_check ();
 
 	sheet_style_init_size (sheet, cols, rows);
@@ -881,13 +894,13 @@ cell_tile_apply (CellTile **tile, int level,
 				int i = indic.start.col;
 				for (;i <= indic.end.col ; ++i)
 					rstyle_apply ((*tile)->style_col.style + i, rs);
-				return;
+				goto try_optimize;
 			}
 			if (type != TILE_PTR_MATRIX) {
 				indic.start.row = 0;
 				indic.end.row = TILE_SIZE_ROW - 1;
 				*tile = cell_tile_matrix_set (*tile, &indic, rs);
-				return;
+				goto try_optimize;
 			}
 		}
 	} else if (full_width) {
@@ -904,13 +917,13 @@ cell_tile_apply (CellTile **tile, int level,
 				int i = indic.start.row;
 				for (;i <= indic.end.row ; ++i)
 					rstyle_apply ((*tile)->style_row.style + i, rs);
-				return;
+				goto try_optimize;
 			}
 			if (type != TILE_PTR_MATRIX) {
 				indic.start.col = 0;
 				indic.end.col = TILE_SIZE_COL - 1;
 				*tile = cell_tile_matrix_set (*tile, &indic, rs);
-				return;
+				goto try_optimize;
 			}
 		}
 	} else {
@@ -920,7 +933,7 @@ cell_tile_apply (CellTile **tile, int level,
 				  &indic.start.row, &indic.end.row) &&
 		    type != TILE_PTR_MATRIX) {
 			*tile = cell_tile_matrix_set (*tile, &indic, rs);
-			return;
+			goto try_optimize;
 		}
 	}
 
@@ -933,7 +946,6 @@ cell_tile_apply (CellTile **tile, int level,
 
 	/* drill down */
 	g_return_if_fail (type == TILE_PTR_MATRIX);
-	level--;
 	for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r, i += TILE_SIZE_COL) {
 		int const cr = corner_row + h*r;
 		if (cr > apply_to->end.row)
@@ -948,12 +960,18 @@ cell_tile_apply (CellTile **tile, int level,
 			if ((cc + w) <= apply_to->start.col)
 				continue;
 
-			/* TODO : we could be smarter and merge things
-			 * if the sub tiles become uniform
-			 */
 			cell_tile_apply ((*tile)->ptr_matrix.ptr + i + c,
-					 level, cc, cr, apply_to, rs);
+					 level - 1, cc, cr, apply_to, rs);
 		}
+	}
+
+try_optimize:
+	{
+		CellTileOptimize cto;
+		cto.ss = gnm_sheet_get_size (rs->sheet);
+#if 0
+		cell_tile_optimize (tile, level, &cto, corner_col, corner_row);
+#endif
 	}
 }
 
@@ -2142,15 +2160,15 @@ cb_hash_merge_horiz (gpointer hash_key, gpointer value, gpointer user)
 	GnmStyleRegion *sr = value, *srh;
 	GnmCellPos	key;
 
-#ifdef DEBUG_STYLE_LIST
-	range_dump (&sr->range, "\n");
-#endif
-
 	/* Already merged */
 	if (sr->range.start.col < 0) {
 		style_region_free (sr);
 		return TRUE;
 	}
+
+#ifdef DEBUG_STYLE_LIST
+	range_dump (&sr->range, "\n");
+#endif
 
 	/* Do some simple minded merging horizontally */
 	key.row = sr->range.end.row;
@@ -2162,6 +2180,9 @@ cb_hash_merge_horiz (gpointer hash_key, gpointer value, gpointer user)
 			g_return_val_if_fail (srh->range.start.col >= 0, FALSE);
 			sr->range.start.col = srh->range.start.col;
 			srh->range.start.col = -1;
+#ifdef DEBUG_STYLE_LIST
+			range_dump (&sr->range, " <= extended to\n");
+#endif
 		} else
 			return FALSE;
 	} while (1);
@@ -2207,16 +2228,22 @@ sheet_style_get_range (Sheet const *sheet, GnmRange const *r)
 	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
 				     (GCompareFunc)&gnm_cellpos_equal);
 	mi.sheet = sheet;
+#ifdef DEBUG_STYLE_LIST
+	g_printerr ("====A====\n");
+#endif
 	foreach_tile (sheet->style_data->styles,
 		      sheet->tile_top_level, 0, 0, r,
 		      cb_style_list_add_node, &mi);
 #ifdef DEBUG_STYLE_LIST
-	g_printerr ("=========\n");
+	g_printerr ("====B====\n");
 #endif
 	g_hash_table_foreach_remove (mi.cache, cb_hash_merge_horiz, &mi);
+#ifdef DEBUG_STYLE_LIST
+	g_printerr ("====C====\n");
+#endif
 	g_hash_table_foreach_remove (mi.cache, cb_hash_to_list, &res);
 #ifdef DEBUG_STYLE_LIST
-	g_printerr ("=========\n");
+	g_printerr ("====D====\n");
 #endif
 	g_hash_table_destroy (mi.cache);
 
@@ -2590,11 +2617,6 @@ sheet_style_foreach (Sheet const *sheet, GHFunc	func, gpointer user_data)
 
 /* ------------------------------------------------------------------------- */
 
-typedef struct {
-	GnmSheetSize const *ss;
-	gboolean debug;
-} CellTileOptimize;
-
 static void
 cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 		    int ccol, int crow)
@@ -2724,14 +2746,14 @@ cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 				gnm_style_link (mstyle);
 			}
 		} else if (all_simple) {
-			if (data->debug)
+			if (debug_style_optimize)
 				g_printerr ("Could turn %s into a matrix\n",
 					    range_as_string (&rng));
 			return;
 		} else
 			return;
 
-		if (data->debug)
+		if (debug_style_optimize)
 			g_printerr ("Turning %s (%dx%d) from a %s into a %s\n",
 				    range_as_string (&rng),
 				    range_width (&rng), range_height (&rng),
@@ -2746,7 +2768,7 @@ cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 		g_assert_not_reached ();
 	}
 
-	if (data->debug)
+	if (debug_style_optimize)
 		g_printerr ("Turning %s (%dx%d) from a %s into a %s\n",
 			    range_as_string (&rng),
 			    range_width (&rng), range_height (&rng),
@@ -2865,9 +2887,8 @@ sheet_style_optimize (Sheet *sheet)
 		return;
 
 	data.ss = gnm_sheet_get_size (sheet);
-	data.debug = gnm_debug_flag ("style-optimize");
 
-	if (data.debug)
+	if (debug_style_optimize)
 		g_printerr ("Optimizing %s\n", sheet->name_unquoted);
 
 	verify = gnm_debug_flag ("style-optimize-verify");

@@ -1,3 +1,9 @@
+2011-04-29  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c (cell_tile_apply): Prepare for, but do not
+	activate, optimization of newly-divided tiles.  When activated
+	should fix #648868.
+
 2011-04-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: requires libgoffice >= 0.8.15.
@@ -10,17 +16,17 @@
 	(stf_preparse): change type pf context argument and change all
 	callers.
 	(stf_read_workbook_auto_csvtab): use stf_warning
-	
+
 2011-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/wbc-gtk-actions.c (actions): change 
+	* src/wbc-gtk-actions.c (actions): change
 	"_Wilcoxon-Mann-Whitney Test..." to "Wilcoxon-_Mann-Whitney Test..."
 
 2011-04-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/func.c (gnm_func_get_arg_description): fix zero-based index 
+	* src/func.c (gnm_func_get_arg_description): fix zero-based index
 	counting, fixes #647240
-	
+
 2011-04-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet.c (sheet_range_contains_region): formulas ->formul\303\246
