@@ -3,6 +3,8 @@
 	* src/sheet-style.c (cell_tile_apply): Prepare for, but do not
 	activate, optimization of newly-divided tiles.  When activated
 	should fix #648868.
+	(cell_tile_apply): Don't let the optimization go recursively down
+	the tree.
 
 2011-04-22  Jean Brefort  <jean.brefort@normalesup.org>
 

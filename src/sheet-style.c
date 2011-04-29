@@ -53,6 +53,7 @@ static gboolean debug_style_optimize;
 
 typedef struct {
 	GnmSheetSize const *ss;
+	gboolean recursion;
 } CellTileOptimize;
 
 static void
@@ -969,6 +970,7 @@ try_optimize:
 	{
 		CellTileOptimize cto;
 		cto.ss = gnm_sheet_get_size (rs->sheet);
+		cto.recursion = FALSE;
 #if 0
 		cell_tile_optimize (tile, level, &cto, corner_col, corner_row);
 #endif
@@ -2706,8 +2708,9 @@ cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 			for (c = 0 ; c < TILE_SIZE_COL ; ++c) {
 				int const cc = ccol + w*c;
 				CellTile const *tcr, *tc0, *t0r;
-				cell_tile_optimize ((*tile)->ptr_matrix.ptr + i + c,
-						    level - 1, data, cc, cr);
+				if (data->recursion)
+					cell_tile_optimize ((*tile)->ptr_matrix.ptr + i + c,
+							    level - 1, data, cc, cr);
 				tcr = (*tile)->ptr_matrix.ptr[i + c];
 				t0r = (*tile)->ptr_matrix.ptr[i];
 				tc0 = (*tile)->ptr_matrix.ptr[c];
@@ -2887,6 +2890,7 @@ sheet_style_optimize (Sheet *sheet)
 		return;
 
 	data.ss = gnm_sheet_get_size (sheet);
+	data.recursion = TRUE;
 
 	if (debug_style_optimize)
 		g_printerr ("Optimizing %s\n", sheet->name_unquoted);
