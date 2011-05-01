@@ -1,3 +1,7 @@
+2011-05-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_bin2dec): clarify the range for x
+
 2011-03-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.14

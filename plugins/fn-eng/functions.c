@@ -305,12 +305,18 @@ gnumeric_bin2hex (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_dec2bin[] = {
         { GNM_FUNC_HELP_NAME, F_("DEC2BIN:binary representation of the decimal number @{x}") },
-        { GNM_FUNC_HELP_ARG, F_("x:integer") },
+        { GNM_FUNC_HELP_ARG, F_("x:integer (\xe2\x88\x92 513 < @{x} < 512)") },
         { GNM_FUNC_HELP_ARG, F_("places:number of digits") },
-        { GNM_FUNC_HELP_DESCRIPTION, F_("If @{places} is given, DEC2BIN pads the result with zeros to achieve "
-					"exactly @{places} digits. If this is not possible, DEC2BIN returns #NUM!") },
+        { GNM_FUNC_HELP_DESCRIPTION, F_("If @{places} is given and @{x} is non-negative, "
+					"DEC2BIN pads the result with zeros to achieve "
+					"exactly @{places} digits. If this is not possible, "
+					"DEC2BIN returns #NUM!")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{places} is given and @{x} is negative, @{places} is ignored.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < \xe2\x88\x92 512 or @{x} > 511, DEC2BIN returns #NUM!") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=DEC2BIN(42)" },
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=DEC2BIN(42,6)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=DEC2BIN(-42,6)" },
         { GNM_FUNC_HELP_SEEALSO, ("BIN2DEC,DEC2OCT,DEC2HEX") },
         { GNM_FUNC_HELP_END}
 };
