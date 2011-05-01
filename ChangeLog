@@ -1,3 +1,8 @@
+2011-05-01  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (gnm_sheet_init): Use a set-style GHash for cells in
+	order to save memory.
+
 2011-04-29  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (cell_tile_apply): Prepare for, but do not

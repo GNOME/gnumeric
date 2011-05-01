@@ -721,6 +721,21 @@ gnm_sheet_constructor (GType type,
 	return obj;
 }
 
+static guint
+cell_set_hash (GnmCell const *key)
+{
+	guint h = key->pos.row;
+	h = (h << 16) ^ (h >> 16);
+	h ^= key->pos.col;
+	return h;
+}
+
+static gint
+cell_set_equal (GnmCell const *a, GnmCell const *b)
+{
+	return (a->pos.row == b->pos.row && a->pos.col == b->pos.col);
+}
+
 static void
 gnm_sheet_init (Sheet *sheet)
 {
@@ -786,8 +801,8 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->hash_merged = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
 					       (GCompareFunc)&gnm_cellpos_equal);
 
-	sheet->cell_hash = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
-					     (GCompareFunc)&gnm_cellpos_equal);
+	sheet->cell_hash = g_hash_table_new ((GHashFunc)&cell_set_hash,
+					     (GCompareFunc)&cell_set_equal);
 
 	/* Init preferences */
 	sheet->convs = gnm_conventions_default;
@@ -1867,13 +1882,13 @@ GnmCell *
 sheet_cell_get (Sheet const *sheet, int col, int row)
 {
 	GnmCell *cell;
-	GnmCellPos pos;
+	GnmCell key;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	pos.col = col;
-	pos.row = row;
-	cell = g_hash_table_lookup (sheet->cell_hash, &pos);
+	key.pos.col = col;
+	key.pos.row = row;
+	cell = g_hash_table_lookup (sheet->cell_hash, &key);
 
 	return cell;
 }
@@ -3784,7 +3799,7 @@ sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 
 	gnm_cell_unrender (cell);
 
-	g_hash_table_insert (sheet->cell_hash, &cell->pos, cell);
+	g_hash_table_insert (sheet->cell_hash, cell, cell);
 
 	if (gnm_sheet_merge_is_corner (sheet, &cell->pos))
 		cell->base.flags |= GNM_CELL_IS_MERGED;
@@ -3903,7 +3918,7 @@ sheet_cell_remove_from_hash (Sheet *sheet, GnmCell *cell)
 	cell_unregister_span (cell);
 	if (gnm_cell_expr_is_linked (cell))
 		dependent_unlink (GNM_CELL_TO_DEP (cell));
-	g_hash_table_remove (sheet->cell_hash, &cell->pos);
+	g_hash_table_remove (sheet->cell_hash, cell);
 	cell->base.flags &= ~(GNM_CELL_IN_SHEET_LIST|GNM_CELL_IS_MERGED);
 }
 
