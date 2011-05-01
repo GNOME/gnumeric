@@ -10,6 +10,7 @@ Morten:
 	* Fix problems with localized function docs.
 	* Plug leak.
 	* Fix minor problem reading old xls objects.
+	* Reduce memory usage when new glib is used.  [#644197]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.14
