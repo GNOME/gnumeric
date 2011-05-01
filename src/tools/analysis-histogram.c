@@ -175,8 +175,9 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		i_end++;
 	dao_set_format  (dao, to_col, 1, to_col, 1, "\"\";\"\"");
 	format = (info->bin_type & bintype_no_inf_upper) ?
-		/* translator note: do not translate the "General" */
-		/* part of the following strings.*/
+		/* translator note: only translate the */
+		/* "to below" and "up to" exclusive of */
+		/* the quotation marks: */
 		_("\"to below\" * General") : _("\"up to\" * General");
 	dao_set_format  (dao, to_col, 2, to_col, i_end, format);
 
@@ -262,6 +263,9 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 
 	if (info->bin_type & bintype_p_inf_lower) {
 		dao_set_format  (dao, to_col, i_end, to_col, i_end,
+		/* translator note: only translate the */
+		/* "to" and "\xe2\x88\x9e" exclusive of */
+		/* the quotation marks: */
 				 _("\"to\" * \"\xe2\x88\x9e\""));
 		dao_set_cell_value (dao, to_col, i_end, value_new_float (GNM_MAX));
 	}
@@ -272,12 +276,16 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		GnmExpr const *expr_cr = make_cellref (1,-1);
 
 		format = (info->bin_type & bintype_no_inf_upper) ?
-			/* translator note: do not translate the "General" part */
-			/* of the following strings.*/
+		/* translator note: only translate the */
+		/* "from" and "above" exclusive of */
+		/* the quotation marks: */
 			_("\"from\" * General") : _("\"above\" * General");
 		dao_set_format  (dao, 0, 2, 0, i_end, format);
 		if (info->bin_type & bintype_m_inf_lower)
 			dao_set_format  (dao, 0, 2, 0, 2,
+		/* translator note: only translate the */
+		/* "from" and "\xe2\x88\x92\xe2\x88\x9e" exclusive of */
+		/* the quotation marks: */
 					 _("\"from\" * \"\xe2\x88\x92\xe2\x88\x9e\";"
 					   "\"from\" * \"\xe2\x88\x92\xe2\x88\x9e\""));
 		for (i = 2; i <= i_end; i++)
