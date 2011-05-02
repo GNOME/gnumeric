@@ -1,6 +1,15 @@
+2011-05-2 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-sign-test.c (analysis_tool_sign_test_engine_run): no colons
+	in field labels
+	(analysis_tool_sign_test_two_engine_run): ditto
+	* analysis-signed-rank-test.c
+	(analysis_tool_signed_rank_test_engine_run): ditto
+	(analysis_tool_signed_rank_test_two_engine_run): ditto
+
 2011-05-1 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-wilcoxon-mann-whitney.c 
+	* analysis-wilcoxon-mann-whitney.c
 	(analysis_tool_wilcoxon_mann_whitney_engine_run): don't use colons for
 	field names
 

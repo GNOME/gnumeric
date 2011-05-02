@@ -77,15 +77,15 @@ analysis_tool_signed_rank_test_engine_run (data_analysis_output_t *dao,
 
 	dao_set_italic (dao, 0, 0, 0, 9);
 	set_cell_text_col (dao, 0, 0, _("/Wilcoxon Signed Rank Test"
-					"/Median:"
-					"/Predicted Median:"
-					"/N:"
-					"/S\xe2\x88\x92:"
-					"/S+:"
-					"/Test Statistic:"
-					"/\xce\xb1:"
-					"/P(T\xe2\x89\xa4t) one-tailed:"
-					"/P(T\xe2\x89\xa4t) two-tailed:"));
+					"/Median"
+					"/Predicted Median"
+					"/N"
+					"/S\xe2\x88\x92"
+					"/S+"
+					"/Test Statistic"
+					"/\xce\xb1"
+					"/P(T\xe2\x89\xa4t) one-tailed"
+					"/P(T\xe2\x89\xa4t) two-tailed"));
 
 	for (col = 0; data != NULL; data = data->next, col++) {
 		GnmValue *val_org = value_dup (data->data);
@@ -292,16 +292,16 @@ analysis_tool_signed_rank_test_two_engine_run (data_analysis_output_t *dao,
 
 	dao_set_italic (dao, 0, 0, 0, 10);
 	set_cell_text_col (dao, 0, 0, _("/Wilcoxon Signed Rank Test"
-					"/Median:"
-					"/Observed Median Difference:"
-					"/Predicted Median Difference:"
-					"/N:"
-					"/S\xe2\x88\x92:"
-					"/S+:"
-					"/Test Statistic:"
-					"/\xce\xb1:"
-					"/P(T\xe2\x89\xa4t) one-tailed:"
-					"/P(T\xe2\x89\xa4t) two-tailed:"));
+					"/Median"
+					"/Observed Median Difference"
+					"/Predicted Median Difference"
+					"/N"
+					"/S\xe2\x88\x92"
+					"/S+"
+					"/Test Statistic"
+					"/\xce\xb1"
+					"/P(T\xe2\x89\xa4t) one-tailed"
+					"/P(T\xe2\x89\xa4t) two-tailed"));
 	val_1 = value_dup (info->base.range_1);
 	val_2 = value_dup (info->base.range_2);
 

@@ -13585,14 +13585,14 @@ msgstr ""
 
 #: ../src/tools/analysis-sign-test.c:74
 msgid ""
-"/Sign Test/Median:/Predicted Median:/Test Statistic:/N:/α:/P(T≤t) one-"
-"tailed:/P(T≤t) two-tailed:"
+"/Sign Test/Median/Predicted Median/Test Statistic/N/α/P(T≤t) one-"
+"tailed/P(T≤t) two-tailed"
 msgstr ""
 
 #: ../src/tools/analysis-sign-test.c:216
 msgid ""
-"/Sign Test/Median:/Predicted Difference:/Test Statistic:/N:/α:/P(T≤t) one-"
-"tailed:/P(T≤t) two-tailed:"
+"/Sign Test/Median/Predicted Difference/Test Statistic/N/α/P(T≤t) one-"
+"tailed/P(T≤t) two-tailed"
 msgstr ""
 
 #: ../src/tools/analysis-sign-test.c:353 ../src/tools/analysis-sign-test.c:382
@@ -13602,8 +13602,8 @@ msgstr ""
 
 #: ../src/tools/analysis-signed-rank-test.c:79
 msgid ""
-"/Wilcoxon Signed Rank Test/Median:/Predicted Median:/N:/S−:/S+:/Test "
-"Statistic:/α:/P(T≤t) one-tailed:/P(T≤t) two-tailed:"
+"/Wilcoxon Signed Rank Test/Median/Predicted Median/N/S−/S+/Test "
+"Statistic/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
 msgstr ""
 
 #: ../src/tools/analysis-signed-rank-test.c:235
@@ -13615,9 +13615,9 @@ msgstr ""
 
 #: ../src/tools/analysis-signed-rank-test.c:294
 msgid ""
-"/Wilcoxon Signed Rank Test/Median:/Observed Median Difference:/Predicted "
-"Median Difference:/N:/S−:/S+:/Test Statistic:/α:/P(T≤t) one-tailed:/P(T≤t) "
-"two-tailed:"
+"/Wilcoxon Signed Rank Test/Median/Observed Median Difference/Predicted "
+"Median Difference/N/S−/S+/Test Statistic/α/P(T≤t) one-tailed/P(T≤t) "
+"two-tailed"
 msgstr ""
 
 #: ../src/tools/analysis-signed-rank-test.c:539

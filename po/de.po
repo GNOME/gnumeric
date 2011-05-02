@@ -13981,19 +13981,19 @@ msgstr "Hauptkomponentenanalyse (%s)"
 
 #: ../src/tools/analysis-sign-test.c:74
 msgid ""
-"/Sign Test/Median:/Predicted Median:/Test Statistic:/N:/α:/P(T≤t) one-"
-"tailed:/P(T≤t) two-tailed:"
+"/Sign Test/Median/Predicted Median/Test Statistic/N/α/P(T≤t) one-"
+"tailed/P(T≤t) two-tailed"
 msgstr ""
-"/Vorzeichentest/Medianwert:/Vorhergesagter Medianwert:/Test-Statistik:/N:/α:/"
-"P(T≤t) one-tailed:/P(T≤t) two-tailed:"
+"/Vorzeichentest/Medianwert/Vorhergesagter Medianwert/Test-Statistik/N/α/"
+"P(T≤t) one-tailed/P(T≤t) two-tailed"
 
 #: ../src/tools/analysis-sign-test.c:216
 msgid ""
-"/Sign Test/Median:/Predicted Difference:/Test Statistic:/N:/α:/P(T≤t) one-"
-"tailed:/P(T≤t) two-tailed:"
+"/Sign Test/Median/Predicted Difference/Test Statistic/N/α/P(T≤t) one-"
+"tailed/P(T≤t) two-tailed"
 msgstr ""
-"/Vorzeichentest/Medianwert:/Vorhergesagte Differenz:/Test Statistic:/N:/α:/P"
-"(T≤t) one-tailed:/P(T≤t) two-tailed:"
+"/Vorzeichentest/Medianwert/Vorhergesagte Differenz/Test Statistic/N/α/P"
+"(T≤t) one-tailed/P(T≤t) two-tailed"
 
 #: ../src/tools/analysis-sign-test.c:353 ../src/tools/analysis-sign-test.c:382
 #, c-format
@@ -14002,11 +14002,11 @@ msgstr "Vorzeichentest (%s)"
 
 #: ../src/tools/analysis-signed-rank-test.c:79
 msgid ""
-"/Wilcoxon Signed Rank Test/Median:/Predicted Median:/N:/S−:/S+:/Test "
-"Statistic:/α:/P(T≤t) one-tailed:/P(T≤t) two-tailed:"
+"/Wilcoxon Signed Rank Test/Median/Predicted Median/N/S−/S+/Test "
+"Statistic/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
 msgstr ""
-"/Wilcoxon-Vorzeichen-Rang-Test/Medianwert:/Vorhergesagter Medianwert:/N:/S−:/"
-"S+:/Test-Statistik:/α:/P(T≤t) one-tailed:/P(T≤t) two-tailed:"
+"/Wilcoxon-Vorzeichen-Rang-Test/Medianwert/Vorhergesagter Medianwert/N/S−/"
+"S+/Test-Statistik/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
 
 #: ../src/tools/analysis-signed-rank-test.c:235
 #: ../src/tools/analysis-signed-rank-test.c:503
@@ -14019,13 +14019,13 @@ msgstr ""
 
 #: ../src/tools/analysis-signed-rank-test.c:294
 msgid ""
-"/Wilcoxon Signed Rank Test/Median:/Observed Median Difference:/Predicted "
-"Median Difference:/N:/S−:/S+:/Test Statistic:/α:/P(T≤t) one-tailed:/P(T≤t) "
-"two-tailed:"
+"/Wilcoxon Signed Rank Test/Median/Observed Median Difference/Predicted "
+"Median Difference/N/S−/S+/Test Statistic/α/P(T≤t) one-tailed/P(T≤t) "
+"two-tailed"
 msgstr ""
-"/Wilcoxon-Vorzeichen-Rang-Test/Medianwert:/Beobachtete Median-Differenz:/"
-"Voehergesagte Median-Differenz:/N:/S−:/S+:/Test-Statistik:/α:/P(T≤t) one-"
-"tailed:/P(T≤t) two-tailed:"
+"/Wilcoxon-Vorzeichen-Rang-Test/Medianwert/Beobachtete Median-Differenz/"
+"Vorhergesagte Median-Differenz/N/S−/S+/Test-Statistik/α/P(T≤t) one-"
+"tailed/P(T≤t) two-tailed"
 
 #: ../src/tools/analysis-signed-rank-test.c:539
 #: ../src/tools/analysis-signed-rank-test.c:568

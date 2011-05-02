@@ -1,4 +1,8 @@
-2011-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2011-05-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* *.po: remove colons from various strings
+
+2011-05-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* *.po: remove colons from "
 	/Rank-Sum:/N:/U:/Ties:/Statistics:/U-Statistics:/p-Value:"
