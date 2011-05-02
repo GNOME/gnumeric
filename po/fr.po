@@ -13848,7 +13848,7 @@ msgid "Fourier Series"
 msgstr "Séries de Fourier"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:102
-msgid "/Rank-Sum:/N:/U:/Ties:/Statistics:/U-Statistics:/p-Value:"
+msgid "/Rank-Sum/N/U/Ties/Statistics/U-Statistics/p-Value"
 msgstr "/Somme-Rang:/N:/U:/Ex-æquo:/Statistiques:/U-statistiques-u:/p-Value:"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:293

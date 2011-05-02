@@ -98,13 +98,13 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 	dao_set_italic (dao, 0, 1, 3, 1);
 	dao_set_merge (dao, 0, 0, 3, 0);
 	dao_set_cell (dao, 0, 0, _("Wilcoxon-Mann-Whitney Test"));
-	set_cell_text_col (dao, 0, 2, _("/Rank-Sum:"
-					"/N:"
-					"/U:"
-					"/Ties:"
-					"/Statistics:"
-					"/U-Statistics:"
-					"/p-Value:"));
+	set_cell_text_col (dao, 0, 2, _("/Rank-Sum"
+					"/N"
+					"/U"
+					"/Ties"
+					"/Statistics"
+					"/U-Statistics"
+					"/p-Value"));
 	dao_set_cell (dao, 3, 1, _("Total"));
 
 	analysis_tools_remove_label (total_pop, info->labels, info->group_by);

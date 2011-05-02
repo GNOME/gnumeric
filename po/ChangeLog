@@ -1,5 +1,10 @@
 2011-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* *.po: remove colons from "
+	/Rank-Sum:/N:/U:/Ties:/Statistics:/U-Statistics:/p-Value:"
+
+2011-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* *.po: change "_Wilcoxon-Mann-Whitney Test..." to
 	"Wilcoxon-_Mann-Whitney Test..."
 

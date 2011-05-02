@@ -13753,7 +13753,7 @@ msgid "Fourier Series"
 msgstr "Furjė eilutė"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:102
-msgid "/Rank-Sum:/N:/U:/Ties:/Statistics:/U-Statistics:/p-Value:"
+msgid "/Rank-Sum/N/U/Ties/Statistics/U-Statistics/p-Value"
 msgstr "/Rangų-suma:/N:/U:/Ryšiai:/Statistika:/U-statistika:/p-reikšmė:"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:293

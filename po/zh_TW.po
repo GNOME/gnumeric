@@ -13645,7 +13645,7 @@ msgid "Fourier Series"
 msgstr "傅立葉級數"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:102
-msgid "/Rank-Sum:/N:/U:/Ties:/Statistics:/U-Statistics:/p-Value:"
+msgid "/Rank-Sum/N/U/Ties/Statistics/U-Statistics/p-Value"
 msgstr ""
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:293

@@ -14194,7 +14194,7 @@ msgid "Fourier Series"
 msgstr "Fourierovy řady"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:102
-msgid "/Rank-Sum:/N:/U:/Ties:/Statistics:/U-Statistics:/p-Value:"
+msgid "/Rank-Sum/N/U/Ties/Statistics/U-Statistics/p-Value"
 msgstr "/Dvouvýběrový:/N:/U:/Shodné:/Statistiky:/U-statistiky:/p-hodnota:"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:293

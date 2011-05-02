@@ -1,5 +1,11 @@
 2011-05-1 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-wilcoxon-mann-whitney.c 
+	(analysis_tool_wilcoxon_mann_whitney_engine_run): don't use colons for
+	field names
+
+2011-05-1 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-anova.c (analysis_tool_anova_two_factor_no_rep_engine_run):
 	use thin border
 	(analysis_tool_anova_two_factor_engine_run): ditto
