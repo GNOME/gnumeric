@@ -300,6 +300,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		GnmValue *val = l->data;
 		GnmValue *val_c = NULL;
 
+		dao_set_italic (dao, col, 1, col, 1);
 		if (info->base.labels) {
 			val_c = value_dup (val);
 			switch (info->base.group_by) {

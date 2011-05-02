@@ -1,5 +1,12 @@
 2011-05-1 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-frequency.c (analysis_tool_frequency_engine_run): 
+	fix italic labels
+	* analysis-histogram.c (analysis_tool_histogram_engine_run): ditto
+	* analysis-tools.c (analysis_tool_ranking_engine_run): ditto
+
+2011-05-1 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-tools.c (summary_statistics): fix italic labels
 	(confidence_level): ditto
 	(kth_smallest_largest): ditto

@@ -4079,6 +4079,7 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 		GnmExpr const *expr_percentile;
 		int rows, i;
 
+		dao_set_italic (dao, 0, 1, 3, 1);
 		dao_set_cell (dao, 0, 1, _("Point"));
 		dao_set_cell (dao, 2, 1, _("Rank"));
 		dao_set_cell (dao, 3, 1, _("Percentile Rank"));

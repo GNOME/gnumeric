@@ -73,7 +73,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 	}
 	/* General Info */
 
-	dao_set_italic (dao, 0, 0, 0, 0);
+	dao_set_italic (dao, 0, 0, 0, 1);
 	set_cell_text_col (dao, 0, 0, _("/Frequency Table"
 					"/Category"));
 
@@ -124,6 +124,7 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 		int i, row = 2;
 
 
+		dao_set_italic (dao, col, 1, col, 1);
 		if (info->base.labels) {
 			val_c = value_dup (val);
 			switch (info->base.group_by) {
