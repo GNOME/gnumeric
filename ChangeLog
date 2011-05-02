@@ -1,3 +1,8 @@
+2011-05-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/colrow.c (colrow_set_states): use colrow_free, not g_free;
+	fixes #649139
+
 2011-05-01  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (gnm_sheet_init): Use a set-style GHash for cells in

@@ -608,7 +608,7 @@ colrow_set_states (Sheet *sheet, gboolean is_cols,
 					ColRowInfo *cri = segment->info[sub];
 					if (cri != NULL) {
 						segment->info[sub] = NULL;
-						g_free (cri);
+						colrow_free (cri);
 					}
 				}
 			} else {
