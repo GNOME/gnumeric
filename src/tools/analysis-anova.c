@@ -243,9 +243,9 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 					"/Error"
 					"/Total"));
 	dao_set_italic (dao, 1, r, 6, r);
-	dao_set_border (dao, 0, r, 6, r, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THICK,
+	dao_set_border (dao, 0, r, 6, r, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THIN,
 			style_color_black (), GNM_STYLE_BORDER_HORIZ);
-	dao_set_border (dao, 0, r+3, 6, r+3, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THICK,
+	dao_set_border (dao, 0, r+3, 6, r+3, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THIN,
 			style_color_black (), GNM_STYLE_BORDER_HORIZ);
 	set_cell_text_row (dao, 1, r, _("/SS"
 					"/df"
@@ -602,9 +602,9 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 					"/Error"
 					"/Total"));
 	dao_set_italic (dao, 1, r, 6, r);
-	dao_set_border (dao, 0, r, 6, r, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THICK,
+	dao_set_border (dao, 0, r, 6, r, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THIN,
 			style_color_black (), GNM_STYLE_BORDER_HORIZ);
-	dao_set_border (dao, 0, r+4, 6, r+4, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THICK,
+	dao_set_border (dao, 0, r+4, 6, r+4, MSTYLE_BORDER_BOTTOM, GNM_STYLE_BORDER_THIN,
 			style_color_black (), GNM_STYLE_BORDER_HORIZ);
 	set_cell_text_row (dao, 1, r, _("/SS"
 					"/df"

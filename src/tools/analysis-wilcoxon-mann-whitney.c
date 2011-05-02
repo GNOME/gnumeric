@@ -94,7 +94,6 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 		("ISBLANK", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_isblank);
 
-	dao_set_bold (dao, 0, 0, 0, 0);
 	dao_set_italic (dao, 0, 0, 0, 8);
 	dao_set_italic (dao, 0, 1, 3, 1);
 	dao_set_merge (dao, 0, 0, 3, 0);

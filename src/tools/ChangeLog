@@ -1,6 +1,21 @@
 2011-05-1 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-frequency.c (analysis_tool_frequency_engine_run): 
+	* analysis-anova.c (analysis_tool_anova_two_factor_no_rep_engine_run):
+	use thin border
+	(analysis_tool_anova_two_factor_engine_run): ditto
+	* analysis-exp-smoothing.c
+	(analysis_tool_exponential_smoothing_engine_ses_h_run): fix italic
+	labels
+	(analysis_tool_exponential_smoothing_engine_ses_r_run): ditto
+	(analysis_tool_exponential_smoothing_engine_des_run): ditto
+	(analysis_tool_exponential_smoothing_engine_ates_run): ditto
+	(analysis_tool_exponential_smoothing_engine_mtes_run): ditto
+	* analysis-wilcoxon-mann-whitney.c
+	(analysis_tool_wilcoxon_mann_whitney_engine_run): don't bold the title
+
+2011-05-1 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-frequency.c (analysis_tool_frequency_engine_run):
 	fix italic labels
 	* analysis-histogram.c (analysis_tool_histogram_engine_run): ditto
 	* analysis-tools.c (analysis_tool_ranking_engine_run): ditto

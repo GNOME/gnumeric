@@ -131,6 +131,7 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *da
 		gint row;
 		Sheet *sheet;
 
+		dao_set_italic (dao, col, 0, col, 0);
 		if (info->base.labels) {
 			val_c = value_dup (val);
 			switch (info->base.group_by) {
@@ -144,7 +145,6 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *da
 			expr_title = gnm_expr_new_funcall1 (fd_index,
 							    gnm_expr_new_constant (val_c));
 
-			dao_set_italic (dao, col, 0, col, 0);
 			dao_set_cell_expr (dao, col, 0, expr_title);
 		} else
 			dao_set_cell_printf
@@ -307,6 +307,7 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 		gint row;
 		Sheet *sheet;
 
+		dao_set_italic (dao, col, 0, col, 0);
 		if (info->base.labels) {
 			val_c = value_dup (val);
 			switch (info->base.group_by) {
@@ -320,7 +321,6 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 			expr_title = gnm_expr_new_funcall1 (fd_index,
 							    gnm_expr_new_constant (val_c));
 
-			dao_set_italic (dao, col, 0, col, 0);
 			dao_set_cell_expr (dao, col, 0, expr_title);
 		} else
 			dao_set_cell_printf
@@ -495,6 +495,7 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 		gint row;
 		Sheet *sheet;
 
+		dao_set_italic (dao, col, 0, col, 0);
 		if (info->base.labels) {
 			val_c = value_dup (val);
 			switch (info->base.group_by) {
@@ -508,7 +509,6 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 			expr_title = gnm_expr_new_funcall1 (fd_index,
 							    gnm_expr_new_constant (val_c));
 
-			dao_set_italic (dao, col, 0, col, 0);
 			dao_set_cell_expr (dao, col, 0, expr_title);
 		} else
 			dao_set_cell_printf
@@ -759,6 +759,7 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 									    "/Trend"
 									    "/Seasonal Adjustment"));
 
+			dao_set_italic (dao, col,  -info->s_period, col,  -info->s_period);
 			if (info->base.labels) {
 				val_c = value_dup (val);
 				switch (info->base.group_by) {
@@ -772,7 +773,6 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 				expr_title = gnm_expr_new_funcall1 (fd_index,
 								    gnm_expr_new_constant (val_c));
 
-				dao_set_italic (dao, col,  -info->s_period, col,  -info->s_period);
 				dao_set_cell_expr (dao, col,  -info->s_period, expr_title);
 			} else
 				dao_set_cell_printf
@@ -1081,6 +1081,7 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 									    "/Trend"
 									    "/Seasonal Adjustment"));
 
+			dao_set_italic (dao, col,  -info->s_period, col,  -info->s_period);
 			if (info->base.labels) {
 				val_c = value_dup (val);
 				switch (info->base.group_by) {
@@ -1094,7 +1095,6 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 				expr_title = gnm_expr_new_funcall1 (fd_index,
 								    gnm_expr_new_constant (val_c));
 
-				dao_set_italic (dao, col,  -info->s_period, col,  -info->s_period);
 				dao_set_cell_expr (dao, col,  -info->s_period, expr_title);
 			} else
 				dao_set_cell_printf
