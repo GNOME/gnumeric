@@ -1,5 +1,19 @@
 2011-05-1 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-tools.c (summary_statistics): fix italic labels
+	(confidence_level): ditto
+	(kth_smallest_largest): ditto
+	(analysis_tool_sampling_engine_run): ditto
+	(analysis_tool_table): ditto
+	(analysis_tool_ztest_engine_run): ditto
+	(analysis_tool_ttest_paired_engine_run): ditto
+	(analysis_tool_ttest_eqvar_engine_run): ditto
+	(analysis_tool_ttest_neqvar_engine_run): ditto
+	(analysis_tool_ftest_engine_run): ditto
+	(analysis_tool_anova_single_engine_run): ditto
+
+2011-05-1 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-histogram.c (analysis_tool_histogram_engine_run):
 	be more specific in the translator notes
 

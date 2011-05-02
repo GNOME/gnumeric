@@ -618,6 +618,7 @@ analysis_tool_table (data_analysis_output_t *dao,
 		val = value_dup (inputdata->data);
 
 		/* Label */
+		dao_set_italic (dao, col, 0, col, 0);
 		analysis_tools_write_label (val, dao, info,
 					    col, 0, col);
 
@@ -625,7 +626,6 @@ analysis_tool_table (data_analysis_output_t *dao,
 					     (gpointer) gnm_expr_new_constant (val));
 	}
 	inputexpr = g_slist_reverse (inputexpr);
-	dao_set_italic (dao, 0, 0, col, 0);
 
 	for (row = 1, inputdata = info->input; inputdata != NULL;
 	     inputdata = inputdata->next, row++) {
@@ -633,6 +633,7 @@ analysis_tool_table (data_analysis_output_t *dao,
 		GSList *colexprlist;
 
 		/* Label */
+		dao_set_italic (dao, 0, row, 0, row);
 		analysis_tools_write_label (val, dao, info,
 					    0, row, row);
 
@@ -653,7 +654,6 @@ analysis_tool_table (data_analysis_output_t *dao,
 
 		value_release (val);
 	}
-	dao_set_italic (dao, 0, 0, 0, row);
 
 	go_slist_free_custom (inputexpr, (GFreeFunc)gnm_expr_free);
 	if (fd) gnm_func_unref (fd);
@@ -827,6 +827,7 @@ summary_statistics (data_analysis_output_t *dao,
 
         dao_set_cell (dao, 0, 0, NULL);
 
+	dao_set_italic (dao, 0, 1, 0, 13);
 	/*
 	 * Note to translators: in the following string and others like it,
 	 * the "/" is a separator character that can be changed to anything
@@ -856,9 +857,10 @@ summary_statistics (data_analysis_output_t *dao,
 		GnmExpr const *expr_count;
 		GnmValue *val_org = value_dup (data->data);
 
-		/* Note that analysis_tools_write_label may modify val_org */
-		analysis_tools_write_label (val_org, dao, &info->base, col + 1, 0, col + 1);
 		dao_set_italic (dao, col + 1, 0, col+1, 0);
+		/* Note that analysis_tools_write_label may modify val_org */
+		analysis_tools_write_label (val_org, dao, &info->base, 
+					    col + 1, 0, col + 1);
 
 	        /* Mean */
 		expr = gnm_expr_new_funcall1
@@ -971,6 +973,7 @@ confidence_level (data_analysis_output_t *dao,
 				    "/to"), GNM_FORMAT_g);
 	buffer = g_strdup_printf (format, info->c_level * 100);
 	g_free (format);
+	dao_set_italic (dao, 0, 1, 0, 2);
 	set_cell_text_col (dao, 0, 1, buffer);
         g_free (buffer);
 
@@ -995,9 +998,9 @@ confidence_level (data_analysis_output_t *dao,
 		GnmExpr const *expr_count;
 		GnmValue *val_org = value_dup (data->data);
 
+		dao_set_italic (dao, col+1, 0, col+1, 0);
 		/* Note that analysis_tools_write_label may modify val_org */
 		analysis_tools_write_label (val_org, dao, &info->base, col + 1, 0, col + 1);
-		dao_set_italic (dao, col+1, 0, col+1, 0);
 
 		expr_mean = gnm_expr_new_funcall1
 			(fd_mean,
@@ -1054,6 +1057,7 @@ kth_smallest_largest (data_analysis_output_t *dao,
 	GnmFunc *fd = gnm_func_lookup_or_add_placeholder (func, dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd);
 
+	dao_set_italic (dao, 0, 1, 0, 1);
         dao_set_cell_printf (dao, 0, 1, label, k);
 
         dao_set_cell (dao, 0, 0, NULL);
@@ -1062,8 +1066,9 @@ kth_smallest_largest (data_analysis_output_t *dao,
 		GnmExpr const *expr = NULL;
 		GnmValue *val = value_dup (data->data);
 
-		analysis_tools_write_label (val, dao, &info->base, col + 1, 0, col + 1);
 		dao_set_italic (dao, col + 1, 0, col + 1, 0);
+		analysis_tools_write_label (val, dao, &info->base, 
+					    col + 1, 0, col + 1);
 
 		expr = gnm_expr_new_funcall2
 			(fd,
@@ -1188,6 +1193,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 		char const *format = NULL;
 		guint offset = info->periodic ? ((info->offset == 0) ? info->period : info->offset): 0;
 
+		dao_set_italic (dao, col, 0, col + info->number - 1, 0);
 
 		if (info->base.labels) {
 			val_c = value_dup (val);
@@ -1387,6 +1393,9 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_count_1;
 	GnmExpr const *expr_count_2;
 
+	dao_set_italic (dao, 0, 0, 0, 11);
+	dao_set_italic (dao, 0, 0, 2, 0);
+
         dao_set_cell (dao, 0, 0, "");
         set_cell_text_col (dao, 0, 1, _("/Mean"
 					"/Known Variance"
@@ -1560,9 +1569,6 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 
 	/* And finish up */
 
-	dao_set_italic (dao, 0, 0, 0, 11);
-	dao_set_italic (dao, 0, 0, 2, 0);
-
 	value_release (val_1);
 	value_release (val_2);
 
@@ -1637,6 +1643,9 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_diff;
 	GnmExpr const *expr_ifisnumber;
 	GnmExpr const *expr_ifisoddifisnumber;
+
+	dao_set_italic (dao, 0, 0, 0, 13);
+	dao_set_italic (dao, 0, 0, 2, 0);
 
         dao_set_cell (dao, 0, 0, "");
         set_cell_text_col (dao, 0, 1, _("/Mean"
@@ -1840,9 +1849,6 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 
 	/* And finish up */
 
-	dao_set_italic (dao, 0, 0, 0, 13);
-	dao_set_italic (dao, 0, 0, 2, 0);
-
 	value_release (val_1);
 	value_release (val_2);
 
@@ -1916,6 +1922,9 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_var_2;
 	GnmExpr const *expr_count_1;
 	GnmExpr const *expr_count_2;
+
+	dao_set_italic (dao, 0, 0, 0, 12);
+	dao_set_italic (dao, 0, 0, 2, 0);
 
         dao_set_cell (dao, 0, 0, "");
 	set_cell_text_col (dao, 0, 1, _("/Mean"
@@ -2146,9 +2155,6 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 
 	/* And finish up */
 
-	dao_set_italic (dao, 0, 0, 0, 12);
-	dao_set_italic (dao, 0, 0, 2, 0);
-
 	value_release (val_1);
 	value_release (val_2);
 
@@ -2213,6 +2219,9 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_var_2;
 	GnmExpr const *expr_count_1;
 	GnmExpr const *expr_count_2;
+
+	dao_set_italic (dao, 0, 0, 0, 11);
+	dao_set_italic (dao, 0, 0, 2, 0);
 
         dao_set_cell (dao, 0, 0, "");
         set_cell_text_col (dao, 0, 1, _("/Mean"
@@ -2447,9 +2456,6 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 	gnm_func_unref (fd_abs);
 	gnm_func_unref (fd_tinv);
 
-	dao_set_italic (dao, 0, 0, 0, 11);
-	dao_set_italic (dao, 0, 0, 2, 0);
-
 	value_release (val_1);
 	value_release (val_2);
 
@@ -2511,8 +2517,8 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 	fd_finv = gnm_func_lookup_or_add_placeholder ("FINV", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_finv);
 
+	dao_set_italic (dao, 0, 0, 0, 11);
 	dao_set_cell (dao, 0, 0, _("F-Test"));
-
 	set_cell_text_col (dao, 0, 1, _("/Mean"
 					"/Variance"
 					"/Observations"
@@ -2524,12 +2530,11 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 					"/F Critical left-tail"
 					"/P two-tail"
 					"/F Critical two-tail"));
-	dao_set_italic (dao, 0, 0, 0, 11);
 
 	/* Label */
+	dao_set_italic (dao, 0, 0, 2, 0);
 	analysis_tools_write_label_ftest (val_1, dao, 1, 0, info->labels, 1);
 	analysis_tools_write_label_ftest (val_2, dao, 2, 0, info->labels, 2);
-	dao_set_italic (dao, 0, 0, 2, 0);
 
 	/* Mean */
 	{
@@ -4214,16 +4219,16 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 
 	guint index;
 
+	dao_set_italic (dao, 0, 0, 0, 2);
 	dao_set_cell (dao, 0, 0, _("Anova: Single Factor"));
 	dao_set_cell (dao, 0, 2, _("SUMMARY"));
-	dao_set_italic (dao, 0, 0, 0, 2);
 
+	dao_set_italic (dao, 0, 3, 4, 3);
 	set_cell_text_row (dao, 0, 3, _("/Groups"
 					"/Count"
 					"/Sum"
 					"/Average"
 					"/Variance"));
-	dao_set_italic (dao, 0, 3, 4, 3);
 
 	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_mean);
@@ -4247,9 +4252,9 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 		GnmValue *val_org = value_dup (inputdata->data);
 
 		/* Label */
+		dao_set_italic (dao, 0, index, 0, index);
 		analysis_tools_write_label (val_org, dao, &info->base,
 					    0, index, index + 1);
-		dao_set_italic (dao, 0, index, 0, index);
 
 		/* Count */
 		dao_set_cell_expr
@@ -4286,19 +4291,19 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 		goto finish_anova_single_factor_tool;
 
 
+	dao_set_italic (dao, 0, 0, 0, 4);
 	set_cell_text_col (dao, 0, 0, _("/ANOVA"
 					"/Source of Variation"
 					"/Between Groups"
 					"/Within Groups"
 					"/Total"));
-	dao_set_italic (dao, 0, 0, 0, 4);
+	dao_set_italic (dao, 1, 1, 6, 1);
 	set_cell_text_row (dao, 1, 1, _("/SS"
 					"/df"
 					"/MS"
 					"/F"
 					"/P-value"
 					"/F critical"));
-	dao_set_italic (dao, 1, 1, 6, 1);
 
 	/* ANOVA */
 	{
