@@ -207,7 +207,7 @@
 	<default>[,&amp;\[TAB\],]</default>
         <locale name="C">
         <short>Page Header</short>
-        <long>The default page header for new documents that can be modified using the 
+        <long>The default page header for new documents that can be modified using the
 	page setup dialog.</long>
         </locale>
       </schema>
@@ -220,7 +220,7 @@
 	<default>[,Page &amp;\[PAGE\],]</default>
         <locale name="C">
         <short>Page Footer</short>
-        <long>The default page footer for new documents that can be modified using the 
+        <long>The default page footer for new documents that can be modified using the
 	page setup dialog.</long>
         </locale>
       </schema>
@@ -743,4 +743,4 @@
       </schema>
    </schemalist>
 </gconfschemafile>
-  
+

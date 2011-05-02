@@ -1,4 +1,4 @@
-schema_in_files = gnumeric-dialogs.schemas.in gnumeric-general.schemas.in gnumeric-plugins.schemas.in 
+schema_in_files = gnumeric-dialogs.schemas.in gnumeric-general.schemas.in gnumeric-plugins.schemas.in
 if WITH_GCONF
 schemadir   	= @GCONF_SCHEMA_FILE_DIR@
 schema_DATA 	= $(schema_in_files:.schemas.in=.schemas)

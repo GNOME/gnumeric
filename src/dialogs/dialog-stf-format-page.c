@@ -103,7 +103,7 @@ tree_view_clamp_column_visible (GtkTreeView       *tree_view,
 	GtkAllocation ba;
 
 	gtk_widget_get_allocation (button, &ba);
-	
+
 	if (hval + hps < ba.x + ba.width)
 		gtk_adjustment_set_value (hadjustment,
 					  ba.x + ba.width - hps);

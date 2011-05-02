@@ -115,7 +115,7 @@ static void
 xlsx_write_rgbarea (GsfXMLOut *xml, GOColor color)
 {
 	char *buf = g_strdup_printf ("%06x", (guint) color >> 8);
-	int alpha = GO_COLOR_UINT_A (color); 
+	int alpha = GO_COLOR_UINT_A (color);
 	gsf_xml_out_start_element (xml, "a:srgbClr");
 	gsf_xml_out_add_cstr_unchecked (xml, "val", buf);
 	g_free (buf);
@@ -142,7 +142,7 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 			xlsx_write_rgbarea (xml, style->line.color);
 			gsf_xml_out_end_element (xml);
 		}
-		
+
 		gsf_xml_out_end_element (xml);
 	}
 	if ((style->interesting_fields & GO_STYLE_FILL) &&
@@ -244,7 +244,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 		gsf_xml_out_start_element (xml, "c:overlap");
 		gsf_xml_out_add_int (xml, "val", overlap_percentage);
 		gsf_xml_out_end_element (xml);
-		
+
 		gsf_xml_out_start_element (xml, "c:gapWidth");
 		gsf_xml_out_add_int (xml, "val", gap_percentage);
 		gsf_xml_out_end_element (xml);
@@ -309,7 +309,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 				(use_splines?
 					(has_markers? "smoothMarker": "smooth"):
 					(has_markers? "lineMarker": "line")):
-				(has_markers? "markers": "none"); 
+				(has_markers? "markers": "none");
 		use_xy = TRUE;
 		gsf_xml_out_start_element (xml, "c:scatterChart");
 		xlsx_write_chart_cstr_unchecked (xml, "c:scatterStyle", style);

@@ -1167,8 +1167,8 @@ latex2e_print_hhline (GsfOutput *output, GnmStyleBorderType *clines, int n, GnmS
 static GnmRange
 file_saver_sheet_get_extent (Sheet *sheet)
 {
-  	GnmRangeRef *range 
-		= g_object_get_data (G_OBJECT (sheet->workbook), 
+  	GnmRangeRef *range
+		= g_object_get_data (G_OBJECT (sheet->workbook),
 				     "ssconvert-range");
 	if (range) {
 		Sheet *start_sheet, *end_sheet;

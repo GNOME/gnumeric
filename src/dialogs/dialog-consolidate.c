@@ -317,7 +317,7 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 	if (consolidate_check_destination (cs, dao)) {
 		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
 					state->base.sheet,
-					dao, cs, tool_consolidate_engine, 
+					dao, cs, tool_consolidate_engine,
 					FALSE) &&
 		    (button == state->base.ok_button))
 			gtk_widget_destroy (state->base.dialog);

@@ -1670,8 +1670,8 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 	d (1, g_printerr ("Insert font '%s' (%d) size %d pts color %d\n",
 		      fd->fontname, fd->index, fd->height / 20, fd->color_idx););
 	d (3, g_printerr ("Font color = 0x%x\n", fd->color_idx););
-	
-	g_hash_table_insert (importer->font_data, 
+
+	g_hash_table_insert (importer->font_data,
 			     GINT_TO_POINTER (fd->index), fd);
 
 }

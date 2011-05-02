@@ -101,13 +101,13 @@
     <key name="header" type="as">
       <default>['','&amp;\[TAB\]','']</default>
       <_summary>Page Header</_summary>
-      <_description>The default page header for new documents that can be modified using the 
+      <_description>The default page header for new documents that can be modified using the
 	page setup dialog.</_description>
     </key>
     <key name="footer" type="as">
       <default>['','Page &amp;\[PAGE\]','']</default>
       <_summary>Page Footer</_summary>
-      <_description>The default page footer for new documents that can be modified using the 
+      <_description>The default page footer for new documents that can be modified using the
 	page setup dialog.</_description>
     </key>
     <key name="hf-font-size" type="d">
@@ -355,4 +355,4 @@
       <_description>This is the default error behavior of Search &amp; Replace indicated by an integer from 0 to 4.</_description>
     </key>
   </schema>
-</schemalist>  
+</schemalist>

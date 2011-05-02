@@ -17,5 +17,5 @@
             			<function name="fourier"/>
 			</functions>
 		</service>
-	</services> 
+	</services>
 </plugin>

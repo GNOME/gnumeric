@@ -182,9 +182,9 @@ frequency_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = go_gtk_builder_get_widget (state->base.gui, "exact-button");
 	data->exact = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), 
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
 				state->base.sheet,
-				dao, data, analysis_tool_frequency_engine, 
+				dao, data, analysis_tool_frequency_engine,
 				TRUE))
 		gtk_widget_destroy (state->base.dialog);
 

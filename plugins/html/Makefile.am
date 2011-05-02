@@ -12,7 +12,7 @@ html_la_SOURCES = \
     html.h html.c html_read.c \
     latex.h latex.c \
     roff.h roff.c \
-    font.h font.c 
+    font.h font.c
 #No longer used now that printing is available.
 #epsf.h epsf.c ps.h ps.c
 

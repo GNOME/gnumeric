@@ -993,9 +993,9 @@ scan_for_XLLs_and_register_functions (const gchar *dir_name)
 								} else {
 									GO_SLIST_PREPEND (XLLs,xll);
 									/* xgettext : %lu gives the number of functions. This is input to ngettext. */
-									g_message (ngettext("Loaded %lu function from XLL/DLL/SO %s.", 
+									g_message (ngettext("Loaded %lu function from XLL/DLL/SO %s.",
 											    "Loaded %lu functions from XLL/DLL/SO %s.",
-											    xll->number_of_functions), 
+											    xll->number_of_functions),
 										   xll->number_of_functions, full_entry_name);
 								}
 							}

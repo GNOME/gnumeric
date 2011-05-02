@@ -25,7 +25,7 @@
 2003-12-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=129049
-	* src/session.c (interaction_function): stick dialogs and workbook 
+	* src/session.c (interaction_function): stick dialogs and workbook
 	  windows to ensure they are visible for logout conversation
 
 2003-12-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
@@ -52,7 +52,7 @@
 2003-12-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/gui-util.c (gnumeric_popup_menu): handle NULL event.
-	
+
 2003-12-19  Jon K Hellan  <hellan@acm.org>
 
 	* src/format-template.c (format_template_new): Use gnm_get_real_name.
@@ -126,7 +126,7 @@
 	http://bugzilla.gnome.org/show_bug.cgi?id=128166
 	* src/commands.c (cmd_reorganize_sheets_undo): dirty workbook
 	(cmd_reorganize_sheets_redo): ditto
-	
+
 2003-12-01  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/gnumeric-gconf.c (gnm_conf_init_essential): add
@@ -145,7 +145,7 @@
 2003-11-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/print.c (print_job_info_destroy): plug leak
-	
+
 2003-11-24  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_colrow_group_ungroup) : when adding a group
@@ -177,8 +177,8 @@
 
 2003-11-18  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/print-info.c (print_info_new): disable page setup continuity 
-	  again. The bug seems to be still in libgnomeprint 2.4.x (it is gone 
+	* src/print-info.c (print_info_new): disable page setup continuity
+	  again. The bug seems to be still in libgnomeprint 2.4.x (it is gone
 	  from 2.5.x, at least so it seems).
 
 2003-11-17  Andreas J. Guelzow  <aguelzow@taliesin.ca>
@@ -288,13 +288,13 @@
 	(gnm_conf_init_extra): call gnm_conf_init_printer_decoration_font
 	  rather than doing the work itself.
 	(gnm_conf_shutdown): new
-	* src/gnumeric-gconf.h: printer_decoration_font replaces 
-	  printer_decoration_font_* 
-	* src/libgnumeric.c (gnm_common_init): gnm_conf_init requires 
+	* src/gnumeric-gconf.h: printer_decoration_font replaces
+	  printer_decoration_font_*
+	* src/libgnumeric.c (gnm_common_init): gnm_conf_init requires
 	  mstyle_init
 	(gnm_shutdown): call gnm_conf_shutdown
-	* src/print.c (print_job_info_get): printer_decoration_font replaces 
-	  printer_decoration_font_* 
+	* src/print.c (print_job_info_get): printer_decoration_font replaces
+	  printer_decoration_font_*
 
 2003-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
@@ -341,7 +341,7 @@
 	* src/gnumeric-gconf-priv.h: new keys:
 	  PRINTSETUP_GCONF_HF_FONT_NAME, PRINTSETUP_GCONF_HF_FONT_SIZE,
 	  PRINTSETUP_GCONF_HF_FONT_BOLD, PRINTSETUP_GCONF_HF_FONT_ITALIC
-	* src/gnumeric-gconf.c (gnm_conf_init_extras): initialize new fields 
+	* src/gnumeric-gconf.c (gnm_conf_init_extras): initialize new fields
 	* src/gnumeric-gconf.h: new fields for preference structure
 	* src/print.c (print_job_info_get): use preference info and fallback
 	  fonts
@@ -451,7 +451,7 @@
 
 2003-10-08  Jody Goldberg <jody@gnome.org>
 
-	* configure.in : post release version bump 
+	* configure.in : post release version bump
 
 2003-10-08  Jody Goldberg <jody@gnome.org>
 
@@ -588,7 +588,7 @@
 2003-09-22  Morten Welinder  <terra@gnome.org>
 
 	* src/format.c (format_boolean): Use function.
-	(format_value_gstring): Use format_boolean.	
+	(format_value_gstring): Use format_boolean.
 
 	* src/number-match.c (format_match_simple): Ditto.
 	* src/value-sheet.c (value_dump): Ditto.
@@ -638,7 +638,7 @@
 
 2003-09-15  Jon K Hellan  <hellan@acm.org>
 
-	* configure.in: Require libgsf-gnome-1 >= 1.8.2. No big deal, we 
+	* configure.in: Require libgsf-gnome-1 >= 1.8.2. No big deal, we
 	were already requiring libgsf-1 >= 1.8.2 elsewhere.
 	Remove big bad "unstable branch" warning.
 
@@ -672,7 +672,7 @@
 
 2003-09-14  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/gui-file.c (make_format_chooser): expect to receive the 
+	* src/gui-file.c (make_format_chooser): expect to receive the
 	  correct list of formats.
 	(gui_file_save_as): filter out FILE_SAVE_RANGE savers
 
@@ -684,7 +684,7 @@
 
 2003-09-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/print-info.c (render_path): &[PATH] should not include 
+	* src/print-info.c (render_path): &[PATH] should not include
 	  basename
 
 2003-09-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
@@ -693,7 +693,7 @@
 	* src/print-info.c (render_tab): simplify default name
 	(render_file): show basename only and provide default
 	(render_path): new
-	(render_opcode): remove unused code, don't strip and 
+	(render_opcode): remove unused code, don't strip and
 	  forget subformatting, don't use g_ascii_strcasecmp on
 	  tranlated text.
 
@@ -866,7 +866,7 @@
 
 2003-08-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/gui-util.c (gnm_pixbuf_intelligent_scale): use height and 
+	* src/gui-util.c (gnm_pixbuf_intelligent_scale): use height and
 	  width arguments
 	* src/gui-util.h (gnm_pixbuf_intelligent_scale): ditto
 	* src/workbook-control-gui.c: add #include
@@ -918,22 +918,22 @@
 	(selchanged_foreach) : deleted
 	(cb_file_open_selchanged) : deleted
 	* src/gui-util.h (gnumeric_dialog_image_file_selection): deleted
-	* src/workbook-control-gui.c (cb_insert_image):  use 
+	* src/workbook-control-gui.c (cb_insert_image):  use
 	  preview_file_selection_new and not
 	  gnumeric_dialog_image_file_selection
-	
+
 2003-08-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/gui-util.c (gnumeric_dialog_file_selection):
 	  watch for NULL wbcg
-	
+
 2003-08-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/gui-util.c (selchanged_foreach): new
 	(cb_file_open_selchanged): new
 	(gnumeric_dialog_image_file_selection): new
 	* src/gui-util.h (gnumeric_dialog_image_file_selection): new
-	* src/workbook-control-gui.c (cb_insert_image): use 
+	* src/workbook-control-gui.c (cb_insert_image): use
 	  gnumeric_dialog_image_file_selection
 
 2003-08-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
@@ -941,7 +941,7 @@
 	* src/GNOME_Gnumeric.xml: enable DataImportText
 	* src/gui-file.c (gui_file_open): add format argument
 	(file_opener_find_by_id): new
-	* src/gui-file.h (gui_file_open): add format argument 
+	* src/gui-file.h (gui_file_open): add format argument
 	* src/workbook-control-gui.c: enable DataImportText
 	(cb_file_open): add argument to gui_file_open
 	(cb_data_import_text): enable and implement
@@ -985,7 +985,7 @@
 
 2003-08-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/commands.c (cmd_so_graph_config_redo): use 
+	* src/commands.c (cmd_so_graph_config_redo): use
 	  sheet_object_graph_set_gog
 	(cmd_so_graph_config_undo): ditto
 	(cmd_so_graph_config): initialize me->first_time
@@ -997,10 +997,10 @@
 
 2003-08-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/commands.c 
+	* src/commands.c
 	(cmd_reorganize_sheets_delete_get_this_sheet_info): do not
 	  exclude graphs
-	
+
 2003-08-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_so_graph_config*): new
@@ -1133,7 +1133,7 @@
 
 2003-08-12  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/workbook-control.c (wb_control_parse_and_jump): make the range 
+	* src/workbook-control.c (wb_control_parse_and_jump): make the range
 	  also visible
 
 2003-08-12  Morten Welinder  <terra@gnome.org>
@@ -1150,7 +1150,7 @@
 	(sheet_filter_insdel_colrow) : and here.  Only add a new field if a
 	  col is inserted in the midst of a filter range.  Inserting before or
 	  after just ignores moves them.
-	  
+
 	(gnm_filter_add_field) : fix inserting fields in the middle.
 
 	* src/sheet.c (sheet_update_only_grid) : regenerate the menu here if
@@ -1172,7 +1172,7 @@
 
 2003-08-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/sheet-object-graphic.c: replace helpfile address 
+	* src/sheet-object-graphic.c: replace helpfile address
 	  with #define from help.h
 	* src/sheet-object-widget.c: ditto
 
@@ -1180,7 +1180,7 @@
 
 	* src/sheet-filter.c (cb_filter_blanks): hide non-blanks
 	(cb_filter_non_blanks): hide blanks
-	
+
 2003-08-08  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/session.c: new
@@ -1194,16 +1194,16 @@
 
 2003-08-07  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/commands.c 
+	* src/commands.c
 	(cmd_reorganize_sheets_delete_get_this_sheet_info):
 	  save sheet object and colrow info
 	(cmd_reorganize_sheets_delete_recreate_sheet): also
 	  recreate sheet objects and set colrow info
-	(cmd_reorganize_sheets_delete_free): free sheet object 
+	(cmd_reorganize_sheets_delete_free): free sheet object
 	  and colrow info
 	(cmd_reorganize_sheets): increade command size if sheets
 	  are being deleted.
-	
+
 2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_reorganize_sheets): add
@@ -1252,7 +1252,7 @@
 
 2003-08-05  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/commands.c (cmd_text_to_columns_impl): save sheet 
+	* src/commands.c (cmd_text_to_columns_impl): save sheet
 	  index and update sheet pointer
 
 2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
@@ -1262,7 +1262,7 @@
 
 2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/commands.c (cmd_analysis_tool_undo): call 
+	* src/commands.c (cmd_analysis_tool_undo): call
 	  dao_update_sheet_pointer before causing the sheet pointer to
 	  be used
 	(cmd_analysis_tool_redo): ditto
@@ -1275,7 +1275,7 @@
 
 2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/commands.c (cmd_ins_del_colrow*): use sheet info in 
+	* src/commands.c (cmd_ins_del_colrow*): use sheet info in
 	  me->cmd,sheet
 	(cmd_resize_colrow): ditto
 	(cmd_colrow_std_size): ditto
@@ -1343,7 +1343,7 @@
 2003-08-01  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=118830
-	* src/sheet.c (sheet_dup): convert to zoom factor 1 before 
+	* src/sheet.c (sheet_dup): convert to zoom factor 1 before
 	  duplicating
 
 2003-08-01  Morten Welinder  <terra@gnome.org>
@@ -1358,10 +1358,10 @@
 	* src/workbook-control-gui.c (sheet_action_clone_sheet):
 	  use cmd_clone_sheet
 	(cb_edit_duplicate_sheet): use cmd_clone_sheet
-	
+
 2003-07-31  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/commands.c: switch from sheet pointer to sheet indices 
+	* src/commands.c: switch from sheet pointer to sheet indices
 	  throughout
 	(cmd_reorganize_sheets_delete_sheets): deleted
 	(cmd_reorganize_sheets_delete_get_this_sheet_info): new
@@ -1384,9 +1384,9 @@
 	(sheet_action_clone_sheet): temporarily append clone sheet (rather
 	  than insert) to protect the undo-chain
 	(cb_edit_duplicate_sheet): ditto
-	(cb_sheet_label_drag_data_received): change arguments to 
+	(cb_sheet_label_drag_data_received): change arguments to
 	  cmd_reorganize_sheets
-	* src/workbook.c (workbook_sheet_by_index): handle index -1 
+	* src/workbook.c (workbook_sheet_by_index): handle index -1
 	  separately
 	(workbook_sheet_reorder): drop last argument
 	(workbook_sheet_reorder_by_idx): new
@@ -1394,7 +1394,7 @@
 	(workbook_sheet_rename): new
 	(workbook_sheet_rename_check): new
 	(workbook_sheet_change_protection): new
-	(workbook_sheet_reorganize): delete 
+	(workbook_sheet_reorganize): delete
 	* src/workbook.h (workbook_sheet_reorder): drop last argument
 	(workbook_sheet_reorder_by_idx): new
 	(workbook_sheet_recolor): new
@@ -1441,10 +1441,10 @@
 2003-07-30  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* samples/test-math.gnumeric: add apostrophes around PASS and NO.
-	
+
 2003-07-30  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/workbook-control-gui.c: Change verb name ToolsScenario to 
+	* src/workbook-control-gui.c: Change verb name ToolsScenario to
 	  ToolsScenarioAdd
 
 2003-07-28  Jody Goldberg <jody@gnome.org>
@@ -1505,10 +1505,10 @@
 
 	* src/commands.c (cmd_text_to_columns*): new
 	* src/commands.h (cmd_text_to_columns): new
-	* src/gui-clipboard.c 
+	* src/gui-clipboard.c
 	(text_to_cell_region): use stf_dialog_result_attach_formats_to_cr
 	* src/stf.c (stf_text_to_columns) use stf_parse_region and
-	  stf_dialog_result_attach_formats_to_cr rather than 
+	  stf_dialog_result_attach_formats_to_cr rather than
 	  stf_store_results
 
 2003-07-22  Jody Goldberg <jody@gnome.org>
@@ -1526,7 +1526,7 @@
 2003-07-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=117409
-	* src/stf-parse.c (stf_parse_region): fix one-off error in 
+	* src/stf-parse.c (stf_parse_region): fix one-off error in
 	  number of columns
 
 2003-07-21  Morten Welinder  <terra@gnome.org>
@@ -1802,7 +1802,7 @@
 
 2003-07-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/stf-parse.c (stf_parse_sheet): no col_import_array means 
+	* src/stf-parse.c (stf_parse_sheet): no col_import_array means
 	  we want to import all columns
 	(stf_parse_region): ditto
 	* src/stf.c (stf_apply_formats): ditto
@@ -1817,7 +1817,7 @@
 
 	* src/GNOME_Gnumeric.xml: clean up the sheet insert/append issue
 	* src/workbook-control-gui.c: ditto
-	(cb_insert_sheet): insert the sheet after the current sheet 
+	(cb_insert_sheet): insert the sheet after the current sheet
 	  rather than append
 	(cb_append_sheet): append a new sheet
 	(sheet_action_add_sheet): use cmd_... via cb_append_sheet rather
@@ -1829,7 +1829,7 @@
 	* src/gui-clipboard.c: change dialogresult->formats to
 	  dialogresult->parseoptions->formats thoughout
 	* src/stf-parse.c (stf_parse_options_new): initialize formats
-	(stf_parse_options_free (stf_parse_region): rewrite 
+	(stf_parse_options_free (stf_parse_region): rewrite
 	* src/stf-parse.h: add formats list to parseoptions
 	* src/stf.c (stf_store_results): split into stf_store_results
 	  and stf_apply_formats
@@ -1844,16 +1844,16 @@
 
 2003-07-05  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/GNOME_Gnumeric.xml: adding ellipses to the stat analysis 
+	* src/GNOME_Gnumeric.xml: adding ellipses to the stat analysis
 	  menu items
 	* src/workbook-control-gui.c: ditto
 
 2003-07-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/GNOME_Gnumeric.xml: fix tooltip inconsistence and 
+	* src/GNOME_Gnumeric.xml: fix tooltip inconsistence and
 	  add stock item to delete
 	* src/workbook-control-gui.c: ditto
-	
+
 2003-07-04  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* configure.in: require libgnomedb CVS version, for
@@ -1881,8 +1881,8 @@
 
 2003-07-03  Jon K Hellan  <hellan@acm.org>
 
-	* src/sheet-object-graphic.c (sheet_object_graphic_user_config) 
-	(sheet_object_filled_user_config) 
+	* src/sheet-object-graphic.c (sheet_object_graphic_user_config)
+	(sheet_object_filled_user_config)
 	(sheet_object_filled_user_config): Turn off color combo
 	tearoff behaviour in dialogs.
 
@@ -1992,7 +1992,7 @@
 	* src/stf-parse.c (stf_parse_options_new): initialize new fields
 	(stf_parse_options_free): free new fields
 	(stf_parse_csv_line): show all columns
-	(stf_parse_sheet): only store selected rows (and formats vary within 
+	(stf_parse_sheet): only store selected rows (and formats vary within
 	  each row!)
 	* src/stf-parse.h: add col_import_array to parse_options
 	* src/stf.c (stf_store_results): apply only the format of selected
@@ -2053,7 +2053,7 @@
 
 2003-06-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/func-builtin.c: change category name to match previous change 
+	* src/func-builtin.c: change category name to match previous change
 	  in fn-math plugin
 
 2003-06-25  Jon K Hellan  <hellan@acm.org>
@@ -2129,7 +2129,7 @@
 
 	* src/main-application.c (warn_about_ancient_gnumerics): change
 	  Gnumeric URL
-	
+
 2003-06-23  Morten Welinder  <terra@gnome.org>
 
 	* src/item-edit.c (item_edit_event): Use gnm_widget_set_cursor.
@@ -2184,7 +2184,7 @@
 	* src/gnumeric-gconf.h (gnm_gconf_set_printer_footer): new
 	(gnm_gconf_set_printer_header): new
 	(GnmAppPrefs): add header and footer fields
-	* src/print-info.c (print_info_save): save footer and header to 
+	* src/print-info.c (print_info_save): save footer and header to
 	  gconf
 	(print_info_new): read footer and header to gconf
 
@@ -2238,7 +2238,7 @@
 
 2003-06-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/print-info.c (print_info_new): set up (but disable) load of 
+	* src/print-info.c (print_info_new): set up (but disable) load of
 	  print-config from configuration string
 	* src/print.c (print_job_info_set_one_time_defaults): delete
 	(print_job_info_save_one_time_defaults): delete
@@ -2320,7 +2320,7 @@
 2003-06-18  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/print-info.c (print_info_new): preserve the locale across
-	  the call to gnome_print_config_default. 
+	  the call to gnome_print_config_default.
 	  (A workaround for a library bug.)
 
 2003-06-17  Morten Welinder  <terra@gnome.org>
@@ -2392,11 +2392,11 @@
 	* src/workbook-control-gui.c: Correct the description of the mean
 	  test.
 	* src/GNOME_Gnumeric.xml: ditto
-	
+
 2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/workbook-control-gui.c: Improve the description of the mean 
-	  test. 
+	* src/workbook-control-gui.c: Improve the description of the mean
+	  test.
 
 2003-06-11  Jody Goldberg <jody@gnome.org>
 
@@ -2413,7 +2413,7 @@
 	* src/workbook-control-gui.c: ditto
 	* src/sheet-control-gui.c: change pop-up Add/Modify comment to
 	  Edit Comment
-	
+
 2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* schemas/gnumeric-plugins.schemas.in: new
@@ -2466,7 +2466,7 @@
 2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=114777
-	* src/stf-export.c (stf_export_cell): quote content before 
+	* src/stf-export.c (stf_export_cell): quote content before
 	converting it into some other encoding. (fix leaks on the side)
 
 2003-06-10  Jody Goldberg <jody@gnome.org>
@@ -2751,12 +2751,12 @@
 
 	For Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 	http://bugzilla.gnome.org/show_bug.cgi?id=112713
-	* src/gui-utils.[ch] 
+	* src/gui-utils.[ch]
 	(gnumeric_button_new_with_stock_image) : new
 	(gnumeric_add_dialog_button) : new
 	(gnumeric_message_dialog_new) : new
 	* src/workbook-control-gui.c
-	(workbook_close_if_user_permits) : build a HIG compliant 
+	(workbook_close_if_user_permits) : build a HIG compliant
 	confirmation dialog
 
 2003-06-03  Jody Goldberg <jody@gnome.org>

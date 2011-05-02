@@ -62,7 +62,7 @@
        <menuitem action="EditComment"/>
        <menuitem action="EditHyperlink"/>
        <menuitem action="EditNames"/>
-      </menu>      
+      </menu>
       <separator name="edit-sep3"/>
       <menuitem action="EditFind"/>
       <menuitem action="EditReplace"/>
@@ -119,7 +119,7 @@
       <menuitem action="SheetInsert"/>
       <separator/>
       <menuitem action="ChartGuru"/>
-<!-- These don't work yet for Gnome 2 
+<!-- These don't work yet for Gnome 2
 	    <menuitem action="InsertComponent" />
 	    <menuitem action="InsertShapedComponent" />
 	    <separator/>

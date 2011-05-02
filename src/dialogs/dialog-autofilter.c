@@ -65,7 +65,7 @@ static char const * const type_group[] = {
 static GnmFilterOp
 autofilter_get_type (AutoFilterState *state)
 {
-	return (GNM_FILTER_OP_TYPE_BUCKETS | 
+	return (GNM_FILTER_OP_TYPE_BUCKETS |
 		gnm_gui_group_value (state->gui, type_group));
 }
 
@@ -150,15 +150,15 @@ cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 			GnmFilterOp op1;
 			GnmValue *v1 = map_op (state, &op1, "op1", "value1");
 			if (op1 != GNM_FILTER_UNUSED) {
-				w = go_gtk_builder_get_widget (state->gui, 
+				w = go_gtk_builder_get_widget (state->gui,
 							       "and_button");
-				cond = gnm_filter_condition_new_double 
+				cond = gnm_filter_condition_new_double
 					(op0, v0,
-					 gtk_toggle_button_get_active 
+					 gtk_toggle_button_get_active
 					 (GTK_TOGGLE_BUTTON (w)),
 					 op1, v1);
 			} else
-				cond = gnm_filter_condition_new_single 
+				cond = gnm_filter_condition_new_single
 					(op0, v0);
 		}
 	} else {
@@ -168,9 +168,9 @@ cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 		w = go_gtk_builder_get_widget (state->gui, "item_count");
 		count = gtk_spin_button_get_value (GTK_SPIN_BUTTON (w));
 
-		cond = gnm_filter_condition_new_bucket 
-			(!(op & GNM_FILTER_OP_BOTTOM_MASK), 
-			 !(op & GNM_FILTER_OP_PERCENT_MASK), 
+		cond = gnm_filter_condition_new_bucket
+			(!(op & GNM_FILTER_OP_BOTTOM_MASK),
+			 !(op & GNM_FILTER_OP_PERCENT_MASK),
 			 count);
 	}
 	if (cond != NULL)
@@ -205,9 +205,9 @@ cb_top10_count_changed (GtkSpinButton *button,
 	w = go_gtk_builder_get_widget (state->gui, type_group[0]);
 	/* xgettext : %d gives the number of items in the autofilter. */
 	/* This is input to ngettext. */
-	label = g_strdup_printf (ngettext ("Show the largest item", 
-					   "Show the %3d largest items", 
-					   cval), 
+	label = g_strdup_printf (ngettext ("Show the largest item",
+					   "Show the %3d largest items",
+					   cval),
 				 cval);
 	gtk_button_set_label (GTK_BUTTON (w),label);
 	g_free(label);
@@ -215,9 +215,9 @@ cb_top10_count_changed (GtkSpinButton *button,
 	w = go_gtk_builder_get_widget (state->gui, type_group[1]);
 	/* xgettext : %d gives the number of items in the autofilter. */
 	/* This is input to ngettext. */
-	label = g_strdup_printf (ngettext ("Show the smallest item", 
-					   "Show the %3d smallest items", 
-					   cval), 
+	label = g_strdup_printf (ngettext ("Show the smallest item",
+					   "Show the %3d smallest items",
+					   cval),
 				 cval);
 	gtk_button_set_label (GTK_BUTTON (w),label);
 	g_free(label);
@@ -228,9 +228,9 @@ cb_top10_count_changed (GtkSpinButton *button,
 	w = go_gtk_builder_get_widget (state->gui, type_group[2]);
 	/* xgettext : %d gives the percentage of the data range in the autofilter. */
 	/* This is input to ngettext. */
-	label = g_strdup_printf 
-		(ngettext ("Show the items in the top %3d%% of the data range", 
-			   "Show the items in the top %3d%% of the data range", val), 
+	label = g_strdup_printf
+		(ngettext ("Show the items in the top %3d%% of the data range",
+			   "Show the items in the top %3d%% of the data range", val),
 		 val);
 	gtk_button_set_label (GTK_BUTTON (w),label);
 	g_free(label);
@@ -238,9 +238,9 @@ cb_top10_count_changed (GtkSpinButton *button,
 	w = go_gtk_builder_get_widget (state->gui, type_group[3]);
 	/* xgettext : %d gives the percentage of the data range in the autofilter. */
 	/* This is input to ngettext. */
-	label = g_strdup_printf 
-		(ngettext ("Show the items in the bottom %3d%% of the data range", 
-			   "Show the items in the bottom %3d%% of the data range", val), 
+	label = g_strdup_printf
+		(ngettext ("Show the items in the bottom %3d%% of the data range",
+			   "Show the items in the bottom %3d%% of the data range", val),
 		 val);
 	gtk_button_set_label (GTK_BUTTON (w),label);
 	g_free(label);
@@ -256,13 +256,13 @@ cb_top10_type_changed (G_GNUC_UNUSED GtkToggleButton *button,
 	GtkWidget *spin = go_gtk_builder_get_widget (state->gui, "item_count");
 	GtkWidget *label = go_gtk_builder_get_widget (state->gui, "cp-label");
 
-	if (op == GNM_FILTER_OP_TOP_N_PERCENT || 
+	if (op == GNM_FILTER_OP_TOP_N_PERCENT ||
 	    op == GNM_FILTER_OP_BOTTOM_N_PERCENT) {
 		gtk_spin_button_set_range (GTK_SPIN_BUTTON (spin), 1.,
 					   100.);
 		gtk_label_set_text (GTK_LABEL (label), _("Percentage:"));
 	} else {
-		gtk_spin_button_set_range 
+		gtk_spin_button_set_range
 			(GTK_SPIN_BUTTON (spin), 1.,
 			 range_height(&(state->filter->r)) - 1);
 		gtk_label_set_text (GTK_LABEL (label), _("Count:"));
@@ -320,7 +320,7 @@ dialog_auto_filter_get_col_name (GnmCell *cell, int col, int len)
 	gchar *label;
 	char *content = gnm_cell_get_rendered_text (cell);
 	if (g_utf8_strlen (content, -1) > len) {
-		char *end = g_utf8_find_prev_char 
+		char *end = g_utf8_find_prev_char
 			(content, content + len + 1 - strlen (UNICODE_ELLIPSIS));
 		strcpy (end, UNICODE_ELLIPSIS);
 	}
@@ -367,7 +367,7 @@ dialog_auto_filter_expression (WBCGtk *wbcg,
 
 	if (cell == NULL || gnm_cell_is_blank (cell))
 		label = g_strdup_printf (_("Column %s"), col_name (col));
-	else 
+	else
 		label = dialog_auto_filter_get_col_name (cell, col, len);
 
 	gtk_label_set_text
@@ -467,7 +467,7 @@ dialog_auto_filter (WBCGtk *wbcg,
 
 	if (cell == NULL || gnm_cell_is_blank (cell))
 		label = g_strdup_printf (_("Column %s"), col_name (col));
-	else 
+	else
 		label = dialog_auto_filter_get_col_name (cell, col, len);
 
 	gtk_label_set_text
@@ -498,7 +498,7 @@ dialog_auto_filter (WBCGtk *wbcg,
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), cond->count);
 	} else {
 		w = go_gtk_builder_get_widget (state->gui, "items-largest");
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);		
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 		w = go_gtk_builder_get_widget (state->gui, "item_count");
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), 1);
 	}
@@ -508,7 +508,7 @@ dialog_auto_filter (WBCGtk *wbcg,
 			  G_CALLBACK (cb_top10_count_changed), state);
 	cb_top10_count_changed (GTK_SPIN_BUTTON (w), state);
 	cb_top10_type_changed (NULL, state);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), 
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w),
 				   range_height(&(state->filter->r))/2);
 
 	rb = type_group;
@@ -519,7 +519,7 @@ dialog_auto_filter (WBCGtk *wbcg,
 				  G_CALLBACK (cb_top10_type_changed), state);
 		rb++;
 	}
-	
+
 
 	w = go_gtk_builder_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (w),

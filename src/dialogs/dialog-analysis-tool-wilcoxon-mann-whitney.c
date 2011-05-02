@@ -143,7 +143,7 @@ wilcoxon_mann_whitney_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-			       dao, data, 
+			       dao, data,
 			       analysis_tool_wilcoxon_mann_whitney_engine, TRUE)) {
 		char   *text;
 		text = g_strdup_printf (

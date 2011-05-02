@@ -103,7 +103,7 @@ chi_squared_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 
 	if (!cmd_analysis_tool (data->wbc, state->base.sheet,
-				dao, data, analysis_tool_chi_squared_engine, 
+				dao, data, analysis_tool_chi_squared_engine,
 				TRUE))
 		gtk_widget_destroy (state->base.dialog);
 

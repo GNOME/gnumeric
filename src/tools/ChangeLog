@@ -99,20 +99,20 @@
 	* analysis-tools.c (calculate_n_obs): new
 	(analysis_tool_regression_engine_run): calculate residuals
 	(analysis_tool_regression_engine): allocate space for residuals
-	
+
 2010-11-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.12
 
 2010-11-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-exp-smoothing.c 
+	* analysis-exp-smoothing.c
 	(analysis_tool_exponential_smoothing_engine_ses_h_run): fix data label
 	(analysis_tool_exponential_smoothing_engine_ses_r_run): ditto
 	(analysis_tool_exponential_smoothing_engine_des_run): ditto
 	(analysis_tool_exponential_smoothing_engine_ates_run): ditto
 	(analysis_tool_exponential_smoothing_engine_mtes_run): ditto
-	
+
 2010-11-04  Morten Welinder  <terra@gnome.org>
 
 	* dao.c (dao_convert_to_values): Use sheet_foreach_cell_in_range

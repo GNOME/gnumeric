@@ -126,7 +126,7 @@ gboolean cmd_set_comment	(WorkbookControl *wbc, Sheet *sheet,
 
 gboolean cmd_analysis_tool	(WorkbookControl *wbc, Sheet *sheet,
 				 data_analysis_output_t *dao, gpointer specs,
-				 analysis_tool_engine engine, 
+				 analysis_tool_engine engine,
 				 gboolean always_take_ownership);
 
 gboolean cmd_merge_data		(WorkbookControl *wbc, Sheet *sheet,

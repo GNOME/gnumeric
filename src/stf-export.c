@@ -376,7 +376,7 @@ gnm_stf_export (GnmStfExport *stfe)
 		         /*so we don't want to call it with NULL*/
 		go_setlocale (LC_ALL, old_locale);
 	g_free (old_locale);
-	
+
 
 	g_object_set (G_OBJECT (stfe), "sink", sink, NULL);
 	g_object_unref (sink);

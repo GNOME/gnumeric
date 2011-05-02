@@ -8,7 +8,7 @@
 	(help_imcsc): ditto
 	(help_imcot): ditto
 	(help_imexp): add example
-	
+
 2011-02-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.13

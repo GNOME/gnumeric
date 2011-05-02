@@ -793,7 +793,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 		g_free (extra);
 	}
 
-	gee->tooltip.tooltip = gee_create_tooltip 
+	gee->tooltip.tooltip = gee_create_tooltip
 		(gee, str->str, _("\n\n<i>Ctrl-F4 to close tooltip</i>"), FALSE);
 	gee->tooltip.args = args;
 	gee->tooltip.had_stuff = (max == 0 && args == 0 && had_stuff);
@@ -1186,7 +1186,7 @@ cb_gee_key_press_event (GtkEntry	*entry,
 			gnm_expr_entry_close_tips (gee);
 			return TRUE;
 		}
-		
+
 		if (gee->tooltip.completion != NULL) {
 			guint start = gee->tooltip.completion_start;
 			guint end = gee->tooltip.completion_end;

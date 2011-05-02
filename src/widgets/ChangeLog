@@ -3,10 +3,10 @@
 	* Release 1.10.14
 
 2011-03-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
-	
-	* widget-font-selector.c (fs_init): Use correct domain for 
+
+	* widget-font-selector.c (fs_init): Use correct domain for
 	gnm_gtk_builder_new
-	
+
 2011-02-18  Morten Welinder  <terra@gnome.org>
 
 	* widget-font-selector.c (list_init): Plug leak.

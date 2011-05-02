@@ -52,9 +52,9 @@ make_hist_expr (analysis_tools_data_histogram_t *info,
 	GnmFunc *fd_if = gnm_func_lookup_or_add_placeholder ("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	GnmFunc *fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	GnmFunc *fd_count = info->percentage ?
-		gnm_func_lookup_or_add_placeholder (info->only_numbers ? "COUNT" : "COUNTA", 
+		gnm_func_lookup_or_add_placeholder (info->only_numbers ? "COUNT" : "COUNTA",
 						    dao->sheet ? dao->sheet->workbook : NULL, FALSE) : NULL;
-	GnmFunc *fd_isnumber = gnm_func_lookup_or_add_placeholder (info->only_numbers ? "ISNUMBER" : "ISBLANK", 
+	GnmFunc *fd_isnumber = gnm_func_lookup_or_add_placeholder (info->only_numbers ? "ISNUMBER" : "ISBLANK",
 								   dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gint to_col = (info->cumulative) ? 0 : 1;
 
@@ -113,7 +113,7 @@ make_hist_expr (analysis_tools_data_histogram_t *info,
 					     (fd_isnumber, gnm_expr_copy (expr_data)),
 					     gnm_expr_new_constant (value_new_int (0)),
 					     gnm_expr_new_constant (value_new_int (1))));
-		
+
 
 	expr = gnm_expr_new_funcall1 (fd_sum, expr);
 

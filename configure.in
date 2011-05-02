@@ -127,7 +127,7 @@ CPPFLAGS=${_cppflags}
 LDFLAGS=${_ldflags}
 
 dnl **********
-dnl * Goffice 
+dnl * Goffice
 dnl **********
 # Goffice releases are parallel installable, which do we depend on
 GOFFICE_API_VER="0.8"
@@ -198,7 +198,7 @@ else
 	ui_msg="Gtk"
 	PKG_CHECK_MODULES(GTK, [$libspreadsheet_gtk_reqs])
 	PKG_CHECK_MODULES(GTK, [$gnumeric_gtk_reqs])
-fi 
+fi
 
 if test "x$gnumeric_with_gtk" = xtrue ; then
 	AC_DEFINE(GNM_WITH_GTK, 1, [Define if UI is built])
@@ -636,7 +636,7 @@ dnl We use a more straightforward approach for po-functions:
 dnl 1) We create POTFILES immediately here.
 dnl 2) We let config.status to create Makefile.in.
 dnl 3) We use AC_CONFIG_COMMANDS to create Makefile.
-dnl 
+dnl
 [# Create po-functions/POTFILES:
 if test -d po-functions; then
 	rm -f po-functions/POTFILES

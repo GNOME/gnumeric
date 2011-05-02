@@ -2799,7 +2799,7 @@ odf_write_empty_cell (GnmOOExport *state, int num, GnmStyle const *style, GSList
 						      TABLE "content-validation-name", vname);
 				g_free (vname);
 			}
-				
+
 		}
 		odf_write_objects (state, objects);
 		gsf_xml_out_end_element (state->xml);   /* table-cell */
@@ -3738,16 +3738,16 @@ static void
 odf_validation_general_attributes (GnmOOExport *state, GnmValidation const *val)
 {
 	char *name = g_strdup_printf ("VAL-%p", val);
-	
+
 	gsf_xml_out_add_cstr (state->xml, TABLE "name", name);
 	g_free (name);
 	odf_add_bool (state->xml,  TABLE "allow-empty-cell", val->allow_blank);
-	gsf_xml_out_add_cstr (state->xml,  TABLE "display-list", 
+	gsf_xml_out_add_cstr (state->xml,  TABLE "display-list",
 			      val->use_dropdown ? "unsorted" : "none");
 }
 
 static void
-odf_validation_in_list (GnmOOExport *state, GnmValidation const *val, 
+odf_validation_in_list (GnmOOExport *state, GnmValidation const *val,
 			Sheet *sheet, GnmStyleRegion const *sr)
 {
 	GnmExprTop const *texpr;
@@ -3756,15 +3756,15 @@ odf_validation_in_list (GnmOOExport *state, GnmValidation const *val,
 	GnmCellRef ref;
 	GString *str;
 
-	gnm_cellref_init (&ref, sheet, 
-			  sr->range.start.col, 
+	gnm_cellref_init (&ref, sheet,
+			  sr->range.start.col,
 			  sr->range.start.row, TRUE);
 	texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
-	parse_pos_init (&pp, (Workbook *)state->wb, sheet, 
-			sr->range.start.col, 
+	parse_pos_init (&pp, (Workbook *)state->wb, sheet,
+			sr->range.start.col,
 			sr->range.start.row);
 	formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
-	gsf_xml_out_add_cstr (state->xml, TABLE "base-cell-address", 
+	gsf_xml_out_add_cstr (state->xml, TABLE "base-cell-address",
 			      odf_strip_brackets (formula));
 	g_free (formula);
 	gnm_expr_top_unref (texpr);
@@ -3785,7 +3785,7 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 {
 	gboolean element_written = FALSE;
 	int i;
-	
+
 	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
 		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
 		GnmStyleList *list, *l;
@@ -3798,15 +3798,15 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 
 			if (val->type == VALIDATION_TYPE_IN_LIST) {
 				if (!element_written) {
-					gsf_xml_out_start_element 
+					gsf_xml_out_start_element
 						(state->xml, TABLE "content-validations");
 					element_written = TRUE;
 				}
-				gsf_xml_out_start_element (state->xml, 
+				gsf_xml_out_start_element (state->xml,
 							   TABLE "content-validation");
 				odf_validation_general_attributes (state, val);
 				odf_validation_in_list (state, val, sheet, sr);
-				gsf_xml_out_end_element (state->xml); 
+				gsf_xml_out_end_element (state->xml);
 				/* </table:content-validation> */
 			}
 		}
@@ -3860,7 +3860,7 @@ odf_write_named_expression (gpointer key, GnmNamedExpr *nexpr, GnmOOExport *stat
 	GnmCellRef ref;
 	GnmExprTop const *texpr;
 	Sheet *sheet;
-	
+
 	g_return_if_fail (nexpr != NULL);
 
 	sheet = nexpr->pos.sheet;
@@ -3868,21 +3868,21 @@ odf_write_named_expression (gpointer key, GnmNamedExpr *nexpr, GnmOOExport *stat
 		sheet = workbook_sheet_by_index (state->wb, 0);
 
 	name = expr_name_name (nexpr);
-	is_range = nexpr->texpr && !expr_name_is_placeholder (nexpr) 
+	is_range = nexpr->texpr && !expr_name_is_placeholder (nexpr)
 		&& gnm_expr_top_is_rangeref (nexpr->texpr);
 
 	if (is_range) {
 		gsf_xml_out_start_element (state->xml, TABLE "named-range");
 		gsf_xml_out_add_cstr (state->xml, TABLE "name", name);
-		
+
 		formula = gnm_expr_top_as_string (nexpr->texpr,
 						  &nexpr->pos,
 						  state->conv);
 		gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address",
 				      odf_strip_brackets (formula));
 		g_free (formula);
-		
-		gnm_cellref_init (&ref, sheet, nexpr->pos.eval.col, 
+
+		gnm_cellref_init (&ref, sheet, nexpr->pos.eval.col,
 				  nexpr->pos.eval.row, FALSE);
 		texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
 		formula = gnm_expr_top_as_string (texpr, &nexpr->pos, state->conv);
@@ -3891,22 +3891,22 @@ odf_write_named_expression (gpointer key, GnmNamedExpr *nexpr, GnmOOExport *stat
 				      odf_strip_brackets (formula));
 		g_free (formula);
 		gnm_expr_top_unref (texpr);
-		
+
 		gsf_xml_out_add_cstr_unchecked
-			(state->xml, TABLE "range-usable-as", 
+			(state->xml, TABLE "range-usable-as",
 			 "print-range filter repeat-row repeat-column");
-		
-		if (nexpr->pos.sheet != NULL && state->with_extension 
+
+		if (nexpr->pos.sheet != NULL && state->with_extension
 		    && (get_gsf_odf_version () < 102))
-			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "scope", 
+			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "scope",
 					      nexpr->pos.sheet->name_unquoted);
 
 		gsf_xml_out_end_element (state->xml); /* </table:named-range> */
 	} else {
-		gsf_xml_out_start_element 
+		gsf_xml_out_start_element
 			(state->xml, TABLE "named-expression");
 		gsf_xml_out_add_cstr (state->xml, TABLE "name", name);
-		
+
 		formula = gnm_expr_top_as_string (nexpr->texpr,
 						  &nexpr->pos,
 						  state->conv);
@@ -3917,8 +3917,8 @@ odf_write_named_expression (gpointer key, GnmNamedExpr *nexpr, GnmOOExport *stat
 		} else
 			gsf_xml_out_add_cstr (state->xml,  TABLE "expression", formula);
 		g_free (formula);
-		
-		gnm_cellref_init (&ref, sheet, nexpr->pos.eval.col, 
+
+		gnm_cellref_init (&ref, sheet, nexpr->pos.eval.col,
 				  nexpr->pos.eval.row, FALSE);
 		texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
 		formula = gnm_expr_top_as_string (texpr, &nexpr->pos, state->conv);
@@ -3928,11 +3928,11 @@ odf_write_named_expression (gpointer key, GnmNamedExpr *nexpr, GnmOOExport *stat
 		g_free (formula);
 		gnm_expr_top_unref (texpr);
 
-		if (nexpr->pos.sheet != NULL && state->with_extension 
+		if (nexpr->pos.sheet != NULL && state->with_extension
 		    && (get_gsf_odf_version () < 102))
-			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "scope", 
+			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "scope",
 					      nexpr->pos.sheet->name_unquoted);
-		
+
 		gsf_xml_out_end_element (state->xml); /* </table:named-expression> */
 	}
 }
@@ -4043,7 +4043,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 	}
 	if (state->wb->names != NULL) {
 		gsf_xml_out_start_element (state->xml, TABLE "named-expressions");
-		workbook_foreach_name 
+		workbook_foreach_name
 			(state->wb, (get_gsf_odf_version () > 101),
 			 (GHFunc)&odf_write_named_expression, state);
 		gsf_xml_out_end_element (state->xml); /* </table:named-expressions> */
@@ -5160,21 +5160,21 @@ odf_write_plot_style (GnmOOExport *state, GogObject const *plot)
 
 	if (state->with_extension) {
 		if (0 == strcmp ( "XLSurfacePlot", plot_type))
-			odf_add_bool (state->xml, GNMSTYLE "multi-series", 
+			odf_add_bool (state->xml, GNMSTYLE "multi-series",
 				      TRUE);
 		odf_write_plot_style_bool (state->xml, plot, klass,
 					   "outliers", GNMSTYLE "outliers");
 
 		odf_write_plot_style_double (state->xml, plot, klass,
-					     "radius-ratio", GNMSTYLE 
+					     "radius-ratio", GNMSTYLE
 					     "radius-ratio");
-		
+
 		odf_write_plot_style_bool (state->xml, plot, klass,
-					   "vary-style-by-element", 
+					   "vary-style-by-element",
 					   GNMSTYLE "vary-style-by-element");
-		
+
 		odf_write_plot_style_bool (state->xml, plot, klass,
-				   "show-negatives", 
+				   "show-negatives",
 					   GNMSTYLE "show-negatives");
 	}
 

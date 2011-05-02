@@ -211,7 +211,7 @@ text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 	if (gtk_selection_data_get_length (sel) < 0) {
 		;
 	} else if (target == gdk_atom_intern (UTF8_ATOM_NAME, FALSE)) {
-		content = text_to_cell_region (wbcg, (const char *)gtk_selection_data_get_data (sel), 
+		content = text_to_cell_region (wbcg, (const char *)gtk_selection_data_get_data (sel),
 					       gtk_selection_data_get_length (sel), "UTF-8", TRUE);
 	} else if (target == gdk_atom_intern (CTEXT_ATOM_NAME, FALSE)) {
 		/* COMPOUND_TEXT is icky.  Just let GTK+ do the work.  */
@@ -222,7 +222,7 @@ text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 		char const *locale_encoding;
 		g_get_charset (&locale_encoding);
 
-		content = text_to_cell_region (wbcg, (const char *)gtk_selection_data_get_data (sel), 
+		content = text_to_cell_region (wbcg, (const char *)gtk_selection_data_get_data (sel),
 					       gtk_selection_data_get_length (sel), locale_encoding, FALSE);
 	}
 	if (content) {

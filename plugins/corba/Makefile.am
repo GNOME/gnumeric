@@ -24,13 +24,13 @@ nodist_corba_la_SOURCES =		\
 # A hint is needed to build the header first:
 BUILT_SOURCES = GNOME_Gnumeric.h
 
-stamp_Gnumeric_idl: $(srcdir)/GNOME_Gnumeric.idl 
+stamp_Gnumeric_idl: $(srcdir)/GNOME_Gnumeric.idl
 	$(ORBIT_IDL) -I$(srcdir) $< && touch $@
 
 $(nodist_corba_la_SOURCES): stamp_Gnumeric_idl
 
 idldir   = $(gnumeric_datadir)/idl
-idl_DATA = GNOME_Gnumeric.idl 
+idl_DATA = GNOME_Gnumeric.idl
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

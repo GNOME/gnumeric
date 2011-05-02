@@ -29,7 +29,7 @@ nodist_libGnumericIDL_a_SOURCES =	\
 	$(GNUMERIC_GENERATED)		\
 	$(EVOLUTION_GENERATED)
 
-stamp_Gnumeric_idl: $(srcdir)/GNOME_Gnumeric.idl 
+stamp_Gnumeric_idl: $(srcdir)/GNOME_Gnumeric.idl
 	$(ORBIT_IDL) -I$(srcdir) $< && touch $@
 
 $(GNUMERIC_GENERATED): stamp_Gnumeric_idl
@@ -44,7 +44,7 @@ $(EVOLUTION_GENERATED): stamp_evolution_idl
 endif
 
 idldir   = $(gnumeric_datadir)/idl
-idl_DATA = GNOME_Gnumeric.idl 
+idl_DATA = GNOME_Gnumeric.idl
 
 EXTRA_DIST = $(idl_DATA)
 

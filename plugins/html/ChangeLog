@@ -11,7 +11,7 @@
 	* latex.c (file_saver_sheet_get_extent): new
 	(latex_file_save): use file_saver_sheet_get_extent
 	(latex_table_file_save): use file_saver_sheet_get_extent
-	
+
 2010-11-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.12

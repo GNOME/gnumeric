@@ -130,12 +130,12 @@ stf_open_and_read (GOIOContext *context, GsfInput *input, size_t *readsize)
 		*cpointer = ' ';
 		while (*cpointer != 0)
 			cpointer++;
-	}	
+	}
 	if (null_chars > 0) {
 		gchar const *format;
 		gchar *msg;
 		format = ngettext ("The file contains %d NULL character. "
-				   "It has been changed to a space.", 
+				   "It has been changed to a space.",
 				   "The file contains %d NULL characters. "
 				   "They have been changed to spaces.",
 				   null_chars);
@@ -473,7 +473,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 		workbook_recalc_all (book);
 		resize_columns (sheet);
 		if (po->cols_exceeded || po->rows_exceeded) {
-			stf_warning (context, 
+			stf_warning (context,
 				     _("Some data did not fit on the "
 				       "sheet and was dropped."));
 		}

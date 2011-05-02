@@ -1038,7 +1038,7 @@ xlsx_write_comments (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objec
 		gsf_xml_out_add_cstr_unchecked (xml, "ref", range_as_string (&anchor->cell_bound));
 		authorname = cell_comment_author_get (CELL_COMMENT (ptr->data));
 		if (authorname != NULL)
-			gsf_xml_out_add_uint (xml, "authorId", 
+			gsf_xml_out_add_uint (xml, "authorId",
 					      GPOINTER_TO_UINT (g_hash_table_lookup (authors, authorname)));
 		gsf_xml_out_start_element (xml, "text");
 		/* Save text as rich text */

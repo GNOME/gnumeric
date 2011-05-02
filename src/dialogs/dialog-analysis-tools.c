@@ -419,7 +419,7 @@ dialog_tool_init (GenericToolState *state,
 					 "top-attach", &top_attach,
 					 "bottom-attach", &bottom_attach,
 					 NULL);
-					 
+
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry),
 				  right_attach, right_attach + 1,
 				  top_attach, bottom_attach,
@@ -1352,7 +1352,7 @@ ttest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	switch (state->invocation) {
 	case TTEST_PAIRED:
-		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), 
+		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
 					state->base.sheet,
 					dao, data, analysis_tool_ttest_paired_engine,
 					TRUE))
@@ -2344,11 +2344,11 @@ regression_tool_regression_radio_toggled_cb (G_GNUC_UNUSED
 		gtk_toggle_button_set_active
 			(GTK_TOGGLE_BUTTON (state->switch_variables_check),
 			 FALSE);
-	
+
 	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON (state->residuals_check), !simple);
 	gtk_widget_set_sensitive (state->residuals_check, !simple);
-	
+
 }
 
 static void
@@ -2518,7 +2518,7 @@ exp_smoothing_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->es_type = gnm_gui_group_value (state->base.gui, exp_smoothing_group);
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
-				dao, data, analysis_tool_exponential_smoothing_engine, 
+				dao, data, analysis_tool_exponential_smoothing_engine,
 				TRUE))
 		gtk_widget_destroy (state->base.dialog);
 

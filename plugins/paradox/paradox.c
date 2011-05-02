@@ -532,7 +532,7 @@ paradox_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 					if (nlen > pxf[i].px_flen)
 						/* xgettext : last %d gives the number of characters.*/
 						/* This is input to ngettext. */
-						g_warning 
+						g_warning
 							(ngettext
 							 ("Field %d in line %d has possibly "
 							  "been cut off. Data has %d character.",

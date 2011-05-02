@@ -49,7 +49,7 @@ gnm_sort_data_length (GnmSortData const *data)
 
 /* The routines to do the sorting */
 static int
-sort_compare_cells (GnmCell const *ca, GnmCell const *cb, 
+sort_compare_cells (GnmCell const *ca, GnmCell const *cb,
 		    GnmSortClause *clause, gboolean default_locale)
 {
 	GnmValue *a, *b;
@@ -301,20 +301,20 @@ gnm_sort_contents (GnmSortData *data, GOCmdContext *cc)
 
 	if (real_length > 1) {
 		if (data->locale) {
-			char *old_locale 
+			char *old_locale
 				= g_strdup (go_setlocale (LC_ALL, NULL));
 			go_setlocale (LC_ALL, data->locale);
 
-			qsort (perm, real_length, sizeof (SortDataPerm), 
-			       g_str_has_prefix 
-			       (old_locale, data->locale) 
+			qsort (perm, real_length, sizeof (SortDataPerm),
+			       g_str_has_prefix
+			       (old_locale, data->locale)
 			       ? sort_qsort_compare
 			       : sort_qsort_compare_in_locale);
 
 			go_setlocale (LC_ALL, old_locale);
 			g_free (old_locale);
 		} else
-			qsort (perm, real_length, sizeof (SortDataPerm), 
+			qsort (perm, real_length, sizeof (SortDataPerm),
 			       sort_qsort_compare);
 	}
 

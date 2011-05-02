@@ -806,7 +806,7 @@ cmd_set_text_full_check_markup (GnmCellIter const *iter, PangoAttrList *markup)
 
 static gboolean
 cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
-		   char const *new_text, PangoAttrList *markup, 
+		   char const *new_text, PangoAttrList *markup,
 		   gboolean autocorrect)
 {
 	GSList	*l;
@@ -898,7 +898,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		char *corrected;
 		gboolean same_text = TRUE;
 		gboolean same_markup = TRUE;
-		
+
 		if (new_text == NULL)
 			corrected = NULL;
 		else if (autocorrect)

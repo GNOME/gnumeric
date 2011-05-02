@@ -1870,7 +1870,7 @@ gnumeric_sign (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sqrtpi[] = {
-        { GNM_FUNC_HELP_NAME, F_("SQRTPI:the square root of @{x} times " 
+        { GNM_FUNC_HELP_NAME, F_("SQRTPI:the square root of @{x} times "
 				 "\xcf\x80")},
 	{ GNM_FUNC_HELP_ARG, F_("x:non-negative number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },

@@ -370,7 +370,7 @@ if WITH_NATIVE_WIN32
 endif
 
 if WITH_WIN32
-libspreadsheet.def: local.def 
+libspreadsheet.def: local.def
 	echo EXPORTS > $@ && \
 	cat $^ | sort >> $@
 
@@ -395,7 +395,7 @@ stamp-local.def: $(libspreadsheet_include_HEADERS) Makefile $(top_srcdir)/tools/
 	&& (cmp -s xgen-localdef.2 local.def || \
 		cp xgen-localdef.2 local.def) \
 	&& rm -f xgen-localdef.1 xgen-localdef.2 \
-	&& echo timestamp > $@	
+	&& echo timestamp > $@
 
 endif
 

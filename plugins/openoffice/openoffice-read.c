@@ -1146,7 +1146,7 @@ two_quotes :
 		if (ss->max_cols <= ref->col || ss->max_rows <= ref->row)
 			return start;
 	}
-	
+
 	if (ref->col_relative)
 		ref->col -= pp->eval.col;
 	if (ref->row_relative)
@@ -1405,11 +1405,11 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmValidation *validation = NULL;
 	char *start, *end;
-	GString *str;          
+	GString *str;
 	GnmExprTop const *texpr = NULL;
 	GnmParsePos   pp;
 
-	
+
 	start = strchr (val->condition, '(');
 	end = strrchr (val->condition, ')');
 
@@ -1419,13 +1419,13 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val)
 	pp = state->pos;
 	if (val->base_cell_address != NULL) {
 		char *tmp = g_strconcat ("[", val->base_cell_address, "]", NULL);
-		texpr = oo_expr_parse_str 
+		texpr = oo_expr_parse_str
 			(xin, tmp, &pp,
-			 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES, 
+			 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
 			 FORMULA_OPENFORMULA);
 		g_free (tmp);
 		if (texpr != NULL) {
-			if (GNM_EXPR_GET_OPER (texpr->expr) == 
+			if (GNM_EXPR_GET_OPER (texpr->expr) ==
 			    GNM_EXPR_OP_CELLREF) {
 				GnmCellRef const *ref = &texpr->expr->cellref.ref;
 				parse_pos_init (&pp, state->pos.wb, ref->sheet,
@@ -1444,8 +1444,8 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val)
 		g_string_append_len (str, start + 1, end - start - 1);
 	}
 
-	texpr = oo_expr_parse_str (xin, str->str, &pp, 
-				   GNM_EXPR_PARSE_DEFAULT, 
+	texpr = oo_expr_parse_str (xin, str->str, &pp,
+				   GNM_EXPR_PARSE_DEFAULT,
 				   val->f_type);
 
 	if (texpr != NULL)
@@ -1453,11 +1453,11 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val)
 					     VALIDATION_TYPE_IN_LIST,
 					     VALIDATION_OP_NONE,
 					     NULL, NULL,
-					     texpr, 
+					     texpr,
 					     NULL,
 					     val->allow_blank,
 					     val->use_dropdown);
-	
+
 	g_string_free (str, TRUE);
 
 	return validation;
@@ -1471,38 +1471,38 @@ odf_validations_translate (GsfXMLIn *xin, char const *name)
 	GnmValidation *validation = NULL;
 
 	if (val == NULL) {
-		oo_warning 
-			(xin, _("Undefined validation style encountered: %s"), 
+		oo_warning
+			(xin, _("Undefined validation style encountered: %s"),
 			 name);
 		return NULL;
 	}
-	
+
 	if (val->condition != NULL && val->f_type != FORMULA_NOT_SUPPORTED) {
-		
+
 		if (g_str_has_prefix (val->condition, "cell-content-is-in-list"))
 			validation = odf_validation_new_list (xin, val);
-		else if (g_str_has_prefix (val->condition, 
+		else if (g_str_has_prefix (val->condition,
 					   "cell-content-text-length()"))
 			/* validation = odf_validation_new_ (xin, val) */;
-		else if (g_str_has_prefix (val->condition, 
+		else if (g_str_has_prefix (val->condition,
 					   "cell-content-text-length-is-between"))
 			/* validation = odf_validation_new_ (xin, val) */;
-		else if (g_str_has_prefix 
-			 (val->condition, 
+		else if (g_str_has_prefix
+			 (val->condition,
 			  "cell-content-text-length-is-not-between"))
 			/* validation = odf_validation_new_ (xin, val) */;
-		else if (g_str_has_prefix 
-			 (val->condition, 
+		else if (g_str_has_prefix
+			 (val->condition,
 			  "cell-content-is-decimal-number () and"))
 			/* validation = odf_validation_new_ (xin, val) */;
-		else if (g_str_has_prefix 
-			 (val->condition, 
+		else if (g_str_has_prefix
+			 (val->condition,
 			  "cell-content-is-whole-number() and"))
 			/* validation = odf_validation_new_ (xin, val) */;
-		else if (g_str_has_prefix (val->condition, 
+		else if (g_str_has_prefix (val->condition,
 					   "cell-content-is-date() and"))
 			/* validation = odf_validation_new_ (xin, val) */;
-		else if (g_str_has_prefix (val->condition, 
+		else if (g_str_has_prefix (val->condition,
 					   "cell-content-is-time() and "))
 			/* validation = odf_validation_new_ (xin, val) */;
 		else if (g_str_has_prefix (val->condition, "is-true-formula"))
@@ -1513,9 +1513,9 @@ odf_validations_translate (GsfXMLIn *xin, char const *name)
 			if (NULL == (err = validation_is_ok (validation)))
 				return validation;
 			else {
-				oo_warning (xin, 
+				oo_warning (xin,
 					    _("Ignoring invalid data "
-					      "validation because : %s"), 
+					      "validation because : %s"),
 					    _(err->message));
 				validation_unref (validation);
 				return NULL;
@@ -1572,7 +1572,7 @@ odf_validation (GsfXMLIn *xin, xmlChar const **attrs)
 			validation->f_type = odf_get_formula_type (xin, &cond);
 			validation->condition = g_strdup (cond);
 		} else if (oo_attr_bool (xin, attrs,
-					 OO_NS_TABLE, "allow-empty-cell", 
+					 OO_NS_TABLE, "allow-empty-cell",
 					 &validation->allow_blank)) {
 		} else if (oo_attr_enum (xin, attrs, OO_NS_TABLE, "display-list", dropdown_types, &tmp)) {
 			validation->use_dropdown = (tmp == 1);
@@ -2082,8 +2082,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				val = value_new_float (secs / (gnm_float)86400);
 				has_time = TRUE;
 			}
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
-					       (state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE, 
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					       (state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
 					       "string-value"))
 			val = value_new_string (CXML2C (attrs[1]));
 		else if (oo_attr_float (xin, attrs,
@@ -2156,7 +2156,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_style_ref (style);
 	}
 
-	if ((validation_name != NULL) && 
+	if ((validation_name != NULL) &&
 	    (NULL != (validation = odf_validations_translate (xin, validation_name)))) {
 		if (style == NULL)
 			style = gnm_style_new_default ();
@@ -4733,43 +4733,43 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 		/* Note that base_str is not required */
 		if (base_str != NULL) {
 			char *tmp = g_strconcat ("[", base_str, "]", NULL);
-			
-			texpr = oo_expr_parse_str 
+
+			texpr = oo_expr_parse_str
 				(xin, tmp, &pp,
-				 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES, 
+				 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
 				 FORMULA_OPENFORMULA);
 			g_free (tmp);
-			
+
 			if (texpr == NULL ||
-			    GNM_EXPR_GET_OPER (texpr->expr) 
+			    GNM_EXPR_GET_OPER (texpr->expr)
 			    != GNM_EXPR_OP_CELLREF) {
 				oo_warning (xin, _("expression '%s' @ '%s' "
 						   "is not a cellref"),
 					    name, base_str);
 			} else {
-				GnmCellRef const *ref = 
+				GnmCellRef const *ref =
 					&texpr->expr->cellref.ref;
 				parse_pos_init (&pp, state->pos.wb, ref->sheet,
 						ref->col, ref->row);
 			}
 			if (texpr != NULL)
 				gnm_expr_top_unref (texpr);
-			
+
 		}
 
 		f_type = odf_get_formula_type (xin, &expr_str);
 		if (f_type == FORMULA_NOT_SUPPORTED) {
-			oo_warning 
+			oo_warning
 				(xin, _("Expression '%s' has "
-					"unknown namespace"), 
+					"unknown namespace"),
 				 expr_str);
 		} else {
-		
+
 			/* Note that  an = sign is only required if a  */
 			/* name space is given. */
 			if (*expr_str == '=')
 				expr_str++;
-			
+
 			texpr = oo_expr_parse_str (xin, expr_str,
 						   &pp, GNM_EXPR_PARSE_DEFAULT,
 						   f_type);
@@ -4777,7 +4777,7 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 				pp.sheet = state->pos.sheet;
 				if (pp.sheet == NULL && scope != NULL)
 					pp.sheet = workbook_sheet_by_name (pp.wb, scope);
-				expr_name_add (&pp, name, texpr, NULL, 
+				expr_name_add (&pp, name, texpr, NULL,
 					       TRUE, NULL);
 			}
 		}

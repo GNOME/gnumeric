@@ -56,7 +56,7 @@ uninstall-local:
 	rm -f $(DESTDIR)$(configexecincludedir)/gnumeric-features.h
 dist-hook:
 	mkdir $(distdir)/samples
-	cp $(srcdir)/samples/*gnumeric $(distdir)/samples	
+	cp $(srcdir)/samples/*gnumeric $(distdir)/samples
 
 ## It seems the following overrides can be simplified:
 ## distcleancheck_listfiles = find . -type f -print | grep -v 'omf\.out' | grep -v '^\./doc'

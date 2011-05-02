@@ -10,7 +10,7 @@ gnumeric_plugin_python_loaderdir = $(gnumeric_plugindir)/python-loader
 xmldir = $(gnumeric_plugin_python_loaderdir)
 gnumeric_plugin_python_loader_LTLIBRARIES = python_loader.la
 
-python_loader_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS) $(GNM_PY_LDFLAGS)  
+python_loader_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS) $(GNM_PY_LDFLAGS)
 python_loader_la_LIBADD = $(GNM_PY_LIBADD)
 python_loader_la_SOURCES = \
 	python-loader.h \

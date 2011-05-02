@@ -611,7 +611,7 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 
 	if (val_type != G_TYPE_INVALID) {
 		GValue     *doc_prop_value;
-		
+
 		/* Create a new Value */
 		doc_prop_value = g_new0 (GValue, 1);
 

@@ -48,21 +48,21 @@
 	* src/complete.c: #include <stdlib.h> for abort.
 
 2001-06-21  Almer S. Tigelaar  <almer@gnome.org>
- 
+
  	* src/gnumeric-sheet.c (border_mutate): New, toggles
  	borders around regions.
- 
+
  	(gnumeric_sheet_key_mode_sheet):
  	Make Ctrl+Backspace center on the active cell.
  	Add support for Locked scrolling with the arrow keys, home and end.
  	Add support for Ctrl+Shift ~, $, %, ^, #, @, !, & and _ shortcut keys
  	for formatting and border mutations.
- 
+
  	* src/workbook-control-gui.c, src/GNOME_Gnumeric.xml:
  	Change keybinding of Goto Cell from Ctrl+G to F5.
  	Set keybinding of Search&Replace to F6.
  	Set keybinding of Define Names to Ctrl+F3
- 
+
 2001-06-20  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_claim_selection):
@@ -83,7 +83,7 @@
 
 	* src/commands.c (cmd_search_replace_do_cell) : Adjust to ref
 	  semantics change.
- 
+
 	* src/number-match.c (format_match) : do not add a ref to the
 	  resulting format.
 
@@ -101,7 +101,7 @@
  	dates.
 
 2001-06-19  Almer S. Tigelaar  <almer@gnome.org>
- 
+
  	* src/item-cursor.c (item_cursor_tip_setstatus): New function.
  	(cb_move_cursor): Call item_cursor_tip_setstatus.
  	(item_cursor_do_drop): Clear the status text.
@@ -214,7 +214,7 @@
 	(count_io_progress_set): Added "step" argument, initialize extra
 	struct fields: last, current, step.
 	(count_io_progress_update): Take value increase as an argument, not
-	value itself. Return immediately if value hasn't changed enough. 
+	value itself. Return immediately if value hasn't changed enough.
 	(value_io_progress_set, value_io_progress_update,
 	workbook_io_progress_set, workbook_io_progress_update): New. Two
 	additional helpers, "workbook" should be very useful when saving
@@ -534,36 +534,36 @@
  	a row number to a string.
  	(rows_name): Idem, but for a start/end range.
  	(row_name_internal): Utility routine.
- 
+
  	* src/colrow.c (colrow_string_build): Remove.
  	(colrow_index_list_to_string): Use rows_name
  	and cols_name.
- 
+
  	* src/cmd-edit.c (cmd_shift_rows): Use rows_name.
- 
+
  	* src/commands.c (cmd_insert_rows): Idem.
  	(cmd_delete_cols): Beautify.
  	(cmd_delete_rows): Beautify and use rows_name.
- 
+
  	* src/eval.c (dump_range_dep): Use row_name.
- 
+
  	* src/item-bar.c (get_row_name): Deprecated, remove.
  	(item_bar_draw): Use row_name.
- 
+
  	* src/item-cursor.c (item_cursor_tip_setlabel): Idem.
- 
+
  	* src/item-grid.c (item_grid_draw): Idem.
- 
+
  	* src/ranges.c (range_name): Idem.
  	(range_dump): Idem.
- 
+
  	* src/selection.c (reference_append): Idem.
  	(selection_get_ranges): Idem.
  	(cb_range_to_string): Idem.
- 
+
  	* src/sheet-control-gui.c (scg_redraw_cell_region): Idem.
  	(vertical_scroll_offset_changed): Idem.
- 
+
  	* src/value-sheet.c (value_dump): Idem.
  	(encode_cellref): Idem.
 
@@ -615,12 +615,12 @@
   	(cmd_group_redo): Idem.
   	(cmd_group_destroy): Idem.
   	(cmd_group): Idem.
-  
+
   	* src/workbook-control-gui.c (cb_data_group): Implement.
   	(cb_data_ungroup): Idem.
   	(group_ungroup_colrow): Utility function to determine if
   	columns or rows need to be grouped/ungrouped.
- 
+
   	* src/sheet.[ch] (sheet_col_row_group_ungroup): New, high level routine
  	for adjusting outlines.
  	(sheet_col_row_fit_gutter): Dynamically adjust gutter size.
@@ -628,9 +628,9 @@
  	(sheet_col_row_can_group): Query if a range of cols/rows
  	can actually group/ungroup.
  	(sheet_col_row_set_outline_level): Deprecated, remove.
- 
+
  	* src/colrow.[ch] (colrow_set_outline): Set outline on a col/row.
- 
+
   	* src/GNOME_Gnumeric.xml: DataOutlineUnGroup change to
   	DataOutlineUngroup.
 
@@ -758,7 +758,7 @@
 	have been made virtual.
 
 	* src/sheet-control-gui.c: Include sheet-control-gui-priv.h instead
-	of sheet-control-gui.h. 
+	of sheet-control-gui.h.
 	Casts and temp variables because:
 	- virtual scg methods now take a SheetControl parameter.
         - sheet member now lives in SheetControl.
@@ -829,7 +829,7 @@
 	* src/sheet-object-graphic.c: Ditto.
 
 	* src/gnumeric-sheet.c: Include sheet-control-gui-priv.h instead
-	of sheet-control-gui.h. 
+	of sheet-control-gui.h.
 	Casts and temp variables because:
 	- virtual scg methods now take a SheetControl parameter.
         - sheet now lives in SheetControl.
@@ -853,7 +853,7 @@
 	* src/workbook-control-gui.c: Ditto.
 
 	* src/workbook-object-toolbar.c: Ditto, but don't include
-	sheet-control-gui-priv.h 
+	sheet-control-gui-priv.h
 
 	* src/sheet-object.c (sheet_object_realize): Cast control to
 	SheetControlGUI.
@@ -873,13 +873,13 @@
 	Macros moved to file-priv.h.
 
 	* src/file-priv.h
-	(struct _GnumFileOpenerClass::probe): 
+	(struct _GnumFileOpenerClass::probe):
 	(GNUM_FILE_OPENER_CLASS, IS_GNUM_FILE_OPENER_CLASS,
 	GNUM_FILE_SAVER_CLASS, IS_GNUM_FILE_SAVER_CLASS):
 	Macros moved from file.h.
 
 	* src/file.c
-	(gnum_file_opener_probe_real, gnum_file_opener_probe): 
+	(gnum_file_opener_probe_real, gnum_file_opener_probe):
 	Added FileProbeLevel argument.
 
 	* src/workbook-view.c
@@ -919,12 +919,12 @@
 	(cell_queue_recalc) : no need to queue non expression cells.
 
 2001-05-27  Nathan Cullen <furyu@fuse.net>
- 
+
  	* src/history.c (history_menu_insert_separator): Fixed keyboard
  	navigation problem in non-bonobo build with separator for recently
  	opened files.  There was an "invisible" separator item so you needed
  	to arrow down twice to get from "Print Preview" to the first file.
- 
+
 2001-05-27  Jody Goldberg <jgoldberg@home.com>
 
 	* src/expr.c (eval_expr_real) : recurse for arrays too.
@@ -992,10 +992,10 @@
 	sheet-control-priv.h
 
 	* src/sheet-control.c: New file. Stub base class for
-	SheetControlGUI. 
+	SheetControlGUI.
 
 	* src/sheet-control.h: Strip down even more from existing stub in
-	CVS. 
+	CVS.
 
 	* src/sheet-control-priv.h: New file. Private header for
 	SheetControl.
@@ -1148,7 +1148,7 @@
 	(sheet_cell_set_expr) : ditto.
 	(sheet_cell_set_value) : ditto.
 	(colrow_move) : ditto.
-	(sheet_destroy_contents) : 
+	(sheet_destroy_contents) :
 	  s/dependent_unqueue_recalc_sheet/dependent_unqueue_sheet/
 
 	* src/cmd-edit.c (cmd_select_cur_row) : Make behavior match XL.
@@ -1274,7 +1274,7 @@
 	* src/workbook-control-gui.c (workbook_control_gui_init):
 	Initialize wbcg->toolbar_is_sensitive.
 
-	* src/workbook-edit.c (workbook_edit_toolbars_set_sensitive): Use 
+	* src/workbook-edit.c (workbook_edit_toolbars_set_sensitive): Use
 	wbcg->toolbar_is_sensitive instead of static is_sensitive.
 
 2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
@@ -1448,7 +1448,7 @@
 	direcly. Objects that are rubber banded directly have already been attached to
 	a sheet.
 	(sheet_object_begin_creation): if we are rubber_banding_direclty the object,
-	attach it to a sheet. 
+	attach it to a sheet.
 
 	* src/sheet-object-widget.c (sheet_widget_checkbox_destroy): check if
 	the dependent has been linked before unlinking. We might have created
@@ -1488,7 +1488,7 @@
 	Now it should be really fixed.
 
 2001-05-19  Almer S. Tigelaar  <almer@gnome.org>
- 
+
  	* src/workbook-edit.c (wbcg_edit_attach_guru):
  	Guard against two anted region on the same sheet.
 
@@ -1558,22 +1558,22 @@
 	(sheet_range_set_text) : set the bounding box.
 
 2001-05-15  Jon K Hellan  <hellan@acm.org>
- 
+
  	* src/workbook-control.h: Define menu state enums for print setup,
  	search/replace and define names and a define for the lot.
- 
- 	* src/workbook-control-gui-priv.h (struct _WorkbookControlGUI): 
+
+ 	* src/workbook-control-gui-priv.h (struct _WorkbookControlGUI):
  	Add menu_item_print_setup, menu_item_search_replace,
  	menu_item_define_name members.
- 
+
  	* src/workbook-edit.c (workbook_edit_attach_guru,
  	workbook_edit_detach_guru): Update Update print setup,
  	search/replace and define names sensitivity according to whether
  	or not we have guru.
- 
+
  	* src/workbook-control-gui.c (wbcg_menu_state_update): Ditto. This
  	is where it's actually implemented.
- 
+
 2001-05-15  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/sheet-control-gui.c (vertical_scroll_offset_changed): Sync
@@ -1631,7 +1631,7 @@
 2001-05-14  Miguel de Icaza  <miguel@ximian.com>
 
 	* src/sheet-control-gui.c: Removed support routines that used the
-	Excel-like toolbar.  I got fed up with it. 
+	Excel-like toolbar.  I got fed up with it.
 	(scg_construct): Use regular Gtk scrollbars.  Connect to value
 	changed to reflect the state of the scrollbar on the spreadsheet
 	inmediately instead of doing the broken Excel behaviour.
@@ -1643,7 +1643,7 @@
 	Resolve warning.
 
 2001-05-13  Almer S. Tigelaar  <almer@gnome.org>
- 
+
  	* src/colrow.c (colrow_save_sizes): Use float.
  	(colrow_restore_sizes): Use float.
  	(colrow_restore_sizes_group): Walk the selections
@@ -1708,10 +1708,10 @@
 	  initialization of LC_* from the environment.
 
 2001-05-11  Jon K Hellan  <hellan@acm.org>
- 
+
  	* src/sheet-control-gui.c (scg_rangesel_changed): Improve handling
  	of merged cells. Freeze expr entry display until final range is found.
- 
+
 2001-05-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_sheet_delete) : Clear the combos as well as
@@ -1948,7 +1948,7 @@
 	on existing toolbars.
 
 2001-05-07  Almer S. Tigelaar  <almer@gnome.org>
-    
+
     	* src/parser.y (gnumeric_expr_parser): Display which
     	token caused the parse error. And display more detailed
     	error messages for paren matching errors using
@@ -1957,7 +1957,7 @@
     	(check_parens): Renamed from find_bracket. Replace bracket
     	with paren everywhere for consistency.
     	(yylex): Kill paren matching here.
- 
+
 2001-05-07  Morten Welinder  <terra@diku.dk>
 
 	* src/item-grid.c (drag_start): Plug leak.

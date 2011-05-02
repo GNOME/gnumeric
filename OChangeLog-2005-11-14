@@ -305,7 +305,7 @@
 2005-09-26  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (show_gui) : protection against scg == NULL
-	  Wallenbach-Formulas2003/chap17/thermometer chart.xls 
+	  Wallenbach-Formulas2003/chap17/thermometer chart.xls
 	(disconnect_sheet_signals) : no need to warn when shutting down hidden
 	  sheets.
 
@@ -597,7 +597,7 @@
 
 	* src/sheet.c (sheet_destroy_contents): Move sheet object
 	destruction here.
-	(sheet_finalize): From here. 
+	(sheet_finalize): From here.
 
 2005-08-12  Morten Welinder  <terra@gnome.org>
 
@@ -718,7 +718,7 @@
 
 2005-07-26  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
-	* src/style.c (style_font_new_simple): use 
+	* src/style.c (style_font_new_simple): use
 	pango_font_description_copy() so that we store the exact
 	font description we pass to pango. Partially Fix #161027.
 
@@ -783,7 +783,7 @@
 2005-07-15  Jon K Hellan  <hellan@acm.org>
 
 	* src/main-application.c (gnumeric_arg_parse): Call
-	gnome_authentication_manager_init. 
+	gnome_authentication_manager_init.
 
 2005-07-14  Jon K Hellan  <hellan@acm.org>
 
@@ -887,7 +887,7 @@
 	SHIFT is pressed, state given by widget parent window.
 	* src/sheet-control-gui.c (scg_drag_receive_same_scg): ditto.
 	(scg_objects_nudge): fix typo.
-	
+
 2005-06-22  Jody Goldberg <jody@gnome.org>
 
 	* src/Makefile.am : enable pango-test
@@ -1721,7 +1721,7 @@
 
 	* src/sheet-object.[ch]: Add sheet_object_get_target_list.
 
-	* src/sheet-object-image.c (sheet_object_image_get_target_list): 
+	* src/sheet-object-image.c (sheet_object_image_get_target_list):
 	New. Gets targets object is able render itself as.
 	(soi_imageable_init): Register get_target_list virtual.
 
@@ -1854,7 +1854,7 @@
 
 	* src/libgnumeric.h (gnumeric_lib_dir, gnumeric_data_dir):
 	(gnumeric_icon_dir, gnumeric_locale_dir): Declare as "const char[]"
-	to get rid of some warnings (unless we are on OS/2). 
+	to get rid of some warnings (unless we are on OS/2).
 	* src/libgnumeric.c: Likewise.
 
 2005-04-18  Stepan Kasal  <kasal@ucw.cz>
@@ -1901,7 +1901,7 @@
 
 	* src/sheet-control-gui.c (scg_drag_receive_uri_list): Handle a
 	bunch of extra mime types for dropped files.
-	(scg_drag_receive_cellregion, 
+	(scg_drag_receive_cellregion,
 	(scg_drag_receive_same_proc_other_scg,
 	(scg_drag_send_clipboard_objects): Check that cell region is non
 	null before using it.
@@ -2021,7 +2021,7 @@
 
 2005-04-02  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/style.c: (style_init), (style_shutdown): removed calls to 
+	* src/style.c: (style_init), (style_shutdown): removed calls to
 	number_format_init/shutdown (moved to goffice).
 
 2005-04-01  Steve Murphy  <murf@e-tools.com>
@@ -2035,13 +2035,13 @@
 
 2005-04-01  Jon K Hellan  <hellan@acm.org>
 
-	* src/gnm-so-filled.c (gnm_so_polygon_write_xml_dom) 
+	* src/gnm-so-filled.c (gnm_so_polygon_write_xml_dom)
 	(gnm_so_polygon_write_xml_sax): Fix warnings.
 
 2005-04-01  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-control-gui.c (wbcg_sheet_add): Make the
-	GNUMERIC_SHEET target GTK_TARGET_SAME_APP. 
+	GNUMERIC_SHEET target GTK_TARGET_SAME_APP.
 	(cb_wbcg_drag_data_received): Added source_widget parameter.
 
 	* src/sheet-object.c (sheet_object_rubber_band_directly): Always
@@ -2050,12 +2050,12 @@
 	* src/gnumeric-pane.c (drag_types_in, drag_types_out):
 	New. Supported drag targets.
 	(cb_pane_drag_data_received): Pass source widget to
-	scg_drag_data_received. 
+	scg_drag_data_received.
 	(cb_gnm_pane_drag_data_get): New. drag-data-get callback.
 	(cb_gnm_pane_drag_motion): New. drag-motion callback.
 	(cb_gnm_pane_drag_leave): New. drag-leave callback.
 	(gnm_pane_drag_dest_init): New. Factor out of gnm_pane_init and
-	Connect drag-data-get, drag-motion and drag-leave callbacks. 
+	Connect drag-data-get, drag-motion and drag-leave callbacks.
 	(gnm_pane_init): Use it.
 	(gnm_pane_objects_drag): New. Factored out of gnm_pane_object_move.
 	(gnm_pane_object_move): Use it.
@@ -2199,7 +2199,7 @@
 	gnm_app_clipboard_cut_copy_obj.
 
 	* src/application.c (gnm_app_clipboard_cut_copy_obj): Use
-	clipboard_copy_obj. 
+	clipboard_copy_obj.
 
 2005-03-28  Morten Welinder  <terra@gnome.org>
 
@@ -2247,9 +2247,9 @@
 
 2005-03-23  Jon K Hellan  <hellan@acm.org>
 
-	* src/sheet-object-graph.c (sheet_object_graph_write_image): 
+	* src/sheet-object-graph.c (sheet_object_graph_write_image):
 	New. Implements SheetObjectImageable. Extracted from
-	sog_cb_save_as. 
+	sog_cb_save_as.
 	(sog_cb_save_as): Use sheet_object_write_image.
 	(sog_imageable_init): SheetObjectImageable gobject voodoo.
 
@@ -2302,7 +2302,7 @@
 	* configure.in: AC_PREREQ(2.54)
 	  - don't default to --without-gtk even if the reqs are not met;
 	  - fail if someone tries --with-python=/path;
-	  - when searching for $PYTHON, try python2.4 and such; 
+	  - when searching for $PYTHON, try python2.4 and such;
 	  - don't generate stamp.h; the issue is solved by Automake 1.7.2;
 	    see info '(autoconf)Automatic Remaking' for details.
 	* stamp.h.in: Nuke.
@@ -2409,7 +2409,7 @@
 
 	* src/sheet-object-image.c (sheet_object_image_write_image):
 	New. Implements SheetObjectImageable. Extracted from
-	soi_cb_save_as. 
+	soi_cb_save_as.
 	(soi_cb_save_as): Use sheet_object_write_image.
 	(soi_imageable_init): SheetObjectImageable gobject voodoo.
 
@@ -2518,9 +2518,9 @@
 
 2005-03-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
-	* src/sheet-control-gui.c (apply_move): don't get rtl flag from 
+	* src/sheet-control-gui.c (apply_move): don't get rtl flag from
 	gcanvas, since it can be not fully initialized.
-	
+
 2005-03-03  Jon K Hellan  <hellan@acm.org>
 
 	* src/session.c (interaction_function): Deiconify toplevel before
@@ -2592,7 +2592,7 @@
 
 2005-02-23  Jon K Hellan  <hellan@acm.org>
 
-	* src/workbook-control-gui.c (cb_sheet_label_drag_data_received, 
+	* src/workbook-control-gui.c (cb_sheet_label_drag_data_received,
 	cb_sheet_label_drag_leave, cb_sheet_label_drag_motion): Don't
 	crash or complain if drag source is in a different process.
 
@@ -2704,7 +2704,7 @@
 2005-02-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-widget.c: (cb_adjustment_value_changed): avoid
-	recalculation on update, fixes #166085. 
+	recalculation on update, fixes #166085.
 	(sheet_widget_adjustment_init_full),
 	(cb_adjustment_config_ok_clicked),
 	(sheet_widget_adjustment_write_xml_sax),
@@ -2787,7 +2787,7 @@
 
 2005-01-27  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
-	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object): delta is 
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object): delta is
 	1.0 / FooCanvas::pixels_per_unit for correct behaviour when zoom is !=
 	100 %
 
@@ -2856,7 +2856,7 @@
 	with feedback from scg_object_drags. With snap to grid real move can
 	be different than what asked.
 	(cb_slide_handler): update call to gnm_pane_object_move.
-	(cb_control_point_event): update call to scg_object_drag. 
+	(cb_control_point_event): update call to scg_object_drag.
 	Pass shift state to gnm_pane_object_move.
 	* src/sheet-control-gui.c (snap_pos_to_grid): new.
 	(snap_to_grid): new.
@@ -3125,7 +3125,7 @@
 	adding extension.
 	(gui_file_save_as): don't exit when file exists and
 	user do not want to overwrite. Back to the file chooser instead.
-	
+
 2005-01-12  Jody Goldberg <jody@gnome.org>
 
 	* src/wbcg-actions.c (cb_help_docs) : minor warning suppression
@@ -3326,7 +3326,7 @@
 	print_info_set_paper_height, print_info_get_paper_width,
 	print_info_get_paper_height): New, get and set functions for
 	paper_width and paper_height.
-	* src/print-info.c (print_info_free, print_info_new, print_info_dup): 
+	* src/print-info.c (print_info_free, print_info_new, print_info_dup):
 	Extended to handle the two fields added to struct PrintInformation.
 
 2004-12-10  Jody Goldberg <jody@gnome.org>
@@ -3555,14 +3555,14 @@
 2004-11-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Call the "make" command for PY_EXTRA_LIBS with "-s".
-	  Without it, out-of-source builds have problems due to interference 
+	  Without it, out-of-source builds have problems due to interference
 	  from make printing entering/leaving directory messages.
 	* configure.in: Corrected $(GNUMERIC_PLUGIN_LDFLAGS) to
 	  $GNUMERIC_PLUGIN_LDFLAGS.
 
 2004-11-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/gnumeric-gconf.c (go_conf_get_short_desc) return 
+	* src/gnumeric-gconf.c (go_conf_get_short_desc) return
 	  NULL if we don't have a desription
 	(go_conf_get_long_desc): ditto
 
@@ -3596,14 +3596,14 @@
 	(gnm_gconf_set_unfocused_rs): new
 	(gnm_gconf_set_num_recent_functions): new
 	(gnm_gconf_set_prefer_clipboard): new
-	
+
 2004-11-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gnumeric-gconf.h (gnm_gconf_set_gui_resolution_h): new
 	(gnm_gconf_set_gui_resolution_v): new
 	* src/gnumeric-gconf.c (gnm_gconf_set_gui_resolution_h): new
 	(gnm_gconf_set_gui_resolution_v): new
-	
+
 2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gnumeric-gconf.h (gnm_gconf_set_file_overwrite): new
@@ -3646,7 +3646,7 @@
 
 2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/gnumeric-gconf.c (gnm_gconf_set_default_font_name): avoid 
+	* src/gnumeric-gconf.c (gnm_gconf_set_default_font_name): avoid
 	  warning
 
 2004-11-02  Stepan Kasal  <kasal@ucw.cz>
@@ -3706,7 +3706,7 @@
 	(gnm_gconf_set_default_font_name): new
 	(gnm_gconf_set_default_font_bold): new
 	(gnm_gconf_set_default_font_italic): new
-	
+
 2004-11-03  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : fix the python test and sync it with the perl test
@@ -3766,12 +3766,12 @@
 	* src/gui-util.h (gnm_iter_search_t): new type
 	(gnm_tree_model_iter_prev): new
 	* src/gui-util.c (gnm_tree_model_iter_prev): new
-	
+
 2004-10-30  Stepan Kasal  <kasal@ucw.cz>
 
 	A cleanup of ssconvert; don't require Gnome.
 
-	* src/ssconvert.c (list_them): New general function which lists 
+	* src/ssconvert.c (list_them): New general function which lists
 	  importers or exporters.
 	(convert): New function; the main functionality moved here.
 	(mail): Use the above functions; call gsf_init and don't use
@@ -3888,7 +3888,7 @@
 
 	* plugins/excel/ms-chart.c (BC_R): handle dash_type property.
 	(ms_excel_chart_read): use GO_LINE_NONE ofr invisible lines.
-	
+
 2004-10-27  Morten Welinder  <terra@gnome.org>
 
 	* src/complex.c (complex_div, complex_sqrt): Improve accuracy.
@@ -3920,7 +3920,7 @@
 	Don't crash but warn when no load_base method.
 	* src/plugin-service.c: (plugin_service_function_group_func_desc_load)
 	Don't crash but warn when no func_desc_load method.
-	
+
 2004-10-21  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (logfbit): Make global.
@@ -3942,7 +3942,7 @@
 	(stf_parse_sheet): set cols_exceeded
 	* src/stf-parse.h: add cols_exceeded to StfParseOptions_t
 	* src/stf.c (stf_apply_formats): remove warning
-	(stf_read_workbook_auto_csvtab): show warning if 
+	(stf_read_workbook_auto_csvtab): show warning if
 	  cols_exceeded is set.
 
 2004-10-21  Yukihiro Nakai  <nakai@gnome.gr.jp>
@@ -3954,14 +3954,14 @@
 
 2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* schemas/gnumeric-general.schemas.in: change recalclag 
+	* schemas/gnumeric-general.schemas.in: change recalclag
 	  description
 
 2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/stf-parse.c (stf_parse_options_new): initialize 
+	* src/stf-parse.c (stf_parse_options_new): initialize
 	  col_import_array_len
-	(stf_parse_sheet): make sure we don't index beyond the end 
+	(stf_parse_sheet): make sure we don't index beyond the end
 	  of the col_import_array
 	(stf_parse_region): ditto
 	* src/stf.c (stf_apply_formats): ditto
@@ -4089,7 +4089,7 @@
 	* src/sheet-object-widget.c : Add a ToggleButton type.
 	(sheet_widget_checkbox_get_ref) : weaken to allow relative references
 	  and assume they are relative to A1.
-	(sheet_widget_adjustment_get_ref) : 
+	(sheet_widget_adjustment_get_ref) :
 
 2004-10-10  Jody Goldberg <jody@gnome.org>
 
@@ -4655,7 +4655,7 @@
 
 2004-09-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/wbcg-actions.c: Correct Z-Test menu item description and 
+	* src/wbcg-actions.c: Correct Z-Test menu item description and
 	  title. We do not allow large sample calculations.
 
 2004-09-07  Jody Goldberg <jody@gnome.org>
@@ -4681,7 +4681,7 @@
 	* src/wbcg-actions.c (cb_edit_search_replace_query): Ditto.
 
 	* src/workbook-control-gui.c (wbcg_error_error) Ditto.
-	(wbcg_close_if_user_permits): 
+	(wbcg_close_if_user_permits):
 
 2004-09-06  Jody Goldberg <jody@gnome.org>
 
@@ -4844,7 +4844,7 @@
 2004-08-27  Jon K Hellan  <hellan@acm.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=151152
-	
+
 	* src/workbook-control-gui.c (wbcg_close_if_user_permits): Define
 	responses GNM_RESPONSE_SAVE_ALL, GNM_RESPONSE_DISCARD_ALL. These
 	are negative, to work with druid logic in gnumeric_dialog_run.
@@ -4853,7 +4853,7 @@
 
 	* src/gui-file.c (gui_wb_view_show): New. Factored out of
 	gui_file_read. Show  view in a wbcg. Use current or new wbcg
-	according to policy. 
+	according to policy.
 	(gui_file_read): Use it.
 
 2004-08-26  Morten Welinder  <terra@gnome.org>
@@ -5129,7 +5129,7 @@
 2004-07-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* configure.in: use AM_PROG_LEX rather than AC_PROG_LEX
-	
+
 2004-07-27  Jody Goldberg <jody@gnome.org>
 
 	* src/wbc-gtk.c (cb_regenerate_window_menu) : new.
@@ -5350,7 +5350,7 @@
 
 2004-07-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/gnumeric-gconf.c (go_conf_get_short_desc): Check for NULL 
+	* src/gnumeric-gconf.c (go_conf_get_short_desc): Check for NULL
 	  pointer
 	(go_conf_get_long_desc): ditto
 
@@ -5505,7 +5505,7 @@
 
 	* src/gui-file.c (gui_file_read, do_save_as, go_file_is_writable):
 	Changed to take uri.  All callers changed.
-	
+
 	* src/workbook-view.c (wb_view_new_from_uri): Renamed from
 	wb_view_new_from_file and adapted to take uri.  All callers
 	changed.
@@ -5593,12 +5593,12 @@
 	* src/commands.h (cmd_reorganize_sheets): add arguments
 	* src/commands.c: add NULL arguments to all calls to
 	  cmd_reorganize_sheets throughout.
-	(cmd_reorganize_sheets_*): handle visibility changes 
+	(cmd_reorganize_sheets_*): handle visibility changes
 	* src/sheet.h (sheet_set_visibility): new
 	(sheet): add is_visible field
 	* src/sheet.c (sheet_set_visibility): new
 	(sheet_new): initalize is_visible field
-	* src/workbook-control-gui.c: add NULL arguments to all calls to 
+	* src/workbook-control-gui.c: add NULL arguments to all calls to
 	  cmd_reorganize_sheets
 	* src/workbook.h (workbook_sheet_change_visibility): new
 	* src/workbook.c (workbook_sheet_change_visibility): new
@@ -5633,9 +5633,9 @@
 2004-05-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=142836
-	* src/stf.c (stf_write_csv): use current sheet rather than first 
-	  sheet. 
-	
+	* src/stf.c (stf_write_csv): use current sheet rather than first
+	  sheet.
+
 2004-05-17  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-autofill.c (autofill_cell): Handle default case, just
@@ -6095,7 +6095,7 @@
 
 	* src/graph.c (gnm_go_data_vector_load_values): changed initial maximum
 	from G_MINDOUBLE to - G_MAXDOUBLE.
-	
+
 2004-03-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Added
@@ -6378,7 +6378,7 @@
 2004-02-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gui-util.c (gu_delete_handler): new
-	(gnumeric_dialog_file_selection): catch window manager deletion 
+	(gnumeric_dialog_file_selection): catch window manager deletion
 	  of the dialog.
 
 2004-01-28  Jody Goldberg <jody@gnome.org>
@@ -6396,7 +6396,7 @@
 2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gnumeric-gconf-priv.h: add many more printing related keys
-	* src/gnumeric-gconf.c (gnm_conf_init_essential): initialize 
+	* src/gnumeric-gconf.c (gnm_conf_init_essential): initialize
 	  printing variables from gconf
 	(gnm_gconf_set_print_center_horizontally): implement
 	(gnm_gconf_set_print_center_vertically): implement
@@ -6435,7 +6435,7 @@
 	(gnm_gconf_set_print_repeat_left): new stub
 	(gnm_gconf_set_print_tb_margins): new stub
 	(gnm_gconf_set_print_header_formats): new stub
-	* src/gnumeric-gconf.h: various new functions (see above) and 
+	* src/gnumeric-gconf.h: various new functions (see above) and
 	  fields to the pref structure.
 	* src/print-info.c: remove dependence on libgnome/gnome-config.h
 	(load_margin): deleted
@@ -6559,7 +6559,7 @@
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=131343
 	* src/print.c (print_job_info_update_from_config): new
-	(print_job_info_get): move some code into 
+	(print_job_info_get): move some code into
 	  print_job_info_update_from_config
 	(sheet_print): call print_job_info_update_from_config after the
 	  user may have changed the paper info in the print dialog.

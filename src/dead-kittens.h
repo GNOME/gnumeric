@@ -1635,7 +1635,7 @@
 	do {								\
 		if ((t)) GTK_WIDGET_SET_FLAGS ((w), GTK_CAN_FOCUS);	\
 		else GTK_WIDGET_UNSET_FLAGS ((w), GTK_CAN_FOCUS);	\
-	} while (0)		     
+	} while (0)
 #endif
 
 #ifndef HAVE_GTK_WIDGET_GET_REALIZED

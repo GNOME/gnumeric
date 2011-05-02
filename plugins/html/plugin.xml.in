@@ -37,7 +37,7 @@
 				<_description>XHTML (*.html)</_description>
 			</information>
 		</service>
-		<service type="file_saver" id="xhtml_range" 
+		<service type="file_saver" id="xhtml_range"
 		 save_scope="range"
                  file_extension="html" format_level="write_only">
 			<information>

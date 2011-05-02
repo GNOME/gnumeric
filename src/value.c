@@ -655,7 +655,7 @@ value_dup (GnmValue const *src)
 }
 
 static GnmValDiff
-value_compare_real (GnmValue const *a, GnmValue const *b, 
+value_compare_real (GnmValue const *a, GnmValue const *b,
 		    gboolean case_sensitive,
 		    gboolean default_locale);
 
@@ -1239,7 +1239,7 @@ gnm_string_cmp (gconstpointer gstr_a, gconstpointer gstr_b)
 {
 	return (gstr_a == gstr_b)
 		? 0
-		: g_utf8_collate (((GOString const *)gstr_a)->str, 
+		: g_utf8_collate (((GOString const *)gstr_a)->str,
 				  ((GOString const *)gstr_b)->str);
 }
 
@@ -1249,13 +1249,13 @@ gnm_string_cmp_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
 	gchar *a;
 	gchar *b;
 	int res;
-	
+
 	if (gstr_a == gstr_b)
 		return 0;
 
 	a = g_utf8_casefold (((GOString const *)gstr_a)->str, -1);
 	b = g_utf8_casefold (((GOString const *)gstr_b)->str, -1);
-	
+
 	res = g_utf8_collate (a, b);
 
 	g_free (a);
@@ -1275,7 +1275,7 @@ gnm_string_cmp_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
  * IGNORES format.
  */
 static GnmValDiff
-value_compare_real (GnmValue const *a, GnmValue const *b, 
+value_compare_real (GnmValue const *a, GnmValue const *b,
 		    gboolean case_sensitive,
 		    gboolean default_locale)
 {
@@ -1306,18 +1306,18 @@ value_compare_real (GnmValue const *a, GnmValue const *b,
 
 		/* If both are strings compare as string */
 		case VALUE_STRING :
-			t = (default_locale) ? 
+			t = (default_locale) ?
 				(case_sensitive
-				 ? go_string_cmp 
+				 ? go_string_cmp
 				 (a->v_str.val, b->v_str.val)
-				 : go_string_cmp_ignorecase 
+				 : go_string_cmp_ignorecase
 				 (a->v_str.val, b->v_str.val))
 				: (case_sensitive
-				   ? gnm_string_cmp 
+				   ? gnm_string_cmp
 				   (a->v_str.val, b->v_str.val)
-				   : gnm_string_cmp_ignorecase 
+				   : gnm_string_cmp_ignorecase
 				   (a->v_str.val, b->v_str.val));
-					
+
 			if (t > 0)
 				return IS_GREATER;
 			else if (t < 0)
@@ -1374,7 +1374,7 @@ value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 }
 
 GnmValDiff
-value_compare_no_cache (GnmValue const *a, GnmValue const *b, 
+value_compare_no_cache (GnmValue const *a, GnmValue const *b,
 			gboolean case_sensitive)
 {
 	return value_compare_real (a, b, case_sensitive, FALSE);

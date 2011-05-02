@@ -61,7 +61,7 @@
 
 2002-01-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/workbook-control-gui.c : new cb_tool_... functions, add 
+	* src/workbook-control-gui.c : new cb_tool_... functions, add
 	  analysis tools menu to non-bonobo menu section, define
 	  BONOBO_UI_UNSAFE_VERBs for all analysis tools
 	(cb_tools_data_analysis) : deleted
@@ -71,7 +71,7 @@
 
 	* src/datetime.c (datetime_g_free): New function to free
 	GDate. Can be called with NULL without complaining.
-	(coupdays, coupdaybs, coupdaysnc): 
+	(coupdays, coupdaybs, coupdaysnc):
 
 	* src/sheet-autofill.c (autofill_compute_delta, autofill_cell):
 	Use datetime_g_free instead of g_date_free.
@@ -87,10 +87,10 @@
 2002-01-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/datetime.c (adjust_dates_basis) : removed
-	(days_between_BASIS_MSRB_30_360) : new, calculate delta for 
+	(days_between_BASIS_MSRB_30_360) : new, calculate delta for
 	  BASIS_MSRB_30_360
 	(days_between_BASIS_30E_360) : new, calculate delta for BASIS_30E_360
-	(days_between_BASIS_30Ep_360) : new, calculate delta for 
+	(days_between_BASIS_30Ep_360) : new, calculate delta for
 	  BASIS_30Ep_360
 	(days_between_basis) : replaces days_between_dep_basis, extremely
 	  simplified
@@ -139,7 +139,7 @@
 	* src/datetime.c : change oem to eom
 	(days_between_dep_basis) : fix basis == 0, add `in_order' flag
 	(adjust_dates_basis) : fix basis == 0
-	(coupdays) : fix basis == 2, 3 and partially fix to 
+	(coupdays) : fix basis == 2, 3 and partially fix to
 	  basis == 1
 
 2002-01-15  Morten Welinder  <terra@diku.dk>
@@ -157,9 +157,9 @@
 
 2002-01-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/datetime.c (coup_cd_xl) : new function (XL compatible 
+	* src/datetime.c (coup_cd_xl) : new function (XL compatible
 	  implementation of coup_cd.
-	(coupdays) : add xl boolean parameter, call coup_cd or coup_cd_xl 
+	(coupdays) : add xl boolean parameter, call coup_cd or coup_cd_xl
 	  depending on xl.
 	(coupdaybs) : ditto
 	(coupdaysnc) : ditto
@@ -285,7 +285,7 @@
 2002-01-10  Jon K Hellan  <hellan@acm.org>
 
 	* src/datetime.c (datetime_isoweeknum): Added. Return the ISO 8601
-	week number of date. 
+	week number of date.
 	(datetime_weeknum): Added. Return week number of date according to
 	method.
 
@@ -375,7 +375,7 @@
 
 2002-01-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
-	* src/auto-correct.c (autocorrect_tool) : casts to deal with character 
+	* src/auto-correct.c (autocorrect_tool) : casts to deal with character
 	  (un)signedness.
 	* src/format.c (format_entry_dtor) : switch to gchar to deal with
 	  character (un)signeness.
@@ -402,9 +402,9 @@
 	* src/sheet.c (sheet_name_quote) : type change
 	* src/sheet-object.c (sheet_object_read_xml) : casts
 	* src/sheet-object.c (sheet_object_write_xml) : casts
-	* src/sheet-object-cell-comment.c (cell_comment_read_xml) : type 
+	* src/sheet-object-cell-comment.c (cell_comment_read_xml) : type
           changes; casts
-	* src/sheet-object-widget.c (sheet_widget_label_read_xml) : type 
+	* src/sheet-object-widget.c (sheet_widget_label_read_xml) : type
 	  changes; casts
 	* src/sheet-object-widget.c (sheet_widget_frame_read_xml) : ditto
 	* src/sheet-object-widget.c (sheet_widget_button_read_xml) : ditto

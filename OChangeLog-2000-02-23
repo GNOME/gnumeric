@@ -45,14 +45,14 @@
 2000-02-23  Dom Lachowicz <dominicl@seas.upenn.edu>
 
 	* src/plugin.[ch]: Additions to API -- Made struct _PluginData private
-	Added field 'initialized' to PluginData to keep track of whether 
+	Added field 'initialized' to PluginData to keep track of whether
 	   the plugin has gone through init yet or not
 	Added field 'descr' - a paragraph description of the plugin
 	plugin_load() - Updated to use initialized field
 	New function: static void plugin_close() - shuts down plugin
 	Updated plugin_load() and plugin_unload() to use plugin_close() --
 	   lots of duplicated code
-	New functions to reflect new privateness of PluginData struct: 
+	New functions to reflect new privateness of PluginData struct:
 	   plugin_data_init()
            plugin_data_get_filename()
 	   plugin_data_get_title()
@@ -161,7 +161,7 @@
 	(dialog_data_analysis): Do not destroy if gnumeric_dialog_run
 	returns -1.
 
-	* src/dialogs/autosave.glade, src/dialogs/autosave.glade.h : 
+	* src/dialogs/autosave.glade, src/dialogs/autosave.glade.h :
 	Accelerator for "minutes" field.
 
 	* src/dialogs/autocorrect-exceptions.glade,
@@ -204,9 +204,9 @@
 	* src/dialogs/dialog-stf-csv-page.c :
 	(csv_page_prepare) : csv_page_custom_toggled was called twice, removed one.
 
-	* src/stf.c, src/dialogs/dialog-stf.c, src/dialogs/dialog-stf-main-page.c, 
-	* src/dialogs/dialog-stf-csv-page.c, src/dialogs/dialog-stf-fixed-page.c, 
-	* src/dialogs/dialog-stf-format-page.c, src/dialogs/dialog-stf-preview.c 
+	* src/stf.c, src/dialogs/dialog-stf.c, src/dialogs/dialog-stf-main-page.c,
+	* src/dialogs/dialog-stf-csv-page.c, src/dialogs/dialog-stf-fixed-page.c,
+	* src/dialogs/dialog-stf-format-page.c, src/dialogs/dialog-stf-preview.c
 	Fixed incorrect comments and added function comment headers where they
 	didn't exist. Also moved some includes.
 
@@ -274,7 +274,7 @@
 2000-02-20  Tuomas Kuosmanen  <tigert@gimp.org>
 
 	* src/pixmaps/graphic.xpm: New icon for the "add graph" -button
-	requested by miguel 
+	requested by miguel
 
 	(hello fellow finn below btw :)
 
@@ -349,7 +349,7 @@
 2000-02-18  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* /src/dialogs/dialog-stf.glade :
-	Corrected a minor spelling error on the first page of 
+	Corrected a minor spelling error on the first page of
 	the druid.
 
 2000-02-19  Jukka-Pekka Iivonen  <iivonen@iki.fi>
@@ -381,8 +381,8 @@
 	stf-fixed.c. These supersede those two units.
 
 	* dialog-stf.c, dialog-stf.h, dialog-stf-csv-page.c, dialog-stf-fixed-page.c :
-	Altered so they use the new stf-parse.[ch] instead of stf-separated.c 
-	and stf-fixed.c. 
+	Altered so they use the new stf-parse.[ch] instead of stf-separated.c
+	and stf-fixed.c.
 
 	* dialog-stf-main-page.c
 	Now allows you to select both the line to start _and_ the line to stop
@@ -546,7 +546,7 @@
 
 2000-02-18  Miguel de Icaza  <miguel@gnu.org>
 
-	* configure.in (EXTRA_GNOME_CFLAGS): Remove stf plugin from here. 
+	* configure.in (EXTRA_GNOME_CFLAGS): Remove stf plugin from here.
 	* plugins/Makefile.am (SUBDIRS): And from here.
 
 	* src/stf.c (stf_open_and_read): Use malloc instead of g_malloc0
@@ -659,7 +659,7 @@
 	(struct CommandContextClass): Call message parameter to methods
 	"message".
 	(command_context_push_template, command_context_pop_template):
-	Declare. 
+	Declare.
 
 	* src/command-context.c (command_context_push_template): New
 	function. Push a printf template for error messages to stack.
@@ -672,7 +672,7 @@
 
 	* src/command-context-corba.c (ccc_error_plugin_problem,
 	ccc_error_read, ccc_error_save): Call message parameter
-	"message". 
+	"message".
 
 	* src/command-context-gui.c (ccg_error_plugin_problem,
 	ccg_error_read, ccg_error_save): Ditto.
@@ -1051,7 +1051,7 @@
 	* src/workbook.c (dialog_autosave_callback): Moved autosave code
 	here.
 	(workbook_autosave_cancel): Cancels autosaving.
-	(workbook_autosave_set): 
+	(workbook_autosave_set):
 
 	* src/dialogs/dialog-autosave.c (dialog_autosave): Change the
 	order here.
@@ -1255,7 +1255,7 @@
 
 Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
-	* gnumeric.spec.in: Added in some logic to autogenerate the 
+	* gnumeric.spec.in: Added in some logic to autogenerate the
 	catalog's file spec.
 
 2000-01-30  Jody Goldberg <jgoldberg@home.com>
@@ -1363,7 +1363,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	workbook_save_as, workbook_save): Add command context
 	(workbook_try_read): Remove msg paramenter
 
-	* src/dialogs/dialog-autosave.c (dialog_autosave_callback): 
+	* src/dialogs/dialog-autosave.c (dialog_autosave_callback):
 	ditto
 
 	* src/command-context.[ch] (gnumeric_error_read,
@@ -1425,7 +1425,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 2000-01-27  Jody Goldberg <jgoldberg@home.com>
 
-	* *.c : convert to using Workbook::current_sheet rather than 
+	* *.c : convert to using Workbook::current_sheet rather than
 	    workbook_get_current_sheet.
 
 	* src/workbook.c : Add a current_sheet member to Workbook.
@@ -1446,7 +1446,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/gnumeric-sheet.[ch] (gnumeric_sheet_cursor_set) : Delete.
 	  The scrollbars reflect the visible range, not the cursor cell.
 
-	* src/item-cursor.c (item_cursor_set_bounds_visibly) : Remove call to 
+	* src/item-cursor.c (item_cursor_set_bounds_visibly) : Remove call to
 	  gnumeric_sheet_cursor_set.
 
 	* src/workbook-format-toolbar.c (workbook_create_format_toolbar) : std
@@ -1591,7 +1591,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 2000-01-23  Miguel de Icaza   <miguel@gnu.org>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Handle
-	GDK_ISO_Left_Tab and GDK_KP_Tab as well, per Chris' suggestion. 
+	GDK_ISO_Left_Tab and GDK_KP_Tab as well, per Chris' suggestion.
 
 2000-01-23  Jon K Hellan  <hellan@acm.org>
 
@@ -1603,7 +1603,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/dialogs/dialog-autocorrect.c (dialog_autocorrect): Make
 	<Ret> in entry fields invoke default.
-	(dialog_autocorrect, exceptions_callback): 
+	(dialog_autocorrect, exceptions_callback):
 
 	* src/dialogs/autocorrect-exceptions.glade: Set initial focus to
 	text entry field. Make OK the default. Do not show column headers
@@ -1809,7 +1809,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/dialogs/font-sel.glade.h, src/dialogs/font-sel.glade: Fix
 	typo in preview text
 
-	* src/dialogs/dialog-printer-setup.c (do_setup_main_dialog): 
+	* src/dialogs/dialog-printer-setup.c (do_setup_main_dialog):
 	Set Initial focus for print setup dialog.
 
 	* src/workbook.c (workbook_can_close): Yes/No dialog: Give cancel
@@ -1824,7 +1824,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort): Modularize a
 	bit more for the sort dialog.  Use GLADE_FILE macro.
-	(dialog_cell_sort_ok): New function connected to the sort 
+	(dialog_cell_sort_ok): New function connected to the sort
 	dialog ok button.  Builds the clause data and then calls cmd_sort.
 	(dialog_cell_sort_adv): Use GLADE_FILE macro.
 	(clip_range_to_finite): New function, reduces an infinite range to
@@ -1843,7 +1843,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	(sort_qsort_func): The former qsort_func function from
 	dialog_cell_sort.c.
 	(sort_qsort_func2): Quicksort function for undo.
-	(sort_range): Performs the sort.  Much the same as the 
+	(sort_range): Performs the sort.  Much the same as the
 	sort_cell_range function that was in dialog_cell_sort.c.
 	Sorts the data of a CmdSort object, creating it if necessary.
 	Takes the quicksort function to call as an argument.
@@ -1852,7 +1852,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/ranges.h: Prototype range_name.
 
-	* src/ranges.c (range_name): New function that returns a 
+	* src/ranges.c (range_name): New function that returns a
 	const char * to "A1:B5" type range name.
 
 2000-01-19  Jody Goldberg <jgoldberg@home.com>
@@ -2209,11 +2209,11 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 2000-01-14  Jon K Hellan  <hellan@acm.org>
 
-	* src/functions/fn-financial.c (help_disc): Fix typo 
+	* src/functions/fn-financial.c (help_disc): Fix typo
 
         * src/plugin.c (plugin_load): Include context when calling
 	init_plugin. "data" was freed to early
- 
+
 2000-01-14  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (GTK+, libglade, gnome-print): Fix version checks.
@@ -2290,7 +2290,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/functions(fn-eng.c fn-financial.c fn-logical.c
         fn-lookup.c fn-math.c fn-sheet.c fn-stat.c fn-string.c):
         Applied patches from Valek Filippov <frob@df.ru> ---
-	correcting format of the function descr. messages. 
+	correcting format of the function descr. messages.
 
 2000-01-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
@@ -2751,7 +2751,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/workbook.c (workbook_menu_edit): add menu oiption for toggling
 	the display of formulas
-	(toggle_formuals_cmd,cb_cell_rerender): new function to toggle the 
+	(toggle_formuals_cmd,cb_cell_rerender): new function to toggle the
 	display of formulas
 	(workbook_new): initialize the display formulas option
 
@@ -2760,8 +2760,8 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 2000-01-02  Martin Sheppard <martin.sheppard@iname.com>
 
 	* src/parser.{c,y} (yylex) : fixed so that while parsing a formula,
-	a quoted function is convered to a string token rather than a 
-	function call token. i.e. so that things like "sin" work properly in 
+	a quoted function is convered to a string token rather than a
+	function call token. i.e. so that things like "sin" work properly in
 	formulas.
 
 2000-01-03  Martin Sheppard <martin.sheppard@iname.com>
@@ -2834,7 +2834,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	never actually linked into the ExprTree, we are only interested in
 	them to pull a couple of integers from it.  We now release them
 	after we construct the formula.  This fixes the leaks reported by
-	Morten. 
+	Morten.
 
 2000-01-02  Jody Goldberg <jgoldberg@home.com>
 
@@ -2863,7 +2863,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 2000-01-01  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Use
-	application_clipboar_unant here. 
+	application_clipboar_unant here.
 	(gnumeric_sheet_key_mode_object): ditto.
 
 	* src/sheet.c (sheet_start_editing_at_cursor): ditto.
@@ -2880,10 +2880,10 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	named defines instead of arbitrary constants.  Please, no magic
 	constants ever in Gnumeric guys.
 
-	* src/application.c: 
+	* src/application.c:
 
 	* src/workbook-private.h: Move the menu_item fields to
-	workbook_private. 
+	workbook_private.
 
 2000-01-01  Jody Goldberg <jgoldberg@home.com>
 
@@ -3030,7 +3030,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/plugin.c (load_all_plugins) : Search in a version specific
 	  directory.
 
-	* plugins/*/Makefile.am : Install in 
+	* plugins/*/Makefile.am : Install in
 	      <prefix>/lib/gnumeric/plugins/${VERSION}
 	  to decrease the number of silly version problems.
 	  Adjust the plugin names to follow the convention
@@ -3042,18 +3042,18 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 1999-12-23  JP Rosevear  <jpr@arcavia.com>
 
-	* src/plugin-manager.c (plugin_manager_new): Use a gnome_dialog and 
+	* src/plugin-manager.c (plugin_manager_new): Use a gnome_dialog and
 	stock icons
-	(row_cb): Use gnome_dialog_set_sensitive instead of 
+	(row_cb): Use gnome_dialog_set_sensitive instead of
 	gtk_widget_set_sensitive
 
-	* src/dialogs/dialog-analysis-tools.c (dialog_data_analysis): Use 
+	* src/dialogs/dialog-analysis-tools.c (dialog_data_analysis): Use
 	stock ok item for ok button
 
 1999-12-22  JP Rosevear  <jpr@arcavia.com>
 
 	* src/ranges.c (range_intersection): change interface to take a range
-	pointer for the  result and return a boolean dictating whether or not 
+	pointer for the  result and return a boolean dictating whether or not
 	the ranges actually intersect
 
 	* src/ranges.h : update for new range_intersection interface
@@ -3208,7 +3208,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/about.c (dialog_about): add Jon.
 
 1999-12-17  Jon K Hellan  <hellan@acm.org>
- 
+
 	* src/sheet.c (sheet_get_default_external_col_width): New
  	function.  Get default column width in units, including margins.
  	(sheet_get_default_external_row_height): New function. Get default
@@ -3219,7 +3219,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	units, including margins.
 
  	* src/sheet.h: Declare new functions in sheet.c
- 
+
 1999-12-18  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort): add command context.
@@ -3263,7 +3263,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/regression.c (linear_solve): Fixed adjusted R^2 bug (hopefully).
 	* src/functions/fn-stat.c (gnumeric_linest, gnumeric_logest) Added
 	beginning support for 3+ dimensional regressions in linest and logest.
-	* src/analysis-tools.c (regression_tool) Documented Excel bugs with 
+	* src/analysis-tools.c (regression_tool) Documented Excel bugs with
 	no-intercept regressions that I didn't/can't mimic.
 
 1999-12-16  Morten Welinder  <terra@diku.dk>
@@ -3397,11 +3397,11 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 1999-12-14  Andrew Chatham <andrew.chatham@duke.edu>
 
-	* src/regression.c (general_linear_regression): Now uses LUP 
+	* src/regression.c (general_linear_regression): Now uses LUP
 	decomposition and provides more statistics
-	* src/analysis-tools.c (regression_tool) 
+	* src/analysis-tools.c (regression_tool)
 	* src/dialogs/tools.h
-	* src/dialogs/dialog-analysis-tools.c (dialog_regression_tool): 
+	* src/dialogs/dialog-analysis-tools.c (dialog_regression_tool):
 	Regression tool works with multidimensional data, outputs more
 	statistics.
 
@@ -3422,7 +3422,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 1999-12-12  Tuomas Kuosmanen  <tigert@gimp.org>
 
-	* src/pixmaps/bucket.xpm 
+	* src/pixmaps/bucket.xpm
 	* src/pixmaps/font.xpm: New icons that are both the same size..
 
 1999-12-11  Michael Meeks  <mmeeks@gnu.org>
@@ -3474,7 +3474,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/style.h: Declare style_font_equal, style_font_hash_func.
 
 	* src/style.c (style_font_equal): Make non-static and rename from
-	font_equal. 
+	font_equal.
 	(style_font_hash_func): Make non-static and rename from font_hash
 	(style_init): Use new names for font_hash, font_equal.
 
@@ -3592,7 +3592,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* plugins/guile/gnumeric_startup.scm: We now load the scheme
           functions from the new file functions.scm
 
-	* plugins/guile/functions.scm: The guile functions and their 
+	* plugins/guile/functions.scm: The guile functions and their
           registration are now located in this file.
           (=FIBO(num)): Added fibonacci formula.
 
@@ -3864,7 +3864,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/style.c (style_color_ref) : Remove warning and return NULL.
 
-	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort) : 
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort) :
 	  Add braces around an ambiguous else.
 
 	* src/file.c (workbook_import) : NULL the returned workbook
@@ -3893,7 +3893,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-11-16  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/mstyle.c: Define mstyle properly;  Kill MSTYLE_ELEMENTS
-	macro.  
+	macro.
 	Kill PrivateStyle.
 	(mstyle_copy): Use sensible names;
 	(mstyle_set_format): Implement.
@@ -4091,7 +4091,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	  ans set default to '$'.
 
 	From Jon K Hellan  <hellan@acm.org>
-	* src/dialogs/cell-format.glade: 
+	* src/dialogs/cell-format.glade:
 	  Use descriptive names for notebook pages.
 	  Change accelerators, should remove conflicts within pages.
 	  Remove explicit width for format_general_label.
@@ -4101,14 +4101,14 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	  format_negative_scroll: Set vscrollbar_policy to GTK_POLICY_AUTOMATIC.
 	  format_list_scroll: Set hscrollbar_policy to GTK_POLICY_NEVER.
 
-	* src/dialogs/dialog-cell-format.c:  
+	* src/dialogs/dialog-cell-format.c:
 	  Change spelling from "seperator" to "separator".
 	(fmt_dialog_init_format_page):
 	(fmt_dialog_enable_widgets): Also hide and show F_NEGATIVE_SCROLL.
-	(cb_format_list_size_allocate): 
+	(cb_format_list_size_allocate):
 	  Make the selected line visible when we know our geometry.
 	(fmt_dialog_init_format_page): Set negative clist title passive.
-	(fmt_dialog_init_format_page): 
+	(fmt_dialog_init_format_page):
 	  Call cb_format_changed to update display if "general" is displayed.
 	(set_initial_focus): Set initial focus
 	(fmt_dialog_impl): Set dialog title, set initial focus
@@ -4119,7 +4119,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 1999-11-12  Michael Meeks  <mmeeks@gnu.org>
 
-	* src/workbook.c (workbook_attach_sheet): Attach the 
+	* src/workbook.c (workbook_attach_sheet): Attach the
 	editable_label pointer to the sheet tab.
 	(workbook_rename_sheet): Fix _really_ broken label setting code #3134.
 
@@ -4327,31 +4327,31 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/summary.c (summary_item_new_short) : New function.
 
-	* src/summary.c (summary_item_as_text) : Now processes the new summary 
+	* src/summary.c (summary_item_as_text) : Now processes the new summary
 	  types (SUMMARY_BOOLEAN, SUMMARY_SHORT, SUMMARY_TIME).
 
-	* src/summary.c (summary_item_free) : Now processes the new summary 
+	* src/summary.c (summary_item_free) : Now processes the new summary
 	  types (SUMMARY_BOOLEAN, SUMMARY_SHORT, SUMMARY_TIME).
-	  
+
 	* src/summary.h : Added new enums to SummaryItemType (SUMMARY_BOOLEAN,
 	  SUMMARY_SHORT, SUMMARY_TIME).  Added new enums to SummaryItemBuiltin
 	  to summary all the summary items.  Added two new fields (short_i and
 	  boolean) the v union within the _SummaryItem struct.  Added prototypes
 	  for the new public functions.
-	  
+
 	* src/dialogs/dialog-summary.c (summary_get): Field names are construct-
 	  ed from the name in summary_item_name[] with "glade_" prefixed.
 
 	* src/dialogs/dialog-summary.c (summary_put): Field names are construct-
 	  ed from the name in summary_item_name[] with "glade_" prefixed.
 
-	* src/dialogs/dialog-summary.c (dialog_summary_update) : Added new 
+	* src/dialogs/dialog-summary.c (dialog_summary_update) : Added new
 	  summary field - Company.
-	  
+
 	* src/dialogs/summary.glade : Added new summary field - Company.
-	  
+
 	* src/dialogs/summary.glade.h : Added new summary field - Company.
-       
+
 1999-11-08  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/sheet-style.c (sheet_selection_apply_border_cb): Update
@@ -4383,7 +4383,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/dialogs/dialog-cell-format.c (cb_fmt_dialog_dialog_apply):
 	  replace call to height_update.
 
-	* src/workbook-format-toolbar.c (change_font_size_in_selection_cmd): 
+	* src/workbook-format-toolbar.c (change_font_size_in_selection_cmd):
 	Replace call.
 
 1999-11-07  Jody Goldberg <jgoldberg@home.com>
@@ -4420,7 +4420,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/dialogs/dialog-cell-format.c (cb_fmt_dialog_dialog_apply): hack
 	out height_update.
 
-	* src/workbook-format-toolbar.c (change_font_size_in_selection_cmd): 
+	* src/workbook-format-toolbar.c (change_font_size_in_selection_cmd):
 	remove call.
 
 1999-11-07  Jody Goldberg <jgoldberg@home.com>
@@ -4548,7 +4548,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 1999-11-03  Miguel de Icaza  <miguel@gnu.org>
 
-	* src/expr.c (eval_range): Removed parsed node from here too. 
+	* src/expr.c (eval_range): Removed parsed node from here too.
 	(eval_range): Removed computation logic from here.
 	(eval_expr_real): ditto.
 
@@ -4610,10 +4610,10 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	save. Clean marking of sheet moved from xml-io.c to here.
 
 	* src/xml-io.c (xml_sheet_write, gnumeric_xml_read_sheet,
-	gnumeric_xml_write_sheet): 
+	gnumeric_xml_write_sheet):
 	Dirty/clean marking of sheet moved out.
 
-	* src/corba-workbook.c (Workbook_save_to): 
+	* src/corba-workbook.c (Workbook_save_to):
 	Mark saved sheet clean. FIXME: Failure to save still ignored.
 
 1999-11-03  Michael Meeks  <mmeeks@gnu.org>
@@ -4700,14 +4700,14 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-11-01  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/item-bar.c (item_bar_draw): Optimize.
-	(is_pointer_on_division): Bug fix for boundary condition. 
+	(is_pointer_on_division): Bug fix for boundary condition.
 	(get_col_from_pos): ditto.
 
 1999-10-30  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/print-preview.c (preview_canvas_event): Reversed the delta
 	computation, to make the scrolling follow what federico
-	suggested. 
+	suggested.
 
 	* src/workbook-format-toolbar.c: Change the money format to
 	include decimals.
@@ -4968,7 +4968,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/cellspan.c (cell_register_span): Create the span if required.
 
 	* src/sheet.c (sheet_destroy_contents): Remove debugging messages.
-	(sheet_row_new): Row spans are now created on demand. 
+	(sheet_row_new): Row spans are now created on demand.
 
 	* src/xml-io.c (xml_get_print_hf): Plug memory leak.
 	(xml_get_print_hf): More leak fixes.
@@ -4976,7 +4976,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/mstyle.c (mstyle_verify): Fixed.
 
 	* src/sheet.c (sheet_destroy_contents): Change the routine that
-	destroys the cells. 
+	destroys the cells.
 	(destroy_sheet_cell_cb): Proper cell destruction code.
 	(cb_free_cell): Make this routine free the cell *CORRECTLY*.
 	Please, do not break the code like this in the future.
@@ -4984,7 +4984,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/workbook.c (sheet_action_delete_sheet): Do not destroy the
 	sheet here.
 	(workbook_detach_sheet): Destroy the sheet here, before queuing a
-	recalc. 
+	recalc.
 	(workbook_do_destroy): Do not kill the sheet here.
 
 1999-10-24  Michael Meeks  <mmeeks@gnu.org>
@@ -5078,7 +5078,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 1999-10-23  Michael Meeks  <mmeeks@gnu.org>
 
-	* src/corba-sheet.c (Sheet_cell_get_pattern, Sheet_cell_set_pattern): 
+	* src/corba-sheet.c (Sheet_cell_get_pattern, Sheet_cell_set_pattern):
 	implement.
 
 	* src/sheet-style.c (sheet_unique_cb): Re-clip against selection
@@ -5102,7 +5102,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/Makefile.am (Gnumeric-impl.o): Do not use BUILT_SOURCES as
 	suggested by Tom.
-	($(GNUMERIC_CORBA_GENERATED)): Removed ugly hack 
+	($(GNUMERIC_CORBA_GENERATED)): Removed ugly hack
 
 	* src/selection.c (cb_set_row_height): Include the fix from the
 	pre-style change
@@ -5256,13 +5256,13 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/sheet.c (sheet_update_controls): update.
 
-	* src/dialogs/dialog-cell-format.c (create_number_format_page), 
+	* src/dialogs/dialog-cell-format.c (create_number_format_page),
 	(apply_number_formats, create_align_page, apply_align_format),
 	(create_font_page, apply_font_format, set_color_picker_from_style),
 	(create_coloring_page, apply_coloring_format, cell_properties_apply):
 	hack to new 'helper' functions.
 
-	* src/sheet-style.c (sheet_style_cache_lookup), 
+	* src/sheet-style.c (sheet_style_cache_lookup),
 	(sheet_style_cache_add, sheet_style_compute): Update.
 	(sheet_selection_get_uniq_style, sheet_uniq_cb): Break badly.
 
@@ -5352,14 +5352,14 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/sheet-style.c (sheet_style_cache_add): fixup cache flush on huge
 	caches.
 
-	* src/print-cell.c (print_empty_cell): 
+	* src/print-cell.c (print_empty_cell):
 
 	* src/mstyle.c (render_merge): kill. (mstyle_list_check_sorted): rename.
 
 	* src/sheet-style.c (sheet_style_compute, sheet_uniq_cb): Add checks for
 	sortedness  kill redundant return.
 
-	* src/item-grid.c (item_grid_paint_empty_cell): 
+	* src/item-grid.c (item_grid_paint_empty_cell):
 
 	* src/cell.c (cell_get_style): zoom.
 
@@ -5627,7 +5627,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	in-line border structure.
 
 	* src/style.c (style_hash, style_compare): kill
-	(style_new, style_mstyle_new, style_destroy, style_duplicate): 
+	(style_new, style_mstyle_new, style_destroy, style_duplicate):
 	remove old border (style_merge_to): cull.
 	(border_hash, style_init, style_shutdown): kill border bits.
 	(border_equal): ditto.
@@ -5675,18 +5675,18 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 1999-10-07  Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
 
-        * dialog-cell-format.c 
-        (create_number_format_page, create_font_page): 
+        * dialog-cell-format.c
+        (create_number_format_page, create_font_page):
         Make <Enter> in entry fields invoke default button
 
-        * dialog-cell-format.c 
-        (format_find): Select line in categorylist.     
+        * dialog-cell-format.c
+        (format_find): Select line in categorylist.
         (format_number_select_row): Initial list selection happens before
         property box is created, so check before notifying it.
 
-        * dialog-cell-format.c 
+        * dialog-cell-format.c
         (dialog_cell_format): Initial focus.
-        (dialog_cell_format, struct cell_format_pages): 
+        (dialog_cell_format, struct cell_format_pages):
         New signature for create_page.
         (create_number_format_page, create_align_page, create_font_page,
         create_coloring_page): New out parameter focus_widget: The widget
@@ -5738,7 +5738,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/dialogs/dialog-cell-format.c (set_color_picker_from_style): created.
 	(create_coloring_page): simplify & update.
-	(apply_coloring_format): 
+	(apply_coloring_format):
 
 1999-10-04  Michael Meeks  <michael@nuclecu.unam.mx>
 
@@ -5804,7 +5804,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/functions/fn-information.c (gnumeric_cell): cell_get_style.
 
-	* src/sheet.c (zoom_cell_style): kill for now. (sheet_cell_add): 
+	* src/sheet.c (zoom_cell_style): kill for now. (sheet_cell_add):
 	hack more.
 
 	* src/cell.h: kill public style element.
@@ -5830,7 +5830,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/sheet.h: move range dependant Style bits here + include glib.h
 
-	* src/style.h: Split typedefs from enum's & structs 
+	* src/style.h: Split typedefs from enum's & structs
 
 1999-09-27  Michael Meeks  <michael@nuclecu.unam.mx>
 
@@ -5865,7 +5865,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	From : Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
 
-	* src/dialogs/dialog-zoom.glade: Place sheet list inside frame. 
+	* src/dialogs/dialog-zoom.glade: Place sheet list inside frame.
 	  Use frame label, not list column label.
 	  Add padding.
 	  Use 0 height drawing area to set minimum width of spin button.
@@ -5908,7 +5908,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	gnumeric/gnumeric-bonobo executable name.
 
 	* src/sheet-object-item.c: Updated to fit with the new Bonobo
-	changes. 
+	changes.
 
 1999-10-06  Jody Goldberg <jgoldberg@home.com>
 
@@ -5923,16 +5923,16 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	From : Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
 
-	* src/dialogs/dialog-printer.c (gnumeric_printer_dialog_run): 
+	* src/dialogs/dialog-printer.c (gnumeric_printer_dialog_run):
 	  Workbook: New parameter
 	  Set initial focus.
 	  Make <Enter> in entry fields invoke default button.
 	  Specify the app as the parent.
 
-	* src/dialogs/dialog-printer.h (gnumeric_printer_dialog_run): 
+	* src/dialogs/dialog-printer.h (gnumeric_printer_dialog_run):
 	  Change signature
 
-	* src/print.c (sheet_print): 
+	* src/print.c (sheet_print):
 	  gnumeric_printer_dialog_run has new signature
 
 	* src/dialogs/dialog-sovler.c (add_strings_to_glist): Remove
@@ -5940,7 +5940,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	(dialog_solver_options, dialog_solver): Add missing "_()"
 
 	* src/dialogs/utils-dialog.c: New file
-	(ut_dia_entry_new_with_max_length, ut_dia_entry_new): 
+	(ut_dia_entry_new_with_max_length, ut_dia_entry_new):
 	  Create entry fields where <Enter> activates the default button
 	(hbox_pack_label_and_entry): Move from dialog-analysis-tools.c
 	(add_strings_to_glist): Move from dialog-solver.c
@@ -5948,26 +5948,26 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/dialogs/utils-dialog.h: New file
 	(hbox_pack_label_and_entry, add_strings_to_glist): Move from tools.h
 
-	* src/dialogs/dialog-cell-comment.c (dialog_cell_comment): 
+	* src/dialogs/dialog-cell-comment.c (dialog_cell_comment):
 	  Make OK button the default.
 
-	* src/dialogs/dialog-cell-sort.c (order_box_new):  
+	* src/dialogs/dialog-cell-sort.c (order_box_new):
 	  Make <Enter> in entry field invoke default button.
 
-	* src/dialogs/dialog-define-names.c (dialog_define_names): 
+	* src/dialogs/dialog-define-names.c (dialog_define_names):
 	  Make <Enter> in entry field invoke default button.
 	  Specify the app as the parent.
 
 	* src/dialogs/names.glade: ok button needs "can_default".
 
-	* src/dialogs/dialog-summary.c (dialog_summary_update): 
+	* src/dialogs/dialog-summary.c (dialog_summary_update):
 	  Make <Enter> in entry fields invoke default button.
 
 	* src/dialogs/summary.glade: Make OK button the default.
 	  Change widget names used by program to avoid inadvertent
-	  translation. 
+	  translation.
 
-	* src/dialogs/dialog-analysis-tools.c 
+	* src/dialogs/dialog-analysis-tools.c
 	(new_dialog): Make OK button the default
 	(dialog_data_analysis): Initial focus and selection, Make OK button
 	  the default.
@@ -5975,14 +5975,14 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	  <Enter> in entry field invoke default button
 	(hbox_pack_label_and_entry): Move to utils-dialog.c
 	(dialog_random_tool): Replace pack_label_and_entry with
-	  hbox_pack_label_and_entry  
+	  hbox_pack_label_and_entry
 	(pack_label_and_entry): Remove
 
-	* src/dialogs/dialog-goal-seek.c (dialog_found_solution, 
+	* src/dialogs/dialog-goal-seek.c (dialog_found_solution,
 	dialog_goal_seek): Make OK button the default
 	(dialog_goal_seek): Make <Enter> in entry field invoke default button.
 
-	* src/dialogs/dialog-paste-special.c (dialog_paste_special): 
+	* src/dialogs/dialog-paste-special.c (dialog_paste_special):
 	  Initial focus
 
 1999-10-05  Jody Goldberg <jgoldberg@home.com>
@@ -5999,7 +5999,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/dialogs/dialog-{insert,delete}-cells.c : Switch from using
 	  Cauldron to using libglade.
 
-	* src/plugin-manager.c (plugin_manager_new): 
+	* src/plugin-manager.c (plugin_manager_new):
 	  Go away on <Esc>, set initial focus.
 
 	* src/dialogs/sheet-rename.glade: Made OK button default.
@@ -6011,7 +6011,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/workbook.c (workbook_rename_sheet): Update notebook label
 
-	* src/workbook-cmd-format.c 
+	* src/workbook-cmd-format.c
 	(workbook_cmd_format_column_width,
 	 workbook_cmd_format_row_height): Off by one error.
 
@@ -6026,7 +6026,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-09-30  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/Gnumeric-value.idl: New file, move the value structure
-	definition here. 
+	definition here.
 
 	* src/Gnumeric.idl: Add new interface for data access.
 
@@ -6284,7 +6284,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	From : Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
 
-	* src/dialogs/dialog-zoom.glade: Place sheet list inside frame. 
+	* src/dialogs/dialog-zoom.glade: Place sheet list inside frame.
 	  Use frame label, not list column label.
 	  Add padding.
 	  Use 0 height drawing area to set minimum width of spin button.
@@ -6327,7 +6327,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	gnumeric/gnumeric-bonobo executable name.
 
 	* src/sheet-object-item.c: Updated to fit with the new Bonobo
-	changes. 
+	changes.
 
 1999-10-06  Jody Goldberg <jgoldberg@home.com>
 
@@ -6342,16 +6342,16 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	From : Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
 
-	* src/dialogs/dialog-printer.c (gnumeric_printer_dialog_run): 
+	* src/dialogs/dialog-printer.c (gnumeric_printer_dialog_run):
 	  Workbook: New parameter
 	  Set initial focus.
 	  Make <Enter> in entry fields invoke default button.
 	  Specify the app as the parent.
 
-	* src/dialogs/dialog-printer.h (gnumeric_printer_dialog_run): 
+	* src/dialogs/dialog-printer.h (gnumeric_printer_dialog_run):
 	  Change signature
 
-	* src/print.c (sheet_print): 
+	* src/print.c (sheet_print):
 	  gnumeric_printer_dialog_run has new signature
 
 	* src/dialogs/dialog-sovler.c (add_strings_to_glist): Remove
@@ -6359,7 +6359,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	(dialog_solver_options, dialog_solver): Add missing "_()"
 
 	* src/dialogs/utils-dialog.c: New file
-	(ut_dia_entry_new_with_max_length, ut_dia_entry_new): 
+	(ut_dia_entry_new_with_max_length, ut_dia_entry_new):
 	  Create entry fields where <Enter> activates the default button
 	(hbox_pack_label_and_entry): Move from dialog-analysis-tools.c
 	(add_strings_to_glist): Move from dialog-solver.c
@@ -6367,26 +6367,26 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/dialogs/utils-dialog.h: New file
 	(hbox_pack_label_and_entry, add_strings_to_glist): Move from tools.h
 
-	* src/dialogs/dialog-cell-comment.c (dialog_cell_comment): 
+	* src/dialogs/dialog-cell-comment.c (dialog_cell_comment):
 	  Make OK button the default.
 
-	* src/dialogs/dialog-cell-sort.c (order_box_new):  
+	* src/dialogs/dialog-cell-sort.c (order_box_new):
 	  Make <Enter> in entry field invoke default button.
 
-	* src/dialogs/dialog-define-names.c (dialog_define_names): 
+	* src/dialogs/dialog-define-names.c (dialog_define_names):
 	  Make <Enter> in entry field invoke default button.
 	  Specify the app as the parent.
 
 	* src/dialogs/names.glade: ok button needs "can_default".
 
-	* src/dialogs/dialog-summary.c (dialog_summary_update): 
+	* src/dialogs/dialog-summary.c (dialog_summary_update):
 	  Make <Enter> in entry fields invoke default button.
 
 	* src/dialogs/summary.glade: Make OK button the default.
 	  Change widget names used by program to avoid inadvertent
-	  translation. 
+	  translation.
 
-	* src/dialogs/dialog-analysis-tools.c 
+	* src/dialogs/dialog-analysis-tools.c
 	(new_dialog): Make OK button the default
 	(dialog_data_analysis): Initial focus and selection, Make OK button
 	  the default.
@@ -6394,14 +6394,14 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	  <Enter> in entry field invoke default button
 	(hbox_pack_label_and_entry): Move to utils-dialog.c
 	(dialog_random_tool): Replace pack_label_and_entry with
-	  hbox_pack_label_and_entry  
+	  hbox_pack_label_and_entry
 	(pack_label_and_entry): Remove
 
-	* src/dialogs/dialog-goal-seek.c (dialog_found_solution, 
+	* src/dialogs/dialog-goal-seek.c (dialog_found_solution,
 	dialog_goal_seek): Make OK button the default
 	(dialog_goal_seek): Make <Enter> in entry field invoke default button.
 
-	* src/dialogs/dialog-paste-special.c (dialog_paste_special): 
+	* src/dialogs/dialog-paste-special.c (dialog_paste_special):
 	  Initial focus
 
 1999-10-05  Jody Goldberg <jgoldberg@home.com>
@@ -6418,7 +6418,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/dialogs/dialog-{insert,delete}-cells.c : Switch from using
 	  Cauldron to using libglade.
 
-	* src/plugin-manager.c (plugin_manager_new): 
+	* src/plugin-manager.c (plugin_manager_new):
 	  Go away on <Esc>, set initial focus.
 
 	* src/dialogs/sheet-rename.glade: Made OK button default.
@@ -6430,7 +6430,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/workbook.c (workbook_rename_sheet): Update notebook label
 
-	* src/workbook-cmd-format.c 
+	* src/workbook-cmd-format.c
 	(workbook_cmd_format_column_width,
 	 workbook_cmd_format_row_height): Off by one error.
 
@@ -6445,7 +6445,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-09-30  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/Gnumeric-value.idl: New file, move the value structure
-	definition here. 
+	definition here.
 
 	* src/Gnumeric.idl: Add new interface for data access.
 
@@ -6609,7 +6609,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-09-26  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/sheet-object.c (sheet_set_mode_type): Protect Bonobo code
-	from being included if we dont have Bonobo.  
+	from being included if we dont have Bonobo.
 
 	* src/Makefile.am: reverted changes from the libole2 code.
 
@@ -6643,7 +6643,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	during the lifetime of the mode.
 
 	* src/sheet-object-item.c: New sheet-object type.  This one is
-	used for embedding Bonobo-based CanvasItems. 
+	used for embedding Bonobo-based CanvasItems.
 
 1999-09-25  Lauris Kaplinski <lauris@ariman.ee>
 
@@ -6742,7 +6742,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/print-preview.c (print_preview_print_done): Close the
 	context here so we have information available in the ->size
-	field. 
+	field.
 
 1999-09-23  Morten Welinder  <terra@diku.dk>
 
@@ -6782,7 +6782,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	the cell-draw code, better to keep our own).
 
 	TODO: queue an update on the regions with changed style.  Wonder
-	why this is not being done automatically.  Need to check. 
+	why this is not being done automatically.  Need to check.
 
 	* src/widgets/widget-color-combo.c (color_combo_construct): Fix
 	visuals for working with Imlib properly.
@@ -6806,7 +6806,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	(apply_style_to_selection): Big nice wrapper.
 	(change_font_size_in_selection_cmd): Implement.
 
-	* src/pixmaps.h: Removed GNUMERIC_TEST_ACTIVE_OBJECT for release. 
+	* src/pixmaps.h: Removed GNUMERIC_TEST_ACTIVE_OBJECT for release.
 
 	* src/workbook-format-toolbar.c: More toolbar work, now we have
 	color selectors for foreground and background.
@@ -6814,7 +6814,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/workbook.c: Split the format toolbar
 
 	* src/workbook-format-toolbar.[ch]: Now they contain the
-	format-toolbar code. 
+	format-toolbar code.
 
 	* src/sheet-object-graphic.c (sheet_object_filled_realize): Width
 	is now in points, not pixels.
@@ -6823,7 +6823,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	extensible ComboBox for Gtk.
 
 	* src/widgets/color-combo.[ch]: New files, they implement the
-	ColorCombo box. 
+	ColorCombo box.
 
 1999-09-21  Michael Meeks  <michael@nuclecu.unam.mx>
 
@@ -6841,7 +6841,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/sheet-object-widget.c (sheet_object_widget_construct): set press.
 
-	* src/sheet-object.c (sheet_object_event, sheet_object_make_current): 
+	* src/sheet-object.c (sheet_object_event, sheet_object_make_current):
 	remove redundant 'Sheet' argument.
 	(control_point_handle_event): Add make_current to button press.
 	(sheet_object_start_editing): clean + setup cursor data.
@@ -6985,8 +6985,8 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	column information.  Fix the routine.
 
 	* src/workbook-cmd-format.c (workbook_cmd_format_column_auto_fit):
-	(workbook_cmd_format_column_width): 
-	(workbook_cmd_format_row_auto_fit): 
+	(workbook_cmd_format_column_width):
+	(workbook_cmd_format_row_auto_fit):
 	(workbook_cmd_format_row_height): Fix the range being scanned to
 	be inclusive.
 
@@ -7039,7 +7039,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/workbook.c (create_format_toolbar): Make the size of the
 	entry line onloy fit four zeros.
 	(workbook_feedback_set): set the font even if no cached value
-	exists. 
+	exists.
 
 1999-09-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
@@ -7161,7 +7161,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-09-15  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/sheet-object.c (window_to_world): Remove.
-	(sheet_motion_notify, sheet_button_release, sheet_object_drop_file): 
+	(sheet_motion_notify, sheet_button_release, sheet_object_drop_file):
 	clean to use gnome_canvas_window_to_world.
 
 	* src/sheet-view.c (sheet_view_construct, (filenames_dropped): move
@@ -7183,7 +7183,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-09-14  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/workbook.c: Split toolbars into mulitple toolbars;  Add a
-	private field to Workbook structure. 
+	private field to Workbook structure.
 	Change the toolbar setup to have multiple dock-items.
 
 	* src/format.c: Initialize this to NULL.
@@ -7359,7 +7359,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-09-11  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/workbook.c (workbook_delete_event): Fix the delete_event
-	setup. 
+	setup.
 
 1999-09-11  Jody Goldberg <jgoldberg@home.com>
 
@@ -7390,7 +7390,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-09-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/corba-sheet.c: Updated to the new sheet selection API
-	changes. 
+	changes.
 
 	* src/gnumeric-sheet.c (destroy_item_editor): Removed FIXME
 	comment.  More fixing from Federico's talk
@@ -7407,7 +7407,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/sheet-object.c (window_to_world): Added debug.
 
-	* src/widgets/widget-editable-label.c (el_start_editing): 
+	* src/widgets/widget-editable-label.c (el_start_editing):
 
 	* src/workbook.c (sheet_label_text_changed_signal): Return focus
 	to the main sheet when finished.
@@ -7444,7 +7444,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	(sheet_object_destroy_control_points): Changed _unref to _destroy nailing
 	scads of warnings.
 
-	* src/sheet-object-container.c (sheet_object_container_destroy_views): 
+	* src/sheet-object-container.c (sheet_object_container_destroy_views):
 	ditto.
 
 	* src/sheet-object-container.c (sheet_object_container_land): Get
@@ -7591,7 +7591,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-09-03  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialogs/dialog-printer-setup.c (draw_margins): Added margin
-	display preview. 
+	display preview.
 
 	* src/print-preview.c (preview_zoom_out_cmd): Zoom-in, zoom-out
 	and move are now toggle buttons.
@@ -7672,7 +7672,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-09-05  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/print-preview.c (preview_canvas_event): Add an event handler
-	for the preview canvas.  
+	for the preview canvas.
 	Make the drag action on MOVE mode move the canvas.
 	(zoom_state): new routine, controls the toolbar widget display.
 
@@ -7697,7 +7697,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	empty cells with the correct attributes.
 
 	Only enabled if you use set gnumeric debugging flag above 1.  I do
-	have some issues with selection drawing. 
+	have some issues with selection drawing.
 
 1999-09-05  Richard Hestilow  <hestgray@ionet.net>
 
@@ -7706,7 +7706,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-09-03  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialogs/dialog-printer-setup.c (draw_margins): Added margin
-	display preview. 
+	display preview.
 
 	* src/print-preview.c (preview_zoom_out_cmd): Zoom-in, zoom-out
 	and move are now toggle buttons.
@@ -7889,7 +7889,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-08-21  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/workbook.c (workbook_new_with_sheets): Fixed hardcoded
-	buffer. 
+	buffer.
 
 1999-08-20  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
@@ -7932,7 +7932,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	(create_graphic_cmd): temporarily bind this to
 	Generic Bonobo object insertion.
 	(cb_sheet_check_dirty): Make the dialog parent be the workbook
-	window. 
+	window.
 
 	* src/workbook.h (Workbook): Include a GnomeUIHandler.
 
@@ -7940,7 +7940,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	and update it to match the latest Bonobo developments.
 
 	* src/sheet.h (Sheet): Include a pointer to the active object
-	frame. 
+	frame.
 
 	* src/sheet-object.c (sheet_set_mode_type): Do deactivation of
 	Bonobo frames here.
@@ -7958,7 +7958,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	(sheet_object_container_land): Do object selection here for now.
 	Support both PersistStream and PersistFile
 
-	* src/sheet-object.c: 
+	* src/sheet-object.c:
 
 	* src/workbook.c (cb_sheet_check_dirty): Bind the dialog to the
 	main window.
@@ -7971,7 +7971,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-08-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cell.c (cell_content_changed): Ok, Paolo corrected me.  This
-	is not what he wanted.  
+	is not what he wanted.
 
 1999-08-16  Michael Meeks  <michael@imaginator.com>
 
@@ -7987,7 +7987,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-08-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/workbook.c (workbook_class_init): Added cell_content_changed
-	signal.  
+	signal.
 	(workbook_do_destroy): Do not enable widgets to be focused.
 
 	* src/cell.c (cell_content_changed): Calls workbook_cell_changed.
@@ -8288,7 +8288,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/cell.c (calc_text_dimensions): Made static.
 	(queue_cell): Killed dependency_deep_frozen routines, this was
-	archaic code. 
+	archaic code.
 	(cell_formula_changed): Made static.
 
 	* src/sheet-autofill.c (autofill_register_list): Make static.
@@ -8328,7 +8328,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	(WorkbookFactory_create_object): and here.
 
 1999-08-03  Robert Brady  <rwb197@ecs.soton.ac.uk>
- 
+
         * gnumeric.spec.in, README: require gnome-print 0.3 or greater.
 	(BUGFIX #1829)
 
@@ -8686,8 +8686,8 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/cell.h: Added prototypes.
 
-	* src/cell.c (cell_content_changed, cell_formula_changed): 
-	(cell_deep_thaw_dependencies, cell_deep_freeze_dependencies): 
+	* src/cell.c (cell_content_changed, cell_formula_changed):
+	(cell_deep_thaw_dependencies, cell_deep_freeze_dependencies):
 	Added optimisation for load/save stuff.
 
 1999-07-25  Michael Meeks  <michael@edenproject.org>
@@ -8722,13 +8722,13 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/dialog-define-names.c: Major fixups, killed obscure bug
 	cause by freeing a copy of a list I passed to gtk_list_append_items.
 
-	* src/expr.c (expr_parse_string, do_expr_decode_tree): 
-	(expr_decode_tree): Updated to new 
+	* src/expr.c (expr_parse_string, do_expr_decode_tree):
+	(expr_decode_tree): Updated to new
 
 	* src/expr-name.c (expr_name_create): Added for convenience.
 	(expr_name_value): Updated to new PP scheme
 
-	* src/cell.c (cell_set_formula, cell_get_text, cell_get_content): 
+	* src/cell.c (cell_set_formula, cell_get_text, cell_get_content):
 	Update to new ParsePosition scheme.
 
 	* src/expr.c (parse_pos_init, parse_pos_cell): Created.
@@ -8806,7 +8806,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 1999-07-21  Richard Hestilow  <hestgray@ionet.net>
 
-	* gnumeric.gnorba: Fix "Embeddable" typo 
+	* gnumeric.gnorba: Fix "Embeddable" typo
 	(was IDL:/GNOME/Embeddable, should have been IDL:GNOME/Embeddable)
 
 1999-07-21  Michael Meeks  <michael@edenproject.org>
@@ -9030,13 +9030,13 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 1999-07-11  Raja R Harinath  <harinath@cs.umn.edu>
 
-	* configure.in: Don't use `foo >& /dev/null' style redirection, 
+	* configure.in: Don't use `foo >& /dev/null' style redirection,
 	use `foo > /dev/null 2>&1'.
 
 1999-07-11  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialog-cell-format.c (apply_font_format): Use the
-	FontSelector here. 
+	FontSelector here.
 
 	* src/widget-font-selector.c (reload_preview): New approach for
 	font loading, by using the scale explicitly I got it to work ;-).

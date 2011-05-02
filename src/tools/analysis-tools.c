@@ -859,7 +859,7 @@ summary_statistics (data_analysis_output_t *dao,
 
 		dao_set_italic (dao, col + 1, 0, col+1, 0);
 		/* Note that analysis_tools_write_label may modify val_org */
-		analysis_tools_write_label (val_org, dao, &info->base, 
+		analysis_tools_write_label (val_org, dao, &info->base,
 					    col + 1, 0, col + 1);
 
 	        /* Mean */
@@ -1067,7 +1067,7 @@ kth_smallest_largest (data_analysis_output_t *dao,
 		GnmValue *val = value_dup (data->data);
 
 		dao_set_italic (dao, col + 1, 0, col + 1, 0);
-		analysis_tools_write_label (val, dao, &info->base, 
+		analysis_tools_write_label (val, dao, &info->base,
 					    col + 1, 0, col + 1);
 
 		expr = gnm_expr_new_funcall2
@@ -3299,9 +3299,9 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		dao->offset_row += xdim + 1;
 		dao_set_italic (dao, 0, 0, xdim + 7, 0);
 		dao_set_cell (dao, 0, 0, _("Constant"));
-		dao_set_array_expr (dao, 1, 0, xdim, 1, 
-				    gnm_expr_new_funcall1 
-				    (fd_transpose, 
+		dao_set_array_expr (dao, 1, 0, xdim, 1,
+				    gnm_expr_new_funcall1
+				    (fd_transpose,
 				     make_rangeref (-1, - xdim - 1, -1, -2)));
 		set_cell_text_row (dao, xdim + 1, 0, _("/Prediction"
 						       "/"
@@ -3330,7 +3330,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		expr_prediction =  gnm_expr_new_funcall2 (fd_sumproduct,
 							  dao_get_rangeref (dao, 1, - 2 - xdim, 1, - 2),
 							  gnm_expr_new_funcall1
-							  (fd_transpose, make_rangeref 
+							  (fd_transpose, make_rangeref
 							   (-1 - xdim, 0, -1, 0)));
 		expr_diff = gnm_expr_new_binary (make_cellref (-1, 0), GNM_EXPR_OP_SUB, make_cellref (-2, 0));
 
@@ -3344,43 +3344,43 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 
 		if (dao_cell_is_visible (dao, xdim + 4, n_obs)) {
 			GnmExpr const *expr_X = dao_get_rangeref (dao, info->intercept ? 0 : 1, 1, xdim, n_obs);
-			GnmExpr const *expr_X_t = 
+			GnmExpr const *expr_X_t =
 				gnm_expr_new_funcall1 (fd_transpose, gnm_expr_copy (expr_X));
 			GnmExpr const *expr_X_hat =
-				gnm_expr_new_funcall2 
+				gnm_expr_new_funcall2
 				(fd_mmult,
-				 gnm_expr_new_funcall2 
+				 gnm_expr_new_funcall2
 				 (fd_mmult,
 				  expr_X,
-				  gnm_expr_new_funcall1 
+				  gnm_expr_new_funcall1
 				  (fd_minverse,
-				   gnm_expr_new_funcall2 
-				   (fd_mmult, 
+				   gnm_expr_new_funcall2
+				   (fd_mmult,
 				    gnm_expr_copy (expr_X_t),
 				    gnm_expr_copy (expr_X)))),
 				 expr_X_t);
 			GnmExpr const *expr_diagonal =
-				gnm_expr_new_funcall2 
+				gnm_expr_new_funcall2
 				(fd_mmult,
-				 gnm_expr_new_binary 
-				 (expr_X_hat, GNM_EXPR_OP_MULT, 
-				  gnm_expr_new_funcall1 
-				  (fd_munit, gnm_expr_new_binary 
+				 gnm_expr_new_binary
+				 (expr_X_hat, GNM_EXPR_OP_MULT,
+				  gnm_expr_new_funcall1
+				  (fd_munit, gnm_expr_new_binary
 				   (dao_get_cellref (dao, 1, - 11 - xdim),
 				    GNM_EXPR_OP_ADD, gnm_expr_new_constant (value_new_int (1))))),
 				 dao_get_rangeref (dao, 0, 1, 0, n_obs));
-			GnmExpr const *expr_var = 
-				gnm_expr_new_binary 
-				(gnm_expr_new_funcall1 
+			GnmExpr const *expr_var =
+				gnm_expr_new_binary
+				(gnm_expr_new_funcall1
 				 (fd_sumsq, dao_get_rangeref (dao, xdim + 3, 1, xdim + 3, n_obs)),
 				 GNM_EXPR_OP_DIV,
 				 dao_get_cellref (dao, 1, - 6 - xdim));
-			GnmExpr const *expr_int_stud = 
+			GnmExpr const *expr_int_stud =
 				gnm_expr_new_binary
 				(make_cellref (-2, 0),
 				 GNM_EXPR_OP_DIV,
 				 gnm_expr_new_funcall1
-				 (fd_sqrt, 
+				 (fd_sqrt,
 				  gnm_expr_new_binary
 				  (expr_var,
 				   GNM_EXPR_OP_MULT,
@@ -3391,12 +3391,12 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 			GnmExpr const *expr_ext_stud;
 			GnmExpr const *expr_p_val_res;
 
-			expr_var = gnm_expr_new_binary 
+			expr_var = gnm_expr_new_binary
 				(gnm_expr_new_binary
-				 (gnm_expr_new_funcall1 
+				 (gnm_expr_new_funcall1
 				  (fd_sumsq, dao_get_rangeref (dao, xdim + 3, 1, xdim + 3, n_obs)),
 				  GNM_EXPR_OP_SUB,
-				  gnm_expr_new_binary 
+				  gnm_expr_new_binary
 				  (make_cellref (-3, 0),
 				   GNM_EXPR_OP_EXP,
 				   gnm_expr_new_constant (value_new_int (2)))),
@@ -3409,7 +3409,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 				(make_cellref (-3, 0),
 				 GNM_EXPR_OP_DIV,
 				 gnm_expr_new_funcall1
-				 (fd_sqrt, 
+				 (fd_sqrt,
 				  gnm_expr_new_binary
 				  (expr_var,
 				   GNM_EXPR_OP_MULT,
@@ -3611,7 +3611,7 @@ analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
 				gint residual_cols = xdim + 4;
 				GnmValue *val = info->base.range_1;
 
-				rows += 2 + calculate_n_obs (val, info->group_by); 
+				rows += 2 + calculate_n_obs (val, info->group_by);
 				residual_cols += 4;
 				if (cols < residual_cols)
 					cols = residual_cols;

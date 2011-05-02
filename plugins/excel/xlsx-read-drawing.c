@@ -476,7 +476,7 @@ xlsx_axis_start (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_axis_crosses_at (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	/* This element specifies where on the axis the perpendicular axis crosses. 
+	/* This element specifies where on the axis the perpendicular axis crosses.
 	   The units are dependent on the type of axis.
 	   When specified as a child element of valAx, the value is a decimal number on the value axis. When specified as a
 	   child element of dateAx, the date is defined as a integer number of days relative to the base date of the current
@@ -994,7 +994,7 @@ xlsx_chart_grad_stop (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_int (xin, attrs, "pos", &pos)) {
 			if (pos <= 50000) {
-				/* FIXME: use betstate->auto_colorter gradients 
+				/* FIXME: use betstate->auto_colorter gradients
 				 * for now, we only support stops at 0 and 1 */
 				state->gocolor = &state->cur_style->fill.pattern.back;
 				state->auto_color = &state->cur_style->fill.auto_back;
@@ -1436,7 +1436,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (VAL_AXIS, VAL_AXIS_CROSSBETWEEN, XL_NS_CHART, "crossBetween", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (VAL_AXIS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-	
+
       GSF_XML_IN_NODE_FULL (PLOTAREA, DATE_AXIS, XL_NS_CHART, "dateAx", GSF_XML_NO_CONTENT, FALSE, TRUE,
                             &xlsx_axis_start, &xlsx_axis_end, XLSX_AXIS_DATE),
         GSF_XML_IN_NODE (DATE_AXIS, AXIS_AUTO, XL_NS_CHART, "auto", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
@@ -1455,7 +1455,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (DATE_AXIS, VAL_AXIS_TICKLBLPOS, XL_NS_CHART, "tickLblPos", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 	GSF_XML_IN_NODE (DATE_AXIS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
         GSF_XML_IN_NODE (DATE_AXIS, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-	
+
       GSF_XML_IN_NODE (PLOTAREA, LAYOUT, XL_NS_CHART, "layout", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (LAYOUT, LAST_LAYOUT,	    XL_NS_CHART, "lastLayout", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (LAST_LAYOUT, LAYOUT_X, XL_NS_CHART, "x", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1789,7 +1789,7 @@ xlsx_draw_anchor_start (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 
 	g_return_if_fail (state->so == NULL);
-	
+
 	memset ((gpointer)state->drawing_pos, 0, sizeof (state->drawing_pos));
 	state->drawing_pos_flags = 0;
 }
@@ -1939,7 +1939,7 @@ xlsx_blip_start (GsfXMLIn *xin, xmlChar const **attrs)
 			sheet_object_image_set_image (SHEET_OBJECT_IMAGE (state->so),
 				gsf_open_pkg_rel_get_type (rel), data, size, FALSE);
 	}
-	
+
 }
 
 static GsfXMLInNode const xlsx_drawing_dtd[] = {
@@ -2164,7 +2164,7 @@ xlsx_sheet_drawing (GsfXMLIn *xin, xmlChar const **attrs)
  ******************************************************************************/
 
 /* define an approximate horizontal scale factor to align controls with cells */
-#define XLSX_SHEET_HSCALE 1.165 
+#define XLSX_SHEET_HSCALE 1.165
 
 static void
 xlsx_vml_group (GsfXMLIn *xin, xmlChar const **attrs)

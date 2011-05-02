@@ -566,7 +566,7 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0,
 
 					if (ci->visible)
 						item_grid_draw_merged_range (cr, ig,
-									     start_x, y, &view, r, 
+									     start_x, y, &view, r,
 									     draw_selection,
 									     theme);
 				}

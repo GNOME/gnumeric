@@ -20,4 +20,4 @@ starting-with-python.html	\
 stf-export.txt 			\
 stf-parser.txt 			\
 translating.sgml 		\
-writing-functions.sgml 
+writing-functions.sgml

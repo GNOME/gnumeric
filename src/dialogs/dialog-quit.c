@@ -137,7 +137,7 @@ cb_toggled_save (GtkCellRendererToggle *cell,
 	} else {
 		g_warning ("Did not get a valid iterator");
 	}
-	
+
 	gtk_tree_path_free (path);
 }
 
@@ -146,7 +146,7 @@ set_all (GtkTreeModel *model, gboolean value)
 {
 	GtkTreeIter iter;
 	gboolean ok = gtk_tree_model_get_iter_first (model, &iter);
-	
+
 	while (ok) {
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 				    QUIT_COL_CHECK, value, -1);
@@ -173,7 +173,7 @@ cb_list_row_changed_save_sensitivity (GtkListStore *list, GtkTreePath *path_stri
 				      GtkTreeIter *iter, GtkWidget *widget)
 {
 	GtkTreeModel *model = GTK_TREE_MODEL (list);
-	
+
 	if (files_set (model) == TRUE)
 		gtk_widget_set_sensitive (GTK_WIDGET (widget), TRUE);
 	else
@@ -181,9 +181,9 @@ cb_list_row_changed_save_sensitivity (GtkListStore *list, GtkTreePath *path_stri
 }
 
 static void
-cb_list_row_changed_discard_sensitivity (GtkListStore *list, 
+cb_list_row_changed_discard_sensitivity (GtkListStore *list,
 					 GtkTreePath *path_string,
-					 GtkTreeIter *iter, 
+					 GtkTreeIter *iter,
 					 GtkWidget *widget)
 {
 	GtkTreeModel *model = GTK_TREE_MODEL (list);
@@ -225,19 +225,19 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 					   GTK_STOCK_DELETE,
 					   GTK_RESPONSE_NO);
 	go_widget_set_tooltip_text (GTK_WIDGET (button), _("Discard changes in all files"));
-	
+
 	if (multiple)
 		g_signal_connect (G_OBJECT (list),
 				  "row-changed",
 				  G_CALLBACK (cb_list_row_changed_discard_sensitivity),
 				  GTK_WIDGET (button));
-	
+
 	button = go_gtk_dialog_add_button (GTK_DIALOG (dialog),
 					   _("Don't Quit"),
 					   GTK_STOCK_CANCEL,
 					   GTK_RESPONSE_CANCEL);
 	go_widget_set_tooltip_text (button, _("Resume editing"));
-	
+
 	if (multiple) {
 		button = go_gtk_dialog_add_button (GTK_DIALOG (dialog),
 						   _("_Save Selected"),
@@ -245,7 +245,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 						   GTK_RESPONSE_OK);
 		go_widget_set_tooltip_text (GTK_WIDGET (button),
 					    _("Save selected documents and then quit"));
-		
+
 		g_signal_connect (G_OBJECT (list),
 				  "row-changed",
 				  G_CALLBACK (cb_list_row_changed_save_sensitivity),
@@ -257,7 +257,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 						   GTK_RESPONSE_OK);
 		go_widget_set_tooltip_text (button, _("Save document"));
 	}
-	
+
 	scrollw = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrollw),
 					     GTK_SHADOW_IN);
@@ -275,19 +275,19 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 						       GTK_STOCK_SELECT_ALL);
 		go_widget_set_tooltip_text (GTK_WIDGET (button),
 					    _("Select all documents for saving"));
-		
+
 		g_signal_connect (G_OBJECT (button), "clicked",
 				  G_CALLBACK (cb_select_all),
 				  list);
-		
+
 		gtk_box_pack_end (GTK_BOX (hbox),
 				    GTK_WIDGET (button), FALSE, TRUE, 0);
-		
+
 		button = go_gtk_button_new_with_stock (_("_Clear Selection"),
 						       GTK_STOCK_CLEAR);
 		go_widget_set_tooltip_text (GTK_WIDGET(button),
 					    _("Unselect all documents for saving"));
-		
+
 		g_signal_connect (G_OBJECT (button), "clicked",
 				  G_CALLBACK (cb_clear_all),
 				  list);

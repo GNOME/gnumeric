@@ -149,7 +149,7 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *da
 		} else
 			dao_set_cell_printf
 				(dao, col, 0,
-				 (info->base.group_by == GROUPED_BY_ROW ? 
+				 (info->base.group_by == GROUPED_BY_ROW ?
 				  _("Row %d") : _("Column %d")),
 				 source);
 
@@ -325,7 +325,7 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 		} else
 			dao_set_cell_printf
 				(dao, col, 0,
-				 (info->base.group_by == GROUPED_BY_ROW ? 
+				 (info->base.group_by == GROUPED_BY_ROW ?
 				  _("Row %d") : _("Column %d")),
 				 source);
 
@@ -513,7 +513,7 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 		} else
 			dao_set_cell_printf
 				(dao, col, 0,
-				 (info->base.group_by == GROUPED_BY_ROW ? 
+				 (info->base.group_by == GROUPED_BY_ROW ?
 				  _("Row %d") : _("Column %d")),
 				 source);
 
@@ -777,7 +777,7 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 			} else
 				dao_set_cell_printf
 					(dao, col,  -info->s_period,
-					 (info->base.group_by  == GROUPED_BY_ROW ? 
+					 (info->base.group_by  == GROUPED_BY_ROW ?
 					  _("Row %d") : _("Column %d")),
 					 source);
 

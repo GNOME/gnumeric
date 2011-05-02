@@ -48,7 +48,7 @@ static GOPatternType patterns[] = {
  * return : TRUE if there is a background to paint.
  */
 
-static double 
+static double
 gnm_get_light (guint16 c)
 {
 	return ((1 + c/65535.)/2);
@@ -77,13 +77,13 @@ gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
 		return TRUE;
 	} else if (is_selected) {
 		if (theme == NULL)
-			cairo_set_source_rgb 
+			cairo_set_source_rgb
 				(cr, .901960784, .901960784, .980392157);
 		else {
 			GdkColor color = theme->light[GTK_STATE_SELECTED];
 			cairo_set_source_rgb
-				(cr, gnm_get_light (color.red), 
-				 gnm_get_light (color.green), 
+				(cr, gnm_get_light (color.red),
+				 gnm_get_light (color.green),
 				 gnm_get_light (color.blue));
 		}
 	}

@@ -182,7 +182,7 @@ typedef struct {
 	/* Legacy drawing state */
 	double		  grp_offset[4];
 	GSList		 *grp_stack;
-	
+
 	/* Charting state */
 	GogGraph	 *graph;
 	GogChart	 *chart;

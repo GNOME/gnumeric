@@ -3345,7 +3345,7 @@ scg_rangesel_extend (SheetControlGUI *scg, int n,
  * scg_cursor_move:
  *
  * @scg    : The scg
- * @count  : Number of units to move the cursor 
+ * @count  : Number of units to move the cursor
  * @jump_to_bound: skip from the start to the end of ranges
  *                 of filled or unfilled cells.
  * @horiz  : is the movement horizontal or vertical
@@ -3368,9 +3368,9 @@ scg_cursor_move (SheetControlGUI *scg, int n,
 			tmp.col + n - step, tmp.row, tmp.row,
 			step, jump_to_bound);
 	else
-		tmp.row = sheet_find_boundary_vertical 
+		tmp.row = sheet_find_boundary_vertical
 			(sv->sheet,
-			 tmp.col, tmp.row + n - step, 
+			 tmp.col, tmp.row + n - step,
 			 tmp.col,
 			 step, jump_to_bound);
 
