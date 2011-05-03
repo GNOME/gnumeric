@@ -5259,6 +5259,15 @@ chart_write_DROPBAR (XLChartWriteState *s)
 	g_object_unref (s->dp_style);
 }
 
+#if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
+#pragma GCC diagnostic push
+#endif
+#if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 2))
+#pragma GCC diagnostic ignored "-Wswitch"
+	/* Suppressing the warning about the case values not be named */
+	/* GogObjectPosition enum values */
+#endif
+
 static void
 chart_write_LEGEND (XLChartWriteState *s, GogObject const *legend)
 {
@@ -5292,6 +5301,13 @@ chart_write_LEGEND (XLChartWriteState *s, GogObject const *legend)
 	chart_write_text (s, NULL, NULL, 0);
 	chart_write_END (s);
 }
+#if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 2))
+#if (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
+#pragma GCC diagnostic pop
+#else
+#pragma GCC diagnostic warning "-Wswitch"
+#endif
+#endif
 
 static void
 chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
