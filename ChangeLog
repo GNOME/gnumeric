@@ -1,3 +1,8 @@
+2011-05-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/workbook.c (workbook_sheet_state_diff): disable 
+	-Wswitch for this function
+
 2011-05-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/colrow.c (colrow_set_states): use colrow_free, not g_free;
