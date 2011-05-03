@@ -13152,7 +13152,7 @@ msgstr ""
 "proba\""
 
 #: ../src/tools/analysis-chi-squared.c:67
-msgid "/Test Statistic:/Degrees of Freedom:/p-Value:/Critical Value:"
+msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
 msgstr "/Probaren estatistikak:/Askatasun-graduak:/p-balioa:/Balio kritikoa:"
 
 #: ../src/tools/analysis-chi-squared.c:176
@@ -13317,7 +13317,7 @@ msgid "Median:"
 msgstr "Mediana:"
 
 #: ../src/tools/analysis-kaplan-meier.c:532
-msgid "/Log-Rank Test:/Statistics:/Degrees of Freedom:/p-Value:"
+msgid "/Log-Rank Test/Statistics/Degrees of Freedom/p-Value"
 msgstr "/Log-Rank proba:/Estatistikak:/Askatasun graduak:/p-balioa:"
 
 #: ../src/tools/analysis-kaplan-meier.c:657
@@ -13407,12 +13407,12 @@ msgid "Covariances:"
 msgstr "Kobariantzak"
 
 #: ../src/tools/analysis-principal-components.c:136
-msgid "/Count:/Mean:/Variance://Eigenvalues:/Eigenvectors:"
+msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 msgstr ""
 
 #: ../src/tools/analysis-principal-components.c:141
 #, fuzzy
-msgid "Percent of Trace:"
+msgid "Percent of Trace"
 msgstr "Ehunekoa"
 
 #: ../src/tools/analysis-principal-components.c:219
@@ -13637,7 +13637,7 @@ msgstr ""
 "Interzeptatu"
 
 #: ../src/tools/analysis-tools.c:2925
-msgid "Response Variable:"
+msgid "Response Variable"
 msgstr "Erantzunaren aldagaia:"
 
 #: ../src/tools/analysis-tools.c:2959
@@ -13691,11 +13691,11 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3496
-msgid "/SUMMARY OUTPUT//Independent Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3501
-msgid "/SUMMARY OUTPUT//Response Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3507

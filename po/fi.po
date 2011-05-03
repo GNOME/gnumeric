@@ -13035,7 +13035,7 @@ msgstr ""
 "[>=5]\"Homogeenisuustesti\";[<5][Red]\"Virheellinen homogeenisuustesti\""
 
 #: ../src/tools/analysis-chi-squared.c:67
-msgid "/Test Statistic:/Degrees of Freedom:/p-Value:/Critical Value:"
+msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
 msgstr "/Testitunnusluku:/Vapausasteet:/p-arvo:/Kriittinen arvo:"
 
 #: ../src/tools/analysis-chi-squared.c:176
@@ -13209,7 +13209,7 @@ msgid "Median:"
 msgstr "Mediaani:"
 
 #: ../src/tools/analysis-kaplan-meier.c:532
-msgid "/Log-Rank Test:/Statistics:/Degrees of Freedom:/p-Value:"
+msgid "/Log-Rank Test/Statistics/Degrees of Freedom/p-Value"
 msgstr "/Log-rank -testi:/Tunnusluvut:/Vapausasteet:/p-arvo:"
 
 #: ../src/tools/analysis-kaplan-meier.c:657
@@ -13308,11 +13308,11 @@ msgid "Covariances:"
 msgstr "Kovarianssit:"
 
 #: ../src/tools/analysis-principal-components.c:136
-msgid "/Count:/Mean:/Variance://Eigenvalues:/Eigenvectors:"
+msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 msgstr "/Lukumäärä:/Keskiarvo:/Varianssi://Ominaisarvot:/Ominaisvektorit:"
 
 #: ../src/tools/analysis-principal-components.c:141
-msgid "Percent of Trace:"
+msgid "Percent of Trace"
 msgstr "Jäännöksen prosentti:"
 
 #: ../src/tools/analysis-principal-components.c:219
@@ -13544,7 +13544,7 @@ msgstr ""
 "R^2/Havainnot//Varianssianalyysi//Regressio/Jäännös/Yhteensä///Leikkauspiste"
 
 #: ../src/tools/analysis-tools.c:2925
-msgid "Response Variable:"
+msgid "Response Variable"
 msgstr "Vastemuuttuja:"
 
 #: ../src/tools/analysis-tools.c:2959
@@ -13604,11 +13604,11 @@ msgstr ""
 
 #: ../src/tools/analysis-tools.c:3496
 #, fuzzy
-msgid "/SUMMARY OUTPUT//Independent Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr "/YHTEENVETOTULOSTE//Vastemuuttuja://Havainnot:"
 
 #: ../src/tools/analysis-tools.c:3501
-msgid "/SUMMARY OUTPUT//Response Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr "/YHTEENVETOTULOSTE//Vastemuuttuja://Havainnot:"
 
 #: ../src/tools/analysis-tools.c:3507

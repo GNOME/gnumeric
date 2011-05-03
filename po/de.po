@@ -13694,7 +13694,7 @@ msgstr ""
 "Gleichwertigkeit\""
 
 #: ../src/tools/analysis-chi-squared.c:67
-msgid "/Test Statistic:/Degrees of Freedom:/p-Value:/Critical Value:"
+msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
 msgstr "/Test Statistik:/Grad der Freiheit:/p-Wert:Kritischer Wert:"
 
 #: ../src/tools/analysis-chi-squared.c:176
@@ -13868,7 +13868,7 @@ msgid "Median:"
 msgstr "Medianwert:"
 
 #: ../src/tools/analysis-kaplan-meier.c:532
-msgid "/Log-Rank Test:/Statistics:/Degrees of Freedom:/p-Value:"
+msgid "/Log-Rank Test/Statistics/Degrees of Freedom/p-Value"
 msgstr "/Überlebenszeitanalyse:/Statistiken:/Grad von Freiheit:/p-Wert:"
 
 #: ../src/tools/analysis-kaplan-meier.c:657
@@ -13966,12 +13966,12 @@ msgid "Covariances:"
 msgstr "Kovarianzen:"
 
 #: ../src/tools/analysis-principal-components.c:136
-msgid "/Count:/Mean:/Variance://Eigenvalues:/Eigenvectors:"
+msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 msgstr "/Anzahl:/Mittelwert:/Varianz://Eigenwerte:/Eigenvektoren:"
 
 # Stammt aus der Wikipedia-Seite zur Hauptkomponentenanalyse.
 #: ../src/tools/analysis-principal-components.c:141
-msgid "Percent of Trace:"
+msgid "Percent of Trace"
 msgstr "Prozent der Gesamtvarianz:"
 
 #: ../src/tools/analysis-principal-components.c:219
@@ -14211,7 +14211,7 @@ msgstr ""
 "Abschnitt"
 
 #: ../src/tools/analysis-tools.c:2925
-msgid "Response Variable:"
+msgid "Response Variable"
 msgstr "Reaktionsvariable:"
 
 #: ../src/tools/analysis-tools.c:2959
@@ -14271,11 +14271,11 @@ msgstr ""
 "/Vorhersage//Rest/Einflüsse/Intern studentisiert/Extern studentisiert/p-Wert"
 
 #: ../src/tools/analysis-tools.c:3496
-msgid "/SUMMARY OUTPUT//Independent Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr "/Zusammenfassung//Unabhängige Variable://Beobachtungen:"
 
 #: ../src/tools/analysis-tools.c:3501
-msgid "/SUMMARY OUTPUT//Response Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr "/Zusammenfassung//Reaktionsvariable://Beobachtungen:"
 
 #: ../src/tools/analysis-tools.c:3507

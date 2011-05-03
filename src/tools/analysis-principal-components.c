@@ -103,13 +103,15 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 	dao_set_bold (dao, 0, 0, 0, 0);
 	dao_set_italic (dao, 0, 0, 0, 11 + 3 * l);
 	dao_set_format (dao, 0, 0, 0, 0,
+	/* translator info: The quotation marks in the next strings need to */
+	/* remain since these are Excel-style format strings */
 			_("\"Principal Components Analysis\";"
 			  "[Red]\"Principal Components Analysis is invalid.\""));
 	dao_set_align (dao, 0, 0, 0, 0,
 		       HALIGN_LEFT, VALIGN_BOTTOM);
 
 	dao->offset_row++;
-	analysis_tool_table (dao, info, _("Covariances:"), "COVAR", TRUE);
+	analysis_tool_table (dao, info, _("Covariances"), "COVAR", TRUE);
 	dao->offset_row--;
 
 	for (i = 1, inputdata = info->input; inputdata != NULL; i++, inputdata = inputdata->next)
@@ -133,12 +135,12 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 			    gnm_expr_new_constant (value_new_int (-1))));
 	dao_set_merge (dao,0,0,2,0);
 	set_cell_text_col (dao, 0, 3 + l,
-			   _("/Count:"
-			     "/Mean:"
-			     "/Variance:"
-			     "//Eigenvalues:"
-			     "/Eigenvectors:"));
-	dao_set_cell (dao, 0, 11 + 3 * l, _("Percent of Trace:"));
+			   _("/Count"
+			     "/Mean"
+			     "/Variance"
+			     "//Eigenvalues"
+			     "/Eigenvectors"));
+	dao_set_cell (dao, 0, 11 + 3 * l, _("Percent of Trace"));
 	dao_set_italic (dao, 0, 9 + 2 * l, 1 + l, 9 + 2 * l);
 	dao_set_percent (dao, 1, 11 + 3 * l, 1 + l, 11 + 3 * l);
 

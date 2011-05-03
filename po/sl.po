@@ -14034,7 +14034,7 @@ msgid "[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\""
 msgstr ""
 
 #: ../src/tools/analysis-chi-squared.c:67
-msgid "/Test Statistic:/Degrees of Freedom:/p-Value:/Critical Value:"
+msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
 msgstr ""
 
 #: ../src/tools/analysis-chi-squared.c:176
@@ -14215,7 +14215,7 @@ msgid "Median:"
 msgstr "Mediano sredinjenje"
 
 #: ../src/tools/analysis-kaplan-meier.c:532
-msgid "/Log-Rank Test:/Statistics:/Degrees of Freedom:/p-Value:"
+msgid "/Log-Rank Test/Statistics/Degrees of Freedom/p-Value"
 msgstr ""
 
 #: ../src/tools/analysis-kaplan-meier.c:657
@@ -14306,12 +14306,12 @@ msgid "Covariances:"
 msgstr "Gama razpredelnica grafične kartice"
 
 #: ../src/tools/analysis-principal-components.c:136
-msgid "/Count:/Mean:/Variance://Eigenvalues:/Eigenvectors:"
+msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 msgstr ""
 
 #: ../src/tools/analysis-principal-components.c:141
 #, fuzzy
-msgid "Percent of Trace:"
+msgid "Percent of Trace"
 msgstr "Naslov zaznave:"
 
 #: ../src/tools/analysis-principal-components.c:219
@@ -14495,7 +14495,7 @@ msgstr ""
 
 #: ../src/tools/analysis-tools.c:2925
 #, fuzzy
-msgid "Response Variable:"
+msgid "Response Variable"
 msgstr "Spremenljivka iskanja"
 
 #: ../src/tools/analysis-tools.c:2959
@@ -14543,11 +14543,11 @@ msgid "/Prediction//Residual/Leverages/Internally studentized/Externally student
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3496
-msgid "/SUMMARY OUTPUT//Independent Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3501
-msgid "/SUMMARY OUTPUT//Response Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3507

@@ -60,14 +60,16 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 	char *cc;
 
 	label = (info->independence)
+	/* translator info: The quotation marks in the next strings need to */
+	/* remain since these are Excel-style format strings */
 		? _("[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\"")
 		: _("[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\"");
 
 	dao_set_italic (dao, 0, 1, 0, 4);
-	set_cell_text_col (dao, 0, 1, _("/Test Statistic:"
-					"/Degrees of Freedom:"
-					"/p-Value:"
-					"/Critical Value:"));
+	set_cell_text_col (dao, 0, 1, _("/Test Statistic"
+					"/Degrees of Freedom"
+					"/p-Value"
+					"/Critical Value"));
 	cc = g_strdup_printf ("%s = %.2" GNM_FORMAT_f, "\xce\xb1", info->alpha);
 	dao_set_cell_comment (dao, 0, 4, cc);
 	g_free (cc);

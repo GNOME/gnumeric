@@ -13466,7 +13466,7 @@ msgstr ""
 "[>=5]\"Έλεγχος ομοιογένειας\";[<5][Red]\"Μη έγκυρος έλεγχος ομοιογένειας\""
 
 #: ../src/tools/analysis-chi-squared.c:67
-msgid "/Test Statistic:/Degrees of Freedom:/p-Value:/Critical Value:"
+msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
 msgstr "/Στατιστικός έλεγχος:/Βαθμοί ελευθερίας:/p-value:/Κριτική τιμή:"
 
 #: ../src/tools/analysis-chi-squared.c:176
@@ -13640,7 +13640,7 @@ msgid "Median:"
 msgstr "Διάμεσος:"
 
 #: ../src/tools/analysis-kaplan-meier.c:532
-msgid "/Log-Rank Test:/Statistics:/Degrees of Freedom:/p-Value:"
+msgid "/Log-Rank Test/Statistics/Degrees of Freedom/p-Value"
 msgstr "/Έλεγχος Log-Rank:/Στατιστικά:/Βαθμοί ελευθερίας:/p-value:"
 
 #: ../src/tools/analysis-kaplan-meier.c:657
@@ -13740,11 +13740,11 @@ msgid "Covariances:"
 msgstr "Συνδιακυμάνσεις:"
 
 #: ../src/tools/analysis-principal-components.c:136
-msgid "/Count:/Mean:/Variance://Eigenvalues:/Eigenvectors:"
+msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 msgstr "/Πλήθος:/Μέση τιμή:/Διακύμανση://Ιδιοτιμές:/Ιδιοδιανύσματα:"
 
 #: ../src/tools/analysis-principal-components.c:141
-msgid "Percent of Trace:"
+msgid "Percent of Trace"
 msgstr "Ποσοστό ίχνους:"
 
 #: ../src/tools/analysis-principal-components.c:219
@@ -13984,7 +13984,7 @@ msgstr ""
 "Κατάλοιπα/Σύνολο/Σταθερά"
 
 #: ../src/tools/analysis-tools.c:2925
-msgid "Response Variable:"
+msgid "Response Variable"
 msgstr "Εξαρτημένη μετβλητή:"
 
 #: ../src/tools/analysis-tools.c:2959
@@ -14045,11 +14045,11 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3496
-msgid "/SUMMARY OUTPUT//Independent Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr "/SUMMARY OUTPUT//Ανεξάρτητη μεταβλητή://Παρατηρήσεις:"
 
 #: ../src/tools/analysis-tools.c:3501
-msgid "/SUMMARY OUTPUT//Response Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr "/SUMMARY OUTPUT//Εξαρτημένη μεταβλητή://Παρατηρήσεις:"
 
 #: ../src/tools/analysis-tools.c:3507

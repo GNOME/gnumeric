@@ -2927,7 +2927,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 					"/Intercept"));
 	dao_set_merge (dao, 0, 0, 1, 0);
 	dao_set_italic (dao, 2, 0, 3, 0);
-	dao_set_cell (dao, 2, 0, _("Response Variable:"));
+	dao_set_cell (dao, 2, 0, _("Response Variable"));
 	dao_set_merge (dao, 0, 2, 1, 2);
 
 	if (info->base.labels) {
@@ -3500,14 +3500,14 @@ analysis_tool_regression_simple_engine_run (data_analysis_output_t *dao,
         set_cell_text_row (dao, 0, 0, info->multiple_y ?
 			   _("/SUMMARY OUTPUT"
 			     "/"
-			     "/Independent Variable:"
+			     "/Independent Variable"
 			     "/"
-			     "/Observations:") :
+			     "/Observations") :
 			   _("/SUMMARY OUTPUT"
 			     "/"
-			     "/Response Variable:"
+			     "/Response Variable"
 			     "/"
-			     "/Observations:"));
+			     "/Observations"));
         set_cell_text_row (dao, 0, 2, info->multiple_y ?
 			   _("/Response Variable"
 			     "/R^2"

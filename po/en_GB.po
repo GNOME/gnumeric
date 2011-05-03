@@ -12960,8 +12960,8 @@ msgid "[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\""
 msgstr "[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\""
 
 #: ../src/tools/analysis-chi-squared.c:67
-msgid "/Test Statistic:/Degrees of Freedom:/p-Value:/Critical Value:"
-msgstr "/Test Statistic:/Degrees of Freedom:/p-Value:/Critical Value:"
+msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
+msgstr "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
 
 #: ../src/tools/analysis-chi-squared.c:176
 #, c-format
@@ -13134,8 +13134,8 @@ msgid "Median:"
 msgstr "Median:"
 
 #: ../src/tools/analysis-kaplan-meier.c:532
-msgid "/Log-Rank Test:/Statistics:/Degrees of Freedom:/p-Value:"
-msgstr "/Log-Rank Test:/Statistics:/Degrees of Freedom:/p-Value:"
+msgid "/Log-Rank Test/Statistics/Degrees of Freedom/p-Value"
+msgstr "/Log-Rank Test/Statistics/Degrees of Freedom/p-Value"
 
 #: ../src/tools/analysis-kaplan-meier.c:657
 #, c-format
@@ -13234,12 +13234,12 @@ msgid "Covariances:"
 msgstr "Covariances:"
 
 #: ../src/tools/analysis-principal-components.c:136
-msgid "/Count:/Mean:/Variance://Eigenvalues:/Eigenvectors:"
-msgstr "/Count:/Mean:/Variance://Eigenvalues:/Eigenvectors:"
+msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
+msgstr "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 
 #: ../src/tools/analysis-principal-components.c:141
-msgid "Percent of Trace:"
-msgstr "Percent of Trace:"
+msgid "Percent of Trace"
+msgstr "Percent of Trace"
 
 #: ../src/tools/analysis-principal-components.c:219
 #, c-format
@@ -13469,8 +13469,8 @@ msgstr ""
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
 
 #: ../src/tools/analysis-tools.c:2925
-msgid "Response Variable:"
-msgstr "Response Variable:"
+msgid "Response Variable"
+msgstr "Response Variable"
 
 #: ../src/tools/analysis-tools.c:2959
 msgid "/df/SS/MS/F/Significance of F"
@@ -13528,12 +13528,12 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3496
-msgid "/SUMMARY OUTPUT//Independent Variable://Observations:"
-msgstr "/SUMMARY OUTPUT//Independent Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
+msgstr "/SUMMARY OUTPUT//Independent Variable//Observations"
 
 #: ../src/tools/analysis-tools.c:3501
-msgid "/SUMMARY OUTPUT//Response Variable://Observations:"
-msgstr "/SUMMARY OUTPUT//Response Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Response Variable//Observations"
+msgstr "/SUMMARY OUTPUT//Response Variable//Observations"
 
 #: ../src/tools/analysis-tools.c:3507
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"

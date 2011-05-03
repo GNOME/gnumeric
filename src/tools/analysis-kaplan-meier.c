@@ -466,7 +466,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 
 	if (info->median) {
 		dao_set_italic (dao, 1, 1, 1, 1);
-		dao_set_cell (dao, 1, 1, _("Median:"));
+		dao_set_cell (dao, 1, 1, _("Median"));
 
 		dao->offset_col += 2;
 		gl = info->group_list;
@@ -529,10 +529,10 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 
 		dao_set_italic (dao, 1, logrank_test_y_offset, 1, logrank_test_y_offset+3);
 		set_cell_text_col (dao, 1, logrank_test_y_offset,
-				   _("/Log-Rank Test:"
-				     "/Statistics:"
-				     "/Degrees of Freedom:"
-				     "/p-Value:"));
+				   _("/Log-Rank Test"
+				     "/Statistics"
+				     "/Degrees of Freedom"
+				     "/p-Value"));
 
 		/* Test Statistics */
 		for (i = 0; i < repetitions; i++) {

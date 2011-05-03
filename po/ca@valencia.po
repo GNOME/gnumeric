@@ -13261,7 +13261,7 @@ msgstr ""
 
 #: ../src/tools/analysis-chi-squared.c:67
 #, fuzzy
-msgid "/Test Statistic:/Degrees of Freedom:/p-Value:/Critical Value:"
+msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
 msgstr "/Comprovació de Log-Rank:/Estadístiques:/Graus de llibertat:/Valor P:"
 
 #: ../src/tools/analysis-chi-squared.c:176
@@ -13438,7 +13438,7 @@ msgid "Median:"
 msgstr "Mediana:"
 
 #: ../src/tools/analysis-kaplan-meier.c:532
-msgid "/Log-Rank Test:/Statistics:/Degrees of Freedom:/p-Value:"
+msgid "/Log-Rank Test/Statistics/Degrees of Freedom/p-Value"
 msgstr "/Comprovació de Log-Rank:/Estadístiques:/Graus de llibertat:/Valor P:"
 
 #: ../src/tools/analysis-kaplan-meier.c:657
@@ -13528,12 +13528,12 @@ msgid "Covariances:"
 msgstr "Covariàncies"
 
 #: ../src/tools/analysis-principal-components.c:136
-msgid "/Count:/Mean:/Variance://Eigenvalues:/Eigenvectors:"
+msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 msgstr ""
 
 #: ../src/tools/analysis-principal-components.c:141
 #, fuzzy
-msgid "Percent of Trace:"
+msgid "Percent of Trace"
 msgstr "Percentatge"
 
 #: ../src/tools/analysis-principal-components.c:219
@@ -13755,7 +13755,7 @@ msgstr ""
 "Total///Intercepció"
 
 #: ../src/tools/analysis-tools.c:2925
-msgid "Response Variable:"
+msgid "Response Variable"
 msgstr "Variable de resposta:"
 
 #: ../src/tools/analysis-tools.c:2959
@@ -13809,11 +13809,11 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3496
-msgid "/SUMMARY OUTPUT//Independent Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3501
-msgid "/SUMMARY OUTPUT//Response Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3507

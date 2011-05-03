@@ -12781,7 +12781,7 @@ msgid "[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\""
 msgstr ""
 
 #: ../src/tools/analysis-chi-squared.c:67
-msgid "/Test Statistic:/Degrees of Freedom:/p-Value:/Critical Value:"
+msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
 msgstr ""
 
 #: ../src/tools/analysis-chi-squared.c:176
@@ -12953,7 +12953,7 @@ msgid "Median:"
 msgstr "中位數"
 
 #: ../src/tools/analysis-kaplan-meier.c:532
-msgid "/Log-Rank Test:/Statistics:/Degrees of Freedom:/p-Value:"
+msgid "/Log-Rank Test/Statistics/Degrees of Freedom/p-Value"
 msgstr ""
 
 #: ../src/tools/analysis-kaplan-meier.c:657
@@ -13044,12 +13044,12 @@ msgid "Covariances:"
 msgstr "Covariances 互變異數:"
 
 #: ../src/tools/analysis-principal-components.c:136
-msgid "/Count:/Mean:/Variance://Eigenvalues:/Eigenvectors:"
+msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 msgstr ""
 
 #: ../src/tools/analysis-principal-components.c:141
 #, fuzzy
-msgid "Percent of Trace:"
+msgid "Percent of Trace"
 msgstr "TRAP 硬件錯誤"
 
 #: ../src/tools/analysis-principal-components.c:219
@@ -13253,7 +13253,7 @@ msgid ""
 msgstr "/統計結果摘要//迴歸分析統計結果/Multiple R/R Square/Adjusted R Square/標準誤差/抽樣數目//ANOVA//迴歸/殘差/總計///截距"
 
 #: ../src/tools/analysis-tools.c:2896
-msgid "Response Variable:"
+msgid "Response Variable"
 msgstr "Response Variable 反應變異數:"
 
 #: ../src/tools/analysis-tools.c:2929
@@ -13291,11 +13291,11 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3304
-msgid "/SUMMARY OUTPUT//Independent Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3309
-msgid "/SUMMARY OUTPUT//Response Variable://Observations:"
+msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3315

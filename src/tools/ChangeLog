@@ -1,5 +1,15 @@
 2011-05-2 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-chi-squared.c (analysis_tool_chi_squared_engine_run): 
+	no colons in field labels
+	* analysis-kaplan-meier.c (analysis_tool_kaplan_meier_engine_run): ditto
+	* analysis-principal-components.c
+	(analysis_tool_principal_components_engine_run): ditto
+	* analysis-tools.c (analysis_tool_regression_engine_run): ditto
+	(analysis_tool_regression_simple_engine_run): ditto
+
+2011-05-2 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-sign-test.c (analysis_tool_sign_test_engine_run): no colons
 	in field labels
 	(analysis_tool_sign_test_two_engine_run): ditto

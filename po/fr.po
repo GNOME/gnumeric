@@ -13167,12 +13167,12 @@ msgstr ""
 
 #: ../src/tools/analysis-chi-squared.c:64
 msgid "[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\""
-msgstr "[>=5]« Test d'homogénéité » ;[<5][Red] « Test d'homogénéité non valide »"
+msgstr "[>=5]\"Test d'homogénéité\";[<5][Red]\"Test d'homogénéité non valide\""
 
 #: ../src/tools/analysis-chi-squared.c:67
-msgid "/Test Statistic:/Degrees of Freedom:/p-Value:/Critical Value:"
+msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
 msgstr ""
-"/Statistiques du test :/Degrés de liberté :/p-value :/Valeur critique :"
+"/Statistiques du test/Degrés de liberté/p-value/Valeur critique"
 
 #: ../src/tools/analysis-chi-squared.c:176
 #, c-format
@@ -13348,8 +13348,8 @@ msgid "Median:"
 msgstr "Médiane :"
 
 #: ../src/tools/analysis-kaplan-meier.c:532
-msgid "/Log-Rank Test:/Statistics:/Degrees of Freedom:/p-Value:"
-msgstr "/Test « Log-Rank » :/Statistiques :/Degrés de liberté :/p-Value :"
+msgid "/Log-Rank Test/Statistics/Degrees of Freedom/p-Value"
+msgstr "/Test « Log-Rank »/Statistiques/Degrés de liberté/p-Value"
 
 #: ../src/tools/analysis-kaplan-meier.c:657
 #, c-format
@@ -13441,20 +13441,20 @@ msgid ""
 "\"Principal Components Analysis\";[Red]\"Principal Components Analysis is "
 "invalid.\""
 msgstr ""
-"« Analyse en composantes principales » ;[Red] « L'analyse en composantes "
-"principales n'est pas valide. »"
+"\"Analyse en composantes principales\";[Red]\"L'analyse en composantes "
+"principales n'est pas valide.\""
 
 #: ../src/tools/analysis-principal-components.c:112
 msgid "Covariances:"
 msgstr "Covariances :"
 
 #: ../src/tools/analysis-principal-components.c:136
-msgid "/Count:/Mean:/Variance://Eigenvalues:/Eigenvectors:"
-msgstr "/Nombre:/Moyenne:/Variance://Valeurs propres:/Vecteurs propres:"
+msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
+msgstr "/Nombre/Moyenne/Variance//Valeurs propres/Vecteurs propres"
 
 #: ../src/tools/analysis-principal-components.c:141
-msgid "Percent of Trace:"
-msgstr "Pourcentage de la trace :"
+msgid "Percent of Trace"
+msgstr "Pourcentage de la trace"
 
 #: ../src/tools/analysis-principal-components.c:219
 #, c-format
@@ -13686,8 +13686,8 @@ msgstr ""
 "Observations//ANOVA//Régression/Résidu/Total///Intersection"
 
 #: ../src/tools/analysis-tools.c:2925
-msgid "Response Variable:"
-msgstr "Variable de réponse :"
+msgid "Response Variable"
+msgstr "Variable de réponse"
 
 #: ../src/tools/analysis-tools.c:2959
 msgid "/df/SS/MS/F/Significance of F"
@@ -13747,12 +13747,12 @@ msgstr ""
 "externes/p-value"
 
 #: ../src/tools/analysis-tools.c:3496
-msgid "/SUMMARY OUTPUT//Independent Variable://Observations:"
-msgstr "/RÉSUMÉ//Variable indépendante ://Observations :"
+msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
+msgstr "/RÉSUMÉ//Variable indépendante//Observations"
 
 #: ../src/tools/analysis-tools.c:3501
-msgid "/SUMMARY OUTPUT//Response Variable://Observations:"
-msgstr "/RÉSUMÉ//Variable de réponse ://Observations :"
+msgid "/SUMMARY OUTPUT//Response Variable//Observations"
+msgstr "/RÉSUMÉ//Variable de réponse//Observations"
 
 #: ../src/tools/analysis-tools.c:3507
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
@@ -14082,7 +14082,7 @@ msgstr "Moyenne"
 
 #: ../src/tools/simulation.c:250
 msgid "Median"
-msgstr "Médian"
+msgstr "Médiane"
 
 #: ../src/tools/simulation.c:251
 msgid "Mode"
