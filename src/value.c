@@ -469,7 +469,11 @@ value_new_from_string (GnmValueType t, char const *str, GOFormat *sf,
 {
 	GnmValue *res = NULL;
 
-	switch (t) {
+	/*
+	 * We need the following cast to avoid a warning from gcc over
+	 * VALUE_INTEGER (which is not in GnmValueType).
+	 */
+	switch ((guint8)t) {
 	case VALUE_EMPTY:
 		res = value_new_empty ();
 		break;
