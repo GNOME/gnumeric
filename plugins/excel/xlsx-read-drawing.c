@@ -908,6 +908,8 @@ xlsx_style_line_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	state->sp_type |= GO_STYLE_LINE;
+	if (!state->cur_style)
+		state->cur_style = gog_style_new ();
 	state->gocolor = &state->cur_style->line.color;
 }
 
@@ -1654,6 +1656,21 @@ static void
 cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
 		      XLSXReadState *state)
 {
+	GogObject *obj = NULL;
+	if (info->cross_id) {
+		XLSXAxisInfo *cross_info = g_hash_table_lookup (state->axis.by_id, info->cross_id);
+		g_return_if_fail (cross_info != NULL);
+		obj = GOG_OBJECT (cross_info->axis);
+		if (go_finite (cross_info->cross_value)) {
+			GnmValue *value = value_new_float (cross_info->cross_value);
+			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
+			gog_dataset_set_dim (GOG_DATASET (obj), GOG_AXIS_ELEM_CROSS_POINT,
+				gnm_go_data_scalar_new_expr (state->sheet, texpr), NULL);
+		}
+		if (gog_axis_is_inverted (GOG_AXIS (axis)))
+			cross_info->cross = 2 - cross_info->cross; /* KLUDGE */
+		g_object_set (obj, "pos", cross_info->cross, "cross-axis-id", gog_object_get_id (GOG_OBJECT (axis)), NULL);
+	}
 	if (info->deleted) {
 		GSList *l = gog_chart_get_axes (state->chart, gog_axis_get_atype (GOG_AXIS (axis))), *cur;
 		GogAxis *visible = NULL;
@@ -1669,6 +1686,8 @@ cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
 		if (visible) {
 			GSList *l1, *cur1;
 
+			if (obj)
+				g_object_set (obj, "cross-axis-id", gog_object_get_id (GOG_OBJECT (visible)), NULL);
 			l1 = g_slist_copy ((GSList *) gog_axis_contributors (GOG_AXIS (axis)));
 			for (cur1 = l1; cur1; cur1 = cur1->next) {
 				if (GOG_IS_PLOT (cur1->data))
@@ -1685,20 +1704,6 @@ cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
 			}
 			g_slist_free (l1);
 		}
-	} else if (info->cross_id) {
-		XLSXAxisInfo *cross_info = g_hash_table_lookup (state->axis.by_id, info->cross_id);
-		GogObject *obj;
-		g_return_if_fail (cross_info != NULL);
-		obj = GOG_OBJECT (cross_info->axis);
-		if (go_finite (cross_info->cross_value)) {
-			GnmValue *value = value_new_float (cross_info->cross_value);
-			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
-			gog_dataset_set_dim (GOG_DATASET (obj), GOG_AXIS_ELEM_CROSS_POINT,
-				gnm_go_data_scalar_new_expr (state->sheet, texpr), NULL);
-		}
-		if (gog_axis_is_inverted (GOG_AXIS (axis)))
-			cross_info->cross = 2 - cross_info->cross; /* KLUDGE */
-		g_object_set (obj, "pos", cross_info->cross, "cross-axis-id", gog_object_get_id (GOG_OBJECT (axis)), NULL);
 	}
 }
 

@@ -377,7 +377,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 				gsf_xml_out_end_element (xml);
 				xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (ptr->data)));
 				/* FIXME position might be "t" or "r" */
-				xlsx_write_chart_cstr_unchecked (xml, "c:axPos", (axis_type[i] == GOG_AXIS_X)? "b": "l");
+				xlsx_write_chart_cstr_unchecked (xml, "c:axPos", (axis_type[i] == GOG_AXIS_X || axis_type[i] == GOG_AXIS_CIRCULAR)? "b": "l");
 				xlsx_write_chart_int (xml, "c:crossAx", 0, GPOINTER_TO_UINT (crossed));
 				g_object_get (G_OBJECT (ptr->data), "pos", &pos, NULL);
 				switch (pos) {
