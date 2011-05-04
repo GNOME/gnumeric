@@ -49,7 +49,8 @@ xlsx_chart_pop_obj (XLSXReadState *state)
 #endif
 
 	if (state->cur_style) {
-		g_object_set (G_OBJECT (state->cur_obj), "style", state->cur_style, NULL);
+		if (state->cur_obj)
+			g_object_set (G_OBJECT (state->cur_obj), "style", state->cur_style, NULL);
 		g_object_unref (state->cur_style);
 	}
 	state->cur_obj = obj_stack->data;
@@ -620,9 +621,9 @@ xlsx_axis_mark (GsfXMLIn *xin, xmlChar const **attrs)
 	int res;
 	simple_enum (xin, attrs, marks, &res);
 	if (xin->node->user_data.v_int == 0)
-		g_object_set (G_OBJECT (state->axis.obj), "major_tick_in", res & 1, "major_tick_out", res & 2, NULL);
+		g_object_set (G_OBJECT (state->axis.obj), "major-tick-in", res & 1, "major-tick-out", (res & 2) != 0, NULL);
 	else
-		g_object_set (G_OBJECT (state->axis.obj), "minor_tick_in", res & 1, "minor_tick_out", res & 2, NULL);
+		g_object_set (G_OBJECT (state->axis.obj), "minor-tick-in", res & 1, "minor-tick-out", (res & 2) != 0, NULL);
 }
 
 static void
@@ -648,7 +649,7 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		if (0 == strcmp (type, "GogRadarPlot") ||
 		    0 == strcmp (type, "GogRadarAreaPlot")) {
 			role = (state->axis.type == XLSX_AXIS_CAT
-				|| state->axis.type == XLSX_AXIS_DATE) ? "Radial-Axis" : "Circular-Axis";
+				|| state->axis.type == XLSX_AXIS_DATE) ? "Circular-Axis" : "Radial-Axis";
 		} else if (0 == strcmp (type, "GogBubblePlot") ||
 			   0 == strcmp (type, "GogXYPlot")) {
 			/* both are VAL, use the position to decide */
@@ -845,6 +846,14 @@ xlsx_chart_legend_pos (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "l",	 GOG_POSITION_W },
 		{ "r",	 GOG_POSITION_E },
 		{ "rt",	 GOG_POSITION_N | GOG_POSITION_E },
+		/* adding extra values not in spec, but actually possible (found first one at least) */
+		{ "tr",	 GOG_POSITION_N | GOG_POSITION_E },
+		{ "lt",	 GOG_POSITION_N | GOG_POSITION_W },
+		{ "tl",	 GOG_POSITION_N | GOG_POSITION_W },
+		{ "rb",	 GOG_POSITION_S | GOG_POSITION_E },
+		{ "br",	 GOG_POSITION_S | GOG_POSITION_E },
+		{ "lb",	 GOG_POSITION_S | GOG_POSITION_W },
+		{ "bl",	 GOG_POSITION_S| GOG_POSITION_W },
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -1023,8 +1032,12 @@ xlsx_chart_solid_fill (GsfXMLIn *xin, xmlChar const **attrs)
 		if (!(state->sp_type & GO_STYLE_LINE)) {
 			state->cur_style->fill.type = GO_STYLE_FILL_PATTERN;
 			state->cur_style->fill.auto_type = FALSE;
-			state->gocolor = &state->cur_style->fill.pattern.back;
-			state->auto_color = &state->cur_style->fill.auto_back;
+			state->gocolor = &state->cur_style->fill.pattern.fore;
+			state->auto_color = &state->cur_style->fill.auto_fore;
+		} else {
+			state->cur_style->line.dash_type = GO_LINE_SOLID;
+			state->gocolor = &state->cur_style->line.color;
+			state->auto_color = &state->cur_style->line.auto_color;
 		}
 	}
 }
