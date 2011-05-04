@@ -17,6 +17,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
+#include <dead-kittens.h>
 
 #define MAX_HISTORY_SIZE  100
 
