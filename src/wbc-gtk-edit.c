@@ -918,7 +918,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 	    warn_on_text_format &&
 	    go_format_is_text (gnm_cell_get_format (cell)) &&
 	    (gnm_cell_has_expr (cell) || !VALUE_IS_STRING (cell->value))) {
-		GtkResponseType res;
+		gint res; /* Using GtkResponseType would yield a warning on the switch */
 		GtkWidget *check;
 		GtkWidget *align;
 
