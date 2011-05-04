@@ -1,6 +1,12 @@
+2011-05-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-chart.c (chart_write_LEGEND): use
+	GNM_*_KILL_SWITCH_WARNING
+
 2011-05-04  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* xlsx-read-drawing.c (xlsx_chart_pop_obj): don't set a style to a NULL object,
+	* xlsx-read-drawing.c (xlsx_chart_pop_obj): don't set a style to a
+	NULL object,
 	(xlsx_axis_mark): pass a true boolean to make gobject happy,
 	(xlsx_axis_end): don't exchange radar plots axes,
 	(xlsx_chart_legend_pos): add new enum values not in spec, but occuring,

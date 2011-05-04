@@ -1,3 +1,10 @@
+2011-05-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/compilation.h: new
+	* src/Makefile.am: add compilation.h
+	* src/workbook.c (workbook_sheet_state_diff): use
+	GNM_*_KILL_SWITCH_WARNING
+
 2011-05-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk-edit.c (wbcg_edit_start): suppress enum warning

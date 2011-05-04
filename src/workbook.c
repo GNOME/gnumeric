@@ -15,6 +15,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "workbook-priv.h"
+#include "compilation.h"
 
 #include "workbook-view.h"
 #include "workbook-control.h"
@@ -1331,15 +1332,7 @@ workbook_sheet_state_size (const WorkbookSheetState *wss)
 	return size;
 }
 
-#if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
-#pragma GCC diagnostic push
-#endif
-#if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 2))
-#pragma GCC diagnostic ignored "-Wswitch"
-	/* Suppressing the warning about the case values not be named */
-	/* enum values */
-#endif
-
+GNM_BEGIN_KILL_SWITCH_WARNING
 char *
 workbook_sheet_state_diff (const WorkbookSheetState *wss_a, const WorkbookSheetState *wss_b)
 {
@@ -1439,14 +1432,7 @@ workbook_sheet_state_diff (const WorkbookSheetState *wss_a, const WorkbookSheetS
 		return g_strdup (_("Reorganizing Sheets"));
 	}
 }
-
-#if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 2))
-#if (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
-#pragma GCC diagnostic pop
-#else
-#pragma GCC diagnostic warning "-Wswitch"
-#endif
-#endif
+GNM_END_KILL_SWITCH_WARNING
 
 /* ------------------------------------------------------------------------- */
 

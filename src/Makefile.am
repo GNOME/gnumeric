@@ -10,7 +10,7 @@ bin_PROGRAMS =
 check_PROGRAMS =
 noinst_PROGRAMS = sstest
 
-noinst_HEADERS = dead-kittens.h
+noinst_HEADERS = dead-kittens.h compilation.h
 
 if WITH_GTK
   SUBDIRS += pixmaps dialogs widgets
