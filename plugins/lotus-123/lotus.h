@@ -26,6 +26,7 @@ typedef struct {
         GHashTable      *style_pool;
 	gboolean        sheet_area_error;
 	GHashTable      *fonts;
+	GIConv          works_conv;
 } LotusState;
 
 Sheet	 *lotus_get_sheet  (Workbook *wb, int i);

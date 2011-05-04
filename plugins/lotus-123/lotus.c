@@ -1547,10 +1547,10 @@ lotus_read_old (LotusState *state, record_t *r)
 		case LOTUS_INTEGER: CHECK_RECORD_SIZE (>= 7) {
 			GnmValue *v = value_new_int (GSF_LE_GET_GINT16 (r->data + 5));
 			guint8 fmt = GSF_LE_GET_GUINT8 (r->data);
-			int i = GSF_LE_GET_GUINT16 (r->data + 1);
-			int j = GSF_LE_GET_GUINT16 (r->data + 3);
+			int col = GSF_LE_GET_GUINT16 (r->data + 1);
+			int row = GSF_LE_GET_GUINT16 (r->data + 3);
 
-			cell = insert_value (state, state->sheet, i, j, v);
+			cell = insert_value (state, state->sheet, col, row, v);
 			if (cell)
 				cell_set_format_from_lotus_format (cell, fmt);
 			break;
@@ -1558,10 +1558,10 @@ lotus_read_old (LotusState *state, record_t *r)
 		case LOTUS_NUMBER: CHECK_RECORD_SIZE (>= 13) {
 			GnmValue *v = lotus_value (gsf_le_get_double (r->data + 5));
 			guint8 fmt = GSF_LE_GET_GUINT8 (r->data);
-			int i = GSF_LE_GET_GUINT16 (r->data + 1);
-			int j = GSF_LE_GET_GUINT16 (r->data + 3);
+			int col = GSF_LE_GET_GUINT16 (r->data + 1);
+			int row = GSF_LE_GET_GUINT16 (r->data + 3);
 
-			cell = insert_value (state, state->sheet, i, j, v);
+			cell = insert_value (state, state->sheet, col, row, v);
 			if (cell)
 				cell_set_format_from_lotus_format (cell, fmt);
 			break;
@@ -1571,9 +1571,9 @@ lotus_read_old (LotusState *state, record_t *r)
 			/* gchar format_prefix = *(r->data + 1 + 4);*/
 			GnmValue *v = lotus_get_strval (r, 6, state->lmbcs_group);
 			guint8 fmt = GSF_LE_GET_GUINT8 (r->data);
-			int i = GSF_LE_GET_GUINT16 (r->data + 1);
-			int j = GSF_LE_GET_GUINT16 (r->data + 3);
-			cell = insert_value (state, state->sheet, i, j, v);
+			int col = GSF_LE_GET_GUINT16 (r->data + 1);
+			int row = GSF_LE_GET_GUINT16 (r->data + 3);
+			cell = insert_value (state, state->sheet, col, row, v);
 			if (cell)
 				cell_set_format_from_lotus_format (cell, fmt);
 			break;
@@ -2593,6 +2593,29 @@ works_format_string (guint8 arg)
 	return g_string_free(str, FALSE);
 }
 
+static GnmValue *
+works_get_strval (const record_t *r, int ofs, LotusState *state)
+{
+	GString *str = g_string_new (NULL);
+	char *strutf8;
+
+	while (ofs < r->len && r->data[ofs] != 0) {
+		g_string_append_c (str, r->data[ofs]);
+		ofs++;
+	}
+
+	strutf8 = g_convert_with_iconv (str->str, str->len,
+				    state->works_conv,
+				    NULL, NULL,
+				    NULL);
+	g_string_free (str, TRUE);
+
+	if (strutf8)
+		return value_new_string_nocopy (strutf8);
+	else
+		return value_new_empty ();
+}
+
 static gboolean
 lotus_read_works (LotusState *state, record_t *r)
 {
@@ -2615,6 +2638,9 @@ lotus_read_works (LotusState *state, record_t *r)
 	 (GDestroyNotify)wks_font_dtor);
 
 	state->lmbcs_group = 1;
+
+	/* FIXME: Where do we get the codepage from?  */
+	state->works_conv = gsf_msole_iconv_open_for_import (1252);
 
 	do {
 		switch (r->type) {
@@ -2648,7 +2674,7 @@ lotus_read_works (LotusState *state, record_t *r)
 			int i = GSF_LE_GET_GUINT16 (r->data + 1);
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
 
-			cell = insert_value (state, state->sheet, i, j, v);
+			cell = insert_value (state, state->sheet, col, row, v);
 			if (cell)
 				cell_set_format_from_lotus_format (cell, fmt);
 			break;
@@ -2657,31 +2683,36 @@ lotus_read_works (LotusState *state, record_t *r)
 
 		case LOTUS_NUMBER: CHECK_RECORD_SIZE (>= 14) {
 			GnmValue *v = lotus_value (gsf_le_get_double (r->data + 6));
-			int i = GSF_LE_GET_GUINT16 (r->data + 0);
-			int j = GSF_LE_GET_GUINT16 (r->data + 2);
+			int col = GSF_LE_GET_GUINT16 (r->data + 0);
+			int row = GSF_LE_GET_GUINT16 (r->data + 2);
 			int fmt = GSF_LE_GET_GUINT16 (r->data + 4);
 
-			cell = insert_value (state, state->sheet, i, j, v);
+			cell = insert_value (state, state->sheet, col, row, v);
 			if (cell)
 				cell_set_fmt (state, cell, fmt);
 			break;
 		}
 		case LOTUS_LABEL: CHECK_RECORD_SIZE (>= 8) {
-			GnmValue *v = lotus_get_strval (r, 6, state->lmbcs_group);
+			GnmValue *v = works_get_strval (r, 6, state);
+			int col = GSF_LE_GET_GUINT16 (r->data + 0);
+			int row = GSF_LE_GET_GUINT16 (r->data + 2);
 			int fmt = GSF_LE_GET_GUINT16 (r->data + 4);
-			int i = GSF_LE_GET_GUINT16 (r->data + 0);
-			int j = GSF_LE_GET_GUINT16 (r->data + 2);
-			cell = insert_value (state, state->sheet, i, j, v);
+			cell = insert_value (state, state->sheet, col, row, v);
 			if (cell)
 				cell_set_fmt (state, cell, fmt);
+#if 0
+			g_printerr ("String at %s:\n",
+				    cellpos_as_string (&cell->pos));
+#endif
+			gsf_mem_dump (r->data, r->len);
 			break;
 		}
 		case LOTUS_BLANK: CHECK_RECORD_SIZE (>= 6) {
 			GnmValue *v = value_new_empty();
-			int i = GSF_LE_GET_GUINT16 (r->data + 0);
-			int j = GSF_LE_GET_GUINT16 (r->data + 2);
+			int col = GSF_LE_GET_GUINT16 (r->data + 0);
+			int row = GSF_LE_GET_GUINT16 (r->data + 2);
 			int fmt = GSF_LE_GET_GUINT16 (r->data + 4);
-			cell = insert_value (state, state->sheet, i, j, v);
+			cell = insert_value (state, state->sheet, col, row, v);
 			if (cell)
 				cell_set_fmt (state, cell, fmt);
 			break;
@@ -2728,16 +2759,17 @@ lotus_read_works (LotusState *state, record_t *r)
 			int fid = fontidx++;
 			int l;
 			font->variant = GSF_LE_GET_GUINT16(r->data + 0);
-			l=strlen(r->data + 2);
+			l = strlen (r->data + 2);
 			if (l > 34) l = 34;
 			font->typeface = g_malloc(l + 1);
 			/* verify UTF-8? */
 			memcpy(font->typeface, r->data + 2, l);
-			((char*)font->typeface)[l] = 0;
+			font->typeface[l] = 0;
 			font->size = r->data[36];
 			g_hash_table_insert (state->fonts,
 			     GUINT_TO_POINTER ((guint)fid),
 			     font);
+
 			break;
 		}
 

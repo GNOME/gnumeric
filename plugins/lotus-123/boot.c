@@ -80,19 +80,18 @@ lotus_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.sheet_area_error = FALSE;
 	state.style_pool = NULL;
 	state.fonts      = NULL;
+	state.works_conv = (GIConv)(-1);
 
 	if (!lotus_read (&state))
 		go_io_error_string (io_context,
 			_("Error while reading lotus workbook."));
 
-	if (state.style_pool) {
+	if (state.style_pool)
 		g_hash_table_destroy (state.style_pool);
-		state.style_pool = NULL;
-	}
-	if (state.fonts) {
+	if (state.fonts)
 		g_hash_table_destroy (state.fonts);
-		state.fonts = NULL;
-	}
+	if (state.works_conv != (GIConv)(-1))
+		gsf_iconv_close (state.works_conv);
 }
 
 
