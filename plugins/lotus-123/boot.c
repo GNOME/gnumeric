@@ -23,9 +23,9 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-gboolean lotus_file_probe (GOFileOpener const *fo, GsfInput *input,
+G_MODULE_EXPORT gboolean lotus_file_probe (GOFileOpener const *fo, GsfInput *input,
                            GOFileProbeLevel pl);
-void     lotus_file_open (GOFileOpener const *fo, GOIOContext *io_context,
+G_MODULE_EXPORT void     lotus_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                           WorkbookView *wb_view, GsfInput *input);
 
 
@@ -40,7 +40,8 @@ lotus_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 		h = gsf_input_read (input, 6, NULL);
 
 	if (h == NULL ||
-	    GSF_LE_GET_GUINT16 (h + 0) != LOTUS_BOF)
+	    (GSF_LE_GET_GUINT16 (h + 0) != LOTUS_BOF &&
+		GSF_LE_GET_GUINT16 (h + 0) != WORKS_BOF))
 		return FALSE;
 
 	len = GSF_LE_GET_GUINT16 (h + 2);
@@ -77,10 +78,21 @@ lotus_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.wb	 = wb_view_get_workbook (wb_view);
 	state.sheet	 = NULL;
 	state.sheet_area_error = FALSE;
+	state.style_pool = NULL;
+	state.fonts      = NULL;
 
 	if (!lotus_read (&state))
 		go_io_error_string (io_context,
 			_("Error while reading lotus workbook."));
+
+	if (state.style_pool) {
+		g_hash_table_destroy (state.style_pool);
+		state.style_pool = NULL;
+	}
+	if (state.fonts) {
+		g_hash_table_destroy (state.fonts);
+		state.fonts = NULL;
+	}
 }
 
 

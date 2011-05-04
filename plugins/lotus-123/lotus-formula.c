@@ -560,6 +560,8 @@ lotus_parse_formula_old (LotusState *state, GnmParsePos *orig,
 			i++;
 			break;
 		case 0x17: HANDLE_UNARY (GNM_EXPR_OP_UNARY_PLUS);
+		/* Works */
+		case 0x18: HANDLE_BINARY (GNM_EXPR_OP_CAT);
 
 		default:
 			i += make_function (&stack, data + i, orig);
