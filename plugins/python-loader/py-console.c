@@ -11,6 +11,7 @@
 #include "py-interpreter-selector.h"
 #include "py-command-line.h"
 #include "py-console.h"
+#include <dead-kittens.h>
 
 #include <goffice/goffice.h>
 #include <goffice/app/module-plugin-defs.h>

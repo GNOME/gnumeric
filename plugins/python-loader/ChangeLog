@@ -1,3 +1,7 @@
+2011-05-05  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* py-console.c: add dead-kittens.h
+
 2011-03-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* python-loader.c: fix cals to gnm_func_get_name().
