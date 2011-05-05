@@ -139,13 +139,15 @@ static const LFuncInfo functions[] = {
 	{  1,  0x73, "@",	     "INDIRECT",     wk1_std_func },
 	{  3,  0x74, "RATE",	     "RATE",	     wk1_rate_func },
 	{  3,  0x75, "TERM",	     NULL,	     wk1_std_func },
+	/* TERM ($1,$2,$3) is NPER ($2,$1,0,$3) */
 	{  3,  0x76, "CTERM",	     NULL,	     wk1_nper_func },
+	/* CTERM ($1,$2,$3) is NPER ($1,0,$3,$2) */
 	{  3,  0x77, "SLN",	     "SLN",	     wk1_std_func },
 	{  4,  0x78, "SYD",	     "SYD",	     wk1_std_func },
 	{  4,  0x79, "DDB",	     "DDB",	     wk1_std_func },
 	/* 0x7A is SPLFUNC which needs special handling */
 	/* WK4 and up.	This list from wkrel9.txt */
-	{  1,  0x7B, "SHEETS",	     NULL,	     wk1_std_func },
+	{  1,  0x7B, "SHEETS",	     "SHEETS",	     wk1_std_func },
 	{  1,  0x7C, "INFO",	     "INFO",	     wk1_std_func },
 	{ -1,  0x7D, "SUMPRODUCT",   "SUMPRODUCT",   wk1_std_func },
 	{  1,  0x7E, "ISRANGE",	     "ISREF",	     wk1_std_func },
