@@ -32,6 +32,8 @@ gint     gnm_font_equal (gconstpointer v, gconstpointer v2);
 
 GNM_VAR_DECL double gnm_font_default_width;
 
+int      gnm_font_override_codepage (gchar const *font_name);
+
 /****************************************************************/
 /* Internal */
 void     gnm_font_init	   (void);

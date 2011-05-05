@@ -39,40 +39,80 @@ double gnm_font_default_width;
 static char *gnumeric_default_font_name;
 static double gnumeric_default_font_size;
 
+/* This is very ad hoc - throw it away when something better comes along */
+/* See also wine/dlls/winex11.drv/xfont.c */
+
+static struct FontInfo {
+	const char *font_name;
+	const char *font_substitute_name;
+	int override_codepage;
+} font_info[] = {
+        { "Times New Roman",        "Times",          -1 },
+        { "Times New Roman CYR",    "Times",          1251 },
+        { "Times New Roman Greek",  "Times",          1253 },
+        { "Times New Roman Tur",    "Times",          1254 },
+        { "Times New Roman Baltic", "Times",          1257 },
+        { "Tms Rmn",                "Times",          -1 },
+        { "Arial",                  "Sans",           -1 },
+        { "Arial CYR",              "Sans",           1251 },
+        { "Arial Greek",            "Sans",           1253 },
+        { "Arial Tur",              "Sans",           1254 },
+        { "Arial Baltic",           "Sans",           1257 },
+        { "Albany",                 "Sans",           -1 },
+        { "Helvetica",              "Sans",           -1 },
+        { "Courier New",            "Courier",        -1 },
+        { "Courier New CYR",        "Courier",        1251 },
+        { "Courier New Greek",      "Courier",        1253 },
+        { "Courier New Tur",        "Courier",        1254 },
+        { "Courier New Baltic",     "Courier",        1257 },
+        { "£Í£Ó £Ð¥´¥·¥Ã¥¯",        "Kochi Gothic",   -1 },
+        { "£Í£Ó ¥´¥·¥Ã¥¯",          "Kochi Gothic",   -1 },
+        { "¥´¥·¥Ã¥¯",               "Kochi Gothic",   -1 },
+        { "MS UI Gothic",           "Kochi Gothic",   -1 },
+        { "£Í£Ó £ÐÌÀÄ«",            "Kochi Mincho",   -1 },
+        { "£Í£Ó ÌÀÄ«",              "Kochi Mincho",   -1 },
+        { "ÌÀÄ«",                   "Kochi Mincho",   -1 },
+	{ "GulimChe",               NULL,             949 }
+};
+
+static struct FontInfo *
+find_font (const char *font_name)
+{
+	unsigned ui;
+	for (ui = 0; ui < G_N_ELEMENTS (font_info); ui++) {
+		if (!g_ascii_strcasecmp (font_info[ui].font_name, font_name))
+			return font_info + ui;
+	}
+	return NULL;
+}
+
+/**
+ * gnm_font_override_codepage:
+ * @font_name: The win32 font name
+ *
+ * Returns a codepage for the named Win32 font, or -1 if no such codepage
+ * is known.
+ */
+int
+gnm_font_override_codepage (gchar const *font_name)
+{
+	struct FontInfo *fi = find_font (font_name);
+	return fi ? fi->override_codepage : -1;
+}
+
+
 /**
  * get_substitute_font
- * @fontname    The font name
+ * @font_name    The font name
  *
  * Tries to find a gnome font which matches the Excel font.
  * Returns the name of the substitute font if found. Otherwise returns NULL
  */
-/* This is very ad hoc - throw it away when something better comes along */
 static gchar const *
-get_substitute_font (gchar const *fontname)
+get_substitute_font (gchar const *font_name)
 {
-	int i;
-
-	static char const * const map[][2] = {
-		{ "Times New Roman", "Times"},
-		{ "Tms Rmn",	     "Times"},
-		{ "Arial",           "Sans"},
-		{ "Albany",          "Sans"},
-		{ "Helvetica",       "Sans"},
-		{ "Courier New",     "Courier"},
-		{ "£Í£Ó £Ð¥´¥·¥Ã¥¯", "Kochi Gothic"},
-		{ "£Í£Ó ¥´¥·¥Ã¥¯",   "Kochi Gothic"},
-		{ "¥´¥·¥Ã¥¯",        "Kochi Gothic"},
-		{ "MS UI Gothic",    "Kochi Gothic"},
-		{ "£Í£Ó £ÐÌÀÄ«",     "Kochi Mincho"},
-		{ "£Í£Ó ÌÀÄ«",       "Kochi Mincho"},
-		{ "ÌÀÄ«",            "Kochi Mincho"},
-		{ NULL }
-	};
-	for (i = 0; map[i][0]; i++)
-		if (g_ascii_strcasecmp (map[i][0], fontname) == 0)
-			return map[i][1];
-
-	return NULL;
+	struct FontInfo *fi = find_font (font_name);
+	return fi ? fi->font_substitute_name : NULL;
 }
 
 static GnmFont *
