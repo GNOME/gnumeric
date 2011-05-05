@@ -21,6 +21,7 @@
 #include <gutils.h>
 #include <mstyle.h>
 #include <style-color.h>
+#include <style-font.h>
 #include <parse-util.h>
 #include <sheet-object-cell-comment.h>
 
@@ -2422,19 +2423,23 @@ typedef struct {
 	char *typeface;
 	int variant;
 	int size;
-	int codepage;
+	GIConv converter;
 } WksFontEntry;
 
 static WksFontEntry *
 wks_font_new (void)
 {
-	return g_new0 (WksFontEntry, 1);
+	WksFontEntry *res = g_new0 (WksFontEntry, 1);
+	res->converter = (GIConv)-1;
+	return res;
 }
 
 static void
 wks_font_dtor (WksFontEntry *s)
 {
 	g_free (s->typeface);
+	if (s->converter != (GIConv)-1)
+		gsf_iconv_close (s->converter);
 	g_free (s);
 }
 
@@ -2594,20 +2599,28 @@ works_format_string (guint8 arg)
 }
 
 static GnmValue *
-works_get_strval (const record_t *r, int ofs, LotusState *state)
+works_get_strval (const record_t *r, guint ofs, int fmt, LotusState *state)
 {
 	GString *str = g_string_new (NULL);
 	char *strutf8;
+	GIConv converter;
+	WksFontEntry *font;
 
 	while (ofs < r->len && r->data[ofs] != 0) {
 		g_string_append_c (str, r->data[ofs]);
 		ofs++;
 	}
 
+	font = g_hash_table_lookup (state->works_style_font,
+				    GINT_TO_POINTER(fmt));
+	converter = font ? font->converter : (GIConv)-1;
+	if (converter == (GIConv)-1)
+		converter = state->works_conv;
+
 	strutf8 = g_convert_with_iconv (str->str, str->len,
-				    state->works_conv,
-				    NULL, NULL,
-				    NULL);
+					converter,
+					NULL, NULL,
+					NULL);
 	g_string_free (str, TRUE);
 
 	if (strutf8)
@@ -2637,9 +2650,11 @@ lotus_read_works (LotusState *state, record_t *r)
 	 NULL,
 	 (GDestroyNotify)wks_font_dtor);
 
+	state->works_style_font = g_hash_table_new (g_direct_hash,
+						    g_direct_equal);
+
 	state->lmbcs_group = 1;
 
-	/* FIXME: Where do we get the codepage from?  */
 	state->works_conv = gsf_msole_iconv_open_for_import (1252);
 
 	do {
@@ -2693,18 +2708,18 @@ lotus_read_works (LotusState *state, record_t *r)
 			break;
 		}
 		case LOTUS_LABEL: CHECK_RECORD_SIZE (>= 8) {
-			GnmValue *v = works_get_strval (r, 6, state);
 			int col = GSF_LE_GET_GUINT16 (r->data + 0);
 			int row = GSF_LE_GET_GUINT16 (r->data + 2);
 			int fmt = GSF_LE_GET_GUINT16 (r->data + 4);
+			GnmValue *v = works_get_strval (r, 6, fmt, state);
 			cell = insert_value (state, state->sheet, col, row, v);
 			if (cell)
 				cell_set_fmt (state, cell, fmt);
 #if 0
 			g_printerr ("String at %s:\n",
 				    cellpos_as_string (&cell->pos));
-#endif
 			gsf_mem_dump (r->data, r->len);
+#endif
 			break;
 		}
 		case LOTUS_BLANK: CHECK_RECORD_SIZE (>= 6) {
@@ -2756,6 +2771,7 @@ lotus_read_works (LotusState *state, record_t *r)
 
 		case WORKS_FONT: CHECK_RECORD_SIZE (>= 38) {
 			WksFontEntry *font = wks_font_new();
+			int codepage;
 			int fid = fontidx++;
 			int l;
 			font->variant = GSF_LE_GET_GUINT16(r->data + 0);
@@ -2766,6 +2782,11 @@ lotus_read_works (LotusState *state, record_t *r)
 			memcpy(font->typeface, r->data + 2, l);
 			font->typeface[l] = 0;
 			font->size = r->data[36];
+			
+			codepage = gnm_font_override_codepage (font->typeface);
+			if (codepage != -1)
+				font->converter = gsf_msole_iconv_open_for_import (codepage);
+
 			g_hash_table_insert (state->fonts,
 			     GUINT_TO_POINTER ((guint)fid),
 			     font);
@@ -2815,6 +2836,10 @@ lotus_read_works (LotusState *state, record_t *r)
 
 				if (font->typeface)
 					gnm_style_set_font_name(style, font->typeface);
+
+				g_hash_table_insert (state->works_style_font,
+						     GUINT_TO_POINTER(styleid),
+						     font);
 			}
 
 			tmp = (align >> 2) & 7;
@@ -2874,6 +2899,8 @@ lotus_read_works (LotusState *state, record_t *r)
 			break;
 		}
 	} while (record_next (r));
+
+	g_hash_table_destroy (state->works_style_font);
 
 	return result;
 }
