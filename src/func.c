@@ -35,6 +35,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define UNICODE_ELLIPSIS "\xe2\x80\xa6"
 #define F2(func,s) dgettext ((func)->textdomain->str, (s))
 
 static GList	    *categories;
@@ -333,6 +334,7 @@ function_dump_defs (char const *filename, int dump_type)
 			GString *excel = g_string_new (NULL);
 			GString *note = g_string_new (NULL);
 			GString *seealso = g_string_new (NULL);
+			gint min, max;
 
 			fprintf (output_file, "@CATEGORY=%s\n",
 				 F2(fd, fd->fn_group->display_name->str));
@@ -407,7 +409,14 @@ function_dump_defs (char const *filename, int dump_type)
 				}
 			}
 
-			fprintf (output_file, "@SYNTAX=%s)\n", syntax->str);
+			function_def_count_args (fd, &min, &max);
+			if (max == G_MAXINT)
+				fprintf (output_file, 
+					 "@SYNTAX=%s," UNICODE_ELLIPSIS ")\n", 
+					 syntax->str);
+			else
+				fprintf (output_file, "@SYNTAX=%s)\n", 
+					 syntax->str);
 
 			if (arg_desc->len > 0)
 				fprintf (output_file, "@ARGUMENTDESCRIPTION=%s", arg_desc->str);
