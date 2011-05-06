@@ -1297,7 +1297,10 @@ function_def_count_args (GnmFunc const *fn_def,
 	 */
 	if (fn_def->fn_type == GNM_FUNC_TYPE_NODES) {
 		*min = 0;
-		*max = G_MAXINT;
+		if (g_ascii_strcasecmp ("INDEX",fn_def->name) == 0)
+			*max = 4;
+		else
+			*max = G_MAXINT;
 		return;
 	}
 

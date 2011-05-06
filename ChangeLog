@@ -1,3 +1,7 @@
+2011-05-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/func.c (function_def_count_args): special case INDEX
+	
 2011-05-05  Morten Welinder  <terra@gnome.org>
 
 	* src/style.c (gnm_font_override_codepage): New function.
