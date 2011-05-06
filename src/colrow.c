@@ -980,6 +980,9 @@ colrow_set_visibility_list (Sheet *sheet, gboolean is_cols,
 				       info->first, info->last);
 	}
 
+	if (visible)
+		sheet_colrow_optimize (sheet);
+
 	if (is_cols)
 		sheet_queue_respan (sheet, 0, gnm_sheet_get_last_row (sheet));
 	if (list != NULL)

@@ -1,10 +1,15 @@
+2011-05-06  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_colrow_optimize): New function.
+
+	* src/sheet-style.c (sheet_style_optimize): Also optimize colrows.
+
+	* src/colrow.c (colrow_set_visibility_list): If making visible,
+	optimize colrows.
+
 2011-05-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/func.c (function_dump_defs): write ellipsis in syntax
-
-2011-05-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
-
-	* src/func.c (function_def_count_args): special case INDEX
 
 2011-05-05  Morten Welinder  <terra@gnome.org>
 

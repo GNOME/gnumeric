@@ -2890,6 +2890,8 @@ sheet_style_optimize (Sheet *sheet)
 	if (gnm_debug_flag ("no-style-optimize"))
 		return;
 
+	sheet_colrow_optimize (sheet);
+
 	data.ss = gnm_sheet_get_size (sheet);
 	data.recursion = TRUE;
 

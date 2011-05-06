@@ -3419,6 +3419,45 @@ sheet_colrow_get_default (Sheet const *sheet, gboolean is_cols)
 	return is_cols ? &sheet->cols.default_style : &sheet->rows.default_style;
 }
 
+static void
+sheet_colrow_optimize1 (int max, ColRowCollection *collection)
+{
+	int i;
+
+	for (i = 0; i < max; i += COLROW_SEGMENT_SIZE) {
+		ColRowSegment *segment = COLROW_GET_SEGMENT (collection, i);
+		int j;
+		gboolean any = FALSE;
+
+		if (!segment)
+			continue;
+		for (j = 0; j < COLROW_SEGMENT_SIZE; j++) {
+			ColRowInfo *info = segment->info[j];
+			if (!info)
+				continue;
+			if (colrow_equal (&collection->default_style, info)) {
+				colrow_free (info);
+				segment->info[j] = NULL;
+			} else
+				any = TRUE;
+		}
+
+		if (!any) {
+			g_free (segment);
+			COLROW_GET_SEGMENT (collection, i) = NULL;
+		}
+	}
+}
+
+void
+sheet_colrow_optimize (Sheet *sheet)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+
+	sheet_colrow_optimize1 (gnm_sheet_get_max_cols (sheet), &sheet->cols);
+	sheet_colrow_optimize1 (gnm_sheet_get_max_rows (sheet), &sheet->rows);
+}
+
 /**
  * sheet_col_get:
  *
