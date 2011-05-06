@@ -7,6 +7,7 @@ Andreas:
 	* Handle NUL characters in cvs import. [#648354]
 	* Fix some Statistics tool formatting. [#649092]
 	* Fix undo crash for column widths. [#649139]
+	* Indicate vararg functions in function browser. [#649484]
 
 Morten:
 	* Fix problems with localized function docs.

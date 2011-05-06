@@ -54,6 +54,8 @@
 #define FUNCTION_SELECT_PASTE_KEY "function-selector-dialog-paste-mode"
 #define FUNCTION_SELECT_DIALOG_KEY "function-selector-dialog"
 
+#define UNICODE_ELLIPSIS "\xe2\x80\xa6"
+
 typedef enum {
 	GURU_MODE = 0,
 	HELP_MODE,
@@ -681,6 +683,15 @@ make_expr_example (Sheet *sheet, const char *text, gboolean localized)
 #define ADD_TEXT_WITH_ARGS(text) { const char *t = text; while (*t) { const char *at = strstr (t, "@{"); \
 			if (at == NULL) { ADD_TEXT(t); break;} ADD_LTEXT(t, at - t); t = at + 2; at = strchr (t,'}'); \
 			if (at != NULL) { ADD_BOLD_TEXT(t, at - t); t = at + 1; } else {ADD_TEXT (t); break;}}}
+#define FINISH_ARGS if (seen_args && !args_finished) {\
+	gint min, max; \
+	function_def_count_args (func, &min, &max);\
+		if (max == G_MAXINT) {	\
+			ADD_BOLD_TEXT(UNICODE_ELLIPSIS, strlen(UNICODE_ELLIPSIS)); \
+			ADD_LTEXT("\n",1);				\
+			args_finished = TRUE;				\
+		}							\
+	}
 
 static void
 describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *sheet)
@@ -693,6 +704,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 		 "weight", PANGO_WEIGHT_BOLD,
 		 NULL);
 	gboolean seen_args = FALSE;
+	gboolean args_finished = FALSE;
 	gboolean seen_examples = FALSE;
 	gboolean seen_extref = FALSE;
 
@@ -731,6 +743,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 		}
 		case GNM_FUNC_HELP_DESCRIPTION: {
 			const char *text = F2 (func, help->text);
+			FINISH_ARGS;
 			ADD_TEXT ("\n");
 			ADD_TEXT_WITH_ARGS (text);
 			ADD_TEXT ("\n");
@@ -738,6 +751,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 		}
 		case GNM_FUNC_HELP_NOTE: {
 			const char *text = F2 (func, help->text);
+			FINISH_ARGS;
 			ADD_TEXT ("\n");
 			ADD_TEXT (_("Note: "));
 			ADD_TEXT_WITH_ARGS (text);
@@ -748,6 +762,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 			const char *text = F2 (func, help->text);
 			gboolean was_translated = (text != help->text);
 
+			FINISH_ARGS;
 			if (!seen_examples) {
 				seen_examples = TRUE;
 				ADD_TEXT ("\n");
@@ -771,6 +786,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 			GtkTextTag *link =
 				make_link (description, "LINK", NULL, NULL);
 
+			FINISH_ARGS;
 			ADD_TEXT ("\n");
 
 			while (*text) {
@@ -788,12 +804,14 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 			break;
 		}
 		case GNM_FUNC_HELP_END:
+			FINISH_ARGS;
 			return;
 		case GNM_FUNC_HELP_EXTREF: {
 			GtkTextTag *link;
 			char *uri, *tagname;
 			const char *text;
 
+			FINISH_ARGS;
 			/*
 			 * We put in just one link and let the web page handle
 			 * the rest.  In particular, we do not even look at
@@ -826,6 +844,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 		}
 		case GNM_FUNC_HELP_EXCEL: {
 			const char *text = F2 (func, help->text);
+			FINISH_ARGS;
 			ADD_TEXT ("\n");
 			ADD_TEXT (_("Microsoft Excel: "));
 			ADD_TEXT_WITH_ARGS (text);
@@ -834,6 +853,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 		}
 		case GNM_FUNC_HELP_ODF: {
 			const char *text = F2 (func, help->text);
+			FINISH_ARGS;
 			ADD_TEXT ("\n");
 			ADD_TEXT (_("ODF (OpenFormula): "));
 			ADD_TEXT_WITH_ARGS (text);
@@ -851,6 +871,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 #undef ADD_LTEXT
 #undef ADD_BOLD_TEXT
 #undef ADD_LINK_TEXT
+#undef FINISH_ARGS
 
 typedef struct {
 	GnmFunc    *fd;
