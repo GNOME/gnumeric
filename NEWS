@@ -8,6 +8,7 @@ Andreas:
 	* Fix some Statistics tool formatting. [#649092]
 	* Fix undo crash for column widths. [#649139]
 	* Indicate vararg functions in function browser and docs. [#649484]
+	* Fix handling of argument names in docs. [#649592]
 
 Morten:
 	* Fix problems with localized function docs.

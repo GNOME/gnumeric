@@ -53,7 +53,7 @@ sub markup_stuff($) {
 
 	$str = &quote_stuff ($str);
 	$str =~ s/\b$curfunc\b/<function>$curfunc<\/function>/g;
-	$str =~ s/\@\{(\w*)\}/<parameter>$1<\/parameter>/g;
+	$str =~ s/\@\{([^\}]*)\}/<parameter>$1<\/parameter>/g;
 	$str =~ s/\@(\w*)\b/<parameter>$1<\/parameter>/g;
 	return $str;
 }

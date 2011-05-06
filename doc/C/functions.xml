@@ -3521,7 +3521,7 @@
           <function>BESSELI</function>
         </refname>
         <refpurpose>
-        Modified Bessel function of the first kind of order @{α} at <parameter>x</parameter>
+        Modified Bessel function of the first kind of order <parameter>α</parameter> at <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -3530,15 +3530,15 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>X</parameter>: number</para>
-        <para>@{α}: order (any number)</para>
+        <para><parameter>α</parameter>: order (any number)</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>x</parameter> or @{α} are not numeric, #VALUE! is returned. If @{α} &lt; 0, #NUM! is returned.</para>
+        <para>If <parameter>x</parameter> or <parameter>α</parameter> are not numeric, #VALUE! is returned. If <parameter>α</parameter> &lt; 0, #NUM! is returned.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
-        <para>This function is Excel compatible if only integer orders @{α} are used.</para>
+        <para>This function is Excel compatible if only integer orders <parameter>α</parameter> are used.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -3559,7 +3559,7 @@
           <function>BESSELJ</function>
         </refname>
         <refpurpose>
-        Bessel function of the first kind of order @{α} at <parameter>x</parameter>
+        Bessel function of the first kind of order <parameter>α</parameter> at <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -3568,11 +3568,11 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>X</parameter>: number</para>
-        <para>@{α}: order (any non-negative integer)</para>
+        <para><parameter>α</parameter>: order (any non-negative integer)</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>x</parameter> or @{α} are not numeric, #VALUE! is returned. If @{α} &lt; 0, #NUM! is returned. If @{α} is not an integer, it is truncated.</para>
+        <para>If <parameter>x</parameter> or <parameter>α</parameter> are not numeric, #VALUE! is returned. If <parameter>α</parameter> &lt; 0, #NUM! is returned. If <parameter>α</parameter> is not an integer, it is truncated.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -3597,7 +3597,7 @@
           <function>BESSELK</function>
         </refname>
         <refpurpose>
-        Modified Bessel function of the second kind of order @{α} at <parameter>x</parameter>
+        Modified Bessel function of the second kind of order <parameter>α</parameter> at <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -3606,15 +3606,15 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>X</parameter>: number</para>
-        <para>@{α}: order (any number)</para>
+        <para><parameter>α</parameter>: order (any number)</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>x</parameter> or @{α} are not numeric, #VALUE! is returned. If @{α} &lt; 0, #NUM! is returned.</para>
+        <para>If <parameter>x</parameter> or <parameter>α</parameter> are not numeric, #VALUE! is returned. If <parameter>α</parameter> &lt; 0, #NUM! is returned.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
-        <para>This function is Excel compatible if only integer orders @{α} are used.</para>
+        <para>This function is Excel compatible if only integer orders <parameter>α</parameter> are used.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -3635,7 +3635,7 @@
           <function>BESSELY</function>
         </refname>
         <refpurpose>
-        Bessel function of the second kind of order @{α} at <parameter>x</parameter>
+        Bessel function of the second kind of order <parameter>α</parameter> at <parameter>x</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -3644,11 +3644,11 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>X</parameter>: number</para>
-        <para>@{α}: order (any non-negative integer)</para>
+        <para><parameter>α</parameter>: order (any non-negative integer)</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>x</parameter> or @{α} are not numeric, #VALUE! is returned. If @{α} &lt; 0, #NUM! is returned. If @{α} is not an integer, it is truncated.</para>
+        <para>If <parameter>x</parameter> or <parameter>α</parameter> are not numeric, #VALUE! is returned. If <parameter>α</parameter> &lt; 0, #NUM! is returned. If <parameter>α</parameter> is not an integer, it is truncated.</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -10343,7 +10343,7 @@
           <function>AVERAGEIF</function>
         </refname>
         <refpurpose>
-        average of the cells in @{actual range} for which the corresponding cells in the range meet the given <parameter>criteria</parameter>
+        average of the cells in <parameter>actual range</parameter> for which the corresponding cells in the range meet the given <parameter>criteria</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -13733,17 +13733,17 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>c</parameter>: parameter of the Lévy distribution</para>
-        <para>@{α}: parameter of the Lévy distribution</para>
-        <para>@{β}: parameter of the Lévy distribution, defaults to 0</para>
+        <para><parameter>α</parameter>: parameter of the Lévy distribution</para>
+        <para><parameter>β</parameter>: parameter of the Lévy distribution, defaults to 0</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>For @{α} = 1, @{β}=0, the Lévy distribution reduces to the Cauchy (or Lorentzian) distribution.</para>
-        <para>For @{α} = 2, @{β}=0, the Lévy distribution reduces to the normal distribution.</para>
+        <para>For <parameter>α</parameter> = 1, <parameter>β</parameter>=0, the Lévy distribution reduces to the Cauchy (or Lorentzian) distribution.</para>
+        <para>For <parameter>α</parameter> = 2, <parameter>β</parameter>=0, the Lévy distribution reduces to the normal distribution.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If @{α} ≤ 0 or @{α} &gt; 2, <function>RANDLEVY</function> returns #NUM! If @{β} &lt; -1 or @{β} &gt; 1, <function>RANDLEVY</function> returns #NUM!</para>
+        <para>If <parameter>α</parameter> ≤ 0 or <parameter>α</parameter> &gt; 2, <function>RANDLEVY</function> returns #NUM! If <parameter>β</parameter> &lt; -1 or <parameter>β</parameter> &gt; 1, <function>RANDLEVY</function> returns #NUM!</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -13828,12 +13828,12 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para>@{ζ}: parameter of the lognormal distribution</para>
-        <para>@{σ}: standard deviation of the distribution</para>
+        <para><parameter>ζ</parameter>: parameter of the lognormal distribution</para>
+        <para><parameter>σ</parameter>: standard deviation of the distribution</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If @{σ} &lt; 0, <function>RANDLOGNORM</function> returns #NUM!</para>
+        <para>If <parameter>σ</parameter> &lt; 0, <function>RANDLOGNORM</function> returns #NUM!</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -13893,12 +13893,12 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para>@{μ}: mean of the distribution</para>
-        <para>@{σ}: standard deviation of the distribution</para>
+        <para><parameter>μ</parameter>: mean of the distribution</para>
+        <para><parameter>σ</parameter>: standard deviation of the distribution</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If @{σ} &lt; 0, <function>RANDNORM</function> returns #NUM!</para>
+        <para>If <parameter>σ</parameter> &lt; 0, <function>RANDNORM</function> returns #NUM!</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -13926,7 +13926,7 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>a</parameter>: lower limit of the tail</para>
-        <para>@{σ}: standard deviation of the normal distribution</para>
+        <para><parameter>σ</parameter>: standard deviation of the normal distribution</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -13985,11 +13985,11 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para>@{λ}: parameter of the Poisson distribution</para>
+        <para><parameter>λ</parameter>: parameter of the Poisson distribution</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If @{λ} &lt; 0 <function>RANDPOISSON</function> returns #NUM!</para>
+        <para>If <parameter>λ</parameter> &lt; 0 <function>RANDPOISSON</function> returns #NUM!</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -14017,7 +14017,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para>@{σ}: scale parameter of the Rayleigh distribution</para>
+        <para><parameter>σ</parameter>: scale parameter of the Rayleigh distribution</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -14045,7 +14045,7 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>a</parameter>: lower limit of the tail</para>
-        <para>@{σ}: scale parameter of the Rayleigh distribution</para>
+        <para><parameter>σ</parameter>: scale parameter of the Rayleigh distribution</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -14074,12 +14074,12 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>a</parameter>: amount of skew, defaults to 0</para>
-        <para>@{μ}: mean of the underlying normal distribution, defaults to 0</para>
-        <para>@{σ}: standard deviation of the underlying normal distribution, defaults to 1</para>
+        <para><parameter>μ</parameter>: mean of the underlying normal distribution, defaults to 0</para>
+        <para><parameter>σ</parameter>: standard deviation of the underlying normal distribution, defaults to 1</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If @{σ} &lt; 0, <function>RANDSNORM</function> returns #NUM!</para>
+        <para>If <parameter>σ</parameter> &lt; 0, <function>RANDSNORM</function> returns #NUM!</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
