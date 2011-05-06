@@ -81,6 +81,12 @@ gnumeric.pdf:
 		-P imagedata.default.scale='scale=600' \
 		-o gnumeric.tex $(srcdir)/gnumeric.xml
 	sed -i -e 's/\xE2\xA8\x89/\\times{}/' gnumeric.tex
+	sed -i -e 's/\\begin{verbatim}\([^_]*\)\\end{verbatim}/\\texttt{\1}/g' gnumeric.tex
+	sed -i -e 's/\\texttt{\\emph{\\small{\(.*\)}}}:/\\texttt{\\emph{\1}}:/g' gnumeric.tex
+	sed -i -e 's/ *>{} */\\ensuremath{{}>{}}/g' gnumeric.tex
+	sed -i -e 's/ *<{} */\\ensuremath{{}<{}}/g' gnumeric.tex
+	sed -i -e "s/L.vy/L\\\\'evy/g" gnumeric.tex
+	sed -i -e 's/\\makeglossary/\\makeglossary\n\\setlength{\\headheight}{36pt}/g' gnumeric.tex
 	env TEXMFCNF=$(srcdir): \
 		TEXINPUTS=$(srcdir):/usr/share/texmf/tex/context/dbcontext/style: \
 		texexec --pdf --mode=A4 --verbose gnumeric.tex
@@ -94,6 +100,12 @@ gnumeric.pdf:
 		-P latex.output.revhistory=0 \
 		-o gnumeric.tex $(srcdir)/gnumeric.xml
 	sed -i -e 's/\xE2\xA8\x89/\\times{}/' gnumeric.tex
+	sed -i -e 's/\\begin{verbatim}\([^_]*\)\\end{verbatim}/\\texttt{\1}/g' gnumeric.tex
+	sed -i -e 's/\texttt{\emph{\small{\(.*\)}}}:/\texttt{\emph{\1}}:/g' gnumeric.tex
+	sed -i -e 's/ *>{} */\\ensuremath{{}>{}}/g' gnumeric.tex
+	sed -i -e 's/ *<{} */\\ensuremath{{}<{}}/g' gnumeric.tex
+	sed -i -e "s/L.vy/L\\\\'evy/g" gnumeric.tex
+	sed -i -e 's/\\makeglossary/\\makeglossary\n\\setlength{\\headheight}{36pt}/g' gnumeric.tex
 	for runs in $$(seq 1 4); do \
 		env TEXINPUTS=$(srcdir): \
 			pdflatex -interaction nonstopmode gnumeric.tex ; \

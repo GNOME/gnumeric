@@ -1,5 +1,9 @@
 2011-05-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-doc.make: some fine-tuning. Fixes #649591
+
+2011-05-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* make-func-list.pl
 
 2011-03-24  Morten Welinder <terra@gnome.org>
