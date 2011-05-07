@@ -1,5 +1,9 @@
 2011-05-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-statistical.xml: minor correction
+
+2011-05-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* textdefs.tex: new
 	* files-textopen.xml: avoid unknown glyphs
 

@@ -2821,7 +2821,7 @@
      the one-tailed probability for the F-value, and the F Critical
      value for one-tailed test and the corresponding values for a two 
      tailed test. The one-tailed probability for the
-     F-value (<quote><guilabel>P(F&lt;=f) one-tail</guilabel></quote> row) is the probability of making a
+     F-value (<quote><inlineequation><mathphrase>P(F≤f)</mathphrase></inlineequation> one-tail</quote> row) is the probability of making a
      Type I error in the one-tailed test. Similarly, the two-tailed 
      probability for the F-value (<quote><guilabel>P two-tail</guilabel></quote> row)
      is the probability of making a Type I error in the two-tailed test.
