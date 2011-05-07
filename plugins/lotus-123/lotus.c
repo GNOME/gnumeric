@@ -848,7 +848,7 @@ record_next (record_t *r)
 		gsf_mem_dump (r->data, r->len);
 #endif
 
-	return (r->data != NULL);
+	return TRUE;
 }
 
 /* ------------------------------------------------------------------------- */

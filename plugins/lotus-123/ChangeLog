@@ -1,3 +1,7 @@
+2011-05-07  Morten Welinder  <terra@gnome.org>
+
+	* lotus.c (record_next): Lack of data in a record is not an error.
+
 2011-05-07  Andreas J Guelzow  <aguelzow@pyrshep.ca>
 
 	* lotus-formula.c (functions): rename to functions_lotus
