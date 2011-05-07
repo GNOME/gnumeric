@@ -1,3 +1,8 @@
+2011-05-07  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_colrow_optimize1): Take sheet extent into
+	account.
+
 2011-05-06  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_colrow_optimize): New function.

@@ -3420,11 +3420,14 @@ sheet_colrow_get_default (Sheet const *sheet, gboolean is_cols)
 }
 
 static void
-sheet_colrow_optimize1 (int max, ColRowCollection *collection)
+sheet_colrow_optimize1 (int max, int max_used, ColRowCollection *collection)
 {
 	int i;
+	int first_unused = max_used + 1;
 
-	for (i = 0; i < max; i += COLROW_SEGMENT_SIZE) {
+	for (i = COLROW_SEGMENT_START (first_unused);
+	     i < max;
+	     i += COLROW_SEGMENT_SIZE) {
 		ColRowSegment *segment = COLROW_GET_SEGMENT (collection, i);
 		int j;
 		gboolean any = FALSE;
@@ -3435,11 +3438,14 @@ sheet_colrow_optimize1 (int max, ColRowCollection *collection)
 			ColRowInfo *info = segment->info[j];
 			if (!info)
 				continue;
-			if (colrow_equal (&collection->default_style, info)) {
+			if (i + j >= first_unused &&
+			    colrow_equal (&collection->default_style, info)) {
 				colrow_free (info);
 				segment->info[j] = NULL;
-			} else
+			} else {
 				any = TRUE;
+				max_used = i + j;
+			}
 		}
 
 		if (!any) {
@@ -3447,15 +3453,25 @@ sheet_colrow_optimize1 (int max, ColRowCollection *collection)
 			COLROW_GET_SEGMENT (collection, i) = NULL;
 		}
 	}
+
+	collection->max_used = max_used;
 }
 
 void
 sheet_colrow_optimize (Sheet *sheet)
 {
+	GnmRange extent;
+
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_colrow_optimize1 (gnm_sheet_get_max_cols (sheet), &sheet->cols);
-	sheet_colrow_optimize1 (gnm_sheet_get_max_rows (sheet), &sheet->rows);
+	extent = sheet_get_extent (sheet, TRUE);
+
+	sheet_colrow_optimize1 (gnm_sheet_get_max_cols (sheet),
+				extent.end.col,
+				&sheet->cols);
+	sheet_colrow_optimize1 (gnm_sheet_get_max_rows (sheet),
+				extent.end.row,
+				&sheet->rows);
 }
 
 /**
