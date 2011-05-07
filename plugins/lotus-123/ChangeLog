@@ -1,3 +1,16 @@
+2011-05-07  Andreas J Guelzow  <aguelzow@pyrshep.ca>
+
+	* lotus-formula.c (functions): rename to functions_lotus
+	(functions_works): new
+	(make_function): add argument, cahnge all callers and
+	also handle MS Works
+	(lotus_formula_init): handle both functions_lotus and
+	functions_works
+	(lotus_formula_shutdown): ditto
+	* lotus.h (LotusState): add is_works field
+	* lotus.c (lotus_read): initialize is_works field
+	(lotus_read_works): suppress warning
+
 2011-05-05  Andreas J Guelzow  <aguelzow@pyrshep.ca>
 
 	* lotus-formula.c (functions): add SHEETS and 2 comments

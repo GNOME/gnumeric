@@ -1967,6 +1967,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			switch (subtype) {
 			case 0xfa1: CHECK_RECORD_SIZE (>= 24) {
 				/* Text style.  */
+#if 0
 				guint16 styleid = GSF_LE_GET_GUINT16 (r->data + 2);
 				guint8 fontid = GSF_LE_GET_GUINT8 (r->data + 9);
 				guint16 fontsize = GSF_LE_GET_GUINT16 (r->data + 10);
@@ -1977,6 +1978,7 @@ lotus_read_new (LotusState *state, record_t *r)
 				guint8 halign = GSF_LE_GET_GUINT8 (r->data + 20);
 				guint8 valign = GSF_LE_GET_GUINT8 (r->data + 21);
 				guint16 angle = GSF_LE_GET_GUINT16 (r->data + 22);
+#endif
 
 #if 0
 				g_print ("Saw text style %d with fontid %d.\n", styleid, fontid);
@@ -1991,15 +1993,22 @@ lotus_read_new (LotusState *state, record_t *r)
 
 				/* Cell style.  */
 				guint16 styleid = GSF_LE_GET_GUINT16 (r->data + 2);
+#if 0
 				guint8 fontid = GSF_LE_GET_GUINT8 (r->data + 9);
+#endif
 				guint16 fontsize = GSF_LE_GET_GUINT16 (r->data + 10);
 				guint16 textfg = GSF_LE_GET_GUINT16 (r->data + 12);
+#if 0
 				guint16 textbg = GSF_LE_GET_GUINT16 (r->data + 14);
+#endif
 				guint16 facebits = GSF_LE_GET_GUINT16 (r->data + 16);
 				guint16 facemask = GSF_LE_GET_GUINT16 (r->data + 18);
+
+#if 0
 				guint8 halign = GSF_LE_GET_GUINT8 (r->data + 20);
 				guint8 valign = GSF_LE_GET_GUINT8 (r->data + 21);
 				guint16 angle = GSF_LE_GET_GUINT16 (r->data + 22);
+#endif
 				guint16 intfg = GSF_LE_GET_GUINT16 (r->data + 24);
 				guint16 intbg = GSF_LE_GET_GUINT16 (r->data + 26);
 				guint8 intpat = GSF_LE_GET_GUINT8 (r->data + 28);
@@ -2376,10 +2385,12 @@ lotus_read (LotusState *state)
 
 	if (!record_next (&r)) return FALSE;
 
+	state->version = GSF_LE_GET_GUINT16 (r.data);
+
 	if (r.type == LOTUS_BOF) {
-		state->version = GSF_LE_GET_GUINT16 (r.data);
+		state->is_works = FALSE;
 #if LOTUS_DEBUG > 0
-		g_print ("Version=%x\n", state->version);
+		g_print ("Version=%x, Lotus\n", state->version);
 #endif
 		switch (state->version) {
 		case LOTUS_VERSION_ORIG_123:
@@ -2397,9 +2408,9 @@ lotus_read (LotusState *state)
 			return lotus_read_new (state, &r);
 		}
 	} else if (r.type == WORKS_BOF) {
-		state->version = GSF_LE_GET_GUINT16 (r.data);
+		state->is_works = TRUE;
 #if LOTUS_DEBUG > 0
-		g_print ("Version=%x\n", state->version);
+		g_print ("Version=%x, MS Works\n", state->version);
 #endif
 		if (state->version == WORKS_VERSION_3)
 			return lotus_read_works (state, &r);
@@ -2670,7 +2681,9 @@ lotus_read_works (LotusState *state, record_t *r)
 		case WORKS_SMALL_FLOAT: CHECK_RECORD_SIZE (>= 6) {
 			int row = GSF_LE_GET_GUINT16 (r->data + 2);
 			int col = r->data[0];
+#if 0
 			int fmt = GSF_LE_GET_GUINT16 (r->data + 4);
+#endif
 			guint32 raw = GSF_LE_GET_GUINT32 (r->data + 6);
 			char flag = raw & 1;
 			float x;
@@ -2838,7 +2851,7 @@ lotus_read_works (LotusState *state, record_t *r)
 					gnm_style_set_font_name(style, font->typeface);
 
 				g_hash_table_insert (state->works_style_font,
-						     GUINT_TO_POINTER(styleid),
+						     GUINT_TO_POINTER((guint)styleid),
 						     font);
 			}
 

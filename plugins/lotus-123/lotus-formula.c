@@ -51,7 +51,7 @@ static int wk1_find_func   (GnmExprList **stack, LFuncInfo const *func, guint8 c
 static int wk1_fin_func    (GnmExprList **stack, LFuncInfo const *func, guint8 const *data, const GnmParsePos *orig);
 static int wk1_rate_func   (GnmExprList **stack, LFuncInfo const *func, guint8 const *data, const GnmParsePos *orig);
 
-static const LFuncInfo functions[] = {
+static const LFuncInfo functions_lotus[] = {
 	{  0,  0x1F, "NA",	     "NA",	     wk1_std_func },
 	{  1,  0x20, "ERR",	     NULL,	     wk1_std_func },
 	{  1,  0x21, "ABS",	     "ABS",	     wk1_std_func },
@@ -229,7 +229,113 @@ static const LFuncInfo functions[] = {
 };
 
 static GHashTable *lotus_funcname_to_info;
-static const LFuncInfo *lotus_ordinal_to_info[0x11A];
+#define LOTUS_MAX_ORDINAL 0x119
+static const LFuncInfo *lotus_ordinal_to_info[1 + LOTUS_MAX_ORDINAL] = {NULL};
+
+static const LFuncInfo functions_works[] = {
+	{  0,  0x1F, "NA",	     "NA",	     wk1_std_func },
+	{  1,  0x20, "ERR",	     NULL,	     wk1_std_func },
+	{  1,  0x21, "ABS",	     "ABS",	     wk1_std_func },
+	{  1,  0x22, "INT",	     "TRUNC",	     wk1_std_func },
+	{  1,  0x23, "SQRT",	     "SQRT",	     wk1_std_func },
+	{  1,  0x24, "LOG",	     "LOG",	     wk1_std_func },
+	{  1,  0x25, "LN",	     "LN",	     wk1_std_func },
+	{  0,  0x26, "PI",	     "PI",	     wk1_std_func },
+	{  1,  0x27, "SIN",	     "SIN",	     wk1_std_func },
+	{  1,  0x28, "COS",	     "COS",	     wk1_std_func },
+	{  1,  0x29, "TAN",	     "TAN",	     wk1_std_func },
+	{  2,  0x2A, "ATAN2",	     "ATAN2",	     wk1_std_func },
+	{  1,  0x2B, "ATAN",	     "ATAN",	     wk1_std_func },
+	{  1,  0x2C, "ASIN",	     "ASIN",	     wk1_std_func },
+	{  1,  0x2D, "ACOS",	     "ACOS",	     wk1_std_func },
+	{  1,  0x2E, "EXP",	     "EXP",	     wk1_std_func },
+	{  2,  0x2F, "MOD",	     "MOD",	     wk1_std_func },
+	{ -1,  0x30, "CHOOSE",	     "CHOOSE",	     wk1_std_func },
+	{  1,  0x31, "ISNA",	     "ISNA",	     wk1_std_func },
+	{  1,  0x32, "ISERR",	     "ISERR",	     wk1_std_func },
+	{  0,  0x33, "FALSE",	     "FALSE",	     wk1_std_func },
+	{  0,  0x34, "TRUE",	     "TRUE",	     wk1_std_func },
+	{  0,  0x35, "RAND",	     "RAND",	     wk1_std_func },
+	{  3,  0x36, "DATE",	     "DATE",	     wk1_std_func },
+	{  0,  0x37, "TODAY",	     "TODAY",	     wk1_std_func },
+	{  3,  0x38, "PMT",	     "PMT",	     wk1_fin_func },
+	{  3,  0x39, "PV",	     "PV",	     wk1_fin_func },
+	{  3,  0x3A, "FV",	     "FV",	     wk1_fin_func },
+	{  3,  0x3B, "IF",	     "IF",	     wk1_std_func },
+	{  1,  0x3C, "DAY",	     "DAY",	     wk1_std_func },
+	{  1,  0x3D, "MONTH",	     "MONTH",	     wk1_std_func },
+	{  1,  0x3E, "YEAR",	     "YEAR",	     wk1_year_func },
+	{  2,  0x3F, "ROUND",	     "ROUND",	     wk1_std_func },
+	{  3,  0x40, "TIME",	     "TIME",	     wk1_std_func },
+	{  1,  0x41, "HOUR",	     "HOUR",	     wk1_std_func },
+	{  1,  0x42, "MINUTE",	     "MINUTE",	     wk1_std_func },
+	{  1,  0x43, "SECOND",	     "SECOND",	     wk1_std_func },
+	{  1,  0x44, "ISNUMBER",     "ISNONTEXT",    wk1_std_func },
+	{  1,  0x45, "ISSTRING",     "ISTEXT",	     wk1_std_func },
+	{  1,  0x46, "LENGTH",	     "LEN",	     wk1_std_func },
+	{  1,  0x47, "VALUE",	     "VALUE",	     wk1_std_func },
+	{  2,  0x48, "STRING",	     "FIXED",	     wk1_std_func },
+	{  3,  0x49, "MID",	     "MID",	     wk1_std_func },
+	{  1,  0x4A, "CHAR",	     "CHAR",	     wk1_std_func },
+	{  1,  0x4B, "CODE",	     "CODE",	     wk1_std_func },
+	{  3,  0x4C, "FIND",	     "FIND",	     wk1_find_func },
+	{  1,  0x4D, "DATEVALUE",    "DATEVALUE",    wk1_std_func },
+	{  1,  0x4E, "TIMEVALUE",    "TIMEVALUE",    wk1_std_func },
+	{  1,  0x4F, "CELLPOINTER",  NULL,	     wk1_std_func },
+	{ -1,  0x50, "SUM",	     "SUM",	     wk1_std_func },
+	{ -1,  0x51, "AVG",	     "AVERAGEA",     wk1_std_func },
+	{ -1,  0x52, "COUNT",	     "COUNTA",	     wk1_std_func },
+	{ -1,  0x53, "MIN",	     "MINA",	     wk1_std_func },
+	{ -1,  0x54, "MAX",	     "MAXA",	     wk1_std_func },
+	{  3,  0x55, "VLOOKUP",	     "VLOOKUP",	     wk1_std_func },
+	{  2,  0x56, "NPV",	     "NPV",	     wk1_std_func },
+	{ -1,  0x57, "VAR",	     "VARPA",	     wk1_std_func },
+	{ -1,  0x58, "STD",	     "STDEVPA",	     wk1_std_func },
+	{  2,  0x59, "IRR",	     "IRR",	     wk1_fin_func },
+	{  3,  0x5A, "HLOOKUP",	     "HLOOKUP",	     wk1_std_func },
+	{ -2,  0x5B, "DSUM",	     "DSUM",	     wk1_std_func },
+	{ -2,  0x5C, "DAVG",	     "DAVERAGE",     wk1_std_func },
+	{ -2,  0x5D, "DCNT",	     "DCOUNTA",	     wk1_std_func },
+	{ -2,  0x5E, "DMIN",	     "DMIN",	     wk1_std_func },
+	{ -2,  0x5F, "DMAX",	     "DMAX",	     wk1_std_func },
+	{ -2,  0x60, "DVAR",	     "DVARP",	     wk1_std_func },
+	{ -2,  0x61, "DSTD",	     "DSTDEVP",	     wk1_std_func },
+	{ -3,  0x62, "INDEX",	     "INDEX",	     wk1_std_func },
+	{  1,  0x63, "COLS",	     "COLUMNS",	     wk1_std_func },
+	{  1,  0x64, "ROWS",	     "ROWS",	     wk1_std_func },
+	{  2,  0x65, "REPEAT",	     "REPT",	     wk1_std_func },
+	{  1,  0x66, "UPPER",	     "UPPER",	     wk1_std_func },
+	{  1,  0x67, "LOWER",	     "LOWER",	     wk1_std_func },
+	{  2,  0x68, "LEFT",	     "LEFT",	     wk1_std_func },
+	{  2,  0x69, "RIGHT",	     "RIGHT",	     wk1_std_func },
+	{  4,  0x6A, "REPLACE",	     "REPLACE",	     wk1_std_func },
+	{  1,  0x6B, "PROPER",	     "PROPER",	     wk1_std_func },
+	{  2,  0x6C, "CELL",	     "CELL",	     wk1_std_func },
+	{  1,  0x6D, "TRIM",	     "TRIM",	     wk1_std_func },
+	{  1,  0x6E, "CLEAN",	     "CLEAN",	     wk1_std_func },
+	{  1,  0x6F, "S",	     "T",	     wk1_std_func },
+	{  1,  0x70, "N",	     "N",	     wk1_std_func },
+	{  2,  0x71, "EXACT",	     "EXACT",	     wk1_std_func },
+	{  1,  0x72, "APP",	     NULL,	     wk1_std_func },
+	{  1,  0x73, "@",	     "INDIRECT",     wk1_std_func },
+	{  3,  0x74, "RATE",	     "RATE",	     wk1_rate_func },
+	{  3,  0x75, "TERM",	     NULL,	     wk1_std_func },
+	/* TERM ($1,$2,$3) is NPER ($2,$1,0,$3) */
+	{  3,  0x76, "CTERM",	     NULL,	     wk1_nper_func },
+	/* CTERM ($1,$2,$3) is NPER ($1,0,$3,$2) */
+	{  3,  0x77, "SLN",	     "SLN",	     wk1_std_func },
+	{  4,  0x78, "SYD",	     "SYD",	     wk1_std_func },
+	{  4,  0x79, "DDB",	     "DDB",	     wk1_std_func },
+	/* 0x7A is SPLFUNC which needs special handling */
+
+	/* This is obviously incomplete */
+	{  -1,  0x8D, "AND",	     "AND",	     wk1_std_func },
+	{  -1,  0x8E, "OR",	     "OR",	     wk1_std_func }
+};
+
+static GHashTable *works_funcname_to_info;
+#define WORKS_MAX_ORDINAL 0x8E
+static const LFuncInfo *works_ordinal_to_info[1 + WORKS_MAX_ORDINAL] = {NULL};
 
 
 static void
@@ -393,10 +499,18 @@ wk1_rate_func (GnmExprList **stack, LFuncInfo const *func,
 }
 
 static gint32
-make_function (GnmExprList **stack, guint8 const *data, const GnmParsePos *orig)
+make_function (LotusState *state, GnmExprList **stack, guint8 const *data, const GnmParsePos *orig)
 {
 	/* This is ok as we have more than 256 entries.  */
-	LFuncInfo const *f = lotus_ordinal_to_info[*data];
+	LFuncInfo const *f = NULL;
+
+	if (state->is_works) {
+		if (*data <= WORKS_MAX_ORDINAL)
+			f = works_ordinal_to_info[*data];
+	} else {
+		if (*data <= LOTUS_MAX_ORDINAL)
+			f = lotus_ordinal_to_info[*data];		
+	}
 
 	if (f == NULL) {
 		g_warning ("%s: unknown PTG 0x%x",
@@ -566,7 +680,7 @@ lotus_parse_formula_old (LotusState *state, GnmParsePos *orig,
 		case 0x18: HANDLE_BINARY (GNM_EXPR_OP_CAT);
 
 		default:
-			i += make_function (&stack, data + i, orig);
+			i += make_function (state, &stack, data + i, orig);
 		}
 	}
 
@@ -747,7 +861,9 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 				if (!g_ascii_isalnum (p[-1]))
 					break;
 
-			f = g_hash_table_lookup (lotus_funcname_to_info, p);
+			f = g_hash_table_lookup ((state->is_works) ? 
+						 works_funcname_to_info
+						 : lotus_funcname_to_info, p);
 			handle_named_func (&stack, orig,
 					   f ? f->gnumeric_name : "",
 					   p,
@@ -759,7 +875,7 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 		}
 
 		default:
-			i += make_function (&stack, data + i, orig);
+			i += make_function (state, &stack, data + i, orig);
 		}
 	}
 
@@ -808,8 +924,8 @@ lotus_formula_init (void)
 
 	lotus_funcname_to_info = g_hash_table_new (g_str_hash, g_str_equal);
 
-	for (i = 0; i < G_N_ELEMENTS (functions); i++) {
-		const LFuncInfo *f = functions + i;
+	for (i = 0; i < G_N_ELEMENTS (functions_lotus); i++) {
+		const LFuncInfo *f = functions_lotus + i;
 #if 1
 		g_assert (f->ordinal < G_N_ELEMENTS (lotus_ordinal_to_info));
 		if (f->gnumeric_name &&
@@ -819,16 +935,39 @@ lotus_formula_init (void)
 				 f->gnumeric_name);
 		}
 #endif
-
-		lotus_ordinal_to_info[f->ordinal] = f;
+		if (f->ordinal <= LOTUS_MAX_ORDINAL)
+			lotus_ordinal_to_info[f->ordinal] = f;
 		g_hash_table_insert (lotus_funcname_to_info,
 				     (gpointer)f->lotus_name,
 				     (gpointer)f);
 	}
+
+	works_funcname_to_info = g_hash_table_new (g_str_hash, g_str_equal);
+
+	for (i = 0; i < G_N_ELEMENTS (functions_works); i++) {
+		const LFuncInfo *f = functions_works + i;
+#if 1
+		g_assert (f->ordinal < G_N_ELEMENTS (lotus_ordinal_to_info));
+		if (f->gnumeric_name &&
+		    !gnm_func_lookup (f->gnumeric_name, NULL)) {
+			g_print ("Works function @%s maps to unknown function %s.\n",
+				 f->lotus_name,
+				 f->gnumeric_name);
+		}
+#endif
+
+		if (f->ordinal <= WORKS_MAX_ORDINAL)
+			works_ordinal_to_info[f->ordinal] = f;
+		g_hash_table_insert (works_funcname_to_info,
+				     (gpointer)f->lotus_name,
+				     (gpointer)f);
+	}
+
 }
 
 void
 lotus_formula_shutdown (void)
 {
 	g_hash_table_destroy (lotus_funcname_to_info);
+	g_hash_table_destroy (works_funcname_to_info);
 }
