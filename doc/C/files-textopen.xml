@@ -258,7 +258,7 @@
       "&#xE5;&#xD5;&#xDB;&#xDB;&#xDE;", or may be characters for which
       a graphical representation (a glyph) does not exist in the font
       being used and is therefore displayed using a small box with
-      four numbers inside, such as &#x0080; and &#x0082;. Each of
+      four numbers inside. Each of
       these errors indicates that the encoding scheme used to read the
       file was not the same encoding scheme as was used to create the
       file. The difficulty is then to determine what encoding scheme
