@@ -1075,6 +1075,8 @@ compute_pages (GtkPrintOperation *operation,
 	guint ct;
 
 	switch (pr) {
+	case PRINT_SAVED_INFO:
+		/* This should never happen. */
 	case PRINT_ACTIVE_SHEET:
 		compute_sheet_pages_add_sheet (pi, pi->sheet, FALSE, FALSE);
 		break;
@@ -1587,6 +1589,10 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	gchar *tmp_file_name = NULL;
 	int tmp_file_fd = -1;
 	gboolean preview_via_pdf = FALSE;
+	PrintRange pr_translator[] = {PRINT_ACTIVE_SHEET, PRINT_ALL_SHEETS,
+				      PRINT_ALL_SHEETS, PRINT_ACTIVE_SHEET,
+				      PRINT_SHEET_SELECTION, PRINT_ACTIVE_SHEET,
+				      PRINT_SHEET_SELECTION_IGNORE_PRINTAREA};
 
 #ifdef PREVIEW_VIA_PDF
 	preview_via_pdf = preview;
@@ -1603,6 +1609,16 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	pi->sheet = sheet;
 
 	settings = gnm_conf_get_print_settings ();
+	if (default_range == PRINT_SAVED_INFO) {
+		gint dr = gtk_print_settings_get_int_with_default
+			(settings,
+			 GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY,
+			 PRINT_ACTIVE_SHEET);
+		if (dr < 0 || dr >= (gint)G_N_ELEMENTS (pr_translator))
+			default_range = PRINT_ACTIVE_SHEET;
+		else 
+			default_range = pr_translator[dr];
+	}
 	gtk_print_settings_set_int (settings,
 				    GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY,
 				    default_range);

@@ -2612,7 +2612,7 @@ cb_do_print (PrinterSetupState *state)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 
 	cb_do_print_ok (state);
-	gnm_print_sheet (wbc, sheet, FALSE, PRINT_ACTIVE_SHEET, NULL);
+	gnm_print_sheet (wbc, sheet, FALSE, PRINT_SAVED_INFO, NULL);
 }
 
 static void

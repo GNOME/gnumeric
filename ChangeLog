@@ -1,3 +1,13 @@
+2011-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/auto-format.c (do_af_suggest_list): use GNM_*_KILL_SWITCH_WARNING
+	* src/print.c (compute_pages): handle PRINT_SAVED_INFO
+	(gnm_print_sheet): ditto
+	* src/print.h (PrintRange): Since we are saving those numbers we
+	need to fix them. Add PRINT_SAVED_INFO = -1.
+	* src/wbc-gtk-actions.c (cb_file_print): don't force active sheet
+	printing
+
 2011-05-07  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_colrow_optimize1): Take sheet extent into

@@ -14,6 +14,7 @@
 #include "gnumeric.h"
 #include "auto-format.h"
 
+#include "compilation.h"
 #include "func.h"
 #include "cell.h"
 #include "value.h"
@@ -247,6 +248,8 @@ do_af_suggest_list (int argc, GnmExprConstPtr const *argv,
 
 /* ------------------------------------------------------------------------- */
 
+GNM_BEGIN_KILL_SWITCH_WARNING
+
 GOFormat const *
 auto_style_format_suggest (GnmExprTop const *texpr, GnmEvalPos const *epos)
 {
@@ -288,3 +291,5 @@ auto_style_format_suggest (GnmExprTop const *texpr, GnmEvalPos const *epos)
 
 	return explicit;
 }
+
+GNM_END_KILL_SWITCH_WARNING

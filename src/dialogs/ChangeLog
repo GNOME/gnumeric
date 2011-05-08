@@ -1,3 +1,8 @@
+2011-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-printer-setup.c (cb_do_print): do not force active sheet
+	printing
+
 2011-05-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-function-select.c (describe_new_style): indicate varargs
