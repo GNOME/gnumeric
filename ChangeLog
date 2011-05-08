@@ -1,5 +1,10 @@
 2011-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print.c (gnm_print_uri_change_extension): new
+	(gnm_print_sheet): set GTK_PRINT_SETTINGS_OUTPUT_URI
+
+2011-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/auto-format.c (do_af_suggest_list): use GNM_*_KILL_SWITCH_WARNING
 	* src/print.c (compute_pages): handle PRINT_SAVED_INFO
 	(gnm_print_sheet): ditto

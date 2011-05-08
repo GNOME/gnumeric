@@ -1574,6 +1574,31 @@ cb_delete_and_free (char *tmp_file_name)
 	}
 }
 
+static gchar *
+gnm_print_uri_change_extension (char const *uri, GtkPrintSettings* settings)
+{
+	const gchar *ext = gtk_print_settings_get
+		(settings,
+		 GTK_PRINT_SETTINGS_OUTPUT_FILE_FORMAT);
+	gchar *base;
+	gchar *used_ext;
+	gint strip;
+	gchar *res;
+	gint uri_len = strlen(uri);
+
+	g_return_val_if_fail (ext != NULL, NULL);
+	
+	base     = g_path_get_basename (uri);
+	used_ext = strrchr (base, '.');
+	if (used_ext == NULL)
+		return g_strconcat (uri, ".", ext, NULL);
+	strip = strlen (base) - (used_ext - base);
+	res = g_strndup (uri, uri_len - strip + 1 + strlen (ext));
+	res[uri_len - strip] = '.';
+	strcpy (res + uri_len - strip + 1, ext);
+	return res;
+}
+
 void
 gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 		 gboolean preview, PrintRange default_range,
@@ -1593,6 +1618,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 				      PRINT_ALL_SHEETS, PRINT_ACTIVE_SHEET,
 				      PRINT_SHEET_SELECTION, PRINT_ACTIVE_SHEET,
 				      PRINT_SHEET_SELECTION_IGNORE_PRINTAREA};
+	GODoc *doc = wb_control_get_doc (wbc);
 
 #ifdef PREVIEW_VIA_PDF
 	preview_via_pdf = preview;
@@ -1625,6 +1651,20 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	pi->pr = default_range;
 	gtk_print_settings_set_use_color (settings,
 					  !sheet->print_info->print_black_and_white);
+
+	/* We should be setting the output file name to somethig reasonable */
+	if (doc->uri != NULL 
+	    && g_ascii_strncasecmp (doc->uri, "file:///", 8) == 0) {
+		gchar *output_uri 
+			= gnm_print_uri_change_extension (doc->uri, settings);
+		if (output_uri != NULL) {
+			gtk_print_settings_set (settings, 
+						GTK_PRINT_SETTINGS_OUTPUT_URI,
+						output_uri);
+			g_free (output_uri);
+		}
+	}
+
 	gtk_print_operation_set_print_settings (print, settings);
 	g_object_unref (settings);
 
