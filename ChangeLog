@@ -1,5 +1,14 @@
 2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric.xsd: add xs:element name="print-to-uri"
+	* src/print-info.h (print_info_set_printtofile_uri): new
+	* src/print-info.c (print_info_set_printtofile_uri): new
+	(print_info_set_printtofile_from_settings): use above
+	* src/xml-sax-read.c (xml_sax_print_to_uri): new
+	* src/xml-sax-write.c (xml_write_print_info): write print-to-uri
+
+2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/print-info.h (_PrintInformation): new field printtofile_uri
 	(print_info_set_printtofile_from_settings): new
 	(print_info_get_printtofile_uri): new

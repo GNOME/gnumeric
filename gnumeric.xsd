@@ -329,7 +329,7 @@
 	            <xs:attribute name="value" type="xs:boolean" use="required"/>
 	        </xs:complexType>
 	    </xs:element>
-
+            <xs:element name="print-to-uri" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="vPageBreaks" type="gnm:PageBreaks" minOccurs="0" maxOccurs="1"/><!-- between rows -->
             <xs:element name="hPageBreaks" type="gnm:PageBreaks" minOccurs="0" maxOccurs="1"/><!-- between cols -->
         </xs:choice>

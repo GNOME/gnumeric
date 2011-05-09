@@ -172,6 +172,8 @@ void        print_info_set_edge_to_above_footer (PrintInformation *pi,
 						 double e_f);
 void        print_info_set_edge_to_below_header (PrintInformation *pi,
 						 double e_h);
+void        print_info_set_printtofile_uri (PrintInformation *pi, 
+					gchar const *uri);
 void        print_info_set_printtofile_from_settings 
                                (PrintInformation *pi, 
 				GtkPrintSettings *settings,

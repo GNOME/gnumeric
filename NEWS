@@ -12,7 +12,7 @@ Andreas:
 	* Fix pdf docs. [#649591]
 	* Handle MS Works formula import. [#649406]
 	* Restore Gnumeric print range. [#649714]
-	* Set print file name. [#649711]
+	* Set default, save and restore print file name. [#649711][#649713]
 
 Morten:
 	* Fix problems with localized function docs.

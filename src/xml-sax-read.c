@@ -2723,6 +2723,17 @@ xml_sax_paper (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+xml_sax_print_to_uri (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+
+	xml_sax_must_have_sheet (state);
+
+	print_info_set_printtofile_uri (state->sheet->print_info, 
+					xin->content->str);
+}
+
+static void
 handle_delayed_names (XMLSaxParseState *state)
 {
 	GList *l;
@@ -2875,6 +2886,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, TRUE
 	GSF_XML_IN_NODE_FULL (SHEET_PRINTINFO, PRINT_HEADER,	    GNM, "Header",	GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_print_hf, NULL, 1),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ORDER,	    GNM, "order",	GSF_XML_CONTENT,  NULL, &xml_sax_print_order),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_PAPER,	    GNM, "paper",	GSF_XML_CONTENT,  NULL, &xml_sax_paper),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_TO_URI,	    GNM, "print-to-uri",GSF_XML_CONTENT,  NULL, &xml_sax_print_to_uri),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ORIENT,	    GNM, "orientation",	GSF_XML_CONTENT,  NULL, &xml_sax_orientation),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ONLY_STYLE, GNM, "even_if_only_styles", GSF_XML_CONTENT, &xml_sax_even_if_only_styles, NULL),
 

@@ -1506,6 +1506,13 @@ gnm_page_breaks_clean (GnmPageBreaks *breaks)
 	}
 }
 
+void
+print_info_set_printtofile_uri (PrintInformation *pi, 
+				gchar const *uri)
+{
+	g_free (pi->printtofile_uri);
+	pi->printtofile_uri = g_strdup (uri);
+}
 
 void
 print_info_set_printtofile_from_settings (PrintInformation *pi, 
@@ -1515,11 +1522,10 @@ print_info_set_printtofile_from_settings (PrintInformation *pi,
 	char const *uri = gtk_print_settings_get 
 		(settings, 
 		 GTK_PRINT_SETTINGS_OUTPUT_URI);
-	g_free (pi->printtofile_uri);
 	if (strcmp (uri, default_uri) == 0)
-		pi->printtofile_uri = NULL;
+		print_info_set_printtofile_uri (pi, NULL);
 	else
-		pi->printtofile_uri = g_strdup (uri);
+		print_info_set_printtofile_uri (pi, uri);
 }
 
 char const *
