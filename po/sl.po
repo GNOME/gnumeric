@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2011-05-09 06:56+0000\n"
-"PO-Revision-Date: 2011-05-09 13:25+0100\n"
+"PO-Revision-Date: 2011-05-09 21:51+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -11351,9 +11351,8 @@ msgid "B_y Changing Cells: "
 msgstr "Spreminjanje postaje"
 
 #: ../src/dialogs/solver.ui.h:7
-#, fuzzy
 msgid "Bool"
-msgstr "Pričakoval booleanovo vrednost, dobil %s"
+msgstr "Logična vrednost"
 
 #: ../src/dialogs/solver.ui.h:8
 msgid "Constraints"
@@ -11489,14 +11488,12 @@ msgid "Make one long list of coordinates and values"
 msgstr ""
 
 #: ../src/dialogs/tabulate.ui.h:4
-#, fuzzy
 msgid "Maximum"
-msgstr "Največja velikost"
+msgstr "Največja vrednost"
 
 #: ../src/dialogs/tabulate.ui.h:5
-#, fuzzy
 msgid "Minimum"
-msgstr "Največja vrednost X:"
+msgstr "Najmanjša vrednost"
 
 #: ../src/dialogs/tabulate.ui.h:6
 #, fuzzy
@@ -11540,9 +11537,8 @@ msgid "<b>Location</b>"
 msgstr "<b>Mesto</b>"
 
 #: ../src/dialogs/view.ui.h:3
-#, fuzzy
 msgid "Create New View"
-msgstr "Ustvari _nov pogled"
+msgstr "Ustvari nov pogled"
 
 #: ../src/dialogs/view.ui.h:4
 msgid "New view will be opened on specified screen"
@@ -11625,9 +11621,8 @@ msgid "Internal type error"
 msgstr "Napaka notranje vrste"
 
 #: ../src/expr.c:1560
-#, fuzzy
 msgid "Unknown evaluation error"
-msgstr "Neznana napaka "
+msgstr "Neznana napaka ocenjevanja"
 
 #: ../src/file-autoft.c:88
 #, c-format
@@ -11773,9 +11768,8 @@ msgid "Unknown Function"
 msgstr "Neznana funkcija \"%s\" za gumb"
 
 #: ../src/func.c:1385
-#, fuzzy
 msgid "Boolean"
-msgstr "Boolova vrednost"
+msgstr "Logična vrednost"
 
 #: ../src/func.c:1387
 #, fuzzy
@@ -11855,9 +11849,8 @@ msgid "Missing function category name."
 msgstr "Vnos imena nove kategorije"
 
 #: ../src/gnm-plugin.c:132
-#, fuzzy
 msgid "Function group is empty."
-msgstr "Ime skupine je prazno"
+msgstr "Skupina funkcije je prazna."
 
 #: ../src/gnm-plugin.c:162
 #, fuzzy
@@ -11874,9 +11867,8 @@ msgstr[2] "Skupina %d funkcij v kategoriji \"%s\""
 msgstr[3] "Skupina %d funkcij v kategoriji \"%s\""
 
 #: ../src/gnm-plugin.c:341
-#, fuzzy
 msgid "Missing file name."
-msgstr "Manjkajoče ime datoteke."
+msgstr "Manjka ime datoteke."
 
 #: ../src/gnm-plugin.c:408
 #, c-format
@@ -11899,9 +11891,8 @@ msgid "Invalid solver model type."
 msgstr "Pridobivanje %s iz modela (vrsta %s)"
 
 #: ../src/gnm-plugin.c:592
-#, fuzzy
 msgid "Missing fields in plugin file"
-msgstr "Izbrani naslov URI v vstavku upravljalnika datotek"
+msgstr "Manjkajo polja v datoteki vstavka"
 
 #: ../src/gnm-plugin.c:638
 #, fuzzy, c-format
@@ -11911,39 +11902,35 @@ msgstr "Označevalnik algoritma"
 #: ../src/gnm-plugin.c:736
 #: ../src/gnm-plugin.c:808
 #: ../src/gnm-plugin.c:854
-#, fuzzy, c-format
+#, c-format
 msgid "Module file \"%s\" has invalid format."
-msgstr "Neveljaven ali nepodprt zapis datoteke INP"
+msgstr "Datoteka modula \"%s\" je neveljavno zapisana."
 
 #: ../src/gnm-plugin.c:740
 #: ../src/gnm-plugin.c:811
-#, fuzzy, c-format
+#, c-format
 msgid "File doesn't contain \"%s\" array."
-msgstr "Predloga '%s' ne vsebuje XXXXXX"
+msgstr "Datoteka ne vsebuje podatkovnega polja \"%s\"."
 
 #: ../src/gnm-so-filled.c:175
-#, fuzzy
 msgid "Filled Object Properties"
-msgstr "Lastnosti okvirja"
+msgstr "Lastnosti polnjenih predmetov"
 
 #: ../src/gnm-so-line.c:122
-#, fuzzy
 msgid "Line/Arrow Properties"
-msgstr "Lastnosti sloga črte"
+msgstr "Lastnosti črt in puščic"
 
 #: ../src/gnm-so-polygon.c:168
-#, fuzzy
 msgid "Polygon Properties"
-msgstr "Lastnosti prekinitvene točke"
+msgstr "Lastnosti mnogokotnika"
 
 #: ../src/gui-clipboard.c:168
 msgid "clipboard"
 msgstr "odložišče"
 
 #: ../src/gui-file.c:77
-#, fuzzy
 msgid "Automatically detected"
-msgstr "Zaznana zanka"
+msgstr "Samodejno zaznano"
 
 #. xgettext: If possible try to use the same mnemonic for
 #. * Advanced and Simple
@@ -11988,14 +11975,12 @@ msgid ""
 msgstr ""
 
 #: ../src/gui-file.c:546
-#, fuzzy
 msgid "The given file extension does not match the chosen file type. Do you want to use this name anyway?"
-msgstr "Podana pripona datoteke se ne ujema z izbrano vrsto datoteke. Ali želite vseeno uporabiti to ime?"
+msgstr "Podana pripona datoteke se ne sklada z izbrano vrsto datoteke. Ali naj bo vseeno uporabljeno to ime?"
 
 #: ../src/gui-util.c:49
-#, fuzzy
 msgid "Multiple errors\n"
-msgstr "Napake vstavkov"
+msgstr "Več napak\n"
 
 #: ../src/gui-util.c:1489
 #, c-format
@@ -12009,41 +11994,40 @@ msgstr ""
 
 #: ../src/hlink.c:162
 #: ../src/hlink.c:178
-#, fuzzy
 msgid "Link target"
-msgstr "Cilj povezave:"
+msgstr "Cilj povezave"
 
 #: ../src/hlink.c:162
 msgid "(none)"
 msgstr "(brez)"
 
 #: ../src/hlink.c:228
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to activate the url '%s'"
-msgstr "Brskalnika ni mogoče zagnati"
+msgstr "Ni mogoče odpreti naslova URL '%s'"
 
 #: ../src/hlink.c:285
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open '%s'"
-msgstr "Ni mogoče odpreti datoteke: %s\n"
+msgstr "Ni mogoče odpreti '%s'"
 
 #: ../src/item-bar.c:786
-#, fuzzy, c-format
+#, c-format
 msgid "Width: %.2f pts (%d pixel)"
 msgid_plural "Width: %.2f pts (%d pixels)"
-msgstr[0] "Privzeta širina zajete slike (v točkah):"
-msgstr[1] "Privzeta širina zajete slike (v točkah):"
-msgstr[2] "Privzeta širina zajete slike (v točkah):"
-msgstr[3] "Privzeta širina zajete slike (v točkah):"
+msgstr[0] "Širina: %.2f znakovnih točk (%d točk)"
+msgstr[1] "Širina: %.2f znakovna točka (%d točka)"
+msgstr[2] "Širina: %.2f znakovni točki (%d točki)"
+msgstr[3] "Širina: %.2f znakovne točke (%d točke)"
 
 #: ../src/item-bar.c:791
-#, fuzzy, c-format
+#, c-format
 msgid "Height: %.2f pts (%d pixel)"
 msgid_plural "Height: %.2f pts (%d pixels)"
-msgstr[0] "Višina vrha predmetov v točkah."
-msgstr[1] "<b>Video:</b> %d x %d <i>točk</i> pri %.2f<i>sl/s</i>"
-msgstr[2] "<b>Video:</b> %d x %d <i>točk</i> pri %.2f<i>sl/s</i>"
-msgstr[3] "<b>Video:</b> %d x %d <i>točk</i> pri %.2f<i>sl/s</i>"
+msgstr[0] "Višina: %.2f znakovnih točk (%d točk)"
+msgstr[1] "Višina: %.2f znakovna točka (%d točka)"
+msgstr[2] "Višina: %.2f znakovni točki (%d točki)"
+msgstr[3] "Višina: %.2f znakovne točke (%d točke)"
 
 #: ../src/item-cursor.c:776
 msgid "_Move"
@@ -12055,34 +12039,28 @@ msgid "_Copy"
 msgstr "_Kopiraj"
 
 #: ../src/item-cursor.c:782
-#, fuzzy
 msgid "Copy _Formats"
-msgstr "Vrste zabojnikov:"
+msgstr "Kopiraj _oblikovanje"
 
 #: ../src/item-cursor.c:784
-#, fuzzy
 msgid "Copy _Values"
-msgstr "Vrednosti CIE"
+msgstr "Kopiraj _vrednosti"
 
 #: ../src/item-cursor.c:789
-#, fuzzy
 msgid "Shift _Down and Copy"
-msgstr "Kopiranje CD-jev in DVD-jev"
+msgstr "Pomakni _navzdol in kopiraj"
 
 #: ../src/item-cursor.c:791
-#, fuzzy
 msgid "Shift _Right and Copy"
-msgstr "Kopiranje CD-jev in DVD-jev"
+msgstr "Pomakni _desno in kopiraj"
 
 #: ../src/item-cursor.c:793
-#, fuzzy
 msgid "Shift Dow_n and Move"
-msgstr "Izbira: izberi in premakni predmet"
+msgstr "Pomakni _navzdol in premakni"
 
 #: ../src/item-cursor.c:795
-#, fuzzy
 msgid "Shift Righ_t and Move"
-msgstr "Izbira: izberi in premakni predmet"
+msgstr "Pomakni _desno in premakni"
 
 #: ../src/item-cursor.c:800
 msgid "C_ancel"
@@ -12099,14 +12077,12 @@ msgid "Drag to move"
 msgstr "Premakni na zavihek"
 
 #: ../src/libgnumeric.c:78
-#, fuzzy
 msgid "Display Gnumeric's version"
-msgstr "Pokaži različico programa"
+msgstr "Izpiši različico programa Gnumeric"
 
 #: ../src/libgnumeric.c:87
-#, fuzzy
 msgid "Set the root library directory"
-msgstr "Korenski imenik pregledovalnika datotek"
+msgstr "Določitev korenske mape knjižnice"
 
 #: ../src/libgnumeric.c:88
 #: ../src/libgnumeric.c:94
@@ -12114,9 +12090,8 @@ msgid "DIR"
 msgstr "MAPA"
 
 #: ../src/libgnumeric.c:93
-#, fuzzy
 msgid "Adjust the root data directory"
-msgstr "Korenski imenik pregledovalnika datotek"
+msgstr "Prilagodi korensko podatkovno mapo"
 
 #: ../src/libgnumeric.c:102
 msgid "Enables some print debugging behavior"
@@ -12139,24 +12114,20 @@ msgid "Gnumeric Options"
 msgstr "Možnosti programa"
 
 #: ../src/libgnumeric.c:140
-#, fuzzy
 msgid "Show Gnumeric Options"
-msgstr "Pokaži možnosti strežnika."
+msgstr "Pokaži možnosti programa Gnumeric"
 
 #: ../src/main-application.c:75
-#, fuzzy
 msgid "Specify the size and location of the initial window"
-msgstr "Določi lego in velikost glavnega okna"
+msgstr "Določi položaj in velikost glavnega okna"
 
 #: ../src/main-application.c:76
-#, fuzzy
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
-msgstr "ŠIRINAxVIŠINA+XOFF+YOFF"
+msgstr "ŠIRINAxVIŠINA+XZAMIK+YZAMIK"
 
 #: ../src/main-application.c:79
-#, fuzzy
 msgid "Don't show splash screen"
-msgstr "Ne kaži začetnega zaslona"
+msgstr "Ne pokaži pozdravnega okna"
 
 #: ../src/main-application.c:81
 msgid "Don't display warning dialogs when importing"
@@ -12195,7 +12166,7 @@ msgstr "[DATOTEKA ...]"
 #: ../src/ssconvert.c:709
 #: ../src/ssgrep.c:434
 #: ../src/ssindex.c:255
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
@@ -12228,14 +12199,14 @@ msgid "This version of Gnumeric has been compiled with inadequate precision in g
 msgstr ""
 
 #: ../src/parser.y:363
-#, fuzzy, c-format
+#, c-format
 msgid "An array must have at least 1 element"
-msgstr "Najmanjša dolžina je 5 znakov."
+msgstr "Podatkovno polje mora vsebovati vsaj en predmet"
 
 #: ../src/parser.y:389
-#, fuzzy, c-format
+#, c-format
 msgid "Arrays must be rectangular"
-msgstr "Organizator mora biti naveden."
+msgstr "Podatkovno polje mora biti pravokotno"
 
 #: ../src/parser.y:415
 #, c-format
@@ -12302,9 +12273,9 @@ msgstr "Zahtevano je ime delovnega lista"
 #: ../src/parser.y:1281
 #: ../src/parser.y:1290
 #: ../src/parser.y:1315
-#, fuzzy, c-format
+#, c-format
 msgid "The number is out of range"
-msgstr "Številka barve %d je zunaj obsega 0..%d.  Barva ne bo upoštevana.\n"
+msgstr "Številka je izven obsega"
 
 #: ../src/parser.y:1349
 #, c-format
@@ -12340,15 +12311,13 @@ msgstr "Posebni žetoni"
 #: ../src/print-info.c:161
 #: ../src/print-info.c:162
 #: ../src/print-info.c:274
-#, fuzzy
 msgid "Page &[PAGE]"
-msgstr "stran 1"
+msgstr "Stran &[STRAN]"
 
 #: ../src/print-info.c:159
 #: ../src/print-info.c:164
-#, fuzzy
 msgid "Page &[PAGE] of &[PAGES]"
-msgstr "strani na 1 strani"
+msgstr "Stran &[STRAN] od &[STRANI]"
 
 #: ../src/print-info.c:160
 #: ../src/print-info.c:161
@@ -12472,33 +12441,28 @@ msgid "Failed to create temporary file for printing: %s"
 msgstr "Napaka med ustvarjanjem začasne datoteke za tiskanje: %s"
 
 #: ../src/print.c:1726
-#, fuzzy
 msgid "Gnumeric Print Range"
-msgstr "Točke, ki pokrivajo Y območje"
+msgstr "Območje tiskanja Gnumeric"
 
 #: ../src/print.c:1741
-#, fuzzy
 msgid "Print to File"
-msgstr "Natisni trenutno datoteko"
+msgstr "Natisni v datoteko"
 
 #: ../src/search.c:103
 msgid "Searching for regular expressions and numbers are mutually exclusive."
 msgstr ""
 
 #: ../src/search.c:107
-#, fuzzy
 msgid "The search text must be a number."
-msgstr "Ta vrednost mora biti decimalno število."
+msgstr "Iskalno besedilo mora biti število."
 
 #: ../src/search.c:114
-#, fuzzy
 msgid "You must specify a range to search."
-msgstr "Določiti morate pozdravno osebo.\n"
+msgstr "Določiti je treba območje iskanja."
 
 #: ../src/search.c:118
-#, fuzzy
 msgid "The search range is invalid."
-msgstr "Vzorec za iskanje datotek je napačen."
+msgstr "Območje iskanja je neveljavno."
 
 #: ../src/search.c:668
 #, fuzzy
@@ -12510,65 +12474,54 @@ msgid "Search for Specific Number Regardless of Formatting?"
 msgstr ""
 
 #: ../src/search.c:677
-#, fuzzy
 msgid "Search Strings"
-msgstr "Osnovni niz"
+msgstr "Iskanje med nizi"
 
 #: ../src/search.c:678
-#, fuzzy
 msgid "Should strings be searched?"
-msgstr "Ali želite zamenjati datoteko %s?"
+msgstr "Ali naj se preiščejo tudi nizi?"
 
 #: ../src/search.c:686
-#, fuzzy
 msgid "Search Other Values"
-msgstr "Iskanje druge dokumentacije"
+msgstr "Iskanje drugih vrednosti"
 
 #: ../src/search.c:687
-#, fuzzy
 msgid "Should non-strings be searched?"
-msgstr "Ali so neštevilčne vrednosti prezrte"
+msgstr "Ali naj se preiščejo tudi vrednosti, ki niso nizi?"
 
 #: ../src/search.c:695
-#, fuzzy
 msgid "Search Expressions"
-msgstr "Iskanje vnosa"
+msgstr "Iskanje med izrazi"
 
 #: ../src/search.c:696
-#, fuzzy
 msgid "Should expressions be searched?"
-msgstr "Ali želite zamenjati datoteko %s?"
+msgstr "Ali naj se preiščejo tudi izrazi?"
 
 #: ../src/search.c:704
-#, fuzzy
 msgid "Search Expression Results"
-msgstr "Rezultati iskanja za: {0}"
+msgstr "Iskanje med rezultati izrazov"
 
 #: ../src/search.c:705
-#, fuzzy
 msgid "Should the results of expressions be searched?"
-msgstr "<b>Izberite jezik izpisa rezultatov:</b>"
+msgstr "Ali naj se preiščejo tudi rezultati izrazov?"
 
 #: ../src/search.c:713
-#, fuzzy
 msgid "Search Comments"
-msgstr "Vidne opombe"
+msgstr "Iskanje med opombami"
 
 #: ../src/search.c:714
 msgid "Should cell comments be searched?"
 msgstr ""
 
 #: ../src/search.c:722
-#, fuzzy
 msgid "Search Scripts"
-msgstr "Iskanje vnosa"
+msgstr "Iskanje med skripti"
 
 #: ../src/search.c:723
 msgid "Should scrips (workbook, and worksheet) be searched?"
 msgstr ""
 
 #: ../src/search.c:731
-#, fuzzy
 msgid "Invert"
 msgstr "Preobrni"
 
@@ -12645,9 +12598,8 @@ msgstr ""
 "nepovratno izgubljenih."
 
 #: ../src/session.c:126
-#, fuzzy
 msgid "Do not save any"
-msgstr "_Ne prepiši slik"
+msgstr "Ne shrani"
 
 #: ../src/session.c:128
 #: ../src/session.c:131
@@ -12655,9 +12607,8 @@ msgid "Do not save"
 msgstr "Ne shrani"
 
 #: ../src/session.c:133
-#, fuzzy
 msgid "Do not log out"
-msgstr "Zapri in se _odjavi"
+msgstr "Ne odjavi"
 
 #. xgettext: This is a C format string where %d will be replaced
 #. by 1, 2, 3, or 4.  A year will then be appended and we'll get
@@ -12781,15 +12732,13 @@ msgstr "_Razdruži"
 
 #: ../src/sheet-control-gui.c:2113
 #: ../src/wbc-gtk-actions.c:2305
-#, fuzzy
 msgid "Auto Fit _Width"
-msgstr "_Prilagodi širini"
+msgstr "Samodejno prilagodi _širino"
 
 #: ../src/sheet-control-gui.c:2114
 #: ../src/wbc-gtk-actions.c:2302
-#, fuzzy
 msgid "Auto Fit _Height"
-msgstr "Višina glavnega okna"
+msgstr "Samodejno prilagodi _višino"
 
 #. start sub menu
 #. Format -> Col
