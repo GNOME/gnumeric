@@ -1,3 +1,16 @@
+2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print-info.h (_PrintInformation): new field printtofile_uri
+	(print_info_set_printtofile_from_settings): new
+	(print_info_get_printtofile_uri): new
+	* src/print-info.c (print_info_free): handle printtofile_uri
+	(print_info_new): ditto
+	(print_info_dup): ditto
+	(print_info_set_printtofile_from_settings): new
+	(print_info_get_printtofile_uri): new
+	* src/print.c (gnm_print_sheet): save and restore printtofile uri
+	from PrintInformation of the current sheet.
+
 2011-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (gnm_print_uri_change_extension): new

@@ -95,6 +95,8 @@ struct _PrintInformation {
 	int		  start_page; /* < 0 implies auto */
         int              n_copies;
 
+	gchar           *printtofile_uri;
+
   /* page_setup doubles as a flag whether the defaults are loaded */
         GtkPageSetup     *page_setup;
 };
@@ -170,6 +172,12 @@ void        print_info_set_edge_to_above_footer (PrintInformation *pi,
 						 double e_f);
 void        print_info_set_edge_to_below_header (PrintInformation *pi,
 						 double e_h);
+void        print_info_set_printtofile_from_settings 
+                               (PrintInformation *pi, 
+				GtkPrintSettings *settings,
+				gchar const *default_uri);
+char const *print_info_get_printtofile_uri (PrintInformation *pi);
+
 void        print_info_set_breaks (PrintInformation *pi, GnmPageBreaks *breaks);
 
 gboolean        print_info_has_manual_breaks (PrintInformation *pi);

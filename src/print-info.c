@@ -139,6 +139,7 @@ print_info_free (PrintInformation *pi)
 	print_hf_free (pi->header);
 	print_hf_free (pi->footer);
 
+	g_free (pi->printtofile_uri);
 	if (pi->page_setup)
 		g_object_unref (pi->page_setup);
 
@@ -297,6 +298,8 @@ print_info_new (gboolean load_defaults)
 	res->page_setup = NULL;
 	res->page_breaks.v = NULL;
 	res->page_breaks.h = NULL;
+
+	res->printtofile_uri = NULL;
 
 	if (load_defaults)
 		return print_info_load_defaults (res);
@@ -861,6 +864,9 @@ print_info_dup (PrintInformation const *src)
 
 	COPY(start_page);
         COPY(n_copies);
+
+	g_free (dst->printtofile_uri);
+	dst->printtofile_uri = g_strdup (src->printtofile_uri);
 
 	if (dst->page_setup)
 		g_object_unref (dst->page_setup);
@@ -1498,4 +1504,26 @@ gnm_page_breaks_clean (GnmPageBreaks *breaks)
 			i--;
 		}
 	}
+}
+
+
+void
+print_info_set_printtofile_from_settings (PrintInformation *pi, 
+					  GtkPrintSettings* settings,
+					  gchar const *default_uri)
+{
+	char const *uri = gtk_print_settings_get 
+		(settings, 
+		 GTK_PRINT_SETTINGS_OUTPUT_URI);
+	g_free (pi->printtofile_uri);
+	if (strcmp (uri, default_uri) == 0)
+		pi->printtofile_uri = NULL;
+	else
+		pi->printtofile_uri = g_strdup (uri);
+}
+
+char const *
+print_info_get_printtofile_uri (PrintInformation *pi)
+{
+	return pi->printtofile_uri;
 }

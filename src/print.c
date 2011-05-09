@@ -1619,6 +1619,8 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 				      PRINT_SHEET_SELECTION, PRINT_ACTIVE_SHEET,
 				      PRINT_SHEET_SELECTION_IGNORE_PRINTAREA};
 	GODoc *doc = wb_control_get_doc (wbc);
+	gchar *output_uri = NULL;
+	gchar const *saved_uri = NULL;
 
 #ifdef PREVIEW_VIA_PDF
 	preview_via_pdf = preview;
@@ -1653,16 +1655,22 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 					  !sheet->print_info->print_black_and_white);
 
 	/* We should be setting the output file name to somethig reasonable */
-	if (doc->uri != NULL 
-	    && g_ascii_strncasecmp (doc->uri, "file:///", 8) == 0) {
-		gchar *output_uri 
-			= gnm_print_uri_change_extension (doc->uri, settings);
-		if (output_uri != NULL) {
-			gtk_print_settings_set (settings, 
-						GTK_PRINT_SETTINGS_OUTPUT_URI,
-						output_uri);
-			g_free (output_uri);
-		}
+	saved_uri = print_info_get_printtofile_uri (sheet->print_info);
+	if (saved_uri != NULL && 
+	    g_ascii_strncasecmp (doc->uri, "file:///", 8) == 0)
+		output_uri = gnm_print_uri_change_extension (saved_uri,
+							     settings);
+	else
+		saved_uri = NULL;
+	if (output_uri == NULL && doc->uri != NULL 
+	    && g_ascii_strncasecmp (doc->uri, "file:///", 8) == 0)
+		output_uri = gnm_print_uri_change_extension (doc->uri, 
+								settings);
+	if (output_uri != NULL) {
+		gtk_print_settings_set (settings, 
+					GTK_PRINT_SETTINGS_OUTPUT_URI,
+					output_uri);
+		g_free (output_uri);
 	}
 
 	gtk_print_operation_set_print_settings (print, settings);
@@ -1723,10 +1731,23 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	res = gtk_print_operation_run (print, action, parent, NULL);
 
 	switch (res) {
-	case GTK_PRINT_OPERATION_RESULT_APPLY:
-		gnm_conf_set_print_settings (gtk_print_operation_get_print_settings (print));
+	case GTK_PRINT_OPERATION_RESULT_APPLY: {
+		char const *printer;
+		settings = gtk_print_operation_get_print_settings (print);
+		gnm_conf_set_print_settings (settings);
 		gnm_insert_meta_date (GO_DOC (sheet->workbook), GSF_META_NAME_PRINT_DATE);
+		printer = gtk_print_settings_get_printer (settings);
+		if (strcmp (printer, "Print to File") == 0 || 
+		    strcmp (printer, _("Print to File")) == 0) {
+			    gchar *wb_output_uri = 
+				    gnm_print_uri_change_extension (doc->uri, 
+								    settings);
+			    print_info_set_printtofile_from_settings 
+				    (sheet->print_info, settings, wb_output_uri);
+			    g_free (wb_output_uri);
+		    }
 		break;
+	}
 	case GTK_PRINT_OPERATION_RESULT_CANCEL:
 		printing_instance_delete (pi);
 		break;
