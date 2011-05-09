@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2011-05-09 06:56+0000\n"
-"PO-Revision-Date: 2011-05-09 21:51+0100\n"
+"PO-Revision-Date: 2011-05-09 22:15+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -5745,9 +5745,8 @@ msgid "Workbook"
 msgstr ""
 
 #: ../src/dialogs/dialog-define-names.c:608
-#, fuzzy
 msgid "<new name>"
-msgstr "Novo ime:"
+msgstr "<novo ime>"
 
 #: ../src/dialogs/dialog-define-names.c:864
 msgid "Why would you want to define a name for the empty string?"
@@ -5758,20 +5757,17 @@ msgid "Why would you want to define a name to be #NAME?"
 msgstr ""
 
 #: ../src/dialogs/dialog-define-names.c:981
-#, fuzzy
 msgid "This name is already in use!"
-msgstr "Ime je že v uporabi"
+msgstr "Ime je že v uporabi!"
 
 #: ../src/dialogs/dialog-define-names.c:1163
-#, fuzzy
 msgid "content"
-msgstr "Vsebina:"
+msgstr "vsebina"
 
 #: ../src/dialogs/dialog-define-names.c:1229
 #: ../src/dialogs/dialog-function-select.c:1271
-#, fuzzy
 msgid "Erase the search entry."
-msgstr "Pokaži iskalni vnos"
+msgstr "Izbriši iskalni niz."
 
 #: ../src/dialogs/dialog-define-names.c:1267
 #, fuzzy
@@ -5854,9 +5850,8 @@ msgid "Could not create the formula guru."
 msgstr "Elementa filesrc ni mogoče ustvariti"
 
 #: ../src/dialogs/dialog-function-select.c:506
-#, fuzzy
 msgid "All Functions"
-msgstr "XSLT - Funkcije"
+msgstr "Vse funkcije"
 
 #: ../src/dialogs/dialog-function-select.c:512
 msgid "Recently Used"
@@ -5896,9 +5891,8 @@ msgid ", "
 msgstr ","
 
 #: ../src/dialogs/dialog-function-select.c:835
-#, fuzzy
 msgid "Further information: "
-msgstr "Več podrobnosti"
+msgstr "Več podrobnosti:"
 
 #: ../src/dialogs/dialog-function-select.c:837
 #, fuzzy
@@ -6312,24 +6306,20 @@ msgid "First Printed Cell Of The Page"
 msgstr "Pojdi na prvo stran"
 
 #: ../src/dialogs/dialog-printer-setup.c:1727
-#, fuzzy
 msgid "Custom header configuration"
-msgstr "Glave sporočil po meri"
+msgstr "Nastavitev glave po meri"
 
 #: ../src/dialogs/dialog-printer-setup.c:1732
-#, fuzzy
 msgid "Custom footer configuration"
-msgstr "Nastavitev po meri ni mogoče shraniti"
+msgstr "Nastavitev noge po meri"
 
 #: ../src/dialogs/dialog-printer-setup.c:1883
-#, fuzzy
 msgid "Date format selection"
-msgstr "Datum/čas zapis"
+msgstr "Izbor zapisa datuma"
 
 #: ../src/dialogs/dialog-printer-setup.c:1885
-#, fuzzy
 msgid "Time format selection"
-msgstr "Datum/čas zapis"
+msgstr "Izbor zapisa časa"
 
 #: ../src/dialogs/dialog-printer-setup.c:2304
 #, c-format
@@ -6357,34 +6347,33 @@ msgid "%.1f wide by %.1f tall"
 msgstr ""
 
 #: ../src/dialogs/dialog-quit.c:84
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b>\n"
 "<small>Location: %s</small>"
-msgstr "Mesto doseženo\n"
+msgstr ""
+"<b>%s</b>\n"
+"<small>Mesto: %s</small>"
 
 #: ../src/dialogs/dialog-quit.c:219
-#, fuzzy
 msgid "Some Documents have not Been Saved"
-msgstr "Projekt ni bil shranjen."
+msgstr "Nekateri dokumenti niso shranjeni"
 
 #: ../src/dialogs/dialog-quit.c:224
 msgid "_Discard All"
 msgstr "Zavrzi _vse"
 
 #: ../src/dialogs/dialog-quit.c:227
-#, fuzzy
 msgid "Discard changes in all files"
-msgstr "Označi vse datoteke v mapi"
+msgstr "Zavrzi spremembe v vseh datotekah"
 
 #: ../src/dialogs/dialog-quit.c:236
 msgid "Don't Quit"
 msgstr "Ne končaj"
 
 #: ../src/dialogs/dialog-quit.c:239
-#, fuzzy
 msgid "Resume editing"
-msgstr "<i>Urejanje {0} od {1} predmetov</i>"
+msgstr "Nadaljuj z urejanjem"
 
 #: ../src/dialogs/dialog-quit.c:243
 msgid "_Save Selected"
@@ -6392,7 +6381,7 @@ msgstr "_Shrani izbrano"
 
 #: ../src/dialogs/dialog-quit.c:247
 msgid "Save selected documents and then quit"
-msgstr ""
+msgstr "Shrani izbrane dokumente in končaj."
 
 #: ../src/dialogs/dialog-quit.c:255
 msgid "Save"
@@ -6408,9 +6397,8 @@ msgid "Select _All"
 msgstr "Izberi _vse"
 
 #: ../src/dialogs/dialog-quit.c:277
-#, fuzzy
 msgid "Select all documents for saving"
-msgstr "Izbor mape za shranjevanje izbranih delov."
+msgstr "Izbor vseh dokumentov za shranjevanje"
 
 #: ../src/dialogs/dialog-quit.c:286
 msgid "_Clear Selection"
@@ -6440,7 +6428,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-random-generator-cor.c:125
 msgid "The number of random numbers requested is invalid."
-msgstr ""
+msgstr "Število zahtevanih naključnih števil je neveljavno."
 
 #: ../src/dialogs/dialog-random-generator-cor.c:221
 msgid "Could not create the Correlated Random Tool dialog."
@@ -7147,19 +7135,19 @@ msgstr "Izbirnik oblikovanja"
 
 #: ../src/dialogs/dialog-stf-format-page.c:387
 msgid "Ignore all columns on right"
-msgstr ""
+msgstr "Prezri vse stolpce na desni"
 
 #: ../src/dialogs/dialog-stf-format-page.c:388
 msgid "Ignore all columns on left"
-msgstr ""
+msgstr "Prezri vse stolpce na levi"
 
 #: ../src/dialogs/dialog-stf-format-page.c:389
 msgid "Import all columns on right"
-msgstr ""
+msgstr "Uvozi vse stolpce na desni"
 
 #: ../src/dialogs/dialog-stf-format-page.c:390
 msgid "Import all columns on left"
-msgstr ""
+msgstr "Uvozi vse stolpce na levi"
 
 #: ../src/dialogs/dialog-stf-format-page.c:391
 #, fuzzy
@@ -7569,24 +7557,20 @@ msgid "Gnumeric : AutoFilter"
 msgstr "Gnumeric : samodejni filter"
 
 #: ../src/dialogs/autofilter-expression.ui.h:2
-#, fuzzy
 msgid "Show rows where:"
-msgstr "Pokaži kje bo _lik pristal."
+msgstr "Pokaži vrstice z:"
 
 #: ../src/dialogs/autofilter-expression.ui.h:3
-#, fuzzy
 msgid "_And"
-msgstr "IN"
+msgstr "_IN"
 
 #: ../src/dialogs/autofilter-expression.ui.h:4
-#, fuzzy
 msgid "_Or"
-msgstr "1-ali-0"
+msgstr "_ALI"
 
 #: ../src/dialogs/autofilter-expression.ui.h:5
-#, fuzzy
 msgid "begins with"
-msgstr "E-pošta se začne z"
+msgstr "se začne z"
 
 #: ../src/dialogs/autofilter-expression.ui.h:6
 msgid "contains"
@@ -7660,9 +7644,8 @@ msgid "Top"
 msgstr "Na vrhu"
 
 #: ../src/dialogs/autoformat.ui.h:1
-#, fuzzy
 msgid "A short description of the template"
-msgstr "Kratek opis vašega projekta."
+msgstr "Kratek opis predloge"
 
 #: ../src/dialogs/autoformat.ui.h:2
 #: ../src/dialogs/doc-meta-data.ui.h:20
@@ -7705,9 +7688,8 @@ msgid "Template Details"
 msgstr "Podrobnosti predloge"
 
 #: ../src/dialogs/autoformat.ui.h:11
-#, fuzzy
 msgid "The category this template belongs to"
-msgstr "Ali naj se premakne kategorija na drugo kategorijo?"
+msgstr "Kategorija, ki ji pripada predloga"
 
 #: ../src/dialogs/autoformat.ui.h:12
 msgid "The group/individual that made the template"
@@ -7786,9 +7768,8 @@ msgid "<b>Control</b>"
 msgstr "Nadzor"
 
 #: ../src/dialogs/cell-format.ui.h:14
-#, fuzzy
 msgid "<b>Error alerts</b>"
-msgstr "Napaka vsebuje"
+msgstr "<b>Opozorila napak</b>"
 
 #: ../src/dialogs/cell-format.ui.h:15
 msgid "<b>Horizontal alignment</b>"
@@ -7815,9 +7796,8 @@ msgid "<b>Vertical alignment</b>"
 msgstr "<b>Navpična poravnava</b>"
 
 #: ../src/dialogs/cell-format.ui.h:21
-#, fuzzy
 msgid "<span weight=\"bold\">Criteria</span>"
-msgstr "<span weight=\"bold\">Splošno</span>"
+msgstr "<span weight=\"bold\">Kriterij</span>"
 
 #: ../src/dialogs/cell-format.ui.h:22
 msgid "Ac_tion:"
@@ -7832,9 +7812,8 @@ msgid "Allo_w:"
 msgstr "_Dovoli:"
 
 #: ../src/dialogs/cell-format.ui.h:25
-#, fuzzy
 msgid "Any Value     (no validation)"
-msgstr "Za `%s' vrednost ni nastavljena\n"
+msgstr "Katerakoli vrednost     (brez vrednotenja)"
 
 #: ../src/dialogs/cell-format.ui.h:29
 msgid "Bricks"
@@ -8499,34 +8478,28 @@ msgid "Define Names"
 msgstr "Imena mest"
 
 #: ../src/dialogs/delete-cells.ui.h:1
-#, fuzzy
 msgid "<span weight=\"bold\">Delete Method</span>"
-msgstr "<span weight=\"bold\">Vrsta slike</span>"
+msgstr "<span weight=\"bold\">Način brisanja</span>"
 
 #: ../src/dialogs/delete-cells.ui.h:2
-#, fuzzy
 msgid "Delete _column(s)"
-msgstr "Izbriši stolpec iz preglednice"
+msgstr "Izbriši _stolpce"
 
 #: ../src/dialogs/delete-cells.ui.h:3
-#, fuzzy
 msgid "Delete _row(s)"
-msgstr "glava vrstice"
+msgstr "Izbriši _vrstice"
 
 #: ../src/dialogs/delete-cells.ui.h:4
-#, fuzzy
 msgid "Delete cells"
-msgstr "Izbriši vejo"
+msgstr "Izbriši celice"
 
 #: ../src/dialogs/delete-cells.ui.h:5
-#, fuzzy
 msgid "Shift cells _left"
-msgstr "Določilo časa (desno - levo):"
+msgstr "Pomakni celice _levo"
 
 #: ../src/dialogs/delete-cells.ui.h:6
-#, fuzzy
 msgid "Shift cells _up"
-msgstr "Ohrani na"
+msgstr "Pomakni celice _navzgor"
 
 #: ../src/dialogs/descriptive-stats.ui.h:1
 #, fuzzy
@@ -8859,9 +8832,8 @@ msgid "On right side only"
 msgstr "Dodelitev desnoročne strani"
 
 #: ../src/dialogs/dialog-stf.ui.h:29
-#, fuzzy
 msgid "Original data type:"
-msgstr "napačna vrsta podatkov"
+msgstr "Izvorna vrsta podatkov:"
 
 #: ../src/dialogs/dialog-stf.ui.h:30
 msgid "Processing ends at this line, any subsequent lines will be ignored."
@@ -8884,19 +8856,16 @@ msgid "Semicolo_n (;)"
 msgstr "_Podpičje (;)"
 
 #: ../src/dialogs/dialog-stf.ui.h:35
-#, fuzzy
 msgid "Separators"
-msgstr "Široke ločnice"
+msgstr "Ločilniki"
 
 #: ../src/dialogs/dialog-stf.ui.h:36
-#, fuzzy
 msgid "Source Format"
-msgstr "Izbor vrste zapisa:"
+msgstr "Izvorni zapis"
 
 #: ../src/dialogs/dialog-stf.ui.h:37
-#, fuzzy
 msgid "Source Locale:"
-msgstr "Trenutne jezikovne nastavitve"
+msgstr "Izvorni jezik:"
 
 #: ../src/dialogs/dialog-stf.ui.h:38
 #, fuzzy
@@ -9154,9 +9123,8 @@ msgid "Name: "
 msgstr "Ime: "
 
 #: ../src/dialogs/doc-meta-data.ui.h:35
-#, fuzzy
 msgid "Recalculation:"
-msgstr "Ni sporočila napake za domeno %s."
+msgstr "Ponovni izračun:"
 
 #: ../src/dialogs/doc-meta-data.ui.h:37
 msgid "Subject:"
@@ -9201,9 +9169,8 @@ msgstr "Imenovalec:"
 #: ../src/tools/analysis-exp-smoothing.c:1033
 #: ../src/tools/analysis-exp-smoothing.c:1397
 #: ../src/tools/analysis-exp-smoothing.c:1400
-#, fuzzy
 msgid "Exponential Smoothing"
-msgstr "Eksponentno povprečje gibanja:"
+msgstr "Potenčno glajenje"
 
 #: ../src/dialogs/exp-smoothing.ui.h:6
 #, fuzzy
@@ -9657,9 +9624,8 @@ msgid "C_utoffs"
 msgstr ""
 
 #: ../src/dialogs/histogram.ui.h:12
-#, fuzzy
 msgid "Count numbers only"
-msgstr "Samodejno dopolnjevanje (le C/C++/Java)"
+msgstr "Štej le števila"
 
 #: ../src/dialogs/histogram.ui.h:13
 #, fuzzy
@@ -9711,7 +9677,6 @@ msgid "_Predetermined cutoffs"
 msgstr ""
 
 #: ../src/dialogs/hyperlink.ui.h:1
-#, fuzzy
 msgid "Email _Address:"
 msgstr "_Elektronski naslov:"
 
@@ -11643,13 +11608,13 @@ msgstr[2] "%d vrstici"
 msgstr[3] "%d vrstice"
 
 #: ../src/format-template.c:697
-#, fuzzy, c-format
+#, c-format
 msgid "%d col"
 msgid_plural "%d cols"
-msgstr[0] "Stolpec"
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%d stolpcev"
+msgstr[1] "%d stolpec"
+msgstr[2] "%d stolpca"
+msgstr[3] "%d stolpci"
 
 #: ../src/format-template.c:699
 #, c-format
@@ -12389,7 +12354,7 @@ msgstr "Neznana velikost papirja"
 #: ../src/print-info.c:780
 #, c-format
 msgid "Invalid option for pdf exporter"
-msgstr ""
+msgstr "Neveljavna možnost programa za izvoz v PDF"
 
 #: ../src/print-info.c:801
 msgid "PDF export"
@@ -12397,7 +12362,7 @@ msgstr "Izvoz v PDF"
 
 #: ../src/print.c:622
 msgid "Even one cell is too large for this page."
-msgstr ""
+msgstr "Že ena celica je prevelika za to stran."
 
 #: ../src/print.c:959
 msgid "Print Selection"
@@ -18090,7 +18055,7 @@ msgstr "Predloga barve vanilije"
 
 #: ../templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:3
 msgid "Vanilla"
-msgstr ""
+msgstr "Vanilija"
 
 #: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:3
 msgid "Simple financial template"
