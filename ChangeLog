@@ -1,3 +1,7 @@
+2011-05-09  Morten Welinder  <terra@gnome.org>
+
+	* src/item-bar.c (item_bar_calc_size): Plug leak.
+
 2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (gnm_print_sheet): only remember settings if we showed

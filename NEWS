@@ -16,7 +16,7 @@ Andreas:
 
 Morten:
 	* Fix problems with localized function docs.
-	* Plug leak.
+	* Plug leaks.
 	* Fix minor problem reading old xls objects.
 	* Reduce memory usage when new glib is used.  [#644197]
 	* Eliminate col/row infos that are identical to the default.  [#155003]

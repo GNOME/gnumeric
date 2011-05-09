@@ -160,6 +160,8 @@ item_bar_calc_size (ItemBar *ib)
 	item_list = pango_itemize (context, "A", 0, 1, attr_list, NULL);
 	pango_attr_list_unref (attr_list);
 
+	if (ib->pango.item)
+	  pango_item_free (ib->pango.item);
 	ib->pango.item = item_list->data;
 	item_list->data = NULL;
 
