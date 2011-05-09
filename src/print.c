@@ -1731,23 +1731,24 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	res = gtk_print_operation_run (print, action, parent, NULL);
 
 	switch (res) {
-	case GTK_PRINT_OPERATION_RESULT_APPLY: {
-		char const *printer;
-		settings = gtk_print_operation_get_print_settings (print);
-		gnm_conf_set_print_settings (settings);
-		gnm_insert_meta_date (GO_DOC (sheet->workbook), GSF_META_NAME_PRINT_DATE);
-		printer = gtk_print_settings_get_printer (settings);
-		if (strcmp (printer, "Print to File") == 0 || 
-		    strcmp (printer, _("Print to File")) == 0) {
-			    gchar *wb_output_uri = 
-				    gnm_print_uri_change_extension (doc->uri, 
-								    settings);
-			    print_info_set_printtofile_from_settings 
-				    (sheet->print_info, settings, wb_output_uri);
-			    g_free (wb_output_uri);
-		    }
+	case GTK_PRINT_OPERATION_RESULT_APPLY: 
+		if (action == GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG) {
+			char const *printer;
+			settings = gtk_print_operation_get_print_settings (print);
+			gnm_conf_set_print_settings (settings);
+			gnm_insert_meta_date (GO_DOC (sheet->workbook), GSF_META_NAME_PRINT_DATE);
+			printer = gtk_print_settings_get_printer (settings);
+			if (strcmp (printer, "Print to File") == 0 || 
+			    strcmp (printer, _("Print to File")) == 0) {
+				gchar *wb_output_uri = 
+					gnm_print_uri_change_extension (doc->uri, 
+									settings);
+				print_info_set_printtofile_from_settings 
+					(sheet->print_info, settings, wb_output_uri);
+				g_free (wb_output_uri);
+			}
+		}
 		break;
-	}
 	case GTK_PRINT_OPERATION_RESULT_CANCEL:
 		printing_instance_delete (pi);
 		break;

@@ -1,5 +1,10 @@
 2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print.c (gnm_print_sheet): only remember settings if we showed
+	a print dialog
+
+2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric.xsd: add xs:element name="print-to-uri"
 	* src/print-info.h (print_info_set_printtofile_uri): new
 	* src/print-info.c (print_info_set_printtofile_uri): new
