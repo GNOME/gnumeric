@@ -1,5 +1,11 @@
 2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_string_handler): add comment
+	* openoffice-read.c (odf_strunescape): new
+	(oo_conventions_new): connect odf_strunescape
+
+2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_string_handler): new
 	(odf_expr_conventions_new): connect odf_string_handler
 

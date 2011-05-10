@@ -2400,6 +2400,11 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 static void
 odf_string_handler (GnmConventionsOut *out, GOString const *str)
 {
+	/* Constant strings are surrounded by double-quote characters */
+	/* (QUOTATION MARK, U+0022); a literal double-quote character '"'*/
+	/* (QUOTATION MARK, U+0022) as */
+	/* string content is escaped by duplicating it. */
+
 	gchar const *string = str->str;
 	g_string_append_c (out->accum, '"');
 	/* This loop should be UTF-8 safe.  */

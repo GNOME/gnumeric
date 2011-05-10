@@ -1357,7 +1357,7 @@ yylex (void)
 	case '\'':
 	case '"': {
 		GString *s = g_string_new (NULL);
-		char const *end = go_strunescape (s, start);
+		char const *end = state->convs->input.string (start, s, state->convs);
 
 		if (end == NULL) {
 			size_t len = strlen (start);

@@ -1,3 +1,10 @@
+2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/parse-util.h (_GnmConventions): add input.string
+	* src/parse-util.c (std_string_parser): new
+	(gnm_conventions_new_full): connect std_string_parser
+	* src/parser.y (yylex): use state->convs->input.string
+
 2011-05-10  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_paste_copy): Clarify and fix ownership rules

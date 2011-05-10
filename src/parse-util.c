@@ -1332,6 +1332,12 @@ std_external_wb (G_GNUC_UNUSED GnmConventions const *convs,
 	return gnm_app_workbook_get_by_name (wb_name, ref_uri);
 }
 
+static char const *
+std_string_parser (char const *in, GString *target,
+		   G_GNUC_UNUSED GnmConventions const *convs)
+{
+	return go_strunescape (target, in);
+}
 
 /**
  * gnm_conventions_new_full :
@@ -1359,6 +1365,7 @@ gnm_conventions_new_full (unsigned size)
 	convs->intersection_char	= ' ';
 	convs->exp_is_left_associative  = FALSE;
 	convs->input.range_ref		= rangeref_parse;
+	convs->input.string		= std_string_parser;
 	convs->input.name		= std_name_parser;
 	convs->input.func		= std_func_map;
 	convs->input.external_wb	= std_external_wb;

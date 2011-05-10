@@ -1179,6 +1179,37 @@ oo_expr_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *
 	return start;
 }
 
+static char const *
+odf_strunescape (char const *string, GString *target,
+		   G_GNUC_UNUSED GnmConventions const *convs)
+{
+	/* Constant strings are surrounded by double-quote characters */
+	/* (QUOTATION MARK, U+0022); a literal double-quote character '"'*/
+	/* (QUOTATION MARK, U+0022) as */
+	/* string content is escaped by duplicating it. */
+
+	char quote = *string++;
+	size_t oldlen = target->len;
+
+	/* This should be UTF-8 safe as long as quote is ASCII.  */
+	do {
+		while (*string != quote) {
+			if (*string == '\0')
+				goto error;
+			g_string_append_c (target, *string);
+			string++;
+		}
+		string++;
+		if (*string == quote)
+			g_string_append_c (target, quote);
+	} while (*string++ == quote);
+	return --string;
+
+ error:
+	g_string_truncate (target, oldlen);
+	return NULL;	
+}
+
 static GnmExpr const *
 oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		char const *name, GnmExprList *args);
@@ -1197,6 +1228,7 @@ oo_conventions_new (void)
 	conv->arg_sep		= ';';
 	conv->array_col_sep	= ';';
 	conv->array_row_sep	= '|';
+	conv->input.string	= odf_strunescape;
 	conv->input.func	= oo_func_map_in;
 	conv->input.range_ref	= oo_expr_rangeref_parse;
 	conv->sheet_name_sep	= '.';

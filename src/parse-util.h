@@ -151,11 +151,14 @@ struct _GnmConventions {
 					  GnmConventions const *convs);
 					/* GError **err); */
 
+		/* Called to unescape strings */
+		char const *(*string) (char const *in, GString *target,
+				       GnmConventions const *convs);
+
 		/* Called a lot for anything that might be a function name or
 		 * defined name.  */
 		char const *(*name) (char const *in,
 				     GnmConventions const *convs);
-
 
 		/* Must return non-NULL, and absorb the args, including the list. */
 		GnmExpr const *(*func) (GnmConventions const *convs,
