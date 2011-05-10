@@ -8670,6 +8670,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.page_breaks.h = state.page_breaks.v = NULL;
 	state.last_progress_update = 0;
 	state.last_error = NULL;
+	state.cur_control = NULL;
 
 	go_io_progress_message (state.context, _("Reading file..."));
 	go_io_value_progress_set (state.context, gsf_input_size (contents), 0);

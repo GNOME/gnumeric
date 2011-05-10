@@ -1,5 +1,9 @@
 2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (openoffice_file_open): initialize cur_control
+
+2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_string_handler): use odf_print_string
 	(odf_print_string): new
 	(odf_cellref_as_string): rewrite
