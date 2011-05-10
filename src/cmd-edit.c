@@ -339,12 +339,13 @@ cmd_paste (WorkbookControl *wbc, GnmPasteTarget const *pt)
 			gnm_app_clipboard_clear (TRUE);
 
 	/* If this application has marked a selection use it */
-	} else if (content != NULL)
+	} else if (content != NULL) {
 		cmd_paste_copy (wbc, pt, content);
-
-	/* See if the control has access to information to paste */
-	else
+		/* We don't own the contents, so don't unref it.  */
+	} else {
+		/* See if the control has access to information to paste */
 		wb_control_paste_from_selection (wbc, pt);
+	}
 }
 
 /**
@@ -361,10 +362,9 @@ cmd_paste_to_selection (WorkbookControl *wbc, SheetView *dest_sv, int paste_flag
 	GnmRange const *r;
 	GnmPasteTarget pt;
 
-	if (!(r = selection_first_range (dest_sv, GO_CMD_CONTEXT (wbc), _("Paste"))))
+	r = selection_first_range (dest_sv, GO_CMD_CONTEXT (wbc), _("Paste"));
+	if (!r)
 		return;
-
-	g_return_if_fail (r !=NULL);
 
 	pt.sheet = dest_sv->sheet;
 	pt.range = *r;

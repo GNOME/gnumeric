@@ -1,3 +1,10 @@
+2011-05-10  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_paste_copy): Clarify and fix ownership rules
+	for cell region.  Fixes leak.
+	(cmd_paste_copy_impl): Don't override the stored flags.  Fixes
+	paste-special repeat.
+
 2011-05-09  Morten Welinder  <terra@gnome.org>
 
 	* src/item-bar.c (item_bar_calc_size): Plug leak.

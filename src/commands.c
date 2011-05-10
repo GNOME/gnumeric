@@ -2897,17 +2897,19 @@ static void
 cmd_paste_copy_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 {
 	CmdPasteCopy const *orig = (CmdPasteCopy const *) cmd;
-	GnmPasteTarget  new_dst;
+	GnmPasteTarget new_dst;
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	GnmRange const	*r = selection_first_range (sv,
 		GO_CMD_CONTEXT (wbc), _("Paste Copy"));
+	GnmCellRegion *newcr;
 
 	if (r == NULL)
 		return;
 
 	paste_target_init (&new_dst, sv_sheet (sv), r, orig->dst.paste_flags);
-	cmd_paste_copy (wbc, &new_dst,
-		clipboard_copy_range (orig->dst.sheet, &orig->dst.range));
+	newcr = clipboard_copy_range (orig->dst.sheet, &orig->dst.range);
+	cmd_paste_copy (wbc, &new_dst, newcr);
+	cellregion_unref (newcr);
 }
 MAKE_GNM_COMMAND (CmdPasteCopy, cmd_paste_copy, cmd_paste_copy_repeat)
 
@@ -2964,6 +2966,7 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
 	GnmCellRegion *contents;
 	GSList *old_objects;
+	GnmPasteTarget actual_dst;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->contents != NULL, TRUE);
@@ -2976,7 +2979,11 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	old_objects = get_new_objects (me->dst.sheet, NULL);
 
 	contents = clipboard_copy_range (me->dst.sheet, &me->dst.range);
-	if (clipboard_paste_region (me->contents, &me->dst, GO_CMD_CONTEXT (wbc))) {
+	actual_dst = me->dst;
+	if (me->has_been_through_cycle)
+		me->dst.paste_flags = PASTE_CONTENTS |
+			(me->dst.paste_flags & PASTE_ALL_TYPES);
+	if (clipboard_paste_region (me->contents, &actual_dst, GO_CMD_CONTEXT (wbc))) {
 		/* There was a problem, avoid leaking */
 		cellregion_unref (contents);
 		g_slist_free (old_objects);
@@ -2986,14 +2993,6 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	me->pasted_objects = get_new_objects (me->dst.sheet, old_objects);
 	g_slist_foreach (me->pasted_objects, (GFunc)g_object_ref, NULL);
 	g_slist_free (old_objects);
-
-	if (me->has_been_through_cycle) {
-		cellregion_unref (me->contents);
-	} else {
-		/* Save the contents */
-		me->dst.paste_flags = PASTE_CONTENTS |
-			(me->dst.paste_flags & PASTE_ALL_TYPES);
-	}
 
 	if (is_undo) {
 		colrow_restore_state_group (me->dst.sheet, FALSE,
@@ -3027,6 +3026,7 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 				(GOMapFunc)sheet_object_dup)
 		: NULL;
 
+	cellregion_unref (me->contents);
 	me->contents = contents;
 	me->has_been_through_cycle = TRUE;
 
@@ -3061,17 +3061,14 @@ cmd_paste_copy_finalize (GObject *cmd)
 {
 	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
 
-	me->saved_sizes_rows = colrow_state_group_destroy
-		(me->saved_sizes_rows);
+	me->saved_sizes_rows = colrow_state_group_destroy (me->saved_sizes_rows);
 	colrow_index_list_destroy (me->saved_list_rows);
 	me->saved_list_rows = NULL;
-	me->saved_sizes_cols = colrow_state_group_destroy
-		(me->saved_sizes_cols);
+	me->saved_sizes_cols = colrow_state_group_destroy (me->saved_sizes_cols);
 	colrow_index_list_destroy (me->saved_list_cols);
 	me->saved_list_cols = NULL;
 	if (me->contents) {
-		if (me->has_been_through_cycle)
-			cellregion_unref (me->contents);
+		cellregion_unref (me->contents);
 		me->contents = NULL;
 	}
 	go_slist_free_custom (me->pasted_objects, (GFreeFunc)g_object_unref);
@@ -3079,6 +3076,9 @@ cmd_paste_copy_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/*
+ * cmd_paste_copy will ref cr as needed.
+ */
 gboolean
 cmd_paste_copy (WorkbookControl *wbc,
 		GnmPasteTarget const *pt, GnmCellRegion *cr)
@@ -3090,6 +3090,9 @@ cmd_paste_copy (WorkbookControl *wbc,
 
 	g_return_val_if_fail (pt != NULL, TRUE);
 	g_return_val_if_fail (IS_SHEET (pt->sheet), TRUE);
+	g_return_val_if_fail (cr != NULL, TRUE);
+
+	cellregion_ref (cr);
 
 	me = g_object_new (CMD_PASTE_COPY_TYPE, NULL);
 

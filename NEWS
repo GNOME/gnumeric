@@ -22,6 +22,7 @@ Morten:
 	* Reduce memory usage when new glib is used.  [#644197]
 	* Eliminate col/row infos that are identical to the default.  [#155003]
 	* Fix problems reading some Lotus 1-2-3 files.
+	* Fix paste-special repeat.
 
 Urmas:
 	* Initial support for Works files.  [#647492]

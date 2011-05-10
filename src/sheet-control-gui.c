@@ -3722,7 +3722,7 @@ scg_drag_receive_spreadsheet (SheetControlGUI *scg, const gchar *uri)
 
 static void
 scg_paste_cellregion (SheetControlGUI *scg, double x, double y,
-		       GnmCellRegion *content)
+		      GnmCellRegion *content)
 {
 	WorkbookControl	*wbc  = scg_wbc (scg);
 	Sheet *sheet = scg_sheet (scg) ;
