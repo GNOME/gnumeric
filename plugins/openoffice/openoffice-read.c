@@ -1588,52 +1588,6 @@ odf_validation (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-cb_find_default_colrow_style (gpointer *key, OOColRowStyle *val,
-			   OOColRowStyle **cri)
-{
-	if (*cri == NULL || ((*cri)->count < val->count))
-		*cri = val;
-}
-
-/* ODF defines default styles for cols/rows but many applications do not set it
- * and frequently ending up specifying a row style for real_extent..MAX
- * in order to make the styles work as above.  To avoid the miserable
- * performance of pretending to have 64k rows, we now need to go back and reset
- * the 'default'ness of any othewise empty rows, and assign the most common row
- * format as the default unless a default style is already set. */
-static void
-oo_col_reset_defaults (OOParseState *state)
-{
-	OOColRowStyle *cri = NULL;
-
-	if (state->default_style.columns == NULL) {
-		g_hash_table_foreach (state->styles.col,
-				      (GHFunc)cb_find_default_colrow_style, &cri);
-		if (NULL != cri && cri->size_pts > 0.)
-			sheet_col_set_default_size_pts (state->pos.sheet,
-							cri->size_pts);
-	}
-	colrow_reset_defaults (state->pos.sheet, TRUE,
-			       state->extent_data.col);
-}
-
-static void
-oo_row_reset_defaults (OOParseState *state)
-{
-	OOColRowStyle *cri = NULL;
-
-	if (state->default_style.rows == NULL) {
-		g_hash_table_foreach (state->styles.row,
-				      (GHFunc)cb_find_default_colrow_style, &cri);
-		if (NULL != cri && cri->size_pts > 0.)
-			sheet_row_set_default_size_pts (state->pos.sheet,
-							cri->size_pts);
-	}
-	colrow_reset_defaults (state->pos.sheet, FALSE,
-			       state->extent_data.row);
-}
-
-static void
 oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -1680,9 +1634,6 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		sheet_style_set_range (state->pos.sheet, &r,
 				       sheet_style_default (state->pos.sheet));
 	}
-
-	oo_col_reset_defaults (state);
-	oo_row_reset_defaults (state);
 
 	state->pos.eval.col = state->pos.eval.row = 0;
 	state->pos.sheet = NULL;

@@ -141,7 +141,6 @@ void		 colrow_set_visibility_list	(Sheet *sheet, gboolean is_cols,
 
 /* Misc */
 #define		 colrow_max(is_cols,sheet)	((is_cols) ? gnm_sheet_get_max_cols (sheet) : gnm_sheet_get_max_rows (sheet))
-void             colrow_reset_defaults		(Sheet *sheet, gboolean is_cols, int maxima);
 int              colrow_find_adjacent_visible   (Sheet *sheet, gboolean is_cols,
 						 int index, gboolean forward);
 
