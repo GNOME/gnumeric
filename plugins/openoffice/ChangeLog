@@ -1,5 +1,10 @@
 2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_string_handler): new
+	(odf_expr_conventions_new): connect odf_string_handler
+
+2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_manifest): write manifest
 	version for ODF 1.2 or newer
 

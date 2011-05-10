@@ -2397,6 +2397,22 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 	return;
 }
 
+static void
+odf_string_handler (GnmConventionsOut *out, GOString const *str)
+{
+	gchar const *string = str->str;
+	g_string_append_c (out->accum, '"');
+	/* This loop should be UTF-8 safe.  */
+	for (; *string; string++) {
+		switch (*string) {
+		case '"':
+			g_string_append_c (out->accum, '"');
+		default:
+			g_string_append_c (out->accum, *string);
+		}
+	}
+	g_string_append_c (out->accum, '"');
+}
 
 
 static GnmConventions *
@@ -2411,6 +2427,7 @@ odf_expr_conventions_new (void)
 	conv->array_row_sep		= '|';
 	conv->intersection_char         = '!';
 	conv->decimal_sep_dot		= TRUE;
+	conv->output.string		= odf_string_handler;
 	conv->output.cell_ref		= odf_cellref_as_string;
 	conv->output.range_ref		= odf_rangeref_as_string;
 	conv->output.func               = odf_expr_func_handler;
