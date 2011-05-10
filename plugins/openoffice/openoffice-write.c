@@ -1790,15 +1790,61 @@ odf_write_row_styles (GnmOOExport *state)
 }
 
 static void
+odf_print_string (GnmConventionsOut *out, char const *str, char quote)
+{
+	GString *target = out->accum;
+
+	/* Strings are surrounded by quote characters; a literal quote character '"'*/
+	/* as string content is escaped by duplicating it. */
+
+	g_string_append_c (target, quote);
+	/* This loop should be UTF-8 safe.  */
+	for (; *str; str++) {
+		g_string_append_c (target, *str);
+		if (*str == quote)
+			g_string_append_c (target, quote);
+	}
+	g_string_append_c (target, quote);
+	
+}
+
+static void
 odf_cellref_as_string (GnmConventionsOut *out,
 		       GnmCellRef const *cell_ref,
 		       gboolean no_sheetname)
 {
-	g_string_append (out->accum, "[");
-	if (cell_ref->sheet == NULL)
-		g_string_append_c (out->accum, '.');
-	cellref_as_string (out, cell_ref, FALSE);
-	g_string_append (out->accum, "]");
+	GString *target = out->accum;
+	GnmCellPos pos;
+	Sheet const *sheet = cell_ref->sheet;
+	Sheet const *size_sheet = eval_sheet (sheet, out->pp->sheet);
+	GnmSheetSize const *ss =
+		gnm_sheet_get_size2 (size_sheet, out->pp->wb);
+
+	g_string_append (target, "[");
+	if (sheet != NULL) {
+		if (NULL != out->pp->wb && sheet->workbook != out->pp->wb) {
+			/* We need to check this */
+			/* char *rel_uri = wb_rel_uri (sheet->workbook, out->pp->wb); */
+			/* g_string_append_c (target, '['); */
+			/* g_string_append (target, rel_uri); */
+			/* g_string_append_c (target, ']'); */
+			/* g_free (rel_uri); */
+		}
+		odf_print_string (out, sheet->name_unquoted, '\'');
+	}
+	g_string_append_c (target, '.');
+
+	gnm_cellpos_init_cellref_ss (&pos, cell_ref, &out->pp->eval, ss);
+	
+	if (!cell_ref->col_relative)
+		g_string_append_c (target, '$');
+	g_string_append (target, col_name (pos.col));
+	
+	if (!cell_ref->row_relative)
+		g_string_append_c (target, '$');
+	g_string_append (target, row_name (pos.row));
+	
+	g_string_append (target, "]");
 }
 
 #warning Check on external ref syntax
@@ -2405,18 +2451,7 @@ odf_string_handler (GnmConventionsOut *out, GOString const *str)
 	/* (QUOTATION MARK, U+0022) as */
 	/* string content is escaped by duplicating it. */
 
-	gchar const *string = str->str;
-	g_string_append_c (out->accum, '"');
-	/* This loop should be UTF-8 safe.  */
-	for (; *string; string++) {
-		switch (*string) {
-		case '"':
-			g_string_append_c (out->accum, '"');
-		default:
-			g_string_append_c (out->accum, *string);
-		}
-	}
-	g_string_append_c (out->accum, '"');
+	odf_print_string (out, str->str, '"');
 }
 
 
