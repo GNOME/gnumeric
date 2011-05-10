@@ -4617,6 +4617,9 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_start_element (xml, MANIFEST "manifest");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:manifest",
 		"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0");
+	if (get_gsf_odf_version () > 101)
+		gsf_xml_out_add_cstr_unchecked (xml, MANIFEST "version",
+						get_gsf_odf_version_string ());
 	odf_file_entry (xml, "application/vnd.oasis.opendocument.spreadsheet" ,"/");
 	odf_file_entry (xml, "text/xml", "content.xml");
 	odf_file_entry (xml, "text/xml", "styles.xml");

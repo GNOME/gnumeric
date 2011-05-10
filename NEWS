@@ -13,6 +13,7 @@ Andreas:
 	* Handle MS Works formula import. [#649406]
 	* Restore Gnumeric print range. [#649714]
 	* Set default, save and restore print file name. [#649711][#649713]
+	* Some ODF 1.2 export fixes.
 
 Morten:
 	* Fix problems with localized function docs.

@@ -1,3 +1,8 @@
+2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_manifest): write manifest
+	version for ODF 1.2 or newer
+
 2011-04-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_interpolation_attribute):
