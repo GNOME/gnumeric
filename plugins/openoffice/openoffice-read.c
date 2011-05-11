@@ -2118,6 +2118,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				     || go_format_is_general (gnm_style_get_format (style)))) {
 					GOFormat *format;
 					style = (style == NULL) ? gnm_style_new_default () : gnm_style_dup (style);
+					/* Now we have one reference for style */
 					if (has_datetime) {
 						format = go_format_default_date_time ();
 						g_hash_table_replace (state->styles.cell_datetime,
@@ -2130,11 +2131,14 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 						format = go_format_default_time ();
 						g_hash_table_replace (state->styles.cell_time,
 								      g_strdup (style_name), style);
-					}
+					} 
 					gnm_style_set_format (style, format);
+					/* Since (has_datetime || has_date || has_time) we now */
+					/* have net 0 references for style */
 				}
 			}
 		}
+		/* 0 references for style */
 		if (style != NULL)
 			gnm_style_ref (style);
 	}
@@ -2641,7 +2645,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 			: NULL;
 		state->cur_style.cells = (style != NULL)
 			? gnm_style_dup (style) : gnm_style_new_default ();
-		gnm_style_ref (state->cur_style.cells);
+		gnm_style_ref (state->cur_style.cells); /* We now have 2 references */
 		state->h_align_is_valid = state->repeat_content = FALSE;
 		state->text_align = -2;
 		state->gnm_halign = -2;
@@ -2649,15 +2653,20 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 		if (fmt != NULL)
 			gnm_style_set_format (state->cur_style.cells, fmt);
 
-		if (name != NULL)
+		if (name != NULL) {
 			g_hash_table_replace (state->styles.cell,
 				g_strdup (name), state->cur_style.cells);
-		else if (0 == strcmp (xin->node->id, "DEFAULT_STYLE")) {
+			/* one reference left for state->cur_style.cells */
+		} else if (0 == strcmp (xin->node->id, "DEFAULT_STYLE")) {
 			 if (state->default_style.cells)
 				 gnm_style_unref (state->default_style.cells);
 			 state->default_style.cells = state->cur_style.cells;
-		} else
+			 /* one reference left for state->cur_style.cells */
+		} else {
 			gnm_style_unref (state->cur_style.cells);
+			/* one reference left for state->cur_style.cells */
+		}
+		
 		break;
 
 	case OO_STYLE_COL:
@@ -2730,8 +2739,10 @@ oo_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	switch (state->cur_style.type) {
 	case OO_STYLE_CELL :
-		gnm_style_unref (state->cur_style.cells);
-		state->cur_style.cells = NULL;
+		if (state->cur_style.cells != NULL) {
+			gnm_style_unref (state->cur_style.cells);
+			state->cur_style.cells = NULL;
+		}
 		break;
 	case OO_STYLE_COL :
 	case OO_STYLE_ROW :

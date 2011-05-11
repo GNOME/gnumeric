@@ -1809,7 +1809,7 @@ odf_print_string (GnmConventionsOut *out, char const *str, char quote)
 }
 
 static void
-odf_cellref_as_string (GnmConventionsOut *out,
+odf_cellref_as_string_base (GnmConventionsOut *out,
 		       GnmCellRef const *cell_ref,
 		       gboolean no_sheetname)
 {
@@ -1820,16 +1820,14 @@ odf_cellref_as_string (GnmConventionsOut *out,
 	GnmSheetSize const *ss =
 		gnm_sheet_get_size2 (size_sheet, out->pp->wb);
 
-	g_string_append (target, "[");
-	if (sheet != NULL) {
+	if (sheet != NULL && !no_sheetname) {
 		if (NULL != out->pp->wb && sheet->workbook != out->pp->wb) {
-			/* We need to check this */
-			/* char *rel_uri = wb_rel_uri (sheet->workbook, out->pp->wb); */
-			/* g_string_append_c (target, '['); */
-			/* g_string_append (target, rel_uri); */
-			/* g_string_append_c (target, ']'); */
-			/* g_free (rel_uri); */
+			char const *ext_ref;
+			ext_ref = go_doc_get_uri ((GODoc *)(sheet->workbook));
+			odf_print_string (out, ext_ref, '\'');
+			g_string_append_c (target, '#');
 		}
+		g_string_append_c (target, '$');
 		odf_print_string (out, sheet->name_unquoted, '\'');
 	}
 	g_string_append_c (target, '.');
@@ -1844,25 +1842,25 @@ odf_cellref_as_string (GnmConventionsOut *out,
 		g_string_append_c (target, '$');
 	g_string_append (target, row_name (pos.row));
 	
-	g_string_append (target, "]");
 }
 
-#warning Check on external ref syntax
+static void
+odf_cellref_as_string (GnmConventionsOut *out,
+		       GnmCellRef const *cell_ref,
+		       gboolean no_sheetname)
+{
+	g_string_append (out->accum, "[");
+	odf_cellref_as_string_base (out, cell_ref, no_sheetname);
+	g_string_append (out->accum, "]");
+}
 
 static void
 odf_rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 {
 	g_string_append (out->accum, "[");
-	if (ref->a.sheet == NULL)
-		g_string_append_c (out->accum, '.');
-	cellref_as_string (out, &(ref->a), FALSE);
-
-	if (ref->b.sheet == NULL)
-		g_string_append (out->accum, ":.");
-	else
-		g_string_append_c (out->accum, ':');
-
-	cellref_as_string (out, &(ref->b), FALSE);
+	odf_cellref_as_string_base (out, &(ref->a), FALSE);
+	g_string_append_c (out->accum, ':');
+	odf_cellref_as_string_base (out, &(ref->b), ref->b.sheet == ref->a.sheet);
 	g_string_append (out->accum, "]");
 }
 

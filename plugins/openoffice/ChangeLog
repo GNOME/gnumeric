@@ -1,3 +1,13 @@
+2011-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_cellref_as_string_base): extracted from
+	odf_cellref_as_string
+	(odf_cellref_as_string): use odf_cellref_as_string_base
+	(odf_rangeref_as_string): use odf_cellref_as_string
+	* openoffice-read.c (oo_cell_start): add comments
+	(oo_style): add comments
+	(oo_style_end): check for NULL
+
 2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (openoffice_file_open): initialize cur_control
