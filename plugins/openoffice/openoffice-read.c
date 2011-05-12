@@ -1496,6 +1496,96 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val)
 }
 
 static GnmValidation *
+odf_validation_new_general (GsfXMLIn *xin, odf_validation_t *val, 
+				    char * start, ValidationType val_type, 
+				    ValidationOp val_op)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	GnmValidation *validation = NULL;
+	GnmExprTop const *texpr = NULL;
+	GnmParsePos   pp;
+
+	pp = state->pos;
+	if (val->base_cell_address != NULL) {
+		char *tmp = g_strconcat ("[", val->base_cell_address, "]", NULL);
+		texpr = oo_expr_parse_str
+			(xin, tmp, &pp,
+			 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
+			 FORMULA_OPENFORMULA);
+		g_free (tmp);
+		if (texpr != NULL) {
+			if (GNM_EXPR_GET_OPER (texpr->expr) ==
+			    GNM_EXPR_OP_CELLREF) {
+				GnmCellRef const *ref = &texpr->expr->cellref.ref;
+				parse_pos_init (&pp, state->pos.wb, ref->sheet,
+						ref->col, ref->row);
+			}
+			gnm_expr_top_unref (texpr);
+		}
+	}
+
+	texpr = oo_expr_parse_str (xin, start, &pp,
+				   GNM_EXPR_PARSE_DEFAULT,
+				   val->f_type);
+
+	if (texpr != NULL)
+		validation = validation_new (VALIDATION_STYLE_WARNING,
+					     val_type,
+					     val_op,
+					     NULL, NULL,
+					     texpr,
+					     NULL,
+					     val->allow_blank,
+					     val->use_dropdown);
+	return validation;
+}
+
+static GnmValidation *
+odf_validation_new_tlength (GsfXMLIn *xin, odf_validation_t *val)
+{
+	/*"cell-content-text-length() op value"*/
+
+	char *start;
+	ValidationOp val_op = VALIDATION_OP_NONE;
+
+	start = val->condition + strlen ("cell-content-text-length()");
+
+	while (*start == ' ')
+		start++;
+
+	/*”<”,“>”, ”<=”, ”>=”, ”=” or “!=”*/
+
+	if (g_str_has_prefix (start, ">=")) {
+		val_op = VALIDATION_OP_GTE;
+		start += 2;
+	} else if (g_str_has_prefix (start, "<=")) {
+		val_op = VALIDATION_OP_LTE;
+		start += 2;
+	} else if (g_str_has_prefix (start, "!=")) {
+		val_op = VALIDATION_OP_NOT_EQUAL;
+		start += 2;
+	} else if (g_str_has_prefix (start, "=")) {
+		val_op = VALIDATION_OP_EQUAL;
+		start += 1;
+	} else if (g_str_has_prefix (start, ">")) {
+		val_op = VALIDATION_OP_GT;
+		start += 1;
+	} else if (g_str_has_prefix (start, "<")) {
+		val_op = VALIDATION_OP_LT;
+		start += 1;
+	} else 
+
+	if (val_op == VALIDATION_OP_NONE)
+		return NULL;
+
+	while (*start == ' ')
+		start++;
+
+	return odf_validation_new_general 
+		(xin, val, start, VALIDATION_TYPE_TEXT_LENGTH, val_op);
+}
+
+static GnmValidation *
 odf_validations_translate (GsfXMLIn *xin, char const *name)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -1515,7 +1605,7 @@ odf_validations_translate (GsfXMLIn *xin, char const *name)
 			validation = odf_validation_new_list (xin, val);
 		else if (g_str_has_prefix (val->condition,
 					   "cell-content-text-length()"))
-			/* validation = odf_validation_new_ (xin, val) */;
+			validation = odf_validation_new_tlength (xin, val);
 		else if (g_str_has_prefix (val->condition,
 					   "cell-content-text-length-is-between"))
 			/* validation = odf_validation_new_ (xin, val) */;

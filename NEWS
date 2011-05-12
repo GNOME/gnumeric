@@ -16,6 +16,7 @@ Andreas:
 	* Some ODF 1.2 export fixes including [#649906] and [#649914].
 	* Export external references to ODF.
 	* Fix ODF style handling on import. [#649851]
+	* Import more validations from ODF.
 
 Morten:
 	* Fix problems with localized function docs.
