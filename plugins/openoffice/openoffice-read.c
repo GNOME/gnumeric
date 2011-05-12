@@ -1657,13 +1657,13 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (cols < max_cols) {
 		range_init (&r, cols, 0,
 			    max_cols - 1, max_rows - 1);
-		sheet_style_set_range (state->pos.sheet, &r,
+		sheet_style_apply_range (state->pos.sheet, &r,
 				       sheet_style_default (state->pos.sheet));
 	}
 	if (rows < max_rows) {
 		range_init (&r, 0, rows,
 			    max_cols - 1, max_rows - 1);
-		sheet_style_set_range (state->pos.sheet, &r,
+		sheet_style_apply_range (state->pos.sheet, &r,
 				       sheet_style_default (state->pos.sheet));
 	}
 
@@ -1799,7 +1799,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 		r.start.row = 0;
 		r.end.row  = gnm_sheet_get_last_row (state->pos.sheet);
 		gnm_style_ref (style);
-		sheet_style_set_range (state->pos.sheet, &r, style);
+		sheet_style_apply_range (state->pos.sheet, &r, style);
 		oo_update_style_extent (state, repeat_count, -1);
 	}
 	if (col_info != NULL) {
@@ -1877,7 +1877,9 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "default-cell-style-name"))
+			style = g_hash_table_lookup (state->styles.cell, attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			row_info = g_hash_table_lookup (state->styles.row, attrs[1]);
 		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-rows-repeated", &repeat_count, 0, INT_MAX))
 			;
@@ -1906,7 +1908,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 		r.start.col = 0;
 		r.end.col  = gnm_sheet_get_last_col (state->pos.sheet);
 		gnm_style_ref (style);
-		sheet_style_set_range (state->pos.sheet, &r, style);
+		sheet_style_apply_range (state->pos.sheet, &r, style);
 		oo_update_style_extent (state, -1, repeat_count);
 	}
 
@@ -2001,7 +2003,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->col_inc = 1;
 	state->content_is_error = FALSE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc, 0, INT_MAX))
+		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated", 
+				       &state->col_inc, 0, INT_MAX))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "formula")) {
 			OOFormula f_type;
@@ -2018,7 +2021,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 			expr_string = gnm_expr_char_start_p (expr_string);
 			if (expr_string == NULL)
-				oo_warning (xin, _("Expression '%s' does not start with a recognized character"), attrs[1]);
+				oo_warning (xin, _("Expression '%s' does not start "
+						   "with a recognized character"), attrs[1]);
 			else if (*expr_string == '\0')
 				/* Ick.  They seem to store error cells as
 				 * having value date with expr : '=' and the
@@ -2026,10 +2030,12 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				 */
 				state->content_is_error = TRUE;
 			else
-				texpr = oo_expr_parse_str (xin, expr_string,
-							   &state->pos, GNM_EXPR_PARSE_DEFAULT, f_type);
+				texpr = oo_expr_parse_str 
+					(xin, expr_string,
+					 &state->pos, GNM_EXPR_PARSE_DEFAULT, f_type);
 		} else if (oo_attr_bool (xin, attrs,
-					 (state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
+					 (state->ver == OOO_VER_OPENDOC) ? 
+					 OO_NS_OFFICE : OO_NS_TABLE,
 					 "boolean-value", &bool_val))
 			val = value_new_bool (bool_val);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
@@ -2047,7 +2053,9 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 					unsigned d_serial = go_date_g_to_serial (&date,
 						workbook_date_conv (state->pos.wb));
 					if (n >= 6) {
-						double time_frac = h + ((double)mi / 60.) + ((double)s / 3600.);
+						double time_frac 
+							= h + ((double)mi / 60.) + 
+							((double)s / 3600.);
 						val = value_new_float (d_serial + time_frac / 24.);
 						has_datetime = TRUE;
 					} else {
@@ -2057,7 +2065,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				}
 			}
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
-					       (state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
+					       (state->ver == OOO_VER_OPENDOC) ? 
+					       OO_NS_OFFICE : OO_NS_TABLE,
 					       "time-value")) {
 			unsigned h, m, s;
 			if (3 == sscanf (CXML2C (attrs[1]), "PT%uH%uM%uS", &h, &m, &s)) {
@@ -2066,24 +2075,32 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				has_time = TRUE;
 			}
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
-					       (state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
+					       (state->ver == OOO_VER_OPENDOC) ? 
+					       OO_NS_OFFICE : OO_NS_TABLE,
 					       "string-value"))
 			val = value_new_string (CXML2C (attrs[1]));
 		else if (oo_attr_float (xin, attrs,
 			(state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
 			"value", &float_val))
 			val = value_new_float (float_val);
-		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-matrix-columns-spanned", &array_cols, 0, INT_MAX))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, 
+					    "number-matrix-columns-spanned", 
+					    &array_cols, 0, INT_MAX))
 			;
-		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-matrix-rows-spanned", &array_rows, 0, INT_MAX))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, 
+					    "number-matrix-rows-spanned", 
+					    &array_rows, 0, INT_MAX))
 			;
-		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-spanned", &merge_cols, 0, INT_MAX))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, 
+					    "number-columns-spanned", &merge_cols, 0, INT_MAX))
 			;
-		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-rows-spanned", &merge_rows, 0, INT_MAX))
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, 
+					    "number-rows-spanned", &merge_rows, 0, INT_MAX))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			style_name = attrs[1];
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "content-validation-name"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, 
+					     "content-validation-name"))
 			validation_name = attrs[1];
 	}
 
@@ -2117,8 +2134,10 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				    ((!gnm_style_is_element_set (style, MSTYLE_FORMAT))
 				     || go_format_is_general (gnm_style_get_format (style)))) {
 					GOFormat *format;
-					style = (style == NULL) ? gnm_style_new_default () : gnm_style_dup (style);
-					/* Now we have one reference for style */
+					style = (style == NULL) ? gnm_style_new () : 
+						gnm_style_dup (style);
+					gnm_style_ref (style);
+					/* Now we have 2 references for style */
 					if (has_datetime) {
 						format = go_format_default_date_time ();
 						g_hash_table_replace (state->styles.cell_datetime,
@@ -2134,19 +2153,28 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 					} 
 					gnm_style_set_format (style, format);
 					/* Since (has_datetime || has_date || has_time) we now */
-					/* have net 0 references for style */
-				}
-			}
-		}
-		/* 0 references for style */
-		if (style != NULL)
+					/* have 1 references for style */
+				} else 
+					gnm_style_ref (style);
+				/* 1 reference for style*/
+			} else if (style != NULL)
+				gnm_style_ref (style);
+			/* 1 reference for style*/
+		} else 
 			gnm_style_ref (style);
+		/* 1 reference for style*/
 	}
 
 	if ((validation_name != NULL) &&
 	    (NULL != (validation = odf_validations_translate (xin, validation_name)))) {
 		if (style == NULL)
-			style = gnm_style_new_default ();
+			style = gnm_style_new ();
+		else {
+			GnmStyle *ostyle = style;
+			style = gnm_style_dup (ostyle);
+			gnm_style_unref (ostyle);
+		}
+		/* 1 reference for style*/
 		gnm_style_set_validation (style, validation);
 	}
 
@@ -2154,17 +2182,17 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (state->col_inc > 1 || state->row_inc > 1) {
 			range_init_cellpos_size (&tmp, &state->pos.eval,
 				state->col_inc, state->row_inc);
-			sheet_style_set_range (state->pos.sheet, &tmp, style);
+			sheet_style_apply_range (state->pos.sheet, &tmp, style);
 			oo_update_style_extent (state, state->col_inc, state->row_inc);
 		} else if (merge_cols > 1 || merge_rows > 1) {
 			range_init_cellpos_size (&tmp, &state->pos.eval,
 						 merge_cols, merge_rows);
-			sheet_style_set_range (state->pos.sheet, &tmp, style);
+			sheet_style_apply_range (state->pos.sheet, &tmp, style);
 			oo_update_style_extent (state, merge_cols, merge_rows);
 		} else {
-			sheet_style_set_pos (state->pos.sheet,
-				state->pos.eval.col, state->pos.eval.row,
-				style);
+			sheet_style_apply_pos (state->pos.sheet,
+					       state->pos.eval.col, state->pos.eval.row,
+					       style);
 			oo_update_style_extent (state, 1, 1);
 		}
 	}
@@ -2332,7 +2360,7 @@ oo_covered_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (style != NULL) {
 		gnm_style_ref (style);
-		sheet_style_set_pos (state->pos.sheet,
+		sheet_style_apply_pos (state->pos.sheet,
 		     state->pos.eval.col, state->pos.eval.row,
 		     style);
 	}
@@ -2644,7 +2672,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 			? g_hash_table_lookup (state->styles.cell, parent_name)
 			: NULL;
 		state->cur_style.cells = (style != NULL)
-			? gnm_style_dup (style) : gnm_style_new_default ();
+			? gnm_style_dup (style) : gnm_style_new ();
 		gnm_style_ref (state->cur_style.cells); /* We now have 2 references */
 		state->h_align_is_valid = state->repeat_content = FALSE;
 		state->text_align = -2;

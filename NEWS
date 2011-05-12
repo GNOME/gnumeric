@@ -15,6 +15,7 @@ Andreas:
 	* Set default, save and restore print file name. [#649711][#649713]
 	* Some ODF 1.2 export fixes including [#649906] and [#649914].
 	* Export external references to ODF.
+	* Fix ODF style handling on import. [#649851]
 
 Morten:
 	* Fix problems with localized function docs.

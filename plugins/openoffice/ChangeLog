@@ -1,3 +1,10 @@
+2011-05-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c: change all styles into partial style and use
+	sheet_style_apply_... rather than sheet_style_set_...
+	(oo_row_start): handle default styles
+	(oo_cell_start): don't change any of the saved styles.
+
 2011-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_cellref_as_string_base): extracted from
