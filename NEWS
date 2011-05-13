@@ -18,6 +18,9 @@ Andreas:
 	* Fix ODF style handling on import. [#649851]
 	* Import more validations from ODF.
 
+Jean:
+	* Fixed critical. [#649901]
+
 Morten:
 	* Fix problems with localized function docs.
 	* Plug leaks.

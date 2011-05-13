@@ -288,7 +288,8 @@ GnmExprTop const *
 gnm_go_data_get_expr (GOData const *dat)
 {
 	GnmDependent *dep = gnm_go_data_get_dep (dat);
-	g_return_val_if_fail (dep != NULL, NULL);
+	if (!dep)
+		return NULL;
 	return dep->texpr;
 }
 

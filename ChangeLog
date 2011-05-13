@@ -1,3 +1,7 @@
+2011-05-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_get_expr): fixed critical. [#649901]
+
 2011-05-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/parse-util.h (_GnmConventions): add input.string
