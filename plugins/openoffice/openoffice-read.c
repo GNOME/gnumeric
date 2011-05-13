@@ -1497,7 +1497,7 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val, guint offset)
 
 static GnmValidation *
 odf_validation_new_single_expr (GsfXMLIn *xin, odf_validation_t *val, 
-				    char * start, ValidationType val_type, 
+				    char const *start, ValidationType val_type, 
 				    ValidationOp val_op)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -1541,7 +1541,7 @@ odf_validation_new_single_expr (GsfXMLIn *xin, odf_validation_t *val,
 
 static GnmValidation *
 odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val, 
-			      char * start, ValidationType val_type, 
+			      char const *start, ValidationType val_type, 
 			      ValidationOp val_op)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -1705,7 +1705,10 @@ odf_validations_analyze (GsfXMLIn *xin, odf_validation_t *val, guint offset, Val
 			(xin, val, str - val->condition + strlen ("cell-content-is-time() and"), 
 			 VALIDATION_TYPE_AS_TIME);		
 	else if (g_str_has_prefix (str, "is-true-formula"))
-		/* validation = odf_validation_new_ (xin, val, str - val->condition + strlen (), vtype) */;
+		/* What do we do if vtype != VALIDATION_TYPE_ANY ?*/
+		return odf_validation_new_single_expr
+			(xin, val, str + strlen ("is-true-formula"), VALIDATION_TYPE_CUSTOM, 
+			 VALIDATION_OP_NONE);
 	else if (g_str_has_prefix (str, "cell-content()"))
 		return odf_validation_new_op
 			(xin, val, str - val->condition + strlen ("cell-content()"), 

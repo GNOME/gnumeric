@@ -1,5 +1,11 @@
 2011-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_validation_new_single_expr): make argument const
+	(odf_validation_new_pair_expr): ditto
+	(odf_validations_analyze): handle (plain) is-true-formula
+
+2011-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_validation_new_list): add argument and
 	permit non-zero offset
 	(odf_validation_new_general): renamed to odf_validation_new_single_expr
