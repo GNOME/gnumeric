@@ -1,3 +1,8 @@
+2011-05-12  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_address): Get sheet size from the right
+	sheet.  Fixes #650003.
+
 2011-03-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.14

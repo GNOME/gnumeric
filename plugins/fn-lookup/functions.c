@@ -739,6 +739,9 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	GnmParsePos	 pp;
 	gboolean	 err;
 	int		 col, row;
+	Sheet            *sheet;
+	const char       *sheet_name =
+		args[4] ? value_peek_string (args[4]) : NULL;
 
 	switch (args[2] ? value_get_as_int (args[2]) : 1) {
 	case 1: case 5: ref.col_relative = ref.row_relative = FALSE; break;
@@ -755,6 +758,14 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	default :
 		return value_new_error_VALUE (ei->pos);
 	}
+
+	if (sheet_name) {
+		sheet = workbook_sheet_by_name (ei->pos->sheet->workbook,
+						sheet_name);
+		if (!sheet)
+			return value_new_error_VALUE (ei->pos);
+	} else
+		sheet = ei->pos->sheet;
 
 	ref.sheet = NULL;
 	row = ref.row = value_get_as_int (args[0]) - 1;
@@ -774,17 +785,17 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		if (err)
 		        return value_new_error_VALUE (ei->pos);
 	}
-	if (col < 0 || col >= gnm_sheet_get_max_cols (ei->pos->sheet))
+	if (col < 0 || col >= gnm_sheet_get_max_cols (sheet))
 		return value_new_error_VALUE (ei->pos);
-	if (row < 0 || row >= gnm_sheet_get_max_rows (ei->pos->sheet))
+	if (row < 0 || row >= gnm_sheet_get_max_rows (sheet))
 		return value_new_error_VALUE (ei->pos);
 
 	if (!out.convs->r1c1_addresses)
 		pp.eval.col = pp.eval.row = 0;
 
-	if (NULL != args[4]) {
+	if (sheet_name) {
 		out.accum = gnm_expr_conv_quote (gnm_conventions_default,
-			value_peek_string (args[4]));
+						 sheet_name);
 		g_string_append_c (out.accum, '!');
 	} else
 		out.accum = g_string_new (NULL);

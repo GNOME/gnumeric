@@ -26,6 +26,7 @@ Morten:
 	* Eliminate col/row infos that are identical to the default.  [#155003]
 	* Fix problems reading some Lotus 1-2-3 files.
 	* Fix paste-special repeat.
+	* Fix ADDRESS problem.
 
 Urmas:
 	* Initial support for Works files.  [#647492]
