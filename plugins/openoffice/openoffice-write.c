@@ -3802,6 +3802,25 @@ odf_validation_general_attributes (GnmOOExport *state, GnmValidation const *val)
 }
 
 static void
+odf_validation_general (GnmOOExport *state, GnmValidation const *val,
+			Sheet *sheet, GnmStyleRegion const *sr,
+			char const *prefix)
+{
+}
+
+static void
+odf_validation_length (GnmOOExport *state, GnmValidation const *val,
+			Sheet *sheet, GnmStyleRegion const *sr)
+{
+}
+
+static void
+odf_validation_custom (GnmOOExport *state, GnmValidation const *val,
+			Sheet *sheet, GnmStyleRegion const *sr)
+{
+}
+
+static void
 odf_validation_in_list (GnmOOExport *state, GnmValidation const *val,
 			Sheet *sheet, GnmStyleRegion const *sr)
 {
@@ -3851,19 +3870,46 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 			GnmStyleRegion const *sr  = l->data;
 			GnmValidation const *val = gnm_style_get_validation (sr->style);
 
-			if (val->type == VALIDATION_TYPE_IN_LIST) {
-				if (!element_written) {
-					gsf_xml_out_start_element
-						(state->xml, TABLE "content-validations");
-					element_written = TRUE;
-				}
-				gsf_xml_out_start_element (state->xml,
-							   TABLE "content-validation");
-				odf_validation_general_attributes (state, val);
-				odf_validation_in_list (state, val, sheet, sr);
-				gsf_xml_out_end_element (state->xml);
-				/* </table:content-validation> */
+			if (!element_written) {
+				gsf_xml_out_start_element
+					(state->xml, TABLE "content-validations");
+				element_written = TRUE;
 			}
+			gsf_xml_out_start_element (state->xml,
+						   TABLE "content-validation");
+			odf_validation_general_attributes (state, val);
+			switch (val->type) {
+			case VALIDATION_TYPE_ANY:
+				odf_validation_general (state, val, sheet, sr, "");
+				break;
+			case VALIDATION_TYPE_AS_INT:
+				odf_validation_general (state, val, sheet, sr, 
+							"cell-content-is-whole-number() and ");
+				break;
+			case VALIDATION_TYPE_AS_NUMBER:
+				odf_validation_general (state, val, sheet, sr, 
+							"cell-content-is-decimal-number() and ");
+				break;
+			case VALIDATION_TYPE_AS_DATE:
+				odf_validation_general (state, val, sheet, sr, 
+							"ell-content-is-date() and ");
+				break;
+			case VALIDATION_TYPE_AS_TIME:
+				odf_validation_general (state, val, sheet, sr, 
+							"ell-content-is-time() and ");
+				break;
+			case VALIDATION_TYPE_IN_LIST:
+				odf_validation_in_list (state, val, sheet, sr);
+				break;
+			case VALIDATION_TYPE_TEXT_LENGTH:
+				odf_validation_length (state, val, sheet, sr);
+				break;
+			case VALIDATION_TYPE_CUSTOM:
+				odf_validation_custom (state, val, sheet, sr);
+				break;
+			}
+			gsf_xml_out_end_element (state->xml);
+			/* </table:content-validation> */
 		}
 
 		style_list_free (list);
