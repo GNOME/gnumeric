@@ -1,5 +1,9 @@
 2011-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_validations_analyze): warn if we drop part of a validation condition
+
+2011-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (opendoc_content_dtd): add CELL_ANNOTATION_TEXT_LINE_BREAK,
 	* openoffice-write.c (odf_validation_general): new stub
 	(odf_validation_length): new stub

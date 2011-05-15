@@ -1704,12 +1704,17 @@ odf_validations_analyze (GsfXMLIn *xin, odf_validation_t *val, guint offset, Val
 		return odf_validations_analyze 
 			(xin, val, str - val->condition + strlen ("cell-content-is-time() and"), 
 			 VALIDATION_TYPE_AS_TIME);		
-	else if (g_str_has_prefix (str, "is-true-formula"))
-		/* What do we do if vtype != VALIDATION_TYPE_ANY ?*/
+	else if (g_str_has_prefix (str, "is-true-formula")) {
+		if (vtype != VALIDATION_TYPE_ANY) {
+			oo_warning
+			(xin, _("Validation condition '%s' is not supported. "
+				"It has been changed to '%s'."),
+			 val->condition, str);
+		}
 		return odf_validation_new_single_expr
 			(xin, val, str + strlen ("is-true-formula"), VALIDATION_TYPE_CUSTOM, 
 			 VALIDATION_OP_NONE);
-	else if (g_str_has_prefix (str, "cell-content()"))
+	} else if (g_str_has_prefix (str, "cell-content()"))
 		return odf_validation_new_op
 			(xin, val, str - val->condition + strlen ("cell-content()"), 
 			 vtype);
