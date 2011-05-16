@@ -1,3 +1,8 @@
+2011-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_update_lexer_items): fix flags, we
+	don't wnat to create placeholders here.
+
 2011-03-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.14

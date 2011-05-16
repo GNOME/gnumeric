@@ -53,6 +53,7 @@ Andreas:
 	* Export workbook-scoped named expressions and ranges to ODF.
 	* Improve reading of named expressions from ODF files.
 	* Fix weighted and Spencer moving averages crashes. [#645722]
+	* Avoid creation of unused names. [#650281]
 
 Jean:
 	* Fix cursor position inside a cell edited in a zoomed sheet. [#641709]

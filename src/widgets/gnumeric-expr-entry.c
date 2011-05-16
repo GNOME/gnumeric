@@ -908,7 +908,8 @@ gee_update_lexer_items (GnmExprEntry *gee)
 	if (!gee->feedback_disabled && !forced_text) {
 		gee->texpr = gnm_expr_parse_str
 			((str[0] == '=') ? str+1 : str,
-			 &gee->pp, GNM_EXPR_PARSE_DEFAULT,
+			 &gee->pp, GNM_EXPR_PARSE_DEFAULT 
+			 | GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
 			 sheet_get_conventions (sheet), NULL);
 	}
 
