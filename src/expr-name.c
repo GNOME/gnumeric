@@ -440,7 +440,7 @@ expr_name_lookup (GnmParsePos const *pp, char const *name)
  *
  * Creates a new name without linking it into any container.
  **/
-GnmNamedExpr *
+static GnmNamedExpr *
 expr_name_new (char const *name, gboolean is_placeholder)
 {
 	GnmNamedExpr *nexpr;
@@ -1106,8 +1106,6 @@ expr_name_perm_add (Sheet *sheet, char const *name,
 		res->is_permanent = TRUE;
 		res->is_editable = is_editable;
 	}
-
-
 }
 
 /* ------------------------------------------------------------------------- */

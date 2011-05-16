@@ -1,3 +1,7 @@
+2011-05-16  Morten Welinder  <terra@gnome.org>
+
+	* src/expr-name.c (expr_name_new): Make this static.
+
 2011-05-13  Morten Welinder  <terra@gnome.org>
 
 	* src/io-context-gtk.c (icg_show_gui): Plug leak.
