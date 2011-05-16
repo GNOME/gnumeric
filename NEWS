@@ -17,6 +17,7 @@ Andreas:
 	* Export external references to ODF.
 	* Fix ODF style handling on import. [#649851]
 	* Import more validations from ODF.
+	* Export all validations to ODF.
 
 Jean:
 	* Fixed critical. [#649901]

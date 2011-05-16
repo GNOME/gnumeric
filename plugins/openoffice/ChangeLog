@@ -1,6 +1,20 @@
-2011-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2011-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (odf_validations_analyze): warn if we drop part of a validation condition
+	* openoffice-write.c (odf_validation_base_cell_address): new
+	(odf_validation_append_expression): new
+	(odf_validation_append_expression_pair): new
+	(odf_validation_general): implement
+	(odf_validation_length): implement
+	(odf_validation_custom): implement
+	(odf_validation_in_list): use odf_validation_append_expression, don't
+	write base cell address
+	(odf_print_spreadsheet_content_validations): write base cell address
+	and pass initialized parse position onwards
+
+2011-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_validations_analyze): warn if we drop part of a
+	validation condition
 
 2011-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

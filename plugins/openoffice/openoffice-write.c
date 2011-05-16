@@ -3802,54 +3802,175 @@ odf_validation_general_attributes (GnmOOExport *state, GnmValidation const *val)
 }
 
 static void
-odf_validation_general (GnmOOExport *state, GnmValidation const *val,
-			Sheet *sheet, GnmStyleRegion const *sr,
-			char const *prefix)
-{
-}
-
-static void
-odf_validation_length (GnmOOExport *state, GnmValidation const *val,
-			Sheet *sheet, GnmStyleRegion const *sr)
-{
-}
-
-static void
-odf_validation_custom (GnmOOExport *state, GnmValidation const *val,
-			Sheet *sheet, GnmStyleRegion const *sr)
-{
-}
-
-static void
-odf_validation_in_list (GnmOOExport *state, GnmValidation const *val,
-			Sheet *sheet, GnmStyleRegion const *sr)
+odf_validation_base_cell_address (GnmOOExport *state,
+				  Sheet *sheet, GnmStyleRegion const *sr,
+				  GnmParsePos *pp)
 {
 	GnmExprTop const *texpr;
-	GnmParsePos pp;
 	char *formula;
 	GnmCellRef ref;
-	GString *str;
 
 	gnm_cellref_init (&ref, sheet,
 			  sr->range.start.col,
 			  sr->range.start.row, TRUE);
 	texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
-	parse_pos_init (&pp, (Workbook *)state->wb, sheet,
+	parse_pos_init (pp, (Workbook *)state->wb, sheet,
 			sr->range.start.col,
 			sr->range.start.row);
-	formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
+	formula = gnm_expr_top_as_string (texpr, pp, state->conv);
 	gsf_xml_out_add_cstr (state->xml, TABLE "base-cell-address",
 			      odf_strip_brackets (formula));
 	g_free (formula);
 	gnm_expr_top_unref (texpr);
+}
 
-	/* Note that this is really not valid ODF1.1 but will be valid in ODF1.2 */
-	formula = gnm_expr_top_as_string (val->texpr[0], &pp, state->conv);
-	str = g_string_new ("of:cell-content-is-in-list(");
-	g_string_append (str, formula);
-	g_string_append_c (str, ')');
+static void
+odf_validation_append_expression (GnmOOExport *state, GString *str, GnmExprTop const *texpr, 
+				  GnmParsePos *pp)
+{
+	char *formula;
 
+	formula = gnm_expr_top_as_string (texpr, pp, state->conv);
+	str = g_string_append (str, formula);
 	g_free (formula);
+}
+
+static void
+odf_validation_append_expression_pair (GnmOOExport *state, GString *str, 
+				       GnmValidation const *val, 
+				       GnmParsePos *pp)
+{
+		str = g_string_append_c (str, '(');
+		odf_validation_append_expression (state, str, val->texpr[0], pp);
+		str = g_string_append_c (str, ',');
+		odf_validation_append_expression (state, str, val->texpr[1], pp);
+		str = g_string_append_c (str, ')');
+}
+
+
+static void
+odf_validation_general (GnmOOExport *state, GnmValidation const *val,
+			Sheet *sheet, GnmStyleRegion const *sr,
+			char const *prefix, GnmParsePos *pp)
+{
+	GString *str = g_string_new ("of:");
+
+	str = g_string_append (str, prefix);
+
+	switch (val->op) {
+	case VALIDATION_OP_NONE:
+		str = g_string_append (str, "is-true-formula(1)");
+		break;
+	case VALIDATION_OP_BETWEEN:
+		str = g_string_append (str, "cell-content-is-between");
+		odf_validation_append_expression_pair (state, str, val, pp);
+		break;
+	case VALIDATION_OP_NOT_BETWEEN:
+		str = g_string_append (str, "cell-content-is-not-between");
+		odf_validation_append_expression_pair (state, str, val, pp);
+		break;
+	case VALIDATION_OP_EQUAL:
+		str = g_string_append (str, "cell-content() = ");
+		odf_validation_append_expression (state, str, val->texpr[0], pp);
+		break;
+	case VALIDATION_OP_NOT_EQUAL:
+		str = g_string_append (str, "cell-content() != ");
+		odf_validation_append_expression (state, str, val->texpr[0], pp);
+		break;
+	case VALIDATION_OP_GT:
+		str = g_string_append (str, "cell-content() > ");
+		odf_validation_append_expression (state, str, val->texpr[0], pp);
+		break;
+	case VALIDATION_OP_LT:
+		str = g_string_append (str, "cell-content() < ");
+		odf_validation_append_expression (state, str, val->texpr[0], pp);
+		break;
+	case VALIDATION_OP_GTE:
+		str = g_string_append (str, "cell-content() >= ");
+		odf_validation_append_expression (state, str, val->texpr[0], pp);
+		break;
+	case VALIDATION_OP_LTE:
+		str = g_string_append (str, "cell-content() <= ");
+		odf_validation_append_expression (state, str, val->texpr[0], pp);
+		break;
+	}
+
+	gsf_xml_out_add_cstr (state->xml, TABLE "condition", str->str);
+	g_string_free (str, TRUE);
+}
+
+static void
+odf_validation_length (GnmOOExport *state, GnmValidation const *val,
+			Sheet *sheet, GnmStyleRegion const *sr, GnmParsePos *pp)
+{
+	GString *str = g_string_new ("of:");
+
+	switch (val->op) {
+	case VALIDATION_OP_NONE:
+		str = g_string_append (str, "is-true-formula(1)");
+		break;
+	case VALIDATION_OP_BETWEEN:
+		str = g_string_append (str, "cell-content-text-length-is-between");
+		odf_validation_append_expression_pair (state, str, val, pp);
+		break;
+	case VALIDATION_OP_NOT_BETWEEN:
+		str = g_string_append (str, "cell-content-text-length-is-not-between");
+		odf_validation_append_expression_pair (state, str, val, pp);
+		break;
+	case VALIDATION_OP_EQUAL:
+		str = g_string_append (str, "cell-content-text-length() = ");
+		odf_validation_append_expression (state, str, val->texpr[0], pp);
+		break;
+	case VALIDATION_OP_NOT_EQUAL:
+		str = g_string_append (str, "cell-content-text-length() != ");
+		odf_validation_append_expression (state, str, val->texpr[0], pp);
+		break;
+	case VALIDATION_OP_GT:
+		str = g_string_append (str, "cell-content-text-length() > ");
+		odf_validation_append_expression (state, str, val->texpr[0], pp);
+		break;
+	case VALIDATION_OP_LT:
+		str = g_string_append (str, "cell-content-text-length() < ");
+		odf_validation_append_expression (state, str, val->texpr[0], pp);
+		break;
+	case VALIDATION_OP_GTE:
+		str = g_string_append (str, "of:cell-content-text-length() >= ");
+		odf_validation_append_expression (state, str, val->texpr[0], pp);
+		break;
+	case VALIDATION_OP_LTE:
+		str = g_string_append (str, "cell-content-text-length() <= ");
+		odf_validation_append_expression (state, str, val->texpr[0], pp);
+		break;
+	}
+
+	gsf_xml_out_add_cstr (state->xml, TABLE "condition", str->str);
+	g_string_free (str, TRUE);
+}
+
+static void
+odf_validation_custom (GnmOOExport *state, GnmValidation const *val,
+			Sheet *sheet, GnmStyleRegion const *sr, GnmParsePos *pp)
+{
+	GString *str = g_string_new (NULL);
+
+	str = g_string_append (str, "of:is-true-formula(");
+	odf_validation_append_expression (state, str, val->texpr[0], pp);
+	str = g_string_append_c (str, ')');
+
+	gsf_xml_out_add_cstr (state->xml, TABLE "condition", str->str);
+	g_string_free (str, TRUE);
+}
+
+static void
+odf_validation_in_list (GnmOOExport *state, GnmValidation const *val,
+			Sheet *sheet, GnmStyleRegion const *sr, GnmParsePos *pp)
+{
+	GString *str;
+
+	str = g_string_new ("of:cell-content-is-in-list(");
+	odf_validation_append_expression (state, str, val->texpr[0], pp);
+	str = g_string_append_c (str, ')');
+
 	gsf_xml_out_add_cstr (state->xml, TABLE "condition", str->str);
 	g_string_free (str, TRUE);
 }
@@ -3869,6 +3990,7 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 		for (l = list; l != NULL; l = l->next) {
 			GnmStyleRegion const *sr  = l->data;
 			GnmValidation const *val = gnm_style_get_validation (sr->style);
+			GnmParsePos pp;
 
 			if (!element_written) {
 				gsf_xml_out_start_element
@@ -3878,34 +4000,35 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 			gsf_xml_out_start_element (state->xml,
 						   TABLE "content-validation");
 			odf_validation_general_attributes (state, val);
+			odf_validation_base_cell_address (state, sheet, sr, &pp);
 			switch (val->type) {
 			case VALIDATION_TYPE_ANY:
-				odf_validation_general (state, val, sheet, sr, "");
+				odf_validation_general (state, val, sheet, sr, "", &pp);
 				break;
 			case VALIDATION_TYPE_AS_INT:
 				odf_validation_general (state, val, sheet, sr, 
-							"cell-content-is-whole-number() and ");
+							"cell-content-is-whole-number() and ", &pp);
 				break;
 			case VALIDATION_TYPE_AS_NUMBER:
 				odf_validation_general (state, val, sheet, sr, 
-							"cell-content-is-decimal-number() and ");
+							"cell-content-is-decimal-number() and ", &pp);
 				break;
 			case VALIDATION_TYPE_AS_DATE:
 				odf_validation_general (state, val, sheet, sr, 
-							"ell-content-is-date() and ");
+							"ell-content-is-date() and ", &pp);
 				break;
 			case VALIDATION_TYPE_AS_TIME:
 				odf_validation_general (state, val, sheet, sr, 
-							"ell-content-is-time() and ");
+							"ell-content-is-time() and ", &pp);
 				break;
 			case VALIDATION_TYPE_IN_LIST:
-				odf_validation_in_list (state, val, sheet, sr);
+				odf_validation_in_list (state, val, sheet, sr, &pp);
 				break;
 			case VALIDATION_TYPE_TEXT_LENGTH:
-				odf_validation_length (state, val, sheet, sr);
+				odf_validation_length (state, val, sheet, sr, &pp);
 				break;
 			case VALIDATION_TYPE_CUSTOM:
-				odf_validation_custom (state, val, sheet, sr);
+				odf_validation_custom (state, val, sheet, sr, &pp);
 				break;
 			}
 			gsf_xml_out_end_element (state->xml);
