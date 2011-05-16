@@ -645,27 +645,10 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 	}
 }
 
-static GObject *
-gnm_sheet_constructor (GType type,
-		       guint n_construct_properties,
-		       GObjectConstructParam *construct_params)
+static void
+gnm_sheet_constructed (GObject *obj)
 {
-	GObject *obj;
-	Sheet *sheet;
-	static gboolean warned = FALSE;
-
-	if (GNM_MAX_COLS > 364238 && !warned) {
-		/* Oh, yeah?  */
-		g_warning (_("This is a special version of Gnumeric.  It has been compiled\n"
-			     "with support for a very large number of columns.  Access to the\n"
-			     "column named TRUE may conflict with the constant of the same\n"
-			     "name.  Expect weirdness."));
-		warned = TRUE;
-	}
-
-	obj = parent_class->constructor (type, n_construct_properties,
-					 construct_params);
-	sheet = SHEET (obj);
+	Sheet *sheet = SHEET (obj);
 
 	/* Now sheet_type, max_cols, and max_rows have been set.  */
 	sheet->being_constructed = FALSE;
@@ -718,7 +701,7 @@ gnm_sheet_constructor (GType type,
 
 	sheet_scale_changed (sheet, TRUE, TRUE);
 
-	return obj;
+	parent_class->constructed (obj);
 }
 
 static guint
@@ -826,12 +809,20 @@ gnm_sheet_init (Sheet *sheet)
 static void
 gnm_sheet_class_init (GObjectClass *gobject_class)
 {
+	if (GNM_MAX_COLS > 364238) {
+		/* Oh, yeah?  */
+		g_warning (_("This is a special version of Gnumeric.  It has been compiled\n"
+			     "with support for a very large number of columns.  Access to the\n"
+			     "column named TRUE may conflict with the constant of the same\n"
+			     "name.  Expect weirdness."));
+	}
+
 	parent_class = g_type_class_peek_parent (gobject_class);
 
 	gobject_class->set_property	= gnm_sheet_set_property;
 	gobject_class->get_property	= gnm_sheet_get_property;
 	gobject_class->finalize         = gnm_sheet_finalize;
-	gobject_class->constructor      = gnm_sheet_constructor;
+	gobject_class->constructed      = gnm_sheet_constructed;
 
         g_object_class_install_property (gobject_class, PROP_SHEET_TYPE,
 		 g_param_spec_enum ("sheet-type", _("Sheet Type"),
