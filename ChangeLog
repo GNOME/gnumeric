@@ -1,3 +1,7 @@
+2011-05-13  Morten Welinder  <terra@gnome.org>
+
+	* src/io-context-gtk.c (icg_show_gui): Plug leak.
+
 2011-05-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (gnm_go_data_get_expr): fixed critical. [#649901]

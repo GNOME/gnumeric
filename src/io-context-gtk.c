@@ -127,7 +127,7 @@ icg_show_gui (IOContextGtk *icg)
 	GtkBox *box;
 	GtkWidget *frame;
 
-	if (init_splash && icg->show_splash){
+	if (init_splash && icg->show_splash) {
 		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline
 			(-1, gnumeric_splash, FALSE, NULL);
 		gtk_icon_theme_add_builtin_icon ("GnmSplash",
@@ -137,10 +137,14 @@ icg_show_gui (IOContextGtk *icg)
 	}
 
 	box = GTK_BOX (gtk_vbox_new (FALSE, 0));
-	gtk_box_pack_start (box, gtk_image_new_from_pixbuf (
-		gtk_icon_theme_load_icon (gtk_icon_theme_get_default (),
-					  "GnmSplash", 360, 220, NULL)),
-			    TRUE, FALSE, 0);
+	if (icg->show_splash) {
+		GdkPixbuf *pixbuf =
+			gtk_icon_theme_load_icon (gtk_icon_theme_get_default (),
+						  "GnmSplash", 360, 220, NULL);
+		gtk_box_pack_start (box, gtk_image_new_from_pixbuf (pixbuf),
+				    TRUE, FALSE, 0);
+		g_object_unref (pixbuf);
+	}
 
 	/* Don't show this unless we need it. */
 	if (icg->files_total > 1) {
