@@ -2014,6 +2014,7 @@ sheet_colrow_gutter (Sheet *sheet, gboolean is_cols, int max_outline)
 struct sheet_extent_data {
 	GnmRange range;
 	gboolean spans_and_merges_extend;
+	gboolean ignore_empties;
 };
 
 static void
@@ -2022,7 +2023,7 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
 	GnmCell const *cell = (GnmCell const *) value;
 	struct sheet_extent_data *res = data;
 
-	if (gnm_cell_is_empty (cell))
+	if (res->ignore_empties && gnm_cell_is_empty (cell))
 		return;
 
 	/* Remember the first cell is the min & max */
@@ -2067,6 +2068,9 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
  * NOTE: When spans_and_merges_extend is TRUE, this function will calculate
  * all spans.  That might be expensive.
  *
+ * NOTE: This refers to *visible* contents.  Cells with empty values, including
+ * formulas with such values, are *ignored.
+ *
  * Return value: the range.
  **/
 GnmRange
@@ -2084,6 +2088,7 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 	closure.range.end.col   = 0;
 	closure.range.end.row   = 0;
 	closure.spans_and_merges_extend = spans_and_merges_extend;
+	closure.ignore_empties = TRUE;
 
 	sheet_cell_foreach (sheet, &cb_sheet_get_extent, &closure);
 
@@ -2111,6 +2116,35 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 
 	return closure.range;
 }
+
+/**
+ * sheet_get_cells_extent:
+ * @sheet: the sheet
+ *
+ * calculates the area occupied by cells, including empty cells.
+ *
+ * Return value: the range.
+ **/
+GnmRange
+sheet_get_cells_extent (Sheet const *sheet)
+{
+	static GnmRange const dummy = { { 0,0 }, { 0,0 } };
+	struct sheet_extent_data closure;
+
+	g_return_val_if_fail (IS_SHEET (sheet), dummy);
+
+	closure.range.start.col = gnm_sheet_get_last_col (sheet);
+	closure.range.start.row = gnm_sheet_get_last_row (sheet);
+	closure.range.end.col   = 0;
+	closure.range.end.row   = 0;
+	closure.spans_and_merges_extend = FALSE;
+	closure.ignore_empties = FALSE;
+
+	sheet_cell_foreach (sheet, &cb_sheet_get_extent, &closure);
+
+	return closure.range;
+}
+
 
 GnmRange *
 sheet_get_nominal_printarea (Sheet const *sheet)
@@ -3456,7 +3490,7 @@ sheet_colrow_optimize (Sheet *sheet)
 
 	g_return_if_fail (IS_SHEET (sheet));
 
-	extent = sheet_get_extent (sheet, TRUE);
+	extent = sheet_get_cells_extent (sheet);
 
 	sheet_colrow_optimize1 (gnm_sheet_get_max_cols (sheet),
 				extent.end.col,

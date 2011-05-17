@@ -1,5 +1,8 @@
 2011-05-17  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (sheet_colrow_optimize): Use sheet_get_cells_extent.
+	(sheet_get_cells_extent): New function.
+
 	* src/xml-sax-write.c (xml_write_named_expressions): Do nothing if
 	there are no names.
 
