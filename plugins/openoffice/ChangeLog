@@ -1,5 +1,10 @@
 2011-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_named_expression): avoid writing some 
+	placeholder names
+
+2011-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_validation_base_cell_address): new
 	(odf_validation_append_expression): new
 	(odf_validation_append_expression_pair): new

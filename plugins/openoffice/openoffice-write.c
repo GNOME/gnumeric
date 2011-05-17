@@ -4126,7 +4126,7 @@ odf_write_named_expression (gpointer key, GnmNamedExpr *nexpr, GnmOOExport *stat
 					      nexpr->pos.sheet->name_unquoted);
 
 		gsf_xml_out_end_element (state->xml); /* </table:named-range> */
-	} else {
+	} else if (!expr_name_is_placeholder (nexpr) || nexpr->ref_count > 1) {
 		gsf_xml_out_start_element
 			(state->xml, TABLE "named-expression");
 		gsf_xml_out_add_cstr (state->xml, TABLE "name", name);
