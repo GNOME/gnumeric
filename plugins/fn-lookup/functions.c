@@ -762,8 +762,10 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	if (sheet_name) {
 		sheet = workbook_sheet_by_name (ei->pos->sheet->workbook,
 						sheet_name);
-		if (!sheet)
-			return value_new_error_VALUE (ei->pos);
+		if (!sheet) {
+			/* Use evaluation sheet if named sheet does not exist.  */
+			sheet = ei->pos->sheet;
+		}
 	} else
 		sheet = ei->pos->sheet;
 
