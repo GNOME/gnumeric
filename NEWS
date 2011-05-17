@@ -18,6 +18,7 @@ Andreas:
 	* Fix ODF style handling on import. [#649851]
 	* Import more validations from ODF.
 	* Export all validations to ODF.
+	* Fix printing of background colours. [#650261]
 
 Jean:
 	* Fixed critical. [#649901]

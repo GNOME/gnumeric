@@ -1,3 +1,9 @@
+2011-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print-cell.c (print_cell_background_gtk): don't
+	leave a space between cells
+	(print_merged_range_gtk): don't overprint the background
+
 2011-05-16  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (gnm_sheet_constructed): Changed from
