@@ -69,6 +69,7 @@ struct _GnmNamedExprCollection {
 	GHashTable *placeholders;
 };
 
+GnmNamedExprCollection *gnm_named_expr_collection_new (void);
 void gnm_named_expr_collection_free (GnmNamedExprCollection *names);
 void gnm_named_expr_collection_unlink (GnmNamedExprCollection *names);
 void gnm_named_expr_collection_relink (GnmNamedExprCollection *names);

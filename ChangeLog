@@ -1,3 +1,18 @@
+2011-05-17  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (xml_write_named_expressions): Do nothing if
+	there are no names.
+
+	* src/expr-name.c (gnm_named_expr_collection_new): Make public.
+	(expr_name_new): Temporarily undo last change.  Remove second
+	argument.
+
+	* src/sheet.c (gnm_sheet_init): Always have a names member.
+	* src/workbook.c (workbook_init): Ditto.
+
+	* src/expr-name.c (expr_name_add): Do not create named collections
+	on demand.
+
 2011-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print-cell.c (print_cell_background_gtk): don't

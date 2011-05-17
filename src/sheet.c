@@ -800,7 +800,7 @@ gnm_sheet_init (Sheet *sheet)
 	/* Init menu states */
 	sheet->priv->enable_showhide_detail = TRUE;
 
-	sheet->names = NULL;
+	sheet->names = gnm_named_expr_collection_new ();
 	sheet->style_data = NULL;
 
 	sheet->index_in_wb = -1;
@@ -3435,7 +3435,8 @@ sheet_colrow_optimize1 (int max, int max_used, ColRowCollection *collection)
 				segment->info[j] = NULL;
 			} else {
 				any = TRUE;
-				max_used = i + j;
+				if (i + j >= first_unused)
+					max_used = i + j;
 			}
 		}
 

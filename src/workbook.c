@@ -173,7 +173,7 @@ workbook_init (GObject *object)
 	wb->sheet_hash_private = g_hash_table_new (g_str_hash, g_str_equal);
 	wb->sheet_order_dependents = NULL;
 	wb->sheet_local_functions = NULL;
-	wb->names        = NULL;
+	wb->names = gnm_named_expr_collection_new ();
 
 	/* Nothing to undo or redo */
 	wb->undo_commands = wb->redo_commands = NULL;

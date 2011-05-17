@@ -1461,7 +1461,7 @@ excel_parse_formula1 (MSContainer const *container,
 					if (name_idx >= names->len)
 						g_ptr_array_set_size (names, name_idx);
 					nexpr = g_ptr_array_index (names, name_idx-1) =
-						expr_name_new (stub_name, TRUE);
+						expr_name_new (stub_name);
 					name = gnm_expr_new_name (nexpr, NULL, NULL);
 					d (1, fprintf (stderr, "creating stub '%s'", stub_name););
 					g_free (stub_name);

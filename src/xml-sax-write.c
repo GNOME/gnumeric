@@ -215,20 +215,21 @@ xml_write_name (GnmOutputXML *state, GnmNamedExpr *nexpr)
 static void
 xml_write_named_expressions (GnmOutputXML *state, GnmNamedExprCollection *scope)
 {
-	if (scope != NULL) {
-		GSList *names =
-			g_slist_sort (gnm_named_expr_collection_list (scope),
-				      (GCompareFunc)expr_name_cmp_by_name);
-		GSList *p;
+	GSList *names =
+		g_slist_sort (gnm_named_expr_collection_list (scope),
+			      (GCompareFunc)expr_name_cmp_by_name);
+	GSList *p;
 
-		gsf_xml_out_start_element (state->output, GNM "Names");
-		for (p = names; p; p = p->next) {
-			GnmNamedExpr *nexpr = p->data;
-			xml_write_name (state, nexpr);
-		}
-		gsf_xml_out_end_element (state->output); /* </gnm:Names> */
-		g_slist_free (names);
+	if (!names)
+		return;
+
+	gsf_xml_out_start_element (state->output, GNM "Names");
+	for (p = names; p; p = p->next) {
+		GnmNamedExpr *nexpr = p->data;
+		xml_write_name (state, nexpr);
 	}
+	gsf_xml_out_end_element (state->output); /* </gnm:Names> */
+	g_slist_free (names);
 }
 
 static void
