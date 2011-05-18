@@ -1367,6 +1367,7 @@ gnm_conventions_new_full (unsigned size)
 	convs->input.range_ref		= rangeref_parse;
 	convs->input.string		= std_string_parser;
 	convs->input.name		= std_name_parser;
+	convs->input.name_validate     	= expr_name_validate;
 	convs->input.func		= std_func_map;
 	convs->input.external_wb	= std_external_wb;
 

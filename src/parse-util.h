@@ -159,6 +159,8 @@ struct _GnmConventions {
 		 * defined name.  */
 		char const *(*name) (char const *in,
 				     GnmConventions const *convs);
+		/* Returns true if a tentative expression name is legal. */
+		gboolean (*name_validate) (const char *name);
 
 		/* Must return non-NULL, and absorb the args, including the list. */
 		GnmExpr const *(*func) (GnmConventions const *convs,

@@ -19,6 +19,7 @@ Andreas:
 	* Import more validations from ODF.
 	* Export all validations to ODF.
 	* Fix printing of background colours. [#650261]
+	* From ODF also import named expressions with illegal name. [#650125]
 
 Jean:
 	* Fixed critical. [#649901]

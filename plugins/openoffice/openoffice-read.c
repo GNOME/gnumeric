@@ -1210,6 +1210,63 @@ odf_strunescape (char const *string, GString *target,
 	return NULL;	
 }
 
+/**
+ * When we initialy validate names we have to accept every ODF name
+ * in odf_fix_expr_names we fix them.
+ *
+ *
+ */
+
+static void
+odf_fix_expr_names (OOParseState *state)
+{
+#warning We need to implement this
+}
+
+/**
+ * odf_expr_name_validate:
+ * @name: tentative name
+ *
+ * returns TRUE if the given name is valid, FALSE otherwise.
+ * 
+ * We are accepting names here that contain periods or look like addresses. 
+ * They need to be replaced when we have finished parsing the file since 
+ * they are not allowed inside Gnumeric.
+ */
+static gboolean
+odf_expr_name_validate (const char *name)
+{
+	const char *p;
+	GnmValue *v;
+
+	g_return_val_if_fail (name != NULL, FALSE);
+
+	if (name[0] == 0)
+		return FALSE;
+
+	v = value_new_from_string (VALUE_BOOLEAN, name, NULL, TRUE);
+	if (!v)
+		v = value_new_from_string (VALUE_BOOLEAN, name, NULL, FALSE);
+	if (v) {
+		value_release (v);
+		return FALSE;
+	}
+
+	/* Hmm...   Now what?  */
+	if (!g_unichar_isalpha (g_utf8_get_char (name)) &&
+	    name[0] != '_')
+		return FALSE;
+
+	for (p = name; *p; p = g_utf8_next_char (p)) {
+		if (!g_unichar_isalnum (g_utf8_get_char (p)) &&
+		    p[0] != '_' && p[0] != '.')
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
+
 static GnmExpr const *
 oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		char const *name, GnmExprList *args);
@@ -1231,6 +1288,7 @@ oo_conventions_new (void)
 	conv->input.string	= odf_strunescape;
 	conv->input.func	= oo_func_map_in;
 	conv->input.range_ref	= oo_expr_rangeref_parse;
+	conv->input.name_validate    = odf_expr_name_validate;
 	conv->sheet_name_sep	= '.';
 
 	return conv;
@@ -8772,7 +8830,6 @@ determine_oo_version (GsfInfile *zip, OOVer def)
 	return OOO_VER_UNKNOWN;
 }
 
-
 void
 openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input);
@@ -8973,6 +9030,8 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 
 		workbook_sheet_reorder (state.pos.wb, state.sheet_order);
 		g_slist_free (state.sheet_order);
+
+		odf_fix_expr_names (&state);
 
 		/* look for the view settings */
 		state.settings.settings

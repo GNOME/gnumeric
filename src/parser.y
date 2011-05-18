@@ -511,7 +511,7 @@ parser_simple_val_or_name (GnmExpr *str_expr)
 				res = NULL;
 			} else if (state->flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS) {
 				res = gnm_expr_new_constant (value_new_string (str));
-			} else if (expr_name_validate (str)) {
+			} else if (state->convs->input.name_validate (str)) {
 				GnmParsePos pp = *state->pos;
 				pp.sheet = NULL;
 				/* Create a place holder */

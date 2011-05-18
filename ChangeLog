@@ -1,3 +1,10 @@
+2011-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/parse-util.h (_GnmConventions): add name_validate field
+	* src/parse-util.c (gnm_conventions_new_full): initialize name_validate
+	* src/parser.y (parser_simple_val_or_name): use
+	state->convs->input.name_validate
+
 2011-05-17  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_colrow_optimize): Use sheet_get_cells_extent.
