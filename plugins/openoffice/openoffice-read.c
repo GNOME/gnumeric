@@ -29,6 +29,7 @@
 #include <gnm-plugin.h>
 #include <workbook-view.h>
 #include <workbook.h>
+#include <workbook-priv.h>
 #include <sheet.h>
 #include <sheet-merge.h>
 #include <sheet-filter.h>
@@ -1210,6 +1211,87 @@ odf_strunescape (char const *string, GString *target,
 	return NULL;	
 }
 
+typedef struct {
+	GHashTable *orig2fixed;
+	GHashTable *fixed2orig;
+	OOParseState *state;
+} odf_fix_expr_names_t;
+
+static odf_fix_expr_names_t *
+odf_fix_expr_names_t_new (OOParseState *state)
+{
+	odf_fix_expr_names_t *fen = g_new (odf_fix_expr_names_t, 1);
+	
+	fen->fixed2orig = g_hash_table_new (g_str_hash, g_str_equal);
+	fen->orig2fixed = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	fen->state = state;
+
+	return fen;
+}
+
+static void
+odf_fix_expr_names_t_free (odf_fix_expr_names_t *fen)
+{
+	g_hash_table_unref (fen->fixed2orig);
+	g_hash_table_unref (fen->orig2fixed);
+	g_free (fen);
+}
+
+static void
+odf_fix_expr_names_t_add (odf_fix_expr_names_t *fen, char const *orig, char *fixed)
+{
+	char *orig_c = g_strdup (orig);
+	g_hash_table_insert (fen->orig2fixed, orig_c, fixed);
+	g_hash_table_insert (fen->fixed2orig, fixed, orig_c);
+}
+
+static gboolean
+odf_fix_en_validate (char const *name, odf_fix_expr_names_t *fen)
+{
+	GSList *sheets;
+
+	if (!expr_name_validate (name))
+		return FALSE;
+	if (NULL != g_hash_table_lookup (fen->fixed2orig, name))
+		return FALSE;
+	if (NULL != gnm_named_expr_collection_lookup (fen->state->pos.wb->names, name))
+		return FALSE;
+	for (sheets = workbook_sheets (fen->state->pos.wb); sheets != NULL; sheets = sheets->next)
+		if (NULL != gnm_named_expr_collection_lookup 
+		    (((Sheet *)(sheets->data))->names, name))
+			return FALSE;
+	return TRUE;
+}
+
+static void 
+odf_fix_en_collect (gchar const *key, GnmNamedExpr *nexpr, odf_fix_expr_names_t *fen)
+{
+	GString *str;
+	gchar *here;
+
+	if (expr_name_validate (key))
+		return;
+	if (NULL != g_hash_table_lookup (fen->orig2fixed, key))
+		return;
+	str = g_string_new (key);
+	while ((here = strchr (str->str, '.')) != NULL)
+		*here = '_';
+	while (!odf_fix_en_validate (str->str, fen))
+		g_string_append_c (str, '_');
+	odf_fix_expr_names_t_add (fen, key, g_string_free (str, FALSE));
+}
+
+static void 
+odf_fix_en_apply (gchar const *orig, gchar const *fixed, OOParseState *state)
+{
+	GSList *sheets = workbook_sheets (state->pos.wb), *l;
+	gnm_named_expr_collection_rename (state->pos.wb->names, orig, fixed);
+	for (l = sheets; l != NULL; l = l->next) {
+		Sheet *sheet = l->data;
+		gnm_named_expr_collection_rename (sheet->names, orig, fixed);
+	}
+}
+
 /**
  * When we initialy validate names we have to accept every ODF name
  * in odf_fix_expr_names we fix them.
@@ -1220,7 +1302,22 @@ odf_strunescape (char const *string, GString *target,
 static void
 odf_fix_expr_names (OOParseState *state)
 {
-#warning We need to implement this
+	odf_fix_expr_names_t *fen = odf_fix_expr_names_t_new (state);
+	GSList *sheets = workbook_sheets (state->pos.wb), *l;
+
+	g_hash_table_foreach (state->pos.wb->names->names, 
+			      (GHFunc)odf_fix_en_collect, fen);
+	g_hash_table_foreach (state->pos.wb->names->placeholders, 
+			      (GHFunc)odf_fix_en_collect, fen);
+	for (l = sheets; l != NULL; l = l->next) {
+		Sheet *sheet = l->data;
+		g_hash_table_foreach (sheet->names->names, 
+				      (GHFunc) odf_fix_en_collect, fen);
+		g_hash_table_foreach (sheet->names->placeholders, 
+				      (GHFunc) odf_fix_en_collect, fen);
+	}
+	g_hash_table_foreach (fen->orig2fixed, (GHFunc) odf_fix_en_apply, state);
+	odf_fix_expr_names_t_free (fen);
 }
 
 /**

@@ -372,6 +372,32 @@ gnm_named_expr_collection_foreach (GnmNamedExprCollection *names,
 	g_hash_table_foreach (names->placeholders, func, data);
 }
 
+static void
+gnm_named_expr_collection_rename_in_hash (GHashTable *hash, 
+					  gchar const *old_name, 
+					  gchar const *new_name)
+{
+	GnmNamedExpr *nexpr;
+
+	if ((nexpr = g_hash_table_lookup (hash, old_name)) != NULL) {
+		g_hash_table_steal (hash, old_name);
+		go_string_unref (nexpr->name);
+		nexpr->name = go_string_new (new_name);
+		g_hash_table_insert (hash, (gpointer)nexpr->name->str, nexpr);
+	}
+}
+
+/* rename old_name to new_name (if such a name exists) */
+void gnm_named_expr_collection_rename (GnmNamedExprCollection *names,
+				       gchar const *old_name,
+				       gchar const *new_name)
+{
+	gnm_named_expr_collection_rename_in_hash 
+		(names->names, old_name, new_name);
+	gnm_named_expr_collection_rename_in_hash 
+		(names->placeholders, old_name, new_name);
+}
+
 /******************************************************************************/
 
 /**

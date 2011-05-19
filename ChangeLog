@@ -1,3 +1,8 @@
+2011-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/expr-name.h (gnm_named_expr_collection_rename): new
+	* src/expr-name.c (gnm_named_expr_collection_rename): new
+
 2011-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (gnm_print_sheet): wbc may be NULL

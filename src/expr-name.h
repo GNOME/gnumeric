@@ -80,6 +80,9 @@ void gnm_named_expr_collection_foreach (GnmNamedExprCollection *names,
 
 GnmNamedExpr *gnm_named_expr_collection_lookup (GnmNamedExprCollection const *scope,
 						char const *name);
+void gnm_named_expr_collection_rename (GnmNamedExprCollection *names,
+				       gchar const *old_name,
+				       gchar const *new_name);
 
 G_END_DECLS
 
