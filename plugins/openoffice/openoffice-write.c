@@ -5,7 +5,7 @@
  *
  * Copyright (C) 2004-2006 Jody Goldberg (jody@gnome.org)
  *
- * Copyright (C) 2006-2010 Andreas J. Guelzow (aguelzow@pyrshep.ca)
+ * Copyright (C) 2006-2011 Andreas J. Guelzow (aguelzow@pyrshep.ca)
  *
  * Copyright (C) 2005 INdT - Instituto Nokia de Tecnologia
  *               Author: Luciano Wolf (luciano.wolf@indt.org.br)
@@ -3354,7 +3354,7 @@ odf_write_sheet (GnmOOExport *state)
 	GnmRange extent, style_extent;
 	GSList *sheet_merges = NULL;
 	GnmPageBreaks *pb = sheet->print_info->page_breaks.v;
-	extent = sheet_get_extent (sheet, FALSE);
+	extent = sheet_get_cells_extent (sheet);
 
 	style_extent = extent;
 	/* We only want to get the common column style */
