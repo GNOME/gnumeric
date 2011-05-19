@@ -1618,13 +1618,15 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 				      PRINT_ALL_SHEETS, PRINT_ACTIVE_SHEET,
 				      PRINT_SHEET_SELECTION, PRINT_ACTIVE_SHEET,
 				      PRINT_SHEET_SELECTION_IGNORE_PRINTAREA};
-	GODoc *doc = wb_control_get_doc (wbc);
+	GODoc *doc;
 	gchar *output_uri = NULL;
 	gchar const *saved_uri = NULL;
 
 #ifdef PREVIEW_VIA_PDF
 	preview_via_pdf = preview;
 #endif
+
+	g_return_if_fail (sheet != NULL && sheet->workbook != NULL);
 
 	if (preview)
 		g_return_if_fail (!export_dst && wbc);
@@ -1654,23 +1656,27 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	gtk_print_settings_set_use_color (settings,
 					  !sheet->print_info->print_black_and_white);
 
-	/* We should be setting the output file name to somethig reasonable */
-	saved_uri = print_info_get_printtofile_uri (sheet->print_info);
-	if (saved_uri != NULL && 
-	    g_ascii_strncasecmp (doc->uri, "file:///", 8) == 0)
-		output_uri = gnm_print_uri_change_extension (saved_uri,
-							     settings);
-	else
-		saved_uri = NULL;
-	if (output_uri == NULL && doc->uri != NULL 
-	    && g_ascii_strncasecmp (doc->uri, "file:///", 8) == 0)
-		output_uri = gnm_print_uri_change_extension (doc->uri, 
-								settings);
-	if (output_uri != NULL) {
-		gtk_print_settings_set (settings, 
-					GTK_PRINT_SETTINGS_OUTPUT_URI,
-					output_uri);
-		g_free (output_uri);
+	if (!export_dst && !preview_via_pdf && !preview) {
+		/* We should be setting the output file name to somethig */
+		/* reasonable */
+		doc = GO_DOC (sheet->workbook);
+		saved_uri = print_info_get_printtofile_uri (sheet->print_info);
+		if (saved_uri != NULL && 
+		    g_ascii_strncasecmp (doc->uri, "file:///", 8) == 0)
+			output_uri = gnm_print_uri_change_extension (saved_uri,
+								     settings);
+		else
+			saved_uri = NULL;
+		if (output_uri == NULL && doc->uri != NULL 
+		    && g_ascii_strncasecmp (doc->uri, "file:///", 8) == 0)
+			output_uri = gnm_print_uri_change_extension (doc->uri, 
+								     settings);
+		if (output_uri != NULL) {
+			gtk_print_settings_set (settings, 
+						GTK_PRINT_SETTINGS_OUTPUT_URI,
+						output_uri);
+			g_free (output_uri);
+		}
 	}
 
 	gtk_print_operation_set_print_settings (print, settings);
