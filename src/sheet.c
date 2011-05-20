@@ -806,6 +806,9 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->index_in_wb = -1;
 }
 
+static const Sheet the_invalid_sheet;
+const Sheet *invalid_sheet = &the_invalid_sheet;
+
 static void
 gnm_sheet_class_init (GObjectClass *gobject_class)
 {

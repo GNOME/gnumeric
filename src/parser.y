@@ -1185,6 +1185,12 @@ yylex (void)
 	 */
 	if (start != end && !open_paren (end)) {
 		state->ptr = end;
+		if (invalid_sheet == ref.a.sheet) {
+		        yylval.expr = register_expr_allocation
+		                (gnm_expr_new_constant 
+				 (value_new_error_REF (NULL)));
+			return CONSTANT;
+		}
 		if (state->flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_REFERENCES) {
 			if (ref.a.col_relative) {
 				ref.a.col += state->pos->eval.col;

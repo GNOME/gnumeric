@@ -1109,8 +1109,7 @@ two_quotes :
 		ref->sheet = workbook_sheet_by_name (pp->wb, name);
 		if (ref->sheet == NULL) {
 			if (strcmp (name, "#REF!") == 0) {
-				g_warning ("Ignoring reference to sheet %s", name);
-				ref->sheet = NULL;
+				ref->sheet = invalid_sheet;
 			} else {
 				Sheet *old_sheet = workbook_sheet_by_index (pp->wb, 0);
 				ref->sheet = sheet_new (pp->wb, name,
@@ -1130,6 +1129,9 @@ two_quotes :
 	tmp2 = row_parse (tmp1, &ss_max, &ref->row, &ref->row_relative);
 	if (!tmp2)
 		return start;
+
+	if (ref->sheet == invalid_sheet)
+		return tmp2;
 
 	sheet = eval_sheet (ref->sheet, pp->sheet);
 	ss = gnm_sheet_get_size (sheet);
@@ -1164,6 +1166,8 @@ oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp)
 		ptr = oo_cellref_parse (&ref->b, ptr+1, pp);
 	else
 		ref->b = ref->a;
+	if (ref->b.sheet == invalid_sheet)
+		ref->a.sheet = invalid_sheet;
 	return ptr;
 }
 
@@ -1173,6 +1177,10 @@ oo_expr_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *
 {
 	char const *ptr;
 	if (*start == '[') {
+		if (strncmp (start, "[#REF!]", 7) == 0) {
+			ref->a.sheet = invalid_sheet;
+			return start + 7;
+		}
 		ptr = oo_rangeref_parse (ref, start+1, pp);
 		if (*ptr == ']')
 			return ptr + 1;
@@ -5186,10 +5194,14 @@ oo_db_range_start (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "target-range-address")) {
 			char const *ptr = oo_cellref_parse (&ref.a, CXML2C (attrs[1]), &state->pos);
-			if (':' == *ptr &&
-			    '\0' == *oo_cellref_parse (&ref.b, ptr+1, &state->pos)) {
-				state->filter = gnm_filter_new (ref.a.sheet, range_init_rangeref (&r, &ref));
-				expr = gnm_expr_new_constant (value_new_cellrange_r (ref.a.sheet, &r));
+			if (ref.a.sheet != invalid_sheet &&
+			    ':' == *ptr &&
+			    '\0' == *oo_cellref_parse (&ref.b, ptr+1, &state->pos) &&
+			    ref.b.sheet != invalid_sheet) {
+				state->filter = gnm_filter_new 
+					(ref.a.sheet, range_init_rangeref (&r, &ref));
+				expr = gnm_expr_new_constant 
+					(value_new_cellrange_r (ref.a.sheet, &r));
 			} else
 				oo_warning (xin, _("Invalid DB range '%s'"), attrs[1]);
 		} else if (oo_attr_bool (xin, attrs, OO_NS_TABLE, "display-filter-buttons", &buttons))
@@ -5504,7 +5516,8 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 				char const *ptr = oo_rangeref_parse
 					(&ref, oc->linked_cell,
 					 parse_pos_init_sheet (&pp, state->pos.sheet));
-				if (ptr != oc->linked_cell) {
+				if (ptr != oc->linked_cell 
+				    && ref.a.sheet != invalid_sheet) {
 					GnmValue *v = value_new_cellrange
 						(&ref.a, &ref.a, 0, 0);
 					GnmExprTop const *texpr
@@ -5541,7 +5554,8 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 					char const *ptr = oo_rangeref_parse
 						(&ref, oc->source_cell_range,
 						 parse_pos_init_sheet (&pp, state->pos.sheet));
-					if (ptr != oc->source_cell_range) {
+					if (ptr != oc->source_cell_range && 
+					    ref.a.sheet != invalid_sheet) {
 						GnmValue *v = value_new_cellrange
 							(&ref.a, &ref.b, 0, 0);
 						GnmExprTop const *texpr
@@ -6011,7 +6025,7 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 		GnmRangeRef ref;
 		char const *ptr = oo_rangeref_parse (&ref, CXML2C (range),
 			parse_pos_init_sheet (&pp, state->pos.sheet));
-		if (ptr == CXML2C (range))
+		if (ptr == CXML2C (range) || ref.a.sheet == invalid_sheet)
 			return;
 		v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
 		if (state->debug)
@@ -6148,7 +6162,8 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 		Sheet	   *dummy;
 		char const *ptr = oo_rangeref_parse (&ref, CXML2C (source_range_str),
 			parse_pos_init_sheet (&pp, state->pos.sheet));
-		if (ptr != CXML2C (source_range_str)) {
+		if (ptr != CXML2C (source_range_str) 
+		    && ref.a.sheet != invalid_sheet) {
 			gnm_rangeref_normalize (&ref,
 				eval_pos_init_sheet (&ep, state->pos.sheet),
 				&state->chart.src_sheet, &dummy,
@@ -6352,7 +6367,8 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 					GnmParsePos pp;
 					char const *ptr = oo_rangeref_parse (&ref, CXML2C (attrs[1]),
 									     parse_pos_init_sheet (&pp, state->pos.sheet));
-					if (ptr == CXML2C (attrs[1]))
+					if (ptr == CXML2C (attrs[1]) || 
+					    ref.a.sheet == invalid_sheet)
 						return;
 					v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
 					texpr = gnm_expr_top_new_constant (v);
@@ -6398,7 +6414,8 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 			char const *ptr = oo_rangeref_parse
 				(&ref, CXML2C (label),
 				 parse_pos_init_sheet (&pp, state->pos.sheet));
-			if (ptr == CXML2C (label))
+			if (ptr == CXML2C (label) 
+			    || ref.a.sheet == invalid_sheet)
 				texpr = oo_expr_parse_str (xin, label,
 							   &state->pos,
 							   GNM_EXPR_PARSE_DEFAULT,
@@ -6587,7 +6604,7 @@ odf_store_data (OOParseState *state, gchar const *str, GogObject *obj, int dim)
 		char const *ptr = oo_rangeref_parse
 			(&ref, CXML2C (str),
 			 parse_pos_init (&pp, state->pos.wb, NULL, 0, 0));
-		if (ptr != CXML2C (str)) {
+		if (ptr != CXML2C (str) && ref.a.sheet != invalid_sheet) {
 			GnmValue *v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
 			GnmExprTop const *texpr = gnm_expr_top_new_constant (v);
 			if (NULL != texpr) {
@@ -7053,7 +7070,8 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 			char const *ptr = oo_rangeref_parse
 				(&ref, CXML2C (attrs[1]),
 				 parse_pos_init_sheet (&pp, state->pos.sheet));
-			if (ptr != CXML2C (attrs[1])) {
+			if (ptr != CXML2C (attrs[1]) 
+			    && ref.a.sheet != invalid_sheet) {
 				cell_base.end.col = ref.a.col;
 				cell_base.end.row = ref.a.row;
 			}

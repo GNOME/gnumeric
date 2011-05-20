@@ -1,3 +1,11 @@
+2011-05-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_cellref_parse): return invalid_sheet when
+	encountering #REF!, check for this return value in all callers
+	(oo_rangeref_parse): check for invalid_sheet, check for this return 
+	value in all callers
+	(oo_expr_rangeref_parse): check for [#REF!]
+
 2011-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_fix_expr_names): implement
@@ -7,7 +15,7 @@
 	(odf_fix_en_validate): new
 	(odf_fix_en_collect): new
 	(odf_fix_en_apply): new
-	
+
 2011-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_sheet): use sheet_get_cells_extent

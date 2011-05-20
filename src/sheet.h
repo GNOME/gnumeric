@@ -7,8 +7,11 @@
 #include "position.h"
 #include <pango/pango.h>
 #include <goffice/goffice.h>
+#include "libgnumeric.h"
 
 G_BEGIN_DECLS
+
+GNM_VAR_DECL const Sheet *invalid_sheet;
 
 struct _GnmSheetSize {
 	int max_cols, max_rows;
