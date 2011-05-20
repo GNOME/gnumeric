@@ -6,6 +6,11 @@
 
 2011-05-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet.h (invalid_sheet): make non-const to avoid casts
+	* src/sheet.c (invalid_sheet): ditto
+
+2011-05-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet.h (invalid_sheet): new
 	* src/sheet.c (invalid_sheet): initialize
 	* src/parser.y (yylex): convs->input.range_ref might return

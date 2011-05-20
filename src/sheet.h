@@ -11,7 +11,7 @@
 
 G_BEGIN_DECLS
 
-GNM_VAR_DECL const Sheet *invalid_sheet;
+GNM_VAR_DECL Sheet *invalid_sheet;
 
 struct _GnmSheetSize {
 	int max_cols, max_rows;

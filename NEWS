@@ -20,7 +20,8 @@ Andreas:
 	* Export all validations to ODF.
 	* Fix printing of background colours. [#650261]
 	* From ODF also import named expressions with illegal name. [#650125]
-	* Handle [#REF!] and friends on ODF import. [#650640]
+	* Handle [#REF!] and friends on ODF import. [#650639][#650640]
+	* Handle some invalid expressions in ODF import. [#650625] 
 
 Jean:
 	* Fixed critical. [#649901]

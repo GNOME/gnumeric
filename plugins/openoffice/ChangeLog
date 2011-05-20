@@ -1,5 +1,14 @@
 2011-05-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_cellref_check_for_err): look for #REF!
+	(oo_cellref_parse): use oo_cellref_check_for_err, don't create
+	new sheets until we know that we likely have a valid reference
+	(oo_expr_parse_str_try): new
+	(oo_expr_parse_str): use oo_expr_parse_str_try, handle references
+	that are missing []
+
+2011-05-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_named_expression): only write
 	active names
 

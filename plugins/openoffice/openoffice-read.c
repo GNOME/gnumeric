@@ -1051,13 +1051,30 @@ oo_attr_enum (GsfXMLIn *xin, xmlChar const * const *attrs,
 			   name, attrs[1]);
 }
 
+static gboolean
+oo_cellref_check_for_err (GnmCellRef *ref, char const **start)
+{
+	if (g_str_has_prefix (*start, "$#REF!")) {
+		ref->sheet = invalid_sheet;
+		*start += 6;
+		return TRUE;
+	}
+	if (g_str_has_prefix (*start, "#REF!")) {
+		ref->sheet = invalid_sheet;
+		*start += 5;
+		return TRUE;
+	}
+	return FALSE;
+}
+
 static char const *
 oo_cellref_parse (GnmCellRef *ref, char const *start, GnmParsePos const *pp)
 {
-	char const *tmp1, *tmp2, *ptr = start;
+	char const *tmp, *ptr = start;
 	GnmSheetSize const *ss;
 	GnmSheetSize ss_max = { GNM_MAX_COLS, GNM_MAX_ROWS};
 	Sheet *sheet;
+	char *new_sheet_name = NULL;
 
 	if (*ptr != '.') {
 		char *name, *accum;
@@ -1069,35 +1086,35 @@ oo_cellref_parse (GnmCellRef *ref, char const *start, GnmParsePos const *pp)
 		/* From the spec :
 		 *	SheetName   ::= [^\. ']+ | "'" ([^'] | "''")+ "'" */
 		if ('\'' == *ptr) {
-			tmp1 = ++ptr;
+			tmp = ++ptr;
 two_quotes :
 			/* missing close paren */
-			if (NULL == (tmp1 = strchr (tmp1, '\'')))
+			if (NULL == (tmp = strchr (tmp, '\'')))
 				return start;
 
 			/* two in a row is the escape for a single */
-			if (tmp1[1] == '\'') {
-				tmp1 += 2;
+			if (tmp[1] == '\'') {
+				tmp += 2;
 				goto two_quotes;
 			}
 
 			/* If a name is quoted the entire named must be quoted */
-			if (tmp1[1] != '.')
+			if (tmp[1] != '.')
 				return start;
 
-			accum = name = g_alloca (tmp1-ptr+1);
-			while (ptr != tmp1)
+			accum = name = g_alloca (tmp-ptr+1);
+			while (ptr != tmp)
 				if ('\'' == (*accum++ = *ptr++))
 					ptr++;
 			*accum = '\0';
 			ptr += 2;
 		} else {
-			if (NULL == (tmp1 = strchr (ptr, '.')))
+			if (NULL == (tmp = strchr (ptr, '.')))
 				return start;
-			name = g_alloca (tmp1-ptr+1);
-			strncpy (name, ptr, tmp1-ptr);
-			name[tmp1-ptr] = '\0';
-			ptr = tmp1 + 1;
+			name = g_alloca (tmp-ptr+1);
+			strncpy (name, ptr, tmp-ptr);
+			name[tmp-ptr] = '\0';
+			ptr = tmp + 1;
 		}
 
 		if (name[0] == 0)
@@ -1111,11 +1128,10 @@ two_quotes :
 			if (strcmp (name, "#REF!") == 0) {
 				ref->sheet = invalid_sheet;
 			} else {
-				Sheet *old_sheet = workbook_sheet_by_index (pp->wb, 0);
-				ref->sheet = sheet_new (pp->wb, name,
-							gnm_sheet_get_max_cols (old_sheet),
-							gnm_sheet_get_max_rows (old_sheet));
-				workbook_sheet_attach (pp->wb, ref->sheet);
+				/* We can't add it yet since this whole ref */
+				/* may be invalid */
+				new_sheet_name = g_strdup (name);
+				ref->sheet = NULL;
 			}
 		}
 	} else {
@@ -1123,15 +1139,30 @@ two_quotes :
 		ref->sheet = NULL;
 	}
 
-	tmp1 = col_parse (ptr, &ss_max, &ref->col, &ref->col_relative);
-	if (!tmp1)
+	tmp = col_parse (ptr, &ss_max, &ref->col, &ref->col_relative);
+	if (!tmp && !oo_cellref_check_for_err (ref, &ptr))
 		return start;
-	tmp2 = row_parse (tmp1, &ss_max, &ref->row, &ref->row_relative);
-	if (!tmp2)
+	if (tmp) 
+		ptr = tmp;
+	tmp = row_parse (ptr, &ss_max, &ref->row, &ref->row_relative);
+	if (!tmp && !oo_cellref_check_for_err (ref, &ptr))
 		return start;
+	if (tmp)
+		ptr = tmp;
 
-	if (ref->sheet == invalid_sheet)
-		return tmp2;
+	if (ref->sheet == invalid_sheet) {
+		g_free (new_sheet_name);
+		return ptr;
+	}
+	
+	if (new_sheet_name != NULL) {
+		Sheet *old_sheet = workbook_sheet_by_index (pp->wb, 0);
+		ref->sheet = sheet_new (pp->wb, new_sheet_name,
+					gnm_sheet_get_max_cols (old_sheet),
+					gnm_sheet_get_max_rows (old_sheet));
+		workbook_sheet_attach (pp->wb, ref->sheet);
+		g_free (new_sheet_name);
+	}
 
 	sheet = eval_sheet (ref->sheet, pp->sheet);
 	ss = gnm_sheet_get_size (sheet);
@@ -1155,7 +1186,7 @@ two_quotes :
 	if (ref->row_relative)
 		ref->row -= pp->eval.row;
 
-	return tmp2;
+	return ptr;
 }
 
 static char const *
@@ -1426,24 +1457,43 @@ oo_load_convention (OOParseState *state, OOFormula type)
 }
 
 static GnmExprTop const *
+oo_expr_parse_str_try (GsfXMLIn *xin, char const *str,
+		       GnmParsePos const *pp, GnmExprParseFlags flags,
+		       OOFormula type, GnmParseError  *perr)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	if (state->convs[type] == NULL)
+		oo_load_convention (state, type);
+	return gnm_expr_parse_str (str, pp, flags,
+				    state->convs[type], perr);
+}
+
+static GnmExprTop const *
 oo_expr_parse_str (GsfXMLIn *xin, char const *str,
 		   GnmParsePos const *pp, GnmExprParseFlags flags,
 		   OOFormula type)
 {
-	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmExprTop const *texpr;
 	GnmParseError  perr;
 
-	if (state->convs[type] == NULL)
-		oo_load_convention (state, type);
 	parse_error_init (&perr);
-	texpr = gnm_expr_parse_str (str, pp, flags,
-				    state->convs[type], &perr);
+
+	texpr = oo_expr_parse_str_try (xin, str, pp, flags, type, &perr);
 	if (texpr == NULL) {
-		oo_warning (xin, _("Unable to parse '%s' ('%s')"),
-			    str, perr.err->message);
-		parse_error_free (&perr);
+		if (*str != '[') {
+			/* There are faulty expressions in the wild that */
+			/* are references w/o [] */
+			char *test = g_strdup_printf ("[%s]", str);
+			texpr = oo_expr_parse_str_try (xin, test, pp, 
+						       flags, type, NULL);
+			g_free (test);
+		}
+		if (texpr == NULL)
+			oo_warning (xin, _("Unable to parse '%s' ('%s')"),
+				    str, perr.err->message);
 	}
+	parse_error_free (&perr);
 	return texpr;
 }
 
