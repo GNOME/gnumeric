@@ -982,6 +982,8 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 		pango_attr_iterator_range (iter, &start, &end);
 		if (end > max)
 		    end = max;
+		if (start > end)
+			start = end;
 		buf = g_strndup (text + start, end - start);
 		gsf_xml_out_add_cstr_unchecked (xml, NULL, buf);
 		g_free (buf);

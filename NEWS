@@ -34,6 +34,7 @@ Morten:
 	* Fix problems reading some Lotus 1-2-3 files.
 	* Fix paste-special repeat.
 	* Fix ADDRESS problem.
+	* Fix xlsx write problem.  [#650639]
 
 Urmas:
 	* Initial support for Works files.  [#647492]

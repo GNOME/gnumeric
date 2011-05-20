@@ -1,3 +1,7 @@
+2011-05-20  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx_write_rich_text): Clamp "start" too.
+
 2011-05-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ms-chart.c (chart_write_LEGEND): use
@@ -18,10 +22,10 @@
 
 2011-05-03  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* xlsx-read-drawing.c (xlsx_style_line_start): don't crash on NULL 
+	* xlsx-read-drawing.c (xlsx_style_line_start): don't crash on NULL
 	style,
 	(cb_axis_set_position): fix axis crossing position.
-	* xlsx-write-drawing.c (xlsx_write_chart): partially fix circular 
+	* xlsx-write-drawing.c (xlsx_write_chart): partially fix circular
 	axis position.
 
 2011-04-08  Jean Brefort  <jean.brefort@normalesup.org>
