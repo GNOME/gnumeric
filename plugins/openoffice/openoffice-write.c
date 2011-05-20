@@ -4087,6 +4087,9 @@ odf_write_named_expression (gpointer key, GnmNamedExpr *nexpr, GnmOOExport *stat
 
 	g_return_if_fail (nexpr != NULL);
 
+	if (!expr_name_is_active (nexpr))
+		return;
+
 	sheet = nexpr->pos.sheet;
         if (sheet == NULL)
 		sheet = workbook_sheet_by_index (state->wb, 0);
@@ -4126,7 +4129,7 @@ odf_write_named_expression (gpointer key, GnmNamedExpr *nexpr, GnmOOExport *stat
 					      nexpr->pos.sheet->name_unquoted);
 
 		gsf_xml_out_end_element (state->xml); /* </table:named-range> */
-	} else if (!expr_name_is_placeholder (nexpr) || nexpr->ref_count > 1) {
+	} else if (!expr_name_is_placeholder (nexpr) && nexpr->texpr != NULL) {
 		gsf_xml_out_start_element
 			(state->xml, TABLE "named-expression");
 		gsf_xml_out_add_cstr (state->xml, TABLE "name", name);
