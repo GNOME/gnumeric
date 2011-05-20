@@ -1,3 +1,9 @@
+2011-05-20  Morten Welinder  <terra@gnome.org>
+
+	* src/expr-name.c (expr_name_downgrade_to_placeholder): Use
+	nexpr->scope.
+	(expr_name_set_scope): Simplify.
+
 2011-05-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet.h (invalid_sheet): new

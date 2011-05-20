@@ -780,11 +780,7 @@ expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr)
 	g_return_if_fail (nexpr->scope != NULL);
 	g_return_if_fail (!nexpr->is_placeholder);
 
-	scope = (nexpr->pos.sheet != NULL)
-		? nexpr->pos.sheet->names
-		: nexpr->pos.wb->names;
-
-	g_return_if_fail (scope != NULL);
+	scope = nexpr->scope;
 
 	g_hash_table_steal (scope->names, nexpr->name->str);
 
@@ -809,33 +805,31 @@ expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr)
 char *
 expr_name_set_scope (GnmNamedExpr *nexpr, Sheet *sheet)
 {
-	GnmNamedExprCollection *scope, **new_scope;
+	GnmNamedExprCollection *scope, *new_scope;
 
 	g_return_val_if_fail (nexpr != NULL, NULL);
 	g_return_val_if_fail (nexpr->pos.sheet != NULL || nexpr->pos.wb != NULL, NULL);
 	g_return_val_if_fail (nexpr->scope != NULL, NULL);
 
-	scope = (nexpr->pos.sheet != NULL)
-		? nexpr->pos.sheet->names : nexpr->pos.wb->names;
+	scope = nexpr->scope;
 
 	g_return_val_if_fail (scope != NULL, NULL);
 
-	new_scope = (sheet != NULL) ? &(sheet->names) : &(nexpr->pos.wb->names);
-	if (*new_scope != NULL) {
-		if (NULL != g_hash_table_lookup ((*new_scope)->placeholders, nexpr->name->str) ||
-		    NULL != g_hash_table_lookup ((*new_scope)->names, nexpr->name->str))
+	new_scope = sheet ? sheet->names : nexpr->pos.wb->names;
+	if (new_scope != NULL) {
+		if (NULL != g_hash_table_lookup (new_scope->placeholders, nexpr->name->str) ||
+		    NULL != g_hash_table_lookup (new_scope->names, nexpr->name->str))
 			return g_strdup_printf (((sheet != NULL)
 				? _("'%s' is already defined in sheet")
 				: _("'%s' is already defined in workbook")), nexpr->name->str);
-	} else
-		*new_scope = gnm_named_expr_collection_new ();
+	}
 
 	g_hash_table_steal (
 		nexpr->is_placeholder ? scope->placeholders : scope->names,
 		nexpr->name->str);
 
 	nexpr->pos.sheet = sheet;
-	gnm_named_expr_collection_insert (*new_scope, nexpr);
+	gnm_named_expr_collection_insert (new_scope, nexpr);
 	return NULL;
 }
 
