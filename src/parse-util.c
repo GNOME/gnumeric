@@ -1168,7 +1168,7 @@ std_expr_name_handler (GnmConventionsOut *out, GnmExprName const *name)
 	GnmNamedExpr const *thename = name->name;
 	GString *target = out->accum;
 
-	if (!thename->active) {
+	if (!expr_name_is_active (thename)) {
 		g_string_append (target,
 				 value_error_name (GNM_ERROR_REF,
 						   out->convs->output.translated));

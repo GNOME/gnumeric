@@ -851,7 +851,7 @@ gnumeric_areas (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	}
 
 	case GNM_EXPR_OP_NAME:
-		if (expr->name.name->active) {
+		if (expr_name_is_active (expr->name.name)) {
 			expr = expr->name.name->texpr->expr;
 			goto restart;
 		}

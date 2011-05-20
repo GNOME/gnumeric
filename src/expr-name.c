@@ -127,9 +127,9 @@ expr_name_validate (const char *name)
 static void
 cb_nexpr_remove (GnmNamedExpr *nexpr)
 {
-	g_return_if_fail (nexpr->active);
+	g_return_if_fail (nexpr->scope != NULL);
 
-	nexpr->active = FALSE;
+	nexpr->scope = NULL;
 	expr_name_set_expr (nexpr, NULL);
 	expr_name_unref (nexpr);
 }
@@ -224,11 +224,9 @@ gnm_named_expr_collection_unlink (GnmNamedExprCollection *names)
 	if (!names)
 		return;
 
-	if (names->names) {
-		g_hash_table_foreach (names->names,
-				      cb_unlink_all_names,
-				      NULL);
-	}
+	g_hash_table_foreach (names->names,
+			      cb_unlink_all_names,
+			      NULL);
 }
 
 static void
@@ -246,11 +244,9 @@ gnm_named_expr_collection_relink (GnmNamedExprCollection *names)
 	if (!names)
 		return;
 
-	if (names->names) {
-		g_hash_table_foreach (names->names,
-				      cb_relink_all_names,
-				      NULL);
-	}
+	g_hash_table_foreach (names->names,
+			      cb_relink_all_names,
+			      NULL);
 }
 
 GnmNamedExpr *
@@ -279,7 +275,7 @@ GSList *
 gnm_named_expr_collection_list (GnmNamedExprCollection const *scope)
 {
 	GSList *res = NULL;
-	if (scope && scope->names) {
+	if (scope) {
 		g_hash_table_foreach (scope->names,
 				      cb_list_names,
 				      &res);
@@ -288,7 +284,7 @@ gnm_named_expr_collection_list (GnmNamedExprCollection const *scope)
 }
 
 static void
-gnm_named_expr_collection_insert (GnmNamedExprCollection const *scope,
+gnm_named_expr_collection_insert (GnmNamedExprCollection *scope,
 				  GnmNamedExpr *nexpr)
 {
 	if (gnm_debug_flag ("names")) {
@@ -304,7 +300,7 @@ gnm_named_expr_collection_insert (GnmNamedExprCollection const *scope,
 
 	/* name can be active at this point, eg we are converting a
 	 * placeholder, or changing a scope */
-	nexpr->active = TRUE;
+	nexpr->scope = scope;
 	g_hash_table_replace (nexpr->is_placeholder
 	      ? scope->placeholders : scope->names, (gpointer)nexpr->name->str, nexpr);
 }
@@ -321,7 +317,7 @@ cb_check_name (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 {
 	GnmValue *v;
 
-	if (!nexpr->active || nexpr->is_hidden || !nexpr->texpr)
+	if (nexpr->scope == NULL || nexpr->is_hidden || !nexpr->texpr)
 		return;
 
 	v = gnm_expr_top_get_range (nexpr->texpr);
@@ -357,8 +353,7 @@ gnm_named_expr_collection_check (GnmNamedExprCollection *scope,
 	user.r	   = r;
 	user.res   = NULL;
 
-	g_hash_table_foreach (scope->names,
-		(GHFunc) cb_check_name, &user);
+	g_hash_table_foreach (scope->names, (GHFunc)cb_check_name, &user);
 	return user.res;
 }
 
@@ -487,7 +482,6 @@ expr_name_new (char const *name)
 	nexpr = g_new0 (GnmNamedExpr,1);
 
 	nexpr->ref_count	= 1;
-	nexpr->active		= FALSE;
 	nexpr->name		= go_string_new (name);
 	nexpr->texpr		= NULL;
 	nexpr->dependents	= NULL;
@@ -495,6 +489,7 @@ expr_name_new (char const *name)
 	nexpr->is_hidden	= FALSE;
 	nexpr->is_permanent	= FALSE;
 	nexpr->is_editable	= TRUE;
+	nexpr->scope = NULL;
 
 	if (gnm_debug_flag ("names"))
 		g_printerr ("Created new name %s\n", name);
@@ -684,10 +679,10 @@ expr_name_unref (GnmNamedExpr *nexpr)
 	if (nexpr->ref_count-- > 1)
 		return;
 
-	g_return_if_fail (!nexpr->active);
-
 	if (gnm_debug_flag ("names"))
 		g_printerr ("Finalizing name %s\n", nexpr->name->str);
+
+	g_return_if_fail (nexpr->scope == NULL);
 
 	if (nexpr->name) {
 		go_string_unref (nexpr->name);
@@ -719,30 +714,17 @@ expr_name_unref (GnmNamedExpr *nexpr)
 void
 expr_name_remove (GnmNamedExpr *nexpr)
 {
-	GnmNamedExprCollection *scope;
-
 	g_return_if_fail (nexpr != NULL);
-	g_return_if_fail (nexpr->pos.sheet != NULL || nexpr->pos.wb != NULL);
-	g_return_if_fail (nexpr->active);
-
-	scope = (nexpr->pos.sheet != NULL)
-		? nexpr->pos.sheet->names : nexpr->pos.wb->names;
-
-	g_return_if_fail (scope != NULL);
+	g_return_if_fail (nexpr->scope != NULL);
 
 	if (gnm_debug_flag ("names")) {
-		char *scope_name = nexpr->pos.sheet
-			? g_strdup_printf ("sheet %s", nexpr->pos.sheet->name_quoted)
-			: g_strdup ("workbook");
-		g_printerr ("Removing name %s from its %s container%s\n",
+		g_printerr ("Removing name %s from its container%s\n",
 			    nexpr->name->str,
-			    scope_name,
 			    nexpr->is_placeholder ? " as a placeholder" : "");
-		g_free (scope_name);
 	}
 
 	g_hash_table_remove (
-		nexpr->is_placeholder ? scope->placeholders : scope->names,
+		nexpr->is_placeholder ? nexpr->scope->placeholders : nexpr->scope->names,
 		nexpr->name->str);
 }
 
@@ -795,7 +777,7 @@ expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr)
 
 	g_return_if_fail (nexpr != NULL);
 	g_return_if_fail (nexpr->pos.sheet != NULL || nexpr->pos.wb != NULL);
-	g_return_if_fail (nexpr->active);
+	g_return_if_fail (nexpr->scope != NULL);
 	g_return_if_fail (!nexpr->is_placeholder);
 
 	scope = (nexpr->pos.sheet != NULL)
@@ -831,7 +813,7 @@ expr_name_set_scope (GnmNamedExpr *nexpr, Sheet *sheet)
 
 	g_return_val_if_fail (nexpr != NULL, NULL);
 	g_return_val_if_fail (nexpr->pos.sheet != NULL || nexpr->pos.wb != NULL, NULL);
-	g_return_val_if_fail (nexpr->active, NULL);
+	g_return_val_if_fail (nexpr->scope != NULL, NULL);
 
 	scope = (nexpr->pos.sheet != NULL)
 		? nexpr->pos.sheet->names : nexpr->pos.wb->names;
@@ -942,6 +924,14 @@ expr_name_is_placeholder (GnmNamedExpr const *nexpr)
 	return (nexpr->texpr &&
 		gnm_expr_top_is_err (nexpr->texpr, GNM_ERROR_NAME));
 }
+
+gboolean
+expr_name_is_active (GnmNamedExpr const *nexpr)
+{
+	g_return_val_if_fail (nexpr != NULL, FALSE);
+	return nexpr->scope != NULL;
+}
+
 
 static gboolean
 cb_expr_name_check_for_name (gpointer key,

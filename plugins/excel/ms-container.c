@@ -75,7 +75,10 @@ ms_container_finalize (MSContainer *container)
 				if (nexpr != NULL) {
 					/* NAME placeholders need removal, EXTERNNAME placeholders
 					 * will no be active */
-					if (nexpr->active && nexpr->is_placeholder && nexpr->ref_count == 2)
+					if (expr_name_is_active (nexpr) &&
+					    expr_name_is_placeholder (nexpr) &&
+					    /* FIXME: Why do we need this?  */
+					    nexpr->ref_count == 2)
 						expr_name_remove (nexpr);
 					expr_name_unref (nexpr);
 				}
@@ -83,7 +86,6 @@ ms_container_finalize (MSContainer *container)
 		g_ptr_array_free (container->v7.externnames, TRUE);
 		container->v7.externnames = NULL;
 	}
-
 }
 
 void

@@ -3289,7 +3289,10 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 
 		/* NAME placeholders need removal, EXTERNNAME
 		 * placeholders will no be active */
-		if (nexpr->active && nexpr->is_placeholder && nexpr->ref_count == 2) {
+		if (expr_name_is_active (nexpr) &&
+		    expr_name_is_placeholder (nexpr) &&
+		    /* FIXME: Why do we need this? */
+		    nexpr->ref_count == 2) {
 			d (1, g_printerr ("Removing name %s\n", expr_name_name (nexpr)););
 			expr_name_remove (nexpr);
 		}

@@ -668,7 +668,7 @@ gnm_expr_extract_ref (GnmRangeRef *res, GnmExpr const *expr,
 	}
 
 	case GNM_EXPR_OP_NAME:
-		if (!expr->name.name->active)
+		if (!expr_name_is_active (expr->name.name))
 			return TRUE;
 		return gnm_expr_extract_ref (res, expr->name.name->texpr->expr,
 					     pos, flags);
@@ -1441,7 +1441,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	}
 
 	case GNM_EXPR_OP_NAME:
-		if (expr->name.name->active)
+		if (expr_name_is_active (expr->name.name))
 			return handle_empty (expr_name_eval (expr->name.name, pos, flags), flags);
 		return value_new_error_REF (pos);
 
@@ -2095,7 +2095,7 @@ gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo)
 		 * sitting in the undo queue, or the clipboard.  So we just
 		 * flag the name as inactive and remove the reference here.
 		 */
-		if (!nexpr->active)
+		if (!expr_name_is_active (nexpr))
 			return gnm_expr_new_constant (value_new_error_REF (NULL));
 
 		switch (rinfo->details->reloc_type) {
@@ -2408,7 +2408,7 @@ gnm_expr_contains_subtotal (GnmExpr const *expr)
 	}
 
 	case GNM_EXPR_OP_NAME:
-		if (expr->name.name->active)
+		if (expr_name_is_active (expr->name.name))
 			return gnm_expr_contains_subtotal (expr->name.name->texpr->expr);
 
 	case GNM_EXPR_OP_ARRAY_CORNER:
@@ -2505,7 +2505,7 @@ gnm_expr_get_range (GnmExpr const *expr)
 		return NULL;
 
 	case GNM_EXPR_OP_NAME:
-		if (!expr->name.name->active)
+		if (!expr_name_is_active (expr->name.name))
 			return NULL;
 		return gnm_expr_top_get_range (expr->name.name->texpr);
 
@@ -2609,7 +2609,7 @@ gnm_expr_is_rangeref (GnmExpr const *expr)
 		return FALSE;
 
 	case GNM_EXPR_OP_NAME:
-		if (expr->name.name->active)
+		if (expr_name_is_active (expr->name.name))
 			return gnm_expr_is_rangeref (expr->name.name->texpr->expr);
 		return FALSE;
 

@@ -1,3 +1,10 @@
+2011-05-20  Morten Welinder  <terra@gnome.org>
+
+	* src/expr-name.c (expr_name_is_active): New function.
+
+	* src/expr-name.h (_GnmNamedExpr): Replace active member by scope
+	member.  All users changed.
+
 2011-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/expr-name.h (gnm_named_expr_collection_rename): new

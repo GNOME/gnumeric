@@ -330,7 +330,7 @@ merge_single (Workbook *wb, Workbook *wb2,
 		GnmNamedExpr *nexpr2;
 		Sheet *sheet;
 
-		if (!nexpr->active)
+		if (!expr_name_is_active (nexpr))
 			continue;
 
 		if (nexpr->pos.wb == NULL || nexpr->pos.sheet != NULL)

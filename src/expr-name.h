@@ -16,11 +16,11 @@ struct _GnmNamedExpr {
 	GnmParsePos    pos;
 	GHashTable *dependents;
 	GnmExprTop const *texpr;
-	gboolean    active;
 	gboolean    is_placeholder;
 	gboolean    is_hidden;
 	gboolean    is_permanent;
 	gboolean    is_editable;
+	GnmNamedExprCollection *scope;
 };
 
 gboolean expr_name_validate (const char *name);
@@ -48,6 +48,7 @@ void	 expr_name_set_expr   (GnmNamedExpr *ne, GnmExprTop const *texpr);
 void	 expr_name_add_dep    (GnmNamedExpr *ne, GnmDependent *dep);
 void	 expr_name_remove_dep (GnmNamedExpr *ne, GnmDependent *dep);
 gboolean expr_name_is_placeholder (GnmNamedExpr const *ne);
+gboolean expr_name_is_active  (GnmNamedExpr const *ne);
 void	 expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr);
 gboolean expr_name_in_use     (GnmNamedExpr *nexpr);
 
