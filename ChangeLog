@@ -1,3 +1,11 @@
+2011-05-21  Morten Welinder  <terra@gnome.org>
+
+	* src/expr-name.c (expr_name_set_pos): Rename from
+	expr_name_set_scope and extended to handle all position changes.
+	All callers changed.
+	(gnm_named_expr_collection_rename): Remove.
+	(expr_name_set_name): New function.
+
 2011-05-21  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

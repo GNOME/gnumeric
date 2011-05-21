@@ -303,8 +303,15 @@ suggest_size (GSList *wbs, int *csuggest, int *rsuggest)
 static void
 cb_fixup_name_wb (const char *name, GnmNamedExpr *nexpr, Workbook *wb)
 {
-	if (nexpr->pos.wb)
-		nexpr->pos.wb = wb;
+	GnmParsePos newpos = nexpr->pos;
+
+	if (!expr_name_is_active (nexpr))
+		return;
+
+	if (nexpr->pos.wb) {
+		newpos.wb = wb;
+		expr_name_set_pos (nexpr, &newpos);
+	}
 }
 
 
@@ -320,26 +327,25 @@ merge_single (Workbook *wb, Workbook *wb2,
 	GSList *names = g_slist_sort (gnm_named_expr_collection_list (wb2->names),
 				      (GCompareFunc)expr_name_cmp_by_name);
 	GSList *p;
-	GnmParsePos pp;
-
-	parse_pos_init (&pp, wb, NULL, 0, 0);
 
 	for (p = names; p; p = p->next) {
 		GnmNamedExpr *nexpr = p->data;
 		const char *name = expr_name_name (nexpr);
 		GnmNamedExpr *nexpr2;
-		Sheet *sheet;
+		GnmParsePos pp;
+		GnmParsePos newpos = nexpr->pos;
 
 		if (!expr_name_is_active (nexpr))
 			continue;
 
-		if (nexpr->pos.wb == NULL || nexpr->pos.sheet != NULL)
+		if (nexpr->pos.wb != wb2 || nexpr->pos.sheet != NULL)
 			continue;
 
 		/* Check for clash with existing name */
 
+		parse_pos_init (&pp, wb, NULL, 0, 0);
 		nexpr2 = expr_name_lookup (&pp, name);
-		if (nexpr2 != NULL) {
+		if (nexpr2 /* FIXME: && nexpr2-is-not-the-same-as-nexpr */) {
 			g_printerr (_("Name conflict during merge: '%s' appears twice at workbook scope.\n"),
 				    name);
 			g_slist_free (names);
@@ -347,10 +353,8 @@ merge_single (Workbook *wb, Workbook *wb2,
 		}
 
 		/* Move name scope to workbook wb */
-		sheet = workbook_sheet_by_index (wb2, 0);
-		expr_name_set_scope (nexpr, sheet);
-		nexpr->pos.wb = wb;
-		expr_name_set_scope (nexpr, NULL);
+		newpos.wb = wb;
+		expr_name_set_pos (nexpr, &newpos);
 	}
 	g_slist_free (names);
 

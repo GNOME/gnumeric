@@ -40,10 +40,13 @@ void	 expr_name_unref      (GnmNamedExpr *nexpr);
 void     expr_name_remove     (GnmNamedExpr *nexpr);
 GnmValue*expr_name_eval       (GnmNamedExpr const *ne, GnmEvalPos const *ep,
 			       GnmExprEvalFlags flags);
+
 const char *expr_name_name    (GnmNamedExpr const *nexpr);
+gboolean expr_name_set_name   (GnmNamedExpr *nexpr, const char *new_name);
+
 char    *expr_name_as_string  (GnmNamedExpr const *ne, GnmParsePos const *pp,
 			       GnmConventions const *fmt);
-char    *expr_name_set_scope  (GnmNamedExpr *ne, Sheet *sheet);
+char    *expr_name_set_pos    (GnmNamedExpr *ne, GnmParsePos const *pp);
 void	 expr_name_set_expr   (GnmNamedExpr *ne, GnmExprTop const *texpr);
 void	 expr_name_add_dep    (GnmNamedExpr *ne, GnmDependent *dep);
 void	 expr_name_remove_dep (GnmNamedExpr *ne, GnmDependent *dep);
@@ -81,10 +84,6 @@ void gnm_named_expr_collection_foreach (GnmNamedExprCollection *names,
 
 GnmNamedExpr *gnm_named_expr_collection_lookup (GnmNamedExprCollection const *scope,
 						char const *name);
-void gnm_named_expr_collection_rename (GnmNamedExprCollection *names,
-				       gchar const *old_name,
-				       gchar const *new_name);
-
 G_END_DECLS
 
 #endif /* _GNM_EXPR_NAME_H_ */

@@ -6167,8 +6167,10 @@ cmd_rescope_name_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	CmdRescopeName *me = CMD_RESCOPE_NAME (cmd);
 	Sheet *old_scope = me->nexpr->pos.sheet;
 	char *err;
+	GnmParsePos pp = me->nexpr->pos;
 
-	err = expr_name_set_scope (me->nexpr, me->scope);
+	pp.sheet = me->scope;
+	err = expr_name_set_pos (me->nexpr, &pp);
 
 	if (err != NULL) {
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), _("Change Scope of Name"), err);

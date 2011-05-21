@@ -1321,14 +1321,11 @@ odf_fix_en_collect (gchar const *key, GnmNamedExpr *nexpr, odf_fix_expr_names_t 
 }
 
 static void 
-odf_fix_en_apply (gchar const *orig, gchar const *fixed, OOParseState *state)
+odf_fix_en_apply (const char *orig, GnmNamedExpr *nexpr, GHashTable *orig2fixed)
 {
-	GSList *sheets = workbook_sheets (state->pos.wb), *l;
-	gnm_named_expr_collection_rename (state->pos.wb->names, orig, fixed);
-	for (l = sheets; l != NULL; l = l->next) {
-		Sheet *sheet = l->data;
-		gnm_named_expr_collection_rename (sheet->names, orig, fixed);
-	}
+	const char *fixed = g_hash_table_lookup (orig2fixed, orig);
+	if (fixed)
+		expr_name_set_name (nexpr, fixed);
 }
 
 /**
@@ -1355,7 +1352,10 @@ odf_fix_expr_names (OOParseState *state)
 		g_hash_table_foreach (sheet->names->placeholders, 
 				      (GHFunc) odf_fix_en_collect, fen);
 	}
-	g_hash_table_foreach (fen->orig2fixed, (GHFunc) odf_fix_en_apply, state);
+
+	workbook_foreach_name (state->pos.wb, FALSE,
+			       (GHFunc)odf_fix_en_apply, fen->orig2fixed);
+
 	odf_fix_expr_names_t_free (fen);
 }
 

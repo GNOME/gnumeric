@@ -1,3 +1,7 @@
+2011-05-21  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (odf_fix_en_apply): Use expr_name_set_name.
+
 2011-05-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.15

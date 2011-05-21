@@ -367,32 +367,6 @@ gnm_named_expr_collection_foreach (GnmNamedExprCollection *names,
 	g_hash_table_foreach (names->placeholders, func, data);
 }
 
-static void
-gnm_named_expr_collection_rename_in_hash (GHashTable *hash, 
-					  gchar const *old_name, 
-					  gchar const *new_name)
-{
-	GnmNamedExpr *nexpr;
-
-	if ((nexpr = g_hash_table_lookup (hash, old_name)) != NULL) {
-		g_hash_table_steal (hash, old_name);
-		go_string_unref (nexpr->name);
-		nexpr->name = go_string_new (new_name);
-		g_hash_table_insert (hash, (gpointer)nexpr->name->str, nexpr);
-	}
-}
-
-/* rename old_name to new_name (if such a name exists) */
-void gnm_named_expr_collection_rename (GnmNamedExprCollection *names,
-				       gchar const *old_name,
-				       gchar const *new_name)
-{
-	gnm_named_expr_collection_rename_in_hash 
-		(names->names, old_name, new_name);
-	gnm_named_expr_collection_rename_in_hash 
-		(names->placeholders, old_name, new_name);
-}
-
 /******************************************************************************/
 
 /**
@@ -736,6 +710,54 @@ expr_name_name (GnmNamedExpr const *nexpr)
 }
 
 /**
+ * expr_name_set_name :
+ * @nexpr : the named expression
+ * @new_name : the new name of the expression
+ *
+ * returns: TRUE on error.
+ */
+gboolean
+expr_name_set_name (GnmNamedExpr *nexpr,
+		    const char *new_name)
+{
+	const char *old_name;
+	GHashTable *h;
+
+	g_return_val_if_fail (nexpr != NULL, TRUE);
+	g_return_val_if_fail (nexpr->scope == NULL || new_name, TRUE);
+
+	old_name = nexpr->name->str;
+	if (go_str_compare (new_name, old_name) == 0)
+		return FALSE;
+
+	h = nexpr->scope
+		? (nexpr->is_placeholder
+		   ? nexpr->scope->placeholders
+		   : nexpr->scope->names)
+		: NULL;
+	if (h) {
+		if (new_name &&
+		    (g_hash_table_lookup (nexpr->scope->placeholders, new_name) ||
+		     g_hash_table_lookup (nexpr->scope->names, new_name))) {
+			/* The only error not to be blamed on the programmer is
+			   already-in-use.  */
+			return TRUE;
+		}
+
+		g_hash_table_steal (h, old_name);
+	}
+
+	go_string_unref (nexpr->name);
+	nexpr->name = go_string_new (new_name);
+
+	if (h)
+		g_hash_table_insert (h, (gpointer)nexpr->name->str, nexpr);
+
+	return FALSE;
+}
+
+
+/**
  * expr_name_as_string :
  * @nexpr :
  * @pp : optionally null.
@@ -795,40 +817,41 @@ expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr)
  * Manage things that depend on named expressions.
  */
 /**
- * expr_name_set_scope:
- * @nexpr:
- * @sheet:
+ * expr_name_set_pos:
+ * @nexpr : the named expression
+ * @pp: the new position
  *
  * Returns a translated error string which the caller must free if something
  * goes wrong.
  **/
 char *
-expr_name_set_scope (GnmNamedExpr *nexpr, Sheet *sheet)
+expr_name_set_pos (GnmNamedExpr *nexpr, GnmParsePos const *pp)
 {
-	GnmNamedExprCollection *scope, *new_scope;
+	GnmNamedExprCollection *old_scope, *new_scope;
+	const char *name;
 
 	g_return_val_if_fail (nexpr != NULL, NULL);
-	g_return_val_if_fail (nexpr->pos.sheet != NULL || nexpr->pos.wb != NULL, NULL);
 	g_return_val_if_fail (nexpr->scope != NULL, NULL);
+	g_return_val_if_fail (pp != NULL, NULL);
 
-	scope = nexpr->scope;
+	old_scope = nexpr->scope;
+	new_scope = pp->sheet ? pp->sheet->names : pp->wb->names;
 
-	g_return_val_if_fail (scope != NULL, NULL);
-
-	new_scope = sheet ? sheet->names : nexpr->pos.wb->names;
-	if (new_scope != NULL) {
-		if (NULL != g_hash_table_lookup (new_scope->placeholders, nexpr->name->str) ||
-		    NULL != g_hash_table_lookup (new_scope->names, nexpr->name->str))
-			return g_strdup_printf (((sheet != NULL)
-				? _("'%s' is already defined in sheet")
-				: _("'%s' is already defined in workbook")), nexpr->name->str);
+	name = nexpr->name->str;
+	if (old_scope != new_scope &&
+	    (g_hash_table_lookup (new_scope->placeholders, name) ||
+	     g_hash_table_lookup (new_scope->names, name))) {
+		const char *fmt = pp->sheet
+			? _("'%s' is already defined in sheet")
+			: _("'%s' is already defined in workbook");
+		return g_strdup_printf (fmt, name);
 	}
 
 	g_hash_table_steal (
-		nexpr->is_placeholder ? scope->placeholders : scope->names,
-		nexpr->name->str);
+		nexpr->is_placeholder ? old_scope->placeholders : old_scope->names,
+		name);
 
-	nexpr->pos.sheet = sheet;
+	nexpr->pos = *pp;
 	gnm_named_expr_collection_insert (new_scope, nexpr);
 	return NULL;
 }
