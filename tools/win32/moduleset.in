@@ -328,7 +328,7 @@
 
 <!-- Gnumeric stack -->
     <autotools id="libgsf">
-	<branch repo="gnome.org" module="sources/libgsf/1.14/libgsf-1.14.20.tar.gz" version="1.14.20">
+	<branch repo="gnome.org" module="sources/libgsf/1.14/libgsf-1.14.21.tar.gz" version="1.14.21">
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
