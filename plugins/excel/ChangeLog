@@ -1,3 +1,7 @@
+2011-05-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.15
+
 2011-05-20  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write.c (xlsx_write_rich_text): Clamp "start" too.
