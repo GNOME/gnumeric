@@ -172,6 +172,8 @@ install: build
 
 	# Plugins are not intended as stand-alone executables
 	find `pwd`/debian/tmp/usr/lib/*/*/plugins -type f -print0 | xargs -0 chmod a-x
+	# .la files are not needed for plugins
+	find `pwd`/debian/tmp/usr/lib/*/*/plugins -type f -name '*.la' -print0 | xargs -0 rm -f
 
 	# Remove unwanted files: static libraries and documentation sources
 	find `pwd`/debian/tmp/usr/ -name '*.a' -print0 | xargs -0 rm -f

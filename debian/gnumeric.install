@@ -4,10 +4,8 @@
 /usr/bin/ssgrep*
 /usr/bin/ssindex*
 # /usr/include/libspreadsheet-*/spreadsheet
-/usr/lib/goffice/*/plugins/*/*.la
 /usr/lib/goffice/*/plugins/*/*.so
 /usr/lib/goffice/*/plugins/*/*.xml
-/usr/lib/gnumeric/*/plugins/*/*.la
 /usr/lib/gnumeric/*/plugins/*/*.so
 /usr/lib/gnumeric/*/plugins/*/*.xml
 /usr/lib/libspreadsheet-*.so*
