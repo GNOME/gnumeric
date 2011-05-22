@@ -1,5 +1,7 @@
 2011-05-22  Morten Welinder  <terra@gnome.org>
 
+	* src/complex.h: Use goffice's stuff as far as possible.
+
 	* src/sheet-view.c (sv_is_region_empty_or_selected): Unused.  Remove.
 
 	* src/gnm-marshalers.list: Remove unused marshallers.

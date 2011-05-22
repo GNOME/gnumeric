@@ -8,7 +8,6 @@
 
 #include <gnumeric-config.h>
 #include "gnumeric.h"
-#define GNUMERIC_COMPLEX_IMPLEMENTATION
 #include "complex.h"
 
 #include <stdlib.h>
@@ -139,73 +138,6 @@ complex_from_string (complex_t *dst, char const *src, char *imunit)
 
 /* ------------------------------------------------------------------------- */
 
-void
-complex_to_polar (gnm_float *mod, gnm_float *angle, complex_t const *src)
-{
-	*mod = complex_mod (src);
-	*angle = complex_angle (src);
-}
-
-/* ------------------------------------------------------------------------- */
-
-void
-complex_from_polar (complex_t *dst, gnm_float mod, gnm_float angle)
-{
-	complex_init (dst, mod * gnm_cos (angle), mod * gnm_sin (angle));
-}
-
-/* ------------------------------------------------------------------------- */
-
-void
-complex_mul (complex_t *dst, complex_t const *a, complex_t const *b)
-{
-	complex_init (dst,
-		      a->re * b->re - a->im * b->im,
-		      a->re * b->im + a->im * b->re);
-}
-
-/* ------------------------------------------------------------------------- */
-
-void
-complex_div (complex_t *dst, complex_t const *a, complex_t const *b)
-{
-	gnm_float bmod = complex_mod (b);
-
-	if (bmod >= GNM_const(1e10)) {
-		/* Ok, it's big.  */
-		gnm_float a_re = a->re / bmod;
-		gnm_float a_im = a->im / bmod;
-		gnm_float b_re = b->re / bmod;
-		gnm_float b_im = b->im / bmod;
-		complex_init (dst,
-			      a_re * b_re + a_im * b_im,
-			      a_im * b_re - a_re * b_im);
-	} else {
-		gnm_float bmodsqr = bmod * bmod;
-		complex_init (dst,
-			      (a->re * b->re + a->im * b->im) / bmodsqr,
-			      (a->im * b->re - a->re * b->im) / bmodsqr);
-	}
-}
-
-/* ------------------------------------------------------------------------- */
-
-void
-complex_sqrt (complex_t *dst, complex_t const *src)
-{
-	if (complex_real_p (src)) {
-		if (src->re >= 0)
-			complex_init (dst, gnm_sqrt (src->re), 0);
-		else
-			complex_init (dst, 0, gnm_sqrt (-src->re));
-	} else
-		complex_from_polar (dst,
-				    gnm_sqrt (complex_mod (src)),
-				    complex_angle (src) / 2);
-}
-
-/* ------------------------------------------------------------------------- */
-
 /* Like complex_angle, but divide result by pi.  */
 static gnm_float
 complex_angle_pi (complex_t const *src)
@@ -264,6 +196,14 @@ complex_pow (complex_t *dst, complex_t const *a, complex_t const *b)
 		complex_from_polar (dst, res_r, res_a1 + res_a2);
 		complex_mul (dst, dst, &F);
 	}
+}
+
+/* ------------------------------------------------------------------------- */
+
+int
+complex_invalid_p (complex_t const *src)
+{
+	return !(gnm_finite (src->re) && gnm_finite (src->im));
 }
 
 /* ------------------------------------------------------------------------- */
