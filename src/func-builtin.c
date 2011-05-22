@@ -52,7 +52,7 @@ static GnmFuncHelp const help_sum[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-GnmValue *
+static GnmValue *
 gnumeric_sum (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
@@ -89,7 +89,7 @@ range_bogusproduct (gnm_float const *xs, int n, gnm_float *res)
 		return gnm_range_product (xs, n, res);
 }
 
-GnmValue *
+static GnmValue *
 gnumeric_product (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,

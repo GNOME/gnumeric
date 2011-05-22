@@ -2121,24 +2121,6 @@ gnm_expr_entry_new (WBCGtk *wbcg, gboolean with_icon)
 			     NULL);
 }
 
-/**
- * gnm_expr_entry_new_glade:
- *
- * Creates a new #GnmExprEntry, which is an entry widget with support
- * for range selections.
- * The entry is created with default flag settings which are suitable for use
- * in many dialogs, but see #gnm_expr_entry_set_flags.
- *
- * Useful for use in .glade files.  The user must assign a scg before use.
- *
- * Return value: a new #GnmExprEntry.
- **/
-GtkWidget *
-gnm_expr_entry_new_glade (void)
-{
-	return g_object_new (GNM_EXPR_ENTRY_TYPE, NULL);
-}
-
 void
 gnm_expr_entry_freeze (GnmExprEntry *gee)
 {

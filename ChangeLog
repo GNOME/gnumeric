@@ -1,5 +1,27 @@
 2011-05-22  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-view.c (sv_is_region_empty_or_selected): Unused.  Remove.
+
+	* src/gnm-marshalers.list: Remove unused marshallers.
+
+	* src/gnm-pane.c (control_circle_get_type, item_acetate_get_type):
+	Make static.
+
+	* src/colrow.c (colrow_find_adjacent_visible): Unused.  Remove.
+
+	* src/sort.c (gnm_sort_data_length): Make static.
+
+	* src/sheet.c (sheet_redraw_cell): Make static.
+
+	* src/sheet-style.c (sheet_style_set_col, sheet_style_set_row):
+	Unused.  Remove.
+
+	* src/func-builtin.c (gnumeric_sum, gnumeric_product): Make
+	static.
+
+	* src/wbc-gtk.c (wbcg_ui_update_begin, wbcg_ui_update_end): Make
+	static.
+
 	* src/expr-name.c (expr_name_set_is_placeholder): New function.
 	(expr_name_downgrade_to_placeholder): Simplify using
 	expr_name_set_is_placeholder.

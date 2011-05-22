@@ -667,15 +667,6 @@ sv_update (SheetView *sv)
 
 }
 
-static GnmValue *
-cb_fail_if_not_selected (GnmCellIter const *iter, gpointer sv)
-{
-	if (!sv_is_pos_selected (sv, iter->pp.eval.col, iter->pp.eval.row))
-		return VALUE_TERMINATE;
-	else
-		return NULL;
-}
-
 /**
  * sv_editpos_in_filter :
  * @sv : #SheetView
@@ -739,28 +730,6 @@ sv_editpos_in_slicer (SheetView const *sv)
 {
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
 	return gnm_sheet_slicers_at_pos (sv->sheet, &sv->edit_pos);
-}
-
-/**
- * sheet_is_region_empty_or_selected:
- * @sheet: sheet to check
- * @r : the region
- *
- * Returns TRUE if the specified region of the @sheet does not
- * contain any cells that are not selected.
- *
- * FIXME: Perhaps this routine should be extended to allow testing for specific
- * features of a cell rather than just the existance of the cell.
- */
-gboolean
-sv_is_region_empty_or_selected (SheetView const *sv, GnmRange const *r)
-{
-	g_return_val_if_fail (IS_SHEET_VIEW (sv), TRUE);
-
-	return sheet_foreach_cell_in_range (
-		sv->sheet, CELL_ITER_IGNORE_NONEXISTENT,
-		r->start.col, r->start.row, r->end.col, r->end.row,
-		cb_fail_if_not_selected, (gpointer)sv) == NULL;
 }
 
 /**

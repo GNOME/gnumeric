@@ -1037,42 +1037,6 @@ colrow_find_outline_bound (Sheet const *sheet, gboolean is_cols,
 }
 
 /**
- * colrow_find_adjacent_visible:
- * @sheet:   Sheet to search on.
- * @is_cols: If true find next column else find next row.
- * @index:   The col/row index to start at.
- * @forward: If set seek forward otherwise seek backwards.
- *
- * Return value: The index of the next visible col/row or -1 if
- *               there are no more visible cols/rows left.
- **/
-int
-colrow_find_adjacent_visible (Sheet *sheet, gboolean is_cols,
-			      int index, gboolean forward)
-{
-	int const max = colrow_max (is_cols, sheet);
-	int i         = index; /* To avoid trouble at edges */
-
-	do {
-		ColRowInfo * const cri = sheet_colrow_fetch (sheet, i, is_cols);
-
-		if (cri->visible)
-			return i;
-
-		if (forward) {
-			if (++i >= max) {
-				i       = index;
-				forward = FALSE;
-			}
-		} else
-			i--;
-
-	} while (i > 0);
-
-	return -1;
-}
-
-/**
  * colrow_set_visibility:
  * @sheet	: the sheet
  * @is_cols	: Are we dealing with rows or columns.

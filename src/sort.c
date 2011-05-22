@@ -38,7 +38,7 @@ gnm_sort_data_destroy (GnmSortData *data)
 	g_free (data);
 }
 
-int
+static int
 gnm_sort_data_length (GnmSortData const *data)
 {
 	if (data->top)

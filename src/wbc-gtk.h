@@ -30,9 +30,6 @@ Sheet		*wbcg_cur_sheet	  (WBCGtk *wbcg);
 Sheet		*wbcg_focus_cur_scg (WBCGtk *wbcg);
 int              wbcg_get_n_scg   (WBCGtk const *wbcg);
 
-gboolean   wbcg_ui_update_begin	  (WBCGtk *wbcg);
-void	   wbcg_ui_update_end	  (WBCGtk *wbcg);
-
 gboolean   wbcg_rangesel_possible (WBCGtk const *wbcg);
 gboolean   wbcg_is_editing	  (WBCGtk const *wbcg);
 void	   wbcg_set_status_text	  (WBCGtk *wbcg,

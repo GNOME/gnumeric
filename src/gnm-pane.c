@@ -2655,7 +2655,7 @@ typedef GocCircleClass ControlCircleClass;
 #define CONTROL_CIRCLE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), CONTROL_TYPE_CIRCLE, ControlCircle))
 #define CONTROL_IS_CIRCLE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), CONTROL_TYPE_CIRCLE))
 
-GType control_circle_get_type (void);
+static GType control_circle_get_type (void);
 
 static gboolean
 control_point_button_pressed (GocItem *item, int button, double x, double y)
@@ -2821,16 +2821,16 @@ static void control_circle_class_init (GocItemClass *item_klass) {
 	item_klass->leave_notify = control_point_leave_notify;
 }
 
-GSF_CLASS (ControlCircle, control_circle,
-	   control_circle_class_init, NULL,
-	   GOC_TYPE_CIRCLE)
+static GSF_CLASS (ControlCircle, control_circle,
+		  control_circle_class_init, NULL,
+		  GOC_TYPE_CIRCLE)
 
 #define ITEM_ACETATE(obj)          (G_TYPE_CHECK_INSTANCE_CAST((obj), item_acetate_get_type (), ItemAcetate))
 #define IS_ITEM_ACETATE(o)         (G_TYPE_CHECK_INSTANCE_TYPE((o), item_acetate_get_type ()))
 
 #define MARGIN	10
 
-GType item_acetate_get_type (void);
+static GType item_acetate_get_type (void);
 
 typedef GocRectangle		ItemAcetate;
 typedef GocRectangleClass	ItemAcetateClass;
@@ -2860,9 +2860,9 @@ item_acetate_class_init (GocItemClass *item_class)
 	item_class->leave_notify = control_point_leave_notify;
 }
 
-GSF_CLASS (ItemAcetate, item_acetate,
-	   item_acetate_class_init, NULL,
-	   GOC_TYPE_RECTANGLE)
+static GSF_CLASS (ItemAcetate, item_acetate,
+		  item_acetate_class_init, NULL,
+		  GOC_TYPE_RECTANGLE)
 
 /**
  * new_control_point

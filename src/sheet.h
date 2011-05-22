@@ -292,7 +292,6 @@ gconstpointer gnm_sheet_find_sort_setup (Sheet *sheet, char const *key);
 /* Redraw */
 #define sheet_is_visible(_sheet) ((_sheet)->visibility == GNM_SHEET_VISIBILITY_VISIBLE)
 void     sheet_redraw_all       (Sheet const *sheet, gboolean header);
-void     sheet_redraw_cell      (GnmCell const *cell);
 void     sheet_redraw_range     (Sheet const *sheet, GnmRange const *r);
 void     sheet_redraw_region    (Sheet const *sheet,
 				 int start_col, int start_row,
@@ -339,7 +338,6 @@ GOUndo *     sheet_apply_style_undo (GnmSheetRange *sr,
 void	     sheet_apply_border	    (Sheet  *sheet, GnmRange const *range, GnmBorder **borders);
 void	     sheet_queue_respan     (Sheet const *sheet, int start_row, int end_row);
 void	     sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, GnmSpanCalcFlags flags);
-void	     sheet_cell_calc_span   (GnmCell *cell, GnmSpanCalcFlags flags);
 
 void	     sheet_set_outline_direction (Sheet *sheet, gboolean is_cols);
 gboolean     sheet_selection_is_allowed (Sheet const *sheet, GnmCellPos const *pos);

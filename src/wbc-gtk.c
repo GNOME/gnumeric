@@ -104,6 +104,24 @@ static int extra_actions_nb;
 static guint wbc_gtk_signals[WBC_GTK_LAST_SIGNAL];
 static GObjectClass *parent_class = NULL;
 
+static gboolean
+wbcg_ui_update_begin (WBCGtk *wbcg)
+{
+	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
+	g_return_val_if_fail (!wbcg->updating_ui, FALSE);
+
+	return (wbcg->updating_ui = TRUE);
+}
+
+static void
+wbcg_ui_update_end (WBCGtk *wbcg)
+{
+	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (wbcg->updating_ui);
+
+	wbcg->updating_ui = FALSE;
+}
+
 /****************************************************************************/
 
 #ifndef HILDON
@@ -6012,24 +6030,6 @@ wbc_gtk_new (WorkbookView *optional_view,
 
 	wb_control_init_state (wbc);
 	return wbcg;
-}
-
-gboolean
-wbcg_ui_update_begin (WBCGtk *wbcg)
-{
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
-	g_return_val_if_fail (!wbcg->updating_ui, FALSE);
-
-	return (wbcg->updating_ui = TRUE);
-}
-
-void
-wbcg_ui_update_end (WBCGtk *wbcg)
-{
-	g_return_if_fail (IS_WBC_GTK (wbcg));
-	g_return_if_fail (wbcg->updating_ui);
-
-	wbcg->updating_ui = FALSE;
 }
 
 GtkWindow *

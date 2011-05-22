@@ -27,7 +27,6 @@ void gnm_sort_data_destroy   (GnmSortData *data);
 GnmSortData *gnm_sort_data_copy   (GnmSortData *data);
 void gnm_sort_position	     (GnmSortData *data, int *perm, GOCmdContext *cc);
 int *gnm_sort_contents	     (GnmSortData *data, GOCmdContext *cc);
-int  gnm_sort_data_length    (GnmSortData const *data);
 int *gnm_sort_permute_invert (int const *perm, int length);
 
 G_END_DECLS

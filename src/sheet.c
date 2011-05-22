@@ -1424,7 +1424,35 @@ sheet_redraw_partial_row (Sheet const *sheet, int const row,
 		sc_redraw_range (control, &r););
 }
 
-void
+static void
+sheet_redraw_cell (GnmCell const *cell)
+{
+	CellSpanInfo const * span;
+	int start_col, end_col;
+	GnmRange const *merged;
+
+	g_return_if_fail (cell != NULL);
+
+	merged = gnm_sheet_merge_is_corner (cell->base.sheet, &cell->pos);
+	if (merged != NULL) {
+		SHEET_FOREACH_CONTROL (cell->base.sheet, view, control,
+			sc_redraw_range (control, merged););
+		return;
+	}
+
+	start_col = end_col = cell->pos.col;
+	span = row_span_get (cell->row_info, start_col);
+
+	if (span) {
+		start_col = span->left;
+		end_col = span->right;
+	}
+
+	sheet_redraw_partial_row (cell->base.sheet, cell->pos.row,
+				  start_col, end_col);
+}
+
+static void
 sheet_cell_calc_span (GnmCell *cell, GnmSpanCalcFlags flags)
 {
 	CellSpanInfo const * span;
@@ -2929,34 +2957,6 @@ sheet_redraw_range (Sheet const *sheet, GnmRange const *range)
 	sheet_redraw_region (sheet,
 			     range->start.col, range->start.row,
 			     range->end.col, range->end.row);
-}
-
-void
-sheet_redraw_cell (GnmCell const *cell)
-{
-	CellSpanInfo const * span;
-	int start_col, end_col;
-	GnmRange const *merged;
-
-	g_return_if_fail (cell != NULL);
-
-	merged = gnm_sheet_merge_is_corner (cell->base.sheet, &cell->pos);
-	if (merged != NULL) {
-		SHEET_FOREACH_CONTROL (cell->base.sheet, view, control,
-			sc_redraw_range (control, merged););
-		return;
-	}
-
-	start_col = end_col = cell->pos.col;
-	span = row_span_get (cell->row_info, start_col);
-
-	if (span) {
-		start_col = span->left;
-		end_col = span->right;
-	}
-
-	sheet_redraw_partial_row (cell->base.sheet, cell->pos.row,
-				  start_col, end_col);
 }
 
 /****************************************************************************/

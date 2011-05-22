@@ -1158,26 +1158,6 @@ sheet_style_set_range (Sheet *sheet, GnmRange const *range,
 }
 
 /**
- * sheet_style_set_col
- * @sheet :
- * @col :
- * @style : #GnmStyle
- *
- * NOTE : This is a simple wrapper for now.  When we support col/row styles it
- *	will make life easier.
- *
- * Change the complete style for a full col.
- * This function absorbs a reference to the new @style.
- **/
-void
-sheet_style_set_col (Sheet *sheet, int col, GnmStyle *style)
-{
-	GnmRange r;
-	range_init_cols (&r, sheet, col, col);
-	sheet_style_set_range (sheet, &r, style);
-}
-
-/**
  * sheet_style_apply_col
  * @sheet :
  * @col :
@@ -1195,26 +1175,6 @@ sheet_style_apply_col (Sheet *sheet, int col, GnmStyle *pstyle)
 	GnmRange r;
 	range_init_cols (&r, sheet, col, col);
 	sheet_style_apply_range (sheet, &r, pstyle);
-}
-
-/**
- * sheet_style_set_row
- * @sheet :
- * @row :
- * @style : #GnmStyle
- *
- * NOTE : This is a simple wrapper for now.  When we support col/row styles it
- *	will make life easier.
- *
- * Change the complete style for a full row.
- * This function absorbs a reference to the new @style.
- **/
-void
-sheet_style_set_row (Sheet  *sheet, int row, GnmStyle *style)
-{
-	GnmRange r;
-	range_init_rows (&r, sheet, row, row);
-	sheet_style_set_range (sheet, &r, style);
 }
 
 /**
