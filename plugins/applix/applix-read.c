@@ -35,6 +35,7 @@
 #include <application.h>
 #include <expr.h>
 #include <expr-name.h>
+#include <func.h>
 #include <value.h>
 #include <sheet.h>
 #include <sheet-view.h>

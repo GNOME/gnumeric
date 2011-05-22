@@ -44,6 +44,7 @@
 #include <expr.h>
 #include <expr-impl.h>
 #include <expr-name.h>
+#include <func.h>
 #include <value.h>
 #include <ranges.h>
 #include <mstyle.h>

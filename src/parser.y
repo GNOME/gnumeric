@@ -19,6 +19,7 @@
 #include "expr.h"
 #include "expr-impl.h"
 #include "expr-name.h"
+#include "func.h"
 #include "workbook.h"
 #include "sheet.h"
 #include "gnm-format.h"

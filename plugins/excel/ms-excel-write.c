@@ -38,6 +38,7 @@
 #include <position.h>
 #include <style-color.h>
 #include <cell.h>
+#include <func.h>
 #include <cellspan.h>
 #include <sheet.h>
 #include <sheet-view.h>

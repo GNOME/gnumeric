@@ -44,6 +44,7 @@
 #include <sheet-merge.h>
 #include <sheet-filter.h>
 #include <cell.h>
+#include <func.h>
 #include <style.h>
 #include <style-conditions.h>
 #include <gnm-format.h>

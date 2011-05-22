@@ -44,6 +44,7 @@
 #include "dependent.h"
 #include "value.h"
 #include "expr.h"
+#include "func.h"
 #include "expr-name.h"
 #include "cell.h"
 #include "sheet-merge.h"

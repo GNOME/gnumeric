@@ -4,8 +4,6 @@
 
 #include "gnumeric.h"
 #include "expr.h"
-#include "func.h"
-#include "parse-util.h"
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

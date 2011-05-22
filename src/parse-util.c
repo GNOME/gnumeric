@@ -35,6 +35,7 @@
 #include "number-match.h"
 #include "gnm-format.h"
 #include "expr-name.h"
+#include "func.h"
 /* For std_expr_name_handler: */
 #include "expr-impl.h"
 #include "gutils.h"

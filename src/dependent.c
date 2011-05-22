@@ -36,6 +36,7 @@
 #include "ranges.h"
 #include "gutils.h"
 #include "sheet-view.h"
+#include "func.h"
 
 #include <goffice/goffice.h>
 #include <string.h>

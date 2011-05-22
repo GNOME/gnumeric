@@ -38,6 +38,7 @@
 #include <expr.h>
 #include <expr-impl.h>
 #include <expr-name.h>
+#include <func.h>
 #include <parse-util.h>
 #include <style-color.h>
 #include <sheet-style.h>
