@@ -1618,37 +1618,34 @@ gnumeric_sheet (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	Workbook const *wb = ei->pos->sheet->workbook;
 	GnmValue const *v = args[0];
+	int n;
 
 	if(v) {
 		if (v->type == VALUE_CELLRANGE) {
 			GnmRangeRef const *r = &v->v_range.cell;
 			int a, b;
 
-			a = g_slist_index (workbook_sheets (wb), r->a.sheet);
-			b = g_slist_index (workbook_sheets (wb), r->b.sheet);
+			a = r->a.sheet ? r->a.sheet->index_in_wb : -1;
+			b = r->b.sheet ? r->b.sheet->index_in_wb : -1;
 
 			if (a == -1 && b == -1)
-				return value_new_int (1 + g_slist_index
-						      (workbook_sheets (wb),
-						       ei->pos->sheet));
-			else if (a == b || (a * b) < 0)
-				return value_new_int (1 + ((a < b) ? b : a));
+				n = ei->pos->sheet->index_in_wb;
+			else if (a == b || a * b < 0)
+				n = MAX (a,b);
 			else
 				return value_new_error_NUM (ei->pos);
 		} else if (v->type == VALUE_STRING) {
 			Sheet *sheet = workbook_sheet_by_name
 				(wb, value_peek_string (v));
-			if (sheet == NULL)
+			if (!sheet)
 				return value_new_error_NUM (ei->pos);
-			else
-				return value_new_int
-					(1 + g_slist_index (workbook_sheets (wb),
-							    sheet));
+			n = sheet->index_in_wb;
 		} else
 			return value_new_error_VALUE (ei->pos);
 	} else
-		return value_new_int (1 + g_slist_index (workbook_sheets (wb),
-							 ei->pos->sheet));
+		n = ei->pos->sheet->index_in_wb;
+
+	return value_new_int (1 + n);
 }
 /***************************************************************************/
 
