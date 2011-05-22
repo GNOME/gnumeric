@@ -1,0 +1,94 @@
+#!/usr/bin/perl -w
+#
+#  Gnumeric
+#
+#  Copyright (C) 2011 Morten Welinder.
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License as
+#  published by the Free Software Foundation; either version 2 of the
+#  License, or (at your option) any later version.
+#
+#  This library is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#  General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this library; if not, write to the Free Software
+#  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#  Author: Morten Welinder <terra@gnome.org>
+
+# NOTES:
+# 1. This depends heavily on nm's output format.
+# 2. We search for .o files.  Things should be freshly compiled and there
+#    should be no old ones lying around.
+# 3. Symbols used within the file that holds their definition might be
+#    shown as not used at all.
+
+use strict;
+
+my $exitcode = 0;
+
+die "$0: must be run from top-level directory.\n"
+    unless (-r "configure.in" &&
+	    -r 'ChangeLog' &&
+	    -d 'src');
+
+my %base_exceptions =
+    ();
+
+my %exceptions =
+    ();
+
+my $DEFINED = 1;
+my $USED = 2;
+
+my %symbols = ('main' => $USED);
+
+&read_object_files ("src", 0);
+&read_object_files ("plugins", 1);
+&read_object_files ("component", 1);
+
+foreach my $sym (sort keys %symbols) {
+    my $info = $symbols{$sym};
+    if (($info & ($DEFINED|$USED)) == $DEFINED) {
+	print STDERR "$sym -- defined, but not used.\n";
+    }
+}
+
+exit $exitcode;
+
+sub read_object_files {
+    my ($dir,$ignore_definitions) = @_;
+
+    local (*FIND);
+    open (*FIND, "find $dir '(' -type f -name '*.o' -print ')' -o '(' -type d '(' -name intl -o -name macros -o -name .git -o -name win32 ')' -prune ')' |")
+	or die "$0: cannot execute find: $!\n";
+  FILE:
+    foreach my $filename (<FIND>) {
+	chomp $filename;
+	$filename =~ s|^\./||;
+
+	next if $exceptions{$filename};
+	my $basename = $filename;
+	$basename =~ s|^.*/||;
+	next if $base_exceptions{$basename};
+
+	local (*NM);
+	open (*NM, "nm $filename |")
+	    or die "$0: cannot execute nm: $1\n";
+	foreach my $line (<NM>) {
+	    chomp $line;
+	    if ($line =~ /^\S+\s+T\s+(\S+)$/) {
+		$symbols{$1} |= $DEFINED
+		    unless $ignore_definitions;
+	    } elsif ($line =~ /^\s+U\s+(\S+)$/) {
+		$symbols{$1} |= $USED;
+	    }
+	}
+	close (*NM);
+    }
+    close (*FIND);
+}
