@@ -5258,7 +5258,7 @@ oo_db_range_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (name != NULL
 		    && (NULL == (nexpr = expr_name_lookup
 				 (parse_pos_init (&pp, state->pos.wb, NULL, 0, 0), name)) ||
-			nexpr->is_placeholder)) {
+			expr_name_is_placeholder (nexpr))) {
 			GnmExprTop const *texpr = gnm_expr_top_new (expr);
 			expr_name_add (&pp, name, texpr, NULL, TRUE, NULL);
 		} else

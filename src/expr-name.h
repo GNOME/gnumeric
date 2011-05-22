@@ -42,13 +42,15 @@ GnmValue*expr_name_eval       (GnmNamedExpr const *ne, GnmEvalPos const *ep,
 const char *expr_name_name    (GnmNamedExpr const *nexpr);
 gboolean expr_name_set_name   (GnmNamedExpr *nexpr, const char *new_name);
 
+gboolean expr_name_is_placeholder (GnmNamedExpr const *ne);
+void expr_name_set_is_placeholder (GnmNamedExpr *ne, gboolean is_placeholder);
+
 char    *expr_name_as_string  (GnmNamedExpr const *ne, GnmParsePos const *pp,
 			       GnmConventions const *fmt);
 char    *expr_name_set_pos    (GnmNamedExpr *ne, GnmParsePos const *pp);
 void	 expr_name_set_expr   (GnmNamedExpr *ne, GnmExprTop const *texpr);
 void	 expr_name_add_dep    (GnmNamedExpr *ne, GnmDependent *dep);
 void	 expr_name_remove_dep (GnmNamedExpr *ne, GnmDependent *dep);
-gboolean expr_name_is_placeholder (GnmNamedExpr const *ne);
 gboolean expr_name_is_active  (GnmNamedExpr const *ne);
 void	 expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr);
 gboolean expr_name_in_use     (GnmNamedExpr *nexpr);

@@ -2,6 +2,8 @@
 
 	* ms-excel-write.c (excel_write_autofilter_names): Use proper
 	ctor/dtor methods for GnmNamedExpr.
+	(excel_write_autofilter_names): Use new
+	expr_name_set_is_placeholder.
 
 2011-05-21  Morten Welinder <terra@gnome.org>
 

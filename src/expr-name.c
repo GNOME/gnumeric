@@ -798,22 +798,12 @@ expr_name_eval (GnmNamedExpr const *nexpr, GnmEvalPos const *pos,
 void
 expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr)
 {
-	GnmNamedExprCollection *scope;
-
 	g_return_if_fail (nexpr != NULL);
-	g_return_if_fail (nexpr->pos.sheet != NULL || nexpr->pos.wb != NULL);
-	g_return_if_fail (nexpr->scope != NULL);
-	g_return_if_fail (!nexpr->is_placeholder);
 
-	scope = nexpr->scope;
-
-	g_hash_table_steal (scope->names, nexpr->name->str);
-
-	nexpr->is_placeholder = TRUE;
+	expr_name_set_is_placeholder (nexpr, TRUE);
 	expr_name_set_expr
 		(nexpr,
 		 gnm_expr_top_new_constant (value_new_error_NAME (NULL)));
-	gnm_named_expr_collection_insert (scope, nexpr);
 }
 
 /*******************************************************************
@@ -943,6 +933,29 @@ expr_name_is_placeholder (GnmNamedExpr const *nexpr)
 
 	return (nexpr->texpr &&
 		gnm_expr_top_is_err (nexpr->texpr, GNM_ERROR_NAME));
+}
+
+void
+expr_name_set_is_placeholder (GnmNamedExpr *nexpr, gboolean is_placeholder)
+{
+	const char *name;
+
+	g_return_if_fail (nexpr != NULL);
+
+	name = expr_name_name (nexpr);
+
+	is_placeholder = !!is_placeholder;
+	if (nexpr->is_placeholder == is_placeholder)
+		return;
+	nexpr->is_placeholder = is_placeholder;
+
+	if (nexpr->scope) {
+		g_hash_table_steal (is_placeholder
+				    ? nexpr->scope->names
+				    : nexpr->scope->placeholders,
+				    name);
+		gnm_named_expr_collection_insert (nexpr->scope, nexpr);
+	}
 }
 
 gboolean

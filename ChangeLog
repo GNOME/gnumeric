@@ -1,5 +1,9 @@
 2011-05-22  Morten Welinder  <terra@gnome.org>
 
+	* src/expr-name.c (expr_name_set_is_placeholder): New function.
+	(expr_name_downgrade_to_placeholder): Simplify using
+	expr_name_set_is_placeholder.
+
 	* src/workbook.h (WORKBOOK_FOREACH_SHEET): Move from
 	workbook-priv.h
 

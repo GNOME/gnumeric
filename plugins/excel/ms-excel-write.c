@@ -3866,7 +3866,7 @@ excel_write_autofilter_names (ExcelWriteState *ewb)
 
 	nexpr = expr_name_new ("_FilterDatabase");
 	nexpr->is_hidden = TRUE;
-	nexpr->is_placeholder = FALSE;
+	expr_name_set_is_placeholder (nexpr, FALSE);
 	for (i = 0; i < ewb->esheets->len; i++) {
 		ExcelWriteSheet const *esheet =
 			g_ptr_array_index (ewb->esheets, i);
