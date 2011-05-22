@@ -1631,6 +1631,8 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	if (preview)
 		g_return_if_fail (!export_dst && wbc);
 
+	doc = GO_DOC (sheet->workbook);
+
 	print = gtk_print_operation_new ();
 
 	pi = printing_instance_new ();
@@ -1659,7 +1661,6 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	if (!export_dst && !preview_via_pdf && !preview) {
 		/* We should be setting the output file name to somethig */
 		/* reasonable */
-		doc = GO_DOC (sheet->workbook);
 		saved_uri = print_info_get_printtofile_uri (sheet->print_info);
 		if (saved_uri != NULL && 
 		    g_ascii_strncasecmp (doc->uri, "file:///", 8) == 0)
@@ -1742,7 +1743,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 			char const *printer;
 			settings = gtk_print_operation_get_print_settings (print);
 			gnm_conf_set_print_settings (settings);
-			gnm_insert_meta_date (GO_DOC (sheet->workbook), GSF_META_NAME_PRINT_DATE);
+			gnm_insert_meta_date (doc, GSF_META_NAME_PRINT_DATE);
 			printer = gtk_print_settings_get_printer (settings);
 			if (strcmp (printer, "Print to File") == 0 || 
 			    strcmp (printer, _("Print to File")) == 0) {
