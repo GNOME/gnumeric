@@ -1584,11 +1584,11 @@ gnumeric_sheets (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 			GnmRangeRef const *r = &v->v_range.cell;
 			int ans_min, ans_max, a, b;
 
-			a = g_slist_index (workbook_sheets (wb), r->a.sheet);
-			b = g_slist_index (workbook_sheets (wb), r->b.sheet);
+			a = r->a.sheet ? r->a.sheet->index_in_wb : -1;
+			b = r->b.sheet ? r->b.sheet->index_in_wb : -1;
 
-			ans_min = (a < b) ? a : b;
-			ans_max = (a < b) ? b : a;
+			ans_min = MIN (a,b);
+			ans_max = MAX (a,b);
 
 			if (ans_min == -1)
 				return value_new_int (1);

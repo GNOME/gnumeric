@@ -1,6 +1,7 @@
 2011-05-21  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_sheet): Simplify.  Fixes #650761.
+	(gnumeric_sheets): Simplify.  Fixes #650764.
 
 2011-05-21  Morten Welinder <terra@gnome.org>
 
