@@ -58,7 +58,6 @@ gboolean expr_name_in_use     (GnmNamedExpr *nexpr);
 int      expr_name_cmp_by_name    (GnmNamedExpr const *a, GnmNamedExpr const *b);
 gboolean expr_name_check_for_loop (char const *name, GnmExprTop const *texpr);
 
-GSList  *gnm_named_expr_collection_list (GnmNamedExprCollection const *scope);
 GList	   *sheet_names_get_available (Sheet const *sheet);
 char const *sheet_names_check	      (Sheet const *sheet, GnmRange const *r);
 
@@ -81,6 +80,7 @@ void gnm_named_expr_collection_relink (GnmNamedExprCollection *names);
 void gnm_named_expr_collection_foreach (GnmNamedExprCollection *names,
 					GHFunc func,
 					gpointer data);
+GSList  *gnm_named_expr_collection_list (GnmNamedExprCollection const *scope);
 
 GnmNamedExpr *gnm_named_expr_collection_lookup (GnmNamedExprCollection const *scope,
 						char const *name);

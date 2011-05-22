@@ -3728,13 +3728,13 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 
 			/* Undocumented magic.
 			 * XL stores a hidden name with the details of an autofilter */
-			if (nexpr->is_hidden && !strcmp (nexpr->name->str, "_FilterDatabase"))
+			if (nexpr->is_hidden && !strcmp (expr_name_name (nexpr), "_FilterDatabase"))
 				excel_prepare_autofilter (importer, nexpr);
 			/* g_warning ("flags = %hx, state = %s\n", flags, global ? "global" : "sheet"); */
 
 			else if ((flags & 0xE) == 0xE) /* Function & VB-Proc & Proc */
 				gnm_func_add_placeholder (importer->wb,
-					nexpr->name->str, "VBA", TRUE);
+							  expr_name_name (nexpr), "VBA", TRUE);
 		}
 	}
 

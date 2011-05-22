@@ -203,7 +203,7 @@ xml_write_name (GnmOutputXML *state, GnmNamedExpr *nexpr)
 
 	gsf_xml_out_start_element (state->output, GNM "Name");
 	gsf_xml_out_simple_element (state->output, GNM "name",
-		nexpr->name->str);
+				    expr_name_name (nexpr));
 	expr_str = expr_name_as_string (nexpr, NULL, state->convs);
 	gsf_xml_out_simple_element (state->output, GNM "value", expr_str);
 	g_free (expr_str);

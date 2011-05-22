@@ -1,3 +1,8 @@
+2011-05-22  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_autofilter_names): Use proper
+	ctor/dtor methods for GnmNamedExpr.
+
 2011-05-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.15

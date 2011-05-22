@@ -3861,29 +3861,31 @@ static void
 excel_write_autofilter_names (ExcelWriteState *ewb)
 {
 	unsigned i;
-	GnmNamedExpr nexpr;
+	GnmNamedExpr *nexpr;
 
-	nexpr.name = go_string_new ("_FilterDatabase");
-	nexpr.is_hidden = TRUE;
-	nexpr.is_placeholder = FALSE;
+	nexpr = expr_name_new ("_FilterDatabase");
+	nexpr->is_hidden = TRUE;
+	nexpr->is_placeholder = FALSE;
 	for (i = 0; i < ewb->esheets->len; i++) {
 		ExcelWriteSheet const *esheet =
 			g_ptr_array_index (ewb->esheets, i);
 		Sheet *sheet = esheet->gnum_sheet;
 		if (sheet->filters != NULL) {
 			GnmFilter const *filter = sheet->filters->data;
-			parse_pos_init_sheet (&nexpr.pos, sheet);
-			nexpr.texpr = gnm_expr_top_new_constant
-				(value_new_cellrange_r (sheet, &filter->r));
-			excel_write_NAME (NULL, &nexpr, ewb);
-			gnm_expr_top_unref (nexpr.texpr);
+			GnmParsePos pp;
+			parse_pos_init_sheet (&pp, sheet);
+			expr_name_set_pos (nexpr, &pp);
+			expr_name_set_expr (nexpr,
+					    gnm_expr_top_new_constant
+					    (value_new_cellrange_r (sheet, &filter->r)));
+			excel_write_NAME (NULL, nexpr, ewb);
 
 			if (NULL != sheet->filters->next) {
 				/* TODO Warn of lost autofilters */
 			}
 		}
 	}
-	go_string_unref (nexpr.name);
+	expr_name_unref (nexpr);
 }
 
 static void
