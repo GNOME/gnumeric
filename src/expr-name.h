@@ -58,7 +58,6 @@ gboolean expr_name_in_use     (GnmNamedExpr *nexpr);
 int      expr_name_cmp_by_name    (GnmNamedExpr const *a, GnmNamedExpr const *b);
 gboolean expr_name_check_for_loop (char const *name, GnmExprTop const *texpr);
 
-GList	   *sheet_names_get_available (Sheet const *sheet);
 char const *sheet_names_check	      (Sheet const *sheet, GnmRange const *r);
 
 GOUndo *expr_name_set_expr_undo_new (GnmNamedExpr *ne);

@@ -1082,46 +1082,6 @@ expr_name_cmp_by_name (GnmNamedExpr const *a, GnmNamedExpr const *b)
 	return res;
 }
 
-/******************************************************************************/
-/**
- * sheet_names_get_available :
- * A convenience routine to get the list of names associated with @sheet and its
- * workbook.
- *
- * The caller is responsible for freeing the list.
- * Names in the list do NOT have additional references added.
- */
-static void
-cb_get_names (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
-	      GList **accum)
-{
-	if (!nexpr->is_hidden)
-		*accum = g_list_prepend (*accum, nexpr);
-}
-
-/**
- * sheet_names_get_available :
- * @sheet :
- *
- * Gets the list of non hidden names available in the context @sheet.
- * Caller is responsible for freeing the list, but not its content.
- **/
-GList *
-sheet_names_get_available (Sheet const *sheet)
-{
-	GList *res = NULL;
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-
-	if (sheet->names != NULL)
-		g_hash_table_foreach (sheet->names->names,
-			(GHFunc) cb_get_names, &res);
-	if (sheet->workbook->names != NULL)
-		g_hash_table_foreach (sheet->workbook->names->names,
-			(GHFunc) cb_get_names, &res);
-
-	return res;
-}
-
 /**
  * sheet_names_check :
  * @sheet :
