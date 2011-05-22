@@ -2219,10 +2219,7 @@ cb_workbook_debug_info (WBCGtk *wbcg)
 	}
 
 	if (gnm_debug_flag ("style-optimize")) {
-		WORKBOOK_FOREACH_SHEET (wb, sheet, (
-			{
-				sheet_style_optimize (sheet);
-			}));
+		workbook_optimize_style (wb);
 	}
 }
 
