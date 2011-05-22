@@ -479,29 +479,40 @@ expr_name_new (char const *name)
 /* Note: for a loopcheck stop_at_name must be FALSE. */
 /*       stop_at_name = TRUE is used when we check all names anyways. */
 static gboolean
-do_expr_name_loop_check (char const *name, GnmExpr const *expr,
+do_expr_name_loop_check (char const *name, GnmNamedExpr *nexpr,  /* One of these */
+			 GnmExpr const *expr,
 			 gboolean stop_at_name)
 {
 	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
-		return (do_expr_name_loop_check (name, expr->binary.value_a, stop_at_name) ||
-			do_expr_name_loop_check (name, expr->binary.value_b, stop_at_name));
+		return (do_expr_name_loop_check (name, nexpr,
+						 expr->binary.value_a,
+						 stop_at_name) ||
+			do_expr_name_loop_check (name, nexpr,
+						 expr->binary.value_b,
+						 stop_at_name));
 	case GNM_EXPR_OP_ANY_UNARY:
-		return do_expr_name_loop_check (name, expr->unary.value, stop_at_name);
+		return do_expr_name_loop_check (name, nexpr,
+						expr->unary.value,
+						stop_at_name);
 	case GNM_EXPR_OP_NAME: {
-		GnmNamedExpr const *nexpr = expr->name.name;
-		if (!strcmp (nexpr->name->str, name))
+		GnmNamedExpr const *nexpr2 = expr->name.name;
+		if (name && !strcmp (nexpr2->name->str, name))
 			return TRUE;
-		if (!stop_at_name && nexpr->texpr != NULL) /* look inside this name tree too */
-			return expr_name_check_for_loop (name, nexpr->texpr);
+		if (nexpr == nexpr2)
+			return TRUE;
+		if (!stop_at_name && nexpr2->texpr != NULL) /* look inside this name tree too */
+			return expr_name_check_for_loop (name, nexpr2->texpr);
 		return FALSE;
 	}
 	case GNM_EXPR_OP_FUNCALL: {
 		int i;
 		for (i = 0; i < expr->func.argc; i++)
-			if (do_expr_name_loop_check (name, expr->func.argv[i], stop_at_name))
+			if (do_expr_name_loop_check (name, nexpr,
+						     expr->func.argv[i],
+						     stop_at_name))
 				return TRUE;
 		break;
 	}
@@ -513,7 +524,9 @@ do_expr_name_loop_check (char const *name, GnmExpr const *expr,
 	case GNM_EXPR_OP_SET: {
 		int i;
 		for (i = 0; i < expr->set.argc; i++)
-			if (do_expr_name_loop_check (name, expr->set.argv[i], stop_at_name))
+			if (do_expr_name_loop_check (name, nexpr,
+						     expr->set.argv[i],
+						     stop_at_name))
 				return TRUE;
 		break;
 	}
@@ -526,7 +539,7 @@ expr_name_check_for_loop (char const *name, GnmExprTop const *texpr)
 {
 	g_return_val_if_fail (texpr != NULL, TRUE);
 
-	return do_expr_name_loop_check (name, texpr->expr, FALSE);
+	return do_expr_name_loop_check (name, NULL, texpr->expr, FALSE);
 }
 
 static void
@@ -965,97 +978,52 @@ expr_name_is_active (GnmNamedExpr const *nexpr)
 	return nexpr->scope != NULL;
 }
 
+struct cb_expr_name_in_use {
+	GnmNamedExpr *nexpr;
+	gboolean in_use;
+};
 
-static gboolean
-cb_expr_name_check_for_name (gpointer key,
-			     gpointer value,
-			     gpointer name)
+static void
+cb_expr_name_in_use (G_GNUC_UNUSED const char *name,
+		     GnmNamedExpr *nexpr,
+		     struct cb_expr_name_in_use *pdata)
 {
-	GnmNamedExpr *nexpr = value;
-	char const *this_name = key;
+	if (pdata->in_use)
+		return;
 
-	if (strcmp (this_name, name) == 0)
-		return FALSE;
-
-	return do_expr_name_loop_check (name, nexpr->texpr->expr, TRUE);
+	pdata->in_use =
+		do_expr_name_loop_check (NULL, nexpr,
+					 nexpr->texpr->expr, TRUE);
 }
 
-static gboolean
-cb_expr_name_check_for_name_eq (gpointer key,
-				G_GNUC_UNUSED gpointer value,
-				gpointer name)
-{
-	char const *this_name = key;
-
-	return (strcmp (this_name, name) == 0);
-}
-
-static gboolean
-expr_name_check_for_name (gchar const *name, GnmNamedExprCollection *scope,
-			  gboolean name_check)
-{
-	if (name_check) {
-		/* Since the name is used at workbook level we must  */
-		/* first check whether a sheet-level name hides the  */
-		/* workbook-level name.                              */
-		if (NULL != g_hash_table_find (scope->names,
-					       cb_expr_name_check_for_name_eq,
-					       (gpointer) name))
-			return FALSE;
-	}
-	return NULL != g_hash_table_find (scope->names,
-					  cb_expr_name_check_for_name,
-					  (gpointer) name);
-}
+/**
+ * expr_name_in_use :
+ * @nexpr: A named expression.
+ *
+ * Returns: TRUE, if the named expression appears to be in use.  This is an
+ * approximation only, as we only look at the workbook in which the name is
+ * defined.
+ */
 
 gboolean
 expr_name_in_use (GnmNamedExpr *nexpr)
 {
-	gchar const *name;
+	Workbook *wb;
+	struct cb_expr_name_in_use data;
 
 	if (nexpr->dependents != NULL &&
 	    g_hash_table_size (nexpr->dependents) != 0)
 		return TRUE;
 
-	/* We must now check whether one of the other names */
-	/* uses this name. */
-	name = expr_name_name (nexpr);
+	data.nexpr = nexpr;
+	data.in_use = FALSE;
 
-	if (nexpr->pos.sheet == NULL) {
-		/* The name is of global scope           */
-		/* It could be used by any other name    */
-		/* (unless hidden by a sheet-level name) */
-		gboolean res;
-		GSList  *sheets, *sheets_orig;
+	wb = nexpr->pos.sheet ? nexpr->pos.sheet->workbook : nexpr->pos.wb;
+	workbook_foreach_name (wb, FALSE,
+			       (GHFunc)cb_expr_name_in_use,
+			       &data);
 
-		res = expr_name_check_for_name
-			(name, nexpr->pos.wb->names, FALSE);
-		if (res)
-			return TRUE;
-
-		sheets_orig = workbook_sheets (nexpr->pos.wb);
-		for (sheets = sheets_orig;
-		     sheets != NULL; sheets = sheets->next) {
-			Sheet *this = sheets->data;
-			res = expr_name_check_for_name
-				(name, this->names, TRUE);
-			if (res) {
-				g_slist_free (sheets_orig);
-				return TRUE;
-			}
-		}
-		g_slist_free (sheets_orig);
-	} else {
-		/* The name is of sheet level scope           */
-		/* It can only be used by another sheet-level */
-		/* name of the same sheet.                    */
-
-		return expr_name_check_for_name
-			(name, nexpr->pos.sheet->names, FALSE);
-	}
-
-
-	return FALSE;
+	return data.in_use;
 }
 
 

@@ -4,6 +4,9 @@
 	(expr_name_downgrade_to_placeholder): Simplify using
 	expr_name_set_is_placeholder.
 	(sheet_names_get_available): Unused.  Remove.
+	(do_expr_name_loop_check): Extend to look for either a name as a
+	string or an explicit GnmNamedExpr.
+	(expr_name_in_use): Fix search.
 
 	* src/workbook.h (WORKBOOK_FOREACH_SHEET): Move from
 	workbook-priv.h
