@@ -992,7 +992,7 @@ cb_expr_name_in_use (G_GNUC_UNUSED const char *name,
 		return;
 
 	pdata->in_use =
-		do_expr_name_loop_check (NULL, nexpr,
+		do_expr_name_loop_check (NULL, pdata->nexpr,
 					 nexpr->texpr->expr, TRUE);
 }
 
