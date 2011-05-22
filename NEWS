@@ -3,6 +3,7 @@ Gnumeric 1.10.16
 Morten:
 	* Fix leaks in SHEET.  [#650761]
 	* Fix leaks in SHEETS.  [#650764]
+	* Fix leak in name dialog.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.15

@@ -279,8 +279,7 @@ name_guru_get_available_sheet_names (Sheet const *sheet)
 {
 	GList *res = NULL;
 
-	gnm_sheet_foreach_name (sheet, (GHFunc) cb_get_names,
-				&res);
+	gnm_sheet_foreach_name (sheet, (GHFunc) cb_get_names, &res);
 	return g_list_sort (res, (GCompareFunc)expr_name_cmp_by_name);
 }
 
@@ -390,7 +389,6 @@ static void
 name_guru_populate_list (NameGuruState *state)
 {
 	GtkTreeIter	 iter;
-	GSList          *sheets;
 
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (state->treeview != NULL);
@@ -433,29 +431,27 @@ name_guru_populate_list (NameGuruState *state)
 		       item_type_available_sheet_name);
 	name_guru_expand_at_iter (state, &iter);
 
-	for (sheets = workbook_sheets (state->wb);
-	     sheets != NULL;
-	     sheets = sheets->next) {
-		Sheet *sheet = sheets->data;
+	WORKBOOK_FOREACH_SHEET
+		(state->wb, sheet,
+		 {
+			 if (sheet == state->sheet)
+				 continue;
 
-		if (sheet == state->sheet)
-			continue;
+			 gtk_tree_store_append (state->model, &iter, NULL);
+			 gtk_tree_store_set (state->model, &iter,
+					     ITEM_NAME, sheet->name_unquoted,
+					     ITEM_NAME_POINTER, sheet,
+					     ITEM_TYPE, item_type_other_sheet,
+					     ITEM_CONTENT_IS_EDITABLE, FALSE,
+					     ITEM_NAME_IS_EDITABLE, FALSE,
+					     ITEM_VISIBLE, TRUE,
+					     ITEM_PASTABLE, FALSE,
+					     -1);
 
-		gtk_tree_store_append (state->model, &iter, NULL);
-		gtk_tree_store_set (state->model, &iter,
-				    ITEM_NAME, sheet->name_unquoted,
-				    ITEM_NAME_POINTER, sheet,
-				    ITEM_TYPE, item_type_other_sheet,
-				    ITEM_CONTENT_IS_EDITABLE, FALSE,
-				    ITEM_NAME_IS_EDITABLE, FALSE,
-				    ITEM_VISIBLE, TRUE,
-				    ITEM_PASTABLE, FALSE,
-				    -1);
-
-		name_guru_store_names
-			(name_guru_get_available_sheet_names (sheet),
-			 &iter, state, item_type_foreign_name);
-	}
+			 name_guru_store_names
+				 (name_guru_get_available_sheet_names (sheet),
+				  &iter, state, item_type_foreign_name);
+		 });
 }
 
 static gboolean

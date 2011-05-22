@@ -9171,17 +9171,19 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		state.sheet_order = g_slist_reverse (state.sheet_order);
 
 		if (state.debug) {
-			GSList *l;
+			GSList *l, *sheets;
 			g_printerr ("Order we desire:\n");
 			for (l = state.sheet_order; l; l = l->next) {
 				Sheet *sheet = l->data;
 				g_printerr ("Sheet %s\n", sheet->name_unquoted);
 			}
 			g_printerr ("Order we have:\n");
-			for (l = workbook_sheets (state.pos.wb); l; l = l->next) {
+			sheets = workbook_sheets (state.pos.wb);
+			for (l = sheets; l; l = l->next) {
 				Sheet *sheet = l->data;
 				g_printerr ("Sheet %s\n", sheet->name_unquoted);
 			}
+			g_slist_free (sheets);
 		}
 
 		workbook_sheet_reorder (state.pos.wb, state.sheet_order);

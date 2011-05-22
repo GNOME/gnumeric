@@ -4717,7 +4717,7 @@ odf_write_gnm_settings (GnmOOExport *state)
 static void
 odf_write_ooo_settings (GnmOOExport *state)
 {
-	GSList *l;
+	GSList *l, *sheets;
 
 	gsf_xml_out_start_element (state->xml, CONFIG "config-item-set");
 	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", OOO "view-settings");
@@ -4734,7 +4734,8 @@ odf_write_ooo_settings (GnmOOExport *state)
 	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name",
 				        "Tables");
 
-	for (l = workbook_sheets (state->wb); l != NULL; l = l->next) {
+	sheets = workbook_sheets (state->wb);
+	for (l = sheets; l != NULL; l = l->next) {
 		Sheet *sheet = l->data;
 		gsf_xml_out_start_element (state->xml, CONFIG "config-item-map-entry");
 		gsf_xml_out_add_cstr (state->xml, CONFIG "name", sheet->name_unquoted);
@@ -4753,6 +4754,7 @@ odf_write_ooo_settings (GnmOOExport *state)
 
 		gsf_xml_out_end_element (state->xml); /* </config:config-item-map-entry> */
 	}
+	g_slist_free (sheets);
 
 	gsf_xml_out_end_element (state->xml); /* </config:config-item-map-named> */
 	gsf_xml_out_end_element (state->xml); /* </config:config-item-map-entry> */
