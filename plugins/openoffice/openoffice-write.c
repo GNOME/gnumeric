@@ -4268,13 +4268,13 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 		has_autofilters |= (sheet->filters != NULL);
 		odf_update_progress (state, state->sheet_progress);
 	}
-	if (state->wb->names != NULL) {
-		gsf_xml_out_start_element (state->xml, TABLE "named-expressions");
-		workbook_foreach_name
-			(state->wb, (get_gsf_odf_version () > 101),
-			 (GHFunc)&odf_write_named_expression, state);
-		gsf_xml_out_end_element (state->xml); /* </table:named-expressions> */
-	}
+
+	gsf_xml_out_start_element (state->xml, TABLE "named-expressions");
+	workbook_foreach_name
+		(state->wb, (get_gsf_odf_version () > 101),
+		 (GHFunc)&odf_write_named_expression, state);
+	gsf_xml_out_end_element (state->xml); /* </table:named-expressions> */
+
 	if (has_autofilters) {
 		gsf_xml_out_start_element (state->xml, TABLE "database-ranges");
 		for (i = 0; i < workbook_sheet_count (state->wb); i++) {

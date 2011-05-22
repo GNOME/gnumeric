@@ -90,6 +90,18 @@ int workbook_sheet_state_size	(WorkbookSheetState const *wss);
 char *workbook_sheet_state_diff (WorkbookSheetState const *wss_a,
 				 WorkbookSheetState const *wss_b);
 
+#define WORKBOOK_FOREACH_SHEET(wb, sheet, code)				\
+  do {									\
+	  const Workbook *wb_ = (wb);					\
+	  unsigned sheetno_;						\
+	  unsigned sheetcount_ = workbook_sheet_count (wb_);		\
+	  for (sheetno_ = 0; sheetno_ < sheetcount_; sheetno_++) {	\
+		  Sheet *sheet = workbook_sheet_by_index (wb_, sheetno_); \
+		  code;							\
+	  }								\
+  } while (0)
+
+
 G_END_DECLS
 
 #endif /* _GNM_WORKBOOK_H_ */

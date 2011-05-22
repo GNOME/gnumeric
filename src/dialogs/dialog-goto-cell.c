@@ -29,12 +29,12 @@
 #include "help.h"
 
 #include <gui-util.h>
-#include <workbook-priv.h> /* for Workbook::names */
 #include <workbook-control.h>
 #include <ranges.h>
 #include <value.h>
 #include <expr-name.h>
 #include <sheet.h>
+#include <workbook.h>
 #include <workbook-view.h>
 
 #include <wbc-gtk.h>
@@ -138,6 +138,9 @@ cb_load_names (G_GNUC_UNUSED gpointer key,
 	GtkTreeIter iter;
 	gboolean is_address = gnm_expr_top_is_rangeref (nexpr->texpr);
 
+	if (expr_name_is_placeholder (nexpr))
+		return;
+
 	if (is_address) {
 		gtk_tree_store_append (user->state->model, &iter, &user->iter);
 		gtk_tree_store_set (user->state->model, &iter,
@@ -165,9 +168,8 @@ dialog_goto_load_names (GotoState *state)
 			    SHEET_POINTER,	NULL,
 			    EXPRESSION,		NULL,
 			    -1);
-	if (state->wb->names != NULL)
-		g_hash_table_foreach (state->wb->names->names,
-			(GHFunc) cb_load_names, &closure);
+	workbook_foreach_name (state->wb, FALSE,
+			       (GHFunc)cb_load_names, &closure);
 
 	l = workbook_sheet_count (state->wb);
 	for (i = 0; i < l; i++) {
@@ -179,12 +181,7 @@ dialog_goto_load_names (GotoState *state)
 				    SHEET_POINTER,	sheet,
 				    EXPRESSION,		NULL,
 				    -1);
-
-		if (sheet->names != NULL)
-			g_hash_table_foreach (sheet->names->names,
-				(GHFunc) cb_load_names, &closure);
 	}
-
 }
 
 static void

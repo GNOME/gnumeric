@@ -48,7 +48,7 @@
 #include "sheet-control-gui-priv.h"
 #include "sheet-view.h"
 #include "cmd-edit.h"
-#include "workbook-priv.h"
+#include "workbook.h"
 #include "workbook-view.h"
 #include "wbc-gtk-impl.h"
 #include "workbook-cmd-format.h"

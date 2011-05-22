@@ -68,16 +68,6 @@ do {										\
 	WORKBOOK_FOREACH_VIEW((wb), view,				\
 		WORKBOOK_VIEW_FOREACH_CONTROL(view, control, code);)
 
-
-#define WORKBOOK_FOREACH_SHEET(wb, sheet, code)					\
-  do {										\
-	unsigned _sheetno;							\
-	for (_sheetno = 0; _sheetno < (wb)->sheets->len; _sheetno++) {		\
-		Sheet *sheet = g_ptr_array_index ((wb)->sheets, _sheetno);	\
-		code;								\
-	}									\
-  } while (0)
-
 /*
  * Walk the dependents.  WARNING: Note, that it is only valid to muck with
  * the current dependency in the code.

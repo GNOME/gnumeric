@@ -1,3 +1,8 @@
+2011-05-22  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.h (WORKBOOK_FOREACH_SHEET): Move from
+	workbook-priv.h
+
 2011-05-21  Morten Welinder  <terra@gnome.org>
 
 	* src/expr-name.c (expr_name_set_pos): Rename from

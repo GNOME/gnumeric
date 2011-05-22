@@ -1,3 +1,9 @@
+2011-05-22  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (odf_write_content): Remove test for
+	always-true condition.  If we must have that check, it should
+	check for an active global name that we intend to write.
+
 2011-05-21  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (odf_fix_en_apply): Use expr_name_set_name.

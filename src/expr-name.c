@@ -730,6 +730,9 @@ expr_name_set_name (GnmNamedExpr *nexpr,
 	if (go_str_compare (new_name, old_name) == 0)
 		return FALSE;
 
+#if 1
+	g_printerr ("Renaming %s to %s\n", old_name, new_name);
+#endif
 	h = nexpr->scope
 		? (nexpr->is_placeholder
 		   ? nexpr->scope->placeholders

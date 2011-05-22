@@ -22,7 +22,7 @@
 
 #include <sheet.h>
 #include <gutils.h>
-#include <workbook-priv.h>
+#include <workbook.h>
 #include <func.h>
 #include <value.h>
 #include <cell.h>

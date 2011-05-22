@@ -29,7 +29,6 @@
 #include <gnm-plugin.h>
 #include <workbook-view.h>
 #include <workbook.h>
-#include <workbook-priv.h>
 #include <sheet.h>
 #include <sheet-merge.h>
 #include <sheet-filter.h>
@@ -1287,18 +1286,20 @@ odf_fix_expr_names_t_add (odf_fix_expr_names_t *fen, char const *orig, char *fix
 static gboolean
 odf_fix_en_validate (char const *name, odf_fix_expr_names_t *fen)
 {
-	GSList *sheets;
-
 	if (!expr_name_validate (name))
 		return FALSE;
 	if (NULL != g_hash_table_lookup (fen->fixed2orig, name))
 		return FALSE;
-	if (NULL != gnm_named_expr_collection_lookup (fen->state->pos.wb->names, name))
-		return FALSE;
-	for (sheets = workbook_sheets (fen->state->pos.wb); sheets != NULL; sheets = sheets->next)
-		if (NULL != gnm_named_expr_collection_lookup 
-		    (((Sheet *)(sheets->data))->names, name))
-			return FALSE;
+
+	WORKBOOK_FOREACH_SHEET
+		(fen->state->pos.wb, sheet,
+		 {
+			 GnmParsePos pp;
+			 parse_pos_init_sheet (&pp, sheet);
+			 if (expr_name_lookup (&pp, name))
+				 return FALSE;
+		 });
+
 	return TRUE;
 }
 
@@ -1339,20 +1340,9 @@ static void
 odf_fix_expr_names (OOParseState *state)
 {
 	odf_fix_expr_names_t *fen = odf_fix_expr_names_t_new (state);
-	GSList *sheets = workbook_sheets (state->pos.wb), *l;
 
-	g_hash_table_foreach (state->pos.wb->names->names, 
-			      (GHFunc)odf_fix_en_collect, fen);
-	g_hash_table_foreach (state->pos.wb->names->placeholders, 
-			      (GHFunc)odf_fix_en_collect, fen);
-	for (l = sheets; l != NULL; l = l->next) {
-		Sheet *sheet = l->data;
-		g_hash_table_foreach (sheet->names->names, 
-				      (GHFunc) odf_fix_en_collect, fen);
-		g_hash_table_foreach (sheet->names->placeholders, 
-				      (GHFunc) odf_fix_en_collect, fen);
-	}
-
+	workbook_foreach_name (state->pos.wb, FALSE,
+			       (GHFunc)odf_fix_en_collect, fen);
 	workbook_foreach_name (state->pos.wb, FALSE,
 			       (GHFunc)odf_fix_en_apply, fen->orig2fixed);
 
