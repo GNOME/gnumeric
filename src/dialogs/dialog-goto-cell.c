@@ -33,6 +33,7 @@
 #include <ranges.h>
 #include <value.h>
 #include <expr-name.h>
+#include <expr.h>
 #include <sheet.h>
 #include <workbook.h>
 #include <workbook-view.h>

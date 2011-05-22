@@ -50,6 +50,7 @@
 #include "sheet-merge.h"
 #include "sheet-private.h"
 #include "expr-name.h"
+#include "expr.h"
 #include "expr-impl.h"
 #include "rendered-value.h"
 #include "gnumeric-gconf.h"

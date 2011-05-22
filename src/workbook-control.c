@@ -35,6 +35,7 @@
 #include "value.h"
 #include "ranges.h"
 #include "expr-name.h"
+#include "expr.h"
 #include "command-context.h"
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>

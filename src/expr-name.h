@@ -3,7 +3,7 @@
 # define _GNM_EXPR_NAME_H_
 
 #include "gnumeric.h"
-#include "expr.h"
+#include "position.h"
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

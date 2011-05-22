@@ -34,6 +34,7 @@
 #include "ranges.h"
 #include "position.h"
 #include "expr-name.h"
+#include "expr.h"
 #include "value.h"
 #include "mstyle.h"
 

@@ -14,6 +14,7 @@
 #include "gnm-plugin.h"
 #include "parse-util.h"
 #include "expr-name.h"
+#include "expr.h"
 #include "search.h"
 #include "sheet.h"
 #include "cell.h"
