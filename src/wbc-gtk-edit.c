@@ -49,6 +49,8 @@
 #include "validation.h"
 #include "value.h"
 #include "widgets/gnumeric-expr-entry.h"
+#include "gui-util.h"
+#include "command-context.h"
 
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>

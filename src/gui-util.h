@@ -3,9 +3,6 @@
 # define _GNM_GUI_UTIL_H_
 
 #include "gui-gnumeric.h"
-#include "command-context.h"
-#include "gutils.h"
-
 #include <goffice/goffice.h>
 #include "numbers.h"
 #include <gtk/gtk.h>
@@ -18,7 +15,7 @@ G_BEGIN_DECLS
 GtkWidget* gnumeric_go_error_info_dialog_new (GOErrorInfo *error);
 GtkWidget* gnumeric_go_error_info_list_dialog_new (GSList *errs);
 void       gnumeric_go_error_info_dialog_show (GtkWindow *parent,
-                                            GOErrorInfo *error);
+					       GOErrorInfo *error);
 void       gnumeric_go_error_info_list_dialog_show (GtkWindow *parent,
 						    GSList *errs);
 void       gnumeric_restore_window_geometry (GtkWindow *dialog,

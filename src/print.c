@@ -20,6 +20,7 @@
 #include "print.h"
 
 #include "gui-util.h"
+#include "gutils.h"
 #include "sheet-object.h"
 #include "sheet-object-impl.h"
 #include "selection.h"

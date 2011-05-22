@@ -7,7 +7,6 @@
 #include <goffice/app/module-plugin-defs.h>
 #include <tools/gnm-solver.h>
 #include <gmodule.h>
-#include <libxml/tree.h>
 #include <gsf/gsf.h>
 
 G_BEGIN_DECLS

@@ -4,7 +4,6 @@
 
 #include "gui-gnumeric.h"
 #include <goffice/goffice.h>
-#include "gui-util.h"
 
 G_BEGIN_DECLS
 

@@ -3,7 +3,6 @@
 # define _GNM_CELL_DRAW_H_
 
 #include "gnumeric.h"
-#include <gdk/gdk.h>
 
 G_BEGIN_DECLS
 

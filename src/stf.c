@@ -49,6 +49,7 @@
 #include "parse-util.h"
 #include "commands.h"
 #include "gui-util.h"
+#include "gutils.h"
 
 #include <gsf/gsf-input.h>
 #include <string.h>
