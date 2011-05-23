@@ -1,3 +1,7 @@
+2011-05-23  Morten Welinder  <terra@gnome.org>
+
+	* src/parser.y: Make yyparse static.
+
 2011-05-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print-info.h (_PrintInformation): new field

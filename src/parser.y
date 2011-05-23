@@ -564,7 +564,7 @@ parser_sheet_by_name (Workbook *wb, GnmExpr *name_expr)
 }
 
 /* Make byacc happier */
-int yyparse (void);
+static int yyparse (void);
 
 %}
 
