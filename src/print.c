@@ -1587,7 +1587,12 @@ gnm_print_uri_change_extension (char const *uri, GtkPrintSettings* settings)
 	gchar *res;
 	gint uri_len = strlen(uri);
 
-	g_return_val_if_fail (ext != NULL, NULL);
+	if (ext == NULL) {
+		ext = "pdf";
+		gtk_print_settings_set (settings, 
+					GTK_PRINT_SETTINGS_OUTPUT_FILE_FORMAT,
+					ext);
+	}
 	
 	base     = g_path_get_basename (uri);
 	used_ext = strrchr (base, '.');
