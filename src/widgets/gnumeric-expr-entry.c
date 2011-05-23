@@ -440,6 +440,28 @@ gee_set_format (GnmExprEntry *gee, GOFormat const *fmt)
 }
 
 static void
+gee_set_with_icon (GnmExprEntry *gee, gboolean with_icon)
+{
+	gboolean has_icon = (gee->icon != NULL);
+	with_icon = !!with_icon;
+
+	if (has_icon == with_icon)
+		return;
+
+	if (with_icon) {
+		gee->icon = gtk_toggle_button_new ();
+		gtk_container_add (GTK_CONTAINER (gee->icon),
+				   gtk_image_new_from_stock ("Gnumeric_ExprEntry",
+							     GTK_ICON_SIZE_MENU));
+		gtk_box_pack_end (GTK_BOX (gee), gee->icon, FALSE, FALSE, 0);
+		gtk_widget_show_all (gee->icon);
+		g_signal_connect (gee->icon, "clicked",
+				  G_CALLBACK (cb_icon_clicked), gee);
+	} else
+		gtk_widget_destroy (gee->icon);
+}
+
+static void
 gee_set_property (GObject      *object,
 		  guint         prop_id,
 		  GValue const *value,
@@ -452,19 +474,7 @@ gee_set_property (GObject      *object,
 		break;
 
 	case PROP_WITH_ICON:
-		if (g_value_get_boolean (value)) {
-			if (gee->icon == NULL) {
-				gee->icon = gtk_toggle_button_new ();
-				gtk_container_add (GTK_CONTAINER (gee->icon),
-						   gtk_image_new_from_stock ("Gnumeric_ExprEntry",
-							   		     GTK_ICON_SIZE_MENU));
-				gtk_box_pack_end (GTK_BOX (gee), gee->icon, FALSE, FALSE, 0);
-				gtk_widget_show_all (gee->icon);
-				g_signal_connect (gee->icon, "clicked",
-						  G_CALLBACK (cb_icon_clicked), gee);
-			}
-		} else if (gee->icon != NULL)
-			gtk_widget_destroy (gee->icon);
+		gee_set_with_icon (gee, g_value_get_boolean (value));
 		break;
 
 	case PROP_TEXT: {

@@ -1,5 +1,8 @@
 2011-05-23  Morten Welinder  <terra@gnome.org>
 
+	* gnumeric-expr-entry.c (gee_set_with_icon): Extract from
+	gee_set_property and do nothing if nothing changes.
+
 	* widget-font-selector.c (font_selector_get_pango)
 	(font_selector_set_from_pango): Unused.  Remove.
 
