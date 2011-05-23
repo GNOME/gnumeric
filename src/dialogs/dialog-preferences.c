@@ -1059,6 +1059,8 @@ pref_tool_page_initializer (PrefState *state,
 /*                     Copy/Paste Preferences Page                                               */
 /*******************************************************************************************/
 
+#ifndef G_OS_WIN32
+
 static GtkWidget *
 pref_copypaste_page_initializer (PrefState *state,
 				 G_GNUC_UNUSED gpointer data,
@@ -1077,6 +1079,8 @@ pref_copypaste_page_initializer (PrefState *state,
 	gtk_widget_show_all (page);
 	return page;
 }
+
+#endif
 
 /*******************************************************************************************/
 /*                     AutoCorrect Preferences Page (General)                                              */
@@ -1171,18 +1175,20 @@ typedef struct {
 
 /* Note that the first two items must remain here in that order */
 static page_info_t const page_info[] = {
-	{N_("Copy and Paste"),GTK_STOCK_PASTE,		 NULL, &pref_copypaste_page_initializer},
 	{N_("Auto Correct"),  GTK_STOCK_DIALOG_ERROR,	 NULL, &pref_autocorrect_general_page_initializer},
 	{N_("Font"),          GTK_STOCK_ITALIC,		 NULL, &pref_font_initializer	       },
 	{N_("Files"),         GTK_STOCK_FLOPPY,		 NULL, &pref_file_page_initializer     },
 	{N_("Tools"),       GTK_STOCK_EXECUTE,           NULL, &pref_tool_page_initializer     },
 	{N_("Undo"),          GTK_STOCK_UNDO,		 NULL, &pref_undo_page_initializer     },
 	{N_("Windows"),       "Gnumeric_ObjectCombo",	 NULL, &pref_window_page_initializer   },
-	{N_("Header/Footer"), GTK_STOCK_ITALIC,		 "2",  &pref_font_hf_initializer       },
-	{N_("Sorting"),       GTK_STOCK_SORT_ASCENDING,  "4", &pref_sort_page_initializer      },
-	{N_("Screen"),        GTK_STOCK_PREFERENCES,     "6", &pref_screen_page_initializer    },
-	{N_("INitial CApitals"), NULL, "1", &pref_autocorrect_initialcaps_page_initializer     },
-	{N_("First Letter"), NULL, "1", &pref_autocorrect_firstletter_page_initializer         },
+	{N_("Header/Footer"), GTK_STOCK_ITALIC,		 "1",  &pref_font_hf_initializer       },
+#ifndef G_OS_WIN32
+	{N_("Copy and Paste"),GTK_STOCK_PASTE,		 "3", &pref_copypaste_page_initializer},
+#endif
+	{N_("Sorting"),       GTK_STOCK_SORT_ASCENDING,  "3", &pref_sort_page_initializer      },
+	{N_("Screen"),        GTK_STOCK_PREFERENCES,     "5", &pref_screen_page_initializer    },
+	{N_("INitial CApitals"), NULL, "0", &pref_autocorrect_initialcaps_page_initializer     },
+	{N_("First Letter"), NULL, "0", &pref_autocorrect_firstletter_page_initializer         },
 	{NULL, NULL, NULL, NULL },
 };
 

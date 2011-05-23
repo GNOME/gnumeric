@@ -1,3 +1,9 @@
+2011-05-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-preferences.c (pref_copypaste_page_initializer): hide under
+	G_OS_WIN32
+	(page_info): move N_("Copy and Paste") and hide under G_OS_WIN32
+
 2011-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tools.c (dialog_tool_init_buttons): make static
