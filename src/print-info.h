@@ -4,6 +4,7 @@
 
 #include "gnumeric.h"
 #include <gtk/gtk.h>
+#include "print.h"
 
 G_BEGIN_DECLS
 
@@ -96,6 +97,7 @@ struct _PrintInformation {
         int              n_copies;
 
 	gchar           *printtofile_uri;
+	PrintRange       print_range;
 
   /* page_setup doubles as a flag whether the defaults are loaded */
         GtkPageSetup     *page_setup;
@@ -178,7 +180,12 @@ void        print_info_set_printtofile_from_settings
                                (PrintInformation *pi, 
 				GtkPrintSettings *settings,
 				gchar const *default_uri);
+void        print_info_set_from_settings 
+                               (PrintInformation *pi, 
+				GtkPrintSettings *settings);
 char const *print_info_get_printtofile_uri (PrintInformation *pi);
+PrintRange  print_info_get_printrange (PrintInformation *pi);
+void        print_info_set_printrange (PrintInformation *pi, PrintRange pr);
 
 void        print_info_set_breaks (PrintInformation *pi, GnmPageBreaks *breaks);
 

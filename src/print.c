@@ -1648,10 +1648,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 
 	settings = gnm_conf_get_print_settings ();
 	if (default_range == PRINT_SAVED_INFO) {
-		gint dr = gtk_print_settings_get_int_with_default
-			(settings,
-			 GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY,
-			 PRINT_ACTIVE_SHEET);
+		gint dr = print_info_get_printrange (sheet->print_info);
 		if (dr < 0 || dr >= (gint)G_N_ELEMENTS (pr_translator))
 			default_range = PRINT_ACTIVE_SHEET;
 		else 
@@ -1663,7 +1660,6 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	pi->pr = default_range;
 	gtk_print_settings_set_use_color (settings,
 					  !sheet->print_info->print_black_and_white);
-
 	if (!export_dst && !preview_via_pdf && !preview) {
 		/* We should be setting the output file name to somethig */
 		/* reasonable */
@@ -1761,6 +1757,8 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 				g_free (wb_output_uri);
 			}
 		}
+		print_info_set_from_settings 
+			(sheet->print_info, settings);
 		break;
 	case GTK_PRINT_OPERATION_RESULT_CANCEL:
 		printing_instance_delete (pi);

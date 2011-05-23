@@ -1042,6 +1042,22 @@ xml_sax_print_do_not_print (GsfXMLIn *xin, xmlChar const **attrs)
                         pi->do_not_print = val;
 }
 
+static void
+xml_sax_print_print_range (GsfXMLIn *xin, xmlChar const **attrs)
+{
+        XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+        PrintInformation *pi;
+        int val;
+
+	xml_sax_must_have_sheet (state);
+
+	pi = state->sheet->print_info;
+
+        for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+                if (gnm_xml_attr_int (attrs, "value", &val))
+                        print_info_set_printrange (pi, val);
+}
+
 
 
 static void
@@ -2876,6 +2892,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, TRUE
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_HCENTER,    GNM, "hcenter",	GSF_XML_CONTENT, &xml_sax_print_hcenter, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_GRID,	    GNM, "grid",	GSF_XML_NO_CONTENT, &xml_sax_print_grid, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_DO_NOT_PRINT, GNM, "do_not_print",GSF_XML_NO_CONTENT, &xml_sax_print_do_not_print, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_PRINT_RANGE, GNM, "print_range",GSF_XML_NO_CONTENT, &xml_sax_print_print_range, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_MONO,	    GNM, "monochrome",	GSF_XML_NO_CONTENT, &xml_sax_monochrome, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_AS_DRAFT,   GNM, "draft",	GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_COMMENTS,   GNM, "comments",	GSF_XML_NO_CONTENT, NULL, NULL),

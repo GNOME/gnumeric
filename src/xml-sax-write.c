@@ -380,6 +380,9 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 	gsf_xml_out_add_int  (state->output, "value",    pi->do_not_print);
 	gsf_xml_out_end_element (state->output);
 
+	gsf_xml_out_start_element (state->output, GNM "print_range");
+	gsf_xml_out_add_int  (state->output, "value", print_info_get_printrange (pi));
+	gsf_xml_out_end_element (state->output);
 
 	xml_write_print_repeat_range (state, GNM "repeat_top", pi->repeat_top);
 	xml_write_print_repeat_range (state, GNM "repeat_left", pi->repeat_left);

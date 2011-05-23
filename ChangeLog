@@ -1,5 +1,20 @@
 2011-05-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print-info.h (_PrintInformation): new field
+	(print_info_set_from_settings): new
+	(print_info_get_printrange): new
+	(print_info_set_printrange): new
+	* src/print-info.c (print_info_set_from_settings): new
+	(print_info_get_printrange): new
+	(print_info_set_printrange): new
+	(print_info_load_defaults): use settings
+	(print_info_get_printtofile_uri): load defaults
+	* src/print.c (gnm_print_sheet): use printrange from printinfo
+	* src/xml-sax-read.c (xml_sax_print_print_range): new
+	* src/xml-sax-write.c (xml_write_print_info): write printrange
+
+2011-05-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/print.c (gnm_print_uri_change_extension): if the setting has no
 	extension, specify one
 

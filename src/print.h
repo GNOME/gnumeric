@@ -13,7 +13,7 @@ G_BEGIN_DECLS
 #define GNUMERIC_PRINT_SETTING_PRINT_TO_SHEET_KEY	"GnumericPrintToSheet"
 #define GNUMERIC_PRINT_SETTING_IGNORE_PAGE_BREAKS_KEY   "GnumericPrintIgnorePageBreaks"
 
-typedef enum {
+typedef enum { /* These numbers are saved in .gnuemric files */
 	PRINT_SAVED_INFO = -1,
 	PRINT_ACTIVE_SHEET = 0,
 	PRINT_ALL_SHEETS = 1,

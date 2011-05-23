@@ -228,6 +228,7 @@ PrintInformation *
 print_info_load_defaults (PrintInformation *res)
 {
 	GSList *list;
+	GtkPrintSettings* settings = gnm_conf_get_print_settings ();
 
 	if (res->page_setup != NULL)
 		return res;
@@ -273,6 +274,10 @@ print_info_load_defaults (PrintInformation *res)
 			      g_slist_nth_data (list, 2)) :
 		print_hf_new ("", _("Page &[PAGE]"), "");
 
+	print_info_set_from_settings (res, settings);
+
+	g_object_unref (settings);
+
 	return res;
 }
 
@@ -300,6 +305,7 @@ print_info_new (gboolean load_defaults)
 	res->page_breaks.h = NULL;
 
 	res->printtofile_uri = NULL;
+	res->print_range = PRINT_ACTIVE_SHEET;
 
 	if (load_defaults)
 		return print_info_load_defaults (res);
@@ -1528,8 +1534,37 @@ print_info_set_printtofile_from_settings (PrintInformation *pi,
 		print_info_set_printtofile_uri (pi, uri);
 }
 
+void
+print_info_set_from_settings (PrintInformation *pi, 
+					  GtkPrintSettings* settings)
+{
+	pi->print_range = gtk_print_settings_get_int_with_default
+		(settings,
+		 GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY,
+		 PRINT_ACTIVE_SHEET);
+}
+
+PrintRange  
+print_info_get_printrange (PrintInformation *pi)
+{
+	print_info_load_defaults (pi);
+	return pi->print_range;
+}
+
+void        
+print_info_set_printrange (PrintInformation *pi, PrintRange pr)
+{
+	if (pr >= PRINT_ACTIVE_SHEET 
+	    && pr <= PRINT_SHEET_SELECTION_IGNORE_PRINTAREA)
+		pi->print_range = pr;
+	else
+		pi->print_range = PRINT_ACTIVE_SHEET;
+}
+
+
 char const *
 print_info_get_printtofile_uri (PrintInformation *pi)
 {
+	print_info_load_defaults (pi);
 	return pi->printtofile_uri;
 }

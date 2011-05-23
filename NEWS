@@ -1,5 +1,8 @@
 Gnumeric 1.10.16
 
+Andreas
+	* Store some print range information in gnumeric files. [#649714]
+
 Morten:
 	* Fix leaks in SHEET.  [#650761]
 	* Fix leaks in SHEETS.  [#650764]
