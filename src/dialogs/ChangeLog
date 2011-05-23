@@ -1,3 +1,8 @@
+2011-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-analysis-tools.c (dialog_tool_init_buttons): make static
+	* tool-dialogs.h (dialog_tool_init_buttons): deleted
+
 2011-05-22  Morten Welinder  <terra@gnome.org>
 
 	* dialog-define-names.c (name_guru_populate_list): Plug leak.

@@ -72,8 +72,6 @@ void dao_set_bold             (data_analysis_output_t *dao, int col1, int row1,
 			       int col2, int row2);
 void dao_set_italic           (data_analysis_output_t *dao, int col1, int row1,
 			       int col2, int row2);
-void dao_set_underlined       (data_analysis_output_t *dao, int col1, int row1,
-			       int col2, int row2);
 void dao_set_percent          (data_analysis_output_t *dao, int col1, int row1,
 			       int col2, int row2);
 void dao_set_date             (data_analysis_output_t *dao, int col1, int row1,
@@ -124,7 +122,6 @@ void dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetO
 void dao_prepare_output       (WorkbookControl *wbc,
 			       data_analysis_output_t *dao, char const *name);
 gboolean dao_format_output    (data_analysis_output_t *dao, char const *cmd);
-char *dao_range_name      (data_analysis_output_t *dao);
 char *dao_command_descriptor (data_analysis_output_t *dao, char const *format,
 			      gpointer result);
 void dao_adjust           (data_analysis_output_t *dao, gint cols, gint rows);
@@ -140,7 +137,6 @@ void dao_append_date (GString *buf);
 
 gboolean dao_put_formulas (data_analysis_output_t *dao);
 
-void dao_convert_to_values (data_analysis_output_t *dao);
 void dao_redraw_respan (data_analysis_output_t *dao);
 
 GnmExpr const *dao_get_cellref  (data_analysis_output_t *dao, int x, int y);

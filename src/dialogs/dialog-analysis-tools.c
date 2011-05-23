@@ -321,7 +321,7 @@ cb_tool_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
  * Setup the buttons
  *
  **/
-void
+static void
 dialog_tool_init_buttons (GenericToolState *state,
 			  GCallback ok_function,
 			  GCallback close_function)

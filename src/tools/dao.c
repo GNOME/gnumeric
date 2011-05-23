@@ -134,7 +134,7 @@ dao_load_from_value (data_analysis_output_t *dao,
  *
  **/
 
-char *
+static char *
 dao_range_name (data_analysis_output_t *dao)
 {
 	GnmRange range;
@@ -722,29 +722,6 @@ dao_set_bold (data_analysis_output_t *dao, int col1, int row1,
 }
 
 /**
- * dao_set_underlined:
- * @dao:
- * @col1:
- * @row1:
- * @col2:
- * @row2:
- *
- * sets the given cell range to underlined
- *
- *
- **/
-void
-dao_set_underlined (data_analysis_output_t *dao, int col1, int row1,
-		    int col2, int row2)
-{
-	GnmStyle *mstyle = gnm_style_new ();
-
-	gnm_style_set_font_uline (mstyle, TRUE);
-
-	dao_set_style (dao, col1, row1, col2, row2, mstyle);
-}
-
-/**
  * dao_set_italic:
  * @dao:
  * @col1:
@@ -1090,7 +1067,7 @@ cb_convert_to_value (GnmCellIter const *iter, gpointer user)
 }
 
 
-void
+static void
 dao_convert_to_values (data_analysis_output_t *dao)
 {
 	if (dao->put_formulas)
