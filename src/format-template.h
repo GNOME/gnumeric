@@ -125,7 +125,6 @@ typedef struct {
  */
 void               format_template_free           (GnmFormatTemplate *ft);
 GnmFormatTemplate *format_template_clone          (GnmFormatTemplate const *ft);
-GnmFormatTemplate *format_template_new            (void);
 GnmFormatTemplate *format_template_new_from_file  (char const *filename,
 						   GOCmdContext *context);
 
@@ -135,14 +134,6 @@ GnmStyle               *format_template_get_style                (GnmFormatTempl
 void                  format_template_apply_to_sheet_regions   (GnmFormatTemplate *ft, Sheet *sheet, GSList *regions);
 gboolean	      format_template_check_valid	       (GnmFormatTemplate *ft, GSList *regions,
 								GOCmdContext *cc);
-
-void                  format_template_set_name                 (GnmFormatTemplate *ft, char const *name);
-void                  format_template_set_author               (GnmFormatTemplate *ft, char const *author);
-void                  format_template_set_description          (GnmFormatTemplate *ft, char const *description);
-
-TemplateMember *format_template_member_new (void);
-TemplateMember *format_template_member_clone (TemplateMember *member);
-void format_template_member_free (TemplateMember *member);
 
 G_END_DECLS
 

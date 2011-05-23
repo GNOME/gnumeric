@@ -54,7 +54,7 @@ attr_eq (const xmlChar *a, const char *s)
  *
  * Return value: the new TemplateMember
  **/
-TemplateMember *
+static TemplateMember *
 format_template_member_new (void)
 {
 	TemplateMember *member;
@@ -80,7 +80,7 @@ format_template_member_new (void)
  *
  * Return value: a copy of @member
  **/
-TemplateMember *
+static TemplateMember *
 format_template_member_clone (TemplateMember *member)
 {
 	TemplateMember *clone = format_template_member_new ();
@@ -103,7 +103,7 @@ format_template_member_clone (TemplateMember *member)
  *
  * Frees an existing template member
  **/
-void
+static void
 format_template_member_free (TemplateMember *member)
 {
 	g_return_if_fail (member != NULL);
@@ -206,7 +206,7 @@ format_template_member_valid (TemplateMember const *member)
  *
  * Return value: the new GnmFormatTemplate
  **/
-GnmFormatTemplate *
+static GnmFormatTemplate *
 format_template_new (void)
 {
 	GnmFormatTemplate *ft;
@@ -259,6 +259,37 @@ format_template_free (GnmFormatTemplate *ft)
 	g_hash_table_destroy (ft->table);
 
 	g_free (ft);
+}
+
+
+static void
+format_template_set_name (GnmFormatTemplate *ft, char const *name)
+{
+	g_return_if_fail (ft != NULL);
+	g_return_if_fail (name != NULL);
+
+	g_free (ft->name);
+	ft->name = g_strdup (name);
+}
+
+static void
+format_template_set_author (GnmFormatTemplate *ft, char const *author)
+{
+	g_return_if_fail (ft != NULL);
+	g_return_if_fail (author != NULL);
+
+	g_free (ft->author);
+	ft->author = g_strdup (author);
+}
+
+static void
+format_template_set_description (GnmFormatTemplate *ft, char const *description)
+{
+	g_return_if_fail (ft != NULL);
+	g_return_if_fail (description != NULL);
+
+	g_free (ft->description);
+	ft->description = g_strdup (description);
 }
 
 /**
@@ -1029,38 +1060,4 @@ format_template_apply_to_sheet_regions (GnmFormatTemplate *ft, Sheet *sheet, GSL
 	for (; regions != NULL ; regions = regions->next)
 		format_template_calculate (ft, regions->data,
 					   cb_format_sheet_style, sheet);
-}
-
-/******************************************************************************
- * setters for GnmFormatTemplate
- */
-
-void
-format_template_set_name (GnmFormatTemplate *ft, char const *name)
-{
-	g_return_if_fail (ft != NULL);
-	g_return_if_fail (name != NULL);
-
-	g_free (ft->name);
-	ft->name = g_strdup (name);
-}
-
-void
-format_template_set_author (GnmFormatTemplate *ft, char const *author)
-{
-	g_return_if_fail (ft != NULL);
-	g_return_if_fail (author != NULL);
-
-	g_free (ft->author);
-	ft->author = g_strdup (author);
-}
-
-void
-format_template_set_description (GnmFormatTemplate *ft, char const *description)
-{
-	g_return_if_fail (ft != NULL);
-	g_return_if_fail (description != NULL);
-
-	g_free (ft->description);
-	ft->description = g_strdup (description);
 }
