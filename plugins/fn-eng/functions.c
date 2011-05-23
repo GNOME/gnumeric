@@ -544,7 +544,7 @@ gnumeric_hex2dec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_besseli[] = {
         { GNM_FUNC_HELP_NAME, F_("BESSELI:Modified Bessel function of the first kind of order @{\xce\xb1} at @{x}") },
         { GNM_FUNC_HELP_ARG, F_("X:number") },
-        { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any number)") },
+        { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any non-negative number)") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned. If @{\xce\xb1} < 0, #NUM! is returned.") },
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BESSELI(0.7,3)" },
@@ -582,7 +582,7 @@ gnumeric_besseli (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_besselk[] = {
         { GNM_FUNC_HELP_NAME, F_("BESSELK:Modified Bessel function of the second kind of order @{\xce\xb1} at @{x}") },
         { GNM_FUNC_HELP_ARG, F_("X:number") },
-        { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any number)") },
+        { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any non-negative number)") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned. If @{\xce\xb1} < 0, #NUM! is returned.") },
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BESSELK(3,9)" },
