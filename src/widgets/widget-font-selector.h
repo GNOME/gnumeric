@@ -25,8 +25,5 @@ void font_selector_set_color       (FontSelector *fs, GnmColor *color);
 void font_selector_set_points      (FontSelector *fs, double point_size);
 void font_selector_editable_enters (FontSelector *fs, GtkWindow *dialog);
 
-void font_selector_set_from_pango  (FontSelector *fs, PangoFontDescription const *desc);
-void font_selector_get_pango	   (FontSelector *fs, PangoFontDescription *desc);
-
 #endif /* GNUMERIC_WIDGET_FONT_SELECTOR_H */
 

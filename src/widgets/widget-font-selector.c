@@ -589,30 +589,6 @@ font_selector_set_points (FontSelector *fs,
 }
 
 void
-font_selector_set_from_pango (FontSelector *fs, PangoFontDescription const *desc)
-{
-	font_selector_set_name (fs, pango_font_description_get_family (desc));
-	font_selector_set_style (fs,
-		pango_font_description_get_weight (desc) >= PANGO_WEIGHT_BOLD,
-		pango_font_description_get_style (desc) != PANGO_STYLE_NORMAL);
-	font_selector_set_points (fs,
-		pango_font_description_get_size (desc) / PANGO_SCALE);
-}
-
-void
-font_selector_get_pango (FontSelector *fs, PangoFontDescription *desc)
-{
-	pango_font_description_set_family (desc,
-		gnm_style_get_font_name (fs->mstyle));
-	pango_font_description_set_weight (desc,
-		gnm_style_get_font_bold (fs->mstyle) ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
-	pango_font_description_set_style (desc,
-		gnm_style_get_font_italic (fs->mstyle) ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
-	pango_font_description_set_size (desc,
-		gnm_style_get_font_size (fs->mstyle) * PANGO_SCALE);
-}
-
-void
 font_selector_editable_enters (FontSelector *fs, GtkWindow *dialog)
 {
 	gnumeric_editable_enters (dialog,
