@@ -1,5 +1,7 @@
 2011-05-23  Morten Welinder  <terra@gnome.org>
 
+	* src/func.c (function_iterate_do_value): Make static.
+
 	* src/parser.y: Make yyparse static.
 
 2011-05-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>

@@ -282,13 +282,6 @@ GnmValue *function_iterate_argument_values (GnmEvalPos const *ep,
 					    GnmExprConstPtr const *argv,
 					    gboolean strict,
 					    CellIterFlags iter_flags);
-GnmValue *function_iterate_do_value	(GnmEvalPos const   *ep,
-					 FunctionIterateCB   cb,
-					 gpointer            user_data,
-					 GnmValue const     *value,
-					 gboolean            strict,
-					 CellIterFlags	     iter_flags);
-
 
 G_END_DECLS
 

@@ -1862,7 +1862,7 @@ cb_iterate_cellrange (GnmCellIter const *iter, gpointer user)
  *
  * Helper routine for function_iterate_argument_values.
  */
-GnmValue *
+static GnmValue *
 function_iterate_do_value (GnmEvalPos const  *ep,
 			   FunctionIterateCB  callback,
 			   gpointer	      closure,

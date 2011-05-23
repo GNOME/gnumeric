@@ -36,7 +36,6 @@ GtkWidget *     gnm_notebook_get_nth_label (GnmNotebook *nb, int n);
 void            gnm_notebook_insert_tab (GnmNotebook *nb, GtkWidget *label,
 					 int pos);
 void            gnm_notebook_move_tab (GnmNotebook *nb, GtkWidget *label, int newpos);
-void            gnm_notebook_set_tab_visible (GnmNotebook *nb, int page, gboolean viz);
 void            gnm_notebook_set_current_page (GnmNotebook *nb, int page);
 void            gnm_notebook_prev_page (GnmNotebook *nb);
 void            gnm_notebook_next_page (GnmNotebook *nb);

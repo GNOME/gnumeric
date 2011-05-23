@@ -8437,22 +8437,6 @@ gnm_notebook_move_tab (GnmNotebook *nb, GtkWidget *label, int newpos)
 }
 
 void
-gnm_notebook_set_tab_visible (GnmNotebook *nb, int page, gboolean viz)
-{
-	GtkWidget *dummy;
-	g_return_if_fail (IS_GNM_NOTEBOOK (nb));
-
-	dummy = gtk_notebook_get_nth_page (GTK_NOTEBOOK (nb), page);
-	if (!dummy)
-		return;
-
-	if (viz)
-		gtk_widget_show (dummy);
-	else
-		gtk_widget_hide (dummy);
-}
-
-void
 gnm_notebook_set_current_page (GnmNotebook *nb, int page)
 {
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (nb), page);
