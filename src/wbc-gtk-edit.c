@@ -1376,12 +1376,6 @@ wbc_gtk_get_guru (WBCGtk const *wbcg)
 
 /****************************************************************************/
 
-gboolean
-wbcg_auto_completing (WBCGtk const *wbcg)
-{
-	return wbcg->auto_completing;
-}
-
 static gboolean
 auto_complete_matches (WBCGtk *wbcg)
 {
