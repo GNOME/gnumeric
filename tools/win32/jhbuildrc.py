@@ -151,7 +151,7 @@ module_autogenargs['libxslt']	= autogenargs + """ --without-crypto"""
 autogenargs += """ --disable-scrollkeeper --disable-gtk-doc"""
 
 module_autogenargs['atk']	= autogenargs + """ --disable-glibtest --enable-introspection=no"""
-module_autogenargs['gtk+']	= autogenargs + """ --disable-glibtest --enable-gdiplus --without-libjasper  --without-libtiff --without-libjpeg --enable-cups=no"""
+module_autogenargs['gtk+']	= autogenargs + """ --disable-glibtest --enable-gdiplus --without-libjasper  --without-libtiff --without-libjpeg --enable-cups=no --enable-introspection=no"""
 
 module_autogenargs['libgda']	= autogenargs + """ --without-odbc --without-java --without-libsoup"""
 module_autogenargs['pxlib']	= autogenargs + """ --with-gsf=""" + prefix
