@@ -31,11 +31,7 @@ void	 sheet_style_apply_range	(Sheet *sheet, GnmRange const *r,
 					 GnmStyle *style);
 void	 sheet_style_set_range		(Sheet  *sheet, GnmRange const *range,
 					 GnmStyle *style);
-void	 sheet_style_set_col		(Sheet  *sheet, int col,
-					 GnmStyle *style);
 void	 sheet_style_apply_col		(Sheet  *sheet, int col,
-					 GnmStyle *style);
-void	 sheet_style_set_row		(Sheet  *sheet, int row,
 					 GnmStyle *style);
 void	 sheet_style_apply_row		(Sheet  *sheet, int row,
 					 GnmStyle *style);

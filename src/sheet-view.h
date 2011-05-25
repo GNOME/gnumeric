@@ -82,8 +82,6 @@ void          sv_dispose          (SheetView *sv);
 Sheet	     *sv_sheet		(SheetView const *sv);
 WorkbookView *sv_wbv		(SheetView const *sv);
 gboolean      sv_is_frozen	(SheetView const *sv);
-gboolean      sv_is_region_empty_or_selected (SheetView const *sv,
-					      GnmRange const *r);
 
 GnmFilter      *sv_editpos_in_filter (SheetView const *sv);
 GnmFilter      *sv_selection_intersects_filter_rows (SheetView const *sv);
