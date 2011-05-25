@@ -487,8 +487,6 @@ wb_control_set_view (WorkbookControl *wbc,
 void
 wb_control_init_state (WorkbookControl *wbc)
 {
-	GSList *sheets, *ptr;
-	Sheet *sheet;
 	WorkbookView *wbv;
 	WorkbookControlClass *wbc_class;
 
@@ -499,15 +497,12 @@ wb_control_init_state (WorkbookControl *wbc)
 
 	/* Add views for all existing sheets */
 	wbv = wb_control_view (wbc);
-	sheets = workbook_sheets (wb_control_get_workbook (wbc));
-	for (ptr = sheets; ptr != NULL ; ptr = ptr->next) {
-		sheet = ptr->data;
+	WORKBOOK_FOREACH_SHEET(wb_control_get_workbook (wbc), sheet, {
 		SHEET_FOREACH_VIEW (sheet, view, {
 			if (sv_wbv (view) == wbv)
 				wb_control_sheet_add (wbc, view);
 		});
-	}
-	g_slist_free (sheets);
+	});
 
 	wbc_class = WBC_CLASS (wbc);
 	if (wbc_class != NULL && wbc_class->init_state != NULL)
