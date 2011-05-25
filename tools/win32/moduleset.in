@@ -190,7 +190,7 @@
     </autotools>
 
     <autotools id="atk">
-	<branch repo="gnome.org" module="sources/atk/1.30/atk-1.30.0.tar.bz2" version="1.30.0"/>
+	<branch repo="gnome.org" module="sources/atk/1.33/atk-1.33.6.tar.bz2" version="1.33.6"/>
 	<dependencies>
 	    <dep package="glib"/>
 	</dependencies>
