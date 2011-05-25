@@ -702,7 +702,8 @@ gnm_sheet_constructed (GObject *obj)
 
 	sheet_scale_changed (sheet, TRUE, TRUE);
 
-	parent_class->constructed (obj);
+	if (parent_class->constructed)
+		parent_class->constructed (obj);
 }
 
 static guint

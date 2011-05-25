@@ -1,5 +1,8 @@
 2011-05-24  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (gnm_sheet_constructed): Don't chain up before
+	actually checking that the parent has the method.
+
 	* src/wbc-gtk-edit.c (wbcg_auto_completing): Unused.  Remove.
 
 2011-05-23  Morten Welinder  <terra@gnome.org>
