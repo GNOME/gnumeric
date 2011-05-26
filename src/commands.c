@@ -4878,7 +4878,8 @@ cmd_reorganize_sheets (WorkbookControl *wbc,
 	me->redo_sheet = wb_control_cur_sheet (wbc);
 
 	me->cmd.sheet = NULL;
-	me->cmd.size = 1;
+	me->cmd.size = workbook_sheet_state_size (me->old) +
+		workbook_sheet_state_size (me->new);
 	me->cmd.cmd_descriptor =
 		workbook_sheet_state_diff (me->old, me->new);
 

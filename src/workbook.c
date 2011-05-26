@@ -1326,7 +1326,7 @@ workbook_sheet_state_size (const WorkbookSheetState *wss)
 	int i;
 	for (i = 0; i < wss->n_sheets; i++) {
 		WorkbookSheetStateSheet *wsss = wss->sheets + i;
-		size += 50;  /* For ->sheet.  */
+		size += 5;  /* For ->sheet.  */
 		size += g_slist_length (wsss->properties);
 	}
 	return size;
