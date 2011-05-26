@@ -1,3 +1,8 @@
+2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (cb_icon_clicked): reset default widget
+	(gnm_expr_entry_grab_focus): set position at the end of the entry
+
 2011-05-23  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (gee_set_with_icon): Extract from

@@ -271,6 +271,8 @@ cb_icon_clicked (GtkButton *icon,
 			gtk_window_get_size (GTK_WINDOW (toplevel), &width, &height);
 			g_object_set_data (G_OBJECT (entry), "old_window_width", GUINT_TO_POINTER (width));
 			g_object_set_data (G_OBJECT (entry), "old_window_height", GUINT_TO_POINTER (height));
+			g_object_set_data (G_OBJECT (entry), "old_default", 
+					   gtk_window_get_default_widget (GTK_WINDOW (toplevel)));
 
 			container_props = NULL;
 
@@ -308,6 +310,7 @@ cb_icon_clicked (GtkButton *icon,
 
 		} else {
 			int i;
+			gpointer default_widget;
 
 			/* reset rolled-up window */
 
@@ -335,6 +338,11 @@ cb_icon_clicked (GtkButton *icon,
 			gtk_window_resize (GTK_WINDOW (toplevel),
 					   GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (entry), "old_window_width")),
 					   GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (entry), "old_window_height")));
+			default_widget = g_object_get_data (G_OBJECT (entry), "old_default");
+			if (default_widget != NULL) {
+				gtk_window_set_default (GTK_WINDOW (toplevel), GTK_WIDGET (default_widget));
+				g_object_set_data (G_OBJECT (entry), "old_default", NULL);
+			}
 
 			g_object_set_data (G_OBJECT (entry), "old_entry_parent", NULL);
 			g_object_set_data (G_OBJECT (entry), "old_toplevel_child", NULL);
@@ -2676,9 +2684,8 @@ gnm_expr_entry_grab_focus (GnmExprEntry *gee, gboolean select_all)
 
 	gtk_widget_grab_focus (GTK_WIDGET (gee->entry));
 	if (select_all) {
-		gtk_editable_set_position (GTK_EDITABLE (gee->entry), 0);
-		gtk_editable_select_region (GTK_EDITABLE (gee->entry), 0,
-					    gtk_entry_get_text_length (gee->entry));
+		gtk_editable_set_position (GTK_EDITABLE (gee->entry), -1);
+		gtk_editable_select_region (GTK_EDITABLE (gee->entry), 0, -1);
 	}
 }
 

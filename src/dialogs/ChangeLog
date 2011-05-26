@@ -1,5 +1,10 @@
 2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-analysis-tools.c (tool_load_selection): select the entered
+	range
+
+2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* help.h (GNUMERIC_HELP_LINK_GOTO_CELL): use a valid id
 	* goto.ui: add spin buttons
 	* dialog-goto-cell.c (dialog_goto_get_val): new
