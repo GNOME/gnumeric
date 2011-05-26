@@ -1,3 +1,14 @@
+2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* help.h (GNUMERIC_HELP_LINK_GOTO_CELL): use a valid id
+	* goto.ui: add spin buttons
+	* dialog-goto-cell.c (dialog_goto_get_val): new
+	(cb_dialog_goto_go_clicked): handle names and row/column widths
+	(cb_dialog_goto_update_sensitivity): allow names and set the correct
+	limits for rows and columns
+	(dialog_goto_load_selection): new
+	(dialog_goto_init): setup spin buttons and prelaod info
+
 2011-05-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-preferences.c (pref_copypaste_page_initializer): hide under

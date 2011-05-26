@@ -227,7 +227,7 @@ wb_create_name (WorkbookControl *wbc, char const *text, GnmParsePos *pp)
 /*
  * Select the given range and make the it visible.
  */
-static gboolean
+gboolean
 wb_control_jump (WorkbookControl *wbc, Sheet *sheet, const GnmRangeRef *r)
 {
 	SheetView *sv;

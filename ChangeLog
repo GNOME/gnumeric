@@ -1,3 +1,8 @@
+2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/workbook-control.h (wb_control_jump): new
+	* src/workbook-control.c (wb_control_jump): make non-static
+
 2011-05-24  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (gnm_sheet_constructed): Don't chain up before

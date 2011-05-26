@@ -3,9 +3,9 @@
  * dialog-goto-cell.c:  Implements the "goto cell/navigator" functionality
  *
  * Author:
- * Andreas J. Guelzow <aguelzow@taliesin.ca>
+ * Andreas J. Guelzow <aguelzow@pyrshep.ca>
  *
- * Copyright (C) Andreas J. Guelzow <aguelzow@taliesin.ca>
+ * Copyright (C) Andreas J. Guelzow <aguelzow@pyrshep.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +37,10 @@
 #include <sheet.h>
 #include <workbook.h>
 #include <workbook-view.h>
+#include <workbook-control.h>
+#include <selection.h>
+#include <parse-util.h>
+#include <sheet-view.h>
 
 #include <wbc-gtk.h>
 
@@ -53,6 +57,8 @@ typedef struct {
 	GtkWidget *close_button;
 	GtkWidget *go_button;
 	GtkEntry *goto_text;
+
+	GtkSpinButton *spin_rows, *spin_cols;
 
 	GtkTreeStore  *model;
 	GtkTreeView   *treeview;
@@ -98,18 +104,49 @@ cb_dialog_goto_close_clicked (G_GNUC_UNUSED GtkWidget *button,
 	gtk_widget_destroy (state->dialog);
 }
 
+static GnmValue *
+dialog_goto_get_val (GotoState *state)
+{
+	char const *text = gtk_entry_get_text (state->goto_text);
+	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
+	GnmValue *val = value_new_cellrange_str (sheet, text);
+
+	if (val == NULL) {
+		GnmParsePos pp;
+		GnmNamedExpr *nexpr = expr_name_lookup 
+			(parse_pos_init_sheet (&pp, sheet), text);
+		if (nexpr != NULL && !expr_name_is_placeholder (nexpr)) {
+			val = gnm_expr_top_get_range (nexpr->texpr);
+		} 
+	}
+	return val;
+}
+
 static void
 cb_dialog_goto_go_clicked (G_GNUC_UNUSED GtkWidget *button,
 			   GotoState *state)
 {
-	char *text = g_strdup (gtk_entry_get_text (state->goto_text));
+	GnmEvalPos ep;
+	GnmRangeRef range;
+	gint cols = gtk_spin_button_get_value_as_int (state->spin_cols);
+	gint rows = gtk_spin_button_get_value_as_int (state->spin_rows);
+	GnmValue *val = dialog_goto_get_val (state);
+	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
 
-	if (wb_control_parse_and_jump (WORKBOOK_CONTROL (state->wbcg), text)) {
+	if (val == NULL)
+		return;
+	
+	val->v_range.cell.b.row = val->v_range.cell.a.row + (rows - 1);
+	val->v_range.cell.b.col = val->v_range.cell.a.col + (cols - 1);
+	eval_pos_init_sheet (&ep, sheet);
+	gnm_cellref_make_abs (&range.a, &val->v_range.cell.a, &ep);
+	gnm_cellref_make_abs (&range.b, &val->v_range.cell.b, &ep);
+	value_release (val);
+
+	wb_control_jump (WORKBOOK_CONTROL (state->wbcg), sheet, &range);
 #if 0
-		gnome_entry_append_history (state->goto_text, TRUE, text);
+	gnome_entry_append_history (state->goto_text, TRUE, text);
 #endif
-	}
-	g_free (text);
 	return;
 }
 
@@ -117,10 +154,39 @@ static void
 cb_dialog_goto_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 				   GotoState *state)
 {
-	GnmValue *val = value_new_cellrange_str (wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
-					    gtk_entry_get_text (state->goto_text));
+	GnmValue *val = dialog_goto_get_val (state);
 	if (val != NULL) {
+		gint cols, rows;
+		Sheet *sheet = val->v_range.cell.a.sheet;
+		GnmSheetSize const *ssz;
+
+		if (sheet == NULL)
+			sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
+		ssz = gnm_sheet_get_size (sheet);
+
+		cols = ssz->max_cols;
+		rows = ssz->max_rows;
+
+		if (val->v_range.cell.a.sheet != NULL && 
+		    val->v_range.cell.b.sheet != NULL &&
+		    val->v_range.cell.a.sheet != val->v_range.cell.b.sheet) {
+			ssz = gnm_sheet_get_size (sheet);
+			if (cols > ssz->max_cols)
+				cols = ssz->max_cols;
+			if (rows > ssz->max_rows)
+				cols = ssz->max_rows;
+		}
+		cols -= val->v_range.cell.a.col;
+		rows -= val->v_range.cell.a.row;
+		
+		if (cols < 1) cols = 1;
+		if (rows < 1) rows = 1;
+
+		gtk_spin_button_set_range (state->spin_cols, 1, cols);
+		gtk_spin_button_set_range (state->spin_rows, 1, rows);
+
 		gtk_widget_set_sensitive (state->go_button, TRUE);
+		
 		value_release (val);
 	} else
 		gtk_widget_set_sensitive (state->go_button, FALSE);
@@ -240,6 +306,40 @@ cb_sheet_added (Workbook *wb, GotoState *state)
 	cb_dialog_goto_update_sensitivity (NULL, state);
 }
 
+static void
+dialog_goto_load_selection (GotoState *state)
+{
+	SheetView *sv = wb_control_cur_sheet_view 
+		(WORKBOOK_CONTROL (state->wbcg));
+	GnmRange const *first = selection_first_range (sv, NULL, NULL);
+
+	if (first != NULL) {
+		gint rows = range_height (first);
+		gint cols = range_width (first);
+		GnmConventionsOut out;
+		GString *str = g_string_new (NULL);
+		GnmParsePos pp;
+		GnmRangeRef rr;
+		
+		out.accum = str;
+		out.pp = parse_pos_init_sheet (&pp, sv->sheet);
+		out.convs = sheet_get_conventions (sv->sheet);
+		gnm_cellref_init (&rr.a, NULL, first->start.col, 
+				  first->start.row, TRUE);
+		gnm_cellref_init (&rr.b, NULL, first->start.col, 
+				  first->start.row, TRUE);
+		rangeref_as_string (&out, &rr);
+		gtk_entry_set_text (state->goto_text, str->str);
+		gtk_editable_select_region (GTK_EDITABLE (state->goto_text),
+					    0, -1);
+		g_string_free (str, TRUE);
+		cb_dialog_goto_update_sensitivity (NULL, state);
+		gtk_spin_button_set_value (state->spin_rows, rows);
+		gtk_spin_button_set_value (state->spin_cols, cols);
+	} else
+		cb_dialog_goto_update_sensitivity (NULL, state);
+
+}
 
 /**
  * dialog_init:
@@ -264,6 +364,11 @@ dialog_goto_init (GotoState *state)
 	g_signal_connect_after (G_OBJECT (state->goto_text),
 		"changed",
 		G_CALLBACK (cb_dialog_goto_update_sensitivity), state);
+
+	state->spin_rows = GTK_SPIN_BUTTON 
+		(go_gtk_builder_get_widget (state->gui, "spin-rows"));
+	state->spin_cols = GTK_SPIN_BUTTON 
+		(go_gtk_builder_get_widget (state->gui, "spin-columns"));
 
 	/* Set-up treeview */
 	scrolled = go_gtk_builder_get_widget (state->gui, "scrolled");
@@ -323,7 +428,7 @@ dialog_goto_init (GotoState *state)
 		go_gtk_builder_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_GOTO_CELL);
 
-	cb_dialog_goto_update_sensitivity (NULL, state);
+	dialog_goto_load_selection (state);
 
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),

@@ -73,7 +73,7 @@
 #define GNUMERIC_HELP_LINK_GOAL_SEEK "sect-advanced-analysis-goalseek"
 
 /* dialog-goto-cell.c  */
-#define GNUMERIC_HELP_LINK_GOTO_CELL "sect-worksheets-viewing"
+#define GNUMERIC_HELP_LINK_GOTO_CELL "menu-edit-select.png"
 
 /* dialog-hyperlink.c  */
 #define GNUMERIC_HELP_LINK_HYPERLINK "sect-data-link"

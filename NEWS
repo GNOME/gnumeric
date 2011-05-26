@@ -3,6 +3,7 @@ Gnumeric 1.10.16
 Andreas
 	* Store some print range information in gnumeric files. [#649714]
 	* Hide Prefer CLIPBOARD preference under MS Windows. [#649675]
+	* Extend the goto dialog.
 
 Morten:
 	* Fix leaks in SHEET.  [#650761]

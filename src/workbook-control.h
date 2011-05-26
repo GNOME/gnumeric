@@ -85,6 +85,7 @@ Sheet        *wb_control_cur_sheet	(WorkbookControl const *wbc);
 SheetView    *wb_control_cur_sheet_view	(WorkbookControl const *wbc);
 
 gboolean      wb_control_parse_and_jump (WorkbookControl *wbc, char const *text);
+gboolean      wb_control_jump (WorkbookControl *wbc, Sheet *sheet, const GnmRangeRef *r);
 
 typedef enum {
 	navigator_top,
