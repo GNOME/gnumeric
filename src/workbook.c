@@ -548,12 +548,6 @@ workbook_optimize_style (Workbook *wb)
 	});
 }
 
-GSList *
-workbook_local_functions (Workbook const *wb)
-{
-	return NULL;
-}
-
 void
 workbook_foreach_name (Workbook const *wb, gboolean globals_only,
 		       GHFunc func, gpointer data)

@@ -44,8 +44,6 @@ int gnm_range_hypot		(gnm_float const *xs, int n, gnm_float *res);
 int gnm_range_harmonic_mean	(gnm_float const *xs, int n, gnm_float *res);
 int gnm_range_geometric_mean (gnm_float const *xs, int n, gnm_float *res);
 
-int gnm_range_minabs	(gnm_float const *xs, int n, gnm_float *res);
-
 int gnm_range_var_pop	(gnm_float const *xs, int n, gnm_float *res);
 int gnm_range_var_est	(gnm_float const *xs, int n, gnm_float *res);
 int gnm_range_stddev_pop	(gnm_float const *xs, int n, gnm_float *res);
@@ -57,9 +55,7 @@ int gnm_range_kurtosis_m3_est (gnm_float const *xs, int n, gnm_float *res);
 
 int gnm_range_covar		(gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res);
 int gnm_range_correl_pop	(gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res);
-int gnm_range_correl_est	(gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res);
 int gnm_range_rsq_pop	(gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res);
-int gnm_range_rsq_est	(gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res);
 
 int gnm_range_mode	(gnm_float const *xs, int n, gnm_float *res);
 

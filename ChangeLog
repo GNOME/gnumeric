@@ -1,5 +1,16 @@
 2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/rangefunc.c (gnm_range_minabs): deleted
+	(gnm_range_correl_est): deleted
+	* src/rangefunc.h (gnm_range_minabs): deleted
+	(gnm_range_correl_est): deleted
+	* src/stf-parse.c (stf_parse_options_new): made static
+	* src/stf-parse.h (stf_parse_options_new): deleted
+	* src/workbook.c (workbook_local_functions): deleted
+	* src/workbook.h (workbook_local_functions): deleted
+
+2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/parse-util.h (gnm_conventions_dup): delete again
 	* src/parse-util.c (gnm_conventions_dup): delete again
 	* src/workbook-control.c (wb_control_parse_and_jump): use

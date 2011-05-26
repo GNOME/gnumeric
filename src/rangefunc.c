@@ -37,23 +37,6 @@ gnm_range_hypot (gnm_float const *xs, int n, gnm_float *res)
 	}
 }
 
-/* Minimum absolute element.  */
-int
-gnm_range_minabs (gnm_float const *xs, int n, gnm_float *res)
-{
-	if (n > 0) {
-		gnm_float min = gnm_abs (xs[0]);
-		int i;
-
-		for (i = 1; i < n; i++)
-			if (gnm_abs (xs[i]) < min)
-				min = gnm_abs (xs[i]);
-		*res = min;
-		return 0;
-	} else
-		return 1;
-}
-
 /* Average absolute deviation from mean.  */
 int
 gnm_range_avedev (gnm_float const *xs, int n, gnm_float *res)
@@ -387,37 +370,11 @@ gnm_range_correl_pop (gnm_float const *xs, const gnm_float *ys, int n, gnm_float
 	return 0;
 }
 
-/* Maximum-likelyhood correlation coefficient.  */
-int
-gnm_range_correl_est (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res)
-{
-	gnm_float sx, sy, vxy;
-
-	if (gnm_range_stddev_est (xs, n, &sx) || sx == 0 ||
-	    gnm_range_stddev_est (ys, n, &sy) || sy == 0 ||
-	    gnm_range_covar (xs, ys, n, &vxy))
-		return 1;
-
-	*res = vxy / (sx * sy);
-	return 0;
-}
-
 /* Population R-squared.  */
 int
 gnm_range_rsq_pop (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res)
 {
 	if (gnm_range_correl_pop (xs, ys, n, res))
-		return 1;
-
-	*res *= *res;
-	return 0;
-}
-
-/* Maximum-likelyhood R-squared.  */
-int
-gnm_range_rsq_est (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res)
-{
-	if (gnm_range_correl_est (xs, ys, n, res))
 		return 1;
 
 	*res *= *res;

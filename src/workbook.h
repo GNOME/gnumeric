@@ -58,7 +58,6 @@ GnmValue   *workbook_foreach_cell_in_range (GnmEvalPos const  *pos,
 					    gpointer	    closure);
 GPtrArray  *workbook_cells               (Workbook *wb, gboolean comments,
 					  GnmSheetVisibility vis);
-GSList     *workbook_local_functions	 (Workbook const *wb);
 
 void workbook_foreach_name (Workbook const *wb, gboolean globals_only,
 			    GHFunc func, gpointer data);

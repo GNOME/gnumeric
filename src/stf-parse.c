@@ -125,7 +125,7 @@ compare_terminator (char const *s, StfParseOptions_t *parseoptions)
  * This will return a new StfParseOptions_t struct.
  * The struct should, after being used, freed with stf_parse_options_free.
  **/
-StfParseOptions_t *
+static StfParseOptions_t *
 stf_parse_options_new (void)
 {
 	StfParseOptions_t* parseoptions = g_new0 (StfParseOptions_t, 1);
