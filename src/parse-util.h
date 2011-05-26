@@ -200,7 +200,6 @@ struct _GnmConventions {
 };
 GnmConventions *gnm_conventions_new	 (void);
 GnmConventions *gnm_conventions_new_full (unsigned size);
-GnmConventions *gnm_conventions_dup	 (GnmConventions const*c);
 
 GnmConventions *gnm_conventions_ref	 (GnmConventions *c);
 void		gnm_conventions_unref	 (GnmConventions *c);

@@ -1,5 +1,12 @@
 2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/parse-util.h (gnm_conventions_dup): delete again
+	* src/parse-util.c (gnm_conventions_dup): delete again
+	* src/workbook-control.c (wb_control_parse_and_jump): use
+	existing GnmConventions
+
+2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/workbook.c (workbook_sheet_state_size): adjust scale
 	(cmd_reorganize_sheets): use workbook_sheet_state_size
 

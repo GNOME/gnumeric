@@ -282,18 +282,25 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 						   GNM_EXPR_PARSE_DEFAULT);
 	if (target == NULL) {
 		GnmExprTop const *texpr;
-		GnmConventions *convs = gnm_conventions_dup 
-			(sheet_get_conventions(sv->sheet));
-		convs->r1c1_addresses = !convs->r1c1_addresses;
-		
+
 		texpr = gnm_expr_parse_str 
-			(text, &pp, GNM_EXPR_PARSE_DEFAULT, convs, NULL);
+			(text, &pp, GNM_EXPR_PARSE_DEFAULT, 
+			 gnm_conventions_xls_r1c1, NULL);
 		if (texpr != NULL)  {
 			target = gnm_expr_top_get_range (texpr);
 			gnm_expr_top_unref (texpr);
 		}
+	}
+	if (target == NULL) {
+		GnmExprTop const *texpr;
 
-		gnm_conventions_unref (convs);
+		texpr = gnm_expr_parse_str 
+			(text, &pp, GNM_EXPR_PARSE_DEFAULT, 
+			 gnm_conventions_default, NULL);
+		if (texpr != NULL)  {
+			target = gnm_expr_top_get_range (texpr);
+			gnm_expr_top_unref (texpr);
+		}
 	}
 	
 	if (target == NULL) {

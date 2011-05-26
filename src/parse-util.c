@@ -1399,13 +1399,6 @@ gnm_conventions_new (void)
 	return gnm_conventions_new_full (sizeof (GnmConventions));
 }
 
-GnmConventions *
-gnm_conventions_dup (GnmConventions const *c)
-{
-	GnmConventions *conv = g_memdup (c, sizeof (GnmConventions));
-	conv->ref_count = 1;
-}
-
 /**
  * gnm_conventions_unref :
  * @c : #GnmConventions
