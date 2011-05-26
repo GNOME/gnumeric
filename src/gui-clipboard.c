@@ -286,7 +286,6 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 {
 	WorkbookView *wb_view = NULL;
 	Workbook *wb = NULL;
-	GSList *sheets;
 	GnmCellRegion *ret = NULL;
 	const GOFileOpener *reader = go_file_opener_for_id (reader_id);
 	GOIOContext *ioc;
@@ -306,10 +305,9 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 	}
 
 	wb = wb_view_get_workbook (wb_view);
-	sheets = workbook_sheets (wb);
-	if (sheets) {
+	if (workbook_sheet_count (wb) > 0) {
 		GnmRange r;
-		Sheet *tmpsheet = sheets->data;
+		Sheet *tmpsheet = workbook_sheet_by_index (wb, 0);
 		GnmRange *rp = g_object_get_data (G_OBJECT (tmpsheet),
 						  "DIMENSION");
 		if (rp) {
@@ -322,7 +320,6 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 		}
 		ret = clipboard_copy_range (tmpsheet, &r);
 	}
-	g_slist_free (sheets);
 
 	/* This isn't particularly right, but we are going to delete
 	   the workbook shortly.  See #490479.  */
