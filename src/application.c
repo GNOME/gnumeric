@@ -89,6 +89,8 @@ typedef struct {
 static GObjectClass *parent_klass;
 static GnmApp *app;
 
+static Workbook *gnm_app_workbook_get_by_uri (char const *uri);
+
 GObject *
 gnm_app_get_app (void)
 {
@@ -406,7 +408,10 @@ cb_workbook_uri (Workbook * wb, gpointer closure)
 	return TRUE;
 }
 
-Workbook *
+static gboolean
+gnm_app_workbook_foreach (GnmWbIterFunc cback, gpointer data);
+
+static Workbook *
 gnm_app_workbook_get_by_uri (char const *uri)
 {
 	struct wb_uri_closure closure;
@@ -420,7 +425,7 @@ gnm_app_workbook_get_by_uri (char const *uri)
 	return closure.wb;
 }
 
-gboolean
+static gboolean
 gnm_app_workbook_foreach (GnmWbIterFunc cback, gpointer data)
 {
 	GList *l;

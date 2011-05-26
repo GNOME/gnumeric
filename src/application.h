@@ -17,11 +17,9 @@ GObject     *gnm_app_get_app (void);
 void         gnm_app_workbook_list_add     (Workbook *wb);
 void         gnm_app_workbook_list_remove  (Workbook *wb);
 GList *      gnm_app_workbook_list	   (void);
-Workbook    *gnm_app_workbook_get_by_uri   (char const *uri);
 Workbook    *gnm_app_workbook_get_by_name  (char const *name,
 					    char const *ref_uri);
 Workbook    *gnm_app_workbook_get_by_index (int i);
-gboolean     gnm_app_workbook_foreach	   (GnmWbIterFunc func, gpointer data);
 
 GSList      *gnm_app_history_get_list	   (int max_elements);
 void	     gnm_app_history_add	   (char const *filename, const char *mimetype);

@@ -49,6 +49,15 @@ enum {
 
 /* ------------------------------------------------------------------------- */
 
+typedef struct {
+	GnmCell *cell;
+} GnmSearchReplaceValueResult;
+static gboolean
+gnm_search_replace_value (GnmSearchReplace *sr,
+			  const GnmEvalPos *ep,
+			  GnmSearchReplaceValueResult *res);
+
+/* ------------------------------------------------------------------------- */
 static gboolean
 check_number (GnmSearchReplace *sr)
 {
@@ -409,7 +418,7 @@ gnm_search_replace_cell (GnmSearchReplace *sr,
 
 /* ------------------------------------------------------------------------- */
 
-gboolean
+static gboolean
 gnm_search_replace_value (GnmSearchReplace *sr,
 			  const GnmEvalPos *ep,
 			  GnmSearchReplaceValueResult *res)

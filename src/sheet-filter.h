@@ -82,7 +82,6 @@ GnmFilterCondition const *gnm_filter_get_condition  (GnmFilter const *filter, un
 void			  gnm_filter_set_condition  (GnmFilter *filter, unsigned i,
 						     GnmFilterCondition *cond,
 						     gboolean apply);
-gboolean		  gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r);
 void                      gnm_filter_reapply        (GnmFilter *filter);
 
 GnmFilter *gnm_sheet_filter_at_pos  (Sheet const *sheet, GnmCellPos const *pos);

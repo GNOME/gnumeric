@@ -1,5 +1,16 @@
 2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/application.c (gnm_app_workbook_get_by_uri): made static
+	(gnm_app_workbook_foreach): made static
+	* src/application.h (gnm_app_workbook_get_by_uri): deleted
+	(gnm_app_workbook_foreach): deleted
+	* src/search.c (gnm_search_replace_value): made static
+	* src/search.h (gnm_search_replace_value): deleted
+	* src/sheet-filter.c (gnm_filter_overlaps_range): made static
+	* src/sheet-filter.h (gnm_filter_overlaps_range): deleted
+
+2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/rangefunc.c (gnm_range_minabs): deleted
 	(gnm_range_correl_est): deleted
 	* src/rangefunc.h (gnm_range_minabs): deleted

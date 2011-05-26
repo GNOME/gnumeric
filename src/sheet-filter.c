@@ -829,7 +829,7 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
  *
  * Returns: %TRUE if @filter overlaps @r.
  **/
-gboolean
+static gboolean
 gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r)
 {
 	g_return_val_if_fail (filter != NULL, FALSE);

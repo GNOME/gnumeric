@@ -129,13 +129,6 @@ gboolean gnm_search_replace_cell (GnmSearchReplace *sr,
 				  gboolean repl,
 				  GnmSearchReplaceCellResult *res);
 
-typedef struct {
-	GnmCell *cell;
-} GnmSearchReplaceValueResult;
-gboolean gnm_search_replace_value (GnmSearchReplace *sr,
-				   GnmEvalPos const *ep,
-				   GnmSearchReplaceValueResult *res);
-
 void gnm_search_replace_query_fail (GnmSearchReplace *sr,
 				    const GnmSearchReplaceCellResult *res);
 
