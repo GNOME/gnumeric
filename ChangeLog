@@ -1,5 +1,12 @@
 2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/parse-util.h (gnm_conventions_dup): new
+	* src/parse-util.c (gnm_conventions_dup): new
+	* src/workbook-control.c (wb_control_parse_and_jump): accept both
+	  both A1 and R1C1 style addresses.
+
+2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/workbook-control.h (wb_control_jump): new
 	* src/workbook-control.c (wb_control_jump): make non-static
 

@@ -4,6 +4,8 @@ Andreas
 	* Store some print range information in gnumeric files. [#649714]
 	* Hide Prefer CLIPBOARD preference under MS Windows. [#649675]
 	* Extend the goto dialog.
+	* Extend the addressbook to handle both A1 and R1C1 style addresses.
+	  [#650941]
 
 Morten:
 	* Fix leaks in SHEET.  [#650761]

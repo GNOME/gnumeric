@@ -281,6 +281,22 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 	target = value_new_cellrange_parsepos_str (&pp, text,
 						   GNM_EXPR_PARSE_DEFAULT);
 	if (target == NULL) {
+		GnmExprTop const *texpr;
+		GnmConventions *convs = gnm_conventions_dup 
+			(sheet_get_conventions(sv->sheet));
+		convs->r1c1_addresses = !convs->r1c1_addresses;
+		
+		texpr = gnm_expr_parse_str 
+			(text, &pp, GNM_EXPR_PARSE_DEFAULT, convs, NULL);
+		if (texpr != NULL)  {
+			target = gnm_expr_top_get_range (texpr);
+			gnm_expr_top_unref (texpr);
+		}
+
+		gnm_conventions_unref (convs);
+	}
+	
+	if (target == NULL) {
 		/* Not an address; is it a name? */
 		GnmParsePos pp;
 		GnmNamedExpr *nexpr = expr_name_lookup (
