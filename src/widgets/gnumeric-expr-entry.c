@@ -306,6 +306,9 @@ cb_icon_clicked (GtkButton *icon,
 			gtk_widget_reparent (GTK_WIDGET (entry), toplevel);
 
 			gtk_widget_grab_focus (GTK_WIDGET (entry->entry));
+			gtk_widget_set_can_default (GTK_WIDGET (icon), TRUE);
+			gtk_widget_grab_default (GTK_WIDGET (icon));
+
 			gtk_window_resize (GTK_WINDOW (toplevel), 1, 1);
 
 		} else {

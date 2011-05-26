@@ -6,8 +6,8 @@ Andreas
 	* Extend the goto dialog.
 	* Extend the address box to handle both A1 and R1C1 style addresses.
 	  [#650941]
-	* Fix effect of rolling-up expression entries on the default
-	  widget. [#651173]
+	* Change the default widget when rolling up or down the default widget. 
+	  [#651173][#646612]
 
 Morten:
 	* Fix leaks in SHEET.  [#650761]
