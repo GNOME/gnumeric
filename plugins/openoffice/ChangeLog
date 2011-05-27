@@ -1,5 +1,9 @@
 2011-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_comment): assume nothing
+
+2011-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_rangeref_parse): handle foreign workbooks
 
 2011-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>

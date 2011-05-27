@@ -2512,9 +2512,9 @@ odf_cell_is_covered (Sheet const *sheet, GnmCell *current_cell,
 static void
 odf_write_comment (GnmOOExport *state, GnmComment const *cc)
 {
-	char const *author;
-	char const *text;
-	const PangoAttrList * markup;
+	char *author = NULL;
+	char *text = NULL;
+	const PangoAttrList * markup = NULL;
 	gboolean pp = TRUE;
 
 	g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
@@ -2527,16 +2527,21 @@ odf_write_comment (GnmOOExport *state, GnmComment const *cc)
 		gsf_xml_out_start_element (state->xml, DUBLINCORE "creator");
 		gsf_xml_out_add_cstr (state->xml, NULL, author);
 		gsf_xml_out_end_element (state->xml); /*  DUBLINCORE "creator" */;
+		g_free (author);
 	}
-	g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
-	gsf_xml_out_start_element (state->xml, TEXT "p");
-	if (markup != NULL)
-		odf_new_markup (state, markup, text);
-	else {
-		gboolean white_written = TRUE;
-		odf_add_chars (state, text, strlen (text), &white_written);
+	if (text != NULL) {
+		g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
+		gsf_xml_out_start_element (state->xml, TEXT "p");
+		if (markup != NULL) {
+			odf_new_markup (state, markup, text);
+			/* Are we leaking the markup? */
+		} else {
+			gboolean white_written = TRUE;
+			odf_add_chars (state, text, strlen (text), &white_written);
+		}
+		gsf_xml_out_end_element (state->xml);   /* p */
+		g_free (text);
 	}
-	gsf_xml_out_end_element (state->xml);   /* p */
 	g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
 	gsf_xml_out_end_element (state->xml); /*  OFFICE "annotation" */
 }
