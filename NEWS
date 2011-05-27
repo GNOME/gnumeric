@@ -8,6 +8,7 @@ Andreas
 	  [#650941]
 	* Change the default widget when rolling up or down the default widget. 
 	  [#651173][#646612]
+	* Import external references from ODF. [#645580]
 
 Morten:
 	* Fix leaks in SHEET.  [#650761]

@@ -1249,16 +1249,30 @@ oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
 	if (ref->b.sheet == invalid_sheet)
 		ref->a.sheet = invalid_sheet;
 	if (external != NULL) {
-		ref->a.sheet = invalid_sheet;
-		if (oconv != NULL)
-			oo_warning (oconv->xin, 
-				    _("Ignoring reference to external "
-				      "workbook '%s'"), 
-				    external);
-		else
-			g_warning (_("Ignoring reference to external "
-				     "workbook '%s'"), 
-				    external);
+		Workbook *wb = pp->wb, *ext_wb;
+		Workbook *ref_wb = wb ? wb : pp->sheet->workbook;
+
+		ext_wb = (*convs->input.external_wb) (convs, ref_wb, external);
+		if (ext_wb == NULL) {
+			if (oconv != NULL)
+				oo_warning (oconv->xin, 
+					    _("Ignoring reference to unknown "
+					      "external workbook '%s'"), 
+					    external);
+			ref->a.sheet = invalid_sheet;
+		} else {
+			if (external_sheet_1 != NULL)
+				ref->a.sheet = workbook_sheet_by_name 
+					(ext_wb, external_sheet_1);
+			else 
+				ref->a.sheet = workbook_sheet_by_index
+					(ext_wb, 0);
+			if (external_sheet_2 != NULL)
+				ref->b.sheet = workbook_sheet_by_name 
+					(ext_wb, external_sheet_1);
+			else 
+				ref->b.sheet = NULL;
+		}
 		g_free (external);
 		g_free (external_sheet_1);
 		g_free (external_sheet_2);

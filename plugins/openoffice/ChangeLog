@@ -1,5 +1,9 @@
 2011-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_rangeref_parse): handle foreign workbooks
+
+2011-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_cellref_parse): add argument, change
 	all callers, don't create sheets that are in foreign workbooks
 	(odf_parse_external): new
@@ -10,7 +14,7 @@
 	(oo_col_start): use oo_warning rather than g_warning
 	(odf_clear_conventions): new, use whenever xin changes
 	(opendoc_content_dtd): add table:table-source
-	
+
 2011-05-22  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-write.c (odf_write_ooo_settings): Plug leak.
