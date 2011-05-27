@@ -1,6 +1,5 @@
 # Gnumeric Czech translation
 # Copyright (c) 1999, 2000, 2001, 2002 The Free Software Foundation
-#
 # Marek Černocký <marek@manet.cz>, 2010, 2011.
 #
 msgid ""
@@ -8,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-05-01 07:48+0000\n"
-"PO-Revision-Date: 2011-05-06 07:14+0200\n"
+"POT-Creation-Date: 2011-05-23 01:55+0000\n"
+"PO-Revision-Date: 2011-05-27 09:49+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -158,14 +157,14 @@ msgstr "Pokud @{i} není ani „i“ ani „j“, COMPLEX vrátí #HODNOTA!."
 #: ../plugins/fn-date/functions.c:541 ../plugins/fn-date/functions.c:565
 #: ../plugins/fn-date/functions.c:589 ../plugins/fn-date/functions.c:617
 #: ../plugins/fn-date/functions.c:658 ../plugins/fn-date/functions.c:696
-#: ../plugins/fn-eng/functions.c:238 ../plugins/fn-eng/functions.c:263
-#: ../plugins/fn-eng/functions.c:287 ../plugins/fn-eng/functions.c:316
-#: ../plugins/fn-eng/functions.c:342 ../plugins/fn-eng/functions.c:365
-#: ../plugins/fn-eng/functions.c:409 ../plugins/fn-eng/functions.c:436
-#: ../plugins/fn-eng/functions.c:459 ../plugins/fn-eng/functions.c:482
-#: ../plugins/fn-eng/functions.c:505 ../plugins/fn-eng/functions.c:525
-#: ../plugins/fn-eng/functions.c:614 ../plugins/fn-eng/functions.c:643
-#: ../plugins/fn-eng/functions.c:1133 ../plugins/fn-eng/functions.c:1156
+#: ../plugins/fn-eng/functions.c:237 ../plugins/fn-eng/functions.c:262
+#: ../plugins/fn-eng/functions.c:286 ../plugins/fn-eng/functions.c:315
+#: ../plugins/fn-eng/functions.c:341 ../plugins/fn-eng/functions.c:364
+#: ../plugins/fn-eng/functions.c:408 ../plugins/fn-eng/functions.c:435
+#: ../plugins/fn-eng/functions.c:458 ../plugins/fn-eng/functions.c:481
+#: ../plugins/fn-eng/functions.c:504 ../plugins/fn-eng/functions.c:524
+#: ../plugins/fn-eng/functions.c:613 ../plugins/fn-eng/functions.c:642
+#: ../plugins/fn-eng/functions.c:1132 ../plugins/fn-eng/functions.c:1155
 #: ../plugins/fn-info/functions.c:97 ../plugins/fn-info/functions.c:1285
 #: ../plugins/fn-info/functions.c:1351 ../plugins/fn-info/functions.c:1440
 #: ../plugins/fn-info/functions.c:1458 ../plugins/fn-info/functions.c:1480
@@ -1313,9 +1312,9 @@ msgstr ""
 "vynechán."
 
 #: ../plugins/fn-date/functions.c:742 ../plugins/fn-date/functions.c:964
-#: ../plugins/fn-date/functions.c:1254 ../plugins/fn-eng/functions.c:213
-#: ../plugins/fn-eng/functions.c:317 ../plugins/fn-eng/functions.c:386
-#: ../plugins/fn-eng/functions.c:754 ../plugins/fn-financial/functions.c:1312
+#: ../plugins/fn-date/functions.c:1254 ../plugins/fn-eng/functions.c:212
+#: ../plugins/fn-eng/functions.c:316 ../plugins/fn-eng/functions.c:385
+#: ../plugins/fn-eng/functions.c:753 ../plugins/fn-financial/functions.c:1312
 #: ../plugins/fn-math/functions.c:433 ../plugins/fn-math/functions.c:1028
 #: ../plugins/fn-math/functions.c:1055 ../plugins/fn-math/functions.c:1372
 #: ../plugins/fn-math/functions.c:1392 ../plugins/fn-math/functions.c:2060
@@ -2319,25 +2318,25 @@ msgstr ""
 "Větší @{num_time_steps} přináší větší přesnost, ale OPT_BINOMIAL se pomaleji "
 "počítá."
 
-#: ../plugins/fn-eng/functions.c:207
+#: ../plugins/fn-eng/functions.c:206
 msgid "BASE:string of digits representing the number @{n} in base @{b}"
 msgstr "BASE:řetězec číslic představující číslo @{n} v číselné soustavě @{b}"
 
-#: ../plugins/fn-eng/functions.c:208 ../plugins/fn-math/functions.c:1288
+#: ../plugins/fn-eng/functions.c:207 ../plugins/fn-math/functions.c:1288
 #: ../plugins/fn-numtheory/numtheory.c:578
 #: ../plugins/fn-numtheory/numtheory.c:608
 msgid "n:integer"
 msgstr "n:celé číslo"
 
-#: ../plugins/fn-eng/functions.c:209
+#: ../plugins/fn-eng/functions.c:208
 msgid "b:base (2 ≤ @{b} ≤ 36)"
 msgstr "b:základ číselné soustavy (2 ≤ @{b} ≤ 36)"
 
-#: ../plugins/fn-eng/functions.c:210
+#: ../plugins/fn-eng/functions.c:209
 msgid "length:minimum length of the resulting string"
 msgstr "length:minimální délka výsledného řetězce"
 
-#: ../plugins/fn-eng/functions.c:211
+#: ../plugins/fn-eng/functions.c:210
 msgid ""
 "BASE converts @{n} to its string representation in base @{b}. Leading zeroes "
 "will be added to reach the minimum length given by @{length}."
@@ -2346,12 +2345,12 @@ msgstr ""
 "Na začátek jsou případně doplněny nuly, aby bylo dosaženo zadané délky @"
 "{length}."
 
-#: ../plugins/fn-eng/functions.c:236
+#: ../plugins/fn-eng/functions.c:235
 msgid "BIN2DEC:decimal representation of the binary number @{x}"
 msgstr "BIN2DEC:desítková podoba dvojkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:237 ../plugins/fn-eng/functions.c:259
-#: ../plugins/fn-eng/functions.c:283
+#: ../plugins/fn-eng/functions.c:236 ../plugins/fn-eng/functions.c:258
+#: ../plugins/fn-eng/functions.c:282
 msgid ""
 "x:a binary number, either as a string or as a number involving only the "
 "digits 0 and 1"
@@ -2359,19 +2358,19 @@ msgstr ""
 "x:číslo ve dvojkové soustavě, buď jako řetězec nebo jako číslo sestávající "
 "pouze z číslic 0 a 1"
 
-#: ../plugins/fn-eng/functions.c:258
+#: ../plugins/fn-eng/functions.c:257
 msgid "BIN2OCT:octal representation of the binary number @{x}"
 msgstr "BIN2OCT:osmičková podoba dvojkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:260 ../plugins/fn-eng/functions.c:284
-#: ../plugins/fn-eng/functions.c:309 ../plugins/fn-eng/functions.c:339
-#: ../plugins/fn-eng/functions.c:362 ../plugins/fn-eng/functions.c:433
-#: ../plugins/fn-eng/functions.c:456 ../plugins/fn-eng/functions.c:479
-#: ../plugins/fn-eng/functions.c:502
+#: ../plugins/fn-eng/functions.c:259 ../plugins/fn-eng/functions.c:283
+#: ../plugins/fn-eng/functions.c:308 ../plugins/fn-eng/functions.c:338
+#: ../plugins/fn-eng/functions.c:361 ../plugins/fn-eng/functions.c:432
+#: ../plugins/fn-eng/functions.c:455 ../plugins/fn-eng/functions.c:478
+#: ../plugins/fn-eng/functions.c:501
 msgid "places:number of digits"
 msgstr "places:počet číslic"
 
-#: ../plugins/fn-eng/functions.c:261
+#: ../plugins/fn-eng/functions.c:260
 msgid ""
 "If @{places} is given, BIN2OCT pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, BIN2OCT returns #NUM!"
@@ -2380,11 +2379,11 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí BIN2OCT hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:282
+#: ../plugins/fn-eng/functions.c:281
 msgid "BIN2HEX:hexadecimal representation of the binary number @{x}"
 msgstr "BIN2HEX:šetnáctková podoba dvojkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:285
+#: ../plugins/fn-eng/functions.c:284
 msgid ""
 "If @{places} is given, BIN2HEX pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, BIN2HEX returns #NUM!"
@@ -2393,18 +2392,15 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí BIN2HEX hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:307
+#: ../plugins/fn-eng/functions.c:306
 msgid "DEC2BIN:binary representation of the decimal number @{x}"
 msgstr "DEC2BIN:dvojková podoba desítkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:308
+#: ../plugins/fn-eng/functions.c:307
 msgid "x:integer (− 513 < @{x} < 512)"
 msgstr "x:celé číslo (−513 < @{x} < 512)"
 
-#: ../plugins/fn-eng/functions.c:310
-#| msgid ""
-#| "If @{places} is given, DEC2BIN pads the result with zeros to achieve "
-#| "exactly @{places} digits. If this is not possible, DEC2BIN returns #NUM!"
+#: ../plugins/fn-eng/functions.c:309
 msgid ""
 "If @{places} is given and @{x} is non-negative, DEC2BIN pads the result with "
 "zeros to achieve exactly @{places} digits. If this is not possible, DEC2BIN "
@@ -2414,25 +2410,24 @@ msgstr ""
 "nulami, aby bylo dosaženo přesně @{places} číslic. Pokud to není možné, "
 "vrátí DEC2BIN hodnotu #ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:314
+#: ../plugins/fn-eng/functions.c:313
 msgid "If @{places} is given and @{x} is negative, @{places} is ignored."
 msgstr "Když je @{places} zadáno a @{x} je záporné, je @{places} ignorováno."
 
-#: ../plugins/fn-eng/functions.c:315
-#| msgid "If @{p} < 0 or @{p} > 1 RANDBINOM returns #NUM!"
+#: ../plugins/fn-eng/functions.c:314
 msgid "If @{x} < − 512 or @{x} > 511, DEC2BIN returns #NUM!"
 msgstr "Pokud je @{x} < −512 or @{x} > 511, funkce DEC2BIN vrací #ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:337
+#: ../plugins/fn-eng/functions.c:336
 msgid "DEC2OCT:octal representation of the decimal number @{x}"
 msgstr "DEC2OCT:osmičková podoba desítkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:338 ../plugins/fn-eng/functions.c:361
+#: ../plugins/fn-eng/functions.c:337 ../plugins/fn-eng/functions.c:360
 #: ../plugins/fn-math/functions.c:1287
 msgid "x:integer"
 msgstr "x:celé číslo"
 
-#: ../plugins/fn-eng/functions.c:340
+#: ../plugins/fn-eng/functions.c:339
 msgid ""
 "If @{places} is given, DEC2OCT pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, DEC2OCT returns #NUM!"
@@ -2441,11 +2436,11 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí DEC2OCT hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:360
+#: ../plugins/fn-eng/functions.c:359
 msgid "DEC2HEX:hexadecimal representation of the decimal number @{x}"
 msgstr "DEC2HEX:šestnáctková podoba desítkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:363
+#: ../plugins/fn-eng/functions.c:362
 msgid ""
 "If @{places} is given, DEC2HEX pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, DEC2HEX returns #NUM!"
@@ -2454,32 +2449,32 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí DEC2HEX hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:383
+#: ../plugins/fn-eng/functions.c:382
 msgid "DECIMAL:decimal representation of @{x}"
 msgstr "DECIMAL:desítková podoba čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:384
+#: ../plugins/fn-eng/functions.c:383
 msgid "x:number in base @{base}"
 msgstr "x:číslo v číselné soustavě @{base}"
 
-#: ../plugins/fn-eng/functions.c:385
+#: ../plugins/fn-eng/functions.c:384
 msgid "base:base of @{x}, (2 ≤ @{base} ≤ 36)"
 msgstr "base:základ číselné soustavy čísla@{x}, (2 ≤ @{b} ≤ 36)"
 
-#: ../plugins/fn-eng/functions.c:407
+#: ../plugins/fn-eng/functions.c:406
 msgid "OCT2DEC:decimal representation of the octal number @{x}"
 msgstr "OCT2DEC:desítková podoba osmičkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:408 ../plugins/fn-eng/functions.c:432
-#: ../plugins/fn-eng/functions.c:455
+#: ../plugins/fn-eng/functions.c:407 ../plugins/fn-eng/functions.c:431
+#: ../plugins/fn-eng/functions.c:454
 msgid "x:a octal number, either as a string or as a number"
 msgstr "x:číslo v osmičkové soustavě, buď jako řetězec nebo jako číslo"
 
-#: ../plugins/fn-eng/functions.c:431
+#: ../plugins/fn-eng/functions.c:430
 msgid "OCT2BIN:binary representation of the octal number @{x}"
 msgstr "OCT2BIN:dvojková podoba osmičkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:434
+#: ../plugins/fn-eng/functions.c:433
 msgid ""
 "If @{places} is given, OCT2BIN pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, OCT2BIN returns #NUM!"
@@ -2488,11 +2483,11 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí OCT2BIN hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:454
+#: ../plugins/fn-eng/functions.c:453
 msgid "OCT2HEX:hexadecimal representation of the octal number @{x}"
 msgstr "OCT2HEX:šestnáctková podoba osmičkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:457
+#: ../plugins/fn-eng/functions.c:456
 msgid ""
 "If @{places} is given, OCT2HEX pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, OCT2HEX returns #NUM!"
@@ -2501,12 +2496,12 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí OCT2HEX hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:477
+#: ../plugins/fn-eng/functions.c:476
 msgid "HEX2BIN:binary representation of the hexadecimal number @{x}"
 msgstr "HEX2BIN:dvojková podoba šestnáctkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:478 ../plugins/fn-eng/functions.c:501
-#: ../plugins/fn-eng/functions.c:524
+#: ../plugins/fn-eng/functions.c:477 ../plugins/fn-eng/functions.c:500
+#: ../plugins/fn-eng/functions.c:523
 msgid ""
 "x:a hexadecimal number, either as a string or as a number if no A to F are "
 "needed"
@@ -2514,7 +2509,7 @@ msgstr ""
 "x:číslo v šestnáctkové soustavě, buď jako řetězec nebo jako číslo, pokud "
 "nejsou zapotřebí číslice A až F"
 
-#: ../plugins/fn-eng/functions.c:480
+#: ../plugins/fn-eng/functions.c:479
 msgid ""
 "If @{places} is given, HEX2BIN pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, HEX2BIN returns #NUM!"
@@ -2523,11 +2518,11 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí HEX2BIN hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:500
+#: ../plugins/fn-eng/functions.c:499
 msgid "HEX2OCT:octal representation of the hexadecimal number @{x}"
 msgstr "HEX2OCT:osmičková podoba šestnáctkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:503
+#: ../plugins/fn-eng/functions.c:502
 msgid ""
 "If @{places} is given, HEX2OCT pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, HEX2OCT returns #NUM!"
@@ -2536,25 +2531,26 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí HEX2OCT hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:523
+#: ../plugins/fn-eng/functions.c:522
 msgid "HEX2DEC:decimal representation of the hexadecimal number @{x}"
 msgstr "HEX2DEC:desítková podoba šestnáctkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:546
+#: ../plugins/fn-eng/functions.c:545
 msgid ""
 "BESSELI:Modified Bessel function of the first kind of order @{α} at @{x}"
 msgstr "BESSELJ:Modifikovaná Besselova funkce prvního druhu řádu @{α} v @{x}"
 
-#: ../plugins/fn-eng/functions.c:547 ../plugins/fn-eng/functions.c:585
-#: ../plugins/fn-eng/functions.c:609 ../plugins/fn-eng/functions.c:638
+#: ../plugins/fn-eng/functions.c:546 ../plugins/fn-eng/functions.c:584
+#: ../plugins/fn-eng/functions.c:608 ../plugins/fn-eng/functions.c:637
 msgid "X:number"
 msgstr "X:číslo"
 
-#: ../plugins/fn-eng/functions.c:548 ../plugins/fn-eng/functions.c:586
-msgid "α:order (any number)"
-msgstr "α:řád (libovolné číslo)"
+#: ../plugins/fn-eng/functions.c:547 ../plugins/fn-eng/functions.c:585
+#| msgid "α:order (any non-negative integer)"
+msgid "α:order (any non-negative number)"
+msgstr "α:řád (libovolné nezáporné číslo)"
 
-#: ../plugins/fn-eng/functions.c:549 ../plugins/fn-eng/functions.c:587
+#: ../plugins/fn-eng/functions.c:548 ../plugins/fn-eng/functions.c:586
 msgid ""
 "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is "
 "returned."
@@ -2562,33 +2558,33 @@ msgstr ""
 "Pokud @{x} nebo @{α} nejsou čísla, je vráceno #HODNOTA!. Pokud je @{α} < 0, "
 "je vráceno #ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:550 ../plugins/fn-eng/functions.c:588
+#: ../plugins/fn-eng/functions.c:549 ../plugins/fn-eng/functions.c:587
 msgid "This function is Excel compatible if only integer orders @{α} are used."
 msgstr ""
 "Tato funkce je kompatibilní pouze v případě, že jsou použita celá čísla pro "
 "řad @{α}."
 
-#: ../plugins/fn-eng/functions.c:553 ../plugins/fn-eng/functions.c:591
-#: ../plugins/fn-eng/functions.c:617
+#: ../plugins/fn-eng/functions.c:552 ../plugins/fn-eng/functions.c:590
+#: ../plugins/fn-eng/functions.c:616
 msgid "wiki:en:Bessel_function"
 msgstr "wiki:cs:Besselova_funkce"
 
-#: ../plugins/fn-eng/functions.c:584
+#: ../plugins/fn-eng/functions.c:583
 msgid ""
 "BESSELK:Modified Bessel function of the second kind of order @{α} at @{x}"
 msgstr ""
 "BESSELJ:Modifikovaná Besselova funkce druhého druhu (MacDonaldova funkce) "
 "řádu @{α} v @{x}"
 
-#: ../plugins/fn-eng/functions.c:608
+#: ../plugins/fn-eng/functions.c:607
 msgid "BESSELJ:Bessel function of the first kind of order @{α} at @{x}"
 msgstr "BESSELJ:Besselova funkce prvního druhu řádu @{α} v @{x}"
 
-#: ../plugins/fn-eng/functions.c:610 ../plugins/fn-eng/functions.c:639
+#: ../plugins/fn-eng/functions.c:609 ../plugins/fn-eng/functions.c:638
 msgid "α:order (any non-negative integer)"
 msgstr "α:řád (libovolné nezáporné celé číslo)"
 
-#: ../plugins/fn-eng/functions.c:611 ../plugins/fn-eng/functions.c:640
+#: ../plugins/fn-eng/functions.c:610 ../plugins/fn-eng/functions.c:639
 msgid ""
 "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is "
 "returned. If @{α} is not an integer, it is truncated."
@@ -2596,16 +2592,16 @@ msgstr ""
 "Pokud @{x} nebo @{α} nejsou čísla, je vráceno #HODNOTA!. Pokud je @{α} < 0, "
 "je vráceno #ČÍSLO!. Pokud @{α} není celé číslo, tak je oříznuto."
 
-#: ../plugins/fn-eng/functions.c:637
+#: ../plugins/fn-eng/functions.c:636
 msgid "BESSELY:Bessel function of the second kind of order @{α} at @{x}"
 msgstr ""
 "BESSELJ:Besselova funkce druhého druhu (Neumannova funkce) řádu @{α} v @{x}"
 
-#: ../plugins/fn-eng/functions.c:664
+#: ../plugins/fn-eng/functions.c:663
 msgid "CONVERT:a converted measurement"
 msgstr "CONVERT:převedená míra"
 
-#: ../plugins/fn-eng/functions.c:665 ../plugins/fn-eng/functions.c:1109
+#: ../plugins/fn-eng/functions.c:664 ../plugins/fn-eng/functions.c:1108
 #: ../plugins/fn-math/functions.c:226 ../plugins/fn-math/functions.c:245
 #: ../plugins/fn-math/functions.c:267 ../plugins/fn-math/functions.c:308
 #: ../plugins/fn-math/functions.c:326 ../plugins/fn-math/functions.c:352
@@ -2637,15 +2633,15 @@ msgstr "CONVERT:převedená míra"
 msgid "x:number"
 msgstr "x:číslo"
 
-#: ../plugins/fn-eng/functions.c:666
+#: ../plugins/fn-eng/functions.c:665
 msgid "from:unit (string)"
 msgstr "from:jednotka (řetězec)"
 
-#: ../plugins/fn-eng/functions.c:667
+#: ../plugins/fn-eng/functions.c:666
 msgid "to:unit (string)"
 msgstr "to:jednotka (řetězec)"
 
-#: ../plugins/fn-eng/functions.c:668
+#: ../plugins/fn-eng/functions.c:667
 msgid ""
 "CONVERT returns a conversion from one measurement system to another. @{x} is "
 "a value in @{from} units that is to be converted into @{to} units."
@@ -2653,12 +2649,12 @@ msgstr ""
 "CONVERT vrací převod z jednoho měřícího systému na druhý. @{x} je hodnota v "
 "jednotkách @{from}, která je bude převedena na jednotky @{to}."
 
-#: ../plugins/fn-eng/functions.c:670
+#: ../plugins/fn-eng/functions.c:669
 msgid "If @{from} and @{to} are different types, CONVERT returns #N/A!"
 msgstr ""
 "Pokud jsou @{from} a @{to} rozdílných typů, funkce CONVERT vrací #N/A!."
 
-#: ../plugins/fn-eng/functions.c:671
+#: ../plugins/fn-eng/functions.c:670
 msgid ""
 "@{from} and @{to} can be any of the following:\n"
 "\n"
@@ -2848,28 +2844,28 @@ msgstr ""
 "\t„z“  \tzepto \t\t1E-21\n"
 "\t„y“  \tyocto \t\t1E-24"
 
-#: ../plugins/fn-eng/functions.c:753
+#: ../plugins/fn-eng/functions.c:752
 msgid "This function is Excel compatible (except \"picapt\")."
 msgstr "Tato funkce je kompatibilní s aplikací Excel (vyjma „picapt“)."
 
-#: ../plugins/fn-eng/functions.c:1076
+#: ../plugins/fn-eng/functions.c:1075
 msgid "ERF:Gauss error function"
 msgstr "ERF:Gaussova chybová funkce"
 
-#: ../plugins/fn-eng/functions.c:1077
+#: ../plugins/fn-eng/functions.c:1076
 msgid "lower:lower limit of the integral, defaults to 0"
 msgstr "lower:dolní limit integrálu, výchozí je 0"
 
-#: ../plugins/fn-eng/functions.c:1078
+#: ../plugins/fn-eng/functions.c:1077
 msgid "upper:upper limit of the integral"
 msgstr "upper:horní limit integrálu"
 
-#: ../plugins/fn-eng/functions.c:1079
+#: ../plugins/fn-eng/functions.c:1078
 msgid ""
 "ERF returns 2/sqrt(π)* integral from @{lower} to @{upper} of exp(-t*t) dt"
 msgstr "ERF vrací 2:√n . integrál od @{lower} do @{upper} z exp(-t.t) dt"
 
-#: ../plugins/fn-eng/functions.c:1080
+#: ../plugins/fn-eng/functions.c:1079
 msgid ""
 "This function is Excel compatible if two arguments are supplied and neither "
 "is negative."
@@ -2877,59 +2873,59 @@ msgstr ""
 "Tato funkce je kompatibilní s aplikací Excel, pokud jsou poskytnuty dva "
 "argumenty a žádný není záporný."
 
-#: ../plugins/fn-eng/functions.c:1084 ../plugins/fn-eng/functions.c:1113
+#: ../plugins/fn-eng/functions.c:1083 ../plugins/fn-eng/functions.c:1112
 msgid "wiki:en:Error_function"
 msgstr "wiki:en:Error_function"
 
-#: ../plugins/fn-eng/functions.c:1108
+#: ../plugins/fn-eng/functions.c:1107
 msgid "ERFC:Complementary Gauss error function"
 msgstr "ERFC:Komplementární Gaussova chybová funkce"
 
-#: ../plugins/fn-eng/functions.c:1110
+#: ../plugins/fn-eng/functions.c:1109
 msgid "ERFC returns 2/sqrt(π)* integral from @{x} to ∞ of exp(-t*t) dt"
 msgstr "ERFC vrací 2:√π . integral od @{x} do ∞ z exp(-t.t) dt"
 
-#: ../plugins/fn-eng/functions.c:1128
+#: ../plugins/fn-eng/functions.c:1127
 msgid "DELTA:Kronecker delta function"
 msgstr "DELTA:Kroneckerova funkce delta"
 
-#: ../plugins/fn-eng/functions.c:1129 ../plugins/fn-eng/functions.c:1152
+#: ../plugins/fn-eng/functions.c:1128 ../plugins/fn-eng/functions.c:1151
 msgid "x0:number"
 msgstr "x0:číslo"
 
-#: ../plugins/fn-eng/functions.c:1130 ../plugins/fn-eng/functions.c:1153
+#: ../plugins/fn-eng/functions.c:1129 ../plugins/fn-eng/functions.c:1152
 msgid "x1:number, defaults to 0"
 msgstr "x1:číslo, výchozí je 0"
 
-#: ../plugins/fn-eng/functions.c:1131
+#: ../plugins/fn-eng/functions.c:1130
 msgid "DELTA  returns 1 if  @{x1} = @{x0} and 0 otherwise."
 msgstr "DELTA vrací 1, když @{x1} = @{x0} a 0 v ostatních případech."
 
-#: ../plugins/fn-eng/functions.c:1132 ../plugins/fn-eng/functions.c:1155
+#: ../plugins/fn-eng/functions.c:1131 ../plugins/fn-eng/functions.c:1154
 msgid "If either argument is non-numeric, #VALUE! is returned."
 msgstr "Pokud je některý z argumentů nečíselný, je vráceno #HODNOTA!."
 
-#: ../plugins/fn-eng/functions.c:1151
+#: ../plugins/fn-eng/functions.c:1150
 msgid "GESTEP:step function with step at @{x1} evaluated at @{x0}"
 msgstr "GESTEP:skoková funkce vyhodnocující číslo @{x0} s prahem @{x1}"
 
-#: ../plugins/fn-eng/functions.c:1154
+#: ../plugins/fn-eng/functions.c:1153
 msgid "GESTEP returns 1 if  @{x1} ≤ @{x0} and 0 otherwise."
 msgstr "GESTEP vrací 1, když je @{x1} ≤ @{x0} a 0 v ostatních případech."
 
-#: ../plugins/fn-eng/functions.c:1174
+#: ../plugins/fn-eng/functions.c:1173
 msgid "INVSUMINV:the reciprocal of the sum of reciprocals of the arguments"
 msgstr "INVSUMINV:převrácená hodnota součtu převrácených hodnot argumentů"
 
-#: ../plugins/fn-eng/functions.c:1175
+#: ../plugins/fn-eng/functions.c:1174
 msgid "x0:non-negative number"
 msgstr "x0:nezáporné číslo"
 
-#: ../plugins/fn-eng/functions.c:1176
+#: ../plugins/fn-eng/functions.c:1175
 msgid "x1:non-negative number"
 msgstr "x1:nezáporné číslo"
 
-#: ../plugins/fn-eng/functions.c:1177
+#: ../plugins/fn-eng/functions.c:1176
 msgid ""
 "If any of the arguments is negative, #VALUE! is returned.\n"
 "If any argument is zero, the result is zero."
@@ -2937,7 +2933,7 @@ msgstr ""
 "Pokud je některý z argumentů záporný, je vrácena hodnota #HODNOTA!.\n"
 "Pokud je některý z argumentů nulový, je vrácena nula."
 
-#: ../plugins/fn-eng/functions.c:1179
+#: ../plugins/fn-eng/functions.c:1178
 msgid ""
 "INVSUMINV sum calculates the reciprocal (the inverse) of the sum of "
 "reciprocals (inverses) of all its arguments."
@@ -4865,35 +4861,35 @@ msgstr ""
 msgid "If @{abs_num} is greater than 4 ADDRESS returns #VALUE!"
 msgstr "Pokud je @{abs_num} větší než 4, funkce ADDRESS vrací #HODNOTA!."
 
-#: ../plugins/fn-lookup/functions.c:799
+#: ../plugins/fn-lookup/functions.c:812
 msgid "AREAS:number of areas in @{reference}"
 msgstr "AREAS:počet oblastí v odkazu @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:800
+#: ../plugins/fn-lookup/functions.c:813
 msgid "reference:range"
 msgstr "reference:rozsah"
 
-#: ../plugins/fn-lookup/functions.c:867
+#: ../plugins/fn-lookup/functions.c:880
 msgid "CHOOSE:the (@{index}+1)th argument"
 msgstr "CHOOSE:(@{index}+1)-tý argument"
 
-#: ../plugins/fn-lookup/functions.c:868
+#: ../plugins/fn-lookup/functions.c:881
 msgid "index:positive number"
 msgstr "index:kladné číslo"
 
-#: ../plugins/fn-lookup/functions.c:869
+#: ../plugins/fn-lookup/functions.c:882
 msgid "value1:first value"
 msgstr "value1:první hodnota"
 
-#: ../plugins/fn-lookup/functions.c:870
+#: ../plugins/fn-lookup/functions.c:883
 msgid "value2:second value"
 msgstr "value2:druhá hodnota"
 
-#: ../plugins/fn-lookup/functions.c:871
+#: ../plugins/fn-lookup/functions.c:884
 msgid "CHOOSE returns its (@{index}+1)th argument."
 msgstr "CHOOSE vrací svůj (@{index}+1)-tý argument."
 
-#: ../plugins/fn-lookup/functions.c:872
+#: ../plugins/fn-lookup/functions.c:885
 msgid ""
 "@{index} is truncated to an integer. If @{index} < 1 or the truncated @"
 "{index} > number of values, CHOOSE returns #VALUE!"
@@ -4901,23 +4897,23 @@ msgstr ""
 "Index @{index} je oříznut na celé číslo. Pokud je @{index} < 1 nebo oříznutý "
 "index @{index} > počet hodnot, CHOOSE vrací #HODNOTA!."
 
-#: ../plugins/fn-lookup/functions.c:914
+#: ../plugins/fn-lookup/functions.c:927
 msgid "VLOOKUP:search the first column of @{range} for @{value}"
 msgstr "VLOOKUP:hledá první sloupec z rozsahu @{range} obsahující @{value}"
 
-#: ../plugins/fn-lookup/functions.c:915 ../plugins/fn-lookup/functions.c:976
+#: ../plugins/fn-lookup/functions.c:928 ../plugins/fn-lookup/functions.c:989
 msgid "value:search value"
 msgstr "value:hledaná hodnota"
 
-#: ../plugins/fn-lookup/functions.c:916 ../plugins/fn-lookup/functions.c:977
+#: ../plugins/fn-lookup/functions.c:929 ../plugins/fn-lookup/functions.c:990
 msgid "range:range to search"
 msgstr "range:prohledávaný rozsah"
 
-#: ../plugins/fn-lookup/functions.c:917
+#: ../plugins/fn-lookup/functions.c:930
 msgid "column:1-based column offset indicating the return values"
 msgstr "column:pořadí sloupce, počítáno od 1, představující vrácené hodnoty"
 
-#: ../plugins/fn-lookup/functions.c:918 ../plugins/fn-lookup/functions.c:979
+#: ../plugins/fn-lookup/functions.c:931 ../plugins/fn-lookup/functions.c:992
 msgid ""
 "approximate:if false, an exact match of @{value} must be found; defaults to "
 "TRUE"
@@ -4925,13 +4921,13 @@ msgstr ""
 "approximate:pokud je nepravda, musí se nalézt přesná shoda s hodnotou @"
 "{value}; výchozí je PRAVDA"
 
-#: ../plugins/fn-lookup/functions.c:920
+#: ../plugins/fn-lookup/functions.c:933
 msgid "as_index:if true, the 0-based row offset is returned; defaults to FALSE"
 msgstr ""
 "as_index:pokud je PRAVDA, vrací pořadové číslo řádku počítáno od 0; výchozí "
 "je NEPRAVDA"
 
-#: ../plugins/fn-lookup/functions.c:922
+#: ../plugins/fn-lookup/functions.c:935
 msgid ""
 "VLOOKUP function finds the row in @{range} that has a first cell similar to @"
 "{value}.  If @{approximate} is not true it finds the row with an exact "
@@ -4946,7 +4942,7 @@ msgstr ""
 "{value}. Pokud je @{as_index} nastaveno na pravda, je vrácena pozice řádku "
 "počítaná od 0."
 
-#: ../plugins/fn-lookup/functions.c:929 ../plugins/fn-lookup/functions.c:990
+#: ../plugins/fn-lookup/functions.c:942 ../plugins/fn-lookup/functions.c:1003
 msgid ""
 "If @{approximate} is true, then the values must be sorted in order of "
 "ascending value."
@@ -4954,27 +4950,27 @@ msgstr ""
 "Pokud je @{approximate} nastaveno na pravda, musí být hodnoty seřazené ve "
 "vzestupném pořadí."
 
-#: ../plugins/fn-lookup/functions.c:931
+#: ../plugins/fn-lookup/functions.c:944
 msgid "VLOOKUP returns #REF! if @{column} falls outside @{range}."
 msgstr ""
 "VLOOKUP vrací #ODKAZ! v případě, že řádek @{row} spadá mimo rozsah @{range}."
 
-#: ../plugins/fn-lookup/functions.c:975
+#: ../plugins/fn-lookup/functions.c:988
 msgid "HLOOKUP:search the first row of @{range} for @{value}"
 msgstr "HLOOKUP:hledá první řádek z rozsahu @{range} obsahující @{value}"
 
-#: ../plugins/fn-lookup/functions.c:978
+#: ../plugins/fn-lookup/functions.c:991
 msgid "row:1-based row offset indicating the return values "
 msgstr "row:pořadí řádku, počítáno od 1, představující vrácené hodnoty"
 
-#: ../plugins/fn-lookup/functions.c:981
+#: ../plugins/fn-lookup/functions.c:994
 msgid ""
 "as_index:if true, the 0-based column offset is returned; defaults to FALSE"
 msgstr ""
 "as_index:pokud je PRAVDA, vrací pořadové číslo řádku počítáno od 0; výchozí "
 "je NEPRAVDA"
 
-#: ../plugins/fn-lookup/functions.c:983
+#: ../plugins/fn-lookup/functions.c:996
 msgid ""
 "HLOOKUP function finds the row in @{range} that has a first cell similar to @"
 "{value}.  If @{approximate} is not true it finds the column with an exact "
@@ -4989,12 +4985,12 @@ msgstr ""
 "{value}. Pokud je @{as_index} nastaveno na PRAVDA, je vrácena pozice řádku "
 "počítaná od 0."
 
-#: ../plugins/fn-lookup/functions.c:992
+#: ../plugins/fn-lookup/functions.c:1005
 msgid "HLOOKUP returns #REF! if @{row} falls outside @{range}."
 msgstr ""
 "HLOOKUP vrací #ODKAZ! v případě, že řádek @{row} spadá mimo rozsah @{range}."
 
-#: ../plugins/fn-lookup/functions.c:1036
+#: ../plugins/fn-lookup/functions.c:1049
 msgid ""
 "LOOKUP:contents of @{vector2} at the corresponding location to @{value} in @"
 "{vector1}"
@@ -5002,19 +4998,19 @@ msgstr ""
 "LOOKUP:obsah @{vector2} z pozice odpovídajícímu pozici hodnoty @{value} ve @"
 "{vector1}"
 
-#: ../plugins/fn-lookup/functions.c:1038
+#: ../plugins/fn-lookup/functions.c:1051
 msgid "value:value to look up"
 msgstr "value:hledaná hodnota"
 
-#: ../plugins/fn-lookup/functions.c:1039
+#: ../plugins/fn-lookup/functions.c:1052
 msgid "vector1:range to search:"
 msgstr "vector1:prohledávaný rozsah:"
 
-#: ../plugins/fn-lookup/functions.c:1040
+#: ../plugins/fn-lookup/functions.c:1053
 msgid "vector2:range of return values"
 msgstr "vector2:rozsah vracených hodnot"
 
-#: ../plugins/fn-lookup/functions.c:1041
+#: ../plugins/fn-lookup/functions.c:1054
 msgid ""
 "If  @{vector1} has more rows than columns, LOOKUP searches the first row of @"
 "{vector1}, otherwise the first column. If @{vector2} is omitted the return "
@@ -5024,39 +5020,39 @@ msgstr ""
 "{vector1}, jinak první sloupec. Pokud je @{vector2} vynechán, vrácená "
 "hodnota je vzata z posledního řádku nebo sloupce z @{vector1}."
 
-#: ../plugins/fn-lookup/functions.c:1045
+#: ../plugins/fn-lookup/functions.c:1058
 msgid ""
 "If LOOKUP can't find @{value} it uses the largest value less than @{value}."
 msgstr ""
 "Jestliže LOOKUP nemůže hodnotu @{value} najít, použije největší hodnotu "
 "menší než @{value}."
 
-#: ../plugins/fn-lookup/functions.c:1047
+#: ../plugins/fn-lookup/functions.c:1060
 msgid "The data must be sorted."
 msgstr "Data musí být seřazena."
 
-#: ../plugins/fn-lookup/functions.c:1048
+#: ../plugins/fn-lookup/functions.c:1061
 msgid "If @{value} is smaller than the first value it returns #N/A."
 msgstr "Pokud je hodnota @{value} menší než první hodnota, je vráceno #N/A."
 
-#: ../plugins/fn-lookup/functions.c:1049
+#: ../plugins/fn-lookup/functions.c:1062
 msgid ""
 "If the corresponding location does not exist in @{vector2}, it returns #N/A."
 msgstr "Pokud ve @{vector2} odpovídající pozice neexistuje, je vráceno #N/A."
 
-#: ../plugins/fn-lookup/functions.c:1136
+#: ../plugins/fn-lookup/functions.c:1149
 msgid "MATCH:the index of @{seek} in @{vector}"
 msgstr "MATCH:pozice @{seek} ve @{vector}"
 
-#: ../plugins/fn-lookup/functions.c:1137
+#: ../plugins/fn-lookup/functions.c:1150
 msgid "seek:value to find"
 msgstr "seek:hledaná hodnota"
 
-#: ../plugins/fn-lookup/functions.c:1138
+#: ../plugins/fn-lookup/functions.c:1151
 msgid "vector:n by 1 or 1 by n range to be searched"
 msgstr "vector:rozsah n krát 1 nebo 1 krát n, který se má prohledat"
 
-#: ../plugins/fn-lookup/functions.c:1139
+#: ../plugins/fn-lookup/functions.c:1152
 msgid ""
 "type:+1 (the default) to find the largest value ≤ @{seek}, 0 to find the "
 "first value = @{seek}, or-1 to find the smallest value ≥ @{seek}"
@@ -5064,12 +5060,12 @@ msgstr ""
 "type:+1 (výchozí) pro vyhledání největší hodnoty ≤ @{seek}, 0 pro vyhledání "
 "první hodnoty = @{seek} nebo -1 pro vyhledání nejmenší hodnoty ≥ @{seek}"
 
-#: ../plugins/fn-lookup/functions.c:1142
+#: ../plugins/fn-lookup/functions.c:1155
 msgid "MATCH searches @{vector} for @{seek} and returns the 1-based index."
 msgstr ""
 "MATCH prohledá @{vector} na výskyt @{seek} a vrátí pozici, počítáno od 1."
 
-#: ../plugins/fn-lookup/functions.c:1143
+#: ../plugins/fn-lookup/functions.c:1156
 msgid ""
 " For @{type} = -1 the data must be sorted in descending order; for @{type} = "
 "+1 the data must be sorted in ascending order."
@@ -5077,24 +5073,24 @@ msgstr ""
 "Pro @{type} = -1 musí být data seřazena v sestupném pořadí; pro @{type} = +1 "
 "musí být data seřazena ve vzestupném pořadí."
 
-#: ../plugins/fn-lookup/functions.c:1145
+#: ../plugins/fn-lookup/functions.c:1158
 msgid "If @{seek} could not be found, #N/A is returned."
 msgstr "Jestliže @{seek} nemohlo být nalezeno, je vráceno #N/A."
 
-#: ../plugins/fn-lookup/functions.c:1146
+#: ../plugins/fn-lookup/functions.c:1159
 msgid "If @{vector} is neither n by 1 nor 1 by n, #N/A is returned."
 msgstr ""
 "V případě, že @{vector} není ani n krát 1 ani 1 krát n, je vráceno #N/A."
 
-#: ../plugins/fn-lookup/functions.c:1197
+#: ../plugins/fn-lookup/functions.c:1210
 msgid "INDIRECT:contents of the cell pointed to by the @{ref_text} string"
 msgstr "INDIRECT:obsah buňky, na kterou je odkazováno řetězcem @{ref_text}"
 
-#: ../plugins/fn-lookup/functions.c:1198
+#: ../plugins/fn-lookup/functions.c:1211
 msgid "ref_text:textual reference"
 msgstr "ref_text:textový odkaz"
 
-#: ../plugins/fn-lookup/functions.c:1199
+#: ../plugins/fn-lookup/functions.c:1212
 msgid ""
 "format:if true, @{ref_text} is given in A1-style, otherwise it is given in "
 "R1C1 style; defaults to true"
@@ -5102,7 +5098,7 @@ msgstr ""
 "format:pokud je pravda, je @{ref_text} zadán ve stylu A1, v opačném případě "
 "ve stylu R1C1; výchozí je pravda"
 
-#: ../plugins/fn-lookup/functions.c:1201
+#: ../plugins/fn-lookup/functions.c:1214
 msgid ""
 "If @{ref_text} is not a valid reference in the style determined by @"
 "{format}, INDIRECT returns #REF!"
@@ -5110,27 +5106,27 @@ msgstr ""
 "Pokud @{ref_text} není platný odkaz ve stylu určeném formátem @{format}, "
 "funkce INDIRECT vrací #ODKAZ!."
 
-#: ../plugins/fn-lookup/functions.c:1235
+#: ../plugins/fn-lookup/functions.c:1248
 msgid "INDEX:reference to a cell in the given @{array}"
 msgstr "INDEX:odkaz na buňku v zadaném poli @{array}"
 
-#: ../plugins/fn-lookup/functions.c:1236
+#: ../plugins/fn-lookup/functions.c:1249
 msgid "array:cell or inline array"
 msgstr "array:pole buněk nebo vložená matice"
 
-#: ../plugins/fn-lookup/functions.c:1237
+#: ../plugins/fn-lookup/functions.c:1250
 msgid "row:desired row, defaults to 1"
 msgstr "row:požadovaný řádek, výchozí je 1"
 
-#: ../plugins/fn-lookup/functions.c:1238
+#: ../plugins/fn-lookup/functions.c:1251
 msgid "col:desired column, defaults to 1"
 msgstr "col:požadovaný sloupec, výchozí je 1"
 
-#: ../plugins/fn-lookup/functions.c:1239
+#: ../plugins/fn-lookup/functions.c:1252
 msgid "area:from which area to select a cell, defaults to 1"
 msgstr "area:ze které oblasti vybírat buňku, výchozí je 1"
 
-#: ../plugins/fn-lookup/functions.c:1240
+#: ../plugins/fn-lookup/functions.c:1253
 msgid ""
 "INDEX gives a reference to a cell in the given @{array}. The cell is "
 "selected by @{row} and @{col}, which count the rows and columns in the array."
@@ -5138,12 +5134,12 @@ msgstr ""
 "INDEX udává odkaz na buňku v zadaném poli @{array}. Buňka je vybrána pomocí "
 "argumentů @{row} a @{col}, které odpočítávají řádky a sloupce v poli."
 
-#: ../plugins/fn-lookup/functions.c:1245
+#: ../plugins/fn-lookup/functions.c:1258
 msgid ""
 "If the reference falls outside the range of @{array}, INDEX returns #REF!"
 msgstr "Pokud odkaz spadá mimo rozsah @{array}, funkce INDEX vrací #ODKAZ!."
 
-#: ../plugins/fn-lookup/functions.c:1247
+#: ../plugins/fn-lookup/functions.c:1260
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9"
@@ -5151,15 +5147,15 @@ msgstr ""
 "Předpokládejme, že buňky  A1, A2, …, A5 obsahují čísla 11,4; 17,3; 21,3; "
 "25,9 a 40,1. Potom se INDEX(A1:A5,4,1,1) rovná 25,9."
 
-#: ../plugins/fn-lookup/functions.c:1336
+#: ../plugins/fn-lookup/functions.c:1349
 msgid "COLUMN:vector of column numbers"
 msgstr "COLUMN:vektor čísel sloupců"
 
-#: ../plugins/fn-lookup/functions.c:1337 ../plugins/fn-lookup/functions.c:1489
+#: ../plugins/fn-lookup/functions.c:1350 ../plugins/fn-lookup/functions.c:1502
 msgid "x:reference, defaults to the position of the current expression"
 msgstr "x:odkaz, výchozí je umístění aktuálního výrazu"
 
-#: ../plugins/fn-lookup/functions.c:1338
+#: ../plugins/fn-lookup/functions.c:1351
 msgid ""
 "COLUMN function returns a Nx1 array containing the sequence of integers from "
 "the first column to the last column of @{x}."
@@ -5167,38 +5163,38 @@ msgstr ""
 "Funkce COLUMN vrací pole N×1 obsahující sekvenci celých čísel od prvního "
 "sloupce do posledního sloupce z @{x}."
 
-#: ../plugins/fn-lookup/functions.c:1341 ../plugins/fn-lookup/functions.c:1493
+#: ../plugins/fn-lookup/functions.c:1354 ../plugins/fn-lookup/functions.c:1506
 msgid ""
 "If @{x} is neither an array nor a reference nor a range, returns #VALUE!"
 msgstr ""
 "V případě, že @{x} není ani pole, ani odkaz, ani rozsah, je vráceno "
 "#HODNOTA!."
 
-#: ../plugins/fn-lookup/functions.c:1345
+#: ../plugins/fn-lookup/functions.c:1358
 msgid "column() in G13 equals 7."
 msgstr "colums() v G13 se rovná 7."
 
-#: ../plugins/fn-lookup/functions.c:1385
+#: ../plugins/fn-lookup/functions.c:1398
 msgid "COLUMNNUMBER:column number for the given column called @{name}"
 msgstr "COLUMNNUMBER:číslo sloupce pro zadaný sloupec s názvem @{name}"
 
-#: ../plugins/fn-lookup/functions.c:1386
+#: ../plugins/fn-lookup/functions.c:1399
 msgid "name:column name such as \"IV\""
 msgstr "name:název sloupce, jako např. „IV“"
 
-#: ../plugins/fn-lookup/functions.c:1387
+#: ../plugins/fn-lookup/functions.c:1400
 msgid "If @{name} is invalid, COLUMNNUMBER returns #VALUE!"
 msgstr "V případě, že je název @{name} neplatný, COLUMNNUMBER vrací #HODNOTA!."
 
-#: ../plugins/fn-lookup/functions.c:1412
+#: ../plugins/fn-lookup/functions.c:1425
 msgid "COLUMNS:number of columns in @{reference}"
 msgstr "COLUMNS:počet sloupců v @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:1413
+#: ../plugins/fn-lookup/functions.c:1426
 msgid "reference:array or area"
 msgstr "reference:pole nebo oblast"
 
-#: ../plugins/fn-lookup/functions.c:1414
+#: ../plugins/fn-lookup/functions.c:1427
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, COLUMNS "
 "returns #VALUE!"
@@ -5206,31 +5202,31 @@ msgstr ""
 "Pokud @{reference} není ani pole, ani odkaz, ani rozsah, funkce COLUMNS "
 "vrací #HODNOTA!."
 
-#: ../plugins/fn-lookup/functions.c:1430
+#: ../plugins/fn-lookup/functions.c:1443
 msgid "OFFSET:an offset cell range"
 msgstr "OFFSET:posun rozsahu buněk"
 
-#: ../plugins/fn-lookup/functions.c:1431
+#: ../plugins/fn-lookup/functions.c:1444
 msgid "range:reference or range"
 msgstr "range:odkaz nebo rozsah"
 
-#: ../plugins/fn-lookup/functions.c:1432
+#: ../plugins/fn-lookup/functions.c:1445
 msgid "row:number of rows to offset @{range}"
 msgstr "row:počet řádků, o které se má rozsah @{range} posunout"
 
-#: ../plugins/fn-lookup/functions.c:1433
+#: ../plugins/fn-lookup/functions.c:1446
 msgid "col:number of columns to offset @{range}"
 msgstr "col:počet sloupců, o které se má rozsah @{range} posunout"
 
-#: ../plugins/fn-lookup/functions.c:1434
+#: ../plugins/fn-lookup/functions.c:1447
 msgid "height:height of the offset range, defaults to height of @{range}"
 msgstr "height:výška posunutého rozsahu, výchozí je výška rozsahu @{range}"
 
-#: ../plugins/fn-lookup/functions.c:1435
+#: ../plugins/fn-lookup/functions.c:1448
 msgid "width:width of the offset range, defaults to width of @{range}"
 msgstr "šířka:šířka posunutého rozsahu, výchozí je šířka rozsahu @{range}"
 
-#: ../plugins/fn-lookup/functions.c:1436
+#: ../plugins/fn-lookup/functions.c:1449
 msgid ""
 "OFFSET returns the cell range starting at offset (@{row},@{col}) from @"
 "{range} of height @{height} and width @{width}."
@@ -5238,17 +5234,17 @@ msgstr ""
 "OFFSET vrací rozsah buněk začínající posunutý o (@{row},@{col}) od rozsahu @"
 "{range} a s výškou @{height} a šířkou @{width}."
 
-#: ../plugins/fn-lookup/functions.c:1439
+#: ../plugins/fn-lookup/functions.c:1452
 msgid "If @{range} is neither a reference nor a range, OFFSET returns #VALUE!"
 msgstr ""
 "Pokud @{reference} není ani pole, ani odkaz, ani rozsah, funkce OFFSET vrací "
 "#HODNOTA!."
 
-#: ../plugins/fn-lookup/functions.c:1488
+#: ../plugins/fn-lookup/functions.c:1501
 msgid "ROW:vector of row numbers"
 msgstr "ROW:vektor s čísly řádků"
 
-#: ../plugins/fn-lookup/functions.c:1490
+#: ../plugins/fn-lookup/functions.c:1503
 msgid ""
 "ROW function returns a 1xN array containing the sequence of integers from "
 "the first row to the last row of @{x}."
@@ -5256,15 +5252,15 @@ msgstr ""
 "Funkce ROW vrací pole 1×N obsahující sekvenci celých čísel od prvního do "
 "posledního řádku z @{x}."
 
-#: ../plugins/fn-lookup/functions.c:1536
+#: ../plugins/fn-lookup/functions.c:1549
 msgid "ROWS:number of rows in @{reference}"
 msgstr "ROWS:počet řádků v @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:1537
+#: ../plugins/fn-lookup/functions.c:1550
 msgid "reference:array, reference, or range"
 msgstr "reference:pole, odkaz nebo rozsah"
 
-#: ../plugins/fn-lookup/functions.c:1538
+#: ../plugins/fn-lookup/functions.c:1551
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, ROWS "
 "returns #VALUE!"
@@ -5272,15 +5268,15 @@ msgstr ""
 "Pokud @{reference} není ani pole, ani odkaz, ani rozsah, funkce ROWS vrací "
 "#HODNOTA!."
 
-#: ../plugins/fn-lookup/functions.c:1554
+#: ../plugins/fn-lookup/functions.c:1567
 msgid "SHEETS:number of sheets in @{reference}"
 msgstr "SHEETS:počet listů v @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:1555
+#: ../plugins/fn-lookup/functions.c:1568
 msgid "reference:array, reference, or range, defaults to the maximum range"
 msgstr "reference: pole, odkaz nebo rozsah, výchozí je maximální rozsah"
 
-#: ../plugins/fn-lookup/functions.c:1556
+#: ../plugins/fn-lookup/functions.c:1569
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, SHEETS "
 "returns #VALUE!"
@@ -5288,16 +5284,16 @@ msgstr ""
 "Pokud @{reference} není ani pole, ani odkaz, ani rozsah, funkce SHEETS vrací "
 "#HODNOTA!."
 
-#: ../plugins/fn-lookup/functions.c:1592
+#: ../plugins/fn-lookup/functions.c:1605
 msgid "SHEET:sheet number of @{reference}"
 msgstr "SHEET:číslo listu z odkazu @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:1593
+#: ../plugins/fn-lookup/functions.c:1606
 msgid ""
 "reference:reference or literal sheet name, defaults to the current sheet"
 msgstr "reference:odkaz nebo slovní název listu, výchozí je aktuální list"
 
-#: ../plugins/fn-lookup/functions.c:1594
+#: ../plugins/fn-lookup/functions.c:1607
 msgid ""
 "If @{reference} is neither a reference nor a literal sheet name, SHEET "
 "returns #VALUE!"
@@ -5305,19 +5301,19 @@ msgstr ""
 "Pokud @{reference} není ani odkaz, ani slovní název listu, funkce SHEET "
 "vrací #HODNOTA!."
 
-#: ../plugins/fn-lookup/functions.c:1643
+#: ../plugins/fn-lookup/functions.c:1653
 msgid "HYPERLINK:second or first arguments"
 msgstr "HYPERLINK:druhý nebo první argument"
 
-#: ../plugins/fn-lookup/functions.c:1644
+#: ../plugins/fn-lookup/functions.c:1654
 msgid "link_location:string"
 msgstr "link_location:řetězec"
 
-#: ../plugins/fn-lookup/functions.c:1645
+#: ../plugins/fn-lookup/functions.c:1655
 msgid "label:string, optional"
 msgstr "label:řetězec, volitelné"
 
-#: ../plugins/fn-lookup/functions.c:1646
+#: ../plugins/fn-lookup/functions.c:1656
 msgid ""
 "HYPERLINK function currently returns its 2nd argument, or if that is omitted "
 "the 1st argument."
@@ -5325,40 +5321,40 @@ msgstr ""
 "Funkce HYPERLINK v současnosti vrací svůj druhý argument nebo, pokud je "
 "vynechán, první argument."
 
-#: ../plugins/fn-lookup/functions.c:1665
+#: ../plugins/fn-lookup/functions.c:1675
 msgid "TRANSPOSE:the transpose of @{matrix}"
 msgstr "TRANSPOSE:transpozice matice @{matrix}"
 
-#: ../plugins/fn-lookup/functions.c:1666
+#: ../plugins/fn-lookup/functions.c:1676
 msgid "matrix:range"
 msgstr "matrix:rozsah"
 
-#: ../plugins/fn-lookup/functions.c:1702
+#: ../plugins/fn-lookup/functions.c:1712
 msgid "ARRAY:vertical array of the arguments"
 msgstr "ARRAY:svislé pole z argumentů"
 
-#: ../plugins/fn-lookup/functions.c:1703
+#: ../plugins/fn-lookup/functions.c:1713
 msgid "v:value"
 msgstr "v:hodnota"
 
-#: ../plugins/fn-lookup/functions.c:1759
+#: ../plugins/fn-lookup/functions.c:1769
 msgid "SORT:sorted list of numbers as vertical array"
 msgstr "SORT:seřazený seznam čísel jako svislé pole"
 
-#: ../plugins/fn-lookup/functions.c:1760 ../plugins/fn-stat/functions.c:163
+#: ../plugins/fn-lookup/functions.c:1770 ../plugins/fn-stat/functions.c:163
 #: ../plugins/fn-stat/functions.c:215
 msgid "ref:list of numbers"
 msgstr "ref:seznam čísel"
 
-#: ../plugins/fn-lookup/functions.c:1761
+#: ../plugins/fn-lookup/functions.c:1771
 msgid "order:0 (descending order) or 1 (ascending order); defaults to 0"
 msgstr "order:0 (sestupné pořadí) nebo 1 (vzestupné pořadí); výchozí je 0"
 
-#: ../plugins/fn-lookup/functions.c:1762
+#: ../plugins/fn-lookup/functions.c:1772
 msgid "Strings, booleans, and empty cells are ignored."
 msgstr "Řetězce, pravdivostní hodnoty a prázdné buňky jsou ignorovány."
 
-#: ../plugins/fn-lookup/functions.c:1763
+#: ../plugins/fn-lookup/functions.c:1773
 msgid "SORT({4,3,5}) evaluates to {5,4,3}"
 msgstr "SORT({4,3,5}) je vyhodnoceno jako {5,4,3}"
 
@@ -11242,6 +11238,9 @@ msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr ""
 "U tohoto není zamýšleno, aby to bylo všeobecně povolené a ve výchozím stavu "
 "je to VYPNUTO."
+
+#~ msgid "α:order (any number)"
+#~ msgstr "α:řád (libovolné číslo)"
 
 #~ msgid ""
 #~ "SSMEDIAN:median for grouped data as commonly determined in the social "
