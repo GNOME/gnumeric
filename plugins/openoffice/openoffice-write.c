@@ -2514,7 +2514,7 @@ odf_write_comment (GnmOOExport *state, GnmComment const *cc)
 {
 	char *author = NULL;
 	char *text = NULL;
-	const PangoAttrList * markup = NULL;
+	PangoAttrList * markup = NULL;
 	gboolean pp = TRUE;
 
 	g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
@@ -2534,7 +2534,7 @@ odf_write_comment (GnmOOExport *state, GnmComment const *cc)
 		gsf_xml_out_start_element (state->xml, TEXT "p");
 		if (markup != NULL) {
 			odf_new_markup (state, markup, text);
-			/* Are we leaking the markup? */
+			pango_attr_list_unref (markup);
 		} else {
 			gboolean white_written = TRUE;
 			odf_add_chars (state, text, strlen (text), &white_written);
