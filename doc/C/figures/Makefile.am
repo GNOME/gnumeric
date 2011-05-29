@@ -63,6 +63,9 @@ EXTRA_DIST = \
      analysistools-moving-average-formula-spencer.png \
      analysistools-moving-average-formula-weighted.png \
      analysistools-outputoptions.png \
+     analysistools-pcanalysis.png \
+     analysistools-pcanalysis-ex1.png \
+     analysistools-pcanalysis-ex2.png \
      analysistools-random-ex1.png \
      analysistools-random-ex2.png \
      analysistools-random.png \

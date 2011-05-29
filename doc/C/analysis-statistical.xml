@@ -1041,118 +1041,9 @@
   a rank of 2.   
   </para></note>
   </sect2>
-
-  <sect2 id="regression-tool">
-     <title>Regression Tool</title>
-  <figure id="regression-tool-dialog">
-    <title>Regression Tool Dialog</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-regression.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the regression tool dialog.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-  <para>The regression tool performs a multiple regression analysis.</para>
-  <para>Enter a range or list of ranges containing the independent variables 
-  into the <quote><guilabel>X Variables:</guilabel></quote> entry.</para>
-  <para>Enter a single range containing the dependent variable into the
-   <quote><guilabel>Y Variable:</guilabel></quote> entry.</para>
-  <para>If the ranges for the independent and dependent variables also contains 
-  labels in the first field of each row, column or area, select the <quote>
-  <guilabel>Labels</guilabel></quote> option.</para>
-  <para> Specify the confidence level in the <quote><guilabel>Confidence
-  Level:</guilabel></quote> entry. The default is 95&#037;.</para>
-  <para>To force the regression line or plane to pass through the origin, select the
-  <quote><guilabel>Force Intercept To Be Zero</guilabel></quote> option.</para>
-  <para>Specify the output options as described above. If the output is directed 
-  into a specific output range, that
-  range should contain at least seven columns and 17 rows more than there are 
-  independent variables.</para>
-
-  <figure id="regression-example-1">
-    <title>Regression Example Data</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-regression-ex1.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of example data for use with the
-              regression tool.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
- <example id="usingregressiontool">
- <title>Using the Regression Tool</title>
-
-  <para>
-    Suppose you want to perform a regression analysis on the data
-    given in <xref linkend="regression-example-1" /> using
-    <parameter>v</parameter> and <parameter>y</parameter> as
-    independent variables and <parameter>u</parameter> as dependent
-    variable.</para>
-<orderedlist>
-     <listitem><para>
-     Enter B1:C11 in the <quote><guilabel>X Variables:</guilabel></quote> 
-     entry by typing 
-     this directly into the entry or clicking in the entry field and 
-     then selecting the range on the sheet.</para></listitem>
-     <listitem><para>
-     Enter A1:A11  in the <quote><guilabel>Y Variable:</guilabel></quote> 
-     entry. </para></listitem>
-     <listitem><para> Select the <quote><guibutton>Labels</guibutton></quote>
-     option since the first row contains labels. (see 
-     <xref linkend="regression-example-2" />).</para></listitem>
-     <listitem><para> Specify the output 
-     options as described above.</para></listitem>
-     <listitem><para> Press the OK button. </para></listitem>
-</orderedlist>
-     <para> The output of this regression analysis is shown in
-     <xref linkend="regression-example-3" />.</para>
- </example>
-  <figure id="regression-example-2">
-    <title>Completed Regression Dialog</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-regression-ex2.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the regression tool dialog with the
-              required fields completed.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-  <figure id="regression-example-3">
-    <title>Regression Tool Output</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-regression-ex3.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the output from a regression
-              analysis.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-  </sect2>
 </sect1>
 
-  <sect1 id="sampling-tool">
+<sect1 id="sampling-tool">
      <title>Sampling Tool</title>
      <figure>
         <title>Sampling Tool Dialog</title>
@@ -2423,9 +2314,205 @@
 
   <sect2 id="principal-component-tool">
       <title>Principal Component Analysis</title>
-      <para></para>
+   <figure id="pcanalysis-tool-dialog">
+    <title>Principal Component Analysis Tool Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-pcanalysis.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the principal component analysis tool dialog.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+     <para>Principal Component Analysis Tool performs a principal component analysis (PCA). 
+           PCA is a useful statistical technique with application in
+	   fields such as face recognition and image compression. It is a common technique for
+           finding patterns in data of high dimension.
+     </para>
+
+     <para>Specify the cells containing the datasets in the
+     <quote><guilabel>Input Range</guilabel></quote> entry. The
+     entered range or ranges are grouped into the factors either by rows
+     or by columns.</para>
+
+     <para>If you have labels
+     in the first cell of each factor, select the
+     <quote><guilabel>Labels</guilabel></quote> option.</para>
+
+ <figure id="pcanalysis-example-1">
+    <title>Principal Component Analysis Example Data</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-pcanalysis-ex1.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of example data for use with the
+               principal component analysis tool.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+ <example id="usingpcanalysistool">
+ <title>Using the Principal Component Analysis Tool Tool</title>
+ <para>
+    Suppose you want to perform a principal component analysis on the data
+    given in <xref linkend="pcanalysis-example-1" /> having the two dimensions (factors) 
+    <inlineequation><mathphrase>x</mathphrase></inlineequation> and 
+    <inlineequation><mathphrase>y</mathphrase></inlineequation>.</para>
+<orderedlist>
+     <listitem><para>
+     Enter Sheet1!$A$1:$B$11 (or just A1:B11) in the <quote><guilabel>Input Range:</guilabel></quote> 
+     entry by typing 
+     this directly into the entry or clicking in the entry field and 
+     then selecting the range on the sheet.</para></listitem>
+     <listitem><para> Select the <quote><guibutton>Labels</guibutton></quote>
+     option since the first row contains labels. (see 
+     <xref linkend="pcanalysis-tool-dialog" />).</para></listitem>
+     <listitem><para> Specify the output 
+     options as described above.</para></listitem>
+     <listitem><para> Press the OK button. </para></listitem>
+</orderedlist>
+     <para> The output of this principal component analysis is shown in
+     <xref linkend="regression-example-3" />. The output shows the covariance matrix,
+     the eigenvalues and corresponding eigenvectors. The principal component is the 
+     constructed factor with the highest percent of trace, 
+     <inlineequation><mathphrase>&#x03be;1</mathphrase></inlineequation>.</para>
+ </example>
+
+   <figure id="pcanalysis-example-2">
+    <title>Principal Component Analysis Tool Output</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-pcanalysis-ex2.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output from a principal component
+              analysis.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
   </sect2>
 
+
+
+  <sect2 id="regression-tool">
+     <title>Regression Tool</title>
+  <figure id="regression-tool-dialog">
+    <title>Regression Tool Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-regression.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the regression tool dialog.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  <para>The regression tool performs a multiple regression analysis.</para>
+  <para>Enter a range or list of ranges containing the independent variables 
+  into the <quote><guilabel>X Variables:</guilabel></quote> entry.</para>
+  <para>Enter a single range containing the dependent variable into the
+   <quote><guilabel>Y Variable:</guilabel></quote> entry.</para>
+  <para>If the ranges for the independent and dependent variables also contains 
+  labels in the first field of each row, column or area, select the <quote>
+  <guilabel>Labels</guilabel></quote> option.</para>
+  <para> Specify the confidence level in the <quote><guilabel>Confidence
+  Level:</guilabel></quote> entry. The default is 95&#037;.</para>
+  <para>To force the regression line or plane to pass through the origin, select the
+  <quote><guilabel>Force Intercept To Be Zero</guilabel></quote> option.</para>
+  <para>Specify the output options as described above. If the output is directed 
+  into a specific output range, that
+  range should contain at least seven columns and 17 rows more than there are 
+  independent variables.</para>
+
+  <figure id="regression-example-1">
+    <title>Regression Example Data</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-regression-ex1.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of example data for use with the
+              regression tool.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+ <example id="usingregressiontool">
+ <title>Using the Regression Tool</title>
+
+  <para>
+    Suppose you want to perform a regression analysis on the data
+    given in <xref linkend="regression-example-1" /> using
+    <parameter>v</parameter> and <parameter>y</parameter> as
+    independent variables and <parameter>u</parameter> as dependent
+    variable.</para>
+<orderedlist>
+     <listitem><para>
+     Enter B1:C11 in the <quote><guilabel>X Variables:</guilabel></quote> 
+     entry by typing 
+     this directly into the entry or clicking in the entry field and 
+     then selecting the range on the sheet.</para></listitem>
+     <listitem><para>
+     Enter A1:A11  in the <quote><guilabel>Y Variable:</guilabel></quote> 
+     entry. </para></listitem>
+     <listitem><para> Select the <quote><guibutton>Labels</guibutton></quote>
+     option since the first row contains labels. (see 
+     <xref linkend="regression-example-2" />).</para></listitem>
+     <listitem><para> Specify the output 
+     options as described above.</para></listitem>
+     <listitem><para> Press the OK button. </para></listitem>
+</orderedlist>
+     <para> The output of this regression analysis is shown in
+     <xref linkend="regression-example-3" />.</para>
+ </example>
+  <figure id="regression-example-2">
+    <title>Completed Regression Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-regression-ex2.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the regression tool dialog with the
+              required fields completed.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  <figure id="regression-example-3">
+    <title>Regression Tool Output</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-regression-ex3.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output from a regression
+              analysis.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  </sect2>
 </sect1>
 
 <sect1 id="one_sample_tests">

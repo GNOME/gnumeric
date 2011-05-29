@@ -1,5 +1,15 @@
 2011-05-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-statistical.xml: add brief documentation of
+	principal component analysis
+	* figures/analysistools-pcanalysis.png: new
+	* figures/analysistools-pcanalysis-ex1.png: new
+	* figures/analysistools-pcanalysis-ex2.png: new
+	* Makefile.am: add the above image files
+	* textdefs.tex: add \textxi
+
+2011-05-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-statistical.xml: correct option tab description for
 	histogram tool
 	* analysistools-histogram-ex4.png: update
