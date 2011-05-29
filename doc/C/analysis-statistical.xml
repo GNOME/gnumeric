@@ -767,8 +767,12 @@
      </para>
      </listitem>
      <listitem>
-     <para> The <quote><guibutton>Cumulative percentages</guibutton></quote> option causes a cumulative 
-       frequency table to be created.  
+     <para> The <quote><guibutton>Cumulative answers</guibutton></quote> option causes a cumulative 
+       frequency table (either with counts or with pecentages) to be created.  
+     </para>
+     </listitem>
+     <listitem>
+     <para> The <quote><guibutton>Count numbers only</guibutton></quote> option determines whether only numbers are counted. If also non-numbers are counted they are first converted into numbers, usually into 0.  
      </para>
      </listitem>
      </itemizedlist>

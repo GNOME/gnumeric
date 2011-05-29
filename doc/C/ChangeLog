@@ -1,3 +1,10 @@
+2011-05-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-statistical.xml: correct option tab description for
+	histogram tool
+	* analysistools-histogram-ex4.png: update
+	* analysistools-histogram-graphs.png: update
+
 2011-05-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.15
