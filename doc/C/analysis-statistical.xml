@@ -2520,8 +2520,148 @@
 
   <sect2 id="normality-tool">
       <title>Normality Tests</title>
-      <para></para>
-  </sect2>
+<para>The normality test tool provides for four tests of normality.</para>
+<orderedlist>
+     <listitem><para>Anderson Darling Test</para></listitem>
+     <listitem><para>Cram&#xe9;r-von Mises Test</para></listitem>
+     <listitem><para>Lilliefors (Kolmogorov-Smirnov) Test</para></listitem>
+     <listitem><para>Shapiro-Francia Test</para></listitem>
+</orderedlist>
+   <figure id="normality-tool-dialog">
+    <title>Normality Test Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-normality.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the normality test dialog.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+      <para>The data range is specified via the <quote><guilabel>Input
+      Range:</guilabel></quote> entry 
+      (see <xref linkend="normality-tool-dialog" />).  The given range 
+      or list of ranges can be grouped into 
+      separate data sets by columns, rows, or areas. The tool performs a
+      separate test for each data set.</para>
+   <figure id="normality-tool-testspec-dialog">
+    <title>Test Tab of the Normality Test Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-normality-testspec.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the test tab of the normality 
+	      test dialog.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+      <para>On the test tab one specifies which of the four tests to
+      perform, the significance level for the test and whether to include
+      a normal probability plot of the data 
+      (see <xref linkend="normality-tool-testspec-dialog" />).</para>
+   <figure id="normality-example-1">
+    <title>Normality Test Example Data</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-normality-ex1.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of example data for a normality test.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+ <example id="usingnormalitytesttool">
+ <title>Using the Normality Test Tool</title>
+
+  <para>
+    Suppose you want to perform a Lilliefors (Kolmogorov-Smirnov) Test
+    for Normality on the data
+    given in <xref linkend="normality-example-1" />.</para>
+<orderedlist>
+     <listitem><para>
+     Enter A1:A50 (or Sheet1!$A$1:$A$50) in the 
+     <quote><guilabel>Input Range:</guilabel></quote> 
+     entry by typing 
+     this directly into the entry or clicking in the entry field and 
+     then selecting the range on the sheet.</para></listitem>
+     <listitem><para> Select the <quote><guibutton>Labels</guibutton></quote>
+     option since the first row contains a label. (see 
+     <xref linkend="normality-example-2" />).</para></listitem>
+     <listitem><para> On the test tab of the dialog
+     (see <xref linkend="normality-example-3" />) select the
+     Lilliefors (Kolmogorov-Smirnov) Test.</para></listitem>
+     <listitem><para> Specify an appropriate significance level
+     Alpha, say 0.05.</para></listitem>
+     <listitem><para> Select the <quote><guibutton>Create Normal 
+     Probability Plot</guibutton></quote>
+     option to include a normal 
+     probability plot in the output.</para></listitem>
+     <listitem><para> Specify the output 
+     options as described above.</para></listitem>
+     <listitem><para> Press the OK button. </para></listitem>
+</orderedlist>
+     <para> The output of this normality test is shown in
+     <xref linkend="normality-example-4" />. Note that the graph appears 
+     initially on top of the output data and needs to be moved to make 
+     the data visible.</para>
+ </example>
+
+   <figure id="normality-example-2">
+    <title>Completed Input Tab of the Normality Test Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-normality-ex2.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the completed input tab of the normality 
+	      test dialog.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+   <figure id="normality-example-3">
+    <title>Completed Test Tab of the Normality Test Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-normality-ex3.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the completed test tab of the normality 
+	      test dialog.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+   <figure id="normality-example-4">
+    <title>Normality Test Output</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-normality-ex4.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output from a normality test.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+ </sect2>
 
 
   <sect2 id="one-median-tool">
