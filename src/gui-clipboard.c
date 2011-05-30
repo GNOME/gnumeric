@@ -985,7 +985,7 @@ x_clipboard_clear_cb (GtkClipboard *clipboard,
 }
 
 void
-x_request_clipboard (WBCGtk *wbcg, GnmPasteTarget const *pt)
+gnm_x_request_clipboard (WBCGtk *wbcg, GnmPasteTarget const *pt)
 {
 	GnmGtkClipboardCtxt *ctxt;
 	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
@@ -1081,7 +1081,7 @@ set_clipman_targets (GdkDisplay *disp, GtkTargetEntry *targets, guint n_targets)
 }
 
 gboolean
-x_claim_clipboard (WBCGtk *wbcg)
+gnm_x_claim_clipboard (WBCGtk *wbcg)
 {
 	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
 	GnmCellRegion *content = gnm_app_clipboard_contents_get ();
@@ -1161,7 +1161,7 @@ x_claim_clipboard (WBCGtk *wbcg)
  * object is destroyed.
  */
 void
-x_store_clipboard_if_needed (Workbook *wb)
+gnm_x_store_clipboard_if_needed (Workbook *wb)
 {
 	Sheet *sheet = gnm_app_clipboard_sheet_get ();
 	WBCGtk *wbcg = NULL;

@@ -452,7 +452,7 @@ dialog_quit (WBCGtk *wbcg)
 			return;
 	}
 
-	x_store_clipboard_if_needed (wb_control_get_workbook (wbc));
+	gnm_x_store_clipboard_if_needed (wb_control_get_workbook (wbc));
 
 	l = g_list_copy (gnm_app_workbook_list ());
 	while (l) {

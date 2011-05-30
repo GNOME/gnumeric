@@ -1,3 +1,11 @@
+2011-05-30  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-clipboard.c (gnm_x_claim_clipboard): Rename from
+	x_claim_clipboard.
+	(gnm_x_store_clipboard_if_needed): Rename from
+	x_store_clipboard_if_needed.
+	(gnm_x_request_clipboard): Rename from x_request_clipboard.
+
 2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/application.c (gnm_app_workbook_get_by_uri): made static

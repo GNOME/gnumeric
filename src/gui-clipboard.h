@@ -6,9 +6,9 @@
 
 G_BEGIN_DECLS
 
-void x_request_clipboard (WBCGtk *wbcg, GnmPasteTarget const *pt);
-gboolean x_claim_clipboard (WBCGtk *wbcg);
-void x_store_clipboard_if_needed (Workbook *wb);
+void gnm_x_request_clipboard (WBCGtk *wbcg, GnmPasteTarget const *pt);
+gboolean gnm_x_claim_clipboard (WBCGtk *wbcg);
+void gnm_x_store_clipboard_if_needed (Workbook *wb);
 
 G_END_DECLS
 

@@ -1760,13 +1760,13 @@ wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 static void
 wbcg_paste_from_selection (WorkbookControl *wbc, GnmPasteTarget const *pt)
 {
-	x_request_clipboard ((WBCGtk *)wbc, pt);
+	gnm_x_request_clipboard ((WBCGtk *)wbc, pt);
 }
 
 static gboolean
 wbcg_claim_selection (WorkbookControl *wbc)
 {
-	return x_claim_clipboard ((WBCGtk *)wbc);
+	return gnm_x_claim_clipboard ((WBCGtk *)wbc);
 }
 
 static int
@@ -1864,7 +1864,7 @@ wbcg_close_if_user_permits (WBCGtk *wbcg,
 	if (!ask_user) {
 		done = gui_file_save (wbcg, wb_view);
 		if (done) {
-			x_store_clipboard_if_needed (wb);
+			gnm_x_store_clipboard_if_needed (wb);
 			g_object_unref (wb);
 			return 3;
 		}
@@ -1902,7 +1902,7 @@ wbcg_close_if_user_permits (WBCGtk *wbcg,
 	in_can_close = FALSE;
 
 	if (can_close) {
-		x_store_clipboard_if_needed (wb);
+		gnm_x_store_clipboard_if_needed (wb);
 		g_object_unref (wb);
 		switch (button) {
 		case GNM_RESPONSE_SAVE_ALL:
