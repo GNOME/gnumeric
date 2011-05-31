@@ -1020,8 +1020,6 @@ gee_check_tooltip (GnmExprEntry *gee)
 		char *prefix;
 		GSList *list;
 
-		g_print ("last token: %i\n", last_token);
-
 		end_t = gli->end;
 		prefix = g_strndup (str + start_t, end_t - start_t);
 		list = gnm_func_lookup_prefix
