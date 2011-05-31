@@ -1,3 +1,10 @@
+2011-05-31  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_parse): Always try value
+	matching first.  Reprocess the matched value in the same way that
+	gee_set_value_double does.  Fixes signal storm from #599901
+	comment 13.
+
 2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (cb_icon_clicked): in rolled up state

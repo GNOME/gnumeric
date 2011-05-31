@@ -174,6 +174,7 @@ static void     gee_detach_scg (GnmExprEntry *gee);
 static void     gee_remove_update_timer (GnmExprEntry *range);
 static void     cb_gee_notify_cursor_position (GnmExprEntry *gee);
 
+static gboolean gee_debug;
 static GtkObjectClass *parent_class = NULL;
 
 static gboolean
@@ -422,9 +423,8 @@ gee_set_format (GnmExprEntry *gee, GOFormat const *fmt)
 	go_format_unref (gee->constant_format);
 	gee->constant_format = fmt;
 
-#if 0
-	g_printerr ("Setting format %s\n", fmt ? go_format_as_XL (fmt) : "-");
-#endif
+	if (gee_debug)
+		g_printerr ("Setting format %s\n", fmt ? go_format_as_XL (fmt) : "-");
 
 	if (fmt && go_format_is_date (fmt)) {
 		if (!gee->calendar_combo) {
@@ -1493,9 +1493,8 @@ gee_set_value_double (GogDataEditor *editor, double val,
 		txt = g_strdup_printf ("%g", val);
 	}
 
-#if 0
-	g_printerr ("Setting text %s\n", txt);
-#endif
+	if (gee_debug)
+		g_printerr ("Setting text %s\n", txt);
 
 	g_object_set (G_OBJECT (editor), "text", txt, NULL);
 
@@ -1630,6 +1629,8 @@ gee_class_init (GObjectClass *gobject_class)
 				       _("Constant Format"),
 				       _("Format for constants"),
 				       GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
+	gee_debug = gnm_debug_flag ("gee");
 }
 
 /***************************************************************************/
@@ -2227,10 +2228,10 @@ gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 		gee->wbcg = scg_wbcg (gee->scg);
 	} else
 		gee->sheet = NULL;
-#if 0
-	g_printerr ("Setting gee (%p)->sheet = %s\n",
-		    gee, gee->sheet->name_unquoted);
-#endif
+
+	if (gee_debug)
+		g_printerr ("Setting gee (%p)->sheet = %s\n",
+			    gee, gee->sheet->name_unquoted);
 }
 
 SheetControlGUI *
@@ -2252,6 +2253,10 @@ gnm_expr_entry_load_from_text (GnmExprEntry *gee, char const *txt)
 	g_return_if_fail (gee->freeze_count == 0);
 
 	gee_rangesel_reset (gee);
+
+	if (gee_debug)
+		g_printerr ("Setting entry text: [%s]\n", txt);
+
 	gtk_entry_set_text (gee->entry, txt);
 	gee_delete_tooltip (gee, TRUE);
 }
@@ -2312,6 +2317,8 @@ gnm_expr_entry_load_from_expr (GnmExprEntry *gee,
 		char *text = gnm_expr_top_as_string
 			(texpr, pp, gee_convs (gee));
 		gee_rangesel_reset (gee);
+		if (gee_debug)
+			g_printerr ("Setting entry text: [%s]\n", text);
 		gtk_entry_set_text (gee->entry, text);
 		gee->rangesel.text_end = strlen (text);
 		g_free (text);
@@ -2476,9 +2483,8 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 	if (text == NULL || text[0] == '\0')
 		return NULL;
 
-#if 0
-	g_printerr ("Parsing %s\n", text);
-#endif
+	if (gee_debug)
+		g_printerr ("Parsing %s\n", text);
 
 	if ((gee->flags & GNM_EE_FORCE_ABS_REF))
 		flags |= GNM_EXPR_PARSE_FORCE_ABSOLUTE_REFERENCES;
@@ -2487,20 +2493,25 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 	if (!(gee->flags & GNM_EE_SHEET_OPTIONAL))
 		flags |= GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 
-	texpr = NULL;
-
-	if (gee->constant_format) {
+	/* First try parsing as a value.  */
+	{
 		GnmValue *v = get_matched_value (gee);
 		if (v) {
-			texpr = gnm_expr_top_new_constant (v);
-			gtk_entry_set_text (gee->entry, text);
+			GODateConventions const *date_conv =
+				workbook_date_conv (gee->sheet->workbook);
+			GnmExprTop const *texpr = gnm_expr_top_new_constant (v);
+			char *str = format_value (gee->constant_format, v, NULL, -1, date_conv);
+			if (gee_debug)
+				g_printerr ("Setting entry text: [%s]\n", str);
+			gtk_entry_set_text (gee->entry, str);
+			g_free (str);
 			return texpr;
 		}
 	}
 
-	if (!texpr)
-		texpr = gnm_expr_parse_str (text, pp, flags,
-					    gee_convs (gee), perr);
+	/* Failing that, try as an expression.  */
+	texpr = gnm_expr_parse_str (text, pp, flags,
+				    gee_convs (gee), perr);
 
 	if (texpr == NULL)
 		return NULL;
@@ -2529,8 +2540,11 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 			scg_rangesel_bound (scg,
 				rs->ref.a.col, rs->ref.a.row,
 				rs->ref.b.col, rs->ref.b.row);
-		} else
+		} else {
+			if (gee_debug)
+				g_printerr ("Setting entry text: [%s]\n", str);
 			gtk_entry_set_text (gee->entry, str);
+		}
 	}
 	g_free (str);
 

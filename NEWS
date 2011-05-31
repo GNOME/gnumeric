@@ -16,6 +16,7 @@ Morten:
 	* Fix leaks in SHEETS.  [#650764]
 	* Fix leak in name dialog.
 	* Switch to using goffice's complex math.
+	* Fix graph axis problem.  [Part of #599901]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.15
