@@ -970,6 +970,7 @@ gee_check_tooltip (GnmExprEntry *gee)
 	char *str;
 	gboolean stuff = FALSE, completion_se_set = FALSE;
 	GnmLexerItem *gli, *gli_c;
+	int last_token = 0;
 
 	if (gee->lexer_items == NULL || !gee->tooltip.enabled ||
 	    (!gee->tooltip.is_expr && !gee->is_cell_renderer)) {
@@ -1010,12 +1011,16 @@ gee_check_tooltip (GnmExprEntry *gee)
 	}
 	if (gli > gli_c)
 		gli--;
+	if (gli > gli_c)
+		last_token = (gli - 1)->token;
 
 	/* This creates the completion tooltip */
-	if (!stuff && gli->token == STRING) {
+	if (!stuff && gli->token == STRING && last_token != CONSTANT) {
 		guint start_t = gli->start;
 		char *prefix;
 		GSList *list;
+
+		g_print ("last token: %i\n", last_token);
 
 		end_t = gli->end;
 		prefix = g_strndup (str + start_t, end_t - start_t);

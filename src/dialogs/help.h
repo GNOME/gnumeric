@@ -162,7 +162,7 @@
 #define GNUMERIC_HELP_LINK_NORMALITY "normality-tool"
 
 /* dialog-analysis-tool-sign-test.c */
-#define GNUMERIC_HELP_LINK_SIGN_TEST "sign-test-tool"
+#define GNUMERIC_HELP_LINK_SIGN_TEST "one-median-tool"
 
 /* dialog-analysis-tool-wilcoxon-mann-whitney.c */
 #define GNUMERIC_HELP_LINK_WILCOXON_MANN_WHITNEY "wilcoxon-mann-whitney-tool"

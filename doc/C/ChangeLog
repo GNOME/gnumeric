@@ -1,14 +1,24 @@
+2011-05-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-statistical.xml: add brief documentation of
+	sign test and Wilcoxon signed rank test
+	* figures/analysistools-signtest-ex1.png: new
+	* figures/analysistools-signtest-ex2.png: new
+	* figures/analysistools-signtest-ex3.png: new
+	* figures/analysistools-signtest.png: new
+	* figures/Makefile.am: add the above image files
+
 2011-05-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-statistical.xml: add brief documentation of
 	the normality tests tool
-	* analysistools-normality-ex1.png: new
-	* analysistools-normality-ex2.png: new
-	* analysistools-normality-ex3.png: new
-	* analysistools-normality-ex4.png: new
-	* analysistools-normality-testspec.png: new
-	* analysistools-normality.png: new
-	* Makefile.am: add the above image files
+	* figures/analysistools-normality-ex1.png: new
+	* figures/analysistools-normality-ex2.png: new
+	* figures/analysistools-normality-ex3.png: new
+	* figures/analysistools-normality-ex4.png: new
+	* figures/analysistools-normality-testspec.png: new
+	* figures/analysistools-normality.png: new
+	* figures/Makefile.am: add the above image files
 
 2011-05-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

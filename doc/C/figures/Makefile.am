@@ -83,6 +83,10 @@ EXTRA_DIST = \
      analysistools-regression-ex2.png \
      analysistools-regression-ex3.png \
      analysistools-regression.png \
+     analysistools-signtest-ex1.png \
+     analysistools-signtest-ex2.png \
+     analysistools-signtest-ex3.png \
+     analysistools-signtest.png \
      analysistools-sampling-ex1.png \
      analysistools-sampling-ex2.png \
      analysistools-sampling.png \

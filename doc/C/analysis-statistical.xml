@@ -28,9 +28,9 @@
   </para>
 
   <para>All analysis tools also provide a choice whether
-    they will enter formulas or just values in the cells. By default 
-    &gnum; will usually enter formulas. These formulas will automatically
-    reevaluate when the data change. For some tools, the formulas also
+    they will enter formul&#xe6; or just values in the cells. By default 
+    &gnum; will usually enter formul&#xe6;. These formul&#xe6; will automatically
+    reevaluate when the data change. For some tools, the formul&#xe6; also
     permit modification of certain parameters. 
   </para> 
   
@@ -1239,7 +1239,7 @@
      </para>
 
      <note><para>
-	 If you choose to have the tool enter formulas rather than values into the output region, 
+	 If you choose to have the tool enter formul&#xe6; rather than values into the output region, 
 	 then you can modify the damping factor &#x03b1; even after you executed the tool. 
      </para></note>
 
@@ -1344,7 +1344,7 @@
   </para>
 
      <note><para>
-	 If you choose to have the tool enter formulas rather than values into 
+	 If you choose to have the tool enter formul&#xe6; rather than values into 
 	 the output region, 
 	 then you can modify the damping factor &#x03b1; and the estimated value
 	 at time 0 after executing the tool. 
@@ -1397,7 +1397,7 @@
      <para> 
      <xref linkend="smoothing-example-4" /> shows example output for the exponential smoothing
      tool using the formula according to Roberts. Cell A4 contains the estimated level at time 0.
-     If you requested to have formulas rather than values entered into the sheet, then changing 
+     If you requested to have formul&#xe6; rather than values entered into the sheet, then changing 
      the estimate in A4 and/or the value for &#x03b1; in A2 will result in an immediate change to 
      the predicted values.
      </para>
@@ -1458,7 +1458,7 @@
   </figure>
 
      <note><para>
-	 If you choose to have the tool enter formulas rather than values into 
+	 If you choose to have the tool enter formul&#xe6; rather than values into 
 	 the output region, 
 	 then you can modify the damping factors &#x03b1; and &#x03b3; as well as the estimated level and growth rate
 	 at time 0 after executing the tool. 
@@ -1498,7 +1498,7 @@
      <xref linkend="smoothing-example-5" /> shows example output for Holt's trend corrected 
      exponential smoothing. Cell A4 contains the estimated level at time 0 and B4 the estimated 
      growth rate at time 0.
-     If you requested to have formulas rather than values entered into the sheet, then changing 
+     If you requested to have formul&#xe6; rather than values entered into the sheet, then changing 
      the estimates in A4, B4, the values for &#x03b1; in A2 and/or for &#x03b3; in B2 will result 
      in an immediate change to 
      the predicted values.
@@ -1576,7 +1576,7 @@
   </figure>
 
      <note><para>
-	 If you choose to have the tool enter formulas rather than values into 
+	 If you choose to have the tool enter formul&#xe6; rather than values into 
 	 the output region, 
 	 then you can modify the damping factors &#x03b1;, &#x03b3;  and  &#x03b4; as well as all
 	 estimates after executing the tool. 
@@ -1619,7 +1619,7 @@
      additive Holt-Winters method. Cell C7 contains the estimated level at time 0, D7 the 
      estimated growth rate at time 0, and E4 to E7 the initial seasonal adjustments for each 
      of the 4 seasons preceding our data time period.
-     If you requested to have formulas rather than values entered into the sheet, then changing
+     If you requested to have formul&#xe6; rather than values entered into the sheet, then changing
      any of these estimates, the values for &#x03b1; in A2, for &#x03b3; in B2 and/or for &#x03b4; 
      in C2 will result in an immediate change to the estimated values.
      </para>
@@ -1708,7 +1708,7 @@
   </figure>
 
      <note><para>
-	 If you choose to have the tool enter formulas rather than values into 
+	 If you choose to have the tool enter formul&#xe6; rather than values into 
 	 the output region, 
 	 then you can modify the damping factors &#x03b1;, &#x03b3;  and  &#x03b4; as well as all
 	 estimates after executing the tool. 
@@ -1748,7 +1748,7 @@
      multiplicative Holt-Winters method, assuming 4 seasons. Cell C7 contains the estimated level 
      at time 0, D7 the estimated growth rate at time 0, and E4 to E7 the initial seasonal 
      adjustments for each of the 4 seasons preceding our data time period.
-     If you requested to have formulas rather than values entered into the sheet, then changing
+     If you requested to have formul&#xe6; rather than values entered into the sheet, then changing
      any of these estimates, the values for &#x03b1; in A2, for &#x03b3; in B2 and/or for &#x03b4; 
      in C2 will result in an immediate change to the estimated values.
      </para>
@@ -2666,16 +2666,185 @@
 
   <sect2 id="one-median-tool">
       <title>One Median</title>
-      
-      
+  
+      <para>The normalityOne Median test tool provides two non-parametric
+      tests that test the null hypothesis that the sample comes from a 
+      population with a given median:</para>
+      <orderedlist>
+	<listitem><para>Sign Test</para></listitem>
+	<listitem><para>Wilcoxon Signed Rank Test</para></listitem>
+      </orderedlist>
+      <para>Selecting the appropriate submenu item opens the dialog with
+      the respective test preselected.</para>
+
   <sect3 id="sign-test-tool">
       <title>Sign Test</title>
-      <para></para>
+   <figure id="one-median-tool-dialog">
+    <title>One-Median Test Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-signtest.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the one-median test dialog used by 
+	      the Sign Test and the Wilcoxon Signed Rank Test.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+      <para>The Sign Test tool performs a one-sample sign test whether
+      the sample comes from a  population with a given median.</para>
+      <para>The sample data range is specified via the <quote><guilabel>Input
+      Range:</guilabel></quote> entry 
+      (see <xref linkend="one-median-tool-dialog" />).  The given range 
+      or list of ranges can be grouped into 
+      separate data sets by columns, rows, or areas. The tool performs a
+      separate test for each data set.</para>
+      <para>On the <quote><guilabel>Test</guilabel></quote>tab of the dialog
+      (see <xref linkend="one-median-tool-dialog-test-tab" />) the predicted 
+      median as well as the significance level are specified.</para>
+   <figure id="one-median-tool-dialog-test-tab">
+    <title>The Test Tab of the One-Median Test Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-signtest-ex1.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the test tab of the one-median test 
+	      dialog.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+<example id="usingsigntesttool">
+ <title>Using the Sign Test Tool</title>
+
+  <para>
+    Suppose you want to perform a Sign Test
+    on the data
+    given in <xref linkend="one-median-tool-dialog" /> to determine whether
+    the sample comes from a population of mean 3.</para>
+<orderedlist>
+     <listitem><para>
+     Enter A1:A19 (or Sheet1!$A$1:$A$19) in the 
+     <quote><guilabel>Input Range:</guilabel></quote> 
+     entry by typing 
+     this directly into the entry or clicking in the entry field and 
+     then selecting the range on the sheet.</para></listitem>
+     <listitem><para> Select the <quote><guibutton>Labels</guibutton></quote>
+     option since the first row contains a label. (see 
+     <xref linkend="one-median-tool-dialog" />).</para></listitem>
+     <listitem><para> On the <quote><guibutton>Test</guibutton></quote> tab 
+     of the dialog
+     (see <xref linkend="one-median-tool-dialog-test-tab" />) select the
+     Sign Test.</para></listitem>
+     <listitem><para> Specify an appropriate significance level
+     Alpha, say 0.05.</para></listitem>
+     <listitem><para> Select thepecify the median of the null hypothesis (3)
+     in the <quote><guibutton>Predicted Median</guibutton></quote> entry.
+     </para></listitem>
+     <listitem><para> Specify the output 
+     options as described above.</para></listitem>
+     <listitem><para> Press the OK button. </para></listitem>
+</orderedlist>
+     <para> The output of this sign test is shown in
+     <xref linkend="sign-test-dialog-output" />.</para>
+ </example>
+
+   <figure id="sign-test-dialog-output">
+    <title>Output of a Sign Test</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-signtest-ex2.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output of a Sign Test.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
   </sect3>
 
   <sect3 id="wilcoxon-sign-test-tool">
       <title>Wilcoxon Signed Rank Test</title>
-      <para></para>
+      <para>The  Wilcoxon Signed Rank TTest tool performs a one-sample 
+      sign test whether
+      the sample comes from a  population with a given median.</para>
+      <para>The sample data range is specified via the <quote><guilabel>Input
+      Range:</guilabel></quote> entry 
+      (see <xref linkend="one-median-tool-dialog" />).  The given range 
+      or list of ranges can be grouped into 
+      separate data sets by columns, rows, or areas. The tool performs a
+      separate test for each data set.</para>
+      <para>On the <quote><guilabel>Test</guilabel></quote>tab of the dialog
+      (see <xref linkend="one-median-tool-dialog-test-tab" />) the predicted 
+      median as well as the significance level are specified.</para>
+ 
+  <note>
+    <para>
+      The p-values given by this tool are determined using a normal
+      approximation. This approximation is only valid if the sample 
+      size is at least 12.
+    </para>
+  </note>
+
+<example id="usingwilcoxonsignedranktesttool">
+ <title>Using the Wilcoxon Signed Rank Test Tool</title>
+  <para>
+    Suppose you want to perform a Wilcoxon Signed Rank Test
+    on the data
+    given in <xref linkend="one-median-tool-dialog" /> to determine whether
+    the sample comes from a population of mean 3.</para>
+<orderedlist>
+     <listitem><para>
+     Enter A1:A19 (or Sheet1!$A$1:$A$19) in the 
+     <quote><guilabel>Input Range:</guilabel></quote> 
+     entry by typing 
+     this directly into the entry or clicking in the entry field and 
+     then selecting the range on the sheet.</para></listitem>
+     <listitem><para> Select the <quote><guibutton>Labels</guibutton></quote>
+     option since the first row contains a label. (see 
+     <xref linkend="one-median-tool-dialog" />).</para></listitem>
+     <listitem><para> On the <quote><guibutton>Test</guibutton></quote> tab 
+     of the dialog
+     (see <xref linkend="one-median-tool-dialog-test-tab" />) select the
+     Wilcoxon Signed Rank Test.</para></listitem>
+     <listitem><para> Specify an appropriate significance level
+     Alpha, say 0.05.</para></listitem>
+     <listitem><para> Select thepecify the median of the null hypothesis (3)
+     in the <quote><guibutton>Predicted Median</guibutton></quote> entry.
+     </para></listitem>
+     <listitem><para> Specify the output 
+     options as described above.</para></listitem>
+     <listitem><para> Press the OK button. </para></listitem>
+</orderedlist>
+     <para> The output of this sign test is shown in
+     <xref linkend="wilcoxon-sign-test-dialog-output" />.</para>
+ </example>
+
+
+   <figure id="wilcoxon-sign-test-dialog-output">
+    <title>Output of a Wilcoxon Signed Rank Test</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-signtest-ex3.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output of a Wilcoxon Signed Rank 
+	      Test.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
   </sect3>
 
   </sect2>

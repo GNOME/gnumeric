@@ -1,3 +1,8 @@
+2011-05-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* help.h (GNUMERIC_HELP_LINK_SIGN_TEST): use "one-median-tool" since
+	the dialog is for various tests
+	
 2011-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tools.c (tool_load_selection): select the entered
