@@ -1,3 +1,9 @@
+2011-06-01  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_is_blank): Move code after
+	preconditions.  Make blank-check unicode based and avoid memory
+	allocation.
+
 2011-05-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_check_tooltip): don't show tooltips in

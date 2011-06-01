@@ -2662,21 +2662,24 @@ gnm_expr_entry_is_cell_ref (GnmExprEntry *gee, Sheet *sheet,
 gboolean
 gnm_expr_entry_is_blank	(GnmExprEntry *gee)
 {
-	GtkEntry *entry = gnm_expr_entry_get_entry (gee);
-	char const *text = gtk_entry_get_text (entry);
-	char *new_text;
-	int len;
+	GtkEntry *entry;
+	char const *text;
 
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
 
+	entry = gnm_expr_entry_get_entry (gee);
+
+	text = gtk_entry_get_text (entry);
 	if (text == NULL)
 		return TRUE;
 
-	new_text = g_strdup (text);
-	len = strlen (g_strstrip(new_text));
-	g_free (new_text);
+	while (*text) {
+		if (!g_unichar_isspace (g_utf8_get_char (text)))
+			return FALSE;
+		text = g_utf8_next_char (text);
+	}
 
-	return (len == 0);
+	return TRUE;
 }
 
 char *
