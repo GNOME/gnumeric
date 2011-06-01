@@ -1,5 +1,10 @@
 2011-05-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-statistical.xml: add documentation stubs for
+	two-sample median tests
+
+2011-05-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-statistical.xml: add brief documentation of
 	sign test and Wilcoxon signed rank test
 	* figures/analysistools-signtest-ex1.png: new

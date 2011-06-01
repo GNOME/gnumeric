@@ -1810,7 +1810,7 @@
      <para>Choose the type of moving average you would like to calculate. The tool can
        determine 4 types of moving averages:
      </para>
-     <orderedlist>
+     <orderedlist spacing="compact">
        <listitem><para>
 	   Simple moving average
        </para></listitem>
@@ -2521,7 +2521,7 @@
   <sect2 id="normality-tool">
       <title>Normality Tests</title>
 <para>The normality test tool provides for four tests of normality.</para>
-<orderedlist>
+<orderedlist spacing="compact">
      <listitem><para>Anderson Darling Test</para></listitem>
      <listitem><para>Cram&#xe9;r-von Mises Test</para></listitem>
      <listitem><para>Lilliefors (Kolmogorov-Smirnov) Test</para></listitem>
@@ -2667,10 +2667,10 @@
   <sect2 id="one-median-tool">
       <title>One Median</title>
   
-      <para>The normalityOne Median test tool provides two non-parametric
+      <para>The One Median test tool provides two non-parametric
       tests that test the null hypothesis that the sample comes from a 
       population with a given median:</para>
-      <orderedlist>
+      <orderedlist spacing="compact">
 	<listitem><para>Sign Test</para></listitem>
 	<listitem><para>Wilcoxon Signed Rank Test</para></listitem>
       </orderedlist>
@@ -2679,6 +2679,16 @@
 
   <sect3 id="sign-test-tool">
       <title>Sign Test</title>
+  <note>
+    <para>
+      This section describes the one sample sign test to test the 
+      null hypothesis that the sample comes from a 
+      population with the given median. The tool to perform a sign test to
+      test the null hypothesis that two paired samples come from populations 
+      with the same median is in section  
+      <xref linkend="two-median-sign-test-tool" />.
+    </para>
+  </note>
    <figure id="one-median-tool-dialog">
     <title>One-Median Test Dialog</title>
     <screenshot>
@@ -2774,7 +2784,19 @@
 
   <sect3 id="wilcoxon-sign-test-tool">
       <title>Wilcoxon Signed Rank Test</title>
-      <para>The  Wilcoxon Signed Rank TTest tool performs a one-sample 
+  <note>
+    <para>
+      This section describes the one sample Wilcoxon signed rank test to 
+      test the 
+      null hypothesis that the sample comes from a 
+      population with the given median. The tool to perform a Wilcoxon
+      signed rank test to
+      test the null hypothesis that two paired samples come from populations 
+      with the same median is in section  
+      <xref linkend="two-median-wilcoxon-sign-test-tool" />.
+    </para>
+  </note>
+       <para>The  Wilcoxon Signed Rank TTest tool performs a one-sample 
       sign test whether
       the sample comes from a  population with a given median.</para>
       <para>The sample data range is specified via the <quote><guilabel>Input
@@ -2855,8 +2877,8 @@
   <title>Two Sample Tests</title>
 
 <sect2 id="t-test-tool">
-     <title>Comparing Means of 2 Populations</title>
-     <para>&gnum; provides 4 similar
+     <title>Comparing Means of Two Populations</title>
+     <para>&gnum; provides four similar
      tools to test whether the difference of two population means is
      equal to a hypothesized value. These four tools use the same
      dialog (see <xref linkend="ttest-dialog" />).</para>
@@ -3177,12 +3199,58 @@
   </sect3>
 </sect2>
 
-  <!--
-  <sect2 id="sign-test-tool">
-      <title>Sign Tests</title>
+  <sect2 id="two-medians-tool">
+      <title>Comparing Medians of Two Populations</title>
+
+      <para>&gnum; provides three non-parametric tests to test the null 
+      hypothesis that the two samples come from 
+      populations with the same median. Two tests, performed through the same
+      tool, apply in the case of paired samples:</para>
+      <itemizedlist spacing="compact">
+ 	<listitem><para>Sign Test</para></listitem>
+	<listitem><para>Wilcoxon Signed Rank Test</para></listitem>
+      </itemizedlist>
+      <para>One test applies in the case of unpaired samples:</para>
+      <itemizedlist spacing="compact">
+ 	<listitem><para>Wilcoxon-Mann-Whitney Test</para></listitem>
+      </itemizedlist>
+
       <para></para>
+  <sect3 id="two-median-sign-test-tool">
+      <title>Sign Test</title>
+  <note>
+    <para>
+      This section describes the two sample (paired) sign test to test the 
+      null hypothesis that the two samples come from 
+      populations with the same median. The tool to perform a sign test to
+      test the null hypothesis that the single sample comes from a  population 
+      with a given median is in section  <xref linkend="sign-test-tool" />.
+    </para>
+  </note>
+      <para>This section has not yet been written</para>
+  </sect3>
+  <sect3 id="two-median-wilcoxon-sign-test-tool">
+      <title>Wilcoxon Signed Rank Test</title>
+  <note>
+    <para>
+      This section describes the two sample (paired) Wilcoxon signed rank
+      test to test the 
+      null hypothesis that the two samples come from 
+      populations with the same median. The tool to perform a Wilcoxon 
+      signed rank test to
+      test the null hypothesis that the single sample comes from a  population 
+      with a given median is in section  
+      <xref linkend="wilcoxon-sign-test-tool" />.
+    </para>
+  </note>
+      <para>This section has not yet been written</para>
+  </sect3>
+  <sect3 id="two-median-wilcoxon-mann-whitney-test-tool">
+      <title>Wilcoxon-Mann-Whitney Test</title>
+      <para>This section has not yet been written</para>
+  </sect3>
+
   </sect2>
-  -->
 
   <sect2 id="ftest-two-sample-for-variances-tool">
      <title>F-Test: Two-Sample for Variances Tool</title>

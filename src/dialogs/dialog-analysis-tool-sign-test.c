@@ -254,7 +254,7 @@ dialog_sign_test_two_tool (WBCGtk *wbcg, Sheet *sheet, signtest_type type)
 	state = g_new0 (SignTestToolState, 1);
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
-			      GNUMERIC_HELP_LINK_SIGN_TEST,
+			      GNUMERIC_HELP_LINK_SIGN_TEST_TWO,
 			      "sign-test-two.ui", "Sign-Test",
 			      _("Could not create the Sign Test Tool dialog."),
 			      SIGN_TEST_KEY_TWO,
