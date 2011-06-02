@@ -766,15 +766,33 @@ gnm_create_std_tags_for_buffer (GtkTextBuffer *buffer)
 }
 
 
+static gint
+gnm_load_pango_byte_to_char (gchar const *str, gint byte)
+{
+	if (byte >= strlen (str))
+		return g_utf8_strlen (str, -1);
+	return g_utf8_pointer_to_offset (str, 
+					 g_utf8_prev_char (str + byte + 1));
+}
+
 void
-gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buffer)
+gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buffer, gchar const *str)
 {
 	PangoAttrIterator * iter;
 	PangoAttrList  *copied_markup;
 	PangoAttrList  *our_markup;
+	char *str_retrieved = NULL;
 
 	if (markup == NULL)
 		return;
+
+	if (str == NULL) {
+		GtkTextIter start, end;
+		gtk_text_buffer_get_start_iter (buffer, &start);
+		gtk_text_buffer_get_end_iter (buffer, &end);
+		str = str_retrieved = gtk_text_buffer_get_slice 
+			(buffer, &start, &end, TRUE);
+	}
 
 /* For some styles we create named tags. The names are taken from the Pango enums */
 
@@ -795,8 +813,13 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 				char const *name;
 
 				pango_attr_iterator_range (iter, &start, &end);
-				gtk_text_buffer_get_iter_at_offset (buffer, &start_iter, start);
-				gtk_text_buffer_get_iter_at_offset (buffer, &end_iter, end);
+				start = gnm_load_pango_byte_to_char 
+					(str, start);
+				end = gnm_load_pango_byte_to_char (str, end);
+				gtk_text_buffer_get_iter_at_offset 
+					(buffer, &start_iter, start);
+				gtk_text_buffer_get_iter_at_offset 
+					(buffer, &end_iter, end);
 
 				for (ptr = attr; ptr != NULL; ptr = ptr->next) {
 					PangoAttribute *attribute = ptr->data;
@@ -920,8 +943,13 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 					}
 				}
 				pango_attr_iterator_range (iter, &start, &end);
-				gtk_text_buffer_get_iter_at_offset (buffer, &start_iter, start);
-				gtk_text_buffer_get_iter_at_offset (buffer, &end_iter, end);
+				start = gnm_load_pango_byte_to_char 
+					(str, start);
+				end = gnm_load_pango_byte_to_char (str, end);
+				gtk_text_buffer_get_iter_at_offset 
+					(buffer, &start_iter, start);
+				gtk_text_buffer_get_iter_at_offset 
+					(buffer, &end_iter, end);
 				gtk_text_buffer_apply_tag (buffer, tag, &start_iter, &end_iter);
 				go_slist_free_custom (attr, (GFreeFunc)pango_attribute_destroy);
 			}
@@ -929,6 +957,7 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 		pango_attr_iterator_destroy (iter);
 		pango_attr_list_unref (our_markup);
 	}
+	g_free (str_retrieved);
 }
 
 #define gnmstoretexttagattrinpangoint(nameset, name, gnm_pango_attr_new)  \

@@ -1,3 +1,11 @@
+2011-06-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-util.h (gnm_load_pango_attributes_into_buffer): add
+	argument, change all callers
+	* src/gui-util.c (gnm_load_pango_attributes_into_buffer): add
+	argument, correctly align pango offsets with buffer char-offsets
+	(gnm_load_pango_byte_to_char): new
+
 2011-05-30  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-clipboard.c (gnm_x_claim_clipboard): Rename from

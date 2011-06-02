@@ -298,7 +298,7 @@ gtv_set_property (GObject      *object,
 		break;
 	case PROP_ATTR:
 		gnm_load_pango_attributes_into_buffer (g_value_get_boxed (value),
-						       gtv->buffer);
+						       gtv->buffer, NULL);
 	break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
