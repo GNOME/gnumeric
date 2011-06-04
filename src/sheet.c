@@ -2598,9 +2598,7 @@ sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str
 {
 	closure_set_cell_value	closure;
 	GSList *merged, *ptr;
-	GOFormat const *fmt;
 	Sheet *sheet;
-	GnmCell *cell;
 
 	g_return_if_fail (pos != NULL);
 	g_return_if_fail (r != NULL);
@@ -2608,14 +2606,8 @@ sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str
 
 	sheet = pos->sheet;
 
-	/* Arbitrarily Use the format from upper left cell.  */
-	cell = sheet_cell_get (sheet, r->start.col, r->start.row);
-	fmt = cell ? gnm_cell_get_format (cell) : NULL;
-
 	parse_text_value_or_expr (pos, str,
-				  &closure.val, &closure.texpr,
-				  fmt,
-				  workbook_date_conv (sheet->workbook));
+				  &closure.val, &closure.texpr);
 
 	if (closure.texpr) {
 		range_init_full_sheet (&closure.expr_bound, sheet);
@@ -2763,9 +2755,7 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 	g_return_if_fail (!gnm_cell_is_nonsingleton_array (cell));
 
 	parse_text_value_or_expr (parse_pos_init_cell (&pp, cell),
-		text, &val, &texpr,
-		gnm_cell_get_format (cell),
-		workbook_date_conv (cell->base.sheet->workbook));
+		text, &val, &texpr);
 
 	/* Queue a redraw before in case the span changes */
 	sheet_redraw_cell (cell);

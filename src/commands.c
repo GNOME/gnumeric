@@ -4178,9 +4178,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 		GnmParsePos pp;
 
 		parse_pos_init_evalpos (&pp, ep);
-		parse_text_value_or_expr (&pp, cell_res.new_text, &val, &texpr,
-			gnm_style_get_format (gnm_cell_get_style (cell_res.cell)),
-			workbook_date_conv (cell_res.cell->base.sheet->workbook));
+		parse_text_value_or_expr (&pp, cell_res.new_text, &val, &texpr);
 
 		/*
 		 * FIXME: this is a hack, but parse_text_value_or_expr

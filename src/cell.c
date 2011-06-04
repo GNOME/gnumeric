@@ -97,8 +97,7 @@ gnm_cell_set_text (GnmCell *cell, char const *text)
 	g_return_if_fail (!gnm_cell_is_nonsingleton_array (cell));
 
 	parse_text_value_or_expr (parse_pos_init_cell (&pos, cell),
-		text, &val, &texpr, gnm_style_get_format (gnm_cell_get_style (cell)),
-		workbook_date_conv (cell->base.sheet->workbook));
+		text, &val, &texpr);
 
 	if (val != NULL) {	/* String was a value */
 		gnm_cell_cleanout (cell);

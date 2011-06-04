@@ -229,9 +229,7 @@ char const *gnm_expr_char_start_p (char const *c);
 void	    parse_text_value_or_expr (GnmParsePos const *pos,
 				      char const *text,
 				      GnmValue **val,
-				      GnmExprTop const **texpr,
-				      GOFormat const *current_format,
-				      GODateConventions const *date_conv);
+				      GnmExprTop const **texpr);
 
 GString	*gnm_expr_conv_quote (GnmConventions const *conv, char const *str);
 

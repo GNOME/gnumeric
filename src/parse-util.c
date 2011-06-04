@@ -36,6 +36,8 @@
 #include "gnm-format.h"
 #include "expr-name.h"
 #include "func.h"
+#include "mstyle.h"
+#include "sheet-style.h"
 /* For std_expr_name_handler: */
 #include "expr-impl.h"
 #include "gutils.h"
@@ -723,26 +725,51 @@ gnm_expr_char_start_p (char const * c)
  * @text: The text to be parsed.
  * @val : Returns a GnmValue* if the text was a value, otherwise NULL.
  * @texpr: Returns a GnmExprTop* if the text was an expression, otherwise NULL.
- * @cur_fmt : Optional, current number format.
- * @date_conv : Optional, date parse conventions
  *
  * If there is a parse failure for an expression an error GnmValue with the syntax
  * error is returned.
  */
 void
 parse_text_value_or_expr (GnmParsePos const *pos, char const *text,
-			  GnmValue **val, GnmExprTop const **texpr,
-			  GOFormat const *cur_fmt,
-			  GODateConventions const *date_conv)
+			  GnmValue **val, GnmExprTop const **texpr)
 {
 	char const *expr_start;
+	GODateConventions const *date_conv;
+	GOFormat const *cur_fmt;
+	GOFormat const *cell_fmt;
+	GnmStyle const *cell_style;
 
 	*texpr = NULL;
+	*val = NULL;
+
+	/* Determine context information.  */
+	date_conv =
+		pos->sheet
+		? workbook_date_conv (pos->sheet->workbook)
+		: (pos->wb
+		   ? workbook_date_conv (pos->wb)
+		   : NULL);
+	cell_style = pos->sheet
+		? sheet_style_get (pos->sheet, pos->eval.col, pos->eval.row)
+		: NULL;
+	cur_fmt = cell_fmt = cell_style ? gnm_style_get_format (cell_style) : NULL;
+	if (cell_fmt && go_format_is_general (cell_fmt)) {
+		GnmCell const *cell = pos->sheet
+			? sheet_cell_get (pos->sheet, pos->eval.col, pos->eval.row)
+			: NULL;
+		if (cell && cell->value && VALUE_FMT (cell->value))
+			cur_fmt = VALUE_FMT (cell->value);
+	}
 
 	/* Does it match any formats?  */
 	*val = format_match (text, cur_fmt, date_conv);
-	if (*val != NULL)
+	if (*val != NULL) {
+		GOFormat const *val_fmt = VALUE_FMT (*val);
+		/* Avoid value formats we don't need.  */
+		if (val_fmt && go_format_eq (cell_fmt, val_fmt))
+			value_set_fmt (*val, NULL);
 		return;
+	}
 
 	/* If it does not match known formats, see if it is an expression */
 	expr_start = gnm_expr_char_start_p (text);
