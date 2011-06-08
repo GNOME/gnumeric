@@ -549,6 +549,11 @@ static GnmFuncHelp const help_sumif[] = {
         { GNM_FUNC_HELP_ARG, F_("range:cell area")},
         { GNM_FUNC_HELP_ARG, F_("criteria:condition for a cell to be summed")},
         { GNM_FUNC_HELP_ARG, F_("actual_range:cell area, defaults to @{range}")},
+	{ GNM_FUNC_HELP_NOTE, F_("If the @{actual_range} has a size that "
+				 "differs"
+				 " from the size of @{range}, @{actual_range} "
+				 "is resized (retaining the top-left corner)"
+				 " to match the size of @{range}.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_SEEALSO, "SUM,COUNTIF"},
         { GNM_FUNC_HELP_END}

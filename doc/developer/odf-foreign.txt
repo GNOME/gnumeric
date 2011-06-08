@@ -1,5 +1,36 @@
 Due to the limitations of the ODF file format we occasionally add foreign elements and attributes to those files. This text documents those elements and attributes.
 
+Note: Any reference to ODF 1.3 refers tot eh current work-in-progress in the OASIS ODF TC. 
+
+Part 1: In ODF 1.0 and 1.1 files only.
+
+1) Attributes added by Gnumeric:
+
+gnm:reverse-direction
+gnm:automatic-content
+gnm:display-equation
+gnm:display-r-square
+used instead of the ODF1.2 attribute chart:...
+
+Part 2: In ODF 1.0, 1.1 and ODF 1.2 files only.
+
+1) Elements and attributes added by goffice:
+
+gnm:engineering   
+An attribute to <number:scientific-number>. A value of "true" indicates that the exponent will always be a multiple of 3.
+(In ODF 1.3 to be replaced by number:exponent-base=1 ("false") or =3 ("true") resp.)
+
+2) Attribute _values_ added by Gnumeric. 
+Since these are not eleemnts or new attributes they are used in all ODF exports.
+
+gnm:step-start          in ODF1.3: step-end
+gnm:step-end		in ODF1.3: step-start
+gnm:step-center-x	in ODF1.3: step-center-x
+gnm:step-center-y	in ODF1.3: step-center-y
+various attribute values specifying chart:interpolation types
+
+Part 3: In any ODF files:
+
 1) Elements and attributes added by goffice:
 
 gnm:format-magic
@@ -13,9 +44,6 @@ An attribute to <number:fraction> giving the maximum number of denominator digit
 
 gnm:no-integer-part
 An attribute to <number:fraction> determining whether an integer portion is shown or not. Defaults to "false" (i.e. an integer part is shown.)
-
-gnm:engineering
-An attribute to <number:scientific-number>. A value of "true" indicates that the exponent will always be a multiple of 3.
 
 
 2) Elements and attributes added by Gnumeric:
@@ -70,12 +98,6 @@ plot property
 gnm:show-negatives
 property of bubble plots
 
-gnm:reverse-direction
-gnm:automatic-content
-gnm:display-equation
-gnm:display-r-square
-used instead of the ODF1.2 attribute chart:...
-
 gnm:regression-affine
 whether a given regression is affine or not
 
@@ -98,10 +120,6 @@ gnm:closed-spline
 gnm:parabolic-cspline
 gnm:cubic-cspline
 gnm:clamped-cspline
-gnm:step-start
-gnm:step-end
-gnm:step-center-x
-gnm:step-center-y
 various attribute values specifying chart:interpolation types
 
 gnm:polynomial
