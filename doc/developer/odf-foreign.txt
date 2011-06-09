@@ -4,7 +4,12 @@ Note: Any reference to ODF 1.3 refers tot eh current work-in-progress in the OAS
 
 Part 1: In ODF 1.0 and 1.1 files only.
 
-1) Attributes added by Gnumeric:
+2) Attributes added by GOffice:
+
+gnm:no-integer-part
+An attribute to <number:fraction> determining whether an integer portion is shown or not. Defaults to "false" (i.e. an integer part is shown.)
+
+2) Attributes added by Gnumeric:
 
 gnm:reverse-direction
 gnm:automatic-content
@@ -19,6 +24,9 @@ Part 2: In ODF 1.0, 1.1 and ODF 1.2 files only.
 gnm:engineering   
 An attribute to <number:scientific-number>. A value of "true" indicates that the exponent will always be a multiple of 3.
 (In ODF 1.3 to be replaced by number:exponent-base=1 ("false") or =3 ("true") resp.)
+
+gnm:max-denominator-digits
+An attribute to <number:fraction> giving the maximum number of denominator digits to be used.
 
 2) Attribute _values_ added by Gnumeric. 
 Since these are not eleemnts or new attributes they are used in all ODF exports.
@@ -38,13 +46,6 @@ An attribute to <number:time-style> and <number:date-style> to specify Gnumeric'
 
 gnm:truncate-on-overflow
 An attribute to <number:hours>, <number:minutes> and <number:seconds>. An attribute value of "false" indicates that this item is not restricted to its natural range and so is used for elapsed time. This attribute defaults to "true". Note that ODF has the attribute number:truncate-on-overflow of the <number:time-style> with a similar effect, but with unclear specification to which element it applies. For an element where gnm:truncate-on-overflow is not set, number:truncate-on-overflow applies.
-
-gnm:max-denominator-digits
-An attribute to <number:fraction> giving the maximum number of denominator digits to be used.
-
-gnm:no-integer-part
-An attribute to <number:fraction> determining whether an integer portion is shown or not. Defaults to "false" (i.e. an integer part is shown.)
-
 
 2) Elements and attributes added by Gnumeric:
 

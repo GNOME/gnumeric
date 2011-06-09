@@ -299,6 +299,7 @@ typedef struct {
 	GOIOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	OOVer		 ver;		/* Its an OOo v1.0 or v2.0? */
+	gnm_float	 ver_odf;	/* specific ODF version */
 	GsfInfile	*zip;		/* Reference to the open file, to load graphs and images*/
 	OOChartInfo	 chart;
 	GnmParsePos	 pos;
@@ -3663,7 +3664,7 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 	int denominator = 0;
 	int min_d_digits = 0;
 	int max_d_digits = 3;
-	int min_i_digits = 0;
+	int min_i_digits = -1;
 	int min_n_digits = 0;
 
 
@@ -3688,10 +3689,10 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 					       "min-numerator-digits", &min_n_digits, 0, 30))
 			;
 
-	if (!no_int_part) {
+	if (!no_int_part && (state->ver_odf < 1.2 || min_i_digits >= 0)) {
 		g_string_append_c (state->cur_format.accum, '#');
 		odf_go_string_append_c_n (state->cur_format.accum, '0',
-					  min_i_digits);
+					  min_i_digits > 0 ? min_i_digits : 0);
 		g_string_append_c (state->cur_format.accum, ' ');
 	}
 	g_string_append_c (state->cur_format.accum, '?');
@@ -7847,18 +7848,31 @@ oo_marker (GsfXMLIn *xin, xmlChar const **attrs)
 
 /**************************************************************************/
 
+static void
+odf_find_version (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_float (xin, attrs, OO_NS_OFFICE,
+					"version", &state->ver_odf));
+}
+
+/**************************************************************************/
+
 static GsfXMLInNode const styles_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 
 /* ooo-1.x */
-GSF_XML_IN_NODE (START, OFFICE_FONTS, OO_NS_OFFICE, "font-decls", GSF_XML_NO_CONTENT, NULL, NULL),
-  GSF_XML_IN_NODE (OFFICE_FONTS, FONT_DECL, OO_NS_STYLE, "font-decl", GSF_XML_NO_CONTENT, NULL, NULL),
+GSF_XML_IN_NODE (START, OFFICE_FONTS_OOO1, OO_NS_OFFICE, "font-decls", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (OFFICE_FONTS_OOO1, FONT_DECL_OOO1, OO_NS_STYLE, "font-decl", GSF_XML_NO_CONTENT, NULL, NULL),
 
-/* ooo-2.x */
-GSF_XML_IN_NODE (START, OFFICE_FONTS, OO_NS_OFFICE, "font-face-decls", GSF_XML_NO_CONTENT, NULL, NULL),
-  GSF_XML_IN_NODE (OFFICE_FONTS, FONT_DECL, OO_NS_STYLE, "font-face", GSF_XML_NO_CONTENT, NULL, NULL),
+/* ooo-2.x, ooo-3.x */
+GSF_XML_IN_NODE (START, OFFICE_DOC_STYLES, OO_NS_OFFICE, "document-styles", GSF_XML_NO_CONTENT, &odf_find_version, NULL),
+GSF_XML_IN_NODE (OFFICE_DOC_STYLES, OFFICE_FONTS, OO_NS_OFFICE, "font-face-decls", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (OFFICE_FONTS, FONT_DECL, OO_NS_STYLE, "font-face", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
 
-GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_XML_NO_CONTENT, NULL, NULL),
+GSF_XML_IN_NODE (OFFICE_DOC_STYLES, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, FILLIMAGE, OO_NS_DRAW, "fill-image", GSF_XML_NO_CONTENT, &oo_fill_image, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, DASH, OO_NS_DRAW, "stroke-dash", GSF_XML_NO_CONTENT, &oo_dash, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, HATCH, OO_NS_DRAW, "hatch", GSF_XML_NO_CONTENT, &oo_hatch, NULL),
@@ -7941,6 +7955,22 @@ GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_XML_NO_CONTEN
     GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, &odf_map, NULL),
     GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, &odf_number_color, NULL),
 
+GSF_XML_IN_NODE (OFFICE_DOC_STYLES, AUTOMATIC_STYLES, OO_NS_OFFICE, "automatic-styles", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (AUTOMATIC_STYLES, STYLE, OO_NS_STYLE, "style", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
+  GSF_XML_IN_NODE (AUTOMATIC_STYLES, PAGE_LAYOUT, OO_NS_STYLE, "page-layout", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (AUTOMATIC_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
+  GSF_XML_IN_NODE (AUTOMATIC_STYLES, DATE_STYLE, OO_NS_NUMBER, "date-style", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
+  GSF_XML_IN_NODE (AUTOMATIC_STYLES, TIME_STYLE, OO_NS_NUMBER, "time-style", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
+  GSF_XML_IN_NODE (AUTOMATIC_STYLES, STYLE_BOOL, OO_NS_NUMBER, "boolean-style", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
+  GSF_XML_IN_NODE (AUTOMATIC_STYLES, STYLE_CURRENCY, OO_NS_NUMBER,   "currency-style", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
+  GSF_XML_IN_NODE (AUTOMATIC_STYLES, STYLE_PERCENTAGE, OO_NS_NUMBER, "percentage-style", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
+  GSF_XML_IN_NODE (AUTOMATIC_STYLES, STYLE_TEXT, OO_NS_NUMBER, "text-style", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
+
+GSF_XML_IN_NODE (OFFICE_DOC_STYLES, MASTER_STYLES, OO_NS_OFFICE, "master-styles", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (MASTER_STYLES, MASTER_PAGE, OO_NS_STYLE, "master-page", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (MASTER_PAGE, MASTER_PAGE_HEADER_LEFT, OO_NS_STYLE, "header-left", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (MASTER_PAGE, MASTER_PAGE_FOOTER_LEFT, OO_NS_STYLE, "footer-left", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (MASTER_PAGE, MASTER_PAGE_FOOTER, OO_NS_STYLE, "footer", GSF_XML_NO_CONTENT, NULL, NULL),
 GSF_XML_IN_NODE_END
 };
 
@@ -8070,7 +8100,7 @@ GSF_XML_IN_NODE_END
 static GsfXMLInNode const opendoc_content_dtd [] =
 {
 	GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
-	GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", GSF_XML_NO_CONTENT, &odf_find_version, NULL),
 	  GSF_XML_IN_NODE (OFFICE, SCRIPT, OO_NS_OFFICE, "scripts", GSF_XML_NO_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (OFFICE, OFFICE_FONTS, OO_NS_OFFICE, "font-face-decls", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (OFFICE_FONTS, FONT_FACE, OO_NS_STYLE, "font-face", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -9129,7 +9159,9 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 					     _("Unknown mimetype for openoffice file."));
 		g_object_unref (zip);
 		return;
-	}
+	} else if (state.ver == OOO_VER_OPENDOC)
+		state.ver_odf = 1.2; /* Probably most common at this time */
+	else  state.ver_odf = 0.;
 
 	contents = gsf_infile_child_by_name (zip, "content.xml");
 	if (contents == NULL) {

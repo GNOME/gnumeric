@@ -1,3 +1,12 @@
+2011-06-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_fraction): handle absence of min_i_digits
+	correctly depending on ODF version
+	(odf_find_version): new
+	(styles_dtd): connect odf_find_version and add a bunch of stubs
+	(opendoc_content_dtd): connect odf_find_version
+	(openoffice_file_open): initialize new field ver_odf
+
 2011-05-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_comment): fix leak

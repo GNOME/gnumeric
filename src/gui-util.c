@@ -769,7 +769,7 @@ gnm_create_std_tags_for_buffer (GtkTextBuffer *buffer)
 static gint
 gnm_load_pango_byte_to_char (gchar const *str, gint byte)
 {
-	if (byte >= strlen (str))
+	if (byte >= (gint) strlen (str))
 		return g_utf8_strlen (str, -1);
 	return g_utf8_pointer_to_offset (str, 
 					 g_utf8_prev_char (str + byte + 1));

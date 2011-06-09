@@ -10,6 +10,7 @@ Andreas
 	  [#651173][#646612]
 	* Import external references from ODF. [#645580]
 	* Some documentation improvements.
+	* Read fraction formats correctly from ODF 1.2 files.
 
 Morten:
 	* Fix leaks in SHEET.  [#650761]
