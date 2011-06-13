@@ -1,5 +1,10 @@
 2011-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_series_regression): fix spelling of
+	gnm:exponential-smoothed
+
+2011-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_series_regression): use "Trend line"
 	rather than "Regression curve".
 

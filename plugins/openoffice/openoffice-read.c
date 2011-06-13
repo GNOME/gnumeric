@@ -6805,7 +6805,7 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 				else if (0 == strcmp (reg_type, "logarithmic"))
 					type_name = "GogLogRegCurve";
 				else if (0 == strcmp
-					 (reg_type, "gnm:exponential-smoothing"))
+					 (reg_type, "gnm:exponential-smoothed"))
 					type_name = "GogExpSmooth";
 				else if (0 == strcmp
 					 (reg_type, "gnm:logfit"))
