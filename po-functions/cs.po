@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-05-23 01:55+0000\n"
-"PO-Revision-Date: 2011-05-27 09:49+0200\n"
+"POT-Creation-Date: 2011-06-08 16:19+0000\n"
+"PO-Revision-Date: 2011-06-13 12:57+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -182,28 +182,28 @@ msgstr "Pokud @{i} není ani „i“ ani „j“, COMPLEX vrátí #HODNOTA!."
 #: ../plugins/fn-math/functions.c:328 ../plugins/fn-math/functions.c:354
 #: ../plugins/fn-math/functions.c:378 ../plugins/fn-math/functions.c:397
 #: ../plugins/fn-math/functions.c:432 ../plugins/fn-math/functions.c:478
-#: ../plugins/fn-math/functions.c:552 ../plugins/fn-math/functions.c:664
-#: ../plugins/fn-math/functions.c:732 ../plugins/fn-math/functions.c:761
-#: ../plugins/fn-math/functions.c:781 ../plugins/fn-math/functions.c:835
-#: ../plugins/fn-math/functions.c:854 ../plugins/fn-math/functions.c:888
-#: ../plugins/fn-math/functions.c:949 ../plugins/fn-math/functions.c:1027
-#: ../plugins/fn-math/functions.c:1084 ../plugins/fn-math/functions.c:1117
-#: ../plugins/fn-math/functions.c:1139 ../plugins/fn-math/functions.c:1167
-#: ../plugins/fn-math/functions.c:1191 ../plugins/fn-math/functions.c:1217
-#: ../plugins/fn-math/functions.c:1291 ../plugins/fn-math/functions.c:1334
-#: ../plugins/fn-math/functions.c:1352 ../plugins/fn-math/functions.c:1449
-#: ../plugins/fn-math/functions.c:1467 ../plugins/fn-math/functions.c:1514
-#: ../plugins/fn-math/functions.c:1538 ../plugins/fn-math/functions.c:1584
-#: ../plugins/fn-math/functions.c:1601 ../plugins/fn-math/functions.c:1638
-#: ../plugins/fn-math/functions.c:1673 ../plugins/fn-math/functions.c:1708
-#: ../plugins/fn-math/functions.c:1745 ../plugins/fn-math/functions.c:1824
-#: ../plugins/fn-math/functions.c:1849 ../plugins/fn-math/functions.c:1876
-#: ../plugins/fn-math/functions.c:1902 ../plugins/fn-math/functions.c:1926
-#: ../plugins/fn-math/functions.c:1967 ../plugins/fn-math/functions.c:2012
-#: ../plugins/fn-math/functions.c:2139 ../plugins/fn-math/functions.c:2387
-#: ../plugins/fn-math/functions.c:2431 ../plugins/fn-math/functions.c:2474
-#: ../plugins/fn-math/functions.c:2517 ../plugins/fn-math/functions.c:2574
-#: ../plugins/fn-math/functions.c:2831 ../plugins/fn-math/functions.c:2898
+#: ../plugins/fn-math/functions.c:557 ../plugins/fn-math/functions.c:669
+#: ../plugins/fn-math/functions.c:737 ../plugins/fn-math/functions.c:766
+#: ../plugins/fn-math/functions.c:786 ../plugins/fn-math/functions.c:840
+#: ../plugins/fn-math/functions.c:859 ../plugins/fn-math/functions.c:893
+#: ../plugins/fn-math/functions.c:954 ../plugins/fn-math/functions.c:1032
+#: ../plugins/fn-math/functions.c:1089 ../plugins/fn-math/functions.c:1122
+#: ../plugins/fn-math/functions.c:1144 ../plugins/fn-math/functions.c:1172
+#: ../plugins/fn-math/functions.c:1196 ../plugins/fn-math/functions.c:1222
+#: ../plugins/fn-math/functions.c:1296 ../plugins/fn-math/functions.c:1339
+#: ../plugins/fn-math/functions.c:1357 ../plugins/fn-math/functions.c:1454
+#: ../plugins/fn-math/functions.c:1472 ../plugins/fn-math/functions.c:1519
+#: ../plugins/fn-math/functions.c:1543 ../plugins/fn-math/functions.c:1589
+#: ../plugins/fn-math/functions.c:1606 ../plugins/fn-math/functions.c:1643
+#: ../plugins/fn-math/functions.c:1678 ../plugins/fn-math/functions.c:1713
+#: ../plugins/fn-math/functions.c:1750 ../plugins/fn-math/functions.c:1829
+#: ../plugins/fn-math/functions.c:1854 ../plugins/fn-math/functions.c:1881
+#: ../plugins/fn-math/functions.c:1907 ../plugins/fn-math/functions.c:1931
+#: ../plugins/fn-math/functions.c:1972 ../plugins/fn-math/functions.c:2017
+#: ../plugins/fn-math/functions.c:2144 ../plugins/fn-math/functions.c:2392
+#: ../plugins/fn-math/functions.c:2436 ../plugins/fn-math/functions.c:2479
+#: ../plugins/fn-math/functions.c:2522 ../plugins/fn-math/functions.c:2579
+#: ../plugins/fn-math/functions.c:2836 ../plugins/fn-math/functions.c:2903
 #: ../plugins/fn-random/functions.c:48 ../plugins/fn-random/functions.c:249
 #: ../plugins/fn-stat/functions.c:83 ../plugins/fn-stat/functions.c:111
 #: ../plugins/fn-stat/functions.c:138 ../plugins/fn-stat/functions.c:166
@@ -1315,10 +1315,10 @@ msgstr ""
 #: ../plugins/fn-date/functions.c:1254 ../plugins/fn-eng/functions.c:212
 #: ../plugins/fn-eng/functions.c:316 ../plugins/fn-eng/functions.c:385
 #: ../plugins/fn-eng/functions.c:753 ../plugins/fn-financial/functions.c:1312
-#: ../plugins/fn-math/functions.c:433 ../plugins/fn-math/functions.c:1028
-#: ../plugins/fn-math/functions.c:1055 ../plugins/fn-math/functions.c:1372
-#: ../plugins/fn-math/functions.c:1392 ../plugins/fn-math/functions.c:2060
-#: ../plugins/fn-math/functions.c:2793 ../plugins/fn-stat/functions.c:1515
+#: ../plugins/fn-math/functions.c:433 ../plugins/fn-math/functions.c:1033
+#: ../plugins/fn-math/functions.c:1060 ../plugins/fn-math/functions.c:1377
+#: ../plugins/fn-math/functions.c:1397 ../plugins/fn-math/functions.c:2065
+#: ../plugins/fn-math/functions.c:2798 ../plugins/fn-stat/functions.c:1515
 #: ../plugins/fn-stat/functions.c:2393 ../plugins/fn-stat/functions.c:4522
 #: ../plugins/fn-string/functions.c:259 ../plugins/fn-string/functions.c:343
 #: ../plugins/fn-string/functions.c:470 ../plugins/fn-string/functions.c:1058
@@ -2322,7 +2322,7 @@ msgstr ""
 msgid "BASE:string of digits representing the number @{n} in base @{b}"
 msgstr "BASE:řetězec číslic představující číslo @{n} v číselné soustavě @{b}"
 
-#: ../plugins/fn-eng/functions.c:207 ../plugins/fn-math/functions.c:1288
+#: ../plugins/fn-eng/functions.c:207 ../plugins/fn-math/functions.c:1293
 #: ../plugins/fn-numtheory/numtheory.c:578
 #: ../plugins/fn-numtheory/numtheory.c:608
 msgid "n:integer"
@@ -2423,7 +2423,7 @@ msgid "DEC2OCT:octal representation of the decimal number @{x}"
 msgstr "DEC2OCT:osmičková podoba desítkového čísla @{x}"
 
 #: ../plugins/fn-eng/functions.c:337 ../plugins/fn-eng/functions.c:360
-#: ../plugins/fn-math/functions.c:1287
+#: ../plugins/fn-math/functions.c:1292
 msgid "x:integer"
 msgstr "x:celé číslo"
 
@@ -2546,7 +2546,6 @@ msgid "X:number"
 msgstr "X:číslo"
 
 #: ../plugins/fn-eng/functions.c:547 ../plugins/fn-eng/functions.c:585
-#| msgid "α:order (any non-negative integer)"
 msgid "α:order (any non-negative number)"
 msgstr "α:řád (libovolné nezáporné číslo)"
 
@@ -2606,20 +2605,20 @@ msgstr "CONVERT:převedená míra"
 #: ../plugins/fn-math/functions.c:267 ../plugins/fn-math/functions.c:308
 #: ../plugins/fn-math/functions.c:326 ../plugins/fn-math/functions.c:352
 #: ../plugins/fn-math/functions.c:371 ../plugins/fn-math/functions.c:395
-#: ../plugins/fn-math/functions.c:456 ../plugins/fn-math/functions.c:727
-#: ../plugins/fn-math/functions.c:780 ../plugins/fn-math/functions.c:798
-#: ../plugins/fn-math/functions.c:816 ../plugins/fn-math/functions.c:852
-#: ../plugins/fn-math/functions.c:870 ../plugins/fn-math/functions.c:887
-#: ../plugins/fn-math/functions.c:918 ../plugins/fn-math/functions.c:948
-#: ../plugins/fn-math/functions.c:972 ../plugins/fn-math/functions.c:996
-#: ../plugins/fn-math/functions.c:1080 ../plugins/fn-math/functions.c:1116
-#: ../plugins/fn-math/functions.c:1212 ../plugins/fn-math/functions.c:1390
-#: ../plugins/fn-math/functions.c:1430 ../plugins/fn-math/functions.c:1448
-#: ../plugins/fn-math/functions.c:1600 ../plugins/fn-math/functions.c:1635
-#: ../plugins/fn-math/functions.c:1672 ../plugins/fn-math/functions.c:1707
-#: ../plugins/fn-math/functions.c:1847 ../plugins/fn-math/functions.c:1897
-#: ../plugins/fn-math/functions.c:1921 ../plugins/fn-math/functions.c:1962
-#: ../plugins/fn-math/functions.c:2009 ../plugins/fn-stat/functions.c:410
+#: ../plugins/fn-math/functions.c:456 ../plugins/fn-math/functions.c:732
+#: ../plugins/fn-math/functions.c:785 ../plugins/fn-math/functions.c:803
+#: ../plugins/fn-math/functions.c:821 ../plugins/fn-math/functions.c:857
+#: ../plugins/fn-math/functions.c:875 ../plugins/fn-math/functions.c:892
+#: ../plugins/fn-math/functions.c:923 ../plugins/fn-math/functions.c:953
+#: ../plugins/fn-math/functions.c:977 ../plugins/fn-math/functions.c:1001
+#: ../plugins/fn-math/functions.c:1085 ../plugins/fn-math/functions.c:1121
+#: ../plugins/fn-math/functions.c:1217 ../plugins/fn-math/functions.c:1395
+#: ../plugins/fn-math/functions.c:1435 ../plugins/fn-math/functions.c:1453
+#: ../plugins/fn-math/functions.c:1605 ../plugins/fn-math/functions.c:1640
+#: ../plugins/fn-math/functions.c:1677 ../plugins/fn-math/functions.c:1712
+#: ../plugins/fn-math/functions.c:1852 ../plugins/fn-math/functions.c:1902
+#: ../plugins/fn-math/functions.c:1926 ../plugins/fn-math/functions.c:1967
+#: ../plugins/fn-math/functions.c:2014 ../plugins/fn-stat/functions.c:410
 #: ../plugins/fn-stat/functions.c:462 ../plugins/fn-stat/functions.c:523
 #: ../plugins/fn-stat/functions.c:843 ../plugins/fn-stat/functions.c:912
 #: ../plugins/fn-stat/functions.c:975 ../plugins/fn-stat/functions.c:1117
@@ -5463,9 +5462,9 @@ msgstr "ACOT:arkus kotangens @{x}"
 msgid "wolfram:InverseCotangent.html"
 msgstr "wolfram:InverseCotangent.html"
 
-#: ../plugins/fn-math/functions.c:294 ../plugins/fn-math/functions.c:763
-#: ../plugins/fn-math/functions.c:802 ../plugins/fn-math/functions.c:1356
-#: ../plugins/fn-math/functions.c:1376 ../plugins/fn-math/functions.c:1416
+#: ../plugins/fn-math/functions.c:294 ../plugins/fn-math/functions.c:768
+#: ../plugins/fn-math/functions.c:807 ../plugins/fn-math/functions.c:1361
+#: ../plugins/fn-math/functions.c:1381 ../plugins/fn-math/functions.c:1421
 msgid "wiki:en:Trigonometric_functions"
 msgstr "wiki:cs:Goniometrická_funkce"
 
@@ -5587,7 +5586,7 @@ msgid "COUNTIF:count of the cells meeting the given @{criteria}"
 msgstr "COUNTIF:počet buněk vyhovujících zadanému kritériu @{criteria}"
 
 #: ../plugins/fn-math/functions.c:476 ../plugins/fn-math/functions.c:549
-#: ../plugins/fn-math/functions.c:661
+#: ../plugins/fn-math/functions.c:666
 msgid "range:cell area"
 msgstr "range:oblast buněk"
 
@@ -5607,11 +5606,21 @@ msgstr ""
 msgid "criteria:condition for a cell to be summed"
 msgstr "criteria:podmínka pro buňku, která má být sečtena"
 
-#: ../plugins/fn-math/functions.c:551 ../plugins/fn-math/functions.c:663
+#: ../plugins/fn-math/functions.c:551 ../plugins/fn-math/functions.c:668
 msgid "actual_range:cell area, defaults to @{range}"
 msgstr "actual_range:oblast buněk, výchozí je @{range}"
 
-#: ../plugins/fn-math/functions.c:660
+#: ../plugins/fn-math/functions.c:552
+msgid ""
+"If the @{actual_range} has a size that differs from the size of @{range}, @"
+"{actual_range} is resized (retaining the top-left corner) to match the size "
+"of @{range}."
+msgstr ""
+"Pokud má @{actual_range} velikost, která se liší od velikosti @{range}, je "
+"velikost @{actual_range} upravena (počátek je v levém horním rohu) tak, aby "
+"odpovídala @{range}."
+
+#: ../plugins/fn-math/functions.c:665
 msgid ""
 "AVERAGEIF:average of the cells in @{actual range} for which the "
 "corresponding cells in the range meet the given @{criteria}"
@@ -5619,11 +5628,11 @@ msgstr ""
 "AVERAGEIF:průměr buněk v rozsahu @{actual_range}, pro které odpovídající "
 "buňka v rozsahu vyhovuje zadanému kritériu @{criteria}"
 
-#: ../plugins/fn-math/functions.c:662
+#: ../plugins/fn-math/functions.c:667
 msgid "criteria:condition for a cell to be included"
 msgstr "criteria:podmínka pro buňku, která má být zahrnuta"
 
-#: ../plugins/fn-math/functions.c:726
+#: ../plugins/fn-math/functions.c:731
 msgid ""
 "CEILING:nearest multiple of @{significance} whose absolute value is at least "
 "ABS(@{x})"
@@ -5631,13 +5640,13 @@ msgstr ""
 "CEILING:nejbližší násobek @{significance}, jehož absolutní hodnota je "
 "nejméně ABS(@{x})"
 
-#: ../plugins/fn-math/functions.c:728 ../plugins/fn-math/functions.c:1081
+#: ../plugins/fn-math/functions.c:733 ../plugins/fn-math/functions.c:1086
 msgid ""
 "significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)"
 msgstr ""
 "significance:základ násobku (výchozí je 1 pro @{x} > 0 a -1 pro @{x} <0)"
 
-#: ../plugins/fn-math/functions.c:729
+#: ../plugins/fn-math/functions.c:734
 msgid ""
 "CEILING(@{x},@{significance}) is the nearest multiple of @{significance} "
 "whose absolute value is at least ABS(@{x})."
@@ -5645,14 +5654,14 @@ msgstr ""
 "CEILING(@{x},@{significance}) je nejbližší násobek @{significance}, jehož "
 "absolutní hodnota je nejméně ABS(@{x})."
 
-#: ../plugins/fn-math/functions.c:730
+#: ../plugins/fn-math/functions.c:735
 msgid ""
 "If @{x} or @{significance} is non-numeric, CEILING returns a #VALUE! error."
 msgstr ""
 "Pokud @{x} nebo @{significance} není číslo, funkce CEILING vrátí chybu "
 "#HODNOTA!."
 
-#: ../plugins/fn-math/functions.c:731
+#: ../plugins/fn-math/functions.c:736
 msgid ""
 "If @{x} and @{significance} have different signs, CEILING returns a #NUM! "
 "error."
@@ -5660,7 +5669,7 @@ msgstr ""
 "Pokud @{x} a @{significance} mají různá znaménka, funkce CEILING vrací chybu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:733
+#: ../plugins/fn-math/functions.c:738
 msgid ""
 "CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). CEILING(@{x},"
 "@{significance}) is the OpenFormula function CEILING(@{x},@{significance},1)."
@@ -5668,93 +5677,93 @@ msgstr ""
 "CEILING(@{x}) je exportováno do ODF jako CEILING(@{x},SIGN(@{x}),1). CEILING"
 "(@{x},@{significance}) je funkce OpenFormula CEILING(@{x},@{significance},1)."
 
-#: ../plugins/fn-math/functions.c:759
+#: ../plugins/fn-math/functions.c:764
 msgid "COS:the cosine of @{x}"
 msgstr "COS:kosinus @{x}"
 
-#: ../plugins/fn-math/functions.c:760 ../plugins/fn-math/functions.c:834
-#: ../plugins/fn-math/functions.c:1351 ../plugins/fn-math/functions.c:1370
-#: ../plugins/fn-math/functions.c:1410 ../plugins/fn-math/functions.c:1583
+#: ../plugins/fn-math/functions.c:765 ../plugins/fn-math/functions.c:839
+#: ../plugins/fn-math/functions.c:1356 ../plugins/fn-math/functions.c:1375
+#: ../plugins/fn-math/functions.c:1415 ../plugins/fn-math/functions.c:1588
 msgid "x:angle in radians"
 msgstr "x:úhel v radiánech"
 
-#: ../plugins/fn-math/functions.c:762
+#: ../plugins/fn-math/functions.c:767
 msgid "wolfram:Cosine.html"
 msgstr "wolfram:Cosine.html"
 
-#: ../plugins/fn-math/functions.c:779
+#: ../plugins/fn-math/functions.c:784
 msgid "COSH:the hyperbolic cosine of @{x}"
 msgstr "COSH:hyperbolický kosinus @{x}"
 
-#: ../plugins/fn-math/functions.c:797
+#: ../plugins/fn-math/functions.c:802
 msgid "COT:the cotangent of @{x}"
 msgstr "COT:kotangens @{x}"
 
-#: ../plugins/fn-math/functions.c:801
+#: ../plugins/fn-math/functions.c:806
 msgid "wolfram:Cotangent.html"
 msgstr "wolfram:Cotangent.html"
 
-#: ../plugins/fn-math/functions.c:815
+#: ../plugins/fn-math/functions.c:820
 msgid "COTH:the hyperbolic cotangent of @{x}"
 msgstr "COTH:hyperbolický kotangens @{x}"
 
-#: ../plugins/fn-math/functions.c:819
+#: ../plugins/fn-math/functions.c:824
 msgid "wolfram:HyperbolicCotangent.html"
 msgstr "wolfram:HyperbolicCotangent.html"
 
-#: ../plugins/fn-math/functions.c:820 ../plugins/fn-math/functions.c:1396
-#: ../plugins/fn-math/functions.c:1436
+#: ../plugins/fn-math/functions.c:825 ../plugins/fn-math/functions.c:1401
+#: ../plugins/fn-math/functions.c:1441
 msgid "wiki:en:Hyperbolic_function"
 msgstr "wiki:cs:Hyperbolická_funkce"
 
-#: ../plugins/fn-math/functions.c:833
+#: ../plugins/fn-math/functions.c:838
 msgid "DEGREES:equivalent degrees to @{x} radians"
 msgstr "DEGREES:hodnota ve stupních odpovídající @{x} radiánům"
 
-#: ../plugins/fn-math/functions.c:851
+#: ../plugins/fn-math/functions.c:856
 msgid "EXP:e raised to the power of @{x}"
 msgstr "EXP:e umocněno na @{x}"
 
-#: ../plugins/fn-math/functions.c:853
+#: ../plugins/fn-math/functions.c:858
 msgid "e is the base of the natural logarithm."
 msgstr "e je základ přirozeného logaritmu"
 
-#: ../plugins/fn-math/functions.c:869
+#: ../plugins/fn-math/functions.c:874
 msgid "EXPM1:EXP(@{x})-1"
 msgstr "EXPM1:EXP(@{x}) - 1"
 
-#: ../plugins/fn-math/functions.c:871
+#: ../plugins/fn-math/functions.c:876
 msgid ""
 "This function has a higher resulting precision than evaluating EXP(@{x})-1."
 msgstr ""
 "Tato funkce má větší přesnost výpočtu než prostý výpočet EXP(@{x}) - 1."
 
-#: ../plugins/fn-math/functions.c:886
+#: ../plugins/fn-math/functions.c:891
 msgid "FACT:the factorial of @{x}, i.e. @{x}!"
 msgstr "FACT:faktoriál @{x}, t.j. @{x}!"
 
-#: ../plugins/fn-math/functions.c:889
+#: ../plugins/fn-math/functions.c:894
 msgid "The domain of this function has been extended using the GAMMA function."
 msgstr "Doménou této funkce bylo rozšířit používání funkce GAMMA."
 
-#: ../plugins/fn-math/functions.c:917
+#: ../plugins/fn-math/functions.c:922
 msgid "GAMMA:the Gamma function"
 msgstr "GAMMA:funkce Gamma"
 
-#: ../plugins/fn-math/functions.c:947
+#: ../plugins/fn-math/functions.c:952
 msgid "GAMMALN:natural logarithm of the Gamma function"
 msgstr "GAMMALN:přirozený logaritmus funkce Gamma"
 
-#: ../plugins/fn-math/functions.c:971
+#: ../plugins/fn-math/functions.c:976
 msgid "BETA:Euler beta function"
 msgstr "BETA:Eulerova funkce beta"
 
-#: ../plugins/fn-math/functions.c:973 ../plugins/fn-math/functions.c:997
-#: ../plugins/fn-math/functions.c:1213
+#: ../plugins/fn-math/functions.c:978 ../plugins/fn-math/functions.c:1002
+#: ../plugins/fn-math/functions.c:1218
 msgid "y:number"
 msgstr "y:číslo"
 
-#: ../plugins/fn-math/functions.c:974
+#: ../plugins/fn-math/functions.c:979
 msgid ""
 "BETA function returns the value of the Euler beta function extended to all "
 "real numbers except 0 and negative integers."
@@ -5762,23 +5771,23 @@ msgstr ""
 "BETA funkce vrací hodnotu funkce beta (Eulerova integrálu prvního druhu) v "
 "oboru všech reálných čísel vyjma 0 a záporných celých čísel."
 
-#: ../plugins/fn-math/functions.c:975
+#: ../plugins/fn-math/functions.c:980
 msgid ""
 "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETA returns #NUM!"
 msgstr ""
 "Pokud jsou @{x}, @{y} nebo (@{x} + @{y}) nekladná celá čísla, funkce BETA "
 "vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:979 ../plugins/fn-math/functions.c:1003
+#: ../plugins/fn-math/functions.c:984 ../plugins/fn-math/functions.c:1008
 msgid "wiki:en:Beta_function"
 msgstr "wiki:cs:Beta_funkce"
 
-#: ../plugins/fn-math/functions.c:995
+#: ../plugins/fn-math/functions.c:1000
 msgid ""
 "BETALN:natural logarithm of the absolute value of the Euler beta function"
 msgstr "BETALN:přirozený logaritmus absolutní hodnoty Eulerovy funkce beta"
 
-#: ../plugins/fn-math/functions.c:998
+#: ../plugins/fn-math/functions.c:1003
 msgid ""
 "BETALN function returns the natural logarithm of the absolute value of the "
 "Euler beta function extended to all real numbers except 0 and negative "
@@ -5787,7 +5796,7 @@ msgstr ""
 "Funkce BETALN vrací přirozený logaritmus absolutní hodnoty Eulerovy funkce "
 "beta rozšířený na všechna reálná čísla, vyjma 0 a záporných celých čísel."
 
-#: ../plugins/fn-math/functions.c:999
+#: ../plugins/fn-math/functions.c:1004
 msgid ""
 "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETALN returns "
 "#NUM!"
@@ -5795,20 +5804,20 @@ msgstr ""
 "Pokud jsou @{x}, @{y} nebo (@{x} + @{y}) nekladná celá čísla, funkce BETALN "
 "vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:1020
+#: ../plugins/fn-math/functions.c:1025
 msgid "COMBIN:binomial coefficient"
 msgstr "COMBIN:kombinační číslo"
 
-#: ../plugins/fn-math/functions.c:1021 ../plugins/fn-math/functions.c:1053
-#: ../plugins/fn-math/functions.c:2133
+#: ../plugins/fn-math/functions.c:1026 ../plugins/fn-math/functions.c:1058
+#: ../plugins/fn-math/functions.c:2138
 msgid "n:non-negative integer"
 msgstr "n:nezáporné celé číslo"
 
-#: ../plugins/fn-math/functions.c:1022 ../plugins/fn-math/functions.c:1054
+#: ../plugins/fn-math/functions.c:1027 ../plugins/fn-math/functions.c:1059
 msgid "k:non-negative integer"
 msgstr "k:nezáporné celé číslo"
 
-#: ../plugins/fn-math/functions.c:1023
+#: ../plugins/fn-math/functions.c:1028
 msgid ""
 "COMBIN returns the binomial coefficient \"@{n} choose @{k}\", the number of @"
 "{k}-combinations of an @{n}-element set without repetition."
@@ -5816,25 +5825,25 @@ msgstr ""
 "COMBIN vrací kombinační číslo „@{k}-té třídy z @{n} prvků“, což je výběr @"
 "{k} prvků z celkových @{n} prvků bez opakování."
 
-#: ../plugins/fn-math/functions.c:1026
+#: ../plugins/fn-math/functions.c:1031
 msgid "If @{n} is less than @{k} COMBIN returns #NUM!"
 msgstr "Pokud je @{n} menší než @{k}, funkce COMBIN vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:1031
+#: ../plugins/fn-math/functions.c:1036
 msgid "wiki:en:Binomial_coefficient"
 msgstr "wiki:cs:Kombinační_číslo"
 
-#: ../plugins/fn-math/functions.c:1051
+#: ../plugins/fn-math/functions.c:1056
 msgid ""
 "COMBINA:the number of @{k}-combinations of an @{n}-element set with "
 "repetition"
 msgstr "COMBINA: počet @{k} kombinací z @{n} prvků s opakováním"
 
-#: ../plugins/fn-math/functions.c:1059
+#: ../plugins/fn-math/functions.c:1064
 msgid "wiki:en:Multiset"
 msgstr "wiki:cs:Multimnožina"
 
-#: ../plugins/fn-math/functions.c:1079
+#: ../plugins/fn-math/functions.c:1084
 msgid ""
 "FLOOR:nearest multiple of @{significance} whose absolute value is at most ABS"
 "(@{x})"
@@ -5842,7 +5851,7 @@ msgstr ""
 "FLOOR:nejbližší násobek @{significance}, jehož absolutní hodnota je "
 "nanejvýše ABS(@{x})"
 
-#: ../plugins/fn-math/functions.c:1083
+#: ../plugins/fn-math/functions.c:1088
 msgid ""
 "FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} whose "
 "absolute value is at most ABS(@{x})"
@@ -5850,7 +5859,7 @@ msgstr ""
 "FLOOR(@{x},@{significance}) je nejbližší násobek @{significance}, jehož "
 "absolutní hodnota je nanejvýše ABS(@{x})"
 
-#: ../plugins/fn-math/functions.c:1085
+#: ../plugins/fn-math/functions.c:1090
 msgid ""
 "FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},@"
 "{significance}) is the OpenFormula function FLOOR(@{x},@{significance},1)."
@@ -5858,45 +5867,45 @@ msgstr ""
 "FLOOR(@{x}) je exportováno do ODF jako FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},@"
 "{significance}) je funkce OpenFormula FLOOR(@{x},@{significance},1)."
 
-#: ../plugins/fn-math/functions.c:1115
+#: ../plugins/fn-math/functions.c:1120
 msgid "INT:largest integer not larger than @{x}"
 msgstr "INT:největší celé číslo, které není větší než @{x}"
 
-#: ../plugins/fn-math/functions.c:1134
+#: ../plugins/fn-math/functions.c:1139
 msgid "LOG:logarithm of @{x} with base @{base}"
 msgstr "LOG:logaritmus o základu @{base} čísla @{x}"
 
-#: ../plugins/fn-math/functions.c:1135 ../plugins/fn-math/functions.c:1165
-#: ../plugins/fn-math/functions.c:1188 ../plugins/fn-math/functions.c:1243
-#: ../plugins/fn-math/functions.c:1265
+#: ../plugins/fn-math/functions.c:1140 ../plugins/fn-math/functions.c:1170
+#: ../plugins/fn-math/functions.c:1193 ../plugins/fn-math/functions.c:1248
+#: ../plugins/fn-math/functions.c:1270
 msgid "x:positive number"
 msgstr "x:kladné číslo"
 
-#: ../plugins/fn-math/functions.c:1136
+#: ../plugins/fn-math/functions.c:1141
 msgid "base:base of the logarithm, defaults to 10"
 msgstr "base:základ logaritmu, výchozí je 10"
 
-#: ../plugins/fn-math/functions.c:1137
+#: ../plugins/fn-math/functions.c:1142
 msgid "@{base} must be positive and not equal to 1."
 msgstr "Základ @{base} musí být kladný a nesmí být roven 0."
 
-#: ../plugins/fn-math/functions.c:1138
+#: ../plugins/fn-math/functions.c:1143
 msgid "If @{x} ≤ 0, LOG returns #NUM! error."
 msgstr "Pokud je @{x} ≤ 0, funkce LOG vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:1164
+#: ../plugins/fn-math/functions.c:1169
 msgid "LN:the natural logarithm of @{x}"
 msgstr "LN:přirozený logaritmus čísla @{x}"
 
-#: ../plugins/fn-math/functions.c:1166
+#: ../plugins/fn-math/functions.c:1171
 msgid "If @{x} ≤ 0, LN returns #NUM! error."
 msgstr "Pokud je @{x} ≤ 0, funkce LN vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:1187
+#: ../plugins/fn-math/functions.c:1192
 msgid "LN1P:LN(1+@{x})"
 msgstr "LN1P:LN(1 + @{x})"
 
-#: ../plugins/fn-math/functions.c:1189
+#: ../plugins/fn-math/functions.c:1194
 msgid ""
 "LN1P calculates LN(1+@{x}) but yielding a higher precision than evaluating LN"
 "(1+@{x})."
@@ -5904,214 +5913,214 @@ msgstr ""
 "LN1P vypočítává LN(1+@{x}), ale poskytuje větší přesnost než běžný výpočet LN"
 "(1+@{x})."
 
-#: ../plugins/fn-math/functions.c:1190
+#: ../plugins/fn-math/functions.c:1195
 msgid "If @{x} ≤ -1, LN returns #NUM! error."
 msgstr "Pokud je @{x} ≤ -1, funkce LN vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:1211
+#: ../plugins/fn-math/functions.c:1216
 msgid "POWER:the value of @{x} raised to the power @{y}"
 msgstr "POWER:hodnota @{x} umocněná na @{y}"
 
-#: ../plugins/fn-math/functions.c:1214
+#: ../plugins/fn-math/functions.c:1219
 msgid "If both @{x} and @{y} equal 0, POWER returns #NUM!"
 msgstr "Pokud je @{x} i @{y} rovno 0, funkce POWER vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:1215
+#: ../plugins/fn-math/functions.c:1220
 msgid "If @{x} = 0 and @{y} < 0, POWER returns #DIV/0!"
 msgstr "Pokud je @{x} = 0 a @{y} < 0, funkce POWER vrací #DĚLENÍ/0!."
 
-#: ../plugins/fn-math/functions.c:1216
+#: ../plugins/fn-math/functions.c:1221
 msgid "If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!"
 msgstr "Pokud @{x} < 0 a @{y} není celé číslo, funkce POWER vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:1242
+#: ../plugins/fn-math/functions.c:1247
 msgid "LOG2:the base-2 logarithm of @{x}"
 msgstr "LOG2:logaritmus o základu 2 čísla @{x}"
 
-#: ../plugins/fn-math/functions.c:1244
+#: ../plugins/fn-math/functions.c:1249
 msgid "If @{x} ≤ 0, LOG2 returns #NUM!"
 msgstr "Pokud je @{x} ≤ 0, funkce LOG2 vrací #ČÍSLO!"
 
-#: ../plugins/fn-math/functions.c:1264
+#: ../plugins/fn-math/functions.c:1269
 msgid "LOG10:the base-10 logarithm of @{x}"
 msgstr "LOG10:logaritmus o základu 10 čísla @{x}"
 
-#: ../plugins/fn-math/functions.c:1266
+#: ../plugins/fn-math/functions.c:1271
 msgid "If @{x} ≤ 0, LOG10 returns #NUM!"
 msgstr "Pokud je @{x} ≤ 0, funkce LOG10 vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:1286
+#: ../plugins/fn-math/functions.c:1291
 msgid "MOD:the remainder of @{x} under division by @{n}"
 msgstr "MOD:zbytek po dělení @{x} hodnotou @{n}"
 
-#: ../plugins/fn-math/functions.c:1289
+#: ../plugins/fn-math/functions.c:1294
 msgid "MOD function returns the remainder when @{x} is divided by @{n}."
 msgstr ""
 "Funkce MOD vrací zbytek, který zůstane po celočíselném vydělení @{x} "
 "hodnotou @{n}."
 
-#: ../plugins/fn-math/functions.c:1290
+#: ../plugins/fn-math/functions.c:1295
 msgid "If @{n} is 0, MOD returns #DIV/0!"
 msgstr "Pokud je @{n} rovno 0, funkce MOD vrací #DĚLENÍ/0!."
 
-#: ../plugins/fn-math/functions.c:1332
+#: ../plugins/fn-math/functions.c:1337
 msgid "RADIANS:the number of radians equivalent to @{x} degrees"
 msgstr "RADIANS:počet radiánů odpovídající @{x} stupňům"
 
-#: ../plugins/fn-math/functions.c:1333
+#: ../plugins/fn-math/functions.c:1338
 msgid "x:angle in degrees"
 msgstr "x:úhel ve stupních"
 
-#: ../plugins/fn-math/functions.c:1350
+#: ../plugins/fn-math/functions.c:1355
 msgid "SIN:the sine of @{x}"
 msgstr "SIN:sinus @{x}"
 
-#: ../plugins/fn-math/functions.c:1355
+#: ../plugins/fn-math/functions.c:1360
 msgid "wolfram:Sine.html"
 msgstr "wolfram:Sine.html"
 
-#: ../plugins/fn-math/functions.c:1369
+#: ../plugins/fn-math/functions.c:1374
 msgid "CSC:the cosecant of @{x}"
 msgstr "CSC:kosekans @{x}"
 
-#: ../plugins/fn-math/functions.c:1371 ../plugins/fn-math/functions.c:1391
-#: ../plugins/fn-math/functions.c:1411 ../plugins/fn-math/functions.c:1431
+#: ../plugins/fn-math/functions.c:1376 ../plugins/fn-math/functions.c:1396
+#: ../plugins/fn-math/functions.c:1416 ../plugins/fn-math/functions.c:1436
 msgid "This function is not Excel compatible."
 msgstr "Tato funkce není kompatibilní s aplikací Excel."
 
-#: ../plugins/fn-math/functions.c:1375
+#: ../plugins/fn-math/functions.c:1380
 msgid "wolfram:Cosecant.html"
 msgstr "wolfram:Cosecant.html"
 
-#: ../plugins/fn-math/functions.c:1389
+#: ../plugins/fn-math/functions.c:1394
 msgid "CSCH:the hyperbolic cosecant of @{x}"
 msgstr "CSCH:hyperbolický kosekans @{x}"
 
-#: ../plugins/fn-math/functions.c:1395
+#: ../plugins/fn-math/functions.c:1400
 msgid "wolfram:HyperbolicCosecant.html"
 msgstr "wolfram:HyperbolicCosecant.html"
 
-#: ../plugins/fn-math/functions.c:1409
+#: ../plugins/fn-math/functions.c:1414
 msgid "SEC:Secant"
 msgstr "SEC:sekans"
 
-#: ../plugins/fn-math/functions.c:1412
+#: ../plugins/fn-math/functions.c:1417
 msgid "SEC(@{x}) is exported to OpenFormula as 1/COS(@{x})."
 msgstr "SEC(@{x}) je exportováno do OpenFormula jako 1/COS(@{x})."
 
-#: ../plugins/fn-math/functions.c:1415
+#: ../plugins/fn-math/functions.c:1420
 msgid "wolfram:Secant.html"
 msgstr "wolfram:Secant.html"
 
-#: ../plugins/fn-math/functions.c:1429
+#: ../plugins/fn-math/functions.c:1434
 msgid "SECH:the hyperbolic secant of @{x}"
 msgstr "SECH:hyperbolický sekans @{x}"
 
-#: ../plugins/fn-math/functions.c:1432
+#: ../plugins/fn-math/functions.c:1437
 msgid "SECH(@{x}) is exported to OpenFormula as 1/COSH(@{x})."
 msgstr "SECH(@{x}) je exportováno do OpenFormula jako 1/COSH(@{x})."
 
-#: ../plugins/fn-math/functions.c:1435
+#: ../plugins/fn-math/functions.c:1440
 msgid "wolfram:HyperbolicSecant.html"
 msgstr "wolfram:HyperbolicSecant.html"
 
-#: ../plugins/fn-math/functions.c:1447
+#: ../plugins/fn-math/functions.c:1452
 msgid "SINH:the hyperbolic sine of @{x}"
 msgstr "SINH:hyperbolický sinus @{x}"
 
-#: ../plugins/fn-math/functions.c:1465
+#: ../plugins/fn-math/functions.c:1470
 msgid "SQRT:square root of @{x}"
 msgstr "SQRT:druhá odmocnina z @{x}"
 
-#: ../plugins/fn-math/functions.c:1466 ../plugins/fn-math/functions.c:1875
+#: ../plugins/fn-math/functions.c:1471 ../plugins/fn-math/functions.c:1880
 msgid "x:non-negative number"
 msgstr "x:nezáporné číslo"
 
-#: ../plugins/fn-math/functions.c:1468
+#: ../plugins/fn-math/functions.c:1473
 msgid "If @{x} is negative, SQRT returns #NUM!"
 msgstr "Pokud je @{x} záporné, funkce SQRT vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:1487
+#: ../plugins/fn-math/functions.c:1492
 msgid "SUMA:sum of all values and cells referenced"
 msgstr "SUMA:součet všech hodnot a odkazovaných buněk"
 
-#: ../plugins/fn-math/functions.c:1488 ../plugins/fn-math/functions.c:1512
+#: ../plugins/fn-math/functions.c:1493 ../plugins/fn-math/functions.c:1517
 msgid "area0:first cell area"
 msgstr "area0:první oblast buněk"
 
-#: ../plugins/fn-math/functions.c:1489 ../plugins/fn-math/functions.c:1513
+#: ../plugins/fn-math/functions.c:1494 ../plugins/fn-math/functions.c:1518
 msgid "area1:second cell area"
 msgstr "area1:druhá oblast buněk"
 
-#: ../plugins/fn-math/functions.c:1511
+#: ../plugins/fn-math/functions.c:1516
 msgid "SUMSQ:sum of the squares of all values and cells referenced"
 msgstr "SUMSQ:součet druhých mocnin všech hodnot a odkazovaných buněk"
 
-#: ../plugins/fn-math/functions.c:1534
+#: ../plugins/fn-math/functions.c:1539
 msgid ""
 "MULTINOMIAL:multinomial coefficient (@{x1}+⋯+@{xn}) choose (@{x1},…,@{xn})"
 msgstr "MULTINOMIAL:mnohočlen (@{x1}+⋯+@{xn}) výběru (@{x1},…,@{xn})"
 
-#: ../plugins/fn-math/functions.c:1535
+#: ../plugins/fn-math/functions.c:1540
 msgid "x1:first number"
 msgstr "x1:první číslo"
 
-#: ../plugins/fn-math/functions.c:1536
+#: ../plugins/fn-math/functions.c:1541
 msgid "x2:second number"
 msgstr "x2:druhé číslo"
 
-#: ../plugins/fn-math/functions.c:1537
+#: ../plugins/fn-math/functions.c:1542
 msgid "xn:nth number"
 msgstr "xn:n-té číslo"
 
-#: ../plugins/fn-math/functions.c:1541
+#: ../plugins/fn-math/functions.c:1546
 msgid "wiki:en:Multinomial_theorem"
 msgstr "wiki:en:Multinomial_theorem"
 
-#: ../plugins/fn-math/functions.c:1559
+#: ../plugins/fn-math/functions.c:1564
 msgid "G_PRODUCT:product of all the values and cells referenced"
 msgstr "G_PRODUCT:součin všech hodnot a odkazovaných buněk"
 
-#: ../plugins/fn-math/functions.c:1560
+#: ../plugins/fn-math/functions.c:1565
 msgid "x1:number"
 msgstr "x1:číslo"
 
-#: ../plugins/fn-math/functions.c:1561
+#: ../plugins/fn-math/functions.c:1566
 msgid "x2:number"
 msgstr "x2:číslo"
 
-#: ../plugins/fn-math/functions.c:1562
+#: ../plugins/fn-math/functions.c:1567
 msgid "Empty cells are ignored and the empty product is 1."
 msgstr "Prázdné buňky jsou ignorovány a prázdný součin je 1."
 
-#: ../plugins/fn-math/functions.c:1582
+#: ../plugins/fn-math/functions.c:1587
 msgid "TAN:the tangent of @{x}"
 msgstr "TAN:tangen @{x}"
 
-#: ../plugins/fn-math/functions.c:1599
+#: ../plugins/fn-math/functions.c:1604
 msgid "TANH:the hyperbolic tangent of @{x}"
 msgstr "TANH:hyperbolický tangens @{x}"
 
-#: ../plugins/fn-math/functions.c:1616
+#: ../plugins/fn-math/functions.c:1621
 msgid "PI:the constant π"
 msgstr "PI:konstanta π"
 
-#: ../plugins/fn-math/functions.c:1617
+#: ../plugins/fn-math/functions.c:1622
 msgid ""
 "This function is Excel compatible, but it returns π with a better precision."
 msgstr ""
 "Tato funkce je kompatibilní s aplikací Excel, akorát vrací π s větší "
 "přesností."
 
-#: ../plugins/fn-math/functions.c:1634
+#: ../plugins/fn-math/functions.c:1639
 msgid "TRUNC:@{x} truncated to @{d} digits"
 msgstr "TRUNC:@{x} oříznuté na @{d} číslic"
 
-#: ../plugins/fn-math/functions.c:1636
+#: ../plugins/fn-math/functions.c:1641
 msgid "d:non-negative integer, defaults to 0"
 msgstr "d:nezáporné celé číslo, výchozí je 0"
 
-#: ../plugins/fn-math/functions.c:1637
+#: ../plugins/fn-math/functions.c:1642
 msgid ""
 "If @{d} is omitted or negative then it defaults to zero. If it is not an "
 "integer then it is truncated to an integer."
@@ -6119,27 +6128,27 @@ msgstr ""
 "Pokud je hodnota @{d} vynechána nebo je záporná, je standardně nastavena na "
 "nulu. Pokud je neceločíselná, tak je oříznuta."
 
-#: ../plugins/fn-math/functions.c:1671
+#: ../plugins/fn-math/functions.c:1676
 msgid "EVEN:@{x} rounded away from 0 to the next even integer"
 msgstr "EVEN:@{x} zaokrouhleno směrem od 0 na následující sudé celé číslo"
 
-#: ../plugins/fn-math/functions.c:1706
+#: ../plugins/fn-math/functions.c:1711
 msgid "ODD:@{x} rounded away from 0 to the next odd integer"
 msgstr "ODD:@{x} zaokrouhleno směrem od 0 na následující liché celé číslo"
 
-#: ../plugins/fn-math/functions.c:1741
+#: ../plugins/fn-math/functions.c:1746
 msgid "FACTDOUBLE:double factorial"
 msgstr "FACTDOUBLE:dvojitý faktoriál"
 
-#: ../plugins/fn-math/functions.c:1742
+#: ../plugins/fn-math/functions.c:1747
 msgid "x:non-negative integer"
 msgstr "x:nezáporné celé číslo"
 
-#: ../plugins/fn-math/functions.c:1743
+#: ../plugins/fn-math/functions.c:1748
 msgid "FACTDOUBLE function returns the double factorial @{x}!!"
 msgstr "Funkce FACTDOUBLE vrací dvojitý faktoriál @{x}!!."
 
-#: ../plugins/fn-math/functions.c:1744
+#: ../plugins/fn-math/functions.c:1749
 msgid ""
 "If @{x} is not an integer, it is truncated. If @{x} is negative, FACTDOUBLE "
 "returns #NUM!"
@@ -6147,11 +6156,11 @@ msgstr ""
 "Pokud je hodnota @{x} neceločíselná, tak je oříznuta. Pokud je hodnota @{x} "
 "záporná, funkce FACTDOUBLE vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:1778
+#: ../plugins/fn-math/functions.c:1783
 msgid "FIB:Fibonacci numbers"
 msgstr "FIB:Fibonacciho čísla"
 
-#: ../plugins/fn-math/functions.c:1779 ../plugins/fn-numtheory/numtheory.c:219
+#: ../plugins/fn-math/functions.c:1784 ../plugins/fn-numtheory/numtheory.c:219
 #: ../plugins/fn-numtheory/numtheory.c:253
 #: ../plugins/fn-numtheory/numtheory.c:294
 #: ../plugins/fn-numtheory/numtheory.c:326
@@ -6161,11 +6170,11 @@ msgstr "FIB:Fibonacciho čísla"
 msgid "n:positive integer"
 msgstr "n:kladné celé číslo"
 
-#: ../plugins/fn-math/functions.c:1780
+#: ../plugins/fn-math/functions.c:1785
 msgid "FIB(@{n}) is the @{n}th Fibonacci number."
 msgstr "FIB(@{n}) je @{n}-té Fibonacciho číslo."
 
-#: ../plugins/fn-math/functions.c:1781
+#: ../plugins/fn-math/functions.c:1786
 msgid ""
 "If @{n} is not an integer, it is truncated. If it is negative or zero FIB "
 "returns #NUM!"
@@ -6173,19 +6182,19 @@ msgstr ""
 "Pokud je hodnota @{n} neceločíselná, tak je oříznuta. Pokud je záporná nebo "
 "nulová, funkce FIB vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:1819
+#: ../plugins/fn-math/functions.c:1824
 msgid "QUOTIENT:integer portion of a division"
 msgstr "QUOTIENT:celočíselná část po dělení"
 
-#: ../plugins/fn-math/functions.c:1820
+#: ../plugins/fn-math/functions.c:1825
 msgid "numerator:integer"
 msgstr "numerator:celé číslo"
 
-#: ../plugins/fn-math/functions.c:1821
+#: ../plugins/fn-math/functions.c:1826
 msgid "denominator:non-zero integer"
 msgstr "denominator:nenulové celé číslo"
 
-#: ../plugins/fn-math/functions.c:1822
+#: ../plugins/fn-math/functions.c:1827
 msgid ""
 "QUOTIENT yields the integer portion of the division @{numerator}/@"
 "{denominator}.\n"
@@ -6196,29 +6205,29 @@ msgstr ""
 "QUOTIENT (@{dělenec},@{dělitel})⨉@{dělitel} + MOD(@{dělenec},@{dělitel}) = @"
 "{dělenec}"
 
-#: ../plugins/fn-math/functions.c:1846
+#: ../plugins/fn-math/functions.c:1851
 msgid "SIGN:sign of @{x}"
 msgstr "SIGN:znaménko @{x}"
 
-#: ../plugins/fn-math/functions.c:1848
+#: ../plugins/fn-math/functions.c:1853
 msgid ""
 "SIGN returns 1 if the @{x} is positive and it returns -1 if @{x} is negative."
 msgstr "SIGN vrací 1, když je @{x} kladné a -1, když je záporné."
 
-#: ../plugins/fn-math/functions.c:1873
+#: ../plugins/fn-math/functions.c:1878
 msgid "SQRTPI:the square root of @{x} times π"
 msgstr "SQRTPI:druhá odmocnina čísla @{x} vynásobená π"
 
-#: ../plugins/fn-math/functions.c:1896
+#: ../plugins/fn-math/functions.c:1901
 msgid "ROUNDDOWN:@{x} rounded towards 0"
 msgstr "ROUNDDOWN:@{x} zaokrouhleno směrem k 0"
 
-#: ../plugins/fn-math/functions.c:1898 ../plugins/fn-math/functions.c:1922
-#: ../plugins/fn-math/functions.c:1963
+#: ../plugins/fn-math/functions.c:1903 ../plugins/fn-math/functions.c:1927
+#: ../plugins/fn-math/functions.c:1968
 msgid "d:integer, defaults to 0"
 msgstr "d:celé číslo, výchozí je 0"
 
-#: ../plugins/fn-math/functions.c:1899
+#: ../plugins/fn-math/functions.c:1904
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded toward 0 to the given number "
 "of digits.\n"
@@ -6233,11 +6242,11 @@ msgstr ""
 "Pokud je @{d} menší než nula, je @{x} zaokrouhleno směrem k 0 zleva od "
 "desetinné čárky"
 
-#: ../plugins/fn-math/functions.c:1920
+#: ../plugins/fn-math/functions.c:1925
 msgid "ROUND:rounded @{x}"
 msgstr "ROUND:zaokrouhlené @{x}"
 
-#: ../plugins/fn-math/functions.c:1923
+#: ../plugins/fn-math/functions.c:1928
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded to the given number of "
 "digits.\n"
@@ -6248,11 +6257,11 @@ msgstr ""
 "Pokud je @{d} rovno nule, je @{x} zaokrouhleno na následující celé číslo.\n"
 "Pokud je @{d} menší než nula, je @{x} zaokrouhleno zleva od desetinné čárky"
 
-#: ../plugins/fn-math/functions.c:1961
+#: ../plugins/fn-math/functions.c:1966
 msgid "ROUNDUP:@{x} rounded away from 0"
 msgstr "ROUNDUP:@{x} zaokrouhleno směrem od 0"
 
-#: ../plugins/fn-math/functions.c:1964
+#: ../plugins/fn-math/functions.c:1969
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded away from 0 to the given "
 "number of digits.\n"
@@ -6267,27 +6276,27 @@ msgstr ""
 "Pokud je @{d} menší než nula, je @{x} zaokrouhleno směrem od 0  zleva od "
 "desetinné čárky"
 
-#: ../plugins/fn-math/functions.c:2008
+#: ../plugins/fn-math/functions.c:2013
 msgid "MROUND:@{x} rounded to a multiple of @{m}"
 msgstr "MROUND:@{x} zaokrouhlené na násobek @{m}"
 
-#: ../plugins/fn-math/functions.c:2010
+#: ../plugins/fn-math/functions.c:2015
 msgid "m:number"
 msgstr "m:číslo"
 
-#: ../plugins/fn-math/functions.c:2011
+#: ../plugins/fn-math/functions.c:2016
 msgid "If @{x} and @{m} have different sign, MROUND returns #NUM!"
 msgstr "Pokud mají @{x} a @{m} různá znaménka, funkce MROUND vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:2054
+#: ../plugins/fn-math/functions.c:2059
 msgid "ARABIC:the Roman numeral @{roman} as number"
 msgstr "ARABIC:římské číslo @{roman} jako číslo"
 
-#: ../plugins/fn-math/functions.c:2055
+#: ../plugins/fn-math/functions.c:2060
 msgid "roman:Roman numeral"
 msgstr "roman:římské číslo"
 
-#: ../plugins/fn-math/functions.c:2056
+#: ../plugins/fn-math/functions.c:2061
 msgid ""
 "Any Roman symbol to the left of a larger symbol (directly or indirectly) "
 "reduces the final value by the symbol amount, otherwise, it increases the "
@@ -6297,15 +6306,15 @@ msgstr ""
 "snižuje výslednou hodnotu a svoji velikost, v opačných případech výslednou "
 "hodnotu o svoji velikost zvyšuje."
 
-#: ../plugins/fn-math/functions.c:2132
+#: ../plugins/fn-math/functions.c:2137
 msgid "ROMAN:@{n} as a roman numeral text"
 msgstr "ROMAN:@{n} jako římské číslo textově"
 
-#: ../plugins/fn-math/functions.c:2134
+#: ../plugins/fn-math/functions.c:2139
 msgid "type:0,1,2,3,or 4, defaults to 0"
 msgstr "type:0, 1, 2, 3 nebo 4, výchozí je 0"
 
-#: ../plugins/fn-math/functions.c:2135
+#: ../plugins/fn-math/functions.c:2140
 msgid ""
 "ROMAN returns the arabic number @{n} as a roman numeral text.\n"
 "If @{type} is 0 or it is omitted, ROMAN returns classic roman numbers.\n"
@@ -6318,21 +6327,21 @@ msgstr ""
 "Typ 1 je stručnější než klasický typ, typ 2 je stručnější než typ 1 a typ 3 "
 "je stručnější než typ 2. Typ 4 je zjednodušený typ."
 
-#: ../plugins/fn-math/functions.c:2382
+#: ../plugins/fn-math/functions.c:2387
 msgid "SUMX2MY2:sum of the difference of squares"
 msgstr "SUMX2MY2:součet rozdílů čtverců"
 
-#: ../plugins/fn-math/functions.c:2383 ../plugins/fn-math/functions.c:2425
-#: ../plugins/fn-math/functions.c:2468
+#: ../plugins/fn-math/functions.c:2388 ../plugins/fn-math/functions.c:2430
+#: ../plugins/fn-math/functions.c:2473
 msgid "array0:first cell area"
 msgstr "array0:první oblast buněk"
 
-#: ../plugins/fn-math/functions.c:2384 ../plugins/fn-math/functions.c:2426
-#: ../plugins/fn-math/functions.c:2469
+#: ../plugins/fn-math/functions.c:2389 ../plugins/fn-math/functions.c:2431
+#: ../plugins/fn-math/functions.c:2474
 msgid "array1:second cell area"
 msgstr "array1:druhá oblast buněk"
 
-#: ../plugins/fn-math/functions.c:2385
+#: ../plugins/fn-math/functions.c:2390
 msgid ""
 "SUMX2MY2 function returns the sum of the difference of squares of "
 "corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2)."
@@ -6340,11 +6349,11 @@ msgstr ""
 "Funkce SUMX2MY2 vrací součet rozdílů druhých mocnin odpovídajících hodnot ve "
 "dvou polích. SUMX2MY2 se vyhodnocuje jako SUM(x^2 - y^2)."
 
-#: ../plugins/fn-math/functions.c:2424
+#: ../plugins/fn-math/functions.c:2429
 msgid "SUMX2PY2:sum of the sum of squares"
 msgstr "SUMX2PY2:součet součtů druhých mocnin"
 
-#: ../plugins/fn-math/functions.c:2427
+#: ../plugins/fn-math/functions.c:2432
 msgid ""
 "SUMX2PY2 function returns the sum of the sum of squares of corresponding "
 "values in two arrays. The equation of SUMX2PY2 is SUM(x^2+y^2)."
@@ -6352,7 +6361,7 @@ msgstr ""
 "Funkce SUMX2PY2 vrací součet součtů druhých mocnin odpovídajících hodnot ve "
 "dvou polích. SUMX2PY2 se vyhodnocuje jako SUM(x^2 + y^2)."
 
-#: ../plugins/fn-math/functions.c:2429
+#: ../plugins/fn-math/functions.c:2434
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMX2PY2 "
 "returns #N/A.\n"
@@ -6362,11 +6371,11 @@ msgstr ""
 "vrací #N/A.\n"
 "Řetězce a prázdné buňky se prostě ignorují."
 
-#: ../plugins/fn-math/functions.c:2467
+#: ../plugins/fn-math/functions.c:2472
 msgid "SUMXMY2:sum of the squares of differences"
 msgstr "SUMXMY2:součet čtverců rozdílů"
 
-#: ../plugins/fn-math/functions.c:2470
+#: ../plugins/fn-math/functions.c:2475
 msgid ""
 "SUMXMY2 function returns the sum of the squares of the differences of "
 "corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2)."
@@ -6374,7 +6383,7 @@ msgstr ""
 "Funkce SUMXMY2 vrací součet druhých mocnin rozdílů odpovídajících hodnot ve "
 "dvou polích. SUMXMY2 se vyhodnocuje jako SUM((x-y)^2)."
 
-#: ../plugins/fn-math/functions.c:2472
+#: ../plugins/fn-math/functions.c:2477
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMXMY2 "
 "returns #N/A.\n"
@@ -6384,39 +6393,39 @@ msgstr ""
 "vrací #N/A.\n"
 "Řetězce a prázdné buňky se prostě ignorují."
 
-#: ../plugins/fn-math/functions.c:2512
+#: ../plugins/fn-math/functions.c:2517
 msgid "SERIESSUM:sum of a power series at @{x}"
 msgstr "SERIESSUM:součet mocninné řady v @{x}"
 
-#: ../plugins/fn-math/functions.c:2513
+#: ../plugins/fn-math/functions.c:2518
 msgid "x:number where to evaluate the power series"
 msgstr "x:číslo, pro které se mocninná řada vyhodnocuje"
 
-#: ../plugins/fn-math/functions.c:2514
+#: ../plugins/fn-math/functions.c:2519
 msgid "n:non-negative integer, exponent of the lowest term of the series"
 msgstr "n:nezáporné celé číslo, mocnitel nejmenšího výrazu řady"
 
-#: ../plugins/fn-math/functions.c:2515
+#: ../plugins/fn-math/functions.c:2520
 msgid "m:increment to each exponent"
 msgstr "m:zvětšení každého z mocnitelů"
 
-#: ../plugins/fn-math/functions.c:2516
+#: ../plugins/fn-math/functions.c:2521
 msgid "coeff:coefficients of the power series"
 msgstr "coeff:koeficienty mocninné řady"
 
-#: ../plugins/fn-math/functions.c:2570
+#: ../plugins/fn-math/functions.c:2575
 msgid "MINVERSE:the inverse matrix of @{matrix}"
 msgstr "MINVERSE:inverzní matice k matici @{matrix}"
 
-#: ../plugins/fn-math/functions.c:2571 ../plugins/fn-math/functions.c:2896
+#: ../plugins/fn-math/functions.c:2576 ../plugins/fn-math/functions.c:2901
 msgid "matrix:a square matrix"
 msgstr "matrix:čtvercová matice"
 
-#: ../plugins/fn-math/functions.c:2572
+#: ../plugins/fn-math/functions.c:2577
 msgid "If @{matrix} is not invertible, MINVERSE returns #NUM!"
 msgstr "Pokud matice @{matrix} není regulární, funkce MINVERSE vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:2573
+#: ../plugins/fn-math/functions.c:2578
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, MINVERSE "
 "returns #VALUE!"
@@ -6424,7 +6433,7 @@ msgstr ""
 "Pokud matice @{matrix} neobsahuje stejný počet sloupců a řádků, funkce "
 "MINVERSE vrací #HODNOTA!."
 
-#: ../plugins/fn-math/functions.c:2704
+#: ../plugins/fn-math/functions.c:2709
 msgid ""
 "CHOLESKY:the Cholesky decomposition of the symmetric positive-definite @"
 "{matrix}"
@@ -6432,11 +6441,11 @@ msgstr ""
 "CHOLESKY:Choleského dekompozice symetrické pozitivně definitní matice @"
 "{matrix}"
 
-#: ../plugins/fn-math/functions.c:2705
+#: ../plugins/fn-math/functions.c:2710
 msgid "matrix:a symmetric positive definite matrix"
 msgstr "matrix:symetricky pozitivně definitní matice"
 
-#: ../plugins/fn-math/functions.c:2706
+#: ../plugins/fn-math/functions.c:2711
 msgid ""
 "If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky "
 "returns #NUM!"
@@ -6444,7 +6453,7 @@ msgstr ""
 "Pokud Choleského-Banachiewiczův algoritmus při použití na matici @{matrix} "
 "selže, funkce CHOLESKY vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:2707
+#: ../plugins/fn-math/functions.c:2712
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, CHOLESKY "
 "returns #VALUE!"
@@ -6452,35 +6461,35 @@ msgstr ""
 "Pokud matice @{matrix} neobsahuje stejný počet sloupců a řádků, funkce "
 "CHOLESKY vrací #HODNOTA!."
 
-#: ../plugins/fn-math/functions.c:2791
+#: ../plugins/fn-math/functions.c:2796
 msgid "MUNIT:the @{n} by @{n} identity matrix"
 msgstr "MUNIT:jednotková matice @{n} krát @{n}"
 
-#: ../plugins/fn-math/functions.c:2792
+#: ../plugins/fn-math/functions.c:2797
 msgid "n:size of the matrix"
 msgstr "n:rozměr matice"
 
-#: ../plugins/fn-math/functions.c:2828
+#: ../plugins/fn-math/functions.c:2833
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
 msgstr "MMULT:součin matic @{mat1} a @{mat2}"
 
-#: ../plugins/fn-math/functions.c:2829
+#: ../plugins/fn-math/functions.c:2834
 msgid "mat1:a matrix"
 msgstr "mat1:matice"
 
-#: ../plugins/fn-math/functions.c:2830
+#: ../plugins/fn-math/functions.c:2835
 msgid "mat2:a matrix"
 msgstr "mat2:matice"
 
-#: ../plugins/fn-math/functions.c:2895
+#: ../plugins/fn-math/functions.c:2900
 msgid "MDETERM:the determinant of the matrix @{matrix}"
 msgstr "MDETERM:determinant matice @{matrix}"
 
-#: ../plugins/fn-math/functions.c:2931
+#: ../plugins/fn-math/functions.c:2936
 msgid "SUMPRODUCT:multiplies components and adds the results"
 msgstr "SUMPRODUCT:vynásobí jednotlivé prvky a vrátí jejich součet"
 
-#: ../plugins/fn-math/functions.c:2933
+#: ../plugins/fn-math/functions.c:2938
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
@@ -6488,11 +6497,11 @@ msgstr ""
 "Vynásobí odpovídající datové položky v zadaném poli nebo rozsahu a vrátí "
 "součet těchto násobků."
 
-#: ../plugins/fn-math/functions.c:2936
+#: ../plugins/fn-math/functions.c:2941
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr "Pokud některé zadání není číselné, použije se místo něj nula."
 
-#: ../plugins/fn-math/functions.c:2937
+#: ../plugins/fn-math/functions.c:2942
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
@@ -6500,7 +6509,7 @@ msgstr ""
 "Pokud argumenty v podobě pole nebo rozsahu nemají stejné rozměry, je vrácena "
 "chyba #HODNOTA!."
 
-#: ../plugins/fn-math/functions.c:2939
+#: ../plugins/fn-math/functions.c:2944
 msgid ""
 "SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5>0 will "
 "not work, implicit intersection will kick in. Instead use --(A1:A5>0)"
@@ -6509,19 +6518,19 @@ msgstr ""
 "nebude fungovat, výchozí průnik bude zničen. Namísto toho použijte --(A1:"
 "A5>0)."
 
-#: ../plugins/fn-math/functions.c:3053
+#: ../plugins/fn-math/functions.c:3058
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN:vlastní čísla a vlastní vektory symetrické matice @{matrix}"
 
-#: ../plugins/fn-math/functions.c:3054
+#: ../plugins/fn-math/functions.c:3059
 msgid "matrix:a symmetric matrix"
 msgstr "matrix:symetrická matice"
 
-#: ../plugins/fn-math/functions.c:3055
+#: ../plugins/fn-math/functions.c:3060
 msgid "If @{matrix} is not symmetric, EIGEN returns #NUM!"
 msgstr "Pokud není matice @{matrix} symetrická, funkce EIGEN vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:3056
+#: ../plugins/fn-math/functions.c:3061
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
@@ -11238,35 +11247,3 @@ msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr ""
 "U tohoto není zamýšleno, aby to bylo všeobecně povolené a ve výchozím stavu "
 "je to VYPNUTO."
-
-#~ msgid "α:order (any number)"
-#~ msgstr "α:řád (libovolné číslo)"
-
-#~ msgid ""
-#~ "SSMEDIAN:median for grouped data as commonly determined in the social "
-#~ "sciences"
-#~ msgstr ""
-#~ "SSMEDIAN:medián pro sdružená data, jak je obvykle určeno u společenských "
-#~ "věd"
-
-#~ msgid ""
-#~ "The data points given in @{array} are assumed to be the result of "
-#~ "grouping data into intervals of length @{interval}"
-#~ msgstr ""
-#~ "Předpokládá se, že referenční body uvedené v @{array} jsou výsledkem "
-#~ "sdružování dat do intervalů délky @{interval}"
-
-#~ msgid "Let us assume that the cells A1, A2, A3 contain numbers 7, 8, 8."
-#~ msgstr "Předpokládejme, že buňky A1, A2, A3 obsahují čísla 7, 8, 8."
-
-#~ msgid "Then SSMEDIAN(A1:A3, 1) equals 7.75."
-#~ msgstr "Potom se SSMEDIAN(A1:A3, 1) rovná 7,75."
-
-#~ msgid "secz = 1/cosz."
-#~ msgstr "secz = 1:cosz."
-
-#~ msgid "cscz = 1/sinz."
-#~ msgstr "cscz = 1:sinz."
-
-#~ msgid "cotz = cosz/sinz."
-#~ msgstr "cotz = cosz:sinz."
