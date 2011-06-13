@@ -6271,8 +6271,10 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	odf_add_pt (state->xml, SVG "width", res_pts[2] - res_pts[0] - 2 * this_plot->pad);
 	odf_add_pt (state->xml, SVG "height", res_pts[3] - res_pts[1] - 2 * this_plot->pad);
 
-	if (get_gsf_odf_version () > 101)
+	if (get_gsf_odf_version () > 101) {
+		gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
 		gsf_xml_out_add_cstr (state->xml, XLINK "href", "..");
+	}
 	gsf_xml_out_add_cstr (state->xml, CHART "class", this_plot->odf_plot_type);
 	gsf_xml_out_add_cstr (state->xml, CHART "style-name", "plotstyle");
 
