@@ -6822,7 +6822,7 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 		state->chart.regression = regression =
 			GOG_OBJECT (gog_trend_line_new_by_name (type_name));
 		regression = gog_object_add_by_name (GOG_OBJECT (state->chart.series),
-						     "Regression curve", regression);
+						     "Trend line", regression);
 		oo_prop_list_apply (chart_style->other_props, G_OBJECT (regression));
 
 		g_object_get (G_OBJECT (regression), "style", &style, NULL);
