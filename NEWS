@@ -11,6 +11,7 @@ Andreas
 	* Import external references from ODF. [#645580]
 	* Some documentation improvements.
 	* Read fraction formats correctly from ODF 1.2 files.
+	* Fix regression line export to ODF.
 
 Morten:
 	* Fix leaks in SHEET.  [#650761]

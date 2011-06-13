@@ -1,5 +1,11 @@
 2011-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_regression_curve): new
+	(odf_write_standard_series): move some code to odf_write_regression_curve
+	and call it both for "Regression curve" and "Trend line"
+
+2011-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_sheet): we need the full extent not
 	just the cells-extent
 

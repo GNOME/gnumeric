@@ -4999,6 +4999,71 @@ cmp_data_points (GObject *a, GObject *b)
 }
 
 static void
+odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogObject const *series, GnmParsePos *pp)
+{
+	GSList *l, *regressions = gog_object_get_children
+		(series, role);
+	char *str;
+
+	for (l = regressions; l != NULL && l->data != NULL; l = l->next) {
+		GOData const *bd;
+		GogObject const *regression = l->data;
+		GogObject const *equation
+			= gog_object_get_child_by_name (regression, "Equation");
+		str = odf_get_gog_style_name_from_obj
+			(GOG_OBJECT (regression));
+		gsf_xml_out_start_element
+			(state->xml,
+			 (l == regressions) ? CHART "regression-curve"
+			 : GNMSTYLE "regression-curve");
+		gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
+		
+		if (state->with_extension) {
+			/* Upper and lower bounds */
+			bd = gog_dataset_get_dim (GOG_DATASET (regression), 0);
+			if (bd != NULL)
+				odf_write_data_attribute
+					(state, bd, pp, GNMSTYLE "lower-bound");
+			bd = gog_dataset_get_dim (GOG_DATASET (regression), 1);
+			if (bd != NULL)
+				odf_write_data_attribute
+					(state, bd, pp, GNMSTYLE "upper-bound");
+		}
+		if (equation != NULL) {
+			GObjectClass *klass = G_OBJECT_GET_CLASS (equation);
+			char const *eq_element, *eq_automatic, *eq_display, *eq_r;
+			if (get_gsf_odf_version () > 101) {
+				eq_element = CHART "equation";
+				eq_automatic = CHART "automatic-content";
+				eq_display = CHART "display-equation";
+				eq_r = CHART "display-r-square";
+			} else {
+				eq_element = GNMSTYLE "equation";
+				eq_automatic = GNMSTYLE "automatic-content";
+				eq_display = GNMSTYLE "display-equation";
+				eq_r = GNMSTYLE "display-r-square";
+			}
+			gsf_xml_out_start_element
+				(state->xml, eq_element);
+			odf_add_bool (state->xml, eq_automatic, TRUE);
+			odf_write_plot_style_bool (state->xml, equation, klass,
+						   "show-eq", eq_display);
+			odf_write_plot_style_bool (state->xml, equation, klass,
+						   "show-r2", eq_r);
+			str = odf_get_gog_style_name_from_obj
+				(GOG_OBJECT (equation));
+			gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
+			odf_write_gog_position (state, equation);
+			gsf_xml_out_end_element (state->xml); /* </chart:equation> */
+		}
+		
+		gsf_xml_out_end_element (state->xml); /* </chart:regression-curve> */
+		g_free (str);
+	}
+}
+
+
+static void
 odf_write_standard_series (GnmOOExport *state, GSList const *series)
 {
 	GnmParsePos pp;
@@ -5009,9 +5074,7 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series)
 		GOData const *dat = gog_dataset_get_dim (GOG_DATASET (series->data), GOG_MS_DIM_VALUES);
 		if (NULL != dat && odf_write_data_element (state, dat, &pp, CHART "series",
 							   CHART "values-cell-range-address")) {
-			GogObjectRole const *role =
-				gog_object_find_role_by_name
-				(GOG_OBJECT (series->data), "Regression curve");
+			GogObjectRole const *role;
 			GSList *points;
 			GOData const *cat = gog_dataset_get_dim (GOG_DATASET (series->data),
 								 GOG_MS_DIM_LABELS);
@@ -5026,65 +5089,15 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series)
 								   TABLE "cell-range-address"))
 				gsf_xml_out_end_element (state->xml); /* </chart:domain> */
 
-			if (role != NULL) {
-				GSList *l, *regressions = gog_object_get_children
-					(GOG_OBJECT (series->data), role);
-				for (l = regressions; l != NULL && l->data != NULL; l = l->next) {
-					GOData const *bd;
-					GogObject const *regression = l->data;
-					GogObject const *equation
-						= gog_object_get_child_by_name (regression, "Equation");
-					str = odf_get_gog_style_name_from_obj
-						(GOG_OBJECT (regression));
-					gsf_xml_out_start_element
-						(state->xml,
-						 (l == regressions) ? CHART "regression-curve"
-						 : GNMSTYLE "regression-curve");
-					gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
-
-					if (state->with_extension) {
-						/* Upper and lower bounds */
-						bd = gog_dataset_get_dim (GOG_DATASET (regression), 0);
-						if (bd != NULL)
-							odf_write_data_attribute
-								(state, bd, &pp, GNMSTYLE "lower-bound");
-						bd = gog_dataset_get_dim (GOG_DATASET (regression), 1);
-						if (bd != NULL)
-							odf_write_data_attribute
-								(state, bd, &pp, GNMSTYLE "upper-bound");
-					}
-					if (equation != NULL) {
-						GObjectClass *klass = G_OBJECT_GET_CLASS (equation);
-						char const *eq_element, *eq_automatic, *eq_display, *eq_r;
-						if (get_gsf_odf_version () > 101) {
-							eq_element = CHART "equation";
-							eq_automatic = CHART "automatic-content";
-							eq_display = CHART "display-equation";
-							eq_r = CHART "display-r-square";
-						} else {
-							eq_element = GNMSTYLE "equation";
-							eq_automatic = GNMSTYLE "automatic-content";
-							eq_display = GNMSTYLE "display-equation";
-							eq_r = GNMSTYLE "display-r-square";
-						}
-						gsf_xml_out_start_element
-							(state->xml, eq_element);
-						odf_add_bool (state->xml, eq_automatic, TRUE);
-						odf_write_plot_style_bool (state->xml, equation, klass,
-									   "show-eq", eq_display);
-						odf_write_plot_style_bool (state->xml, equation, klass,
-									   "show-r2", eq_r);
-						str = odf_get_gog_style_name_from_obj
-							(GOG_OBJECT (equation));
-						gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
-						odf_write_gog_position (state, equation);
-						gsf_xml_out_end_element (state->xml); /* </chart:equation> */
-					}
-
-					gsf_xml_out_end_element (state->xml); /* </chart:regression-curve> */
-					g_free (str);
-				}
-			}
+			role = gog_object_find_role_by_name
+				(GOG_OBJECT (series->data), "Regression curve");
+			if (role != NULL)
+				odf_write_regression_curve (state, role, GOG_OBJECT (series->data), &pp);
+			
+			role = gog_object_find_role_by_name
+				(GOG_OBJECT (series->data), "Trend line");
+			if (role != NULL)
+				odf_write_regression_curve (state, role, GOG_OBJECT (series->data), &pp);
 
 			/* Write data points if any */
 
