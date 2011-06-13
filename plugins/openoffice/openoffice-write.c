@@ -3357,11 +3357,14 @@ odf_write_sheet (GnmOOExport *state)
 	int max_cols = gnm_sheet_get_max_cols (sheet);
 	int max_rows = gnm_sheet_get_max_rows (sheet);
 	GnmStyle **col_styles = g_new0 (GnmStyle *, max_cols);
-	GnmRange extent, style_extent;
+	GnmRange extent, style_extent, cell_extent;
 	GSList *sheet_merges = NULL;
 	GnmPageBreaks *pb = sheet->print_info->page_breaks.v;
-	extent = sheet_get_cells_extent (sheet);
 
+	extent = sheet_get_extent (sheet, FALSE);
+	cell_extent = sheet_get_cells_extent (sheet);
+	extent = range_union (&extent, &cell_extent);
+	
 	style_extent = extent;
 	/* We only want to get the common column style */
 	sheet_style_get_extent (sheet, &style_extent, col_styles);
