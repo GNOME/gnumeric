@@ -1061,7 +1061,7 @@ apply_tint (GOColor orig, double tint)
 }
 
 static GnmColor *
-elem_color (GsfXMLIn *xin, xmlChar const **attrs)
+elem_color (GsfXMLIn *xin, xmlChar const **attrs, gboolean allow_alpha)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	int indx;
@@ -1093,6 +1093,8 @@ elem_color (GsfXMLIn *xin, xmlChar const **attrs)
 	if (!has_color)
 		return NULL;
 	c = apply_tint (c, tint);
+	if (!allow_alpha)
+		c |= 0xFF;
 	return style_color_new_go (c);
 }
 
@@ -1463,7 +1465,7 @@ static void
 xlsx_sheet_tabcolor (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GnmColor *text_color, *color = elem_color (xin, attrs);
+	GnmColor *text_color, *color = elem_color (xin, attrs, TRUE);
 	if (NULL != color) {
 		int contrast =
 			GO_COLOR_UINT_R (color->go_color) +
@@ -3510,7 +3512,9 @@ static void
 xlsx_font_color (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GnmColor *color = elem_color (xin, attrs);
+	/* LibreOffice 3.3.2 sets the alpha to 0, so text becomes invisible */
+	/* (Excel drops the alpha too it seems.) */
+	GnmColor *color = elem_color (xin, attrs, FALSE);
 	if (NULL != color)
 		gnm_style_set_font_color (state->style_accum, color);
 }
@@ -3597,13 +3601,16 @@ static void
 xlsx_pattern_fg_bg (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	gboolean solid_pattern = gnm_style_is_element_set (state->style_accum, MSTYLE_PATTERN)
+		&& (1 == gnm_style_get_pattern (state->style_accum));
 	/* MAGIC :
 	 * Looks like pattern background and forground colours are inverted for
 	 * dxfs with solid fills for no apparent reason. */
 	gboolean const invert = state->style_accum_partial
-		&& gnm_style_is_element_set (state->style_accum, MSTYLE_PATTERN)
-		&& (1 == gnm_style_get_pattern (state->style_accum));
-	GnmColor *color = elem_color (xin, attrs);
+		&& solid_pattern;
+	/* LibreOffice 3.3.2 sets the alpha to 0, so solid fill becomes invisible */
+	/* (Excel drops the alpha too it seems.) */
+	GnmColor *color = elem_color (xin, attrs, !solid_pattern);
 	if (NULL == color)
 		return;
 
@@ -3677,7 +3684,7 @@ static void
 xlsx_border_color (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GnmColor *color = elem_color (xin, attrs);
+	GnmColor *color = elem_color (xin, attrs, TRUE);
 	if (state->border_color)
 		style_color_unref (state->border_color);
 	state->border_color = color;

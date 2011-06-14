@@ -12,6 +12,8 @@ Andreas
 	* Some documentation improvements.
 	* Read fraction formats correctly from ODF 1.2 files.
 	* Fix regression line export to ODF.
+	* Fix font and background colour import of LibreOffice generated xlsx
+	  files. Part of [#644496]
 
 Morten:
 	* Fix leaks in SHEET.  [#650761]

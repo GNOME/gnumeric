@@ -1,3 +1,11 @@
+2011-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-read.c (elem_color): add allow_alpha argument, change all
+	callers and set alpha to 0xFF if it is not allowed
+	(xlsx_pattern_fg_bg): if we are reading a colour for a solid fill, ignore
+	alpha. LibreOffice 3.3.2 sets the alpha to 0 and Excel seems to ignore it
+	(xlsx_font_color): ditto
+
 2011-05-22  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_autofilter_names): Use proper
