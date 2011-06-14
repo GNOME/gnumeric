@@ -14,6 +14,8 @@ Andreas
 	* Fix regression line export to ODF.
 	* Fix font and background colour import of LibreOffice generated xlsx
 	  files. Part of [#644496]
+	* In XLSX files, do not ignore gradient cell background fills
+	  completely. Part of [#644496]
 
 Morten:
 	* Fix leaks in SHEET.  [#650761]

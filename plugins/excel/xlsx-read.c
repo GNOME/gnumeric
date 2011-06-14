@@ -1266,7 +1266,8 @@ xlsx_cell_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (NULL != style) {
 		gnm_style_ref (style);
-		sheet_style_set_pos (state->sheet,
+		/* There may already be a row style set!*/
+		sheet_style_apply_pos (state->sheet,
 			state->pos.col, state->pos.row, style);
 	}
 }
@@ -1337,7 +1338,7 @@ xlsx_CT_Row (GsfXMLIn *xin, xmlChar const **attrs)
 			colrow_set_outline (sheet_row_fetch (state->sheet, row),
 				outline, collapsed);
 
-		if (NULL != style) {
+		if (NULL != style && cust_fmt) {
 			GnmRange r;
 			r.start.row = r.end.row = row;
 			r.start.col = 0;
@@ -3623,6 +3624,10 @@ xlsx_pattern_fg_bg (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_CT_GradientFill (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	gnm_style_set_pattern (state->style_accum, 1);
+
 #if 0
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
     <xsd:attribute name="type" type="ST_GradientType" use="optional" default="linear">
@@ -3895,7 +3900,7 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
       GSF_XML_IN_NODE (FILL, IMAGE_FILL, XL_NS_SS, "image", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (FILL, GRADIENT_FILL, XL_NS_SS, "gradientFill", GSF_XML_NO_CONTENT, &xlsx_CT_GradientFill, NULL),
 	GSF_XML_IN_NODE (GRADIENT_FILL, GRADIENT_STOPS, XL_NS_SS, "stop", GSF_XML_NO_CONTENT, NULL, NULL),
-	  GSF_XML_IN_NODE (GRADIENT_STOPS, GRADIENT_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE_FULL (GRADIENT_STOPS, GRADIENT_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, FALSE, FALSE, &xlsx_pattern_fg_bg, NULL, TRUE),
 
   GSF_XML_IN_NODE_FULL (STYLE_INFO, BORDERS, XL_NS_SS, "borders", GSF_XML_NO_CONTENT,
 			FALSE, FALSE, &xlsx_collection_begin, &xlsx_collection_end, XLSX_COLLECT_BORDERS),
