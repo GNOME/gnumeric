@@ -1,5 +1,12 @@
 2011-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-utils.h (xlsx_get_gradient_direction): new
+	* xlsx-utils.c (xlsx_get_gradient_direction): new
+	* xlsx-read-drawing.c (xlsx_chart_grad_linear): use
+	xlsx_get_gradient_direction
+
+2011-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-read.c (xlsx_cell_begin): don't overwrite an existing row style
 	(xlsx_CT_Row): the row style should only be used if customFormat == 1
 	(xlsx_CT_GradientFill): consider this a solid colour fill until we

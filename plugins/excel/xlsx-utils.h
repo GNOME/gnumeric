@@ -51,4 +51,6 @@ void		xlsx_conventions_free (GnmConventions *conv);
 
 GOFormat       *xlsx_pivot_date_fmt   (void);
 
+GOGradientDirection xlsx_get_gradient_direction (double ang);
+
 #endif /* GNM_XLSX_UTILS_H */

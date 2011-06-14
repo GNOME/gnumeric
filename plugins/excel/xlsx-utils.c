@@ -166,3 +166,43 @@ xlsx_pivot_date_fmt (void)
 	return go_format_new_from_XL ("yyyy-mm-dd\"T\"hh:mm:ss");
 }
 
+/**
+ * xlsx_get_direction :
+ *
+ * Returns a GOGradientDirection corresponding to the angle ang (0...360)
+ **/
+GOGradientDirection 
+xlsx_get_gradient_direction (double ang)
+{
+	int ang_i;
+	g_return_val_if_fail (ang >=-360. && ang <= 360., GO_GRADIENT_N_TO_S);
+	
+	ang_i = ang;
+	while (ang_i < 0)
+		ang_i += 360;
+	while (ang_i >= 360)
+		ang_i -= 360;
+
+	ang_i = (ang_i + 22) / 45; /* now ang is between 0 and 8 */
+
+	switch (ang_i) {
+	case 1:
+		return GO_GRADIENT_NW_TO_SE;
+	case 2:
+		return GO_GRADIENT_W_TO_E;
+	case 3:
+		return GO_GRADIENT_SW_TO_NE;
+	case 4:
+		return GO_GRADIENT_S_TO_N;
+	case 5:
+		return GO_GRADIENT_SE_TO_NW;
+	case 6:
+		return GO_GRADIENT_E_TO_W;
+	case 7:
+		return GO_GRADIENT_NE_TO_SW;
+	case 0:
+	case 8:
+	default:
+		return GO_GRADIENT_N_TO_S;
+	}
+}

@@ -964,35 +964,9 @@ xlsx_chart_grad_linear (GsfXMLIn *xin, xmlChar const **attrs)
 	int ang;
 	g_return_if_fail (state->cur_style);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int (xin, attrs, "ang", &ang)) {
-			ang = ((ang / 60000) + 22) / 45; /* now ang is between 0 and 8 */
-			switch (ang) {
-			case 1:
-				state->cur_style->fill.gradient.dir = GO_GRADIENT_NW_TO_SE;
-				break;
-			case 2:
-				state->cur_style->fill.gradient.dir = GO_GRADIENT_W_TO_E;
-				break;
-			case 3:
-				state->cur_style->fill.gradient.dir = GO_GRADIENT_SW_TO_NE;
-				break;
-			case 4:
-				state->cur_style->fill.gradient.dir = GO_GRADIENT_S_TO_N;
-				break;
-			case 5:
-				state->cur_style->fill.gradient.dir = GO_GRADIENT_SE_TO_NW;
-				break;
-			case 6:
-				state->cur_style->fill.gradient.dir = GO_GRADIENT_E_TO_W;
-				break;
-			case 7:
-				state->cur_style->fill.gradient.dir = GO_GRADIENT_NE_TO_SW;
-				break;
-			default:
-				state->cur_style->fill.gradient.dir = GO_GRADIENT_N_TO_S;
-				break;
-			}
-		}
+		if (attr_int (xin, attrs, "ang", &ang))
+			state->cur_style->fill.gradient.dir 
+				= xlsx_get_gradient_direction (ang / 60000.);
 	/* FIXME: we do not support the "scaled" attribute */
 }
 
