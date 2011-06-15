@@ -1,5 +1,16 @@
 2011-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_write_color_element): new
+	(xlsx_find_fill): new
+	(xlsx_write_fills): implement
+	(xlsx_write_style): use written fills
+	(xlsx_write_cellXfs): ditto
+	(xlsx_write_styles): connect xlsx_write_fills with xlsx_write_cellXfs
+	(xlsx_write_cells): GPOINTER_TO_INT(0) yields NULL, so shift when
+	storing 0-based indices
+	
+2011-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (xlsx_write_style_want_alignment): new
 	(xlsx_write_style_write_alignment): new
 	(xlsx_write_style): new
