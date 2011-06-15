@@ -1,5 +1,14 @@
 2011-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_find_font): new
+	(xlsx_write_fonts): implement
+	(xlsx_find_fill): check for straight equality
+	(xlsx_write_style): handle font-info
+	(xlsx_write_cellXfs): add argument, change all callers
+	(xlsx_write_styles): call xlsx_write_fonts
+
+2011-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (xlsx_load_buildin_num_formats): new
 	(xlsx_write_num_formats): new
 	(xlsx_write_style): connect to the number formats
