@@ -64,6 +64,8 @@
 #include <gmodule.h>
 #include <string.h>
 
+#define NUM_FORMAT_BASE 100
+
 static char const *ns_ss	 = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
 static char const *ns_ss_drawing = "http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing";
 static char const *ns_drawing	 = "http://schemas.openxmlformats.org/drawingml/2006/main";
@@ -175,6 +177,124 @@ xlsx_write_shared_strings (XLSXWriteState *state, GsfOutfile *wb_part)
 		gsf_output_close (part);
 		g_object_unref (part);
 	}
+}
+
+static void
+xlsx_load_buildin_num_formats (GHashTable *hash)
+{
+	static char const * const std_builtins[] = {
+		/* 0 */	 "General",
+		/* 1 */	 "0",
+		/* 2 */	 "0.00",
+		/* 3 */	 "#,##0",
+		/* 4 */	 "#,##0.00",
+		/* 5 */	 NULL,
+		/* 6 */	 NULL,
+		/* 7 */	 NULL,
+		/* 8 */	 NULL,
+		/* 9 */  "0%",
+		/* 10 */ "0.00%",
+		/* 11 */ "0.00E+00",
+		/* 12 */ "# ?/?",
+		/* 13 */ "# ?""?/?""?",	/* silly trick to avoid using a trigraph */
+		/* 14 */ "mm-dd-yy",
+		/* 15 */ "d-mmm-yy",
+		/* 16 */ "d-mmm",
+		/* 17 */ "mmm-yy",
+		/* 18 */ "h:mm AM/PM",
+		/* 19 */ "h:mm:ss AM/PM",
+		/* 20 */ "h:mm",
+		/* 21 */ "h:mm:ss",
+		/* 22 */ "m/d/yy h:mm",
+		/* 23 */ NULL,
+		/* 24 */ NULL,
+		/* 25 */ NULL,
+		/* 26 */ NULL,
+		/* 27 */ NULL,
+		/* 28 */ NULL,
+		/* 29 */ NULL,
+		/* 30 */ NULL,
+		/* 31 */ NULL,
+		/* 32 */ NULL,
+		/* 33 */ NULL,
+		/* 34 */ NULL,
+		/* 35 */ NULL,
+		/* 36 */ NULL,
+		/* 37 */ "#,##0 ;(#,##0)",
+		/* 38 */ "#,##0 ;[Red](#,##0)",
+		/* 39 */ "#,##0.00;(#,##0.00)",
+		/* 40 */ "#,##0.00;[Red](#,##0.00)",
+		/* 41 */ NULL,
+		/* 42 */ NULL,
+		/* 43 */ NULL,
+		/* 44 */ NULL,
+		/* 45 */ "mm:ss",
+		/* 46 */ "[h]:mm:ss",
+		/* 47 */ "mmss.0",
+		/* 48 */ "##0.0E+0",
+		/* 49 */ "@"
+	};
+	unsigned int i;
+
+	g_return_if_fail (NUM_FORMAT_BASE > (int) G_N_ELEMENTS (std_builtins));
+
+	for (i = 1; i < G_N_ELEMENTS (std_builtins); i++)
+		if (std_builtins[i] != NULL)
+			g_hash_table_insert (hash, g_strdup (std_builtins[i]), GUINT_TO_POINTER (i));
+}
+
+static GHashTable *
+xlsx_write_num_formats (XLSXWriteState *state, GsfXMLOut *xml)
+{
+	GHashTable *hash = g_hash_table_new_full 
+		(g_str_hash,  g_str_equal, g_free, NULL);
+	GHashTable *num_format_hash = g_hash_table_new 
+		(g_direct_hash, g_direct_equal);
+	unsigned int n = NUM_FORMAT_BASE;
+	unsigned int i, count;
+	GPtrArray *num_format_array = g_ptr_array_new ();
+
+	xlsx_load_buildin_num_formats (hash);
+
+	for (i = 0 ; i < state->styles_array->len ; i++) {
+		GnmStyle const *style = g_ptr_array_index (state->styles_array, i);
+		GOFormat const *format;
+		char const *xl;
+		gpointer tmp;
+
+		if (!gnm_style_is_element_set (style, MSTYLE_FORMAT))
+			continue;
+		format =  gnm_style_get_format (style);
+		if (go_format_is_general (format))
+			continue;
+		xl = go_format_as_XL (format);
+		tmp = g_hash_table_lookup (hash, xl);
+		if (tmp == NULL) {
+			char *xl_c =  g_strdup (xl);
+			tmp = GUINT_TO_POINTER (n++);
+			g_hash_table_insert (hash, xl_c, tmp);
+			g_ptr_array_add (num_format_array, xl_c);
+		}
+		g_hash_table_insert (num_format_hash, (gpointer) style, tmp);
+	}
+	
+	count = num_format_array->len;
+	if (count != 0) {
+		gsf_xml_out_start_element (xml, "numFmts");
+		gsf_xml_out_add_int (xml, "count", count);
+		for (i = 0 , n = NUM_FORMAT_BASE; i < count ; i++, n++) {
+			gsf_xml_out_start_element (xml, "numFmt");
+			gsf_xml_out_add_cstr_unchecked 
+				(xml, "formatCode", 
+				 g_ptr_array_index (num_format_array, i));
+			gsf_xml_out_add_int (xml, "numFmtId", n);
+			gsf_xml_out_end_element (xml);	
+		}
+		gsf_xml_out_end_element (xml);	
+	}
+	g_ptr_array_free (num_format_array, TRUE);
+	g_hash_table_destroy (hash);
+	return num_format_hash;
 }
 
 static void
@@ -315,15 +435,6 @@ xlsx_write_borders (XLSXWriteState *state, GsfXMLOut *xml)
 {
 }
 
-/*
-cellStyleXfs
-cellXfs
-cellStyles
-dxfs
-tableStyles
-colors
-*/
-
 static gboolean
 xlsx_write_style_want_alignment (GnmStyle const *style)
 {
@@ -419,17 +530,23 @@ xlsx_write_style_write_alignment (XLSXWriteState *state, GsfXMLOut *xml,
 
 static void
 xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml, 
-		  GnmStyle const *style, GHashTable *fills_hash)
+		  GnmStyle const *style, GHashTable *fills_hash,
+		  GHashTable *num_format_hash)
 {
 	gboolean alignment = xlsx_write_style_want_alignment (style);
 	gpointer tmp;
 	gboolean fill = (NULL != (tmp = g_hash_table_lookup (fills_hash, style)));
+	gboolean num_fmt = gnm_style_is_element_set (style, MSTYLE_FORMAT);
 
 	xlsx_add_bool (xml, "applyAlignment", alignment);
 	xlsx_add_bool (xml, "applyFill", fill);
+	xlsx_add_bool (xml, "applyNumberFormat", num_fmt);
 	if (fill)
 		gsf_xml_out_add_int (xml, "fillId", GPOINTER_TO_INT (tmp) - 1);
-
+	if (num_fmt)
+		gsf_xml_out_add_int 
+			(xml, "numFmtId", 
+			 GPOINTER_TO_INT (g_hash_table_lookup (num_format_hash, style)));
 
 	if (alignment)
 		xlsx_write_style_write_alignment (state, xml, style);
@@ -437,7 +554,8 @@ xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml,
 }
 
 static void
-xlsx_write_cellXfs (XLSXWriteState *state, GsfXMLOut *xml, GHashTable *fills_hash)
+xlsx_write_cellXfs (XLSXWriteState *state, GsfXMLOut *xml, 
+		    GHashTable *fills_hash, GHashTable *num_format_hash)
 {
 	if (state->styles_array->len > 0) {
 		unsigned i;
@@ -448,7 +566,7 @@ xlsx_write_cellXfs (XLSXWriteState *state, GsfXMLOut *xml, GHashTable *fills_has
 			xlsx_write_style 
 				(state, xml, 
 				 g_ptr_array_index (state->styles_array, i),
-				 fills_hash);
+				 fills_hash, num_format_hash);
 			gsf_xml_out_end_element (xml);	
 		}
 		gsf_xml_out_end_element (xml);
@@ -463,19 +581,27 @@ xlsx_write_styles (XLSXWriteState *state, GsfOutfile *wb_part)
 		wb_part,
 		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles");
 	GsfXMLOut *xml = gsf_xml_out_new (part);
-	GHashTable *fills_hash;
+	GHashTable *fills_hash, *num_format_hash;
 
 	gsf_xml_out_start_element (xml, "styleSheet");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
 	gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
 
+	/* The order of elements is fixed in the schema (xsd:sequence) */
+	num_format_hash = xlsx_write_num_formats (state, xml);
 	xlsx_write_fonts (state, xml);
 	fills_hash = xlsx_write_fills (state, xml);
 	xlsx_write_borders (state, xml);
-	
-	xlsx_write_cellXfs (state, xml, fills_hash);
+	/* <xsd:element name="cellStyleXfs" type="CT_CellStyleXfs" minOccurs="0" maxOccurs="1"/> */
+	xlsx_write_cellXfs (state, xml, fills_hash, num_format_hash);
+	/* <xsd:element name="cellStyles" type="CT_CellStyles" minOccurs="0" maxOccurs="1"/> */
+	/* <xsd:element name="dxfs" type="CT_Dxfs" minOccurs="0" maxOccurs="1"/> */
+	/* <xsd:element name="tableStyles" type="CT_TableStyles" minOccurs="0" maxOccurs="1"/> */
+	/* <xsd:element name="colors" type="CT_Colors" minOccurs="0" maxOccurs="1"/> */
+	/* <xsd:element name="extLst" type="CT_ExtensionList" minOccurs="0" maxOccurs="1"/> */
 	
 	g_hash_table_destroy (fills_hash);
+	g_hash_table_destroy (num_format_hash);
 	gsf_xml_out_end_element (xml); /* </styleSheet> */
 	g_object_unref (xml);
 	gsf_output_close (part);

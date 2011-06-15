@@ -1,5 +1,13 @@
 2011-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_load_buildin_num_formats): new
+	(xlsx_write_num_formats): new
+	(xlsx_write_style): connect to the number formats
+	(xlsx_write_cellXfs): add argument, change all callers
+	(xlsx_write_styles): call xlsx_write_num_formats
+
+2011-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (xlsx_write_color_element): new
 	(xlsx_find_fill): new
 	(xlsx_write_fills): implement
@@ -8,7 +16,7 @@
 	(xlsx_write_styles): connect xlsx_write_fills with xlsx_write_cellXfs
 	(xlsx_write_cells): GPOINTER_TO_INT(0) yields NULL, so shift when
 	storing 0-based indices
-	
+
 2011-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write.c (xlsx_write_style_want_alignment): new
