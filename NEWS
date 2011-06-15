@@ -13,9 +13,10 @@ Andreas
 	* Read fraction formats correctly from ODF 1.2 files.
 	* Fix regression line export to ODF.
 	* Fix font and background colour import of LibreOffice generated xlsx
-	  files. Part of [#644496]
-	* In XLSX files, do not ignore gradient cell background fills
-	  completely. Part of [#644496]
+	  files.
+	* In xlsx files, do not ignore gradient cell background fills
+	  completely. [#644496]
+	* Export some cell formatting to xlsx files. [#532635]
 
 Morten:
 	* Fix leaks in SHEET.  [#650761]

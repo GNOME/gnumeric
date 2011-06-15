@@ -80,6 +80,8 @@ typedef struct {
 	Sheet const	*sheet;
 	GHashTable	*shared_string_hash;
 	GPtrArray	*shared_string_array;
+	GHashTable	*styles_hash;
+	GPtrArray	*styles_array;
 	GnmConventions	*convs;
 	GOIOContext	*io_context;
 
@@ -197,6 +199,131 @@ tableStyles
 colors
 */
 
+static gboolean
+xlsx_write_style_want_alignment (GnmStyle const *style)
+{
+	return gnm_style_is_element_set (style, MSTYLE_ALIGN_H)
+		|| gnm_style_is_element_set (style, MSTYLE_ALIGN_V)
+		|| gnm_style_is_element_set (style, MSTYLE_WRAP_TEXT)
+		|| gnm_style_is_element_set (style, MSTYLE_SHRINK_TO_FIT)
+		|| gnm_style_is_element_set (style, MSTYLE_ROTATION)
+		|| gnm_style_is_element_set (style, MSTYLE_INDENT);
+}
+
+static void
+xlsx_write_style_write_alignment (XLSXWriteState *state, GsfXMLOut *xml, 
+		  GnmStyle const *style)
+{
+	gsf_xml_out_start_element (xml, "alignment");
+	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_H)) {
+		switch (gnm_style_get_align_h (style)) {
+		case HALIGN_LEFT:
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+							"left");
+			break;
+		case HALIGN_RIGHT:
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+							"right");
+			break;
+		case HALIGN_CENTER:
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+							"center");
+			break;
+		case HALIGN_FILL:
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+							"fill");
+			break;
+		case HALIGN_JUSTIFY:
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+							"justify");
+			break;
+		case HALIGN_CENTER_ACROSS_SELECTION:
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+							"centerContinuous");
+			break;
+		case HALIGN_DISTRIBUTED:
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+							"distributed");
+			break;
+		case HALIGN_GENERAL:
+		default:
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+							"general");
+			break;
+		}
+	}
+	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_V)) {
+		switch (gnm_style_get_align_v (style)) {
+		case VALIGN_TOP:
+			gsf_xml_out_add_cstr_unchecked (xml, "vertical", 
+							"top");
+			break;
+		case VALIGN_BOTTOM:
+			gsf_xml_out_add_cstr_unchecked (xml, "vertical", 
+							"bottom");
+			break;
+		case VALIGN_CENTER:
+			gsf_xml_out_add_cstr_unchecked (xml, "vertical", 
+							"center");
+			break;
+		case VALIGN_JUSTIFY:
+			gsf_xml_out_add_cstr_unchecked (xml, "vertical", 
+							"justify");
+			break;
+		default:
+		case VALIGN_DISTRIBUTED:
+			gsf_xml_out_add_cstr_unchecked (xml, "vertical", 
+							"distributed");
+			break;
+		}	
+	}
+	if (gnm_style_is_element_set (style, MSTYLE_WRAP_TEXT)) {
+		gsf_xml_out_add_bool (xml, "wrapText", gnm_style_get_wrap_text (style));
+	}
+	if (gnm_style_is_element_set (style, MSTYLE_SHRINK_TO_FIT)) {
+		gsf_xml_out_add_bool (xml, "shrinkToFit", gnm_style_get_shrink_to_fit (style));
+	}
+	if (gnm_style_is_element_set (style, MSTYLE_ROTATION)) {
+		gsf_xml_out_add_int (xml, "textRotation", gnm_style_get_rotation (style));
+	}
+	if (gnm_style_is_element_set (style, MSTYLE_INDENT)) {
+		gsf_xml_out_add_int (xml, "indent", gnm_style_get_indent (style));
+	}
+	gsf_xml_out_end_element (xml);	
+}
+
+static void
+xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml, 
+		  GnmStyle const *style)
+{
+	gboolean alignment = xlsx_write_style_want_alignment (style);
+
+	xlsx_add_bool (xml, "applyAlignment", alignment);
+
+
+	if (alignment)
+		xlsx_write_style_write_alignment (state, xml, style);
+	
+}
+
+static void
+xlsx_write_cellXfs (XLSXWriteState *state, GsfXMLOut *xml)
+{
+	if (state->styles_array->len > 0) {
+		unsigned i;
+		gsf_xml_out_start_element (xml, "cellXfs");
+		gsf_xml_out_add_int (xml, "count", state->styles_array->len);
+		for (i = 0 ; i < state->styles_array->len ; i++) {
+			gsf_xml_out_start_element (xml, "xf");
+			xlsx_write_style 
+				(state, xml, 
+				 g_ptr_array_index (state->styles_array, i));
+			gsf_xml_out_end_element (xml);	
+		}
+		gsf_xml_out_end_element (xml);
+	}	
+}
+
 static void
 xlsx_write_styles (XLSXWriteState *state, GsfOutfile *wb_part)
 {
@@ -213,9 +340,10 @@ xlsx_write_styles (XLSXWriteState *state, GsfOutfile *wb_part)
 	xlsx_write_fonts (state, xml);
 	xlsx_write_fills (state, xml);
 	xlsx_write_borders (state, xml);
-
+	
+	xlsx_write_cellXfs (state, xml);
+	
 	gsf_xml_out_end_element (xml); /* </styleSheet> */
-
 	g_object_unref (xml);
 	gsf_output_close (part);
 	g_object_unref (part);
@@ -376,11 +504,24 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 
 		for (c = extent->start.col ; c <= extent->end.col ; c++) {
 			if (NULL != (cell = sheet_cell_get (state->sheet, c, r))) {
+				GnmStyle const *style;
+				gint style_id;
+
 				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
 				val = cell->value;
 				gsf_xml_out_start_element (xml, "c");
 				gsf_xml_out_add_cstr_unchecked (xml, "r",
 					cell_coord_name (c, r));
+				style = sheet_style_get	(state->sheet, c, r);
+				if (style != NULL) {
+					if (NULL == (tmp = g_hash_table_lookup (state->styles_hash, style))) {
+						tmp = GINT_TO_POINTER (state->styles_array->len);
+						g_ptr_array_add (state->styles_array, (gpointer) style);
+						g_hash_table_insert (state->styles_hash, (gpointer) style, tmp);
+					}
+					style_id = GPOINTER_TO_INT (tmp);
+					gsf_xml_out_add_int (xml, "s", style_id);
+				}
 
 				switch (val->type) {
 				default :
@@ -1235,6 +1376,8 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	state->xl_dir = xl_dir;
 	state->shared_string_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state->shared_string_array = g_ptr_array_new ();
+	state->styles_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
+	state->styles_array = g_ptr_array_new ();
 	state->convs	 = xlsx_conventions_new ();
 	state->chart.dir   = state->drawing.dir   = NULL;
 	state->chart.count = state->drawing.count = 0;
@@ -1311,6 +1454,8 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	xlsx_conventions_free (state->convs);
 	g_hash_table_destroy (state->shared_string_hash);
 	g_ptr_array_free (state->shared_string_array, TRUE);
+	g_hash_table_destroy (state->styles_hash);
+	g_ptr_array_free (state->styles_array, TRUE);
 
 	if (NULL != state->chart.dir)
 		gsf_output_close (GSF_OUTPUT (state->chart.dir));

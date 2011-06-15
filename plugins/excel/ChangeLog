@@ -1,3 +1,13 @@
+2011-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-write.c (xlsx_write_style_want_alignment): new
+	(xlsx_write_style_write_alignment): new
+	(xlsx_write_style): new
+	(xlsx_write_cellXfs): new
+	(xlsx_write_styles): connect xlsx_write_cellXfs
+	(xlsx_write_cells): llink to styles
+	(xlsx_write_workbook): initialize and finalize style lists
+
 2011-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-utils.h (xlsx_get_gradient_direction): new
