@@ -1,6 +1,6 @@
 2011-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* xlsx-write.c (xlsx_write__rich_text): handle NULL attribute 
+	* xlsx-write.c (xlsx_write__rich_text): handle NULL attribute
 	list
 
 2011-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
@@ -8,7 +8,7 @@
 	* xlsx-write.c (xlsx_write_border): write diagonal border element
 	(xlsx_write_borders): support diagonal elements
 	* xlsx-read.c (xlsx_col_border_begin): new
-	(xlsx_border_end): fir reference counting 
+	(xlsx_border_end): fir reference counting
 	(xlsx_border_diagonal_end): new
 
 2011-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
