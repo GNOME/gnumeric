@@ -18,6 +18,7 @@ Andreas
 	  completely. [#644496]
 	* Export some cell formatting to xlsx files. [#532635]
 	* Fix reading of diagonal borders from xlsx files. [#652690]
+	* Fix writing to xlsx of fil with comments. [#652689]
 
 Morten:
 	* Fix leaks in SHEET.  [#650761]

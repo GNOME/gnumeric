@@ -1655,10 +1655,20 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 static void
 xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 {
-	PangoAttrIterator *iter =  pango_attr_list_get_iterator (attrs);
+	PangoAttrIterator *iter;
 	PangoAttribute *attr;
-	int start, end, max = strlen (text);
+	int start, end, max;
 	char *buf;
+
+	if (attrs == NULL) {
+		gsf_xml_out_start_element (xml, "t");
+		gsf_xml_out_add_cstr_unchecked (xml, NULL, text);
+		gsf_xml_out_end_element (xml); /* </t> */
+		return;
+	}
+
+	max = strlen (text);
+	iter = pango_attr_list_get_iterator (attrs);
 	do {
 		gsf_xml_out_start_element (xml, "r");
 		gsf_xml_out_start_element (xml, "rPr");
