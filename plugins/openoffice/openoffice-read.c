@@ -4270,6 +4270,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmStyle *style = state->cur_style.cells;
 	gboolean  btmp;
 	int	  tmp;
+	gnm_float tmp_f;
 	gboolean  v_alignment_is_fixed = FALSE;
 	int  strike_through_type = 0, strike_through_style = 0;
 
@@ -4351,7 +4352,13 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "diagonal-tl-br-line-style"))
 			oo_set_gnm_border (xin, style, attrs[1], MSTYLE_BORDER_REV_DIAGONAL);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "font-name"))
+			/* According to the ODF standards, this name is just a reference to a */
+			/* <style:font-face> element. So this may not be an acceptable font name! */
 			gnm_style_set_font_name (style, CXML2C (attrs[1]));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-family"))
+			gnm_style_set_font_name (style, CXML2C (attrs[1]));
+		else if (oo_attr_distance (xin, attrs, OO_NS_FO, "font-size", &tmp_f))
+			gnm_style_set_font_size (style, tmp_f);
 		else if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "shrink-to-fit", &btmp))
 			gnm_style_set_shrink_to_fit (style, btmp);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "direction"))
@@ -4359,10 +4366,6 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_int (xin, attrs, OO_NS_STYLE, "rotation-angle", &tmp)) {
 			tmp = tmp % 360;
 			gnm_style_set_rotation	(style, tmp);
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-size")) {
-			gnm_float size;
-			if (1 == sscanf (CXML2C (attrs[1]), "%" GNM_SCANF_g "pt", &size))
-				gnm_style_set_font_size (style, size);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-underline-type") ||
 			   gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-underline")) {
 			if (attr_eq (attrs[1], "none"))
@@ -5103,12 +5106,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 					 font_variants, &tmp))
 			style->style_props = g_slist_prepend
 				(style->style_props,
-				 oo_prop_new_int ("font_variant", tmp));
+				 oo_prop_new_int ("font-variant", tmp));
 		else if (oo_attr_enum (xin, attrs, OO_NS_FO, "font-style",
 					 font_styles, &tmp))
 			style->style_props = g_slist_prepend
 				(style->style_props,
-				 oo_prop_new_int ("font_style", tmp));
+				 oo_prop_new_int ("font-style", tmp));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-family"))
 			style->style_props = g_slist_prepend
 				(style->style_props,

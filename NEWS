@@ -20,6 +20,7 @@ Andreas
 	* Fix reading of diagonal borders from xlsx files. [#652690]
 	* Fix writing to xlsx of file with comments. [#652689]
 	* Add exporter for ECMA-376 2nd edition.
+	* Fix some font-name handling in ODF import.
 
 Morten:
 	* Fix leaks in SHEET.  [#650761]
