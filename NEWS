@@ -19,6 +19,7 @@ Andreas
 	* Export some cell formatting to xlsx files. [#532635]
 	* Fix reading of diagonal borders from xlsx files. [#652690]
 	* Fix writing to xlsx of file with comments. [#652689]
+	* Add exporter for ECMA-376 2nd edition.
 
 Morten:
 	* Fix leaks in SHEET.  [#650761]

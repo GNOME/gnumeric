@@ -67,6 +67,11 @@
 
 #define NUM_FORMAT_BASE 100
 
+enum {
+	ECMA_376_2006 = 1,
+	ECMA_376_2008 = 2
+};
+
 static char const *ns_ss	 = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
 static char const *ns_ss_drawing = "http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing";
 static char const *ns_drawing	 = "http://schemas.openxmlformats.org/drawingml/2006/main";
@@ -79,6 +84,8 @@ static char const *ns_rel_com	 = "http://schemas.openxmlformats.org/officeDocume
 
 typedef struct {
 	XLExportBase base;
+
+	gint             version;
 
 	Sheet const	*sheet;
 	GHashTable	*shared_string_hash;
@@ -590,8 +597,8 @@ xlsx_write_border (XLSXWriteState *state, GsfXMLOut *xml, GnmBorder *border, Gnm
 		gsf_xml_out_start_element (xml, "bottom");
 		break;
 	case MSTYLE_BORDER_LEFT:
-		gsf_xml_out_start_element (xml, "left");
-		/* gsf_xml_out_start_element (xml, "start");  (ECMA 376 2nd edition) */
+		gsf_xml_out_start_element 
+			(xml, (state->version == ECMA_376_2006) ? "left" : "start");
 		break;
 	case MSTYLE_BORDER_DIAGONAL:
 	case MSTYLE_BORDER_REV_DIAGONAL:
@@ -599,8 +606,8 @@ xlsx_write_border (XLSXWriteState *state, GsfXMLOut *xml, GnmBorder *border, Gnm
 		break;
 	default:
 	case MSTYLE_BORDER_RIGHT:
-		gsf_xml_out_start_element (xml, "right");
-		/* gsf_xml_out_start_element (xml, "end");  (ECMA 376 2nd edition) */
+		gsf_xml_out_start_element 
+			(xml, (state->version == ECMA_376_2006) ? "right" : "end");
 		break;
 	}
 	switch (border->line_type) {
@@ -1921,8 +1928,8 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 		gsf_xml_out_add_cstr_unchecked (xml, "r:id", chart_drawing_rel_id);
 		gsf_xml_out_end_element (xml);  /* </drawing> */
 	}
-/*   element legacyDrawing { CT_LegacyDrawing }?,     */
-/*   element legacyDrawingHF { CT_LegacyDrawing }?,     */
+/*   element legacyDrawing { CT_LegacyDrawing }?,  Deleted in edition 2   */
+/*   element legacyDrawingHF { CT_LegacyDrawing }?,  Deleted in edition 2   */
 /*   element picture { CT_SheetBackgroundPicture }?,     */
 /*   element oleObjects { CT_OleObjects }?,     */
 /*   element controls { CT_Controls }?,     */
@@ -2050,7 +2057,12 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 		gsf_xml_out_end_element (xml); /* </pivotCaches> */
 	}
 	gsf_xml_out_start_element (xml, "webPublishing");
-	gsf_xml_out_add_int (xml, "codePage", 1252);	/* FIXME : Use utf-8 ? */
+	xlsx_add_bool (xml, "allowPng", TRUE);
+	xlsx_add_bool (xml, "css", FALSE);
+	if (state->version == ECMA_376_2006)
+		gsf_xml_out_add_int (xml, "codePage", 1252); /* FIXME : Use utf-8 ? */
+	else
+		gsf_xml_out_add_cstr_unchecked (xml, "characterSet", "UTF-8");
 	gsf_xml_out_end_element (xml);
 
 	gsf_xml_out_end_element (xml); /* </workbook> */
@@ -2085,6 +2097,7 @@ xlsx_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 
 	locale = gnm_push_C_locale ();
 
+	state.version           = ECMA_376_2006;
 	state.io_context	= io_context;
 	state.base.wb		= wb_view_get_workbook (wb_view);
 	state.comment		= 0;
@@ -2098,12 +2111,29 @@ xlsx_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	gnm_pop_C_locale (locale);
 }
 
-/* TODO : (Just about everything)
- *	Figure out why XL 12 complains about cells and cols
- *	styles
- *	rich text
- *	shared expressions
- *	external refs
- *	charts
- *	...
- *	*/
+G_MODULE_EXPORT void
+xlsx2_file_save (GOFileSaver const *fs, GOIOContext *io_context,
+		gconstpointer wb_view, GsfOutput *output);
+void
+xlsx2_file_save (GOFileSaver const *fs, GOIOContext *io_context,
+		gconstpointer wb_view, GsfOutput *output)
+{
+	XLSXWriteState state;
+	GsfOutfile *root_part;
+	GnmLocale  *locale;
+
+	locale = gnm_push_C_locale ();
+	state.version           = ECMA_376_2008;
+	state.io_context	= io_context;
+	state.base.wb		= wb_view_get_workbook (wb_view);
+	state.comment		= 0;
+	root_part = gsf_outfile_open_pkg_new (
+		gsf_outfile_zip_new (output, NULL));
+
+	xlsx_write_workbook (&state, root_part);
+	gsf_output_close (GSF_OUTPUT (root_part));
+	g_object_unref (root_part);
+
+	gnm_pop_C_locale (locale);
+}
+

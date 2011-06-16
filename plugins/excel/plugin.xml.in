@@ -94,7 +94,14 @@
 		<service type="file_saver" id="xlsx" file_extension="xlsx"
 		         format_level="auto" overwrite_files="TRUE">
 			<information>
-				<_description>MS Excel (tm) 2007</_description>
+				<_description>MS Excel (tm) 2007 (ECMA 376 1st edition (2006))</_description>
+			</information>
+		</service>
+
+		<service type="file_saver" id="xlsx2" file_extension="xlsx"
+		         format_level="auto" overwrite_files="TRUE">
+			<information>
+				<_description>MS Excel (tm) 2010 (ECMA 376 2nd edition (2008))</_description>
 			</information>
 		</service>
 	</services>

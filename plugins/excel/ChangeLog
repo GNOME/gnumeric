@@ -1,5 +1,17 @@
 2011-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_write_border): use the appripriate
+	element name based on ECMA-376 edition
+	(xlsx_write_workbook): in edition 2 "codePage" was replaced by
+	"characterSet"
+	(xlsx2_file_save): new
+	* plugin.xml.in: add file saver for ECMA-376 2nd edition
+	* xlsx-write-pivot.c (xlsx_write_pivot_cache_definition):
+	2nd edition replaced "refreshedDate" attribute with
+	"refreshedDateIso"
+
+2011-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (xlsx_write__rich_text): handle NULL attribute
 	list
 
@@ -8,7 +20,7 @@
 	* xlsx-write.c (xlsx_write_border): write diagonal border element
 	(xlsx_write_borders): support diagonal elements
 	* xlsx-read.c (xlsx_col_border_begin): new
-	(xlsx_border_end): fir reference counting
+	(xlsx_border_end): fix reference counting
 	(xlsx_border_diagonal_end): new
 
 2011-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
