@@ -1,5 +1,10 @@
 2011-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_write_border): use edition 1 elements
+	(xlsx_write_cells): also write styles for empty cells
+
+2011-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (xlsx_find_border): new
 	(xlsx_write_border): new
 	(xlsx_write_borders): implement

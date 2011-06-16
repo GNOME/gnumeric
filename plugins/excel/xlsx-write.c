@@ -590,11 +590,13 @@ xlsx_write_border (XLSXWriteState *state, GsfXMLOut *xml, GnmBorder *border, Gnm
 		gsf_xml_out_start_element (xml, "bottom");
 		break;
 	case MSTYLE_BORDER_LEFT:
-		gsf_xml_out_start_element (xml, "start");
+		gsf_xml_out_start_element (xml, "left");
+		/* gsf_xml_out_start_element (xml, "start");  (ECMA 376 2nd edition) */
 		break;
 	default:
 	case MSTYLE_BORDER_RIGHT:
-		gsf_xml_out_start_element (xml, "end");
+		gsf_xml_out_start_element (xml, "right");
+		/* gsf_xml_out_start_element (xml, "end");  (ECMA 376 2nd edition) */
 		break;
 	}
 	switch (border->line_type) {
@@ -1058,25 +1060,25 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 		}
 
 		for (c = extent->start.col ; c <= extent->end.col ; c++) {
+			GnmStyle const *style  = sheet_style_get (state->sheet, c, r);
+			gint style_id = -1;
+			if (style != NULL) {
+				if (NULL == (tmp = g_hash_table_lookup (state->styles_hash, style))) {
+					g_ptr_array_add (state->styles_array, (gpointer) style);
+					tmp = GINT_TO_POINTER (state->styles_array->len);
+					g_hash_table_insert (state->styles_hash, (gpointer) style, tmp);
+				}
+				style_id = GPOINTER_TO_INT (tmp) - 1;
+			}
+			
 			if (NULL != (cell = sheet_cell_get (state->sheet, c, r))) {
-				GnmStyle const *style;
-				gint style_id;
-
 				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
 				val = cell->value;
 				gsf_xml_out_start_element (xml, "c");
 				gsf_xml_out_add_cstr_unchecked (xml, "r",
 					cell_coord_name (c, r));
-				style = sheet_style_get	(state->sheet, c, r);
-				if (style != NULL) {
-					if (NULL == (tmp = g_hash_table_lookup (state->styles_hash, style))) {
-						g_ptr_array_add (state->styles_array, (gpointer) style);
-						tmp = GINT_TO_POINTER (state->styles_array->len);
-						g_hash_table_insert (state->styles_hash, (gpointer) style, tmp);
-					}
-					style_id = GPOINTER_TO_INT (tmp) - 1;
+				if (style_id > -1)
 					gsf_xml_out_add_int (xml, "s", style_id);
-				}
 
 				switch (val->type) {
 				default :
@@ -1141,6 +1143,13 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 					gsf_xml_out_end_element (xml); /* </v> */
 				}
 
+				gsf_xml_out_end_element (xml); /* </c> */
+			} else if (style_id > -1) {
+				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
+				gsf_xml_out_start_element (xml, "c");
+				gsf_xml_out_add_cstr_unchecked (xml, "r",
+								cell_coord_name (c, r));
+				gsf_xml_out_add_int (xml, "s", style_id);
 				gsf_xml_out_end_element (xml); /* </c> */
 			}
 		}
