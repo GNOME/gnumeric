@@ -49,6 +49,7 @@
 #include "sheet-object-cell-comment.h"
 #include "sheet-object-graph.h"
 #include "graph.h"
+#include "style-border.h"
 
 #include "go-val.h"
 
@@ -536,9 +537,185 @@ xlsx_write_fills (XLSXWriteState *state, GsfXMLOut *xml)
 	g_ptr_array_free (styles_w_fills, TRUE);
 	return fills_hash;
 }
+
+static gint
+xlsx_find_border (GnmStyle const *style, GPtrArray  *styles)
+{
+	unsigned i;
+	for (i = 0 ; i < styles->len ; i++) {
+		GnmStyle const *old_style = g_ptr_array_index (styles, i);
+		if (style == old_style)
+			return (gint) i;
+		if (gnm_style_is_element_set (style, MSTYLE_BORDER_TOP) != 
+		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_TOP) ||
+		    gnm_style_is_element_set (style, MSTYLE_BORDER_BOTTOM) != 
+		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_BOTTOM) ||
+		    gnm_style_is_element_set (style, MSTYLE_BORDER_LEFT) != 
+		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_LEFT) ||
+		    gnm_style_is_element_set (style, MSTYLE_BORDER_RIGHT) != 
+		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_RIGHT) ||
+		    gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL) != 
+		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_REV_DIAGONAL) ||
+		    gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL) != 
+		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_DIAGONAL))
+			continue;
+		if (gnm_style_get_border (style, MSTYLE_BORDER_TOP)
+		    != gnm_style_get_border (old_style, MSTYLE_BORDER_TOP) ||
+		    gnm_style_get_border (style, MSTYLE_BORDER_BOTTOM)
+		    != gnm_style_get_border (old_style, MSTYLE_BORDER_BOTTOM) ||
+		    gnm_style_get_border (style, MSTYLE_BORDER_LEFT)
+		    != gnm_style_get_border (old_style, MSTYLE_BORDER_LEFT) ||
+		    gnm_style_get_border (style, MSTYLE_BORDER_RIGHT)
+		    != gnm_style_get_border (old_style, MSTYLE_BORDER_RIGHT) ||
+		    gnm_style_get_border (style, MSTYLE_BORDER_REV_DIAGONAL)
+		    != gnm_style_get_border (old_style, MSTYLE_BORDER_REV_DIAGONAL) ||
+		    gnm_style_get_border (style, MSTYLE_BORDER_DIAGONAL)
+		    != gnm_style_get_border (old_style, MSTYLE_BORDER_DIAGONAL))
+			continue;
+		return (gint) i;
+	}
+	return -1;
+}
+
 static void
+xlsx_write_border (XLSXWriteState *state, GsfXMLOut *xml, GnmBorder *border, GnmStyleElement elem)
+{
+	if (border == NULL)
+		return;
+	switch (elem) {
+	case MSTYLE_BORDER_TOP:
+		gsf_xml_out_start_element (xml, "top");
+		break;
+	case MSTYLE_BORDER_BOTTOM:
+		gsf_xml_out_start_element (xml, "bottom");
+		break;
+	case MSTYLE_BORDER_LEFT:
+		gsf_xml_out_start_element (xml, "start");
+		break;
+	default:
+	case MSTYLE_BORDER_RIGHT:
+		gsf_xml_out_start_element (xml, "end");
+		break;
+	}
+	switch (border->line_type) {
+	case GNM_STYLE_BORDER_THIN:
+		gsf_xml_out_add_cstr_unchecked (xml, "style", "thin");
+		break;
+	case GNM_STYLE_BORDER_MEDIUM:
+		gsf_xml_out_add_cstr_unchecked (xml, "style", "medium");
+		break;
+	case GNM_STYLE_BORDER_DASHED:
+		gsf_xml_out_add_cstr_unchecked (xml, "style", "dashed");
+		break;
+	case GNM_STYLE_BORDER_DOTTED:
+		gsf_xml_out_add_cstr_unchecked (xml, "style", "dotted");
+		break;
+	case GNM_STYLE_BORDER_THICK:
+		gsf_xml_out_add_cstr_unchecked (xml, "style", "thick");
+		break;
+	case GNM_STYLE_BORDER_DOUBLE:
+		gsf_xml_out_add_cstr_unchecked (xml, "style", "double");
+		break;
+	case GNM_STYLE_BORDER_HAIR:
+		gsf_xml_out_add_cstr_unchecked (xml, "style", "hair");
+		break;
+	case GNM_STYLE_BORDER_MEDIUM_DASH:
+		gsf_xml_out_add_cstr_unchecked (xml, "style", "mediumDashed");
+		break;
+	case GNM_STYLE_BORDER_DASH_DOT:
+		gsf_xml_out_add_cstr_unchecked (xml, "style", "dashDot");
+		break;
+	case GNM_STYLE_BORDER_MEDIUM_DASH_DOT:
+		gsf_xml_out_add_cstr_unchecked (xml, "style", "mediumDashDot");
+		break;
+	case GNM_STYLE_BORDER_DASH_DOT_DOT:
+		gsf_xml_out_add_cstr_unchecked (xml, "style", "dashDotDot");
+		break;
+	case GNM_STYLE_BORDER_MEDIUM_DASH_DOT_DOT:
+		gsf_xml_out_add_cstr_unchecked (xml, "style", "mediumDashDotDot");
+		break;
+	case GNM_STYLE_BORDER_SLANTED_DASH_DOT:
+		gsf_xml_out_add_cstr_unchecked (xml, "style", "slantDashDot");
+		break;		
+	default:
+	case GNM_STYLE_BORDER_NONE:
+		gsf_xml_out_add_cstr_unchecked (xml, "style", "none");
+		break;
+	}
+
+	if (border->color != NULL)
+		xlsx_write_color_element (xml, "color",  border->color->go_color);
+	
+	gsf_xml_out_end_element (xml);				
+}
+
+static GHashTable *
 xlsx_write_borders (XLSXWriteState *state, GsfXMLOut *xml)
 {
+	GHashTable *border_hash =  g_hash_table_new (g_direct_hash, g_direct_equal);
+	GPtrArray  *styles_w_border  = g_ptr_array_new ();
+	unsigned int i;
+	
+	for (i = 0 ; i < state->styles_array->len ; i++) {
+		GnmStyle const *style = g_ptr_array_index (state->styles_array, i);
+		if (gnm_style_is_element_set (style, MSTYLE_BORDER_TOP) ||
+		    gnm_style_is_element_set (style, MSTYLE_BORDER_BOTTOM) ||
+		    gnm_style_is_element_set (style, MSTYLE_BORDER_LEFT) ||
+		    gnm_style_is_element_set (style, MSTYLE_BORDER_RIGHT) ||
+		    gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL) ||
+		    gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL)) {
+			gint border_n = xlsx_find_border (style, styles_w_border);
+			if (border_n < 0) {
+				g_ptr_array_add (styles_w_border, (gpointer)style);
+				g_hash_table_insert (border_hash, (gpointer)style, 
+						     GINT_TO_POINTER (styles_w_border->len));
+			} else
+				g_hash_table_insert (border_hash, (gpointer)style, 
+						     GINT_TO_POINTER (border_n + 1));
+		}
+	}
+
+	if (styles_w_border->len > 0) {
+		gsf_xml_out_start_element (xml, "borders");
+		gsf_xml_out_add_int (xml, "count", styles_w_border->len);
+		for (i = 0 ; i < styles_w_border->len ; i++) {
+			GnmStyle const *style = g_ptr_array_index (styles_w_border, i);
+			gsf_xml_out_start_element (xml, "border");
+			if (gnm_style_is_element_set (style, MSTYLE_BORDER_TOP))
+				xlsx_write_border (state, xml, 
+						   gnm_style_get_border 
+						   (style, MSTYLE_BORDER_TOP), 
+						   MSTYLE_BORDER_TOP);
+			if (gnm_style_is_element_set (style, MSTYLE_BORDER_BOTTOM))
+				xlsx_write_border (state, xml,
+						   gnm_style_get_border 
+						   (style, MSTYLE_BORDER_BOTTOM),
+						   MSTYLE_BORDER_BOTTOM);
+			if (gnm_style_is_element_set (style, MSTYLE_BORDER_LEFT))
+				xlsx_write_border (state, xml,
+						   gnm_style_get_border 
+						   (style, MSTYLE_BORDER_LEFT),
+						   MSTYLE_BORDER_LEFT);
+			if (gnm_style_is_element_set (style, MSTYLE_BORDER_RIGHT))
+				xlsx_write_border (state, xml,
+						   gnm_style_get_border 
+						   (style, MSTYLE_BORDER_RIGHT),
+						   MSTYLE_BORDER_RIGHT);
+			/* if (gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL)) */
+			/* 	xlsx_write_border (state, xml,  */
+			/* 			   gnm_style_get_border  */
+			/* 			   (MSTYLE_BORDER_REV_DIAGONAL)); */
+			/* if (gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL)) */
+			/* 	xlsx_write_border (state, xml,  */
+			/* 			   gnm_style_get_border  */
+			/* 			   (MSTYLE_BORDER_DIAGONAL)); */
+			gsf_xml_out_end_element (xml); /* border */
+		}		
+		gsf_xml_out_end_element (xml);	
+	}
+	
+	g_ptr_array_free (styles_w_border, TRUE);
+	return border_hash;
 }
 
 static gboolean
@@ -637,15 +814,18 @@ xlsx_write_style_write_alignment (XLSXWriteState *state, GsfXMLOut *xml,
 static void
 xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml, 
 		  GnmStyle const *style, GHashTable *fills_hash,
-		  GHashTable *num_format_hash, GHashTable *fonts_hash)
+		  GHashTable *num_format_hash, GHashTable *fonts_hash,
+		  GHashTable *border_hash)
 {
 	gboolean alignment = xlsx_write_style_want_alignment (style);
-	gpointer tmp_fill, tmp_font;
+	gpointer tmp_fill, tmp_font, tmp_border;
 	gboolean fill = (NULL != (tmp_fill = g_hash_table_lookup (fills_hash, style)));
 	gboolean font = (NULL != (tmp_font = g_hash_table_lookup (fonts_hash, style)));
+	gboolean border = (NULL != (tmp_border = g_hash_table_lookup (border_hash, style)));
 	gboolean num_fmt = gnm_style_is_element_set (style, MSTYLE_FORMAT);
 
 	xlsx_add_bool (xml, "applyAlignment", alignment);
+	xlsx_add_bool (xml, "applyBorder", border);
 	xlsx_add_bool (xml, "applyFont", font);
 	xlsx_add_bool (xml, "applyFill", fill);
 	xlsx_add_bool (xml, "applyNumberFormat", num_fmt);
@@ -653,6 +833,8 @@ xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml,
 		gsf_xml_out_add_int (xml, "fontId", GPOINTER_TO_INT (tmp_font) - 1);
 	if (fill)
 		gsf_xml_out_add_int (xml, "fillId", GPOINTER_TO_INT (tmp_fill) - 1);
+	if (border)
+		gsf_xml_out_add_int (xml, "borderId", GPOINTER_TO_INT (tmp_border) - 1);
 	if (num_fmt)
 		gsf_xml_out_add_int 
 			(xml, "numFmtId", 
@@ -666,7 +848,7 @@ xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml,
 static void
 xlsx_write_cellXfs (XLSXWriteState *state, GsfXMLOut *xml, 
 		    GHashTable *fills_hash, GHashTable *num_format_hash,
-		    GHashTable *fonts_hash)
+		    GHashTable *fonts_hash, GHashTable *border_hash)
 {
 	if (state->styles_array->len > 0) {
 		unsigned i;
@@ -677,7 +859,8 @@ xlsx_write_cellXfs (XLSXWriteState *state, GsfXMLOut *xml,
 			xlsx_write_style 
 				(state, xml, 
 				 g_ptr_array_index (state->styles_array, i),
-				 fills_hash, num_format_hash, fonts_hash);
+				 fills_hash, num_format_hash, fonts_hash,
+				 border_hash);
 			gsf_xml_out_end_element (xml);	
 		}
 		gsf_xml_out_end_element (xml);
@@ -692,7 +875,7 @@ xlsx_write_styles (XLSXWriteState *state, GsfOutfile *wb_part)
 		wb_part,
 		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles");
 	GsfXMLOut *xml = gsf_xml_out_new (part);
-	GHashTable *fills_hash, *num_format_hash, *fonts_hash;
+	GHashTable *fills_hash, *num_format_hash, *fonts_hash, *border_hash;
 
 	gsf_xml_out_start_element (xml, "styleSheet");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
@@ -702,9 +885,9 @@ xlsx_write_styles (XLSXWriteState *state, GsfOutfile *wb_part)
 	num_format_hash = xlsx_write_num_formats (state, xml);
 	fonts_hash = xlsx_write_fonts (state, xml);
 	fills_hash = xlsx_write_fills (state, xml);
-	xlsx_write_borders (state, xml);
+	border_hash = xlsx_write_borders (state, xml);
 	/* <xsd:element name="cellStyleXfs" type="CT_CellStyleXfs" minOccurs="0" maxOccurs="1"/> */
-	xlsx_write_cellXfs (state, xml, fills_hash, num_format_hash, fonts_hash);
+	xlsx_write_cellXfs (state, xml, fills_hash, num_format_hash, fonts_hash, border_hash);
 	/* <xsd:element name="cellStyles" type="CT_CellStyles" minOccurs="0" maxOccurs="1"/> */
 	/* <xsd:element name="dxfs" type="CT_Dxfs" minOccurs="0" maxOccurs="1"/> */
 	/* <xsd:element name="tableStyles" type="CT_TableStyles" minOccurs="0" maxOccurs="1"/> */
@@ -714,6 +897,7 @@ xlsx_write_styles (XLSXWriteState *state, GsfOutfile *wb_part)
 	g_hash_table_destroy (fills_hash);
 	g_hash_table_destroy (fonts_hash);
 	g_hash_table_destroy (num_format_hash);
+	g_hash_table_destroy (border_hash);
 	gsf_xml_out_end_element (xml); /* </styleSheet> */
 	g_object_unref (xml);
 	gsf_output_close (part);

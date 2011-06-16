@@ -1,5 +1,16 @@
 2011-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_find_border): new
+	(xlsx_write_border): new
+	(xlsx_write_borders): implement
+	(xlsx_write_style): handle borders
+	(xlsx_write_cellXfs): add argument, change all callers
+	(xlsx_write_styles): call xlsx_write_borders
+	* xlsx-read.c: for borders "left" and "right" are really called
+	"start" and "end"
+
+2011-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (xlsx_find_font): new
 	(xlsx_write_fonts): implement
 	(xlsx_find_fill): check for straight equality
