@@ -3471,6 +3471,33 @@ xlsx_col_elem_begin (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_col_border_begin (GsfXMLIn *xin, xmlChar const **attrs)
+{	
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	gboolean diagonal_down = FALSE, diagonal_up = FALSE;
+
+	xlsx_col_elem_begin (xin, attrs);
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_bool (xin, attrs, "diagonalDown", &diagonal_down)) ;
+		else (attr_bool (xin, attrs, "diagonalUp", &diagonal_up)) ;
+	
+	if (diagonal_up) {
+		GnmBorder *border = gnm_style_border_fetch 
+			(GNM_STYLE_BORDER_THIN, style_color_black (), GNM_STYLE_BORDER_DIAGONAL);
+		gnm_style_set_border (state->style_accum,
+				      MSTYLE_BORDER_DIAGONAL,
+				      border);
+	}
+	if (diagonal_down) {
+		GnmBorder *border = gnm_style_border_fetch 
+			(GNM_STYLE_BORDER_HAIR, style_color_black (), GNM_STYLE_BORDER_DIAGONAL);
+		gnm_style_set_border (state->style_accum,
+				      MSTYLE_BORDER_REV_DIAGONAL,
+				      border);
+	}
+}
+
+static void
 xlsx_font_name (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -3683,6 +3710,36 @@ xlsx_border_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	gnm_style_set_border (state->style_accum,
 		GNM_STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (loc),
 		border);
+	state->border_color = NULL;
+}
+
+static void
+xlsx_border_diagonal_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GnmBorder *border, *new_border;
+
+	if (NULL == state->border_color)
+		state->border_color = style_color_black ();
+	new_border = gnm_style_border_fetch 
+		(state->border_style, state->border_color, GNM_STYLE_BORDER_DIAGONAL);
+
+	border = gnm_style_get_border (state->style_accum, MSTYLE_BORDER_REV_DIAGONAL);
+	if (border != NULL && border->line_type != GNM_STYLE_BORDER_NONE) {
+		gnm_style_border_ref (new_border);
+		gnm_style_set_border (state->style_accum,
+				      MSTYLE_BORDER_REV_DIAGONAL,
+				      new_border);
+	}
+	border = gnm_style_get_border (state->style_accum, MSTYLE_BORDER_DIAGONAL);
+	if (border != NULL && border->line_type != GNM_STYLE_BORDER_NONE) {
+		gnm_style_border_ref (new_border);
+		gnm_style_set_border (state->style_accum,
+				      MSTYLE_BORDER_DIAGONAL,
+				      new_border);
+	}
+	gnm_style_border_unref (new_border);
+	state->border_color = NULL;
 }
 
 static void
@@ -3904,7 +3961,7 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
 
   GSF_XML_IN_NODE_FULL (STYLE_INFO, BORDERS, XL_NS_SS, "borders", GSF_XML_NO_CONTENT,
 			FALSE, FALSE, &xlsx_collection_begin, &xlsx_collection_end, XLSX_COLLECT_BORDERS),
-    GSF_XML_IN_NODE (BORDERS, BORDER, XL_NS_SS, "border", GSF_XML_NO_CONTENT, &xlsx_col_elem_begin, &xlsx_col_elem_end),
+    GSF_XML_IN_NODE (BORDERS, BORDER, XL_NS_SS, "border", GSF_XML_NO_CONTENT, &xlsx_col_border_begin, &xlsx_col_elem_end),
       GSF_XML_IN_NODE_FULL (BORDER, LEFT_B, XL_NS_SS, "left", GSF_XML_NO_CONTENT, FALSE, FALSE,
 			    &xlsx_border_begin, &xlsx_border_end, GNM_STYLE_BORDER_LEFT),
         GSF_XML_IN_NODE (LEFT_B, LEFT_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
@@ -3923,8 +3980,8 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
       GSF_XML_IN_NODE_FULL (BORDER, BOTTOM_B, XL_NS_SS, "bottom", GSF_XML_NO_CONTENT, FALSE, FALSE,
 			    &xlsx_border_begin, &xlsx_border_end, GNM_STYLE_BORDER_BOTTOM),
         GSF_XML_IN_NODE (BOTTOM_B, BOTTOM_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
-      GSF_XML_IN_NODE_FULL (BORDER, DIAG_B, XL_NS_SS, "diagonal", GSF_XML_NO_CONTENT, FALSE, FALSE,
-			    &xlsx_border_begin, &xlsx_border_end, GNM_STYLE_BORDER_DIAG),
+      GSF_XML_IN_NODE (BORDER, DIAG_B, XL_NS_SS, "diagonal", GSF_XML_NO_CONTENT,
+			    &xlsx_border_begin, &xlsx_border_diagonal_end),
         GSF_XML_IN_NODE (DIAG_B, DIAG_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
 
       GSF_XML_IN_NODE (BORDER, BORDER_VERT, XL_NS_SS,	"vertical", GSF_XML_NO_CONTENT, NULL, NULL),

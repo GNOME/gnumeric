@@ -17,6 +17,7 @@ Andreas
 	* In xlsx files, do not ignore gradient cell background fills
 	  completely. [#644496]
 	* Export some cell formatting to xlsx files. [#532635]
+	* Fix reading of diagonal borders from xlsx files. [#652690]
 
 Morten:
 	* Fix leaks in SHEET.  [#650761]

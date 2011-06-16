@@ -593,6 +593,10 @@ xlsx_write_border (XLSXWriteState *state, GsfXMLOut *xml, GnmBorder *border, Gnm
 		gsf_xml_out_start_element (xml, "left");
 		/* gsf_xml_out_start_element (xml, "start");  (ECMA 376 2nd edition) */
 		break;
+	case MSTYLE_BORDER_DIAGONAL:
+	case MSTYLE_BORDER_REV_DIAGONAL:
+		gsf_xml_out_start_element (xml, "diagonal");
+		break;
 	default:
 	case MSTYLE_BORDER_RIGHT:
 		gsf_xml_out_start_element (xml, "right");
@@ -682,7 +686,22 @@ xlsx_write_borders (XLSXWriteState *state, GsfXMLOut *xml)
 		gsf_xml_out_add_int (xml, "count", styles_w_border->len);
 		for (i = 0 ; i < styles_w_border->len ; i++) {
 			GnmStyle const *style = g_ptr_array_index (styles_w_border, i);
+			gboolean diagonal_border_written = FALSE;
 			gsf_xml_out_start_element (xml, "border");
+			if (gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL)) {
+				GnmBorder *border = gnm_style_get_border 
+					(style, MSTYLE_BORDER_DIAGONAL);
+				gsf_xml_out_add_bool 
+					(xml, "diagonalUp",
+					 (border->line_type != GNM_STYLE_BORDER_NONE));
+			}
+			if (gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL)) {
+				GnmBorder *border = gnm_style_get_border 
+					(style, MSTYLE_BORDER_REV_DIAGONAL);
+				gsf_xml_out_add_bool 
+					(xml, "diagonalDown",
+					 (border->line_type != GNM_STYLE_BORDER_NONE));
+			}
 			if (gnm_style_is_element_set (style, MSTYLE_BORDER_TOP))
 				xlsx_write_border (state, xml, 
 						   gnm_style_get_border 
@@ -703,14 +722,26 @@ xlsx_write_borders (XLSXWriteState *state, GsfXMLOut *xml)
 						   gnm_style_get_border 
 						   (style, MSTYLE_BORDER_RIGHT),
 						   MSTYLE_BORDER_RIGHT);
-			/* if (gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL)) */
-			/* 	xlsx_write_border (state, xml,  */
-			/* 			   gnm_style_get_border  */
-			/* 			   (MSTYLE_BORDER_REV_DIAGONAL)); */
-			/* if (gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL)) */
-			/* 	xlsx_write_border (state, xml,  */
-			/* 			   gnm_style_get_border  */
-			/* 			   (MSTYLE_BORDER_DIAGONAL)); */
+			if (gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL)) {
+				GnmBorder *border = gnm_style_get_border 
+					(style, MSTYLE_BORDER_DIAGONAL);
+				if (border->line_type != GNM_STYLE_BORDER_NONE) {
+					diagonal_border_written = TRUE;
+					xlsx_write_border (state, xml,
+						   border,
+						   MSTYLE_BORDER_DIAGONAL);
+				}
+			}
+			if (!diagonal_border_written && 
+			    gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL)) {
+				GnmBorder *border = gnm_style_get_border 
+					(style, MSTYLE_BORDER_REV_DIAGONAL);
+				if (border->line_type != GNM_STYLE_BORDER_NONE) {
+					xlsx_write_border (state, xml,
+						   border,
+						   MSTYLE_BORDER_REV_DIAGONAL);
+				}
+			}
 			gsf_xml_out_end_element (xml); /* border */
 		}		
 		gsf_xml_out_end_element (xml);	
