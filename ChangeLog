@@ -1,3 +1,7 @@
+2011-06-17  Morten Welinder  <terra@gnome.org>
+
+	* src/session.c: Fix --with-gnome compilation. #652802
+
 2011-06-16  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
