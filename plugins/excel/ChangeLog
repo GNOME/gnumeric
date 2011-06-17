@@ -1,5 +1,13 @@
 2011-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-read-drawing.c (xlsx_drawing_dtd): add srcRect
+
+2011-06-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.15
+
+2011-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (xlsx_write_border): use the appripriate
 	element name based on ECMA-376 edition
 	(xlsx_write_workbook): in edition 2 "codePage" was replaced by
