@@ -1,5 +1,13 @@
 2011-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (styles_dtd): add more elements
+
+2011-06-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.16
+
+2011-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (oo_style_prop_cell): add fo:font-family
 	and simplify handling of fo:font-size
 	(oo_style_prop_cell): fix some typos in property names
