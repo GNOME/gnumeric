@@ -2671,6 +2671,16 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		gnm_style_set_validation (style, validation);
 	}
 
+	if (style == NULL && (merge_cols > 1 || merge_rows > 1)) {
+		/* We may not have a new style but the current cell may */
+		/* have been assigned a style earlier */
+		GnmStyle const *old_style 
+			= sheet_style_get (state->pos.sheet, state->pos.eval.col, 
+					   state->pos.eval.row);
+		if (old_style != NULL)
+			style = gnm_style_dup (old_style);
+	}
+
 	if (style != NULL) {
 		if (state->col_inc > 1 || state->row_inc > 1) {
 			range_init_cellpos_size (&tmp, &state->pos.eval,

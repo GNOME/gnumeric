@@ -1,3 +1,8 @@
+2011-06-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_cell_start): for merged cells extent any
+	style set by the row or column. Fixes [#652492]
+
 2011-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (styles_dtd): add more elements
