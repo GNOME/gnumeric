@@ -1,6 +1,6 @@
-diff -ru gnumeric-1.10.15.old/config.guess gnumeric-1.10.15/config.guess
---- gnumeric-1.10.15.old/config.guess	2011-05-03 01:27:58.000000000 +0200
-+++ gnumeric-1.10.15/config.guess	2011-05-22 01:15:44.000000000 +0200
+diff -ru gnumeric-1.10.16.old/config.guess gnumeric-1.10.16/config.guess
+--- gnumeric-1.10.16.old/config.guess	2011-05-21 18:55:26.000000000 +0200
++++ gnumeric-1.10.16/config.guess	2011-06-17 21:27:55.000000000 +0200
 @@ -1,10 +1,10 @@
  #! /bin/sh
  # Attempt to guess a canonical system name.
@@ -772,9 +772,9 @@ diff -ru gnumeric-1.10.15.old/config.guess gnumeric-1.10.15/config.guess
  #endif
  #endif
  
-diff -ru gnumeric-1.10.15.old/config.sub gnumeric-1.10.15/config.sub
---- gnumeric-1.10.15.old/config.sub	2011-05-03 01:27:58.000000000 +0200
-+++ gnumeric-1.10.15/config.sub	2011-05-22 01:15:44.000000000 +0200
+diff -ru gnumeric-1.10.16.old/config.sub gnumeric-1.10.16/config.sub
+--- gnumeric-1.10.16.old/config.sub	2011-05-21 18:55:26.000000000 +0200
++++ gnumeric-1.10.16/config.sub	2011-06-17 21:27:55.000000000 +0200
 @@ -1,10 +1,10 @@
  #! /bin/sh
  # Configuration validation subroutine script.

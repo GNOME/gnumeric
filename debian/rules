@@ -88,6 +88,7 @@ LDFLAGS += -Wl,-O1
 # for all libraries specified in the link line.
 LDFLAGS += -Wl,--as-needed
 
+.PHONY: source-updates
 source-updates:
 # This target is not part of the regular package build process. It is used
 # by the package maintainer for development purposes and may have
@@ -100,7 +101,6 @@ source-updates:
 		sh autogen.sh $(confflags)
 	convert icons/32x32/gnumeric.png -depth 4 debian/gnome-gnumeric.xpm
 
-configure: configure-stamp
 configure-stamp:
 	dh_testdir
 
@@ -112,13 +112,25 @@ configure-stamp:
 
 	touch configure-stamp
 
-build: configure-stamp build-stamp
-build-stamp:
+.PHONY: configure
+configure: configure-stamp
+
+build-stamp: configure
 	dh_testdir
 
 	cd build && $(MAKE)
 	touch build-stamp
 
+.PHONY: build-arch
+build-arch: build-stamp
+
+.PHONY: build-indep
+build-indep: build-stamp
+
+.PHONY: build
+build: build-arch build-indep
+
+.PHONY: clean
 clean:
 	dh_testdir
 	dh_testroot
@@ -156,7 +168,7 @@ clean:
 
 	dh_clean
 
-install: DH_OPTIONS=
+.PHONY: install
 install: build
 	dh_testdir
 	dh_testroot
@@ -256,6 +268,7 @@ binary-indep: build install
 	dh_builddeb -i
 
 # Build architecture-dependent files here.
+.PHONY: binary-arch
 binary-arch: build install
 	dh_testdir -a
 	dh_testroot -a
@@ -295,5 +308,5 @@ binary-arch: build install
 	dh_md5sums -a
 	dh_builddeb -a
 
+.PHONY: binary
 binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install configure
