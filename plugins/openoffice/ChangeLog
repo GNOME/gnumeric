@@ -1,5 +1,21 @@
 2011-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (xl_find_format_xl): new
+	(xl_find_format) split off xl_find_format_xl
+	(odf_render_date): write data style info
+	(odf_render_time): ditto
+	(odf_render_cell): skip non-formula part of the expression
+	(odf_render_ops_to_xl): new
+	(odf_render_opcode): add argument and change all callers
+	(odf_hf_region_to_xl_styles): new
+	(odf_master_styles_to_xl_styles): new
+	(odf_write_office_styles): new
+	(odf_write_styles): split off odf_write_office_styles and also
+	call odf_write_automatic_styles
+	(odf_write_automatic_styles): new
+
+2011-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_table_style): add argument and
 	write the correct master page name
 	(table_master_page_style_name): new

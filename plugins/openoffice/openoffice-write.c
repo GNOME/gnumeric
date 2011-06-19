@@ -654,10 +654,9 @@ odf_get_gog_style_name_from_obj (GogObject const *obj)
 }
 
 static const char*
-xl_find_format (GnmOOExport *state, GOFormat const *format, int i)
+xl_find_format_xl (GnmOOExport *state, char const *xl, int i)
 {
 	GHashTable *hash;
-	char const *xl =  go_format_as_XL(format);
 	char const *found;
 	const char *prefix;
 
@@ -686,6 +685,12 @@ xl_find_format (GnmOOExport *state, GOFormat const *format, int i)
 		found = new_found;
 	}
 	return found;
+}
+
+static const char*
+xl_find_format (GnmOOExport *state, GOFormat const *format, int i)
+{
+	return xl_find_format_xl (state, go_format_as_XL(format), i);
 }
 
 static const char*
@@ -4412,13 +4417,48 @@ odf_render_pages (GnmOOExport *state, char const *args)
 static void 
 odf_render_date (GnmOOExport *state, char const *args)
 {
-	gsf_xml_out_simple_element (state->xml, TEXT "date", NULL);
+	const char *style_name;
+
+	if (args == NULL)
+		args = "dd-mmm-yyyy";
+	style_name = xl_find_format_xl (state, args, 0);
+
+	gsf_xml_out_start_element (state->xml, TEXT "date");
+	if (style_name)
+		gsf_xml_out_add_cstr_unchecked 
+			(state->xml, STYLE "data-style-name", style_name);
+	gsf_xml_out_end_element (state->xml);	
+}
+
+static void 
+odf_render_date_to_xl (GnmOOExport *state, char const *args)
+{
+	if (args == NULL)
+		args = "dd-mmm-yyyy";
+	(void)xl_find_format_xl (state, args, 0);
 }
 
 static void 
 odf_render_time (GnmOOExport *state, char const *args)
 {
-	gsf_xml_out_simple_element (state->xml, TEXT "time", NULL);
+	const char *style_name;
+
+	if (args == NULL)
+		args = "hh:mm";
+	style_name = xl_find_format_xl (state, args, 0);
+
+	gsf_xml_out_start_element (state->xml, TEXT "time");
+	if (style_name)
+		gsf_xml_out_add_cstr_unchecked 
+			(state->xml, STYLE "data-style-name", style_name);
+	gsf_xml_out_end_element (state->xml);	
+}
+static void 
+odf_render_time_to_xl (GnmOOExport *state, char const *args)
+{
+	if (args == NULL)
+		args = "hh:mm";
+	(void)xl_find_format_xl (state, args, 0);
 }
 
 static void 
@@ -4440,50 +4480,74 @@ odf_render_path (GnmOOExport *state, char const *args)
 static void 
 odf_render_cell (GnmOOExport *state, char const *args)
 {
-	GnmExprTop const *texpr;
+	GnmExprTop const *texpr = NULL;
 	GnmParsePos pp;
 	char *formula, *full_formula;
-	GnmConventions *convs = gnm_xml_io_conventions ();
-	parse_pos_init_sheet (&pp, state->sheet);
-	texpr = gnm_expr_parse_str (args, &pp, GNM_EXPR_PARSE_DEFAULT,
+	GnmConventions *convs;
+	
+	if (args) {
+		convs = gnm_xml_io_conventions ();
+		parse_pos_init_sheet (&pp, state->sheet);
+		if (args && (g_str_has_prefix (args, "rep|")))
+			args += 4;
+		texpr = gnm_expr_parse_str (args, &pp, GNM_EXPR_PARSE_DEFAULT,
 				    convs, NULL);
-	gnm_conventions_unref (convs);
-	formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
-	gnm_expr_top_unref (texpr);
-	full_formula = g_strdup_printf ("of:=%s", formula);
-	g_free (formula);
-
+		gnm_conventions_unref (convs);
+		if (texpr) {
+			formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
+			gnm_expr_top_unref (texpr);
+			full_formula = g_strdup_printf ("of:=%s", formula);
+			g_free (formula);
+		}
+	}
 	gsf_xml_out_start_element (state->xml, TEXT "expression");
 	gsf_xml_out_add_cstr_unchecked (state->xml, TEXT "display", "formula");
-	
-	gsf_xml_out_add_cstr (state->xml, TEXT "formula",
-			      full_formula);
-	g_free (full_formula);
+	if (texpr) {
+		gsf_xml_out_add_cstr (state->xml, TEXT "formula",
+				      full_formula);
+		g_free (full_formula);
+	}
 
 	gsf_xml_out_end_element (state->xml);	
 }
 
-static struct {
+typedef struct {
 	char const *name;
 	void (*render)(GnmOOExport *state, char const *args);
 	char *name_trans;
-} odf_render_ops [] = {
-	{ N_("tab"),   odf_render_tab   , NULL},
-	{ N_("page"),  odf_render_page  , NULL},
-	{ N_("pages"), odf_render_pages , NULL},
-	{ N_("date"),  odf_render_date  , NULL},
-	{ N_("time"),  odf_render_time  , NULL},
-	{ N_("file"),  odf_render_file  , NULL},
-	{ N_("path"),  odf_render_path  , NULL},
-	{ N_("cell"),  odf_render_cell  , NULL},
+} render_ops_t;
+
+static render_ops_t odf_render_ops [] = {
+	{ N_("tab"),   odf_render_tab,   NULL},
+	{ N_("page"),  odf_render_page,  NULL},
+	{ N_("pages"), odf_render_pages, NULL},
+	{ N_("date"),  odf_render_date,  NULL},
+	{ N_("time"),  odf_render_time,  NULL},
+	{ N_("file"),  odf_render_file,  NULL},
+	{ N_("path"),  odf_render_path,  NULL},
+	{ N_("cell"),  odf_render_cell,  NULL},
 	{ NULL },
 };
+
+static render_ops_t odf_render_ops_to_xl [] = {
+	{ N_("tab"),   NULL,                  NULL},
+	{ N_("page"),  NULL,                  NULL},
+	{ N_("pages"), NULL,                  NULL},
+	{ N_("date"),  odf_render_date_to_xl, NULL},
+	{ N_("time"),  odf_render_time_to_xl, NULL},
+	{ N_("file"),  NULL,                  NULL},
+	{ N_("path"),  NULL,                  NULL},
+	{ N_("cell"),  NULL,                  NULL},
+	{ NULL },
+};
+
 /*
  * Renders an opcode.  The opcodes can take an argument by adding trailing ':'
  * to the opcode and then a number format code
  */
 static void
-odf_render_opcode (GnmOOExport *state, char /* non-const */ *opcode)
+odf_render_opcode (GnmOOExport *state, char /* non-const */ *opcode, 
+		   render_ops_t *render_ops)
 {
 	char *args;
 	char *opcode_trans;
@@ -4496,19 +4560,80 @@ odf_render_opcode (GnmOOExport *state, char /* non-const */ *opcode)
 	}
 	opcode_trans = g_utf8_casefold (opcode, -1);
 
-	for (i = 0; odf_render_ops [i].name; i++) {
-		if (odf_render_ops [i].name_trans == NULL) {
-			odf_render_ops [i].name_trans 
-				= g_utf8_casefold (_(odf_render_ops [i].name), -1);
+	for (i = 0; render_ops [i].name; i++) {
+		if (render_ops [i].name_trans == NULL) {
+			render_ops [i].name_trans 
+				= g_utf8_casefold (_(render_ops [i].name), -1);
 		}
 
-		if (((g_ascii_strcasecmp (odf_render_ops [i].name, opcode) == 0) ||
-		    (g_utf8_collate (odf_render_ops [i].name_trans, opcode_trans) == 0))
-		    && (odf_render_ops [i].render != NULL)){
-			(*odf_render_ops [i].render)(state, args);
+		if (((g_ascii_strcasecmp (render_ops [i].name, opcode) == 0) ||
+		    (g_utf8_collate (render_ops [i].name_trans, opcode_trans) == 0))
+		    && (render_ops [i].render != NULL)){
+			(*render_ops [i].render)(state, args);
 		}
 	}
 	g_free (opcode_trans);
+}
+
+static void
+odf_hf_region_to_xl_styles (GnmOOExport *state, char const *format)
+{
+	char const *p;
+
+	if (format == NULL)
+		return;
+
+	for (p = format; *p; p = g_utf8_next_char(p)) {
+		if (*p == '&' && p[1] == '[') {
+			char const *start;
+
+			p += 2;
+			start = p;
+			while (*p && (*p != ']'))
+				p++;
+
+			if (*p == ']') {
+				char *operation = g_strndup (start, p - start);
+				odf_render_opcode (state, operation, odf_render_ops_to_xl);
+				g_free (operation);
+			} else
+				break;
+		}
+	}
+}
+
+/*
+ *  When we write the master styles we need certain data style. Here we are making
+ *  sure that those data styles were in fact written.
+ */
+static void
+odf_master_styles_to_xl_styles (GnmOOExport *state)
+{
+	int i;
+
+	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
+		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
+
+		if (sheet->print_info->page_setup == NULL)
+			print_info_load_defaults (sheet->print_info);
+		
+		if (sheet->print_info->header != NULL) {
+			odf_hf_region_to_xl_styles 
+				(state, sheet->print_info->header->left_format);
+			odf_hf_region_to_xl_styles 
+				(state, sheet->print_info->header->middle_format);
+			odf_hf_region_to_xl_styles 
+				(state, sheet->print_info->header->right_format);
+		}
+		if (sheet->print_info->footer != NULL) {
+			odf_hf_region_to_xl_styles 
+				(state, sheet->print_info->footer->left_format);
+			odf_hf_region_to_xl_styles 
+				(state, sheet->print_info->footer->middle_format);
+			odf_hf_region_to_xl_styles 
+				(state, sheet->print_info->footer->right_format);
+		}
+	}
 }
 
 static void
@@ -4543,7 +4668,7 @@ odf_write_hf_region (GnmOOExport *state, char const *format, char const *id)
 						(state->xml, TEXT "span", text->str);
 					g_string_truncate (text, 0);
 				}
-				odf_render_opcode (state, operation);
+				odf_render_opcode (state, operation, odf_render_ops);
 				g_free (operation);
 			} else
 				break;
@@ -4572,47 +4697,10 @@ odf_write_hf (GnmOOExport *state, PrintHF *hf, char const *id)
 }
 
 static void
-odf_write_master_styles (GnmOOExport *state)
+odf_write_office_styles (GnmOOExport *state)
 {
-	int i;
-
-	gsf_xml_out_start_element (state->xml, OFFICE "master-styles");
-
-	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
-		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
-		char *mp_name  = table_master_page_style_name (sheet);
-
-		if (sheet->print_info->page_setup == NULL)
-			print_info_load_defaults (sheet->print_info);
-		
-		gsf_xml_out_start_element (state->xml, STYLE "master-page");
-		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "name", mp_name);
-		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "page-layout-name", 
-						"pl-default");
-
-		odf_write_hf (state, sheet->print_info->header, STYLE "header");
-		odf_write_hf (state, sheet->print_info->footer, STYLE "footer");
-		
-		gsf_xml_out_end_element (state->xml); /* </master-page> */
-		g_free (mp_name);
-	}
-
-	gsf_xml_out_end_element (state->xml); /* </master-styles> */
-}
-
-static void
-odf_write_styles (GnmOOExport *state, GsfOutput *child)
-{
-	int i;
-
-	state->xml = gsf_xml_out_new (child);
-	gsf_xml_out_start_element (state->xml, OFFICE "document-styles");
-	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
-		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
-	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version",
-					get_gsf_odf_version_string ());
 	gsf_xml_out_start_element (state->xml, OFFICE "styles");
-
+	
 	g_hash_table_foreach (state->xl_styles, (GHFunc) odf_write_this_xl_style, state);
 	g_hash_table_foreach (state->xl_styles_neg, (GHFunc) odf_write_this_xl_style_neg, state);
 	g_hash_table_foreach (state->xl_styles_zero, (GHFunc) odf_write_this_xl_style_zero, state);
@@ -4652,7 +4740,64 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 	g_hash_table_remove_all (state->arrow_markers);
 
 	gsf_xml_out_end_element (state->xml); /* </office:styles> */
+}
 
+static void
+odf_write_automatic_styles (GnmOOExport *state)
+{
+	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
+
+	gsf_xml_out_start_element (state->xml, STYLE "page-layout");
+	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "name", 
+					"pl-default");
+	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "page-usage", "all");
+	gsf_xml_out_end_element (state->xml); /* </style:page-layout> */
+
+	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
+}
+
+static void
+odf_write_master_styles (GnmOOExport *state)
+{
+	int i;
+
+	gsf_xml_out_start_element (state->xml, OFFICE "master-styles");
+
+	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
+		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
+		char *mp_name  = table_master_page_style_name (sheet);
+
+		gsf_xml_out_start_element (state->xml, STYLE "master-page");
+		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "name", mp_name);
+		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "page-layout-name", 
+						"pl-default");
+
+		odf_write_hf (state, sheet->print_info->header, STYLE "header");
+		odf_write_hf (state, sheet->print_info->footer, STYLE "footer");
+		
+		gsf_xml_out_end_element (state->xml); /* </master-page> */
+		g_free (mp_name);
+	}
+
+	gsf_xml_out_end_element (state->xml); /* </master-styles> */
+}
+
+static void
+odf_write_styles (GnmOOExport *state, GsfOutput *child)
+{
+	int i;
+
+	state->xml = gsf_xml_out_new (child);
+	gsf_xml_out_start_element (state->xml, OFFICE "document-styles");
+	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
+		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version",
+					get_gsf_odf_version_string ());
+
+	odf_master_styles_to_xl_styles (state);
+
+	odf_write_office_styles (state);
+	odf_write_automatic_styles (state);
 	odf_write_master_styles (state);
 
 	gsf_xml_out_end_element (state->xml); /* </office:document-styles> */
