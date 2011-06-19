@@ -1,5 +1,9 @@
 2011-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (styles_dtd): add more elements
+
+2011-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (xl_find_format_xl): new
 	(xl_find_format) split off xl_find_format_xl
 	(odf_render_date): write data style info

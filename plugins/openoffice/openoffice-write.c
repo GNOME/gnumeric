@@ -4675,7 +4675,8 @@ odf_write_hf_region (GnmOOExport *state, char const *format, char const *id)
 		} else
 			g_string_append_len (text, p, g_utf8_next_char(p) - p);
 	}
-	gsf_xml_out_simple_element (state->xml, TEXT "span", text->str);
+	if (text->len > 0)
+		gsf_xml_out_simple_element (state->xml, TEXT "span", text->str);
 	g_string_free (text, TRUE);
 
 	gsf_xml_out_end_element (state->xml); /* </text:p> */
