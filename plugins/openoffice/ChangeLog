@@ -1,3 +1,16 @@
+2011-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_table_style): add argument and
+	write the correct master page name
+	(table_master_page_style_name): new
+	(odf_write_table_styles): determine master page name and pass to
+	odf_write_table_style
+	(odf_render_*): new
+	(odf_write_hf_region): new
+	(odf_write_hf): new
+	(odf_write_master_styles): new
+	(odf_write_styles): call odf_write_master_styles
+
 2011-06-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_cell_start): for merged cells extent any
