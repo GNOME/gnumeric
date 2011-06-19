@@ -1,6 +1,8 @@
 2011-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (styles_dtd): add more elements
+	* openoffice-read.c (styles_dtd): add more elements
+	* openoffice-write.c (odf_write_hf_region): don't write empty
+	spans
 
 2011-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
