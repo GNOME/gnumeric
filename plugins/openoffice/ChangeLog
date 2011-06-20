@@ -1,5 +1,15 @@
 2011-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_table_start): handle master_page_name
+	(oo_style): handle master-page-name
+	(odf_master_page): new
+	(odf_master_page_end): new
+	(odf_header_footer): new
+	(odf_hf_*): new
+	(styles_dtd): connect the above
+
+2011-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (styles_dtd): add more elements
 	* openoffice-write.c (odf_write_hf_region): don't write empty
 	spans

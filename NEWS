@@ -2,7 +2,7 @@ Gnumeric 1.10.17
 
 Andreas:
 	* Fix some style import from ODF. [#652492]
-	* Export header and footer to ODF.
+	* Import/Export header and footer from/to ODF.
 
 Morten:
 	* Fix --with-gnome compilation:  [#652802]
