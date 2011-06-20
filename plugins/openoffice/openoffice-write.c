@@ -608,7 +608,6 @@ odf_write_table_style (GnmOOExport *state, Sheet const *sheet)
 	
 	odf_start_style (state->xml, name, "table");
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "master-page-name", mp_name);
-	gsf_xml_out_add_cstr (state->xml, STYLE "display-name", sheet->name_unquoted);
 
 	gsf_xml_out_start_element (state->xml, STYLE "table-properties");
 	odf_add_bool (state->xml, TABLE "display",
@@ -4650,7 +4649,6 @@ odf_write_hf_region (GnmOOExport *state, char const *format, char const *id)
 		return;
 
 	gsf_xml_out_start_element (state->xml, id);
-	odf_add_bool (state->xml, STYLE "display", TRUE);
 	g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
 	g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
 	gsf_xml_out_start_element (state->xml, TEXT "p");
@@ -4695,6 +4693,7 @@ odf_write_hf (GnmOOExport *state, PrintHF *hf, char const *id)
 		return;
 
 	gsf_xml_out_start_element (state->xml, id);
+	odf_add_bool (state->xml, STYLE "display", TRUE);
 	odf_write_hf_region (state, hf->left_format, STYLE "region-left");
 	odf_write_hf_region (state, hf->middle_format, STYLE "region-center");
 	odf_write_hf_region (state, hf->right_format, STYLE "region-right");
@@ -4774,6 +4773,7 @@ odf_write_master_styles (GnmOOExport *state)
 
 		gsf_xml_out_start_element (state->xml, STYLE "master-page");
 		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "name", mp_name);
+		gsf_xml_out_add_cstr (state->xml, STYLE "display-name", sheet->name_unquoted);
 		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "page-layout-name", 
 						"pl-default");
 

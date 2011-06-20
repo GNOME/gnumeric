@@ -1,5 +1,13 @@
 2011-06-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_hf): turn the display of
+	header/footer on here, not in
+	(odf_write_hf_region)
+	(odf_write_master_styles): add the display name here, not in
+	(odf_write_table_style)
+
+2011-06-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_table_style): drop two args and
 	change all callers
 	(odf_render_cell): We want to show the value, not the formula
