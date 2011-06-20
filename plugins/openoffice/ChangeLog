@@ -1,3 +1,23 @@
+2011-06-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_table_style): drop two args and
+	change all callers
+	(odf_render_cell): We want to show the value, not the formula
+	(odf_write_hf_region): explicitly turn the display of header/footer on.
+	* openoffice-read.c (odf_string_id): new
+	(odf_pi_parse_format_spec): new
+	(odf_pi_parse_format): new
+	(odf_pi_parse_hf): new
+	(odf_pi_parse_expressions): new
+	(oo_table_start): parse the embedded expressions in the hf info
+	(odf_hf_item): assume the tag is already translated and adjust all
+	callers
+	(odf_hf_item_w_data_style): new
+	(odf_hf_date): use odf_hf_item_w_data_style
+	(odf_hf_time): use odf_hf_item_w_data_style
+	(odf_hf_expression): implement
+	(openoffice_file_open): initialize and finalize new strings hash
+
 2011-06-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_table_start): handle master_page_name

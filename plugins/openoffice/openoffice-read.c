@@ -315,6 +315,7 @@ typedef struct {
 	GHashTable	*formats;
 	GHashTable	*controls;
 	GHashTable	*validations;
+	GHashTable	*strings;
 
 	struct {
 		GHashTable	*cell;
@@ -648,6 +649,14 @@ odf_match_dash_type (OOParseState *state, gchar const *dash_style)
 			t = GPOINTER_TO_UINT(res);
 	}
 	return ((t == GO_LINE_NONE)? GO_LINE_DOT : t );
+}
+
+static char const *
+odf_string_id (OOParseState *state, char const *string)
+{
+	char *id = g_strdup_printf ("str%i", g_hash_table_size (state->strings));
+	g_hash_table_insert (state->strings, id, g_strdup (string));
+	return id;
 }
 
 static void
@@ -1611,6 +1620,100 @@ oo_iteration (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+odf_pi_parse_format_spec (GsfXMLIn *xin, char **fmt, char const *needle, char const *tag)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	GString *str = g_string_new (*fmt);
+	gint start = 0;
+	gchar *found = NULL;
+
+	while (NULL != (found = g_strstr_len (str->str + start, -1, needle))) {
+		char *op_start = found + strlen (needle);
+		gchar *p =  op_start;
+
+		while (*p && (*p != ']'))
+			p++;
+		if (*p == ']') {
+			char *id = g_strndup (op_start, p - op_start);
+			char const *formula = g_hash_table_lookup (state->strings, id);
+			char const *orig_formula = formula;
+			OOFormula f_type;
+			GnmExprTop const *texpr = NULL;
+			char *text, *subs;
+			gint start_pos = found - str->str;
+
+			g_free (id);
+			g_string_erase (str, start_pos, p - found + 1);
+
+			if (formula == NULL)
+				goto stop_parse;
+		
+			f_type = odf_get_formula_type (xin, &formula);
+			if (f_type == FORMULA_NOT_SUPPORTED) {
+				oo_warning (xin, _("Unsupported formula type encountered: %s"), 
+					    orig_formula);
+				goto stop_parse;
+			}
+			formula = gnm_expr_char_start_p (formula);
+			if (formula == NULL) {
+				oo_warning (xin, _("Expression '%s' does not start "
+						   "with a recognized character"), orig_formula);
+				goto stop_parse;
+			}
+			texpr = oo_expr_parse_str
+				(xin, formula, &state->pos, GNM_EXPR_PARSE_DEFAULT, f_type);
+
+			if (texpr != NULL) {
+				text = gnm_expr_top_as_string (texpr, &state->pos, 
+							       gnm_conventions_default);
+				gnm_expr_top_unref (texpr);
+
+				if (tag == NULL) {
+					subs = text;
+				} else {
+					subs = g_strdup_printf ("&[%s:%s]", tag, text);
+					g_free (text);
+				}
+				g_string_insert (str, start_pos, subs);
+				start = start_pos + strlen (subs);
+				g_free (subs);
+			}			
+		} else
+			break;
+	}
+
+ stop_parse:
+	g_free (*fmt);
+	*fmt = g_string_free (str, FALSE);
+}
+
+static void
+odf_pi_parse_format (GsfXMLIn *xin, char **fmt)
+{
+	if ((*fmt == NULL) ||
+	    (NULL == g_strstr_len (*fmt, -1, "&[cell")))
+		return;
+
+	odf_pi_parse_format_spec (xin, fmt, "&[cellt:", NULL);
+	odf_pi_parse_format_spec (xin, fmt, "&[cell:", _("cell"));
+}
+
+static void
+odf_pi_parse_hf (GsfXMLIn *xin, PrintHF  *hf)
+{
+	odf_pi_parse_format (xin, &hf->left_format);
+	odf_pi_parse_format (xin, &hf->middle_format);
+	odf_pi_parse_format (xin, &hf->right_format);
+}
+
+static void
+odf_pi_parse_expressions (GsfXMLIn *xin, PrintInformation *pi)
+{
+	odf_pi_parse_hf (xin, pi->header);
+	odf_pi_parse_hf (xin, pi->footer);
+}
+
+static void
 oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	/* <table:table table:name="Result" table:style-name="ta1"> */
@@ -1686,10 +1789,12 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (style) {
 			PrintInformation *pi = NULL;
 			if (style->master_page_name)
-				pi = g_hash_table_lookup (state->styles.master_pages, style->master_page_name);
+				pi = g_hash_table_lookup (state->styles.master_pages, 
+							  style->master_page_name);
 			if (pi != NULL) {
 				print_info_free (state->pos.sheet->print_info);
 				state->pos.sheet->print_info = print_info_dup (pi);
+				odf_pi_parse_expressions (xin, state->pos.sheet->print_info); 
 			}
 			g_object_set (state->pos.sheet,
 				      "visibility", style->visibility,
@@ -2533,8 +2638,12 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 			expr_string = CXML2C (attrs[1]);
 			f_type = odf_get_formula_type (xin, &expr_string);
-			if (f_type == FORMULA_NOT_SUPPORTED)
+			if (f_type == FORMULA_NOT_SUPPORTED) {
+				oo_warning (xin, 
+					    _("Unsupported formula type encountered: %s"), 
+					    expr_string);
 				continue;
+			}
 
 			expr_string = gnm_expr_char_start_p (expr_string);
 			if (expr_string == NULL)
@@ -4247,7 +4356,7 @@ odf_hf_item (GsfXMLIn *xin, char const *item)
 	char *new;
 	
 	if (*(state->cur_hf_format) == NULL)
-		new = g_strconcat ("&[", _(item), "]", NULL);
+		new = g_strconcat ("&[", item, "]", NULL);
 	else
 		new = g_strconcat (*(state->cur_hf_format), "&[", _(item), "]", NULL);
 	g_free (*(state->cur_hf_format));
@@ -4257,31 +4366,55 @@ odf_hf_item (GsfXMLIn *xin, char const *item)
 static void
 odf_hf_sheet_name (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	odf_hf_item (xin, N_("tab"));
+	odf_hf_item (xin, _("tab"));
+}
+
+static void
+odf_hf_item_w_data_style (GsfXMLIn *xin, xmlChar const **attrs, char const *item)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *data_style_name = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "data-style-name"))
+			data_style_name = CXML2C (attrs[1]);
+
+	if (data_style_name == NULL)
+		odf_hf_item (xin, item);
+	else {
+		GOFormat const *fmt = 
+			g_hash_table_lookup (state->formats, data_style_name);
+		if (fmt != NULL) {
+			char const *fmt_str = go_format_as_XL (fmt);
+			char *str = g_strconcat (item, ":", fmt_str, NULL);
+			odf_hf_item (xin, str);
+			g_free (str);
+		}
+	}
 }
 
 static void
 odf_hf_date (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	odf_hf_item (xin, N_("date"));
+	odf_hf_item_w_data_style (xin, attrs, _("date"));
 }
 
 static void
 odf_hf_time (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	odf_hf_item (xin, N_("time"));
+	odf_hf_item_w_data_style (xin, attrs, _("time"));
 }
 
 static void
 odf_hf_page_number (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	odf_hf_item (xin, N_("page"));
+	odf_hf_item (xin, _("page"));
 }
 
 static void
 odf_hf_page_count (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	odf_hf_item (xin, N_("pages"));
+	odf_hf_item (xin, _("pages"));
 }
 
 static void
@@ -4303,18 +4436,18 @@ odf_hf_file (GsfXMLIn *xin, xmlChar const **attrs)
 	
 	switch (tmp) {
 	case 0:
-		odf_hf_item (xin, N_("path"));
+		odf_hf_item (xin, _("path"));
 		new = g_strconcat (*(state->cur_hf_format), "/", NULL);
 		g_free (*(state->cur_hf_format));
 		*(state->cur_hf_format) = new;
-		odf_hf_item (xin, N_("file"));
+		odf_hf_item (xin, _("file"));
 		break;
 	case 1:
-		odf_hf_item (xin, N_("path"));
+		odf_hf_item (xin, _("path"));
 		break;
 	default:
 	case 2:
-		odf_hf_item (xin, N_("file"));
+		odf_hf_item (xin, _("file"));
 		break;
 	}		
 }
@@ -4322,6 +4455,35 @@ odf_hf_file (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 odf_hf_expression (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	static OOEnum const display_types [] = {
+		{ "none",	  0 },
+		{ "formula",	  1 },
+		{ "value",        2 },
+		{ NULL,	0 },
+	};
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *formula = NULL;
+	gint tmp = 2;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_enum (xin, attrs, OO_NS_TEXT, "display", display_types, &tmp)) ;
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TEXT, "formula"))
+			formula = CXML2C (attrs[1]);
+
+	if (tmp == 0)
+		return;
+
+	if (formula == NULL || *formula == '\0') {
+		oo_warning (xin, _("Missing expression"));
+		return;
+	} else {
+		/* Since we have no sheets we postpone parsing the expression */
+		gchar const *str = odf_string_id (state, formula);
+		char *new;
+		new = g_strconcat ((tmp == 1) ? "cellt" : "cell", ":", str, NULL);
+		odf_hf_item (xin, new);
+		g_free (new);		
+	}
 }
 
 static void
@@ -9499,6 +9661,10 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		(g_str_hash, g_str_equal,
 		 (GDestroyNotify) g_free,
 		 (GDestroyNotify) oo_marker_free);
+	state.strings = g_hash_table_new_full
+		(g_str_hash, g_str_equal,
+		 (GDestroyNotify) g_free,
+		 (GDestroyNotify) g_free);
 	state.cur_style.cells    = NULL;
 	state.cur_style.col_rows = NULL;
 	state.cur_style.sheets   = NULL;
@@ -9651,6 +9817,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	g_hash_table_destroy (state.formats);
 	g_hash_table_destroy (state.controls);
 	g_hash_table_destroy (state.validations);
+	g_hash_table_destroy (state.strings);
 	g_hash_table_destroy (state.chart.arrow_markers);
 	g_object_unref (contents);
 

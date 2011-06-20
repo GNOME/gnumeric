@@ -587,12 +587,28 @@ odf_start_style (GsfXMLOut *xml, char const *name, char const *family)
 	gsf_xml_out_add_cstr_unchecked (xml, STYLE "name", name);
 	gsf_xml_out_add_cstr_unchecked (xml, STYLE "family", family);
 }
-static void
-odf_write_table_style (GnmOOExport *state, Sheet const *sheet, 
-		       char const *name, char const *mp_name)
+
+static char *
+table_style_name (Sheet const *sheet)
 {
+	return g_strdup_printf ("ta-%p", sheet);
+}
+
+static char *
+table_master_page_style_name (Sheet const *sheet)
+{
+	return g_strdup_printf ("ta-mp-%p", sheet);
+}
+
+static void
+odf_write_table_style (GnmOOExport *state, Sheet const *sheet)
+{
+	char *name = table_style_name (sheet);
+	char *mp_name  = table_master_page_style_name (sheet);
+	
 	odf_start_style (state->xml, name, "table");
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "master-page-name", mp_name);
+	gsf_xml_out_add_cstr (state->xml, STYLE "display-name", sheet->name_unquoted);
 
 	gsf_xml_out_start_element (state->xml, STYLE "table-properties");
 	odf_add_bool (state->xml, TABLE "display",
@@ -613,18 +629,9 @@ odf_write_table_style (GnmOOExport *state, Sheet const *sheet,
 	gsf_xml_out_end_element (state->xml); /* </style:table-properties> */
 
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
-}
 
-static char *
-table_style_name (Sheet const *sheet)
-{
-	return g_strdup_printf ("ta-%p", sheet);
-}
-
-static char *
-table_master_page_style_name (Sheet const *sheet)
-{
-	return g_strdup_printf ("tamp-%p", sheet);
+	g_free (name);
+	g_free (mp_name);
 }
 
 static gchar*
@@ -727,11 +734,7 @@ odf_write_table_styles (GnmOOExport *state)
 
 	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
 		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
-		char *name = table_style_name (sheet);
-		char *mp_name  = table_master_page_style_name (sheet);
-		odf_write_table_style (state, sheet, name, mp_name);
-		g_free (name);
-		g_free (mp_name);
+		odf_write_table_style (state, sheet);
 	}
 }
 
@@ -4501,7 +4504,7 @@ odf_render_cell (GnmOOExport *state, char const *args)
 		}
 	}
 	gsf_xml_out_start_element (state->xml, TEXT "expression");
-	gsf_xml_out_add_cstr_unchecked (state->xml, TEXT "display", "formula");
+	gsf_xml_out_add_cstr_unchecked (state->xml, TEXT "display", "value");
 	if (texpr) {
 		gsf_xml_out_add_cstr (state->xml, TEXT "formula",
 				      full_formula);
@@ -4647,6 +4650,7 @@ odf_write_hf_region (GnmOOExport *state, char const *format, char const *id)
 		return;
 
 	gsf_xml_out_start_element (state->xml, id);
+	odf_add_bool (state->xml, STYLE "display", TRUE);
 	g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
 	g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
 	gsf_xml_out_start_element (state->xml, TEXT "p");
