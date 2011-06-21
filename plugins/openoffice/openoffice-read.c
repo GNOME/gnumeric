@@ -326,6 +326,7 @@ typedef struct {
 		GHashTable	*row;
 		GHashTable	*sheet;
 		GHashTable	*master_pages;
+		GHashTable	*page_layouts;
 	} styles;
 	struct {
 		GnmStyle	*cells;
@@ -4269,22 +4270,117 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 /*****************************************************************************************************/
 
+static GtkPaperSize *
+odf_get_paper_size (gnm_float width, gnm_float height)
+{
+	GtkPaperSize *size = NULL;
+	char *name, *display_name;
+
+	GList *plist = gtk_paper_size_get_paper_sizes (TRUE), *l;
+
+	for (l = plist; l != NULL; l = l->next) {
+		GtkPaperSize *n_size = l->data;
+		double n_width = gtk_paper_size_get_width (n_size, GTK_UNIT_POINTS);
+		double n_height = gtk_paper_size_get_height (n_size, GTK_UNIT_POINTS);
+		double w_diff = n_width - width;
+		double h_diff = n_height - height;
+		
+		if (w_diff > -2. && w_diff < 2. && h_diff > -2 && h_diff < 2) {
+			size = gtk_paper_size_copy (n_size);
+			break;
+		}
+	} 
+	go_list_free_custom (plist, (GFreeFunc)gtk_paper_size_free);
+
+	if (size != NULL)
+		return size;
+
+	name = g_strdup_printf ("odf_%ix%i", (int)width, (int)height);
+	display_name = g_strdup_printf (_("Paper from ODF file: %ipt\xE2\xA8\x89%ipt"), (int)width, (int)height);
+	size = gtk_paper_size_new_custom (name, display_name, width, height, GTK_UNIT_POINTS);
+	g_free (name);
+	g_free (display_name);
+	return size;
+}
+
+static void
+odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	gnm_float pts, height, width;
+	gboolean h_set = FALSE, w_set = FALSE;
+	GtkPageSetup *gps;
+
+	if (state->cur_pi == NULL)
+		return;
+	gps = print_info_get_page_setup (state->cur_pi);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_distance (xin, attrs, OO_NS_FO, "margin-left", &pts))
+			gtk_page_setup_set_left_margin (gps, pts, GTK_UNIT_POINTS);
+		else if (oo_attr_distance (xin, attrs, OO_NS_FO, "margin-right", &pts))
+			gtk_page_setup_set_right_margin (gps, pts, GTK_UNIT_POINTS);
+		else if (oo_attr_distance (xin, attrs, OO_NS_FO, "margin-top", &pts))
+			gtk_page_setup_set_top_margin (gps, pts, GTK_UNIT_POINTS);
+		else if (oo_attr_distance (xin, attrs, OO_NS_FO, "margin-bottom", &pts))
+			gtk_page_setup_set_bottom_margin (gps, pts, GTK_UNIT_POINTS);
+		else if (oo_attr_distance (xin, attrs, OO_NS_FO, "page-height", &height))
+			h_set = TRUE;
+		else if (oo_attr_distance (xin, attrs, OO_NS_FO, "page-width", &width))
+			w_set = TRUE;
+	
+	if (h_set && w_set) {
+		GtkPaperSize *size;
+		size = odf_get_paper_size (width, height);
+		gtk_page_setup_set_paper_size (gps, size);
+		gtk_paper_size_free (size);
+	}
+}
+
+static void
+odf_page_layout (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *name = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "name"))
+			name = CXML2C (attrs[1]);
+
+	if (name != NULL) {
+		state->cur_pi = print_info_new (TRUE);		
+		g_hash_table_insert (state->styles.page_layouts, g_strdup (name), state->cur_pi);
+	} else
+		oo_warning (xin, _("Missing page layout identifier"));
+}
+
+static void
+odf_page_layout_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	state->cur_pi = NULL;
+}
+
 static void
 odf_master_page (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char const *name = NULL;
-	/* char const *pl_name = NULL; */
+	char const *pl_name = NULL;
+	PrintInformation *pi;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "name"))
 			name = CXML2C (attrs[1]);
-		/* else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),  */
-		/* 			     OO_NS_STYLE, "page-layout-name")) */
-		/* 	pl_name = CXML2C (attrs[1]); */
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					     OO_NS_STYLE, "page-layout-name"))
+			pl_name = CXML2C (attrs[1]);
 
 	if (name != NULL) {
-		state->cur_pi = print_info_new (TRUE);
+		if (pl_name != NULL)
+			pi = g_hash_table_lookup (state->styles.page_layouts, pl_name);
+		state->cur_pi = (pi == NULL) ? print_info_new (TRUE) : print_info_dup (pi);
 		print_hf_free (state->cur_pi->header);
 		print_hf_free (state->cur_pi->footer);
 		state->cur_pi->header = print_hf_new (NULL, NULL, NULL);
@@ -4308,13 +4404,27 @@ static void
 odf_header_footer (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	/* gboolean display = true; */
+	gboolean display = TRUE;
+	gdouble margin;
+	GtkPageSetup *gps;
 
-	/* for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) */
-	/* 	if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "display", */
-	/* 			  &display)) ; */
-	state->cur_hf = (xin->node->user_data.v_int == 0) 
-		? state->cur_pi->header : state->cur_pi->footer;
+	if (state->cur_pi == NULL)
+		return;
+	gps = print_info_get_page_setup (state->cur_pi);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "display",
+				  &display)) ;
+	if (xin->node->user_data.v_int == 0) {
+		state->cur_hf = state->cur_pi->header;
+		margin = gtk_page_setup_get_top_margin (gps, GTK_UNIT_POINTS);
+		print_info_set_edge_to_below_header (state->cur_pi, margin + (display ? 36 : 0));
+	} else {
+		state->cur_hf = state->cur_pi->footer;
+		margin = gtk_page_setup_get_bottom_margin (gps, GTK_UNIT_POINTS);
+		print_info_set_edge_to_above_footer (state->cur_pi, margin + (display ? 36 : 0));
+	}
+	state->cur_hf_format = &state->cur_hf->middle_format;
 }
 
 static void
@@ -4322,17 +4432,18 @@ odf_hf_region (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-	switch (xin->node->user_data.v_int) {
-	case 0:
-		state->cur_hf_format = &state->cur_hf->left_format;
-		break;
-	case 1:
-		state->cur_hf_format = &state->cur_hf->middle_format;
-		break;
-	case 2:
-		state->cur_hf_format = &state->cur_hf->right_format;
-		break;
-	}
+	if (state->cur_hf != NULL)
+		switch (xin->node->user_data.v_int) {
+		case 0:
+			state->cur_hf_format = &state->cur_hf->left_format;
+			break;
+		case 1:
+			state->cur_hf_format = &state->cur_hf->middle_format;
+			break;
+		case 2:
+			state->cur_hf_format = &state->cur_hf->right_format;
+			break;
+		}
 }
 
 static void
@@ -4340,6 +4451,9 @@ odf_hf_span (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char *new;
+
+	if (state->cur_hf_format == NULL)
+		return;
 	
 	if (*(state->cur_hf_format) == NULL)
 		new = g_strdup (xin->content->str);
@@ -4355,6 +4469,9 @@ odf_hf_item (GsfXMLIn *xin, char const *item)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char *new;
 	
+	if (state->cur_hf_format == NULL)
+		return;
+
 	if (*(state->cur_hf_format) == NULL)
 		new = g_strconcat ("&[", item, "]", NULL);
 	else
@@ -4431,6 +4548,9 @@ odf_hf_file (GsfXMLIn *xin, xmlChar const **attrs)
 	int tmp = 2;
 	char *new;
 
+	if (state->cur_hf_format == NULL)
+		return;
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_enum (xin, attrs, OO_NS_TABLE, "display-list", dropdown_types, &tmp)) ;
 	
@@ -4489,7 +4609,7 @@ odf_hf_expression (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 odf_hf_title (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	oo_warning (xin, _("Unknown Header/Footer Item: Title"));	
+	odf_hf_item (xin, _("title"));
 }
 
 /*****************************************************************************************************/
@@ -8334,8 +8454,8 @@ GSF_XML_IN_NODE (OFFICE_DOC_STYLES, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_X
 
 GSF_XML_IN_NODE (OFFICE_DOC_STYLES, AUTOMATIC_STYLES, OO_NS_OFFICE, "automatic-styles", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (AUTOMATIC_STYLES, STYLE, OO_NS_STYLE, "style", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
-  GSF_XML_IN_NODE (AUTOMATIC_STYLES, PAGE_LAYOUT, OO_NS_STYLE, "page-layout", GSF_XML_NO_CONTENT, NULL, NULL),
-GSF_XML_IN_NODE (PAGE_LAYOUT, PAGE_LAYOUT_PROPS, OO_NS_STYLE, "page-layout-properties", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (AUTOMATIC_STYLES, PAGE_LAYOUT, OO_NS_STYLE, "page-layout", GSF_XML_NO_CONTENT,  &odf_page_layout, &odf_page_layout_end),
+GSF_XML_IN_NODE (PAGE_LAYOUT, PAGE_LAYOUT_PROPS, OO_NS_STYLE, "page-layout-properties", GSF_XML_NO_CONTENT, &odf_page_layout_properties, NULL),
 GSF_XML_IN_NODE (PAGE_LAYOUT, HEADER_STYLE, OO_NS_STYLE, "header-style", GSF_XML_NO_CONTENT, NULL, NULL),
 GSF_XML_IN_NODE (HEADER_STYLE, HEADER_FOOTER_PROPERTIES, OO_NS_STYLE, "header-footer-properties", GSF_XML_NO_CONTENT, NULL, NULL),
 GSF_XML_IN_NODE (HEADER_FOOTER_PROPERTIES, HF_BACK_IMAGE, OO_NS_STYLE, "background-image", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -9622,6 +9742,9 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.styles.master_pages = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) print_info_free);
+	state.styles.page_layouts = g_hash_table_new_full (g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) print_info_free);
 	state.formats = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) go_format_unref);
@@ -9807,6 +9930,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	g_hash_table_destroy (state.styles.cell_date);
 	g_hash_table_destroy (state.styles.cell_time);
 	g_hash_table_destroy (state.styles.master_pages);
+	g_hash_table_destroy (state.styles.page_layouts);
 	go_slist_free_custom (state.chart.saved_graph_styles,
 			      (GFreeFunc) g_hash_table_destroy);
 	g_hash_table_destroy (state.chart.graph_styles);

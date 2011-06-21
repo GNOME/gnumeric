@@ -1,5 +1,21 @@
 2011-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_get_paper_size): new
+	(odf_page_layout_properties): new
+	(odf_page_layout): new
+	(odf_page_layout_end): new
+	(odf_master_page): use the specified page layout
+	(odf_header_footer): text:p may occur outside a style:region-*
+	(odf_hf_region): avoid null-dereference
+	(odf_hf_span): ditto
+	(odf_hf_item): ditto
+	(odf_hf_title): also write the title item, skip the
+	  warning since LO includes unused layouts with this item.
+	(styles_dtd): connect the above
+	(openoffice_file_open):initialize and finalize new page layout hash
+
+2011-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (page_layout_name): new
 	(odf_write_page_layout): new
 	(odf_write_automatic_styles): call odf_write_page_layout

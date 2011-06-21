@@ -3,7 +3,7 @@ Gnumeric 1.10.17
 Andreas:
 	* Fix some style import from ODF. [#652492]
 	* Import/Export header and footer from/to ODF.
-	* Export margins to ODF.
+	* Import/ Export margins from/to ODF.
 
 Morten:
 	* Fix --with-gnome compilation:  [#652802]
