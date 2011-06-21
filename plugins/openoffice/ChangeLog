@@ -1,3 +1,10 @@
+2011-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (page_layout_name): new
+	(odf_write_page_layout): new
+	(odf_write_automatic_styles): call odf_write_page_layout
+	(odf_write_master_styles): use page_layout_name
+
 2011-06-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_hf): turn the display of

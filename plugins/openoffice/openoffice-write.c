@@ -214,6 +214,26 @@ odf_update_progress (GnmOOExport *state, float delta)
 
 /*****************************************************************************/
 
+static char *
+table_style_name (Sheet const *sheet)
+{
+	return g_strdup_printf ("ta-%p", sheet);
+}
+
+static char *
+table_master_page_style_name (Sheet const *sheet)
+{
+	return g_strdup_printf ("ta-mp-%p", sheet);
+}
+
+static char *
+page_layout_name (PrintInformation *pi)
+{
+	return g_strdup_printf ("pl-%p", pi);
+}
+
+
+/*****************************************************************************/
 
 static void
 odf_write_mimetype (GnmOOExport *state, GsfOutput *child)
@@ -586,18 +606,6 @@ odf_start_style (GsfXMLOut *xml, char const *name, char const *family)
 	gsf_xml_out_start_element (xml, STYLE "style");
 	gsf_xml_out_add_cstr_unchecked (xml, STYLE "name", name);
 	gsf_xml_out_add_cstr_unchecked (xml, STYLE "family", family);
-}
-
-static char *
-table_style_name (Sheet const *sheet)
-{
-	return g_strdup_printf ("ta-%p", sheet);
-}
-
-static char *
-table_master_page_style_name (Sheet const *sheet)
-{
-	return g_strdup_printf ("ta-mp-%p", sheet);
 }
 
 static void
@@ -4747,15 +4755,45 @@ odf_write_office_styles (GnmOOExport *state)
 }
 
 static void
-odf_write_automatic_styles (GnmOOExport *state)
+odf_write_page_layout (GnmOOExport *state, PrintInformation *pi)
 {
-	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
+	char *name =  page_layout_name (pi);
+	GtkPageSetup *gps = print_info_get_page_setup (pi);
 
 	gsf_xml_out_start_element (state->xml, STYLE "page-layout");
-	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "name", 
-					"pl-default");
+	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "name", name);
+	g_free (name);
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "page-usage", "all");
+
+	gsf_xml_out_start_element (state->xml, STYLE "page-layout-properties");
+	odf_add_pt (state->xml, FOSTYLE "margin-top",
+		    gtk_page_setup_get_top_margin (gps, GTK_UNIT_POINTS));
+	odf_add_pt (state->xml, FOSTYLE "margin-bottom",
+		    gtk_page_setup_get_bottom_margin (gps, GTK_UNIT_POINTS));
+	odf_add_pt (state->xml, FOSTYLE "margin-left",
+		    gtk_page_setup_get_left_margin (gps, GTK_UNIT_POINTS));
+	odf_add_pt (state->xml, FOSTYLE "margin-right",
+		    gtk_page_setup_get_right_margin (gps, GTK_UNIT_POINTS));
+	odf_add_pt (state->xml, FOSTYLE "page-width",
+		    gtk_page_setup_get_paper_width (gps, GTK_UNIT_POINTS));
+	odf_add_pt (state->xml, FOSTYLE "page-height",
+		    gtk_page_setup_get_paper_height (gps, GTK_UNIT_POINTS));
+	gsf_xml_out_end_element (state->xml); /* </style:page-layout-properties> */
+
 	gsf_xml_out_end_element (state->xml); /* </style:page-layout> */
+}
+
+static void
+odf_write_automatic_styles (GnmOOExport *state)
+{
+	int i;
+
+	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
+
+	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
+		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
+		odf_write_page_layout (state, sheet->print_info);
+	}
 
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
 }
@@ -4770,18 +4808,20 @@ odf_write_master_styles (GnmOOExport *state)
 	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
 		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
 		char *mp_name  = table_master_page_style_name (sheet);
+		char *name =  page_layout_name (sheet->print_info);
 
 		gsf_xml_out_start_element (state->xml, STYLE "master-page");
 		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "name", mp_name);
 		gsf_xml_out_add_cstr (state->xml, STYLE "display-name", sheet->name_unquoted);
 		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "page-layout-name", 
-						"pl-default");
+						name);
 
 		odf_write_hf (state, sheet->print_info->header, STYLE "header");
 		odf_write_hf (state, sheet->print_info->footer, STYLE "footer");
 		
 		gsf_xml_out_end_element (state->xml); /* </master-page> */
 		g_free (mp_name);
+		g_free (name);
 	}
 
 	gsf_xml_out_end_element (state->xml); /* </master-styles> */
