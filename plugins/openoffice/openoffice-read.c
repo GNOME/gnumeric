@@ -4306,10 +4306,19 @@ odf_get_paper_size (gnm_float width, gnm_float height)
 static void
 odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	static OOEnum const centre_type [] = {
+		{"none"        , 0},
+		{"horizontal"  , 1},
+		{"vertical"    , 2},
+		{"both"        , 1|2},
+		{NULL          , 0},
+	};
+
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gnm_float pts, height, width;
 	gboolean h_set = FALSE, w_set = FALSE;
 	GtkPageSetup *gps;
+	gint tmp;
 
 	if (state->cur_pi == NULL)
 		return;
@@ -4328,6 +4337,11 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 			h_set = TRUE;
 		else if (oo_attr_distance (xin, attrs, OO_NS_FO, "page-width", &width))
 			w_set = TRUE;
+		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "table-centering",
+				       centre_type, &tmp)) {
+			state->cur_pi->center_horizontally = ((1 & tmp) != 0);
+			state->cur_pi->center_vertically = ((2 & tmp) != 0);
+		}
 	
 	if (h_set && w_set) {
 		GtkPaperSize *size;

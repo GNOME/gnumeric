@@ -4757,8 +4757,16 @@ odf_write_office_styles (GnmOOExport *state)
 static void
 odf_write_page_layout (GnmOOExport *state, PrintInformation *pi)
 {
+	static char const *centre_type [] = {
+		"none"        ,
+		"horizontal"  ,
+		"vertical"    ,
+		"both"        ,
+		NULL          };
+
 	char *name =  page_layout_name (pi);
 	GtkPageSetup *gps = print_info_get_page_setup (pi);
+	int i;
 
 	gsf_xml_out_start_element (state->xml, STYLE "page-layout");
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "name", name);
@@ -4778,6 +4786,8 @@ odf_write_page_layout (GnmOOExport *state, PrintInformation *pi)
 		    gtk_page_setup_get_paper_width (gps, GTK_UNIT_POINTS));
 	odf_add_pt (state->xml, FOSTYLE "page-height",
 		    gtk_page_setup_get_paper_height (gps, GTK_UNIT_POINTS));
+	i = (pi->center_horizontally ? 1 : 0) | (pi->center_vertically ? 2 : 0);
+	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "table-centering", centre_type [i]);
 	gsf_xml_out_end_element (state->xml); /* </style:page-layout-properties> */
 
 	gsf_xml_out_end_element (state->xml); /* </style:page-layout> */

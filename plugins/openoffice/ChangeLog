@@ -1,5 +1,12 @@
 2011-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_page_layout_properties): handle
+	style:table-centering
+	* openoffice-write.c (odf_write_page_layout) write
+	style:table-centering
+
+2011-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_get_paper_size): new
 	(odf_page_layout_properties): new
 	(odf_page_layout): new
