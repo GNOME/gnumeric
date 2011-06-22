@@ -4271,7 +4271,7 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 /*****************************************************************************************************/
 
 static GtkPaperSize *
-odf_get_paper_size (gnm_float width, gnm_float height)
+odf_get_paper_size (gnm_float width, gnm_float height, gint orient)
 {
 	GtkPaperSize *size = NULL;
 	char *name, *display_name;
@@ -4282,8 +4282,17 @@ odf_get_paper_size (gnm_float width, gnm_float height)
 		GtkPaperSize *n_size = l->data;
 		double n_width = gtk_paper_size_get_width (n_size, GTK_UNIT_POINTS);
 		double n_height = gtk_paper_size_get_height (n_size, GTK_UNIT_POINTS);
-		double w_diff = n_width - width;
-		double h_diff = n_height - height;
+		double w_diff;
+		double h_diff;
+
+		if (orient == GTK_PAGE_ORIENTATION_PORTRAIT ||
+		    orient == GTK_PAGE_ORIENTATION_REVERSE_PORTRAIT) {
+			w_diff = n_width - width;
+			h_diff = n_height - height;
+		} else {
+			w_diff = n_height - width;
+			h_diff = n_width - height;
+		}
 		
 		if (w_diff > -2. && w_diff < 2. && h_diff > -2 && h_diff < 2) {
 			size = gtk_paper_size_copy (n_size);
@@ -4313,16 +4322,28 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 		{"both"        , 1|2},
 		{NULL          , 0},
 	};
+	static OOEnum const print_order_type [] = {
+		{"ltr"  , 0},
+		{"ttb"  , 1},
+		{NULL   , 0},
+	};
+	static OOEnum const print_orientation_type [] = {
+		{"portrait"  , GTK_PAGE_ORIENTATION_PORTRAIT},
+		{"landscape"  , GTK_PAGE_ORIENTATION_LANDSCAPE},
+		{NULL   , 0},
+	};
 
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gnm_float pts, height, width;
 	gboolean h_set = FALSE, w_set = FALSE;
 	GtkPageSetup *gps;
 	gint tmp;
+	gint orient = GTK_PAGE_ORIENTATION_PORTRAIT;
 
 	if (state->cur_pi == NULL)
 		return;
 	gps = print_info_get_page_setup (state->cur_pi);
+	gtk_page_setup_set_orientation (gps, GTK_PAGE_ORIENTATION_PORTRAIT);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_distance (xin, attrs, OO_NS_FO, "margin-left", &pts))
@@ -4341,13 +4362,21 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 				       centre_type, &tmp)) {
 			state->cur_pi->center_horizontally = ((1 & tmp) != 0);
 			state->cur_pi->center_vertically = ((2 & tmp) != 0);
+		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "print-page-order",
+					 print_order_type, &tmp)) {
+			state->cur_pi->print_across_then_down = (tmp == 0);
+		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "print-orientation",
+					 print_orientation_type, &orient)) {
+			gtk_page_setup_set_orientation (gps, orient);
 		}
+	/* STYLE "writing-mode" is being ignored since we can't store it anywhere atm */
 	
 	if (h_set && w_set) {
 		GtkPaperSize *size;
-		size = odf_get_paper_size (width, height);
+		size = odf_get_paper_size (width, height, orient);
 		gtk_page_setup_set_paper_size (gps, size);
 		gtk_paper_size_free (size);
+		
 	}
 }
 

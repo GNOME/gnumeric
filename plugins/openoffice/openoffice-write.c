@@ -4755,7 +4755,8 @@ odf_write_office_styles (GnmOOExport *state)
 }
 
 static void
-odf_write_page_layout (GnmOOExport *state, PrintInformation *pi)
+odf_write_page_layout (GnmOOExport *state, PrintInformation *pi,
+		       Sheet const *sheet)
 {
 	static char const *centre_type [] = {
 		"none"        ,
@@ -4767,6 +4768,9 @@ odf_write_page_layout (GnmOOExport *state, PrintInformation *pi)
 	char *name =  page_layout_name (pi);
 	GtkPageSetup *gps = print_info_get_page_setup (pi);
 	int i;
+	GtkPageOrientation orient = gtk_page_setup_get_orientation (gps);
+	gboolean landscape = !(orient == GTK_PAGE_ORIENTATION_PORTRAIT ||
+			       orient == GTK_PAGE_ORIENTATION_REVERSE_PORTRAIT);
 
 	gsf_xml_out_start_element (state->xml, STYLE "page-layout");
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "name", name);
@@ -4787,7 +4791,18 @@ odf_write_page_layout (GnmOOExport *state, PrintInformation *pi)
 	odf_add_pt (state->xml, FOSTYLE "page-height",
 		    gtk_page_setup_get_paper_height (gps, GTK_UNIT_POINTS));
 	i = (pi->center_horizontally ? 1 : 0) | (pi->center_vertically ? 2 : 0);
-	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "table-centering", centre_type [i]);
+	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "table-centering", 
+					centre_type [i]);
+	gsf_xml_out_add_cstr_unchecked 
+		(state->xml, STYLE "print-page-order", 
+		 pi->print_across_then_down ? "ltr" : "ttb");
+	gsf_xml_out_add_cstr_unchecked 
+		(state->xml, STYLE "writing-mode", 
+		 sheet->text_is_rtl ? "rl-tb" : "lr-tb");
+	gsf_xml_out_add_cstr_unchecked 
+		(state->xml, STYLE "print-orientation", 
+		 landscape ? "landscape" : "portrait");
+	
 	gsf_xml_out_end_element (state->xml); /* </style:page-layout-properties> */
 
 	gsf_xml_out_end_element (state->xml); /* </style:page-layout> */
@@ -4802,7 +4817,7 @@ odf_write_automatic_styles (GnmOOExport *state)
 
 	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
 		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
-		odf_write_page_layout (state, sheet->print_info);
+		odf_write_page_layout (state, sheet->print_info, sheet);
 	}
 
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
