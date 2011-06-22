@@ -1,5 +1,9 @@
 2011-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (opendoc_content_dtd): add more items
+
+2011-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_header_properties): new
 	(odf_footer_properties): new
 	(odf_header_footer): don't overwrite already set footer/header height
