@@ -371,6 +371,10 @@ typedef struct {
 		PrintInformation *cur_pi;
 		PrintHF          *cur_hf;
 		char            **cur_hf_format;
+		int               rep_rows_from;
+		int               rep_rows_to;
+		int               rep_cols_from;
+		int               rep_cols_to;
 	} print;
 
 	char const *object_name;
@@ -1728,6 +1732,10 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->pos.eval.row = 0;
 	state->extent_data.col = state->extent_style.col = 0;
 	state->extent_data.row = state->extent_style.row = 0;
+	state->print.rep_rows_from = -1;
+	state->print.rep_rows_to = -1;
+	state->print.rep_cols_from = -1;
+	state->print.rep_cols_to = -1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name")) {
@@ -2268,6 +2276,21 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
 	max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
 
+	if (state->print.rep_rows_from >= 0) {
+		if (state->print.rep_rows_to < 0)
+			state->print.rep_rows_to = max_rows - 1;
+		if (state->print.rep_cols_to < 0)
+			state->print.rep_cols_to = max_cols - 1;
+		g_free (state->pos.sheet->print_info->repeat_top);
+		state->pos.sheet->print_info->repeat_top 
+			= g_strdup (rows_name (state->print.rep_rows_from, 
+					       state->print.rep_rows_to));
+		g_free (state->pos.sheet->print_info->repeat_left);
+		state->pos.sheet->print_info->repeat_left 
+			= g_strdup (cols_name (state->print.rep_cols_from, 
+					       state->print.rep_cols_to));
+	}
+
 	/* default cell styles are applied only to cells that are specified
 	 * which is a performance nightmare.  Instead we apply the styles to
 	 * the entire column or row and clear the area beyond the extent here. */
@@ -2459,6 +2482,40 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	state->pos.eval.col += repeat_count;
+}
+
+static void
+odf_table_header_rows (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	if (state->print.rep_rows_from < 0)
+		state->print.rep_rows_from = state->pos.eval.row;
+	/* otherwise we are continuing an existing range */
+}
+static void
+odf_table_header_rows_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	state->print.rep_rows_to = state->pos.eval.row - 1;
+}
+
+static void
+odf_table_header_cols (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	if (state->print.rep_cols_from < 0)
+		state->print.rep_cols_from = state->pos.eval.col;
+	/* otherwise we are continuing an existing range */
+}
+static void
+odf_table_header_cols_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	state->print.rep_cols_to = state->pos.eval.col - 1;
 }
 
 static int
@@ -8927,10 +8984,10 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	          GSF_XML_IN_NODE (FORM, FORM_GENERIC, OO_NS_FORM, "generic-control", GSF_XML_NO_CONTENT, &odf_form_generic, &odf_form_control_end),
 	            GSF_XML_IN_NODE (FORM_GENERIC, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROWS, OO_NS_TABLE, "table-rows", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (TABLE, TABLE_H_ROWS, OO_NS_TABLE, "table-header-rows", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (TABLE, TABLE_H_ROWS, OO_NS_TABLE, "table-header-rows", GSF_XML_NO_CONTENT, &odf_table_header_rows, &odf_table_header_rows_end),
 	      GSF_XML_IN_NODE (TABLE, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, &oo_col_start, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_COLS, OO_NS_TABLE, "table-columns", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (TABLE, TABLE_H_COLS, OO_NS_TABLE, "table-header-columns", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (TABLE, TABLE_H_COLS, OO_NS_TABLE, "table-header-columns", GSF_XML_NO_CONTENT, &odf_table_header_cols, &odf_table_header_cols_end),
 	      GSF_XML_IN_NODE (TABLE_H_COLS, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL),    /* 2nd def */
 	      GSF_XML_IN_NODE (TABLE_COLS, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL),      /* 2nd def */
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &oo_row_start, &oo_row_end),

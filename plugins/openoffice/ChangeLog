@@ -1,8 +1,19 @@
 2011-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (OOParseState): add fields
+	(oo_table_start): initialize repeating rows/cols fields
+	(oo_table_end): save repeating rows/cols data
+	(odf_table_header_rows): new
+	(odf_table_header_rows_end): new
+	(odf_table_header_cols): new
+	(odf_table_header_cols_end): new
+	(opendoc_content_dtd): connect the last four
+
+2011-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (OOParseState): group print items into a struct and
 	change references throughout the file
-	
+
 2011-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (opendoc_content_dtd): add more items
