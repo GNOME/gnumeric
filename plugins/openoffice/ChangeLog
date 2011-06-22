@@ -1,5 +1,12 @@
 2011-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_page_layout_properties): read style:print and
+	gnm:style-print
+	* openoffice-write.c (odf_write_page_layout) write
+	style:print and gnm:style-print
+
+2011-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_get_paper_size): consider orientation
 	(odf_page_layout_properties): read style:print-page-order and
 	style:print-orientation

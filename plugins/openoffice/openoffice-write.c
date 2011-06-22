@@ -4771,6 +4771,7 @@ odf_write_page_layout (GnmOOExport *state, PrintInformation *pi,
 	GtkPageOrientation orient = gtk_page_setup_get_orientation (gps);
 	gboolean landscape = !(orient == GTK_PAGE_ORIENTATION_PORTRAIT ||
 			       orient == GTK_PAGE_ORIENTATION_REVERSE_PORTRAIT);
+	GString *gstr = g_string_new ("charts drawings objects"); 
 
 	gsf_xml_out_start_element (state->xml, STYLE "page-layout");
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "name", name);
@@ -4802,6 +4803,47 @@ odf_write_page_layout (GnmOOExport *state, PrintInformation *pi,
 	gsf_xml_out_add_cstr_unchecked 
 		(state->xml, STYLE "print-orientation", 
 		 landscape ? "landscape" : "portrait");
+
+	if (pi->print_grid_lines)
+		g_string_append (gstr, " grid");
+	if (pi->print_titles)
+		g_string_append (gstr, " headers");
+	if (pi->comment_placement == PRINT_COMMENTS_IN_PLACE)
+		g_string_append (gstr, " annotations");
+	gsf_xml_out_add_cstr_unchecked 
+		(state->xml, STYLE "print", gstr->str);
+	
+	if (state->with_extension) {
+		g_string_truncate (gstr, 0);
+		if (pi->comment_placement == PRINT_COMMENTS_AT_END)
+			g_string_append (gstr, " annotations_at_end");
+		if (pi->print_black_and_white)
+			g_string_append (gstr, " black_n_white");
+		if (pi->print_as_draft)
+			g_string_append (gstr, " draft");
+		if (pi->print_even_if_only_styles)
+			g_string_append (gstr, " print_even_if_only_styles");
+		if (pi->do_not_print)
+			g_string_append (gstr, " do_not_print");
+		switch (pi->error_display) {
+		case PRINT_ERRORS_AS_BLANK:
+			g_string_append (gstr, " errors_as_blank");
+			break;
+		case PRINT_ERRORS_AS_DASHES:
+			g_string_append (gstr, " errors_as_dashes");
+			break;
+		case PRINT_ERRORS_AS_NA:
+			g_string_append (gstr, " errors_as_na");
+			break;
+		default:
+		case PRINT_ERRORS_AS_DISPLAYED:
+			break;
+		}
+		gsf_xml_out_add_cstr_unchecked 
+			(state->xml, GNMSTYLE "style-print", gstr->str);
+	}
+
+	g_string_free (gstr, TRUE);
 	
 	gsf_xml_out_end_element (state->xml); /* </style:page-layout-properties> */
 

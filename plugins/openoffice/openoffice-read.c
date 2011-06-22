@@ -4368,6 +4368,48 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "print-orientation",
 					 print_orientation_type, &orient)) {
 			gtk_page_setup_set_orientation (gps, orient);
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					       OO_NS_STYLE, "print")) {
+			gchar **items = g_strsplit (CXML2C (attrs[1]), " ", 0);
+			gchar **items_c = items;
+			state->cur_pi->print_grid_lines = 0;
+			state->cur_pi->print_titles = 0;
+			state->cur_pi->comment_placement = PRINT_COMMENTS_NONE;
+			for (;items != NULL && *items; items++)
+				if (0 == strcmp (*items, "grid"))
+					state->cur_pi->print_grid_lines = 1;
+				else if (0 == strcmp (*items, "headers"))
+					state->cur_pi->print_titles = 1;
+				else if (0 == strcmp (*items, "annotations"))
+					state->cur_pi->comment_placement = PRINT_COMMENTS_IN_PLACE;
+			g_strfreev (items_c);
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					       OO_GNUM_NS_EXT, "style-print")) {
+			gchar **items = g_strsplit (CXML2C (attrs[1]), " ", 0);
+			gchar **items_c = items;
+			state->cur_pi->print_black_and_white = 0;
+			state->cur_pi->print_as_draft = 0;
+			state->cur_pi->print_even_if_only_styles = 0;
+			state->cur_pi->do_not_print = 0;
+			state->cur_pi->error_display = PRINT_ERRORS_AS_DISPLAYED;
+			for (;items != NULL && *items; items++)
+				if (0 == strcmp (*items, "annotations_at_end"))
+					state->cur_pi->comment_placement = PRINT_COMMENTS_AT_END;
+				else if (0 == strcmp (*items, "black_n_white"))
+					state->cur_pi->print_black_and_white = 1;
+				else if (0 == strcmp (*items, "draft"))
+					state->cur_pi->print_as_draft = 1;
+				else if (0 == strcmp (*items, "errors_as_blank"))
+					state->cur_pi->error_display = PRINT_ERRORS_AS_BLANK;
+				else if (0 == strcmp (*items, "errors_as_dashes"))
+					state->cur_pi->error_display = PRINT_ERRORS_AS_DASHES;
+				else if (0 == strcmp (*items, "errors_as_na"))
+					state->cur_pi->error_display = PRINT_ERRORS_AS_NA;
+				else if (0 == strcmp (*items, "print_even_if_only_styles"))
+					state->cur_pi->print_even_if_only_styles = 1;
+				else if (0 == strcmp (*items, "do_not_print"))
+					state->cur_pi->do_not_print = 1;
+			g_strfreev (items_c);
 		}
 	/* STYLE "writing-mode" is being ignored since we can't store it anywhere atm */
 	
