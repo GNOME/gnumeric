@@ -364,12 +364,14 @@ typedef struct {
 	GnmConventions  *convs[NUM_FORMULAE_SUPPORTED];
 
 	struct {
-		GnmPageBreaks *h, *v;
-	} page_breaks;
-
-	PrintInformation *cur_pi;
-	PrintHF          *cur_hf;
-	char            **cur_hf_format;
+		struct {
+			GnmPageBreaks *h, *v;
+		} page_breaks;
+		
+		PrintInformation *cur_pi;
+		PrintHF          *cur_hf;
+		char            **cur_hf_format;
+	} print;
 
 	char const *object_name;
 	OOControl *cur_control;
@@ -2252,15 +2254,15 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	maybe_update_progress (xin);
 
-	if (NULL != state->page_breaks.h) {
+	if (NULL != state->print.page_breaks.h) {
 		print_info_set_breaks (state->pos.sheet->print_info,
-			state->page_breaks.h);
-		state->page_breaks.h = NULL;
+			state->print.page_breaks.h);
+		state->print.page_breaks.h = NULL;
 	}
-	if (NULL != state->page_breaks.v) {
+	if (NULL != state->print.page_breaks.v) {
 		print_info_set_breaks (state->pos.sheet->print_info,
-			state->page_breaks.v);
-		state->page_breaks.v = NULL;
+			state->print.page_breaks.v);
+		state->print.page_breaks.v = NULL;
 	}
 
 	max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
@@ -2300,11 +2302,11 @@ oo_append_page_break (OOParseState *state, int pos, gboolean is_vert, gboolean i
 	GnmPageBreaks *breaks;
 
 	if (is_vert) {
-		if (NULL == (breaks = state->page_breaks.v))
-			breaks = state->page_breaks.v = gnm_page_breaks_new (TRUE);
+		if (NULL == (breaks = state->print.page_breaks.v))
+			breaks = state->print.page_breaks.v = gnm_page_breaks_new (TRUE);
 	} else {
-		if (NULL == (breaks = state->page_breaks.h))
-			breaks = state->page_breaks.h = gnm_page_breaks_new (FALSE);
+		if (NULL == (breaks = state->print.page_breaks.h))
+			breaks = state->print.page_breaks.h = gnm_page_breaks_new (FALSE);
 	}
 
 	gnm_page_breaks_append_break (breaks, pos,
@@ -2314,7 +2316,7 @@ oo_append_page_break (OOParseState *state, int pos, gboolean is_vert, gboolean i
 static void
 oo_set_page_break (OOParseState *state, int pos, gboolean is_vert, gboolean is_manual)
 {
-	GnmPageBreaks *breaks = (is_vert) ? state->page_breaks.v : state->page_breaks.h;
+	GnmPageBreaks *breaks = (is_vert) ? state->print.page_breaks.v : state->print.page_breaks.h;
 
 	switch (gnm_page_breaks_get_break (breaks, pos)) {
 	case GNM_PAGE_BREAK_NONE:
@@ -4321,19 +4323,19 @@ odf_header_properties (GsfXMLIn *xin, xmlChar const **attrs)
 	double page_margin;
 	GtkPageSetup *gps;
 
-	if (state->cur_pi == NULL)
+	if (state->print.cur_pi == NULL)
 		return;
-	gps = print_info_get_page_setup (state->cur_pi);
+	gps = print_info_get_page_setup (state->print.cur_pi);
 	page_margin = gtk_page_setup_get_top_margin (gps, GTK_UNIT_POINTS);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_distance (xin, attrs, OO_NS_SVG, "height", &pts)) {
-			print_info_set_edge_to_below_header (state->cur_pi, pts + page_margin);
+			print_info_set_edge_to_below_header (state->print.cur_pi, pts + page_margin);
 			height_set = TRUE;
 		} else if (oo_attr_distance (xin, attrs, OO_NS_FO, "min-height", &pts))
 			if (!height_set)
 				print_info_set_edge_to_below_header 
-					(state->cur_pi, pts + page_margin);
+					(state->print.cur_pi, pts + page_margin);
 }
 
 static void
@@ -4345,19 +4347,19 @@ odf_footer_properties (GsfXMLIn *xin, xmlChar const **attrs)
 	double page_margin;
 	GtkPageSetup *gps;
 
-	if (state->cur_pi == NULL)
+	if (state->print.cur_pi == NULL)
 		return;
-	gps = print_info_get_page_setup (state->cur_pi);
+	gps = print_info_get_page_setup (state->print.cur_pi);
 	page_margin = gtk_page_setup_get_bottom_margin (gps, GTK_UNIT_POINTS);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_distance (xin, attrs, OO_NS_SVG, "height", &pts)) {
-			print_info_set_edge_to_above_footer (state->cur_pi, pts + page_margin);
+			print_info_set_edge_to_above_footer (state->print.cur_pi, pts + page_margin);
 			height_set = TRUE;
 		} else if (oo_attr_distance (xin, attrs, OO_NS_FO, "min-height", &pts))
 			if (!height_set)
 				print_info_set_edge_to_above_footer 
-					(state->cur_pi, pts + page_margin);
+					(state->print.cur_pi, pts + page_margin);
 
 }
 
@@ -4389,9 +4391,9 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 	gint tmp;
 	gint orient = GTK_PAGE_ORIENTATION_PORTRAIT;
 
-	if (state->cur_pi == NULL)
+	if (state->print.cur_pi == NULL)
 		return;
-	gps = print_info_get_page_setup (state->cur_pi);
+	gps = print_info_get_page_setup (state->print.cur_pi);
 	gtk_page_setup_set_orientation (gps, GTK_PAGE_ORIENTATION_PORTRAIT);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -4409,11 +4411,11 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 			w_set = TRUE;
 		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "table-centering",
 				       centre_type, &tmp)) {
-			state->cur_pi->center_horizontally = ((1 & tmp) != 0);
-			state->cur_pi->center_vertically = ((2 & tmp) != 0);
+			state->print.cur_pi->center_horizontally = ((1 & tmp) != 0);
+			state->print.cur_pi->center_vertically = ((2 & tmp) != 0);
 		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "print-page-order",
 					 print_order_type, &tmp)) {
-			state->cur_pi->print_across_then_down = (tmp == 0);
+			state->print.cur_pi->print_across_then_down = (tmp == 0);
 		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "print-orientation",
 					 print_orientation_type, &orient)) {
 			gtk_page_setup_set_orientation (gps, orient);
@@ -4421,43 +4423,43 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 					       OO_NS_STYLE, "print")) {
 			gchar **items = g_strsplit (CXML2C (attrs[1]), " ", 0);
 			gchar **items_c = items;
-			state->cur_pi->print_grid_lines = 0;
-			state->cur_pi->print_titles = 0;
-			state->cur_pi->comment_placement = PRINT_COMMENTS_NONE;
+			state->print.cur_pi->print_grid_lines = 0;
+			state->print.cur_pi->print_titles = 0;
+			state->print.cur_pi->comment_placement = PRINT_COMMENTS_NONE;
 			for (;items != NULL && *items; items++)
 				if (0 == strcmp (*items, "grid"))
-					state->cur_pi->print_grid_lines = 1;
+					state->print.cur_pi->print_grid_lines = 1;
 				else if (0 == strcmp (*items, "headers"))
-					state->cur_pi->print_titles = 1;
+					state->print.cur_pi->print_titles = 1;
 				else if (0 == strcmp (*items, "annotations"))
-					state->cur_pi->comment_placement = PRINT_COMMENTS_IN_PLACE;
+					state->print.cur_pi->comment_placement = PRINT_COMMENTS_IN_PLACE;
 			g_strfreev (items_c);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
 					       OO_GNUM_NS_EXT, "style-print")) {
 			gchar **items = g_strsplit (CXML2C (attrs[1]), " ", 0);
 			gchar **items_c = items;
-			state->cur_pi->print_black_and_white = 0;
-			state->cur_pi->print_as_draft = 0;
-			state->cur_pi->print_even_if_only_styles = 0;
-			state->cur_pi->do_not_print = 0;
-			state->cur_pi->error_display = PRINT_ERRORS_AS_DISPLAYED;
+			state->print.cur_pi->print_black_and_white = 0;
+			state->print.cur_pi->print_as_draft = 0;
+			state->print.cur_pi->print_even_if_only_styles = 0;
+			state->print.cur_pi->do_not_print = 0;
+			state->print.cur_pi->error_display = PRINT_ERRORS_AS_DISPLAYED;
 			for (;items != NULL && *items; items++)
 				if (0 == strcmp (*items, "annotations_at_end"))
-					state->cur_pi->comment_placement = PRINT_COMMENTS_AT_END;
+					state->print.cur_pi->comment_placement = PRINT_COMMENTS_AT_END;
 				else if (0 == strcmp (*items, "black_n_white"))
-					state->cur_pi->print_black_and_white = 1;
+					state->print.cur_pi->print_black_and_white = 1;
 				else if (0 == strcmp (*items, "draft"))
-					state->cur_pi->print_as_draft = 1;
+					state->print.cur_pi->print_as_draft = 1;
 				else if (0 == strcmp (*items, "errors_as_blank"))
-					state->cur_pi->error_display = PRINT_ERRORS_AS_BLANK;
+					state->print.cur_pi->error_display = PRINT_ERRORS_AS_BLANK;
 				else if (0 == strcmp (*items, "errors_as_dashes"))
-					state->cur_pi->error_display = PRINT_ERRORS_AS_DASHES;
+					state->print.cur_pi->error_display = PRINT_ERRORS_AS_DASHES;
 				else if (0 == strcmp (*items, "errors_as_na"))
-					state->cur_pi->error_display = PRINT_ERRORS_AS_NA;
+					state->print.cur_pi->error_display = PRINT_ERRORS_AS_NA;
 				else if (0 == strcmp (*items, "print_even_if_only_styles"))
-					state->cur_pi->print_even_if_only_styles = 1;
+					state->print.cur_pi->print_even_if_only_styles = 1;
 				else if (0 == strcmp (*items, "do_not_print"))
-					state->cur_pi->do_not_print = 1;
+					state->print.cur_pi->do_not_print = 1;
 			g_strfreev (items_c);
 		}
 	/* STYLE "writing-mode" is being ignored since we can't store it anywhere atm */
@@ -4482,8 +4484,8 @@ odf_page_layout (GsfXMLIn *xin, xmlChar const **attrs)
 			name = CXML2C (attrs[1]);
 
 	if (name != NULL) {
-		state->cur_pi = print_info_new (TRUE);		
-		g_hash_table_insert (state->styles.page_layouts, g_strdup (name), state->cur_pi);
+		state->print.cur_pi = print_info_new (TRUE);		
+		g_hash_table_insert (state->styles.page_layouts, g_strdup (name), state->print.cur_pi);
 	} else
 		oo_warning (xin, _("Missing page layout identifier"));
 }
@@ -4493,7 +4495,7 @@ odf_page_layout_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-	state->cur_pi = NULL;
+	state->print.cur_pi = NULL;
 }
 
 static void
@@ -4514,13 +4516,13 @@ odf_master_page (GsfXMLIn *xin, xmlChar const **attrs)
 	if (name != NULL) {
 		if (pl_name != NULL)
 			pi = g_hash_table_lookup (state->styles.page_layouts, pl_name);
-		state->cur_pi = (pi == NULL) ? print_info_new (TRUE) : print_info_dup (pi);
-		print_hf_free (state->cur_pi->header);
-		print_hf_free (state->cur_pi->footer);
-		state->cur_pi->header = print_hf_new (NULL, NULL, NULL);
-		state->cur_pi->footer = print_hf_new (NULL, NULL, NULL);
+		state->print.cur_pi = (pi == NULL) ? print_info_new (TRUE) : print_info_dup (pi);
+		print_hf_free (state->print.cur_pi->header);
+		print_hf_free (state->print.cur_pi->footer);
+		state->print.cur_pi->header = print_hf_new (NULL, NULL, NULL);
+		state->print.cur_pi->footer = print_hf_new (NULL, NULL, NULL);
 		
-		g_hash_table_insert (state->styles.master_pages, g_strdup (name), state->cur_pi);
+		g_hash_table_insert (state->styles.master_pages, g_strdup (name), state->print.cur_pi);
 	}
 }
 
@@ -4529,9 +4531,9 @@ odf_master_page_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-	state->cur_pi = NULL;
-	state->cur_hf = NULL;
-	state->cur_hf_format = NULL;
+	state->print.cur_pi = NULL;
+	state->print.cur_hf = NULL;
+	state->print.cur_hf_format = NULL;
 }
 
 static void
@@ -4542,31 +4544,31 @@ odf_header_footer (GsfXMLIn *xin, xmlChar const **attrs)
 	gdouble margin;
 	GtkPageSetup *gps;
 
-	if (state->cur_pi == NULL)
+	if (state->print.cur_pi == NULL)
 		return;
-	gps = print_info_get_page_setup (state->cur_pi);
+	gps = print_info_get_page_setup (state->print.cur_pi);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "display",
 				  &display)) ;
 	if (xin->node->user_data.v_int == 0) {
-		state->cur_hf = state->cur_pi->header;
+		state->print.cur_hf = state->print.cur_pi->header;
 		margin = gtk_page_setup_get_top_margin (gps, GTK_UNIT_POINTS);
 		if (display) {
-			if (margin >= state->cur_pi->edge_to_below_header)
-				print_info_set_edge_to_below_header (state->cur_pi, margin + 1);
+			if (margin >= state->print.cur_pi->edge_to_below_header)
+				print_info_set_edge_to_below_header (state->print.cur_pi, margin + 1);
 		} else
-			print_info_set_edge_to_below_header (state->cur_pi, margin);
+			print_info_set_edge_to_below_header (state->print.cur_pi, margin);
 	} else {
-		state->cur_hf = state->cur_pi->footer;
+		state->print.cur_hf = state->print.cur_pi->footer;
 		margin = gtk_page_setup_get_bottom_margin (gps, GTK_UNIT_POINTS);
 		if (display) {
-			if (margin >= state->cur_pi->edge_to_above_footer)
-				print_info_set_edge_to_above_footer (state->cur_pi, margin + 1);
+			if (margin >= state->print.cur_pi->edge_to_above_footer)
+				print_info_set_edge_to_above_footer (state->print.cur_pi, margin + 1);
 		} else
-			print_info_set_edge_to_above_footer (state->cur_pi, margin);	
+			print_info_set_edge_to_above_footer (state->print.cur_pi, margin);	
 	}
-	state->cur_hf_format = &state->cur_hf->middle_format;
+	state->print.cur_hf_format = &state->print.cur_hf->middle_format;
 }
 
 static void
@@ -4574,16 +4576,16 @@ odf_hf_region (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-	if (state->cur_hf != NULL)
+	if (state->print.cur_hf != NULL)
 		switch (xin->node->user_data.v_int) {
 		case 0:
-			state->cur_hf_format = &state->cur_hf->left_format;
+			state->print.cur_hf_format = &state->print.cur_hf->left_format;
 			break;
 		case 1:
-			state->cur_hf_format = &state->cur_hf->middle_format;
+			state->print.cur_hf_format = &state->print.cur_hf->middle_format;
 			break;
 		case 2:
-			state->cur_hf_format = &state->cur_hf->right_format;
+			state->print.cur_hf_format = &state->print.cur_hf->right_format;
 			break;
 		}
 }
@@ -4594,15 +4596,15 @@ odf_hf_span (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char *new;
 
-	if (state->cur_hf_format == NULL)
+	if (state->print.cur_hf_format == NULL)
 		return;
 	
-	if (*(state->cur_hf_format) == NULL)
+	if (*(state->print.cur_hf_format) == NULL)
 		new = g_strdup (xin->content->str);
 	else
-		new = g_strconcat (*(state->cur_hf_format), xin->content->str, NULL);
-	g_free (*(state->cur_hf_format));
-	*(state->cur_hf_format) = new;
+		new = g_strconcat (*(state->print.cur_hf_format), xin->content->str, NULL);
+	g_free (*(state->print.cur_hf_format));
+	*(state->print.cur_hf_format) = new;
 }
 
 static void
@@ -4611,15 +4613,15 @@ odf_hf_item (GsfXMLIn *xin, char const *item)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char *new;
 	
-	if (state->cur_hf_format == NULL)
+	if (state->print.cur_hf_format == NULL)
 		return;
 
-	if (*(state->cur_hf_format) == NULL)
+	if (*(state->print.cur_hf_format) == NULL)
 		new = g_strconcat ("&[", item, "]", NULL);
 	else
-		new = g_strconcat (*(state->cur_hf_format), "&[", _(item), "]", NULL);
-	g_free (*(state->cur_hf_format));
-	*(state->cur_hf_format) = new;	
+		new = g_strconcat (*(state->print.cur_hf_format), "&[", _(item), "]", NULL);
+	g_free (*(state->print.cur_hf_format));
+	*(state->print.cur_hf_format) = new;	
 }
 
 static void
@@ -4690,7 +4692,7 @@ odf_hf_file (GsfXMLIn *xin, xmlChar const **attrs)
 	int tmp = 2;
 	char *new;
 
-	if (state->cur_hf_format == NULL)
+	if (state->print.cur_hf_format == NULL)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -4699,9 +4701,9 @@ odf_hf_file (GsfXMLIn *xin, xmlChar const **attrs)
 	switch (tmp) {
 	case 0:
 		odf_hf_item (xin, _("path"));
-		new = g_strconcat (*(state->cur_hf_format), "/", NULL);
-		g_free (*(state->cur_hf_format));
-		*(state->cur_hf_format) = new;
+		new = g_strconcat (*(state->print.cur_hf_format), "/", NULL);
+		g_free (*(state->print.cur_hf_format));
+		*(state->print.cur_hf_format) = new;
 		odf_hf_item (xin, _("file"));
 		break;
 	case 1:
@@ -9951,7 +9953,7 @@ openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	state.cur_format.accum = NULL;
 	state.cur_format.percentage = FALSE;
 	state.filter = NULL;
-	state.page_breaks.h = state.page_breaks.v = NULL;
+	state.print.page_breaks.h = state.print.page_breaks.v = NULL;
 	state.last_progress_update = 0;
 	state.last_error = NULL;
 	state.cur_control = NULL;
