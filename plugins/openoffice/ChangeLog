@@ -1,5 +1,15 @@
 2011-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_header_properties): new
+	(odf_footer_properties): new
+	(odf_header_footer): don't overwrite already set footer/header height
+	(styles_dtd): connect the above
+	* openoffice-write.c (odf_write_style_cell_properties): use style:repeat-content
+	(odf_write_style_paragraph_properties): HALIGN_FILL is recorded as
+	style:repeat-content
+
+2011-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (df_write_hf) change arguments and change all
 	callers, allow for hidden headers/footers
 	(odf_write_hf_style): new

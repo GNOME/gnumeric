@@ -1036,7 +1036,7 @@ odf_get_gnm_border_format (GnmBorder   *border)
 static void
 odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 {
-	gboolean test1, test2;
+	gboolean test1, test2, rep_content = FALSE;
 
 	gsf_xml_out_start_element (state->xml, STYLE "table-cell-properties");
 /* Background Color */
@@ -1146,9 +1146,6 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 /* Print Content */
 	odf_add_bool (state->xml,  STYLE "print-content", TRUE);
 
-/* Repeat Content */
-	odf_add_bool (state->xml,  STYLE "repeat-content", FALSE);
-
 /* Decimal Places (this is the maximum number of decimal places shown if not otherwise specified.)  */
 	/* Only interpreted in a default style. */
 	gsf_xml_out_add_int (state->xml, STYLE "decimal-places", 13);
@@ -1175,8 +1172,9 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 		case HALIGN_JUSTIFY:
 		        source = "fix";
 			break;
-		case HALIGN_GENERAL:
 		case HALIGN_FILL:
+			rep_content = TRUE;
+		case HALIGN_GENERAL:
 		case HALIGN_CENTER_ACROSS_SELECTION:
 		case HALIGN_DISTRIBUTED:
 		default:
@@ -1189,6 +1187,9 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 	}
 
 	gsf_xml_out_end_element (state->xml); /* </style:table-cell-properties */
+
+/* Repeat Content */
+	odf_add_bool (state->xml,  STYLE "repeat-content", rep_content);
 
 }
 
@@ -1221,8 +1222,9 @@ odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
 		case HALIGN_JUSTIFY:
 			alignment = "justify";
 			break;
-		case HALIGN_GENERAL:
 		case HALIGN_FILL:
+			break;
+		case HALIGN_GENERAL:
 		case HALIGN_CENTER_ACROSS_SELECTION:
 		case HALIGN_DISTRIBUTED:
 		default:
@@ -1232,7 +1234,7 @@ odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
 			gnum_specs = TRUE;
 			break;
 		}
-		if (align != HALIGN_GENERAL)
+		if (align != HALIGN_GENERAL && align != HALIGN_FILL)
 			gsf_xml_out_add_cstr (state->xml, FOSTYLE "text-align", alignment);
 		if (gnum_specs && state->with_extension)
 			gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmHAlign", align);
@@ -4896,7 +4898,7 @@ odf_write_page_layout (GnmOOExport *state, PrintInformation *pi,
 	
 	gsf_xml_out_end_element (state->xml); /* </style:page-layout-properties> */
 
-	odf_write_hf_style (state, pi, STYLE "header-style", FALSE);
+	odf_write_hf_style (state, pi, STYLE "header-style", TRUE);
 	odf_write_hf_style (state, pi, STYLE "footer-style", FALSE);
 
 

@@ -4313,6 +4313,55 @@ odf_get_paper_size (gnm_float width, gnm_float height, gint orient)
 }
 
 static void
+odf_header_properties (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	gboolean height_set = FALSE;
+	gnm_float pts;
+	double page_margin;
+	GtkPageSetup *gps;
+
+	if (state->cur_pi == NULL)
+		return;
+	gps = print_info_get_page_setup (state->cur_pi);
+	page_margin = gtk_page_setup_get_top_margin (gps, GTK_UNIT_POINTS);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_distance (xin, attrs, OO_NS_SVG, "height", &pts)) {
+			print_info_set_edge_to_below_header (state->cur_pi, pts + page_margin);
+			height_set = TRUE;
+		} else if (oo_attr_distance (xin, attrs, OO_NS_FO, "min-height", &pts))
+			if (!height_set)
+				print_info_set_edge_to_below_header 
+					(state->cur_pi, pts + page_margin);
+}
+
+static void
+odf_footer_properties (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	gboolean height_set = FALSE;
+	gnm_float pts;
+	double page_margin;
+	GtkPageSetup *gps;
+
+	if (state->cur_pi == NULL)
+		return;
+	gps = print_info_get_page_setup (state->cur_pi);
+	page_margin = gtk_page_setup_get_bottom_margin (gps, GTK_UNIT_POINTS);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_distance (xin, attrs, OO_NS_SVG, "height", &pts)) {
+			print_info_set_edge_to_above_footer (state->cur_pi, pts + page_margin);
+			height_set = TRUE;
+		} else if (oo_attr_distance (xin, attrs, OO_NS_FO, "min-height", &pts))
+			if (!height_set)
+				print_info_set_edge_to_above_footer 
+					(state->cur_pi, pts + page_margin);
+
+}
+
+static void
 odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static OOEnum const centre_type [] = {
@@ -4503,11 +4552,19 @@ odf_header_footer (GsfXMLIn *xin, xmlChar const **attrs)
 	if (xin->node->user_data.v_int == 0) {
 		state->cur_hf = state->cur_pi->header;
 		margin = gtk_page_setup_get_top_margin (gps, GTK_UNIT_POINTS);
-		print_info_set_edge_to_below_header (state->cur_pi, margin + (display ? 36 : 0));
+		if (display) {
+			if (margin >= state->cur_pi->edge_to_below_header)
+				print_info_set_edge_to_below_header (state->cur_pi, margin + 1);
+		} else
+			print_info_set_edge_to_below_header (state->cur_pi, margin);
 	} else {
 		state->cur_hf = state->cur_pi->footer;
 		margin = gtk_page_setup_get_bottom_margin (gps, GTK_UNIT_POINTS);
-		print_info_set_edge_to_above_footer (state->cur_pi, margin + (display ? 36 : 0));
+		if (display) {
+			if (margin >= state->cur_pi->edge_to_above_footer)
+				print_info_set_edge_to_above_footer (state->cur_pi, margin + 1);
+		} else
+			print_info_set_edge_to_above_footer (state->cur_pi, margin);	
 	}
 	state->cur_hf_format = &state->cur_hf->middle_format;
 }
@@ -8542,10 +8599,11 @@ GSF_XML_IN_NODE (OFFICE_DOC_STYLES, AUTOMATIC_STYLES, OO_NS_OFFICE, "automatic-s
   GSF_XML_IN_NODE (AUTOMATIC_STYLES, PAGE_LAYOUT, OO_NS_STYLE, "page-layout", GSF_XML_NO_CONTENT,  &odf_page_layout, &odf_page_layout_end),
 GSF_XML_IN_NODE (PAGE_LAYOUT, PAGE_LAYOUT_PROPS, OO_NS_STYLE, "page-layout-properties", GSF_XML_NO_CONTENT, &odf_page_layout_properties, NULL),
 GSF_XML_IN_NODE (PAGE_LAYOUT, HEADER_STYLE, OO_NS_STYLE, "header-style", GSF_XML_NO_CONTENT, NULL, NULL),
-GSF_XML_IN_NODE (HEADER_STYLE, HEADER_FOOTER_PROPERTIES, OO_NS_STYLE, "header-footer-properties", GSF_XML_NO_CONTENT, NULL, NULL),
-GSF_XML_IN_NODE (HEADER_FOOTER_PROPERTIES, HF_BACK_IMAGE, OO_NS_STYLE, "background-image", GSF_XML_NO_CONTENT, NULL, NULL),
+GSF_XML_IN_NODE (HEADER_STYLE, HEADER_PROPERTIES, OO_NS_STYLE, "header-footer-properties", GSF_XML_NO_CONTENT, odf_header_properties, NULL),
+GSF_XML_IN_NODE (HEADER_PROPERTIES, HF_BACK_IMAGE, OO_NS_STYLE, "background-image", GSF_XML_NO_CONTENT, NULL, NULL),
 GSF_XML_IN_NODE (PAGE_LAYOUT, FOOTER_STYLE, OO_NS_STYLE, "footer-style", GSF_XML_NO_CONTENT, NULL, NULL),
-GSF_XML_IN_NODE (FOOTER_STYLE, HEADER_FOOTER_PROPERTIES, OO_NS_STYLE, "header-footer-properties", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
+GSF_XML_IN_NODE (FOOTER_STYLE, FOOTER_PROPERTIES, OO_NS_STYLE, "header-footer-properties", GSF_XML_NO_CONTENT, odf_footer_properties, NULL),
+GSF_XML_IN_NODE (FOOTER_PROPERTIES, HF_BACK_IMAGE, OO_NS_STYLE, "background-image", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
   GSF_XML_IN_NODE (AUTOMATIC_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
   GSF_XML_IN_NODE (AUTOMATIC_STYLES, DATE_STYLE, OO_NS_NUMBER, "date-style", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
   GSF_XML_IN_NODE (AUTOMATIC_STYLES, TIME_STYLE, OO_NS_NUMBER, "time-style", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
