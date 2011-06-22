@@ -4695,13 +4695,27 @@ odf_write_hf_region (GnmOOExport *state, char const *format, char const *id)
 }
 
 static void
-odf_write_hf (GnmOOExport *state, PrintHF *hf, char const *id)
+odf_write_hf (GnmOOExport *state, PrintInformation *pi, char const *id, gboolean header)
 {
+	PrintHF *hf = header ? pi->header : pi->footer;
+	double page_margin;
+	double hf_height;
+	GtkPageSetup *gps = print_info_get_page_setup (pi);
+
 	if (hf == NULL)
 		return;
 
+	if (header) {
+		page_margin = gtk_page_setup_get_top_margin (gps, GTK_UNIT_POINTS);
+		hf_height = pi->edge_to_below_header - page_margin;
+	} else {
+		page_margin = gtk_page_setup_get_bottom_margin (gps, GTK_UNIT_POINTS);
+		hf_height = pi->edge_to_above_footer - page_margin;
+	}
+
 	gsf_xml_out_start_element (state->xml, id);
-	odf_add_bool (state->xml, STYLE "display", TRUE);
+	odf_add_bool (state->xml, STYLE "display", hf_height > 0.);
+
 	odf_write_hf_region (state, hf->left_format, STYLE "region-left");
 	odf_write_hf_region (state, hf->middle_format, STYLE "region-center");
 	odf_write_hf_region (state, hf->right_format, STYLE "region-right");
@@ -4753,6 +4767,41 @@ odf_write_office_styles (GnmOOExport *state)
 
 	gsf_xml_out_end_element (state->xml); /* </office:styles> */
 }
+
+static void
+odf_write_hf_style (GnmOOExport *state, PrintInformation *pi, char const *id, gboolean header)
+{
+	PrintHF *hf = header ? pi->header : pi->footer;
+	double page_margin;
+	double hf_height;
+	GtkPageSetup *gps = print_info_get_page_setup (pi);
+
+	if (hf == NULL)
+		return;
+
+	if (header) {
+		page_margin = gtk_page_setup_get_top_margin (gps, GTK_UNIT_POINTS);
+		hf_height = pi->edge_to_below_header - page_margin;
+	} else {
+		page_margin = gtk_page_setup_get_bottom_margin (gps, GTK_UNIT_POINTS);
+		hf_height = pi->edge_to_above_footer - page_margin;
+	}
+
+	gsf_xml_out_start_element (state->xml, id);
+	gsf_xml_out_start_element (state->xml, STYLE "header-footer-properties");
+
+	gsf_xml_out_add_cstr_unchecked (state->xml, FOSTYLE "border", "none");
+	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "shadow", "none");
+	odf_add_pt (state->xml, FOSTYLE "padding", 0.0);
+	odf_add_pt (state->xml, FOSTYLE "margin", 0.0);
+	odf_add_pt (state->xml, FOSTYLE "min-height", hf_height);
+	odf_add_pt (state->xml, SVG "height", hf_height);
+	odf_add_bool (state->xml, STYLE "dynamic-spacing", TRUE);
+
+	gsf_xml_out_end_element (state->xml); /* header-footer-properties */
+	gsf_xml_out_end_element (state->xml); /* id */
+}
+
 
 static void
 odf_write_page_layout (GnmOOExport *state, PrintInformation *pi,
@@ -4847,6 +4896,10 @@ odf_write_page_layout (GnmOOExport *state, PrintInformation *pi,
 	
 	gsf_xml_out_end_element (state->xml); /* </style:page-layout-properties> */
 
+	odf_write_hf_style (state, pi, STYLE "header-style", FALSE);
+	odf_write_hf_style (state, pi, STYLE "footer-style", FALSE);
+
+
 	gsf_xml_out_end_element (state->xml); /* </style:page-layout> */
 }
 
@@ -4883,8 +4936,8 @@ odf_write_master_styles (GnmOOExport *state)
 		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "page-layout-name", 
 						name);
 
-		odf_write_hf (state, sheet->print_info->header, STYLE "header");
-		odf_write_hf (state, sheet->print_info->footer, STYLE "footer");
+		odf_write_hf (state, sheet->print_info, STYLE "header", TRUE);
+		odf_write_hf (state, sheet->print_info, STYLE "footer", FALSE);
 		
 		gsf_xml_out_end_element (state->xml); /* </master-page> */
 		g_free (mp_name);
