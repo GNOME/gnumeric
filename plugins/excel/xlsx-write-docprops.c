@@ -56,10 +56,129 @@ xlsx_write_docprops_app (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfil
 	g_object_unref (part);
 }
 
+static char const *
+xlsx_map_prop_type (char const *name)
+{
+	/* shared by all instances and never freed */
+	static GHashTable *xlsx_prop_type_map = NULL;
+
+	if (NULL == xlsx_prop_type_map) 
+	{
+		static struct {
+			char const *gsf_key;
+			char const *xlsx_type;
+		} const map [] = {
+			/* { GSF_META_NAME_TITLE,		"dc:title" }, */
+			/* { GSF_META_NAME_DESCRIPTION,	"dc:description" }, */
+			/* { GSF_META_NAME_SUBJECT,	"dc:subject" }, */
+			/* { GSF_META_NAME_INITIAL_CREATOR,"dc:creator" }, */
+			/* { GSF_META_NAME_CREATOR,	"" }, */
+			/* { GSF_META_NAME_PRINTED_BY,	"" }, */
+			{ GSF_META_NAME_DATE_CREATED,   "dcterms:W3CDTF" },
+			{ GSF_META_NAME_DATE_MODIFIED,	"dcterms:W3CDTF" }/* , */
+			/* { GSF_META_NAME_LAST_PRINTED,"cp:lastPrinted" }, */
+			/* { GSF_META_NAME_LANGUAGE,	"dc:language" } , */
+			/* { GSF_META_NAME_REVISION_COUNT,   "" }, */
+			/* { GSF_META_NAME_EDITING_DURATION, "" } */
+		};
+		int i = G_N_ELEMENTS (map);
+
+		xlsx_prop_type_map = g_hash_table_new (g_str_hash, g_str_equal);
+		while (i-- > 0)
+			g_hash_table_insert (xlsx_prop_type_map,
+				(gpointer)map[i].gsf_key,
+				(gpointer)map[i].xlsx_type);
+	}
+
+	return g_hash_table_lookup (xlsx_prop_type_map, name);
+}
+
+static char const *
+xlsx_map_prop_name (char const *name)
+{
+	/* shared by all instances and never freed */
+	static GHashTable *xlsx_prop_name_map = NULL;
+
+	if (NULL == xlsx_prop_name_map) 
+	{
+		static struct {
+			char const *gsf_key;
+			char const *xlsx_key;
+		} const map [] = {
+			{ GSF_META_NAME_TITLE,		"dc:title" },
+			{ GSF_META_NAME_DESCRIPTION,	"dc:description" },
+			{ GSF_META_NAME_SUBJECT,	"dc:subject" },
+			{ GSF_META_NAME_INITIAL_CREATOR,"dc:creator" },
+			{ GSF_META_NAME_CREATOR,	"cp:lastModifiedBy" },
+			/* { GSF_META_NAME_PRINTED_BY,	"" }, */
+			{ GSF_META_NAME_DATE_CREATED,   "dcterms:created" },
+			{ GSF_META_NAME_DATE_MODIFIED,	"dcterms:modified" },
+			{ GSF_META_NAME_LAST_PRINTED,	"cp:lastPrinted" },
+			{ GSF_META_NAME_LANGUAGE,	"dc:language" }/* , */
+			/* { GSF_META_NAME_REVISION_COUNT,   "" }, */
+			/* { GSF_META_NAME_EDITING_DURATION, "" } */
+		};
+		int i = G_N_ELEMENTS (map);
+
+		xlsx_prop_name_map = g_hash_table_new (g_str_hash, g_str_equal);
+		while (i-- > 0)
+			g_hash_table_insert (xlsx_prop_name_map,
+				(gpointer)map[i].gsf_key,
+				(gpointer)map[i].xlsx_key);
+	}
+
+	return g_hash_table_lookup (xlsx_prop_name_map, name);
+}
+
+static void
+xlsx_meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
+{
+	char const *mapped_name;
+	GValue const *val = gsf_doc_prop_get_val (prop);
+
+	if (NULL != (mapped_name = xlsx_map_prop_name (prop_name))) {
+		char const *mapped_type = xlsx_map_prop_type (prop_name);
+
+		gsf_xml_out_start_element (output, mapped_name);
+		if (mapped_type != NULL)
+			gsf_xml_out_add_cstr_unchecked (output, "xsi:type", mapped_type);
+		
+		if (NULL != val)
+			gsf_xml_out_add_gvalue (output, NULL, val);
+		gsf_xml_out_end_element (output);
+	}
+}
+
+
 static void
 xlsx_write_docprops_core (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfile *docprops_dir)
 {
+	GsfOutput *part = gsf_outfile_open_pkg_add_rel 
+		(docprops_dir, "core.xml",
+		 "application/vnd.openxmlformats-package.core-properties+xml",
+		 root_part,
+		 "http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties");
+	GsfXMLOut *xml = gsf_xml_out_new (part);
+	GsfDocMetaData *meta = go_doc_get_meta_data (GO_DOC (state->base.wb));
+	GsfDocProp *prop = gsf_doc_meta_data_steal (meta, GSF_META_NAME_GENERATOR);
 
+	gsf_xml_out_start_element (xml, "cp:coreProperties");
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:cp", ns_docprops_core_cp);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:dc", ns_docprops_core_dc);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:dcmitype", ns_docprops_core_dcmitype);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:dcterms", ns_docprops_core_dcterms);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:xsi", ns_docprops_core_xsi);
+	gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
+
+	gsf_doc_meta_data_foreach (meta, (GHFunc) xlsx_meta_write_props, xml);
+	if (prop != NULL)
+		gsf_doc_meta_data_store (meta, prop);
+
+	gsf_xml_out_end_element (xml); /* </cp:coreProperties> */
+	
+	g_object_unref (xml);
+	gsf_output_close (part);
+	g_object_unref (part);
 }
 
 static void

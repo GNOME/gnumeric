@@ -62,6 +62,8 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-libxml.h>
 #include <glib/gi18n-lib.h>
+#include <gsf/gsf-meta-names.h>
+#include <gsf/gsf-doc-meta-data.h>
 #include <gmodule.h>
 #include <string.h>
 
@@ -75,6 +77,11 @@ enum {
 static char const *ns_ss	 = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
 static char const *ns_ss_drawing = "http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing";
 static char const *ns_docprops_extended = "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties";
+static char const *ns_docprops_core_cp = "http://schemas.openxmlformats.org/package/2006/metadata/core-properties";
+static char const *ns_docprops_core_dc = "http://purl.org/dc/elements/1.1/";
+static char const *ns_docprops_core_dcmitype = "http://purl.org/dc/dcmitype/";
+static char const *ns_docprops_core_dcterms = "http://purl.org/dc/terms/";
+static char const *ns_docprops_core_xsi = "http://www.w3.org/2001/XMLSchema-instance";
 static char const *ns_drawing	 = "http://schemas.openxmlformats.org/drawingml/2006/main";
 static char const *ns_chart	 = "http://schemas.openxmlformats.org/drawingml/2006/chart";
 static char const *ns_rel	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";

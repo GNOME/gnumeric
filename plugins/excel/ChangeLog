@@ -1,5 +1,17 @@
 2011-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (ns_docprops_core_cp): new
+	(ns_docprops_core_dc): new
+	(ns_docprops_core_dcmitype): new
+	(ns_docprops_core_dcterms): new
+	(ns_docprops_core_xsi): new
+	* xlsx-write-docprops.c (xlsx_map_prop_type): new
+	(xlsx_map_prop_name): new
+	(xlsx_meta_write_props): new
+	(xlsx_write_docprops_core): imlement
+
+2011-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* Makefile.am: add xlsx-write-docprops.c
 	* xlsx-write.c (ns_docprops_extended): new
 	(xlsx_write_workbook): call xlsx_write_docprops
