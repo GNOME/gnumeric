@@ -1321,6 +1321,7 @@ oo_expr_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *
 	return start;
 }
 
+
 static char const *
 odf_strunescape (char const *string, GString *target,
 		   G_GNUC_UNUSED GnmConventions const *convs)
@@ -1602,6 +1603,35 @@ oo_expr_parse_str (GsfXMLIn *xin, char const *str,
 	return texpr;
 }
 
+static GnmExprTop const *
+odf_parse_range_address_or_expr (GsfXMLIn *xin, char const *str) 
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	GnmExprTop const *texpr = NULL;
+	OOFormula f_type = odf_get_formula_type (xin, &str);
+	
+	if (f_type != FORMULA_NOT_SUPPORTED) {
+		GnmParsePos pp;
+		GnmRangeRef ref;
+		char const *ptr = oo_rangeref_parse
+			(&ref, str,
+			 parse_pos_init_sheet (&pp, state->pos.sheet),
+			 NULL);
+		if (ptr == str 
+		    || ref.a.sheet == invalid_sheet)
+			texpr = oo_expr_parse_str (xin, str,
+						   &state->pos,
+						   GNM_EXPR_PARSE_DEFAULT,
+						   f_type);
+		else {
+			GnmValue *v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
+			texpr = gnm_expr_top_new_constant (v);
+		}
+	}
+	return texpr;
+}
+
+
 /****************************************************************************/
 
 static void
@@ -1727,6 +1757,8 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gchar *style_name = NULL;
 	gchar *table_name = NULL;
+	gchar *print_range = NULL;
+	gboolean do_not_print = FALSE, tmp_b;
 
 	state->pos.eval.col = 0;
 	state->pos.eval.row = 0;
@@ -1742,7 +1774,10 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 			table_name = g_strdup (CXML2C (attrs[1]));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))  {
 			style_name = g_strdup (CXML2C (attrs[1]));
-		}
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "print-ranges"))  {
+			print_range = g_strdup (CXML2C (attrs[1]));
+		} else if (oo_attr_bool (xin, attrs, OO_NS_TABLE, "print", &tmp_b))
+			do_not_print = !tmp_b;
 
 	if (table_name != NULL) {
 		state->pos.sheet = workbook_sheet_by_name (state->pos.wb, table_name);
@@ -1836,12 +1871,23 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 		g_free (style_name);
 	}
+
+	state->pos.sheet->print_info->do_not_print = do_not_print;
+
 	if (state->default_style.rows != NULL)
 		sheet_row_set_default_size_pts (state->pos.sheet,
 							state->default_style.rows->size_pts);
 	if (state->default_style.columns != NULL)
 		sheet_col_set_default_size_pts (state->pos.sheet,
 						state->default_style.columns->size_pts);
+	if (print_range != NULL) {
+		GnmExprTop const *texpr = odf_parse_range_address_or_expr (xin, print_range);
+		if (texpr != NULL) {
+			GnmNamedExpr *nexpr = expr_name_lookup (&state->pos, "Print_Area");
+			if (nexpr != NULL)
+				expr_name_set_expr (nexpr, texpr);
+		}
+	}
 }
 
 /* odf_validation <table:name> <val1> */
@@ -4500,7 +4546,6 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 			state->print.cur_pi->print_black_and_white = 0;
 			state->print.cur_pi->print_as_draft = 0;
 			state->print.cur_pi->print_even_if_only_styles = 0;
-			state->print.cur_pi->do_not_print = 0;
 			state->print.cur_pi->error_display = PRINT_ERRORS_AS_DISPLAYED;
 			for (;items != NULL && *items; items++)
 				if (0 == strcmp (*items, "annotations_at_end"))
@@ -4517,8 +4562,6 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 					state->print.cur_pi->error_display = PRINT_ERRORS_AS_NA;
 				else if (0 == strcmp (*items, "print_even_if_only_styles"))
 					state->print.cur_pi->print_even_if_only_styles = 1;
-				else if (0 == strcmp (*items, "do_not_print"))
-					state->print.cur_pi->do_not_print = 1;
 			g_strfreev (items_c);
 		}
 	/* STYLE "writing-mode" is being ignored since we can't store it anywhere atm */
@@ -7252,32 +7295,12 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	if (label != NULL) {
-		GnmExprTop const *texpr;
-		OOFormula f_type = odf_get_formula_type (xin, (char const **)&label);
-
-		if (f_type != FORMULA_NOT_SUPPORTED) {
-			GnmParsePos pp;
-			GnmRangeRef ref;
-			char const *ptr = oo_rangeref_parse
-				(&ref, CXML2C (label),
-				 parse_pos_init_sheet (&pp, state->pos.sheet),
-				 NULL);
-			if (ptr == CXML2C (label) 
-			    || ref.a.sheet == invalid_sheet)
-				texpr = oo_expr_parse_str (xin, label,
-							   &state->pos,
-							   GNM_EXPR_PARSE_DEFAULT,
-							   f_type);
-			else {
-				GnmValue *v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
-				texpr = gnm_expr_top_new_constant (v);
-			}
-			if (texpr != NULL)
-				gog_series_set_name (state->chart.series,
-						     GO_DATA_SCALAR (gnm_go_data_scalar_new_expr
-								     (state->pos.sheet, texpr)),
-						     NULL);
-		}
+		GnmExprTop const *texpr = odf_parse_range_address_or_expr (xin, label);
+		if (texpr != NULL)
+			gog_series_set_name (state->chart.series,
+					     GO_DATA_SCALAR (gnm_go_data_scalar_new_expr
+							     (state->pos.sheet, texpr)),
+					     NULL);
 	}
 	oo_chart_style_to_series (xin, state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA],
 				  G_OBJECT (state->chart.series));

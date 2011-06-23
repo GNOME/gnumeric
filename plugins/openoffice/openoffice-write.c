@@ -4351,8 +4351,9 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 		gsf_xml_out_add_cstr (state->xml, TABLE "style-name", style_name);
 		g_free (style_name);
 
-		p_area  = sheet_get_nominal_printarea (sheet);
+		odf_add_bool (state->xml, TABLE "print", !sheet->print_info->do_not_print);
 
+		p_area  = sheet_get_nominal_printarea (sheet);
 		if (p_area != NULL) {
 			GnmValue *v = value_new_cellrange_r (sheet, p_area);
 			GnmExprTop const *texpr;
@@ -4962,8 +4963,6 @@ odf_write_page_layout (GnmOOExport *state, PrintInformation *pi,
 			g_string_append (gstr, " draft");
 		if (pi->print_even_if_only_styles)
 			g_string_append (gstr, " print_even_if_only_styles");
-		if (pi->do_not_print)
-			g_string_append (gstr, " do_not_print");
 		switch (pi->error_display) {
 		case PRINT_ERRORS_AS_BLANK:
 			g_string_append (gstr, " errors_as_blank");

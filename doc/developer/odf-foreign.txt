@@ -29,6 +29,7 @@ An attribute to <number:scientific-number>. A value of "true" indicates that the
 
 gnm:max-denominator-digits
 An attribute to <number:fraction> giving the maximum number of denominator digits to be used.
+(In ODF 1.3 to be replaced by number:max-denominator-value.)
 
 2) Attribute _values_ added by Gnumeric. 
 Since these are not eleemnts or new attributes they are used in all ODF exports.
@@ -64,7 +65,7 @@ gnm:GnmVAlign
 An attribute of the <style:table-cell-properties> adding to the "automatic" value of style:vertical-align. Possible values are any GnmVAlign enumeration values other than VALIGN_TOP, VALIGN_BOTTOM, VALIGN_CENTER
 
 gnm:GnmHAlign
-An attribute of the <style:paragraph-properties> clarifying the "start" value of style:text-align. Possible values are any GnmHAlign enumeration values other than HALIGN_LEFT, HALIGN_RIGHT, HALIGN_CENTER, HALIGN_JUSTIFY 
+An attribute of the <style:paragraph-properties> clarifying the "start" value of style:text-align. Possible values are any GnmHAlign enumeration values other than HALIGN_LEFT, HALIGN_RIGHT, HALIGN_CENTER, HALIGN_JUSTIFY, HALIGN_FILL
 
 gnm:input-title
 gnm:input-msg
@@ -116,6 +117,9 @@ position of GogObject
 gnm:tab-color
 gnm:tab-text-color 
 attributes to the style:table-properties
+
+gnm:style-print
+A space separated list of items from annotations_at_end, black_n_white, draft, print_even_if_only_styles, errors_as_blank, errors_as_dashes, errors_as_na
 
 3) Attribute _values_ added by Gnumeric. 
 Since these are not eleemnts or new attributes they are used in all ODF exports.
