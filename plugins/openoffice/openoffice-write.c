@@ -1186,11 +1186,10 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 		gsf_xml_out_add_cstr (state->xml, STYLE "text-align-source", source);
 	}
 
-	gsf_xml_out_end_element (state->xml); /* </style:table-cell-properties */
-
 /* Repeat Content */
 	odf_add_bool (state->xml,  STYLE "repeat-content", rep_content);
 
+	gsf_xml_out_end_element (state->xml); /* </style:table-cell-properties */
 }
 
 static void
@@ -3383,9 +3382,11 @@ odf_write_sheet (GnmOOExport *state)
 	int max_cols = gnm_sheet_get_max_cols (sheet);
 	int max_rows = gnm_sheet_get_max_rows (sheet);
 	GnmStyle **col_styles = g_new0 (GnmStyle *, max_cols);
-	GnmRange extent, style_extent, cell_extent;
+	GnmRange extent, style_extent, cell_extent, r;
 	GSList *sheet_merges = NULL;
 	GnmPageBreaks *pb = sheet->print_info->page_breaks.v;
+	gboolean repeat_top_use, repeat_left_use;
+	int repeat_top_start, repeat_top_end, repeat_left_start, repeat_left_end;
 
 	extent = sheet_get_extent (sheet, FALSE);
 	cell_extent = sheet_get_cells_extent (sheet);
@@ -3395,9 +3396,44 @@ odf_write_sheet (GnmOOExport *state)
 	/* We only want to get the common column style */
 	sheet_style_get_extent (sheet, &style_extent, col_styles);
 
-	/* ODF does not allow us to mark soft page breaks between columns */
-	odf_write_formatted_columns (state, sheet, col_styles, 0, max_cols);
+	repeat_top_use = print_load_repeat_range 
+		(sheet->print_info->repeat_top, &r, sheet);
+	repeat_top_start = repeat_top_use ? r.start.row : 0;
+	repeat_top_end = repeat_top_use ? r.end.row : 0;
+	repeat_left_use = print_load_repeat_range 
+		(sheet->print_info->repeat_left, &r, sheet);
+	repeat_left_start = repeat_left_use ? r.start.col : 0;
+	repeat_left_end = repeat_left_use ? r.end.col : 0;
 
+
+	/* ODF does not allow us to mark soft page breaks between columns */
+	if (repeat_left_use) {
+		if (repeat_left_start > 0) {
+			gsf_xml_out_start_element
+				(state->xml, TABLE "table-columns");
+			odf_write_formatted_columns (state, sheet, col_styles, 
+						     0, repeat_left_start);
+			gsf_xml_out_end_element (state->xml);
+		}
+		gsf_xml_out_start_element 
+			(state->xml, TABLE "table-header-columns");
+		odf_write_formatted_columns (state, sheet, col_styles, 
+					     repeat_left_start, 
+					     repeat_left_end + 1);
+		gsf_xml_out_end_element (state->xml); 
+		if (repeat_left_end < max_cols) {
+			gsf_xml_out_start_element
+				(state->xml, TABLE "table-columns");
+			odf_write_formatted_columns (state, sheet, col_styles, 
+						     repeat_left_end + 1, max_cols);
+			gsf_xml_out_end_element (state->xml);
+		}
+	} else {
+		gsf_xml_out_start_element 
+			(state->xml, TABLE "table-columns");
+		odf_write_formatted_columns (state, sheet, col_styles, 0, max_cols);
+		gsf_xml_out_end_element (state->xml); 
+	}
 	odf_write_styled_empty_rows (state, sheet, 0, extent.start.row,
 				     max_cols, pb, col_styles);
 	odf_write_content_rows (state, sheet,

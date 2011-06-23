@@ -1568,3 +1568,27 @@ print_info_get_printtofile_uri (PrintInformation *pi)
 	print_info_load_defaults (pi);
 	return pi->printtofile_uri;
 }
+
+
+gboolean
+print_load_repeat_range (char const *str, GnmRange *r, Sheet const *sheet)
+{
+	GnmParsePos pp;
+	GnmRangeRef res;
+
+	if (str == NULL || *str == '\0')
+		return FALSE;
+
+	if (str != rangeref_parse (&res, str,
+				   parse_pos_init_sheet (&pp, sheet),
+				   gnm_conventions_default)) {
+		Sheet *start_sheet = (Sheet *)sheet;
+		Sheet *end_sheet = (Sheet *)sheet;
+		gnm_rangeref_normalize_pp (&res, &pp,
+					   &start_sheet, &end_sheet,
+					   r);
+		return TRUE;
+	} else
+		return FALSE;
+}
+

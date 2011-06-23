@@ -900,27 +900,6 @@ compute_sheet_pages_across_then_down (PrintingInstance * pi,
 }
 
 
-static gboolean
-load_repeat_range (char const *str, GnmRange *r, Sheet *sheet)
-{
-	GnmParsePos pp;
-	GnmRangeRef res;
-
-	if (str == NULL || *str == '\0')
-		return FALSE;
-
-	if (str != rangeref_parse (&res, str,
-				   parse_pos_init_sheet (&pp, sheet),
-				   gnm_conventions_default)) {
-		Sheet *start_sheet = sheet, *end_sheet = sheet;
-		gnm_rangeref_normalize_pp (&res, &pp,
-					   &start_sheet, &end_sheet,
-					   r);
-		return TRUE;
-	} else
-		return FALSE;
-}
-
 /*
   return TRUE in case of trouble
 */
@@ -976,11 +955,11 @@ compute_sheet_pages (GtkPrintContext   *context,
 	page_height -= ((edge_to_below_header - top_margin)
 			+ (edge_to_above_footer - bottom_margin));
 
-	repeat_top_use = load_repeat_range (pinfo->repeat_top, &r, sheet);
+	repeat_top_use = print_load_repeat_range (pinfo->repeat_top, &r, sheet);
 	repeat_top_start = repeat_top_use ? r.start.row : 0;
 	repeat_top_end = repeat_top_use ? r.end.row : 0;
 
-	repeat_left_use = load_repeat_range (pinfo->repeat_left, &r, sheet);
+	repeat_left_use = print_load_repeat_range (pinfo->repeat_left, &r, sheet);
 	repeat_left_start = repeat_left_use ? r.start.col : 0;
 	repeat_left_end = repeat_left_use ? r.end.col : 0;
 

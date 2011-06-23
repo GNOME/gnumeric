@@ -206,6 +206,9 @@ int              gnm_page_breaks_get_next_manual_break  (GnmPageBreaks *breaks, 
 int              gnm_page_breaks_get_next_break  (GnmPageBreaks *breaks, int pos);
 GnmPageBreaks *  gnm_page_breaks_dup_non_auto_breaks (GnmPageBreaks const *src);
 
+gboolean         print_load_repeat_range (char const *str, GnmRange *r, Sheet const *sheet);
+
+
 
 /* Formats known */
 extern GList *hf_formats;

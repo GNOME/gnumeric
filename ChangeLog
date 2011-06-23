@@ -1,3 +1,9 @@
+2011-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* print.c (load_repeat_range): move from here to
+	* print-info.c (print_load_repeat_range): renaming as we go
+	* print-info.h (print_load_repeat_range): new
+
 2011-06-17  Morten Welinder  <terra@gnome.org>
 
 	* src/session.c: Fix --with-gnome compilation. #652802

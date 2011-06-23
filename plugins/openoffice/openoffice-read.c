@@ -2279,12 +2279,14 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->print.rep_rows_from >= 0) {
 		if (state->print.rep_rows_to < 0)
 			state->print.rep_rows_to = max_rows - 1;
-		if (state->print.rep_cols_to < 0)
-			state->print.rep_cols_to = max_cols - 1;
 		g_free (state->pos.sheet->print_info->repeat_top);
 		state->pos.sheet->print_info->repeat_top 
 			= g_strdup (rows_name (state->print.rep_rows_from, 
 					       state->print.rep_rows_to));
+	}
+	if (state->print.rep_cols_from >= 0) {
+		if (state->print.rep_cols_to < 0)
+			state->print.rep_cols_to = max_cols - 1;
 		g_free (state->pos.sheet->print_info->repeat_left);
 		state->pos.sheet->print_info->repeat_left 
 			= g_strdup (cols_name (state->print.rep_cols_from, 
@@ -9047,6 +9049,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 
 	      GSF_XML_IN_NODE (TABLE, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_H_COLS, OO_NS_TABLE, "table-header-columns", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	      GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW_GROUP, OO_NS_TABLE, "table-row-group", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (TABLE, TABLE_ROW_GROUP,	      OO_NS_TABLE, "table-row-group", GSF_XML_NO_CONTENT, NULL, NULL),

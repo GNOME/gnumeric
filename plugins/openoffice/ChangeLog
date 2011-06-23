@@ -1,5 +1,14 @@
 2011-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_table_end): we may have repeating rows w/o
+	repeating columns and vice versa
+	(opendoc_content_dtd): add more items
+	* openoffice-write.c (odf_write_style_cell_properties): don't write
+	attributes outside of elements
+	(odf_write_sheet): write table:table-header-columns as appropriate
+
+2011-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (OOParseState): add fields
 	(oo_table_start): initialize repeating rows/cols fields
 	(oo_table_end): save repeating rows/cols data
