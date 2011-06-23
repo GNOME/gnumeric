@@ -1,3 +1,10 @@
+2011-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* Makefile.am: add xlsx-write-docprops.c
+	* xlsx-write.c (ns_docprops_extended): new
+	(xlsx_write_workbook): call xlsx_write_docprops
+	* xlsx-write-docprops.c: new
+
 2011-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-read-drawing.c (xlsx_drawing_dtd): add srcRect

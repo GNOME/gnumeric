@@ -74,6 +74,7 @@ enum {
 
 static char const *ns_ss	 = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
 static char const *ns_ss_drawing = "http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing";
+static char const *ns_docprops_extended = "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties";
 static char const *ns_drawing	 = "http://schemas.openxmlformats.org/drawingml/2006/main";
 static char const *ns_chart	 = "http://schemas.openxmlformats.org/drawingml/2006/chart";
 static char const *ns_rel	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
@@ -1971,6 +1972,8 @@ xlsx_write_calcPR (XLSXWriteState *state, GsfXMLOut *xml)
 
 #include "xlsx-write-pivot.c"
 
+#include "xlsx-write-docprops.c"
+
 static void
 xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 {
@@ -2001,6 +2004,7 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 
 	xlsx_write_shared_strings (state, wb_part);
 	xlsx_write_styles (state, wb_part);
+	xlsx_write_docprops (state, root_part);
 	cacheRefs = xlsx_write_pivots (state, wb_part);
 
 	xml = gsf_xml_out_new (GSF_OUTPUT (wb_part));
