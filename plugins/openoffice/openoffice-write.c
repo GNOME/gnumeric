@@ -3434,14 +3434,66 @@ odf_write_sheet (GnmOOExport *state)
 		odf_write_formatted_columns (state, sheet, col_styles, 0, max_cols);
 		gsf_xml_out_end_element (state->xml); 
 	}
-	odf_write_styled_empty_rows (state, sheet, 0, extent.start.row,
-				     max_cols, pb, col_styles);
-	odf_write_content_rows (state, sheet,
-				extent.start.row, extent.end.row + 1,
-				extent.start.col, extent.end.col + 1,
-				max_cols, &sheet_merges, pb, col_styles);
-	odf_write_styled_empty_rows (state, sheet, extent.end.row + 1, max_rows,
-				     max_cols, pb, col_styles);
+
+	if (repeat_top_use) {
+		gint esr, eer;
+		if (repeat_top_start > 0) {
+			esr = MIN (extent.start.row, repeat_top_start);
+			eer = MIN (extent.end.row, repeat_top_start - 1);
+			gsf_xml_out_start_element 
+				(state->xml, TABLE "table-rows");
+			odf_write_styled_empty_rows (state, sheet, 0, esr,
+						     max_cols, pb, col_styles);
+			odf_write_content_rows (state, sheet,
+						esr, eer + 1,
+						extent.start.col, extent.end.col + 1,
+						max_cols, &sheet_merges, pb, col_styles);
+			odf_write_styled_empty_rows (state, sheet, eer + 1, repeat_top_start,
+						     max_cols, pb, col_styles);
+			gsf_xml_out_end_element (state->xml); 
+		}
+		esr = MAX (extent.start.row, repeat_top_start);
+		eer = MIN (extent.end.row, repeat_top_end);
+		gsf_xml_out_start_element 
+			(state->xml, TABLE "table-header-rows");
+		odf_write_styled_empty_rows (state, sheet, repeat_top_start, esr,
+					     max_cols, pb, col_styles);
+		odf_write_content_rows (state, sheet,
+					esr, eer + 1,
+					extent.start.col, extent.end.col + 1,
+					max_cols, &sheet_merges, pb, col_styles);
+		odf_write_styled_empty_rows (state, sheet, eer + 1, repeat_top_end + 1,
+					     max_cols, pb, col_styles);
+		gsf_xml_out_end_element (state->xml); 
+		if (repeat_top_end < max_rows) {
+			esr = MAX (extent.start.row, repeat_top_end + 1);
+			eer = MAX (extent.end.row, repeat_top_end + 1);
+			gsf_xml_out_start_element 
+				(state->xml, TABLE "table-rows");
+			odf_write_styled_empty_rows (state, sheet, repeat_top_end + 1, 
+						     esr,
+						     max_cols, pb, col_styles);
+			odf_write_content_rows (state, sheet,
+						esr, eer + 1,
+						extent.start.col, extent.end.col + 1,
+						max_cols, &sheet_merges, pb, col_styles);
+			odf_write_styled_empty_rows (state, sheet, eer + 1, max_rows,
+						     max_cols, pb, col_styles);
+			gsf_xml_out_end_element (state->xml); 
+		}
+	} else {
+		gsf_xml_out_start_element 
+			(state->xml, TABLE "table-rows");
+		odf_write_styled_empty_rows (state, sheet, 0, extent.start.row,
+					     max_cols, pb, col_styles);
+		odf_write_content_rows (state, sheet,
+					extent.start.row, extent.end.row + 1,
+					extent.start.col, extent.end.col + 1,
+					max_cols, &sheet_merges, pb, col_styles);
+		odf_write_styled_empty_rows (state, sheet, extent.end.row + 1, max_rows,
+					     max_cols, pb, col_styles);
+		gsf_xml_out_end_element (state->xml); 
+	}
 
 	go_slist_free_custom (sheet_merges, g_free);
 	g_free (col_styles);
