@@ -1,5 +1,11 @@
 2011-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_write_fonts): check the font names
+	just in case
+	(xlsx_write_rich_text): we definitely need to check the text
+
+2011-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (xlsx_write_num_formats): the format strings
 	need to be properly encoded for xlm
 

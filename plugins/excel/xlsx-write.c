@@ -404,7 +404,7 @@ xlsx_write_fonts (XLSXWriteState *state, GsfXMLOut *xml)
 					 gnm_style_get_font_color (style)->go_color);
 			if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME)) {
 				gsf_xml_out_start_element (xml, "name");
-				gsf_xml_out_add_cstr_unchecked
+				gsf_xml_out_add_cstr
 					(xml, "val", gnm_style_get_font_name (style));
 				gsf_xml_out_end_element (xml);				
 			}
@@ -1677,7 +1677,7 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 
 	if (attrs == NULL) {
 		gsf_xml_out_start_element (xml, "t");
-		gsf_xml_out_add_cstr_unchecked (xml, NULL, text);
+		gsf_xml_out_add_cstr (xml, NULL, text);
 		gsf_xml_out_end_element (xml); /* </t> */
 		return;
 	}
@@ -1746,7 +1746,7 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 		if (start > end)
 			start = end;
 		buf = g_strndup (text + start, end - start);
-		gsf_xml_out_add_cstr_unchecked (xml, NULL, buf);
+		gsf_xml_out_add_cstr (xml, NULL, buf);
 		g_free (buf);
 		gsf_xml_out_end_element (xml); /* </t> */
 		gsf_xml_out_end_element (xml); /* </r> */
