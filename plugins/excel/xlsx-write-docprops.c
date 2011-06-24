@@ -67,18 +67,11 @@ xlsx_map_prop_type (char const *name)
 			char const *gsf_key;
 			char const *xlsx_type;
 		} const map [] = {
-			/* { GSF_META_NAME_TITLE,		"dc:title" }, */
-			/* { GSF_META_NAME_DESCRIPTION,	"dc:description" }, */
-			/* { GSF_META_NAME_SUBJECT,	"dc:subject" }, */
-			/* { GSF_META_NAME_INITIAL_CREATOR,"dc:creator" }, */
-			/* { GSF_META_NAME_CREATOR,	"" }, */
-			/* { GSF_META_NAME_PRINTED_BY,	"" }, */
+			/* Note that in ECMA-376 edition 1 these are the only 2 props   */
+			/* permitted to have types attached to them and they must be as */
+			/* as given here. */
 			{ GSF_META_NAME_DATE_CREATED,   "dcterms:W3CDTF" },
 			{ GSF_META_NAME_DATE_MODIFIED,	"dcterms:W3CDTF" }/* , */
-			/* { GSF_META_NAME_LAST_PRINTED,"cp:lastPrinted" }, */
-			/* { GSF_META_NAME_LANGUAGE,	"dc:language" } , */
-			/* { GSF_META_NAME_REVISION_COUNT,   "" }, */
-			/* { GSF_META_NAME_EDITING_DURATION, "" } */
 		};
 		int i = G_N_ELEMENTS (map);
 
@@ -104,19 +97,61 @@ xlsx_map_prop_name (char const *name)
 			char const *gsf_key;
 			char const *xlsx_key;
 		} const map [] = {
-			{ GSF_META_NAME_TITLE,		"dc:title" },
-			{ GSF_META_NAME_DESCRIPTION,	"dc:description" },
-			{ GSF_META_NAME_SUBJECT,	"dc:subject" },
-			{ GSF_META_NAME_INITIAL_CREATOR,"dc:creator" },
+			{ GSF_META_NAME_CATEGORY,	"cp:category" },
+			{ "cp:contentStatus",	        "cp:contentStatus" },
+			{ "cp:contentType",	        "cp:contentType" },
+			{ GSF_META_NAME_KEYWORDS,	"cp:keywords" },
 			{ GSF_META_NAME_CREATOR,	"cp:lastModifiedBy" },
-			/* { GSF_META_NAME_PRINTED_BY,	"" }, */
+			{ GSF_META_NAME_PRINT_DATE,	"cp:lastPrinted" },
+			{ GSF_META_NAME_REVISION_COUNT,	"cp:revision" },
+			{ "cp:version",	                "cp:version" },
+			{ GSF_META_NAME_INITIAL_CREATOR,"dc:creator" },
+			{ GSF_META_NAME_DESCRIPTION,	"dc:description" },
+			{ "dc:identifier",	        "dc:identifier" },
+			{ GSF_META_NAME_LANGUAGE,	"dc:language" },
+			{ GSF_META_NAME_SUBJECT,	"dc:subject" },
+			{ GSF_META_NAME_TITLE,		"dc:title" },
 			{ GSF_META_NAME_DATE_CREATED,   "dcterms:created" },
-			{ GSF_META_NAME_DATE_MODIFIED,	"dcterms:modified" },
-			{ GSF_META_NAME_LAST_PRINTED,	"cp:lastPrinted" },
-			{ GSF_META_NAME_LANGUAGE,	"dc:language" }/* , */
-			/* { GSF_META_NAME_REVISION_COUNT,   "" }, */
-			/* { GSF_META_NAME_EDITING_DURATION, "" } */
+			{ GSF_META_NAME_DATE_MODIFIED,	"dcterms:modified" }
 		};
+
+		/* Not matching ECMA-376 edition 1 core properties: */
+		/* GSF_META_NAME_CODEPAGE */
+		/* GSF_META_NAME_BYTE_COUNT */
+		/* GSF_META_NAME_CASE_SENSITIVE */
+		/* GSF_META_NAME_CELL_COUNT */
+		/* GSF_META_NAME_CHARACTER_COUNT */
+		/* GSF_META_NAME_DICTIONARY */
+		/* GSF_META_NAME_DOCUMENT_PARTS */
+		/* GSF_META_NAME_HEADING_PAIRS */
+		/* GSF_META_NAME_HIDDEN_SLIDE_COUNT */
+		/* GSF_META_NAME_IMAGE_COUNT */
+		/* GSF_META_NAME_LAST_SAVED_BY */
+		/* GSF_META_NAME_LINKS_DIRTY */
+		/* GSF_META_NAME_LOCALE_SYSTEM_DEFAULT */
+		/* GSF_META_NAME_MANAGER */
+		/* GSF_META_NAME_PRESENTATION_FORMAT */
+		/* GSF_META_NAME_SCALE */
+		/* GSF_META_NAME_SECURITY */
+		/* GSF_META_NAME_THUMBNAIL  */
+		/* GSF_META_NAME_LINE_COUNT */
+		/* GSF_META_NAME_MM_CLIP_COUNT */
+		/* GSF_META_NAME_NOTE_COUNT */
+		/* GSF_META_NAME_OBJECT_COUNT */
+		/* GSF_META_NAME_PAGE_COUNT */
+		/* GSF_META_NAME_PARAGRAPH_COUNT */
+		/* GSF_META_NAME_SLIDE_COUNT */
+		/* GSF_META_NAME_SPREADSHEET_COUNT */
+		/* GSF_META_NAME_TABLE_COUNT */
+		/* GSF_META_NAME_WORD_COUNT */
+		/* GSF_META_NAME_EDITING_DURATION */
+		/* GSF_META_NAME_GENERATOR  the new generator is stored in app.xml  */ 
+		/* GSF_META_NAME_KEYWORD cmp with GSF_META_NAME_KEYWORDS */
+		/* GSF_META_NAME_COMPANY */
+		/* GSF_META_NAME_LAST_PRINTED compare with GSF_META_NAME_PRINT_DATE*/
+		/* GSF_META_NAME_PRINTED_BY */
+		/* GSF_META_NAME_TEMPLATE */
+
 		int i = G_N_ELEMENTS (map);
 
 		xlsx_prop_name_map = g_hash_table_new (g_str_hash, g_str_equal);
@@ -134,6 +169,36 @@ xlsx_meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *outpu
 {
 	char const *mapped_name;
 	GValue const *val = gsf_doc_prop_get_val (prop);
+
+	/* Handle specially */
+	if (0 == strcmp (prop_name, GSF_META_NAME_KEYWORDS)) {
+		GValueArray *va;
+		unsigned i;
+		char *str;
+
+		if (G_TYPE_STRING == G_VALUE_TYPE (val)) {
+			str = g_value_dup_string (val);
+			if (str && *str) {
+				gsf_xml_out_start_element (output, "cp:keywords");
+				gsf_xml_out_add_cstr (output, NULL, str);
+				gsf_xml_out_end_element (output);
+			}
+			g_free (str);
+		} else if (NULL != (va = gsf_value_get_docprop_varray (val))) {
+			gsf_xml_out_start_element (output, "cp:keywords");
+			for (i = 0 ; i < va->n_values; i++) {
+				if (i!=0)
+					gsf_xml_out_add_cstr_unchecked (output, NULL, " ");
+				str = g_value_dup_string (g_value_array_get_nth	(va, i));
+				gsf_xml_out_add_cstr (output, NULL, str);
+				/* In Edition 2 we would be allowed to have different */
+				/* sets of keywords depending on laguage */
+				g_free (str);
+			}
+			gsf_xml_out_end_element (output);
+		}
+		return;
+	}
 
 	if (NULL != (mapped_name = xlsx_map_prop_name (prop_name))) {
 		char const *mapped_type = xlsx_map_prop_type (prop_name);

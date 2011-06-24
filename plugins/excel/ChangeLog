@@ -1,5 +1,11 @@
 2011-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c: add include
+	* xlsx-write-docprops.c (xlsx_map_prop_type): add more items
+	(xlsx_meta_write_props): also write keywords
+
+2011-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (xlsx_write_shared_strings): xml:space is
 	not allowed
 	(xlsx_write_styles): ditto
