@@ -1,3 +1,8 @@
+2011-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-write.c (xlsx_write_num_formats): the format strings
+	need to be properly encoded for xlm
+
 2011-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write.c (xlsx_write_borders): fix element order

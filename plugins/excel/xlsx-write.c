@@ -300,7 +300,7 @@ xlsx_write_num_formats (XLSXWriteState *state, GsfXMLOut *xml)
 		gsf_xml_out_add_int (xml, "count", count);
 		for (i = 0 , n = NUM_FORMAT_BASE; i < count ; i++, n++) {
 			gsf_xml_out_start_element (xml, "numFmt");
-			gsf_xml_out_add_cstr_unchecked 
+			gsf_xml_out_add_cstr 
 				(xml, "formatCode", 
 				 g_ptr_array_index (num_format_array, i));
 			gsf_xml_out_add_int (xml, "numFmtId", n);
