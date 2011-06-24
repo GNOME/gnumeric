@@ -717,16 +717,6 @@ xlsx_write_borders (XLSXWriteState *state, GsfXMLOut *xml)
 					(xml, "diagonalDown",
 					 (border->line_type != GNM_STYLE_BORDER_NONE));
 			}
-			if (gnm_style_is_element_set (style, MSTYLE_BORDER_TOP))
-				xlsx_write_border (state, xml, 
-						   gnm_style_get_border 
-						   (style, MSTYLE_BORDER_TOP), 
-						   MSTYLE_BORDER_TOP);
-			if (gnm_style_is_element_set (style, MSTYLE_BORDER_BOTTOM))
-				xlsx_write_border (state, xml,
-						   gnm_style_get_border 
-						   (style, MSTYLE_BORDER_BOTTOM),
-						   MSTYLE_BORDER_BOTTOM);
 			if (gnm_style_is_element_set (style, MSTYLE_BORDER_LEFT))
 				xlsx_write_border (state, xml,
 						   gnm_style_get_border 
@@ -737,6 +727,16 @@ xlsx_write_borders (XLSXWriteState *state, GsfXMLOut *xml)
 						   gnm_style_get_border 
 						   (style, MSTYLE_BORDER_RIGHT),
 						   MSTYLE_BORDER_RIGHT);
+			if (gnm_style_is_element_set (style, MSTYLE_BORDER_TOP))
+				xlsx_write_border (state, xml, 
+						   gnm_style_get_border 
+						   (style, MSTYLE_BORDER_TOP), 
+						   MSTYLE_BORDER_TOP);
+			if (gnm_style_is_element_set (style, MSTYLE_BORDER_BOTTOM))
+				xlsx_write_border (state, xml,
+						   gnm_style_get_border 
+						   (style, MSTYLE_BORDER_BOTTOM),
+						   MSTYLE_BORDER_BOTTOM);
 			if (gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL)) {
 				GnmBorder *border = gnm_style_get_border 
 					(style, MSTYLE_BORDER_DIAGONAL);

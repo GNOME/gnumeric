@@ -1,5 +1,9 @@
 2011-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_write_borders): fix element order
+
+2011-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (ns_docprops_core_cp): new
 	(ns_docprops_core_dc): new
 	(ns_docprops_core_dcmitype): new
