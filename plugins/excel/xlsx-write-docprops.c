@@ -42,7 +42,6 @@ xlsx_write_docprops_app (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfil
 	
 	gsf_xml_out_start_element (xml, "Properties");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_docprops_extended);
-	gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
 	gsf_xml_out_start_element (xml, "Application");
 	gsf_xml_out_add_cstr_unchecked (xml, NULL, PACKAGE_NAME);
 	gsf_xml_out_end_element (xml); /* </Application> */
@@ -168,7 +167,6 @@ xlsx_write_docprops_core (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfi
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:dcmitype", ns_docprops_core_dcmitype);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:dcterms", ns_docprops_core_dcterms);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:xsi", ns_docprops_core_xsi);
-	gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
 
 	gsf_doc_meta_data_foreach (meta, (GHFunc) xlsx_meta_write_props, xml);
 	if (prop != NULL)

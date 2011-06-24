@@ -1,5 +1,14 @@
 2011-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_write_shared_strings): xml:space is
+	not allowed
+	(xlsx_write_styles): ditto
+	(xlsx_write_workbook): ditto
+	* xlsx-write-docprops.c (xlsx_write_docprops_app): ditto
+	(xlsx_write_docprops_core): ditto
+
+2011-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (xlsx_write_fonts): check the font names
 	just in case
 	(xlsx_write_rich_text): we definitely need to check the text

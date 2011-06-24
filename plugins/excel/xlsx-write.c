@@ -174,7 +174,7 @@ xlsx_write_shared_strings (XLSXWriteState *state, GsfOutfile *wb_part)
 
 		gsf_xml_out_start_element (xml, "sst");
 		gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
-		gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
+		/* Note the schema does not allow the attribute xml:space */
 		gsf_xml_out_add_int (xml, "uniqueCount", state->shared_string_array->len);
 		gsf_xml_out_add_int (xml, "count", state->shared_string_array->len);
 
@@ -927,7 +927,7 @@ xlsx_write_styles (XLSXWriteState *state, GsfOutfile *wb_part)
 
 	gsf_xml_out_start_element (xml, "styleSheet");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
-	gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
+	/* Note the schema does not allow the attribute xml:space */
 
 	/* The order of elements is fixed in the schema (xsd:sequence) */
 	num_format_hash = xlsx_write_num_formats (state, xml);
@@ -2018,7 +2018,7 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	gsf_xml_out_start_element (xml, "workbook");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
-	gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
+	/* Note the schema does not allow the attribute xml:space */
 
 	gsf_xml_out_start_element (xml, "fileVersion");
 	gsf_xml_out_add_int (xml, "lastEdited", 4);
