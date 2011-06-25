@@ -1,5 +1,18 @@
 2011-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_write_style): usually wrte an xfId,
+	write apply* attributes only if they are false (nobody
+	seems to write true ones)
+	(xlsx_write_cellStyleXfs): write a named style record to refer
+	to
+	(xlsx_write_cellXfs): adust call to xlsx_write_style
+	(xlsx_get_style_id): new, extracted from xlsx_write_cells
+	(xlsx_write_cells): use xlsx_get_style_id
+	(xlsx_write_workbook): make sure we write the default style
+	first
+
+2011-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c: add include
 	* xlsx-write-docprops.c (xlsx_map_prop_type): add more items
 	(xlsx_meta_write_props): also write keywords

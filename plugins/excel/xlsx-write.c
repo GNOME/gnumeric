@@ -864,7 +864,7 @@ static void
 xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml, 
 		  GnmStyle const *style, GHashTable *fills_hash,
 		  GHashTable *num_format_hash, GHashTable *fonts_hash,
-		  GHashTable *border_hash)
+		  GHashTable *border_hash, gint id)
 {
 	gboolean alignment = xlsx_write_style_want_alignment (style);
 	gpointer tmp_fill, tmp_font, tmp_border;
@@ -873,11 +873,18 @@ xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml,
 	gboolean border = (NULL != (tmp_border = g_hash_table_lookup (border_hash, style)));
 	gboolean num_fmt = gnm_style_is_element_set (style, MSTYLE_FORMAT);
 
-	xlsx_add_bool (xml, "applyAlignment", alignment);
-	xlsx_add_bool (xml, "applyBorder", border);
-	xlsx_add_bool (xml, "applyFont", font);
-	xlsx_add_bool (xml, "applyFill", fill);
-	xlsx_add_bool (xml, "applyNumberFormat", num_fmt);
+	if (id >= 0) {
+		if (!alignment)
+			xlsx_add_bool (xml, "applyAlignment", alignment);
+		if (!border)
+			xlsx_add_bool (xml, "applyBorder", border);
+		if (!font)
+			xlsx_add_bool (xml, "applyFont", font);
+		if (!fill)
+			xlsx_add_bool (xml, "applyFill", fill);
+		if (!num_fmt)
+			xlsx_add_bool (xml, "applyNumberFormat", num_fmt);
+	}
 	if (font)
 		gsf_xml_out_add_int (xml, "fontId", GPOINTER_TO_INT (tmp_font) - 1);
 	if (fill)
@@ -888,10 +895,29 @@ xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml,
 		gsf_xml_out_add_int 
 			(xml, "numFmtId", 
 			 GPOINTER_TO_INT (g_hash_table_lookup (num_format_hash, style)));
+	if (id >= 0)
+		gsf_xml_out_add_int (xml, "xfId", id);
 
 	if (alignment)
 		xlsx_write_style_write_alignment (state, xml, style);
 	
+}
+
+static void
+xlsx_write_cellStyleXfs (XLSXWriteState *state, GsfXMLOut *xml, 
+		    GHashTable *fills_hash, GHashTable *num_format_hash,
+		    GHashTable *fonts_hash, GHashTable *border_hash)
+{
+	gsf_xml_out_start_element (xml, "cellStyleXfs");
+	gsf_xml_out_add_int (xml, "count", 1);
+	gsf_xml_out_start_element (xml, "xf");
+	xlsx_write_style 
+		(state, xml, 
+		 g_ptr_array_index (state->styles_array, 0),
+		 fills_hash, num_format_hash, fonts_hash,
+		 border_hash, -1);
+	gsf_xml_out_end_element (xml);
+	gsf_xml_out_end_element (xml);
 }
 
 static void
@@ -909,7 +935,7 @@ xlsx_write_cellXfs (XLSXWriteState *state, GsfXMLOut *xml,
 				(state, xml, 
 				 g_ptr_array_index (state->styles_array, i),
 				 fills_hash, num_format_hash, fonts_hash,
-				 border_hash);
+				 border_hash, 0);
 			gsf_xml_out_end_element (xml);	
 		}
 		gsf_xml_out_end_element (xml);
@@ -935,7 +961,7 @@ xlsx_write_styles (XLSXWriteState *state, GsfOutfile *wb_part)
 	fonts_hash = xlsx_write_fonts (state, xml);
 	fills_hash = xlsx_write_fills (state, xml);
 	border_hash = xlsx_write_borders (state, xml);
-	/* <xsd:element name="cellStyleXfs" type="CT_CellStyleXfs" minOccurs="0" maxOccurs="1"/> */
+	xlsx_write_cellStyleXfs (state, xml, fills_hash, num_format_hash, fonts_hash, border_hash);
 	xlsx_write_cellXfs (state, xml, fills_hash, num_format_hash, fonts_hash, border_hash);
 	/* <xsd:element name="cellStyles" type="CT_CellStyles" minOccurs="0" maxOccurs="1"/> */
 	/* <xsd:element name="dxfs" type="CT_Dxfs" minOccurs="0" maxOccurs="1"/> */
@@ -1067,6 +1093,21 @@ xlsx_write_init_row (gboolean *needs_row, GsfXMLOut *xml, int r, char const *spa
 	}
 }
 
+static gint
+xlsx_get_style_id (XLSXWriteState *state, GnmStyle const *style)
+{
+	gpointer tmp;
+
+	g_return_val_if_fail (style != NULL, 0);
+
+	if (NULL == (tmp = g_hash_table_lookup (state->styles_hash, style))) {
+		g_ptr_array_add (state->styles_array, (gpointer) style);
+		tmp = GINT_TO_POINTER (state->styles_array->len);
+		g_hash_table_insert (state->styles_hash, (gpointer) style, tmp);
+	}
+	return GPOINTER_TO_INT (tmp) - 1;
+}
+
 static void
 xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 {
@@ -1108,15 +1149,8 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 
 		for (c = extent->start.col ; c <= extent->end.col ; c++) {
 			GnmStyle const *style  = sheet_style_get (state->sheet, c, r);
-			gint style_id = -1;
-			if (style != NULL) {
-				if (NULL == (tmp = g_hash_table_lookup (state->styles_hash, style))) {
-					g_ptr_array_add (state->styles_array, (gpointer) style);
-					tmp = GINT_TO_POINTER (state->styles_array->len);
-					g_hash_table_insert (state->styles_hash, (gpointer) style, tmp);
-				}
-				style_id = GPOINTER_TO_INT (tmp) - 1;
-			}
+			gint style_id = (style != NULL) ?
+				style_id = xlsx_get_style_id (state, style) : -1;
 			
 			if (NULL != (cell = sheet_cell_get (state->sheet, c, r))) {
 				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
@@ -1995,12 +2029,17 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 		"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml",
 		root_part,
 		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument");
+	GnmStyle *style = gnm_style_new_default ();
 
 	state->xl_dir = xl_dir;
 	state->shared_string_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state->shared_string_array = g_ptr_array_new ();
 	state->styles_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state->styles_array = g_ptr_array_new ();
+
+	xlsx_get_style_id (state, style);
+	gnm_style_unref (style);
+
 	state->convs	 = xlsx_conventions_new ();
 	state->chart.dir   = state->drawing.dir   = NULL;
 	state->chart.count = state->drawing.count = 0;
