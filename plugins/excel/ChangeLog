@@ -1,6 +1,21 @@
+2011-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-read-docprops.c (new)
+	* Makefile.am: add xlsx-read-docprops.c
+	* xlsx-utils.h: add XL_NS_PROP_*
+	* xlsx-write.c (xlsx_write_fills): start with some fills
+	expected by Excel
+	(xlsx_write_style): apparently Excel writes apply*
+	attributes always. So do we now.
+	* xlsx-read.c: add some includes, including
+	xlsx-read-docprops.c
+	(xlsx_ns): som emore namespaces
+	(xlsx_file_open): call xlsx_read_docprops from
+	xlsx-read-docprops.c
+
 2011-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* xlsx-write.c (xlsx_write_style): usually wrte an xfId,
+	* xlsx-write.c (xlsx_write_style): usually write an xfId,
 	write apply* attributes only if they are false (nobody
 	seems to write true ones)
 	(xlsx_write_cellStyleXfs): write a named style record to refer

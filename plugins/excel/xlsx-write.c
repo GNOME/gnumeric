@@ -494,16 +494,28 @@ xlsx_write_fills (XLSXWriteState *state, GsfXMLOut *xml)
 			if (fill_n < 0) {
 				g_ptr_array_add (styles_w_fills, (gpointer)style);
 				g_hash_table_insert (fills_hash, (gpointer)style, 
-						     GINT_TO_POINTER (styles_w_fills->len));
+						     GINT_TO_POINTER (styles_w_fills->len + 1));
 			} else
 				g_hash_table_insert (fills_hash, (gpointer)style, 
-						     GINT_TO_POINTER (fill_n + 1));
+						     GINT_TO_POINTER (fill_n + 2));
 		}
 	}
 
 	if (styles_w_fills->len > 0) {
 		gsf_xml_out_start_element (xml, "fills");
-		gsf_xml_out_add_int (xml, "count", styles_w_fills->len);
+		gsf_xml_out_add_int (xml, "count", styles_w_fills->len + 2);
+		/* Excel considers the first two fills special (not according to  ECMA), */
+		/* so we start with two unused ones.                                     */
+		gsf_xml_out_start_element (xml, "fill");
+		gsf_xml_out_start_element (xml, "patternFill");
+		gsf_xml_out_add_cstr_unchecked (xml, "patternType","none");
+		gsf_xml_out_end_element (xml);				
+		gsf_xml_out_end_element (xml);				
+		gsf_xml_out_start_element (xml, "fill");
+		gsf_xml_out_start_element (xml, "patternFill");
+		gsf_xml_out_add_cstr_unchecked (xml, "patternType","gray125");
+		gsf_xml_out_end_element (xml);				
+		gsf_xml_out_end_element (xml);				
 		for (i = 0 ; i < styles_w_fills->len ; i++) {
 			GnmStyle const *style = g_ptr_array_index (styles_w_fills, i);
 			gsf_xml_out_start_element (xml, "fill");
@@ -874,21 +886,16 @@ xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml,
 	gboolean num_fmt = gnm_style_is_element_set (style, MSTYLE_FORMAT);
 
 	if (id >= 0) {
-		if (!alignment)
-			xlsx_add_bool (xml, "applyAlignment", alignment);
-		if (!border)
-			xlsx_add_bool (xml, "applyBorder", border);
-		if (!font)
-			xlsx_add_bool (xml, "applyFont", font);
-		if (!fill)
-			xlsx_add_bool (xml, "applyFill", fill);
-		if (!num_fmt)
-			xlsx_add_bool (xml, "applyNumberFormat", num_fmt);
+		xlsx_add_bool (xml, "applyAlignment", alignment);
+		xlsx_add_bool (xml, "applyBorder", border);
+		xlsx_add_bool (xml, "applyFont", font);
+		xlsx_add_bool (xml, "applyFill", fill);
+		xlsx_add_bool (xml, "applyNumberFormat", num_fmt);
 	}
 	if (font)
 		gsf_xml_out_add_int (xml, "fontId", GPOINTER_TO_INT (tmp_font) - 1);
 	if (fill)
-		gsf_xml_out_add_int (xml, "fillId", GPOINTER_TO_INT (tmp_fill) - 1);
+		gsf_xml_out_add_int (xml, "fillId", GPOINTER_TO_INT (tmp_fill));
 	if (border)
 		gsf_xml_out_add_int (xml, "borderId", GPOINTER_TO_INT (tmp_border) - 1);
 	if (num_fmt)

@@ -79,6 +79,7 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@
 
 EXTRA_DIST = $(xml_in_files)	\
+	xlsx-read-docprops.c	\
 	xlsx-write-docprops.c	\
 	xlsx-read-pivot.c	\
 	xlsx-write-pivot.c	\

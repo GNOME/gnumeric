@@ -65,6 +65,10 @@
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-zip.h>
 #include <gsf/gsf-open-pkg-utils.h>
+#include <gsf/gsf-meta-names.h>
+#include <gsf/gsf-doc-meta-data.h>
+#include <gsf/gsf-docprop-vector.h>
+#include <gsf/gsf-timestamp.h>
 
 #include <glib/gi18n-lib.h>
 #include <gmodule.h>
@@ -243,6 +247,8 @@ typedef struct {
 	GPtrArray	*authors;
 	GObject		*comment;
 	GString		*comment_text;
+
+	GsfDocMetaData   *metadata;
 } XLSXReadState;
 typedef struct {
 	GOString	*str;
@@ -266,6 +272,11 @@ static GsfXMLInNS const xlsx_ns[] = {
 	GSF_XML_IN_NS (XL_NS_LEG_OFF,   "urn:schemas-microsoft-com:office:office"),
 	GSF_XML_IN_NS (XL_NS_LEG_XL,    "urn:schemas-microsoft-com:office:excel"),
 	GSF_XML_IN_NS (XL_NS_LEG_VML,   "urn:schemas-microsoft-com:vml"),
+	GSF_XML_IN_NS (XL_NS_PROP_CP,   "http://schemas.openxmlformats.org/package/2006/metadata/core-properties"),
+	GSF_XML_IN_NS (XL_NS_PROP_DC,   "http://purl.org/dc/elements/1.1/"),
+	GSF_XML_IN_NS (XL_NS_PROP_DCMITYPE, "http://purl.org/dc/dcmitype"),
+	GSF_XML_IN_NS (XL_NS_PROP_DCTERMS,  "http://purl.org/dc/terms/"),
+	GSF_XML_IN_NS (XL_NS_PROP_XSI,  "http://www.w3.org/2001/XMLSchema-instance"),
 	{ NULL }
 };
 
@@ -4198,6 +4209,8 @@ xlsx_style_array_free (GPtrArray *styles)
 	}
 }
 
+#include "xlsx-read-docprops.c"
+
 G_MODULE_EXPORT void
 xlsx_file_open (GOFileOpener const *fo, GOIOContext *context,
 		WorkbookView *wb_view, GsfInput *input);
@@ -4255,6 +4268,8 @@ xlsx_file_open (GOFileOpener const *fo, GOIOContext *context,
 			xlsx_parse_stream (&state, in, xlsx_styles_dtd);
 
 			xlsx_parse_stream (&state, wb_part, xlsx_workbook_dtd);
+
+			xlsx_read_docprops (&state);
 		} else
 			go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 				_("No workbook stream found."));
