@@ -30,6 +30,91 @@
  * included via xlsx-write.c
  **/
 
+static char const *
+xlsx_map_prop_name_extended (char const *name)
+{
+	/* shared by all instances and never freed */
+	static GHashTable *xlsx_prop_name_map_extended = NULL;
+
+	if (NULL == xlsx_prop_name_map_extended) 
+	{
+		static struct {
+			char const *gsf_key;
+			char const *xlsx_key;
+		} const map [] = {
+			{ GSF_META_NAME_TEMPLATE,            "Template"},
+			{ GSF_META_NAME_MANAGER,             "Manager"},
+			{ GSF_META_NAME_COMPANY,             "Company"},
+			{ GSF_META_NAME_PAGE_COUNT,          "Pages"},
+			{ GSF_META_NAME_WORD_COUNT,          "Words"},
+			{ GSF_META_NAME_CHARACTER_COUNT,     "Characters"},
+			{ GSF_META_NAME_PRESENTATION_FORMAT, "PresentationFormat"},
+			{ GSF_META_NAME_LINE_COUNT,          "Lines"},
+			{ GSF_META_NAME_PARAGRAPH_COUNT,     "Paragraphs"},
+			{ GSF_META_NAME_SLIDE_COUNT,         "Slides"},
+			{ GSF_META_NAME_NOTE_COUNT,          "Notes"},
+			{ GSF_META_NAME_EDITING_DURATION,    "TotalTime"},
+			{ GSF_META_NAME_HIDDEN_SLIDE_COUNT,  "HiddenSlides"},
+			{ "xlsx:MMClips",                    "MMClips"},
+			{ GSF_META_NAME_SCALE,               "ScaleCrop"},
+			/* { GSF_META_NAME_HEADING_PAIRS, "HeadingPairs"}, */
+			/*                         type="CT_VectorVariant" */
+			/* { , "TitlesOfParts"},    type="CT_VectorLpstr"> */
+			{ GSF_META_NAME_LINKS_DIRTY,         "LinksUpToDate"},
+			{ GSF_META_NAME_BYTE_COUNT,          "CharactersWithSpaces"},
+			{ "xlsx:SharedDoc",                  "SharedDoc"},
+			{ "xlsx:HyperlinkBase",              "HyperlinkBase"},
+			/* { , "HLinks"},           type="CT_VectorVariant" */
+			{ "xlsx:HyperlinksChanged",          "HyperlinksChanged"},
+			/* { , "DigSig"},           type="CT_DigSigBlob" */
+			{ GSF_META_NAME_SECURITY,            "DocSecurity"}
+		};
+
+		/* Not matching ECMA-376 edition 1 core or extended properties: */
+		/* GSF_META_NAME_CODEPAGE */
+		/* GSF_META_NAME_CASE_SENSITIVE */
+		/* GSF_META_NAME_CELL_COUNT */
+		/* GSF_META_NAME_DICTIONARY */
+		/* GSF_META_NAME_DOCUMENT_PARTS */
+		/* GSF_META_NAME_IMAGE_COUNT */
+		/* GSF_META_NAME_LAST_SAVED_BY */
+		/* GSF_META_NAME_LOCALE_SYSTEM_DEFAULT */
+		/* GSF_META_NAME_THUMBNAIL  */
+		/* GSF_META_NAME_MM_CLIP_COUNT */
+		/* GSF_META_NAME_OBJECT_COUNT */
+		/* GSF_META_NAME_SPREADSHEET_COUNT */
+		/* GSF_META_NAME_TABLE_COUNT */
+		/* GSF_META_NAME_GENERATOR  stored as Application and AppVersion  */ 
+		/* GSF_META_NAME_KEYWORD cmp with GSF_META_NAME_KEYWORDS in core*/
+		/* GSF_META_NAME_LAST_PRINTED cmp with GSF_META_NAME_PRINT_DATE in core*/
+		/* GSF_META_NAME_PRINTED_BY */
+
+		int i = G_N_ELEMENTS (map);
+
+		xlsx_prop_name_map_extended = g_hash_table_new (g_str_hash, g_str_equal);
+		while (i-- > 0)
+			g_hash_table_insert (xlsx_prop_name_map_extended,
+				(gpointer)map[i].gsf_key,
+				(gpointer)map[i].xlsx_key);
+	}
+
+	return g_hash_table_lookup (xlsx_prop_name_map_extended, name);
+}
+
+static void
+xlsx_meta_write_props_extended (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
+{
+	char const *mapped_name;
+	GValue const *val = gsf_doc_prop_get_val (prop);
+
+	if (NULL != (mapped_name = xlsx_map_prop_name_extended (prop_name))) {
+		gsf_xml_out_start_element (output, mapped_name);
+		if (NULL != val)
+			gsf_xml_out_add_gvalue (output, NULL, val);
+		gsf_xml_out_end_element (output);
+	}
+}
+
 static void
 xlsx_write_docprops_app (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfile *docprops_dir)
 {
@@ -39,15 +124,20 @@ xlsx_write_docprops_app (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfil
 		 root_part,
 		 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties");
 	GsfXMLOut *xml = gsf_xml_out_new (part);
+	GsfDocMetaData *meta = go_doc_get_meta_data (GO_DOC (state->base.wb));
 	
 	gsf_xml_out_start_element (xml, "Properties");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_docprops_extended);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:vt", ns_docprops_extended_vt);
 	gsf_xml_out_start_element (xml, "Application");
 	gsf_xml_out_add_cstr_unchecked (xml, NULL, PACKAGE_NAME);
 	gsf_xml_out_end_element (xml); /* </Application> */
 	gsf_xml_out_start_element (xml, "AppVersion");
 	gsf_xml_out_add_cstr_unchecked (xml, NULL, VERSION);
 	gsf_xml_out_end_element (xml); /* </AppVersion> */
+
+	gsf_doc_meta_data_foreach (meta, (GHFunc) xlsx_meta_write_props_extended, xml);	
+
 	gsf_xml_out_end_element (xml); /* </Properties> */
 	
 	g_object_unref (xml);
@@ -114,43 +204,6 @@ xlsx_map_prop_name (char const *name)
 			{ GSF_META_NAME_DATE_CREATED,   "dcterms:created" },
 			{ GSF_META_NAME_DATE_MODIFIED,	"dcterms:modified" }
 		};
-
-		/* Not matching ECMA-376 edition 1 core properties: */
-		/* GSF_META_NAME_CODEPAGE */
-		/* GSF_META_NAME_BYTE_COUNT */
-		/* GSF_META_NAME_CASE_SENSITIVE */
-		/* GSF_META_NAME_CELL_COUNT */
-		/* GSF_META_NAME_CHARACTER_COUNT */
-		/* GSF_META_NAME_DICTIONARY */
-		/* GSF_META_NAME_DOCUMENT_PARTS */
-		/* GSF_META_NAME_HEADING_PAIRS */
-		/* GSF_META_NAME_HIDDEN_SLIDE_COUNT */
-		/* GSF_META_NAME_IMAGE_COUNT */
-		/* GSF_META_NAME_LAST_SAVED_BY */
-		/* GSF_META_NAME_LINKS_DIRTY */
-		/* GSF_META_NAME_LOCALE_SYSTEM_DEFAULT */
-		/* GSF_META_NAME_MANAGER */
-		/* GSF_META_NAME_PRESENTATION_FORMAT */
-		/* GSF_META_NAME_SCALE */
-		/* GSF_META_NAME_SECURITY */
-		/* GSF_META_NAME_THUMBNAIL  */
-		/* GSF_META_NAME_LINE_COUNT */
-		/* GSF_META_NAME_MM_CLIP_COUNT */
-		/* GSF_META_NAME_NOTE_COUNT */
-		/* GSF_META_NAME_OBJECT_COUNT */
-		/* GSF_META_NAME_PAGE_COUNT */
-		/* GSF_META_NAME_PARAGRAPH_COUNT */
-		/* GSF_META_NAME_SLIDE_COUNT */
-		/* GSF_META_NAME_SPREADSHEET_COUNT */
-		/* GSF_META_NAME_TABLE_COUNT */
-		/* GSF_META_NAME_WORD_COUNT */
-		/* GSF_META_NAME_EDITING_DURATION */
-		/* GSF_META_NAME_GENERATOR  the new generator is stored in app.xml  */ 
-		/* GSF_META_NAME_KEYWORD cmp with GSF_META_NAME_KEYWORDS */
-		/* GSF_META_NAME_COMPANY */
-		/* GSF_META_NAME_LAST_PRINTED compare with GSF_META_NAME_PRINT_DATE*/
-		/* GSF_META_NAME_PRINTED_BY */
-		/* GSF_META_NAME_TEMPLATE */
 
 		int i = G_N_ELEMENTS (map);
 
@@ -224,7 +277,6 @@ xlsx_write_docprops_core (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfi
 		 "http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties");
 	GsfXMLOut *xml = gsf_xml_out_new (part);
 	GsfDocMetaData *meta = go_doc_get_meta_data (GO_DOC (state->base.wb));
-	GsfDocProp *prop = gsf_doc_meta_data_steal (meta, GSF_META_NAME_GENERATOR);
 
 	gsf_xml_out_start_element (xml, "cp:coreProperties");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:cp", ns_docprops_core_cp);
@@ -234,8 +286,6 @@ xlsx_write_docprops_core (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfi
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:xsi", ns_docprops_core_xsi);
 
 	gsf_doc_meta_data_foreach (meta, (GHFunc) xlsx_meta_write_props, xml);
-	if (prop != NULL)
-		gsf_doc_meta_data_store (meta, prop);
 
 	gsf_xml_out_end_element (xml); /* </cp:coreProperties> */
 	

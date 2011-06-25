@@ -1,5 +1,14 @@
 2011-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (ns_docprops_extended_vt): new
+	* xlsx-write-docprops.c (xlsx_map_prop_name_extended): new
+	(xlsx_meta_write_props_extended): new
+	(xlsx_write_docprops_app): write more properties
+	(xlsx_write_docprops_core): no need to remove the generator
+	meta data, we only write selected props anyways.
+
+2011-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (xlsx_write_predefined_fills): new
 	(xlsx_write_fills): use the above
 	(xlsx_find_predefined_fill): new
