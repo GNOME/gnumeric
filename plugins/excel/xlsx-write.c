@@ -161,6 +161,68 @@ xlsx_add_range_list (GsfXMLOut *xml, char const *id, GSList const *ranges)
 
 /****************************************************************************/
 
+#define N_PREDEFINED_FILLS (G_N_ELEMENTS (pre_def_fills) - 1)
+
+static char const *pats[] = {
+	"solid",            /* 1 */
+	"darkGray",         /* 2 */
+	"mediumGray",       /* 3 */
+	"lightGray",        /* 4 */
+	"gray125",          /* 5 */
+	"gray0625",         /* 6 */
+	"darkHorizontal",   /* 7 */
+	"darkVertical",     /* 8 */
+	"darkUp",           /* 9 */
+	"darkDown",         /* 10 */
+	"darkGrid",         /* 11 */
+	"darkTrellis",      /* 12 */
+	"lightHorizontal",  /* 13 */
+	"lightVertical",    /* 14 */
+	"lightDown",        /* 15 */
+	"lightUp",          /* 16 */
+	"lightGrid",        /* 17 */
+	"lightTrellis",     /* 18 */
+};
+
+static char const *pre_def_fills[] = {
+	"none",
+	"gray125",
+	NULL
+};
+
+static void
+xlsx_write_predefined_fills (GsfXMLOut *xml)
+{
+	char const **f = pre_def_fills;
+
+	while (*f != NULL) {
+		gsf_xml_out_start_element (xml, "fill");
+		gsf_xml_out_start_element (xml, "patternFill");
+		gsf_xml_out_add_cstr_unchecked (xml, "patternType", *f++);
+		gsf_xml_out_end_element (xml);				
+		gsf_xml_out_end_element (xml);
+	}				
+}
+
+static gint
+xlsx_find_predefined_fill (GnmStyle const *style)
+{
+	if (gnm_style_is_element_set (style, MSTYLE_PATTERN) &&
+	    gnm_style_get_pattern (style) == 0 )
+		return 0;
+	if (gnm_style_is_element_set (style, MSTYLE_PATTERN) &&
+	    gnm_style_get_pattern (style) == 5 &&
+	    (!gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN) || 
+	     gnm_style_get_pattern_color (style)->go_color == GO_COLOR_BLACK) &&
+	    (!gnm_style_is_element_set (style, MSTYLE_COLOR_BACK) || 
+	     gnm_style_get_back_color (style)->go_color == GO_COLOR_WHITE))
+		return 1;
+	
+	return -1;
+}
+
+/****************************************************************************/
+
 static void
 xlsx_write_shared_strings (XLSXWriteState *state, GsfOutfile *wb_part)
 {
@@ -435,6 +497,11 @@ static gint
 xlsx_find_fill (GnmStyle const *style, GPtrArray  *styles)
 {
 	unsigned i;
+	int j;
+	
+	j = xlsx_find_predefined_fill (style);
+	if (j >= 0)
+		return j;
 	for (i = 0 ; i < styles->len ; i++) {
 		GnmStyle const *old_style = g_ptr_array_index (styles, i);
 		if (style == old_style)
@@ -453,7 +520,7 @@ xlsx_find_fill (GnmStyle const *style, GPtrArray  *styles)
 		      || (gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN) &&
 			  gnm_style_get_pattern_color (style)->go_color != 
 			  gnm_style_get_pattern_color (old_style)->go_color)))
-			return (gint) i;
+			return (gint) i + N_PREDEFINED_FILLS;
 	}
 	return -1;
 }
@@ -461,26 +528,6 @@ xlsx_find_fill (GnmStyle const *style, GPtrArray  *styles)
 static GHashTable *
 xlsx_write_fills (XLSXWriteState *state, GsfXMLOut *xml)
 {
-	static char const *pats[] = {
-		"solid",            /* 1 */
-		"darkGray",         /* 2 */
-		"mediumGray",       /* 3 */
-		"lightGray",        /* 4 */
-		"gray125",          /* 5 */
-		"gray0625",         /* 6 */
-		"darkHorizontal",   /* 7 */
-		"darkVertical",     /* 8 */
-		"darkUp",           /* 9 */
-		"darkDown",         /* 10 */
-		"darkGrid",         /* 11 */
-		"darkTrellis",      /* 12 */
-		"lightHorizontal",  /* 13 */
-		"lightVertical",    /* 14 */
-		"lightDown",        /* 15 */
-		"lightUp",          /* 16 */
-		"lightGrid",        /* 17 */
-		"lightTrellis",     /* 18 */
-	};
 	GHashTable *fills_hash =  g_hash_table_new (g_direct_hash, g_direct_equal);
 	GPtrArray  *styles_w_fills  = g_ptr_array_new ();
 	unsigned i;
@@ -493,29 +540,25 @@ xlsx_write_fills (XLSXWriteState *state, GsfXMLOut *xml)
 			gint fill_n = xlsx_find_fill (style, styles_w_fills);
 			if (fill_n < 0) {
 				g_ptr_array_add (styles_w_fills, (gpointer)style);
-				g_hash_table_insert (fills_hash, (gpointer)style, 
-						     GINT_TO_POINTER (styles_w_fills->len + 1));
+				g_hash_table_insert 
+					(fills_hash, (gpointer)style, 
+					 GINT_TO_POINTER (styles_w_fills->len 
+							  + N_PREDEFINED_FILLS));
 			} else
-				g_hash_table_insert (fills_hash, (gpointer)style, 
-						     GINT_TO_POINTER (fill_n + 2));
+				g_hash_table_insert 
+					(fills_hash, (gpointer)style, 
+					 GINT_TO_POINTER 
+					 (fill_n + 1));
 		}
 	}
 
 	if (styles_w_fills->len > 0) {
 		gsf_xml_out_start_element (xml, "fills");
-		gsf_xml_out_add_int (xml, "count", styles_w_fills->len + 2);
-		/* Excel considers the first two fills special (not according to  ECMA), */
-		/* so we start with two unused ones.                                     */
-		gsf_xml_out_start_element (xml, "fill");
-		gsf_xml_out_start_element (xml, "patternFill");
-		gsf_xml_out_add_cstr_unchecked (xml, "patternType","none");
-		gsf_xml_out_end_element (xml);				
-		gsf_xml_out_end_element (xml);				
-		gsf_xml_out_start_element (xml, "fill");
-		gsf_xml_out_start_element (xml, "patternFill");
-		gsf_xml_out_add_cstr_unchecked (xml, "patternType","gray125");
-		gsf_xml_out_end_element (xml);				
-		gsf_xml_out_end_element (xml);				
+		gsf_xml_out_add_int (xml, "count", styles_w_fills->len 
+				     + N_PREDEFINED_FILLS);
+		/* Excel considers the first few fills special (not according to */
+		/* ECMA)                            */
+		xlsx_write_predefined_fills (xml);
 		for (i = 0 ; i < styles_w_fills->len ; i++) {
 			GnmStyle const *style = g_ptr_array_index (styles_w_fills, i);
 			gsf_xml_out_start_element (xml, "fill");
@@ -895,7 +938,7 @@ xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml,
 	if (font)
 		gsf_xml_out_add_int (xml, "fontId", GPOINTER_TO_INT (tmp_font) - 1);
 	if (fill)
-		gsf_xml_out_add_int (xml, "fillId", GPOINTER_TO_INT (tmp_fill));
+		gsf_xml_out_add_int (xml, "fillId", GPOINTER_TO_INT (tmp_fill) - 1);
 	if (border)
 		gsf_xml_out_add_int (xml, "borderId", GPOINTER_TO_INT (tmp_border) - 1);
 	if (num_fmt)

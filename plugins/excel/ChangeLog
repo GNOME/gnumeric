@@ -1,5 +1,12 @@
 2011-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_write_predefined_fills): new
+	(xlsx_write_fills): use the above
+	(xlsx_find_predefined_fill): new
+	(xlsx_find_fill): use xlsx_find_predefined_fill
+
+2011-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-read-docprops.c (new)
 	* Makefile.am: add xlsx-read-docprops.c
 	* xlsx-utils.h: add XL_NS_PROP_*
