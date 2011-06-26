@@ -1,3 +1,18 @@
+2011-06-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-write.c: new includes (for xlsx-write-docprops.c)
+	* xlsx-write-docprops.c (xlsx_map_time_to_int): new
+	(xlsx_map_to_int): new
+	(xlsx_map_to_bool): new
+	(xlsx_map_to_date_core): new
+	(xlsx_map_prop_name_to_output_fun): new
+	(xlsx_meta_write_props_extended): use xlsx_map_prop_name_to_output_fun
+	(xlsx_map_prop_type): replaced by xlsx_map_prop_name_to_output_fun
+	(xlsx_meta_write_props): use xlsx_map_prop_name_to_output_fun
+	(xlsx_map_to_pid): new
+	(xlsx_meta_write_props_custom): new
+	(xlsx_write_docprops_custom): call xlsx_meta_write_props_custom
+
 2011-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write-docprops.c (xlsx_write_docprops_custom):

@@ -50,6 +50,7 @@
 #include "sheet-object-graph.h"
 #include "graph.h"
 #include "style-border.h"
+#include "gutils.h"
 
 #include "go-val.h"
 
@@ -65,6 +66,7 @@
 #include <gsf/gsf-meta-names.h>
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-docprop-vector.h>
+#include <gsf/gsf-timestamp.h>
 #include <gmodule.h>
 #include <string.h>
 

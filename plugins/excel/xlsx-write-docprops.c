@@ -30,6 +30,133 @@
  * included via xlsx-write.c
  **/
 
+typedef void (*output_function) (GsfXMLOut *output, GValue const *val);
+
+static void
+xlsx_map_time_to_int (GsfXMLOut *output, GValue const *val)
+{
+	switch (G_VALUE_TYPE(val)) {
+	case G_TYPE_INT:
+		gsf_xml_out_add_gvalue (output, NULL, val);
+		break;
+	case G_TYPE_STRING: {
+		char const *str = g_value_get_string (val);
+		int minutes = 0, seconds = 0;
+		if ( 1 < sscanf (str, "PT%dM%dS", &minutes, &seconds)) {
+			if (seconds > 29)
+				minutes++;
+			gsf_xml_out_add_int (output, NULL, minutes);
+			break;
+		}
+		/* no break */
+	}
+	default:
+		gsf_xml_out_add_int (output, NULL, 0);
+		break;
+	}
+}
+
+static void
+xlsx_map_to_int (GsfXMLOut *output, GValue const *val)
+{
+	if (G_TYPE_INT == G_VALUE_TYPE (val))
+		gsf_xml_out_add_gvalue (output, NULL, val);
+	else
+		gsf_xml_out_add_int (output, NULL, 0);
+}
+
+static void
+xlsx_map_to_bool (GsfXMLOut *output, GValue const *val)
+{
+	switch (G_VALUE_TYPE(val)) {
+	case G_TYPE_BOOLEAN:
+		xlsx_add_bool (output, NULL, g_value_get_boolean (val));
+		break;
+	case G_TYPE_INT:
+		xlsx_add_bool (output, NULL, g_value_get_int (val) != 0);
+		break;
+	case G_TYPE_STRING:
+		xlsx_add_bool (output, NULL, 
+			       0 == g_ascii_strcasecmp (g_value_get_string (val), "true")
+			       || 0 == g_ascii_strcasecmp (g_value_get_string (val), "yes"));
+		break;
+	default:
+		xlsx_add_bool (output, NULL, FALSE);
+		break;
+	}
+}
+
+static void
+xlsx_map_to_date_core (GsfXMLOut *output, GValue const *val)
+{
+	gsf_xml_out_add_cstr_unchecked (output, "xsi:type", "dcterms:W3CDTF");
+	if (VAL_IS_GSF_TIMESTAMP(val))
+		gsf_xml_out_add_gvalue (output, NULL, val);
+	else if (G_TYPE_INT == G_VALUE_TYPE (val)) {
+		GsfTimestamp * ts = gsf_timestamp_new ();
+		char *str;
+		gsf_timestamp_set_time (ts, g_value_get_int (val));
+		str = gsf_timestamp_as_string (ts);
+		gsf_xml_out_add_cstr (output, NULL, str);
+		g_free (str);
+	} else {
+		GsfTimestamp * ts = gsf_timestamp_new ();
+		char *str;
+		GTimeVal tm;
+		g_get_current_time (&tm);
+		tm.tv_usec = 0L;
+		gsf_timestamp_set_time (ts, tm.tv_sec);
+		str = gsf_timestamp_as_string (ts);
+		gsf_xml_out_add_cstr (output, NULL, str);
+		g_free (str);		
+	}	
+}
+
+static output_function
+xlsx_map_prop_name_to_output_fun (char const *name)
+{
+	/* shared by all instances and never freed */
+	static GHashTable *xlsx_prop_name_map_output_fun_extended = NULL;
+
+	if (NULL == xlsx_prop_name_map_output_fun_extended) 
+	{
+		static struct {
+			char const *gsf_key;
+			output_function xlsx_output_fun;
+		} const map [] = {
+			{ GSF_META_NAME_DATE_CREATED,       xlsx_map_to_date_core},
+			{ GSF_META_NAME_DATE_MODIFIED,      xlsx_map_to_date_core},
+			{ GSF_META_NAME_EDITING_DURATION,   xlsx_map_time_to_int},
+			{ GSF_META_NAME_CHARACTER_COUNT,    xlsx_map_to_int},
+			{ GSF_META_NAME_BYTE_COUNT,         xlsx_map_to_int},
+			{ GSF_META_NAME_SECURITY,           xlsx_map_to_int},
+			{ GSF_META_NAME_HIDDEN_SLIDE_COUNT, xlsx_map_to_int},
+			{ "xlsx:HyperlinksChanged",         xlsx_map_to_bool},
+			{ GSF_META_NAME_LINE_COUNT,         xlsx_map_to_int},
+			{ GSF_META_NAME_LINKS_DIRTY,        xlsx_map_to_bool},
+			{ "xlsx:MMClips",                   xlsx_map_to_int},
+			{ GSF_META_NAME_NOTE_COUNT,         xlsx_map_to_int},
+			{ GSF_META_NAME_PAGE_COUNT,         xlsx_map_to_int},
+			{ GSF_META_NAME_PARAGRAPH_COUNT,    xlsx_map_to_int},
+			{ "xlsx:SharedDoc",                 xlsx_map_to_bool},
+			{ GSF_META_NAME_SCALE,              xlsx_map_to_bool},
+			{ GSF_META_NAME_SLIDE_COUNT,        xlsx_map_to_int},
+			{ GSF_META_NAME_WORD_COUNT,         xlsx_map_to_int}
+		};
+
+		int i = G_N_ELEMENTS (map);
+
+		xlsx_prop_name_map_output_fun_extended = g_hash_table_new (g_str_hash, g_str_equal);
+		while (i-- > 0)
+			g_hash_table_insert (xlsx_prop_name_map_output_fun_extended,
+				(gpointer)map[i].gsf_key,
+				(gpointer)map[i].xlsx_output_fun);
+	}
+
+	return g_hash_table_lookup (xlsx_prop_name_map_output_fun_extended, name);
+}
+
+
 static char const *
 xlsx_map_prop_name_extended (char const *name)
 {
@@ -109,8 +236,14 @@ xlsx_meta_write_props_extended (char const *prop_name, GsfDocProp *prop, GsfXMLO
 
 	if (NULL != (mapped_name = xlsx_map_prop_name_extended (prop_name))) {
 		gsf_xml_out_start_element (output, mapped_name);
-		if (NULL != val)
-			gsf_xml_out_add_gvalue (output, NULL, val);
+		if (NULL != val) {
+			output_function of = xlsx_map_prop_name_to_output_fun 
+				(prop_name);
+			if (of != NULL)
+				of (output, val);
+			else
+				gsf_xml_out_add_gvalue (output, NULL, val);
+		}
 		gsf_xml_out_end_element (output);
 	}
 }
@@ -146,36 +279,6 @@ xlsx_write_docprops_app (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfil
 	g_object_unref (xml);
 	gsf_output_close (part);
 	g_object_unref (part);
-}
-
-static char const *
-xlsx_map_prop_type (char const *name)
-{
-	/* shared by all instances and never freed */
-	static GHashTable *xlsx_prop_type_map = NULL;
-
-	if (NULL == xlsx_prop_type_map) 
-	{
-		static struct {
-			char const *gsf_key;
-			char const *xlsx_type;
-		} const map [] = {
-			/* Note that in ECMA-376 edition 1 these are the only 2 props   */
-			/* permitted to have types attached to them and they must be as */
-			/* as given here. */
-			{ GSF_META_NAME_DATE_CREATED,   "dcterms:W3CDTF" },
-			{ GSF_META_NAME_DATE_MODIFIED,	"dcterms:W3CDTF" }/* , */
-		};
-		int i = G_N_ELEMENTS (map);
-
-		xlsx_prop_type_map = g_hash_table_new (g_str_hash, g_str_equal);
-		while (i-- > 0)
-			g_hash_table_insert (xlsx_prop_type_map,
-				(gpointer)map[i].gsf_key,
-				(gpointer)map[i].xlsx_type);
-	}
-
-	return g_hash_table_lookup (xlsx_prop_type_map, name);
 }
 
 static char const *
@@ -257,14 +360,15 @@ xlsx_meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *outpu
 	}
 
 	if (NULL != (mapped_name = xlsx_map_prop_name (prop_name))) {
-		char const *mapped_type = xlsx_map_prop_type (prop_name);
-
-		gsf_xml_out_start_element (output, mapped_name);
-		if (mapped_type != NULL)
-			gsf_xml_out_add_cstr_unchecked (output, "xsi:type", mapped_type);
-		
-		if (NULL != val)
-			gsf_xml_out_add_gvalue (output, NULL, val);
+		gsf_xml_out_start_element (output, mapped_name);		
+		if (NULL != val) {
+			output_function of = xlsx_map_prop_name_to_output_fun 
+				(prop_name);
+			if (of != NULL)
+				of (output, val);
+			else
+				gsf_xml_out_add_gvalue (output, NULL, val);
+		}
 		gsf_xml_out_end_element (output);
 	}
 }
@@ -297,6 +401,86 @@ xlsx_write_docprops_core (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfi
 	g_object_unref (part);
 }
 
+static int
+xlsx_map_to_pid (char const *name)
+{
+	/* shared by all instances and never freed */
+	static GHashTable *xlsx_pid_map = NULL;
+
+	if (NULL == xlsx_pid_map) 
+	{
+		static struct {
+			char const *name_key;
+			int pid_key;
+		} const map [] = {
+			{ "Editor", 2}
+		};
+
+		int i = G_N_ELEMENTS (map);
+
+		xlsx_pid_map = g_hash_table_new (g_str_hash, g_str_equal);
+		while (i-- > 0)
+			g_hash_table_insert (xlsx_pid_map,
+				(gpointer)map[i].name_key,
+					     GINT_TO_POINTER (map[i].pid_key));
+	}
+
+	return GPOINTER_TO_INT (g_hash_table_lookup (xlsx_pid_map, name));
+}
+
+static void
+xlsx_meta_write_props_custom_type (char const *prop_name, GValue const *val, GsfXMLOut *xml, char const *type, 
+				   int *custom_pid)
+{
+	int pid = xlsx_map_to_pid (prop_name);
+	
+
+	gsf_xml_out_start_element (xml, "property");
+	gsf_xml_out_add_cstr_unchecked (xml, "fmtid", "{D5CDD505-2E9C-101B-9397-08002B2CF9AE}");
+	if (pid != 0)
+		gsf_xml_out_add_int (xml, "pid", pid);
+	else {
+		gsf_xml_out_add_int (xml, "pid", *custom_pid);
+		*custom_pid += 1;
+	}
+	gsf_xml_out_add_cstr (xml, "name", prop_name);
+	gsf_xml_out_start_element (xml, type);
+	if (NULL != val)
+		gsf_xml_out_add_gvalue (xml, NULL, val);
+	gsf_xml_out_end_element (xml); 
+	gsf_xml_out_end_element (xml); /* </property> */
+}
+
+static void
+xlsx_meta_write_props_custom (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
+{
+	int custom_pid = 29;
+	if ((0 != strcmp (GSF_META_NAME_GENERATOR, prop_name)) && (NULL == xlsx_map_prop_name (prop_name)) 
+	    &&  (NULL == xlsx_map_prop_name_extended (prop_name))) {
+		GValue const *val = gsf_doc_prop_get_val (prop);
+		if (VAL_IS_GSF_TIMESTAMP(val))
+			xlsx_meta_write_props_custom_type (prop_name, val, output, "vt:date", &custom_pid);
+		else switch (G_VALUE_TYPE(val)) {
+			case G_TYPE_BOOLEAN:
+				xlsx_meta_write_props_custom_type (prop_name, val, output, "vt:bool", &custom_pid);
+				break;
+			case G_TYPE_INT:
+			case G_TYPE_LONG:
+				xlsx_meta_write_props_custom_type (prop_name, val, output, "vt:i4", &custom_pid);
+				break;
+			case G_TYPE_FLOAT:
+			case G_TYPE_DOUBLE:
+				xlsx_meta_write_props_custom_type (prop_name, val, output, "vt:decimal", &custom_pid);
+			break;
+			case G_TYPE_STRING:
+				xlsx_meta_write_props_custom_type (prop_name, val, output, "vt:lpwstr", &custom_pid);
+				break;
+			default:
+				break;
+			}
+	}
+}
+
 static void
 xlsx_write_docprops_custom (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfile *docprops_dir)
 {
@@ -306,13 +490,13 @@ xlsx_write_docprops_custom (XLSXWriteState *state, GsfOutfile *root_part, GsfOut
 		 root_part,
 		 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties");
 	GsfXMLOut *xml = gsf_xml_out_new (part);
-	/* GsfDocMetaData *meta = go_doc_get_meta_data (GO_DOC (state->base.wb)); */
+	GsfDocMetaData *meta = go_doc_get_meta_data (GO_DOC (state->base.wb));
 
 	gsf_xml_out_start_element (xml, "Properties");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_docprops_custom);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:vt", ns_docprops_extended_vt);
 
-	/* gsf_doc_meta_data_foreach (meta, (GHFunc) xlsx_meta_write_props_custom, xml); */
+	gsf_doc_meta_data_foreach (meta, (GHFunc) xlsx_meta_write_props_custom, xml);
 
 	gsf_xml_out_end_element (xml); /* </Properties> */
 	
