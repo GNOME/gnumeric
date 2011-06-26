@@ -84,7 +84,7 @@ static char const *ns_docprops_core_dcterms  = "http://purl.org/dc/terms/";
 static char const *ns_docprops_core_xsi      = "http://www.w3.org/2001/XMLSchema-instance";
 static char const *ns_docprops_extended      = "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties";
 static char const *ns_docprops_extended_vt   = "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes";
-/* static char const *ns_docprops_custom        = "http://schemas.openxmlformats.org/officeDocument/2006/custom-properties"; */
+static char const *ns_docprops_custom        = "http://schemas.openxmlformats.org/officeDocument/2006/custom-properties";
 static char const *ns_drawing	 = "http://schemas.openxmlformats.org/drawingml/2006/main";
 static char const *ns_chart	 = "http://schemas.openxmlformats.org/drawingml/2006/chart";
 static char const *ns_rel	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
@@ -553,58 +553,56 @@ xlsx_write_fills (XLSXWriteState *state, GsfXMLOut *xml)
 		}
 	}
 
-	if (styles_w_fills->len > 0) {
-		gsf_xml_out_start_element (xml, "fills");
-		gsf_xml_out_add_int (xml, "count", styles_w_fills->len 
-				     + N_PREDEFINED_FILLS);
-		/* Excel considers the first few fills special (not according to */
-		/* ECMA)                            */
-		xlsx_write_predefined_fills (xml);
-		for (i = 0 ; i < styles_w_fills->len ; i++) {
-			GnmStyle const *style = g_ptr_array_index (styles_w_fills, i);
-			gsf_xml_out_start_element (xml, "fill");
-			gsf_xml_out_start_element (xml, "patternFill");
-			if (gnm_style_is_element_set (style, MSTYLE_PATTERN)) {
-				gint pattern = gnm_style_get_pattern (style);
-				switch (pattern) {
-				case 0:
+	gsf_xml_out_start_element (xml, "fills");
+	gsf_xml_out_add_int (xml, "count", styles_w_fills->len 
+			     + N_PREDEFINED_FILLS);
+	/* Excel considers the first few fills special (not according to */
+	/* ECMA)                            */
+	xlsx_write_predefined_fills (xml);
+	for (i = 0 ; i < styles_w_fills->len ; i++) {
+		GnmStyle const *style = g_ptr_array_index (styles_w_fills, i);
+		gsf_xml_out_start_element (xml, "fill");
+		gsf_xml_out_start_element (xml, "patternFill");
+		if (gnm_style_is_element_set (style, MSTYLE_PATTERN)) {
+			gint pattern = gnm_style_get_pattern (style);
+			switch (pattern) {
+			case 0:
+				gsf_xml_out_add_cstr_unchecked (xml, "patternType", 
+								"none");
+				break;
+			case 1:
+				gsf_xml_out_add_cstr_unchecked (xml, "patternType", 
+								"solid");
+				if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK)) {
+					xlsx_write_color_element 
+						(xml, "fgColor", 
+						 gnm_style_get_back_color (style)->go_color);
+				}
+				break;
+			default:
+				if (pattern < 2 || pattern > (gint)G_N_ELEMENTS (pats)) 
 					gsf_xml_out_add_cstr_unchecked (xml, "patternType", 
 									"none");
-					break;
-				case 1:
+				else
 					gsf_xml_out_add_cstr_unchecked (xml, "patternType", 
-									"solid");
-					if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK)) {
-						xlsx_write_color_element 
-							(xml, "fgColor", 
-							 gnm_style_get_back_color (style)->go_color);
-					}
-					break;
-				default:
-					if (pattern < 2 || pattern > (gint)G_N_ELEMENTS (pats)) 
-						gsf_xml_out_add_cstr_unchecked (xml, "patternType", 
-										"none");
-					else
-						gsf_xml_out_add_cstr_unchecked (xml, "patternType", 
-										pats[pattern - 1]);
-					break;
-				}
-				if (pattern > 1) {
-					if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
-						xlsx_write_color_element 
-							(xml, "fgColor", 
-							 gnm_style_get_back_color (style)->go_color);
-					if (gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN))
-						xlsx_write_color_element 
-							(xml, "bgColor", 
-							 gnm_style_get_pattern_color (style)->go_color);
-				}
+									pats[pattern - 1]);
+				break;
 			}
-			gsf_xml_out_end_element (xml);				
-			gsf_xml_out_end_element (xml);				
+			if (pattern > 1) {
+				if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
+					xlsx_write_color_element 
+						(xml, "fgColor", 
+						 gnm_style_get_back_color (style)->go_color);
+				if (gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN))
+					xlsx_write_color_element 
+						(xml, "bgColor", 
+						 gnm_style_get_pattern_color (style)->go_color);
+			}
 		}
-		gsf_xml_out_end_element (xml);	
+		gsf_xml_out_end_element (xml);				
+		gsf_xml_out_end_element (xml);				
 	}
+	gsf_xml_out_end_element (xml);	
 	
 	g_ptr_array_free (styles_w_fills, TRUE);
 	return fills_hash;

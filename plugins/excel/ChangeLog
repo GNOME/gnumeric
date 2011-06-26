@@ -1,5 +1,13 @@
 2011-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write-docprops.c (xlsx_write_docprops_custom):
+	enable
+	* xlsx-write.c (ns_docprops_custom): new
+	(xlsx_write_fills): Kspread needs the formats implied by
+	Excel
+
+2011-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write-docprops.c (xlsx_write_docprops_app): The
 	AppVersion format should really be d.dddd.
 

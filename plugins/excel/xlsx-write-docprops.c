@@ -300,14 +300,13 @@ xlsx_write_docprops_core (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfi
 static void
 xlsx_write_docprops_custom (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfile *docprops_dir)
 {
-#if 0
 	GsfOutput *part = gsf_outfile_open_pkg_add_rel 
 		(docprops_dir, "custom.xml",
 		 "application/vnd.openxmlformats-officedocument.custom-properties+xml",
 		 root_part,
 		 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties");
 	GsfXMLOut *xml = gsf_xml_out_new (part);
-	GsfDocMetaData *meta = go_doc_get_meta_data (GO_DOC (state->base.wb));
+	/* GsfDocMetaData *meta = go_doc_get_meta_data (GO_DOC (state->base.wb)); */
 
 	gsf_xml_out_start_element (xml, "Properties");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_docprops_custom);
@@ -320,7 +319,6 @@ xlsx_write_docprops_custom (XLSXWriteState *state, GsfOutfile *root_part, GsfOut
 	g_object_unref (xml);
 	gsf_output_close (part);
 	g_object_unref (part);
-#endif
 }
 
 static void
