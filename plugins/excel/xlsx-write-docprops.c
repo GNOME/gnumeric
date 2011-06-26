@@ -136,7 +136,7 @@ xlsx_write_docprops_app (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfil
 	gsf_xml_out_start_element (xml, "AppVersion");
 	/*1.10.17 is not permitted for AppVersion, so we need to convert it to 1.1017 */
 	version = GNM_VERSION_EPOCH + 0.01 * GNM_VERSION_MAJOR + 0.0001 * GNM_VERSION_MINOR;
-	gsf_xml_out_add_float (xml, NULL, version, 4);
+	gsf_xml_out_add_float (xml, NULL, version, 5);
 	gsf_xml_out_end_element (xml); /* </AppVersion> */
 
 	gsf_doc_meta_data_foreach (meta, (GHFunc) xlsx_meta_write_props_extended, xml);	
@@ -298,10 +298,37 @@ xlsx_write_docprops_core (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfi
 }
 
 static void
+xlsx_write_docprops_custom (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfile *docprops_dir)
+{
+#if 0
+	GsfOutput *part = gsf_outfile_open_pkg_add_rel 
+		(docprops_dir, "custom.xml",
+		 "application/vnd.openxmlformats-officedocument.custom-properties+xml",
+		 root_part,
+		 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties");
+	GsfXMLOut *xml = gsf_xml_out_new (part);
+	GsfDocMetaData *meta = go_doc_get_meta_data (GO_DOC (state->base.wb));
+
+	gsf_xml_out_start_element (xml, "Properties");
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_docprops_custom);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:vt", ns_docprops_extended_vt);
+
+	/* gsf_doc_meta_data_foreach (meta, (GHFunc) xlsx_meta_write_props_custom, xml); */
+
+	gsf_xml_out_end_element (xml); /* </Properties> */
+	
+	g_object_unref (xml);
+	gsf_output_close (part);
+	g_object_unref (part);
+#endif
+}
+
+static void
 xlsx_write_docprops (XLSXWriteState *state, GsfOutfile *root_part)
 {
 	GsfOutfile *docprops_dir    = (GsfOutfile *)gsf_outfile_new_child (root_part, "docProps", TRUE);
 
 	xlsx_write_docprops_app (state, root_part, docprops_dir);
 	xlsx_write_docprops_core (state, root_part, docprops_dir);
+	xlsx_write_docprops_custom (state, root_part, docprops_dir);
 }

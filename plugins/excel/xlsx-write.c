@@ -84,6 +84,7 @@ static char const *ns_docprops_core_dcterms  = "http://purl.org/dc/terms/";
 static char const *ns_docprops_core_xsi      = "http://www.w3.org/2001/XMLSchema-instance";
 static char const *ns_docprops_extended      = "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties";
 static char const *ns_docprops_extended_vt   = "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes";
+/* static char const *ns_docprops_custom        = "http://schemas.openxmlformats.org/officeDocument/2006/custom-properties"; */
 static char const *ns_drawing	 = "http://schemas.openxmlformats.org/drawingml/2006/main";
 static char const *ns_chart	 = "http://schemas.openxmlformats.org/drawingml/2006/chart";
 static char const *ns_rel	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";

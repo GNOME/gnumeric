@@ -1,5 +1,10 @@
 2011-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write-docprops.c (xlsx_write_docprops_app): The
+	AppVersion format should really be d.dddd.
+
+2011-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-read-docprops.c (xlsx_read_core_prop_type): renamed
 	to xlsx_read_prop_type
 	(xlsx_read_core_prop): renamed to xlsx_read_prop
