@@ -1,5 +1,20 @@
 2011-06-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-utils.h (XL_NS_PROP_CUSTOM): new
+	* xlsx-read.c (XLSXReadState): new field meta_prop_name
+	(XL_NS_PROP_CUSTOM): new namespace
+	* xlsx-read-docprops.c (xlsx_read_property_begin): new
+	(xlsx_read_property_end): new
+	(xlsx_read_custom_property_type): new
+	(xlsx_read_custom_property): new
+	(xlsx_read_property_date): new
+	(xlsx_docprops_custom_dtd): new
+	(xlsx_docprops_extended_dtd): add elements
+	(xlsx_read_docprops_custom): new
+	(xlsx_read_docprops): call xlsx_read_docprops_custom
+
+2011-06-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c: new includes (for xlsx-write-docprops.c)
 	* xlsx-write-docprops.c (xlsx_map_time_to_int): new
 	(xlsx_map_to_int): new

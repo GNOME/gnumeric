@@ -248,7 +248,9 @@ typedef struct {
 	GObject		*comment;
 	GString		*comment_text;
 
+	/* Document Properties */
 	GsfDocMetaData   *metadata;
+	char *meta_prop_name;
 } XLSXReadState;
 typedef struct {
 	GOString	*str;
@@ -264,7 +266,7 @@ static GsfXMLInNS const xlsx_ns[] = {
 	GSF_XML_IN_NS (XL_NS_SS_DRAW,	"http://schemas.openxmlformats.org/drawingml/2006/3/spreadsheetDrawing"), /* Office 12 BETA-2 Technical Refresh */
 	GSF_XML_IN_NS (XL_NS_CHART,	"http://schemas.openxmlformats.org/drawingml/2006/3/chart"),		  /* Office 12 BETA-2 */
 	GSF_XML_IN_NS (XL_NS_CHART,	"http://schemas.openxmlformats.org/drawingml/2006/chart"),		  /* Office 12 BETA-2 Technical Refresh */
-	GSF_XML_IN_NS (XL_NS_CHART_DRAW, "http://schemas.openxmlformats.org/drawingml/2006/chartDrawing"),
+	GSF_XML_IN_NS (XL_NS_CHART_DRAW,    "http://schemas.openxmlformats.org/drawingml/2006/chartDrawing"),
 	GSF_XML_IN_NS (XL_NS_DRAW,	"http://schemas.openxmlformats.org/drawingml/2006/3/main"),		  /* Office 12 BETA-2 */
 	GSF_XML_IN_NS (XL_NS_DRAW,	"http://schemas.openxmlformats.org/drawingml/2006/main"),		  /* Office 12 BETA-2 Technical Refresh */
 	GSF_XML_IN_NS (XL_NS_DOC_REL,	"http://schemas.openxmlformats.org/officeDocument/2006/relationships"),
@@ -279,6 +281,7 @@ static GsfXMLInNS const xlsx_ns[] = {
 	GSF_XML_IN_NS (XL_NS_PROP_XSI,  "http://www.w3.org/2001/XMLSchema-instance"),
 	GSF_XML_IN_NS (XL_NS_PROP,      "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"),
 	GSF_XML_IN_NS (XL_NS_PROP_VT,   "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"),
+	GSF_XML_IN_NS (XL_NS_PROP_CUSTOM,   "http://schemas.openxmlformats.org/officeDocument/2006/custom-properties"),
 	{ NULL }
 };
 

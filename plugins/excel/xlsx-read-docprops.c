@@ -73,6 +73,78 @@ xlsx_read_prop_boolean (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	xlsx_read_prop_type (xin, G_TYPE_BOOLEAN);
 }
 
+static void
+xlsx_read_property_begin (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	xmlChar const *fmt_id = NULL, *pid = NULL, *name = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "fmtid"))
+			fmt_id = attrs[1];
+		else if (0 == strcmp (attrs[0], "pid"))
+			pid = attrs[1];
+		else if (0 == strcmp (attrs[0], "name"))
+			name = attrs[1];
+	if (name != NULL)
+		state->meta_prop_name = g_strdup (name);
+	else
+		state->meta_prop_name = g_strdup_printf ("%s-%s", fmt_id, pid);
+}
+
+static void
+xlsx_read_property_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	g_free (state->meta_prop_name);
+	state->meta_prop_name = NULL;
+}
+
+static void
+xlsx_read_custom_property_type (GsfXMLIn *xin, GType g_type)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GValue *res;
+	
+	if (state->meta_prop_name == NULL) {
+		xlsx_warning (xin, _("Corrupt file: Second child element in custom property encountered."));
+		return;
+	}
+
+	res = g_new0 (GValue, 1);
+	if (gsf_xml_gvalue_from_str (res, g_type, xin->content->str)) {
+		gsf_doc_meta_data_insert 
+			(state->metadata,
+			 state->meta_prop_name, res);
+		state->meta_prop_name = NULL;
+	} else
+		g_free (res);	
+}
+
+static void
+xlsx_read_custom_property (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	xlsx_read_custom_property_type (xin, xin->node->user_data.v_int);
+}
+
+static void
+xlsx_read_property_date (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	xlsx_read_custom_property_type (xin, GSF_TIMESTAMP_TYPE);
+}
+
+static GsfXMLInNode const xlsx_docprops_custom_dtd[] = {
+GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+GSF_XML_IN_NODE_FULL (START, CUSTOM_PROPS, XL_NS_PROP_CUSTOM, "Properties", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+GSF_XML_IN_NODE (CUSTOM_PROPS, CUSTOM_PROP, XL_NS_PROP_CUSTOM, "property", GSF_XML_NO_CONTENT, &xlsx_read_property_begin, &xlsx_read_property_end),
+GSF_XML_IN_NODE_FULL (CUSTOM_PROP, CUSTOM_PROP_LPWSTR, XL_NS_PROP_VT, "lpwstr", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_read_custom_property, G_TYPE_STRING),
+GSF_XML_IN_NODE_FULL (CUSTOM_PROP, CUSTOM_PROP_LPSTR, XL_NS_PROP_VT, "lpstr", GSF_XML_CONTENT,  FALSE, FALSE, NULL, &xlsx_read_custom_property, G_TYPE_STRING),
+GSF_XML_IN_NODE_FULL (CUSTOM_PROP, CUSTOM_PROP_I4, XL_NS_PROP_VT, "i4", GSF_XML_CONTENT,  FALSE, FALSE, NULL, &xlsx_read_custom_property, G_TYPE_INT),
+GSF_XML_IN_NODE_FULL (CUSTOM_PROP, CUSTOM_PROP_BOOL, XL_NS_PROP_VT, "bool", GSF_XML_CONTENT,  FALSE, FALSE, NULL, &xlsx_read_custom_property, G_TYPE_BOOLEAN),
+GSF_XML_IN_NODE (CUSTOM_PROP, CUSTOM_PROP_DATE, XL_NS_PROP_VT, "date", GSF_XML_CONTENT, NULL, &xlsx_read_property_date),
+GSF_XML_IN_NODE_END
+};
+
 static GsfXMLInNode const xlsx_docprops_extended_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, X_PROPS, XL_NS_PROP, "Properties", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
@@ -98,9 +170,19 @@ GSF_XML_IN_NODE_FULL (X_PROPS, X_PROP_HYPERLINK_BASE, XL_NS_PROP, "HyperlinkBase
 GSF_XML_IN_NODE_FULL (X_PROPS, X_PROP_HYPERLINKS_CHANGED, XL_NS_PROP, "HyperlinksChanged", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_read_prop_boolean, .v_str = "xlsx:HyperlinksChanged"),
 GSF_XML_IN_NODE_FULL (X_PROPS, X_PROP_DOC_SECURITY, XL_NS_PROP, "DocSecurity", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_read_prop_int, .v_str = GSF_META_NAME_SECURITY),
 GSF_XML_IN_NODE_FULL (X_PROPS, X_PROP_DIG_SIG, XL_NS_PROP, "DigSig", GSF_XML_CONTENT, FALSE, FALSE, NULL, NULL, .v_str = ""),
-GSF_XML_IN_NODE_FULL (X_PROPS, X_PROP_HEADING_PAIRS, XL_NS_PROP, "HeadingPairs", GSF_XML_CONTENT, FALSE, FALSE, NULL, NULL, .v_str = ""),
-GSF_XML_IN_NODE_FULL (X_PROPS, X_PROP_HLINKS, XL_NS_PROP, "HLinks", GSF_XML_CONTENT, FALSE, FALSE, NULL, NULL, .v_str = ""),
-GSF_XML_IN_NODE_FULL (X_PROPS, X_PROP_TITLES_OF_PARTS, XL_NS_PROP, "TitlesOfParts", GSF_XML_CONTENT, FALSE, FALSE, NULL, NULL, .v_str = ""),
+GSF_XML_IN_NODE_FULL (X_PROPS, X_PROP_HEADING_PAIRS, XL_NS_PROP, "HeadingPairs", GSF_XML_NO_CONTENT, FALSE, FALSE, NULL, NULL, .v_str = ""),
+GSF_XML_IN_NODE (X_PROP_HEADING_PAIRS, X_PROP_SUB_VECTOR, XL_NS_PROP_VT, "vector", GSF_XML_NO_CONTENT, NULL, NULL),
+GSF_XML_IN_NODE (X_PROP_SUB_VECTOR, X_PROP_SUB_LPWSTR, XL_NS_PROP_VT, "lpwstr", GSF_XML_NO_CONTENT, NULL, NULL),
+GSF_XML_IN_NODE (X_PROP_SUB_VECTOR, X_PROP_SUB_LPSTR, XL_NS_PROP_VT, "lpstr", GSF_XML_NO_CONTENT, NULL, NULL),
+GSF_XML_IN_NODE (X_PROP_SUB_VECTOR, X_PROP_SUB_I4, XL_NS_PROP_VT, "i4", GSF_XML_NO_CONTENT, NULL, NULL),
+GSF_XML_IN_NODE (X_PROP_SUB_VECTOR, X_PROP_SUB_VARIANT, XL_NS_PROP_VT, "variant", GSF_XML_NO_CONTENT, NULL, NULL),
+GSF_XML_IN_NODE (X_PROP_SUB_VARIANT, X_PROP_SUB_LPWSTR, XL_NS_PROP_VT, "lpwstr", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
+GSF_XML_IN_NODE (X_PROP_SUB_VARIANT, X_PROP_SUB_LPSTR, XL_NS_PROP_VT, "lpstr", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
+GSF_XML_IN_NODE (X_PROP_SUB_VARIANT, X_PROP_SUB_I4, XL_NS_PROP_VT, "i4", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
+GSF_XML_IN_NODE_FULL (X_PROPS, X_PROP_HLINKS, XL_NS_PROP, "HLinks", GSF_XML_NO_CONTENT, FALSE, FALSE, NULL, NULL, .v_str = ""),
+GSF_XML_IN_NODE (X_PROP_HLINKS, X_PROP_SUB_VECTOR, XL_NS_PROP_VT, "vector", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
+GSF_XML_IN_NODE_FULL (X_PROPS, X_PROP_TITLES_OF_PARTS, XL_NS_PROP, "TitlesOfParts", GSF_XML_NO_CONTENT, FALSE, FALSE, NULL, NULL, .v_str = ""),
+GSF_XML_IN_NODE (X_PROP_TITLES_OF_PARTS, X_PROP_SUB_VECTOR, XL_NS_PROP_VT, "vector", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd */
 GSF_XML_IN_NODE_FULL (X_PROPS, X_PROP_APPLICATION, XL_NS_PROP, "Application", GSF_XML_CONTENT, FALSE, FALSE, NULL, NULL, .v_str = ""),
 GSF_XML_IN_NODE_FULL (X_PROPS, X_PROP_APP_VERSION, XL_NS_PROP, "AppVersion", GSF_XML_CONTENT, FALSE, FALSE, NULL, NULL, .v_str = ""),
 GSF_XML_IN_NODE_END
@@ -158,12 +240,27 @@ xlsx_read_docprops_extended (XLSXReadState *state)
 }
 
 static void
+xlsx_read_docprops_custom (XLSXReadState *state)
+{
+	GsfInput *in;
+	/* optional */
+	in = gsf_open_pkg_open_rel_by_type 
+		(GSF_INPUT (state->zip),
+		 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/"
+		 "custom-properties", NULL);
+
+	if (in == NULL) return;
+	xlsx_parse_stream (state, in, xlsx_docprops_custom_dtd);
+}
+
+static void
 xlsx_read_docprops (XLSXReadState *state)
 {
 	state->metadata = gsf_doc_meta_data_new ();
 
 	xlsx_read_docprops_core (state);
 	xlsx_read_docprops_extended (state);
+	xlsx_read_docprops_custom (state);
 
 	go_doc_set_meta_data (GO_DOC (state->wb), state->metadata);
 	g_object_unref (state->metadata);
