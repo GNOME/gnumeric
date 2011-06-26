@@ -277,6 +277,8 @@ static GsfXMLInNS const xlsx_ns[] = {
 	GSF_XML_IN_NS (XL_NS_PROP_DCMITYPE, "http://purl.org/dc/dcmitype"),
 	GSF_XML_IN_NS (XL_NS_PROP_DCTERMS,  "http://purl.org/dc/terms/"),
 	GSF_XML_IN_NS (XL_NS_PROP_XSI,  "http://www.w3.org/2001/XMLSchema-instance"),
+	GSF_XML_IN_NS (XL_NS_PROP,      "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"),
+	GSF_XML_IN_NS (XL_NS_PROP_VT,   "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"),
 	{ NULL }
 };
 

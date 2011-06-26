@@ -1,5 +1,21 @@
 2011-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-read-docprops.c (xlsx_read_core_prop_type): renamed
+	to xlsx_read_prop_type
+	(xlsx_read_core_prop): renamed to xlsx_read_prop
+	(xlsx_read_core_prop_dt): renamed to xlsx_read_prop_dt
+	(xlsx_read_prop_int): new
+	(xlsx_read_prop_boolean): new
+	(xlsx_docprops_extended_dtd): new
+	(xlsx_read_docprops_extended): implement
+	* xlsx-read.c (xlsx_ns): add name spaces
+	* xlsx-utils.h (XL_NS_PROP): new
+	(XL_NS_PROP_VT): new
+	* xlsx-write-docprops.c (xlsx_write_docprops_app): The
+	AppVersion format is prescribed to d.dddd.
+
+2011-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (ns_docprops_extended_vt): new
 	* xlsx-write-docprops.c (xlsx_map_prop_name_extended): new
 	(xlsx_meta_write_props_extended): new
