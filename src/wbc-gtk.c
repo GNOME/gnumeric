@@ -165,10 +165,10 @@ wbc_gtk_set_action_label (WBCGtk const *wbcg,
 #endif
 
 		text = is_suffix ? g_strdup_printf ("%s: %s", prefix, suffix) : (char *) prefix;
-			g_object_set (G_OBJECT (a),
-				      "label",	   text,
-				      "sensitive", is_suffix,
-				      NULL);
+		g_object_set (G_OBJECT (a),
+			      "label",	   text,
+			      "sensitive", is_suffix,
+			      NULL);
 		if (is_suffix)
 			g_free (text);
 	} else
