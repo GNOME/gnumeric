@@ -378,7 +378,7 @@ int_pref_create_widget (GOConfNode *node, GtkWidget *table,
 }
 
 static gboolean
-powerof2 (int i)
+powerof_2 (int i)
 {
 	return i > 0 && (i & (i - 1)) == 0;
 }
@@ -388,9 +388,9 @@ cb_power_of_2 (GtkAdjustment *adj)
 {
 	int val = (int)gtk_adjustment_get_value (adj);
 
-	if (powerof2 (val - 1))
+	if (powerof_2 (val - 1))
 		gtk_adjustment_set_value (adj, (val - 1) * 2);
-	else if (powerof2 (val + 1))
+	else if (powerof_2 (val + 1))
 		gtk_adjustment_set_value (adj, (val + 1) / 2);
 }
 

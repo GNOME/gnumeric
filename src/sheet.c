@@ -1078,7 +1078,7 @@ gnm_sheet_visibility_get_type (void)
 /* ------------------------------------------------------------------------- */
 
 static gboolean
-powerof2 (int i)
+powerof_2 (int i)
 {
 	return i > 0 && (i & (i - 1)) == 0;
 }
@@ -1088,10 +1088,10 @@ gnm_sheet_valid_size (int cols, int rows)
 {
 	return (cols >= GNM_MIN_COLS &&
 		cols <= GNM_MAX_COLS &&
-		powerof2 (cols) &&
+		powerof_2 (cols) &&
 		rows >= GNM_MIN_ROWS &&
 		rows <= GNM_MAX_ROWS &&
-		powerof2 (rows)
+		powerof_2 (rows)
 #if 0
        	&& 0x80000000u / (unsigned)(cols / 2) >= (unsigned)rows
 #endif
