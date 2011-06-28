@@ -1,5 +1,13 @@
 2011-06-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* doc-meta-data.ui: name the instruction label
+	* dialog-doc-metadata.c (dialog_doc_metadata_init_widgets):
+	initialize instruction label
+	(cb_dialog_doc_metadata_tree_prop_selected): hide instruction label
+	(dialog_doc_metadata_init_properties_page): trigger selection change
+
+2011-06-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* doc-meta-data.ui: restructure properties tab
 	* dialog-doc-metadata.c (dialog_doc_metadata_add_prop): remove argument,
 	change all callers, del;ete reference to names combo

@@ -120,6 +120,8 @@ typedef struct {
 	GtkButton		*add_button;
 	GtkButton		*remove_button;
 
+	GtkLabel                *instruction;
+
 	/* Keyword Page */
 	GtkTreeView             *key_tree_view;
 	GtkListStore            *key_store;
@@ -1253,6 +1255,8 @@ cb_dialog_doc_metadata_tree_prop_selected (GtkTreeSelection  *selection,
 	/* Set remove button sensitive */
 	gtk_widget_set_sensitive (GTK_WIDGET (state->remove_button),
 				  gtk_tree_selection_get_selected (selection, NULL, NULL));
+
+	gtk_label_set_text (state->instruction, "");
 }
 
 /**
@@ -1404,6 +1408,8 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 			  "clicked",
 			  G_CALLBACK (cb_dialog_doc_metadata_remove_clicked),
 			  state);
+
+	cb_dialog_doc_metadata_tree_prop_selected (sel, state);
 }
 
 /******************************************************************************
@@ -1607,6 +1613,7 @@ dialog_doc_metadata_init_widgets (DialogDocMetaData *state)
 
 	state->add_button    = GTK_BUTTON (go_gtk_builder_get_widget (state->gui, "add_button"));
 	state->remove_button = GTK_BUTTON (go_gtk_builder_get_widget (state->gui, "remove_button"));
+	state->instruction   = GTK_LABEL (go_gtk_builder_get_widget (state->gui, "instruction-label"));
 
 	/* Keyword Page */
 	state->key_tree_view = GTK_TREE_VIEW  (go_gtk_builder_get_widget (state->gui, "keyview"));
