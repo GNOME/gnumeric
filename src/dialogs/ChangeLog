@@ -1,3 +1,9 @@
+2011-06-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-doc-metadata.c (dialog_doc_metadata_update_keywords_changed):
+	fix leak
+	(dialog_doc_metadata_transform_str_to_docprop_vect): fix leak
+	
 2011-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-doc-metadata.c (dialog_doc_metadata_get_gsf_prop_val_type):

@@ -1,3 +1,7 @@
+2011-06-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-write-docprops.c (xlsx_read_core_keys): implement
+
 2011-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write-docprops.c (xlsx_map_to_keys): new

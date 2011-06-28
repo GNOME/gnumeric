@@ -207,6 +207,7 @@ dialog_doc_metadata_transform_str_to_docprop_vect (const GValue *string_value,
 	}
  str_done:
 	g_value_set_object (docprop_value, gdpv);
+	g_object_unref (gdpv);
 }
 
 static char *
@@ -983,6 +984,7 @@ dialog_doc_metadata_update_keywords_changed (DialogDocMetaData *state)
 			 (GTK_TREE_MODEL (state->key_store), &iter));
 	}
 	g_value_set_object (&val, vector);
+	g_object_unref (vector);
 
 	dialog_doc_metadata_set_prop 
 		(state, GSF_META_NAME_KEYWORDS, 

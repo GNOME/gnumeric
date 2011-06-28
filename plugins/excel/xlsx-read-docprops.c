@@ -33,8 +33,36 @@
 static void
 xlsx_read_core_keys (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-/* xin->content->str */
-/* xin->node->user_data.v_str */
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	gchar **strs, **orig_strs;
+	GsfDocPropVector *keywords;
+	GValue v = {0};
+	int count = 0;
+
+	if (strlen (xin->content->str) == 0)
+		return;
+
+	orig_strs = strs = g_strsplit (xin->content->str, " ", 0);
+	keywords = gsf_docprop_vector_new ();
+
+	while (strs != NULL && *strs != NULL && strlen (*strs) > 0) {
+		g_value_init (&v, G_TYPE_STRING);
+		g_value_set_string (&v, *strs);
+		gsf_docprop_vector_append (keywords, &v);
+		g_value_unset (&v);
+		count ++;
+		strs++;
+	}
+	g_strfreev(orig_strs);
+
+	if (count > 0) {
+		GValue *val = g_new0 (GValue, 1);
+		g_value_init (val, GSF_DOCPROP_VECTOR_TYPE);
+		g_value_set_object (val, keywords);
+		gsf_doc_meta_data_insert (state->metadata,
+					  g_strdup (xin->node->user_data.v_str), val);
+	}
+	g_object_unref (keywords);
 }
 
 static void
@@ -194,7 +222,7 @@ GSF_XML_IN_NODE_FULL (START, CORE_PROPS, XL_NS_PROP_CP, "coreProperties", GSF_XM
 GSF_XML_IN_NODE_FULL (CORE_PROPS, PROP_CATEGORY, XL_NS_PROP_CP, "category", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_read_prop, .v_str = GSF_META_NAME_CATEGORY),
 GSF_XML_IN_NODE_FULL (CORE_PROPS, PROP_CONTENT_STATUS, XL_NS_PROP_CP, "contentStatus", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_read_prop, .v_str = "cp:contentStatus"),
 GSF_XML_IN_NODE_FULL (CORE_PROPS, PROP_CONTENT_TYPE, XL_NS_PROP_CP, "contentType", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_read_prop, .v_str = "cp:contentType"),
-GSF_XML_IN_NODE_FULL (CORE_PROPS, PROP_KEYWORDS, XL_NS_PROP_CP, "keywords", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_read_core_keys, 0),
+GSF_XML_IN_NODE_FULL (CORE_PROPS, PROP_KEYWORDS, XL_NS_PROP_CP, "keywords", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_read_core_keys, .v_str = GSF_META_NAME_KEYWORDS),
 GSF_XML_IN_NODE_FULL (CORE_PROPS, PROP_LAST_NODIFIED_BY, XL_NS_PROP_CP, "lastModifiedBy", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_read_prop, .v_str = GSF_META_NAME_CREATOR),
 GSF_XML_IN_NODE_FULL (CORE_PROPS, PROP_LAST_PRINTED, XL_NS_PROP_CP, "lastPrinted", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_read_prop_dt, .v_str = GSF_META_NAME_PRINT_DATE),
 GSF_XML_IN_NODE_FULL (CORE_PROPS, PROP_REVISION, XL_NS_PROP_CP, "revision", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_read_prop, .v_str = GSF_META_NAME_REVISION_COUNT),
