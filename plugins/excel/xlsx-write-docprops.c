@@ -112,6 +112,31 @@ xlsx_map_to_date_core (GsfXMLOut *output, GValue const *val)
 	}	
 }
 
+static void
+xlsx_map_to_keys (GsfXMLOut *output, GValue const *val)
+{
+		GValueArray *va;
+		unsigned i;
+
+		if (G_TYPE_STRING == G_VALUE_TYPE (val)) {
+			char const *str = g_value_get_string (val);
+			if (str && *str)
+				gsf_xml_out_add_cstr (output, NULL, str);
+		} else if (NULL != (va = gsf_value_get_docprop_varray (val))) {
+			char *str;
+			for (i = 0 ; i < va->n_values; i++) {
+				if (i!=0)
+					gsf_xml_out_add_cstr_unchecked (output, NULL, " ");
+				str = g_value_dup_string (g_value_array_get_nth	(va, i));
+				g_strdelimit (str," \t\n\r",'_');
+				gsf_xml_out_add_cstr (output, NULL, str);
+				/* In Edition 2 we would be allowed to have different */
+				/* sets of keywords depending on laguage */
+				g_free (str);
+			}
+		}	
+}
+
 static output_function
 xlsx_map_prop_name_to_output_fun (char const *name)
 {
@@ -127,6 +152,7 @@ xlsx_map_prop_name_to_output_fun (char const *name)
 			{ GSF_META_NAME_DATE_CREATED,       xlsx_map_to_date_core},
 			{ GSF_META_NAME_DATE_MODIFIED,      xlsx_map_to_date_core},
 			{ GSF_META_NAME_EDITING_DURATION,   xlsx_map_time_to_int},
+			{ GSF_META_NAME_KEYWORDS,           xlsx_map_to_keys},
 			{ GSF_META_NAME_CHARACTER_COUNT,    xlsx_map_to_int},
 			{ GSF_META_NAME_BYTE_COUNT,         xlsx_map_to_int},
 			{ GSF_META_NAME_SECURITY,           xlsx_map_to_int},
@@ -328,36 +354,6 @@ xlsx_meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *outpu
 {
 	char const *mapped_name;
 	GValue const *val = gsf_doc_prop_get_val (prop);
-
-	/* Handle specially */
-	if (0 == strcmp (prop_name, GSF_META_NAME_KEYWORDS)) {
-		GValueArray *va;
-		unsigned i;
-		char *str;
-
-		if (G_TYPE_STRING == G_VALUE_TYPE (val)) {
-			str = g_value_dup_string (val);
-			if (str && *str) {
-				gsf_xml_out_start_element (output, "cp:keywords");
-				gsf_xml_out_add_cstr (output, NULL, str);
-				gsf_xml_out_end_element (output);
-			}
-			g_free (str);
-		} else if (NULL != (va = gsf_value_get_docprop_varray (val))) {
-			gsf_xml_out_start_element (output, "cp:keywords");
-			for (i = 0 ; i < va->n_values; i++) {
-				if (i!=0)
-					gsf_xml_out_add_cstr_unchecked (output, NULL, " ");
-				str = g_value_dup_string (g_value_array_get_nth	(va, i));
-				gsf_xml_out_add_cstr (output, NULL, str);
-				/* In Edition 2 we would be allowed to have different */
-				/* sets of keywords depending on laguage */
-				g_free (str);
-			}
-			gsf_xml_out_end_element (output);
-		}
-		return;
-	}
 
 	if (NULL != (mapped_name = xlsx_map_prop_name (prop_name))) {
 		gsf_xml_out_start_element (output, mapped_name);		

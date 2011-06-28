@@ -600,8 +600,11 @@ dialog_doc_metadata_get_gsf_prop_val_type (DialogDocMetaData *state,
 		}
 	}
 	else {
+		if (0 == strcmp (name, GSF_META_NAME_KEYWORDS))
+			val_type = GSF_DOCPROP_VECTOR_TYPE;
+		else
 		/* FIXME: At this moment, we will assume a G_TYPE_STRING */
-		val_type = G_TYPE_STRING;
+			val_type = G_TYPE_STRING;
 	}
 
 	return val_type;

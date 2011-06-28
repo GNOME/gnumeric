@@ -1,5 +1,10 @@
 2011-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-doc-metadata.c (dialog_doc_metadata_get_gsf_prop_val_type):
+	GSF_META_NAME_KEYWORDS is of GSF_DOCPROP_VECTOR_TYPE
+	
+2011-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* doc-meta-data.ui: add a keyword tab, remove keywords from
 	description tab
 	* dialog-doc-metadata.c (dialog_doc_metadata_transform_str_to_docprop_vect):

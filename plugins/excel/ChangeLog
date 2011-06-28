@@ -1,3 +1,10 @@
+2011-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-write-docprops.c (xlsx_map_to_keys): new
+	(xlsx_map_prop_name_to_output_fun): connect xlsx_map_to_keys
+	(xlsx_meta_write_props): depend on xlsx_map_prop_name_to_output_fun
+	even for keywords
+	
 2011-06-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-utils.h (XL_NS_PROP_CUSTOM): new
