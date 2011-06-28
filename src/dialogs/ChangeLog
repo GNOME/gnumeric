@@ -1,3 +1,29 @@
+2011-06-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* doc-meta-data.ui: add a keyword tab, remove keywords from
+	description tab
+	* dialog-doc-metadata.c (dialog_doc_metadata_transform_str_to_docprop_vect):
+	implement
+	(gnm_docprop_vector_as_string): new
+	(dialog_doc_metadata_transform_docprop_vect_to_str): use
+	gnm_docprop_vector_as_string
+	(dialog_doc_metadata_get_gsf_prop_val_type): a GSF_DOCPROP_VECTOR has
+	its own type
+	(dialog_doc_metadata_set_gsf_prop_val): check the error value
+	(dialog_doc_metadata_set_prop): do not add unnecessary empty properties
+	(cb_dialog_doc_metadata_keywords_changed): deleted
+	(dialog_doc_metadata_init_description_page): remove keyword support
+	(dialog_doc_metadata_update_keywords_changed): new
+	(cb_dialog_doc_metadata_keywords_sel_changed): new
+	(dialog_doc_metadata_update_keyword_list): new
+	(cb_dialog_doc_metadata_keywords_add_clicked): new
+	(cb_dialog_doc_metadata_keywords_remove_clicked): new
+	(cb_dialog_doc_metadata_keyword_edited): new
+	(dialog_doc_metadata_init_keywords_page): new
+	(dialog_doc_metadata_update_prop): add argument, change all callers,
+	call dialog_doc_metadata_update_keyword_list
+	(dialog_doc_metadata_init_widgets): handle new widgets
+
 2011-05-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* help.h (GNUMERIC_HELP_LINK_WILCOXON_MANN_WHITNEY): use

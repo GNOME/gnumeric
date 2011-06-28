@@ -106,7 +106,6 @@ typedef struct {
 	GtkEntry		*manager;
 	GtkEntry		*company;
 	GtkEntry		*category;
-	GtkEntry		*keywords;
 
 	GtkTextView		*comments;
 
@@ -123,6 +122,12 @@ typedef struct {
 	GtkButton		*remove_button;
 	GtkButton		*apply_button;
 
+	/* Keyword Page */
+	GtkTreeView             *key_tree_view;
+	GtkListStore            *key_store;
+	GtkButton               *key_add_button;
+	GtkButton               *key_remove_button;
+
 	/* Statistics Page */
 	GtkLabel		*sheets;
 	GtkLabel		*cells;
@@ -137,6 +142,9 @@ typedef struct {
 	GtkWidget               *recalc_iteration_table;
 
 } DialogDocMetaData;
+
+static gchar *dialog_doc_metadata_get_prop_val (char const *prop_name, GValue *prop_value);
+
 
 /******************************************************************************
  * G_VALUE TRANSFORM FUNCTIONS
@@ -159,10 +167,46 @@ static void
 dialog_doc_metadata_transform_str_to_docprop_vect (const GValue *string_value,
 						   GValue       *docprop_value)
 {
+	char const *str, *s;
+	GsfDocPropVector *gdpv;
+	GValue *value;
+
 	g_return_if_fail (G_VALUE_HOLDS_STRING (string_value));
 	g_return_if_fail (VAL_IS_GSF_DOCPROP_VECTOR (docprop_value));
 
-	/* TODO */
+	gdpv = gsf_docprop_vector_new ();
+	str = g_value_get_string (string_value);
+
+	while (*str == ' ') {str++;}
+
+	while (*str == '"') {
+		char *key;
+		s = str += 1;
+		while (*s != '"' && *s != '\0') {
+			if (*(s++) == '\\') {
+				if (*s == '\0')
+					goto str_done;
+				s++;
+			}
+		}
+		if (*s == '\0')
+			goto str_done;
+		/* s == '"' */
+		key = g_strndup (str, s - str);
+		value = g_new0 (GValue, 1);
+		g_value_take_string (g_value_init (value, G_TYPE_STRING),
+				     g_strcompress (key));
+		gsf_docprop_vector_append (gdpv, value);
+		g_free (key);
+		str = s + 1;
+		while (*str == ' ') {str++;}
+		if (str[0] != ',')
+			goto str_done;
+		str++;
+		while (*str == ' ') {str++;}
+	}
+ str_done:
+	g_value_set_object (docprop_value, gdpv);
 }
 
 static char *
@@ -200,6 +244,51 @@ dialog_doc_metadata_transform_timestamp_to_str (const GValue *timestamp_value,
 				     time2str (timestamp->timet));
 }
 
+static gchar*
+gnm_docprop_vector_as_string (GsfDocPropVector *vector)
+{
+	GString         *rstring;
+	guint		 i;
+	guint		 num_values;
+	GValueArray	*gva;
+	GValue           vl = {0};
+
+	g_return_val_if_fail (vector != NULL, NULL);
+
+	g_value_set_object (g_value_init (&vl, GSF_DOCPROP_VECTOR_TYPE), vector);
+	gva = gsf_value_get_docprop_varray (&vl);
+
+	g_return_val_if_fail (gva != NULL, NULL);
+
+	num_values = gva->n_values;
+	rstring = g_string_sized_new (num_values * 8);
+	
+	for (i = 0; i < num_values; i++) {
+		char       *str;
+		GValue	   *v;
+		
+		v = g_value_array_get_nth (gva, i);
+		
+		if (G_VALUE_TYPE(v) == G_TYPE_STRING)
+			str = g_strescape (g_value_get_string (v), "");
+		else {
+			char *b_str = g_strdup_value_contents (v);
+			str = g_strescape (b_str, "");
+			g_free (b_str);
+		}
+		g_string_append_c (rstring, '"');
+		g_string_append (rstring, str);
+		g_string_append (rstring, "\", ");
+		g_free (str);
+	}
+	if (rstring->len > 0)
+		g_string_truncate (rstring, rstring->len - 2);
+
+	g_value_unset (&vl);
+
+	return g_string_free (rstring, FALSE);
+}
+
 static void
 dialog_doc_metadata_transform_docprop_vect_to_str (const GValue *docprop_value,
 						   GValue       *string_value)
@@ -213,7 +302,7 @@ dialog_doc_metadata_transform_docprop_vect_to_str (const GValue *docprop_value,
 
 	if (docprop_vector != NULL)
 		g_value_set_string (string_value,
-				    gsf_docprop_vector_as_string (docprop_vector));
+				    gnm_docprop_vector_as_string (docprop_vector));
 }
 
 /******************************************************************************
@@ -498,24 +587,13 @@ dialog_doc_metadata_get_gsf_prop_val_type (DialogDocMetaData *state,
 					break;
 				}
 
-			case G_TYPE_OBJECT:
+			default:
 				/* Check if it is a GsfDocPropVector */
 				{
-					GsfDocPropVector *vect;
-					vect = gsf_value_get_docprop_vector (value);
-
-					if (VAL_IS_GSF_DOCPROP_VECTOR (vect))
+					if (VAL_IS_GSF_DOCPROP_VECTOR (value))
 						val_type = GSF_DOCPROP_VECTOR_TYPE;
 					else
 						val_type = G_TYPE_INVALID;
-
-					break;
-				}
-
-			default:
-				/* Anything else is invalid */
-				{
-					val_type = G_TYPE_INVALID;
 
 					break;
 				}
@@ -538,7 +616,9 @@ dialog_doc_metadata_set_gsf_prop_val (DialogDocMetaData *state,
 	g_value_init (&string_value, G_TYPE_STRING);
 
 	g_value_set_string (&string_value, g_strdup (str_val));
-	g_value_transform (&string_value, prop_value);
+
+	if (!g_value_transform (&string_value, prop_value))
+		g_warning (_("Transformation of property types failed!"));
 }
 
 /**
@@ -711,9 +791,12 @@ dialog_doc_metadata_set_prop (DialogDocMetaData *state,
 						&tree_iter);
 	}
 
-	/* If the property was not found create it */
-	if (found == FALSE)
-		dialog_doc_metadata_add_prop (state, prop_name, prop_value, "", FALSE);
+	if (!(((prop_value == NULL) || (*prop_value == 0)) &&
+	      ((link_value == NULL) || (*link_value == 0)))) {
+		/* If the property was not found create it */
+		if (found == FALSE)
+			dialog_doc_metadata_add_prop (state, prop_name, prop_value, "", FALSE);
+	}
 
 	dialog_doc_metadata_set_gsf_prop (state, prop_name, prop_value, link_value);
 
@@ -797,18 +880,6 @@ cb_dialog_doc_metadata_category_changed (GtkEntry          *entry,
 }
 
 static gboolean
-cb_dialog_doc_metadata_keywords_changed (GtkEntry          *entry,
-					 GdkEventFocus *event,
-					 DialogDocMetaData *state)
-{
-	dialog_doc_metadata_set_prop (state,
-				      GSF_META_NAME_KEYWORDS,
-				      gtk_entry_get_text (entry),
-				      NULL);
-	return FALSE;
-}
-
-static gboolean
 cb_dialog_doc_metadata_comments_changed (GtkTextView     *view,
 					 GdkEventFocus *event,
 					 DialogDocMetaData *state)
@@ -876,15 +947,167 @@ dialog_doc_metadata_init_description_page (DialogDocMetaData *state)
 			  G_CALLBACK (cb_dialog_doc_metadata_category_changed),
 			  state);
 
-	g_signal_connect (G_OBJECT (state->keywords),
-			  "focus-out-event",
-			  G_CALLBACK (cb_dialog_doc_metadata_keywords_changed),
-			  state);
-
 	g_signal_connect (G_OBJECT (state->comments),
 			  "focus-out-event",
 			  G_CALLBACK (cb_dialog_doc_metadata_comments_changed),
 			  state);
+}
+
+/******************************************************************************
+ * FUNCTIONS RELATED TO 'KEYWORDS' PAGE
+ ******************************************************************************/
+
+static void
+dialog_doc_metadata_update_keywords_changed (DialogDocMetaData *state)
+{
+	GValue val = {0};
+	GtkTreeIter iter;
+	GsfDocPropVector *vector = gsf_docprop_vector_new ();
+
+	g_value_init (&val, GSF_DOCPROP_VECTOR_TYPE);
+
+	if (gtk_tree_model_get_iter_first
+	    (GTK_TREE_MODEL (state->key_store), &iter)) {
+		do {
+			GValue *value = g_new0 (GValue, 1);
+			gtk_tree_model_get_value        
+				(GTK_TREE_MODEL (state->key_store), &iter,
+				 0, value);
+			gsf_docprop_vector_append (vector, value);
+			g_value_unset (value);
+			g_free (value);
+		} while (gtk_tree_model_iter_next 
+			 (GTK_TREE_MODEL (state->key_store), &iter));
+	}
+	g_value_set_object (&val, vector);
+
+	dialog_doc_metadata_set_prop 
+		(state, GSF_META_NAME_KEYWORDS, 
+		 dialog_doc_metadata_get_prop_val (GSF_META_NAME_KEYWORDS, &val), NULL);
+
+	g_value_unset (&val);
+}
+
+static void
+cb_dialog_doc_metadata_keywords_sel_changed (GtkTreeSelection *treeselection,
+					     DialogDocMetaData *state)
+{
+	GtkTreeIter iter;
+
+	gtk_widget_set_sensitive 
+		(GTK_WIDGET (state->key_remove_button), 
+		 gtk_tree_selection_get_selected (treeselection, NULL, &iter));
+}
+
+static void
+dialog_doc_metadata_update_keyword_list (DialogDocMetaData *state, GsfDocProp *prop)
+{
+	guint i;
+	GtkTreeSelection *sel;;
+
+	gtk_list_store_clear (state->key_store);
+
+	if (prop != NULL) {
+		GValueArray *array;
+		array = gsf_value_get_docprop_varray (gsf_doc_prop_get_val (prop));
+		if (array != NULL) {
+			for (i = 0; i < array->n_values; i++) {
+				GValue *val = g_value_array_get_nth (array, i);
+				gtk_list_store_insert_with_values 
+					(state->key_store, NULL, G_MAXINT, 
+					 0, g_value_get_string (val), -1);
+			}
+		}
+	}
+
+	sel = gtk_tree_view_get_selection (state->key_tree_view);
+	cb_dialog_doc_metadata_keywords_sel_changed (sel, state);
+}
+
+static void 
+cb_dialog_doc_metadata_keywords_add_clicked (GtkWidget         *w,
+					     DialogDocMetaData *state)
+{
+	gtk_list_store_insert_with_values (state->key_store, NULL, G_MAXINT, 
+					   0, "<?>", -1);
+	dialog_doc_metadata_update_keywords_changed (state);
+}
+
+static void 
+cb_dialog_doc_metadata_keywords_remove_clicked (GtkWidget         *w,
+						DialogDocMetaData *state)
+{
+	GtkTreeIter iter;
+	GtkTreeSelection *sel = gtk_tree_view_get_selection (state->key_tree_view);
+	
+	if (gtk_tree_selection_get_selected (sel, NULL, &iter)) {
+		gtk_list_store_remove (state->key_store, &iter);
+		dialog_doc_metadata_update_keywords_changed (state);
+	}
+}
+
+static void
+cb_dialog_doc_metadata_keyword_edited (GtkCellRendererText *renderer,
+				       gchar               *path,
+				       gchar               *new_text,
+				       DialogDocMetaData   *state)
+{
+	GtkTreeIter iter;
+	if (gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (state->key_store), &iter, path)) {
+		gtk_list_store_set (state->key_store, &iter, 0, new_text, -1);
+		dialog_doc_metadata_update_keywords_changed (state);
+	}
+}
+
+
+/**
+ * dialog_doc_metadata_init_keywords_page
+ *
+ * @state : dialog main struct
+ *
+ * Initializes the widgets and signals for the 'Description' page.
+ *
+ **/
+static void
+dialog_doc_metadata_init_keywords_page (DialogDocMetaData *state)
+{
+	GtkTreeViewColumn *column;
+	GtkCellRenderer   *renderer;
+	GtkTreeSelection *sel;
+	
+	g_return_if_fail (state->metadata != NULL);
+
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
+	column = gtk_tree_view_column_new_with_attributes (_("Keywords"),
+							   renderer,
+							   "text", 0,
+							   NULL);
+	gtk_tree_view_insert_column (state->key_tree_view, column, -1);
+
+	gtk_widget_set_sensitive (GTK_WIDGET (state->key_add_button), TRUE);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->key_remove_button), FALSE);
+
+	sel = gtk_tree_view_get_selection (state->key_tree_view);
+	g_signal_connect (G_OBJECT (sel),
+			  "changed",
+			  G_CALLBACK (cb_dialog_doc_metadata_keywords_sel_changed),
+			  state);
+	
+	g_signal_connect (G_OBJECT (state->key_add_button),
+			  "clicked",
+			  G_CALLBACK (cb_dialog_doc_metadata_keywords_add_clicked),
+			  state);
+	g_signal_connect (G_OBJECT (state->key_remove_button),
+			  "clicked",
+			  G_CALLBACK (cb_dialog_doc_metadata_keywords_remove_clicked),
+			  state);
+	g_signal_connect (G_OBJECT (renderer),
+			  "edited",
+			  G_CALLBACK (cb_dialog_doc_metadata_keyword_edited),
+			  state);
+
+	cb_dialog_doc_metadata_keywords_sel_changed (sel, state);
 }
 
 /******************************************************************************
@@ -923,7 +1146,8 @@ cb_dialog_doc_metadata_add_clicked (GtkWidget         *w,
 static void
 dialog_doc_metadata_update_prop (DialogDocMetaData *state,
 				 const gchar       *prop_name,
-				 const gchar       *prop_value)
+				 const gchar       *prop_value,
+				 GsfDocProp	   *prop)
 {
 	/* Labels */
 	if (strcmp (prop_name, GSF_META_NAME_DATE_CREATED) == 0) {
@@ -986,7 +1210,7 @@ dialog_doc_metadata_update_prop (DialogDocMetaData *state,
 	}
 
 	else if (strcmp (prop_name, GSF_META_NAME_KEYWORDS) == 0) {
-		gtk_entry_set_text (state->keywords, prop_value);
+		dialog_doc_metadata_update_keyword_list (state, prop);
 	}
 
 	else if (strcmp (prop_name, GSF_META_NAME_DESCRIPTION) == 0) {
@@ -1041,7 +1265,7 @@ cb_dialog_doc_metadata_remove_clicked (GtkWidget         *remove_bt,
 	/* Update other pages */
 	dialog_doc_metadata_update_prop (state,
 					 g_value_get_string (prop_name),
-					 NULL);
+					 NULL, NULL);
 
 	/* Remove property from GsfMetadata */
 	cmd_change_meta_data (WORKBOOK_CONTROL (state->wbcg), NULL,
@@ -1068,13 +1292,6 @@ cb_dialog_doc_metadata_remove_clicked (GtkWidget         *remove_bt,
 	/* Free all data */
 	g_value_unset (prop_name);
 	g_free (prop_name);
-}
-
-static void
-cb_dialog_doc_metadata_apply_clicked (GtkWidget         *w,
-				      DialogDocMetaData *state)
-{
-	gtk_widget_set_sensitive (GTK_WIDGET (state->apply_button), FALSE);
 }
 
 /**
@@ -1243,10 +1460,17 @@ dialog_doc_metadata_populate_tree_view (gchar             *name,
 				      link_value == NULL ? "" : link_value,
 				      FALSE);
 
-	dialog_doc_metadata_update_prop (state, gsf_doc_prop_get_name (prop), str_value);
+	dialog_doc_metadata_update_prop (state, gsf_doc_prop_get_name (prop), str_value, prop);
 
 	g_free (str_value);
 }
+
+static void cb_dialog_doc_metadata_apply_clicked (GtkWidget         *w,
+						DialogDocMetaData *state)
+{
+	gtk_widget_set_sensitive (GTK_WIDGET (state->apply_button), FALSE);
+}
+
 
 /**
  * dialog_doc_metadata_init_properties_page
@@ -1531,7 +1755,6 @@ dialog_doc_metadata_init_widgets (DialogDocMetaData *state)
 	state->manager  = GTK_ENTRY (go_gtk_builder_get_widget (state->gui, "manager"));
 	state->company  = GTK_ENTRY (go_gtk_builder_get_widget (state->gui, "company"));
 	state->category = GTK_ENTRY (go_gtk_builder_get_widget (state->gui, "category"));
-	state->keywords = GTK_ENTRY (go_gtk_builder_get_widget (state->gui, "keywords"));
 
 	state->comments = GTK_TEXT_VIEW (go_gtk_builder_get_widget (state->gui, "comments"));
 
@@ -1545,6 +1768,12 @@ dialog_doc_metadata_init_widgets (DialogDocMetaData *state)
 	state->add_button    = GTK_BUTTON (go_gtk_builder_get_widget (state->gui, "add_button"));
 	state->remove_button = GTK_BUTTON (go_gtk_builder_get_widget (state->gui, "remove_button"));
 	state->apply_button  = GTK_BUTTON (go_gtk_builder_get_widget (state->gui, "apply_button"));
+
+	/* Keyword Page */
+	state->key_tree_view = GTK_TREE_VIEW  (go_gtk_builder_get_widget (state->gui, "keyview"));
+	state->key_store = GTK_LIST_STORE (gtk_tree_view_get_model (state->key_tree_view));
+	state->key_add_button  = GTK_BUTTON (go_gtk_builder_get_widget (state->gui, "key-add-button"));
+	state->key_remove_button  = GTK_BUTTON (go_gtk_builder_get_widget (state->gui, "key-remove-button"));
 
 	/* Statistics Page */
 	state->sheets = GTK_LABEL (go_gtk_builder_get_widget (state->gui, "sheets"));
@@ -1600,6 +1829,7 @@ static page_info_t const page_info[] = {
 	{N_("Statistics"),  "Gnumeric_GraphGuru", NULL, 3 ,&dialog_doc_metadata_init_statistics_page    },
 	{N_("Properties"),  GTK_STOCK_PROPERTIES, NULL, 2, &dialog_doc_metadata_init_properties_page    },
 	{N_("Description"), GTK_STOCK_ABOUT,	  NULL, 1, &dialog_doc_metadata_init_description_page   },
+	{N_("Keywords"),    GTK_STOCK_INDEX,	  NULL, 5, &dialog_doc_metadata_init_keywords_page   },
 	{N_("Calculation"), GTK_STOCK_EXECUTE,    NULL, 4, &dialog_doc_metadata_init_calculations_page  },
 	{NULL, NULL, NULL, -1, NULL},
 };
