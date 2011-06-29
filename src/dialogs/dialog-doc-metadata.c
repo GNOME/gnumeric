@@ -114,6 +114,7 @@ typedef struct {
 	GtkTreeStore		*properties_store;
 
 	GtkEntry	        *ppt_name;
+	GtkEntry	        *ppt_value;
 	GtkComboBox		*ppt_type;
 	GtkListStore            *type_store;
 
@@ -121,6 +122,7 @@ typedef struct {
 	GtkButton		*remove_button;
 
 	GtkLabel                *instruction;
+	GtkLabel                *warning;
 
 	/* Keyword Page */
 	GtkTreeView             *key_tree_view;
@@ -1140,8 +1142,6 @@ cb_dialog_doc_metadata_value_edited (GtkCellRendererText *renderer,
 	}
 }
 
-
-
 /**
  * cb_dialog_doc_metadata_add_clicked
  *
@@ -1155,10 +1155,15 @@ static void
 cb_dialog_doc_metadata_add_clicked (GtkWidget         *w,
 				    DialogDocMetaData *state)
 {
-	g_return_if_fail (state->metadata != NULL);
+	const gchar *name = gtk_entry_get_text (state->ppt_name);
+	const gchar *value = gtk_entry_get_text (state->ppt_value);
+	gchar *name_trimmed = pango_trim_string (name);
+	GType t;
 
-	/* Create a new entry in Tree View and Combo Box */
-	dialog_doc_metadata_add_prop (state, "<Name>", "<Value>", "", G_TYPE_INVALID);
+	t = dialog_doc_metadata_get_value_type_from_name (name_trimmed);
+	dialog_doc_metadata_add_prop (state, name_trimmed, value, NULL, t);
+
+	g_free (name_trimmed);
 }
 
 /**
@@ -1171,6 +1176,7 @@ cb_dialog_doc_metadata_add_clicked (GtkWidget         *w,
  * Updates a label or a entry text with the new value.
  *
  **/
+
 static void
 dialog_doc_metadata_update_prop (DialogDocMetaData *state,
 				 const gchar       *prop_name,
@@ -1421,6 +1427,50 @@ dialog_doc_metadata_populate_tree_view (gchar             *name,
 	g_free (str_value);
 }
 
+static gboolean
+cb_dialog_doc_metadata_ppt_changed (GtkEntry          *entry,
+				    GdkEventFocus     *event,
+				    DialogDocMetaData *state)
+{
+	const gchar *name = gtk_entry_get_text (state->ppt_name);
+	const gchar *value = gtk_entry_get_text (state->ppt_value);
+	gchar *name_trimmed = pango_trim_string (name);
+	gboolean enable = !(strlen (name_trimmed) == 0 
+			    || strlen (value) == 0);
+	gchar *str = NULL;
+	GsfDocProp *prop = NULL;
+
+	prop = gsf_doc_meta_data_lookup (state->metadata, name_trimmed);
+
+	if (enable) {
+		if (prop != NULL) {
+			str = g_strdup_printf 
+				(_("A document property with the name \'%s\' already exists."), 
+				 name_trimmed);
+			enable = FALSE;
+		} else {
+			GType t = dialog_doc_metadata_get_value_type_from_name (name_trimmed);
+			if (t == GSF_DOCPROP_VECTOR_TYPE) {
+				str = g_strdup_printf 
+					(_("Use the keywords tab to create this property."));
+				enable = FALSE;
+			} else if (t != G_TYPE_STRING) {
+				str = g_strdup_printf 
+					(_("The document property named \'%s\' is not "
+					   "of string type."), 
+					 name_trimmed );
+				enable = FALSE;
+			}
+		}
+	}
+
+	gtk_widget_set_sensitive (GTK_WIDGET (state->add_button), enable);
+	gtk_label_set_text (state->warning, str ? str : "");
+	g_free (str);
+	g_free (name_trimmed);
+	return FALSE;
+}
+
 
 /**
  * dialog_doc_metadata_init_properties_page
@@ -1443,7 +1493,6 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 	gtk_widget_set_sensitive (GTK_WIDGET (state->add_button), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->remove_button), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->ppt_type), FALSE);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->ppt_name), FALSE);
 
 	/* Intialize Combo Box */
 	/* gtk_combo_box_set_id_column (state->ppt_type, 0); */
@@ -1504,6 +1553,14 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 			  state);
 
 	/* Entries */
+	g_signal_connect (G_OBJECT (state->ppt_name),
+			  "focus-out-event",
+			  G_CALLBACK (cb_dialog_doc_metadata_ppt_changed),
+			  state);
+	g_signal_connect (G_OBJECT (state->ppt_value),
+			  "focus-out-event",
+			  G_CALLBACK (cb_dialog_doc_metadata_ppt_changed),
+			  state);
 
 	/* 'Add', 'Remove' and 'Apply' Button Signals */
 	g_signal_connect (G_OBJECT (state->add_button),
@@ -1715,12 +1772,14 @@ dialog_doc_metadata_init_widgets (DialogDocMetaData *state)
 	state->properties = GTK_TREE_VIEW (go_gtk_builder_get_widget (state->gui, "properties"));
 
 	state->ppt_name  = GTK_ENTRY (go_gtk_builder_get_widget (state->gui, "property-name"));
+	state->ppt_value  = GTK_ENTRY (go_gtk_builder_get_widget (state->gui, "property-value"));
 	state->ppt_type  = GTK_COMBO_BOX (go_gtk_builder_get_widget (state->gui, "type-combo"));
 	state->type_store = GTK_LIST_STORE (gtk_combo_box_get_model (state->ppt_type));
 
 	state->add_button    = GTK_BUTTON (go_gtk_builder_get_widget (state->gui, "add_button"));
 	state->remove_button = GTK_BUTTON (go_gtk_builder_get_widget (state->gui, "remove_button"));
 	state->instruction   = GTK_LABEL (go_gtk_builder_get_widget (state->gui, "instruction-label"));
+	state->warning   = GTK_LABEL (go_gtk_builder_get_widget (state->gui, "warning"));
 
 	/* Keyword Page */
 	state->key_tree_view = GTK_TREE_VIEW  (go_gtk_builder_get_widget (state->gui, "keyview"));

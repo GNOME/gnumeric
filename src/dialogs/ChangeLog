@@ -1,5 +1,14 @@
 2011-06-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* doc-meta-data.ui: add value entry and warning label
+	* dialog-doc-metadata.c (cb_dialog_doc_metadata_value_edited): new
+	(cb_dialog_doc_metadata_add_clicked): implement
+	(cb_dialog_doc_metadata_ppt_changed): new
+	(dialog_doc_metadata_init_properties_page): connect callbacks
+	(dialog_doc_metadata_init_widgets): handle new widgets
+	
+2011-06-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* doc-meta-data.ui: really remove keywords from description tab
 	* dialog-doc-metadata.c (dialog_doc_metadata_get_value_type): new
 	(dialog_doc_metadata_get_value_type_from_name): new
