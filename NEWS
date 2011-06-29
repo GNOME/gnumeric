@@ -6,6 +6,7 @@ Andreas:
 	* Write and read some document properties to and from XLSX.
 	* Fix xlsx schema violations.
 	* Fix keyword handling in properties dialog. [#653378]
+	* Allow document properties to be edited.
 
 Morten:
 	* Fix --with-gnome compilation:  [#652802]

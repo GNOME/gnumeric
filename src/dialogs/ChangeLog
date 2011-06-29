@@ -1,3 +1,18 @@
+2011-06-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* doc-meta-data.ui: really remove keywords from description tab
+	* dialog-doc-metadata.c (dialog_doc_metadata_get_value_type): new
+	(dialog_doc_metadata_get_value_type_from_name): new
+	(dialog_doc_metadata_add_prop): add argument, change all callers
+	and store more info
+	(dialog_doc_metadata_get_gsf_prop_val_type): use the *_get_value_type*
+	(dialog_doc_metadata_set_gsf_prop): fix property comparison
+	(dialog_doc_metadata_set_prop): use the converted string to show
+	(cb_dialog_doc_metadata_value_edited): new
+	(cb_dialog_doc_metadata_tree_prop_selected): set instruction label
+	(dialog_doc_metadata_init_properties_page): use more columns in the
+	store and set some info editable
+
 2011-06-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* doc-meta-data.ui: name the instruction label

@@ -145,6 +145,47 @@ typedef struct {
 
 static gchar *dialog_doc_metadata_get_prop_val (char const *prop_name, GValue *prop_value);
 
+static GType
+dialog_doc_metadata_get_value_type_from_name (gchar const *name)
+{
+	GType val_type;
+	if (0 == strcmp (name, GSF_META_NAME_KEYWORDS))
+		val_type = GSF_DOCPROP_VECTOR_TYPE;
+	else
+		/* FIXME: At this moment, we will assume a G_TYPE_STRING */
+		val_type = G_TYPE_STRING;
+	return val_type;
+}
+
+static GType
+dialog_doc_metadata_get_value_type (GValue *value)
+{
+	GType val_type = G_VALUE_TYPE (value);
+
+	switch (val_type) {
+	case G_TYPE_INT:
+	case G_TYPE_UINT:
+	case G_TYPE_STRING:
+	case G_TYPE_BOOLEAN:
+		/* Just leave it as is */
+		break;
+
+	default:
+		/* Check if it is a GsfDocPropVector or GsfTimeStamp */
+		{
+			if (VAL_IS_GSF_TIMESTAMP (value))
+				val_type = GSF_TIMESTAMP_TYPE;
+			else if (VAL_IS_GSF_DOCPROP_VECTOR (value))
+				val_type = GSF_DOCPROP_VECTOR_TYPE;
+			else
+				val_type = G_TYPE_INVALID;
+
+			break;
+		}
+	}
+	return val_type;
+}
+
 
 /******************************************************************************
  * G_VALUE TRANSFORM FUNCTIONS
@@ -515,8 +556,12 @@ static void
 dialog_doc_metadata_add_prop (DialogDocMetaData *state,
 			      const gchar       *name,
 			      const gchar       *value,
-			      const gchar       *link)
+			      const gchar       *link,
+			      GType              val_type)
 {
+	gboolean editable = (val_type != G_TYPE_INVALID) 
+		&& (val_type != GSF_DOCPROP_VECTOR_TYPE)
+		&& (val_type != GSF_TIMESTAMP_TYPE);
 	if (value == NULL)
 		value = "";
 
@@ -528,6 +573,8 @@ dialog_doc_metadata_add_prop (DialogDocMetaData *state,
 					   0, name,
 					   1, value,
 					   2, link,
+					   3, editable,
+					   4, val_type,
 					   -1);
 }
 
@@ -548,47 +595,9 @@ dialog_doc_metadata_get_gsf_prop_val_type (DialogDocMetaData *state,
 		value = (GValue *) gsf_doc_prop_get_val (prop);
 
 	if (value != NULL) {
-		val_type = G_VALUE_TYPE (value);
-
-		switch (val_type) {
-			case G_TYPE_INT:
-			case G_TYPE_UINT:
-			case G_TYPE_STRING:
-				/* Just leave it as is */
-				break;
-
-			case G_TYPE_BOXED:
-				{
-				/* Check if it is really a GsfTimeStamp */
-					GsfTimestamp *timestamp;
-					timestamp = (GsfTimestamp *) g_value_get_boxed (value);
-
-					if (VAL_IS_GSF_TIMESTAMP (timestamp))
-						val_type = GSF_TIMESTAMP_TYPE;
-					else
-						val_type = G_TYPE_INVALID;
-
-					break;
-				}
-
-			default:
-				/* Check if it is a GsfDocPropVector */
-				{
-					if (VAL_IS_GSF_DOCPROP_VECTOR (value))
-						val_type = GSF_DOCPROP_VECTOR_TYPE;
-					else
-						val_type = G_TYPE_INVALID;
-
-					break;
-				}
-		}
-	}
-	else {
-		if (0 == strcmp (name, GSF_META_NAME_KEYWORDS))
-			val_type = GSF_DOCPROP_VECTOR_TYPE;
-		else
-		/* FIXME: At this moment, we will assume a G_TYPE_STRING */
-			val_type = G_TYPE_STRING;
+		val_type = dialog_doc_metadata_get_value_type (value);
+	} else {
+		val_type = dialog_doc_metadata_get_value_type_from_name (name);
 	}
 
 	return val_type;
@@ -619,7 +628,7 @@ dialog_doc_metadata_set_gsf_prop_val (DialogDocMetaData *state,
  * Sets a new value to the property in the GsfDocMetaData struct
  *
  **/
-static void
+static GType
 dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 				  const gchar       *name,
 				  const gchar       *value,
@@ -637,14 +646,18 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 		existing_link  = gsf_doc_prop_get_link (existing_prop);
 	}
 
-	if (((value == NULL) || (*value == 0)) &&
-	    ((link == NULL) || (*link == 0))) {
-		if ((existing_prop == NULL) || ((existing_value == NULL) && (existing_link == NULL)))
-			return;
+	if (link != NULL && *link == 0)
+		link = NULL;
+	if (value != NULL && *value == 0)
+		value = NULL;
+	if ((value == NULL) && (link == NULL)) {
+		if ((existing_prop == NULL) || 
+		    ((existing_value == NULL) && (existing_link == NULL)))
+			return G_TYPE_INVALID;
 		else {
 			cmd_change_meta_data (WORKBOOK_CONTROL (state->wbcg), NULL,
 					      g_slist_prepend (NULL, g_strdup (name)));
-			return;
+			return G_TYPE_INVALID;
 		}
 	}
 
@@ -652,21 +665,29 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 		gboolean    link_changed;
 		gboolean    value_changed = TRUE;
 
-		link_changed = ((link != NULL && *link != 0) && !(existing_link != NULL && *existing_link != 0))
-			|| (!(link != NULL && *link != 0) && (existing_link != NULL && *existing_link != 0))
-			|| !((link == NULL && existing_link == NULL) || (0 == strcmp (link, existing_link)));
+		if (existing_link!= NULL && *existing_link == 0)
+			existing_link = NULL;
+		if (link == existing_link)
+			link_changed = FALSE;
+		else if (link == NULL || existing_link == NULL)
+			link_changed = TRUE;
+		else
+			link_changed = (0 != strcmp (link, existing_link));
+		
 		if (existing_value == NULL)
-			value_changed = ((value != NULL) && (*value != 0));
+			value_changed = (value != NULL);
 		else if (G_VALUE_HOLDS_STRING (existing_value)) {
 			char const * existing_val_str = g_value_get_string (existing_value);
-			value_changed = ((existing_val_str == NULL || *existing_val_str == 0) &&
-					 !(value == NULL || *value == 0)) ||
-				(!(existing_val_str == NULL || *existing_val_str == 0) &&
-				 (value == NULL || *value == 0)) ||
-				!((existing_val_str == NULL && value == NULL) ||
-				  0 == strcmp (existing_val_str, value));
+			if (existing_val_str != NULL && *existing_val_str == 0)
+				existing_val_str = NULL;
+			if (value == existing_val_str)
+				value_changed = FALSE;
+			else if (value == NULL || existing_val_str == NULL)
+				value_changed = TRUE;
+			else
+				value_changed = (0 != strcmp (value, existing_val_str));
 			if (!link_changed && !value_changed)
-				return;
+				return G_TYPE_STRING;
 		}
 	}
 
@@ -692,6 +713,8 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 
 	cmd_change_meta_data (WORKBOOK_CONTROL (state->wbcg),
 			      g_slist_prepend (NULL, doc_prop), NULL);
+
+	return val_type;
 }
 
 /**
@@ -715,8 +738,23 @@ dialog_doc_metadata_set_prop (DialogDocMetaData *state,
 	GValue      *value;
 	gboolean    ret;
 	gboolean    found;
+	GType       val_type;
+	GsfDocProp *updated_prop;
+	gchar      *new_prop_value = NULL;
 
 	g_return_if_fail (state->metadata != NULL);
+
+	val_type = dialog_doc_metadata_set_gsf_prop (state, prop_name, prop_value, link_value);
+
+	/* Due to changes in type, prop_value may have changed */
+	updated_prop = gsf_doc_meta_data_lookup (state->metadata, prop_name);
+	if (updated_prop != NULL) {
+		GValue *new_value = (GValue *) gsf_doc_prop_get_val (updated_prop);
+		if (new_value != NULL)
+			new_prop_value = dialog_doc_metadata_get_prop_val (prop_name, new_value);
+	}
+	if (new_prop_value == NULL)
+		new_prop_value = g_strdup ("");
 
 	found = FALSE;
 
@@ -734,17 +772,22 @@ dialog_doc_metadata_set_prop (DialogDocMetaData *state,
 					  value);
 
 		if (strcmp (prop_name, g_value_get_string (value)) == 0) {
-			/* Set new value */
-			gtk_tree_store_set (state->properties_store,
-					    &tree_iter,
-					    1, prop_value,
-					    -1);
-
-			if (link_value != NULL)
+			if (updated_prop != NULL) { 
+				/* Set new value */
 				gtk_tree_store_set (state->properties_store,
 						    &tree_iter,
-						    2, link_value,
-						    -1);
+						    1, new_prop_value,
+					    -1);
+				
+				if (link_value != NULL)
+					gtk_tree_store_set (state->properties_store,
+							    &tree_iter,
+							    2, link_value,
+							    -1);
+			} else
+				/* Clear value */
+				gtk_tree_store_remove (state->properties_store,
+						       &tree_iter);
 
 			g_value_unset (value);
 
@@ -757,17 +800,12 @@ dialog_doc_metadata_set_prop (DialogDocMetaData *state,
 						&tree_iter);
 	}
 
-	if (!(((prop_value == NULL) || (*prop_value == 0)) &&
-	      ((link_value == NULL) || (*link_value == 0)))) {
-		/* If the property was not found create it */
-		if (found == FALSE)
-			dialog_doc_metadata_add_prop (state, prop_name, prop_value, "");
-	}
-
-	dialog_doc_metadata_set_gsf_prop (state, prop_name, prop_value, link_value);
+	if (val_type != G_TYPE_INVALID && found == FALSE)
+		dialog_doc_metadata_add_prop (state, prop_name, prop_value, "", val_type);
 
 	/* Free all data */
 	g_free (value);
+	g_free (new_prop_value );
 }
 
 /**
@@ -1079,6 +1117,31 @@ dialog_doc_metadata_init_keywords_page (DialogDocMetaData *state)
  * FUNCTIONS RELATED TO 'PROPERTIES' PAGE
  ******************************************************************************/
 
+static void
+cb_dialog_doc_metadata_value_edited (GtkCellRendererText *renderer,
+				       gchar               *path,
+				       gchar               *new_text,
+				       DialogDocMetaData   *state)
+{
+	GtkTreeIter iter;
+	if (gtk_tree_model_get_iter_from_string 
+	    (GTK_TREE_MODEL (state->properties_store), &iter, path)) {
+		gchar       *prop_name;
+		gchar       *link_value;
+		
+		gtk_tree_model_get (GTK_TREE_MODEL (state->properties_store),
+				    &iter,
+				    0, &prop_name,
+				    2, &link_value,
+				    -1);
+		dialog_doc_metadata_set_prop (state, prop_name, new_text, link_value);
+		g_free (prop_name);
+		g_free (link_value);
+	}
+}
+
+
+
 /**
  * cb_dialog_doc_metadata_add_clicked
  *
@@ -1095,7 +1158,7 @@ cb_dialog_doc_metadata_add_clicked (GtkWidget         *w,
 	g_return_if_fail (state->metadata != NULL);
 
 	/* Create a new entry in Tree View and Combo Box */
-	dialog_doc_metadata_add_prop (state, "<Name>", "<Value>", "");
+	dialog_doc_metadata_add_prop (state, "<Name>", "<Value>", "", G_TYPE_INVALID);
 }
 
 /**
@@ -1250,13 +1313,43 @@ static void
 cb_dialog_doc_metadata_tree_prop_selected (GtkTreeSelection  *selection,
 					   DialogDocMetaData *state)
 {
+	GtkTreeIter iter;
+	gboolean selected;
+	gchar const *text = "";
+
 	g_return_if_fail (state->metadata != NULL);	
 
-	/* Set remove button sensitive */
-	gtk_widget_set_sensitive (GTK_WIDGET (state->remove_button),
-				  gtk_tree_selection_get_selected (selection, NULL, NULL));
+	selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
-	gtk_label_set_text (state->instruction, "");
+	/* Set remove button sensitive */
+	gtk_widget_set_sensitive (GTK_WIDGET (state->remove_button), selected);
+
+	if (selected) {
+		GType val_type = G_TYPE_INVALID;
+		gtk_tree_model_get (GTK_TREE_MODEL (state->properties_store),
+				    &iter,
+				    4, &val_type,
+				    -1);
+		switch (val_type) {
+		case G_TYPE_STRING:
+			text = _("Edit string value directly in above listing.");
+			break;
+		case G_TYPE_INT:
+			text = _("Edit integer value directly in above listing.");
+			break;
+		case G_TYPE_BOOLEAN:
+			text = _("Edit TRUE/FALSE value directly in above listing.");
+			break;
+		default:
+			if (val_type == GSF_DOCPROP_VECTOR_TYPE)
+				text = _("To edit, use the keywords tab.");
+			else if (val_type == GSF_TIMESTAMP_TYPE)
+				text = _("Value cannot be edited.");
+			break;
+		}
+	}
+
+	gtk_label_set_text (state->instruction, text);
 }
 
 /**
@@ -1306,19 +1399,23 @@ dialog_doc_metadata_populate_tree_view (gchar             *name,
 {
 	gchar  *str_value;
 	char   *link_value;
+	GValue *value;
 
 	g_return_if_fail (state->metadata != NULL);
 
+	value = (GValue *) gsf_doc_prop_get_val (prop);
 	/* Get the prop value as string */
-	str_value = dialog_doc_metadata_get_prop_val (name, (GValue *) gsf_doc_prop_get_val (prop));
+	str_value = dialog_doc_metadata_get_prop_val (name, value);
 
 	link_value = (char *) gsf_doc_prop_get_link (prop);
 
-	dialog_doc_metadata_add_prop (state,
-				      gsf_doc_prop_get_name (prop),
-				      str_value == NULL ? "" : str_value,
-				      link_value == NULL ? "" : link_value);
-
+	dialog_doc_metadata_add_prop 
+		(state,
+		 gsf_doc_prop_get_name (prop),
+		 str_value == NULL ? "" : str_value,
+		 link_value == NULL ? "" : link_value,
+		 dialog_doc_metadata_get_value_type (value));
+	
 	dialog_doc_metadata_update_prop (state, gsf_doc_prop_get_name (prop), str_value, prop);
 
 	g_free (str_value);
@@ -1355,13 +1452,17 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->ppt_type), cell, "text", 0, NULL);
 
 	/* Populate Treeview */
-	state->properties_store = gtk_tree_store_new (3,
+	state->properties_store = gtk_tree_store_new (5,
 						      G_TYPE_STRING,
 						      G_TYPE_STRING,
-						      G_TYPE_STRING);
+						      G_TYPE_STRING,
+						      G_TYPE_BOOLEAN,
+						      G_TYPE_INT);
 
 	gtk_tree_view_set_model (state->properties,
 				 GTK_TREE_MODEL (state->properties_store));
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (state->properties_store), 
+					      0, GTK_SORT_ASCENDING);
 	g_object_unref (state->properties_store);
 
 	/* Append Columns */
@@ -1371,16 +1472,22 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 						     "text", 0,
 						     NULL);
 
+	cell =  gtk_cell_renderer_text_new();
 	gtk_tree_view_insert_column_with_attributes (state->properties,
 						     1, _("Value"),
-						     gtk_cell_renderer_text_new(),
+						     cell,
 						     "text", 1,
+						     "editable", 3,
 						     NULL);
+	g_signal_connect (G_OBJECT (cell),
+			  "edited",
+			  G_CALLBACK (cb_dialog_doc_metadata_value_edited),
+			  state);
 
 	gtk_tree_view_insert_column_with_attributes (state->properties,
 						     2, _("Linked To"),
 						     gtk_cell_renderer_text_new(),
-					     "text", 2,
+						     "text", 2,
 						     NULL);
 
 	/* Read all metadata */
