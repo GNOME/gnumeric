@@ -32,6 +32,7 @@
 #include <parse-util.h>
 #include <value.h>
 #include <commands.h>
+#include <number-match.h>
 
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-meta-names.h>
@@ -145,7 +146,8 @@ typedef struct {
 
 } DialogDocMetaData;
 
-static gchar *dialog_doc_metadata_get_prop_val (char const *prop_name, GValue *prop_value);
+static gchar *dialog_doc_metadata_get_prop_val (DialogDocMetaData *state, char const *prop_name, 
+						GValue *prop_value);
 
 static GType
 dialog_doc_metadata_get_value_type_from_name (gchar const *name)
@@ -196,14 +198,45 @@ dialog_doc_metadata_get_value_type (GValue *value)
 /*
  * G_TYPE_STRING TO OTHER
  */
+
 static void
 dialog_doc_metadata_transform_str_to_timestamp (const GValue *string_value,
 						GValue       *timestamp_value)
 {
+	time_t s;
+	gnm_float serial;
+	gint int_serial;
+	GsfTimestamp *gt;
+	gchar const *str;
+	GnmValue *conversion;
+	GOFormat *fmt;
+
 	g_return_if_fail (G_VALUE_HOLDS_STRING (string_value));
 	g_return_if_fail (VAL_IS_GSF_TIMESTAMP (timestamp_value));
 
-	/* TODO */
+	fmt = go_format_new_from_XL ("yyyy-mm-dd hh:mm:ss");
+	str = g_value_get_string (string_value);
+	conversion = format_match_number (str, fmt, NULL);
+	go_format_unref (fmt);
+	if (conversion) {
+		serial = value_get_as_float (conversion);
+		value_release (conversion);
+
+		/* Convert from Gnumeric time to unix time */
+		int_serial = (int)serial;
+		s = go_date_serial_to_timet (int_serial, NULL);
+
+		if (gnm_abs (serial - int_serial) >= 1.0 || s == (time_t)-1) {
+			s = time (NULL);
+		} else
+			s += (gnm_fake_round (3600 * 24 * (serial - int_serial)));
+
+	} else
+		s  = time (NULL);
+
+	gt = gsf_timestamp_new ();
+	gsf_timestamp_set_time (gt, s);
+	gsf_value_set_timestamp (timestamp_value, gt);
 }
 
 static void
@@ -259,15 +292,34 @@ time2str (time_t t)
 	char buffer[4000];
 	gsize len;
 	char const *format = "%c";
-
-	if (t == -1)
-		return NULL;
-
+ 
+        if (t == -1)
+                return NULL;
+ 
 	len = strftime (buffer, sizeof (buffer), format, localtime (&t));
 	if (len == 0)
 		return NULL;
 
 	return g_locale_to_utf8 (buffer, len, NULL, NULL, NULL);
+}
+
+static char *
+time2str_go (time_t t)
+{
+	/* We need to create a format that is also parsable */
+	char *str;
+	GOFormat *fmt;
+	gnm_float t_gnm;
+
+	if (t == -1)
+		return NULL;
+
+	t_gnm = go_date_timet_to_serial_raw (t, NULL);
+
+	fmt = go_format_new_from_XL ("yyyy-mm-dd hh:mm:ss");
+	str = go_format_value (fmt, t_gnm);
+	go_format_unref (fmt);
+	return str;
 }
 
 /*
@@ -285,7 +337,7 @@ dialog_doc_metadata_transform_timestamp_to_str (const GValue *timestamp_value,
 	timestamp = g_value_get_boxed (timestamp_value);
 	if (timestamp != NULL)
 		g_value_take_string (string_value,
-				     time2str (timestamp->timet));
+				     time2str_go (timestamp->timet));
 }
 
 static gchar*
@@ -562,8 +614,7 @@ dialog_doc_metadata_add_prop (DialogDocMetaData *state,
 			      GType              val_type)
 {
 	gboolean editable = (val_type != G_TYPE_INVALID) 
-		&& (val_type != GSF_DOCPROP_VECTOR_TYPE)
-		&& (val_type != GSF_TIMESTAMP_TYPE);
+		&& (val_type != GSF_DOCPROP_VECTOR_TYPE);
 	if (value == NULL)
 		value = "";
 
@@ -753,7 +804,7 @@ dialog_doc_metadata_set_prop (DialogDocMetaData *state,
 	if (updated_prop != NULL) {
 		GValue *new_value = (GValue *) gsf_doc_prop_get_val (updated_prop);
 		if (new_value != NULL)
-			new_prop_value = dialog_doc_metadata_get_prop_val (prop_name, new_value);
+			new_prop_value = dialog_doc_metadata_get_prop_val (state, prop_name, new_value);
 	}
 	if (new_prop_value == NULL)
 		new_prop_value = g_strdup ("");
@@ -990,7 +1041,7 @@ dialog_doc_metadata_update_keywords_changed (DialogDocMetaData *state)
 
 	dialog_doc_metadata_set_prop 
 		(state, GSF_META_NAME_KEYWORDS, 
-		 dialog_doc_metadata_get_prop_val (GSF_META_NAME_KEYWORDS, &val), NULL);
+		 dialog_doc_metadata_get_prop_val (state, GSF_META_NAME_KEYWORDS, &val), NULL);
 
 	g_value_unset (&val);
 }
@@ -1350,7 +1401,7 @@ cb_dialog_doc_metadata_tree_prop_selected (GtkTreeSelection  *selection,
 			if (val_type == GSF_DOCPROP_VECTOR_TYPE)
 				text = _("To edit, use the keywords tab.");
 			else if (val_type == GSF_TIMESTAMP_TYPE)
-				text = _("Value cannot be edited.");
+				text= _("Edit timestamp directly in above listing.");
 			break;
 		}
 	}
@@ -1368,7 +1419,8 @@ cb_dialog_doc_metadata_tree_prop_selected (GtkTreeSelection  *selection,
  *
  **/
 static gchar *
-dialog_doc_metadata_get_prop_val (char const *prop_name,
+dialog_doc_metadata_get_prop_val (DialogDocMetaData *state,
+				  char const *prop_name,
 				  GValue     *prop_value)
 {
 	GValue str_value = { 0 };
@@ -1411,7 +1463,7 @@ dialog_doc_metadata_populate_tree_view (gchar             *name,
 
 	value = (GValue *) gsf_doc_prop_get_val (prop);
 	/* Get the prop value as string */
-	str_value = dialog_doc_metadata_get_prop_val (name, value);
+	str_value = dialog_doc_metadata_get_prop_val (state, name, value);
 
 	link_value = (char *) gsf_doc_prop_get_link (prop);
 
