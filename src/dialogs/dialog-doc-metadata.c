@@ -247,6 +247,28 @@ dialog_doc_metadata_transform_str_to_timestamp (const GValue *string_value,
 }
 
 static void
+dialog_doc_metadata_transform_str_to_float (const GValue *string_value,
+					    GValue       *float_value)
+{
+	gnm_float x;
+	gchar const *str;
+	GnmValue *conversion;
+
+	g_return_if_fail (G_VALUE_HOLDS_STRING (string_value));
+	g_return_if_fail (G_VALUE_HOLDS_FLOAT (float_value));
+	
+	str = g_value_get_string (string_value);
+	conversion = format_match_number (str, NULL, NULL);
+	if (conversion) {
+		x = value_get_as_float (conversion);
+		value_release (conversion);		
+	} else
+		x = 0.;
+
+	g_value_set_float (float_value, x);
+}
+
+static void
 dialog_doc_metadata_transform_str_to_docprop_vect (const GValue *string_value,
 						   GValue       *docprop_value)
 {
@@ -345,6 +367,24 @@ dialog_doc_metadata_transform_timestamp_to_str (const GValue *timestamp_value,
 	if (timestamp != NULL)
 		g_value_take_string (string_value,
 				     time2str_go (timestamp->timet));
+}
+
+static void
+dialog_doc_metadata_transform_float_to_str (const GValue *float_value,
+					    GValue       *string_value)
+{
+	gnm_float x;
+	char *str;
+	GOFormat *fmt;
+
+	g_return_if_fail (G_VALUE_HOLDS_FLOAT (float_value));
+	g_return_if_fail (G_VALUE_HOLDS_STRING (string_value));
+
+	x = g_value_get_float (float_value);
+
+	fmt = go_format_general ();
+	str = go_format_value (fmt, x);
+	g_value_take_string (string_value, str);
 }
 
 static gchar*
@@ -1195,13 +1235,15 @@ cb_dialog_doc_metadata_value_edited (GtkCellRendererText *renderer,
 	    (GTK_TREE_MODEL (state->properties_store), &iter, path)) {
 		gchar       *prop_name;
 		gchar       *link_value;
+		GType        type;
 		
 		gtk_tree_model_get (GTK_TREE_MODEL (state->properties_store),
 				    &iter,
 				    0, &prop_name,
 				    2, &link_value,
+				    4, &type,
 				    -1);
-		dialog_doc_metadata_set_prop (state, prop_name, new_text, link_value, 0);
+		dialog_doc_metadata_set_prop (state, prop_name, new_text, link_value, type);
 		g_free (prop_name);
 		g_free (link_value);
 	}
@@ -1579,7 +1621,7 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 	} ppt_types[] = {
 		{N_("String"), G_TYPE_STRING},
 		{N_("Integer"), G_TYPE_INT},
-		/* {N_("Decimal Number"), G_TYPE_FLOAT}, */
+		{N_("Decimal Number"), G_TYPE_FLOAT},
 		{N_("TRUE/FALSE"), G_TYPE_BOOLEAN}
 	};
 
@@ -2074,6 +2116,10 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 					 dialog_doc_metadata_transform_str_to_timestamp);
 
 	g_value_register_transform_func (G_TYPE_STRING,
+					 G_TYPE_FLOAT,
+					 dialog_doc_metadata_transform_str_to_float);
+
+	g_value_register_transform_func (G_TYPE_STRING,
 					 GSF_DOCPROP_VECTOR_TYPE,
 					 dialog_doc_metadata_transform_str_to_docprop_vect);
 
@@ -2085,6 +2131,9 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 					 G_TYPE_STRING,
 					 dialog_doc_metadata_transform_docprop_vect_to_str);
 
+	g_value_register_transform_func (G_TYPE_FLOAT,
+					 G_TYPE_STRING,
+					 dialog_doc_metadata_transform_float_to_str);
 
 	for (i = 0; page_info[i].page > -1; i++) {
 		const page_info_t *this_page =  &page_info[i];

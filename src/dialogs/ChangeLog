@@ -1,5 +1,13 @@
 2011-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-doc-metadata.c (dialog_doc_metadata_transform_str_to_float): new
+	(dialog_doc_metadata_transform_float_to_str): new
+	(cb_dialog_doc_metadata_value_edited):preserve type
+	(dialog_doc_metadata_init_properties_page): allow decimal properties
+	(dialog_doc_metadata_init): register above transforms
+
+2011-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* doc-meta-data.ui: add GtkTreeModelFilter
 	* dialog-doc-metadata.c (dialog_doc_metadata_set_gsf_prop): add
 	argument change all callers
