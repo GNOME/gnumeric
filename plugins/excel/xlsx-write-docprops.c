@@ -160,7 +160,7 @@ xlsx_map_prop_name_to_output_fun (char const *name)
 			{ "xlsx:HyperlinksChanged",         xlsx_map_to_bool},
 			{ GSF_META_NAME_LINE_COUNT,         xlsx_map_to_int},
 			{ GSF_META_NAME_LINKS_DIRTY,        xlsx_map_to_bool},
-			{ "xlsx:MMClips",                   xlsx_map_to_int},
+			{ GSF_META_NAME_MM_CLIP_COUNT,      xlsx_map_to_int},
 			{ GSF_META_NAME_NOTE_COUNT,         xlsx_map_to_int},
 			{ GSF_META_NAME_PAGE_COUNT,         xlsx_map_to_int},
 			{ GSF_META_NAME_PARAGRAPH_COUNT,    xlsx_map_to_int},

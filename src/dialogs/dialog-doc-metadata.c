@@ -168,22 +168,49 @@ dialog_doc_metadata_get_value_type_from_name (gchar const *name, GType def)
 			char const *name;
 			GType type;
 		} const map [] = {
-			{GSF_META_NAME_CREATOR,      G_TYPE_STRING},
-			{GSF_META_NAME_TITLE,        G_TYPE_STRING},
-			{GSF_META_NAME_SUBJECT,      G_TYPE_STRING},
-			{GSF_META_NAME_MANAGER,      G_TYPE_STRING},
-			{GSF_META_NAME_COMPANY,      G_TYPE_STRING},
-			{GSF_META_NAME_CATEGORY,     G_TYPE_STRING},
-			{GSF_META_NAME_DESCRIPTION,  G_TYPE_STRING},
-			{GSF_META_NAME_SPREADSHEET_COUNT, G_TYPE_INT},
-			{GSF_META_NAME_CELL_COUNT,   G_TYPE_INT},
-			{GSF_META_NAME_PAGE_COUNT,   G_TYPE_INT}
+			{GSF_META_NAME_GENERATOR,            G_TYPE_STRING},
+			{GSF_META_NAME_INITIAL_CREATOR,      G_TYPE_STRING},
+			{GSF_META_NAME_CREATOR,              G_TYPE_STRING},
+			{GSF_META_NAME_TITLE,                G_TYPE_STRING},
+			{GSF_META_NAME_SUBJECT,              G_TYPE_STRING},
+			{GSF_META_NAME_MANAGER,              G_TYPE_STRING},
+			{GSF_META_NAME_COMPANY,              G_TYPE_STRING},
+			{GSF_META_NAME_CATEGORY,             G_TYPE_STRING},
+			{GSF_META_NAME_DESCRIPTION,          G_TYPE_STRING},
+			{GSF_META_NAME_LAST_SAVED_BY,        G_TYPE_STRING},
+			{GSF_META_NAME_TEMPLATE,             G_TYPE_STRING},
+			{GSF_META_NAME_EDITING_DURATION,     G_TYPE_STRING}, /* special */
+			{GSF_META_NAME_SPREADSHEET_COUNT,    G_TYPE_INT},
+			{GSF_META_NAME_TABLE_COUNT,          G_TYPE_INT},
+			{GSF_META_NAME_CELL_COUNT,           G_TYPE_INT},
+			{GSF_META_NAME_CHARACTER_COUNT,      G_TYPE_INT},
+			{GSF_META_NAME_BYTE_COUNT,           G_TYPE_INT},
+			{GSF_META_NAME_SECURITY,             G_TYPE_INT},
+			{GSF_META_NAME_HIDDEN_SLIDE_COUNT,   G_TYPE_INT},
+			{GSF_META_NAME_LINE_COUNT,           G_TYPE_INT},
+			{GSF_META_NAME_SLIDE_COUNT,          G_TYPE_INT},
+			{GSF_META_NAME_WORD_COUNT,           G_TYPE_INT},
+			{GSF_META_NAME_MM_CLIP_COUNT,        G_TYPE_INT},
+			{GSF_META_NAME_NOTE_COUNT,           G_TYPE_INT},
+			{GSF_META_NAME_PARAGRAPH_COUNT,      G_TYPE_INT},
+			{GSF_META_NAME_PAGE_COUNT,           G_TYPE_INT},
+			{GSF_META_NAME_CODEPAGE,             G_TYPE_INT},
+			{GSF_META_NAME_LOCALE_SYSTEM_DEFAULT,G_TYPE_INT},
+			{GSF_META_NAME_OBJECT_COUNT,         G_TYPE_INT},
+			{"xlsx:HyperlinksChanged",           G_TYPE_BOOLEAN},
+			{GSF_META_NAME_LINKS_DIRTY,          G_TYPE_BOOLEAN},
+			{"xlsx:SharedDoc",                   G_TYPE_BOOLEAN},
+			{GSF_META_NAME_SCALE,                G_TYPE_BOOLEAN}
 		};
 		static char const *map_vector[] =
-			{GSF_META_NAME_KEYWORDS};
+			{GSF_META_NAME_KEYWORDS,
+			 GSF_META_NAME_DOCUMENT_PARTS,
+			 GSF_META_NAME_HEADING_PAIRS};
 		static char const *map_timestamps[] =
 			{GSF_META_NAME_DATE_CREATED,
 			 GSF_META_NAME_DATE_MODIFIED};
+
+		/*Missing:GSF_META_NAME_THUMBNAIL */
 
 		int i = G_N_ELEMENTS (map);
 		dialog_doc_metadata_name_to_type = g_hash_table_new (g_str_hash, g_str_equal);
@@ -315,6 +342,30 @@ dialog_doc_metadata_transform_str_to_float (const GValue *string_value,
 }
 
 static void
+dialog_doc_metadata_transform_str_to_boolean (const GValue *string_value,
+					      GValue       *b_value)
+{
+	gboolean x, err;
+	gchar const *str;
+	GnmValue *conversion;
+
+	g_return_if_fail (G_VALUE_HOLDS_STRING (string_value));
+	g_return_if_fail (G_VALUE_HOLDS_BOOLEAN (b_value));
+	
+	str = g_value_get_string (string_value);
+	conversion = format_match_number (str, NULL, NULL);
+	if (conversion) {
+		x = value_get_as_bool (conversion, &err);
+		value_release (conversion);
+		if (err)
+			x = FALSE;
+	} else
+		x = FALSE;
+
+	g_value_set_boolean (b_value, x);
+}
+
+static void
 dialog_doc_metadata_transform_str_to_docprop_vect (const GValue *string_value,
 						   GValue       *docprop_value)
 {
@@ -431,6 +482,20 @@ dialog_doc_metadata_transform_float_to_str (const GValue *float_value,
 	fmt = go_format_general ();
 	str = go_format_value (fmt, x);
 	g_value_take_string (string_value, str);
+}
+
+static void
+dialog_doc_metadata_transform_boolean_to_str (const GValue *b_value,
+					      GValue       *string_value)
+{
+	gboolean x;
+
+	g_return_if_fail (G_VALUE_HOLDS_BOOLEAN (b_value));
+	g_return_if_fail (G_VALUE_HOLDS_STRING (string_value));
+
+	x = g_value_get_boolean (b_value);
+
+	g_value_set_static_string (string_value, x ? _("TRUE") : _("FALSE"));
 }
 
 static gchar*
@@ -2247,6 +2312,10 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 					 GSF_DOCPROP_VECTOR_TYPE,
 					 dialog_doc_metadata_transform_str_to_docprop_vect);
 
+	g_value_register_transform_func (G_TYPE_STRING,
+					 G_TYPE_BOOLEAN,
+					 dialog_doc_metadata_transform_str_to_boolean);
+
 	g_value_register_transform_func (GSF_TIMESTAMP_TYPE,
 					 G_TYPE_STRING,
 					 dialog_doc_metadata_transform_timestamp_to_str);
@@ -2258,6 +2327,10 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 	g_value_register_transform_func (G_TYPE_FLOAT,
 					 G_TYPE_STRING,
 					 dialog_doc_metadata_transform_float_to_str);
+
+	g_value_register_transform_func (G_TYPE_BOOLEAN,
+					 G_TYPE_STRING,
+					 dialog_doc_metadata_transform_boolean_to_str);
 
 	for (i = 0; page_info[i].page > -1; i++) {
 		const page_info_t *this_page =  &page_info[i];

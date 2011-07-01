@@ -1,3 +1,11 @@
+2011-07-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-doc-metadata.c (dialog_doc_metadata_get_value_type_from_name):
+	add items
+	(dialog_doc_metadata_transform_str_to_boolean): new
+	(dialog_doc_metadata_transform_boolean_to_str): new
+	(dialog_doc_metadata_init): connect above transforms
+
 2011-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-doc-metadata.c (dialog_doc_metadata_get_value_type_from_name):

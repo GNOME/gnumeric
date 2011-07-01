@@ -1,3 +1,9 @@
+2011-07-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-write-docprops.c (xlsx_map_prop_name_to_output_fun): 
+	use GSF_META_NAME_MM_CLIP_COUNT
+	* xlsx-read-docprops.c: use GSF_META_NAME_MM_CLIP_COUNT
+
 2011-06-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write-docprops.c (xlsx_read_core_keys): implement
