@@ -157,15 +157,61 @@ static gboolean cb_dialog_doc_metadata_ppt_changed (G_GNUC_UNUSED GtkEntry      
 
 
 static GType
-dialog_doc_metadata_get_value_type_from_name (gchar const *name)
+dialog_doc_metadata_get_value_type_from_name (gchar const *name, GType def)
 {
-	GType val_type;
-	if (0 == strcmp (name, GSF_META_NAME_KEYWORDS))
-		val_type = GSF_DOCPROP_VECTOR_TYPE;
+	/* shared by all instances and never freed */
+	static GHashTable *dialog_doc_metadata_name_to_type = NULL;
+	gpointer res;
+
+	if (NULL == dialog_doc_metadata_name_to_type) {
+		static struct {
+			char const *name;
+			GType type;
+		} const map [] = {
+			{GSF_META_NAME_CREATOR,      G_TYPE_STRING},
+			{GSF_META_NAME_TITLE,        G_TYPE_STRING},
+			{GSF_META_NAME_SUBJECT,      G_TYPE_STRING},
+			{GSF_META_NAME_MANAGER,      G_TYPE_STRING},
+			{GSF_META_NAME_COMPANY,      G_TYPE_STRING},
+			{GSF_META_NAME_CATEGORY,     G_TYPE_STRING},
+			{GSF_META_NAME_DESCRIPTION,  G_TYPE_STRING},
+			{GSF_META_NAME_SPREADSHEET_COUNT, G_TYPE_INT},
+			{GSF_META_NAME_CELL_COUNT,   G_TYPE_INT},
+			{GSF_META_NAME_PAGE_COUNT,   G_TYPE_INT}
+		};
+		static char const *map_vector[] =
+			{GSF_META_NAME_KEYWORDS};
+		static char const *map_timestamps[] =
+			{GSF_META_NAME_DATE_CREATED,
+			 GSF_META_NAME_DATE_MODIFIED};
+
+		int i = G_N_ELEMENTS (map);
+		dialog_doc_metadata_name_to_type = g_hash_table_new (g_str_hash, g_str_equal);
+		while (i-- > 0)
+			g_hash_table_insert (dialog_doc_metadata_name_to_type,
+					     (gpointer)map[i].name,
+					     GINT_TO_POINTER (map[i].type));
+
+		i = G_N_ELEMENTS (map_vector);
+		while (i-- > 0)
+			g_hash_table_insert (dialog_doc_metadata_name_to_type,
+					     (gpointer)map_vector[i],
+					     GINT_TO_POINTER (GSF_DOCPROP_VECTOR_TYPE));
+		
+		i = G_N_ELEMENTS (map_timestamps);
+		while (i-- > 0)
+			g_hash_table_insert (dialog_doc_metadata_name_to_type,
+					     (gpointer)map_timestamps[i],
+					     GINT_TO_POINTER (GSF_TIMESTAMP_TYPE));
+		
+	}
+	
+	res = g_hash_table_lookup (dialog_doc_metadata_name_to_type, name);
+
+	if (res != NULL)
+		return GPOINTER_TO_INT (res);
 	else
-		/* FIXME: At this moment, we will assume a G_TYPE_STRING */
-		val_type = G_TYPE_STRING;
-	return val_type;
+		return def;
 }
 
 static GType
@@ -684,7 +730,6 @@ dialog_doc_metadata_get_gsf_prop_val_type (DialogDocMetaData *state,
 {
 	GsfDocProp *prop = NULL;
 	GValue     *value = NULL;
-	GType       val_type = G_TYPE_INVALID;
 
 	g_return_val_if_fail (state->metadata != NULL, G_TYPE_INVALID);
 
@@ -694,13 +739,10 @@ dialog_doc_metadata_get_gsf_prop_val_type (DialogDocMetaData *state,
 	if (prop != NULL)
 		value = (GValue *) gsf_doc_prop_get_val (prop);
 
-	if (value != NULL) {
-		val_type = dialog_doc_metadata_get_value_type (value);
-	} else {
-		val_type = dialog_doc_metadata_get_value_type_from_name (name);
-	}
-
-	return val_type;
+	if (value != NULL)
+		return dialog_doc_metadata_get_value_type (value);
+	else
+		return dialog_doc_metadata_get_value_type_from_name (name, G_TYPE_STRING);
 }
 
 static void
@@ -1275,12 +1317,13 @@ cb_dialog_doc_metadata_add_clicked (GtkWidget         *w,
 		gtk_tree_model_get (GTK_TREE_MODEL (state->type_store), &child_iter, 
 				    1, &t, -1);
 	} else 
-		t = dialog_doc_metadata_get_value_type_from_name (name_trimmed);
+		t = dialog_doc_metadata_get_value_type_from_name (name_trimmed, G_TYPE_STRING);
 	dialog_doc_metadata_set_prop (state, name_trimmed, value, NULL, t);
 
 	g_free (name_trimmed);
 
 	cb_dialog_doc_metadata_ppt_changed (NULL, NULL, state);
+	gtk_label_set_text (state->warning, "");
 }
 
 /**
@@ -1546,50 +1589,63 @@ dialog_doc_metadata_populate_tree_view (gchar             *name,
 }
 
 static gboolean
+dialog_doc_metadata_show_all_types (GtkTreeModel *model,
+				    G_GNUC_UNUSED GtkTreePath *path,
+				    GtkTreeIter *iter,
+				    G_GNUC_UNUSED gpointer data)
+{
+	gtk_list_store_set (GTK_LIST_STORE (model), iter, 2, TRUE, -1);
+	return FALSE;
+}
+
+static gboolean
+dialog_doc_metadata_show_this_type (GtkTreeModel *model,
+				    G_GNUC_UNUSED GtkTreePath *path,
+				    GtkTreeIter *iter,
+				    gpointer data)
+{
+	GType t, type = GPOINTER_TO_INT (data);
+	
+	gtk_tree_model_get (model, iter, 1, &t, -1);
+	gtk_list_store_set (GTK_LIST_STORE (model), iter, 2, t == type, -1);
+	return FALSE;
+}
+
+static gboolean
 cb_dialog_doc_metadata_ppt_changed (G_GNUC_UNUSED GtkEntry          *entry,
 				    G_GNUC_UNUSED GdkEventFocus     *event,
 				    DialogDocMetaData *state)
 {
-	const gchar *name = gtk_entry_get_text (state->ppt_name);
-	const gchar *value = gtk_entry_get_text (state->ppt_value);
-	gchar *name_trimmed = pango_trim_string (name);
-	gboolean enable = !(strlen (name_trimmed) == 0 
-			    || strlen (value) == 0);
+	const gchar *name;
+	const gchar *value;
+	gchar *name_trimmed;
+	gboolean enable = FALSE;
 	gchar *str = NULL;
 	GsfDocProp *prop = NULL;
 	GtkTreeIter iter;
 
-	prop = gsf_doc_meta_data_lookup (state->metadata, name_trimmed);
+	name = gtk_entry_get_text (state->ppt_name);
+	value = gtk_entry_get_text (state->ppt_value);
+	name_trimmed = pango_trim_string (name);
+
+	enable = strlen (name_trimmed) > 0 && strlen (value) > 0;
 
 	if (enable)
 		enable = gtk_combo_box_get_active_iter (state->ppt_type, &iter);
 
 	if (enable) {
+		prop = gsf_doc_meta_data_lookup (state->metadata, name_trimmed);
 		if (prop != NULL) {
 			str = g_strdup_printf 
 				(_("A document property with the name \'%s\' already exists."), 
 				 name_trimmed);
 			enable = FALSE;
-		} else {
-			GType t = dialog_doc_metadata_get_value_type_from_name (name_trimmed);
-			if (t == GSF_DOCPROP_VECTOR_TYPE) {
-				str = g_strdup_printf 
-					(_("Use the keywords tab to create this property."));
-				enable = FALSE;
-			} else if (t != G_TYPE_STRING) {
-				str = g_strdup_printf 
-					(_("The document property named \'%s\' is not "
-					   "of string type."), 
-					 name_trimmed );
-				enable = FALSE;
-			}
 		}
 	}
-
+	g_free (name_trimmed);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->add_button), enable);
 	gtk_label_set_text (state->warning, str ? str : "");
 	g_free (str);
-	g_free (name_trimmed);
 	return FALSE;
 }
 
@@ -1599,6 +1655,73 @@ cb_dialog_doc_metadata_ppt_type_changed (G_GNUC_UNUSED GtkComboBox *widget,
 {
 	cb_dialog_doc_metadata_ppt_changed (NULL, NULL, state);
 }
+
+static gboolean
+cb_dialog_doc_metadata_ppt_name_changed (G_GNUC_UNUSED GtkEntry          *entry,
+					 G_GNUC_UNUSED GdkEventFocus     *event,
+					 DialogDocMetaData *state)
+{
+	const gchar *name;
+	gchar *name_trimmed;
+	gboolean enable = FALSE;
+	GtkTreeIter iter;
+	gchar *str = NULL;
+
+	name = gtk_entry_get_text (state->ppt_name);
+	name_trimmed = pango_trim_string (name);
+
+	enable = strlen (name_trimmed) > 0;
+
+	if (enable) {
+		GType t = dialog_doc_metadata_get_value_type_from_name (name_trimmed, G_TYPE_INVALID);
+
+		if (t == GSF_DOCPROP_VECTOR_TYPE) {
+			str = g_strdup_printf 
+					(_("Use the keywords tab to create this property."));
+			enable = FALSE;
+		}
+
+		if (t == G_TYPE_INVALID) {
+			g_signal_handlers_block_by_func(G_OBJECT (state->ppt_type),
+							cb_dialog_doc_metadata_ppt_type_changed,
+							state);
+			gtk_tree_model_foreach (GTK_TREE_MODEL (state->type_store),
+						dialog_doc_metadata_show_all_types, NULL);
+			gtk_tree_model_filter_refilter (state->type_store_filter);
+			g_signal_handlers_unblock_by_func(G_OBJECT (state->ppt_type),
+							  cb_dialog_doc_metadata_ppt_type_changed,
+							  state);
+		} else {
+			gtk_combo_box_set_active_iter (state->ppt_type, NULL);
+			g_signal_handlers_block_by_func(G_OBJECT (state->ppt_type),
+							cb_dialog_doc_metadata_ppt_type_changed,
+							state);
+			gtk_tree_model_foreach (GTK_TREE_MODEL (state->type_store),
+						dialog_doc_metadata_show_this_type,
+						GINT_TO_POINTER (t));
+			gtk_tree_model_filter_refilter (state->type_store_filter);
+			g_signal_handlers_unblock_by_func(G_OBJECT (state->ppt_type),
+							  cb_dialog_doc_metadata_ppt_type_changed,
+							  state);
+			if (gtk_tree_model_get_iter_first
+			    (GTK_TREE_MODEL (state->type_store_filter), &iter))
+				gtk_combo_box_set_active_iter (state->ppt_type, &iter);
+		}
+	}
+	g_free (name_trimmed);
+	
+	if (enable)
+		return cb_dialog_doc_metadata_ppt_changed (NULL, NULL, state);
+	else {
+		gtk_widget_set_sensitive (GTK_WIDGET (state->add_button), FALSE);
+		gtk_label_set_text (state->warning, str ? str : "");
+		g_free (str);
+	}
+
+	return FALSE;
+}
+
+
 
 /**
  * dialog_doc_metadata_init_properties_page
@@ -1707,7 +1830,7 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 	/* Entries */
 	g_signal_connect (G_OBJECT (state->ppt_name),
 			  "focus-out-event",
-			  G_CALLBACK (cb_dialog_doc_metadata_ppt_changed),
+			  G_CALLBACK (cb_dialog_doc_metadata_ppt_name_changed),
 			  state);
 	g_signal_connect (G_OBJECT (state->ppt_value),
 			  "focus-out-event",
@@ -1731,6 +1854,7 @@ dialog_doc_metadata_init_properties_page (DialogDocMetaData *state)
 			  state);
 
 	cb_dialog_doc_metadata_tree_prop_selected (sel, state);
+	gtk_combo_box_set_active (state->ppt_type, 0);
 }
 
 /******************************************************************************

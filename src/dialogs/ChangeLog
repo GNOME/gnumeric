@@ -1,5 +1,14 @@
 2011-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-doc-metadata.c (dialog_doc_metadata_get_value_type_from_name):
+	rewrite, add default argument and change all callers
+	(dialog_doc_metadata_show_all_types): new
+	(dialog_doc_metadata_show_this_type): new
+	(cb_dialog_doc_metadata_ppt_changed): move part into
+	(cb_dialog_doc_metadata_ppt_name_changed): new
+
+2011-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-doc-metadata.c (dialog_doc_metadata_transform_str_to_float): new
 	(dialog_doc_metadata_transform_float_to_str): new
 	(cb_dialog_doc_metadata_value_edited):preserve type
