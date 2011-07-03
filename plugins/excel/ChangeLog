@@ -1,3 +1,8 @@
+2011-07-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* xlsx-read-drawing.c (xlsx_chart_text_start), (xlsx_chart_text),
+	(xlsx_read_chart): fixed loading xlsx files with empty chart titles.
+
 2011-07-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write-docprops.c (xlsx_map_prop_name_to_output_fun): 

@@ -66,7 +66,7 @@ static void
 xlsx_chart_text_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (IS_SHEET_OBJECT_GRAPH (state->so) && NULL == state->series) { /* Hmm, why? */
+	if (!GOG_IS_LABEL (state->cur_obj) && IS_SHEET_OBJECT_GRAPH (state->so) && NULL == state->series) { /* Hmm, why? */
 		GogObject *label = gog_object_add_by_name (state->cur_obj,
 			(state->cur_obj == (GogObject *)state->chart) ? "Title" : "Label", NULL);
 		xlsx_chart_push_obj (state, label);
@@ -81,7 +81,7 @@ xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (IS_GNM_SO_FILLED (state->so))
 		g_object_set (G_OBJECT (state->so), "text", state->chart_tx, NULL);
 	else if (NULL == state->series) {
-		if (state->cur_obj) {
+		if (GOG_IS_LABEL (state->cur_obj)) {
 			if (state->chart_tx) {
 				GnmValue *value = value_new_string_nocopy (state->chart_tx);
 				GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
@@ -1360,7 +1360,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_LBLALGN, XL_NS_CHART, "lblAlgn", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_LBLOFFSET, XL_NS_CHART, "lblOffset", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-        GSF_XML_IN_NODE (CAT_AXIS, TITLE, XL_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),		/* ID is used */
+        GSF_XML_IN_NODE (CAT_AXIS, TITLE, XL_NS_CHART, "title", GSF_XML_NO_CONTENT, &xlsx_chart_text_start, xlsx_chart_text),		/* ID is used */
           GSF_XML_IN_NODE (TITLE, LAYOUT, XL_NS_CHART, "layout", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (LAYOUT, LAST_LAYOUT,	    XL_NS_CHART, "lastLayout", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (LAST_LAYOUT, LAYOUT_X, XL_NS_CHART, "x", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1757,6 +1757,27 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			g_warning ("left over style");
 			g_slist_free (state->style_stack);
 			state->style_stack = NULL;
+		}
+		if (state->chart) {
+			GogObject *title = gog_object_get_child_by_name (GOG_OBJECT (state->chart), "Title");
+			if (title) {
+				/* test if the title s empty */
+				GOData *dat = gog_dataset_get_dim (GOG_DATASET (title), 0);
+				GError *err = NULL;
+				char *str = dat != NULL? go_data_get_scalar_string (dat): NULL;
+				/* if no title, use the first series label */
+				if (!str || !*str) {
+					GogPlot *plot = GOG_PLOT (gog_chart_get_plots (state->chart)->data);
+					GogDataset *ds = plot? GOG_DATASET (gog_plot_get_series  (plot)->data): NULL;
+					if (ds)
+						dat = gog_dataset_get_dim (ds, -1);
+					if (dat)
+						gog_dataset_set_dim (GOG_DATASET (title), 0, GO_DATA (g_object_ref (dat)), &err);
+					if (err)
+						g_error_free (err);
+				}
+				g_free (str);
+			}
 		}
 		state->chart_pos[0] = go_nan;
 		state->gocolor = NULL;
