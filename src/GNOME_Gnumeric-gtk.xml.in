@@ -143,6 +143,7 @@
     <menu name="Format" action="MenuFormat">
       <menu name="FormatCellsMenu" action="MenuFormatCells">
       <menuitem action="FormatCells"/>
+      <menuitem action="FormatCellsCond"/>
       <menuitem action="FormatMergeCells"/>
       <menuitem action="FormatUnmergeCells"/>
       <menuitem action="FormatCellsFitHeight"/>

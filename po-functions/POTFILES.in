@@ -89,6 +89,7 @@ src/dialogs/dialog-autoformat.c
 src/dialogs/dialog-autosave.c
 src/dialogs/dialog-cell-comment.c
 src/dialogs/dialog-cell-format.c
+src/dialogs/dialog-cell-format-cond.c
 src/dialogs/dialog-cell-sort.c
 src/dialogs/dialog-col-width.c
 src/dialogs/dialog-consolidate.c
@@ -146,6 +147,8 @@ src/dialogs/dialog-zoom.c
 [type: gettext/glade]src/dialogs/autosave.ui
 [type: gettext/glade]src/dialogs/cell-comment.ui
 [type: gettext/glade]src/dialogs/cell-format.ui
+[type: gettext/glade]src/dialogs/cell-format-cond.ui
+[type: gettext/glade]src/dialogs/cell-format-cond-def.ui
 [type: gettext/glade]src/dialogs/cell-sort.ui
 [type: gettext/glade]src/dialogs/chi-squared.ui
 [type: gettext/glade]src/dialogs/col-width.ui

@@ -23,6 +23,11 @@ void	 dialog_plugin_manager	(WBCGtk *wbcg);
 void	 dialog_goto_cell	(WBCGtk *wbcg);
 void	 dialog_cell_format	(WBCGtk *wbcg,
 				 FormatDialogPosition_t pageno);
+void	 dialog_cell_format_select_style (WBCGtk *wbcg,
+					  gint pages, GtkWindow *w,
+					  gpointer closure);
+void	 dialog_cell_format_cond (WBCGtk *wbcg);
+void     dialog_cell_format_style_added (gpointer closure, GnmStyle *style);
 void	 dialog_paste_special	(WBCGtk *wbcg);
 void	 dialog_insert_cells	(WBCGtk *wbcg);
 void	 dialog_delete_cells	(WBCGtk *wbcg);

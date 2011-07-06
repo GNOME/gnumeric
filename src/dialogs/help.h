@@ -44,6 +44,9 @@
 /* dialog-cell-format.c       */
 #define GNUMERIC_HELP_LINK_CELL_FORMAT "sect-data-format"
 
+/* dialog-cell-format-cond.c       */
+#define GNUMERIC_HELP_LINK_CELL_FORMAT_COND "sect-data-format"
+
 /* dialog-cell-sort.c  */
 #define GNUMERIC_HELP_LINK_CELL_SORT "sect-data-modify"
 

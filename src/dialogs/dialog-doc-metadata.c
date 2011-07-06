@@ -1220,7 +1220,7 @@ static void
 dialog_doc_metadata_update_keyword_list (DialogDocMetaData *state, GsfDocProp *prop)
 {
 	guint i;
-	GtkTreeSelection *sel;;
+	GtkTreeSelection *sel;
 
 	gtk_list_store_clear (state->key_store);
 

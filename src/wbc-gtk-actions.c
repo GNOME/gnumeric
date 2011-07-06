@@ -924,6 +924,7 @@ static GNM_ACTION_DEF (cb_sheet_name)
 static GNM_ACTION_DEF (cb_sheet_order)		{ dialog_sheet_order (wbcg); }
 static GNM_ACTION_DEF (cb_sheet_resize)		{ dialog_sheet_resize (wbcg); }
 static GNM_ACTION_DEF (cb_format_cells)		{ dialog_cell_format (wbcg, FD_CURRENT); }
+static GNM_ACTION_DEF (cb_format_cells_cond)    { dialog_cell_format_cond (wbcg); }
 static GNM_ACTION_DEF (cb_autoformat)		{ dialog_autoformat (wbcg); }
 static GNM_ACTION_DEF (cb_workbook_attr)	{ dialog_workbook_attr (wbcg); }
 static GNM_ACTION_DEF (cb_tools_plugins)	{ dialog_plugin_manager (wbcg); }
@@ -2297,8 +2298,11 @@ static GtkActionEntry const actions[] = {
 
 /* Format -> Cells */
 	{ "FormatCells", NULL, N_("_Format..."),
-		"<control>1", N_("Modify the formatting of the selected cells"),
-		G_CALLBACK (cb_format_cells) },
+	  "<control>1", N_("Modify the formatting of the selected cells"),
+	  G_CALLBACK (cb_format_cells) },
+	{ "FormatCellsCond", NULL, N_("_Conditional Formating..."), NULL, 
+	  N_("Modify the conditional formatting of the selected cells"),
+	  G_CALLBACK (cb_format_cells_cond) },
 	{ "FormatCellsFitHeight", "Gnumeric_RowSize", N_("Auto Fit _Height"), NULL,
 	  N_("Ensure rows are just tall enough to display content of selection"),
 	  G_CALLBACK (cb_format_cells_auto_fit_height) },

@@ -1,3 +1,20 @@
+2011-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* cell-format-cond-def.ui: new
+	* cell-format-cond.ui: new
+	* dialog-cell-format-cond.c: new
+	* Makefile.am: add new files
+	* cell-format.ui: remove conditions tab
+	* dialog-cell-format.c: remove handling of deleted conditions tab moving
+	it to dialog-cell-format-cond.c
+	(dialog_cell_format_select_style): new
+	(dialog_cell_format_init): new
+	(dialog_cell_format): use dialog_cell_format_init
+	* dialogs.h (dialog_cell_format_select_style): new
+	(dialog_cell_format_cond): new
+	(dialog_cell_format_style_added): new
+	* help.h (GNUMERIC_HELP_LINK_CELL_FORMAT_COND): new
+
 2011-07-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-doc-metadata.c (dialog_doc_metadata_get_value_type_from_name):

@@ -1,3 +1,15 @@
+2011-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* component/Gnumeric-embed.xml.in: add menu item
+	* src/GNOME_Gnumeric-gtk.xml.in: ditto
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto
+	* src/sheet-control-gui.c
+	* src/style-conditions.c (gnm_style_conditions_dup): new
+	(gnm_style_cond_is_valid): not all conditions need an expression
+	(gnm_style_conditions_eval): not all conditions need an expression
+	* src/style-conditions.h (gnm_style_conditions_dup): new
+	* src/wbc-gtk-actions.c (cb_format_cells_cond): new
+
 2011-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* print.c (load_repeat_range): move from here to

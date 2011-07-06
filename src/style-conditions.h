@@ -43,6 +43,7 @@ typedef struct {
 } GnmStyleCond;
 
 GnmStyleConditions *gnm_style_conditions_new  (void);
+GnmStyleConditions *gnm_style_conditions_dup  (GnmStyleConditions const *cond);
 GArray const *gnm_style_conditions_details (GnmStyleConditions const *sc);
 void	      gnm_style_conditions_insert  (GnmStyleConditions *sc,
 					    GnmStyleCond const *cond,

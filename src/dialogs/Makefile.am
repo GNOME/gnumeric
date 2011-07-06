@@ -38,6 +38,7 @@ base_files =					\
 	dialog-autosave.c			\
 	dialog-cell-comment.c			\
 	dialog-cell-format.c			\
+	dialog-cell-format-cond.c		\
 	dialog-cell-sort.c			\
 	dialog-col-width.c			\
 	dialog-col-row.c			\
@@ -103,6 +104,8 @@ ui_DATA = 				\
 	autosave.ui			\
 	cell-comment.ui			\
 	cell-format.ui			\
+	cell-format-cond.ui		\
+	cell-format-cond-def.ui		\
 	cell-sort.ui			\
 	chi-squared.ui			\
 	col-width.ui			\

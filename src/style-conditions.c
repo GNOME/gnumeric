@@ -55,7 +55,11 @@ gnm_style_cond_is_valid (GnmStyleCond const *cond)
 	g_return_val_if_fail (cond != NULL, FALSE);
 
 	if (cond->overlay == NULL) return FALSE;
-	if (cond->texpr[0] == NULL) return FALSE;
+	if ((cond->texpr[0] != NULL) ^ 
+	    (cond->op != GNM_STYLE_COND_CONTAINS_ERR &&
+	     cond->op != GNM_STYLE_COND_NOT_CONTAINS_ERR &&
+	     cond->op != GNM_STYLE_COND_CONTAINS_BLANKS &&
+	     cond->op != GNM_STYLE_COND_NOT_CONTAINS_BLANKS)) return FALSE;
 	if ((cond->texpr[1] != NULL) ^
 	    (cond->op == GNM_STYLE_COND_BETWEEN ||
 	     cond->op == GNM_STYLE_COND_NOT_BETWEEN))
@@ -117,6 +121,36 @@ gnm_style_conditions_new (void)
 {
 	return g_object_new (gnm_style_conditions_get_type (), NULL);
 }
+
+GnmStyleConditions *
+gnm_style_conditions_dup  (GnmStyleConditions const *cond)
+{
+	GnmStyleConditions  *dup;
+	GArray const *ga;
+	if (cond == NULL)
+		return NULL;
+
+	dup =  gnm_style_conditions_new ();
+	ga = gnm_style_conditions_details (cond);
+	if (ga != NULL) {
+		guint i;
+		GArray *ga_dup = g_array_sized_new (FALSE, FALSE, sizeof (GnmStyleCond),
+						    ga->len);
+		for (i = 0; i < ga->len; i++) {
+			GnmStyleCond gsc = g_array_index(ga, GnmStyleCond, i);
+
+			gnm_style_ref (gsc.overlay);
+			if (gsc.texpr[0])
+				gnm_expr_top_ref (gsc.texpr[0]);
+			if (gsc.texpr[1])
+				gnm_expr_top_ref (gsc.texpr[1]);
+			g_array_append_val (ga_dup, gsc);
+		}
+		dup->conditions = ga_dup;
+	}
+	return dup;
+}
+
 
 /**
  * gnm_style_conditions_details :
@@ -198,7 +232,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 {
 	unsigned i;
 	gboolean use_this = FALSE;
-	GnmValue *val;
+	GnmValue *val = NULL;
 	GArray const *conds;
 	GnmStyleCond const *cond;
 	GnmParsePos pp;
@@ -214,105 +248,116 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 	for (i = 0 ; i < conds->len ; i++) {
 		cond = &g_array_index (conds, GnmStyleCond, i);
 
-		val = gnm_expr_top_eval (cond->texpr[0], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-		if (cond->op == GNM_STYLE_COND_CUSTOM) {
-			use_this = value_get_as_bool (val, NULL);
-#if 0
-			char *str = gnm_expr_as_string (cond->expr[0],
-							&pp, NULL);
-			g_print ("'%s' = %s\n", str, use_this ? "true" : "false");
-			g_free (str);
-#endif
-		} else if (cond->op < GNM_STYLE_COND_CONTAINS_STR) {
-			GnmValDiff diff = value_compare (cv, val, TRUE);
-
-			switch (cond->op) {
-			default:
-			case GNM_STYLE_COND_EQUAL:	use_this = (diff == IS_EQUAL); break;
-			case GNM_STYLE_COND_NOT_EQUAL:	use_this = (diff != IS_EQUAL); break;
-			case GNM_STYLE_COND_NOT_BETWEEN:
-				if (diff == IS_LESS) {
-					use_this = TRUE;
-					break;
-				}
-				value_release (val);
-				val = gnm_expr_top_eval (cond->texpr[1], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-				diff = value_compare (cv, val, TRUE);
-				/* fall through */
-
-			case GNM_STYLE_COND_GT:		use_this = (diff == IS_GREATER); break;
-			case GNM_STYLE_COND_LT:		use_this = (diff == IS_LESS); break;
-			case GNM_STYLE_COND_GTE:	use_this = (diff != IS_LESS); break;
-			case GNM_STYLE_COND_BETWEEN:
-				if (diff == IS_LESS)
-					break;
-				value_release (val);
-				val = gnm_expr_top_eval (cond->texpr[1], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-				diff = value_compare (cv, val, TRUE);
-				/* fall through */
-			case GNM_STYLE_COND_LTE:	use_this = (diff != IS_GREATER); break;
-			}
-		} else if (cond->op != GNM_STYLE_COND_CONTAINS_ERR)
+		if (cond->op == GNM_STYLE_COND_CONTAINS_ERR)
 			use_this = (cv != NULL) && VALUE_IS_ERROR (cv);
-		else if (cond->op != GNM_STYLE_COND_NOT_CONTAINS_ERR)
+		else if (cond->op == GNM_STYLE_COND_NOT_CONTAINS_ERR)
 			use_this = (cv == NULL) || !VALUE_IS_ERROR (cv);
-		else if (VALUE_IS_STRING (cv)) {
-			char const *valstring;
-			char *ptr;
-			char *ptr2;
-			char const *cvstring = value_peek_string (cv);
-			int slen = strlen (cvstring);
-
-			valstring = value_peek_string (val);
-			switch (cond->op) {
-			default : g_warning ("Unknown condition operator %d", cond->op);
-				break;
-			case GNM_STYLE_COND_CONTAINS_STR :
-				use_this = (NULL != strstr (cvstring, valstring));
-				break;
-			case GNM_STYLE_COND_NOT_CONTAINS_STR :
-				use_this = (NULL == strstr (cvstring, valstring));
-				break;
-			case GNM_STYLE_COND_BEGINS_WITH_STR :
-				use_this = (0 == strncmp (cvstring, valstring, slen));
-				break;
-			case GNM_STYLE_COND_NOT_BEGINS_WITH_STR :
-				use_this = (0 != strncmp (cvstring, valstring, slen));
-				break;
-			case GNM_STYLE_COND_ENDS_WITH_STR :
-				/* gedanken experiment: valuestr="foofoo"; cvstring="foo"
-				 * This loop solves the problem.
-				 * First, make sure ptr2 is NULL in case it never gets assigned*/
-				ptr2 = NULL;
-				while ((ptr = strstr (cvstring,valstring))) {
-					/*ptr2 will point to the beginning of the last match*/
-					ptr2 = ptr;
+		else if (cond->op == GNM_STYLE_COND_CONTAINS_BLANKS ||
+			 cond->op == GNM_STYLE_COND_NOT_CONTAINS_BLANKS) {
+			if (cv && VALUE_IS_STRING (cv)) {
+				char const *cvstring = value_peek_string (cv);
+				switch (cond->op) {
+				case GNM_STYLE_COND_CONTAINS_BLANKS :
+					use_this = NULL != strpbrk (cvstring, BLANKS_STRING_FOR_MATCHING);
+					break;
+				case GNM_STYLE_COND_NOT_CONTAINS_BLANKS :
+					use_this = NULL == strpbrk (cvstring, BLANKS_STRING_FOR_MATCHING);
+					break;
+				default:
+					break;
 				}
-				/*If it matches; is it the *end* match?*/
-				use_this = (ptr != NULL) && (0 == strcmp (ptr2, valstring));
-				break;
-			case GNM_STYLE_COND_NOT_ENDS_WITH_STR :
-				/*gedanken experiment: valuestr="foofoo"; cvstring="foo"
-				 * This loop solves the problem.
-				 *First, make sure ptr2 is NULL in case it never gets assigned*/
-				ptr2 = NULL;
-				while ((ptr = strstr (cvstring,valstring))) {
-					/*ptr2 will point to the beginning of the last match*/
-					ptr2 = ptr;
-				}
-				/*If it matches; is it the *end* match?*/
-				use_this = (ptr == NULL) || (0 != strcmp (ptr2, valstring));
-				break;
-			case GNM_STYLE_COND_CONTAINS_BLANKS :
-				use_this = NULL != strpbrk (cvstring, BLANKS_STRING_FOR_MATCHING);
-				break;
-			case GNM_STYLE_COND_NOT_CONTAINS_BLANKS :
-				use_this = NULL == strpbrk (cvstring, BLANKS_STRING_FOR_MATCHING);
-				break;
 			}
+		} else {
+			val = gnm_expr_top_eval (cond->texpr[0], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+			if (cond->op == GNM_STYLE_COND_CUSTOM) {
+				use_this = value_get_as_bool (val, NULL);
+#if 0
+				char *str = gnm_expr_as_string (cond->expr[0],
+								&pp, NULL);
+				g_print ("'%s' = %s\n", str, use_this ? "true" : "false");
+				g_free (str);
+#endif
+			} else if (cond->op < GNM_STYLE_COND_CONTAINS_STR) {
+				GnmValDiff diff = value_compare (cv, val, TRUE);
+
+				switch (cond->op) {
+				default:
+				case GNM_STYLE_COND_EQUAL:	use_this = (diff == IS_EQUAL); break;
+				case GNM_STYLE_COND_NOT_EQUAL:	use_this = (diff != IS_EQUAL); break;
+				case GNM_STYLE_COND_NOT_BETWEEN:
+					if (diff == IS_LESS) {
+						use_this = TRUE;
+						break;
+					}
+					value_release (val);
+					val = gnm_expr_top_eval (cond->texpr[1], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+					diff = value_compare (cv, val, TRUE);
+					/* fall through */
+
+				case GNM_STYLE_COND_GT:		use_this = (diff == IS_GREATER); break;
+				case GNM_STYLE_COND_LT:		use_this = (diff == IS_LESS); break;
+				case GNM_STYLE_COND_GTE:	use_this = (diff != IS_LESS); break;
+				case GNM_STYLE_COND_BETWEEN:
+					if (diff == IS_LESS)
+						break;
+					value_release (val);
+					val = gnm_expr_top_eval (cond->texpr[1], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+					diff = value_compare (cv, val, TRUE);
+					/* fall through */
+				case GNM_STYLE_COND_LTE:	use_this = (diff != IS_GREATER); break;
+				}
+			} else if (cv && VALUE_IS_STRING (cv)) {
+				char const *valstring;
+				char *ptr;
+				char *ptr2;
+				char const *cvstring = value_peek_string (cv);
+				int slen = strlen (cvstring);
+
+				valstring = value_peek_string (val);
+				switch (cond->op) {
+				default : g_warning ("Unknown condition operator %d", cond->op);
+					break;
+				case GNM_STYLE_COND_CONTAINS_STR :
+					use_this = (NULL != strstr (cvstring, valstring));
+					break;
+				case GNM_STYLE_COND_NOT_CONTAINS_STR :
+					use_this = (NULL == strstr (cvstring, valstring));
+					break;
+				case GNM_STYLE_COND_BEGINS_WITH_STR :
+					use_this = (0 == strncmp (cvstring, valstring, slen));
+					break;
+				case GNM_STYLE_COND_NOT_BEGINS_WITH_STR :
+					use_this = (0 != strncmp (cvstring, valstring, slen));
+					break;
+				case GNM_STYLE_COND_ENDS_WITH_STR :
+					/* gedanken experiment: valuestr="foofoo"; cvstring="foo"
+					 * This loop solves the problem.
+					 * First, make sure ptr2 is NULL in case it never gets assigned*/
+					ptr2 = NULL;
+					while ((ptr = strstr (cvstring,valstring))) {
+						/*ptr2 will point to the beginning of the last match*/
+						ptr2 = ptr;
+					}
+					/*If it matches; is it the *end* match?*/
+					use_this = (ptr != NULL) && (0 == strcmp (ptr2, valstring));
+					break;
+				case GNM_STYLE_COND_NOT_ENDS_WITH_STR :
+					/*gedanken experiment: valuestr="foofoo"; cvstring="foo"
+					 * This loop solves the problem.
+					 *First, make sure ptr2 is NULL in case it never gets assigned*/
+					ptr2 = NULL;
+					while ((ptr = strstr (cvstring,valstring))) {
+						/*ptr2 will point to the beginning of the last match*/
+						ptr2 = ptr;
+					}
+					/*If it matches; is it the *end* match?*/
+					use_this = (ptr == NULL) || (0 != strcmp (ptr2, valstring));
+					break;
+				}
+			}
+			value_release (val);
 		}
 
-		value_release (val);
 		if (use_this)
 			return i;
 	}
