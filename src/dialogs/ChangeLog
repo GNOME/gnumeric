@@ -1,5 +1,13 @@
 2011-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-cell-format-cond.c (c_fmt_dialog_set_sensitive): fix parse
+	position
+	(cb_c_fmt_dialog_chooser_buttons): ditto
+	(c_fmt_dialog_conditions_page_load_cond_single_f): ditto
+	(c_fmt_dialog_chooser_load_combo): enable custom condition
+
+2011-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-cell-format-cond.c (c_fmt_dialog_chooser_load_combo): enable
 	more conditions
 

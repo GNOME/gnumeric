@@ -136,7 +136,7 @@ c_fmt_dialog_set_sensitive (CFormatChooseState *state)
 	gboolean ok = (state->style != NULL);
 	GnmParsePos pp;
 
-	parse_pos_init_sheet (&pp, state->cf_state->sheet);
+	parse_pos_init_editpos (&pp, state->cf_state->sv);
 
 	if (ok && gtk_widget_get_sensitive (state->expr_x)) {
 		GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->expr_x), &pp,
@@ -223,7 +223,7 @@ cb_c_fmt_dialog_chooser_buttons (GtkWidget *btn, CFormatChooseState *state)
 		gint n_expr = 0;
 		GnmParsePos pp;
 
-		parse_pos_init_sheet (&pp, state->cf_state->sheet);
+		parse_pos_init_editpos (&pp, state->cf_state->sv);
 
 		cond->overlay = gnm_style_new ();
 		if (state->style) {
@@ -282,7 +282,7 @@ c_fmt_dialog_chooser_load_combo (CFormatChooseState *state)
 		{ N_("Cell value is < x."),                           GNM_STYLE_COND_LT,                   1},
 		{ N_("Cell value is \xe2\x89\xa7 x."),                GNM_STYLE_COND_GTE,                  1},
 		{ N_("Cell value is \xe2\x89\xa6 x."),                GNM_STYLE_COND_LTE,                  1},
-		/* { N_("Expression x evaluates to TRUE."),              GNM_STYLE_COND_CUSTOM,               1}, */
+		{ N_("Expression x evaluates to TRUE."),              GNM_STYLE_COND_CUSTOM,               1},
 		{ N_("Cell contains the string x."),                  GNM_STYLE_COND_CONTAINS_STR,         1},
 		{ N_("Cell does not contain the string x."),          GNM_STYLE_COND_NOT_CONTAINS_STR,     1},
 		{ N_("Cell value begins with the string x."),         GNM_STYLE_COND_BEGINS_WITH_STR,      1},
@@ -560,8 +560,7 @@ c_fmt_dialog_conditions_page_load_cond_single_f (CFormatState *state,
 
 	gtk_tree_store_append (state->model, &iter2, iter1);
 
-	parse_pos_init (&pp, wb_control_get_workbook (WORKBOOK_CONTROL (state->wbcg)),
-			state->sheet, 0, 0);
+	parse_pos_init_editpos (&pp, state->sv);
 
 	formula = gnm_expr_top_as_string (texpr, &pp, gnm_conventions_default);
 	gtk_tree_store_set (state->model, &iter2, CONDITIONS_RANGE, NULL,
