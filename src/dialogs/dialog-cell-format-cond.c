@@ -92,6 +92,8 @@ typedef struct _CFormatChooseState {
 	GtkWidget	*ok_button;
 	GtkWidget	*new_button;
 	GtkWidget	*combo;
+	GtkWidget       *expr_x;
+	GtkWidget       *expr_y;
 	GtkListStore    *typestore;
 	GnmStyle        *style;
 	GtkWidget       *style_label;
@@ -131,7 +133,65 @@ cb_dialog_chooser_destroy (GtkDialog *dialog)
 static void
 c_fmt_dialog_set_sensitive (CFormatChooseState *state)
 {
-	gtk_widget_set_sensitive (state->ok_button, state->style != NULL);
+	gboolean ok = (state->style != NULL);
+	GnmParsePos pp;
+
+	parse_pos_init_sheet (&pp, state->cf_state->sheet);
+
+	if (ok && gtk_widget_get_sensitive (state->expr_x)) {
+		GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->expr_x), &pp,
+								NULL, FALSE,
+								GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
+		ok = (texpr != NULL);
+		if (texpr)
+			gnm_expr_top_unref (texpr);
+	}
+	if (ok && gtk_widget_get_sensitive (state->expr_y)) {
+		GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->expr_y), &pp,
+								NULL, FALSE,
+								GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
+		ok = (texpr != NULL);
+		if (texpr)
+			gnm_expr_top_unref (texpr);
+	}
+	
+	gtk_widget_set_sensitive (state->ok_button, ok);
+}
+
+static void
+c_fmt_dialog_set_expr_sensitive (CFormatChooseState *state)
+{
+	GtkTreeIter iter;
+	gint n_expr = 0;
+
+	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (state->combo), &iter))
+		gtk_tree_model_get (GTK_TREE_MODEL (state->typestore),
+				    &iter,
+				    2, &n_expr,
+				    -1);
+	if (n_expr < 1) {
+		gtk_widget_set_sensitive (state->expr_x, FALSE);
+		gtk_entry_set_text (gnm_expr_entry_get_entry (GNM_EXPR_ENTRY (state->expr_x)), "");
+	} else
+		gtk_widget_set_sensitive (state->expr_x, TRUE);
+	if (n_expr < 2) {
+		gtk_widget_set_sensitive (state->expr_y, FALSE);
+		gtk_entry_set_text (gnm_expr_entry_get_entry (GNM_EXPR_ENTRY (state->expr_y)), "");
+	} else
+		gtk_widget_set_sensitive (state->expr_y, TRUE);
+}
+
+static void
+cb_c_fmt_dialog_chooser_type_changed (G_GNUC_UNUSED GtkComboBox *widget, CFormatChooseState *state)
+{
+	c_fmt_dialog_set_expr_sensitive (state);
+	c_fmt_dialog_set_sensitive (state);
+}
+
+static void
+cb_c_fmt_dialog_chooser_entry_changed (G_GNUC_UNUSED GnmExprEntry *widget, CFormatChooseState *state)
+{
+	c_fmt_dialog_set_sensitive (state);
 }
 
 void     
@@ -160,6 +220,10 @@ cb_c_fmt_dialog_chooser_buttons (GtkWidget *btn, CFormatChooseState *state)
 	if (btn == state->ok_button) {
 		GnmStyleCond *cond = g_new0(GnmStyleCond, 1);
 		GtkTreeIter iter;
+		gint n_expr = 0;
+		GnmParsePos pp;
+
+		parse_pos_init_sheet (&pp, state->cf_state->sheet);
 
 		cond->overlay = gnm_style_new ();
 		if (state->style) {
@@ -174,9 +238,23 @@ cb_c_fmt_dialog_chooser_buttons (GtkWidget *btn, CFormatChooseState *state)
 			gtk_tree_model_get (GTK_TREE_MODEL (state->typestore),
 					    &iter,
 					    1, &cond->op,
+					    2, &n_expr,
 					    -1);
 		else
 			cond->op = GNM_STYLE_COND_CONTAINS_ERR;
+
+		if (n_expr > 0) {
+			GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->expr_x), &pp,
+									NULL, FALSE,
+									GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
+			cond->texpr[0] = texpr;
+		}
+		if (n_expr > 1) {
+			GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->expr_y), &pp,
+									NULL, FALSE,
+									GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
+			cond->texpr[1] = texpr;
+		}
 
 		c_fmt_dialog_apply_add_choice (state->cf_state, cond);
 		g_free (cond);
@@ -190,11 +268,30 @@ c_fmt_dialog_chooser_load_combo (CFormatChooseState *state)
 	static struct {
 		char const *label;
 		gint type;
+		gint n_expressions;
 	} cond_types[] = {
-		{ N_("Cell contains an error value."), GNM_STYLE_COND_CONTAINS_ERR},
-		{ N_("Cell does not contain an error value."), GNM_STYLE_COND_NOT_CONTAINS_ERR},
-		{ N_("Cell contains whitespace."), GNM_STYLE_COND_CONTAINS_BLANKS},
-		{ N_("Cell does not contain whitespace."), GNM_STYLE_COND_NOT_CONTAINS_BLANKS}
+		/* without any expression */
+		{ N_("Cell contains an error value."),                GNM_STYLE_COND_CONTAINS_ERR,         0},
+		{ N_("Cell does not contain an error value."),        GNM_STYLE_COND_NOT_CONTAINS_ERR,     0},
+		{ N_("Cell contains whitespace."),                    GNM_STYLE_COND_CONTAINS_BLANKS,      0},
+		{ N_("Cell does not contain whitespace."),            GNM_STYLE_COND_NOT_CONTAINS_BLANKS,  0},
+		/* with one expression */
+		{ N_("Cell value is = x."),                           GNM_STYLE_COND_EQUAL,                1},
+		{ N_("Cell value is \xe2\x89\xa0 x."),                GNM_STYLE_COND_NOT_EQUAL,            1},
+		{ N_("Cell value is > x."),                           GNM_STYLE_COND_GT,                   1},
+		{ N_("Cell value is < x."),                           GNM_STYLE_COND_LT,                   1},
+		{ N_("Cell value is \xe2\x89\xa7 x."),                GNM_STYLE_COND_GTE,                  1},
+		{ N_("Cell value is \xe2\x89\xa6 x."),                GNM_STYLE_COND_LTE,                  1},
+		/* { N_("Expression x evaluates to TRUE."),              GNM_STYLE_COND_CUSTOM,               1}, */
+		/* { N_("Cell contains the string x."),                  GNM_STYLE_COND_CONTAINS_STR,         1}, */
+		/* { N_("Cell does not contain the string x."),          GNM_STYLE_COND_NOT_CONTAINS_STR,     1}, */
+		/* { N_("Cell value begins with the string x."),         GNM_STYLE_COND_BEGINS_WITH_STR,      1}, */
+		/* { N_("Cell value does not begin with the string x."), GNM_STYLE_COND_NOT_BEGINS_WITH_STR,  1}, */
+		/* { N_("Cell value ends with the string x."),           GNM_STYLE_COND_ENDS_WITH_STR,        1}, */
+		/* { N_("Cell value does not end with the string x."),   GNM_STYLE_COND_NOT_ENDS_WITH_STR,    1}, */
+		/* with two expressions */
+		{ N_("Cell value is between x and y (incl.)."),               GNM_STYLE_COND_BETWEEN,              2},
+		{ N_("Cell value is not between x and y (incl.)."),           GNM_STYLE_COND_NOT_BETWEEN,          2}
 	};
 	guint i;
 	GtkCellRenderer  *cell;
@@ -205,6 +302,7 @@ c_fmt_dialog_chooser_load_combo (CFormatChooseState *state)
 						   NULL, G_MAXINT,
                                                    0, _(cond_types[i].label),
 						   1, cond_types[i].type,
+						   2, cond_types[i].n_expressions,
 						   -1);
 	cell = gtk_cell_renderer_text_new();
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->combo), cell, TRUE);
@@ -221,6 +319,7 @@ c_fmt_dialog_chooser (CFormatState *cf_state)
 	GtkBuilder     *gui;
 	CFormatChooseState  *state;
 	GtkWidget *dialog;
+	GtkTable  *table;
 
 	g_return_if_fail (cf_state != NULL);
 
@@ -247,6 +346,23 @@ c_fmt_dialog_chooser (CFormatState *cf_state)
 	state->ok_button = go_gtk_builder_get_widget (state->gui, "ok-button");
 	state->new_button = go_gtk_builder_get_widget (state->gui, "new-button");
 	state->combo = go_gtk_builder_get_widget (state->gui, "condition-combo");
+	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "condition-table"));
+	state->expr_x = GTK_WIDGET (gnm_expr_entry_new (state->cf_state->wbcg, FALSE));
+	gtk_table_attach (table, state->expr_x, 1, 2, 2, 3, 
+			  GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0);
+	gtk_widget_show(state->expr_x);
+	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->expr_x),
+				  GNM_EE_CONSTANT_ALLOWED,
+				  GNM_EE_MASK);
+
+	state->expr_y = GTK_WIDGET (gnm_expr_entry_new (state->cf_state->wbcg, FALSE));
+	gtk_table_attach (table, state->expr_y, 1, 2, 3, 4, 
+			  GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0);
+	gtk_widget_show(state->expr_y);
+	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->expr_y),
+				  GNM_EE_CONSTANT_ALLOWED,
+				  GNM_EE_MASK);
+
 	state->typestore = GTK_LIST_STORE (gtk_combo_box_get_model 
 					   (GTK_COMBO_BOX (state->combo)));
 	c_fmt_dialog_chooser_load_combo (state);
@@ -257,6 +373,7 @@ c_fmt_dialog_chooser (CFormatState *cf_state)
 	gnumeric_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "help-button"),
 		GNUMERIC_HELP_LINK_CELL_FORMAT_COND);
+	c_fmt_dialog_set_expr_sensitive (state);
 	c_fmt_dialog_set_sensitive (state);
 
 	gnumeric_restore_window_geometry (GTK_WINDOW (state->dialog),
@@ -271,6 +388,15 @@ c_fmt_dialog_chooser (CFormatState *cf_state)
 	g_signal_connect (G_OBJECT (state->new_button),
 		"clicked",
 		G_CALLBACK (cb_c_fmt_dialog_chooser_new_button), state);
+	g_signal_connect (G_OBJECT (state->combo),
+		"changed",
+		G_CALLBACK (cb_c_fmt_dialog_chooser_type_changed), state);
+	g_signal_connect (G_OBJECT (state->expr_x),
+		"changed",
+		G_CALLBACK (cb_c_fmt_dialog_chooser_entry_changed), state);
+	g_signal_connect (G_OBJECT (state->expr_y),
+		"changed",
+		G_CALLBACK (cb_c_fmt_dialog_chooser_entry_changed), state);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_c_fmt_dialog_chooser_destroy);
 	g_signal_connect (G_OBJECT (dialog), "destroy",

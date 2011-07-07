@@ -1,5 +1,16 @@
 2011-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* cell-format-cond-def.ui: add expression entry labels
+	* dialog-cell-format-cond.c (c_fmt_dialog_set_sensitive): check the
+	given expressions if appropriate
+	(c_fmt_dialog_set_expr_sensitive): new
+	(cb_c_fmt_dialog_chooser_type_changed): new
+	(cb_c_fmt_dialog_chooser_buttons): store expressions if appropriate
+	(c_fmt_dialog_chooser_load_combo): add more conditions
+	(c_fmt_dialog_chooser): create expression entries and connect them
+
+2011-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* cell-format-cond-def.ui: new
 	* cell-format-cond.ui: new
 	* dialog-cell-format-cond.c: new
