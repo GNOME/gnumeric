@@ -1,3 +1,8 @@
+2011-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-cell-format-cond.c (c_fmt_dialog_chooser_load_combo): enable
+	more conditions
+
 2011-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* cell-format-cond-def.ui: add expression entry labels

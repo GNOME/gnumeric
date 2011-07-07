@@ -1,3 +1,9 @@
+2011-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/style-conditions.c (gnm_style_conditions_eval): fix the sense
+	of the comparison (the value string is expected to be smaller than
+	the cell string) and avoid infinite loops.
+
 2011-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/Gnumeric-embed.xml.in: add menu item

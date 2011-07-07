@@ -307,13 +307,9 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 				case GNM_STYLE_COND_LTE:	use_this = (diff != IS_GREATER); break;
 				}
 			} else if (cv && VALUE_IS_STRING (cv)) {
-				char const *valstring;
-				char *ptr;
-				char *ptr2;
+				char const *valstring = value_peek_string (val);
 				char const *cvstring = value_peek_string (cv);
-				int slen = strlen (cvstring);
 
-				valstring = value_peek_string (val);
 				switch (cond->op) {
 				default : g_warning ("Unknown condition operator %d", cond->op);
 					break;
@@ -324,34 +320,16 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 					use_this = (NULL == strstr (cvstring, valstring));
 					break;
 				case GNM_STYLE_COND_BEGINS_WITH_STR :
-					use_this = (0 == strncmp (cvstring, valstring, slen));
+					use_this = g_str_has_prefix (cvstring, valstring);
 					break;
 				case GNM_STYLE_COND_NOT_BEGINS_WITH_STR :
-					use_this = (0 != strncmp (cvstring, valstring, slen));
+					use_this = !g_str_has_prefix (cvstring, valstring);
 					break;
 				case GNM_STYLE_COND_ENDS_WITH_STR :
-					/* gedanken experiment: valuestr="foofoo"; cvstring="foo"
-					 * This loop solves the problem.
-					 * First, make sure ptr2 is NULL in case it never gets assigned*/
-					ptr2 = NULL;
-					while ((ptr = strstr (cvstring,valstring))) {
-						/*ptr2 will point to the beginning of the last match*/
-						ptr2 = ptr;
-					}
-					/*If it matches; is it the *end* match?*/
-					use_this = (ptr != NULL) && (0 == strcmp (ptr2, valstring));
+					use_this = g_str_has_suffix (cvstring, valstring);
 					break;
 				case GNM_STYLE_COND_NOT_ENDS_WITH_STR :
-					/*gedanken experiment: valuestr="foofoo"; cvstring="foo"
-					 * This loop solves the problem.
-					 *First, make sure ptr2 is NULL in case it never gets assigned*/
-					ptr2 = NULL;
-					while ((ptr = strstr (cvstring,valstring))) {
-						/*ptr2 will point to the beginning of the last match*/
-						ptr2 = ptr;
-					}
-					/*If it matches; is it the *end* match?*/
-					use_this = (ptr == NULL) || (0 != strcmp (ptr2, valstring));
+					use_this = !g_str_has_suffix (cvstring, valstring);
 					break;
 				}
 			}

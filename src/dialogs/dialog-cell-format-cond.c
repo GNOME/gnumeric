@@ -283,12 +283,12 @@ c_fmt_dialog_chooser_load_combo (CFormatChooseState *state)
 		{ N_("Cell value is \xe2\x89\xa7 x."),                GNM_STYLE_COND_GTE,                  1},
 		{ N_("Cell value is \xe2\x89\xa6 x."),                GNM_STYLE_COND_LTE,                  1},
 		/* { N_("Expression x evaluates to TRUE."),              GNM_STYLE_COND_CUSTOM,               1}, */
-		/* { N_("Cell contains the string x."),                  GNM_STYLE_COND_CONTAINS_STR,         1}, */
-		/* { N_("Cell does not contain the string x."),          GNM_STYLE_COND_NOT_CONTAINS_STR,     1}, */
-		/* { N_("Cell value begins with the string x."),         GNM_STYLE_COND_BEGINS_WITH_STR,      1}, */
-		/* { N_("Cell value does not begin with the string x."), GNM_STYLE_COND_NOT_BEGINS_WITH_STR,  1}, */
-		/* { N_("Cell value ends with the string x."),           GNM_STYLE_COND_ENDS_WITH_STR,        1}, */
-		/* { N_("Cell value does not end with the string x."),   GNM_STYLE_COND_NOT_ENDS_WITH_STR,    1}, */
+		{ N_("Cell contains the string x."),                  GNM_STYLE_COND_CONTAINS_STR,         1},
+		{ N_("Cell does not contain the string x."),          GNM_STYLE_COND_NOT_CONTAINS_STR,     1},
+		{ N_("Cell value begins with the string x."),         GNM_STYLE_COND_BEGINS_WITH_STR,      1},
+		{ N_("Cell value does not begin with the string x."), GNM_STYLE_COND_NOT_BEGINS_WITH_STR,  1},
+		{ N_("Cell value ends with the string x."),           GNM_STYLE_COND_ENDS_WITH_STR,        1},
+		{ N_("Cell value does not end with the string x."),   GNM_STYLE_COND_NOT_ENDS_WITH_STR,    1},
 		/* with two expressions */
 		{ N_("Cell value is between x and y (incl.)."),               GNM_STYLE_COND_BETWEEN,              2},
 		{ N_("Cell value is not between x and y (incl.)."),           GNM_STYLE_COND_NOT_BETWEEN,          2}
