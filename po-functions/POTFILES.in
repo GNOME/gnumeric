@@ -8,6 +8,7 @@ plugins/excel/ms-excel-read.c
 plugins/excel/ms-excel-write.c
 plugins/excel/ms-formula-read.c
 plugins/excel/ms-formula-write.c
+plugins/excel/xlsx-read-docprops.c
 plugins/excel/xlsx-read-drawing.c
 plugins/excel/xlsx-read-pivot.c
 plugins/excel/xlsx-read.c
