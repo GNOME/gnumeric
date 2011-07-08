@@ -3418,8 +3418,12 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 		style = (parent_name != NULL)
 			? g_hash_table_lookup (state->styles.cell, parent_name)
 			: NULL;
-		state->cur_style.cells = (style != NULL)
-			? gnm_style_dup (style) : gnm_style_new ();
+		if (style != NULL)
+			state->cur_style.cells = gnm_style_dup (style);
+		else {
+			state->cur_style.cells = gnm_style_new ();
+			gnm_style_set_conditions (state->cur_style.cells, NULL);
+		}
 		gnm_style_ref (state->cur_style.cells); /* We now have 2 references */
 		state->h_align_is_valid = state->repeat_content = FALSE;
 		state->text_align = -2;

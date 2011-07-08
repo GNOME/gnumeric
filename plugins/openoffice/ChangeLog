@@ -1,3 +1,7 @@
+2011-07-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_style): don't inherit style conditions
+
 2011-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_parse_range_address_or_expr): new, extracted from
