@@ -1,3 +1,12 @@
+2011-07-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* cell-format-cond-def.ui: enable border checkbox
+	* dialog-cell-format-cond.c (cb_c_fmt_dialog_chooser_buttons): handle
+	border items
+	* dialog-cell-format.c (cb_fmt_dialog_dialog_buttons): store border
+	info in style for style selection
+	(dialog_cell_format_select_style): set selection mask to 1
+
 2011-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* cell-format-cond-def.ui: enable number and alignment checkboxes

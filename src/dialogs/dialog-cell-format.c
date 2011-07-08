@@ -1982,7 +1982,6 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 #endif
 
 	if (btn == state->apply_button || btn == state->ok_button) {
-		GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX];
 		int i;
 
 		/* We need to make sure the right sheet is active */
@@ -2019,16 +2018,27 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 			state->protection.sheet_protected_changed = FALSE;
 		}
 
-		for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
-			borders[i] = border_get_mstyle (state, i);
 
-		if (state->style_selector.is_selector)
+		if (state->style_selector.is_selector) {
+			for (i = GNM_STYLE_BORDER_TOP; i <= GNM_STYLE_BORDER_DIAG; i++) {
+				GnmBorder *b = border_get_mstyle (state, i);
+				if (b)
+					gnm_style_set_border 
+						(state->result, 
+						 MSTYLE_BORDER_TOP + 
+						 (int)(i - GNM_STYLE_BORDER_TOP),
+						 b);
+			}
 			dialog_cell_format_style_added 
 				(state->style_selector.closure,
 				 state->result);
-		else
+		} else {
+			GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX];
+			for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
+				borders[i] = border_get_mstyle (state, i);
 			cmd_selection_format (WORKBOOK_CONTROL (state->wbcg),
 					      state->result, borders, NULL);
+		}
 		/* state->result got absorbed.  */
 		/* Get a fresh style to accumulate results in */
 		state->result = gnm_style_new ();
@@ -2529,6 +2539,7 @@ dialog_cell_format_select_style (WBCGtk *wbcg, gint pages,
 	state->style_selector.is_selector = TRUE;
 	state->style_selector.w = w;
 	state->style_selector.closure = closure;
+	state->selection_mask	= 1;
 
 	fmt_dialog_impl (state, FD_BACKGROUND);
 

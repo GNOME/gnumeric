@@ -307,7 +307,18 @@ cb_c_fmt_dialog_chooser_buttons (GtkWidget *btn, CFormatChooseState *state)
 			}
 			if (cb_c_fmt_dialog_chooser_check_page 
 			     (state, "check-border", FD_BORDER)) {
-
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_BORDER_TOP);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_BORDER_BOTTOM);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_BORDER_LEFT);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_BORDER_RIGHT);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_BORDER_REV_DIAGONAL);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_BORDER_DIAGONAL);
 			}
 			if (cb_c_fmt_dialog_chooser_check_page 
 			    (state, "check-protection", FD_PROTECTION)) {
