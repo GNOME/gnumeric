@@ -11,6 +11,7 @@
 #include "gnumeric.h"
 #include "style.h"
 #include "style-font.h"
+#include "gnm-style-impl.h"
 
 #include "gnm-format.h"
 #include "style-color.h"
@@ -479,28 +480,35 @@ gnm_style_required_spanflags (GnmStyle const *style)
 {
 	GnmSpanCalcFlags res = GNM_SPANCALC_SIMPLE;
 
-	gboolean const row_height =
-		gnm_style_is_element_set (style, MSTYLE_FONT_SIZE) ||
-		gnm_style_is_element_set (style, MSTYLE_WRAP_TEXT) ||
-		gnm_style_is_element_set (style, MSTYLE_ROTATION) ||
-		gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT);
-	gboolean const size_change = row_height ||
-		gnm_style_is_element_set (style, MSTYLE_FONT_NAME) ||
-		gnm_style_is_element_set (style, MSTYLE_FONT_BOLD) ||
-		gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC);
-	gboolean const format_change =
-		gnm_style_is_element_set (style, MSTYLE_FORMAT) ||
-		gnm_style_is_element_set (style, MSTYLE_INDENT) ||
-		gnm_style_is_element_set (style, MSTYLE_ALIGN_H) ||
-		gnm_style_is_element_set (style, MSTYLE_ALIGN_V) ||
-		gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH) ||
-		gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
-		gnm_style_is_element_set (style, MSTYLE_FONT_COLOR);
+	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS))
+		/* Note that style->cond_styles may not be set yet */
+		/* More importantly, even if the conditions are empty we */
+		/* have to rerender everything since we do not know what changed. */
+		res |= GNM_SPANCALC_RE_RENDER | GNM_SPANCALC_RESIZE | GNM_SPANCALC_ROW_HEIGHT;
+	else {
+		gboolean const row_height =
+			gnm_style_is_element_set (style, MSTYLE_FONT_SIZE) ||
+			gnm_style_is_element_set (style, MSTYLE_WRAP_TEXT) ||
+			gnm_style_is_element_set (style, MSTYLE_ROTATION) ||
+			gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT);
+		gboolean const size_change = row_height ||
+			gnm_style_is_element_set (style, MSTYLE_FONT_NAME) ||
+			gnm_style_is_element_set (style, MSTYLE_FONT_BOLD) ||
+			gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC);
+		gboolean const format_change =
+			gnm_style_is_element_set (style, MSTYLE_FORMAT) ||
+			gnm_style_is_element_set (style, MSTYLE_INDENT) ||
+			gnm_style_is_element_set (style, MSTYLE_ALIGN_H) ||
+			gnm_style_is_element_set (style, MSTYLE_ALIGN_V) ||
+			gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH) ||
+			gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
+			gnm_style_is_element_set (style, MSTYLE_FONT_COLOR);
 
-	if (row_height)
-		res |= GNM_SPANCALC_ROW_HEIGHT;
-	if (format_change || size_change)
-		res |= GNM_SPANCALC_RE_RENDER | GNM_SPANCALC_RESIZE;
+		if (row_height)
+			res |= GNM_SPANCALC_ROW_HEIGHT;
+		if (format_change || size_change)
+			res |= GNM_SPANCALC_RE_RENDER | GNM_SPANCALC_RESIZE;
+	}
 	return res;
 }
 

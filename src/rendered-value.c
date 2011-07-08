@@ -32,6 +32,8 @@
 #include "style-color.h"
 #include "style-font.h"
 #include "style-border.h"
+#include "style-conditions.h"
+#include "gnm-style-impl.h"
 #include "sheet.h"
 #include "sheet-merge.h"
 #include "gnm-format.h"
@@ -206,6 +208,16 @@ gnm_rendered_value_new (GnmCell const *cell,
 	g_return_val_if_fail (cell->value != NULL, NULL);
 
 	mstyle = gnm_cell_get_style (cell);
+
+	if (mstyle->conditions) {
+		GnmEvalPos ep;
+		int res;
+		eval_pos_init_cell (&ep, cell);
+		if ((res = gnm_style_conditions_eval (mstyle->conditions, &ep)) >= 0)
+			mstyle = g_ptr_array_index (mstyle->cond_styles, res);
+	}
+
+
 	rotation = gnm_style_get_rotation (mstyle);
 	if (rotation) {
 		static PangoMatrix const id = PANGO_MATRIX_INIT;

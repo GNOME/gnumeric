@@ -1,5 +1,12 @@
 2011-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* cell-format-cond-def.ui: enable font and background checkbox
+	* dialog-cell-format-cond.c (cb_c_fmt_dialog_chooser_check_page): new
+	(cb_c_fmt_dialog_chooser_new_button): check checkboxes
+	(cb_c_fmt_dialog_chooser_buttons): handle font items
+	
+2011-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-cell-format-cond.c (c_fmt_dialog_set_sensitive): fix parse
 	position
 	(cb_c_fmt_dialog_chooser_buttons): ditto

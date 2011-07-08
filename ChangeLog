@@ -1,5 +1,12 @@
 2011-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/rendered-value.c (gnm_rendered_value_new): consider conditional
+	styles
+	* src/style.c (gnm_style_required_spanflags): consider conditional
+	styles
+
+2011-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/style-conditions.c (gnm_style_conditions_eval): fix the sense
 	of the comparison (the value string is expected to be smaller than
 	the cell string) and avoid infinite loops.

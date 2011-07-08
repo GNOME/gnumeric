@@ -207,10 +207,38 @@ dialog_cell_format_style_added (gpointer closure, GnmStyle *style)
 	c_fmt_dialog_set_sensitive (state);
 }
 
+static gint
+cb_c_fmt_dialog_chooser_check_page (CFormatChooseState *state, gchar const *name,
+				    gint page)
+{
+	GtkWidget *w = go_gtk_builder_get_widget (state->gui, name);
+	
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
+		return (1 << page);
+	else
+		return 0;
+}
+
 static void
 cb_c_fmt_dialog_chooser_new_button (G_GNUC_UNUSED GtkWidget *btn, CFormatChooseState *state)
 {
-	dialog_cell_format_select_style (state->cf_state->wbcg, 1 << FD_BACKGROUND, 
+	int pages = 0;
+	pages |= cb_c_fmt_dialog_chooser_check_page 
+		(state, "check-background", FD_BACKGROUND);
+	pages |= cb_c_fmt_dialog_chooser_check_page 
+		(state, "check-number", FD_NUMBER);
+	pages |= cb_c_fmt_dialog_chooser_check_page 
+		(state, "check-align", FD_ALIGNMENT);
+	pages |= cb_c_fmt_dialog_chooser_check_page 
+		(state, "check-font", FD_FONT);
+	pages |= cb_c_fmt_dialog_chooser_check_page 
+		(state, "check-border", FD_BORDER);
+	pages |= cb_c_fmt_dialog_chooser_check_page 
+		(state, "check-protection", FD_PROTECTION);
+	pages |= cb_c_fmt_dialog_chooser_check_page 
+		(state, "check-validation", FD_VALIDATION);
+
+	dialog_cell_format_select_style (state->cf_state->wbcg, pages, 
 					 GTK_WINDOW (state->dialog), state);
 }
 
@@ -227,12 +255,54 @@ cb_c_fmt_dialog_chooser_buttons (GtkWidget *btn, CFormatChooseState *state)
 
 		cond->overlay = gnm_style_new ();
 		if (state->style) {
-			gnm_style_merge_element (cond->overlay, state->style, 
-						 MSTYLE_COLOR_BACK);
-			gnm_style_merge_element (cond->overlay, state->style, 
-						 MSTYLE_COLOR_PATTERN);
-			gnm_style_merge_element (cond->overlay, state->style, 
-						 MSTYLE_PATTERN);
+			if (cb_c_fmt_dialog_chooser_check_page 
+			    (state, "check-background", FD_BACKGROUND)) {
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_COLOR_BACK);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_COLOR_PATTERN);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_PATTERN);
+			}
+			if (cb_c_fmt_dialog_chooser_check_page 
+			    (state, "check-number", FD_NUMBER)) {
+
+			}
+			if (cb_c_fmt_dialog_chooser_check_page 
+			    (state, "check-align", FD_ALIGNMENT)) {
+
+			}
+			if (cb_c_fmt_dialog_chooser_check_page 
+			    (state, "check-font", FD_FONT)) {
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_FONT_COLOR);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_FONT_NAME);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_FONT_BOLD);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_FONT_ITALIC);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_FONT_UNDERLINE);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_FONT_STRIKETHROUGH);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_FONT_SCRIPT);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_FONT_SIZE);
+			}
+			if (cb_c_fmt_dialog_chooser_check_page 
+			     (state, "check-border", FD_BORDER)) {
+
+			}
+			if (cb_c_fmt_dialog_chooser_check_page 
+			    (state, "check-protection", FD_PROTECTION)) {
+
+			}
+			if (cb_c_fmt_dialog_chooser_check_page 
+			    (state, "check-validation", FD_VALIDATION)) {
+
+			}
 		}
 		if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (state->combo), &iter))
 			gtk_tree_model_get (GTK_TREE_MODEL (state->typestore),
