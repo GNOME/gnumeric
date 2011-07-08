@@ -1,8 +1,17 @@
 2011-07-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-cell-format-cond.c (c_fmt_dialog_condition_setter_tiled):
+	possibly act on all styles in the selection
+	(cb_c_fmt_dialog_expand_clicked): handle expand button
+	(c_fmt_dialog_conditions_page_load_conditions): saved the condition
+	reference in the model
+	(c_fmt_dialog_init_conditions_page): do not hide the expand button
+
+2011-07-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-cell-format-cond.c (cb_c_fmt_dialog_remove_clicked): implement
 	(c_fmt_dialog_init_conditions_page): do not hide the remove button
-	
+
 2011-07-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* cell-format-cond-def.ui: enable border checkbox
