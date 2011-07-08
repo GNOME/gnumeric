@@ -194,6 +194,19 @@ gnm_style_conditions_insert (GnmStyleConditions *sc,
 		g_array_insert_val (sc->conditions, pos, *cond);
 }
 
+void 
+gnm_style_conditions_delete  (GnmStyleConditions *sc,
+			      guint pos)
+{
+	g_return_if_fail (sc != NULL);
+	g_return_if_fail (sc->conditions != NULL);
+	g_return_if_fail (sc->conditions->len > pos);
+
+	cond_unref (&g_array_index (sc->conditions, GnmStyleCond, pos));
+	g_array_remove_index (sc->conditions, pos);
+}
+
+
 GPtrArray *
 gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 			      GnmStyle const *base)

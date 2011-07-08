@@ -613,12 +613,6 @@ cb_c_fmt_dialog_add_clicked (G_GNUC_UNUSED GtkButton *button, CFormatState *stat
 }
 
 static void
-cb_c_fmt_dialog_remove_clicked (G_GNUC_UNUSED GtkButton *button, CFormatState *state)
-{
-	c_fmt_dialog_load (state);
-}
-
-static void
 cb_c_fmt_dialog_clear_clicked (G_GNUC_UNUSED GtkButton *button, CFormatState *state)
 {
 	state->action.new_style = gnm_style_new ();
@@ -630,6 +624,43 @@ cb_c_fmt_dialog_clear_clicked (G_GNUC_UNUSED GtkButton *button, CFormatState *st
 	state->action.new_style = NULL;
 
 	c_fmt_dialog_load (state);
+}
+
+static void
+cb_c_fmt_dialog_remove_clicked (GtkButton *button, CFormatState *state)
+{
+	if (1 == gtk_tree_model_iter_n_children (GTK_TREE_MODEL (state->model), NULL))
+		cb_c_fmt_dialog_clear_clicked (button, state);
+	else {
+		GtkTreeIter iter;
+		if (gtk_tree_selection_get_selected (state->selection, NULL, &iter)) {
+			GtkTreePath *path = gtk_tree_model_get_path 
+				(GTK_TREE_MODEL (state->model), &iter);
+			gint *ind = gtk_tree_path_get_indices (path);
+			if (ind) {
+				GnmStyleConditions *sc;
+				sc = gnm_style_conditions_dup 
+					(gnm_style_get_conditions (state->style));
+				if (sc != NULL) {
+					gnm_style_conditions_delete (sc, *ind);
+					state->action.new_style = gnm_style_new ();
+					gnm_style_set_conditions 
+						(state->action.new_style, sc);
+					
+					c_fmt_dialog_set_conditions 
+						(state, 
+						 _("Remove instance from conditional "
+						   "formatting"));
+
+					gnm_style_unref (state->action.new_style);
+					state->action.new_style = NULL;
+
+					c_fmt_dialog_load (state);
+				}
+			}
+			gtk_tree_path_free (path);
+		}
+	}
 }
 
 static void
@@ -1057,7 +1088,6 @@ c_fmt_dialog_init_conditions_page (CFormatState *state)
 	g_signal_connect (G_OBJECT (state->edit), "clicked",
 			  G_CALLBACK (cb_c_fmt_dialog_edit_clicked), state);
 	
-	gtk_widget_hide (GTK_WIDGET (state->remove)); 
 	gtk_widget_hide (GTK_WIDGET (state->expand)); 
 	gtk_widget_hide (GTK_WIDGET (state->edit)); 
 }

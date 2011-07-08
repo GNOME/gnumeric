@@ -1,3 +1,8 @@
+2011-07-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/style-conditions.c (gnm_style_conditions_delete): new
+	* src/style-conditions.h (gnm_style_conditions_delete): new
+
 2011-07-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/rendered-value.c (gnm_rendered_value_new): consider conditional
