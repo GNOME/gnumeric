@@ -7,7 +7,7 @@ Andreas:
 	* Fix xlsx schema violations.
 	* Fix keyword handling in properties dialog. [#653378]
 	* Allow document properties to be edited and added.
-	* Add an interface for conditional formatting.
+	* Add an interface for conditional styles.
 
 Morten:
 	* Fix --with-gnome compilation:  [#652802]

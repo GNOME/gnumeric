@@ -266,11 +266,25 @@ cb_c_fmt_dialog_chooser_buttons (GtkWidget *btn, CFormatChooseState *state)
 			}
 			if (cb_c_fmt_dialog_chooser_check_page 
 			    (state, "check-number", FD_NUMBER)) {
-
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_FORMAT);
 			}
 			if (cb_c_fmt_dialog_chooser_check_page 
 			    (state, "check-align", FD_ALIGNMENT)) {
-
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_ALIGN_V);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_ALIGN_H);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_INDENT);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_ROTATION);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_TEXT_DIR);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_WRAP_TEXT);
+				gnm_style_merge_element (cond->overlay, state->style, 
+							 MSTYLE_SHRINK_TO_FIT);
 			}
 			if (cb_c_fmt_dialog_chooser_check_page 
 			    (state, "check-font", FD_FONT)) {
