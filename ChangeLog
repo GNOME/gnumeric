@@ -1,3 +1,8 @@
+2011-07-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/style-conditions.c (gnm_style_conditions_eval): != IS_LESS is
+	not the same as == IS_EQUAL || == IS_GREATER
+
 2011-07-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/style-conditions.c (gnm_style_conditions_delete): new

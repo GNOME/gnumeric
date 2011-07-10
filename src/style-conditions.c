@@ -309,7 +309,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 
 				case GNM_STYLE_COND_GT:		use_this = (diff == IS_GREATER); break;
 				case GNM_STYLE_COND_LT:		use_this = (diff == IS_LESS); break;
-				case GNM_STYLE_COND_GTE:	use_this = (diff != IS_LESS); break;
+				case GNM_STYLE_COND_GTE:	use_this = (diff == IS_GREATER || diff == IS_EQUAL); break;
 				case GNM_STYLE_COND_BETWEEN:
 					if (diff == IS_LESS)
 						break;
@@ -317,7 +317,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 					val = gnm_expr_top_eval (cond->texpr[1], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 					diff = value_compare (cv, val, TRUE);
 					/* fall through */
-				case GNM_STYLE_COND_LTE:	use_this = (diff != IS_GREATER); break;
+				case GNM_STYLE_COND_LTE:	use_this = (diff == IS_LESS || diff == IS_EQUAL); break;
 				}
 			} else if (cv && VALUE_IS_STRING (cv)) {
 				char const *valstring = value_peek_string (val);
