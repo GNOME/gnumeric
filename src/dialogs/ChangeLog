@@ -1,5 +1,9 @@
 2011-07-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* cell-format-cond.ui: fix resize behaviour
+
+2011-07-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-cell-format-cond.c (cb_c_fmt_dialog_copy_button): use the
 	current style to build a full style.
 
