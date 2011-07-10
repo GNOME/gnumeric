@@ -65,11 +65,9 @@ typedef struct _CFormatState {
 	gboolean         homogeneous;
 	GnmStyle	*style;
 
-	GtkButton       *add;
 	GtkButton       *remove;
 	GtkButton       *clear;
 	GtkButton       *expand;
-	GtkButton       *edit;
 	GtkLabel        *label;
 	GtkTreeView     *treeview;
 	GtkTreeStore    *model;
@@ -83,22 +81,18 @@ typedef struct _CFormatState {
 		GnmStyle *old_style;
 		gboolean  existing_conds_only;
 	} action;
+	struct {
+		GtkWidget	*edit_style_button;
+		GtkWidget	*add_button;
+		GtkWidget	*replace_button;
+		GtkWidget	*combo;
+		GtkWidget       *expr_x;
+		GtkWidget       *expr_y;
+		GtkListStore    *typestore;
+		GnmStyle        *style;
+		GtkWidget       *style_label;
+	} editor;
 } CFormatState;
-
-typedef struct _CFormatChooseState {
-	CFormatState    *cf_state;
-	GtkBuilder	*gui;
-	GtkDialog	*dialog;
-	GtkWidget	*cancel_button;
-	GtkWidget	*ok_button;
-	GtkWidget	*new_button;
-	GtkWidget	*combo;
-	GtkWidget       *expr_x;
-	GtkWidget       *expr_y;
-	GtkListStore    *typestore;
-	GnmStyle        *style;
-	GtkWidget       *style_label;
-} CFormatChooseState;
 
 enum {
 	CONDITIONS_RANGE,
@@ -116,10 +110,19 @@ static void c_fmt_dialog_update_buttons (CFormatState *state);
 
 /*****************************************************************************/
 
+/* button handlers */
+static void
+cb_c_fmt_dialog_dialog_buttons (G_GNUC_UNUSED GtkWidget *btn, CFormatState *state)
+{
+		gtk_widget_destroy (GTK_WIDGET (state->dialog));
+}
+
 /* Handler for destroy */
 static void
-cb_c_fmt_dialog_chooser_destroy (CFormatChooseState *state)
+cb_c_fmt_dialog_dialog_destroy (CFormatState *state)
 {
+	if (state->editor.style)
+		gnm_style_unref (state->editor.style);
 	if (state->style)
 		gnm_style_unref (state->style);
 	g_object_unref (G_OBJECT (state->gui));
@@ -127,29 +130,31 @@ cb_c_fmt_dialog_chooser_destroy (CFormatChooseState *state)
 }
 
 static void
-cb_dialog_chooser_destroy (GtkDialog *dialog)
+cb_dialog_destroy (GtkDialog *dialog)
 {
 	g_object_set_data (G_OBJECT (dialog), "state", NULL);
 }
 
+/*****************************************************************************/
+
 static void
-c_fmt_dialog_set_sensitive (CFormatChooseState *state)
+c_fmt_dialog_set_sensitive (CFormatState *state)
 {
-	gboolean ok = (state->style != NULL);
+	gboolean ok = (state->editor.style != NULL);
 	GnmParsePos pp;
 
-	parse_pos_init_editpos (&pp, state->cf_state->sv);
+	parse_pos_init_editpos (&pp, state->sv);
 
-	if (ok && gtk_widget_get_sensitive (state->expr_x)) {
-		GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->expr_x), &pp,
+	if (ok && gtk_widget_get_sensitive (state->editor.expr_x)) {
+		GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->editor.expr_x), &pp,
 								NULL, FALSE,
 								GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
 		ok = (texpr != NULL);
 		if (texpr)
 			gnm_expr_top_unref (texpr);
 	}
-	if (ok && gtk_widget_get_sensitive (state->expr_y)) {
-		GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->expr_y), &pp,
+	if (ok && gtk_widget_get_sensitive (state->editor.expr_y)) {
+		GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->editor.expr_y), &pp,
 								NULL, FALSE,
 								GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
 		ok = (texpr != NULL);
@@ -157,41 +162,41 @@ c_fmt_dialog_set_sensitive (CFormatChooseState *state)
 			gnm_expr_top_unref (texpr);
 	}
 	
-	gtk_widget_set_sensitive (state->ok_button, ok);
+	gtk_widget_set_sensitive (state->editor.add_button, ok);
 }
 
 static void
-c_fmt_dialog_set_expr_sensitive (CFormatChooseState *state)
+c_fmt_dialog_set_expr_sensitive (CFormatState *state)
 {
 	GtkTreeIter iter;
 	gint n_expr = 0;
 
-	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (state->combo), &iter))
-		gtk_tree_model_get (GTK_TREE_MODEL (state->typestore),
+	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (state->editor.combo), &iter))
+		gtk_tree_model_get (GTK_TREE_MODEL (state->editor.typestore),
 				    &iter,
 				    2, &n_expr,
 				    -1);
 	if (n_expr < 1) {
-		gtk_widget_set_sensitive (state->expr_x, FALSE);
-		gtk_entry_set_text (gnm_expr_entry_get_entry (GNM_EXPR_ENTRY (state->expr_x)), "");
+		gtk_widget_set_sensitive (state->editor.expr_x, FALSE);
+		gtk_entry_set_text (gnm_expr_entry_get_entry (GNM_EXPR_ENTRY (state->editor.expr_x)), "");
 	} else
-		gtk_widget_set_sensitive (state->expr_x, TRUE);
+		gtk_widget_set_sensitive (state->editor.expr_x, TRUE);
 	if (n_expr < 2) {
-		gtk_widget_set_sensitive (state->expr_y, FALSE);
-		gtk_entry_set_text (gnm_expr_entry_get_entry (GNM_EXPR_ENTRY (state->expr_y)), "");
+		gtk_widget_set_sensitive (state->editor.expr_y, FALSE);
+		gtk_entry_set_text (gnm_expr_entry_get_entry (GNM_EXPR_ENTRY (state->editor.expr_y)), "");
 	} else
-		gtk_widget_set_sensitive (state->expr_y, TRUE);
+		gtk_widget_set_sensitive (state->editor.expr_y, TRUE);
 }
 
 static void
-cb_c_fmt_dialog_chooser_type_changed (G_GNUC_UNUSED GtkComboBox *widget, CFormatChooseState *state)
+cb_c_fmt_dialog_chooser_type_changed (G_GNUC_UNUSED GtkComboBox *widget, CFormatState *state)
 {
 	c_fmt_dialog_set_expr_sensitive (state);
 	c_fmt_dialog_set_sensitive (state);
 }
 
 static void
-cb_c_fmt_dialog_chooser_entry_changed (G_GNUC_UNUSED GnmExprEntry *widget, CFormatChooseState *state)
+cb_c_fmt_dialog_chooser_entry_changed (G_GNUC_UNUSED GnmExprEntry *widget, CFormatState *state)
 {
 	c_fmt_dialog_set_sensitive (state);
 }
@@ -199,18 +204,18 @@ cb_c_fmt_dialog_chooser_entry_changed (G_GNUC_UNUSED GnmExprEntry *widget, CForm
 void     
 dialog_cell_format_style_added (gpointer closure, GnmStyle *style)
 {
-	CFormatChooseState *state = closure;
+	CFormatState *state = closure;
 	
-	if (state->style)
-		gnm_style_unref (state->style);
-	state->style = style;
-	gtk_label_set_text (GTK_LABEL (state->style_label), 
+	if (state->editor.style)
+		gnm_style_unref (state->editor.style);
+	state->editor.style = style;
+	gtk_label_set_text (GTK_LABEL (state->editor.style_label), 
 			    style ? _("(defined)") : _("undefined"));
 	c_fmt_dialog_set_sensitive (state);
 }
 
 static gint
-cb_c_fmt_dialog_chooser_check_page (CFormatChooseState *state, gchar const *name,
+cb_c_fmt_dialog_chooser_check_page (CFormatState *state, gchar const *name,
 				    gint page)
 {
 	GtkWidget *w = go_gtk_builder_get_widget (state->gui, name);
@@ -222,7 +227,7 @@ cb_c_fmt_dialog_chooser_check_page (CFormatChooseState *state, gchar const *name
 }
 
 static void
-cb_c_fmt_dialog_chooser_new_button (G_GNUC_UNUSED GtkWidget *btn, CFormatChooseState *state)
+cb_c_fmt_dialog_edit_style_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *state)
 {
 	int pages = 0;
 	pages |= cb_c_fmt_dialog_chooser_check_page 
@@ -240,127 +245,124 @@ cb_c_fmt_dialog_chooser_new_button (G_GNUC_UNUSED GtkWidget *btn, CFormatChooseS
 	pages |= cb_c_fmt_dialog_chooser_check_page 
 		(state, "check-validation", FD_VALIDATION);
 
-	dialog_cell_format_select_style (state->cf_state->wbcg, pages, 
+	dialog_cell_format_select_style (state->wbcg, pages, 
 					 GTK_WINDOW (state->dialog), state);
 }
 
 static void
-cb_c_fmt_dialog_chooser_buttons (GtkWidget *btn, CFormatChooseState *state)
+cb_c_fmt_dialog_add_button (GtkWidget *btn, CFormatState *state)
 {
-	if (btn == state->ok_button) {
-		GnmStyleCond *cond = g_new0(GnmStyleCond, 1);
-		GtkTreeIter iter;
-		gint n_expr = 0;
-		GnmParsePos pp;
+	GnmStyleCond *cond = g_new0(GnmStyleCond, 1);
+	GtkTreeIter iter;
+	gint n_expr = 0;
+	GnmParsePos pp;
 
-		parse_pos_init_editpos (&pp, state->cf_state->sv);
+	parse_pos_init_editpos (&pp, state->sv);
 
-		cond->overlay = gnm_style_new ();
-		if (state->style) {
-			if (cb_c_fmt_dialog_chooser_check_page 
-			    (state, "check-background", FD_BACKGROUND)) {
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_COLOR_BACK);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_COLOR_PATTERN);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_PATTERN);
-			}
-			if (cb_c_fmt_dialog_chooser_check_page 
-			    (state, "check-number", FD_NUMBER)) {
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_FORMAT);
-			}
-			if (cb_c_fmt_dialog_chooser_check_page 
-			    (state, "check-align", FD_ALIGNMENT)) {
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_ALIGN_V);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_ALIGN_H);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_INDENT);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_ROTATION);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_TEXT_DIR);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_WRAP_TEXT);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_SHRINK_TO_FIT);
-			}
-			if (cb_c_fmt_dialog_chooser_check_page 
-			    (state, "check-font", FD_FONT)) {
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_FONT_COLOR);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_FONT_NAME);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_FONT_BOLD);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_FONT_ITALIC);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_FONT_UNDERLINE);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_FONT_STRIKETHROUGH);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_FONT_SCRIPT);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_FONT_SIZE);
-			}
-			if (cb_c_fmt_dialog_chooser_check_page 
-			     (state, "check-border", FD_BORDER)) {
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_BORDER_TOP);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_BORDER_BOTTOM);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_BORDER_LEFT);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_BORDER_RIGHT);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_BORDER_REV_DIAGONAL);
-				gnm_style_merge_element (cond->overlay, state->style, 
-							 MSTYLE_BORDER_DIAGONAL);
-			}
-			if (cb_c_fmt_dialog_chooser_check_page 
-			    (state, "check-protection", FD_PROTECTION)) {
-
-			}
-			if (cb_c_fmt_dialog_chooser_check_page 
-			    (state, "check-validation", FD_VALIDATION)) {
-
-			}
+	cond->overlay = gnm_style_new ();
+	if (state->editor.style) {
+		if (cb_c_fmt_dialog_chooser_check_page 
+		    (state, "check-background", FD_BACKGROUND)) {
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_COLOR_BACK);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_COLOR_PATTERN);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_PATTERN);
 		}
-		if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (state->combo), &iter))
-			gtk_tree_model_get (GTK_TREE_MODEL (state->typestore),
-					    &iter,
-					    1, &cond->op,
-					    2, &n_expr,
-					    -1);
-		else
-			cond->op = GNM_STYLE_COND_CONTAINS_ERR;
-
-		if (n_expr > 0) {
-			GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->expr_x), &pp,
-									NULL, FALSE,
-									GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
-			cond->texpr[0] = texpr;
+		if (cb_c_fmt_dialog_chooser_check_page 
+		    (state, "check-number", FD_NUMBER)) {
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_FORMAT);
 		}
-		if (n_expr > 1) {
-			GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->expr_y), &pp,
-									NULL, FALSE,
-									GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
-			cond->texpr[1] = texpr;
+		if (cb_c_fmt_dialog_chooser_check_page 
+		    (state, "check-align", FD_ALIGNMENT)) {
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_ALIGN_V);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_ALIGN_H);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_INDENT);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_ROTATION);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_TEXT_DIR);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_WRAP_TEXT);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_SHRINK_TO_FIT);
 		}
+		if (cb_c_fmt_dialog_chooser_check_page 
+		    (state, "check-font", FD_FONT)) {
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_FONT_COLOR);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_FONT_NAME);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_FONT_BOLD);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_FONT_ITALIC);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_FONT_UNDERLINE);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_FONT_STRIKETHROUGH);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_FONT_SCRIPT);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_FONT_SIZE);
+		}
+		if (cb_c_fmt_dialog_chooser_check_page 
+		    (state, "check-border", FD_BORDER)) {
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_BORDER_TOP);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_BORDER_BOTTOM);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_BORDER_LEFT);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_BORDER_RIGHT);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_BORDER_REV_DIAGONAL);
+			gnm_style_merge_element (cond->overlay, state->editor.style, 
+						 MSTYLE_BORDER_DIAGONAL);
+		}
+		if (cb_c_fmt_dialog_chooser_check_page 
+		    (state, "check-protection", FD_PROTECTION)) {
 
-		c_fmt_dialog_apply_add_choice (state->cf_state, cond);
-		g_free (cond);
+		}
+		if (cb_c_fmt_dialog_chooser_check_page 
+		    (state, "check-validation", FD_VALIDATION)) {
+
+		}
 	}
-	gtk_widget_destroy (GTK_WIDGET (state->dialog));
+	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (state->editor.combo), &iter))
+		gtk_tree_model_get (GTK_TREE_MODEL (state->editor.typestore),
+				    &iter,
+				    1, &cond->op,
+				    2, &n_expr,
+				    -1);
+	else
+		cond->op = GNM_STYLE_COND_CONTAINS_ERR;
+
+	if (n_expr > 0) {
+		GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->editor.expr_x), &pp,
+								NULL, FALSE,
+								GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
+		cond->texpr[0] = texpr;
+	}
+	if (n_expr > 1) {
+		GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->editor.expr_y), &pp,
+								NULL, FALSE,
+								GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
+		cond->texpr[1] = texpr;
+	}
+
+	c_fmt_dialog_apply_add_choice (state, cond);
+	g_free (cond);
 }
 
 static void	
-c_fmt_dialog_chooser_load_combo (CFormatChooseState *state)
+c_fmt_dialog_chooser_load_combo (CFormatState *state)
 {
 	static struct {
 		char const *label;
@@ -395,116 +397,20 @@ c_fmt_dialog_chooser_load_combo (CFormatChooseState *state)
 	GtkTreeIter iter;
 
 	for (i = 0; i < G_N_ELEMENTS (cond_types); i++)
-		gtk_list_store_insert_with_values (state->typestore,
+		gtk_list_store_insert_with_values (state->editor.typestore,
 						   NULL, G_MAXINT,
                                                    0, _(cond_types[i].label),
 						   1, cond_types[i].type,
 						   2, cond_types[i].n_expressions,
 						   -1);
 	cell = gtk_cell_renderer_text_new();
-	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->combo), cell, TRUE);
-	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->combo), cell, "text", 0, NULL);
+	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->editor.combo), cell, TRUE);
+	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->editor.combo), cell, "text", 0, NULL);
 	if (gtk_tree_model_get_iter_first
-	    (GTK_TREE_MODEL (state->typestore), &iter))
-		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->combo), &iter);
+	    (GTK_TREE_MODEL (state->editor.typestore), &iter))
+		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->editor.combo), &iter);
 
 }
-
-static void	
-c_fmt_dialog_chooser (CFormatState *cf_state)
-{
-	GtkBuilder     *gui;
-	CFormatChooseState  *state;
-	GtkWidget *dialog;
-	GtkTable  *table;
-
-	g_return_if_fail (cf_state != NULL);
-
-	gui = gnm_gtk_builder_new ("cell-format-cond-def.ui", NULL, 
-				   GO_CMD_CONTEXT (cf_state->wbcg));
-        if (gui == NULL)
-                return;
-
-	/* Initialize */
-	state = g_new (CFormatChooseState, 1);
-	state->gui	= gui;
-	state->cf_state = cf_state;
-	state->style = NULL;
-
-	dialog = go_gtk_builder_get_widget (state->gui, "style-condition-def");
-	g_return_if_fail (dialog != NULL);
-
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Style Condition"));
-
-	/* Initialize */
-	state->dialog	   = GTK_DIALOG (dialog);
-
-	state->cancel_button = go_gtk_builder_get_widget (state->gui, "cancel-button");
-	state->ok_button = go_gtk_builder_get_widget (state->gui, "ok-button");
-	state->new_button = go_gtk_builder_get_widget (state->gui, "new-button");
-	state->combo = go_gtk_builder_get_widget (state->gui, "condition-combo");
-	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "condition-table"));
-	state->expr_x = GTK_WIDGET (gnm_expr_entry_new (state->cf_state->wbcg, FALSE));
-	gtk_table_attach (table, state->expr_x, 1, 2, 2, 3, 
-			  GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0);
-	gtk_widget_show(state->expr_x);
-	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->expr_x),
-				  GNM_EE_CONSTANT_ALLOWED,
-				  GNM_EE_MASK);
-
-	state->expr_y = GTK_WIDGET (gnm_expr_entry_new (state->cf_state->wbcg, FALSE));
-	gtk_table_attach (table, state->expr_y, 1, 2, 3, 4, 
-			  GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0);
-	gtk_widget_show(state->expr_y);
-	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->expr_y),
-				  GNM_EE_CONSTANT_ALLOWED,
-				  GNM_EE_MASK);
-
-	state->typestore = GTK_LIST_STORE (gtk_combo_box_get_model 
-					   (GTK_COMBO_BOX (state->combo)));
-	c_fmt_dialog_chooser_load_combo (state);
-	
-	state->style_label = go_gtk_builder_get_widget (state->gui, "style-label");
-	gtk_label_set_text (GTK_LABEL (state->style_label), _("(undefined)"));
-
-	gnumeric_init_help_button (
-		go_gtk_builder_get_widget (state->gui, "help-button"),
-		GNUMERIC_HELP_LINK_CELL_FORMAT_COND);
-	c_fmt_dialog_set_expr_sensitive (state);
-	c_fmt_dialog_set_sensitive (state);
-
-	gnumeric_restore_window_geometry (GTK_WINDOW (state->dialog),
-					  CELL_FORMAT_DEF_KEY);
-
-	g_signal_connect (G_OBJECT (state->cancel_button),
-		"clicked",
-		G_CALLBACK (cb_c_fmt_dialog_chooser_buttons), state);
-	g_signal_connect (G_OBJECT (state->ok_button),
-		"clicked",
-		G_CALLBACK (cb_c_fmt_dialog_chooser_buttons), state);
-	g_signal_connect (G_OBJECT (state->new_button),
-		"clicked",
-		G_CALLBACK (cb_c_fmt_dialog_chooser_new_button), state);
-	g_signal_connect (G_OBJECT (state->combo),
-		"changed",
-		G_CALLBACK (cb_c_fmt_dialog_chooser_type_changed), state);
-	g_signal_connect (G_OBJECT (state->expr_x),
-		"changed",
-		G_CALLBACK (cb_c_fmt_dialog_chooser_entry_changed), state);
-	g_signal_connect (G_OBJECT (state->expr_y),
-		"changed",
-		G_CALLBACK (cb_c_fmt_dialog_chooser_entry_changed), state);
-	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify)cb_c_fmt_dialog_chooser_destroy);
-	g_signal_connect (G_OBJECT (dialog), "destroy",
-			  G_CALLBACK (cb_dialog_chooser_destroy), NULL);
-	go_gtk_window_set_transient (GTK_WINDOW (state->cf_state->dialog), 
-				     GTK_WINDOW (state->dialog));
-	gtk_window_set_modal (GTK_WINDOW (state->dialog), TRUE);
-	gtk_widget_show (GTK_WIDGET (state->dialog));
-}
-
-
 
 /*****************************************************************************/
 /*****************************************************************************/
@@ -616,13 +522,6 @@ c_fmt_dialog_apply_add_choice (CFormatState *state, GnmStyleCond *cond)
 }
 
 static void
-cb_c_fmt_dialog_add_clicked (G_GNUC_UNUSED GtkButton *button, CFormatState *state)
-{
-
-	c_fmt_dialog_chooser (state);
-}
-
-static void
 cb_c_fmt_dialog_clear_clicked (G_GNUC_UNUSED GtkButton *button, CFormatState *state)
 {
 	state->action.new_style = gnm_style_new ();
@@ -702,13 +601,6 @@ cb_c_fmt_dialog_expand_clicked (G_GNUC_UNUSED GtkButton *button, CFormatState *s
 		}
 	}
 }
-
-static void
-cb_c_fmt_dialog_edit_clicked (G_GNUC_UNUSED GtkButton *button, CFormatState *state)
-{
-	c_fmt_dialog_load (state);
-}
-
 
 static void
 c_fmt_dialog_conditions_page_load_cond_single_f (CFormatState *state,
@@ -1029,13 +921,10 @@ c_fmt_dialog_update_buttons (CFormatState *state)
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (state->clear), not_empty);
 
-	gtk_widget_set_sensitive (GTK_WIDGET (state->add), state->homogeneous);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->remove),
 				  state->homogeneous && selected);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->expand),
 				  (!state->homogeneous) && selected);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->edit),
-				  state->homogeneous && selected);
 }
 
 static void
@@ -1066,6 +955,59 @@ cb_c_format_dialog_range (SheetView *sv, GnmRange const *range, GString *str)
 }
 
 static void
+c_fmt_dialog_init_editor_page (CFormatState *state)
+{
+	GtkTable  *table;
+
+	state->editor.add_button = go_gtk_builder_get_widget (state->gui, "add-button");
+	state->editor.edit_style_button = go_gtk_builder_get_widget (state->gui, "edit-style-button");
+	state->editor.combo = go_gtk_builder_get_widget (state->gui, "condition-combo");
+	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "condition-table"));
+	state->editor.expr_x = GTK_WIDGET (gnm_expr_entry_new (state->wbcg, FALSE));
+	gtk_table_attach (table, state->editor.expr_x, 1, 2, 2, 3, 
+			  GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0);
+	gtk_widget_show(state->editor.expr_x);
+	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->editor.expr_x),
+				  GNM_EE_CONSTANT_ALLOWED,
+				  GNM_EE_MASK);
+
+	state->editor.expr_y = GTK_WIDGET (gnm_expr_entry_new (state->wbcg, FALSE));
+	gtk_table_attach (table, state->editor.expr_y, 1, 2, 3, 4, 
+			  GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0);
+	gtk_widget_show(state->editor.expr_y);
+	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->editor.expr_y),
+				  GNM_EE_CONSTANT_ALLOWED,
+				  GNM_EE_MASK);
+
+	state->editor.typestore = GTK_LIST_STORE (gtk_combo_box_get_model 
+					   (GTK_COMBO_BOX (state->editor.combo)));
+	c_fmt_dialog_chooser_load_combo (state);
+	
+	state->editor.style_label = go_gtk_builder_get_widget (state->gui, "style-label");
+	gtk_label_set_text (GTK_LABEL (state->editor.style_label), _("(undefined)"));
+
+	c_fmt_dialog_set_expr_sensitive (state);
+	c_fmt_dialog_set_sensitive (state);
+
+	g_signal_connect (G_OBJECT (state->editor.add_button),
+		"clicked",
+		G_CALLBACK (cb_c_fmt_dialog_add_button), state);
+	g_signal_connect (G_OBJECT (state->editor.edit_style_button),
+		"clicked",
+		G_CALLBACK (cb_c_fmt_dialog_edit_style_button), state);
+	g_signal_connect (G_OBJECT (state->editor.combo),
+		"changed",
+		G_CALLBACK (cb_c_fmt_dialog_chooser_type_changed), state);
+	g_signal_connect (G_OBJECT (state->editor.expr_x),
+		"changed",
+		G_CALLBACK (cb_c_fmt_dialog_chooser_entry_changed), state);
+	g_signal_connect (G_OBJECT (state->editor.expr_y),
+		"changed",
+		G_CALLBACK (cb_c_fmt_dialog_chooser_entry_changed), state);
+	
+}
+
+static void
 c_fmt_dialog_init_conditions_page (CFormatState *state)
 {
 	GtkTreeViewColumn * column;
@@ -1075,9 +1017,6 @@ c_fmt_dialog_init_conditions_page (CFormatState *state)
 
 	g_return_if_fail (state != NULL);
 
-	state->add = GTK_BUTTON (go_gtk_builder_get_widget (state->gui,
-								     "conditions_add"));
-	gtk_widget_set_sensitive (GTK_WIDGET (state->add), FALSE);
 	state->remove = GTK_BUTTON (go_gtk_builder_get_widget (state->gui,
 								     "conditions_remove"));
 	gtk_widget_set_sensitive (GTK_WIDGET (state->remove), FALSE);
@@ -1087,9 +1026,6 @@ c_fmt_dialog_init_conditions_page (CFormatState *state)
 	state->expand = GTK_BUTTON (go_gtk_builder_get_widget (state->gui,
 								     "conditions_expand"));
 	gtk_widget_set_sensitive (GTK_WIDGET (state->expand), FALSE);
-	state->edit = GTK_BUTTON (go_gtk_builder_get_widget (state->gui,
-								     "conditions_edit"));
-	gtk_widget_set_sensitive (GTK_WIDGET (state->edit), FALSE);
 
 	state->model = gtk_tree_store_new (CONDITIONS_NUM_COLUMNS,
 					   G_TYPE_STRING,
@@ -1131,44 +1067,15 @@ c_fmt_dialog_init_conditions_page (CFormatState *state)
 
 	g_signal_connect (G_OBJECT (state->selection), "changed",
 			  G_CALLBACK (cb_selection_changed), state);
-	g_signal_connect (G_OBJECT (state->add), "clicked",
-			  G_CALLBACK (cb_c_fmt_dialog_add_clicked), state);
 	g_signal_connect (G_OBJECT (state->remove), "clicked",
 			  G_CALLBACK (cb_c_fmt_dialog_remove_clicked), state);
 	g_signal_connect (G_OBJECT (state->clear), "clicked",
 			  G_CALLBACK (cb_c_fmt_dialog_clear_clicked), state);
 	g_signal_connect (G_OBJECT (state->expand), "clicked",
 			  G_CALLBACK (cb_c_fmt_dialog_expand_clicked), state);
-	g_signal_connect (G_OBJECT (state->edit), "clicked",
-			  G_CALLBACK (cb_c_fmt_dialog_edit_clicked), state);
-	
-	gtk_widget_hide (GTK_WIDGET (state->edit)); 
 }
 
 /*****************************************************************************/
-
-/* button handlers */
-static void
-cb_c_fmt_dialog_dialog_buttons (G_GNUC_UNUSED GtkWidget *btn, CFormatState *state)
-{
-		gtk_widget_destroy (GTK_WIDGET (state->dialog));
-}
-
-/* Handler for destroy */
-static void
-cb_c_fmt_dialog_dialog_destroy (CFormatState *state)
-{
-	if (state->style)
-		gnm_style_unref (state->style);
-	g_object_unref (G_OBJECT (state->gui));
-	g_free (state);
-}
-
-static void
-cb_dialog_destroy (GtkDialog *dialog)
-{
-	g_object_set_data (G_OBJECT (dialog), "state", NULL);
-}
 
 
 void
@@ -1190,7 +1097,8 @@ dialog_cell_format_cond (WBCGtk *wbcg)
 	state->gui	= gui;
 	state->sv	= wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->sheet	= sv_sheet (state->sv);
-	state->style		= NULL;
+	state->style	= NULL;
+	state->editor.style = NULL;
 
 	dialog = go_gtk_builder_get_widget (state->gui, "CellFormat");
 	g_return_if_fail (dialog != NULL);
@@ -1201,6 +1109,7 @@ dialog_cell_format_cond (WBCGtk *wbcg)
 	state->dialog	   = GTK_DIALOG (dialog);
 
 	c_fmt_dialog_init_conditions_page (state);
+	c_fmt_dialog_init_editor_page (state);
 
 	gnumeric_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "helpbutton"),

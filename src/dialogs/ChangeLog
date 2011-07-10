@@ -1,3 +1,10 @@
+2011-07-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* Makefile.am: remove cell-format-cond-def.ui
+	* cell-format-cond-def.ui: deleted (combined into cell-format-cond.ui)
+	* cell-format-cond.ui: extended
+	* dialog-cell-format-cond.c: combine both dialogs into a single dialog
+
 2011-07-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-cell-format-cond.c (c_fmt_dialog_condition_setter_tiled):

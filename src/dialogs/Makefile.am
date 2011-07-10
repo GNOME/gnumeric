@@ -105,7 +105,6 @@ ui_DATA = 				\
 	cell-comment.ui			\
 	cell-format.ui			\
 	cell-format-cond.ui		\
-	cell-format-cond-def.ui		\
 	cell-sort.ui			\
 	chi-squared.ui			\
 	col-width.ui			\
