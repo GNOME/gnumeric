@@ -1,3 +1,12 @@
+2011-07-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* cell-format-cond.ui: enable copy button
+	* dialog-cell-format-cond.c (c_fmt_dialog_set_sensitive): handle
+	copy button
+	(c_fmt_dialog_set_component): new
+	(cb_c_fmt_dialog_copy_button): new
+	(c_fmt_dialog_init_editor_page): handle copy button
+
 2011-07-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* cell-format-cond.ui: enable replace button

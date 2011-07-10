@@ -85,6 +85,7 @@ typedef struct _CFormatState {
 		GtkWidget	*edit_style_button;
 		GtkWidget	*add_button;
 		GtkWidget	*replace_button;
+		GtkWidget	*copy_button;
 		GtkWidget	*combo;
 		GtkWidget       *expr_x;
 		GtkWidget       *expr_y;
@@ -177,6 +178,7 @@ c_fmt_dialog_set_sensitive (CFormatState *state)
 	
 	gtk_widget_set_sensitive (state->editor.add_button, ok);
 	gtk_widget_set_sensitive (state->editor.replace_button, ok && selected);
+	gtk_widget_set_sensitive (state->editor.copy_button, selected && state->homogeneous);
 }
 
 static void
@@ -227,6 +229,19 @@ dialog_cell_format_style_added (gpointer closure, GnmStyle *style)
 			    style ? _("(defined)") : _("undefined"));
 	c_fmt_dialog_set_sensitive (state);
 }
+
+static void
+c_fmt_dialog_set_component (CFormatState *state, GnmStyle *overlay, gchar const *name,
+			    GnmStyleElement elem, gboolean uncheck)
+{
+	GtkWidget *w = go_gtk_builder_get_widget (state->gui, name);
+	
+	if (gnm_style_is_element_set (overlay, elem))
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
+	else if (uncheck)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), FALSE);
+}
+
 
 static gint
 cb_c_fmt_dialog_chooser_check_page (CFormatState *state, gchar const *name,
@@ -387,6 +402,116 @@ cb_c_fmt_dialog_replace_button (GtkWidget *btn, CFormatState *state)
 	GnmStyleCond *cond = c_fmt_dialog_get_condition (state);
 	c_fmt_dialog_apply_add_choice (state, cond, FALSE);
 	g_free (cond);
+}
+
+static void
+cb_c_fmt_dialog_copy_button (GtkWidget *btn, CFormatState *state)
+{
+	GnmStyleConditions *sc;
+	GtkTreeIter iter;
+	sc = gnm_style_get_conditions (state->style);
+	if (sc != NULL && gtk_tree_selection_get_selected (state->selection, NULL, &iter)) {
+		GtkTreePath *path = gtk_tree_model_get_path 
+			(GTK_TREE_MODEL (state->model), &iter);
+		gint *pind = gtk_tree_path_get_indices (path);
+		GArray const *conds = gnm_style_conditions_details (sc);
+		if (pind && conds) {
+			gint ind = *pind;
+			GnmStyleCond *gsc = &g_array_index (conds, GnmStyleCond, ind);
+			GtkTreeIter iter;
+			GnmParsePos pp;
+			GnmStyle   *style;
+			/* Set the condition op */
+			if (gtk_tree_model_get_iter_first 
+			    (GTK_TREE_MODEL (state->editor.typestore), &iter)) {
+				do {
+					guint op;
+					gtk_tree_model_get (GTK_TREE_MODEL (state->editor.typestore),
+							    &iter,
+							    1, &op,
+							    -1);
+					if (op == gsc->op) {
+						gtk_combo_box_set_active_iter 
+							(GTK_COMBO_BOX (state->editor.combo), &iter);
+						break;
+					}
+				} while (gtk_tree_model_iter_next 
+					 (GTK_TREE_MODEL (state->editor.typestore), &iter));
+			}
+			/* Set the expressions */
+			parse_pos_init_editpos (&pp, state->sv);
+			if (gsc->texpr[0])
+				gnm_expr_entry_load_from_expr (GNM_EXPR_ENTRY (state->editor.expr_x),
+							       gsc->texpr[0],
+							       &pp);
+			else
+				gnm_expr_entry_load_from_text (GNM_EXPR_ENTRY (state->editor.expr_x),
+							       "");
+			if (gsc->texpr[1])
+				gnm_expr_entry_load_from_expr (GNM_EXPR_ENTRY (state->editor.expr_y),
+							       gsc->texpr[1],
+							       &pp);
+			else
+				gnm_expr_entry_load_from_text (GNM_EXPR_ENTRY (state->editor.expr_y),
+							       "");
+			/* Set the style */
+			style = gnm_style_new_default ();
+			gnm_style_merge (style, gsc->overlay);
+			dialog_cell_format_style_added (state, style);
+			/* Set the appl. style components */
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-background",
+						    MSTYLE_COLOR_BACK, TRUE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-background",
+						    MSTYLE_COLOR_PATTERN, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-background",
+						    MSTYLE_PATTERN, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-number",
+						    MSTYLE_FORMAT, TRUE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-align",
+						    MSTYLE_ALIGN_V, TRUE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-align",
+						    MSTYLE_ALIGN_H, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-align",
+						    MSTYLE_ROTATION, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-align",
+						    MSTYLE_INDENT, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-align",
+						    MSTYLE_TEXT_DIR, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-align",
+						    MSTYLE_WRAP_TEXT, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-align",
+						    MSTYLE_SHRINK_TO_FIT, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-font",
+						    MSTYLE_FONT_COLOR, TRUE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-font",
+						    MSTYLE_FONT_NAME, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-font",
+						    MSTYLE_FONT_BOLD, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-font",
+						    MSTYLE_FONT_ITALIC, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-font",
+						    MSTYLE_FONT_UNDERLINE, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-font",
+						    MSTYLE_FONT_STRIKETHROUGH, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-font",
+						    MSTYLE_FONT_SCRIPT, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-font",
+						    MSTYLE_FONT_SIZE, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-border",
+						    MSTYLE_BORDER_TOP, TRUE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-border",
+						    MSTYLE_BORDER_BOTTOM, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-border",
+						    MSTYLE_BORDER_LEFT, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-border",
+						    MSTYLE_BORDER_RIGHT, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-border",
+						    MSTYLE_BORDER_REV_DIAGONAL, FALSE);
+			c_fmt_dialog_set_component (state, gsc->overlay, "check-border",
+						    MSTYLE_BORDER_DIAGONAL, FALSE);
+		}
+		gtk_tree_path_free (path);
+	}
 }
 
 static void	
@@ -984,6 +1109,7 @@ c_fmt_dialog_init_editor_page (CFormatState *state)
 
 	state->editor.add_button = go_gtk_builder_get_widget (state->gui, "add-button");
 	state->editor.replace_button = go_gtk_builder_get_widget (state->gui, "replace-button");
+	state->editor.copy_button = go_gtk_builder_get_widget (state->gui, "copy-button");
 	state->editor.edit_style_button = go_gtk_builder_get_widget (state->gui, "edit-style-button");
 	state->editor.combo = go_gtk_builder_get_widget (state->gui, "condition-combo");
 	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "condition-table"));
@@ -1018,6 +1144,9 @@ c_fmt_dialog_init_editor_page (CFormatState *state)
 	g_signal_connect (G_OBJECT (state->editor.replace_button),
 		"clicked",
 		G_CALLBACK (cb_c_fmt_dialog_replace_button), state);
+	g_signal_connect (G_OBJECT (state->editor.copy_button),
+		"clicked",
+		G_CALLBACK (cb_c_fmt_dialog_copy_button), state);
 	g_signal_connect (G_OBJECT (state->editor.edit_style_button),
 		"clicked",
 		G_CALLBACK (cb_c_fmt_dialog_edit_style_button), state);
