@@ -2524,7 +2524,8 @@ dialog_cell_format (WBCGtk *wbcg, FormatDialogPosition_t pageno)
 
 void
 dialog_cell_format_select_style (WBCGtk *wbcg, gint pages, 
-				 GtkWindow *w, gpointer closure)
+				 GtkWindow *w,
+				 GnmStyle *style, gpointer closure)
 {
 	FormatState  *state;
 	gint i;
@@ -2540,6 +2541,12 @@ dialog_cell_format_select_style (WBCGtk *wbcg, gint pages,
 	state->style_selector.w = w;
 	state->style_selector.closure = closure;
 	state->selection_mask	= 1;
+
+	if (style) {
+		gnm_style_unref (state->style);
+		state->style = style;
+		state->conflicts = 0;
+	}
 
 	fmt_dialog_impl (state, FD_BACKGROUND);
 

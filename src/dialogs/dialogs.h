@@ -25,6 +25,7 @@ void	 dialog_cell_format	(WBCGtk *wbcg,
 				 FormatDialogPosition_t pageno);
 void	 dialog_cell_format_select_style (WBCGtk *wbcg,
 					  gint pages, GtkWindow *w,
+					  GnmStyle *style,
 					  gpointer closure);
 void	 dialog_cell_format_cond (WBCGtk *wbcg);
 void     dialog_cell_format_style_added (gpointer closure, GnmStyle *style);

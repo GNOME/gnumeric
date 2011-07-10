@@ -275,8 +275,11 @@ cb_c_fmt_dialog_edit_style_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *s
 	pages |= cb_c_fmt_dialog_chooser_check_page 
 		(state, "check-validation", FD_VALIDATION);
 
+	if (state->editor.style != NULL)
+		gnm_style_ref (state->editor.style);
 	dialog_cell_format_select_style (state->wbcg, pages, 
-					 GTK_WINDOW (state->dialog), state);
+					 GTK_WINDOW (state->dialog), 
+					 state->editor.style, state);
 }
 
 static GnmStyleCond *
