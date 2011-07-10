@@ -1,5 +1,10 @@
 2011-07-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* cell-format-cond.ui: improve the looks (and provide for further
+	extension)
+
+2011-07-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* Makefile.am: remove cell-format-cond-def.ui
 	* cell-format-cond-def.ui: deleted (combined into cell-format-cond.ui)
 	* cell-format-cond.ui: extended
