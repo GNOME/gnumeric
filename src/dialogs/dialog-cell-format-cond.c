@@ -45,6 +45,7 @@
 #include <commands.h>
 #include <mathfunc.h>
 #include <style-conditions.h>
+#include <gnm-style-impl.h>
 
 #include <gtk/gtk.h>
 
@@ -455,8 +456,14 @@ cb_c_fmt_dialog_copy_button (GtkWidget *btn, CFormatState *state)
 				gnm_expr_entry_load_from_text (GNM_EXPR_ENTRY (state->editor.expr_y),
 							       "");
 			/* Set the style */
-			style = gnm_style_new_default ();
-			gnm_style_merge (style, gsc->overlay);
+			if (state->style && state->style->cond_styles)
+				style = gnm_style_dup 
+					(g_ptr_array_index (state->style->cond_styles, 
+							    ind));
+			else {
+				style = gnm_style_new_default ();
+				gnm_style_merge (style, gsc->overlay);
+			}
 			dialog_cell_format_style_added (state, style);
 			/* Set the appl. style components */
 			c_fmt_dialog_set_component (state, gsc->overlay, "check-background",
