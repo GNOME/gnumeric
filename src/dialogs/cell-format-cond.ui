@@ -194,13 +194,16 @@
               <object class="GtkVButtonBox" id="vbuttonbox1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="spacing">5</property>
                 <property name="layout_style">center</property>
                 <child>
                   <object class="GtkButton" id="button1">
-                    <property name="label">⇒</property>
+                    <property name="label">Cop_y ⇒</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="image">image4</property>
+                    <property name="use_underline">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -228,6 +231,7 @@
                 <child>
                   <object class="GtkButton" id="replace-button">
                     <property name="label">⇐ Re_place</property>
+                    <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -590,6 +594,11 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-add</property>
+  </object>
+  <object class="GtkImage" id="image4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-copy</property>
   </object>
   <object class="GtkListStore" id="liststore1">
     <columns>

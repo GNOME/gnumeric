@@ -105,8 +105,7 @@ enum {
 
 /*****************************************************************************/
 static void c_fmt_dialog_load (CFormatState *state);
-static void c_fmt_dialog_apply_add_choice (CFormatState *state, GnmStyleCond *cond);
-static void c_fmt_dialog_update_buttons (CFormatState *state);
+static void c_fmt_dialog_apply_add_choice (CFormatState *state, GnmStyleCond *cond, gboolean add);
 
 /*****************************************************************************/
 
@@ -140,8 +139,22 @@ cb_dialog_destroy (GtkDialog *dialog)
 static void
 c_fmt_dialog_set_sensitive (CFormatState *state)
 {
-	gboolean ok = (state->editor.style != NULL);
+	gboolean ok = (state->editor.style != NULL && state->homogeneous);
 	GnmParsePos pp;
+	GtkTreeIter iter;
+	gboolean not_empty, selected;
+
+	not_empty = gtk_tree_model_get_iter_first 
+		(GTK_TREE_MODEL (state->model), &iter);
+	selected = gtk_tree_selection_get_selected 
+		(state->selection, NULL, NULL);
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (state->clear), not_empty);
+
+	gtk_widget_set_sensitive (GTK_WIDGET (state->remove),
+				  state->homogeneous && selected);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->expand),
+				  (!state->homogeneous) && selected);
 
 	parse_pos_init_editpos (&pp, state->sv);
 
@@ -163,6 +176,7 @@ c_fmt_dialog_set_sensitive (CFormatState *state)
 	}
 	
 	gtk_widget_set_sensitive (state->editor.add_button, ok);
+	gtk_widget_set_sensitive (state->editor.replace_button, ok && selected);
 }
 
 static void
@@ -249,8 +263,8 @@ cb_c_fmt_dialog_edit_style_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *s
 					 GTK_WINDOW (state->dialog), state);
 }
 
-static void
-cb_c_fmt_dialog_add_button (GtkWidget *btn, CFormatState *state)
+static GnmStyleCond *
+c_fmt_dialog_get_condition (CFormatState *state)
 {
 	GnmStyleCond *cond = g_new0(GnmStyleCond, 1);
 	GtkTreeIter iter;
@@ -356,8 +370,22 @@ cb_c_fmt_dialog_add_button (GtkWidget *btn, CFormatState *state)
 								GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
 		cond->texpr[1] = texpr;
 	}
+	return cond;
+}
 
-	c_fmt_dialog_apply_add_choice (state, cond);
+static void
+cb_c_fmt_dialog_add_button (GtkWidget *btn, CFormatState *state)
+{
+	GnmStyleCond *cond = c_fmt_dialog_get_condition (state);
+	c_fmt_dialog_apply_add_choice (state, cond, TRUE);
+	g_free (cond);
+}
+
+static void
+cb_c_fmt_dialog_replace_button (GtkWidget *btn, CFormatState *state)
+{
+	GnmStyleCond *cond = c_fmt_dialog_get_condition (state);
+	c_fmt_dialog_apply_add_choice (state, cond, FALSE);
 	g_free (cond);
 }
 
@@ -500,14 +528,28 @@ c_fmt_dialog_set_conditions (CFormatState *state, char const *cmd_label)
 }
 
 static void
-c_fmt_dialog_apply_add_choice (CFormatState *state, GnmStyleCond *cond)
+c_fmt_dialog_apply_add_choice (CFormatState *state, GnmStyleCond *cond, gboolean add)
 {
 	if (cond != NULL) {
 		GnmStyleConditions *sc;
+		int index = -1;
 		sc = gnm_style_conditions_dup (gnm_style_get_conditions (state->style));
 		if (sc == NULL)
 			sc = gnm_style_conditions_new ();
-		gnm_style_conditions_insert (sc, cond, -1);
+		if (!add) {
+			GtkTreeIter iter;
+			if (gtk_tree_selection_get_selected (state->selection, NULL, &iter)) {
+				GtkTreePath *path = gtk_tree_model_get_path 
+					(GTK_TREE_MODEL (state->model), &iter);
+				gint *ind = gtk_tree_path_get_indices (path);
+				if (ind) {
+					gnm_style_conditions_delete (sc, *ind);
+					index = *ind;
+				}
+				gtk_tree_path_free (path);
+			}
+		}
+		gnm_style_conditions_insert (sc, cond, index);
 		state->action.new_style = gnm_style_new ();
 		gnm_style_set_conditions (state->action.new_style, sc);
 		state->action.existing_conds_only = FALSE;
@@ -905,32 +947,13 @@ c_fmt_dialog_load (CFormatState *state)
 	}
 	gtk_tree_view_column_queue_resize 
 		(gtk_tree_view_get_column (state->treeview, CONDITIONS_RANGE));
-	c_fmt_dialog_update_buttons(state);
-}
-
-static void
-c_fmt_dialog_update_buttons (CFormatState *state)
-{
-	GtkTreeIter iter;
-	gboolean not_empty, selected;
-
-	not_empty = gtk_tree_model_get_iter_first 
-		(GTK_TREE_MODEL (state->model), &iter);
-	selected = gtk_tree_selection_get_selected 
-		(state->selection, NULL, NULL);
-	
-	gtk_widget_set_sensitive (GTK_WIDGET (state->clear), not_empty);
-
-	gtk_widget_set_sensitive (GTK_WIDGET (state->remove),
-				  state->homogeneous && selected);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->expand),
-				  (!state->homogeneous) && selected);
+	c_fmt_dialog_set_sensitive (state);
 }
 
 static void
 cb_selection_changed (GtkTreeSelection *treeselection, CFormatState *state)
 {
-	c_fmt_dialog_update_buttons (state);
+	c_fmt_dialog_set_sensitive (state);
 }
 
 static gboolean
@@ -960,6 +983,7 @@ c_fmt_dialog_init_editor_page (CFormatState *state)
 	GtkTable  *table;
 
 	state->editor.add_button = go_gtk_builder_get_widget (state->gui, "add-button");
+	state->editor.replace_button = go_gtk_builder_get_widget (state->gui, "replace-button");
 	state->editor.edit_style_button = go_gtk_builder_get_widget (state->gui, "edit-style-button");
 	state->editor.combo = go_gtk_builder_get_widget (state->gui, "condition-combo");
 	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "condition-table"));
@@ -987,11 +1011,13 @@ c_fmt_dialog_init_editor_page (CFormatState *state)
 	gtk_label_set_text (GTK_LABEL (state->editor.style_label), _("(undefined)"));
 
 	c_fmt_dialog_set_expr_sensitive (state);
-	c_fmt_dialog_set_sensitive (state);
 
 	g_signal_connect (G_OBJECT (state->editor.add_button),
 		"clicked",
 		G_CALLBACK (cb_c_fmt_dialog_add_button), state);
+	g_signal_connect (G_OBJECT (state->editor.replace_button),
+		"clicked",
+		G_CALLBACK (cb_c_fmt_dialog_replace_button), state);
 	g_signal_connect (G_OBJECT (state->editor.edit_style_button),
 		"clicked",
 		G_CALLBACK (cb_c_fmt_dialog_edit_style_button), state);
@@ -1063,8 +1089,6 @@ c_fmt_dialog_init_conditions_page (CFormatState *state)
 	gtk_label_set_text(hl, str->str);
 	g_string_free (str, TRUE);
 
-	c_fmt_dialog_load (state);
-
 	g_signal_connect (G_OBJECT (state->selection), "changed",
 			  G_CALLBACK (cb_selection_changed), state);
 	g_signal_connect (G_OBJECT (state->remove), "clicked",
@@ -1110,6 +1134,8 @@ dialog_cell_format_cond (WBCGtk *wbcg)
 
 	c_fmt_dialog_init_conditions_page (state);
 	c_fmt_dialog_init_editor_page (state);
+
+	c_fmt_dialog_load (state);
 
 	gnumeric_init_help_button (
 		go_gtk_builder_get_widget (state->gui, "helpbutton"),

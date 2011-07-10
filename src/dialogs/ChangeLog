@@ -1,5 +1,15 @@
 2011-07-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* cell-format-cond.ui: enable replace button
+	* dialog-cell-format-cond.c (c_fmt_dialog_set_sensitive): include
+	the code from c_fmt_dialog_update_buttons
+	(c_fmt_dialog_get_condition): new
+	(cb_c_fmt_dialog_add_button): use c_fmt_dialog_get_condition
+	(cb_c_fmt_dialog_replace_button): new
+	(c_fmt_dialog_update_buttons): deleted
+
+2011-07-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* cell-format-cond.ui: improve the looks (and provide for further
 	extension)
 
