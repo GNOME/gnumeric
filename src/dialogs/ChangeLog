@@ -1,5 +1,13 @@
 2011-07-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-cell-format-cond.c (cb_c_fmt_dialog_chooser_entry_changed):
+	change signature
+	(c_fmt_dialog_init_editor_page): don't trigger parsing of the expression
+	entries on any change. This would cause problems with conversion into
+	strings.
+
+2011-07-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-cell-format.c (cb_fmt_dialog_dialog_buttons): in the case
 	of style editing we need the complete style.
 

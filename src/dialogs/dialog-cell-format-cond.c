@@ -213,7 +213,8 @@ cb_c_fmt_dialog_chooser_type_changed (G_GNUC_UNUSED GtkComboBox *widget, CFormat
 }
 
 static void
-cb_c_fmt_dialog_chooser_entry_changed (G_GNUC_UNUSED GnmExprEntry *widget, CFormatState *state)
+cb_c_fmt_dialog_chooser_entry_changed (G_GNUC_UNUSED GnmExprEntry *widget, G_GNUC_UNUSED GdkEvent *event, 
+				       CFormatState *state)
 {
 	c_fmt_dialog_set_sensitive (state);
 }
@@ -1163,11 +1164,11 @@ c_fmt_dialog_init_editor_page (CFormatState *state)
 	g_signal_connect (G_OBJECT (state->editor.combo),
 		"changed",
 		G_CALLBACK (cb_c_fmt_dialog_chooser_type_changed), state);
-	g_signal_connect (G_OBJECT (state->editor.expr_x),
-		"changed",
+	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (GNM_EXPR_ENTRY (state->editor.expr_x))),
+		"focus-out-event",
 		G_CALLBACK (cb_c_fmt_dialog_chooser_entry_changed), state);
-	g_signal_connect (G_OBJECT (state->editor.expr_y),
-		"changed",
+	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (GNM_EXPR_ENTRY (state->editor.expr_y))),
+		"focus-out-event",
 		G_CALLBACK (cb_c_fmt_dialog_chooser_entry_changed), state);
 	
 }
