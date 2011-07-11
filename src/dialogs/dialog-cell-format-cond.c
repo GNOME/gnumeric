@@ -1123,7 +1123,7 @@ c_fmt_dialog_init_editor_page (CFormatState *state)
 	state->editor.edit_style_button = go_gtk_builder_get_widget (state->gui, "edit-style-button");
 	state->editor.combo = go_gtk_builder_get_widget (state->gui, "condition-combo");
 	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "condition-table"));
-	state->editor.expr_x = GTK_WIDGET (gnm_expr_entry_new (state->wbcg, FALSE));
+	state->editor.expr_x = GTK_WIDGET (gnm_expr_entry_new (state->wbcg, TRUE));
 	gtk_table_attach (table, state->editor.expr_x, 1, 2, 2, 3, 
 			  GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0);
 	gtk_widget_show(state->editor.expr_x);
@@ -1131,7 +1131,7 @@ c_fmt_dialog_init_editor_page (CFormatState *state)
 				  GNM_EE_CONSTANT_ALLOWED,
 				  GNM_EE_MASK);
 
-	state->editor.expr_y = GTK_WIDGET (gnm_expr_entry_new (state->wbcg, FALSE));
+	state->editor.expr_y = GTK_WIDGET (gnm_expr_entry_new (state->wbcg, TRUE));
 	gtk_table_attach (table, state->editor.expr_y, 1, 2, 3, 4, 
 			  GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0);
 	gtk_widget_show(state->editor.expr_y);

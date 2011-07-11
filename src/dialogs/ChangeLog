@@ -1,5 +1,10 @@
 2011-07-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-cell-format-cond.c (c_fmt_dialog_init_editor_page): enable
+	expression entry icons.
+
+2011-07-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialogs.h (dialog_cell_format_select_style): add style argument
 	* dialog-cell-format-cond.c (cb_c_fmt_dialog_edit_style_button):
 	pass style to dialog_cell_format_select_style
