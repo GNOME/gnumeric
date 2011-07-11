@@ -2020,6 +2020,7 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 
 
 		if (state->style_selector.is_selector) {
+			GnmStyle *style = gnm_style_dup (state->style);
 			for (i = GNM_STYLE_BORDER_TOP; i <= GNM_STYLE_BORDER_DIAG; i++) {
 				GnmBorder *b = border_get_mstyle (state, i);
 				if (b)
@@ -2029,9 +2030,11 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 						 (int)(i - GNM_STYLE_BORDER_TOP),
 						 b);
 			}
+			gnm_style_merge (style, state->result);
 			dialog_cell_format_style_added 
 				(state->style_selector.closure,
-				 state->result);
+				 style);
+			gnm_style_unref (state->result);
 		} else {
 			GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX];
 			for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
