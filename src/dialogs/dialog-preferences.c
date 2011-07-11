@@ -1173,7 +1173,7 @@ typedef struct {
 					 GtkNotebook *notebook, gint page_num);
 } page_info_t;
 
-/* Note that the first two items must remain here in that order */
+/* Note that the page names are used in calls to dialog_preferences and as default in  dialog_pref_select_page! */
 static page_info_t const page_info[] = {
 	{N_("Auto Correct"),  GTK_STOCK_DIALOG_ERROR,	 NULL, &pref_autocorrect_general_page_initializer},
 	{N_("Font"),          GTK_STOCK_ITALIC,		 NULL, &pref_font_initializer	       },
@@ -1193,7 +1193,7 @@ static page_info_t const page_info[] = {
 };
 
 typedef struct {
-	int  const page;
+	gchar const *page;
 	GtkTreePath *path;
 } page_search_t;
 
@@ -1203,27 +1203,33 @@ dialog_pref_select_page_search (GtkTreeModel *model,
 				GtkTreeIter *iter,
 				page_search_t *pst)
 {
-	int page;
-	gtk_tree_model_get (model, iter, PAGE_NUMBER, &page, -1);
-	if (page == pst->page) {
+	gchar *page;
+	gtk_tree_model_get (model, iter, ITEM_NAME, &page, -1);
+	if (0 == strcmp (page, pst->page)) {
+		g_free (page);
 		pst->path = gtk_tree_path_copy (path);
 		return TRUE;
-	} else
+	} else {
+		g_free (page);
 		return FALSE;
+	}
 }
 
 static void
-dialog_pref_select_page (PrefState *state, int page)
+dialog_pref_select_page (PrefState *state, gchar const *page)
 {
-	page_search_t pst = {page, NULL};
+	page_search_t pst = {NULL, NULL};
 
-	if (page >= 0)
-		gtk_tree_model_foreach (GTK_TREE_MODEL (state->store),
-					(GtkTreeModelForeachFunc) dialog_pref_select_page_search,
-					&pst);
+	if (page == NULL)
+		page = "Tools";
+
+	pst.page = _(page);
+	gtk_tree_model_foreach (GTK_TREE_MODEL (state->store),
+				(GtkTreeModelForeachFunc) dialog_pref_select_page_search,
+				&pst);
 
 	if (pst.path == NULL)
-		pst.path = gtk_tree_path_new_from_string ("0");
+		pst.path = gtk_tree_path_new_first ();
 
 	if (pst.path != NULL) {
 		gtk_tree_view_set_cursor (state->view, pst.path, NULL, FALSE);
@@ -1282,7 +1288,7 @@ cb_workbook_removed (PrefState *state)
 }
 
 void
-dialog_preferences (WBCGtk *wbcg, gint page)
+dialog_preferences (WBCGtk *wbcg, gchar const *page)
 {
 	PrefState *state;
 	GtkBuilder *gui;

@@ -147,10 +147,6 @@ Architecture Changes
 	    4.45.2.2) items
 	    4.45.2.3) custom
 	    4.45.2.4) dynamic
-    4.46) ODF
-	4.46.1) import
-	4.46.2) export
-    4.50) #346002 : tooltip of matching rows  (using progress bar) (DONE)
     4.51) #383400 : '95' should match 95
     22.52) Clipboard ?? do we want this ?
     4.53) Support Office 2007 toggle date based buckets
@@ -525,7 +521,6 @@ Architecture Changes
                  5.1.1 of the OpenDocument Standard. 
 	36.2.4) col/row manual vs auto
     36.5) See 12.6 (Input Messages)
-    36.6) See 4.46 (Autofilters)
     36.7) See 22.13 (Validation)
     36.10) See 5.3 (pivots)
     36.11) See 17.2.5 (page breaks)

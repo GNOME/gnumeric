@@ -1,3 +1,11 @@
+2011-07-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialogs.h (dialog_preferences): change the type of the last argument
+	and change all callers
+	* dialog-preferences.c (dialog_pref_select_page_search): use the name 
+	rather than the position
+	(dialog_pref_select_page): ditto
+
 2011-07-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-cell-format-cond.c (c_fmt_dialog_init_editor_page): enable

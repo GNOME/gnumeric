@@ -308,7 +308,7 @@ static GNM_ACTION_DEF (cb_file_print_preview)
 }
 
 static GNM_ACTION_DEF (cb_doc_meta_data)	{ dialog_doc_metadata_new (wbcg, 0); }
-static GNM_ACTION_DEF (cb_file_preferences)	{ dialog_preferences (wbcg, 0); }
+static GNM_ACTION_DEF (cb_file_preferences)	{ dialog_preferences (wbcg, NULL); }
 static GNM_ACTION_DEF (cb_file_history_full)    { dialog_recent_used (wbcg); }
 static GNM_ACTION_DEF (cb_file_close)		{ wbc_gtk_close (wbcg); }
 
@@ -928,7 +928,7 @@ static GNM_ACTION_DEF (cb_format_cells_cond)    { dialog_cell_format_cond (wbcg)
 static GNM_ACTION_DEF (cb_autoformat)		{ dialog_autoformat (wbcg); }
 static GNM_ACTION_DEF (cb_workbook_attr)	{ dialog_workbook_attr (wbcg); }
 static GNM_ACTION_DEF (cb_tools_plugins)	{ dialog_plugin_manager (wbcg); }
-static GNM_ACTION_DEF (cb_tools_autocorrect)	{ dialog_preferences (wbcg, 1); }
+static GNM_ACTION_DEF (cb_tools_autocorrect)	{ dialog_preferences (wbcg, "Auto Correct"); }
 static GNM_ACTION_DEF (cb_tools_auto_save)	{ dialog_autosave (wbcg); }
 static GNM_ACTION_DEF (cb_tools_goal_seek)	{ dialog_goal_seek (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_tabulate)	{ dialog_tabulate (wbcg, wbcg_cur_sheet (wbcg)); }

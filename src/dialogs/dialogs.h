@@ -125,7 +125,7 @@ int dialog_ttest_tool    (WBCGtk *wbcg, Sheet *sheet, ttest_type test);
 char *dialog_get_password (GtkWindow *parent, char const *filename);
 
 /* Modeless dialogs */
-void	dialog_preferences (WBCGtk *wbcg, gint page);
+void	dialog_preferences (WBCGtk *wbcg, gchar const *page);
 void    dialog_recent_used (WBCGtk *wbcg);
 
 void	dialog_new_view (WBCGtk *wbcg);
