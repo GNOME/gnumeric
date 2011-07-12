@@ -1,5 +1,9 @@
 2011-07-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/gui-clipboard.c (x_clipboard_get_cb): provide undo of cut.
+
+2011-07-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/style-conditions.c (gnm_style_conditions_eval): != IS_LESS is
 	not the same as == IS_EQUAL || == IS_GREATER
 

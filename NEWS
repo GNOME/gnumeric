@@ -8,7 +8,8 @@ Andreas:
 	* Fix keyword handling in properties dialog. [#653378]
 	* Allow document properties to be edited and added.
 	* Add an interface for conditional styles.
-	* Fix ODF import of styles with inherited conditional styles. [#654214]  
+	* Fix ODF import of styles with inherited conditional styles. [#654214] 
+	* Provide undo for cut between 2 gnumeric processes. [#640922] 
 
 Morten:
 	* Fix --with-gnome compilation:  [#652802]

@@ -25,6 +25,7 @@
 #include "sheet-style.h"
 #include "sheet-object.h"
 #include "sheet-control-gui.h"
+#include "sheet-view.h"
 #include "commands.h"
 #include "value.h"
 #include "number-match.h"
@@ -949,14 +950,23 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 
 		/* If the other app was a gnumeric, emulate a cut */
 		if (to_gnumeric) {
-			/* FIXME: This needs undo.
-			 * Use a variant of cmd_selection_clear that would use
-			 * the src range rather than the current selection */
-			sheet_clear_region (sheet,
-				a->start.col, a->start.row,
-				a->end.col,   a->end.row,
-				CLEAR_VALUES|CLEAR_COMMENTS|CLEAR_RECALC_DEPS,
-				ctx);
+			GOUndo *redo, *undo;
+			GnmSheetRange *sr    = gnm_sheet_range_new (sheet, a);
+			SheetView const *sv  = gnm_app_clipboard_sheet_view_get ();
+			SheetControl *sc     = g_ptr_array_index (sv->controls, 0);
+			WorkbookControl *wbc = sc_wbc (sc);
+			char *name;
+			char *text;
+
+			redo = sheet_clear_region_undo 
+				(sr, 
+				 CLEAR_VALUES|CLEAR_COMMENTS|CLEAR_RECALC_DEPS);
+			undo = clipboard_copy_range_undo (sheet, a);
+			name = undo_range_name (sheet, a);
+			text = g_strdup_printf (_("Cut of %s"), name);
+			g_free (name);
+			cmd_generic (wbc, text, undo, redo);
+			g_free (text);
 			gnm_app_clipboard_clear (TRUE);
 		}
 
