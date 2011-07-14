@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-07-10 03:02+0000\n"
-"PO-Revision-Date: 2011-07-10 10:33+0200\n"
+"POT-Creation-Date: 2011-07-12 18:56+0000\n"
+"PO-Revision-Date: 2011-07-14 10:44+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -785,9 +785,9 @@ msgid "%s version %s"
 msgstr "%s verze %s"
 
 #: ../plugins/fn-info/functions.c:1406
-#: ../src/dialogs/dialog-cell-format.c:2262
-#: ../src/dialogs/dialog-cell-format.c:2266
-#: ../src/dialogs/dialog-cell-format.c:2274 ../src/wbc-gtk.c:3404
+#: ../src/dialogs/dialog-cell-format.c:2265
+#: ../src/dialogs/dialog-cell-format.c:2269
+#: ../src/dialogs/dialog-cell-format.c:2277 ../src/wbc-gtk.c:3404
 msgid "Automatic"
 msgstr "Automaticky"
 
@@ -5798,246 +5798,246 @@ msgstr "Informace (umožnit neplatný vstup)"
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "Kritérium pro ověření platnosti je nepoužitelné. Vypnout ověřování?"
 
-#: ../src/dialogs/dialog-cell-format.c:2202 ../src/dialogs/cell-format.ui.h:43
+#: ../src/dialogs/dialog-cell-format.c:2205 ../src/dialogs/cell-format.ui.h:43
 msgid "Format Cells"
 msgstr "Formát buněk"
 
-#: ../src/dialogs/dialog-cell-format.c:2262 ../src/dialogs/cell-format.ui.h:27
+#: ../src/dialogs/dialog-cell-format.c:2265 ../src/dialogs/cell-format.ui.h:27
 #: ../src/dialogs/cell-format-cond.ui.h:4
 msgid "Border"
 msgstr "Ohraničení"
 
-#: ../src/dialogs/dialog-cell-format.c:2266 ../src/wbc-gtk.c:3258
+#: ../src/dialogs/dialog-cell-format.c:2269 ../src/wbc-gtk.c:3258
 #: ../src/wbc-gtk.c:3406 ../src/wbc-gtk.c:3407 ../src/wbc-gtk.c:3418
 #: ../src/wbc-gtk.c:3524 ../src/wbc-gtk.c:3588
 msgid "Foreground"
 msgstr "Popředí"
 
-#: ../src/dialogs/dialog-cell-format.c:2270 ../src/wbc-gtk.c:3455
+#: ../src/dialogs/dialog-cell-format.c:2273 ../src/wbc-gtk.c:3455
 msgid "Clear Background"
 msgstr "Vymazat pozadí"
 
-#: ../src/dialogs/dialog-cell-format.c:2270 ../src/dialogs/cell-format.ui.h:26
+#: ../src/dialogs/dialog-cell-format.c:2273 ../src/dialogs/cell-format.ui.h:26
 #: ../src/dialogs/cell-format-cond.ui.h:3 ../src/wbc-gtk.c:3457
 #: ../src/wbc-gtk.c:3458 ../src/wbc-gtk.c:3467
 msgid "Background"
 msgstr "Pozadí"
 
-#: ../src/dialogs/dialog-cell-format.c:2274
+#: ../src/dialogs/dialog-cell-format.c:2277
 msgid "Pattern"
 msgstr "Vzorek"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:213
+#: ../src/dialogs/dialog-cell-format-cond.c:231
 msgid "(defined)"
 msgstr "(definován)"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:213
+#: ../src/dialogs/dialog-cell-format-cond.c:231
 msgid "undefined"
 msgstr "nedefinován"
 
 #. without any expression
-#: ../src/dialogs/dialog-cell-format-cond.c:373
+#: ../src/dialogs/dialog-cell-format-cond.c:537
 msgid "Cell contains an error value."
 msgstr "Buňka obsahuje chybovou hodnotu."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:374
+#: ../src/dialogs/dialog-cell-format-cond.c:538
 msgid "Cell does not contain an error value."
 msgstr "Buňka neobsahuje chybovou hodnotu."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:375
+#: ../src/dialogs/dialog-cell-format-cond.c:539
 msgid "Cell contains whitespace."
 msgstr "Buňka obsahuje bílé znaky."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:376
+#: ../src/dialogs/dialog-cell-format-cond.c:540
 msgid "Cell does not contain whitespace."
 msgstr "Buňka neobsahuje bílé znaky."
 
 #. with one expression
-#: ../src/dialogs/dialog-cell-format-cond.c:378
+#: ../src/dialogs/dialog-cell-format-cond.c:542
 msgid "Cell value is = x."
 msgstr "Hodnota buňky je = x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:379
+#: ../src/dialogs/dialog-cell-format-cond.c:543
 msgid "Cell value is ≠ x."
 msgstr "Hodnota buňky je ≠ x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:380
+#: ../src/dialogs/dialog-cell-format-cond.c:544
 msgid "Cell value is > x."
 msgstr "Hodnota buňky je > x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:381
+#: ../src/dialogs/dialog-cell-format-cond.c:545
 msgid "Cell value is < x."
 msgstr "Hodnota buňky je < x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:382
+#: ../src/dialogs/dialog-cell-format-cond.c:546
 msgid "Cell value is ≧ x."
 msgstr "Hodnota buňky je ≧ x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:383
+#: ../src/dialogs/dialog-cell-format-cond.c:547
 msgid "Cell value is ≦ x."
 msgstr "Hodnota buňky je ≦ x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:384
+#: ../src/dialogs/dialog-cell-format-cond.c:548
 msgid "Expression x evaluates to TRUE."
 msgstr "Výraz x se vyhodnotí jako PRAVDA."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:385
+#: ../src/dialogs/dialog-cell-format-cond.c:549
 msgid "Cell contains the string x."
 msgstr "Buňka obsahuje řetězec x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:386
+#: ../src/dialogs/dialog-cell-format-cond.c:550
 msgid "Cell does not contain the string x."
 msgstr "Buňka neobsahuje řetězec x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:387
+#: ../src/dialogs/dialog-cell-format-cond.c:551
 msgid "Cell value begins with the string x."
 msgstr "Buňka začíná řetězcem x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:388
+#: ../src/dialogs/dialog-cell-format-cond.c:552
 msgid "Cell value does not begin with the string x."
 msgstr "Buňka nezačíná řetězcem x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:389
+#: ../src/dialogs/dialog-cell-format-cond.c:553
 msgid "Cell value ends with the string x."
 msgstr "Buňka končí řetězcem x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:390
+#: ../src/dialogs/dialog-cell-format-cond.c:554
 msgid "Cell value does not end with the string x."
 msgstr "Buňka nekončí řetězcem x."
 
 #. with two expressions
-#: ../src/dialogs/dialog-cell-format-cond.c:392
+#: ../src/dialogs/dialog-cell-format-cond.c:556
 msgid "Cell value is between x and y (incl.)."
 msgstr "Hodnota buňky je v rozmezí x a y (včetně)."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:393
+#: ../src/dialogs/dialog-cell-format-cond.c:557
 msgid "Cell value is not between x and y (incl.)."
 msgstr "Hodnota buňky není v rozmezí x a y."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:515
+#: ../src/dialogs/dialog-cell-format-cond.c:693
 msgid "Set conditional formatting"
 msgstr "Nastavit podmíněný formát"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:531
+#: ../src/dialogs/dialog-cell-format-cond.c:709
 msgid "Clear conditional formatting"
 msgstr "Smazat podmíněný formát"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:563
+#: ../src/dialogs/dialog-cell-format-cond.c:741
 msgid "Remove condition from conditional formatting"
 msgstr "Odebrat podmínku z podmíněného formátu"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:595
+#: ../src/dialogs/dialog-cell-format-cond.c:773
 msgid "Expand conditional formatting"
 msgstr "Rozšířit podmíněný formát"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:644
+#: ../src/dialogs/dialog-cell-format-cond.c:822
 msgid ""
 "If the cell content is between these two values, a special style is used."
 msgstr ""
 "Když je obsah buňky v rozmezí těchto dvou hodnot, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:652
+#: ../src/dialogs/dialog-cell-format-cond.c:830
 msgid ""
 "If the cell content is not between these two values, a special style is used."
 msgstr ""
 "Když je obsah buňky mimo rozmezí těchto dvou hodnot, použije se speciální "
 "styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:660
+#: ../src/dialogs/dialog-cell-format-cond.c:838
 msgid "If the cell content is equal to this value, a special style is used."
 msgstr "Když je obsah buňky roven této hodnotě, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:668
+#: ../src/dialogs/dialog-cell-format-cond.c:846
 msgid ""
 "If the cell content is not equal to this value, a special style is used."
 msgstr "Když není obsah buňky roven této hodnotě, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:676
+#: ../src/dialogs/dialog-cell-format-cond.c:854
 msgid "If the cell content is > this value, a special style is used."
 msgstr "Když je obsah buňky větší než tato hodnota, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:683
+#: ../src/dialogs/dialog-cell-format-cond.c:861
 msgid "If the cell content is < this value, a special style is used."
 msgstr "Když je obsah buňky menší než tato hodnota, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:691
+#: ../src/dialogs/dialog-cell-format-cond.c:869
 msgid "If the cell content is ≧ this value, a special style is used."
 msgstr ""
 "Když je obsah buňky větší roven této hodnotě, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:700
+#: ../src/dialogs/dialog-cell-format-cond.c:878
 msgid "If the cell content is ≦ this value, a special style is used."
 msgstr ""
 "Když je obsah buňky menší roven této hodnotě, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:709
+#: ../src/dialogs/dialog-cell-format-cond.c:887
 msgid "If this formula evaluates to TRUE, a special style is used."
 msgstr "Když se vzorec vyhodnotí jako PRAVDA, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:716
+#: ../src/dialogs/dialog-cell-format-cond.c:894
 msgid "If the cell content contains this string, a special style is used."
 msgstr "Když buňky obsahuje tento text, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:724
+#: ../src/dialogs/dialog-cell-format-cond.c:902
 msgid ""
 "If the cell content does not contain this string, a special style is used."
 msgstr "Když buňky neobsahuje tento text, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:732
+#: ../src/dialogs/dialog-cell-format-cond.c:910
 msgid "If the cell content begins with this string, a special style is used."
 msgstr "Když obsah buňky začíná tímto textem, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:740
+#: ../src/dialogs/dialog-cell-format-cond.c:918
 msgid ""
 "If the cell content does not begin with this string, a special style is used."
 msgstr "Když obsah buňky nezačíná tímto textem, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:747
+#: ../src/dialogs/dialog-cell-format-cond.c:925
 msgid "If the cell content ends with this string, a special style is used."
 msgstr "Když obsah buňky končí tímto textem, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:755
+#: ../src/dialogs/dialog-cell-format-cond.c:933
 msgid ""
 "If the cell content does not end  with this string, a special style is used."
 msgstr "Když obsah buňky nekončí tímto textem, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:763
+#: ../src/dialogs/dialog-cell-format-cond.c:941
 msgid "If the cell contains an error value, a special style is used."
 msgstr "Když buňky obsahuje chybovou hodnotu, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:769
+#: ../src/dialogs/dialog-cell-format-cond.c:947
 msgid "If the cell does not contain an error value, a special style is used."
 msgstr "Když buňky neobsahuje chybovou hodnotu, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:776
+#: ../src/dialogs/dialog-cell-format-cond.c:954
 msgid "If the cell content contains blanks, a special style is used."
 msgstr "Když je obsah buňky prázdný, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:783
+#: ../src/dialogs/dialog-cell-format-cond.c:961
 msgid "If the cell content does not contain blanks, a special style is used."
 msgstr "Když není obsah buňky prázdný, použije se speciální styl."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:790
+#: ../src/dialogs/dialog-cell-format-cond.c:968
 msgid "This is an unknown condition type."
 msgstr "Jde o neznámý typ podmínky."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:892
+#: ../src/dialogs/dialog-cell-format-cond.c:1070
 msgid "The selection is homogeneous with respect to conditions."
 msgstr "Výběr vyhovuje podmínkám."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:900
+#: ../src/dialogs/dialog-cell-format-cond.c:1078
 msgid "The selection is <b>not</b> homogeneous with respect to conditions!"
 msgstr "Výběr <b>nevyhovuje</b> podmínkám!"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:987
+#: ../src/dialogs/dialog-cell-format-cond.c:1148
 msgid "(undefined)"
 msgstr "(nedefinován)"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1058
+#: ../src/dialogs/dialog-cell-format-cond.c:1224
 msgid "Editing conditional formatting: "
 msgstr "Úprava podmíněného formátu: "
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1106
+#: ../src/dialogs/dialog-cell-format-cond.c:1270
 #: ../src/dialogs/cell-format-cond.ui.h:6
 msgid "Conditional Cell Formatting"
 msgstr "Podmíněný formát buňky"
@@ -8468,7 +8468,6 @@ msgid "Style Overlay:"
 msgstr "Pokrytí stylu:"
 
 #: ../src/dialogs/cell-format-cond.ui.h:13
-#| msgid "_Style"
 msgid "_Edit Style"
 msgstr "_Upravit styl"
 
@@ -11916,9 +11915,15 @@ msgstr "Vlastnosti čáry/šipky"
 msgid "Polygon Properties"
 msgstr "Vlastnosti mnohoúhelníku"
 
-#: ../src/gui-clipboard.c:169
+#: ../src/gui-clipboard.c:170
 msgid "clipboard"
 msgstr "schránka"
+
+#: ../src/gui-clipboard.c:966
+#, c-format
+#| msgid "C_utoffs"
+msgid "Cut of %s"
+msgstr "Vyjmout %s"
 
 #: ../src/gui-file.c:77
 msgid "Automatically detected"
@@ -17947,6 +17952,3 @@ msgstr "Šablona fialového seznamu"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Šablona jednoduchého seznamu"
-
-#~ msgid "Style Condition"
-#~ msgstr "Podmínka stylu"
