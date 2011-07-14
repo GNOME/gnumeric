@@ -1448,11 +1448,12 @@ cmd_insert_cols (WorkbookControl *wbc,
 		 Sheet *sheet, int start_col, int count)
 {
 	char *mesg;
-	GnmRange r = sheet_get_extent (sheet, TRUE);
+	GnmRange r;
+	
+	range_init_full_sheet (&r, sheet);
+	r.start.row = r.end.row - count + 1;
 
-	r.end.col += count;
-
-	if (gnm_sheet_get_last_col (sheet) < r.end.col) {
+	if (!sheet_range_trim (sheet, &r, FALSE, FALSE)) {
 		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_ERROR,
 				      ngettext ("Inserting %i column before column %s would push data off the sheet. "
 						"Please enlarge the sheet first.",
@@ -1476,11 +1477,12 @@ cmd_insert_rows (WorkbookControl *wbc,
 		 Sheet *sheet, int start_row, int count)
 {
 	char *mesg;
-	GnmRange r = sheet_get_extent (sheet, TRUE);
+	GnmRange r;
 
-	r.end.row += count;
+	range_init_full_sheet (&r, sheet);
+	r.start.row = r.end.row - count + 1;
 
-	if (gnm_sheet_get_last_row (sheet) < r.end.row) {
+	if (!sheet_range_trim (sheet, &r, FALSE, FALSE)) {
 		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_ERROR,
 				      ngettext ("Inserting %i row before row %s would push data off the sheet. "
 						"Please enlarge the sheet first.",

@@ -1,4 +1,10 @@
-2011-07-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2011-07-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_insert_cols): use sheet_range_trim rather
+	than sheet_get_extent (this will always be faster).
+	(cmd_insert_rows): ditto
+
+2011-07-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gui-clipboard.c (x_clipboard_get_cb): provide undo of cut.
 
