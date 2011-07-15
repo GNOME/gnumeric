@@ -1,3 +1,19 @@
+2011-07-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_style_have_three_dimensional): replace
+	with oo_style_has_property
+	(oo_style_have_multi_series): ditto
+	(oo_style_has_property): new
+	(oo_style_has_plot_property): new
+	(oo_chart_axis): bar charts have differnt axes interpretaion than
+	column charts
+	* openoffice-write.c (odf_write_*_axes_styles): add arguments and
+	change all callers
+	(odf_write_axis_full): new
+	(odf_write_axis): use odf_write_axis_full
+	(odf_write_axis_no_cats): use odf_write_axis_full
+	(odf_write_plot): we need to distinguish column charts from bar charts
+
 2011-07-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_axis): do not confuse MS Excel by

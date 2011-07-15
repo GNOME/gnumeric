@@ -5536,29 +5536,27 @@ oo_prop_list_has (GSList *props, gboolean *threed, char const *tag)
 }
 
 static gboolean
-oo_style_have_three_dimensional (OOChartStyle **style)
+oo_style_has_property (OOChartStyle **style, char const *prop, gboolean def)
 {
 	int i;
-	gboolean is_three_dimensional = FALSE;
+	gboolean has_prop = def;
 	for (i = 0; i < OO_CHART_STYLE_INHERITANCE; i++)
 		if (style[i] != NULL)
 			oo_prop_list_has (style[i]->other_props,
-					  &is_three_dimensional,
-					  "three-dimensional");
-	return is_three_dimensional;
+					  &has_prop, prop);
+	return has_prop;
 }
 
 static gboolean
-oo_style_have_multi_series (OOChartStyle **style)
+oo_style_has_plot_property (OOChartStyle **style, char const *prop, gboolean def)
 {
 	int i;
-	gboolean is_multi_series = FALSE;
+	gboolean has_prop = def;
 	for (i = 0; i < OO_CHART_STYLE_INHERITANCE; i++)
 		if (style[i] != NULL)
-			oo_prop_list_has (style[i]->other_props,
-					  &is_multi_series,
-					  "multi-series");
-	return is_multi_series;
+			oo_prop_list_has (style[i]->plot_props,
+					  &has_prop, prop);
+	return has_prop;
 }
 
 static void
@@ -6805,6 +6803,12 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "z",	GOG_AXIS_Z },
 		{ NULL,	0 },
 	};
+	static OOEnum const types_bar[] = {
+		{ "x",	GOG_AXIS_Y },
+		{ "y",	GOG_AXIS_X },
+		{ "z",	GOG_AXIS_Z },
+		{ NULL,	0 },
+	};
 	static OOEnum const types_radar[] = {
 		{ "x",	GOG_AXIS_CIRCULAR },
 		{ "y",	GOG_AXIS_RADIAL },
@@ -6817,15 +6821,30 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	gchar const *style_name = NULL;
 	GogAxisType  axis_type;
 	int tmp;
+	OOEnum const *axes_types;
+
+	switch (state->chart.plot_type) {
+	case OO_PLOT_RADAR:
+	case OO_PLOT_RADARAREA:
+	case OO_PLOT_POLAR:
+		axes_types = types_radar;
+		break;
+	case OO_PLOT_BAR:
+		if (oo_style_has_plot_property (state->chart.i_plot_styles, "horizontal", FALSE))
+			axes_types = types_bar;
+		else
+			axes_types = types;
+		break;
+	default:
+		axes_types = types;
+		break;
+	}
 
 	axis_type = GOG_AXIS_UNKNOWN;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
 			style_name = CXML2C (attrs[1]);
-		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "dimension",
-				       (state->chart.plot_type == OO_PLOT_RADAR ||
-					state->chart.plot_type == OO_PLOT_RADARAREA ||
-					state->chart.plot_type == OO_PLOT_POLAR)? types_radar :  types, &tmp))
+		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "dimension", axes_types, &tmp))
 			axis_type = tmp;
 
 	axes = gog_chart_get_axes (state->chart.chart, axis_type);
@@ -7112,10 +7131,11 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_SCATTER:	type = "GogXYPlot";	break;
 	case OO_PLOT_STOCK:	type = "GogMinMaxPlot";	break;  /* This is not quite right! */
 	case OO_PLOT_CONTOUR:
-		if (oo_style_have_multi_series (state->chart.i_plot_styles)) {
+		if (oo_style_has_property (state->chart.i_plot_styles, "multi-series", FALSE)) {
 			type = "XLSurfacePlot";
 			state->chart.plot_type = OO_PLOT_XL_SURFACE;
-		} else if (oo_style_have_three_dimensional (state->chart.i_plot_styles)) {
+		} else if (oo_style_has_property (state->chart.i_plot_styles, 
+						   "three-dimensional", FALSE)) {
 			type = "GogSurfacePlot";
 			state->chart.plot_type = OO_PLOT_SURFACE;
 		} else
@@ -7125,7 +7145,8 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_GANTT:	type = "GogDropBarPlot"; break;
 	case OO_PLOT_POLAR:	type = "GogPolarPlot"; break;
 	case OO_PLOT_XYZ_SURFACE:
-		if (oo_style_have_three_dimensional (state->chart.i_plot_styles))
+		if (oo_style_has_property (state->chart.i_plot_styles, 
+						   "three-dimensional", FALSE))
 			type = "GogXYZSurfacePlot";
 		else
 			type = "GogXYZContourPlot";
