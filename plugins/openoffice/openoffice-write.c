@@ -6706,7 +6706,8 @@ odf_write_axis (GnmOOExport *state, GogObject const *chart, char const *axis_rol
 		gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
 		odf_write_label (state, axis);
 		odf_write_axis_grid (state, axis);
-		odf_write_axis_categories (state, series);
+		if (ODF_BUBBLE != gtype)
+			odf_write_axis_categories (state, series);
 		gsf_xml_out_end_element (state->xml); /* </chart:axis> */
 	}
 }
