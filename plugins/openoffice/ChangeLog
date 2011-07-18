@@ -1,3 +1,8 @@
+2011-07-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_sheet): do not use <table:table-columns>
+	and <table:table-rows> since MS Excel stumbles over them.
+
 2011-07-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_style_have_three_dimensional): replace
