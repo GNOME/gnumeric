@@ -18,6 +18,7 @@
 	    updated for 1.7.1 in Jun 2006
 	    updated for 1.7.11 in Jun 2007	jody@gnome.org
 	    updated for 1.7.91 in Nov 2007	jody@gnome.org
+	    partially updated for 1.10.17 in July 2011	aguelzow@pyrshep.ca
         </xs:documentation>
     </xs:annotation>
     
@@ -31,65 +32,81 @@
 	<xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
 
-    <xs:complexType name="Workbook">
-        <xs:sequence>
-            <xs:element name="Version"		type="gnm:Version" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="Attributes"	type="gnm:Attributes"/>
-
-	    <!-- ignore office:document-meta -->
-	    <xs:any minOccurs="0" maxOccurs="unbounded"
-		    namespace="##other" processContents="lax"/>
-
-	    <!-- ancient files lack this, modern files require it -->
-            <xs:element name="SheetNameIndex"	type="gnm:SheetNameIndex" minOccurs="0" maxOccurs="1"/>
-
-            <xs:element name="Names"		type="gnm:Names" minOccurs="0" maxOccurs="1"/>
-
-            <!-- Deprecated, moved to Calculation and expanded in 1.7.11
-	         Valid value == 1904, anything else == Lotus:1900 -->
-            <xs:element name="DateConvention"	type="xs:int" minOccurs="0" maxOccurs="1"/>
-
-            <!-- preferred height and width -->
-            <xs:element name="Geometry">
-                <xs:complexType>
-                    <xs:attribute name="Width"  type="xs:nonNegativeInteger" use="optional"/>
-                    <xs:attribute name="Height" type="xs:nonNegativeInteger" use="optional"/>
-		    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="Sheets"         type="gnm:Sheets"/>
-            <!-- which sheet was selected when the spreadsheet was saved? -->
-            <xs:element name="UIData">
-                <xs:complexType>
-                    <xs:attribute name="SelectedTab" type="xs:nonNegativeInteger" use="required"/>
-		    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="Calculation" minOccurs="0" maxOccurs="1">
-                <xs:complexType>
-                    <xs:attribute name="ManualRecalc"	     type="xs:boolean"/>
-                    <xs:attribute name="EnableIteration"    type="xs:boolean"/>
-                    <xs:attribute name="MaxIterations"	     type="xs:nonNegativeInteger"/>
-		    <xs:attribute name="IterationTolerance" type="xs:double"/>
-		    <xs:attribute name="DateConvention"     type="gnm:DateConvention" use="optional" default="Lotus:1900"/>
-		    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                </xs:complexType>
-            </xs:element>
-        </xs:sequence>
-        <!-- version number should be v10 - - &gt;
-        <xs:attribute name="gnm" type="gnm:namespace" use="required"/> -->
-	<xs:anyAttribute namespace="##other" processContents="lax"/>
+    <xs:complexType name="Calculation">
+	  <xs:attribute name="ManualRecalc"	  type="xs:boolean"/>
+	  <xs:attribute name="EnableIteration"    type="xs:boolean"/>
+	  <xs:attribute name="MaxIterations"	  type="xs:nonNegativeInteger"/>
+	  <xs:attribute name="FloatRadix"	  type="xs:positiveInteger"/>
+	  <xs:attribute name="FloatDigits"	  type="xs:nonNegativeInteger"/>
+	  <xs:attribute name="IterationTolerance" type="xs:double"/>
+	  <xs:attribute name="DateConvention"     type="gnm:DateConvention" use="optional" default="Lotus:1900"/>
+	  <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
 
+    <xs:group name="WorkbookContentBlockA">
+      <xs:sequence>
+	<!-- ancient files lack this, modern files require it -->
+	<xs:element name="SheetNameIndex"	type="gnm:SheetNameIndex" minOccurs="0" maxOccurs="1"/>
+	
+	<xs:element name="Names"		type="gnm:Names" minOccurs="0" maxOccurs="1"/>
+	
+	<!-- Deprecated, moved to Calculation and expanded in 1.7.11
+	     Valid value == 1904, anything else == Lotus:1900 -->
+	<xs:element name="DateConvention"	type="xs:int" minOccurs="0" maxOccurs="1"/>
+	
+	<!-- preferred height and width -->
+	<xs:element name="Geometry">
+	  <xs:complexType>
+	    <xs:attribute name="Width"  type="xs:nonNegativeInteger" use="optional"/>
+	    <xs:attribute name="Height" type="xs:nonNegativeInteger" use="optional"/>
+	    <xs:anyAttribute namespace="##other" processContents="lax"/>
+	  </xs:complexType>
+	</xs:element>
+	<xs:element name="Sheets"         type="gnm:Sheets"/>
+	<!-- which sheet was selected when the spreadsheet was saved? -->
+	<xs:element name="UIData">
+	  <xs:complexType>
+	    <xs:attribute name="SelectedTab" type="xs:nonNegativeInteger" use="required"/>
+	    <xs:anyAttribute namespace="##other" processContents="lax"/>
+	  </xs:complexType>
+	</xs:element>
+      </xs:sequence>
+    </xs:group>
+    
+    <xs:complexType name="Workbook">
+      <xs:sequence>
+	<xs:element name="Version"      type="gnm:Version" minOccurs="0" maxOccurs="1"/>
+	<xs:element name="Attributes"	type="gnm:Attributes"/>
+	
+	<!-- ignore office:document-meta -->
+	<xs:any minOccurs="0" maxOccurs="unbounded"
+		namespace="##other" processContents="lax"/>
+
+	<xs:choice>
+	  <xs:sequence> <!-- In new files the Calculation element comes first, in old files last -->
+	    <xs:element name="Calculation" type="gnm:Calculation" minOccurs="0" maxOccurs="1"/>
+	    <xs:group ref="gnm:WorkbookContentBlockA"/>
+	  </xs:sequence>
+	  <xs:sequence>
+	    <xs:group ref="gnm:WorkbookContentBlockA"/>
+	    <xs:element name="Calculation" type="gnm:Calculation" minOccurs="0" maxOccurs="1"/>
+	  </xs:sequence>
+	</xs:choice>
+      </xs:sequence>
+      <!-- version number should be v10 - - &gt;
+	   <xs:attribute name="gnm" type="gnm:namespace" use="required"/> -->
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+    
     <!-- How values are mapped to dates.   All date functions are affected -->
     <xs:simpleType name="DateConvention">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="Lotus:1900"/>
+      <xs:restriction base="xs:string">
+	<xs:enumeration value="Lotus:1900"/>
             <xs:enumeration value="Apple:1904"/>
-
-<!-- future values. currently treated as Lotus:1900 -->
+	    
+	    <!-- future values. currently treated as Lotus:1900 -->
             <xs:enumeration value="ODF:1899"/>
-        </xs:restriction>
+      </xs:restriction>
     </xs:simpleType>
 
     <xs:simpleType name="CellRef">
@@ -144,9 +161,18 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:complexType name="SheetNameIndex">
+   <xs:complexType name="SheetNameIndex">
         <xs:sequence>
-            <xs:element name="SheetName" minOccurs="0" maxOccurs="unbounded" type="xs:string"/>
+            <xs:element name="SheetName" minOccurs="0" maxOccurs="unbounded">
+	      <xs:complexType>
+		<xs:simpleContent>
+		  <xs:extension base="xs:string">
+		    <xs:attribute name="Cols" type="xs:positiveInteger" form="qualified"/>
+		    <xs:attribute name="Rows" type="xs:positiveInteger" form="qualified"/>
+		  </xs:extension>
+		</xs:simpleContent>
+	      </xs:complexType>
+	    </xs:element>
         </xs:sequence>
     </xs:complexType>
 
@@ -332,7 +358,25 @@
             <xs:element name="print-to-uri" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="vPageBreaks" type="gnm:PageBreaks" minOccurs="0" maxOccurs="1"/><!-- between rows -->
             <xs:element name="hPageBreaks" type="gnm:PageBreaks" minOccurs="0" maxOccurs="1"/><!-- between cols -->
-        </xs:choice>
+            <xs:element name="print_range" minOccurs="0" maxOccurs="1">
+	        <xs:complexType>
+	            <xs:attribute name="value" use="required">
+		      <xs:simpleType>
+			<xs:restriction base="xs:integer">
+			  <xs:enumeration value="-1"/> <!-- PRINT_SAVED_INFO -->
+			  <xs:enumeration value="0"/> <!-- PRINT_ACTIVE_SHEET -->
+			  <xs:enumeration value="1"/> <!-- PRINT_ALL_SHEETS -->
+			  <xs:enumeration value="2"/> <!-- PRINT_ALL_SHEETS_INCLUDING_HIDDEN -->
+			  <xs:enumeration value="3"/> <!-- PRINT_SHEET_RANGE -->
+			  <xs:enumeration value="4"/> <!-- PRINT_SHEET_SELECTION -->
+			  <xs:enumeration value="5"/> <!-- PRINT_IGNORE_PRINTAREA -->
+			  <xs:enumeration value="6"/> <!-- PRINT_SHEET_SELECTION_IGNORE_PRINTAREA -->
+			</xs:restriction>
+		      </xs:simpleType>
+		    </xs:attribute>
+	        </xs:complexType>
+	    </xs:element>
+	  </xs:choice>
 	<xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
 
@@ -373,10 +417,14 @@
     <xs:simpleType name="print_units">
         <xs:restriction base="xs:string">
             <xs:enumeration value="mm"/>
+            <xs:enumeration value="millimeter"/>
             <xs:enumeration value="cm"/>
+            <xs:enumeration value="centimeter"/>
             <xs:enumeration value="in"/>
+            <xs:enumeration value="inch"/>
+            <xs:enumeration value="inches"/>
             <xs:enumeration value="Pt"/>
-            <xs:enumeration value="Px"/>
+            <xs:enumeration value="Pts"/>
             <xs:enumeration value="points"/>
         </xs:restriction>
     </xs:simpleType>
@@ -418,14 +466,15 @@
         <xs:sequence>
             <xs:element name="Font" minOccurs="0" maxOccurs="1">
                 <xs:complexType>
-                    <xs:simpleContent>
+                    <xs:simpleContent> <!-- Since these might be conditional styles, the atributes are 
+				       not required -->
                         <xs:extension base="xs:string">
-                            <xs:attribute name="Unit"          type="xs:double"	use="required"/>
-                            <xs:attribute name="Bold"          type="xs:boolean"	use="required"/>
-                            <xs:attribute name="Italic"        type="xs:boolean"	use="required"/>
-                            <xs:attribute name="Underline"     type="gnm:underline"	use="required"/>
-                            <xs:attribute name="StrikeThrough" type="xs:boolean"	use="required"/>
-                            <xs:attribute name="Script"        type="gnm:script"	use="required"/>
+                            <xs:attribute name="Unit"          type="xs:double"	        use="optional"/>
+                            <xs:attribute name="Bold"          type="xs:boolean"	use="optional"/>
+                            <xs:attribute name="Italic"        type="xs:boolean"	use="optional"/>
+                            <xs:attribute name="Underline"     type="gnm:underline"	use="optional"/>
+                            <xs:attribute name="StrikeThrough" type="xs:boolean"	use="optional"/>
+                            <xs:attribute name="Script"        type="gnm:script"	use="optional"/>
 			    <xs:anyAttribute namespace="##other" processContents="lax"/>
                         </xs:extension>
                     </xs:simpleContent>
@@ -441,14 +490,15 @@
             </xs:element>
             <xs:element name="StyleBorder" minOccurs="0" maxOccurs="1">
                 <xs:complexType>
-                    <xs:sequence>
+                    <xs:choice minOccurs="0"	maxOccurs="6"> <!-- The order of the last two elements appears to be 
+								    version dependent-->
                         <xs:element name="Top"          type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
                         <xs:element name="Bottom"       type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
                         <xs:element name="Left"         type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
                         <xs:element name="Right"        type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
-                        <xs:element name="Diagonal"     type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
-                        <xs:element name="Rev-Diagonal" type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
-                    </xs:sequence>
+			<xs:element name="Diagonal"     type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
+			<xs:element name="Rev-Diagonal" type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
+                    </xs:choice>
                 </xs:complexType>
             </xs:element>
             <xs:element name="Validation" minOccurs="0" maxOccurs="1">
@@ -682,6 +732,11 @@
 	<xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:attributeGroup>
 
+    <xs:attributeGroup name="ObjectProperties">
+      <xs:attribute name="Print" type="xs:boolean" use="optional"/>
+      <xs:attribute name="Name" type="xs:string" use="optional"/>
+    </xs:attributeGroup>
+
     <xs:attributeGroup name="ObjectAdjustmentProps">
 	<xs:attribute name="Min"	type="xs:double"	use="required"/>
 	<xs:attribute name="Max"	type="xs:double"	use="required"/>
@@ -697,18 +752,27 @@
             <xs:element name="CellComment">
                 <xs:complexType>
 		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
-                    <xs:attribute name="Author"           type="xs:string"  use="required"/>
+		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
+                    <xs:attribute name="Author"           type="xs:string"  use="optional"/>
                     <xs:attribute name="Text"             type="xs:string"  use="required"/>
+                    <xs:attribute name="TextFormat"       type="xs:string"  use="optional"/>
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
             <xs:element name="SheetObjectFilled">
                 <xs:complexType>
+                    <xs:choice minOccurs="0" maxOccurs="1">
+                        <xs:any namespace="##local" processContents="lax"/>
+                    </xs:choice>
 		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
+		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
                     <xs:attribute name="OutlineColor"     type="gnm:color"               use="required"/>
                     <xs:attribute name="FillColor"        type="gnm:color"               use="required"/>
                     <xs:attribute name="Type"             type="gnm:objectfilled"        use="required"/>
-                    <xs:attribute name="Width"            type="xs:positiveInteger" use="required"/>
+                    <xs:attribute name="Width"            type="xs:nonNegativeInteger" use="required"/>
+                    <xs:attribute name="Label"            type="xs:string"  use="optional"/>
+                    <xs:attribute name="LabelFormat"      type="xs:string"  use="optional"/>
+
                     <!-- the arrow shape attributes are only used if the type is
                          arrow (type="gnm:2")
                     -->
@@ -723,22 +787,27 @@
             <xs:element name="SheetWidgetButton">
                 <xs:complexType>
 		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
+		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
                     <xs:attribute name="Label"            type="xs:string"  use="required"/>
+                    <xs:attribute name="Value"            type="xs:integer" />
+                    <xs:attribute name="Input"            type="xs:string"  />
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
             <xs:element name="SheetWidgetCheckbox">
                 <xs:complexType>
 		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
+		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
                     <xs:attribute name="Label"            type="xs:string"  use="required"/>
                     <xs:attribute name="Value"            type="xs:integer" use="required"/>
-                    <xs:attribute name="Input"            type="xs:string"  use="required"/>
+                    <xs:attribute name="Input"            type="xs:string" />
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
             <xs:element name="SheetWidgetToggleButton"		minOccurs="0" maxOccurs="unbounded">
                 <xs:complexType>
 		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
+		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
                     <xs:attribute name="Label"            type="xs:string"  use="required"/>
                     <xs:attribute name="Value"            type="xs:integer" use="required"/>
                     <xs:attribute name="Input"            type="xs:string"  use="required"/>
@@ -750,6 +819,7 @@
                 <xs:complexType>
 		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
 		    <xs:attributeGroup ref="gnm:ObjectAdjustmentProps"/>
+		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
@@ -757,6 +827,7 @@
                 <xs:complexType>
 		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
 		    <xs:attributeGroup ref="gnm:ObjectAdjustmentProps"/>
+		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
@@ -764,6 +835,7 @@
                 <xs:complexType>
 		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
 		    <xs:attributeGroup ref="gnm:ObjectAdjustmentProps"/>
+		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
@@ -780,6 +852,7 @@
 			</xs:element>
 		    </xs:sequence>
 		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
+		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
 		    <xs:attribute name="crop-top"	type="xs:double"  use="required"/>
 		    <xs:attribute name="crop-bottom"	type="xs:double"  use="required"/>
 		    <xs:attribute name="crop-left"	type="xs:double"  use="required"/>
@@ -794,18 +867,39 @@
 			<xs:element name="GogObject"	type="gnm:GogObject" form="unqualified"/>
 		    </xs:choice>
 		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
+		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
             <xs:element name="SheetWidgetFrame">
                 <xs:complexType>
 		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
+		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
             <xs:element name="SheetWidgetLabel">
                 <xs:complexType>
 		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
+		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
+		    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="SheetWidgetList">
+                <xs:complexType>
+		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
+		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
+		    <xs:attribute name="Content"	type="xs:string"  use="required"/>
+		    <xs:attribute name="Output"	        type="xs:string"  use="required"/>
+		    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="SheetWidgetCombo">
+                <xs:complexType>
+		    <xs:attributeGroup ref="gnm:ObjectAnchor"/>
+		    <xs:attributeGroup ref="gnm:ObjectProperties"/>
+		    <xs:attribute name="Content"	type="xs:string"  use="required"/>
+		    <xs:attribute name="Output"	        type="xs:string"  use="required"/>
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>
             </xs:element>
@@ -1058,17 +1152,18 @@
         <xs:attribute name="TargetCol"   type="xs:integer"		use="optional"/>
         <xs:attribute name="TargetRow"   type="xs:integer"		use="optional"/>
         <xs:attribute name="ProblemType" type="gnm:solver_problem_t"	use="required"/>
-        <xs:attribute name="Inputs"      type="xs:string"		use="required"/>
+        <xs:attribute name="ModelType"   type="gnm:model_type_t"/>
+        <xs:attribute name="Inputs"      type="xs:string"/>
         <xs:attribute name="MaxTime"	  type="xs:integer"		use="required"/>
         <xs:attribute name="MaxIter"	  type="xs:integer"		use="required"/>
         <xs:attribute name="NonNeg"	  type="xs:boolean"		use="required"/>
         <xs:attribute name="Discr"	  type="xs:boolean"		use="required"/>
         <xs:attribute name="AutoScale"	  type="xs:boolean"		use="required"/>
-        <xs:attribute name="ShowIter"	  type="xs:boolean"		use="required"/>
-        <xs:attribute name="AnswerR"	  type="xs:boolean"		use="required"/>
-        <xs:attribute name="SensitivityR" type="xs:boolean"		use="required"/>
-        <xs:attribute name="LimitsR"	  type="xs:boolean"		use="required"/>
-        <xs:attribute name="PerformR"	  type="xs:boolean"		use="required"/>
+        <xs:attribute name="ShowIter"	  type="xs:boolean"/>
+        <xs:attribute name="AnswerR"	  type="xs:boolean"/>
+        <xs:attribute name="SensitivityR" type="xs:boolean"/>
+        <xs:attribute name="LimitsR"	  type="xs:boolean"/>
+        <xs:attribute name="PerformR"	  type="xs:boolean"/>
         <xs:attribute name="ProgramR"	  type="xs:boolean"		use="required"/>
 	<xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
@@ -1089,6 +1184,13 @@
             <xs:enumeration value="0" /> <!-- SolverMinimize -->
             <xs:enumeration value="1" /> <!-- SolverMaximize -->
             <xs:enumeration value="2" /> <!-- SolverEqualTo -->
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="model_type_t">
+        <xs:restriction base="xs:integer">
+            <xs:enumeration value="0" /> <!-- GNM_SOLVER_LP -->
+            <xs:enumeration value="1" /> <!-- GNM_SOLVER_QP -->
+            <xs:enumeration value="2" /> <!-- GNM_SOLVER_NLP -->
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="SheetVisibility">

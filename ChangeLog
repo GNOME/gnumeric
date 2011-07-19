@@ -1,3 +1,7 @@
+2011-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric.xsd: update
+
 2011-07-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_insert_cols): use sheet_range_trim rather
