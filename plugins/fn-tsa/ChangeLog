@@ -1,3 +1,7 @@
+2011-07-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (gnumeric_interpolation): ignore missing targets
+
 2011-07-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (gnumeric_interpolation): use collect_float_pairs

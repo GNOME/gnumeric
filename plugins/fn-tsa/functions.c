@@ -477,12 +477,16 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (!gnm_range_increasing (vals0, n0))
 		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 	else {
+		int n = n2;
+
+		if (missing2)
+			gnm_strip_missing (vals2, &n, missing2);
 		res = value_new_array_non_init (1 , n2);
 		i = 0;
 
 		res->v_array.vals[0] = g_new (GnmValue *, n2);
 
-		fres = interpproc (vals0, vals1, n0, vals2, n2);
+		fres = interpproc (vals0, vals1, n0, vals2, n);
 		missing = missing2;
 		if (fres) {
 			i = 0;
