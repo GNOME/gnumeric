@@ -391,7 +391,7 @@ static GnmValue *
 gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float *vals0, *vals1, *vals2, *fres;
-	int n0, n1, n2;
+	int n0, n2;
 	int interp;
 	GnmValue *error = NULL;
 	GnmValue *res;
@@ -399,10 +399,10 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmEvalPos const * const ep = ei->pos;
 	GnmValue const * const PtInterpolation = argv[2];
 	int r, i;
-	GSList *missing0 = NULL;
-	GSList *missing1 = NULL;
-	GSList *missing2 = NULL;
+	GSList *missing2 = NULL, *missing;
 	INTERPPROC interpproc = NULL;
+
+	/* argv[2] */
 
 	int const cols = value_area_get_width (PtInterpolation, ep);
 	int const rows = value_area_get_height (PtInterpolation, ep);
@@ -412,38 +412,27 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return res;
 	}
 
-	flags = COLLECT_IGNORE_BLANKS | COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS;
-
-	vals0 = collect_floats_value_with_info (argv[0], ei->pos, flags,
-						&n0, &missing0, &error);
-
-	if (error) {
-		g_slist_free (missing0);
-		return error;
-	}
-
-	vals1 = collect_floats_value_with_info (argv[1], ei->pos, flags,
-						&n1, &missing1, &error);
-	if (error) {
-		g_slist_free (missing0);
-		g_slist_free (missing1);
-		g_free (vals0);
-		return error;
-	}
-
-	flags |= COLLECT_IGNORE_ERRORS;
-
-	/* start collecting targets */
-	vals2 = collect_floats_value_with_info (argv[2], ei->pos, flags,
+	flags = COLLECT_IGNORE_BLANKS | COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS | COLLECT_IGNORE_ERRORS;
+	vals2 = collect_floats_value_with_info (PtInterpolation, ei->pos, flags,
 						&n2, &missing2, &error);
+	if (error) {
+		g_slist_free (missing2);
+		return error;
+	}
+
+	if (n2 <= 0) {
+		g_slist_free (missing2);
+		g_free (vals2);
+		return value_new_error_std (ei->pos, GNM_ERROR_VALUE);
+	}
+	
+	/* argv[3] */
 
 	if (argv[3]) {
 		interp = (int) gnm_floor (value_get_as_float (argv[3]));
 		if (interp < 0 || interp > INTERPOLATION_SPLINE_AVG) {
-			g_slist_free (missing0);
-			g_slist_free (missing1);
-			g_free (vals0);
-			g_free (vals1);
+			g_slist_free (missing2);
+			g_free (vals2);
 			return value_new_error_VALUE (ei->pos);
 		}
 	} else
@@ -473,45 +462,33 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		break;
 	}
 
-	if (n0 != n1 || n0 == 0 || n2 <= 0) {
-		g_slist_free (missing0);
-		g_slist_free (missing1);
+	/* argv[0] & argv[1] */
+	
+	flags = COLLECT_IGNORE_BLANKS | COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS;
+	error = collect_float_pairs (argv[0], argv[1], ei->pos, flags, &vals0, &vals1, &n0);
+
+	if (error) {
+		g_slist_free (missing2);
+		g_free (vals2);
+		return error;
+	}
+
+	/* Check whether the abscissaa are increasing, if not an error is returned */
+	if (!gnm_range_increasing (vals0, n0))
 		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
-	} else {
-		if (missing0 || missing1) {
-			GSList *missing = gnm_slist_sort_merge (missing0, missing1);
-			gnm_strip_missing (vals0, &n0, missing);
-			gnm_strip_missing (vals1, &n1, missing);
-			g_slist_free (missing);
-
-			if (n0 != n1) {
-				g_warning ("This should not happen. n0=%d n1=%d\n",
-					   n0, n1);
-			}
-		}
-
-		/* here we test if there is abscissas are always increasing, if not,
-		   an error is returned */
-		if (!gnm_range_increasing (vals0, n0) || n2==0) {
-			res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
-			g_slist_free (missing2);
-			g_free (vals0);
-			g_free (vals1);
-			g_free (vals2);
-			return res;
-		}
+	else {
 		res = value_new_array_non_init (1 , n2);
 		i = 0;
 
 		res->v_array.vals[0] = g_new (GnmValue *, n2);
 
 		fres = interpproc (vals0, vals1, n0, vals2, n2);
-		missing0 = missing2;
+		missing = missing2;
 		if (fres) {
 			i = 0;
 			for (r = 0 ; r < n2; ++r)
-				if (missing0 && r == GPOINTER_TO_INT (missing0->data)) {
-					missing0 = missing0->next;
+				if (missing && r == GPOINTER_TO_INT (missing->data)) {
+					missing = missing->next;
 					res->v_array.vals[0][r] = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 				} else
 					res->v_array.vals[0][r] = value_new_float (fres[i++]);
@@ -520,6 +497,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			for( r = 0 ; r < n2; ++r)
 				res->v_array.vals[0][r] = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 		}
+
 	}
 	g_slist_free (missing2);
 	g_free (vals0);

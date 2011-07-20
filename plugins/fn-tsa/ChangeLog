@@ -1,3 +1,11 @@
+2011-07-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (gnumeric_interpolation): use collect_float_pairs
+
+2011-06-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.10.16
+
 2011-05-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.15
@@ -16,7 +24,7 @@
 
 2010-10-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* functions.c (help_fourier): add description of new argumen
+	* functions.c (help_fourier): add description of new argument
 	(gnumeric_fourier): handle new argument
 	(TimeSeriesAnalysis_functions): add new argument to FOURIER
 
