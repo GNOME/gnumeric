@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * collect.c: Helpers to collect ranges of data.
  *
@@ -61,8 +62,56 @@ single_floats_cache_entry_equal (const SingleFloatsCacheEntry *a,
 		value_equal (a->value, b->value));
 }
 
+/* ------------------------------------------------------------------------- */
+
+typedef struct {
+	/* key */
+	GnmValue *vx;
+	GnmValue *vy;
+	CollectFlags flags;
+
+	/* result */
+	int n;
+	gnm_float *data_x;
+	gnm_float *data_y;
+	GnmValue *error;
+} PairsFloatsCacheEntry;
+
+static void
+pairs_floats_cache_entry_free (PairsFloatsCacheEntry *entry)
+{
+	value_release (entry->vx);
+	value_release (entry->vy);
+	value_release (entry->error);
+	g_free (entry->data_x);
+	g_free (entry->data_y);
+	g_free (entry);
+}
+
+static guint
+pairs_floats_cache_entry_hash (const PairsFloatsCacheEntry *entry)
+{
+	/* FIXME: this does not consider the sheet, ie. the same pair of */
+	/* ranges on two different sheets yields the same hash value     */
+	return value_hash (entry->vx) ^ (value_hash (entry->vy) << 1) ^ (guint)entry->flags;
+}
+
+static gboolean
+pairs_floats_cache_entry_equal (const PairsFloatsCacheEntry *a,
+				 const PairsFloatsCacheEntry *b)
+
+{
+	return (a->flags == b->flags &&
+		value_equal (a->vx, b->vx) &&
+		value_equal (a->vy, b->vy));
+}
+
+/* ------------------------------------------------------------------------- */
+
+
 static gulong cache_handler;
 static GHashTable *single_floats_cache;
+static GHashTable *pairs_floats_cache;
 static size_t total_cache_size;
 
 static void
@@ -76,6 +125,8 @@ clear_caches (void)
 
 	g_hash_table_destroy (single_floats_cache);
 	single_floats_cache = NULL;
+	g_hash_table_destroy (pairs_floats_cache);
+	pairs_floats_cache = NULL;
 
 	total_cache_size = 0;
 }
@@ -95,6 +146,11 @@ create_caches (void)
 		 (GEqualFunc)single_floats_cache_entry_equal,
 		 (GDestroyNotify)single_floats_cache_entry_free,
 		 NULL);
+	pairs_floats_cache = g_hash_table_new_full
+		((GHashFunc)pairs_floats_cache_entry_hash,
+		 (GEqualFunc)pairs_floats_cache_entry_equal,
+		 (GDestroyNotify)pairs_floats_cache_entry_free,
+		 NULL);
 
 	total_cache_size = 0;
 }
@@ -108,12 +164,15 @@ cb_prune (gpointer key, gpointer value, gpointer user)
 static void
 prune_caches (void)
 {
-	if (total_cache_size > GNM_DEFAULT_ROWS * 10) {
+	if (total_cache_size > GNM_DEFAULT_ROWS * 32) {
 		if (0) g_printerr ("Pruning collect cache from size %ld.\n",
 				   (long)total_cache_size);
 
 		total_cache_size = 0;
 		g_hash_table_foreach_remove (single_floats_cache,
+					     cb_prune,
+					     NULL);
+		g_hash_table_foreach_remove (pairs_floats_cache,
 					     cb_prune,
 					     NULL);
 	}
@@ -133,6 +192,24 @@ get_single_floats_cache_entry (GnmValue const *value, CollectFlags flags)
 	key.flags = flags;
 
 	return g_hash_table_lookup (single_floats_cache, &key);
+}
+
+static PairsFloatsCacheEntry *
+get_pairs_floats_cache_entry (GnmValue const *vx, GnmValue const *vy, 
+			      CollectFlags flags)
+{
+	PairsFloatsCacheEntry key;
+
+	if (flags & (COLLECT_INFO | COLLECT_IGNORE_SUBTOTAL))
+		return NULL;
+
+	create_caches ();
+
+	key.vx = (GnmValue *)vx;
+	key.vy = (GnmValue *)vy;
+	key.flags = flags;
+
+	return g_hash_table_lookup (pairs_floats_cache, &key);
 }
 
 static SingleFloatsCacheEntry *
@@ -157,39 +234,58 @@ get_or_fake_cache_entry (GnmValue const *key, CollectFlags flags,
 	return NULL;
 }
 
+static PairsFloatsCacheEntry *
+get_or_fake_pairs_cache_entry (GnmValue const *key_x, GnmValue const *key_y, 
+			       CollectFlags flags,
+			       GnmEvalPos const *ep)
+{
+	PairsFloatsCacheEntry *ce;
+
+	ce = get_pairs_floats_cache_entry (key_x, key_y, flags);
+	if (ce) return ce;
+
+	/* FIXME: we should also try the pairs switched */
+
+	return NULL;
+}
 
 static GnmValue *
-get_single_cache_key (GnmExpr const *e, GnmEvalPos const *ep)
+get_single_cache_key_from_value (GnmValue const *r, GnmEvalPos const *ep)
 {
-	GnmValue *r, *key;
+	GnmValue *key;
 	GnmSheetRange sr;
 	GnmRangeRef const *rr;
 	Sheet *end_sheet;
 	int h, w;
 	const int min_size = 25;
 
-	r = gnm_expr_get_range (e);
-	if (!r)
-		return NULL;
-
 	rr = value_get_rangeref (r);
 	gnm_rangeref_normalize (rr, ep, &sr.sheet, &end_sheet, &sr.range);
-	if (sr.sheet != end_sheet) {
-		value_release (r);
+	if (sr.sheet != end_sheet)
 		return NULL; /* 3D */
-	}
 
 	h = range_height (&sr.range);
 	w = range_width (&sr.range);
-	if (h < min_size && w < min_size && h * w < min_size) {
-		value_release (r);
+	if (h < min_size && w < min_size && h * w < min_size)
 		return NULL;
-	}
 
 	key = value_new_cellrange_r (sr.sheet, &sr.range);
-	value_release (r);
 
 	return key;
+}
+
+static GnmValue *
+get_single_cache_key (GnmExpr const *e, GnmEvalPos const *ep)
+{
+	GnmValue *r = gnm_expr_get_range (e);
+
+	if (r) {
+		GnmValue *v = get_single_cache_key_from_value (r, ep);
+		value_release (r);
+		return v;
+	} else
+		return NULL;
+	
 }
 
 /* ------------------------------------------------------------------------- */
@@ -353,16 +449,6 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 		flags &= ~COLLECT_INFO;
 	}
 
-	if (flags & COLLECT_IGNORE_SUBTOTAL)
-		iter_flags |= CELL_ITER_IGNORE_SUBTOTAL;
-
-	cl.alloc_count = 0;
-	cl.data = NULL;
-	cl.count = 0;
-	cl.flags = flags;
-	cl.info = NULL;
-	cl.date_conv = workbook_date_conv (ep->sheet->workbook);
-
 	/* ---------------------------------------- */
 	/* Try cache. */
 
@@ -389,6 +475,16 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 	}
 
 	/* ---------------------------------------- */
+
+	if (flags & COLLECT_IGNORE_SUBTOTAL)
+		iter_flags |= CELL_ITER_IGNORE_SUBTOTAL;
+
+	cl.alloc_count = 0;
+	cl.data = NULL;
+	cl.count = 0;
+	cl.flags = flags;
+	cl.info = NULL;
+	cl.date_conv = workbook_date_conv (ep->sheet->workbook);
 
 	*error = function_iterate_argument_values
 		(ep, &callback_function_collect, &cl,
@@ -582,6 +678,54 @@ gnm_strip_missing (gnm_float *data, int *n, GSList *missing)
 	}
 }
 
+static PairsFloatsCacheEntry *
+collect_float_pairs_ce (GnmValue const *vx, GnmValue const *vy,
+			GnmEvalPos const *ep, CollectFlags flags)
+{
+	PairsFloatsCacheEntry *ce = g_new0 (PairsFloatsCacheEntry, 1);
+	GSList *missing0 = NULL, *missing1 = NULL;
+	int n0, n1;
+
+	ce->flags = flags;
+
+	ce->data_x = collect_floats_value_with_info (vx, ep, flags,
+						     &n0, &missing0, &ce->error);
+	if (ce->error)
+		goto err;
+	
+	ce->data_y = collect_floats_value_with_info (vy, ep, flags,
+						     &n1, &missing1, &ce->error);
+
+	if (ce->error)
+		goto err;
+
+	if (n0 != n1) {
+		ce->n = -1;
+		goto err;
+	}
+
+	if (missing0 || missing1) {
+		missing0 = gnm_slist_sort_merge (missing0, missing1);
+		missing1 = NULL;
+		gnm_strip_missing (ce->data_x, &n0, missing0);
+		gnm_strip_missing (ce->data_y, &n1, missing0);
+	}
+	ce->n = n0;
+	
+ err:
+	if (ce->n <= 0) {
+		g_free (ce->data_x);
+		ce->data_x = NULL;
+		g_free (ce->data_y);
+		ce->data_y = NULL;
+	}
+
+	g_slist_free (missing0);
+	g_slist_free (missing1);
+
+	return ce;
+}
+
 /**
  * collect_float_pairs:
  * @v0: value describing first data range
@@ -597,49 +741,89 @@ gnm_strip_missing (gnm_float *data, int *n, GSList *missing)
  * sizes.
  */
 GnmValue *
-collect_float_pairs (GnmValue const *v0, GnmValue const *v1,
+collect_float_pairs (GnmValue const *vx, GnmValue const *vy,
 		     GnmEvalPos const *ep, CollectFlags flags,
-		     gnm_float **xs0, gnm_float **xs1, int *n)
+		     gnm_float **xs0, gnm_float **xs1, int *n,
+		     gboolean *constp)
 {
-	GSList *missing0 = NULL, *missing1 = NULL;
-	GnmValue *error = NULL;
-	int n0, n1;
+	GnmValue *key_x = NULL;
+	GnmValue *key_y = NULL;
+	PairsFloatsCacheEntry *ce = NULL;
+	gboolean use_cache, free_keys = TRUE;
 
-	*xs0 = *xs1 = NULL;
-	*n = 0;
+	key_x = get_single_cache_key_from_value (vx, ep);
+	key_y = get_single_cache_key_from_value (vy, ep);
 
-	*xs0 = collect_floats_value_with_info (v0, ep, flags,
-					       &n0, &missing0, &error);
-	if (error)
-		goto err;
+	if ((use_cache = (key_x && key_y)))
+		ce = get_or_fake_pairs_cache_entry (key_x, key_y, flags, ep);
 
-	*xs1 = collect_floats_value_with_info (v1, ep, flags,
-					       &n1, &missing1, &error);
-	if (error)
-		goto err;
+	if (!ce) {
+		ce = collect_float_pairs_ce (vx, vy, ep, flags);
+		if (use_cache) {
+			PairsFloatsCacheEntry *ce2;
+			ce->vx = key_x;
+			ce->vy = key_y;
+			free_keys = FALSE;
 
-	if (n0 != n1) {
-		*n = -1;
-		goto err;
+			/*
+			 * We looked for the entry earlier and it was not there.
+			 * However, sub-calculation might have added it so be careful
+			 * to adjust sizes and replace the not-so-old entry.
+			 * See bug 627079.
+			 */
+			ce2 = g_hash_table_lookup (pairs_floats_cache, ce);
+			if (ce2)
+				total_cache_size -= 1 + ce2->n;
+
+			g_hash_table_replace (pairs_floats_cache, ce, ce);
+			total_cache_size += 1 + ce->n;
+		}
+	} 
+
+	if (free_keys) {
+		value_release (key_x);
+		value_release (key_y);
 	}
 
-	if (missing0 || missing1) {
-		missing0 = gnm_slist_sort_merge (missing0, missing1);
-		missing1 = NULL;
-		gnm_strip_missing (*xs0, &n0, missing0);
-		gnm_strip_missing (*xs1, &n1, missing0);
+	if (ce == NULL)
+		return value_new_error_VALUE (ep);
+	else {
+		if (ce->error) {
+			if (use_cache)
+				return value_dup (ce->error);
+			else {
+				GnmValue *ret = ce->error;
+				ce->error = NULL;
+				pairs_floats_cache_entry_free (ce);
+				return ret;
+			}
+		}
+		*n = ce->n;
+		if (ce->n <= 0) {
+			if (!use_cache)
+				pairs_floats_cache_entry_free (ce);
+			return NULL;
+		}
+		if (use_cache) {
+			if (constp) {
+				*xs0 = ce->data_x;
+				*xs1 = ce->data_y;
+				*constp = TRUE;
+			} else {
+				*xs0 = g_memdup (ce->data_x, *n * sizeof (gnm_float));
+				*xs1 = g_memdup (ce->data_y, *n * sizeof (gnm_float));
+			}
+		} else {
+			if (constp)
+				*constp = FALSE;
+			*xs0 = ce->data_x;
+			*xs1 = ce->data_y;
+			ce->data_x = NULL;
+			ce->data_y = NULL;
+			pairs_floats_cache_entry_free (ce);
+		} 
+		return NULL;		
 	}
-
-	*n = n0;
-
-err:
-	if (*n <= 0) {
-		g_free (*xs0); *xs0 = NULL;
-		g_free (*xs1); *xs1 = NULL;
-	}
-	g_slist_free (missing0);
-	g_slist_free (missing1);
-	return error;
 }
 
 GnmValue *
@@ -654,9 +838,10 @@ float_range_function2d (GnmValue const *val0, GnmValue const *val1,
 	int n;
 	GnmValue *res;
 	gnm_float fres;
+	gboolean constp = FALSE;
 
 	res = collect_float_pairs (val0, val1, ei->pos, flags,
-				   &vals0, &vals1, &n);
+				   &vals0, &vals1, &n, &constp);
 	if (res)
 		return res;
 
@@ -668,8 +853,10 @@ float_range_function2d (GnmValue const *val0, GnmValue const *val1,
 	else
 		res = value_new_float (fres);
 
-	g_free (vals0);
-	g_free (vals1);
+	if (!constp) {
+		g_free (vals0);
+		g_free (vals1);
+	}
 	return res;
 }
 

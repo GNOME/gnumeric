@@ -401,6 +401,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	int r, i;
 	GSList *missing2 = NULL, *missing;
 	INTERPPROC interpproc = NULL;
+	gboolean constp = FALSE;
 
 	/* argv[2] */
 
@@ -465,7 +466,8 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* argv[0] & argv[1] */
 	
 	flags = COLLECT_IGNORE_BLANKS | COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS;
-	error = collect_float_pairs (argv[0], argv[1], ei->pos, flags, &vals0, &vals1, &n0);
+	error = collect_float_pairs (argv[0], argv[1], ei->pos, flags, &vals0, &vals1, 
+				     &n0, &constp);
 
 	if (error) {
 		g_slist_free (missing2);
@@ -504,8 +506,10 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	}
 	g_slist_free (missing2);
-	g_free (vals0);
-	g_free (vals1);
+	if (!constp) {
+		g_free (vals0);
+		g_free (vals1);
+	}
 	g_free (vals2);
 	return res;
 }

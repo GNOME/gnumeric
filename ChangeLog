@@ -1,3 +1,20 @@
+2011-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/collect.h (collect_float_pairs): add argument
+	* src/collect.c (pairs_floats_cache_entry_free): new
+	(pairs_floats_cache_entry_hash): new
+	(pairs_floats_cache_entry_equal): new
+	(clear_caches): handle pairs_floats_cache
+	(create_caches): ditto
+	(prune_caches): ditto
+	(get_pairs_floats_cache_entry): ditto
+	(get_or_fake_pairs_cache_entry): ditto
+	(get_single_cache_key_from_value): new
+	(get_single_cache_key): use get_single_cache_key_from_value
+	(collect_floats): no need to initialize cl if we don't use it
+	(collect_float_pairs_ce): new
+	(collect_float_pairs): use cache and collect_float_pairs_ce
+
 2011-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric.xsd: update

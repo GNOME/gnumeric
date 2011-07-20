@@ -3855,12 +3855,13 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gboolean affine;
 	GORegressionResult regres;
 	gnm_float expres[2];
+	gboolean constp = FALSE;
 
 	res = collect_float_pairs (argv[0], argv[1], ei->pos,
 				   COLLECT_IGNORE_BLANKS |
 				   COLLECT_IGNORE_STRINGS |
 				   COLLECT_IGNORE_BOOLS,
-				   &ys, &xs, &n);
+				   &ys, &xs, &n, &constp);
 	if (res)
 		return res;
 
@@ -3903,8 +3904,10 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 						  expres[0]));
 
  out:
-	g_free (xs);
-	g_free (ys);
+	if (!constp) {
+		g_free (xs);
+		g_free (ys);
+	}
 	g_free (nxs);
 	return res;
 }

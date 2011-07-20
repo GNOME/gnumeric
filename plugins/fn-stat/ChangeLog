@@ -1,3 +1,8 @@
+2011-07-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (gnumeric_growth): add new argument to collect_float_pairs
+	call
+
 2011-05-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.15

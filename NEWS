@@ -11,6 +11,8 @@ Andreas:
 	* Fix ODF import of styles with inherited conditional styles. [#654214] 
 	* Provide undo for cut between 2 gnumeric processes. [#640922]
 	* Fix bar and column chart import/export to ODF.
+	* Speed up frequent calls to INTERPOLATION with the same 
+	abscissae/ordinates. [#654538]
 
 Morten:
 	* Fix --with-gnome compilation:  [#652802]
