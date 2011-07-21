@@ -2050,12 +2050,22 @@ xlsx_write_named_expression (gpointer key, GnmNamedExpr *nexpr, XLSXClosure *clo
 	char *formula;
 
 	g_return_if_fail (nexpr != NULL);
-	if (!expr_name_is_active (nexpr) || nexpr->is_permanent)
+	if (!expr_name_is_active (nexpr))
 		return;
 
 	gsf_xml_out_start_element (closure->xml, "definedName");
-	gsf_xml_out_add_cstr (closure->xml, "name", expr_name_name (nexpr));
-	
+
+	if (nexpr->is_permanent) {
+		char const *expr_name = expr_name_name (nexpr);
+		if (0 == strcmp (expr_name, "Print_Area"))
+			gsf_xml_out_add_cstr (closure->xml, "name", "_xlnm.Print_Area");
+		else if (0 == strcmp (expr_name, "Sheet_Title"))
+			gsf_xml_out_add_cstr (closure->xml, "name", "_xlnm.Sheet_Title");
+		else
+			gsf_xml_out_add_cstr (closure->xml, "name", expr_name);
+	} else {
+		gsf_xml_out_add_cstr (closure->xml, "name", expr_name_name (nexpr));
+	}
 	if (nexpr->pos.sheet != NULL)
 		gsf_xml_out_add_int (closure->xml, "localSheetId", 
 				     nexpr->pos.sheet->index_in_wb);

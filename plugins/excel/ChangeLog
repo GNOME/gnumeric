@@ -1,5 +1,11 @@
 2011-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-read.c (xlsx_wb_name_end): check for "_xlnm." prefix
+	* xlsx-write.c (xlsx_write_named_expression): also write permanent
+	expressions
+
+2011-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (xlsx_write_named_expression): new
 	(xlsx_write_definedNames): new
 	(xlsx_write_workbook): call xlsx_write_definedNames

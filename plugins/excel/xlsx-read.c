@@ -2862,9 +2862,18 @@ xlsx_wb_name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (state->defined_name != NULL);
 
 	parse_pos_init (&pp, state->wb, sheet, 0, 0);
-	nexpr = expr_name_add (&pp, state->defined_name,
-			       gnm_expr_top_new_constant (value_new_empty ()),
-			       &error_msg, TRUE, NULL);
+
+	if (g_str_has_prefix (state->defined_name, "_xlnm.")) {
+		gboolean editable = (0 == strcmp (state->defined_name + 6, "Sheet_Title"));
+		nexpr = expr_name_add (&pp, state->defined_name + 6,
+				       gnm_expr_top_new_constant (value_new_empty ()),
+				       &error_msg, TRUE, NULL);
+		nexpr->is_permanent = TRUE;
+		nexpr->is_editable = editable;
+	} else
+		nexpr = expr_name_add (&pp, state->defined_name,
+				       gnm_expr_top_new_constant (value_new_empty ()),
+				       &error_msg, TRUE, NULL);
 
 	if (nexpr) {
 		state->delayed_names =
