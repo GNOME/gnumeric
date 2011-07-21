@@ -1,5 +1,12 @@
 2011-07-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_add_font_weight): new
+	(odf_write_style_text_properties): use odf_add_font_weight
+	(odf_write_character_styles): ditto
+	(odf_write_gog_style_text): ditto
+
+2011-07-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_sheet): do not use <table:table-columns>
 	and <table:table-rows> since MS Excel stumbles over them.
 

@@ -243,6 +243,31 @@ odf_write_mimetype (GnmOOExport *state, GsfOutput *child)
 
 /*****************************************************************************/
 
+static void
+odf_add_font_weight (GnmOOExport *state, int weight)
+{
+	weight = ((weight+50)/100)*100;
+	if (weight > 900)
+		weight = 900;
+	if (weight < 100)
+		weight = 100;
+
+	/* MS Excel 2007/2010 is badly confused about which weights are normal    */
+	/* and/or bold, so we don't just save numbers. See                        */
+	/* http://msdn.microsoft.com/en-us/library/ff528991%28v=office.12%29.aspx */
+	/* although ODF refers to                                                 */
+	/* http://www.w3.org/TR/2001/REC-xsl-20011015/slice7.html#font-weight     */
+	/* where it is clear that 400 == normal and 700 == bold                   */
+	if (weight == PANGO_WEIGHT_NORMAL)
+		gsf_xml_out_add_cstr_unchecked (state->xml, FOSTYLE "font-weight",
+						"normal");
+	else if (weight == PANGO_WEIGHT_BOLD)
+		gsf_xml_out_add_cstr_unchecked (state->xml, FOSTYLE "font-weight",
+						"bold");
+	else
+		gsf_xml_out_add_int (state->xml, FOSTYLE "font-weight", weight);
+
+}
 
 static void
 odf_add_chars_non_white (GnmOOExport *state, char const *text, int len)
@@ -1262,7 +1287,7 @@ odf_write_style_text_properties (GnmOOExport *state, GnmStyle const *style)
 
 /* Font Weight */
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_BOLD))
-		gsf_xml_out_add_int (state->xml, FOSTYLE "font-weight",
+		odf_add_font_weight (state,
 				     gnm_style_get_font_bold (style)
 				     ? PANGO_WEIGHT_BOLD
 				     : PANGO_WEIGHT_NORMAL);
@@ -1649,7 +1674,7 @@ odf_write_character_styles (GnmOOExport *state)
 		char * str = g_strdup_printf ("AC-weight%i", i);
 		odf_start_style (state->xml, str, "text");
 		gsf_xml_out_start_element (state->xml, STYLE "text-properties");
-		gsf_xml_out_add_int (state->xml, FOSTYLE "font-weight", i);
+		odf_add_font_weight (state, i);
 		gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
 		gsf_xml_out_end_element (state->xml); /* </style:style> */
 		g_free (str);
@@ -6572,12 +6597,9 @@ odf_write_gog_style_text (GnmOOExport *state, GOStyle const *style)
 				break;
 			}
 		}
-		if (mask & PANGO_FONT_MASK_WEIGHT) {
-			PangoWeight w = pango_font_description_get_weight (desc);
-			if (w > 900)
-				w = 900;
-			gsf_xml_out_add_int (state->xml, FOSTYLE "font-weight", w);
-		}
+		if (mask & PANGO_FONT_MASK_WEIGHT)
+			odf_add_font_weight (state, 
+					     pango_font_description_get_weight (desc));
 
 		if ((mask & PANGO_FONT_MASK_STRETCH) && state->with_extension)
 			gsf_xml_out_add_int (state->xml, GNMSTYLE "font-stretch-pango",
