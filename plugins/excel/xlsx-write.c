@@ -51,6 +51,7 @@
 #include "graph.h"
 #include "style-border.h"
 #include "gutils.h"
+#include "expr-name.h"
 
 #include "go-val.h"
 
@@ -2044,6 +2045,41 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 }
 
 static void
+xlsx_write_named_expression (gpointer key, GnmNamedExpr *nexpr, XLSXClosure *closure)
+{
+	char *formula;
+
+	g_return_if_fail (nexpr != NULL);
+	if (!expr_name_is_active (nexpr) || nexpr->is_permanent)
+		return;
+
+	gsf_xml_out_start_element (closure->xml, "definedName");
+	gsf_xml_out_add_cstr (closure->xml, "name", expr_name_name (nexpr));
+	
+	if (nexpr->pos.sheet != NULL)
+		gsf_xml_out_add_int (closure->xml, "localSheetId", 
+				     nexpr->pos.sheet->index_in_wb);
+
+	formula = expr_name_as_string (nexpr, NULL, closure->state->convs);
+	gsf_xml_out_add_cstr (closure->xml, NULL, formula);
+	g_free (formula);
+	
+	gsf_xml_out_end_element (closure->xml);	
+}
+
+static void
+xlsx_write_definedNames (XLSXWriteState *state, GsfXMLOut *xml)
+{
+	XLSXClosure closure = {state, xml};
+
+	gsf_xml_out_start_element (xml, "definedNames");
+	workbook_foreach_name
+		(state->base.wb, FALSE,
+		 (GHFunc)&xlsx_write_named_expression, &closure);
+	gsf_xml_out_end_element (xml);
+}
+
+static void
 xlsx_write_calcPR (XLSXWriteState *state, GsfXMLOut *xml)
 {
 	Workbook const *wb = state->base.wb;
@@ -2143,6 +2179,8 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 		gsf_xml_out_end_element (xml); /* </sheet> */
 	}
 	gsf_xml_out_end_element (xml); /* </sheets> */
+
+	xlsx_write_definedNames (state, xml);
 
 	xlsx_write_calcPR (state, xml);
 

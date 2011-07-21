@@ -13,6 +13,7 @@ Andreas:
 	* Fix bar and column chart import/export to ODF.
 	* Speed up frequent calls to INTERPOLATION with the same 
 	abscissae/ordinates. [#654538]
+	* Export defined names to xlsx. [#655010]
 
 Morten:
 	* Fix --with-gnome compilation:  [#652802]

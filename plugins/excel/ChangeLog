@@ -1,3 +1,9 @@
+2011-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-write.c (xlsx_write_named_expression): new
+	(xlsx_write_definedNames): new
+	(xlsx_write_workbook): call xlsx_write_definedNames
+
 2011-07-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* xlsx-read-drawing.c (xlsx_chart_text_start), (xlsx_chart_text),
@@ -5,7 +11,7 @@
 
 2011-07-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* xlsx-write-docprops.c (xlsx_map_prop_name_to_output_fun): 
+	* xlsx-write-docprops.c (xlsx_map_prop_name_to_output_fun):
 	use GSF_META_NAME_MM_CLIP_COUNT
 	* xlsx-read-docprops.c: use GSF_META_NAME_MM_CLIP_COUNT
 
