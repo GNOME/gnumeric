@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-07-21 18:31+0000\n"
-"PO-Revision-Date: 2011-07-24 14:08+0200\n"
+"POT-Creation-Date: 2011-07-24 12:40+0000\n"
+"PO-Revision-Date: 2011-07-24 14:50+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -344,11 +344,11 @@ msgstr "MS Excel™ 2007"
 
 #: ../plugins/excel/plugin.xml.in.h:6
 msgid "MS Excel (tm) 2007 (ECMA 376 1st edition (2006))"
-msgstr ""
+msgstr "MS Excel (tm) 2007 (ECMA 376 1ª edición (2006))"
 
 #: ../plugins/excel/plugin.xml.in.h:7
 msgid "MS Excel (tm) 2010 (ECMA 376 2nd edition (2008))"
-msgstr ""
+msgstr "MS Excel (tm) 2010 (ECMA 376 2ª edición (2008))"
 
 #: ../plugins/excel/plugin.xml.in.h:8
 msgid "MS Excel (tm) 5.0/95"
@@ -365,6 +365,8 @@ msgstr "MS Excel™ 97/2000/XP y 5.0/95"
 #: ../plugins/excel/xlsx-read-docprops.c:138
 msgid "Corrupt file: Second child element in custom property encountered."
 msgstr ""
+"Archivo corrupto: se encontró un segundo elemento hijo en una propiedad "
+"personalizada."
 
 #: ../plugins/excel/xlsx-read-drawing.c:203
 #, c-format
@@ -1439,7 +1441,6 @@ msgstr ""
 
 #: ../plugins/openoffice/openoffice-read.c:2480
 #, c-format
-#| msgid "Ignoring column information that does not specify first or last."
 msgid "Ignoring column information beyond column %i"
 msgstr "Ignorando la columna de información más allá de la columna %i"
 
@@ -1463,19 +1464,17 @@ msgid "Invalid array expression does not specify number of rows."
 msgstr "La expresión del array no indica el número de filas."
 
 #: ../plugins/openoffice/openoffice-read.c:2975
-#, fuzzy, c-format
+#, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr "El contenido excedió el número máximo de filas soportadas (%i)."
 
 #: ../plugins/openoffice/openoffice-read.c:3189
-#, fuzzy
 msgid "Unnamed dash style encountered."
-msgstr "Se encontró un estilo de fila predeterminado duplicado."
+msgstr "Se encontró un estilo de guión sin nombre."
 
 #: ../plugins/openoffice/openoffice-read.c:3207
-#, fuzzy
 msgid "Unnamed image fill style encountered."
-msgstr "Se encontró un estilo de columna predeterminado duplicado."
+msgstr "Se encontró una estilo de imagen de relleno sin nombre."
 
 #: ../plugins/openoffice/openoffice-read.c:3209
 #, c-format
@@ -1484,19 +1483,18 @@ msgstr "El estilo de relleno de imagen «%s» no tiene adjunta ninguna imagen."
 
 #: ../plugins/openoffice/openoffice-read.c:3246
 #: ../plugins/openoffice/openoffice-read.c:3252
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse gradient color: %s"
-msgstr "No es posible pegar en la selección"
+msgstr "No se puee analizar el color de gradiente: %s"
 
 #: ../plugins/openoffice/openoffice-read.c:3272
-#, fuzzy
 msgid "Unnamed gradient style encountered."
-msgstr "Se encontró un estilo de fila predeterminado duplicado."
+msgstr "Se encontró un estilo de gradiente sin nombre."
 
 #: ../plugins/openoffice/openoffice-read.c:3293
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse hatch color: %s"
-msgstr "Ha sido imposible analizar el HTML."
+msgstr "No se puede analizar el color del entramado: %s"
 
 #: ../plugins/openoffice/openoffice-read.c:3367
 msgid "Unnamed hatch encountered!"
@@ -1583,7 +1581,6 @@ msgid "file"
 msgstr "archivo"
 
 #: ../plugins/openoffice/openoffice-read.c:4862
-#| msgid "Title:"
 msgid "title"
 msgstr "título"
 
@@ -1593,14 +1590,14 @@ msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Tipo de salto «%s» desconocido, cambiando a NINGUNO"
 
 #: ../plugins/openoffice/openoffice-read.c:5225
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse tab color '%s'"
-msgstr "Es imposible abrir el archivo «%s»"
+msgstr "No se puede analizar el color «%s» de la pestaña"
 
 #: ../plugins/openoffice/openoffice-read.c:5237
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse tab text color '%s'"
-msgstr "No ha sido posible activar la URL «%s»"
+msgstr "No se puede analizar el color «%s» del texto de la pestaña"
 
 #: ../plugins/openoffice/openoffice-read.c:5402
 #, c-format
@@ -1608,9 +1605,9 @@ msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Se encontró la condición desconocida «%s», ignorando."
 
 #: ../plugins/openoffice/openoffice-read.c:5742
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown interpolation type encountered: %s"
-msgstr "Se encontró la condición desconocida «%s», ignorando."
+msgstr "Se encontró un tipo de interpolación desconocido: %s"
 
 #: ../plugins/openoffice/openoffice-read.c:6006
 #, c-format
@@ -1618,10 +1615,10 @@ msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "la expresión «%s» @ «%s» no es una referencia de celda"
 
 #: ../plugins/openoffice/openoffice-read.c:6023
-#, fuzzy, c-format
+#, c-format
 #| msgid "expression '%s' @ '%s' is not a cellref"
 msgid "Expression '%s' has unknown namespace"
-msgstr "la expresión «%s» @ «%s» no es una referencia de celda"
+msgstr "La expresión «%s» tiene un espacio de nombres desconocido"
 
 #: ../plugins/openoffice/openoffice-read.c:6075
 #, c-format
@@ -1641,6 +1638,8 @@ msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
 "range' element."
 msgstr ""
+"Tipo de valor «%s» no válido anunciado para «form:value» en el elemento "
+"«form:value-range»."
 
 #: ../plugins/openoffice/openoffice-read.c:6946
 #, c-format
@@ -1664,6 +1663,8 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:7689
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr ""
+"Se encontró un tipo de gráfico desconocido, intentando crear una dibujo de "
+"líneas."
 
 #: ../plugins/openoffice/openoffice-read.c:8162
 #, c-format
@@ -4715,11 +4716,11 @@ msgstr "Quitar el salto de página de la columna"
 
 #: ../src/commands.c:8002 ../src/wbc-gtk.c:1597
 msgid "Add Column Page Break"
-msgstr ""
+msgstr "Añadir salto de página en columna"
 
 #: ../src/commands.c:8002 ../src/wbc-gtk.c:1607
 msgid "Add Row Page Break"
-msgstr ""
+msgstr "Añadir salto de página en columna"
 
 #: ../src/consolidate.c:751
 #, c-format
@@ -5657,7 +5658,6 @@ msgstr ""
 #. This is input to ngettext.
 #: ../src/dialogs/dialog-autofilter.c:208
 #, c-format
-#| msgid "Show this dialog next time."
 msgid "Show the largest item"
 msgid_plural "Show the %3d largest items"
 msgstr[0] "Mostrar el elemento más grande"
@@ -5667,7 +5667,6 @@ msgstr[1] "Mostrar los %3d elementos más grandes"
 #. This is input to ngettext.
 #: ../src/dialogs/dialog-autofilter.c:218
 #, c-format
-#| msgid "Show this dialog next time."
 msgid "Show the smallest item"
 msgid_plural "Show the %3d smallest items"
 msgstr[0] "Mostrar el elemento más pequeño"
@@ -6006,7 +6005,7 @@ msgstr "%s no contiene el valor nuevo."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:539
 msgid "Cell contains whitespace."
-msgstr ""
+msgstr "La celda contiene espacios en blanco."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:540
 #, fuzzy
@@ -6017,82 +6016,75 @@ msgstr "%s no contiene el valor nuevo."
 #. with one expression
 #: ../src/dialogs/dialog-cell-format-cond.c:542
 msgid "Cell value is = x."
-msgstr ""
+msgstr "El valor de la celda es = x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:543
 msgid "Cell value is ≠ x."
-msgstr ""
+msgstr "El valor de la celda es ≠ x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:544
 msgid "Cell value is > x."
-msgstr ""
+msgstr "El valor de la celda es > x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:545
 msgid "Cell value is < x."
-msgstr ""
+msgstr "El valor de la celda es < x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:546
 msgid "Cell value is ≧ x."
-msgstr ""
+msgstr "El valor de la celda es ≧ x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:547
 msgid "Cell value is ≦ x."
-msgstr ""
+msgstr "El valor de la celda es ≦ x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:548
-#, fuzzy
 #| msgid "%s evaluates to %s."
 msgid "Expression x evaluates to TRUE."
-msgstr "%s evalúa %s."
+msgstr "La expresión x se evalúa a VERDADERA."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:549
 msgid "Cell contains the string x."
-msgstr ""
+msgstr "La celda contiene la cadena x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:550
-#, fuzzy
 #| msgid "%s does not contain the new value."
 msgid "Cell does not contain the string x."
-msgstr "%s no contiene el valor nuevo."
+msgstr "La celda no contiene la cadena x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:551
 msgid "Cell value begins with the string x."
-msgstr ""
+msgstr "El valor de la celda comienza por la cadena x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:552
-#, fuzzy
 #| msgid ""
 #| "If the cell content does not begin with this string, a special style is "
 #| "used."
 msgid "Cell value does not begin with the string x."
-msgstr ""
-"Si el contenido de la celda no comienza con esta cadena se usa un estilo "
-"especial."
+msgstr "El valor de la celda no comienza por la cadena x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:553
 msgid "Cell value ends with the string x."
-msgstr ""
+msgstr "El valor de la celda termina por la cadena x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:554
-#, fuzzy
 #| msgid "The initial values do not satisfy the constraints."
 msgid "Cell value does not end with the string x."
-msgstr "Los valores iniciales no satisfacen las restricciones."
+msgstr "El valor de la celda no termina por la cadena x."
 
 #. with two expressions
 #: ../src/dialogs/dialog-cell-format-cond.c:556
 msgid "Cell value is between x and y (incl.)."
-msgstr ""
+msgstr "El valor de la celda está entre x e y (incl.)."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:557
 msgid "Cell value is not between x and y (incl.)."
-msgstr ""
+msgstr "El valor de la celda no está entre x e y (incl.)."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:693
-#, fuzzy
 #| msgid "Per column formatting"
 msgid "Set conditional formatting"
-msgstr "Formato por columna"
+msgstr "Establecer formato condicional"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:709
 #, fuzzy
@@ -6102,7 +6094,7 @@ msgstr "Formato por columna"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:741
 msgid "Remove condition from conditional formatting"
-msgstr ""
+msgstr "Quitar condición del formato condicional"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:773
 #, fuzzy
@@ -6228,7 +6220,6 @@ msgid "The selection is <b>not</b> homogeneous with respect to conditions!"
 msgstr "La selección <b>no<b> es homogénea respecto a las condiciones."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:1148
-#| msgid "Undefined"
 msgid "(undefined)"
 msgstr "(sin definir)"
 
@@ -6238,7 +6229,6 @@ msgstr "Editando formato condicional: "
 
 #: ../src/dialogs/dialog-cell-format-cond.c:1270
 #: ../src/dialogs/cell-format-cond.ui.h:6
-#| msgid "Protected allow cell formatting"
 msgid "Conditional Cell Formatting"
 msgstr "Formato condicional de celda"
 
@@ -6454,7 +6444,7 @@ msgstr "Desconocido"
 
 #: ../src/dialogs/dialog-doc-metadata.c:824
 msgid "Transformation of property types failed!"
-msgstr ""
+msgstr "Falló la transformación de los tipos de propiedaes"
 
 #: ../src/dialogs/dialog-doc-metadata.c:1299
 #: ../src/dialogs/dialog-doc-metadata.c:2191
@@ -6465,15 +6455,15 @@ msgstr "Palabras clave:"
 
 #: ../src/dialogs/dialog-doc-metadata.c:1566
 msgid "Edit string value directly in above listing."
-msgstr ""
+msgstr "Editar el valor de la cadena directamente en el listado superior."
 
 #: ../src/dialogs/dialog-doc-metadata.c:1569
 msgid "Edit integer value directly in above listing."
-msgstr ""
+msgstr "Editar el valor entero directamente en el listado superior."
 
 #: ../src/dialogs/dialog-doc-metadata.c:1572
 msgid "Edit TRUE/FALSE value directly in above listing."
-msgstr ""
+msgstr "Edtiar valores VERDADERO/FALSO directamente en el listado superior."
 
 #: ../src/dialogs/dialog-doc-metadata.c:1576
 msgid "To edit, use the keywords tab."
@@ -6486,7 +6476,7 @@ msgstr ""
 #: ../src/dialogs/dialog-doc-metadata.c:1705
 #, c-format
 msgid "A document property with the name '%s' already exists."
-msgstr ""
+msgstr "Ya existe una propiedad del documento con el nombre «%s»."
 
 #: ../src/dialogs/dialog-doc-metadata.c:1745
 #, c-format
