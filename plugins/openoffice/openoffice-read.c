@@ -4610,7 +4610,7 @@ odf_master_page (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char const *name = NULL;
 	char const *pl_name = NULL;
-	PrintInformation *pi;
+	PrintInformation *pi = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "name"))
