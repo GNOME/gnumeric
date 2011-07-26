@@ -1,5 +1,12 @@
 2011-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_page_layout): in ODF combine
+	PRINT_COMMENTS_IN_PLACE and PRINT_COMMENTS_AT_END
+	* openoffice-read.c (odf_page_layout_properties): do not count on the
+	order of the attributes. 
+
+2011-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c: use G_GNUC_UNUSED
 
 2011-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>

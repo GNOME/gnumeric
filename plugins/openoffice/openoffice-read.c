@@ -4499,6 +4499,8 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 	GtkPageSetup *gps;
 	gint tmp;
 	gint orient = GTK_PAGE_ORIENTATION_PORTRAIT;
+	gboolean gnm_style_print = FALSE;
+	gboolean annotations_at_end = FALSE;
 
 	if (state->print.cur_pi == NULL)
 		return;
@@ -4541,19 +4543,21 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 				else if (0 == strcmp (*items, "headers"))
 					state->print.cur_pi->print_titles = 1;
 				else if (0 == strcmp (*items, "annotations"))
-					state->print.cur_pi->comment_placement = PRINT_COMMENTS_IN_PLACE;
+					/* ODF does not distinguish AT_END and IN_PLACE */
+					state->print.cur_pi->comment_placement = PRINT_COMMENTS_AT_END;
 			g_strfreev (items_c);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
 					       OO_GNUM_NS_EXT, "style-print")) {
 			gchar **items = g_strsplit (CXML2C (attrs[1]), " ", 0);
 			gchar **items_c = items;
+			gnm_style_print = TRUE;
 			state->print.cur_pi->print_black_and_white = 0;
 			state->print.cur_pi->print_as_draft = 0;
 			state->print.cur_pi->print_even_if_only_styles = 0;
 			state->print.cur_pi->error_display = PRINT_ERRORS_AS_DISPLAYED;
 			for (;items != NULL && *items; items++)
 				if (0 == strcmp (*items, "annotations_at_end"))
-					state->print.cur_pi->comment_placement = PRINT_COMMENTS_AT_END;
+					annotations_at_end = TRUE;
 				else if (0 == strcmp (*items, "black_n_white"))
 					state->print.cur_pi->print_black_and_white = 1;
 				else if (0 == strcmp (*items, "draft"))
@@ -4568,6 +4572,11 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 					state->print.cur_pi->print_even_if_only_styles = 1;
 			g_strfreev (items_c);
 		}
+
+	if (gnm_style_print && state->print.cur_pi->comment_placement != PRINT_COMMENTS_NONE)
+		state->print.cur_pi->comment_placement = annotations_at_end ? PRINT_COMMENTS_AT_END :
+			PRINT_COMMENTS_IN_PLACE;
+
 	/* STYLE "writing-mode" is being ignored since we can't store it anywhere atm */
 	
 	if (h_set && w_set) {

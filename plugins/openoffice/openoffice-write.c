@@ -4985,7 +4985,7 @@ odf_write_page_layout (GnmOOExport *state, PrintInformation *pi,
 		g_string_append (gstr, " grid");
 	if (pi->print_titles)
 		g_string_append (gstr, " headers");
-	if (pi->comment_placement == PRINT_COMMENTS_IN_PLACE)
+	if (pi->comment_placement != PRINT_COMMENTS_NONE)
 		g_string_append (gstr, " annotations");
 	gsf_xml_out_add_cstr_unchecked 
 		(state->xml, STYLE "print", gstr->str);
