@@ -1,6 +1,11 @@
 2011-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (odf_master_page): show warning on missing style names
+	* openoffice-read.c: use G_GNUC_UNUSED
+
+2011-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_master_page): show warning on missing style
+	names
 
 2011-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

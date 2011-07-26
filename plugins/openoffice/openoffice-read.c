@@ -1417,7 +1417,7 @@ odf_fix_en_validate (char const *name, odf_fix_expr_names_t *fen)
 }
 
 static void 
-odf_fix_en_collect (gchar const *key, GnmNamedExpr *nexpr, odf_fix_expr_names_t *fen)
+odf_fix_en_collect (gchar const *key, G_GNUC_UNUSED GnmNamedExpr *nexpr, odf_fix_expr_names_t *fen)
 {
 	GString *str;
 	gchar *here;
@@ -3597,7 +3597,7 @@ oo_date_year (GsfXMLIn *xin, xmlChar const **attrs)
 	g_string_append (state->cur_format.accum, is_short ? "yy" : "yyyy");
 }
 static void
-oo_date_era (GsfXMLIn *xin, xmlChar const **attrs)
+oo_date_era (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 }
 static void
@@ -3615,11 +3615,11 @@ oo_date_day_of_week (GsfXMLIn *xin, xmlChar const **attrs)
 	g_string_append (state->cur_format.accum, is_short ? "ddd" : "dddd");
 }
 static void
-oo_date_week_of_year (GsfXMLIn *xin, xmlChar const **attrs)
+oo_date_week_of_year (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 }
 static void
-oo_date_quarter (GsfXMLIn *xin, xmlChar const **attrs)
+oo_date_quarter (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 }
 static void
@@ -3759,7 +3759,7 @@ oo_date_seconds (GsfXMLIn *xin, xmlChar const **attrs)
 #undef OO_DATE_SECONDS_PRINT_SECONDS
 
 static void
-oo_date_am_pm (GsfXMLIn *xin, xmlChar const **attrs)
+oo_date_am_pm (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	if (state->cur_format.accum != NULL)
@@ -3978,7 +3978,7 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-odf_text_content (GsfXMLIn *xin, xmlChar const **attrs)
+odf_text_content (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	g_string_append_c (state->cur_format.accum, '@');
@@ -4684,7 +4684,7 @@ odf_header_footer (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-odf_hf_region (GsfXMLIn *xin, xmlChar const **attrs)
+odf_hf_region (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
@@ -4737,7 +4737,7 @@ odf_hf_item (GsfXMLIn *xin, char const *item)
 }
 
 static void
-odf_hf_sheet_name (GsfXMLIn *xin, xmlChar const **attrs)
+odf_hf_sheet_name (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	odf_hf_item (xin, _("tab"));
 }
@@ -4779,13 +4779,13 @@ odf_hf_time (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-odf_hf_page_number (GsfXMLIn *xin, xmlChar const **attrs)
+odf_hf_page_number (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	odf_hf_item (xin, _("page"));
 }
 
 static void
-odf_hf_page_count (GsfXMLIn *xin, xmlChar const **attrs)
+odf_hf_page_count (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	odf_hf_item (xin, _("pages"));
 }
@@ -4863,7 +4863,7 @@ odf_hf_expression (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-odf_hf_title (GsfXMLIn *xin, xmlChar const **attrs)
+odf_hf_title (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	odf_hf_item (xin, _("title"));
 }
@@ -4873,7 +4873,7 @@ odf_hf_title (GsfXMLIn *xin, xmlChar const **attrs)
 
 
 static void
-oo_set_gnm_border  (GsfXMLIn *xin, GnmStyle *style,
+oo_set_gnm_border  (G_GNUC_UNUSED GsfXMLIn *xin, GnmStyle *style,
 		    xmlChar const *str, GnmStyleElement location)
 {
 	GnmStyleBorderType border_style;
@@ -4895,7 +4895,11 @@ oo_set_gnm_border  (GsfXMLIn *xin, GnmStyle *style,
 		border_style = GNM_STYLE_BORDER_MEDIUM_DASH_DOT_DOT;
 	else if (!strcmp ((char const *)str, "slanted-dash-dot"))
 		border_style = GNM_STYLE_BORDER_SLANTED_DASH_DOT;
-	else return;
+	else {
+		oo_warning (xin, _("Unknown Gnumeric border style \'%s\' "
+				   "encountered."), (char const *)str);
+		return;
+	}
 
 	old_border = gnm_style_get_border (style, location);
 	new_border = gnm_style_border_fetch (border_style,
@@ -5620,7 +5624,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	gnm_float ftmp;
 	gboolean default_style_has_lines_set = FALSE;
 	gboolean draw_stroke_set = FALSE;
-	gboolean draw_stroke;
+	gboolean draw_stroke = FALSE; /* to avoid a warning only */
 
 	g_return_if_fail (style != NULL ||
 			  state->default_style.cells != NULL);
@@ -6643,7 +6647,7 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-od_draw_text_box (GsfXMLIn *xin, xmlChar const **attrs)
+od_draw_text_box (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GOStyle  *style;
@@ -7832,7 +7836,7 @@ oo_marker_free (OOMarker *m)
 }
 
 static void
-odf_annotation_start (GsfXMLIn *xin, xmlChar const **attrs)
+odf_annotation_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
@@ -9148,7 +9152,7 @@ odf_func_address_handler (GnmConventions const *convs, Workbook *scope, GnmExprL
 }
 
 static GnmExpr const *
-odf_func_phi_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+odf_func_phi_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *scope, GnmExprList *args)
 {
 	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("NORMDIST", scope, FALSE);
 
@@ -9165,7 +9169,7 @@ odf_func_phi_handler (GnmConventions const *convs, Workbook *scope, GnmExprList 
 }
 
 static GnmExpr const *
-odf_func_gauss_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+odf_func_gauss_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *scope, GnmExprList *args)
 {
 	guint argc = gnm_expr_list_length (args);
 	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("ERF", scope, FALSE);
@@ -9188,7 +9192,7 @@ odf_func_gauss_handler (GnmConventions const *convs, Workbook *scope, GnmExprLis
 }
 
 static GnmExpr const *
-odf_func_floor_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+odf_func_floor_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *scope, GnmExprList *args)
 {
 	guint argc = gnm_expr_list_length (args);
 	GnmExpr const *expr_x;
@@ -9275,7 +9279,7 @@ odf_func_floor_handler (GnmConventions const *convs, Workbook *scope, GnmExprLis
 }
 
 static GnmExpr const *
-odf_func_ceiling_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+odf_func_ceiling_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *scope, GnmExprList *args)
 {
 	guint argc = gnm_expr_list_length (args);
 	switch (argc) {
@@ -9354,7 +9358,7 @@ odf_func_ceiling_handler (GnmConventions const *convs, Workbook *scope, GnmExprL
 }
 
 static GnmExpr const *
-odf_func_chisqdist_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+odf_func_chisqdist_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *scope, GnmExprList *args)
 {
 	switch (gnm_expr_list_length (args)) {
 	case 2: {
@@ -9919,7 +9923,7 @@ void
 openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input);
 G_MODULE_EXPORT void
-openoffice_file_open (GOFileOpener const *fo, GOIOContext *io_context,
+openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input)
 {
 	GsfXMLInDoc	*doc;
@@ -10225,7 +10229,7 @@ gboolean
 openoffice_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl);
 
 gboolean
-openoffice_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
+openoffice_file_probe (G_GNUC_UNUSED GOFileOpener const *fo, GsfInput *input, G_GNUC_UNUSED GOFileProbeLevel pl)
 {
 	GsfInfile *zip;
 	OOVer ver;
@@ -10252,13 +10256,13 @@ openoffice_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel
 }
 
 G_MODULE_EXPORT void
-go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_init (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	magic_transparent = style_color_auto_back ();
 }
 
 G_MODULE_EXPORT void
-go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	style_color_unref (magic_transparent);
 	magic_transparent = NULL;
