@@ -1,6 +1,10 @@
 2011-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (odf_master_page): initialize pi;
+	* openoffice-read.c (odf_master_page): show warning on missing style names
+
+2011-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_master_page): initialize pi
 
 2011-07-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

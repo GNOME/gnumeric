@@ -4622,14 +4622,20 @@ odf_master_page (GsfXMLIn *xin, xmlChar const **attrs)
 	if (name != NULL) {
 		if (pl_name != NULL)
 			pi = g_hash_table_lookup (state->styles.page_layouts, pl_name);
-		state->print.cur_pi = (pi == NULL) ? print_info_new (TRUE) : print_info_dup (pi);
+		if (pi == NULL) {
+			oo_warning (xin, _("Master page style without page layout encountered!"));
+			state->print.cur_pi = print_info_new (TRUE);
+		} else
+			state->print.cur_pi = print_info_dup (pi);
 		print_hf_free (state->print.cur_pi->header);
 		print_hf_free (state->print.cur_pi->footer);
 		state->print.cur_pi->header = print_hf_new (NULL, NULL, NULL);
 		state->print.cur_pi->footer = print_hf_new (NULL, NULL, NULL);
 		
 		g_hash_table_insert (state->styles.master_pages, g_strdup (name), state->print.cur_pi);
-	}
+	} else 
+		oo_warning (xin, _("Master page style without name encountered!"));
+
 }
 
 static void
