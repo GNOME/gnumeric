@@ -155,6 +155,18 @@ struct _PrinterSetupState {
 	/* The header and footer preview widgets. */
 	HFPreviewInfo *pi_header;
 	HFPreviewInfo *pi_footer;
+
+	/* Error Display */
+	struct {	
+		GtkListStore    *store;
+		GtkWidget	*combo;
+	} error_display;
+
+	/* Comment Display */
+	struct {	
+		GtkListStore    *store;
+		GtkWidget	*combo;
+	} comment_display;
 };
 
 typedef struct _HFCustomizeState HFCustomizeState;
@@ -728,7 +740,8 @@ margin_spin_configure (UnitInfo *target, PrinterSetupState *state,
 }
 
 static void
-cb_unit_selector_changed (GtkComboBox *widget, PrinterSetupState *state)
+cb_unit_selector_changed (G_GNUC_UNUSED GtkComboBox *widget, 
+			  PrinterSetupState *state)
 {
 	GtkTreeIter iter;
 	GtkUnit unit;
@@ -746,7 +759,8 @@ cb_unit_selector_changed (GtkComboBox *widget, PrinterSetupState *state)
 
 static gint
 unit_sort_func (GtkTreeModel *model,
-		GtkTreeIter *a, GtkTreeIter *b, gpointer user_data)
+		GtkTreeIter *a, GtkTreeIter *b, 
+		G_GNUC_UNUSED gpointer user_data)
 {
 	char *str_a;
 	char *str_b;
@@ -1177,11 +1191,13 @@ static void
 hf_insert_date_cb (GtkWidget *widget, HFCustomizeState *hf_state)
 {
 
-	hf_insert_hf_tag (hf_state, HF_FIELD_DATE, g_object_get_data (G_OBJECT (widget), "options"));
+	hf_insert_hf_tag (hf_state, HF_FIELD_DATE, 
+			  g_object_get_data (G_OBJECT (widget), "options"));
 }
 
 static void
-hf_insert_custom_date_cb (GtkWidget *widget, HFCustomizeState *hf_state)
+hf_insert_custom_date_cb (G_GNUC_UNUSED GtkWidget *widget, 
+			  HFCustomizeState *hf_state)
 {
 	char *format;
 
@@ -1195,11 +1211,13 @@ hf_insert_custom_date_cb (GtkWidget *widget, HFCustomizeState *hf_state)
 static void
 hf_insert_time_cb (GtkWidget *widget, HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag (hf_state, HF_FIELD_TIME, g_object_get_data (G_OBJECT (widget), "options"));
+	hf_insert_hf_tag (hf_state, HF_FIELD_TIME, 
+			  g_object_get_data (G_OBJECT (widget), "options"));
 }
 
 static void
-hf_insert_custom_time_cb (GtkWidget *widget, HFCustomizeState *hf_state)
+hf_insert_custom_time_cb (G_GNUC_UNUSED GtkWidget *widget, 
+			  HFCustomizeState *hf_state)
 {
 	char *format;
 
@@ -2164,23 +2182,87 @@ load_print_area (PrinterSetupState *state)
 }
 
 static void
-do_setup_page_info (PrinterSetupState *state)
+do_setup_error_display (PrinterSetupState *state)
+{
+	static struct {
+		char const *label;
+		guint  type;
+	} display_types[] = {
+		{N_("Print as displayed"), PRINT_ERRORS_AS_DISPLAYED},
+		{N_("Print as spaces"),    PRINT_ERRORS_AS_BLANK},
+		{N_("Print as dashes"),    PRINT_ERRORS_AS_DASHES},
+		{N_("Print as #N/A"),      PRINT_ERRORS_AS_NA}
+	};
+	
+	gint i;
+	GtkCellRenderer  *cell;
+	gint item = PRINT_ERRORS_AS_DISPLAYED;
+	GtkTreeIter iter;
+
+	for (i = 0; i < (int)G_N_ELEMENTS (display_types); i++) {
+		gtk_list_store_insert_with_values (state->error_display.store,
+						   NULL, G_MAXINT,
+                                                   0, _(display_types[i].label),
+						   1, display_types[i].type,
+						   -1);
+		/* if (display_types[i].type == state->pi->error_display) */
+		/* 	item = i; */
+	}
+	cell = gtk_cell_renderer_text_new();
+	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->error_display.combo), cell, TRUE);
+	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->error_display.combo), cell, "text", 0, NULL);
+	if (gtk_tree_model_iter_nth_child
+	    (GTK_TREE_MODEL (state->error_display.store), &iter, NULL, item))
+		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->error_display.combo), &iter);
+
+	gtk_widget_set_sensitive (state->error_display.combo, FALSE);
+}
+
+static void
+do_setup_comment_display (PrinterSetupState *state)
+{
+	static struct {
+		char const *label;
+		guint  type;
+	} display_types[] = {
+		{N_("Do not print"),    PRINT_COMMENTS_NONE},
+		{N_("Print in place"),  PRINT_COMMENTS_IN_PLACE},
+		{N_("Print at end"),    PRINT_COMMENTS_AT_END}
+	};
+	
+	gint i;
+	GtkCellRenderer  *cell;
+	gint item = PRINT_COMMENTS_NONE;
+	GtkTreeIter iter;
+
+	for (i = 0; i < (int)G_N_ELEMENTS (display_types); i++) {
+		gtk_list_store_insert_with_values (state->comment_display.store,
+						   NULL, G_MAXINT,
+                                                   0, _(display_types[i].label),
+						   1, display_types[i].type,
+						   -1);
+		/* if (display_types[i].type == state->pi->comment_placement) */
+		/* 	item = i; */
+	}
+	cell = gtk_cell_renderer_text_new();
+	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->comment_display.combo), cell, TRUE);
+	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->comment_display.combo), cell, "text", 0, NULL);
+	if (gtk_tree_model_iter_nth_child
+	    (GTK_TREE_MODEL (state->comment_display.store), &iter, NULL, item))
+		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->comment_display.combo), &iter);
+
+	gtk_widget_set_sensitive (state->comment_display.combo, FALSE);
+}
+
+static void
+do_setup_page_area (PrinterSetupState *state)
 {
 	GtkWidget *pa_hbox   = go_gtk_builder_get_widget (state->gui,
 						     "print-area-hbox");
 	GtkWidget *repeat_table = go_gtk_builder_get_widget (state->gui,
 							"repeat-table");
-	GtkWidget *gridlines = go_gtk_builder_get_widget (state->gui, "check-grid-lines");
-	GtkWidget *onlystyles= go_gtk_builder_get_widget (state->gui, "check-only-styles");
-	GtkWidget *bw        = go_gtk_builder_get_widget (state->gui, "check-black-white");
-	GtkWidget *titles    = go_gtk_builder_get_widget (state->gui, "check-print-titles");
-	GtkWidget *do_not_print = go_gtk_builder_get_widget (state->gui, "check-do-not-print");
-	GtkWidget *order_rd  = go_gtk_builder_get_widget (state->gui, "radio-order-right");
-	GtkWidget *order_dr  = go_gtk_builder_get_widget (state->gui, "radio-order-down");
-	GtkWidget *order_table = go_gtk_builder_get_widget (state->gui, "page-order-table");
-	GtkWidget *order;
 
-	state->area_entry = gnm_expr_entry_new (state->wbcg, TRUE);
+	state->area_entry = gnm_expr_entry_new (state->wbcg, FALSE);
 	gnm_expr_entry_set_flags (state->area_entry,
 		GNM_EE_SHEET_OPTIONAL,
 		GNM_EE_SHEET_OPTIONAL);
@@ -2207,6 +2289,45 @@ do_setup_page_info (PrinterSetupState *state)
 			  1, 2, 1, 2,
 			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
 	gtk_widget_show (GTK_WIDGET (state->left_entry));
+
+
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (gnm_expr_entry_get_entry (state->area_entry)));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (gnm_expr_entry_get_entry (state->top_entry)));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (gnm_expr_entry_get_entry (state->left_entry)));
+
+	gnm_expr_entry_load_from_text (state->top_entry,
+				       state->pi->repeat_top);
+	gnm_expr_entry_load_from_text (state->left_entry,
+				       state->pi->repeat_left);
+
+	load_print_area (state);
+}
+
+static void
+do_setup_page_info (PrinterSetupState *state)
+{
+	GtkWidget *gridlines = go_gtk_builder_get_widget (state->gui, "check-grid-lines");
+	GtkWidget *onlystyles= go_gtk_builder_get_widget (state->gui, "check-only-styles");
+	GtkWidget *bw        = go_gtk_builder_get_widget (state->gui, "check-black-white");
+	GtkWidget *titles    = go_gtk_builder_get_widget (state->gui, "check-print-titles");
+	GtkWidget *do_not_print = go_gtk_builder_get_widget (state->gui, "check-do-not-print");
+	GtkWidget *order_rd  = go_gtk_builder_get_widget (state->gui, "radio-order-right");
+	GtkWidget *order_dr  = go_gtk_builder_get_widget (state->gui, "radio-order-down");
+	GtkWidget *order_table = go_gtk_builder_get_widget (state->gui, "page-order-table");
+	GtkWidget *order;
+
+	state->error_display.combo = go_gtk_builder_get_widget (state->gui, "error-box");
+	state->error_display.store = GTK_LIST_STORE (gtk_combo_box_get_model 
+							 (GTK_COMBO_BOX (state->error_display.combo)));
+	do_setup_error_display (state);
+
+	state->comment_display.combo = go_gtk_builder_get_widget (state->gui, "comments-box");
+	state->comment_display.store = GTK_LIST_STORE (gtk_combo_box_get_model 
+							 (GTK_COMBO_BOX (state->comment_display.combo)));
+	do_setup_comment_display (state);
 
 	state->icon_rd = gnumeric_load_image ("right-down.png");
 	state->icon_dr = gnumeric_load_image ("down-right.png");
@@ -2237,22 +2358,6 @@ do_setup_page_info (PrinterSetupState *state)
 	order = state->pi->print_across_then_down ? order_rd : order_dr;
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (order), TRUE);
 	display_order_icon (GTK_TOGGLE_BUTTON (order_rd), state);
-
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_WIDGET (gnm_expr_entry_get_entry (state->area_entry)));
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_WIDGET (gnm_expr_entry_get_entry (state->top_entry)));
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_WIDGET (gnm_expr_entry_get_entry (state->left_entry)));
-/*	gnumeric_editable_enters (GTK_WINDOW (state->dialog), */
-/*		gtk_bin_get_child (GTK_BIN (go_gtk_builder_get_widget (state->gui, "comments-combo")))); */
-
-	gnm_expr_entry_load_from_text (state->top_entry,
-				       state->pi->repeat_top);
-	gnm_expr_entry_load_from_text (state->left_entry,
-				       state->pi->repeat_left);
-
-	load_print_area (state);
 }
 
 
@@ -2739,6 +2844,7 @@ printer_setup_state_new (WBCGtk *wbcg, Sheet *sheet)
 	do_setup_main_dialog (state);
 	do_setup_sheet_selector (state);
 	do_setup_hf (state);
+	do_setup_page_area (state);
 	do_setup_page_info (state);
 	do_setup_page (state);
 	do_setup_scale (state);
@@ -2852,6 +2958,7 @@ static void
 do_fetch_page_info (PrinterSetupState *state)
 {
 	PrintInformation *pi = state->pi;
+	GtkTreeIter iter;
 
 	pi->print_grid_lines = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui, "check-grid-lines")));
@@ -2871,6 +2978,15 @@ do_fetch_page_info (PrinterSetupState *state)
 
 	g_free (pi->repeat_left);
 	pi->repeat_left = g_strdup (gnm_expr_entry_get_text (state->left_entry));
+
+	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (state->error_display.combo), &iter))
+		gtk_tree_model_get (GTK_TREE_MODEL (state->error_display.store), &iter, 
+				    1, &(pi->error_display),
+				    -1);
+	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (state->comment_display.combo), &iter))
+		gtk_tree_model_get (GTK_TREE_MODEL (state->comment_display.store), &iter, 
+				    1, &(pi->comment_placement),
+				    -1);
 }
 
 static void
