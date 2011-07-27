@@ -759,7 +759,7 @@ build_sort_field_base_menu (SortFlowState *state)
 	if (items == NULL) {
 		GtkWidget *item;
 		item = (GtkWidget *) gtk_menu_item_new_with_label(state->is_cols ?
-								  _("no available row"): _("no available column"));
+								  _("no available column"): _("no available row"));
 		gtk_widget_set_sensitive( GTK_WIDGET (item), FALSE);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		gtk_widget_show (item);
