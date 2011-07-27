@@ -1,5 +1,10 @@
 2011-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_drop_line): drop unused argument
+	and change all callers
+
+2011-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c: use G_GNUC_UNUSED
 
 2011-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>

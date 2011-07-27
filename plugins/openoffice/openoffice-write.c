@@ -5600,9 +5600,7 @@ odf_write_label_cell_address (GnmOOExport *state, GOData const *dat)
 }
 
 static void
-odf_write_drop_line (GnmOOExport *state, GogObject const *series, char const *drop,
-		     G_GNUC_UNUSED gboolean vertical)
-#warning FIXME: Without using the "vertical" argument, this cannot be right!
+odf_write_drop_line (GnmOOExport *state, GogObject const *series, char const *drop)
 {
 	GogObjectRole const *role = gog_object_find_role_by_name (series, drop);
 
@@ -5805,11 +5803,11 @@ odf_write_standard_series (GnmOOExport *state, GSList const *series)
 
 			if (state->with_extension) {
 				odf_write_drop_line (state, GOG_OBJECT (series->data),
-						     "Horizontal drop lines", FALSE);
+						     "Horizontal drop lines");
 				odf_write_drop_line (state, GOG_OBJECT (series->data),
-						     "Vertical drop lines", TRUE);
+						     "Vertical drop lines");
 				odf_write_drop_line (state, GOG_OBJECT (series->data),
-						     "Drop lines", TRUE);
+						     "Drop lines");
 			}
 			gsf_xml_out_end_element (state->xml); /* </chart:series> */
 		}
