@@ -1,5 +1,10 @@
 2011-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (styles_dtd): <style:background-image>
+	may appear in <style:page-layout-properties>
+
+2011-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_drop_line): drop unused argument
 	and change all callers
 
