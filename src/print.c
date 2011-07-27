@@ -196,13 +196,14 @@ gnm_print_sheet_objects (cairo_t *cr,
 }
 
 static void
-print_page_cells (GtkPrintContext   *context, PrintingInstance * pi,
+print_page_cells (G_GNUC_UNUSED GtkPrintContext   *context, 
+		  G_GNUC_UNUSED PrintingInstance * pi,
 		  cairo_t *cr, Sheet const *sheet, GnmRange *range,
 		  double base_x, double base_y)
-{	PrintInformation const *pinfo = sheet->print_info;
-
+{
 	gnm_gtk_print_cell_range (cr, sheet, range,
-				  base_x, base_y, !pinfo->print_grid_lines);
+				  base_x, base_y,
+				  (PrintInformation const *) sheet->print_info);
 	gnm_print_sheet_objects (cr, sheet, range, base_x, base_y);
 }
 
@@ -239,9 +240,10 @@ print_header_gtk (GtkPrintContext   *context, cairo_t *cr,
 }
 
 static void
-print_page_col_headers (GtkPrintContext   *context, PrintingInstance * pi,
-		  cairo_t *cr, Sheet const *sheet, GnmRange *range,
-		  double row_header_width, double col_header_height)
+print_page_col_headers (GtkPrintContext   *context, 
+			G_GNUC_UNUSED PrintingInstance * pi,
+			cairo_t *cr, Sheet const *sheet, GnmRange *range,
+			double row_header_width, double col_header_height)
 {
 	int start_col, end_col;
 	int col;
@@ -281,9 +283,10 @@ print_page_col_headers (GtkPrintContext   *context, PrintingInstance * pi,
 }
 
 static void
-print_page_row_headers (GtkPrintContext   *context, PrintingInstance * pi,
-		  cairo_t *cr, Sheet const *sheet, GnmRange *range,
-		  double row_header_width, double col_header_height)
+print_page_row_headers (GtkPrintContext *context, 
+			G_GNUC_UNUSED PrintingInstance * pi,
+			cairo_t *cr, Sheet const *sheet, GnmRange *range,
+			double row_header_width, double col_header_height)
 {
 	int start_row, end_row;
 	int row;
@@ -349,7 +352,8 @@ ensure_decoration_layout (GtkPrintContext *context)
  * the rectangle.
  */
 static void
-print_hf_element (GtkPrintContext   *context, cairo_t *cr, Sheet const *sheet,
+print_hf_element (GtkPrintContext *context, cairo_t *cr, 
+		  G_GNUC_UNUSED Sheet const *sheet,
 		  char const *format,
 		  PangoAlignment side, gdouble width, gboolean align_bottom,
 		  HFRenderInfo *hfi)
@@ -417,7 +421,7 @@ print_hf_line (GtkPrintContext   *context, cairo_t *cr, Sheet const *sheet,
  * regular flow.
  */
 static gboolean
-print_page (GtkPrintOperation *operation,
+print_page (G_GNUC_UNUSED GtkPrintOperation *operation,
 	    GtkPrintContext   *context,
 	    PrintingInstance * pi,
 	    SheetPageRange *gsr)
@@ -1043,7 +1047,7 @@ compute_sheet_pages (GtkPrintContext   *context,
  * print request.
  */
 static void
-compute_pages (GtkPrintOperation *operation,
+compute_pages (G_GNUC_UNUSED GtkPrintOperation *operation,
 	       PrintingInstance * pi,
 	       PrintRange pr,
 	       guint from,
@@ -1188,7 +1192,7 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 
 static void
 gnm_begin_print_cb (GtkPrintOperation *operation,
-                    GtkPrintContext   *context,
+                    G_GNUC_UNUSED GtkPrintContext   *context,
 		    gpointer           user_data)
 {
 	PrintingInstance * pi = (PrintingInstance *) user_data;
@@ -1228,8 +1232,8 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 }
 
 static void
-gnm_end_print_cb (GtkPrintOperation *operation,
-                  GtkPrintContext   *context,
+gnm_end_print_cb (G_GNUC_UNUSED GtkPrintOperation *operation,
+                  G_GNUC_UNUSED GtkPrintContext   *context,
                   gpointer           user_data)
 {
 	PrintingInstance * pi = (PrintingInstance *) user_data;
@@ -1253,7 +1257,7 @@ cp_gtk_page_setup (GtkPageSetup *from, GtkPageSetup *to)
 
 static void
 gnm_request_page_setup_cb (GtkPrintOperation *operation,
-                           GtkPrintContext   *context,
+                           G_GNUC_UNUSED GtkPrintContext   *context,
 			   gint               page_nr,
 			   GtkPageSetup      *setup,
 			   gpointer           user_data)
@@ -1486,9 +1490,9 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 }
 
 static void
-gnm_custom_widget_apply_cb (GtkPrintOperation *operation,
-			    GtkWidget         *widget,
-			    gpointer           user_data)
+gnm_custom_widget_apply_cb (GtkPrintOperation       *operation,
+			    G_GNUC_UNUSED GtkWidget *widget,
+			    gpointer                 user_data)
 {
 	PrintingInstance * pi = (PrintingInstance *) user_data;
 	GtkPrintSettings * settings;

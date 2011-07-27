@@ -3,6 +3,7 @@
 # define _GNM_PRINT_CELL_H_
 
 #include "gnumeric.h"
+#include "print-info.h"
 #include <cairo.h>
 #include <gtk/gtk.h>
 
@@ -11,7 +12,7 @@ G_BEGIN_DECLS
 void gnm_gtk_print_cell_range (cairo_t *context,
 			       Sheet const *sheet, GnmRange *range,
 			       double base_x, double base_y,
-			       gboolean hide_grid);
+			       PrintInformation const *pinfo);
 
 G_END_DECLS
 

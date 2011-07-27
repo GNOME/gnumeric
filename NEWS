@@ -14,6 +14,7 @@ Andreas:
 	* Speed up frequent calls to INTERPOLATION with the same 
 	abscissae/ordinates. [#654538]
 	* Export defined names to xlsx. [#655010]
+	* Implement printing of errors as blanks.
 
 Morten:
 	* Fix --with-gnome compilation:  [#652802]

@@ -1,3 +1,11 @@
+2011-07-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print-cell.h (gnm_gtk_print_cell_range): change argument type
+	* src/print-cell.c (gnm_gtk_print_cell_range): change argument type
+	(print_cell_gtk): consider print-info and possibly print errors	as blank
+	(print_merged_range_gtk): ditto
+	* src/print.c (print_page_cells): adjust call of gnm_gtk_print_cell_range
+
 2011-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/collect.h (collect_float_pairs): add argument

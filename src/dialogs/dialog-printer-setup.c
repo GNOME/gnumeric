@@ -2189,9 +2189,9 @@ do_setup_error_display (PrinterSetupState *state)
 		guint  type;
 	} display_types[] = {
 		{N_("Print as displayed"), PRINT_ERRORS_AS_DISPLAYED},
-		{N_("Print as spaces"),    PRINT_ERRORS_AS_BLANK},
-		{N_("Print as dashes"),    PRINT_ERRORS_AS_DASHES},
-		{N_("Print as #N/A"),      PRINT_ERRORS_AS_NA}
+		{N_("Print as spaces"),    PRINT_ERRORS_AS_BLANK}/* , */
+		/* {N_("Print as dashes"),    PRINT_ERRORS_AS_DASHES}, */
+		/* {N_("Print as #N/A"),      PRINT_ERRORS_AS_NA} */
 	};
 	
 	gint i;
@@ -2205,17 +2205,16 @@ do_setup_error_display (PrinterSetupState *state)
                                                    0, _(display_types[i].label),
 						   1, display_types[i].type,
 						   -1);
-		/* if (display_types[i].type == state->pi->error_display) */
-		/* 	item = i; */
+		if (display_types[i].type == state->pi->error_display)
+			item = i;
 	}
 	cell = gtk_cell_renderer_text_new();
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->error_display.combo), cell, TRUE);
-	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->error_display.combo), cell, "text", 0, NULL);
+	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->error_display.combo), 
+				       cell, "text", 0, NULL);
 	if (gtk_tree_model_iter_nth_child
 	    (GTK_TREE_MODEL (state->error_display.store), &iter, NULL, item))
 		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->error_display.combo), &iter);
-
-	gtk_widget_set_sensitive (state->error_display.combo, FALSE);
 }
 
 static void
