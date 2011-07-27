@@ -2707,6 +2707,38 @@ xml_sax_print_order (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		(strcmp (xin->content->str, "r_then_d") == 0);
 }
 
+static void
+xml_sax_print_comments (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+
+	xml_sax_must_have_sheet (state);
+
+	if (strcmp (xin->content->str, "in_place") == 0)
+		state->sheet->print_info->comment_placement = PRINT_COMMENTS_IN_PLACE;
+	else if (strcmp (xin->content->str, "at_end") == 0)
+		state->sheet->print_info->comment_placement = PRINT_COMMENTS_AT_END;
+	else
+		state->sheet->print_info->comment_placement = PRINT_COMMENTS_NONE;
+}
+
+static void
+xml_sax_print_errors (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+
+	xml_sax_must_have_sheet (state);
+
+	if (strcmp (xin->content->str, "as_blank") == 0)
+		state->sheet->print_info->error_display = PRINT_ERRORS_AS_BLANK;
+	else if (strcmp (xin->content->str, "as_dashes") == 0)
+		state->sheet->print_info->error_display = PRINT_ERRORS_AS_DASHES;
+	else if (strcmp (xin->content->str, "as_na") == 0)
+		state->sheet->print_info->error_display = PRINT_ERRORS_AS_NA;
+	else
+		state->sheet->print_info->error_display = PRINT_ERRORS_AS_DISPLAYED;
+}
+
 
 static void
 xml_sax_orientation (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
@@ -2895,7 +2927,8 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, TRUE
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_PRINT_RANGE, GNM, "print_range",GSF_XML_NO_CONTENT, &xml_sax_print_print_range, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_MONO,	    GNM, "monochrome",	GSF_XML_NO_CONTENT, &xml_sax_monochrome, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_AS_DRAFT,   GNM, "draft",	GSF_XML_NO_CONTENT, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_COMMENTS,   GNM, "comments",	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_COMMENTS,   GNM, "comments",	GSF_XML_CONTENT, NULL, &xml_sax_print_comments),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ERRORS,   GNM, "errors",	GSF_XML_CONTENT, NULL, &xml_sax_print_errors),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_TITLES,	    GNM, "titles",	GSF_XML_NO_CONTENT, &xml_sax_print_titles, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_REPEAT_TOP, GNM, "repeat_top",	GSF_XML_NO_CONTENT, &xml_sax_repeat_top, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_REPEAT_LEFT,GNM, "repeat_left",	GSF_XML_NO_CONTENT, &xml_sax_repeat_left, NULL),

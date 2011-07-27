@@ -1,5 +1,13 @@
 2011-07-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/xml-sax-read.c (xml_sax_print_comments): new
+	(xml_sax_print_errors): new
+	(gnumeric_1_0_dtd): connect the above
+	* src/xml-sax-write.c (xml_write_print_info): write comment placement
+	and error display
+
+2011-07-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/print.c (compute_sheet_pages): account for column width change
 	when formulae are shown.
 

@@ -416,6 +416,43 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 		xml_write_breaks (state, pi->page_breaks.v);
 	if (NULL != pi->page_breaks.h)
 		xml_write_breaks (state, pi->page_breaks.h);
+
+	switch (pi->comment_placement) {
+	case PRINT_COMMENTS_IN_PLACE:
+		gsf_xml_out_simple_element (state->output, GNM "comments", 
+					    "in_place");
+		break;
+	case PRINT_COMMENTS_AT_END:
+		gsf_xml_out_simple_element (state->output, GNM "comments", 
+					    "at_end");
+		break;
+	case PRINT_COMMENTS_NONE:
+	default:
+		gsf_xml_out_simple_element (state->output, GNM "comments", 
+					    "none");
+		break;
+	}
+
+	switch (pi->error_display) {
+	case PRINT_ERRORS_AS_BLANK:
+		gsf_xml_out_simple_element (state->output, GNM "errors", 
+					    "as_blank");
+		break;
+	case PRINT_ERRORS_AS_DASHES:
+		gsf_xml_out_simple_element (state->output, GNM "errors", 
+					    "as_dashes");
+		break;
+	case PRINT_ERRORS_AS_NA:
+		gsf_xml_out_simple_element (state->output, GNM "errors", 
+					    "as_na");
+		break;
+	case PRINT_ERRORS_AS_DISPLAYED:
+	default:
+		gsf_xml_out_simple_element (state->output, GNM "errors", 
+					    "as_displayed");
+		break;
+	}
+
 	gsf_xml_out_end_element (state->output);
 }
 
