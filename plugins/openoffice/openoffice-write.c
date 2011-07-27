@@ -236,7 +236,7 @@ page_layout_name (PrintInformation *pi)
 /*****************************************************************************/
 
 static void
-odf_write_mimetype (GnmOOExport *state, GsfOutput *child)
+odf_write_mimetype (G_GNUC_UNUSED GnmOOExport *state, GsfOutput *child)
 {
 	gsf_output_puts (child, "application/vnd.oasis.opendocument.spreadsheet");
 }
@@ -2525,7 +2525,8 @@ odf_expr_conventions_new (void)
 }
 
 static gboolean
-odf_cell_is_covered (Sheet const *sheet, GnmCell *current_cell,
+odf_cell_is_covered (G_GNUC_UNUSED Sheet const *sheet, 
+		     G_GNUC_UNUSED GnmCell *current_cell,
 		    int col, int row, GnmRange const *merge_range,
 		    GSList **merge_ranges)
 {
@@ -3213,7 +3214,8 @@ finder (gconstpointer a, gconstpointer b)
 }
 
 static int
-write_styled_cells (GnmOOExport *state, Sheet const *sheet, int row, int row_length,
+write_styled_cells (GnmOOExport *state, G_GNUC_UNUSED Sheet const *sheet, 
+		    int row, int row_length,
 		    int max_rows, GnmStyleList *list)
 {
 	int answer = max_rows;
@@ -4010,7 +4012,8 @@ odf_validation_append_expression_pair (GnmOOExport *state, GString *str,
 
 static void
 odf_validation_general (GnmOOExport *state, GnmValidation const *val,
-			Sheet *sheet, GnmStyleRegion const *sr,
+			G_GNUC_UNUSED Sheet *sheet, 
+			G_GNUC_UNUSED GnmStyleRegion const *sr,
 			char const *prefix, GnmParsePos *pp)
 {
 	GString *str = g_string_new ("of:");
@@ -4061,7 +4064,8 @@ odf_validation_general (GnmOOExport *state, GnmValidation const *val,
 
 static void
 odf_validation_length (GnmOOExport *state, GnmValidation const *val,
-			Sheet *sheet, GnmStyleRegion const *sr, GnmParsePos *pp)
+		       G_GNUC_UNUSED Sheet *sheet, 
+		       G_GNUC_UNUSED GnmStyleRegion const *sr, GnmParsePos *pp)
 {
 	GString *str = g_string_new ("of:");
 
@@ -4109,7 +4113,8 @@ odf_validation_length (GnmOOExport *state, GnmValidation const *val,
 
 static void
 odf_validation_custom (GnmOOExport *state, GnmValidation const *val,
-			Sheet *sheet, GnmStyleRegion const *sr, GnmParsePos *pp)
+		       G_GNUC_UNUSED Sheet *sheet, 
+		       G_GNUC_UNUSED GnmStyleRegion const *sr, GnmParsePos *pp)
 {
 	GString *str = g_string_new (NULL);
 
@@ -4123,7 +4128,8 @@ odf_validation_custom (GnmOOExport *state, GnmValidation const *val,
 
 static void
 odf_validation_in_list (GnmOOExport *state, GnmValidation const *val,
-			Sheet *sheet, GnmStyleRegion const *sr, GnmParsePos *pp)
+			G_GNUC_UNUSED Sheet *sheet, 
+			G_GNUC_UNUSED GnmStyleRegion const *sr, GnmParsePos *pp)
 {
 	GString *str;
 
@@ -4236,7 +4242,8 @@ odf_print_spreadsheet_content_prelude (GnmOOExport *state)
 }
 
 static void
-odf_write_named_expression (gpointer key, GnmNamedExpr *nexpr, GnmOOExport *state)
+odf_write_named_expression (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr, 
+			    GnmOOExport *state)
 {
 	char const *name;
 	gboolean is_range;
@@ -4529,13 +4536,13 @@ odf_write_this_conditional_xl_style (char const *xl, char const *name, GnmOOExpo
 }
 
 static void 
-odf_render_tab (GnmOOExport *state, char const *args)
+odf_render_tab (GnmOOExport *state, G_GNUC_UNUSED char const *args)
 {
 	gsf_xml_out_simple_element (state->xml, TEXT "sheet-name", NULL);	
 }
 
 static void 
-odf_render_page (GnmOOExport *state, char const *args)
+odf_render_page (GnmOOExport *state, G_GNUC_UNUSED char const *args)
 {
 	gsf_xml_out_start_element (state->xml, TEXT "page-number");
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "num-format", "1");
@@ -4544,7 +4551,7 @@ odf_render_page (GnmOOExport *state, char const *args)
 }
 
 static void 
-odf_render_pages (GnmOOExport *state, char const *args)
+odf_render_pages (GnmOOExport *state, G_GNUC_UNUSED char const *args)
 {
 	gsf_xml_out_start_element (state->xml, TEXT "page-count");
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "num-format", "1");
@@ -4600,7 +4607,7 @@ odf_render_time_to_xl (GnmOOExport *state, char const *args)
 }
 
 static void 
-odf_render_file (GnmOOExport *state, char const *args)
+odf_render_file (GnmOOExport *state, G_GNUC_UNUSED char const *args)
 {
 	gsf_xml_out_start_element (state->xml, TEXT "file-name");
 	gsf_xml_out_add_cstr_unchecked (state->xml, TEXT "display", "name-and-extension");
@@ -4608,7 +4615,7 @@ odf_render_file (GnmOOExport *state, char const *args)
 }
 
 static void 
-odf_render_path (GnmOOExport *state, char const *args)
+odf_render_path (GnmOOExport *state, G_GNUC_UNUSED char const *args)
 {
 	gsf_xml_out_start_element (state->xml, TEXT "file-name");
 	gsf_xml_out_add_cstr_unchecked (state->xml, TEXT "display", "path");
@@ -4664,7 +4671,7 @@ static render_ops_t odf_render_ops [] = {
 	{ N_("file"),  odf_render_file,  NULL},
 	{ N_("path"),  odf_render_path,  NULL},
 	{ N_("cell"),  odf_render_cell,  NULL},
-	{ NULL },
+	{ NULL, NULL, NULL },
 };
 
 static render_ops_t odf_render_ops_to_xl [] = {
@@ -4676,7 +4683,7 @@ static render_ops_t odf_render_ops_to_xl [] = {
 	{ N_("file"),  NULL,                  NULL},
 	{ N_("path"),  NULL,                  NULL},
 	{ N_("cell"),  NULL,                  NULL},
-	{ NULL },
+	{ NULL, NULL, NULL },
 };
 
 /*
@@ -5119,7 +5126,7 @@ odf_write_meta (GnmOOExport *state, GsfOutput *child)
 }
 
 static void
-odf_write_meta_graph (GnmOOExport *state, GsfOutput *child)
+odf_write_meta_graph (G_GNUC_UNUSED GnmOOExport *state, GsfOutput *child)
 {
 	GsfXMLOut *xml = gsf_xml_out_new (child);
 	GsfDocMetaData *meta = gsf_doc_meta_data_new ();
@@ -5594,7 +5601,8 @@ odf_write_label_cell_address (GnmOOExport *state, GOData const *dat)
 
 static void
 odf_write_drop_line (GnmOOExport *state, GogObject const *series, char const *drop,
-		     gboolean vertical)
+		     G_GNUC_UNUSED gboolean vertical)
+#warning FIXME: Without using the "vertical" argument, this cannot be right!
 {
 	GogObjectRole const *role = gog_object_find_role_by_name (series, drop);
 
@@ -5966,7 +5974,9 @@ odf_write_min_max_series (GnmOOExport *state, GSList const *orig_series)
 
 
 static void
-odf_write_interpolation_attribute (GnmOOExport *state, GOStyle const *style, GogObject const *series)
+odf_write_interpolation_attribute (GnmOOExport *state, 
+				   G_GNUC_UNUSED GOStyle const *style, 
+				   GogObject const *series)
 {
 	gchar *interpolation = NULL;
 
@@ -6133,7 +6143,8 @@ odf_get_marker (GOMarkerShape m)
 }
 
 static void
-odf_write_axis_style (GnmOOExport *state, GOStyle const *style, GogObject const *axis)
+odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style, 
+		      GogObject const *axis)
 {
 	char const *type = NULL;
 	double minima = 0., maxima = 0.;
@@ -6181,14 +6192,15 @@ odf_write_generic_axis_style (GnmOOExport *state, char const *style_label)
 }
 
 static void
-odf_write_circle_axes_styles (GnmOOExport *state, GogObject const *chart,
+odf_write_circle_axes_styles (GnmOOExport *state, 
+			      G_GNUC_UNUSED GogObject const *chart,
 			      G_GNUC_UNUSED GogObject const *plot,
 			      gchar **x_style,
 			      gchar **y_style,
-			      gchar **z_style,
-			      gchar const *x_role,
-			      gchar const *y_role,
-			      gchar const *z_role)
+			      G_GNUC_UNUSED gchar **z_style,
+			      G_GNUC_UNUSED gchar const *x_role,
+			      G_GNUC_UNUSED gchar const *y_role,
+			      G_GNUC_UNUSED gchar const *z_role)
 {
 	odf_write_generic_axis_style (state, "yaxis");
 	*x_style = g_strdup ("yaxis");
@@ -6198,14 +6210,15 @@ odf_write_circle_axes_styles (GnmOOExport *state, GogObject const *chart,
 }
 
 static void
-odf_write_radar_axes_styles (GnmOOExport *state, GogObject const *chart,
+odf_write_radar_axes_styles (G_GNUC_UNUSED GnmOOExport *state, 
+			     GogObject const *chart,
 			     G_GNUC_UNUSED GogObject const *plot,
 			     gchar **x_style,
 			     gchar **y_style,
-			     gchar **z_style,
-			     gchar const *x_role,
-			     gchar const *y_role,
-			     gchar const *z_role)
+			     G_GNUC_UNUSED gchar **z_style,
+			     G_GNUC_UNUSED gchar const *x_role,
+			     G_GNUC_UNUSED gchar const *y_role,
+			     G_GNUC_UNUSED gchar const *z_role)
 {
 	GogObject const *axis;
 
@@ -6219,14 +6232,15 @@ odf_write_radar_axes_styles (GnmOOExport *state, GogObject const *chart,
 }
 
 static void
-odf_write_standard_axes_styles (GnmOOExport *state, GogObject const *chart,
-				GogObject const *plot,
+odf_write_standard_axes_styles (G_GNUC_UNUSED GnmOOExport *state, 
+				GogObject const *chart,
+				G_GNUC_UNUSED GogObject const *plot,
 				gchar **x_style,
 				gchar **y_style,
-				gchar **z_style,
+				G_GNUC_UNUSED gchar **z_style,
 				gchar const *x_role,
 				gchar const *y_role,
-				gchar const *z_role)
+				G_GNUC_UNUSED gchar const *z_role)
 {
 	GogObject const *axis;
 
@@ -6499,8 +6513,7 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 			gsf_xml_out_add_cstr (state->xml, DRAW "fill", "bitmap");
 			gsf_xml_out_add_cstr (state->xml, DRAW "fill-image-name", image);
 			g_free (image);
-			if (0 <= style->fill.image.type &&
-			    style->fill.image.type < (int)G_N_ELEMENTS (image_types))
+			if (style->fill.image.type < G_N_ELEMENTS (image_types))
 				gsf_xml_out_add_cstr (state->xml, STYLE "repeat",
 						      image_types [style->fill.image.type]);
 			else g_warning ("Unexpected GOImageType value");
@@ -7254,7 +7267,8 @@ odf_write_images (SheetObjectImage *image, char const *name, GnmOOExport *state)
 }
 
 static void
-odf_write_drop (GnmOOExport *state, GOStyle const *style, GogObject const *obj)
+odf_write_drop (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style, 
+		GogObject const *obj)
 {
 	GogObjectRole const *h_role = gog_object_find_role_by_name
 		(obj->parent, "Horizontal drop lines");
@@ -7264,7 +7278,8 @@ odf_write_drop (GnmOOExport *state, GOStyle const *style, GogObject const *obj)
 }
 
 static void
-odf_write_lin_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj)
+odf_write_lin_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style, 
+		   GogObject const *obj)
 {
 	gsf_xml_out_add_cstr (state->xml, CHART "regression-type",  "linear");
 	if (state->with_extension) {
@@ -7277,7 +7292,8 @@ odf_write_lin_reg (GnmOOExport *state, GOStyle const *style, GogObject const *ob
 }
 
 static void
-odf_write_polynom_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj)
+odf_write_polynom_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style, 
+		       GogObject const *obj)
 {
 	if (state->with_extension) {
 		GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (obj));
@@ -7292,25 +7308,29 @@ odf_write_polynom_reg (GnmOOExport *state, GOStyle const *style, GogObject const
 }
 
 static void
-odf_write_exp_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj)
+odf_write_exp_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style, 
+		   G_GNUC_UNUSED GogObject const *obj)
 {
 	gsf_xml_out_add_cstr (state->xml, CHART "regression-type",  "exponential");
 }
 
 static void
-odf_write_power_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj)
+odf_write_power_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style, 
+		     G_GNUC_UNUSED GogObject const *obj)
 {
 	gsf_xml_out_add_cstr (state->xml, CHART "regression-type",  "power");
 }
 
 static void
-odf_write_log_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj)
+odf_write_log_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style, 
+		   G_GNUC_UNUSED GogObject const *obj)
 {
 	gsf_xml_out_add_cstr (state->xml, CHART "regression-type",  "logarithmic");
 }
 
 static void
-odf_write_log_fit_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj)
+odf_write_log_fit_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style, 
+		       G_GNUC_UNUSED GogObject const *obj)
 {
 	if (state->with_extension)
 		gsf_xml_out_add_cstr (state->xml, CHART "regression-type",
@@ -7318,7 +7338,8 @@ odf_write_log_fit_reg (GnmOOExport *state, GOStyle const *style, GogObject const
 }
 
 static void
-odf_write_movig_avg_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj)
+odf_write_movig_avg_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style, 
+			 G_GNUC_UNUSED GogObject const *obj)
 {
 	if (state->with_extension)
 		gsf_xml_out_add_cstr (state->xml, CHART "regression-type",
@@ -7326,7 +7347,8 @@ odf_write_movig_avg_reg (GnmOOExport *state, GOStyle const *style, GogObject con
 }
 
 static void
-odf_write_exp_smooth_reg (GnmOOExport *state, GOStyle const *style, GogObject const *obj)
+odf_write_exp_smooth_reg (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style, 
+			  G_GNUC_UNUSED GogObject const *obj)
 {
 	if (state->with_extension)
 		gsf_xml_out_add_cstr (state->xml, CHART "regression-type",
@@ -7334,7 +7356,8 @@ odf_write_exp_smooth_reg (GnmOOExport *state, GOStyle const *style, GogObject co
 }
 
 static void
-odf_write_pie_point (GnmOOExport *state, GOStyle const *style, GogObject const *obj)
+odf_write_pie_point (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style, 
+		     GogObject const *obj)
 {
 	GObjectClass *klass = G_OBJECT_GET_CLASS (obj);
 	GParamSpec *spec;
@@ -7534,8 +7557,9 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 /**********************************************************************************/
 
 static void
-openoffice_file_save_real (GOFileSaver const *fs, GOIOContext *ioc,
-			   WorkbookView const *wbv, GsfOutput *output, gboolean with_extension)
+openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *ioc,
+			   WorkbookView const *wbv, GsfOutput *output, 
+			   gboolean with_extension)
 {
 	static struct {
 		void (*func) (GnmOOExport *state, GsfOutput *child);
