@@ -930,6 +930,7 @@ compute_sheet_pages (GtkPrintContext   *context,
 	GSList *row_pagination = NULL;
 	gboolean repeat_top_use, repeat_left_use;
 	int repeat_top_start, repeat_top_end, repeat_left_start, repeat_left_end;
+	double const hscale = sheet->display_formulas ? 2 : 1;
 
 	if (pinfo->print_titles) {
 		col_header_height = sheet->rows.default_style.size_pts;
@@ -1021,7 +1022,7 @@ compute_sheet_pages (GtkPrintContext   *context,
 	usable_y   = page_height / py;
 
 	paginate (&column_pagination, sheet, print_area.start.col, print_area.end.col,
-		  usable_x - row_header_width,
+		  (usable_x - row_header_width)/hscale,
 		  repeat_left_use, repeat_left_start, repeat_left_end,
 		  sheet_col_get_distance_pts, sheet_col_get_info,
 		  pi->ignore_pb ? NULL : pinfo->page_breaks.v, !pi->ignore_pb);

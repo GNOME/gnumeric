@@ -1,5 +1,10 @@
 2011-07-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print.c (compute_sheet_pages): account for column width change
+	when formulae are shown.
+
+2011-07-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/style-border.c (gnm_style_borders_row_print_gtk): account for
 	column width change when formulae are shown.
 
