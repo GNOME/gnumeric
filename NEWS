@@ -15,7 +15,8 @@ Andreas:
 	abscissae/ordinates. [#654538]
 	* Export defined names to xlsx. [#655010]
 	* Implement printing of errors as blanks.
-	* Fix printing of column headers when formulae are shown. Part of [#655389]
+	* Fix printing of column headers and borders when formulae are shown. 
+	[#655389]
 
 Morten:
 	* Fix --with-gnome compilation:  [#652802]

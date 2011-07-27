@@ -706,6 +706,7 @@ gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
 	int o[2][2], col;
 	double next_x = x;
 	GnmBorder const *border;
+	double const hscale = sheet->display_formulas ? 2 : 1;
 
 	cairo_save (context);
 
@@ -716,7 +717,7 @@ gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
 		ColRowInfo const *cri = sheet_col_get_info (sheet, col);
 		if (!cri->visible)
 			continue;
-		next_x = x + dir * cri->size_pts;
+		next_x = x + dir * cri->size_pts * hscale;
 
 		border = sr->top [col];
 
