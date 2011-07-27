@@ -67,9 +67,10 @@ print_cell_gtk (GnmCell const *cell,
 	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
 	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
 
-	gboolean cell_has_error = (gnm_cell_is_error (cell) != NULL);
+	gboolean cell_shows_error = (gnm_cell_is_error (cell) != NULL)
+		&& !(gnm_cell_has_expr (cell) && sheet->display_formulas);
 
-	if (cell_has_error && pinfo->error_display == PRINT_ERRORS_AS_BLANK)
+	if (cell_shows_error && pinfo->error_display == PRINT_ERRORS_AS_BLANK)
 		return;
 
 	/* Get the sizes exclusive of margins and grids */
