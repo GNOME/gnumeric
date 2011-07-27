@@ -2189,9 +2189,9 @@ do_setup_error_display (PrinterSetupState *state)
 		guint  type;
 	} display_types[] = {
 		{N_("Print as displayed"), PRINT_ERRORS_AS_DISPLAYED},
-		{N_("Print as spaces"),    PRINT_ERRORS_AS_BLANK}/* , */
-		/* {N_("Print as dashes"),    PRINT_ERRORS_AS_DASHES}, */
-		/* {N_("Print as #N/A"),      PRINT_ERRORS_AS_NA} */
+		{N_("Print as spaces"),    PRINT_ERRORS_AS_BLANK},
+		{N_("Print as dashes"),    PRINT_ERRORS_AS_DASHES},
+		{N_("Print as #N/A"),      PRINT_ERRORS_AS_NA}
 	};
 	
 	gint i;
@@ -2240,8 +2240,8 @@ do_setup_comment_display (PrinterSetupState *state)
                                                    0, _(display_types[i].label),
 						   1, display_types[i].type,
 						   -1);
-		/* if (display_types[i].type == state->pi->comment_placement) */
-		/* 	item = i; */
+		if (display_types[i].type == state->pi->comment_placement)
+			item = i;
 	}
 	cell = gtk_cell_renderer_text_new();
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->comment_display.combo), cell, TRUE);

@@ -43,10 +43,7 @@ Target Features
 
 Short term goals
 ----------------
-    - .gnumeric I/O for PI:{error_display,comment_placement}
     - Use go_glade_signal_connect (and friends)
-    - undo of cell range cut over clipboard
-      http://live.gnome.org/Academic
     - ={A1:A3+rand()}	only calls rand() once.
 
 Misc stuff that should be fixed
@@ -543,7 +540,7 @@ Architecture Changes
 
 38) Printing
     38.3) PI:comment_placement
-    38.4) PI:display_errors
+    38.4) PI:display_errors                           (partial)
 
 39) Lotus filter
     39.1) http://www.openoffice.org/issues/show_bug.cgi?id=84496

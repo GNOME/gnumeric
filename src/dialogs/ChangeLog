@@ -1,5 +1,11 @@
 2011-07-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-printer-setup.c (do_setup_error_display): show all options
+	to preserve setting through import-export cycle
+	(do_setup_comment_display): ditto
+
+2011-07-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-printer-setup.c (do_setup_error_display): enable
 	combo for as_blank
 
