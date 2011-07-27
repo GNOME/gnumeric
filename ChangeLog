@@ -1,5 +1,10 @@
 2011-07-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print.c (print_page_col_headers): adjust for column widths when
+	formulae are shown
+
+2011-07-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/print-cell.c (print_cell_gtk): only replace errors by blanks if the
 	error wopuld in fact be shown, i.e. not if it is the result of a formula
 	and formulae are shown.
