@@ -341,10 +341,7 @@ Architecture Changes
 	16.3.5) cols/rows
 
 17) Explicit Page Breaks
-    17.1) Store them in PrintInfo				(DONE)
-    17.2) Respect them						(DONE)
-    17.3.3) ODF
-    17.3.3.1) Import						(DONE)
+   17.3.3) ODF
     17.3.3.2) Export	{merge breaks and styles}
     17.3.4) Lotus ?
     17.3.5) Applix ?
@@ -540,7 +537,6 @@ Architecture Changes
 
 38) Printing
     38.3) PI:comment_placement
-    38.4) PI:display_errors                           (partial)
 
 39) Lotus filter
     39.1) http://www.openoffice.org/issues/show_bug.cgi?id=84496
