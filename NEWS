@@ -14,7 +14,7 @@ Andreas:
 	* Speed up frequent calls to INTERPOLATION with the same 
 	abscissae/ordinates. [#654538]
 	* Export defined names to xlsx. [#655010]
-	* Implement printing of errors as blanks.
+	* Implement printing of errors as blanks, dashes or NAs.
 	* Fix printing of column headers and borders when formulae are shown. 
 	[#655389]
 

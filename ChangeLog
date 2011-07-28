@@ -1,5 +1,10 @@
 2011-07-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print-cell.c (print_cell_gtk): implement printing of errors as
+	NA and as dashes
+
+2011-07-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/print-cell.c (print_cell_gtk): be sure that the value is
 	uptodate
 

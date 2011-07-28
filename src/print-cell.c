@@ -86,7 +86,25 @@ print_cell_gtk (GnmCell const *cell,
 	rv = gnm_cell_fetch_rendered_value (cell, TRUE);
 
 	/* Create a rendered value for printing */
-	if (sheet->last_zoom_factor_used != 1) {
+	if (cell_shows_error && (pinfo->error_display == PRINT_ERRORS_AS_NA
+				 || pinfo->error_display == PRINT_ERRORS_AS_DASHES)) {
+		GnmCell *t_cell = (GnmCell *)cell;
+		GnmValue *old = t_cell->value;
+		if (pinfo->error_display == PRINT_ERRORS_AS_NA)
+			t_cell->value = value_new_error_NA (NULL);
+		else
+			t_cell->value = value_new_error 
+				(NULL, 
+				 /* U+2014 U+200A U+2014 */
+				 "\342\200\224\342\200\212\342\200\224");
+		rv100 = gnm_rendered_value_new (t_cell,
+						pango_layout_get_context (rv->layout),
+						rv->variable_width,
+						1.0);
+		rv = rv100;
+		value_release (t_cell->value);
+		t_cell->value = old;
+	} else if (sheet->last_zoom_factor_used != 1) {
 		/*
 		 * We're zoomed and we don't want printing to reflect that.
 		 */
