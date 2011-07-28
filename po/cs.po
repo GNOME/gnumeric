@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-07-12 18:56+0000\n"
-"PO-Revision-Date: 2011-07-14 10:44+0200\n"
+"POT-Creation-Date: 2011-07-27 19:39+0000\n"
+"PO-Revision-Date: 2011-07-28 09:40+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -94,7 +94,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Poskytuje skriptovací rozhraní CORBA"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6858
-#: ../plugins/openoffice/openoffice-read.c:10049 ../src/xml-sax-read.c:3222
+#: ../plugins/openoffice/openoffice-read.c:10090 ../src/xml-sax-read.c:3255
 msgid "Reading file..."
 msgstr "Načítá se soubor…"
 
@@ -192,7 +192,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Neočekávaný atribut %s::%s == „%s“."
 
 #: ../plugins/excel/excel-xml-read.c:1068
-#: ../plugins/openoffice/openoffice-read.c:10153 ../src/xml-sax-read.c:3239
+#: ../plugins/openoffice/openoffice-read.c:10194 ../src/xml-sax-read.c:3272
 msgid "XML document not well formed!"
 msgstr "Dokument XML není syntakticky správný!"
 
@@ -441,7 +441,7 @@ msgstr "Neznámá barva %d motivu"
 msgid "Undefined number format id '%s'"
 msgstr "Nedefinované ID formátu čísla „%s“"
 
-#: ../plugins/excel/xlsx-read.c:1093 ../plugins/excel/xlsx-read.c:3080
+#: ../plugins/excel/xlsx-read.c:1093 ../plugins/excel/xlsx-read.c:3089
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Neplatná barva „%s“ pro atribut rgb"
@@ -494,17 +494,17 @@ msgstr "Neznámý typ hypertextového odkazu"
 msgid "Ignoring a sheet without a name"
 msgstr "Ignoruje se list bez názvu"
 
-#: ../plugins/excel/xlsx-read.c:2878
+#: ../plugins/excel/xlsx-read.c:2887
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Selhalo definování názvu: %s"
 
-#: ../plugins/excel/xlsx-read.c:3252
+#: ../plugins/excel/xlsx-read.c:3261
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Schází part-id pro list „%s“"
 
-#: ../plugins/excel/xlsx-read.c:4280
+#: ../plugins/excel/xlsx-read.c:4289
 msgid "No workbook stream found."
 msgstr "Nebyl nalezen žádný proud pro sešit."
 
@@ -1322,7 +1322,7 @@ msgid "Unable to open '%s'."
 msgstr "Nelze otevřít „%s“"
 
 #: ../plugins/openoffice/openoffice-read.c:899
-#: ../plugins/openoffice/openoffice-read.c:6635
+#: ../plugins/openoffice/openoffice-read.c:6652
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "Nelze načíst soubor „%s“"
@@ -1375,8 +1375,8 @@ msgid "Expression '%s' does not start with a recognized character"
 msgstr "Výraz „%s“ nezačíná správným znakem"
 
 #: ../plugins/openoffice/openoffice-read.c:1735
-#: ../plugins/openoffice/openoffice-write.c:4629
-#: ../plugins/openoffice/openoffice-write.c:4641 ../src/print-info.c:589
+#: ../plugins/openoffice/openoffice-write.c:4673
+#: ../plugins/openoffice/openoffice-write.c:4685 ../src/print-info.c:589
 #: ../src/ssgrep.c:352
 msgid "cell"
 msgstr "buňka"
@@ -1438,7 +1438,7 @@ msgid "Content past the maximum number of rows (%i) supported."
 msgstr "Obsah překročil maximální podporovaný počet řádků (%i)"
 
 #: ../plugins/openoffice/openoffice-read.c:2743
-#: ../plugins/openoffice/openoffice-read.c:4847
+#: ../plugins/openoffice/openoffice-read.c:4862
 msgid "Missing expression"
 msgstr "Schází výraz"
 
@@ -1517,106 +1517,122 @@ msgstr "Soubor se zdá poškozen, schází požadovaný formát."
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Papír ze souboru ODF: %ipt⨉%ipt"
 
-#: ../plugins/openoffice/openoffice-read.c:4596
+#: ../plugins/openoffice/openoffice-read.c:4605
 msgid "Missing page layout identifier"
 msgstr "Schází identifikátor rozvržení stránky"
 
-#: ../plugins/openoffice/openoffice-read.c:4736
-#: ../plugins/openoffice/openoffice-write.c:4622
-#: ../plugins/openoffice/openoffice-write.c:4634 ../src/print-info.c:582
+#: ../plugins/openoffice/openoffice-read.c:4635
+#| msgid "Image fill without image name encountered!"
+msgid "Master page style without page layout encountered!"
+msgstr "Vyskytl se styl hlavní stránky bez rozvržení stránky!"
+
+#: ../plugins/openoffice/openoffice-read.c:4646
+#| msgid "Image fill without image name encountered!"
+msgid "Master page style without name encountered!"
+msgstr "Vyskytl se styl hlavní stránky bez názvu!"
+
+#: ../plugins/openoffice/openoffice-read.c:4751
+#: ../plugins/openoffice/openoffice-write.c:4666
+#: ../plugins/openoffice/openoffice-write.c:4678 ../src/print-info.c:582
 msgid "tab"
 msgstr "list"
 
-#: ../plugins/openoffice/openoffice-read.c:4766
-#: ../plugins/openoffice/openoffice-write.c:4625
-#: ../plugins/openoffice/openoffice-write.c:4637 ../src/print-info.c:585
+#: ../plugins/openoffice/openoffice-read.c:4781
+#: ../plugins/openoffice/openoffice-write.c:4669
+#: ../plugins/openoffice/openoffice-write.c:4681 ../src/print-info.c:585
 msgid "date"
 msgstr "datum"
 
-#: ../plugins/openoffice/openoffice-read.c:4772
-#: ../plugins/openoffice/openoffice-write.c:4626
-#: ../plugins/openoffice/openoffice-write.c:4638 ../src/print-info.c:586
+#: ../plugins/openoffice/openoffice-read.c:4787
+#: ../plugins/openoffice/openoffice-write.c:4670
+#: ../plugins/openoffice/openoffice-write.c:4682 ../src/print-info.c:586
 msgid "time"
 msgstr "čas"
 
-#: ../plugins/openoffice/openoffice-read.c:4778
-#: ../plugins/openoffice/openoffice-write.c:4623
-#: ../plugins/openoffice/openoffice-write.c:4635 ../src/print-info.c:583
+#: ../plugins/openoffice/openoffice-read.c:4793
+#: ../plugins/openoffice/openoffice-write.c:4667
+#: ../plugins/openoffice/openoffice-write.c:4679 ../src/print-info.c:583
 msgid "page"
 msgstr "strana"
 
-#: ../plugins/openoffice/openoffice-read.c:4784
-#: ../plugins/openoffice/openoffice-write.c:4624
-#: ../plugins/openoffice/openoffice-write.c:4636 ../src/print-info.c:584
+#: ../plugins/openoffice/openoffice-read.c:4799
+#: ../plugins/openoffice/openoffice-write.c:4668
+#: ../plugins/openoffice/openoffice-write.c:4680 ../src/print-info.c:584
 msgid "pages"
 msgstr "stran"
 
-#: ../plugins/openoffice/openoffice-read.c:4809
-#: ../plugins/openoffice/openoffice-read.c:4816
-#: ../plugins/openoffice/openoffice-write.c:4628
-#: ../plugins/openoffice/openoffice-write.c:4640 ../src/print-info.c:588
+#: ../plugins/openoffice/openoffice-read.c:4824
+#: ../plugins/openoffice/openoffice-read.c:4831
+#: ../plugins/openoffice/openoffice-write.c:4672
+#: ../plugins/openoffice/openoffice-write.c:4684 ../src/print-info.c:588
 msgid "path"
 msgstr "cesta"
 
-#: ../plugins/openoffice/openoffice-read.c:4813
-#: ../plugins/openoffice/openoffice-read.c:4820
-#: ../plugins/openoffice/openoffice-write.c:4627
-#: ../plugins/openoffice/openoffice-write.c:4639 ../src/print-info.c:587
+#: ../plugins/openoffice/openoffice-read.c:4828
+#: ../plugins/openoffice/openoffice-read.c:4835
+#: ../plugins/openoffice/openoffice-write.c:4671
+#: ../plugins/openoffice/openoffice-write.c:4683 ../src/print-info.c:587
 #: ../src/ssconvert.c:90
 msgid "file"
 msgstr "soubor"
 
-#: ../plugins/openoffice/openoffice-read.c:4862
+#: ../plugins/openoffice/openoffice-read.c:4877
 msgid "title"
 msgstr "název"
 
-#: ../plugins/openoffice/openoffice-read.c:5157
+#: ../plugins/openoffice/openoffice-read.c:4908
+#, c-format
+#| msgid "Unknown gradient name '%s' encountered!"
+msgid "Unknown Gnumeric border style '%s' encountered."
+msgstr "Vyskytl se neznámý styl ohraničení Gnumeric „%s“."
+
+#: ../plugins/openoffice/openoffice-read.c:5176
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Neznámý typ zalomení „%s“, použije se výchozí ŽÁDNÝ"
 
-#: ../plugins/openoffice/openoffice-read.c:5225
+#: ../plugins/openoffice/openoffice-read.c:5244
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Nelze zpracovat barvu karty „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:5237
+#: ../plugins/openoffice/openoffice-read.c:5256
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "Nelze zpracovat barvu textu karty „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:5402
+#: ../plugins/openoffice/openoffice-read.c:5421
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Vyskytla se neznámá podmínka „%s“, ignoruje se."
 
-#: ../plugins/openoffice/openoffice-read.c:5744
+#: ../plugins/openoffice/openoffice-read.c:5761
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Vyskytl se neznámý typ interpolace: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:6008
+#: ../plugins/openoffice/openoffice-read.c:6025
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "výraz „%s“ v „%s“ není odkaz na buňku"
 
-#: ../plugins/openoffice/openoffice-read.c:6025
+#: ../plugins/openoffice/openoffice-read.c:6042
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "Výraz „%s“ má neznámý jmenný prostor"
 
-#: ../plugins/openoffice/openoffice-read.c:6077
+#: ../plugins/openoffice/openoffice-read.c:6094
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Neplatný databázový rozsah „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:6313
-#: ../plugins/openoffice/openoffice-read.c:6352
+#: ../plugins/openoffice/openoffice-read.c:6330
+#: ../plugins/openoffice/openoffice-read.c:6369
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr "Neplatný atribut „form:value“, očekáváno číslo, obdrženo „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:6318
+#: ../plugins/openoffice/openoffice-read.c:6335
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1625,12 +1641,12 @@ msgstr ""
 "Pro atribut „form:value“ v prvku „form:value-range“ publikován neplatný typ "
 "hodnoty „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:6927
+#: ../plugins/openoffice/openoffice-read.c:6965
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr "Nedostatek dat v dodaném rozsahu (%s) pro všechny požadavky"
 
-#: ../plugins/openoffice/openoffice-read.c:7455
+#: ../plugins/openoffice/openoffice-read.c:7495
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1638,45 +1654,45 @@ msgstr ""
 "Gnumeric nepodporuje neautomatické regresní rovnice. Místo toho se použije "
 "automatická rovnice."
 
-#: ../plugins/openoffice/openoffice-read.c:7598
+#: ../plugins/openoffice/openoffice-read.c:7638
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr "Vyskytly se přívodní čáry v diagramu, který je nepodporuje."
 
-#: ../plugins/openoffice/openoffice-read.c:7668
+#: ../plugins/openoffice/openoffice-read.c:7708
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr "Vyskytl se neznámý typ grafu, zkouší se vytvořit čárový diagram."
 
-#: ../plugins/openoffice/openoffice-read.c:8141
+#: ../plugins/openoffice/openoffice-read.c:8181
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "Atribut „%s“ má nepodporovanou hodnotu „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:9922
+#: ../plugins/openoffice/openoffice-read.c:9963
 msgid "Unknown mimetype for openoffice file."
 msgstr "Neznámý typ MIME pro soubor OpenOffice."
 
-#: ../plugins/openoffice/openoffice-read.c:9932
+#: ../plugins/openoffice/openoffice-read.c:9973
 msgid "No stream named content.xml found."
 msgstr "Nebyl nalezen proud pojmenovaný content.xml"
 
-#: ../plugins/openoffice/openoffice-read.c:9940
+#: ../plugins/openoffice/openoffice-read.c:9981
 msgid "No stream named styles.xml found."
 msgstr "Nebyl nalezen proud pojmenovaný styles.xml"
 
-#: ../plugins/openoffice/openoffice-read.c:10059
+#: ../plugins/openoffice/openoffice-read.c:10100
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Neplatná metadata „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:10126
+#: ../plugins/openoffice/openoffice-read.c:10167
 msgid "settings.xml stream is malformed!"
 msgstr "Proud settings.xml je poškozen!"
 
-#: ../plugins/openoffice/openoffice-write.c:7516
+#: ../plugins/openoffice/openoffice-write.c:7644
 msgid "Writing Sheets..."
 msgstr "Zapisují se listy…"
 
-#: ../plugins/openoffice/openoffice-write.c:7545
+#: ../plugins/openoffice/openoffice-write.c:7673
 msgid "Writing Sheet Objects..."
 msgstr "Zapisují se objekty listů…"
 
@@ -3965,7 +3981,7 @@ msgstr "Vytvořit datovou tabulku v %s"
 msgid "Ins/Del Column/Row"
 msgstr "Vložit/odstranit sloupec/řádek"
 
-#: ../src/commands.c:1457
+#: ../src/commands.c:1458
 #, c-format
 msgid ""
 "Inserting %i column before column %s would push data off the sheet. Please "
@@ -3983,7 +3999,7 @@ msgstr[2] ""
 "Vložení %i sloupců před sloupec %s by vytlačilo data mimo list. Nejprve list "
 "prosím zvětšete."
 
-#: ../src/commands.c:1467
+#: ../src/commands.c:1468
 #, c-format
 msgid "Inserting %d column before %s"
 msgid_plural "Inserting %d columns before %s"
@@ -3991,7 +4007,7 @@ msgstr[0] "Vložit %d sloupec před %s"
 msgstr[1] "Vložit %d sloupce před %s"
 msgstr[2] "Vložit %d sloupců před %s"
 
-#: ../src/commands.c:1485
+#: ../src/commands.c:1487
 #, c-format
 msgid ""
 "Inserting %i row before row %s would push data off the sheet. Please enlarge "
@@ -4009,7 +4025,7 @@ msgstr[2] ""
 "Vložení %i řádků před řádek %s by vytlačilo data mimo list. Nejprve list "
 "prosím zvětšete."
 
-#: ../src/commands.c:1495
+#: ../src/commands.c:1497
 #, c-format
 msgid "Inserting %d row before %s"
 msgid_plural "Inserting %d rows before %s"
@@ -4017,76 +4033,76 @@ msgstr[0] "Vložit %d řádek před %s"
 msgstr[1] "Vložit %d řádky před %s"
 msgstr[2] "Vložit %d řádků před %s"
 
-#: ../src/commands.c:1507
+#: ../src/commands.c:1509
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Odstranit sloupce %s"
 
-#: ../src/commands.c:1508
+#: ../src/commands.c:1510
 #, c-format
 msgid "Deleting column %s"
 msgstr "Odstranit sloupec %s"
 
-#: ../src/commands.c:1518
+#: ../src/commands.c:1520
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Odstranit řádky %s"
 
-#: ../src/commands.c:1519
+#: ../src/commands.c:1521
 #, c-format
 msgid "Deleting row %s"
 msgstr "Odstranit řádek %s"
 
-#: ../src/commands.c:1579 ../src/commands.c:1580 ../src/sheet.c:4350
+#: ../src/commands.c:1581 ../src/commands.c:1582 ../src/sheet.c:4350
 msgid "Clear"
 msgstr "Vymazat"
 
-#: ../src/commands.c:1592
+#: ../src/commands.c:1594
 msgid "contents"
 msgstr "obsah"
 
-#: ../src/commands.c:1594
+#: ../src/commands.c:1596
 msgid "formats"
 msgstr "formáty"
 
-#: ../src/commands.c:1596
+#: ../src/commands.c:1598
 msgid "comments"
 msgstr "komentáře"
 
-#: ../src/commands.c:1611
+#: ../src/commands.c:1613
 msgid "all"
 msgstr "vše"
 
-#: ../src/commands.c:1617
+#: ../src/commands.c:1619
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Vymazat %s v %s"
 
-#: ../src/commands.c:1733
+#: ../src/commands.c:1735
 msgid "Changing Format"
 msgstr "Změnit formát"
 
-#: ../src/commands.c:1870
+#: ../src/commands.c:1872
 #, c-format
 msgid "Changing format of %s"
 msgstr "Změnit formát %s"
 
-#: ../src/commands.c:1957
+#: ../src/commands.c:1959
 #, c-format
 msgid "Setting Font Style of %s"
 msgstr "Nastavit styl písma %s"
 
-#: ../src/commands.c:2010
+#: ../src/commands.c:2012
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Automatická šířka sloupce %s"
 
-#: ../src/commands.c:2011
+#: ../src/commands.c:2013
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Automatická výška řádku %s"
 
-#: ../src/commands.c:2014
+#: ../src/commands.c:2016
 #, c-format
 msgid "Setting width of column %s to %d pixel"
 msgid_plural "Setting width of column %s to %d pixels"
@@ -4094,7 +4110,7 @@ msgstr[0] "Nastavit šířku sloupce %s na %d pixel"
 msgstr[1] "Nastavit šířku sloupce %s na %d pixely"
 msgstr[2] "Nastavit šířku sloupce %s na %d pixelů"
 
-#: ../src/commands.c:2018
+#: ../src/commands.c:2020
 #, c-format
 msgid "Setting height of row %s to %d pixel"
 msgid_plural "Setting height of row %s to %d pixels"
@@ -4102,27 +4118,27 @@ msgstr[0] "Nastavit výšku řádku %s na %d pixel"
 msgstr[1] "Nastavit výšku řádku %s na %d pixely"
 msgstr[2] "Nastavit výšku řádku %s na %d pixelů"
 
-#: ../src/commands.c:2023
+#: ../src/commands.c:2025
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Nastavit šířku sloupce %s na výchozí"
 
-#: ../src/commands.c:2026
+#: ../src/commands.c:2028
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Nastavit výšku řádku %s na výchozí"
 
-#: ../src/commands.c:2030
+#: ../src/commands.c:2032
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automatická šířka sloupců %s"
 
-#: ../src/commands.c:2031
+#: ../src/commands.c:2033
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Automatická výška řádků %s"
 
-#: ../src/commands.c:2034
+#: ../src/commands.c:2036
 #, c-format
 msgid "Setting width of columns %s to %d pixel"
 msgid_plural "Setting width of columns %s to %d pixels"
@@ -4130,7 +4146,7 @@ msgstr[0] "Nastavit šířky sloupců %s na %d pixel"
 msgstr[1] "Nastavit šířky sloupců %s na %d pixely"
 msgstr[2] "Nastavit šířky sloupců %s na %d pixelů"
 
-#: ../src/commands.c:2038
+#: ../src/commands.c:2040
 #, c-format
 msgid "Setting height of rows %s to %d pixel"
 msgid_plural "Setting height of rows %s to %d pixels"
@@ -4138,36 +4154,36 @@ msgstr[0] "Nastavit výšky řádků %s na %d pixel"
 msgstr[1] "Nastavit výšky řádků %s na %d pixely"
 msgstr[2] "Nastavit výšky řádků %s na %d pixelů"
 
-#: ../src/commands.c:2044
+#: ../src/commands.c:2046
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Nastavit šířky sloupců %s na výchozí"
 
-#: ../src/commands.c:2046
+#: ../src/commands.c:2048
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Nastavit výšky řádků %s na výchozí"
 
-#: ../src/commands.c:2073
+#: ../src/commands.c:2075
 #, c-format
 msgid "Autofitting width of %s"
 msgstr "Automatická šířka %s"
 
-#: ../src/commands.c:2073
+#: ../src/commands.c:2075
 #, c-format
 msgid "Autofitting height of %s"
 msgstr "Automatická výška %s"
 
-#: ../src/commands.c:2147 ../src/dialogs/dialog-preferences.c:1188
+#: ../src/commands.c:2149 ../src/dialogs/dialog-preferences.c:1188
 msgid "Sorting"
 msgstr "Seřadit"
 
-#: ../src/commands.c:2170
+#: ../src/commands.c:2172
 #, c-format
 msgid "Sorting %s"
 msgstr "Seřadit %s"
 
-#: ../src/commands.c:2328
+#: ../src/commands.c:2330
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format→Column→Unhide' menu item."
@@ -4175,7 +4191,7 @@ msgstr ""
 "Opravdu chcete skrýt všechny sloupce? Pokud tak učiníte, můžete je opět "
 "zobrazit přes položku nabídky „Formát→Sloupec→Zviditelnit“."
 
-#: ../src/commands.c:2332
+#: ../src/commands.c:2334
 msgid ""
 "Are you sure that you want to hide all rows? If you do so you can unhide "
 "them with the 'Format→Row→Unhide' menu item."
@@ -4183,94 +4199,94 @@ msgstr ""
 "Opravdu chcete skrýt všechny řádky? Pokud tak učiníte, můžete je opět "
 "zobrazit přes položku nabídky „Formát→Řádek→Zviditelnit“."
 
-#: ../src/commands.c:2352
+#: ../src/commands.c:2354
 msgid "Unhide columns"
 msgstr "Zviditelnit sloupce"
 
-#: ../src/commands.c:2352
+#: ../src/commands.c:2354
 msgid "Hide columns"
 msgstr "Skrýt sloupce"
 
-#: ../src/commands.c:2353
+#: ../src/commands.c:2355
 msgid "Unhide rows"
 msgstr "Zviditelnit řádky"
 
-#: ../src/commands.c:2353
+#: ../src/commands.c:2355
 msgid "Hide rows"
 msgstr "Skrýt řádky"
 
-#: ../src/commands.c:2433
+#: ../src/commands.c:2435
 msgid "Expand columns"
 msgstr "Rozbalit sloupce"
 
-#: ../src/commands.c:2433
+#: ../src/commands.c:2435
 msgid "Collapse columns"
 msgstr "Sbalit sloupce"
 
-#: ../src/commands.c:2434
+#: ../src/commands.c:2436
 msgid "Expand rows"
 msgstr "Rozbalit řádky"
 
-#: ../src/commands.c:2434
+#: ../src/commands.c:2436
 msgid "Collapse rows"
 msgstr "Sbalit řádky"
 
-#: ../src/commands.c:2458
+#: ../src/commands.c:2460
 #, c-format
 msgid "Show column outline %d"
 msgstr "Zobrazit osnovu sloupců %d"
 
-#: ../src/commands.c:2458
+#: ../src/commands.c:2460
 #, c-format
 msgid "Show row outline %d"
 msgstr "Zobrazit osnovu řádků %d"
 
-#: ../src/commands.c:2527
+#: ../src/commands.c:2529
 msgid "Those columns are already grouped"
 msgstr "Tyto sloupce jsou již seskupeny"
 
-#: ../src/commands.c:2528
+#: ../src/commands.c:2530
 msgid "Those rows are already grouped"
 msgstr "Tyto řádky jsou již seskupeny"
 
-#: ../src/commands.c:2551
+#: ../src/commands.c:2553
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Tyto sloupce nejsou seskupeny, takže je nemůžete rozdělit"
 
-#: ../src/commands.c:2552
+#: ../src/commands.c:2554
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Tyto řádky nejsou seskupeny, takže je nemůžete rozdělit"
 
-#: ../src/commands.c:2565
+#: ../src/commands.c:2567
 #, c-format
 msgid "Group columns %s"
 msgstr "Seskupit sloupce %s"
 
-#: ../src/commands.c:2565
+#: ../src/commands.c:2567
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Zrušit seskupení sloupců %s"
 
-#: ../src/commands.c:2567
+#: ../src/commands.c:2569
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Seskupit řádky %d:%d"
 
-#: ../src/commands.c:2567
+#: ../src/commands.c:2569
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Zrušit seskupení řádků %d:%d"
 
-#: ../src/commands.c:2802
+#: ../src/commands.c:2804
 #, c-format
 msgid "Moving %s"
 msgstr "Přesunout %s"
 
-#: ../src/commands.c:2812 ../src/commands.c:3212
+#: ../src/commands.c:2814 ../src/commands.c:3214
 msgid "is beyond sheet boundaries"
 msgstr "je mimo hranice listu"
 
-#: ../src/commands.c:2870
+#: ../src/commands.c:2872
 #, c-format
 msgid ""
 "Copying between files with different date conventions.\n"
@@ -4280,81 +4296,81 @@ msgstr ""
 "Kopírování mezi soubory s různými konvencemi dat.\n"
 "Může se stát, že se některá data zkopírují nesprávně."
 
-#: ../src/commands.c:2904
+#: ../src/commands.c:2906
 msgid "Paste Copy"
 msgstr "Vložit kopii"
 
-#: ../src/commands.c:3104
+#: ../src/commands.c:3106
 #, c-format
 msgid "Pasting into %s"
 msgstr "Vložit do %s"
 
-#: ../src/commands.c:3198
+#: ../src/commands.c:3200
 #, c-format
 msgid "Do you really want to paste %s copies?"
 msgstr "Opravdu chcete vložit kopie %s?"
 
 #. Check arrays or merged regions in src or target regions
-#: ../src/commands.c:3255 ../src/commands.c:3411 ../src/commands.c:3412
+#: ../src/commands.c:3257 ../src/commands.c:3413 ../src/commands.c:3414
 #: ../src/item-cursor.c:990 ../src/wbc-gtk-actions.c:613
 msgid "Autofill"
 msgstr "Automaticky vyplnit"
 
 #. Changed in initial redo.
-#: ../src/commands.c:3434
+#: ../src/commands.c:3436
 #, c-format
 msgid "Autofilling %s"
 msgstr "Automaticky vyplnit %s"
 
-#: ../src/commands.c:3734
+#: ../src/commands.c:3736
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automaticky formátovat %s"
 
-#: ../src/commands.c:3851
+#: ../src/commands.c:3853
 #, c-format
 msgid "Unmerging %s"
 msgstr "Rozpojit %s"
 
-#: ../src/commands.c:4017
+#: ../src/commands.c:4019
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Spojit a vystředit %s"
 
-#: ../src/commands.c:4017
+#: ../src/commands.c:4019
 #, c-format
 msgid "Merging %s"
 msgstr "Spojit %s"
 
 #. Corrected below.
-#: ../src/commands.c:4384 ../src/dialogs/search-replace.ui.h:32
+#: ../src/commands.c:4386 ../src/dialogs/search-replace.ui.h:32
 msgid "Search and Replace"
 msgstr "Hledat a nahradit"
 
-#: ../src/commands.c:4477
+#: ../src/commands.c:4479
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Nastavit výchozí šířky sloupců na %.2f bodů"
 
-#: ../src/commands.c:4478
+#: ../src/commands.c:4480
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Nastavit výchozí výšky řádků na %.2f bodů"
 
-#: ../src/commands.c:4582
+#: ../src/commands.c:4584
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Přiblížit %s na %.0f %%"
 
-#: ../src/commands.c:4677
+#: ../src/commands.c:4679
 msgid "Delete Object"
 msgstr "Odstranit objekt"
 
-#: ../src/commands.c:4797
+#: ../src/commands.c:4799
 msgid "Format Object"
 msgstr "Formátovat objekt"
 
-#: ../src/commands.c:4906 ../src/commands.c:5934
+#: ../src/commands.c:4908 ../src/commands.c:5936
 #: ../src/dialogs/dialog-doc-metadata.c:1859
 #: ../src/dialogs/dialog-formula-guru.c:901
 #: ../src/dialogs/dialog-function-select.c:1240
@@ -4364,236 +4380,236 @@ msgstr "Formátovat objekt"
 msgid "Name"
 msgstr "Název"
 
-#: ../src/commands.c:4906
+#: ../src/commands.c:4908
 msgid "Sheet names must be non-empty."
 msgstr "Názvy listů nesmí být prázdné."
 
-#: ../src/commands.c:4913
+#: ../src/commands.c:4915
 #, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr "Sešit nemůže mít dva listy se stejným názvem."
 
-#: ../src/commands.c:5002
+#: ../src/commands.c:5004
 msgid "Resizing sheet"
 msgstr "Změnit velikosti listu"
 
-#: ../src/commands.c:5150
+#: ../src/commands.c:5152
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Smazat komentář %s"
 
-#: ../src/commands.c:5151
+#: ../src/commands.c:5153
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Nastavit komentář %s"
 
-#: ../src/commands.c:5567
+#: ../src/commands.c:5569
 #, c-format
 msgid "Merging data into %s"
 msgstr "Spojit data do %s"
 
-#: ../src/commands.c:5657
+#: ../src/commands.c:5659
 #, c-format
 msgid "Changing workbook properties"
 msgstr "Změnit vlastnosti sešitu"
 
-#: ../src/commands.c:5731
+#: ../src/commands.c:5733
 msgid "Pull Object to the Front"
 msgstr "Vyzvednout objekt do popředí"
 
-#: ../src/commands.c:5734
+#: ../src/commands.c:5736
 msgid "Pull Object Forward"
 msgstr "Vyzvednout objekt vpřed"
 
-#: ../src/commands.c:5737
+#: ../src/commands.c:5739
 msgid "Push Object Backward"
 msgstr "Odsunout objekt vzad"
 
-#: ../src/commands.c:5740
+#: ../src/commands.c:5742
 msgid "Push Object to the Back"
 msgstr "Odsunout objekt do pozadí"
 
-#: ../src/commands.c:5870
+#: ../src/commands.c:5872
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Nastavit stránku pro %s"
 
-#: ../src/commands.c:5872
+#: ../src/commands.c:5874
 msgid "Page Setup For All Sheets"
 msgstr "Nastavit stránku pro všechny listy"
 
-#: ../src/commands.c:5996 ../src/commands.c:6007
+#: ../src/commands.c:5998 ../src/commands.c:6009
 msgid "Defined Name"
 msgstr "Definovat název"
 
-#: ../src/commands.c:5997
+#: ../src/commands.c:5999
 msgid "An empty string is not allowed as defined name."
 msgstr "Prázdný řetězec nelze použít k definici názvu."
 
-#: ../src/commands.c:6005
+#: ../src/commands.c:6007
 #, c-format
 msgid "'%s' is not allowed as defined name."
 msgstr "„%s“ nelze použít k definici názvu."
 
-#: ../src/commands.c:6015
+#: ../src/commands.c:6017
 msgid "has a circular reference"
 msgstr "obsahuje cyklický odkaz"
 
-#: ../src/commands.c:6049
+#: ../src/commands.c:6051
 #, c-format
 msgid "Define Name %s"
 msgstr "Definovat název %s"
 
-#: ../src/commands.c:6052
+#: ../src/commands.c:6054
 #, c-format
 msgid "Update Name %s"
 msgstr "Aktualizovat název %s"
 
-#: ../src/commands.c:6145
+#: ../src/commands.c:6147
 #, c-format
 msgid "Remove Name %s"
 msgstr "Odstranit název %s"
 
-#: ../src/commands.c:6176
+#: ../src/commands.c:6178
 msgid "Change Scope of Name"
 msgstr "Změnit působnost názvu"
 
-#: ../src/commands.c:6224
+#: ../src/commands.c:6226
 #, c-format
 msgid "Change Scope of Name %s"
 msgstr "Změnit působnost názvu %s"
 
-#: ../src/commands.c:6282
+#: ../src/commands.c:6284
 msgid "Add scenario"
 msgstr "Přidat scénář"
 
-#: ../src/commands.c:6346
+#: ../src/commands.c:6348
 msgid "Scenario Show"
 msgstr "Zobrazit scénář"
 
-#: ../src/commands.c:6404
+#: ../src/commands.c:6406
 msgid "Shuffle Data"
 msgstr "Zamíchat data"
 
 #. FIXME?
-#: ../src/commands.c:6508
+#: ../src/commands.c:6510
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) do sloupců (%s)"
 
-#: ../src/commands.c:6667
+#: ../src/commands.c:6669
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Hledat cíl (%s)"
 
-#: ../src/commands.c:6833
+#: ../src/commands.c:6835
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Tabulka závislostí"
 
-#: ../src/commands.c:6907
+#: ../src/commands.c:6909
 msgid "Reconfigure Graph"
 msgstr "Přenastavit graf"
 
-#: ../src/commands.c:6951
+#: ../src/commands.c:6953
 msgid "Left to Right"
 msgstr "Zleva doprava"
 
-#: ../src/commands.c:6951
+#: ../src/commands.c:6953
 msgid "Right to Left"
 msgstr "Zprava doleva"
 
-#: ../src/commands.c:7113
+#: ../src/commands.c:7115
 msgid "Changing Hyperlink"
 msgstr "Změnit hypertextový odkaz"
 
-#: ../src/commands.c:7254
+#: ../src/commands.c:7256
 #, c-format
 msgid "Changing hyperlink of %s"
 msgstr "Změnit hypertextový odkaz %s"
 
-#: ../src/commands.c:7339
+#: ../src/commands.c:7341
 msgid "Configure List"
 msgstr "Nastavit seznam"
 
-#: ../src/commands.c:7410
+#: ../src/commands.c:7412
 msgid "Set Frame Label"
 msgstr "Nastavit popisu rámu"
 
-#: ../src/commands.c:7481
+#: ../src/commands.c:7483
 msgid "Configure Button"
 msgstr "Nastavit tlačítko"
 
-#: ../src/commands.c:7562
+#: ../src/commands.c:7564
 msgid "Configure Radio Button"
 msgstr "Nastavit skupinový přepínač"
 
-#: ../src/commands.c:7638
+#: ../src/commands.c:7640
 msgid "Configure Checkbox"
 msgstr "Nastavit zaškrtávací políčko"
 
-#: ../src/commands.c:7745 ../src/sheet-object-widget.c:1637
+#: ../src/commands.c:7747 ../src/sheet-object-widget.c:1637
 msgid "Configure Adjustment"
 msgstr "Nastavit vyrovnání"
 
-#: ../src/commands.c:7776
+#: ../src/commands.c:7778
 msgid "Add Filter"
 msgstr "Přidat filtr"
 
-#: ../src/commands.c:7792 ../src/wbc-gtk.c:1659
+#: ../src/commands.c:7794 ../src/wbc-gtk.c:1659
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Automatický filtr blokovaný %s"
 
-#: ../src/commands.c:7797 ../src/commands.c:7824 ../src/commands.c:7833
+#: ../src/commands.c:7799 ../src/commands.c:7826 ../src/commands.c:7835
 msgid "AutoFilter"
 msgstr "Automatický filtr"
 
-#: ../src/commands.c:7825
+#: ../src/commands.c:7827
 msgid "Requires more than 1 row"
 msgstr "Vyžaduje více než 1 řádek"
 
-#: ../src/commands.c:7834
+#: ../src/commands.c:7836
 msgid "Unable to create Autofilter"
 msgstr "Nelze vytvořit automatický filtr"
 
-#: ../src/commands.c:7857
+#: ../src/commands.c:7859
 #, c-format
 msgid "Add Autofilter to %s"
 msgstr "Přidat automatický filtr do %s"
 
-#: ../src/commands.c:7858
+#: ../src/commands.c:7860
 #, c-format
 msgid "Extend Autofilter to %s"
 msgstr "Rozšířit automatický filtr do %s"
 
-#: ../src/commands.c:7871
+#: ../src/commands.c:7873
 #, c-format
 msgid "Remove Autofilter from %s"
 msgstr "Odstranit automatický filtru z %s"
 
-#: ../src/commands.c:7901
+#: ../src/commands.c:7903
 #, c-format
 msgid "Change filter condition for %s"
 msgstr "Změnit podmínky filtru %s"
 
-#: ../src/commands.c:7970 ../src/wbc-gtk-actions.c:2053
+#: ../src/commands.c:7972 ../src/wbc-gtk-actions.c:2053
 msgid "Clear All Page Breaks"
 msgstr "Smazat všechna zalomení stránky"
 
-#: ../src/commands.c:7997 ../src/wbc-gtk.c:1594
+#: ../src/commands.c:7999 ../src/wbc-gtk.c:1594
 msgid "Remove Column Page Break"
 msgstr "Odstranit zalomení stránky ve sloupci"
 
-#: ../src/commands.c:7997 ../src/wbc-gtk.c:1604
+#: ../src/commands.c:7999 ../src/wbc-gtk.c:1604
 msgid "Remove Row Page Break"
 msgstr "Odstranit zalomení stránky v řádku"
 
-#: ../src/commands.c:8000 ../src/wbc-gtk.c:1597
+#: ../src/commands.c:8002 ../src/wbc-gtk.c:1597
 msgid "Add Column Page Break"
 msgstr "Přidat zalomení stránky ve sloupci"
 
-#: ../src/commands.c:8000 ../src/wbc-gtk.c:1607
+#: ../src/commands.c:8002 ../src/wbc-gtk.c:1607
 msgid "Add Row Page Break"
 msgstr "Přidat zalomení stránky v řádku"
 
@@ -6452,7 +6468,7 @@ msgstr "Úroveň sešitu"
 
 #: ../src/dialogs/dialog-goto-cell.c:389 ../src/dialogs/dialog-search.c:438
 #: ../src/dialogs/dialog-stf-export.c:602 ../src/dialogs/hf-config.ui.h:18
-#: ../src/dialogs/print.ui.h:37 ../src/print-info.c:501 ../src/search.c:776
+#: ../src/dialogs/print.ui.h:38 ../src/print-info.c:501 ../src/search.c:776
 #: ../src/tools/gnm-solver.c:713 ../src/tools/gnm-solver.c:714
 #: ../src/workbook.c:889 ../src/workbook.c:917
 msgid "Sheet"
@@ -6745,83 +6761,117 @@ msgstr "POčáteční VElká PÍsmena"
 msgid "First Letter"
 msgstr "První písmeno"
 
-#: ../src/dialogs/dialog-printer-setup.c:797
+#: ../src/dialogs/dialog-printer-setup.c:811
 msgid "points"
 msgstr "body"
 
-#: ../src/dialogs/dialog-printer-setup.c:801
+#: ../src/dialogs/dialog-printer-setup.c:815
 msgid "inches"
 msgstr "palce"
 
-#: ../src/dialogs/dialog-printer-setup.c:805
+#: ../src/dialogs/dialog-printer-setup.c:819
 msgid "mm"
 msgstr "mm"
 
-#: ../src/dialogs/dialog-printer-setup.c:1575
+#: ../src/dialogs/dialog-printer-setup.c:1593
 msgid "Default date format"
 msgstr "Výchozí formát data"
 
-#: ../src/dialogs/dialog-printer-setup.c:1581
+#: ../src/dialogs/dialog-printer-setup.c:1599
 msgid "Custom date format"
 msgstr "Vlastní formát data"
 
-#: ../src/dialogs/dialog-printer-setup.c:1613
+#: ../src/dialogs/dialog-printer-setup.c:1631
 msgid "Default time format"
 msgstr "Výchozí formát času"
 
-#: ../src/dialogs/dialog-printer-setup.c:1619
+#: ../src/dialogs/dialog-printer-setup.c:1637
 msgid "Custom time format"
 msgstr "Vlastní formát času"
 
-#: ../src/dialogs/dialog-printer-setup.c:1651
+#: ../src/dialogs/dialog-printer-setup.c:1669
 msgid "A1 (first cell of the page area)"
 msgstr "A1 (první buňka tiskové oblasti)"
 
-#: ../src/dialogs/dialog-printer-setup.c:1658
+#: ../src/dialogs/dialog-printer-setup.c:1676
 msgid "$A$1 (first cell of this worksheet)"
 msgstr "$A$1 (první buňka tohoto listu)"
 
-#: ../src/dialogs/dialog-printer-setup.c:1665
+#: ../src/dialogs/dialog-printer-setup.c:1683
 msgid "First Printed Cell Of The Page"
 msgstr "První tištěná buňka na stránce"
 
-#: ../src/dialogs/dialog-printer-setup.c:1727
+#: ../src/dialogs/dialog-printer-setup.c:1745
 msgid "Custom header configuration"
 msgstr "Vlastní nastavení záhlaví"
 
-#: ../src/dialogs/dialog-printer-setup.c:1732
+#: ../src/dialogs/dialog-printer-setup.c:1750
 msgid "Custom footer configuration"
 msgstr "Vlastní nastavení zápatí"
 
-#: ../src/dialogs/dialog-printer-setup.c:1883
+#: ../src/dialogs/dialog-printer-setup.c:1901
 msgid "Date format selection"
 msgstr "Výběr formátu data"
 
-#: ../src/dialogs/dialog-printer-setup.c:1885
+#: ../src/dialogs/dialog-printer-setup.c:1903
 msgid "Time format selection"
 msgstr "Výběr formátu času"
 
-#: ../src/dialogs/dialog-printer-setup.c:2304
+#: ../src/dialogs/dialog-printer-setup.c:2191
+#| msgid "Print to File"
+msgid "Print as displayed"
+msgstr "Tisknout jak je zobrazena"
+
+#: ../src/dialogs/dialog-printer-setup.c:2192
+#| msgid "Print filenames with matches"
+msgid "Print as spaces"
+msgstr "Tisknout jako mezery"
+
+#: ../src/dialogs/dialog-printer-setup.c:2193
+#| msgid "Print filenames with matches"
+msgid "Print as dashes"
+msgstr "Tisknout jako pomlčky"
+
+#: ../src/dialogs/dialog-printer-setup.c:2194
+msgid "Print as #N/A"
+msgstr "Tisknout jako #N/A"
+
+#: ../src/dialogs/dialog-printer-setup.c:2227
+#: ../src/dialogs/sheetobject-size.ui.h:1
+msgid "Do not print"
+msgstr "Netisknout"
+
+#: ../src/dialogs/dialog-printer-setup.c:2228
+#| msgid "Filter _in-place"
+msgid "Print in place"
+msgstr "Tisknout v místě"
+
+#: ../src/dialogs/dialog-printer-setup.c:2229
+#| msgid "Print to File"
+msgid "Print at end"
+msgstr "Tisknout na konci"
+
+#: ../src/dialogs/dialog-printer-setup.c:2408
 #, c-format
 msgid "%.0f pixels wide by %.0f pixels tall"
 msgstr "%.0f pixelů na šířku krát %.0f pixelů na výšku"
 
-#: ../src/dialogs/dialog-printer-setup.c:2307
+#: ../src/dialogs/dialog-printer-setup.c:2411
 #, c-format
 msgid "%.0f points wide by %.0f points tall"
 msgstr "%.0f bodů na šířku krát %.0f bodů na výšku"
 
-#: ../src/dialogs/dialog-printer-setup.c:2310
+#: ../src/dialogs/dialog-printer-setup.c:2414
 #, c-format
 msgid "%.1f in wide by %.1f in tall"
 msgstr "%.1f palců na šířku krát %.1f palců na výšku"
 
-#: ../src/dialogs/dialog-printer-setup.c:2313
+#: ../src/dialogs/dialog-printer-setup.c:2417
 #, c-format
 msgid "%.0f mm wide by %.0f mm tall"
 msgstr "%.0f mm na šířku krát %.0f mm na výšku"
 
-#: ../src/dialogs/dialog-printer-setup.c:2316
+#: ../src/dialogs/dialog-printer-setup.c:2420
 #, c-format
 msgid "%.1f wide by %.1f tall"
 msgstr "%.1f na šířku krát %.1f na výšku"
@@ -10009,7 +10059,7 @@ msgstr "_Skupiny"
 msgid "_Time column:"
 msgstr "Č_asový sloupec:"
 
-#: ../src/dialogs/kaplan-meier.ui.h:17 ../src/print.c:1386
+#: ../src/dialogs/kaplan-meier.ui.h:17 ../src/print.c:1393
 msgid "to:"
 msgstr "do:"
 
@@ -10411,110 +10461,120 @@ msgid "Portrait"
 msgstr "Portrét"
 
 #: ../src/dialogs/print.ui.h:27
+#| msgid "Set Print Area"
+msgid "Print Area"
+msgstr "Tisková oblast"
+
+#: ../src/dialogs/print.ui.h:28
 msgid "Print _area:"
 msgstr "Tištěná obl_ast:"
 
-#: ../src/dialogs/print.ui.h:28
+#: ../src/dialogs/print.ui.h:29
 msgid "R_ight, then down"
 msgstr "Do_prava, pak dolů"
 
-#: ../src/dialogs/print.ui.h:29
+#: ../src/dialogs/print.ui.h:30
 msgid "Reverse landscape"
 msgstr "Krajina vzhůru nohama"
 
-#: ../src/dialogs/print.ui.h:30
+#: ../src/dialogs/print.ui.h:31
 msgid "Reverse portrait"
 msgstr "Portrét vzhůru nohama"
 
-#: ../src/dialogs/print.ui.h:31
+#: ../src/dialogs/print.ui.h:32
 msgid "Right margin:"
 msgstr "Pravý okraj:"
 
-#: ../src/dialogs/print.ui.h:32
+#: ../src/dialogs/print.ui.h:33
 msgid "Row and co_lumn headings"
 msgstr "Záhlaví řádků a s_loupců"
 
-#: ../src/dialogs/print.ui.h:33
+#: ../src/dialogs/print.ui.h:34
 msgid "Save as default settings"
 msgstr "Uložit jako výchozí nastavení"
 
-#: ../src/dialogs/print.ui.h:34
+#: ../src/dialogs/print.ui.h:35
 msgid "Scale"
 msgstr "Měřítko"
 
-#: ../src/dialogs/print.ui.h:35
+#: ../src/dialogs/print.ui.h:36
 msgid "Scale to fit _horizontally on"
 msgstr "Přizpůsobit vo_dorovně pro"
 
-#: ../src/dialogs/print.ui.h:36
+#: ../src/dialogs/print.ui.h:37
 msgid "Scale to fit _vertically on"
 msgstr "Přizpůsobit s_visle pro"
 
-#: ../src/dialogs/print.ui.h:38
+#: ../src/dialogs/print.ui.h:39
 msgid "Styles with no content"
 msgstr "Styly bez obsahu"
 
-#: ../src/dialogs/print.ui.h:39
+#: ../src/dialogs/print.ui.h:40
 msgid "Top margin:"
 msgstr "Horní okraj:"
 
-#: ../src/dialogs/print.ui.h:40
+#: ../src/dialogs/print.ui.h:41
 msgid "Unit:"
 msgstr "Jednotky:"
 
-#: ../src/dialogs/print.ui.h:41
+#: ../src/dialogs/print.ui.h:42
 msgid "_Automatic scaling:"
 msgstr "_Automatické měřítko:"
 
-#: ../src/dialogs/print.ui.h:42
+#: ../src/dialogs/print.ui.h:43
 msgid "_Black and white"
 msgstr "Černo_bíle"
 
-#: ../src/dialogs/print.ui.h:43
+#: ../src/dialogs/print.ui.h:44
 msgid "_Columns to repeat on the left side:"
 msgstr "_Sloupce opakované na levé straně:"
 
-#: ../src/dialogs/print.ui.h:44
+#: ../src/dialogs/print.ui.h:45
 msgid "_Down, then right"
 msgstr "_Dolů, pak doprava"
 
-#: ../src/dialogs/print.ui.h:45
+#: ../src/dialogs/print.ui.h:46
+#| msgid "Error"
+msgid "_Errors:"
+msgstr "Chy_by:"
+
+#: ../src/dialogs/print.ui.h:47
 msgid "_Fixed scaling:"
 msgstr "_Pevné měřítko:"
 
-#: ../src/dialogs/print.ui.h:46
+#: ../src/dialogs/print.ui.h:48
 msgid "_Footer:"
 msgstr "_Zápatí:"
 
-#: ../src/dialogs/print.ui.h:47
+#: ../src/dialogs/print.ui.h:49
 msgid "_Grid lines"
 msgstr "_Mřížku"
 
-#: ../src/dialogs/print.ui.h:48
+#: ../src/dialogs/print.ui.h:50
 msgid "_Header:"
 msgstr "Zá_hlaví:"
 
-#: ../src/dialogs/print.ui.h:49
+#: ../src/dialogs/print.ui.h:51
 msgid "_Horizontally"
 msgstr "Vo_dorovně"
 
-#: ../src/dialogs/print.ui.h:50
+#: ../src/dialogs/print.ui.h:52
 msgid "_No scaling"
 msgstr "Měřítko _neměnit"
 
-#: ../src/dialogs/print.ui.h:51
+#: ../src/dialogs/print.ui.h:53
 msgid "_Rows to repeat on the upper region:"
 msgstr "Řádky opakované v ho_rní části:"
 
-#: ../src/dialogs/print.ui.h:52
+#: ../src/dialogs/print.ui.h:54
 msgid "_Vertically"
 msgstr "S_visle"
 
-#: ../src/dialogs/print.ui.h:53
+#: ../src/dialogs/print.ui.h:55
 msgid "letter"
 msgstr "letter"
 
-#: ../src/dialogs/print.ui.h:54
+#: ../src/dialogs/print.ui.h:56
 msgid "page(s)"
 msgstr "stran"
 
@@ -11099,10 +11159,6 @@ msgstr ""
 #: ../src/dialogs/sheet-resize.ui.h:4
 msgid "Resize Sheet"
 msgstr "Změna velikosti listu"
-
-#: ../src/dialogs/sheetobject-size.ui.h:1
-msgid "Do not print"
-msgstr "Netisknout"
 
 #: ../src/dialogs/sheetobject-size.ui.h:2
 msgid "Height in points:"
@@ -11921,7 +11977,6 @@ msgstr "schránka"
 
 #: ../src/gui-clipboard.c:966
 #, c-format
-#| msgid "C_utoffs"
 msgid "Cut of %s"
 msgstr "Vyjmout %s"
 
@@ -12340,56 +12395,56 @@ msgstr "Neznámá volba pro export PDF"
 msgid "PDF export"
 msgstr "Export PDF"
 
-#: ../src/print.c:623
+#: ../src/print.c:629
 msgid "Even one cell is too large for this page."
 msgstr "I jediná buňka je příliš velká pro tuto stránku."
 
-#: ../src/print.c:939
+#: ../src/print.c:946
 msgid "Print Selection"
 msgstr "Tisk výběru"
 
-#: ../src/print.c:1349
+#: ../src/print.c:1356
 msgid "_All workbook sheets"
 msgstr "_Všechny listy sešitu"
 
-#: ../src/print.c:1354
+#: ../src/print.c:1361
 msgid "Also print _hidden sheets"
 msgstr "Tisknout i _skryté listy"
 
-#: ../src/print.c:1359
+#: ../src/print.c:1366
 msgid "A_ctive workbook sheet"
 msgstr "_Aktivní list sešitu"
 
-#: ../src/print.c:1364
+#: ../src/print.c:1371
 msgid "_Workbook sheets:"
 msgstr "Listy s_ešitu:"
 
-#: ../src/print.c:1369
+#: ../src/print.c:1376
 msgid "Current _selection only"
 msgstr "Pouze aktuální _výběr"
 
-#: ../src/print.c:1374
+#: ../src/print.c:1381
 msgid "_Ignore defined print area"
 msgstr "_Ignorovat definovanou tiskovou oblast"
 
-#: ../src/print.c:1378
+#: ../src/print.c:1385
 msgid "from:"
 msgstr "od:"
 
-#: ../src/print.c:1399
+#: ../src/print.c:1406
 msgid "Ignore all _manual page breaks"
 msgstr "Ignorovat všechna ruční zalo_mení"
 
-#: ../src/print.c:1696
+#: ../src/print.c:1703
 #, c-format
 msgid "Failed to create temporary file for printing: %s"
 msgstr "Selhalo vytvoření dočasného souboru pro tisk: %s"
 
-#: ../src/print.c:1714
+#: ../src/print.c:1721
 msgid "Gnumeric Print Range"
 msgstr "Rozsah tisku Gnumeric"
 
-#: ../src/print.c:1730
+#: ../src/print.c:1737
 msgid "Print to File"
 msgstr "Tisk do souboru"
 
@@ -17760,7 +17815,7 @@ msgstr "Neplatný filtr, schází oblast"
 msgid "Unsupported object type '%s'"
 msgstr "Nepodporovaný typ objektu „%s“"
 
-#: ../src/xml-sax-read.c:3497 ../src/xml-sax-write.c:1552
+#: ../src/xml-sax-read.c:3530 ../src/xml-sax-write.c:1589
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
