@@ -1,3 +1,8 @@
+2011-07-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print-cell.c (print_cell_gtk): be sure that the value is
+	uptodate
+
 2011-07-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/xml-sax-read.c (xml_sax_print_comments): new

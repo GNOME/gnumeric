@@ -67,7 +67,12 @@ print_cell_gtk (GnmCell const *cell,
 	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
 	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
 
-	gboolean cell_shows_error = (gnm_cell_is_error (cell) != NULL)
+	gboolean cell_shows_error;
+
+	if (cell->base.flags & GNM_CELL_HAS_NEW_EXPR)
+		gnm_cell_eval ((GnmCell *)cell);
+
+	cell_shows_error = (gnm_cell_is_error (cell) != NULL)
 		&& !(gnm_cell_has_expr (cell) && sheet->display_formulas);
 
 	if (cell_shows_error && pinfo->error_display == PRINT_ERRORS_AS_BLANK)
