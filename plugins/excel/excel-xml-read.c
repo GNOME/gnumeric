@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vm: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * excel-xml-read.c : Read MS Excel 2003 SpreadsheetML
@@ -41,6 +41,7 @@
 #include "command-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "gutils.h"
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-libxml.h>
@@ -275,7 +276,7 @@ xl_xml_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 }
 
 static void
-xl_xml_table_start (GsfXMLIn *xin, xmlChar const **attrs)
+xl_xml_table_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
 	state->pos.col = 0;
@@ -481,8 +482,18 @@ xl_xml_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				v = value_new_string (xin->content->str);
 		} else
 			v = value_new_string (xin->content->str);
+	} else if (state->val_type == VALUE_FLOAT) {
+			char *end;
+			v  = value_new_float (gnm_strto (xin->content->str, &end));
+			if (*end)
+				xl_xml_warning
+					(xin, _("Invalid content of ss:data "
+						"element, expected number, "
+						"received '%s'"),
+					 xin->content->str);
 	} else
-		v = value_new_from_string (state->val_type, xin->content->str, NULL, FALSE);
+		v = value_new_from_string (state->val_type, xin->content->str, 
+					   NULL, FALSE);
 	if (NULL != state->texpr) {
 		if (NULL != v)
 			gnm_cell_set_expr_and_value (cell, state->texpr, v, TRUE);
@@ -492,8 +503,13 @@ xl_xml_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		state->texpr = NULL;
 	} else if (NULL != v)
 		gnm_cell_set_value (cell, v);
-	else
+	else {
 		gnm_cell_set_text (cell, xin->content->str);
+		xl_xml_warning
+			(xin, _("Invalid content of ss:data "
+				"element, received '%s'"),
+			 xin->content->str);
+	}
 }
 
 static void
@@ -846,7 +862,7 @@ xl_xml_sheet_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xl_xml_pane (GsfXMLIn *xin, xmlChar const **attrs)
+xl_xml_pane (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
 	state->pos.col = 0;
@@ -916,7 +932,7 @@ static GsfXMLInNS content_ns[] = {
 	GSF_XML_IN_NS (XL_NS_HTML, "http://www.w3.org/TR/REC-html40"),
 	GSF_XML_IN_NS (XL_NS_XSI,  "http://www.w3.org/2001/XMLSchema-instance"),
 
-	{ NULL }
+	{ NULL, 0 }
 };
 
 static GsfXMLInNode const excel_xml_dtd[] = {
@@ -991,6 +1007,7 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", GSF_XML_NO_CONTENT,
       GSF_XML_IN_NODE (OPTIONS, PAGE_SETUP, XL_NS_XL, "PageSetup", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (PAGE_SETUP, PAGE_HEADER, XL_NS_XL, "Header", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (PAGE_SETUP, PAGE_FOOTER, XL_NS_XL, "Footer", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (PAGE_SETUP, PAGE_MARGINS, XL_NS_XL, "PageMargins", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (OPTIONS, PRINT, XL_NS_XL, "Print", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (PRINT, PRINT_VALID_INFO,  XL_NS_XL, "ValidPrinterInfo", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (PRINT, PRINT_PAPER_SIZE,  XL_NS_XL, "PaperSizeIndex", GSF_XML_CONTENT, NULL, NULL),
@@ -1033,7 +1050,8 @@ xl_xml_probe_start_element (const xmlChar *name,
 }
 
 gboolean
-excel_xml_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
+excel_xml_file_probe (G_GNUC_UNUSED GOFileOpener const *fo, 
+		      GsfInput *input, GOFileProbeLevel pl)
 {
 	if (pl == GO_FILE_PROBE_FILE_NAME) {
 		char const *ext;
@@ -1047,11 +1065,15 @@ excel_xml_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel 
 }
 
 void
-excel_xml_file_open (GOFileOpener const *fo, GOIOContext *io_context,
+excel_xml_file_open (G_GNUC_UNUSED GOFileOpener const *fo, 
+		     GOIOContext *io_context,
 		     WorkbookView *wb_view, GsfInput *input)
 {
 	GsfXMLInDoc *doc;
 	ExcelXMLReadState state;
+	GnmLocale	*locale;
+
+	locale = gnm_push_C_locale ();
 
 	state.context	= io_context;
 	state.wb_view	= wb_view;
@@ -1069,4 +1091,6 @@ excel_xml_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	gsf_xml_in_doc_free (doc);
 
 	g_hash_table_destroy (state.style_hash);
+
+	gnm_pop_C_locale (locale);
 }

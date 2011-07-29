@@ -17,6 +17,7 @@ Andreas:
 	* Implement printing of errors as blanks, dashes or NAs.
 	* Fix printing of column headers and borders when formulae are shown. 
 	[#655389]
+	* Fix import of Excel 2003 xml files in non-C locale. [#655554]
 
 Morten:
 	* Fix --with-gnome compilation:  [#652802]

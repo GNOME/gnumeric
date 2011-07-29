@@ -1,3 +1,10 @@
+2011-07-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* excel-xml-read.c: Use G_GNUC_UNUSED
+	(excel_xml_dtd): add PageMargins
+	(xl_xml_data_end): parse numbers carefully
+	(excel_xml_file_open): switch to C locale
+
 2011-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-read.c (xlsx_wb_name_end): check for "_xlnm." prefix
