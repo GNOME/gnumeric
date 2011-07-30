@@ -149,14 +149,15 @@ go_gnm_component_render (GOComponent *component, cairo_t *cr, double width_pixel
 	cairo_scale (cr, ((double) width_pixels) / gognm->width, ((double) height_pixels) / gognm->height);
 	cairo_rectangle (cr, 0., 0., gognm->width, gognm->height);
 	cairo_clip (cr); /* not sure it is necessary */
-	gnm_gtk_print_cell_range (cr, gognm->sheet, &range, 0., 0., TRUE);
+	gnm_gtk_print_cell_range (cr, gognm->sheet, &range, 0., 0., 
+				  gognm->sheet->print_info);
 	/* Now render objects */
 	gnm_print_sheet_objects (cr, gognm->sheet, &range, 0., 0.);
 	cairo_restore (cr);
 }
 
 static void
-cb_gognm_save (GtkAction *a, WBCGtk *wbcg)
+cb_gognm_save (G_GNUC_UNUSED GtkAction *a, WBCGtk *wbcg)
 {
 	gpointer data = g_object_get_data (G_OBJECT (wbcg), "component");
 	if (GO_IS_COMPONENT (data)) {
@@ -260,7 +261,7 @@ GSF_DYNAMIC_CLASS (GOGnmComponent, go_gnm_component,
 /*************************************************************************************/
 
 G_MODULE_EXPORT void
-go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	GTypeModule *module;
 	char const *env_var;
@@ -301,6 +302,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 }
 
 G_MODULE_EXPORT void
-go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin, 
+		    G_GNUC_UNUSED GOCmdContext *cc)
 {
 }
