@@ -21,6 +21,7 @@ Andreas:
 
 Morten:
 	* Fix --with-gnome compilation:  [#652802]
+	* Fix parsing crash.  [Redhat #726860]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.16

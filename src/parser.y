@@ -1417,10 +1417,10 @@ yylex (void)
 			}
 		}
 
-		while (g_unichar_isspace (g_utf8_get_char (p)))
+		while (p && g_unichar_isspace (g_utf8_get_char (p)))
 			p = g_utf8_next_char (p);
 
-		if (s->len == 0 || p[0] != ']') {
+		if (s->len == 0 || !p || p[0] != ']') {
 			g_string_free (s, TRUE);
 			break;
 		}
