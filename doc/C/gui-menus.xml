@@ -273,9 +273,13 @@
                 <guimenuitem>Print Area</guimenuitem> menu item
                 opens the submenu shown in <xref linkend="menu-file-printarea.png" />.
                 The items in this submenu allow the print area to be set, 
-                shown or cleared. The print area of a sheet is that range 
+                shown or cleared; and manual page breaks to be set or cleared. 
+		The print area of a sheet is that range 
                 of the sheet that should be printed. Items outside of the
-                print area are usually omitted when printing.
+                print area are usually omitted when printing. When printing
+		&gnum; will usually choose the appropriate page breaks. Manual
+		page breaks can be used to force &gnum; to insert a page break 
+		prematurely.
   	       </para>
     <figure id="menu-file-printarea.png">
       <title>The <guimenu>Print Area</guimenu> submenu.</title>
@@ -917,9 +921,19 @@
                       If no object is selected it will select the object locate at
                       the front.
 				    </para>
-     	   		</listitem>
+		</listitem>
 
-
+		<listitem>
+		  <para>
+		    The <guimenuitem>Go to Top</guimenuitem>,  
+		    <guimenuitem>Go to Bottom</guimenuitem>,
+		    <guimenuitem>Go to the First</guimenuitem>, 
+		    <guimenuitem>Go to the Last</guimenuitem>,
+		  menu items move the selection within a rectangular block of data cells.
+		  the front.
+		  </para>
+		</listitem>
+		
       	    	<listitem>
      	      	<para>
      	       	<guimenuitem>Goto cell...</guimenuitem> &mdash; The

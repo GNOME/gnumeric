@@ -301,9 +301,19 @@
       </para>
       <para>
 	Basic import and export support for the
-	<ulink type="http" url="http://en.wikipedia.org/wiki/ODF"> OpenDocument Format </ulink> ("OOXML")
+	<ulink type="http" url="http://en.wikipedia.org/wiki/ODF"> OpenDocument Format </ulink> ("ODF")
 	format was added, focussing on standard spreadsheet content and charts. Gnumeric also supports 
 	nearly all functions in the large group of functions in the current OpenFormula Draft.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved Microsoft OfficeOpenXML import and export</emphasis>
+      </para>
+      <para>
+	Import and export of
+	<ulink type="http" url="http://en.wikipedia.org/wiki/Ooxml"> Office Open XML </ulink> ("OOXML")
+	format files was significantly improved.
       </para>
     </listitem>
     <listitem>
@@ -311,8 +321,17 @@
         <emphasis role="bold">New and Improved Graphs</emphasis>
       </para>
       <para>New plot types for surfaces and probability plots have been added. Moreover, when an axis 
-	is a date or time axis, reasonable places for tick marks will now be picked. Trend lines have 
+	is a date or time axis, reasonable places for tick marks will 
+	now be picked. Trend lines have 
 	also been improved
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">Conditional Formatting</emphasis>
+      </para>
+      <para>&gnum; now supports conditional formatting of cells. &gnum;'s
+      conditional formatting supports an arbitrary number of conditions.
       </para>
     </listitem>
     <listitem>
@@ -339,8 +358,8 @@
       </para>
       <para>The statistical analysis tools have been improved and
 	there are quite a few new ones, for example Kaplan Meier Estimates, 
-	Normality Tests, Principal Component Analysis, Sign Tests, improved Exponential 
-	Smoothing, etc.
+	Normality Tests, Principal Component Analysis, Sign Tests, 
+	improved Exponential Smoothing, various basic non-parametric tests, etc.
       </para>
     </listitem>
     <listitem>

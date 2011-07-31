@@ -999,14 +999,17 @@ c:\Program Files\Gnome-Office\gnumeric
     <para>
       For example, if you enter "12/25/2000" (without the quotes),
       &gnum; guesses that this is a date
-      and stores the value 36885. (The value
+      and stores the value (serial number) 36885. (Usuallyy, the value
       &gnum; uses for dates is the number
-      of days since the last day of 1899.
+      of days since the January 1st, 1900.)
       <footnote>
 	<para>
-        &gnum; actually perpetuates an error of
-        <application>Excel</application> for the sake of compatibility
-        and assumes 1900 to be a leap year even though it was not.
+        For the sake of compatibility with <application>Excel</application>,
+	&gnum; also assigns a serial number to February 29th, 1900 as if 1900 
+	had been a leap year even though it was not. So February 28th, 1900 
+	has the serial number 59 and March 1st, 1900 the serial number 61. If 
+	you try to format the serial number 60 as a date, &gnum; recognizes 
+	that that date does not exist and shows a sequence of # symbols.
 	</para>
       </footnote>
       At the same time, &gnum; changes the
@@ -1293,13 +1296,6 @@ c:\Program Files\Gnome-Office\gnumeric
     You can remove the current sheet using the <guimenuitem>Remove
     this Sheet</guimenuitem> menu entry from the context
     menu. 
-    <warning>
-      <para>
-        Deleted sheets cannot be retrieved through the "Undo"
-        mechanism and sheet deletion is therefore an irreversible operation. Be
-        careful!
-      </para>
-    </warning>
   </para>
 
   <para>
@@ -1901,10 +1897,10 @@ c:\Program Files\Gnome-Office\gnumeric
 
   <note>
     <para>
-      Any files which are saved by &gnum;
-      must be deleted by the user. Either the GNOME file manager
-      <application>Nautilus</application> or the shell tool
-      <command>rm</command> can be used to delete the files. 
+      To delete files that were created by &gnum;
+      any graphical file manager (such as the GNOME file manager
+      <application>Nautilus</application>) or the shell command
+      <command>rm</command> can be used. 
     </para>
   </note>
 

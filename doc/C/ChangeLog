@@ -1,5 +1,13 @@
 2011-07-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* figures/menu-edit-select.png: updated
+	* figures/menu-file-printarea.png: updated
+	* gui-menus.xml: updated
+	* quick-start.xml: updated
+	* welcome.xml: updated
+
+2011-07-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* data-format-conditional.xml: new stub
 	* Makefile.am: include data-format-conditional.xml
 	* data-format.xml: refer to data-format-conditional.xml
