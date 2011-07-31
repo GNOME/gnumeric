@@ -112,30 +112,29 @@
     The display of each worksheet can be controlled by several
     settings and configurations. The worksheet, conceptually, consists
     of a single continuous two dimensional grid of cells arranged in
-    65536 rows by 258 columns, and &gnum;, by default, displays a
-    small portion of the worksheet area as a continuous region. This
-    chapter...
-
-
-    ...or which allow
-    the user to rearrange the cell grid to fix parts of the worksheet
-    grid while scrolling others or to group rows or columns of data
-    within a worksheet for convenient editing and analysis...
+    rows by columns, and &gnum;, by default, displays a
+    small portion of the worksheet area as a continuous region. 
   </para>
-
+  <para>
+    A worksheet is created with the number of rows and columns specified
+    by the preference setting that can be adjusted on the <guilabel>Windows
+  </guilabel> tab of the Preference Dialog (see  <xref
+    linkend="sect-configuration-preferences-windows"/>);
+  </para>
   <note>
-    <title>
-      Changing the default size of the &gnum; cell grid.
-    </title>
     <para>
-      The worksheet grid is 65536 rows by 258 columns of cells, by
-      default. This can be changed but only by altering the computer
-      program files and recompiling the code to make a new version of
-      the &gnum; program. 
-<!-- TODO: ask- how to change the size (row/col) of the cell grid? -->
-<!-- TODO: add- add a link to compile section. -->
+      The maximum number of supported rows in a sheet is 16,777,216 and the
+      maximum number of supported columns is 16384. The numbers of rows and
+      columns of a sheet must always be powers of 2.
     </para>
   </note>
+  <para>
+    The size of an existing sheet can be increased through the <guilabel>
+    Resize Sheet</guilabel> dialog accessible through the sheet tab context
+    menu (see <xref linkend="menu-context-tabs"/>) or the <guilabel>Sheet
+    </guilabel> submenu of the <guilabel>Edit</guilabel> menu (see <xref 
+    linkend="Edit-Menu"/>).
+  </para>
 
 
 

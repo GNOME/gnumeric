@@ -84,6 +84,7 @@
   <!ENTITY data-delete          SYSTEM "data-delete.xml">
   <!ENTITY data-insert          SYSTEM "data-insert.xml">
   <!ENTITY data-format          SYSTEM "data-format.xml">
+  <!ENTITY data-format-conditional SYSTEM "data-format-conditional.xml">
   <!ENTITY data-filter          SYSTEM "data-filter.xml">
   <!ENTITY data-modify          SYSTEM "data-modify.xml">
   <!ENTITY data-generate        SYSTEM "data-generate.xml">
@@ -454,7 +455,7 @@
 
 
   <chapter id="chapter-manual-usage">
-    <title>How to Use this Manual</title>
+    <title>How to Use This Manual</title>
 
     &manual-usage;
 
@@ -562,6 +563,7 @@
     &data-delete;
     &data-insert;
     &data-format;
+    &data-format-conditional;
     &data-filter;
     &data-modify;
     &data-generate;
@@ -575,8 +577,9 @@
 
     <para>
       This chapter explains many of the advanced analytic tools
-      available in &gnum; including linear algebra calculations and simulation
-      analysis.
+      available in &gnum; including linear algebra calculations,
+      the goal seek tool,
+      simulation analysis, and scenarios.
     </para>
 
     &analysis-overview;
@@ -603,7 +606,9 @@
 
     <para>
       This chapter explains the various statistical analysis tools
-      available within &gnum;.
+      available within &gnum; including tools to create descriptive
+      statistics, as well as parametric and non-parametric hypotheses
+      tests.
     </para>
 
   <para>

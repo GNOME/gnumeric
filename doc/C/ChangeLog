@@ -1,3 +1,13 @@
+2011-07-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* data-format-conditional.xml: new stub
+	* Makefile.am: include data-format-conditional.xml
+	* data-format.xml: refer to data-format-conditional.xml
+	* gnumeric.xml: add data-format-conditional entity
+	* gui-menus.xml: fix typo
+	* manual-usage.xml: update chapter listing
+	* worksheets.xml: update info on worksheet size
+
 2011-07-31  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.17

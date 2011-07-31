@@ -2,7 +2,14 @@
   <title>Formatting Cells</title>
 
   <para>
-    Cell formats allow you to change the way cell data appears in the
+    This section describes how to format the appearance of data in a cell.
+    The section <xref linkend="sect-data-format-conditional"/> describes a more 
+    advanced method of formatting where the depends on various conditions
+    involving the current cell value and/or the values in other cells.
+  </para>
+
+  <para>
+    Cell formats allow you to only change the way cell data appears in the
     spreadsheet. It is important to keep in mind that it only alters
     the way the data is presented, and does not change the value of
     the data.

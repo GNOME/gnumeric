@@ -99,28 +99,61 @@
               <emphasis role="bold">Advanced Analysis</emphasis>
         </para>
         <para>
-          This chapter explains many of the advanced analytic tools
-          available in &gnum; including
-          statistical analysis, linear algebra calculations and
-          simulation analysis.
+          This chapter explains the advanced analytic tools
+          available in &gnum; including linear algebra calculations,
+          the goal seek tool,
+          simulation analysis, and scenarios.
 	</para>
       </listitem>
 
       <listitem>
 	<para>
+	  <xref linkend="chapter-solver" />: 
+              <emphasis role="bold">The Solver</emphasis>
+        </para>
+        <para>
+          This chapter explains how to use &gnum;'s linear programming 
+	  Solver.
+	</para>
+      </listitem>
+
+       <listitem>
+	<para>
+	  <xref linkend="chapter-stat-analysis" />: 
+              <emphasis role="bold">Statistical Analysis</emphasis>
+        </para>
+        <para>
+          This chapter explains the various statistical analysis tools
+          available in &gnum; including tools to create descriptive
+	  statistics, as well as parametric and non-parametric hypotheses
+	  tests.
+	</para>
+      </listitem>
+
+       <listitem>
+	<para>
 	  <xref linkend="chapter-graphics" />: <emphasis role="bold">Graphics:
-              Plots, Images, Widgets, and Drawings</emphasis> 
+              Images, Widgets, and Drawings</emphasis> 
 	</para> 
 	<para> 
 	  This chapter explains how to add graphical elements to a
           &gnum; worksheet, including
-          data graphs to plot worksheet data, images from external
+          images from external
           files, graphical user interface widgets which interact with
           worksheet data, and simple drawing elements. 
 	</para> 
       </listitem>
 
-<!--
+       <listitem>
+	<para>
+	  <xref linkend="chapter-graphs" />: <emphasis role="bold">Graphs
+	</emphasis> 
+	</para> 
+	<para> 
+	  This chapter explains how to add data graphs to a
+          &gnum; worksheet, that can be used to plot worksheet data. 
+	</para> 
+      </listitem>
 
       <listitem>
 	<para>
@@ -153,8 +186,6 @@
           linkend="chapter-configuring" />.
 	</para>
       </listitem>
-
--->
 
       <listitem>
 	<para>

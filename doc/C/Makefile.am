@@ -27,6 +27,7 @@ entities =  \
      data-entry-external.xml \
      data-entry.xml \
      data-format.xml \
+     data-format-conditional.xml \
      data-generate.xml \
      data-insert.xml \
      data-modify.xml \

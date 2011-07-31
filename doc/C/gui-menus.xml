@@ -2416,8 +2416,8 @@
 </sect2>
 
 <sect2 id="menu-context-tabs">
-	<title>The Context Menu menu for Worksheet Tabs</title>
-		<para>The Context Menu menu for Worksheet Tabs.</para>
+	<title>The Context Menu for Worksheet Tabs</title>
+		<para>The Context Menu for Worksheet Tabs.</para>
 		<figure id="menu-context-tabs.png">
 		    <title>The Context Menu.</title>
 		    <screenshot>
