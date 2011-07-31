@@ -1,3 +1,10 @@
+2011-07-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* printing.xml: updated
+	* figures/printing-setup-sheet.png: updated
+	* figures/printing-setup-printarea.png: new
+	* figures/Makefile.am: add printing-setup-printarea.png
+
 2011-06-16  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.16

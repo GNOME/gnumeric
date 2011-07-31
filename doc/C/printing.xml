@@ -427,15 +427,15 @@
    </tip> 
   </sect2>
  
-  <sect2 id="print-setup-dialog-sheet">
-   <title>Page Setup Dialog - Sheet</title>
+  <sect2 id="print-setup-dialog-printarea">
+   <title>Page Setup Dialog - Print Area</title>
 
-   <figure id="print-setup-sheet">
-    <title><interface>Print Setup Sheet Tab</interface></title>
+   <figure id="print-setup-printarea">
+    <title><interface>Print Setup Print Area Tab</interface></title>
     <mediaobject>
       <imageobject>
 	<imagedata format="PNG"
-		   fileref="figures/printing-setup-sheet.png" />
+		   fileref="figures/printing-setup-printarea.png" />
       </imageobject>
     </mediaobject>
    </figure>
@@ -461,6 +461,21 @@
     </para>
    </warning>
 
+  </sect2>
+
+  <sect2 id="print-setup-dialog-sheet">
+    <title>Page Setup Dialog - Sheet</title>
+
+    <figure id="print-setup-sheet">
+      <title><interface>Print Setup Sheet Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/printing-setup-sheet.png" />
+      </imageobject>
+    </mediaobject>
+   </figure>
+
    <para>
    Select <guilabel>Grid lines</guilabel> to print the cell
    grid lines with your document. Unselect the button to hide
@@ -473,13 +488,14 @@
    </para>
 
    <para>
-   Select <guilabel>Do not print with all sheets</guilabel>
-    <warning>
-     <para>
-     TO BE FILLED
-     </para>
-    </warning>
-   </para>
+   Select <guilabel>Do not print with all sheets</guilabel> if you 
+   want to avoid printing this sheet whenever you choose to print 
+   <guilabel>all sheets</guilabel>. If this item is checked then 
+   this sheet will only be printed as the active sheet or as part 
+   of a range of sheets. 
+   This is useful if you have a non-hidden sheet that contains only 
+   auxillary information and should normally not be printed.
+    </para>
 
    <para>
    Select <guilabel>Row and column headings</guilabel> to 
@@ -493,6 +509,46 @@
    with the background color changed but no data in them, you
    can select this option to ensure they are in the printed
    output.
+   </para>
+
+   <para>
+     The <guilabel>Errors</guilabel> selection box allows you to
+     choose how to print error values:
+    <variablelist>
+      <varlistentry>
+	<term>Print as displayed</term>
+	<listitem>
+	  <para> 
+	    Every error value is printed just as shown on the worksheet.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>Print as spaces</term>
+	<listitem>
+	  <para>
+	    No error values are printed.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>Print as dashes</term>
+	<listitem>
+	  <para>
+	    Every error value is replaced by two m-dashes (separated 
+	    by a thin space): "&#x2014;&#x200a;&#x2014;".
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>Print as NA</term>
+	<listitem>
+	  <para>
+	    Every error value is printed as an #N/A error.
+	  </para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
    </para>
 
    <para>

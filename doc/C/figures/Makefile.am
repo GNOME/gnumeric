@@ -352,6 +352,7 @@ EXTRA_DIST = \
      printing-setup-header-config.png \
      printing-setup-header.png \
      printing-setup-page.png \
+     printing-setup-printarea.png \
      printing-setup-sheet.png \
      selection-1.png \
      selection-10.png \
