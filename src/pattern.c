@@ -71,6 +71,12 @@ gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
 		gopat.pattern = patterns[pattern - 1];
 		gopat.fore = gnm_style_get_pattern_color (mstyle)->go_color;
 		gopat.back = gnm_style_get_back_color (mstyle)->go_color;
+		if (is_selected) {
+			GOColor light;
+			light = theme? GO_COLOR_FROM_GDK (theme->light[GTK_STATE_SELECTED]): GO_COLOR_FROM_RGB (230, 230, 250);
+			gopat.fore = GO_COLOR_INTERPOLATE (light, gopat.fore, .5);
+			gopat.back = GO_COLOR_INTERPOLATE (light, gopat.back, .5);
+		}
 		crpat = go_pattern_create_cairo_pattern (&gopat, cr);
 		cairo_set_source (cr, crpat);
 		cairo_pattern_destroy (crpat);

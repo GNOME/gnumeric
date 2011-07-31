@@ -1,3 +1,8 @@
+2011-07-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/pattern.c (gnumeric_background_set): always change selection
+	background color. [#648676]
+
 2011-07-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/gnumeric.c (go_gnm_component_render): fix call to
