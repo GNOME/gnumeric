@@ -38,7 +38,7 @@ AC_SUBST([VERSION_IFACE], [version_iface])
 
 dnl Almost like epoch.major but development versions look forward to the next
 dnl stable release.
-AC_SUBST([GNUMERIC_API_VER], [1.10])
+AC_SUBST([GNUMERIC_API_VER], [1.12])
 
 dnl This one is created by autoheader, ...
 AC_CONFIG_HEADERS(gnumeric-config.h)
