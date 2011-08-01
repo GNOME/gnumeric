@@ -285,12 +285,12 @@ cb_desc (G_GNUC_UNUSED GtkWidget *w, SheetManager *state)
 }
 
 static gboolean
-color_equal (const GdkColor *color_a, const GnmColor *color_gb)
+color_equal (const GdkRGBA *color_a, const GnmColor *color_gb)
 {
 	if (color_gb == NULL)
 		return color_a == NULL;
 	/* FIXME: What about ->is_auto?  */
-	return color_a && GO_COLOR_FROM_GDK (*color_a) == color_gb->go_color;
+	return color_a && GO_COLOR_FROM_GDK_RGBA (*color_a) == color_gb->go_color;
 }
 
 static void
@@ -305,15 +305,15 @@ cb_color_changed_fore (G_GNUC_UNUSED GOComboColor *go_combo_color,
 	WorkbookSheetState *old_state;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
-	GdkColor gdk_color;
-	GdkColor *p_gdk_color;
+	GdkRGBA gdk_color;
+	GdkRGBA *p_gdk_color;
 	GnmColor *gnm_color;
 
 	g_return_if_fail (selection != NULL);
 
 	selected_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
 
-	p_gdk_color = (color == 0) ? NULL : go_color_to_gdk (color, &gdk_color);
+	p_gdk_color = (color == 0) ? NULL : go_color_to_gdk_rgba (color, &gdk_color);
 	gnm_color = (color == 0) ? NULL : style_color_new_gdk (&gdk_color);
 
 	old_state = workbook_sheet_state_new (wb);
@@ -357,15 +357,15 @@ cb_color_changed_back (G_GNUC_UNUSED GOComboColor *go_combo_color,
 	WorkbookSheetState *old_state;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
-	GdkColor gdk_color;
-	GdkColor *p_gdk_color;
+	GdkRGBA gdk_color;
+	GdkRGBA *p_gdk_color;
 	GnmColor *gnm_color;
 
 	g_return_if_fail (selection != NULL);
 
 	selected_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
 
-	p_gdk_color = (color == 0) ? NULL : go_color_to_gdk (color, &gdk_color);
+	p_gdk_color = (color == 0) ? NULL : go_color_to_gdk_rgba (color, &gdk_color);
 	gnm_color = (color == 0) ? NULL : style_color_new_gdk (&gdk_color);
 
 	old_state = workbook_sheet_state_new (wb);
@@ -436,7 +436,7 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 	GtkTreeIter  iter;
 	Sheet *sheet;
 	gboolean has_iter;
-	GdkColor *fore, *back;
+	GdkRGBA *fore, *back;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
 	GList *selected_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
 	gboolean multiple = gtk_tree_model_iter_n_children(GTK_TREE_MODEL (state->model), NULL) > 1;
@@ -471,9 +471,9 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 		state->initial_colors_set = TRUE;
 	}
 	if (back != NULL)
-		gdk_color_free (back);
+		gdk_rgba_free (back);
 	if (fore != NULL)
-		gdk_color_free (fore);
+		gdk_rgba_free (fore);
 
 	gtk_widget_set_sensitive (state->ccombo_back, TRUE);
 	gtk_widget_set_sensitive (state->ccombo_fore, TRUE);
@@ -692,8 +692,8 @@ create_sheet_list (SheetManager *state)
 					   G_TYPE_STRING,
 					   G_TYPE_STRING,
 					   G_TYPE_POINTER,
-					   GDK_TYPE_COLOR,
-					   GDK_TYPE_COLOR,
+					   GDK_TYPE_RGBA,
+					   GDK_TYPE_RGBA,
 					   G_TYPE_BOOLEAN,
 					   GDK_TYPE_PIXBUF);
 	state->sheet_list = GTK_TREE_VIEW (gtk_tree_view_new_with_model
@@ -800,13 +800,13 @@ create_sheet_list (SheetManager *state)
 static void
 set_sheet_info_at_iter (SheetManager *state, GtkTreeIter *iter, Sheet *sheet)
 {
-	GdkColor cback, *color = NULL;
-	GdkColor cfore, *text_color = NULL;
+	GdkRGBA cback, *color = NULL;
+	GdkRGBA cfore, *text_color = NULL;
 
 	if (sheet->tab_color)
-		color = go_color_to_gdk (sheet->tab_color->go_color, &cback);
+		color = go_color_to_gdk_rgba (sheet->tab_color->go_color, &cback);
 	if (sheet->tab_text_color)
-		text_color = go_color_to_gdk (sheet->tab_text_color->go_color, &cfore);
+		text_color = go_color_to_gdk_rgba (sheet->tab_text_color->go_color, &cfore);
 
 	gtk_list_store_set (state->model, iter,
 			    SHEET_LOCKED, sheet->is_protected,

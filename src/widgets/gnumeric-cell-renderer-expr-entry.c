@@ -34,8 +34,8 @@ static GtkCellEditable *gnumeric_cell_renderer_expr_entry_start_editing
 							      GdkEvent             *event,
 							      GtkWidget            *widget,
 							      const gchar          *path,
-							      GdkRectangle        *background_area,
-							      GdkRectangle         *cell_area,
+							      GdkRectangle const   *background_area,
+							      GdkRectangle const   *cell_area,
 							      GtkCellRendererState  flags);
 
 GType
@@ -112,8 +112,8 @@ gnumeric_cell_renderer_expr_entry_start_editing (GtkCellRenderer      *cell,
 				      G_GNUC_UNUSED GdkEvent *event,
 				      G_GNUC_UNUSED GtkWidget *widget,
 				      const gchar          *path,
-				      G_GNUC_UNUSED GdkRectangle *background_area,
-				      G_GNUC_UNUSED GdkRectangle *cell_area,
+				      G_GNUC_UNUSED GdkRectangle const *background_area,
+				      G_GNUC_UNUSED GdkRectangle const *cell_area,
 				      G_GNUC_UNUSED GtkCellRendererState flags)
 {
   GnumericCellRendererExprEntry *celltext;

@@ -19,19 +19,19 @@ struct _GnmColor {
 };
 
 /* Colors used by any GnumericSheet item */
-GNM_VAR_DECL GdkColor gs_white;
-GNM_VAR_DECL GdkColor gs_light_gray;
-GNM_VAR_DECL GdkColor gs_dark_gray;
-GNM_VAR_DECL GdkColor gs_black;
-GNM_VAR_DECL GdkColor gs_lavender;
-GNM_VAR_DECL GdkColor gs_yellow;
+GNM_VAR_DECL GdkRGBA gs_white;
+GNM_VAR_DECL GdkRGBA gs_light_gray;
+GNM_VAR_DECL GdkRGBA gs_dark_gray;
+GNM_VAR_DECL GdkRGBA gs_black;
+GNM_VAR_DECL GdkRGBA gs_lavender;
+GNM_VAR_DECL GdkRGBA gs_yellow;
 
 GnmColor *style_color_new_go    (GOColor c);
 GnmColor *style_color_new_name  (char const *name);
 GnmColor *style_color_new_i16   (gushort red, gushort green, gushort blue);
 GnmColor *style_color_new_i8    (guint8 red, guint8 green, guint8 blue);
 GnmColor *style_color_new_pango (PangoColor const *c);
-GnmColor *style_color_new_gdk   (GdkColor const *c);
+GnmColor *style_color_new_gdk   (GdkRGBA const *c);
 GnmColor *style_color_auto_font (void);
 GnmColor *style_color_auto_back (void);
 GnmColor *style_color_auto_pattern (void);

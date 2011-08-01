@@ -293,7 +293,7 @@ fcombo_arrow_format (GnmFilterCombo *fcombo, GtkWidget *arrow)
 		if (NULL != fcombo->cond) {
 		}
 		if (desc) {
-			go_widget_set_tooltip_text (gtk_widget_get_parent (arrow), desc);
+			gtk_widget_set_tooltip_text (gtk_widget_get_parent (arrow), desc);
 			g_free (desc);
 		}
 	}
@@ -301,7 +301,7 @@ fcombo_arrow_format (GnmFilterCombo *fcombo, GtkWidget *arrow)
 	gtk_arrow_set (GTK_ARROW (arrow),
 		fcombo->cond != NULL ? GTK_ARROW_RIGHT : GTK_ARROW_DOWN,
 		GTK_SHADOW_IN);
-	gtk_widget_modify_fg (arrow, GTK_STATE_NORMAL,
+	gtk_widget_override_color (arrow, GTK_STATE_NORMAL,
 		fcombo->cond != NULL ? &gs_yellow : &gs_black);
 }
 

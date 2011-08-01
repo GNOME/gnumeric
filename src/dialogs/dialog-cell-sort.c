@@ -971,7 +971,7 @@ dialog_init (SortFlowState *state)
 			  0, 0);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->range_entry));
-	gnm_expr_entry_set_update_policy (state->range_entry, GTK_UPDATE_DISCONTINUOUS);
+	gnm_expr_entry_set_update_policy (state->range_entry, GNM_UPDATE_DISCONTINUOUS);
 	gtk_widget_show (GTK_WIDGET (state->range_entry));
 	g_signal_connect_swapped (G_OBJECT (state->range_entry),
 				  "changed",

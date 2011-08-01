@@ -36,18 +36,17 @@ static void gnumeric_cell_renderer_toggle_set_property  (GObject         *object
 
 static void gnumeric_cell_renderer_toggle_get_size   (GtkCellRenderer            *cell,
 						      GtkWidget                  *widget,
-						      GdkRectangle               *cell_area,
+						      GdkRectangle const         *cell_area,
 						      gint                       *x_offset,
 						      gint                       *y_offset,
 						      gint                       *width,
 						      gint                       *height);
 
 static void gnumeric_cell_renderer_toggle_render (GtkCellRenderer *cell,
-						  GdkWindow       *window,
+						  cairo_t         *cr,
 						  GtkWidget       *widget,
-						  GdkRectangle    *background_area,
-						  GdkRectangle    *cell_area,
-						  GdkRectangle    *expose_area,
+						  GdkRectangle const *background_area,
+						  GdkRectangle const  *cell_area,
 						  GtkCellRendererState flags);
 
 static void gnumeric_cell_renderer_toggle_class_init
@@ -165,7 +164,7 @@ gnumeric_cell_renderer_toggle_set_property (GObject      *object,
 static void
 gnumeric_cell_renderer_toggle_get_size (GtkCellRenderer *cell,
 					G_GNUC_UNUSED GtkWidget *widget,
-					GdkRectangle    *cell_area,
+					GdkRectangle const *cell_area,
 					gint            *x_offset,
 					gint            *y_offset,
 					gint            *width,
@@ -221,11 +220,10 @@ gnumeric_cell_renderer_toggle_get_size (GtkCellRenderer *cell,
 
 static void
 gnumeric_cell_renderer_toggle_render (GtkCellRenderer *cell,
-				      GdkWindow       *window,
+				      cairo_t         *cr,
 				      GtkWidget       *widget,
-				      G_GNUC_UNUSED GdkRectangle *background_area,
-				      GdkRectangle    *cell_area,
-				      G_GNUC_UNUSED GdkRectangle *expose_area,
+				      G_GNUC_UNUSED GdkRectangle const *background_area,
+				      GdkRectangle const *cell_area,
 				      G_GNUC_UNUSED GtkCellRendererState flags)
 {
 	GnumericCellRendererToggle *cellpixbuf = (GnumericCellRendererToggle *) cell;
@@ -252,11 +250,10 @@ gnumeric_cell_renderer_toggle_render (GtkCellRenderer *cell,
 	pix_rect.width -= xpad * 2;
 	pix_rect.height -= ypad * 2;
 
-	if (gdk_rectangle_intersect (cell_area, &pix_rect, &draw_rect))
-		gdk_draw_pixbuf (window, NULL, pixbuf,
-				 /* pixbuf 0, 0 is at pix_rect.x, pix_rect.y */
-				 draw_rect.x - pix_rect.x, draw_rect.y - pix_rect.y,
-				 draw_rect.x, draw_rect.y,
-				 draw_rect.width, draw_rect.height,
-				 GDK_RGB_DITHER_NORMAL, 0, 0);
+	if (gdk_rectangle_intersect (cell_area, &pix_rect, &draw_rect)) {
+		gdk_cairo_set_source_pixbuf (cr, pixbuf,
+		                 draw_rect.x, draw_rect.y);
+		cairo_rectangle (cr, draw_rect.x, draw_rect.y, draw_rect.width, draw_rect.height);
+		cairo_fill (cr);
+	}
 }

@@ -122,7 +122,11 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	cairo_fill (cr);
 
 	/* set the default color */
+#warning GTK3: no black in style context, using just black for now
+#if 0
 	color = GO_COLOR_FROM_GDK (gtk_widget_get_style (GTK_WIDGET (item->canvas))->black);
+#endif
+	color = GO_COLOR_BLACK;
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 	if (dir == PANGO_DIRECTION_RTL) {
 		pango_layout_get_pixel_extents (ie->layout, NULL, &pos);

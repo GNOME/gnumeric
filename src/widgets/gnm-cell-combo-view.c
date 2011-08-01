@@ -164,7 +164,7 @@ cb_ccombo_key_press (GtkWidget *popup, GdkEventKey *event, GtkWidget *list)
 		if (!(event->state & GDK_MOD1_MASK))
 			return FALSE;
 
-	case GDK_KP_Enter :
+	case GDK_KEY_KP_Enter :
 	case GDK_KEY_Return :
 		ccombo_activate (GTK_TREE_VIEW (list), FALSE);
 		return TRUE;
@@ -295,7 +295,7 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	list = ccombo_create_list (GNM_CCOMBO_VIEW (sov), so, &clip, &select, &make_buttons);
 
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (list), FALSE);
-	gtk_widget_size_request (GTK_WIDGET (list), &req);
+	gtk_widget_get_preferred_size (GTK_WIDGET (list), &req, NULL);
 	g_object_set_data (G_OBJECT (list), SOV_ID, sov);
 
 	frame = gtk_frame_new (NULL);
@@ -308,8 +308,8 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	if (clip != NULL) {
 		GdkRectangle  rect;
 		GtkWidget *sw = gtk_scrolled_window_new (
-			gtk_tree_view_get_hadjustment (GTK_TREE_VIEW (list)),
-			gtk_tree_view_get_vadjustment (GTK_TREE_VIEW (list)));
+			gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (list)),
+			gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (list)));
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 						GTK_POLICY_AUTOMATIC,
 						GTK_POLICY_ALWAYS);
@@ -324,8 +324,8 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 		container = list;
 
 	if (make_buttons) {
-		GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
-		GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+		GtkWidget *vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+		GtkWidget *hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 
 		GtkWidget *button;
 		button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
@@ -395,19 +395,12 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 
 	popup_window = gtk_widget_get_window (popup);
 
-	if (0 == gdk_pointer_grab (popup_window, TRUE,
+	gdk_device_grab (gtk_get_current_event_device (), popup_window,
+	        GDK_OWNERSHIP_APPLICATION, TRUE,
 		GDK_BUTTON_PRESS_MASK |
 		GDK_BUTTON_RELEASE_MASK |
 		GDK_POINTER_MOTION_MASK,
-		NULL, NULL, activate_time)) {
-		if (0 ==  gdk_keyboard_grab (popup_window, TRUE, activate_time)) {
-			gtk_grab_add (popup);
-		} else {
-			gdk_display_pointer_ungrab
-				(gtk_widget_get_display (popup),
-				 activate_time);
-		}
-	}
+		NULL, activate_time);
 }
 
 /**

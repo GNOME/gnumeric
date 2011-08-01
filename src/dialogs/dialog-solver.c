@@ -630,6 +630,7 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 	GtkWindow *top = GTK_WINDOW (gtk_widget_get_toplevel (state->dialog));
 	GnmSolverResult *res = NULL;
 	int y;
+	GtkStyleContext *ctxt;
 
 	sol = gnm_solver_factory_functional (param->options.algorithm,
 					     state->wbcg)
@@ -657,7 +658,7 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 					  _("Stop"),
 					  GTK_STOCK_STOP,
 					  GTK_RESPONSE_NO);
-	go_widget_set_tooltip_text
+	gtk_widget_set_tooltip_text
 		(state->run.stop_button,
 		 _("Stop the running solver"));
 	g_signal_connect_swapped (G_OBJECT (state->run.stop_button),
@@ -688,12 +689,12 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 		gtk_table_attach_defaults (GTK_TABLE (table),
 					   a, 0, 1, y, y + 1);
 		w = gtk_label_new ("");
-		gtk_widget_ensure_style (w);
+		ctxt = gtk_widget_get_style_context (w);
 		gtk_widget_set_size_request
 			(w,
 			 go_pango_measure_string
 			 (context,
-			  gtk_widget_get_style (w)->font_desc,
+			  gtk_style_context_get_font (ctxt, GTK_STATE_NORMAL),
 			  "0") * (5 + GNM_DIG),
 			 -1);
 		gtk_table_attach_defaults (GTK_TABLE (table),

@@ -194,10 +194,10 @@ struct AboutState_ {
 
 /* ---------------------------------------- */
 
-static GdkColor
-blend_colors (const GdkColor *start, const GdkColor *end, double f)
+static GdkRGBA
+blend_colors (const GdkRGBA *start, const GdkRGBA *end, double f)
 {
-	GdkColor res;
+	GdkRGBA res;
 	res.red   = start->red   * (1 - f) + end->red   * f;
 	res.green = start->green * (1 - f) + end->green * f;
 	res.blue  = start->blue  * (1 - f) + end->blue  * f;
@@ -208,12 +208,16 @@ blend_colors (const GdkColor *start, const GdkColor *end, double f)
 static void
 set_fade (AboutRenderer *r, AboutState *state, double f)
 {
-	GtkStyle *style = gtk_widget_get_style (state->anim_area);
+	GtkStyleContext *ctxt = gtk_widget_get_style_context (state->anim_area);
 	PangoAttrList *attrlist = pango_layout_get_attributes (r->layout);
-	GdkColor col = blend_colors (style->bg + GTK_STATE_NORMAL,
-				     style->fg + GTK_STATE_NORMAL, f);
-	PangoAttribute *attr = pango_attr_foreground_new
-		(col.red, col.green, col.blue);
+	GdkRGBA col, bg, fg;
+	PangoAttribute *attr;
+
+	gtk_style_context_get_color (ctxt, GTK_STATE_NORMAL, &fg);
+	gtk_style_context_get_background_color (ctxt, GTK_STATE_NORMAL, &fg);
+	blend_colors (&bg, &fg, f);
+	attr = pango_attr_foreground_new
+		(col.red * 65535., col.green * 65535., col.blue * 65535.);
 	pango_attr_list_change (attrlist, attr);
 	pango_layout_set_attributes (r->layout, attrlist);
 }
@@ -234,11 +238,12 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 	double rage = CLAMP (age / (double)r->duration, 0.0, 1.0);
 	GtkWidget *widget = state->anim_area;
 	GdkWindow *window = gtk_widget_get_window (widget);
-	GtkStyle *style;
+	GtkStyleContext *ctxt;
 	const int fade = 500;
 	int x, y, width, height;
 	cairo_t *cr;
 	GtkAllocation wa;
+	GdkRGBA color;
 
 	if (age >= r->duration)
 		return FALSE;
@@ -248,7 +253,7 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 	else if (r->fade_out && r->duration - age < fade)
 		set_fade (r, state, (r->duration - age) / (double)fade);
 
-	style = gtk_widget_get_style (widget);
+	ctxt = gtk_widget_get_style_context (widget);
 
 	gtk_widget_get_allocation (widget, &wa);
 	x = (int)(PANGO_SCALE * wa.width *
@@ -288,7 +293,8 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 	y -= height / 2;
 
 	cr = gdk_cairo_create (window);
-	gdk_cairo_set_source_color (cr, &style->text[GTK_STATE_NORMAL]);
+	gtk_style_context_get_color (ctxt, GTK_STATE_NORMAL, &color);
+	gdk_cairo_set_source_rgba (cr, &color);
 	cairo_move_to (cr, x / (double)PANGO_SCALE, y / (double)PANGO_SCALE);
 	pango_cairo_show_layout (cr, layout);
 	cairo_destroy (cr);

@@ -164,9 +164,9 @@ show_python_console (GnmAction const *action, WorkbookControl *wbc)
 	g_signal_connect_object (
 		G_OBJECT (sel), "interpreter_changed",
 		G_CALLBACK (app_interpreter_changed), app->win, 0);
-	vbox = gtk_vbox_new (FALSE, 0);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	w = gtk_label_new_with_mnemonic (_("E_xecute in:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), sel);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, TRUE, 4);
@@ -199,7 +199,7 @@ show_python_console (GnmAction const *action, WorkbookControl *wbc)
 						     &enditer,
 						     FALSE);
 	font_desc = pango_font_description_from_string ("Fixed");
-	gtk_widget_modify_font (GTK_WIDGET (app->text_view), font_desc);
+	gtk_widget_override_font (GTK_WIDGET (app->text_view), font_desc);
 	pango_font_description_free (font_desc);
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (app->text_view), FALSE);
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (app->text_view),
@@ -208,7 +208,7 @@ show_python_console (GnmAction const *action, WorkbookControl *wbc)
 			   GTK_WIDGET (app->text_view));
 	gtk_box_pack_start (GTK_BOX (vbox), sc_win, TRUE, TRUE, 0);
 
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	cline = gnm_py_command_line_new ();
 	g_signal_connect (G_OBJECT (cline), "entered",
 			  G_CALLBACK (app_cline_entered), NULL);

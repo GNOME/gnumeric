@@ -12,11 +12,11 @@ G_BEGIN_DECLS
 typedef struct _EditableLabel EditableLabel;
 
 GType     editable_label_get_type (void);
-GtkWidget  *editable_label_new       (char const *text, GdkColor *base_color,
-				      GdkColor *text_color);
+GtkWidget  *editable_label_new       (char const *text, GdkRGBA *base_color,
+				      GdkRGBA *text_color);
 void        editable_label_set_text  (EditableLabel *el, char const *text);
 char const *editable_label_get_text  (EditableLabel const *el);
-void        editable_label_set_color (EditableLabel *el, GdkColor *base, GdkColor *text);
+void        editable_label_set_color (EditableLabel *el, GdkRGBA *base, GdkRGBA *text);
 void        editable_label_start_editing (EditableLabel *el);
 gboolean    editable_label_get_editable (EditableLabel *el);
 void        editable_label_set_editable (EditableLabel *el, gboolean editable);

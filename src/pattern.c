@@ -49,14 +49,14 @@ static GOPatternType patterns[] = {
  */
 
 static double
-gnm_get_light (guint16 c)
+gnm_get_light (double c)
 {
-	return ((1 + c/65535.)/2);
+	return ((1 + c)/2);
 }
 
 gboolean
 gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
-			 gboolean const is_selected, GtkStyle *theme)
+			 gboolean const is_selected, GtkStyleContext *ctxt)
 {
 	int pattern;
 
@@ -73,7 +73,13 @@ gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
 		gopat.back = gnm_style_get_back_color (mstyle)->go_color;
 		if (is_selected) {
 			GOColor light;
-			light = theme? GO_COLOR_FROM_GDK (theme->light[GTK_STATE_SELECTED]): GO_COLOR_FROM_RGB (230, 230, 250);
+			GdkRGBA rgba;
+			if (ctxt) {
+				gtk_style_context_get_background_color (ctxt,
+				                GTK_STATE_FLAG_SELECTED, &rgba);
+				light = GO_COLOR_FROM_GDK_RGBA (rgba);
+			} else
+				light = GO_COLOR_FROM_RGB (230, 230, 250);
 			gopat.fore = GO_COLOR_INTERPOLATE (light, gopat.fore, .5);
 			gopat.back = GO_COLOR_INTERPOLATE (light, gopat.back, .5);
 		}
@@ -82,15 +88,17 @@ gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
 		cairo_pattern_destroy (crpat);
 		return TRUE;
 	} else if (is_selected) {
-		if (theme == NULL)
+		if (ctxt == NULL)
 			cairo_set_source_rgb
-				(cr, .901960784, .901960784, .980392157);
+				(cr, gs_lavender.red, gs_lavender.green, gs_lavender.blue);
 		else {
-			GdkColor color = theme->light[GTK_STATE_SELECTED];
-			cairo_set_source_rgb
-				(cr, gnm_get_light (color.red),
-				 gnm_get_light (color.green),
-				 gnm_get_light (color.blue));
+			GdkRGBA rgba;
+			gtk_style_context_get_background_color (ctxt, GTK_STATE_SELECTED, &rgba);
+			cairo_set_source_rgba
+				(cr, gnm_get_light (rgba.red),
+				 gnm_get_light (rgba.green),
+				 gnm_get_light (rgba.blue),
+				 gnm_get_light (rgba.alpha));
 		}
 	}
 	return FALSE;

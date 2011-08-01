@@ -467,27 +467,15 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 			: gtk_get_current_event_time());
 }
 
-GtkRcStyle*
-gnumeric_create_tooltip_rc_style (void)
+void
+gnumeric_tooltip_set_style (GtkWidget *widget)
 {
-	static GtkRcStyle*rc_style = NULL;
-
-	if (rc_style == NULL) {
-		int i;
-		rc_style = gtk_rc_style_new ();
-
-		for (i = 0; i < 5 ; i++) {
-			rc_style->color_flags[i] = (GTK_RC_FG | GTK_RC_BG |
-						    GTK_RC_TEXT | GTK_RC_BASE);
-			rc_style->bg[i] = gs_yellow;
-			rc_style->fg[i] = gs_black;
-			rc_style->text[i] = gs_black;
-			rc_style->base[i] = gs_black;
-		}
+	int i;
+	for (i = 0; i < 5 ; i++) {
+		gtk_widget_override_color (widget, i, &gs_black);
+		gtk_widget_override_background_color (widget, i, &gs_yellow);
 	}
-	return rc_style;
 }
-
 
 GtkWidget *
 gnumeric_create_tooltip_widget (void)
@@ -507,7 +495,6 @@ GtkWidget *
 gnumeric_create_tooltip (GtkWidget *ref_widget)
 {
 	GtkWidget *tip, *label, *frame;
-	GtkRcStyle*rc_style = gnumeric_create_tooltip_rc_style ();
 
 	tip = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_window_set_type_hint (GTK_WINDOW (tip),
@@ -522,10 +509,8 @@ gnumeric_create_tooltip (GtkWidget *ref_widget)
 
 	gtk_container_add (GTK_CONTAINER (tip), frame);
 
-	if (rc_style != NULL) {
-		gtk_widget_modify_style (tip, rc_style);
-		gtk_widget_modify_style (label, rc_style);
-	}
+	gnumeric_tooltip_set_style (tip);
+	gnumeric_tooltip_set_style (label);
 
 	return label;
 }
@@ -535,7 +520,7 @@ gnumeric_position_tooltip (GtkWidget *tip, int px, int py, gboolean horizontal)
 {
 	GtkRequisition req;
 
-	gtk_widget_size_request (tip, &req);
+	gtk_widget_get_preferred_size (tip, &req, NULL);
 
 	if (horizontal){
 		px -= req.width / 2;
@@ -545,6 +530,7 @@ gnumeric_position_tooltip (GtkWidget *tip, int px, int py, gboolean horizontal)
 		py -= req.height / 2;
 	}
 
+printf("px=%d py=%d\n",px,py);
 	if (px < 0)
 		px = 0;
 	if (py < 0)
@@ -1223,7 +1209,7 @@ gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct)
 	GdkDisplay *display = gtk_widget_get_display (w);
 	GdkCursor *cursor = gdk_cursor_new_for_display (display, ct);
 	gnm_widget_set_cursor (w, cursor);
-	gdk_cursor_unref (cursor);
+	g_object_unref (cursor);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1310,7 +1296,7 @@ gnumeric_message_dialog_new (GtkWindow * parent,
 		label = gtk_label_new (message);
 		g_free (message);
 
-		hbox = gtk_hbox_new (FALSE, 0);
+		hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 		gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, TRUE, 0);
 		gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
 		gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), hbox, TRUE, TRUE, 0);
@@ -1322,7 +1308,6 @@ gnumeric_message_dialog_new (GtkWindow * parent,
 		gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 		gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), 12);
 		gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
-		gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 		gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
 		gtk_widget_show_all (GTK_WIDGET (gtk_dialog_get_content_area (GTK_DIALOG (dialog))));
 	}

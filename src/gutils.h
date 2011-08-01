@@ -14,6 +14,7 @@ void gutils_shutdown (void);
 /* System and user paths */
 char const *gnm_sys_lib_dir    (void);
 char const *gnm_sys_data_dir   (void);
+char const *gnm_sys_extern_plugin_dir    (void);
 char const *gnm_icon_dir       (void);
 char const *gnm_locale_dir     (void);
 char const *gnm_usr_dir	       (gboolean versioned);

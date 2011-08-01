@@ -70,7 +70,7 @@ typedef struct {
 		GtkComboBox	 *separator;
 		GtkWidget	 *custom;
 		GtkComboBox	 *quote;
-		GtkComboBoxEntry *quotechar;
+		GtkComboBoxText  *quotechar;
 		GtkWidget	 *charset;
 		GtkWidget	 *locale;
 		GtkComboBox	 *transliterate;
@@ -181,7 +181,7 @@ stf_export_dialog_format_page_init (TextExportState *state)
 		char *s;
 		gint pos;
 
-		state->format.quotechar = GTK_COMBO_BOX_ENTRY (go_gtk_builder_get_widget (state->gui, "format_quotechar"));
+		state->format.quotechar = GTK_COMBO_BOX_TEXT (go_gtk_builder_get_widget (state->gui, "format_quotechar"));
 		g_object_get (sobj, "quote", &s, NULL);
 
 #ifdef HAVE_GTK_ENTRY_GET_BUFFER

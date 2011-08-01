@@ -31,7 +31,7 @@
 #include <string.h>
 
 struct _FontSelector {
-	GtkHBox box;
+	GtkBox box;
 	GtkBuilder *gui;
 
 	GtkWidget *font_name_entry;
@@ -51,7 +51,7 @@ struct _FontSelector {
 };
 
 typedef struct {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	void (* font_changed) (FontSelector *fs, GnmStyle *mstyle);
 } FontSelectorClass;
@@ -67,7 +67,7 @@ typedef struct {
 typedef FontSelector Fs;
 typedef FontSelectorClass FsClass;
 
-static GtkHBoxClass *fs_parent_class;
+static GtkBoxClass *fs_parent_class;
 
 /* Signals we emit */
 enum {
@@ -110,12 +110,16 @@ cb_list_adjust (GtkTreeView* view)
 	GdkRectangle rect;
 	GtkAdjustment *adj;
 	int pos, height, child_height;
+	GtkAllocation alloc;
+	GtkRequisition req;
 
 	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (view), &model, &iter)) {
 		path = gtk_tree_model_get_path (model, &iter);
 		scroll = GTK_SCROLLED_WINDOW (gtk_widget_get_parent (GTK_WIDGET (view)));
-		height = GTK_WIDGET (view)->allocation.height;
-		child_height = GTK_WIDGET (view)->requisition.height;
+		gtk_widget_get_allocation (GTK_WIDGET (view), &alloc);
+		height =alloc.height;
+		gtk_widget_get_preferred_size (GTK_WIDGET (view), &req, NULL);
+		child_height = req.height;
 		if (height < child_height) {
 			gtk_tree_view_get_cell_area (view, path, NULL, &rect);
 			adj = gtk_scrolled_window_get_vadjustment (scroll);
@@ -390,6 +394,7 @@ fs_init (FontSelector *fs)
 	w = g_object_new (GOC_TYPE_CANVAS, NULL);
 	fs->font_preview_canvas = GOC_CANVAS (w);
 	goc_canvas_scroll_to (fs->font_preview_canvas, 0, 0);
+	gtk_widget_override_background_color (w, GTK_STATE_NORMAL, &gs_white);
 	gtk_widget_show_all (w);
 	w = go_gtk_builder_get_widget (fs->gui, "font-preview-frame");
 	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (fs->font_preview_canvas));
@@ -441,7 +446,7 @@ fs_class_init (GObjectClass *klass)
 {
 	gnm_destroy_class_set (klass, fs_destroy);
 
-	fs_parent_class = g_type_class_peek (gtk_hbox_get_type ());
+	fs_parent_class = g_type_class_peek (gtk_box_get_type ());
 
 	fs_signals[FONT_CHANGED] =
 		g_signal_new (
@@ -455,7 +460,7 @@ fs_class_init (GObjectClass *klass)
 }
 
 GSF_CLASS (FontSelector, font_selector,
-	   fs_class_init, fs_init, GTK_TYPE_HBOX)
+	   fs_class_init, fs_init, GTK_TYPE_BOX)
 
 GtkWidget *
 font_selector_new (void)

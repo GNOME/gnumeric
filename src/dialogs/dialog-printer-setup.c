@@ -450,7 +450,7 @@ margin_preview_page_available_size(PrinterSetupState *state,
 					NULL);
 
 		/* Determine the requisition size for the widget */
-		gtk_widget_size_request(GTK_WIDGET(child_widget), &requisition);
+		gtk_widget_get_preferred_size (GTK_WIDGET(child_widget), &requisition, NULL);
 
 		/* Find largest widget in each table column */
 		/* Exclude widgets that expand across more than one table cells */
@@ -2043,7 +2043,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		goc_text_get_type (),
 		"x",		padding,
 		"y",		header ? margin : bottom_margin,
-		"anchor",	header ? GTK_ANCHOR_NORTH_WEST : GTK_ANCHOR_SOUTH_WEST,
+		"anchor",	header ? GO_ANCHOR_NORTH_WEST : GO_ANCHOR_SOUTH_WEST,
 		"text",		"Left",
 		NULL);
 	gostyle = go_styled_object_get_style (GO_STYLED_OBJECT (pi->left));
@@ -2054,7 +2054,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		goc_text_get_type (),
 		"x",		width / 2,
 		"y",		header ? margin : bottom_margin,
-		"anchor",	header ? GTK_ANCHOR_NORTH : GTK_ANCHOR_SOUTH,
+		"anchor",	header ? GO_ANCHOR_NORTH : GO_ANCHOR_SOUTH,
 		"text",		"Center",
 		NULL);
 	gostyle = go_styled_object_get_style (GO_STYLED_OBJECT (pi->left));
@@ -2065,7 +2065,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		goc_text_get_type (),
 		"x",		width - padding,
 		"y",		header ? margin : bottom_margin,
-		"anchor",	header ? GTK_ANCHOR_NORTH_EAST : GTK_ANCHOR_SOUTH_EAST,
+		"anchor",	header ? GO_ANCHOR_NORTH_EAST : GO_ANCHOR_SOUTH_EAST,
 		"text",		"Right",
 		NULL);
 	gostyle = go_styled_object_get_style (GO_STYLED_OBJECT (pi->left));
@@ -2758,13 +2758,13 @@ do_setup_sheet_selector (PrinterSetupState *state)
 	g_return_if_fail (state->sheet != NULL);
 
 	table = go_gtk_builder_get_widget (state->gui, "table-sheet");
-	state->sheet_selector = gtk_combo_box_new_text ();
+	state->sheet_selector = gtk_combo_box_text_new ();
 	n = workbook_sheet_count (state->sheet->workbook);
 	for (i = 0 ; i < n ; i++) {
 		Sheet * a_sheet = workbook_sheet_by_index (state->sheet->workbook, i);
 		if (a_sheet == state->sheet)
 			n_this = i;
-		gtk_combo_box_append_text (GTK_COMBO_BOX (state->sheet_selector),
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (state->sheet_selector),
 					a_sheet->name_unquoted);
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (state->sheet_selector), n_this);

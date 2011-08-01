@@ -8,11 +8,11 @@ G_BEGIN_DECLS
 
 #define GNUMERIC_SHEET_PATTERNS 25
 
-gboolean    gnumeric_background_set	(GnmStyle const *style,
+gboolean    gnumeric_background_set	(GnmStyle const *mstyle,
 					 cairo_t *cr,
 					 gboolean const is_selected,
-					 GtkStyle *theme);
-gboolean    gnumeric_background_set_gtk	(GnmStyle const *style,
+					 GtkStyleContext *ctxt);
+gboolean    gnumeric_background_set_gtk	(GnmStyle const *mstyle,
 					 cairo_t *context);
 
 G_END_DECLS

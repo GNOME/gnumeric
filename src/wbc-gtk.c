@@ -66,7 +66,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-doc-meta-data.h>
 #include <gtk/gtk.h>
-#include "gdk/gdkkeysyms.h"
+#include "gdk/gdkkeysyms-compat.h"
 #include <glib/gi18n-lib.h>
 #include <errno.h>
 #include <string.h>
@@ -693,7 +693,10 @@ cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 {
 	GtkWidget *arrow, *image;
 	GdkPixbuf *pixbuf;
+#warning GTK3: how can we mask there?
+#if 0
 	GdkBitmap *bitmap;
+#endif
 
 	g_return_if_fail (IS_WBC_GTK (wbcg));
 
@@ -708,11 +711,15 @@ cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 	image = gtk_image_new_from_pixbuf (pixbuf);
 	gtk_widget_show (image);
 	gtk_container_add (GTK_CONTAINER (arrow), image);
+#if 0
 	gdk_pixbuf_render_pixmap_and_mask_for_colormap (pixbuf,
 		gtk_widget_get_colormap (widget), NULL, &bitmap, 0x7f);
+#endif
 	g_object_unref (pixbuf);
+#if 0
 	gtk_widget_shape_combine_mask (arrow, bitmap, 0, 0);
 	g_object_unref (bitmap);
+#endif
 	g_object_ref_sink (arrow);
 	g_object_set_data (G_OBJECT (widget), "arrow", arrow);
 }
@@ -868,7 +875,7 @@ cb_zoom_change (Sheet *sheet,
 
 static void
 cb_notebook_switch_page (G_GNUC_UNUSED GtkNotebook *notebook_,
-			 G_GNUC_UNUSED GtkNotebookPage *page_,
+			 G_GNUC_UNUSED GtkWidget *page_,
 			 guint page_num, WBCGtk *wbcg)
 {
 	Sheet *sheet;
@@ -950,7 +957,7 @@ cb_notebook_switch_page (G_GNUC_UNUSED GtkNotebook *notebook_,
 }
 
 /*
- * We want the pane managed differently that GtkHPaned does by default.
+ * We want the pane managed differently that GtkPaned does by default.
  * When in automatic mode, we want at most 1/3 of the space to be
  * allocated to the tabs.  We don't want empty space on the tabs side
  * at all.
@@ -962,10 +969,9 @@ cb_notebook_switch_page (G_GNUC_UNUSED GtkNotebook *notebook_,
  * paned has a set position.
  */
 static void
-cb_paned_size_allocate (GtkHPaned *hpaned,
+cb_paned_size_allocate (GtkPaned *paned,
 			GtkAllocation *allocation)
 {
-	GtkPaned *paned = (GtkPaned *)hpaned;
 	GtkWidget *widget = (GtkWidget *)paned;
 	GtkRequisition child1_requisition;
 	gint handle_size;
@@ -994,17 +1000,18 @@ cb_paned_size_allocate (GtkHPaned *hpaned,
 	if (!g_object_get_data (G_OBJECT (paned), PANED_SIGNAL_KEY))
 		goto chain;
 
-	widget->allocation = *allocation;
+	gtk_widget_set_allocation (widget, allocation);
 
 	gtk_container_child_set (GTK_CONTAINER (paned),
 				 child1, "shrink", TRUE,
 				 NULL);
 
 	g_object_set (G_OBJECT (child1), "scrollable", FALSE, NULL);
-	gtk_widget_size_request (child1, &child1_requisition);
+	gtk_widget_get_preferred_size (child1, &child1_requisition, NULL);
 
 	gtk_widget_style_get (widget, "handle-size", &handle_size, NULL);
-	w = widget->allocation.width - handle_size - 2 * border_width;
+	gtk_widget_get_allocation (widget, &pa);
+	w = pa.width - handle_size - 2 * border_width;
 	p1 = MAX (0, w / 2);
 
 	/*
@@ -1012,17 +1019,17 @@ cb_paned_size_allocate (GtkHPaned *hpaned,
 	 * used for auto-expr and other little things.  This helps with
 	 * wide windows.
 	 */
-	gtk_widget_get_allocation (gtk_widget_get_parent (GTK_WIDGET (hpaned)),
+	gtk_widget_get_allocation (gtk_widget_get_parent (GTK_WIDGET (paned)),
 				   &pa);
 	wp = pa.width;
 	p1 = MAX (p1, w - (wp - w) * 125 / 100);
 
 	/* However, never use more for tabs than we want.  */
-	p1 = MIN (p1, child1->requisition.width);
+	p1 = MIN (p1, child1_requisition.width);
 
 	p2 = MAX (0, w - p1);
 
-	if (p1 < child1->requisition.width) {
+	if (p1 < child1_requisition.width) {
 		/*
 		 * We don't have room so make the notebook scrollable.
 		 * We will then not set the size again.
@@ -1091,7 +1098,7 @@ cb_status_size_allocate (GtkWidget *widget,
 static void
 wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 {
-	wbcg->notebook_area = gtk_vbox_new (FALSE, 0);
+	wbcg->notebook_area = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
 	wbcg->snotebook = g_object_new (GTK_TYPE_NOTEBOOK,
 					"show-tabs", FALSE,
@@ -1105,8 +1112,6 @@ wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 	wbcg->bnotebook = g_object_new (GNM_NOTEBOOK_TYPE,
 					"tab-pos", GTK_POS_BOTTOM,
 					"show-border", FALSE,
-					"tab-hborder", 0,
-					"tab-vborder", 0,
 					NULL);
 	g_object_ref (wbcg->bnotebook);
 
@@ -1180,7 +1185,7 @@ cb_sheet_tab_change (Sheet *sheet,
 		     G_GNUC_UNUSED GParamSpec *pspec,
 		     EditableLabel *el)
 {
-	GdkColor cfore, cback;
+	GdkRGBA cfore, cback;
 	SheetControlGUI *scg = get_scg (GTK_WIDGET (el));
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
@@ -1189,10 +1194,10 @@ cb_sheet_tab_change (Sheet *sheet,
 	editable_label_set_text (el, sheet->name_unquoted);
 	editable_label_set_color (el,
 				  sheet->tab_color
-				  ? go_color_to_gdk (sheet->tab_color->go_color, &cback)
+				  ? go_color_to_gdk_rgba (sheet->tab_color->go_color, &cback)
 				  : NULL,
 				  sheet->tab_text_color
-				  ? go_color_to_gdk (sheet->tab_text_color->go_color, &cfore)
+				  ? go_color_to_gdk_rgba (sheet->tab_text_color->go_color, &cfore)
 				  : NULL);
 
 	signal_paned_repartition (scg->wbcg->tabs_paned);
@@ -2184,8 +2189,12 @@ cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event,
 {
 	if (!wbcg_is_editing (wbcg))
 		if (!wbcg_edit_start (wbcg, FALSE, TRUE)) {
+#if 0
 			GtkEntry *entry = GTK_ENTRY (w);
+#endif
 			wbcg_focus_cur_scg (wbcg);
+#warning GTK3: what can we do there for gtk3?
+#if 0
 			entry->in_drag = FALSE;
 			/*
 			 * ->button is private, ugh.  Since the text area
@@ -2194,6 +2203,7 @@ cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event,
 			 * correct state.
 			 */
 			entry->button = 0;
+#endif
 			return TRUE;
 		}
 
@@ -2281,7 +2291,7 @@ edit_area_button (WBCGtk *wbcg, GtkToolbar *tb,
 			      "sensitive", sensitive,
 			      "can-focus", FALSE,
 			      NULL);
-	go_tool_item_set_tooltip_text (GTK_TOOL_ITEM (button), tip);
+	gtk_tool_item_set_tooltip_text (GTK_TOOL_ITEM (button), tip);
 	g_signal_connect_swapped (button, "clicked", func, wbcg);
 	gtk_toolbar_insert (tb, GTK_TOOL_ITEM (button), -1);
 
@@ -2300,7 +2310,7 @@ edit_area_button_menu (WBCGtk *wbcg, GtkToolbar *tb,
 			      "sensitive", sensitive,
 			      "can-focus", FALSE,
 			      NULL);
-	go_tool_item_set_tooltip_text (GTK_TOOL_ITEM (button), tip);
+	gtk_tool_item_set_tooltip_text (GTK_TOOL_ITEM (button), tip);
 	g_signal_connect_swapped (button, "clicked", func, wbcg);
 	gtk_toolbar_insert (tb, GTK_TOOL_ITEM (button), -1);
 	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (button),
@@ -2549,8 +2559,8 @@ show_gui (WBCGtk *wbcg)
 		pheight = pheight > 0 ? pheight : -1;
 		gtk_widget_set_size_request (GTK_WIDGET (wbcg->notebook_area),
 					     pwidth, pheight);
-		gtk_widget_size_request (GTK_WIDGET (wbcg->toplevel),
-					 &requisition);
+		gtk_widget_get_preferred_size (GTK_WIDGET (wbcg->toplevel),
+					 &requisition, NULL);
 		/* We want to test if toplevel is bigger than screen.
 		 * gtk_widget_size_request tells us the space
 		 * allocated to the  toplevel proper, but not how much is
@@ -2699,8 +2709,6 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	g_free (target_type);
 }
 
-#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
-
 static void cb_cs_go_up  (WBCGtk *wbcg)
 { wb_control_navigate_to_cell (WORKBOOK_CONTROL (wbcg), navigator_top); }
 static void cb_cs_go_down  (WBCGtk *wbcg)
@@ -2764,8 +2772,6 @@ wbc_gtk_cell_selector_popup (G_GNUC_UNUSED GtkEntry *entry,
 		gnumeric_popup_menu (GTK_MENU (menu), &event->button);
 	}
 }
-#endif
-
 
 static void
 wbc_gtk_create_edit_area (WBCGtk *wbcg)
@@ -2786,7 +2792,7 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 	/* Set a reasonable width for the selection box. */
 	len = go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg))),
-		gtk_widget_get_style (GTK_WIDGET (entry))->font_desc,
+		gtk_style_context_get_font (gtk_widget_get_style_context (GTK_WIDGET (entry)), GTK_STATE_NORMAL),
 		cell_coord_name (GNM_MAX_COLS - 1, GNM_MAX_ROWS - 1));
 	/*
 	 * Add a little extra since font might be proportional and since
@@ -2846,8 +2852,6 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 		"focus-out-event",
 		G_CALLBACK (cb_statusbox_focus), wbcg);
 
-#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
-
 	gtk_entry_set_icon_from_stock
 		(GTK_ENTRY (wbcg->selection_descriptor),
 		 GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_JUMP_TO);
@@ -2863,8 +2867,6 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 			  G_CALLBACK
 			  (wbc_gtk_cell_selector_popup),
 			  wbcg);
-#endif
-
 
 	gtk_widget_show_all (GTK_WIDGET (tb));
 }
@@ -3713,6 +3715,8 @@ cb_handlebox_dock_status (GtkHandleBox *hb,
 			  GtkToolbar *toolbar, gpointer pattached)
 {
 	gboolean attached = GPOINTER_TO_INT (pattached);
+#warning GTK3: looks like there is no replacement in gtk3
+#if 0
 	GtkWidget *box = GTK_WIDGET (hb);
 
 	/* BARF!  */
@@ -3721,6 +3725,7 @@ cb_handlebox_dock_status (GtkHandleBox *hb,
 	style->ythickness = attached ? 2 : 0;
 	gtk_widget_set_style (box, style);
 	g_object_unref (style);
+#endif
 
 	gtk_toolbar_set_show_arrow (toolbar, attached);
 }
@@ -3996,12 +4001,8 @@ set_toolbar_style_for_position (GtkToolbar *tb, GtkPositionType pos)
 		GTK_ORIENTATION_HORIZONTAL, GTK_ORIENTATION_HORIZONTAL
 	};
 
-#ifdef HAVE_GTK_ORIENTABLE_SET_ORIENTATION
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (tb),
 					orientations[pos]);
-#else
-	gtk_toolbar_set_orientation (tb, orientations[pos]);
-#endif
 
 	if (GTK_IS_HANDLE_BOX (box)) {
 		static const GtkPositionType hdlpos[] = {
@@ -4247,7 +4248,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 				"signal::child_detached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (FALSE),
 				NULL);
 		} else
-			box = gtk_hbox_new (FALSE, 2);
+			box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 		g_signal_connect (G_OBJECT (w),
 				  "button_press_event",
 				  G_CALLBACK (cb_toolbar_button_press),
@@ -4257,7 +4258,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 				  G_CALLBACK (cb_handlebox_button_press),
 				  gtk);
 
-		gtk_container_add (GTK_CONTAINER (box), w);
+		gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
 		gtk_widget_show_all (box);
 		if (!visible)
 			gtk_widget_hide (box);
@@ -4898,17 +4899,15 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 
 	wbcg->progress_bar = gtk_progress_bar_new ();
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), " ");
-	gtk_progress_bar_set_orientation (
-		GTK_PROGRESS_BAR (wbcg->progress_bar), GTK_PROGRESS_LEFT_TO_RIGHT);
+	gtk_progress_bar_set_inverted (GTK_PROGRESS_BAR (wbcg->progress_bar), FALSE);
 
 	wbcg->auto_expr_label = tmp = gtk_label_new ("");
 	g_object_ref (wbcg->auto_expr_label);
 	gtk_label_set_ellipsize (GTK_LABEL (tmp), PANGO_ELLIPSIZE_START);
 	gtk_widget_set_can_focus (tmp, FALSE);
-	gtk_widget_ensure_style (tmp);
 	gtk_widget_set_size_request (tmp, go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
-		gtk_widget_get_style (tmp)->font_desc,
+		gtk_style_context_get_font (gtk_widget_get_style_context (tmp), GTK_STATE_NORMAL),
 		"Sumerage=-012345678901234"), -1);
 	tmp = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (tmp), wbcg->auto_expr_label);
@@ -4920,12 +4919,12 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	gtk_container_add (GTK_CONTAINER (frame), tmp);
 
 	wbcg->status_text = tmp = gtk_statusbar_new ();
-	gtk_widget_ensure_style (tmp);
 	gtk_widget_set_size_request (tmp, go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
-		gtk_widget_get_style (tmp)->font_desc, "W") * 5, -1);
+		gtk_style_context_get_font (gtk_widget_get_style_context (tmp), GTK_STATE_NORMAL),
+	        "W") * 5, -1);
 
-	wbcg->tabs_paned = GTK_PANED (gtk_hpaned_new ());
+	wbcg->tabs_paned = GTK_PANED (gtk_paned_new (GTK_ORIENTATION_HORIZONTAL));
 	gtk_paned_pack2 (wbcg->tabs_paned, wbcg->progress_bar, FALSE, TRUE);
 	g_signal_connect (G_OBJECT (wbcg->tabs_paned),
 			  "size-allocate", G_CALLBACK (cb_paned_size_allocate),
@@ -4934,7 +4933,7 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 			  "button-press-event", G_CALLBACK (cb_paned_button_press),
 			  NULL);
 
-	wbcg->status_area = gtk_hbox_new (FALSE, 2);
+	wbcg->status_area = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 	g_signal_connect (G_OBJECT (wbcg->status_area),
 			  "size-allocate", G_CALLBACK (cb_status_size_allocate),
 			  wbcg);
@@ -5193,8 +5192,7 @@ wbcg_set_toplevel (WBCGtk *wbcg, GtkWidget *w)
 	g_return_if_fail (GTK_IS_WINDOW (w));
 
 	g_object_set (G_OBJECT (w),
-		"allow-grow", TRUE,
-		"allow-shrink", TRUE,
+		"resizable", TRUE,
 		NULL);
 
 	g_signal_connect_data (w, "delete_event",
@@ -5574,7 +5572,7 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 		(GWeakNotify) cb_dim_editor_weakref_notify, editor);
 
 	gnm_expr_entry_set_update_policy (editor->entry,
-		GTK_UPDATE_DISCONTINUOUS);
+		GNM_UPDATE_DISCONTINUOUS);
 
 	val = gog_dataset_get_dim (dataset, dim_i);
 	if (val != NULL) {
@@ -5807,13 +5805,14 @@ wbc_gtk_init (GObject *obj)
 
 	wbcg->new_object = NULL;
 
-	wbcg->menu_zone = gtk_vbox_new (TRUE, 0);
-	wbcg->everything = gtk_vbox_new (FALSE, 0);
+	wbcg->menu_zone = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_box_set_homogeneous (GTK_BOX (wbcg->menu_zone), TRUE);
+	wbcg->everything = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
-	wbcg->toolbar_zones[GTK_POS_TOP] = gtk_vbox_new (FALSE, 0);
+	wbcg->toolbar_zones[GTK_POS_TOP] = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	wbcg->toolbar_zones[GTK_POS_BOTTOM] = NULL;
-	wbcg->toolbar_zones[GTK_POS_LEFT] = gtk_hbox_new (FALSE, 0);
-	wbcg->toolbar_zones[GTK_POS_RIGHT] = gtk_hbox_new (FALSE, 0);
+	wbcg->toolbar_zones[GTK_POS_LEFT] = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	wbcg->toolbar_zones[GTK_POS_RIGHT] = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 
 	wbcg->idle_update_style_feedback = 0;
 
@@ -5845,7 +5844,7 @@ wbc_gtk_init (GObject *obj)
 	gtk_window_set_title (wbcg_toplevel (wbcg), "Gnumeric");
 	gtk_window_set_wmclass (wbcg_toplevel (wbcg), "Gnumeric", "Gnumeric");
 
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), wbcg->toolbar_zones[GTK_POS_LEFT], FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), wbcg->table, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), wbcg->toolbar_zones[GTK_POS_RIGHT], FALSE, TRUE, 0);

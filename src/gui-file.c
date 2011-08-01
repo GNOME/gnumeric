@@ -68,6 +68,7 @@ static void
 make_format_chooser (GList *list, GtkComboBox *combo)
 {
 	GList *l;
+	GtkComboBoxText *bt = GTK_COMBO_BOX_TEXT (combo);
 
 	/* Make format chooser */
 	for (l = list; l != NULL; l = l->next) {
@@ -82,7 +83,7 @@ make_format_chooser (GList *list, GtkComboBox *combo)
 			descr = go_file_saver_get_description (
 						GO_FILE_SAVER (l->data));
 
-		gtk_combo_box_append_text (combo, descr);
+		gtk_combo_box_text_append_text (bt, descr);
 	}
 }
 
@@ -321,7 +322,7 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 	data.charmap_label = gtk_label_new_with_mnemonic (_("Character _encoding:"));
 
 	/* Make format chooser */
-	format_combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
+	format_combo = GTK_COMBO_BOX (gtk_combo_box_text_new ());
 	make_format_chooser (openers, format_combo);
 	g_signal_connect (G_OBJECT (format_combo), "changed",
 			  G_CALLBACK (file_format_changed_cb), &data);
@@ -587,9 +588,9 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 	}
 
 	{
-		GtkWidget *box = gtk_hbox_new (FALSE, 2);
+		GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 		GtkWidget *label = gtk_label_new_with_mnemonic (_("File _type:"));
-		format_combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
+		format_combo = GTK_COMBO_BOX (gtk_combo_box_text_new ());
 		make_format_chooser (savers, format_combo);
 
 		gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 6);

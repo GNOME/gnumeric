@@ -37,8 +37,7 @@ dialog_get_password (GtkWindow *parent, const char *filename)
 	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
 
 	d = gtk_dialog_new_with_buttons ("", parent,
-					 GTK_DIALOG_DESTROY_WITH_PARENT |
-					 GTK_DIALOG_NO_SEPARATOR,
+					 GTK_DIALOG_DESTROY_WITH_PARENT,
 					 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					 GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 					 NULL);

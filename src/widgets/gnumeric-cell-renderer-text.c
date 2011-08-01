@@ -54,17 +54,15 @@ gnumeric_cell_renderer_text_get_type (void)
 
 static void
 gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
-				    GdkWindow           *window,
+				    cairo_t           	*cr,
 				    GtkWidget           *widget,
-				    GdkRectangle        *background_area,
-				    GdkRectangle        *cell_area,
-				    GdkRectangle        *expose_area,
+				    GdkRectangle const  *background_area,
+				    GdkRectangle const  *cell_area,
 				    GtkCellRendererState flags)
 
 {
 	GtkCellRendererText *celltext = (GtkCellRendererText *) cell;
 	GtkStateType state, frame_state;
-	cairo_t *cr = gdk_cairo_create (window);
 
 	if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)	{
 		frame_state = GTK_STATE_ACTIVE;
@@ -86,11 +84,6 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
 		gnm_cell_renderer_text_copy_background_to_cairo
 			(celltext, cr);
 
-		if (expose_area) {
-			gdk_cairo_rectangle (cr, background_area);
-			cairo_clip (cr);
-		}
-
 		gtk_cell_renderer_get_padding (cell, NULL, &ypad);
 		cairo_rectangle (cr,
 				 background_area->x,
@@ -99,29 +92,29 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
 				 background_area->height - 2 * ypad);
 		cairo_fill (cr);
 
-		if (expose_area)
-			cairo_reset_clip (cr);
 	}
 
 	if (gtk_cell_renderer_text_get_editable (celltext)) {
-		GtkStyle *style = gtk_widget_get_style (widget);
-		gdk_cairo_set_source_color (cr, &style->bg[frame_state]);
+		GtkStyleContext *ctxt = gtk_widget_get_style_context (widget);
+		GdkRGBA rgba;
+		gtk_style_context_get_background_color (ctxt, frame_state, &rgba);
+		gdk_cairo_set_source_rgba (cr, &rgba);
 		gdk_cairo_rectangle (cr, background_area);
+		cairo_save (cr);
 		cairo_clip (cr);
 		gdk_cairo_rectangle (cr, background_area);
 		cairo_stroke (cr);
+		cairo_restore (cr);
 	}
-
-	cairo_destroy (cr);
 
 	if (gtk_cell_renderer_text_get_foreground_set (celltext)) {
 		GTK_CELL_RENDERER_CLASS (parent_class)->render
-			(cell, window, widget, background_area,
-			 cell_area, expose_area, 0);
+			(cell, cr, widget, background_area,
+			 cell_area, 0);
 	} else
 		GTK_CELL_RENDERER_CLASS (parent_class)->render
-			(cell, window, widget, background_area,
-			 cell_area, expose_area, flags);
+			(cell, cr, widget, background_area,
+			 cell_area, flags);
 }
 
 static void

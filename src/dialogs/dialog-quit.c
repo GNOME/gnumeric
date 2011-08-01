@@ -224,7 +224,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 					   _("_Discard All"),
 					   GTK_STOCK_DELETE,
 					   GTK_RESPONSE_NO);
-	go_widget_set_tooltip_text (GTK_WIDGET (button), _("Discard changes in all files"));
+	gtk_widget_set_tooltip_text (GTK_WIDGET (button), _("Discard changes in all files"));
 
 	if (multiple)
 		g_signal_connect (G_OBJECT (list),
@@ -236,14 +236,15 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 					   _("Don't Quit"),
 					   GTK_STOCK_CANCEL,
 					   GTK_RESPONSE_CANCEL);
-	go_widget_set_tooltip_text (button, _("Resume editing"));
+
+	gtk_widget_set_tooltip_text (button, _("Resume editing"));
 
 	if (multiple) {
 		button = go_gtk_dialog_add_button (GTK_DIALOG (dialog),
 						   _("_Save Selected"),
 						   GTK_STOCK_SAVE,
 						   GTK_RESPONSE_OK);
-		go_widget_set_tooltip_text (GTK_WIDGET (button),
+		gtk_widget_set_tooltip_text (GTK_WIDGET (button),
 					    _("Save selected documents and then quit"));
 
 		g_signal_connect (G_OBJECT (list),
@@ -255,7 +256,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 						   _("Save"),
 						   GTK_STOCK_SAVE,
 						   GTK_RESPONSE_OK);
-		go_widget_set_tooltip_text (button, _("Save document"));
+		gtk_widget_set_tooltip_text (button, _("Save document"));
 	}
 
 	scrollw = gtk_scrolled_window_new (NULL, NULL);
@@ -273,7 +274,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 
 		button = go_gtk_button_new_with_stock (_("Select _All"),
 						       GTK_STOCK_SELECT_ALL);
-		go_widget_set_tooltip_text (GTK_WIDGET (button),
+		gtk_widget_set_tooltip_text (GTK_WIDGET (button),
 					    _("Select all documents for saving"));
 
 		g_signal_connect (G_OBJECT (button), "clicked",
@@ -285,7 +286,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 
 		button = go_gtk_button_new_with_stock (_("_Clear Selection"),
 						       GTK_STOCK_CLEAR);
-		go_widget_set_tooltip_text (GTK_WIDGET(button),
+		gtk_widget_set_tooltip_text (GTK_WIDGET(button),
 					    _("Unselect all documents for saving"));
 
 		g_signal_connect (G_OBJECT (button), "clicked",

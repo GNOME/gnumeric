@@ -147,6 +147,7 @@ dialog_sheet_resize (WBCGtk *wbcg)
 	GtkBuilder *gui;
 	ResizeState *state;
 	int slider_width;
+	GtkStyleContext *ctxt;
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, RESIZE_DIALOG_KEY))
 		return;
@@ -160,12 +161,12 @@ dialog_sheet_resize (WBCGtk *wbcg)
 	state->sheet = wbcg_cur_sheet (wbcg);
 	g_return_if_fail (state->dialog != NULL);
 
-	gtk_widget_ensure_style (state->dialog);
+	ctxt = gtk_widget_get_style_context (GTK_WIDGET (wbcg_toplevel (wbcg)));
 	slider_width = mylog2 (MAX (GNM_MAX_ROWS / GNM_MIN_ROWS,
 				    GNM_MAX_COLS / GNM_MIN_COLS)) *
 		go_pango_measure_string
 		(gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg))),
-		 gtk_widget_get_style (state->dialog)->font_desc, "00");
+		 gtk_style_context_get_font (ctxt, GTK_STATE_NORMAL), "00");
 
 	state->columns_scale = go_gtk_builder_get_widget (gui, "columns_scale");
 	gtk_widget_set_size_request (state->columns_scale, slider_width, -1);

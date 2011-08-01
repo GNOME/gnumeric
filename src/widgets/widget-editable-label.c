@@ -39,7 +39,7 @@ static GtkWidgetClass *parent_class = NULL;
 struct _EditableLabel {
 	GtkEntry  entry;
 
-	GdkColor  base, text;
+	GdkRGBA  base, text;
 	char	 *unedited_text;
 	unsigned int base_set;
 	unsigned int text_set;
@@ -67,10 +67,10 @@ static void
 el_set_style_entry (EditableLabel *el)
 {
 	GtkWidget *w = GTK_WIDGET (el);
-	gtk_widget_modify_base (w, GTK_STATE_NORMAL, NULL);
-	gtk_widget_modify_text (w, GTK_STATE_NORMAL, NULL);
-	gtk_widget_modify_base (w, GTK_STATE_ACTIVE, NULL);
-	gtk_widget_modify_text (w, GTK_STATE_ACTIVE, NULL);
+	gtk_widget_override_background_color (w, GTK_STATE_NORMAL, NULL);
+	gtk_widget_override_color (w, GTK_STATE_NORMAL, NULL);
+	gtk_widget_override_background_color (w, GTK_STATE_ACTIVE, NULL);
+	gtk_widget_override_color (w, GTK_STATE_ACTIVE, NULL);
 }
 
 static void
@@ -78,27 +78,28 @@ el_set_style_label (EditableLabel *el)
 {
 	GtkWidget *w = GTK_WIDGET (el);
 
-	gtk_widget_modify_base (w, GTK_STATE_NORMAL,
+	gtk_widget_override_background_color (w, GTK_STATE_NORMAL,
 				el->base_set ? &el->base : NULL);
-	gtk_widget_modify_text (w, GTK_STATE_NORMAL,
+	gtk_widget_override_color (w, GTK_STATE_NORMAL,
 				el->text_set ? &el->text : NULL);
 
-	gtk_widget_modify_base (w, GTK_STATE_ACTIVE,
+	gtk_widget_override_background_color (w, GTK_STATE_ACTIVE,
 				el->base_set ? &el->base : NULL);
-	gtk_widget_modify_text (w, GTK_STATE_ACTIVE,
+	gtk_widget_override_color (w, GTK_STATE_ACTIVE,
 				el->text_set ? &el->text : NULL);
 }
 
 static void
 el_set_cursor (GtkEntry *entry, GdkCursorType cursor_type)
 {
-	if (gtk_entry_get_text_area (entry)) {
-		GdkDisplay *display =
-			gtk_widget_get_display (GTK_WIDGET (entry));
+	GdkDisplay *display =
+		gtk_widget_get_display (GTK_WIDGET (entry));
+	GdkWindow *window = gtk_widget_get_window (GTK_WIDGET (entry));
+	if (display && window) {
 		GdkCursor *cursor =
 			gdk_cursor_new_for_display (display, cursor_type);
-		gdk_window_set_cursor (gtk_entry_get_text_area (entry), cursor);
-		gdk_cursor_unref (cursor);
+		gdk_window_set_cursor (window, cursor);
+		g_object_unref (cursor);
 	}
 }
 
@@ -158,7 +159,6 @@ el_destroy (GtkWidget *widget)
 	EditableLabel *el = EDITABLE_LABEL (widget);
 
 	el_cancel_editing (el);
-
 	gnm_destroy_class_chain (parent_class, widget);
 }
 
@@ -167,8 +167,7 @@ el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 {
 	EditableLabel *el = EDITABLE_LABEL (widget);
 
-	if (button->window != gtk_widget_get_window (widget) &&
-	    button->window != gtk_entry_get_text_area (&el->entry)) {
+	if (button->window != gtk_widget_get_window (widget)) {
 		/* Accept the name change */
 		el_entry_activate (GTK_ENTRY (el), NULL);
 		gdk_event_put ((GdkEvent *)button);
@@ -208,16 +207,15 @@ el_key_press_event (GtkWidget *w, GdkEventKey *event)
 }
 
 static void
-el_size_request (GtkWidget *w, GtkRequisition *req)
+el_get_preferred_width (GtkWidget *w, gint *minimal_width, gint *natural_width)
 {
 	PangoRectangle logical_rect;
 	PangoLayout *layout;
 
-	parent_class->size_request (w, req);
 	layout = gtk_entry_get_layout (GTK_ENTRY (w));
 	pango_layout_get_extents (layout, NULL, &logical_rect);
 
-	req->width = logical_rect.width / PANGO_SCALE + 2 * 2;
+	*minimal_width = *natural_width = logical_rect.width / PANGO_SCALE + 2 * 2;
 }
 
 static void
@@ -230,7 +228,8 @@ el_entry_realize (GtkWidget *widget)
 static void
 el_state_changed (GtkWidget *widget, GtkStateType previous_state)
 {
-	parent_class->state_changed (widget, previous_state);
+	if (parent_class->state_changed)
+		parent_class->state_changed (widget, previous_state);
 	/* GtkEntry::state_changed changes the cursor */
 	if (gtk_widget_get_realized (widget))
 		el_set_cursor (GTK_ENTRY (widget), GDK_HAND2);
@@ -255,16 +254,14 @@ el_motion_notify (GtkWidget      *widget,
 static void
 el_class_init (GObjectClass *object_class)
 {
-	GtkWidgetClass *widget_class;
+	GtkWidgetClass *widget_class = (GtkWidgetClass *) object_class;
 
 	parent_class = g_type_class_peek_parent (object_class);
 
 	gnm_destroy_class_set (object_class, el_destroy);
-
-	widget_class = (GtkWidgetClass *) object_class;
 	widget_class->button_press_event  = el_button_press_event;
 	widget_class->key_press_event	  = el_key_press_event;
-	widget_class->size_request	  = el_size_request;
+	widget_class->get_preferred_width = el_get_preferred_width;
 	widget_class->realize		  = el_entry_realize;
 	widget_class->motion_notify_event = el_motion_notify;
 	widget_class->state_changed	  = el_state_changed;
@@ -318,7 +315,7 @@ editable_label_get_text  (EditableLabel const *el)
  * assign the specified colours.  If we are editing just store them for later use.
  */
 void
-editable_label_set_color (EditableLabel *el, GdkColor *base_color, GdkColor *text_color)
+editable_label_set_color (EditableLabel *el, GdkRGBA *base_color, GdkRGBA *text_color)
 {
 	g_return_if_fail (IS_EDITABLE_LABEL (el));
 
@@ -339,17 +336,20 @@ editable_label_set_color (EditableLabel *el, GdkColor *base_color, GdkColor *tex
 }
 
 GtkWidget *
-editable_label_new (char const *text, GdkColor *base_color,
-				      GdkColor *text_color)
+editable_label_new (char const *text, GdkRGBA *base_color,
+				      GdkRGBA *text_color)
 {
 	EditableLabel *el = g_object_new (EDITABLE_LABEL_TYPE,
 		"has-frame",		FALSE,
 		"editable",		FALSE,
 		NULL);
 
-	GtkStyle *s = gtk_widget_get_default_style ();
-	el->base = s->bg [GTK_STATE_NORMAL];
-	el->text = s->fg [GTK_STATE_NORMAL];
+	GtkStyleContext *ctxt = gtk_widget_get_style_context (GTK_WIDGET (el));
+	gtk_style_context_save (ctxt);
+	gtk_style_context_add_class (ctxt, GTK_STYLE_CLASS_BUTTON);
+	gtk_style_context_get_background_color (ctxt, GTK_STATE_NORMAL, &el->base);
+	gtk_style_context_get_color (ctxt, GTK_STATE_NORMAL, &el->text);
+	gtk_style_context_restore (ctxt);
 
 	editable_label_set_color (el, base_color, text_color);
 

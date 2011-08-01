@@ -1399,7 +1399,7 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_to), n_sheets);
 
-	button_ignore_page_breaks = gtk_hseparator_new ();
+	button_ignore_page_breaks = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_table_attach (GTK_TABLE (table), button_ignore_page_breaks, 1, 7, 7, 8,
 		  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,5,5);
 

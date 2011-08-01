@@ -823,7 +823,6 @@ cb_dialog_formula_guru_query_tooltip (GtkWidget  *widget,
 	if (gtk_tree_view_get_tooltip_context
 	    (state->treeview, &x_, &y_, keyboard_mode, NULL, &path, &iter)) {
 		char *markup;
-		GtkRcStyle *rc_style = gnumeric_create_tooltip_rc_style ();
 		GtkWidget *parent, *window;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
@@ -834,18 +833,17 @@ cb_dialog_formula_guru_query_tooltip (GtkWidget  *widget,
 			state->tooltip_label = gnumeric_create_tooltip_widget ();
 			state->tooltip_widget
 				= gtk_widget_get_toplevel (state->tooltip_label);
-			gtk_widget_modify_style /* Applying to label */
-				(state->tooltip_label, rc_style);
-			gtk_widget_modify_style /* Applying to widget */
-				(state->tooltip_widget, rc_style);
+#warning GTK3: are these two lines useful? gnumeric_create_tooltip_widget_should do it
+			gnumeric_tooltip_set_style (state->tooltip_label);
+			gnumeric_tooltip_set_style (state->tooltip_widget);
 			gtk_widget_show_all (state->tooltip_widget);
 			g_object_ref (G_OBJECT (state->tooltip_widget));
 			g_object_ref (G_OBJECT (state->tooltip_label));
 		}
 		gtk_tooltip_set_custom (tooltip, state->tooltip_widget);
 		window = gtk_widget_get_toplevel (state->tooltip_widget);
-		gtk_widget_modify_style /* Applying to window */
-			(window, rc_style);
+		/* Applying to window */
+		gnumeric_tooltip_set_style (window);
 		gtk_widget_set_name (window, "gnumeric-tooltip");
 		gtk_widget_set_app_paintable (window, FALSE);
 

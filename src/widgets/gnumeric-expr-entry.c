@@ -81,6 +81,21 @@
 #define  TOKEN_BRACE_OPEN 123
 #define  TOKEN_BRACE_CLOSED 125
 
+GType
+gnm_update_type_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+    static const GEnumValue values[] = {
+      { GNM_UPDATE_CONTINUOUS, "GNM_UPDATE_CONTINUOUS", "continuous" },
+      { GNM_UPDATE_DISCONTINUOUS, "GNM_UPDATE_DISCONTINUOUS", "discontinuous" },
+      { GNM_UPDATE_DELAYED, "GNM_UPDATE_DELAYED", "delayed" },
+      { 0, NULL, NULL }
+    };
+    etype = g_enum_register_static (g_intern_static_string ("GnmUpdateType"), values);
+  }
+  return etype;
+}
 
 typedef struct {
 	GnmRangeRef ref;
@@ -90,7 +105,7 @@ typedef struct {
 } Rangesel;
 
 struct _GnmExprEntry {
-	GtkHBox	parent;
+	GtkBox	parent;
 
 	GtkEntry		*entry;
 	GtkWidget               *calendar_combo;
@@ -105,7 +120,7 @@ struct _GnmExprEntry {
 	GnmExprEntryFlags	 flags;
 	int			 freeze_count;
 
-	GtkUpdateType		 update_policy;
+	GnmUpdateType		 update_policy;
 	guint			 update_timeout_id;
 
 	gboolean                 is_cell_renderer;  /* as cell_editable */
@@ -133,7 +148,7 @@ struct _GnmExprEntry {
 };
 
 typedef struct _GnmExprEntryClass {
-	GtkHBoxClass base;
+	GtkBoxClass base;
 
 	void (* update)   (GnmExprEntry *gee, gboolean user_requested_update);
 	void (* changed)  (GnmExprEntry *gee);
@@ -175,7 +190,7 @@ static void     gee_remove_update_timer (GnmExprEntry *range);
 static void     cb_gee_notify_cursor_position (GnmExprEntry *gee);
 
 static gboolean gee_debug;
-static GtkObjectClass *parent_class = NULL;
+static GtkWidgetClass *parent_class = NULL;
 
 static gboolean
 gee_is_editing (GnmExprEntry *gee)
@@ -1264,7 +1279,7 @@ cb_gee_key_press_event (GtkEntry	*entry,
 			wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
 		return TRUE;
 
-	case GDK_KP_Enter:
+	case GDK_KEY_KP_Enter:
 	case GDK_KEY_Return:
 		if (gee->is_cell_renderer)
 			return FALSE;
@@ -1431,7 +1446,7 @@ gee_init (GnmExprEntry *gee)
 	gee->wbcg = NULL;
 	gee->freeze_count = 0;
 	gee->update_timeout_id = 0;
-	gee->update_policy = GTK_UPDATE_CONTINUOUS;
+	gee->update_policy = GNM_UPDATE_CONTINUOUS;
 	gee->feedback_disabled = FALSE;
 	gee->lexer_items = NULL;
 	gee->texpr = NULL;
@@ -1585,7 +1600,7 @@ gee_class_init (GObjectClass *gobject_class)
 		 g_param_spec_enum ("update-policy",
 				    _("Update policy"),
 				    _("How frequently changes to the entry should be applied"),
-				    GTK_TYPE_UPDATE_TYPE, GTK_UPDATE_CONTINUOUS,
+				    GNM_TYPE_UPDATE_TYPE, GNM_UPDATE_CONTINUOUS,
 				    GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property
@@ -1658,7 +1673,7 @@ gee_cell_editable_init (GtkCellEditableIface *iface)
 
 GSF_CLASS_FULL (GnmExprEntry, gnm_expr_entry,
 		NULL, NULL, gee_class_init, NULL,
-		gee_init, GTK_TYPE_HBOX, 0,
+		gee_init, GTK_TYPE_BOX, 0,
 		GSF_INTERFACE (gee_cell_editable_init, GTK_TYPE_CELL_EDITABLE);
 		GSF_INTERFACE (gee_go_plot_data_editor_init, GOG_TYPE_DATA_EDITOR))
 
@@ -1738,7 +1753,7 @@ gee_rangesel_update_text (GnmExprEntry *gee)
 		else
 			/* We don't call gtk_editable_delete_text since we don't want */
 			/* to emit a signal yet */
-			GTK_EDITABLE_GET_CLASS (gee->entry)->delete_text (editable,
+			GTK_EDITABLE_GET_IFACE (gee->entry)->delete_text (editable,
 									  rs->text_start,
 									  rs->text_end);
 		rs->text_end = rs->text_start;
@@ -2105,17 +2120,17 @@ gnm_expr_entry_signal_update (GnmExprEntry *gee, gboolean user_requested)
  * @gee: a #GnmExprEntry
  * @policy: update policy
  *
- * Sets the update policy for the expr-entry. #GTK_UPDATE_CONTINUOUS means that
+ * Sets the update policy for the expr-entry. #GNM_UPDATE_CONTINUOUS means that
  * anytime the entry's content changes, the update signal will be emitted.
- * #GTK_UPDATE_DELAYED means that the signal will be emitted after a brief
+ * #GNM_UPDATE_DELAYED means that the signal will be emitted after a brief
  * timeout when no changes occur, so updates are spaced by a short time rather
- * than continuous. #GTK_UPDATE_DISCONTINUOUS means that the signal will only
+ * than continuous. #GNM_UPDATE_DISCONTINUOUS means that the signal will only
  * be emitted when the user releases the button and ends the rangeselection.
  *
  **/
 void
 gnm_expr_entry_set_update_policy (GnmExprEntry *gee,
-				       GtkUpdateType  policy)
+				       GnmUpdateType  policy)
 {
 	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 
@@ -2162,15 +2177,15 @@ gnm_expr_entry_thaw (GnmExprEntry *gee)
 	if (gee->freeze_count > 0 && (--gee->freeze_count) == 0) {
 		gee_rangesel_update_text (gee);
 		switch (gee->update_policy) {
-		case GTK_UPDATE_DELAYED :
+		case GNM_UPDATE_DELAYED :
 			gee_reset_update_timer (gee, FALSE);
 			break;
 
 		default :
-		case GTK_UPDATE_DISCONTINUOUS :
+		case GNM_UPDATE_DISCONTINUOUS :
 			if (gee->scg->rangesel.active)
 				break;
-		case GTK_UPDATE_CONTINUOUS:
+		case GNM_UPDATE_CONTINUOUS:
 			g_signal_emit (G_OBJECT (gee), signals[UPDATE], 0, FALSE);
 		}
 	}

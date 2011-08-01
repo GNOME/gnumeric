@@ -82,9 +82,9 @@ typedef struct {
 void
 gnm_xml_out_add_gocolor (GsfXMLOut *o, char const *id, GOColor c)
 {
-	GdkColor tmp;
-	go_color_to_gdk (c, &tmp);
-	gsf_xml_out_add_color (o, id, tmp.red, tmp.green, tmp.blue);
+	GdkRGBA tmp;
+	go_color_to_gdk_rgba (c, &tmp);
+	gsf_xml_out_add_color (o, id, tmp.red * 65535, tmp.green * 65535, tmp.blue * 65535);
 }
 
 static void

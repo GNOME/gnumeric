@@ -53,6 +53,10 @@
 	* src/workbook-view.c (wb_view_auto_expr_recalc): use
 	format_value_layout
 
+2011-08-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* all: make things build against gtk+-3.0.
+
 2011-07-31  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

@@ -430,6 +430,7 @@ gnumeric-paths.h: Makefile
 	echo '#define GNUMERIC_LIBDIR		"$(gnumeric_libdir)"'; \
 	echo '#define GNUMERIC_ICONDIR		"$(gnumeric_icondir)"'; \
 	echo '#define GNUMERIC_LOCALEDIR	"$(gnumeric_localedir)"'; \
+	echo '#define GNUMERIC_EXTERNPLUGINDIR		"$(gnumeric_externplugindir)"'; \
 	echo ''; \
 	echo '#endif /* GNUMERIC_PATHS_H */'; \
 	) >$@

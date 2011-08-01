@@ -5,6 +5,9 @@ Andreas:
 	[#584380][#651561]
 	* Clarify the distinction beween open/save and import/export.
 
+Jean:
+	* Make things build against gtk+-3.0.
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.17
 

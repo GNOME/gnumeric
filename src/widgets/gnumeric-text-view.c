@@ -32,7 +32,7 @@
 #include <dead-kittens.h>
 
 struct _GnmTextView {
-	GtkVBox	parent;
+	GtkBox	parent;
 
 	GtkTextBuffer *buffer;
 	GtkTextView *view;
@@ -43,7 +43,7 @@ struct _GnmTextView {
 };
 
 typedef struct _GnmTextViewClass {
-	GtkVBoxClass base;
+	GtkBoxClass base;
 
 	void (* changed)  (GnmTextView *gtv);
 } GnmTextViewClass;
@@ -274,6 +274,7 @@ gtv_build_button_bold (GtkWidget *tb, GnmTextView *gtv)
 
 static GObjectClass *parent_class = NULL;
 
+/* Do we realy need a finalize method there? */
 static void
 gtv_destroy (GtkWidget *widget)
 {
@@ -342,6 +343,8 @@ gtv_init (GnmTextView *gtv)
 {
 	GtkWidget *tb = gtk_toolbar_new ();
 	GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
+
+	g_object_set (G_OBJECT (gtv), "orientation", GTK_ORIENTATION_VERTICAL, NULL);
 
 	gtv->view = GTK_TEXT_VIEW (gtk_text_view_new ());
 	gtv->buffer = gtk_text_view_get_buffer (gtv->view);
@@ -416,7 +419,7 @@ gtv_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GnmTextView, gnm_text_view,
 	   gtv_class_init,
-	   gtv_init, GTK_TYPE_VBOX)
+	   gtv_init, GTK_TYPE_BOX)
 
 
 /**

@@ -244,7 +244,7 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 			 ItemBar const *ib, gboolean is_cols, int w, int h,
 			 GPtrArray *btns, GtkWidget *box)
 {
-	GtkStyle *style;
+	PangoFontDescription *font_desc;
 	unsigned i;
 	Sheet const *sheet = scg_sheet (scg);
 
@@ -283,20 +283,17 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 					   "is_cols", GINT_TO_POINTER (1));
 	}
 
-	style = gtk_style_new ();
-	if (style->font_desc)
-		pango_font_description_free (style->font_desc);
-	style->font_desc = pango_font_describe (item_bar_normal_font (ib));
+	font_desc = pango_font_describe (item_bar_normal_font (ib));
 
 	/* size all of the button so things work after a zoom */
 	for (i = 0 ; i < btns->len ; i++) {
 		GtkWidget *btn = g_ptr_array_index (btns, i);
 		GtkWidget *label = gtk_bin_get_child (GTK_BIN (gtk_bin_get_child (GTK_BIN (btn))));
 		gtk_widget_set_size_request (GTK_WIDGET (btn), w, h);
-		gtk_widget_set_style (label, style);
+		gtk_widget_override_font (label, font_desc);
 	}
 
-	g_object_unref (style);
+	pango_font_description_free (font_desc);
 	gtk_widget_show_all (box);
 }
 
@@ -553,24 +550,23 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 /***************************************************************************/
 
 static void
-cb_select_all_btn_expose (GtkWidget *widget, GdkEventExpose *event, SheetControlGUI *scg)
+cb_select_all_btn_draw (GtkWidget *widget, cairo_t *cr, SheetControlGUI *scg)
 {
 	int offset = scg_sheet (scg)->text_is_rtl ? -1 : 0;
 	GtkAllocation a;
+	GdkRGBA rgba;
+	GtkStyleContext *ctxt = gtk_widget_get_style_context (widget);
 
 	gtk_widget_get_allocation (widget, &a);
 
 	/* This should be keep in sync with item_bar_cell code (item-bar.c) */
-	gdk_draw_rectangle (gtk_widget_get_window (widget),
-			    gtk_widget_get_style (widget)->bg_gc[GTK_STATE_ACTIVE],
-			    TRUE,
-			    offset + 1, 1, a.width - 1, a.height - 1);
-	/* The widget parameters could be NULL, but if so some themes would emit a warning.
-	 * (Murrine is known to do this: http://bugzilla.gnome.org/show_bug.cgi?id=564410). */
-	gtk_paint_shadow (gtk_widget_get_style (widget),
-			  gtk_widget_get_window (widget),
-			  GTK_STATE_NORMAL, GTK_SHADOW_OUT,
-			  NULL, widget, "GnmItemBarCell",
+
+	gtk_style_context_get_background_color (ctxt, GTK_STATE_ACTIVE, &rgba);
+	gdk_cairo_set_source_rgba (cr, &rgba);
+	cairo_rectangle (cr, offset + 1, 1, a.width - 1, a.height - 1);
+	cairo_fill (cr);
+#warning GTK3: how do we select the shadow type there, see also item-bar.c
+	gtk_render_frame (gtk_widget_get_style_context (widget), cr,
 			  offset, 0, a.width + 1, a.height + 1);
 }
 
@@ -1322,8 +1318,11 @@ resize_pane_finish (SheetControlGUI *scg, GtkPaned *p)
 	int colrow;
 	gint64 guide_pos;
 
+#warning GTK3: replace this?
+#if 0
 	if (p->in_drag)
 		return TRUE;
+#endif
 	pane = resize_pane_pos (scg, p, &colrow, &guide_pos);
 
 	if (sv_is_frozen (sv)) {
@@ -1374,7 +1373,8 @@ cb_resize_pane_motion (GtkPaned *p,
 	gint64 guide_pos;
 
 	resize_pane_pos (scg, p, &colrow, &guide_pos);
-	if (scg->pane_drag_handler == 0 && p->in_drag) {
+#warning GTK3: what replaces p->in_drag?
+	if (scg->pane_drag_handler == 0/* && p->in_drag*/) {
 		g_signal_handlers_block_by_func
 			(G_OBJECT (p),
 			 G_CALLBACK (cb_check_resize), scg);
@@ -1424,10 +1424,10 @@ SheetControlGUI *
 sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 {
 	SheetControlGUI *scg;
-	GtkUpdateType scroll_update_policy;
+	GnmUpdateType scroll_update_policy;
 	Sheet *sheet;
 	GocDirection direction;
-	GdkColor cfore, cback;
+	GdkRGBA cfore, cback;
 
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
 
@@ -1452,12 +1452,14 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 
 		scg->col_group.buttons = g_ptr_array_new ();
 		scg->row_group.buttons = g_ptr_array_new ();
-		scg->col_group.button_box = gtk_vbox_new (TRUE, 0);
-		scg->row_group.button_box = gtk_hbox_new (TRUE, 0);
+		scg->col_group.button_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+		gtk_box_set_homogeneous (GTK_BOX (scg->col_group.button_box), TRUE);
+		scg->row_group.button_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+		gtk_box_set_homogeneous (GTK_BOX (scg->row_group.button_box), TRUE);
 		scg->select_all_btn = gtk_drawing_area_new ();
 		gtk_widget_add_events (scg->select_all_btn, GDK_BUTTON_PRESS_MASK);
-		g_signal_connect (G_OBJECT (scg->select_all_btn), "expose-event",
-				  G_CALLBACK (cb_select_all_btn_expose), scg);
+		g_signal_connect (G_OBJECT (scg->select_all_btn), "draw",
+				  G_CALLBACK (cb_select_all_btn_draw), scg);
 		g_signal_connect (G_OBJECT (scg->select_all_btn), "event",
 				  G_CALLBACK (cb_select_all_btn_event), scg);
 
@@ -1506,12 +1508,16 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 
 		/* Scroll bars and their adjustments */
 		scroll_update_policy = gnm_conf_get_core_gui_editing_livescrolling ()
-			? GTK_UPDATE_CONTINUOUS : GTK_UPDATE_DELAYED;
+			? GNM_UPDATE_CONTINUOUS : GNM_UPDATE_DELAYED;
 		scg->va = (GtkAdjustment *)gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
-		scg->vs = g_object_new (GTK_TYPE_VSCROLLBAR,
+		scg->vs = g_object_new (GTK_TYPE_SCROLLBAR,
+		                "orientation", GTK_ORIENTATION_VERTICAL,
 				"adjustment",	 scg->va,
-				"update-policy", scroll_update_policy,
-				NULL);
+#warning GTK3: update-policy is gone from gtk, what should we do?
+#if 0
+		                "update-policy", scroll_update_policy,
+#endif
+		                NULL);
 		g_signal_connect (G_OBJECT (scg->vs),
 			"value_changed",
 			G_CALLBACK (cb_vscrollbar_value_changed), scg);
@@ -1520,9 +1526,12 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 			G_CALLBACK (cb_vscrollbar_adjust_bounds), sheet);
 
 		scg->ha = (GtkAdjustment *)gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
-		scg->hs = g_object_new (GTK_TYPE_HSCROLLBAR,
+		scg->hs = g_object_new (GTK_TYPE_SCROLLBAR,
 				"adjustment", scg->ha,
-				"update-policy", scroll_update_policy,
+#warning GTK3: update-policy is gone from gtk, what should we do?
+#if 0
+		                "update-policy", scroll_update_policy,
+#endif
 				NULL);
 		g_signal_connect (G_OBJECT (scg->hs),
 			"value_changed",
@@ -1538,7 +1547,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			0, 0);
-		scg->vpane = g_object_new (GTK_TYPE_VPANED, NULL);
+		scg->vpane = g_object_new (GTK_TYPE_PANED, "orientation", GTK_ORIENTATION_VERTICAL, NULL);
 		gtk_paned_add1 (scg->vpane, gtk_label_new (NULL)); /* use a spacer */
 		gtk_paned_add2 (scg->vpane, scg->vs);
 		scg_gtk_paned_set_position (scg, scg->vpane, 0);
@@ -1547,7 +1556,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 			GTK_FILL,
 			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			0, 0);
-		scg->hpane = g_object_new (GTK_TYPE_HPANED, NULL);
+		scg->hpane = g_object_new (GTK_TYPE_PANED, NULL);
 		gtk_paned_add1 (scg->hpane, gtk_label_new (NULL)); /* use a spacer */
 		gtk_paned_add2 (scg->hpane, scg->hs);
 		scg_gtk_paned_set_position (scg, scg->hpane, 0);
@@ -1592,7 +1601,6 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 			 "swapped_signal::notify::rows", cb_scg_sheet_resized, scg,
 			 NULL);
 	} else {
-		GtkStyle *style;
 		scg->active_panes = 0;
 		scg->table = GTK_TABLE (gtk_table_new (1, 1, FALSE));
 		g_object_ref (scg->table);
@@ -1605,10 +1613,8 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 				GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 				0, 0);
 		}
-		style = gtk_style_copy (gtk_widget_get_style (scg->vs));
-		style->bg[GTK_STATE_NORMAL] = style->white;
-		gtk_widget_set_style (scg->vs, style);
-		g_object_unref (style);
+#warning GTK3: we used GtkStyle::white there */
+		gtk_widget_override_background_color (scg->vs, GTK_STATE_NORMAL, &gs_white);
 
 		sv_attach_control (sv, SHEET_CONTROL (scg));
 		g_object_set_data (G_OBJECT (scg->vs), "sheet-control", scg);
@@ -1622,10 +1628,10 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 	scg->label = editable_label_new
 		(sheet->name_unquoted,
 		 sheet->tab_color
-		 ? go_color_to_gdk (sheet->tab_color->go_color, &cback)
+		 ? go_color_to_gdk_rgba (sheet->tab_color->go_color, &cback)
 		 : NULL,
 		 sheet->tab_text_color
-		 ? go_color_to_gdk (sheet->tab_text_color->go_color, &cfore)
+		 ? go_color_to_gdk_rgba (sheet->tab_text_color->go_color, &cfore)
 		 : NULL);
 	g_object_ref (scg->label);
 

@@ -341,7 +341,7 @@ previews_load (AutoFormatState *state, int topindex)
 			goc_canvas_scroll_to (state->canvas[i],
 				-BORDER, -BORDER);
 
-			go_widget_set_tooltip_text
+			gtk_widget_set_tooltip_text
 				(GTK_WIDGET (state->canvas[i]),
 				 _(ft->name));
 
@@ -467,7 +467,7 @@ cb_category_changed (AutoFormatState *state)
 		if (NULL == tip)
 			tip = state->current_category_group->name;
 	}
-	go_widget_set_tooltip_text (GTK_WIDGET (state->category),
+	gtk_widget_set_tooltip_text (GTK_WIDGET (state->category),
 		(NULL != tip) ? _(tip) : "");
 	previews_load (state, 0);
 	cb_check_item_toggled (NULL, state);

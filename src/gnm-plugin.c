@@ -920,6 +920,7 @@ gnm_plugins_init (GOCmdContext *context)
 	char const *env_var;
 	GSList *dir_list = go_slist_create (
 		g_build_filename (gnm_sys_lib_dir (), PLUGIN_SUBDIR, NULL),
+	        g_strdup (gnm_sys_extern_plugin_dir ()),
 		(gnm_usr_dir (TRUE) == NULL ? NULL :
 			g_build_filename (gnm_usr_dir (TRUE), PLUGIN_SUBDIR, NULL)),
 		NULL);

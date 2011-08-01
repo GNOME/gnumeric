@@ -200,7 +200,7 @@ cb_gnm_so_filled_changed (GnmSOFilled const *sof,
 				double w, h;
 				g_object_get (group->bg, "width", &w, "height", &h, NULL);
 				group->text = goc_item_new (GOC_GROUP (group), GOC_TYPE_TEXT,
-					"anchor",	GTK_ANCHOR_CENTER,
+					"anchor",	GO_ANCHOR_CENTER,
 					"clip",		TRUE,
 					"x",		w / 2.,
 					"y",		h / 2.,
@@ -208,7 +208,7 @@ cb_gnm_so_filled_changed (GnmSOFilled const *sof,
 					NULL);
 			} else
 				group->text = goc_item_new (GOC_GROUP (group), GOC_TYPE_TEXT,
-					"anchor",	GTK_ANCHOR_NW,
+					"anchor",	GO_ANCHOR_NW,
 					"clip",		TRUE,
 					"x",		sof->margin_pts.left,
 					"y",		sof->margin_pts.top,

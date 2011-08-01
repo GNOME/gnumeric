@@ -397,7 +397,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 	 * NOTE : Keep these in sync with the condition
 	 *        for tabs.
 	 */
-	case GDK_KP_Enter:
+	case GDK_KEY_KP_Enter:
 	case GDK_KEY_Return:
 		if (wbcg_is_editing (wbcg) &&
 		    (state == GDK_CONTROL_MASK ||
@@ -676,8 +676,8 @@ gnm_pane_focus_out (GtkWidget *widget, GdkEventFocus *event)
 static void
 gnm_pane_realize (GtkWidget *w)
 {
-	GtkStyle  *style;
-
+	GtkStyleContext *ctxt;
+	GdkRGBA rgba;
 	GNM_PANE (w)->im_block_edit_start = FALSE;
 
 	if (GTK_WIDGET_CLASS (parent_klass)->realize)
@@ -685,10 +685,10 @@ gnm_pane_realize (GtkWidget *w)
 
 	/* Set the default background color of the canvas itself to white.
 	 * This makes the redraws when the canvas scrolls flicker less. */
-	style = gtk_style_copy (gtk_widget_get_style (w));
-	style->bg[GTK_STATE_NORMAL] = style->white;
-	gtk_widget_set_style (w, style);
-	g_object_unref (style);
+	ctxt = gtk_widget_get_style_context (w);
+	gtk_style_context_get_background_color (ctxt, GTK_STATE_SELECTED, &rgba);
+	gtk_widget_override_background_color (w, GTK_STATE_NORMAL, &gs_white);
+	gtk_widget_override_background_color (w, GTK_STATE_SELECTED, &rgba);
 
 	gtk_im_context_set_client_window
 		(GNM_PANE (w)->im_context,
@@ -887,7 +887,7 @@ gnm_pane_dispose (GObject *obj)
 	pane->cursor.expr_range = NULL;
 
 	if (pane->mouse_cursor) {
-		gdk_cursor_unref (pane->mouse_cursor);
+		g_object_unref (pane->mouse_cursor);
 		pane->mouse_cursor = NULL;
 	}
 	gnm_pane_clear_obj_size_tip (pane);
@@ -988,13 +988,6 @@ GSF_CLASS (GnmPane, gnm_pane,
 	   GNM_SIMPLE_CANVAS_TYPE)
 
 static void
-cb_gnm_pane_header_realized (GtkLayout *layout)
-{
-	GdkWindow *window = gtk_layout_get_bin_window (layout);
-	gdk_window_set_back_pixmap (window, NULL, FALSE);
-}
-
-static void
 gnm_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 		      gboolean is_col_header)
 {
@@ -1031,9 +1024,6 @@ gnm_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 	    NULL != sheet &&
 	    fabs (1. - sheet->last_zoom_factor_used) > 1e-6)
 		goc_canvas_set_pixels_per_unit (canvas, sheet->last_zoom_factor_used);
-
-	g_signal_connect (G_OBJECT (canvas), "realize",
-		G_CALLBACK (cb_gnm_pane_header_realized), NULL);
 }
 
 static void
@@ -1085,7 +1075,7 @@ cb_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
 		GdkModifierType mask;
 		double wx, wy;
 
-		g_object_set_data (&context->parent_instance,
+		g_object_set_data (G_OBJECT (context),
 			"wbcg", scg_wbcg (scg));
 		goc_canvas_w2c (canvas, x, y, &wx, &wy);
 		wx *= goc_canvas_get_pixels_per_unit (canvas);
@@ -1138,7 +1128,7 @@ cb_pane_drag_leave (GtkWidget *widget, GdkDragContext *context,
 	source_pane = GNM_PANE (source_widget);
 
 	wbcg = scg_wbcg (source_pane->simple.scg);
-	if (wbcg == g_object_get_data (&context->parent_instance, "wbcg"))
+	if (wbcg == g_object_get_data (G_OBJECT (context), "wbcg"))
 		return;
 
 	gnm_pane_objects_drag (source_pane, NULL,
@@ -1923,7 +1913,7 @@ gnm_pane_object_autoscroll (GnmPane *pane, GdkDragContext *context,
 	} else
 		dx = 0;
 
-	g_object_set_data (&context->parent_instance,
+	g_object_set_data (G_OBJECT (context),
 			   "wbcg", scg_wbcg (scg));
 	pane->sliding_dx    = dx;
 	pane->sliding_dy    = dy;
@@ -2242,9 +2232,9 @@ gnm_pane_special_cursor_stop (GnmPane *pane)
 void
 gnm_pane_mouse_cursor_set (GnmPane *pane, GdkCursor *c)
 {
-	gdk_cursor_ref (c);
+	g_object_ref (c);
 	if (pane->mouse_cursor)
-		gdk_cursor_unref (pane->mouse_cursor);
+		g_object_unref (pane->mouse_cursor);
 	pane->mouse_cursor = c;
 }
 
@@ -2469,8 +2459,8 @@ cb_pane_popup_menu (GnmPane *pane)
 		 * realllllly wants a col/row header menu */
 		gboolean is_col = FALSE;
 		gboolean is_row = FALSE;
-		GdkWindow *gdk_win = gdk_display_get_window_at_pointer (
-			gtk_widget_get_display (GTK_WIDGET (pane)),
+		GdkWindow *gdk_win = gdk_device_get_window_at_position (
+			gtk_get_current_event_device (),
 			NULL, NULL);
 
 		if (gdk_win != NULL) {
@@ -2538,17 +2528,17 @@ control_point_set_cursor (SheetControlGUI const *scg, GocItem *ctrl_pt)
 static void
 target_list_add_list (GtkTargetList *targets, GtkTargetList *added_targets)
 {
-	GList *ptr;
+	unsigned n;
+	GtkTargetEntry *gte;
 
 	g_return_if_fail (targets != NULL);
 
 	if (added_targets == NULL)
 		return;
 
-	for (ptr = added_targets->list; ptr !=  NULL; ptr = ptr->next) {
-		GtkTargetPair *tp = ptr->data;
-		gtk_target_list_add (targets, tp->target, tp->flags, tp->info);
-	}
+	gte = gtk_target_table_new_from_list (added_targets, &n);
+	gtk_target_list_add_table (targets, gte, n);
+	gtk_target_table_free (gte, n);
 }
 
 /**
@@ -2598,14 +2588,12 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 
 
 	if (gnm_debug_flag ("dnd")) {
-		GList *l;
-		g_printerr ("%d offered formats:\n", g_list_length (targets->list));
-		for (l = targets->list; l; l = l->next) {
-			GtkTargetPair *pair = l->data;
-			char *target_name = gdk_atom_name (pair->target);
-			g_printerr ("%s\n", target_name);
-			g_free (target_name);
-		}
+		unsigned i, n;
+		GtkTargetEntry *gte = gtk_target_table_new_from_list (targets, &n);
+		g_printerr ("%u offered formats:\n", n);
+		for (i = 0; i < n; i++)
+			g_printerr ("%s\n", gte[n].target);
+		gtk_target_table_free (gte, n);
 	}
 
 	context = gtk_drag_begin (GTK_WIDGET (canvas), targets,

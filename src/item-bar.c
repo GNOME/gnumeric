@@ -231,8 +231,8 @@ item_bar_unrealize (GocItem *item)
 {
 	ItemBar *ib = ITEM_BAR (item);
 
-	gdk_cursor_unref (ib->change_cursor);
-	gdk_cursor_unref (ib->normal_cursor);
+	g_object_unref (ib->change_cursor);
+	g_object_unref (ib->normal_cursor);
 
 	parent_class->unrealize (item);
 }
@@ -244,35 +244,42 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 {
 	GtkLayout *canvas = GTK_LAYOUT (ib->base.canvas);
 	GtkWidget *widget = GTK_WIDGET (canvas);
-	GtkStyle *style = gtk_widget_get_style (widget);
+	GtkStyleContext *ctxt = gtk_widget_get_style_context (widget);
 	PangoFont *font;
 	PangoRectangle size;
 	GOColor color, font_color;
-	int shadow, ascent;
+	GdkRGBA rgba;
+	int ascent;
 
 	switch (type) {
 	default:
 	case COL_ROW_NO_SELECTION:
-		shadow = GTK_SHADOW_OUT;
 		font   = ib->normal_font;
-		color = GO_COLOR_FROM_GDK (style->bg[GTK_STATE_NORMAL]);
-		font_color = GO_COLOR_FROM_GDK (style->fg[GTK_STATE_NORMAL]);
+		gtk_style_context_set_state (ctxt, GTK_STATE_NORMAL);
+		gtk_style_context_get_background_color (ctxt, GTK_STATE_NORMAL, &rgba);
+		color = GO_COLOR_FROM_GDK_RGBA (rgba);
+		gtk_style_context_get_color (ctxt, GTK_STATE_NORMAL, &rgba);
+		font_color = GO_COLOR_FROM_GDK_RGBA (rgba);
 		ascent = ib->normal_font_ascent;
 		break;
 
 	case COL_ROW_PARTIAL_SELECTION:
-		shadow = GTK_SHADOW_OUT;
 		font   = ib->bold_font;
-		color = GO_COLOR_FROM_GDK (style->bg[GTK_STATE_SELECTED]);
-		font_color = GO_COLOR_FROM_GDK (style->fg[GTK_STATE_SELECTED]);
+		gtk_style_context_set_state (ctxt, GTK_STATE_NORMAL);
+		gtk_style_context_get_background_color (ctxt, GTK_STATE_SELECTED, &rgba);
+		color = GO_COLOR_FROM_GDK_RGBA (rgba);
+		gtk_style_context_get_color (ctxt, GTK_STATE_SELECTED, &rgba);
+		font_color = GO_COLOR_FROM_GDK_RGBA (rgba);
 		ascent = ib->bold_font_ascent;
 		break;
 
 	case COL_ROW_FULL_SELECTION:
-		shadow = GTK_SHADOW_IN;
 		font   = ib->bold_font;
-		color = GO_COLOR_FROM_GDK (style->dark[GTK_STATE_SELECTED]);
-		font_color = GO_COLOR_FROM_GDK (style->fg[GTK_STATE_SELECTED]);
+		gtk_style_context_set_state (ctxt, GTK_STATE_SELECTED);
+		gtk_style_context_get_background_color (ctxt, GTK_STATE_SELECTED, &rgba);
+		color = GO_COLOR_FROM_GDK_RGBA (rgba);
+		gtk_style_context_get_color (ctxt, GTK_STATE_SELECTED, &rgba);
+		font_color = GO_COLOR_FROM_GDK_RGBA (rgba);
 		ascent = ib->bold_font_ascent;
 		break;
 	}
@@ -286,17 +293,10 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 		return;
 	}
 
+	gtk_render_frame (ctxt, cr, rect->x, rect->y, rect->width + 1, rect->height + 1);
 	cairo_rectangle (cr, rect->x + 1, rect->y + 1, rect->width - 2, rect->height - 2);
 	cairo_fill_preserve (cr);
 	cairo_restore (cr);
-
-	/* The widget parameters could be NULL, but if so some themes would emit a warning.
-	 * (Murrine is known to do this: http://bugzilla.gnome.org/show_bug.cgi?id=564410). */
-	gtk_paint_shadow (style,
-			  gtk_layout_get_bin_window (canvas),
-			  GTK_STATE_NORMAL, shadow,
-			  NULL, widget, "GnmItemBarCell",
-			  rect->x, rect->y, rect->width + 1, rect->height + 1);
 
 	g_return_if_fail (font != NULL);
 	g_object_unref (ib->pango.item->analysis.font);
@@ -309,7 +309,7 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (font_color));
 	cairo_translate (cr,
 					 rect->x + (rect->width - PANGO_PIXELS (size.width)) / 2,
-					 rect->y  + (rect->height - PANGO_PIXELS (size.height)) / 2 + ascent);
+					 rect->y + (rect->height - PANGO_PIXELS (size.height)) / 2 + ascent);
 	pango_cairo_show_glyph_string (cr, font, ib->pango.glyphs);
 	cairo_restore (cr);
 }
@@ -343,8 +343,14 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 	gboolean const rtl = sheet->text_is_rtl != FALSE;
 	int shadow;
 	int first_line_offset = 1;
-	GtkStyle *style = gtk_widget_get_style (canvas);
-	GOColor color = GO_COLOR_FROM_GDK (style->text[GTK_STATE_NORMAL]);
+	GdkRGBA rgba;
+	GtkStyleContext *ctxt = gtk_widget_get_style_context (canvas);
+	GOColor color;
+
+	gtk_style_context_save (ctxt);
+	gtk_style_context_add_class (ctxt, GTK_STYLE_CLASS_BUTTON);
+	gtk_style_context_get_color (ctxt, GTK_STATE_NORMAL, &rgba);
+	color = GO_COLOR_FROM_GDK_RGBA (rgba);
 	goc_canvas_c2w (item->canvas, x_0, y_0, &x0, &y0);
 	goc_canvas_c2w (item->canvas, x_1, y_1, &x1, &y1);
 
@@ -452,11 +458,9 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 							else if (size < 6)
 								safety = 6 - size;
 
-							gtk_paint_shadow (gtk_widget_get_style (canvas),
-									  gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
-								 GTK_STATE_NORMAL,
-								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
-								 NULL, NULL, "GnmItemBarCell",
+							gtk_style_context_set_state (ctxt, next->visible ?
+							                             GTK_STATE_NORMAL: GTK_STATE_SELECTED);
+							gtk_render_frame (ctxt, cr,
 								 left, top+safety, size, size);
 							if (size > 9) {
 								if (!prev_visible) {
@@ -485,11 +489,9 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 								safety = 6 - size;
 
 							right = (rtl ? (total + pixels) : total) - size;
-							gtk_paint_shadow (gtk_widget_get_style (canvas),
-									  gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
-								 GTK_STATE_NORMAL,
-								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
-								 NULL, NULL, "GnmItemBarCell",
+							gtk_style_context_set_state (ctxt, next->visible ?
+							                             GTK_STATE_NORMAL: GTK_STATE_SELECTED);
+							gtk_render_frame (ctxt, cr,
 								 right, top+safety, size, size);
 							if (size > 9) {
 								if (!prev_visible) {
@@ -510,7 +512,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 					cairo_restore (cr);
 				}
 			}
-			prev_visible = cri->visible;
+				prev_visible = cri->visible;
 			prev_level = cri->outline_level;
 			++col;
 		} while ((rtl && end <= total) || (!rtl && total <= end));
@@ -615,12 +617,10 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 							left = pos - dir * (.2 * inc - 2);
 							if (rtl)
 								left -= size;
-							gtk_paint_shadow (gtk_widget_get_style (canvas),
-									  gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
-								 GTK_STATE_NORMAL,
-								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
-								 NULL, NULL, "GnmItemBarCell",
-								 left+safety, top, size, size);
+							gtk_style_context_set_state (ctxt, next->visible ?
+							                             GTK_STATE_NORMAL: GTK_STATE_SELECTED);
+							gtk_render_frame (ctxt, cr,
+								left+safety, top, size, size);
 							if (size > 9) {
 								if (!prev_visible) {
 									left += dir;
@@ -650,11 +650,9 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 							if (rtl)
 								left -= size;
 							bottom = total - size;
-							gtk_paint_shadow (gtk_widget_get_style (canvas),
-									  gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
-								 GTK_STATE_NORMAL,
-								 next->visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
-								 NULL, NULL, "GnmItemBarCell",
+							gtk_style_context_set_state (ctxt, next->visible ?
+							                             GTK_STATE_NORMAL: GTK_STATE_SELECTED);
+							gtk_render_frame (ctxt,cr,
 								 left+safety*dir, bottom, size, size);
 							if (size > 9) {
 								if (!next->visible) {
@@ -679,6 +677,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 			++row;
 		} while (total <= end);
 	}
+	gtk_style_context_restore (ctxt);
 	return TRUE;
 }
 

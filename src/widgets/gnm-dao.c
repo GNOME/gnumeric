@@ -32,7 +32,7 @@
 #include <dead-kittens.h>
 
 struct  _GnmDao {
-	GtkHBox		box;
+	GtkBox		box;
 	GtkBuilder      *gui;
 
 	GtkWidget *new_sheet;
@@ -49,13 +49,13 @@ struct  _GnmDao {
 };
 
 typedef struct {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	void (*gnm_dao_changed) (GnmDao *gdao);
 	void (*gnm_dao_activate) (GnmDao *gdao);
 } GnmDaoClass;
 
-static GtkHBoxClass *gnm_dao_parent_class;
+static GtkBoxClass *gnm_dao_parent_class;
 
 /* Signals we emit */
 enum {
@@ -123,7 +123,7 @@ gnm_dao_class_init (GObjectClass *klass)
 {
 	gnm_destroy_class_set (klass, gnm_dao_destroy);
 
-	gnm_dao_parent_class = g_type_class_peek (gtk_hbox_get_type ());
+	gnm_dao_parent_class = g_type_class_peek (gtk_box_get_type ());
 
 	gnm_dao_signals[GNM_DAO_CHANGED] =
 		g_signal_new ("readiness-changed",
@@ -144,7 +144,7 @@ gnm_dao_class_init (GObjectClass *klass)
 }
 
 GSF_CLASS (GnmDao, gnm_dao,
-	   gnm_dao_class_init, gnm_dao_init, GTK_TYPE_HBOX)
+	   gnm_dao_class_init, gnm_dao_init, GTK_TYPE_BOX)
 
 static void
 tool_set_focus_output_range (G_GNUC_UNUSED GtkWidget *widget,

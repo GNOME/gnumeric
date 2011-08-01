@@ -511,15 +511,11 @@ void
 gnm_style_border_set_dash (GnmStyleBorderType const i,
 			   cairo_t *context)
 {
-	GdkLineStyle style = GDK_LINE_SOLID;
 	int w;
 
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (i >= GNM_STYLE_BORDER_NONE);
 	g_return_if_fail (i < GNM_STYLE_BORDER_MAX);
-
-	if (style_border_data[i].pattern != NULL)
-		style = GDK_LINE_ON_OFF_DASH;
 
 	w = style_border_data[i].width;
 	if (w == 0)

@@ -96,7 +96,7 @@ static void
 tree_view_clamp_column_visible (GtkTreeView       *tree_view,
 				GtkTreeViewColumn *column)
 {
-	GtkAdjustment *hadjustment = gtk_tree_view_get_hadjustment (tree_view);
+	GtkAdjustment *hadjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (tree_view));
 	double hval = gtk_adjustment_get_value (hadjustment);
 	double hps = gtk_adjustment_get_page_size (hadjustment);
 	GtkWidget *button = gtk_tree_view_column_get_button (column);
@@ -599,7 +599,7 @@ format_page_update_preview (StfDialogData *pagedata)
 		GtkWidget *button = gtk_tree_view_column_get_button (column);
 
 		if (NULL == g_object_get_data (G_OBJECT (column), "checkbox")) {
-			GtkWidget *vbox = gtk_vbox_new (FALSE,5);
+			GtkWidget *vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
 			GtkWidget *check,
 				*check_autofit = gtk_check_button_new_with_label (_("Auto fit"));
 			char * label_text = g_strdup_printf
@@ -625,10 +625,10 @@ format_page_update_preview (StfDialogData *pagedata)
 				(_("If this checkbox is selected, "
 				   "column %i will be imported into "
 				   "Gnumeric."), i+1);
-			go_widget_set_tooltip_text
+			gtk_widget_set_tooltip_text
 				(check,
 				 label_text);
-			go_widget_set_tooltip_text
+			gtk_widget_set_tooltip_text
 				(check_autofit,
 				 _("If this checkbox is selected, "
 				   "the width of the column will be adjusted "

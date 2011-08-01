@@ -175,12 +175,12 @@ item_grid_unrealize (GocItem *item)
 	ItemGrid *ig = ITEM_GRID (item);
 
 	if (ig->cursor_link) {
-		gdk_cursor_unref (ig->cursor_link);
+		g_object_unref (ig->cursor_link);
 		ig->cursor_link = NULL;
 	}
 
 	if (ig->cursor_cross) {
-		gdk_cursor_unref (ig->cursor_cross);
+		g_object_unref (ig->cursor_cross);
 		ig->cursor_cross = NULL;
 	}
 
@@ -231,7 +231,7 @@ static void
 item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
 			     int start_x, int start_y,
 			     GnmRange const *view, GnmRange const *range,
-			     gboolean draw_selection, GtkStyle *theme)
+			     gboolean draw_selection, GtkStyleContext *ctxt)
 {
 	int l, r, t, b, last;
 	SheetView const *sv = scg_view (ig->scg);
@@ -278,7 +278,7 @@ item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
 
 	/* Check for background THEN selection */
 	if (gnumeric_background_set (style, cr,
-				     is_selected, theme) || is_selected) {
+				     is_selected, ctxt) || is_selected) {
 		/* Remember X excludes the far pixels */
 		if (dir > 0)
 			cairo_rectangle (cr, l, t, r-l+1, b-t+1);
@@ -332,7 +332,7 @@ static void
 item_grid_draw_background (cairo_t *cr, ItemGrid *ig,
 			   GnmStyle const *style,
 			   int col, int row, int x, int y, int w, int h,
-			   gboolean draw_selection, GtkStyle *theme)
+			   gboolean draw_selection, GtkStyleContext *ctxt)
 {
 	SheetView const *sv = scg_view (ig->scg);
 	gboolean const is_selected = draw_selection &&
@@ -340,7 +340,7 @@ item_grid_draw_background (cairo_t *cr, ItemGrid *ig,
 		sv_is_pos_selected (sv, col, row);
 	gboolean const has_back =
 		gnumeric_background_set (style, cr,
-					 is_selected, theme);
+					 is_selected, ctxt);
 
 #if DEBUG_SELECTION_PAINT
 	if (is_selected) {
@@ -393,7 +393,7 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0,
 	SheetView const *sv = scg_view (ig->scg);
 	WorkbookView *wbv = sv_wbv (sv);
 	gboolean show_function_cell_markers = wbv->show_function_cell_markers;
-	GtkStyle *theme = gtk_widget_get_style (GTK_WIDGET (canvas));
+	GtkStyleContext *ctxt = gtk_widget_get_style_context (GTK_WIDGET (canvas));
 
 	/* To ensure that far and near borders get drawn we pretend to draw +-2
 	 * pixels around the target area which would include the surrounding
@@ -568,7 +568,7 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0,
 						item_grid_draw_merged_range (cr, ig,
 									     start_x, y, &view, r,
 									     draw_selection,
-									     theme);
+									     ctxt);
 				}
 			} else {
 				lag = &(ptr->next);
@@ -664,7 +664,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 			item_grid_draw_background (cr, ig,
 				style, col, row, x, y,
 				ci->size_pixels, ri->size_pixels,
-						   draw_selection, theme);
+						   draw_selection, ctxt);
 
 
 			/* Is this part of a span?

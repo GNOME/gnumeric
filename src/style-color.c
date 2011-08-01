@@ -13,12 +13,12 @@
 #include <gtk/gtk.h>
 
 /* Public _unallocated_ colours, i.e., no valid .pixel.  */
-GdkColor gs_black      = { 0, 0x0000, 0x0000, 0x0000 };    /* "Black" */
-GdkColor gs_white      = { 0, 0xffff, 0xffff, 0xffff };    /* "White" */
-GdkColor gs_yellow     = { 0, 0xffff, 0xffff, 0xe0e0 };    /* "LightYellow" */
-GdkColor gs_lavender   = { 0, 0xe6e6, 0xe6e6, 0xfafa };    /* "lavender" */
-GdkColor gs_dark_gray  = { 0, 0x3333, 0x3333, 0x3333 };    /* "gray20" */
-GdkColor gs_light_gray = { 0, 0xc7c7, 0xc7c7, 0xc7c7 };    /* "gray78" */
+GdkRGBA gs_black      = { 0, 0, 0, 1 };    /* "Black" */
+GdkRGBA gs_white      = { 1, 1, 1, 1 };    /* "White" */
+GdkRGBA gs_yellow     = { 1, 1, .88, 1 };    /* "LightYellow" */
+GdkRGBA gs_lavender   = { .9, .9, .98, 1 };    /* "lavender" */
+GdkRGBA gs_dark_gray  = { .2, .2, .2, 1 };    /* "gray20" */
+GdkRGBA gs_light_gray = { .78, .78, .78, 1 };    /* "gray78" */
 
 static GHashTable *style_color_hash;
 static GnmColor *sc_black;
@@ -28,8 +28,8 @@ static GnmColor *sc_grid;
 GnmColor *
 style_color_new_name (char const *name)
 {
-	GdkColor c;
-	gdk_color_parse (name, &c);
+	GdkRGBA c;
+	gdk_rgba_parse (&c, name);
 	return style_color_new_gdk (&c);
 }
 
@@ -58,9 +58,9 @@ style_color_new_pango (PangoColor const *c)
 }
 
 GnmColor *
-style_color_new_gdk (GdkColor const *c)
+style_color_new_gdk (GdkRGBA const *c)
 {
-	return style_color_new_i16 (c->red, c->green, c->blue);
+	return style_color_new_i8 (c->red * 255, c->green * 255, c->blue * 255);
 }
 
 GnmColor *
@@ -197,6 +197,8 @@ color_hash (gconstpointer v)
 void
 gnm_color_init (void)
 {
+#warning GTK3: do we still need that?
+#if 0
 	GdkColor error;
 
 	if (gdk_screen_get_default () != NULL) {
@@ -218,7 +220,7 @@ gnm_color_init (void)
 	gs_lavender.pixel = error.pixel;
 	gs_dark_gray.pixel = error.pixel;
 	gs_light_gray.pixel = error.pixel;
-
+#endif
 	style_color_hash = g_hash_table_new (color_hash,
 					     (GEqualFunc)style_color_equal);
 }

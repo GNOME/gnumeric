@@ -136,7 +136,7 @@ icg_show_gui (IOContextGtk *icg)
 		init_splash = FALSE;
 	}
 
-	box = GTK_BOX (gtk_vbox_new (FALSE, 0));
+	box = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 0));
 	if (icg->show_splash) {
 		GdkPixbuf *pixbuf =
 			gtk_icon_theme_load_icon (gtk_icon_theme_get_default (),
@@ -149,8 +149,7 @@ icg_show_gui (IOContextGtk *icg)
 	/* Don't show this unless we need it. */
 	if (icg->files_total > 1) {
 		icg->file_bar = GTK_PROGRESS_BAR (gtk_progress_bar_new ());
-		gtk_progress_bar_set_orientation (
-			icg->file_bar, GTK_PROGRESS_LEFT_TO_RIGHT);
+		gtk_progress_bar_set_inverted (icg->file_bar, FALSE);
 		gtk_progress_bar_set_text (icg->file_bar, "Files");
 		gtk_progress_bar_set_fraction
 			(icg->file_bar,
@@ -160,8 +159,7 @@ icg_show_gui (IOContextGtk *icg)
 	}
 
 	icg->work_bar = GTK_PROGRESS_BAR (gtk_progress_bar_new ());
-	gtk_progress_bar_set_orientation (
-		icg->work_bar, GTK_PROGRESS_LEFT_TO_RIGHT);
+	gtk_progress_bar_set_inverted (icg->work_bar, FALSE);
 	gtk_progress_bar_set_text (icg->work_bar, icg->progress_msg);
 	gtk_progress_bar_set_fraction (icg->work_bar, icg->progress);
 	gtk_box_pack_start (box, GTK_WIDGET (icg->work_bar),

@@ -67,9 +67,17 @@ void	 gnm_expr_entry_load_from_expr	  (GnmExprEntry *gee,
 					   GnmParsePos const *pp);
 gboolean gnm_expr_entry_load_from_range   (GnmExprEntry *gee,
 					   Sheet *sheet, GnmRange const *r);
+typedef enum
+{
+	GNM_UPDATE_CONTINUOUS,
+	GNM_UPDATE_DISCONTINUOUS,
+	GNM_UPDATE_DELAYED
+} GnmUpdateType;
+#define GNM_TYPE_UPDATE_TYPE (gnm_update_type_get_type())
+GType gnm_update_type_get_type (void);
 
 void gnm_expr_entry_set_update_policy (GnmExprEntry *gee,
-					    GtkUpdateType  policy);
+					    GnmUpdateType  policy);
 void gnm_expr_entry_grab_focus (GnmExprEntry *gee, gboolean select_all);
 
 void    gnm_expr_entry_disable_highlight (GnmExprEntry *gee);

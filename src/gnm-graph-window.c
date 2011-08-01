@@ -191,7 +191,7 @@ gnm_graph_window_init (GnmGraphWindow *window)
 		N_("500%")
 	};
 
-	window->vbox = gtk_vbox_new (FALSE, 0);
+	window->vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (GTK_WIDGET (window->vbox));
 	gtk_container_add (GTK_CONTAINER (window), window->vbox);
 
@@ -209,9 +209,9 @@ gnm_graph_window_init (GnmGraphWindow *window)
 	gtk_widget_show (GTK_WIDGET (item));
 	gtk_toolbar_insert (GTK_TOOLBAR (window->toolbar), item, -1);
 
-	window->size_combo = gtk_combo_box_new_text ();
+	window->size_combo = gtk_combo_box_text_new ();
 	for (i = 0; i < G_N_ELEMENTS (chart_sizes); i++)
-		gtk_combo_box_append_text (GTK_COMBO_BOX (window->size_combo), _(chart_sizes[i]));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (window->size_combo), _(chart_sizes[i]));
 	gtk_widget_set_sensitive (window->size_combo, FALSE);
 	gtk_widget_show (window->size_combo);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (window->size_combo), CHART_SIZE_FIT);
@@ -268,7 +268,7 @@ gnm_graph_window_set_graph (GnmGraphWindow *window,
 		gtk_widget_show (window->graph);
 		gtk_container_add (GTK_CONTAINER (window->scrolled_window), window->graph);
 
-		gtk_widget_size_request (window->toolbar, &toolbar_requisition);
+		gtk_widget_get_preferred_size (window->toolbar, &toolbar_requisition, NULL);
 		gtk_window_set_default_size (GTK_WINDOW (window),
 					     (int) graph_width,
 					     (int) graph_height + toolbar_requisition.height);
