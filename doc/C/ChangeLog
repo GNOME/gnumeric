@@ -1,5 +1,13 @@
 2011-07-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* figures/menu-insert-fw.png: new
+	* figures/menu-insert-names.png: new
+	* figures/Makefile.am: add the above
+	* figures/menu-insert-labelled.png: update
+	* gui-menus.xml
+
+2011-07-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* figures/menu-edit-select.png: updated
 	* figures/menu-file-printarea.png: updated
 	* gui-menus.xml: updated

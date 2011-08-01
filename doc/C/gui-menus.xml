@@ -1313,7 +1313,7 @@
 	      <para>
 	        <guimenuitem>Sheet</guimenuitem> &mdash; The
 		<guimenuitem>Sheet</guimenuitem> menu item allows the
-		user to inset a worksheet immediately following the
+		user to insert a worksheet immediately following the
 		current sheet.
 	     </para>
 	   </listitem>
@@ -1395,20 +1395,51 @@
 		all the available functions.
 	     </para>
 	   </listitem>
+	   <listitem>
+	     <para>
+	       <guimenuitem>Function Wrapper</guimenuitem> &mdash; 
+	       Selecting an item from the submenu shown in <xref linkend="menu-insert-fw.png"/>
+	       replaces every rectangular region in the current selection with an array function
+	       in which the appropriate function is wrapped around an array version of the 
+	       current content. This can be used to create a self-sorting data region. 
+	     </para>
+    <figure id="menu-insert-fw.png">
+      <title>The <guimenu>Function Wrapper</guimenu> submenu.</title>
+        <screenshot>
+	  <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/menu-insert-fw.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the Function Wrapper submenu.</phrase>
+            </textobject>
+           </mediaobject>
+	 </screenshot>
+    </figure>
+	   </listitem>
 
 	   <listitem>
 	     <para>
-	       <guimenuitem>Names</guimenuitem> &mdash; The
-	       <guimenuitem>Names</guimenuitem> menu item opens a
-	       sub-menu with the single entry
-	       <guilabel>Define</guilabel>. This will open a dialog to
-	       allow the user to define a named expression. The
-	       expression can be as simple as defining an expression
-	       called "Total" which refers to a particular
-	       cell. However, the user can also build up a whole sheet
-	       with named expressions.  <xref linkend="sect-data-formulas-names"
+	       <guimenuitem>Name...</guimenuitem> &mdash; The
+	       <guimenuitem>Name...</guimenuitem> menu item opens a
+	       dialog (see <xref linkend="menu-insert-names.png"/>) with a 
+	       list of all defined names that can be pasted into
+	       teh current cell.  <xref linkend="sect-data-formulas-names"
 	       /> explains names in greater detail.
 	     </para>
+    <figure id="menu-insert-names.png">
+      <title>The <guimenu>Insert Name</guimenu> dialog.</title>
+        <screenshot>
+	  <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/menu-insert-names.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the Insert Name dialog.</phrase>
+            </textobject>
+           </mediaobject>
+	 </screenshot>
+    </figure>
 	   </listitem>
 
 	   <listitem>

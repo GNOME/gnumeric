@@ -300,7 +300,9 @@ EXTRA_DIST = \
      menu-format-labelled.png \
      menu-format-sheet.png \
      menu-help-labelled.png \
+     menu-insert-fw.png \
      menu-insert-labelled.png \
+     menu-insert-names.png \
      menu-tools-labelled.png \
      menu-torn-off.png \
      menu-view-labelled.png \
