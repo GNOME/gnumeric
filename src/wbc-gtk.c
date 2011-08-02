@@ -4258,7 +4258,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 				  G_CALLBACK (cb_handlebox_button_press),
 				  gtk);
 
-		gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
+		gtk_container_add (GTK_CONTAINER (box), w);
 		gtk_widget_show_all (box);
 		if (!visible)
 			gtk_widget_hide (box);

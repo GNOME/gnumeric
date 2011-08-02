@@ -1,5 +1,9 @@
 2011-08-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/wbc-gtk.c (cb_add_menus_toolbars): the box is now a GtkHandleBox
+
+2011-08-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/wbc-gtk.c (wbcg_gnm_cmd_context_init): adjust for changes in
 	structure
 	* src/io-context-gtk.c (icg_gnm_cmd_context_init): ditto
