@@ -5669,7 +5669,7 @@ wbcg_gnm_cmd_context_init (GOCmdContextClass *iface)
 	iface->set_sensitive	    = wbcg_set_sensitive;
 	iface->error.error	    = wbcg_error_error;
 	iface->error.error_info	    = wbcg_error_error_info;
-	iface->error_info_list	    = wbcg_error_error_info_list;
+	iface->error.error_info_list	    = wbcg_error_error_info_list;
 	iface->progress_set	    = wbcg_progress_set;
 	iface->progress_message_set = wbcg_progress_message_set;
 }

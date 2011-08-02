@@ -386,7 +386,7 @@ icg_gnm_cmd_context_init (GOCmdContextClass *cc_class)
 	cc_class->progress_set         = icg_progress_set;
 	cc_class->progress_message_set = icg_progress_message_set;
 	cc_class->error.error_info     = icg_error_error_info;
-	cc_class->error_info_list      = icg_error_error_info_list;
+	cc_class->error.error_info_list      = icg_error_error_info_list;
 }
 
 static void
