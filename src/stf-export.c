@@ -155,7 +155,7 @@ try_auto_float (GnmValue *value, const GOFormat *format,
 	if (is_date || is_time > 0)
 		return NULL;
 
-	return format_value (go_format_general (), value, NULL, -1, date_conv);
+	return format_value (go_format_general (), value, -1, date_conv);
 }
 
 
@@ -209,7 +209,7 @@ try_auto_date (GnmValue *value, const GOFormat *format,
 	}
 	actual = go_format_new_from_XL (xlfmt->str);
 	g_string_free (xlfmt, TRUE);
-	res = format_value (actual, value, NULL, -1, date_conv);
+	res = format_value (actual, value, -1, date_conv);
 	go_format_unref (actual);
 
 	return res;

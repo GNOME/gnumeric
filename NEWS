@@ -1,5 +1,9 @@
 Gnumeric 1.11.0
 
+Andreas: 
+	* Use formatting attributes whenever we format numbers. 
+	[#584380][#651561] 
+
 --------------------------------------------------------------------------
 Gnumeric 1.10.17
 

@@ -125,7 +125,7 @@ cb_collect_content (GnmCellIter const *iter, UniqueCollection *uc)
 		GnmValue const *v   = cell->value;
 		g_hash_table_replace (uc->hash,
 			value_dup (v),
-			format_value (fmt, v, NULL, -1, uc->date_conv));
+			format_value (fmt, v, -1, uc->date_conv));
 	}
 
 	return NULL;

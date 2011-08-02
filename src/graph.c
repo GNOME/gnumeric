@@ -109,7 +109,7 @@ render_val (GnmValue const *v, int i, int j,
 	} else if (v->type == VALUE_ARRAY)
 		v = value_area_get_x_y (v, i, j, ep);
 
-	return format_value (fmt, v, NULL, -1, date_conv);
+	return format_value (fmt, v, -1, date_conv);
 }
 
 /* ------------------------------------------------------------------------- */

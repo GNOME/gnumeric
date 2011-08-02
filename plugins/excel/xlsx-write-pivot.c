@@ -54,7 +54,7 @@ xlsx_write_pivot_val (XLSXWriteState *state, GsfXMLOut *xml,
 	case VALUE_FLOAT: {
 		GOFormat const *fmt = go_val_get_fmt (v);
 		if (NULL != fmt && go_format_is_date (fmt)) {
-			char *d = format_value (state->date_fmt, v, NULL, -1, workbook_date_conv (state->base.wb));
+			char *d = format_value (state->date_fmt, v, -1, workbook_date_conv (state->base.wb));
 			gsf_xml_out_start_element (xml, "d");
 			gsf_xml_out_add_cstr_unchecked (xml, "v", d);
 			gsf_xml_out_end_element (xml);
@@ -183,7 +183,7 @@ xlsx_write_date (XLSXWriteState *state, GsfXMLOut *xml,
 		 char const *id, gnm_float v)
 {
 	GOVal *tmp = go_val_new_float (v);
-	char *d = format_value (state->date_fmt, tmp, NULL, -1, workbook_date_conv (state->base.wb));
+	char *d = format_value (state->date_fmt, tmp, -1, workbook_date_conv (state->base.wb));
 	gsf_xml_out_add_cstr_unchecked (xml, id, d);
 	g_free (d);
 	go_val_free (tmp);
@@ -277,7 +277,7 @@ xlsx_write_pivot_cache_definition (XLSXWriteState *state, GsfOutfile *wb_part,
 					       go_val_as_float (cache->refreshed_on), -1);
 		else {
 			GOFormat const *format = go_format_new_from_XL ("yyyy-mm-dd\"T\"hh:mm:ss");
-			gchar *date = format_value (format, cache->refreshed_on, NULL, -1, NULL);
+			gchar *date = format_value (format, cache->refreshed_on, -1, NULL);
 			gsf_xml_out_add_cstr_unchecked (xml, "refreshedDateIso", date);
 			g_free (date);
 			go_format_unref (format);

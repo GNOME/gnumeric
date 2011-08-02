@@ -1036,12 +1036,12 @@ wbcg_edit_start (WBCGtk *wbcg,
 				}
 
 				text = format_value (new_fmt, cell->value,
-						     NULL, -1, date_conv);
+						     -1, date_conv);
 				if (!text || text[0] == 0) {
 					g_free (text);
 					text = format_value (go_format_general (),
 							     cell->value,
-							     NULL, -1,
+							     -1,
 							     date_conv);
 				}
 				set_text = TRUE;
@@ -1052,7 +1052,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 			case GO_FORMAT_TIME: {
 				GOFormat *new_fmt = guess_time_format (NULL, f);
 
-				text = format_value (new_fmt, cell->value, NULL, -1,
+				text = format_value (new_fmt, cell->value, -1,
 						     workbook_date_conv (sv->sheet->workbook));
 				set_text = TRUE;
 				go_format_unref (new_fmt);

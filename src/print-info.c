@@ -521,7 +521,7 @@ render_timestamp_with_format (GString *target, char const *number_format, HFRend
 	/* TODO : Check this assumption.  Is it a localized format? */
 	format = go_format_new_from_XL (number_format);
 	format_value_gstring (target, format, info->date_time,
-			      NULL, -1, info->date_conv);
+			      -1, info->date_conv);
 	go_format_unref (format);
 }
 

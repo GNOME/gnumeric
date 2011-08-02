@@ -30,6 +30,7 @@
 #include "sheet-view.h"
 #include "sheet-merge.h"
 #include "sheet-style.h"
+#include "style-font.h"
 #include "gnm-format.h"
 #include "func.h"
 #include "expr.h"
@@ -518,7 +519,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 		GString *str = g_string_new (wbv->auto_expr_descr);
 		GOFormat const *format = NULL;
 		GOFormat const *tmp_format = NULL;
-		PangoAttrList *attrs;
+		PangoAttrList *attrs = NULL;
 
 		g_string_append_c (str, '=');
 		if (!wbv->auto_expr_use_max_precision) {
@@ -529,26 +530,32 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 		}
 
 		if (format) {
-			GOColor color;
-			PangoAttribute *attr;
+			PangoContext *context = gnm_pango_context_get ();
+			PangoLayout *layout = pango_layout_new (context);
+			PangoAttrList *atl;
 			gsize old_len = str->len;
-
-			format_value_gstring (str, format, v, &color,
-					      /* Note that we created a label large enough for */
-					      /* "Sumerage=-012345678901234" */
-					      25 - g_utf8_strlen (str->str, -1),
-					      workbook_date_conv (wb_view_get_workbook (wbv)));
+			GOFormatNumberError err =
+				format_value_layout (layout, format, v,
+						     /* Note that we created a label large enough for */
+						     /* "Sumerage=-012345678901234" */
+						     25 - g_utf8_strlen (str->str, -1),
+						     workbook_date_conv (wb_view_get_workbook (wbv)));
 			go_format_unref (tmp_format);
-
-			attrs = pango_attr_list_new ();
-			attr = go_color_to_pango (color, TRUE);
-			attr->start_index = old_len;
-			attr->end_index = str->len;
-			pango_attr_list_insert (attrs, attr);
-		} else {
+			if (!err) {
+				g_string_append (str, pango_layout_get_text (layout));
+				/* We need to shift the attribute list  */
+				atl = pango_attr_list_ref (pango_layout_get_attributes (layout));
+				attrs = pango_attr_list_new ();
+				pango_attr_list_splice 
+					(attrs, atl, old_len, 
+					 str->len - old_len);
+				pango_attr_list_unref (atl);
+			} else 
+				g_string_append (str,  "Internal ERROR!");
+			g_object_unref (layout);
+			g_object_unref (context);
+		} else
 			g_string_append (str, value_peek_string (v));
-			attrs = NULL;
-		}
 
 		g_object_set (wbv,
 			      "auto-expr-text", str->str,

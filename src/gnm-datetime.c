@@ -45,7 +45,7 @@ gnm_datetime_allow_negative (void)
 		GnmValue *v = value_new_int (-42);
 		GODateConventions const *conv =
 			go_date_conv_from_str ("Lotus:1900");
-		char *text = format_value (fmt, v, NULL, -1, conv);
+		char *text = format_value (fmt, v, -1, conv);
 
 		allow = (strcmp (text, "1899-11-19") == 0);
 

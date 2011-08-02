@@ -173,7 +173,7 @@ filter_cell_contents (GnmCell *cell)
 	GOFormat const *format = gnm_cell_get_format (cell);
 	GODateConventions const *date_conv =
 		workbook_date_conv (cell->base.sheet->workbook);
-	return format_value (format, cell->value, NULL, -1, date_conv);
+	return format_value (format, cell->value, -1, date_conv);
 }
 
 static gboolean
@@ -210,7 +210,7 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 	if (VALUE_IS_STRING (target) && VALUE_IS_NUMBER (src)) {
 		GODateConventions const *date_conv =
 			workbook_date_conv (cell->base.sheet->workbook);
-		char *str = format_value (NULL, src, NULL, -1, date_conv);
+		char *str = format_value (NULL, src, -1, date_conv);
 		fake_val = value_new_string_nocopy (str);
 		src = fake_val;
 	}

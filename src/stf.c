@@ -301,7 +301,7 @@ cb_get_content (GnmCellIter const *iter, GsfOutput *buf)
 			tmp = gnm_expr_top_as_string (cell->base.texpr,
 				&iter->pp, iter->pp.sheet->convs);
 		else if (VALUE_FMT (cell->value) != NULL)
-			tmp = format_value (NULL, cell->value, NULL, -1,
+			tmp = format_value (NULL, cell->value, -1,
 				workbook_date_conv (iter->pp.wb));
 		else
 			tmp = value_get_as_string (cell->value);

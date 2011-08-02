@@ -120,7 +120,7 @@ do_tabulation (WorkbookControl *wbc,
 		sheets = g_new (Sheet *, counts[dim]);
 		for (i = 0; i < counts[dim]; i++) {
 			GnmValue *v = value_new_float (val);
-			char *base_name = format_value (sf, v, NULL, -1,
+			char *base_name = format_value (sf, v, -1,
 						workbook_date_conv (wb));
 			char *unique_name =
 				workbook_sheet_get_free_name (wb,

@@ -820,13 +820,13 @@ insert_date_time_common (WBCGtk *wbcg, gboolean do_date, gboolean do_time)
 
 		if (do_date) {
 			GOFormat *fmt = gnm_format_for_date_editing (cell);
-			dtxt = format_value (fmt, v, NULL, -1, date_conv);
+			dtxt = format_value (fmt, v, -1, date_conv);
 			go_format_unref (fmt);
 		}
 
 		if (do_time) {
 			GOFormat const *fmt = go_format_default_time ();
-			ttxt = format_value (fmt, v, NULL, -1, date_conv);
+			ttxt = format_value (fmt, v, -1, date_conv);
 		}
 
 		if (do_date && do_time) {

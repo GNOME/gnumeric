@@ -421,13 +421,6 @@ GSF_CLASS (GnmTextView, gnm_text_view,
 
 /**
  * gnm_text_view_new:
- * @wbcg : #WBCGtk non-NULL
- * @with_icon : append a rollup icon to the end of the entry
- *
- * Creates a new #GnmTextView, which is an entry widget with support
- * for range selections.
- * The entry is created with default flag settings which are suitable for use
- * in many dialogs, but see #gnm_text_view_set_flags.
  *
  * Return value: a new #GnmTextView.
  **/

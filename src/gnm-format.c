@@ -83,7 +83,7 @@ format_value_common (PangoLayout *layout, GString *str,
 		     const GOFormatMeasure measure,
 		     const GOFontMetrics *metrics,
 		     GOFormat const *format,
-		     GnmValue const *value, GOColor *go_color,
+		     GnmValue const *value,
 		     int col_width,
 		     GODateConventions const *date_conv,
 		     gboolean unicode_minus)
@@ -142,9 +142,9 @@ format_value_common (PangoLayout *layout, GString *str,
 	}
 	err = gnm_format_value_gstring (layout, str, measure, metrics,
 					format,
-					val, type, sval,
-					go_color,
+					val, type, sval, NULL,
 					col_width, date_conv, unicode_minus);
+	
 	g_free (sval_free);
 
 	switch (err) {
@@ -167,7 +167,7 @@ GOFormatNumberError
 gnm_format_layout (PangoLayout *layout,
 		   GOFontMetrics *metrics,
 		   GOFormat const *format,
-		   GnmValue const *value, GOColor *go_color,
+		   GnmValue const *value,
 		   int col_width,
 		   GODateConventions const *date_conv,
 		   gboolean unicode_minus)
@@ -179,7 +179,7 @@ gnm_format_layout (PangoLayout *layout,
 				   go_format_measure_pango,
 				   metrics,
 				   format,
-				   value, go_color,
+				   value,
 				   col_width, date_conv, unicode_minus);
 
 	g_string_free (tmp_str, TRUE);
@@ -192,18 +192,17 @@ gnm_format_layout (PangoLayout *layout,
  * @str : append the result here.
  * @format : #GOFormat.
  * @value : #GnmValue to convert
- * @go_color : return the #GOColor to use
  * col_width : optional
  * @date_conv : #GODateConventions.
  *
  **/
 GOFormatNumberError
-format_value_gstring (GString *str, GOFormat const *format,
-		      GnmValue const *value, GOColor *go_color,
+format_value_gstring (GString *str, 
+		      GOFormat const *format,
+		      GnmValue const *value,
 		      int col_width,
 		      GODateConventions const *date_conv)
 {
-	gboolean unicode_minus = FALSE;
 	GString *tmp_str = str->len ? g_string_sized_new (100) : NULL;
 	GOFormatNumberError err;
 
@@ -211,24 +210,49 @@ format_value_gstring (GString *str, GOFormat const *format,
 				   go_format_measure_strlen,
 				   go_font_metrics_unit,
 				   format,
-				   value, go_color,
-				   col_width, date_conv, unicode_minus);
+				   value,
+				   col_width, date_conv, FALSE);
 
 	if (tmp_str) {
 		if (!err)
 			go_string_append_gstring (str, tmp_str);
 		g_string_free (tmp_str, TRUE);
 	}
-
+	
 	return err;
 }
 
+/**
+ * format_value_layout :
+ * @layout
+ * @format : #GOFormat.
+ * @value : #GnmValue to convert
+ * col_width : optional
+ * @date_conv : #GODateConventions.
+ *
+ **/
+GOFormatNumberError
+format_value_layout (PangoLayout *layout, 
+		     GOFormat const *format,
+		     GnmValue const *value,
+		     int col_width,
+		     GODateConventions const *date_conv)
+{
+	return format_value_common (layout, NULL,
+				    go_format_measure_strlen,
+				    go_font_metrics_unit,
+				    format, value,
+				    col_width, date_conv, FALSE);
+}
+
+
 gchar *
-format_value (GOFormat const *format, GnmValue const *value, GOColor *go_color,
+format_value (GOFormat const *format,
+	      GnmValue const *value,
 	      int col_width, GODateConventions const *date_conv)
 {
 	GString *result = g_string_sized_new (20);
-	format_value_gstring (result, format, value, go_color,
+	format_value_gstring (result, format, value,
 			      col_width, date_conv);
 	return g_string_free (result, FALSE);
 }

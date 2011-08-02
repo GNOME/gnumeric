@@ -1022,7 +1022,7 @@ cellregion_to_string (GnmCellRegion const *cr,
 					fmt = VALUE_FMT (cc->val);
 
 				format_value_gstring (line, fmt, cc->val,
-						      NULL, -1, date_conv);
+						      -1, date_conv);
 			}
 			if (++col <= extent.end.col)
 				g_string_append_c (line, '\t');

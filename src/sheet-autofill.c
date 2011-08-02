@@ -217,7 +217,7 @@ afa_hint (AutoFiller *af, GnmCellPos *pos, int n)
 {
 	AutoFillerArithmetic *afa = (AutoFillerArithmetic *)af;
 	GnmValue *v = afa_compute (afa, n);
-	char *res = format_value (NULL, v, NULL, -1, afa->dateconv);
+	char *res = format_value (NULL, v, -1, afa->dateconv);
 	value_release (v);
 	return res;
 }
@@ -627,7 +627,7 @@ afm_hint (AutoFiller *af, GnmCellPos *pos, int n)
 	char *res = NULL;
 
 	if (v) {
-		res = format_value (NULL, v, NULL, -1, afm->dateconv);
+		res = format_value (NULL, v, -1, afm->dateconv);
 		value_release (v);
 	}
 
@@ -904,7 +904,7 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 			GODateConventions const *dateconv =
 				workbook_date_conv (sheet->workbook);
 			GOFormat const *format = gnm_cell_get_format (src);
-			return format_value (format, src->value, NULL, -1,
+			return format_value (format, src->value, -1,
 					     dateconv);
 		}
 	} else {

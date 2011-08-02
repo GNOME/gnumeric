@@ -9,22 +9,25 @@
 G_BEGIN_DECLS
 
 char  *format_value	    (GOFormat const *format,
-			     GnmValue const *value, GOColor *go_color,
+			     GnmValue const *value,
 			     int col_width,
 			     GODateConventions const *date_conv);
 
 GOFormatNumberError format_value_gstring (GString *result,
 					  GOFormat const *format,
 					  GnmValue const *value,
-					  GOColor *go_color,
 					  int col_width,
 					  GODateConventions const *date_conv);
+GOFormatNumberError format_value_layout (PangoLayout *result,
+					 GOFormat const *format,
+					 GnmValue const *value,
+					 int col_width,
+					 GODateConventions const *date_conv);
 
 GOFormatNumberError gnm_format_layout    (PangoLayout *result,
 					  GOFontMetrics *metrics,
 					  GOFormat const *format,
 					  GnmValue const *value,
-					  GOColor *go_color,
 					  int col_width,
 					  GODateConventions const *date_conv,
 					  gboolean unicode_minus);

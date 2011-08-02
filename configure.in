@@ -271,7 +271,7 @@ fi
 AC_SUBST(GNUMERIC_PLUGIN_LDFLAGS)
 
 dnl disable for in stable release, enable for development series
-if test $gnumeric_devel = yes; then
+if test XXX$gnumeric_devel = yes; then
     CFLAGS="$CFLAGS -DG_DISABLE_DEPRECATED"
     CFLAGS="$CFLAGS -DPANGO_DISABLE_DEPRECATED"
     if test "x$gnumeric_with_gtk" = xtrue; then

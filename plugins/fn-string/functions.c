@@ -733,7 +733,7 @@ gnumeric_fixed (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	fmt = go_format_new_from_XL (format->str);
 	g_string_free (format, TRUE);
 
-	res = format_value (fmt, v, NULL, -1,
+	res = format_value (fmt, v, -1,
 			    workbook_date_conv (ei->pos->sheet->workbook));
 
 	go_format_unref (fmt);
@@ -949,7 +949,7 @@ gnumeric_text (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		GOFormatNumberError err;
 
 		g_free (lfmt);
-		err = format_value_gstring (str, fmt, v, NULL, -1, conv);
+		err = format_value_gstring (str, fmt, v, -1, conv);
 		if (err) {
 			g_string_free (str, TRUE);
 			res = value_new_error_VALUE (ei->pos);
@@ -1241,7 +1241,7 @@ gnumeric_dollar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	sf = go_format_new_from_XL (fmt_str->str);
 
 	v = value_new_float (number);
-	s = format_value (sf, v, NULL, -1,
+	s = format_value (sf, v, -1,
 			  workbook_date_conv (ei->pos->sheet->workbook));
 	value_release (v);
 	go_format_unref (sf);

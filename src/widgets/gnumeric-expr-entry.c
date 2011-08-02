@@ -1487,7 +1487,7 @@ gee_set_value_double (GogDataEditor *editor, double val,
 {
 	GnmExprEntry *gee = GNM_EXPR_ENTRY (editor);
 	GnmValue *v = value_new_float (val);
-	char *txt = format_value (gee->constant_format, v, NULL, -1, date_conv);
+	char *txt = format_value (gee->constant_format, v, -1, date_conv);
 
 	value_release (v);
 
@@ -1521,7 +1521,7 @@ gee_data_editor_set_format (GogDataEditor *deditor, GOFormat const *fmt)
 
 	if (v && VALUE_IS_FLOAT (v)) {
 		char *txt = format_value (gee->constant_format, v,
-					  NULL, -1, date_conv);
+					  -1, date_conv);
 		gtk_entry_set_text (gee->entry, txt);
 		g_free (txt);
 	}
@@ -2503,7 +2503,7 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 			GODateConventions const *date_conv =
 				workbook_date_conv (gee->sheet->workbook);
 			GnmExprTop const *texpr = gnm_expr_top_new_constant (v);
-			char *str = format_value (gee->constant_format, v, NULL, -1, date_conv);
+			char *str = format_value (gee->constant_format, v, -1, date_conv);
 			if (gee_debug)
 				g_printerr ("Setting entry text: [%s]\n", str);
 			gtk_entry_set_text (gee->entry, str);

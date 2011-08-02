@@ -114,7 +114,7 @@ sscombo_create_list (SheetObject *so,
 		gtk_list_store_append (model, &iter);
 		if (VALUE_IS_EMPTY(v))
 			g_string_assign (str, _("<Blank>"));
-		else if (GO_FORMAT_NUMBER_OK != format_value_gstring (str, NULL, v, NULL, -1, dconv))
+		else if (GO_FORMAT_NUMBER_OK != format_value_gstring (str, NULL, v, -1, dconv))
 			g_string_assign (str, "<ERROR>");
 		gtk_list_store_set (model, &iter, 0, TRUE, 1, str->str, -1);
 		g_string_truncate (str, 0);

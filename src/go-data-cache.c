@@ -304,7 +304,7 @@ go_data_cache_dump_value (GOVal const *v)
 		GOFormat const *fmt = go_val_get_fmt (v);
 
 		if (NULL != fmt) {
-			char *str = format_value (fmt, v, NULL, -1, NULL);
+			char *str = format_value (fmt, v, -1, NULL);
 			g_print ("'%s'", str);
 			g_free (str);
 		} else

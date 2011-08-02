@@ -611,7 +611,7 @@ gnm_cell_get_render_color (GnmCell const *cell)
 
 	rv = gnm_cell_fetch_rendered_value (cell, TRUE);
 
-	return rv->go_fore_color;
+	return gnm_rendered_value_get_color (rv);
 }
 
 /**
@@ -669,7 +669,7 @@ gnm_cell_get_entered_text (GnmCell const *cell)
 			return g_strconcat ("\'", tmp, NULL);
 		} else {
 			GOFormat const *fmt = gnm_cell_get_format (cell);
-			return format_value (fmt, v, NULL, -1,	date_conv);
+			return format_value (fmt, v, -1, date_conv);
 		}
 	}
 

@@ -3022,12 +3022,12 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 				if (f == gnm_floor (f)) {
 					gsf_xml_out_add_cstr_unchecked (state->xml,
 									OFFICE "value-type", "date");
-					str = format_value (state->date_fmt, cell->value, NULL, -1, workbook_date_conv (state->wb));
+					str = format_value (state->date_fmt, cell->value, -1, workbook_date_conv (state->wb));
 					gsf_xml_out_add_cstr (state->xml, OFFICE "date-value", str);
 				} else {
 					gsf_xml_out_add_cstr_unchecked (state->xml,
 									OFFICE "value-type", "date");
-					str = format_value (state->date_long_fmt, cell->value, NULL, -1, workbook_date_conv (state->wb));
+					str = format_value (state->date_long_fmt, cell->value, -1, workbook_date_conv (state->wb));
 					gsf_xml_out_add_cstr (state->xml, OFFICE "date-value", str);
 				}
 				g_free (str);
@@ -3035,7 +3035,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 				char *str;
 				gsf_xml_out_add_cstr_unchecked (state->xml,
 								OFFICE "value-type", "time");
-				str = format_value (state->time_fmt, cell->value, NULL, -1, workbook_date_conv (state->wb));
+				str = format_value (state->time_fmt, cell->value, -1, workbook_date_conv (state->wb));
 				gsf_xml_out_add_cstr (state->xml, OFFICE "time-value", str);
 				g_free (str);
 			} else {

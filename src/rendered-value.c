@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * rendered-value.c: Management & utility routines for formated
@@ -162,7 +162,6 @@ gnm_rendered_value_remeasure (GnmRenderedValue *rv)
 				       &rv->layout_natural_height);
 }
 
-
 /**
  * gnm_rendered_value_new:
  * @cell:   The cell
@@ -179,7 +178,6 @@ gnm_rendered_value_new (GnmCell const *cell,
 			double zoom)
 {
 	GnmRenderedValue	*res;
-	GOColor		 fore;
 	PangoLayout     *layout;
 	PangoAttrList   *attrs;
 	int              rotation;
@@ -188,6 +186,7 @@ gnm_rendered_value_new (GnmCell const *cell,
 	GnmStyle const *mstyle;
 	PangoDirection dir;
 	char const *text;
+	PangoAttribute *attr;
 
 	g_return_val_if_fail (cell != NULL, NULL);
 
@@ -284,6 +283,14 @@ gnm_rendered_value_new (GnmCell const *cell,
 			pango_attr_list_unref (orig);
 		}
 	}
+
+	/* Add foreground color.  */
+	attr = go_color_to_pango 
+		((gnm_style_get_font_color (mstyle))->go_color, TRUE);
+	attr->start_index = 0;
+	attr->end_index = G_MAXUINT;
+	pango_attr_list_insert_before (attrs, attr);
+
 	pango_layout_set_attributes (res->layout, attrs);
 	pango_attr_list_unref (attrs);
 
@@ -326,11 +333,9 @@ gnm_rendered_value_new (GnmCell const *cell,
 			g_string_append_c (out.accum, '}');
 		pango_layout_set_text (layout, out.accum->str, out.accum->len);
 		g_string_free (out.accum, TRUE);
-		fore = 0;
 		res->might_overflow = FALSE;
 	} else if (sheet->hide_zero && gnm_cell_is_zero (cell)) {
 		pango_layout_set_text (layout, "", 0);
-		fore = 0;
 		res->might_overflow = FALSE;
 	} else {
 		int col_width = -1;
@@ -377,7 +382,7 @@ gnm_rendered_value_new (GnmCell const *cell,
 
 		err = gnm_format_layout (layout, font->go.metrics, format,
 					 cell->value,
-					 &fore, col_width, date_conv, TRUE);
+					 col_width, date_conv, TRUE);
 
 		switch (err) {
 		case GO_FORMAT_NUMBER_DATE_ERROR:
@@ -438,18 +443,6 @@ gnm_rendered_value_new (GnmCell const *cell,
 		g_warning ("Line justification style not supported.");
 	}
 			 /* ---------------------------------------- */
-
-	/*
-	 * We store the foreground color separately because
-	 * 1. It is [used to be?] slow to store it as an attribute, see
-	 *    http://bugzilla.gnome.org/show_bug.cgi?id=105322
-	 * 2. This way we get to share the attribute list.
-	 */
-	if (0 == fore) {
-		GnmColor const *c = gnm_style_get_font_color (mstyle);
-		res->go_fore_color = c->go_color;
-	} else
-		res->go_fore_color = fore;
 
 	gnm_rendered_value_remeasure (res);
 
@@ -531,6 +524,43 @@ gnm_rendered_value_get_text (GnmRenderedValue const *rv)
 {
 	g_return_val_if_fail (rv != NULL, "ERROR");
 	return pango_layout_get_text (rv->layout);
+}
+
+static gboolean
+colour_selector_cb (PangoAttribute *attribute, PangoColor *color)
+{
+	if (attribute->start_index == 0 && 
+	    PANGO_ATTR_FOREGROUND == attribute->klass->type) {
+		*color = ((PangoAttrColor *)(attribute))->color;
+		return FALSE;
+	}
+	return FALSE;
+}
+
+static GOColor
+colour_from_layout (PangoLayout *layout)
+{
+	PangoAttrList *attrs = pango_layout_get_attributes (layout), 
+		*fattrs;
+	PangoColor c;
+
+	if (go_pango_attr_list_is_empty (attrs))
+		return 0;
+
+	fattrs = pango_attr_list_filter 
+		(attrs, (PangoAttrFilterFunc)colour_selector_cb, &c);
+
+	if (fattrs == NULL)
+		return 0;
+	pango_attr_list_unref (fattrs);
+
+	return GO_COLOR_FROM_RGBA (c.red, c.green, c.blue, 0xff);
+}
+
+GOColor 
+gnm_rendered_value_get_color (GnmRenderedValue const * rv)
+{
+	return colour_from_layout (rv->layout);
 }
 
 /* ------------------------------------------------------------------------- */

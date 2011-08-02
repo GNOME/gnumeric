@@ -1,3 +1,30 @@
+2011-08-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* configure.in: Disable GTK depreciation check
+	* src/cell-draw.c (cell_calc_layout): use gnm_rendered_value_get_color
+	* src/cell.c (gnm_cell_get_render_color): ditto
+	* src/gnm-format.c (gnm_format_layout): drop argument and change all
+	callers
+	(format_value_gstring): ditto
+	(format_value): ditto
+	(format_value_layout): new
+	* src/gnm-format.h (gnm_format_layout): drop argument and change all
+	callers
+	(format_value_gstring): ditto
+	(format_value): ditto
+	(format_value_layout): new
+	* src/rendered-value.c (gnm_rendered_value_new): include foreground
+	color in attributes list
+	(colour_selector_cb): new
+	(colour_from_layout): new
+	* src/widgets/gnm-format-sel.c (cb_generate_preview): use attributes
+	* src/workbook-view.c (wb_view_auto_expr_recalc): use 
+	format_value_layout
+
+2011-08-01  Morten Welinder <terra@gnome.org>
+
+	* Branch to 1.11.0
+
 2011-07-31  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

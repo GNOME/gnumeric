@@ -238,7 +238,7 @@ cell_calc_layout (GnmCell const *cell, GnmRenderedValue *rv, int y_direction,
 			 rv->layout_natural_width, rv->layout_natural_height);
 #endif
 
-	*res_color = rv->go_fore_color;
+	*res_color = gnm_rendered_value_get_color (rv);
 	*res_x = rect_x + hoffset;
 	*res_y = text_base;
 

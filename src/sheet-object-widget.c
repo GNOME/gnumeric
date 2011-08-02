@@ -3392,7 +3392,7 @@ cb_collect (GnmValueIter const *iter, GtkListStore *model)
 	if (NULL != iter->v) {
 		GOFormat const *fmt = (NULL != iter->cell_iter)
 			? gnm_cell_get_format (iter->cell_iter->cell) : NULL;
-		char *label = format_value (fmt, iter->v, NULL, -1, NULL);
+		char *label = format_value (fmt, iter->v, -1, NULL);
 		gtk_list_store_set (model, &list_iter, 0, label, -1);
 		g_free (label);
 	} else

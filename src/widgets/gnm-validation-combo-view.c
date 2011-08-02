@@ -77,7 +77,7 @@ cb_collect_unique (GnmValueIter const *iter, UniqueCollection *uc)
 		? gnm_cell_get_format (iter->cell_iter->cell) : NULL;
 	g_hash_table_replace (uc->hash,
 		value_dup (iter->v),
-		format_value (fmt, iter->v, NULL, -1, uc->date_conv));
+		format_value (fmt, iter->v, -1, uc->date_conv));
 	return NULL;
 }
 

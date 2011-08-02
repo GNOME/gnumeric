@@ -21,18 +21,37 @@
 #include "gnm-format-sel.h"
 #include "src/value.h"
 #include "src/gnm-format.h"
+#include "src/style-font.h"
 
 static char *
-cb_generate_preview (GOFormatSel *gfs, GOColor *c)
+cb_generate_preview (GOFormatSel *gfs, PangoAttrList **attrs)
 {
 	GnmValue const *v = g_object_get_data (G_OBJECT (gfs), "value");
-	GOFormat const *fmt = go_format_sel_get_fmt (gfs);
 
 	if (NULL == v)
 		return NULL;
-	if (go_format_is_general (fmt) && VALUE_FMT (v) != NULL)
-		fmt = VALUE_FMT (v);
-	return format_value (fmt, v, c, -1, go_format_sel_get_dateconv (gfs));
+	else {
+		GOFormat const *fmt = go_format_sel_get_fmt (gfs);
+		PangoContext *context = gnm_pango_context_get ();
+		PangoLayout *layout = pango_layout_new (context);
+		char *str;
+		GOFormatNumberError err;
+
+		if (go_format_is_general (fmt) && VALUE_FMT (v) != NULL)
+			fmt = VALUE_FMT (v);
+		err = format_value_layout (layout, fmt, v, -1, 
+					   go_format_sel_get_dateconv (gfs));
+		if (err) {
+			str = NULL;
+			*attrs = NULL;
+		} else {
+			str = g_strdup (pango_layout_get_text (layout));
+			*attrs = pango_attr_list_ref (pango_layout_get_attributes (layout));
+		}
+		g_object_unref (layout);
+		g_object_unref (context);
+		return str;
+	}
 }
 
 GtkWidget *
