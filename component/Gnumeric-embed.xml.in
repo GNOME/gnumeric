@@ -288,6 +288,12 @@
       <menuitem action="DataTextToColumns"/>
       <menu name="ExternalData" action="MenuExternalData">
         <menuitem action="DataImportText"/>
+        <menuitem action="DataImportOther"/>
+      </menu>
+      <menu name="ExportData" action="MenuExportData">
+	<menuitem action="DataExportText"/>
+	<menuitem action="DataExportCSV"/>
+	<menuitem action="DataExport"/>
       </menu>
     </menu>
     <menu name="Help" action="MenuHelp">

@@ -21,6 +21,7 @@ struct _Workbook {
 
 	GOFileFormatLevel  file_format_level;
 	GOFileSaver	*file_saver;
+	GOFileSaver	*file_exporter;
 
 	/* Undo support */
 	GSList	   *undo_commands;

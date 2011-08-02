@@ -99,9 +99,11 @@ static GNM_ACTION_DEF (cb_file_new)
 	wbcg_copy_toolbar_visibility (new_wbcg, wbcg);
 }
 
-static GNM_ACTION_DEF (cb_file_open)	{ gui_file_open (wbcg, NULL); }
+static GNM_ACTION_DEF (cb_file_open)	{ gui_file_open (wbcg, FILE_OPEN_OPEN, NULL); }
 static GNM_ACTION_DEF (cb_file_save)	{ gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg))); }
-static GNM_ACTION_DEF (cb_file_save_as)	{ gui_file_save_as (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg))); }
+static GNM_ACTION_DEF (cb_file_save_as)	{ gui_file_save_as 
+		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)), 
+		 FILE_SAVE_AS_SAVE, NULL); }
 
 #ifndef HAVE_MKDTEMP
 #include "gnm-random.h"
@@ -976,7 +978,10 @@ static GNM_ACTION_DEF (cb_tools_random_generator_uncorrelated) { dialog_random_t
 static GNM_ACTION_DEF (cb_tools_random_generator_correlated) { dialog_random_cor_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_data_sort)		{ dialog_cell_sort (wbcg); }
 static GNM_ACTION_DEF (cb_data_shuffle)		{ dialog_shuffle (wbcg); }
-static GNM_ACTION_DEF (cb_data_import_text)	{ gui_file_open (wbcg, "Gnumeric_stf:stf_assistant"); }
+static GNM_ACTION_DEF (cb_data_import_text)	{ gui_file_open 
+		(wbcg, FILE_OPEN_IMPORT, "Gnumeric_stf:stf_assistant"); }
+static GNM_ACTION_DEF (cb_data_import_other)	{ gui_file_open 
+		(wbcg, FILE_OPEN_IMPORT, NULL); }
 
 static GNM_ACTION_DEF (cb_auto_filter)          { cmd_autofilter_add_remove (WORKBOOK_CONTROL (wbcg)); }
 static GNM_ACTION_DEF (cb_show_all)		{ filter_show_all (WORKBOOK_CONTROL (wbcg)); }
@@ -988,6 +993,15 @@ static GNM_ACTION_DEF (cb_data_table)		{ dialog_data_table (wbcg); }
 static GNM_ACTION_DEF (cb_data_slicer_create)	{ dialog_data_slicer (wbcg, TRUE); }
 static GNM_ACTION_DEF (cb_data_slicer_refresh)	{ cmd_slicer_refresh (WORKBOOK_CONTROL (wbcg)); }
 static GNM_ACTION_DEF (cb_data_slicer_edit)	{ dialog_data_slicer (wbcg, FALSE); }
+static GNM_ACTION_DEF (cb_data_export)	        { gui_file_save_as 
+		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)), 
+		 FILE_SAVE_AS_EXPORT, NULL); }
+static GNM_ACTION_DEF (cb_data_export_text)	        { gui_file_save_as 
+		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)), 
+		 FILE_SAVE_AS_EXPORT, "Gnumeric_stf:stf_assistant"); }
+static GNM_ACTION_DEF (cb_data_export_csv)	        { gui_file_save_as 
+		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)), 
+		 FILE_SAVE_AS_EXPORT, "Gnumeric_stf:stf_csv"); }
 
 static void
 hide_show_detail_real (WBCGtk *wbcg, gboolean is_cols, gboolean show)
@@ -1932,7 +1946,8 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuEditFill",	NULL, N_("F_ill") },
 	                { "MenuRandomGenerator",	NULL, N_("_Random Generators") },
 		{ "MenuOutline",	NULL,	N_("_Group and Outline") },
-		{ "MenuExternalData",	NULL,	N_("Get External _Data") },
+		{ "MenuExternalData",	NULL,	N_("Import _Data") },
+		{ "MenuExportData",	NULL,	N_("E_xport Data") },
 		{ "MenuSlicer",		NULL,	N_("Data S_licer") },
 	{ "MenuHelp",	NULL,	N_("_Help") },
 
@@ -2518,6 +2533,15 @@ static GtkActionEntry const actions[] = {
 	{ "DataTable", NULL, N_("_Table..."),
 		NULL, N_("Create a Data Table to evaluate a function with multiple inputs"),
 		G_CALLBACK (cb_data_table) },
+	{ "DataExport", NULL, N_("E_xport into Other Format"),
+		NULL, N_("Export the current workbook or sheet"),
+		G_CALLBACK (cb_data_export) },
+	{ "DataExportText", NULL, N_("Export as _Text File"),
+		NULL, N_("Export the current sheet as a text file"),
+		G_CALLBACK (cb_data_export_text) },
+	{ "DataExportCSV", NULL, N_("Export as _CSV File"),
+		NULL, N_("Export the current sheet as a csv file"),
+		G_CALLBACK (cb_data_export_csv) },
 
 /* Data -> Fill */
 	{ "EditFillAutofill", NULL, N_("Auto_fill"),
@@ -2570,8 +2594,11 @@ static GtkActionEntry const actions[] = {
 		G_CALLBACK (cb_data_filter) },
 /* Data -> External */
 	{ "DataImportText", GTK_STOCK_DND, N_("Import _Text File..."),
-		NULL, N_("Import the text from a file"),
+		NULL, N_("Import data from a text file"),
 		G_CALLBACK (cb_data_import_text) },
+	{ "DataImportOther", GTK_STOCK_DND, N_("Import _Other File..."),
+		NULL, N_("Import data from a file"),
+		G_CALLBACK (cb_data_import_other) },
 
 /* Data -> Data Slicer */
 	/* label and tip are context dependent, see wbcg_menu_state_update */

@@ -220,30 +220,99 @@ cb_advanced_clicked (GtkButton *advanced, GtkFileChooser *fsel)
  * import filter for selected file.
  */
 void
-gui_file_open (WBCGtk *wbcg, char const *default_format)
+gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 {
-	GList *openers;
+	GList *openers = NULL, *all_openers, *l;
 	GtkFileChooser *fsel;
 	GtkWidget *advanced_button;
 	GtkComboBox *format_combo;
 	GtkWidget *go_charmap_sel;
 	file_format_changed_cb_data data;
 	gint opener_default;
-	char const *title;
+	char const *title = NULL;
 	GSList *uris = NULL;
 	char const *encoding = NULL;
 	GOFileOpener *fo = NULL;
 	Workbook *workbook = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
-	openers = g_list_sort (g_list_copy (go_get_file_openers ()),
-			       file_opener_description_cmp);
-	/* NULL represents automatic file type recognition */
-	openers = g_list_prepend (openers, NULL);
+	all_openers = go_get_file_openers ();
+
+	if (default_format != NULL) {
+		fo = go_file_opener_for_id (default_format);
+	}
+
+	if (fo != NULL)
+		openers = g_list_prepend (NULL, fo);
+	else {
+		for (l = all_openers; l; l = l->next)
+			if (l->data != NULL) {
+				GOFileOpener *fo = l->data;
+				GSList const *mimes = go_file_opener_get_mimes (fo);
+				GSList *fsavers = NULL, *fl;
+
+				for (; mimes; mimes = mimes->next) {
+					GOFileSaver *fs = go_file_saver_for_mime_type 
+						(mimes->data);
+					if (fs != NULL)
+						fsavers = g_slist_prepend (fsavers, fs);
+				}
+				switch (type) {
+				case FILE_OPEN_OPEN:
+					for (fl = fsavers; fl; fl = fl->next) {
+						GOFileSaver *fs = GO_FILE_SAVER (fl->data);
+						if ((go_file_saver_get_save_scope (fs)
+						     != GO_FILE_SAVE_RANGE) && 
+						    (go_file_saver_get_format_level (fs)
+						     == GO_FILE_FL_AUTO)) {
+							openers = g_list_prepend 
+								(openers, fo);
+							break;
+						}
+					}
+					break;
+				case FILE_OPEN_IMPORT: 
+					{
+						gboolean is_open = FALSE;
+						for (fl = fsavers; fl; fl = fl->next) {
+							GOFileSaver *fs = GO_FILE_SAVER 
+								(fl->data);
+							if ((go_file_saver_get_save_scope 
+							     (fs)
+							     != GO_FILE_SAVE_RANGE) && 
+							    (go_file_saver_get_format_level
+							     (fs)
+							     == GO_FILE_FL_AUTO)) {
+								is_open = TRUE;
+								break;
+							}
+						}
+						if (!(is_open))
+							openers = g_list_prepend 
+								(openers, fo);
+						break;
+					}
+				}
+				g_slist_free (fsavers);
+			}
+		openers = g_list_sort (openers, file_opener_description_cmp);
+		/* NULL represents automatic file type recognition */
+		openers = g_list_prepend (openers, NULL);
+	}
+
 	opener_default = file_opener_find_by_id (openers, default_format);
-	title = (opener_default == 0)
-		? _("Load file")
-		: (go_file_opener_get_description
-		   (g_list_nth_data (openers, opener_default)));
+		
+	if (opener_default != 0)
+		title = (go_file_opener_get_description
+			 (g_list_nth_data (openers, opener_default)));
+	if (title == NULL)
+		switch (type) {
+		case FILE_OPEN_OPEN:
+			title = _("Open Spreadsheet File");
+			break;
+		case FILE_OPEN_IMPORT:
+			title = _("Import Data File");
+			break;
+		}
 	data.openers = openers;
 
 	/* Make charmap chooser */
@@ -255,7 +324,7 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 	format_combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
 	make_format_chooser (openers, format_combo);
 	g_signal_connect (G_OBJECT (format_combo), "changed",
-                          G_CALLBACK (file_format_changed_cb), &data);
+			  G_CALLBACK (file_format_changed_cb), &data);
 	gtk_combo_box_set_active (format_combo, opener_default);
 	gtk_widget_set_sensitive (GTK_WIDGET (format_combo), opener_default == 0);
 	file_format_changed_cb (format_combo, &data);
@@ -267,7 +336,7 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", GTK_FILE_CHOOSER_ACTION_OPEN,
 			       "local-only", FALSE,
-			       "title", _("Select a file"),
+			       "title", title,
 			       "select-multiple", TRUE,
 			       NULL));
 
@@ -296,14 +365,29 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 	/* Filters */
 	{
 		GtkFileFilter *filter;
+		char const *filter_name = NULL;
 
 		filter = gtk_file_filter_new ();
 		gtk_file_filter_set_name (filter, _("All Files"));
 		gtk_file_filter_add_pattern (filter, "*");
 		gtk_file_chooser_add_filter (fsel, filter);
 
-		filter = gnm_app_create_opener_filter ();
-		gtk_file_filter_set_name (filter, _("Spreadsheets"));
+		filter = gnm_app_create_opener_filter (openers);
+		if (default_format != NULL) {
+			if (0 == strcmp (default_format, 
+					 "Gnumeric_stf:stf_assistant"))
+				filter_name = _("Text Files");
+		}
+		if (filter_name == NULL)
+			switch (type) {
+			case FILE_OPEN_OPEN:
+				filter_name = _("Spreadsheets");
+				break;
+			case FILE_OPEN_IMPORT:
+				filter_name = _("Data Files");
+				break;
+			}
+		gtk_file_filter_set_name (filter, filter_name);
 		gtk_file_chooser_add_filter (fsel, filter);
 		/* Make this filter the default */
 		gtk_file_chooser_set_filter (fsel, filter);
@@ -408,7 +492,8 @@ extension_check_disabled (GOFileSaver *fs)
 }
 
 gboolean
-gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
+gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
+		  char const *default_format)
 {
 	GList *savers = NULL, *l;
 	GtkFileChooser *fsel;
@@ -419,17 +504,35 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 	char *uri;
 	Workbook *wb;
 	WBCGtk *wbcg2;
+#ifndef GNM_USE_HILDON
+	char const *title = (type == FILE_SAVE_AS_SAVE) ? _("Save the current workbook as") 
+		: _("Export the current workbook or sheet to");
+#endif
 
 	g_return_val_if_fail (wbcg != NULL, FALSE);
 
 	wb = wb_view_get_workbook (wb_view);
 	wbcg2 = wbcg_find_for_workbook (wb, wbcg, NULL, NULL);
 
-	for (l = go_get_file_savers (); l; l = l->next) {
-		if ((l->data == NULL) ||
-		    (go_file_saver_get_save_scope (GO_FILE_SAVER (l->data))
-		     != GO_FILE_SAVE_RANGE))
-			savers = g_list_prepend (savers, l->data);
+	for (l = go_get_file_savers (); l; l = l->next) 
+		switch (type) {
+		case FILE_SAVE_AS_SAVE:
+			if ((l->data == NULL) ||
+			    ((go_file_saver_get_save_scope (GO_FILE_SAVER (l->data))
+			      != GO_FILE_SAVE_RANGE) && 
+			     (go_file_saver_get_format_level (GO_FILE_SAVER (l->data))
+			      == GO_FILE_FL_AUTO)))
+				savers = g_list_prepend (savers, l->data);
+			break;
+		case FILE_SAVE_AS_EXPORT:
+		default:
+			if ((l->data == NULL) ||
+			    ((go_file_saver_get_save_scope (GO_FILE_SAVER (l->data))
+			      != GO_FILE_SAVE_RANGE) && 
+			     (go_file_saver_get_format_level (GO_FILE_SAVER (l->data)) 
+			      != GO_FILE_FL_AUTO)))
+				savers = g_list_prepend (savers, l->data);
+			break;
 	}
 	savers = g_list_sort (savers, file_saver_description_cmp);
 
@@ -440,7 +543,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", GTK_FILE_CHOOSER_ACTION_SAVE,
 			       "local-only", FALSE,
-			       "title", _("Select a file"),
+			       "title", title,
 			       NULL));
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -462,7 +565,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 
 		filter = gtk_file_filter_new ();
 		gtk_file_filter_set_name (filter, _("Spreadsheets"));
-		for (l = savers->next; l; l = l->next) {
+		for (l = savers; l; l = l->next) {
 			GOFileSaver *fs = l->data;
 			char const *ext = go_file_saver_get_extension (fs);
 			char const *mime = go_file_saver_get_mime_type (fs);
@@ -503,11 +606,16 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 	}
 
 	/* Set default file saver */
-	fs = wbcg2 ? wbcg2->current_saver : NULL;
-	if (!fs)
+	if (type == FILE_SAVE_AS_SAVE) {
 		fs = workbook_get_file_saver (wb);
-	if (!fs || g_list_find (savers, fs) == NULL)
-		fs = go_file_saver_get_default ();
+		if (!fs || g_list_find (savers, fs) == NULL)
+			fs = go_file_saver_get_default ();
+	} else {
+		fs = workbook_get_file_exporter (wb);
+		if (!fs || g_list_find (savers, fs) == NULL)
+			fs = go_file_saver_for_id (default_format ? default_format 
+						   : "Gnumeric_html:latex_table");
+	}
 
 	gtk_combo_box_set_active (format_combo, g_list_index (savers, fs));
 
@@ -574,12 +682,8 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 		/* Destroy early so no-one can repress the Save button.  */
 		gtk_widget_destroy (GTK_WIDGET (fsel));
 		fsel = NULL;
-		success = wb_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg));
-		if (success) {
-			if (wbcg2)
-				wbcg2->current_saver = fs;
+		if (wb_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg)))
 			workbook_update_history (wb);
-		}
 	}
 
 	g_free (uri);
@@ -607,7 +711,8 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 	}
 
 	if (wb->file_format_level < GO_FILE_FL_AUTO)
-		return gui_file_save_as (wbcg, wb_view);
+		return gui_file_save_as (wbcg, wb_view, 
+					 FILE_SAVE_AS_SAVE, NULL);
 	else {
 		gboolean ok;
 

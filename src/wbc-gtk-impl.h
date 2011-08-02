@@ -94,8 +94,6 @@ struct _WBCGtk {
 
 	PangoFontDescription *font_desc;
 
-	GOFileSaver *current_saver;
-
 	SheetControlGUI *active_scg;
 	gulong sig_view_changed;
 	gulong sig_auto_expr_text, sig_auto_expr_attrs;

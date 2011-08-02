@@ -40,28 +40,28 @@
 			     this the default.  For now use "1" to give it
 			     higher priority than the other xls savers -->
 			<information>
-				<_description>MS Excel (tm) 97/2000/XP</_description>
+				<_description>MS Excel&#8482; 97/2000/XP</_description>
 			</information>
 		</service>
 		<service type="file_saver" id="excel_biff7" file_extension="xls"
 		         format_level="auto" overwrite_files="TRUE"
 			 mime_type="application/vnd.ms-excel">
 			<information>
-				<_description>MS Excel (tm) 5.0/95</_description>
+				<_description>MS Excel&#8482; 5.0/95</_description>
 			</information>
 		</service>
 		<service type="file_saver" id="excel_dsf" file_extension="xls"
 		         format_level="auto" overwrite_files="TRUE"
 			 mime_type="application/vnd.ms-excel">
 			<information>
-				<_description>MS Excel (tm) 97/2000/XP &amp; 5.0/95</_description>
+				<_description>MS Excel&#8482; 97/2000/XP &amp; 5.0/95</_description>
 			</information>
 		</service>
 
 		<!-- IMPORT partial format spreadsheetml from 2003  -->
 		<service type="file_opener" id="excel_xml" priority="1" probe="TRUE">
 			<information>
-				<_description>MS Excel (tm) 2003 SpreadsheetML</_description>
+				<_description>MS Excel&#8482; 2003 SpreadsheetML</_description>
 			</information>
 			<suffixes>
 				<suffix>xml</suffix>
@@ -71,7 +71,7 @@
 		<!-- Office Open XML packages from Office 2007 -->
 		<service type="file_opener" id="xlsx" priority="100" probe="TRUE">
 			<information>
-				<_description>MS Excel (tm) 2007</_description>
+				<_description>MS Excel&#8482; 2007/2010 (*.xlsx)</_description>
 			</information>
 			<suffixes>
 				<suffix>xlsx</suffix>
@@ -80,28 +80,30 @@
 				<suffix>xlsm</suffix>
 				<suffix>xltm</suffix>
 			</suffixes>
-<!--
 			<mime-types>
 				<mime-type>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</mime-type>
 				<mime-type>application/vnd.openxmlformats-officedocument.spreadsheetml.template</mime-type>
+<!--
 				<mime-type>application/vnd.ms-excel.sheet.binary.macroEnabled.12</mime-type>
 				<mime-type>application/vnd.ms-excel.sheet.macroEnabled.12</mime-type>
 				<mime-type>application/vnd.ms-excel.template.macroEnabled.12</mime-type>
-			<mime-types>
-  -->
-		</service>
+ -->
+			</mime-types>
+ 		</service>
 
 		<service type="file_saver" id="xlsx" file_extension="xlsx"
-		         format_level="auto" overwrite_files="TRUE">
+		         format_level="auto" overwrite_files="TRUE"
+			 mime_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
 			<information>
-				<_description>MS Excel (tm) 2007 (ECMA 376 1st edition (2006))</_description>
+				<_description>MS Excel&#8482; 2007 (ECMA 376 1st edition (2006))</_description>
 			</information>
 		</service>
 
 		<service type="file_saver" id="xlsx2" file_extension="xlsx"
-		         format_level="auto" overwrite_files="TRUE">
+		         format_level="auto" overwrite_files="TRUE"
+			 mime_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
 			<information>
-				<_description>MS Excel (tm) 2010 (ECMA 376 2nd edition (2008))</_description>
+				<_description>MS Excel&#8482; 2010 (ECMA 376 2nd edition (2008))</_description>
 			</information>
 		</service>
 	</services>

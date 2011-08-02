@@ -465,7 +465,7 @@ gnm_app_dpi_to_pixels (void)
 
 /* GtkFileFilter */
 void *
-gnm_app_create_opener_filter (void)
+gnm_app_create_opener_filter (GList *openers)
 {
 	/* See below.  */
 	static const char *const bad_suffixes[] = {
@@ -476,61 +476,64 @@ gnm_app_create_opener_filter (void)
 	};
 
 	GtkFileFilter *filter = gtk_file_filter_new ();
+	gboolean for_history = (openers == NULL);
+	
+	if (openers == NULL)
+		openers = go_get_file_openers ();
 
-	GList *openers;
-
-	for (openers = go_get_file_openers ();
-	     openers;
-	     openers = openers->next) {
+	for (; openers; openers = openers->next) {
 		GOFileOpener *opener = openers->data;
-		const GSList *mimes = go_file_opener_get_mimes (opener);
-		const GSList *suffixes = go_file_opener_get_suffixes (opener);
+		if (opener != NULL) {
+			const GSList *mimes = go_file_opener_get_mimes (opener);
+			const GSList *suffixes = go_file_opener_get_suffixes (opener);
 
-		while (mimes) {
-#if 0
-			const char *mime = mimes->data;
-			/*
-			 * This needs rethink, see 438918.  Too many things
-			 * like *.xml and *.txt get added.
-			 */
-			gtk_file_filter_add_mime_type (filter, mime);
-			if (0)
-				g_print ("%s: Adding mime %s\n", go_file_opener_get_description (opener), mime);
-#endif
-			mimes = mimes->next;
-		}
+			if (!for_history)
+				while (mimes) {
+					const char *mime = mimes->data;
+					/*
+					 * See 438918.  Too many things
+					 * like *.xml and *.txt get added
+					 * to be useful for the file history
+					 */
+					gtk_file_filter_add_mime_type (filter, mime);
+					if (0)
+						g_print ("%s: Adding mime %s\n", go_file_opener_get_description (opener), mime);
+					mimes = mimes->next;
+				}
 
-		while (suffixes) {
-			const char *suffix = suffixes->data;
-			GString *pattern;
-			int i;
+			while (suffixes) {
+				const char *suffix = suffixes->data;
+				GString *pattern;
+				int i;
 
-			for (i = 0; bad_suffixes[i]; i++)
-				if (strcmp (suffix, bad_suffixes[i]) == 0)
-					goto bad_suffix;
+				if (for_history)
+					for (i = 0; bad_suffixes[i]; i++)
+						if (strcmp (suffix, bad_suffixes[i]) == 0)
+							goto bad_suffix;
 
-			/* Create "*.[xX][lL][sS]" */
-			pattern = g_string_new ("*.");
-			while (*suffix) {
-				gunichar uc = g_utf8_get_char (suffix);
-				suffix = g_utf8_next_char (suffix);
-				if (g_unichar_islower (uc)) {
-					g_string_append_c (pattern, '[');
-					g_string_append_unichar (pattern, uc);
-					uc = g_unichar_toupper (uc);
-					g_string_append_unichar (pattern, uc);
-					g_string_append_c (pattern, ']');
-				} else
-					g_string_append_unichar (pattern, uc);
+				/* Create "*.[xX][lL][sS]" */
+				pattern = g_string_new ("*.");
+				while (*suffix) {
+					gunichar uc = g_utf8_get_char (suffix);
+					suffix = g_utf8_next_char (suffix);
+					if (g_unichar_islower (uc)) {
+						g_string_append_c (pattern, '[');
+						g_string_append_unichar (pattern, uc);
+						uc = g_unichar_toupper (uc);
+						g_string_append_unichar (pattern, uc);
+						g_string_append_c (pattern, ']');
+					} else
+						g_string_append_unichar (pattern, uc);
+				}
+
+				gtk_file_filter_add_pattern (filter, pattern->str);
+				if (0)
+					g_print ("%s: Adding %s\n", go_file_opener_get_description (opener), pattern->str);
+				g_string_free (pattern, TRUE);
+
+			bad_suffix:
+				suffixes = suffixes->next;
 			}
-
-			gtk_file_filter_add_pattern (filter, pattern->str);
-			if (0)
-				g_print ("%s: Adding %s\n", go_file_opener_get_description (opener), pattern->str);
-			g_string_free (pattern, TRUE);
-
-		bad_suffix:
-			suffixes = suffixes->next;
 		}
 	}
 	return filter;
@@ -557,7 +560,7 @@ gnm_app_history_get_list (int max_elements)
 {
 	GSList *res = NULL;
 	GList *items, *l;
-	GtkFileFilter *filter = gnm_app_create_opener_filter ();
+	GtkFileFilter *filter = gnm_app_create_opener_filter (NULL);
 	int n_elements = 0;
 
 	items = gtk_recent_manager_get_items (app->recent);

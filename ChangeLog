@@ -1,5 +1,37 @@
 2011-08-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* component/Gnumeric-embed.xml.in: add data import/export menu items
+	* src/GNOME_Gnumeric-gtk.xml.in: ditto
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto
+	* src/application.c (gnm_app_create_opener_filter): distinguish between
+	file history and file-open/import
+	(gnm_app_history_get_list): adjust call to gnm_app_create_opener_filter
+	* src/application.h (gnm_app_create_opener_filter): add argument
+	* src/gui-file.c (gui_file_open): distinguish between "open" and "import"
+	(gui_file_save_as): distinguish between "save as" and "export"
+	* src/gui-file.h (gui_file_open): add argument
+	(gui_file_save_as): add argument
+	* src/stf.c (stf_read_workbook): set save info
+	(stf_read_workbook_auto_csvtab): ditto
+	(stf_init): separate mime types
+	* src/wbc-gtk-actions.c (cb_file_open): adjust call to gui_file_open
+	(cb_data_import_text): ditto
+	(cb_data_import_other): new
+	(cb_data_export): new
+	(cb_data_export_text): new
+	(cb_data_export_csv): new
+	(cb_file_save_as): adjust call to gui_file_save_as
+	(actions): connect the above new actions
+	* src/wbc-gtk-impl.h (_WBCGtk): delete duplicate field
+	* src/wbc-gtk.c (wbc_gtk_init): and do not initialize it
+	* src/workbook-priv.h (_Workbook): new field
+	* src/workbook.c (workbook_get_file_exporter): new
+	(workbook_dispose): finalize file_saver and file_exporter
+	(workbook_set_saveinfo): handle a wider range of savers
+	* src/workbook.h (workbook_get_file_exporter): new
+
+2011-08-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* configure.in: Disable GTK depreciation check
 	* src/cell-draw.c (cell_calc_layout): use gnm_rendered_value_get_color
 	* src/cell.c (gnm_cell_get_render_color): ditto
@@ -18,12 +50,8 @@
 	(colour_selector_cb): new
 	(colour_from_layout): new
 	* src/widgets/gnm-format-sel.c (cb_generate_preview): use attributes
-	* src/workbook-view.c (wb_view_auto_expr_recalc): use 
+	* src/workbook-view.c (wb_view_auto_expr_recalc): use
 	format_value_layout
-
-2011-08-01  Morten Welinder <terra@gnome.org>
-
-	* Branch to 1.11.0
 
 2011-07-31  Morten Welinder <terra@gnome.org>
 

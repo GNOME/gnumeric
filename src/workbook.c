@@ -69,6 +69,14 @@ cb_saver_finalize (Workbook *wb, GOFileSaver *saver)
 	g_return_if_fail (wb->file_saver == saver);
 	wb->file_saver = NULL;
 }
+static void
+cb_exporter_finalize (Workbook *wb, GOFileSaver *saver)
+{
+	g_return_if_fail (GO_IS_FILE_SAVER (saver));
+	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (wb->file_exporter == saver);
+	wb->file_exporter = NULL;
+}
 
 void
 workbook_update_history (Workbook *wb)
@@ -92,7 +100,9 @@ workbook_dispose (GObject *wb_object)
 	wb->during_destruction = TRUE;
 
 	if (wb->file_saver)
-		workbook_set_saveinfo (wb, wb->file_format_level, NULL);
+		workbook_set_saveinfo (wb, GO_FILE_FL_AUTO, NULL);
+	if (wb->file_exporter)
+		workbook_set_saveinfo (wb, GO_FILE_FL_WRITE_ONLY, NULL);
 
 	/* Remove all the sheet controls to avoid displaying while we exit */
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
@@ -188,6 +198,7 @@ workbook_init (GObject *object)
 
 	wb->file_format_level = GO_FILE_FL_NEW;
 	wb->file_saver        = NULL;
+	wb->file_exporter        = NULL;
 
 	wb->during_destruction = FALSE;
 	wb->being_reordered    = FALSE;
@@ -385,7 +396,7 @@ workbook_new_with_sheets (int sheet_count)
  *
  * If level is sufficiently advanced assign the info.
  *
- * Returns : TRUE if save info was set succesfully.
+ * Returns : TRUE if save info was set and history may require updating
  *
  * FIXME : Add a check to ensure the name is unique.
  */
@@ -393,22 +404,32 @@ gboolean
 workbook_set_saveinfo (Workbook *wb, GOFileFormatLevel level, GOFileSaver *fs)
 {
 	g_return_val_if_fail (wb != NULL, FALSE);
-	g_return_val_if_fail (level > GO_FILE_FL_NONE && level <= GO_FILE_FL_AUTO,
+	g_return_val_if_fail (level > GO_FILE_FL_NONE && level < GO_FILE_FL_LAST,
 			      FALSE);
 
-	if (level <= GO_FILE_FL_WRITE_ONLY)
+	if (level != GO_FILE_FL_AUTO) {
+		if (wb->file_exporter != NULL)
+			g_object_weak_unref (G_OBJECT (wb->file_exporter),
+					     (GWeakNotify) cb_exporter_finalize, wb);
+
+		wb->file_exporter = fs;
+		if (fs != NULL)
+			g_object_weak_ref (G_OBJECT (fs),
+					   (GWeakNotify) cb_exporter_finalize, wb);
+	} else {
+		if (wb->file_saver != NULL)
+			g_object_weak_unref (G_OBJECT (wb->file_saver),
+					     (GWeakNotify) cb_saver_finalize, wb);
+
+		wb->file_saver = fs;
+		if (fs != NULL)
+			g_object_weak_ref (G_OBJECT (fs),
+					   (GWeakNotify) cb_saver_finalize, wb);
+	}
+	
+	if (level == GO_FILE_FL_WRITE_ONLY)
 		return FALSE;
-
 	wb->file_format_level = level;
-	if (wb->file_saver != NULL)
-		g_object_weak_unref (G_OBJECT (wb->file_saver),
-			(GWeakNotify) cb_saver_finalize, wb);
-
-	wb->file_saver = fs;
-	if (fs != NULL)
-		g_object_weak_ref (G_OBJECT (fs),
-			(GWeakNotify) cb_saver_finalize, wb);
-
 	return TRUE;
 }
 
@@ -418,6 +439,14 @@ workbook_get_file_saver (Workbook *wb)
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
 
 	return wb->file_saver;
+}
+
+GOFileSaver *
+workbook_get_file_exporter (Workbook *wb)
+{
+	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+
+	return wb->file_exporter;
 }
 
 /**

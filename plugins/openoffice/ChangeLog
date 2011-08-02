@@ -1,3 +1,7 @@
+2011-08-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugin.xml.in: correct mime types
+
 2011-07-31  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.17

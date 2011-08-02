@@ -29,7 +29,7 @@ void         gnm_app_recalc_finish         (void);
 void         gnm_app_recalc_clear_caches   (void);
 
 /* GtkFileFilter */
-void        *gnm_app_create_opener_filter (void);
+void        *gnm_app_create_opener_filter (GList *openers);
 
 double	     gnm_app_display_dpi_get	  (gboolean horizontal);
 double	     gnm_app_dpi_to_pixels	  (void);

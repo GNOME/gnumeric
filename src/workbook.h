@@ -49,6 +49,7 @@ gboolean       workbook_set_saveinfo	(Workbook *wb, GOFileFormatLevel lev,
 					 GOFileSaver *saver);
 void           workbook_update_history  (Workbook *wb);
 GOFileSaver *workbook_get_file_saver	(Workbook *wb);
+GOFileSaver *workbook_get_file_exporter	(Workbook *wb);
 
 /* See also sheet_cell_foreach_range */
 GnmValue   *workbook_foreach_cell_in_range (GnmEvalPos const  *pos,

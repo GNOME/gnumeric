@@ -276,6 +276,11 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 		if (stf_store_results (dialogresult, sheet, 0, 0)) {
 			workbook_recalc_all (book);
 			resize_columns (sheet);
+			workbook_set_saveinfo
+				(book,
+				 GO_FILE_FL_WRITE_ONLY,
+				 go_file_saver_for_id 
+				 ("Gnumeric_stf:stf_assistant"));
 		} else {
 			/* the user has cancelled */
 			/* the caller should notice that we have no sheets */
@@ -478,6 +483,11 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 				     _("Some data did not fit on the "
 				       "sheet and was dropped."));
 		}
+		workbook_set_saveinfo
+			(book,
+			 GO_FILE_FL_WRITE_ONLY,
+			 go_file_saver_for_id 
+			 ("Gnumeric_stf:stf_assistant"));
 	} else {
 		workbook_sheet_delete (sheet);
 		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
@@ -609,6 +619,13 @@ stf_init (void)
 		g_strdup ("text/spreadsheet"),
 		g_strdup ("text/tab-separated-values"),
 		NULL);
+	GSList *mimes_txt = go_slist_create (
+		g_strdup ("text/plain"),
+		g_strdup ("text/csv"),
+		g_strdup ("text/x-csv"),
+		g_strdup ("text/comma-separated-values"),
+		g_strdup ("text/tab-separated-values"),
+		NULL);
 	GOFileSaver *saver;
 	GOFileOpener *opener;
 
@@ -623,7 +640,7 @@ stf_init (void)
 	opener = go_file_opener_new_with_enc (
 		"Gnumeric_stf:stf_assistant",
 		_("Text import (configurable)"),
-		NULL, NULL,
+		NULL, mimes_txt,
 		NULL, stf_read_workbook);
 	go_file_opener_register (opener, 0);
 	g_object_unref (opener);
@@ -635,7 +652,7 @@ stf_init (void)
 	saver = go_file_saver_new (
 		"Gnumeric_stf:stf_csv", "csv",
 		_("Comma separated values (CSV)"),
-		GO_FILE_FL_WRITE_ONLY, stf_write_csv);
+		GO_FILE_FL_MANUAL_REMEMBER, stf_write_csv);
 	go_file_saver_set_save_scope (saver, GO_FILE_SAVE_SHEET);
 	go_file_saver_register (saver);
 	g_object_unref (saver);

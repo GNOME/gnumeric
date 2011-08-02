@@ -5807,8 +5807,6 @@ wbc_gtk_init (GObject *obj)
 
 	wbcg->new_object = NULL;
 
-#warning "why is this here ?"
-	wbcg->current_saver = NULL;
 	wbcg->menu_zone = gtk_vbox_new (TRUE, 0);
 	wbcg->everything = gtk_vbox_new (FALSE, 0);
 

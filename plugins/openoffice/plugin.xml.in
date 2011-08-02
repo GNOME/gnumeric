@@ -19,20 +19,22 @@
 				<suffix>stc</suffix>
 			</suffixes>
 			<mime-types>
-				<mime-type>vnd.oasis.opendocument.spreadsheet</mime-type>
-				<mime-type>vnd.oasis.opendocument.spreadsheet-template</mime-type>
+				<mime-type>application/vnd.oasis.opendocument.spreadsheet</mime-type>
+				<mime-type>application/vnd.oasis.opendocument.spreadsheet-template</mime-type>
 				<mime-type>application/vnd.sun.xml.calc</mime-type>
 				<mime-type>application/vnd.sun.xml.calc.template</mime-type>
 			</mime-types>
 		</service>
 		<service type="file_saver" id="openoffice" file_extension="ods"
-		         format_level="auto" overwrite_files="TRUE">
+		         format_level="auto" overwrite_files="TRUE" 
+			 mime_type="application/vnd.oasis.opendocument.spreadsheet">
 			<information>
 				<_description>ODF/OpenOffice without foreign elements (*.ods)</_description>
 			</information>
 		</service>
 		<service type="file_saver" id="odf" file_extension="ods"
-		         format_level="auto" overwrite_files="TRUE">
+		         format_level="auto" overwrite_files="TRUE" 
+			 mime_type="application/vnd.oasis.opendocument.spreadsheet">
 			<information>
 				<_description>ODF/OpenOffice with foreign elements (*.ods)</_description>
 			</information>

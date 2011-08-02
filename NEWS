@@ -2,7 +2,8 @@ Gnumeric 1.11.0
 
 Andreas: 
 	* Use formatting attributes whenever we format numbers. 
-	[#584380][#651561] 
+	[#584380][#651561]
+	* Clarify the distinction beween open/save and import/export.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.17
