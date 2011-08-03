@@ -4013,6 +4013,10 @@ set_toolbar_style_for_position (GtkToolbar *tb, GtkPositionType pos)
 		gtk_handle_box_set_handle_position (GTK_HANDLE_BOX (box),
 						    hdlpos[pos]);
 	}
+	if (pos == GTK_POS_TOP || pos == GTK_POS_BOTTOM)
+		g_object_set (G_OBJECT (tb), "hexpand", TRUE, "vexpand", FALSE, NULL);
+	else
+		g_object_set (G_OBJECT (tb), "vexpand", TRUE, "hexpand", FALSE, NULL);
 }
 
 static void
@@ -4258,7 +4262,6 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 				  G_CALLBACK (cb_handlebox_button_press),
 				  gtk);
 
-		g_object_set (G_OBJECT (w), "hexpand", TRUE, NULL);
 		gtk_container_add (GTK_CONTAINER (box), w);
 		gtk_widget_show_all (box);
 		if (!visible)
