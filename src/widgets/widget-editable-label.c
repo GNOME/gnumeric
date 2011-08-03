@@ -165,7 +165,7 @@ el_destroy (GtkWidget *widget)
 static gint
 el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 {
-	/* EditableLabel *el = EDITABLE_LABEL (widget); */
+	EditableLabel *el = EDITABLE_LABEL (widget);
 
 	/* if (button->window != gtk_widget_get_window (widget)) { */
 	/* 	/\* Accept the name change *\/ */
@@ -174,15 +174,15 @@ el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 	/* 	return TRUE; */
 	/* } */
 
-	/* if (button->type == GDK_2BUTTON_PRESS) { */
-	/* 	editable_label_start_editing (el); */
-	/* 	return FALSE; */
-	/* } */
+	if (button->type == GDK_2BUTTON_PRESS) {
+		editable_label_start_editing (el);
+		return FALSE;
+	}
 
-	/* if (el->unedited_text == NULL) */
+	if (el->unedited_text == NULL)
 		return FALSE;
 
-	/* return parent_class->button_press_event (widget, button); */
+	return parent_class->button_press_event (widget, button);
 }
 
 /*

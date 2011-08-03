@@ -1,5 +1,9 @@
 2011-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* widget-editable-label.c (el_button_press_event): enable most
+
+2011-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* widget-editable-label.c (el_button_press_event): temporarily
 	disable
 
