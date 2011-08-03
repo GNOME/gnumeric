@@ -1,3 +1,8 @@
+2011-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* widget-editable-label.c (el_button_press_event): temporarily
+	disable
+
 2011-07-31  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.17
