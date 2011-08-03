@@ -763,8 +763,8 @@ create_sheet_list (SheetManager *state)
 	column = gtk_tree_view_column_new_with_attributes (_("Current Name"),
 					      gnumeric_cell_renderer_text_new (),
 					      "text", SHEET_NAME,
-					      "background_gdk",BACKGROUND_COLOUR,
-					      "foreground_gdk",FOREGROUND_COLOUR,
+					      "background-rgba",BACKGROUND_COLOUR,
+					      "foreground-rgba",FOREGROUND_COLOUR,
 					      NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 
@@ -776,8 +776,8 @@ create_sheet_list (SheetManager *state)
 	column = gtk_tree_view_column_new_with_attributes (_("New Name"),
 					      renderer,
 					      "text", SHEET_NEW_NAME,
-					      "background_gdk",BACKGROUND_COLOUR,
-					      "foreground_gdk",FOREGROUND_COLOUR,
+					      "background-rgba",BACKGROUND_COLOUR,
+					      "foreground-rgba",FOREGROUND_COLOUR,
 					      NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 	g_signal_connect (G_OBJECT (renderer), "edited",
