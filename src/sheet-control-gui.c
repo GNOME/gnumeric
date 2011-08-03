@@ -2452,7 +2452,7 @@ scg_object_select (SheetControlGUI *scg, SheetObject *so)
 	}
 
 	coords = g_new (double, 4);
-	scg_object_anchor_to_coords (scg, sheet_object_get_anchor (so), coords);	
+	scg_object_anchor_to_coords (scg, sheet_object_get_anchor (so), coords);
 	g_hash_table_insert (scg->selected_objects, so, coords);
 	g_signal_connect_object (so, "unrealized",
 		G_CALLBACK (scg_mode_edit), scg, G_CONNECT_SWAPPED);

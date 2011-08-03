@@ -3025,7 +3025,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, TRUE
 	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_GRAPH, GNM, "SheetObjectGraph", GSF_XML_NO_CONTENT,	&xml_sax_object_start, &xml_sax_object_end),
 	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_IMAGE, GNM, "SheetObjectImage", GSF_XML_NO_CONTENT,	&xml_sax_object_start, &xml_sax_object_end),
 	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_COMPONENT, GNM, "SheetObjectComponent", GSF_XML_NO_CONTENT, &xml_sax_object_start, &xml_sax_object_end),
-	
+
   GSF_XML_IN_NODE (WB, WB_GEOMETRY, GNM, "Geometry", GSF_XML_NO_CONTENT, &xml_sax_wb_view, NULL),
   GSF_XML_IN_NODE (WB, WB_VIEW, GNM, "UIData", GSF_XML_NO_CONTENT, &xml_sax_wb_view, NULL),
   GSF_XML_IN_NODE (WB, WB_CALC, GNM, "Calculation", GSF_XML_NO_CONTENT, &xml_sax_calculation, NULL),
