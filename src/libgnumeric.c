@@ -253,6 +253,11 @@ call_gnome_vfs_init (void)
 void
 gnm_init (void)
 {
+	static gboolean inited = FALSE;
+	if (inited)
+		return;
+	inited = TRUE;
+
 	call_gnome_vfs_init ();
 
 	libgoffice_init ();

@@ -63,6 +63,7 @@
 #include "sheet-object-cell-comment.h"
 #include "sheet-object-widget.h"
 #include "sheet-object.h"
+#include "sheet-object-component.h"
 #include "sheet-object-graph.h"
 #include "sheet-control.h"
 #include "sheet-control-gui.h"
@@ -6907,6 +6908,78 @@ cmd_so_graph_config (WorkbookControl *wbc, SheetObject *so,
 	me->cmd.sheet = sheet_object_get_sheet (so);;
 	me->cmd.size = 10;
 	me->cmd.cmd_descriptor = g_strdup (_("Reconfigure Graph"));
+
+	return gnm_command_push_undo (wbc, G_OBJECT (me));
+}
+
+/******************************************************************/
+
+#define CMD_SO_COMPONENT_CONFIG_TYPE (cmd_so_component_config_get_type ())
+#define CMD_SO_COMPONENT_CONFIG(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SO_COMPONENT_CONFIG_TYPE, CmdSOComponentConfig))
+
+typedef struct {
+	GnmCommand cmd;
+	SheetObject *so;
+	GOComponent *new_obj;
+	GOComponent *old_obj;
+} CmdSOComponentConfig;
+
+MAKE_GNM_COMMAND (CmdSOComponentConfig, cmd_so_component_config, NULL)
+
+static gboolean
+cmd_so_component_config_redo (GnmCommand *cmd,
+			  G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdSOComponentConfig *me = CMD_SO_COMPONENT_CONFIG (cmd);
+	sheet_object_component_set_component (me->so, me->new_obj);
+	return FALSE;
+}
+
+static gboolean
+cmd_so_component_config_undo (GnmCommand *cmd,
+			  G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdSOComponentConfig *me = CMD_SO_COMPONENT_CONFIG (cmd);
+	sheet_object_component_set_component (me->so, me->old_obj);
+	return FALSE;
+}
+
+static void
+cmd_so_component_config_finalize (GObject *cmd)
+{
+	CmdSOComponentConfig *me = CMD_SO_COMPONENT_CONFIG (cmd);
+
+	g_object_unref (me->so);
+	g_object_unref (me->new_obj);
+	g_object_unref (me->old_obj);
+
+	gnm_command_finalize (cmd);
+}
+
+gboolean
+cmd_so_component_config (WorkbookControl *wbc, SheetObject *so,
+		     GObject *n_obj, GObject *o_obj)
+{
+	CmdSOComponentConfig *me;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (IS_SHEET_OBJECT_COMPONENT (so), TRUE);
+	g_return_val_if_fail (GO_IS_COMPONENT (n_obj), TRUE);
+	g_return_val_if_fail (GO_IS_COMPONENT (o_obj), TRUE);
+
+	me = g_object_new (CMD_SO_COMPONENT_CONFIG_TYPE, NULL);
+
+	me->so = so;
+	g_object_ref (G_OBJECT (so));
+
+	me->new_obj = GO_COMPONENT (n_obj);
+	g_object_ref (G_OBJECT (me->new_obj));
+	me->old_obj = GO_COMPONENT (o_obj);
+	g_object_ref (G_OBJECT (me->old_obj));
+
+	me->cmd.sheet = sheet_object_get_sheet (so);;
+	me->cmd.size = 10;
+	me->cmd.cmd_descriptor = g_strdup (_("Reconfigure Object"));
 
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
 }

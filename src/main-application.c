@@ -298,6 +298,7 @@ main (int argc, char const **argv)
 	GOIOContext *ioc;
 	WorkbookView *wbv;
 	GSList *wbcgs_to_kill = NULL;
+	GOCmdContext *cc;
 
 #ifdef G_OS_WIN32
 	gboolean has_console;
@@ -347,19 +348,19 @@ main (int argc, char const **argv)
 	gnm_init ();
 
 	if (with_gui) {
-		ioc = GO_IO_CONTEXT
-			(g_object_new (GO_TYPE_IO_CONTEXT_GTK,
+		cc = g_object_new (GO_TYPE_IO_CONTEXT_GTK,
 				       "show-splash", !gnumeric_no_splash,
 				       "show-warnings", !gnumeric_no_warnings,
-				       NULL));
+				       NULL);
+		ioc = GO_IO_CONTEXT (cc);
 		handle_paint_events ();
 		pathetic_qt_workaround ();
 	} else {
 		/* TODO: Make this inconsistency go away */
-		GOCmdContext *cc = cmd_context_stderr_new ();
+		cc = cmd_context_stderr_new ();
 		ioc = go_io_context_new (cc);
-		g_object_unref (cc);
 	}
+	go_component_set_command_context (cc);
 
 	if (func_state_file)
 		return gnm_dump_func_defs (func_state_file, 0);

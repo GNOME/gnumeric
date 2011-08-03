@@ -162,6 +162,7 @@ libspreadsheet_la_SOURCES =			\
 	gnm-so-filled.c				\
 	gnm-so-line.c				\
 	gnm-so-polygon.c			\
+	sheet-object-component.c		\
 	sheet-object-graph.c			\
 	sheet-object-image.c			\
 	sheet-object-widget.c			\
@@ -291,6 +292,7 @@ libspreadsheet_include_HEADERS = 	\
 	gnm-so-filled.h				\
 	gnm-so-line.h				\
 	gnm-so-polygon.h			\
+	sheet-object-component.h		\
 	sheet-object-graph.h			\
 	sheet-object-image.h			\
 	sheet-object-widget.h			\

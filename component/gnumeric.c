@@ -3,7 +3,7 @@
  * Gnumeric GOffice component
  * gnumeric.c
  *
- * Copyright (C) 2006-2009
+ * Copyright (C) 2006-2010
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -66,6 +66,7 @@ typedef struct {
 	GOComponent parent;
 
 	WorkbookView	*wv;
+	Workbook	*wb;
 	WBCGtk		*edited;
 	Sheet		*sheet;
 	int col_start, col_end, row_start, row_end;
@@ -87,16 +88,14 @@ go_gnm_component_get_data (GOComponent *component, gpointer *data, int *length,
 									void (**clearfunc) (gpointer), gpointer *user_data)
 {
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
-	if (gognm->edited) {
+	if (gognm->wv) {
 		GOCmdContext *cc = go_component_get_command_context ();
 		GOIOContext *io_context = go_io_context_new (cc);
 		GsfOutput *output = gsf_output_memory_new ();
-		WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (gognm->edited));
-		Workbook *wb = wb_view_get_workbook (wbv);
-		GOFileSaver *gfs = workbook_get_file_saver (wb);
+		GOFileSaver *gfs = workbook_get_file_saver (gognm->wb);
 		if (gfs == NULL)
 			gfs = go_file_saver_get_default ();
-		wbv_save_to_output (wbv, gfs, output, io_context);
+		wbv_save_to_output (gognm->wv, gfs, output, io_context);
 		*data = (gpointer) gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (output));
 		*length = gsf_output_size (output);
 		*clearfunc = g_object_unref;
@@ -107,20 +106,10 @@ go_gnm_component_get_data (GOComponent *component, gpointer *data, int *length,
 }
 
 static void
-go_gnm_component_set_data (GOComponent *component)
+go_gnm_component_update_data (GOGnmComponent *gognm)
 {
-	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	SheetView *sv;
 	GnmRange const *range;
-	GOCmdContext *cc = go_component_get_command_context ();
-	GOIOContext *io_context = go_io_context_new (cc);
-	GsfInput *input = gsf_input_memory_new (component->data, component->length, FALSE);
-
-	g_object_set (G_OBJECT (io_context), "exec-main-loop", FALSE, NULL);
-	if (gognm->wv != NULL)
-		g_object_unref (gognm->wv);
-	gognm->wv = wb_view_new_from_input (input, NULL, NULL, io_context, NULL);
-	g_object_unref (io_context);
 	gognm->sheet = wb_view_cur_sheet (gognm->wv);
 	sv = sheet_get_view (gognm->sheet, gognm->wv);
 	range = selection_first_range (sv, NULL, NULL);
@@ -130,11 +119,30 @@ go_gnm_component_set_data (GOComponent *component)
 	gognm->row_end = range->end.row;
 	gognm->width = sheet_col_get_distance_pts (
 		gognm->sheet, gognm->col_start, gognm->col_end + 1);
-	component->width = gognm->width / 72.;
-	component->descent = 0.;
+	gognm->parent.width = gognm->width / 72.;
+	gognm->parent.descent = 0.;
 	gognm->height = sheet_row_get_distance_pts (
 		gognm->sheet, gognm->row_start, gognm->row_end + 1);
-	component->ascent = gognm->height  / 72.;
+	gognm->parent.ascent = gognm->parent.height = gognm->height  / 72.;
+}
+
+static void
+go_gnm_component_set_data (GOComponent *component)
+{
+	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
+	GOCmdContext *cc = go_component_get_command_context ();
+	GOIOContext *io_context = go_io_context_new (cc);
+	GsfInput *input = gsf_input_memory_new (component->data, component->length, FALSE);
+
+	g_object_set (G_OBJECT (io_context), "exec-main-loop", FALSE, NULL);
+	if (gognm->wv != NULL) {
+		g_object_unref (gognm->wv);
+		g_object_unref (gognm->wb);
+	}
+	gognm->wv = wb_view_new_from_input (input, NULL, NULL, io_context, NULL);
+	gognm->wb = wb_view_get_workbook (gognm->wv);
+	g_object_unref (io_context);
+	go_gnm_component_update_data (gognm);
 }
 
 static void
@@ -142,6 +150,9 @@ go_gnm_component_render (GOComponent *component, cairo_t *cr, double width_pixel
 {
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	GnmRange range;
+
+	if (!gognm->sheet)
+		go_gnm_component_update_data (gognm);
 
 	range_init (&range, gognm->col_start, gognm->row_start, gognm->col_end, gognm->row_end);
 	cairo_save (cr);
@@ -162,6 +173,19 @@ cb_gognm_save (G_GNUC_UNUSED GtkAction *a, WBCGtk *wbcg)
 	gpointer data = g_object_get_data (G_OBJECT (wbcg), "component");
 	if (GO_IS_COMPONENT (data)) {
 		GOComponent *component = GO_COMPONENT (data);
+		/* update the component data since not all clients will call set_data */
+		GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
+		WorkbookView *wv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+		if (wv != gognm->wv) {
+			if (gognm->wv != NULL) {
+				g_object_unref (gognm->wv);
+				g_object_unref (gognm->wb);
+			}
+			gognm->wv = g_object_ref (wv);
+			gognm->wb = g_object_ref (wb_view_get_workbook (wv));
+		}
+		go_doc_set_dirty (GO_DOC (gognm->wb), FALSE);
+		go_gnm_component_update_data (gognm);
 		go_component_emit_changed (component);
 	} else
 		gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
@@ -196,7 +220,7 @@ go_gnm_component_edit (GOComponent *component)
 		wv = workbook_view_new (workbook_new_with_sheets (1));
 	} else {
 		GOCmdContext *cc = go_component_get_command_context ();
-		GOIOContext *io_context = go_io_context_new (cc);
+		GOIOContext *io_context = GO_IS_IO_CONTEXT (cc)? GO_IO_CONTEXT (g_object_ref (cc)): go_io_context_new (cc);
 		GsfInput *input = gsf_input_memory_new (component->data, component->length, FALSE);
 
 		g_object_set (G_OBJECT (io_context), "exec-main-loop", FALSE, NULL);
@@ -218,6 +242,7 @@ go_gnm_component_finalize (GObject *obj)
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (obj);
 	if (gognm->wv != NULL) {
 		g_object_unref (gognm->wv);
+		g_object_unref (gognm->wb);
 		gognm->wv = NULL;
 	}
 	if (gognm->edited != NULL) {
@@ -234,6 +259,9 @@ go_gnm_component_init (GOComponent *component)
 	component->resizable = FALSE;
 	component->editable = TRUE;
 	component->needs_window = FALSE;
+#ifdef GO_SNAPSHOT_SVG
+	component->snapshot_type = GO_SNAPSHOT_SVG;
+#endif
 	gognm->row_start = gognm->col_start = 0;
 	gognm->sheet = NULL;
 	gognm->row_end = 9;
@@ -293,11 +321,11 @@ go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 
 	go_components_set_mime_suffix ("application/x-gnumeric", "*.gnumeric");
 
-/* WHERE IS THIS DEFINED */
-	go_plugins_add (go_component_get_command_context (),
+	go_plugins_init (go_component_get_command_context (),
 			gnm_conf_get_plugins_file_states (),
 			gnm_conf_get_plugins_active (),
 			dir_list,
+			gnm_conf_get_plugins_activate_new (),
 			gnm_plugin_loader_module_get_type ());
 }
 

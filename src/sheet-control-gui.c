@@ -2452,7 +2452,7 @@ scg_object_select (SheetControlGUI *scg, SheetObject *so)
 	}
 
 	coords = g_new (double, 4);
-	scg_object_anchor_to_coords (scg, sheet_object_get_anchor (so), coords);
+	scg_object_anchor_to_coords (scg, sheet_object_get_anchor (so), coords);	
 	g_hash_table_insert (scg->selected_objects, so, coords);
 	g_signal_connect_object (so, "unrealized",
 		G_CALLBACK (scg_mode_edit), scg, G_CONNECT_SWAPPED);
@@ -2714,6 +2714,13 @@ cb_collect_objects_to_commit (SheetObject *so, double *coords, CollectObjectsDat
 {
 	SheetObjectAnchor *anchor = sheet_object_anchor_dup (
 		sheet_object_get_anchor (so));
+	if (!sheet_object_can_resize (so)) {
+		sheet_object_default_size (so, coords + 2, coords + 3);
+		coords[2] *= gnm_app_display_dpi_get (TRUE) / 72;
+		coords[3] *= gnm_app_display_dpi_get (FALSE) / 72;
+		coords[2] += coords[0];
+		coords[3] += coords[1];
+	}
 	scg_object_coords_to_anchor (data->scg, coords, anchor);
 	data->objects = g_slist_prepend (data->objects, so);
 	data->anchors = g_slist_prepend (data->anchors, anchor);

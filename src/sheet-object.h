@@ -70,6 +70,8 @@ void          sheet_object_set_print_flag (SheetObject *so, gboolean *print);
 
 SheetObject  *sheet_object_dup		 (SheetObject const *so);
 gboolean      sheet_object_can_print	 (SheetObject const *so);
+gboolean      sheet_object_can_resize	 (SheetObject const *so);
+gboolean      sheet_object_can_edit	 (SheetObject const *so);
 
 void	     sheet_object_get_editor	 (SheetObject *so, SheetControl *sc);
 void	     sheet_object_populate_menu  (SheetObject *so, GPtrArray *actions);

@@ -120,7 +120,11 @@
       <menuitem action="SheetInsert"/>
       <separator/>
       <menuitem action="ChartGuru"/>
-<!-- These don't work yet for Gnome 2
+      <menu name="Object" action="MenuInsertObject">
+        <menuitem action="NewGOComponent" />
+        <menuitem action="GOComponentFromFile" />
+      </menu>
+<!-- These don't work yet for Gnome 2 
 	    <menuitem action="InsertComponent" />
 	    <menuitem action="InsertShapedComponent" />
 	    <separator/>

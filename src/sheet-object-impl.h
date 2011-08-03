@@ -15,6 +15,8 @@ typedef enum {
 	SHEET_OBJECT_IS_VISIBLE	= 1 << 0,	/* user selectable */
 	SHEET_OBJECT_PRINT	= 1 << 1,
 	SHEET_OBJECT_CAN_PRESS	= 1 << 2,
+	SHEET_OBJECT_CAN_RESIZE	= 1 << 3,
+	SHEET_OBJECT_CAN_EDIT	= 1 << 4,
 
 	/* Gnumeric specific properties */
 	SHEET_OBJECT_MOVE_WITH_CELLS	= 1 << 16,

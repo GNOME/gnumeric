@@ -58,6 +58,7 @@
 #include "gnm-so-filled.h"
 #include "gnm-format.h"
 #include "sheet-object-graph.h"
+#include "sheet-object-component.h"
 #include "application.h"
 #include "gutils.h"
 #include "clipboard.h"
@@ -2304,6 +2305,8 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 		so = g_object_new (GNM_SO_FILLED_TYPE, NULL);
 	else if (!strcmp (type_name, "SheetObjectText"))
 		so = g_object_new (GNM_SO_FILLED_TYPE, NULL);
+	else if (!strcmp (type_name, "SheetObjectComponent"))
+		so = sheet_object_component_new (NULL);
 
 	else {
 		GType type = g_type_from_name (type_name);
@@ -3021,7 +3024,8 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, TRUE
 	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_TEXT, GNM, "SheetObjectText", GSF_XML_NO_CONTENT,	&xml_sax_object_start, &xml_sax_object_end),
 	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_GRAPH, GNM, "SheetObjectGraph", GSF_XML_NO_CONTENT,	&xml_sax_object_start, &xml_sax_object_end),
 	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_IMAGE, GNM, "SheetObjectImage", GSF_XML_NO_CONTENT,	&xml_sax_object_start, &xml_sax_object_end),
-
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_COMPONENT, GNM, "SheetObjectComponent", GSF_XML_NO_CONTENT, &xml_sax_object_start, &xml_sax_object_end),
+	
   GSF_XML_IN_NODE (WB, WB_GEOMETRY, GNM, "Geometry", GSF_XML_NO_CONTENT, &xml_sax_wb_view, NULL),
   GSF_XML_IN_NODE (WB, WB_VIEW, GNM, "UIData", GSF_XML_NO_CONTENT, &xml_sax_wb_view, NULL),
   GSF_XML_IN_NODE (WB, WB_CALC, GNM, "Calculation", GSF_XML_NO_CONTENT, &xml_sax_calculation, NULL),

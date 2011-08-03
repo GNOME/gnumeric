@@ -2619,6 +2619,11 @@ gnm_pane_object_start_resize (GnmPane *pane, int button, guint64 x, gint64 y,
 
 	g_return_if_fail (NULL != ctrl_pts);
 
+	if (is_creation && !sheet_object_can_resize (so)) {
+		scg_objects_drag_commit (pane->simple.scg, 9, TRUE,
+					 NULL, NULL, NULL);
+		return;
+	}
 	gnm_simple_canvas_grab (ctrl_pts [drag_type],
 		GDK_POINTER_MOTION_MASK |
 		GDK_BUTTON_PRESS_MASK |
@@ -3034,18 +3039,20 @@ gnm_pane_object_update_bbox (GnmPane *pane, SheetObject *so)
 
 	/* set the acetate 1st so that the other points will override it */
 	set_acetate_coords (pane, so, ctrl_pts, pts[0], pts[1], pts[2], pts[3]);
-	set_item_x_y (pane, so, ctrl_pts, 0, pts[0], pts[1], TRUE);
-	set_item_x_y (pane, so, ctrl_pts, 1, (pts[0] + pts[2]) / 2, pts[1],
-		      fabs (pts[2]-pts[0]) >= CTRL_PT_TOTAL_SIZE);
-	set_item_x_y (pane, so, ctrl_pts, 2, pts[2], pts[1], TRUE);
-	set_item_x_y (pane, so, ctrl_pts, 3, pts[0], (pts[1] + pts[3]) / 2,
-		      fabs (pts[3]-pts[1]) >= CTRL_PT_TOTAL_SIZE);
-	set_item_x_y (pane, so, ctrl_pts, 4, pts[2], (pts[1] + pts[3]) / 2,
-		      fabs (pts[3]-pts[1]) >= CTRL_PT_TOTAL_SIZE);
-	set_item_x_y (pane, so, ctrl_pts, 5, pts[0], pts[3], TRUE);
-	set_item_x_y (pane, so, ctrl_pts, 6, (pts[0] + pts[2]) / 2, pts[3],
-		      fabs (pts[2]-pts[0]) >= CTRL_PT_TOTAL_SIZE);
-	set_item_x_y (pane, so, ctrl_pts, 7, pts[2], pts[3], TRUE);
+	if (sheet_object_can_resize (so)) {
+		set_item_x_y (pane, so, ctrl_pts, 0, pts[0], pts[1], TRUE);
+		set_item_x_y (pane, so, ctrl_pts, 1, (pts[0] + pts[2]) / 2, pts[1],
+			      fabs (pts[2]-pts[0]) >= CTRL_PT_TOTAL_SIZE);
+		set_item_x_y (pane, so, ctrl_pts, 2, pts[2], pts[1], TRUE);
+		set_item_x_y (pane, so, ctrl_pts, 3, pts[0], (pts[1] + pts[3]) / 2,
+			      fabs (pts[3]-pts[1]) >= CTRL_PT_TOTAL_SIZE);
+		set_item_x_y (pane, so, ctrl_pts, 4, pts[2], (pts[1] + pts[3]) / 2,
+			      fabs (pts[3]-pts[1]) >= CTRL_PT_TOTAL_SIZE);
+		set_item_x_y (pane, so, ctrl_pts, 5, pts[0], pts[3], TRUE);
+		set_item_x_y (pane, so, ctrl_pts, 6, (pts[0] + pts[2]) / 2, pts[3],
+			      fabs (pts[2]-pts[0]) >= CTRL_PT_TOTAL_SIZE);
+		set_item_x_y (pane, so, ctrl_pts, 7, pts[2], pts[3], TRUE);
+	}
 }
 
 static void

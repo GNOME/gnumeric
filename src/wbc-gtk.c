@@ -1954,8 +1954,13 @@ wbc_gtk_close (WBCGtk *wbcg)
 		g_return_val_if_fail (wb->wb_views != NULL, TRUE);
 
 		/* This is the last view */
-		if (wb->wb_views->len <= 1)
-			return wbcg_close_if_user_permits (wbcg, wb_view, TRUE, FALSE, TRUE) == 0;
+		if (wb->wb_views->len <= 1) {
+			if (wbcg_close_if_user_permits (wbcg, wb_view, TRUE, FALSE, TRUE) == 0)
+				return TRUE;
+			if (G_IS_OBJECT (wbcg)) /* the wbcg might be unrefd */
+				g_object_unref (G_OBJECT (wbcg));
+			return FALSE;
+		}
 
 		g_object_unref (G_OBJECT (wb_view));
 	} else

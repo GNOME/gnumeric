@@ -1,5 +1,23 @@
 2011-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* component/gnumeric.c: update component.
+	* src/GNOME_Gnumeric-gtk.xml.in: add component support in sheets.
+	* src/Makefile.am: ditto.
+	* src/commands.c: ditto.
+	* src/gnm-pane.c: ditto.
+	* src/libgnumeric.c: ditto.
+	* src/main-application.c: ditto.
+	* src/sheet-control-gui.c: ditto.
+	* src/sheet-object.c: ditto.
+	* src/sheet-object.h: ditto.
+	* src/sheet-object-component.c: ditto.
+	* src/sheet-object-component.h: ditto.
+	* src/wbc-gtk-actions.c: ditto.
+	* src/wbc-gtk.c: ditto.
+	* src/xml-sax-read.c: ditto.
+
+2011-08-03  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/wbc-gtk.c (cb_add_menus_toolbars): set the "hexpand" property to
 	TRUE for toolbars. [#655858]
 

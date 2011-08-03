@@ -192,7 +192,7 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 			{ "gtk-copy",		NULL,		NULL,  0, cb_so_copy },
 			{ "gtk-delete",		NULL,		NULL, 0, cb_so_delete },
 		};
-		for (i = 0 ; i < G_N_ELEMENTS (so_actions); i++)
+		for (i = sheet_object_can_edit (so)? 0: 1 ; i < G_N_ELEMENTS (so_actions); i++)
 			if (i != 0 || SO_CLASS(so)->user_config != NULL)
 				g_ptr_array_add (actions, (gpointer) (so_actions + i));
 	}
@@ -306,6 +306,7 @@ sheet_object_init (GObject *object)
 
 	so->sheet = NULL;
 	so->flags = SHEET_OBJECT_IS_VISIBLE | SHEET_OBJECT_PRINT |
+		SHEET_OBJECT_CAN_RESIZE | SHEET_OBJECT_CAN_EDIT |
 		SHEET_OBJECT_MOVE_WITH_CELLS | SHEET_OBJECT_SIZE_WITH_CELLS;
 
 	/* Store the logical position as A1 */
@@ -642,6 +643,20 @@ sheet_object_can_print (SheetObject const *so)
 		SO_CLASS (so)->draw_cairo != NULL;
 }
 
+gboolean
+sheet_object_can_resize (SheetObject const *so)
+{
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), FALSE);
+	return  so->flags & SHEET_OBJECT_CAN_RESIZE;
+}
+
+gboolean
+sheet_object_can_edit (SheetObject const *so)
+{
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), FALSE);
+	return  so->flags & SHEET_OBJECT_CAN_EDIT;
+}
+
 /**
  * sheet_object_draw_cairo :
  *
@@ -661,12 +676,6 @@ sheet_object_draw_cairo (SheetObject const *so, cairo_t *cr, gboolean rtl)
 		SheetObjectAnchor const *anchor;
 		double x = 0., y = 0., width, height, cell_width, cell_height;
 		anchor = sheet_object_get_anchor (so);
-		width = sheet_col_get_distance_pts (so->sheet,
-					anchor->cell_bound.start.col,
-					anchor->cell_bound.end.col + 1);
-		height = sheet_row_get_distance_pts (so->sheet,
-					anchor->cell_bound.start.row,
-					anchor->cell_bound.end.row + 1);
 		cell_width = sheet_col_get_distance_pts (so->sheet,
 					anchor->cell_bound.start.col,
 					anchor->cell_bound.start.col + 1);
@@ -674,22 +683,31 @@ sheet_object_draw_cairo (SheetObject const *so, cairo_t *cr, gboolean rtl)
 					anchor->cell_bound.start.row,
 					anchor->cell_bound.start.row + 1);
 		x = cell_width * anchor->offset[0];
-		width -= x;
 
 		y = cell_height * anchor->offset[1];
-		height -= y;
 		cell_width = sheet_col_get_distance_pts (so->sheet,
 					anchor->cell_bound.end.col,
 					anchor->cell_bound.end.col + 1);
 		cell_height = sheet_row_get_distance_pts (so->sheet,
 					anchor->cell_bound.end.row,
 					anchor->cell_bound.end.row + 1);
-		width -= cell_width * (1. - anchor->offset[2]);
-		height -= cell_height * (1 - anchor->offset[3]);
 
 		if (rtl) {
 			x = cell_width * (1 - anchor->offset[2]);
 		}
+		if (sheet_object_can_resize (so)) {
+			width = sheet_col_get_distance_pts (so->sheet,
+						anchor->cell_bound.start.col,
+						anchor->cell_bound.end.col + 1);
+			height = sheet_row_get_distance_pts (so->sheet,
+						anchor->cell_bound.start.row,
+						anchor->cell_bound.end.row + 1);
+			width -= x;
+			height -= y;
+			width -= cell_width * (1. - anchor->offset[2]);
+			height -= cell_height * (1 - anchor->offset[3]);
+		} else
+			sheet_object_default_size ((SheetObject *) so, &width, &height);
 
 		/* we don't need to save/restore cairo, the caller must do it */
 		cairo_translate (cr, x, y);

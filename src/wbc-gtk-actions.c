@@ -58,6 +58,7 @@
 #include "gnm-so-filled.h"
 #include "gnm-so-line.h"
 #include "sheet-object-graph.h"
+#include "sheet-object-component.h"
 #include "gui-util.h"
 #include "gui-file.h"
 #include "gnumeric-gconf.h"
@@ -67,6 +68,7 @@
 #include "gnm-pane-impl.h"
 
 #include <goffice/goffice.h>
+#include <goffice/component/goffice-component.h>
 
 #include "widgets/widget-editable-label.h"
 #include <gtk/gtk.h>
@@ -1387,6 +1389,72 @@ static GNM_ACTION_DEF (cb_launch_chart_guru)
 }
 
 static void
+cb_add_component_new (GOComponent *component, gpointer wbcg)
+{
+	wbcg_insert_object (WBC_GTK (wbcg), sheet_object_component_new (component));
+}
+
+static void
+cb_add_component_from_file (GOComponent *component, gpointer wbcg)
+{
+	wbcg_insert_object (WBC_GTK (wbcg), sheet_object_component_new (component));
+}
+
+static gboolean
+button_press_cb (GtkDialog *dlg, GdkEventButton *ev)
+{
+	if (ev->type == GDK_2BUTTON_PRESS)
+		gtk_dialog_response (dlg, GTK_RESPONSE_OK);
+	return FALSE;
+}
+
+static void
+component_changed_cb (GOComponent *component, gpointer data)
+{
+	cb_add_component_new (component, data);
+}
+
+static GNM_ACTION_DEF (cb_launch_go_component_new)
+{
+	gchar const *mime_type;
+	gint result;
+	GtkWidget *dialog = go_component_mime_dialog_new ();
+	result = gtk_dialog_run (GTK_DIALOG (dialog));
+	if (result == GTK_RESPONSE_OK) {
+		mime_type = go_component_mime_dialog_get_mime_type ((GOComponentMimeDialog *) dialog);
+		if (mime_type) {
+			GtkWindow *win;
+			GOComponent *component = go_component_new_by_mime_type (mime_type);
+			if (component) {
+				g_signal_connect (G_OBJECT (component), "changed", G_CALLBACK (component_changed_cb), wbcg);
+				win = go_component_edit (component);
+				gtk_window_set_transient_for (win, GTK_WINDOW (wbcg_toplevel (wbcg)));
+			}
+		}
+	}
+	gtk_widget_destroy (dialog);
+}
+
+static GNM_ACTION_DEF (cb_launch_go_component_from_file)
+{
+	GtkWidget *dlg = gtk_file_chooser_dialog_new (_("Choose object file"),
+	                                              GTK_WINDOW (wbcg_toplevel (wbcg)),
+	                                              GTK_FILE_CHOOSER_ACTION_OPEN,
+	                                              GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+	                                              GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+	                                              NULL);
+	go_components_add_filter (GTK_FILE_CHOOSER (dlg));
+	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_ACCEPT) {
+		char *uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dlg));
+		GOComponent *component = go_component_new_from_uri (uri);
+		g_free (uri);
+		if (component)
+			wbcg_insert_object (WBC_GTK (wbcg), sheet_object_component_new (component));
+	}
+	gtk_widget_destroy (dlg);
+}
+
+static void
 create_object (WBCGtk *wbcg, GType t,
 	       char const *first_property_name,
 	       ...)
@@ -1903,6 +1971,13 @@ static GNM_ACTION_DEF (cb_file_menu)
 	wbc_gtk_load_templates (wbcg);
 }
 
+static GNM_ACTION_DEF (cb_insert_menu)
+{
+	GtkAction *action = gtk_action_group_get_action (wbcg->permanent_actions, "MenuInsertObject");
+	SheetControlGUI	*scg = wbcg_cur_scg (wbcg);
+	gtk_action_set_sensitive (action, go_components_get_mime_types () != NULL && scg && scg_sheet (scg)->sheet_type == GNM_SHEET_DATA);
+}
+
 /* Actions that are always sensitive */
 static GtkActionEntry const permanent_actions[] = {
 	{ "MenuFile",		NULL, N_("_File"), NULL, NULL, G_CALLBACK (cb_file_menu) },
@@ -1917,7 +1992,9 @@ static GtkActionEntry const permanent_actions[] = {
 	{ "MenuView",		NULL, N_("_View") },
 		{ "MenuViewWindows",		NULL, N_("_Windows") },
 		{ "MenuViewToolbars",		NULL, N_("_Toolbars") },
-	{ "MenuInsert",		NULL, N_("_Insert") },
+	{ "MenuInsert",		NULL, N_("_Insert"), NULL, NULL, G_CALLBACK (cb_insert_menu)  },
+		{ "MenuInsertObject",		NULL, N_("_Object") },
+		{ "MenuInsertNames",		NULL, N_("_Names") },
 		{ "MenuInsertSpecial",		NULL, N_("S_pecial") },
 		{ "MenuInsertFormulaWrap", "Gnumeric_FormulaGuru",
 		  N_("Func_tion Wrapper") },
@@ -2265,6 +2342,12 @@ static GtkActionEntry const actions[] = {
 	{ "ChartGuru", "Gnumeric_GraphGuru", N_("C_hart..."),
 		NULL, N_("Insert a Chart"),
 		G_CALLBACK (cb_launch_chart_guru) },
+	{ "NewGOComponent", "New Goffice_Component", N_("_New..."),
+		NULL, N_("Insert a new Goffice component object"),
+		G_CALLBACK (cb_launch_go_component_new) },
+	{ "GOComponentFromFile", "New Goffice_Component from a file", N_("_From file..."),
+		NULL, N_("Insert a new Goffice component object from a file"),
+		G_CALLBACK (cb_launch_go_component_from_file) },
 	{ "InsertImage", "Gnumeric_InsertImage", N_("_Image..."),
 		NULL, N_("Insert an image"),
 		G_CALLBACK (cb_insert_image) },
