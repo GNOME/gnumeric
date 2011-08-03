@@ -279,7 +279,7 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 			workbook_set_saveinfo
 				(book,
 				 GO_FILE_FL_WRITE_ONLY,
-				 go_file_saver_for_id 
+				 go_file_saver_for_id
 				 ("Gnumeric_stf:stf_assistant"));
 		} else {
 			/* the user has cancelled */
@@ -486,7 +486,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 		workbook_set_saveinfo
 			(book,
 			 GO_FILE_FL_WRITE_ONLY,
-			 go_file_saver_for_id 
+			 go_file_saver_for_id
 			 ("Gnumeric_stf:stf_assistant"));
 	} else {
 		workbook_sheet_delete (sheet);

@@ -527,7 +527,7 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 	gtk_widget_show (state->dialog);
 	gnm_expr_entry_grab_focus (GNM_EXPR_ENTRY (state->input_entry),
 				   TRUE);
-	
+
 }
 
 

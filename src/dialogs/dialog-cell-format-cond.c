@@ -146,11 +146,11 @@ c_fmt_dialog_set_sensitive (CFormatState *state)
 	GtkTreeIter iter;
 	gboolean not_empty, selected;
 
-	not_empty = gtk_tree_model_get_iter_first 
+	not_empty = gtk_tree_model_get_iter_first
 		(GTK_TREE_MODEL (state->model), &iter);
-	selected = gtk_tree_selection_get_selected 
+	selected = gtk_tree_selection_get_selected
 		(state->selection, NULL, NULL);
-	
+
 	gtk_widget_set_sensitive (GTK_WIDGET (state->clear), not_empty);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->remove),
@@ -176,7 +176,7 @@ c_fmt_dialog_set_sensitive (CFormatState *state)
 		if (texpr)
 			gnm_expr_top_unref (texpr);
 	}
-	
+
 	gtk_widget_set_sensitive (state->editor.add_button, ok);
 	gtk_widget_set_sensitive (state->editor.replace_button, ok && selected);
 	gtk_widget_set_sensitive (state->editor.copy_button, selected && state->homogeneous);
@@ -213,21 +213,21 @@ cb_c_fmt_dialog_chooser_type_changed (G_GNUC_UNUSED GtkComboBox *widget, CFormat
 }
 
 static void
-cb_c_fmt_dialog_chooser_entry_changed (G_GNUC_UNUSED GnmExprEntry *widget, G_GNUC_UNUSED GdkEvent *event, 
+cb_c_fmt_dialog_chooser_entry_changed (G_GNUC_UNUSED GnmExprEntry *widget, G_GNUC_UNUSED GdkEvent *event,
 				       CFormatState *state)
 {
 	c_fmt_dialog_set_sensitive (state);
 }
 
-void     
+void
 dialog_cell_format_style_added (gpointer closure, GnmStyle *style)
 {
 	CFormatState *state = closure;
-	
+
 	if (state->editor.style)
 		gnm_style_unref (state->editor.style);
 	state->editor.style = style;
-	gtk_label_set_text (GTK_LABEL (state->editor.style_label), 
+	gtk_label_set_text (GTK_LABEL (state->editor.style_label),
 			    style ? _("(defined)") : _("undefined"));
 	c_fmt_dialog_set_sensitive (state);
 }
@@ -237,7 +237,7 @@ c_fmt_dialog_set_component (CFormatState *state, GnmStyle *overlay, gchar const 
 			    GnmStyleElement elem, gboolean uncheck)
 {
 	GtkWidget *w = go_gtk_builder_get_widget (state->gui, name);
-	
+
 	if (gnm_style_is_element_set (overlay, elem))
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 	else if (uncheck)
@@ -250,7 +250,7 @@ cb_c_fmt_dialog_chooser_check_page (CFormatState *state, gchar const *name,
 				    gint page)
 {
 	GtkWidget *w = go_gtk_builder_get_widget (state->gui, name);
-	
+
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
 		return (1 << page);
 	else
@@ -261,25 +261,25 @@ static void
 cb_c_fmt_dialog_edit_style_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *state)
 {
 	int pages = 0;
-	pages |= cb_c_fmt_dialog_chooser_check_page 
+	pages |= cb_c_fmt_dialog_chooser_check_page
 		(state, "check-background", FD_BACKGROUND);
-	pages |= cb_c_fmt_dialog_chooser_check_page 
+	pages |= cb_c_fmt_dialog_chooser_check_page
 		(state, "check-number", FD_NUMBER);
-	pages |= cb_c_fmt_dialog_chooser_check_page 
+	pages |= cb_c_fmt_dialog_chooser_check_page
 		(state, "check-align", FD_ALIGNMENT);
-	pages |= cb_c_fmt_dialog_chooser_check_page 
+	pages |= cb_c_fmt_dialog_chooser_check_page
 		(state, "check-font", FD_FONT);
-	pages |= cb_c_fmt_dialog_chooser_check_page 
+	pages |= cb_c_fmt_dialog_chooser_check_page
 		(state, "check-border", FD_BORDER);
-	pages |= cb_c_fmt_dialog_chooser_check_page 
+	pages |= cb_c_fmt_dialog_chooser_check_page
 		(state, "check-protection", FD_PROTECTION);
-	pages |= cb_c_fmt_dialog_chooser_check_page 
+	pages |= cb_c_fmt_dialog_chooser_check_page
 		(state, "check-validation", FD_VALIDATION);
 
 	if (state->editor.style != NULL)
 		gnm_style_ref (state->editor.style);
-	dialog_cell_format_select_style (state->wbcg, pages, 
-					 GTK_WINDOW (state->dialog), 
+	dialog_cell_format_select_style (state->wbcg, pages,
+					 GTK_WINDOW (state->dialog),
 					 state->editor.style, state);
 }
 
@@ -295,76 +295,76 @@ c_fmt_dialog_get_condition (CFormatState *state)
 
 	cond->overlay = gnm_style_new ();
 	if (state->editor.style) {
-		if (cb_c_fmt_dialog_chooser_check_page 
+		if (cb_c_fmt_dialog_chooser_check_page
 		    (state, "check-background", FD_BACKGROUND)) {
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_COLOR_BACK);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_COLOR_PATTERN);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_PATTERN);
 		}
-		if (cb_c_fmt_dialog_chooser_check_page 
+		if (cb_c_fmt_dialog_chooser_check_page
 		    (state, "check-number", FD_NUMBER)) {
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_FORMAT);
 		}
-		if (cb_c_fmt_dialog_chooser_check_page 
+		if (cb_c_fmt_dialog_chooser_check_page
 		    (state, "check-align", FD_ALIGNMENT)) {
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_ALIGN_V);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_ALIGN_H);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_INDENT);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_ROTATION);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_TEXT_DIR);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_WRAP_TEXT);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_SHRINK_TO_FIT);
 		}
-		if (cb_c_fmt_dialog_chooser_check_page 
+		if (cb_c_fmt_dialog_chooser_check_page
 		    (state, "check-font", FD_FONT)) {
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_FONT_COLOR);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_FONT_NAME);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_FONT_BOLD);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_FONT_ITALIC);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_FONT_UNDERLINE);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_FONT_STRIKETHROUGH);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_FONT_SCRIPT);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_FONT_SIZE);
 		}
-		if (cb_c_fmt_dialog_chooser_check_page 
+		if (cb_c_fmt_dialog_chooser_check_page
 		    (state, "check-border", FD_BORDER)) {
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_BORDER_TOP);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_BORDER_BOTTOM);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_BORDER_LEFT);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_BORDER_RIGHT);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_BORDER_REV_DIAGONAL);
-			gnm_style_merge_element (cond->overlay, state->editor.style, 
+			gnm_style_merge_element (cond->overlay, state->editor.style,
 						 MSTYLE_BORDER_DIAGONAL);
 		}
-		if (cb_c_fmt_dialog_chooser_check_page 
+		if (cb_c_fmt_dialog_chooser_check_page
 		    (state, "check-protection", FD_PROTECTION)) {
 
 		}
-		if (cb_c_fmt_dialog_chooser_check_page 
+		if (cb_c_fmt_dialog_chooser_check_page
 		    (state, "check-validation", FD_VALIDATION)) {
 
 		}
@@ -416,7 +416,7 @@ cb_c_fmt_dialog_copy_button (GtkWidget *btn, CFormatState *state)
 	GtkTreeIter iter;
 	sc = gnm_style_get_conditions (state->style);
 	if (sc != NULL && gtk_tree_selection_get_selected (state->selection, NULL, &iter)) {
-		GtkTreePath *path = gtk_tree_model_get_path 
+		GtkTreePath *path = gtk_tree_model_get_path
 			(GTK_TREE_MODEL (state->model), &iter);
 		gint *pind = gtk_tree_path_get_indices (path);
 		GArray const *conds = gnm_style_conditions_details (sc);
@@ -427,7 +427,7 @@ cb_c_fmt_dialog_copy_button (GtkWidget *btn, CFormatState *state)
 			GnmParsePos pp;
 			GnmStyle   *style;
 			/* Set the condition op */
-			if (gtk_tree_model_get_iter_first 
+			if (gtk_tree_model_get_iter_first
 			    (GTK_TREE_MODEL (state->editor.typestore), &iter)) {
 				do {
 					guint op;
@@ -436,11 +436,11 @@ cb_c_fmt_dialog_copy_button (GtkWidget *btn, CFormatState *state)
 							    1, &op,
 							    -1);
 					if (op == gsc->op) {
-						gtk_combo_box_set_active_iter 
+						gtk_combo_box_set_active_iter
 							(GTK_COMBO_BOX (state->editor.combo), &iter);
 						break;
 					}
-				} while (gtk_tree_model_iter_next 
+				} while (gtk_tree_model_iter_next
 					 (GTK_TREE_MODEL (state->editor.typestore), &iter));
 			}
 			/* Set the expressions */
@@ -461,8 +461,8 @@ cb_c_fmt_dialog_copy_button (GtkWidget *btn, CFormatState *state)
 							       "");
 			/* Set the style */
 			if (state->style && state->style->cond_styles)
-				style = gnm_style_dup 
-					(g_ptr_array_index (state->style->cond_styles, 
+				style = gnm_style_dup
+					(g_ptr_array_index (state->style->cond_styles,
 							    ind));
 			else {
 				style = gnm_style_new_default ();
@@ -525,7 +525,7 @@ cb_c_fmt_dialog_copy_button (GtkWidget *btn, CFormatState *state)
 	}
 }
 
-static void	
+static void
 c_fmt_dialog_chooser_load_combo (CFormatState *state)
 {
 	static struct {
@@ -584,13 +584,13 @@ c_fmt_dialog_condition_setter (SheetView *sv, GnmRange const *range, CFormatStat
 	GnmSheetRange *sr = g_new (GnmSheetRange, 1);
 	sr->range = *range;
 	sr->sheet = sv->sheet;
-	state->action.redo = go_undo_combine 
+	state->action.redo = go_undo_combine
 		(state->action.redo,
 		 sheet_apply_style_undo (sr, state->action.new_style));
 	sr = g_new (GnmSheetRange, 1);
 	sr->range = *range;
 	sr->sheet = sv->sheet;
-	state->action.undo = go_undo_combine 
+	state->action.undo = go_undo_combine
 		(sheet_apply_style_undo (sr, state->action.old_style),
 		 state->action.undo);
 	state->action.size++;
@@ -617,9 +617,9 @@ c_fmt_dialog_condition_setter_tiled (SheetView *sv, GnmRange const *range, CForm
 		state->action.old_style = gnm_style_new ();
 		if (gnm_style_is_element_set (sr->style, MSTYLE_CONDITIONS) &&
 		    NULL != (old_cond = gnm_style_get_conditions (sr->style)))
-			gnm_style_set_conditions (state->action.old_style, 
+			gnm_style_set_conditions (state->action.old_style,
 						  g_object_ref (G_OBJECT (old_cond)));
-		else 
+		else
 			gnm_style_set_conditions (state->action.old_style, NULL);
 		c_fmt_dialog_condition_setter (state->sv, &r, state);
 		gnm_style_unref (state->action.old_style);
@@ -641,15 +641,15 @@ c_fmt_dialog_set_conditions (CFormatState *state, char const *cmd_label)
 	if (state->homogeneous) {
 		state->action.old_style = gnm_style_new ();
 		old_cond = gnm_style_get_conditions (state->style);
-		gnm_style_set_conditions (state->action.old_style, 
+		gnm_style_set_conditions (state->action.old_style,
 					  old_cond ? g_object_ref (G_OBJECT (old_cond)) : NULL);
-		
-		sv_selection_foreach (state->sv, 
-				      (GnmSelectionFunc)c_fmt_dialog_condition_setter, 
+
+		sv_selection_foreach (state->sv,
+				      (GnmSelectionFunc)c_fmt_dialog_condition_setter,
 				      state);
 	} else {
-		sv_selection_foreach (state->sv, 
-				      (GnmSelectionFunc)c_fmt_dialog_condition_setter_tiled, 
+		sv_selection_foreach (state->sv,
+				      (GnmSelectionFunc)c_fmt_dialog_condition_setter_tiled,
 				      state);
 	}
 	cmd_generic_with_size (WORKBOOK_CONTROL (state->wbcg), cmd_label,
@@ -675,7 +675,7 @@ c_fmt_dialog_apply_add_choice (CFormatState *state, GnmStyleCond *cond, gboolean
 		if (!add) {
 			GtkTreeIter iter;
 			if (gtk_tree_selection_get_selected (state->selection, NULL, &iter)) {
-				GtkTreePath *path = gtk_tree_model_get_path 
+				GtkTreePath *path = gtk_tree_model_get_path
 					(GTK_TREE_MODEL (state->model), &iter);
 				gint *ind = gtk_tree_path_get_indices (path);
 				if (ind) {
@@ -696,7 +696,7 @@ c_fmt_dialog_apply_add_choice (CFormatState *state, GnmStyleCond *cond, gboolean
 		state->action.new_style = NULL;
 
 		c_fmt_dialog_load (state);
-	}	
+	}
 }
 
 static void
@@ -705,7 +705,7 @@ cb_c_fmt_dialog_clear_clicked (G_GNUC_UNUSED GtkButton *button, CFormatState *st
 	state->action.new_style = gnm_style_new ();
 	gnm_style_set_conditions (state->action.new_style, NULL);
 	state->action.existing_conds_only = TRUE;
-	
+
 	c_fmt_dialog_set_conditions (state, _("Clear conditional formatting"));
 
 	gnm_style_unref (state->action.new_style);
@@ -722,22 +722,22 @@ cb_c_fmt_dialog_remove_clicked (GtkButton *button, CFormatState *state)
 	else {
 		GtkTreeIter iter;
 		if (gtk_tree_selection_get_selected (state->selection, NULL, &iter)) {
-			GtkTreePath *path = gtk_tree_model_get_path 
+			GtkTreePath *path = gtk_tree_model_get_path
 				(GTK_TREE_MODEL (state->model), &iter);
 			gint *ind = gtk_tree_path_get_indices (path);
 			if (ind) {
 				GnmStyleConditions *sc;
-				sc = gnm_style_conditions_dup 
+				sc = gnm_style_conditions_dup
 					(gnm_style_get_conditions (state->style));
 				if (sc != NULL) {
 					gnm_style_conditions_delete (sc, *ind);
 					state->action.new_style = gnm_style_new ();
-					gnm_style_set_conditions 
+					gnm_style_set_conditions
 						(state->action.new_style, sc);
 					state->action.existing_conds_only = TRUE;
-					
-					c_fmt_dialog_set_conditions 
-						(state, 
+
+					c_fmt_dialog_set_conditions
+						(state,
 						 _("Remove condition from conditional "
 						   "formatting"));
 
@@ -764,12 +764,12 @@ cb_c_fmt_dialog_expand_clicked (G_GNUC_UNUSED GtkButton *button, CFormatState *s
 				    -1);
 		if (sc != NULL) {
 			state->action.new_style = gnm_style_new ();
-			gnm_style_set_conditions 
+			gnm_style_set_conditions
 				(state->action.new_style, sc);
 			state->action.existing_conds_only = FALSE;
-					
-			c_fmt_dialog_set_conditions 
-				(state, 
+
+			c_fmt_dialog_set_conditions
+				(state,
 				 _("Expand conditional formatting"));
 
 			gnm_style_unref (state->action.new_style);
@@ -820,7 +820,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content is between these "
-				      "two values, a special style is used."), 
+				      "two values, a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		c_fmt_dialog_conditions_page_load_cond_double_f (state, cond, &iter1);
 		break;
@@ -828,7 +828,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content is not between these"
-				      " two values, a special style is used."), 
+				      " two values, a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		c_fmt_dialog_conditions_page_load_cond_double_f (state, cond, &iter1);
 		break;
@@ -836,7 +836,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content is equal to this value"
-				      ", a special style is used."), 
+				      ", a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
@@ -844,7 +844,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content is not equal to this value"
-				      ", a special style is used."), 
+				      ", a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
@@ -859,7 +859,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content is < this value, a "
-				      "special style is used."), 
+				      "special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
@@ -867,7 +867,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content is \xe2\x89\xa7 this "
-				      "value, a special style is used."), 
+				      "value, a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 
 		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
@@ -876,7 +876,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content is \xe2\x89\xa6 this "
-				      "value, a special style is used."), 
+				      "value, a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
@@ -884,7 +884,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 	case GNM_STYLE_COND_CUSTOM:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
-				    _("If this formula evaluates to TRUE, a special style is used."), 
+				    _("If this formula evaluates to TRUE, a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
@@ -892,7 +892,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content contains this string"
-				      ", a special style is used."), 
+				      ", a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
@@ -900,7 +900,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content does not contain this string"
-				      ", a special style is used."), 
+				      ", a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
@@ -908,7 +908,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content begins with this string"
-				      ", a special style is used."), 
+				      ", a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
@@ -923,7 +923,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content ends with this string"
-				      ", a special style is used."), 
+				      ", a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
@@ -931,7 +931,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content does not end  "
-				      "with this string, a special style is used."), 
+				      "with this string, a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
@@ -945,27 +945,27 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell does not contain an error value"
-				      ", a special style is used."), 
+				      ", a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		break;
 	case GNM_STYLE_COND_CONTAINS_BLANKS:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content "
-				      "contains blanks, a special style is used."), 
+				      "contains blanks, a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content does not contain blanks"
-				      ", a special style is used."), 
+				      ", a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		break;
 	default:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
-				    _("This is an unknown condition type."), 
+				    _("This is an unknown condition type."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 		return;
 	}
@@ -988,7 +988,7 @@ c_fmt_dialog_conditions_page_load_conditions (GnmStyle *style, char const *range
 			iter = &iter1;
 			gtk_tree_store_append (state->model, iter, NULL);
 			gtk_tree_store_set (state->model, iter, CONDITIONS_RANGE, range,
-					    CONDITIONS_COND, NULL, 
+					    CONDITIONS_COND, NULL,
 					    CONDITIONS_REFERENCE, sc, -1);
 		}
 		for (i = 0 ; i < conds->len ; i++)
@@ -1081,7 +1081,7 @@ c_fmt_dialog_load (CFormatState *state)
 		(void) sv_selection_foreach (state->sv,
 					     c_fmt_dialog_condition_collector, state);
 	}
-	gtk_tree_view_column_queue_resize 
+	gtk_tree_view_column_queue_resize
 		(gtk_tree_view_get_column (state->treeview, CONDITIONS_RANGE));
 	c_fmt_dialog_set_sensitive (state);
 }
@@ -1125,7 +1125,7 @@ c_fmt_dialog_init_editor_page (CFormatState *state)
 	state->editor.combo = go_gtk_builder_get_widget (state->gui, "condition-combo");
 	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "condition-table"));
 	state->editor.expr_x = GTK_WIDGET (gnm_expr_entry_new (state->wbcg, TRUE));
-	gtk_table_attach (table, state->editor.expr_x, 1, 2, 2, 3, 
+	gtk_table_attach (table, state->editor.expr_x, 1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0);
 	gtk_widget_show(state->editor.expr_x);
 	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->editor.expr_x),
@@ -1133,17 +1133,17 @@ c_fmt_dialog_init_editor_page (CFormatState *state)
 				  GNM_EE_MASK);
 
 	state->editor.expr_y = GTK_WIDGET (gnm_expr_entry_new (state->wbcg, TRUE));
-	gtk_table_attach (table, state->editor.expr_y, 1, 2, 3, 4, 
+	gtk_table_attach (table, state->editor.expr_y, 1, 2, 3, 4,
 			  GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0);
 	gtk_widget_show(state->editor.expr_y);
 	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->editor.expr_y),
 				  GNM_EE_CONSTANT_ALLOWED,
 				  GNM_EE_MASK);
 
-	state->editor.typestore = GTK_LIST_STORE (gtk_combo_box_get_model 
+	state->editor.typestore = GTK_LIST_STORE (gtk_combo_box_get_model
 					   (GTK_COMBO_BOX (state->editor.combo)));
 	c_fmt_dialog_chooser_load_combo (state);
-	
+
 	state->editor.style_label = go_gtk_builder_get_widget (state->gui, "style-label");
 	gtk_label_set_text (GTK_LABEL (state->editor.style_label), _("(undefined)"));
 
@@ -1170,7 +1170,7 @@ c_fmt_dialog_init_editor_page (CFormatState *state)
 	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (GNM_EXPR_ENTRY (state->editor.expr_y))),
 		"focus-out-event",
 		G_CALLBACK (cb_c_fmt_dialog_chooser_entry_changed), state);
-	
+
 }
 
 static void
@@ -1197,7 +1197,7 @@ c_fmt_dialog_init_conditions_page (CFormatState *state)
 					   G_TYPE_STRING,
 					   G_TYPE_STRING,
 					   G_TYPE_OBJECT);
-	state->treeview = GTK_TREE_VIEW (go_gtk_builder_get_widget 
+	state->treeview = GTK_TREE_VIEW (go_gtk_builder_get_widget
 					 (state->gui, "conditions_treeview"));
 	gtk_tree_view_set_fixed_height_mode (state->treeview, FALSE);
 	gtk_tree_view_set_model (state->treeview, GTK_TREE_MODEL (state->model));
@@ -1222,8 +1222,8 @@ c_fmt_dialog_init_conditions_page (CFormatState *state)
 	hl = GTK_LABEL (go_gtk_builder_get_widget (state->gui, "header-label"));
 	gtk_label_set_ellipsize (hl, PANGO_ELLIPSIZE_END);
 	str = g_string_new (_("Editing conditional formatting: "));
-	sv_selection_foreach (state->sv, 
-			      (GnmSelectionFunc)cb_c_format_dialog_range, 
+	sv_selection_foreach (state->sv,
+			      (GnmSelectionFunc)cb_c_format_dialog_range,
 			      str);
 	g_string_truncate (str, str->len -2);
 	gtk_label_set_text(hl, str->str);

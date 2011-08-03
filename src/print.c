@@ -196,7 +196,7 @@ gnm_print_sheet_objects (cairo_t *cr,
 }
 
 static void
-print_page_cells (G_GNUC_UNUSED GtkPrintContext   *context, 
+print_page_cells (G_GNUC_UNUSED GtkPrintContext   *context,
 		  G_GNUC_UNUSED PrintingInstance * pi,
 		  cairo_t *cr, Sheet const *sheet, GnmRange *range,
 		  double base_x, double base_y)
@@ -240,7 +240,7 @@ print_header_gtk (GtkPrintContext   *context, cairo_t *cr,
 }
 
 static void
-print_page_col_headers (GtkPrintContext   *context, 
+print_page_col_headers (GtkPrintContext   *context,
 			G_GNUC_UNUSED PrintingInstance * pi,
 			cairo_t *cr, Sheet const *sheet, GnmRange *range,
 			double row_header_width, double col_header_height)
@@ -285,7 +285,7 @@ print_page_col_headers (GtkPrintContext   *context,
 }
 
 static void
-print_page_row_headers (GtkPrintContext *context, 
+print_page_row_headers (GtkPrintContext *context,
 			G_GNUC_UNUSED PrintingInstance * pi,
 			cairo_t *cr, Sheet const *sheet, GnmRange *range,
 			double row_header_width, double col_header_height)
@@ -354,7 +354,7 @@ ensure_decoration_layout (GtkPrintContext *context)
  * the rectangle.
  */
 static void
-print_hf_element (GtkPrintContext *context, cairo_t *cr, 
+print_hf_element (GtkPrintContext *context, cairo_t *cr,
 		  G_GNUC_UNUSED Sheet const *sheet,
 		  char const *format,
 		  PangoAlignment side, gdouble width, gboolean align_bottom,
@@ -1575,11 +1575,11 @@ gnm_print_uri_change_extension (char const *uri, GtkPrintSettings* settings)
 
 	if (ext == NULL) {
 		ext = "pdf";
-		gtk_print_settings_set (settings, 
+		gtk_print_settings_set (settings,
 					GTK_PRINT_SETTINGS_OUTPUT_FILE_FORMAT,
 					ext);
 	}
-	
+
 	base     = g_path_get_basename (uri);
 	used_ext = strrchr (base, '.');
 	if (used_ext == NULL)
@@ -1637,7 +1637,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 		gint dr = print_info_get_printrange (sheet->print_info);
 		if (dr < 0 || dr >= (gint)G_N_ELEMENTS (pr_translator))
 			default_range = PRINT_ACTIVE_SHEET;
-		else 
+		else
 			default_range = pr_translator[dr];
 	}
 	gtk_print_settings_set_int (settings,
@@ -1650,18 +1650,18 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 		/* We should be setting the output file name to somethig */
 		/* reasonable */
 		saved_uri = print_info_get_printtofile_uri (sheet->print_info);
-		if (saved_uri != NULL && 
+		if (saved_uri != NULL &&
 		    g_ascii_strncasecmp (doc->uri, "file:///", 8) == 0)
 			output_uri = gnm_print_uri_change_extension (saved_uri,
 								     settings);
 		else
 			saved_uri = NULL;
-		if (output_uri == NULL && doc->uri != NULL 
+		if (output_uri == NULL && doc->uri != NULL
 		    && g_ascii_strncasecmp (doc->uri, "file:///", 8) == 0)
-			output_uri = gnm_print_uri_change_extension (doc->uri, 
+			output_uri = gnm_print_uri_change_extension (doc->uri,
 								     settings);
 		if (output_uri != NULL) {
-			gtk_print_settings_set (settings, 
+			gtk_print_settings_set (settings,
 						GTK_PRINT_SETTINGS_OUTPUT_URI,
 						output_uri);
 			g_free (output_uri);
@@ -1726,24 +1726,24 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	res = gtk_print_operation_run (print, action, parent, NULL);
 
 	switch (res) {
-	case GTK_PRINT_OPERATION_RESULT_APPLY: 
+	case GTK_PRINT_OPERATION_RESULT_APPLY:
 		if (action == GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG) {
 			char const *printer;
 			settings = gtk_print_operation_get_print_settings (print);
 			gnm_conf_set_print_settings (settings);
 			gnm_insert_meta_date (doc, GSF_META_NAME_PRINT_DATE);
 			printer = gtk_print_settings_get_printer (settings);
-			if (strcmp (printer, "Print to File") == 0 || 
+			if (strcmp (printer, "Print to File") == 0 ||
 			    strcmp (printer, _("Print to File")) == 0) {
-				gchar *wb_output_uri = 
-					gnm_print_uri_change_extension (doc->uri, 
+				gchar *wb_output_uri =
+					gnm_print_uri_change_extension (doc->uri,
 									settings);
-				print_info_set_printtofile_from_settings 
+				print_info_set_printtofile_from_settings
 					(sheet->print_info, settings, wb_output_uri);
 				g_free (wb_output_uri);
 			}
 		}
-		print_info_set_from_settings 
+		print_info_set_from_settings
 			(sheet->print_info, settings);
 		break;
 	case GTK_PRINT_OPERATION_RESULT_CANCEL:

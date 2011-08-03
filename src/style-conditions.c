@@ -55,7 +55,7 @@ gnm_style_cond_is_valid (GnmStyleCond const *cond)
 	g_return_val_if_fail (cond != NULL, FALSE);
 
 	if (cond->overlay == NULL) return FALSE;
-	if ((cond->texpr[0] != NULL) ^ 
+	if ((cond->texpr[0] != NULL) ^
 	    (cond->op != GNM_STYLE_COND_CONTAINS_ERR &&
 	     cond->op != GNM_STYLE_COND_NOT_CONTAINS_ERR &&
 	     cond->op != GNM_STYLE_COND_CONTAINS_BLANKS &&
@@ -194,7 +194,7 @@ gnm_style_conditions_insert (GnmStyleConditions *sc,
 		g_array_insert_val (sc->conditions, pos, *cond);
 }
 
-void 
+void
 gnm_style_conditions_delete  (GnmStyleConditions *sc,
 			      guint pos)
 {

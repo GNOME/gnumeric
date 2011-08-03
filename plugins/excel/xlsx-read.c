@@ -3497,7 +3497,7 @@ xlsx_col_elem_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 static void
 xlsx_col_border_begin (GsfXMLIn *xin, xmlChar const **attrs)
-{	
+{
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean diagonal_down = FALSE, diagonal_up = FALSE;
 
@@ -3505,16 +3505,16 @@ xlsx_col_border_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_bool (xin, attrs, "diagonalDown", &diagonal_down)) ;
 		else (attr_bool (xin, attrs, "diagonalUp", &diagonal_up)) ;
-	
+
 	if (diagonal_up) {
-		GnmBorder *border = gnm_style_border_fetch 
+		GnmBorder *border = gnm_style_border_fetch
 			(GNM_STYLE_BORDER_THIN, style_color_black (), GNM_STYLE_BORDER_DIAGONAL);
 		gnm_style_set_border (state->style_accum,
 				      MSTYLE_BORDER_DIAGONAL,
 				      border);
 	}
 	if (diagonal_down) {
-		GnmBorder *border = gnm_style_border_fetch 
+		GnmBorder *border = gnm_style_border_fetch
 			(GNM_STYLE_BORDER_HAIR, style_color_black (), GNM_STYLE_BORDER_DIAGONAL);
 		gnm_style_set_border (state->style_accum,
 				      MSTYLE_BORDER_REV_DIAGONAL,
@@ -3746,7 +3746,7 @@ xlsx_border_diagonal_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (NULL == state->border_color)
 		state->border_color = style_color_black ();
-	new_border = gnm_style_border_fetch 
+	new_border = gnm_style_border_fetch
 		(state->border_style, state->border_color, GNM_STYLE_BORDER_DIAGONAL);
 
 	border = gnm_style_get_border (state->style_accum, MSTYLE_BORDER_REV_DIAGONAL);

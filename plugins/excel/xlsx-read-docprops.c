@@ -71,7 +71,7 @@ xlsx_read_prop_type (GsfXMLIn *xin, GType g_type)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GValue *res = g_new0 (GValue, 1);
 	if (gsf_xml_gvalue_from_str (res, g_type, xin->content->str))
-		gsf_doc_meta_data_insert 
+		gsf_doc_meta_data_insert
 			(state->metadata,
 			 g_strdup (xin->node->user_data.v_str), res);
 	else
@@ -133,7 +133,7 @@ xlsx_read_custom_property_type (GsfXMLIn *xin, GType g_type)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GValue *res;
-	
+
 	if (state->meta_prop_name == NULL) {
 		xlsx_warning (xin, _("Corrupt file: Second child element in custom property encountered."));
 		return;
@@ -141,12 +141,12 @@ xlsx_read_custom_property_type (GsfXMLIn *xin, GType g_type)
 
 	res = g_new0 (GValue, 1);
 	if (gsf_xml_gvalue_from_str (res, g_type, xin->content->str)) {
-		gsf_doc_meta_data_insert 
+		gsf_doc_meta_data_insert
 			(state->metadata,
 			 state->meta_prop_name, res);
 		state->meta_prop_name = NULL;
 	} else
-		g_free (res);	
+		g_free (res);
 }
 
 static void
@@ -243,14 +243,14 @@ xlsx_read_docprops_core (XLSXReadState *state)
 {
 	GsfInput *in;
 	/* optional */
-	in = gsf_open_pkg_open_rel_by_type 
+	in = gsf_open_pkg_open_rel_by_type
 		(GSF_INPUT (state->zip),
 		 "http://schemas.openxmlformats.org/package/2006/relationships/metadata/"
 		 "core-properties", NULL);
-	
+
 	if (in == NULL) return;
 	xlsx_parse_stream (state, in, xlsx_docprops_core_dtd);
-	
+
 }
 
 static void
@@ -258,7 +258,7 @@ xlsx_read_docprops_extended (XLSXReadState *state)
 {
 	GsfInput *in;
 	/* optional */
-	in = gsf_open_pkg_open_rel_by_type 
+	in = gsf_open_pkg_open_rel_by_type
 		(GSF_INPUT (state->zip),
 		 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/"
 		 "extended-properties", NULL);
@@ -272,7 +272,7 @@ xlsx_read_docprops_custom (XLSXReadState *state)
 {
 	GsfInput *in;
 	/* optional */
-	in = gsf_open_pkg_open_rel_by_type 
+	in = gsf_open_pkg_open_rel_by_type
 		(GSF_INPUT (state->zip),
 		 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/"
 		 "custom-properties", NULL);

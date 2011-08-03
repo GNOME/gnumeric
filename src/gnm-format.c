@@ -144,7 +144,7 @@ format_value_common (PangoLayout *layout, GString *str,
 					format,
 					val, type, sval, NULL,
 					col_width, date_conv, unicode_minus);
-	
+
 	g_free (sval_free);
 
 	switch (err) {
@@ -197,7 +197,7 @@ gnm_format_layout (PangoLayout *layout,
  *
  **/
 GOFormatNumberError
-format_value_gstring (GString *str, 
+format_value_gstring (GString *str,
 		      GOFormat const *format,
 		      GnmValue const *value,
 		      int col_width,
@@ -218,7 +218,7 @@ format_value_gstring (GString *str,
 			go_string_append_gstring (str, tmp_str);
 		g_string_free (tmp_str, TRUE);
 	}
-	
+
 	return err;
 }
 
@@ -232,7 +232,7 @@ format_value_gstring (GString *str,
  *
  **/
 GOFormatNumberError
-format_value_layout (PangoLayout *layout, 
+format_value_layout (PangoLayout *layout,
 		     GOFormat const *format,
 		     GnmValue const *value,
 		     int col_width,

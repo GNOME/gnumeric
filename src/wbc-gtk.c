@@ -4258,6 +4258,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 				  G_CALLBACK (cb_handlebox_button_press),
 				  gtk);
 
+		g_object_set (G_OBJECT (w), "hexpand", TRUE, NULL);
 		gtk_container_add (GTK_CONTAINER (box), w);
 		gtk_widget_show_all (box);
 		if (!visible)

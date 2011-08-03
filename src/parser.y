@@ -1188,7 +1188,7 @@ yylex (void)
 		state->ptr = end;
 		if (invalid_sheet == ref.a.sheet) {
 		        yylval.expr = register_expr_allocation
-		                (gnm_expr_new_constant 
+		                (gnm_expr_new_constant
 				 (value_new_error_REF (NULL)));
 			return CONSTANT;
 		}

@@ -546,11 +546,11 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 				/* We need to shift the attribute list  */
 				atl = pango_attr_list_ref (pango_layout_get_attributes (layout));
 				attrs = pango_attr_list_new ();
-				pango_attr_list_splice 
-					(attrs, atl, old_len, 
+				pango_attr_list_splice
+					(attrs, atl, old_len,
 					 str->len - old_len);
 				pango_attr_list_unref (atl);
-			} else 
+			} else
 				g_string_append (str,  "Internal ERROR!");
 			g_object_unref (layout);
 			g_object_unref (context);

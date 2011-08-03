@@ -283,8 +283,8 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 	if (target == NULL) {
 		GnmExprTop const *texpr;
 
-		texpr = gnm_expr_parse_str 
-			(text, &pp, GNM_EXPR_PARSE_DEFAULT, 
+		texpr = gnm_expr_parse_str
+			(text, &pp, GNM_EXPR_PARSE_DEFAULT,
 			 gnm_conventions_xls_r1c1, NULL);
 		if (texpr != NULL)  {
 			target = gnm_expr_top_get_range (texpr);
@@ -294,15 +294,15 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 	if (target == NULL) {
 		GnmExprTop const *texpr;
 
-		texpr = gnm_expr_parse_str 
-			(text, &pp, GNM_EXPR_PARSE_DEFAULT, 
+		texpr = gnm_expr_parse_str
+			(text, &pp, GNM_EXPR_PARSE_DEFAULT,
 			 gnm_conventions_default, NULL);
 		if (texpr != NULL)  {
 			target = gnm_expr_top_get_range (texpr);
 			gnm_expr_top_unref (texpr);
 		}
 	}
-	
+
 	if (target == NULL) {
 		/* Not an address; is it a name? */
 		GnmParsePos pp;

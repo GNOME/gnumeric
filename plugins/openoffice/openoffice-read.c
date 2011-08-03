@@ -367,7 +367,7 @@ typedef struct {
 		struct {
 			GnmPageBreaks *h, *v;
 		} page_breaks;
-		
+
 		PrintInformation *cur_pi;
 		PrintHF          *cur_hf;
 		char            **cur_hf_format;
@@ -1182,7 +1182,7 @@ two_quotes :
 	tmp = col_parse (ptr, &ss_max, &ref->col, &ref->col_relative);
 	if (!tmp && !oo_cellref_check_for_err (ref, &ptr))
 		return start;
-	if (tmp) 
+	if (tmp)
 		ptr = tmp;
 	tmp = row_parse (ptr, &ss_max, &ref->row, &ref->row_relative);
 	if (!tmp && !oo_cellref_check_for_err (ref, &ptr))
@@ -1194,7 +1194,7 @@ two_quotes :
 		g_free (new_sheet_name);
 		return ptr;
 	}
-	
+
 	if (new_sheet_name != NULL) {
 		Sheet *old_sheet = workbook_sheet_by_index (pp->wb, 0);
 		ref->sheet = sheet_new (pp->wb, new_sheet_name,
@@ -1263,10 +1263,10 @@ oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
 
 	ptr = odf_parse_external (start, &external, convs);
 
-	ptr = oo_cellref_parse (&ref->a, ptr, pp, 
+	ptr = oo_cellref_parse (&ref->a, ptr, pp,
 				external == NULL ? NULL : &external_sheet_1);
 	if (*ptr == ':')
-		ptr = oo_cellref_parse (&ref->b, ptr+1, pp, 
+		ptr = oo_cellref_parse (&ref->b, ptr+1, pp,
 				external == NULL ? NULL : &external_sheet_2);
 	else
 		ref->b = ref->a;
@@ -1279,22 +1279,22 @@ oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
 		ext_wb = (*convs->input.external_wb) (convs, ref_wb, external);
 		if (ext_wb == NULL) {
 			if (oconv != NULL)
-				oo_warning (oconv->xin, 
+				oo_warning (oconv->xin,
 					    _("Ignoring reference to unknown "
-					      "external workbook '%s'"), 
+					      "external workbook '%s'"),
 					    external);
 			ref->a.sheet = invalid_sheet;
 		} else {
 			if (external_sheet_1 != NULL)
-				ref->a.sheet = workbook_sheet_by_name 
+				ref->a.sheet = workbook_sheet_by_name
 					(ext_wb, external_sheet_1);
-			else 
+			else
 				ref->a.sheet = workbook_sheet_by_index
 					(ext_wb, 0);
 			if (external_sheet_2 != NULL)
-				ref->b.sheet = workbook_sheet_by_name 
+				ref->b.sheet = workbook_sheet_by_name
 					(ext_wb, external_sheet_1);
-			else 
+			else
 				ref->b.sheet = NULL;
 		}
 		g_free (external);
@@ -1350,7 +1350,7 @@ odf_strunescape (char const *string, GString *target,
 
  error:
 	g_string_truncate (target, oldlen);
-	return NULL;	
+	return NULL;
 }
 
 static void
@@ -1372,7 +1372,7 @@ static odf_fix_expr_names_t *
 odf_fix_expr_names_t_new (OOParseState *state)
 {
 	odf_fix_expr_names_t *fen = g_new (odf_fix_expr_names_t, 1);
-	
+
 	fen->fixed2orig = g_hash_table_new (g_str_hash, g_str_equal);
 	fen->orig2fixed = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	fen->state = state;
@@ -1416,7 +1416,7 @@ odf_fix_en_validate (char const *name, odf_fix_expr_names_t *fen)
 	return TRUE;
 }
 
-static void 
+static void
 odf_fix_en_collect (gchar const *key, G_GNUC_UNUSED GnmNamedExpr *nexpr, odf_fix_expr_names_t *fen)
 {
 	GString *str;
@@ -1434,7 +1434,7 @@ odf_fix_en_collect (gchar const *key, G_GNUC_UNUSED GnmNamedExpr *nexpr, odf_fix
 	odf_fix_expr_names_t_add (fen, key, g_string_free (str, FALSE));
 }
 
-static void 
+static void
 odf_fix_en_apply (const char *orig, GnmNamedExpr *nexpr, GHashTable *orig2fixed)
 {
 	const char *fixed = g_hash_table_lookup (orig2fixed, orig);
@@ -1467,9 +1467,9 @@ odf_fix_expr_names (OOParseState *state)
  * @name: tentative name
  *
  * returns TRUE if the given name is valid, FALSE otherwise.
- * 
- * We are accepting names here that contain periods or look like addresses. 
- * They need to be replaced when we have finished parsing the file since 
+ *
+ * We are accepting names here that contain periods or look like addresses.
+ * They need to be replaced when we have finished parsing the file since
  * they are not allowed inside Gnumeric.
  */
 static gboolean
@@ -1513,7 +1513,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 static GnmConventions *
 oo_conventions_new (OOParseState *state, GsfXMLIn *xin)
 {
-	GnmConventions *conv = gnm_conventions_new_full 
+	GnmConventions *conv = gnm_conventions_new_full
 		(sizeof (ODFConventions));
 	ODFConventions *oconv = (ODFConventions *)conv;
 	conv->decode_ampersands	= TRUE;
@@ -1591,7 +1591,7 @@ oo_expr_parse_str (GsfXMLIn *xin, char const *str,
 			/* There are faulty expressions in the wild that */
 			/* are references w/o [] */
 			char *test = g_strdup_printf ("[%s]", str);
-			texpr = oo_expr_parse_str_try (xin, test, pp, 
+			texpr = oo_expr_parse_str_try (xin, test, pp,
 						       flags, type, NULL);
 			g_free (test);
 		}
@@ -1604,12 +1604,12 @@ oo_expr_parse_str (GsfXMLIn *xin, char const *str,
 }
 
 static GnmExprTop const *
-odf_parse_range_address_or_expr (GsfXMLIn *xin, char const *str) 
+odf_parse_range_address_or_expr (GsfXMLIn *xin, char const *str)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmExprTop const *texpr = NULL;
 	OOFormula f_type = odf_get_formula_type (xin, &str);
-	
+
 	if (f_type != FORMULA_NOT_SUPPORTED) {
 		GnmParsePos pp;
 		GnmRangeRef ref;
@@ -1617,7 +1617,7 @@ odf_parse_range_address_or_expr (GsfXMLIn *xin, char const *str)
 			(&ref, str,
 			 parse_pos_init_sheet (&pp, state->pos.sheet),
 			 NULL);
-		if (ptr == str 
+		if (ptr == str
 		    || ref.a.sheet == invalid_sheet)
 			texpr = oo_expr_parse_str (xin, str,
 						   &state->pos,
@@ -1684,10 +1684,10 @@ odf_pi_parse_format_spec (GsfXMLIn *xin, char **fmt, char const *needle, char co
 
 			if (formula == NULL)
 				goto stop_parse;
-		
+
 			f_type = odf_get_formula_type (xin, &formula);
 			if (f_type == FORMULA_NOT_SUPPORTED) {
-				oo_warning (xin, _("Unsupported formula type encountered: %s"), 
+				oo_warning (xin, _("Unsupported formula type encountered: %s"),
 					    orig_formula);
 				goto stop_parse;
 			}
@@ -1701,7 +1701,7 @@ odf_pi_parse_format_spec (GsfXMLIn *xin, char **fmt, char const *needle, char co
 				(xin, formula, &state->pos, GNM_EXPR_PARSE_DEFAULT, f_type);
 
 			if (texpr != NULL) {
-				text = gnm_expr_top_as_string (texpr, &state->pos, 
+				text = gnm_expr_top_as_string (texpr, &state->pos,
 							       gnm_conventions_default);
 				gnm_expr_top_unref (texpr);
 
@@ -1714,7 +1714,7 @@ odf_pi_parse_format_spec (GsfXMLIn *xin, char **fmt, char const *needle, char co
 				g_string_insert (str, start_pos, subs);
 				start = start_pos + strlen (subs);
 				g_free (subs);
-			}			
+			}
 		} else
 			break;
 	}
@@ -1835,12 +1835,12 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (style) {
 			PrintInformation *pi = NULL;
 			if (style->master_page_name)
-				pi = g_hash_table_lookup (state->styles.master_pages, 
+				pi = g_hash_table_lookup (state->styles.master_pages,
 							  style->master_page_name);
 			if (pi != NULL) {
 				print_info_free (state->pos.sheet->print_info);
 				state->pos.sheet->print_info = print_info_dup (pi);
-				odf_pi_parse_expressions (xin, state->pos.sheet->print_info); 
+				odf_pi_parse_expressions (xin, state->pos.sheet->print_info);
 			}
 			g_object_set (state->pos.sheet,
 				      "visibility", style->visibility,
@@ -1867,7 +1867,7 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 					 NULL);
 				style_color_unref (color);
 			}
-			
+
 		}
 		g_free (style_name);
 	}
@@ -1968,8 +1968,8 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val, guint offset)
 }
 
 static GnmValidation *
-odf_validation_new_single_expr (GsfXMLIn *xin, odf_validation_t *val, 
-				    char const *start, ValidationType val_type, 
+odf_validation_new_single_expr (GsfXMLIn *xin, odf_validation_t *val,
+				    char const *start, ValidationType val_type,
 				    ValidationOp val_op)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -2012,8 +2012,8 @@ odf_validation_new_single_expr (GsfXMLIn *xin, odf_validation_t *val,
 }
 
 static GnmValidation *
-odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val, 
-			      char const *start, ValidationType val_type, 
+odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
+			      char const *start, ValidationType val_type,
 			      ValidationOp val_op)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -2051,10 +2051,10 @@ odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 	while (1) {
 		gchar * try = g_strrstr_len (pair, len, ",");
 		GnmExprTop const *texpr;
-		
-		if (try == NULL || try == pair) 
+
+		if (try == NULL || try == pair)
 			goto pair_error;
-		
+
 		texpr = oo_expr_parse_str
 			(xin, try + 1, &pp,
 			 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
@@ -2125,8 +2125,8 @@ odf_validation_new_op (GsfXMLIn *xin, odf_validation_t *val, guint offset, Valid
 	} else if (g_str_has_prefix (start, "<")) {
 		val_op = VALIDATION_OP_LT;
 		start += 1;
-	} 
-	
+	}
+
 	if (val_op == VALIDATION_OP_NONE)
 		return NULL;
 
@@ -2146,36 +2146,36 @@ odf_validations_analyze (GsfXMLIn *xin, odf_validation_t *val, guint offset, Val
 		str++;
 
 	if (g_str_has_prefix (str, "cell-content-is-in-list"))
-		return odf_validation_new_list 
+		return odf_validation_new_list
 			(xin, val, str - val->condition + strlen ("cell-content-is-in-list"));
 	else if (g_str_has_prefix (str, "cell-content-text-length()"))
 		return odf_validation_new_op
-			(xin, val, str - val->condition + strlen ("cell-content-text-length()"), 
+			(xin, val, str - val->condition + strlen ("cell-content-text-length()"),
 			 VALIDATION_TYPE_TEXT_LENGTH);
 	else if (g_str_has_prefix (str, "cell-content-text-length-is-between"))
 		return odf_validation_new_between
-			(xin, val, str - val->condition + strlen ("cell-content-text-length-is-between"), 
+			(xin, val, str - val->condition + strlen ("cell-content-text-length-is-between"),
 			 VALIDATION_TYPE_TEXT_LENGTH, TRUE);
 	else if (g_str_has_prefix (str, "cell-content-text-length-is-not-between"))
 		return odf_validation_new_between
-			(xin, val, str - val->condition + strlen ("cell-content-text-length-is-not-between"), 
+			(xin, val, str - val->condition + strlen ("cell-content-text-length-is-not-between"),
 			 VALIDATION_TYPE_TEXT_LENGTH, FALSE);
 	else if (g_str_has_prefix (str, "cell-content-is-decimal-number() and"))
-		return odf_validations_analyze 
-			(xin, val, str - val->condition + strlen ("cell-content-is-decimal-number() and"), 
+		return odf_validations_analyze
+			(xin, val, str - val->condition + strlen ("cell-content-is-decimal-number() and"),
 			 VALIDATION_TYPE_AS_NUMBER);
 	else if (g_str_has_prefix (str, "cell-content-is-whole-number() and"))
-		return odf_validations_analyze 
-			(xin, val, str - val->condition + strlen ("cell-content-is-whole-number() and"), 
+		return odf_validations_analyze
+			(xin, val, str - val->condition + strlen ("cell-content-is-whole-number() and"),
 			 VALIDATION_TYPE_AS_INT);
 	else if (g_str_has_prefix (str, "cell-content-is-date() and"))
-		return odf_validations_analyze 
-			(xin, val, str - val->condition + strlen ("cell-content-is-date() and"), 
-			 VALIDATION_TYPE_AS_DATE);		
+		return odf_validations_analyze
+			(xin, val, str - val->condition + strlen ("cell-content-is-date() and"),
+			 VALIDATION_TYPE_AS_DATE);
 	else if (g_str_has_prefix (str, "cell-content-is-time() and"))
-		return odf_validations_analyze 
-			(xin, val, str - val->condition + strlen ("cell-content-is-time() and"), 
-			 VALIDATION_TYPE_AS_TIME);		
+		return odf_validations_analyze
+			(xin, val, str - val->condition + strlen ("cell-content-is-time() and"),
+			 VALIDATION_TYPE_AS_TIME);
 	else if (g_str_has_prefix (str, "is-true-formula")) {
 		if (vtype != VALIDATION_TYPE_ANY) {
 			oo_warning
@@ -2184,19 +2184,19 @@ odf_validations_analyze (GsfXMLIn *xin, odf_validation_t *val, guint offset, Val
 			 val->condition, str);
 		}
 		return odf_validation_new_single_expr
-			(xin, val, str + strlen ("is-true-formula"), VALIDATION_TYPE_CUSTOM, 
+			(xin, val, str + strlen ("is-true-formula"), VALIDATION_TYPE_CUSTOM,
 			 VALIDATION_OP_NONE);
 	} else if (g_str_has_prefix (str, "cell-content()"))
 		return odf_validation_new_op
-			(xin, val, str - val->condition + strlen ("cell-content()"), 
+			(xin, val, str - val->condition + strlen ("cell-content()"),
 			 vtype);
 	else if (g_str_has_prefix (str, "cell-content-is-between"))
 		return odf_validation_new_between
-			(xin, val, str - val->condition + strlen ("cell-content-is-between"), 
+			(xin, val, str - val->condition + strlen ("cell-content-is-between"),
 			 vtype, TRUE);
 	else if (g_str_has_prefix (str, "cell-content-is-not-between"))
 		return odf_validation_new_between
-			(xin, val, str - val->condition + strlen ("cell-content-is-not-between"), 
+			(xin, val, str - val->condition + strlen ("cell-content-is-not-between"),
 			 vtype, FALSE);
 
 	return NULL;
@@ -2217,7 +2217,7 @@ odf_validations_translate (GsfXMLIn *xin, char const *name)
 	}
 
 	if (val->condition != NULL && val->f_type != FORMULA_NOT_SUPPORTED) {
-		GnmValidation *validation = odf_validations_analyze 
+		GnmValidation *validation = odf_validations_analyze
 			(xin, val, 0, VALIDATION_TYPE_ANY);
 		if (validation != NULL) {
 			GError   *err;
@@ -2326,16 +2326,16 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		if (state->print.rep_rows_to < 0)
 			state->print.rep_rows_to = max_rows - 1;
 		g_free (state->pos.sheet->print_info->repeat_top);
-		state->pos.sheet->print_info->repeat_top 
-			= g_strdup (rows_name (state->print.rep_rows_from, 
+		state->pos.sheet->print_info->repeat_top
+			= g_strdup (rows_name (state->print.rep_rows_from,
 					       state->print.rep_rows_to));
 	}
 	if (state->print.rep_cols_from >= 0) {
 		if (state->print.rep_cols_to < 0)
 			state->print.rep_cols_to = max_cols - 1;
 		g_free (state->pos.sheet->print_info->repeat_left);
-		state->pos.sheet->print_info->repeat_left 
-			= g_strdup (cols_name (state->print.rep_cols_from, 
+		state->pos.sheet->print_info->repeat_left
+			= g_strdup (cols_name (state->print.rep_cols_from,
 					       state->print.rep_cols_to));
 	}
 
@@ -2733,7 +2733,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->col_inc = 1;
 	state->content_is_error = FALSE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated", 
+		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated",
 				       &state->col_inc, 0, INT_MAX))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "formula")) {
@@ -2747,8 +2747,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			expr_string = CXML2C (attrs[1]);
 			f_type = odf_get_formula_type (xin, &expr_string);
 			if (f_type == FORMULA_NOT_SUPPORTED) {
-				oo_warning (xin, 
-					    _("Unsupported formula type encountered: %s"), 
+				oo_warning (xin,
+					    _("Unsupported formula type encountered: %s"),
 					    expr_string);
 				continue;
 			}
@@ -2764,11 +2764,11 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				 */
 				state->content_is_error = TRUE;
 			else
-				texpr = oo_expr_parse_str 
+				texpr = oo_expr_parse_str
 					(xin, expr_string,
 					 &state->pos, GNM_EXPR_PARSE_DEFAULT, f_type);
 		} else if (oo_attr_bool (xin, attrs,
-					 (state->ver == OOO_VER_OPENDOC) ? 
+					 (state->ver == OOO_VER_OPENDOC) ?
 					 OO_NS_OFFICE : OO_NS_TABLE,
 					 "boolean-value", &bool_val))
 			val = value_new_bool (bool_val);
@@ -2787,8 +2787,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 					unsigned d_serial = go_date_g_to_serial (&date,
 						workbook_date_conv (state->pos.wb));
 					if (n >= 6) {
-						double time_frac 
-							= h + ((double)mi / 60.) + 
+						double time_frac
+							= h + ((double)mi / 60.) +
 							((double)s / 3600.);
 						val = value_new_float (d_serial + time_frac / 24.);
 						has_datetime = TRUE;
@@ -2799,7 +2799,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				}
 			}
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
-					       (state->ver == OOO_VER_OPENDOC) ? 
+					       (state->ver == OOO_VER_OPENDOC) ?
 					       OO_NS_OFFICE : OO_NS_TABLE,
 					       "time-value")) {
 			unsigned h, m, s;
@@ -2809,7 +2809,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				has_time = TRUE;
 			}
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
-					       (state->ver == OOO_VER_OPENDOC) ? 
+					       (state->ver == OOO_VER_OPENDOC) ?
 					       OO_NS_OFFICE : OO_NS_TABLE,
 					       "string-value"))
 			val = value_new_string (CXML2C (attrs[1]));
@@ -2817,23 +2817,23 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			(state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
 			"value", &float_val))
 			val = value_new_float (float_val);
-		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, 
-					    "number-matrix-columns-spanned", 
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE,
+					    "number-matrix-columns-spanned",
 					    &array_cols, 0, INT_MAX))
 			;
-		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, 
-					    "number-matrix-rows-spanned", 
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE,
+					    "number-matrix-rows-spanned",
 					    &array_rows, 0, INT_MAX))
 			;
-		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, 
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE,
 					    "number-columns-spanned", &merge_cols, 0, INT_MAX))
 			;
-		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, 
+		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE,
 					    "number-rows-spanned", &merge_rows, 0, INT_MAX))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			style_name = attrs[1];
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, 
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE,
 					     "content-validation-name"))
 			validation_name = attrs[1];
 	}
@@ -2868,7 +2868,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				    ((!gnm_style_is_element_set (style, MSTYLE_FORMAT))
 				     || go_format_is_general (gnm_style_get_format (style)))) {
 					GOFormat *format;
-					style = (style == NULL) ? gnm_style_new () : 
+					style = (style == NULL) ? gnm_style_new () :
 						gnm_style_dup (style);
 					gnm_style_ref (style);
 					/* Now we have 2 references for style */
@@ -2884,17 +2884,17 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 						format = go_format_default_time ();
 						g_hash_table_replace (state->styles.cell_time,
 								      g_strdup (style_name), style);
-					} 
+					}
 					gnm_style_set_format (style, format);
 					/* Since (has_datetime || has_date || has_time) we now */
 					/* have 1 references for style */
-				} else 
+				} else
 					gnm_style_ref (style);
 				/* 1 reference for style*/
 			} else if (style != NULL)
 				gnm_style_ref (style);
 			/* 1 reference for style*/
-		} else 
+		} else
 			gnm_style_ref (style);
 		/* 1 reference for style*/
 	}
@@ -2915,8 +2915,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (style == NULL && (merge_cols > 1 || merge_rows > 1)) {
 		/* We may not have a new style but the current cell may */
 		/* have been assigned a style earlier */
-		GnmStyle const *old_style 
-			= sheet_style_get (state->pos.sheet, state->pos.eval.col, 
+		GnmStyle const *old_style
+			= sheet_style_get (state->pos.sheet, state->pos.eval.col,
 					   state->pos.eval.row);
 		if (old_style != NULL)
 			style = gnm_style_dup (old_style);
@@ -3445,7 +3445,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_style_unref (state->cur_style.cells);
 			/* one reference left for state->cur_style.cells */
 		}
-		
+
 		break;
 
 	case OO_STYLE_COL:
@@ -4404,12 +4404,12 @@ odf_get_paper_size (gnm_float width, gnm_float height, gint orient)
 			w_diff = n_height - width;
 			h_diff = n_width - height;
 		}
-		
+
 		if (w_diff > -2. && w_diff < 2. && h_diff > -2 && h_diff < 2) {
 			size = gtk_paper_size_copy (n_size);
 			break;
 		}
-	} 
+	}
 	go_list_free_custom (plist, (GFreeFunc)gtk_paper_size_free);
 
 	if (size != NULL)
@@ -4443,7 +4443,7 @@ odf_header_properties (GsfXMLIn *xin, xmlChar const **attrs)
 			height_set = TRUE;
 		} else if (oo_attr_distance (xin, attrs, OO_NS_FO, "min-height", &pts))
 			if (!height_set)
-				print_info_set_edge_to_below_header 
+				print_info_set_edge_to_below_header
 					(state->print.cur_pi, pts + page_margin);
 }
 
@@ -4467,7 +4467,7 @@ odf_footer_properties (GsfXMLIn *xin, xmlChar const **attrs)
 			height_set = TRUE;
 		} else if (oo_attr_distance (xin, attrs, OO_NS_FO, "min-height", &pts))
 			if (!height_set)
-				print_info_set_edge_to_above_footer 
+				print_info_set_edge_to_above_footer
 					(state->print.cur_pi, pts + page_margin);
 
 }
@@ -4530,7 +4530,7 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "print-orientation",
 					 print_orientation_type, &orient)) {
 			gtk_page_setup_set_orientation (gps, orient);
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       OO_NS_STYLE, "print")) {
 			gchar **items = g_strsplit (CXML2C (attrs[1]), " ", 0);
 			gchar **items_c = items;
@@ -4546,7 +4546,7 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 					/* ODF does not distinguish AT_END and IN_PLACE */
 					state->print.cur_pi->comment_placement = PRINT_COMMENTS_AT_END;
 			g_strfreev (items_c);
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       OO_GNUM_NS_EXT, "style-print")) {
 			gchar **items = g_strsplit (CXML2C (attrs[1]), " ", 0);
 			gchar **items_c = items;
@@ -4578,13 +4578,13 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 			PRINT_COMMENTS_IN_PLACE;
 
 	/* STYLE "writing-mode" is being ignored since we can't store it anywhere atm */
-	
+
 	if (h_set && w_set) {
 		GtkPaperSize *size;
 		size = odf_get_paper_size (width, height, orient);
 		gtk_page_setup_set_paper_size (gps, size);
 		gtk_paper_size_free (size);
-		
+
 	}
 }
 
@@ -4599,7 +4599,7 @@ odf_page_layout (GsfXMLIn *xin, xmlChar const **attrs)
 			name = CXML2C (attrs[1]);
 
 	if (name != NULL) {
-		state->print.cur_pi = print_info_new (TRUE);		
+		state->print.cur_pi = print_info_new (TRUE);
 		g_hash_table_insert (state->styles.page_layouts, g_strdup (name), state->print.cur_pi);
 	} else
 		oo_warning (xin, _("Missing page layout identifier"));
@@ -4640,9 +4640,9 @@ odf_master_page (GsfXMLIn *xin, xmlChar const **attrs)
 		print_hf_free (state->print.cur_pi->footer);
 		state->print.cur_pi->header = print_hf_new (NULL, NULL, NULL);
 		state->print.cur_pi->footer = print_hf_new (NULL, NULL, NULL);
-		
+
 		g_hash_table_insert (state->styles.master_pages, g_strdup (name), state->print.cur_pi);
-	} else 
+	} else
 		oo_warning (xin, _("Master page style without name encountered!"));
 
 }
@@ -4687,7 +4687,7 @@ odf_header_footer (GsfXMLIn *xin, xmlChar const **attrs)
 			if (margin >= state->print.cur_pi->edge_to_above_footer)
 				print_info_set_edge_to_above_footer (state->print.cur_pi, margin + 1);
 		} else
-			print_info_set_edge_to_above_footer (state->print.cur_pi, margin);	
+			print_info_set_edge_to_above_footer (state->print.cur_pi, margin);
 	}
 	state->print.cur_hf_format = &state->print.cur_hf->middle_format;
 }
@@ -4719,7 +4719,7 @@ odf_hf_span (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (state->print.cur_hf_format == NULL)
 		return;
-	
+
 	if (*(state->print.cur_hf_format) == NULL)
 		new = g_strdup (xin->content->str);
 	else
@@ -4733,7 +4733,7 @@ odf_hf_item (GsfXMLIn *xin, char const *item)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char *new;
-	
+
 	if (state->print.cur_hf_format == NULL)
 		return;
 
@@ -4742,7 +4742,7 @@ odf_hf_item (GsfXMLIn *xin, char const *item)
 	else
 		new = g_strconcat (*(state->print.cur_hf_format), "&[", _(item), "]", NULL);
 	g_free (*(state->print.cur_hf_format));
-	*(state->print.cur_hf_format) = new;	
+	*(state->print.cur_hf_format) = new;
 }
 
 static void
@@ -4764,7 +4764,7 @@ odf_hf_item_w_data_style (GsfXMLIn *xin, xmlChar const **attrs, char const *item
 	if (data_style_name == NULL)
 		odf_hf_item (xin, item);
 	else {
-		GOFormat const *fmt = 
+		GOFormat const *fmt =
 			g_hash_table_lookup (state->formats, data_style_name);
 		if (fmt != NULL) {
 			char const *fmt_str = go_format_as_XL (fmt);
@@ -4818,7 +4818,7 @@ odf_hf_file (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_enum (xin, attrs, OO_NS_TABLE, "display-list", dropdown_types, &tmp)) ;
-	
+
 	switch (tmp) {
 	case 0:
 		odf_hf_item (xin, _("path"));
@@ -4834,7 +4834,7 @@ odf_hf_file (GsfXMLIn *xin, xmlChar const **attrs)
 	case 2:
 		odf_hf_item (xin, _("file"));
 		break;
-	}		
+	}
 }
 
 static void
@@ -4867,7 +4867,7 @@ odf_hf_expression (GsfXMLIn *xin, xmlChar const **attrs)
 		char *new;
 		new = g_strconcat ((tmp == 1) ? "cellt" : "cell", ":", str, NULL);
 		odf_hf_item (xin, new);
-		g_free (new);		
+		g_free (new);
 	}
 }
 
@@ -6080,15 +6080,15 @@ oo_db_range_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "target-range-address")) {
-			char const *ptr = oo_cellref_parse 
+			char const *ptr = oo_cellref_parse
 				(&ref.a, CXML2C (attrs[1]), &state->pos, NULL);
 			if (ref.a.sheet != invalid_sheet &&
 			    ':' == *ptr &&
 			    '\0' == *oo_cellref_parse (&ref.b, ptr+1, &state->pos, NULL) &&
 			    ref.b.sheet != invalid_sheet) {
-				state->filter = gnm_filter_new 
+				state->filter = gnm_filter_new
 					(ref.a.sheet, range_init_rangeref (&r, &ref));
-				expr = gnm_expr_new_constant 
+				expr = gnm_expr_new_constant
 					(value_new_cellrange_r (ref.a.sheet, &r));
 			} else
 				oo_warning (xin, _("Invalid DB range '%s'"), attrs[1]);
@@ -6405,7 +6405,7 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 					(&ref, oc->linked_cell,
 					 parse_pos_init_sheet (&pp, state->pos.sheet),
 					 NULL);
-				if (ptr != oc->linked_cell 
+				if (ptr != oc->linked_cell
 				    && ref.a.sheet != invalid_sheet) {
 					GnmValue *v = value_new_cellrange
 						(&ref.a, &ref.a, 0, 0);
@@ -6444,7 +6444,7 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 						(&ref, oc->source_cell_range,
 						 parse_pos_init_sheet (&pp, state->pos.sheet),
 						 NULL);
-					if (ptr != oc->source_cell_range && 
+					if (ptr != oc->source_cell_range &&
 					    ref.a.sheet != invalid_sheet) {
 						GnmValue *v = value_new_cellrange
 							(&ref.a, &ref.b, 0, 0);
@@ -6949,7 +6949,7 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 
 	if (NULL != range) {
 		GnmRangeRef ref;
-		char const *ptr = oo_rangeref_parse 
+		char const *ptr = oo_rangeref_parse
 			(&ref, CXML2C (range),
 			 parse_pos_init_sheet (&pp, state->pos.sheet),
 			 NULL);
@@ -7088,10 +7088,10 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 		GnmEvalPos  ep;
 		GnmRangeRef ref;
 		Sheet	   *dummy;
-		char const *ptr = oo_rangeref_parse 
+		char const *ptr = oo_rangeref_parse
 			(&ref, CXML2C (source_range_str),
 			 parse_pos_init_sheet (&pp, state->pos.sheet), NULL);
-		if (ptr != CXML2C (source_range_str) 
+		if (ptr != CXML2C (source_range_str)
 		    && ref.a.sheet != invalid_sheet) {
 			gnm_rangeref_normalize (&ref,
 				eval_pos_init_sheet (&ep, state->pos.sheet),
@@ -7153,7 +7153,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 		if (oo_style_has_property (state->chart.i_plot_styles, "multi-series", FALSE)) {
 			type = "XLSurfacePlot";
 			state->chart.plot_type = OO_PLOT_XL_SURFACE;
-		} else if (oo_style_has_property (state->chart.i_plot_styles, 
+		} else if (oo_style_has_property (state->chart.i_plot_styles,
 						   "three-dimensional", FALSE)) {
 			type = "GogSurfacePlot";
 			state->chart.plot_type = OO_PLOT_SURFACE;
@@ -7164,7 +7164,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_GANTT:	type = "GogDropBarPlot"; break;
 	case OO_PLOT_POLAR:	type = "GogPolarPlot"; break;
 	case OO_PLOT_XYZ_SURFACE:
-		if (oo_style_has_property (state->chart.i_plot_styles, 
+		if (oo_style_has_property (state->chart.i_plot_styles,
 						   "three-dimensional", FALSE))
 			type = "GogXYZSurfacePlot";
 		else
@@ -7296,12 +7296,12 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 					GnmValue *v;
 					GnmExprTop const *texpr;
 					GnmParsePos pp;
-					char const *ptr = oo_rangeref_parse 
+					char const *ptr = oo_rangeref_parse
 						(&ref, CXML2C (attrs[1]),
-						 parse_pos_init_sheet 
+						 parse_pos_init_sheet
 						 (&pp, state->pos.sheet),
 						 NULL);
-					if (ptr == CXML2C (attrs[1]) || 
+					if (ptr == CXML2C (attrs[1]) ||
 					    ref.a.sheet == invalid_sheet)
 						return;
 					v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
@@ -7987,7 +7987,7 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 				(&ref, CXML2C (attrs[1]),
 				 parse_pos_init_sheet (&pp, state->pos.sheet),
 				 NULL);
-			if (ptr != CXML2C (attrs[1]) 
+			if (ptr != CXML2C (attrs[1])
 			    && ref.a.sheet != invalid_sheet) {
 				cell_base.end.col = ref.a.col;
 				cell_base.end.row = ref.a.row;
@@ -8619,7 +8619,7 @@ static void
 odf_find_version (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_float (xin, attrs, OO_NS_OFFICE,
 					"version", &state->ver_odf));

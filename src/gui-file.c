@@ -252,7 +252,7 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 				GSList *fsavers = NULL, *fl;
 
 				for (; mimes; mimes = mimes->next) {
-					GOFileSaver *fs = go_file_saver_for_mime_type 
+					GOFileSaver *fs = go_file_saver_for_mime_type
 						(mimes->data);
 					if (fs != NULL)
 						fsavers = g_slist_prepend (fsavers, fs);
@@ -262,24 +262,24 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 					for (fl = fsavers; fl; fl = fl->next) {
 						GOFileSaver *fs = GO_FILE_SAVER (fl->data);
 						if ((go_file_saver_get_save_scope (fs)
-						     != GO_FILE_SAVE_RANGE) && 
+						     != GO_FILE_SAVE_RANGE) &&
 						    (go_file_saver_get_format_level (fs)
 						     == GO_FILE_FL_AUTO)) {
-							openers = g_list_prepend 
+							openers = g_list_prepend
 								(openers, fo);
 							break;
 						}
 					}
 					break;
-				case FILE_OPEN_IMPORT: 
+				case FILE_OPEN_IMPORT:
 					{
 						gboolean is_open = FALSE;
 						for (fl = fsavers; fl; fl = fl->next) {
-							GOFileSaver *fs = GO_FILE_SAVER 
+							GOFileSaver *fs = GO_FILE_SAVER
 								(fl->data);
-							if ((go_file_saver_get_save_scope 
+							if ((go_file_saver_get_save_scope
 							     (fs)
-							     != GO_FILE_SAVE_RANGE) && 
+							     != GO_FILE_SAVE_RANGE) &&
 							    (go_file_saver_get_format_level
 							     (fs)
 							     == GO_FILE_FL_AUTO)) {
@@ -288,7 +288,7 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 							}
 						}
 						if (!(is_open))
-							openers = g_list_prepend 
+							openers = g_list_prepend
 								(openers, fo);
 						break;
 					}
@@ -301,7 +301,7 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 	}
 
 	opener_default = file_opener_find_by_id (openers, default_format);
-		
+
 	if (opener_default != 0)
 		title = (go_file_opener_get_description
 			 (g_list_nth_data (openers, opener_default)));
@@ -375,7 +375,7 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 
 		filter = gnm_app_create_opener_filter (openers);
 		if (default_format != NULL) {
-			if (0 == strcmp (default_format, 
+			if (0 == strcmp (default_format,
 					 "Gnumeric_stf:stf_assistant"))
 				filter_name = _("Text Files");
 		}
@@ -506,7 +506,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 	Workbook *wb;
 	WBCGtk *wbcg2;
 #ifndef GNM_USE_HILDON
-	char const *title = (type == FILE_SAVE_AS_SAVE) ? _("Save the current workbook as") 
+	char const *title = (type == FILE_SAVE_AS_SAVE) ? _("Save the current workbook as")
 		: _("Export the current workbook or sheet to");
 #endif
 
@@ -515,12 +515,12 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 	wb = wb_view_get_workbook (wb_view);
 	wbcg2 = wbcg_find_for_workbook (wb, wbcg, NULL, NULL);
 
-	for (l = go_get_file_savers (); l; l = l->next) 
+	for (l = go_get_file_savers (); l; l = l->next)
 		switch (type) {
 		case FILE_SAVE_AS_SAVE:
 			if ((l->data == NULL) ||
 			    ((go_file_saver_get_save_scope (GO_FILE_SAVER (l->data))
-			      != GO_FILE_SAVE_RANGE) && 
+			      != GO_FILE_SAVE_RANGE) &&
 			     (go_file_saver_get_format_level (GO_FILE_SAVER (l->data))
 			      == GO_FILE_FL_AUTO)))
 				savers = g_list_prepend (savers, l->data);
@@ -529,8 +529,8 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 		default:
 			if ((l->data == NULL) ||
 			    ((go_file_saver_get_save_scope (GO_FILE_SAVER (l->data))
-			      != GO_FILE_SAVE_RANGE) && 
-			     (go_file_saver_get_format_level (GO_FILE_SAVER (l->data)) 
+			      != GO_FILE_SAVE_RANGE) &&
+			     (go_file_saver_get_format_level (GO_FILE_SAVER (l->data))
 			      != GO_FILE_FL_AUTO)))
 				savers = g_list_prepend (savers, l->data);
 			break;
@@ -614,7 +614,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 	} else {
 		fs = workbook_get_file_exporter (wb);
 		if (!fs || g_list_find (savers, fs) == NULL)
-			fs = go_file_saver_for_id (default_format ? default_format 
+			fs = go_file_saver_for_id (default_format ? default_format
 						   : "Gnumeric_html:latex_table");
 	}
 
@@ -712,7 +712,7 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 	}
 
 	if (wb->file_format_level < GO_FILE_FL_AUTO)
-		return gui_file_save_as (wbcg, wb_view, 
+		return gui_file_save_as (wbcg, wb_view,
 					 FILE_SAVE_AS_SAVE, NULL);
 	else {
 		gboolean ok;

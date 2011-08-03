@@ -93,8 +93,8 @@ print_cell_gtk (GnmCell const *cell,
 		if (pinfo->error_display == PRINT_ERRORS_AS_NA)
 			t_cell->value = value_new_error_NA (NULL);
 		else
-			t_cell->value = value_new_error 
-				(NULL, 
+			t_cell->value = value_new_error
+				(NULL,
 				 /* U+2014 U+200A U+2014 */
 				 "\342\200\224\342\200\212\342\200\224");
 		rv100 = gnm_rendered_value_new (t_cell,
@@ -186,7 +186,7 @@ print_rectangle_gtk (cairo_t *context,
 
 static void
 print_cell_background_gtk (cairo_t *context,
-			   GnmStyle const *style, 
+			   GnmStyle const *style,
 			   G_GNUC_UNUSED int col, G_GNUC_UNUSED int row,
 			   double x, double y, double w, double h)
 {

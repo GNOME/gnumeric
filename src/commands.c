@@ -1449,7 +1449,7 @@ cmd_insert_cols (WorkbookControl *wbc,
 {
 	char *mesg;
 	GnmRange r;
-	
+
 	range_init_full_sheet (&r, sheet);
 	r.start.row = r.end.row - count + 1;
 

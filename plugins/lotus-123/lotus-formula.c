@@ -509,7 +509,7 @@ make_function (LotusState *state, GnmExprList **stack, guint8 const *data, const
 			f = works_ordinal_to_info[*data];
 	} else {
 		if (*data <= LOTUS_MAX_ORDINAL)
-			f = lotus_ordinal_to_info[*data];		
+			f = lotus_ordinal_to_info[*data];
 	}
 
 	if (f == NULL) {
@@ -861,7 +861,7 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 				if (!g_ascii_isalnum (p[-1]))
 					break;
 
-			f = g_hash_table_lookup ((state->is_works) ? 
+			f = g_hash_table_lookup ((state->is_works) ?
 						 works_funcname_to_info
 						 : lotus_funcname_to_info, p);
 			handle_named_func (&stack, orig,

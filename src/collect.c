@@ -195,7 +195,7 @@ get_single_floats_cache_entry (GnmValue const *value, CollectFlags flags)
 }
 
 static PairsFloatsCacheEntry *
-get_pairs_floats_cache_entry (GnmValue const *vx, GnmValue const *vy, 
+get_pairs_floats_cache_entry (GnmValue const *vx, GnmValue const *vy,
 			      CollectFlags flags)
 {
 	PairsFloatsCacheEntry key;
@@ -235,7 +235,7 @@ get_or_fake_cache_entry (GnmValue const *key, CollectFlags flags,
 }
 
 static PairsFloatsCacheEntry *
-get_or_fake_pairs_cache_entry (GnmValue const *key_x, GnmValue const *key_y, 
+get_or_fake_pairs_cache_entry (GnmValue const *key_x, GnmValue const *key_y,
 			       CollectFlags flags,
 			       GnmEvalPos const *ep)
 {
@@ -285,7 +285,7 @@ get_single_cache_key (GnmExpr const *e, GnmEvalPos const *ep)
 		return v;
 	} else
 		return NULL;
-	
+
 }
 
 /* ------------------------------------------------------------------------- */
@@ -692,7 +692,7 @@ collect_float_pairs_ce (GnmValue const *vx, GnmValue const *vy,
 						     &n0, &missing0, &ce->error);
 	if (ce->error)
 		goto err;
-	
+
 	ce->data_y = collect_floats_value_with_info (vy, ep, flags,
 						     &n1, &missing1, &ce->error);
 
@@ -711,7 +711,7 @@ collect_float_pairs_ce (GnmValue const *vx, GnmValue const *vy,
 		gnm_strip_missing (ce->data_y, &n1, missing0);
 	}
 	ce->n = n0;
-	
+
  err:
 	if (ce->n <= 0) {
 		g_free (ce->data_x);
@@ -778,7 +778,7 @@ collect_float_pairs (GnmValue const *vx, GnmValue const *vy,
 			g_hash_table_replace (pairs_floats_cache, ce, ce);
 			total_cache_size += 1 + ce->n;
 		}
-	} 
+	}
 
 	if (free_keys) {
 		value_release (key_x);
@@ -821,8 +821,8 @@ collect_float_pairs (GnmValue const *vx, GnmValue const *vy,
 			ce->data_x = NULL;
 			ce->data_y = NULL;
 			pairs_floats_cache_entry_free (ce);
-		} 
-		return NULL;		
+		}
+		return NULL;
 	}
 }
 

@@ -203,9 +203,9 @@ xlsx_write_predefined_fills (GsfXMLOut *xml)
 		gsf_xml_out_start_element (xml, "fill");
 		gsf_xml_out_start_element (xml, "patternFill");
 		gsf_xml_out_add_cstr_unchecked (xml, "patternType", *f++);
-		gsf_xml_out_end_element (xml);				
 		gsf_xml_out_end_element (xml);
-	}				
+		gsf_xml_out_end_element (xml);
+	}
 }
 
 static gint
@@ -216,12 +216,12 @@ xlsx_find_predefined_fill (GnmStyle const *style)
 		return 0;
 	if (gnm_style_is_element_set (style, MSTYLE_PATTERN) &&
 	    gnm_style_get_pattern (style) == 5 &&
-	    (!gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN) || 
+	    (!gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN) ||
 	     gnm_style_get_pattern_color (style)->go_color == GO_COLOR_BLACK) &&
-	    (!gnm_style_is_element_set (style, MSTYLE_COLOR_BACK) || 
+	    (!gnm_style_is_element_set (style, MSTYLE_COLOR_BACK) ||
 	     gnm_style_get_back_color (style)->go_color == GO_COLOR_WHITE))
 		return 1;
-	
+
 	return -1;
 }
 
@@ -329,9 +329,9 @@ xlsx_load_buildin_num_formats (GHashTable *hash)
 static GHashTable *
 xlsx_write_num_formats (XLSXWriteState *state, GsfXMLOut *xml)
 {
-	GHashTable *hash = g_hash_table_new_full 
+	GHashTable *hash = g_hash_table_new_full
 		(g_str_hash,  g_str_equal, g_free, NULL);
-	GHashTable *num_format_hash = g_hash_table_new 
+	GHashTable *num_format_hash = g_hash_table_new
 		(g_direct_hash, g_direct_equal);
 	unsigned int n = NUM_FORMAT_BASE;
 	unsigned int i, count;
@@ -360,20 +360,20 @@ xlsx_write_num_formats (XLSXWriteState *state, GsfXMLOut *xml)
 		}
 		g_hash_table_insert (num_format_hash, (gpointer) style, tmp);
 	}
-	
+
 	count = num_format_array->len;
 	if (count != 0) {
 		gsf_xml_out_start_element (xml, "numFmts");
 		gsf_xml_out_add_int (xml, "count", count);
 		for (i = 0 , n = NUM_FORMAT_BASE; i < count ; i++, n++) {
 			gsf_xml_out_start_element (xml, "numFmt");
-			gsf_xml_out_add_cstr 
-				(xml, "formatCode", 
+			gsf_xml_out_add_cstr
+				(xml, "formatCode",
 				 g_ptr_array_index (num_format_array, i));
 			gsf_xml_out_add_int (xml, "numFmtId", n);
-			gsf_xml_out_end_element (xml);	
+			gsf_xml_out_end_element (xml);
 		}
-		gsf_xml_out_end_element (xml);	
+		gsf_xml_out_end_element (xml);
 	}
 	g_ptr_array_free (num_format_array, TRUE);
 	g_hash_table_destroy (hash);
@@ -385,7 +385,7 @@ xlsx_write_color_element (GsfXMLOut *xml, char const *id, GOColor color)
 {
 	gsf_xml_out_start_element (xml, id);
 	xlsx_add_rgb (xml, "rgb", color);
-	gsf_xml_out_end_element (xml);				
+	gsf_xml_out_end_element (xml);
 }
 
 static gint
@@ -396,17 +396,17 @@ xlsx_find_font (GnmStyle const *style, GPtrArray  *styles)
 		GnmStyle const *old_style = g_ptr_array_index (styles, i);
 		if (style == old_style)
 			return (gint) i;
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_BOLD) != 
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_BOLD) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_FONT_BOLD) ||
-		    gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC) != 
+		    gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_FONT_ITALIC) ||
-		    gnm_style_is_element_set (style, MSTYLE_FONT_COLOR) != 
+		    gnm_style_is_element_set (style, MSTYLE_FONT_COLOR) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_FONT_COLOR) ||
-		    gnm_style_is_element_set (style, MSTYLE_FONT_NAME) != 
+		    gnm_style_is_element_set (style, MSTYLE_FONT_NAME) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_FONT_NAME) ||
-		    gnm_style_is_element_set (style, MSTYLE_FONT_SIZE) != 
+		    gnm_style_is_element_set (style, MSTYLE_FONT_SIZE) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_FONT_SIZE) ||
-		    gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH) != 
+		    gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_FONT_STRIKETHROUGH))
 			continue;
 		if (gnm_style_get_font_bold (style) != gnm_style_get_font_bold (old_style) ||
@@ -416,7 +416,7 @@ xlsx_find_font (GnmStyle const *style, GPtrArray  *styles)
 		    gnm_style_get_font_size (style) != gnm_style_get_font_size (old_style) ||
 		    gnm_style_get_font_strike (style) != gnm_style_get_font_strike (old_style))
 			continue;
-		if (0 == strcmp (gnm_style_get_font_name (style), 
+		if (0 == strcmp (gnm_style_get_font_name (style),
 				 gnm_style_get_font_name (old_style)))
 			return (gint) i;
 	}
@@ -429,7 +429,7 @@ xlsx_write_fonts (XLSXWriteState *state, GsfXMLOut *xml)
 	GHashTable *fonts_hash =  g_hash_table_new (g_direct_hash, g_direct_equal);
 	GPtrArray  *styles_w_fonts  = g_ptr_array_new ();
 	unsigned int i;
-	
+
 	for (i = 0 ; i < state->styles_array->len ; i++) {
 		GnmStyle const *style = g_ptr_array_index (state->styles_array, i);
 		if (gnm_style_is_element_set (style, MSTYLE_FONT_BOLD) ||
@@ -441,10 +441,10 @@ xlsx_write_fonts (XLSXWriteState *state, GsfXMLOut *xml)
 			gint font_n = xlsx_find_font (style, styles_w_fonts);
 			if (font_n < 0) {
 				g_ptr_array_add (styles_w_fonts, (gpointer)style);
-				g_hash_table_insert (fonts_hash, (gpointer)style, 
+				g_hash_table_insert (fonts_hash, (gpointer)style,
 						     GINT_TO_POINTER (styles_w_fonts->len));
 			} else
-				g_hash_table_insert (fonts_hash, (gpointer)style, 
+				g_hash_table_insert (fonts_hash, (gpointer)style,
 						     GINT_TO_POINTER (font_n + 1));
 		}
 	}
@@ -458,41 +458,41 @@ xlsx_write_fonts (XLSXWriteState *state, GsfXMLOut *xml)
 			if (gnm_style_is_element_set (style, MSTYLE_FONT_BOLD)) {
 				gsf_xml_out_start_element (xml, "b");
 				xlsx_add_bool (xml, "val", gnm_style_get_font_bold (style));
-				gsf_xml_out_end_element (xml);				
+				gsf_xml_out_end_element (xml);
 			}
 			if (gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC)) {
 				gsf_xml_out_start_element (xml, "i");
 				xlsx_add_bool (xml, "val", gnm_style_get_font_italic (style));
-				gsf_xml_out_end_element (xml);				
+				gsf_xml_out_end_element (xml);
 			}
 			if (gnm_style_is_element_set (style, MSTYLE_FONT_COLOR))
-				xlsx_write_color_element 
-					(xml, "color", 
+				xlsx_write_color_element
+					(xml, "color",
 					 gnm_style_get_font_color (style)->go_color);
 			if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME)) {
 				gsf_xml_out_start_element (xml, "name");
 				gsf_xml_out_add_cstr
 					(xml, "val", gnm_style_get_font_name (style));
-				gsf_xml_out_end_element (xml);				
+				gsf_xml_out_end_element (xml);
 			}
 			if (gnm_style_is_element_set (style, MSTYLE_FONT_SIZE)) {
 				gsf_xml_out_start_element (xml, "sz");
-				gsf_xml_out_add_float 
+				gsf_xml_out_add_float
 					(xml, "val", gnm_style_get_font_size (style),
 					 2);
-				gsf_xml_out_end_element (xml);				
+				gsf_xml_out_end_element (xml);
 
 			}
 			if (gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
 				gsf_xml_out_start_element (xml, "strike");
 				xlsx_add_bool (xml, "val", gnm_style_get_font_strike (style));
-				gsf_xml_out_end_element (xml);				
+				gsf_xml_out_end_element (xml);
 			}
-			gsf_xml_out_end_element (xml); /* font */				
+			gsf_xml_out_end_element (xml); /* font */
 		}
-		gsf_xml_out_end_element (xml);	
+		gsf_xml_out_end_element (xml);
 	}
-	
+
 	g_ptr_array_free (styles_w_fonts, TRUE);
 	return fonts_hash;
 }
@@ -502,7 +502,7 @@ xlsx_find_fill (GnmStyle const *style, GPtrArray  *styles)
 {
 	unsigned i;
 	int j;
-	
+
 	j = xlsx_find_predefined_fill (style);
 	if (j >= 0)
 		return j;
@@ -511,7 +511,7 @@ xlsx_find_fill (GnmStyle const *style, GPtrArray  *styles)
 		if (style == old_style)
 			return (gint) i;
 		if (!(gnm_style_is_element_set (style, MSTYLE_COLOR_BACK) !=
-		      gnm_style_is_element_set (old_style, MSTYLE_COLOR_BACK) 
+		      gnm_style_is_element_set (old_style, MSTYLE_COLOR_BACK)
 		      || gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN) !=
 		      gnm_style_is_element_set (old_style, MSTYLE_COLOR_PATTERN)
 		      || gnm_style_is_element_set (style, MSTYLE_PATTERN) !=
@@ -519,10 +519,10 @@ xlsx_find_fill (GnmStyle const *style, GPtrArray  *styles)
 		      || (gnm_style_is_element_set (style, MSTYLE_PATTERN) &&
 			  gnm_style_get_pattern (style) != gnm_style_get_pattern (old_style))
 		      || (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK) &&
-			  gnm_style_get_back_color (style)->go_color != 
+			  gnm_style_get_back_color (style)->go_color !=
 			  gnm_style_get_back_color (old_style)->go_color)
 		      || (gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN) &&
-			  gnm_style_get_pattern_color (style)->go_color != 
+			  gnm_style_get_pattern_color (style)->go_color !=
 			  gnm_style_get_pattern_color (old_style)->go_color)))
 			return (gint) i + N_PREDEFINED_FILLS;
 	}
@@ -544,20 +544,20 @@ xlsx_write_fills (XLSXWriteState *state, GsfXMLOut *xml)
 			gint fill_n = xlsx_find_fill (style, styles_w_fills);
 			if (fill_n < 0) {
 				g_ptr_array_add (styles_w_fills, (gpointer)style);
-				g_hash_table_insert 
-					(fills_hash, (gpointer)style, 
-					 GINT_TO_POINTER (styles_w_fills->len 
+				g_hash_table_insert
+					(fills_hash, (gpointer)style,
+					 GINT_TO_POINTER (styles_w_fills->len
 							  + N_PREDEFINED_FILLS));
 			} else
-				g_hash_table_insert 
-					(fills_hash, (gpointer)style, 
-					 GINT_TO_POINTER 
+				g_hash_table_insert
+					(fills_hash, (gpointer)style,
+					 GINT_TO_POINTER
 					 (fill_n + 1));
 		}
 	}
 
 	gsf_xml_out_start_element (xml, "fills");
-	gsf_xml_out_add_int (xml, "count", styles_w_fills->len 
+	gsf_xml_out_add_int (xml, "count", styles_w_fills->len
 			     + N_PREDEFINED_FILLS);
 	/* Excel considers the first few fills special (not according to */
 	/* ECMA)                            */
@@ -570,43 +570,43 @@ xlsx_write_fills (XLSXWriteState *state, GsfXMLOut *xml)
 			gint pattern = gnm_style_get_pattern (style);
 			switch (pattern) {
 			case 0:
-				gsf_xml_out_add_cstr_unchecked (xml, "patternType", 
+				gsf_xml_out_add_cstr_unchecked (xml, "patternType",
 								"none");
 				break;
 			case 1:
-				gsf_xml_out_add_cstr_unchecked (xml, "patternType", 
+				gsf_xml_out_add_cstr_unchecked (xml, "patternType",
 								"solid");
 				if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK)) {
-					xlsx_write_color_element 
-						(xml, "fgColor", 
+					xlsx_write_color_element
+						(xml, "fgColor",
 						 gnm_style_get_back_color (style)->go_color);
 				}
 				break;
 			default:
-				if (pattern < 2 || pattern > (gint)G_N_ELEMENTS (pats)) 
-					gsf_xml_out_add_cstr_unchecked (xml, "patternType", 
+				if (pattern < 2 || pattern > (gint)G_N_ELEMENTS (pats))
+					gsf_xml_out_add_cstr_unchecked (xml, "patternType",
 									"none");
 				else
-					gsf_xml_out_add_cstr_unchecked (xml, "patternType", 
+					gsf_xml_out_add_cstr_unchecked (xml, "patternType",
 									pats[pattern - 1]);
 				break;
 			}
 			if (pattern > 1) {
 				if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
-					xlsx_write_color_element 
-						(xml, "fgColor", 
+					xlsx_write_color_element
+						(xml, "fgColor",
 						 gnm_style_get_back_color (style)->go_color);
 				if (gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN))
-					xlsx_write_color_element 
-						(xml, "bgColor", 
+					xlsx_write_color_element
+						(xml, "bgColor",
 						 gnm_style_get_pattern_color (style)->go_color);
 			}
 		}
-		gsf_xml_out_end_element (xml);				
-		gsf_xml_out_end_element (xml);				
+		gsf_xml_out_end_element (xml);
+		gsf_xml_out_end_element (xml);
 	}
-	gsf_xml_out_end_element (xml);	
-	
+	gsf_xml_out_end_element (xml);
+
 	g_ptr_array_free (styles_w_fills, TRUE);
 	return fills_hash;
 }
@@ -619,17 +619,17 @@ xlsx_find_border (GnmStyle const *style, GPtrArray  *styles)
 		GnmStyle const *old_style = g_ptr_array_index (styles, i);
 		if (style == old_style)
 			return (gint) i;
-		if (gnm_style_is_element_set (style, MSTYLE_BORDER_TOP) != 
+		if (gnm_style_is_element_set (style, MSTYLE_BORDER_TOP) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_TOP) ||
-		    gnm_style_is_element_set (style, MSTYLE_BORDER_BOTTOM) != 
+		    gnm_style_is_element_set (style, MSTYLE_BORDER_BOTTOM) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_BOTTOM) ||
-		    gnm_style_is_element_set (style, MSTYLE_BORDER_LEFT) != 
+		    gnm_style_is_element_set (style, MSTYLE_BORDER_LEFT) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_LEFT) ||
-		    gnm_style_is_element_set (style, MSTYLE_BORDER_RIGHT) != 
+		    gnm_style_is_element_set (style, MSTYLE_BORDER_RIGHT) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_RIGHT) ||
-		    gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL) != 
+		    gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_REV_DIAGONAL) ||
-		    gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL) != 
+		    gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL) !=
 		    gnm_style_is_element_set (old_style, MSTYLE_BORDER_DIAGONAL))
 			continue;
 		if (gnm_style_get_border (style, MSTYLE_BORDER_TOP)
@@ -663,7 +663,7 @@ xlsx_write_border (XLSXWriteState *state, GsfXMLOut *xml, GnmBorder *border, Gnm
 		gsf_xml_out_start_element (xml, "bottom");
 		break;
 	case MSTYLE_BORDER_LEFT:
-		gsf_xml_out_start_element 
+		gsf_xml_out_start_element
 			(xml, (state->version == ECMA_376_2006) ? "left" : "start");
 		break;
 	case MSTYLE_BORDER_DIAGONAL:
@@ -672,7 +672,7 @@ xlsx_write_border (XLSXWriteState *state, GsfXMLOut *xml, GnmBorder *border, Gnm
 		break;
 	default:
 	case MSTYLE_BORDER_RIGHT:
-		gsf_xml_out_start_element 
+		gsf_xml_out_start_element
 			(xml, (state->version == ECMA_376_2006) ? "right" : "end");
 		break;
 	}
@@ -715,7 +715,7 @@ xlsx_write_border (XLSXWriteState *state, GsfXMLOut *xml, GnmBorder *border, Gnm
 		break;
 	case GNM_STYLE_BORDER_SLANTED_DASH_DOT:
 		gsf_xml_out_add_cstr_unchecked (xml, "style", "slantDashDot");
-		break;		
+		break;
 	default:
 	case GNM_STYLE_BORDER_NONE:
 		gsf_xml_out_add_cstr_unchecked (xml, "style", "none");
@@ -724,8 +724,8 @@ xlsx_write_border (XLSXWriteState *state, GsfXMLOut *xml, GnmBorder *border, Gnm
 
 	if (border->color != NULL)
 		xlsx_write_color_element (xml, "color",  border->color->go_color);
-	
-	gsf_xml_out_end_element (xml);				
+
+	gsf_xml_out_end_element (xml);
 }
 
 static GHashTable *
@@ -734,7 +734,7 @@ xlsx_write_borders (XLSXWriteState *state, GsfXMLOut *xml)
 	GHashTable *border_hash =  g_hash_table_new (g_direct_hash, g_direct_equal);
 	GPtrArray  *styles_w_border  = g_ptr_array_new ();
 	unsigned int i;
-	
+
 	for (i = 0 ; i < state->styles_array->len ; i++) {
 		GnmStyle const *style = g_ptr_array_index (state->styles_array, i);
 		if (gnm_style_is_element_set (style, MSTYLE_BORDER_TOP) ||
@@ -746,10 +746,10 @@ xlsx_write_borders (XLSXWriteState *state, GsfXMLOut *xml)
 			gint border_n = xlsx_find_border (style, styles_w_border);
 			if (border_n < 0) {
 				g_ptr_array_add (styles_w_border, (gpointer)style);
-				g_hash_table_insert (border_hash, (gpointer)style, 
+				g_hash_table_insert (border_hash, (gpointer)style,
 						     GINT_TO_POINTER (styles_w_border->len));
 			} else
-				g_hash_table_insert (border_hash, (gpointer)style, 
+				g_hash_table_insert (border_hash, (gpointer)style,
 						     GINT_TO_POINTER (border_n + 1));
 		}
 	}
@@ -762,41 +762,41 @@ xlsx_write_borders (XLSXWriteState *state, GsfXMLOut *xml)
 			gboolean diagonal_border_written = FALSE;
 			gsf_xml_out_start_element (xml, "border");
 			if (gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL)) {
-				GnmBorder *border = gnm_style_get_border 
+				GnmBorder *border = gnm_style_get_border
 					(style, MSTYLE_BORDER_DIAGONAL);
-				gsf_xml_out_add_bool 
+				gsf_xml_out_add_bool
 					(xml, "diagonalUp",
 					 (border->line_type != GNM_STYLE_BORDER_NONE));
 			}
 			if (gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL)) {
-				GnmBorder *border = gnm_style_get_border 
+				GnmBorder *border = gnm_style_get_border
 					(style, MSTYLE_BORDER_REV_DIAGONAL);
-				gsf_xml_out_add_bool 
+				gsf_xml_out_add_bool
 					(xml, "diagonalDown",
 					 (border->line_type != GNM_STYLE_BORDER_NONE));
 			}
 			if (gnm_style_is_element_set (style, MSTYLE_BORDER_LEFT))
 				xlsx_write_border (state, xml,
-						   gnm_style_get_border 
+						   gnm_style_get_border
 						   (style, MSTYLE_BORDER_LEFT),
 						   MSTYLE_BORDER_LEFT);
 			if (gnm_style_is_element_set (style, MSTYLE_BORDER_RIGHT))
 				xlsx_write_border (state, xml,
-						   gnm_style_get_border 
+						   gnm_style_get_border
 						   (style, MSTYLE_BORDER_RIGHT),
 						   MSTYLE_BORDER_RIGHT);
 			if (gnm_style_is_element_set (style, MSTYLE_BORDER_TOP))
-				xlsx_write_border (state, xml, 
-						   gnm_style_get_border 
-						   (style, MSTYLE_BORDER_TOP), 
+				xlsx_write_border (state, xml,
+						   gnm_style_get_border
+						   (style, MSTYLE_BORDER_TOP),
 						   MSTYLE_BORDER_TOP);
 			if (gnm_style_is_element_set (style, MSTYLE_BORDER_BOTTOM))
 				xlsx_write_border (state, xml,
-						   gnm_style_get_border 
+						   gnm_style_get_border
 						   (style, MSTYLE_BORDER_BOTTOM),
 						   MSTYLE_BORDER_BOTTOM);
 			if (gnm_style_is_element_set (style, MSTYLE_BORDER_DIAGONAL)) {
-				GnmBorder *border = gnm_style_get_border 
+				GnmBorder *border = gnm_style_get_border
 					(style, MSTYLE_BORDER_DIAGONAL);
 				if (border->line_type != GNM_STYLE_BORDER_NONE) {
 					diagonal_border_written = TRUE;
@@ -805,9 +805,9 @@ xlsx_write_borders (XLSXWriteState *state, GsfXMLOut *xml)
 						   MSTYLE_BORDER_DIAGONAL);
 				}
 			}
-			if (!diagonal_border_written && 
+			if (!diagonal_border_written &&
 			    gnm_style_is_element_set (style, MSTYLE_BORDER_REV_DIAGONAL)) {
-				GnmBorder *border = gnm_style_get_border 
+				GnmBorder *border = gnm_style_get_border
 					(style, MSTYLE_BORDER_REV_DIAGONAL);
 				if (border->line_type != GNM_STYLE_BORDER_NONE) {
 					xlsx_write_border (state, xml,
@@ -816,10 +816,10 @@ xlsx_write_borders (XLSXWriteState *state, GsfXMLOut *xml)
 				}
 			}
 			gsf_xml_out_end_element (xml); /* border */
-		}		
-		gsf_xml_out_end_element (xml);	
+		}
+		gsf_xml_out_end_element (xml);
 	}
-	
+
 	g_ptr_array_free (styles_w_border, TRUE);
 	return border_hash;
 }
@@ -836,43 +836,43 @@ xlsx_write_style_want_alignment (GnmStyle const *style)
 }
 
 static void
-xlsx_write_style_write_alignment (XLSXWriteState *state, GsfXMLOut *xml, 
+xlsx_write_style_write_alignment (XLSXWriteState *state, GsfXMLOut *xml,
 		  GnmStyle const *style)
 {
 	gsf_xml_out_start_element (xml, "alignment");
 	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_H)) {
 		switch (gnm_style_get_align_h (style)) {
 		case HALIGN_LEFT:
-			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"left");
 			break;
 		case HALIGN_RIGHT:
-			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"right");
 			break;
 		case HALIGN_CENTER:
-			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"center");
 			break;
 		case HALIGN_FILL:
-			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"fill");
 			break;
 		case HALIGN_JUSTIFY:
-			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"justify");
 			break;
 		case HALIGN_CENTER_ACROSS_SELECTION:
-			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"centerContinuous");
 			break;
 		case HALIGN_DISTRIBUTED:
-			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"distributed");
 			break;
 		case HALIGN_GENERAL:
 		default:
-			gsf_xml_out_add_cstr_unchecked (xml, "horizontal", 
+			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"general");
 			break;
 		}
@@ -880,27 +880,27 @@ xlsx_write_style_write_alignment (XLSXWriteState *state, GsfXMLOut *xml,
 	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_V)) {
 		switch (gnm_style_get_align_v (style)) {
 		case VALIGN_TOP:
-			gsf_xml_out_add_cstr_unchecked (xml, "vertical", 
+			gsf_xml_out_add_cstr_unchecked (xml, "vertical",
 							"top");
 			break;
 		case VALIGN_BOTTOM:
-			gsf_xml_out_add_cstr_unchecked (xml, "vertical", 
+			gsf_xml_out_add_cstr_unchecked (xml, "vertical",
 							"bottom");
 			break;
 		case VALIGN_CENTER:
-			gsf_xml_out_add_cstr_unchecked (xml, "vertical", 
+			gsf_xml_out_add_cstr_unchecked (xml, "vertical",
 							"center");
 			break;
 		case VALIGN_JUSTIFY:
-			gsf_xml_out_add_cstr_unchecked (xml, "vertical", 
+			gsf_xml_out_add_cstr_unchecked (xml, "vertical",
 							"justify");
 			break;
 		default:
 		case VALIGN_DISTRIBUTED:
-			gsf_xml_out_add_cstr_unchecked (xml, "vertical", 
+			gsf_xml_out_add_cstr_unchecked (xml, "vertical",
 							"distributed");
 			break;
-		}	
+		}
 	}
 	if (gnm_style_is_element_set (style, MSTYLE_WRAP_TEXT)) {
 		gsf_xml_out_add_bool (xml, "wrapText", gnm_style_get_wrap_text (style));
@@ -914,11 +914,11 @@ xlsx_write_style_write_alignment (XLSXWriteState *state, GsfXMLOut *xml,
 	if (gnm_style_is_element_set (style, MSTYLE_INDENT)) {
 		gsf_xml_out_add_int (xml, "indent", gnm_style_get_indent (style));
 	}
-	gsf_xml_out_end_element (xml);	
+	gsf_xml_out_end_element (xml);
 }
 
 static void
-xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml, 
+xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml,
 		  GnmStyle const *style, GHashTable *fills_hash,
 		  GHashTable *num_format_hash, GHashTable *fonts_hash,
 		  GHashTable *border_hash, gint id)
@@ -944,27 +944,27 @@ xlsx_write_style (XLSXWriteState *state, GsfXMLOut *xml,
 	if (border)
 		gsf_xml_out_add_int (xml, "borderId", GPOINTER_TO_INT (tmp_border) - 1);
 	if (num_fmt)
-		gsf_xml_out_add_int 
-			(xml, "numFmtId", 
+		gsf_xml_out_add_int
+			(xml, "numFmtId",
 			 GPOINTER_TO_INT (g_hash_table_lookup (num_format_hash, style)));
 	if (id >= 0)
 		gsf_xml_out_add_int (xml, "xfId", id);
 
 	if (alignment)
 		xlsx_write_style_write_alignment (state, xml, style);
-	
+
 }
 
 static void
-xlsx_write_cellStyleXfs (XLSXWriteState *state, GsfXMLOut *xml, 
+xlsx_write_cellStyleXfs (XLSXWriteState *state, GsfXMLOut *xml,
 		    GHashTable *fills_hash, GHashTable *num_format_hash,
 		    GHashTable *fonts_hash, GHashTable *border_hash)
 {
 	gsf_xml_out_start_element (xml, "cellStyleXfs");
 	gsf_xml_out_add_int (xml, "count", 1);
 	gsf_xml_out_start_element (xml, "xf");
-	xlsx_write_style 
-		(state, xml, 
+	xlsx_write_style
+		(state, xml,
 		 g_ptr_array_index (state->styles_array, 0),
 		 fills_hash, num_format_hash, fonts_hash,
 		 border_hash, -1);
@@ -973,7 +973,7 @@ xlsx_write_cellStyleXfs (XLSXWriteState *state, GsfXMLOut *xml,
 }
 
 static void
-xlsx_write_cellXfs (XLSXWriteState *state, GsfXMLOut *xml, 
+xlsx_write_cellXfs (XLSXWriteState *state, GsfXMLOut *xml,
 		    GHashTable *fills_hash, GHashTable *num_format_hash,
 		    GHashTable *fonts_hash, GHashTable *border_hash)
 {
@@ -983,15 +983,15 @@ xlsx_write_cellXfs (XLSXWriteState *state, GsfXMLOut *xml,
 		gsf_xml_out_add_int (xml, "count", state->styles_array->len);
 		for (i = 0 ; i < state->styles_array->len ; i++) {
 			gsf_xml_out_start_element (xml, "xf");
-			xlsx_write_style 
-				(state, xml, 
+			xlsx_write_style
+				(state, xml,
 				 g_ptr_array_index (state->styles_array, i),
 				 fills_hash, num_format_hash, fonts_hash,
 				 border_hash, 0);
-			gsf_xml_out_end_element (xml);	
+			gsf_xml_out_end_element (xml);
 		}
 		gsf_xml_out_end_element (xml);
-	}	
+	}
 }
 
 static void
@@ -1020,7 +1020,7 @@ xlsx_write_styles (XLSXWriteState *state, GsfOutfile *wb_part)
 	/* <xsd:element name="tableStyles" type="CT_TableStyles" minOccurs="0" maxOccurs="1"/> */
 	/* <xsd:element name="colors" type="CT_Colors" minOccurs="0" maxOccurs="1"/> */
 	/* <xsd:element name="extLst" type="CT_ExtensionList" minOccurs="0" maxOccurs="1"/> */
-	
+
 	g_hash_table_destroy (fills_hash);
 	g_hash_table_destroy (fonts_hash);
 	g_hash_table_destroy (num_format_hash);
@@ -1203,7 +1203,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 			GnmStyle const *style  = sheet_style_get (state->sheet, c, r);
 			gint style_id = (style != NULL) ?
 				style_id = xlsx_get_style_id (state, style) : -1;
-			
+
 			if (NULL != (cell = sheet_cell_get (state->sheet, c, r))) {
 				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
 				val = cell->value;
@@ -2067,14 +2067,14 @@ xlsx_write_named_expression (gpointer key, GnmNamedExpr *nexpr, XLSXClosure *clo
 		gsf_xml_out_add_cstr (closure->xml, "name", expr_name_name (nexpr));
 	}
 	if (nexpr->pos.sheet != NULL)
-		gsf_xml_out_add_int (closure->xml, "localSheetId", 
+		gsf_xml_out_add_int (closure->xml, "localSheetId",
 				     nexpr->pos.sheet->index_in_wb);
 
 	formula = expr_name_as_string (nexpr, NULL, closure->state->convs);
 	gsf_xml_out_add_cstr (closure->xml, NULL, formula);
 	g_free (formula);
-	
-	gsf_xml_out_end_element (closure->xml);	
+
+	gsf_xml_out_end_element (closure->xml);
 }
 
 static void

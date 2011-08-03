@@ -2462,8 +2462,8 @@ cell_set_fmt (LotusState *state, GnmCell *cell, int fmt)
 
 	range.start = cell->pos;
 	range.end = range.start;
-	
-	style = g_hash_table_lookup (state->style_pool, 
+
+	style = g_hash_table_lookup (state->style_pool,
 				     GINT_TO_POINTER (fmt));
 
 	if (style) {
@@ -2795,7 +2795,7 @@ lotus_read_works (LotusState *state, record_t *r)
 			memcpy(font->typeface, r->data + 2, l);
 			font->typeface[l] = 0;
 			font->size = r->data[36];
-			
+
 			codepage = gnm_font_override_codepage (font->typeface);
 			if (codepage != -1)
 				font->converter = gsf_msole_iconv_open_for_import (codepage);

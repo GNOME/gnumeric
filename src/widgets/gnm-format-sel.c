@@ -39,7 +39,7 @@ cb_generate_preview (GOFormatSel *gfs, PangoAttrList **attrs)
 
 		if (go_format_is_general (fmt) && VALUE_FMT (v) != NULL)
 			fmt = VALUE_FMT (v);
-		err = format_value_layout (layout, fmt, v, -1, 
+		err = format_value_layout (layout, fmt, v, -1,
 					   go_format_sel_get_dateconv (gfs));
 		if (err) {
 			str = NULL;

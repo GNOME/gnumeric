@@ -101,8 +101,8 @@ static GNM_ACTION_DEF (cb_file_new)
 
 static GNM_ACTION_DEF (cb_file_open)	{ gui_file_open (wbcg, FILE_OPEN_OPEN, NULL); }
 static GNM_ACTION_DEF (cb_file_save)	{ gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg))); }
-static GNM_ACTION_DEF (cb_file_save_as)	{ gui_file_save_as 
-		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)), 
+static GNM_ACTION_DEF (cb_file_save_as)	{ gui_file_save_as
+		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)),
 		 FILE_SAVE_AS_SAVE, NULL); }
 
 #ifndef HAVE_MKDTEMP
@@ -978,9 +978,9 @@ static GNM_ACTION_DEF (cb_tools_random_generator_uncorrelated) { dialog_random_t
 static GNM_ACTION_DEF (cb_tools_random_generator_correlated) { dialog_random_cor_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_data_sort)		{ dialog_cell_sort (wbcg); }
 static GNM_ACTION_DEF (cb_data_shuffle)		{ dialog_shuffle (wbcg); }
-static GNM_ACTION_DEF (cb_data_import_text)	{ gui_file_open 
+static GNM_ACTION_DEF (cb_data_import_text)	{ gui_file_open
 		(wbcg, FILE_OPEN_IMPORT, "Gnumeric_stf:stf_assistant"); }
-static GNM_ACTION_DEF (cb_data_import_other)	{ gui_file_open 
+static GNM_ACTION_DEF (cb_data_import_other)	{ gui_file_open
 		(wbcg, FILE_OPEN_IMPORT, NULL); }
 
 static GNM_ACTION_DEF (cb_auto_filter)          { cmd_autofilter_add_remove (WORKBOOK_CONTROL (wbcg)); }
@@ -993,14 +993,14 @@ static GNM_ACTION_DEF (cb_data_table)		{ dialog_data_table (wbcg); }
 static GNM_ACTION_DEF (cb_data_slicer_create)	{ dialog_data_slicer (wbcg, TRUE); }
 static GNM_ACTION_DEF (cb_data_slicer_refresh)	{ cmd_slicer_refresh (WORKBOOK_CONTROL (wbcg)); }
 static GNM_ACTION_DEF (cb_data_slicer_edit)	{ dialog_data_slicer (wbcg, FALSE); }
-static GNM_ACTION_DEF (cb_data_export)	        { gui_file_save_as 
-		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)), 
+static GNM_ACTION_DEF (cb_data_export)	        { gui_file_save_as
+		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)),
 		 FILE_SAVE_AS_EXPORT, NULL); }
-static GNM_ACTION_DEF (cb_data_export_text)	        { gui_file_save_as 
-		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)), 
+static GNM_ACTION_DEF (cb_data_export_text)	        { gui_file_save_as
+		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)),
 		 FILE_SAVE_AS_EXPORT, "Gnumeric_stf:stf_assistant"); }
-static GNM_ACTION_DEF (cb_data_export_csv)	        { gui_file_save_as 
-		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)), 
+static GNM_ACTION_DEF (cb_data_export_csv)	        { gui_file_save_as
+		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)),
 		 FILE_SAVE_AS_EXPORT, "Gnumeric_stf:stf_csv"); }
 
 static void
@@ -2315,7 +2315,7 @@ static GtkActionEntry const actions[] = {
 	{ "FormatCells", NULL, N_("_Format..."),
 	  "<control>1", N_("Modify the formatting of the selected cells"),
 	  G_CALLBACK (cb_format_cells) },
-	{ "FormatCellsCond", NULL, N_("_Conditional Formating..."), NULL, 
+	{ "FormatCellsCond", NULL, N_("_Conditional Formating..."), NULL,
 	  N_("Modify the conditional formatting of the selected cells"),
 	  G_CALLBACK (cb_format_cells_cond) },
 	{ "FormatCellsFitHeight", "Gnumeric_RowSize", N_("Auto Fit _Height"), NULL,

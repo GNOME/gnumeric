@@ -426,7 +426,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		g_free (vals2);
 		return value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 	}
-	
+
 	/* argv[3] */
 
 	if (argv[3]) {
@@ -464,9 +464,9 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	/* argv[0] & argv[1] */
-	
+
 	flags = COLLECT_IGNORE_BLANKS | COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS;
-	error = collect_float_pairs (argv[0], argv[1], ei->pos, flags, &vals0, &vals1, 
+	error = collect_float_pairs (argv[0], argv[1], ei->pos, flags, &vals0, &vals1,
 				     &n0, &constp);
 
 	if (error) {

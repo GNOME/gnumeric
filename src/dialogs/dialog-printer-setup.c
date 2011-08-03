@@ -157,13 +157,13 @@ struct _PrinterSetupState {
 	HFPreviewInfo *pi_footer;
 
 	/* Error Display */
-	struct {	
+	struct {
 		GtkListStore    *store;
 		GtkWidget	*combo;
 	} error_display;
 
 	/* Comment Display */
-	struct {	
+	struct {
 		GtkListStore    *store;
 		GtkWidget	*combo;
 	} comment_display;
@@ -740,7 +740,7 @@ margin_spin_configure (UnitInfo *target, PrinterSetupState *state,
 }
 
 static void
-cb_unit_selector_changed (G_GNUC_UNUSED GtkComboBox *widget, 
+cb_unit_selector_changed (G_GNUC_UNUSED GtkComboBox *widget,
 			  PrinterSetupState *state)
 {
 	GtkTreeIter iter;
@@ -759,7 +759,7 @@ cb_unit_selector_changed (G_GNUC_UNUSED GtkComboBox *widget,
 
 static gint
 unit_sort_func (GtkTreeModel *model,
-		GtkTreeIter *a, GtkTreeIter *b, 
+		GtkTreeIter *a, GtkTreeIter *b,
 		G_GNUC_UNUSED gpointer user_data)
 {
 	char *str_a;
@@ -1191,12 +1191,12 @@ static void
 hf_insert_date_cb (GtkWidget *widget, HFCustomizeState *hf_state)
 {
 
-	hf_insert_hf_tag (hf_state, HF_FIELD_DATE, 
+	hf_insert_hf_tag (hf_state, HF_FIELD_DATE,
 			  g_object_get_data (G_OBJECT (widget), "options"));
 }
 
 static void
-hf_insert_custom_date_cb (G_GNUC_UNUSED GtkWidget *widget, 
+hf_insert_custom_date_cb (G_GNUC_UNUSED GtkWidget *widget,
 			  HFCustomizeState *hf_state)
 {
 	char *format;
@@ -1211,12 +1211,12 @@ hf_insert_custom_date_cb (G_GNUC_UNUSED GtkWidget *widget,
 static void
 hf_insert_time_cb (GtkWidget *widget, HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag (hf_state, HF_FIELD_TIME, 
+	hf_insert_hf_tag (hf_state, HF_FIELD_TIME,
 			  g_object_get_data (G_OBJECT (widget), "options"));
 }
 
 static void
-hf_insert_custom_time_cb (G_GNUC_UNUSED GtkWidget *widget, 
+hf_insert_custom_time_cb (G_GNUC_UNUSED GtkWidget *widget,
 			  HFCustomizeState *hf_state)
 {
 	char *format;
@@ -2193,7 +2193,7 @@ do_setup_error_display (PrinterSetupState *state)
 		{N_("Print as dashes"),    PRINT_ERRORS_AS_DASHES},
 		{N_("Print as #N/A"),      PRINT_ERRORS_AS_NA}
 	};
-	
+
 	gint i;
 	GtkCellRenderer  *cell;
 	gint item = PRINT_ERRORS_AS_DISPLAYED;
@@ -2210,7 +2210,7 @@ do_setup_error_display (PrinterSetupState *state)
 	}
 	cell = gtk_cell_renderer_text_new();
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(state->error_display.combo), cell, TRUE);
-	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->error_display.combo), 
+	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(state->error_display.combo),
 				       cell, "text", 0, NULL);
 	if (gtk_tree_model_iter_nth_child
 	    (GTK_TREE_MODEL (state->error_display.store), &iter, NULL, item))
@@ -2228,7 +2228,7 @@ do_setup_comment_display (PrinterSetupState *state)
 		{N_("Print in place"),  PRINT_COMMENTS_IN_PLACE},
 		{N_("Print at end"),    PRINT_COMMENTS_AT_END}
 	};
-	
+
 	gint i;
 	GtkCellRenderer  *cell;
 	gint item = PRINT_COMMENTS_NONE;
@@ -2319,12 +2319,12 @@ do_setup_page_info (PrinterSetupState *state)
 	GtkWidget *order;
 
 	state->error_display.combo = go_gtk_builder_get_widget (state->gui, "error-box");
-	state->error_display.store = GTK_LIST_STORE (gtk_combo_box_get_model 
+	state->error_display.store = GTK_LIST_STORE (gtk_combo_box_get_model
 							 (GTK_COMBO_BOX (state->error_display.combo)));
 	do_setup_error_display (state);
 
 	state->comment_display.combo = go_gtk_builder_get_widget (state->gui, "comments-box");
-	state->comment_display.store = GTK_LIST_STORE (gtk_combo_box_get_model 
+	state->comment_display.store = GTK_LIST_STORE (gtk_combo_box_get_model
 							 (GTK_COMBO_BOX (state->comment_display.combo)));
 	do_setup_comment_display (state);
 
@@ -2979,11 +2979,11 @@ do_fetch_page_info (PrinterSetupState *state)
 	pi->repeat_left = g_strdup (gnm_expr_entry_get_text (state->left_entry));
 
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (state->error_display.combo), &iter))
-		gtk_tree_model_get (GTK_TREE_MODEL (state->error_display.store), &iter, 
+		gtk_tree_model_get (GTK_TREE_MODEL (state->error_display.store), &iter,
 				    1, &(pi->error_display),
 				    -1);
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (state->comment_display.combo), &iter))
-		gtk_tree_model_get (GTK_TREE_MODEL (state->comment_display.store), &iter, 
+		gtk_tree_model_get (GTK_TREE_MODEL (state->comment_display.store), &iter,
 				    1, &(pi->comment_placement),
 				    -1);
 }

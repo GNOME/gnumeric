@@ -477,7 +477,7 @@ gnm_app_create_opener_filter (GList *openers)
 
 	GtkFileFilter *filter = gtk_file_filter_new ();
 	gboolean for_history = (openers == NULL);
-	
+
 	if (openers == NULL)
 		openers = go_get_file_openers ();
 

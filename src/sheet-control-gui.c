@@ -2947,7 +2947,7 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc,
 
 		if (comment_text != NULL) {
 			gtk_text_buffer_set_text (buffer, comment_text, -1);
-			gnm_load_pango_attributes_into_buffer 
+			gnm_load_pango_attributes_into_buffer
 				(comment_markup, buffer, comment_text);
 			g_free (comment_text);
 		}

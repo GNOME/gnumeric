@@ -149,7 +149,7 @@ go_gnm_component_render (GOComponent *component, cairo_t *cr, double width_pixel
 	cairo_scale (cr, ((double) width_pixels) / gognm->width, ((double) height_pixels) / gognm->height);
 	cairo_rectangle (cr, 0., 0., gognm->width, gognm->height);
 	cairo_clip (cr); /* not sure it is necessary */
-	gnm_gtk_print_cell_range (cr, gognm->sheet, &range, 0., 0., 
+	gnm_gtk_print_cell_range (cr, gognm->sheet, &range, 0., 0.,
 				  gognm->sheet->print_info);
 	/* Now render objects */
 	gnm_print_sheet_objects (cr, gognm->sheet, &range, 0., 0.);
@@ -302,7 +302,7 @@ go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 }
 
 G_MODULE_EXPORT void
-go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin, 
+go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin,
 		    G_GNUC_UNUSED GOCmdContext *cc)
 {
 }

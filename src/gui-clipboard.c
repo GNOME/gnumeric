@@ -954,8 +954,8 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 			char *name;
 			char *text;
 
-			redo = sheet_clear_region_undo 
-				(sr, 
+			redo = sheet_clear_region_undo
+				(sr,
 				 CLEAR_VALUES|CLEAR_COMMENTS|CLEAR_RECALC_DEPS);
 			undo = clipboard_copy_range_undo (sheet, a);
 			name = undo_range_name (sheet, a);

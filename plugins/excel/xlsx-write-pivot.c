@@ -273,7 +273,7 @@ xlsx_write_pivot_cache_definition (XLSXWriteState *state, GsfOutfile *wb_part,
 	if (cache->refreshed_by) gsf_xml_out_add_cstr (xml, "refreshedBy", cache->refreshed_by);
 	if (cache->refreshed_on) {
 		if (state->version == ECMA_376_2006)
-			gsf_xml_out_add_float (xml, "refreshedDate", 
+			gsf_xml_out_add_float (xml, "refreshedDate",
 					       go_val_as_float (cache->refreshed_on), -1);
 		else {
 			GOFormat const *format = go_format_new_from_XL ("yyyy-mm-dd\"T\"hh:mm:ss");
@@ -281,7 +281,7 @@ xlsx_write_pivot_cache_definition (XLSXWriteState *state, GsfOutfile *wb_part,
 			gsf_xml_out_add_cstr_unchecked (xml, "refreshedDateIso", date);
 			g_free (date);
 			go_format_unref (format);
-		}		
+		}
 	}
 	gsf_xml_out_add_int (xml, "createdVersion",	cache->XL_created_ver);
 	gsf_xml_out_add_int (xml, "refreshedVersion",	cache->XL_refresh_ver);

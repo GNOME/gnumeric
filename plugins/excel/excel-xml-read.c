@@ -492,7 +492,7 @@ xl_xml_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 						"received '%s'"),
 					 xin->content->str);
 	} else
-		v = value_new_from_string (state->val_type, xin->content->str, 
+		v = value_new_from_string (state->val_type, xin->content->str,
 					   NULL, FALSE);
 	if (NULL != state->texpr) {
 		if (NULL != v)
@@ -1050,7 +1050,7 @@ xl_xml_probe_start_element (const xmlChar *name,
 }
 
 gboolean
-excel_xml_file_probe (G_GNUC_UNUSED GOFileOpener const *fo, 
+excel_xml_file_probe (G_GNUC_UNUSED GOFileOpener const *fo,
 		      GsfInput *input, GOFileProbeLevel pl)
 {
 	if (pl == GO_FILE_PROBE_FILE_NAME) {
@@ -1065,7 +1065,7 @@ excel_xml_file_probe (G_GNUC_UNUSED GOFileOpener const *fo,
 }
 
 void
-excel_xml_file_open (G_GNUC_UNUSED GOFileOpener const *fo, 
+excel_xml_file_open (G_GNUC_UNUSED GOFileOpener const *fo,
 		     GOIOContext *io_context,
 		     WorkbookView *wb_view, GsfInput *input)
 {

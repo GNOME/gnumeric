@@ -285,7 +285,7 @@ gnm_rendered_value_new (GnmCell const *cell,
 	}
 
 	/* Add foreground color.  */
-	attr = go_color_to_pango 
+	attr = go_color_to_pango
 		((gnm_style_get_font_color (mstyle))->go_color, TRUE);
 	attr->start_index = 0;
 	attr->end_index = G_MAXUINT;
@@ -529,7 +529,7 @@ gnm_rendered_value_get_text (GnmRenderedValue const *rv)
 static gboolean
 colour_selector_cb (PangoAttribute *attribute, PangoColor *color)
 {
-	if (attribute->start_index == 0 && 
+	if (attribute->start_index == 0 &&
 	    PANGO_ATTR_FOREGROUND == attribute->klass->type) {
 		*color = ((PangoAttrColor *)(attribute))->color;
 		return FALSE;
@@ -540,14 +540,14 @@ colour_selector_cb (PangoAttribute *attribute, PangoColor *color)
 static GOColor
 colour_from_layout (PangoLayout *layout)
 {
-	PangoAttrList *attrs = pango_layout_get_attributes (layout), 
+	PangoAttrList *attrs = pango_layout_get_attributes (layout),
 		*fattrs;
 	PangoColor c;
 
 	if (go_pango_attr_list_is_empty (attrs))
 		return 0;
 
-	fattrs = pango_attr_list_filter 
+	fattrs = pango_attr_list_filter
 		(attrs, (PangoAttrFilterFunc)colour_selector_cb, &c);
 
 	if (fattrs == NULL)
@@ -557,7 +557,7 @@ colour_from_layout (PangoLayout *layout)
 	return GO_COLOR_FROM_RGBA (c.red, c.green, c.blue, 0xff);
 }
 
-GOColor 
+GOColor
 gnm_rendered_value_get_color (GnmRenderedValue const * rv)
 {
 	return colour_from_layout (rv->layout);

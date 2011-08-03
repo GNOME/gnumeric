@@ -757,7 +757,7 @@ gnm_load_pango_byte_to_char (gchar const *str, gint byte)
 {
 	if (byte >= (gint) strlen (str))
 		return g_utf8_strlen (str, -1);
-	return g_utf8_pointer_to_offset (str, 
+	return g_utf8_pointer_to_offset (str,
 					 g_utf8_prev_char (str + byte + 1));
 }
 
@@ -776,7 +776,7 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 		GtkTextIter start, end;
 		gtk_text_buffer_get_start_iter (buffer, &start);
 		gtk_text_buffer_get_end_iter (buffer, &end);
-		str = str_retrieved = gtk_text_buffer_get_slice 
+		str = str_retrieved = gtk_text_buffer_get_slice
 			(buffer, &start, &end, TRUE);
 	}
 
@@ -799,12 +799,12 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 				char const *name;
 
 				pango_attr_iterator_range (iter, &start, &end);
-				start = gnm_load_pango_byte_to_char 
+				start = gnm_load_pango_byte_to_char
 					(str, start);
 				end = gnm_load_pango_byte_to_char (str, end);
-				gtk_text_buffer_get_iter_at_offset 
+				gtk_text_buffer_get_iter_at_offset
 					(buffer, &start_iter, start);
-				gtk_text_buffer_get_iter_at_offset 
+				gtk_text_buffer_get_iter_at_offset
 					(buffer, &end_iter, end);
 
 				for (ptr = attr; ptr != NULL; ptr = ptr->next) {
@@ -929,12 +929,12 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 					}
 				}
 				pango_attr_iterator_range (iter, &start, &end);
-				start = gnm_load_pango_byte_to_char 
+				start = gnm_load_pango_byte_to_char
 					(str, start);
 				end = gnm_load_pango_byte_to_char (str, end);
-				gtk_text_buffer_get_iter_at_offset 
+				gtk_text_buffer_get_iter_at_offset
 					(buffer, &start_iter, start);
-				gtk_text_buffer_get_iter_at_offset 
+				gtk_text_buffer_get_iter_at_offset
 					(buffer, &end_iter, end);
 				gtk_text_buffer_apply_tag (buffer, tag, &start_iter, &end_iter);
 				go_slist_free_custom (attr, (GFreeFunc)pango_attribute_destroy);

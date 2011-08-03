@@ -1513,7 +1513,7 @@ gnm_page_breaks_clean (GnmPageBreaks *breaks)
 }
 
 void
-print_info_set_printtofile_uri (PrintInformation *pi, 
+print_info_set_printtofile_uri (PrintInformation *pi,
 				gchar const *uri)
 {
 	g_free (pi->printtofile_uri);
@@ -1521,12 +1521,12 @@ print_info_set_printtofile_uri (PrintInformation *pi,
 }
 
 void
-print_info_set_printtofile_from_settings (PrintInformation *pi, 
+print_info_set_printtofile_from_settings (PrintInformation *pi,
 					  GtkPrintSettings* settings,
 					  gchar const *default_uri)
 {
-	char const *uri = gtk_print_settings_get 
-		(settings, 
+	char const *uri = gtk_print_settings_get
+		(settings,
 		 GTK_PRINT_SETTINGS_OUTPUT_URI);
 	if (strcmp (uri, default_uri) == 0)
 		print_info_set_printtofile_uri (pi, NULL);
@@ -1535,7 +1535,7 @@ print_info_set_printtofile_from_settings (PrintInformation *pi,
 }
 
 void
-print_info_set_from_settings (PrintInformation *pi, 
+print_info_set_from_settings (PrintInformation *pi,
 					  GtkPrintSettings* settings)
 {
 	pi->print_range = gtk_print_settings_get_int_with_default
@@ -1544,17 +1544,17 @@ print_info_set_from_settings (PrintInformation *pi,
 		 PRINT_ACTIVE_SHEET);
 }
 
-PrintRange  
+PrintRange
 print_info_get_printrange (PrintInformation *pi)
 {
 	print_info_load_defaults (pi);
 	return pi->print_range;
 }
 
-void        
+void
 print_info_set_printrange (PrintInformation *pi, PrintRange pr)
 {
-	if (pr >= PRINT_ACTIVE_SHEET 
+	if (pr >= PRINT_ACTIVE_SHEET
 	    && pr <= PRINT_SHEET_SELECTION_IGNORE_PRINTAREA)
 		pi->print_range = pr;
 	else

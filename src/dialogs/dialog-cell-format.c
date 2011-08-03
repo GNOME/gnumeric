@@ -212,7 +212,7 @@ typedef struct _FormatState {
 	} input_msg;
 	struct {
 		gboolean is_selector;
-		GtkWindow *w; 
+		GtkWindow *w;
 		gpointer closure;
 	} style_selector;
 
@@ -2024,14 +2024,14 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 			for (i = GNM_STYLE_BORDER_TOP; i <= GNM_STYLE_BORDER_DIAG; i++) {
 				GnmBorder *b = border_get_mstyle (state, i);
 				if (b)
-					gnm_style_set_border 
-						(state->result, 
-						 MSTYLE_BORDER_TOP + 
+					gnm_style_set_border
+						(state->result,
+						 MSTYLE_BORDER_TOP +
 						 (int)(i - GNM_STYLE_BORDER_TOP),
 						 b);
 			}
 			gnm_style_merge (style, state->result);
-			dialog_cell_format_style_added 
+			dialog_cell_format_style_added
 				(state->style_selector.closure,
 				 style);
 			gnm_style_unref (state->result);
@@ -2530,7 +2530,7 @@ dialog_cell_format (WBCGtk *wbcg, FormatDialogPosition_t pageno)
  */
 
 void
-dialog_cell_format_select_style (WBCGtk *wbcg, gint pages, 
+dialog_cell_format_select_style (WBCGtk *wbcg, gint pages,
 				 GtkWindow *w,
 				 GnmStyle *style, gpointer closure)
 {
@@ -2558,7 +2558,7 @@ dialog_cell_format_select_style (WBCGtk *wbcg, gint pages,
 	fmt_dialog_impl (state, FD_BACKGROUND);
 
 	for (i = 0; i <= FD_LAST; i++) {
-		GtkWidget *widget = gtk_notebook_get_nth_page 
+		GtkWidget *widget = gtk_notebook_get_nth_page
 			(state->notebook, i);
 		if (widget != NULL && !((1<<i) & pages))
 			gtk_widget_hide (widget);
@@ -2566,7 +2566,7 @@ dialog_cell_format_select_style (WBCGtk *wbcg, gint pages,
 
 	gtk_widget_hide (state->apply_button);
 
-	go_gtk_window_set_transient (GTK_WINDOW (w), 
+	go_gtk_window_set_transient (GTK_WINDOW (w),
 				     GTK_WINDOW (state->dialog));
 	gtk_window_set_modal (GTK_WINDOW (state->dialog), TRUE);
 	gtk_widget_show (GTK_WIDGET (state->dialog));

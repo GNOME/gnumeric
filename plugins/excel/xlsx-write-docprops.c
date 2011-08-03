@@ -2,7 +2,7 @@
 /**
  * xls-write-docprops.c: MS Excel XLSX export of document properties
  *
- * Copyright (C) 2011 Andreas J. Guelzow, All rights reserved 
+ * Copyright (C) 2011 Andreas J. Guelzow, All rights reserved
  * aguelzow@pyrshep.ca
  *
  * This program is free software; you can redistribute it and/or
@@ -76,7 +76,7 @@ xlsx_map_to_bool (GsfXMLOut *output, GValue const *val)
 		xlsx_add_bool (output, NULL, g_value_get_int (val) != 0);
 		break;
 	case G_TYPE_STRING:
-		xlsx_add_bool (output, NULL, 
+		xlsx_add_bool (output, NULL,
 			       0 == g_ascii_strcasecmp (g_value_get_string (val), "true")
 			       || 0 == g_ascii_strcasecmp (g_value_get_string (val), "yes"));
 		break;
@@ -108,8 +108,8 @@ xlsx_map_to_date_core (GsfXMLOut *output, GValue const *val)
 		gsf_timestamp_set_time (ts, tm.tv_sec);
 		str = gsf_timestamp_as_string (ts);
 		gsf_xml_out_add_cstr (output, NULL, str);
-		g_free (str);		
-	}	
+		g_free (str);
+	}
 }
 
 static void
@@ -134,7 +134,7 @@ xlsx_map_to_keys (GsfXMLOut *output, GValue const *val)
 				/* sets of keywords depending on laguage */
 				g_free (str);
 			}
-		}	
+		}
 }
 
 static output_function
@@ -143,7 +143,7 @@ xlsx_map_prop_name_to_output_fun (char const *name)
 	/* shared by all instances and never freed */
 	static GHashTable *xlsx_prop_name_map_output_fun_extended = NULL;
 
-	if (NULL == xlsx_prop_name_map_output_fun_extended) 
+	if (NULL == xlsx_prop_name_map_output_fun_extended)
 	{
 		static struct {
 			char const *gsf_key;
@@ -189,7 +189,7 @@ xlsx_map_prop_name_extended (char const *name)
 	/* shared by all instances and never freed */
 	static GHashTable *xlsx_prop_name_map_extended = NULL;
 
-	if (NULL == xlsx_prop_name_map_extended) 
+	if (NULL == xlsx_prop_name_map_extended)
 	{
 		static struct {
 			char const *gsf_key;
@@ -237,7 +237,7 @@ xlsx_map_prop_name_extended (char const *name)
 		/* GSF_META_NAME_OBJECT_COUNT */
 		/* GSF_META_NAME_SPREADSHEET_COUNT */
 		/* GSF_META_NAME_TABLE_COUNT */
-		/* GSF_META_NAME_GENERATOR  stored as Application and AppVersion  */ 
+		/* GSF_META_NAME_GENERATOR  stored as Application and AppVersion  */
 		/* GSF_META_NAME_KEYWORD cmp with GSF_META_NAME_KEYWORDS in core*/
 		/* GSF_META_NAME_LAST_PRINTED cmp with GSF_META_NAME_PRINT_DATE in core*/
 		/* GSF_META_NAME_PRINTED_BY */
@@ -263,7 +263,7 @@ xlsx_meta_write_props_extended (char const *prop_name, GsfDocProp *prop, GsfXMLO
 	if (NULL != (mapped_name = xlsx_map_prop_name_extended (prop_name))) {
 		gsf_xml_out_start_element (output, mapped_name);
 		if (NULL != val) {
-			output_function of = xlsx_map_prop_name_to_output_fun 
+			output_function of = xlsx_map_prop_name_to_output_fun
 				(prop_name);
 			if (of != NULL)
 				of (output, val);
@@ -277,7 +277,7 @@ xlsx_meta_write_props_extended (char const *prop_name, GsfDocProp *prop, GsfXMLO
 static void
 xlsx_write_docprops_app (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfile *docprops_dir)
 {
-	GsfOutput *part = gsf_outfile_open_pkg_add_rel 
+	GsfOutput *part = gsf_outfile_open_pkg_add_rel
 		(docprops_dir, "app.xml",
 		 "application/vnd.openxmlformats-officedocument.extended-properties+xml",
 		 root_part,
@@ -298,10 +298,10 @@ xlsx_write_docprops_app (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfil
 	gsf_xml_out_add_float (xml, NULL, version, 5);
 	gsf_xml_out_end_element (xml); /* </AppVersion> */
 
-	gsf_doc_meta_data_foreach (meta, (GHFunc) xlsx_meta_write_props_extended, xml);	
+	gsf_doc_meta_data_foreach (meta, (GHFunc) xlsx_meta_write_props_extended, xml);
 
 	gsf_xml_out_end_element (xml); /* </Properties> */
-	
+
 	g_object_unref (xml);
 	gsf_output_close (part);
 	g_object_unref (part);
@@ -313,7 +313,7 @@ xlsx_map_prop_name (char const *name)
 	/* shared by all instances and never freed */
 	static GHashTable *xlsx_prop_name_map = NULL;
 
-	if (NULL == xlsx_prop_name_map) 
+	if (NULL == xlsx_prop_name_map)
 	{
 		static struct {
 			char const *gsf_key;
@@ -356,9 +356,9 @@ xlsx_meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *outpu
 	GValue const *val = gsf_doc_prop_get_val (prop);
 
 	if (NULL != (mapped_name = xlsx_map_prop_name (prop_name))) {
-		gsf_xml_out_start_element (output, mapped_name);		
+		gsf_xml_out_start_element (output, mapped_name);
 		if (NULL != val) {
-			output_function of = xlsx_map_prop_name_to_output_fun 
+			output_function of = xlsx_map_prop_name_to_output_fun
 				(prop_name);
 			if (of != NULL)
 				of (output, val);
@@ -373,7 +373,7 @@ xlsx_meta_write_props (char const *prop_name, GsfDocProp *prop, GsfXMLOut *outpu
 static void
 xlsx_write_docprops_core (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfile *docprops_dir)
 {
-	GsfOutput *part = gsf_outfile_open_pkg_add_rel 
+	GsfOutput *part = gsf_outfile_open_pkg_add_rel
 		(docprops_dir, "core.xml",
 		 "application/vnd.openxmlformats-package.core-properties+xml",
 		 root_part,
@@ -391,7 +391,7 @@ xlsx_write_docprops_core (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfi
 	gsf_doc_meta_data_foreach (meta, (GHFunc) xlsx_meta_write_props, xml);
 
 	gsf_xml_out_end_element (xml); /* </cp:coreProperties> */
-	
+
 	g_object_unref (xml);
 	gsf_output_close (part);
 	g_object_unref (part);
@@ -403,7 +403,7 @@ xlsx_map_to_pid (char const *name)
 	/* shared by all instances and never freed */
 	static GHashTable *xlsx_pid_map = NULL;
 
-	if (NULL == xlsx_pid_map) 
+	if (NULL == xlsx_pid_map)
 	{
 		static struct {
 			char const *name_key;
@@ -425,11 +425,11 @@ xlsx_map_to_pid (char const *name)
 }
 
 static void
-xlsx_meta_write_props_custom_type (char const *prop_name, GValue const *val, GsfXMLOut *xml, char const *type, 
+xlsx_meta_write_props_custom_type (char const *prop_name, GValue const *val, GsfXMLOut *xml, char const *type,
 				   int *custom_pid)
 {
 	int pid = xlsx_map_to_pid (prop_name);
-	
+
 
 	gsf_xml_out_start_element (xml, "property");
 	gsf_xml_out_add_cstr_unchecked (xml, "fmtid", "{D5CDD505-2E9C-101B-9397-08002B2CF9AE}");
@@ -443,7 +443,7 @@ xlsx_meta_write_props_custom_type (char const *prop_name, GValue const *val, Gsf
 	gsf_xml_out_start_element (xml, type);
 	if (NULL != val)
 		gsf_xml_out_add_gvalue (xml, NULL, val);
-	gsf_xml_out_end_element (xml); 
+	gsf_xml_out_end_element (xml);
 	gsf_xml_out_end_element (xml); /* </property> */
 }
 
@@ -451,7 +451,7 @@ static void
 xlsx_meta_write_props_custom (char const *prop_name, GsfDocProp *prop, GsfXMLOut *output)
 {
 	int custom_pid = 29;
-	if ((0 != strcmp (GSF_META_NAME_GENERATOR, prop_name)) && (NULL == xlsx_map_prop_name (prop_name)) 
+	if ((0 != strcmp (GSF_META_NAME_GENERATOR, prop_name)) && (NULL == xlsx_map_prop_name (prop_name))
 	    &&  (NULL == xlsx_map_prop_name_extended (prop_name))) {
 		GValue const *val = gsf_doc_prop_get_val (prop);
 		if (VAL_IS_GSF_TIMESTAMP(val))
@@ -480,7 +480,7 @@ xlsx_meta_write_props_custom (char const *prop_name, GsfDocProp *prop, GsfXMLOut
 static void
 xlsx_write_docprops_custom (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfile *docprops_dir)
 {
-	GsfOutput *part = gsf_outfile_open_pkg_add_rel 
+	GsfOutput *part = gsf_outfile_open_pkg_add_rel
 		(docprops_dir, "custom.xml",
 		 "application/vnd.openxmlformats-officedocument.custom-properties+xml",
 		 root_part,
@@ -495,7 +495,7 @@ xlsx_write_docprops_custom (XLSXWriteState *state, GsfOutfile *root_part, GsfOut
 	gsf_doc_meta_data_foreach (meta, (GHFunc) xlsx_meta_write_props_custom, xml);
 
 	gsf_xml_out_end_element (xml); /* </Properties> */
-	
+
 	g_object_unref (xml);
 	gsf_output_close (part);
 	g_object_unref (part);

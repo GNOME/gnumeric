@@ -656,7 +656,7 @@ make_expr_example (Sheet *sheet, const char *text, gboolean localized)
 			(texpr, &ep, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 		GOFormat const *format = auto_style_format_suggest (texpr, &ep);
 		char *vtxt = format_value (format, val, -1,
-					   workbook_date_conv 
+					   workbook_date_conv
 					   (sheet->workbook));
 
 		go_format_unref (format);

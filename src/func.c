@@ -411,11 +411,11 @@ function_dump_defs (char const *filename, int dump_type)
 
 			function_def_count_args (fd, &min, &max);
 			if (max == G_MAXINT)
-				fprintf (output_file, 
-					 "@SYNTAX=%s," UNICODE_ELLIPSIS ")\n", 
+				fprintf (output_file,
+					 "@SYNTAX=%s," UNICODE_ELLIPSIS ")\n",
 					 syntax->str);
 			else
-				fprintf (output_file, "@SYNTAX=%s)\n", 
+				fprintf (output_file, "@SYNTAX=%s)\n",
 					 syntax->str);
 
 			if (arg_desc->len > 0)

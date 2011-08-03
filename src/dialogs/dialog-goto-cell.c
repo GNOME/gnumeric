@@ -113,11 +113,11 @@ dialog_goto_get_val (GotoState *state)
 
 	if (val == NULL) {
 		GnmParsePos pp;
-		GnmNamedExpr *nexpr = expr_name_lookup 
+		GnmNamedExpr *nexpr = expr_name_lookup
 			(parse_pos_init_sheet (&pp, sheet), text);
 		if (nexpr != NULL && !expr_name_is_placeholder (nexpr)) {
 			val = gnm_expr_top_get_range (nexpr->texpr);
-		} 
+		}
 	}
 	return val;
 }
@@ -135,7 +135,7 @@ cb_dialog_goto_go_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	if (val == NULL)
 		return;
-	
+
 	val->v_range.cell.b.row = val->v_range.cell.a.row + (rows - 1);
 	val->v_range.cell.b.col = val->v_range.cell.a.col + (cols - 1);
 	eval_pos_init_sheet (&ep, sheet);
@@ -167,7 +167,7 @@ cb_dialog_goto_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 		cols = ssz->max_cols;
 		rows = ssz->max_rows;
 
-		if (val->v_range.cell.a.sheet != NULL && 
+		if (val->v_range.cell.a.sheet != NULL &&
 		    val->v_range.cell.b.sheet != NULL &&
 		    val->v_range.cell.a.sheet != val->v_range.cell.b.sheet) {
 			ssz = gnm_sheet_get_size (sheet);
@@ -178,7 +178,7 @@ cb_dialog_goto_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 		}
 		cols -= val->v_range.cell.a.col;
 		rows -= val->v_range.cell.a.row;
-		
+
 		if (cols < 1) cols = 1;
 		if (rows < 1) rows = 1;
 
@@ -186,7 +186,7 @@ cb_dialog_goto_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 		gtk_spin_button_set_range (state->spin_rows, 1, rows);
 
 		gtk_widget_set_sensitive (state->go_button, TRUE);
-		
+
 		value_release (val);
 	} else
 		gtk_widget_set_sensitive (state->go_button, FALSE);
@@ -309,7 +309,7 @@ cb_sheet_added (Workbook *wb, GotoState *state)
 static void
 dialog_goto_load_selection (GotoState *state)
 {
-	SheetView *sv = wb_control_cur_sheet_view 
+	SheetView *sv = wb_control_cur_sheet_view
 		(WORKBOOK_CONTROL (state->wbcg));
 	GnmRange const *first = selection_first_range (sv, NULL, NULL);
 
@@ -320,13 +320,13 @@ dialog_goto_load_selection (GotoState *state)
 		GString *str = g_string_new (NULL);
 		GnmParsePos pp;
 		GnmRangeRef rr;
-		
+
 		out.accum = str;
 		out.pp = parse_pos_init_sheet (&pp, sv->sheet);
 		out.convs = sheet_get_conventions (sv->sheet);
-		gnm_cellref_init (&rr.a, NULL, first->start.col, 
+		gnm_cellref_init (&rr.a, NULL, first->start.col,
 				  first->start.row, TRUE);
-		gnm_cellref_init (&rr.b, NULL, first->start.col, 
+		gnm_cellref_init (&rr.b, NULL, first->start.col,
 				  first->start.row, TRUE);
 		rangeref_as_string (&out, &rr);
 		gtk_entry_set_text (state->goto_text, str->str);
@@ -365,9 +365,9 @@ dialog_goto_init (GotoState *state)
 		"changed",
 		G_CALLBACK (cb_dialog_goto_update_sensitivity), state);
 
-	state->spin_rows = GTK_SPIN_BUTTON 
+	state->spin_rows = GTK_SPIN_BUTTON
 		(go_gtk_builder_get_widget (state->gui, "spin-rows"));
-	state->spin_cols = GTK_SPIN_BUTTON 
+	state->spin_cols = GTK_SPIN_BUTTON
 		(go_gtk_builder_get_widget (state->gui, "spin-columns"));
 
 	/* Set-up treeview */

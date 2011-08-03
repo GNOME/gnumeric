@@ -287,7 +287,7 @@ cb_icon_clicked (GtkButton *icon,
 			gtk_window_get_size (GTK_WINDOW (toplevel), &width, &height);
 			g_object_set_data (G_OBJECT (entry), "old_window_width", GUINT_TO_POINTER (width));
 			g_object_set_data (G_OBJECT (entry), "old_window_height", GUINT_TO_POINTER (height));
-			g_object_set_data (G_OBJECT (entry), "old_default", 
+			g_object_set_data (G_OBJECT (entry), "old_default",
 					   gtk_window_get_default_widget (GTK_WINDOW (toplevel)));
 
 			container_props = NULL;
@@ -944,7 +944,7 @@ gee_update_lexer_items (GnmExprEntry *gee)
 	if (!gee->feedback_disabled && !forced_text) {
 		gee->texpr = gnm_expr_parse_str
 			((str[0] == '=') ? str+1 : str,
-			 &gee->pp, GNM_EXPR_PARSE_DEFAULT 
+			 &gee->pp, GNM_EXPR_PARSE_DEFAULT
 			 | GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
 			 sheet_get_conventions (sheet), NULL);
 	}

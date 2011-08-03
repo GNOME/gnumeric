@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_GTK_COMPILATION_H
 #define GNUMERIC_GTK_COMPILATION_H
 
-#if defined(__GNUC__) 
+#if defined(__GNUC__)
 #define GCC_VERSION (__GNUC__ * 100 + __GNUC_MINOR__ )
 #if (GCC_VERSION >= 402)
 #if (GCC_VERSION >= 406)

@@ -2777,7 +2777,7 @@ xml_sax_print_to_uri (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	xml_sax_must_have_sheet (state);
 
-	print_info_set_printtofile_uri (state->sheet->print_info, 
+	print_info_set_printtofile_uri (state->sheet->print_info,
 					xin->content->str);
 }
 

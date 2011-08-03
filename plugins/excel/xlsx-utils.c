@@ -171,12 +171,12 @@ xlsx_pivot_date_fmt (void)
  *
  * Returns a GOGradientDirection corresponding to the angle ang (0...360)
  **/
-GOGradientDirection 
+GOGradientDirection
 xlsx_get_gradient_direction (double ang)
 {
 	int ang_i;
 	g_return_val_if_fail (ang >=-360. && ang <= 360., GO_GRADIENT_N_TO_S);
-	
+
 	ang_i = ang;
 	while (ang_i < 0)
 		ang_i += 360;
