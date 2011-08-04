@@ -1,3 +1,8 @@
+2011-08-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* widget-editable-label.c (el_button_press_event): enable acitivation
+	by button event
+
 2011-08-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* gnm-notebook.c (gnm_notebook_init): make it scrollable.
