@@ -388,6 +388,16 @@ gnm_go_data_scalar_get_str (GODataScalar *dat)
 	return scalar->val_str;
 }
 
+static PangoAttrList const *
+gnm_go_data_scalar_get_markup (GODataScalar *dat)
+{
+	PangoAttrList const *res = NULL;
+	GOFormat const *fmt = gnm_go_data_preferred_fmt (GO_DATA (dat));
+	if (fmt)
+		res = go_format_get_markup (fmt);
+	return res;
+}
+
 static void
 gnm_go_data_scalar_class_init (GObjectClass *gobject_klass)
 {
@@ -404,6 +414,7 @@ gnm_go_data_scalar_class_init (GObjectClass *gobject_klass)
 	godata_klass->unserialize	= gnm_go_data_unserialize;
 	scalar_klass->get_value		= gnm_go_data_scalar_get_value;
 	scalar_klass->get_str		= gnm_go_data_scalar_get_str;
+	scalar_klass->get_markup	= gnm_go_data_scalar_get_markup;
 }
 
 static void

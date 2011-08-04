@@ -1,3 +1,8 @@
+2011-08-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_scalar_get_markup),
+	(gnm_go_data_scalar_class_init): implement rich text in scalar data.
+
 2011-08-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_set_comment_apply): enable aprpopriate actions
