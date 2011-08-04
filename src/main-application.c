@@ -46,14 +46,6 @@
 #include <string.h>
 #include <locale.h>
 
-#ifdef GNM_WITH_GNOME
-#include <bonobo/bonobo-main.h>
-#include <bonobo/bonobo-ui-main.h>
-#include <libgnome/gnome-program.h>
-#include <libgnome/gnome-init.h>
-#include <libgnomeui/gnome-ui-init.h>
-#endif
-
 #ifdef GNM_USE_HILDON
 #include <libosso.h>
 #endif
@@ -182,43 +174,9 @@ gnumeric_arg_parse (int argc, char **argv)
 	g_option_context_set_delocalize   (ocontext, FALSE);
 #endif
 
-#ifdef GNM_WITH_GNOME
-#ifndef GNOME_PARAM_GOPTION_CONTEXT
-	/*
-	 * Bummer.  We cannot make gnome_program_init handle our args so
-	 * we do it ourselves.  That, in turn, means we don't handle
-	 * libgnome[ui]'s args.
-	 *
-	 * Upgrade to libgnome 2.13 or better to solve this.
-	 */
 	if (!funcdump)
 		g_option_context_add_group (ocontext, gtk_get_option_group (TRUE));
 	g_option_context_parse (ocontext, &argc, &argv, &error);
-#endif
-
-	if (!error) {
-		program = (GObject *)
-			gnome_program_init (PACKAGE, VERSION,
-					    funcdump ? LIBGNOME_MODULE : LIBGNOMEUI_MODULE,
-					    argc, argv,
-					    GNOME_PARAM_APP_PREFIX,		GNUMERIC_PREFIX,
-					    GNOME_PARAM_APP_SYSCONFDIR,		GNUMERIC_SYSCONFDIR,
-					    GNOME_PARAM_APP_DATADIR,		gnm_sys_data_dir (),
-					    GNOME_PARAM_APP_LIBDIR,		gnm_sys_lib_dir (),
-#ifdef GNOME_PARAM_GOPTION_CONTEXT
-					    GNOME_PARAM_GOPTION_CONTEXT,	ocontext,
-#endif
-					    NULL);
-#ifdef GNOME_PARAM_GOPTION_CONTEXT
-		ocontext = NULL;
-#endif
-	}
-
-#else /* therefore not gnome */
-	if (!funcdump)
-		g_option_context_add_group (ocontext, gtk_get_option_group (TRUE));
-	g_option_context_parse (ocontext, &argc, &argv, &error);
-#endif
 
 	if (ocontext)
 		g_option_context_free (ocontext);
@@ -282,11 +240,7 @@ static void
 cb_workbook_removed (void)
 {
 	if (gnm_app_workbook_list () == NULL) {
-#ifdef GNM_WITH_GNOME
-		bonobo_main_quit ();
-#else
 		gtk_main_quit ();
-#endif
 	}
 }
 
@@ -375,9 +329,6 @@ main (int argc, char const **argv)
 	g_set_application_name (_("Gnumeric Spreadsheet"));
 	gnm_plugins_init (GO_CMD_CONTEXT (ioc));
 
-#ifdef GNM_WITH_GNOME
-	bonobo_activate ();
-#endif
 	if (startup_files) {
 		int i;
 
@@ -452,11 +403,7 @@ main (int argc, char const **argv)
 				  NULL);
 
 		g_idle_add ((GSourceFunc)pathetic_qt_workaround, NULL);
-#ifdef GNM_WITH_GNOME
-		bonobo_main ();
-#else
 		gtk_main ();
-#endif
 	} else {
 		g_object_unref (ioc);
 		g_slist_foreach (wbcgs_to_kill, (GFunc)cb_kill_wbcg, NULL);
@@ -471,9 +418,7 @@ main (int argc, char const **argv)
 	store_plugin_state ();
 	gnm_shutdown ();
 
-#ifdef GNM_WITH_GNOME
-	bonobo_ui_debug_shutdown ();
-#elif defined(G_OS_WIN32)
+#if defined(G_OS_WIN32)
 	if (has_console) {
 		close(1);
 		close(2);

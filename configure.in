@@ -164,17 +164,6 @@ libspreadsheet_gtk_reqs="
 
 gnumeric_gtk_reqs="$libspreadsheet_gtk_reqs"
 
-libspreadsheet_gnome_reqs="
-	libbonobo-2.0		>= 2.2.0
-"
-
-gnumeric_gnome_reqs="$libspreadsheet_gnome_reqs
-	libgnomeui-2.0		>= 2.0.0
-	libbonoboui-2.0		>= 2.2.0
-	libgnome-2.0		>= 2.0.0
-	libgsf-gnome-1		>= 1.14.2
-"
-
 ui_msg=
 
 with_win32=no
@@ -206,37 +195,7 @@ if test "x$gnumeric_with_gtk" = xtrue ; then
 	gnumeric_reqs="$gnumeric_reqs $gnumeric_gtk_reqs"
 fi
 
-gnumeric_with_gnome=false
-if test "x$gnumeric_with_gtk" = xtrue -a "x$with_win32" = xno ; then
-	dnl ************************************
-	dnl Are the GNOME extensions available ?
-	dnl ************************************
-
-	ui_msg="Gtk+ (Gnome disabled)"
-	AC_ARG_WITH(gnome,
-		AS_HELP_STRING([--with-gnome], [Use GNOME extensions]),
-		if test "x$withval" == xyes; then
-			ui_msg="Gnome"
-			gnumeric_with_gnome=true
-		fi
-	)
-	if test "x$gnumeric_with_gnome" = xtrue; then
-		PKG_CHECK_MODULES(GNOME, [$libspreadsheet_gnome_reqs],
-			[ui_msg="Gnome"],
-			[ui_msg="Gtk (missing Gnome dependencies)" ; gnumeric_with_gnome=false])
-		PKG_CHECK_MODULES(GNOME, [$gnumeric_gnome_reqs],
-			[ui_msg="Gnome"],
-			[ui_msg="Gtk (missing Gnome dependencies)" ; gnumeric_with_gnome=false])
-	fi
-
-	if test "x$gnumeric_with_gnome" = xtrue; then
-		AC_DEFINE(GNM_WITH_GNOME, 1, [Define if GNOME extensions are available])
-		libspreadsheet_reqs="$libspreadsheet_reqs $libspreadsheet_gnome_reqs"
-		gnumeric_reqs="$gnumeric_reqs $gnumeric_gnome_reqs"
-	fi
-fi
 AM_CONDITIONAL(WITH_GTK,   $gnumeric_with_gtk)
-AM_CONDITIONAL(WITH_GNOME, $gnumeric_with_gnome)
 
 dnl ****************************
 dnl now that we have selected out libraries the whole collection in one
@@ -280,11 +239,6 @@ if test $gnumeric_devel = yes; then
 	    CFLAGS="$CFLAGS -DGDK_MULTIHEAD_SAFE"
 	    CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED"
 	    # CFLAGS="$CFLAGS -DGSEAL_ENABLE"
-    fi
-    if test "x$gnumeric_with_gnome" = xtrue; then
-	    CFLAGS="$CFLAGS -DGNOME_DISABLE_DEPRECATED"
-	    CFLAGS="$CFLAGS -DBONOBO_DISABLE_DEPRECATED"
-	    CFLAGS="$CFLAGS -DBONOBO_UI_DISABLE_DEPRECATED"
     fi
 fi
 
@@ -1082,7 +1036,7 @@ AC_SUBST(MONO_LIBS)
 ])
 
 dnl **************************************************
-dnl * Config defaults (Must be after bonobo)
+dnl * Config defaults
 dnl **************************************************
 dnl
 dnl These are changed in gutils.c for WIN32 packages

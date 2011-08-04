@@ -474,11 +474,3 @@ GNOME_Gnumeric-gtk.xml: GNOME_Gnumeric-gtk.xml.in
 	sed -e 's/ _name *=/ name=/' <$<  >$@
 DISTCLEANFILES = GNOME_Gnumeric-gtk.xml
 endif
-
-##check_PROGRAMS += number-match
-##number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
-##number_match_LDADD = 			\
-##	$(GNOME_LIBDIR) 		\
-##	$(GNOMEUI_LIBS)			\
-##	$(GNOME_XML_LIB) 		\
-##	$(INTLLIBS)

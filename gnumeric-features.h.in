@@ -15,8 +15,6 @@
 /* The version number of this release, with optional extra suffix */
 #undef GNM_VERSION_FULL
 
-/* Define if GNOME extensions are available */
-#undef GNM_WITH_GNOME
 /* Define if UI is built */
 #undef GNM_WITH_GTK
 /* Build with Maemo/Hildon support */
