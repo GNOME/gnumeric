@@ -182,7 +182,7 @@ gboolean cmd_object_format	(WorkbookControl *wbc, SheetObject *so,
 gboolean cmd_so_graph_config (WorkbookControl *wbc, SheetObject *sog,
                               GObject *n_graph, GObject *o_graph);
 gboolean cmd_so_component_config (WorkbookControl *wbc, SheetObject *so,
-                                  GObject *n_obj, GObject *o_obj)
+                                  GObject *n_obj, GObject *o_obj);
 
 typedef enum  {
 	cmd_object_pull_to_front,
