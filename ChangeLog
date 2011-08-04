@@ -1,3 +1,9 @@
+2011-08-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_set_comment_apply): enable aprpopriate actions
+	(cmd_hyperlink_undo): ditto
+	(cmd_hyperlink_redo): ditto
+
 2011-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* component/gnumeric.c: update component.

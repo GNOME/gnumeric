@@ -4,6 +4,7 @@ Andreas:
 	* Use formatting attributes whenever we format numbers. 
 	[#584380][#651561]
 	* Clarify the distinction beween open/save and import/export.
+	* FIx enabling of modify comment or hyperlink. [#655877]
 
 Jean:
 	* Make things build against gtk+-3.0.

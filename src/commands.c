@@ -5039,6 +5039,7 @@ cmd_set_comment_apply (Sheet *sheet, GnmCellPos *pos,
 		       char const *author)
 {
 	GnmComment   *comment;
+	Workbook *wb = sheet->workbook;
 
 	comment = sheet_get_comment (sheet, pos);
 	if (comment) {
@@ -5063,6 +5064,10 @@ cmd_set_comment_apply (Sheet *sheet, GnmCellPos *pos,
 		cell_set_comment (sheet, pos, author, text, attributes);
 	}
 	sheet_mark_dirty (sheet);
+
+	WORKBOOK_FOREACH_CONTROL (wb, view, ctl,
+			wb_control_menu_state_update (ctl, MS_COMMENT_LINKS););
+
 	return FALSE;
 }
 
@@ -7140,6 +7145,7 @@ cmd_hyperlink_undo (GnmCommand *cmd,
 {
 	CmdHyperlink *me = CMD_HYPERLINK (cmd);
 	GSList *l;
+	Workbook *wb = wb_control_get_workbook (wbc);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -7172,6 +7178,9 @@ cmd_hyperlink_undo (GnmCommand *cmd,
 
 	select_selection (me->cmd.sheet, me->selection, wbc);
 
+	WORKBOOK_FOREACH_CONTROL (wb, view, ctl,
+			wb_control_menu_state_update (ctl, MS_COMMENT_LINKS););
+
 	return FALSE;
 }
 
@@ -7180,6 +7189,7 @@ cmd_hyperlink_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdHyperlink *me = CMD_HYPERLINK (cmd);
 	GSList *l;
+	Workbook *wb = wb_control_get_workbook (wbc);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -7211,6 +7221,9 @@ cmd_hyperlink_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	sheet_mark_dirty (me->cmd.sheet);
 
 	select_selection (me->cmd.sheet, me->selection, wbc);
+
+	WORKBOOK_FOREACH_CONTROL (wb, view, ctl,
+			wb_control_menu_state_update (ctl, MS_COMMENT_LINKS););
 
 	return FALSE;
 }
@@ -7380,7 +7393,7 @@ cmd_so_set_links_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_so_set_links_undo (GnmCommand *cmd, G_GNUC_UNUSED  WorkbookControl *wbc)
+cmd_so_set_links_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	return cmd_so_set_links_redo (cmd, wbc);
 }
