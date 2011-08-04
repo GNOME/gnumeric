@@ -1,3 +1,7 @@
+2011-08-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk.c (cb_accept_input_menu): check that we are editing
+
 2011-08-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (gnm_go_data_scalar_get_markup),

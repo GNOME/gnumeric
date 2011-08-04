@@ -2119,8 +2119,7 @@ static void
 cb_accept_input_menu (GtkMenuToolButton *button, WBCGtk *wbcg)
 {
 	GtkWidget *menu = gtk_menu_tool_button_get_menu (button);
-	GList     *l, *children
-		= gtk_container_get_children (GTK_CONTAINER (menu));
+	GList     *l, *children = gtk_container_get_children (GTK_CONTAINER (menu));
 
 	struct AcceptInputMenu {
 		gchar const *text;
@@ -2160,11 +2159,14 @@ cb_accept_input_menu (GtkMenuToolButton *button, WBCGtk *wbcg)
 						(G_OBJECT (item), "activate",
 						 G_CALLBACK (it->function),
 						 wbcg);
-				if (it->sensitive)
-					gtk_widget_set_sensitive
-						(item, (it->sensitive) (wbcg));
-				else
-					gtk_widget_set_sensitive (item, TRUE);
+				if (wbcg->editing_sheet) {
+					if (it->sensitive)
+						gtk_widget_set_sensitive
+							(item, (it->sensitive) (wbcg));
+					else
+						gtk_widget_set_sensitive (item, TRUE);
+				} else 
+					gtk_widget_set_sensitive (item, FALSE);
 			} else
 				item = gtk_separator_menu_item_new ();
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -2175,13 +2177,16 @@ cb_accept_input_menu (GtkMenuToolButton *button, WBCGtk *wbcg)
 		     ui < G_N_ELEMENTS (accept_input_actions) && l != NULL;
 		     ui++, l = l->next) {
 			it = accept_input_actions + ui;
-			if (it->sensitive)
-				gtk_widget_set_sensitive
-					(GTK_WIDGET (l->data),
-					 (it->sensitive) (wbcg));
+			if (wbcg->editing_sheet) {
+				if (it->sensitive)
+					gtk_widget_set_sensitive
+						(GTK_WIDGET (l->data),
+						 (it->sensitive) (wbcg));
 				else
 					gtk_widget_set_sensitive
 						(GTK_WIDGET (l->data), TRUE);
+			} else 
+					gtk_widget_set_sensitive (l->data, FALSE);
 		}
 
 
