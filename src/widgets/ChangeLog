@@ -1,3 +1,7 @@
+2011-08-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* gnm-notebook.c (gnm_notebook_init): make it scrollable.
+
 2011-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* widget-editable-label.c (el_button_press_event): enable most

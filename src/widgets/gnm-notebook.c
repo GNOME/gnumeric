@@ -77,8 +77,9 @@ gnm_notebook_class_init (GtkWidgetClass *klass)
 }
 
 static void
-gnm_notebook_init (G_GNUC_UNUSED GnmNotebook *notebook)
+gnm_notebook_init (GnmNotebook *notebook)
 {
+	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
 }
 
 GSF_CLASS (GnmNotebook, gnm_notebook,

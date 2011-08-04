@@ -180,6 +180,7 @@ struct AboutRenderer_ {
 		double rate;
 		int count;
 	} expansion;
+	cairo_t *cr;
 };
 
 struct AboutState_ {
@@ -237,7 +238,6 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 	int age = state->now - r->start_time;
 	double rage = CLAMP (age / (double)r->duration, 0.0, 1.0);
 	GtkWidget *widget = state->anim_area;
-	GdkWindow *window = gtk_widget_get_window (widget);
 	GtkStyleContext *ctxt;
 	const int fade = 500;
 	int x, y, width, height;
@@ -292,12 +292,11 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 	x -= width / 2;
 	y -= height / 2;
 
-	cr = gdk_cairo_create (window);
+	cr = r->cr;
 	gtk_style_context_get_color (ctxt, GTK_STATE_NORMAL, &color);
 	gdk_cairo_set_source_rgba (cr, &color);
 	cairo_move_to (cr, x / (double)PANGO_SCALE, y / (double)PANGO_SCALE);
 	pango_cairo_show_layout (cr, layout);
-	cairo_destroy (cr);
 
 	return TRUE;
 }
@@ -418,8 +417,8 @@ about_dialog_timer (gpointer state_)
 }
 
 static gboolean
-about_dialog_anim_expose (GtkWidget *widget,
-                          GdkEventExpose *event,
+about_dialog_anim_draw (GtkWidget *widget,
+                          cairo_t *cr,
                           AboutState *state)
 {
 	GList *l;
@@ -428,7 +427,9 @@ about_dialog_anim_expose (GtkWidget *widget,
 	while (l) {
 		GList *next = l->next;
 		AboutRenderer *r = l->data;
-		gboolean keep = r->renderer (r, state);
+		gboolean keep;
+		r->cr = cr;
+		keep = r->renderer (r, state);
 		if (!keep) {
 			free_renderer (r);
 			state->active = g_list_remove_link (state->active, l);
@@ -581,7 +582,7 @@ dialog_about (WBCGtk *wbcg)
 	c = gtk_dialog_get_content_area (GTK_DIALOG (w));
 	children = gtk_container_get_children (GTK_CONTAINER (c));
 
-	if (children && GTK_IS_VBOX (children->data)) {
+	if (children && GTK_IS_BOX (children->data)) {
 		GtkWidget *vbox = children->data;
 		int height;
 		PangoLayout *layout;
@@ -592,8 +593,8 @@ dialog_about (WBCGtk *wbcg)
 		gtk_widget_set_size_request (state->anim_area, -1, 4 * height);
 		g_object_unref (layout);
 
-		g_signal_connect (state->anim_area, "expose-event",
-				  G_CALLBACK (about_dialog_anim_expose),
+		g_signal_connect (state->anim_area, "draw",
+				  G_CALLBACK (about_dialog_anim_draw),
 				  state);
 
 		gtk_box_pack_end (GTK_BOX (vbox), state->anim_area, TRUE, TRUE, 0);
