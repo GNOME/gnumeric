@@ -2317,19 +2317,19 @@ edit_area_button_menu (WBCGtk *wbcg, GtkToolbar *tb,
 	GObject *button =
 		g_object_new (GTK_TYPE_MENU_TOOL_BUTTON,
 			      "stock-id", stock_id,
-			      "sensitive", sensitive,
 			      "can-focus", FALSE,
 			      NULL);
 	gtk_tool_item_set_tooltip_text (GTK_TOOL_ITEM (button), tip);
 	g_signal_connect_swapped (button, "clicked", func, wbcg);
 	gtk_toolbar_insert (tb, GTK_TOOL_ITEM (button), -1);
 	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (button),
-				      gtk_menu_new ());
+				       gtk_menu_new ());
 	if (menu_func != NULL)
 		g_signal_connect (button, "show-menu", menu_func, wbcg);
 	gtk_menu_tool_button_set_arrow_tooltip_text
 		(GTK_MENU_TOOL_BUTTON (button), menu_tip);
 
+	gtk_widget_set_sensitive (GTK_WIDGET (button), sensitive);
 	return GTK_WIDGET (button);
 }
 
@@ -4227,7 +4227,7 @@ static struct ToolbarInfo {
 	{ "FormatToolbar", N_("Format Toolbar"), NULL },
 	{ "LongFormatToolbar", N_("Long Format Toolbar"), NULL },
 	{ "ObjectToolbar", N_("Object Toolbar"), NULL },
-	{ NULL }
+	{ NULL, NULL, NULL }
 };
 
 
