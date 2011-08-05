@@ -530,7 +530,6 @@ gnumeric_position_tooltip (GtkWidget *tip, int px, int py, gboolean horizontal)
 		py -= req.height / 2;
 	}
 
-printf("px=%d py=%d\n",px,py);
 	if (px < 0)
 		px = 0;
 	if (py < 0)
