@@ -167,7 +167,7 @@ el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 {
 	EditableLabel *el = EDITABLE_LABEL (widget);
 
-	if (gtk_editable_get_editable (GTK_EDITABLE (el)) && 
+	if (gtk_editable_get_editable (GTK_EDITABLE (el)) &&
 	    button->window != gtk_widget_get_window (widget)) {
 		/* Accept the name change */
 		el_entry_activate (GTK_ENTRY (el), NULL);

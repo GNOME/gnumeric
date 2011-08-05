@@ -2165,7 +2165,7 @@ cb_accept_input_menu (GtkMenuToolButton *button, WBCGtk *wbcg)
 							(item, (it->sensitive) (wbcg));
 					else
 						gtk_widget_set_sensitive (item, TRUE);
-				} else 
+				} else
 					gtk_widget_set_sensitive (item, FALSE);
 			} else
 				item = gtk_separator_menu_item_new ();
@@ -2185,7 +2185,7 @@ cb_accept_input_menu (GtkMenuToolButton *button, WBCGtk *wbcg)
 				else
 					gtk_widget_set_sensitive
 						(GTK_WIDGET (l->data), TRUE);
-			} else 
+			} else
 					gtk_widget_set_sensitive (l->data, FALSE);
 		}
 

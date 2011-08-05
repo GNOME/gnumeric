@@ -1,3 +1,9 @@
+2011-08-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_vector_finalize), (cb_assign_markup),
+	(gnm_go_data_vector_get_markup), (gnm_go_data_vector_class_init):
+	implement markup for vectors.
+
 2011-08-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk.c (cb_accept_input_menu): check that we are editing

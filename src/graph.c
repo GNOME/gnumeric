@@ -452,6 +452,7 @@ struct _GnmGODataVector {
 	GnmDependent	 dep;
 	GnmValue	*val;
 	gboolean	 as_col;
+	PangoAttrList const **markup;
 };
 typedef GODataVectorClass GnmGODataVectorClass;
 
@@ -480,6 +481,8 @@ gnm_go_data_vector_finalize (GObject *obj)
 
 	g_free (vec->base.values);
 	vec->base.values = NULL;
+	g_free (vec->markup);
+	vec->markup = NULL;
 
 	vector_parent_klass->finalize (obj);
 }
@@ -803,6 +806,102 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 	return render_val (vec->val, i, j, fmt, &ep);
 }
 
+struct markup_closure {
+	PangoAttrList const **l;
+	unsigned i;
+};
+
+static gpointer
+cb_assign_markup (GnmCellIter const *iter, struct markup_closure *dat)
+{
+	GOFormat const *fmt;
+	PangoAttrList const *l = NULL;
+
+	if (iter->cell != NULL) {
+		fmt = gnm_cell_get_format (iter->cell);
+		if (go_format_is_markup (fmt))
+			l = go_format_get_markup (fmt);
+	}
+	dat->l[dat->i++] = l;
+
+	return NULL;
+}
+
+static PangoAttrList *
+gnm_go_data_vector_get_markup (GODataVector *dat, unsigned i)
+{
+	GnmGODataVector *vec = (GnmGODataVector *)dat;
+
+	if (vec->markup == NULL) {
+		/* load markups */
+		GnmEvalPos ep;
+		GnmRange r;
+		Sheet *start_sheet, *end_sheet;
+		GnmValue *v;
+		struct markup_closure closure;
+
+		go_data_vector_get_len (dat); /* force calculation */
+		if (dat->len <= 0 || !vec->dep.sheet)
+			return NULL;
+		closure.l = vec->markup = (PangoAttrList const **) g_new0 (gpointer, vec->base.len);
+		closure.i = 0;
+		switch (vec->val->type) {
+		case VALUE_CELLRANGE:
+			gnm_rangeref_normalize (&vec->val->v_range.cell,
+				eval_pos_init_dep (&ep, &vec->dep),
+				&start_sheet, &end_sheet, &r);
+
+			/* clip here rather than relying on sheet_foreach
+			 * because that only clips if we ignore blanks */
+			if (r.end.row > start_sheet->rows.max_used)
+				r.end.row = start_sheet->rows.max_used;
+			if (r.end.col > start_sheet->cols.max_used)
+				r.end.col = start_sheet->cols.max_used;
+
+			/* In case the sheet is empty */
+			if (r.start.col <= r.end.col && r.start.row <= r.end.row) {
+				sheet_foreach_cell_in_range (start_sheet, CELL_ITER_ALL,
+					r.start.col, r.start.row, r.end.col, r.end.row,
+					(CellIterFunc)cb_assign_markup, &closure);
+			}
+			break;
+
+		case VALUE_ARRAY : {
+			int len = vec->as_col? vec->val->v_array.y: vec->val->v_array.x;
+			while (len-- > 0) {
+				v = vec->as_col
+					? vec->val->v_array.vals [0][len]
+					: vec->val->v_array.vals [len][0];
+
+				if (v->type == VALUE_CELLRANGE) {
+					gnm_rangeref_normalize (&v->v_range.cell,
+						eval_pos_init_dep (&ep, &vec->dep),
+						&start_sheet, &end_sheet, &r);
+
+					/* clip here rather than relying on sheet_foreach
+					 * because that only clips if we ignore blanks */
+					if (r.end.row > start_sheet->rows.max_used)
+						r.end.row = start_sheet->rows.max_used;
+					if (r.end.col > start_sheet->cols.max_used)
+						r.end.col = start_sheet->cols.max_used;
+
+					if (r.start.col <= r.end.col && r.start.row <= r.end.row)
+						sheet_foreach_cell_in_range (start_sheet, CELL_ITER_ALL,
+							r.start.col, r.start.row, r.end.col, r.end.row,
+							(CellIterFunc)cb_assign_markup, &closure);
+				}
+			}
+			break;
+		}
+
+		default :
+			break;
+		}
+	}
+
+	return pango_attr_list_copy ((PangoAttrList *) vec->markup[i]);
+}
+
 static void
 gnm_go_data_vector_class_init (GObjectClass *gobject_klass)
 {
@@ -821,6 +920,7 @@ gnm_go_data_vector_class_init (GObjectClass *gobject_klass)
 	vector_klass->load_values	= gnm_go_data_vector_load_values;
 	vector_klass->get_value		= gnm_go_data_vector_get_value;
 	vector_klass->get_str		= gnm_go_data_vector_get_str;
+	vector_klass->get_markup	= gnm_go_data_vector_get_markup;
 }
 
 static void
