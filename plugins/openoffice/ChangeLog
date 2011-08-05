@@ -1,3 +1,7 @@
+2011-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_scientific): read min-exponent-digits
+
 2011-08-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugin.xml.in: correct mime types

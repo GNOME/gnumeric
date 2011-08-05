@@ -4038,9 +4038,9 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_int_range (xin, attrs, OO_NS_NUMBER, "min-integer-digits",
 					      &details->min_digits, 0, 30))
 			;
-/* 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,  */
-/* 					     "min-exponent-digits")) */
-/* 			min_exp_digits = atoi (CXML2C (attrs[1])); */
+		else if (oo_attr_int_range (xin, attrs, OO_NS_NUMBER, "min-exponent-digits",
+					      &details->exponent_digits, 0, 30))
+			;
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "engineering",
 				       &engineering));
 	if (engineering)
