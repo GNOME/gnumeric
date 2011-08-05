@@ -197,30 +197,6 @@ color_hash (gconstpointer v)
 void
 gnm_color_init (void)
 {
-#warning GTK3: do we still need that?
-#if 0
-	GdkColor error;
-
-	if (gdk_screen_get_default () != NULL) {
-		/*
-		 * Make sure we can see bogus attempt at getting the pixel
-		 * value.  This is, by nature, not multi-head safe.
-		 */
-		gdk_color_parse ("cyan", &error);
-		gdk_rgb_find_color (
-			gdk_screen_get_default_colormap (
-				    gdk_screen_get_default ()),
-			&error);
-	} else
-		error.pixel = 0;
-
-	gs_black.pixel = error.pixel;
-	gs_white.pixel = error.pixel;
-	gs_yellow.pixel = error.pixel;
-	gs_lavender.pixel = error.pixel;
-	gs_dark_gray.pixel = error.pixel;
-	gs_light_gray.pixel = error.pixel;
-#endif
 	style_color_hash = g_hash_table_new (color_hash,
 					     (GEqualFunc)style_color_equal);
 }
