@@ -4023,7 +4023,7 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GOFormatDetails *details;
 	gboolean engineering = FALSE;
-/* 	int min_exp_digits = 1; */
+	gboolean use_literal_E = FALSE;
 
 	if (state->cur_format.accum == NULL)
 		return;
@@ -4042,9 +4042,13 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 					      &details->exponent_digits, 0, 30))
 			;
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "engineering",
-				       &engineering));
+				       &engineering))
+			;
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "literal-E",
+				       &use_literal_E));
 	if (engineering)
 		details->exponent_step = 3;
+	details->use_markup = !use_literal_E;
 	go_format_generate_str (state->cur_format.accum, details);
 
 	go_format_details_free (details);

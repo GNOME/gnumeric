@@ -1,5 +1,9 @@
 2011-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_scientific): read gnm:literal-E
+
+2011-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_scientific): read min-exponent-digits
 
 2011-08-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
