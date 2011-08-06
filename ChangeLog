@@ -1,5 +1,11 @@
 2011-08-05 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/wbc-gtk.c (wbc_gtk_create_status_area): enable showing of
+	text in progress bar; temporarily disable tab pane magic to avoid
+	increasing window size on sheet addition.
+
+2011-08-05 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/wbc-gtk.c (edit_area_button_menu): make sure everything is
 	initially insensitive
 
