@@ -67,10 +67,10 @@ static void
 el_set_style_entry (EditableLabel *el)
 {
 	GtkWidget *w = GTK_WIDGET (el);
-	gtk_widget_override_background_color (w, GTK_STATE_NORMAL, NULL);
-	gtk_widget_override_color (w, GTK_STATE_NORMAL, NULL);
-	gtk_widget_override_background_color (w, GTK_STATE_ACTIVE, NULL);
-	gtk_widget_override_color (w, GTK_STATE_ACTIVE, NULL);
+	gtk_widget_override_background_color (w, GTK_STATE_FLAG_NORMAL, NULL);
+	gtk_widget_override_color (w, GTK_STATE_FLAG_NORMAL, NULL);
+	gtk_widget_override_background_color (w, GTK_STATE_FLAG_ACTIVE, NULL);
+	gtk_widget_override_color (w, GTK_STATE_FLAG_ACTIVE, NULL);
 }
 
 static void
@@ -78,14 +78,14 @@ el_set_style_label (EditableLabel *el)
 {
 	GtkWidget *w = GTK_WIDGET (el);
 
-	gtk_widget_override_background_color (w, GTK_STATE_NORMAL,
+	gtk_widget_override_background_color (w, GTK_STATE_FLAG_NORMAL,
 				el->base_set ? &el->base : NULL);
-	gtk_widget_override_color (w, GTK_STATE_NORMAL,
+	gtk_widget_override_color (w, GTK_STATE_FLAG_NORMAL,
 				el->text_set ? &el->text : NULL);
 
-	gtk_widget_override_background_color (w, GTK_STATE_ACTIVE,
+	gtk_widget_override_background_color (w, GTK_STATE_FLAG_ACTIVE,
 				el->base_set ? &el->base : NULL);
-	gtk_widget_override_color (w, GTK_STATE_ACTIVE,
+	gtk_widget_override_color (w, GTK_STATE_FLAG_ACTIVE,
 				el->text_set ? &el->text : NULL);
 }
 

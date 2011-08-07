@@ -393,8 +393,9 @@ gnm_go_data_scalar_get_markup (GODataScalar *dat)
 {
 	PangoAttrList const *res = NULL;
 	GOFormat const *fmt = gnm_go_data_preferred_fmt (GO_DATA (dat));
-	if (fmt)
+	if (fmt && go_format_is_markup (fmt))
 		res = go_format_get_markup (fmt);
+	go_format_unref (fmt);
 	return res;
 }
 

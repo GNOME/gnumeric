@@ -1,3 +1,8 @@
+2011-08-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_scalar_get_markup): don't leak a format and
+	don't retrieve a markup from an non markup format.
+
 2011-08-05 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk.c (wbc_gtk_create_status_area): enable showing of
