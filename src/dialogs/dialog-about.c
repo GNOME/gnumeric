@@ -202,6 +202,7 @@ blend_colors (const GdkRGBA *start, const GdkRGBA *end, double f)
 	res.red   = start->red   * (1 - f) + end->red   * f;
 	res.green = start->green * (1 - f) + end->green * f;
 	res.blue  = start->blue  * (1 - f) + end->blue  * f;
+	res.alpha = start->alpha * (1 - f) + end->alpha * f;
 	return res;
 }
 
@@ -215,8 +216,8 @@ set_fade (AboutRenderer *r, AboutState *state, double f)
 	PangoAttribute *attr;
 
 	gtk_style_context_get_color (ctxt, GTK_STATE_NORMAL, &fg);
-	gtk_style_context_get_background_color (ctxt, GTK_STATE_NORMAL, &fg);
-	blend_colors (&bg, &fg, f);
+	gtk_style_context_get_background_color (ctxt, GTK_STATE_NORMAL, &bg);
+	col = blend_colors (&bg, &fg, f);
 	attr = pango_attr_foreground_new
 		(col.red * 65535., col.green * 65535., col.blue * 65535.);
 	pango_attr_list_change (attrlist, attr);
