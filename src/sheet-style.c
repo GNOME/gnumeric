@@ -971,9 +971,7 @@ try_optimize:
 		CellTileOptimize cto;
 		cto.ss = gnm_sheet_get_size (rs->sheet);
 		cto.recursion = FALSE;
-#if 0
 		cell_tile_optimize (tile, level, &cto, corner_col, corner_row);
-#endif
 	}
 }
 
