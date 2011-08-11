@@ -79,7 +79,25 @@ gnm_notebook_class_init (GtkWidgetClass *klass)
 static void
 gnm_notebook_init (GnmNotebook *notebook)
 {
+	GtkCssProvider *css;
+	GtkStyleContext *context;
+
 	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
+
+	context = gtk_widget_get_style_context (GTK_WIDGET (notebook));
+	css = gtk_css_provider_new ();
+	gtk_css_provider_load_from_data (css,
+					 "GnmNotebook {\n"
+					 "  padding: 0;\n"
+					 "/*  background-color: #dd0000; */\n"
+					 "}\n"
+					 "GnmNotebook tab {\n"
+					 "}",
+					 -1, NULL);
+	gtk_style_context_add_provider (context,
+					GTK_STYLE_PROVIDER (css),
+					GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	g_object_unref (css);
 }
 
 GSF_CLASS (GnmNotebook, gnm_notebook,

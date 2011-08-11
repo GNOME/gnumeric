@@ -1,3 +1,8 @@
+2011-08-11  Morten Welinder  <terra@gnome.org>
+
+	* gnm-notebook.c (gnm_notebook_init): Style GnmNotebook to avoid
+	padding line between tabs and (empty) pages.
+
 2011-08-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* widget-editable-label.c (el_set_style_entry),
