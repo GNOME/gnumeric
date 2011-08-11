@@ -739,7 +739,9 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 	gdk_window_get_origin (gdkw, &root_x, &root_y);
 	gtk_widget_get_allocation (GTK_WIDGET (gee->entry), &allocation);
 
-	gtk_window_move (GTK_WINDOW (tip), root_x, root_y + allocation.height);
+	gtk_window_move (GTK_WINDOW (tip), 
+			 root_x + allocation.x, 
+			 root_y + allocation.y + allocation.height);
 
 	gtk_widget_show_all (tip);
 
