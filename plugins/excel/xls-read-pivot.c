@@ -747,10 +747,10 @@ xls_read_SXVIEW (BiffQuery *q, ExcelReadSheet *esheet)
 
 	name = go_string_new_nocopy (
 		excel_get_text (imp, q->data + 44, name_len,
-			       &len, q->length - 44));
+			       &len, NULL, q->length - 44));
 	data_field_name = go_string_new_nocopy (
 		excel_get_text (imp, q->data + 44 + len, data_field_name_len,
-				&len, q->length - 44 - len));
+				&len, NULL, q->length - 44 - len));
 
 	d(0, fprintf (stderr, "Slicer in : %s named '%s';\n",
 		       range_as_string (&range), name ? name->str : "<UNDEFINED>"););

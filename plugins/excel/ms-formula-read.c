@@ -1173,7 +1173,7 @@ excel_parse_formula1 (MSContainer const *container,
 			char_len = GSF_LE_GET_GUINT8 (cur);
 
 			str = excel_get_text (container->importer, cur+1,
-					      char_len, &byte_len,
+					      char_len, &byte_len, NULL,
 					      len_left - 1);
 			ptg_length = 1 + byte_len;
 
@@ -1351,7 +1351,7 @@ excel_parse_formula1 (MSContainer const *container,
 						}
 						str = excel_get_text
 							(container->importer, array_data,
-							 chars, &len,
+							 chars, &len, NULL,
 							 array_length - (array_data - array_data0));
 						array_data += len;
 

@@ -5,11 +5,14 @@ Andreas:
 	[#584380][#651561]
 	* Clarify the distinction beween open/save and import/export.
 	* Fix enabling of modify comment or hyperlink. [#655877]
-	* Fully read sceintific format from ODF.
+	* Fully read scientific format from ODF.
 
 Jean:
 	* Make things build against gtk+-3.0.
 	* Make Ctrl-PgUp and Ctrl-PgDn work on chart-only sheets. [#645673]
+
+Valek:
+	* Set LABEL encoding based on FONT charset. [part of #304007]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.17

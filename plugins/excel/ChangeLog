@@ -1,3 +1,11 @@
+2011-08-11  Valek Filippov <frob@gnome.org>
+
+	* plugins/excel/ms-excel-read.c (excel_read_FONT): store charset in ExcelFont
+	(excel_read_LABEL): pass charset to excel_get_text_fixme
+	(excel_get_text_fixme): pass charset to excel_get_text
+	(excel_get_chars): set str_iconv based on charset and change all callers
+	(plugins/excel/ms-excel-read.h): add charset to ExcelFont
+
 2011-08-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugins/excel/plugin.xml.in: use TM symbol

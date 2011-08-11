@@ -1014,10 +1014,11 @@ excel_read_string_header (guint8 const *data, guint32 maxlen,
 
 char *
 excel_get_chars (GnmXLImporter const *importer,
-		 guint8 const *ptr, size_t length, gboolean use_utf16)
+		 guint8 const *ptr, size_t length, gboolean use_utf16, guint8 const *charset)
 {
 	char* ans;
 	size_t i;
+	GIConv str_iconv = importer->str_iconv;
 
 	if (use_utf16) {
 		gunichar2 *uni_text = g_alloca (sizeof (gunichar2)*length);
@@ -1031,7 +1032,49 @@ excel_get_chars (GnmXLImporter const *importer,
 		char *ptr2 = (char *)ptr;
 
 		ans = outbuf;
-		g_iconv (importer->str_iconv,
+		if (NULL != charset) {
+			switch (*charset) {
+				case 0:
+				case 1:
+				case 255:
+					  str_iconv = gsf_msole_iconv_open_for_import (1252);
+					  break; /* ANSI Latin, System Default, OEM Latin I */
+				case  77: str_iconv = gsf_msole_iconv_open_for_import (10000);
+					  break; /* Apple */
+				case 128: str_iconv = gsf_msole_iconv_open_for_import (932);
+					  break; /* Japanese Shift-JIS */
+				case 129: str_iconv = gsf_msole_iconv_open_for_import (949);
+					  break; /* Korean Hangul */
+				case 130: str_iconv = gsf_msole_iconv_open_for_import (1361);
+					  break; /* Korean Johab */
+				case 134: str_iconv = gsf_msole_iconv_open_for_import (936);
+					  break; /* Chinese Simplified */
+				case 136: str_iconv = gsf_msole_iconv_open_for_import (950);
+					  break; /* Chinese Traditional */
+				case 161: str_iconv = gsf_msole_iconv_open_for_import (1253);
+					  break; /* Greek */
+				case 162: str_iconv = gsf_msole_iconv_open_for_import (1254);
+					  break; /* Turkish */
+				case 163: str_iconv = gsf_msole_iconv_open_for_import (1258);
+					  break; /* Vietnamese */
+				case 177: str_iconv = gsf_msole_iconv_open_for_import (1255);
+					  break; /* Hebrew */
+				case 178: str_iconv = gsf_msole_iconv_open_for_import (1256);
+					  break; /* Arabic */
+				case 186: str_iconv = gsf_msole_iconv_open_for_import (1257);
+					  break; /* Baltic */
+				case 204: str_iconv = gsf_msole_iconv_open_for_import (1251);
+					  break; /* Russian */
+				case 222: str_iconv = gsf_msole_iconv_open_for_import (874);
+					  break; /* Thai */
+				case 238: str_iconv = gsf_msole_iconv_open_for_import (1250);
+					  break; /* Central European */
+				default:
+					  g_printerr ("Unknown charset %#x\n", (int) *charset);
+					  break;
+			}
+		}
+		g_iconv (str_iconv,
 			 &ptr2, &length, &outbuf, &outbytes);
 
 		i = outbuf - ans;
@@ -1044,7 +1087,7 @@ excel_get_chars (GnmXLImporter const *importer,
 char *
 excel_get_text (GnmXLImporter const *importer,
 		guint8 const *pos, guint32 length,
-		guint32 *byte_length, guint32 maxlen)
+		guint32 *byte_length, guint8 const *charset, guint32 maxlen)
 {
 	char *ans;
 	guint8 const *ptr;
@@ -1084,7 +1127,7 @@ excel_get_text (GnmXLImporter const *importer,
 	} else
 		*byte_length += str_len_bytes;
 
-	ans = excel_get_chars (importer, ptr, length, use_utf16);
+	ans = excel_get_chars (importer, ptr, length, use_utf16, charset);
 
 	d (4, {
 		g_printerr ("String len %d, byte length %d: %s %s %s:\n",
@@ -1109,9 +1152,9 @@ excel_get_text (GnmXLImporter const *importer,
  **/
 static char *
 excel_get_text_fixme (GnmXLImporter const *importer,
-		      guint8 const *pos, guint32 length, guint32 *byte_length)
+		      guint8 const *pos, guint32 length, guint32 *byte_length, guint8 const *charset)
 {
-	return excel_get_text (importer, pos, length, byte_length,
+	return excel_get_text (importer, pos, length, byte_length, charset,
 					  G_MAXUINT);
 }
 
@@ -1122,7 +1165,7 @@ excel_biff_text (GnmXLImporter const *importer,
 	XL_CHECK_CONDITION_VAL (q->length >= ofs, NULL);
 
 	return excel_get_text (importer, q->data + ofs, length,
-				    NULL, q->length - ofs);
+				    NULL, NULL, q->length - ofs);
 }
 
 char *
@@ -1137,7 +1180,7 @@ excel_biff_text_1 (GnmXLImporter const *importer,
 	ofs++;
 
 	return excel_get_text (importer, q->data + ofs, length,
-				    NULL, q->length - ofs);
+				    NULL, NULL, q->length - ofs);
 }
 
 char *
@@ -1152,7 +1195,7 @@ excel_biff_text_2 (GnmXLImporter const *importer,
 	ofs += 2;
 
 	return excel_get_text (importer, q->data + ofs, length,
-			       NULL, q->length - ofs);
+			       NULL, NULL, q->length - ofs);
 }
 
 typedef struct {
@@ -1271,7 +1314,7 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 		XL_CHECK_CONDITION_VAL (get_len >= 0, 0);
 
 		str = excel_get_chars (c->importer,
-			q->data + offset, get_len, use_utf16);
+			q->data + offset, get_len, use_utf16, NULL);
 		offset += get_len * (use_utf16 ? 2 : 1);
 
 		if (res_str != NULL) {
@@ -1654,6 +1697,9 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 			break;
 		}
 		fd->fontname = excel_biff_text_1 (importer, q, 14);
+
+		fd->charset = GSF_LE_GET_GUINT8 (q->data + 12);
+		
 	}
 	fd->color_idx &= 0x7f; /* Undocumented but a good idea */
 
@@ -3501,7 +3547,7 @@ excel_read_name_str (GnmXLImporter *importer,
 		builtin = excel_builtin_name (str);
 		str += use_utf16 ? 2 : 1;
 		if (--(*name_len)) {
-			char *tmp = excel_get_chars (importer, str, *name_len, use_utf16);
+			char *tmp = excel_get_chars (importer, str, *name_len, use_utf16, NULL);
 			name = g_strconcat (builtin, tmp, NULL);
 			g_free (tmp);
 			*name_len = (use_utf16 ? 2 : 1) * (*name_len);
@@ -3509,7 +3555,7 @@ excel_read_name_str (GnmXLImporter *importer,
 			name = g_strdup (builtin);
 		*name_len += str - data;
 	} else /* converts char len to byte len, and handles header */
-		name = excel_get_text_fixme (importer, data, *name_len, name_len);
+		name = excel_get_text_fixme (importer, data, *name_len, name_len, NULL);
 	return name;
 }
 
@@ -3756,13 +3802,13 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 		char *help_txt;
 		char *status_txt;
 
-		menu_txt = excel_get_text_fixme (importer, data, menu_txt_len, NULL);
+		menu_txt = excel_get_text_fixme (importer, data, menu_txt_len, NULL, NULL);
 		data += menu_txt_len;
-		descr_txt = excel_get_text_fixme (importer, data, descr_txt_len, NULL);
+		descr_txt = excel_get_text_fixme (importer, data, descr_txt_len, NULL, NULL);
 		data += descr_txt_len;
-		help_txt = excel_get_text_fixme (importer, data, help_txt_len, NULL);
+		help_txt = excel_get_text_fixme (importer, data, help_txt_len, NULL, NULL);
 		data += help_txt_len;
-		status_txt = excel_get_text_fixme (importer, data, status_txt_len, NULL);
+		status_txt = excel_get_text_fixme (importer, data, status_txt_len, NULL, NULL);
 
 		g_printerr ("Name record: '%s', '%s', '%s', '%s', '%s'\n",
 			nexpr ? expr_name_name (nexpr) : "(null)",
@@ -3853,7 +3899,7 @@ excel_read_XCT (BiffQuery *q, GnmXLImporter *importer)
 				XL_NEED_BYTES (1);
 				len = *data++;
 				v = value_new_string_nocopy (
-					excel_get_text_fixme (importer, data, len, NULL));
+					excel_get_text_fixme (importer, data, len, NULL, NULL));
 				data += len;
 				break;
 
@@ -5271,22 +5317,22 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 
 	XL_CHECK_CONDITION (data+3 <= end);
 	input_title = excel_get_text_fixme (esheet->container.importer, data + 2,
-		GSF_LE_GET_GUINT16 (data), &len);
+		GSF_LE_GET_GUINT16 (data), &len, NULL);
 	data += len + 2;
 
 	XL_CHECK_CONDITION (data+3 <= end);
 	error_title = excel_get_text_fixme (esheet->container.importer, data + 2,
-		GSF_LE_GET_GUINT16 (data), &len);
+		GSF_LE_GET_GUINT16 (data), &len, NULL);
 	data += len + 2;
 
 	XL_CHECK_CONDITION (data+3 <= end);
 	input_msg = excel_get_text_fixme (esheet->container.importer, data + 2,
-		GSF_LE_GET_GUINT16 (data), &len);
+		GSF_LE_GET_GUINT16 (data), &len, NULL);
 	data += len + 2;
 
 	XL_CHECK_CONDITION (data+3 <= end);
 	error_msg = excel_get_text_fixme (esheet->container.importer, data + 2,
-		GSF_LE_GET_GUINT16 (data), &len);
+		GSF_LE_GET_GUINT16 (data), &len, NULL);
 	data += len + 2;
 
 	d (1, {
@@ -5763,12 +5809,12 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelReadSheet *esheet)
 		data = q->data + 24;
 		if (len0 > 0) {
 			v0 = value_new_string_nocopy (
-				excel_get_text_fixme (esheet->container.importer, data, len0, NULL));
+				excel_get_text_fixme (esheet->container.importer, data, len0, NULL, NULL));
 			data += len0;
 		}
 		if (len1 > 0)
 			v1 = value_new_string_nocopy (
-				excel_get_text_fixme (esheet->container.importer, data, len1, NULL));
+				excel_get_text_fixme (esheet->container.importer, data, len1, NULL, NULL));
 
 		if (op1 == GNM_FILTER_UNUSED) {
 			cond = gnm_filter_condition_new_single (op0, v0);
@@ -6051,6 +6097,8 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 	GnmValue *v;
 	guint in_len, str_len;
 	gchar *txt;
+	BiffXFData const *xf;
+	ExcelFont const *fd;
 	GnmCell *cell = excel_cell_fetch (q, esheet);
 
 	if (!cell)
@@ -6062,14 +6110,16 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 		: GSF_LE_GET_GUINT16 (q->data + 6);
 	XL_CHECK_CONDITION (q->length - 8 >= in_len);
 
+	xf = excel_set_xf (esheet, q);
+	fd = excel_font_get (esheet->container.importer, xf->font_idx);
+
 	txt = excel_get_text_fixme (esheet->container.importer, q->data + 8,
-		in_len, &str_len);
+		in_len, &str_len, &fd->charset);
 
 	d (0, g_printerr ("%s in %s;\n",
 		       has_markup ? "formatted string" : "string",
 		       cell_name (cell)););
 
-	excel_set_xf (esheet, q);
 	if (txt != NULL) {
 		GOFormat *fmt = NULL;
 		if (has_markup)
@@ -6644,7 +6694,7 @@ excel_read_SUPBOOK (BiffQuery *q, GnmXLImporter *importer)
 	XL_CHECK_CONDITION (q->length >= 5);
 
 	bookname = excel_get_text (importer, q->data + 4, len,
-				   &byte_length, q->length - 4);
+				   &byte_length, NULL, q->length - 4);
 	d (2, g_printerr ("\trefers to %s\n", bookname););
 	/*
 	 * Bookname can be
@@ -6672,7 +6722,7 @@ excel_read_SUPBOOK (BiffQuery *q, GnmXLImporter *importer)
 		length = GSF_LE_GET_GUINT16 (q->data + ofs);
 		ofs += 2;
 		name = excel_get_text (importer, q->data + ofs, length,
-				       &byte_length, q->length - ofs);
+				       &byte_length, NULL, q->length - ofs);
 		d (2, g_printerr ("\tSheet %d -> %s\n", t, name););
 		g_free (name);
 

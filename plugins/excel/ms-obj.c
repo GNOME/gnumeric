@@ -439,7 +439,7 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 		use_utf16 = q->data[0] != 0;
 		maxlen = use_utf16 ? q->length / 2 : q->length-1;
 		text = excel_get_chars (c->importer,
-			q->data + 1, MIN (text_len, maxlen), use_utf16);
+			q->data + 1, MIN (text_len, maxlen), use_utf16, NULL);
 		g_string_append (accum, text);
 		g_free (text);
 		if (text_len <= maxlen)
@@ -549,7 +549,7 @@ read_pre_biff8_read_text (BiffQuery *q, MSContainer *c, MSObj *obj,
 		remaining -= txo_len;
 	}
 
-	str = excel_get_chars (c->importer, first, MIN (remaining, len), FALSE);
+	str = excel_get_chars (c->importer, first, MIN (remaining, len), FALSE, NULL);
 	if (len > remaining) {
 		GString *accum = g_string_new (str);
 		g_free (str);
@@ -557,7 +557,7 @@ read_pre_biff8_read_text (BiffQuery *q, MSContainer *c, MSObj *obj,
 		while (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
 			ms_biff_query_next (q);
 			str = excel_get_chars (c->importer, q->data,
-				MIN (q->length, len), FALSE);
+				MIN (q->length, len), FALSE, NULL);
 			g_string_append (accum, str);
 			g_free (str);
 			if (len < q->length)
@@ -642,7 +642,7 @@ read_pre_biff8_read_name_and_fmla (BiffQuery *q, MSContainer *c, MSObj *obj,
 
 		g_return_val_if_fail (data + len <= last, NULL);
 
-		str = excel_get_chars (c->importer, data, len, FALSE);
+		str = excel_get_chars (c->importer, data, len, FALSE, NULL);
 		data += len;
 		if (((data - q->data) & 1))
 			data++; /* pad to word bound */
@@ -915,7 +915,7 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *c,
 		return;
 	type = excel_get_text (c->importer, data + 16,
 			       GSF_LE_GET_GUINT16 (data + 14),
-			       &len, last - data);
+			       &len, NULL, last - data);
 	if (NULL == type || strncmp (type, "Forms.", 6)) {
 		g_free (type);
 		return;
