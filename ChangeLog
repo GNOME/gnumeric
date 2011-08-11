@@ -1,3 +1,9 @@
+2011-08-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-control-gui.c (sheet_object_key_pressed),
+	(sheet_control_gui_new), (scg_take_focus): make Ctrl-PgUp and Ctrl-PgDn
+	work on chart-only sheets. [#645673]
+
 2011-08-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (gnm_go_data_scalar_get_markup): don't leak a format and

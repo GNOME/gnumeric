@@ -1420,6 +1420,53 @@ post_create_cb (SheetControlGUI *scg)
 	return FALSE;
 }
 
+static gboolean
+sheet_object_key_pressed (GtkWidget *w, GdkEventKey *event, SheetControlGUI *scg)
+{
+	Sheet *sheet = scg_sheet (scg);
+	WorkbookControl * wbc = scg_wbc(scg);
+	Workbook * wb = wb_control_get_workbook(wbc);
+	switch (event->keyval) {
+	case GDK_KEY_KP_Page_Up:
+	case GDK_KEY_Page_Up:
+		if ((event->state & GDK_CONTROL_MASK) != 0){
+			if ((event->state & GDK_SHIFT_MASK) != 0){
+				WorkbookSheetState * old_state = workbook_sheet_state_new(wb);
+				int old_pos = sheet->index_in_wb;
+
+				if (old_pos > 0){
+					workbook_sheet_move(sheet, -1);
+					cmd_reorganize_sheets (wbc, old_state, sheet);
+				}
+			} else {
+				gnm_notebook_prev_page (scg->wbcg->bnotebook);
+			}
+			return FALSE;
+		}
+		break;
+	case GDK_KEY_KP_Page_Down:
+	case GDK_KEY_Page_Down:
+
+		if ((event->state & GDK_CONTROL_MASK) != 0){
+			if ((event->state & GDK_SHIFT_MASK) != 0){
+				WorkbookSheetState * old_state = workbook_sheet_state_new(wb);
+				int num_sheets = workbook_sheet_count(wb);
+				gint old_pos = sheet->index_in_wb;
+
+				if (old_pos < num_sheets - 1){
+					workbook_sheet_move(sheet, 1);
+					cmd_reorganize_sheets (wbc, old_state, sheet);
+				}
+			} else {
+				gnm_notebook_next_page (scg->wbcg->bnotebook);
+			}
+			return FALSE;
+		}
+		break;
+	}
+	return TRUE;
+}
+
 SheetControlGUI *
 sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 {
@@ -1612,10 +1659,13 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 				GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 				GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 				0, 0);
+			gtk_widget_set_can_focus (scg->vs, TRUE);
+			gtk_widget_set_can_default (scg->vs, TRUE);
+			g_signal_connect (G_OBJECT (scg->vs), "key-press-event",
+			                  G_CALLBACK (sheet_object_key_pressed), scg);
 		}
 #warning GTK3: we used GtkStyle::white there */
 		gtk_widget_override_background_color (scg->vs, GTK_STATE_NORMAL, &gs_white);
-
 		sv_attach_control (sv, SHEET_CONTROL (scg));
 		g_object_set_data (G_OBJECT (scg->vs), "sheet-control", scg);
 		if (sheet->sheet_objects) {
@@ -3441,7 +3491,8 @@ scg_take_focus (SheetControlGUI *scg)
 	/* FIXME: Slightly hackish. */
 	if (wbcg_toplevel (scg->wbcg))
 		gtk_window_set_focus (wbcg_toplevel (scg->wbcg),
-				      GTK_WIDGET (scg_pane (scg, 0)));
+		                      (scg_sheet (scg)->sheet_type == GNM_SHEET_OBJECT)?
+				      GTK_WIDGET (scg->vs): GTK_WIDGET (scg_pane (scg, 0)));
 }
 
 /*********************************************************************************/

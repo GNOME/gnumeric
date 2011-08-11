@@ -9,6 +9,7 @@ Andreas:
 
 Jean:
 	* Make things build against gtk+-3.0.
+	* Make Ctrl-PgUp and Ctrl-PgDn work on chart-only sheets. [#645673]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.17
