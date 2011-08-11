@@ -183,8 +183,8 @@
             <child>
               <object class="GtkBox" id="vbox14">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkNotebook" id="print-setup-notebook">
@@ -199,8 +199,8 @@
                         <child>
                           <object class="GtkBox" id="vbox2">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <property name="can_focus">False</property>
+                            <property name="orientation">vertical</property>
                             <property name="spacing">12</property>
                             <child>
                               <object class="GtkTable" id="table-paper-selector">
@@ -355,8 +355,6 @@
                                     <property name="can_focus">True</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">adjustment1</property>
                                     <property name="climb_rate">1</property>
                                     <property name="numeric">True</property>
@@ -377,8 +375,6 @@
                                     <property name="can_focus">True</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">adjustment2</property>
                                     <property name="climb_rate">1</property>
                                     <property name="numeric">True</property>
@@ -399,8 +395,6 @@
                                     <property name="can_focus">True</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">adjustment3</property>
                                     <property name="climb_rate">1</property>
                                     <property name="numeric">True</property>
@@ -421,8 +415,6 @@
                                     <property name="can_focus">True</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">adjustment4</property>
                                     <property name="climb_rate">1</property>
                                     <property name="numeric">True</property>
@@ -443,8 +435,6 @@
                                     <property name="can_focus">True</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">adjustment5</property>
                                     <property name="climb_rate">1</property>
                                     <property name="numeric">True</property>
@@ -465,8 +455,6 @@
                                     <property name="can_focus">True</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">adjustment6</property>
                                     <property name="climb_rate">1</property>
                                     <property name="numeric">True</property>
@@ -890,14 +878,14 @@
                     <child>
                       <object class="GtkBox" id="vbox23">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="can_focus">False</property>
+                        <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkBox" id="vbox15">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <property name="can_focus">False</property>
                             <property name="border_width">5</property>
+                            <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="label2">
@@ -952,8 +940,6 @@
                                         <property name="can_focus">True</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                         <property name="adjustment">adjustment7</property>
                                         <property name="climb_rate">1</property>
                                       </object>
@@ -1007,8 +993,6 @@
                                         <property name="can_focus">True</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                         <property name="adjustment">adjustment8</property>
                                         <property name="climb_rate">1</property>
                                       </object>
@@ -1058,8 +1042,6 @@
                                         <property name="can_focus">True</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                         <property name="adjustment">adjustment9</property>
                                         <property name="climb_rate">1</property>
                                         <property name="digits">1</property>
@@ -1205,8 +1187,8 @@
                         <child>
                           <object class="GtkBox" id="vbox22">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <property name="can_focus">False</property>
+                            <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="label49">
@@ -1229,8 +1211,8 @@
                                 <child>
                                   <object class="GtkBox" id="vbox13">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <property name="can_focus">False</property>
+                                    <property name="orientation">vertical</property>
                                     <property name="spacing">6</property>
                                     <child>
                                       <object class="GtkBox" id="hbox24">
@@ -1385,15 +1367,6 @@
                                           <object class="GtkComboBoxText" id="first-page-combo">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <child internal-child="entry">
-                                              <object class="GtkEntry" id="comboboxentry-entry2">
-                                                <property name="can_focus">False</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
-                                              </object>
-                                            </child>
                                           </object>
                                           <packing>
                                             <property name="expand">True</property>
@@ -1443,10 +1416,10 @@
                     </child>
                     <child>
                       <object class="GtkBox" id="vbox4">
-                        <property name="orientation">vertical</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="border_width">14</property>
+                        <property name="orientation">vertical</property>
                         <property name="spacing">12</property>
                         <child>
                           <object class="GtkBox" id="print-area-hbox">
@@ -1478,9 +1451,9 @@
                         </child>
                         <child>
                           <object class="GtkBox" id="vbox18">
-                           <property name="orientation">vertical</property>
-                           <property name="visible">True</property>
+                            <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="label26">
@@ -1513,9 +1486,6 @@
                                       <object class="GtkAlignment" id="alignment12">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="n_rows">2</property>
-                                        <property name="column_spacing">12</property>
-                                        <property name="row_spacing">6</property>
                                         <child>
                                           <object class="GtkLabel" id="label27">
                                             <property name="visible">True</property>
@@ -1593,10 +1563,10 @@
                         <property name="spacing">4</property>
                         <child>
                           <object class="GtkBox" id="vbox5">
-                            <property name="orientation">vertical</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="border_width">2</property>
+                            <property name="orientation">vertical</property>
                             <property name="spacing">12</property>
                             <child>
                               <object class="GtkBox" id="hbox28">
@@ -1606,8 +1576,8 @@
                                 <child>
                                   <object class="GtkBox" id="vbox19">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <property name="can_focus">False</property>
+                                    <property name="orientation">vertical</property>
                                     <property name="spacing">6</property>
                                     <child>
                                       <object class="GtkLabel" id="label29">
@@ -1799,9 +1769,9 @@
                                 </child>
                                 <child>
                                   <object class="GtkBox" id="vbox1">
-                                    <property name="orientation">vertical</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="orientation">vertical</property>
                                     <property name="spacing">6</property>
                                     <child>
                                       <object class="GtkLabel" id="label4">
@@ -1847,9 +1817,9 @@
                                             </child>
                                             <child>
                                               <object class="GtkBox" id="vbox3">
-                                                <property name="orientation">vertical</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
+                                                <property name="orientation">vertical</property>
                                                 <property name="spacing">6</property>
                                                 <child>
                                                   <object class="GtkRadioButton" id="radio-order-down">
