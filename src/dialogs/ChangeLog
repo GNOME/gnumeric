@@ -1,3 +1,8 @@
+2011-08-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-cell-format-cond.c (dialog_cell_format_style_added): 
+	fix label string
+
 2011-08-10  Morten Welinder  <terra@gnome.org>
 
 	* dialog-about.c (blend_colors): Blend alpha too.

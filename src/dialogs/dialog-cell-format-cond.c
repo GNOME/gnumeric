@@ -228,7 +228,7 @@ dialog_cell_format_style_added (gpointer closure, GnmStyle *style)
 		gnm_style_unref (state->editor.style);
 	state->editor.style = style;
 	gtk_label_set_text (GTK_LABEL (state->editor.style_label),
-			    style ? _("(defined)") : _("undefined"));
+			    style ? _("(defined)") : _("(undefined)"));
 	c_fmt_dialog_set_sensitive (state);
 }
 
