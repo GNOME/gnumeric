@@ -81,7 +81,7 @@ typedef struct {
 	int struck_out;     /* boolean : strikethrough */
 	int color_idx;
 	int boldness;       /* 100->1000 dec, normal = 0x190, bold = 0x2bc */
-	guint8 charset;
+	guint16 codepage;
 	GOFontScript script;
 	MsBiffFontUnderline underline;
 	char *fontname;
@@ -149,10 +149,10 @@ void	       ms_biff_bof_data_destroy (MsBiffBofData * data);
 
 char *excel_get_chars (GnmXLImporter const *imp,
 		       guint8 const *ptr, size_t length,
-		       gboolean use_utf16, guint8 const *charset);
+		       gboolean use_utf16, guint16 const *codepage);
 char * excel_get_text (GnmXLImporter const *imp,
 		       guint8 const *pos, guint32 length,
-		       guint32 *byte_length, guint8 const *charset, guint32 maxlen);
+		       guint32 *byte_length, guint16 const *codepage, guint32 maxlen);
 char *excel_biff_text_1 (GnmXLImporter const *imp, BiffQuery const *q, guint32 ofs);
 char *excel_biff_text_2 (GnmXLImporter const *imp, BiffQuery const *q, guint32 ofs);
 

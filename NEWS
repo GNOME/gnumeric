@@ -12,7 +12,7 @@ Jean:
 	* Make Ctrl-PgUp and Ctrl-PgDn work on chart-only sheets. [#645673]
 
 Valek:
-	* Set LABEL encoding based on FONT charset. [part of #304007]
+	* Set LABEL encoding based on FONT charset converted to codepage. [#304007, ubuntu #262777]
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.17
