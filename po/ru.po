@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-11 16:59-0400\n"
 "PO-Revision-Date: 2011-08-11 17:33-0400\n"
-"Last-Translator: Konstantin Tokarev <annulen@yandex.ru>\n"
+"Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -15076,7 +15076,7 @@ msgstr "Сценарии"
 
 #: ../src/wbc-gtk-actions.c:2008
 msgid "_Statistics"
-msgstr "_Статистика"
+msgstr "Стат_истика"
 
 #: ../src/wbc-gtk-actions.c:2009
 msgid "_Descriptive Statistics"
@@ -15108,7 +15108,7 @@ msgstr "Тесты с _двумя выборками"
 
 #: ../src/wbc-gtk-actions.c:2016
 msgid "Two Me_dians"
-msgstr "_Две медианы"
+msgstr "Две _медианы"
 
 #: ../src/wbc-gtk-actions.c:2017
 msgid "Two _Means"
@@ -15194,7 +15194,7 @@ msgstr "Область печати и разрывы"
 #. that is required for GTK_STOCK_PAGE_SETUP
 #: ../src/wbc-gtk-actions.c:2050 ../src/wbc-gtk-actions.c:2052
 msgid "Page Set_up..."
-msgstr "Настройка пе_чати..."
+msgstr "Наст_ройка печати..."
 
 #: ../src/wbc-gtk-actions.c:2054
 msgid "Setup the page settings for your current printer"
