@@ -15,8 +15,10 @@
 #include "gnumeric.h"
 #include "ms-biff.h"
 
-void excel_read_workbook (GOIOContext *context, WorkbookView *new_wb, GsfInput *input,
-			  gboolean *is_double_stream_file);
+void excel_read_workbook (GOIOContext *context, WorkbookView *new_wb, 
+			  GsfInput *input,
+			  gboolean *is_double_stream_file,
+			  char const *opt_enc);
 
 typedef struct _XLSExporter	 ExcelWriteState;
 void		 excel_write_state_free (ExcelWriteState *ewb);

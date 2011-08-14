@@ -133,6 +133,7 @@ struct _GnmXLImporter {
 
 	GnmExprSharer    *expr_sharer;
 	GIConv            str_iconv;
+	int               codepage_override;
 };
 
 GnmValue *xls_value_new_err (GnmEvalPos const *pos, guint8 const err);

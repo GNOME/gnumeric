@@ -67,6 +67,7 @@ gint ms_excel_object_debug = 0;
 
 gboolean excel_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl);
 void excel_file_open (GOFileOpener const *fo, GOIOContext *context, WorkbookView *wbv, GsfInput *input);
+void excel_enc_file_open (GOFileOpener const *fo, char const *enc, GOIOContext *context, WorkbookView *wbv, GsfInput *input);
 void excel_biff7_file_save (GOFileSaver const *fs, GOIOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void excel_biff8_file_save (GOFileSaver const *fs, GOIOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void excel_dsf_file_save   (GOFileSaver const *fs, GOIOContext *context, WorkbookView const *wbv, GsfOutput *output);
@@ -147,8 +148,8 @@ cb_dump_vba (char const *name, guint8 const *src_code)
 
 /* Service entry point */
 void
-excel_file_open (GOFileOpener const *fo, GOIOContext *context,
-                 WorkbookView *wbv, GsfInput *input)
+excel_enc_file_open (GOFileOpener const *fo, char const *enc, GOIOContext *context,
+		     WorkbookView *wbv, GsfInput *input)
 {
 	GsfInput  *stream = NULL;
 	GError    *err = NULL;
@@ -166,7 +167,7 @@ excel_file_open (GOFileOpener const *fo, GOIOContext *context,
 		if (data && data[0] == 0x09 && (data[1] & 0xf1) == 0) {
 			gsf_input_seek (input, -2, G_SEEK_CUR);
 			excel_read_workbook (context, wbv, input,
-				&is_double_stream_file);
+					     &is_double_stream_file, enc);
 			/* NOTE : we lack a saver for the early formats */
 			return;
 		}
@@ -187,7 +188,7 @@ excel_file_open (GOFileOpener const *fo, GOIOContext *context,
 		return;
 	}
 
-	excel_read_workbook (context, wbv, stream, &is_double_stream_file);
+	excel_read_workbook (context, wbv, stream, &is_double_stream_file, enc);
 	g_object_unref (G_OBJECT (stream));
 
 	meta_data = gsf_doc_meta_data_new ();
@@ -238,6 +239,13 @@ excel_file_open (GOFileOpener const *fo, GOIOContext *context,
 	else
 		workbook_set_saveinfo (wb, GO_FILE_FL_AUTO,
 			go_file_saver_for_id ("Gnumeric_Excel:excel_biff7"));
+}
+
+void
+excel_file_open (GOFileOpener const *fo, GOIOContext *context,
+                 WorkbookView *wbv, GsfInput *input)
+{
+	excel_enc_file_open (fo, NULL, context, wbv, input);
 }
 
 static void

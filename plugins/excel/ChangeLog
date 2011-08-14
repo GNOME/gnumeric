@@ -1,3 +1,16 @@
+2011-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugins/excel/boot.c (excel_enc_file_open): new
+	(excel_file_open): use excel_enc_file_open
+	* plugins/excel/excel.h (excel_read_workbook): add argument
+	* plugins/excel/ms-excel-read.c (excel_read_FONT): for charset 0 consider
+	encoding override
+	(gnm_xl_get_codepage): new
+	(gnm_xl_importer_new): add argument, change caller and convert codepage override
+	(excel_read_workbook): add argument and change all callers
+	* plugins/excel/ms-excel-read.h (_GnmXLImporter): add field
+	* plugins/excel/plugin.xml.in: add new encoding dependent file opener
+
 2011-08-12  Valek Filippov <frob@gnome.org>
 
 	* plugins/excel/ms-excel-read.c (excel_read_FONT): convert charset to codepage

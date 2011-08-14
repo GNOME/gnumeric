@@ -1667,6 +1667,10 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 				fd->codepage = cp;
 				break;
 			}
+			if (importer->codepage_override > 0) {
+				fd->codepage = importer->codepage_override;
+				break;				
+			}
 		}
 			/* no break */
 		case 1:
@@ -3164,8 +3168,114 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 	return fd->attrs;
 }
 
+static gint
+gnm_xl_get_codepage (char const *enc)
+{
+	/* These names must match charset_trans_array in go-charmap-sel.c */
+	static struct {
+		char const *name;
+		gint codepage;
+	}  charset_trans_array[] = {
+		{"IBM864",                0},
+		{"IBM864i",               0},
+		{"ISO-8859-6",            0},
+		{"ISO-8859-6-E",          0},
+		{"ISO-8859-6-I",          0},
+		{"x-mac-arabic",          0},
+		{"windows-1256",          1256},
+		{"armscii-8", 	          0},
+		{"ISO-8859-13",           0},
+		{"ISO-8859-4",            0},
+		{"windows-1257",          1257},
+		{"ISO-8859-14",           0},
+		{"IBM852",                0},
+		{"ISO-8859-2",	          0},
+		{"x-mac-ce",              0},
+		{"windows-1250",          1250},
+		{"gb18030",               0},
+		{"GB2312",                0},
+		{"x-gbk",                 0},
+		{"HZ-GB-2312",	          0},
+		{"windows-936",           936},
+		{"Big5",                  0},
+		{"Big5-HKSCS",	          0},
+		{"x-euc-tw",              0},
+		{"x-mac-croatian",        0},
+		{"IBM855",                0},
+		{"ISO-8859-5",	          0},
+		{"ISO-IR-111",	          0},
+		{"KOI8-R",                0},
+		{"x-mac-cyrillic",        0},
+		{"windows-1251",          1251},
+		{"IBM866",                0},
+		{"KOI8-U",                0},
+		{"x-mac-ukrainian",       0},
+		{"ANSI_X3.4-1968#ASCII",  0},
+		{"x-mac-farsi",           0},
+		{"geostd8",               0},
+		{"ISO-8859-7",            0},
+		{"x-mac-greek",           0},
+		{"windows-1253",          0},
+		{"x-mac-gujarati",        0},
+		{"x-mac-gurmukhi",        0},
+		{"IBM862",                0},
+		{"ISO-8859-8-E",          0},
+		{"ISO-8859-8-I",          0},
+		{"x-mac-hebrew",          0},
+		{"windows-1255",          1255},
+		{"x-mac-devanagari",      0},
+		{"x-mac-icelandic",       0},
+		{"EUC-JP",                0},
+		{"ISO-2022-JP",           0},
+		{"CP932",                 0},
+		{"EUC-KR",                0},
+		{"ISO-2022-KR",           0},
+		{"x-johab",               0},
+		{"x-windows-949",         0},
+		{"ISO-8859-10",           0},
+		{"x-mac-romanian",        0},
+		{"ISO-8859-16",           0},
+		{"ISO-8859-3",            0},
+		{"TIS-620",               0},
+		{"IBM857",                0},
+		{"ISO-8859-9",            0},
+		{"x-mac-turkish",         0},
+		{"windows-1254",          1254},
+		{"UTF-7",                 0},
+		{"UTF-8",                 0},
+		{"UTF-16BE",              0},
+		{"UTF-16LE",              0},
+		{"UTF-32BE",              0},
+		{"UTF-32LE",              0},
+		{"x-user-defined",        0},
+		{"x-viet-tcvn5712",       0},
+		{"VISCII",                0},
+		{"x-viet-vps",            0},
+		{"windows-1258",          1258},
+		{"ISO-8859-8",            0},
+		{"IBM850",                0},
+		{"ISO-8859-1",            0},
+		{"ISO-8859-15",           0},
+		{"x-mac-roman",           0},
+		{"windows-1252",          1252},
+		{"T61.8bit",              0},
+		{"x-imap4-modified-utf7", 0},
+		{"x-u-escaped",           0}
+	};
+	int i;
+
+	if (enc == NULL)
+		return 0;
+
+	for (i = 0; i < G_N_ELEMENTS(charset_trans_array); i++)
+		if (0 == strcmp (enc, charset_trans_array[i].name))
+			return charset_trans_array[i].codepage;
+	
+	return 0;
+}
+
 static GnmXLImporter *
-gnm_xl_importer_new (GOIOContext *context, WorkbookView *wb_view)
+gnm_xl_importer_new (GOIOContext *context, WorkbookView *wb_view, char const *opt_enc)
 {
 	static MSContainerClass const vtbl = {
 		NULL, NULL,
@@ -3182,7 +3292,9 @@ gnm_xl_importer_new (GOIOContext *context, WorkbookView *wb_view)
 	importer->wbv     = wb_view;
 	importer->wb      = wb_view_get_workbook (wb_view);
 	importer->str_iconv = (GIConv)(-1);
-	gnm_xl_importer_set_codepage (importer, 1252); /* set a default */
+	importer->codepage_override = gnm_xl_get_codepage (opt_enc);
+	gnm_xl_importer_set_codepage (importer, (importer->codepage_override > 0) ?
+				      importer->codepage_override : 1252); /* set a default */
 
 	importer->expr_sharer = gnm_expr_sharer_new ();
 	importer->v8.supbook     = g_array_new (FALSE, FALSE, sizeof (ExcelSupBook));
@@ -6884,8 +6996,10 @@ excel_read_CODEPAGE (BiffQuery *q, GnmXLImporter *importer)
 }
 
 void
-excel_read_workbook (GOIOContext *context, WorkbookView *wb_view, GsfInput *input,
-		     gboolean *is_double_stream_file)
+excel_read_workbook (GOIOContext *context, WorkbookView *wb_view, 
+		     GsfInput *input,
+		     gboolean *is_double_stream_file,
+		     char const *opt_enc)
 {
 	GnmXLImporter *importer;
 	BiffQuery *q;
@@ -6899,7 +7013,7 @@ excel_read_workbook (GOIOContext *context, WorkbookView *wb_view, GsfInput *inpu
 	go_io_value_progress_set (context, gsf_input_size (input), N_BYTES_BETWEEN_PROGRESS_UPDATES);
 	q = ms_biff_query_new (input);
 
-	importer = gnm_xl_importer_new (context, wb_view);
+	importer = gnm_xl_importer_new (context, wb_view, opt_enc);
 
 	*is_double_stream_file = FALSE;
 	if (ms_biff_query_next (q) &&
