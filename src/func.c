@@ -480,7 +480,7 @@ function_dump_defs (char const *filename, int dump_type)
 			up = g_ascii_strup (fd->name, -1);
 			fprintf (output_file, "<tr class=\"function\">\n");
 			fprintf (output_file,
-				 "<td><a href =\"doc/gnumeric-%s.shtml\">%s</a></td>\n",
+				 "<td><a href =\"doc/gnumeric-function-%s.shtml\">%s</a></td>\n",
 				 up, fd->name);
 			g_free (up);
 			fprintf (output_file,
