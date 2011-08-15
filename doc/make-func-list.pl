@@ -114,7 +114,7 @@ sub process_function($) {
 	my ($func) = @_;
 
 	my $ws = "  " x scalar(@tagstack);
-	print $ws, "<refentry id=\"gnumeric-$func\">\n";
+	print $ws, "<refentry id=\"gnumeric-function-$func\">\n";
 	print $ws, "  <refmeta>\n";
 	print $ws, "    <refentrytitle><function>$func</function></refentrytitle>\n";
 	print $ws, "  </refmeta>\n";
@@ -229,7 +229,7 @@ sub process_seealso($) {
 	my @a = ();
 	print $ws, "  <para>\n";
 	foreach my $link (@links) {
-	    push @a, $ws . "    <link linkend=\"gnumeric-$link\"><function>$link</function></link>";
+	    push @a, $ws . "    <link linkend=\"gnumeric-function-$link\"><function>$link</function></link>";
 	}
 	if (scalar(@a) > 0) {
 	    print join (",\n", @a), ".\n";

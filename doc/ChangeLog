@@ -1,3 +1,7 @@
+2011-08-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* make-func-list.pl: change prefix for function refs, fixes [#656545]
+
 2011-07-31  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.17
