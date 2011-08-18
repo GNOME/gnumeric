@@ -87,7 +87,7 @@ analysis_tool_auto_expression_engine_clean (gpointer specs)
 }
 
 gboolean
-analysis_tool_auto_expression_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_auto_expression_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			      analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_auto_expression_t *info = specs;

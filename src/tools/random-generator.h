@@ -189,7 +189,7 @@ typedef struct {
 	random_distribution_t distribution;
 } tools_data_random_t;
 
-gboolean tool_random_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean tool_random_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			     analysis_tool_engine_t selector, gpointer result);
 
 #endif

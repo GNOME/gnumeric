@@ -260,7 +260,7 @@ finish:
 
 
 gboolean
-analysis_tool_advanced_filter_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_advanced_filter_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				   analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_advanced_filter_t *info = specs;

@@ -50,7 +50,7 @@ gboolean     consolidate_add_source      (GnmConsolidate *cs, GnmValue *range);
 gboolean     consolidate_check_destination (GnmConsolidate *cs,
 					    data_analysis_output_t *dao);
 
-gboolean tool_consolidate_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean tool_consolidate_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			     analysis_tool_engine_t selector, gpointer result);
 
 G_END_DECLS

@@ -741,7 +741,7 @@ consolidate_apply (GnmConsolidate *cs,
 
 
 gboolean
-tool_consolidate_engine (data_analysis_output_t *dao, gpointer specs,
+tool_consolidate_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			 analysis_tool_engine_t selector, gpointer result)
 {
 	GnmConsolidate *cs = specs;

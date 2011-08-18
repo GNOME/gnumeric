@@ -210,7 +210,7 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 }
 
 gboolean
-analysis_tool_principal_components_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_principal_components_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				   analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_generic_t *info = specs;

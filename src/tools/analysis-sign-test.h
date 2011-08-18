@@ -45,10 +45,10 @@ typedef struct {
 	gnm_float        median;
 } analysis_tools_data_sign_test_two_t;
 
-gboolean analysis_tool_sign_test_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_sign_test_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
-gboolean analysis_tool_sign_test_two_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_sign_test_two_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
 #endif

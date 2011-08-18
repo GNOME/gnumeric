@@ -671,7 +671,7 @@ analysis_tool_correlation_engine_run (data_analysis_output_t *dao,
 }
 
 gboolean
-analysis_tool_correlation_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_correlation_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				   analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_generic_t *info = specs;
@@ -726,7 +726,7 @@ analysis_tool_covariance_engine_run (data_analysis_output_t *dao,
 }
 
 gboolean
-analysis_tool_covariance_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_covariance_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				   analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_generic_t *info = specs;
@@ -1117,7 +1117,7 @@ analysis_tool_descriptive_engine_run (data_analysis_output_t *dao,
 }
 
 gboolean
-analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_descriptive_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				   analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_descriptive_t *info = specs;
@@ -1312,7 +1312,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 }
 
 gboolean
-analysis_tool_sampling_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_sampling_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			       analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_sampling_t *info = specs;
@@ -1579,7 +1579,7 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 
 
 gboolean
-analysis_tool_ztest_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_ztest_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			       analysis_tool_engine_t selector, gpointer result)
 {
 	switch (selector) {
@@ -1870,7 +1870,7 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 }
 
 gboolean
-analysis_tool_ttest_paired_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_ttest_paired_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				   analysis_tool_engine_t selector,
 				   gpointer result)
 {
@@ -2171,7 +2171,7 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 }
 
 gboolean
-analysis_tool_ttest_eqvar_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_ttest_eqvar_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				  analysis_tool_engine_t selector, gpointer result)
 {
 	switch (selector) {
@@ -2464,7 +2464,7 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 }
 
 gboolean
-analysis_tool_ttest_neqvar_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_ttest_neqvar_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				  analysis_tool_engine_t selector, gpointer result)
 {
 	switch (selector) {
@@ -2752,7 +2752,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 }
 
 gboolean
-analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_ftest_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			    analysis_tool_engine_t selector, gpointer result)
 {
 	switch (selector) {
@@ -3589,7 +3589,7 @@ analysis_tool_regression_simple_engine_run (data_analysis_output_t *dao,
 }
 
 gboolean
-analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_regression_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			    analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_regression_t *info = specs;
@@ -4004,7 +4004,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 
 
 gboolean
-analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_moving_average_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			      analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_moving_average_t *info = specs;
@@ -4167,7 +4167,7 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 }
 
 gboolean
-analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_ranking_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			      analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_ranking_t *info = specs;
@@ -4504,7 +4504,7 @@ finish_anova_single_factor_tool:
 
 
 gboolean
-analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_anova_single_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				   analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_anova_single_t *info = specs;
@@ -4607,7 +4607,7 @@ analysis_tool_fourier_calc_length (analysis_tools_data_fourier_t *info)
 
 
 gboolean
-analysis_tool_fourier_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_fourier_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			      analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_fourier_t *info = specs;

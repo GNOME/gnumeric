@@ -49,8 +49,11 @@ typedef struct {
 	gint       n_r;
 } analysis_tools_data_anova_two_factor_t;
 
-gboolean analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpointer specs,
-					   analysis_tool_engine_t selector, gpointer result);
+gboolean analysis_tool_anova_two_factor_engine (GOCmdContext *gcc, 
+						data_analysis_output_t *dao, 
+						gpointer specs,
+						analysis_tool_engine_t selector,
+						gpointer result);
 
 
 #endif

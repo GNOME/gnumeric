@@ -260,7 +260,7 @@ calc_length (GnmValue   *bin)
 
 
 gboolean
-analysis_tool_frequency_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_frequency_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			      analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_frequency_t *info = specs;

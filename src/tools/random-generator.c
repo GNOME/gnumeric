@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * random-generator.c:
  *
@@ -45,6 +46,18 @@
 
 #include <string.h>
 #include <math.h>
+
+#define PROGRESS_START int pro = 0;                   \
+	double total = info->n_vars * info->count;    \
+	go_cmd_context_progress_set (gcc, 0);         \
+	go_cmd_context_progress_message_set (gcc, _("Generating Random Numbers..."))
+#define PROGESS_RUN if ((++pro & 2047) == 0) {        \
+        go_cmd_context_progress_set (gcc, pro/total); \
+	while (gtk_events_pending ())                 \
+	gtk_main_iteration_do (FALSE);                \
+        }
+#define PROGESS_END go_cmd_context_progress_set (gcc, 0); \
+	go_cmd_context_progress_message_set (gcc, NULL)
 
 
 /************* Random Number Generation Tool ******************************
@@ -97,24 +110,24 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 		GnmValue *v;
 		gnm_float thisprob;
 		GnmCell *cell = sheet_cell_get (range->v_range.cell.a.sheet,
-					     range->v_range.cell.a.col + 1, i);
+						range->v_range.cell.a.col + 1, i);
 
 		if (cell == NULL ||
 		    (v = cell->value) == NULL ||
 		    !VALUE_IS_NUMBER (v)) {
 			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
-					 _("The probability input range "
-					   "contains a non-numeric value.\n"
-					   "All probabilities must be "
-					   "non-negative numbers."));
+						    _("The probability input range "
+						      "contains a non-numeric value.\n"
+						      "All probabilities must be "
+						      "non-negative numbers."));
 			goto random_tool_discrete_out;
 		}
 		if ((thisprob = value_get_as_float (v)) < 0) {
 			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
-					 _("The probability input range "
-					   "contains a negative number.\n"
-					   "All probabilities must be "
-					   "non-negative!"));
+						    _("The probability input range "
+						      "contains a negative number.\n"
+						      "All probabilities must be "
+						      "non-negative!"));
 			goto random_tool_discrete_out;
 		}
 
@@ -126,8 +139,8 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 
 		if (cell == NULL || cell->value == NULL) {
 			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
-					 _("None of the values in the value "
-					   "range may be empty!"));
+						    _("None of the values in the value "
+						      "range may be empty!"));
 			goto random_tool_discrete_out;
 		}
 
@@ -142,7 +155,7 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 		return FALSE;
 	}
 	gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
-		_("The probabilities may not all be 0!"));
+				    _("The probabilities may not all be 0!"));
 
  random_tool_discrete_out:
 	tool_random_engine_run_discrete_clear_continuity (continuity);
@@ -150,7 +163,7 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 }
 
 static gboolean
-tool_random_engine_run_discrete (data_analysis_output_t *dao,
+tool_random_engine_run_discrete (GOCmdContext *gcc, data_analysis_output_t *dao,
 				 tools_data_random_t *info,
 				 G_GNUC_UNUSED discrete_random_tool_t *param,
 				 discrete_random_tool_local_t **continuity)
@@ -158,6 +171,7 @@ tool_random_engine_run_discrete (data_analysis_output_t *dao,
 	gint i;
 	discrete_random_tool_local_t *data = *continuity;
 
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		int k;
 		for (k = 0; k < info->count; k++) {
@@ -169,32 +183,37 @@ tool_random_engine_run_discrete (data_analysis_output_t *dao,
 
 			dao_set_cell_value (dao, i, k,
 					    value_dup (data->values[j]));
+			PROGESS_RUN;
 		}
 	}
 	tool_random_engine_run_discrete_clear_continuity (continuity);
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_uniform (data_analysis_output_t *dao,
+tool_random_engine_run_uniform (GOCmdContext *gcc, data_analysis_output_t *dao,
 				tools_data_random_t *info,
 				uniform_random_tool_t *param)
 {
 	int i, n;
 	gnm_float range = param->upper_limit - param->lower_limit;
+
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = range * random_01 () + param->lower_limit;
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
-
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_uniform_int (data_analysis_output_t *dao,
+tool_random_engine_run_uniform_int (GOCmdContext *gcc, data_analysis_output_t *dao,
 				    tools_data_random_t *info,
 				    uniform_random_tool_t *param)
 {
@@ -202,450 +221,536 @@ tool_random_engine_run_uniform_int (data_analysis_output_t *dao,
 	gnm_float lower = gnm_floor (param->lower_limit);
 	gnm_float range = gnm_floor (param->upper_limit) - lower;
 
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = gnm_floor (0.5 + range * random_01 ()) + lower;
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
 
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_normal (data_analysis_output_t *dao,
+tool_random_engine_run_normal (GOCmdContext *gcc, data_analysis_output_t *dao,
 			       tools_data_random_t *info,
 			       normal_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = param->stdev * random_normal () + param->mean;
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_bernoulli (data_analysis_output_t *dao,
+tool_random_engine_run_bernoulli (GOCmdContext *gcc, data_analysis_output_t *dao,
 				  tools_data_random_t *info,
 				  bernoulli_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float tmp = random_bernoulli (param->p);
 			dao_set_cell_int (dao, i, n, (int)tmp);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_beta (data_analysis_output_t *dao,
+tool_random_engine_run_beta (GOCmdContext *gcc, data_analysis_output_t *dao,
 			     tools_data_random_t *info,
 			     beta_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float tmp = random_beta (param->a, param->b);
 			dao_set_cell_float (dao, i, n, tmp);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_binomial (data_analysis_output_t *dao,
+tool_random_engine_run_binomial (GOCmdContext *gcc, data_analysis_output_t *dao,
 				 tools_data_random_t *info,
 				 binomial_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_binomial (param->p,
 					     param->trials);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_negbinom (data_analysis_output_t *dao,
+tool_random_engine_run_negbinom (GOCmdContext *gcc, data_analysis_output_t *dao,
 				 tools_data_random_t *info,
 				 negbinom_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_negbinom (param->p,
 					     param->f);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_poisson (data_analysis_output_t *dao,
+tool_random_engine_run_poisson (GOCmdContext *gcc, data_analysis_output_t *dao,
 				tools_data_random_t *info,
 				poisson_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_poisson (param->lambda);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_exponential (data_analysis_output_t *dao,
+tool_random_engine_run_exponential (GOCmdContext *gcc, data_analysis_output_t *dao,
 				    tools_data_random_t *info,
 				    exponential_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_exponential (param->b);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_exppow (data_analysis_output_t *dao,
+tool_random_engine_run_exppow (GOCmdContext *gcc, data_analysis_output_t *dao,
 			       tools_data_random_t *info,
 			       exppow_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_exppow (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_cauchy (data_analysis_output_t *dao,
+tool_random_engine_run_cauchy (GOCmdContext *gcc, data_analysis_output_t *dao,
 			       tools_data_random_t *info,
 			       cauchy_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_cauchy (param->a);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_chisq (data_analysis_output_t *dao,
+tool_random_engine_run_chisq (GOCmdContext *gcc, data_analysis_output_t *dao,
 			      tools_data_random_t *info,
 			      chisq_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_chisq (param->nu);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_pareto (data_analysis_output_t *dao,
+tool_random_engine_run_pareto (GOCmdContext *gcc, data_analysis_output_t *dao,
 			       tools_data_random_t *info,
 			       pareto_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_pareto (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_rayleigh (data_analysis_output_t *dao,
+tool_random_engine_run_rayleigh (GOCmdContext *gcc, data_analysis_output_t *dao,
 				 tools_data_random_t *info,
 				 rayleigh_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_rayleigh (param->sigma);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_rayleigh_tail (data_analysis_output_t *dao,
+tool_random_engine_run_rayleigh_tail (GOCmdContext *gcc, 
+				      data_analysis_output_t *dao,
 				      tools_data_random_t *info,
 				      rayleigh_tail_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_rayleigh_tail (param->a, param->sigma);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_levy (data_analysis_output_t *dao,
+tool_random_engine_run_levy (GOCmdContext *gcc, data_analysis_output_t *dao,
 			     tools_data_random_t *info,
 			     levy_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_levy (param->c, param->alpha);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_fdist (data_analysis_output_t *dao,
+tool_random_engine_run_fdist (GOCmdContext *gcc, data_analysis_output_t *dao,
 			      tools_data_random_t *info,
 			      fdist_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_fdist (param->nu1, param->nu2);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_lognormal (data_analysis_output_t *dao,
+tool_random_engine_run_lognormal (GOCmdContext *gcc, data_analysis_output_t *dao,
 				  tools_data_random_t *info,
 				  lognormal_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_lognormal (param->zeta, param->sigma);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_logarithmic (data_analysis_output_t *dao,
+tool_random_engine_run_logarithmic (GOCmdContext *gcc, data_analysis_output_t *dao,
 				    tools_data_random_t *info,
 				    logarithmic_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_logarithmic (param->p);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_logistic (data_analysis_output_t *dao,
+tool_random_engine_run_logistic (GOCmdContext *gcc, data_analysis_output_t *dao,
 				 tools_data_random_t *info,
 				 logistic_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_logistic (param->a);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_tdist (data_analysis_output_t *dao,
+tool_random_engine_run_tdist (GOCmdContext *gcc, data_analysis_output_t *dao,
 			      tools_data_random_t *info,
 			      tdist_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_tdist (param->nu);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_gamma (data_analysis_output_t *dao,
+tool_random_engine_run_gamma (GOCmdContext *gcc, data_analysis_output_t *dao,
 			      tools_data_random_t *info,
 			      gamma_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_gamma (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_geometric (data_analysis_output_t *dao,
+tool_random_engine_run_geometric (GOCmdContext *gcc, data_analysis_output_t *dao,
 				  tools_data_random_t *info,
 				  geometric_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_geometric (param->p);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_weibull (data_analysis_output_t *dao,
+tool_random_engine_run_weibull (GOCmdContext *gcc, data_analysis_output_t *dao,
 				tools_data_random_t *info,
 				weibull_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_weibull (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_laplace (data_analysis_output_t *dao,
+tool_random_engine_run_laplace (GOCmdContext *gcc, data_analysis_output_t *dao,
 				tools_data_random_t *info,
 				laplace_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_laplace (param->a);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_gaussian_tail (data_analysis_output_t *dao,
+tool_random_engine_run_gaussian_tail (GOCmdContext *gcc, 
+				      data_analysis_output_t *dao,
 				      tools_data_random_t *info,
 				      gaussian_tail_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_gaussian_tail (param->a, param->sigma);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_landau (data_analysis_output_t *dao,
+tool_random_engine_run_landau (GOCmdContext *gcc, data_analysis_output_t *dao,
 			       tools_data_random_t *info)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_landau ();
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_gumbel1 (data_analysis_output_t *dao,
+tool_random_engine_run_gumbel1 (GOCmdContext *gcc, data_analysis_output_t *dao,
 				tools_data_random_t *info,
 				gumbel_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_gumbel1 (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 static gboolean
-tool_random_engine_run_gumbel2 (data_analysis_output_t *dao,
+tool_random_engine_run_gumbel2 (GOCmdContext *gcc, data_analysis_output_t *dao,
 				tools_data_random_t *info,
 				gumbel_random_tool_t *param)
 {
 	int i, n;
+	PROGRESS_START;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
 			v = random_gumbel2 (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
+			PROGESS_RUN;
 		}
 	}
+	PROGESS_END;
 	return FALSE;
 }
 
 gboolean
-tool_random_engine (data_analysis_output_t *dao, gpointer specs,
+tool_random_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 		    analysis_tool_engine_t selector, gpointer result)
 {
 	tools_data_random_t *info = specs;
@@ -679,94 +784,94 @@ tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 		switch (info->distribution) {
 		case DiscreteDistribution:
 			return tool_random_engine_run_discrete
-				(dao, specs, &info->param.discrete, result);
+				(gcc, dao, specs, &info->param.discrete, result);
 		case NormalDistribution:
 			return tool_random_engine_run_normal
-			        (dao, specs, &info->param.normal);
+			        (gcc, dao, specs, &info->param.normal);
 		case BernoulliDistribution:
 			return tool_random_engine_run_bernoulli
-				(dao, specs, &info->param.bernoulli);
+				(gcc, dao, specs, &info->param.bernoulli);
 		case BetaDistribution:
 			return tool_random_engine_run_beta
-				(dao, specs, &info->param.beta);
+				(gcc, dao, specs, &info->param.beta);
 		case UniformDistribution:
 			return tool_random_engine_run_uniform
-			        (dao, specs, &info->param.uniform);
+			        (gcc, dao, specs, &info->param.uniform);
 		case UniformIntDistribution:
 			return tool_random_engine_run_uniform_int
-			        (dao, specs, &info->param.uniform);
+			        (gcc, dao, specs, &info->param.uniform);
 		case PoissonDistribution:
 			return tool_random_engine_run_poisson
-			        (dao, specs, &info->param.poisson);
+			        (gcc, dao, specs, &info->param.poisson);
 		case ExponentialDistribution:
 			return tool_random_engine_run_exponential
-				(dao, specs, &info->param.exponential);
+				(gcc, dao, specs, &info->param.exponential);
 		case ExponentialPowerDistribution:
 			return tool_random_engine_run_exppow
-				(dao, specs, &info->param.exppow);
+				(gcc, dao, specs, &info->param.exppow);
 		case CauchyDistribution:
 			return tool_random_engine_run_cauchy
-				(dao, specs, &info->param.cauchy);
+				(gcc, dao, specs, &info->param.cauchy);
 		case ChisqDistribution:
 			return tool_random_engine_run_chisq
-				(dao, specs, &info->param.chisq);
+				(gcc, dao, specs, &info->param.chisq);
 		case ParetoDistribution:
 			return tool_random_engine_run_pareto
-				(dao, specs, &info->param.pareto);
+				(gcc, dao, specs, &info->param.pareto);
 		case LognormalDistribution:
 			return tool_random_engine_run_lognormal
-				(dao, specs, &info->param.lognormal);
+				(gcc, dao, specs, &info->param.lognormal);
 		case RayleighDistribution:
 			return tool_random_engine_run_rayleigh
-				(dao, specs, &info->param.rayleigh);
+				(gcc, dao, specs, &info->param.rayleigh);
 		case RayleighTailDistribution:
 			return tool_random_engine_run_rayleigh_tail
-				(dao, specs, &info->param.rayleigh_tail);
+				(gcc, dao, specs, &info->param.rayleigh_tail);
 		case LevyDistribution:
 			return tool_random_engine_run_levy
-				(dao, specs, &info->param.levy);
+				(gcc, dao, specs, &info->param.levy);
 		case FdistDistribution:
 			return tool_random_engine_run_fdist
-				(dao, specs, &info->param.fdist);
+				(gcc, dao, specs, &info->param.fdist);
 		case TdistDistribution:
 			return tool_random_engine_run_tdist
-				(dao, specs, &info->param.tdist);
+				(gcc, dao, specs, &info->param.tdist);
 		case GammaDistribution:
 			return tool_random_engine_run_gamma
-				(dao, specs, &info->param.gamma);
+				(gcc, dao, specs, &info->param.gamma);
 		case GeometricDistribution:
 			return tool_random_engine_run_geometric
-				(dao, specs, &info->param.geometric);
+				(gcc, dao, specs, &info->param.geometric);
 		case WeibullDistribution:
 			return tool_random_engine_run_weibull
-				(dao, specs, &info->param.weibull);
+				(gcc, dao, specs, &info->param.weibull);
 		case LaplaceDistribution:
 			return tool_random_engine_run_laplace
-				(dao, specs, &info->param.laplace);
+				(gcc, dao, specs, &info->param.laplace);
 		case GaussianTailDistribution:
 			return tool_random_engine_run_gaussian_tail
-				(dao, specs, &info->param.gaussian_tail);
+				(gcc, dao, specs, &info->param.gaussian_tail);
 		case LandauDistribution:
 			return tool_random_engine_run_landau
-				(dao, specs);
+				(gcc, dao, specs);
 		case LogarithmicDistribution:
 			return tool_random_engine_run_logarithmic
-				(dao, specs, &info->param.logarithmic);
+				(gcc, dao, specs, &info->param.logarithmic);
 		case LogisticDistribution:
 			return tool_random_engine_run_logistic
-				(dao, specs, &info->param.logistic);
+				(gcc, dao, specs, &info->param.logistic);
 		case Gumbel1Distribution:
 			return tool_random_engine_run_gumbel1
-				(dao, specs, &info->param.gumbel);
+				(gcc, dao, specs, &info->param.gumbel);
 		case Gumbel2Distribution:
 			return tool_random_engine_run_gumbel2
-				(dao, specs, &info->param.gumbel);
+				(gcc, dao, specs, &info->param.gumbel);
 		case BinomialDistribution:
 			return tool_random_engine_run_binomial
-			        (dao, specs, &info->param.binomial);
+			        (gcc, dao, specs, &info->param.binomial);
 		case NegativeBinomialDistribution:
 			return tool_random_engine_run_negbinom
-			        (dao, specs, &info->param.negbinom);
+			        (gcc, dao, specs, &info->param.negbinom);
 		}
 	}
 	return TRUE;  /* We shouldn't get here */

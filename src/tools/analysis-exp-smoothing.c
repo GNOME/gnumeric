@@ -1356,7 +1356,7 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 }
 
 gboolean
-analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao,
+analysis_tool_exponential_smoothing_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao,
 					    gpointer specs,
 					    analysis_tool_engine_t selector,
 					    gpointer result)

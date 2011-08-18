@@ -49,7 +49,7 @@ typedef struct {
 	gboolean graph;
 } analysis_tools_data_normality_t;
 
-gboolean analysis_tool_normality_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_normality_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
 

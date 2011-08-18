@@ -27,7 +27,7 @@ typedef struct {
 	gint                    n;
 } fill_series_t;
 
-gboolean fill_series_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean fill_series_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			     analysis_tool_engine_t selector, gpointer result);
 
 #endif

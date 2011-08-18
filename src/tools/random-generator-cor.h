@@ -19,7 +19,7 @@ typedef struct {
 	gint variables;
 } tools_data_random_cor_t;
 
-gboolean tool_random_cor_engine (data_analysis_output_t *dao,
+gboolean tool_random_cor_engine (GOCmdContext *gcc, data_analysis_output_t *dao,
 				 gpointer specs,
 				 analysis_tool_engine_t selector,
 				 gpointer result);

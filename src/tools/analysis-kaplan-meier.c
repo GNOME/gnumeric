@@ -644,7 +644,7 @@ analysis_tool_kaplan_meier_clear_gl_cb (gpointer data, G_GNUC_UNUSED gpointer us
 }
 
 gboolean
-analysis_tool_kaplan_meier_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_kaplan_meier_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			      analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_kaplan_meier_t *info = specs;

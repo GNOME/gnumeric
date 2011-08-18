@@ -1,3 +1,9 @@
+2011-08-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/consolidate.c: add argument to tools engine
+	* src/consolidate.h: add argument to tools engine
+	* src/commands.c (cmd_analysis_tool_*): adjust calls to tools engine
+
 2011-08-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/rendered-value.h (_GnmRenderedValue): re-add color field

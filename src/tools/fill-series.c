@@ -368,7 +368,7 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 		info->n = length_of_series;
 }
 
-gboolean fill_series_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean fill_series_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			     analysis_tool_engine_t selector, gpointer result)
 {
 	fill_series_t *info = specs;

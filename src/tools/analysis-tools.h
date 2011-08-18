@@ -39,14 +39,20 @@ typedef struct {
 
 /**************** Correlation Tool ***************/
 
-gboolean analysis_tool_correlation_engine  (data_analysis_output_t *dao, gpointer specs,
-					    analysis_tool_engine_t selector, gpointer result);
+gboolean analysis_tool_correlation_engine (GOCmdContext *gcc, 
+					   data_analysis_output_t *dao, 
+					   gpointer specs,
+					   analysis_tool_engine_t selector, 
+					   gpointer result);
 
 
 /**************** Covariance Tool  ***************/
 
-gboolean analysis_tool_covariance_engine  (data_analysis_output_t *dao, gpointer specs,
-					    analysis_tool_engine_t selector, gpointer result);
+gboolean analysis_tool_covariance_engine (GOCmdContext *gcc, 
+					  data_analysis_output_t *dao, 
+					  gpointer specs,
+					  analysis_tool_engine_t selector, 
+					  gpointer result);
 
 
 /********************************************************************/
@@ -60,7 +66,7 @@ typedef struct {
 	gnm_float alpha;
 } analysis_tools_data_anova_single_t;
 
-gboolean analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_anova_single_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
 /********** Descriptive Statistics Tool **********/
@@ -77,7 +83,7 @@ typedef struct {
         gnm_float  c_level;
 } analysis_tools_data_descriptive_t;
 
-gboolean analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_descriptive_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
 
@@ -101,7 +107,7 @@ typedef struct {
 	moving_average_type_t ma_type;
 } analysis_tools_data_moving_average_t;
 
-gboolean analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_moving_average_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 					      analysis_tool_engine_t selector, gpointer result);
 
 
@@ -112,7 +118,7 @@ typedef struct {
 	gboolean inverse;
 } analysis_tools_data_fourier_t;
 
-gboolean analysis_tool_fourier_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_fourier_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				       analysis_tool_engine_t selector, gpointer result);
 
 
@@ -128,7 +134,7 @@ typedef struct {
 	guint number;
 } analysis_tools_data_sampling_t;
 
-gboolean analysis_tool_sampling_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_sampling_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				       analysis_tool_engine_t selector, gpointer result);
 
 
@@ -139,7 +145,7 @@ typedef struct {
 	gboolean av_ties;
 } analysis_tools_data_ranking_t;
 
-gboolean analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_ranking_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				       analysis_tool_engine_t selector, gpointer result);
 
 
@@ -160,7 +166,7 @@ typedef struct {
 	gnm_float alpha;
 } analysis_tools_data_generic_b_t;
 
-gboolean analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_ftest_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				     analysis_tool_engine_t selector, gpointer result);
 
 /****************  Regression  ********************/
@@ -175,7 +181,7 @@ typedef struct {
 	GSList    *indep_vars;
 } analysis_tools_data_regression_t;
 
-gboolean analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_regression_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 /*********************** TTest paired *****************/
 
@@ -186,25 +192,25 @@ typedef struct {
 	gnm_float var2;
 } analysis_tools_data_ttests_t;
 
-gboolean analysis_tool_ttest_paired_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_ttest_paired_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				     analysis_tool_engine_t selector, gpointer result);
 
 
 /*********************** TTest equal variances *********/
 
-gboolean analysis_tool_ttest_eqvar_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_ttest_eqvar_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				     analysis_tool_engine_t selector, gpointer result);
 
 
 /*********************** TTest unequal variances *******/
 
-gboolean analysis_tool_ttest_neqvar_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_ttest_neqvar_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 					    analysis_tool_engine_t selector, gpointer result);
 
 
 /*********************** ZTest ************************/
 
-gboolean analysis_tool_ztest_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_ztest_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 				     analysis_tool_engine_t selector, gpointer result);
 
 /****************  Advanced Filter  ********************/
@@ -214,7 +220,7 @@ typedef struct {
 	gboolean   unique_only_flag;
 } analysis_tools_data_advanced_filter_t;
 
-gboolean analysis_tool_advanced_filter_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_advanced_filter_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
 

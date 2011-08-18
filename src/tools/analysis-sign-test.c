@@ -342,7 +342,7 @@ analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
 }
 
 gboolean
-analysis_tool_sign_test_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_sign_test_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			      analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_sign_test_t *info = specs;
@@ -373,7 +373,7 @@ analysis_tool_sign_test_engine (data_analysis_output_t *dao, gpointer specs,
 }
 
 gboolean
-analysis_tool_sign_test_two_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_sign_test_two_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			      analysis_tool_engine_t selector, gpointer result)
 {
 	switch (selector) {

@@ -1,3 +1,10 @@
+2011-08-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/tools/*.c: add argument to tools engine
+	* src/tools/*.h: add argument to tools engine
+	* src/tools/random-generator.c: provide progress reporting when
+	calculating random numbers
+
 2011-07-31  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.17
@@ -17,7 +24,7 @@
 
 2011-05-2 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-chi-squared.c (analysis_tool_chi_squared_engine_run): 
+	* analysis-chi-squared.c (analysis_tool_chi_squared_engine_run):
 	no colons in field labels
 	* analysis-kaplan-meier.c (analysis_tool_kaplan_meier_engine_run): ditto
 	* analysis-principal-components.c

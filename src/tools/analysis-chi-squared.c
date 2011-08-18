@@ -165,7 +165,7 @@ analysis_tool_chi_squared_clean (gpointer specs)
 
 
 gboolean
-analysis_tool_chi_squared_engine (data_analysis_output_t *dao, gpointer specs,
+analysis_tool_chi_squared_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			      analysis_tool_engine_t selector, gpointer result)
 {
 	analysis_tools_data_chi_squared_t *info = specs;

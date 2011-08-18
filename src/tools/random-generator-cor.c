@@ -132,7 +132,7 @@ tool_random_cor_clean (gpointer specs)
 
 
 gboolean
-tool_random_cor_engine (data_analysis_output_t *dao, gpointer specs,
+tool_random_cor_engine (G_GNUC_UNUSED GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 			      analysis_tool_engine_t selector, gpointer result)
 {
 	tools_data_random_cor_t *data = specs;

@@ -70,7 +70,7 @@ typedef struct {
 	chart_t   chart;
 } analysis_tools_data_histogram_t;
 
-gboolean analysis_tool_histogram_engine (data_analysis_output_t *dao, gpointer specs,
+gboolean analysis_tool_histogram_engine (GOCmdContext *gcc, data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
 #endif
