@@ -63,6 +63,8 @@ xlsx_read_core_keys (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					  g_strdup (xin->node->user_data.v_str), val);
 	}
 	g_object_unref (keywords);
+
+	maybe_update_progress (xin);
 }
 
 static void
@@ -126,6 +128,7 @@ xlsx_read_property_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	g_free (state->meta_prop_name);
 	state->meta_prop_name = NULL;
+	maybe_update_progress (xin);
 }
 
 static void
@@ -147,6 +150,8 @@ xlsx_read_custom_property_type (GsfXMLIn *xin, GType g_type)
 		state->meta_prop_name = NULL;
 	} else
 		g_free (res);
+
+	maybe_update_progress (xin);
 }
 
 static void
@@ -249,8 +254,10 @@ xlsx_read_docprops_core (XLSXReadState *state)
 		 "core-properties", NULL);
 
 	if (in == NULL) return;
-	xlsx_parse_stream (state, in, xlsx_docprops_core_dtd);
 
+	start_update_progress (state, in, _("Reading core properties..."), 0.9, 0.94);	
+	xlsx_parse_stream (state, in, xlsx_docprops_core_dtd);
+	end_update_progress (state);
 }
 
 static void
@@ -264,7 +271,10 @@ xlsx_read_docprops_extended (XLSXReadState *state)
 		 "extended-properties", NULL);
 
 	if (in == NULL) return;
+
+	start_update_progress (state, in, _("Reading extended properties..."), 0.94, 0.97);	
 	xlsx_parse_stream (state, in, xlsx_docprops_extended_dtd);
+	end_update_progress (state);
 }
 
 static void
@@ -278,7 +288,10 @@ xlsx_read_docprops_custom (XLSXReadState *state)
 		 "custom-properties", NULL);
 
 	if (in == NULL) return;
+
+	start_update_progress (state, in, _("Reading custom properties..."), 0.97, 1.);	
 	xlsx_parse_stream (state, in, xlsx_docprops_custom_dtd);
+	end_update_progress (state);
 }
 
 static void

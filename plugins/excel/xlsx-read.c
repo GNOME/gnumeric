@@ -285,6 +285,31 @@ static GsfXMLInNS const xlsx_ns[] = {
 	{ NULL }
 };
 
+static void
+maybe_update_progress (GsfXMLIn *xin)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GsfInput *input = gsf_xml_in_get_input (xin);
+	gsf_off_t pos = gsf_input_tell (input);
+
+	go_io_value_progress_update (state->context, pos);
+}
+
+static void
+start_update_progress (XLSXReadState *state, GsfInput *xin,
+		       char const *message, double min, double max)
+{
+	go_io_progress_range_push (state->context, min, max);
+	go_io_value_progress_set (state->context, gsf_input_size (xin), 10000);
+	go_io_progress_message (state->context, message);
+}
+
+static void
+end_update_progress (XLSXReadState *state)
+{
+	go_io_progress_range_pop (state->context);
+}
+
 static gboolean
 xlsx_parse_stream (XLSXReadState *state, GsfInput *in, GsfXMLInNode const *dtd)
 {
@@ -1020,7 +1045,7 @@ apply_tint (GOColor orig, double tint)
 	int g = GO_COLOR_UINT_G (orig);
 	int b = GO_COLOR_UINT_B (orig);
 	int a = GO_COLOR_UINT_A (orig);
-	int maxC = b, minC = b, delta, sum, h, l, s, m1, m2;
+	int maxC = b, minC = b, delta, sum, h = 0, l, s, m1, m2;
 
 	if (fabs (tint) < .005)
 		return orig;
@@ -1363,6 +1388,8 @@ xlsx_CT_Row (GsfXMLIn *xin, xmlChar const **attrs)
 			sheet_style_set_range (state->sheet, &r, style);
 		}
 	}
+
+	maybe_update_progress (xin);
 }
 
 static void
@@ -1378,6 +1405,8 @@ xlsx_CT_RowsCols_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			       state->pending_rowcol_style);
 
 	state->pending_rowcol_style = NULL;
+
+	maybe_update_progress (xin);
 }
 
 static void
@@ -2805,6 +2834,8 @@ xlsx_sheet_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	Sheet *sheet;
 	int viz = (int)GNM_SHEET_VISIBILITY_VISIBLE;
 
+	maybe_update_progress (xin);
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "name"))
 			name = attrs[1];
@@ -3174,6 +3205,7 @@ xlsx_comment_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	sheet_object_set_sheet (SHEET_OBJECT (state->comment), state->sheet);
 	state->comment = NULL;
 
+	maybe_update_progress (xin);
 }
 
 static void
@@ -3252,9 +3284,13 @@ xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GsfInput *sin, *cin;
 	GError *err = NULL;
 
+	end_update_progress (state);
+
 	/* Load sheets after setting up the workbooks to give us time to create
 	 * all of them and parse names */
 	for (i = 0 ; i < n ; i++, state->sheet = NULL) {
+		char *message;
+
 		if (NULL == (state->sheet = workbook_sheet_by_index (state->wb, i)))
 			continue;
 		if (NULL == (part_id = g_object_get_data (G_OBJECT (state->sheet), "_XLSX_RelID"))) {
@@ -3283,9 +3319,19 @@ xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 		cin = gsf_open_pkg_open_rel_by_type (sin,
 			"http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments", NULL);
+		message = g_strdup_printf (_("Reading sheet '%s'..."), state->sheet->name_unquoted);
+		start_update_progress (state, sin, message,
+				       0.3 + i*0.6/n, 0.3 + i*0.6/n + 0.5/n);
+		g_free (message);
 		xlsx_parse_stream (state, sin, xlsx_sheet_dtd);
-		if (cin != NULL)
+		end_update_progress (state);
+
+		if (cin != NULL) {
+			start_update_progress (state, cin, _("Reading comments..."),
+					       0.3 + i*0.6/n + 0.5/n, 0.3 + i*0.6/n + 0.6/n);
 			xlsx_parse_stream (state, cin, xlsx_comments_dtd);
+			end_update_progress (state);
+		}
 
 		/* Flag a respan here in case nothing else does */
 		sheet_flag_recompute_spans (state->sheet);
@@ -4271,19 +4317,37 @@ xlsx_file_open (GOFileOpener const *fo, GOIOContext *context,
 
 			in = gsf_open_pkg_open_rel_by_type (wb_part,
 				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings", NULL);
-			xlsx_parse_stream (&state, in, xlsx_shared_strings_dtd);
+			if (in != NULL) {
+				start_update_progress (&state, in, _("Reading shared strings..."),
+						       0., 0.05);
+				xlsx_parse_stream (&state, in, xlsx_shared_strings_dtd);
+				end_update_progress (&state);
+			}
 
 			in = gsf_open_pkg_open_rel_by_type (wb_part,
 				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme", NULL);
-			xlsx_parse_stream (&state, in, xlsx_theme_dtd);
+			if (in != NULL) {
+				start_update_progress (&state, in, _("Reading theme..."),
+						       0.05, 0.1);
+				xlsx_parse_stream (&state, in, xlsx_theme_dtd);
+				end_update_progress (&state);
+			}
 
 			in = gsf_open_pkg_open_rel_by_type (wb_part,
 				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", NULL);
-			xlsx_parse_stream (&state, in, xlsx_styles_dtd);
+			if (in != NULL) {
+				start_update_progress (&state, in, _("Reading styles..."), 0.1, 0.2);
+				xlsx_parse_stream (&state, in, xlsx_styles_dtd);
+				end_update_progress (&state);
+			}
 
+			start_update_progress (&state, in, _("Reading workbook..."),
+					       0.2, 0.3);
 			xlsx_parse_stream (&state, wb_part, xlsx_workbook_dtd);
+			/* end_update_progress (&state);  moved into xlsx_wb_end */
 
 			xlsx_read_docprops (&state);
+
 		} else
 			go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 				_("No workbook stream found."));

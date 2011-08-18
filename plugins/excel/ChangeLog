@@ -1,3 +1,16 @@
+2011-08-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-read-docprops.c (xlsx_read_docprops_*): handle progress reports
+	* xlsx-read.c (maybe_update_progress): new
+	(start_update_progress): new
+	(end_update_progress): new
+	(xlsx_CT_Row): handle progress reports
+	(xlsx_CT_RowsCols_end): handle progress reports
+	(xlsx_sheet_begin): handle progress reports
+	(xlsx_comment_end): ditto
+	(xlsx_wb_end): ditto
+	(xlsx_file_open): ditto
+
 2011-08-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-read-drawing.c (xlsx_scatter_style): also read incorrect "markers"
