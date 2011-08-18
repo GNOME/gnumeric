@@ -708,6 +708,7 @@ xlsx_scatter_style (GsfXMLIn *xin, xmlChar const **attrs)
 		{"line",	0},
 		{"lineMarker",  1},
 		{"marker",      2},
+		{"markers",     2}, /* We used to write this erroneously */
 		{"none",	3},
 		{"smooth",      4},
 		{"smoothMarker", 5}

@@ -309,7 +309,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 				(use_splines?
 					(has_markers? "smoothMarker": "smooth"):
 					(has_markers? "lineMarker": "line")):
-				(has_markers? "markers": "none");
+				(has_markers? "marker": "none");
 		use_xy = TRUE;
 		gsf_xml_out_start_element (xml, "c:scatterChart");
 		xlsx_write_chart_cstr_unchecked (xml, "c:scatterStyle", style);
