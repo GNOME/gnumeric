@@ -1,3 +1,12 @@
+2011-08-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/rendered-value.h (_GnmRenderedValue): re-add color field
+	* src/rendered-value.c (gnm_rendered_value_new): store style color
+	in color field
+	(colour_selector_cb): deleted
+	(colour_from_layout): deleted
+	(gnm_rendered_value_get_color): just return color field value
+
 2011-08-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-control-gui.c (sheet_object_key_pressed),

@@ -47,7 +47,7 @@ static char const hashes[] =
  *             <= 0 will use width / 2
  */
 gboolean
-cell_calc_layout (GnmCell const *cell, GnmRenderedValue *rv, int y_direction,
+cell_calc_layout (G_GNUC_UNUSED GnmCell const *cell, GnmRenderedValue *rv, int y_direction,
 		  int width, int height, int h_center,
 		  GOColor *res_color, gint *res_x, gint *res_y)
 {

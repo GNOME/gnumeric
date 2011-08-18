@@ -16,6 +16,8 @@ struct _GnmRenderedValue {
 	/* In pixels:  */
 	guint16 indent_left, indent_right;
 
+	GOColor go_fore_color;
+
 	guint effective_halign : 8;
 	guint effective_valign : 5;
 	guint variable_width : 1;   /* result depends on the width of cell */

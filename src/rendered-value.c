@@ -186,7 +186,6 @@ gnm_rendered_value_new (GnmCell const *cell,
 	GnmStyle const *mstyle;
 	PangoDirection dir;
 	char const *text;
-	PangoAttribute *attr;
 
 	g_return_val_if_fail (cell != NULL, NULL);
 
@@ -284,15 +283,12 @@ gnm_rendered_value_new (GnmCell const *cell,
 		}
 	}
 
-	/* Add foreground color.  */
-	attr = go_color_to_pango
-		((gnm_style_get_font_color (mstyle))->go_color, TRUE);
-	attr->start_index = 0;
-	attr->end_index = G_MAXUINT;
-	pango_attr_list_insert_before (attrs, attr);
-
 	pango_layout_set_attributes (res->layout, attrs);
 	pango_attr_list_unref (attrs);
+
+	/* Store foreground color.  */	
+	/* Wrapping this colour around the attribute list drops performance! */
+	res->go_fore_color = (gnm_style_get_font_color (mstyle))->go_color;
 
 	/* ---------------------------------------- */
 
@@ -526,41 +522,10 @@ gnm_rendered_value_get_text (GnmRenderedValue const *rv)
 	return pango_layout_get_text (rv->layout);
 }
 
-static gboolean
-colour_selector_cb (PangoAttribute *attribute, PangoColor *color)
-{
-	if (attribute->start_index == 0 &&
-	    PANGO_ATTR_FOREGROUND == attribute->klass->type) {
-		*color = ((PangoAttrColor *)(attribute))->color;
-		return FALSE;
-	}
-	return FALSE;
-}
-
-static GOColor
-colour_from_layout (PangoLayout *layout)
-{
-	PangoAttrList *attrs = pango_layout_get_attributes (layout),
-		*fattrs;
-	PangoColor c;
-
-	if (go_pango_attr_list_is_empty (attrs))
-		return 0;
-
-	fattrs = pango_attr_list_filter
-		(attrs, (PangoAttrFilterFunc)colour_selector_cb, &c);
-
-	if (fattrs == NULL)
-		return 0;
-	pango_attr_list_unref (fattrs);
-
-	return GO_COLOR_FROM_RGBA (c.red, c.green, c.blue, 0xff);
-}
-
 GOColor
 gnm_rendered_value_get_color (GnmRenderedValue const * rv)
 {
-	return colour_from_layout (rv->layout);
+	return rv->go_fore_color;;
 }
 
 /* ------------------------------------------------------------------------- */
