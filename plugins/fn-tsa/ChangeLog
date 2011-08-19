@@ -1,3 +1,12 @@
+2011-08-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugin.xml.in: add hpfilter
+	* functions.c (help_fourier): use the correct error in teh description
+	(help_hpfilter): new
+	(gnm_hpfilter): new
+	(gnumeric_hpfilter): new
+	(TimeSeriesAnalysis_functions): add hpfilter
+
 2011-07-31  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.17

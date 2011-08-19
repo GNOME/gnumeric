@@ -6133,7 +6133,17 @@ The distinction between half-width and full-width characters is described in htt
 @DESCRIPTION=This array function returns the Fourier or inverse Fourier transform of the given data sequence.
 The output consists of one column of complex numbers if @{Separate} is false and of two columns of real numbers if @{Separate} is true.
 If @{Separate} is true the first output column contains the real parts and the second column the imaginary parts.
-@NOTE=If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #NUM!
+@NOTE=If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #VALUE!
+
+@CATEGORY=Time Series Analysis
+@FUNCTION=HPFILTER
+@SHORTDESC=Hodrick Prescott Filter
+@SYNTAX=HPFILTER(Sequence,λ)
+@ARGUMENTDESCRIPTION=@{Sequence}: the data sequence to be transformed
+@{λ}: filter parameter λ, defaults to 1600
+@DESCRIPTION=This array function returns the trend and cyclical components obtained by applying the Hodrick Prescott Filter with parameter @{λ} to the given data sequence.
+The output consists of two columns of numbers, the first containing the trend component, the second the cyclical component.
+@NOTE=If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #VALUE! If @{Sequence} contians less than 6 numerical values, this function returns #VALUE!
 
 @CATEGORY=Time Series Analysis
 @FUNCTION=INTERPOLATION

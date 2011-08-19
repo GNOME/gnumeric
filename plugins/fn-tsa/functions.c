@@ -384,7 +384,7 @@ static GnmFuncHelp const help_interpolation[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty cells in @{abscissae} and @{ordinates} are ignored.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If several target data are provided they must be in the same column in consecutive cells.") },
 	{ GNM_FUNC_HELP_SEEALSO, "PERIODOGRAM" },
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_END, NULL }
 };
 
 static GnmValue *
@@ -538,7 +538,7 @@ static GnmFuncHelp const help_periodogram[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty cells in @{abscissae} and @{ordinates} are ignored.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If several target data are provided they must be in the same column in consecutive cells.") },
 	{ GNM_FUNC_HELP_SEEALSO, "INTERPOLATION" },
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_END, NULL }
 };
 
 static GnmValue *
@@ -787,8 +787,8 @@ static GnmFuncHelp const help_fourier[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This array function returns the Fourier or inverse Fourier transform of the given data sequence.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The output consists of one column of complex numbers if @{Separate} is false and of two columns of real numbers if @{Separate} is true.") },
 { GNM_FUNC_HELP_DESCRIPTION, F_("If @{Separate} is true the first output column contains the real parts and the second column the imaginary parts.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #NUM!") },
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NOTE, F_("If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #VALUE!") },
+	{ GNM_FUNC_HELP_END, NULL }
 };
 
 static GnmValue *
@@ -876,6 +876,162 @@ gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return res;
 }
 
+/******************************************************************************/
+
+static GnmFuncHelp const help_hpfilter[] = {
+	{ GNM_FUNC_HELP_NAME, F_("HPFILTER:Hodrick Prescott Filter") },
+	{ GNM_FUNC_HELP_ARG, F_("Sequence:the data sequence to be transformed") },
+	{ GNM_FUNC_HELP_ARG, F_("\316\273:filter parameter \316\273, defaults to 1600") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This array function returns the trend and cyclical components obtained by applying the Hodrick Prescott Filter with parameter @{\316\273} to the given data sequence.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The output consists of two columns of numbers, the first containing the trend component, the second the cyclical component.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #VALUE!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{Sequence} contians less than 6 numerical values, this function returns #VALUE!") },
+	{ GNM_FUNC_HELP_END, NULL }
+};
+
+
+static void
+gnm_hpfilter (gnm_float *data, int n, gnm_float lambda, int *err)
+{
+ 	gnm_float *a, *b, *c;
+ 	int i;
+ 	gnm_float lambda6 = 6 * lambda + 1;
+ 	gnm_float lambda4 = -4 * lambda;
+ 	gnm_float h[5] = {0,0,0,0,0};
+ 	gnm_float g[5] = {0,0,0,0,0};
+ 	gnm_float j[2] = {0,0};
+ 	gnm_float h_b, h_c, denom;
+
+ 	g_return_if_fail (n > 5);
+ 	g_return_if_fail (data != NULL);
+ 	g_return_if_fail (err != NULL);
+
+ 	/* Initializing arrays a, b, and c */
+
+ 	a = g_new (gnm_float, n);
+ 	b = g_new (gnm_float, n);
+ 	c = g_new (gnm_float, n);
+
+ 	a[0] = lambda + 1;
+ 	b[0] = -2 * lambda;
+ 	c[0] = lambda;
+
+ 	for (i = 1; i < n - 2; i++) {
+ 		a[i] = lambda6;
+ 		b[i] = lambda4;
+ 		c[i] = lambda;
+ 	}
+
+ 	a[n - 2] = a[1] = lambda6 - lambda;
+ 	a[n - 1] = a[0];
+ 	b[n - 2] = b[0];
+ 	b[n - 1] = 0;
+ 	c[n - 2] = 0;
+ 	c[n - 1] = 0;
+	
+ 	/* Forward */
+ 	for (i = 0; i < n; i++) {
+ 		denom = a[i]- h[3]*h[0] - g[4]*g[1];
+ 		if (denom == 0) {
+ 			*err = GNM_ERROR_DIV0;
+ 			goto done;
+ 		}
+
+ 		h_b = b[i];
+ 		g[0] = h[0];
+ 		b[i] = h[0] = (h_b - h[3] * h[1])/denom;
+
+ 		h_c = c[i];
+ 		g[1] = h[1];
+ 		c[i] = h[1] = h_c/denom;
+
+ 		a[i] = (data[i] - g[2]*g[4] - h[2]*h[3])/denom;
+
+ 		g[2] = h[2];
+ 		h[2] = a[i];
+ 		h[3] = h_b - h[4] * g[0];
+ 		g[4] = h[4];
+ 		h[4] = h_c;
+ 	}
+
+ 	data[n - 1] = j[0] = a[n - 1];
+
+ 	/* Backwards */
+ 	for (i = n - 1; i > 0; i--) {
+ 		data[i - 1] = a[i - 1] - b[i - 1] * j[0] - c[i - 1] * j[1];
+ 		j[1] = j[0];
+ 		j[0] = data[i - 1];
+ 	}
+
+ done:
+ 	g_free (a);
+ 	g_free (b);
+ 	g_free (c);
+ 	return;
+}
+
+static GnmValue *
+gnumeric_hpfilter (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float *raw, *filtered;
+	gnm_float lambda;
+	int n = 0;
+	GnmValue *error = NULL;
+	GnmValue *res;
+	CollectFlags flags;
+	GnmEvalPos const * const ep = ei->pos;
+	GnmValue const * const Pt = argv[0];
+	int i, err = -1;
+
+	int const cols = value_area_get_width (Pt, ep);
+	int const rows = value_area_get_height (Pt, ep);
+
+	if (cols != 1 && rows != 1) {
+		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
+		return res;
+	}
+
+	flags=COLLECT_IGNORE_BLANKS | COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS;
+
+	raw = collect_floats_value (argv[0], ei->pos, flags,
+					      &n, &error);
+	if (error)
+		return error;
+
+	if (n < 6) {
+		g_free (raw);
+		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
+		return res;
+	}
+
+	if (argv[1])
+		lambda = value_get_as_float (argv[1]);
+	else
+		lambda = 1600.;
+
+
+	/* Filter and return the result */
+	filtered = g_new0 (gnm_float, n);
+	for (i = 0; i < n; i++)
+		filtered[i] = raw[i];
+	gnm_hpfilter (filtered, n, lambda, &err);
+	if (err > -1) {
+		g_free (raw);
+		g_free (filtered);
+		res = value_new_error_std (ei->pos, err);
+		return res;
+	}
+
+	res = value_new_array_empty (2 , n);
+	for (i = 0; i < n; i++) {
+		res->v_array.vals[0][i] = value_new_float (filtered[i]);
+		res->v_array.vals[1][i] = value_new_float (raw[i] - filtered[i]);
+	}
+	g_free (raw);
+	g_free (filtered);
+
+	return res;
+}
 
 const GnmFuncDescriptor TimeSeriesAnalysis_functions[] = {
 
@@ -891,5 +1047,9 @@ const GnmFuncDescriptor TimeSeriesAnalysis_functions[] = {
 	  help_fourier, gnumeric_fourier, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-        {NULL}
+	{ "hpfilter",       "A|fb",
+	  help_hpfilter, gnumeric_hpfilter, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+
+	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0}
 };

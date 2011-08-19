@@ -15,6 +15,7 @@
             			<function name="interpolation"/>
             			<function name="periodogram"/>
             			<function name="fourier"/>
+            			<function name="hpfilter"/>
 			</functions>
 		</service>
 	</services>

@@ -10,6 +10,7 @@ Andreas:
 	* Fix writing of scatter style in xlsx export. [#656799]
 	* Provide progress feedback for xlsx import. [#634803]
 	* Provide progress feedback when generating random numbers.
+	* Add HPFILTER function calculating the Hodrick Prescott Filter.
 
 Jean:
 	* Make things build against gtk+-3.0.

@@ -21126,7 +21126,39 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If <parameter>Sequence</parameter> is neither an n by 1 nor 1 by n array, this function returns #NUM!</para>
+        <para>If <parameter>Sequence</parameter> is neither an n by 1 nor 1 by n array, this function returns #VALUE!</para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-HPFILTER">
+      <refmeta>
+        <refentrytitle>
+          <function>HPFILTER</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>HPFILTER</function>
+        </refname>
+        <refpurpose>
+        Hodrick Prescott Filter
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>HPFILTER</function>(<parameter>Sequence</parameter>,<parameter/>λ)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>Sequence</parameter>: the data sequence to be transformed</para>
+        <para><parameter>λ</parameter>: filter parameter λ, defaults to 1600</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This array function returns the trend and cyclical components obtained by applying the Hodrick Prescott Filter with parameter <parameter>λ</parameter> to the given data sequence.</para>
+        <para>The output consists of two columns of numbers, the first containing the trend component, the second the cyclical component.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>Sequence</parameter> is neither an n by 1 nor 1 by n array, this function returns #VALUE! If <parameter>Sequence</parameter> contians less than 6 numerical values, this function returns #VALUE!</para>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-function-INTERPOLATION">
