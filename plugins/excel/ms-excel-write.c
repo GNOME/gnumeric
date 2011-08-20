@@ -120,7 +120,7 @@ struct _BlipType {
  */
 typedef struct {
 	GnmStyle const *style;
-	int variant;
+	int variant; /* bit 0: cell-is-quoted; bit 2: cell-contains-newline */
 } ExcelStyleVariant;
 
 static guint
@@ -2535,19 +2535,22 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 		 */
 		char *text = gnm_cell_get_entered_text (cell);
 		gboolean quoted = (text[0] == '\'');
+		/* No need to synthesize wrap-text if it is already set! */
+		gboolean wrapped = (NULL != strchr (text, '\n')) && 
+			!gnm_style_get_wrap_text (style);
 		g_free (text);
-
-		if (quoted) {
+			
+		if (quoted || wrapped) {
 			int xf;
 			ExcelStyleVariant *esv = g_new (ExcelStyleVariant, 1);
-			esv->variant = 1;
+			esv->variant = (quoted ? 1 : 0) | (wrapped ? 4 : 0);
 			esv->style = style;
 			xf = two_way_table_put (ewb->base.xf.two_way_table,
 						esv, FALSE,
 						(AfterPutFunc)after_put_esv, NULL);
 			g_hash_table_insert (ewb->base.xf.cell_style_variant,
 					     (gpointer)cell,
-					     GINT_TO_POINTER (1));
+					     GINT_TO_POINTER (esv->variant));
 		}
 	}
 }
@@ -2782,7 +2785,7 @@ build_xf_data (XLExportBase *xle, BiffXFData *xfd, const ExcelStyleVariant *esv)
 	xfd->format     = (esv->variant & 1) ? MS_BIFF_F_LOTUS : MS_BIFF_F_MS;
 	xfd->halign	= gnm_style_get_align_h (st);
 	xfd->valign	= gnm_style_get_align_v (st);
-	xfd->wrap_text	= gnm_style_get_wrap_text (st);
+	xfd->wrap_text	= gnm_style_get_wrap_text (st) || (esv->variant & 4);
 	xfd->indent	= gnm_style_get_indent (st);
 	xfd->rotation	= gnm_style_get_rotation (st);
 	xfd->text_dir	= gnm_style_get_text_dir (st);

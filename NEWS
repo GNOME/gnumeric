@@ -11,6 +11,7 @@ Andreas:
 	* Provide progress feedback for xlsx import. [#634803]
 	* Provide progress feedback when generating random numbers.
 	* Add HPFILTER function calculating the Hodrick Prescott Filter.
+	* Fix saving of newlines to xls. [#356711]
 
 Jean:
 	* Make things build against gtk+-3.0.
