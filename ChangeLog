@@ -1,3 +1,10 @@
+2011-08-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* src/sheet.c (cb_max_cell_height): fix row height autofit when zoom
+	level is not 1. [#656418]
+
 2011-08-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/workbook-view.c (wb_view_auto_expr_recalc): chaeck for NULL

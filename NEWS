@@ -16,6 +16,7 @@ Andreas:
 Jean:
 	* Make things build against gtk+-3.0.
 	* Make Ctrl-PgUp and Ctrl-PgDn work on chart-only sheets. [#645673]
+	* Fix row height autofit when zoom level is not 1. [#656418]
 
 Valek:
 	* In xls import, set LABEL encoding based on FONT charset converted to 
