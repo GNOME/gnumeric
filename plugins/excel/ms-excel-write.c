@@ -2545,12 +2545,16 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 			ExcelStyleVariant *esv = g_new (ExcelStyleVariant, 1);
 			esv->variant = (quoted ? 1 : 0) | (wrapped ? 4 : 0);
 			esv->style = style;
-			xf = two_way_table_put (ewb->base.xf.two_way_table,
-						esv, FALSE,
-						(AfterPutFunc)after_put_esv, NULL);
 			g_hash_table_insert (ewb->base.xf.cell_style_variant,
 					     (gpointer)cell,
 					     GINT_TO_POINTER (esv->variant));
+			xf = two_way_table_key_to_idx (ewb->base.xf.two_way_table, esv);
+			if (xf < 0)
+				xf = two_way_table_put (ewb->base.xf.two_way_table,
+							esv, FALSE,
+							(AfterPutFunc)after_put_esv, NULL);
+			else
+				g_free (esv);
 		}
 	}
 }

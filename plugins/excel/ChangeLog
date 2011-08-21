@@ -1,5 +1,10 @@
 2011-08-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* ms-excel-write.c (cb_cell_pre_pass): avoid synthesizing the same style several
+	times
+
+2011-08-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* ms-excel-write.c (cb_cell_pre_pass): synthesize wrap-text style if necessary
 	(build_xf_data): we need to write wrap-text in variant 4
 
