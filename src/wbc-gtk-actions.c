@@ -2070,15 +2070,9 @@ static GtkActionEntry const permanent_actions[] = {
 		NULL, N_("Quit the application"),
 		G_CALLBACK (cb_file_quit) },
 
-	{ "EditCut", GTK_STOCK_CUT, NULL,
-		NULL, N_("Cut the selection"),
-		G_CALLBACK (cb_edit_cut) },
 	{ "EditCopy", GTK_STOCK_COPY, NULL,
 		NULL, N_("Copy the selection"),
 		G_CALLBACK (cb_edit_copy) },
-	{ "EditPaste", GTK_STOCK_PASTE, NULL,
-		NULL, N_("Paste the clipboard"),
-		G_CALLBACK (cb_edit_paste) },
 	{ "UndoLast", GTK_STOCK_UNDO, N_("_Undo"),
 		NULL, N_("Undo the last action"),
 		G_CALLBACK (cb_edit_undo_last) },
@@ -2108,6 +2102,55 @@ static GtkActionEntry const permanent_actions[] = {
 	{ "HelpAbout", GTK_STOCK_ABOUT, N_("_About"),
 		NULL, N_("About this application"),
 		G_CALLBACK (cb_help_about) },
+};
+
+/* actions that are sensitive only in data sheets */
+static GtkActionEntry const data_only_actions[] = {
+	{ "EditCut", GTK_STOCK_CUT, NULL,
+		NULL, N_("Cut the selection"),
+		G_CALLBACK (cb_edit_cut) },
+	{ "EditPaste", GTK_STOCK_PASTE, NULL,
+		NULL, N_("Paste the clipboard"),
+		G_CALLBACK (cb_edit_paste) },
+};
+
+static GtkActionEntry const semi_permanent_actions[] = {
+/* Edit -> Sheet */
+	{ "SheetReorder", NULL, N_("_Manage Sheets..."),
+		NULL, N_("Manage the sheets in this workbook"),
+		G_CALLBACK (cb_sheet_order) },
+	{ "InsertSheet", NULL, N_("_Insert"),
+		NULL, N_("Insert a new sheet"),
+		G_CALLBACK (wbcg_insert_sheet) },
+    /* ICK A DUPLICATE : we have no way to override a label on one proxy */
+	{ "SheetInsert", NULL, N_("_Sheet"),
+		NULL, N_("Insert a new sheet"),
+		G_CALLBACK (wbcg_insert_sheet) },
+	{ "InsertSheetAtEnd", NULL, N_("_Append"),
+		NULL, N_("Append a new sheet"),
+		G_CALLBACK (wbcg_append_sheet) },
+	{ "EditDuplicateSheet", NULL, N_("_Duplicate"),
+		NULL, N_("Make a copy of the current sheet"),
+		G_CALLBACK (wbcg_clone_sheet) },
+	{ "SheetRemove", NULL, N_("_Remove"),
+		NULL, N_("Irrevocably remove an entire sheet"),
+		G_CALLBACK (cb_sheet_remove) },
+	{ "SheetChangeName", NULL, N_("Re_name"),
+		NULL, N_("Rename the current sheet"),
+		G_CALLBACK (cb_sheet_name) },
+	{ "SheetResize", NULL, N_("Resize..."),
+		NULL, N_("Change the size of the current sheet"),
+		G_CALLBACK (cb_sheet_resize) },
+
+/* View */
+	{ "ViewNew", GTK_STOCK_NEW, N_("_New View..."),
+		NULL, N_("Create a new view of the workbook"),
+		G_CALLBACK (cb_view_new) },
+
+/* Format */
+	{ "FormatWorkbook", GTK_STOCK_PROPERTIES, N_("View _Properties..."),
+		NULL, N_("Modify the view properties"),
+		G_CALLBACK (cb_workbook_attr) },
 };
 
 #ifdef GNM_USE_HILDON
@@ -2243,33 +2286,6 @@ static GtkActionEntry const actions[] = {
 		"<control>G", N_("Jump to a specified cell"),
 		G_CALLBACK (cb_edit_goto) },
 
-/* Edit -> Sheet */
-	{ "SheetReorder", NULL, N_("_Manage Sheets..."),
-		NULL, N_("Manage the sheets in this workbook"),
-		G_CALLBACK (cb_sheet_order) },
-	{ "InsertSheet", NULL, N_("_Insert"),
-		NULL, N_("Insert a new sheet"),
-		G_CALLBACK (wbcg_insert_sheet) },
-    /* ICK A DUPLICATE : we have no way to override a label on one proxy */
-	{ "SheetInsert", NULL, N_("_Sheet"),
-		NULL, N_("Insert a new sheet"),
-		G_CALLBACK (wbcg_insert_sheet) },
-	{ "InsertSheetAtEnd", NULL, N_("_Append"),
-		NULL, N_("Append a new sheet"),
-		G_CALLBACK (wbcg_append_sheet) },
-	{ "EditDuplicateSheet", NULL, N_("_Duplicate"),
-		NULL, N_("Make a copy of the current sheet"),
-		G_CALLBACK (wbcg_clone_sheet) },
-	{ "SheetRemove", NULL, N_("_Remove"),
-		NULL, N_("Irrevocably remove an entire sheet"),
-		G_CALLBACK (cb_sheet_remove) },
-	{ "SheetChangeName", NULL, N_("Re_name"),
-		NULL, N_("Rename the current sheet"),
-		G_CALLBACK (cb_sheet_name) },
-	{ "SheetResize", NULL, N_("Resize..."),
-		NULL, N_("Change the size of the current sheet"),
-		G_CALLBACK (cb_sheet_resize) },
-
 /* Edit */
 	{ "Repeat", NULL, N_("Repeat"),
 		"F4", N_("Repeat the previous action"),
@@ -2306,9 +2322,6 @@ static GtkActionEntry const actions[] = {
 		G_CALLBACK (cb_file_preferences) },
 
 /* View */
-	{ "ViewNew", GTK_STOCK_NEW, N_("_New View..."),
-		NULL, N_("Create a new view of the workbook"),
-		G_CALLBACK (cb_view_new) },
 	{ "ViewFreezeThawPanes", NULL, N_("_Freeze Panes"),
 		NULL, N_("Freeze the top left of the sheet"),
 		G_CALLBACK (cb_view_freeze_panes) },
@@ -2384,9 +2397,6 @@ static GtkActionEntry const actions[] = {
 		G_CALLBACK (cb_define_name) },
 
 /* Format */
-	{ "FormatWorkbook", GTK_STOCK_PROPERTIES, N_("View _Properties..."),
-		NULL, N_("Modify the view properties"),
-		G_CALLBACK (cb_workbook_attr) },
 	{ "FormatAuto", NULL, N_("_Autoformat..."),
 		NULL, N_("Format a region of cells according to a pre-defined template"),
 		G_CALLBACK (cb_autoformat) },
@@ -2895,7 +2905,9 @@ static GtkToggleActionEntry const toggle_actions[] = {
 	{ "AlignBottom", NULL,
 		N_("Align _Bottom"), NULL,
 		N_("Align Bottom"), G_CALLBACK (cb_align_bottom), FALSE },
+};
 
+static GtkToggleActionEntry const semi_permanent_toggle_actions[] = {
 	{ "ViewStatusbar", NULL,
 		N_("View _Statusbar"), NULL,
 		N_("Toggle visibility of statusbar"),
@@ -3016,6 +3028,10 @@ wbc_gtk_init_actions (WBCGtk *wbcg)
 	gtk_action_group_set_translation_domain (wbcg->actions, GETTEXT_PACKAGE);
 	wbcg->font_actions = gtk_action_group_new ("FontActions");
 	gtk_action_group_set_translation_domain (wbcg->font_actions, GETTEXT_PACKAGE);
+	wbcg->data_only_actions = gtk_action_group_new ("DataOnlyActions");
+	gtk_action_group_set_translation_domain (wbcg->data_only_actions, GETTEXT_PACKAGE);
+	wbcg->semi_permanent_actions = gtk_action_group_new ("SemiPermanentActions");
+	gtk_action_group_set_translation_domain (wbcg->semi_permanent_actions, GETTEXT_PACKAGE);
 
 	gtk_action_group_add_actions (wbcg->permanent_actions,
 		permanent_actions, G_N_ELEMENTS (permanent_actions), wbcg);
@@ -3025,6 +3041,12 @@ wbc_gtk_init_actions (WBCGtk *wbcg)
 		toggle_actions, G_N_ELEMENTS (toggle_actions), wbcg);
 	gtk_action_group_add_toggle_actions (wbcg->font_actions,
 		font_toggle_actions, G_N_ELEMENTS (font_toggle_actions), wbcg);
+	gtk_action_group_add_actions (wbcg->data_only_actions,
+		data_only_actions, G_N_ELEMENTS (data_only_actions), wbcg);
+	gtk_action_group_add_actions (wbcg->semi_permanent_actions,
+		semi_permanent_actions, G_N_ELEMENTS (semi_permanent_actions), wbcg);
+	gtk_action_group_add_toggle_actions (wbcg->semi_permanent_actions,
+		semi_permanent_toggle_actions, G_N_ELEMENTS (semi_permanent_toggle_actions), wbcg);
 
 	wbc_gtk_init_alignments (wbcg);
 }

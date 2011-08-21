@@ -1,6 +1,13 @@
-2011-08-20  Jean Brefort  <jean.brefort@normalesup.org>
+2011-08-21  Jean Brefort  <jean.brefort@normalesup.org>
 
-	reviewed by: <delete if not using a buddy>
+	* src/sheet-control-gui.c (sheet_object_key_pressed): missing spaces.
+	* src/wbc-gtk-actions.c: fix actions sensitivity for chart sheets. [#645842]
+	* src/wbc-gtk-impl.h: ditto.
+	* src/wbc-gtk.c (wbc_gtk_set_action_sensitivity),
+	(wbc_gtk_set_action_label), (wbcg_update_action_sensitivity),
+	(create_undo_redo), (wbc_gtk_finalize), (wbc_gtk_init): ditto.
+
+2011-08-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet.c (cb_max_cell_height): fix row height autofit when zoom
 	level is not 1. [#656418]

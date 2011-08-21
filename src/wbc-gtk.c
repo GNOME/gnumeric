@@ -141,6 +141,10 @@ wbc_gtk_set_action_sensitivity (WBCGtk const *wbcg,
 	GtkAction *a = gtk_action_group_get_action (wbcg->actions, action);
 	if (a == NULL)
 		a = gtk_action_group_get_action (wbcg->permanent_actions, action);
+	if (a == NULL)
+		a = gtk_action_group_get_action (wbcg->semi_permanent_actions, action);
+	if (a == NULL)
+		a = gtk_action_group_get_action (wbcg->data_only_actions, action);
 	g_object_set (G_OBJECT (a), "sensitive", sensitive, NULL);
 }
 
@@ -155,6 +159,9 @@ wbc_gtk_set_action_label (WBCGtk const *wbcg,
 			  char const *new_tip)
 {
 	GtkAction *a = gtk_action_group_get_action (wbcg->actions, action);
+
+	if (!a)
+		a = gtk_action_group_get_action (wbcg->semi_permanent_actions, action);
 
 	if (prefix != NULL) {
 		char *text;
@@ -361,7 +368,8 @@ wbcg_update_action_sensitivity (WorkbookControl *wbc)
 	WBCGtk *wbcg = WBC_GTK (wbc);
 	SheetControlGUI	   *scg = wbcg_cur_scg (wbcg);
 	gboolean edit_object = scg != NULL &&
-		(scg->selected_objects != NULL || wbcg->new_object != NULL);
+		(scg->selected_objects != NULL || wbcg->new_object != NULL ||
+		 scg_sheet (scg)->sheet_type == GNM_SHEET_OBJECT);
 	gboolean enable_actions = TRUE;
 	gboolean enable_edit_ok_cancel = FALSE;
 
@@ -395,17 +403,21 @@ wbcg_update_action_sensitivity (WorkbookControl *wbc)
 		NULL);
 
 	if (scg && scg_sheet (scg)->sheet_type == GNM_SHEET_OBJECT) {
-		GtkAction *action = gtk_action_group_get_action (wbcg->permanent_actions, "EditPaste");
-		gtk_action_set_sensitive (action, FALSE);
-		action = gtk_action_group_get_action (wbcg->permanent_actions, "EditCut");
-		gtk_action_set_sensitive (action, FALSE);
+		g_object_set (G_OBJECT (wbcg->data_only_actions),
+			"sensitive", FALSE,
+			NULL);
+		g_object_set (G_OBJECT (wbcg->semi_permanent_actions),
+			"sensitive",TRUE,
+			NULL);
 		gtk_widget_set_sensitive (GTK_WIDGET (wbcg->edit_line.entry), FALSE);
 		gtk_widget_set_sensitive (GTK_WIDGET (wbcg->selection_descriptor), FALSE);
 	} else {
-		GtkAction *action = gtk_action_group_get_action (wbcg->permanent_actions, "EditPaste");
-		gtk_action_set_sensitive (action, TRUE);
-		action = gtk_action_group_get_action (wbcg->permanent_actions, "EditCut");
-		gtk_action_set_sensitive (action, TRUE);
+		g_object_set (G_OBJECT (wbcg->data_only_actions),
+			"sensitive", TRUE,
+			NULL);
+		g_object_set (G_OBJECT (wbcg->semi_permanent_actions),
+			"sensitive", enable_actions,
+			NULL);
 		gtk_widget_set_sensitive (GTK_WIDGET (wbcg->edit_line.entry), TRUE);
 		gtk_widget_set_sensitive (GTK_WIDGET (wbcg->selection_descriptor), TRUE);
 	}
@@ -3321,7 +3333,7 @@ create_undo_redo (GOActionComboStack **haction, char const *hname,
 		 "sensitive", FALSE,
 		 "visible-vertical", FALSE,
 		 NULL);
-	gtk_action_group_add_action_with_accel (gtk->actions,
+	gtk_action_group_add_action_with_accel (gtk->semi_permanent_actions,
 		GTK_ACTION (*haction), accel);
 	g_signal_connect (G_OBJECT (*haction), "activate", hcb, gtk);
 
@@ -3330,7 +3342,7 @@ create_undo_redo (GOActionComboStack **haction, char const *hname,
 		      "sensitive", FALSE,
 		      "visible-horizontal", FALSE,
 		      NULL);
-	gtk_action_group_add_action (gtk->actions, GTK_ACTION (*vaction));
+	gtk_action_group_add_action (gtk->semi_permanent_actions, GTK_ACTION (*vaction));
 	g_signal_connect_swapped (G_OBJECT (*vaction), "activate", vcb, gtk);
 
 	g_signal_connect (G_OBJECT (*haction), "notify::sensitive",
@@ -5338,6 +5350,8 @@ wbc_gtk_finalize (GObject *obj)
 	UNREF_OBJ (actions);
 	UNREF_OBJ (permanent_actions);
 	UNREF_OBJ (font_actions);
+	UNREF_OBJ (data_only_actions);
+	UNREF_OBJ (semi_permanent_actions);
 	UNREF_OBJ (ui);
 
 	/* Disconnect signals that would attempt to change things during
@@ -5897,6 +5911,8 @@ wbc_gtk_init (GObject *obj)
 	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->permanent_actions, 0);
 	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->actions, 0);
 	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->font_actions, 0);
+	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->data_only_actions, 0);
+	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->semi_permanent_actions, 0);
 	gtk_window_add_accel_group (wbcg_toplevel (wbcg),
 		gtk_ui_manager_get_accel_group (wbcg->ui));
 

@@ -1424,8 +1424,8 @@ static gboolean
 sheet_object_key_pressed (GtkWidget *w, GdkEventKey *event, SheetControlGUI *scg)
 {
 	Sheet *sheet = scg_sheet (scg);
-	WorkbookControl * wbc = scg_wbc(scg);
-	Workbook * wb = wb_control_get_workbook(wbc);
+	WorkbookControl * wbc = scg_wbc (scg);
+	Workbook * wb = wb_control_get_workbook (wbc);
 	switch (event->keyval) {
 	case GDK_KEY_KP_Page_Up:
 	case GDK_KEY_Page_Up:
