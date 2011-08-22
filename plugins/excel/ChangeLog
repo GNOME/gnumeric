@@ -1,5 +1,12 @@
 2011-08-22  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* xlsx-read-drawing.c (xlsx_ser_data_show_val),
+	(xlsx_ser_data_show_cat), (xlsx_ser_data_pos),
+	(xlsx_ser_data_start), (xlsx_chart_ser_f): import data labels,
+	(xlsx_chart_solid_fill): fix fill color.
+
+2011-08-22  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* xlsx-read-drawing.c (xlsx_chart_ser_f): fix import of series names.
 
 2011-08-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
