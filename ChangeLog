@@ -1,3 +1,8 @@
+2011-08-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-widget.c (sheet_widget_combo_create_widget): fixed combo
+	box properties.
+
 2011-08-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-control-gui.c (sheet_object_key_pressed): missing spaces.

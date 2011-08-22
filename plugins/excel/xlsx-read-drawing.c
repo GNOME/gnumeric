@@ -798,7 +798,7 @@ static void
 xlsx_chart_ser_f (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	if (NULL != state->series) {
+	if (NULL != state->series && state->cur_obj == (GogObject *) state->series) {
 		GnmParsePos pp;
 		GnmExprTop const *texpr = xlsx_parse_expr (xin, xin->content->str,
 			parse_pos_init_sheet (&pp, state->sheet));

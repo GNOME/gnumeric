@@ -3409,7 +3409,7 @@ sheet_widget_combo_create_widget (SheetObjectWidget *sow)
 	if (swl->model != NULL)
 		g_object_set (G_OBJECT (combo),
                       "model",		swl->model,
-                      "text-column",	0,
+                      "entry-text-column",	0,
                       "active",	swl->selection - 1,
                       NULL);
 
