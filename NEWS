@@ -12,6 +12,7 @@ Andreas:
 	* Provide progress feedback when generating random numbers.
 	* Add HPFILTER function calculating the Hodrick Prescott Filter.
 	* Fix saving of newlines to xls. [#356711]
+	* Enable markup selection in scientific format selector.
 
 Jean:
 	* Make things build against gtk+-3.0.

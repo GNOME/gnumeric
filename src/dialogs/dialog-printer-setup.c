@@ -1917,7 +1917,7 @@ do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
 		gtk_widget_destroy (dialog);
 		return NULL;
 	}
-	hf_dt_state->format_sel = format_sel = go_format_sel_new ();
+	hf_dt_state->format_sel = format_sel = go_format_sel_new_full (TRUE);
 	go_format_sel_set_style_format
 		(GO_FORMAT_SEL (format_sel),
 		 date ? go_format_default_date () : go_format_default_time ());

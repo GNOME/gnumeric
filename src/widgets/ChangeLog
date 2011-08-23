@@ -1,3 +1,8 @@
+2011-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnm-format-sel.c (gnm_format_sel_new): use go_format_sel_new_full
+	specifying TRUE.
+
 2011-08-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_create_tooltip): determine the

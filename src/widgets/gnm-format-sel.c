@@ -57,7 +57,7 @@ cb_generate_preview (GOFormatSel *gfs, PangoAttrList **attrs)
 GtkWidget *
 gnm_format_sel_new (void)
 {
-	GObject *w = g_object_new (GO_TYPE_FORMAT_SEL, NULL);
+	GObject *w = G_OBJECT (go_format_sel_new_full (TRUE));
 	g_signal_connect (w, "generate-preview",
 		G_CALLBACK (cb_generate_preview), NULL);
 	return GTK_WIDGET (w);
