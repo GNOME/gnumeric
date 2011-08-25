@@ -323,10 +323,11 @@ src/sheet-autofill.c
 src/sheet-control-gui.c
 src/sheet-filter.c
 src/sheet-merge.c
+src/sheet-object.c
+src/sheet-object-component.c
 src/sheet-object-graph.c
 src/sheet-object-image.c
 src/sheet-object-widget.c
-src/sheet-object.c
 src/sheet-style.c
 src/sheet-utils.c
 src/sheet-view.c
