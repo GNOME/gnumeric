@@ -2430,36 +2430,6 @@ BC_R(valuerange)(XLChartHandler const *handle,
 
 /****************************************************************************/
 
-static int
-XL_gog_series_map_dim (GogSeries const *series, GogMSDimType ms_type)
-{
-	GogSeriesDesc const *desc = &series->plot->desc.series;
-	unsigned i = desc->num_dim;
-
-	if (ms_type == GOG_MS_DIM_LABELS)
-		return -1;
-	while (i-- > 0)
-		if (desc->dim[i].ms_type == ms_type)
-			return i;
-	return -2;
-}
-
-extern void
-XL_gog_series_set_dim (GogSeries *series, GogMSDimType ms_type, GOData *val);
-
-void
-XL_gog_series_set_dim (GogSeries *series, GogMSDimType ms_type, GOData *val)
-{
-	int dim;
-	g_return_if_fail (series !=NULL);
-	dim = XL_gog_series_map_dim (series, ms_type);
-	if (dim >= -1) {
-		gog_series_set_dim (series, dim, val, NULL);
-		return;
-	}
-	g_object_unref (val);
-}
-
 static void
 cb_store_singletons (gpointer indx, GOStyle *style, GogObject *series)
 {
@@ -2916,21 +2886,21 @@ not_a_matrix:
 				series = gog_plot_new_series (GOG_PLOT (plot));
 				g_object_set (plot, "gap_percentage", s->dropbar_width, NULL);
 				if (eseries->data [GOG_MS_DIM_CATEGORIES].data != NULL) {
-					XL_gog_series_set_dim (series, GOG_MS_DIM_CATEGORIES,
-						eseries->data [GOG_MS_DIM_CATEGORIES].data);
+					gog_series_set_XL_dim (series, GOG_MS_DIM_CATEGORIES,
+						eseries->data [GOG_MS_DIM_CATEGORIES].data, NULL);
 					eseries->data [GOG_MS_DIM_CATEGORIES].data = NULL;
 				}
 				if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
-					XL_gog_series_set_dim (series, GOG_MS_DIM_END,
-						eseries->data [GOG_MS_DIM_VALUES].data);
+					gog_series_set_XL_dim (series, GOG_MS_DIM_END,
+						eseries->data [GOG_MS_DIM_VALUES].data, NULL);
 					eseries->data [GOG_MS_DIM_VALUES].data = NULL;
 				} else
 					eseries->extra_dim = GOG_MS_DIM_END;
 				while (eseries = g_ptr_array_index (s->series, k++),
 							eseries->chart_group != s->plot_counter);
 				if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
-					XL_gog_series_set_dim (series, GOG_MS_DIM_START,
-						eseries->data [GOG_MS_DIM_VALUES].data);
+					gog_series_set_XL_dim (series, GOG_MS_DIM_START,
+						eseries->data [GOG_MS_DIM_VALUES].data, NULL);
 					eseries->data [GOG_MS_DIM_VALUES].data = NULL;
 				} else
 					eseries->extra_dim = GOG_MS_DIM_START;
@@ -2953,21 +2923,21 @@ not_a_matrix:
 				while (eseries = g_ptr_array_index (s->series, k++),
 							eseries->chart_group != s->plot_counter);
 				if (eseries->data [GOG_MS_DIM_CATEGORIES].data != NULL) {
-					XL_gog_series_set_dim (series, GOG_MS_DIM_CATEGORIES,
-						eseries->data [GOG_MS_DIM_CATEGORIES].data);
+					gog_series_set_XL_dim (series, GOG_MS_DIM_CATEGORIES,
+						eseries->data [GOG_MS_DIM_CATEGORIES].data, NULL);
 					eseries->data [GOG_MS_DIM_CATEGORIES].data = NULL;
 				}
 				if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
-					XL_gog_series_set_dim (series, GOG_MS_DIM_HIGH,
-						eseries->data [GOG_MS_DIM_VALUES].data);
+					gog_series_set_XL_dim (series, GOG_MS_DIM_HIGH,
+						eseries->data [GOG_MS_DIM_VALUES].data, NULL);
 					eseries->data [GOG_MS_DIM_VALUES].data = NULL;
 				} else
 					eseries->extra_dim = GOG_MS_DIM_HIGH;
 				while (eseries = g_ptr_array_index (s->series, k++),
 							eseries->chart_group != s->plot_counter);
 				if (eseries->data [GOG_MS_DIM_VALUES].data != NULL) {
-					XL_gog_series_set_dim (series, GOG_MS_DIM_LOW,
-						eseries->data [GOG_MS_DIM_VALUES].data);
+					gog_series_set_XL_dim (series, GOG_MS_DIM_LOW,
+						eseries->data [GOG_MS_DIM_VALUES].data, NULL);
 					eseries->data [GOG_MS_DIM_VALUES].data = NULL;
 				} else
 					eseries->extra_dim = GOG_MS_DIM_LOW;
@@ -2986,8 +2956,8 @@ not_a_matrix:
 				series = gog_plot_new_series (s->plot);
 				for (j = 0 ; j < GOG_MS_DIM_TYPES; j++ )
 					if (eseries->data [j].data != NULL) {
-						XL_gog_series_set_dim (series, j,
-							eseries->data [j].data);
+						gog_series_set_XL_dim (series, j,
+							eseries->data [j].data, NULL);
 						eseries->data [j].data = NULL;
 					}
 				eseries->series = series;
@@ -3445,7 +3415,7 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 					value_new_float (series->err_val));
 			error_bar->type = GOG_ERROR_BAR_TYPE_PERCENT;
 			data = gnm_go_data_vector_new_expr (sheet, texpr);
-			XL_gog_series_set_dim (parent->series, msdim, data);
+			gog_series_set_XL_dim (parent->series, msdim, data, NULL);
 			break;
 		}
 		case 2: {
@@ -3455,7 +3425,7 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 					value_new_float (series->err_val));
 			error_bar->type = GOG_ERROR_BAR_TYPE_ABSOLUTE;
 			data = gnm_go_data_vector_new_expr (sheet, texpr);
-			XL_gog_series_set_dim (parent->series, msdim, data);
+			gog_series_set_XL_dim (parent->series, msdim, data, NULL);
 			break;
 		}
 		case 3:
@@ -3467,8 +3437,8 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 				: GOG_MS_DIM_VALUES;
 			error_bar->type = GOG_ERROR_BAR_TYPE_ABSOLUTE;
 			if (series->data[orig_dim].data) {
-				XL_gog_series_set_dim (parent->series, msdim,
-							series->data[orig_dim].data);
+				gog_series_set_XL_dim (parent->series, msdim,
+							series->data[orig_dim].data, NULL);
 				series->data[orig_dim].data = NULL;
 			} else if (series->data[orig_dim].value) {
 				GnmExprTop const *texpr =
@@ -3476,7 +3446,7 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 								   series->data[orig_dim].value);
 				series->data[orig_dim].value = NULL;
 				data = gnm_go_data_vector_new_expr (sheet, texpr);
-				XL_gog_series_set_dim (parent->series, msdim, data);
+				gog_series_set_XL_dim (parent->series, msdim, data, NULL);
 			}
 			break;
 		default:
@@ -3784,9 +3754,9 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 
 					data = gnm_go_data_vector_new_expr (sheet, texpr);
 					if (series->extra_dim == 0)
-						XL_gog_series_set_dim (series->series, j, data);
+						gog_series_set_XL_dim (series->series, j, data, NULL);
 					else if (j == GOG_MS_DIM_VALUES)
-						XL_gog_series_set_dim (series->series, series->extra_dim, data);
+						gog_series_set_XL_dim (series->series, series->extra_dim, data, NULL);
 				}
 		}
 	}
@@ -4398,7 +4368,7 @@ static void
 store_dim (GogSeries const *series, GogMSDimType t,
 	   guint8 *store_type, guint8 *store_count, guint16 default_count)
 {
-	int msdim = XL_gog_series_map_dim (series, t);
+	int msdim = gog_series_map_XL_dim (series, t);
 	GOData *dat = NULL;
 	guint16 count, type;
 
@@ -4725,7 +4695,7 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 	store_dim (series, GOG_MS_DIM_CATEGORIES, data+0, data+4, num_elements);
 	store_dim (series, GOG_MS_DIM_VALUES, data+2, data+6, num_elements);
 	if (s->bp->version >= MS_BIFF_V8) {
-		msdim = XL_gog_series_map_dim (series, GOG_MS_DIM_BUBBLES);
+		msdim = gog_series_map_XL_dim (series, GOG_MS_DIM_BUBBLES);
 		store_dim (series, GOG_MS_DIM_BUBBLES, data+8, data+10,
 			   (msdim >= 0) ? num_elements : 0);
 	}
@@ -4733,10 +4703,10 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 
 	chart_write_BEGIN (s);
 	for (i = GOG_MS_DIM_LABELS; i <= GOG_MS_DIM_BUBBLES; i++) {
-		msdim = XL_gog_series_map_dim (series, i);
+		msdim = gog_series_map_XL_dim (series, i);
 		if (msdim >= -1)
 			dat = gog_dataset_get_dim (GOG_DATASET (series),
-				XL_gog_series_map_dim (series, i));
+				gog_series_map_XL_dim (series, i));
 		else
 			dat = NULL;
 		chart_write_AI (s, dat, i, default_ref_type[i]);

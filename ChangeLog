@@ -1,3 +1,7 @@
+2011-08-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_scalar_get_str): format the string.
+
 2011-08-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-widget.c (sheet_widget_combo_create_widget): fixed combo

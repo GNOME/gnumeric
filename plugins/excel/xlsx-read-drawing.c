@@ -74,6 +74,16 @@ xlsx_chart_text_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 }
 
 static void
+xlsx_tx_pr (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (GO_IS_STYLED_OBJECT (state->cur_obj) && state->cur_style) {
+		state->gocolor = &state->cur_style->font.color;
+		state->auto_color = NULL;
+	}
+}
+	
+static void
 xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -145,13 +155,14 @@ static void
 xlsx_draw_text_run_props (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	/* FIXME: this should be for a text run, not for the full object */
 	if (GO_IS_STYLED_OBJECT (state->cur_obj) && state->cur_style) {
 		PangoFontDescription *desc = pango_font_description_new ();
 		int size;
 		GOFont const *font;
 		/* looks like the default font is Calibri, FIXME: import that from file instead */
 		pango_font_description_set_family (desc, "Calibri");
-		for (; *attrs; attrs += 2)
+		for (; attrs && *attrs; attrs += 2)
 			if (attr_int (xin, attrs, "sz", &size))
 				pango_font_description_set_size (desc, size * PANGO_SCALE / 100);
 		/* FIXME: don't set the size to the whole object, only to the run,
@@ -793,7 +804,7 @@ xlsx_chart_ser_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_ser_data_show_val (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_ser_labels_show_val (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	gboolean has_val;
@@ -801,21 +812,26 @@ xlsx_ser_data_show_val (GsfXMLIn *xin, xmlChar const **attrs)
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
 		unsigned i;
 		char *f, *new_f;
+		g_object_get (state->cur_obj, "format", &f, NULL);
+		/* seems that xl does not show anything else if a custom label is given */
+		if (strstr (f, "%c") != NULL) {
+			g_free (f);
+			return;
+		}
 		for (i = 0; i < desc->series.num_dim; i++)
 			if (desc->series.dim[i].ms_type == GOG_MS_DIM_VALUES)
 				break;
-		if (i == desc->series.num_dim)
-			return;
-		g_object_get (state->cur_obj, "format", &f, NULL);
-		new_f = (f && *f)? g_strdup_printf ("%s %%%d", f, i): g_strdup_printf ("%%%d", i); 
-		g_object_set (state->cur_obj, "format", new_f, NULL);
+		if (i != desc->series.num_dim) {
+			new_f = (f && *f)? g_strdup_printf ("%s %%%d", f, i): g_strdup_printf ("%%%d", i); 
+			g_object_set (state->cur_obj, "format", new_f, NULL);
+			g_free (new_f);
+		}
 		g_free (f);
-		g_free (new_f);
 	}
 }
 
 static void
-xlsx_ser_data_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_ser_labels_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	gboolean has_cat;
@@ -823,21 +839,26 @@ xlsx_ser_data_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
 		unsigned i;
 		char *f, *new_f;
+		g_object_get (state->cur_obj, "format", &f, NULL);
+		/* seems that xl does not show anything else if a custom label is given */
+		if (strstr (f, "%c") != NULL) {
+			g_free (f);
+			return;
+		}
 		for (i = 0; i < desc->series.num_dim; i++)
 			if (desc->series.dim[i].ms_type == GOG_MS_DIM_CATEGORIES)
 				break;
-		if (i == desc->series.num_dim)
-			return;
-		g_object_get (state->cur_obj, "format", &f, NULL);
-		new_f = (f && *f)? g_strdup_printf ("%s %%%d", f, i): g_strdup_printf ("%%%d", i); 
-		g_object_set (state->cur_obj, "format", new_f, NULL);
+		if (i != desc->series.num_dim) {
+			new_f = (f && *f)? g_strdup_printf ("%s %%%d", f, i): g_strdup_printf ("%%%d", i); 
+			g_object_set (state->cur_obj, "format", new_f, NULL);
+			g_free (new_f);
+		}
 		g_free (f);
-		g_free (new_f);
 	}
 }
 
 static void
-xlsx_ser_data_pos (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_ser_labels_pos (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal pos[] = {
 		{"b", GOG_SERIES_LABELS_BOTTOM},
@@ -858,18 +879,125 @@ xlsx_ser_data_pos (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_ser_data_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_ser_labels_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->series) {
 		GogObject *data = gog_object_add_by_name (GOG_OBJECT (state->series), "Data labels", NULL);
-		g_object_set (data, "format", "", NULL);
+		g_object_set (data, "format", "", "offset", 3, NULL);
 		xlsx_chart_push_obj (state, data);
 	}
 }
 
-#warning shared from ms-chart.c for now, move to GOffice with the enum
-extern void XL_gog_series_set_dim (GogSeries *series, GogMSDimType ms_type, GOData *val);
+static void
+xlsx_ser_labels_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	if (!go_style_is_auto (state->cur_style)) {
+		/* NOTE: this is a hack, but seems xl uses something like that */
+		GSList *children, *ptr;
+		children = gog_object_get_children (state->cur_obj, NULL);
+		for (ptr = children; ptr; ptr = ptr->next)
+			if (go_style_is_auto (go_styled_object_get_style (GO_STYLED_OBJECT (ptr->data))))
+			    g_object_set (ptr->data, "style", state->cur_style, NULL);
+		g_slist_free (children);
+	}
+	xlsx_chart_pop_obj (state);
+}
+
+static void
+xlsx_data_label_pos (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal pos[] = {
+		{"b", GOG_SERIES_LABELS_BOTTOM},
+		{"bestFit", GOG_SERIES_LABELS_DEFAULT_POS},
+		{"ctr", GOG_SERIES_LABELS_CENTERED},
+		{"inBase", GOG_SERIES_LABELS_NEAR_ORIGIN},
+		{"inEnd", GOG_SERIES_LABELS_INSIDE},
+		{"l", GOG_SERIES_LABELS_LEFT},
+		{"outEnd", GOG_SERIES_LABELS_OUTSIDE},
+		{"r", GOG_SERIES_LABELS_RIGHT},
+		{"t", GOG_SERIES_LABELS_TOP}
+	};
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int position;
+
+	if (simple_enum (xin, attrs, pos, &position))
+		gog_data_label_set_position (GOG_DATA_LABEL (state->cur_obj), position);
+}
+
+static void
+xlsx_data_label_index (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int index;
+	if (simple_int (xin, attrs, &index))
+		g_object_set (state->cur_obj, "index", index, NULL);
+}
+
+static void
+xlsx_data_label_show_val (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	gboolean has_val;
+	if (GOG_IS_DATA_LABEL (state->cur_obj) && attr_bool (xin, attrs, "val", &has_val)) {
+		GogPlotDesc const *desc = gog_plot_description (state->plot);
+		unsigned i;
+		char *f, *new_f;
+		g_object_get (state->cur_obj, "format", &f, NULL);
+		/* seems that xl does not show anything else if a custom label is given */
+		if (strstr (f, "%c") != NULL) {
+			g_free (f);
+			return;
+		}
+		for (i = 0; i < desc->series.num_dim; i++)
+			if (desc->series.dim[i].ms_type == GOG_MS_DIM_VALUES)
+				break;
+		if (i != desc->series.num_dim) {
+			new_f = (f && *f)? g_strdup_printf ("%s %%%d", f, i): g_strdup_printf ("%%%d", i);
+			g_object_set (state->cur_obj, "format", new_f, NULL);
+			g_free (new_f);
+		}
+		g_free (f);
+	}
+}
+
+static void
+xlsx_data_label_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	gboolean has_cat;
+	if (GOG_IS_DATA_LABEL (state->cur_obj) && attr_bool (xin, attrs, "val", &has_cat)) {
+		GogPlotDesc const *desc = gog_plot_description (state->plot);
+		unsigned i;
+		char *f, *new_f;
+		g_object_get (state->cur_obj, "format", &f, NULL);
+		/* seems that xl does not show anything else if a custom label is given */
+		if (strstr (f, "%c") != NULL) {
+			g_free (f);
+			return;
+		}
+		for (i = 0; i < desc->series.num_dim; i++)
+			if (desc->series.dim[i].ms_type == GOG_MS_DIM_CATEGORIES)
+				break;
+		if (i != desc->series.num_dim) {
+			new_f = (f && *f)? g_strdup_printf ("%s %%%d", f, i): g_strdup_printf ("%%%d", i); 
+			g_object_set (state->cur_obj, "format", new_f, NULL);
+			g_free (new_f);
+		}
+		g_free (f);
+	}
+}
+
+static void
+xlsx_data_label_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	GogObject *data = gog_object_add_by_name (state->cur_obj, "Point", NULL);
+	g_object_set (data, "format", "", "offset", 3, NULL);
+	xlsx_chart_push_obj (state, data);
+}
+
 static void
 xlsx_chart_ser_f (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
@@ -879,10 +1007,10 @@ xlsx_chart_ser_f (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		GnmExprTop const *texpr = xlsx_parse_expr (xin, xin->content->str,
 			parse_pos_init_sheet (&pp, state->sheet));
 
-		XL_gog_series_set_dim (state->series, state->dim_type,
-			(state->dim_type != GOG_MS_DIM_LABELS)
+		gog_series_set_XL_dim (state->series, state->dim_type,
+			((state->dim_type != GOG_MS_DIM_LABELS)
 			? gnm_go_data_vector_new_expr (state->sheet, texpr)
-			: gnm_go_data_scalar_new_expr (state->sheet, texpr));
+			: gnm_go_data_scalar_new_expr (state->sheet, texpr)), NULL);
 	} else if (GOG_IS_LABEL (state->cur_obj)) {
 		GnmParsePos pp;
 		GnmExprTop const *texpr = xlsx_parse_expr (xin, xin->content->str,
@@ -894,14 +1022,25 @@ xlsx_chart_ser_f (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		GnmParsePos pp;
 		GnmExprTop const *texpr = xlsx_parse_expr (xin, xin->content->str,
 			parse_pos_init_sheet (&pp, state->sheet));
-		char *f, *new_f;
+		char *new_f;
 
 		gog_dataset_set_dim (GOG_DATASET (state->cur_obj), 0,
 			gnm_go_data_vector_new_expr (state->sheet, texpr), NULL);
-		g_object_get (state->cur_obj, "format", &f, NULL);
-		new_f = (f && *f)? g_strconcat (f, " %c", NULL): g_strdup ("%c"); 
+		/* seems that xl does not show anything else in that case, even if showVal is there */
+		new_f = g_strdup ("%c");
 		g_object_set (state->cur_obj, "format", new_f, NULL);
-		g_free (f);
+		g_free (new_f);
+	} else if (GOG_IS_DATA_LABEL (state->cur_obj)) {
+		GnmParsePos pp;
+		GnmExprTop const *texpr = xlsx_parse_expr (xin, xin->content->str,
+			parse_pos_init_sheet (&pp, state->sheet));
+		char *new_f;
+
+		gog_dataset_set_dim (GOG_DATASET (state->cur_obj), 0,
+			gnm_go_data_scalar_new_expr (state->sheet, texpr), NULL);
+		/* seems that xl does not show anything else in that case, even if showVal is there */
+		new_f = g_strdup ("%c");
+		g_object_set (state->cur_obj, "format", new_f, NULL);
 		g_free (new_f);
 	}
 }
@@ -1092,7 +1231,7 @@ xlsx_chart_solid_fill (GsfXMLIn *xin, xmlChar const **attrs)
 			state->color_setter = (void (*) (gpointer data, GOColor color)) go_marker_set_outline_color;
 			state->color_data = state->marker;
 		}
-	} else if (NULL != state->cur_style) {
+	} else if ((NULL != state->cur_style) && (state->gocolor == NULL)) {
 		if (!(state->sp_type & GO_STYLE_LINE)) {
 			state->cur_style->fill.type = GO_STYLE_FILL_PATTERN;
 			state->cur_style->fill.auto_type = FALSE;
@@ -1145,7 +1284,7 @@ xlsx_draw_color_themed (GsfXMLIn *xin, xmlChar const **attrs)
 	state->color = GPOINTER_TO_UINT (val);
 	if (state->gocolor) {
 		if (*state->gocolor != state->color) {
-			*state->gocolor =state-> color;
+			*state->gocolor = state->color;
 			if (state->auto_color)
 				*state->auto_color = FALSE;
 		}
@@ -1398,12 +1537,12 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
       GSF_XML_IN_NODE (SHAPE_PR_LN, LN_ROUND,	XL_NS_DRAW, "round", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SHAPE_PR_LN, LN_HEAD,	XL_NS_DRAW, "headEnd", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SHAPE_PR_LN, LN_TAIL,	XL_NS_DRAW, "tailEnd", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (SHAPE_PR, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (SHAPE_PR, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, &xlsx_tx_pr, NULL),
       GSF_XML_IN_NODE (TEXT_PR, TEXT_PR_BODY,	XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, &xlsx_body_pr, NULL),
       GSF_XML_IN_NODE (TEXT_PR, TEXT_PR_STYLE,	XL_NS_DRAW, "lstStyle", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (TEXT_PR, TEXT_PR_P,	XL_NS_DRAW, "p", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (TEXT_PR_P, PR_P_PR,	XL_NS_DRAW, "pPr", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (PR_P_PR, PR_P_PR_DEF, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (PR_P_PR, PR_P_PR_DEF, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, &xlsx_draw_text_run_props, NULL),
             GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_CS, XL_NS_DRAW, "cs", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_EA, XL_NS_DRAW, "ea", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_LATIN, XL_NS_DRAW, "latin", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1477,7 +1616,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
               GSF_XML_IN_NODE (TITLE, TEXT, XL_NS_CHART, "tx", GSF_XML_NO_CONTENT, &xlsx_chart_text_start, &xlsx_chart_text),
             GSF_XML_IN_NODE (TEXT, TX_RICH, XL_NS_CHART, "rich", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_BODY, XL_NS_CHART, "bodyP", GSF_XML_NO_CONTENT, NULL, NULL),
-              GSF_XML_IN_NODE (TX_RICH, TX_RICH_BODY_PR, XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (TX_RICH, TEXT_PR_BODY, XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_STYLES, XL_NS_DRAW, "lstStyle", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_P, XL_NS_DRAW, "p", GSF_XML_NO_CONTENT, &xlsx_chart_p_start, NULL),
                 GSF_XML_IN_NODE (TX_RICH_P, PR_P_PR, XL_NS_DRAW, "pPr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
@@ -1600,23 +1739,23 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
           GSF_XML_IN_NODE (SERIES, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 	GSF_XML_IN_NODE (SERIES, SERIES_SMOOTH, XL_NS_CHART, "smooth", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SERIES, SERIES_IDX, XL_NS_CHART,	"idx", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (SERIES, SERIES_D_LBLS, XL_NS_CHART,	"dLbls", GSF_XML_NO_CONTENT, &xlsx_ser_data_start, &xlsx_chart_pop),
-            GSF_XML_IN_NODE (SERIES_D_LBLS, SERIES_D_LBL_POS, XL_NS_CHART,	"dLblPos", GSF_XML_NO_CONTENT, &xlsx_ser_data_pos, NULL),
-            GSF_XML_IN_NODE (SERIES_D_LBLS, SERIES_D_LBL, XL_NS_CHART,	"dLbl", GSF_XML_NO_CONTENT, NULL, NULL),
-              GSF_XML_IN_NODE (SERIES_D_LBL, SERIES_D_LBL_POS, XL_NS_CHART,	"dLblPos", GSF_XML_NO_CONTENT, NULL, NULL),
-              GSF_XML_IN_NODE (SERIES_D_LBL, SERIES_D_LBL_IDX, XL_NS_CHART,	"idx", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (SERIES, SERIES_D_LBLS, XL_NS_CHART,	"dLbls", GSF_XML_NO_CONTENT, &xlsx_ser_labels_start, &xlsx_ser_labels_end),
+            GSF_XML_IN_NODE (SERIES_D_LBLS, SERIES_D_LBLS_POS, XL_NS_CHART,	"dLblPos", GSF_XML_NO_CONTENT, &xlsx_ser_labels_pos, NULL),
+            GSF_XML_IN_NODE (SERIES_D_LBLS, SERIES_D_LBL, XL_NS_CHART,	"dLbl", GSF_XML_NO_CONTENT, &xlsx_data_label_start, &xlsx_chart_pop),
+              GSF_XML_IN_NODE (SERIES_D_LBL, SERIES_D_LBL_POS, XL_NS_CHART,	"dLblPos", GSF_XML_NO_CONTENT, &xlsx_data_label_pos, NULL),
+              GSF_XML_IN_NODE (SERIES_D_LBL, SERIES_D_LBL_IDX, XL_NS_CHART,	"idx", GSF_XML_NO_CONTENT, &xlsx_data_label_index, NULL),
               GSF_XML_IN_NODE (SERIES_D_LBL, SERIES_D_LBL_LAYOUT, XL_NS_CHART,	"layout", GSF_XML_NO_CONTENT, NULL, NULL),
-              GSF_XML_IN_NODE (SERIES_D_LBL, SERIES_D_LBL_SHOW_VAL, XL_NS_CHART,	"showVal", GSF_XML_NO_CONTENT, &xlsx_ser_data_show_val, NULL),
-              GSF_XML_IN_NODE (SERIES_D_LBL, SERIES_D_LBL_SHOW_CAT, XL_NS_CHART,	"showCatName", GSF_XML_NO_CONTENT, &xlsx_ser_data_show_cat, NULL),
+              GSF_XML_IN_NODE (SERIES_D_LBL, SERIES_D_LBL_SHOW_VAL, XL_NS_CHART,	"showVal", GSF_XML_NO_CONTENT, &xlsx_data_label_show_val, NULL),
+              GSF_XML_IN_NODE (SERIES_D_LBL, SERIES_D_LBL_SHOW_CAT, XL_NS_CHART,	"showCatName", GSF_XML_NO_CONTENT, &xlsx_data_label_show_cat, NULL),
               GSF_XML_IN_NODE (SERIES_D_LBL, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
               GSF_XML_IN_NODE (SERIES_D_LBL, TEXT, XL_NS_CHART,	"tx", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (SERIES_D_LBL, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
 	  GSF_XML_IN_NODE (SERIES_D_LBLS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
 	    GSF_XML_IN_NODE (SERIES_D_LBLS, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-	    GSF_XML_IN_NODE (SERIES_D_LBLS, SHOW_VAL, XL_NS_CHART, "showVal", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (SERIES_D_LBLS, SHOW_VAL, XL_NS_CHART, "showVal", GSF_XML_NO_CONTENT, &xlsx_ser_labels_show_val, NULL),
 	    GSF_XML_IN_NODE (SERIES_D_LBLS, NUM_FMT, XL_NS_CHART, "numFmt", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (SERIES_D_LBLS, SHOW_BUBBLE, XL_NS_CHART, "showBubbleSize", GSF_XML_NO_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (SERIES_D_LBLS, SHOW_CAT_NAME, XL_NS_CHART, "showCatName", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (SERIES_D_LBLS, SHOW_CAT_NAME, XL_NS_CHART, "showCatName", GSF_XML_NO_CONTENT, &xlsx_ser_labels_show_cat, NULL),
 	    GSF_XML_IN_NODE (SERIES_D_LBLS, SHOW_LEADERS, XL_NS_CHART, "showLeaderLines", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (SERIES_D_LBLS, SHOW_PERCENT, XL_NS_CHART, "showPercent", GSF_XML_NO_CONTENT, NULL, NULL),
 

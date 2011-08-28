@@ -1,3 +1,17 @@
+2011-08-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (end), (xl_chart_import_error_bar),
+	(ms_excel_chart_read), (store_dim), (chart_write_series): moved two helpers
+	to goffice.
+	* xlsx-read-drawing.c (xlsx_tx_pr), (xlsx_draw_text_run_props),
+	(xlsx_ser_labels_show_val), (xlsx_ser_labels_show_cat),
+	(xlsx_ser_labels_pos), (xlsx_ser_labels_start),
+	(xlsx_ser_labels_end), (xlsx_data_label_pos),
+	(xlsx_data_label_index), (xlsx_data_label_show_val),
+	(xlsx_data_label_show_cat), (xlsx_data_label_start),
+	(xlsx_chart_ser_f), (xlsx_chart_solid_fill),
+	(xlsx_draw_color_themed): fix various data labels import issues.
+
 2011-08-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* xlsx-read-drawing.c (xlsx_ser_data_show_val),
