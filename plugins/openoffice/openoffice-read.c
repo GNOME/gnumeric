@@ -8539,6 +8539,24 @@ odf_has_gnm_foreign (OOParseState *state)
 }
 
 static void
+odf_apply_gnm_config (OOParseState *state)
+{
+	GValue *val;
+	if ((state->settings.settings != NULL) &&
+	    NULL != (val = g_hash_table_lookup (state->settings.settings, "gnm:settings")) &&
+	    G_VALUE_HOLDS(val,G_TYPE_HASH_TABLE)) {
+		GHashTable *hash =  g_value_get_boxed (val);
+		val = g_hash_table_lookup (hash, "gnm:active-sheet");
+		if (val != NULL && G_VALUE_HOLDS(val, G_TYPE_STRING)) {
+			const gchar *name = g_value_get_string (val);
+			Sheet *sheet = workbook_sheet_by_name (state->pos.wb, name);
+			if (sheet != NULL)
+				wb_view_sheet_focus (state->wb_view, sheet);
+		}
+	}
+}
+
+static void
 odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 {
 	if (G_VALUE_HOLDS(val,G_TYPE_HASH_TABLE)) {
@@ -10234,6 +10252,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 				: "Gnumeric_OpenCalc:odf";
 		} else
 			filesaver = "Gnumeric_OpenCalc:odf";
+		odf_apply_gnm_config (&state);
 
 		workbook_set_saveinfo (state.pos.wb, GO_FILE_FL_AUTO,
 				       go_file_saver_for_id

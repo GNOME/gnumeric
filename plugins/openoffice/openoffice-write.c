@@ -246,6 +246,17 @@ odf_write_mimetype (G_GNUC_UNUSED GnmOOExport *state, GsfOutput *child)
 /*****************************************************************************/
 
 static void
+odf_add_range (GnmOOExport *state, GnmRange const *r)
+{
+	g_return_if_fail (range_is_sane (r));
+
+	gsf_xml_out_add_int (state->xml, "start-col", r->start.col);
+	gsf_xml_out_add_int (state->xml, "start-row", r->start.row);
+	gsf_xml_out_add_int (state->xml, "end-col",   r->end.col);
+	gsf_xml_out_add_int (state->xml, "end-row",   r->end.row);
+}
+
+static void
 odf_add_font_weight (GnmOOExport *state, int weight)
 {
 	weight = ((weight+50)/100)*100;
@@ -4438,6 +4449,28 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 						(GHFunc)&odf_write_named_expression, state);
 			gsf_xml_out_end_element (state->xml); /* </table:named-expressions> */
 		}
+		if (state->with_extension) {
+			GSList *ptr, *copy;
+			SheetView const *sv = sheet_get_view (sheet, state->wbv);
+			if (sv) {
+				gsf_xml_out_start_element (state->xml, GNMSTYLE "selections");
+				gsf_xml_out_add_int (state->xml, "cursor-col", sv->edit_pos_real.col);
+				gsf_xml_out_add_int (state->xml, "cursor-row", sv->edit_pos_real.row);
+				
+				/* Insert the selections in REVERSE order */
+				copy = g_slist_copy (sv->selections);
+				ptr = g_slist_reverse (copy);
+				for (; ptr != NULL ; ptr = ptr->next) {
+					GnmRange const *r = ptr->data;
+					gsf_xml_out_start_element (state->xml, GNMSTYLE "selection");
+					odf_add_range (state, r);
+					gsf_xml_out_end_element (state->xml); /* </gnm:selection> */
+				}
+				g_slist_free (copy);
+				
+				gsf_xml_out_end_element (state->xml); /* </gnm:selections> */
+			}
+		}
 		gsf_xml_out_end_element (state->xml); /* </table:table> */
 
 		has_autofilters |= (sheet->filters != NULL);
@@ -5394,8 +5427,15 @@ odf_write_gnm_settings (GnmOOExport *state)
 	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", GNMSTYLE "has_foreign");
 	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "boolean");
 	odf_add_bool (state->xml, NULL, state->with_extension);
-
 	gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+
+	gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", GNMSTYLE "active-sheet");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "string");
+	gsf_xml_out_add_cstr (state->xml, NULL, 
+			      (wb_view_cur_sheet (state->wbv))->name_unquoted);
+	gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+
 	gsf_xml_out_end_element (state->xml); /* </config:config-item-set> */
 }
 
@@ -5457,11 +5497,12 @@ odf_write_ooo_settings (GnmOOExport *state)
 
 	gsf_xml_out_end_element (state->xml); /* </config:config-item-map-named> */
 
-		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
-		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "ActiveTable");
-		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "string");
-		gsf_xml_out_add_cstr_unchecked (state->xml, NULL, "Sheet2");
-		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+	gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "ActiveTable");
+	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "string");
+	gsf_xml_out_add_cstr (state->xml, NULL, 
+			      (wb_view_cur_sheet (state->wbv))->name_unquoted);
+	gsf_xml_out_end_element (state->xml); /* </config:config-item> */
 
 	gsf_xml_out_end_element (state->xml); /* </config:config-item-map-entry> */
 	gsf_xml_out_end_element (state->xml); /* </config:config-item-map-indexed> */

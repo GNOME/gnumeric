@@ -1,5 +1,14 @@
 2011-08-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_apply_gnm_config): new
+	(openoffice_file_open): connect odf_apply_gnm_config
+	* openoffice-write.c (odf_add_range): new
+	(odf_write_content): also write selection
+	(odf_write_gnm_settings): write acive sheet info
+	(odf_write_ooo_settings): do not hardcode sheet name
+
+2011-08-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_ooo_settings): write edit positions and
 	active sheet
 
