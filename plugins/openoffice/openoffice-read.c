@@ -30,8 +30,10 @@
 #include <workbook-view.h>
 #include <workbook.h>
 #include <sheet.h>
+#include <sheet-view.h>
 #include <sheet-merge.h>
 #include <sheet-filter.h>
+#include <selection.h>
 #include <ranges.h>
 #include <cell.h>
 #include <value.h>
@@ -8397,6 +8399,10 @@ odf_config_item_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			}
 			break;
 		}
+		case G_TYPE_STRING:
+			val = g_value_init (g_new0 (GValue, 1), G_TYPE_STRING);
+			g_value_set_string (val, (xin->content->str));
+			break;
 		default:
 			break;
 		}
@@ -8422,7 +8428,7 @@ odf_config_item (GsfXMLIn *xin, xmlChar const **attrs)
 		{"int", G_TYPE_INT},
 		{"long", G_TYPE_LONG},
 		{"short", G_TYPE_INVALID},
-		{"string", G_TYPE_INVALID},
+		{"string", G_TYPE_STRING},
 		{ NULL,	0},
 	};
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -8539,11 +8545,31 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 		GHashTable *hash = g_value_get_boxed (val);
 		Sheet *sheet = workbook_sheet_by_name (state->pos.wb, key);
 		if (hash != NULL && sheet != NULL) {
-			GValue *tab = g_hash_table_lookup (hash, "TabColor");
-			if (tab != NULL && G_VALUE_HOLDS(tab, G_TYPE_INT)) {
-				GOColor color = g_value_get_int (tab);
+			GValue *item = g_hash_table_lookup (hash, "TabColor");
+			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT)) {
+				GOColor color = g_value_get_int (item);
 				color = color << 8;
 				sheet->tab_color = style_color_new_go (color);
+			}
+			item = g_hash_table_lookup (hash, "CursorPositionX");
+			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT)) {
+				GValue *itemy = g_hash_table_lookup (hash, "CursorPositionY");
+				if (itemy != NULL && G_VALUE_HOLDS(itemy, G_TYPE_INT)) {
+					GnmCellPos pos;
+					SheetView *sv 
+						= sheet_get_view (sheet, state->wb_view);
+					GnmRange r;
+					pos.col = g_value_get_int (item);
+					pos.row = g_value_get_int (itemy);
+					r.start = pos;
+					r.end = pos;
+
+					sv_selection_reset (sv);
+					sv_selection_add_range (sv, &r);
+					sv_set_edit_pos 
+						(sheet_get_view (sheet, state->wb_view), 
+						 &pos);
+				}
 			}
 		}
 	}
@@ -8574,8 +8600,19 @@ odf_apply_ooo_config (OOParseState *state)
 		return;
 	hash =  g_value_get_boxed (val);
 
-	if ((hash == NULL) ||
-	    NULL == (val = g_hash_table_lookup (hash, "Tables")) ||
+	if (hash == NULL)
+		return;
+
+	val = g_hash_table_lookup (hash, "ActiveTable");
+
+	if (NULL != val && G_VALUE_HOLDS(val,G_TYPE_STRING)) {
+		const gchar *name = g_value_get_string (val);
+		Sheet *sheet = workbook_sheet_by_name (state->pos.wb, name);
+		if (sheet != NULL)
+			wb_view_sheet_focus (state->wb_view, sheet);
+ 	}
+
+	if (NULL == (val = g_hash_table_lookup (hash, "Tables")) ||
 	    !G_VALUE_HOLDS(val,G_TYPE_HASH_TABLE))
 		return;
 	hash =  g_value_get_boxed (val);

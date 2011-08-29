@@ -1,3 +1,10 @@
+2011-08-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_config_item_end): handle G_TYPE_STRING
+	(odf_config_item): handle string type
+	(odf_apply_ooo_table_config): set edit position
+	(odf_apply_ooo_config): set active sheet
+
 2011-08-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_style_prop_table): read LibreOffice

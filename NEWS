@@ -14,6 +14,7 @@ Andreas:
 	* Fix saving of newlines to xls. [#356711]
 	* Enable markup selection in scientific format selector.
 	* Be compatible wihthe changed LibreOffice ODF documents with tab colours.
+	* Read edit position and active sheet from LibreOffice generated ODF files.
 
 Jean:
 	* Make things build against gtk+-3.0.
