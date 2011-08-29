@@ -822,7 +822,7 @@ xlsx_ser_labels_show_val (GsfXMLIn *xin, xmlChar const **attrs)
 			if (desc->series.dim[i].ms_type == GOG_MS_DIM_VALUES)
 				break;
 		if (i != desc->series.num_dim) {
-			new_f = (f && *f)? g_strdup_printf ("%s %%%d", f, i): g_strdup_printf ("%%%d", i); 
+			new_f = (f && *f)? g_strdup_printf ("%s%%s%%%d", f, i): g_strdup_printf ("%%%d", i); 
 			g_object_set (state->cur_obj, "format", new_f, NULL);
 			g_free (new_f);
 		}
@@ -849,7 +849,7 @@ xlsx_ser_labels_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 			if (desc->series.dim[i].ms_type == GOG_MS_DIM_CATEGORIES)
 				break;
 		if (i != desc->series.num_dim) {
-			new_f = (f && *f)? g_strdup_printf ("%s %%%d", f, i): g_strdup_printf ("%%%d", i); 
+			new_f = (f && *f)? g_strdup_printf ("%s%%s%%%d", f, i): g_strdup_printf ("%%%d", i); 
 			g_object_set (state->cur_obj, "format", new_f, NULL);
 			g_free (new_f);
 		}
@@ -884,6 +884,8 @@ xlsx_ser_labels_start (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->series) {
 		GogObject *data = gog_object_add_by_name (GOG_OBJECT (state->series), "Data labels", NULL);
+		GOData *sep = go_data_scalar_str_new (",", FALSE); /* FIXME, should be "\n" for pies */
+		gog_dataset_set_dim (GOG_DATASET (data), 1, sep, NULL);
 		g_object_set (data, "format", "", "offset", 3, NULL);
 		xlsx_chart_push_obj (state, data);
 	}
@@ -954,7 +956,7 @@ xlsx_data_label_show_val (GsfXMLIn *xin, xmlChar const **attrs)
 			if (desc->series.dim[i].ms_type == GOG_MS_DIM_VALUES)
 				break;
 		if (i != desc->series.num_dim) {
-			new_f = (f && *f)? g_strdup_printf ("%s %%%d", f, i): g_strdup_printf ("%%%d", i);
+			new_f = (f && *f)? g_strdup_printf ("%s%%s%%%d", f, i): g_strdup_printf ("%%%d", i);
 			g_object_set (state->cur_obj, "format", new_f, NULL);
 			g_free (new_f);
 		}
@@ -981,7 +983,7 @@ xlsx_data_label_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 			if (desc->series.dim[i].ms_type == GOG_MS_DIM_CATEGORIES)
 				break;
 		if (i != desc->series.num_dim) {
-			new_f = (f && *f)? g_strdup_printf ("%s %%%d", f, i): g_strdup_printf ("%%%d", i); 
+			new_f = (f && *f)? g_strdup_printf ("%s%%s%%%d", f, i): g_strdup_printf ("%%%d", i); 
 			g_object_set (state->cur_obj, "format", new_f, NULL);
 			g_free (new_f);
 		}
@@ -994,6 +996,8 @@ xlsx_data_label_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	GogObject *data = gog_object_add_by_name (state->cur_obj, "Point", NULL);
+	GOData *sep = go_data_scalar_str_new (",", FALSE); /* FIXME, should be "\n" for pies */
+	gog_dataset_set_dim (GOG_DATASET (data), 1, sep, NULL);
 	g_object_set (data, "format", "", "offset", 3, NULL);
 	xlsx_chart_push_obj (state, data);
 }

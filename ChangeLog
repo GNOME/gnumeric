@@ -1,3 +1,8 @@
+2011-08-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_scalar_get_str): fix a critical.
+	* src/wbc-gtk.c (wbc_gtk_set_toggle_action_state): one more.
+
 2011-08-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (gnm_go_data_scalar_get_str): format the string.

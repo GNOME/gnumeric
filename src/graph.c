@@ -382,7 +382,8 @@ gnm_go_data_scalar_get_str (GODataScalar *dat)
 		GnmEvalPos ep;
 
 		eval_pos_init_dep (&ep, &scalar->dep);
-		fmt = auto_style_format_suggest (scalar->dep.texpr, &ep);
+		if (scalar->dep.texpr)
+			fmt = auto_style_format_suggest (scalar->dep.texpr, &ep);
 		scalar->val_str =
 			render_val (scalar_get_val (scalar), 0, 0, fmt, &ep);
 	}

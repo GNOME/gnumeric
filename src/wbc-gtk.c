@@ -194,6 +194,8 @@ wbc_gtk_set_toggle_action_state (WBCGtk const *wbcg,
 		a = gtk_action_group_get_action (wbcg->font_actions, action);
 	if (a == NULL)
 		a = gtk_action_group_get_action (wbcg->toolbar.actions, action);
+	if (a == NULL)
+		a = gtk_action_group_get_action (wbcg->semi_permanent_actions, action);
 	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (a), state);
 }
 
