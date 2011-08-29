@@ -5422,6 +5422,7 @@ odf_write_ooo_settings (GnmOOExport *state)
 	sheets = workbook_sheets (state->wb);
 	for (l = sheets; l != NULL; l = l->next) {
 		Sheet *sheet = l->data;
+		SheetView *sv = sheet_get_view (sheet, state->wbv);
 		gsf_xml_out_start_element (state->xml, CONFIG "config-item-map-entry");
 		gsf_xml_out_add_cstr (state->xml, CONFIG "name", sheet->name_unquoted);
 		if (get_gsf_odf_version () < 103  && sheet->tab_color != NULL 
@@ -5434,6 +5435,17 @@ odf_write_ooo_settings (GnmOOExport *state)
 			gsf_xml_out_end_element (state->xml); /* </config:config-item> */
 		}
 		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "CursorPositionX");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "int");
+		gsf_xml_out_add_int (state->xml, NULL, sv->edit_pos.col);
+		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "CursorPositionY");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "int");
+		gsf_xml_out_add_int (state->xml, NULL, sv->edit_pos.row);
+		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+
+		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
 		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "ShowGrid");
 		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "boolean");
 		gsf_xml_out_add_cstr_unchecked (state->xml, NULL, "true");
@@ -5444,6 +5456,13 @@ odf_write_ooo_settings (GnmOOExport *state)
 	g_slist_free (sheets);
 
 	gsf_xml_out_end_element (state->xml); /* </config:config-item-map-named> */
+
+		gsf_xml_out_start_element (state->xml, CONFIG "config-item");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "ActiveTable");
+		gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "string");
+		gsf_xml_out_add_cstr_unchecked (state->xml, NULL, "Sheet2");
+		gsf_xml_out_end_element (state->xml); /* </config:config-item> */
+
 	gsf_xml_out_end_element (state->xml); /* </config:config-item-map-entry> */
 	gsf_xml_out_end_element (state->xml); /* </config:config-item-map-indexed> */
 	gsf_xml_out_end_element (state->xml); /* </config:config-item-set> */
