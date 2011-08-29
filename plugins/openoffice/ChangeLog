@@ -1,3 +1,11 @@
+2011-08-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_style_prop_table): read LibreOffice
+	foreign attribute and ODF 1.3 attribute for tab colour
+	* openoffice-write.c (odf_write_table_style) write LibreOffice
+	foreign attribute and ODF 1.3 attribute (if appropriate) for tab colour
+	(odf_write_ooo_settings): don't write tab colour for ODF 1.3 here
+
 2011-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_scientific): read gnm:literal-E

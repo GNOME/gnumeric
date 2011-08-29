@@ -5237,8 +5237,18 @@ oo_style_prop_table (GsfXMLIn *xin, xmlChar const **attrs)
 				style->visibility = GNM_SHEET_VISIBILITY_HIDDEN;
 		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "writing-mode", modes, &tmp_i))
 			style->is_rtl = tmp_i;
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
-					       OO_GNUM_NS_EXT, "tab-color")) {
+		else if ((!style->tab_color_set &&
+			  /* Gnumeric's version */
+			   gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					       OO_GNUM_NS_EXT, "tab-color")) ||
+			 (!style->tab_color_set &&
+			  /* Used by LO 3.3.3 and later */
+			  gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					      OO_NS_TABLE_OOO, "tab-color")) ||
+			 /* For ODF 1.3 etc. */
+			(gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					     OO_NS_TABLE, "tab-color"))) {
+			/* For ODF 1.3 etc. */
 			GdkRGBA rgba;
 			if (gdk_rgba_parse (&rgba, CXML2C (attrs[1]))) {
 				style->tab_color

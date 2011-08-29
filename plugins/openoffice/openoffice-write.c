@@ -99,6 +99,7 @@
 #define FORM     "form:"
 #define SCRIPT   "script:"
 #define OOO      "ooo:"
+#define TABLEOOO "tableooo:"
 #define XML      "xml:"
 #define GNMSTYLE "gnm:"  /* We use this for attributes and elements not supported by ODF */
 
@@ -176,6 +177,7 @@ static struct {
 	{ "xmlns:ooo",		"http://openoffice.org/2004/office" },
 	{ "xmlns:ooow",		"http://openoffice.org/2004/writer" },
 	{ "xmlns:oooc",		"http://openoffice.org/2004/calc" },
+	{ "xmlns:tableooo",	"http://openoffice.org/2009/table" },
 	{ "xmlns:of",		"urn:oasis:names:tc:opendocument:xmlns:of:1.2" },
 	{ "xmlns:dom",		"http://www.w3.org/2001/xml-events" },
 	{ "xmlns:xforms",	"http://www.w3.org/2002/xforms" },
@@ -647,9 +649,11 @@ odf_write_table_style (GnmOOExport *state, Sheet const *sheet)
 		sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE);
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "writing-mode",
 		sheet->text_is_rtl ? "rl-tb" : "lr-tb");
-	if (state->with_extension) {
+	if (state->with_extension && get_gsf_odf_version () < 103) {
 		if (sheet->tab_color && !sheet->tab_color->is_auto) {
 			gnm_xml_out_add_hex_color (state->xml, GNMSTYLE "tab-color",
+						   sheet->tab_color, 1);
+			gnm_xml_out_add_hex_color (state->xml, TABLEOOO "tab-color",
 						   sheet->tab_color, 1);
 		}
 		if (sheet->tab_text_color && !sheet->tab_text_color->is_auto) {
@@ -658,6 +662,9 @@ odf_write_table_style (GnmOOExport *state, Sheet const *sheet)
 						   sheet->tab_text_color, 1);
 		}
 	}
+	if (get_gsf_odf_version () >= 103)
+		gnm_xml_out_add_hex_color (state->xml, TABLE "tab-color",
+					   sheet->tab_color, 1);
 	gsf_xml_out_end_element (state->xml); /* </style:table-properties> */
 
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
@@ -5417,7 +5424,9 @@ odf_write_ooo_settings (GnmOOExport *state)
 		Sheet *sheet = l->data;
 		gsf_xml_out_start_element (state->xml, CONFIG "config-item-map-entry");
 		gsf_xml_out_add_cstr (state->xml, CONFIG "name", sheet->name_unquoted);
-		if (sheet->tab_color != NULL && !sheet->tab_color->is_auto) {
+		if (get_gsf_odf_version () < 103  && sheet->tab_color != NULL 
+		    && !sheet->tab_color->is_auto) {
+			/* Not used by LO 3.3.3 and later */
 			gsf_xml_out_start_element (state->xml, CONFIG "config-item");
 			gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "TabColor");
 			gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "int");
