@@ -1061,6 +1061,29 @@ oo_attr_angle (GsfXMLIn *xin, xmlChar const * const *attrs,
 	return oo_parse_angle (xin, attrs[1], name, deg);
 }
 
+static gboolean
+odf_attr_range (GsfXMLIn *xin, xmlChar const * const *attrs, Sheet *sheet, GnmRange *res)
+{
+	int flags = 0;
+
+	g_return_val_if_fail (attrs != NULL, FALSE);
+
+	for (; attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "start-col", &res->start.col, 0, gnm_sheet_get_last_col(sheet)))
+			flags |= 0x1;
+		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "start-row", &res->start.row, 0, gnm_sheet_get_last_row(sheet)))
+			flags |= 0x2;
+		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "end-col", &res->end.col, 0, gnm_sheet_get_last_col(sheet)))
+			flags |= 0x4;
+		else if (oo_attr_int_range (xin, attrs, OO_GNUM_NS_EXT, "end-row", &res->end.row, 0, gnm_sheet_get_last_row(sheet)))
+			flags |= 0x8;
+		else
+			return FALSE;
+
+	return flags == 0xf;
+}
+
+
 typedef struct {
 	char const * const name;
 	int val;
@@ -8337,6 +8360,45 @@ odf_control_property (GsfXMLIn *xin, xmlChar const **attrs)
 		state->cur_control->label = g_strdup (value);
 }
 
+static void
+odf_selection_range (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	GnmRange r;
+	if (odf_attr_range (xin, attrs, state->pos.sheet, &r))
+		sv_selection_add_range (sheet_get_view (state->pos.sheet, state->wb_view), &r);
+}
+
+static void
+odf_selection (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	Sheet *sheet = state->pos.sheet;
+	int col = -1, row = -1;
+
+	sv_selection_reset (sheet_get_view (sheet, state->wb_view));
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_int_range 
+		    (xin, attrs, OO_GNUM_NS_EXT, "cursor-col", &col, 
+		     0, gnm_sheet_get_last_col(sheet))) {
+		} else if (oo_attr_int_range 
+			   (xin, attrs, OO_GNUM_NS_EXT, "cursor-row", &row, 
+			    0, gnm_sheet_get_last_row(sheet))) {};
+
+	state->pos.eval.col = col;
+	state->pos.eval.row = row;
+}
+
+static void
+odf_selection_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	sv_set_edit_pos (sheet_get_view (state->pos.sheet, state->wb_view), &state->pos.eval);
+}
+
+
 
 /****************************************************************************/
 /******************************** settings.xml ******************************/
@@ -9100,6 +9162,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	        GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_OOO_COORDINATE_REGION, OO_NS_CHART_OOO, "coordinate-region", GSF_XML_NO_CONTENT, NULL, NULL),
 #endif
 	    GSF_XML_IN_NODE (SPREADSHEET, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, &oo_table_end),
+	      GSF_XML_IN_NODE (TABLE, SHEET_SELECTIONS, OO_GNUM_NS_EXT, "selections", GSF_XML_NO_CONTENT, &odf_selection, &odf_selection_end),
+	        GSF_XML_IN_NODE (SHEET_SELECTIONS, SELECTION, OO_GNUM_NS_EXT, "selection", GSF_XML_NO_CONTENT, &odf_selection_range, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_SOURCE, OO_NS_TABLE, "table-source", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, FORMS, OO_NS_OFFICE, "forms", GSF_XML_NO_CONTENT, NULL, NULL),
 	        GSF_XML_IN_NODE (FORMS, FORM, OO_NS_FORM, "form", GSF_XML_NO_CONTENT, NULL, NULL),

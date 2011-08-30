@@ -250,10 +250,10 @@ odf_add_range (GnmOOExport *state, GnmRange const *r)
 {
 	g_return_if_fail (range_is_sane (r));
 
-	gsf_xml_out_add_int (state->xml, "start-col", r->start.col);
-	gsf_xml_out_add_int (state->xml, "start-row", r->start.row);
-	gsf_xml_out_add_int (state->xml, "end-col",   r->end.col);
-	gsf_xml_out_add_int (state->xml, "end-row",   r->end.row);
+	gsf_xml_out_add_int (state->xml, GNMSTYLE "start-col", r->start.col);
+	gsf_xml_out_add_int (state->xml, GNMSTYLE "start-row", r->start.row);
+	gsf_xml_out_add_int (state->xml, GNMSTYLE "end-col",   r->end.col);
+	gsf_xml_out_add_int (state->xml, GNMSTYLE "end-row",   r->end.row);
 }
 
 static void
@@ -4454,8 +4454,8 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 			SheetView const *sv = sheet_get_view (sheet, state->wbv);
 			if (sv) {
 				gsf_xml_out_start_element (state->xml, GNMSTYLE "selections");
-				gsf_xml_out_add_int (state->xml, "cursor-col", sv->edit_pos_real.col);
-				gsf_xml_out_add_int (state->xml, "cursor-row", sv->edit_pos_real.row);
+				gsf_xml_out_add_int (state->xml, GNMSTYLE "cursor-col", sv->edit_pos_real.col);
+				gsf_xml_out_add_int (state->xml, GNMSTYLE "cursor-row", sv->edit_pos_real.row);
 				
 				/* Insert the selections in REVERSE order */
 				copy = g_slist_copy (sv->selections);

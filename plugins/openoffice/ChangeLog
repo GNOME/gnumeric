@@ -1,5 +1,15 @@
 2011-08-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_attr_range): new
+	(odf_selection_range): new
+	(odf_selection): new
+	(odf_selection_end): new
+	(opendoc_content_dtd): connect the above
+	* openoffice-write.c (odf_add_range): use gnm name space
+	(odf_write_content): ditto
+
+2011-08-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_apply_gnm_config): new
 	(openoffice_file_open): connect odf_apply_gnm_config
 	* openoffice-write.c (odf_add_range): new
