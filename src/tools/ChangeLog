@@ -1,8 +1,13 @@
+2011-09-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-wilcoxon-mann-whitney.c: add argument to tools engine
+	* analysis-wilcoxon-mann-whitney.h: add argument to tools engine
+
 2011-08-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/tools/*.c: add argument to tools engine
-	* src/tools/*.h: add argument to tools engine
-	* src/tools/random-generator.c: provide progress reporting when
+	* *.c: add argument to tools engine
+	* *.h: add argument to tools engine
+	* random-generator.c: provide progress reporting when
 	calculating random numbers
 
 2011-07-31  Morten Welinder <terra@gnome.org>

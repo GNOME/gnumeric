@@ -334,7 +334,8 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 
 gboolean
 analysis_tool_wilcoxon_mann_whitney_engine
-        (data_analysis_output_t *dao, gpointer specs,
+        (G_GNUC_UNUSED GOCmdContext *gcc,
+	 data_analysis_output_t *dao, gpointer specs,
 	 analysis_tool_engine_t selector, gpointer result)
 {
 	switch (selector) {
