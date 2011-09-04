@@ -1,3 +1,7 @@
+2011-09-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* developer/odf-foreign.txt: update
+
 2011-08-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* make-func-list.pl: change prefix for function refs, fixes [#656545]

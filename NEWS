@@ -15,6 +15,7 @@ Andreas:
 	* Enable markup selection in scientific format selector.
 	* Be compatible wih the changed LibreOffice ODF documents with tab colours.
 	* Persist selection and edit positions through ODF files. [#657506]
+	* Some more number formatting improvements to ODF import/export.
 
 Jean:
 	* Make things build against gtk+-3.0.

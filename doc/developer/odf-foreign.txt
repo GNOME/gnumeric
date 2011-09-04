@@ -45,6 +45,8 @@ Part 3: In any ODF files:
 
 1) Elements and attributes added by goffice:
 
+gnm:display-factor="pi" is an attribute to number:fraction indicating a pi-fraction (ie. a fraction written as a multiple of pi)
+
 gnm:format-magic
 An attribute to <number:time-style> and <number:date-style> to specify Gnumeric's magic number for the style. The magic number is stored as an integer. When ever we set this attribute we also set the number:source attribute to language. On import we only use this magic number if the number:source attribute is still set to language, since otherwise somebody will have edited the format.
 

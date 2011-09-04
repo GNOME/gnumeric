@@ -3970,12 +3970,12 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean grouping = FALSE;
 	gboolean no_int_part = FALSE;
 	gboolean denominator_fixed = FALSE;
+	gboolean pi_scale = FALSE;
 	int denominator = 0;
 	int min_d_digits = 0;
 	int max_d_digits = 3;
 	int min_i_digits = -1;
 	int min_n_digits = 0;
-
 
 	if (state->cur_format.accum == NULL)
 		return;
@@ -3995,8 +3995,10 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 		else if  (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "no-integer-part", &no_int_part)) {}
 		else if  (oo_attr_int_range (xin, attrs, OO_NS_NUMBER,
-					       "min-numerator-digits", &min_n_digits, 0, 30))
-			;
+					     "min-numerator-digits", &min_n_digits, 0, 30)) {}
+		else if  (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "display-factor") &&
+			 attr_eq (attrs[1], "pi"))
+			pi_scale = TRUE;
 
 	if (!no_int_part && (state->ver_odf < 1.2 || min_i_digits >= 0)) {
 		g_string_append_c (state->cur_format.accum, '#');
@@ -4004,8 +4006,10 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 					  min_i_digits > 0 ? min_i_digits : 0);
 		g_string_append_c (state->cur_format.accum, ' ');
 	}
-	g_string_append_c (state->cur_format.accum, '?');
+	odf_go_string_append_c_n (state->cur_format.accum, '?', max_d_digits - min_n_digits);
 	odf_go_string_append_c_n (state->cur_format.accum, '0', min_n_digits);
+	if (pi_scale)
+		g_string_append (state->cur_format.accum, " pi");
 	g_string_append_c (state->cur_format.accum, '/');
 	if (denominator_fixed) {
 		int denom = denominator;
