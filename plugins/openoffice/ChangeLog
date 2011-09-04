@@ -1,3 +1,8 @@
+2011-09-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_attr_percent_or_distance): new
+	(oo_dash): use oo_attr_percent_or_distance
+
 2011-08-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_attr_range): new
