@@ -5397,7 +5397,7 @@ cmd_analysis_tool (WorkbookControl *wbc, G_GNUC_UNUSED Sheet *sheet,
 		g_object_unref (me);
 		return TRUE;
 	}
-	me->engine (cc, me->dao, me->specs, TOOL_ENGINE_UPDATE_DESCRIPTOR, 
+	me->engine (cc, me->dao, me->specs, TOOL_ENGINE_UPDATE_DESCRIPTOR,
 		    &me->cmd.cmd_descriptor);
 	me->cmd.sheet = NULL;
 	me->type = dao->type;

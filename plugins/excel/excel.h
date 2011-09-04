@@ -15,7 +15,7 @@
 #include "gnumeric.h"
 #include "ms-biff.h"
 
-void excel_read_workbook (GOIOContext *context, WorkbookView *new_wb, 
+void excel_read_workbook (GOIOContext *context, WorkbookView *new_wb,
 			  GsfInput *input,
 			  gboolean *is_double_stream_file,
 			  char const *opt_enc);

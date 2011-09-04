@@ -39,19 +39,19 @@ typedef struct {
 
 /**************** Correlation Tool ***************/
 
-gboolean analysis_tool_correlation_engine (GOCmdContext *gcc, 
-					   data_analysis_output_t *dao, 
+gboolean analysis_tool_correlation_engine (GOCmdContext *gcc,
+					   data_analysis_output_t *dao,
 					   gpointer specs,
-					   analysis_tool_engine_t selector, 
+					   analysis_tool_engine_t selector,
 					   gpointer result);
 
 
 /**************** Covariance Tool  ***************/
 
-gboolean analysis_tool_covariance_engine (GOCmdContext *gcc, 
-					  data_analysis_output_t *dao, 
+gboolean analysis_tool_covariance_engine (GOCmdContext *gcc,
+					  data_analysis_output_t *dao,
 					  gpointer specs,
-					  analysis_tool_engine_t selector, 
+					  analysis_tool_engine_t selector,
 					  gpointer result);
 
 

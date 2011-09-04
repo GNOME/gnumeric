@@ -209,7 +209,7 @@ cb_format_clicked (GtkButton *widget, gpointer _i)
 		 GTK_STOCK_OK,      GTK_RESPONSE_ACCEPT,
 		 GTK_STOCK_CANCEL,  GTK_RESPONSE_REJECT,
 		 NULL);
-	GOFormatSel *format_selector 
+	GOFormatSel *format_selector
 		= GO_FORMAT_SEL (go_format_sel_new_full (TRUE));
 	GtkWidget *w = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	GtkTreeViewColumn* column;

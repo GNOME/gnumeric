@@ -464,7 +464,7 @@ tool_random_engine_run_rayleigh (GOCmdContext *gcc, data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_rayleigh_tail (GOCmdContext *gcc, 
+tool_random_engine_run_rayleigh_tail (GOCmdContext *gcc,
 				      data_analysis_output_t *dao,
 				      tools_data_random_t *info,
 				      rayleigh_tail_random_tool_t *param)
@@ -674,7 +674,7 @@ tool_random_engine_run_laplace (GOCmdContext *gcc, data_analysis_output_t *dao,
 }
 
 static gboolean
-tool_random_engine_run_gaussian_tail (GOCmdContext *gcc, 
+tool_random_engine_run_gaussian_tail (GOCmdContext *gcc,
 				      data_analysis_output_t *dao,
 				      tools_data_random_t *info,
 				      gaussian_tail_random_tool_t *param)

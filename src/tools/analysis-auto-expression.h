@@ -42,7 +42,7 @@ typedef struct {
 } analysis_tools_data_auto_expression_t;
 
 gboolean analysis_tool_auto_expression_engine (GOCmdContext *gcc,
-					       data_analysis_output_t *dao, 
+					       data_analysis_output_t *dao,
 					       gpointer specs,
 					       analysis_tool_engine_t selector,
 					       gpointer result);

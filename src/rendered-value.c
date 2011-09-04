@@ -286,7 +286,7 @@ gnm_rendered_value_new (GnmCell const *cell,
 	pango_layout_set_attributes (res->layout, attrs);
 	pango_attr_list_unref (attrs);
 
-	/* Store foreground color.  */	
+	/* Store foreground color.  */
 	/* Wrapping this colour around the attribute list drops performance! */
 	res->go_fore_color = (gnm_style_get_font_color (mstyle))->go_color;
 

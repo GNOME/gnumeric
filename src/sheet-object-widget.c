@@ -323,7 +323,7 @@ static GSF_CLASS (SheetObjectWidget, sheet_object_widget,
 static WorkbookControl *
 widget_wbc (GtkWidget *widget)
 {
-	return scg_wbc (GNM_SIMPLE_CANVAS (gtk_widget_get_parent (widget))->scg);
+	return scg_wbc (GNM_SIMPLE_CANVAS (gtk_widget_get_parent (gtk_widget_get_parent (widget)))->scg);
 }
 
 

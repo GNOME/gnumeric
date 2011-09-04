@@ -1669,7 +1669,7 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 			}
 			if (importer->codepage_override > 0) {
 				fd->codepage = importer->codepage_override;
-				break;				
+				break;
 			}
 		}
 			/* no break */
@@ -3270,7 +3270,7 @@ gnm_xl_get_codepage (char const *enc)
 	for (i = 0; i < G_N_ELEMENTS(charset_trans_array); i++)
 		if (0 == strcmp (enc, charset_trans_array[i].name))
 			return charset_trans_array[i].codepage;
-	
+
 	return 0;
 }
 
@@ -6996,7 +6996,7 @@ excel_read_CODEPAGE (BiffQuery *q, GnmXLImporter *importer)
 }
 
 void
-excel_read_workbook (GOIOContext *context, WorkbookView *wb_view, 
+excel_read_workbook (GOIOContext *context, WorkbookView *wb_view,
 		     GsfInput *input,
 		     gboolean *is_double_stream_file,
 		     char const *opt_enc)

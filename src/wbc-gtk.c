@@ -4928,7 +4928,7 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	wbcg->progress_bar = gtk_progress_bar_new ();
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), " ");
 	gtk_progress_bar_set_inverted (GTK_PROGRESS_BAR (wbcg->progress_bar), FALSE);
-	gtk_progress_bar_set_ellipsize (GTK_PROGRESS_BAR (wbcg->progress_bar), 
+	gtk_progress_bar_set_ellipsize (GTK_PROGRESS_BAR (wbcg->progress_bar),
 					PANGO_ELLIPSIZE_END);
 	g_object_set (G_OBJECT (wbcg->progress_bar), "show-text", TRUE, NULL);
 
@@ -4954,7 +4954,7 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 		gtk_style_context_get_font (gtk_widget_get_style_context (tmp), GTK_STATE_NORMAL),
 	        "W") * 5, -1);
-	
+
 
 	wbcg->tabs_paned = GTK_PANED (gtk_paned_new (GTK_ORIENTATION_HORIZONTAL));
 	gtk_paned_pack2 (wbcg->tabs_paned, wbcg->progress_bar, FALSE, TRUE);

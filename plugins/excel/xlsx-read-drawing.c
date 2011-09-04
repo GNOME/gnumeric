@@ -82,7 +82,7 @@ xlsx_tx_pr (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 		state->auto_color = NULL;
 	}
 }
-	
+
 static void
 xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
@@ -822,7 +822,7 @@ xlsx_ser_labels_show_val (GsfXMLIn *xin, xmlChar const **attrs)
 			if (desc->series.dim[i].ms_type == GOG_MS_DIM_VALUES)
 				break;
 		if (i != desc->series.num_dim) {
-			new_f = (f && *f)? g_strdup_printf ("%s%%s%%%d", f, i): g_strdup_printf ("%%%d", i); 
+			new_f = (f && *f)? g_strdup_printf ("%s%%s%%%d", f, i): g_strdup_printf ("%%%d", i);
 			g_object_set (state->cur_obj, "format", new_f, NULL);
 			g_free (new_f);
 		}
@@ -849,7 +849,7 @@ xlsx_ser_labels_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 			if (desc->series.dim[i].ms_type == GOG_MS_DIM_CATEGORIES)
 				break;
 		if (i != desc->series.num_dim) {
-			new_f = (f && *f)? g_strdup_printf ("%s%%s%%%d", f, i): g_strdup_printf ("%%%d", i); 
+			new_f = (f && *f)? g_strdup_printf ("%s%%s%%%d", f, i): g_strdup_printf ("%%%d", i);
 			g_object_set (state->cur_obj, "format", new_f, NULL);
 			g_free (new_f);
 		}
@@ -983,7 +983,7 @@ xlsx_data_label_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 			if (desc->series.dim[i].ms_type == GOG_MS_DIM_CATEGORIES)
 				break;
 		if (i != desc->series.num_dim) {
-			new_f = (f && *f)? g_strdup_printf ("%s%%s%%%d", f, i): g_strdup_printf ("%%%d", i); 
+			new_f = (f && *f)? g_strdup_printf ("%s%%s%%%d", f, i): g_strdup_printf ("%%%d", i);
 			g_object_set (state->cur_obj, "format", new_f, NULL);
 			g_free (new_f);
 		}

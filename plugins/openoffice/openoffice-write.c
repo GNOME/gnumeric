@@ -4456,7 +4456,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 				gsf_xml_out_start_element (state->xml, GNMSTYLE "selections");
 				gsf_xml_out_add_int (state->xml, GNMSTYLE "cursor-col", sv->edit_pos_real.col);
 				gsf_xml_out_add_int (state->xml, GNMSTYLE "cursor-row", sv->edit_pos_real.row);
-				
+
 				/* Insert the selections in REVERSE order */
 				copy = g_slist_copy (sv->selections);
 				ptr = g_slist_reverse (copy);
@@ -4467,7 +4467,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 					gsf_xml_out_end_element (state->xml); /* </gnm:selection> */
 				}
 				g_slist_free (copy);
-				
+
 				gsf_xml_out_end_element (state->xml); /* </gnm:selections> */
 			}
 		}
@@ -5432,7 +5432,7 @@ odf_write_gnm_settings (GnmOOExport *state)
 	gsf_xml_out_start_element (state->xml, CONFIG "config-item");
 	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", GNMSTYLE "active-sheet");
 	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "string");
-	gsf_xml_out_add_cstr (state->xml, NULL, 
+	gsf_xml_out_add_cstr (state->xml, NULL,
 			      (wb_view_cur_sheet (state->wbv))->name_unquoted);
 	gsf_xml_out_end_element (state->xml); /* </config:config-item> */
 
@@ -5465,7 +5465,7 @@ odf_write_ooo_settings (GnmOOExport *state)
 		SheetView *sv = sheet_get_view (sheet, state->wbv);
 		gsf_xml_out_start_element (state->xml, CONFIG "config-item-map-entry");
 		gsf_xml_out_add_cstr (state->xml, CONFIG "name", sheet->name_unquoted);
-		if (get_gsf_odf_version () < 103  && sheet->tab_color != NULL 
+		if (get_gsf_odf_version () < 103  && sheet->tab_color != NULL
 		    && !sheet->tab_color->is_auto) {
 			/* Not used by LO 3.3.3 and later */
 			gsf_xml_out_start_element (state->xml, CONFIG "config-item");
@@ -5500,7 +5500,7 @@ odf_write_ooo_settings (GnmOOExport *state)
 	gsf_xml_out_start_element (state->xml, CONFIG "config-item");
 	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "name", "ActiveTable");
 	gsf_xml_out_add_cstr_unchecked (state->xml, CONFIG "type", "string");
-	gsf_xml_out_add_cstr (state->xml, NULL, 
+	gsf_xml_out_add_cstr (state->xml, NULL,
 			      (wb_view_cur_sheet (state->wbv))->name_unquoted);
 	gsf_xml_out_end_element (state->xml); /* </config:config-item> */
 

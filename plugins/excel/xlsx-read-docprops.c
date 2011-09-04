@@ -255,7 +255,7 @@ xlsx_read_docprops_core (XLSXReadState *state)
 
 	if (in == NULL) return;
 
-	start_update_progress (state, in, _("Reading core properties..."), 0.9, 0.94);	
+	start_update_progress (state, in, _("Reading core properties..."), 0.9, 0.94);
 	xlsx_parse_stream (state, in, xlsx_docprops_core_dtd);
 	end_update_progress (state);
 }
@@ -272,7 +272,7 @@ xlsx_read_docprops_extended (XLSXReadState *state)
 
 	if (in == NULL) return;
 
-	start_update_progress (state, in, _("Reading extended properties..."), 0.94, 0.97);	
+	start_update_progress (state, in, _("Reading extended properties..."), 0.94, 0.97);
 	xlsx_parse_stream (state, in, xlsx_docprops_extended_dtd);
 	end_update_progress (state);
 }
@@ -289,7 +289,7 @@ xlsx_read_docprops_custom (XLSXReadState *state)
 
 	if (in == NULL) return;
 
-	start_update_progress (state, in, _("Reading custom properties..."), 0.97, 1.);	
+	start_update_progress (state, in, _("Reading custom properties..."), 0.97, 1.);
 	xlsx_parse_stream (state, in, xlsx_docprops_custom_dtd);
 	end_update_progress (state);
 }

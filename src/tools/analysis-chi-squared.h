@@ -45,9 +45,9 @@ typedef struct {
 } analysis_tools_data_chi_squared_t;
 
 gboolean analysis_tool_chi_squared_engine (GOCmdContext *gcc,
-					   data_analysis_output_t *dao, 
+					   data_analysis_output_t *dao,
 					   gpointer specs,
-					   analysis_tool_engine_t selector, 
+					   analysis_tool_engine_t selector,
 					   gpointer result);
 
 

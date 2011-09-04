@@ -8379,11 +8379,11 @@ odf_selection (GsfXMLIn *xin, xmlChar const **attrs)
 	sv_selection_reset (sheet_get_view (sheet, state->wb_view));
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_int_range 
-		    (xin, attrs, OO_GNUM_NS_EXT, "cursor-col", &col, 
+		if (oo_attr_int_range
+		    (xin, attrs, OO_GNUM_NS_EXT, "cursor-col", &col,
 		     0, gnm_sheet_get_last_col(sheet))) {
-		} else if (oo_attr_int_range 
-			   (xin, attrs, OO_GNUM_NS_EXT, "cursor-row", &row, 
+		} else if (oo_attr_int_range
+			   (xin, attrs, OO_GNUM_NS_EXT, "cursor-row", &row,
 			    0, gnm_sheet_get_last_row(sheet))) {};
 
 	state->pos.eval.col = col;
@@ -8636,7 +8636,7 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 				GValue *itemy = g_hash_table_lookup (hash, "CursorPositionY");
 				if (itemy != NULL && G_VALUE_HOLDS(itemy, G_TYPE_INT)) {
 					GnmCellPos pos;
-					SheetView *sv 
+					SheetView *sv
 						= sheet_get_view (sheet, state->wb_view);
 					GnmRange r;
 					pos.col = g_value_get_int (item);
@@ -8646,8 +8646,8 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 
 					sv_selection_reset (sv);
 					sv_selection_add_range (sv, &r);
-					sv_set_edit_pos 
-						(sheet_get_view (sheet, state->wb_view), 
+					sv_set_edit_pos
+						(sheet_get_view (sheet, state->wb_view),
 						 &pos);
 				}
 			}

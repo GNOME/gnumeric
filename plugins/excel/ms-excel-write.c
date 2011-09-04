@@ -2536,10 +2536,10 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 		char *text = gnm_cell_get_entered_text (cell);
 		gboolean quoted = (text[0] == '\'');
 		/* No need to synthesize wrap-text if it is already set! */
-		gboolean wrapped = (NULL != strchr (text, '\n')) && 
+		gboolean wrapped = (NULL != strchr (text, '\n')) &&
 			!gnm_style_get_wrap_text (style);
 		g_free (text);
-			
+
 		if (quoted || wrapped) {
 			int xf;
 			ExcelStyleVariant *esv = g_new (ExcelStyleVariant, 1);

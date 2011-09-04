@@ -928,7 +928,7 @@ gnm_hpfilter (gnm_float *data, int n, gnm_float lambda, int *err)
  	b[n - 1] = 0;
  	c[n - 2] = 0;
  	c[n - 1] = 0;
-	
+
  	/* Forward */
  	for (i = 0; i < n; i++) {
  		denom = a[i]- h[3]*h[0] - g[4]*g[1];
