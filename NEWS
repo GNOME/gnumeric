@@ -23,6 +23,9 @@ Jean:
 	* Fix row height autofit when zoom level is not 1. [#656418]
 	* Fix actions sensitivity for chart sheets. [#645842]
 
+Morten:
+	* Fix crash.  [#658140]
+
 Valek:
 	* In xls import, set LABEL encoding based on FONT charset converted to 
 	codepage. [#304007, ubuntu #262777]

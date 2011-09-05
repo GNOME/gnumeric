@@ -735,6 +735,9 @@ collect_float_pairs_ce (GnmValue const *vx, GnmValue const *vy,
  * @xs0: return location for first data vector
  * @xs1: return location for second data vector
  * @n: return location for number of data points
+ * @constp: optional return location for an indicator of the return vectors
+ * being owned by this function as opposed to the normal copy owned by the
+ * caller.
  *
  * If @n is not positive upon return, no data has been allocated.
  * If @n is negative upon return, the two ranges had different
@@ -802,6 +805,10 @@ collect_float_pairs (GnmValue const *vx, GnmValue const *vy,
 		if (ce->n <= 0) {
 			if (!use_cache)
 				pairs_floats_cache_entry_free (ce);
+			*xs0 = NULL;
+			*xs1 = NULL;
+			if (constp)
+				*constp = FALSE;
 			return NULL;
 		}
 		if (use_cache) {
