@@ -5746,8 +5746,11 @@ odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogOb
 	for (l = regressions; l != NULL && l->data != NULL; l = l->next) {
 		GOData const *bd;
 		GogObject const *regression = l->data;
+		gboolean is_reg_curve = GOG_IS_REG_CURVE (regression);
 		GogObject const *equation
-			= gog_object_get_child_by_name (regression, "Equation");
+			= is_reg_curve?
+			gog_object_get_child_by_name (regression, "Equation"):
+			NULL;
 		str = odf_get_gog_style_name_from_obj
 			(GOG_OBJECT (regression));
 		gsf_xml_out_start_element
@@ -5756,7 +5759,7 @@ odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogOb
 			 : GNMSTYLE "regression-curve");
 		gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
 
-		if (state->with_extension) {
+		if (is_reg_curve && state->with_extension) {
 			/* Upper and lower bounds */
 			bd = gog_dataset_get_dim (GOG_DATASET (regression), 0);
 			if (bd != NULL)
