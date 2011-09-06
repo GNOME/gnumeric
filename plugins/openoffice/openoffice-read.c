@@ -5573,12 +5573,15 @@ oo_prop_list_apply (GSList *props, GObject *obj)
 }
 
 static void
-oo_prop_list_apply_to_axis (GSList *props, GObject *obj)
+oo_prop_list_apply_to_axis (OOParseState *state, GSList *props, GObject *obj)
 {
 	GSList *ptr;
 	OOProp *prop;
+	GOData *data;
 
 	double minimum = go_ninf, maximum = go_pinf;
+	double interval_major = 0.;
+	double interval_minor_divisor = 0.;
 
 	oo_prop_list_apply (props, obj);
 
@@ -5588,9 +5591,30 @@ oo_prop_list_apply_to_axis (GSList *props, GObject *obj)
 			minimum = g_value_get_double (&prop->value);
 		else if (0 == strcmp ("maximum", prop->name))
 			maximum = g_value_get_double (&prop->value);
+		else if (0 == strcmp ("interval-major", prop->name))
+			interval_major = g_value_get_double (&prop->value);
+		else if (0 == strcmp ("interval-minor-divisor", prop->name))
+			interval_minor_divisor 
+				= g_value_get_double (&prop->value);
+		
 	}
 
 	gog_axis_set_bounds (GOG_AXIS (obj), minimum, maximum);
+
+	if (interval_major > 0) {
+		data = gnm_go_data_scalar_new_expr
+			(state->chart.src_sheet, gnm_expr_top_new_constant
+			 (value_new_float(interval_major)));
+		gog_dataset_set_dim (GOG_DATASET (obj), 2, data, NULL);
+		if (interval_minor_divisor > 0) {
+			data = gnm_go_data_scalar_new_expr
+				(state->chart.src_sheet, 
+				 gnm_expr_top_new_constant 
+				 (value_new_float (interval_major/
+						   interval_minor_divisor)));
+			gog_dataset_set_dim (GOG_DATASET (obj), 3, data, NULL);
+		}
+	}
 }
 
 static void
@@ -5752,6 +5776,16 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 					  "maximum", &ftmp)) {
 			style->axis_props = g_slist_prepend (style->axis_props,
 				oo_prop_new_double ("maximum", ftmp));
+		} else if (oo_attr_float (xin, attrs, OO_NS_CHART,
+					  "interval-major", &ftmp)) {
+			style->axis_props = g_slist_prepend (style->axis_props,
+				oo_prop_new_double ("interval-major", ftmp));
+		} else if (oo_attr_float (xin, attrs, OO_NS_CHART,
+					  "interval-minor-divisor", &ftmp)) {
+			style->axis_props = g_slist_prepend 
+				(style->axis_props,
+				 oo_prop_new_double ("interval-minor-divisor", 
+						     ftmp));
 		} else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT,
 					  "radius-ratio", &ftmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
@@ -6946,7 +6980,7 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 			GOStyle *gostyle;
 			g_object_get (G_OBJECT (state->chart.axis), "style", &gostyle, NULL);
 
-			oo_prop_list_apply_to_axis (style->axis_props,
+			oo_prop_list_apply_to_axis (state, style->axis_props,
 						    G_OBJECT (state->chart.axis));
 			odf_apply_style_props (xin, style->style_props, gostyle);
 			g_object_unref (gostyle);

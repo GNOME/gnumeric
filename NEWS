@@ -13,9 +13,11 @@ Andreas:
 	* Add HPFILTER function calculating the Hodrick Prescott Filter.
 	* Fix saving of newlines to xls. [#356711]
 	* Enable markup selection in scientific format selector.
-	* Be compatible wih the changed LibreOffice ODF documents with tab colours.
+	* Be compatible wih the changed LibreOffice ODF documents with tab 
+	colours.
 	* Persist selection and edit positions through ODF files. [#657506]
 	* Some more number formatting improvements to ODF import/export.
+	* Read and write tick spacing from/to ODF files.
 
 Jean:
 	* Make things build against gtk+-3.0.

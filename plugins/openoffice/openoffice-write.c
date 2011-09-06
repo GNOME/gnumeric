@@ -6217,6 +6217,7 @@ odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 	double minima = 0., maxima = 0.;
 	GObjectClass *klass = G_OBJECT_GET_CLASS (axis);
 	GParamSpec *spec;
+	GOData const *interval;
 
 	gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "start");
 	odf_add_bool (state->xml, CHART "display-label", TRUE);
@@ -6233,6 +6234,35 @@ odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		gsf_xml_out_add_float (state->xml, CHART "maximum", maxima, -1);
 	}
 
+
+	interval = gog_dataset_get_dim (GOG_DATASET(axis),2);
+	if (interval != NULL) {
+		GnmExprTop const *texpr
+			= gnm_go_data_get_expr (interval);
+		if (texpr != NULL &&
+		    GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT) {
+			double val = value_get_as_float 
+				(texpr->expr->constant.value);
+			gsf_xml_out_add_float 
+				(state->xml, 
+				 CHART "interval-major", val, -1);
+
+			interval = gog_dataset_get_dim (GOG_DATASET(axis),3);
+			if (interval != NULL) {
+				texpr = gnm_go_data_get_expr (interval);
+				if (texpr != NULL &&
+				    GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT) {
+					double val_minor = value_get_as_float 
+						(texpr->expr->constant.value);
+					if (val_minor > 0)
+						gsf_xml_out_add_float
+							(state->xml, 
+							 CHART "interval-minor-divisor", 
+							 val/val_minor, 0);
+				}
+			}
+		}
+	}
 	if (get_gsf_odf_version () > 101)
 		odf_write_plot_style_bool
 			(state->xml, axis, klass,

@@ -1,3 +1,10 @@
+2011-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_prop_list_apply_to_axis): handle
+	tick spacing, add argument and change caller
+	(od_style_prop_chart): read tick spacing
+	* openoffice-write.c (odf_write_axis_style): write tick spacing
+
 2011-09-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_fraction): read pi-fraction foreign
