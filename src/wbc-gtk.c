@@ -5454,9 +5454,11 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 				GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS;
 
 		parse_error_init (&perr);
+		/* Setting start_sel=FALSE to avoid */
+		/* https://bugzilla.gnome.org/show_bug.cgi?id=658223 */
 		texpr = gnm_expr_entry_parse (editor->entry,
 			parse_pos_init_sheet (&pos, sheet),
-			&perr, TRUE, flags);
+			&perr, FALSE, flags);
 
 		/* TODO : add some error dialogs split out
 		 * the code in workbook_edit to add parens.  */

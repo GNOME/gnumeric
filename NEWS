@@ -18,6 +18,7 @@ Andreas:
 	* Persist selection and edit positions through ODF files. [#657506]
 	* Some more number formatting improvements to ODF import/export.
 	* Read and write tick spacing from/to ODF files.
+	* Fix graph editor crash. [#658223]
 
 Jean:
 	* Make things build against gtk+-3.0.

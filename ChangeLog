@@ -1,3 +1,8 @@
+2011-09-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk.c (cb_graph_dim_editor_update):  don't create an infinite
+	signal recursion by using start_sel=FALSE in gnm_expr_entry_parse call.
+
 2011-09-05  Morten Welinder  <terra@gnome.org>
 
 	* src/collect.c (collect_float_pairs): Set return variables even
