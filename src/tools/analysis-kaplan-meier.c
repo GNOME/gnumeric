@@ -70,10 +70,10 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_sqrt = NULL;
 	GnmFunc *fd_min = NULL;
 
-	GogGraph     *graph;
-	GogPlot	     *plot;
-	SheetObject *so;
-	GOData *times;
+	GogGraph     *graph = NULL;
+	GogPlot	     *plot  = NULL;
+	SheetObject  *so;
+	GOData       *times = NULL;
 
 	GSList *gl = info->group_list;
 

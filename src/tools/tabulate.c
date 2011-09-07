@@ -47,7 +47,7 @@
 
 
 static GnmValue *
-tabulation_eval (Workbook *wb, int dims, gnm_float const *x,
+tabulation_eval (G_GNUC_UNUSED Workbook *wb, int dims, gnm_float const *x,
 		 GnmCell **xcells, GnmCell *ycell)
 {
 	int i;

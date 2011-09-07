@@ -1,3 +1,7 @@
+2011-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-excel-read.c (gnm_xl_get_codepage): use guint
+
 2011-08-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* xlsx-read-drawing.c (xlsx_ser_labels_show_val),

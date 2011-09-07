@@ -384,7 +384,8 @@ ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID 
  * preceding.
  */
 static gboolean
-ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
+ms_sheet_obj_anchor_to_pos (Sheet const * sheet, 
+			    G_GNUC_UNUSED MsBiffVersion const ver,
 			    guint8 const *raw_anchor,
 			    GnmRange *range, double offset[4])
 {
@@ -1271,8 +1272,6 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 		chars_left = (q->length - offset) / (use_utf16 ? 2 : 1);
 		get_len = (chars_left > total_len) ? total_len : chars_left;
 		total_len -= get_len;
-
-		XL_CHECK_CONDITION_VAL (get_len >= 0, 0);
 
 		str = excel_get_chars (c->importer,
 				       q->data + offset, get_len, use_utf16, NULL);
@@ -3262,7 +3261,7 @@ gnm_xl_get_codepage (char const *enc)
 		{"x-imap4-modified-utf7", 0},
 		{"x-u-escaped",           0}
 	};
-	int i;
+	guint i;
 
 	if (enc == NULL)
 		return 0;

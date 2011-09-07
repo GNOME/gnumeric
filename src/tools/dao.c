@@ -1051,7 +1051,7 @@ dao_put_formulas (data_analysis_output_t *dao)
 }
 
 static GnmValue *
-cb_convert_to_value (GnmCellIter const *iter, gpointer user)
+cb_convert_to_value (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 {
 	GnmCell *cell = iter->cell;
 	if (!cell || !gnm_cell_has_expr (cell))

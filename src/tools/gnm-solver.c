@@ -1370,7 +1370,7 @@ gnm_sub_solver_init (GnmSubSolver *subsol)
 }
 
 static void
-cb_child_exit (GPid pid, gint status, GnmSubSolver *subsol)
+cb_child_exit (G_GNUC_UNUSED GPid pid, gint status, GnmSubSolver *subsol)
 {
 	gboolean normal = WIFEXITED (status);
 	int code;
