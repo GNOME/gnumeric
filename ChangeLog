@@ -1,3 +1,7 @@
+2011-09-08  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: Switch to AM_MAINTAINER_MODE([enable]).
+
 2011-09-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk.c (cb_graph_dim_editor_update):  don't create an infinite
