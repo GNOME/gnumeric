@@ -26,6 +26,7 @@ Jean:
 	* Fix row height autofit when zoom level is not 1. [#656418]
 	* Fix actions sensitivity for chart sheets. [#645842]
 	* Fixed criticals when saving a chart to ODF. [#658194]
+	* Fixed labels vertical alignment in preferences dialog.
 
 Morten:
 	* Fix crash.  [#658140]

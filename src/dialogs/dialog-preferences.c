@@ -146,7 +146,7 @@ pref_create_label (GOConfNode *node, GtkWidget *table,
 		label = gtk_label_new_with_mnemonic (default_label);
 
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row + 1,
 		GTK_FILL | GTK_EXPAND,
 		GTK_FILL | GTK_SHRINK, 5, 2);

@@ -1,3 +1,8 @@
+2011-09-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-preferences.c (pref_create_label): fixed labels vertical alignment
+	in preferences dialog.
+
 2011-08-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-printer-setup.c (do_hf_dt_format_customize): use
