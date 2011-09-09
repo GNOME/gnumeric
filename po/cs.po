@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-08-14 22:22+0000\n"
-"PO-Revision-Date: 2011-08-15 15:12+0200\n"
+"POT-Creation-Date: 2011-08-18 18:34+0000\n"
+"PO-Revision-Date: 2011-09-09 22:32+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -340,7 +340,6 @@ msgid "MS Excel (tm)"
 msgstr "MS Excel™"
 
 #: ../plugins/excel/plugin.xml.in.h:3
-#| msgid "MS Excel&#8482; 2007/2010 (*.xlsx)"
 msgid "MS Excel&#8482; (*.xls)"
 msgstr "MS Excel™ (*.xls)"
 
@@ -376,26 +375,41 @@ msgstr "MS Excel™ 97/2000/XP"
 msgid "MS Excel&#8482; 97/2000/XP &amp; 5.0/95"
 msgstr "MS Excel™ 97/2000/XP a 5.0/95"
 
-#: ../plugins/excel/xlsx-read-docprops.c:138
+#: ../plugins/excel/xlsx-read-docprops.c:141
 msgid "Corrupt file: Second child element in custom property encountered."
 msgstr ""
 "Poškozený soubor: Vyskytl se druhý dceřiný prvek v uživatelské vlastnosti."
+
+#: ../plugins/excel/xlsx-read-docprops.c:258
+#| msgid "Changing workbook properties"
+msgid "Reading core properties..."
+msgstr "Načítají se základní vlastnosti…"
+
+#: ../plugins/excel/xlsx-read-docprops.c:275
+#| msgid "Changing sheet properties"
+msgid "Reading extended properties..."
+msgstr "Načítají se rozšiřující vlastnosti…"
+
+#: ../plugins/excel/xlsx-read-docprops.c:292
+#| msgid "Radiobutton Properties"
+msgid "Reading custom properties..."
+msgstr "Načítají se uživatelské vlastnosti…"
 
 #: ../plugins/excel/xlsx-read-drawing.c:203
 #, c-format
 msgid "Invalid number '%s' for node %s"
 msgstr "Neplatné číslo „%s“ pro uzel %s"
 
-#: ../plugins/excel/xlsx-read-drawing.c:1051
+#: ../plugins/excel/xlsx-read-drawing.c:1052
 #, c-format
 msgid "Unknown color '%s'"
 msgstr "Neznámá barva „%s“"
 
-#: ../plugins/excel/xlsx-read-drawing.c:1817
+#: ../plugins/excel/xlsx-read-drawing.c:1818
 msgid "Dropping missing object"
 msgstr "Zahazuje se chybějící objekt"
 
-#: ../plugins/excel/xlsx-read-drawing.c:1849
+#: ../plugins/excel/xlsx-read-drawing.c:1850
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr "Zahazuje se objekt s neúplnou kotvou %2x"
@@ -406,120 +420,151 @@ msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr ""
 "Přeskakuje se neplatná kontingenční skupina polí pro pole „%s“, protože: %s"
 
-#: ../plugins/excel/xlsx-read.c:300
+#: ../plugins/excel/xlsx-read.c:325
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr "„%s“ je poškozený!"
 
-#: ../plugins/excel/xlsx-read.c:393
+#: ../plugins/excel/xlsx-read.c:418
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr "Neznámá výčtová hodnota „%s“ pro atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:436 ../plugins/excel/xlsx-read.c:465
+#: ../plugins/excel/xlsx-read.c:461 ../plugins/excel/xlsx-read.c:490
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr "Celé číslo „%s“ je mimo rozsah, pro atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:440 ../plugins/excel/xlsx-read.c:469
+#: ../plugins/excel/xlsx-read.c:465 ../plugins/excel/xlsx-read.c:494
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr "Neplatné celé číslo „%s“ pro atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:495
+#: ../plugins/excel/xlsx-read.c:520
 #, c-format
 msgid "Invalid RRGGBB color '%s' for attribute %s"
 msgstr "Neplatné barva RRGGBB „%s“ pro atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:526
+#: ../plugins/excel/xlsx-read.c:551
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "Neplatné číslo „%s“ pro atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:551
+#: ../plugins/excel/xlsx-read.c:576
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr "Neplatná poloha buňky „%s“ pro atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:574
+#: ../plugins/excel/xlsx-read.c:599
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr "Neplatný rozsah „%s“ pro atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:766
+#: ../plugins/excel/xlsx-read.c:791
 #, c-format
 msgid "Unknown theme color %d"
 msgstr "Neznámá barva %d motivu"
 
-#: ../plugins/excel/xlsx-read.c:912
+#: ../plugins/excel/xlsx-read.c:937
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "Nedefinované ID formátu čísla „%s“"
 
-#: ../plugins/excel/xlsx-read.c:1093 ../plugins/excel/xlsx-read.c:3089
+#: ../plugins/excel/xlsx-read.c:1118 ../plugins/excel/xlsx-read.c:3120
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Neplatná barva „%s“ pro atribut rgb"
 
-#: ../plugins/excel/xlsx-read.c:1123 ../plugins/excel/xlsx-read.c:1132
+#: ../plugins/excel/xlsx-read.c:1148 ../plugins/excel/xlsx-read.c:1157
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "Nedefinovaný záznam stylu „%d“"
 
-#: ../plugins/excel/xlsx-read.c:1141
+#: ../plugins/excel/xlsx-read.c:1166
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "Nedefinovaný částečný záznam stylu „%d“"
 
-#: ../plugins/excel/xlsx-read.c:1170
+#: ../plugins/excel/xlsx-read.c:1195
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Neplatný odkaz sst „%s“"
 
-#: ../plugins/excel/xlsx-read.c:1298
+#: ../plugins/excel/xlsx-read.c:1323
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Neplatná buňka %s"
 
-#: ../plugins/excel/xlsx-read.c:1411
+#: ../plugins/excel/xlsx-read.c:1440
 msgid "Ignoring column information that does not specify first or last."
 msgstr ""
 "Ignoruje se informace o sloupci, která neurčuje ani první ani poslední."
 
-#: ../plugins/excel/xlsx-read.c:1721
+#: ../plugins/excel/xlsx-read.c:1750
 #: ../plugins/openoffice/openoffice-read.c:2228
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignoruje se kontrola platnosti neplatných dat protože: %s"
 
-#: ../plugins/excel/xlsx-read.c:2135
+#: ../plugins/excel/xlsx-read.c:2164
 msgid "Undefined"
 msgstr "Nedefinováno"
 
-#: ../plugins/excel/xlsx-read.c:2178
+#: ../plugins/excel/xlsx-read.c:2207
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignoruje se neobsluhovaný podmíněný formát u typu „%s“"
 
-#: ../plugins/excel/xlsx-read.c:2559
+#: ../plugins/excel/xlsx-read.c:2588
 msgid "Unknown type of hyperlink"
 msgstr "Neznámý typ hypertextového odkazu"
 
-#: ../plugins/excel/xlsx-read.c:2817
+#: ../plugins/excel/xlsx-read.c:2848
 msgid "Ignoring a sheet without a name"
 msgstr "Ignoruje se list bez názvu"
 
-#: ../plugins/excel/xlsx-read.c:2887
+#: ../plugins/excel/xlsx-read.c:2918
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Selhalo definování názvu: %s"
 
-#: ../plugins/excel/xlsx-read.c:3261
+#: ../plugins/excel/xlsx-read.c:3297
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Schází part-id pro list „%s“"
 
-#: ../plugins/excel/xlsx-read.c:4289
+#: ../plugins/excel/xlsx-read.c:3322
+#, c-format
+#| msgid "Manage sheets..."
+msgid "Reading sheet '%s'..."
+msgstr "Načítá se list „%s“…"
+
+#: ../plugins/excel/xlsx-read.c:3330
+#| msgid "Reading file..."
+msgid "Reading comments..."
+msgstr "Načítají se komentáře…"
+
+#: ../plugins/excel/xlsx-read.c:4321
+#| msgid "Reading file..."
+msgid "Reading shared strings..."
+msgstr "Načítají se sdílené texty…"
+
+#: ../plugins/excel/xlsx-read.c:4330
+#| msgid "Reading file..."
+msgid "Reading theme..."
+msgstr "Načítá se motiv…"
+
+#: ../plugins/excel/xlsx-read.c:4339
+#| msgid "Reading file..."
+msgid "Reading styles..."
+msgstr "Načítají se styly…"
+
+#: ../plugins/excel/xlsx-read.c:4344
+#| msgid "Reading file..."
+msgid "Reading workbook..."
+msgstr "Načítá se sešit…"
+
+#: ../plugins/excel/xlsx-read.c:4353
 msgid "No workbook stream found."
 msgstr "Nebyl nalezen žádný proud pro sešit."
 
@@ -915,8 +960,8 @@ msgid "Random Number Functions"
 msgstr "Generátory náhodných čísel"
 
 #: ../plugins/fn-random/plugin.xml.in.h:3
-#: ../src/dialogs/random-generation.ui.h:5 ../src/tools/random-generator.c:673
-#: ../src/tools/random-generator.c:676
+#: ../src/dialogs/random-generation.ui.h:5 ../src/tools/random-generator.c:778
+#: ../src/tools/random-generator.c:781
 msgid "Random Numbers"
 msgstr "Náhodná čísla"
 
@@ -4382,7 +4427,7 @@ msgstr "Odstranit objekt"
 msgid "Format Object"
 msgstr "Formátovat objekt"
 
-#: ../src/commands.c:4909 ../src/commands.c:5942
+#: ../src/commands.c:4909 ../src/commands.c:5946
 #: ../src/dialogs/dialog-doc-metadata.c:1859
 #: ../src/dialogs/dialog-formula-guru.c:899
 #: ../src/dialogs/dialog-function-select.c:1241
@@ -4415,217 +4460,217 @@ msgstr "Smazat komentář %s"
 msgid "Setting comment of %s"
 msgstr "Nastavit komentář %s"
 
-#: ../src/commands.c:5575
+#: ../src/commands.c:5579
 #, c-format
 msgid "Merging data into %s"
 msgstr "Spojit data do %s"
 
-#: ../src/commands.c:5665
+#: ../src/commands.c:5669
 #, c-format
 msgid "Changing workbook properties"
 msgstr "Změnit vlastnosti sešitu"
 
-#: ../src/commands.c:5739
+#: ../src/commands.c:5743
 msgid "Pull Object to the Front"
 msgstr "Vyzvednout objekt do popředí"
 
-#: ../src/commands.c:5742
+#: ../src/commands.c:5746
 msgid "Pull Object Forward"
 msgstr "Vyzvednout objekt vpřed"
 
-#: ../src/commands.c:5745
+#: ../src/commands.c:5749
 msgid "Push Object Backward"
 msgstr "Odsunout objekt vzad"
 
-#: ../src/commands.c:5748
+#: ../src/commands.c:5752
 msgid "Push Object to the Back"
 msgstr "Odsunout objekt do pozadí"
 
-#: ../src/commands.c:5878
+#: ../src/commands.c:5882
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Nastavit stránku pro %s"
 
-#: ../src/commands.c:5880
+#: ../src/commands.c:5884
 msgid "Page Setup For All Sheets"
 msgstr "Nastavit stránku pro všechny listy"
 
-#: ../src/commands.c:6004 ../src/commands.c:6015
+#: ../src/commands.c:6008 ../src/commands.c:6019
 msgid "Defined Name"
 msgstr "Definovat název"
 
-#: ../src/commands.c:6005
+#: ../src/commands.c:6009
 msgid "An empty string is not allowed as defined name."
 msgstr "Prázdný řetězec nelze použít k definici názvu."
 
-#: ../src/commands.c:6013
+#: ../src/commands.c:6017
 #, c-format
 msgid "'%s' is not allowed as defined name."
 msgstr "„%s“ nelze použít k definici názvu."
 
-#: ../src/commands.c:6023
+#: ../src/commands.c:6027
 msgid "has a circular reference"
 msgstr "obsahuje cyklický odkaz"
 
-#: ../src/commands.c:6057
+#: ../src/commands.c:6061
 #, c-format
 msgid "Define Name %s"
 msgstr "Definovat název %s"
 
-#: ../src/commands.c:6060
+#: ../src/commands.c:6064
 #, c-format
 msgid "Update Name %s"
 msgstr "Aktualizovat název %s"
 
-#: ../src/commands.c:6153
+#: ../src/commands.c:6157
 #, c-format
 msgid "Remove Name %s"
 msgstr "Odstranit název %s"
 
-#: ../src/commands.c:6184
+#: ../src/commands.c:6188
 msgid "Change Scope of Name"
 msgstr "Změnit působnost názvu"
 
-#: ../src/commands.c:6232
+#: ../src/commands.c:6236
 #, c-format
 msgid "Change Scope of Name %s"
 msgstr "Změnit působnost názvu %s"
 
-#: ../src/commands.c:6290
+#: ../src/commands.c:6294
 msgid "Add scenario"
 msgstr "Přidat scénář"
 
-#: ../src/commands.c:6354
+#: ../src/commands.c:6358
 msgid "Scenario Show"
 msgstr "Zobrazit scénář"
 
-#: ../src/commands.c:6412
+#: ../src/commands.c:6416
 msgid "Shuffle Data"
 msgstr "Zamíchat data"
 
 #. FIXME?
-#: ../src/commands.c:6516
+#: ../src/commands.c:6520
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) do sloupců (%s)"
 
-#: ../src/commands.c:6675
+#: ../src/commands.c:6679
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Hledat cíl (%s)"
 
-#: ../src/commands.c:6841
+#: ../src/commands.c:6845
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Tabulka závislostí"
 
-#: ../src/commands.c:6915
+#: ../src/commands.c:6919
 msgid "Reconfigure Graph"
 msgstr "Přenastavit graf"
 
-#: ../src/commands.c:6987
+#: ../src/commands.c:6991
 msgid "Reconfigure Object"
 msgstr "Přenastavit objekt"
 
-#: ../src/commands.c:7031
+#: ../src/commands.c:7035
 msgid "Left to Right"
 msgstr "Zleva doprava"
 
-#: ../src/commands.c:7031
+#: ../src/commands.c:7035
 msgid "Right to Left"
 msgstr "Zprava doleva"
 
-#: ../src/commands.c:7198
+#: ../src/commands.c:7202
 msgid "Changing Hyperlink"
 msgstr "Změnit hypertextový odkaz"
 
-#: ../src/commands.c:7342
+#: ../src/commands.c:7346
 #, c-format
 msgid "Changing hyperlink of %s"
 msgstr "Změnit hypertextový odkaz %s"
 
-#: ../src/commands.c:7427
+#: ../src/commands.c:7431
 msgid "Configure List"
 msgstr "Nastavit seznam"
 
-#: ../src/commands.c:7498
+#: ../src/commands.c:7502
 msgid "Set Frame Label"
 msgstr "Nastavit popisu rámu"
 
-#: ../src/commands.c:7569
+#: ../src/commands.c:7573
 msgid "Configure Button"
 msgstr "Nastavit tlačítko"
 
-#: ../src/commands.c:7650
+#: ../src/commands.c:7654
 msgid "Configure Radio Button"
 msgstr "Nastavit skupinový přepínač"
 
-#: ../src/commands.c:7726
+#: ../src/commands.c:7730
 msgid "Configure Checkbox"
 msgstr "Nastavit zaškrtávací políčko"
 
-#: ../src/commands.c:7833 ../src/sheet-object-widget.c:1520
+#: ../src/commands.c:7837 ../src/sheet-object-widget.c:1520
 msgid "Configure Adjustment"
 msgstr "Nastavit vyrovnání"
 
-#: ../src/commands.c:7864
+#: ../src/commands.c:7868
 msgid "Add Filter"
 msgstr "Přidat filtr"
 
-#: ../src/commands.c:7880 ../src/wbc-gtk.c:1664
+#: ../src/commands.c:7884 ../src/wbc-gtk.c:1664
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Automatický filtr blokovaný %s"
 
-#: ../src/commands.c:7885 ../src/commands.c:7912 ../src/commands.c:7921
+#: ../src/commands.c:7889 ../src/commands.c:7916 ../src/commands.c:7925
 msgid "AutoFilter"
 msgstr "Automatický filtr"
 
-#: ../src/commands.c:7913
+#: ../src/commands.c:7917
 msgid "Requires more than 1 row"
 msgstr "Vyžaduje více než 1 řádek"
 
-#: ../src/commands.c:7922
+#: ../src/commands.c:7926
 msgid "Unable to create Autofilter"
 msgstr "Nelze vytvořit automatický filtr"
 
-#: ../src/commands.c:7945
+#: ../src/commands.c:7949
 #, c-format
 msgid "Add Autofilter to %s"
 msgstr "Přidat automatický filtr do %s"
 
-#: ../src/commands.c:7946
+#: ../src/commands.c:7950
 #, c-format
 msgid "Extend Autofilter to %s"
 msgstr "Rozšířit automatický filtr do %s"
 
-#: ../src/commands.c:7959
+#: ../src/commands.c:7963
 #, c-format
 msgid "Remove Autofilter from %s"
 msgstr "Odstranit automatický filtru z %s"
 
-#: ../src/commands.c:7989
+#: ../src/commands.c:7993
 #, c-format
 msgid "Change filter condition for %s"
 msgstr "Změnit podmínky filtru %s"
 
-#: ../src/commands.c:8058 ../src/wbc-gtk-actions.c:2145
+#: ../src/commands.c:8062 ../src/wbc-gtk-actions.c:2145
 msgid "Clear All Page Breaks"
 msgstr "Smazat všechna zalomení stránky"
 
-#: ../src/commands.c:8085 ../src/wbc-gtk.c:1599
+#: ../src/commands.c:8089 ../src/wbc-gtk.c:1599
 msgid "Remove Column Page Break"
 msgstr "Odstranit zalomení stránky ve sloupci"
 
-#: ../src/commands.c:8085 ../src/wbc-gtk.c:1609
+#: ../src/commands.c:8089 ../src/wbc-gtk.c:1609
 msgid "Remove Row Page Break"
 msgstr "Odstranit zalomení stránky v řádku"
 
-#: ../src/commands.c:8088 ../src/wbc-gtk.c:1602
+#: ../src/commands.c:8092 ../src/wbc-gtk.c:1602
 msgid "Add Column Page Break"
 msgstr "Přidat zalomení stránky ve sloupci"
 
-#: ../src/commands.c:8088 ../src/wbc-gtk.c:1612
+#: ../src/commands.c:8092 ../src/wbc-gtk.c:1612
 msgid "Add Row Page Break"
 msgstr "Přidat zalomení stránky v řádku"
 
@@ -14725,7 +14770,13 @@ msgstr "Korelovaná náhodná čísla (%s)"
 msgid "Correlated Random Numbers"
 msgstr "Korelovaná náhodná čísla"
 
-#: ../src/tools/random-generator.c:106
+#: ../src/tools/random-generator.c:53
+#, fuzzy
+#| msgid "Correlated Random Numbers"
+msgid "Generating Random Numbers..."
+msgstr "Korelovaná náhodná čísla"
+
+#: ../src/tools/random-generator.c:119
 msgid ""
 "The probability input range contains a non-numeric value.\n"
 "All probabilities must be non-negative numbers."
@@ -14733,7 +14784,7 @@ msgstr ""
 "Vstupní oblast pravděpodobností obsahuje nečíselnou hodnotu.\n"
 "Všechny hodnoty pravděpodobností musí být nezáporná čísla."
 
-#: ../src/tools/random-generator.c:114
+#: ../src/tools/random-generator.c:127
 msgid ""
 "The probability input range contains a negative number.\n"
 "All probabilities must be non-negative!"
@@ -14741,15 +14792,15 @@ msgstr ""
 "Vstupní oblast pravděpodobností obsahuje zápornou hodnotu.\n"
 "Všechny hodnoty pravděpodobností musí být kladná čísla!"
 
-#: ../src/tools/random-generator.c:129
+#: ../src/tools/random-generator.c:142
 msgid "None of the values in the value range may be empty!"
 msgstr "Žádná z hodnot v oblasti nesmí být prázdná!"
 
-#: ../src/tools/random-generator.c:145
+#: ../src/tools/random-generator.c:158
 msgid "The probabilities may not all be 0!"
 msgstr "Všechny pravděpodobnosti nemohou být 0!"
 
-#: ../src/tools/random-generator.c:655
+#: ../src/tools/random-generator.c:760
 #, c-format
 msgid "Random Numbers (%s)"
 msgstr "Náhodná čísla (%s)"
