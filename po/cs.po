@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2011-08-18 18:34+0000\n"
-"PO-Revision-Date: 2011-09-09 22:32+0200\n"
+"PO-Revision-Date: 2011-09-09 22:36+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -14771,10 +14771,9 @@ msgid "Correlated Random Numbers"
 msgstr "Korelovaná náhodná čísla"
 
 #: ../src/tools/random-generator.c:53
-#, fuzzy
 #| msgid "Correlated Random Numbers"
 msgid "Generating Random Numbers..."
-msgstr "Korelovaná náhodná čísla"
+msgstr "Generují se náhodná čísla…"
 
 #: ../src/tools/random-generator.c:119
 msgid ""
