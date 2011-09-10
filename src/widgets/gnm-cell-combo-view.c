@@ -281,6 +281,7 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	GtkRequisition	req;
 	GtkWindow *toplevel = wbcg_toplevel (scg_wbcg (scg));
 	GdkWindow *popup_window;
+	GdkDevice *device;
 
 	popup = gtk_window_new (GTK_WINDOW_POPUP);
 
@@ -395,12 +396,23 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 
 	popup_window = gtk_widget_get_window (popup);
 
-	gdk_device_grab (gtk_get_current_event_device (), popup_window,
-	        GDK_OWNERSHIP_APPLICATION, TRUE,
-		GDK_BUTTON_PRESS_MASK |
-		GDK_BUTTON_RELEASE_MASK |
-		GDK_POINTER_MOTION_MASK,
-		NULL, activate_time);
+	device = gtk_get_current_event_device ();
+	if (0 == gdk_device_grab (device, popup_window,
+	                          GDK_OWNERSHIP_APPLICATION, TRUE,
+	                          GDK_BUTTON_PRESS_MASK |
+	                          GDK_BUTTON_RELEASE_MASK |
+	                          GDK_POINTER_MOTION_MASK,
+	                          NULL, activate_time)) {
+		if (0 == gdk_device_grab (gdk_device_get_associated_device (device),
+		                          popup_window,
+		                          GDK_OWNERSHIP_APPLICATION, TRUE,
+		                          GDK_KEY_PRESS_MASK |
+		                          GDK_KEY_RELEASE_MASK,
+		                          NULL, activate_time))
+			gtk_grab_add (popup);
+		else
+			gdk_device_ungrab (device, activate_time);
+	}
 }
 
 /**

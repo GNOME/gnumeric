@@ -1,3 +1,7 @@
+2011-09-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* gnm-cell-combo-view.c (gnm_cell_combo_view_popdown): fixed grab. [#657036]
+
 2011-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnm-format-sel.c (gnm_format_sel_new): use go_format_sel_new_full

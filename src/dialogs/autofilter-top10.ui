@@ -97,32 +97,16 @@
           <object class="GtkRadioButton" id="items-largest">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="receives_default">False</property>
             <property name="border_width">6</property>
-            <property name="spacing">12</property>
+            <property name="use_action_appearance">False</property>
+            <property name="draw_indicator">False</property>
             <child>
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Count or percentage:</property>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="item_count">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="adjustment">adjustment1</property>
-                <property name="climb_rate">1</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
           <packing>
@@ -183,11 +167,6 @@
           <object class="GtkBox" id="hbox1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="receives_default">False</property>
-            <property name="use_action_appearance">False</property>
-            <property name="active">True</property>
-            <property name="draw_indicator">True</property>
-            <property name="group">items-largest</property>
           </object>
           <packing>
             <property name="expand">False</property>
