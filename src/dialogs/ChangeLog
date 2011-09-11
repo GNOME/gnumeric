@@ -1,3 +1,7 @@
+2011-09-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* autofilter-top10.ui: fixed, see [#657036].
+
 2011-09-09  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-preferences.c (pref_create_label): fixed labels vertical alignment

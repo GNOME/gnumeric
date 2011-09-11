@@ -27,6 +27,7 @@ Jean:
 	* Fix actions sensitivity for chart sheets. [#645842]
 	* Fixed criticals when saving a chart to ODF. [#658194]
 	* Fixed labels vertical alignment in preferences dialog. [#658639]
+	* Fixed autofilter user interface issues. [#657036]
 
 Morten:
 	* Fix crash.  [#658140]
