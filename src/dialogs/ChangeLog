@@ -1,3 +1,7 @@
+2011-09-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* autofilter-top10.ui: fixed radio buttons.
+
 2011-09-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* autofilter-top10.ui: fixed, see [#657036].

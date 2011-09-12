@@ -318,7 +318,8 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 						   clip, NULL, &rect);
 		gtk_tree_path_free (clip);
 
-		gtk_widget_set_size_request (list, req.width, rect.y);
+		gtk_scrolled_window_set_min_content_width (GTK_SCROLLED_WINDOW (sw), req.width);
+		gtk_scrolled_window_set_min_content_height (GTK_SCROLLED_WINDOW (sw), rect.y);
 		gtk_container_add (GTK_CONTAINER (sw), list);
 		container = sw;
 	} else
