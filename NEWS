@@ -32,6 +32,7 @@ Jean:
 
 Morten:
 	* Fix crash.  [#658140]
+	* Fix stf import crash.  [#658982]
 
 Valek:
 	* In xls import, set LABEL encoding based on FONT charset converted to 

@@ -654,7 +654,7 @@ format_match_datetime (char const *text,
 	int dig1;
 	char *date_format = NULL;
 	GnmValue *res = NULL;
-	const char *time_format = NULL;
+	char *time_format = NULL;
 
 	if (lc_time != datetime_locale.lc_time &&
 	    (lc_time == NULL ||
@@ -818,7 +818,7 @@ format_match_datetime (char const *text,
 		time_val = value_get_as_float (v);
 		fmt = VALUE_FMT (v);
 		if (fmt)
-			time_format = go_format_as_XL (fmt);
+			time_format = g_strdup (go_format_as_XL (fmt));
 		value_release (v);
 	} else
 		time_val = 0;
@@ -841,6 +841,7 @@ format_match_datetime (char const *text,
 
  out:
 	g_free (date_format);
+	g_free (time_format);
 	return res;
 }
 

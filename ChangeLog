@@ -1,3 +1,8 @@
+2011-09-13  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (format_match_datetime): Make sure
+	time_format doesn't get freed underneath us.  See #658982.
+
 2011-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/stf.c (stf_open_and_read): do not check for NUL here
