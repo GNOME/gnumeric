@@ -462,7 +462,7 @@ xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 				{ "http://www.gnome.org/gnumeric/v3", GNM_XML_V3 },
 				{ "http://www.gnome.org/gnumeric/v2", GNM_XML_V2 },
 				{ "http://www.gnome.org/gnumeric/", GNM_XML_V1 },
-				{ NULL }
+				{ NULL, 0}
 			};
 			int i;
 			for (i = 0 ; GnumericVersions [i].id != NULL ; ++i )
@@ -483,7 +483,7 @@ xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xml_sax_document_meta (GsfXMLIn *xin, xmlChar const **attrs)
+xml_sax_document_meta (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
@@ -934,7 +934,7 @@ xml_sax_page_break (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xml_sax_page_breaks_begin (GsfXMLIn *xin, xmlChar const **attrs)
+xml_sax_page_breaks_begin (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	xml_sax_must_have_sheet (state);
@@ -3307,7 +3307,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 	gsf_off_t input_size;
 	GString the_buffer, *buffer = &the_buffer;
 	guint ui;
-	char *converted;
+	GString *converted = NULL;
 	char const *encoding;
 	gboolean ok;
 	gboolean any_numbered = FALSE;
@@ -3358,19 +3358,21 @@ maybe_convert (GsfInput *input, gboolean quiet)
 		}
 	}
 
-	encoding = go_guess_encoding (buffer->str, buffer->len, NULL, &converted);
+	encoding = go_guess_encoding (buffer->str, buffer->len, NULL, &converted, NULL);
 	if (encoding && !any_numbered &&
-	    converted && strcmp (buffer->str, converted) == 0)
+	    converted && buffer->len == converted->len &&
+	    strcmp (buffer->str, converted->str) == 0)
 		quiet = TRUE;
 
 	g_free (buffer->str);
 
 	if (encoding) {
+		gsize len = converted->len;
 		g_object_unref (input);
 		if (!quiet)
 			g_warning ("Converted xml document with no explicit encoding from transliterated %s to UTF-8.",
 				   encoding);
-		return gsf_input_memory_new ((void *)converted, strlen (converted), TRUE);
+		return gsf_input_memory_new ((void *)g_string_free (converted, FALSE), len, TRUE);
 	} else {
 		if (!quiet)
 			g_warning ("Failed to convert xml document with no explicit encoding to UTF-8.");
@@ -3379,7 +3381,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 }
 
 static void
-gnm_xml_file_open (GOFileOpener const *fo, GOIOContext *io_context,
+gnm_xml_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_context,
 		   gpointer wb_view, GsfInput *input)
 {
 	XMLSaxParseState state;
@@ -3494,7 +3496,7 @@ gnm_xml_probe_element (const xmlChar *name,
 }
 
 static gboolean
-xml_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
+xml_probe (G_GNUC_UNUSED GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
 	if (pl == GO_FILE_PROBE_FILE_NAME) {
 		char const *name = gsf_input_name (input);

@@ -19,6 +19,7 @@ Andreas:
 	* Some more number formatting improvements to ODF import/export.
 	* Read and write tick spacing from/to ODF files.
 	* Fix graph editor crash. [#658223]
+	* Fix import of non-UTF8 csv files. [#658916]
 
 Jean:
 	* Make things build against gtk+-3.0.

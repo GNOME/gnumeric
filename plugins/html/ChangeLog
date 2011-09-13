@@ -1,3 +1,7 @@
+2011-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* html_read.c (html_file_probe): adjust call to go_guess_encoding
+
 2011-07-31  Morten Welinder <terra@gnome.org>
 
 	* Release 1.10.17

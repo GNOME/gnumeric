@@ -345,7 +345,7 @@ stf_dialog_main_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 
 	encoding_guess = go_guess_encoding (pagedata->raw_data, pagedata->raw_data_len,
 					    "ASCII",
-					    NULL);
+					    NULL, NULL);
 
 	pagedata->main.main_separated = GTK_RADIO_BUTTON (go_gtk_builder_get_widget (gui, "main_separated"));
 	pagedata->main.main_fixed     = GTK_RADIO_BUTTON (go_gtk_builder_get_widget (gui, "main_fixed"));

@@ -1,3 +1,11 @@
+2011-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/stf.c (stf_open_and_read): do not check for NUL here
+	(clear_stray_NULs): new
+	(stf_read_workbook_auto_csvtab): adjust call to go_guess_encoding and
+	call clear_stray_NULs
+	(csv_tsv_probe): adjust call to go_guess_encoding
+
 2011-09-08  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Switch to AM_MAINTAINER_MODE([enable]).

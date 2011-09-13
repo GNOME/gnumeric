@@ -482,7 +482,7 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
 }
 
 void
-html_file_open (GOFileOpener const *fo, GOIOContext *io_context,
+html_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_context,
 		WorkbookView *wb_view, GsfInput *input)
 {
 	guint8 const *buf;
@@ -571,13 +571,14 @@ html_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 
 /* Quick and dirty html probe. */
 gboolean
-html_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
+html_file_probe (G_GNUC_UNUSED GOFileOpener const *fo, GsfInput *input, 
+		 G_GNUC_UNUSED GOFileProbeLevel pl)
 {
 	gsf_off_t size = 200;
 	guint8 const* buf = gsf_input_read (input, size, NULL);
 	gchar *ulstr = NULL;
+	GString *ustr;
 	gboolean res = FALSE;
-	int try;
 
 	/* Avoid seeking in large streams - try to read, fall back if
 	 * stream is too short.  (Actually, currently _size does not
@@ -589,20 +590,11 @@ html_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 			return res;
 	}
 
-	/*
-	 * It is conceivable that encoding guessing could fail
-	 * if our truncated buffer had partial characters.  We
-	 * really need go_guess_encoding_truncated, but for now
-	 * let's just try cutting a byte away at a time.
-	 */
-	for (try = 0; try < MIN (size, 6); try++) {
-		char *ustr;
-		if (go_guess_encoding (buf, size - try, NULL, &ustr)) {
-			ulstr = g_utf8_strdown (ustr, -1);
-			g_free (ustr);
-			break;
-		}
+	if (go_guess_encoding (buf, size, NULL, &ustr, NULL)) {
+		ulstr = g_utf8_strdown (ustr->str, -1);
+		g_string_free (ustr, TRUE);
 	}
+
 	if (!ulstr)
 		return res;
 

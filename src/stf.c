@@ -93,13 +93,11 @@ stf_warning (GOIOContext *context, char const *msg)
  * returns : a buffer containing the file contents
  **/
 static char *
-stf_open_and_read (GOIOContext *context, GsfInput *input, size_t *readsize)
+stf_open_and_read (G_GNUC_UNUSED GOIOContext *context, GsfInput *input, size_t *readsize)
 {
 	gpointer result;
 	gulong    allocsize;
 	gsf_off_t size = gsf_input_size (input);
-	char *cpointer;
-	int null_chars = 0;
 
 	if (gsf_input_seek (input, 0, G_SEEK_SET))
 		return NULL;
@@ -121,28 +119,6 @@ stf_open_and_read (GOIOContext *context, GsfInput *input, size_t *readsize)
 		g_warning ("gsf_input_read failed.");
 		g_free (result);
 		result = NULL;
-	}
-
-	cpointer = (char *)result;
-	while (*cpointer != 0)
-		cpointer++;
-	while (cpointer != ((char *)result + *readsize)) {
-		null_chars++;
-		*cpointer = ' ';
-		while (*cpointer != 0)
-			cpointer++;
-	}
-	if (null_chars > 0) {
-		gchar const *format;
-		gchar *msg;
-		format = ngettext ("The file contains %d NULL character. "
-				   "It has been changed to a space.",
-				   "The file contains %d NULL characters. "
-				   "They have been changed to spaces.",
-				   null_chars);
-		msg = g_strdup_printf (format, null_chars);
-		stf_warning (context, msg);
-		g_free (msg);
 	}
 	return result;
 }
@@ -238,7 +214,7 @@ resize_columns (Sheet *sheet)
  * Main routine, handles importing a file including all dialog mumbo-jumbo
  **/
 static void
-stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
+stf_read_workbook (G_GNUC_UNUSED GOFileOpener const *fo,  gchar const *enc,
 		   GOIOContext *context, gpointer wbv, GsfInput *input)
 {
 	DialogStfResult_t *dialogresult = NULL;
@@ -397,6 +373,36 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
 	g_object_unref (G_OBJECT (buf));
 }
 
+static void
+clear_stray_NULs (GOIOContext *context, GString *utf8data)
+{
+	char *cpointer, *endpointer;
+	int null_chars = 0;
+
+	cpointer = utf8data->str;
+	endpointer = utf8data->str + utf8data->len;
+	while (*cpointer != 0)
+		cpointer++;
+	while (cpointer != endpointer) {
+		null_chars++;
+		*cpointer = ' ';
+		while (*cpointer != 0)
+			cpointer++;
+	}
+	if (null_chars > 0) {
+		gchar const *format;
+		gchar *msg;
+		format = ngettext ("The file contains %d NULL character. "
+				   "It has been changed to a space.",
+				   "The file contains %d NULL characters. "
+				   "They have been changed to spaces.",
+				   null_chars);
+		msg = g_strdup_printf (format, null_chars);
+		stf_warning (context, msg);
+		g_free (msg);
+	}
+}
+
 /**
  * stf_read_workbook_auto_csvtab
  * @fo       : file opener
@@ -408,14 +414,15 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
  * Attempt to auto-detect CSV or tab-delimited file
  **/
 static void
-stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
+stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const *enc,
 			       GOIOContext *context,
 			       gpointer wbv, GsfInput *input)
 {
 	Sheet *sheet, *old_sheet;
 	Workbook *book;
 	char *name;
-	char *data, *utf8data;
+	char *data;
+	GString *utf8data;
 	size_t data_len;
 	StfParseOptions_t *po;
 	const char *gsfname;
@@ -433,7 +440,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 	if (!data)
 		return;
 
-	enc = go_guess_encoding (data, data_len, enc, &utf8data);
+	enc = go_guess_encoding (data, data_len, enc, &utf8data, NULL);
 	g_free (data);
 
 	if (!enc) {
@@ -441,6 +448,8 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 				     _("That file is not in the given encoding."));
 		return;
 	}
+
+	clear_stray_NULs (context, utf8data);
 
 	/*
 	 * Try to get the filename we're reading from.  This is not a
@@ -452,14 +461,14 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 		const char *ext = gsf_extension_pointer (gsfname);
 		gboolean iscsv = ext && strcasecmp (ext, "csv") == 0;
 		if (iscsv)
-			po = stf_parse_options_guess_csv (utf8data);
+			po = stf_parse_options_guess_csv (utf8data->str);
 		else
-			po = stf_parse_options_guess (utf8data);
+			po = stf_parse_options_guess (utf8data->str);
 	}
 
 	lines_chunk = g_string_chunk_new (100 * 1024);
 	lines = stf_parse_general (po, lines_chunk,
-				   utf8data, utf8data + strlen (utf8data));
+				   utf8data->str, utf8data->str + utf8data->len);
 	rows = lines->len;
 	cols = 0;
 	for (i = 0; i < rows; i++) {
@@ -475,7 +484,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 	g_free (name);
 	workbook_sheet_attach (book, sheet);
 
-	if (stf_parse_sheet (po, utf8data, NULL, sheet, 0, 0)) {
+	if (stf_parse_sheet (po, utf8data->str, NULL, sheet, 0, 0)) {
 		workbook_recalc_all (book);
 		resize_columns (sheet);
 		if (po->cols_exceeded || po->rows_exceeded) {
@@ -496,13 +505,13 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 
 
 	stf_parse_options_free (po);
-	g_free (utf8data);
+	g_string_free (utf8data, TRUE);
 }
 
 /***********************************************************************************/
 
 static void
-stf_write_csv (GOFileSaver const *fs, GOIOContext *context,
+stf_write_csv (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *context,
 	       gconstpointer wbv, GsfOutput *output)
 {
 	Sheet *sheet;
@@ -541,9 +550,8 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 		guint8 const *header;
 		gsf_off_t i;
 		char const *enc = NULL;
-		char *header_utf8;
+		GString *header_utf8;
 		char const *p;
-		int try;
 		gboolean ok = TRUE;
 
 		if (gsf_input_seek (input, 0, G_SEEK_SET))
@@ -559,18 +567,11 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 		if (NULL == (header = gsf_input_read (input, i, NULL)))
 			return FALSE;
 
-		/*
-		 * It is conceivable that encoding guessing could fail
-		 * if our truncated buffer had partial characters.  We
-		 * really need go_guess_encoding_truncated, but for now
-		 * let's just try cutting a byte away at a time.
-		 */
-		for (try = 0; !enc && try < MIN (i, 6); try++)
-			enc = go_guess_encoding (header, i - try, NULL, &header_utf8);
+		enc = go_guess_encoding (header, i, NULL, &header_utf8, NULL);
 		if (!enc)
 			return FALSE;
 
-		for (p = header_utf8; *p; p = g_utf8_next_char (p)) {
+		for (p = header_utf8->str; *p; p = g_utf8_next_char (p)) {
 			gunichar uc = g_utf8_get_char (p);
 			/* isprint might not be true for these: */
 			if (uc == '\n' || uc == '\t' || uc == '\r')
@@ -580,7 +581,7 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 			 * http://en.wikipedia.org/wiki/Byte_Order_Mark for
 			 * background.
 			 */
-			if (p == header_utf8 && uc == 0x0000FEFF) {
+			if (p == header_utf8->str && uc == 0x0000FEFF) {
 				continue;
 			}
 			if (!g_unichar_isprint (uc)) {
@@ -589,7 +590,7 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 			}
 		}
 
-		g_free (header_utf8);
+		g_string_free (header_utf8, TRUE);
 		return ok;
 	} else {
 		char const *name = gsf_input_name (input);

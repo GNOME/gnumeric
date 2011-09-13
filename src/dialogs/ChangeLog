@@ -1,3 +1,8 @@
+2011-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-stf-main-page.c (stf_dialog_main_page_init): adjust call to
+	go_guess_encoding
+
 2011-09-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* autofilter-top10.ui: fixed radio buttons.
