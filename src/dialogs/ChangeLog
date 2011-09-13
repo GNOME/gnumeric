@@ -1,5 +1,10 @@
 2011-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/dialogs/dialog-stf-csv-page.c: change widget name
+	* src/dialogs/dialog-stf.ui: add missing combobox
+
+2011-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-stf-main-page.c (stf_dialog_main_page_init): adjust call to
 	go_guess_encoding
 

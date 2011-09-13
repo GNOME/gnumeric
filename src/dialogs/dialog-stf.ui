@@ -198,8 +198,8 @@
             <child>
               <object class="GtkBox" id="vbox13">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkFrame" id="frame11">
                     <property name="visible">True</property>
@@ -570,8 +570,8 @@
             <child>
               <object class="GtkBox" id="vbox14">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkBox" id="hbox3">
                     <property name="visible">True</property>
@@ -796,9 +796,9 @@
                         <child>
                           <object class="GtkBox" id="vbox6">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <property name="can_focus">False</property>
                             <property name="border_width">4</property>
+                            <property name="orientation">vertical</property>
                             <property name="spacing">4</property>
                             <child>
                               <object class="GtkBox" id="hbox20">
@@ -817,6 +817,25 @@
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
                                     <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkComboBox" id="csv-textindicator">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="model">csv-textindicator-list</property>
+                                    <property name="has_entry">True</property>
+                                    <property name="entry_text_column">0</property>
+                                    <child internal-child="entry">
+                                      <object class="GtkEntry" id="combobox-entry">
+                                        <property name="can_focus">False</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
                                   </packing>
                                 </child>
                               </object>
@@ -914,8 +933,8 @@
             <child>
               <object class="GtkBox" id="vbox15">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkFrame" id="frame9">
                     <property name="visible">True</property>
@@ -1037,8 +1056,8 @@
             <child>
               <object class="GtkBox" id="vbox16">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkBox" id="hbox16">
                     <property name="visible">True</property>
