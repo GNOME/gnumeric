@@ -540,13 +540,12 @@ cb_treeview_motion (GtkWidget *widget,
 
 
 static gboolean
-cb_treeview_expose (GtkWidget *widget,
-		    GdkEventExpose *event,
-		    StfDialogData *pagedata)
+cb_treeview_draw (GtkWidget *widget,
+		  cairo_t *cr,
+		  StfDialogData *pagedata)
 {
 	int ruler_x = pagedata->fixed.ruler_x;
 	int height;
-	cairo_t *cr;
 	GtkAllocation a;
 
 	if (ruler_x < 0)
@@ -555,16 +554,31 @@ cb_treeview_expose (GtkWidget *widget,
 	gtk_widget_get_allocation (widget, &a);
 	height = a.height;
 
-	cr = gdk_cairo_create (event->window);
+	cairo_save (cr);
 	cairo_rectangle (cr, ruler_x, 0, ruler_x + 1, height);
 	cairo_clip (cr);
 	cairo_set_source_rgb (cr, 1.0, 0, 0);
 	cairo_move_to (cr, ruler_x, 0);
 	cairo_line_to (cr, ruler_x, height);
 	cairo_stroke (cr);
-	cairo_destroy (cr);
+	cairo_restore (cr);
 
 	return FALSE;
+}
+
+static gboolean
+cb_treeview_draw_2 (GtkWidget *widget,
+		    cairo_t *cr,
+		    StfDialogData *pagedata)
+{
+  /* Manually call default handler */
+  GTK_WIDGET_GET_CLASS (widget)->draw (widget, cr);
+
+  /* Call the would-be connect_after handler.  */
+  cb_treeview_draw (widget, cr, pagedata);
+
+  /* Abort emmission.  */
+  return TRUE;
 }
 
 /*************************************************************************************************
@@ -617,7 +631,14 @@ stf_dialog_fixed_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 	g_signal_connect (G_OBJECT (renderdata->tree_view),
 		"motion_notify_event",
 		 G_CALLBACK (cb_treeview_motion), pagedata);
+#if 0
+	/* Needs GtkTreeView bugfix in gtk+ of 20110914.  */
 	g_signal_connect_after (G_OBJECT (renderdata->tree_view),
-		"expose_event",
-		 G_CALLBACK (cb_treeview_expose), pagedata);
+		"draw",
+		 G_CALLBACK (cb_treeview_draw), pagedata);
+#else
+	g_signal_connect (G_OBJECT (renderdata->tree_view),
+		"draw",
+		 G_CALLBACK (cb_treeview_draw_2), pagedata);
+#endif
 }

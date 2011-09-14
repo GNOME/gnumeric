@@ -1,3 +1,9 @@
+2011-09-14  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-fixed-page.c (cb_treeview_draw): Renamed from
+	cb_treeview_expose.  Use supplied cairo_t.
+	(cb_treeview_draw_2): New function to work around a Gtk issue.
+
 2011-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/dialogs/dialog-stf-csv-page.c (csv_page_parseoptions_to_gui):
