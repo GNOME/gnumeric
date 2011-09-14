@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-stf.c : Controls the widget on the CSV (Comma Separated Value) page.
  *
@@ -181,6 +182,16 @@ csv_page_parseoptions_to_gui (StfDialogData *pagedata)
 				      po->trim_seps);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_2x_indicator),
 				      po->indicator_2x_is_single);
+
+	{
+		char buffer[7];
+		gint len;
+		len = g_unichar_to_utf8 (po->stringindicator, buffer);
+		buffer[len] = 0;
+		gtk_combo_box_set_active_id 
+			(GTK_COMBO_BOX (pagedata->csv.csv_textindicator), 
+			 buffer);
+	}
 }
 
 

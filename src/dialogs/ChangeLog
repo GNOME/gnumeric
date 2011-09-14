@@ -1,5 +1,11 @@
 2011-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/dialogs/dialog-stf-csv-page.c (csv_page_parseoptions_to_gui):
+	set string quote character
+	* src/dialogs/dialog-stf.ui: add id column prop
+
+2011-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/dialogs/dialog-stf-csv-page.c: change widget name
 	* src/dialogs/dialog-stf.ui: add missing combobox
 

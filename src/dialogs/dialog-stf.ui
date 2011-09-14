@@ -826,6 +826,7 @@
                                     <property name="model">csv-textindicator-list</property>
                                     <property name="has_entry">True</property>
                                     <property name="entry_text_column">0</property>
+                                    <property name="id_column">0</property>
                                     <child internal-child="entry">
                                       <object class="GtkEntry" id="combobox-entry">
                                         <property name="can_focus">False</property>
