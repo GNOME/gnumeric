@@ -547,8 +547,13 @@ cb_treeview_draw (GtkWidget *widget,
 	int ruler_x = pagedata->fixed.ruler_x;
 	int height;
 	GtkAllocation a;
+	GdkWindow *bin_window;
 
 	if (ruler_x < 0)
+		return FALSE;
+
+	bin_window = gtk_tree_view_get_bin_window (GTK_TREE_VIEW (widget));
+	if (!gtk_cairo_should_draw_window (cr, bin_window))
 		return FALSE;
 
 	gtk_widget_get_allocation (widget, &a);
