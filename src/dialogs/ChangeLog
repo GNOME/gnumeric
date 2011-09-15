@@ -1,3 +1,7 @@
+2011-09-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-stf.ui: enable focus of combo box and its entry
+
 2011-09-14  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-fixed-page.c (cb_treeview_draw): Renamed from
@@ -6,14 +10,14 @@
 
 2011-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/dialogs/dialog-stf-csv-page.c (csv_page_parseoptions_to_gui):
+	* dialog-stf-csv-page.c (csv_page_parseoptions_to_gui):
 	set string quote character
-	* src/dialogs/dialog-stf.ui: add id column prop
+	* dialog-stf.ui: add id column prop
 
 2011-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/dialogs/dialog-stf-csv-page.c: change widget name
-	* src/dialogs/dialog-stf.ui: add missing combobox
+	* dialog-stf-csv-page.c: change widget name
+	* dialog-stf.ui: add missing combobox
 
 2011-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
