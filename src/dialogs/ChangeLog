@@ -1,3 +1,8 @@
+2011-09-16  Morten Welinder  <terra@gnome.org>
+
+	* dialog-quit.c (show_quit_dialog): Set size of scrolled window,
+	not treeview.
+
 2011-09-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-stf.ui: enable focus of combo box and its entry

@@ -349,7 +349,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 				      NULL);
 
 		pango_layout_get_pixel_size (layout, &width, &height);
-		gtk_widget_set_size_request (GTK_WIDGET (tree),
+		gtk_widget_set_size_request (GTK_WIDGET (scrollw),
 					     width * 60 / 4,
 					     (2 * height + vsep) * (4 + 1));
 		g_object_unref (layout);
