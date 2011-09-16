@@ -77,7 +77,6 @@
 #endif
 
 #define	SHEET_CONTROL_KEY "SheetControl"
-#define PANED_SIGNAL_KEY "SIGNAL_PANED_REPARTITION"
 
 
 enum {
@@ -445,8 +444,6 @@ cb_sheet_label_edit_finished (EditableLabel *el, char const *new_name,
 static void
 signal_paned_repartition (GtkPaned *paned)
 {
-	g_object_set_data (G_OBJECT (paned),
-			   PANED_SIGNAL_KEY, GINT_TO_POINTER(1));
 	gtk_widget_queue_resize (GTK_WIDGET (paned));
 }
 
@@ -968,119 +965,6 @@ cb_notebook_switch_page (G_GNUC_UNUSED GtkNotebook *notebook_,
 		wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
 		cb_zoom_change (sheet, NULL, wbcg);
 	}
-}
-
-/*
- * We want the pane managed differently that GtkPaned does by default.
- * When in automatic mode, we want at most 1/3 of the space to be
- * allocated to the tabs.  We don't want empty space on the tabs side
- * at all.
- *
- * This is quite difficult to trick the GtkPaned into doing.  Basically,
- * we need to size_request the tabs notebook in non-scrollable mode
- * and only make it scrollable if we don't have room.  Further, we
- * need to make the notebook non-shrinkable when (and only when) the
- * paned has a set position.
- */
-static void
-cb_paned_size_allocate (GtkPaned *paned,
-			GtkAllocation *allocation)
-{
-	GtkWidget *widget = (GtkWidget *)paned;
-	GtkRequisition child1_requisition;
-	gint handle_size;
-	gint p1, p2, h1, h2, w1, w2, w, wp;
-	gint border_width = gtk_container_get_border_width (GTK_CONTAINER (paned));
-	gboolean position_set;
-	GtkWidget *child1 = gtk_paned_get_child1 (paned);
-	GtkWidget *child2 = gtk_paned_get_child2 (paned);
-	GtkAllocation pa;
-
-	if (child1 == NULL || !gtk_widget_get_visible (child1) ||
-	    child2 == NULL || !gtk_widget_get_visible (child2))
-		goto chain;
-
-	g_object_get (G_OBJECT (paned), "position-set", &position_set, NULL);
-	if (position_set) {
-		g_object_set (G_OBJECT (child1), "scrollable", TRUE, NULL);
-		gtk_container_child_set (GTK_CONTAINER (paned),
-					 child1, "shrink", FALSE,
-					 NULL);
-		p1 = -1;
-		p2 = -1;
-		goto set_sizes;
-	}
-
-	if (!g_object_get_data (G_OBJECT (paned), PANED_SIGNAL_KEY))
-		goto chain;
-
-	gtk_widget_set_allocation (widget, allocation);
-
-	gtk_container_child_set (GTK_CONTAINER (paned),
-				 child1, "shrink", TRUE,
-				 NULL);
-
-	g_object_set (G_OBJECT (child1), "scrollable", FALSE, NULL);
-	gtk_widget_get_preferred_size (child1, &child1_requisition, NULL);
-
-	gtk_widget_style_get (widget, "handle-size", &handle_size, NULL);
-	gtk_widget_get_allocation (widget, &pa);
-	w = pa.width - handle_size - 2 * border_width;
-	p1 = MAX (0, w / 2);
-
-	/*
-	 * Don't let the status text take up more then 125% of the space
-	 * used for auto-expr and other little things.  This helps with
-	 * wide windows.
-	 */
-	gtk_widget_get_allocation (gtk_widget_get_parent (GTK_WIDGET (paned)),
-				   &pa);
-	wp = pa.width;
-	p1 = MAX (p1, w - (wp - w) * 125 / 100);
-
-	/* However, never use more for tabs than we want.  */
-	p1 = MIN (p1, child1_requisition.width);
-
-	p2 = MAX (0, w - p1);
-
-	if (p1 < child1_requisition.width) {
-		/*
-		 * We don't have room so make the notebook scrollable.
-		 * We will then not set the size again.
-		 */
-		g_object_set (G_OBJECT (child1), "scrollable", TRUE, NULL);
-	}
-
- set_sizes:
-	gtk_widget_get_size_request (child1, &w1, &h1);
-	if (p1 != w1)
-		gtk_widget_set_size_request (child1, p1, h1);
-
-	gtk_widget_get_size_request (child2, &w2, &h2);
-	if (p2 != w2)
-		gtk_widget_set_size_request (child2, p2, h2);
-
-	g_object_set_data (G_OBJECT (paned), PANED_SIGNAL_KEY, NULL);
-
- chain:
-	GTK_WIDGET_GET_CLASS(paned)->size_allocate (widget, allocation);
-}
-
-static gboolean
-cb_paned_button_press (GtkWidget *widget, GdkEventButton *event)
-{
-	GtkPaned *paned = (GtkPaned *)widget;
-	if (event->type == GDK_2BUTTON_PRESS && event->button == 1) {
-		/* Cancel the drag that the first click started.  */
-		GTK_WIDGET_GET_CLASS(paned)->button_release_event
-			(widget, event);
-		/* Then turn off set position that was set.  */
-		gtk_paned_set_position (paned, -1);
-		signal_paned_repartition (paned);
-		return TRUE;
-	}
-
-	return FALSE;
 }
 
 static gboolean
