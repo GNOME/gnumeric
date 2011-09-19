@@ -301,21 +301,7 @@ main (int argc, char const **argv)
 
 	gnm_init ();
 
-	if (with_gui) {
-		cc = g_object_new (GO_TYPE_IO_CONTEXT_GTK,
-				       "show-splash", !gnumeric_no_splash,
-				       "show-warnings", !gnumeric_no_warnings,
-				       NULL);
-		ioc = GO_IO_CONTEXT (cc);
-		handle_paint_events ();
-		pathetic_qt_workaround ();
-	} else {
-		/* TODO: Make this inconsistency go away */
-		cc = cmd_context_stderr_new ();
-		ioc = go_io_context_new (cc);
-	}
-	go_component_set_command_context (cc);
-
+	/* These are useful for the build process only.  */
 	if (func_state_file)
 		return gnm_dump_func_defs (func_state_file, 0);
 	if (func_def_file)
@@ -324,6 +310,21 @@ main (int argc, char const **argv)
 		return gnm_dump_func_defs (NULL, 2);
 	if (ext_refs_file)
 		return gnm_dump_func_defs (ext_refs_file, 4);
+
+	if (with_gui) {
+		cc = g_object_new (GO_TYPE_IO_CONTEXT_GTK,
+				   "show-splash", !gnumeric_no_splash,
+				   "show-warnings", !gnumeric_no_warnings,
+				   NULL);
+		ioc = GO_IO_CONTEXT (g_object_ref (cc));
+		handle_paint_events ();
+		pathetic_qt_workaround ();
+	} else {
+		/* TODO: Make this inconsistency go away */
+		cc = cmd_context_stderr_new ();
+		ioc = go_io_context_new (cc);
+	}
+	go_component_set_command_context (cc);
 
 	/* Keep in sync with .desktop file */
 	g_set_application_name (_("Gnumeric Spreadsheet"));
@@ -417,6 +418,10 @@ main (int argc, char const **argv)
 	gnumeric_arg_shutdown ();
 	store_plugin_state ();
 	gnm_shutdown ();
+
+	go_component_set_command_context (NULL);
+	g_object_unref (cc);
+	cc = NULL;
 
 #if defined(G_OS_WIN32)
 	if (has_console) {
