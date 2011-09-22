@@ -3859,6 +3859,7 @@ oo_date_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				text = percent_sign + 1;
 				len--;
 				g_string_append_c (state->cur_format.accum, '%');
+				state->cur_format.percent_sign_seen = TRUE;
 			}
 			if (len > 0)
 				oo_date_text_end_append	(state->cur_format.accum, text, len);

@@ -1,4 +1,8 @@
 2011-09-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_date_text_end): avoid duplicate percent signs
+
+2011-09-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Mikko Rasa <tdb@tdb.fi>:
 
 	* openoffice-read.c (oo_date_text_end): fix potential for
