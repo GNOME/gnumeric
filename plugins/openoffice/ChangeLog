@@ -1,6 +1,6 @@
-2011-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2011-09-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Mikko Rasa <tdb@tdb.fi>:
-	
+
 	* openoffice-read.c (oo_date_text_end): fix potential for
 	infinite loop
 
