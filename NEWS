@@ -30,6 +30,9 @@ Jean:
 	* Fixed labels vertical alignment in preferences dialog. [#658639]
 	* Fixed autofilter user interface issues. [#657036]
 
+Mikko Rasa:
+        * Fix ODF import of certain percentage formats. [Debian #642135]
+
 Morten:
 	* Fix crash.  [#658140]
 	* Fix stf import crash.  [#658982]

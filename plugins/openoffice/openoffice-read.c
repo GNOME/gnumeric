@@ -3849,7 +3849,7 @@ oo_date_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			int len = xin->content->len;
 			char const *text = xin->content->str;
 			char const *percent_sign;
-			while ((percent_sign = strchr (xin->content->str, '%')) != NULL) {
+			while ((percent_sign = strchr (text, '%')) != NULL) {
 				if (percent_sign > text) {
 					oo_date_text_end_append
 						(state->cur_format.accum, text,
