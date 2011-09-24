@@ -2505,6 +2505,8 @@ show_gui (WBCGtk *wbcg)
 	if (NULL != scg && wbcg_cur_sheet (wbcg))
 		scg_adjust_preferences (scg);
 
+	gtk_widget_set_size_request (GTK_WIDGET (wbcg->notebook_area),
+				     -1, -1);
 	return FALSE;
 }
 

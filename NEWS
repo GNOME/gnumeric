@@ -29,6 +29,7 @@ Jean:
 	* Fixed criticals when saving a chart to ODF. [#658194]
 	* Fixed labels vertical alignment in preferences dialog. [#658639]
 	* Fixed autofilter user interface issues. [#657036]
+	* Make the windows shrink again. [#659246]
 
 Mikko Rasa:
         * Fix ODF import of certain percentage formats. [Debian #642135]
