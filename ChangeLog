@@ -1,3 +1,8 @@
+2011-09-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-widget.c (so_widget_view_get_window),
+	(so_widget_view_class_init): fixed sheet widgets stacking order.
+
 2011-09-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/wbc-gtk.c (show_gui): make the windows shrink again. [#659246]

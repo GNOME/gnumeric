@@ -155,10 +155,19 @@ so_widget_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean 
 		goc_item_hide (view);
 }
 
+static GdkWindow *
+so_widget_view_get_window (GocItem *item)
+{
+	GocGroup *group = GOC_GROUP (item);
+	return goc_item_get_window (GOC_ITEM (group->children->data));
+}
+
 static void
 so_widget_view_class_init (SheetObjectViewClass *sov_klass)
 {
+	GocItemClass *item_klass = (GocItemClass *) sov_klass;
 	sov_klass->set_bounds	= so_widget_view_set_bounds;
+	item_klass->get_window	= so_widget_view_get_window;
 }
 
 static GSF_CLASS (SOWidgetView, so_widget_view,
