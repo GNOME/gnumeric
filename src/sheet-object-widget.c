@@ -410,7 +410,11 @@ sheet_widget_frame_finalize (GObject *obj)
 static GtkWidget *
 sheet_widget_frame_create_widget (SheetObjectWidget *sow)
 {
-	return gtk_frame_new (SHEET_WIDGET_FRAME (sow)->label);
+	GtkWidget *widget = gtk_event_box_new (),
+		  *frame = gtk_frame_new (SHEET_WIDGET_FRAME (sow)->label);
+	gtk_container_add (GTK_CONTAINER (widget), frame);
+	gtk_event_box_set_visible_window (GTK_EVENT_BOX (widget), FALSE);
+	return widget;
 }
 
 static void

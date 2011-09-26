@@ -1,3 +1,8 @@
+2011-09-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-widget.c (sheet_widget_frame_create_widget): make
+	frames accept events.
+
 2011-09-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-widget.c (so_widget_view_get_window),
