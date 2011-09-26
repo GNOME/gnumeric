@@ -532,7 +532,6 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 		if (format) {
 			PangoContext *context = gnm_pango_context_get ();
 			PangoLayout *layout = pango_layout_new (context);
-			PangoAttrList *atl;
 			gsize old_len = str->len;
 			GOFormatNumberError err =
 				format_value_layout (layout, format, v,
@@ -541,7 +540,11 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 						     25 - g_utf8_strlen (str->str, -1),
 						     workbook_date_conv (wb_view_get_workbook (wbv)));
 			go_format_unref (tmp_format);
-			if (!err) {
+			switch (err) {
+			case GO_FORMAT_NUMBER_OK:
+			case GO_FORMAT_NUMBER_DATE_ERROR: {
+				PangoAttrList *atl;
+
 				g_string_append (str, pango_layout_get_text (layout));
 				/* We need to shift the attribute list  */
 				atl = pango_attr_list_ref (pango_layout_get_attributes (layout));
@@ -552,8 +555,13 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 						 str->len - old_len);
 					pango_attr_list_unref (atl);
 				}
-			} else
-				g_string_append (str,  "Internal ERROR!");
+				break;
+			}
+			default:
+			case GO_FORMAT_NUMBER_INVALID_FORMAT:
+				g_string_append (str,  _("Invalid format"));
+				break;
+			}
 			g_object_unref (layout);
 			g_object_unref (context);
 		} else

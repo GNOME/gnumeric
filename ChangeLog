@@ -1,5 +1,8 @@
 2011-09-26  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-view.c (wb_view_auto_expr_recalc): Don't show
+	"Internal ERROR!" when we encounter an invalid date value.
+
 	* src/gnm-format.c (hash_fill): Handle NULL str without crash.
 
 	* src/wbc-gtk-actions.c (cb_add_component_from_file): #if 0.
