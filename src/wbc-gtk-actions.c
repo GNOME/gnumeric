@@ -1394,19 +1394,13 @@ cb_add_component_new (GOComponent *component, gpointer wbcg)
 	wbcg_insert_object (WBC_GTK (wbcg), sheet_object_component_new (component));
 }
 
+#if 0
 static void
 cb_add_component_from_file (GOComponent *component, gpointer wbcg)
 {
 	wbcg_insert_object (WBC_GTK (wbcg), sheet_object_component_new (component));
 }
-
-static gboolean
-button_press_cb (GtkDialog *dlg, GdkEventButton *ev)
-{
-	if (ev->type == GDK_2BUTTON_PRESS)
-		gtk_dialog_response (dlg, GTK_RESPONSE_OK);
-	return FALSE;
-}
+#endif
 
 static void
 component_changed_cb (GOComponent *component, gpointer data)

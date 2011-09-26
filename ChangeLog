@@ -1,3 +1,12 @@
+2011-09-26  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-actions.c (cb_add_component_from_file): #if 0.
+
+	* src/main-application.c (call_gnome_authentication_manager_init):
+	remove.
+	(gnumeric_arg_parse): Don't call
+	call_gnome_authentication_manager_init.
+
 2011-09-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-widget.c (sheet_widget_frame_create_widget): make
