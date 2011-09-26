@@ -1,5 +1,10 @@
 2011-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* regression.ui: fix layout
+	* kaplan-meier.ui: fix layout
+
+2011-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* moving-averages.ui: fix layout
 
 2011-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
