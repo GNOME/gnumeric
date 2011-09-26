@@ -1,5 +1,9 @@
 2011-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* moving-averages.ui: fix layout
+
+2011-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* anova-one.ui: fix duplicate adjustment
 
 2011-09-16  Morten Welinder  <terra@gnome.org>
