@@ -1,5 +1,7 @@
 2011-09-26  Morten Welinder  <terra@gnome.org>
 
+	* src/gnm-format.c (hash_fill): Handle NULL str without crash.
+
 	* src/wbc-gtk-actions.c (cb_add_component_from_file): #if 0.
 
 	* src/main-application.c (call_gnome_authentication_manager_init):

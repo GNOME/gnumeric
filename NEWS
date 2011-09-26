@@ -38,6 +38,7 @@ Morten:
 	* Fix crash.  [#658140]
 	* Fix stf import crash.  [#658982]
 	* Fix leaks.
+	* Fix GUI crash for invalid dates.
 
 Valek:
 	* In xls import, set LABEL encoding based on FONT charset converted to 
