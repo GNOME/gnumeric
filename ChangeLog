@@ -1,3 +1,9 @@
+2011-09-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-clipboard.c (target_list_to_entries): deleted and
+	replace all calls with gtk_target_table_new_from_list
+	(gnm_x_claim_clipboard): free the targets using gtk_target_table_free
+
 2011-09-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-graph-window.c (gnm_graph_window_set_graph): make the graph

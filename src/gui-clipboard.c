@@ -1011,18 +1011,6 @@ gnm_x_request_clipboard (WBCGtk *wbcg, GnmPasteTarget const *pt)
 				       x_targets_received, ctxt);
 }
 
-static GtkTargetEntry*
-target_list_to_entries (GtkTargetList *target_list, int *n_entries)
-{
-	GtkTargetEntry *entries;
-
-	if (!target_list || n_entries == NULL)
-		return NULL;
-
-	return gtk_target_table_new_from_list (target_list, (unsigned *) &n_entries);
-	return entries;
-}
-
 /* Restrict the	set of formats offered to clipboard manager. */
 /* We include bmp in the whitelist because that's the only image format
  * we share with OOo over clipboard (!) */
@@ -1109,14 +1097,14 @@ gnm_x_claim_clipboard (WBCGtk *wbcg)
 		tl = sheet_object_exportable_get_target_list (exportable);
 		/* _add_table prepends to target_list */
 		gtk_target_list_add_table (tl, table_targets, 1);
-		targets = target_list_to_entries (tl, &n_targets);
+		targets = gtk_target_table_new_from_list (tl, &n_targets);
 		gtk_target_list_unref (tl);
 	}
 	if (imageable) {
 		tl = sheet_object_get_target_list (imageable);
 		/* _add_table prepends to target_list */
 		gtk_target_list_add_table (tl, targets, (exportable)? n_targets: 1);
-		targets = target_list_to_entries (tl, &n_targets);
+		targets = gtk_target_table_new_from_list (tl, &n_targets);
 		gtk_target_list_unref (tl);
 	}
 	/* Register a x_clipboard_clear_cb only for CLIPBOARD, not for
@@ -1137,11 +1125,8 @@ gnm_x_claim_clipboard (WBCGtk *wbcg)
 			NULL,
 			gnm_app_get_app ());
 	}
-	if (exportable || imageable) {
-		for (i = 0; i < n_targets; i++)
-			g_free (targets[i].target);
-		g_free (targets);
-	}
+	if (exportable || imageable)
+		gtk_target_table_free (targets, n_targets);
 
 	return ret;
 }
