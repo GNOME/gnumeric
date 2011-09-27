@@ -267,6 +267,7 @@ gnm_graph_window_set_graph (GnmGraphWindow *window,
 		g_object_unref (graph);
 		gtk_widget_show (window->graph);
 		gtk_container_add (GTK_CONTAINER (window->scrolled_window), window->graph);
+		g_object_set (G_OBJECT (window->graph), "expand", TRUE, NULL);
 
 		gtk_widget_get_preferred_size (window->toolbar, &toolbar_requisition, NULL);
 		gtk_window_set_default_size (GTK_WINDOW (window),
