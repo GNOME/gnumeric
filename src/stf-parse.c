@@ -306,7 +306,6 @@ void
 stf_parse_options_csv_set_stringindicator (StfParseOptions_t *parseoptions, gunichar const stringindicator)
 {
 	g_return_if_fail (parseoptions != NULL);
-	g_return_if_fail (stringindicator != '\0');
 
 	parseoptions->stringindicator = stringindicator;
 }
@@ -437,13 +436,7 @@ stf_parse_options_valid (StfParseOptions_t *parseoptions)
 {
 	g_return_val_if_fail (parseoptions != NULL, FALSE);
 
-	if (parseoptions->parsetype == PARSE_TYPE_CSV) {
-		if (parseoptions->stringindicator == '\0') {
-			g_warning ("STF: Cannot have \\0 as string indicator");
-			return FALSE;
-		}
-
-	} else if (parseoptions->parsetype == PARSE_TYPE_FIXED) {
+	if (parseoptions->parsetype == PARSE_TYPE_FIXED) {
 		if (!parseoptions->splitpositions) {
 			g_warning ("STF: No splitpositions in struct");
 			return FALSE;
@@ -597,7 +590,8 @@ stf_parse_csv_cell (GString *text, Source_t *src, StfParseOptions_t *parseoption
 		cur = g_utf8_next_char (cur);
 	}
 
-	if (g_utf8_get_char (cur) == parseoptions->stringindicator) {
+	if (parseoptions->stringindicator != 0 && 
+	    g_utf8_get_char (cur) == parseoptions->stringindicator) {
 		cur = g_utf8_next_char (cur);
 		while (*cur) {
 			gunichar uc = g_utf8_get_char (cur);

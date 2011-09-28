@@ -132,9 +132,8 @@ csv_page_textindicator_change (G_GNUC_UNUSED GtkWidget *widget,
 {
 	char *textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (data->csv.csv_textfield), 0, -1);
 	gunichar str_ind = g_utf8_get_char (textfieldtext);
-	if (str_ind != '\0')
-	     stf_parse_options_csv_set_stringindicator (data->parseoptions,
-							str_ind);
+	
+	stf_parse_options_csv_set_stringindicator (data->parseoptions, str_ind);
 	g_free (textfieldtext);
 
 	stf_parse_options_csv_set_indicator_2x_is_single  (data->parseoptions,

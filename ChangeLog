@@ -1,3 +1,10 @@
+2011-09-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/stf-parse.c (stf_parse_options_csv_set_stringindicator): allow \0
+	as stringindicator
+	(stf_parse_options_valid): ditto
+	(stf_parse_csv_cell): ditto
+
 2011-09-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gui-clipboard.c (target_list_to_entries): deleted and

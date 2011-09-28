@@ -21,6 +21,8 @@ Andreas:
 	* Fix graph editor crash. [#658223]
 	* Fix import of non-UTF8 csv files. [#658916]
 	* Fix copy/paste of graphs to other programs. [#660242]
+	* Allow for the omission of a string indicator (quote) in configurable
+	text import [#658981]
 
 Jean:
 	* Make things build against gtk+-3.0.
