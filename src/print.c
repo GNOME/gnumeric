@@ -1817,8 +1817,61 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	g_object_unref (print);
 }
 
+static void
+gnm_draw_so_page_cb (GtkPrintOperation *operation,
+                  GtkPrintContext   *context,
+		  gint               page_nr,
+		  gpointer           user_data)
+{
+
+	SheetObject *so = (SheetObject *) user_data;
+	cairo_t *cr= gtk_print_context_get_cairo_context (context);
+	Sheet *sheet = sheet_object_get_sheet (so);
+
+	cairo_save (cr);
+	cairo_translate (cr, 0, 0);
+	sheet_object_draw_cairo (so, (gpointer)cr, sheet->text_is_rtl);
+	cairo_restore (cr);
+}
+
 void 
 gnm_print_so (WorkbookControl *wbc, SheetObject *so)
 {
-	g_print ("gnm_print_so\n");
+	GtkPrintOperation *print;
+	GtkPageSetup *page_setup;
+	GtkPrintSettings* settings;
+	Sheet *sheet;
+	GtkWindow *parent = NULL;
+
+	g_return_if_fail (so != NULL);
+
+	sheet = sheet_object_get_sheet (so);
+	if (NULL != wbc && IS_WBC_GTK(wbc))
+		parent = wbcg_toplevel (WBC_GTK (wbc));
+
+	print = gtk_print_operation_new ();
+
+	settings = gnm_conf_get_print_settings ();
+	gtk_print_settings_set_use_color (settings,
+					  !sheet->print_info->print_black_and_white);
+	gtk_print_operation_set_print_settings (print, settings);
+	g_object_unref (settings);
+
+	page_setup = print_info_get_page_setup (sheet->print_info);
+	if (page_setup) {
+		gtk_print_operation_set_default_page_setup (print, page_setup);
+		g_object_unref (page_setup);
+	}
+
+	gtk_print_operation_set_n_pages(print, 1);
+	
+	g_signal_connect (print, "draw-page", G_CALLBACK (gnm_draw_so_page_cb), so);
+
+	gtk_print_operation_set_use_full_page (print, FALSE);
+	gtk_print_operation_set_unit (print, GTK_UNIT_POINTS);
+	gtk_print_operation_set_show_progress (print, TRUE);
+
+	gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, parent, NULL);
+
+	g_object_unref (print);	
 }

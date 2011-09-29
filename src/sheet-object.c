@@ -226,8 +226,8 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 			{ GTK_STOCK_CUT,		NULL,		NULL,  0, cb_so_cut, NULL },
 			{ GTK_STOCK_COPY,		NULL,		NULL,  0, cb_so_copy, NULL },
 			{ GTK_STOCK_DELETE,		NULL,		NULL,  0, cb_so_delete, NULL },
-			/* { NULL,	NULL, NULL, 0, NULL, NULL }, */
-			/* { GTK_STOCK_PRINT,		NULL,		NULL,  0, cb_so_print, sheet_object_can_print}, */
+			{ NULL,	NULL, NULL, 0, NULL, NULL },
+			{ GTK_STOCK_PRINT,		NULL,		NULL,  0, cb_so_print, sheet_object_can_print},
 		};
 		for (i =  0; i < G_N_ELEMENTS (so_actions); i++)
 				g_ptr_array_add (actions, (gpointer) (so_actions + i));
