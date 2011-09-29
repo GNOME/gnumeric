@@ -1,5 +1,9 @@
 2011-09-29 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print.c (gnm_print_so): enable pagesetup combos
+
+2011-09-29 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/print.c (gnm_draw_so_page_cb): new
 	(gnm_print_so): implement
 	* src/sheet-object.c (sheet_object_populate_menu_real): enable print item

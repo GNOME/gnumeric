@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * gnm-notebook.c: Implements a button-only notebook.
  *
@@ -70,6 +71,40 @@ gnm_notebook_size_allocate (GtkWidget     *widget,
 }
 
 static void
+gnm_notebook_adjust_this_tab_appearance (GnmNotebook *nb, GtkWidget *page, gboolean active)
+{
+	GtkWidget *tab;
+
+	if (page == NULL)
+		return;
+	
+	tab = gtk_notebook_get_tab_label 
+		(GTK_NOTEBOOK (nb), page);
+	gtk_entry_set_has_frame (GTK_ENTRY (tab), active);
+}
+
+static void
+gnm_notebook_adjust_tab_appearance (GnmNotebook *nb, GtkWidget *old, GtkWidget *new)
+{
+	gnm_notebook_adjust_this_tab_appearance (nb, old, FALSE);
+	gnm_notebook_adjust_this_tab_appearance (nb, new, TRUE);
+}
+
+static void
+gnm_notebook_switch_page_cb (GtkNotebook *notebook,
+			     GtkWidget   *page,
+			     G_GNUC_UNUSED guint page_num,
+			     GnmNotebook *nb)
+{
+	GtkWidget *current_page = NULL;
+	gint current = gtk_notebook_get_current_page (notebook);
+
+	if (current != -1)
+		current_page = gtk_notebook_get_nth_page (notebook, current);
+	gnm_notebook_adjust_tab_appearance (nb, current_page, page);
+}
+
+static void
 gnm_notebook_class_init (GtkWidgetClass *klass)
 {
 	gnm_notebook_parent_class = g_type_class_peek (GTK_TYPE_NOTEBOOK);
@@ -97,6 +132,11 @@ gnm_notebook_init (GnmNotebook *notebook)
 	gtk_style_context_add_provider (context,
 					GTK_STYLE_PROVIDER (css),
 					GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+	g_signal_connect (G_OBJECT (notebook), "switch-page", 
+			  (GCallback) gnm_notebook_switch_page_cb, 
+			  notebook);
+
 	g_object_unref (css);
 }
 

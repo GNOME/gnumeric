@@ -1818,10 +1818,10 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 }
 
 static void
-gnm_draw_so_page_cb (GtkPrintOperation *operation,
-                  GtkPrintContext   *context,
-		  gint               page_nr,
-		  gpointer           user_data)
+gnm_draw_so_page_cb (G_GNUC_UNUSED GtkPrintOperation *operation,
+		     GtkPrintContext                 *context,
+		     G_GNUC_UNUSED gint               page_nr,
+		     gpointer                         user_data)
 {
 
 	SheetObject *so = (SheetObject *) user_data;
@@ -1863,7 +1863,8 @@ gnm_print_so (WorkbookControl *wbc, SheetObject *so)
 		g_object_unref (page_setup);
 	}
 
-	gtk_print_operation_set_n_pages(print, 1);
+	gtk_print_operation_set_n_pages (print, 1);
+	gtk_print_operation_set_embed_page_setup (print, TRUE);
 	
 	g_signal_connect (print, "draw-page", G_CALLBACK (gnm_draw_so_page_cb), so);
 
