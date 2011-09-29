@@ -1064,10 +1064,7 @@ gnm_x_claim_clipboard (WBCGtk *wbcg)
 	GnmCellRegion *content = gnm_app_clipboard_contents_get ();
 	SheetObject *imageable = NULL, *exportable = NULL;
 	GtkTargetEntry *targets = NULL;
-	int n_targets, i;
-	GSList *ptr;
-	SheetObject *candidate;
-	GtkTargetList *tl;
+	int n_targets;
 	gboolean ret;
 
 	static GtkTargetEntry const table_targets[] = {
@@ -1082,9 +1079,10 @@ gnm_x_claim_clipboard (WBCGtk *wbcg)
 	n_targets = G_N_ELEMENTS (table_targets);
 	if (content &&
 	    (content->cols <= 0 || content->rows <= 0)) {
+		GSList *ptr;
 		for (ptr = content->objects; ptr != NULL;
 		     ptr = ptr->next) {
-			candidate = SHEET_OBJECT (ptr->data);
+			SheetObject *candidate = SHEET_OBJECT (ptr->data);
 			if (exportable == NULL && IS_SHEET_OBJECT_EXPORTABLE (candidate))
 				exportable = candidate;
 			if (imageable == NULL && IS_SHEET_OBJECT_IMAGEABLE (candidate))
@@ -1094,14 +1092,16 @@ gnm_x_claim_clipboard (WBCGtk *wbcg)
 		n_targets = 1;
 	}
 	if (exportable) {
-		tl = sheet_object_exportable_get_target_list (exportable);
+		GtkTargetList *tl =
+			sheet_object_exportable_get_target_list (exportable);
 		/* _add_table prepends to target_list */
 		gtk_target_list_add_table (tl, table_targets, 1);
 		targets = gtk_target_table_new_from_list (tl, &n_targets);
 		gtk_target_list_unref (tl);
 	}
 	if (imageable) {
-		tl = sheet_object_get_target_list (imageable);
+		GtkTargetList *tl =
+			sheet_object_get_target_list (imageable);
 		/* _add_table prepends to target_list */
 		gtk_target_list_add_table (tl, targets, (exportable)? n_targets: 1);
 		targets = gtk_target_table_new_from_list (tl, &n_targets);
