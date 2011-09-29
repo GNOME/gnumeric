@@ -1,5 +1,24 @@
 2011-09-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/gnm-pane.c (cb_so_menu_activate): delete
+	(build_so_menu): delete
+	(gnm_pane_display_object_menu): use sheet_object_build_menu instead of
+	build_so_menu
+	* src/print.c (gnm_print_so): new stub
+	* src/print.h (gnm_print_so): new
+	* src/sheet-object-impl.h (SheetObjectAction): add field
+	* src/sheet-object.c (build_so_menu): rename to sheet_object_build_menu
+	(cb_so_print): new
+	(sheet_object_can_prop): new
+	(sheet_object_populate_menu_real): use enabler/disabler
+	(sheet_object_populate_menu): do not recurse infinitely
+	(cb_so_menu_activate): combine with the function of same name from src/gnm-pane.c
+	(sheet_object_view_button_pressed): use sheet_object_build_menu instead of
+	build_so_menu
+	* src/sheet-object.h (sheet_object_build_menu): new
+
+2011-09-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/stf-parse.c (stf_parse_options_csv_set_stringindicator): allow \0
 	as stringindicator
 	(stf_parse_options_valid): ditto

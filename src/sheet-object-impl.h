@@ -34,12 +34,14 @@ struct _SheetObject {
 };
 
 typedef void (*SheetObjectActionFunc) (SheetObject *so, SheetControl *sc);
+typedef gboolean (*SheetObjectEnableActionFunc) (SheetObject const *so);
 typedef struct {
 	char const *icon;	/* optionally NULL */
 	char const *label;	/* NULL for separators */
 	char const *msg_domain;	/* for plugins to specify translations */
 	int  submenu;		/* > 1 starts a menu, < 1 end one */
 	SheetObjectActionFunc	func;
+	SheetObjectEnableActionFunc	enable_func;
 } SheetObjectAction;
 
 typedef struct {

@@ -2354,51 +2354,6 @@ cb_slide_handler (GnmPane *pane, GnmPaneSlideInfo const *info)
 }
 
 static void
-cb_so_menu_activate (GObject *menu, GocItem *view)
-{
-	SheetObjectAction const *a = g_object_get_data (menu, "action");
-	if (a->func)
-		(a->func) (sheet_object_view_get_so (SHEET_OBJECT_VIEW (view)),
-			   SHEET_CONTROL (GNM_SIMPLE_CANVAS (view->canvas)->scg));
-}
-
-static GtkWidget *
-build_so_menu (GnmPane *pane, SheetObjectView *view,
-	       GPtrArray const *actions, unsigned *i)
-{
-	SheetObjectAction const *a;
-	GtkWidget *item, *menu = gtk_menu_new ();
-
-	while (*i < actions->len) {
-		a = g_ptr_array_index (actions, *i);
-		(*i)++;
-		if (a->submenu < 0)
-			break;
-		if (a->icon != NULL) {
-			if (a->label != NULL) {
-				item = gtk_image_menu_item_new_with_mnemonic (_(a->label));
-				gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-					gtk_image_new_from_stock (a->icon, GTK_ICON_SIZE_MENU));
-			} else
-				item = gtk_image_menu_item_new_from_stock (a->icon, NULL);
-		} else if (a->label != NULL)
-			item = gtk_menu_item_new_with_mnemonic (_(a->label));
-		else
-			item = gtk_separator_menu_item_new ();
-		if (a->submenu > 0)
-			gtk_menu_item_set_submenu (GTK_MENU_ITEM (item),
-				build_so_menu (pane, view, actions, i));
-		else if (a->label != NULL || a->icon != NULL) { /* not a separator or menu */
-			g_object_set_data (G_OBJECT (item), "action", (gpointer)a);
-			g_signal_connect_object (G_OBJECT (item), "activate",
-				G_CALLBACK (cb_so_menu_activate), view, 0);
-		}
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
-	}
-	return menu;
-}
-
-static void
 cb_ptr_array_free (GPtrArray *actions)
 {
 	g_ptr_array_free (actions, TRUE);
@@ -2424,9 +2379,9 @@ gnm_pane_display_object_menu (GnmPane *pane, SheetObject *so, GdkEvent *event)
 		return;
 	}
 
-	menu = build_so_menu (pane,
-		sheet_object_get_view (so, (SheetObjectViewContainer *) pane),
-		actions, &i);
+	menu = sheet_object_build_menu 
+		(sheet_object_get_view (so, (SheetObjectViewContainer *) pane),
+		 actions, &i);
 	g_object_set_data_full (G_OBJECT (menu), "actions", actions,
 		(GDestroyNotify)cb_ptr_array_free);
 	gtk_widget_show_all (menu);

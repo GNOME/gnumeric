@@ -1816,3 +1816,9 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 
 	g_object_unref (print);
 }
+
+void 
+gnm_print_so (WorkbookControl *wbc, SheetObject *so)
+{
+	g_print ("gnm_print_so\n");
+}
