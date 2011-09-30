@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-09-30 05:58+0000\n"
-"PO-Revision-Date: 2011-09-30 11:29+0100\n"
+"POT-Creation-Date: 2011-09-30 09:30+0000\n"
+"PO-Revision-Date: 2011-09-30 13:27+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1016,8 +1016,9 @@ msgid "GLPK"
 msgstr "GLPK"
 
 #: ../plugins/glpk/plugin.xml.in.h:2
+#, fuzzy
 msgid "GLPK Linear Program Solver"
-msgstr ""
+msgstr "Vmesnik reševalnika za GLPK"
 
 #: ../plugins/glpk/plugin.xml.in.h:3
 msgid "GLPK Linear Program Solver Interface"
@@ -1127,7 +1128,7 @@ msgstr "Lotus 123 (*.wk1, *.wks, *.123)"
 #: ../plugins/lpsolve/gnm-lpsolve.c:51
 #, fuzzy, c-format
 msgid "The LPSolve exporter is not available."
-msgstr "Ta postaja ni na voljo."
+msgstr "Programnik izvoza za GLPK ni na voljo."
 
 #: ../plugins/lpsolve/lpsolve-write.c:335
 msgid "Writing lpsolve file..."
@@ -1149,7 +1150,7 @@ msgstr ""
 #: ../plugins/lpsolve/plugin.xml.in.h:4
 #, fuzzy
 msgid "Solver Interface to LPSolve"
-msgstr "Napaka med ustvarjanjem razrešilnika"
+msgstr "Vmesnik reševalnika za GLPK"
 
 #: ../plugins/mps/mps.c:193
 msgid "Program Name"
@@ -2212,9 +2213,8 @@ msgid "Hello World plugin using ui service"
 msgstr ""
 
 #: ../plugins/uihello/plugin.xml.in.h:2
-#, fuzzy
 msgid "UI Hello"
-msgstr "Hello Python"
+msgstr "Pozdrav uporabniškega vmesnika"
 
 #: ../plugins/uihello/uihello.c:32
 #, c-format
@@ -2243,11 +2243,11 @@ msgstr "Branje glave DBF je spodletelo."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:1
 msgid ">This value determines the default setting in the Print Setup dialog whether print grid lines. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr ">Vrednost določa privzete nastavitve tiskanja mrežnih črt. Uporabite pogovorno okno nastavitev tiskanja za urejanje te vrednosti."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:2
 msgid ">This value determines whether the default setting in the Print Setup dialog is to center pages vertically."
-msgstr ""
+msgstr ">Vrednost določa privzete nastavitve navpičnega sredinjenja strani."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:3
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:1
@@ -2263,7 +2263,7 @@ msgstr ""
 #: ../schemas/gnumeric-dialogs.schemas.in.h:5
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:3
 msgid "Apply print-setup to all sheets"
-msgstr ""
+msgstr "Uveljavi nastavitve tiskanja za vse delovne liste"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:6
 msgid "Autocorrect first letter"
@@ -2469,12 +2469,12 @@ msgstr "Papir"
 #: ../schemas/gnumeric-dialogs.schemas.in.h:46
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:44
 msgid "Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Uporabite pogovorno okno nastavitev tiskanja za urejanje te vrednosti."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:47
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:45
 msgid "Please use the Text Export dialog to edit this value."
-msgstr ""
+msgstr "Uporabite pogovorno okno izvoza besedila za urejanje te vrednosti."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:48
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:46
@@ -2505,7 +2505,7 @@ msgstr "Poišči in zamenjaj spremeni nize"
 #: ../schemas/gnumeric-dialogs.schemas.in.h:54
 #, fuzzy
 msgid "Search & Replace Column Major"
-msgstr "Poišči in zamenjaj spremeni opombe"
+msgstr "Poišči in zamenjaj glavni stolpec"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:55
 msgid "Search & Replace Error Behavior"
@@ -2530,17 +2530,17 @@ msgstr "Poišči in zamenjaj ohrani velikost črk"
 #: ../schemas/gnumeric-dialogs.schemas.in.h:60
 #, fuzzy
 msgid "Search & Replace Scope"
-msgstr "Poišči in zamenjaj"
+msgstr "Poišči in zamenjaj obseg"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:61
 #, fuzzy
 msgid "Search & Replace Search Type"
-msgstr "Vtipkajte za iskanje ..."
+msgstr "Poišči in zamenjaj vrsta iskanja"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:62
 #, fuzzy
 msgid "Search & Replace Whole Words Only"
-msgstr "_Upoštevaj le cele besede"
+msgstr "Poišči in zamenjaj spremeni le cele besede"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:63
 msgid "Search & Replace changes cells containing expressions as default"
@@ -2695,12 +2695,12 @@ msgstr ""
 #: ../schemas/gnumeric-dialogs.schemas.in.h:94
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:91
 msgid "This is the default paper orientation. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "To je privzeta nastavitev postavitve papirja  za tiskanje. Uporabite pogovorno okno nastavitev tiskanja za urejanje te vrednosti."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:95
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:92
 msgid "This is the default paper specification. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "To je privzeto določilo papirja  za tiskanje. Uporabite pogovorno okno nastavitev tiskanja za urejanje te vrednosti."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:96
 msgid "This is the default scope of Search & Replace. 0: entire workbook; 1: current sheet; 2: range"
@@ -2788,62 +2788,62 @@ msgstr ""
 #: ../schemas/gnumeric-dialogs.schemas.in.h:113
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:111
 msgid "This value determines whether by default the print set-up dialog applies to all sheets simultaneously."
-msgstr ""
+msgstr "Ta vrednost določa ali je uveljavljanje sprememb nastavitev privzeto določeno za vse delovne liste sočasno."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:114
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:112
 msgid "This value determines whether the default font for headers and footers is bold."
-msgstr ""
+msgstr "Ta vrednost določa ali je privzeto določena krepka pisava v glavi in nogi strani."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:115
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:113
 msgid "This value determines whether the default font for headers and footers is italic."
-msgstr ""
+msgstr "Ta vrednost določa ali je privzeto določena ležeča pisava v glavi in nogi strani."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:116
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:114
 msgid "This value determines whether the default setting in the Print Setup dialog is to center pages horizontally."
-msgstr ""
+msgstr "Ta vrednost določa ali je privzeto določeno vodoravno sredinjenje strani v pogovornem oknu nastavitev tiskanja."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:117
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:116
 msgid "This value gives the default number of points from the bottom of a page to the end of the body. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Ta vrednost poda privzeto razdaljo v točkah od spodnjega robu strani do konca telesa strani. Uporabite pogovorno okno nastavitev tiskanja za urejanje te vrednosti."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:118
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:117
 msgid "This value gives the default number of points from the bottom of a page to the end of the footer. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Ta vrednost poda privzeto razdaljo v točkah od spodnjega robu strani do konca noge strani. Uporabite pogovorno okno nastavitev tiskanja za urejanje te vrednosti."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:119
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:118
 msgid "This value gives the default number of points from the left of a page to the left of the body. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Ta vrednost poda privzeto razdaljo v točkah od levega robu strani do levega robu telesa strani. Uporabite pogovorno okno nastavitev tiskanja za urejanje te vrednosti."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:120
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:119
 msgid "This value gives the default number of points from the right of a page to the right of the body. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Ta vrednost poda privzeto razdaljo v točkah od desnega robu strani do desnega robu telesa strani. Uporabite pogovorno okno nastavitev tiskanja za urejanje te vrednosti."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:121
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:120
 msgid "This value gives the default number of points from the top of a page to the start of the body. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Ta vrednost poda privzeto razdaljo v točkah od vrha strani do začetka telesa strani. Uporabite pogovorno okno nastavitev tiskanja za urejanje te vrednosti."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:122
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:121
 msgid "This value gives the default number of points from the top of a page to the top of the header. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Ta vrednost poda privzeto razdaljo v točkah od vrhnjega robu strani do vrhe glave strani. Uporabite pogovorno okno nastavitev tiskanja za urejanje te vrednosti."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:123
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:122
 msgid "This value gives the percentage by which to scale each printed page. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "To je privzeta nastavitev odstotka prilagajanja velikosti vsake natisnjene strani. Uporabite pogovorno okno nastavitev tiskanja za urejanje te vrednosti."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:124
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:123
 msgid "This variable determines whether to activate every new encountered plugin."
-msgstr ""
+msgstr "Spremenljivka določa ali naj bo omogočen vsak nov zaznan vstavek."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:125
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:124
@@ -2954,7 +2954,7 @@ msgstr ""
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:21
 #, fuzzy
 msgid "Length of the Undo Descriptors"
-msgstr "Razveljavi zadnjo potezo"
+msgstr "Dolžina opisnikov razveljavitve"
 
 #: ../schemas/gnumeric-general.schemas.in.h:20
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:22
@@ -4793,7 +4793,7 @@ msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
 #: ../src/dialogs/dao.ui.h:5
 #, fuzzy
 msgid "Filter _in-place"
-msgstr "Napaka v izrazu filtra"
+msgstr "Natisni na mestu"
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:144
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:99
@@ -4856,7 +4856,7 @@ msgstr ""
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:113
 #, fuzzy
 msgid "The categories range is not valid."
-msgstr "Datoteka ni veljavna .desktop datoteka"
+msgstr "Podatkovna vrsta matrike ni veljavna."
 
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:120
 #, fuzzy
@@ -5186,7 +5186,7 @@ msgstr ""
 #: ../src/dialogs/dialog-analysis-tools.c:3211
 #, fuzzy
 msgid "The cutoff range is not valid."
-msgstr "Datoteka ni veljavna .desktop datoteka"
+msgstr "Podatkovna vrsta matrike ni veljavna."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3218
 msgid "The number of to be calculated cutoffs is invalid."
@@ -7376,7 +7376,7 @@ msgstr "Dodajte ali odstranite stolpce:"
 #, fuzzy, c-format
 msgid "A maximum of %d column can be imported."
 msgid_plural "A maximum of %d columns can be imported."
-msgstr[0] "Največja velikost, ki jo je mogoče izbrati"
+msgstr[0] "Uvoziti je mogoče največ %d stolpcev."
 msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
@@ -7718,7 +7718,7 @@ msgstr "_Stolpci"
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:7
 #, fuzzy
 msgid "_Input range:"
-msgstr "Neveljavno območje"
+msgstr "_Vhodna podatkovna vrsta:"
 
 #: ../src/dialogs/anova-one.ui.h:10
 #: ../src/dialogs/anova-two.ui.h:9
@@ -7788,7 +7788,7 @@ msgstr "Žerki večkratnikov"
 #: ../src/dialogs/histogram.ui.h:17
 #, fuzzy
 msgid "Input _range:"
-msgstr "Neveljavno območje"
+msgstr "_Vhodna podatkovna vrsta:"
 
 #: ../src/dialogs/anova-two.ui.h:7
 #, fuzzy
@@ -8519,7 +8519,7 @@ msgstr "_Spodaj-zgoraj"
 #: ../src/dialogs/chi-squared.ui.h:1
 #, fuzzy
 msgid "Contingency Table Analysis"
-msgstr "glava stolpca razpredelnice"
+msgstr "Analiza časovnih nizov"
 
 #: ../src/dialogs/chi-squared.ui.h:6
 msgid "Test of _Homogeneity"
@@ -8727,7 +8727,7 @@ msgstr "Oblika"
 #: ../src/dialogs/data-table.ui.h:1
 #, fuzzy
 msgid "Co_lumn Input :"
-msgstr "okno načina vnosa"
+msgstr "Naslovi vrstic in sto_lpcev"
 
 #: ../src/dialogs/data-table.ui.h:3
 #, fuzzy
@@ -9996,7 +9996,7 @@ msgstr "Pomakni celice v desno"
 #: ../src/dialogs/kaplan-meier.ui.h:1
 #, fuzzy
 msgid "Censor co_lumn:"
-msgstr "Kodno _prevedi datoteko"
+msgstr "Naslovi vrstic in sto_lpcev"
 
 #: ../src/dialogs/kaplan-meier.ui.h:2
 msgid "Censored record labels from:"
@@ -10390,7 +10390,7 @@ msgstr "Možnosti programa"
 #: ../src/wbc-gtk-actions.c:2516
 #, fuzzy
 msgid "Principal Components Analysis"
-msgstr "Uredi enote na %s (%s)"
+msgstr "Analiza časovnih nizov"
 
 #: ../src/dialogs/print.ui.h:2
 #, no-c-format
@@ -11741,7 +11741,7 @@ msgstr "Ge_slo:"
 #: ../src/dialogs/workbook-attr.ui.h:4
 #, fuzzy
 msgid "Show _Formula Cell Markers"
-msgstr "Označi vsako celico, ki vsebuje formulo"
+msgstr "Vnosna celica %s vsebuje formulo"
 
 #: ../src/dialogs/workbook-attr.ui.h:5
 msgid "Unimplementented"
@@ -14328,7 +14328,7 @@ msgstr "Naslov zaznave:"
 #: ../src/tools/analysis-principal-components.c:221
 #, fuzzy, c-format
 msgid "Principal Components Analysis (%s)"
-msgstr "Uredi enote na %s (%s)"
+msgstr "Analiza časovnih nizov"
 
 #: ../src/tools/analysis-sign-test.c:74
 msgid "/Sign Test/Median/Predicted Median/Test Statistic/N/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
@@ -14713,7 +14713,7 @@ msgstr ""
 #: ../src/tools/fill-series.c:378
 #, fuzzy, c-format
 msgid "Fill Series (%s)"
-msgstr "Zaporedje števil"
+msgstr "Zapolni niz"
 
 #: ../src/tools/filter.c:137
 msgid "Filtered"
@@ -16308,7 +16308,7 @@ msgstr "_Fourierjeva analiza"
 #: ../src/wbc-gtk-actions.c:2515
 #, fuzzy
 msgid "Principal Components Analysis..."
-msgstr "Uredi enote na %s (%s)"
+msgstr "Analiza časovnih nizov"
 
 #. Statistics -> DependentObservations -> Forecast
 #: ../src/wbc-gtk-actions.c:2520
@@ -17944,7 +17944,7 @@ msgstr "Prikaži zavihke beležnice delovnih listov"
 #: ../src/workbook-view.c:954
 #, fuzzy
 msgid "Show formula cell markers"
-msgstr "Označi vsako celico, ki vsebuje formulo"
+msgstr "Vnosna celica %s vsebuje formulo"
 
 #: ../src/workbook-view.c:955
 msgid "Mark each cell containing a formula"
