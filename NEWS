@@ -24,6 +24,8 @@ Andreas:
 	* Allow for the omission of a string indicator (quote) in configurable
 	text import. [#658981]
 	* Add a print item to the sheet object context menu. [#660248]
+	* Fix IRR and other functions acting on paired data set when called
+	with fixed arrays.
 
 Jean:
 	* Make things build against gtk+-3.0.

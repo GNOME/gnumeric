@@ -754,8 +754,10 @@ collect_float_pairs (GnmValue const *vx, GnmValue const *vy,
 	PairsFloatsCacheEntry *ce = NULL;
 	gboolean use_cache, free_keys = TRUE;
 
-	key_x = get_single_cache_key_from_value (vx, ep);
-	key_y = get_single_cache_key_from_value (vy, ep);
+	if (vx->type == VALUE_CELLRANGE)
+		key_x = get_single_cache_key_from_value (vx, ep);
+	if (vy->type == VALUE_CELLRANGE)
+		key_y = get_single_cache_key_from_value (vy, ep);
 
 	if ((use_cache = (key_x && key_y)))
 		ce = get_or_fake_pairs_cache_entry (key_x, key_y, flags, ep);
