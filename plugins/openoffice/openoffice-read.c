@@ -10094,6 +10094,29 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 	return gnm_expr_new_funcall (f, args);
 }
 
+static gboolean
+identified_google_docs (GsfInfile *zip)
+{
+	/* As of 2011/10/1 google-docs does not store any generator info so */
+	/* we cannot use that for identification */
+	gboolean google_docs = FALSE;
+	GsfInput *content = gsf_infile_child_by_name 
+		(zip, "content.xml");
+	if (content) {
+		/* pick arbitrary size limit of 0.5k for the manifest to avoid
+		 * potential of any funny business */
+		size_t size = MIN (gsf_input_size (content), 512);
+		char const *mf = gsf_input_read (content, size, NULL);
+		if (mf)
+			google_docs = 
+				(NULL != g_strstr_len 
+				 (mf, -1,
+				  "urn:oasis:names:tc:opendocument:xmlns:office:1.0"));
+		g_object_unref (content);
+	}
+	return google_docs;
+}
+
 static OOVer
 determine_oo_version (GsfInfile *zip, OOVer def)
 {
@@ -10101,8 +10124,11 @@ determine_oo_version (GsfInfile *zip, OOVer def)
 	size_t size;
 	GsfInput *mimetype = gsf_infile_child_by_name (zip, "mimetype");
 	if (!mimetype) {
-		/* Really old versions had no mimetype.  Allow that, except
-		   in the probe.  */
+		/* Google-docs is the mimetype so we need to check that */
+		if (identified_google_docs (zip))
+			return OOO_VER_OPENDOC;
+		/* Really old versions also had no mimetype.  Allow that, 
+		   except in the probe.  */
 		return def;
 	}
 
