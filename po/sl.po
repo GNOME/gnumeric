@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2011-09-30 09:30+0000\n"
-"PO-Revision-Date: 2011-09-30 13:27+0100\n"
+"PO-Revision-Date: 2011-10-01 22:06+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -22,6 +22,7 @@ msgstr ""
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
+# http://projects.gnome.org/gnumeric/doc/gnumeric-info.shtml
 #: ../gnumeric.desktop.in.h:1
 msgid "Calculation, Analysis, and Visualization of Information"
 msgstr "Preračunavanje, analiza in predočenje podatkov in podrobnosti"
@@ -1262,9 +1263,8 @@ msgid "The initial values do not satisfy the constraints."
 msgstr "Začetne vrednosti ne zadostujejo omejitev."
 
 #: ../plugins/nlsolve/plugin.xml.in.h:1
-#, fuzzy
 msgid "Nlsolve"
-msgstr "Reši igro"
+msgstr ""
 
 #: ../plugins/nlsolve/plugin.xml.in.h:2
 msgid "Non-Linear Program Solver"
@@ -2941,9 +2941,8 @@ msgstr "Orodna vrstica oblikovanja je vidna"
 #: ../schemas/gnumeric-general.schemas.in.h:17
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:19
 #: ../src/dialogs/dialog-preferences.c:992
-#, fuzzy
 msgid "Horizontal DPI"
-msgstr "Vrednost DPI pisave"
+msgstr "Vodoravne vrednosti DPI"
 
 #: ../schemas/gnumeric-general.schemas.in.h:18
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:20
@@ -3266,9 +3265,8 @@ msgstr "Večpredstavnostne tipke"
 #: ../schemas/gnumeric-general.schemas.in.h:80
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:80
 #: ../src/dialogs/dialog-preferences.c:997
-#, fuzzy
 msgid "Vertical DPI"
-msgstr "Vrednost DPI pisave"
+msgstr "Navpične vrednosti DPI"
 
 #: ../schemas/gnumeric-general.schemas.in.h:81
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:81
@@ -3602,9 +3600,9 @@ msgid "Editing style of %s"
 msgstr "Urejanje sloga %s"
 
 #: ../src/commands.c:968
-#, fuzzy, c-format
+#, c-format
 msgid "Typing \"%s\" in %s"
-msgstr "_Vstopi"
+msgstr "Vpisovanje \"%s\" v %s"
 
 #: ../src/commands.c:1114
 #: ../src/wbc-gtk-edit.c:159
@@ -3931,7 +3929,6 @@ msgstr ""
 "kopirane napačno."
 
 #: ../src/commands.c:2907
-#, fuzzy
 msgid "Paste Copy"
 msgstr "Kopiranje in lepljenje"
 
@@ -4221,9 +4218,9 @@ msgstr "Dodaj filter"
 
 #: ../src/commands.c:7884
 #: ../src/wbc-gtk.c:1562
-#, fuzzy, c-format
+#, c-format
 msgid "Auto Filter blocked by %s"
-msgstr "Določa navidezno površino prostora, ki ga določa filter."
+msgstr "Samodejni filter onemogoča %s"
 
 #: ../src/commands.c:7889
 #: ../src/commands.c:7916
@@ -4232,34 +4229,32 @@ msgid "AutoFilter"
 msgstr "Samodejni filter"
 
 #: ../src/commands.c:7917
-#, fuzzy
 msgid "Requires more than 1 row"
-msgstr "Datum spremembe starejši kot"
+msgstr "Zahteva več kot eno izbrano vrstico"
 
 #: ../src/commands.c:7926
-#, fuzzy
 msgid "Unable to create Autofilter"
-msgstr "Ni mogoče ustvariti slike '%s'."
+msgstr "Ni mogoče ustvariti samodejnega filtra"
 
 #: ../src/commands.c:7949
-#, fuzzy, c-format
+#, c-format
 msgid "Add Autofilter to %s"
-msgstr "Dodaj projektu"
+msgstr "Dodaj samodejni filter za %s"
 
 #: ../src/commands.c:7950
-#, fuzzy, c-format
+#, c-format
 msgid "Extend Autofilter to %s"
-msgstr "Kako razširiti zmožnosti programa"
+msgstr "Razširi samodejni filter za %s"
 
 #: ../src/commands.c:7963
-#, fuzzy, c-format
+#, c-format
 msgid "Remove Autofilter from %s"
-msgstr "Odstrani iz projekta"
+msgstr "Odstrani samodejni filter %s"
 
 #: ../src/commands.c:7993
-#, fuzzy, c-format
+#, c-format
 msgid "Change filter condition for %s"
-msgstr "Urejanje pogoja za filter: "
+msgstr "Spremeni pogoje filtriranja za %s"
 
 #: ../src/commands.c:8062
 #: ../src/wbc-gtk-actions.c:2182
@@ -4785,9 +4780,8 @@ msgid "An unexpected error has occurred: %d."
 msgstr "Prišlo je do nepričakovane napake: %d."
 
 #: ../src/dialogs/dialog-advanced-filter.c:210
-#, fuzzy
 msgid "Could not create the Advanced Filter dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
+msgstr "Ni mogoče ustvariti pogovornega okna naprednega filtra."
 
 #: ../src/dialogs/dialog-advanced-filter.c:217
 #: ../src/dialogs/dao.ui.h:5
@@ -4851,7 +4845,7 @@ msgstr "URL podcasta je neveljaven."
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:218
 msgid "Could not create the Chi Squared Tests tool dialog."
-msgstr ""
+msgstr "Ni mogoče ustvariti pogovornega okna orodja testa Hi-kvadrat."
 
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:113
 #, fuzzy
@@ -4864,9 +4858,8 @@ msgid "The number of categories is invalid."
 msgstr "Število zahtevanih naključnih števil je neveljavno."
 
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:259
-#, fuzzy
 msgid "Could not create the Frequency Tool dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
+msgstr "Ni mogoče ustvariti pogovornega okna orodja določanja frekvenc podatkov."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:115
 #, fuzzy
@@ -4923,11 +4916,11 @@ msgstr "Za"
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:624
 msgid "Could not create the Kaplan Meier Tool dialog."
-msgstr ""
+msgstr "Ni mogoče ustvariti pogovornega okna Kaplan-Meierjevega orodja."
 
 #: ../src/dialogs/dialog-analysis-tool-normality.c:202
 msgid "Could not create the Normality Test Tool dialog."
-msgstr ""
+msgstr "Ni mogoče ustvariti pogovornega okna testa normalnosti."
 
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:131
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:150
@@ -4936,8 +4929,9 @@ msgid "An unexpected error has occurred."
 msgstr "Prišlo je do nepričakovane napake: %d."
 
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:172
+#, fuzzy
 msgid "Could not create the Principal Components Analysis Tool dialog."
-msgstr ""
+msgstr "Ni mogoče ustvariti pogovornega okna "
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:92
 #, fuzzy
@@ -4962,8 +4956,9 @@ msgstr "Celo število  `%s' je preveliko ali premajhno"
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:259
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:405
+#, fuzzy
 msgid "Could not create the Sign Test Tool dialog."
-msgstr ""
+msgstr "Ni mogoče ustvariti pogovornega okna "
 
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:96
 #, fuzzy
@@ -4973,7 +4968,7 @@ msgstr "Celo število  `%s' je preveliko ali premajhno"
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:191
 #, fuzzy
 msgid "Could not create the Wilcoxon-Mann-Whitney Analysis Tool dialog."
-msgstr "Ni mogoče ustvariti okna lastnosti."
+msgstr "Ni mogoče ustvariti pogovornega okna "
 
 #: ../src/dialogs/dialog-analysis-tools.c:653
 #: ../src/dialogs/dialog-analysis-tools.c:773
@@ -4991,22 +4986,21 @@ msgid "The selected input areas must have equal size!"
 msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:711
-#, fuzzy
 msgid "Could not create the Correlation Tool dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
+msgstr "Ni mogoče ustvariti pogovornega okna soodnosnosti."
 
 #: ../src/dialogs/dialog-analysis-tools.c:831
-#, fuzzy
 msgid "Could not create the Covariance Tool dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
+msgstr "Ni mogoče ustvariti pogovornega okna orodja kovariance."
 
 #: ../src/dialogs/dialog-analysis-tools.c:923
+#, fuzzy
 msgid "Could not create the Rank and Percentile Tools dialog."
-msgstr ""
+msgstr "Ni mogoče ustvariti pogovornega okna "
 
 #: ../src/dialogs/dialog-analysis-tools.c:1016
 msgid "Could not create the Fourier Analysis Tool dialog."
-msgstr ""
+msgstr "Ni mogoče ustvariti pogovornega okna orodja Fouriereve analize."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1145
 #, fuzzy
@@ -5024,7 +5018,7 @@ msgstr "K mora biti pozitivno celo število."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1229
 msgid "Could not create the Descriptive Statistics Tool dialog."
-msgstr ""
+msgstr "Ni mogoče ustvariti pogovornega okna orodja opisne statistike."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1376
 msgid ""
@@ -5039,13 +5033,13 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:1612
+#, fuzzy
 msgid "Could not create the Mean Tests Tool dialog."
-msgstr ""
+msgstr "Ni mogoče ustvariti pogovornega okna "
 
 #: ../src/dialogs/dialog-analysis-tools.c:1800
-#, fuzzy
 msgid "Could not create the FTest Tool dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
+msgstr "Ni mogoče ustvariti pogovornega okna orodja FTest."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1860
 #, fuzzy
@@ -5070,7 +5064,7 @@ msgstr "Število zahtevanih naključnih števil je neveljavno."
 #: ../src/dialogs/dialog-analysis-tools.c:2056
 #, fuzzy
 msgid "Could not create the Sampling Tool dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
+msgstr "Ni mogoče ustvariti pogovornega okna "
 
 #: ../src/dialogs/dialog-analysis-tools.c:2248
 #: ../src/dialogs/dialog-analysis-tools.c:2261
@@ -5145,9 +5139,8 @@ msgid "_Y variable:"
 msgstr "Spremenljivka _Y:"
 
 #: ../src/dialogs/dialog-analysis-tools.c:2417
-#, fuzzy
 msgid "Could not create the Regression Tool dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
+msgstr "Ni mogoče ustvariti pogovornega okna orodja regresije."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2563
 msgid "The given seasonal damping factor is invalid."
@@ -5167,7 +5160,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:2725
 msgid "Could not create the Exponential Smoothing Tool dialog."
-msgstr ""
+msgstr "Ni mogoče ustvariti pogovornega okna orodja potenčnega glajenja."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2922
 #, fuzzy
@@ -5181,7 +5174,7 @@ msgstr "URL podcasta je neveljaven."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3093
 msgid "Could not create the Moving Average Tool dialog."
-msgstr ""
+msgstr "Ni mogoče ustvariti pogovornega okna orodja drsečega povprečja."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3211
 #, fuzzy
@@ -5193,13 +5186,13 @@ msgid "The number of to be calculated cutoffs is invalid."
 msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:3361
-#, fuzzy
 msgid "Could not create the Histogram Tool dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
+msgstr "Ni mogoče ustvariti pogovornega okna orodja histograma."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3538
+#, fuzzy
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr ""
+msgstr "Ni mogoče ustvariti pogovornega okna "
 
 #: ../src/dialogs/dialog-analysis-tools.c:3618
 msgid "The given input range should contain at least two columns and two rows of data and the labels."
@@ -5234,30 +5227,31 @@ msgid "The number of rows per sample should be a positive integer."
 msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:3768
+#, fuzzy
 msgid "Could not create the ANOVA (two factor) tool dialog."
-msgstr ""
+msgstr "Ni mogoče ustvariti pogovornega okna "
 
 #. xgettext : %d gives the number of items in the autofilter.
 #. This is input to ngettext.
 #: ../src/dialogs/dialog-autofilter.c:208
-#, fuzzy, c-format
+#, c-format
 msgid "Show the largest item"
 msgid_plural "Show the %3d largest items"
-msgstr[0] "Pokaži privzeti predmet"
-msgstr[1] "Ponovno pokaži pogovorno okno ob zagonu možnosti"
-msgstr[2] "Ponovno pokaži pogovorno okno ob zagonu možnosti"
-msgstr[3] "Ponovno pokaži pogovorno okno ob zagonu možnosti"
+msgstr[0] "Pokaži največjih %3d predmetov"
+msgstr[1] "Pokaži največji %3d predmet"
+msgstr[2] "Pokaži največja %3d predmeta"
+msgstr[3] "Pokaži največje %3d predmete"
 
 #. xgettext : %d gives the number of items in the autofilter.
 #. This is input to ngettext.
 #: ../src/dialogs/dialog-autofilter.c:218
-#, fuzzy, c-format
+#, c-format
 msgid "Show the smallest item"
 msgid_plural "Show the %3d smallest items"
-msgstr[0] "Pokaži privzeti predmet"
-msgstr[1] "Ponovno pokaži pogovorno okno ob zagonu možnosti"
-msgstr[2] "Ponovno pokaži pogovorno okno ob zagonu možnosti"
-msgstr[3] "Ponovno pokaži pogovorno okno ob zagonu možnosti"
+msgstr[0] "Pokaži najmanjših %3d predmetov"
+msgstr[1] "Pokaži najmanjši %3d predmet"
+msgstr[2] "Pokaži najmanjša %3d predmeta"
+msgstr[3] "Pokaži najmanjše %3d predmete"
 
 #: ../src/dialogs/dialog-autofilter.c:232
 #, fuzzy, c-format
@@ -5861,7 +5855,7 @@ msgstr ""
 #: ../src/dialogs/dialog-consolidate.c:552
 #, fuzzy
 msgid "Could not create the Consolidate dialog."
-msgstr "Ni mogoče ustvariti okna lastnosti."
+msgstr "Ni mogoče ustvariti pogovornega okna "
 
 #: ../src/dialogs/dialog-data-slicer.c:138
 msgid "Filter"
@@ -5941,7 +5935,7 @@ msgstr "Podatkovna razpredelnica"
 
 #: ../src/dialogs/dialog-data-table.c:173
 msgid "Could not create the Data Table definition dialog."
-msgstr ""
+msgstr "Ni mogoče ustvariti pogovornega okna določil podatkovne razpredelnice."
 
 #: ../src/dialogs/dialog-define-names.c:400
 msgid "Workbook"
@@ -5981,7 +5975,7 @@ msgstr "Uredi določena imena za izraze"
 #: ../src/dialogs/dialog-define-names.c:1327
 #, fuzzy
 msgid "Could not create the Name Guru."
-msgstr "Ni mogoče ustvariti poštnega predala vrste %s"
+msgstr "Ni mogoče ustvariti"
 
 #: ../src/dialogs/dialog-delete-cells.c:124
 #: ../src/dialogs/scenario-manager.ui.h:7
@@ -5991,9 +5985,8 @@ msgid "Delete"
 msgstr "Izbriši"
 
 #: ../src/dialogs/dialog-delete-cells.c:153
-#, fuzzy
 msgid "Could not create the Delete Cell dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
+msgstr "Ni mogoče ustvariti pogovornega okna brisanja celic."
 
 #: ../src/dialogs/dialog-doc-metadata.c:498
 msgid "TRUE"
@@ -6029,9 +6022,8 @@ msgid "Edit TRUE/FALSE value directly in above listing."
 msgstr "Uredi vrednost niza prav/napak neposredno iz zgornje vrstice."
 
 #: ../src/dialogs/dialog-doc-metadata.c:1576
-#, fuzzy
 msgid "To edit, use the keywords tab."
-msgstr "Uporabite to okno za urejanje {0}."
+msgstr "Za urejanje uporabite zavihek ključnih besed."
 
 #: ../src/dialogs/dialog-doc-metadata.c:1578
 msgid "Edit timestamp directly in above listing."
@@ -6092,14 +6084,12 @@ msgid "Calculation"
 msgstr "Računanje"
 
 #: ../src/dialogs/dialog-doc-metadata.c:2403
-#, fuzzy
 msgid "Could not create the Properties dialog."
-msgstr "Ni mogoče ustvariti okna lastnosti."
+msgstr "Ni mogoče ustvariti pogovornega okna lastnosti."
 
 #: ../src/dialogs/dialog-fill-series.c:254
-#, fuzzy
 msgid "Could not create the Fill Series dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
+msgstr "Ni mogoče ustvariti pogovornega okna zapolnjenja nizov"
 
 #: ../src/dialogs/dialog-formula-guru.c:328
 #, c-format
@@ -6113,7 +6103,7 @@ msgstr "Funkcija/Argument"
 #: ../src/dialogs/dialog-formula-guru.c:1094
 #, fuzzy
 msgid "Could not create the formula guru."
-msgstr "Ni mogoče ustvariti poštnega predala vrste %s"
+msgstr "Ni mogoče ustvariti pogovornega okna "
 
 #: ../src/dialogs/dialog-function-select.c:506
 msgid "All Functions"
@@ -6210,7 +6200,7 @@ msgstr ""
 #: ../src/dialogs/dialog-goal-seek.c:697
 #, fuzzy
 msgid "Could not create the Goal-Seek dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
+msgstr "Ni mogoče ustvariti pogovornega okna "
 
 #: ../src/dialogs/dialog-goto-cell.c:233
 msgid "Workbook Level"
@@ -6239,9 +6229,8 @@ msgid "Cell"
 msgstr "Celica"
 
 #: ../src/dialogs/dialog-goto-cell.c:463
-#, fuzzy
 msgid "Could not create the goto dialog."
-msgstr "Ni mogoče ustvariti okna lastnosti."
+msgstr "Ni mogoče ustvariti pogovornega okna za pomik na celico."
 
 #: ../src/dialogs/dialog-hyperlink.c:82
 msgid ""
@@ -6298,9 +6287,8 @@ msgid "Remove Hyperlink"
 msgstr "Odstrani hiperpovezavo"
 
 #: ../src/dialogs/dialog-hyperlink.c:612
-#, fuzzy
 msgid "Could not create the hyperlink dialog."
-msgstr "Ni mogoče ustvariti okna lastnosti."
+msgstr "Ni mogoče ustvariti pogovornega okna hiperpovezav"
 
 #: ../src/dialogs/dialog-insert-cells.c:125
 #: ../src/wbc-gtk.c:542
@@ -6308,9 +6296,8 @@ msgid "Insert"
 msgstr "Vstavi"
 
 #: ../src/dialogs/dialog-insert-cells.c:154
-#, fuzzy
 msgid "Could not create the Insert Cell dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
+msgstr "Ni mogoče ustvariti pogovornega okna vstavljanja celic."
 
 #: ../src/dialogs/dialog-merge.c:257
 msgid "One field is not part of the merge zone!"
@@ -6710,8 +6697,9 @@ msgid "The number of random numbers requested is invalid."
 msgstr "Število zahtevanih naključnih števil je neveljavno."
 
 #: ../src/dialogs/dialog-random-generator-cor.c:221
+#, fuzzy
 msgid "Could not create the Correlated Random Tool dialog."
-msgstr ""
+msgstr "Ni mogoče ustvariti pogovornega okna "
 
 #: ../src/dialogs/dialog-random-generator.c:106
 #, fuzzy
@@ -6957,9 +6945,8 @@ msgid "Weibull"
 msgstr "Weibullova orazdelitev"
 
 #: ../src/dialogs/dialog-random-generator.c:850
-#, fuzzy
 msgid "Could not create the Random Tool dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
+msgstr "Ni mogoče ustvariti pogovornega okna orodja naključnih števil."
 
 #: ../src/dialogs/dialog-recent.c:70
 msgid "Recently Used Files"
@@ -7140,9 +7127,8 @@ msgid "Set Object Properties"
 msgstr "Določi lastnosti predmeta"
 
 #: ../src/dialogs/dialog-shuffle.c:149
-#, fuzzy
 msgid "Could not create the Data Shuffling dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
+msgstr "Ni mogoče ustvariti pogovornega okna premešanja podatkov"
 
 #: ../src/dialogs/dialog-simulation.c:70
 #, fuzzy
@@ -7204,14 +7190,12 @@ msgid "First round number should be less than or equal to the number of the last
 msgstr ""
 
 #: ../src/dialogs/dialog-simulation.c:423
-#, fuzzy
 msgid "Could not create the Simulation dialog."
-msgstr "Ni mogoče ustvariti okna lastnosti."
+msgstr "Ni mogoče ustvariti pogovornega okna simulacije."
 
 #: ../src/dialogs/dialog-so-list.c:161
-#, fuzzy
 msgid "Could not create the List Property dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna za dodajanje scenarija."
+msgstr "Ni mogoče ustvariti pogovornega okna lastnosti seznama."
 
 #: ../src/dialogs/dialog-solver.c:353
 msgid "Looking for a subject for your thesis? Maybe you would like to write a solver for Gnumeric?"
@@ -7325,9 +7309,8 @@ msgstr ""
 " Zadeva: %s\n"
 
 #: ../src/dialogs/dialog-solver.c:1238
-#, fuzzy
 msgid "Could not create the Solver dialog."
-msgstr "Ni mogoče ustvariti okna lastnosti."
+msgstr "Ni mogoče ustvariti pogovornega okna reševalnika."
 
 #: ../src/dialogs/dialog-stf-export.c:596
 msgid "Export"
@@ -7632,11 +7615,8 @@ msgstr "Žerki večkratnikov"
 #: ../src/dialogs/sampling.ui.h:4
 #: ../src/dialogs/sign-test.ui.h:1
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:1
-#, fuzzy
 msgid "Grouped by:"
-msgstr ""
-"\n"
-"Podpisnik: %s"
+msgstr "Skupine:"
 
 #: ../src/dialogs/anova-one.ui.h:4
 #: ../src/dialogs/anova-two.ui.h:5
@@ -7741,9 +7721,8 @@ msgstr "_Vhodna podatkovna vrsta:"
 #: ../src/dialogs/sign-test.ui.h:12
 #: ../src/dialogs/variance-tests.ui.h:9
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:8
-#, fuzzy
 msgid "_Labels"
-msgstr "Oznake"
+msgstr "_Oznake"
 
 #. Edit -> Delete
 #. Translators: Delete "Rows"
@@ -9450,7 +9429,7 @@ msgstr ""
 #: ../src/dialogs/exp-smoothing.ui.h:8
 #: ../src/dialogs/moving-averages.ui.h:7
 msgid "Include chart"
-msgstr "Vključi diagram"
+msgstr "Dodaj diagram"
 
 #: ../src/dialogs/exp-smoothing.ui.h:10
 msgid "Multiplicative Holt-Winters exponential smoothing"
@@ -10131,9 +10110,8 @@ msgstr "_Populacije"
 
 #: ../src/dialogs/mean-tests.ui.h:20
 #: ../src/dialogs/sign-test-two.ui.h:12
-#, fuzzy
 msgid "_Test"
-msgstr "_Preizkus"
+msgstr "_Test"
 
 #: ../src/dialogs/mean-tests.ui.h:21
 msgid "_Unequal"
@@ -10166,50 +10144,42 @@ msgid "3"
 msgstr "3"
 
 #: ../src/dialogs/moving-averages.ui.h:3
-#, fuzzy
 msgid "Central moving average"
-msgstr "Potenčno povprečje gibanja:"
+msgstr "Sredinsko drseče povprečje"
 
 #: ../src/dialogs/moving-averages.ui.h:4
-#, fuzzy
 msgid "Cumulative moving average"
-msgstr "Potenčno povprečje gibanja:"
+msgstr "Zbrano drseče povprečje"
 
 #: ../src/dialogs/moving-averages.ui.h:9
 #: ../src/tools/analysis-tools.c:4027
 #: ../src/tools/analysis-tools.c:4030
-#, fuzzy
 msgid "Moving Average"
-msgstr "Povprečje gibanja:"
+msgstr "Drseče povprečje"
 
 #: ../src/dialogs/moving-averages.ui.h:11
-#, fuzzy
 msgid "Other offset"
-msgstr "Odmik gumba"
+msgstr "Drugačen odmik"
 
 #: ../src/dialogs/moving-averages.ui.h:13
-#, fuzzy
 msgid "Prior moving average"
-msgstr "Potenčno povprečje gibanja:"
+msgstr "Predhodno drseče povprečje"
 
 #: ../src/dialogs/moving-averages.ui.h:14
-#, fuzzy
 msgid "Simple moving average"
-msgstr "Potenčno povprečje gibanja:"
+msgstr "Enostavno drseče povprečje"
 
 #: ../src/dialogs/moving-averages.ui.h:15
 msgid "Spencer's 15-point moving average"
-msgstr ""
+msgstr "Spencerjevo 15-točkovno drseče povprečje"
 
 #: ../src/dialogs/moving-averages.ui.h:16
-#, fuzzy
 msgid "Weighted moving average"
-msgstr "Potenčno povprečje gibanja:"
+msgstr "Uteženo drseče povprečje"
 
 #: ../src/dialogs/moving-averages.ui.h:18
-#, fuzzy
 msgid "_Interval:"
-msgstr "Datumski interval"
+msgstr "_Razmik:"
 
 #: ../src/dialogs/normality-tests.ui.h:1
 #: ../src/tools/analysis-normality.c:63
@@ -13208,6 +13178,10 @@ msgid ""
 "column named TRUE may conflict with the constant of the same\n"
 "name.  Expect weirdness."
 msgstr ""
+"Uporabljate posebno različico programa Gnumeric, ki je kodno\n"
+"prevedena s podporo za izjemno veliko število stolpcev. Dostop\n"
+"do stolpca z imenom PRAV, lahko povzroči spor z logično konstanto\n"
+"z istim imenom. Pričakujte čudno delovanje."
 
 #: ../src/sheet.c:833
 msgid "Sheet Type"
@@ -14571,16 +14545,15 @@ msgid "Regression (%s)"
 msgstr "Regresija (%s)"
 
 #: ../src/tools/analysis-tools.c:4014
-#, fuzzy, c-format
+#, c-format
 msgid "Moving Average (%s)"
-msgstr "Povprečje gibanja:"
+msgstr "Drseče povprečje (%s)"
 
 #: ../src/tools/analysis-tools.c:4072
 msgid "Ranks & Percentiles"
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:4083
-#, fuzzy
 msgid "Point"
 msgstr "Točka"
 
@@ -14708,7 +14681,7 @@ msgstr "Poročilo ustvarjeno:"
 
 #: ../src/tools/data-shuffling.c:291
 msgid "Shuffled"
-msgstr ""
+msgstr "Premešano"
 
 #: ../src/tools/fill-series.c:378
 #, fuzzy, c-format
@@ -15542,7 +15515,7 @@ msgstr "C++/Java pomočnik"
 
 #: ../src/wbc-gtk-actions.c:2091
 msgid "See if anyone is available to answer questions"
-msgstr ""
+msgstr "Poglejte ali je kdo na voljo za podajanje odgovorov"
 
 #: ../src/wbc-gtk-actions.c:2093
 msgid "Report a _Problem"
@@ -15945,15 +15918,13 @@ msgstr "Spremeni možnosti programa"
 #. View
 #: ../src/wbc-gtk-actions.c:2319
 #: ../src/wbc-gtk.c:1532
-#, fuzzy
 msgid "_Freeze Panes"
-msgstr "Vodoravna okna"
+msgstr "_Zamrzni polje"
 
 #: ../src/wbc-gtk-actions.c:2320
 #: ../src/wbc-gtk.c:1535
-#, fuzzy
 msgid "Freeze the top left of the sheet"
-msgstr "Koordinata X levega zgornjega kota"
+msgstr "Zamrzni zgornje levo polje delovnega lista"
 
 #: ../src/wbc-gtk-actions.c:2322
 msgid "_Zoom..."
@@ -16312,24 +16283,20 @@ msgstr "Analiza časovnih nizov"
 
 #. Statistics -> DependentObservations -> Forecast
 #: ../src/wbc-gtk-actions.c:2520
-#, fuzzy
 msgid "_Exponential Smoothing..."
-msgstr "Potenčno glajenje"
+msgstr "_Potenčno glajenje ..."
 
 #: ../src/wbc-gtk-actions.c:2521
-#, fuzzy
 msgid "Exponential smoothing..."
-msgstr "Potenčno glajenje"
+msgstr "Potenčno glajenje ..."
 
 #: ../src/wbc-gtk-actions.c:2523
-#, fuzzy
 msgid "_Moving Average..."
-msgstr "Povprečje gibanja:"
+msgstr "_Drseče povprečje ..."
 
 #: ../src/wbc-gtk-actions.c:2524
-#, fuzzy
 msgid "Moving average..."
-msgstr "Povprečje gibanja:"
+msgstr "Drseče povprečje ..."
 
 #: ../src/wbc-gtk-actions.c:2526
 msgid "_Regression..."
@@ -17242,14 +17209,12 @@ msgid "%s!%s is locked"
 msgstr "%s!%s je zaklenjen"
 
 #: ../src/wbc-gtk-edit.c:911
-#, fuzzy
 msgid "Unprotect the workbook to enable editing."
-msgstr "%s je zaklenjen. Odstranite zaščito delovnega zvezka za urejanje vsebine."
+msgstr "Odstranite zaščito delovnega zvezka za urejanje vsebine."
 
 #: ../src/wbc-gtk-edit.c:912
-#, fuzzy
 msgid "Unprotect the sheet to enable editing."
-msgstr "%s je zaklenjen. Odstranite zaščito delovnega lista za urejanje vsebine."
+msgstr "Odstrani zaščito delovnega lista za urejanje vsebine."
 
 #: ../src/wbc-gtk-edit.c:931
 msgid "You are about to edit a cell with \"text\" format."
@@ -17316,19 +17281,17 @@ msgid "Add a page break above current row"
 msgstr ""
 
 #: ../src/wbc-gtk.c:1531
-#, fuzzy
 msgid "Un_freeze Panes"
-msgstr "[%s] Določi okna"
+msgstr "_Odmrzni polje"
 
 #: ../src/wbc-gtk.c:1534
-#, fuzzy
 msgid "Unfreeze the top left of the sheet"
-msgstr "Koordinata X levega zgornjega kota"
+msgstr "Odmrzni zgornje levo polje delovnega lista"
 
 #: ../src/wbc-gtk.c:1552
-#, fuzzy, c-format
+#, c-format
 msgid "Extend _Auto Filter to %s"
-msgstr "Uveljavljanje pravil filtra na %s"
+msgstr "Razširi _samodejni filter na %s"
 
 #: ../src/wbc-gtk.c:1554
 msgid "Extend the existing filter."
@@ -17339,9 +17302,8 @@ msgid "The selection intersects an existing auto filter."
 msgstr ""
 
 #: ../src/wbc-gtk.c:1573
-#, fuzzy
 msgid "Remove _Auto Filter"
-msgstr "Dodaj _samodejni filter"
+msgstr "Odstrani _samodejni filter"
 
 #: ../src/wbc-gtk.c:1576
 msgid "Remove a filter"
@@ -17412,9 +17374,8 @@ msgid "Enter in current cell"
 msgstr "Vnos v trenutno celico"
 
 #: ../src/wbc-gtk.c:2029
-#, fuzzy
 msgid "Enter in current cell without autocorrection"
-msgstr "Vnos v trenutno celico"
+msgstr "Vnos v trenutno celico brez samodejnega popravljanja"
 
 #: ../src/wbc-gtk.c:2036
 msgid "Enter in current range merged"
@@ -17588,9 +17549,8 @@ msgid "Format Toolbar"
 msgstr "Orodna vrstica oblikovanje"
 
 #: ../src/wbc-gtk.c:4128
-#, fuzzy
 msgid "Long Format Toolbar"
-msgstr "Položaj dolge predmetne orodne vrstice"
+msgstr "Dolga orodna vrstica"
 
 #: ../src/wbc-gtk.c:4129
 msgid "Object Toolbar"
@@ -17759,40 +17719,36 @@ msgid "Expecting a single range"
 msgstr "Pričakovana je enojna podatkovna vrsta"
 
 #: ../src/widgets/gnumeric-text-view.c:248
-#, fuzzy
 msgid "Thin"
-msgstr "Zno_traj"
+msgstr "Najtanjše"
 
 #: ../src/widgets/gnumeric-text-view.c:249
 msgid "Ultralight"
-msgstr ""
+msgstr "Tanjše"
 
 #: ../src/widgets/gnumeric-text-view.c:250
-#, fuzzy
 msgid "Light"
-msgstr "Svetlo"
+msgstr "Tanko"
 
 #: ../src/widgets/gnumeric-text-view.c:252
-#, fuzzy
 msgid "Medium"
-msgstr "Srednje"
+msgstr "Srednje krepko"
 
 #: ../src/widgets/gnumeric-text-view.c:253
 msgid "Semibold"
-msgstr ""
+msgstr "Polkrepko"
 
 #: ../src/widgets/gnumeric-text-view.c:255
 msgid "Ultrabold"
-msgstr ""
+msgstr "Krepko"
 
 #: ../src/widgets/gnumeric-text-view.c:256
-#, fuzzy
 msgid "Heavy"
-msgstr "močno pršenje"
+msgstr "Krepkejše"
 
 #: ../src/widgets/gnumeric-text-view.c:257
 msgid "Ultraheavy"
-msgstr ""
+msgstr "Najkrepkejše"
 
 #: ../src/widgets/widget-font-selector.c:204
 msgid "Bold italic"
@@ -17818,9 +17774,8 @@ msgstr "Zmanjšaj zamik"
 #: ../src/workbook-cmd-format.c:179
 #: ../src/workbook-cmd-format.c:186
 #: ../src/workbook-cmd-format.c:194
-#, fuzzy
 msgid "Wrap SORT"
-msgstr "Prelomi z razvrščanjem (padajoče)"
+msgstr "Prelomi z ukazom SORT"
 
 #: ../src/workbook-cmd-format.c:173
 msgid "A single selection is required."
@@ -17851,9 +17806,8 @@ msgid "Address"
 msgstr "Naslov"
 
 #: ../src/workbook-control.c:459
-#, fuzzy
 msgid "The workbook view being controlled."
-msgstr "Ustvari nov delovni list preglednice"
+msgstr "Nadzorovan pogled delovnega zvezka."
 
 #. Translators: "%dC" is a very short format to indicate the number of full columns
 #: ../src/workbook-view.c:384
@@ -17942,9 +17896,8 @@ msgid "Show the notebook tabs for sheets"
 msgstr "Prikaži zavihke beležnice delovnih listov"
 
 #: ../src/workbook-view.c:954
-#, fuzzy
 msgid "Show formula cell markers"
-msgstr "Vnosna celica %s vsebuje formulo"
+msgstr "Pokaži označevalnike celic s formulami"
 
 #: ../src/workbook-view.c:955
 msgid "Mark each cell containing a formula"
@@ -18149,7 +18102,7 @@ msgstr "Predloga videza 'Cool'"
 
 #: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:1
 msgid "A simple template with classical look and feel"
-msgstr ""
+msgstr "Enostavna predloga nevsiljivega videza"
 
 #: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:3
 #: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:2
@@ -18159,11 +18112,11 @@ msgstr "Enostavna"
 
 #: ../templates/autoformat/autoformat.Classical.trendy.xml.in.h:1
 msgid "A classical yet colorful template"
-msgstr ""
+msgstr "Klasična vendar barvita predloga."
 
 #: ../templates/autoformat/autoformat.Classical.trendy.xml.in.h:3
 msgid "Trendy"
-msgstr ""
+msgstr "Trendno"
 
 #: ../templates/autoformat/autoformat.Colourful.banana.xml.in.h:1
 msgid "A banana coloured template"
@@ -18183,7 +18136,7 @@ msgstr "Predloga s črnim ozadjem"
 
 #: ../templates/autoformat/autoformat.Colourful.blue.xml.in.h:1
 msgid "A colourful template with mainly blue and teal colours"
-msgstr ""
+msgstr "Barvita predloga v pretežno modrih odtenkih."
 
 #: ../templates/autoformat/autoformat.Colourful.blue.xml.in.h:2
 msgid "Blue"
@@ -18213,13 +18166,14 @@ msgstr "Enostavna finančna predloga"
 msgid "Desert"
 msgstr "Puščavska"
 
+# .
 #: ../templates/autoformat/autoformat.Financial.desert.xml.in.h:2
 msgid "Desert colored financial template"
-msgstr ""
+msgstr "Finančna predloga v puščavskih barvah."
 
 #: ../templates/autoformat/autoformat.Financial.ice.xml.in.h:1
 msgid "Financial style with cold border color"
-msgstr ""
+msgstr "Finančni slog s hladno barvo obrobe."
 
 #: ../templates/autoformat/autoformat.Financial.ice.xml.in.h:3
 msgid "Ice"
@@ -18231,11 +18185,11 @@ msgstr "Moderna"
 
 #: ../templates/autoformat/autoformat.Financial.modern.xml.in.h:3
 msgid "Modern style with financial formatting"
-msgstr ""
+msgstr "Moderni slog s finančnim oblikovanjem"
 
 #: ../templates/autoformat/autoformat.Financial.purple.xml.in.h:1
 msgid "Financial template with purple borders"
-msgstr ""
+msgstr "Finančna predloga v škrlatnih barvah"
 
 #: ../templates/autoformat/autoformat.Financial.purple.xml.in.h:3
 msgid "Purple"
