@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2011-10-02 16:56+0000\n"
-"PO-Revision-Date: 2011-10-02 22:13+0100\n"
+"PO-Revision-Date: 2011-10-04 22:13+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -538,7 +538,7 @@ msgstr "Ni mogoče najti pretoka preglednice"
 #. We don't attempt to flatten a 3D range to an array.
 #: ../plugins/excelplugins/excelplugins.c:309
 msgid "Cannot convert 3D cell range to XLOPER."
-msgstr ""
+msgstr "Ni mogoče pretvoriti trirazsežnega obsega celic v XLOPER"
 
 #: ../plugins/excelplugins/excelplugins.c:350
 #, c-format
@@ -689,12 +689,11 @@ msgstr "Erlang"
 
 #: ../plugins/fn-erlang/plugin.xml.in.h:2
 msgid "Erlang Functions"
-msgstr "Erlang funkcije"
+msgstr "Funkcije Erlang"
 
 #: ../plugins/fn-erlang/plugin.xml.in.h:3
-#, fuzzy
 msgid "Functions to help Erlang Analysis"
-msgstr "Funkcije za pomoč pri erlang analizi"
+msgstr "Funkcije za pomoč pri analizi Erlang"
 
 #: ../plugins/fn-financial/plugin.xml.in.h:2
 msgid "Financial Functions"
@@ -1022,7 +1021,7 @@ msgstr "Reševalnik linearnega programiranja GLPK"
 
 #: ../plugins/glpk/plugin.xml.in.h:3
 msgid "GLPK Linear Program Solver Interface"
-msgstr ""
+msgstr "Vmesnik reševalnika linearnega programiranja GLPK"
 
 #: ../plugins/glpk/plugin.xml.in.h:4
 msgid "Solver Interface to GLPK"
@@ -1155,9 +1154,8 @@ msgid "Program Name"
 msgstr "Ime programa"
 
 #: ../plugins/mps/mps.c:222
-#, fuzzy
 msgid "Invalid line in ROWS section"
-msgstr "Neveljaven vsebnik v nizu: vrstica %d, stolpec %d"
+msgstr "Neveljavna vrstica v oddelku vrstic"
 
 #: ../plugins/mps/mps.c:231
 #, c-format
@@ -1185,7 +1183,7 @@ msgstr "Rob _zaznamovanj"
 #: ../plugins/mps/mps.c:348
 #, c-format
 msgid "Invalid row name, %s, in columns"
-msgstr ""
+msgstr "Neveljavno ime vrstice, %s, v stolpcih"
 
 #: ../plugins/mps/mps.c:415
 #, fuzzy, c-format
@@ -1195,7 +1193,7 @@ msgstr "Neveljavna vrsta vira"
 #: ../plugins/mps/mps.c:431
 #, fuzzy, c-format
 msgid "Invalid column name, %s, in bounds"
-msgstr "Manjka ime stolpca v vsebini metapodatkov"
+msgstr "Neveljavno ime vrstice, %s, v stolpcih"
 
 #: ../plugins/mps/mps.c:475
 #, c-format
@@ -1410,7 +1408,7 @@ msgstr "Datoteka v skladišču"
 #: ../plugins/openoffice/openoffice-read.c:1851
 #, c-format
 msgid "This file is corrupted with a duplicate sheet name \"%s\", now renamed to \"%s\"."
-msgstr ""
+msgstr "Datoteka je pokvarjena, saj je imela podvojeno ime delovnega lista \"%s\", ki je preimenovano v \"%s\"."
 
 #: ../plugins/openoffice/openoffice-read.c:1864
 #, fuzzy
@@ -1421,12 +1419,12 @@ msgstr "Med pisanjem se je datoteka pokvarila"
 #: ../plugins/openoffice/openoffice-read.c:1872
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
-msgstr ""
+msgstr "Datoteka je pokvarjena, saj ima neimenovano ime delovnega lista \"%s\"."
 
 #: ../plugins/openoffice/openoffice-read.c:2234
 #, c-format
 msgid "Validation condition '%s' is not supported. It has been changed to '%s'."
-msgstr ""
+msgstr "Pogoj določanja veljavnosti '%s' ni podprt. Spremenjen je v  '%s'."
 
 #: ../plugins/openoffice/openoffice-read.c:2266
 #, fuzzy, c-format
@@ -1436,7 +1434,7 @@ msgstr "Zaznan je neimenovan slog pomišljaja."
 #: ../plugins/openoffice/openoffice-read.c:2289
 #, c-format
 msgid "Unsupported validation condition encountered: \"%s\" with base address: \"%s\""
-msgstr ""
+msgstr "Zaznan je nepodprt pogoj določanja veljavnosti: \"%s\" z osnovo naslova: \"%s\""
 
 #: ../plugins/openoffice/openoffice-read.c:2532
 #, fuzzy, c-format
@@ -1528,11 +1526,11 @@ msgstr "Datoteka je videti pokvarjena, saj manjkajo zahtevani oblike zapisa."
 #: ../plugins/openoffice/openoffice-read.c:4478
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
-msgstr ""
+msgstr "Stran datoteke ODF: %i⨉%i točk"
 
 #: ../plugins/openoffice/openoffice-read.c:4664
 msgid "Missing page layout identifier"
-msgstr ""
+msgstr "Manjka določilo postavitve strani"
 
 #: ../plugins/openoffice/openoffice-read.c:4694
 #, fuzzy
@@ -1659,7 +1657,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:7068
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
-msgstr ""
+msgstr "V podani podatkovni vrsti (%s) ni dovolj podatkov za vse zahteve"
 
 #: ../plugins/openoffice/openoffice-read.c:7598
 msgid "Gnumeric does not support non-automatic regression equations. Using automatic equation instead."
@@ -1959,7 +1957,7 @@ msgstr "Ni mogoče najti %s."
 #: ../plugins/python-loader/gnm-python.c:143
 #, c-format
 msgid "Could not initialize Python bindings for Gtk+, etc: %s"
-msgstr ""
+msgstr "Ni mogoče začeti vezi Python za Gtk+, etc: %s"
 
 #: ../plugins/python-loader/gnm-python.c:157
 #, c-format
@@ -1975,8 +1973,9 @@ msgid "Python plugin loader"
 msgstr "Nalagalnik vstavkov Python"
 
 #: ../plugins/python-loader/plugin.xml.in.h:3
+#, fuzzy
 msgid "This plugin provides support for Python plugins"
-msgstr ""
+msgstr "Vstavek omogoča podporo vstavkom Perl"
 
 #: ../plugins/python-loader/py-console.c:92
 #, c-format
@@ -3531,6 +3530,9 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
+"ciljno polje celic je drugačne oblike (%dRx%dC) kot začetno (%dRx%dC)\n"
+"\n"
+"Izberite le eno celico ali pa polje z enako obliko in velikostjo."
 
 #: ../src/cmd-edit.c:326
 msgid "Unable to paste into selection"
@@ -4499,8 +4501,9 @@ msgid "Jakub Jelínek"
 msgstr "Jakub Jelínek"
 
 #: ../src/dialogs/dialog-about.c:111
+#, fuzzy
 msgid "One of the original core contributors"
-msgstr ""
+msgstr "Eden izmed začetnikov"
 
 #: ../src/dialogs/dialog-about.c:112
 msgid "Chris Lahey"
@@ -4554,7 +4557,7 @@ msgstr "Emmanuel Pacaud"
 
 #: ../src/dialogs/dialog-about.c:125
 msgid "Many plot types for charting engine."
-msgstr ""
+msgstr "Več vrst izrisa programnika diagramov."
 
 #: ../src/dialogs/dialog-about.c:126
 msgid "Federico M. Quintero"
@@ -4615,7 +4618,7 @@ msgstr "Arturo Tena"
 
 #: ../src/dialogs/dialog-about.c:141
 msgid "Initial work on OLE2 for libgsf"
-msgstr ""
+msgstr "Začetno delo na sistemu OLE2 za libgsf"
 
 #: ../src/dialogs/dialog-about.c:142
 msgid "Almer S. Tigelaar"
@@ -4739,7 +4742,7 @@ msgstr "Avtorske pravice © 1998-2010"
 
 #: ../src/dialogs/dialog-about.c:574
 msgid "Free, Fast, Accurate - Pick Any Three!"
-msgstr ""
+msgstr "Prost, hiter, natančen - izberite katerekoli tri lastnosti!"
 
 #: ../src/dialogs/dialog-advanced-filter.c:71
 #, fuzzy
@@ -4805,12 +4808,12 @@ msgstr "Natisni na mestu"
 #: ../src/dialogs/dialog-shuffle.c:74
 #, fuzzy
 msgid "The input range is invalid."
-msgstr "Območje iskanja je neveljavno."
+msgstr "Prvi obseg vnosa ni veljaven."
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:154
 #, fuzzy
 msgid "The input range is too small."
-msgstr "Celo število  `%s' je preveliko ali premajhno"
+msgstr "Prvi obseg vnosa ni veljaven."
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:165
 #: ../src/dialogs/dialog-analysis-tool-normality.c:109
@@ -4818,7 +4821,7 @@ msgstr "Celo število  `%s' je preveliko ali premajhno"
 #: ../src/dialogs/dialog-analysis-tools.c:3489
 #: ../src/dialogs/dialog-analysis-tools.c:3703
 msgid "The alpha value should be a number between 0 and 1."
-msgstr ""
+msgstr "Vrednost alfa mora biti med 0 in 1."
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:174
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:127
@@ -4866,7 +4869,7 @@ msgstr "Datoteka ni veljavna .desktop datoteka"
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:127
 msgid "The time column should be part of a single column."
-msgstr ""
+msgstr "Stolpec časa mora biti del enojnega stolpca."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:137
 #, fuzzy
@@ -4874,12 +4877,14 @@ msgid "The censorship column is not valid."
 msgstr "Datoteka ni veljavna .desktop datoteka"
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:144
+#, fuzzy
 msgid "The censorship column should be part of a single column."
-msgstr ""
+msgstr "Stolpec časa mora biti del enojnega stolpca."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:151
+#, fuzzy
 msgid "The censorship and time columns should have the same height."
-msgstr ""
+msgstr "Stolpec skupin in stolpec časa morata biti enake velikosti."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:166
 #, fuzzy
@@ -4888,11 +4893,11 @@ msgstr "Datoteka ni veljavna .desktop datoteka"
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:172
 msgid "The groups column should be part of a single column."
-msgstr ""
+msgstr "Stolpec skupin mora biti del enojnega stolpca."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:179
 msgid "The groups and time columns should have the same height."
-msgstr ""
+msgstr "Stolpec skupin in stolpec časa morata biti enake velikosti."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:480
 #, c-format
@@ -4941,11 +4946,11 @@ msgstr ""
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:143
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:364
 msgid "The first input range is invalid."
-msgstr ""
+msgstr "Prvi obseg vnosa ni veljaven."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:162
 msgid "The second input range is invalid."
-msgstr ""
+msgstr "Drugi obseg vnosa ni veljaven."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:174
 #, fuzzy
@@ -4971,17 +4976,18 @@ msgstr "Ni mogoče ustvariti pogovornega okna "
 #: ../src/dialogs/dialog-analysis-tools.c:653
 #: ../src/dialogs/dialog-analysis-tools.c:773
 msgid "The selected input rows must have equal size!"
-msgstr ""
+msgstr "Izbrane vnosne vrstice morajo biti enake velikosti!"
 
 #: ../src/dialogs/dialog-analysis-tools.c:658
 #: ../src/dialogs/dialog-analysis-tools.c:778
 msgid "The selected input columns must have equal size!"
-msgstr ""
+msgstr "Izbrani vnosni stolpci morajo biti enake velikosti!"
 
 #: ../src/dialogs/dialog-analysis-tools.c:663
 #: ../src/dialogs/dialog-analysis-tools.c:783
+#, fuzzy
 msgid "The selected input areas must have equal size!"
-msgstr ""
+msgstr "Izbrane vnosne vrstice morajo biti enake velikosti!"
 
 #: ../src/dialogs/dialog-analysis-tools.c:711
 msgid "Could not create the Correlation Tool dialog."
@@ -5246,22 +5252,22 @@ msgstr[2] "Pokaži najmanjša %3d predmeta"
 msgstr[3] "Pokaži najmanjše %3d predmete"
 
 #: ../src/dialogs/dialog-autofilter.c:232
-#, fuzzy, c-format
+#, c-format
 msgid "Show the items in the top %3d%% of the data range"
 msgid_plural "Show the items in the top %3d%% of the data range"
-msgstr[0] "Pojdi na vrhnji podatek"
-msgstr[1] "Pojdi na vrhnji podatek"
-msgstr[2] "Pojdi na vrhnji podatek"
-msgstr[3] "Pojdi na vrhnji podatek"
+msgstr[0] "Pokaži zgornjih %3d%% predmetov podatkovne vrste"
+msgstr[1] "Pokaži zgornji %3d%% predmet podatkovne vrste"
+msgstr[2] "Pokaži zgornja %3d%% predmeta podatkovne vrste"
+msgstr[3] "Pokaži zgornje %3d%% predmete podatkovne vrste"
 
 #: ../src/dialogs/dialog-autofilter.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Show the items in the bottom %3d%% of the data range"
 msgid_plural "Show the items in the bottom %3d%% of the data range"
-msgstr[0] "Pojdi na spodnji podatek"
-msgstr[1] "Pojdi na spodnji podatek"
-msgstr[2] "Pojdi na spodnji podatek"
-msgstr[3] "Pojdi na spodnji podatek"
+msgstr[0] "Pokaži spodnjih %3d%% predmetov podatkovne vrste"
+msgstr[1] "Pokaži spodnji %3d%% predmet podatkovne vrste"
+msgstr[2] "Pokaži spodnja %3d%% predmeta podatkovne vrste"
+msgstr[3] "Pokaži spodnje %3d%% predmete podatkovne vrste"
 
 #: ../src/dialogs/dialog-autofilter.c:263
 msgid "Percentage:"
@@ -7125,12 +7131,12 @@ msgstr "Ni mogoče ustvariti pogovornega okna premešanja podatkov"
 #: ../src/dialogs/dialog-simulation.c:70
 #, fuzzy
 msgid "The input variable range is invalid."
-msgstr "Podano je neveljavno območje spremenljivke"
+msgstr "Prvi obseg vnosa ni veljaven."
 
 #: ../src/dialogs/dialog-simulation.c:80
 #, fuzzy
 msgid "The output variable range is invalid."
-msgstr "Podano je neveljavno območje spremenljivke"
+msgstr "Prvi obseg vnosa ni veljaven."
 
 #: ../src/dialogs/dialog-simulation.c:153
 msgid "Simulations"
@@ -8742,7 +8748,7 @@ msgstr "Alfa"
 #: ../src/dialogs/descriptive-stats.ui.h:3
 #, fuzzy
 msgid "Confidence Interval for the _Mean"
-msgstr "Razmik vrednosti zaupanja za _Mean"
+msgstr "Razmik samodejnega zajemanja"
 
 #: ../src/dialogs/descriptive-stats.ui.h:4
 #: ../src/tools/analysis-tools.c:1142
@@ -8751,14 +8757,12 @@ msgid "Descriptive Statistics"
 msgstr "Opisna statistika"
 
 #: ../src/dialogs/descriptive-stats.ui.h:7
-#, fuzzy
 msgid "Kth _Largest"
-msgstr "Pokaži največjih %3d predmetov"
+msgstr "K-ti naj_večji predmet"
 
 #: ../src/dialogs/descriptive-stats.ui.h:8
-#, fuzzy
 msgid "Kth _Smallest"
-msgstr "Pokaži najmanjših %3d predmetov"
+msgstr "K-ti naj_manjpi predmet"
 
 #: ../src/dialogs/descriptive-stats.ui.h:10
 #, fuzzy
@@ -9886,8 +9890,9 @@ msgid "_Number of cutoffs:"
 msgstr "Število sider"
 
 #: ../src/dialogs/histogram.ui.h:32
+#, fuzzy
 msgid "_Predetermined cutoffs"
-msgstr ""
+msgstr "_Predhodno določene kategorije\t"
 
 #: ../src/dialogs/hyperlink.ui.h:1
 msgid "Email _Address:"
@@ -13650,7 +13655,7 @@ msgstr ""
 
 #: ../src/ssgrep.c:73
 msgid "Get patterns from a file, one per line"
-msgstr ""
+msgstr "Pridobi vzorce iz datoteke, vzorec na vrstico"
 
 #: ../src/ssgrep.c:80
 msgid "Pattern is a set of fixed strings"
@@ -14766,7 +14771,7 @@ msgstr "Čas, ko je razreševalnik končal opravilo"
 #: ../src/tools/random-generator-cor.c:64
 #, fuzzy
 msgid "Cholesky Decomposition of the Covariance Matrix"
-msgstr "Razcep Choleskega matrike kovarianc"
+msgstr "CHOLESKY:razcep Choleskega simetrične pozitivne definitne @{matrike}"
 
 #: ../src/tools/random-generator-cor.c:76
 #, fuzzy
@@ -18061,7 +18066,7 @@ msgstr "Gnumeric skupina"
 
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:1
 msgid "A 3D list template"
-msgstr "Predloga s 3D seznamom"
+msgstr "Predloga s trirazsežnim seznamom"
 
 #: ../templates/autoformat/autoformat.Classical.cool.xml.in.h:1
 msgid "Cool"
