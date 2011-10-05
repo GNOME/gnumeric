@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2011-10-02 16:56+0000\n"
-"PO-Revision-Date: 2011-10-04 22:13+0100\n"
+"PO-Revision-Date: 2011-10-05 09:12+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -2268,7 +2268,7 @@ msgstr "Samodejno popravi prvo črko"
 #: ../schemas/gnumeric-dialogs.schemas.in.h:7
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:4
 msgid "Autocorrect initial caps"
-msgstr "Samodejno popravi začetno veliko črko"
+msgstr "Samodejno popravi začetne velike črke"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:8
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:5
@@ -2627,7 +2627,7 @@ msgstr "Programnik za samodejno popravljanje besedila ne popravlja prve črke be
 #: ../schemas/gnumeric-dialogs.schemas.in.h:81
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:78
 msgid "The autocorrect engine does not correct the initial caps for words in this list."
-msgstr "Programnik za samodejno popravljanje besedila ne popravlja prvih velikih črk besed, ki so na tem seznamu."
+msgstr "Programnik za samodejno popravljanje besedila ne popravlja začetnih velikih črk besed, ki so na tem seznamu."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:82
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:79
@@ -3020,12 +3020,12 @@ msgstr "Ločljivost zaslona v navpični smeri."
 #: ../schemas/gnumeric-general.schemas.in.h:33
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:34
 msgid "Setting this option will cause the sort buttons on the toolbar to perform a case-sensitive sort and determine the initial state of the case-sensitive checkbox in the sort dialog."
-msgstr ""
+msgstr "Nastavitev te možnosti omogoča gumbom za razvrščanje v orodni vrstici upoštevanje velikosti črk med razvrščanjem in določanje začetnega stanja označnega polja za upoštevanje velikosti črk v pogovornem oknu razvrščanja."
 
 #: ../schemas/gnumeric-general.schemas.in.h:34
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:35
 msgid "Setting this option will cause the sort buttons on the toolbar to preserve the cell formats while sorting and determines the initial state of the preserve-formats checkbox in the sort dialog."
-msgstr ""
+msgstr "Nastavitev te možnosti omogoča gumbom za razvrščanje v orodni vrstici, da ohranijo oblikovanje celic med razvrščanjem in določanje začetnega stanja označnega polja za ohranjevanje oblikovanja v pogovornem oknu razvrščanja."
 
 #: ../schemas/gnumeric-general.schemas.in.h:35
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:36
@@ -3131,7 +3131,7 @@ msgstr ""
 #: ../schemas/gnumeric-general.schemas.in.h:54
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:55
 msgid "This list contains the ids of the file savers for which the extension check is disabled."
-msgstr ""
+msgstr "Seznam vsebuje vrednosti ID za shranjevalnike za katere je preverjanje pripone datotek onemogočeno."
 
 #: ../schemas/gnumeric-general.schemas.in.h:55
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:56
@@ -3146,7 +3146,7 @@ msgstr ""
 #: ../schemas/gnumeric-general.schemas.in.h:57
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:58
 msgid "This option determines the initial state of the sort-order button in the sort dialog."
-msgstr ""
+msgstr "Možnost določa začetno stanje gumba načina razvrščanja v pogovornem oknu razvrščanja."
 
 #: ../schemas/gnumeric-general.schemas.in.h:58
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:59
@@ -3156,7 +3156,7 @@ msgstr ""
 #: ../schemas/gnumeric-general.schemas.in.h:59
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:60
 msgid "This value determines the maximum number of items in the undo/redo list."
-msgstr ""
+msgstr "Spremenljivka določa največje število predmetov v seznamu razveljavitev in ponovnih uveljavitev."
 
 #: ../schemas/gnumeric-general.schemas.in.h:60
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:61
@@ -3173,77 +3173,78 @@ msgstr "Ta vrednost določa ali je privzeto določena ležeča pisava v glavi in
 #: ../schemas/gnumeric-general.schemas.in.h:62
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:63
 msgid "This value determines whether to show the sheet names in the undo and redo lists."
-msgstr ""
+msgstr "Spremenljivka določa ali naj bodo pokazana imena delovnih listov v seznamih razveljavitev in ponovnih uveljavitev."
 
 #: ../schemas/gnumeric-general.schemas.in.h:63
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:64
 msgid "This value is indicative of the maximum length of the command descriptors in the undo and redo chains."
-msgstr ""
+msgstr "Vrednost je pokazatelj največje dolžine opisnikov ukaza v verigi razveljavitev in ponovnih uveljavitev."
 
 #: ../schemas/gnumeric-general.schemas.in.h:64
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:65
 msgid "This variable determines where the format toolbar should be shown. 0 is left, 1 is right, 2 is top."
-msgstr ""
+msgstr "Spremenljivka določa kje naj bo mesto orodna vrstice oblikovanja. Vrednost 0 pomeni na levi, 1 na desni in 2 na vrhu programskega okna."
 
 #: ../schemas/gnumeric-general.schemas.in.h:65
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:66
 msgid "This variable determines where the long format toolbar should be shown. 0 is left, 1 is right, 2 is top."
-msgstr ""
+msgstr "Spremenljivka določa kje naj bo mesto dolge orodna vrstice oblikovanja. Vrednost 0 pomeni na levi, 1 na desni in 2 na vrhu programskega okna."
 
 #: ../schemas/gnumeric-general.schemas.in.h:66
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:67
 msgid "This variable determines where the object toolbar should be shown. 0 is left, 1 is right, 2 is top."
-msgstr ""
+msgstr "Spremenljivka določa kje naj bo mesto predmetne orodna vrstice. Vrednost 0 pomeni na levi, 1 na desni in 2 na vrhu programskega okna."
 
 #: ../schemas/gnumeric-general.schemas.in.h:67
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:68
 msgid "This variable determines where the standard toolbar should be shown. 0 is left, 1 is right, 2 is top."
-msgstr ""
+msgstr "Spremenljivka določa kje naj bo mesto standardne orodna vrstice. Vrednost 0 pomeni na levi, 1 na desni in 2 na vrhu programskega okna."
 
 #: ../schemas/gnumeric-general.schemas.in.h:68
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:69
 msgid "This variable determines whether autocompletion is set on."
-msgstr ""
+msgstr "Spremenljivka določa ali je omogočeno samodejno dopolnjevanje."
 
 #: ../schemas/gnumeric-general.schemas.in.h:69
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:70
 msgid "This variable determines whether live (versus delayed) scrolling is performed."
-msgstr ""
+msgstr "Spremenljivka določa ali naj se omogoči hitro (in ne zamaknjeno) drsenje."
 
 #: ../schemas/gnumeric-general.schemas.in.h:70
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:71
 msgid "This variable determines whether the format toolbar should be visible initially."
-msgstr ""
+msgstr "Spremenljivka določa ali naj bo orodna vrstica oblikovanjav začetku vidna."
 
 #: ../schemas/gnumeric-general.schemas.in.h:71
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:72
 msgid "This variable determines whether the long format toolbar should be visible initially."
-msgstr ""
+msgstr "Spremenljivka določa ali naj bo dolga orodna vrstica oblikovanja v začetku vidna."
 
 #: ../schemas/gnumeric-general.schemas.in.h:72
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:73
 msgid "This variable determines whether the object toolbar should be visible initially."
-msgstr ""
+msgstr "Spremenljivka določa ali naj bo predmetna orodna vrstica v začetku vidna."
 
 #: ../schemas/gnumeric-general.schemas.in.h:73
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:74
 msgid "This variable determines whether the standard toolbar should be visible initially."
-msgstr ""
+msgstr "Spremenljivka določa ali naj bo standardna orodna vrstica v začetku vidna."
 
 #: ../schemas/gnumeric-general.schemas.in.h:74
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:75
 msgid "This variable determines whether to show function argument tooltips."
-msgstr ""
+msgstr "Spremenljivka določa ali naj se prikažejo orodni namigi argumentov funkcij."
 
 #: ../schemas/gnumeric-general.schemas.in.h:75
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:76
 msgid "This variable determines whether to show function name tooltips."
-msgstr ""
+msgstr "Spremenljivka določa ali naj se prikažejo orodni namigi imen funkcij."
 
 #: ../schemas/gnumeric-general.schemas.in.h:76
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:77
+#, fuzzy
 msgid "This variable determines whether transition keys are set on. Transition keys are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into page movement rather than jumping to the start/end of series."
-msgstr ""
+msgstr "Spremenljivka določa ali naj bo ???"
 
 #: ../schemas/gnumeric-general.schemas.in.h:77
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:78
@@ -3777,27 +3778,27 @@ msgid "Autofitting rows %s"
 msgstr "Izbrane vrstice"
 
 #: ../src/commands.c:2037
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of columns %s to %d pixel"
 msgid_plural "Setting width of columns %s to %d pixels"
-msgstr[0] "Nastavljanje privzete širine stolpcev na %.2f točk."
-msgstr[1] "Nastavitev %s na želeno širino znakov"
-msgstr[2] "Nastavitev %s na želeno širino znakov"
-msgstr[3] "Nastavitev %s na želeno širino znakov"
+msgstr[0] "Nastavljanje privzete širine stolpcev %s na %d točk."
+msgstr[1] "Nastavljanje privzete širine stolpcev %s na %d točko."
+msgstr[2] "Nastavljanje privzete širine stolpcev %s na %d točki."
+msgstr[3] "Nastavljanje privzete širine stolpcev %s na %d točke."
 
 #: ../src/commands.c:2041
-#, fuzzy, c-format
+#, c-format
 msgid "Setting height of rows %s to %d pixel"
 msgid_plural "Setting height of rows %s to %d pixels"
-msgstr[0] "Nastavljanje višine vrstic %s na privzeto vrednost"
-msgstr[1] "Nastavitev %s na želeno širino znakov"
-msgstr[2] "Nastavitev %s na želeno širino znakov"
-msgstr[3] "Nastavitev %s na želeno širino znakov"
+msgstr[0] "Nastavljanje višine vrstic %s na %d točk."
+msgstr[1] "Nastavljanje višine vrstic %s na %d točko."
+msgstr[2] "Nastavljanje višine vrstic %s na %d točki."
+msgstr[3] "Nastavljanje višine vrstic %s na %d točke."
 
 #: ../src/commands.c:2047
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of columns %s to default"
-msgstr "Nastavljanje privzete širine stolpcev na %.2f točk."
+msgstr "Nastavljanje širine stolpcev %s na privzeto vrednost"
 
 #: ../src/commands.c:2049
 #, c-format
@@ -3805,14 +3806,14 @@ msgid "Setting height of rows %s to default"
 msgstr "Nastavljanje višine vrstic %s na privzeto vrednost"
 
 #: ../src/commands.c:2076
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting width of %s"
-msgstr "Širina okna"
+msgstr "Samodejno prilagajanje širine %s"
 
 #: ../src/commands.c:2076
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting height of %s"
-msgstr "Višina okna"
+msgstr "Samodejno prilagajanje višine %s"
 
 #: ../src/commands.c:2150
 #: ../src/dialogs/dialog-preferences.c:1188
@@ -3901,14 +3902,14 @@ msgid "Ungroup columns %s"
 msgstr "Razdruži stolpce %s"
 
 #: ../src/commands.c:2570
-#, fuzzy, c-format
+#, c-format
 msgid "Group rows %d:%d"
-msgstr "Izbrane vrstice"
+msgstr "Združi vrstice %d:%d"
 
 #: ../src/commands.c:2570
-#, fuzzy, c-format
+#, c-format
 msgid "Ungroup rows %d:%d"
-msgstr "Izbrane vrstice"
+msgstr "Razdruži vrstice %d:%d"
 
 #: ../src/commands.c:2805
 #, c-format
@@ -3936,9 +3937,9 @@ msgid "Paste Copy"
 msgstr "Kopiranje in lepljenje"
 
 #: ../src/commands.c:3107
-#, fuzzy, c-format
+#, c-format
 msgid "Pasting into %s"
-msgstr "Prijavljanje v {0}"
+msgstr "Prilepljanje v %s"
 
 #: ../src/commands.c:3201
 #, c-format
@@ -4036,19 +4037,19 @@ msgid "Resizing sheet"
 msgstr "Spreminjanje velikosti delovnega lista"
 
 #: ../src/commands.c:5158
-#, fuzzy, c-format
+#, c-format
 msgid "Clearing comment of %s"
-msgstr "Dodaj/Odstrani opombo"
+msgstr "Odstranjevanje opombe %s"
 
 #: ../src/commands.c:5159
-#, fuzzy, c-format
+#, c-format
 msgid "Setting comment of %s"
-msgstr "Dodaj/Odstrani opombo"
+msgstr "Dodajanje opombe %s"
 
 #: ../src/commands.c:5579
-#, fuzzy, c-format
+#, c-format
 msgid "Merging data into %s"
-msgstr "Vstavi podatke v razpredelnico"
+msgstr "Združevanje podatkov v %s"
 
 #: ../src/commands.c:5669
 #, c-format
@@ -4076,9 +4077,9 @@ msgid "Push Object to the Back"
 msgstr "&lt;- Nazaj na dejanja"
 
 #: ../src/commands.c:5882
-#, fuzzy, c-format
+#, c-format
 msgid "Page Setup For %s"
-msgstr "Nastavitve strani za tiskanje"
+msgstr "Nastavitve strani za %s"
 
 #: ../src/commands.c:5884
 msgid "Page Setup For All Sheets"
@@ -4099,9 +4100,8 @@ msgid "'%s' is not allowed as defined name."
 msgstr "Prazen niz ni dovoljen kot določeno ime polja."
 
 #: ../src/commands.c:6027
-#, fuzzy
 msgid "has a circular reference"
-msgstr "'%s' je krožno sklican"
+msgstr "je krožno sklican"
 
 #: ../src/commands.c:6061
 #, c-format
@@ -4157,14 +4157,12 @@ msgid "Tabulating Dependencies"
 msgstr "Dodatne odvisnosti:"
 
 #: ../src/commands.c:6919
-#, fuzzy
 msgid "Reconfigure Graph"
-msgstr "Graf klicev"
+msgstr "Ponovno nastavi diagram"
 
 #: ../src/commands.c:6991
-#, fuzzy
 msgid "Reconfigure Object"
-msgstr "Predmet vsebuje"
+msgstr "Ponovno nastavi predmet"
 
 #: ../src/commands.c:7035
 msgid "Left to Right"
@@ -4175,45 +4173,38 @@ msgid "Right to Left"
 msgstr "Od desne proti levi"
 
 #: ../src/commands.c:7202
-#, fuzzy
 msgid "Changing Hyperlink"
-msgstr "Barva hiperpovezave"
+msgstr "Spreminjanje hiperpovezave"
 
 #: ../src/commands.c:7346
-#, fuzzy, c-format
+#, c-format
 msgid "Changing hyperlink of %s"
-msgstr "Barva hiperpovezave"
+msgstr "Spreminjanje hiperpovezave %s"
 
 #: ../src/commands.c:7431
-#, fuzzy
 msgid "Configure List"
-msgstr "Nastavi seznam besed"
+msgstr "Nastavi seznam"
 
 #: ../src/commands.c:7502
-#, fuzzy
 msgid "Set Frame Label"
-msgstr "Besedilo oznake okvirja"
+msgstr "Določi oznako okvirja"
 
 #: ../src/commands.c:7573
-#, fuzzy
 msgid "Configure Button"
-msgstr "Nastavitev vsebine gumba"
+msgstr "Nastavi gumb"
 
 #: ../src/commands.c:7654
-#, fuzzy
 msgid "Configure Radio Button"
-msgstr "Gumb Radijskih orodij"
+msgstr "Nastavi izbirni gumb"
 
 #: ../src/commands.c:7730
-#, fuzzy
 msgid "Configure Checkbox"
-msgstr "Lastnosti označnega polja"
+msgstr "Nastavi označno polje"
 
 #: ../src/commands.c:7837
 #: ../src/sheet-object-widget.c:1533
-#, fuzzy
 msgid "Configure Adjustment"
-msgstr "Stolpec prilagajanja"
+msgstr "Nastavi prilagoditve"
 
 #: ../src/commands.c:7868
 msgid "Add Filter"
@@ -4261,33 +4252,28 @@ msgstr "Spremeni pogoje filtriranja za %s"
 
 #: ../src/commands.c:8062
 #: ../src/wbc-gtk-actions.c:2182
-#, fuzzy
 msgid "Clear All Page Breaks"
-msgstr "Počisti poudarjeno besedilo"
+msgstr "Počisti vse prelome strani"
 
 #: ../src/commands.c:8089
 #: ../src/wbc-gtk.c:1497
-#, fuzzy
 msgid "Remove Column Page Break"
-msgstr "Odstranjevanje stolpca \"%s\" iz seznama iger"
+msgstr "Odstrani stolpični prelom strani"
 
 #: ../src/commands.c:8089
 #: ../src/wbc-gtk.c:1507
-#, fuzzy
 msgid "Remove Row Page Break"
-msgstr "Razdeli stran nad to vrstico"
+msgstr "Odstrani vrstični prelom strani"
 
 #: ../src/commands.c:8092
 #: ../src/wbc-gtk.c:1500
-#, fuzzy
 msgid "Add Column Page Break"
-msgstr "Dodaj stolpec za določeni stolpec"
+msgstr "Dodaj stolpični prelom strani"
 
 #: ../src/commands.c:8092
 #: ../src/wbc-gtk.c:1510
-#, fuzzy
 msgid "Add Row Page Break"
-msgstr "Razdeli stran nad to vrstico"
+msgstr "Dodaj vrstični prelom strani"
 
 #: ../src/consolidate.c:751
 #, fuzzy, c-format
@@ -4443,9 +4429,8 @@ msgstr "Kjell Eikland"
 
 #: ../src/dialogs/dialog-about.c:97
 #: ../src/dialogs/dialog-about.c:123
-#, fuzzy
 msgid "LP-solve"
-msgstr "Reši igro"
+msgstr "LP-solve"
 
 #: ../src/dialogs/dialog-about.c:98
 msgid "Gergo Erdi"
@@ -4518,9 +4503,8 @@ msgid "Takashi Matsuda"
 msgstr "Takashi Matsuda"
 
 #: ../src/dialogs/dialog-about.c:115
-#, fuzzy
 msgid "The original text plugin"
-msgstr "Izvorni programnik vstavka"
+msgstr "Izvorni programnik besedila"
 
 #: ../src/dialogs/dialog-about.c:116
 msgid "Michael Meeks"
@@ -5194,35 +5178,35 @@ msgstr "Ni mogoče ustvariti pogovornega okna "
 
 #: ../src/dialogs/dialog-analysis-tools.c:3618
 msgid "The given input range should contain at least two columns and two rows of data and the labels."
-msgstr ""
+msgstr "Podana podatkovna vrsta mora vsebovati vsaj dva stolpca in dve vrstici podatkov in oznake."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3621
 msgid "The given input range should contain at least two columns and two rows of data."
-msgstr ""
+msgstr "Podana podatkovna vrsta mora vsebovati vsaj dva stolpca in dve vrstici podatkov."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3627
 msgid "The given input range should contain at least two columns of data and the labels."
-msgstr ""
+msgstr "Podana podatkovna vrsta mora vsebovati vsaj dva stolpca podatkov in oznake."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3630
 msgid "The given input range should contain at least two columns of data."
-msgstr ""
+msgstr "Podana podatkovna vrsta mora vsebovati vsaj dva stolpca podatkov."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3636
 msgid "The given input range should contain at least two rows of data and the labels."
-msgstr ""
+msgstr "Podana podatkovna vrsta mora vsebovati vsaj dve vrstici podatkov in oznake."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3639
 msgid "The given input range should contain at least two rows of data."
-msgstr ""
+msgstr "Podana podatkovna vrsta mora vsebovati vsaj dve vrstici podatkov."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3646
 msgid "The number of data rows must be a multiple of the replication number."
-msgstr ""
+msgstr "Število vrstic podatkov mora biti mnogokratnik kopiranega števila"
 
 #: ../src/dialogs/dialog-analysis-tools.c:3715
 msgid "The number of rows per sample should be a positive integer."
-msgstr ""
+msgstr "Število vrstic na vzorec mora biti pozitivno celo število."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3768
 #, fuzzy
@@ -5544,7 +5528,7 @@ msgstr "Podrobnosti (dovoli neveljavne vnose)"
 
 #: ../src/dialogs/dialog-cell-format.c:2001
 msgid "The validation criteria are unusable. Disable validation?"
-msgstr ""
+msgstr "Kriteriji določanja veljavnosti so neuporabni. Ali naj se določanje onemogoči?"
 
 #: ../src/dialogs/dialog-cell-format.c:2207
 #: ../src/dialogs/cell-format.ui.h:45
@@ -5844,11 +5828,11 @@ msgstr "Določilo %s ne določa področja"
 #: ../src/dialogs/dialog-consolidate.c:203
 #, c-format
 msgid "Source region %s overlaps with the destination region"
-msgstr ""
+msgstr "Izvorni obseg %s se prekriva s ciljnim obsegom."
 
 #: ../src/dialogs/dialog-consolidate.c:328
 msgid "The output range overlaps with the input ranges."
-msgstr ""
+msgstr "Izhodni obseg se prekriva z vhodnim obsegom."
 
 #: ../src/dialogs/dialog-consolidate.c:552
 #, fuzzy
@@ -6438,7 +6422,7 @@ msgstr "Zapiši imena dni z velikimi črkami"
 
 #: ../src/dialogs/dialog-preferences.c:1125
 msgid "Correct _TWo INitial CApitals"
-msgstr ""
+msgstr "Popravi _ZAčetni VEliki ČRki"
 
 #: ../src/dialogs/dialog-preferences.c:1129
 msgid "Do _not correct:"
@@ -6493,7 +6477,7 @@ msgstr "Zaslon"
 
 #: ../src/dialogs/dialog-preferences.c:1190
 msgid "INitial CApitals"
-msgstr "ZAčetne ČRke besed"
+msgstr "ZAčetne ČRke BEsed"
 
 #: ../src/dialogs/dialog-preferences.c:1191
 msgid "First Letter"
@@ -7050,7 +7034,7 @@ msgstr "Vsebina"
 
 #: ../src/dialogs/dialog-sheet-order.c:187
 msgid "<b>Note:</b> A sheet name change is pending."
-msgstr ""
+msgstr "<b>Opomba:</b> v pripravljenosti je preimenovanje imena delovnega lista."
 
 #: ../src/dialogs/dialog-sheet-order.c:624
 msgid "At least one sheet must remain visible!"
@@ -7097,7 +7081,7 @@ msgstr "Več kot enega delovnega lista ni dovoljeno poimenovati \"%s\"."
 
 #: ../src/dialogs/dialog-sheet-order.c:1450
 msgid "Another view is already managing sheets"
-msgstr ""
+msgstr "Drug pogled že upravlja z delovnimi listi."
 
 #: ../src/dialogs/dialog-sheet-order.c:1505
 #: ../src/dialogs/dialog-sheet-order.c:1516
@@ -7354,13 +7338,13 @@ msgid "Importing %i columns and ignoring %i."
 msgstr "Dodajte ali odstranite stolpce:"
 
 #: ../src/dialogs/dialog-stf-format-page.c:178
-#, fuzzy, c-format
+#, c-format
 msgid "A maximum of %d column can be imported."
 msgid_plural "A maximum of %d columns can be imported."
 msgstr[0] "Uvoziti je mogoče največ %d stolpcev."
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[1] "Uvoziti je mogoče največ %d stolpec."
+msgstr[2] "Uvoziti je mogoče največ %d stolpca."
+msgstr[3] "Uvoziti je mogoče največ %d stolpce."
 
 #: ../src/dialogs/dialog-stf-format-page.c:206
 msgid "Format Selector"
@@ -7398,11 +7382,11 @@ msgstr "Samodejno prilagodi"
 #: ../src/dialogs/dialog-stf-format-page.c:626
 #, c-format
 msgid "If this checkbox is selected, column %i will be imported into Gnumeric."
-msgstr ""
+msgstr "Izbrano označno polje omogoča uvoz %i stolpcev v program Gnumeric"
 
 #: ../src/dialogs/dialog-stf-format-page.c:634
 msgid "If this checkbox is selected, the width of the column will be adjusted to the longest entry."
-msgstr ""
+msgstr "Izbrano označno polje omogoča, da je širina stolpca prilagojena najdaljšemu vnosu celic stolpca."
 
 #: ../src/dialogs/dialog-stf-format-page.c:758
 #: ../src/dialogs/dialog-stf-preview.h:24
@@ -8483,7 +8467,7 @@ msgstr ""
 
 #: ../src/dialogs/cell-sort.ui.h:17
 msgid "When this checkbox is checked, cell formatting such as borders, hyperlinks, fore and background colors will remain in the original location. Uncheck this checkbox to have these formats move with the content. "
-msgstr ""
+msgstr "Izbrano označno polje omogoča, da oblikovanje celic, kot so obrobe, hiperpovezave, barve ospredja in ozadja in podobno, ostane na izvornem mestu v dokumentu. Neizbrano polje pa omogoči, da se oblikovanje premika z vsebino."
 
 #: ../src/dialogs/cell-sort.ui.h:18
 msgid "_Left-Right"
@@ -11775,19 +11759,19 @@ msgstr ""
 #, c-format
 msgid "The target region is too small.  It should be at least %d column wide"
 msgid_plural "The target region is too small.  It should be at least %d columns wide"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Ciljni obseg celic je premajhen. Širok mora biti vsaj %d stolpcev."
+msgstr[1] "Ciljni obseg celic je premajhen. Širok mora biti vsaj %d stolpec."
+msgstr[2] "Ciljni obseg celic je premajhen. Širok mora biti vsaj %d stolpca."
+msgstr[3] "Ciljni obseg celic je premajhen. Širok mora biti vsaj %d stolpce."
 
 #: ../src/format-template.c:742
 #, c-format
 msgid "The target region is too small.  It should be at least %d row high"
 msgid_plural "The target region is too small.  It should be at least %d rows high"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Ciljni obseg celic je premajhen. Visok mora biti vsaj %d vrstic."
+msgstr[1] "Ciljni obseg celic je premajhen. Visok mora biti vsaj %d vrstico."
+msgstr[2] "Ciljni obseg celic je premajhen. Visok mora biti vsaj %d vrstici."
+msgstr[3] "Ciljni obseg celic je premajhen. Visok mora biti vsaj %d vrstice."
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:44
@@ -11989,13 +11973,13 @@ msgstr "Ni mogoče prebrati opisa uporabniškega vmesnika iz datoteke XML %s: %s
 
 #. xgettext : %d gives the number of actions. This is input to ngettext.
 #: ../src/gnm-plugin.c:449
-#, fuzzy, c-format
+#, c-format
 msgid "User interface with %d action"
 msgid_plural "User interface with %d actions"
-msgstr[0] "Z grafičnim uporabniškim vmesnikom"
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Uporabniški vmesnik ima %d opravil"
+msgstr[1] "Uporabniški vmesnik ima %d opravilo"
+msgstr[2] "Uporabniški vmesnik ima %d opravili"
+msgstr[3] "Uporabniški vmesnik ima %d opravila"
 
 #: ../src/gnm-plugin.c:573
 msgid "Invalid solver model type."
@@ -12143,6 +12127,7 @@ msgstr "Ni mogoče odpreti naslova URL '%s'"
 msgid "Unable to open '%s'"
 msgstr "Ni mogoče odpreti '%s'"
 
+# napačne množinske
 #: ../src/item-bar.c:787
 #, c-format
 msgid "Width: %.2f pts (%d pixel)"
@@ -12152,6 +12137,7 @@ msgstr[1] "Širina: %.2f znakovna točka (%d točka)"
 msgstr[2] "Širina: %.2f znakovni točki (%d točki)"
 msgstr[3] "Širina: %.2f znakovne točke (%d točke)"
 
+# napačne množinske
 #: ../src/item-bar.c:792
 #, c-format
 msgid "Height: %.2f pts (%d pixel)"
@@ -13055,7 +13041,7 @@ msgstr "Ali naj se kopira stara domača mapa na novo mesto?"
 
 #: ../src/sheet-object-graph.c:743
 msgid "Series as:"
-msgstr "NIzi kot:"
+msgstr "Nizi kot:"
 
 #: ../src/sheet-object-graph.c:753
 msgid "Use first series as shared abscissa"
@@ -13121,12 +13107,12 @@ msgstr "Lastnosti drsnika"
 #: ../src/sheet-object-widget.c:1935
 #, c-format
 msgid "CheckBox %d"
-msgstr "Potrditveno polje %d"
+msgstr "Označno polje %d"
 
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:1980
 msgid "Clicking checkbox"
-msgstr "Klik potrditvenega polja"
+msgstr "Klik označnega polja"
 
 #: ../src/sheet-object-widget.c:2472
 #: ../src/wbc-gtk-actions.c:2754
@@ -13531,8 +13517,9 @@ msgid "Export a file for each sheet if the exporter only supports one sheet at a
 msgstr "Izvozi datoteko za vsak delovni list posebej, če programnik izvoza podpira le en delovni list na datoteko."
 
 #: ../src/ssconvert.c:124
+#, fuzzy
 msgid "Recalculate all cells before writing the result"
-msgstr ""
+msgstr "Preračunaj celico pred zapisovanjem vrednosti"
 
 #: ../src/ssconvert.c:135
 msgid "The range to export"
@@ -13647,7 +13634,7 @@ msgstr "Uporaba: %s [MOŽNOST ...] %s\n"
 
 #: ../src/ssgrep.c:60
 msgid "Only print a count of matches per file"
-msgstr ""
+msgstr "Izpiši le števec zadetkov na posamezno datoteko"
 
 #: ../src/ssgrep.c:66
 msgid "Search only via the string table, display a count of the references."
@@ -13659,7 +13646,7 @@ msgstr "Pridobi vzorce iz datoteke, vzorec na vrstico"
 
 #: ../src/ssgrep.c:80
 msgid "Pattern is a set of fixed strings"
-msgstr ""
+msgstr "Vzorec je podatkovni niz določenih nizov"
 
 #: ../src/ssgrep.c:87
 #, fuzzy
@@ -13668,7 +13655,7 @@ msgstr "Izpiši podrobnosti vsake sličice."
 
 #: ../src/ssgrep.c:94
 msgid "Do not print the filename for each match"
-msgstr ""
+msgstr "Ne izpiši imena datoteke za vsak zadetek"
 
 #: ../src/ssgrep.c:101
 msgid "Ignore differences in letter case"
@@ -13681,7 +13668,7 @@ msgstr "Zamenjaj zadetke z NIZOM"
 
 #: ../src/ssgrep.c:115
 msgid "Print filenames without matches"
-msgstr ""
+msgstr "Izpiši imena datotek brez zadetkov"
 
 #: ../src/ssgrep.c:122
 #, fuzzy
@@ -13751,7 +13738,7 @@ msgstr "%s: manjka vzorec\n"
 
 #: ../src/ssindex.c:51
 msgid "List MIME types which ssindex is able to read"
-msgstr ""
+msgstr "Izpiši seznam vrst MIME, ki jih je mogoče prebrati z ukazom ssindex"
 
 #: ../src/ssindex.c:58
 msgid "Index the given files"
@@ -13759,8 +13746,9 @@ msgstr "Kazalo podanih datotek"
 
 #: ../src/ssindex.c:248
 #: ../src/ssindex.c:268
+#, fuzzy
 msgid "INFILE..."
-msgstr ""
+msgstr "INFILE..."
 
 #: ../src/ssindex.c:262
 #, c-format
@@ -13861,10 +13849,10 @@ msgstr "napaka med poskusom razčlenjevanja podatkov lista preglednice"
 #, c-format
 msgid "The file contains %d NULL character. It has been changed to a space."
 msgid_plural "The file contains %d NULL characters. They have been changed to spaces."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Datoteka vsebuje %d praznih znakov (NULL). Spremenjeni so v presledke."
+msgstr[1] "Datoteka vsebuje %d prazen znak (NULL). Spremenjen je v presledek."
+msgstr[2] "Datoteka vsebuje %d prazna znaka (NULL). Spremenjena sta v presledka."
+msgstr[3] "Datoteka vsebuje %d prazne znake (NULL). Spremenjeni so v presledke."
 
 #: ../src/stf.c:448
 msgid "That file is not in the given encoding."
@@ -14608,9 +14596,8 @@ msgid "Fourier Transform"
 msgstr "Fourierjeva transformacija"
 
 #: ../src/tools/analysis-tools.c:4569
-#, fuzzy
 msgid "/Real/Imaginary"
-msgstr "Navidezna enota"
+msgstr "/Realno/Imaginarno"
 
 #: ../src/tools/analysis-tools.c:4617
 #, c-format
@@ -14712,9 +14699,9 @@ msgid "Input cell %s contains a formula"
 msgstr "Vnosna celica %s vsebuje formulo"
 
 #: ../src/tools/gnm-solver.c:612
-#, fuzzy, c-format
+#, c-format
 msgid "Solver constraint #%d is invalid"
-msgstr "URL podcasta je neveljaven."
+msgstr "Omejitev reševalnika #%d ni veljavna"
 
 #: ../src/tools/gnm-solver.c:721
 #: ../src/tools/gnm-solver.c:722
@@ -14722,19 +14709,19 @@ msgid "Problem Type"
 msgstr "Vrsta problema"
 
 #: ../src/tools/gnm-solver.c:1146
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create file for linear program"
-msgstr "Napaka med ustvarjanjem začasne datoteke za tiskanje: %s"
+msgstr "Ustvarjanje datoteke za linearno programiranje je spodletelo."
 
 #: ../src/tools/gnm-solver.c:1155
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create linear program file"
-msgstr "Napaka med ustvarjanjem datoteke osebnega ključa '%s': %s"
+msgstr "Ustvarjanje datoteke za linearno programiranje je spodletelo."
 
 #: ../src/tools/gnm-solver.c:1175
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to save linear program"
-msgstr "Napaka med izvajanjem pomožnega programa  (%s)"
+msgstr "Shranjevanje linearega programa je spodletelo."
 
 #: ../src/tools/gnm-solver.c:1192
 msgid "status"
@@ -14769,9 +14756,8 @@ msgid "Time the solver finished"
 msgstr "Čas, ko je razreševalnik končal opravilo"
 
 #: ../src/tools/random-generator-cor.c:64
-#, fuzzy
 msgid "Cholesky Decomposition of the Covariance Matrix"
-msgstr "CHOLESKY:razcep Choleskega simetrične pozitivne definitne @{matrike}"
+msgstr "Razcep Choleskega kovariančne matrike"
 
 #: ../src/tools/random-generator-cor.c:76
 #, fuzzy
@@ -14905,13 +14891,13 @@ msgstr ""
 
 # napačne množinske
 #: ../src/undo.c:237
-#, fuzzy, c-format
+#, c-format
 msgid "%d row of %d match"
 msgid_plural "%d rows of %d match"
-msgstr[0] "Primerjaj skladnosti polj"
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%d vrstic s %d zadetki"
+msgstr[1] "%d vrstic z %d zadetkom"
+msgstr[2] "%d vrstic z %d zadetkoma"
+msgstr[3] "%d vrstic s %d zadetki"
 
 #. Note: no entry for VALIDATION_OP_NONE
 #: ../src/validation.c:73
@@ -15619,19 +15605,16 @@ msgid "Select the print area"
 msgstr "Izberi področje tiskanja"
 
 #: ../src/wbc-gtk-actions.c:2176
-#, fuzzy
 msgid "Set Column Page Break"
-msgstr "Nastavi na _trenutno stran"
+msgstr "Nastavi stolpični prelom strani"
 
 #: ../src/wbc-gtk-actions.c:2177
-#, fuzzy
 msgid "Split the page to the left of this column"
-msgstr "Pokaži levo od razpredelnice"
+msgstr "Razdeli stran na levo od tega stolpca"
 
 #: ../src/wbc-gtk-actions.c:2179
-#, fuzzy
 msgid "Set Row Page Break"
-msgstr "Nastavi na _trenutno stran"
+msgstr "Nastiavi vrstični prelom strani"
 
 #: ../src/wbc-gtk-actions.c:2180
 msgid "Split the page above this row"
@@ -15646,9 +15629,8 @@ msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2190
-#, fuzzy
 msgid "_Formats & Hyperlinks"
-msgstr "Vrste zabojnikov:"
+msgstr "_Oblikovanje in hiperpovezave"
 
 #: ../src/wbc-gtk-actions.c:2191
 #, fuzzy
@@ -16710,11 +16692,11 @@ msgstr "Ustvari okvir"
 
 #: ../src/wbc-gtk-actions.c:2721
 msgid "Checkbox"
-msgstr "Potrditveno polje"
+msgstr "Označno polje"
 
 #: ../src/wbc-gtk-actions.c:2722
 msgid "Create a checkbox"
-msgstr "Ustvari potrditveno polje"
+msgstr "Ustvari označno polje"
 
 #: ../src/wbc-gtk-actions.c:2724
 msgid "Scrollbar"
