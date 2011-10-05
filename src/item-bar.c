@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * A canvas item implementing row/col headers with support for outlining.
  *
@@ -781,18 +781,26 @@ static void
 colrow_tip_setlabel (ItemBar *ib, gboolean const is_cols, int size_pixels)
 {
 	if (ib->tip != NULL) {
-		char *buffer;
+		char *buffer, *points, *pixels;
+		char const *label = is_cols ? _("Width:") : _("Height");
 		double const scale = 72. / gnm_app_display_dpi_get (!is_cols);
-		if (is_cols)
-			buffer = g_strdup_printf (ngettext ("Width: %.2f pts (%d pixel)",
-							"Width: %.2f pts (%d pixels)",
-							size_pixels),
-						  scale*size_pixels, size_pixels);
+		double size_points = scale*size_pixels;
+		
+		/* xgettext: This is input to ngettext based on the number of pixels. */
+		pixels = g_strdup_printf (ngettext ("(%d pixel)", "(%d pixels)", size_pixels),
+					  size_pixels);
+		
+		if (size_points == gnm_floor (size_points))
+			/* xgettext: This is input to ngettext based on the integer number of points. */
+			points = g_strdup_printf (ngettext (_("%d.00 pt"), _("%d.00 pts"), (int) gnm_floor (size_points)),
+						  (int) gnm_floor (size_points));
 		else
-			buffer = g_strdup_printf (ngettext ("Height: %.2f pts (%d pixel)",
-							"Height: %.2f pts (%d pixels)",
-							size_pixels),
-						  scale*size_pixels, size_pixels);
+			/* xgettext: The number of points here is always a fractional number, ie. not an integer. */
+			points = g_strdup_printf (_("%.2f pts"), size_points);
+
+		buffer = g_strconcat (label, " ", points, " ", pixels, NULL);
+		g_free (pixels);
+		g_free (points);
 		gtk_label_set_text (GTK_LABEL (ib->tip), buffer);
 		g_free(buffer);
 	}

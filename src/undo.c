@@ -234,12 +234,25 @@ gnm_undo_filter_set_condition_undo (GOUndo *u, gpointer data)
 			ua->filter->r.end.row,
 			(ColRowHandler) cb_filter_set_condition_undo,
 			&count);
-	format = ngettext ("%d row of %d match",
-			   "%d rows of %d match",
-			   count);
-	text = g_strdup_printf (format, count,
-				ua->filter->r.end.row -
-				ua->filter->r.start.row);
+	if (ua->filter->r.end.row - ua->filter->r.start.row > 10) {
+		/* xgettext: The first %d gives the number of rows that match. */
+		/* The second %d gives the total number of rows. Assume that the */
+		/* total number of rows is always large (>10). */
+		/* This is input to ngettext. */
+		format = ngettext ("%d row of %d matches",
+				   "%d rows of %d match",
+				   count);
+		text = g_strdup_printf (format, count,
+					ua->filter->r.end.row -
+					ua->filter->r.start.row);
+	} else {
+		/* xgettext: The %d gives the number of rows that match. */
+		/* This is input to ngettext. */
+		format = ngettext ("%d row matches",
+				   "%d rows match",
+				   count);		
+		text = g_strdup_printf (format, count);
+	}
 
 	SHEET_FOREACH_CONTROL (ua->filter->sheet, view, control, cb_filter_set_condition_undo_set_pb (control, text););
 

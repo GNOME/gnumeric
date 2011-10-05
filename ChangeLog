@@ -1,3 +1,10 @@
+2011-10-05 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/undo.c (gnm_undo_filter_set_condition_undo): fix error in
+	label text, split label creation and add translator comments
+	* src/item-bar.c (colrow_tip_setlabel): create label attempting to
+	provide correct plurals and add translator comments
+
 2011-09-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/collect.c (collect_float_pairs): check whetehr these are
