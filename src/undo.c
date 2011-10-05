@@ -238,6 +238,9 @@ gnm_undo_filter_set_condition_undo (GOUndo *u, gpointer data)
 		/* xgettext: The first %d gives the number of rows that match. */
 		/* The second %d gives the total number of rows. Assume that the */
 		/* total number of rows is always large (>10). */
+		/* Note that the english "matches" or "match" is the verb of this sentence! */
+		/* There is no explicit noun associated with the second %d in english, the */
+		/* meaning is really "%d rows of all %d rows match" */
 		/* This is input to ngettext. */
 		format = ngettext ("%d row of %d matches",
 				   "%d rows of %d match",
