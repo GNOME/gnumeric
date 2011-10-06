@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-09-26 19:10+0000\n"
-"PO-Revision-Date: 2011-09-27 08:01+0200\n"
+"POT-Creation-Date: 2011-10-05 21:48+0000\n"
+"PO-Revision-Date: 2011-10-06 07:36+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -94,7 +94,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Poskytuje skriptovací rozhraní CORBA"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7011
-#: ../plugins/openoffice/openoffice-read.c:10287 ../src/xml-sax-read.c:3259
+#: ../plugins/openoffice/openoffice-read.c:10313 ../src/xml-sax-read.c:3259
 msgid "Reading file..."
 msgstr "Načítá se soubor…"
 
@@ -202,7 +202,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Neplatný obsah prvku ss:data, obdrženo „%s“"
 
 #: ../plugins/excel/excel-xml-read.c:1090
-#: ../plugins/openoffice/openoffice-read.c:10392 ../src/xml-sax-read.c:3276
+#: ../plugins/openoffice/openoffice-read.c:10418 ../src/xml-sax-read.c:3276
 msgid "XML document not well formed!"
 msgstr "Dokument XML není syntakticky správný!"
 
@@ -1715,24 +1715,24 @@ msgstr "Vyskytl se neznámý typ grafu, zkouší se vytvořit čárový diagram.
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "Atribut „%s“ má nepodporovanou hodnotu „%s“."
 
-#: ../plugins/openoffice/openoffice-read.c:10160
+#: ../plugins/openoffice/openoffice-read.c:10186
 msgid "Unknown mimetype for openoffice file."
 msgstr "Neznámý typ MIME pro soubor OpenOffice."
 
-#: ../plugins/openoffice/openoffice-read.c:10170
+#: ../plugins/openoffice/openoffice-read.c:10196
 msgid "No stream named content.xml found."
 msgstr "Nebyl nalezen proud pojmenovaný content.xml"
 
-#: ../plugins/openoffice/openoffice-read.c:10178
+#: ../plugins/openoffice/openoffice-read.c:10204
 msgid "No stream named styles.xml found."
 msgstr "Nebyl nalezen proud pojmenovaný styles.xml"
 
-#: ../plugins/openoffice/openoffice-read.c:10297
+#: ../plugins/openoffice/openoffice-read.c:10323
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Neplatná metadata „%s“"
 
-#: ../plugins/openoffice/openoffice-read.c:10364
+#: ../plugins/openoffice/openoffice-read.c:10390
 msgid "settings.xml stream is malformed!"
 msgstr "Proud settings.xml je poškozen!"
 
@@ -12128,21 +12128,41 @@ msgstr "Nelze aktivovat adresu URL „%s“"
 msgid "Unable to open '%s'"
 msgstr "Nelze otevřít „%s“"
 
-#: ../src/item-bar.c:787
-#, c-format
-msgid "Width: %.2f pts (%d pixel)"
-msgid_plural "Width: %.2f pts (%d pixels)"
-msgstr[0] "Šířka: %.2f bodů (%d pixel)"
-msgstr[1] "Šířka: %.2f bodů (%d pixely)"
-msgstr[2] "Šířka: %.2f bodů (%d pixelů)"
+#: ../src/item-bar.c:785
+#| msgid "Fit Width"
+msgid "Width:"
+msgstr "Šířka:"
 
-#: ../src/item-bar.c:792
+#: ../src/item-bar.c:785
+#| msgid "Row Height"
+msgid "Height"
+msgstr "Výška"
+
+#. xgettext: This is input to ngettext based on the number of pixels.
+#: ../src/item-bar.c:790
 #, c-format
-msgid "Height: %.2f pts (%d pixel)"
-msgid_plural "Height: %.2f pts (%d pixels)"
-msgstr[0] "Výška: %.2f bodů (%d pixel)"
-msgstr[1] "Výška: %.2f bodů (%d pixely)"
-msgstr[2] "Výška: %.2f bodů (%d pixelů)"
+msgid "(%d pixel)"
+msgid_plural "(%d pixels)"
+msgstr[0] "(%d pixel)"
+msgstr[1] "(%d pixely)"
+msgstr[2] "(%d pixelů)"
+
+#. xgettext: This is input to ngettext based on the integer number of points.
+#: ../src/item-bar.c:795
+#, c-format
+msgid "%d.00 pt"
+msgstr "%d,00 pt"
+
+#: ../src/item-bar.c:795
+#, c-format
+msgid "%d.00 pts"
+msgstr "%d,00 pt"
+
+#. xgettext: The number of points here is always a fractional number, ie. not an integer.
+#: ../src/item-bar.c:799
+#, c-format
+msgid "%.2f pts"
+msgstr "%.2f pt"
 
 #: ../src/item-cursor.c:769
 msgid "_Move"
@@ -12930,35 +12950,35 @@ msgstr ""
 "Již zde existuje sloučená oblast, která se kříží\n"
 "%s!%s"
 
-#: ../src/sheet-object.c:104
+#: ../src/sheet-object.c:105
 msgid "Snap object to grid"
 msgstr "Přichytávat objekt k mřížce"
 
-#: ../src/sheet-object.c:182
+#: ../src/sheet-object.c:217
 msgid "Size _& Position"
 msgstr "Velikost _a poloha"
 
-#: ../src/sheet-object.c:183
+#: ../src/sheet-object.c:218
 msgid "_Snap to Grid"
 msgstr "Přichytávat k mříž_ce"
 
-#: ../src/sheet-object.c:184
+#: ../src/sheet-object.c:219
 msgid "_Order"
 msgstr "P_ořadí"
 
-#: ../src/sheet-object.c:185
+#: ../src/sheet-object.c:220
 msgid "Pul_l to Front"
 msgstr "Vyzvednout do _popředí"
 
-#: ../src/sheet-object.c:186
+#: ../src/sheet-object.c:221
 msgid "Pull _Forward"
 msgstr "Vyzvednout _vpřed"
 
-#: ../src/sheet-object.c:187
+#: ../src/sheet-object.c:222
 msgid "Push _Backward"
 msgstr "Odsunout v_zad"
 
-#: ../src/sheet-object.c:188
+#: ../src/sheet-object.c:223
 msgid "Pus_h to Back"
 msgstr "Odsunout do poza_dí"
 
@@ -13725,7 +13745,7 @@ msgid "Text (configurable)"
 msgstr "Text (nastavitelný)"
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1278
+#: ../src/stf-parse.c:1272
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
@@ -13734,7 +13754,7 @@ msgstr ""
 "ignorovány."
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1300
+#: ../src/stf-parse.c:1294
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -14879,13 +14899,31 @@ msgstr "Překročen maximální čas. Simulace nebyla dokončena. "
 msgid "Tabulation"
 msgstr "Sestavení tabulky"
 
-#: ../src/undo.c:237
+#. xgettext: The first %d gives the number of rows that match.
+#. The second %d gives the total number of rows. Assume that the
+#. total number of rows is always large (>10).
+#. This is input to ngettext.
+#: ../src/undo.c:242
 #, c-format
-msgid "%d row of %d match"
+#| msgid "%d row of %d match"
+#| msgid_plural "%d rows of %d match"
+msgid "%d row of %d matches"
 msgid_plural "%d rows of %d match"
 msgstr[0] "Odpovídá %d řádek z %d"
 msgstr[1] "Odpovídají %d řádky z %d"
 msgstr[2] "Odpovídá %d řádků z %d"
+
+#. xgettext: The %d gives the number of rows that match.
+#. This is input to ngettext.
+#: ../src/undo.c:251
+#, c-format
+#| msgid "%d row of %d match"
+#| msgid_plural "%d rows of %d match"
+msgid "%d row matches"
+msgid_plural "%d rows match"
+msgstr[0] "Odpovídá %d řádek"
+msgstr[1] "Odpovídají %d řádky"
+msgstr[2] "Odpovídá %d řádků"
 
 #. Note: no entry for VALIDATION_OP_NONE
 #: ../src/validation.c:73
@@ -17703,7 +17741,6 @@ msgid "%dR x %dC"
 msgstr "%dŘ × %dS"
 
 #: ../src/workbook-view.c:562
-#| msgid "Invalid marker"
 msgid "Invalid format"
 msgstr "Neplatný formát"
 
