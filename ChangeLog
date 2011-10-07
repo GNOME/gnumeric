@@ -2455,7 +2455,7 @@
 	(gnumeric_create_tooltip_widget): new
 	* src/gui-util.c  (gnumeric_create_tooltip_rc_style): new
 	(gnumeric_create_tooltip_widget): new
-	(gnumeric_create_tooltip): split off teh above two
+	(gnumeric_create_tooltip): split off the above two
 
 2010-06-16  Morten Welinder <terra@gnome.org>
 
@@ -3195,7 +3195,7 @@
 
 2010-01-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* configure.in: remove teh check for gtk_recent_manager_get_default.
+	* configure.in: remove the check for gtk_recent_manager_get_default.
 	  It is implied by the gtk 2.12 requirement
 	* src/application.c: remove the checks for gtk_recent_manager_get_default
 	  throughout

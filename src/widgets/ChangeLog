@@ -1,11 +1,12 @@
 2011-09-12  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* gnm-cell-combo-view.c (gnm_cell_combo_view_popdown): fixed poupu window
-	size.
+	* gnm-cell-combo-view.c (gnm_cell_combo_view_popdown): fixed poupu
+	window size.
 
 2011-09-10  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* gnm-cell-combo-view.c (gnm_cell_combo_view_popdown): fixed grab. [#657036]
+	* gnm-cell-combo-view.c (gnm_cell_combo_view_popdown): fixed
+	grab. [#657036]
 
 2011-08-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
@@ -1834,7 +1835,7 @@
 	(gnumeric_option_menu_changed): check and uncheck items
 	(gnumeric_option_menu_show_all): show more
 	* gnumeric-optionmenu.h (last_signaled_menu_item): new
-	  field in teh option menu
+	  field in the option menu
 	* widget-charmap-selector.c: use check_menu_item rather
 	  than just menu_item
 
