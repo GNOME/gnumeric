@@ -27,6 +27,7 @@ Andreas:
 	* Fix IRR and other functions acting on paired data set when called
 	with fixed arrays.
 	* Import ODS-like documents produced by Google-docs. [#660657]
+	* Fix border import from 1C generated xls files. [#660605]
 
 Jean:
 	* Make things build against gtk+-3.0.

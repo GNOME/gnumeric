@@ -1,3 +1,8 @@
+2011-10-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-excel-read.c (excel_choose_border): new
+	(excel_set_xf): check for border consistency
+
 2011-09-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ms-excel-read.c (gnm_xl_get_codepage): use guint

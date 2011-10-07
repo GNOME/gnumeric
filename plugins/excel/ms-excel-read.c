@@ -2183,6 +2183,32 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 	return xf->mstyle;
 }
 
+static GnmBorder *
+excel_choose_border (GnmBorder *b1, GnmBorder *b2)
+{
+	/* double > thick > medium > medium-dash > medium-dash-dot > slanted dash-dot >
+	   medium dash-dot-dot > thin > dashed > dotted > dash-dot > dash-dot-dot > hair */
+	static int choice[GNM_STYLE_BORDER_SLANTED_DASH_DOT + 1]
+		[GNM_STYLE_BORDER_SLANTED_DASH_DOT + 1] 
+		= { { 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },  /* GNM_STYLE_BORDER_NONE */
+		    { 1,0,0,1,1,0,0,1,0,1,0,1,0,0 },  /* GNM_STYLE_BORDER_THIN */
+		    { 1,1,0,1,1,0,0,1,1,1,1,1,1,1 },  /* GNM_STYLE_BORDER_MEDIUM */
+		    { 1,0,0,0,1,0,0,1,0,1,0,1,0,0 },  /* GNM_STYLE_BORDER_DASHED */
+		    { 1,0,0,0,0,0,0,1,0,1,0,1,0,0 },  /* GNM_STYLE_BORDER_DOTTED */
+		    { 1,1,1,1,1,0,0,1,1,1,1,1,1,1 },  /* GNM_STYLE_BORDER_THICK */
+		    { 1,1,1,1,1,1,0,1,1,1,1,1,1,1 },  /* GNM_STYLE_BORDER_DOUBLE */
+		    { 1,0,0,0,0,0,0,0,0,0,0,0,0,0 },  /* GNM_STYLE_BORDER_HAIR */
+		    { 1,1,0,1,1,0,0,1,0,1,1,1,1,1 },  /* GNM_STYLE_BORDER_MEDIUM_DASH */
+		    { 1,0,0,0,0,0,0,1,0,0,0,1,0,0 },  /* GNM_STYLE_BORDER_DASH_DOT */
+		    { 1,1,0,1,1,0,0,1,0,1,0,1,1,1 },  /* GNM_STYLE_BORDER_MEDIUM_DASH_DOT */
+		    { 1,0,0,0,0,0,0,1,0,0,0,0,0,0 },  /* GNM_STYLE_BORDER_DASH_DOT_DOT */
+		    { 1,1,0,1,1,0,0,1,0,1,0,1,0,0 },  /* GNM_STYLE_BORDER_MEDIUM_DASH_DOT_DOT */
+		    { 1,1,0,1,1,0,0,1,0,1,0,1,1,0 }   /* GNM_STYLE_BORDER_SLANTED_DASH_DOT */
+	};
+
+	return (choice[b1->line_type][b2->line_type]) ? b1 : b2;
+}
+
 static BiffXFData const *
 excel_set_xf (ExcelReadSheet *esheet, BiffQuery *q)
 {
@@ -2202,8 +2228,66 @@ excel_set_xf (ExcelReadSheet *esheet, BiffQuery *q)
 	d (3, g_printerr ("%s!%s%d = xf(0x%hx) = style (%p) [LEN = %u]\n", sheet->name_unquoted,
 			  col_name (col), row + 1, GSF_LE_GET_GUINT16 (q->data + 4), mstyle, q->length););
 
-	if (mstyle != NULL)
+	if (mstyle != NULL) {
+		GnmBorder   *top_b, *left_b;
+
 		sheet_style_set_pos (sheet, col, row, mstyle);
+		
+		/* In Excel & Gnumeric generated xls-files we do not have a conflict   */
+		/* between borders of adjacent cells, but according to bug #660605     */
+		/* there are xls files in the wild that have a conflict. We need to    */
+		/* resolve these conflicts to ensure consistent behaviour when we edit */
+		/* borders and to provide the expected border appearance.              */
+		
+		top_b = gnm_style_get_border (mstyle, MSTYLE_BORDER_TOP);
+		left_b = gnm_style_get_border (mstyle, MSTYLE_BORDER_LEFT);
+
+		if ((row > 0 && top_b != NULL && top_b->line_type != GNM_STYLE_BORDER_NONE) || 
+		    (col > 0 && left_b != NULL && left_b->line_type != GNM_STYLE_BORDER_NONE)) {
+			GnmBorder **overlay = g_new0 (GnmBorder *, GNM_STYLE_BORDER_EDGE_MAX);
+			GnmRange range;
+
+			if (row > 0 && 
+			    top_b != NULL && top_b->line_type != GNM_STYLE_BORDER_NONE) {
+				GnmStyle const *previous = sheet_style_get (sheet, col, row - 1);
+				if (previous != NULL) {
+					GnmBorder *prev_b = gnm_style_get_border 
+						(previous, MSTYLE_BORDER_BOTTOM);
+					if (prev_b != NULL && 
+					    prev_b->line_type != GNM_STYLE_BORDER_NONE &&
+					    prev_b->line_type != top_b->line_type)
+						overlay[GNM_STYLE_BORDER_TOP] = 
+							gnm_style_border_ref 
+							 (excel_choose_border (top_b, prev_b));
+				}
+			}
+			if (col > 0 && 
+			    left_b != NULL && left_b->line_type != GNM_STYLE_BORDER_NONE) {
+				GnmStyle const *previous = sheet_style_get (sheet, col - 1, row);
+				if (previous != NULL) {
+					GnmBorder *prev_b = gnm_style_get_border 
+						(previous, MSTYLE_BORDER_RIGHT);
+					if (prev_b != NULL && 
+					    prev_b->line_type != GNM_STYLE_BORDER_NONE &&
+					    prev_b->line_type != left_b->line_type)
+						overlay[GNM_STYLE_BORDER_LEFT] = 
+							gnm_style_border_ref 
+							 (excel_choose_border (left_b, prev_b));
+				}
+			}
+
+			/* We are using sheet_style_apply_border rather than     */
+			/* sheet_style_apply_pos since it clears the appropriate */
+			/* adjacent borders  */
+			range_init (&range, col, row, col, row);
+			sheet_style_apply_border (sheet, &range, overlay);
+			if (overlay[GNM_STYLE_BORDER_TOP])
+				gnm_style_border_unref (overlay[GNM_STYLE_BORDER_TOP]);
+			if (overlay[GNM_STYLE_BORDER_LEFT])
+				gnm_style_border_unref (overlay[GNM_STYLE_BORDER_LEFT]);
+			g_free (overlay);
+		}
+	}
 	return xf;
 }
 
