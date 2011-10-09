@@ -1263,8 +1263,8 @@ draw_border_preview (FormatState *state)
 		gtk_widget_show (GTK_WIDGET (state->border.canvas));
 		gtk_widget_set_size_request (GTK_WIDGET (state->border.canvas),
 					     150, 100);
-		gtk_container_add (GTK_CONTAINER (go_gtk_builder_get_widget (state->gui, "border_sample_container")),
-				   GTK_WIDGET (state->border.canvas));
+		gtk_grid_attach (GTK_CONTAINER (go_gtk_builder_get_widget (state->gui, "border-sample-container")),
+				   GTK_WIDGET (state->border.canvas), 1, 1, 3, 3);
 		group = GOC_GROUP (goc_canvas_get_root (state->border.canvas));
 
 		g_signal_connect (G_OBJECT (state->border.canvas),

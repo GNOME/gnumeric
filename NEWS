@@ -39,6 +39,7 @@ Jean:
 	* Fixed autofilter user interface issues. [#657036]
 	* Make the windows shrink again. [#659246]
 	* Make the graph window work again. [#660241]
+	* Fixed layout issues in cell border dialog. [#661213]
 
 Mikko Rasa:
         * Fix ODF import of certain percentage formats. [Debian #642135]

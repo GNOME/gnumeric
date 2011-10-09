@@ -1,3 +1,8 @@
+2011-10-09  Jean Brefort  <jean@vaio>
+
+	* cell-format.ui: fixed border page layout. [#661213]
+	* dialog-cell-format.c (draw_border_preview):
+
 2011-09-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-stf-csv-page.c (csv_page_textindicator_change): allow \0
