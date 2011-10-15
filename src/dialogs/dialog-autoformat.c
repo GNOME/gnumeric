@@ -101,7 +101,7 @@ typedef struct {
 
 	GocCanvas	 *canvas[NUM_PREVIEWS];
 	GtkFrame         *frame[NUM_PREVIEWS];
-	GtkVScrollbar    *scroll;
+	GtkScrollbar    *scroll;
 	GtkCheckMenuItem *gridlines;
 
 	GtkEntry       *info_name, *info_author, *info_cat;
@@ -589,7 +589,7 @@ dialog_autoformat (WBCGtk *wbcg)
 
 	state->dialog     = GTK_DIALOG (go_gtk_builder_get_widget (gui, "dialog"));
 	state->category   = GTK_COMBO_BOX (go_gtk_builder_get_widget (gui, "format_category"));
-	state->scroll     = GTK_VSCROLLBAR (go_gtk_builder_get_widget (gui, "format_scroll"));
+	state->scroll     = GTK_SCROLLBAR (go_gtk_builder_get_widget (gui, "format_scroll"));
 	state->gridlines  = GTK_CHECK_MENU_ITEM  (go_gtk_builder_get_widget (gui, "format_gridlines"));
 
 	state->info_name   = GTK_ENTRY (go_gtk_builder_get_widget (gui, "format_info_name"));

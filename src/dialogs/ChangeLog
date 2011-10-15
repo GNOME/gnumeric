@@ -1,3 +1,12 @@
+2011-10-15  Jean Brefort  <jean@vaio>
+
+	* cell-format-cond.ui: removed deprecated Gtk[H,V]*.
+	* dialog-autoformat.c (dialog_autoformat): ditto.
+	* dialog-tabulate.c (dialog_tabulate): don't use anymore the "allow-shrink"
+	property [#661720]
+	* doc-meta-data.ui: removed deprecated Gtk[H,V]*.
+	* goto.ui: ditto.
+
 2011-10-09  Jean Brefort  <jean@vaio>
 
 	* cell-format.ui: fixed border page layout. [#661213]

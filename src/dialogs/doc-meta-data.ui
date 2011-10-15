@@ -1637,11 +1637,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkVBox" id="vbox2">
+                  <object class="GtkBox" id="vbox2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">5</property>
-                    <child>
+                    <property name="orientation">vertical</property>
+                   <child>
                       <object class="GtkScrolledWindow" id="scrolledwindow4">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -1665,7 +1666,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHButtonBox" id="hbuttonbox3">
+                      <object class="GtkButtonBox" id="hbuttonbox3">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="border_width">6</property>

@@ -361,7 +361,6 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 	dd->sheet = sheet;
 
 	g_object_set (G_OBJECT (dialog),
-		"allow-shrink",	FALSE,
 		"allow-grow",	TRUE,
 		NULL);
 
