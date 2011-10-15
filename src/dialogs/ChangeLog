@@ -1,3 +1,7 @@
+2011-10-15  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (draw_border_preview): Fix type issue.
+
 2011-10-15  Jean Brefort  <jean@vaio>
 
 	* cell-format-cond.ui: removed deprecated Gtk[H,V]*.
