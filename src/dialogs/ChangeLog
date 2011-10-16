@@ -1,3 +1,9 @@
+2011-10-16  Jean Brefort  <jean@vaio>
+
+	* dialog-tabulate.c (dialog_tabulate): don't use anymore the "allow-grow"
+	property [#661855]
+	* tabulate.ui: ditto.
+
 2011-10-15  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (draw_border_preview): Fix type issue.

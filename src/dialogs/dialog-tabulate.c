@@ -360,10 +360,6 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 	dd->dialog = dialog;
 	dd->sheet = sheet;
 
-	g_object_set (G_OBJECT (dialog),
-		"allow-grow",	TRUE,
-		NULL);
-
 	dd->source_table = GTK_TABLE (go_gtk_builder_get_widget (gui, "source_table"));
 	gtk_table_get_size (dd->source_table, &nrows, NULL);
 	for (i = 1; i < nrows; i++) {
