@@ -1,3 +1,8 @@
+2011-10-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet.c (sheet_get_extent): fix this for the case that we have
+	content only in the bottom right 4 cells [#661958]
+
 2011-10-05 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/undo.c (gnm_undo_filter_set_condition_undo): fix error in

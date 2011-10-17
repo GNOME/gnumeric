@@ -2115,9 +2115,8 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 
 	g_return_val_if_fail (IS_SHEET (sheet), dummy);
 
-	/* FIXME : Why -2 ??? */
-	closure.range.start.col = gnm_sheet_get_max_cols (sheet) - 2;
-	closure.range.start.row = gnm_sheet_get_max_rows (sheet) - 2;
+	closure.range.start.col = gnm_sheet_get_last_col (sheet) + 1;
+	closure.range.start.row = gnm_sheet_get_last_row (sheet) + 1;
 	closure.range.end.col   = 0;
 	closure.range.end.row   = 0;
 	closure.spans_and_merges_extend = spans_and_merges_extend;
@@ -2138,9 +2137,9 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 					     closure.range.end.row);
 	}
 
-	if (closure.range.start.col >= gnm_sheet_get_max_cols (sheet) - 2)
+	if (closure.range.start.col > gnm_sheet_get_last_col (sheet))
 		closure.range.start.col = 0;
-	if (closure.range.start.row >= gnm_sheet_get_max_rows (sheet) - 2)
+	if (closure.range.start.row > gnm_sheet_get_last_row (sheet))
 		closure.range.start.row = 0;
 	if (closure.range.end.col < 0)
 		closure.range.end.col = 0;
