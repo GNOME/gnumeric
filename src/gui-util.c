@@ -25,6 +25,7 @@
 #include "wbc-gtk.h"
 #include "dead-kittens.h"
 #include "widgets/gnumeric-expr-entry.h"
+#include "gnm-rsm.h"
 
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>
@@ -549,10 +550,13 @@ GtkBuilder *
 gnm_gtk_builder_new (char const *uifile, char const *domain, GOCmdContext *cc)
 {
 	GtkBuilder *gui;
+	char *f;
 
-	char *f = g_path_is_absolute (uifile)
-		? g_strdup (uifile)
-		: g_build_filename (gnm_sys_data_dir (), "ui", uifile, NULL);
+	if (g_path_is_absolute (uifile)) {
+		f = g_strdup (uifile);
+	} else {
+		f = g_strconcat ("res:gnm:", uifile, NULL);
+	}
 
 	gui = go_gtk_builder_new (f, domain, cc);
 	g_free (f);

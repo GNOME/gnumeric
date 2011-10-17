@@ -3,3 +3,4 @@ Makefile
 .deps
 *.gladep
 *.bak
+embedded-ui.c

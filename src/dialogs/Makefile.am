@@ -90,11 +90,15 @@ base_files =					\
 	dialog-workbook-attr.c			\
 	dialog-zoom.c				\
 	dialogs.h				\
+	embedded-ui.c				\
+	embedded-ui.h				\
 	tool-dialogs.h				\
 	dialog-printer-setup.c
 
 uidir   = $(gnumeric_datadir)/ui
-ui_DATA = 				\
+ui_DATA =
+
+embedded_uis = 			\
 	advanced-filter.ui		\
 	anova-one.ui			\
 	anova-two.ui			\
@@ -103,8 +107,8 @@ ui_DATA = 				\
 	autoformat.ui			\
 	autosave.ui			\
 	cell-comment.ui			\
-	cell-format.ui			\
 	cell-format-cond.ui		\
+	cell-format.ui			\
 	cell-sort.ui			\
 	chi-squared.ui			\
 	col-width.ui			\
@@ -176,4 +180,12 @@ ui_DATA = 				\
 	wilcoxon-mann-whitney.ui	\
 	workbook-attr.ui
 
-EXTRA_DIST = $(ui_DATA)
+BUILT_SOURCES = embedded-ui.c
+
+embedded-ui.c: $(top_srcdir)/tools/embedder $(embedded_uis)
+	@PERL@ $(top_srcdir)/tools/embedder \
+		--register-function=gnm_register_ui_files \
+		--include embedded-ui.h \
+		$(embedded_uis) >$(abs_builddir)/$@
+
+EXTRA_DIST = $(ui_DATA) $(embedded_uis)

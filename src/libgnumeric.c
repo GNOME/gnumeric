@@ -55,6 +55,7 @@
 #include "mathfunc.h"
 #include "hlink.h"
 #include "wbc-gtk-impl.h"
+#include "dialogs/embedded-ui.h"
 #include <goffice/goffice.h>
 
 #ifdef HAVE_SYS_RESOURCE_H
@@ -270,6 +271,7 @@ gnm_init (void)
 	go_plugin_loader_module_register_version ("gnumeric", GNM_VERSION_FULL);
 
 	g_object_new (GNM_APP_TYPE, NULL);
+	gnm_register_ui_files ();
 	mathfunc_init ();
 
 	gnm_style_init ();
