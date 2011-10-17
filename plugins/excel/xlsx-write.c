@@ -1921,17 +1921,17 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 		GSF_OUTFILE_OPEN_PKG (wb_part),
 		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet");
 	GsfXMLOut *xml;
-	GnmRange  extent;
+	GnmRange  extent, cell_extent;
 	GSList   *charts;
 	char const *chart_drawing_rel_id = NULL;
 	GnmStyle **col_styles;
 
 	state->sheet = workbook_sheet_by_index (state->base.wb, i);
-	col_styles = g_new (GnmStyle*, MIN (XLSX_MAX_COLS,
-					    gnm_sheet_get_max_cols (state->sheet)));
+	col_styles = g_new (GnmStyle*, XLSX_MAX_COLS);
 	excel_sheet_extent (state->sheet, &extent, col_styles,
-		MIN (XLSX_MAX_COLS, gnm_sheet_get_max_cols (state->sheet)),
-		MIN (XLSX_MAX_ROWS, gnm_sheet_get_max_rows (state->sheet)), state->io_context);
+			    XLSX_MAX_COLS, XLSX_MAX_ROWS, state->io_context);
+	cell_extent = sheet_get_cells_extent (state->sheet);
+	extent = range_union (&extent, &cell_extent);
 
 /*   comments   */
 	charts = sheet_objects_get (state->sheet, NULL, CELL_COMMENT_TYPE);

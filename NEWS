@@ -28,6 +28,7 @@ Andreas:
 	with fixed arrays.
 	* Import ODS-like documents produced by Google-docs. [#660657]
 	* Fix border import from 1C generated xls files. [#660605]
+	* Fix cell extent caclulation for xlsx export. [#661958]
 
 Jean:
 	* Make things build against gtk+-3.0.

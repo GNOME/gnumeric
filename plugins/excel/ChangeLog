@@ -1,3 +1,8 @@
+2011-10-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-write.c (xlsx_write_sheet): don't miss cell content that
+	yields empty cells
+
 2011-10-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ms-excel-read.c (excel_choose_border): new
