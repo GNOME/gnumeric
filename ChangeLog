@@ -1,3 +1,23 @@
+2011-10-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print.c (Printing Instance) remove field
+	(SheetPrintInfo): added fields
+	(sheet_print_info_free): new
+	(printing_instance_delete): use sheet_print_info_free
+	(paginate): change paginationInfo argument to GArray
+	(compute_sheet_pages_add_sheet): initialize new fields
+	(compute_sheet_pages_add_range): deleted
+	(compute_sheet_pages_down_then_across): deleted
+	(compute_sheet_pages_across_then_down): deleted
+	(print_get_sheet): new
+	(print_get_sheet_page_range): new
+	(compute_sheet_pages): use GArray
+	(gnm_paginate_cb): use gnmSheets instead of gnmSheetRanges
+	(gnm_request_page_setup_cb): call print_get_sheet instead of using
+	gnmSheetRanges
+	(gnm_draw_page_cb): call print_get_sheet_page_range instead of using
+	gnmSheetRanges
+
 2011-10-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet.c (sheet_get_extent): fix this for the case that we have

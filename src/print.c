@@ -63,7 +63,6 @@
 
 typedef struct {
 	GList *gnmSheets;
-	GList *gnmSheetRanges;
 	Workbook *wb;
 	WorkbookControl *wbc;
 	Sheet *sheet;
@@ -83,6 +82,9 @@ typedef struct {
 	Sheet *sheet;
 	gboolean selection;
         gboolean ignore_printarea;
+	GArray *column_pagination;
+	GArray *row_pagination;
+	guint   pages;
 } SheetPrintInfo;
 
 typedef struct {
@@ -114,10 +116,19 @@ printing_instance_new (void)
 }
 
 static void
+sheet_print_info_free (gpointer data)
+{
+	SheetPrintInfo *spi = data;
+
+	g_array_unref (spi->column_pagination);
+	g_array_unref (spi->row_pagination);
+	g_free (data);
+}
+
+static void
 printing_instance_delete (PrintingInstance *pi)
 {
-	go_list_free_custom (pi->gnmSheets, g_free);
-	go_list_free_custom (pi->gnmSheetRanges, g_free);
+	go_list_free_custom (pi->gnmSheets, sheet_print_info_free);
 	hf_render_info_destroy (pi->hfi);
 	g_free (pi);
 }
@@ -660,7 +671,7 @@ adjust_repetition (Sheet const *sheet,
 }
 
 static gint
-paginate (GSList **paginationInfo,
+paginate (GArray *paginationInfo,
 	  Sheet const *sheet,
 	  gint start, gint end,
 	  gdouble usable, gboolean repeat, gint repeat_start, gint repeat_end,
@@ -668,7 +679,6 @@ paginate (GSList **paginationInfo,
 	  ColRowInfo const *(get_info)(Sheet const *sheet, int const p),
 	  GnmPageBreaks *pb, gboolean store_breaks)
 {
-	GSList *list = NULL;
 	int rc = start;
 	gint n_rep = 0, first_rep = 0;
 	gdouble repeating = 0.;
@@ -689,7 +699,6 @@ paginate (GSList **paginationInfo,
 
 		while (rc <= n_end) {
 			int count;
-			PaginationInfo *item;
 
 			gdouble repeating_used = 0.;
 			gint n_rep_used = 0, first_rep_used = 0;
@@ -706,13 +715,12 @@ paginate (GSList **paginationInfo,
 					       get_info);
 
 			if (paginationInfo) {
-				item = g_new (PaginationInfo,1);
-				item->rc = rc;
-				item->count = count;
-				item->first_rep = first_rep_used;
-				item->n_rep = n_rep_used;
-
-				list = g_slist_prepend (list, item);
+				PaginationInfo item;
+				item.rc = rc;
+				item.count = count;
+				item.first_rep = first_rep_used;
+				item.n_rep = n_rep_used;
+				g_array_append_val (paginationInfo, item);
 			}
 			page_count++;
 
@@ -720,12 +728,6 @@ paginate (GSList **paginationInfo,
 			if (store_breaks && (rc < n_end))
 				gnm_page_breaks_set_break (pb, rc, GNM_PAGE_BREAK_AUTO);
 		}
-	}
-
-	if (paginationInfo) {
-		list = g_slist_reverse (list);
-
-		*paginationInfo = list;
 	}
 
 	return page_count;
@@ -820,10 +822,11 @@ compute_scale_fit_to (Sheet const *sheet,
 #define ROW_FIT(row) (MIN (row, gnm_sheet_get_last_row (sheet)))
 
 static void
-compute_sheet_pages_add_sheet (PrintingInstance * pi, Sheet const *sheet, gboolean selection,
-                     gboolean ignore_printarea)
+compute_sheet_pages_add_sheet (PrintingInstance * pi, Sheet const *sheet, 
+			       gboolean selection,
+			       gboolean ignore_printarea)
 {
-	SheetPrintInfo *spi = g_new (SheetPrintInfo, 1);
+	SheetPrintInfo *spi = g_new0 (SheetPrintInfo, 1);
 
 	spi->sheet = (Sheet *) sheet;
 	spi->selection = selection;
@@ -831,80 +834,65 @@ compute_sheet_pages_add_sheet (PrintingInstance * pi, Sheet const *sheet, gboole
 	pi->gnmSheets = g_list_append(pi->gnmSheets, spi);
 }
 
-static void
-compute_sheet_pages_add_range (PrintingInstance * pi, Sheet const *sheet,
-			       GnmRange *r, gint n_rep_cols, gint n_rep_rows,
-			       gint first_rep_cols, gint first_rep_rows)
+static Sheet *
+print_get_sheet (PrintingInstance *pi, guint page_no)
 {
-		SheetPageRange *gsr = g_new (SheetPageRange,1);
+	GList *l;
 
-		gsr->n_rep_cols = n_rep_cols;
-		gsr->n_rep_rows = n_rep_rows;
-		gsr->first_rep_rows = first_rep_rows;
-		gsr->first_rep_cols = first_rep_cols;
-		gsr->range = *r;
-		gsr->sheet = (Sheet *) sheet;
-		pi->gnmSheetRanges = g_list_append(pi->gnmSheetRanges, gsr);
+	for (l = pi->gnmSheets; l != NULL; l = l->next) {
+		SheetPrintInfo *spi = l->data;
+		if (spi->pages > page_no)
+			return spi->sheet;
+		else
+			page_no -= spi->pages;
+	}
+
+	return NULL;
 }
 
-
-
-static void
-compute_sheet_pages_down_then_across (PrintingInstance * pi,
-				      Sheet const *sheet,
-				      GSList *column_pagination,
-				      GSList *row_pagination)
+static SheetPageRange *
+print_get_sheet_page_range (PrintingInstance *pi, guint page_no)
 {
-	GnmRange range;
-	GSList *c_list = column_pagination;
+	GList *l;
 
-	while (c_list) {
-		PaginationInfo *c_info = c_list->data;
-		GSList *r_list = row_pagination;
+	for (l = pi->gnmSheets; l != NULL; l = l->next) {
+		SheetPrintInfo *spi = l->data;
+		if (spi->pages > page_no) {
+			SheetPageRange *gsr;
+			guint col, row;
+			PaginationInfo *c_info, *r_info;
+			Sheet *sheet = spi->sheet;
 
-		while (r_list) {
-			PaginationInfo *r_info = r_list->data;
-
-			range_init (&range, COL_FIT (c_info->rc), ROW_FIT (r_info->rc),
+			if (sheet->print_info->print_across_then_down) {
+				col = page_no % spi->column_pagination->len;
+				row = page_no / spi->column_pagination->len;
+			} else {
+				col = page_no / spi->row_pagination->len;
+				row = page_no % spi->row_pagination->len;
+			}
+			g_return_val_if_fail (col < spi->column_pagination->len &&
+					      row < spi->row_pagination->len, NULL);
+			gsr = g_new (SheetPageRange,1);
+			c_info = &(g_array_index (spi->column_pagination,
+						  PaginationInfo, col));
+			r_info = &(g_array_index (spi->row_pagination,
+						  PaginationInfo, row));
+			range_init (&gsr->range, 
+				    COL_FIT (c_info->rc), ROW_FIT (r_info->rc),
 				    COL_FIT (c_info->rc + c_info->count - 1),
 				    ROW_FIT (r_info->rc + r_info->count - 1));
-			compute_sheet_pages_add_range (pi, sheet, &range,
-						       c_info->n_rep, r_info->n_rep,
-						       c_info->first_rep, r_info->first_rep);
-			r_list = r_list->next;
-		}
-		c_list = c_list->next;
+			gsr->n_rep_cols = c_info->n_rep;
+			gsr->first_rep_cols = c_info->first_rep;
+			gsr->n_rep_rows = r_info->n_rep;
+			gsr->first_rep_rows = r_info->first_rep;
+			gsr->sheet = sheet;
+			return gsr;
+		} else
+			page_no -= spi->pages;
 	}
+
+	return NULL;
 }
-
-static void
-compute_sheet_pages_across_then_down (PrintingInstance * pi,
-				      Sheet const *sheet,
-				      GSList *column_pagination,
-				      GSList *row_pagination)
-{
-	GnmRange range;
-	GSList *r_list = row_pagination;
-
-	while (r_list) {
-		PaginationInfo *r_info = r_list->data;
-		GSList *c_list = column_pagination;
-
-		while (c_list) {
-			PaginationInfo *c_info = c_list->data;
-
-			range_init (&range, COL_FIT (c_info->rc), ROW_FIT (r_info->rc),
-				    COL_FIT (c_info->rc + c_info->count - 1),
-				    ROW_FIT (r_info->rc + r_info->count - 1));
-			compute_sheet_pages_add_range (pi, sheet, &range,
-						       c_info->n_rep, r_info->n_rep,
-						       c_info->first_rep, r_info->first_rep);
-			c_list = c_list->next;
-		}
-		r_list = r_list->next;
-	}
-}
-
 
 /*
   return TRUE in case of trouble
@@ -926,8 +914,10 @@ compute_sheet_pages (GtkPrintContext   *context,
 	gdouble top_margin, bottom_margin, edge_to_below_header, edge_to_above_footer;
 	gdouble px, py;
 	gdouble usable_x, usable_y;
-	GSList *column_pagination = NULL;
-	GSList *row_pagination = NULL;
+	GArray *column_pagination = g_array_sized_new 
+		(FALSE, TRUE, sizeof (PaginationInfo), 100);
+	GArray *row_pagination = g_array_sized_new 
+		(FALSE, TRUE, sizeof (PaginationInfo), 100);
 	gboolean repeat_top_use, repeat_left_use;
 	int repeat_top_start, repeat_top_end, repeat_left_start, repeat_left_end;
 	double const hscale = sheet->display_formulas ? 2 : 1;
@@ -1021,26 +1011,20 @@ compute_sheet_pages (GtkPrintContext   *context,
 	usable_x   = page_width / px;
 	usable_y   = page_height / py;
 
-	paginate (&column_pagination, sheet, print_area.start.col, print_area.end.col,
+	paginate (column_pagination, sheet, print_area.start.col, print_area.end.col,
 		  (usable_x - row_header_width)/hscale,
 		  repeat_left_use, repeat_left_start, repeat_left_end,
 		  sheet_col_get_distance_pts, sheet_col_get_info,
 		  pi->ignore_pb ? NULL : pinfo->page_breaks.v, !pi->ignore_pb);
-	paginate (&row_pagination, sheet, print_area.start.row, print_area.end.row,
+	paginate (row_pagination, sheet, print_area.start.row, print_area.end.row,
 		  usable_y - col_header_height,
 		  repeat_top_use, repeat_top_start, repeat_top_end,
 		  sheet_row_get_distance_pts, sheet_row_get_info,
 		  pi->ignore_pb ? NULL : pinfo->page_breaks.h, !pi->ignore_pb);
 
-	if (sheet->print_info->print_across_then_down)
-		compute_sheet_pages_across_then_down (pi, sheet,
-						      column_pagination,row_pagination);
-	else
-		compute_sheet_pages_down_then_across (pi, sheet,
-						      column_pagination,row_pagination);
-
-	go_slist_free_custom (column_pagination, g_free);
-	go_slist_free_custom (row_pagination, g_free);
+	spi->column_pagination = column_pagination;
+	spi->row_pagination = row_pagination;
+	spi->pages = column_pagination->len * row_pagination->len;
 
 	return FALSE;
 }
@@ -1169,11 +1153,16 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 	PrintingInstance * pi = (PrintingInstance *) user_data;
 	guint paginate = (pi->last_pagination)++;
 	SheetPrintInfo *spi;
-	gint n_pages;
 
 	spi = g_list_nth_data (pi->gnmSheets, paginate);
 	if (spi == NULL) { /*We are done paginating */
-		n_pages = g_list_length (pi->gnmSheetRanges);
+		GList *l;
+		gint n_pages = 0;
+
+		for (l = pi->gnmSheets; l != NULL; l = l->next) {
+			SheetPrintInfo *spi = l->data;
+			n_pages += spi->pages;
+		}
 
 		gtk_print_operation_set_n_pages (operation, n_pages == 0 ? 1 : n_pages);
 		gtk_print_operation_set_unit (operation, GTK_UNIT_POINTS);
@@ -1266,23 +1255,24 @@ gnm_request_page_setup_cb (GtkPrintOperation *operation,
 			   gpointer           user_data)
 {
 	PrintingInstance * pi = (PrintingInstance *) user_data;
-	SheetPageRange * gsr;
+	Sheet *sheet;
 	GtkPrintSettings* settings = gtk_print_operation_get_print_settings
 				     (operation);
 
 	g_return_if_fail (pi != NULL);
 
-	gsr = g_list_nth_data (pi->gnmSheetRanges, page_nr);
-	if (gsr == NULL) {
+	sheet = print_get_sheet (pi, page_nr);
+
+	if (sheet == NULL) {
 		/* g_warning ("Avoiding gtk+ bug 492498"); */
 		return;
 	}
 
-	gtk_print_settings_set_use_color (settings, !gsr->sheet->print_info->print_black_and_white);
-	if (gsr->sheet->print_info->page_setup == NULL)
-		print_info_load_defaults (gsr->sheet->print_info);
-	if (gsr->sheet->print_info->page_setup != NULL)
-		cp_gtk_page_setup (gsr->sheet->print_info->page_setup, setup);
+	gtk_print_settings_set_use_color (settings, !sheet->print_info->print_black_and_white);
+	if (sheet->print_info->page_setup == NULL)
+		print_info_load_defaults (sheet->print_info);
+	if (sheet->print_info->page_setup != NULL)
+		cp_gtk_page_setup (sheet->print_info->page_setup, setup);
 }
 
 static void
@@ -1293,8 +1283,7 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 {
 
 	PrintingInstance * pi = (PrintingInstance *) user_data;
-	SheetPageRange * gsr = g_list_nth_data (pi->gnmSheetRanges,
-					       page_nr);
+	SheetPageRange * gsr = print_get_sheet_page_range (pi, page_nr);
 	if (gsr) {
 		pi->hfi->page = page_nr + 1;
 		pi->hfi->sheet = gsr->sheet;
@@ -1305,6 +1294,7 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 		if (gsr->n_rep_rows > 0)
 			pi->hfi->top_repeating.row = gsr->first_rep_rows;
 		print_page (operation, context, pi, gsr);
+		g_free (gsr);
 	}
 }
 
