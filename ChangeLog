@@ -1,5 +1,17 @@
 2011-10-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print.c (PrintingInstance): add fields
+	(printing_instance_new): initialize new fields
+	(printing_instance_delete): destroy progress report
+	(cb_progress_response): new
+	(cb_progress_delete): new
+	(gnm_begin_print_cb): create progress dialog
+	(gnm_draw_page_cb): update progress dialog
+	(gnm_print_sheet): tell gtk not to create their buggy
+	progress report
+
+2011-10-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/print.c (gnm_print_sheet): avoid double free
 
 2011-10-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>

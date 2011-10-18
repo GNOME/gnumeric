@@ -76,6 +76,8 @@ typedef struct {
 	gboolean ignore_pb;
 	guint last_pagination;
 	HFRenderInfo *hfi;
+	GtkWidget *progress;
+	gboolean cancel;
 } PrintingInstance;
 
 typedef struct {
@@ -111,6 +113,8 @@ printing_instance_new (void)
 {
 	PrintingInstance * pi = g_new0 (PrintingInstance,1);
 	pi->hfi = hf_render_info_new ();
+	pi->cancel = FALSE;
+	pi->hfi->pages = -1;
 
 	return pi;
 }
@@ -130,6 +134,9 @@ printing_instance_delete (PrintingInstance *pi)
 {
 	go_list_free_custom (pi->gnmSheets, sheet_print_info_free);
 	hf_render_info_destroy (pi->hfi);
+	if (pi->progress) {
+		gtk_widget_destroy (pi->progress);
+	}
 	g_free (pi);
 }
 
@@ -1182,6 +1189,23 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 	return FALSE;
 }
 
+static void 
+cb_progress_response (G_GNUC_UNUSED GtkDialog *dialog,
+		      G_GNUC_UNUSED gint       response_id,
+		      PrintingInstance *pi)
+{
+	pi->cancel = TRUE;
+}
+
+static gboolean
+cb_progress_delete (G_GNUC_UNUSED GtkWidget *widget,
+		    G_GNUC_UNUSED GdkEvent  *event,
+		    PrintingInstance *pi)
+{
+	pi->cancel = TRUE;
+	return TRUE;
+}
+
 static void
 gnm_begin_print_cb (GtkPrintOperation *operation,
                     G_GNUC_UNUSED GtkPrintContext   *context,
@@ -1218,6 +1242,20 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 		from = pi->from;
 		to = pi->to;
 		pr = pi->pr;
+	}
+
+	if (NULL != pi->wbc && IS_WBC_GTK(pi->wbc)) {
+		pi->progress = gtk_message_dialog_new (wbcg_toplevel (WBC_GTK (pi->wbc)), 
+						       GTK_DIALOG_MODAL | 
+						       GTK_DIALOG_DESTROY_WITH_PARENT,
+						       GTK_MESSAGE_INFO,
+						       GTK_BUTTONS_CANCEL,
+						       _("Preparing to print"));
+		g_signal_connect (G_OBJECT (pi->progress), "response",
+				  G_CALLBACK (cb_progress_response), pi);
+		g_signal_connect (G_OBJECT (pi->progress), "delete-event",
+				  G_CALLBACK (cb_progress_delete), pi);
+		gtk_widget_show_all (pi->progress);
 	}
 
 	compute_pages (operation, pi, pr, from, to);
@@ -1283,8 +1321,26 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 {
 
 	PrintingInstance * pi = (PrintingInstance *) user_data;
-	SheetPageRange * gsr = print_get_sheet_page_range (pi, page_nr);
+	SheetPageRange * gsr;
+	
+	if (pi->cancel) {
+		gtk_print_operation_cancel (operation);
+		return;
+	}
+
+	gsr = print_get_sheet_page_range (pi, page_nr);
 	if (gsr) {
+		if (pi->progress) {
+			char *text;
+
+			if (pi->hfi->pages == -1)
+				text = g_strdup_printf (_("Printing page %.3d"), page_nr);
+			else
+				text = g_strdup_printf (_("Printing page %.3d of %.3d pages"), 
+							page_nr, pi->hfi->pages);
+			g_object_set (G_OBJECT (pi->progress), "text", text, NULL);
+			g_free (text);
+		}
 		pi->hfi->page = page_nr + 1;
 		pi->hfi->sheet = gsr->sheet;
 		pi->hfi->page_area = gsr->range;
@@ -1702,12 +1758,12 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 
 		action = GTK_PRINT_OPERATION_ACTION_EXPORT;
 		gtk_print_operation_set_export_filename (print, tmp_file_name);
-		gtk_print_operation_set_show_progress (print, preview_via_pdf);
+		gtk_print_operation_set_show_progress (print, FALSE);
 	} else {
 		action = preview
 			? GTK_PRINT_OPERATION_ACTION_PREVIEW
 			: GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
-		gtk_print_operation_set_show_progress (print, TRUE);
+		gtk_print_operation_set_show_progress (print, FALSE);
 		gtk_print_operation_set_custom_tab_label (print, _("Gnumeric Print Range"));
 		g_signal_connect (print, "create-custom-widget", G_CALLBACK (gnm_create_widget_cb), pi);
 		g_signal_connect (print, "custom-widget-apply", G_CALLBACK (gnm_custom_widget_apply_cb), pi);
