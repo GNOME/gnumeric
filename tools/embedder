@@ -2,6 +2,7 @@
 
 use strict;
 use Getopt::Long;
+use IO::Compress::Gzip qw(gzip $GzipError);
 
 my $myself = $0;
 $myself =~ s|^.*/||;
@@ -25,8 +26,17 @@ foreach (@includes) {
 
 my $fileno = 0;
 my $reg = "";
+my $docompress = 0;
 foreach my $file (@ARGV) {
-    &embed ($file);
+    if ($file eq 'COMPRESS') {
+	$docompress = 1;
+	next;
+    }
+    if ($file eq 'NOCOMPRESS') {
+	$docompress = 0;
+	next;
+    }
+    &embed ($file, $docompress);
 }
 print "void\n";
 print "$regfunc (void)\n";
@@ -35,7 +45,7 @@ print $reg;
 print "}\n";
 
 sub embed {
-    my ($file) = @_;
+    my ($file, $docompress) = @_;
 
     print "/* Embedded file $file */\n";
 
@@ -46,6 +56,13 @@ sub embed {
 	$/ = undef;
 	open (*FIL, "<$file") or die "$myself: cannot read $file: $!\n";
 	$data = <FIL>;
+    }
+
+    if ($docompress) {
+	my $zdata;
+	gzip \$data => \$zdata
+	    or die "gzip failed: $GzipError\n";
+	$data = $zdata;
     }
 
     my $id = "data$fileno";
