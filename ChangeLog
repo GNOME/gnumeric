@@ -1,5 +1,9 @@
 2011-10-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print.c (gnm_print_sheet): avoid double free
+
+2011-10-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/print.c (Printing Instance) remove field
 	(SheetPrintInfo): added fields
 	(sheet_print_info_free): new

@@ -1737,7 +1737,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 			(sheet->print_info, settings);
 		break;
 	case GTK_PRINT_OPERATION_RESULT_CANCEL:
-		printing_instance_delete (pi);
+		/* printing_instance_delete (pi); Done in response to end-print signal */
 		break;
 	case GTK_PRINT_OPERATION_RESULT_ERROR:
 		/* FIXME? */
