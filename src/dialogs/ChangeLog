@@ -1,7 +1,11 @@
+2011-10-18  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am: Request compression of all ui files.
+
 2011-10-16  Jean Brefort  <jean@vaio>
 
-	* dialog-tabulate.c (dialog_tabulate): don't use anymore the "allow-grow"
-	property [#661855]
+	* dialog-tabulate.c (dialog_tabulate): Don't use the "allow-grow"
+	property anymore [#661855]
 	* tabulate.ui: ditto.
 
 2011-10-15  Morten Welinder  <terra@gnome.org>

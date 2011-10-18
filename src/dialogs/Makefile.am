@@ -186,6 +186,6 @@ embedded-ui.c: $(top_srcdir)/tools/embedder $(embedded_uis)
 	@PERL@ $(top_srcdir)/tools/embedder \
 		--register-function=gnm_register_ui_files \
 		--include embedded-ui.h \
-		$(embedded_uis) >$(abs_builddir)/$@
+		COMPRESS $(embedded_uis) >$(abs_builddir)/$@
 
 EXTRA_DIST = $(ui_DATA) $(embedded_uis)
