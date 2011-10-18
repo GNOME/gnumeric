@@ -52,6 +52,7 @@ Morten:
 	* Fix stf import crash.  [#658982]
 	* Fix leaks.
 	* Fix GUI crash for invalid dates.
+	* Embed ui files into the Gnumeric binary.
 
 Valek:
 	* In xls import, set LABEL encoding based on FONT charset converted to 

@@ -27,6 +27,9 @@ foreach (@includes) {
 my $fileno = 0;
 my $reg = "";
 my $docompress = 0;
+print "void\n";
+print "$regfunc (void)\n";
+print "{\n";
 foreach my $file (@ARGV) {
     if ($file eq 'COMPRESS') {
 	$docompress = 1;
@@ -38,16 +41,13 @@ foreach my $file (@ARGV) {
     }
     &embed ($file, $docompress);
 }
-print "void\n";
-print "$regfunc (void)\n";
-print "{\n";
 print $reg;
 print "}\n";
 
 sub embed {
     my ($file, $docompress) = @_;
 
-    print "/* Embedded file $file */\n";
+    print "  /* Embedded file $file */\n";
 
     my $data;
     {
@@ -79,11 +79,11 @@ sub embed_data {
 
     my $len = length ($data);
     if ($len == 0) {
-	print "static const char ${id}[] = \"\";\n";
+	print "  static const char ${id}[] = \"\";\n";
 	return;
     }
 
-    print "static const char ${id}[] =\n";
+    print "  static const char ${id}[] =\n";
     my $linelen = 0;
     my $nohex = 0;
     foreach my $c (split (//, $data)) {
@@ -92,8 +92,8 @@ sub embed_data {
 	    $linelen = 0;
 	}
 	if ($linelen == 0) {
-	    print "  \"";
-	    $linelen += 3;
+	    print "    \"";
+	    $linelen += 5;
 	} 
 
 	my $thisnohex = $nohex;

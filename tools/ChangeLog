@@ -1,6 +1,7 @@
 2011-10-18  Morten Welinder  <terra@gnome.org>
 
-	* embedder (embed): Handler compression.
+	* embedder (embed): Handler compression.  Make data local to
+	registration function.
 
 2011-07-31  Morten Welinder <terra@gnome.org>
 
