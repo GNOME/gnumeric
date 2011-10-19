@@ -78,6 +78,7 @@ typedef struct {
 	HFRenderInfo *hfi;
 	GtkWidget *progress;
 	gboolean cancel;
+	gboolean preview;
 } PrintingInstance;
 
 typedef struct {
@@ -1163,21 +1164,51 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 
 	spi = g_list_nth_data (pi->gnmSheets, paginate);
 	if (spi == NULL) { /*We are done paginating */
-		GList *l;
-		gint n_pages = 0;
+		/* GTK sends additional pagination requests! */
+		/* We only need to do this once though! */
+		if (g_list_nth_data (pi->gnmSheets, paginate - 1) != NULL) {
+			GList *l;
+			gint n_pages = 0;
+		
+			for (l = pi->gnmSheets; l != NULL; l = l->next) {
+				SheetPrintInfo *spi = l->data;
+				n_pages += spi->pages;
+			}
 
-		for (l = pi->gnmSheets; l != NULL; l = l->next) {
-			SheetPrintInfo *spi = l->data;
-			n_pages += spi->pages;
+			if (pi->preview) {
+				int i, count = 0;
+
+				for (i = 0; i < n_pages; i++) {
+					if (gtk_print_operation_preview_is_selected
+					    (GTK_PRINT_OPERATION_PREVIEW (operation),
+					     i))
+						count++;
+					if (count > 1000)
+						break;
+				}
+				/* Note that gtk_print_operation_preview_is_selected always */
+				/* returns FALSE if "all pages" where selected! This is a gtk bug! */
+				if ((count > 1000 || (count == 0 && n_pages > 1000)) && !go_gtk_query_yes_no 
+				    (pi->progress != NULL ? 
+				     GTK_WINDOW (pi->progress) : wbcg_toplevel (WBC_GTK (pi->wbc)), 
+				     FALSE, "%s",
+				     (count > 1000) ?
+				     _("You have chosen more than 1000 pages to preview. "
+				       "This may take a long time. "
+				       "Do you really want to proceed?") :
+				     _("You may have chosen more than 1000 pages to preview. "
+				       "This would take a long time. "
+				       "Do you really want to proceed?")))
+					n_pages = 0;
+			}
+
+			gtk_print_operation_set_n_pages (operation, n_pages == 0 ? 1 : n_pages);
+			gtk_print_operation_set_unit (operation, GTK_UNIT_POINTS);
+			pi->hfi->pages = n_pages;
+
+			if (n_pages == 0) /* gtk+ cannot handle 0 pages */
+				gtk_print_operation_cancel (operation);
 		}
-
-		gtk_print_operation_set_n_pages (operation, n_pages == 0 ? 1 : n_pages);
-		gtk_print_operation_set_unit (operation, GTK_UNIT_POINTS);
-		pi->hfi->pages = n_pages;
-
-		if (n_pages == 0) /* gtk+ cannot handle 0 pages */
-			gtk_print_operation_cancel (operation);
-
 		return TRUE;
 	}
 
@@ -1204,6 +1235,19 @@ cb_progress_delete (G_GNUC_UNUSED GtkWidget *widget,
 {
 	pi->cancel = TRUE;
 	return TRUE;
+}
+
+static gboolean
+gnm_ready_preview_cb (G_GNUC_UNUSED GtkPrintOperation *operation,
+		      G_GNUC_UNUSED GtkPrintOperationPreview *preview,
+		      G_GNUC_UNUSED GtkPrintContext *context, 
+		      G_GNUC_UNUSED GtkWindow *parent,
+		      gpointer user_data)
+{
+	PrintingInstance * pi = (PrintingInstance *) user_data;
+	pi->preview = TRUE;
+
+	return FALSE;
 }
 
 static void
@@ -1250,6 +1294,8 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 						       GTK_DIALOG_DESTROY_WITH_PARENT,
 						       GTK_MESSAGE_INFO,
 						       GTK_BUTTONS_CANCEL,
+						       pi->preview ?
+						       _("Preparing to preview"):
 						       _("Preparing to print"));
 		g_signal_connect (G_OBJECT (pi->progress), "response",
 				  G_CALLBACK (cb_progress_response), pi);
@@ -1336,10 +1382,15 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 			char *text;
 
 			if (pi->hfi->pages == -1)
-				text = g_strdup_printf (_("Printing page %.3d"), page_nr);
+				text = g_strdup_printf 
+					(pi->preview ? _("Creating preview of page %3d") 
+					 : _("Printing page %3d"), page_nr);
 			else
-				text = g_strdup_printf (_("Printing page %.3d of %.3d pages"), 
-							page_nr, pi->hfi->pages);
+				text = g_strdup_printf 
+					(pi->preview ? 
+					 _("Creating preview of page %3d of %3d pages") 
+					 : _("Printing page %3d of %3d pages"), 
+					 page_nr, pi->hfi->pages);
 			g_object_set (G_OBJECT (pi->progress), "text", text, NULL);
 			g_free (text);
 		}
@@ -1679,6 +1730,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	pi->wb = sheet->workbook;
 	pi->wbc = wbc ? WORKBOOK_CONTROL (wbc) : NULL;
 	pi->sheet = sheet;
+	pi->preview = preview;
 
 	settings = gnm_conf_get_print_settings ();
 	if (default_range == PRINT_SAVED_INFO) {
@@ -1725,6 +1777,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 		g_object_unref (page_setup);
 	}
 
+	g_signal_connect (print, "preview", G_CALLBACK (gnm_ready_preview_cb), pi);
 	g_signal_connect (print, "begin-print", G_CALLBACK (gnm_begin_print_cb), pi);
 	g_signal_connect (print, "paginate", G_CALLBACK (gnm_paginate_cb), pi);
 	g_signal_connect (print, "draw-page", G_CALLBACK (gnm_draw_page_cb), pi);
