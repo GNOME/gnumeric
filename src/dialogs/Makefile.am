@@ -95,8 +95,8 @@ base_files =					\
 	tool-dialogs.h				\
 	dialog-printer-setup.c
 
-uidir   = $(gnumeric_datadir)/ui
-ui_DATA =
+# uidir   = $(gnumeric_datadir)/ui
+# ui_DATA =
 
 embedded_uis = 			\
 	advanced-filter.ui		\

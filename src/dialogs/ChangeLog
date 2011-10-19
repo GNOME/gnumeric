@@ -1,3 +1,8 @@
+2011-10-19  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am: Don't create uidir when we have nothing to put
+	there.
+
 2011-10-18  Morten Welinder  <terra@gnome.org>
 
 	* Makefile.am: Request compression of all ui files.
