@@ -2,17 +2,17 @@
 
 	* Makefile.am: Request compression of all ui files.
 
-2011-10-16  Jean Brefort  <jean@vaio>
+2011-10-16  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* dialog-tabulate.c (dialog_tabulate): Don't use the "allow-grow"
-	property anymore [#661855]
+	* dialog-tabulate.c (dialog_tabulate): don't use anymore the "allow-grow"
+	property. [#661855]
 	* tabulate.ui: ditto.
 
 2011-10-15  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (draw_border_preview): Fix type issue.
 
-2011-10-15  Jean Brefort  <jean@vaio>
+2011-10-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* cell-format-cond.ui: removed deprecated Gtk[H,V]*.
 	* dialog-autoformat.c (dialog_autoformat): ditto.
@@ -21,7 +21,7 @@
 	* doc-meta-data.ui: removed deprecated Gtk[H,V]*.
 	* goto.ui: ditto.
 
-2011-10-09  Jean Brefort  <jean@vaio>
+2011-10-09  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* cell-format.ui: fixed border page layout. [#661213]
 	* dialog-cell-format.c (draw_border_preview):

@@ -43,7 +43,8 @@ Jean:
 	* Make the windows shrink again. [#659246]
 	* Make the graph window work again. [#660241]
 	* Fixed layout issues in cell border dialog. [#661213]
-	* Don't use anymore the "allow-shrink" property [#661720]
+	* Don't use anymore the "allow-shrink" and "allow-grow" properties.
+	[#661720, #661855]
 
 Mikko Rasa:
         * Fix ODF import of certain percentage formats. [Debian #642135]
