@@ -1175,9 +1175,11 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 				n_pages += spi->pages;
 			}
 
-			if (pi->preview) {
+			if (pi->preview && n_pages > 1000) {
 				int i, count = 0;
 
+				gtk_print_operation_set_n_pages 
+					(operation, n_pages == 0 ? 1 : n_pages);
 				for (i = 0; i < n_pages; i++) {
 					if (gtk_print_operation_preview_is_selected
 					    (GTK_PRINT_OPERATION_PREVIEW (operation),
@@ -1186,18 +1188,12 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 					if (count > 1000)
 						break;
 				}
-				/* Note that gtk_print_operation_preview_is_selected always */
-				/* returns FALSE if "all pages" where selected! This is a gtk bug! */
-				if ((count > 1000 || (count == 0 && n_pages > 1000)) && !go_gtk_query_yes_no 
+				if (count > 1000 && !go_gtk_query_yes_no 
 				    (pi->progress != NULL ? 
 				     GTK_WINDOW (pi->progress) : wbcg_toplevel (WBC_GTK (pi->wbc)), 
 				     FALSE, "%s",
-				     (count > 1000) ?
 				     _("You have chosen more than 1000 pages to preview. "
 				       "This may take a long time. "
-				       "Do you really want to proceed?") :
-				     _("You may have chosen more than 1000 pages to preview. "
-				       "This would take a long time. "
 				       "Do you really want to proceed?")))
 					n_pages = 0;
 			}

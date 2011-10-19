@@ -1,5 +1,10 @@
 2011-10-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print.c (gnm_paginate_cb): set the total number of pages
+	to be set before using gtk_print_operation_preview_is_selected
+
+2011-10-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/print.c (PrintingInstance): new field
 	(gnm_paginate_cb): check for too many previewed pages
 	(gnm_ready_preview_cb): new
