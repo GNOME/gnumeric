@@ -1325,6 +1325,8 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 	
 	if (pi->cancel) {
 		gtk_print_operation_cancel (operation);
+		g_signal_handlers_disconnect_by_func
+			(G_OBJECT (operation), G_CALLBACK (gnm_draw_page_cb), user_data);
 		return;
 	}
 

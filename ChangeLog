@@ -1,3 +1,7 @@
+2011-10-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print.c (gnm_draw_page_cb): disconnect handler after cancelling
+
 2011-10-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (PrintingInstance): add fields
