@@ -51,6 +51,7 @@ typedef struct {
 	WBCGtk  *wbcg;
 	Workbook  *wb;
 	SheetControl *sc;
+	Sheet *sheet;
 
 	GtkBuilder *gui;
 	GtkWidget *dialog;
@@ -381,6 +382,8 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 	if (!success)
 		return;		/* Let user continue editing */
 
+	wb_control_sheet_focus (WORKBOOK_CONTROL (state->wbcg), state->sheet);
+
 	if (target) {
 		gnm_hlink_set_target (state->link, target);
 		tip = dhl_get_tip (state, target);
@@ -570,7 +573,6 @@ dialog_hyperlink (WBCGtk *wbcg, SheetControl *sc)
 	GtkBuilder *gui;
 	HyperlinkState* state;
 	GnmHLink	*link = NULL;
-	Sheet		*sheet;
 	GSList		*ptr;
 
 	g_return_if_fail (wbcg != NULL);
@@ -589,9 +591,9 @@ dialog_hyperlink (WBCGtk *wbcg, SheetControl *sc)
 	state->gui  = gui;
         state->dialog = go_gtk_builder_get_widget (state->gui, "hyperlink-dialog");
 
-	sheet = sc_sheet (sc);
+	state->sheet = sc_sheet (sc);
 	for (ptr = sc_view (sc)->selections; ptr != NULL; ptr = ptr->next)
-		if (NULL != (link = sheet_style_region_contains_link (sheet, ptr->data)))
+		if (NULL != (link = sheet_style_region_contains_link (state->sheet, ptr->data)))
 			break;
 
 	/* We are creating a new link since the existing link */

@@ -31,6 +31,7 @@ Andreas:
 	* Fix cell extent caclulation for xlsx export. [#661958]
 	* Speed up printing of few pages of large sheets. [#662056]
 	* Provide an information dialog for print preview. [#662056]
+	* Fix hyperlink placement when inserting or adding hyperlink. [#662310]
 
 Jean:
 	* Make things build against gtk+-3.0.

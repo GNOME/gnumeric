@@ -1,3 +1,8 @@
+2011-10-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-hyperlink.c (dhl_cb_ok): refocus original sheet, fixes #662310
+	(dialog_hyperlink): save focussed sheet
+
 2011-10-19  Morten Welinder  <terra@gnome.org>
 
 	* Makefile.am: Don't create uidir when we have nothing to put
