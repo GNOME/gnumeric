@@ -34,6 +34,8 @@ Andreas:
 	* Fix hyperlink placement when inserting or adding hyperlink. [#662310]
 	* Fix spanning of long centered cell content. [#662331]
 	* Fix centering of spanned cell content. [#662361]
+	* Add optional markers to indicate that cell content has been
+	truncated. [#662149]
 
 Jean:
 	* Make things build against gtk+-3.0.

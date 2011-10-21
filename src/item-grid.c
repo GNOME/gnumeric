@@ -237,6 +237,7 @@ item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
 	SheetView const *sv = scg_view (ig->scg);
 	WorkbookView *wbv = sv_wbv (sv);
 	gboolean show_function_cell_markers = wbv->show_function_cell_markers;
+	gboolean show_extension_markers = wbv->show_extension_markers;
 	Sheet const *sheet  = sv->sheet;
 	GnmCell  const *cell   = sheet_cell_get (sheet, range->start.col, range->start.row);
 	int const dir = sheet->text_is_rtl ? -1 : 1;
@@ -313,13 +314,15 @@ item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
 				draw_function_marker (cell, cr, l, t,
 						      r - l, b - t, dir);
 			cell_draw (cell, cr,
-				   l, t, r - l, b - t, -1);
+				   l, t, r - l, b - t, -1,
+				   show_extension_markers);
 		} else {
 			if (show_function_cell_markers)
 				draw_function_marker (cell, cr, r, t,
 						      l - r, b - t, dir);
 			cell_draw (cell, cr,
-				   r, t, l - r, b - t, -1);
+				   r, t, l - r, b - t, -1,
+				   show_extension_markers);
 		}
 	}
 	if (dir > 0)
@@ -393,6 +396,7 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0,
 	SheetView const *sv = scg_view (ig->scg);
 	WorkbookView *wbv = sv_wbv (sv);
 	gboolean show_function_cell_markers = wbv->show_function_cell_markers;
+	gboolean show_extension_markers = wbv->show_extension_markers;
 	GtkStyleContext *ctxt = gtk_widget_get_style_context (GTK_WIDGET (canvas));
 
 	/* To ensure that far and near borders get drawn we pretend to draw +-2
@@ -689,7 +693,8 @@ plain_draw : /* a quick hack to deal with 142267 */
 								      dir);
 					cell_draw (cell, cr,
 						   x, y, ci->size_pixels,
-						   ri->size_pixels, -1);
+						   ri->size_pixels, -1,
+						   show_extension_markers);
 				}
 			/* Only draw spaning cells after all the backgrounds
 			 * that we are going to draw have been drawn.  No need
@@ -745,7 +750,8 @@ plain_draw : /* a quick hack to deal with 142267 */
 							      ri->size_pixels, dir);
 				cell_draw (cell, cr,
 					   real_x, y, tmp_width,
-					   ri->size_pixels, center_offset);
+					   ri->size_pixels, center_offset,
+					   show_extension_markers);
 
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;

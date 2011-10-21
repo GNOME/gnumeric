@@ -81,6 +81,7 @@ enum {
 	PROP_SHOW_VERTICAL_SCROLLBAR,
 	PROP_SHOW_NOTEBOOK_TABS,
 	PROP_SHOW_FUNCTION_CELL_MARKERS,
+	PROP_SHOW_EXTENSION_MARKERS,
 	PROP_DO_AUTO_COMPLETION,
 	PROP_PROTECTED,
 	PROP_PREFERRED_WIDTH,
@@ -233,6 +234,8 @@ wb_view_set_attribute (WorkbookView *wbv, char const *name, char const *value)
 		g_object_set (obj, "show_notebook_tabs", res, NULL);
 	else if (!strcmp (tname , "show_function_cell_markers"))
 		g_object_set (obj, "show_function_cell_markers", res, NULL);
+	else if (!strcmp (tname , "show_extension_markers"))
+		g_object_set (obj, "show_extension_markers", res, NULL);
 	else if (!strcmp (tname , "do_auto_completion"))
 		g_object_set (obj, "do_auto_completion", res, NULL);
 	else if (!strcmp (tname , "is_protected"))
@@ -729,6 +732,11 @@ wb_view_set_property (GObject *object, guint property_id,
 		if (wbv->current_sheet)
 			sheet_redraw_all (wbv->current_sheet, FALSE);
 		break;
+	case PROP_SHOW_EXTENSION_MARKERS:
+		wbv->show_extension_markers = !!g_value_get_boolean (value);
+		if (wbv->current_sheet)
+			sheet_redraw_all (wbv->current_sheet, FALSE);
+		break;
 	case PROP_DO_AUTO_COMPLETION:
 		wbv->do_auto_completion = !!g_value_get_boolean (value);
 		break;
@@ -780,6 +788,9 @@ wb_view_get_property (GObject *object, guint property_id,
 		break;
 	case PROP_SHOW_FUNCTION_CELL_MARKERS:
 		g_value_set_boolean (value, wbv->show_function_cell_markers);
+		break;
+	case PROP_SHOW_EXTENSION_MARKERS:
+		g_value_set_boolean (value, wbv->show_extension_markers);
 		break;
 	case PROP_DO_AUTO_COMPLETION:
 		g_value_set_boolean (value, wbv->do_auto_completion);
@@ -958,6 +969,16 @@ workbook_view_class_init (GObjectClass *gobject_class)
 				       G_PARAM_READWRITE));
         g_object_class_install_property
 		(gobject_class,
+		 PROP_SHOW_EXTENSION_MARKERS,
+		 g_param_spec_boolean ("show-extension-markers",
+				       _("Show extension markers"),
+				       _("Mark each cell that fails to show "
+					 "the complete content"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
 		 PROP_DO_AUTO_COMPLETION,
 		 g_param_spec_boolean ("do-auto-completion",
 				       _("Do auto completion"),
@@ -1017,6 +1038,7 @@ workbook_view_new (Workbook *wb)
 	wbv->show_vertical_scrollbar = TRUE;
 	wbv->show_notebook_tabs = TRUE;
 	wbv->show_function_cell_markers = FALSE;
+	wbv->show_extension_markers = FALSE;
 	wbv->do_auto_completion = gnm_conf_get_core_gui_editing_autocomplete ();
 	wbv->is_protected = FALSE;
 

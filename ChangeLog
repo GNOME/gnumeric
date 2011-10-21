@@ -1,6 +1,28 @@
+2011-10-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/cell-draw.h (cell_draw): add argument
+	* src/cell-draw.c (cell_draw_extension_mark_bottom): new
+	(cell_draw_extension_mark_left): new
+	(cell_draw_extension_mark_right): new
+	(cell_draw_h_extension_markers): new
+	(cell_draw_v_extension_markers): new
+	(cell_draw): add argument and call the above
+	* src/item-grid.c (item_grid_draw_merged_range): adjust call to
+	cell_draw
+	(item_grid_draw_region): ditto
+	* src/preview-grid.c (preview_grid_draw_region): adjust call to
+	cell_draw
+	* src/workbook-view.h (_WorkbookView): add field
+	* src/workbook-view.c (wb_view_set_attribute): handle new
+	property
+	(wb_view_set_property): ditto
+	(wb_view_set_attribute): ditto
+	(workbook_view_class_init): install new property
+	(workbook_view_new): initialize new property
+
 2011-10-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/cell-draw.c (cell_draw): fix rounding of h_center 
+	* src/cell-draw.c (cell_draw): fix rounding of h_center
 	transformation
 
 2011-10-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>

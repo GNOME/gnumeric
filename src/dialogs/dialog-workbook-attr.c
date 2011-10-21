@@ -143,7 +143,12 @@ attr_dialog_init_cell_marker_page (AttrState *state)
 {
 	attr_dialog_init_toggle
 		(state,
-		 "WorkbookView::show_function_cell_markers", "show_function_cell_markers");
+		 "WorkbookView::show_function_cell_markers", 
+		 "show_function_cell_markers");
+	attr_dialog_init_toggle
+		(state,
+		 "WorkbookView::show_extension_markers", 
+		 "show_extension_markers");
 }
 
 static void

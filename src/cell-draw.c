@@ -291,6 +291,80 @@ cell_finish_layout (GnmCell *cell, GnmRenderedValue *rv,
 }
 
 
+static void
+cell_draw_extension_mark_bottom (cairo_t *cr, int x1, int y1, int height, int h_center)
+{
+	cairo_set_source_rgba (cr, 1, 0, 0, 0.7);
+	cairo_new_path (cr);
+	cairo_move_to (cr, x1 + h_center, y1 + height);
+	cairo_rel_line_to (cr, -3, -3);
+	cairo_rel_line_to (cr, 6, 0);
+	cairo_close_path (cr);
+	cairo_fill (cr);
+}
+
+static void
+cell_draw_extension_mark_left (cairo_t *cr, int x1, int y1, int height)
+{
+	cairo_set_source_rgba (cr, 1, 0, 0, 0.7);
+	cairo_new_path (cr);
+	cairo_move_to (cr, x1, y1 + height/2);
+	cairo_rel_line_to (cr, 3, -3);
+	cairo_rel_line_to (cr, 0, 6);
+	cairo_close_path (cr);
+	cairo_fill (cr);	
+}
+
+static void
+cell_draw_extension_mark_right (cairo_t *cr, int x1, int y1, int width, int height)
+{
+	cairo_set_source_rgba (cr, 1, 0, 0, 0.7);
+	cairo_new_path (cr);
+	cairo_move_to (cr, x1 + width, y1 + height/2);
+	cairo_rel_line_to (cr, -3, -3);
+	cairo_rel_line_to (cr, 0, 6);
+	cairo_close_path (cr);
+	cairo_fill (cr);	
+	
+}
+
+
+static void
+cell_draw_h_extension_markers (cairo_t *cr, GnmRenderedValue *rv,
+			       int x1, int y1, 
+			       int width, int height)
+{
+	switch (rv->effective_halign) {
+	case HALIGN_GENERAL:
+	case HALIGN_LEFT:
+		cell_draw_extension_mark_right (cr, x1, y1, width, height);
+		break;
+	case HALIGN_RIGHT:
+		cell_draw_extension_mark_left (cr, x1, y1, height);
+		break;
+	case HALIGN_DISTRIBUTED:
+	case HALIGN_CENTER:
+	case HALIGN_CENTER_ACROSS_SELECTION:
+		cell_draw_extension_mark_right (cr, x1, y1, width, height);
+		cell_draw_extension_mark_left (cr, x1, y1, height);
+		break;
+	case HALIGN_FILL:
+	default:
+		break;
+	}
+}
+
+static void
+cell_draw_v_extension_markers (cairo_t *cr,
+			       int x1, int y1, 
+			       int width, int height,
+			       int h_center)
+{
+	if (h_center == -1)
+		h_center = width / 2;
+	cell_draw_extension_mark_bottom (cr, x1, y1, height, h_center);
+}
+
 /**
  * cell_draw:
  * @cell : #GnmCell const
@@ -300,10 +374,12 @@ cell_finish_layout (GnmCell *cell, GnmRenderedValue *rv,
  * @width : including margins and leading grid line
  * @height : including margins and leading grid line
  * @h_center :
+ * @show_extension_markers:
  **/
 void
 cell_draw (GnmCell const *cell, cairo_t *cr,
-	   int x1, int y1, int width, int height, int h_center)
+	   int x1, int y1, int width, int height, int h_center,
+	   gboolean show_extension_markers)
 {
 	GOColor fore_color;
 	gint x;
@@ -365,8 +441,31 @@ cell_draw (GnmCell const *cell, cairo_t *cr,
 			pango_layout_context_changed (rv->layout);
 			cairo_new_path (cr);
 		} else {
+			cairo_save (cr);
 			cairo_translate (cr, x1 + PANGO_PIXELS (x), y1 + PANGO_PIXELS (y));
 			pango_cairo_show_layout (cr, rv->layout);
+			cairo_restore (cr);
+
+			if (show_extension_markers && 
+			    width < PANGO_PIXELS (rv->layout_natural_width)) {
+				cairo_save (cr);
+				cell_draw_h_extension_markers 
+					(cr, rv,
+					 x1 + 1 + GNM_COL_MARGIN, 
+					 y1 + 1 + GNM_ROW_MARGIN,
+					 width, height);
+				cairo_restore (cr);
+			}
+
+			if (show_extension_markers && 
+			    height < PANGO_PIXELS (rv->layout_natural_height)) {
+				cairo_save (cr);
+				cell_draw_v_extension_markers 
+					(cr, x1 + 1 + GNM_COL_MARGIN, 
+					 y1 + 1 + GNM_ROW_MARGIN, 
+					 width, height, h_center);
+				cairo_restore (cr);
+			}
 		}
 		cairo_restore (cr);
 	}
