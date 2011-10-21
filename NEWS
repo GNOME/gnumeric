@@ -32,6 +32,8 @@ Andreas:
 	* Speed up printing of few pages of large sheets. [#662056]
 	* Provide an information dialog for print preview. [#662056]
 	* Fix hyperlink placement when inserting or adding hyperlink. [#662310]
+	* Fix spanning of long centered cell content. [#662331]
+	* Fix centering of spanned cell content. [#662361]
 
 Jean:
 	* Make things build against gtk+-3.0.
@@ -148,7 +150,6 @@ Andreas:
 	* From ODF also import named expressions with illegal name. [#650125]
 	* Handle [#REF!] and friends on ODF import. [#650639][#650640]
 	* Handle some invalid expressions in ODF import. [#650625]
-	* Fix spanning of long centered cell content. [#662331]
 
 Jean:
 	* Fixed critical. [#649901]

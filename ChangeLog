@@ -1,5 +1,9 @@
 2011-10-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/cell-draw.c (cell_draw): also transform h_center if given
+
+2011-10-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/cellspan.c (cell_calc_span): we need to stop extending in
 	a direction on the first failure in that direction
 
