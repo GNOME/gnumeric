@@ -1,5 +1,10 @@
 2011-10-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/cell-draw.c (cell_draw): fix rounding of h_center 
+	transformation
+
+2011-10-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/cell-draw.c (cell_draw): also transform h_center if given
 
 2011-10-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>

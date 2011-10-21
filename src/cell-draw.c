@@ -316,7 +316,7 @@ cell_draw (GnmCell const *cell, cairo_t *cr,
 	width  -= GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
 
 	if (h_center > GNM_COL_MARGIN)
-		h_center -= (GNM_COL_MARGIN + 1);
+		h_center = h_center - GNM_COL_MARGIN - 1 + (h_center % 2);
 
 	rv = gnm_cell_fetch_rendered_value (cell, TRUE);
 
