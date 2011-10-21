@@ -189,6 +189,10 @@ cell_calc_layout (G_GNUC_UNUSED GnmCell const *cell, GnmRenderedValue *rv, int y
 		}
 	}
 
+	/* Note that Excel always truncates the cell content only at the */
+	/* bottom even if the request is to align it at the bottom or to */
+	/* center it. We do the same for compatibilities sake. Also see  */
+	/* bug #662368 */
 	switch (rv->effective_valign) {
 #ifndef DEBUG_SWITCH_ENUM
 	default:
