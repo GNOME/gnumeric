@@ -8,7 +8,7 @@ change_logs = ChangeLog \
 	OChangeLog-2001-06-26
 
 CLEANFILES = gnumeric.desktop gnumeric.keys
-DISTCLEANFILES = intltool-extract intltool-merge intltool-update $(pkgconfig_DATA) doltcompile doltlibtool
+DISTCLEANFILES = intltool-extract intltool-merge intltool-update $(pkgconfig_DATA)
 
 DISTCHECK_CONFIGURE_FLAGS=--without-perl --without-python
 
@@ -19,7 +19,6 @@ EXTRA_DIST = \
 	gnumeric.mime		\
 	gnumeric.spec		\
 	gnumeric.xsd		\
-	acinclude.m4		\
 	intltool-extract.in	\
 	intltool-merge.in	\
 	intltool-update.in	\
