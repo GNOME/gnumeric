@@ -1037,8 +1037,8 @@ workbook_view_new (Workbook *wb)
 	wbv->show_horizontal_scrollbar = TRUE;
 	wbv->show_vertical_scrollbar = TRUE;
 	wbv->show_notebook_tabs = TRUE;
-	wbv->show_function_cell_markers = FALSE;
-	wbv->show_extension_markers = FALSE;
+	wbv->show_function_cell_markers = gnm_conf_get_core_gui_cells_function_markers ();
+	wbv->show_extension_markers = gnm_conf_get_core_gui_cells_extension_markers ();
 	wbv->do_auto_completion = gnm_conf_get_core_gui_editing_autocomplete ();
 	wbv->is_protected = FALSE;
 

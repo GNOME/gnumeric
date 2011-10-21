@@ -97,6 +97,14 @@ GOConfNode *gnm_conf_get_core_file_save_single_sheet_node (void);
 gboolean gnm_conf_get_core_file_save_single_sheet (void);
 void gnm_conf_set_core_file_save_single_sheet (gboolean);
 
+GOConfNode *gnm_conf_get_core_gui_cells_extension_markers_node (void);
+gboolean gnm_conf_get_core_gui_cells_extension_markers (void);
+void gnm_conf_set_core_gui_cells_extension_markers (gboolean);
+
+GOConfNode *gnm_conf_get_core_gui_cells_function_markers_node (void);
+gboolean gnm_conf_get_core_gui_cells_function_markers (void);
+void gnm_conf_set_core_gui_cells_function_markers (gboolean);
+
 GOConfNode *gnm_conf_get_core_gui_editing_autocomplete_node (void);
 gboolean gnm_conf_get_core_gui_editing_autocomplete (void);
 void gnm_conf_set_core_gui_editing_autocomplete (gboolean);

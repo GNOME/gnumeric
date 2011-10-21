@@ -1076,6 +1076,58 @@ gnm_conf_get_core_file_save_single_sheet_node (void)
 	return get_node (watch_core_file_save_single_sheet.key);
 }
 
+static struct cb_watch_bool watch_core_gui_cells_extension_markers = {
+        0, "core/gui/cells/extension_markers", FALSE,
+};
+
+gboolean
+gnm_conf_get_core_gui_cells_extension_markers (void)
+{
+        if (!watch_core_gui_cells_extension_markers.handler)
+                watch_bool (&watch_core_gui_cells_extension_markers);
+        return watch_core_gui_cells_extension_markers.var;
+}
+
+void
+gnm_conf_set_core_gui_cells_extension_markers (gboolean x)
+{
+        if (!watch_core_gui_cells_extension_markers.handler)
+                watch_bool (&watch_core_gui_cells_extension_markers);
+        set_bool (&watch_core_gui_cells_extension_markers, x);
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_cells_extension_markers_node (void)
+{
+        return get_node (watch_core_gui_cells_extension_markers.key);
+}
+
+static struct cb_watch_bool watch_core_gui_cells_function_markers = {
+        0, "core/gui/cells/function_markers", FALSE,
+};
+
+gboolean
+gnm_conf_get_core_gui_cells_function_markers (void)
+{
+        if (!watch_core_gui_cells_function_markers.handler)
+                watch_bool (&watch_core_gui_cells_function_markers);
+        return watch_core_gui_cells_function_markers.var;
+}
+
+void
+gnm_conf_set_core_gui_cells_function_markers (gboolean x)
+{
+        if (!watch_core_gui_cells_function_markers.handler)
+                watch_bool (&watch_core_gui_cells_function_markers);
+        set_bool (&watch_core_gui_cells_function_markers, x);
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_cells_function_markers_node (void)
+{
+        return get_node (watch_core_gui_cells_function_markers.key);
+}
+
 static struct cb_watch_bool watch_core_gui_editing_autocomplete = {
 	0, "core/gui/editing/autocomplete", TRUE,
 };

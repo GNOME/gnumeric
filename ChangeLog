@@ -1,5 +1,15 @@
 2011-10-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* schemas/gnumeric-general.schemas.in: add
+	/apps/gnumeric/core/gui/cells/function_markers and
+	/apps/gnumeric/core/gui/cells/extension_markers
+	* src/gnumeric-gconf.c: update schema generated code
+	* src/gnumeric-gconf.h: update schema generated code
+	* src/workbook-view.c (workbook_view_new): initialize from
+	above preferences
+
+2011-10-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/cell-draw.h (cell_draw): add argument
 	* src/cell-draw.c (cell_draw_extension_mark_bottom): new
 	(cell_draw_extension_mark_left): new

@@ -1,5 +1,10 @@
 2011-10-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-preferences.c (pref_window_page_initializer): add cell marker
+	check boxes
+
+2011-10-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-workbook-attr.c (attr_dialog_init_cell_marker_page): handle
 	cell extension toggle
 	* workbook-attr.ui: add cell extension marker toggle
