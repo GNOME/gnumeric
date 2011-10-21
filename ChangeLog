@@ -1,3 +1,8 @@
+2011-10-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/cellspan.c (cell_calc_span): we need to stop extending in
+	a direction on the first failure in that direction
+
 2011-10-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (gnm_paginate_cb): set the total number of pages

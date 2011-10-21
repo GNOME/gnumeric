@@ -317,11 +317,9 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 		remain_left  = left / 2 + (left % 2);
 		remain_right = left / 2;
 
-		for (; remain_left > 0 || remain_right > 0;){
-			ColRowInfo const *ci;
-
+		for (; remain_left > 0;)
 			if (--pos_l > min_col){
-				ci = sheet_col_get_info (sheet, pos_l);
+				ColRowInfo const *ci = sheet_col_get_info (sheet, pos_l);
 
 				if (ci->visible) {
 					if (cellspan_is_empty (pos_l, cell)) {
@@ -333,8 +331,9 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 			} else
 				remain_left = 0;
 
+		for (; remain_right > 0;)
 			if (++pos_r < max_col){
-				ci = sheet_col_get_info (sheet, pos_r);
+				ColRowInfo const *ci = sheet_col_get_info (sheet, pos_r);
 
 				if (ci->visible) {
 					if (cellspan_is_empty (pos_r, cell)) {
@@ -345,7 +344,6 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 				}
 			} else
 				remain_right = 0;
-		} /* for */
 		break;
 	} /* case HALIGN_CENTER */
 
