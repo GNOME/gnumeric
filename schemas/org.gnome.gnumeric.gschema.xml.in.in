@@ -144,6 +144,18 @@
       <_description>This variable determines where the object toolbar should be shown.  0 is left, 1 is right, 2 is top.</_description>
     </key>
   </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.cells" path="/apps/gnumeric/core/gui/cells/">
+    <key name="function-markers" type="b">
+      <default>false</default>
+      <_summary>Function Markers</_summary>
+      <_description>This variable determines whether cells containing spreadsheet function are marked.</_description>
+    </key>
+    <key name="extension-markers" type="b">
+      <default>false</default>
+      <_summary>Extension Markers</_summary>
+      <_description>This variable determines whether cells with truncated content are marked.</_description>
+    </key>
+  </schema>
   <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.editing" path="/apps/gnumeric/core/gui/editing/">
     <key name="autocomplete" type="b">
       <default>true</default>

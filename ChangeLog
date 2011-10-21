@@ -1,5 +1,9 @@
 2011-10-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* schemas/org.gnome.gnumeric.gschema.xml.in.in: updated
+
+2011-10-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* schemas/gnumeric-general.schemas.in: add
 	/apps/gnumeric/core/gui/cells/function_markers and
 	/apps/gnumeric/core/gui/cells/extension_markers
