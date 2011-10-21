@@ -17,8 +17,6 @@
 
 /* Define if UI is built */
 #undef GNM_WITH_GTK
-/* Build with Maemo/Hildon support */
-#undef GNM_USE_HILDON
 /* Define if the long double type is to be used */
 #undef GNM_WITH_LONG_DOUBLE
 /* Define if SOLVER is compiled */

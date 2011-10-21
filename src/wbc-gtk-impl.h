@@ -11,9 +11,6 @@
 
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>
-#ifdef GNM_USE_HILDON
-#include <hildon-widgets/hildon-program.h>
-#endif
 
 G_BEGIN_DECLS
 
@@ -21,9 +18,6 @@ struct _WBCGtk {
 	WorkbookControl	base;
 
 	GtkWidget   *toplevel;
-#ifdef GNM_USE_HILDON
-	HildonProgram *hildon_prog;
-#endif
 
 	/* The area that contains the sheet and the sheet tabs.  */
 	GtkWidget   *notebook_area;
@@ -172,9 +166,7 @@ void	 wbc_gtk_markup_changer	(WBCGtk *wbcg);
 
 gboolean wbc_gtk_load_templates (WBCGtk *gtk);
 
-#ifndef HILDON
 	G_MODULE_EXPORT void set_uifilename (char const *name, GtkActionEntry const *actions, int nb);
-#endif
 
 G_END_DECLS
 

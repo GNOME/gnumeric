@@ -2164,15 +2164,9 @@ static GtkActionEntry const semi_permanent_actions[] = {
 		G_CALLBACK (cb_workbook_attr) },
 };
 
-#ifdef GNM_USE_HILDON
-#define FULLSCREEN_ACCEL "F6"
-#define ZOOM_IN_ACCEL "F7"
-#define ZOOM_OUT_ACCEL "F8"
-#else
 #define FULLSCREEN_ACCEL "F11"
 #define ZOOM_IN_ACCEL NULL
 #define ZOOM_OUT_ACCEL NULL
-#endif
 
 static GtkActionEntry const actions[] = {
 /* File */

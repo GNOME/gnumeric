@@ -34,8 +34,7 @@ AM_CPPFLAGS = 								\
 	-I$(srcdir)/widgets						\
 	-I$(srcdir)/dialogs						\
 	-I$(srcdir)/tools						\
-	$(GNUMERIC_CFLAGS)						\
-	$(HILDON_CFLAGS)
+	$(GNUMERIC_CFLAGS)
 
 # A hint is needed to build these headers first:
 BUILT_SOURCES =					\
@@ -54,8 +53,7 @@ libspreadsheet_la_LDFLAGS = -release $(VERSION)
 libspreadsheet_la_LIBADD = 			\
 	$(gnumeric_app_libs)			\
 	$(GNUMERIC_LIBS)			\
-	$(INTLLIBS)				\
-	$(HILDON_LIBS)
+	$(INTLLIBS)
 
 libspreadsheet_la_SOURCES =			\
 	go-val.h			\
@@ -336,8 +334,7 @@ gnumeric_SOURCES =				\
 gnumeric_LDADD =				\
 	libspreadsheet.la			\
 	$(GNUMERIC_LIBS)			\
-	$(INTLLIBS)				\
-	$(HILDON_LIBS)
+	$(INTLLIBS)
 gnumeric_LDFLAGS = -export-dynamic
 
 ssconvert_LDADD   = $(gnumeric_LDADD)
@@ -460,19 +457,11 @@ EXTRA_DIST = \
 	gnm-marshalers.list			\
 	README.gnm_float			\
 	gnumeric.rc gnm-i18n.h			\
-	GNOME_Gnumeric-gtk.xml.in		\
-	HILDON_Gnumeric-gtk.xml.in
+	GNOME_Gnumeric-gtk.xml.in
 
 gtkactiondir=$(gnumeric_datadir)
 
-if USE_HILDON
-gtkaction_DATA = HILDON_Gnumeric-gtk.xml
-HILDON_Gnumeric-gtk.xml: HILDON_Gnumeric-gtk.xml.in
-	sed -e 's/ _name *=/ name=/' <$<  >$@
-DISTCLEANFILES = HILDON_Gnumeric-gtk.xml
-else
 gtkaction_DATA = GNOME_Gnumeric-gtk.xml
 GNOME_Gnumeric-gtk.xml: GNOME_Gnumeric-gtk.xml.in
 	sed -e 's/ _name *=/ name=/' <$<  >$@
 DISTCLEANFILES = GNOME_Gnumeric-gtk.xml
-endif

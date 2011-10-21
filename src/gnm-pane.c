@@ -5,10 +5,6 @@
  * Author:
  *     Miguel de Icaza (miguel@kernel.org)
  *     Jody Goldberg (jody@gnome.org)
- *
- * Port to Maemo:
- *	Eduardo Lima  (eduardo.lima@indt.org.br)
- *	Renato Araujo (renato.filho@indt.org.br)
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
@@ -649,7 +645,6 @@ gnm_pane_key_release (GtkWidget *widget, GdkEventKey *event)
 static gint
 gnm_pane_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
-#ifndef GNM_USE_HILDON
 	/* The first call to focus-in was sometimes the first thing to init the
 	 * imcontext.  In which case the im_context_focus_in would fire a
 	 * preedit-changed, and we would start editing. */
@@ -661,7 +656,6 @@ gnm_pane_focus_in (GtkWidget *widget, GdkEventFocus *event)
 		pane->im_first_focus = FALSE;
 		pane->im_block_edit_start = FALSE;
 	}
-#endif
 	return (*GTK_WIDGET_CLASS (parent_klass)->focus_in_event) (widget, event);
 }
 

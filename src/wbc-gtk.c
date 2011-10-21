@@ -19,9 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
- *
- * Port to Maemo:
- *	Eduardo Lima  (eduardo.lima@indt.org.br)
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -71,11 +68,6 @@
 #include <errno.h>
 #include <string.h>
 
-#ifdef GNM_USE_HILDON
-#include <hildon-widgets/hildon-window.h>
-#include <hildon-widgets/hildon-program.h>
-#endif
-
 #define	SHEET_CONTROL_KEY "SheetControl"
 
 
@@ -95,11 +87,9 @@ enum {
 	TARGET_SHEET
 };
 
-#ifndef HILDON
 static char const *uifilename = NULL;
 static GtkActionEntry const *extra_actions = NULL;
 static int extra_actions_nb;
-#endif
 static guint wbc_gtk_signals[WBC_GTK_LAST_SIGNAL];
 static GObjectClass *parent_class = NULL;
 
@@ -123,7 +113,6 @@ wbcg_ui_update_end (WBCGtk *wbcg)
 
 /****************************************************************************/
 
-#ifndef HILDON
 G_MODULE_EXPORT void
 set_uifilename (char const *name, GtkActionEntry const *actions, int nb)
 {
@@ -131,7 +120,6 @@ set_uifilename (char const *name, GtkActionEntry const *actions, int nb)
 	extra_actions = actions;
 	extra_actions_nb = nb;
 }
-#endif
 
 static void
 wbc_gtk_set_action_sensitivity (WBCGtk const *wbcg,
@@ -165,10 +153,6 @@ wbc_gtk_set_action_label (WBCGtk const *wbcg,
 	if (prefix != NULL) {
 		char *text;
 		gboolean is_suffix = (suffix != NULL);
-
-#ifdef GNM_USE_HILDON
-		wbc_gtk_hildon_set_action_sensitive (wbcg, action, is_suffix);
-#endif
 
 		text = is_suffix ? g_strdup_printf ("%s: %s", prefix, suffix) : (char *) prefix;
 		g_object_set (G_OBJECT (a),
@@ -1030,41 +1014,8 @@ wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
 			  0, 0);
 
-#ifdef GNM_USE_HILDON
-	gtk_notebook_set_show_border (wbcg->notebook, FALSE);
-	gtk_notebook_set_show_tabs (wbcg->notebook, FALSE);
-#endif
 }
 
-
-#ifdef GNM_USE_HILDON
-static void
-wbc_gtk_hildon_set_action_sensitive (WBCGtk      *wbcg,
-				     const gchar *action,
-				     gboolean     sensitive)
-{
-	GtkWidget * toolbar = gtk_ui_manager_get_widget (wbcg->ui, "/StandardToolbar");
-	GList * children = gtk_container_get_children (GTK_CONTAINER (toolbar));
-	GList * l;
-
-	for (l = children; l != NULL; l = g_list_next (l)) {
-		if (GTK_IS_SEPARATOR_TOOL_ITEM (l->data) == FALSE) {
-			gchar * label = NULL;
-			g_object_get (GTK_TOOL_ITEM (l->data), "label", &label, NULL);
-
-			if (label != NULL && strstr (label, action) != NULL) {
-				g_object_set (G_OBJECT (l->data), "sensitive", sensitive, NULL);
-				g_free(label);
-				break;
-			}
-
-			g_free(label);
-		}
-	}
-
-	g_list_free (children);
-}
-#endif
 
 static void
 wbcg_menu_state_sheet_count (WBCGtk *wbcg)
@@ -3015,13 +2966,7 @@ wbc_gtk_init_zoom (WBCGtk *wbcg)
 			      "tooltip", _("Zoom"),
 			      "stock-id", GTK_STOCK_ZOOM_IN,
 			      NULL);
-	go_action_combo_text_set_width (wbcg->zoom_haction,
-#ifdef GNM_USE_HILDON
-					"100000000%"
-#else
-					"10000%"
-#endif
-					);
+	go_action_combo_text_set_width (wbcg->zoom_haction, "10000%");
 	for (i = 0; preset_zoom[i] != NULL ; ++i)
 		go_action_combo_text_add_item (wbcg->zoom_haction,
 					       preset_zoom[i]);
@@ -3488,11 +3433,7 @@ wbc_gtk_init_font_size (WBCGtk *gtk)
 		g_free (size_text);
 	}
 	g_slist_free (font_sizes);
-#ifdef GNM_USE_HILDON
-	go_action_combo_text_set_width (gtk->font_size,  "888888");
-#else
 	go_action_combo_text_set_width (gtk->font_size, "888");
-#endif
 	g_signal_connect (G_OBJECT (gtk->font_size),
 		"activate",
 		G_CALLBACK (cb_font_size_changed), gtk);
@@ -3799,12 +3740,8 @@ cb_regenerate_window_menu (WBCGtk *gtk)
 	while (i-- > 1) {
 		char *name = g_strdup_printf ("WindowListEntry%d", i);
 		gtk_ui_manager_add_ui (gtk->ui, gtk->windows.merge_id,
-#ifdef GNM_USE_HILDON
-			"/popup/View/Windows",
-#else
-			"/menubar/View/Windows",
-#endif
-			name, name, GTK_UI_MANAGER_AUTO, TRUE);
+			"/menubar/View/Windows", name, name,
+			GTK_UI_MANAGER_AUTO, TRUE);
 		g_free (name);
 	}
 }
@@ -4146,12 +4083,6 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		GtkWidget *vw;
 		const struct ToolbarInfo *ti;
 
-#ifdef GNM_USE_HILDON
-		hildon_window_add_toolbar (HILDON_WINDOW (wbcg_toplevel (wbcg)), GTK_TOOLBAR (w));
-
-		gtk_widget_show_all (w);
-		vw = w;
-#else
 		GtkWidget *box;
 		GtkPositionType pos = gnm_conf_get_toolbar_position (name);
 
@@ -4189,7 +4120,6 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 					(GDestroyNotify)g_free);
 
 		vw = box;
-#endif
 		g_hash_table_insert (wbcg->visibility_widgets,
 				     g_strdup (toggle_name),
 				     g_object_ref (vw));
@@ -4218,12 +4148,8 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		g_object_set_data (G_OBJECT (box), "toggle_action",
 			gtk_action_group_get_action (gtk->toolbar.actions, toggle_name));
 		gtk_ui_manager_add_ui (gtk->ui, gtk->toolbar.merge_id,
-#ifdef GNM_USE_HILDON
-			"/popup/View/Toolbars",
-#else
-			"/menubar/View/Toolbars",
-#endif
-			toggle_name, toggle_name, GTK_UI_MANAGER_AUTO, FALSE);
+			"/menubar/View/Toolbars", toggle_name, toggle_name,
+			GTK_UI_MANAGER_AUTO, FALSE);
 		wbcg->hide_for_fullscreen =
 			g_slist_prepend (wbcg->hide_for_fullscreen,
 					 gtk_action_group_get_action (gtk->toolbar.actions,
@@ -4868,14 +4794,10 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 			     g_strdup ("ViewStatusbar"),
 			     g_object_ref (wbcg->status_area));
 
-#ifdef GNM_USE_HILDON
-	gtk_widget_hide (wbcg->status_area);
-#else
 	/* disable statusbar by default going to fullscreen */
 	wbcg->hide_for_fullscreen =
 		g_slist_prepend (wbcg->hide_for_fullscreen,
 				 gtk_action_group_get_action (wbcg->actions, "ViewStatusbar"));
-#endif
 }
 
 /****************************************************************************/
@@ -4943,12 +4865,8 @@ wbc_gtk_reload_recent_file_menu (WBCGtk const *wbcg)
 	while (i-- > 1) {
 		char *name = g_strdup_printf ("FileHistoryEntry%d", i);
 		gtk_ui_manager_add_ui (gtk->ui, gtk->file_history.merge_id,
-#ifdef GNM_USE_HILDON
-			"/popup/File/FileHistory",
-#else
-			"/menubar/File/FileHistory",
-#endif
-			name, name, GTK_UI_MANAGER_AUTO, TRUE);
+			"/menubar/File/FileHistory", name, name,
+			GTK_UI_MANAGER_AUTO, TRUE);
 		g_free (name);
 	}
 }
@@ -5062,13 +4980,7 @@ wbc_gtk_reload_templates (WBCGtk *gtk)
 			g_strdup (uri), (GDestroyNotify)g_free);
 
 
-		gpath =
-#ifdef GNM_USE_HILDON
-			"/popup/File/Templates"
-#else
-			"/menubar/File/Templates"
-#endif
-			;
+		gpath = "/menubar/File/Templates";
 		gtk_ui_manager_add_ui (gtk->ui, gtk->templates.merge_id,
 				       gpath, gname, gname,
 				       GTK_UI_MANAGER_AUTO, FALSE);
@@ -5280,10 +5192,6 @@ wbc_gtk_finalize (GObject *obj)
 	g_slist_free (wbcg->hide_for_fullscreen);
 	wbcg->hide_for_fullscreen = NULL;
 
-
-#ifdef GNM_USE_HILDON
-	UNREF_OBJ (hildon_prog);
-#endif
 
 	g_free (wbcg->preferred_geometry);
 	wbcg->preferred_geometry = NULL;
@@ -5699,10 +5607,6 @@ wbc_gtk_init (GObject *obj)
 	char		*uifile;
 	unsigned	 i;
 
-#ifdef GNM_USE_HILDON
-	static HildonProgram *hildon_program = NULL;
-#endif
-
 	wbcg->table       = gtk_table_new (0, 0, 0);
 	wbcg->bnotebook   = NULL;
 	wbcg->snotebook   = NULL;
@@ -5738,30 +5642,16 @@ wbc_gtk_init (GObject *obj)
 
 	wbcg->idle_update_style_feedback = 0;
 
-#ifdef GNM_USE_HILDON
-	if (hildon_program == NULL)
-		hildon_program = HILDON_PROGRAM (hildon_program_get_instance ());
-	else
-		g_object_ref (hildon_program);
-
-	wbcg->hildon_prog = hildon_program;
-
-	wbcg_set_toplevel (wbcg, hildon_window_new ());
-	hildon_program_add_window (wbcg->hildon_prog, HILDON_WINDOW (wbcg_toplevel (wbcg)));
-#else
 	wbcg_set_toplevel (wbcg, gtk_window_new (GTK_WINDOW_TOPLEVEL));
-#endif
 
 	g_signal_connect (wbcg_toplevel (wbcg), "window_state_event",
 			  G_CALLBACK (cb_wbcg_window_state_event),
 			  wbcg);
 
-#ifndef GNM_USE_HILDON
 	gtk_box_pack_start (GTK_BOX (wbcg->everything),
 		wbcg->menu_zone, FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (wbcg->everything),
 		wbcg->toolbar_zones[GTK_POS_TOP], FALSE, TRUE, 0);
-#endif
 
 	gtk_window_set_title (wbcg_toplevel (wbcg), "Gnumeric");
 	gtk_window_set_wmclass (wbcg_toplevel (wbcg), "Gnumeric", "Gnumeric");
@@ -5806,16 +5696,12 @@ wbc_gtk_init (GObject *obj)
 	gtk_window_add_accel_group (wbcg_toplevel (wbcg),
 		gtk_ui_manager_get_accel_group (wbcg->ui));
 
-#ifdef GNM_USE_HILDON
-	uifile = g_build_filename (gnm_sys_data_dir (), "HILDON_Gnumeric-gtk.xml", NULL);
-#else
 	if (extra_actions)
 		gtk_action_group_add_actions (wbcg->actions, extra_actions,
 			                      extra_actions_nb, wbcg);
 
 	uifile = g_build_filename (gnm_sys_data_dir (),
 		(uifilename? uifilename: "GNOME_Gnumeric-gtk.xml"), NULL);
-#endif
 
 	if (!gtk_ui_manager_add_ui_from_file (wbcg->ui, uifile, &error)) {
 		g_message ("building menus failed: %s", error->message);
@@ -5863,18 +5749,6 @@ wbc_gtk_init (GObject *obj)
 				       (GtkCallback)check_underlines,
 				       (gpointer)"");
 	}
-
-#ifdef GNM_USE_HILDON
-	hildon_window_set_menu (HILDON_WINDOW (wbcg_toplevel (wbcg)),
-				GTK_MENU (gtk_ui_manager_get_widget (wbcg->ui, "/popup")));
-
-	gtk_widget_show_all (wbcg->toplevel);
-
-	wbc_gtk_set_toggle_action_state (wbcg, "ViewMenuToolbarFormatToolbar", FALSE);
-	wbc_gtk_set_toggle_action_state (wbcg, "ViewMenuToolbarObjectToolbar", FALSE);
-	wbc_gtk_set_toggle_action_state (wbcg, "ViewSheets", FALSE);
-	wbc_gtk_set_toggle_action_state (wbcg, "ViewStatusbar", FALSE);
-#endif
 
 	wbcg_set_autosave_time (wbcg, gnm_conf_get_core_workbook_autosave_time ());
 

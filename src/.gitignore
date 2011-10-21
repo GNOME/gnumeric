@@ -25,7 +25,6 @@ sstest.exe
 test-pango
 test-pango.exe
 GNOME_Gnumeric-gtk.xml
-HILDON_Gnumeric-gtk.xml
 libspreadsheet.def
 local.def
 stamp-local.def

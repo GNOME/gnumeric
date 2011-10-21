@@ -6,9 +6,6 @@
  *    Jon K Hellan (hellan@acm.org)
  *    Zbigniew Chyla (cyba@gnome.pl)
  *    Andreas J. Guelzow (aguelzow@pyrshep.ca)
- *
- * Port to Maemo:
- *	Eduardo Lima  (eduardo.lima@indt.org.br)
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
@@ -33,10 +30,6 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
-
-#ifdef GNM_USE_HILDON
-#include <hildon-fm/hildon-widgets/hildon-file-chooser-dialog.h>
-#endif
 
 typedef struct {
 	GOCharmapSel *go_charmap_sel;
@@ -330,9 +323,6 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 	gtk_widget_set_sensitive (GTK_WIDGET (format_combo), opener_default == 0);
 	file_format_changed_cb (format_combo, &data);
 
-#ifdef GNM_USE_HILDON
-	fsel = GTK_FILE_CHOOSER (hildon_file_chooser_dialog_new (wbcg_toplevel (wbcg), GTK_FILE_CHOOSER_ACTION_OPEN));
-#else
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -349,7 +339,6 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 				NULL);
-#endif
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 
 	/* Add Templates bookmark */
@@ -417,20 +406,11 @@ gui_file_open (WBCGtk *wbcg, file_open_t type, char const *default_format)
 		g_object_ref_sink (box);
 		g_object_set_data_full (G_OBJECT (advanced_button), "extra",
 					box, g_object_unref);
-#ifdef GNM_USE_HILDON
-		/*
-		 * Don't need to show the vbox. This is here just to avoid the warning :
-		 * GLIB WARNING ** default - hildon-file-chooser-dialog.c:1226: invalid
-		 * property id 4103 for "extra-widget" of type `GParamObject' in `HildonFileChooserDialog'
-		 */
-		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (fsel)->vbox), box, FALSE, TRUE, 6);
-#else
 		gtk_widget_show_all (box);
 		g_signal_connect (G_OBJECT (advanced_button),
 				  "clicked",
 				  G_CALLBACK (cb_advanced_clicked),
 				  fsel);
-#endif
 	}
 
 	/* Show file selector */
@@ -505,10 +485,8 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 	char *uri;
 	Workbook *wb;
 	WBCGtk *wbcg2;
-#ifndef GNM_USE_HILDON
 	char const *title = (type == FILE_SAVE_AS_SAVE) ? _("Save the current workbook as")
 		: _("Export the current workbook or sheet to");
-#endif
 
 	g_return_val_if_fail (wbcg != NULL, FALSE);
 
@@ -537,9 +515,6 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 	}
 	savers = g_list_sort (savers, file_saver_description_cmp);
 
-#ifdef GNM_USE_HILDON
-	fsel = GTK_FILE_CHOOSER (hildon_file_chooser_dialog_new (wbcg_toplevel (wbcg), GTK_FILE_CHOOSER_ACTION_SAVE));
-#else
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -550,7 +525,6 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_SAVE, GTK_RESPONSE_OK,
 				NULL);
-#endif
 
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 
@@ -597,13 +571,8 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (format_combo), FALSE, TRUE, 6);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (format_combo));
 
-#ifdef GNM_USE_HILDON
-		gtk_widget_show_all (box);
-		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (fsel)->vbox), box, FALSE, TRUE, 6);
-#else
 		gtk_widget_show_all (box);
 		gtk_file_chooser_set_extra_widget (fsel, box);
-#endif
 	}
 
 	/* Set default file saver */

@@ -73,7 +73,6 @@ schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in
 schemas/org.gnome.gnumeric.gschema.xml.in.in
 schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in
 src/GNOME_Gnumeric-gtk.xml.in
-src/HILDON_Gnumeric-gtk.xml.in
 templates/autoformat/3D.category.in
 templates/autoformat/Classical.category.in
 templates/autoformat/Colourful.category.in

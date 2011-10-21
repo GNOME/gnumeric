@@ -46,10 +46,6 @@
 #include <string.h>
 #include <locale.h>
 
-#ifdef GNM_USE_HILDON
-#include <libosso.h>
-#endif
-
 static gboolean split_funcdocs = FALSE;
 static gboolean immediate_exit_flag = FALSE;
 static gboolean gnumeric_no_splash = FALSE;
@@ -239,10 +235,6 @@ main (int argc, char const **argv)
 	gboolean has_console;
 #endif
 
-#ifdef GNM_USE_HILDON
-	osso_context_t * osso_context;
-#endif
-
 	/* No code before here, we need to init threads */
 	argv = gnm_pre_parse_init (argc, argv);
 
@@ -264,10 +256,6 @@ main (int argc, char const **argv)
 			}
 		}
 	}
-#endif
-
-#ifdef GNM_USE_HILDON
-	osso_context = osso_initialize ("gnumeric", GNM_VERSION_FULL, TRUE, NULL);
 #endif
 
 	gnumeric_arg_parse (argc, (char **)argv);
@@ -390,10 +378,6 @@ main (int argc, char const **argv)
 		g_object_unref (ioc);
 		g_slist_foreach (wbcgs_to_kill, (GFunc)cb_kill_wbcg, NULL);
 	}
-
-#ifdef GNM_USE_HILDON
-	osso_deinitialize (osso_context);
-#endif
 
 	g_slist_free (wbcgs_to_kill);
 	gnumeric_arg_shutdown ();
