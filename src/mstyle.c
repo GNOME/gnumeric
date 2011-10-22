@@ -1685,12 +1685,12 @@ gnm_style_get_pango_attrs (GnmStyle const *style,
 	case GO_FONT_SCRIPT_STANDARD :
 		break;
 	case GO_FONT_SCRIPT_SUB :
-		add_attr (l, pango_attr_rise_new (-5000));
-		zoom *= .5;
+		add_attr (l, pango_attr_rise_new (GO_SUBSCRIPT_RISE));
+		zoom *= GO_SUBSCRIPT_SCALE;
 		break;
 	case GO_FONT_SCRIPT_SUPER :
-		add_attr (l, pango_attr_rise_new (5000));
-		zoom *= .5;
+		add_attr (l, pango_attr_rise_new (GO_SUPERSCRIPT_RISE));
+		zoom *= GO_SUPERSCRIPT_SCALE;
 	}
 
 	{

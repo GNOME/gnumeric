@@ -1622,11 +1622,28 @@ toggle_font_attr (WBCGtk *wbcg, GtkToggleAction *act,
 			attr = pango_attr_strikethrough_new (val);
 			break;
 		case MSTYLE_FONT_SCRIPT:
-			if (val == GO_FONT_SCRIPT_STANDARD)
-				wbcg_edit_add_markup (wbcg,  pango_attr_scale_new (1.));
-			else
-				wbcg_edit_add_markup (wbcg,  pango_attr_scale_new (0.75));
-			attr = pango_attr_rise_new (5000 * val);
+			switch (val) {
+			default:
+			case GO_FONT_SCRIPT_STANDARD:
+				wbcg_edit_add_markup 
+					(wbcg, pango_attr_scale_new (1.));
+				attr = pango_attr_rise_new (0);
+				break;
+			case GO_FONT_SCRIPT_SUPER:
+				wbcg_edit_add_markup 
+					(wbcg, pango_attr_scale_new 
+					 (GO_SUPERSCRIPT_SCALE));
+				attr = pango_attr_rise_new 
+					(GO_SUPERSCRIPT_RISE);
+				break;
+			case GO_FONT_SCRIPT_SUB:
+				wbcg_edit_add_markup 
+					(wbcg, pango_attr_scale_new 
+					 (GO_SUBSCRIPT_SCALE));
+				attr = pango_attr_rise_new 
+					(GO_SUBSCRIPT_RISE);
+				break;
+			}
 			break;
 		}
 		wbcg_edit_add_markup (wbcg, attr);
