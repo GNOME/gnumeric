@@ -1,4 +1,4 @@
-# Slovenian translation for gnumeric functions.
+#'gnumeric/po-functions
 # Copyright (C) 2009 gnumeric's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnumeric package.
 #
@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-09-19 16:01+0000\n"
-"PO-Revision-Date: 2011-09-22 09:09+0100\n"
+"POT-Creation-Date: 2011-10-23 09:21+0000\n"
+"PO-Revision-Date: 2011-10-23 20:28+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1513,8 +1513,9 @@ msgid "OPT_GARMAN_KOHLHAGEN:theoretical price of a European currency option"
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:628
+#, fuzzy
 msgid "time:number of days to exercise"
-msgstr ""
+msgstr "čas:čas trajanja do dospetja v dnevih"
 
 #: ../plugins/fn-derivatives/options.c:629
 msgid "domestic_rate:domestic risk-free interest rate to the exercise date in percent"
@@ -1574,12 +1575,14 @@ msgid "p_t:zero coupon bond with expiry at option maturity"
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:821
+#, fuzzy
 msgid "f_t:futures price"
-msgstr ""
+msgstr "gotovinska_cena:gotovinska cena"
 
 #: ../plugins/fn-derivatives/options.c:823
+#, fuzzy
 msgid "t1:time to maturity of the option"
-msgstr ""
+msgstr "čas:čas trajanja do dospetja v letih"
 
 #: ../plugins/fn-derivatives/options.c:824
 msgid "t2:time to maturity of the underlying commodity futures contract"
@@ -2015,7 +2018,7 @@ msgstr ""
 #: ../plugins/fn-eng/functions.c:307
 #, fuzzy
 msgid "x:integer (− 513 < @{x} < 512)"
-msgstr "Ustvari naključno celo število"
+msgstr "Izhodna osnova celega števila"
 
 #: ../plugins/fn-eng/functions.c:309
 msgid "If @{places} is given and @{x} is non-negative, DEC2BIN pads the result with zeros to achieve exactly @{places} digits. If this is not possible, DEC2BIN returns #NUM!"
@@ -2027,7 +2030,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:314
 msgid "If @{x} < − 512 or @{x} > 511, DEC2BIN returns #NUM!"
-msgstr ""
+msgstr "V kolikor je @{x} < − 512 ali pa @{x} > 511, funkcija DEC2BIN vrne napako #NUM!"
 
 #: ../plugins/fn-eng/functions.c:336
 msgid "DEC2OCT:octal representation of the decimal number @{x}"
@@ -2820,7 +2823,7 @@ msgstr "Izberite številko igre za igranje"
 #: ../plugins/fn-financial/functions.c:3193
 #, fuzzy
 msgid "pv:present value"
-msgstr "Vrednost ne obstaja"
+msgstr "Vrednost višine okna."
 
 #: ../plugins/fn-financial/functions.c:740
 msgid "ISPMT calculates the interest payment for period number @{per}."
@@ -3017,7 +3020,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1936
 #, fuzzy
 msgid "fv:future value"
-msgstr "Vrednost ne obstaja"
+msgstr "Vrednost višine okna."
 
 #: ../plugins/fn-financial/functions.c:1196
 #: ../plugins/fn-financial/functions.c:1462
@@ -3075,7 +3078,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1457
 #, fuzzy
 msgid "PV:present value"
-msgstr "Vrednost ne obstaja"
+msgstr "Vrednost višine okna."
 
 #: ../plugins/fn-financial/functions.c:1458
 #: ../plugins/fn-financial/functions.c:1498
@@ -3130,7 +3133,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1691
 #, fuzzy
 msgid "FV:future value"
-msgstr "Vrednost ne obstaja"
+msgstr "Vrednost višine okna."
 
 #: ../plugins/fn-financial/functions.c:1697
 msgid "FV calculates the future value of @{pv} moved @{nper} periods into the future, assuming a periodic payment of @{pmt} and an interest rate of @{rate} per period."
@@ -3195,13 +3198,14 @@ msgid "G_DURATION calculates the number of periods needed for an investment to a
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1938
+#, fuzzy
 msgid "G_DURATION is the OpenFormula function PDURATION."
-msgstr ""
+msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
 
 #: ../plugins/fn-financial/functions.c:1966
 #, fuzzy
 msgid "FVSCHEDULE:future value"
-msgstr "Vrednost ne obstaja"
+msgstr "Vrednost višine okna."
 
 #: ../plugins/fn-financial/functions.c:1967
 #, fuzzy
@@ -3221,8 +3225,9 @@ msgid "EURO:equivalent of 1 EUR"
 msgstr "EURO:pretvorjena vrednost 1 EUR"
 
 #: ../plugins/fn-financial/functions.c:2003
+#, fuzzy
 msgid "currency:three-letter currency code"
-msgstr ""
+msgstr "vir:izvorna denarna enota zapisana s kodo s tremi črkami"
 
 #: ../plugins/fn-financial/functions.c:2004
 msgid "EURO calculates the national currency amount corresponding to 1 EUR for any of the national currencies that were replaced by the Euro on its introduction."
@@ -3667,8 +3672,9 @@ msgid "cell:the referenced cell"
 msgstr "celica:sklicna celica"
 
 #: ../plugins/fn-info/functions.c:1212
+#, fuzzy
 msgid "GET.FORMULA is the OpenFormula function FORMULA."
-msgstr ""
+msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
 
 #: ../plugins/fn-info/functions.c:1213
 msgid ""
@@ -3682,8 +3688,9 @@ msgid "ISFORMULA:TRUE if @{cell} contains a formula"
 msgstr ""
 
 #: ../plugins/fn-info/functions.c:1254
+#, fuzzy
 msgid "ISFORMULA is OpenFormula compatible."
-msgstr ""
+msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
 
 #: ../plugins/fn-info/functions.c:1283
 msgid "COUNTBLANK:the number of blank cells in @{range}"
@@ -3692,7 +3699,7 @@ msgstr ""
 #: ../plugins/fn-info/functions.c:1284
 #, fuzzy
 msgid "range:a cell range"
-msgstr "<b>Izbrana celica</b>"
+msgstr "Podatkovna vrsta celic"
 
 #: ../plugins/fn-info/functions.c:1286
 msgid "COUNTBLANK(A1:A20) returns the number of blank cell in A1:A20."
@@ -3703,8 +3710,9 @@ msgid "INFO:information about the current operating environment according to @{t
 msgstr ""
 
 #: ../plugins/fn-info/functions.c:1340
+#, fuzzy
 msgid "type:string giving the type of information requested"
-msgstr ""
+msgstr "vrsta:niz določila zahtevane podrobnosti"
 
 #: ../plugins/fn-info/functions.c:1341
 msgid ""
@@ -3737,8 +3745,9 @@ msgid "value:a value"
 msgstr "vrednost:vrednost"
 
 #: ../plugins/fn-info/functions.c:1456
+#, fuzzy
 msgid "ISNA:TRUE if @{value} is the #N/A error value"
-msgstr ""
+msgstr "ISBLANK:funkcija vrne PRAV, v kolikor je @{vrednost} prazno polje"
 
 #: ../plugins/fn-info/functions.c:1478
 msgid "ISERR:TRUE if @{value} is any error value except #N/A"
@@ -3794,8 +3803,9 @@ msgid "n:number"
 msgstr "n:število"
 
 #: ../plugins/fn-info/functions.c:1606
+#, fuzzy
 msgid "ISLOGICAL:TRUE if @{value} is a logical value"
-msgstr ""
+msgstr "ISBLANK:funkcija vrne PRAV, v kolikor je @{vrednost} prazno polje"
 
 #: ../plugins/fn-info/functions.c:1608
 msgid "This function checks if a value is either TRUE or FALSE."
@@ -3928,8 +3938,9 @@ msgstr ""
 #: ../plugins/fn-logical/functions.c:102
 #: ../plugins/fn-logical/functions.c:128
 #: ../plugins/fn-logical/functions.c:182
+#, fuzzy
 msgid "Strings and empty values are ignored."
-msgstr ""
+msgstr "Celice z besedilnimi nizi, logičnimi vrednostmi in prazne celice so prezrte."
 
 #: ../plugins/fn-logical/functions.c:50
 #: ../plugins/fn-logical/functions.c:129
@@ -3980,8 +3991,9 @@ msgid "wiki:en:Logical_disjunction"
 msgstr "wiki:en:Logical_disjunction"
 
 #: ../plugins/fn-logical/functions.c:177
+#, fuzzy
 msgid "XOR:logical exclusive disjunction"
-msgstr ""
+msgstr "wiki:en:Exclusive_disjunction"
 
 #: ../plugins/fn-logical/functions.c:180
 msgid "XOR calculates the logical exclusive disjunction of its arguments @{b0},@{b1},..."
@@ -4005,8 +4017,9 @@ msgid "y:alternate value"
 msgstr "y:drugotna vrednost"
 
 #: ../plugins/fn-logical/functions.c:233
+#, fuzzy
 msgid "This function returns the first value, unless that is an error, in which case it returns the second."
-msgstr ""
+msgstr "Funkcija vrne prvo vrednost, če to ni napaka #NA!, ko vrne drugo vrednost."
 
 #: ../plugins/fn-logical/functions.c:248
 msgid "IFNA:test for #NA! error"
@@ -4070,8 +4083,9 @@ msgid "If @{row_num} or @{col_num} is less than one, ADDRESS returns #VALUE!"
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:725
+#, fuzzy
 msgid "If @{abs_num} is greater than 4 ADDRESS returns #VALUE!"
-msgstr ""
+msgstr "V kolikor je absolutna vrednost @{x} večja od 1.0, funkcija vrne napako #NUM!"
 
 #: ../plugins/fn-lookup/functions.c:812
 #, fuzzy
@@ -4178,7 +4192,7 @@ msgstr "vrednost:vrednost za iskanje"
 #: ../plugins/fn-lookup/functions.c:1052
 #, fuzzy
 msgid "vector1:range to search:"
-msgstr "Preiskati je treba še %3d%%"
+msgstr "Obseg iskanja."
 
 #: ../plugins/fn-lookup/functions.c:1053
 #, fuzzy
@@ -4294,8 +4308,9 @@ msgstr "COLUMN:vektor številk stolpca"
 
 #: ../plugins/fn-lookup/functions.c:1350
 #: ../plugins/fn-lookup/functions.c:1502
+#, fuzzy
 msgid "x:reference, defaults to the position of the current expression"
-msgstr ""
+msgstr "sklic:sklic do ustreznega imena delovnega lista, privzeto določen kot trenutni delovni list"
 
 #: ../plugins/fn-lookup/functions.c:1351
 msgid "COLUMN function returns a Nx1 array containing the sequence of integers from the first column to the last column of @{x}."
@@ -4342,7 +4357,7 @@ msgstr "Točke, ki pokrivajo Y območje"
 #: ../plugins/fn-lookup/functions.c:1444
 #, fuzzy
 msgid "range:reference or range"
-msgstr "Ali pa pritisnite 'preslednico'."
+msgstr "Ni obseg ali ime"
 
 #: ../plugins/fn-lookup/functions.c:1445
 msgid "row:number of rows to offset @{range}"
@@ -4353,12 +4368,14 @@ msgid "col:number of columns to offset @{range}"
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1447
+#, fuzzy
 msgid "height:height of the offset range, defaults to height of @{range}"
-msgstr ""
+msgstr "dejanska_vrsta:področje celice, privzeto določeno kot @{podatkovna vrsta}"
 
 #: ../plugins/fn-lookup/functions.c:1448
+#, fuzzy
 msgid "width:width of the offset range, defaults to width of @{range}"
-msgstr ""
+msgstr "dejanska_vrsta:področje celice, privzeto določeno kot @{podatkovna vrsta}"
 
 #: ../plugins/fn-lookup/functions.c:1449
 msgid "OFFSET returns the cell range starting at offset (@{row},@{col}) from @{range} of height @{height} and width @{width}."
@@ -4657,7 +4674,7 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:458
 #, fuzzy
 msgid "This function is the OpenFormula function CEILING(@{x})."
-msgstr "To je funkcija preizkusnega vstavka\n"
+msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
 
 #: ../plugins/fn-math/functions.c:475
 msgid "COUNTIF:count of the cells meeting the given @{criteria}"
@@ -4691,8 +4708,9 @@ msgid "If the @{actual_range} has a size that differs from the size of @{range},
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:665
+#, fuzzy
 msgid "AVERAGEIF:average of the cells in @{actual range} for which the corresponding cells in the range meet the given @{criteria}"
-msgstr ""
+msgstr "SUMIF:vsota vrednosti celic v @{dejanski podatkovni vrste}, ki so v podatkovni vrsti skladne s podanim @{kriterijem}"
 
 #: ../plugins/fn-math/functions.c:667
 msgid "criteria:condition for a cell to be included"
@@ -4818,7 +4836,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:980
 msgid "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETA returns #NUM!"
-msgstr ""
+msgstr "V kolikor je @{x}, @{y}, ali (@{x} + @{y}) ne-pozitivno celo število, funkcija BETA vrne napako #NUM!"
 
 #: ../plugins/fn-math/functions.c:984
 #: ../plugins/fn-math/functions.c:1008
@@ -4835,7 +4853,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1004
 msgid "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETALN returns #NUM!"
-msgstr ""
+msgstr "V kolikor je @{x}, @{y}, ali (@{x} + @{y}) ne-pozitivno celo število, funkcija BETALN vrne napako #NUM!"
 
 #: ../plugins/fn-math/functions.c:1025
 msgid "COMBIN:binomial coefficient"
@@ -4857,8 +4875,9 @@ msgid "COMBIN returns the binomial coefficient \"@{n} choose @{k}\", the number 
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1031
+#, fuzzy
 msgid "If @{n} is less than @{k} COMBIN returns #NUM!"
-msgstr ""
+msgstr "V kolikor je absolutna vrednost @{x} večja od 1.0, funkcija vrne napako #NUM!"
 
 #: ../plugins/fn-math/functions.c:1036
 msgid "wiki:en:Binomial_coefficient"
@@ -4940,7 +4959,7 @@ msgstr "Ime vrednosti za opazovanje"
 
 #: ../plugins/fn-math/functions.c:1219
 msgid "If both @{x} and @{y} equal 0, POWER returns #NUM!"
-msgstr ""
+msgstr "V kolikor sta vrednosti @{x} in @{y} enaki 0, funkcija POWER vrne napako #NUM!"
 
 #: ../plugins/fn-math/functions.c:1220
 msgid "If @{x} = 0 and @{y} < 0, POWER returns #DIV/0!"
@@ -4948,7 +4967,7 @@ msgstr "V kolikor je vrednost @{x} = 0 in je @{y} < 0, funkcija vrne napako #DIV
 
 #: ../plugins/fn-math/functions.c:1221
 msgid "If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!"
-msgstr ""
+msgstr "V kolikor @{x} < 0 in @{y} nista celi števili, funkcija POWER vrne napako #NUM!"
 
 #: ../plugins/fn-math/functions.c:1247
 msgid "LOG2:the base-2 logarithm of @{x}"
@@ -4968,7 +4987,7 @@ msgstr "V kolikor je vrednost @{x} ≤ 0, funkcija vrne napako #NUM!"
 
 #: ../plugins/fn-math/functions.c:1291
 msgid "MOD:the remainder of @{x} under division by @{n}"
-msgstr ""
+msgstr "MOD:ostanek vrednosti @{x} pri deljenju s številom @{n}"
 
 #: ../plugins/fn-math/functions.c:1294
 msgid "MOD function returns the remainder when @{x} is divided by @{n}."
@@ -5066,12 +5085,13 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:1517
 #, fuzzy
 msgid "area0:first cell area"
-msgstr "Skoči na prvo celico v razpredelnici."
+msgstr "A1 (prva celica delovnega lista)"
 
 #: ../plugins/fn-math/functions.c:1494
 #: ../plugins/fn-math/functions.c:1518
+#, fuzzy
 msgid "area1:second cell area"
-msgstr ""
+msgstr "A1 (prva celica delovnega lista)"
 
 #: ../plugins/fn-math/functions.c:1516
 msgid "SUMSQ:sum of the squares of all values and cells referenced"
@@ -5110,8 +5130,9 @@ msgid "x2:number"
 msgstr "x2:število"
 
 #: ../plugins/fn-math/functions.c:1567
+#, fuzzy
 msgid "Empty cells are ignored and the empty product is 1."
-msgstr ""
+msgstr "Celice z besedilnimi nizi, logičnimi vrednostmi in prazne celice so prezrte."
 
 #: ../plugins/fn-math/functions.c:1587
 msgid "TAN:the tangent of @{x}"
@@ -5219,12 +5240,14 @@ msgid "SIGN returns 1 if the @{x} is positive and it returns -1 if @{x} is negat
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1878
+#, fuzzy
 msgid "SQRTPI:the square root of @{x} times π"
-msgstr ""
+msgstr "IMSQRT:kvadratni koren kompleksnega števila @{z}"
 
 #: ../plugins/fn-math/functions.c:1901
+#, fuzzy
 msgid "ROUNDDOWN:@{x} rounded towards 0"
-msgstr ""
+msgstr "Zaobljeni pravokotni izbor"
 
 #: ../plugins/fn-math/functions.c:1903
 #: ../plugins/fn-math/functions.c:1927
@@ -5271,7 +5294,7 @@ msgstr "m:število"
 
 #: ../plugins/fn-math/functions.c:2016
 msgid "If @{x} and @{m} have different sign, MROUND returns #NUM!"
-msgstr ""
+msgstr "V kolikor imata @{x} in @{m} različni predznak, funkcija MROUND vrne napako #NUM!"
 
 #: ../plugins/fn-math/functions.c:2059
 msgid "ARABIC:the Roman numeral @{roman} as number"
@@ -5301,21 +5324,23 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:2387
+#, fuzzy
 msgid "SUMX2MY2:sum of the difference of squares"
-msgstr ""
+msgstr "HYPOT:kvadratni koren vsote kvadratov argumentov"
 
 #: ../plugins/fn-math/functions.c:2388
 #: ../plugins/fn-math/functions.c:2430
 #: ../plugins/fn-math/functions.c:2473
 #, fuzzy
 msgid "array0:first cell area"
-msgstr "Skoči na prvo celico v razpredelnici."
+msgstr "A1 (prva celica delovnega lista)"
 
 #: ../plugins/fn-math/functions.c:2389
 #: ../plugins/fn-math/functions.c:2431
 #: ../plugins/fn-math/functions.c:2474
+#, fuzzy
 msgid "array1:second cell area"
-msgstr ""
+msgstr "A1 (prva celica delovnega lista)"
 
 #: ../plugins/fn-math/functions.c:2390
 msgid "SUMX2MY2 function returns the sum of the difference of squares of corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2)."
@@ -5336,8 +5361,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:2472
+#, fuzzy
 msgid "SUMXMY2:sum of the squares of differences"
-msgstr ""
+msgstr "HYPOT:kvadratni koren vsote kvadratov argumentov"
 
 #: ../plugins/fn-math/functions.c:2475
 msgid "SUMXMY2 function returns the sum of the squares of the differences of corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2)."
@@ -5463,8 +5489,9 @@ msgid "If @{matrix} does not contain an equal number of columns and rows, EIGEN 
 msgstr "V kolikor @{matrika} nima enakega števila stolpcev in vrstic, funkcija EIGEN vrne napako #VALUE!"
 
 #: ../plugins/fn-numtheory/numtheory.c:218
+#, fuzzy
 msgid "NT_PHI:Euler's totient function"
-msgstr ""
+msgstr "wiki:en:Euler's_totient_function"
 
 #: ../plugins/fn-numtheory/numtheory.c:220
 msgid "Euler's totient function gives the number of integers less than or equal to @{n} that are relatively prime (coprime) to @{n}."
@@ -5622,8 +5649,9 @@ msgid "If @{n} is negative, BITRSHIFT shifts the bits to the left by ABS(@{n}) p
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:19
+#, fuzzy
 msgid "R.DNORM:probability density function of the normal distribution"
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:20
 #: ../plugins/fn-r/functions.c:45
@@ -5845,8 +5873,9 @@ msgid "This function returns the probability quantile function, i.e., the invers
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:177
+#, fuzzy
 msgid "R.DGAMMA:probability density function of the gamma distribution"
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:179
 #: ../plugins/fn-r/functions.c:204
@@ -5898,8 +5927,9 @@ msgid "This function returns the probability quantile function, i.e., the invers
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:256
+#, fuzzy
 msgid "R.DBETA:probability density function of the beta distribution"
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:258
 #: ../plugins/fn-r/functions.c:283
@@ -5935,8 +5965,9 @@ msgid "This function returns the probability quantile function, i.e., the invers
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:335
+#, fuzzy
 msgid "R.DT:probability density function of the Student t distribution"
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:337
 #: ../plugins/fn-r/functions.c:360
@@ -5966,8 +5997,9 @@ msgid "This function returns the probability quantile function, i.e., the invers
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:408
+#, fuzzy
 msgid "R.DF:probability density function of the F distribution"
-msgstr ""
+msgstr "PARETO:funkcija gostote verjetnosti Paretove porazdelitve"
 
 #: ../plugins/fn-r/functions.c:410
 #: ../plugins/fn-r/functions.c:435
@@ -5982,8 +6014,9 @@ msgid "n2:the second number of degrees of freedom of the distribution"
 msgstr "n1:drugo število prostostnih stopenj porazdelitve"
 
 #: ../plugins/fn-r/functions.c:413
+#, fuzzy
 msgid "This function returns the probability density function of the F distribution."
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:433
 #, fuzzy
@@ -5991,12 +6024,14 @@ msgid "R.PF:cumulative distribution function of the F distribution"
 msgstr "Normalizirana Gaussova funkcija distribucije (normalna krivulja)"
 
 #: ../plugins/fn-r/functions.c:439
+#, fuzzy
 msgid "This function returns the cumulative distribution function of the F distribution."
-msgstr ""
+msgstr "V kolikor je @{k} < 0 funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-r/functions.c:460
+#, fuzzy
 msgid "R.QF:probability quantile function of the F distribution"
-msgstr ""
+msgstr "PARETO:funkcija gostote verjetnosti Paretove porazdelitve"
 
 #: ../plugins/fn-r/functions.c:466
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the F distribution."
@@ -6045,8 +6080,9 @@ msgid "A two argument invocation R.QCHISQ(@{p},@{df}) is exported to OpenFormula
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:563
+#, fuzzy
 msgid "R.DWEIBULL:probability density function of the Weibull distribution"
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:568
 msgid "This function returns the probability density function of the Weibull distribution."
@@ -6069,8 +6105,9 @@ msgid "This function returns the probability quantile function, i.e., the invers
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:642
+#, fuzzy
 msgid "R.DPOIS:probability density function of the Poisson distribution"
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:644
 #: ../plugins/fn-r/functions.c:667
@@ -6099,32 +6136,37 @@ msgid "This function returns the probability quantile function, i.e., the invers
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:715
+#, fuzzy
 msgid "R.DEXP:probability density function of the exponential distribution"
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:719
+#, fuzzy
 msgid "This function returns the probability density function of the exponential distribution."
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:738
+#, fuzzy
 msgid "R.PEXP:cumulative distribution function of the exponential distribution"
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:743
 msgid "This function returns the cumulative distribution function of the exponential distribution."
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:763
+#, fuzzy
 msgid "R.QEXP:probability quantile function of the exponential distribution"
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:768
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the exponential distribution."
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:788
+#, fuzzy
 msgid "R.DBINOM:probability density function of the binomial distribution"
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:790
 #: ../plugins/fn-r/functions.c:815
@@ -6156,12 +6198,14 @@ msgid "R.PBINOM:cumulative distribution function of the binomial distribution"
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:819
+#, fuzzy
 msgid "This function returns the cumulative distribution function of the binomial distribution."
-msgstr ""
+msgstr "BINOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija binomske verjetnosti"
 
 #: ../plugins/fn-r/functions.c:840
+#, fuzzy
 msgid "R.QBINOM:probability quantile function of the binomial distribution"
-msgstr ""
+msgstr "BINOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija binomske verjetnosti"
 
 #: ../plugins/fn-r/functions.c:846
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the binomial distribution."
@@ -6176,8 +6220,9 @@ msgid "This function returns the probability density function of the negative bi
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:892
+#, fuzzy
 msgid "R.PNBINOM:cumulative distribution function of the negative binomial distribution"
-msgstr ""
+msgstr "BINOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija binomske verjetnosti"
 
 #: ../plugins/fn-r/functions.c:898
 msgid "This function returns the cumulative distribution function of the negative binomial distribution."
@@ -6192,8 +6237,9 @@ msgid "This function returns the probability quantile function, i.e., the invers
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:946
+#, fuzzy
 msgid "R.DHYPER:probability density function of the hypergeometric distribution"
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:948
 #: ../plugins/fn-r/functions.c:975
@@ -6234,8 +6280,9 @@ msgid "This function returns the probability quantile function, i.e., the invers
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:1031
+#, fuzzy
 msgid "R.DGEOM:probability density function of the geometric distribution"
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:1035
 msgid "This function returns the probability density function of the geometric distribution."
@@ -6246,20 +6293,23 @@ msgid "R.PGEOM:cumulative distribution function of the geometric distribution"
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:1059
+#, fuzzy
 msgid "This function returns the cumulative distribution function of the geometric distribution."
-msgstr ""
+msgstr "GEOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija geometrične verjetnosti"
 
 #: ../plugins/fn-r/functions.c:1079
+#, fuzzy
 msgid "R.QGEOM:probability quantile function of the geometric distribution"
-msgstr ""
+msgstr "GEOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija geometrične verjetnosti"
 
 #: ../plugins/fn-r/functions.c:1084
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the geometric distribution."
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:1104
+#, fuzzy
 msgid "R.DCAUCHY:probability density function of the Cauchy distribution"
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:1106
 #: ../plugins/fn-r/functions.c:1131
@@ -6309,8 +6359,9 @@ msgid "This function returns the cumulative distribution function of the skew-no
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:1239
+#, fuzzy
 msgid "R.DST:probability density function of the skew-t distribution"
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:1244
 msgid "This function returns the probability density function of the skew-t distribution."
@@ -6621,7 +6672,7 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:631
 msgid "If @{p} < 0 or @{p} > 1 RANDLOG returns #NUM!"
-msgstr ""
+msgstr "V kolikor je vrednost @{p} < 0 ali @{p} > 1, funkcija RANDLOG vrne napako #NUM!"
 
 #: ../plugins/fn-random/functions.c:652
 msgid "RANDCHISQ:random variate from a Chi-square distribution"
@@ -6670,8 +6721,9 @@ msgid "α:parameter of the Lévy distribution"
 msgstr "α:parameter Lévyjeve porazdelitve"
 
 #: ../plugins/fn-random/functions.c:722
+#, fuzzy
 msgid "β:parameter of the Lévy distribution, defaults to 0"
-msgstr ""
+msgstr "λ:parameter filtra λ, privzeto je določena vrednost 1600"
 
 #: ../plugins/fn-random/functions.c:723
 msgid "For @{α} = 1, @{β}=0, the Lévy distribution reduces to the Cauchy (or Lorentzian) distribution."
@@ -6682,12 +6734,14 @@ msgid "For @{α} = 2, @{β}=0, the Lévy distribution reduces to the normal dist
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:727
+#, fuzzy
 msgid "If @{α} ≤ 0 or @{α} > 2, RANDLEVY returns #NUM!"
-msgstr ""
+msgstr "V kolikor je vrednost @{p} < 0 ali @{p} > 1, funkcija RANDBINOM vrne napako #NUM!"
 
 #: ../plugins/fn-random/functions.c:728
+#, fuzzy
 msgid "If @{β} < -1 or @{β} > 1, RANDLEVY returns #NUM!"
-msgstr ""
+msgstr "V kolikor je vrednost @{p} < 0 ali @{p} > 1, funkcija RANDBINOM vrne napako #NUM!"
 
 #: ../plugins/fn-random/functions.c:751
 msgid "RANDEXPPOW:random variate from an exponential power distribution"
@@ -6698,8 +6752,9 @@ msgid "a:scale parameter of the exponential power distribution"
 msgstr "a:parameter merila potenčne porazdelitve"
 
 #: ../plugins/fn-random/functions.c:753
+#, fuzzy
 msgid "b:exponent of the exponential power distribution"
-msgstr ""
+msgstr "a:parameter merila potenčne porazdelitve"
 
 #: ../plugins/fn-random/functions.c:754
 msgid "For @{b} = 1 the exponential power distribution reduces to the Laplace distribution."
@@ -6763,9 +6818,8 @@ msgid "σ:standard deviation of the underlying normal distribution, defaults to 
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:887
-#, fuzzy
 msgid "If @{σ} < 0, RANDSNORM returns #NUM!"
-msgstr "Vrne logični PRAV, če je X podmnožica Y"
+msgstr "V kolikor je @{σ} < 0, funkcija RANDSNORM vrne napako #NUM!"
 
 #: ../plugins/fn-random/functions.c:922
 msgid "RANDSTDIST:random variate from a skew t distribution"
@@ -6776,8 +6830,9 @@ msgid "Numbers, text and logical values are included in the calculation too. If 
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:50
+#, fuzzy
 msgid "VARP:variance of an entire population"
-msgstr ""
+msgstr "STDEVPA:populacijski standardni odklon celotne populacije"
 
 #: ../plugins/fn-stat/functions.c:51
 #: ../plugins/fn-stat/functions.c:77
@@ -6789,7 +6844,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2615
 #, fuzzy
 msgid "area1:first cell area"
-msgstr "Skoči na prvo celico v razpredelnici."
+msgstr "A1 (prva celica delovnega lista)"
 
 #: ../plugins/fn-stat/functions.c:52
 #: ../plugins/fn-stat/functions.c:78
@@ -6799,8 +6854,9 @@ msgstr "Skoči na prvo celico v razpredelnici."
 #: ../plugins/fn-stat/functions.c:2559
 #: ../plugins/fn-stat/functions.c:2587
 #: ../plugins/fn-stat/functions.c:2616
+#, fuzzy
 msgid "area2:second cell area"
-msgstr ""
+msgstr "A1 (prva celica delovnega lista)"
 
 #: ../plugins/fn-stat/functions.c:53
 msgid "VARP is also known as the N-variance."
@@ -6825,8 +6881,9 @@ msgid "wolfram:Variance.html"
 msgstr "wolfram:Variance.html"
 
 #: ../plugins/fn-stat/functions.c:76
+#, fuzzy
 msgid "VAR:sample variance of the given sample"
-msgstr ""
+msgstr "STDEVA:vzorčni standardni odklon podanega vzorca"
 
 #: ../plugins/fn-stat/functions.c:79
 msgid "VAR is also known as the N-1-variance."
@@ -6867,8 +6924,9 @@ msgid "Then VAR(A1:A5) equals 117.64."
 msgstr "Izračun funkcije  VAR(A1:A5) vrne rešitev 117.64."
 
 #: ../plugins/fn-stat/functions.c:106
+#, fuzzy
 msgid "STDEV:sample standard deviation of the given sample"
-msgstr ""
+msgstr "STDEVA:vzorčni standardni odklon podanega vzorca"
 
 #: ../plugins/fn-stat/functions.c:109
 msgid "STDEV is also known as the N-1-standard deviation."
@@ -6945,8 +7003,9 @@ msgid "In case of a tie, RANK returns the average rank."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:218
+#, fuzzy
 msgid "This function is Excel 2010 compatible."
-msgstr ""
+msgstr "Ta funkcija ni skladnja s funkcijami programa Excel."
 
 #: ../plugins/fn-stat/functions.c:219
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 25.9."
@@ -7007,7 +7066,7 @@ msgstr "Določeni podatki skladišče"
 #: ../plugins/fn-stat/functions.c:2003
 #: ../plugins/fn-stat/functions.c:2027
 msgid "Strings and empty cells are simply ignored."
-msgstr ""
+msgstr "Celice z besedilnimi nizi in prazne celice so prezrte."
 
 #: ../plugins/fn-stat/functions.c:325
 #: ../plugins/fn-stat/functions.c:355
@@ -7051,8 +7110,9 @@ msgid "wiki:en:CorrelationCoefficient.html"
 msgstr "wiki:en:CorrelationCoefficient.html"
 
 #: ../plugins/fn-stat/functions.c:380
+#, fuzzy
 msgid "NEGBINOMDIST:probability mass function of the negative binomial distribution"
-msgstr ""
+msgstr "BINOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija binomske verjetnosti"
 
 #: ../plugins/fn-stat/functions.c:381
 msgid "f:number of failures"
@@ -7068,24 +7128,28 @@ msgid "p:probability of a success"
 msgstr "p:verjetnost uspeha"
 
 #: ../plugins/fn-stat/functions.c:384
+#, fuzzy
 msgid "If @{f} or @{t} is a non-integer it is truncated."
-msgstr ""
+msgstr "V kolikor katerikoli izmed argumentov ni celo število, je vrednost razdeljena"
 
 #: ../plugins/fn-stat/functions.c:385
+#, fuzzy
 msgid "If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{k} < 0 funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:386
+#, fuzzy
 msgid "If @{p} < 0 or @{p} > 1 this functions returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{k} < 0 ali @{k} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:409
 msgid "NORMSDIST:cumulative density function of the standard normal distribution"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:412
+#, fuzzy
 msgid "NORMSDIST is the OpenFormula function LEGACY.NORMSDIST."
-msgstr ""
+msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:415
 #: ../plugins/fn-stat/functions.c:440
@@ -7106,12 +7170,14 @@ msgid "p:given probability"
 msgstr "p:podana verjetnost"
 
 #: ../plugins/fn-stat/functions.c:435
+#, fuzzy
 msgid "If @{p} < 0 or @{p} > 1 this function returns #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{k} < 0 ali @{k} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:437
+#, fuzzy
 msgid "NORMSINV is the OpenFormula function LEGACY.NORMSINV."
-msgstr ""
+msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:461
 msgid "LOGNORMDIST:cumulative distribution function of the lognormal distribution"
@@ -7304,16 +7370,18 @@ msgid "wolfram:ArithmeticMean.html"
 msgstr "wolfram:ArithmeticMean.html"
 
 #: ../plugins/fn-stat/functions.c:718
+#, fuzzy
 msgid "MIN:smallest value, with negative numbers considered smaller than positive numbers"
-msgstr ""
+msgstr "MINA:najmanjša vrednost med podatki, kjer so negativna števila opredeljena kot manjša od pozitivnih"
 
 #: ../plugins/fn-stat/functions.c:723
 msgid "Then MIN(A1:A5) equals 11.4."
 msgstr "Izračun funkcije  MIN(A1:A5) vrne rešitev 11.4."
 
 #: ../plugins/fn-stat/functions.c:753
+#, fuzzy
 msgid "MAX:largest value, with negative numbers considered smaller than positive numbers"
-msgstr ""
+msgstr "MINA:najmanjša vrednost med podatki, kjer so negativna števila opredeljena kot manjša od pozitivnih"
 
 #: ../plugins/fn-stat/functions.c:758
 msgid "Then MAX(A1:A5) equals 40.1."
@@ -7368,20 +7436,23 @@ msgid "If @{cumulative} is false it will return:\t@{y} * exp (-@{y}*@{x}),otherw
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:849
+#, fuzzy
 msgid "If @{x} < 0 or @{y} <= 0 this will return an error."
-msgstr ""
+msgstr "V kolikor je @{k} < 0 ali @{k} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:875
+#, fuzzy
 msgid "BERNOULLI:probability mass function of a Bernoulli distribution"
-msgstr ""
+msgstr "PARETO:funkcija gostote verjetnosti Paretove porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:876
 msgid "k:integer"
 msgstr "k:celo število"
 
 #: ../plugins/fn-stat/functions.c:878
+#, fuzzy
 msgid "If @{k} != 0 and @{k} != 1 this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{k} < 0 ali @{k} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:879
 #: ../plugins/fn-stat/functions.c:948
@@ -7391,8 +7462,9 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:1513
 #: ../plugins/fn-stat/functions.c:1574
 #: ../plugins/fn-stat/functions.c:4298
+#, fuzzy
 msgid "If @{p} < 0 or @{p} > 1 this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{k} < 0 ali @{k} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:911
 msgid "GAMMADIST:probability density or cumulative distribution function of the gamma distribution"
@@ -7418,8 +7490,9 @@ msgstr "beta:parameter merila"
 #: ../plugins/fn-stat/functions.c:1280
 #: ../plugins/fn-stat/functions.c:1725
 #: ../plugins/fn-stat/functions.c:1954
+#, fuzzy
 msgid "If @{x} < 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{k} < 0 funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:917
 #: ../plugins/fn-stat/functions.c:1123
@@ -7457,13 +7530,15 @@ msgid "The survival function is 1 minus the cumulative distribution function."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:978
+#, fuzzy
 msgid "If @{dof} is non-integer it is truncated."
-msgstr ""
+msgstr "V kolikor katerikoli izmed argumentov ni celo število, je vrednost razdeljena"
 
 #: ../plugins/fn-stat/functions.c:979
 #: ../plugins/fn-stat/functions.c:1193
+#, fuzzy
 msgid "If @{dof} < 1 this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{k} < 0 ali @{k} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:981
 msgid "CHIDIST(@{x},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{x},@{dof})."
@@ -7487,8 +7562,9 @@ msgid "CHITEST:p value of the Goodness of Fit Test"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1030
+#, fuzzy
 msgid "actual_range:observed data"
-msgstr ""
+msgstr "dejanska_vrsta:področje celice, privzeto določeno kot @{podatkovna vrsta}"
 
 #: ../plugins/fn-stat/functions.c:1031
 #, fuzzy
@@ -7500,8 +7576,9 @@ msgid "If the actual range is not an n by 1 or 1 by n range, but an n by m range
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1038
+#, fuzzy
 msgid "CHITEST is the OpenFormula function LEGACY.CHITEST."
-msgstr ""
+msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1116
 msgid "BETADIST:cumulative distribution function of the beta distribution"
@@ -7518,13 +7595,15 @@ msgid "b:optional upper bound, defaults to 1"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1122
+#, fuzzy
 msgid "If @{x} < @{a} or @{x} > @{b} this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{k} < 0 ali @{k} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1124
 #: ../plugins/fn-stat/functions.c:1161
+#, fuzzy
 msgid "If @{a} >= @{b} this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{k} < 0 funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1153
 msgid "BETAINV:inverse of the cumulative distribution function of the beta distribution"
@@ -7579,12 +7658,14 @@ msgid "If @{dof_of_num} < 1 or @{dof_of_denom} < 1, this function returns a #NUM
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1283
+#, fuzzy
 msgid "FDIST is the OpenFormula function LEGACY.FDIST."
-msgstr ""
+msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1305
+#, fuzzy
 msgid "LANDAU:approximate probability density function of the Landau distribution"
-msgstr ""
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:1441
 msgid "FINV:inverse of the survival function of the F distribution"
@@ -7596,7 +7677,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1449
 msgid "FINV is the OpenFormula function LEGACY.FINV."
-msgstr ""
+msgstr "Funkcija FINV je skladna s funkcijoi programa OpenFormula LEGACY.FINV."
 
 #: ../plugins/fn-stat/functions.c:1471
 msgid "BINOMDIST:probability mass or cumulative distribution function of the binomial distribution"
@@ -7635,7 +7716,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1478
 msgid "If @{n} > @{trials} this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{n} < od števila @{poskusovk}, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1506
 msgid "BINOM.DIST.RANGE:probability of the binomial distribution over an interval"
@@ -7656,11 +7737,11 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:1512
 #: ../plugins/fn-stat/functions.c:1573
 msgid "If @{trials} < 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je število @{poskusov} < 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1514
 msgid "If @{start} > @{end} this function returns 0."
-msgstr ""
+msgstr "V kolikor je @{začetek} > @{konca} funkcija vrne vrednost 0."
 
 #: ../plugins/fn-stat/functions.c:1537
 msgid "CAUCHY:probability density or cumulative distribution function of the Cauchy, Lorentz or Breit-Wigner distribution"
@@ -7674,7 +7755,7 @@ msgstr "a:parameter merila"
 
 #: ../plugins/fn-stat/functions.c:1542
 msgid "If @{a} < 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{a} < 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1543
 #: ../plugins/fn-stat/functions.c:4299
@@ -7690,8 +7771,9 @@ msgid "alpha:significance level (area of the tail)"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1572
+#, fuzzy
 msgid "If @{trials} is a non-integer it is truncated."
-msgstr ""
+msgstr "V kolikor število @{poskusov} ni celo število, je vrednost razdeljena"
 
 #: ../plugins/fn-stat/functions.c:1575
 msgid "If @{alpha} < 0 or @{alpha} > 1 this function returns a #NUM! error."
@@ -7711,19 +7793,20 @@ msgstr "k:število predmetov v vsaki permutaciji"
 
 #: ../plugins/fn-stat/functions.c:1601
 msgid "If @{n} = 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{n} = 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1602
 msgid "If @{n} < @{k} this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{n} < @{k}, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1624
+#, fuzzy
 msgid "HYPGEOMDIST:probability mass or cumulative distribution function of the hypergeometric distribution"
-msgstr ""
+msgstr "BINOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija binomske verjetnosti"
 
 #: ../plugins/fn-stat/functions.c:1625
 msgid "x:number of successes"
-msgstr ""
+msgstr "x:število uspešnih poskusov"
 
 #: ../plugins/fn-stat/functions.c:1626
 msgid "n:sample size"
@@ -7738,16 +7821,19 @@ msgid "N:population size"
 msgstr "N:velikost populacije"
 
 #: ../plugins/fn-stat/functions.c:1630
+#, fuzzy
 msgid "If @{x},@{n},@{M} or @{N} is a non-integer it is truncated."
-msgstr ""
+msgstr "V kolikor katerikoli izmed argumentov ni celo število, je vrednost razdeljena"
 
 #: ../plugins/fn-stat/functions.c:1631
+#, fuzzy
 msgid "If @{x},@{n},@{M} or @{N} < 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{k} < 0 ali @{k} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1632
+#, fuzzy
 msgid "If @{x} > @{M} or @{n} > @{N} this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{k} < 0 ali @{k} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1660
 msgid "CONFIDENCE:margin of error of a confidence interval for the population mean"
@@ -7770,20 +7856,22 @@ msgid "This function requires the usually unknown population standard deviation.
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1665
+#, fuzzy
 msgid "If @{size} is non-integer it is truncated."
-msgstr ""
+msgstr "V kolikor katerikoli izmed argumentov ni celo število, je vrednost razdeljena"
 
 #: ../plugins/fn-stat/functions.c:1666
 msgid "If @{size} < 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{size} < 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1667
 msgid "If @{size} is 0 this function returns a #DIV/0! error."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1690
+#, fuzzy
 msgid "STANDARDIZE:z-score of a value"
-msgstr ""
+msgstr "Vrednost višine okna."
 
 #: ../plugins/fn-stat/functions.c:1692
 msgid "mean:mean of the original distribution"
@@ -7799,8 +7887,9 @@ msgid "If @{stddev} is 0 this function returns a #DIV/0! error."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1717
+#, fuzzy
 msgid "WEIBULL:probability density or cumulative distribution function of the Weibull distribution"
-msgstr ""
+msgstr "BINOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija binomske verjetnosti"
 
 #: ../plugins/fn-stat/functions.c:1722
 msgid "If the @{cumulative} boolean is true it will return: 1 - exp (-(@{x}/@{beta})^@{alpha}),otherwise it will return (@{alpha}/@{beta}^@{alpha}) * @{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha}))."
@@ -7883,11 +7972,12 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1923
 msgid "If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{x} <= -1 or @{x} >= 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1949
+#, fuzzy
 msgid "POISSON:probability mass or cumulative distribution function of the Poisson distribution"
-msgstr ""
+msgstr "BINOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija binomske verjetnosti"
 
 #: ../plugins/fn-stat/functions.c:1950
 msgid "x:number of events"
@@ -7899,12 +7989,14 @@ msgid "If @{x} is a non-integer it is truncated."
 msgstr "Preveri, ali je matrika celo številčna (ne-kompleksna) matrika"
 
 #: ../plugins/fn-stat/functions.c:1955
+#, fuzzy
 msgid "If @{mean} <= 0 POISSON returns the #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{k} < 0 funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1981
+#, fuzzy
 msgid "PEARSON:Pearson correlation coefficient of the paired set of data"
-msgstr ""
+msgstr "PEARSON:Pearsonov koeficient soodnosnosti parjenega niza podatkov"
 
 #: ../plugins/fn-stat/functions.c:1982
 #: ../plugins/fn-stat/functions.c:2001
@@ -8119,8 +8211,9 @@ msgid "Then AVERAGEA(A1:A5) equals 18.94."
 msgstr "Izračun funkcije AVERAGEA(A1:A5) vrne rešitev 18.94."
 
 #: ../plugins/fn-stat/functions.c:2472
+#, fuzzy
 msgid "MAXA:largest value, with negative numbers considered smaller than positive numbers"
-msgstr ""
+msgstr "MINA:najmanjša vrednost med podatki, kjer so negativna števila opredeljena kot manjša od pozitivnih"
 
 #: ../plugins/fn-stat/functions.c:2479
 msgid "Then MAXA(A1:A5) equals 40.1."
@@ -8136,7 +8229,7 @@ msgstr "Izračun funkcije MINA(A1:A5) vrne rešitev 0."
 
 #: ../plugins/fn-stat/functions.c:2526
 msgid "VARA:sample variance of the given sample"
-msgstr ""
+msgstr "VARA:vzorčna varianca podanega vzorca"
 
 #: ../plugins/fn-stat/functions.c:2529
 msgid "VARA is also known as the N-1-variance."
@@ -8152,7 +8245,7 @@ msgstr "Izračun funkcije  VARA(A1:A5) vrne rešitev 228.613."
 
 #: ../plugins/fn-stat/functions.c:2557
 msgid "VARPA:variance of an entire population"
-msgstr ""
+msgstr "VARPA:varianca celotne populacije"
 
 #: ../plugins/fn-stat/functions.c:2560
 msgid "VARPA is also known as the N-variance."
@@ -8241,8 +8334,9 @@ msgid "Then PERCENTILE(A1:A5,0.42) equals 20.02."
 msgstr "Izračun funkcije PERCENTILE(A1:A5,0.42) vrne rešitev 20.02."
 
 #: ../plugins/fn-stat/functions.c:2780
+#, fuzzy
 msgid "QUARTILE:the @{k}-th quartile of the data points"
-msgstr ""
+msgstr "ordinata:navpične koordinate podanih podatkovnih točk"
 
 #: ../plugins/fn-stat/functions.c:2782
 msgid "quart:a number from 0 to 4, indicating which quartile to calculate"
@@ -8283,9 +8377,8 @@ msgid "TTEST:p-value for a hypothesis test comparing the means of two population
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2884
-#, fuzzy
 msgid "tails:number of tails to consider"
-msgstr "Število vrstic za izpolnjevanje"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2885
 msgid "type:Type of test to perform. 1 indicates a test for paired variables, 2 a test of unpaired variables with equal variances, and 3 a test of unpaired variables with unequal variances"
@@ -8505,9 +8598,8 @@ msgid "Then FORECAST(7,A1:A5,B1:B5) equals -10.859397661."
 msgstr "Izračun funkcije FORECAST(7,A1:A5,B1:B5) vrne rešitev -10.859397661."
 
 #: ../plugins/fn-stat/functions.c:3979
-#, fuzzy
 msgid "INTERCEPT:the intercept of a linear regression line"
-msgstr "Programnik izrisa linearnih regresijskih krivulj"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3984
 #: ../plugins/fn-stat/functions.c:4037
@@ -8527,9 +8619,8 @@ msgid "Then SLOPE(A1:A5,B1:B5) equals 1.417959936."
 msgstr "Izračun funkcije SLOPE(A1:A5,B1:B5) vrne rešitev 1.417959936."
 
 #: ../plugins/fn-stat/functions.c:4083
-#, fuzzy
 msgid "SUBTOTAL:the subtotal of the given list of arguments"
-msgstr "začni seznam pri podanem modulu"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4084
 msgid ""
@@ -8594,7 +8685,7 @@ msgstr "V kolikor je @{k} < 0 funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:4324
 msgid "LOGISTIC:probability density function of the logistic distribution"
-msgstr ""
+msgstr "LOGISTIC:funkcija gostote verjetnosti logistične porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:4355
 msgid "PARETO:probability density function of the Pareto distribution"
@@ -8611,7 +8702,7 @@ msgstr "b:parameter merila"
 
 #: ../plugins/fn-stat/functions.c:4389
 msgid "RAYLEIGH:probability density function of the Rayleigh distribution"
-msgstr ""
+msgstr "RAYLEIGH:funkcija gostote verjetnosti Rayleighove porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:4391
 #: ../plugins/fn-stat/functions.c:4427
@@ -8636,7 +8727,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4496
 msgid "LAPLACE:probability density function of the Laplace distribution"
-msgstr ""
+msgstr "LAPLACE:funkcija gostote verjetnosti Laplacove porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:4498
 msgid "a:mean"
@@ -8660,7 +8751,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4523
 msgid "If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!"
-msgstr ""
+msgstr "V kolikor je vrednost @{x} < @{y} < 0, funkcija PERMUTATIONA vrne napako #NUM!"
 
 #: ../plugins/fn-stat/functions.c:4524
 msgid "If @{x} or @{y} are not integers, they are truncated"
@@ -8794,9 +8885,8 @@ msgid "CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and conta
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:178
-#, fuzzy
 msgid "UNICODE:the Unicode code point for the character @{c}"
-msgstr "U+%04X ni veljavna kodna točka nabora Unicode"
+msgstr "UNICODE:kodna točka nabora Unicode za znak @{c}"
 
 #: ../plugins/fn-string/functions.c:199
 msgid "EXACT:TRUE if @{string1} is exactly equal to @{string2}"
@@ -8982,7 +9072,7 @@ msgstr ""
 #: ../plugins/fn-string/functions.c:653
 #: ../plugins/fn-string/functions.c:1261
 msgid "start:starting position, defaults to 1"
-msgstr ""
+msgstr "začetek:začetni položaj, privzeto je enak 1"
 
 #: ../plugins/fn-string/functions.c:688
 msgid "FIXED:formatted string representation of @{num}"
@@ -9111,7 +9201,7 @@ msgstr "decimalke:decimalne vrednosti"
 
 #: ../plugins/fn-string/functions.c:1257
 msgid "SEARCH:the location of the @{search} string within @{text} after position @{start}"
-msgstr ""
+msgstr "SEARCH:vrne mesto @{iskalnega_niza} znotraj @{besedila} po položaju @{začetek}"
 
 #: ../plugins/fn-string/functions.c:1259
 #: ../plugins/fn-string/functions.c:1328
@@ -9136,7 +9226,7 @@ msgstr "To iskanje ne upošteva velikosti črk."
 
 #: ../plugins/fn-string/functions.c:1268
 msgid "If @{search} is not found, SEARCH returns #VALUE!"
-msgstr ""
+msgstr "V kolikor @{iskalnega_niza} ni mogoče najti, funkcija SEARCH vrne napako #VALUE!"
 
 #: ../plugins/fn-string/functions.c:1269
 msgid "If @{start} is less than one or it is greater than the length of @{text}, SEARCH returns #VALUE!"
