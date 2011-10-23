@@ -1649,6 +1649,7 @@ gnm_style_get_pango_attrs (GnmStyle const *style,
 {
 	PangoAttrList *l;
 	GnmUnderline ul;
+	GnmFont *font = gnm_style_get_font (style, context);
 
 	if (style->pango_attrs) {
 		if (zoom == style->pango_attrs_zoom) {
@@ -1685,18 +1686,17 @@ gnm_style_get_pango_attrs (GnmStyle const *style,
 	case GO_FONT_SCRIPT_STANDARD :
 		break;
 	case GO_FONT_SCRIPT_SUB :
-		add_attr (l, pango_attr_rise_new (GO_SUBSCRIPT_RISE));
+		add_attr (l, pango_attr_rise_new
+			  (GO_SUBSCRIPT_RISE * font->size_pts/10. * zoom));
 		zoom *= GO_SUBSCRIPT_SCALE;
 		break;
 	case GO_FONT_SCRIPT_SUPER :
-		add_attr (l, pango_attr_rise_new (GO_SUPERSCRIPT_RISE));
+		add_attr (l, pango_attr_rise_new
+			  (GO_SUPERSCRIPT_RISE* font->size_pts/10. * zoom));
 		zoom *= GO_SUPERSCRIPT_SCALE;
 	}
 
-	{
-		GnmFont *font = gnm_style_get_font (style, context);
-		add_attr (l, pango_attr_font_desc_new (font->go.font->desc));
-	}
+	add_attr (l, pango_attr_font_desc_new (font->go.font->desc));
 
 	if (zoom != 1)
 		add_attr (l, pango_attr_scale_new (zoom));

@@ -36,6 +36,7 @@ Andreas:
 	* Fix centering of spanned cell content. [#662361]
 	* Add optional markers to indicate that cell content has been
 	truncated. [#662149]
+	* Fix zoom of text superscripts and subscripts. [#425685]
 
 Jean:
 	* Make things build against gtk+-3.0.

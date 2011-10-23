@@ -162,6 +162,38 @@ gnm_rendered_value_remeasure (GnmRenderedValue *rv)
 				       &rv->layout_natural_height);
 }
 
+typedef struct {
+	double scale;
+	int rise;
+} rv_adjust_attributes_t;
+
+static gboolean
+rv_adjust_filter (PangoAttribute *attribute, rv_adjust_attributes_t *raat)
+{
+	if (attribute->klass->type == PANGO_ATTR_RISE) {
+		PangoAttrInt *pa_rise = (PangoAttrInt *)attribute;
+		pa_rise->value = raat->scale * pa_rise->value + raat->rise;
+	}
+	if (attribute->klass->type == PANGO_ATTR_SCALE && raat->scale != 1.) {
+		PangoAttrFloat *pa_scale = (PangoAttrFloat *)attribute;
+		pa_scale->value = pa_scale->value * raat->scale;
+	}
+	return FALSE;
+}
+
+static void
+rv_adjust_attributes (PangoAttrList *markup, double scale, int rise)
+{
+	rv_adjust_attributes_t raat = {scale, rise};
+
+	g_print ("rv_adjust_attributes pal:%p scale:%f rise:%d\n",
+		 markup, scale, rise);
+
+	pango_attr_list_filter (markup, (PangoAttrFilterFunc) rv_adjust_filter,
+				&raat);
+}
+
+
 /**
  * gnm_rendered_value_new:
  * @cell:   The cell
@@ -275,11 +307,50 @@ gnm_rendered_value_new (GnmCell const *cell,
 		if (fmt != NULL && go_format_is_markup (fmt)) {
 			PangoAttrList *orig = attrs;
 			const PangoAttrList *markup = go_format_get_markup (fmt);
+			PangoAttrList *c_markup = NULL;
+			PangoAttrIterator *iter;
+			GSList *extra_attrs = NULL, *l;
+			PangoFontDescription *desc = pango_font_description_new ();
+			double font_size, scale = 1., tscale;
+			int rise = 0;
+
 			attrs = pango_attr_list_copy (attrs);
-			pango_attr_list_splice (attrs,
-						(PangoAttrList *)markup,
-						0, 0);
+
+			iter = pango_attr_list_get_iterator (attrs);
+			pango_attr_iterator_get_font (iter,
+						      desc,
+						      NULL,
+						      &extra_attrs);
+			font_size = pango_font_description_get_size (desc)/
+				(double)PANGO_SCALE;
+			
+			for (l = extra_attrs; l != NULL; l = l->next) {
+				PangoAttribute *pa = l->data;
+				if (pa->klass->type == PANGO_ATTR_RISE) {
+					PangoAttrInt *pa_rise = l->data;
+					rise = pa_rise->value;
+					
+				}
+				if (pa->klass->type == PANGO_ATTR_SCALE) {
+					PangoAttrFloat *pa_scale = l->data;
+					scale = pa_scale->value;
+				}
+			}
+			go_slist_free_custom (extra_attrs, 
+					      (GFreeFunc) pango_attribute_destroy);
+			pango_font_description_free (desc);
+			pango_attr_iterator_destroy (iter);
+
+			tscale = font_size/10. * scale;
+			if (tscale != 1|| rise != 0) {
+				markup = c_markup = pango_attr_list_copy 
+					((PangoAttrList *)markup);
+				rv_adjust_attributes (c_markup, tscale, rise);
+			}
+
+			pango_attr_list_splice (attrs, (PangoAttrList *)markup, 0, 0);
 			pango_attr_list_unref (orig);
+			pango_attr_list_unref (c_markup);
 		}
 	}
 
