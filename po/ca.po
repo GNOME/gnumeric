@@ -9037,7 +9037,7 @@ msgstr "Reinterpreta els indicadors de text _adjacents"
 
 #: ../src/dialogs/dialog-stf.ui.h:46
 msgid "_Auto Column Discovery"
-msgstr "Decobriment _automàtic de columnes"
+msgstr "Descobriment _automàtic de columnes"
 
 #: ../src/dialogs/dialog-stf.ui.h:47
 msgid "_Clear"
@@ -10301,11 +10301,11 @@ msgstr "Escala"
 
 #: ../src/dialogs/print.ui.h:35
 msgid "Scale to fit _horizontally on"
-msgstr "Canvia l'escala per a ajustar-se _horizontalment a"
+msgstr "Canvia l'escala per a ajustar-se _horitzontalment a"
 
 #: ../src/dialogs/print.ui.h:36
 msgid "Scale to fit _vertically on"
-msgstr "Canvia l'escala per a ajustar-se _verticalament a"
+msgstr "Canvia l'escala per a ajustar-se _verticalment a"
 
 #: ../src/dialogs/print.ui.h:38
 msgid "Styles with no content"
@@ -10860,7 +10860,7 @@ msgstr "Troba el text dins dels valors calculats de les expressions"
 
 #: ../src/dialogs/search.ui.h:10
 msgid "Match _whole words only"
-msgstr "Només fes que coinicideixin paraules _senceres"
+msgstr "Només fes que coincideixin paraules _senceres"
 
 #: ../src/dialogs/search.ui.h:11
 msgid "Matches"
@@ -16135,7 +16135,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2462
 msgid "_Known Variances: Z-Test..."
-msgstr "Variances descone_gudes: Z-Test..."
+msgstr "Variàncies descone_gudes: Z-Test..."
 
 #: ../src/wbc-gtk-actions.c:2463
 msgid ""
