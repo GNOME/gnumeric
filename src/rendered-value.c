@@ -163,6 +163,7 @@ gnm_rendered_value_remeasure (GnmRenderedValue *rv)
 }
 
 typedef struct {
+	double zoom;
 	double scale;
 	int rise;
 } rv_adjust_attributes_t;
@@ -176,18 +177,15 @@ rv_adjust_filter (PangoAttribute *attribute, rv_adjust_attributes_t *raat)
 	}
 	if (attribute->klass->type == PANGO_ATTR_SCALE && raat->scale != 1.) {
 		PangoAttrFloat *pa_scale = (PangoAttrFloat *)attribute;
-		pa_scale->value = pa_scale->value * raat->scale;
+		pa_scale->value = pa_scale->value * raat->zoom;
 	}
 	return FALSE;
 }
 
 static void
-rv_adjust_attributes (PangoAttrList *markup, double scale, int rise)
+rv_adjust_attributes (PangoAttrList *markup, double zoom, double scale, int rise)
 {
-	rv_adjust_attributes_t raat = {scale, rise};
-
-	g_print ("rv_adjust_attributes pal:%p scale:%f rise:%d\n",
-		 markup, scale, rise);
+	rv_adjust_attributes_t raat = {zoom, scale, rise};
 
 	pango_attr_list_filter (markup, (PangoAttrFilterFunc) rv_adjust_filter,
 				&raat);
@@ -345,7 +343,7 @@ gnm_rendered_value_new (GnmCell const *cell,
 			if (tscale != 1|| rise != 0) {
 				markup = c_markup = pango_attr_list_copy 
 					((PangoAttrList *)markup);
-				rv_adjust_attributes (c_markup, tscale, rise);
+				rv_adjust_attributes (c_markup, zoom, tscale, rise);
 			}
 
 			pango_attr_list_splice (attrs, (PangoAttrList *)markup, 0, 0);

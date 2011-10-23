@@ -1,5 +1,11 @@
 2011-10-22 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/rendered-value.c (rv_adjust_filter): use zoom rather than scale
+	(rv_adjust_attributes): delete debug spew and add argument
+	(gnm_rendered_value_new): adjust call to rv_adjust_attributes
+
+2011-10-22 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/mstyle.c (gnm_style_get_pango_attrs): adjust the pango
 	attributes for subscript/superscripts in the case of zoom
 	* src/rendered-value.c (rv_adjust_filter): new
