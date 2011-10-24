@@ -233,24 +233,6 @@ gnumeric_check_for_components (void)
 }
 #endif
 
-/* If something links in gnome-vfs, be kind and initialize it.  */
-static void
-call_gnome_vfs_init (void)
-{
-	GModule *self = g_module_open (NULL, 0);
-	gboolean ok;
-	gpointer gvi = NULL;
-	gboolean (*_gnome_vfs_init) (void);
-
-	if (!self) return;
-	ok = g_module_symbol (self, "gnome_vfs_init", &gvi);
-	g_module_close (self);
-	if (!ok || gvi == NULL) return;
-
-	_gnome_vfs_init = (gboolean (*) (void))gvi;
-	_gnome_vfs_init ();
-}
-
 void
 gnm_init (void)
 {
@@ -258,8 +240,6 @@ gnm_init (void)
 	if (inited)
 		return;
 	inited = TRUE;
-
-	call_gnome_vfs_init ();
 
 	libgoffice_init ();
 	go_plugin_service_define ("function_group",
