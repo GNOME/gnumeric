@@ -1,5 +1,8 @@
 Gnumeric 1.11.0
 
+Adrian Bunk:
+       * Remove obsolete Hildon port.  [#662412]
+
 Andreas: 
 	* Use formatting attributes whenever we format numbers. 
 	[#584380][#651561]
