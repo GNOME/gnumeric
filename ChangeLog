@@ -1,5 +1,12 @@
 2011-10-25  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* configure.in: cleaned dead-kittens.h.
+	* src/dead-kittens.h: ditto.
+	* src/gui-util.c (gnm_canvas_get_position): ditto.
+	* src/style.c (gnm_pango_context_get): ditto.
+
+2011-10-25  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/sheet-object-image.c (so_image_view_set_bounds): fixed after
 	go_pixbuf* rename.
 

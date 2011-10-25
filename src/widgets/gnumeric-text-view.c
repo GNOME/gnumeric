@@ -278,7 +278,7 @@ static GObjectClass *parent_class = NULL;
 static void
 gtv_destroy (GtkWidget *widget)
 {
-	gnm_destroy_class_chain (parent_class, widget);
+	((GtkWidgetClass *)(parent_class))->destroy (widget);
 }
 
 
@@ -384,7 +384,7 @@ gtv_class_init (GObjectClass *gobject_class)
 
 	gobject_class->set_property	= gtv_set_property;
 	gobject_class->get_property	= gtv_get_property;
-	gnm_destroy_class_set (gobject_class, gtv_destroy);
+	((GtkWidgetClass *)(gobject_class))->destroy = gtv_destroy;
 
 	signals [CHANGED] = g_signal_new ("changed",
 		GNM_TEXT_VIEW_TYPE,

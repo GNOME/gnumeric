@@ -159,7 +159,7 @@ el_destroy (GtkWidget *widget)
 	EditableLabel *el = EDITABLE_LABEL (widget);
 
 	el_cancel_editing (el);
-	gnm_destroy_class_chain (parent_class, widget);
+	((GtkWidgetClass *)(parent_class))->destroy (widget);
 }
 
 static gint
@@ -259,7 +259,7 @@ el_class_init (GObjectClass *object_class)
 
 	parent_class = g_type_class_peek_parent (object_class);
 
-	gnm_destroy_class_set (object_class, el_destroy);
+	widget_class->destroy		  = el_destroy;
 	widget_class->button_press_event  = el_button_press_event;
 	widget_class->key_press_event	  = el_key_press_event;
 	widget_class->get_preferred_width = el_get_preferred_width;

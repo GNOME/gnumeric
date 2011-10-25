@@ -115,13 +115,13 @@ gnm_dao_destroy (GtkWidget *widget)
 		gdao->gui = NULL;
 	}
 
-	gnm_destroy_class_chain (gnm_dao_parent_class, widget);
+	((GtkWidgetClass *)(gnm_dao_parent_class))->destroy (widget);
 }
 
 static void
 gnm_dao_class_init (GObjectClass *klass)
 {
-	gnm_destroy_class_set (klass, gnm_dao_destroy);
+	((GtkWidgetClass *)(klass))->destroy = gnm_dao_destroy;
 
 	gnm_dao_parent_class = g_type_class_peek (gtk_box_get_type ());
 

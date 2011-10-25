@@ -438,13 +438,13 @@ fs_destroy (GtkWidget *widget)
 	g_slist_free (fs->font_sizes);
 	fs->font_sizes = NULL;
 
-	gnm_destroy_class_chain (fs_parent_class, widget);
+	((GtkWidgetClass *)(fs_parent_class))->destroy (widget);
 }
 
 static void
 fs_class_init (GObjectClass *klass)
 {
-	gnm_destroy_class_set (klass, fs_destroy);
+	((GtkWidgetClass *)(klass))->destroy = fs_destroy;
 
 	fs_parent_class = g_type_class_peek (gtk_box_get_type ());
 
