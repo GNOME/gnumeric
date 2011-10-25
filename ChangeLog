@@ -12,6 +12,9 @@
 
 2011-10-24  Morten Welinder  <terra@gnome.org>
 
+	* src/position.h (eval_pos_is_array_context): New macro so we can
+	easier tell who is using the actual context information.
+
 	* src/libgnumeric.c (gnm_init): Don't bother initializing
 	gnome-vfs anymore.
 

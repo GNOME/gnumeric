@@ -140,6 +140,7 @@ eval_pos_init_sheet (GnmEvalPos *ep, Sheet const *sheet)
 	return ep;
 }
 
+
 /*
  * parse_pos_init :
  *

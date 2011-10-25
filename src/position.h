@@ -32,6 +32,7 @@ GnmEvalPos  *eval_pos_init_dep	   (GnmEvalPos *ep, GnmDependent const *dep);
 GnmEvalPos  *eval_pos_init_cell	   (GnmEvalPos *ep, GnmCell const *cell);
 GnmEvalPos  *eval_pos_init_editpos (GnmEvalPos *ep, SheetView const *sv);
 GnmEvalPos  *eval_pos_init_sheet   (GnmEvalPos *ep, Sheet const *sheet);
+#define      eval_pos_is_array_context(ep) ((ep)->array != NULL)
 
 /* Initialization routines for Parse Positions */
 GnmParsePos *parse_pos_init         (GnmParsePos *pp, Workbook *wb,

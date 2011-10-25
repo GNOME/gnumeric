@@ -1540,7 +1540,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei, GnmExprEvalFlags flags)
 		return value_new_error_NA (ei->pos);
 
 	args = g_alloca (sizeof (GnmValue *) * fn_def->fn.args.max_args);
-	iter_count = (ei->pos->array != NULL &&
+	iter_count = (eval_pos_is_array_context (ei->pos) &&
 		      (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR))
 		? 0 : -1;
 
@@ -1997,7 +1997,7 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 		 * will do implicit intersection in non-array mode */
 		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT)
 			val = value_dup (expr->constant.value);
-		else if (ep->array != NULL ||
+		else if (eval_pos_is_array_context (ep) ||
 			 GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL ||
 			 GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_RANGE_CTOR ||
 			 GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_INTERSECT)

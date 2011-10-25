@@ -1369,7 +1369,7 @@ gnumeric_column (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 	if (ref == NULL) {
 		col   = ei->pos->eval.col + 1; /* user visible counts from 0 */
-		if (ei->pos->array != NULL)
+		if (eval_pos_is_array_context (ei->pos))
 			width = ei->pos->array->cols;
 		else
 			return value_new_int (col);

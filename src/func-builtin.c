@@ -129,7 +129,7 @@ gnumeric_table_link (GnmFuncEvalInfo *ei)
 	rr.b.col_relative = rr.b.row_relative = FALSE;
 	rr.a.sheet = rr.b.sheet = dep->sheet;
 
-	g_return_val_if_fail (ei->pos->array != NULL, DEPENDENT_IGNORE_ARGS);
+	g_return_val_if_fail (eval_pos_is_array_context (ei->pos), DEPENDENT_IGNORE_ARGS);
 
 	g_return_val_if_fail (ei->pos->eval.col > 0, DEPENDENT_IGNORE_ARGS);
 	rr.a.col = rr.b.col = ei->pos->eval.col - 1;
