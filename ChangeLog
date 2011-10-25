@@ -1,3 +1,8 @@
+2011-10-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-image.c (so_image_view_set_bounds): fixed after
+	go_pixbuf* rename.
+
 2011-10-24  Morten Welinder  <terra@gnome.org>
 
 	* src/libgnumeric.c (gnm_init): Don't bother initializing

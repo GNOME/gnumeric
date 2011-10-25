@@ -70,7 +70,7 @@ so_image_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean v
 		old_height = fabs (old_y1 - old_y2);
 		if (placeholder != NULL &&
 		    (fabs (width - old_width) > 0.5 || fabs (height - old_height) > 0.5)) {
-			GdkPixbuf *newimage = go_pixbuf_tile (placeholder,
+			GdkPixbuf *newimage = go_gdk_pixbuf_tile (placeholder,
 				(guint)width, (guint)height);
 			goc_item_set (view, "pixbuf", newimage, NULL);
 			g_object_unref (newimage);
