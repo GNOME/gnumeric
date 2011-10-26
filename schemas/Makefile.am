@@ -1,3 +1,4 @@
+SUFFIXES = .schemas.in .reg .hkcu.reg
 schema_in_files = gnumeric-dialogs.schemas.in gnumeric-general.schemas.in gnumeric-plugins.schemas.in
 if WITH_GCONF
 schemadir   	= @GCONF_SCHEMA_FILE_DIR@
@@ -40,14 +41,13 @@ install-data-local:
 endif
 
 if WITH_NATIVE_WIN32
-SUFFIXES = .schemas.in .reg .hkcu.reg
 regdir = $(prefix)/etc/win32/reg
 reg_DATA = $(schema_in_files:.schemas.in=.reg) $(schema_in_files:.schemas.in=.hkcu.reg)
 CLEANFILES += $(reg_DATA)
+endif
 
 .schemas.in.reg:
 	@PERL@ $(top_srcdir)/tools/handle-conf-options --reg $< >$(abs_builddir)/$@
 
 .schemas.in.hkcu.reg:
 	@PERL@ $(top_srcdir)/tools/handle-conf-options --hkcu-reg $< >$(abs_builddir)/$@
-endif

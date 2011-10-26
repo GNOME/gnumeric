@@ -76,6 +76,35 @@ sub walk_gconf_tree {
     }
 }
 
+sub unquote_gschema_string {
+    my ($val) = @_;
+    die "$0: invalid string value: $val\n" unless
+	(length($val) >= 2 &&
+	 substr($val,0,1) eq substr($val,-1,1) &&
+	 $val =~ /^['"]/);
+    $val = substr ($val, 1, length ($val) - 2);
+    return $val;
+}
+
+sub unquote_gschema_string_list {
+    my ($val) = @_;
+    return undef if $val eq '[]';
+    die "$0: invalid string value: $val\n" unless
+	(length($val) >= 2 &&
+	 substr($val,0,1) eq '[' &&
+	 substr($val,-1,1) eq ']');
+    $val = substr ($val, 1, length ($val) - 2);
+    my $res = '';
+    while ($val =~ s/^'([^']*)'// or $val =~ s/^"([^']*)"//) {
+	$res .= $1;
+	last if $val eq '';
+	$val =~ s/^,//;
+	$res .= ',';
+    }
+
+    return "[$res]";
+}
+
 sub walk_gsetting_tree {
     my ($parents,$contents) = @_;
 
@@ -93,11 +122,11 @@ sub walk_gsetting_tree {
 		    my $key = $parents->[-1];
 		    my $val = $args;
 		    if ($key eq 'default' && $schema->{'type'} eq 'string') {
-			die "$0: invalid string value: $val\n" unless
-			    (length($val) >= 2 &&
-			     substr($val,0,1) eq substr($val,-1,1) &&
-			     $val =~ /^['"]/);
-			$val = substr ($val, 1, length ($val) - 2);
+			$val = &unquote_gschema_string ($val);
+		    } elsif ($key eq 'default' &&
+			     $schema->{'type'} eq 'list' &&
+			     $schema->{'list_type'} eq 'string') {
+			$val = &unquote_gschema_string_list ($val);
 		    }
 		    $schema->{$key} = $val;
 		}
@@ -388,7 +417,6 @@ sub quote_c_string {
 }
 
 sub create_hcfile {
-    &sort_schemas ();
     &number_schemas ();
     &apply_extra_attributes ();
 
@@ -659,6 +687,7 @@ sub create_reg {
 
 # -----------------------------------------------------------------------------
 
+&sort_schemas ();
 &create_hcfile () if $do_hfile || $do_cfile;
 &create_reg ("HKEY_USERS\\.DEFAULT\\Software") if $do_reg;
 &create_reg ("HKEY_CURRENT_USER\\Software") if $do_hkcu_reg;
