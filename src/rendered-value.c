@@ -482,10 +482,6 @@ gnm_rendered_value_new (GnmCell const *cell,
 		break;
 
 	case HALIGN_JUSTIFY:
-		/*
-		 * The code here should work, but pango doesn't:
-		 * http://bugzilla.gnome.org/show_bug.cgi?id=64538
-		 */
 		pango_layout_set_justify (layout, TRUE);
 		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
 		break;
@@ -508,7 +504,8 @@ gnm_rendered_value_new (GnmCell const *cell,
 		g_warning ("Line justification style not supported.");
 	}
 			 /* ---------------------------------------- */
-
+	
+	go_pango_translate_layout (layout);
 	gnm_rendered_value_remeasure (res);
 
 	return res;

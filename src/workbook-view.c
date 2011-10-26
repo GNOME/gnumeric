@@ -548,6 +548,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 			case GO_FORMAT_NUMBER_DATE_ERROR: {
 				PangoAttrList *atl;
 
+				go_pango_translate_layout (layout); /* translating custom attributes */
 				g_string_append (str, pango_layout_get_text (layout));
 				/* We need to shift the attribute list  */
 				atl = pango_attr_list_ref (pango_layout_get_attributes (layout));

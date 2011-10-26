@@ -46,6 +46,7 @@ cb_generate_preview (GOFormatSel *gfs, PangoAttrList **attrs)
 			*attrs = NULL;
 		} else {
 			str = g_strdup (pango_layout_get_text (layout));
+			go_pango_translate_layout (layout); 
 			*attrs = pango_attr_list_ref (pango_layout_get_attributes (layout));
 		}
 		g_object_unref (layout);

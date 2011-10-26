@@ -1,3 +1,7 @@
+2011-10-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnm-format-sel.c (cb_generate_preview): call go_pango_translate_layout
+
 2011-10-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* gnm-dao.c (gnm_dao_destroy), (gnm_dao_class_init): cleaned dead-kittens.h.
