@@ -489,6 +489,7 @@ GOConfNode *gnm_conf_get_autocorrect_dir_node (void);
 GOConfNode *gnm_conf_get_autoformat_dir_node (void);
 GOConfNode *gnm_conf_get_core_defaultfont_dir_node (void);
 GOConfNode *gnm_conf_get_core_file_save_dir_node (void);
+GOConfNode *gnm_conf_get_core_gui_cells_dir_node (void);
 GOConfNode *gnm_conf_get_core_gui_editing_dir_node (void);
 GOConfNode *gnm_conf_get_core_gui_screen_dir_node (void);
 GOConfNode *gnm_conf_get_core_gui_toolbars_dir_node (void);
