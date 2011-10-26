@@ -1,3 +1,8 @@
+2011-10-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* openoffice-write.c (odf_match_image): make things build again
+	after goffice changes.
+
 2011-10-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (identified_google_docs): new

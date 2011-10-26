@@ -6513,7 +6513,7 @@ odf_get_gradient_name (GnmOOExport *state, GOStyle const* style)
 static gboolean
 odf_match_image (GOImage *old, GOImage *new)
 {
-	return go_image_same_pixbuf (old, new);
+	return !go_image_differ (old, new);
 }
 
 

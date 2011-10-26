@@ -255,7 +255,6 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (so);
 	GOStyle const *style = sof->style;
-	cairo_pattern_t *pat = NULL;
 
 	cairo_new_path (cr);
 	if (sof->is_oval) {
@@ -272,12 +271,7 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 		cairo_close_path (cr);
 	}
 	/* Fill the shape */
-	pat = go_style_create_cairo_pattern (style, cr);
-	if (pat) {
-		cairo_set_source (cr, pat);
-		cairo_fill_preserve (cr);
-		cairo_pattern_destroy (pat);
-	}
+	go_style_fill (style, cr, TRUE);
 	/* Draw the line */
 	if (go_style_set_cairo_line (style, cr))
 		cairo_stroke (cr);
