@@ -13,17 +13,32 @@ my ($do_hkcu_reg,$do_reg);
 
 # -----------------------------------------------------------------------------
 
+my %typemap = ('b' => 'bool',
+	       's' => 'string',
+	       'i' => 'int',
+	       'd' => 'float',
+	       'as' => 'list:string');
+
+
 my @schemas = ();
 
 for my $filename (@ARGV) {
     my $parser = new XML::Parser ('Style' => 'Tree');
     my $tree = $parser->parsefile ($filename);
 
-    &walk_tree ([], [{},@$tree]);
+    my $mode = $tree->[0];
+
+    if ($mode eq 'gconfschemafile') {
+	&walk_gconf_tree ([], [{},@$tree]);
+    } elsif ($mode eq 'schemalist') {
+	&walk_gsetting_tree ([], [{},@$tree]);
+    } else {
+	die "$0: Unknown type of xml [$mode].\n";
+    }
 }
 
 my $schema;
-sub walk_tree {
+sub walk_gconf_tree {
     my ($parents,$contents) = @_;
 
     if (ref ($contents) eq 'ARRAY') {
@@ -54,8 +69,60 @@ sub walk_tree {
 		    # This handles empty defaults.
 		    $schema->{$tag} = '';
 		}
-		&walk_tree ([@$parents,$tag],$args);
+		&walk_gconf_tree ([@$parents,$tag],$args);
 		push @schemas, $schema if $tag eq 'schema';
+	    }
+	}
+    }
+}
+
+sub walk_gsetting_tree {
+    my ($parents,$contents) = @_;
+
+    if (ref ($contents) eq 'ARRAY') {
+	my @items = @$contents;
+	my $attrs = shift @items;
+
+	while (@items) {
+	    my $tag = shift @items;
+	    my $args = shift @items;
+
+	    if ($tag eq '0') {
+		# Text
+		if (@$parents > 2 && $parents->[-2] eq 'key') {
+		    my $key = $parents->[-1];
+		    my $val = $args;
+		    if ($key eq 'default' && $schema->{'type'} eq 'string') {
+			die "$0: invalid string value: $val\n" unless
+			    (length($val) >= 2 &&
+			     substr($val,0,1) eq substr($val,-1,1) &&
+			     $val =~ /^['"]/);
+			$val = substr ($val, 1, length ($val) - 2);
+		    }
+		    $schema->{$key} = $val;
+		}
+	    } else {
+		if ($tag eq 'key') {
+		    $schema = {};
+
+		    my $thisattrs = $args->[0];
+
+		    $schema->{'applyto'} =
+			$attrs->{'path'} . $thisattrs->{'name'};
+		    my $type = $typemap{$thisattrs->{'type'}};
+		    if ($type =~ /^list:(.*)$/) {
+			$schema->{'type'} = 'list';
+			$schema->{'list_type'} = $1;
+		    } else {
+			$schema->{'type'} = $type;
+		    }
+		}
+		if (@$parents > 1 && $parents->[-1] eq 'schema') {
+		    # This handles empty defaults.
+		    $schema->{$tag} = '';
+		}
+		&walk_gsetting_tree ([@$parents,$tag],$args);
+		push @schemas, $schema if $tag eq 'key';
 	    }
 	}
     }
@@ -75,6 +142,7 @@ my %extra_attributes =
      },
 
      '/apps/gnome-settings/gnumeric/toolbar_style' => {
+	 'noconfnode' => 1,
 	 'gtype' => 'GTK_TYPE_TOOLBAR_STYLE',
 	 'default' => 'GTK_TOOLBAR_ICONS',  # Should match schema
      },
@@ -259,6 +327,16 @@ my %extra_attributes =
      },
 
     );
+foreach my $key (keys %extra_attributes) {
+    my $newkey = $key;
+    if ($newkey eq '/apps/gnome-settings/gnumeric/toolbar_style') {
+	$newkey = '/apps/gnumeric/toolbar-style';
+    } else {
+	$newkey = lc $newkey;
+	$newkey =~ s/_/-/g;
+    }
+    $extra_attributes{$newkey} = $extra_attributes{$key};
+}
 
 sub apply_extra_attributes {
     foreach my $schema (@schemas) {
@@ -310,7 +388,7 @@ sub quote_c_string {
 }
 
 sub create_hcfile {
-    @schemas = sort { $a->{'applyto'} cmp $b->{'applyto'} } @schemas;
+    &sort_schemas ();
     &number_schemas ();
     &apply_extra_attributes ();
 
@@ -356,6 +434,7 @@ sub create_hcfile {
 	    my $dir = $key; $dir =~ s{/[^/]+$}{};
 	    $dirs{$dir} = 1;
 	    $needs_conf = 1;
+	    $needs_conf = 0 if $schema->{'noconfnode'};
 	}
 
 	my $get_conf_code = "";
