@@ -103,42 +103,42 @@
     </key>
   </schema>
   <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.toolbars" path="/apps/gnumeric/core/gui/toolbars/">
-    <key name="standardtoolbar" type="b">
+    <key name="standard-visible" type="b">
       <default>true</default>
       <_summary>Standard toolbar visible</_summary>
       <_description>This variable determines whether the standard toolbar should be visible initially.</_description>
     </key>
-    <key name="standardtoolbar-position" type="i">
+    <key name="standard-position" type="i">
       <default>2</default>
       <_summary>Standard toolbar position</_summary>
       <_description>This variable determines where the standard toolbar should be shown.  0 is left, 1 is right, 2 is top.</_description>
     </key>
-    <key name="formattoolbar" type="b">
+    <key name="format-visible" type="b">
       <default>true</default>
       <_summary>Format toolbar visible</_summary>
       <_description>This variable determines whether the format toolbar should be visible initially.</_description>
     </key>
-    <key name="formattoolbar-position" type="i">
+    <key name="format-position" type="i">
       <default>2</default>
       <_summary>Format toolbar position</_summary>
       <_description>This variable determines where the format toolbar should be shown.  0 is left, 1 is right, 2 is top.</_description>
     </key>
-    <key name="longformattoolbar" type="b">
-      <default>true</default>
+    <key name="longformat-visible" type="b">
+      <default>false</default>
       <_summary>Long format toolbar visible</_summary>
       <_description>This variable determines whether the long format toolbar should be visible initially.</_description>
     </key>
-    <key name="longformattoolbar-position" type="i">
+    <key name="longformat-position" type="i">
       <default>2</default>
       <_summary>Long format toolbar position</_summary>
       <_description>This variable determines where the long format toolbar should be shown.  0 is left, 1 is right, 2 is top.</_description>
     </key>
-    <key name="objecttoolbar" type="b">
+    <key name="object-visible" type="b">
       <default>true</default>
       <_summary>Object toolbar visible</_summary>
       <_description>This variable determines whether the object toolbar should be visible initially.</_description>
     </key>
-    <key name="objecttoolbar-position" type="i">
+    <key name="object-position" type="i">
       <default>2</default>
       <_summary>Object toolbar position</_summary>
       <_description>This variable determines where the object toolbar should be shown.  0 is left, 1 is right, 2 is top.</_description>

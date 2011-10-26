@@ -529,10 +529,10 @@ gboolean
 gnm_conf_get_toolbar_visible (const char *name)
 {
 	TOOLBAR_TANGO
-		(return gnm_conf_get_core_gui_toolbars_ObjectToolbar ();,
-		 return gnm_conf_get_core_gui_toolbars_FormatToolbar ();,
-		 return gnm_conf_get_core_gui_toolbars_LongFormatToolbar ();,
-		 return gnm_conf_get_core_gui_toolbars_StandardToolbar (););
+		(return gnm_conf_get_core_gui_toolbars_object_visible ();,
+		 return gnm_conf_get_core_gui_toolbars_format_visible ();,
+		 return gnm_conf_get_core_gui_toolbars_longformat_visible ();,
+		 return gnm_conf_get_core_gui_toolbars_standard_visible (););
 
 	g_warning ("Unknown toolbar: %s", name);
 	return FALSE;
@@ -542,20 +542,20 @@ void
 gnm_conf_set_toolbar_visible (const char *name, gboolean x)
 {
 	TOOLBAR_TANGO
-		(gnm_conf_set_core_gui_toolbars_ObjectToolbar (x);,
-		 gnm_conf_set_core_gui_toolbars_FormatToolbar (x);,
-		 gnm_conf_set_core_gui_toolbars_LongFormatToolbar (x);,
-		 gnm_conf_set_core_gui_toolbars_StandardToolbar (x););
+		(gnm_conf_set_core_gui_toolbars_object_visible (x);,
+		 gnm_conf_set_core_gui_toolbars_format_visible (x);,
+		 gnm_conf_set_core_gui_toolbars_longformat_visible (x);,
+		 gnm_conf_set_core_gui_toolbars_standard_visible (x););
 }
 
 GtkPositionType
 gnm_conf_get_toolbar_position (const char *name)
 {
 	TOOLBAR_TANGO
-		(return gnm_conf_get_core_gui_toolbars_ObjectToolbar_position ();,
-		 return gnm_conf_get_core_gui_toolbars_FormatToolbar_position ();,
-		 return gnm_conf_get_core_gui_toolbars_LongFormatToolbar_position ();,
-		 return gnm_conf_get_core_gui_toolbars_StandardToolbar_position (););
+		(return gnm_conf_get_core_gui_toolbars_object_position ();,
+		 return gnm_conf_get_core_gui_toolbars_format_position ();,
+		 return gnm_conf_get_core_gui_toolbars_longformat_position ();,
+		 return gnm_conf_get_core_gui_toolbars_standard_position (););
 
 	g_warning ("Unknown toolbar: %s", name);
 	return GTK_POS_TOP;
@@ -565,10 +565,10 @@ void
 gnm_conf_set_toolbar_position (const char *name, GtkPositionType x)
 {
 	TOOLBAR_TANGO
-		(gnm_conf_set_core_gui_toolbars_ObjectToolbar_position (x);,
-		 gnm_conf_set_core_gui_toolbars_FormatToolbar_position (x);,
-		 gnm_conf_set_core_gui_toolbars_LongFormatToolbar_position (x);,
-		 gnm_conf_set_core_gui_toolbars_StandardToolbar_position (x););
+		(gnm_conf_set_core_gui_toolbars_object_position (x);,
+		 gnm_conf_set_core_gui_toolbars_format_position (x);,
+		 gnm_conf_set_core_gui_toolbars_longformat_position (x);,
+		 gnm_conf_set_core_gui_toolbars_standard_position (x););
 }
 
 #undef TOOLBAR_TANGO
@@ -1362,212 +1362,212 @@ gnm_conf_get_core_gui_screen_verticaldpi_node (void)
 	return get_node (watch_core_gui_screen_verticaldpi.key);
 }
 
-static struct cb_watch_bool watch_core_gui_toolbars_FormatToolbar = {
-	0, "core/gui/toolbars/FormatToolbar", TRUE,
-};
-
-gboolean
-gnm_conf_get_core_gui_toolbars_FormatToolbar (void)
-{
-	if (!watch_core_gui_toolbars_FormatToolbar.handler)
-		watch_bool (&watch_core_gui_toolbars_FormatToolbar);
-	return watch_core_gui_toolbars_FormatToolbar.var;
-}
-
-void
-gnm_conf_set_core_gui_toolbars_FormatToolbar (gboolean x)
-{
-	if (!watch_core_gui_toolbars_FormatToolbar.handler)
-		watch_bool (&watch_core_gui_toolbars_FormatToolbar);
-	set_bool (&watch_core_gui_toolbars_FormatToolbar, x);
-}
-
-GOConfNode *
-gnm_conf_get_core_gui_toolbars_FormatToolbar_node (void)
-{
-	return get_node (watch_core_gui_toolbars_FormatToolbar.key);
-}
-
-static struct cb_watch_int watch_core_gui_toolbars_FormatToolbar_position = {
-	0, "core/gui/toolbars/FormatToolbar-position", 0, 3, 2,
+static struct cb_watch_int watch_core_gui_toolbars_format_position = {
+	0, "core/gui/toolbars/format-position", 0, 3, 2,
 };
 
 GtkPositionType
-gnm_conf_get_core_gui_toolbars_FormatToolbar_position (void)
+gnm_conf_get_core_gui_toolbars_format_position (void)
 {
-	if (!watch_core_gui_toolbars_FormatToolbar_position.handler)
-		watch_int (&watch_core_gui_toolbars_FormatToolbar_position);
-	return watch_core_gui_toolbars_FormatToolbar_position.var;
+	if (!watch_core_gui_toolbars_format_position.handler)
+		watch_int (&watch_core_gui_toolbars_format_position);
+	return watch_core_gui_toolbars_format_position.var;
 }
 
 void
-gnm_conf_set_core_gui_toolbars_FormatToolbar_position (GtkPositionType x)
+gnm_conf_set_core_gui_toolbars_format_position (GtkPositionType x)
 {
-	if (!watch_core_gui_toolbars_FormatToolbar_position.handler)
-		watch_int (&watch_core_gui_toolbars_FormatToolbar_position);
-	set_int (&watch_core_gui_toolbars_FormatToolbar_position, x);
+	if (!watch_core_gui_toolbars_format_position.handler)
+		watch_int (&watch_core_gui_toolbars_format_position);
+	set_int (&watch_core_gui_toolbars_format_position, x);
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_toolbars_FormatToolbar_position_node (void)
+gnm_conf_get_core_gui_toolbars_format_position_node (void)
 {
-	return get_node (watch_core_gui_toolbars_FormatToolbar_position.key);
+	return get_node (watch_core_gui_toolbars_format_position.key);
 }
 
-static struct cb_watch_bool watch_core_gui_toolbars_LongFormatToolbar = {
-	0, "core/gui/toolbars/LongFormatToolbar", FALSE,
+static struct cb_watch_bool watch_core_gui_toolbars_format_visible = {
+	0, "core/gui/toolbars/format-visible", TRUE,
 };
 
 gboolean
-gnm_conf_get_core_gui_toolbars_LongFormatToolbar (void)
+gnm_conf_get_core_gui_toolbars_format_visible (void)
 {
-	if (!watch_core_gui_toolbars_LongFormatToolbar.handler)
-		watch_bool (&watch_core_gui_toolbars_LongFormatToolbar);
-	return watch_core_gui_toolbars_LongFormatToolbar.var;
+	if (!watch_core_gui_toolbars_format_visible.handler)
+		watch_bool (&watch_core_gui_toolbars_format_visible);
+	return watch_core_gui_toolbars_format_visible.var;
 }
 
 void
-gnm_conf_set_core_gui_toolbars_LongFormatToolbar (gboolean x)
+gnm_conf_set_core_gui_toolbars_format_visible (gboolean x)
 {
-	if (!watch_core_gui_toolbars_LongFormatToolbar.handler)
-		watch_bool (&watch_core_gui_toolbars_LongFormatToolbar);
-	set_bool (&watch_core_gui_toolbars_LongFormatToolbar, x);
+	if (!watch_core_gui_toolbars_format_visible.handler)
+		watch_bool (&watch_core_gui_toolbars_format_visible);
+	set_bool (&watch_core_gui_toolbars_format_visible, x);
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_toolbars_LongFormatToolbar_node (void)
+gnm_conf_get_core_gui_toolbars_format_visible_node (void)
 {
-	return get_node (watch_core_gui_toolbars_LongFormatToolbar.key);
+	return get_node (watch_core_gui_toolbars_format_visible.key);
 }
 
-static struct cb_watch_int watch_core_gui_toolbars_LongFormatToolbar_position = {
-	0, "core/gui/toolbars/LongFormatToolbar-position", 0, 3, 2,
+static struct cb_watch_int watch_core_gui_toolbars_longformat_position = {
+	0, "core/gui/toolbars/longformat-position", 0, 3, 2,
 };
 
 GtkPositionType
-gnm_conf_get_core_gui_toolbars_LongFormatToolbar_position (void)
+gnm_conf_get_core_gui_toolbars_longformat_position (void)
 {
-	if (!watch_core_gui_toolbars_LongFormatToolbar_position.handler)
-		watch_int (&watch_core_gui_toolbars_LongFormatToolbar_position);
-	return watch_core_gui_toolbars_LongFormatToolbar_position.var;
+	if (!watch_core_gui_toolbars_longformat_position.handler)
+		watch_int (&watch_core_gui_toolbars_longformat_position);
+	return watch_core_gui_toolbars_longformat_position.var;
 }
 
 void
-gnm_conf_set_core_gui_toolbars_LongFormatToolbar_position (GtkPositionType x)
+gnm_conf_set_core_gui_toolbars_longformat_position (GtkPositionType x)
 {
-	if (!watch_core_gui_toolbars_LongFormatToolbar_position.handler)
-		watch_int (&watch_core_gui_toolbars_LongFormatToolbar_position);
-	set_int (&watch_core_gui_toolbars_LongFormatToolbar_position, x);
+	if (!watch_core_gui_toolbars_longformat_position.handler)
+		watch_int (&watch_core_gui_toolbars_longformat_position);
+	set_int (&watch_core_gui_toolbars_longformat_position, x);
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_toolbars_LongFormatToolbar_position_node (void)
+gnm_conf_get_core_gui_toolbars_longformat_position_node (void)
 {
-	return get_node (watch_core_gui_toolbars_LongFormatToolbar_position.key);
+	return get_node (watch_core_gui_toolbars_longformat_position.key);
 }
 
-static struct cb_watch_bool watch_core_gui_toolbars_ObjectToolbar = {
-	0, "core/gui/toolbars/ObjectToolbar", FALSE,
+static struct cb_watch_bool watch_core_gui_toolbars_longformat_visible = {
+	0, "core/gui/toolbars/longformat-visible", FALSE,
 };
 
 gboolean
-gnm_conf_get_core_gui_toolbars_ObjectToolbar (void)
+gnm_conf_get_core_gui_toolbars_longformat_visible (void)
 {
-	if (!watch_core_gui_toolbars_ObjectToolbar.handler)
-		watch_bool (&watch_core_gui_toolbars_ObjectToolbar);
-	return watch_core_gui_toolbars_ObjectToolbar.var;
+	if (!watch_core_gui_toolbars_longformat_visible.handler)
+		watch_bool (&watch_core_gui_toolbars_longformat_visible);
+	return watch_core_gui_toolbars_longformat_visible.var;
 }
 
 void
-gnm_conf_set_core_gui_toolbars_ObjectToolbar (gboolean x)
+gnm_conf_set_core_gui_toolbars_longformat_visible (gboolean x)
 {
-	if (!watch_core_gui_toolbars_ObjectToolbar.handler)
-		watch_bool (&watch_core_gui_toolbars_ObjectToolbar);
-	set_bool (&watch_core_gui_toolbars_ObjectToolbar, x);
+	if (!watch_core_gui_toolbars_longformat_visible.handler)
+		watch_bool (&watch_core_gui_toolbars_longformat_visible);
+	set_bool (&watch_core_gui_toolbars_longformat_visible, x);
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_toolbars_ObjectToolbar_node (void)
+gnm_conf_get_core_gui_toolbars_longformat_visible_node (void)
 {
-	return get_node (watch_core_gui_toolbars_ObjectToolbar.key);
+	return get_node (watch_core_gui_toolbars_longformat_visible.key);
 }
 
-static struct cb_watch_int watch_core_gui_toolbars_ObjectToolbar_position = {
-	0, "core/gui/toolbars/ObjectToolbar-position", 0, 3, 2,
+static struct cb_watch_int watch_core_gui_toolbars_object_position = {
+	0, "core/gui/toolbars/object-position", 0, 3, 2,
 };
 
 GtkPositionType
-gnm_conf_get_core_gui_toolbars_ObjectToolbar_position (void)
+gnm_conf_get_core_gui_toolbars_object_position (void)
 {
-	if (!watch_core_gui_toolbars_ObjectToolbar_position.handler)
-		watch_int (&watch_core_gui_toolbars_ObjectToolbar_position);
-	return watch_core_gui_toolbars_ObjectToolbar_position.var;
+	if (!watch_core_gui_toolbars_object_position.handler)
+		watch_int (&watch_core_gui_toolbars_object_position);
+	return watch_core_gui_toolbars_object_position.var;
 }
 
 void
-gnm_conf_set_core_gui_toolbars_ObjectToolbar_position (GtkPositionType x)
+gnm_conf_set_core_gui_toolbars_object_position (GtkPositionType x)
 {
-	if (!watch_core_gui_toolbars_ObjectToolbar_position.handler)
-		watch_int (&watch_core_gui_toolbars_ObjectToolbar_position);
-	set_int (&watch_core_gui_toolbars_ObjectToolbar_position, x);
+	if (!watch_core_gui_toolbars_object_position.handler)
+		watch_int (&watch_core_gui_toolbars_object_position);
+	set_int (&watch_core_gui_toolbars_object_position, x);
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_toolbars_ObjectToolbar_position_node (void)
+gnm_conf_get_core_gui_toolbars_object_position_node (void)
 {
-	return get_node (watch_core_gui_toolbars_ObjectToolbar_position.key);
+	return get_node (watch_core_gui_toolbars_object_position.key);
 }
 
-static struct cb_watch_bool watch_core_gui_toolbars_StandardToolbar = {
-	0, "core/gui/toolbars/StandardToolbar", TRUE,
+static struct cb_watch_bool watch_core_gui_toolbars_object_visible = {
+	0, "core/gui/toolbars/object-visible", FALSE,
 };
 
 gboolean
-gnm_conf_get_core_gui_toolbars_StandardToolbar (void)
+gnm_conf_get_core_gui_toolbars_object_visible (void)
 {
-	if (!watch_core_gui_toolbars_StandardToolbar.handler)
-		watch_bool (&watch_core_gui_toolbars_StandardToolbar);
-	return watch_core_gui_toolbars_StandardToolbar.var;
+	if (!watch_core_gui_toolbars_object_visible.handler)
+		watch_bool (&watch_core_gui_toolbars_object_visible);
+	return watch_core_gui_toolbars_object_visible.var;
 }
 
 void
-gnm_conf_set_core_gui_toolbars_StandardToolbar (gboolean x)
+gnm_conf_set_core_gui_toolbars_object_visible (gboolean x)
 {
-	if (!watch_core_gui_toolbars_StandardToolbar.handler)
-		watch_bool (&watch_core_gui_toolbars_StandardToolbar);
-	set_bool (&watch_core_gui_toolbars_StandardToolbar, x);
+	if (!watch_core_gui_toolbars_object_visible.handler)
+		watch_bool (&watch_core_gui_toolbars_object_visible);
+	set_bool (&watch_core_gui_toolbars_object_visible, x);
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_toolbars_StandardToolbar_node (void)
+gnm_conf_get_core_gui_toolbars_object_visible_node (void)
 {
-	return get_node (watch_core_gui_toolbars_StandardToolbar.key);
+	return get_node (watch_core_gui_toolbars_object_visible.key);
 }
 
-static struct cb_watch_int watch_core_gui_toolbars_StandardToolbar_position = {
-	0, "core/gui/toolbars/StandardToolbar-position", 0, 3, 2,
+static struct cb_watch_int watch_core_gui_toolbars_standard_position = {
+	0, "core/gui/toolbars/standard-position", 0, 3, 2,
 };
 
 GtkPositionType
-gnm_conf_get_core_gui_toolbars_StandardToolbar_position (void)
+gnm_conf_get_core_gui_toolbars_standard_position (void)
 {
-	if (!watch_core_gui_toolbars_StandardToolbar_position.handler)
-		watch_int (&watch_core_gui_toolbars_StandardToolbar_position);
-	return watch_core_gui_toolbars_StandardToolbar_position.var;
+	if (!watch_core_gui_toolbars_standard_position.handler)
+		watch_int (&watch_core_gui_toolbars_standard_position);
+	return watch_core_gui_toolbars_standard_position.var;
 }
 
 void
-gnm_conf_set_core_gui_toolbars_StandardToolbar_position (GtkPositionType x)
+gnm_conf_set_core_gui_toolbars_standard_position (GtkPositionType x)
 {
-	if (!watch_core_gui_toolbars_StandardToolbar_position.handler)
-		watch_int (&watch_core_gui_toolbars_StandardToolbar_position);
-	set_int (&watch_core_gui_toolbars_StandardToolbar_position, x);
+	if (!watch_core_gui_toolbars_standard_position.handler)
+		watch_int (&watch_core_gui_toolbars_standard_position);
+	set_int (&watch_core_gui_toolbars_standard_position, x);
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_toolbars_StandardToolbar_position_node (void)
+gnm_conf_get_core_gui_toolbars_standard_position_node (void)
 {
-	return get_node (watch_core_gui_toolbars_StandardToolbar_position.key);
+	return get_node (watch_core_gui_toolbars_standard_position.key);
+}
+
+static struct cb_watch_bool watch_core_gui_toolbars_standard_visible = {
+	0, "core/gui/toolbars/standard-visible", TRUE,
+};
+
+gboolean
+gnm_conf_get_core_gui_toolbars_standard_visible (void)
+{
+	if (!watch_core_gui_toolbars_standard_visible.handler)
+		watch_bool (&watch_core_gui_toolbars_standard_visible);
+	return watch_core_gui_toolbars_standard_visible.var;
+}
+
+void
+gnm_conf_set_core_gui_toolbars_standard_visible (gboolean x)
+{
+	if (!watch_core_gui_toolbars_standard_visible.handler)
+		watch_bool (&watch_core_gui_toolbars_standard_visible);
+	set_bool (&watch_core_gui_toolbars_standard_visible, x);
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_toolbars_standard_visible_node (void)
+{
+	return get_node (watch_core_gui_toolbars_standard_visible.key);
 }
 
 static struct cb_watch_double watch_core_gui_window_x = {

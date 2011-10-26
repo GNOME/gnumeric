@@ -168,8 +168,8 @@
         </locale>
       </schema>
       <schema>
-        <key>/schemas/apps/gnumeric/core/gui/toolbars/StandardToolbar</key>
-        <applyto>/apps/gnumeric/core/gui/toolbars/StandardToolbar</applyto>
+        <key>/schemas/apps/gnumeric/core/gui/toolbars/standard-visible</key>
+        <applyto>/apps/gnumeric/core/gui/toolbars/standard-visible</applyto>
         <owner>Gnumeric</owner>
         <type>bool</type>
 	<default>TRUE</default>
@@ -179,8 +179,8 @@
         </locale>
       </schema>
       <schema>
-        <key>/schemas/apps/gnumeric/core/gui/toolbars/StandardToolbar-position</key>
-        <applyto>/apps/gnumeric/core/gui/toolbars/StandardToolbar-position</applyto>
+        <key>/schemas/apps/gnumeric/core/gui/toolbars/standard-position</key>
+        <applyto>/apps/gnumeric/core/gui/toolbars/standard-position</applyto>
         <owner>Gnumeric</owner>
         <type>int</type>
 	<default>2</default>
@@ -190,8 +190,8 @@
         </locale>
       </schema>
       <schema>
-        <key>/schemas/apps/gnumeric/core/gui/toolbars/FormatToolbar</key>
-        <applyto>/apps/gnumeric/core/gui/toolbars/FormatToolbar</applyto>
+        <key>/schemas/apps/gnumeric/core/gui/toolbars/format-visible</key>
+        <applyto>/apps/gnumeric/core/gui/toolbars/format-visible</applyto>
         <owner>Gnumeric</owner>
         <type>bool</type>
 	<default>TRUE</default>
@@ -201,8 +201,8 @@
         </locale>
       </schema>
       <schema>
-        <key>/schemas/apps/gnumeric/core/gui/toolbars/FormatToolbar-position</key>
-        <applyto>/apps/gnumeric/core/gui/toolbars/FormatToolbar-position</applyto>
+        <key>/schemas/apps/gnumeric/core/gui/toolbars/format-position</key>
+        <applyto>/apps/gnumeric/core/gui/toolbars/format-position</applyto>
         <owner>Gnumeric</owner>
         <type>int</type>
 	<default>2</default>
@@ -212,8 +212,8 @@
         </locale>
       </schema>
       <schema>
-        <key>/schemas/apps/gnumeric/core/gui/toolbars/LongFormatToolbar</key>
-        <applyto>/apps/gnumeric/core/gui/toolbars/LongFormatToolbar</applyto>
+        <key>/schemas/apps/gnumeric/core/gui/toolbars/longformat-visible</key>
+        <applyto>/apps/gnumeric/core/gui/toolbars/longformat-visible</applyto>
         <owner>Gnumeric</owner>
         <type>bool</type>
 	<default>FALSE</default>
@@ -223,8 +223,8 @@
         </locale>
       </schema>
       <schema>
-        <key>/schemas/apps/gnumeric/core/gui/toolbars/LongFormatToolbar-position</key>
-        <applyto>/apps/gnumeric/core/gui/toolbars/LongFormatToolbar-position</applyto>
+        <key>/schemas/apps/gnumeric/core/gui/toolbars/longformat-position</key>
+        <applyto>/apps/gnumeric/core/gui/toolbars/longformat-position</applyto>
         <owner>Gnumeric</owner>
         <type>int</type>
 	<default>2</default>
@@ -234,8 +234,8 @@
         </locale>
       </schema>
       <schema>
-        <key>/schemas/apps/gnumeric/core/gui/toolbars/ObjectToolbar</key>
-        <applyto>/apps/gnumeric/core/gui/toolbars/ObjectToolbar</applyto>
+        <key>/schemas/apps/gnumeric/core/gui/toolbars/object-visible</key>
+        <applyto>/apps/gnumeric/core/gui/toolbars/object-visible</applyto>
         <owner>Gnumeric</owner>
         <type>bool</type>
 	<default>FALSE</default>
@@ -245,8 +245,8 @@
         </locale>
       </schema>
       <schema>
-        <key>/schemas/apps/gnumeric/core/gui/toolbars/ObjectToolbar-position</key>
-        <applyto>/apps/gnumeric/core/gui/toolbars/ObjectToolbar-position</applyto>
+        <key>/schemas/apps/gnumeric/core/gui/toolbars/object-position</key>
+        <applyto>/apps/gnumeric/core/gui/toolbars/object-position</applyto>
         <owner>Gnumeric</owner>
         <type>int</type>
 	<default>2</default>

@@ -1,3 +1,12 @@
+2011-10-26  Morten Welinder  <terra@gnome.org>
+
+	* schemas/gnumeric-general.schemas.in,
+	schemas/org.gnome.gnumeric.gschema.xml.in.in: Rename keys for
+	toolbars.
+
+	* schemas/org.gnome.gnumeric.gschema.xml.in.in: Fix default for
+	long-format-toolbar's visibility.
+
 2011-10-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo): make things build again
