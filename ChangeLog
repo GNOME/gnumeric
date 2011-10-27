@@ -1,5 +1,10 @@
 2011-10-26 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/mstyle.c (gnm_style_get_pango_attrs): use new go-pango
+	attributes
+
+2011-10-26 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/rendered-value.c (gnm_rendered_value_new): call
 	go_pango_translate_layout
 	* src/workbook-view.c (wb_view_auto_expr_recalc): call
