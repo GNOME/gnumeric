@@ -96,6 +96,7 @@ static GSF_CLASS (SOImageGocView, so_image_goc_view,
 struct _SheetObjectImage {
 	SheetObject  sheet_object;
 
+	GOImage      *image;
 	char         *type;
 	GByteArray   bytes;
 
@@ -143,6 +144,7 @@ sheet_object_image_set_image (SheetObjectImage *soi,
 	soi->type       = g_strdup (type);
 	soi->bytes.len  = data_len;
 	soi->bytes.data = copy_data ? g_memdup (data, data_len) : data;
+	soi->image = go_image_new_from_data (soi->type, soi->bytes.data, soi->bytes.len, NULL);
 }
 
 void
@@ -167,6 +169,8 @@ gnm_soi_finalize (GObject *object)
 	g_free (soi->bytes.data);
 	g_free (soi->type);
 	soi->bytes.data = NULL;
+	if (soi->image)
+		g_object_unref (soi->image);
 
 	G_OBJECT_CLASS (gnm_soi_parent_class)->finalize (object);
 }
@@ -299,29 +303,42 @@ gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 	GocItem *item = NULL;
-	GdkPixbuf *pixbuf, *placeholder = NULL;
-
-	pixbuf = soi_get_pixbuf (soi, 1.);
-
-	if (pixbuf == NULL) {
-		placeholder = gtk_icon_theme_load_icon (
-			gtk_icon_theme_get_default (),
-			"unknown_image", 100, 0, NULL);
-		pixbuf = gdk_pixbuf_copy (placeholder);
-	}
 
 	item = goc_item_new (
 		gnm_pane_object_group (GNM_PANE (container)),
 		so_image_goc_view_get_type (),
 		NULL);
-	goc_item_hide (goc_item_new (GOC_GROUP (item),
-		GOC_TYPE_PIXBUF,
-		"pixbuf", pixbuf,
-		NULL));
-	g_object_unref (G_OBJECT (pixbuf));
+	if (soi->image) {
+		goc_item_hide (goc_item_new (GOC_GROUP (item),
+			GOC_TYPE_IMAGE,
+			"image", soi->image,
+		        "crop-bottom", soi->crop_bottom,
+		        "crop-left", soi->crop_left,
+		        "crop-right", soi->crop_right,
+		        "crop-top", soi->crop_top,
+			NULL));
+		
+	} else {
+		GdkPixbuf *pixbuf, *placeholder = NULL;
 
-	if (placeholder)
-		g_object_set_data (G_OBJECT (item), "tile", placeholder);
+		pixbuf = soi_get_pixbuf (soi, 1.);
+
+		if (pixbuf == NULL) {
+			placeholder = gtk_icon_theme_load_icon (
+				gtk_icon_theme_get_default (),
+				"unknown_image", 100, 0, NULL);
+			pixbuf = gdk_pixbuf_copy (placeholder);
+		}
+
+		goc_item_hide (goc_item_new (GOC_GROUP (item),
+			GOC_TYPE_PIXBUF,
+			"pixbuf", pixbuf,
+			NULL));
+		g_object_unref (G_OBJECT (pixbuf));
+
+		if (placeholder)
+			g_object_set_data (G_OBJECT (item), "tile", placeholder);
+	}
 
 	return gnm_pane_object_register (so, item, TRUE);
 }
@@ -477,6 +494,7 @@ content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 	soi->bytes.len  = gsf_base64_decode_simple (
 		xin->content->str, xin->content->len);
 	soi->bytes.data = g_memdup (xin->content->str, soi->bytes.len);
+	soi->image = go_image_new_from_data (soi->type, xin->content->str, soi->bytes.len, NULL);
 }
 
 static void
@@ -544,27 +562,42 @@ gnm_soi_draw_cairo (SheetObject const *so, cairo_t *cr,
 {
 	GdkPixbuf *pixbuf;
 	GOImage *img;
-	cairo_pattern_t *cr_pattern;
 	int w, h;
-	cairo_matrix_t cr_matrix;
+	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 
-	pixbuf = soi_get_pixbuf (SHEET_OBJECT_IMAGE (so), 1.);
-	if (!pixbuf || width == 0. || height == 0.)
-		return;
-	cairo_save (cr);
-	img = (GOImage *) go_pixbuf_new_from_pixbuf (pixbuf);
+	if (soi->image) {
+		w = go_image_get_width (soi->image);
+		h = go_image_get_height (soi->image);
+		w -= soi->crop_left - soi->crop_right;
+		h -= soi->crop_top - soi->crop_bottom;
+		if (w <= 0 || h <= 0)
+			return;
+		cairo_save (cr);
+		cairo_rectangle (cr, 0, 0, width, height);
+		cairo_clip (cr);
+		cairo_scale (cr, width / w, height / h);
+		cairo_translate (cr, -soi->crop_left, -soi->crop_top);
+		go_image_draw (soi->image, cr);
+		cairo_restore (cr);
+	} else {
+		pixbuf = soi_get_pixbuf (soi, 1.);
+		if (!pixbuf || width == 0. || height == 0.)
+			return;
+		cairo_save (cr);
+		img = (GOImage *) go_pixbuf_new_from_pixbuf (pixbuf);
 
-	w = gdk_pixbuf_get_width  (pixbuf);
-	h = gdk_pixbuf_get_height (pixbuf);
-	cairo_scale (cr, width / w, height / h);
-	go_image_draw (img, cr);
-	/*
-	 * We need to unset the source before we destroy the pattern.
-	 * cairo_restore will do that.  See #632439.
-	 */
-	cairo_restore (cr);
-	g_object_unref (img);
-	g_object_unref (pixbuf);
+		w = gdk_pixbuf_get_width  (pixbuf);
+		h = gdk_pixbuf_get_height (pixbuf);
+		cairo_scale (cr, width / w, height / h);
+		go_image_draw (img, cr);
+		/*
+		 * We need to unset the source before we destroy the pattern.
+		 * cairo_restore will do that.  See #632439.
+		 */
+		cairo_restore (cr);
+		g_object_unref (img);
+		g_object_unref (pixbuf);
+	}
 }
 
 static void

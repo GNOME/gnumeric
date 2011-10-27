@@ -55,6 +55,7 @@ Jean:
 	* Fixed layout issues in cell border dialog. [#661213]
 	* Don't use anymore the "allow-shrink" and "allow-grow" properties.
 	[#661720, #661855]
+	* Add support for SVG images using librsvg.
 
 Mikko Rasa:
         * Fix ODF import of certain percentage formats. [Debian #642135]

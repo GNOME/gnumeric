@@ -1,3 +1,9 @@
+2011-10-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-image.c (sheet_object_image_set_image),
+	(gnm_soi_finalize), (gnm_soi_new_view), (content_end),
+	(gnm_soi_draw_cairo): add true support for SVG images.
+
 2011-10-26 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/mstyle.c (gnm_style_get_pango_attrs): use new go-pango
