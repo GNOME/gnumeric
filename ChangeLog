@@ -1,5 +1,11 @@
 2011-10-27  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* src/libgnumeric.c (gnm_init): fixed SVG images size. [#628472]
+	* src/sheet-object-image.c (gnm_soi_get_target_list),
+	(gnm_soi_default_size): ditto.
+
+2011-10-27  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/sheet-object-image.c (sheet_object_image_set_image),
 	(gnm_soi_finalize), (gnm_soi_new_view), (content_end),
 	(gnm_soi_draw_cairo): add true support for SVG images.

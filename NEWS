@@ -56,6 +56,7 @@ Jean:
 	* Don't use anymore the "allow-shrink" and "allow-grow" properties.
 	[#661720, #661855]
 	* Add support for SVG images using librsvg.
+	* Fixed SVG images size. [#628472]
 
 Mikko Rasa:
         * Fix ODF import of certain percentage formats. [Debian #642135]

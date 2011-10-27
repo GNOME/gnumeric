@@ -371,10 +371,12 @@ gnm_soi_get_target_list (SheetObject const *so)
 {
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
-	char *mime_str = go_image_format_to_mime (soi->type);
+	char *mime_str;
 	GSList *mimes, *ptr;
-	GdkPixbuf *pixbuf;
+	GdkPixbuf *pixbuf = soi_get_pixbuf (soi, 1.0);
+	/* FIXME: we should not need that if we have a GOImag,used to set the soi->type */
 
+	mime_str = go_image_format_to_mime (soi->type);
 	mimes = go_strsplit_to_slist (mime_str, ',');
 	for (ptr = mimes; ptr != NULL; ptr = ptr->next) {
 		const char *mime = ptr->data;
@@ -386,7 +388,7 @@ gnm_soi_get_target_list (SheetObject const *so)
 	g_free (mime_str);
 	go_slist_free_custom (mimes, g_free);
 	/* No need to eliminate duplicates. */
-	if ((pixbuf = soi_get_pixbuf (soi, 1.0)) != NULL) {
+	if (pixbuf != NULL) {
 		gtk_target_list_add_image_targets (tl, 0, TRUE);
 		g_object_unref (pixbuf);
 	}
@@ -603,25 +605,31 @@ gnm_soi_draw_cairo (SheetObject const *so, cairo_t *cr,
 static void
 gnm_soi_default_size (SheetObject const *so, double *w, double *h)
 {
-	GdkPixbuf *buf = soi_get_pixbuf (SHEET_OBJECT_IMAGE (so), 1.);
+	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	if (soi->image) {
+		*w = go_image_get_width (soi->image);
+		*h = go_image_get_height (soi->image);
+	} else {
+		GdkPixbuf *buf = soi_get_pixbuf (soi, 1.);
 
-	if (!buf) {
-		*w = *h = 5;
-		return;
+		if (!buf) {
+			*w = *h = 5;
+			return;
+		}
+
+		*w = gdk_pixbuf_get_width  (buf);
+		*h = gdk_pixbuf_get_height (buf);
+
+		/* In case buf is invalid with size 0,0 or if the image is just too
+		 * small to be useful default to something slightly larger
+		 * http://bugzilla.gnome.org/show_bug.cgi?id=462787
+		 **/
+		if ((*w * *h) < 25.) {
+			if (*w < 5) *w = 25;
+			if (*h < 5) *h = 25;
+		}
+		g_object_unref (buf);
 	}
-
-	*w = gdk_pixbuf_get_width  (buf);
-	*h = gdk_pixbuf_get_height (buf);
-
-	/* In case buf is invalid with size 0,0 or if the image is just too
-	 * small to be useful default to something slightly larger
-	 * http://bugzilla.gnome.org/show_bug.cgi?id=462787
-	 **/
-	if ((*w * *h) < 25.) {
-		if (*w < 5) *w = 25;
-		if (*h < 5) *h = 25;
-	}
-	g_object_unref (buf);
 }
 
 static void

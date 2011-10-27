@@ -281,6 +281,11 @@ gnm_init (void)
 	gnm_xml_sax_read_init ();
 	gnm_xml_sax_write_init ();
 	stf_init ();
+
+	/* Make sure that images will be displayed with the correct
+	 resolution, see #628472 */
+	go_image_set_default_dpi (gnm_app_display_dpi_get (TRUE),
+	                          gnm_app_display_dpi_get (FALSE));
 }
 
 /**
