@@ -241,31 +241,6 @@ if test $gnumeric_devel = yes; then
     fi
 fi
 
-dnl The following conditional is set in AM_GCONF_SOURCE_2.
-dnl Because we may skip its execution, we have to set a default here.
-m4_pattern_allow([^AM_GCONF_SOURCE_2$])
-AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL], [false])
-
-dnl *******************
-dnl Do we need gconf ?
-dnl *******************
-gnumeric_with_gconf=false
-if test ! -z "`echo $GNUMERIC_CFLAGS|grep gconf`"; then
-	dnl ==============================================
-	dnl Special GConf section  (stolen from libgnome)
-	dnl ==============================================
-
-	dnl Don't publish the GCONFTOOL variable, AM_GCONF_SOURCE_2 has ``gconftool-2'' hardwired.
-	GCONFTOOL=""
-	AC_CHECK_PROG(GCONFTOOL, gconftool-2, gconftool-2)
-	if test x"$GCONFTOOL" = x; then
-		AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
-	fi
-	AM_GCONF_SOURCE_2
-	gnumeric_with_gconf=true
-fi
-AM_CONDITIONAL(WITH_GCONF, $gnumeric_with_gconf)
-
 with_corba=false
 AM_CONDITIONAL(WITH_CORBA, $with_corba)
 
