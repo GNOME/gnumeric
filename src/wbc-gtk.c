@@ -43,7 +43,7 @@
 #include "expr-impl.h"
 #include "style-color.h"
 #include "style-border.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "dialogs/dialogs.h"
 #include "widgets/widget-editable-label.h"
 #include "pixmaps/gnumeric-stock-pixbufs.h"

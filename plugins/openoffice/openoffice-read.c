@@ -54,7 +54,7 @@
 #include <sheet-object-cell-comment.h>
 #include "sheet-object-widget.h"
 #include <style-conditions.h>
-#include <gnumeric-gconf.h>
+#include <gnumeric-conf.h>
 #include <mathfunc.h>
 #include <sheet-object-graph.h>
 #include <sheet-object-image.h>

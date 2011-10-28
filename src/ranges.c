@@ -24,7 +24,7 @@
 #include "cell.h"
 #include "style.h"
 #include "workbook.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 
 #include <stdlib.h>
 #include <glib.h>

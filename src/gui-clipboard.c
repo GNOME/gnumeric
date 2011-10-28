@@ -33,7 +33,7 @@
 #include "stf-parse.h"
 #include "mstyle.h"
 #include "gnm-format.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "xml-sax.h"
 #include "gutils.h"
 

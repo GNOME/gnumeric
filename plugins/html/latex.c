@@ -39,7 +39,7 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <gnumeric-gconf.h>
+#include <gnumeric-conf.h>
 #include "latex.h"
 #include <goffice/goffice.h>
 #include <workbook-view.h>

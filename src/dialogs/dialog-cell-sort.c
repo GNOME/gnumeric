@@ -41,7 +41,7 @@
 #include <sheet.h>
 #include <sheet-view.h>
 #include <wbc-gtk.h>
-#include <gnumeric-gconf.h>
+#include <gnumeric-conf.h>
 #include <widgets/gnumeric-cell-renderer-toggle.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <value.h>

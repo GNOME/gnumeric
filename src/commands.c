@@ -72,7 +72,7 @@
 #include "sheet-filter.h"
 #include "auto-format.h"
 #include "tools/dao.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "scenarios.h"
 #include "data-shuffling.h"
 #include "tools/tabulate.h"

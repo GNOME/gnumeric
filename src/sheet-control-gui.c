@@ -55,7 +55,7 @@
 #include "ranges.h"
 #include "xml-sax.h"
 #include "style-color.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 
 #include "gnm-pane-impl.h"
 #include "item-bar.h"

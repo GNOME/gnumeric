@@ -54,7 +54,7 @@
 #include <gutils.h>
 #include <clipboard.h>
 #include <tools/scenarios.h>
-#include <gnumeric-gconf.h>
+#include <gnumeric-conf.h>
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-libxml.h>

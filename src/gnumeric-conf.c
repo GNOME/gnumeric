@@ -1,12 +1,12 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gnumeric-gconf.c:
+ * gnumeric-conf.c:
  *
  * Author:
  *	Andreas J. Guelzow <aguelzow@pyrshep.ca>
  *
  * (C) Copyright 2002-2005 Andreas J. Guelzow <aguelzow@pyrshep.ca>
- * (C) Copyright 2009 Morten Welinder <terra@gnome.org>
+ * (C) Copyright 2009-2011 Morten Welinder <terra@gnome.org>
  *
  * Introduced the concept of "node" and implemented the win32 backend
  * by Ivan, Wong Yat Cheung <email@ivanwong.info>, 2005
@@ -29,7 +29,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "application.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "gutils.h"
 #include "mstyle.h"
 #include <goffice/goffice.h>
@@ -51,7 +51,7 @@
 static GOConfNode *root = NULL;
 
 /*
- * Hashes to simply ownership rules.  We use this so none of the getters
+ * Hashes to simplify ownership rules.  We use this so none of the getters
  * have to return memory that the callers needs to free.
   */
 static GHashTable *string_pool;

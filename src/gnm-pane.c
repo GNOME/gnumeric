@@ -34,7 +34,7 @@
 #include "item-cursor.h"
 #include "item-edit.h"
 #include "item-grid.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "dead-kittens.h"
 
 #include <gsf/gsf-impl-utils.h>

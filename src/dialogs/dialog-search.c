@@ -28,7 +28,7 @@
 #include "help.h"
 
 #include <gui-util.h>
-#include <gnumeric-gconf.h>
+#include <gnumeric-conf.h>
 #include <search.h>
 #include <sheet.h>
 #include <sheet-view.h>

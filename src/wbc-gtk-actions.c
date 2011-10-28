@@ -61,7 +61,7 @@
 #include "sheet-object-component.h"
 #include "gui-util.h"
 #include "gui-file.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "expr.h"
 #include "print.h"
 #include "print-info.h"

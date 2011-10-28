@@ -50,7 +50,7 @@
 #include "command-context.h"
 #include "auto-format.h"
 #include "sheet-object.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf.h>

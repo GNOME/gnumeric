@@ -26,7 +26,7 @@
 #include "pixmaps/gnumeric-stock-pixbufs.h"
 #include "commands.h"
 
-#include <gnumeric-gconf.h>
+#include <gnumeric-conf.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>

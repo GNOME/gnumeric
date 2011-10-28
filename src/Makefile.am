@@ -190,7 +190,7 @@ libspreadsheet_la_SOURCES =			\
 	wbc-gtk-edit.c				\
 	xml-sax-read.c				\
 	xml-sax-write.c				\
-	gnumeric-gconf.c			\
+	gnumeric-conf.c				\
 	print.c					\
 	print-cell.c
 
@@ -322,7 +322,7 @@ libspreadsheet_include_HEADERS = 	\
 	wbc-gtk-impl.h				\
 	xml-io-version.h			\
 	xml-sax.h				\
-	gnumeric-gconf.h			\
+	gnumeric-conf.h				\
 	print.h					\
 	print-cell.h
 

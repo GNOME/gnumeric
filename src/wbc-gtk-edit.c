@@ -32,7 +32,7 @@
 #include "clipboard.h"
 #include "complete-sheet.h"
 #include "commands.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "mstyle.h"
 #include "style-color.h"
 #include "sheet-control-gui-priv.h"

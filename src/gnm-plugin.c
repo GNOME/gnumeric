@@ -11,7 +11,7 @@
 #include <tools/gnm-solver.h>
 #include "func.h"
 #include "gnm-plugin.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "application.h"
 
 #include <goffice/goffice.h>

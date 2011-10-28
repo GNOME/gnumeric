@@ -26,7 +26,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <gnm-plugin.h>
-#include <gnumeric-gconf.h>
+#include <gnumeric-conf.h>
 #include <gui-file.h>
 #include <gutils.h>
 #include <print-cell.h>

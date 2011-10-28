@@ -33,7 +33,7 @@
 #include <gnm-format.h>
 #include <number-match.h>
 #include <gnm-datetime.h>
-#include <gnumeric-gconf.h>
+#include <gnumeric-conf.h>
 #include <dead-kittens.h>
 #include <dialogs/dialogs.h>
 #include <goffice/goffice.h>

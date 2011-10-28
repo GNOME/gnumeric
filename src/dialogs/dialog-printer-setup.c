@@ -39,7 +39,7 @@
 #include <workbook.h>
 #include <wbc-gtk.h>
 #include <style.h>
-#include <gnumeric-gconf.h>
+#include <gnumeric-conf.h>
 
 #include <gdk/gdkkeysyms.h>
 #include <goffice/goffice.h>

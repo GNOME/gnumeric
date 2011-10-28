@@ -39,7 +39,7 @@
 #include <value.h>
 #include <sheet.h>
 #include <dead-kittens.h>
-#include <gnumeric-gconf.h>
+#include <gnumeric-conf.h>
 #include <gnm-format.h>
 #include <auto-format.h>
 

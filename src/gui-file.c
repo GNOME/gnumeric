@@ -20,7 +20,7 @@
 #include "wbc-gtk-impl.h"
 #include "workbook-view.h"
 #include "workbook-priv.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "application.h"
 #include <dead-kittens.h>
 

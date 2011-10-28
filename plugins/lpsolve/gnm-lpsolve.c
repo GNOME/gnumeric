@@ -5,7 +5,7 @@
 #include "sheet.h"
 #include "value.h"
 #include "ranges.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>

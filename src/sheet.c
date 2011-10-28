@@ -53,7 +53,7 @@
 #include "expr.h"
 #include "expr-impl.h"
 #include "rendered-value.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
 #include <tools/gnm-solver.h>

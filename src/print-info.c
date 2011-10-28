@@ -23,7 +23,7 @@
 #include "value.h"
 #include "workbook.h"
 #include "workbook-view.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "parse-util.h"
 
 #include <goffice/goffice.h>

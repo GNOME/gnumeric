@@ -21,7 +21,7 @@
 #include "workbook-control.h"
 #include "command-context.h"
 #include "application.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "sheet.h"
 #include "sheet-view.h"
 #include "sheet-control.h"

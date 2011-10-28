@@ -50,7 +50,7 @@
 #include "expr.h"
 #include "parse-util.h"
 #include "rendered-value.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "gnm-plugin.h"
 #include "mathfunc.h"
 #include "hlink.h"

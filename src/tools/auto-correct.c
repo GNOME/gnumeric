@@ -31,7 +31,7 @@
 
 #include "application.h"
 #include "gutils.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "parse-util.h"
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>

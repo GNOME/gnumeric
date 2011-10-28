@@ -40,7 +40,7 @@
 #include "widgets/widget-font-selector.h"
 #include "widgets/gnumeric-cell-renderer-text.h"
 
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 
 #include <gui-util.h>
 #include <gtk/gtk.h>

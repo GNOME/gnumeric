@@ -32,7 +32,7 @@
 #include "help.h"
 #include <application.h>
 #include <wbc-gtk.h>
-#include <gnumeric-gconf.h>
+#include <gnumeric-conf.h>
 #include <gutils.h>
 #include <gui-util.h>
 

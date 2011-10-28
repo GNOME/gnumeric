@@ -30,7 +30,7 @@
 #include <wbc-gtk.h>
 #include <sheet.h>
 #include <gui-util.h>
-#include <gnumeric-gconf.h>
+#include <gnumeric-conf.h>
 #include <goffice/goffice.h>
 
 #include <gtk/gtk.h>

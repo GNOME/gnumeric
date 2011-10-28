@@ -28,7 +28,7 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "gui-file.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "gnumeric-paths.h"
 #include "session.h"
 #include "sheet.h"

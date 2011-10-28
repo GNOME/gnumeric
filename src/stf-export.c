@@ -30,7 +30,7 @@
 #include <glib/gi18n-lib.h>
 #include "stf-export.h"
 
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "sheet.h"
 #include "workbook.h"
 #include "cell.h"

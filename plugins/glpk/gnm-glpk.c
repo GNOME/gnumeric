@@ -6,7 +6,7 @@
 #include "value.h"
 #include "ranges.h"
 #include "gutils.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input-textline.h>
 #include <gsf/gsf-input-stdio.h>

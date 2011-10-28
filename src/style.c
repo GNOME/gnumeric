@@ -22,7 +22,7 @@
 
 #include "gui-util.h"
 #include "mathfunc.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 
 #include <pango/pangocairo.h>
 #include <gdk/gdk.h>

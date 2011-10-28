@@ -29,7 +29,7 @@
 #include "wbc-gtk.h"
 #include "command-context.h"
 #include "dialogs.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include "libgnumeric.h"
 #include "sheet.h"
 #include "value.h"
@@ -40,7 +40,7 @@
 #include "ranges.h"
 #include "parse-util.h"
 #include "style-font.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include <goffice/goffice.h>
 
 #include <gtk/gtk.h>

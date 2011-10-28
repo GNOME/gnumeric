@@ -1,3 +1,7 @@
+2011-10-28  Morten Welinder  <terra@gnome.org>
+
+	* src/gnumeric-conf.c: Rename from src/gnumeric-gconf.c
+
 2011-10-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-image.c (sheet_object_image_set_image),

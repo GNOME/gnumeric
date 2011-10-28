@@ -17,7 +17,7 @@
 #include "style-conditions.h"
 #include "application.h"
 #include "gutils.h"
-#include "gnumeric-gconf.h"
+#include "gnumeric-conf.h"
 #include <goffice/goffice.h>
 
 #define DEBUG_STYLES

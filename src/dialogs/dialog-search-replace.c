@@ -29,7 +29,7 @@
 #include "help.h"
 #include <dead-kittens.h>
 
-#include <gnumeric-gconf.h>
+#include <gnumeric-conf.h>
 #include <gui-util.h>
 #include <search.h>
 #include <widgets/gnumeric-expr-entry.h>
