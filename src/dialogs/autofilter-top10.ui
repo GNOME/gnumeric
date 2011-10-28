@@ -86,8 +86,8 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">start</property>
-            <property name="row_spacing">12</property>
-            <property name="column_spacing">6</property>
+            <property name="row_spacing">6</property>
+            <property name="column_spacing">12</property>
             <child>
               <object class="GtkLabel" id="cp-label">
                 <property name="visible">True</property>

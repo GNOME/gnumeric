@@ -1158,8 +1158,8 @@
                       <object class="GtkGrid" id="properties-grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="row_spacing">12</property>
-                        <property name="column_spacing">6</property>
+                        <property name="row_spacing">6</property>
+                        <property name="column_spacing">12</property>
                         <child>
                           <object class="GtkLabel" id="label9">
                             <property name="visible">True</property>

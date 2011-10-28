@@ -1,3 +1,9 @@
+2011-10-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* autofilter-top10.ui: fixed GtkGrid spacings.
+	* doc-meta-data.ui: ditto.
+	* sheet-resize.ui: ditto.
+
 2011-10-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-preferences.c (pref_window_page_initializer): add cell marker

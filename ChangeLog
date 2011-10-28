@@ -1,3 +1,15 @@
+2011-10-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-image.c (sheet_object_image_set_image),
+	(gnm_soi_get_target_list), (content_end), (gnm_soi_draw_cairo): minor
+	GOImage related tweaks.
+
+2011-10-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/libgnumeric.c (gnm_init): fixed SVG images size. [#628472]
+	* src/sheet-object-image.c (gnm_soi_get_target_list),
+	(gnm_soi_default_size): ditto.
+
 2011-10-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/item-edit.c (item_edit_update_bounds): translate sub/superscript
@@ -9,12 +21,6 @@
 	go_pango_attr_*_new
 	* src/wbc-gtk-actions.c (toggle_font_attr): use subscript/superscript
 	attributes
-
-2011-10-27  Jean Brefort  <jean.brefort@normalesup.org>
-
-	* src/libgnumeric.c (gnm_init): fixed SVG images size. [#628472]
-	* src/sheet-object-image.c (gnm_soi_get_target_list),
-	(gnm_soi_default_size): ditto.
 
 2011-10-27  Jean Brefort  <jean.brefort@normalesup.org>
 

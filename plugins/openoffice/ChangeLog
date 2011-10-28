@@ -1,3 +1,7 @@
+2011-10-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* openoffice-read.c (odf_apply_style_props): fixed compilation. [#662908]
+
 2011-10-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_attrs_as_string): support sub-/superscript

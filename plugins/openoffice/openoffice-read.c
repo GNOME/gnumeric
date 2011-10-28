@@ -894,7 +894,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 								 "pixbuf", pixbuf, NULL);
 						else
 							style->fill.image.image =
-								go_image_new_from_pixbuf (pixbuf);
+								go_pixbuf_new_from_pixbuf (pixbuf);
 						go_image_set_name (style->fill.image.image,
 								   fill_image_name);
 						g_object_unref (G_OBJECT (loader));

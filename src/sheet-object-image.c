@@ -141,10 +141,11 @@ sheet_object_image_set_image (SheetObjectImage *soi,
 	g_return_if_fail (IS_SHEET_OBJECT_IMAGE (soi));
 	g_return_if_fail (soi->bytes.data == NULL && soi->bytes.len == 0);
 
-	soi->type       = g_strdup (type);
+	soi->type       = (type && *type)? g_strdup (type): NULL;
 	soi->bytes.len  = data_len;
 	soi->bytes.data = copy_data ? g_memdup (data, data_len) : data;
-	soi->image = go_image_new_from_data (soi->type, soi->bytes.data, soi->bytes.len, NULL);
+	soi->image = go_image_new_from_data (soi->type, soi->bytes.data, soi->bytes.len,
+	                                     ((soi->type == NULL)? &soi->type: NULL), NULL);
 }
 
 void
@@ -373,9 +374,10 @@ gnm_soi_get_target_list (SheetObject const *so)
 	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
 	char *mime_str;
 	GSList *mimes, *ptr;
-	GdkPixbuf *pixbuf = soi_get_pixbuf (soi, 1.0);
-	/* FIXME: we should not need that if we have a GOImag,used to set the soi->type */
+	GdkPixbuf *pixbuf = NULL;
 
+	if (soi->type == NULL || soi->image == NULL)
+		pixbuf = soi_get_pixbuf (soi, 1.0);
 	mime_str = go_image_format_to_mime (soi->type);
 	mimes = go_strsplit_to_slist (mime_str, ',');
 	for (ptr = mimes; ptr != NULL; ptr = ptr->next) {
@@ -388,9 +390,10 @@ gnm_soi_get_target_list (SheetObject const *so)
 	g_free (mime_str);
 	go_slist_free_custom (mimes, g_free);
 	/* No need to eliminate duplicates. */
-	if (pixbuf != NULL) {
+	if (soi->image != NULL || pixbuf != NULL) {
 		gtk_target_list_add_image_targets (tl, 0, TRUE);
-		g_object_unref (pixbuf);
+		if (pixbuf != NULL)
+			g_object_unref (pixbuf);
 	}
 
 	return tl;
@@ -496,7 +499,7 @@ content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 	soi->bytes.len  = gsf_base64_decode_simple (
 		xin->content->str, xin->content->len);
 	soi->bytes.data = g_memdup (xin->content->str, soi->bytes.len);
-	soi->image = go_image_new_from_data (soi->type, xin->content->str, soi->bytes.len, NULL);
+	soi->image = go_image_new_from_data (soi->type, xin->content->str, soi->bytes.len, NULL, NULL);
 }
 
 static void
@@ -586,7 +589,7 @@ gnm_soi_draw_cairo (SheetObject const *so, cairo_t *cr,
 		if (!pixbuf || width == 0. || height == 0.)
 			return;
 		cairo_save (cr);
-		img = (GOImage *) go_pixbuf_new_from_pixbuf (pixbuf);
+		img = go_pixbuf_new_from_pixbuf (pixbuf);
 
 		w = gdk_pixbuf_get_width  (pixbuf);
 		h = gdk_pixbuf_get_height (pixbuf);
