@@ -1,3 +1,9 @@
+2011-10-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_attrs_as_string): support sub-/superscript
+	attributes
+	(odf_write_character_styles): write non-sub-/superscript style
+
 2011-10-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* openoffice-write.c (odf_match_image): make things build again

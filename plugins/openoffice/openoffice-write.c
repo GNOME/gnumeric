@@ -368,14 +368,15 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 	case PANGO_ATTR_SIZE :
 		break; /* ignored */
 	case PANGO_ATTR_RISE:
+		gsf_xml_out_start_element (state->xml, TEXT "span");
 		if (((PangoAttrInt *)a)->value != 0) {
-			gsf_xml_out_start_element (state->xml, TEXT "span");
 			gsf_xml_out_add_cstr (state->xml, TEXT "style-name",
 					      (((PangoAttrInt *)a)->value < 0)
 					      ? "AC-subscript"  : "AC-superscript");
-			spans += 1;
-		}
-		break; /* ignored */
+		} else
+			gsf_xml_out_add_cstr (state->xml, TEXT "style-name", "AC-script");
+		spans += 1;
+		break; 
 	case PANGO_ATTR_STYLE :
 		spans += 1;
 		gsf_xml_out_start_element (state->xml, TEXT "span");
@@ -438,7 +439,22 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 /* 			((c->blue & 0xff00) >> 8)); */
 		break;/* ignored */
 	default :
-		break; /* ignored */
+		if (a->klass->type == 
+		    go_pango_attr_subscript_get_type ()) {
+			gsf_xml_out_start_element (state->xml, TEXT "span");
+			gsf_xml_out_add_cstr (state->xml, TEXT "style-name",
+					      ((GOPangoAttrSubscript *)a)->val ?
+					      "AC-subscript" : "AC-script");
+			spans += 1;
+		} else if (a->klass->type == 
+			   go_pango_attr_superscript_get_type ()) {
+			gsf_xml_out_start_element (state->xml, TEXT "span");
+			gsf_xml_out_add_cstr (state->xml, TEXT "style-name",
+					      ((GOPangoAttrSuperscript *)a)->val ?
+					      "AC-superscript" : "AC-script");
+			spans += 1;
+		}
+		break; /* ignored otehrwise */
 	}
 
 	return spans;
@@ -1712,13 +1728,19 @@ odf_write_character_styles (GnmOOExport *state)
 
 	odf_start_style (state->xml, "AC-subscript", "text");
 	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
-	gsf_xml_out_add_cstr (state->xml, STYLE "text-position", "sub 75%");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-position", "sub 83%");
 	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 
 	odf_start_style (state->xml, "AC-superscript", "text");
 	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
-	gsf_xml_out_add_cstr (state->xml, STYLE "text-position", "super 75%");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-position", "super 83%");
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+	odf_start_style (state->xml, "AC-script", "text");
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-position", "0% 100%");
 	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 
