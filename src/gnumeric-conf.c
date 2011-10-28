@@ -629,7 +629,7 @@ gnm_conf_get_detachable_toolbars (void)
  *
  *     cd src
  *     perl ../tools/handle-conf-options --cfile \
- *             ../schemas/gnumeric*.schemas.in >~/xxx
+ *             ../schemas/org.gnome.gnumeric*.gschema.xml.in >~/xxx
  *
  * The corresponding headers were generated using "--hfile".
  */
