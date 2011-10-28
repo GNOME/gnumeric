@@ -120,13 +120,13 @@ Section "Gnumeric (required)" SEC01
 
     GetFullPathName /SHORT $SHORTINSTDIR ${GNM_ROOT}
     StrCmp $ISADMIN "1" 0 +5
-	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-dialogs.reg"
-	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-general.reg"
-	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-plugins.reg"
+	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\org.gnome.gnumeric.dialogs.reg"
+	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\org.gnome.gnumeric.reg"
+	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\org.gnome.gnumeric.plugin.reg"
     Goto +4
-	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-dialogs.hkcu.reg"
-	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-general.hkcu.reg"
-	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-plugins.hkcu.reg"
+	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\org.gnome.gnumeric.dialogs.hkcu.reg"
+	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\org.gnome.gnumeric.hkcu.reg"
+	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\org.gnome.gnumeric.plugin.hkcu.reg"
 
     ;ExecWait "${GNM_ROOT}\bin\gdk-pixbuf-query-loaders.exe >${GNM_ROOT}\etc\gtk-2.0\gdk-pixbuf.loaders"
     ;ExecWait "${GNM_ROOT}\gtk-update-icon-cache.exe ${GNM_ROOT}\share\icons\gnome"

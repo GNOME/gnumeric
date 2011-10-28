@@ -1,4 +1,4 @@
-SUFFIXES = .schemas.in .reg .hkcu.reg .xml.in .xml.in.in
+SUFFIXES = .schemas.in .reg .hkcu.reg .xml.in .xml.in.in .gschema.xml.in
 
 gschema_inin_files = \
 	org.gnome.gnumeric.gschema.xml.in.in	\
@@ -31,8 +31,8 @@ endif
 
 # The resulting .reg files are only useful on win32 but we can produce them
 # on any system.
-.xml.in.reg:
+.gschema.xml.in.reg:
 	@PERL@ $(top_srcdir)/tools/handle-conf-options --reg $< >$(abs_builddir)/$@
 
-.xml.in.hkcu.reg:
+.gschema.xml.in.hkcu.reg:
 	@PERL@ $(top_srcdir)/tools/handle-conf-options --hkcu-reg $< >$(abs_builddir)/$@
