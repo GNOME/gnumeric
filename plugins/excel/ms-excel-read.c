@@ -3236,9 +3236,20 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 		add_attr (attrs, pango_attr_style_new (fd->italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL));
 		add_attr (attrs, pango_attr_strikethrough_new (fd->struck_out));
 		add_attr (attrs, pango_attr_underline_new (underline));
-		add_attr (attrs, pango_attr_rise_new (5000 * fd->script));
-		if (fd->script != GO_FONT_SCRIPT_STANDARD)
-			add_attr (attrs, pango_attr_scale_new (.5));
+
+		switch (fd->script) {
+		case GO_FONT_SCRIPT_SUB:
+			add_attr (attrs, go_pango_attr_subscript_new (TRUE));
+			break;
+		default:
+		case GO_FONT_SCRIPT_STANDARD:
+			add_attr (attrs, go_pango_attr_subscript_new (FALSE));
+			add_attr (attrs, go_pango_attr_superscript_new (FALSE));
+			break;
+		case GO_FONT_SCRIPT_SUPER:
+			add_attr (attrs, go_pango_attr_superscript_new (TRUE));			
+			break;
+		}
 
 		color = (fd->color_idx == 127) ? style_color_black ()
 			: excel_palette_get (importer, fd->color_idx);

@@ -2008,10 +2008,12 @@ excel_font_overlay_pango (ExcelWriteFont *efont, GSList *pango)
 		case PANGO_ATTR_STRIKETHROUGH : efont->strikethrough =
 			((PangoAttrInt *)attr)->value != 0;
 			break;
+		case PANGO_ATTR_SCALE :
+			break; /* ignored */
 		case PANGO_ATTR_RISE :
 			if (((PangoAttrInt *)attr)->value < 0)
 				efont->script = 2;
-			else if (((PangoAttrInt *)attr)->value < 0)
+			else if (((PangoAttrInt *)attr)->value > 0)
 				efont->script = 1;
 			else
 				efont->script = 0;
@@ -2028,6 +2030,14 @@ excel_font_overlay_pango (ExcelWriteFont *efont, GSList *pango)
 			efont->color = ((c->blue & 0xff00) << 8) + (c->green & 0xff00) + (c->red >> 8);
 			break;
 		default :
+			if (attr->klass->type == 
+			    go_pango_attr_subscript_get_type ())
+				efont->script = ((GOPangoAttrSubscript *)attr)->val 
+					? 2 : 0;
+			else if (attr->klass->type == 
+				 go_pango_attr_superscript_get_type ())
+				efont->script = ((GOPangoAttrSuperscript *)attr)->val 
+					? 1 : 0;
 			break; /* ignored */
 		}
 

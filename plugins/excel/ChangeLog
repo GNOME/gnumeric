@@ -1,3 +1,9 @@
+2011-10-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-excel-read.c (ms_wb_get_font_markup): use subscript/superscript attributes
+	* ms-excel-write.c (excel_font_overlay_pango): export subscript/superscript
+	attributes (and fix PANGO_ATTR_RISE handling)
+
 2011-10-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write.c (xlsx_write_sheet): don't miss cell content that
