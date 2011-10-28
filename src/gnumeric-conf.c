@@ -637,26 +637,6 @@ gnm_conf_get_detachable_toolbars (void)
 
 /* ----------- AUTOMATICALLY GENERATED CODE BELOW -- DO NOT EDIT ----------- */
 
-static struct cb_watch_enum watch_toolbar_style = {
-	0, "/apps/gnome-settings/gnumeric/toolbar_style", GTK_TOOLBAR_ICONS,
-};
-
-GtkToolbarStyle
-gnm_conf_get_toolbar_style (void)
-{
-	if (!watch_toolbar_style.handler)
-		watch_enum (&watch_toolbar_style, GTK_TYPE_TOOLBAR_STYLE);
-	return watch_toolbar_style.var;
-}
-
-void
-gnm_conf_set_toolbar_style (GtkToolbarStyle x)
-{
-	if (!watch_toolbar_style.handler)
-		watch_enum (&watch_toolbar_style, GTK_TYPE_TOOLBAR_STYLE);
-	set_enum (&watch_toolbar_style, x);
-}
-
 static struct cb_watch_bool watch_autocorrect_first_letter = {
 	0, "autocorrect/first-letter", TRUE,
 };
@@ -1051,7 +1031,7 @@ gnm_conf_get_core_file_save_extension_check_disabled_node (void)
 }
 
 static struct cb_watch_bool watch_core_file_save_single_sheet = {
-	0, "core/file/save/single_sheet", TRUE,
+	0, "core/file/save/single-sheet", TRUE,
 };
 
 gboolean
@@ -1077,7 +1057,7 @@ gnm_conf_get_core_file_save_single_sheet_node (void)
 }
 
 static struct cb_watch_bool watch_core_gui_cells_extension_markers = {
-	0, "core/gui/cells/extension_markers", FALSE,
+	0, "core/gui/cells/extension-markers", FALSE,
 };
 
 gboolean
@@ -1103,7 +1083,7 @@ gnm_conf_get_core_gui_cells_extension_markers_node (void)
 }
 
 static struct cb_watch_bool watch_core_gui_cells_function_markers = {
-	0, "core/gui/cells/function_markers", FALSE,
+	0, "core/gui/cells/function-markers", FALSE,
 };
 
 gboolean
@@ -1155,7 +1135,7 @@ gnm_conf_get_core_gui_editing_autocomplete_node (void)
 }
 
 static struct cb_watch_enum watch_core_gui_editing_enter_moves_dir = {
-	0, "core/gui/editing/enter_moves_dir", GO_DIRECTION_DOWN,
+	0, "core/gui/editing/enter-moves-dir", GO_DIRECTION_DOWN,
 };
 
 GODirection
@@ -1493,7 +1473,7 @@ gnm_conf_get_core_gui_toolbars_object_position_node (void)
 }
 
 static struct cb_watch_bool watch_core_gui_toolbars_object_visible = {
-	0, "core/gui/toolbars/object-visible", FALSE,
+	0, "core/gui/toolbars/object-visible", TRUE,
 };
 
 gboolean
@@ -1753,7 +1733,7 @@ gnm_conf_get_core_sort_dialog_max_initial_clauses_node (void)
 }
 
 static struct cb_watch_int watch_core_workbook_autosave_time = {
-	0, "core/workbook/autosave_time", 0, 365 * 24 * 60 * 60, 0,
+	0, "core/workbook/autosave-time", 0, 365 * 24 * 60 * 60, 0,
 };
 
 int
@@ -3503,8 +3483,28 @@ gnm_conf_get_stf_export_terminator_node (void)
 	return get_node (watch_stf_export_terminator.key);
 }
 
+static struct cb_watch_enum watch_toolbar_style = {
+	0, "toolbar-style", GTK_TOOLBAR_ICONS,
+};
+
+GtkToolbarStyle
+gnm_conf_get_toolbar_style (void)
+{
+	if (!watch_toolbar_style.handler)
+		watch_enum (&watch_toolbar_style, GTK_TYPE_TOOLBAR_STYLE);
+	return watch_toolbar_style.var;
+}
+
+void
+gnm_conf_set_toolbar_style (GtkToolbarStyle x)
+{
+	if (!watch_toolbar_style.handler)
+		watch_enum (&watch_toolbar_style, GTK_TYPE_TOOLBAR_STYLE);
+	set_enum (&watch_toolbar_style, x);
+}
+
 static struct cb_watch_int watch_undo_max_descriptor_width = {
-	0, "undo/max_descriptor_width", 5, 256, 40,
+	0, "undo/max-descriptor-width", 5, 256, 40,
 };
 
 int
@@ -3556,7 +3556,7 @@ gnm_conf_get_undo_maxnum_node (void)
 }
 
 static struct cb_watch_bool watch_undo_show_sheet_name = {
-	0, "undo/show_sheet_name", FALSE,
+	0, "undo/show-sheet-name", FALSE,
 };
 
 gboolean
@@ -3743,6 +3743,12 @@ GOConfNode *
 gnm_conf_get_stf_export_dir_node (void)
 {
 	return get_node ("stf/export");
+}
+
+GOConfNode *
+gnm_conf_get_toolbar_style_dir_node (void)
+{
+	return get_node ("toolbar-style");
 }
 
 GOConfNode *

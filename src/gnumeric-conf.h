@@ -30,9 +30,6 @@ gboolean gnm_conf_get_detachable_toolbars (void);
 
 /* ----------- AUTOMATICALLY GENERATED CODE BELOW -- DO NOT EDIT ----------- */
 
-GtkToolbarStyle gnm_conf_get_toolbar_style (void);
-void gnm_conf_set_toolbar_style (GtkToolbarStyle);
-
 GOConfNode *gnm_conf_get_autocorrect_first_letter_node (void);
 gboolean gnm_conf_get_autocorrect_first_letter (void);
 void gnm_conf_set_autocorrect_first_letter (gboolean);
@@ -469,6 +466,9 @@ GOConfNode *gnm_conf_get_stf_export_terminator_node (void);
 const char *gnm_conf_get_stf_export_terminator (void);
 void gnm_conf_set_stf_export_terminator (const char *);
 
+GtkToolbarStyle gnm_conf_get_toolbar_style (void);
+void gnm_conf_set_toolbar_style (GtkToolbarStyle);
+
 GOConfNode *gnm_conf_get_undo_max_descriptor_width_node (void);
 int gnm_conf_get_undo_max_descriptor_width (void);
 void gnm_conf_set_undo_max_descriptor_width (int);
@@ -508,6 +508,7 @@ GOConfNode *gnm_conf_get_plugins_dir_node (void);
 GOConfNode *gnm_conf_get_printsetup_dir_node (void);
 GOConfNode *gnm_conf_get_searchreplace_dir_node (void);
 GOConfNode *gnm_conf_get_stf_export_dir_node (void);
+GOConfNode *gnm_conf_get_toolbar_style_dir_node (void);
 GOConfNode *gnm_conf_get_undo_dir_node (void);
 
 /* ----------- AUTOMATICALLY GENERATED CODE ABOVE -- DO NOT EDIT ----------- */
