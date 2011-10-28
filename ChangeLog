@@ -1,3 +1,8 @@
+2011-10-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/mstyle.c (gnm_style_get_pango_height): check for
+	possible superscripts in the value formatting
+
 2011-10-28  Morten Welinder  <terra@gnome.org>
 
 	* src/gnumeric-conf.c: Rename from src/gnumeric-gconf.c

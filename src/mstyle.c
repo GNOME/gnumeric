@@ -1733,8 +1733,29 @@ gnm_style_get_pango_height (GnmStyle const *style,
 	if (style->pango_attrs_height == -1) {
 		int h;
 		PangoLayout *layout = pango_layout_new (context);
+		GOFormat const *fmt;
+		gboolean requires_translation = FALSE;
+
+		fmt = gnm_style_get_format (style);
+		if (!go_format_is_general (fmt)) {
+			GOFormatDetails details;
+			go_format_get_details (fmt, &details, NULL);
+			if (details.family == GO_FORMAT_SCIENTIFIC && 
+			    details.use_markup) {
+				PangoAttribute *a 
+					= go_pango_attr_superscript_new (TRUE);
+				/* We want to superscript the "-01" in the */
+				/* string "+1.23456789E-01" */
+				a->start_index = 12;
+				a->end_index = 15;
+				pango_attr_list_insert (attrs, a);
+				requires_translation = TRUE;
+			}
+		}
 		pango_layout_set_attributes (layout, attrs);
 		pango_layout_set_text (layout, "+1.23456789E-01", -1);
+		if (requires_translation)
+			go_pango_translate_layout (layout);
 		pango_layout_get_pixel_size (layout, NULL, &h);
 		g_object_unref (layout);
 		((GnmStyle *)style)->pango_attrs_height = h;
@@ -1902,7 +1923,7 @@ gnm_style_init (void)
 
 #if USE_MSTYLE_POOL
 static void
-cb_gnm_style_pool_leak (gpointer data, gpointer user)
+cb_gnm_style_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
 {
 	GnmStyle *style = data;
 	g_printerr ("Leaking style at %p.\n", (void *)style);

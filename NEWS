@@ -41,6 +41,8 @@ Andreas:
 	* Add optional markers to indicate that cell content has been
 	truncated. [#662149]
 	* Fix zoom of text superscripts and subscripts. [#425685]
+	* Fix autofitting of row height in presence of superscripted
+	scientific notation. [#662472]
 
 Jean:
 	* Make things build against gtk+-3.0.
