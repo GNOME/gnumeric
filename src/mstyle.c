@@ -1686,10 +1686,10 @@ gnm_style_get_pango_attrs (GnmStyle const *style,
 	case GO_FONT_SCRIPT_STANDARD :
 		break;
 	case GO_FONT_SCRIPT_SUB :
-		add_attr (l, go_pango_attr_subscript_new ());
+		add_attr (l, go_pango_attr_subscript_new (TRUE));
 		break;
 	case GO_FONT_SCRIPT_SUPER :
-		add_attr (l, go_pango_attr_superscript_new ());
+		add_attr (l, go_pango_attr_superscript_new (TRUE));
 		break;
 	}
 

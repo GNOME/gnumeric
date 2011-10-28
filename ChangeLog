@@ -1,3 +1,10 @@
+2011-10-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/mstyle.c (gnm_style_get_pango_attrs): add args to call of
+	go_pango_attr_*_new
+	* src/wbc-gtk-actions.c (toggle_font_attr): use subscript/superscript
+	attributes
+
 2011-10-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/libgnumeric.c (gnm_init): fixed SVG images size. [#628472]
