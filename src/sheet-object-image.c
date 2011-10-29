@@ -379,16 +379,18 @@ gnm_soi_get_target_list (SheetObject const *so)
 	if (soi->type == NULL || soi->image == NULL)
 		pixbuf = soi_get_pixbuf (soi, 1.0);
 	mime_str = go_image_format_to_mime (soi->type);
-	mimes = go_strsplit_to_slist (mime_str, ',');
-	for (ptr = mimes; ptr != NULL; ptr = ptr->next) {
-		const char *mime = ptr->data;
+	if (mime_str) {
+		mimes = go_strsplit_to_slist (mime_str, ',');
+		for (ptr = mimes; ptr != NULL; ptr = ptr->next) {
+			const char *mime = ptr->data;
 
-		if (mime != NULL && *mime != '\0')
-			gtk_target_list_add (tl, gdk_atom_intern (mime, FALSE),
-					     0, 0);
+			if (mime != NULL && *mime != '\0')
+				gtk_target_list_add (tl, gdk_atom_intern (mime, FALSE),
+						     0, 0);
+		}
+		g_free (mime_str);
+		go_slist_free_custom (mimes, g_free);
 	}
-	g_free (mime_str);
-	go_slist_free_custom (mimes, g_free);
 	/* No need to eliminate duplicates. */
 	if (soi->image != NULL || pixbuf != NULL) {
 		gtk_target_list_add_image_targets (tl, 0, TRUE);
@@ -441,8 +443,10 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 	if ((pixbuf = soi_get_pixbuf (soi, 1.0)) != NULL)
 		l = go_image_get_formats_with_pixbuf_saver ();
 	/* Move original format first in menu */
-	l = g_slist_remove (l, GUINT_TO_POINTER (sel_fmt));
-	l = g_slist_prepend (l, GUINT_TO_POINTER (sel_fmt));
+	if (sel_fmt) {
+		l = g_slist_remove (l, GUINT_TO_POINTER (sel_fmt));
+		l = g_slist_prepend (l, GUINT_TO_POINTER (sel_fmt));
+	}
 
 	wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 

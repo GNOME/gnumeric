@@ -2187,7 +2187,7 @@ xlsx_blip_start (GsfXMLIn *xin, xmlChar const **attrs)
 			guint8 *data = g_new (guint8, size);
 			gsf_input_read (input, size, data);
 			sheet_object_image_set_image (SHEET_OBJECT_IMAGE (state->so),
-				gsf_open_pkg_rel_get_type (rel), data, size, FALSE);
+				NULL, data, size, FALSE);
 	}
 
 }

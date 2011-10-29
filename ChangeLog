@@ -1,3 +1,9 @@
+2011-10-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* component/gnumeric.c (go_gnm_component_init): fixed build.
+	* src/sheet-object-image.c (gnm_soi_get_target_list),
+	(soi_cb_save_as): avoid a crash with unknown file types.
+
 2011-10-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/mstyle.c (gnm_style_get_pango_height): check for

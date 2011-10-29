@@ -258,10 +258,7 @@ go_gnm_component_init (GOComponent *component)
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	component->resizable = FALSE;
 	component->editable = TRUE;
-	component->needs_window = FALSE;
-#ifdef GO_SNAPSHOT_SVG
 	component->snapshot_type = GO_SNAPSHOT_SVG;
-#endif
 	gognm->row_start = gognm->col_start = 0;
 	gognm->sheet = NULL;
 	gognm->row_end = 9;
