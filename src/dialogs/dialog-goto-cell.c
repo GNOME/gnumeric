@@ -144,9 +144,6 @@ cb_dialog_goto_go_clicked (G_GNUC_UNUSED GtkWidget *button,
 	value_release (val);
 
 	wb_control_jump (WORKBOOK_CONTROL (state->wbcg), sheet, &range);
-#if 0
-	gnome_entry_append_history (state->goto_text, TRUE, text);
-#endif
 	return;
 }
 
