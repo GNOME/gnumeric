@@ -1495,15 +1495,8 @@ void
 gnm_cell_renderer_text_copy_background_to_cairo (GtkCellRendererText *crt,
 						 cairo_t *cr)
 {
-#ifdef HAVE_GDK_CAIRO_SET_SOURCE_RGBA
-	/* Untested code.  */
 	GdkRGBA *c = NULL;
 	g_object_get (crt, "background-rgba", &c, NULL);
 	gdk_cairo_set_source_rgba (cr, c);
 	gdk_rgba_free (c);
-#else
-	GdkColor c;
-	g_object_get (crt, "background-gdk", &c, NULL);
-	gdk_cairo_set_source_color (cr, &c);
-#endif
 }

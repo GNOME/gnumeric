@@ -151,10 +151,6 @@ stf_export_dialog_format_page_init (TextExportState *state)
 				break;
 		gtk_combo_box_set_active (state->format.separator, ui);
 		if (!format_seps[ui]) {
-#ifdef HAVE_GTK_ENTRY_GET_BUFFER
-			/* We need to work around gtk bug #601922 */
-			gtk_entry_get_buffer (GTK_ENTRY (state->format.custom));
-#endif
 			gtk_editable_insert_text (GTK_EDITABLE (state->format.custom),
 						  s, -1,
 						  &pos);
@@ -183,11 +179,6 @@ stf_export_dialog_format_page_init (TextExportState *state)
 
 		state->format.quotechar = GTK_COMBO_BOX_TEXT (go_gtk_builder_get_widget (state->gui, "format_quotechar"));
 		g_object_get (sobj, "quote", &s, NULL);
-
-#ifdef HAVE_GTK_ENTRY_GET_BUFFER
-		/* We need to work around gtk bug #601922 */
-		gtk_entry_get_buffer (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (state->format.quotechar))));
-#endif
 
 		gtk_editable_insert_text (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (state->format.quotechar))),
 					  s, -1, &pos);

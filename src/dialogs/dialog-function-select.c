@@ -212,7 +212,6 @@ dialog_function_select_search (GtkEntry *entry, gpointer data)
 				(gpointer) &specs);
 }
 
-#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
 static void
 dialog_function_select_erase_search_entry (GtkEntry *entry,
 			      G_GNUC_UNUSED GtkEntryIconPosition icon_pos,
@@ -222,7 +221,6 @@ dialog_function_select_erase_search_entry (GtkEntry *entry,
 	gtk_entry_set_text (entry, "");
 	dialog_function_select_search (entry, data);
 }
-#endif
 
 static void
 dialog_function_select_cat_changed (G_GNUC_UNUSED GtkComboBox *widget,
@@ -1261,8 +1259,6 @@ dialog_function_select_init (FunctionSelectState *state)
 		gtk_entry_set_text (GTK_ENTRY (state->search_entry),
 				    state->paste.prefix);
 
-#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
-
 	gtk_entry_set_icon_from_stock
 		(GTK_ENTRY (state->search_entry),
 		 GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_CLEAR);
@@ -1282,7 +1278,7 @@ dialog_function_select_init (FunctionSelectState *state)
 			  G_CALLBACK
 			  (dialog_function_select_erase_search_entry),
 			  state);
-#endif
+
 	g_signal_connect (G_OBJECT (state->search_entry),
 			  "activate",
 			  G_CALLBACK (dialog_function_select_search),

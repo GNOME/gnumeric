@@ -194,10 +194,8 @@ cb_name_guru_show_all (GtkTreeModel *model, GtkTreePath *path,
 
 static void
 name_guru_erase_search_entry (GtkEntry *entry,
-#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
 			      G_GNUC_UNUSED GtkEntryIconPosition icon_pos,
 			      G_GNUC_UNUSED GdkEvent *event,
-#endif
 			      gpointer data)
 {
 	NameGuruState *state = data;
@@ -255,9 +253,7 @@ name_guru_search (GtkEntry *entry, gpointer data)
 	if (0 == gtk_entry_get_text_length (entry)){
 		name_guru_erase_search_entry
 			(entry,
-#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
 			 GTK_ENTRY_ICON_SECONDARY, NULL,
-#endif
 			 data);
 		return;
 	}
@@ -1214,7 +1210,6 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 
 	state->search_entry = go_gtk_builder_get_widget (state->gui,
 						    "search_entry");
-#ifdef HAVE_GTK_ENTRY_SET_ICON_FROM_STOCK
 
 	gtk_entry_set_icon_from_stock
 		(GTK_ENTRY (state->search_entry),
@@ -1234,7 +1229,7 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg, gboolean is_paste_dialog)
 			  "icon-press",
 			  G_CALLBACK (name_guru_erase_search_entry),
 			  state);
-#endif
+
 	g_signal_connect (G_OBJECT (state->search_entry),
 			  "activate",
 			  G_CALLBACK (name_guru_search),
