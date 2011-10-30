@@ -1384,8 +1384,12 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 			else
 				text = g_strdup_printf 
 					(pi->preview ? 
-					 _("Creating preview of page %3d of %3d pages") 
-					 : _("Printing page %3d of %3d pages"), 
+					 ngettext("Creating preview of page %3d of %3d page",
+					          "Creating preview of page %3d of %3d pages",
+					          pi->hfi->pages) 
+					 : ngettext("Printing page %3d of %3d page",
+					            "Printing page %3d of %3d pages",
+					            pi->hfi->pages), 
 					 page_nr, pi->hfi->pages);
 			g_object_set (G_OBJECT (pi->progress), "text", text, NULL);
 			g_free (text);
