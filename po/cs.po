@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-10-05 21:48+0000\n"
-"PO-Revision-Date: 2011-10-06 07:36+0200\n"
+"POT-Creation-Date: 2011-10-21 17:50+0000\n"
+"PO-Revision-Date: 2011-10-30 21:41+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -93,7 +93,7 @@ msgstr "Rozhraní CORBA"
 msgid "Provides a CORBA scripting interface"
 msgstr "Poskytuje skriptovací rozhraní CORBA"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7011
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7095
 #: ../plugins/openoffice/openoffice-read.c:10313 ../src/xml-sax-read.c:3259
 msgid "Reading file..."
 msgstr "Načítá se soubor…"
@@ -231,17 +231,17 @@ msgstr "Graf%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: ../plugins/excel/ms-excel-read.c:3553
+#: ../plugins/excel/ms-excel-read.c:3637
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Selhání při zpracování názvu „%s“"
 
-#: ../plugins/excel/ms-excel-read.c:3697
+#: ../plugins/excel/ms-excel-read.c:3781
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Nesprávný výraz pro název „%s“: obsah bude ztracen.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3702
+#: ../plugins/excel/ms-excel-read.c:3786
 #, c-format
 msgid ""
 "DDE links are not supported yet.\n"
@@ -250,7 +250,7 @@ msgstr ""
 "Odkazy DDE nejsou zatím podporovány.\n"
 "Název „%s“ bude ztracen.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3706
+#: ../plugins/excel/ms-excel-read.c:3790
 #, c-format
 msgid ""
 "OLE links are not supported yet.\n"
@@ -259,11 +259,11 @@ msgstr ""
 "Odkazy OLE nejsou zatím podporovány.\n"
 "Název „%s“ bude ztracen.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6146
+#: ../plugins/excel/ms-excel-read.c:6230
 msgid "external references"
 msgstr "externí odkazy"
 
-#: ../plugins/excel/ms-excel-read.c:6185
+#: ../plugins/excel/ms-excel-read.c:6269
 msgid "No password supplied"
 msgstr "Nebylo zadáno žádné heslo"
 
@@ -2310,7 +2310,7 @@ msgstr "Aktivovat nové zásuvné moduly"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:4
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:2
-#: ../src/dialogs/dialog-preferences.c:1046
+#: ../src/dialogs/dialog-preferences.c:1056
 msgid "Allow Unfocused Range Selections"
 msgstr "Povolit nezaměřené výběry oblastí"
 
@@ -2499,7 +2499,7 @@ msgstr "Seznam nedávno použitých funkcí."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:42
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:39
-#: ../src/dialogs/dialog-preferences.c:1051
+#: ../src/dialogs/dialog-preferences.c:1061
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Maximální délka seznamu nedávno použitých funkcí"
 
@@ -2535,7 +2535,7 @@ msgid "Preferred Display Unit"
 msgstr "Upřednostňované jednotky zobrazení"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:49
-#: ../schemas/gnumeric-general.schemas.in.h:30
+#: ../schemas/gnumeric-general.schemas.in.h:32
 msgid "Sans"
 msgstr "Sans"
 
@@ -3074,7 +3074,7 @@ msgstr "Prodleva automatického přepočítávání výrazů"
 
 #: ../schemas/gnumeric-general.schemas.in.h:2
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:3
-#: ../src/dialogs/dialog-preferences.c:1031
+#: ../src/dialogs/dialog-preferences.c:1041
 msgid "Autocomplete"
 msgstr "Automatické doplňování"
 
@@ -3096,7 +3096,7 @@ msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:5
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:6
-#: ../src/dialogs/dialog-preferences.c:942
+#: ../src/dialogs/dialog-preferences.c:952
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Výchozí úroveň komprimace souborů Gnumeric"
 
@@ -3129,7 +3129,7 @@ msgstr "Výchozí počet řádků v listu"
 
 #: ../schemas/gnumeric-general.schemas.in.h:11
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:12
-#: ../src/dialogs/dialog-preferences.c:953
+#: ../src/dialogs/dialog-preferences.c:963
 msgid "Default To Overwriting Files"
 msgstr "Výchozí je přepisovat soubory"
 
@@ -3151,23 +3151,31 @@ msgid "Default font name"
 msgstr "Výchozí název písma"
 
 #: ../schemas/gnumeric-general.schemas.in.h:15
+msgid "Extension Markers"
+msgstr "Značky pokračování"
+
+#: ../schemas/gnumeric-general.schemas.in.h:16
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:17
 msgid "Format toolbar position"
 msgstr "Umístění lišty nástrojů Formát"
 
-#: ../schemas/gnumeric-general.schemas.in.h:16
+#: ../schemas/gnumeric-general.schemas.in.h:17
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:18
 msgid "Format toolbar visible"
 msgstr "Viditelnost lišty nástrojů Formát"
 
-#: ../schemas/gnumeric-general.schemas.in.h:17
+#: ../schemas/gnumeric-general.schemas.in.h:18
+msgid "Function Markers"
+msgstr "Značky funkcí"
+
+#: ../schemas/gnumeric-general.schemas.in.h:19
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:19
-#: ../src/dialogs/dialog-preferences.c:992
+#: ../src/dialogs/dialog-preferences.c:1002
 msgid "Horizontal DPI"
 msgstr "DPI vodorovně"
 
 # FIXME: s/milleseconds/milliseconds/
-#: ../schemas/gnumeric-general.schemas.in.h:18
+#: ../schemas/gnumeric-general.schemas.in.h:20
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:20
 msgid ""
 "If `lag' is 0, gnumeric recalculates all auto expressions immediately after "
@@ -3185,76 +3193,76 @@ msgstr ""
 "změn, jsou v té době také zpracovány. Je-li „lag“ záporné, přepočítává se "
 "jen po tichém období |lag| milisekund."
 
-#: ../schemas/gnumeric-general.schemas.in.h:19
+#: ../schemas/gnumeric-general.schemas.in.h:21
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:21
 msgid "Length of the Undo Descriptors"
 msgstr "Délka popisovačů operací zpět"
 
-#: ../schemas/gnumeric-general.schemas.in.h:20
+#: ../schemas/gnumeric-general.schemas.in.h:22
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:22
 msgid "List of file savers with disabled extension check."
 msgstr "Seznam programů k ukládání souborů se zakázanou kontrolou rozšíření."
 
-#: ../schemas/gnumeric-general.schemas.in.h:21
+#: ../schemas/gnumeric-general.schemas.in.h:23
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:23
 #: ../src/dialogs/dialog-preferences.c:862
 msgid "Live Scrolling"
 msgstr "Živé posouvání"
 
-#: ../schemas/gnumeric-general.schemas.in.h:22
+#: ../schemas/gnumeric-general.schemas.in.h:24
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:24
 msgid "Long format toolbar position"
 msgstr "Umístění lišty nástrojů Formát – dlouhá"
 
-#: ../schemas/gnumeric-general.schemas.in.h:23
+#: ../schemas/gnumeric-general.schemas.in.h:25
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:25
 msgid "Long format toolbar visible"
 msgstr "Viditelnost lišty nástrojů Formát – dlouhá"
 
-#: ../schemas/gnumeric-general.schemas.in.h:24
+#: ../schemas/gnumeric-general.schemas.in.h:26
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:26
 #: ../src/dialogs/dialog-preferences.c:753
 msgid "Maximal Undo Size"
 msgstr "Maximální množství operací zpět"
 
-#: ../schemas/gnumeric-general.schemas.in.h:25
+#: ../schemas/gnumeric-general.schemas.in.h:27
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:27
 #: ../src/dialogs/dialog-preferences.c:786
 msgid "Number of Automatic Clauses"
 msgstr "Počet automatických podmínek"
 
-#: ../schemas/gnumeric-general.schemas.in.h:26
+#: ../schemas/gnumeric-general.schemas.in.h:28
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:28
 #: ../src/dialogs/dialog-preferences.c:758
 msgid "Number of Undo Items"
 msgstr "Počet položek zpět"
 
-#: ../schemas/gnumeric-general.schemas.in.h:27
+#: ../schemas/gnumeric-general.schemas.in.h:29
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:29
 msgid "Object toolbar position"
 msgstr "Umístění lišty nástrojů Objekt"
 
-#: ../schemas/gnumeric-general.schemas.in.h:28
+#: ../schemas/gnumeric-general.schemas.in.h:30
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:30
 msgid "Object toolbar visible"
 msgstr "Viditelnost lišty nástrojů Objekt"
 
-#: ../schemas/gnumeric-general.schemas.in.h:29
+#: ../schemas/gnumeric-general.schemas.in.h:31
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:31
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "Dávat přednost výběru CLIPBOARD před PRIMARY"
 
-#: ../schemas/gnumeric-general.schemas.in.h:31
+#: ../schemas/gnumeric-general.schemas.in.h:33
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:32
 msgid "Screen resolution in the horizontal direction."
 msgstr "Rozlišení obrazovky ve vodorovném směru."
 
-#: ../schemas/gnumeric-general.schemas.in.h:32
+#: ../schemas/gnumeric-general.schemas.in.h:34
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:33
 msgid "Screen resolution in the vertical direction."
 msgstr "Rozlišení obrazovky ve svislém směru."
 
-#: ../schemas/gnumeric-general.schemas.in.h:33
+#: ../schemas/gnumeric-general.schemas.in.h:35
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:34
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to perform a "
@@ -3266,7 +3274,7 @@ msgstr ""
 "nastavení zaškrtávacího políčka pro rozlišování velikosti písmen v "
 "dialogovém okně řazení."
 
-#: ../schemas/gnumeric-general.schemas.in.h:34
+#: ../schemas/gnumeric-general.schemas.in.h:36
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:35
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to preserve "
@@ -3277,25 +3285,25 @@ msgstr ""
 "budou zachovávat formát buňky při řazení a ovlivní úvodní nastavení "
 "zaškrtávacího políčka pro zachování formátu v dialogovém okně řazení."
 
-#: ../schemas/gnumeric-general.schemas.in.h:35
+#: ../schemas/gnumeric-general.schemas.in.h:37
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:36
-#: ../src/dialogs/dialog-preferences.c:1041
+#: ../src/dialogs/dialog-preferences.c:1051
 msgid "Show Function Argument Tooltips"
 msgstr "Zobrazovat místní nápovědy s argumenty funkcí"
 
-#: ../schemas/gnumeric-general.schemas.in.h:36
+#: ../schemas/gnumeric-general.schemas.in.h:38
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:37
-#: ../src/dialogs/dialog-preferences.c:1036
+#: ../src/dialogs/dialog-preferences.c:1046
 msgid "Show Function Name Tooltips"
 msgstr "Zobrazovat místní nápovědy s názvy funkcí"
 
-#: ../schemas/gnumeric-general.schemas.in.h:37
+#: ../schemas/gnumeric-general.schemas.in.h:39
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:38
 #: ../src/dialogs/dialog-preferences.c:763
 msgid "Show Sheet Name in Undo List"
 msgstr "Zobrazovat název listu v seznamu operací zpět"
 
-#: ../schemas/gnumeric-general.schemas.in.h:38
+#: ../schemas/gnumeric-general.schemas.in.h:40
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:39
 msgid ""
 "Some file formats can contain only a single sheet. This variable determines "
@@ -3306,59 +3314,59 @@ msgstr ""
 "určuje, zda bude uživatel varován, pokud se má uložit pouze jeden list "
 "sešitu s více listy."
 
-#: ../schemas/gnumeric-general.schemas.in.h:39
+#: ../schemas/gnumeric-general.schemas.in.h:41
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:40
 #: ../src/dialogs/dialog-preferences.c:801 ../src/wbc-gtk-actions.c:2710
 msgid "Sort Ascending"
 msgstr "Seřadit vzestupně"
 
-#: ../schemas/gnumeric-general.schemas.in.h:40
+#: ../schemas/gnumeric-general.schemas.in.h:42
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:41
 msgid "Sort is Case-Sensitive"
 msgstr "Při řazení rozlišovat velikost písmen"
 
-#: ../schemas/gnumeric-general.schemas.in.h:41
+#: ../schemas/gnumeric-general.schemas.in.h:43
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:42
 #: ../src/dialogs/dialog-preferences.c:791
 msgid "Sorting Preserves Formats"
 msgstr "Při řazení zachovávat formát"
 
-#: ../schemas/gnumeric-general.schemas.in.h:42
+#: ../schemas/gnumeric-general.schemas.in.h:44
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:43
 msgid "Standard toolbar position"
 msgstr "Umístění lišty nástrojů Standardní"
 
-#: ../schemas/gnumeric-general.schemas.in.h:43
+#: ../schemas/gnumeric-general.schemas.in.h:45
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:44
 msgid "Standard toolbar visible"
 msgstr "Viditelnost lišty nástrojů Standardní"
 
-#: ../schemas/gnumeric-general.schemas.in.h:44
+#: ../schemas/gnumeric-general.schemas.in.h:46
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:45
 msgid "The default font is bold."
 msgstr "Výchozí písmo je tučné."
 
-#: ../schemas/gnumeric-general.schemas.in.h:45
+#: ../schemas/gnumeric-general.schemas.in.h:47
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:46
 msgid "The default font is italic."
 msgstr "Výchozí písmo je kurzíva."
 
-#: ../schemas/gnumeric-general.schemas.in.h:46
+#: ../schemas/gnumeric-general.schemas.in.h:48
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:47
 msgid "The default font name for new workbooks."
 msgstr "Výchozí název písma pro nové sešity."
 
-#: ../schemas/gnumeric-general.schemas.in.h:47
+#: ../schemas/gnumeric-general.schemas.in.h:49
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:48
 msgid "The default font size for new workbooks."
 msgstr "Výchozí velikost písma pro nové sešity."
 
-#: ../schemas/gnumeric-general.schemas.in.h:48
+#: ../schemas/gnumeric-general.schemas.in.h:50
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:49
 msgid "The initial zoom factor for new workbooks."
 msgstr "Počáteční měřítko přiblížení pro nové sešity."
 
-#: ../schemas/gnumeric-general.schemas.in.h:49
+#: ../schemas/gnumeric-general.schemas.in.h:51
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:50
 msgid ""
 "The number of columns in each sheet. This setting will be used only in a new "
@@ -3367,7 +3375,7 @@ msgstr ""
 "Počet sloupců na každém z listů. Toto nastavení se použije pouze v nových "
 "sezeních gnumeric."
 
-#: ../schemas/gnumeric-general.schemas.in.h:50
+#: ../schemas/gnumeric-general.schemas.in.h:52
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:51
 msgid ""
 "The number of rows in each sheet. This setting will be used only in a new "
@@ -3376,17 +3384,17 @@ msgstr ""
 "Počet řádků na každém z listů. Toto nastavení se použije pouze v nových "
 "sezeních gnumeric."
 
-#: ../schemas/gnumeric-general.schemas.in.h:51
+#: ../schemas/gnumeric-general.schemas.in.h:53
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:52
 msgid "The number of seconds between autosaves."
 msgstr "Počet sekund mezi automatickými ukládáními."
 
-#: ../schemas/gnumeric-general.schemas.in.h:52
+#: ../schemas/gnumeric-general.schemas.in.h:54
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:53
 msgid "The number of sheets initially created in a new workbook."
 msgstr "Počáteční počet listů při vytvoření nového sešitu."
 
-#: ../schemas/gnumeric-general.schemas.in.h:53
+#: ../schemas/gnumeric-general.schemas.in.h:55
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:54
 msgid ""
 "This integer (between 0 and 9) specifies the amount of compression performed "
@@ -3397,7 +3405,7 @@ msgstr ""
 "Gnumeric při ukládání souborů ve výchozím formátu. 0 je minimální "
 "komprimace, 9 je maximální komprimace."
 
-#: ../schemas/gnumeric-general.schemas.in.h:54
+#: ../schemas/gnumeric-general.schemas.in.h:56
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:55
 msgid ""
 "This list contains the ids of the file savers for which the extension check "
@@ -3406,7 +3414,7 @@ msgstr ""
 "Tento seznam obsahuje identifikátory programů k ukládání souborů, pro které "
 "je zakázaná kontrola rozšíření."
 
-#: ../schemas/gnumeric-general.schemas.in.h:55
+#: ../schemas/gnumeric-general.schemas.in.h:57
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:56
 msgid ""
 "This number (between 0.25 and 1.00) gives the horizontal fraction of the "
@@ -3415,7 +3423,7 @@ msgstr ""
 "Toto číslo (v rozmezí 0,25 až 1,00) udává část velikosti obrazovky pokrytou "
 "výchozím oknem ve vodorovném směru."
 
-#: ../schemas/gnumeric-general.schemas.in.h:56
+#: ../schemas/gnumeric-general.schemas.in.h:58
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:57
 msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
@@ -3424,7 +3432,7 @@ msgstr ""
 "Toto číslo (v rozmezí 0,25 až 1,00) udává část velikosti obrazovky pokrytou "
 "výchozím oknem ve svislém směru."
 
-#: ../schemas/gnumeric-general.schemas.in.h:57
+#: ../schemas/gnumeric-general.schemas.in.h:59
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:58
 msgid ""
 "This option determines the initial state of the sort-order button in the "
@@ -3432,7 +3440,7 @@ msgid ""
 msgstr ""
 "Tato volba určuje počáteční stav tlačítka řazení v dialogovém okně řazení."
 
-#: ../schemas/gnumeric-general.schemas.in.h:58
+#: ../schemas/gnumeric-general.schemas.in.h:60
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:59
 msgid ""
 "This value determines the length of the undo chain. Each editing action has "
@@ -3445,26 +3453,26 @@ msgstr ""
 "úpravy jedné buňky (velikost 1). Seznam operací zpět bude oříznut, pokud "
 "jeho celková velikost překročí tuto nastavenou hodnotu."
 
-#: ../schemas/gnumeric-general.schemas.in.h:59
+#: ../schemas/gnumeric-general.schemas.in.h:61
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:60
 msgid ""
 "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
 "Tato hodnota určuje maximální počet položek v seznamu operací zpět/znovu."
 
-#: ../schemas/gnumeric-general.schemas.in.h:60
+#: ../schemas/gnumeric-general.schemas.in.h:62
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:61
 msgid ""
 "This value determines whether the default font for a new workbook is bold."
 msgstr "Tato hodnota určuje, zda je výchozí písmo pro nový sešit tučné."
 
-#: ../schemas/gnumeric-general.schemas.in.h:61
+#: ../schemas/gnumeric-general.schemas.in.h:63
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:62
 msgid ""
 "This value determines whether the default font for a new workbook is italic."
 msgstr "Tato hodnota určuje, zda je výchozí písmo pro nový sešit kurzíva."
 
-#: ../schemas/gnumeric-general.schemas.in.h:62
+#: ../schemas/gnumeric-general.schemas.in.h:64
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:63
 msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
@@ -3473,7 +3481,7 @@ msgstr ""
 "Tato hodnota určuje, zda se má v seznamu operací zpět a znovu zobrazovat "
 "název listu."
 
-#: ../schemas/gnumeric-general.schemas.in.h:63
+#: ../schemas/gnumeric-general.schemas.in.h:65
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:64
 msgid ""
 "This value is indicative of the maximum length of the command descriptors in "
@@ -3482,7 +3490,7 @@ msgstr ""
 "Tato hodnota udává maximální délku popisovačů příkazů v posloupnosti operací "
 "zpět a znovu."
 
-#: ../schemas/gnumeric-general.schemas.in.h:64
+#: ../schemas/gnumeric-general.schemas.in.h:66
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:65
 msgid ""
 "This variable determines where the format toolbar should be shown. 0 is "
@@ -3491,7 +3499,7 @@ msgstr ""
 "Tato proměnná určuje, kde by měla být zobrazena lišta nástrojů Formát. 0 je "
 "vlevo, 1 vpravo, 2 nahoře."
 
-#: ../schemas/gnumeric-general.schemas.in.h:65
+#: ../schemas/gnumeric-general.schemas.in.h:67
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:66
 msgid ""
 "This variable determines where the long format toolbar should be shown. 0 is "
@@ -3500,7 +3508,7 @@ msgstr ""
 "Tato proměnná určuje, kde by měla být zobrazena lišta nástrojů Formát – "
 "dlouhá. 0 je vlevo, 1 vpravo, 2 nahoře."
 
-#: ../schemas/gnumeric-general.schemas.in.h:66
+#: ../schemas/gnumeric-general.schemas.in.h:68
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:67
 msgid ""
 "This variable determines where the object toolbar should be shown. 0 is "
@@ -3509,7 +3517,7 @@ msgstr ""
 "Tato proměnná určuje, kde by měla být zobrazena lišta nástrojů Objekt. 0 je "
 "vlevo, 1 vpravo, 2 nahoře."
 
-#: ../schemas/gnumeric-general.schemas.in.h:67
+#: ../schemas/gnumeric-general.schemas.in.h:69
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:68
 msgid ""
 "This variable determines where the standard toolbar should be shown. 0 is "
@@ -3518,19 +3526,31 @@ msgstr ""
 "Tato proměnná určuje, kde by měla být zobrazena lišta nástrojů Standardní. 0 "
 "je vlevo, 1 vpravo, 2 nahoře."
 
-#: ../schemas/gnumeric-general.schemas.in.h:68
+#: ../schemas/gnumeric-general.schemas.in.h:70
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:69
 msgid "This variable determines whether autocompletion is set on."
 msgstr "Tato proměnná určuje, zda je zapnuto automatické doplňování."
 
-#: ../schemas/gnumeric-general.schemas.in.h:69
+#: ../schemas/gnumeric-general.schemas.in.h:71
+msgid ""
+"This variable determines whether cells containing spreadsheet function are "
+"marked."
+msgstr ""
+"Tato proměnná určuje, zda jsou označovány buňky obsahující tabulkové funkce."
+
+#: ../schemas/gnumeric-general.schemas.in.h:72
+msgid ""
+"This variable determines whether cells with truncated content are marked."
+msgstr "Tato proměnná určuje, zda jsou označovány buňky s oříznutým obsahem."
+
+#: ../schemas/gnumeric-general.schemas.in.h:73
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:70
 msgid ""
 "This variable determines whether live (versus delayed) scrolling is "
 "performed."
 msgstr "Tato proměnná určuje, zda je prováděno živé (nebo zpožděné) posouvání."
 
-#: ../schemas/gnumeric-general.schemas.in.h:70
+#: ../schemas/gnumeric-general.schemas.in.h:74
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:71
 msgid ""
 "This variable determines whether the format toolbar should be visible "
@@ -3538,7 +3558,7 @@ msgid ""
 msgstr ""
 "Tato proměnná určuje, zda má být z počátku viditelná lišta nástrojů Formát."
 
-#: ../schemas/gnumeric-general.schemas.in.h:71
+#: ../schemas/gnumeric-general.schemas.in.h:75
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:72
 msgid ""
 "This variable determines whether the long format toolbar should be visible "
@@ -3547,7 +3567,7 @@ msgstr ""
 "Tato proměnná určuje, zda má být z počátku viditelná lišta nástrojů Formát – "
 "dlouhá."
 
-#: ../schemas/gnumeric-general.schemas.in.h:72
+#: ../schemas/gnumeric-general.schemas.in.h:76
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:73
 msgid ""
 "This variable determines whether the object toolbar should be visible "
@@ -3555,7 +3575,7 @@ msgid ""
 msgstr ""
 "Tato proměnná určuje, zda má být z počátku viditelná lišta nástrojů Objekt."
 
-#: ../schemas/gnumeric-general.schemas.in.h:73
+#: ../schemas/gnumeric-general.schemas.in.h:77
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:74
 msgid ""
 "This variable determines whether the standard toolbar should be visible "
@@ -3564,20 +3584,20 @@ msgstr ""
 "Tato proměnná určuje, zda má být z počátku viditelná lišta nástrojů "
 "Standardní."
 
-#: ../schemas/gnumeric-general.schemas.in.h:74
+#: ../schemas/gnumeric-general.schemas.in.h:78
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:75
 msgid "This variable determines whether to show function argument tooltips."
 msgstr ""
 "Tato proměnná určuje, zda se má zobrazovat místní nápověda s argumenty "
 "funkcí."
 
-#: ../schemas/gnumeric-general.schemas.in.h:75
+#: ../schemas/gnumeric-general.schemas.in.h:79
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:76
 msgid "This variable determines whether to show function name tooltips."
 msgstr ""
 "Tato proměnná určuje, zda se má zobrazovat místní nápověda s názvy funkcí."
 
-#: ../schemas/gnumeric-general.schemas.in.h:76
+#: ../schemas/gnumeric-general.schemas.in.h:80
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:77
 msgid ""
 "This variable determines whether transition keys are set on. Transition keys "
@@ -3589,35 +3609,35 @@ msgstr ""
 "1-2-3. Přepnou Ctrl-šipka na posun stránky namísto skoku na začátek/konec "
 "řad."
 
-#: ../schemas/gnumeric-general.schemas.in.h:77
+#: ../schemas/gnumeric-general.schemas.in.h:81
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:78
 msgid "Toolbar Style"
 msgstr "Styl lišty nástrojů"
 
-#: ../schemas/gnumeric-general.schemas.in.h:78
+#: ../schemas/gnumeric-general.schemas.in.h:82
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
 msgstr ""
 "Styl lišty nástrojů. Platné hodnoty jsou both (obojí), both_horiz (obojí "
 "vodorovně), icon (ikona) a text (text)."
 
-#: ../schemas/gnumeric-general.schemas.in.h:79
-#: ../src/dialogs/dialog-preferences.c:1026
+#: ../schemas/gnumeric-general.schemas.in.h:83
+#: ../src/dialogs/dialog-preferences.c:1036
 msgid "Transition Keys"
 msgstr "Klávesy pro přechod"
 
-#: ../schemas/gnumeric-general.schemas.in.h:80
+#: ../schemas/gnumeric-general.schemas.in.h:84
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:80
-#: ../src/dialogs/dialog-preferences.c:997
+#: ../src/dialogs/dialog-preferences.c:1007
 msgid "Vertical DPI"
 msgstr "DPI svisle"
 
-#: ../schemas/gnumeric-general.schemas.in.h:81
+#: ../schemas/gnumeric-general.schemas.in.h:85
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:81
-#: ../src/dialogs/dialog-preferences.c:958
+#: ../src/dialogs/dialog-preferences.c:968
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Varovat při exportu do formátu s jediným listem"
 
-#: ../schemas/gnumeric-general.schemas.in.h:82
+#: ../schemas/gnumeric-general.schemas.in.h:86
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:82
 msgid ""
 "When TRUE, Gnumeric will prefer the modern CLIPBOARD selection over the "
@@ -3629,7 +3649,7 @@ msgstr ""
 "musíte pracovat se staršími aplikacemi jako je Xterm nebo Emacs, které "
 "nastavují jen výběr PRIMARY."
 
-#: ../schemas/gnumeric-general.schemas.in.h:83
+#: ../schemas/gnumeric-general.schemas.in.h:87
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:83
 msgid ""
 "When selecting a sort region in the sort dialog, sort clauses are "
@@ -3681,7 +3701,7 @@ msgstr ""
 
 #: ../schemas/gnumeric-plugins.schemas.in.h:6
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:6
-#: ../src/dialogs/dialog-preferences.c:964
+#: ../src/dialogs/dialog-preferences.c:974
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Používat UTF-8 v exportu do LaTeXu"
 
@@ -4101,7 +4121,7 @@ msgstr "Odstranit řádky %s"
 msgid "Deleting row %s"
 msgstr "Odstranit řádek %s"
 
-#: ../src/commands.c:1582 ../src/commands.c:1583 ../src/sheet.c:4349
+#: ../src/commands.c:1582 ../src/commands.c:1583 ../src/sheet.c:4348
 msgid "Clear"
 msgstr "Vymazat"
 
@@ -4222,7 +4242,7 @@ msgstr "Automatická šířka %s"
 msgid "Autofitting height of %s"
 msgstr "Automatická výška %s"
 
-#: ../src/commands.c:2150 ../src/dialogs/dialog-preferences.c:1188
+#: ../src/commands.c:2150 ../src/dialogs/dialog-preferences.c:1198
 msgid "Sorting"
 msgstr "Seřadit"
 
@@ -5753,19 +5773,19 @@ msgstr "Použít _vzorky"
 msgid "Apply _Alignment"
 msgstr "Použít z_arovnání"
 
-#: ../src/dialogs/dialog-autoformat.c:507 ../src/dialogs/cell-format.ui.h:94
+#: ../src/dialogs/dialog-autoformat.c:507 ../src/dialogs/cell-format.ui.h:95
 msgid "_Left"
 msgstr "V_levo"
 
-#: ../src/dialogs/dialog-autoformat.c:509 ../src/dialogs/cell-format.ui.h:98
+#: ../src/dialogs/dialog-autoformat.c:509 ../src/dialogs/cell-format.ui.h:99
 msgid "_Right"
 msgstr "Vp_ravo"
 
-#: ../src/dialogs/dialog-autoformat.c:511 ../src/dialogs/cell-format.ui.h:100
+#: ../src/dialogs/dialog-autoformat.c:511 ../src/dialogs/cell-format.ui.h:101
 msgid "_Top"
 msgstr "Na_horu"
 
-#: ../src/dialogs/dialog-autoformat.c:513 ../src/dialogs/cell-format.ui.h:88
+#: ../src/dialogs/dialog-autoformat.c:513 ../src/dialogs/cell-format.ui.h:89
 msgid "_Bottom"
 msgstr "_Dolů"
 
@@ -5796,7 +5816,8 @@ msgstr "Upravit komentář buňky (%s)"
 msgid "New Cell Comment (%s)"
 msgstr "Nový komentář buňky (%s)"
 
-#: ../src/dialogs/dialog-cell-format.c:73 ../src/dialogs/paste-special.ui.h:13
+#: ../src/dialogs/dialog-cell-format.c:73 ../src/dialogs/cell-format.ui.h:59
+#: ../src/dialogs/paste-special.ui.h:13
 msgid "None"
 msgstr "Nic"
 
@@ -6533,7 +6554,7 @@ msgstr "Buňka"
 msgid "Could not create the goto dialog."
 msgstr "Nelze vytvořit dialog pro přechod."
 
-#: ../src/dialogs/dialog-hyperlink.c:82
+#: ../src/dialogs/dialog-hyperlink.c:83
 msgid ""
 "Left click once to follow this link.\n"
 "Middle click once to select this cell"
@@ -6541,55 +6562,55 @@ msgstr ""
 "Kliknutím levým tlačítkem přejdete na odkaz.\n"
 "Kliknutím prostředním tlačítkem vyberete tuto buňku."
 
-#: ../src/dialogs/dialog-hyperlink.c:188
+#: ../src/dialogs/dialog-hyperlink.c:189
 msgid "Not a range or name"
 msgstr "Není oblast nebo název"
 
-#: ../src/dialogs/dialog-hyperlink.c:304
+#: ../src/dialogs/dialog-hyperlink.c:305
 msgid "Internal Link"
 msgstr "Interní odkaz"
 
-#: ../src/dialogs/dialog-hyperlink.c:306
+#: ../src/dialogs/dialog-hyperlink.c:307
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr "Přejít na specifické buňky nebo pojmenovanou oblast v aktuálním sešitě"
 
-#: ../src/dialogs/dialog-hyperlink.c:310
+#: ../src/dialogs/dialog-hyperlink.c:311
 msgid "External Link"
 msgstr "Externí odkaz"
 
-#: ../src/dialogs/dialog-hyperlink.c:312
+#: ../src/dialogs/dialog-hyperlink.c:313
 msgid "Open an external file with the specified name"
 msgstr "Otevřít externí soubor se zadaným názvem"
 
-#: ../src/dialogs/dialog-hyperlink.c:315
+#: ../src/dialogs/dialog-hyperlink.c:316
 msgid "Email Link"
 msgstr "Odkaz na e-mail"
 
-#: ../src/dialogs/dialog-hyperlink.c:317
+#: ../src/dialogs/dialog-hyperlink.c:318
 msgid "Prepare an email"
 msgstr "Připravit e-mail"
 
-#: ../src/dialogs/dialog-hyperlink.c:320
+#: ../src/dialogs/dialog-hyperlink.c:321
 msgid "Web Link"
 msgstr "Odkaz na web"
 
-#: ../src/dialogs/dialog-hyperlink.c:322
+#: ../src/dialogs/dialog-hyperlink.c:323
 msgid "Browse to the specified URL"
 msgstr "Prohlížet zadané URL"
 
-#: ../src/dialogs/dialog-hyperlink.c:395
+#: ../src/dialogs/dialog-hyperlink.c:398
 msgid "Add Hyperlink"
 msgstr "Přidat hypertextový odkaz"
 
-#: ../src/dialogs/dialog-hyperlink.c:400
+#: ../src/dialogs/dialog-hyperlink.c:403
 msgid "Edit Hyperlink"
 msgstr "Upravit hypertextový odkaz"
 
-#: ../src/dialogs/dialog-hyperlink.c:409
+#: ../src/dialogs/dialog-hyperlink.c:412
 msgid "Remove Hyperlink"
 msgstr "Odstranit hypertextový odkaz"
 
-#: ../src/dialogs/dialog-hyperlink.c:612
+#: ../src/dialogs/dialog-hyperlink.c:614
 msgid "Could not create the hyperlink dialog."
 msgstr "Nelze vytvořit dialogové okno Hypertextový odkaz."
 
@@ -6729,84 +6750,92 @@ msgstr "Výchozí počet řádků v listu"
 msgid "Default Number of Columns in a Sheet"
 msgstr "Výchozí počet sloupců v listu"
 
-#: ../src/dialogs/dialog-preferences.c:948
+#: ../src/dialogs/dialog-preferences.c:867
+msgid "By default, mark cells with spreadsheet functions"
+msgstr "Jako výchozí chování, označovat buňky s tabulkovými funkcemi"
+
+#: ../src/dialogs/dialog-preferences.c:872
+msgid "By default, mark cells with truncated content"
+msgstr "Jako výchozí chování, označovat buňky s oříznutým obsahem"
+
+#: ../src/dialogs/dialog-preferences.c:958
 msgid "Default autosave frequency in seconds"
 msgstr "Výchozí interval automatického ukládání v sekundách"
 
-#: ../src/dialogs/dialog-preferences.c:969
+#: ../src/dialogs/dialog-preferences.c:979
 msgid "Disable Extension Check for Configurable Text Exporter"
 msgstr "Vypnout kontrolu rozšíření pro nastavitelné exporty textu"
 
-#: ../src/dialogs/dialog-preferences.c:1021
+#: ../src/dialogs/dialog-preferences.c:1031
 msgid "Enter _Moves Selection"
 msgstr "Enter _přesouvá zaměření"
 
-#: ../src/dialogs/dialog-preferences.c:1077
+#: ../src/dialogs/dialog-preferences.c:1087
 msgid "Prefer CLIPBOARD Over PRIMARY Selection"
 msgstr "Upřednostnit výběr CLIPBOARD před PRIMARY"
 
-#: ../src/dialogs/dialog-preferences.c:1102
+#: ../src/dialogs/dialog-preferences.c:1112
 msgid "Capitalize _names of days"
 msgstr "První písmeno _názvů dní měnit na velké"
 
-#: ../src/dialogs/dialog-preferences.c:1125
+#: ../src/dialogs/dialog-preferences.c:1135
 msgid "Correct _TWo INitial CApitals"
 msgstr "Opravova_t DVě PRvní PÍsmena VElká"
 
-#: ../src/dialogs/dialog-preferences.c:1129
+#: ../src/dialogs/dialog-preferences.c:1139
 msgid "Do _not correct:"
 msgstr "_Neopravovat:"
 
-#: ../src/dialogs/dialog-preferences.c:1152
+#: ../src/dialogs/dialog-preferences.c:1162
 msgid "Capitalize _first letter of sentence"
 msgstr "První písmeno _věty měnit na velké"
 
-#: ../src/dialogs/dialog-preferences.c:1156
+#: ../src/dialogs/dialog-preferences.c:1166
 msgid "Do _not capitalize after:"
 msgstr "Neměnit na velké písmeno _po:"
 
-#: ../src/dialogs/dialog-preferences.c:1178
+#: ../src/dialogs/dialog-preferences.c:1188
 msgid "Auto Correct"
 msgstr "Automatické opravy"
 
-#: ../src/dialogs/dialog-preferences.c:1179 ../src/dialogs/cell-format.ui.h:43
+#: ../src/dialogs/dialog-preferences.c:1189 ../src/dialogs/cell-format.ui.h:43
 #: ../src/dialogs/cell-format-cond.ui.h:8 ../src/wbc-gtk.c:3420
 msgid "Font"
 msgstr "Písmo"
 
-#: ../src/dialogs/dialog-preferences.c:1180
+#: ../src/dialogs/dialog-preferences.c:1190
 msgid "Files"
 msgstr "Soubory"
 
-#: ../src/dialogs/dialog-preferences.c:1181
+#: ../src/dialogs/dialog-preferences.c:1191
 msgid "Tools"
 msgstr "Nástroje"
 
-#: ../src/dialogs/dialog-preferences.c:1182
+#: ../src/dialogs/dialog-preferences.c:1192
 msgid "Undo"
 msgstr "Zpět"
 
-#: ../src/dialogs/dialog-preferences.c:1183
+#: ../src/dialogs/dialog-preferences.c:1193
 msgid "Windows"
 msgstr "Okna"
 
-#: ../src/dialogs/dialog-preferences.c:1184
+#: ../src/dialogs/dialog-preferences.c:1194
 msgid "Header/Footer"
 msgstr "Záhlaví/zápatí"
 
-#: ../src/dialogs/dialog-preferences.c:1186
+#: ../src/dialogs/dialog-preferences.c:1196
 msgid "Copy and Paste"
 msgstr "Kopírovat a vložit"
 
-#: ../src/dialogs/dialog-preferences.c:1189
+#: ../src/dialogs/dialog-preferences.c:1199
 msgid "Screen"
 msgstr "Obrazovka"
 
-#: ../src/dialogs/dialog-preferences.c:1190
+#: ../src/dialogs/dialog-preferences.c:1200
 msgid "INitial CApitals"
 msgstr "POčáteční VElká PÍsmena"
 
-#: ../src/dialogs/dialog-preferences.c:1191
+#: ../src/dialogs/dialog-preferences.c:1201
 msgid "First Letter"
 msgstr "První písmeno"
 
@@ -7793,20 +7822,20 @@ msgstr "Obrazovka %d [Tato obrazovka]"
 msgid "Screen %d"
 msgstr "Obrazovka %d"
 
-#: ../src/dialogs/dialog-workbook-attr.c:194
+#: ../src/dialogs/dialog-workbook-attr.c:199
 msgid "Widgets"
 msgstr "Widgety"
 
-#: ../src/dialogs/dialog-workbook-attr.c:195
-#: ../src/dialogs/cell-format.ui.h:61 ../src/dialogs/cell-format-cond.ui.h:10
+#: ../src/dialogs/dialog-workbook-attr.c:200
+#: ../src/dialogs/cell-format.ui.h:62 ../src/dialogs/cell-format-cond.ui.h:10
 msgid "Protection"
 msgstr "Ochrana"
 
-#: ../src/dialogs/dialog-workbook-attr.c:196
+#: ../src/dialogs/dialog-workbook-attr.c:201
 msgid "Auto Completion"
 msgstr "Automatické doplňování"
 
-#: ../src/dialogs/dialog-workbook-attr.c:197
+#: ../src/dialogs/dialog-workbook-attr.c:202
 msgid "Cell Markers"
 msgstr "Značky buněk"
 
@@ -8064,7 +8093,7 @@ msgstr "Položky"
 msgid "Percentage"
 msgstr "Procenta"
 
-#: ../src/dialogs/autofilter-top10.ui.h:6 ../src/dialogs/cell-format.ui.h:84
+#: ../src/dialogs/autofilter-top10.ui.h:6 ../src/dialogs/cell-format.ui.h:85
 msgid "Top"
 msgstr "Nahoře"
 
@@ -8349,203 +8378,203 @@ msgstr "Vlevo"
 msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr "Zamykání buněk nebo skrývání vzorců má smysl pouze u chráněných listů."
 
-#: ../src/dialogs/cell-format.ui.h:59
+#: ../src/dialogs/cell-format.ui.h:60
 msgid "Numbers"
 msgstr "Čísla"
 
-#: ../src/dialogs/cell-format.ui.h:60
+#: ../src/dialogs/cell-format.ui.h:61
 msgid "Outline"
 msgstr "Okolo"
 
-#: ../src/dialogs/cell-format.ui.h:62
+#: ../src/dialogs/cell-format.ui.h:63
 msgid "Reverse Diagonal"
 msgstr "Obráceně uhlopřičně"
 
-#: ../src/dialogs/cell-format.ui.h:63
+#: ../src/dialogs/cell-format.ui.h:64
 msgid "Reverse Diagonal Stripe"
 msgstr "Opačné uhlopřičné pruhy"
 
-#: ../src/dialogs/cell-format.ui.h:64 ../src/sheet-control-gui.c:2153
+#: ../src/dialogs/cell-format.ui.h:65 ../src/sheet-control-gui.c:2153
 #: ../src/wbc-gtk.c:3059
 msgid "Right"
 msgstr "Vpravo"
 
-#: ../src/dialogs/cell-format.ui.h:65
+#: ../src/dialogs/cell-format.ui.h:66
 msgid "Semi Circles"
 msgstr "Půlkruhy"
 
-#: ../src/dialogs/cell-format.ui.h:66
+#: ../src/dialogs/cell-format.ui.h:67
 msgid "Shrin_k to fit"
 msgstr "Přizpů_sobit"
 
-#: ../src/dialogs/cell-format.ui.h:67
+#: ../src/dialogs/cell-format.ui.h:68
 msgid "Small Circles"
 msgstr "Malé kruhy"
 
-#: ../src/dialogs/cell-format.ui.h:68
+#: ../src/dialogs/cell-format.ui.h:69
 msgid "Solid"
 msgstr "Plný"
 
-#: ../src/dialogs/cell-format.ui.h:69
+#: ../src/dialogs/cell-format.ui.h:70
 msgid "Stri_kethrough"
 msgstr "Přeš_krtnuté"
 
-#: ../src/dialogs/cell-format.ui.h:70
+#: ../src/dialogs/cell-format.ui.h:71
 msgid "Style:"
 msgstr "Styl:"
 
-#: ../src/dialogs/cell-format.ui.h:71
+#: ../src/dialogs/cell-format.ui.h:72
 msgid "Su_bscript"
 msgstr "_Dolní index"
 
-#: ../src/dialogs/cell-format.ui.h:72
+#: ../src/dialogs/cell-format.ui.h:73
 msgid "Sup_erscript"
 msgstr "_Horní index"
 
-#: ../src/dialogs/cell-format.ui.h:73
+#: ../src/dialogs/cell-format.ui.h:74
 msgid "Text length"
 msgstr "Délka textu"
 
-#: ../src/dialogs/cell-format.ui.h:74
+#: ../src/dialogs/cell-format.ui.h:75
 msgid "Thatch"
 msgstr "Došky"
 
-#: ../src/dialogs/cell-format.ui.h:75
+#: ../src/dialogs/cell-format.ui.h:76
 msgid "Thick Diagonal Crosshatch"
 msgstr "Tučné úhlopříčné křížové šrafování"
 
-#: ../src/dialogs/cell-format.ui.h:76
+#: ../src/dialogs/cell-format.ui.h:77
 msgid "Thin Diagonal Crosshatch"
 msgstr "Tenké úhlopříčné křížové šrafování"
 
-#: ../src/dialogs/cell-format.ui.h:77
+#: ../src/dialogs/cell-format.ui.h:78
 msgid "Thin Diagonal Stripe"
 msgstr "Tenké úhlopříčné pruhy"
 
-#: ../src/dialogs/cell-format.ui.h:78
+#: ../src/dialogs/cell-format.ui.h:79
 msgid "Thin Horizontal Crosshatch"
 msgstr "Tenké vodorovné křížové šrafování"
 
-#: ../src/dialogs/cell-format.ui.h:79
+#: ../src/dialogs/cell-format.ui.h:80
 msgid "Thin Horizontal Stripe"
 msgstr "Tenké vodorovné pruhy"
 
-#: ../src/dialogs/cell-format.ui.h:80
+#: ../src/dialogs/cell-format.ui.h:81
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Tenké opačné úhlopříčné pruhy"
 
-#: ../src/dialogs/cell-format.ui.h:81
+#: ../src/dialogs/cell-format.ui.h:82
 msgid "Thin Vertical Stripe"
 msgstr "Tenké svislé pruhy"
 
-#: ../src/dialogs/cell-format.ui.h:82 ../src/dialogs/hf-config.ui.h:19
+#: ../src/dialogs/cell-format.ui.h:83 ../src/dialogs/hf-config.ui.h:19
 #: ../src/tools/analysis-exp-smoothing.c:728
 #: ../src/tools/analysis-exp-smoothing.c:1048
 #: ../src/tools/analysis-kaplan-meier.c:123 ../src/wbc-gtk-actions.c:2787
 msgid "Time"
 msgstr "Čas"
 
-#: ../src/dialogs/cell-format.ui.h:83
+#: ../src/dialogs/cell-format.ui.h:84
 msgid "Titl_e:"
 msgstr "Náz_ev:"
 
-#: ../src/dialogs/cell-format.ui.h:85 ../src/dialogs/cell-format-cond.ui.h:12
+#: ../src/dialogs/cell-format.ui.h:86 ../src/dialogs/cell-format-cond.ui.h:12
 msgid "Validation"
 msgstr "Ověření"
 
-#: ../src/dialogs/cell-format.ui.h:86
+#: ../src/dialogs/cell-format.ui.h:87
 msgid "Vertical Stripe"
 msgstr "Svislé pruhy"
 
-#: ../src/dialogs/cell-format.ui.h:87
+#: ../src/dialogs/cell-format.ui.h:88
 msgid "Whole numbers"
 msgstr "Celá čísla"
 
-#: ../src/dialogs/cell-format.ui.h:89
+#: ../src/dialogs/cell-format.ui.h:90
 msgid "_Distributed"
 msgstr "Ro_zprostřít"
 
-#: ../src/dialogs/cell-format.ui.h:90
+#: ../src/dialogs/cell-format.ui.h:91
 msgid "_Fill"
 msgstr "Vy_plnit"
 
-#: ../src/dialogs/cell-format.ui.h:91
+#: ../src/dialogs/cell-format.ui.h:92
 msgid "_General"
 msgstr "_Obecné"
 
-#: ../src/dialogs/cell-format.ui.h:92
+#: ../src/dialogs/cell-format.ui.h:93
 msgid "_Indent:"
 msgstr "_Odsazení:"
 
-#: ../src/dialogs/cell-format.ui.h:93
+#: ../src/dialogs/cell-format.ui.h:94
 msgid "_Justify"
 msgstr "_Zarovnat"
 
-#: ../src/dialogs/cell-format.ui.h:95
+#: ../src/dialogs/cell-format.ui.h:96
 msgid "_Lock"
 msgstr "_Zámek"
 
-#: ../src/dialogs/cell-format.ui.h:96
+#: ../src/dialogs/cell-format.ui.h:97
 msgid "_Message:"
 msgstr "_Zpráva:"
 
-#: ../src/dialogs/cell-format.ui.h:97
+#: ../src/dialogs/cell-format.ui.h:98
 msgid "_Protect worksheet"
 msgstr "_Chránit list"
 
-#: ../src/dialogs/cell-format.ui.h:99
+#: ../src/dialogs/cell-format.ui.h:100
 msgid "_Show input message when cell is selected"
 msgstr "_Zobrazit vstupní zprávu při výběru buňky"
 
-#: ../src/dialogs/cell-format.ui.h:101
+#: ../src/dialogs/cell-format.ui.h:102
 msgid "_Underline:"
 msgstr "_Podtržení:"
 
-#: ../src/dialogs/cell-format.ui.h:102
+#: ../src/dialogs/cell-format.ui.h:103
 msgid "_Wrap text"
 msgstr "Za_lamovat text"
 
 #. Cell border
-#: ../src/dialogs/cell-format.ui.h:104
+#: ../src/dialogs/cell-format.ui.h:105
 msgctxt "border"
 msgid "None"
 msgstr "Žádné"
 
 #. Cell border line
-#: ../src/dialogs/cell-format.ui.h:106
+#: ../src/dialogs/cell-format.ui.h:107
 msgctxt "line"
 msgid "None"
 msgstr "Žádná"
 
-#: ../src/dialogs/cell-format.ui.h:107
+#: ../src/dialogs/cell-format.ui.h:108
 msgid "min <= val <= max         (between)"
 msgstr "min <= hodnota <= max         (v rozmezí)"
 
-#: ../src/dialogs/cell-format.ui.h:108
+#: ../src/dialogs/cell-format.ui.h:109
 msgid "val  <  bound                  (less than)"
 msgstr "hodnota  <  mez                  (menší než)"
 
-#: ../src/dialogs/cell-format.ui.h:109
+#: ../src/dialogs/cell-format.ui.h:110
 msgid "val  >  bound                  (greater than)"
 msgstr "hodnota  >  mez                  (větší než)"
 
-#: ../src/dialogs/cell-format.ui.h:110
+#: ../src/dialogs/cell-format.ui.h:111
 msgid "val <= bound                  (less than or equal)"
 msgstr "hodnota <= mez                  (menší nebo rovno)"
 
-#: ../src/dialogs/cell-format.ui.h:111
+#: ../src/dialogs/cell-format.ui.h:112
 msgid "val <= min || max <= val (not between)"
 msgstr "hodnota <= min || max <= hodnota (není v rozmezí)"
 
-#: ../src/dialogs/cell-format.ui.h:112
+#: ../src/dialogs/cell-format.ui.h:113
 msgid "val <> bound                  (not equal to)"
 msgstr "hodnota <> mez                  (není rovno)"
 
-#: ../src/dialogs/cell-format.ui.h:113
+#: ../src/dialogs/cell-format.ui.h:114
 msgid "val == bound                  (equal to)"
 msgstr "hodnota == mez                  (rovno)"
 
-#: ../src/dialogs/cell-format.ui.h:114
+#: ../src/dialogs/cell-format.ui.h:115
 msgid "val >= bound                  (greater than or equal)"
 msgstr "hodnota >= mez                  (větší nebo rovno)"
 
@@ -10107,7 +10136,7 @@ msgstr "_Skupiny"
 msgid "_Time column:"
 msgstr "Č_asový sloupec:"
 
-#: ../src/dialogs/kaplan-meier.ui.h:17 ../src/print.c:1393
+#: ../src/dialogs/kaplan-meier.ui.h:17 ../src/print.c:1488
 msgid "to:"
 msgstr "do:"
 
@@ -10817,7 +10846,7 @@ msgstr "Správa scénářů"
 msgid "Show"
 msgstr "Zobrazit"
 
-#: ../src/dialogs/scenario-manager.ui.h:12 ../src/dialogs/workbook-attr.ui.h:6
+#: ../src/dialogs/scenario-manager.ui.h:12 ../src/dialogs/workbook-attr.ui.h:9
 #: ../src/workbook-control.c:458
 msgid "View"
 msgstr "Zobrazení"
@@ -11676,26 +11705,46 @@ msgid "Pa_ssword:"
 msgstr "He_slo:"
 
 #: ../src/dialogs/workbook-attr.ui.h:4
+msgid "Show _Extension Markers"
+msgstr "Zobrazovat značky _pokračování"
+
+#: ../src/dialogs/workbook-attr.ui.h:5
 msgid "Show _Formula Cell Markers"
 msgstr "Zobrazovat značky u buněk se _vzorci"
 
-#: ../src/dialogs/workbook-attr.ui.h:5
+#: ../src/dialogs/workbook-attr.ui.h:6
+msgid ""
+"This checkbox determines whether each cell containing a spreadsheet formula "
+"is marked with a green top left corner."
+msgstr ""
+"Toto zaškrtávací políčko určuje, zda je každá z buněk, které obsahují vzorec "
+"tabulkového kalkulátoru, označena v levém horním rohu zeleně."
+
+#: ../src/dialogs/workbook-attr.ui.h:7
+msgid ""
+"This checkbox determines whether small red arrows indicate that the content "
+"has been truncated in that direction."
+msgstr ""
+"Toto zaškrtávací políčko určuje, zda je oříznutý obsah signalizován malou "
+"červenou šipkou v příslušném směru."
+
+#: ../src/dialogs/workbook-attr.ui.h:8
 msgid "Unimplementented"
 msgstr "Neimplementováno"
 
-#: ../src/dialogs/workbook-attr.ui.h:7
+#: ../src/dialogs/workbook-attr.ui.h:10
 msgid "View Properties"
 msgstr "Vlastnosti zobrazení"
 
-#: ../src/dialogs/workbook-attr.ui.h:8
+#: ../src/dialogs/workbook-attr.ui.h:11
 msgid "_Horizontal Scrollbar"
 msgstr "_Vodorovný posuvník"
 
-#: ../src/dialogs/workbook-attr.ui.h:9
+#: ../src/dialogs/workbook-attr.ui.h:12
 msgid "_Protect Workbook"
 msgstr "Ch_ránit sešit"
 
-#: ../src/dialogs/workbook-attr.ui.h:10
+#: ../src/dialogs/workbook-attr.ui.h:13
 msgid "_Vertical Scrollbar"
 msgstr "_Svislý posuvník"
 
@@ -12096,16 +12145,16 @@ msgstr ""
 "Zadaná přípona souboru neodpovídá vybranému typu souboru. Chcete přesto "
 "použít tento název souboru?"
 
-#: ../src/gui-util.c:49
+#: ../src/gui-util.c:50
 msgid "Multiple errors\n"
 msgstr "Více chyb\n"
 
-#: ../src/gui-util.c:1482
+#: ../src/gui-util.c:1486
 #, c-format
 msgid "The plugin with id %s is required but cannot be found."
 msgstr "Zásuvný modul s id %s je vyžadován, ale nebyl nalezen."
 
-#: ../src/gui-util.c:1490
+#: ../src/gui-util.c:1494
 #, c-format
 msgid "The %s plugin is required but is not loaded."
 msgstr "Zásuvný modul %s je vyžadován, ale není načten."
@@ -12129,12 +12178,10 @@ msgid "Unable to open '%s'"
 msgstr "Nelze otevřít „%s“"
 
 #: ../src/item-bar.c:785
-#| msgid "Fit Width"
 msgid "Width:"
 msgstr "Šířka:"
 
 #: ../src/item-bar.c:785
-#| msgid "Row Height"
 msgid "Height"
 msgstr "Výška"
 
@@ -12208,31 +12255,31 @@ msgstr "Táhnout pro automatické vyplnění"
 msgid "Drag to move"
 msgstr "Táhnout pro přesunutí"
 
-#: ../src/libgnumeric.c:78
+#: ../src/libgnumeric.c:79
 msgid "Display Gnumeric's version"
 msgstr "Zobrazit verzi aplikace Gnumeric"
 
-#: ../src/libgnumeric.c:87
+#: ../src/libgnumeric.c:88
 msgid "Set the root library directory"
 msgstr "Nastavit kořenovou složku knihoven"
 
-#: ../src/libgnumeric.c:88 ../src/libgnumeric.c:94
+#: ../src/libgnumeric.c:89 ../src/libgnumeric.c:95
 msgid "DIR"
 msgstr "SLOŽKA"
 
-#: ../src/libgnumeric.c:93
+#: ../src/libgnumeric.c:94
 msgid "Adjust the root data directory"
 msgstr "Upravit kořenovou složku dat"
 
-#: ../src/libgnumeric.c:102
+#: ../src/libgnumeric.c:103
 msgid "Enables some print debugging behavior"
 msgstr "Povolí některé ladicí funkce tisku"
 
-#: ../src/libgnumeric.c:103
+#: ../src/libgnumeric.c:104
 msgid "LEVEL"
 msgstr "ÚROVEŇ"
 
-#: ../src/libgnumeric.c:116
+#: ../src/libgnumeric.c:117
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -12243,11 +12290,11 @@ msgstr ""
 "datadir := „%s“\n"
 "libdir := „%s“\n"
 
-#: ../src/libgnumeric.c:140
+#: ../src/libgnumeric.c:141
 msgid "Gnumeric Options"
 msgstr "Volby aplikace Gnumeric"
 
-#: ../src/libgnumeric.c:140
+#: ../src/libgnumeric.c:141
 msgid "Show Gnumeric Options"
 msgstr "Zobrazit volby aplikace Gnumeric"
 
@@ -12477,56 +12524,92 @@ msgstr "Neznámá volba pro export PDF"
 msgid "PDF export"
 msgstr "Export PDF"
 
-#: ../src/print.c:629
+#: ../src/print.c:648
 msgid "Even one cell is too large for this page."
 msgstr "I jediná buňka je příliš velká pro tuto stránku."
 
-#: ../src/print.c:946
+#: ../src/print.c:944
 msgid "Print Selection"
 msgstr "Tisk výběru"
 
-#: ../src/print.c:1356
+#: ../src/print.c:1195
+msgid ""
+"You have chosen more than 1000 pages to preview. This may take a long time. "
+"Do you really want to proceed?"
+msgstr ""
+"Máte zvoleno více jak 1000 stránek pro náhled. To může zabrat hodně času. "
+"Chcete opravdu pokračovat?"
+
+#: ../src/print.c:1294
+msgid "Preparing to preview"
+msgstr "Příprava k náhledu"
+
+#: ../src/print.c:1295
+msgid "Preparing to print"
+msgstr "Příprava k tisku"
+
+#: ../src/print.c:1382
+#, c-format
+msgid "Creating preview of page %3d"
+msgstr "Vytváří se náhled stránky %3d"
+
+#: ../src/print.c:1383
+#, c-format
+msgid "Printing page %3d"
+msgstr "Tiskne se stránka %3d"
+
+#: ../src/print.c:1387
+#, c-format
+msgid "Creating preview of page %3d of %3d pages"
+msgstr "Vytváří se náhled stránky %3d z %3d stránek"
+
+#: ../src/print.c:1388
+#, c-format
+msgid "Printing page %3d of %3d pages"
+msgstr "Tiskne se stránka %3d z %3d stránek"
+
+#: ../src/print.c:1451
 msgid "_All workbook sheets"
 msgstr "_Všechny listy sešitu"
 
-#: ../src/print.c:1361
+#: ../src/print.c:1456
 msgid "Also print _hidden sheets"
 msgstr "Tisknout i _skryté listy"
 
-#: ../src/print.c:1366
+#: ../src/print.c:1461
 msgid "A_ctive workbook sheet"
 msgstr "_Aktivní list sešitu"
 
-#: ../src/print.c:1371
+#: ../src/print.c:1466
 msgid "_Workbook sheets:"
 msgstr "Listy s_ešitu:"
 
-#: ../src/print.c:1376
+#: ../src/print.c:1471
 msgid "Current _selection only"
 msgstr "Pouze aktuální _výběr"
 
-#: ../src/print.c:1381
+#: ../src/print.c:1476
 msgid "_Ignore defined print area"
 msgstr "_Ignorovat definovanou tiskovou oblast"
 
-#: ../src/print.c:1385
+#: ../src/print.c:1480
 msgid "from:"
 msgstr "od:"
 
-#: ../src/print.c:1406
+#: ../src/print.c:1501
 msgid "Ignore all _manual page breaks"
 msgstr "Ignorovat všechna ruční zalo_mení"
 
-#: ../src/print.c:1703
+#: ../src/print.c:1800
 #, c-format
 msgid "Failed to create temporary file for printing: %s"
 msgstr "Selhalo vytvoření dočasného souboru pro tisk: %s"
 
-#: ../src/print.c:1721
+#: ../src/print.c:1818
 msgid "Gnumeric Print Range"
 msgstr "Rozsah tisku Gnumeric"
 
-#: ../src/print.c:1737
+#: ../src/print.c:1834
 msgid "Print to File"
 msgstr "Tisk do souboru"
 
@@ -13206,7 +13289,7 @@ msgstr "Zobrazovat osnovy vpravo"
 msgid "Control whether outline symbols are shown to the right."
 msgstr "Řídí, zda se zobrazují symboly osnov vpravo."
 
-#: ../src/sheet.c:917 ../src/workbook-view.c:972
+#: ../src/sheet.c:917 ../src/workbook-view.c:993
 msgid "Protected"
 msgstr "Chráněný"
 
@@ -13385,31 +13468,31 @@ msgstr "Čísla sloupců v listu"
 msgid "Rows number in the sheet"
 msgstr "Čísla řádků v listu"
 
-#: ../src/sheet.c:3348
+#: ../src/sheet.c:3347
 msgid "Target region contains merged cells"
 msgstr "Cílová oblast obsahuje sloučené buňky"
 
-#: ../src/sheet.c:3409
+#: ../src/sheet.c:3408
 msgid "cannot operate on merged cells"
 msgstr "nelze vykonat na sloučených buňkách"
 
-#: ../src/sheet.c:3419
+#: ../src/sheet.c:3418
 msgid "cannot operate on array formulæ"
 msgstr "nelze vykonat na poli vzorců"
 
-#: ../src/sheet.c:4728
+#: ../src/sheet.c:4727
 msgid "Insert Columns"
 msgstr "Vložit sloupce"
 
-#: ../src/sheet.c:4819
+#: ../src/sheet.c:4818
 msgid "Delete Columns"
 msgstr "Odstranit sloupce"
 
-#: ../src/sheet.c:4900
+#: ../src/sheet.c:4899
 msgid "Insert Rows"
 msgstr "Vložit řádky"
 
-#: ../src/sheet.c:4991
+#: ../src/sheet.c:4990
 msgid "Delete Rows"
 msgstr "Odstranit řádky"
 
@@ -14902,11 +14985,12 @@ msgstr "Sestavení tabulky"
 #. xgettext: The first %d gives the number of rows that match.
 #. The second %d gives the total number of rows. Assume that the
 #. total number of rows is always large (>10).
+#. Note that the english "matches" or "match" is the verb of this sentence!
+#. There is no explicit noun associated with the second %d in english, the
+#. meaning is really "%d rows of all %d rows match"
 #. This is input to ngettext.
-#: ../src/undo.c:242
+#: ../src/undo.c:245
 #, c-format
-#| msgid "%d row of %d match"
-#| msgid_plural "%d rows of %d match"
 msgid "%d row of %d matches"
 msgid_plural "%d rows of %d match"
 msgstr[0] "Odpovídá %d řádek z %d"
@@ -14915,10 +14999,8 @@ msgstr[2] "Odpovídá %d řádků z %d"
 
 #. xgettext: The %d gives the number of rows that match.
 #. This is input to ngettext.
-#: ../src/undo.c:251
+#: ../src/undo.c:254
 #, c-format
-#| msgid "%d row of %d match"
-#| msgid_plural "%d rows of %d match"
 msgid "%d row matches"
 msgid_plural "%d rows match"
 msgstr[0] "Odpovídá %d řádek"
@@ -15042,7 +15124,7 @@ msgstr "#N/A"
 msgid "Failed to create temporary file for sending."
 msgstr "Selhalo vytvoření dočasného souboru pro odeslání."
 
-#: ../src/wbc-gtk-actions.c:217 ../src/workbook-view.c:1194
+#: ../src/wbc-gtk-actions.c:217 ../src/workbook-view.c:1216
 msgid "Default file saver is not available."
 msgstr "Výchozí ukládání souboru není k dispozici."
 
@@ -16635,7 +16717,7 @@ msgstr "Přizpůsobit datový průřez"
 
 #. Standard Toolbar
 #: ../src/wbc-gtk-actions.c:2703 ../src/wbc-gtk.c:4725
-#: ../src/workbook-view.c:1033
+#: ../src/workbook-view.c:1055
 msgid "Sum"
 msgstr "Součet"
 
@@ -17723,138 +17805,146 @@ msgid "The workbook view being controlled."
 msgstr "Zobrazení sešitu, které je ovládáno."
 
 #. Translators: "%dC" is a very short format to indicate the number of full columns
-#: ../src/workbook-view.c:384
+#: ../src/workbook-view.c:387
 #, c-format
 msgid "%dC"
 msgstr "%dS"
 
 #. Translators: "%dR" is a very short format to indicate the number of full rows
-#: ../src/workbook-view.c:387
+#: ../src/workbook-view.c:390
 #, c-format
 msgid "%dR"
 msgstr "%dŘ"
 
 #. Translators: "%dR x %dC" is a very short format to indicate the number of rows and columns
-#: ../src/workbook-view.c:390
+#: ../src/workbook-view.c:393
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dŘ × %dS"
 
-#: ../src/workbook-view.c:562
+#: ../src/workbook-view.c:565
 msgid "Invalid format"
 msgstr "Neplatný formát"
 
-#: ../src/workbook-view.c:884
+#: ../src/workbook-view.c:895
 msgid "Auto-expression function"
 msgstr "Funkce automatických výrazů"
 
-#: ../src/workbook-view.c:885
+#: ../src/workbook-view.c:896
 msgid "The automatically computed sheet function."
 msgstr "Automaticky počítané funkce listu."
 
-#: ../src/workbook-view.c:892
+#: ../src/workbook-view.c:903
 msgid "Auto-expression description"
 msgstr "Popis automatických výrazů"
 
-#: ../src/workbook-view.c:893
+#: ../src/workbook-view.c:904
 msgid "Description of the automatically computed sheet function."
 msgstr "Popis pro automaticky počítané funkce listu."
 
-#: ../src/workbook-view.c:901
+#: ../src/workbook-view.c:912
 msgid "Auto-expression maximum precision"
 msgstr "Maximální přesnost automatických výrazů"
 
-#: ../src/workbook-view.c:902
+#: ../src/workbook-view.c:913
 msgid "Use maximum available precision for auto-expressions"
 msgstr "Pro automatické výrazy použít maximální dostupnou přesnost"
 
-#: ../src/workbook-view.c:910
+#: ../src/workbook-view.c:921
 msgid "Auto-expression text"
 msgstr "Text automatických výrazů"
 
-#: ../src/workbook-view.c:911
+#: ../src/workbook-view.c:922
 msgid "Displayed text for the automatically computed sheet function."
 msgstr "Text zobrazený pro automaticky počítané funkce listu."
 
-#: ../src/workbook-view.c:919
+#: ../src/workbook-view.c:930
 msgid "Auto-expression Attributes"
 msgstr "Atributy automatických výrazů"
 
-#: ../src/workbook-view.c:920
+#: ../src/workbook-view.c:931
 msgid "Text attributes for the automatically computed sheet function."
 msgstr "Textové atributy pro automaticky počítané funkce listu."
 
-#: ../src/workbook-view.c:927
+#: ../src/workbook-view.c:938
 msgid "Show horizontal scrollbar"
 msgstr "Zobrazit vodorovný posuvník"
 
-#: ../src/workbook-view.c:928
+#: ../src/workbook-view.c:939
 msgid "Show the horizontal scrollbar"
 msgstr "Zobrazit vodorovný posuvník"
 
-#: ../src/workbook-view.c:936
+#: ../src/workbook-view.c:947
 msgid "Show vertical scrollbar"
 msgstr "Zobrazit svislý posuvník"
 
-#: ../src/workbook-view.c:937
+#: ../src/workbook-view.c:948
 msgid "Show the vertical scrollbar"
 msgstr "Zobrazit svislý posuvník"
 
-#: ../src/workbook-view.c:945
+#: ../src/workbook-view.c:956
 msgid "Show notebook tabs"
 msgstr "Zobrazit karty sešitu"
 
-#: ../src/workbook-view.c:946
+#: ../src/workbook-view.c:957
 msgid "Show the notebook tabs for sheets"
 msgstr "Zobrazit v sešitu karty pro listy"
 
-#: ../src/workbook-view.c:954
+#: ../src/workbook-view.c:965
 msgid "Show formula cell markers"
 msgstr "Zobrazit značky buněk se vzorci"
 
-#: ../src/workbook-view.c:955
+#: ../src/workbook-view.c:966
 msgid "Mark each cell containing a formula"
 msgstr "Označit každou buňku obsahující vzorec"
 
-#: ../src/workbook-view.c:963
+#: ../src/workbook-view.c:974
+msgid "Show extension markers"
+msgstr "Zobrazovat značky pokračování"
+
+#: ../src/workbook-view.c:975
+msgid "Mark each cell that fails to show the complete content"
+msgstr "Označovat každou z buněk, u kterých nejde zobrazit celý obsah"
+
+#: ../src/workbook-view.c:984
 msgid "Do auto completion"
 msgstr "Automaticky doplňovat"
 
-#: ../src/workbook-view.c:964
+#: ../src/workbook-view.c:985
 msgid "Auto-complete text"
 msgstr "Automaticky doplňovat text"
 
-#: ../src/workbook-view.c:973
+#: ../src/workbook-view.c:994
 msgid "Is view protected?"
 msgstr "Je zobrazení chráněno?"
 
-#: ../src/workbook-view.c:981 ../src/workbook-view.c:982
+#: ../src/workbook-view.c:1002 ../src/workbook-view.c:1003
 msgid "Preferred width"
 msgstr "Upřednostňovaná šířka"
 
-#: ../src/workbook-view.c:990 ../src/workbook-view.c:991
+#: ../src/workbook-view.c:1011 ../src/workbook-view.c:1012
 msgid "Preferred height"
 msgstr "Upřednostňovaná výška"
 
-#: ../src/workbook-view.c:1076
+#: ../src/workbook-view.c:1098
 msgid "An unexplained error happened while saving."
 msgstr "Nastala nevysvětlená chyba při ukládání."
 
-#: ../src/workbook-view.c:1092
+#: ../src/workbook-view.c:1114
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Nelze otevřít „%s“ pro zápis: %s"
 
-#: ../src/workbook-view.c:1096
+#: ../src/workbook-view.c:1118
 #, c-format
 msgid "Can't open '%s' for writing"
 msgstr "Nelze otevřít „%s“ pro zápis"
 
-#: ../src/workbook-view.c:1293
+#: ../src/workbook-view.c:1315
 msgid "Unsupported file format."
 msgstr "Nepodporovaný formát souboru."
 
-#: ../src/workbook-view.c:1343
+#: ../src/workbook-view.c:1365
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Nastala nevysvětlitelná chyba při otevírání %s"
