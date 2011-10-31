@@ -9229,6 +9229,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (TABLE, SHEET_SELECTIONS, OO_GNUM_NS_EXT, "selections", GSF_XML_NO_CONTENT, &odf_selection, &odf_selection_end),
 	        GSF_XML_IN_NODE (SHEET_SELECTIONS, SELECTION, OO_GNUM_NS_EXT, "selection", GSF_XML_NO_CONTENT, &odf_selection_range, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_SOURCE, OO_NS_TABLE, "table-source", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (TABLE, TABLE_SHAPES, OO_NS_TABLE, "shapes", GSF_XML_NO_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame_start, &od_draw_frame_end),
 	      GSF_XML_IN_NODE (TABLE, FORMS, OO_NS_OFFICE, "forms", GSF_XML_NO_CONTENT, NULL, NULL),
 	        GSF_XML_IN_NODE (FORMS, FORM, OO_NS_FORM, "form", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (FORM, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -9287,7 +9289,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	            GSF_XML_IN_NODE (DRAW_LINE, DRAW_LINE_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_ELLIPSE, OO_NS_DRAW, "ellipse", GSF_XML_NO_CONTENT, &odf_ellipse, &od_draw_frame_end),
 	            GSF_XML_IN_NODE (DRAW_ELLIPSE, DRAW_TEXT_BOX_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-		  GSF_XML_IN_NODE (TABLE_CELL, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame_start, &od_draw_frame_end),
+	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, &od_draw_object, NULL),
 	            GSF_XML_IN_NODE (DRAW_OBJECT, DRAW_OBJECT_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, NULL),
 
