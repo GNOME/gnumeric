@@ -2941,9 +2941,7 @@ static GnmFuncHelp const help_sumproduct[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If an entry is not numeric, the value zero is used instead.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If arrays or range arguments do not have the same dimensions, "
 				 "return #VALUE! error.") },
-	{ GNM_FUNC_HELP_NOTE, F_("SUMPRODUCTs arguments are arrays or ranges. "
-				 "Attempting to use A1:A5>0 will not work, implicit intersection will kick in. "
-				 "Instead use --(A1:A5>0)") },
+	{ GNM_FUNC_HELP_NOTE, F_("This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  Instead use SUMPRODUCT(--(A1:A5>0))") },
 #if 0
 	"@EXAMPLES=\n"
 	"Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -2955,8 +2953,23 @@ static GnmFuncHelp const help_sumproduct[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
+static GnmFuncHelp const help_odf_sumproduct[] = {
+	{ GNM_FUNC_HELP_NAME, F_("ODF.SUMPRODUCT:multiplies components and adds the results") },
+	{ GNM_FUNC_HELP_DESCRIPTION,
+	  F_("Multiplies corresponding data entries in the "
+	     "given arrays or ranges, and then returns the sum of those "
+	     "products.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If an entry is not numeric or logical, the value zero is used instead.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If arrays or range arguments do not have the same dimensions, "
+				 "return #VALUE! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("This function differs from SUMPRODUCT by considering booleans.") },
+	{ GNM_FUNC_HELP_SEEALSO, "SUMPRODUCT,SUM,PRODUCT,G_PRODUCT" },
+	{ GNM_FUNC_HELP_END }
+};
+
 static GnmValue *
-gnumeric_sumproduct (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_sumproduct_common (gboolean ignore_bools, GnmFuncEvalInfo *ei,
+			    int argc, GnmExprConstPtr const *argv)
 {
 	gnm_float **data;
 	GnmValue *result;
@@ -2972,9 +2985,10 @@ gnumeric_sumproduct (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	for (i = 0; i < argc; i++) {
 		int thissizex, thissizey, x, y;
 		GnmExpr const *expr = argv[i];
-		GnmValue    *val = gnm_expr_eval (expr, ei->pos,
-						  GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
-						  GNM_EXPR_EVAL_PERMIT_EMPTY);
+		GnmValue *val = gnm_expr_eval
+			(expr, ei->pos,
+			 GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
+			 GNM_EXPR_EVAL_PERMIT_EMPTY);
 
 		if (!val) {
 			size_error = TRUE;
@@ -3016,8 +3030,14 @@ gnumeric_sumproduct (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				case VALUE_FLOAT:
 					data[i][y * thissizex + x] = value_get_as_float (v);
 					break;
+				case VALUE_BOOLEAN:
+					data[i][y * thissizex + x] =
+						ignore_bools
+						? 0.0
+						: value_get_as_float (v);
+					break;
 				default :
-					/* Ignore booleans and strings to be consistent with XL */
+					/* Ignore strings to be consistent with XL */
 					data[i][y * thissizex + x] = 0.;
 				}
 			}
@@ -3050,6 +3070,18 @@ done:
 		g_free (data[i]);
 	g_free (data);
 	return result;
+}
+
+static GnmValue *
+gnumeric_sumproduct (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	return gnumeric_sumproduct_common (TRUE, ei, argc, argv);
+}
+
+static GnmValue *
+gnumeric_odf_sumproduct (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	return gnumeric_sumproduct_common (FALSE, ei, argc, argv);
 }
 
 /***************************************************************************/
@@ -3389,6 +3421,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "sumproduct", NULL,  help_sumproduct,
 	  NULL, gnumeric_sumproduct, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "odf.sumproduct", NULL,  help_odf_sumproduct,
+	  NULL, gnumeric_odf_sumproduct, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "sumsq", NULL,       help_sumsq,
 	  NULL, gnumeric_sumsq, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

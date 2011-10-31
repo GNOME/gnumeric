@@ -71,6 +71,7 @@ Morten:
 	* Fix GUI crash for invalid dates.
 	* Embed ui files into the Gnumeric binary.
 	* Get rid of obsolete code.
+	* Add ODF.SUMPRODUCT compatibility function.  [#662551]
 
 Valek:
 	* In xls import, set LABEL encoding based on FONT charset converted to 

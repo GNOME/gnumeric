@@ -86,6 +86,7 @@
 				<function name="suma"/>
 				<function name="sumif"/>
 				<function name="sumproduct"/>
+				<function name="odf.sumproduct"/>
 				<function name="sumsq"/>
 				<function name="sumx2my2"/>
 				<function name="sumx2py2"/>
