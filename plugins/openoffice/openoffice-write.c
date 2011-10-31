@@ -2427,7 +2427,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "SUM","SUM" },
 		{ "SUMIF","SUMIF" },
 		/* { "SUMIFS","SUMIFS" },  not implemented */
-		{ "SUMPRODUCT","SUMPRODUCT" },
+		{ "ODF.SUMPRODUCT","SUMPRODUCT" },
 		{ "SUMSQ","SUMSQ" },
 		{ "SUMX2MY2","SUMX2MY2" },
 		{ "SUMX2PY2","SUMX2PY2" },

@@ -1,3 +1,8 @@
+2011-10-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_sumproduct): add compatibility statement
+	(help_odf_sumproduct): add compatibility statement
+
 2011-10-31  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_sumproduct_common): New function extracted

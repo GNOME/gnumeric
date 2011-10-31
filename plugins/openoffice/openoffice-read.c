@@ -9671,6 +9671,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "LEGACY.NORMSINV","NORMSINV" },
 		{ "PDURATION","G_DURATION" },
 		{ "PHI","NORMDIST" },              /* see handler */
+		{ "SUMPRODUCT","ODF.SUMPRODUCT" },
 		{ "USDOLLAR","DOLLAR" },
 
 /* { "ADDRESS","ADDRESS" },       also  see handler */

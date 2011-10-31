@@ -2949,7 +2949,9 @@ static GnmFuncHelp const help_sumproduct[] = {
 	"numbers 13, 22, 31, 33, and 39.  Then\n"
 	"SUMPRODUCT(A1:A5,B1:B5) equals 3370.\n"
 #endif
-	{ GNM_FUNC_HELP_SEEALSO, "SUM,PRODUCT,G_PRODUCT" },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead.") },
+	{ GNM_FUNC_HELP_SEEALSO, "SUM,PRODUCT,G_PRODUCT,ODF.SUMPRODUCT" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2963,6 +2965,8 @@ static GnmFuncHelp const help_odf_sumproduct[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If arrays or range arguments do not have the same dimensions, "
 				 "return #VALUE! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("This function differs from SUMPRODUCT by considering booleans.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is not Excel compatible. Use SUMPRODUCT instead.") },
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
 	{ GNM_FUNC_HELP_SEEALSO, "SUMPRODUCT,SUM,PRODUCT,G_PRODUCT" },
 	{ GNM_FUNC_HELP_END }
 };
