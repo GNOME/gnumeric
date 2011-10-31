@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-08-19 19:07+0000\n"
-"PO-Revision-Date: 2011-09-09 12:35+0200\n"
+"POT-Creation-Date: 2011-10-31 17:41+0000\n"
+"PO-Revision-Date: 2011-10-31 19:51+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -6490,7 +6490,7 @@ msgstr "MDETERM:determinant matice @{matrix}"
 msgid "SUMPRODUCT:multiplies components and adds the results"
 msgstr "SUMPRODUCT:vynásobí jednotlivé prvky a vrátí jejich součet"
 
-#: ../plugins/fn-math/functions.c:2938
+#: ../plugins/fn-math/functions.c:2938 ../plugins/fn-math/functions.c:2959
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
@@ -6502,7 +6502,7 @@ msgstr ""
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr "Pokud některé zadání není číselné, použije se místo něj nula."
 
-#: ../plugins/fn-math/functions.c:2942
+#: ../plugins/fn-math/functions.c:2942 ../plugins/fn-math/functions.c:2963
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
@@ -6512,26 +6512,41 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2944
 msgid ""
-"SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5>0 will "
-"not work, implicit intersection will kick in. Instead use --(A1:A5>0)"
+"This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  "
+"Instead use SUMPRODUCT(--(A1:A5>0))"
 msgstr ""
-"Argumenty funkce SUMPRODUCT jsou pole nebo rozsahy. Pokus použít A1:A5>0 "
-"nebude fungovat, výchozí průnik bude zničen. Namísto toho použijte --(A1:"
-"A5>0)."
+"Tato funkce ignoruje pravdivostní výrazy, takže SUMPRODUCT(A1:A5>0) nebude "
+"pracovat. Namísto toho použijte SUMPRODUCT(--(A1:A5>0))"
 
-#: ../plugins/fn-math/functions.c:3058
+#: ../plugins/fn-math/functions.c:2957
+msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
+msgstr "ODF.SUMPRODUCT:vynásobí jednotlivé prvky a vrátí jejich součet"
+
+#: ../plugins/fn-math/functions.c:2962
+msgid "If an entry is not numeric or logical, the value zero is used instead."
+msgstr ""
+"Pokud některé zadání není číselné nebo pravdivostní, použije se místo něj "
+"nula."
+
+#: ../plugins/fn-math/functions.c:2965
+msgid "This function differs from SUMPRODUCT by considering booleans."
+msgstr ""
+"Tato funkce se liší od funkce SUMPRODUCT braním v úvahu pravdivostních "
+"hodnot."
+
+#: ../plugins/fn-math/functions.c:3090
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN:vlastní čísla a vlastní vektory symetrické matice @{matrix}"
 
-#: ../plugins/fn-math/functions.c:3059
+#: ../plugins/fn-math/functions.c:3091
 msgid "matrix:a symmetric matrix"
 msgstr "matrix:symetrická matice"
 
-#: ../plugins/fn-math/functions.c:3060
+#: ../plugins/fn-math/functions.c:3092
 msgid "If @{matrix} is not symmetric, EIGEN returns #NUM!"
 msgstr "Pokud není matice @{matrix} symetrická, funkce EIGEN vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:3061
+#: ../plugins/fn-math/functions.c:3093
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
@@ -11186,9 +11201,6 @@ msgstr ""
 "reálnou část a druhý sloupec imaginární část."
 
 #: ../plugins/fn-tsa/functions.c:790 ../plugins/fn-tsa/functions.c:887
-#| msgid ""
-#| "If @{Sequence} is neither an n by 1 nor 1 by n array, this function "
-#| "returns #NUM!"
 msgid ""
 "If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns "
 "#VALUE!"
@@ -11201,14 +11213,10 @@ msgid "HPFILTER:Hodrick Prescott Filter"
 msgstr "HPFILTER:Hodrickův-Prescottův filtr"
 
 #: ../plugins/fn-tsa/functions.c:884
-#| msgid "d:integer, defaults to 0"
 msgid "λ:filter parameter λ, defaults to 1600"
 msgstr "λ:parametr λ filtru, výchozí hodnota je 1600"
 
 #: ../plugins/fn-tsa/functions.c:885
-#| msgid ""
-#| "This array function returns the Fourier or inverse Fourier transform of "
-#| "the given data sequence."
 msgid ""
 "This array function returns the trend and cyclical components obtained by "
 "applying the Hodrick Prescott Filter with parameter @{λ} to the given data "
@@ -11226,9 +11234,6 @@ msgstr ""
 "druhý cyklickou složku."
 
 #: ../plugins/fn-tsa/functions.c:888
-#| msgid ""
-#| "If @{Sequence} is neither an n by 1 nor 1 by n array, this function "
-#| "returns #NUM!"
 msgid ""
 "If @{Sequence} contians less than 6 numerical values, this function returns "
 "#VALUE!"
