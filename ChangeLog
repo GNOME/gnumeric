@@ -1,3 +1,8 @@
+2011-10-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-image.c (gnm_soi_write_image), (soi_cb_save_as): don't
+	crash when the image type is unknown.
+
 2011-10-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* component/gnumeric.c (go_gnm_component_init): fixed build.

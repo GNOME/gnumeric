@@ -409,7 +409,7 @@ gnm_soi_write_image (SheetObject const *so, char const *format, double resolutio
 	gboolean res = FALSE;
 	GdkPixbuf *pixbuf = soi_get_pixbuf (soi, 1.0);
 
-	if (strcmp (format, soi->type) == 0)
+	if (!soi->type || strcmp (format, soi->type) == 0)
 		res = gsf_output_write (output,
 					soi->bytes.len, soi->bytes.data);
 	else if (pixbuf)
@@ -458,7 +458,7 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 	if (!output)
 		goto out;
 	format_info = go_image_get_format_info (sel_fmt);
-	sheet_object_write_image (so, format_info->name, -1.0, output, &err);
+	sheet_object_write_image (so, (format_info? format_info->name: NULL), -1.0, output, &err);
 	gsf_output_close (output);
 	g_object_unref (output);
 
