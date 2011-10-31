@@ -43,7 +43,8 @@ Andreas:
 	* Fix zoom of text superscripts and subscripts. [#425685]
 	* Fix autofitting of row height in presence of superscripted
 	scientific notation. [#662472]
-	* Improve shape import from ODF. [#663078] 
+	* Improve shape import from ODF. [#663078]
+	* Improve text import/export from and to ODF. [#627509]
 
 Jean:
 	* Make things build against gtk+-3.0.

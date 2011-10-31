@@ -309,10 +309,12 @@ typedef struct {
 	GnmCellPos	 extent_data;
 	GnmCellPos	 extent_style;
 	GnmComment      *cell_comment;
+	GnmCell         *curr_cell;
 
 	int		 col_inc, row_inc;
 	gboolean	 content_is_simple;
 	gboolean	 content_is_error;
+	int              p_content_offset;
 
 	GHashTable	*formats;
 	GHashTable	*controls;
@@ -3105,39 +3107,120 @@ oo_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+oo_cell_content_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin->user_state;
+       OOParseState *state = (OOParseState *)xin->user_state;
 
-	if (state->content_is_simple || state->content_is_error) {
+       state->p_content_offset = 0;
+
+       if (state->content_is_simple) {
 		int max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
 		int max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
-		GnmValue *v;
-		GnmCell *cell;
 
 		if (state->pos.eval.col >= max_cols ||
 		    state->pos.eval.row >= max_rows)
 			return;
 
-		cell = sheet_cell_fetch (state->pos.sheet,
-					 state->pos.eval.col,
-					 state->pos.eval.row);
+		state->curr_cell = sheet_cell_fetch (state->pos.sheet,
+						     state->pos.eval.col,
+						     state->pos.eval.row);
 
-		if (state->content_is_simple)
+		if (VALUE_IS_STRING (state->curr_cell->value)) {
 			/* embedded newlines stored as a series of <p> */
-			if (VALUE_IS_STRING (cell->value))
-				v = value_new_string_str (go_string_new_nocopy (
-					g_strconcat (cell->value->v_str.val->str, "\n",
-						     xin->content->str, NULL)));
-			else
-				v = value_new_string (xin->content->str);
-		else
-			v = value_new_error (NULL, xin->content->str);
+			GnmValue *v;
+			v = value_new_string_str 
+				(go_string_new_nocopy 
+				 (g_strconcat (state->curr_cell->value->v_str.val->str, "\n", NULL)));
+			gnm_cell_assign_value (state->curr_cell, v);
+			oo_update_data_extent (state, 1, 1);
+		}
+       }
+}
 
-		/* Note that we could be looking at the result of an array calculation */
-		gnm_cell_assign_value (cell, v);
-		oo_update_data_extent (state, 1, 1);
+static void 
+oo_add_text_to_cell (OOParseState *state, char const *str)
+{
+	GnmValue *v = NULL;
+
+	if (state->curr_cell == NULL)
+		return;
+
+	if (VALUE_IS_STRING (state->curr_cell->value)) {
+		if (*str != 0)
+			v = value_new_string_str 
+				(go_string_new_nocopy 
+				 (g_strconcat (state->curr_cell->value->v_str.val->str,
+					       str, NULL)));
+	} else
+		v = value_new_string (str);
+	if (v != NULL)
+		gnm_cell_assign_value (state->curr_cell, v);
+}
+
+static void
+oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	if (state->content_is_error) {
+		GnmValue *v;
+		if (state->curr_cell == NULL) {
+			int max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
+			int max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
+			
+			if (state->pos.eval.col >= max_cols ||
+			    state->pos.eval.row >= max_rows)
+				return;
+			
+			state->curr_cell = sheet_cell_fetch (state->pos.sheet,
+						 state->pos.eval.col,
+						 state->pos.eval.row);
+		}
+		v = value_new_error (NULL, xin->content->str);
+		gnm_cell_assign_value (state->curr_cell, v);
+	} else if (state->content_is_simple) {
+			oo_add_text_to_cell (state, xin->content->str + state->p_content_offset);
+			state->p_content_offset = strlen (xin->content->str);
 	}
+	oo_update_data_extent (state, 1, 1);
+}
+
+static void
+oo_cell_content_special (GsfXMLIn *xin, int count, char const *sym)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	if (state->content_is_simple) {
+		if (xin->content->str != NULL && *xin->content->str != 0) {
+			oo_add_text_to_cell (state, xin->content->str + state->p_content_offset);
+			state->p_content_offset = strlen (xin->content->str);
+		}
+		
+		if (count == 1) 
+			oo_add_text_to_cell (state, sym);
+		else if (count > 0) {
+			gchar *space = g_strnfill (count, *sym);
+			oo_add_text_to_cell (state, space);
+			g_free (space);
+		}
+	}
+}
+
+static void
+oo_cell_content_space (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	int count = 0;
+	
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_int_range (xin, attrs, OO_NS_TEXT, "c", &count, 0, INT_MAX))
+		       ;
+	oo_cell_content_special (xin, count, " ");
+}
+
+static void
+oo_cell_content_symbol (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	oo_cell_content_special (xin, 1, xin->node->user_data.v_str);
 }
 
 static void
@@ -9267,11 +9350,11 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (TABLE_H_ROWS, SOFTPAGEBREAK, OO_NS_TEXT, "soft-page-break", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 
 		GSF_XML_IN_NODE (TABLE_ROW, TABLE_CELL, OO_NS_TABLE, "table-cell", GSF_XML_NO_CONTENT, &oo_cell_start, &oo_cell_end),
-		  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &oo_cell_content_end),
-		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, &oo_cell_content_start, &oo_cell_content_end),
+		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, &oo_cell_content_space, NULL),
 		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, NULL, NULL),
-		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_LINE_BREAK,    OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),
-	            GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_SHARED_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE_FULL (CELL_TEXT, CELL_TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_cell_content_symbol, NULL, .v_str = "\n"),
+	            GSF_XML_IN_NODE_FULL (CELL_TEXT, CELL_TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_SHARED_CONTENT, FALSE, FALSE, oo_cell_content_symbol, NULL, .v_str = "\t"),
 		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, NULL, NULL),
 		      GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		      GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */

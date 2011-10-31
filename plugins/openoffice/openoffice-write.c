@@ -3112,9 +3112,11 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		case VALUE_STRING:
 			gsf_xml_out_add_cstr_unchecked (state->xml,
 							OFFICE "value-type", "string");
-			gsf_xml_out_add_cstr (state->xml,
-					      OFFICE "string-value",
-					      value_peek_string (cell->value));
+			/*If this is a non-formula cell we show the real formatted content */
+			if (NULL != cell->base.texpr)
+				gsf_xml_out_add_cstr (state->xml,
+						      OFFICE "string-value",
+						      value_peek_string (cell->value));
 			break;
 		case VALUE_CELLRANGE:
 		case VALUE_ARRAY:

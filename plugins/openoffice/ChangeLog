@@ -1,5 +1,17 @@
 2011-10-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_cell_content_start): new
+	(oo_add_text_to_cell): new
+	(oo_cell_content_end): we have shared content!
+	(oo_cell_content_special): new
+	(oo_cell_content_space): new
+	(oo_cell_content_symbol): new
+	(opendoc_content_dtd): connect oo_cell_content_symbol and oo_cell_content_start
+	* openoffice-write.c (odf_write_cell): do not write office:string-value for
+	non-expression cells, the element content should be used.
+
+2011-10-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_func_map_in): adjust SUMPRODUCT import
 	* openoffice-write.c (odf_expr_func_handler) adjust SUMPRODUCT export
 
