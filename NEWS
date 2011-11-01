@@ -44,7 +44,7 @@ Andreas:
 	* Fix autofitting of row height in presence of superscripted
 	scientific notation. [#662472]
 	* Improve shape import from ODF. [#663078]
-	* Improve text import/export from and to ODF. [#627509]
+	* Improve text import/export from and to ODF. [#627509, #663135]
 	* Import hyperlinks from ODF. [#603533]
 
 Jean:
