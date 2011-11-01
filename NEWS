@@ -45,6 +45,7 @@ Andreas:
 	scientific notation. [#662472]
 	* Improve shape import from ODF. [#663078]
 	* Improve text import/export from and to ODF. [#627509]
+	* Import hyperlinks from ODF. [#603533]
 
 Jean:
 	* Make things build against gtk+-3.0.

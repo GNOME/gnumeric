@@ -61,6 +61,7 @@
 #include <graph.h>
 #include <gnm-so-filled.h>
 #include <gnm-so-line.h>
+#include <hlink.h>
 
 
 #include <goffice/goffice.h>
@@ -3221,6 +3222,48 @@ static void
 oo_cell_content_symbol (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	oo_cell_content_special (xin, 1, xin->node->user_data.v_str);
+}
+
+static void
+oo_cell_content_link (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *link = NULL;
+	char const *tip = _("Left click once to follow this link.\n"
+			    "Middle click once to select this cell");
+	GnmHLink *hlink = NULL;
+	
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_XLINK, "href"))
+			link = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_OFFICE, "title"))
+			tip = CXML2C (attrs[1]);
+	
+	if (link != NULL) {
+		GnmStyle *style;
+		GType type;
+
+		if (g_str_has_prefix (link, "http"))
+			type = gnm_hlink_url_get_type ();
+		else if (g_str_has_prefix (link, "mail"))
+			type = gnm_hlink_email_get_type ();
+		else if (g_str_has_prefix (link, "file"))
+			type = gnm_hlink_external_get_type ();
+		else
+			type = gnm_hlink_cur_wb_get_type ();
+
+		hlink = g_object_new (type, NULL);
+		gnm_hlink_set_target (hlink, link);
+		gnm_hlink_set_tip (hlink, tip);
+		style = gnm_style_new ();
+		gnm_style_set_hlink (style, hlink);
+		gnm_style_set_font_uline (style, UNDERLINE_SINGLE);
+		gnm_style_set_font_color (style, style_color_new_name ("blue"));
+		sheet_style_apply_pos (state->pos.sheet,
+				       state->pos.eval.col, state->pos.eval.row,
+				       style);
+		oo_update_style_extent (state, 1, 1);
+	}
 }
 
 static void
@@ -9352,7 +9395,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		GSF_XML_IN_NODE (TABLE_ROW, TABLE_CELL, OO_NS_TABLE, "table-cell", GSF_XML_NO_CONTENT, &oo_cell_start, &oo_cell_end),
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, &oo_cell_content_start, &oo_cell_content_end),
 		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, &oo_cell_content_space, NULL),
-		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, NULL, NULL),
+		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, &oo_cell_content_link, NULL),
 	            GSF_XML_IN_NODE_FULL (CELL_TEXT, CELL_TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_cell_content_symbol, NULL, .v_str = "\n"),
 	            GSF_XML_IN_NODE_FULL (CELL_TEXT, CELL_TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_SHARED_CONTENT, FALSE, FALSE, oo_cell_content_symbol, NULL, .v_str = "\t"),
 		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, NULL, NULL),
