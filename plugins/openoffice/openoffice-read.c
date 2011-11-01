@@ -3156,13 +3156,17 @@ oo_add_text_to_cell (OOParseState *state, char const *str)
 
 	if (VALUE_IS_STRING (state->curr_cell->value)) {
 		if (*str != 0) {
-			GOFormat *fmt = go_format_ref (state->curr_cell->value->v_str.fmt);
+			GOFormat *fmt = state->curr_cell->value->v_str.fmt;
+			if (fmt != NULL)
+				go_format_ref (fmt);
 			v = value_new_string_str 
 				(go_string_new_nocopy 
 				 (g_strconcat (state->curr_cell->value->v_str.val->str,
 					       str, NULL)));
-			value_set_fmt (v, fmt);
-			go_format_unref (fmt);
+			if (fmt != NULL) {
+				value_set_fmt (v, fmt);
+				go_format_unref (fmt);
+			}
 		}
 	} else
 		v = value_new_string (str);
@@ -6316,13 +6320,43 @@ od_style_prop_text (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "oblique",       PANGO_STYLE_OBLIQUE},
 		{ NULL,	0 },
 	};
+	static OOEnum const underline_styles [] = {
+		{ "none",	   1 },
+		{ "dash",	   2 },
+		{ "dot-dash",      2 },
+		{ "dot-dot-dash",  2 },
+		{ "dotted",        2 },
+		{ "long-dash",     2 },
+		{ "solid",         3 },
+		{ "wave",          4 },
+		{ NULL,	0 },
+	};
+	static OOEnum const underline_types [] = {
+		{ "none",	  0 },
+		{ "single",	  1 },
+		{ "double",       2 },
+		{ NULL,	0 },
+	};
+	static OOEnum const line_through_styles [] = {
+		{ "none",	 0},
+		{ "solid",	 1},
+		{ "dotted",      2},
+		{ "dash",	 3},
+		{ "long-dash",   4},
+		{ "dot-dash",	 5},
+		{ "dot-dot-dash",6},
+		{ "wave",        7},
+		{ NULL,	0 },
+	};
 
 	OOParseState *state = (OOParseState *)xin->user_state;
 	PangoAttribute *attr;
 	int	  tmp;
+	int underline_type = 0;
+	int underline_style = 0;
+	gboolean underline_bold = FALSE;
 
 	g_return_if_fail (state->cur_style.text != NULL);
-
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_font_weight (xin, attrs, &tmp)) {
 			attr = pango_attr_weight_new (tmp);
@@ -6353,7 +6387,39 @@ od_style_prop_text (GsfXMLIn *xin, xmlChar const **attrs)
 				attr->end_index = 0;
 				pango_attr_list_insert (state->cur_style.text, attr);
 			}
+		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-underline-style", 
+					 underline_styles, &underline_style)) {
+		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-underline-type", 
+					 underline_types, &underline_type)) {
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					       OO_NS_STYLE, "text-underline-width"))
+			underline_bold = attr_eq (attrs[1], "bold");
+		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-line-through-style", 
+				       line_through_styles, &tmp)) {
+				attr = pango_attr_strikethrough_new (tmp > 0);
+				attr->start_index = 0;
+				attr->end_index = 0;
+				pango_attr_list_insert (state->cur_style.text, attr);
 		}
+
+	if (underline_style > 0) {
+		PangoUnderline underline;
+		if (underline_style == 1)
+			underline = PANGO_UNDERLINE_NONE;
+		else if (underline_style == 4)
+			underline = PANGO_UNDERLINE_ERROR;
+		else if (underline_bold)
+			underline = PANGO_UNDERLINE_LOW;
+		else if (underline_type == 2)
+			underline = PANGO_UNDERLINE_DOUBLE;
+		else
+			underline = PANGO_UNDERLINE_SINGLE;
+
+		attr = 	pango_attr_underline_new (underline);	
+		attr->start_index = 0;
+		attr->end_index = 0;
+		pango_attr_list_insert (state->cur_style.text, attr);
+	}
 }
 
 static void
