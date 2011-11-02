@@ -1,3 +1,10 @@
+2011-11-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* component/Gnumeric-embed.xml.in: add Format->Text menu
+	* src/GNOME_Gnumeric-gtk.xml.in: add Format->Text menu
+	* src/wbc-gtk-actions.c (permanent_actions): add submenus
+	(font_toggle_actions): fix duplicate menu accel
+
 2011-11-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (gnm_go_data_vector_eval): erase markup list when changed.

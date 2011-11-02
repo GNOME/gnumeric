@@ -2003,6 +2003,8 @@ static GtkActionEntry const permanent_actions[] = {
 		  N_("Func_tion Wrapper") },
 	{ "MenuFormat",		NULL, N_("F_ormat") },
 		{ "MenuFormatCells",		NULL, N_("_Cells") },
+		{ "MenuFormatText",		NULL, N_("_Text") },
+	               { "MenuFormatTextUnderline",  NULL, N_("_Underline") },
 		{ "MenuFormatColumn",		NULL, N_("C_olumn") },
 		{ "MenuFormatRow",		NULL, N_("_Row") },
 		{ "MenuFormatSheet",		NULL, N_("_Sheet") },
@@ -2927,7 +2929,7 @@ static GtkToggleActionEntry const font_toggle_actions[] = {
 		N_("_Single Low Underline"), "<control><shift>l",
 		N_("Single Low Underline"), G_CALLBACK (cb_font_underline_low), FALSE },
 	{ "FontDoubleLowUnderline", NULL,	/* from icon theme */
-		N_("_Double Low Underline"), NULL,
+		N_("Double _Low Underline"), NULL,
 		N_("Double Low Underline"), G_CALLBACK (cb_font_double_underline_low), FALSE },
 	{ "FontStrikeThrough", GTK_STOCK_STRIKETHROUGH,
 		N_("_Strike Through"), "<control>5",

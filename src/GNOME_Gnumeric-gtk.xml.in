@@ -153,6 +153,20 @@
       <menuitem action="FormatCellsFitHeight"/>
       <menuitem action="FormatCellsFitWidth"/>
       </menu>
+      <menu name="FormatTextMenu" action="MenuFormatText">
+	<menuitem action="FontBold"/>
+	<menuitem action="FontItalic"/>
+	<menuitem action="FontStrikeThrough"/>
+	<menuitem action="FontSuperscript"/>
+	<menuitem action="FontSubscript"/>
+        <menu name="FormatTextUnderlineMenu" action="MenuFormatTextUnderline">
+	   <menuitem action="FontUnderline"/>
+	   <menuitem action="FontSingleLowUnderline"/>
+	   <menuitem action="FontDoubleUnderline"/>
+	   <menuitem action="FontSingleLowUnderline"/>
+	   <menuitem action="FontDoubleLowUnderline"/>
+        </menu>      
+      </menu>      
       <menu name="FormatColumn" action="MenuFormatColumn">
         <menuitem action="ColumnSize"/>
         <menuitem action="ColumnAutoSize"/>
