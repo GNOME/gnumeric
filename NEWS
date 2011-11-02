@@ -46,6 +46,7 @@ Andreas:
 	* Improve shape import from ODF. [#663078]
 	* Improve text import/export from and to ODF. [#627509, #663135]
 	* Import hyperlinks from ODF. [#603533]
+	* Fix status of sub- and superscript buttons. [#662474]
 
 Jean:
 	* Make things build against gtk+-3.0.

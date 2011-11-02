@@ -1798,8 +1798,28 @@ gnm_style_set_from_pango_attribute (GnmStyle *style, PangoAttribute const *attr)
 		gnm_style_set_font_strike (style,
 			((PangoAttrInt *)attr)->value != 0);
 		break;
-	default :
+	default : {
+		gboolean script_seen = FALSE, script_set = FALSE;
+		if (attr->klass->type == go_pango_attr_superscript_get_type ()) {
+			script_seen = TRUE;
+			if (((GOPangoAttrSuperscript *)attr)->val == 1) {
+				script_set = TRUE;
+				gnm_style_set_font_script
+					(style, GO_FONT_SCRIPT_SUPER);
+			}
+		} else if (attr->klass->type == go_pango_attr_subscript_get_type ()) {
+			script_seen = TRUE;
+			if (((GOPangoAttrSubscript *)attr)->val == 1) {
+				script_set = TRUE;
+				gnm_style_set_font_script
+					(style, GO_FONT_SCRIPT_SUB);
+			}
+		}
+		if (script_seen && !script_set)
+			gnm_style_set_font_script
+				(style, GO_FONT_SCRIPT_STANDARD);
 		break; /* ignored */
+	}
 	}
 }
 

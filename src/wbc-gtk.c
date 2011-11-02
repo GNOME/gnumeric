@@ -3503,6 +3503,9 @@ wbc_gtk_style_feedback_real (WorkbookControl *wbc, GnmStyle const *changes)
 			gnm_style_get_font_script (changes) == GO_FONT_SCRIPT_SUPER);
 		gtk_toggle_action_set_active (wbcg->font.subscript,
 			gnm_style_get_font_script (changes) == GO_FONT_SCRIPT_SUB);
+	} else {
+		gtk_toggle_action_set_active (wbcg->font.superscript, FALSE);
+		gtk_toggle_action_set_active (wbcg->font.subscript, FALSE);
 	}
 
 	if (gnm_style_is_element_set (changes, MSTYLE_ALIGN_H)) {

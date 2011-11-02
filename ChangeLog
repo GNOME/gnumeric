@@ -1,5 +1,11 @@
 2011-11-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/mstyle.c (gnm_style_set_from_pango_attribute): handle super- and
+	subscripts
+	* src/wbc-gtk.c (wbc_gtk_style_feedback_real): reset sub-/superscript action
+
+2011-11-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* component/Gnumeric-embed.xml.in: add Format->Text menu
 	* src/GNOME_Gnumeric-gtk.xml.in: add Format->Text menu
 	* src/wbc-gtk-actions.c (permanent_actions): add submenus
