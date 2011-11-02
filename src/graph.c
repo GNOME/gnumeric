@@ -472,6 +472,8 @@ gnm_go_data_vector_eval (GnmDependent *dep)
 
 	value_release (vec->val);
 	vec->val = NULL;
+	g_free (vec->markup);
+	vec->markup = NULL;
 	go_data_emit_changed (GO_DATA (vec));
 }
 

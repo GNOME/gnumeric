@@ -1,3 +1,8 @@
+2011-11-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_vector_eval): erase markup list when changed.
+	[#663216]
+
 2011-10-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-image.c (gnm_soi_write_image), (soi_cb_save_as): don't

@@ -62,6 +62,7 @@ Jean:
 	[#661720, #661855]
 	* Add support for SVG images using librsvg.
 	* Fixed SVG images size. [#628472]
+	* Fix crash in graphs using markups. [#663216]
 
 Mikko Rasa:
         * Fix ODF import of certain percentage formats. [Debian #642135]
