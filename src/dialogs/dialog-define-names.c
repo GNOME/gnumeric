@@ -182,7 +182,8 @@ name_guru_warn (NameGuruState *state,
 }
 
 static gboolean
-cb_name_guru_show_all (GtkTreeModel *model, GtkTreePath *path,
+cb_name_guru_show_all (G_GNUC_UNUSED GtkTreeModel *model, 
+		       G_GNUC_UNUSED GtkTreePath *path,
 		       GtkTreeIter *iter, gpointer data)
 {
 	NameGuruState *state = data;
@@ -205,8 +206,9 @@ name_guru_erase_search_entry (GtkEntry *entry,
 }
 
 static gboolean
-cb_name_guru_search (GtkTreeModel *model, GtkTreePath *path,
-		       GtkTreeIter *iter, gpointer data)
+cb_name_guru_search (GtkTreeModel *model, 
+		     G_GNUC_UNUSED GtkTreePath *path,
+		     GtkTreeIter *iter, gpointer data)
 {
 	char const *text = data;
 	gchar *name;
@@ -889,10 +891,11 @@ name_guru_check_expression (NameGuruState *state, gchar *text,
 
 
 static void
-cb_name_guru_content_edited (GnumericCellRendererExprEntry *cell,
-			     gchar               *path_string,
-			     gchar               *new_text,
-			     NameGuruState       *state)
+cb_name_guru_content_edited 
+(G_GNUC_UNUSED GnumericCellRendererExprEntry *cell,
+ gchar               *path_string,
+ gchar               *new_text,
+ NameGuruState       *state)
 {
 	GtkTreeIter       iter;
 	item_type_t       type;
@@ -963,14 +966,15 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	name_guru_parse_pos_init (state, &pp, type);
 	nexpr = expr_name_lookup (&pp, new_text);
 
-	if (nexpr != NULL) {
+	if (nexpr != NULL && !nexpr->is_placeholder) {
 		Sheet *scope = nexpr->pos.sheet;
 		if ((type == item_type_new_unsaved_wb_name &&
 		     scope == NULL) ||
 		    (type == item_type_new_unsaved_sheet_name)) {
-			go_gtk_notice_dialog (GTK_WINDOW (state->dialog),
-					      GTK_MESSAGE_ERROR,
-					      _("This name is already in use!"));
+			go_gtk_notice_dialog 
+				(GTK_WINDOW (state->dialog),
+				 GTK_MESSAGE_ERROR,
+				 _("This name is already in use!"));
 			return;
 		}
 	}
@@ -1023,7 +1027,7 @@ name_guru_update_sensitivity (GtkTreeSelection *treeselection,
 }
 
 static gboolean
-cb_name_guru_selection_function (GtkTreeSelection *selection,
+cb_name_guru_selection_function (G_GNUC_UNUSED GtkTreeSelection *selection,
 				 GtkTreeModel *model,
 				 GtkTreePath *path,
 				 gboolean path_currently_selected,

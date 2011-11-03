@@ -1,3 +1,8 @@
+2011-11-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-define-names.c (cb_name_guru_name_edited): check for
+	placeholder
+
 2011-10-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* autofilter-top10.ui: fixed GtkGrid spacings.
