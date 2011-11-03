@@ -133,7 +133,7 @@ sheet_print_info_free (gpointer data)
 static void
 printing_instance_delete (PrintingInstance *pi)
 {
-	go_list_free_custom (pi->gnmSheets, sheet_print_info_free);
+	g_list_free_full (pi->gnmSheets, sheet_print_info_free);
 	hf_render_info_destroy (pi->hfi);
 	if (pi->progress) {
 		gtk_widget_destroy (pi->progress);

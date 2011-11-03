@@ -319,5 +319,5 @@ void
 data_shuffling_free (data_shuffling_t *st)
 {
 	g_free (st->dao);
-	go_slist_free_custom (st->changes, g_free);
+	g_slist_free_full (st->changes, g_free);
 }

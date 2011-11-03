@@ -1574,7 +1574,7 @@ free_hf_state (HFCustomizeState *hf_state)
 {
 	g_return_if_fail (hf_state != NULL);
 
-	go_list_free_custom (hf_state->marks, (GFreeFunc) free_hf_mark_info);
+	g_list_free_full (hf_state->marks, (GDestroyNotify) free_hf_mark_info);
 	g_free (hf_state);
 }
 

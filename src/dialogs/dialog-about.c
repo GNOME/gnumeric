@@ -387,10 +387,10 @@ free_state (AboutState *state)
 		state->timer = 0;
 	}
 
-	go_list_free_custom (state->active, (GFreeFunc)free_renderer);
+	g_list_free_full (state->active, (GDestroyNotify)free_renderer);
 	state->active = NULL;
 
-	go_list_free_custom (state->waiting, (GFreeFunc)free_renderer);
+	g_list_free_full (state->waiting, (GDestroyNotify)free_renderer);
 	state->waiting = NULL;
 
 	g_free (state);

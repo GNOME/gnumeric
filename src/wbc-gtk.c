@@ -3372,7 +3372,7 @@ wbc_gtk_init_font_name (WBCGtk *gtk)
 	families = go_fonts_list_families (context);
 	for (ptr = families; ptr != NULL; ptr = ptr->next)
 		go_action_combo_text_add_item (gtk->font_name, ptr->data);
-	go_slist_free_custom (families, (GFreeFunc)g_free);
+	g_slist_free_full (families, (GDestroyNotify)g_free);
 
 	g_signal_connect (G_OBJECT (gtk->font_name),
 		"activate",
@@ -4860,7 +4860,7 @@ wbc_gtk_reload_recent_file_menu (WBCGtk const *wbcg)
 		g_free (filename_utf8);
 		g_free (tooltip);
 	}
-	go_slist_free_custom (history, (GFreeFunc)g_free);
+	g_slist_free_full (history, (GDestroyNotify)g_free);
 
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->file_history.actions, 0);
 

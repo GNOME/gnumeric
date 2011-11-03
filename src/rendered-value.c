@@ -334,7 +334,7 @@ gnm_rendered_value_new (GnmCell const *cell,
 					scale = pa_scale->value;
 				}
 			}
-			go_slist_free_custom (extra_attrs, 
+			g_slist_free_full (extra_attrs, 
 					      (GFreeFunc) pango_attribute_destroy);
 			pango_font_description_free (desc);
 			pango_attr_iterator_destroy (iter);

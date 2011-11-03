@@ -223,7 +223,7 @@ category_group_list_get (void)
 	}
 	dir_list = g_slist_reverse (dir_list);
 	categories = category_list_get_from_dir_list (dir_list);
-	go_slist_free_custom (dir_list, g_free);
+	g_slist_free_full (dir_list, g_free);
 
 	categories = g_list_sort (categories, category_compare_name_and_dir);
 

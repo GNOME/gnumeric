@@ -624,7 +624,7 @@ gee_scan_for_range (GnmExprEntry *gee)
 						  (pane, &r, FALSE););
 			}
 
-			go_slist_free_custom (list, (GFreeFunc)value_release);
+			g_slist_free_full (list, (GDestroyNotify)value_release);
 		}
 		gnm_expr_entry_find_range (gee);
 		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&
@@ -893,7 +893,7 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 			(gee, str->str, str_marked->str, TRUE);
 	g_string_free (str, TRUE);
 	g_string_free (str_marked, TRUE);
-	go_slist_free_custom (list, (GFreeFunc) gnm_func_unref);
+	g_slist_free_full (list, (GDestroyNotify) gnm_func_unref);
 	return show_tool_tip;
 }
 

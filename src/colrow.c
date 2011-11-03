@@ -352,7 +352,7 @@ colrow_set_single_state (ColRowState *state,
 ColRowStateList *
 colrow_state_list_destroy (ColRowStateList *list)
 {
-	go_slist_free_custom (list, g_free);
+	g_slist_free_full (list, g_free);
 	return NULL;
 }
 

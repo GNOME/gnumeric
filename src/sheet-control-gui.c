@@ -2853,7 +2853,7 @@ scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
 		g_free (text);
 	}
 	g_slist_free (data.objects);
-	go_slist_free_custom (data.anchors, g_free);
+	g_slist_free_full (data.anchors, g_free);
 }
 
 void
@@ -3874,7 +3874,7 @@ scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
 		}
 		g_free (mime);
 	}
-	go_slist_free_custom (urls, (GFreeFunc) g_free);
+	g_slist_free_full (urls, (GDestroyNotify) g_free);
 }
 
 static void

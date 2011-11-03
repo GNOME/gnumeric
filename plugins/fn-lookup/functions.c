@@ -1736,14 +1736,14 @@ gnumeric_array (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		 argc, argv, FALSE, CELL_ITER_ALL);
 
 	if (val != NULL) {
-		go_slist_free_custom (list, (GFreeFunc) value_release);
+		g_slist_free_full (list, (GDestroyNotify)value_release);
 		return val;
 	}
 	list = g_slist_reverse (list);
 	len = g_slist_length (list);
 
 	if (len == 0) {
-		go_slist_free_custom (list, (GFreeFunc) value_release);
+		g_slist_free_full (list, (GDestroyNotify)value_release);
 		return value_new_error_VALUE (ei->pos);
 	}
 

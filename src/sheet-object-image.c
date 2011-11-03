@@ -389,7 +389,7 @@ gnm_soi_get_target_list (SheetObject const *so)
 						     0, 0);
 		}
 		g_free (mime_str);
-		go_slist_free_custom (mimes, g_free);
+		g_slist_free_full (mimes, g_free);
 	}
 	/* No need to eliminate duplicates. */
 	if (soi->image != NULL || pixbuf != NULL) {

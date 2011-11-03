@@ -119,7 +119,7 @@ gnm_scenario_finalize (GObject *obj)
 	g_free (sc->name);
 	g_free (sc->comment);
 
-	go_slist_free_custom (sc->items, (GFreeFunc)gnm_scenario_item_free);
+	g_slist_free_full (sc->items, (GDestroyNotify)gnm_scenario_item_free);
 
 	gnm_scenario_parent_class->finalize (obj);
 }

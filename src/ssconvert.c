@@ -260,7 +260,7 @@ read_files_to_merge (const char *inputs[], GOFileOpener *fo,
 		inputs++;
 
 		if (go_io_error_occurred (io_context)) {
-			go_slist_free_custom (wbs, g_object_unref);
+			g_slist_free_full (wbs, g_object_unref);
 			return NULL;
 		}
 
@@ -420,7 +420,7 @@ merge (Workbook *wb, char const *inputs[],
 			break;
 	}
 
-	go_slist_free_custom (wbs, g_object_unref);
+	g_slist_free_full (wbs, g_object_unref);
 	return result;
 }
 

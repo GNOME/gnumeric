@@ -2978,7 +2978,7 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	g_slist_foreach (me->pasted_objects,
 			 (GFunc)sheet_object_clear_sheet,
 			 NULL);
-	go_slist_free_custom (me->pasted_objects, (GFreeFunc)g_object_unref);
+	g_slist_free_full (me->pasted_objects, (GDestroyNotify)g_object_unref);
 	me->pasted_objects = NULL;
 	old_objects = get_new_objects (me->dst.sheet, NULL);
 
@@ -3024,7 +3024,7 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	 * We cannot use the random set of objects at the target location.
 	 * See http://bugzilla.gnome.org/show_bug.cgi?id=308300
 	 */
-	go_slist_free_custom (contents->objects, (GFreeFunc)g_object_unref);
+	g_slist_free_full (contents->objects, (GDestroyNotify)g_object_unref);
 	contents->objects = is_undo
 		? go_slist_map (me->orig_contents_objects,
 				(GOMapFunc)sheet_object_dup)
@@ -3075,8 +3075,8 @@ cmd_paste_copy_finalize (GObject *cmd)
 		cellregion_unref (me->contents);
 		me->contents = NULL;
 	}
-	go_slist_free_custom (me->pasted_objects, (GFreeFunc)g_object_unref);
-	go_slist_free_custom (me->orig_contents_objects, (GFreeFunc)g_object_unref);
+	g_slist_free_full (me->pasted_objects, (GDestroyNotify)g_object_unref);
+	g_slist_free_full (me->orig_contents_objects, (GDestroyNotify)g_object_unref);
 	gnm_command_finalize (cmd);
 }
 
@@ -4641,7 +4641,7 @@ static void
 cmd_objects_delete_finalize (GObject *cmd)
 {
 	CmdObjectsDelete *me = CMD_OBJECTS_DELETE (cmd);
-	go_slist_free_custom (me->objects, g_object_unref);
+	g_slist_free_full (me->objects, g_object_unref);
 	if (me->location) {
 		g_array_free (me->location, TRUE);
 		me->location = NULL;
@@ -4700,7 +4700,7 @@ cmd_objects_move (WorkbookControl *wbc, GSList *objects, GSList *anchors,
 	result = cmd_generic (wbc, name, undo, redo);
 
 	g_slist_free (objects);
-	go_slist_free_custom (anchors, g_free);
+	g_slist_free_full (anchors, g_free);
 
 	return result;
 }
@@ -5361,7 +5361,7 @@ cmd_analysis_tool_finalize (GObject *cmd)
 	if (me->old_contents)
 		cellregion_unref (me->old_contents);
 
-	go_slist_free_custom (me->newSheetObjects, g_object_unref);
+	g_slist_free_full (me->newSheetObjects, g_object_unref);
 
 	gnm_command_finalize (cmd);
 }
@@ -5647,9 +5647,9 @@ cmd_change_summary_finalize (GObject *cmd)
 {
 	CmdChangeMetaData *me = CMD_CHANGE_META_DATA (cmd);
 
-	go_slist_free_custom (me->changed_props, (GFreeFunc)gsf_doc_prop_free);
+	g_slist_free_full (me->changed_props, (GDestroyNotify)gsf_doc_prop_free);
 	me->changed_props = NULL;
-	go_slist_free_custom (me->removed_names, g_free);
+	g_slist_free_full (me->removed_names, g_free);
 	me->removed_names = NULL;
 
 	gnm_command_finalize (cmd);

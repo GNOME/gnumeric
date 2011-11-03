@@ -507,7 +507,7 @@ wordlist_pref_remove (GtkButton *button, wordlist_conf_setter_t setter) {
 			list = g_slist_delete_link (list, l);
 			setter (list);
 		}
-		go_slist_free_custom (list, g_free);
+		g_slist_free_full (list, g_free);
 		g_free (text);
 	}
 }
@@ -526,7 +526,7 @@ wordlist_pref_add (GtkButton *button, wordlist_conf_setter_t setter)
 			list = go_string_slist_copy (list);
 			list = g_slist_append (list, g_strdup (text));
 			setter (list);
-			go_slist_free_custom (list, g_free);
+			g_slist_free_full (list, g_free);
 		}
 	}
 }

@@ -343,21 +343,21 @@ save_formats (void)
 	}
 	GO_SLIST_REVERSE(left);
 	gnm_conf_set_printsetup_hf_left (left);
-	go_slist_free_custom (left, g_free);
+	g_slist_free_full (left, g_free);
 
 	GO_SLIST_REVERSE(middle);
 	gnm_conf_set_printsetup_hf_middle (middle);
-	go_slist_free_custom (middle, g_free);
+	g_slist_free_full (middle, g_free);
 
 	GO_SLIST_REVERSE(right);
 	gnm_conf_set_printsetup_hf_right (right);
-	go_slist_free_custom (right, g_free);
+	g_slist_free_full (right, g_free);
 }
 
 static void
 destroy_formats (void)
 {
-	go_list_free_custom (hf_formats, (GFreeFunc)print_hf_free);
+	g_list_free_full (hf_formats, (GDestroyNotify)print_hf_free);
 	hf_formats = NULL;
 }
 

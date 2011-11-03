@@ -137,7 +137,7 @@ gnm_py_command_line_finalize (GObject *obj)
 {
 	GnmPyCommandLine *cline = GNM_PY_COMMAND_LINE (obj);
 
-	go_list_free_custom (cline->history, g_free);
+	g_list_free_full (cline->history, g_free);
 	cline->history = NULL;
 
 	parent_class->finalize (obj);

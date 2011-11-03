@@ -1681,8 +1681,8 @@ applix_read (GOIOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 			       state.real_names,
 			       GO_CMD_CONTEXT (io_context));
 	g_slist_free (renamed_sheets);
-	go_slist_free_custom (state.std_names, g_free);
-	go_slist_free_custom (state.real_names, g_free);
+	g_slist_free_full (state.std_names, g_free);
+	g_slist_free_full (state.real_names, g_free);
 
 	/* Release the shared expressions and styles */
 	g_hash_table_foreach_remove (state.exprs, &cb_remove_texpr, NULL);

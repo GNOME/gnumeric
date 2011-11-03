@@ -649,7 +649,7 @@ gnm_solver_param_finalize (GObject *obj)
 
 	dependent_managed_set_expr (&sp->target, NULL);
 	dependent_managed_set_expr (&sp->input, NULL);
-	go_slist_free_custom (sp->constraints,
+	g_slist_free_full (sp->constraints,
 			      (GFreeFunc)gnm_solver_constraint_free);
 	g_free (sp->options.scenario_name);
 

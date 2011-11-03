@@ -432,7 +432,7 @@ fs_destroy (GtkWidget *widget)
 		fs->gui = NULL;
 	}
 
-	go_slist_free_custom (fs->family_names, g_free);
+	g_slist_free_full (fs->family_names, g_free);
 	fs->family_names = NULL;
 
 	g_slist_free (fs->font_sizes);

@@ -241,7 +241,7 @@ gnm_sog_get_target_list (SheetObject const *so)
 					     0, 0);
 	}
 	g_free (mime_str);
-	go_slist_free_custom (mimes, g_free);
+	g_slist_free_full (mimes, g_free);
 	/* No need to eliminate duplicates. */
 	gtk_target_list_add_image_targets (tl, 0, TRUE);
 

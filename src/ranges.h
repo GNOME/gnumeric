@@ -61,7 +61,7 @@ guint	  gnm_range_hash  (GnmRange const *r);
 #define range_valid(r)          ((r)->start.col <= (r)->end.col && \
 				 (r)->start.row <= (r)->end.row)
 
-#define range_fragment_free(f) go_slist_free_custom ((f), g_free)
+#define range_fragment_free(f) g_slist_free_full ((f), g_free)
 
 GnmRange   *range_init_full_sheet   (GnmRange *r, Sheet const *sheet);
 GnmRange   *range_init_cols   	    (GnmRange *r, Sheet const *sheet,

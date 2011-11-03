@@ -54,7 +54,7 @@ plugin_service_function_group_finalize (GObject *obj)
 	g_free (sfg->translated_category_name);
 	sfg->translated_category_name = NULL;
 
-	go_slist_free_custom (sfg->function_name_list, g_free);
+	g_slist_free_full (sfg->function_name_list, g_free);
 	sfg->function_name_list = NULL;
 
 	g_free (sfg->textdomain);
@@ -136,7 +136,7 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 
 		g_free (category_name);
 		g_free (translated_category_name);
-		go_slist_free_custom (function_name_list, g_free);
+		g_slist_free_full (function_name_list, g_free);
 
 		g_free (textdomain);
 	}
@@ -296,7 +296,7 @@ plugin_service_ui_finalize (GObject *obj)
 
 	g_free (service_ui->file_name);
 	service_ui->file_name = NULL;
-	go_slist_free_custom (service_ui->actions, (GFreeFunc)gnm_action_free);
+	g_slist_free_full (service_ui->actions, (GDestroyNotify)gnm_action_free);
 	service_ui->actions = NULL;
 
 	parent_class = g_type_class_peek (GO_TYPE_PLUGIN_SERVICE);

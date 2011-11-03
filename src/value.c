@@ -1644,7 +1644,7 @@ free_criterias (GSList *criterias)
 
         while (criterias != NULL) {
 		GnmDBCriteria *criteria = criterias->data;
-		go_slist_free_custom (criteria->conditions,
+		g_slist_free_full (criteria->conditions,
 				      (GFreeFunc)free_criteria);
 		g_free (criteria);
 		criterias = criterias->next;

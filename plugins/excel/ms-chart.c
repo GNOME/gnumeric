@@ -5998,7 +5998,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 		g_ptr_array_foreach (state.values[i], (GFunc) g_free, NULL);
 		g_ptr_array_free (state.values[i], TRUE);
 	}
-	go_slist_free_custom (state.extra_objects, g_object_unref);
+	g_slist_free_full (state.extra_objects, g_object_unref);
 	if (state.line_plot)
 		g_object_unref (state.line_plot);
 

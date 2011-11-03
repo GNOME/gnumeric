@@ -255,7 +255,7 @@ format_template_free (GnmFormatTemplate *ft)
 	g_free (ft->author);
 	g_free (ft->name);
 	g_free (ft->description);
-	go_slist_free_custom (ft->members, (GFreeFunc)format_template_member_free);
+	g_slist_free_full (ft->members, (GDestroyNotify)format_template_member_free);
 	g_hash_table_destroy (ft->table);
 
 	g_free (ft);

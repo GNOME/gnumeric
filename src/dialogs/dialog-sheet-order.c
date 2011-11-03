@@ -342,7 +342,7 @@ cb_color_changed_fore (G_GNUC_UNUSED GOComboColor *go_combo_color,
 	cmd_reorganize_sheets (wbc, old_state, NULL);
 	update_undo (state, wbc);
 
-	go_list_free_custom (selected_rows, (GFreeFunc) gtk_tree_path_free);
+	g_list_free_full (selected_rows, (GDestroyNotify) gtk_tree_path_free);
 }
 
 static void
@@ -394,7 +394,7 @@ cb_color_changed_back (G_GNUC_UNUSED GOComboColor *go_combo_color,
 	cmd_reorganize_sheets (wbc, old_state, NULL);
 	update_undo (state, wbc);
 
-	go_list_free_custom (selected_rows, (GFreeFunc) gtk_tree_path_free);
+	g_list_free_full (selected_rows, (GDestroyNotify) gtk_tree_path_free);
 }
 
 static gboolean
@@ -497,7 +497,7 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 		wb_view_sheet_focus (
 			wb_control_view (WORKBOOK_CONTROL (state->wbcg)), sheet);
 
-	go_list_free_custom (selected_rows, (GFreeFunc) gtk_tree_path_free);
+	g_list_free_full (selected_rows, (GDestroyNotify) gtk_tree_path_free);
 }
 
 static void
@@ -891,7 +891,7 @@ cb_item_move (SheetManager *state, gnm_iter_search_t iter_search)
 	selected_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 				 &a, (GtkTreePath *) selected_rows->data);
-	go_list_free_custom (selected_rows, (GFreeFunc) gtk_tree_path_free);
+	g_list_free_full (selected_rows, (GDestroyNotify) gtk_tree_path_free);
 
 	b = a;
 	if (!iter_search (GTK_TREE_MODEL (state->model), &b))
@@ -931,7 +931,7 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	selected_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 				 &sel_iter, (GtkTreePath *) selected_rows->data);
-	go_list_free_custom (selected_rows, (GFreeFunc) gtk_tree_path_free);
+	g_list_free_full (selected_rows, (GDestroyNotify) gtk_tree_path_free);
 
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &sel_iter,
 			    SHEET_POINTER, &old_sheet,
@@ -1010,7 +1010,7 @@ cb_duplicate_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	selected_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 				 &sel_iter, (GtkTreePath *) selected_rows->data);
-	go_list_free_custom (selected_rows, (GFreeFunc) gtk_tree_path_free);
+	g_list_free_full (selected_rows, (GDestroyNotify) gtk_tree_path_free);
 
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &sel_iter,
 			    SHEET_POINTER, &this_sheet,
@@ -1082,7 +1082,7 @@ cb_delete_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	populate_sheet_list (state);
 	cb_name_edited (NULL, NULL, NULL, state);
 
-	go_list_free_custom (selected_rows, (GFreeFunc) gtk_tree_row_reference_free);
+	g_list_free_full (selected_rows, (GDestroyNotify) gtk_tree_row_reference_free);
 }
 
 static void

@@ -3576,7 +3576,7 @@ odf_write_sheet (GnmOOExport *state)
 		/* gsf_xml_out_end_element (state->xml);  */
 	}
 
-	go_slist_free_custom (sheet_merges, g_free);
+	g_slist_free_full (sheet_merges, g_free);
 	g_free (col_styles);
 
 }
@@ -5637,7 +5637,7 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 
 	for (l = state->fill_image_files; l != NULL; l = l->next)
 		odf_file_entry (xml, "image/png", l->data);
-	go_slist_free_custom (state->fill_image_files, g_free);
+	g_slist_free_full (state->fill_image_files, g_free);
 	state->fill_image_files = NULL;
 
 	state->xml = NULL;

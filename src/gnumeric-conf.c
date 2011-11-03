@@ -397,7 +397,7 @@ set_enum (struct cb_watch_enum *watch, int x)
 static void
 cb_free_string_list (GSList *l)
 {
-	go_slist_free_custom (l, g_free);
+	g_slist_free_full (l, g_free);
 }
 
 void
@@ -429,7 +429,7 @@ gnm_conf_shutdown (void)
 		sync_handler = 0;
 	}
 
-	go_slist_free_custom (watchers, (GFreeFunc)free_watcher);
+	g_slist_free_full (watchers, (GDestroyNotify)free_watcher);
 	watchers = NULL;
 
 	g_hash_table_destroy (string_pool);
@@ -608,7 +608,7 @@ gnm_conf_set_print_settings (GtkPrintSettings *settings)
 
 	gtk_print_settings_foreach (settings, gnm_gconf_set_print_settings_cb, &list);
 	gnm_conf_set_printsetup_gtk_setting (list);
-	go_slist_free_custom (list, g_free);
+	g_slist_free_full (list, g_free);
 }
 
 gboolean

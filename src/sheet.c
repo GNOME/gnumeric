@@ -4153,7 +4153,7 @@ sheet_destroy_contents (Sheet *sheet)
 	{
 		GSList *tmp = sheet->slicers;
 		sheet->slicers = NULL;
-		go_slist_free_custom (tmp, (GFreeFunc)gnm_sheet_slicer_clear_sheet);
+		g_slist_free_full (tmp, (GDestroyNotify)gnm_sheet_slicer_clear_sheet);
 	}
 
 	/* These contain SheetObjects, remove them first */
@@ -4180,7 +4180,7 @@ sheet_destroy_contents (Sheet *sheet)
 	g_hash_table_destroy (sheet->hash_merged);
 	sheet->hash_merged = NULL;
 
-	go_slist_free_custom (sheet->list_merged, g_free);
+	g_slist_free_full (sheet->list_merged, g_free);
 	sheet->list_merged = NULL;
 
 	/* Clear the row spans 1st */
@@ -4246,7 +4246,7 @@ gnm_sheet_finalize (GObject *obj)
 	g_object_unref (sheet->solver_parameters);
 	sheet->solver_parameters = NULL;
 
-	go_list_free_custom (sheet->scenarios, g_object_unref);
+	g_list_free_full (sheet->scenarios, g_object_unref);
 	sheet->scenarios = NULL;
 
 	if (sheet->sort_setups != NULL)

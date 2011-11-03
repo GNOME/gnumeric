@@ -99,7 +99,7 @@ dao_init_new_sheet (data_analysis_output_t *dao)
 
 void dao_free (data_analysis_output_t *dao)
 {
-	go_slist_free_custom (dao->sos, g_object_unref);
+	g_slist_free_full (dao->sos, g_object_unref);
 	dao->sos = NULL;
 
 	if (dao->use_gfree)

@@ -877,7 +877,7 @@ gnm_pane_dispose (GObject *obj)
 
 	g_slist_free (pane->cursor.animated);
 	pane->cursor.animated = NULL;
-	go_slist_free_custom (pane->cursor.expr_range, g_object_unref);
+	g_slist_free_full (pane->cursor.expr_range, g_object_unref);
 	pane->cursor.expr_range = NULL;
 
 	if (pane->mouse_cursor) {
@@ -2262,7 +2262,7 @@ gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r,
 void
 gnm_pane_expr_cursor_stop (GnmPane *pane)
 {
-	go_slist_free_custom (pane->cursor.expr_range, g_object_unref);
+	g_slist_free_full (pane->cursor.expr_range, g_object_unref);
 	pane->cursor.expr_range = NULL;
 }
 

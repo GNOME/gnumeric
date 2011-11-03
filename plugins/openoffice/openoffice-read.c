@@ -4679,9 +4679,9 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_string_free (state->cur_format.accum, TRUE);
 	state->cur_format.accum = NULL;
 	state->cur_format.name = NULL;
-	go_slist_free_custom (state->conditions, g_free);
+	g_slist_free_full (state->conditions, g_free);
 	state->conditions = NULL;
-	go_slist_free_custom (state->cond_formats, g_free);
+	g_slist_free_full (state->cond_formats, g_free);
 	state->cond_formats = NULL;
 }
 
@@ -4716,7 +4716,7 @@ odf_get_paper_size (gnm_float width, gnm_float height, gint orient)
 			break;
 		}
 	}
-	go_list_free_custom (plist, (GFreeFunc)gtk_paper_size_free);
+	g_list_free_full (plist, (GDestroyNotify)gtk_paper_size_free);
 
 	if (size != NULL)
 		return size;
@@ -5799,7 +5799,7 @@ oo_prop_free (OOProp *prop)
 static void
 oo_prop_list_free (GSList *props)
 {
-	go_slist_free_custom (props, (GFreeFunc) oo_prop_free);
+	g_slist_free_full (props, (GDestroyNotify)oo_prop_free);
 }
 
 static void
@@ -7694,7 +7694,7 @@ oo_plot_area_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	if (state->chart.plot_type == OO_PLOT_STOCK) {
 		odf_create_stock_plot (xin);
-		go_slist_free_custom (state->chart.list, g_free);
+		g_slist_free_full (state->chart.list, g_free);
 		state->chart.list = NULL;
 	} else {
 		if (state->chart.series_count == 0 && state->chart.series == NULL)
@@ -10756,7 +10756,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 			g_slist_foreach (state.settings.stack,
 					 (GFunc)unset_gvalue,
 					 NULL);
-			go_slist_free_custom (state.settings.stack, g_free);
+			g_slist_free_full (state.settings.stack, g_free);
 			state.settings.stack = NULL;
 		}
 
@@ -10801,8 +10801,8 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	g_hash_table_destroy (state.styles.cell_time);
 	g_hash_table_destroy (state.styles.master_pages);
 	g_hash_table_destroy (state.styles.page_layouts);
-	go_slist_free_custom (state.chart.saved_graph_styles,
-			      (GFreeFunc) g_hash_table_destroy);
+	g_slist_free_full (state.chart.saved_graph_styles,
+			   (GDestroyNotify)g_hash_table_destroy);
 	g_hash_table_destroy (state.chart.graph_styles);
 	g_hash_table_destroy (state.chart.hatches);
 	g_hash_table_destroy (state.chart.dash_styles);
@@ -10813,7 +10813,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	g_hash_table_destroy (state.validations);
 	g_hash_table_destroy (state.strings);
 	g_hash_table_destroy (state.chart.arrow_markers);
-	go_slist_free_custom (state.span_style_stack, g_free);
+	g_slist_free_full (state.span_style_stack, g_free);
 	g_object_unref (contents);
 
 	g_object_unref (zip);

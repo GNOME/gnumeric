@@ -7351,6 +7351,6 @@ excel_read_cleanup (void)
 	g_hash_table_destroy (excel_func_by_name);
 	excel_func_by_name = NULL;
 
-	go_slist_free_custom (formats, (GFreeFunc)go_format_unref);
+	g_slist_free_full (formats, (GDestroyNotify)go_format_unref);
 	formats = NULL;
 }

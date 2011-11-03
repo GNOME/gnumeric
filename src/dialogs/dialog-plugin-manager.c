@@ -254,7 +254,7 @@ pm_gui_load_directory_page (PluginManagerGUI *pm_gui)
 	if (plugin_path_env != NULL) {
 		plugin_dirs = go_strsplit_to_slist (plugin_path_env, G_SEARCHPATH_SEPARATOR);
 		pm_gui_load_directories (pm_gui, plugin_dirs, FALSE);
-		go_slist_free_custom (plugin_dirs, g_free);
+		g_slist_free_full (plugin_dirs, g_free);
 	}
 	pm_gui_load_directories (pm_gui, gnm_conf_get_plugins_extra_dirs (), TRUE);
 }
@@ -295,7 +295,7 @@ cb_pm_button_directory_add_clicked (PluginManagerGUI *pm_gui)
 			GO_SLIST_PREPEND (extra_dirs, path);
 
 			gnm_conf_set_plugins_extra_dirs (extra_dirs);
-			go_slist_free_custom (extra_dirs, g_free);
+			g_slist_free_full (extra_dirs, g_free);
 
 			pm_gui_load_directory_page (pm_gui);
 			cb_pm_button_rescan_directories_clicked (pm_gui);
@@ -338,7 +338,7 @@ cb_pm_button_directory_delete_clicked (PluginManagerGUI *pm_gui)
 		cb_pm_button_rescan_directories_clicked (pm_gui);
 	}
 
-	go_slist_free_custom (extra_dirs, g_free);
+	g_slist_free_full (extra_dirs, g_free);
 	g_free (dir_name);
 }
 
@@ -411,7 +411,7 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 					-1);
 			);
 		}
-		go_slist_free_custom (dep_ids, g_free);
+		g_slist_free_full (dep_ids, g_free);
 
 		gtk_tree_store_append (pm_gui->model_details, &iter2, &iter);
 		gtk_tree_store_set (
@@ -606,7 +606,7 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 			}
 			g_string_free (s, TRUE);
 		}
-		go_slist_free_custom (dep_ids, g_free);
+		g_slist_free_full (dep_ids, g_free);
 
 		if (want_activate) {
 			go_plugin_activate (plugin, &error);

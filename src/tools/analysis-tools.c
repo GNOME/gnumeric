@@ -655,7 +655,7 @@ analysis_tool_table (data_analysis_output_t *dao,
 		value_release (val);
 	}
 
-	go_slist_free_custom (inputexpr, (GFreeFunc)gnm_expr_free);
+	g_slist_free_full (inputexpr, (GDestroyNotify)gnm_expr_free);
 	if (fd) gnm_func_unref (fd);
 
 	dao_redraw_respan (dao);

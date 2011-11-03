@@ -1055,7 +1055,7 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 		xll_function_info_map = NULL;
 	}
 
-	go_slist_free_custom (XLLs, free_XLL);
+	g_slist_free_full (XLLs, free_XLL);
 	XLLs = NULL;
 
 	if (register_actual_excel4v)

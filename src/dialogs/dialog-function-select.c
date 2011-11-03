@@ -299,7 +299,7 @@ dialog_function_write_recent_func (FunctionSelectState *state, GnmFunc const *fd
 						      state->localized_function_names)));
 	}
 	gnm_conf_set_functionselector_recentfunctions (gconf_value_list);
-	go_slist_free_custom (gconf_value_list, g_free);
+	g_slist_free_full (gconf_value_list, g_free);
 }
 
 static gboolean

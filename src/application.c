@@ -601,7 +601,7 @@ gnm_app_history_get_list (int max_elements)
 		}
 	}
 
-	go_list_free_custom (items, (GFreeFunc)gtk_recent_info_unref);
+	g_list_free_full (items, (GDestroyNotify)gtk_recent_info_unref);
 	g_object_ref_sink (filter);
 	g_object_unref (filter);
 

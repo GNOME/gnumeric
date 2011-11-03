@@ -5646,7 +5646,7 @@ excel_sheet_free (ExcelWriteSheet *esheet)
 	g_slist_free (esheet->graphs);
 	g_hash_table_destroy (esheet->commentshash);
 	g_hash_table_destroy (esheet->widget_macroname);
-	go_slist_free_custom (esheet->blips, (GFreeFunc) blipinf_free);
+	g_slist_free_full (esheet->blips, (GDestroyNotify)blipinf_free);
 	style_list_free (esheet->conditions);
 	style_list_free (esheet->hlinks);
 	style_list_free (esheet->validations);

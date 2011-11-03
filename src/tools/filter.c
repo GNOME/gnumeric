@@ -141,7 +141,7 @@ advanced_filter (WorkbookControl        *wbc,
 		database->v_range.cell.b.col, database->v_range.cell.a.row,
 		database->v_range.cell.b.row);
 
-	go_slist_free_custom (rows, (GFreeFunc)g_free);
+	g_slist_free_full (rows, (GDestroyNotify)g_free);
 
 	sv = sheet_get_view (sheet, wb_control_view (wbc));
 	s = r = *(selection_first_range (sv, NULL, NULL));
@@ -238,7 +238,7 @@ analysis_tool_advanced_filter_engine_run (data_analysis_output_t *dao,
 		database->v_range.cell.b.col, database->v_range.cell.a.row,
 		database->v_range.cell.b.row);
 
-	go_slist_free_custom (rows, (GFreeFunc)g_free);
+	g_slist_free_full (rows, (GDestroyNotify)g_free);
 
 finish:
 	if (err != analysis_tools_noerr) {
