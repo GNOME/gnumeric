@@ -621,7 +621,7 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 
 	/* TODO TODO : floor vs wall */
 	case 3 : g_printerr ("a floor/wall along the axis.\n"); break;
-	default : g_printerr ("an ERROR.  unkown type (%x).\n", type);
+	default : g_printerr ("an ERROR.  unknown type (%x).\n", type);
 	}
 	});
 
