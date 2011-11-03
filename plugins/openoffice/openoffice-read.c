@@ -8204,7 +8204,7 @@ oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "legend-align", alignments, &tmp))
 			align = tmp;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
-			style_name = g_strdup (CXML2C (attrs[1]));
+			style_name = CXML2C (attrs[1]);
 
 	legend = gog_object_add_by_name ((GogObject *)state->chart.chart, "Legend", NULL);
 	state->chart.legend = legend;
@@ -8222,7 +8222,6 @@ oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 		}
 	}
-
 }
 
 static void
@@ -8254,11 +8253,11 @@ oo_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GogObject *backplane;
-	gchar *style_name = NULL;
+	gchar const *style_name = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
-			style_name = g_strdup (CXML2C (attrs[1]));
+			style_name = CXML2C (attrs[1]);
 
 	backplane = gog_object_add_by_name (GOG_OBJECT (state->chart.chart), "Backplane", NULL);
 

@@ -1,3 +1,8 @@
+2011-11-03  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_chart_wall): Plug leak.
+	(oo_legend): Plug leak.
+
 2011-11-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_add_text_to_cell): check for NULL format
