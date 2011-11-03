@@ -28,7 +28,8 @@ void gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 		      gboolean preview, PrintRange default_range,
 		      GsfOutput *export_dst);
 
-void gnm_print_so (WorkbookControl *wbc, SheetObject *so);
+void gnm_print_so (WorkbookControl *wbc, GPtrArray *sos,
+		   GsfOutput *export_dst);
 
 void gnm_print_sheet_objects (cairo_t *cr,
 			      Sheet const *sheet,

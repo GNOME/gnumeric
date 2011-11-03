@@ -609,10 +609,8 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	wb = wb_view_get_workbook (wbv);
 
 	res = handle_export_options (fs, GO_DOC (wb));
-	if (res) {
-		g_object_unref (wb);
+	if (res)
 		goto out;
-	}
 
 	if (mergeargs != NULL) {
 		if (merge (wb, mergeargs, fo, io_context, cc))

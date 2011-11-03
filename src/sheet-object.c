@@ -133,7 +133,10 @@ cb_so_delete (SheetObject *so, SheetControl *sc)
 static void
 cb_so_print (SheetObject *so, SheetControl *sc)
 {
-	gnm_print_so (sc_wbc (sc), so);
+	GPtrArray *a = g_ptr_array_new ();
+	g_ptr_array_add (a, so);
+	gnm_print_so (sc_wbc (sc), a, NULL);
+	g_ptr_array_unref (a);
 }
 void
 sheet_object_get_editor (SheetObject *so, SheetControl *sc)

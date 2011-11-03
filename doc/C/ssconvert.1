@@ -234,7 +234,12 @@ Mixed Integer Linear Programming (MILP) solver
 
 .TP
 .B sheet
-Name of the workbook sheet to operate on.
+Name of the workbook sheet to operate on. This is ignored if the \fBobject\fR option is given.
+
+.TP
+.B object
+Name of the sheet object to print. If this option is given any \fBsheet\fR option is ignored.
+Only the first \fBobject\fR given is exported.
 
 .TP
 .B paper

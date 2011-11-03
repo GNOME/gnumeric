@@ -48,6 +48,7 @@ Andreas:
 	* Import hyperlinks from ODF. [#603533]
 	* Fix status of sub- and superscript buttons. [#662474]
 	* Fix name-definition in presence of placeholder. [#663117]
+	* Add 'object' option to ssconvert pdf export. [#661405]
 
 Jean:
 	* Make things build against gtk+-3.0.

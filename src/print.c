@@ -1936,16 +1936,24 @@ gnm_draw_so_page_cb (G_GNUC_UNUSED GtkPrintOperation *operation,
 }
 
 void 
-gnm_print_so (WorkbookControl *wbc, SheetObject *so)
+gnm_print_so (WorkbookControl *wbc, GPtrArray *sos,
+	      GsfOutput *export_dst)
 {
 	GtkPrintOperation *print;
 	GtkPageSetup *page_setup;
 	GtkPrintSettings* settings;
 	Sheet *sheet;
 	GtkWindow *parent = NULL;
+	GtkPrintOperationAction action;
+	gchar *tmp_file_name = NULL;
+	int tmp_file_fd = -1;
+	SheetObject *so;
 
-	g_return_if_fail (so != NULL);
+	g_return_if_fail (sos != NULL && sos->len > 0);
 
+	/* FIXME: we should print all objects in teh array, not just the first! */
+
+	so = g_ptr_array_index (sos, 0),
 	sheet = sheet_object_get_sheet (so);
 	if (NULL != wbc && IS_WBC_GTK(wbc))
 		parent = wbcg_toplevel (WBC_GTK (wbc));
@@ -1971,9 +1979,55 @@ gnm_print_so (WorkbookControl *wbc, SheetObject *so)
 
 	gtk_print_operation_set_use_full_page (print, FALSE);
 	gtk_print_operation_set_unit (print, GTK_UNIT_POINTS);
-	gtk_print_operation_set_show_progress (print, TRUE);
 
-	gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, parent, NULL);
+	if (export_dst) {
+		GError *err = NULL;
+
+		tmp_file_fd = g_file_open_tmp ("gnmXXXXXX.pdf",
+					       &tmp_file_name, &err);
+		if (err) {
+			gsf_output_set_error (export_dst, 0,
+					      "%s", err->message);
+			g_error_free (err);
+			if (tmp_file_fd >= 0)
+				close (tmp_file_fd);
+			cb_delete_and_free (tmp_file_name);
+			
+			g_object_unref (print);
+			return;
+		}
+		action = GTK_PRINT_OPERATION_ACTION_EXPORT;
+		gtk_print_operation_set_export_filename (print, tmp_file_name);
+		gtk_print_operation_set_show_progress (print, FALSE);
+	} else {
+		action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
+		gtk_print_operation_set_show_progress (print, TRUE);
+	}
+
+	gtk_print_operation_run (print, action, parent, NULL);
+
+	if (tmp_file_name) {
+		char buffer[64 * 1024];
+		gssize bytes_read;
+
+		if (lseek (tmp_file_fd, 0, SEEK_SET) < 0)
+			bytes_read = -1;
+		else {
+			while ((bytes_read = read 
+				(tmp_file_fd, buffer, sizeof (buffer))) > 0) {
+				gsf_output_write (export_dst, bytes_read, buffer);
+			}
+		}
+		if (bytes_read < 0) {
+			int save_errno = errno;
+			if (!gsf_output_error (export_dst))
+				gsf_output_set_error (export_dst,
+						      g_file_error_from_errno (save_errno),
+						      "%s", g_strerror (save_errno));
+		}
+		close (tmp_file_fd);
+		cb_delete_and_free (tmp_file_name);
+	}
 
 	g_object_unref (print);	
 }

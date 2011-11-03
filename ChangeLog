@@ -1,3 +1,16 @@
+2011-11-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print-info.c (pdf_write_workbook): madify arguments
+	(cb_free_sheets): deleted
+	(pdf_export): new
+	(cb_set_pdf_option): use g_ptr_array_unref and support 'object' option
+	(print_init): use pdf_export instead of pdf_write_workbook
+	* src/print.h (gnm_print_so): modify arguments
+	* src/print.c (gnm_print_so): modify arguments and support output to gsf
+	* src/sheet-object.c (cb_so_print): adjust for modified arguments to
+	gnm_print_so
+	* src/ssconvert.c (convert): do not unref wb twice on error
+
 2011-11-03  Morten Welinder  <terra@gnome.org>
 
 	* src/print-info.c (print_info_load_defaults): Plug leak.

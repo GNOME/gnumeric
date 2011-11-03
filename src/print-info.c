@@ -709,9 +709,8 @@ hf_render_info_destroy (HFRenderInfo *hfi)
 
 static void
 pdf_write_workbook (GOFileSaver const *fs, GOIOContext *context,
-		    gconstpointer wbv_, GsfOutput *output)
+		    WorkbookView const *wbv, GsfOutput *output)
 {
-	WorkbookView const *wbv = wbv_;
 	Workbook const *wb = wb_view_get_workbook (wbv);
 	GPtrArray *sheets = g_object_get_data (G_OBJECT (wb), "pdf-sheets");
 
@@ -733,9 +732,18 @@ pdf_write_workbook (GOFileSaver const *fs, GOIOContext *context,
 }
 
 static void
-cb_free_sheets (GPtrArray *a)
+pdf_export (GOFileSaver const *fs, GOIOContext *context,
+		    gconstpointer wbv_, GsfOutput *output)
 {
-	g_ptr_array_free (a, TRUE);
+	WorkbookView const *wbv = wbv_;
+	Workbook const *wb = wb_view_get_workbook (wbv);
+	GPtrArray *sheets = g_object_get_data (G_OBJECT (wb), "pdf-sheets");
+	GPtrArray *objects = g_object_get_data (G_OBJECT (wb), "pdf-objects");
+
+	if (objects && objects->len > 0)
+		gnm_print_so (NULL, objects, output);
+	else
+		pdf_write_workbook (fs, context, wbv, output);
 }
 
 static gboolean
@@ -759,13 +767,48 @@ cb_set_pdf_option (const char *key, const char *value,
 			sheets = g_ptr_array_new ();
 			g_object_set_data_full (G_OBJECT (wb),
 						"pdf-sheets", sheets,
-						(GDestroyNotify)cb_free_sheets);
+						(GDestroyNotify)g_ptr_array_unref);
 		}
 		g_ptr_array_add (sheets, sheet);
 
 		return FALSE;
 	}
 
+	if (strcmp (key, "object") == 0) {
+		GPtrArray *objects = g_object_get_data (G_OBJECT (wb), "pdf-objects");
+		GSList *sheets = workbook_sheets (wb);
+		gboolean object_seen = FALSE;
+
+		if (!objects) {
+			objects = g_ptr_array_new ();
+			g_object_set_data_full (G_OBJECT (wb),
+						"pdf-objects", objects,
+						(GDestroyNotify)g_ptr_array_unref);
+		}
+
+		for (; sheets != NULL; sheets = sheets->next) {
+			Sheet *sheet = sheets->data;
+			GSList *sobjects = sheet->sheet_objects;
+			for (; sobjects != NULL; sobjects = sobjects->next) {
+				SheetObject *so = sobjects->data;
+				gchar *name = NULL;
+				g_object_get (so, "name", &name, NULL);
+				if (strcmp (name, value) == 0) {
+					g_ptr_array_add (objects, so);
+					object_seen = TRUE;
+				}
+			}
+		}
+		if (!object_seen) {
+			*err = g_error_new (go_error_invalid (), 0,
+					    _("There is no object with name "
+					      "\'%s\'"), value);
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+	
 	if (strcmp (key, "paper") == 0) {
 		int i;
 
@@ -805,7 +848,7 @@ print_init (void)
 	GOFileSaver *saver = go_file_saver_new (
 		PDF_SAVER_ID, "pdf",
 		_("PDF export"),
-		GO_FILE_FL_WRITE_ONLY, pdf_write_workbook);
+		GO_FILE_FL_WRITE_ONLY, pdf_export);
 	g_signal_connect (G_OBJECT (saver), "set-export-options",
 			  G_CALLBACK (pdf_set_export_options),
 			  NULL);
