@@ -457,7 +457,7 @@ struct _GnmGODataVector {
 	GnmDependent	 dep;
 	GnmValue	*val;
 	gboolean	 as_col;
-	PangoAttrList const **markup;
+	GPtrArray       *markup;
 };
 typedef GODataVectorClass GnmGODataVectorClass;
 
@@ -472,8 +472,10 @@ gnm_go_data_vector_eval (GnmDependent *dep)
 
 	value_release (vec->val);
 	vec->val = NULL;
-	g_free (vec->markup);
-	vec->markup = NULL;
+	if (vec->markup) {
+		g_ptr_array_free (vec->markup, TRUE);
+		vec->markup = NULL;
+	}
 	go_data_emit_changed (GO_DATA (vec));
 }
 
@@ -488,8 +490,10 @@ gnm_go_data_vector_finalize (GObject *obj)
 
 	g_free (vec->base.values);
 	vec->base.values = NULL;
-	g_free (vec->markup);
-	vec->markup = NULL;
+	if (vec->markup) {
+		g_ptr_array_free (vec->markup, TRUE);
+		vec->markup = NULL;
+	}
 
 	vector_parent_klass->finalize (obj);
 }
@@ -813,23 +817,25 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 	return render_val (vec->val, i, j, fmt, &ep);
 }
 
-struct markup_closure {
-	PangoAttrList const **l;
-	unsigned i;
-};
+static void
+cond_pango_attr_list_unref (PangoAttrList *al)
+{
+	if (al)
+		pango_attr_list_unref (al);	
+}
 
 static gpointer
-cb_assign_markup (GnmCellIter const *iter, struct markup_closure *dat)
+cb_assign_markup (GnmCellIter const *iter, GPtrArray *markup)
 {
-	GOFormat const *fmt;
 	PangoAttrList const *l = NULL;
 
 	if (iter->cell != NULL) {
-		fmt = gnm_cell_get_format (iter->cell);
+		GOFormat const *fmt = gnm_cell_get_format (iter->cell);
 		if (go_format_is_markup (fmt))
 			l = go_format_get_markup (fmt);
 	}
-	dat->l[dat->i++] = l;
+	g_ptr_array_add (markup,
+			 l ? pango_attr_list_ref ((PangoAttrList *)l) : NULL);
 
 	return NULL;
 }
@@ -845,13 +851,12 @@ gnm_go_data_vector_get_markup (GODataVector *dat, unsigned i)
 		GnmRange r;
 		Sheet *start_sheet, *end_sheet;
 		GnmValue *v;
-		struct markup_closure closure;
 
 		go_data_vector_get_len (dat); /* force calculation */
 		if (dat->len <= 0 || !vec->dep.sheet)
 			return NULL;
-		closure.l = vec->markup = (PangoAttrList const **) g_new0 (gpointer, vec->base.len);
-		closure.i = 0;
+		vec->markup = g_ptr_array_new_with_free_func
+			((GDestroyNotify)cond_pango_attr_list_unref);
 		switch (vec->val->type) {
 		case VALUE_CELLRANGE:
 			gnm_rangeref_normalize (&vec->val->v_range.cell,
@@ -869,11 +874,11 @@ gnm_go_data_vector_get_markup (GODataVector *dat, unsigned i)
 			if (r.start.col <= r.end.col && r.start.row <= r.end.row) {
 				sheet_foreach_cell_in_range (start_sheet, CELL_ITER_ALL,
 					r.start.col, r.start.row, r.end.col, r.end.row,
-					(CellIterFunc)cb_assign_markup, &closure);
+					(CellIterFunc)cb_assign_markup, vec->markup);
 			}
 			break;
 
-		case VALUE_ARRAY : {
+		case VALUE_ARRAY: {
 			int len = vec->as_col? vec->val->v_array.y: vec->val->v_array.x;
 			while (len-- > 0) {
 				v = vec->as_col
@@ -895,18 +900,18 @@ gnm_go_data_vector_get_markup (GODataVector *dat, unsigned i)
 					if (r.start.col <= r.end.col && r.start.row <= r.end.row)
 						sheet_foreach_cell_in_range (start_sheet, CELL_ITER_ALL,
 							r.start.col, r.start.row, r.end.col, r.end.row,
-							(CellIterFunc)cb_assign_markup, &closure);
+							(CellIterFunc)cb_assign_markup, vec->markup);
 				}
 			}
 			break;
 		}
 
-		default :
+		default:
 			break;
 		}
 	}
 
-	return pango_attr_list_copy ((PangoAttrList *) vec->markup[i]);
+	return pango_attr_list_copy (g_ptr_array_index (vec->markup, i));
 }
 
 static void
