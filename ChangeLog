@@ -1,5 +1,9 @@
 2011-11-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/workbook-view.c (wb_view_auto_expr_attrs): ref -> unref
+
+2011-11-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/print-info.c (print_info_get_page_setup): do not return a ref
 	* src/print.c (gnm_print_sheet): do not unref page-setup
 	(gnm_print_so): ditto

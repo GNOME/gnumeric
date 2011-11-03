@@ -693,7 +693,7 @@ wb_view_auto_expr_attrs (WorkbookView *wbv, PangoAttrList *attrs)
 	if (attrs)
 		pango_attr_list_ref (attrs);
 	if (wbv->auto_expr_attrs)
-		pango_attr_list_ref (wbv->auto_expr_attrs);
+		pango_attr_list_unref (wbv->auto_expr_attrs);
 	wbv->auto_expr_attrs = attrs;
 }
 
