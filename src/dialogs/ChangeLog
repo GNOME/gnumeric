@@ -1,3 +1,8 @@
+2011-11-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-printer-setup.c (dialog_gtk_printer_setup_cb): do not
+	unref page-setup
+
 2011-11-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-define-names.c (cb_name_guru_name_edited): check for

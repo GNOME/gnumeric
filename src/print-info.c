@@ -1217,7 +1217,7 @@ print_info_get_page_setup (PrintInformation *pi)
 	print_info_load_defaults (pi);
 
 	if (pi->page_setup)
-		return g_object_ref (pi->page_setup);
+		return pi->page_setup;
 	else
 		return NULL;
 }

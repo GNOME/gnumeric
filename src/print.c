@@ -1772,10 +1772,8 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	g_object_unref (settings);
 
 	page_setup = print_info_get_page_setup (sheet->print_info);
-	if (page_setup) {
+	if (page_setup)
 		gtk_print_operation_set_default_page_setup (print, page_setup);
-		g_object_unref (page_setup);
-	}
 
 	g_signal_connect (print, "preview", G_CALLBACK (gnm_ready_preview_cb), pi);
 	g_signal_connect (print, "begin-print", G_CALLBACK (gnm_begin_print_cb), pi);
@@ -1967,10 +1965,8 @@ gnm_print_so (WorkbookControl *wbc, GPtrArray *sos,
 	g_object_unref (settings);
 
 	page_setup = print_info_get_page_setup (sheet->print_info);
-	if (page_setup) {
+	if (page_setup)
 		gtk_print_operation_set_default_page_setup (print, page_setup);
-		g_object_unref (page_setup);
-	}
 
 	gtk_print_operation_set_n_pages (print, 1);
 	gtk_print_operation_set_embed_page_setup (print, TRUE);

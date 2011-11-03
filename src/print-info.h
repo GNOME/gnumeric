@@ -123,7 +123,7 @@ PrintInformation *print_info_dup	 (PrintInformation const *pi);
 void              print_info_free        (PrintInformation *pi);
 void              print_info_save        (PrintInformation *pi);
 
-GtkPageSetup     *print_info_get_page_setup (PrintInformation *pi);
+GtkPageSetup     *print_info_get_page_setup (PrintInformation *pi); /* Does not return a ref! */
 void              print_info_set_page_setup (PrintInformation *pi, GtkPageSetup *page_setup);
 
 PrintHF          *print_hf_new           (char const *left,

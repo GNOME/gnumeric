@@ -3023,9 +3023,6 @@ dialog_gtk_printer_setup_cb (PrinterSetupState *state)
 		 NULL,
 		 dialog_printer_setup_done_cb,
 		 state);
-
-	if (page_setup)
-		g_object_unref (page_setup);
 }
 
 
