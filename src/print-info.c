@@ -228,7 +228,7 @@ PrintInformation *
 print_info_load_defaults (PrintInformation *res)
 {
 	GSList *list;
-	GtkPrintSettings* settings = gnm_conf_get_print_settings ();
+	GtkPrintSettings *settings;
 
 	if (res->page_setup != NULL)
 		return res;
@@ -274,8 +274,8 @@ print_info_load_defaults (PrintInformation *res)
 			      g_slist_nth_data (list, 2)) :
 		print_hf_new ("", _("Page &[PAGE]"), "");
 
+	settings = gnm_conf_get_print_settings ();
 	print_info_set_from_settings (res, settings);
-
 	g_object_unref (settings);
 
 	return res;
