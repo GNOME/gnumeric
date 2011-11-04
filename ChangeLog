@@ -1,3 +1,17 @@
+2011-11-04 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk.c (cb_auto_expr_cell_changed): new
+	(cb_auto_expr_changed): set new auto-expr properties
+	(cb_select_auto_expr): create new auto-expression menu item
+	* src/workbook-view.c (wb_view_auto_expr_recalc): handle possible
+	cell formula
+	(wb_view_auto_expr_cell): new
+	(wb_view_auto_expr_sheet): new
+	(wb_view_set_property): handle new properties
+	(wb_view_get_property): handle new properties
+	(workbook_view_class_init): install new properties
+	* src/workbook-view.h (_WorkbookView): add new fields
+
 2011-11-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/workbook-view.c (wb_view_auto_expr_attrs): ref -> unref

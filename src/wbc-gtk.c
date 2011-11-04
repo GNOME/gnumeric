@@ -4511,6 +4511,30 @@ wbc_gtk_setup_icons (void)
 /****************************************************************************/
 
 static void
+cb_auto_expr_cell_changed (GtkWidget *item, WBCGtk *wbcg)
+{
+	const Sheet *sheet;
+	const char *descr;
+	const GnmRange *r;
+	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+
+	if (wbcg->updating_ui)
+		return;
+
+	descr = g_object_get_data (G_OBJECT (item), "descr");
+	sheet = g_object_get_data (G_OBJECT (item), "sheet");
+	r = g_object_get_data (G_OBJECT (item), "cell");
+
+	g_object_set (wbv,
+		      "auto-expr-func",  NULL,
+		      "auto-expr-descr", descr,
+		      "auto-expr-cell",  &r->start,
+		      "auto-expr-sheet", sheet,
+		      NULL);
+
+}
+
+static void
 cb_auto_expr_changed (GtkWidget *item, WBCGtk *wbcg)
 {
 	const GnmFunc *func;
@@ -4526,6 +4550,8 @@ cb_auto_expr_changed (GtkWidget *item, WBCGtk *wbcg)
 	g_object_set (wbv,
 		      "auto-expr-func", func,
 		      "auto-expr-descr", descr,
+		      "auto-expr-cell", NULL,
+		      "auto-expr-sheet", NULL,
 		      NULL);
 }
 
@@ -4663,6 +4689,9 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
 	Sheet *sheet = wb_view_cur_sheet (wbv);
 	GtkWidget *item, *menu;
 	int i;
+        GnmRange *r = g_new (GnmRange, 1);
+	char const *rname;
+	char * cell_item;
 
 	if (event->button != 3)
 		return FALSE;
@@ -4702,6 +4731,28 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		gtk_widget_show (item);
 	}
+
+	item = gtk_separator_menu_item_new ();
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
+
+	range_init_cellpos (r, &(scg_view (wbcg_cur_scg (wbcg)))->edit_pos);
+	rname = range_as_string (r);
+	cell_item = g_strdup_printf (_("Content of cell %s!%s"), sheet->name_unquoted, rname);
+	item = gtk_menu_item_new_with_label(cell_item);
+	g_free (cell_item);
+	g_object_set_data_full (G_OBJECT (item),
+				"descr", (gpointer)g_strdup (rname), 
+				(GDestroyNotify)g_free);
+	g_object_set_data_full (G_OBJECT (item),
+				"cell", (gpointer)r, 
+				(GDestroyNotify)g_free);
+	g_object_set_data (G_OBJECT (item),
+			   "sheet", (gpointer)sheet);
+	g_signal_connect (G_OBJECT (item), "activate",
+		G_CALLBACK (cb_auto_expr_cell_changed), wbcg);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
 
 	item = gtk_separator_menu_item_new ();
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);

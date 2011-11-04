@@ -78,6 +78,7 @@ Morten:
 	* Embed ui files into the Gnumeric binary.
 	* Get rid of obsolete code.
 	* Add ODF.SUMPRODUCT compatibility function.  [#662551]
+	* Add cell view to auto expression.
 
 Valek:
 	* In xls import, set LABEL encoding based on FONT charset converted to 

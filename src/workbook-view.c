@@ -77,6 +77,8 @@ enum {
 	PROP_AUTO_EXPR_MAX_PRECISION,
 	PROP_AUTO_EXPR_TEXT,
 	PROP_AUTO_EXPR_ATTRS,
+	PROP_AUTO_EXPR_CELL,
+	PROP_AUTO_EXPR_SHEET,
 	PROP_SHOW_HORIZONTAL_SCROLLBAR,
 	PROP_SHOW_VERTICAL_SCROLLBAR,
 	PROP_SHOW_NOTEBOOK_TABS,
@@ -501,25 +503,50 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 	GnmValue	*v;
 	SheetView	*sv;
 	GnmExprTop const *texpr;
+	GnmRange        r;
+	GString *str;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 
 	sv = wb_view_cur_sheet_view (wbv);
 	if (wbv->current_sheet == NULL ||
-	    wbv->auto_expr_func == NULL ||
 	    sv == NULL)
 		return;
 
-	sv_selection_apply (sv, &accumulate_regions, FALSE, &selection);
-
-	texpr = gnm_expr_top_new
-		(gnm_expr_new_funcall (wbv->auto_expr_func, selection));
+	if (wbv->auto_expr_sheet != NULL &&
+	    wbv->auto_expr_descr != NULL &&
+	    wbv->auto_expr_cell.row >= 0 &&
+	    wbv->auto_expr_cell.col >= 0) {
+		/* We need to check that wbv->auto_expr_sheet is still valid */
+		GSList *sheets = workbook_sheets (wbv->wb);
+		if (g_slist_find (sheets, wbv->auto_expr_sheet) == NULL) {
+			v = value_new_error_REF (NULL);
+			str = g_string_new ("?!");
+		} else {
+			range_init_cellpos (&r, &wbv->auto_expr_cell);
+			v = value_new_cellrange_r (wbv->auto_expr_sheet, &r);
+			if (strlen (wbv->auto_expr_sheet->name_unquoted) < 8) {
+				str = g_string_new 
+					(wbv->auto_expr_sheet->name_unquoted);
+				g_string_append_c (str, '!');
+			} else
+				str = g_string_new ("\342\200\246!");
+		}
+		texpr = gnm_expr_top_new_constant (v);
+		g_string_append (str, wbv->auto_expr_descr);
+	} else if (wbv->auto_expr_func != NULL &&
+		   wbv->auto_expr_descr != NULL) {
+		sv_selection_apply (sv, &accumulate_regions, FALSE, &selection);
+		texpr = gnm_expr_top_new
+			(gnm_expr_new_funcall (wbv->auto_expr_func, selection));
+		str = g_string_new (wbv->auto_expr_descr);
+	} else
+		return;
 
 	eval_pos_init_sheet (&ep, wbv->current_sheet);
 	v = gnm_expr_top_eval (texpr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 
 	if (v) {
-		GString *str = g_string_new (wbv->auto_expr_descr);
 		GOFormat const *format = NULL;
 		GOFormat const *tmp_format = NULL;
 		PangoAttrList *attrs = NULL;
@@ -575,7 +602,6 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 			      "auto-expr-text", str->str,
 			      "auto-expr-attrs", attrs,
 			      NULL);
-		g_string_free (str, TRUE);
 		pango_attr_list_unref (attrs);
 		value_release (v);
 	} else {
@@ -584,7 +610,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 			      "auto-expr-attrs", NULL,
 			      NULL);
 	}
-
+	g_string_free (str, TRUE);
 	gnm_expr_top_unref (texpr);
 }
 
@@ -698,6 +724,28 @@ wb_view_auto_expr_attrs (WorkbookView *wbv, PangoAttrList *attrs)
 }
 
 static void
+wb_view_auto_expr_cell (WorkbookView *wbv, gpointer *cell)
+{
+	if (cell == NULL) {
+		wbv->auto_expr_cell.col = -1;
+		wbv->auto_expr_cell.row = -1;
+	} else {
+		wbv->auto_expr_cell = *((GnmCellPos *)cell);
+		wb_view_auto_expr_recalc (wbv);
+	}
+}
+
+static void
+wb_view_auto_expr_sheet (WorkbookView *wbv, gpointer *sheet)
+{
+	wbv->auto_expr_sheet = (Sheet *)sheet;
+
+	if (sheet != NULL)
+		wb_view_auto_expr_recalc (wbv);
+}
+
+
+static void
 wb_view_set_property (GObject *object, guint property_id,
 		      const GValue *value, GParamSpec *pspec)
 {
@@ -718,6 +766,12 @@ wb_view_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_AUTO_EXPR_ATTRS:
 		wb_view_auto_expr_attrs (wbv, g_value_peek_pointer (value));
+		break;
+	case PROP_AUTO_EXPR_CELL:
+		wb_view_auto_expr_cell (wbv, g_value_get_pointer (value));
+		break;
+	case PROP_AUTO_EXPR_SHEET:
+		wb_view_auto_expr_sheet (wbv, g_value_get_pointer (value));
 		break;
 	case PROP_SHOW_HORIZONTAL_SCROLLBAR:
 		wbv->show_horizontal_scrollbar = !!g_value_get_boolean (value);
@@ -777,6 +831,12 @@ wb_view_get_property (GObject *object, guint property_id,
 		break;
 	case PROP_AUTO_EXPR_ATTRS:
 		g_value_set_boxed (value, wbv->auto_expr_attrs);
+		break;
+	case PROP_AUTO_EXPR_CELL:
+		g_value_set_pointer (value, &wbv->auto_expr_cell);
+		break;
+	case PROP_AUTO_EXPR_SHEET:
+		g_value_set_pointer (value, wbv->auto_expr_sheet);
 		break;
 	case PROP_SHOW_HORIZONTAL_SCROLLBAR:
 		g_value_set_boolean (value, wbv->show_horizontal_scrollbar);
@@ -932,6 +992,22 @@ workbook_view_class_init (GObjectClass *gobject_class)
 				     _("Text attributes for the automatically computed sheet function."),
 				     PANGO_TYPE_ATTR_LIST,
 				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_AUTO_EXPR_CELL,
+		 g_param_spec_pointer ("auto-expr-cell",
+				       _("Auto-expression Cell Position"),
+				       _("The address of the cell to be shown."),
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_AUTO_EXPR_SHEET,
+		 g_param_spec_pointer ("auto-expr-sheet",
+				       _("Auto-expression Sheet"),
+				       _("The sheet on which the cell resides."),
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
         g_object_class_install_property
 		(gobject_class,
 		 PROP_SHOW_HORIZONTAL_SCROLLBAR,
