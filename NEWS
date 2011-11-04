@@ -49,6 +49,7 @@ Andreas:
 	* Fix status of sub- and superscript buttons. [#662474]
 	* Fix name-definition in presence of placeholder. [#663117]
 	* Add 'object' option to ssconvert pdf export. [#661405]
+	* Add cell view to auto expression. [#455712]
 
 Jean:
 	* Make things build against gtk+-3.0.
@@ -78,7 +79,6 @@ Morten:
 	* Embed ui files into the Gnumeric binary.
 	* Get rid of obsolete code.
 	* Add ODF.SUMPRODUCT compatibility function.  [#662551]
-	* Add cell view to auto expression.
 
 Valek:
 	* In xls import, set LABEL encoding based on FONT charset converted to 
