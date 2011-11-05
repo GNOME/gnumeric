@@ -253,7 +253,7 @@ gnm_undo_filter_set_condition_undo (GOUndo *u, gpointer data)
 		/* This is input to ngettext. */
 		format = ngettext ("%d row matches",
 				   "%d rows match",
-				   count);		
+				   count);
 		text = g_strdup_printf (format, count);
 	}
 

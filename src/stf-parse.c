@@ -590,7 +590,7 @@ stf_parse_csv_cell (GString *text, Source_t *src, StfParseOptions_t *parseoption
 		cur = g_utf8_next_char (cur);
 	}
 
-	if (parseoptions->stringindicator != 0 && 
+	if (parseoptions->stringindicator != 0 &&
 	    g_utf8_get_char (cur) == parseoptions->stringindicator) {
 		cur = g_utf8_next_char (cur);
 		while (*cur) {

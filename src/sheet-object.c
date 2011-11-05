@@ -1279,7 +1279,7 @@ cb_so_menu_activate (GObject *menu, GocItem *view)
 	if (a->func) {
 		SheetObject *so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (view));
 		gpointer data = g_object_get_data (G_OBJECT (view->canvas), "sheet-control");
-		
+
 		if (data == NULL)
 			data = GNM_SIMPLE_CANVAS (view->canvas)->scg;
 
@@ -1323,7 +1323,7 @@ sheet_object_build_menu (SheetObjectView *view,
 			g_object_set_data (G_OBJECT (item), "action", (gpointer)a);
 			g_signal_connect_object (G_OBJECT (item), "activate",
 				G_CALLBACK (cb_so_menu_activate), view, 0);
-			gtk_widget_set_sensitive (item, a->enable_func == NULL 
+			gtk_widget_set_sensitive (item, a->enable_func == NULL
 						  || a->enable_func (sheet_object_view_get_so (view)));
 		}
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
@@ -1384,7 +1384,7 @@ sheet_object_view_button_pressed (GocItem *item, int button, double x, double y)
 				return FALSE;
 			}
 
-			menu = sheet_object_build_menu 
+			menu = sheet_object_build_menu
 				(sheet_object_get_view (so, (SheetObjectViewContainer *) item->canvas),
 				 actions, &i);
 			g_object_set_data_full (G_OBJECT (menu), "actions", actions,

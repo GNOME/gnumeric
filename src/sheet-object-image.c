@@ -318,7 +318,7 @@ gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 		        "crop-right", soi->crop_right,
 		        "crop-top", soi->crop_top,
 			NULL));
-		
+
 	} else {
 		GdkPixbuf *pixbuf, *placeholder = NULL;
 

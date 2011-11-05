@@ -2373,7 +2373,7 @@ gnm_pane_display_object_menu (GnmPane *pane, SheetObject *so, GdkEvent *event)
 		return;
 	}
 
-	menu = sheet_object_build_menu 
+	menu = sheet_object_build_menu
 		(sheet_object_get_view (so, (SheetObjectViewContainer *) pane),
 		 actions, &i);
 	g_object_set_data_full (G_OBJECT (menu), "actions", actions,

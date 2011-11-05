@@ -182,7 +182,7 @@ name_guru_warn (NameGuruState *state,
 }
 
 static gboolean
-cb_name_guru_show_all (G_GNUC_UNUSED GtkTreeModel *model, 
+cb_name_guru_show_all (G_GNUC_UNUSED GtkTreeModel *model,
 		       G_GNUC_UNUSED GtkTreePath *path,
 		       GtkTreeIter *iter, gpointer data)
 {
@@ -206,7 +206,7 @@ name_guru_erase_search_entry (GtkEntry *entry,
 }
 
 static gboolean
-cb_name_guru_search (GtkTreeModel *model, 
+cb_name_guru_search (GtkTreeModel *model,
 		     G_GNUC_UNUSED GtkTreePath *path,
 		     GtkTreeIter *iter, gpointer data)
 {
@@ -891,7 +891,7 @@ name_guru_check_expression (NameGuruState *state, gchar *text,
 
 
 static void
-cb_name_guru_content_edited 
+cb_name_guru_content_edited
 (G_GNUC_UNUSED GnumericCellRendererExprEntry *cell,
  gchar               *path_string,
  gchar               *new_text,
@@ -971,7 +971,7 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 		if ((type == item_type_new_unsaved_wb_name &&
 		     scope == NULL) ||
 		    (type == item_type_new_unsaved_sheet_name)) {
-			go_gtk_notice_dialog 
+			go_gtk_notice_dialog
 				(GTK_WINDOW (state->dialog),
 				 GTK_MESSAGE_ERROR,
 				 _("This name is already in use!"));

@@ -571,7 +571,7 @@ html_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_context,
 
 /* Quick and dirty html probe. */
 gboolean
-html_file_probe (G_GNUC_UNUSED GOFileOpener const *fo, GsfInput *input, 
+html_file_probe (G_GNUC_UNUSED GOFileOpener const *fo, GsfInput *input,
 		 G_GNUC_UNUSED GOFileProbeLevel pl)
 {
 	gsf_off_t size = 200;

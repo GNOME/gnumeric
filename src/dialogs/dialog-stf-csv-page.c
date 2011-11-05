@@ -132,7 +132,7 @@ csv_page_textindicator_change (G_GNUC_UNUSED GtkWidget *widget,
 {
 	char *textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (data->csv.csv_textfield), 0, -1);
 	gunichar str_ind = g_utf8_get_char (textfieldtext);
-	
+
 	stf_parse_options_csv_set_stringindicator (data->parseoptions, str_ind);
 	g_free (textfieldtext);
 
@@ -187,8 +187,8 @@ csv_page_parseoptions_to_gui (StfDialogData *pagedata)
 		gint len;
 		len = g_unichar_to_utf8 (po->stringindicator, buffer);
 		buffer[len] = 0;
-		gtk_combo_box_set_active_id 
-			(GTK_COMBO_BOX (pagedata->csv.csv_textindicator), 
+		gtk_combo_box_set_active_id
+			(GTK_COMBO_BOX (pagedata->csv.csv_textindicator),
 			 buffer);
 	}
 }

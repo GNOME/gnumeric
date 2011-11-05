@@ -1740,9 +1740,9 @@ gnm_style_get_pango_height (GnmStyle const *style,
 		if (!go_format_is_general (fmt)) {
 			GOFormatDetails details;
 			go_format_get_details (fmt, &details, NULL);
-			if (details.family == GO_FORMAT_SCIENTIFIC && 
+			if (details.family == GO_FORMAT_SCIENTIFIC &&
 			    details.use_markup) {
-				PangoAttribute *a 
+				PangoAttribute *a
 					= go_pango_attr_superscript_new (TRUE);
 				/* We want to superscript the "-01" in the */
 				/* string "+1.23456789E-01" */

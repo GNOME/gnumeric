@@ -597,7 +597,7 @@ static struct {
  */
 static void
 render_opcode (GString *target, char /* non-const */ *opcode,
-	       HFRenderInfo *info, 
+	       HFRenderInfo *info,
 	       G_GNUC_UNUSED HFRenderType render_type)
 {
 	char *args;
@@ -711,7 +711,7 @@ hf_render_info_destroy (HFRenderInfo *hfi)
 }
 
 static void
-pdf_write_workbook (G_GNUC_UNUSED GOFileSaver const *fs, 
+pdf_write_workbook (G_GNUC_UNUSED GOFileSaver const *fs,
 		    G_GNUC_UNUSED GOIOContext *context,
 		    WorkbookView const *wbv, GsfOutput *output)
 {
@@ -821,7 +821,7 @@ cb_set_pdf_option (const char *key, const char *value,
 
 		return FALSE;
 	}
-	
+
 	if (strcmp (key, "paper") == 0) {
 		int i;
 		if (strcmp (value, "fit") == 0) {

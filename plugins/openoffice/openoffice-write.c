@@ -376,7 +376,7 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 		} else
 			gsf_xml_out_add_cstr (state->xml, TEXT "style-name", "AC-script");
 		spans += 1;
-		break; 
+		break;
 	case PANGO_ATTR_STYLE :
 		spans += 1;
 		gsf_xml_out_start_element (state->xml, TEXT "span");
@@ -439,14 +439,14 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 /* 			((c->blue & 0xff00) >> 8)); */
 		break;/* ignored */
 	default :
-		if (a->klass->type == 
+		if (a->klass->type ==
 		    go_pango_attr_subscript_get_type ()) {
 			gsf_xml_out_start_element (state->xml, TEXT "span");
 			gsf_xml_out_add_cstr (state->xml, TEXT "style-name",
 					      ((GOPangoAttrSubscript *)a)->val ?
 					      "AC-subscript" : "AC-script");
 			spans += 1;
-		} else if (a->klass->type == 
+		} else if (a->klass->type ==
 			   go_pango_attr_superscript_get_type ()) {
 			gsf_xml_out_start_element (state->xml, TEXT "span");
 			gsf_xml_out_add_cstr (state->xml, TEXT "style-name",
@@ -6268,10 +6268,10 @@ odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 			= gnm_go_data_get_expr (interval);
 		if (texpr != NULL &&
 		    GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT) {
-			double val = value_get_as_float 
+			double val = value_get_as_float
 				(texpr->expr->constant.value);
-			gsf_xml_out_add_float 
-				(state->xml, 
+			gsf_xml_out_add_float
+				(state->xml,
 				 CHART "interval-major", val, -1);
 
 			interval = gog_dataset_get_dim (GOG_DATASET(axis),3);
@@ -6279,12 +6279,12 @@ odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 				texpr = gnm_go_data_get_expr (interval);
 				if (texpr != NULL &&
 				    GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_CONSTANT) {
-					double val_minor = value_get_as_float 
+					double val_minor = value_get_as_float
 						(texpr->expr->constant.value);
 					if (val_minor > 0)
 						gsf_xml_out_add_float
-							(state->xml, 
-							 CHART "interval-minor-divisor", 
+							(state->xml,
+							 CHART "interval-minor-divisor",
 							 val/val_minor, 0);
 				}
 			}

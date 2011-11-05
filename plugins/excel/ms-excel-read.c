@@ -384,7 +384,7 @@ ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID 
  * preceding.
  */
 static gboolean
-ms_sheet_obj_anchor_to_pos (Sheet const * sheet, 
+ms_sheet_obj_anchor_to_pos (Sheet const * sheet,
 			    G_GNUC_UNUSED MsBiffVersion const ver,
 			    guint8 const *raw_anchor,
 			    GnmRange *range, double offset[4])
@@ -2189,7 +2189,7 @@ excel_choose_border (GnmBorder *b1, GnmBorder *b2)
 	/* double > thick > medium > medium-dash > medium-dash-dot > slanted dash-dot >
 	   medium dash-dot-dot > thin > dashed > dotted > dash-dot > dash-dot-dot > hair */
 	static int choice[GNM_STYLE_BORDER_SLANTED_DASH_DOT + 1]
-		[GNM_STYLE_BORDER_SLANTED_DASH_DOT + 1] 
+		[GNM_STYLE_BORDER_SLANTED_DASH_DOT + 1]
 		= { { 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },  /* GNM_STYLE_BORDER_NONE */
 		    { 1,0,0,1,1,0,0,1,0,1,0,1,0,0 },  /* GNM_STYLE_BORDER_THIN */
 		    { 1,1,0,1,1,0,0,1,1,1,1,1,1,1 },  /* GNM_STYLE_BORDER_MEDIUM */
@@ -2232,46 +2232,46 @@ excel_set_xf (ExcelReadSheet *esheet, BiffQuery *q)
 		GnmBorder   *top_b, *left_b;
 
 		sheet_style_set_pos (sheet, col, row, mstyle);
-		
+
 		/* In Excel & Gnumeric generated xls-files we do not have a conflict   */
 		/* between borders of adjacent cells, but according to bug #660605     */
 		/* there are xls files in the wild that have a conflict. We need to    */
 		/* resolve these conflicts to ensure consistent behaviour when we edit */
 		/* borders and to provide the expected border appearance.              */
-		
+
 		top_b = gnm_style_get_border (mstyle, MSTYLE_BORDER_TOP);
 		left_b = gnm_style_get_border (mstyle, MSTYLE_BORDER_LEFT);
 
-		if ((row > 0 && top_b != NULL && top_b->line_type != GNM_STYLE_BORDER_NONE) || 
+		if ((row > 0 && top_b != NULL && top_b->line_type != GNM_STYLE_BORDER_NONE) ||
 		    (col > 0 && left_b != NULL && left_b->line_type != GNM_STYLE_BORDER_NONE)) {
 			GnmBorder **overlay = g_new0 (GnmBorder *, GNM_STYLE_BORDER_EDGE_MAX);
 			GnmRange range;
 
-			if (row > 0 && 
+			if (row > 0 &&
 			    top_b != NULL && top_b->line_type != GNM_STYLE_BORDER_NONE) {
 				GnmStyle const *previous = sheet_style_get (sheet, col, row - 1);
 				if (previous != NULL) {
-					GnmBorder *prev_b = gnm_style_get_border 
+					GnmBorder *prev_b = gnm_style_get_border
 						(previous, MSTYLE_BORDER_BOTTOM);
-					if (prev_b != NULL && 
+					if (prev_b != NULL &&
 					    prev_b->line_type != GNM_STYLE_BORDER_NONE &&
 					    prev_b->line_type != top_b->line_type)
-						overlay[GNM_STYLE_BORDER_TOP] = 
-							gnm_style_border_ref 
+						overlay[GNM_STYLE_BORDER_TOP] =
+							gnm_style_border_ref
 							 (excel_choose_border (top_b, prev_b));
 				}
 			}
-			if (col > 0 && 
+			if (col > 0 &&
 			    left_b != NULL && left_b->line_type != GNM_STYLE_BORDER_NONE) {
 				GnmStyle const *previous = sheet_style_get (sheet, col - 1, row);
 				if (previous != NULL) {
-					GnmBorder *prev_b = gnm_style_get_border 
+					GnmBorder *prev_b = gnm_style_get_border
 						(previous, MSTYLE_BORDER_RIGHT);
-					if (prev_b != NULL && 
+					if (prev_b != NULL &&
 					    prev_b->line_type != GNM_STYLE_BORDER_NONE &&
 					    prev_b->line_type != left_b->line_type)
-						overlay[GNM_STYLE_BORDER_LEFT] = 
-							gnm_style_border_ref 
+						overlay[GNM_STYLE_BORDER_LEFT] =
+							gnm_style_border_ref
 							 (excel_choose_border (left_b, prev_b));
 				}
 			}
@@ -3247,7 +3247,7 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 			add_attr (attrs, go_pango_attr_superscript_new (FALSE));
 			break;
 		case GO_FONT_SCRIPT_SUPER:
-			add_attr (attrs, go_pango_attr_superscript_new (TRUE));			
+			add_attr (attrs, go_pango_attr_superscript_new (TRUE));
 			break;
 		}
 

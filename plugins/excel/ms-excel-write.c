@@ -2030,13 +2030,13 @@ excel_font_overlay_pango (ExcelWriteFont *efont, GSList *pango)
 			efont->color = ((c->blue & 0xff00) << 8) + (c->green & 0xff00) + (c->red >> 8);
 			break;
 		default :
-			if (attr->klass->type == 
+			if (attr->klass->type ==
 			    go_pango_attr_subscript_get_type ())
-				efont->script = ((GOPangoAttrSubscript *)attr)->val 
+				efont->script = ((GOPangoAttrSubscript *)attr)->val
 					? 2 : 0;
-			else if (attr->klass->type == 
+			else if (attr->klass->type ==
 				 go_pango_attr_superscript_get_type ())
-				efont->script = ((GOPangoAttrSuperscript *)attr)->val 
+				efont->script = ((GOPangoAttrSuperscript *)attr)->val
 					? 1 : 0;
 			break; /* ignored */
 		}

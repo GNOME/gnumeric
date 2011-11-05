@@ -1024,7 +1024,7 @@ oo_attr_distance (GsfXMLIn *xin, xmlChar const * const *attrs,
 
 static gboolean
 oo_attr_percent_or_distance (GsfXMLIn *xin, xmlChar const * const *attrs,
-			     int ns_id, char const *name, gnm_float *res, 
+			     int ns_id, char const *name, gnm_float *res,
 			     gboolean *found_percent)
 {
 	char *end;
@@ -3137,8 +3137,8 @@ oo_cell_content_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (VALUE_IS_STRING (state->curr_cell->value)) {
 			/* embedded newlines stored as a series of <p> */
 			GnmValue *v;
-			v = value_new_string_str 
-				(go_string_new_nocopy 
+			v = value_new_string_str
+				(go_string_new_nocopy
 				 (g_strconcat (state->curr_cell->value->v_str.val->str, "\n", NULL)));
 			gnm_cell_assign_value (state->curr_cell, v);
 			oo_update_data_extent (state, 1, 1);
@@ -3146,7 +3146,7 @@ oo_cell_content_start (GsfXMLIn *xin, xmlChar const **attrs)
        }
 }
 
-static void 
+static void
 oo_add_text_to_cell (OOParseState *state, char const *str)
 {
 	GnmValue *v = NULL;
@@ -3159,8 +3159,8 @@ oo_add_text_to_cell (OOParseState *state, char const *str)
 			GOFormat *fmt = state->curr_cell->value->v_str.fmt;
 			if (fmt != NULL)
 				go_format_ref (fmt);
-			v = value_new_string_str 
-				(go_string_new_nocopy 
+			v = value_new_string_str
+				(go_string_new_nocopy
 				 (g_strconcat (state->curr_cell->value->v_str.val->str,
 					       str, NULL)));
 			if (fmt != NULL) {
@@ -3184,11 +3184,11 @@ oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		if (state->curr_cell == NULL) {
 			int max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
 			int max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
-			
+
 			if (state->pos.eval.col >= max_cols ||
 			    state->pos.eval.row >= max_rows)
 				return;
-			
+
 			state->curr_cell = sheet_cell_fetch (state->pos.sheet,
 						 state->pos.eval.col,
 						 state->pos.eval.row);
@@ -3216,7 +3216,7 @@ oo_cell_content_span_start (GsfXMLIn *xin, xmlChar const **attrs)
 			state->p_content_offset = strlen (xin->content->str);
 		}
 
-		ssi->start = VALUE_IS_STRING (state->curr_cell->value) ? 
+		ssi->start = VALUE_IS_STRING (state->curr_cell->value) ?
 			strlen (state->curr_cell->value->v_str.val->str) : 0;
 
 		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -3227,7 +3227,7 @@ oo_cell_content_span_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
-static gboolean            
+static gboolean
 oo_pango_set_end (PangoAttribute *attribute, gpointer data)
 {
 	attribute->end_index = GPOINTER_TO_INT (data);
@@ -3254,7 +3254,7 @@ oo_apply_character_style (GsfXMLIn *xin, OOParseState *state, char *name, int st
 		pango_attr_list_filter (attrs, (PangoAttrFilterFunc) oo_pango_set_end, GINT_TO_POINTER (end - start));
 
 		if (state->curr_cell->value->v_str.fmt != NULL) {
-			old = pango_attr_list_copy 
+			old = pango_attr_list_copy
 				((PangoAttrList *)go_format_get_markup (state->curr_cell->value->v_str.fmt));
 		} else
 			old = pango_attr_list_new ();
@@ -3282,7 +3282,7 @@ oo_cell_content_span_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			state->p_content_offset = strlen (xin->content->str);
 		}
 
-		end = VALUE_IS_STRING (state->curr_cell->value) ? 
+		end = VALUE_IS_STRING (state->curr_cell->value) ?
 			strlen (state->curr_cell->value->v_str.val->str) : 0;
 
 		ssi = state->span_style_stack->data;
@@ -3307,8 +3307,8 @@ oo_cell_content_special (GsfXMLIn *xin, int count, char const *sym)
 			oo_add_text_to_cell (state, xin->content->str + state->p_content_offset);
 			state->p_content_offset = strlen (xin->content->str);
 		}
-		
-		if (count == 1) 
+
+		if (count == 1)
 			oo_add_text_to_cell (state, sym);
 		else if (count > 0) {
 			gchar *space = g_strnfill (count, *sym);
@@ -3322,7 +3322,7 @@ static void
 oo_cell_content_space (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	int count = 0;
-	
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_int_range (xin, attrs, OO_NS_TEXT, "c", &count, 0, INT_MAX))
 		       ;
@@ -3343,13 +3343,13 @@ oo_cell_content_link (GsfXMLIn *xin, xmlChar const **attrs)
 	char const *tip = _("Left click once to follow this link.\n"
 			    "Middle click once to select this cell");
 	GnmHLink *hlink = NULL;
-	
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_XLINK, "href"))
 			link = CXML2C (attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_OFFICE, "title"))
 			tip = CXML2C (attrs[1]);
-	
+
 	if (link != NULL) {
 		GnmStyle *style;
 		GType type;
@@ -3706,7 +3706,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 		if (name != NULL)
 			g_hash_table_replace (state->styles.text,
 					      g_strdup (name), pango_attr_list_ref (state->cur_style.text));
-		
+
 		break;
 	case OO_STYLE_CELL:
 		style = (parent_name != NULL)
@@ -5842,9 +5842,9 @@ oo_prop_list_apply_to_axis (OOParseState *state, GSList *props, GObject *obj)
 		else if (0 == strcmp ("interval-major", prop->name))
 			interval_major = g_value_get_double (&prop->value);
 		else if (0 == strcmp ("interval-minor-divisor", prop->name))
-			interval_minor_divisor 
+			interval_minor_divisor
 				= g_value_get_double (&prop->value);
-		
+
 	}
 
 	gog_axis_set_bounds (GOG_AXIS (obj), minimum, maximum);
@@ -5856,8 +5856,8 @@ oo_prop_list_apply_to_axis (OOParseState *state, GSList *props, GObject *obj)
 		gog_dataset_set_dim (GOG_DATASET (obj), 2, data, NULL);
 		if (interval_minor_divisor > 0) {
 			data = gnm_go_data_scalar_new_expr
-				(state->chart.src_sheet, 
-				 gnm_expr_top_new_constant 
+				(state->chart.src_sheet,
+				 gnm_expr_top_new_constant
 				 (value_new_float (interval_major/
 						   interval_minor_divisor)));
 			gog_dataset_set_dim (GOG_DATASET (obj), 3, data, NULL);
@@ -6030,9 +6030,9 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				oo_prop_new_double ("interval-major", ftmp));
 		} else if (oo_attr_float (xin, attrs, OO_NS_CHART,
 					  "interval-minor-divisor", &ftmp)) {
-			style->axis_props = g_slist_prepend 
+			style->axis_props = g_slist_prepend
 				(style->axis_props,
-				 oo_prop_new_double ("interval-minor-divisor", 
+				 oo_prop_new_double ("interval-minor-divisor",
 						     ftmp));
 		} else if (oo_attr_float (xin, attrs, OO_GNUM_NS_EXT,
 					  "radius-ratio", &ftmp)) {
@@ -6387,14 +6387,14 @@ od_style_prop_text (GsfXMLIn *xin, xmlChar const **attrs)
 				attr->end_index = 0;
 				pango_attr_list_insert (state->cur_style.text, attr);
 			}
-		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-underline-style", 
+		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-underline-style",
 					 underline_styles, &underline_style)) {
-		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-underline-type", 
+		} else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-underline-type",
 					 underline_types, &underline_type)) {
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       OO_NS_STYLE, "text-underline-width"))
 			underline_bold = attr_eq (attrs[1], "bold");
-		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-line-through-style", 
+		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-line-through-style",
 				       line_through_styles, &tmp)) {
 				attr = pango_attr_strikethrough_new (tmp > 0);
 				attr->start_index = 0;
@@ -6415,7 +6415,7 @@ od_style_prop_text (GsfXMLIn *xin, xmlChar const **attrs)
 		else
 			underline = PANGO_UNDERLINE_SINGLE;
 
-		attr = 	pango_attr_underline_new (underline);	
+		attr = 	pango_attr_underline_new (underline);
 		attr->start_index = 0;
 		attr->end_index = 0;
 		pango_attr_list_insert (state->cur_style.text, attr);
@@ -10461,7 +10461,7 @@ identified_google_docs (GsfInfile *zip)
 	/* As of 2011/10/1 google-docs does not store any generator info so */
 	/* we cannot use that for identification */
 	gboolean google_docs = FALSE;
-	GsfInput *content = gsf_infile_child_by_name 
+	GsfInput *content = gsf_infile_child_by_name
 		(zip, "content.xml");
 	if (content) {
 		/* pick arbitrary size limit of 0.5k for the manifest to avoid
@@ -10469,8 +10469,8 @@ identified_google_docs (GsfInfile *zip)
 		size_t size = MIN (gsf_input_size (content), 512);
 		char const *mf = gsf_input_read (content, size, NULL);
 		if (mf)
-			google_docs = 
-				(NULL != g_strstr_len 
+			google_docs =
+				(NULL != g_strstr_len
 				 (mf, -1,
 				  "urn:oasis:names:tc:opendocument:xmlns:office:1.0"));
 		g_object_unref (content);
@@ -10488,7 +10488,7 @@ determine_oo_version (GsfInfile *zip, OOVer def)
 		/* Google-docs is the mimetype so we need to check that */
 		if (identified_google_docs (zip))
 			return OOO_VER_OPENDOC;
-		/* Really old versions also had no mimetype.  Allow that, 
+		/* Really old versions also had no mimetype.  Allow that,
 		   except in the probe.  */
 		return def;
 	}

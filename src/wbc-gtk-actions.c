@@ -1625,7 +1625,7 @@ toggle_font_attr (WBCGtk *wbcg, GtkToggleAction *act,
 			switch (val) {
 			default:
 			case GO_FONT_SCRIPT_STANDARD:
-				wbcg_edit_add_markup 
+				wbcg_edit_add_markup
 					(wbcg, go_pango_attr_superscript_new (FALSE));
 				attr = go_pango_attr_subscript_new (FALSE);
 				break;

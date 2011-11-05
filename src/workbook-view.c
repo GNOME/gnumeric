@@ -526,7 +526,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 			range_init_cellpos (&r, &wbv->auto_expr_cell);
 			v = value_new_cellrange_r (wbv->auto_expr_sheet, &r);
 			if (strlen (wbv->auto_expr_sheet->name_unquoted) < 8) {
-				str = g_string_new 
+				str = g_string_new
 					(wbv->auto_expr_sheet->name_unquoted);
 				g_string_append_c (str, '!');
 			} else

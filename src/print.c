@@ -830,7 +830,7 @@ compute_scale_fit_to (Sheet const *sheet,
 #define ROW_FIT(row) (MIN (row, gnm_sheet_get_last_row (sheet)))
 
 static void
-compute_sheet_pages_add_sheet (PrintingInstance * pi, Sheet const *sheet, 
+compute_sheet_pages_add_sheet (PrintingInstance * pi, Sheet const *sheet,
 			       gboolean selection,
 			       gboolean ignore_printarea)
 {
@@ -885,7 +885,7 @@ print_get_sheet_page_range (PrintingInstance *pi, guint page_no)
 						  PaginationInfo, col));
 			r_info = &(g_array_index (spi->row_pagination,
 						  PaginationInfo, row));
-			range_init (&gsr->range, 
+			range_init (&gsr->range,
 				    COL_FIT (c_info->rc), ROW_FIT (r_info->rc),
 				    COL_FIT (c_info->rc + c_info->count - 1),
 				    ROW_FIT (r_info->rc + r_info->count - 1));
@@ -922,9 +922,9 @@ compute_sheet_pages (GtkPrintContext   *context,
 	gdouble top_margin, bottom_margin, edge_to_below_header, edge_to_above_footer;
 	gdouble px, py;
 	gdouble usable_x, usable_y;
-	GArray *column_pagination = g_array_sized_new 
+	GArray *column_pagination = g_array_sized_new
 		(FALSE, TRUE, sizeof (PaginationInfo), 100);
-	GArray *row_pagination = g_array_sized_new 
+	GArray *row_pagination = g_array_sized_new
 		(FALSE, TRUE, sizeof (PaginationInfo), 100);
 	gboolean repeat_top_use, repeat_left_use;
 	int repeat_top_start, repeat_top_end, repeat_left_start, repeat_left_end;
@@ -1169,7 +1169,7 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 		if (g_list_nth_data (pi->gnmSheets, paginate - 1) != NULL) {
 			GList *l;
 			gint n_pages = 0;
-		
+
 			for (l = pi->gnmSheets; l != NULL; l = l->next) {
 				SheetPrintInfo *spi = l->data;
 				n_pages += spi->pages;
@@ -1178,7 +1178,7 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 			if (pi->preview && n_pages > 1000) {
 				int i, count = 0;
 
-				gtk_print_operation_set_n_pages 
+				gtk_print_operation_set_n_pages
 					(operation, n_pages == 0 ? 1 : n_pages);
 				for (i = 0; i < n_pages; i++) {
 					if (gtk_print_operation_preview_is_selected
@@ -1188,9 +1188,9 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 					if (count > 1000)
 						break;
 				}
-				if (count > 1000 && !go_gtk_query_yes_no 
-				    (pi->progress != NULL ? 
-				     GTK_WINDOW (pi->progress) : wbcg_toplevel (WBC_GTK (pi->wbc)), 
+				if (count > 1000 && !go_gtk_query_yes_no
+				    (pi->progress != NULL ?
+				     GTK_WINDOW (pi->progress) : wbcg_toplevel (WBC_GTK (pi->wbc)),
 				     FALSE, "%s",
 				     _("You have chosen more than 1000 pages to preview. "
 				       "This may take a long time. "
@@ -1216,7 +1216,7 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 	return FALSE;
 }
 
-static void 
+static void
 cb_progress_response (G_GNUC_UNUSED GtkDialog *dialog,
 		      G_GNUC_UNUSED gint       response_id,
 		      PrintingInstance *pi)
@@ -1236,7 +1236,7 @@ cb_progress_delete (G_GNUC_UNUSED GtkWidget *widget,
 static gboolean
 gnm_ready_preview_cb (G_GNUC_UNUSED GtkPrintOperation *operation,
 		      G_GNUC_UNUSED GtkPrintOperationPreview *preview,
-		      G_GNUC_UNUSED GtkPrintContext *context, 
+		      G_GNUC_UNUSED GtkPrintContext *context,
 		      G_GNUC_UNUSED GtkWindow *parent,
 		      gpointer user_data)
 {
@@ -1285,8 +1285,8 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 	}
 
 	if (NULL != pi->wbc && IS_WBC_GTK(pi->wbc)) {
-		pi->progress = gtk_message_dialog_new (wbcg_toplevel (WBC_GTK (pi->wbc)), 
-						       GTK_DIALOG_MODAL | 
+		pi->progress = gtk_message_dialog_new (wbcg_toplevel (WBC_GTK (pi->wbc)),
+						       GTK_DIALOG_MODAL |
 						       GTK_DIALOG_DESTROY_WITH_PARENT,
 						       GTK_MESSAGE_INFO,
 						       GTK_BUTTONS_CANCEL,
@@ -1364,7 +1364,7 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 
 	PrintingInstance * pi = (PrintingInstance *) user_data;
 	SheetPageRange * gsr;
-	
+
 	if (pi->cancel) {
 		gtk_print_operation_cancel (operation);
 		g_signal_handlers_disconnect_by_func
@@ -1378,18 +1378,18 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 			char *text;
 
 			if (pi->hfi->pages == -1)
-				text = g_strdup_printf 
-					(pi->preview ? _("Creating preview of page %3d") 
+				text = g_strdup_printf
+					(pi->preview ? _("Creating preview of page %3d")
 					 : _("Printing page %3d"), page_nr);
 			else
-				text = g_strdup_printf 
-					(pi->preview ? 
+				text = g_strdup_printf
+					(pi->preview ?
 					 ngettext("Creating preview of page %3d of %3d page",
 					          "Creating preview of page %3d of %3d pages",
-					          pi->hfi->pages) 
+					          pi->hfi->pages)
 					 : ngettext("Printing page %3d of %3d page",
 					            "Printing page %3d of %3d pages",
-					            pi->hfi->pages), 
+					            pi->hfi->pages),
 					 page_nr, pi->hfi->pages);
 			g_object_set (G_OBJECT (pi->progress), "text", text, NULL);
 			g_free (text);
@@ -1933,7 +1933,7 @@ gnm_draw_so_page_cb (G_GNUC_UNUSED GtkPrintOperation *operation,
 	cairo_restore (cr);
 }
 
-void 
+void
 gnm_print_so (WorkbookControl *wbc, GPtrArray *sos,
 	      GsfOutput *export_dst)
 {
@@ -1970,7 +1970,7 @@ gnm_print_so (WorkbookControl *wbc, GPtrArray *sos,
 
 	gtk_print_operation_set_n_pages (print, 1);
 	gtk_print_operation_set_embed_page_setup (print, TRUE);
-	
+
 	g_signal_connect (print, "draw-page", G_CALLBACK (gnm_draw_so_page_cb), so);
 
 	gtk_print_operation_set_use_full_page (print, FALSE);
@@ -1988,7 +1988,7 @@ gnm_print_so (WorkbookControl *wbc, GPtrArray *sos,
 			if (tmp_file_fd >= 0)
 				close (tmp_file_fd);
 			cb_delete_and_free (tmp_file_name);
-			
+
 			g_object_unref (print);
 			return;
 		}
@@ -2009,7 +2009,7 @@ gnm_print_so (WorkbookControl *wbc, GPtrArray *sos,
 		if (lseek (tmp_file_fd, 0, SEEK_SET) < 0)
 			bytes_read = -1;
 		else {
-			while ((bytes_read = read 
+			while ((bytes_read = read
 				(tmp_file_fd, buffer, sizeof (buffer))) > 0) {
 				gsf_output_write (export_dst, bytes_read, buffer);
 			}
@@ -2025,5 +2025,5 @@ gnm_print_so (WorkbookControl *wbc, GPtrArray *sos,
 		cb_delete_and_free (tmp_file_name);
 	}
 
-	g_object_unref (print);	
+	g_object_unref (print);
 }

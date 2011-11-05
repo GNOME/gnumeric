@@ -75,7 +75,7 @@ gboolean      sheet_object_can_edit	 (SheetObject const *so);
 
 void	     sheet_object_get_editor	 (SheetObject *so, SheetControl *sc);
 void	     sheet_object_populate_menu  (SheetObject *so, GPtrArray *actions);
-GtkWidget *  sheet_object_build_menu     (SheetObjectView *view, 
+GtkWidget *  sheet_object_build_menu     (SheetObjectView *view,
 					  GPtrArray const *actions,
 					  unsigned *i);
 void	     sheet_object_update_bounds  (SheetObject *so, GnmCellPos const *p);

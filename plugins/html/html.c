@@ -211,13 +211,13 @@ cb_html_attrs_as_string (GsfOutput *output, PangoAttribute *a, html_version_t ve
 /* 			((c->blue & 0xff00) >> 8)); */
 		break;/* ignored */
 	default :
-		if (a->klass->type == 
+		if (a->klass->type ==
 		    go_pango_attr_subscript_get_type ()) {
 			if (((GOPangoAttrSubscript *)a)->val) {
 				gsf_output_puts (output, "<sub>");
 				closure = "</sub>";
 			}
-		} else if (a->klass->type == 
+		} else if (a->klass->type ==
 			   go_pango_attr_superscript_get_type ()) {
 			if (((GOPangoAttrSuperscript *)a)->val) {
 				gsf_output_puts (output, "<sup>");

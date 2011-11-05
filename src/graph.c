@@ -821,7 +821,7 @@ static void
 cond_pango_attr_list_unref (PangoAttrList *al)
 {
 	if (al)
-		pango_attr_list_unref (al);	
+		pango_attr_list_unref (al);
 }
 
 static gpointer

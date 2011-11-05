@@ -321,27 +321,27 @@ gnm_rendered_value_new (GnmCell const *cell,
 						      &extra_attrs);
 			font_size = pango_font_description_get_size (desc)/
 				(double)PANGO_SCALE;
-			
+
 			for (l = extra_attrs; l != NULL; l = l->next) {
 				PangoAttribute *pa = l->data;
 				if (pa->klass->type == PANGO_ATTR_RISE) {
 					PangoAttrInt *pa_rise = l->data;
 					rise = pa_rise->value;
-					
+
 				}
 				if (pa->klass->type == PANGO_ATTR_SCALE) {
 					PangoAttrFloat *pa_scale = l->data;
 					scale = pa_scale->value;
 				}
 			}
-			g_slist_free_full (extra_attrs, 
+			g_slist_free_full (extra_attrs,
 					      (GFreeFunc) pango_attribute_destroy);
 			pango_font_description_free (desc);
 			pango_attr_iterator_destroy (iter);
 
 			tscale = font_size/10. * scale;
 			if (tscale != 1|| rise != 0) {
-				markup = c_markup = pango_attr_list_copy 
+				markup = c_markup = pango_attr_list_copy
 					((PangoAttrList *)markup);
 				rv_adjust_attributes (c_markup, zoom, tscale, rise);
 			}
@@ -504,7 +504,7 @@ gnm_rendered_value_new (GnmCell const *cell,
 		g_warning ("Line justification style not supported.");
 	}
 			 /* ---------------------------------------- */
-	
+
 	go_pango_translate_layout (layout);
 	gnm_rendered_value_remeasure (res);
 

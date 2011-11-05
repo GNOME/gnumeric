@@ -4742,10 +4742,10 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
 	item = gtk_menu_item_new_with_label(cell_item);
 	g_free (cell_item);
 	g_object_set_data_full (G_OBJECT (item),
-				"descr", (gpointer)g_strdup (rname), 
+				"descr", (gpointer)g_strdup (rname),
 				(GDestroyNotify)g_free);
 	g_object_set_data_full (G_OBJECT (item),
-				"cell", (gpointer)r, 
+				"cell", (gpointer)r,
 				(GDestroyNotify)g_free);
 	g_object_set_data (G_OBJECT (item),
 			   "sheet", (gpointer)sheet);
