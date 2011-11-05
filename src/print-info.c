@@ -25,6 +25,8 @@
 #include "workbook-view.h"
 #include "gnumeric-conf.h"
 #include "parse-util.h"
+#include "sheet-object.h"
+#include "sheet-object-graph.h"
 
 #include <goffice/goffice.h>
 
@@ -162,7 +164,7 @@ load_formats (void)
 		{ N_("Page &[PAGE]"), N_("&[TAB]"),                   N_("&[DATE]") },
 		{ "",                 N_("&[DATE]"),                  "" },
 		{ N_("&[TAB]"),       N_("Page &[PAGE] of &[PAGES]"), N_("&[DATE]") },
-		{ NULL, }
+		{ NULL, NULL, NULL }
 	};
 
 	/* Fetch header/footer formats */
@@ -493,7 +495,7 @@ render_cell (GString *target, HFRenderInfo *info, char const *args)
 }
 
 static void
-render_tab (GString *target, HFRenderInfo *info, char const *args)
+render_tab (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args)
 {
 	if (info->sheet)
 		g_string_append (target, info->sheet->name_unquoted);
@@ -502,13 +504,13 @@ render_tab (GString *target, HFRenderInfo *info, char const *args)
 }
 
 static void
-render_page (GString *target, HFRenderInfo *info, char const *args)
+render_page (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args)
 {
 	g_string_append_printf (target, "%d", info->page);
 }
 
 static void
-render_pages (GString *target, HFRenderInfo *info, char const *args)
+render_pages (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args)
 {
 	g_string_append_printf (target, "%d", info->pages);
 }
@@ -551,7 +553,7 @@ render_time (GString *target, HFRenderInfo *info, char const *args)
 }
 
 static void
-render_file (GString *target, HFRenderInfo *info, char const *args)
+render_file (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args)
 {
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
 		char *name = go_basename_from_uri (
@@ -563,7 +565,7 @@ render_file (GString *target, HFRenderInfo *info, char const *args)
 }
 
 static void
-render_path (GString *target, HFRenderInfo *info, char const *args)
+render_path (GString *target, HFRenderInfo *info, G_GNUC_UNUSED char const *args)
 {
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
 		char *path = go_dirname_from_uri (
@@ -587,7 +589,7 @@ static struct {
 	{ N_("file"),  render_file  , NULL},
 	{ N_("path"),  render_path  , NULL},
 	{ N_("cell"),  render_cell  , NULL},
-	{ NULL },
+	{ NULL , NULL, NULL},
 };
 /*
  * Renders an opcode.  The opcodes can take an argument by adding trailing ':'
@@ -595,7 +597,8 @@ static struct {
  */
 static void
 render_opcode (GString *target, char /* non-const */ *opcode,
-	       HFRenderInfo *info, HFRenderType render_type)
+	       HFRenderInfo *info, 
+	       G_GNUC_UNUSED HFRenderType render_type)
 {
 	char *args;
 	char *opcode_trans;
@@ -708,7 +711,8 @@ hf_render_info_destroy (HFRenderInfo *hfi)
 }
 
 static void
-pdf_write_workbook (GOFileSaver const *fs, GOIOContext *context,
+pdf_write_workbook (G_GNUC_UNUSED GOFileSaver const *fs, 
+		    G_GNUC_UNUSED GOIOContext *context,
 		    WorkbookView const *wbv, GsfOutput *output)
 {
 	Workbook const *wb = wb_view_get_workbook (wbv);
@@ -737,12 +741,21 @@ pdf_export (GOFileSaver const *fs, GOIOContext *context,
 {
 	WorkbookView const *wbv = wbv_;
 	Workbook const *wb = wb_view_get_workbook (wbv);
-	GPtrArray *sheets = g_object_get_data (G_OBJECT (wb), "pdf-sheets");
 	GPtrArray *objects = g_object_get_data (G_OBJECT (wb), "pdf-objects");
 
-	if (objects && objects->len > 0)
-		gnm_print_so (NULL, objects, output);
-	else
+	if (objects && objects->len > 0) {
+		gpointer object_fit = g_object_get_data (G_OBJECT (wb), "pdf-object-fit");
+		if (object_fit != NULL && GPOINTER_TO_INT (object_fit) == 1
+		    && IS_SHEET_OBJECT_GRAPH (g_ptr_array_index (objects, 0))) {
+			GError *err = NULL;
+			sheet_object_write_image (g_ptr_array_index (objects, 0), "pdf", 150., output, &err);
+			if (err != NULL) {
+				go_io_error_push (context, go_error_info_new_str (err->message));
+				g_error_free (err);
+			}
+		} else
+			gnm_print_so (NULL, objects, output);
+	} else
 		pdf_write_workbook (fs, context, wbv, output);
 }
 
@@ -811,8 +824,10 @@ cb_set_pdf_option (const char *key, const char *value,
 	
 	if (strcmp (key, "paper") == 0) {
 		int i;
-
-		for (i = 0; i < workbook_sheet_count (wb); i++) {
+		if (strcmp (value, "fit") == 0) {
+			g_object_set_data (G_OBJECT (wb),
+					   "pdf-object-fit", GINT_TO_POINTER (1));
+		} else for (i = 0; i < workbook_sheet_count (wb); i++) {
 			Sheet *sheet = workbook_sheet_by_index (wb, i);
 			if (print_info_set_paper (sheet->print_info, value)) {
 				*err = g_error_new (go_error_invalid (), 0,
@@ -832,11 +847,11 @@ cb_set_pdf_option (const char *key, const char *value,
 }
 
 static gboolean
-pdf_set_export_options (GOFileSaver *fs,
+pdf_set_export_options (G_GNUC_UNUSED GOFileSaver *fs,
 			GODoc *doc,
 			const char *options,
 			GError **err,
-			gpointer user)
+			G_GNUC_UNUSED gpointer user)
 {
 	return go_parse_key_value (options, err, cb_set_pdf_option, doc);
 }
@@ -1044,9 +1059,9 @@ known_bad_paper (const char *paper)
 
 
 static void
-paper_log_func (const gchar   *log_domain,
+paper_log_func (G_GNUC_UNUSED const gchar   *log_domain,
 		GLogLevelFlags log_level,
-		const gchar   *message,
+		G_GNUC_UNUSED const gchar   *message,
 		gpointer       user_data)
 {
 	int *pwarn = user_data;

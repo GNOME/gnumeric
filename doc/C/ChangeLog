@@ -1,5 +1,9 @@
 2011-11-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* ssconvert.1: add new 'paper=fit' option for pdf exporter
+
+2011-11-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* ssconvert.1: add new 'object' option for pdf exporter
 
 2011-08-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>

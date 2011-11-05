@@ -2,7 +2,7 @@
 \\$2 \(laURL: \\$1 \(ra\\$3
 ..
 .if \n[.g] .mso www.tmac
-.TH SSCONVERT 1 "2010-09-14" "gnumeric" "GNOME"
+.TH SSCONVERT 1 "2011-11-04" "gnumeric" "GNOME"
 .SH NAME
 ssconvert \- a command line spreadsheet format converter
 
@@ -244,7 +244,9 @@ Only the first \fBobject\fR given is exported.
 .TP
 .B paper
 Paper size. Valid values include "\fBA4\fR" for ISO A4 and
-"\fBna_letter_8.5x11in\fR" for US Letter.
+"\fBna_letter_8.5x11in\fR" for US Letter. If an individual graph is specified through the
+\fBobject\fR option, then a paper size of "\fBfit\fR" reduces the size of the paper to the
+size of the graph.
 .\" FIXME Is there a convenient way to list all valid paper sizes?
 .\" It looks like at least the values from plugins/excel/ms-excel-read.c's
 .\" paper_size_table[] are supported.
