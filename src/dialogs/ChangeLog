@@ -1,3 +1,30 @@
+2011-11-06  Marek ÄŒernockÃ½ <marek@manet.cz>
+
+	* anova-one.ui: add context to _Columns and _Rows
+	* chi-squared.ui: ditto
+	* colrow.ui: ditto
+	* correlation.ui: ditto
+	* descriptive-stats.ui: ditto
+	* exp-smoothing.ui: ditto
+	* fourier-analysis.ui: ditto
+	* frequency.ui: ditto
+	* histogram.ui: ditto
+	* moving-averages.ui: ditto
+	* normality-tests.ui: ditto
+	* paste-special.ui: ditto
+	* principal-components.ui: ditto
+	* rank.ui: ditto
+	* sheet-resize.ui: ditto
+	* shuffle.ui: ditto
+	* sign-test.ui: ditto
+	* wilcoxon-mann-whitney.ui: ditto
+	* dialog-stf.ui:: ditto
+	* dialog-cell-format.c (underline_types): add context to underline
+	names
+	(fmt_dialog_init_font_page): ditto
+	* dialog-sheet-order.c (create_sheet_list): add context to Rows
+	and Cols
+
 2011-11-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-printer-setup.c (dialog_gtk_printer_setup_cb): do not
@@ -582,7 +609,7 @@
 
 2011-03-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* cell-format.ui: formulas -> formulæ
+	* cell-format.ui: formulas -> formulÃ¦
 	* dao.ui: ditto
 	* paste-special.ui: ditto
 
@@ -1825,14 +1852,14 @@
 	* Release 1.9.14
 
 2009-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
-	for Albert Gräf <Dr.Graef@t-online.de>
+	for Albert GrÃ¤f <Dr.Graef@t-online.de>
 
 	* so-radiobutton.glade: new
 	* Makefile.am: add so-radiobutton.glade
 	* help.h: add GNUMERIC_HELP_LINK_SO_RADIO_BUTTON
 
 2009-09-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
-	slightly modified patches from Albert Gräf <Dr.Graef@t-online.de>
+	slightly modified patches from Albert GrÃ¤f <Dr.Graef@t-online.de>
 
 	* so-button.glade: new
 	* Makefile.am: add so-button.glade
@@ -7232,7 +7259,7 @@
 
 	* Release 1.1.9
 
-2002-09-26  Lutz Müller <lutz@users.sourceforge.net>
+2002-09-26  Lutz MÃ¼ller <lutz@users.sourceforge.net>
 
 	* src/dialogs/dialog-sheet-order.c: On ok, we don't care any longer
 	  about changes in the sheet order, therefore stop listen to this

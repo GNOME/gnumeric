@@ -143,7 +143,7 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkRadioButton" id="grouped_by_col">
-                        <property name="label" translatable="yes">_Columns</property>
+                        <property name="label" translatable="yes" context="groupby" comments="Group by Columns">_Columns</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_action_appearance">False</property>
@@ -171,7 +171,7 @@
                 </child>
                 <child>
                   <object class="GtkRadioButton" id="grouped_by_row">
-                    <property name="label" translatable="yes">_Rows</property>
+                    <property name="label" translatable="yes" context="groupby" comments="Group by Rows">_Rows</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>

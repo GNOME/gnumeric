@@ -68,6 +68,9 @@ Jean:
 	* Fixed SVG images size. [#628472]
 	* Fix crash in graphs using markups. [#663216]
 
+Marek Černocký:
+        * Add some translation contexts to improve translations.
+
 Mikko Rasa:
         * Fix ODF import of certain percentage formats. [Debian #642135]
 
