@@ -458,7 +458,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 							else if (size < 6)
 								safety = 6 - size;
 
-							gtk_style_context_set_state (ctxt, next->visible ?
+							gtk_style_context_set_state (ctxt, prev_visible ?
 							                             GTK_STATE_NORMAL: GTK_STATE_SELECTED);
 							gtk_render_frame (ctxt, cr,
 								 left, top+safety, size, size);
@@ -489,7 +489,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 								safety = 6 - size;
 
 							right = (rtl ? (total + pixels) : total) - size;
-							gtk_style_context_set_state (ctxt, next->visible ?
+							gtk_style_context_set_state (ctxt, prev_visible ?
 							                             GTK_STATE_NORMAL: GTK_STATE_SELECTED);
 							gtk_render_frame (ctxt, cr,
 								 right, top+safety, size, size);
@@ -617,7 +617,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 							left = pos - dir * (.2 * inc - 2);
 							if (rtl)
 								left -= size;
-							gtk_style_context_set_state (ctxt, next->visible ?
+							gtk_style_context_set_state (ctxt, prev_visible ?
 							                             GTK_STATE_NORMAL: GTK_STATE_SELECTED);
 							gtk_render_frame (ctxt, cr,
 								left+safety, top, size, size);
@@ -650,7 +650,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 							if (rtl)
 								left -= size;
 							bottom = total - size;
-							gtk_style_context_set_state (ctxt, next->visible ?
+							gtk_style_context_set_state (ctxt, prev_visible ?
 							                             GTK_STATE_NORMAL: GTK_STATE_SELECTED);
 							gtk_render_frame (ctxt,cr,
 								 left+safety*dir, bottom, size, size);
