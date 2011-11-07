@@ -226,7 +226,7 @@ gnm_sog_new_view (SheetObject *so, SheetObjectViewContainer *container)
 }
 
 static GtkTargetList *
-gnm_sog_get_target_list (SheetObject const *so)
+gnm_sog_get_target_list (G_GNUC_UNUSED SheetObject const *so)
 {
 	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
 	char *mime_str = go_image_format_to_mime ("svg");
@@ -249,7 +249,7 @@ gnm_sog_get_target_list (SheetObject const *so)
 }
 
 static GtkTargetList *
-gnm_sog_get_object_target_list (SheetObject const *so)
+gnm_sog_get_object_target_list (G_GNUC_UNUSED SheetObject const *so)
 {
 	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
 	gtk_target_list_add (tl,
@@ -289,7 +289,7 @@ gnm_sog_write_image (SheetObject const *so, char const *format, double resolutio
 
 static void
 gnm_sog_write_object (SheetObject const *so, char const *format,
-		      GsfOutput *output, GError **err,
+		      GsfOutput *output, G_GNUC_UNUSED GError **err,
 		      GnmConventions const *convs)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
@@ -392,9 +392,9 @@ static void
 gnm_sog_populate_menu (SheetObject *so, GPtrArray *actions)
 {
 	static SheetObjectAction const sog_actions[] = {
-		{ GTK_STOCK_SAVE_AS, N_("_Save as Image"),      NULL, 0, sog_cb_save_as },
-		{ NULL,              N_("Open in _New Window"), NULL, 0, sog_cb_open_in_new_window },
-		{ NULL,              N_("Copy to New Graph S_heet"), NULL, 0, sog_cb_copy_to_new_sheet }
+		{ GTK_STOCK_SAVE_AS, N_("_Save as Image"),           NULL, 0, sog_cb_save_as,            NULL },
+		{ NULL,              N_("Open in _New Window"),      NULL, 0, sog_cb_open_in_new_window, NULL },
+		{ NULL,              N_("Copy to New Graph S_heet"), NULL, 0, sog_cb_copy_to_new_sheet,  NULL }
 	};
 
 	unsigned int i;
@@ -528,7 +528,7 @@ gnm_sog_remove_from_sheet (SheetObject *so)
 }
 
 static void
-gnm_sog_default_size (SheetObject const *so, double *w, double *h)
+gnm_sog_default_size (G_GNUC_UNUSED SheetObject const *so, double *w, double *h)
 {
 	*w = GO_CM_TO_PT ((double)12);
 	*h = GO_CM_TO_PT ((double)8);
@@ -746,9 +746,9 @@ sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 		w = gtk_combo_box_text_new ();
 		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Auto"));
 		/*Translators: Series as "Columns"*/
-		gtk_combo_box_text_append_text (GTK_COMBO_BOX (w), C_("graph", "Columns"));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), C_("graph", "Columns"));
 		/*Translators: Series as "Rows"*/
-		gtk_combo_box_text_append_text (GTK_COMBO_BOX (w), C_("graph", "Rows"));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), C_("graph", "Rows"));
 		gtk_combo_box_set_active (GTK_COMBO_BOX (w), 0);
 		g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_selection_mode_changed), data);
 		gtk_table_attach (GTK_TABLE (custom), w, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
@@ -1023,7 +1023,7 @@ bubble_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 }
 
 static void
-gnm_sogg_sax_parser_done (GsfXMLIn *xin, GuppiReadState *state)
+gnm_sogg_sax_parser_done (G_GNUC_UNUSED GsfXMLIn *xin, GuppiReadState *state)
 {
 	unsigned i;
 	GObject *obj;
