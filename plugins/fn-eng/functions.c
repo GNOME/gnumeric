@@ -35,6 +35,7 @@
 #include <sheet.h>
 
 #include <goffice/goffice.h>
+#include <gsf/gsf-utils.h>
 #include <gnm-plugin.h>
 
 #include <math.h>
@@ -1169,6 +1170,37 @@ gnumeric_gestep (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_hexrep[] = {
+        { GNM_FUNC_HELP_NAME, F_("HEXREP:hexadecimal representation of numeric value") },
+        { GNM_FUNC_HELP_ARG, F_("x:number") },
+        { GNM_FUNC_HELP_DESCRIPTION, F_("HEXREP returns a hexadecimal string representation of @x.") },
+	{ GNM_FUNC_HELP_NOTE, F_("This is a function meant for debugging.  The layout of the result may change and even depend on how Gnumeric was compiled.") },
+        { GNM_FUNC_HELP_END}
+};
+
+static GnmValue *
+gnumeric_hexrep (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float x = value_get_as_float (argv[0]);
+	unsigned char data[sizeof(gnm_float)];
+	unsigned ui;
+	char res[2 * sizeof(gnm_float) + 1];
+	static const char hex[16] = "0123456789abcdef";
+
+	/* We don't have a long double version yet.  */
+	GSF_LE_SET_DOUBLE (data, x);
+	for (ui = 0; ui < G_N_ELEMENTS (data); ui++) {
+		unsigned char b = data[ui];
+		res[2 * ui] = hex[b >> 4];
+		res[2 * ui + 1] = hex[b & 0xf];
+	}	
+	res[2 * ui] = 0;
+
+	return value_new_string (res);
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_invsuminv[] = {
         { GNM_FUNC_HELP_NAME, F_("INVSUMINV:the reciprocal of the sum of reciprocals of the arguments") },
         { GNM_FUNC_HELP_ARG, F_("x0:non-negative number") },
@@ -1285,6 +1317,10 @@ GnmFuncDescriptor const engineering_functions[] = {
         { "hex2oct",     "S|f",   help_hex2oct,
 	  gnumeric_hex2oct, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+
+        { "hexrep",     "f",   help_hexrep,
+	  gnumeric_hexrep, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
 	{ "invsuminv",    NULL,            help_invsuminv,
 	  NULL, gnumeric_invsuminv, NULL, NULL, NULL,
