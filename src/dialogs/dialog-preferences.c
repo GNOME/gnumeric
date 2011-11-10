@@ -62,7 +62,6 @@ typedef struct {
 	GtkNotebook	*notebook;
 	GtkTreeStore    *store;
 	GtkTreeView     *view;
-	GOConfNode	*root;
 	gulong          app_wb_removed_sig;
 } PrefState;
 
@@ -1324,7 +1323,6 @@ dialog_preferences (WBCGtk *wbcg, gchar const *page)
 		return;
 
 	state = g_new0 (PrefState, 1);
-	state->root = gnm_conf_get_root ();
 	state->gui = gui;
 	state->dialog = go_gtk_builder_get_widget (gui, "preferences");
 	state->notebook = (GtkNotebook*)go_gtk_builder_get_widget (gui, "notebook");
