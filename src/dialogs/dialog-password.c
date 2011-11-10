@@ -5,7 +5,7 @@
 #include <dead-kittens.h>
 
 static void
-cb_accept_password (GtkWidget *IGNORED, GtkDialog *d)
+cb_accept_password (G_GNUC_UNUSED GtkWidget *IGNORED, GtkDialog *d)
 {
 	gtk_dialog_response (d, GTK_RESPONSE_ACCEPT);
 }

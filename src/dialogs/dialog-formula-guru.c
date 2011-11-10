@@ -747,9 +747,9 @@ cb_dialog_formula_guru_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 }
 
 static void
-cb_dialog_formula_guru_editing_started (GtkCellRenderer *cell,
+cb_dialog_formula_guru_editing_started (G_GNUC_UNUSED GtkCellRenderer *cell,
 					GtkCellEditable *editable,
-					const gchar *path,
+					G_GNUC_UNUSED const gchar *path,
 					FormulaGuruState *state)
 {
 	g_object_ref (editable);
@@ -807,7 +807,7 @@ start_editing_cb (GtkTreeView      *tree_view,
 }
 
 static gboolean
-cb_dialog_formula_guru_query_tooltip (GtkWidget  *widget,
+cb_dialog_formula_guru_query_tooltip (G_GNUC_UNUSED GtkWidget  *widget,
 				      gint        x,
 				      gint        y,
 				      gboolean    keyboard_mode,

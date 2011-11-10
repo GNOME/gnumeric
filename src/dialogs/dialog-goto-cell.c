@@ -284,20 +284,20 @@ cb_dialog_goto_selection_changed (GtkTreeSelection *the_selection, GotoState *st
 
 
 static void
-cb_sheet_order_changed (Workbook *wb, GotoState *state)
+cb_sheet_order_changed (G_GNUC_UNUSED Workbook *wb, GotoState *state)
 {
 	dialog_goto_load_names (state);
 }
 
 static void
-cb_sheet_deleted (Workbook *wb, GotoState *state)
+cb_sheet_deleted (G_GNUC_UNUSED Workbook *wb, GotoState *state)
 {
 	dialog_goto_load_names (state);
 	cb_dialog_goto_update_sensitivity (NULL, state);
 }
 
 static void
-cb_sheet_added (Workbook *wb, GotoState *state)
+cb_sheet_added (G_GNUC_UNUSED Workbook *wb, GotoState *state)
 {
 	dialog_goto_load_names (state);
 	cb_dialog_goto_update_sensitivity (NULL, state);

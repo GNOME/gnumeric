@@ -123,8 +123,9 @@ typedef struct {
 } search_t;
 
 static gboolean
-cb_dialog_function_select_search_all (GtkTreeModel *model, GtkTreePath *path,
-		       GtkTreeIter *iter, gpointer data)
+cb_dialog_function_select_search_all (GtkTreeModel *model, 
+				      G_GNUC_UNUSED GtkTreePath *path,
+				      GtkTreeIter *iter, gpointer data)
 {
 	search_t *specs = data;
 	gchar *name;
@@ -236,7 +237,7 @@ dialog_function_select_cat_changed (G_GNUC_UNUSED GtkComboBox *widget,
 
 static gboolean
 cb_dialog_function_load_recent_funcs(GtkTreeModel *model,
-				     GtkTreePath *path,
+				     G_GNUC_UNUSED GtkTreePath *path,
 				     GtkTreeIter *iter,
 				     gpointer data)
 {
@@ -426,9 +427,9 @@ cb_dialog_function_select_paste_clicked (G_GNUC_UNUSED GtkWidget *button,
 }
 
 static void
-cb_dialog_function_row_activated (GtkTreeView *tree_view,
-				  GtkTreePath       *path,
-				  GtkTreeViewColumn *column,
+cb_dialog_function_row_activated (G_GNUC_UNUSED GtkTreeView *tree_view,
+				  G_GNUC_UNUSED GtkTreePath       *path,
+				  G_GNUC_UNUSED GtkTreeViewColumn *column,
 				  FunctionSelectState *state)
 {
 	switch (state->mode) {
@@ -467,7 +468,7 @@ typedef struct {
 
 static gboolean
 cb_dialog_function_select_load_cb (GtkTreeModel *model,
-				   GtkTreePath *path,
+				   G_GNUC_UNUSED GtkTreePath *path,
 				   GtkTreeIter *iter,
 				   gpointer data)
 {
@@ -586,9 +587,9 @@ make_link (GtkTextBuffer *description, const char *name,
 }
 
 static gboolean
-cb_link_event (GtkTextTag *link, GObject *trigger,
-	       GdkEvent *event, GtkTextIter *iter,
-	       gpointer user)
+cb_link_event (GtkTextTag *link, G_GNUC_UNUSED GObject *trigger,
+	       GdkEvent *event, G_GNUC_UNUSED GtkTextIter *iter,
+	       G_GNUC_UNUSED gpointer user)
 {
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
