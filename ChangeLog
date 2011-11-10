@@ -1,3 +1,8 @@
+2011-11-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-bar.c (item_bar_draw_region): fixed rendering of outline
+	levels. [#663663]
+
 2011-11-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* schemas/org.gnome.gnumeric.gschema.xml.in.in

@@ -445,6 +445,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 							cairo_line_to (cr, total, pos);
 						}
 					}
+					cairo_stroke (cr);
 					first_line_offset = 0;
 
 					if (draw_right ^ rtl) {
@@ -601,6 +602,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 							cairo_line_to (cr, pos, total);
 						}
 					}
+					cairo_stroke (cr);
 					first_line_offset = 0;
 
 					if (draw_below) {
@@ -631,9 +633,10 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 								cairo_move_to (cr, left+3,	    top+size/2);
 								cairo_line_to (cr, left+size-4, top+size/2);
 							}
-						} else if (level > 0)
+						} else if (level > 0) {
 							cairo_move_to (cr, pos,      top+pixels/2);
 							cairo_line_to (cr, pos+len,  top+pixels/2);
+						}
 					} else {
 						if (next->outline_level > level) {
 							int left, safety = 0;
