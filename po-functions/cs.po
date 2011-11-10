@@ -1,5 +1,6 @@
 # Gnumeric Czech translation
 # Copyright (c) 1999, 2000, 2001, 2002 The Free Software Foundation
+#
 # Marek Černocký <marek@manet.cz>, 2010, 2011.
 #
 msgid ""
@@ -7,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-10-31 19:38+0000\n"
-"PO-Revision-Date: 2011-10-31 22:20+0100\n"
+"POT-Creation-Date: 2011-11-09 21:00+0000\n"
+"PO-Revision-Date: 2011-11-10 14:27+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -157,14 +158,14 @@ msgstr "Pokud @{i} není ani „i“ ani „j“, COMPLEX vrátí #HODNOTA!."
 #: ../plugins/fn-date/functions.c:541 ../plugins/fn-date/functions.c:565
 #: ../plugins/fn-date/functions.c:589 ../plugins/fn-date/functions.c:617
 #: ../plugins/fn-date/functions.c:658 ../plugins/fn-date/functions.c:696
-#: ../plugins/fn-eng/functions.c:237 ../plugins/fn-eng/functions.c:262
-#: ../plugins/fn-eng/functions.c:286 ../plugins/fn-eng/functions.c:315
-#: ../plugins/fn-eng/functions.c:341 ../plugins/fn-eng/functions.c:364
-#: ../plugins/fn-eng/functions.c:408 ../plugins/fn-eng/functions.c:435
-#: ../plugins/fn-eng/functions.c:458 ../plugins/fn-eng/functions.c:481
-#: ../plugins/fn-eng/functions.c:504 ../plugins/fn-eng/functions.c:524
-#: ../plugins/fn-eng/functions.c:613 ../plugins/fn-eng/functions.c:642
-#: ../plugins/fn-eng/functions.c:1132 ../plugins/fn-eng/functions.c:1155
+#: ../plugins/fn-eng/functions.c:238 ../plugins/fn-eng/functions.c:263
+#: ../plugins/fn-eng/functions.c:287 ../plugins/fn-eng/functions.c:316
+#: ../plugins/fn-eng/functions.c:342 ../plugins/fn-eng/functions.c:365
+#: ../plugins/fn-eng/functions.c:409 ../plugins/fn-eng/functions.c:436
+#: ../plugins/fn-eng/functions.c:459 ../plugins/fn-eng/functions.c:482
+#: ../plugins/fn-eng/functions.c:505 ../plugins/fn-eng/functions.c:525
+#: ../plugins/fn-eng/functions.c:614 ../plugins/fn-eng/functions.c:643
+#: ../plugins/fn-eng/functions.c:1133 ../plugins/fn-eng/functions.c:1156
 #: ../plugins/fn-info/functions.c:97 ../plugins/fn-info/functions.c:1285
 #: ../plugins/fn-info/functions.c:1351 ../plugins/fn-info/functions.c:1440
 #: ../plugins/fn-info/functions.c:1458 ../plugins/fn-info/functions.c:1480
@@ -1312,9 +1313,9 @@ msgstr ""
 "vynechán."
 
 #: ../plugins/fn-date/functions.c:742 ../plugins/fn-date/functions.c:964
-#: ../plugins/fn-date/functions.c:1254 ../plugins/fn-eng/functions.c:212
-#: ../plugins/fn-eng/functions.c:316 ../plugins/fn-eng/functions.c:385
-#: ../plugins/fn-eng/functions.c:753 ../plugins/fn-financial/functions.c:1312
+#: ../plugins/fn-date/functions.c:1254 ../plugins/fn-eng/functions.c:213
+#: ../plugins/fn-eng/functions.c:317 ../plugins/fn-eng/functions.c:386
+#: ../plugins/fn-eng/functions.c:754 ../plugins/fn-financial/functions.c:1312
 #: ../plugins/fn-math/functions.c:433 ../plugins/fn-math/functions.c:1033
 #: ../plugins/fn-math/functions.c:1060 ../plugins/fn-math/functions.c:1377
 #: ../plugins/fn-math/functions.c:1397 ../plugins/fn-math/functions.c:2065
@@ -2319,25 +2320,25 @@ msgstr ""
 "Větší @{num_time_steps} přináší větší přesnost, ale OPT_BINOMIAL se pomaleji "
 "počítá."
 
-#: ../plugins/fn-eng/functions.c:206
+#: ../plugins/fn-eng/functions.c:207
 msgid "BASE:string of digits representing the number @{n} in base @{b}"
 msgstr "BASE:řetězec číslic představující číslo @{n} v číselné soustavě @{b}"
 
-#: ../plugins/fn-eng/functions.c:207 ../plugins/fn-math/functions.c:1293
+#: ../plugins/fn-eng/functions.c:208 ../plugins/fn-math/functions.c:1293
 #: ../plugins/fn-numtheory/numtheory.c:578
 #: ../plugins/fn-numtheory/numtheory.c:608
 msgid "n:integer"
 msgstr "n:celé číslo"
 
-#: ../plugins/fn-eng/functions.c:208
+#: ../plugins/fn-eng/functions.c:209
 msgid "b:base (2 ≤ @{b} ≤ 36)"
 msgstr "b:základ číselné soustavy (2 ≤ @{b} ≤ 36)"
 
-#: ../plugins/fn-eng/functions.c:209
+#: ../plugins/fn-eng/functions.c:210
 msgid "length:minimum length of the resulting string"
 msgstr "length:minimální délka výsledného řetězce"
 
-#: ../plugins/fn-eng/functions.c:210
+#: ../plugins/fn-eng/functions.c:211
 msgid ""
 "BASE converts @{n} to its string representation in base @{b}. Leading zeroes "
 "will be added to reach the minimum length given by @{length}."
@@ -2346,12 +2347,12 @@ msgstr ""
 "Na začátek jsou případně doplněny nuly, aby bylo dosaženo zadané délky @"
 "{length}."
 
-#: ../plugins/fn-eng/functions.c:235
+#: ../plugins/fn-eng/functions.c:236
 msgid "BIN2DEC:decimal representation of the binary number @{x}"
 msgstr "BIN2DEC:desítková podoba dvojkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:236 ../plugins/fn-eng/functions.c:258
-#: ../plugins/fn-eng/functions.c:282
+#: ../plugins/fn-eng/functions.c:237 ../plugins/fn-eng/functions.c:259
+#: ../plugins/fn-eng/functions.c:283
 msgid ""
 "x:a binary number, either as a string or as a number involving only the "
 "digits 0 and 1"
@@ -2359,19 +2360,19 @@ msgstr ""
 "x:číslo ve dvojkové soustavě, buď jako řetězec nebo jako číslo sestávající "
 "pouze z číslic 0 a 1"
 
-#: ../plugins/fn-eng/functions.c:257
+#: ../plugins/fn-eng/functions.c:258
 msgid "BIN2OCT:octal representation of the binary number @{x}"
 msgstr "BIN2OCT:osmičková podoba dvojkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:259 ../plugins/fn-eng/functions.c:283
-#: ../plugins/fn-eng/functions.c:308 ../plugins/fn-eng/functions.c:338
-#: ../plugins/fn-eng/functions.c:361 ../plugins/fn-eng/functions.c:432
-#: ../plugins/fn-eng/functions.c:455 ../plugins/fn-eng/functions.c:478
-#: ../plugins/fn-eng/functions.c:501
+#: ../plugins/fn-eng/functions.c:260 ../plugins/fn-eng/functions.c:284
+#: ../plugins/fn-eng/functions.c:309 ../plugins/fn-eng/functions.c:339
+#: ../plugins/fn-eng/functions.c:362 ../plugins/fn-eng/functions.c:433
+#: ../plugins/fn-eng/functions.c:456 ../plugins/fn-eng/functions.c:479
+#: ../plugins/fn-eng/functions.c:502
 msgid "places:number of digits"
 msgstr "places:počet číslic"
 
-#: ../plugins/fn-eng/functions.c:260
+#: ../plugins/fn-eng/functions.c:261
 msgid ""
 "If @{places} is given, BIN2OCT pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, BIN2OCT returns #NUM!"
@@ -2380,11 +2381,11 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí BIN2OCT hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:281
+#: ../plugins/fn-eng/functions.c:282
 msgid "BIN2HEX:hexadecimal representation of the binary number @{x}"
 msgstr "BIN2HEX:šetnáctková podoba dvojkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:284
+#: ../plugins/fn-eng/functions.c:285
 msgid ""
 "If @{places} is given, BIN2HEX pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, BIN2HEX returns #NUM!"
@@ -2393,15 +2394,15 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí BIN2HEX hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:306
+#: ../plugins/fn-eng/functions.c:307
 msgid "DEC2BIN:binary representation of the decimal number @{x}"
 msgstr "DEC2BIN:dvojková podoba desítkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:307
+#: ../plugins/fn-eng/functions.c:308
 msgid "x:integer (− 513 < @{x} < 512)"
 msgstr "x:celé číslo (−513 < @{x} < 512)"
 
-#: ../plugins/fn-eng/functions.c:309
+#: ../plugins/fn-eng/functions.c:310
 msgid ""
 "If @{places} is given and @{x} is non-negative, DEC2BIN pads the result with "
 "zeros to achieve exactly @{places} digits. If this is not possible, DEC2BIN "
@@ -2411,24 +2412,24 @@ msgstr ""
 "nulami, aby bylo dosaženo přesně @{places} číslic. Pokud to není možné, "
 "vrátí DEC2BIN hodnotu #ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:313
+#: ../plugins/fn-eng/functions.c:314
 msgid "If @{places} is given and @{x} is negative, @{places} is ignored."
 msgstr "Když je @{places} zadáno a @{x} je záporné, je @{places} ignorováno."
 
-#: ../plugins/fn-eng/functions.c:314
+#: ../plugins/fn-eng/functions.c:315
 msgid "If @{x} < − 512 or @{x} > 511, DEC2BIN returns #NUM!"
 msgstr "Pokud je @{x} < −512 or @{x} > 511, funkce DEC2BIN vrací #ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:336
+#: ../plugins/fn-eng/functions.c:337
 msgid "DEC2OCT:octal representation of the decimal number @{x}"
 msgstr "DEC2OCT:osmičková podoba desítkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:337 ../plugins/fn-eng/functions.c:360
+#: ../plugins/fn-eng/functions.c:338 ../plugins/fn-eng/functions.c:361
 #: ../plugins/fn-math/functions.c:1292
 msgid "x:integer"
 msgstr "x:celé číslo"
 
-#: ../plugins/fn-eng/functions.c:339
+#: ../plugins/fn-eng/functions.c:340
 msgid ""
 "If @{places} is given, DEC2OCT pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, DEC2OCT returns #NUM!"
@@ -2437,11 +2438,11 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí DEC2OCT hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:359
+#: ../plugins/fn-eng/functions.c:360
 msgid "DEC2HEX:hexadecimal representation of the decimal number @{x}"
 msgstr "DEC2HEX:šestnáctková podoba desítkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:362
+#: ../plugins/fn-eng/functions.c:363
 msgid ""
 "If @{places} is given, DEC2HEX pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, DEC2HEX returns #NUM!"
@@ -2450,32 +2451,32 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí DEC2HEX hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:382
+#: ../plugins/fn-eng/functions.c:383
 msgid "DECIMAL:decimal representation of @{x}"
 msgstr "DECIMAL:desítková podoba čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:383
+#: ../plugins/fn-eng/functions.c:384
 msgid "x:number in base @{base}"
 msgstr "x:číslo v číselné soustavě @{base}"
 
-#: ../plugins/fn-eng/functions.c:384
+#: ../plugins/fn-eng/functions.c:385
 msgid "base:base of @{x}, (2 ≤ @{base} ≤ 36)"
 msgstr "base:základ číselné soustavy čísla@{x}, (2 ≤ @{b} ≤ 36)"
 
-#: ../plugins/fn-eng/functions.c:406
+#: ../plugins/fn-eng/functions.c:407
 msgid "OCT2DEC:decimal representation of the octal number @{x}"
 msgstr "OCT2DEC:desítková podoba osmičkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:407 ../plugins/fn-eng/functions.c:431
-#: ../plugins/fn-eng/functions.c:454
+#: ../plugins/fn-eng/functions.c:408 ../plugins/fn-eng/functions.c:432
+#: ../plugins/fn-eng/functions.c:455
 msgid "x:a octal number, either as a string or as a number"
 msgstr "x:číslo v osmičkové soustavě, buď jako řetězec nebo jako číslo"
 
-#: ../plugins/fn-eng/functions.c:430
+#: ../plugins/fn-eng/functions.c:431
 msgid "OCT2BIN:binary representation of the octal number @{x}"
 msgstr "OCT2BIN:dvojková podoba osmičkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:433
+#: ../plugins/fn-eng/functions.c:434
 msgid ""
 "If @{places} is given, OCT2BIN pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, OCT2BIN returns #NUM!"
@@ -2484,11 +2485,11 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí OCT2BIN hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:453
+#: ../plugins/fn-eng/functions.c:454
 msgid "OCT2HEX:hexadecimal representation of the octal number @{x}"
 msgstr "OCT2HEX:šestnáctková podoba osmičkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:456
+#: ../plugins/fn-eng/functions.c:457
 msgid ""
 "If @{places} is given, OCT2HEX pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, OCT2HEX returns #NUM!"
@@ -2497,12 +2498,12 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí OCT2HEX hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:476
+#: ../plugins/fn-eng/functions.c:477
 msgid "HEX2BIN:binary representation of the hexadecimal number @{x}"
 msgstr "HEX2BIN:dvojková podoba šestnáctkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:477 ../plugins/fn-eng/functions.c:500
-#: ../plugins/fn-eng/functions.c:523
+#: ../plugins/fn-eng/functions.c:478 ../plugins/fn-eng/functions.c:501
+#: ../plugins/fn-eng/functions.c:524
 msgid ""
 "x:a hexadecimal number, either as a string or as a number if no A to F are "
 "needed"
@@ -2510,7 +2511,7 @@ msgstr ""
 "x:číslo v šestnáctkové soustavě, buď jako řetězec nebo jako číslo, pokud "
 "nejsou zapotřebí číslice A až F"
 
-#: ../plugins/fn-eng/functions.c:479
+#: ../plugins/fn-eng/functions.c:480
 msgid ""
 "If @{places} is given, HEX2BIN pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, HEX2BIN returns #NUM!"
@@ -2519,11 +2520,11 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí HEX2BIN hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:499
+#: ../plugins/fn-eng/functions.c:500
 msgid "HEX2OCT:octal representation of the hexadecimal number @{x}"
 msgstr "HEX2OCT:osmičková podoba šestnáctkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:502
+#: ../plugins/fn-eng/functions.c:503
 msgid ""
 "If @{places} is given, HEX2OCT pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, HEX2OCT returns #NUM!"
@@ -2532,25 +2533,25 @@ msgstr ""
 "dosaženo přesně @{places} číslic. Pokud to není možné, vrátí HEX2OCT hodnotu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:522
+#: ../plugins/fn-eng/functions.c:523
 msgid "HEX2DEC:decimal representation of the hexadecimal number @{x}"
 msgstr "HEX2DEC:desítková podoba šestnáctkového čísla @{x}"
 
-#: ../plugins/fn-eng/functions.c:545
+#: ../plugins/fn-eng/functions.c:546
 msgid ""
 "BESSELI:Modified Bessel function of the first kind of order @{α} at @{x}"
 msgstr "BESSELJ:Modifikovaná Besselova funkce prvního druhu řádu @{α} v @{x}"
 
-#: ../plugins/fn-eng/functions.c:546 ../plugins/fn-eng/functions.c:584
-#: ../plugins/fn-eng/functions.c:608 ../plugins/fn-eng/functions.c:637
+#: ../plugins/fn-eng/functions.c:547 ../plugins/fn-eng/functions.c:585
+#: ../plugins/fn-eng/functions.c:609 ../plugins/fn-eng/functions.c:638
 msgid "X:number"
 msgstr "X:číslo"
 
-#: ../plugins/fn-eng/functions.c:547 ../plugins/fn-eng/functions.c:585
+#: ../plugins/fn-eng/functions.c:548 ../plugins/fn-eng/functions.c:586
 msgid "α:order (any non-negative number)"
 msgstr "α:řád (libovolné nezáporné číslo)"
 
-#: ../plugins/fn-eng/functions.c:548 ../plugins/fn-eng/functions.c:586
+#: ../plugins/fn-eng/functions.c:549 ../plugins/fn-eng/functions.c:587
 msgid ""
 "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is "
 "returned."
@@ -2558,33 +2559,33 @@ msgstr ""
 "Pokud @{x} nebo @{α} nejsou čísla, je vráceno #HODNOTA!. Pokud je @{α} < 0, "
 "je vráceno #ČÍSLO!."
 
-#: ../plugins/fn-eng/functions.c:549 ../plugins/fn-eng/functions.c:587
+#: ../plugins/fn-eng/functions.c:550 ../plugins/fn-eng/functions.c:588
 msgid "This function is Excel compatible if only integer orders @{α} are used."
 msgstr ""
 "Tato funkce je kompatibilní pouze v případě, že jsou použita celá čísla pro "
 "řad @{α}."
 
-#: ../plugins/fn-eng/functions.c:552 ../plugins/fn-eng/functions.c:590
-#: ../plugins/fn-eng/functions.c:616
+#: ../plugins/fn-eng/functions.c:553 ../plugins/fn-eng/functions.c:591
+#: ../plugins/fn-eng/functions.c:617
 msgid "wiki:en:Bessel_function"
 msgstr "wiki:cs:Besselova_funkce"
 
-#: ../plugins/fn-eng/functions.c:583
+#: ../plugins/fn-eng/functions.c:584
 msgid ""
 "BESSELK:Modified Bessel function of the second kind of order @{α} at @{x}"
 msgstr ""
 "BESSELJ:Modifikovaná Besselova funkce druhého druhu (MacDonaldova funkce) "
 "řádu @{α} v @{x}"
 
-#: ../plugins/fn-eng/functions.c:607
+#: ../plugins/fn-eng/functions.c:608
 msgid "BESSELJ:Bessel function of the first kind of order @{α} at @{x}"
 msgstr "BESSELJ:Besselova funkce prvního druhu řádu @{α} v @{x}"
 
-#: ../plugins/fn-eng/functions.c:609 ../plugins/fn-eng/functions.c:638
+#: ../plugins/fn-eng/functions.c:610 ../plugins/fn-eng/functions.c:639
 msgid "α:order (any non-negative integer)"
 msgstr "α:řád (libovolné nezáporné celé číslo)"
 
-#: ../plugins/fn-eng/functions.c:610 ../plugins/fn-eng/functions.c:639
+#: ../plugins/fn-eng/functions.c:611 ../plugins/fn-eng/functions.c:640
 msgid ""
 "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is "
 "returned. If @{α} is not an integer, it is truncated."
@@ -2592,56 +2593,56 @@ msgstr ""
 "Pokud @{x} nebo @{α} nejsou čísla, je vráceno #HODNOTA!. Pokud je @{α} < 0, "
 "je vráceno #ČÍSLO!. Pokud @{α} není celé číslo, tak je oříznuto."
 
-#: ../plugins/fn-eng/functions.c:636
+#: ../plugins/fn-eng/functions.c:637
 msgid "BESSELY:Bessel function of the second kind of order @{α} at @{x}"
 msgstr ""
 "BESSELJ:Besselova funkce druhého druhu (Neumannova funkce) řádu @{α} v @{x}"
 
-#: ../plugins/fn-eng/functions.c:663
+#: ../plugins/fn-eng/functions.c:664
 msgid "CONVERT:a converted measurement"
 msgstr "CONVERT:převedená míra"
 
-#: ../plugins/fn-eng/functions.c:664 ../plugins/fn-eng/functions.c:1108
-#: ../plugins/fn-math/functions.c:226 ../plugins/fn-math/functions.c:245
-#: ../plugins/fn-math/functions.c:267 ../plugins/fn-math/functions.c:308
-#: ../plugins/fn-math/functions.c:326 ../plugins/fn-math/functions.c:352
-#: ../plugins/fn-math/functions.c:371 ../plugins/fn-math/functions.c:395
-#: ../plugins/fn-math/functions.c:456 ../plugins/fn-math/functions.c:732
-#: ../plugins/fn-math/functions.c:785 ../plugins/fn-math/functions.c:803
-#: ../plugins/fn-math/functions.c:821 ../plugins/fn-math/functions.c:857
-#: ../plugins/fn-math/functions.c:875 ../plugins/fn-math/functions.c:892
-#: ../plugins/fn-math/functions.c:923 ../plugins/fn-math/functions.c:953
-#: ../plugins/fn-math/functions.c:977 ../plugins/fn-math/functions.c:1001
-#: ../plugins/fn-math/functions.c:1085 ../plugins/fn-math/functions.c:1121
-#: ../plugins/fn-math/functions.c:1217 ../plugins/fn-math/functions.c:1395
-#: ../plugins/fn-math/functions.c:1435 ../plugins/fn-math/functions.c:1453
-#: ../plugins/fn-math/functions.c:1605 ../plugins/fn-math/functions.c:1640
-#: ../plugins/fn-math/functions.c:1677 ../plugins/fn-math/functions.c:1712
-#: ../plugins/fn-math/functions.c:1852 ../plugins/fn-math/functions.c:1902
-#: ../plugins/fn-math/functions.c:1926 ../plugins/fn-math/functions.c:1967
-#: ../plugins/fn-math/functions.c:2014 ../plugins/fn-stat/functions.c:410
-#: ../plugins/fn-stat/functions.c:462 ../plugins/fn-stat/functions.c:523
-#: ../plugins/fn-stat/functions.c:843 ../plugins/fn-stat/functions.c:912
-#: ../plugins/fn-stat/functions.c:975 ../plugins/fn-stat/functions.c:1117
-#: ../plugins/fn-stat/functions.c:1189 ../plugins/fn-stat/functions.c:1276
-#: ../plugins/fn-stat/functions.c:1306 ../plugins/fn-stat/functions.c:1539
-#: ../plugins/fn-stat/functions.c:1718 ../plugins/fn-stat/functions.c:1754
-#: ../plugins/fn-stat/functions.c:1921 ../plugins/fn-stat/functions.c:4325
-#: ../plugins/fn-stat/functions.c:4356 ../plugins/fn-stat/functions.c:4390
-#: ../plugins/fn-stat/functions.c:4425 ../plugins/fn-stat/functions.c:4464
-#: ../plugins/fn-stat/functions.c:4497
+#: ../plugins/fn-eng/functions.c:665 ../plugins/fn-eng/functions.c:1109
+#: ../plugins/fn-eng/functions.c:1175 ../plugins/fn-math/functions.c:226
+#: ../plugins/fn-math/functions.c:245 ../plugins/fn-math/functions.c:267
+#: ../plugins/fn-math/functions.c:308 ../plugins/fn-math/functions.c:326
+#: ../plugins/fn-math/functions.c:352 ../plugins/fn-math/functions.c:371
+#: ../plugins/fn-math/functions.c:395 ../plugins/fn-math/functions.c:456
+#: ../plugins/fn-math/functions.c:732 ../plugins/fn-math/functions.c:785
+#: ../plugins/fn-math/functions.c:803 ../plugins/fn-math/functions.c:821
+#: ../plugins/fn-math/functions.c:857 ../plugins/fn-math/functions.c:875
+#: ../plugins/fn-math/functions.c:892 ../plugins/fn-math/functions.c:923
+#: ../plugins/fn-math/functions.c:953 ../plugins/fn-math/functions.c:977
+#: ../plugins/fn-math/functions.c:1001 ../plugins/fn-math/functions.c:1085
+#: ../plugins/fn-math/functions.c:1121 ../plugins/fn-math/functions.c:1217
+#: ../plugins/fn-math/functions.c:1395 ../plugins/fn-math/functions.c:1435
+#: ../plugins/fn-math/functions.c:1453 ../plugins/fn-math/functions.c:1605
+#: ../plugins/fn-math/functions.c:1640 ../plugins/fn-math/functions.c:1677
+#: ../plugins/fn-math/functions.c:1712 ../plugins/fn-math/functions.c:1852
+#: ../plugins/fn-math/functions.c:1902 ../plugins/fn-math/functions.c:1926
+#: ../plugins/fn-math/functions.c:1967 ../plugins/fn-math/functions.c:2014
+#: ../plugins/fn-stat/functions.c:410 ../plugins/fn-stat/functions.c:462
+#: ../plugins/fn-stat/functions.c:523 ../plugins/fn-stat/functions.c:843
+#: ../plugins/fn-stat/functions.c:912 ../plugins/fn-stat/functions.c:975
+#: ../plugins/fn-stat/functions.c:1117 ../plugins/fn-stat/functions.c:1189
+#: ../plugins/fn-stat/functions.c:1276 ../plugins/fn-stat/functions.c:1306
+#: ../plugins/fn-stat/functions.c:1539 ../plugins/fn-stat/functions.c:1718
+#: ../plugins/fn-stat/functions.c:1754 ../plugins/fn-stat/functions.c:1921
+#: ../plugins/fn-stat/functions.c:4325 ../plugins/fn-stat/functions.c:4356
+#: ../plugins/fn-stat/functions.c:4390 ../plugins/fn-stat/functions.c:4425
+#: ../plugins/fn-stat/functions.c:4464 ../plugins/fn-stat/functions.c:4497
 msgid "x:number"
 msgstr "x:číslo"
 
-#: ../plugins/fn-eng/functions.c:665
+#: ../plugins/fn-eng/functions.c:666
 msgid "from:unit (string)"
 msgstr "from:jednotka (řetězec)"
 
-#: ../plugins/fn-eng/functions.c:666
+#: ../plugins/fn-eng/functions.c:667
 msgid "to:unit (string)"
 msgstr "to:jednotka (řetězec)"
 
-#: ../plugins/fn-eng/functions.c:667
+#: ../plugins/fn-eng/functions.c:668
 msgid ""
 "CONVERT returns a conversion from one measurement system to another. @{x} is "
 "a value in @{from} units that is to be converted into @{to} units."
@@ -2649,12 +2650,12 @@ msgstr ""
 "CONVERT vrací převod z jednoho měřícího systému na druhý. @{x} je hodnota v "
 "jednotkách @{from}, která je bude převedena na jednotky @{to}."
 
-#: ../plugins/fn-eng/functions.c:669
+#: ../plugins/fn-eng/functions.c:670
 msgid "If @{from} and @{to} are different types, CONVERT returns #N/A!"
 msgstr ""
 "Pokud jsou @{from} a @{to} rozdílných typů, funkce CONVERT vrací #N/A!."
 
-#: ../plugins/fn-eng/functions.c:670
+#: ../plugins/fn-eng/functions.c:671
 msgid ""
 "@{from} and @{to} can be any of the following:\n"
 "\n"
@@ -2844,28 +2845,28 @@ msgstr ""
 "\t„z“  \tzepto \t\t1E-21\n"
 "\t„y“  \tyocto \t\t1E-24"
 
-#: ../plugins/fn-eng/functions.c:752
+#: ../plugins/fn-eng/functions.c:753
 msgid "This function is Excel compatible (except \"picapt\")."
 msgstr "Tato funkce je kompatibilní s aplikací Excel (vyjma „picapt“)."
 
-#: ../plugins/fn-eng/functions.c:1075
+#: ../plugins/fn-eng/functions.c:1076
 msgid "ERF:Gauss error function"
 msgstr "ERF:Gaussova chybová funkce"
 
-#: ../plugins/fn-eng/functions.c:1076
+#: ../plugins/fn-eng/functions.c:1077
 msgid "lower:lower limit of the integral, defaults to 0"
 msgstr "lower:dolní limit integrálu, výchozí je 0"
 
-#: ../plugins/fn-eng/functions.c:1077
+#: ../plugins/fn-eng/functions.c:1078
 msgid "upper:upper limit of the integral"
 msgstr "upper:horní limit integrálu"
 
-#: ../plugins/fn-eng/functions.c:1078
+#: ../plugins/fn-eng/functions.c:1079
 msgid ""
 "ERF returns 2/sqrt(π)* integral from @{lower} to @{upper} of exp(-t*t) dt"
 msgstr "ERF vrací 2:√n . integrál od @{lower} do @{upper} z exp(-t.t) dt"
 
-#: ../plugins/fn-eng/functions.c:1079
+#: ../plugins/fn-eng/functions.c:1080
 msgid ""
 "This function is Excel compatible if two arguments are supplied and neither "
 "is negative."
@@ -2873,59 +2874,75 @@ msgstr ""
 "Tato funkce je kompatibilní s aplikací Excel, pokud jsou poskytnuty dva "
 "argumenty a žádný není záporný."
 
-#: ../plugins/fn-eng/functions.c:1083 ../plugins/fn-eng/functions.c:1112
+#: ../plugins/fn-eng/functions.c:1084 ../plugins/fn-eng/functions.c:1113
 msgid "wiki:en:Error_function"
 msgstr "wiki:en:Error_function"
 
-#: ../plugins/fn-eng/functions.c:1107
+#: ../plugins/fn-eng/functions.c:1108
 msgid "ERFC:Complementary Gauss error function"
 msgstr "ERFC:Komplementární Gaussova chybová funkce"
 
-#: ../plugins/fn-eng/functions.c:1109
+#: ../plugins/fn-eng/functions.c:1110
 msgid "ERFC returns 2/sqrt(π)* integral from @{x} to ∞ of exp(-t*t) dt"
 msgstr "ERFC vrací 2:√π . integral od @{x} do ∞ z exp(-t.t) dt"
 
-#: ../plugins/fn-eng/functions.c:1127
+#: ../plugins/fn-eng/functions.c:1128
 msgid "DELTA:Kronecker delta function"
 msgstr "DELTA:Kroneckerova funkce delta"
 
-#: ../plugins/fn-eng/functions.c:1128 ../plugins/fn-eng/functions.c:1151
+#: ../plugins/fn-eng/functions.c:1129 ../plugins/fn-eng/functions.c:1152
 msgid "x0:number"
 msgstr "x0:číslo"
 
-#: ../plugins/fn-eng/functions.c:1129 ../plugins/fn-eng/functions.c:1152
+#: ../plugins/fn-eng/functions.c:1130 ../plugins/fn-eng/functions.c:1153
 msgid "x1:number, defaults to 0"
 msgstr "x1:číslo, výchozí je 0"
 
-#: ../plugins/fn-eng/functions.c:1130
+#: ../plugins/fn-eng/functions.c:1131
 msgid "DELTA  returns 1 if  @{x1} = @{x0} and 0 otherwise."
 msgstr "DELTA vrací 1, když @{x1} = @{x0} a 0 v ostatních případech."
 
-#: ../plugins/fn-eng/functions.c:1131 ../plugins/fn-eng/functions.c:1154
+#: ../plugins/fn-eng/functions.c:1132 ../plugins/fn-eng/functions.c:1155
 msgid "If either argument is non-numeric, #VALUE! is returned."
 msgstr "Pokud je některý z argumentů nečíselný, je vráceno #HODNOTA!."
 
-#: ../plugins/fn-eng/functions.c:1150
+#: ../plugins/fn-eng/functions.c:1151
 msgid "GESTEP:step function with step at @{x1} evaluated at @{x0}"
 msgstr "GESTEP:skoková funkce vyhodnocující číslo @{x0} s prahem @{x1}"
 
-#: ../plugins/fn-eng/functions.c:1153
+#: ../plugins/fn-eng/functions.c:1154
 msgid "GESTEP returns 1 if  @{x1} ≤ @{x0} and 0 otherwise."
 msgstr "GESTEP vrací 1, když je @{x1} ≤ @{x0} a 0 v ostatních případech."
 
-#: ../plugins/fn-eng/functions.c:1173
+#: ../plugins/fn-eng/functions.c:1174
+msgid "HEXREP:hexadecimal representation of numeric value"
+msgstr "HEXREP:šestnáctková podoba číselné hodnoty"
+
+#: ../plugins/fn-eng/functions.c:1176
+msgid "HEXREP returns a hexadecimal string representation of @x."
+msgstr "HEXREP vrací řetězec s šestnáctkovou podobou čísla @x."
+
+#: ../plugins/fn-eng/functions.c:1177
+msgid ""
+"This is a function meant for debugging.  The layout of the result may change "
+"and even depend on how Gnumeric was compiled."
+msgstr ""
+"Tato funkce je určena pro ladění. Formát výsledku se může měnit a je závislý "
+"i na tom, jak je aplikace Gnumeric přeložena."
+
+#: ../plugins/fn-eng/functions.c:1205
 msgid "INVSUMINV:the reciprocal of the sum of reciprocals of the arguments"
 msgstr "INVSUMINV:převrácená hodnota součtu převrácených hodnot argumentů"
 
-#: ../plugins/fn-eng/functions.c:1174
+#: ../plugins/fn-eng/functions.c:1206
 msgid "x0:non-negative number"
 msgstr "x0:nezáporné číslo"
 
-#: ../plugins/fn-eng/functions.c:1175
+#: ../plugins/fn-eng/functions.c:1207
 msgid "x1:non-negative number"
 msgstr "x1:nezáporné číslo"
 
-#: ../plugins/fn-eng/functions.c:1176
+#: ../plugins/fn-eng/functions.c:1208
 msgid ""
 "If any of the arguments is negative, #VALUE! is returned.\n"
 "If any argument is zero, the result is zero."
@@ -2933,7 +2950,7 @@ msgstr ""
 "Pokud je některý z argumentů záporný, je vrácena hodnota #HODNOTA!.\n"
 "Pokud je některý z argumentů nulový, je vrácena nula."
 
-#: ../plugins/fn-eng/functions.c:1178
+#: ../plugins/fn-eng/functions.c:1210
 msgid ""
 "INVSUMINV sum calculates the reciprocal (the inverse) of the sum of "
 "reciprocals (inverses) of all its arguments."
@@ -6519,7 +6536,6 @@ msgstr ""
 "pracovat. Namísto toho použijte SUMPRODUCT(--(A1:A5>0))"
 
 #: ../plugins/fn-math/functions.c:2953
-#| msgid "This function is OpenFormula compatible."
 msgid ""
 "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
 msgstr ""
@@ -6543,7 +6559,6 @@ msgstr ""
 "hodnot."
 
 #: ../plugins/fn-math/functions.c:2968
-#| msgid "This function is not Excel compatible."
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
 msgstr ""
 "Tato funkce není kompatibilní s aplikací Excel. Použijte místo ní SUMPRODUCT."
