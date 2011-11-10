@@ -1,3 +1,8 @@
+2011-11-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-preferences.c (pref_tool_page_initializer): add
+	gnm_conf_get_core_gui_editing_autocomplete_min_chars_node item
+
 2011-11-06  Marek Černocký <marek@manet.cz>
 
 	* anova-one.ui: add context to _Columns and _Rows

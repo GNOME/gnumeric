@@ -106,6 +106,10 @@ GOConfNode *gnm_conf_get_core_gui_editing_autocomplete_node (void);
 gboolean gnm_conf_get_core_gui_editing_autocomplete (void);
 void gnm_conf_set_core_gui_editing_autocomplete (gboolean);
 
+GOConfNode *gnm_conf_get_core_gui_editing_autocomplete_min_chars_node (void);
+int gnm_conf_get_core_gui_editing_autocomplete_min_chars (void);
+void gnm_conf_set_core_gui_editing_autocomplete_min_chars (int);
+
 GOConfNode *gnm_conf_get_core_gui_editing_enter_moves_dir_node (void);
 GODirection gnm_conf_get_core_gui_editing_enter_moves_dir (void);
 void gnm_conf_set_core_gui_editing_enter_moves_dir (GODirection);

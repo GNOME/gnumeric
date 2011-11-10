@@ -1134,6 +1134,32 @@ gnm_conf_get_core_gui_editing_autocomplete_node (void)
 	return get_node (watch_core_gui_editing_autocomplete.key);
 }
 
+static struct cb_watch_int watch_core_gui_editing_autocomplete_min_chars = {
+	0, "core/gui/editing/autocomplete-min-chars", 1, 10, 3,
+};
+
+int
+gnm_conf_get_core_gui_editing_autocomplete_min_chars (void)
+{
+	if (!watch_core_gui_editing_autocomplete_min_chars.handler)
+		watch_int (&watch_core_gui_editing_autocomplete_min_chars);
+	return watch_core_gui_editing_autocomplete_min_chars.var;
+}
+
+void
+gnm_conf_set_core_gui_editing_autocomplete_min_chars (int x)
+{
+	if (!watch_core_gui_editing_autocomplete_min_chars.handler)
+		watch_int (&watch_core_gui_editing_autocomplete_min_chars);
+	set_int (&watch_core_gui_editing_autocomplete_min_chars, x);
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_editing_autocomplete_min_chars_node (void)
+{
+	return get_node (watch_core_gui_editing_autocomplete_min_chars.key);
+}
+
 static struct cb_watch_enum watch_core_gui_editing_enter_moves_dir = {
 	0, "core/gui/editing/enter-moves-dir", GO_DIRECTION_DOWN,
 };

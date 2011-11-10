@@ -67,6 +67,8 @@ Jean:
 	* Add support for SVG images using librsvg.
 	* Fixed SVG images size. [#628472]
 	* Fix crash in graphs using markups. [#663216]
+	* Add preference setting determining the minimum number of chars for 
+	autocompletion. [#663671]
 
 Marek Černocký:
         * Add some translation contexts to improve translations.

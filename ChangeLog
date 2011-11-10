@@ -1,3 +1,19 @@
+2011-11-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* schemas/org.gnome.gnumeric.gschema.xml.in.in
+	(autocomplete-min-chars): new item
+	* src/complete-sheet.c (complete_sheet_search_iteration): use
+	gnm_conf_get_core_gui_editing_autocomplete_min_chars
+	* src/gnumeric-conf.h
+	(gnm_conf_get_core_gui_editing_autocomplete_min_chars_node): new
+	(gnm_conf_get_core_gui_editing_autocomplete_min_chars): new
+	(gnm_conf_set_core_gui_editing_autocomplete_min_chars): new
+	* src/gnumeric-conf.c
+	(gnm_conf_get_core_gui_editing_autocomplete_min_chars_node): new
+	(gnm_conf_get_core_gui_editing_autocomplete_min_chars): new
+	(gnm_conf_set_core_gui_editing_autocomplete_min_chars): new
+	(watch_core_gui_editing_autocomplete_min_chars): new
+
 2011-11-09  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_close): Avoid FMR.

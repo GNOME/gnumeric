@@ -1039,6 +1039,11 @@ pref_tool_page_initializer (PrefState *state,
 				 gnm_conf_set_core_gui_editing_autocomplete,
 				 gnm_conf_get_core_gui_editing_autocomplete,
 				_("Autocomplete"));
+	int_pref_create_widget (gnm_conf_get_core_gui_editing_autocomplete_min_chars_node (),
+				page, row++, 3, 1, 10, 1,
+				gnm_conf_set_core_gui_editing_autocomplete_min_chars,
+				gnm_conf_get_core_gui_editing_autocomplete_min_chars,
+				_("Minimum Number of Characters for Autocompletion"));
 	bool_pref_create_widget (gnm_conf_get_core_gui_editing_function_name_tooltips_node (),
 				 page, row++,
 				 gnm_conf_set_core_gui_editing_function_name_tooltips,

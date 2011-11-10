@@ -85,9 +85,8 @@ complete_sheet_search_iteration (Complete *complete)
 	CompleteSheet *cs = COMPLETE_SHEET (complete);
 	int i;
 
-	/* http://bugzilla.gnome.org/show_bug.cgi?id=55026
-	 * only kick in after 3 characters */
-	if (strlen (complete->text) < 3)
+	if (strlen (complete->text) < 
+	    gnm_conf_get_core_gui_editing_autocomplete_min_chars ())
 		return FALSE;
 
 	if (strncmp (cs->current_text, complete->text, strlen (cs->current_text)) != 0)

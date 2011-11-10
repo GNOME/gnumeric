@@ -181,6 +181,11 @@ my %extra_attributes =
 	 'max' => 5000
      },
 
+     '/apps/gnumeric/core/gui/editing/autocomplete-min-chars' => {
+	 'min' => 1,
+	 'max' => 10
+     },
+
      '/apps/gnumeric/core/gui/toolbars/format-position' => {
 	 'gtype' => 'GTK_TYPE_POSITION',
 	 'min' => 0,
