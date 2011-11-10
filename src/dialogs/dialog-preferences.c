@@ -106,11 +106,9 @@ dialog_pref_add_item (PrefState *state, char const *page_name,
 static void
 set_tip (GOConfNode *node, GtkWidget *w)
 {
-	char *desc = go_conf_get_long_desc (node, NULL);
-	if (desc != NULL) {
+	const char *desc = gnm_conf_get_long_desc (node);
+	if (desc != NULL)
 		gtk_widget_set_tooltip_text (w, desc);
-		g_free (desc);
-	}
 }
 
 static void
@@ -138,9 +136,8 @@ pref_create_label (GOConfNode *node, GtkWidget *table,
 	GtkWidget *label;
 
 	if (NULL == default_label) {
-		char *desc = go_conf_get_short_desc (node, NULL);
+		const char *desc = gnm_conf_get_short_desc (node);
 		label = gtk_label_new (desc);
-		g_free (desc);
 	} else
 		label = gtk_label_new_with_mnemonic (default_label);
 
@@ -188,11 +185,9 @@ bool_pref_create_widget (GOConfNode *node, GtkWidget *table,
 			 gboolean_conf_getter_t getter,
 			 char const *default_label)
 {
-	char *desc = go_conf_get_short_desc (node, NULL);
+	const char *desc = gnm_conf_get_short_desc (node);
 	GtkWidget *item = gtk_check_button_new_with_label (
 		(desc != NULL) ? desc : default_label);
-
-	g_free (desc);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item), getter ());
 

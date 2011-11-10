@@ -38,6 +38,7 @@
 #include <string.h>
 #include <sheet.h>
 #include <print-info.h>
+#include <glib/gi18n-lib.h>
 
 #define NO_DEBUG_GCONF
 #ifndef NO_DEBUG_GCONF
@@ -52,11 +53,11 @@ static GOConfNode *root = NULL;
 
 /*
  * Hashes to simplify ownership rules.  We use this so none of the getters
- * have to return memory that the callers needs to free.
+ * have to return memory that the callers need to free.
   */
 static GHashTable *string_pool;
 static GHashTable *string_list_pool;
-static GHashTable *node_pool;
+static GHashTable *node_pool, *node_watch;
 
 static gboolean debug_getters;
 static gboolean debug_setters;
@@ -89,29 +90,13 @@ schedule_sync (void)
 
 /* -------------------------------------------------------------------------- */
 
-GOConfNode *
-gnm_conf_get_root (void)
-{
-	return root;
-}
-
-static GOConfNode *
-get_node (const char *key)
-{
-	GOConfNode *res = g_hash_table_lookup (node_pool, key);
-	if (!res) {
-		res = go_conf_get_node (key[0] == '/' ? NULL : root, key);
-		g_hash_table_insert (node_pool, (gpointer)key, res);
-	}
-	return res;
-}
-
-/* -------------------------------------------------------------------------- */
-
 static GSList *watchers;
 
 struct cb_watch_generic {
 	guint handler;
+	const char *key;
+	const char *short_desc;
+	const char *long_desc;
 };
 
 static void
@@ -122,9 +107,57 @@ free_watcher (struct cb_watch_generic *watcher)
 
 /* ---------------------------------------- */
 
+GOConfNode *
+gnm_conf_get_root (void)
+{
+	return root;
+}
+
+static GOConfNode *
+get_node (const char *key, gpointer watch)
+{
+	GOConfNode *res = g_hash_table_lookup (node_pool, key);
+	if (!res) {
+		res = go_conf_get_node (key[0] == '/' ? NULL : root, key);
+		g_hash_table_insert (node_pool, (gpointer)key, res);
+		if (watch)
+			g_hash_table_insert (node_watch, res, watch);
+	}
+	return res;
+}
+
+static GOConfNode *
+get_watch_node (gpointer watch_)
+{
+	struct cb_watch_generic *watch = watch_;
+	return get_node (watch->key, watch);
+}
+
+char const *
+gnm_conf_get_short_desc (GOConfNode *node)
+{
+	struct cb_watch_generic *watch =
+		g_hash_table_lookup (node_watch, node);
+	const char *desc = watch ? watch->short_desc : NULL;
+	return desc ? _(desc) : NULL;
+}
+
+char const *
+gnm_conf_get_long_desc (GOConfNode *node)
+{
+	struct cb_watch_generic *watch =
+		g_hash_table_lookup (node_watch, node);
+	const char *desc = watch ? watch->long_desc : NULL;
+	return desc ? _(desc) : NULL;
+}
+
+/* -------------------------------------------------------------------------- */
+
 struct cb_watch_bool {
 	guint handler;
 	const char *key;
+	const char *short_desc;
+	const char *long_desc;
 	gboolean defalt;
 	gboolean var;
 };
@@ -139,7 +172,7 @@ cb_watch_bool (GOConfNode *node, G_GNUC_UNUSED const char *key, gpointer user)
 static void
 watch_bool (struct cb_watch_bool *watch)
 {
-	GOConfNode *node = get_node (watch->key);
+	GOConfNode *node = get_node (watch->key, watch);
 	watch->handler = go_conf_add_monitor
 		(node, NULL, cb_watch_bool, watch);
 	watchers = g_slist_prepend (watchers, watch);
@@ -165,6 +198,8 @@ set_bool (struct cb_watch_bool *watch, gboolean x)
 struct cb_watch_int {
 	guint handler;
 	const char *key;
+	const char *short_desc;
+	const char *long_desc;
 	int min, max, defalt;
 	int var;
 };
@@ -181,7 +216,7 @@ cb_watch_int (GOConfNode *node, G_GNUC_UNUSED const char *key, gpointer user)
 static void
 watch_int (struct cb_watch_int *watch)
 {
-	GOConfNode *node = get_node (watch->key);
+	GOConfNode *node = get_node (watch->key, watch);
 	watch->handler = go_conf_add_monitor
 		(node, NULL, cb_watch_int, watch);
 	watchers = g_slist_prepend (watchers, watch);
@@ -208,6 +243,8 @@ set_int (struct cb_watch_int *watch, int x)
 struct cb_watch_double {
 	guint handler;
 	const char *key;
+	const char *short_desc;
+	const char *long_desc;
 	double min, max, defalt;
 	double var;
 };
@@ -224,7 +261,7 @@ cb_watch_double (GOConfNode *node, G_GNUC_UNUSED const char *key, gpointer user)
 static void
 watch_double (struct cb_watch_double *watch)
 {
-	GOConfNode *node = get_node (watch->key);
+	GOConfNode *node = get_node (watch->key, watch);
 	watch->handler = go_conf_add_monitor
 		(node, NULL, cb_watch_double, watch);
 	watchers = g_slist_prepend (watchers, watch);
@@ -251,6 +288,8 @@ set_double (struct cb_watch_double *watch, double x)
 struct cb_watch_string {
 	guint handler;
 	const char *key;
+	const char *short_desc;
+	const char *long_desc;
 	const char *defalt;
 	const char *var;
 };
@@ -268,7 +307,7 @@ cb_watch_string (GOConfNode *node, G_GNUC_UNUSED const char *key, gpointer user)
 static void
 watch_string (struct cb_watch_string *watch)
 {
-	GOConfNode *node = get_node (watch->key);
+	GOConfNode *node = get_node (watch->key, watch);
 	watch->handler = go_conf_add_monitor
 		(node, NULL, cb_watch_string, watch);
 	watchers = g_slist_prepend (watchers, watch);
@@ -298,6 +337,8 @@ set_string (struct cb_watch_string *watch, const char *x)
 struct cb_watch_string_list {
 	guint handler;
 	const char *key;
+	const char *short_desc;
+	const char *long_desc;
 	GSList *var;
 };
 
@@ -313,7 +354,7 @@ cb_watch_string_list (GOConfNode *node, G_GNUC_UNUSED const char *key, gpointer 
 static void
 watch_string_list (struct cb_watch_string_list *watch)
 {
-	GOConfNode *node = get_node (watch->key);
+	GOConfNode *node = get_node (watch->key, watch);
 	watch->handler = go_conf_add_monitor
 		(node, NULL, cb_watch_string_list, watch);
 	watchers = g_slist_prepend (watchers, watch);
@@ -355,6 +396,8 @@ set_string_list (struct cb_watch_string_list *watch, GSList *x)
 struct cb_watch_enum {
 	guint handler;
 	const char *key;
+	const char *short_desc;
+	const char *long_desc;
 	int defalt;
 	GType typ;
 	int var;
@@ -371,7 +414,7 @@ cb_watch_enum (GOConfNode *node, G_GNUC_UNUSED const char *key, gpointer user)
 static void
 watch_enum (struct cb_watch_enum *watch, GType typ)
 {
-	GOConfNode *node = get_node (watch->key);
+	GOConfNode *node = get_node (watch->key, watch);
 	watch->typ = typ;
 	watch->handler = go_conf_add_monitor
 		(node, NULL, cb_watch_enum, watch);
@@ -412,6 +455,7 @@ gnm_conf_init (void)
 	node_pool = g_hash_table_new_full
 		(g_str_hash, g_str_equal,
 		 NULL, (GDestroyNotify)go_conf_free_node);
+	node_watch = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	root = go_conf_get_node (NULL, GNM_CONF_DIR);
 	g_hash_table_insert (node_pool, (gpointer)"/", root);
@@ -438,8 +482,12 @@ gnm_conf_shutdown (void)
 	g_hash_table_destroy (string_list_pool);
 	string_list_pool = NULL;
 
+	g_hash_table_destroy (node_watch);
+	node_watch = NULL;
+
 	g_hash_table_destroy (node_pool);
 	node_pool = NULL;
+
 	root = NULL;
 }
 
@@ -638,7 +686,10 @@ gnm_conf_get_detachable_toolbars (void)
 /* ----------- AUTOMATICALLY GENERATED CODE BELOW -- DO NOT EDIT ----------- */
 
 static struct cb_watch_bool watch_autocorrect_first_letter = {
-	0, "autocorrect/first-letter", TRUE,
+	0, "autocorrect/first-letter",
+	"List of Init Caps Exceptions",
+	"The autocorrect engine does not correct the initial caps for words in this list.",
+	TRUE,
 };
 
 gboolean
@@ -660,11 +711,13 @@ gnm_conf_set_autocorrect_first_letter (gboolean x)
 GOConfNode *
 gnm_conf_get_autocorrect_first_letter_node (void)
 {
-	return get_node (watch_autocorrect_first_letter.key);
+	return get_watch_node (&watch_autocorrect_first_letter);
 }
 
 static struct cb_watch_string_list watch_autocorrect_first_letter_list = {
 	0, "autocorrect/first-letter-list",
+	"List of First Letter Exception",
+	"The autocorrect engine does not correct the first letter for words in this list.",
 };
 
 GSList *
@@ -686,11 +739,14 @@ gnm_conf_set_autocorrect_first_letter_list (GSList *x)
 GOConfNode *
 gnm_conf_get_autocorrect_first_letter_list_node (void)
 {
-	return get_node (watch_autocorrect_first_letter_list.key);
+	return get_watch_node (&watch_autocorrect_first_letter_list);
 }
 
 static struct cb_watch_bool watch_autocorrect_init_caps = {
-	0, "autocorrect/init-caps", TRUE,
+	0, "autocorrect/init-caps",
+	"Autocorrect initial caps",
+	"Autocorrect initial caps",
+	TRUE,
 };
 
 gboolean
@@ -712,11 +768,13 @@ gnm_conf_set_autocorrect_init_caps (gboolean x)
 GOConfNode *
 gnm_conf_get_autocorrect_init_caps_node (void)
 {
-	return get_node (watch_autocorrect_init_caps.key);
+	return get_watch_node (&watch_autocorrect_init_caps);
 }
 
 static struct cb_watch_string_list watch_autocorrect_init_caps_list = {
 	0, "autocorrect/init-caps-list",
+	"Autocorrect initial caps",
+	"Autocorrect initial caps",
 };
 
 GSList *
@@ -738,11 +796,14 @@ gnm_conf_set_autocorrect_init_caps_list (GSList *x)
 GOConfNode *
 gnm_conf_get_autocorrect_init_caps_list_node (void)
 {
-	return get_node (watch_autocorrect_init_caps_list.key);
+	return get_watch_node (&watch_autocorrect_init_caps_list);
 }
 
 static struct cb_watch_bool watch_autocorrect_names_of_days = {
-	0, "autocorrect/names-of-days", TRUE,
+	0, "autocorrect/names-of-days",
+	"Autocorrect names of days",
+	"Autocorrect names of days",
+	TRUE,
 };
 
 gboolean
@@ -764,11 +825,14 @@ gnm_conf_set_autocorrect_names_of_days (gboolean x)
 GOConfNode *
 gnm_conf_get_autocorrect_names_of_days_node (void)
 {
-	return get_node (watch_autocorrect_names_of_days.key);
+	return get_watch_node (&watch_autocorrect_names_of_days);
 }
 
 static struct cb_watch_bool watch_autocorrect_replace = {
-	0, "autocorrect/replace", TRUE,
+	0, "autocorrect/replace",
+	"Autocorrect replace",
+	"Autocorrect replace",
+	TRUE,
 };
 
 gboolean
@@ -790,11 +854,13 @@ gnm_conf_set_autocorrect_replace (gboolean x)
 GOConfNode *
 gnm_conf_get_autocorrect_replace_node (void)
 {
-	return get_node (watch_autocorrect_replace.key);
+	return get_watch_node (&watch_autocorrect_replace);
 }
 
 static struct cb_watch_string_list watch_autoformat_extra_dirs = {
 	0, "autoformat/extra-dirs",
+	"List of Extra Autoformat Directories.",
+	"This list contains all extra directories containing autoformat templates.",
 };
 
 GSList *
@@ -816,11 +882,14 @@ gnm_conf_set_autoformat_extra_dirs (GSList *x)
 GOConfNode *
 gnm_conf_get_autoformat_extra_dirs_node (void)
 {
-	return get_node (watch_autoformat_extra_dirs.key);
+	return get_watch_node (&watch_autoformat_extra_dirs);
 }
 
 static struct cb_watch_string watch_autoformat_sys_dir = {
-	0, "autoformat/sys-dir", "autoformat-templates",
+	0, "autoformat/sys-dir",
+	"System Directory for Autoformats",
+	"This directory contains the pre-installed autoformat templates.",
+	"autoformat-templates",
 };
 
 const char *
@@ -843,11 +912,14 @@ gnm_conf_set_autoformat_sys_dir (const char *x)
 GOConfNode *
 gnm_conf_get_autoformat_sys_dir_node (void)
 {
-	return get_node (watch_autoformat_sys_dir.key);
+	return get_watch_node (&watch_autoformat_sys_dir);
 }
 
 static struct cb_watch_string watch_autoformat_usr_dir = {
-	0, "autoformat/usr-dir", "autoformat-templates",
+	0, "autoformat/usr-dir",
+	"User Directory for Autoformats",
+	"The main directory for user specific autoformat templates.",
+	"autoformat-templates",
 };
 
 const char *
@@ -870,11 +942,14 @@ gnm_conf_set_autoformat_usr_dir (const char *x)
 GOConfNode *
 gnm_conf_get_autoformat_usr_dir_node (void)
 {
-	return get_node (watch_autoformat_usr_dir.key);
+	return get_watch_node (&watch_autoformat_usr_dir);
 }
 
 static struct cb_watch_bool watch_core_defaultfont_bold = {
-	0, "core/defaultfont/bold", FALSE,
+	0, "core/defaultfont/bold",
+	"The default font is bold.",
+	"This value determines whether the default font for a new workbook is bold.",
+	FALSE,
 };
 
 gboolean
@@ -896,11 +971,14 @@ gnm_conf_set_core_defaultfont_bold (gboolean x)
 GOConfNode *
 gnm_conf_get_core_defaultfont_bold_node (void)
 {
-	return get_node (watch_core_defaultfont_bold.key);
+	return get_watch_node (&watch_core_defaultfont_bold);
 }
 
 static struct cb_watch_bool watch_core_defaultfont_italic = {
-	0, "core/defaultfont/italic", FALSE,
+	0, "core/defaultfont/italic",
+	"The default font is italic.",
+	"This value determines whether the default font for a new workbook is italic.",
+	FALSE,
 };
 
 gboolean
@@ -922,11 +1000,14 @@ gnm_conf_set_core_defaultfont_italic (gboolean x)
 GOConfNode *
 gnm_conf_get_core_defaultfont_italic_node (void)
 {
-	return get_node (watch_core_defaultfont_italic.key);
+	return get_watch_node (&watch_core_defaultfont_italic);
 }
 
 static struct cb_watch_string watch_core_defaultfont_name = {
-	0, "core/defaultfont/name", "Sans",
+	0, "core/defaultfont/name",
+	"Default font name",
+	"The default font name for new workbooks.",
+	"Sans",
 };
 
 const char *
@@ -949,11 +1030,14 @@ gnm_conf_set_core_defaultfont_name (const char *x)
 GOConfNode *
 gnm_conf_get_core_defaultfont_name_node (void)
 {
-	return get_node (watch_core_defaultfont_name.key);
+	return get_watch_node (&watch_core_defaultfont_name);
 }
 
 static struct cb_watch_double watch_core_defaultfont_size = {
-	0, "core/defaultfont/size", 1, 100, 10,
+	0, "core/defaultfont/size",
+	"Default Font Size",
+	"The default font size for new workbooks.",
+	1, 100, 10,
 };
 
 double
@@ -975,11 +1059,14 @@ gnm_conf_set_core_defaultfont_size (double x)
 GOConfNode *
 gnm_conf_get_core_defaultfont_size_node (void)
 {
-	return get_node (watch_core_defaultfont_size.key);
+	return get_watch_node (&watch_core_defaultfont_size);
 }
 
 static struct cb_watch_bool watch_core_file_save_def_overwrite = {
-	0, "core/file/save/def-overwrite", FALSE,
+	0, "core/file/save/def-overwrite",
+	"Default To Overwriting Files",
+	"Before an existing file is being overwritten, gnumeric will present a warning dialog. Setting this option will make the overwrite button in that dialog the default button.",
+	FALSE,
 };
 
 gboolean
@@ -1001,11 +1088,13 @@ gnm_conf_set_core_file_save_def_overwrite (gboolean x)
 GOConfNode *
 gnm_conf_get_core_file_save_def_overwrite_node (void)
 {
-	return get_node (watch_core_file_save_def_overwrite.key);
+	return get_watch_node (&watch_core_file_save_def_overwrite);
 }
 
 static struct cb_watch_string_list watch_core_file_save_extension_check_disabled = {
 	0, "core/file/save/extension-check-disabled",
+	"List of file savers with disabled extension check.",
+	"This list contains the ids of the file savers for which the extension check is disabled.",
 };
 
 GSList *
@@ -1027,11 +1116,14 @@ gnm_conf_set_core_file_save_extension_check_disabled (GSList *x)
 GOConfNode *
 gnm_conf_get_core_file_save_extension_check_disabled_node (void)
 {
-	return get_node (watch_core_file_save_extension_check_disabled.key);
+	return get_watch_node (&watch_core_file_save_extension_check_disabled);
 }
 
 static struct cb_watch_bool watch_core_file_save_single_sheet = {
-	0, "core/file/save/single-sheet", TRUE,
+	0, "core/file/save/single-sheet",
+	"Warn When Exporting Into Single Sheet Format",
+	"Some file formats can contain only a single sheet. This variable determines whether the user will be warned if only a single sheet of a multi-sheet workbook is being saved.",
+	TRUE,
 };
 
 gboolean
@@ -1053,11 +1145,14 @@ gnm_conf_set_core_file_save_single_sheet (gboolean x)
 GOConfNode *
 gnm_conf_get_core_file_save_single_sheet_node (void)
 {
-	return get_node (watch_core_file_save_single_sheet.key);
+	return get_watch_node (&watch_core_file_save_single_sheet);
 }
 
 static struct cb_watch_bool watch_core_gui_cells_extension_markers = {
-	0, "core/gui/cells/extension-markers", FALSE,
+	0, "core/gui/cells/extension-markers",
+	"Extension Markers",
+	"This variable determines whether cells with truncated content are marked.",
+	FALSE,
 };
 
 gboolean
@@ -1079,11 +1174,14 @@ gnm_conf_set_core_gui_cells_extension_markers (gboolean x)
 GOConfNode *
 gnm_conf_get_core_gui_cells_extension_markers_node (void)
 {
-	return get_node (watch_core_gui_cells_extension_markers.key);
+	return get_watch_node (&watch_core_gui_cells_extension_markers);
 }
 
 static struct cb_watch_bool watch_core_gui_cells_function_markers = {
-	0, "core/gui/cells/function-markers", FALSE,
+	0, "core/gui/cells/function-markers",
+	"Function Markers",
+	"This variable determines whether cells containing spreadsheet function are marked.",
+	FALSE,
 };
 
 gboolean
@@ -1105,11 +1203,14 @@ gnm_conf_set_core_gui_cells_function_markers (gboolean x)
 GOConfNode *
 gnm_conf_get_core_gui_cells_function_markers_node (void)
 {
-	return get_node (watch_core_gui_cells_function_markers.key);
+	return get_watch_node (&watch_core_gui_cells_function_markers);
 }
 
 static struct cb_watch_bool watch_core_gui_editing_autocomplete = {
-	0, "core/gui/editing/autocomplete", TRUE,
+	0, "core/gui/editing/autocomplete",
+	"Autocomplete",
+	"This variable determines whether autocompletion is set on.",
+	TRUE,
 };
 
 gboolean
@@ -1131,11 +1232,14 @@ gnm_conf_set_core_gui_editing_autocomplete (gboolean x)
 GOConfNode *
 gnm_conf_get_core_gui_editing_autocomplete_node (void)
 {
-	return get_node (watch_core_gui_editing_autocomplete.key);
+	return get_watch_node (&watch_core_gui_editing_autocomplete);
 }
 
 static struct cb_watch_int watch_core_gui_editing_autocomplete_min_chars = {
-	0, "core/gui/editing/autocomplete-min-chars", 1, 10, 3,
+	0, "core/gui/editing/autocomplete-min-chars",
+	"Minimum Number of Characters for Autocompletion",
+	"This variable determines theminimum number of characters required for autocompletion.",
+	1, 10, 3,
 };
 
 int
@@ -1157,11 +1261,14 @@ gnm_conf_set_core_gui_editing_autocomplete_min_chars (int x)
 GOConfNode *
 gnm_conf_get_core_gui_editing_autocomplete_min_chars_node (void)
 {
-	return get_node (watch_core_gui_editing_autocomplete_min_chars.key);
+	return get_watch_node (&watch_core_gui_editing_autocomplete_min_chars);
 }
 
 static struct cb_watch_enum watch_core_gui_editing_enter_moves_dir = {
-	0, "core/gui/editing/enter-moves-dir", GO_DIRECTION_DOWN,
+	0, "core/gui/editing/enter-moves-dir",
+	"Enter Direction",
+	"Which direction pressing Enter will move the edit position.",
+	GO_DIRECTION_DOWN,
 };
 
 GODirection
@@ -1183,11 +1290,14 @@ gnm_conf_set_core_gui_editing_enter_moves_dir (GODirection x)
 GOConfNode *
 gnm_conf_get_core_gui_editing_enter_moves_dir_node (void)
 {
-	return get_node (watch_core_gui_editing_enter_moves_dir.key);
+	return get_watch_node (&watch_core_gui_editing_enter_moves_dir);
 }
 
 static struct cb_watch_bool watch_core_gui_editing_function_argument_tooltips = {
-	0, "core/gui/editing/function-argument-tooltips", TRUE,
+	0, "core/gui/editing/function-argument-tooltips",
+	"Show Function Argument Tooltips",
+	"This variable determines whether to show function argument tooltips.",
+	TRUE,
 };
 
 gboolean
@@ -1209,11 +1319,14 @@ gnm_conf_set_core_gui_editing_function_argument_tooltips (gboolean x)
 GOConfNode *
 gnm_conf_get_core_gui_editing_function_argument_tooltips_node (void)
 {
-	return get_node (watch_core_gui_editing_function_argument_tooltips.key);
+	return get_watch_node (&watch_core_gui_editing_function_argument_tooltips);
 }
 
 static struct cb_watch_bool watch_core_gui_editing_function_name_tooltips = {
-	0, "core/gui/editing/function-name-tooltips", TRUE,
+	0, "core/gui/editing/function-name-tooltips",
+	"Show Function Name Tooltips",
+	"This variable determines whether to show function name tooltips.",
+	TRUE,
 };
 
 gboolean
@@ -1235,11 +1348,14 @@ gnm_conf_set_core_gui_editing_function_name_tooltips (gboolean x)
 GOConfNode *
 gnm_conf_get_core_gui_editing_function_name_tooltips_node (void)
 {
-	return get_node (watch_core_gui_editing_function_name_tooltips.key);
+	return get_watch_node (&watch_core_gui_editing_function_name_tooltips);
 }
 
 static struct cb_watch_bool watch_core_gui_editing_livescrolling = {
-	0, "core/gui/editing/livescrolling", TRUE,
+	0, "core/gui/editing/livescrolling",
+	"Live Scrolling",
+	"This variable determines whether live (versus delayed) scrolling is performed.",
+	TRUE,
 };
 
 gboolean
@@ -1261,11 +1377,14 @@ gnm_conf_set_core_gui_editing_livescrolling (gboolean x)
 GOConfNode *
 gnm_conf_get_core_gui_editing_livescrolling_node (void)
 {
-	return get_node (watch_core_gui_editing_livescrolling.key);
+	return get_watch_node (&watch_core_gui_editing_livescrolling);
 }
 
 static struct cb_watch_int watch_core_gui_editing_recalclag = {
-	0, "core/gui/editing/recalclag", -5000, 5000, 200,
+	0, "core/gui/editing/recalclag",
+	"Auto Expression Recalculation Lag",
+	"If `lag' is 0, gnumeric recalculates all auto expressions immediately after every change.  Non-zero values of `lag' allow gnumeric to accumulate more changes before each recalculation.\nIf `lag' is positive, then whenever a change appears, gnumeric waits `lag'\nmilleseconds and then recalculates; if more changes appear during that period,\nthey are also processed at that time. If `lag' is negative, then recalculation happens only after a quiet period of\n|lag| milleseconds.",
+	-5000, 5000, 200,
 };
 
 int
@@ -1287,11 +1406,14 @@ gnm_conf_set_core_gui_editing_recalclag (int x)
 GOConfNode *
 gnm_conf_get_core_gui_editing_recalclag_node (void)
 {
-	return get_node (watch_core_gui_editing_recalclag.key);
+	return get_watch_node (&watch_core_gui_editing_recalclag);
 }
 
 static struct cb_watch_bool watch_core_gui_editing_transitionkeys = {
-	0, "core/gui/editing/transitionkeys", FALSE,
+	0, "core/gui/editing/transitionkeys",
+	">Transition Keys",
+	"This variable determines whether transition keys are set on. Transition keys are a throw back to 1-2-3 style event handling.\n	     They turn Ctrl-arrow into page movement rather than jumping to the start/end of series.",
+	FALSE,
 };
 
 gboolean
@@ -1313,11 +1435,14 @@ gnm_conf_set_core_gui_editing_transitionkeys (gboolean x)
 GOConfNode *
 gnm_conf_get_core_gui_editing_transitionkeys_node (void)
 {
-	return get_node (watch_core_gui_editing_transitionkeys.key);
+	return get_watch_node (&watch_core_gui_editing_transitionkeys);
 }
 
 static struct cb_watch_double watch_core_gui_screen_horizontaldpi = {
-	0, "core/gui/screen/horizontaldpi", 10, 1000, 96,
+	0, "core/gui/screen/horizontaldpi",
+	"Horizontal DPI",
+	"Screen resolution in the horizontal direction.",
+	10, 1000, 96,
 };
 
 double
@@ -1339,11 +1464,14 @@ gnm_conf_set_core_gui_screen_horizontaldpi (double x)
 GOConfNode *
 gnm_conf_get_core_gui_screen_horizontaldpi_node (void)
 {
-	return get_node (watch_core_gui_screen_horizontaldpi.key);
+	return get_watch_node (&watch_core_gui_screen_horizontaldpi);
 }
 
 static struct cb_watch_double watch_core_gui_screen_verticaldpi = {
-	0, "core/gui/screen/verticaldpi", 10, 1000, 96,
+	0, "core/gui/screen/verticaldpi",
+	"Vertical DPI",
+	"Screen resolution in the vertical direction.",
+	10, 1000, 96,
 };
 
 double
@@ -1365,11 +1493,14 @@ gnm_conf_set_core_gui_screen_verticaldpi (double x)
 GOConfNode *
 gnm_conf_get_core_gui_screen_verticaldpi_node (void)
 {
-	return get_node (watch_core_gui_screen_verticaldpi.key);
+	return get_watch_node (&watch_core_gui_screen_verticaldpi);
 }
 
 static struct cb_watch_int watch_core_gui_toolbars_format_position = {
-	0, "core/gui/toolbars/format-position", 0, 3, 2,
+	0, "core/gui/toolbars/format-position",
+	"Format toolbar position",
+	"This variable determines where the format toolbar should be shown.  0 is left, 1 is right, 2 is top.",
+	0, 3, 2,
 };
 
 GtkPositionType
@@ -1391,11 +1522,14 @@ gnm_conf_set_core_gui_toolbars_format_position (GtkPositionType x)
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_format_position_node (void)
 {
-	return get_node (watch_core_gui_toolbars_format_position.key);
+	return get_watch_node (&watch_core_gui_toolbars_format_position);
 }
 
 static struct cb_watch_bool watch_core_gui_toolbars_format_visible = {
-	0, "core/gui/toolbars/format-visible", TRUE,
+	0, "core/gui/toolbars/format-visible",
+	"Format toolbar visible",
+	"This variable determines whether the format toolbar should be visible initially.",
+	TRUE,
 };
 
 gboolean
@@ -1417,11 +1551,14 @@ gnm_conf_set_core_gui_toolbars_format_visible (gboolean x)
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_format_visible_node (void)
 {
-	return get_node (watch_core_gui_toolbars_format_visible.key);
+	return get_watch_node (&watch_core_gui_toolbars_format_visible);
 }
 
 static struct cb_watch_int watch_core_gui_toolbars_longformat_position = {
-	0, "core/gui/toolbars/longformat-position", 0, 3, 2,
+	0, "core/gui/toolbars/longformat-position",
+	"Long format toolbar position",
+	"This variable determines where the long format toolbar should be shown.  0 is left, 1 is right, 2 is top.",
+	0, 3, 2,
 };
 
 GtkPositionType
@@ -1443,11 +1580,14 @@ gnm_conf_set_core_gui_toolbars_longformat_position (GtkPositionType x)
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_longformat_position_node (void)
 {
-	return get_node (watch_core_gui_toolbars_longformat_position.key);
+	return get_watch_node (&watch_core_gui_toolbars_longformat_position);
 }
 
 static struct cb_watch_bool watch_core_gui_toolbars_longformat_visible = {
-	0, "core/gui/toolbars/longformat-visible", FALSE,
+	0, "core/gui/toolbars/longformat-visible",
+	"Long format toolbar visible",
+	"This variable determines whether the long format toolbar should be visible initially.",
+	FALSE,
 };
 
 gboolean
@@ -1469,11 +1609,14 @@ gnm_conf_set_core_gui_toolbars_longformat_visible (gboolean x)
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_longformat_visible_node (void)
 {
-	return get_node (watch_core_gui_toolbars_longformat_visible.key);
+	return get_watch_node (&watch_core_gui_toolbars_longformat_visible);
 }
 
 static struct cb_watch_int watch_core_gui_toolbars_object_position = {
-	0, "core/gui/toolbars/object-position", 0, 3, 2,
+	0, "core/gui/toolbars/object-position",
+	"Object toolbar position",
+	"This variable determines where the object toolbar should be shown.  0 is left, 1 is right, 2 is top.",
+	0, 3, 2,
 };
 
 GtkPositionType
@@ -1495,11 +1638,14 @@ gnm_conf_set_core_gui_toolbars_object_position (GtkPositionType x)
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_object_position_node (void)
 {
-	return get_node (watch_core_gui_toolbars_object_position.key);
+	return get_watch_node (&watch_core_gui_toolbars_object_position);
 }
 
 static struct cb_watch_bool watch_core_gui_toolbars_object_visible = {
-	0, "core/gui/toolbars/object-visible", TRUE,
+	0, "core/gui/toolbars/object-visible",
+	"Object toolbar visible",
+	"This variable determines whether the object toolbar should be visible initially.",
+	TRUE,
 };
 
 gboolean
@@ -1521,11 +1667,14 @@ gnm_conf_set_core_gui_toolbars_object_visible (gboolean x)
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_object_visible_node (void)
 {
-	return get_node (watch_core_gui_toolbars_object_visible.key);
+	return get_watch_node (&watch_core_gui_toolbars_object_visible);
 }
 
 static struct cb_watch_int watch_core_gui_toolbars_standard_position = {
-	0, "core/gui/toolbars/standard-position", 0, 3, 2,
+	0, "core/gui/toolbars/standard-position",
+	"Standard toolbar position",
+	"This variable determines where the standard toolbar should be shown.  0 is left, 1 is right, 2 is top.",
+	0, 3, 2,
 };
 
 GtkPositionType
@@ -1547,11 +1696,14 @@ gnm_conf_set_core_gui_toolbars_standard_position (GtkPositionType x)
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_standard_position_node (void)
 {
-	return get_node (watch_core_gui_toolbars_standard_position.key);
+	return get_watch_node (&watch_core_gui_toolbars_standard_position);
 }
 
 static struct cb_watch_bool watch_core_gui_toolbars_standard_visible = {
-	0, "core/gui/toolbars/standard-visible", TRUE,
+	0, "core/gui/toolbars/standard-visible",
+	"Standard toolbar visible",
+	"This variable determines whether the standard toolbar should be visible initially.",
+	TRUE,
 };
 
 gboolean
@@ -1573,11 +1725,14 @@ gnm_conf_set_core_gui_toolbars_standard_visible (gboolean x)
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_standard_visible_node (void)
 {
-	return get_node (watch_core_gui_toolbars_standard_visible.key);
+	return get_watch_node (&watch_core_gui_toolbars_standard_visible);
 }
 
 static struct cb_watch_double watch_core_gui_window_x = {
-	0, "core/gui/window/x", 0.1, 1, 0.75,
+	0, "core/gui/window/x",
+	"Default Horizontal Window Size",
+	"This number (between 0.25 and 1.00) gives the horizontal fraction of the screen size covered by the default window.",
+	0.1, 1, 0.75,
 };
 
 double
@@ -1599,11 +1754,14 @@ gnm_conf_set_core_gui_window_x (double x)
 GOConfNode *
 gnm_conf_get_core_gui_window_x_node (void)
 {
-	return get_node (watch_core_gui_window_x.key);
+	return get_watch_node (&watch_core_gui_window_x);
 }
 
 static struct cb_watch_double watch_core_gui_window_y = {
-	0, "core/gui/window/y", 0.1, 1, 0.75,
+	0, "core/gui/window/y",
+	"Default Vertical Window Size",
+	"This number (between 0.25 and 1.00) gives the vertical fraction of the screen size covered by the default window.",
+	0.1, 1, 0.75,
 };
 
 double
@@ -1625,11 +1783,14 @@ gnm_conf_set_core_gui_window_y (double x)
 GOConfNode *
 gnm_conf_get_core_gui_window_y_node (void)
 {
-	return get_node (watch_core_gui_window_y.key);
+	return get_watch_node (&watch_core_gui_window_y);
 }
 
 static struct cb_watch_double watch_core_gui_window_zoom = {
-	0, "core/gui/window/zoom", 0.1, 5, 1,
+	0, "core/gui/window/zoom",
+	"Default Zoom Factor",
+	"The initial zoom factor for new workbooks.",
+	0.1, 5, 1,
 };
 
 double
@@ -1651,11 +1812,14 @@ gnm_conf_set_core_gui_window_zoom (double x)
 GOConfNode *
 gnm_conf_get_core_gui_window_zoom_node (void)
 {
-	return get_node (watch_core_gui_window_zoom.key);
+	return get_watch_node (&watch_core_gui_window_zoom);
 }
 
 static struct cb_watch_bool watch_core_sort_default_ascending = {
-	0, "core/sort/default/ascending", TRUE,
+	0, "core/sort/default/ascending",
+	"Sort Ascending",
+	"This option determines the initial state of the sort-order button in the sort dialog.",
+	TRUE,
 };
 
 gboolean
@@ -1677,11 +1841,14 @@ gnm_conf_set_core_sort_default_ascending (gboolean x)
 GOConfNode *
 gnm_conf_get_core_sort_default_ascending_node (void)
 {
-	return get_node (watch_core_sort_default_ascending.key);
+	return get_watch_node (&watch_core_sort_default_ascending);
 }
 
 static struct cb_watch_bool watch_core_sort_default_by_case = {
-	0, "core/sort/default/by-case", FALSE,
+	0, "core/sort/default/by-case",
+	"Sort is Case-Sensitive",
+	"Setting this option will cause the sort buttons on the toolbar to perform a case-sensitive sort and determine the initial state of the case-sensitive checkbox in the sort dialog.",
+	FALSE,
 };
 
 gboolean
@@ -1703,11 +1870,14 @@ gnm_conf_set_core_sort_default_by_case (gboolean x)
 GOConfNode *
 gnm_conf_get_core_sort_default_by_case_node (void)
 {
-	return get_node (watch_core_sort_default_by_case.key);
+	return get_watch_node (&watch_core_sort_default_by_case);
 }
 
 static struct cb_watch_bool watch_core_sort_default_retain_formats = {
-	0, "core/sort/default/retain-formats", TRUE,
+	0, "core/sort/default/retain-formats",
+	"Sorting Preserves Formats",
+	"Setting this option will cause the sort buttons on the toolbar to preserve the cell formats while sorting and determines the initial state of the preserve-formats checkbox in the sort dialog.",
+	TRUE,
 };
 
 gboolean
@@ -1729,11 +1899,14 @@ gnm_conf_set_core_sort_default_retain_formats (gboolean x)
 GOConfNode *
 gnm_conf_get_core_sort_default_retain_formats_node (void)
 {
-	return get_node (watch_core_sort_default_retain_formats.key);
+	return get_watch_node (&watch_core_sort_default_retain_formats);
 }
 
 static struct cb_watch_int watch_core_sort_dialog_max_initial_clauses = {
-	0, "core/sort/dialog/max-initial-clauses", 0, 256, 10,
+	0, "core/sort/dialog/max-initial-clauses",
+	"Number of Automatic Clauses",
+	"When selecting a sort region in the sort dialog, sort clauses are automatically added. This number determines the maximum number of clauses to be added automatically.",
+	0, 256, 10,
 };
 
 int
@@ -1755,11 +1928,14 @@ gnm_conf_set_core_sort_dialog_max_initial_clauses (int x)
 GOConfNode *
 gnm_conf_get_core_sort_dialog_max_initial_clauses_node (void)
 {
-	return get_node (watch_core_sort_dialog_max_initial_clauses.key);
+	return get_watch_node (&watch_core_sort_dialog_max_initial_clauses);
 }
 
 static struct cb_watch_int watch_core_workbook_autosave_time = {
-	0, "core/workbook/autosave-time", 0, 365 * 24 * 60 * 60, 0,
+	0, "core/workbook/autosave-time",
+	"Autosave frequency",
+	"The number of seconds between autosaves.",
+	0, 365 * 24 * 60 * 60, 0,
 };
 
 int
@@ -1781,11 +1957,14 @@ gnm_conf_set_core_workbook_autosave_time (int x)
 GOConfNode *
 gnm_conf_get_core_workbook_autosave_time_node (void)
 {
-	return get_node (watch_core_workbook_autosave_time.key);
+	return get_watch_node (&watch_core_workbook_autosave_time);
 }
 
 static struct cb_watch_int watch_core_workbook_n_cols = {
-	0, "core/workbook/n-cols", GNM_MIN_COLS, GNM_MAX_COLS, 256,
+	0, "core/workbook/n-cols",
+	"Default Number of columns in a sheet",
+	"The number of columns in each sheet. This setting will be used only in a new gnumeric session.",
+	GNM_MIN_COLS, GNM_MAX_COLS, 256,
 };
 
 int
@@ -1807,11 +1986,14 @@ gnm_conf_set_core_workbook_n_cols (int x)
 GOConfNode *
 gnm_conf_get_core_workbook_n_cols_node (void)
 {
-	return get_node (watch_core_workbook_n_cols.key);
+	return get_watch_node (&watch_core_workbook_n_cols);
 }
 
 static struct cb_watch_int watch_core_workbook_n_rows = {
-	0, "core/workbook/n-rows", GNM_MIN_ROWS, GNM_MAX_ROWS, 65536,
+	0, "core/workbook/n-rows",
+	"Default Number of rows in a sheet",
+	"The number of rows in each sheet. This setting will be used only in a new gnumeric session.",
+	GNM_MIN_ROWS, GNM_MAX_ROWS, 65536,
 };
 
 int
@@ -1833,11 +2015,14 @@ gnm_conf_set_core_workbook_n_rows (int x)
 GOConfNode *
 gnm_conf_get_core_workbook_n_rows_node (void)
 {
-	return get_node (watch_core_workbook_n_rows.key);
+	return get_watch_node (&watch_core_workbook_n_rows);
 }
 
 static struct cb_watch_int watch_core_workbook_n_sheet = {
-	0, "core/workbook/n-sheet", 1, 64, 3,
+	0, "core/workbook/n-sheet",
+	"Default Number of Sheets",
+	"The number of sheets initially created in a new workbook.",
+	1, 64, 3,
 };
 
 int
@@ -1859,11 +2044,14 @@ gnm_conf_set_core_workbook_n_sheet (int x)
 GOConfNode *
 gnm_conf_get_core_workbook_n_sheet_node (void)
 {
-	return get_node (watch_core_workbook_n_sheet.key);
+	return get_watch_node (&watch_core_workbook_n_sheet);
 }
 
 static struct cb_watch_int watch_core_xml_compression_level = {
-	0, "core/xml/compression-level", 0, 9, 9,
+	0, "core/xml/compression-level",
+	"Default Compression Level For Gnumeric Files",
+	"This integer (between 0 and 9) specifies the amount of compression performed by Gnumeric when saving files in the default file format. 0 is minimal compression while 9 is maximal compression.",
+	0, 9, 9,
 };
 
 int
@@ -1885,11 +2073,14 @@ gnm_conf_set_core_xml_compression_level (int x)
 GOConfNode *
 gnm_conf_get_core_xml_compression_level_node (void)
 {
-	return get_node (watch_core_xml_compression_level.key);
+	return get_watch_node (&watch_core_xml_compression_level);
 }
 
 static struct cb_watch_bool watch_cut_and_paste_prefer_clipboard = {
-	0, "cut-and-paste/prefer-clipboard", TRUE,
+	0, "cut-and-paste/prefer-clipboard",
+	"Prefer CLIPBOARD over PRIMARY selection",
+	"When TRUE, Gnumeric will prefer the modern CLIPBOARD selection over the legacy PRIMARY selections.  Set to FALSE if you have to deal with older applications, like Xterm or Emacs, which set only the PRIMARY selection.",
+	TRUE,
 };
 
 gboolean
@@ -1911,11 +2102,14 @@ gnm_conf_set_cut_and_paste_prefer_clipboard (gboolean x)
 GOConfNode *
 gnm_conf_get_cut_and_paste_prefer_clipboard_node (void)
 {
-	return get_node (watch_cut_and_paste_prefer_clipboard.key);
+	return get_watch_node (&watch_cut_and_paste_prefer_clipboard);
 }
 
 static struct cb_watch_bool watch_dialogs_rs_unfocused = {
-	0, "dialogs/rs/unfocused", FALSE,
+	0, "dialogs/rs/unfocused",
+	"Allow Unfocused Range Selections",
+	"Some dialogs contain only a single entry field that allows range selections in the workbook. Setting this variable to TRUE directs selections to this entry even if the entry does not have keyboard focus.",
+	FALSE,
 };
 
 gboolean
@@ -1937,11 +2131,14 @@ gnm_conf_set_dialogs_rs_unfocused (gboolean x)
 GOConfNode *
 gnm_conf_get_dialogs_rs_unfocused_node (void)
 {
-	return get_node (watch_dialogs_rs_unfocused.key);
+	return get_watch_node (&watch_dialogs_rs_unfocused);
 }
 
 static struct cb_watch_int watch_functionselector_num_of_recent = {
-	0, "functionselector/num-of-recent", 0, 40, 12,
+	0, "functionselector/num-of-recent",
+	"Maximum Length of Recently Used Functions List",
+	"The function selector keeps a list of recently used functions. This is the maximum length of that list.",
+	0, 40, 12,
 };
 
 int
@@ -1963,11 +2160,13 @@ gnm_conf_set_functionselector_num_of_recent (int x)
 GOConfNode *
 gnm_conf_get_functionselector_num_of_recent_node (void)
 {
-	return get_node (watch_functionselector_num_of_recent.key);
+	return get_watch_node (&watch_functionselector_num_of_recent);
 }
 
 static struct cb_watch_string_list watch_functionselector_recentfunctions = {
 	0, "functionselector/recentfunctions",
+	"List of recently used functions.",
+	"The function selector keeps a list of recently used functions. This is that list.",
 };
 
 GSList *
@@ -1989,11 +2188,14 @@ gnm_conf_set_functionselector_recentfunctions (GSList *x)
 GOConfNode *
 gnm_conf_get_functionselector_recentfunctions_node (void)
 {
-	return get_node (watch_functionselector_recentfunctions.key);
+	return get_watch_node (&watch_functionselector_recentfunctions);
 }
 
 static struct cb_watch_string watch_plugin_glpk_glpsol_path = {
-	0, "plugin/glpk/glpsol-path", "",
+	0, "plugin/glpk/glpsol-path",
+	"Full path of glpsol program to use",
+	"This is the full path to the glpsol binary that the lpsolve plugin should use.",
+	"",
 };
 
 const char *
@@ -2016,11 +2218,14 @@ gnm_conf_set_plugin_glpk_glpsol_path (const char *x)
 GOConfNode *
 gnm_conf_get_plugin_glpk_glpsol_path_node (void)
 {
-	return get_node (watch_plugin_glpk_glpsol_path.key);
+	return get_watch_node (&watch_plugin_glpk_glpsol_path);
 }
 
 static struct cb_watch_bool watch_plugin_latex_use_utf8 = {
-	0, "plugin/latex/use-utf8", FALSE,
+	0, "plugin/latex/use-utf8",
+	"Use UTF-8 in LaTeX Export",
+	"This setting determines whether created LaTeX files use UTF-8 (unicode) or ISO-8859-1 (Latin1). To use the UTF-8 files, you must have the ucs LaTeX package installed.",
+	FALSE,
 };
 
 gboolean
@@ -2042,11 +2247,14 @@ gnm_conf_set_plugin_latex_use_utf8 (gboolean x)
 GOConfNode *
 gnm_conf_get_plugin_latex_use_utf8_node (void)
 {
-	return get_node (watch_plugin_latex_use_utf8.key);
+	return get_watch_node (&watch_plugin_latex_use_utf8);
 }
 
 static struct cb_watch_string watch_plugin_lpsolve_lpsolve_path = {
-	0, "plugin/lpsolve/lpsolve-path", "",
+	0, "plugin/lpsolve/lpsolve-path",
+	"Full path of lp_solve program to use",
+	"This is the full path to the lp_solve binary that the lpsolve plugin should use.",
+	"",
 };
 
 const char *
@@ -2069,11 +2277,14 @@ gnm_conf_set_plugin_lpsolve_lpsolve_path (const char *x)
 GOConfNode *
 gnm_conf_get_plugin_lpsolve_lpsolve_path_node (void)
 {
-	return get_node (watch_plugin_lpsolve_lpsolve_path.key);
+	return get_watch_node (&watch_plugin_lpsolve_lpsolve_path);
 }
 
 static struct cb_watch_bool watch_plugins_activate_new = {
-	0, "plugins/activate-new", TRUE,
+	0, "plugins/activate-new",
+	"Activate New Plugins",
+	"This variable determines whether to activate every new encountered plugin.",
+	TRUE,
 };
 
 gboolean
@@ -2095,11 +2306,13 @@ gnm_conf_set_plugins_activate_new (gboolean x)
 GOConfNode *
 gnm_conf_get_plugins_activate_new_node (void)
 {
-	return get_node (watch_plugins_activate_new.key);
+	return get_watch_node (&watch_plugins_activate_new);
 }
 
 static struct cb_watch_string_list watch_plugins_active = {
 	0, "plugins/active",
+	"List of Active Plugins.",
+	"This list contains all plugins that are supposed to be automatically activated.",
 };
 
 GSList *
@@ -2121,11 +2334,13 @@ gnm_conf_set_plugins_active (GSList *x)
 GOConfNode *
 gnm_conf_get_plugins_active_node (void)
 {
-	return get_node (watch_plugins_active.key);
+	return get_watch_node (&watch_plugins_active);
 }
 
 static struct cb_watch_string_list watch_plugins_extra_dirs = {
 	0, "plugins/extra-dirs",
+	"List of Extra Plugin Directories.",
+	"This list contains all extra directories containing plugins.",
 };
 
 GSList *
@@ -2147,11 +2362,13 @@ gnm_conf_set_plugins_extra_dirs (GSList *x)
 GOConfNode *
 gnm_conf_get_plugins_extra_dirs_node (void)
 {
-	return get_node (watch_plugins_extra_dirs.key);
+	return get_watch_node (&watch_plugins_extra_dirs);
 }
 
 static struct cb_watch_string_list watch_plugins_file_states = {
 	0, "plugins/file-states",
+	"List of Plugin File States.",
+	"This list contains all plugin file states.",
 };
 
 GSList *
@@ -2173,11 +2390,13 @@ gnm_conf_set_plugins_file_states (GSList *x)
 GOConfNode *
 gnm_conf_get_plugins_file_states_node (void)
 {
-	return get_node (watch_plugins_file_states.key);
+	return get_watch_node (&watch_plugins_file_states);
 }
 
 static struct cb_watch_string_list watch_plugins_known = {
 	0, "plugins/known",
+	"List of Known Plugins.",
+	"This list contains all known plugins.",
 };
 
 GSList *
@@ -2199,11 +2418,14 @@ gnm_conf_set_plugins_known (GSList *x)
 GOConfNode *
 gnm_conf_get_plugins_known_node (void)
 {
-	return get_node (watch_plugins_known.key);
+	return get_watch_node (&watch_plugins_known);
 }
 
 static struct cb_watch_bool watch_printsetup_across_then_down = {
-	0, "printsetup/across-then-down", FALSE,
+	0, "printsetup/across-then-down",
+	"Default Print Direction",
+	"This value determines the default setting in the Print Setup dialog whether to print first right then down. Please use the Print Setup dialog to edit this value.",
+	FALSE,
 };
 
 gboolean
@@ -2225,11 +2447,14 @@ gnm_conf_set_printsetup_across_then_down (gboolean x)
 GOConfNode *
 gnm_conf_get_printsetup_across_then_down_node (void)
 {
-	return get_node (watch_printsetup_across_then_down.key);
+	return get_watch_node (&watch_printsetup_across_then_down);
 }
 
 static struct cb_watch_bool watch_printsetup_all_sheets = {
-	0, "printsetup/all-sheets", FALSE,
+	0, "printsetup/all-sheets",
+	"Apply print-setup to all sheets",
+	"This value determines whether by default the print set-up dialog applies to all sheets simultaneously.",
+	FALSE,
 };
 
 gboolean
@@ -2251,11 +2476,14 @@ gnm_conf_set_printsetup_all_sheets (gboolean x)
 GOConfNode *
 gnm_conf_get_printsetup_all_sheets_node (void)
 {
-	return get_node (watch_printsetup_all_sheets.key);
+	return get_watch_node (&watch_printsetup_all_sheets);
 }
 
 static struct cb_watch_bool watch_printsetup_center_horizontally = {
-	0, "printsetup/center-horizontally", FALSE,
+	0, "printsetup/center-horizontally",
+	"Default Horizontal Centering",
+	"This value determines whether the default setting in the Print Setup dialog is to center pages horizontally.",
+	FALSE,
 };
 
 gboolean
@@ -2277,11 +2505,14 @@ gnm_conf_set_printsetup_center_horizontally (gboolean x)
 GOConfNode *
 gnm_conf_get_printsetup_center_horizontally_node (void)
 {
-	return get_node (watch_printsetup_center_horizontally.key);
+	return get_watch_node (&watch_printsetup_center_horizontally);
 }
 
 static struct cb_watch_bool watch_printsetup_center_vertically = {
-	0, "printsetup/center-vertically", FALSE,
+	0, "printsetup/center-vertically",
+	"Default Vertical Centering",
+	"This value determines whether the default setting in the Print Setup dialog is to center pages vertically.",
+	FALSE,
 };
 
 gboolean
@@ -2303,11 +2534,13 @@ gnm_conf_set_printsetup_center_vertically (gboolean x)
 GOConfNode *
 gnm_conf_get_printsetup_center_vertically_node (void)
 {
-	return get_node (watch_printsetup_center_vertically.key);
+	return get_watch_node (&watch_printsetup_center_vertically);
 }
 
 static struct cb_watch_string_list watch_printsetup_footer = {
 	0, "printsetup/footer",
+	"Page Footer",
+	"The default page footer for new documents that can be modified using the\n	page setup dialog.",
 };
 
 GSList *
@@ -2329,11 +2562,13 @@ gnm_conf_set_printsetup_footer (GSList *x)
 GOConfNode *
 gnm_conf_get_printsetup_footer_node (void)
 {
-	return get_node (watch_printsetup_footer.key);
+	return get_watch_node (&watch_printsetup_footer);
 }
 
 static struct cb_watch_string_list watch_printsetup_gtk_setting = {
 	0, "printsetup/gtk-setting",
+	"GTKPrintSetting",
+	"The configuration of GTKPrintSetting. Do not edit this variable.",
 };
 
 GSList *
@@ -2355,11 +2590,13 @@ gnm_conf_set_printsetup_gtk_setting (GSList *x)
 GOConfNode *
 gnm_conf_get_printsetup_gtk_setting_node (void)
 {
-	return get_node (watch_printsetup_gtk_setting.key);
+	return get_watch_node (&watch_printsetup_gtk_setting);
 }
 
 static struct cb_watch_string_list watch_printsetup_header = {
 	0, "printsetup/header",
+	"Page Header",
+	"The default page header for new documents that can be modified using the\n	page setup dialog.",
 };
 
 GSList *
@@ -2381,11 +2618,14 @@ gnm_conf_set_printsetup_header (GSList *x)
 GOConfNode *
 gnm_conf_get_printsetup_header_node (void)
 {
-	return get_node (watch_printsetup_header.key);
+	return get_watch_node (&watch_printsetup_header);
 }
 
 static struct cb_watch_bool watch_printsetup_hf_font_bold = {
-	0, "printsetup/hf-font-bold", FALSE,
+	0, "printsetup/hf-font-bold",
+	"The default header/footer font is bold.",
+	"This value determines whether the default font for headers and footers is bold.",
+	FALSE,
 };
 
 gboolean
@@ -2407,11 +2647,14 @@ gnm_conf_set_printsetup_hf_font_bold (gboolean x)
 GOConfNode *
 gnm_conf_get_printsetup_hf_font_bold_node (void)
 {
-	return get_node (watch_printsetup_hf_font_bold.key);
+	return get_watch_node (&watch_printsetup_hf_font_bold);
 }
 
 static struct cb_watch_bool watch_printsetup_hf_font_italic = {
-	0, "printsetup/hf-font-italic", FALSE,
+	0, "printsetup/hf-font-italic",
+	"The default header/footer font is italic.",
+	"This value determines whether the default font for headers and footers is italic.",
+	FALSE,
 };
 
 gboolean
@@ -2433,11 +2676,14 @@ gnm_conf_set_printsetup_hf_font_italic (gboolean x)
 GOConfNode *
 gnm_conf_get_printsetup_hf_font_italic_node (void)
 {
-	return get_node (watch_printsetup_hf_font_italic.key);
+	return get_watch_node (&watch_printsetup_hf_font_italic);
 }
 
 static struct cb_watch_string watch_printsetup_hf_font_name = {
-	0, "printsetup/hf-font-name", "Sans",
+	0, "printsetup/hf-font-name",
+	"Default header/footer font name",
+	"The default font name for headers and footers.",
+	"Sans",
 };
 
 const char *
@@ -2460,11 +2706,14 @@ gnm_conf_set_printsetup_hf_font_name (const char *x)
 GOConfNode *
 gnm_conf_get_printsetup_hf_font_name_node (void)
 {
-	return get_node (watch_printsetup_hf_font_name.key);
+	return get_watch_node (&watch_printsetup_hf_font_name);
 }
 
 static struct cb_watch_double watch_printsetup_hf_font_size = {
-	0, "printsetup/hf-font-size", 1, 100, 10,
+	0, "printsetup/hf-font-size",
+	"Default Header/Footer Font Size",
+	"The default font size for headers and footers.",
+	1, 100, 10,
 };
 
 double
@@ -2486,11 +2735,13 @@ gnm_conf_set_printsetup_hf_font_size (double x)
 GOConfNode *
 gnm_conf_get_printsetup_hf_font_size_node (void)
 {
-	return get_node (watch_printsetup_hf_font_size.key);
+	return get_watch_node (&watch_printsetup_hf_font_size);
 }
 
 static struct cb_watch_string_list watch_printsetup_hf_left = {
 	0, "printsetup/hf-left",
+	"Header/Footer Format (Left Portion)",
+	"Please use the Print Setup dialog to edit this value.",
 };
 
 GSList *
@@ -2512,11 +2763,13 @@ gnm_conf_set_printsetup_hf_left (GSList *x)
 GOConfNode *
 gnm_conf_get_printsetup_hf_left_node (void)
 {
-	return get_node (watch_printsetup_hf_left.key);
+	return get_watch_node (&watch_printsetup_hf_left);
 }
 
 static struct cb_watch_string_list watch_printsetup_hf_middle = {
 	0, "printsetup/hf-middle",
+	"Header/Footer Format (Middle Portion)",
+	"Please use the Print Setup dialog to edit this value.",
 };
 
 GSList *
@@ -2538,11 +2791,13 @@ gnm_conf_set_printsetup_hf_middle (GSList *x)
 GOConfNode *
 gnm_conf_get_printsetup_hf_middle_node (void)
 {
-	return get_node (watch_printsetup_hf_middle.key);
+	return get_watch_node (&watch_printsetup_hf_middle);
 }
 
 static struct cb_watch_string_list watch_printsetup_hf_right = {
 	0, "printsetup/hf-right",
+	"Header/Footer Format (Right Portion)",
+	"Please use the Print Setup dialog to edit this value.",
 };
 
 GSList *
@@ -2564,11 +2819,14 @@ gnm_conf_set_printsetup_hf_right (GSList *x)
 GOConfNode *
 gnm_conf_get_printsetup_hf_right_node (void)
 {
-	return get_node (watch_printsetup_hf_right.key);
+	return get_watch_node (&watch_printsetup_hf_right);
 }
 
 static struct cb_watch_double watch_printsetup_margin_bottom = {
-	0, "printsetup/margin-bottom", 0, 10000, 120,
+	0, "printsetup/margin-bottom",
+	"Default Bottom Margin",
+	"This value gives the default number of points from the bottom of a page to the end of the body. Please use the Print Setup dialog to edit this value.",
+	0, 10000, 120,
 };
 
 double
@@ -2590,11 +2848,14 @@ gnm_conf_set_printsetup_margin_bottom (double x)
 GOConfNode *
 gnm_conf_get_printsetup_margin_bottom_node (void)
 {
-	return get_node (watch_printsetup_margin_bottom.key);
+	return get_watch_node (&watch_printsetup_margin_bottom);
 }
 
 static struct cb_watch_double watch_printsetup_margin_gtk_bottom = {
-	0, "printsetup/margin-gtk-bottom", 0, 720, 72,
+	0, "printsetup/margin-gtk-bottom",
+	"Default Bottom Outside Margin",
+	"This value gives the default number of points from the bottom of a page to the end of the footer. Please use the Print Setup dialog to edit this value.",
+	0, 720, 72,
 };
 
 double
@@ -2616,11 +2877,14 @@ gnm_conf_set_printsetup_margin_gtk_bottom (double x)
 GOConfNode *
 gnm_conf_get_printsetup_margin_gtk_bottom_node (void)
 {
-	return get_node (watch_printsetup_margin_gtk_bottom.key);
+	return get_watch_node (&watch_printsetup_margin_gtk_bottom);
 }
 
 static struct cb_watch_double watch_printsetup_margin_gtk_left = {
-	0, "printsetup/margin-gtk-left", 0, 720, 72,
+	0, "printsetup/margin-gtk-left",
+	"Default Left Margin",
+	"This value gives the default number of points from the left of a page to the left of the body. Please use the Print Setup dialog to edit this value.",
+	0, 720, 72,
 };
 
 double
@@ -2642,11 +2906,14 @@ gnm_conf_set_printsetup_margin_gtk_left (double x)
 GOConfNode *
 gnm_conf_get_printsetup_margin_gtk_left_node (void)
 {
-	return get_node (watch_printsetup_margin_gtk_left.key);
+	return get_watch_node (&watch_printsetup_margin_gtk_left);
 }
 
 static struct cb_watch_double watch_printsetup_margin_gtk_right = {
-	0, "printsetup/margin-gtk-right", 0, 720, 72,
+	0, "printsetup/margin-gtk-right",
+	"Default Bottom Margin",
+	"This value gives the default number of points from the right of a page to the right of the body. Please use the Print Setup dialog to edit this value.",
+	0, 720, 72,
 };
 
 double
@@ -2668,11 +2935,14 @@ gnm_conf_set_printsetup_margin_gtk_right (double x)
 GOConfNode *
 gnm_conf_get_printsetup_margin_gtk_right_node (void)
 {
-	return get_node (watch_printsetup_margin_gtk_right.key);
+	return get_watch_node (&watch_printsetup_margin_gtk_right);
 }
 
 static struct cb_watch_double watch_printsetup_margin_gtk_top = {
-	0, "printsetup/margin-gtk-top", 0, 720, 72,
+	0, "printsetup/margin-gtk-top",
+	"Default Top Outside Margin",
+	"This value gives the default number of points from the top of a page to the top of the header. Please use the Print Setup dialog to edit this value.",
+	0, 720, 72,
 };
 
 double
@@ -2694,11 +2964,14 @@ gnm_conf_set_printsetup_margin_gtk_top (double x)
 GOConfNode *
 gnm_conf_get_printsetup_margin_gtk_top_node (void)
 {
-	return get_node (watch_printsetup_margin_gtk_top.key);
+	return get_watch_node (&watch_printsetup_margin_gtk_top);
 }
 
 static struct cb_watch_double watch_printsetup_margin_top = {
-	0, "printsetup/margin-top", 0, 10000, 120,
+	0, "printsetup/margin-top",
+	"Default Top Margin",
+	"This value gives the default number of points from the top of a page to the start of the body. Please use the Print Setup dialog to edit this value.",
+	0, 10000, 120,
 };
 
 double
@@ -2720,11 +2993,14 @@ gnm_conf_set_printsetup_margin_top (double x)
 GOConfNode *
 gnm_conf_get_printsetup_margin_top_node (void)
 {
-	return get_node (watch_printsetup_margin_top.key);
+	return get_watch_node (&watch_printsetup_margin_top);
 }
 
 static struct cb_watch_string watch_printsetup_paper = {
-	0, "printsetup/paper", "",
+	0, "printsetup/paper",
+	"Paper",
+	"This is the default paper specification. Please use the Print Setup dialog to edit this value.",
+	"",
 };
 
 const char *
@@ -2747,11 +3023,14 @@ gnm_conf_set_printsetup_paper (const char *x)
 GOConfNode *
 gnm_conf_get_printsetup_paper_node (void)
 {
-	return get_node (watch_printsetup_paper.key);
+	return get_watch_node (&watch_printsetup_paper);
 }
 
 static struct cb_watch_int watch_printsetup_paper_orientation = {
-	0, "printsetup/paper-orientation", GTK_PAGE_ORIENTATION_PORTRAIT, GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE, 0,
+	0, "printsetup/paper-orientation",
+	"Paper orientation",
+	"This is the default paper orientation. Please use the Print Setup dialog to edit this value.",
+	GTK_PAGE_ORIENTATION_PORTRAIT, GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE, 0,
 };
 
 int
@@ -2773,11 +3052,14 @@ gnm_conf_set_printsetup_paper_orientation (int x)
 GOConfNode *
 gnm_conf_get_printsetup_paper_orientation_node (void)
 {
-	return get_node (watch_printsetup_paper_orientation.key);
+	return get_watch_node (&watch_printsetup_paper_orientation);
 }
 
 static struct cb_watch_enum watch_printsetup_preferred_unit = {
-	0, "printsetup/preferred-unit", GTK_UNIT_MM,
+	0, "printsetup/preferred-unit",
+	"Preferred Display Unit",
+	"This string gives the default unit to be used in the page setup dialog.",
+	GTK_UNIT_MM,
 };
 
 GtkUnit
@@ -2799,11 +3081,14 @@ gnm_conf_set_printsetup_preferred_unit (GtkUnit x)
 GOConfNode *
 gnm_conf_get_printsetup_preferred_unit_node (void)
 {
-	return get_node (watch_printsetup_preferred_unit.key);
+	return get_watch_node (&watch_printsetup_preferred_unit);
 }
 
 static struct cb_watch_bool watch_printsetup_print_black_n_white = {
-	0, "printsetup/print-black-n-white", FALSE,
+	0, "printsetup/print-black-n-white",
+	"Default Black and White Printing",
+	"This value determines the default setting in the Print Setup dialog whether to print in only black and white. Please use the Print Setup dialog to edit this value.",
+	FALSE,
 };
 
 gboolean
@@ -2825,11 +3110,14 @@ gnm_conf_set_printsetup_print_black_n_white (gboolean x)
 GOConfNode *
 gnm_conf_get_printsetup_print_black_n_white_node (void)
 {
-	return get_node (watch_printsetup_print_black_n_white.key);
+	return get_watch_node (&watch_printsetup_print_black_n_white);
 }
 
 static struct cb_watch_bool watch_printsetup_print_even_if_only_styles = {
-	0, "printsetup/print-even-if-only-styles", FALSE,
+	0, "printsetup/print-even-if-only-styles",
+	"Default Print Cells with Only Styles",
+	"This value determines the default setting in the Print Setup dialog whether to print empty but formatted cells. Please use the Print Setup dialog to edit this value.",
+	FALSE,
 };
 
 gboolean
@@ -2851,11 +3139,14 @@ gnm_conf_set_printsetup_print_even_if_only_styles (gboolean x)
 GOConfNode *
 gnm_conf_get_printsetup_print_even_if_only_styles_node (void)
 {
-	return get_node (watch_printsetup_print_even_if_only_styles.key);
+	return get_watch_node (&watch_printsetup_print_even_if_only_styles);
 }
 
 static struct cb_watch_bool watch_printsetup_print_grid_lines = {
-	0, "printsetup/print-grid-lines", FALSE,
+	0, "printsetup/print-grid-lines",
+	"Default Grid Line Printing",
+	"This value determines the default setting in the Print Setup dialog whether print grid lines. Please use the Print Setup dialog to edit this value.",
+	FALSE,
 };
 
 gboolean
@@ -2877,11 +3168,14 @@ gnm_conf_set_printsetup_print_grid_lines (gboolean x)
 GOConfNode *
 gnm_conf_get_printsetup_print_grid_lines_node (void)
 {
-	return get_node (watch_printsetup_print_grid_lines.key);
+	return get_watch_node (&watch_printsetup_print_grid_lines);
 }
 
 static struct cb_watch_bool watch_printsetup_print_titles = {
-	0, "printsetup/print-titles", FALSE,
+	0, "printsetup/print-titles",
+	"Default Title Printing",
+	"This value determines the default setting in the Print Setup dialog whether to print row and column headers. Please use the Print Setup dialog to edit this value.",
+	FALSE,
 };
 
 gboolean
@@ -2903,11 +3197,14 @@ gnm_conf_set_printsetup_print_titles (gboolean x)
 GOConfNode *
 gnm_conf_get_printsetup_print_titles_node (void)
 {
-	return get_node (watch_printsetup_print_titles.key);
+	return get_watch_node (&watch_printsetup_print_titles);
 }
 
 static struct cb_watch_string watch_printsetup_repeat_left = {
-	0, "printsetup/repeat-left", "",
+	0, "printsetup/repeat-left",
+	"Default Repeated Left Region",
+	"This string gives the default region to be repeated at the left of each printed sheet. Please use the Print Setup dialog to edit this value.",
+	"",
 };
 
 const char *
@@ -2930,11 +3227,14 @@ gnm_conf_set_printsetup_repeat_left (const char *x)
 GOConfNode *
 gnm_conf_get_printsetup_repeat_left_node (void)
 {
-	return get_node (watch_printsetup_repeat_left.key);
+	return get_watch_node (&watch_printsetup_repeat_left);
 }
 
 static struct cb_watch_string watch_printsetup_repeat_top = {
-	0, "printsetup/repeat-top", "",
+	0, "printsetup/repeat-top",
+	"Default Repeated Top Region",
+	"This string gives the default region to be repeated at the top of each printed sheet. Please use the Print Setup dialog to edit this value.",
+	"",
 };
 
 const char *
@@ -2957,11 +3257,14 @@ gnm_conf_set_printsetup_repeat_top (const char *x)
 GOConfNode *
 gnm_conf_get_printsetup_repeat_top_node (void)
 {
-	return get_node (watch_printsetup_repeat_top.key);
+	return get_watch_node (&watch_printsetup_repeat_top);
 }
 
 static struct cb_watch_int watch_printsetup_scale_height = {
-	0, "printsetup/scale-height", 0, 100, 0,
+	0, "printsetup/scale-height",
+	"Default Scaling Height",
+	"This value determines the maximum number of pages that make up the height of a printout of the current sheet. The sheet will be reduced to fit within this height. This value can be changed in the Page Setup dialog.",
+	0, 100, 0,
 };
 
 int
@@ -2983,11 +3286,14 @@ gnm_conf_set_printsetup_scale_height (int x)
 GOConfNode *
 gnm_conf_get_printsetup_scale_height_node (void)
 {
-	return get_node (watch_printsetup_scale_height.key);
+	return get_watch_node (&watch_printsetup_scale_height);
 }
 
 static struct cb_watch_bool watch_printsetup_scale_percentage = {
-	0, "printsetup/scale-percentage", TRUE,
+	0, "printsetup/scale-percentage",
+	"Default Scale Type",
+	"This value determines the default setting in the Print Setup dialog whether to scale pages by a given percentage. Please use the Print Setup dialog to edit this value.",
+	TRUE,
 };
 
 gboolean
@@ -3009,11 +3315,14 @@ gnm_conf_set_printsetup_scale_percentage (gboolean x)
 GOConfNode *
 gnm_conf_get_printsetup_scale_percentage_node (void)
 {
-	return get_node (watch_printsetup_scale_percentage.key);
+	return get_watch_node (&watch_printsetup_scale_percentage);
 }
 
 static struct cb_watch_double watch_printsetup_scale_percentage_value = {
-	0, "printsetup/scale-percentage-value", 1, 500, 100,
+	0, "printsetup/scale-percentage-value",
+	"Default Scale Percentage",
+	"This value gives the percentage by which to scale each printed page. Please use the Print Setup dialog to edit this value.",
+	1, 500, 100,
 };
 
 double
@@ -3035,11 +3344,14 @@ gnm_conf_set_printsetup_scale_percentage_value (double x)
 GOConfNode *
 gnm_conf_get_printsetup_scale_percentage_value_node (void)
 {
-	return get_node (watch_printsetup_scale_percentage_value.key);
+	return get_watch_node (&watch_printsetup_scale_percentage_value);
 }
 
 static struct cb_watch_int watch_printsetup_scale_width = {
-	0, "printsetup/scale-width", 0, 100, 0,
+	0, "printsetup/scale-width",
+	"Default Scaling Width",
+	"This value determines the maximum number of pages that make up the width of a printout of the current sheet. The sheet will be reduced to fit within this width. This value can be changed in the Page Setup dialog.",
+	0, 100, 0,
 };
 
 int
@@ -3061,11 +3373,14 @@ gnm_conf_set_printsetup_scale_width (int x)
 GOConfNode *
 gnm_conf_get_printsetup_scale_width_node (void)
 {
-	return get_node (watch_printsetup_scale_width.key);
+	return get_watch_node (&watch_printsetup_scale_width);
 }
 
 static struct cb_watch_bool watch_searchreplace_change_cell_expressions = {
-	0, "searchreplace/change-cell-expressions", TRUE,
+	0, "searchreplace/change-cell-expressions",
+	"Search & Replace Changes Expressions",
+	"Search & Replace changes cells containing expressions as default",
+	TRUE,
 };
 
 gboolean
@@ -3087,11 +3402,14 @@ gnm_conf_set_searchreplace_change_cell_expressions (gboolean x)
 GOConfNode *
 gnm_conf_get_searchreplace_change_cell_expressions_node (void)
 {
-	return get_node (watch_searchreplace_change_cell_expressions.key);
+	return get_watch_node (&watch_searchreplace_change_cell_expressions);
 }
 
 static struct cb_watch_bool watch_searchreplace_change_cell_other = {
-	0, "searchreplace/change-cell-other", TRUE,
+	0, "searchreplace/change-cell-other",
+	"Search & Replace Changes Other Values",
+	"Search & Replace changes cells containing other values as default",
+	TRUE,
 };
 
 gboolean
@@ -3113,11 +3431,14 @@ gnm_conf_set_searchreplace_change_cell_other (gboolean x)
 GOConfNode *
 gnm_conf_get_searchreplace_change_cell_other_node (void)
 {
-	return get_node (watch_searchreplace_change_cell_other.key);
+	return get_watch_node (&watch_searchreplace_change_cell_other);
 }
 
 static struct cb_watch_bool watch_searchreplace_change_cell_strings = {
-	0, "searchreplace/change-cell-strings", TRUE,
+	0, "searchreplace/change-cell-strings",
+	"Search & Replace Changes Strings",
+	"Search & Replace changes cells containing strings as default",
+	TRUE,
 };
 
 gboolean
@@ -3139,11 +3460,14 @@ gnm_conf_set_searchreplace_change_cell_strings (gboolean x)
 GOConfNode *
 gnm_conf_get_searchreplace_change_cell_strings_node (void)
 {
-	return get_node (watch_searchreplace_change_cell_strings.key);
+	return get_watch_node (&watch_searchreplace_change_cell_strings);
 }
 
 static struct cb_watch_bool watch_searchreplace_change_comments = {
-	0, "searchreplace/change-comments", FALSE,
+	0, "searchreplace/change-comments",
+	"Search & Replace Changes Comments",
+	"Search & Replace changes comments as default",
+	FALSE,
 };
 
 gboolean
@@ -3165,11 +3489,14 @@ gnm_conf_set_searchreplace_change_comments (gboolean x)
 GOConfNode *
 gnm_conf_get_searchreplace_change_comments_node (void)
 {
-	return get_node (watch_searchreplace_change_comments.key);
+	return get_watch_node (&watch_searchreplace_change_comments);
 }
 
 static struct cb_watch_bool watch_searchreplace_columnmajor = {
-	0, "searchreplace/columnmajor", TRUE,
+	0, "searchreplace/columnmajor",
+	"Search & Replace Column Major",
+	"Search & Replace proceeds in column major order as default",
+	TRUE,
 };
 
 gboolean
@@ -3191,11 +3518,14 @@ gnm_conf_set_searchreplace_columnmajor (gboolean x)
 GOConfNode *
 gnm_conf_get_searchreplace_columnmajor_node (void)
 {
-	return get_node (watch_searchreplace_columnmajor.key);
+	return get_watch_node (&watch_searchreplace_columnmajor);
 }
 
 static struct cb_watch_int watch_searchreplace_error_behaviour = {
-	0, "searchreplace/error-behaviour", 0, 4, 0,
+	0, "searchreplace/error-behaviour",
+	"Search & Replace Error Behavior",
+	"This is the default error behavior of Search & Replace indicated by an integer from 0 to 4.",
+	0, 4, 0,
 };
 
 int
@@ -3217,11 +3547,14 @@ gnm_conf_set_searchreplace_error_behaviour (int x)
 GOConfNode *
 gnm_conf_get_searchreplace_error_behaviour_node (void)
 {
-	return get_node (watch_searchreplace_error_behaviour.key);
+	return get_watch_node (&watch_searchreplace_error_behaviour);
 }
 
 static struct cb_watch_bool watch_searchreplace_ignore_case = {
-	0, "searchreplace/ignore-case", TRUE,
+	0, "searchreplace/ignore-case",
+	"Search & Replace Ignores Case",
+	"Search & Replace ignores case as default",
+	TRUE,
 };
 
 gboolean
@@ -3243,11 +3576,14 @@ gnm_conf_set_searchreplace_ignore_case (gboolean x)
 GOConfNode *
 gnm_conf_get_searchreplace_ignore_case_node (void)
 {
-	return get_node (watch_searchreplace_ignore_case.key);
+	return get_watch_node (&watch_searchreplace_ignore_case);
 }
 
 static struct cb_watch_bool watch_searchreplace_keep_strings = {
-	0, "searchreplace/keep-strings", TRUE,
+	0, "searchreplace/keep-strings",
+	"Search & Replace Keeps Strings as Strings",
+	"Search & Replace keeps strings as strings even if they look like numbers as default",
+	TRUE,
 };
 
 gboolean
@@ -3269,11 +3605,14 @@ gnm_conf_set_searchreplace_keep_strings (gboolean x)
 GOConfNode *
 gnm_conf_get_searchreplace_keep_strings_node (void)
 {
-	return get_node (watch_searchreplace_keep_strings.key);
+	return get_watch_node (&watch_searchreplace_keep_strings);
 }
 
 static struct cb_watch_bool watch_searchreplace_preserve_case = {
-	0, "searchreplace/preserve-case", FALSE,
+	0, "searchreplace/preserve-case",
+	"Search & Replace Preserves Case",
+	"Search & Replace preserves case as default",
+	FALSE,
 };
 
 gboolean
@@ -3295,11 +3634,14 @@ gnm_conf_set_searchreplace_preserve_case (gboolean x)
 GOConfNode *
 gnm_conf_get_searchreplace_preserve_case_node (void)
 {
-	return get_node (watch_searchreplace_preserve_case.key);
+	return get_watch_node (&watch_searchreplace_preserve_case);
 }
 
 static struct cb_watch_bool watch_searchreplace_query = {
-	0, "searchreplace/query", FALSE,
+	0, "searchreplace/query",
+	"Search & Replace Poses Query",
+	"Search & Replace poses query before each change as default",
+	FALSE,
 };
 
 gboolean
@@ -3321,11 +3663,14 @@ gnm_conf_set_searchreplace_query (gboolean x)
 GOConfNode *
 gnm_conf_get_searchreplace_query_node (void)
 {
-	return get_node (watch_searchreplace_query.key);
+	return get_watch_node (&watch_searchreplace_query);
 }
 
 static struct cb_watch_int watch_searchreplace_regex = {
-	0, "searchreplace/regex", 0, 2, 0,
+	0, "searchreplace/regex",
+	"Search & Replace Search Type",
+	"This value determines the input type for Search & Replace. 0: text; 1: regular expression; 2: number",
+	0, 2, 0,
 };
 
 int
@@ -3347,11 +3692,14 @@ gnm_conf_set_searchreplace_regex (int x)
 GOConfNode *
 gnm_conf_get_searchreplace_regex_node (void)
 {
-	return get_node (watch_searchreplace_regex.key);
+	return get_watch_node (&watch_searchreplace_regex);
 }
 
 static struct cb_watch_int watch_searchreplace_scope = {
-	0, "searchreplace/scope", 0, 2, 0,
+	0, "searchreplace/scope",
+	"Search & Replace Scope",
+	"This is the default scope of Search & Replace. 0: entire workbook; 1: current sheet; 2: range",
+	0, 2, 0,
 };
 
 int
@@ -3373,11 +3721,14 @@ gnm_conf_set_searchreplace_scope (int x)
 GOConfNode *
 gnm_conf_get_searchreplace_scope_node (void)
 {
-	return get_node (watch_searchreplace_scope.key);
+	return get_watch_node (&watch_searchreplace_scope);
 }
 
 static struct cb_watch_bool watch_searchreplace_search_results = {
-	0, "searchreplace/search-results", TRUE,
+	0, "searchreplace/search-results",
+	"Search searches in results",
+	"Search searches in results as default",
+	TRUE,
 };
 
 gboolean
@@ -3399,11 +3750,14 @@ gnm_conf_set_searchreplace_search_results (gboolean x)
 GOConfNode *
 gnm_conf_get_searchreplace_search_results_node (void)
 {
-	return get_node (watch_searchreplace_search_results.key);
+	return get_watch_node (&watch_searchreplace_search_results);
 }
 
 static struct cb_watch_bool watch_searchreplace_whole_words_only = {
-	0, "searchreplace/whole-words-only", FALSE,
+	0, "searchreplace/whole-words-only",
+	"Search & Replace Whole Words Only",
+	"Search & Replace replaces whole words only as default",
+	FALSE,
 };
 
 gboolean
@@ -3425,11 +3779,14 @@ gnm_conf_set_searchreplace_whole_words_only (gboolean x)
 GOConfNode *
 gnm_conf_get_searchreplace_whole_words_only_node (void)
 {
-	return get_node (watch_searchreplace_whole_words_only.key);
+	return get_watch_node (&watch_searchreplace_whole_words_only);
 }
 
 static struct cb_watch_string watch_stf_export_separator = {
-	0, "stf/export/separator", ",",
+	0, "stf/export/separator",
+	"Text Export Field Separator",
+	"Please use the Text Export dialog to edit this value.",
+	",",
 };
 
 const char *
@@ -3452,11 +3809,14 @@ gnm_conf_set_stf_export_separator (const char *x)
 GOConfNode *
 gnm_conf_get_stf_export_separator_node (void)
 {
-	return get_node (watch_stf_export_separator.key);
+	return get_watch_node (&watch_stf_export_separator);
 }
 
 static struct cb_watch_string watch_stf_export_stringindicator = {
-	0, "stf/export/stringindicator", "\"",
+	0, "stf/export/stringindicator",
+	"Text Export String Indicator",
+	"Please use the Text Export dialog to edit this value.",
+	"\"",
 };
 
 const char *
@@ -3479,11 +3839,14 @@ gnm_conf_set_stf_export_stringindicator (const char *x)
 GOConfNode *
 gnm_conf_get_stf_export_stringindicator_node (void)
 {
-	return get_node (watch_stf_export_stringindicator.key);
+	return get_watch_node (&watch_stf_export_stringindicator);
 }
 
 static struct cb_watch_string watch_stf_export_terminator = {
-	0, "stf/export/terminator", "\n",
+	0, "stf/export/terminator",
+	"Text Export Record Terminator",
+	"Please use the Text Export dialog to edit this value.",
+	"\n",
 };
 
 const char *
@@ -3506,11 +3869,14 @@ gnm_conf_set_stf_export_terminator (const char *x)
 GOConfNode *
 gnm_conf_get_stf_export_terminator_node (void)
 {
-	return get_node (watch_stf_export_terminator.key);
+	return get_watch_node (&watch_stf_export_terminator);
 }
 
 static struct cb_watch_enum watch_toolbar_style = {
-	0, "toolbar-style", GTK_TOOLBAR_ICONS,
+	0, "toolbar-style",
+	"Toolbar Style",
+	"Toolbar Style. Valid values are both, both_horiz, icon, and text.",
+	GTK_TOOLBAR_ICONS,
 };
 
 GtkToolbarStyle
@@ -3530,7 +3896,10 @@ gnm_conf_set_toolbar_style (GtkToolbarStyle x)
 }
 
 static struct cb_watch_int watch_undo_max_descriptor_width = {
-	0, "undo/max-descriptor-width", 5, 256, 40,
+	0, "undo/max-descriptor-width",
+	"Length of the Undo Descriptors",
+	"This value is indicative of the maximum length of the command descriptors in the undo and redo chains.",
+	5, 256, 40,
 };
 
 int
@@ -3552,11 +3921,14 @@ gnm_conf_set_undo_max_descriptor_width (int x)
 GOConfNode *
 gnm_conf_get_undo_max_descriptor_width_node (void)
 {
-	return get_node (watch_undo_max_descriptor_width.key);
+	return get_watch_node (&watch_undo_max_descriptor_width);
 }
 
 static struct cb_watch_int watch_undo_maxnum = {
-	0, "undo/maxnum", 0, 10000, 20,
+	0, "undo/maxnum",
+	"Number of Undo Items",
+	"This value determines the maximum number of items in the undo/redo list.",
+	0, 10000, 20,
 };
 
 int
@@ -3578,11 +3950,14 @@ gnm_conf_set_undo_maxnum (int x)
 GOConfNode *
 gnm_conf_get_undo_maxnum_node (void)
 {
-	return get_node (watch_undo_maxnum.key);
+	return get_watch_node (&watch_undo_maxnum);
 }
 
 static struct cb_watch_bool watch_undo_show_sheet_name = {
-	0, "undo/show-sheet-name", FALSE,
+	0, "undo/show-sheet-name",
+	"Show Sheet Name in Undo List",
+	"This value determines whether to show the sheet names in the undo and redo lists.",
+	FALSE,
 };
 
 gboolean
@@ -3604,11 +3979,14 @@ gnm_conf_set_undo_show_sheet_name (gboolean x)
 GOConfNode *
 gnm_conf_get_undo_show_sheet_name_node (void)
 {
-	return get_node (watch_undo_show_sheet_name.key);
+	return get_watch_node (&watch_undo_show_sheet_name);
 }
 
 static struct cb_watch_int watch_undo_size = {
-	0, "undo/size", 1, 1000000, 100,
+	0, "undo/size",
+	"Maximal Undo Size",
+	"This value determines the length of the undo chain. Each editing action has a size associate with it, to compare it with the memory requirements of a simple one-cell edit (size of 1). The undo list will be truncated when its total size exceeds this configurable value.",
+	1, 1000000, 100,
 };
 
 int
@@ -3630,155 +4008,155 @@ gnm_conf_set_undo_size (int x)
 GOConfNode *
 gnm_conf_get_undo_size_node (void)
 {
-	return get_node (watch_undo_size.key);
+	return get_watch_node (&watch_undo_size);
 }
 
 GOConfNode *
 gnm_conf_get_autocorrect_dir_node (void)
 {
-	return get_node ("autocorrect");
+	return get_node ("autocorrect", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_autoformat_dir_node (void)
 {
-	return get_node ("autoformat");
+	return get_node ("autoformat", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_core_defaultfont_dir_node (void)
 {
-	return get_node ("core/defaultfont");
+	return get_node ("core/defaultfont", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_core_file_save_dir_node (void)
 {
-	return get_node ("core/file/save");
+	return get_node ("core/file/save", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_core_gui_cells_dir_node (void)
 {
-	return get_node ("core/gui/cells");
+	return get_node ("core/gui/cells", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_core_gui_editing_dir_node (void)
 {
-	return get_node ("core/gui/editing");
+	return get_node ("core/gui/editing", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_core_gui_screen_dir_node (void)
 {
-	return get_node ("core/gui/screen");
+	return get_node ("core/gui/screen", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_dir_node (void)
 {
-	return get_node ("core/gui/toolbars");
+	return get_node ("core/gui/toolbars", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_core_gui_window_dir_node (void)
 {
-	return get_node ("core/gui/window");
+	return get_node ("core/gui/window", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_core_sort_default_dir_node (void)
 {
-	return get_node ("core/sort/default");
+	return get_node ("core/sort/default", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_core_sort_dialog_dir_node (void)
 {
-	return get_node ("core/sort/dialog");
+	return get_node ("core/sort/dialog", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_core_workbook_dir_node (void)
 {
-	return get_node ("core/workbook");
+	return get_node ("core/workbook", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_core_xml_dir_node (void)
 {
-	return get_node ("core/xml");
+	return get_node ("core/xml", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_cut_and_paste_dir_node (void)
 {
-	return get_node ("cut-and-paste");
+	return get_node ("cut-and-paste", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_dialogs_rs_dir_node (void)
 {
-	return get_node ("dialogs/rs");
+	return get_node ("dialogs/rs", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_functionselector_dir_node (void)
 {
-	return get_node ("functionselector");
+	return get_node ("functionselector", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_plugin_glpk_dir_node (void)
 {
-	return get_node ("plugin/glpk");
+	return get_node ("plugin/glpk", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_plugin_latex_dir_node (void)
 {
-	return get_node ("plugin/latex");
+	return get_node ("plugin/latex", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_plugin_lpsolve_dir_node (void)
 {
-	return get_node ("plugin/lpsolve");
+	return get_node ("plugin/lpsolve", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_plugins_dir_node (void)
 {
-	return get_node ("plugins");
+	return get_node ("plugins", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_printsetup_dir_node (void)
 {
-	return get_node ("printsetup");
+	return get_node ("printsetup", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_searchreplace_dir_node (void)
 {
-	return get_node ("searchreplace");
+	return get_node ("searchreplace", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_stf_export_dir_node (void)
 {
-	return get_node ("stf/export");
+	return get_node ("stf/export", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_toolbar_style_dir_node (void)
 {
-	return get_node ("toolbar-style");
+	return get_node ("toolbar-style", NULL);
 }
 
 GOConfNode *
 gnm_conf_get_undo_dir_node (void)
 {
-	return get_node ("undo");
+	return get_node ("undo", NULL);
 }

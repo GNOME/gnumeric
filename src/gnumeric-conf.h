@@ -10,6 +10,9 @@ void     gnm_conf_init (void);
 void     gnm_conf_shutdown (void);
 GOConfNode *gnm_conf_get_root (void);
 
+char const *gnm_conf_get_short_desc (GOConfNode *node);
+char const *gnm_conf_get_long_desc (GOConfNode *node);
+
 /* Convenience APIs */
 
 GtkPageSetup *gnm_conf_get_page_setup (void);
