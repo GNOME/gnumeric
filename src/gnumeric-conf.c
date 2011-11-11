@@ -1411,7 +1411,7 @@ gnm_conf_get_core_gui_editing_recalclag_node (void)
 
 static struct cb_watch_bool watch_core_gui_editing_transitionkeys = {
 	0, "core/gui/editing/transitionkeys",
-	">Transition Keys",
+	"Transition Keys",
 	"This variable determines whether transition keys are set on. Transition keys are a throw back to 1-2-3 style event handling.\n	     They turn Ctrl-arrow into page movement rather than jumping to the start/end of series.",
 	FALSE,
 };

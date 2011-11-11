@@ -1,3 +1,8 @@
+2011-11-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnumeric-conf.c: removed an extra '>' in key descrption, [see #663809]
+	* src/item-bar.c (item_bar_draw_region): add missing tick. [#663802]
+
 2011-11-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-bar.c (item_bar_draw_region): fixed rendering of outline

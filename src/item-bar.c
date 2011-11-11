@@ -473,7 +473,8 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 								cairo_move_to (cr, left+3,	    top+size/2);
 								cairo_line_to (cr, left+size-4, top+size/2);
 							}
-						} else if (level > 0) {
+						}
+						if (level > 0) {
 							cairo_move_to (cr, left+pixels/2, pos);
 							cairo_line_to (cr, left+pixels/2, pos+len);
 						}
@@ -633,7 +634,8 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 								cairo_move_to (cr, left+3,	    top+size/2);
 								cairo_line_to (cr, left+size-4, top+size/2);
 							}
-						} else if (level > 0) {
+						}
+						if (level > 0) {
 							cairo_move_to (cr, pos,      top+pixels/2);
 							cairo_line_to (cr, pos+len,  top+pixels/2);
 						}
