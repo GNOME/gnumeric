@@ -614,6 +614,9 @@ sub create_hcfile {
 	$cfile .= "}\n\n";
     }
 
+    $cfile =~ s/\n\n+$/\n/;
+    $hfile =~ s/\n\n+$/\n/;
+
     print $hfile if $do_hfile;
     print $cfile if $do_cfile;
 }

@@ -436,6 +436,27 @@ gnumeric-paths.h: Makefile
 	echo '#endif /* GNUMERIC_PATHS_H */'; \
 	) >$@
 
+update-gnumeric-conf:
+	make -C ${top_srcdir}/schemas
+	rm -f gnumeric-conf.c.tmp
+	@PERL@ -pe 'if (/AUTOMATICALLY GENERATED CODE BELOW/) { print; print "\n"; last; }' <gnumeric-conf.c >gnumeric-conf.c.tmp
+	@PERL@ ${top_srcdir}/tools/handle-conf-options --cfile ${top_srcdir}/schemas/org.gnome.gnumeric*.gschema.xml.in >>gnumeric-conf.c.tmp
+	if cmp gnumeric-conf.c gnumeric-conf.c.tmp; then \
+	  rm gnumeric-conf.c.tmp; \
+	else \
+	  mv gnumeric-conf.c.tmp gnumeric-conf.c; \
+	fi
+	rm -f gnumeric-conf.h.tmp
+	@PERL@ -pe 'if (/AUTOMATICALLY GENERATED CODE BELOW/) { print; print "\n"; last; }' <gnumeric-conf.h >gnumeric-conf.h.tmp
+	@PERL@ ${top_srcdir}/tools/handle-conf-options --hfile ${top_srcdir}/schemas/org.gnome.gnumeric*.gschema.xml.in >>gnumeric-conf.h.tmp
+	echo '' >>gnumeric-conf.h.tmp
+	@PERL@ -ne '$$p=1 if (/AUTOMATICALLY GENERATED CODE ABOVE/); print if $$p;' <gnumeric-conf.h >>gnumeric-conf.h.tmp
+	if cmp gnumeric-conf.h gnumeric-conf.h.tmp; then \
+	  rm gnumeric-conf.h.tmp; \
+	else \
+	  mv gnumeric-conf.h.tmp gnumeric-conf.h; \
+	fi
+
 if WITH_NATIVE_WIN32
 gnumeric_rc.o: gnumeric.rc ../gnumeric-config.h
 	$(WINDRES) -DVERSION=$(VERSION) -DVERSION_NUMBER=`echo $(VERSION).0.0.0 | sed 's/\([0-9]*\)[^.]*\.*\([0-9]*\)[^.]*\.*\([0-9]*\)[^.]*\.*\([0-9]*\).*/\1,\2,\3,\4/'` --include-dir $(srcdir) -i $< -o $@
