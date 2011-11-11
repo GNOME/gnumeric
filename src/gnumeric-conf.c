@@ -680,7 +680,6 @@ gnm_conf_get_detachable_toolbars (void)
 
 /* ----------- AUTOMATICALLY GENERATED CODE BELOW -- DO NOT EDIT ----------- */
 
-
 static struct cb_watch_bool watch_autocorrect_first_letter = {
 	0, "autocorrect/first-letter",
 	"Autocorrect first letter",
@@ -4156,4 +4155,3 @@ gnm_conf_get_undo_dir_node (void)
 {
 	return get_node ("undo", NULL);
 }
-
