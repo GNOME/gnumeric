@@ -1,3 +1,7 @@
+2011-11-11  Morten Welinder  <terra@gnome.org>
+
+	* schemas/org.gnome.gnumeric.gschema.xml.in.in: Fix the '>' here.
+
 2011-11-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnumeric-conf.c: removed an extra '>' in key descrption, [see #663809]
