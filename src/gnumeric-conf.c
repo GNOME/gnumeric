@@ -685,10 +685,11 @@ gnm_conf_get_detachable_toolbars (void)
 
 /* ----------- AUTOMATICALLY GENERATED CODE BELOW -- DO NOT EDIT ----------- */
 
+
 static struct cb_watch_bool watch_autocorrect_first_letter = {
 	0, "autocorrect/first-letter",
-	"List of Init Caps Exceptions",
-	"The autocorrect engine does not correct the initial caps for words in this list.",
+	"Autocorrect first letter",
+	"This variable determines whether to autocorrect first letters",
 	TRUE,
 };
 
@@ -717,7 +718,7 @@ gnm_conf_get_autocorrect_first_letter_node (void)
 static struct cb_watch_string_list watch_autocorrect_first_letter_list = {
 	0, "autocorrect/first-letter-list",
 	"List of First Letter Exception",
-	"The autocorrect engine does not correct the first letter for words in this list.",
+	"The autocorrect engine does not capitalize the first letter of words following strings in this list.",
 };
 
 GSList *
@@ -745,7 +746,7 @@ gnm_conf_get_autocorrect_first_letter_list_node (void)
 static struct cb_watch_bool watch_autocorrect_init_caps = {
 	0, "autocorrect/init-caps",
 	"Autocorrect initial caps",
-	"Autocorrect initial caps",
+	"This variable determines whether to autocorrect initial caps",
 	TRUE,
 };
 
@@ -773,8 +774,8 @@ gnm_conf_get_autocorrect_init_caps_node (void)
 
 static struct cb_watch_string_list watch_autocorrect_init_caps_list = {
 	0, "autocorrect/init-caps-list",
-	"Autocorrect initial caps",
-	"Autocorrect initial caps",
+	"List of initial caps exceptions",
+	"The autocorrect engine does not correct the initial caps for words in this list.",
 };
 
 GSList *
@@ -802,7 +803,7 @@ gnm_conf_get_autocorrect_init_caps_list_node (void)
 static struct cb_watch_bool watch_autocorrect_names_of_days = {
 	0, "autocorrect/names-of-days",
 	"Autocorrect names of days",
-	"Autocorrect names of days",
+	"This variable determines whether to autocorrect names of days",
 	TRUE,
 };
 
@@ -1238,7 +1239,7 @@ gnm_conf_get_core_gui_editing_autocomplete_node (void)
 static struct cb_watch_int watch_core_gui_editing_autocomplete_min_chars = {
 	0, "core/gui/editing/autocomplete-min-chars",
 	"Minimum Number of Characters for Autocompletion",
-	"This variable determines theminimum number of characters required for autocompletion.",
+	"This variable determines the minimum number of characters required for autocompletion.",
 	1, 10, 3,
 };
 
@@ -1383,7 +1384,7 @@ gnm_conf_get_core_gui_editing_livescrolling_node (void)
 static struct cb_watch_int watch_core_gui_editing_recalclag = {
 	0, "core/gui/editing/recalclag",
 	"Auto Expression Recalculation Lag",
-	"If `lag' is 0, gnumeric recalculates all auto expressions immediately after every change.  Non-zero values of `lag' allow gnumeric to accumulate more changes before each recalculation.\nIf `lag' is positive, then whenever a change appears, gnumeric waits `lag'\nmilleseconds and then recalculates; if more changes appear during that period,\nthey are also processed at that time. If `lag' is negative, then recalculation happens only after a quiet period of\n|lag| milleseconds.",
+	"If `lag' is 0, gnumeric recalculates all auto expressions immediately after every change.  Non-zero values of `lag' allow gnumeric to accumulate more changes before each recalculation. If `lag' is positive, then whenever a change appears, gnumeric waits `lag' milliseconds and then recalculates; if more changes appear during that period, they are also processed at that time. If `lag' is negative, then recalculation happens only after a quiet period of |lag| milliseconds.",
 	-5000, 5000, 200,
 };
 
@@ -4160,3 +4161,4 @@ gnm_conf_get_undo_dir_node (void)
 {
 	return get_node ("undo", NULL);
 }
+

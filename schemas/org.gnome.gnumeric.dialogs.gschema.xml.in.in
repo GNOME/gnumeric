@@ -15,27 +15,27 @@
     <key name="init-caps" type="b">
       <default>true</default>
       <_summary>Autocorrect initial caps</_summary>
-      <_description>Autocorrect initial caps</_description>
+      <_description>This variable determines whether to autocorrect initial caps</_description>
     </key>
      <key name="init-caps-list" type="as">
       <default>[]</default>
-      <_summary>Autocorrect initial caps</_summary>
-      <_description>Autocorrect initial caps</_description>
+      <_summary>List of initial caps exceptions</_summary>
+      <_description>The autocorrect engine does not correct the initial caps for words in this list.</_description>
     </key>
    <key name="first-letter" type="b">
       <default>true</default>
-      <_summary>List of Init Caps Exceptions</_summary>
-      <_description>The autocorrect engine does not correct the initial caps for words in this list.</_description>
+      <_summary>Autocorrect first letter</_summary>
+      <_description>This variable determines whether to autocorrect first letters</_description>
     </key>
     <key name="first-letter-list" type="as">
       <default>[]</default>
       <_summary>List of First Letter Exception</_summary>
-      <_description>The autocorrect engine does not correct the first letter for words in this list.</_description>
+      <_description>The autocorrect engine does not capitalize the first letter of words following strings in this list.</_description>
     </key>
     <key name="names-of-days" type="b">
       <default>true</default>
       <_summary>Autocorrect names of days</_summary>
-      <_description>Autocorrect names of days</_description>
+      <_description>This variable determines whether to autocorrect names of days</_description>
     </key>
     <key name="replace" type="b">
       <default>true</default>

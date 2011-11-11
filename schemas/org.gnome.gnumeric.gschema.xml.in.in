@@ -165,7 +165,7 @@
     <key name="autocomplete-min-chars" type="i">
       <default>3</default>
       <_summary>Minimum Number of Characters for Autocompletion</_summary>
-      <_description>This variable determines theminimum number of characters required for autocompletion.</_description>
+      <_description>This variable determines the minimum number of characters required for autocompletion.</_description>
     </key>
     <key name="function-name-tooltips" type="b">
       <default>true</default>
@@ -190,11 +190,7 @@
     <key name="recalclag" type="i">
       <default>200</default>
       <_summary>Auto Expression Recalculation Lag</_summary>
-      <_description>If `lag' is 0, gnumeric recalculates all auto expressions immediately after every change.  Non-zero values of `lag' allow gnumeric to accumulate more changes before each recalculation.
-If `lag' is positive, then whenever a change appears, gnumeric waits `lag'
-milleseconds and then recalculates; if more changes appear during that period,
-they are also processed at that time. If `lag' is negative, then recalculation happens only after a quiet period of
-|lag| milleseconds.</_description>
+      <_description>If `lag' is 0, gnumeric recalculates all auto expressions immediately after every change.  Non-zero values of `lag' allow gnumeric to accumulate more changes before each recalculation. If `lag' is positive, then whenever a change appears, gnumeric waits `lag' milliseconds and then recalculates; if more changes appear during that period, they are also processed at that time. If `lag' is negative, then recalculation happens only after a quiet period of |lag| milliseconds.</_description>
     </key>
     <key name="transitionkeys" type="b">
       <default>false</default>
