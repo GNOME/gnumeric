@@ -199,8 +199,7 @@ they are also processed at that time. If `lag' is negative, then recalculation h
     <key name="transitionkeys" type="b">
       <default>false</default>
       <_summary>Transition Keys</_summary>
-      <_description>This variable determines whether transition keys are set on. Transition keys are a throw back to 1-2-3 style event handling.
-	     They turn Ctrl-arrow into page movement rather than jumping to the start/end of series.</_description>
+      <_description>This variable determines whether transition keys are set on. Transition keys are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into page movement rather than jumping to the start/end of series.</_description>
     </key>
   </schema>
   <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.window" path="/apps/gnumeric/core/gui/window/">
