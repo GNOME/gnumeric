@@ -120,9 +120,6 @@ plugins/uihello/uihello.c
 plugins/xbase/boot.c
 plugins/xbase/plugin.xml.in
 plugins/xbase/xbase.c
-schemas/gnumeric-dialogs.schemas.in
-schemas/gnumeric-general.schemas.in
-schemas/gnumeric-plugins.schemas.in
 schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in
 schemas/org.gnome.gnumeric.gschema.xml.in.in
 schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in
