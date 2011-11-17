@@ -3227,7 +3227,9 @@
       with a given median is in section  <xref linkend="sign-test-tool" />.
     </para>
   </note>
-      <para>This section has not yet been written</para>
+  <note>
+      <para>This section needs to be written.</para>
+  </note>
   </sect3>
   <sect3 id="two-median-wilcoxon-sign-test-tool">
       <title>Wilcoxon Signed Rank Test</title>
@@ -3243,11 +3245,15 @@
       <xref linkend="wilcoxon-sign-test-tool" />.
     </para>
   </note>
-      <para>This section has not yet been written</para>
+  <note>
+      <para>This section needs to be written.</para>
+  </note>
   </sect3>
   <sect3 id="two-median-wilcoxon-mann-whitney-test-tool">
       <title>Wilcoxon-Mann-Whitney Test</title>
-      <para>This section has not yet been written</para>
+  <note>
+      <para>This section needs to be written.</para>
+  </note>
   </sect3>
 
   </sect2>

@@ -1,3 +1,8 @@
+2011-11-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_pi): use mathematical pi rather than greek pi
+	(help_sqrtpi): use mathematical pi rather than greek pi
+
 2011-10-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_sumproduct): add compatibility statement

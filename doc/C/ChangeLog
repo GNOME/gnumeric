@@ -1,3 +1,12 @@
+2011-11-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-statistical.xml: standardize "not yet written"
+	* data-commentNlink.xml: standardize "not yet written"
+	* data-delete.xml: standardize "not yet written"
+	* data-insert.xml: standardize "not yet written"
+	* func.defs: updated
+	* functions.xml: updated
+
 2011-11-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ssconvert.1: add new 'paper=fit' option for pdf exporter

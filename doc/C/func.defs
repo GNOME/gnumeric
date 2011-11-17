@@ -1238,6 +1238,14 @@ If @{places} is given and @{x} is negative, @{places} is ignored.
 @SEEALSO=OCT2HEX,HEX2BIN,HEX2DEC
 
 @CATEGORY=Engineering
+@FUNCTION=HEXREP
+@SHORTDESC=hexadecimal representation of numeric value
+@SYNTAX=HEXREP(x)
+@ARGUMENTDESCRIPTION=@{x}: number
+@DESCRIPTION=HEXREP returns a hexadecimal string representation of @x.
+@NOTE=This is a function meant for debugging.  The layout of the result may change and even depend on how Gnumeric was compiled.
+
+@CATEGORY=Engineering
 @FUNCTION=INVSUMINV
 @SHORTDESC=the reciprocal of the sum of reciprocals of the arguments
 @SYNTAX=INVSUMINV(x0,x1,…)
@@ -3516,10 +3524,20 @@ The depreciation coefficient used is:
 @SEEALSO=EVEN
 
 @CATEGORY=Mathematics
+@FUNCTION=ODF.SUMPRODUCT
+@SHORTDESC=multiplies components and adds the results
+@SYNTAX=ODF.SUMPRODUCT(,…)
+@DESCRIPTION=Multiplies corresponding data entries in the given arrays or ranges, and then returns the sum of those products.
+@NOTE=If an entry is not numeric or logical, the value zero is used instead. If arrays or range arguments do not have the same dimensions, return #VALUE! error. This function differs from SUMPRODUCT by considering booleans.
+@EXCEL=This function is not Excel compatible. Use SUMPRODUCT instead.
+@ODF=This function is OpenFormula compatible.
+@SEEALSO=SUMPRODUCT,SUM,PRODUCT,G_PRODUCT
+
+@CATEGORY=Mathematics
 @FUNCTION=PI
-@SHORTDESC=the constant π
+@SHORTDESC=the constant 𝜋
 @SYNTAX=PI()
-@EXCEL=This function is Excel compatible, but it returns π with a better precision.
+@EXCEL=This function is Excel compatible, but it returns 𝜋 with a better precision.
 @SEEALSO=SQRTPI
 
 @CATEGORY=Mathematics
@@ -3674,7 +3692,7 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 
 @CATEGORY=Mathematics
 @FUNCTION=SQRTPI
-@SHORTDESC=the square root of @{x} times π
+@SHORTDESC=the square root of @{x} times 𝜋
 @SYNTAX=SQRTPI(x)
 @ARGUMENTDESCRIPTION=@{x}: non-negative number
 @EXCEL=This function is Excel compatible.
@@ -3715,8 +3733,10 @@ If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decima
 @SHORTDESC=multiplies components and adds the results
 @SYNTAX=SUMPRODUCT(,…)
 @DESCRIPTION=Multiplies corresponding data entries in the given arrays or ranges, and then returns the sum of those products.
-@NOTE=If an entry is not numeric, the value zero is used instead. If arrays or range arguments do not have the same dimensions, return #VALUE! error. SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5>0 will not work, implicit intersection will kick in. Instead use --(A1:A5>0)
-@SEEALSO=SUM,PRODUCT,G_PRODUCT
+@NOTE=If an entry is not numeric, the value zero is used instead. If arrays or range arguments do not have the same dimensions, return #VALUE! error. This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  Instead use SUMPRODUCT(--(A1:A5>0))
+@EXCEL=This function is Excel compatible.
+@ODF=This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead.
+@SEEALSO=SUM,PRODUCT,G_PRODUCT,ODF.SUMPRODUCT
 
 @CATEGORY=Mathematics
 @FUNCTION=SUMSQ

@@ -4316,6 +4316,36 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-HEXREP">
+      <refmeta>
+        <refentrytitle>
+          <function>HEXREP</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>HEXREP</function>
+        </refname>
+        <refpurpose>
+        hexadecimal representation of numeric value
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>HEXREP</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>x</parameter>: number</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para><function>HEXREP</function> returns a hexadecimal string representation of <parameter>x</parameter>.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>This is a function meant for debugging.  The layout of the result may change and even depend on how Gnumeric was compiled.</para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-INVSUMINV">
       <refmeta>
         <refentrytitle>
@@ -11902,6 +11932,48 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-ODF.SUMPRODUCT">
+      <refmeta>
+        <refentrytitle>
+          <function>ODF.SUMPRODUCT</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>ODF.SUMPRODUCT</function>
+        </refname>
+        <refpurpose>
+        multiplies components and adds the results
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>ODF.SUMPRODUCT</function>(<parameter/>,<parameter/>…)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Multiplies corresponding data entries in the given arrays or ranges, and then returns the sum of those products.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If an entry is not numeric or logical, the value zero is used instead. If arrays or range arguments do not have the same dimensions, return #VALUE! error. This function differs from SUMPRODUCT by considering booleans.</para>
+      </refsect1>
+      <refsect1>
+        <title>Microsoft Excel Compatibility</title>
+        <para>This function is not Excel compatible. Use SUMPRODUCT instead.</para>
+      </refsect1>
+      <refsect1>
+        <title>OpenDocument Format (ODF) Compatibility</title>
+        <para>This function is OpenFormula compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-SUMPRODUCT"><function>SUMPRODUCT</function></link>,
+        <link linkend="gnumeric-function-SUM"><function>SUM</function></link>,
+        <link linkend="gnumeric-function-PRODUCT"><function>PRODUCT</function></link>,
+        <link linkend="gnumeric-function-G_PRODUCT"><function>G_PRODUCT</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-PI">
       <refmeta>
         <refentrytitle>
@@ -11913,7 +11985,7 @@
           <function>PI</function>
         </refname>
         <refpurpose>
-        the constant π
+        the constant 𝜋
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -11921,7 +11993,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
-        <para>This function is Excel compatible, but it returns π with a better precision.</para>
+        <para>This function is Excel compatible, but it returns 𝜋 with a better precision.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -12500,7 +12572,7 @@
           <function>SQRTPI</function>
         </refname>
         <refpurpose>
-        the square root of <parameter>x</parameter> times π
+        the square root of <parameter>x</parameter> times 𝜋
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -12655,13 +12727,22 @@
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If an entry is not numeric, the value zero is used instead. If arrays or range arguments do not have the same dimensions, return #VALUE! error. SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5&gt;0 will not work, implicit intersection will kick in. Instead use --(A1:A5&gt;0)</para>
+        <para>If an entry is not numeric, the value zero is used instead. If arrays or range arguments do not have the same dimensions, return #VALUE! error. This function ignores logicals, so using <function>SUMPRODUCT</function>(A1:A5&gt;0) will not work.  Instead use <function>SUMPRODUCT</function>(--(A1:A5&gt;0))</para>
+      </refsect1>
+      <refsect1>
+        <title>Microsoft Excel Compatibility</title>
+        <para>This function is Excel compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>OpenDocument Format (ODF) Compatibility</title>
+        <para>This function is not OpenFormula compatible. Use ODF.<function>SUMPRODUCT</function> instead.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-function-SUM"><function>SUM</function></link>,
         <link linkend="gnumeric-function-PRODUCT"><function>PRODUCT</function></link>,
-        <link linkend="gnumeric-function-G_PRODUCT"><function>G_PRODUCT</function></link>.
+        <link linkend="gnumeric-function-G_PRODUCT"><function>G_PRODUCT</function></link>,
+        <link linkend="gnumeric-function-ODF.SUMPRODUCT"><function>ODF.SUMPRODUCT</function></link>.
       </para>
       </refsect1>
     </refentry>
