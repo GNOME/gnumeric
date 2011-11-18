@@ -1,3 +1,10 @@
+2011-11-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in: fixed paths.
+	[#664243]
+	* schemas/org.gnome.gnumeric.gschema.xml.in.in: ditto.
+	* schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in: ditto.
+
 2011-11-11 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in: fix descriptions

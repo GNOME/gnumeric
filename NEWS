@@ -70,6 +70,7 @@ Jean:
 	* Add preference setting determining the minimum number of chars for 
 	autocompletion. [#663671]
 	* Fixed rendering of outline levels. [#663663, #663802]
+	* Fixed schemas paths. [#664243]
 
 Marek Černocký:
         * Add some translation contexts to improve translations.

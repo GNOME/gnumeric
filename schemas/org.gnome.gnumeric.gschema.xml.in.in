@@ -1,5 +1,5 @@
 <schemalist>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric" path="/apps/gnumeric/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric" path="/org/gnome/gnumeric/">
     <child name="undo" schema="org.gnome.gnumeric.undo"/>
     <child name="core" schema="org.gnome.gnumeric.core"/>
     <child name="cut-and-paste" schema="org.gnome.gnumeric.cut-and-paste" />
@@ -10,7 +10,7 @@
       <_description>Toolbar Style. Valid values are both, both_horiz, icon, and text.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.undo" path="/apps/gnumeric/undo/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.undo" path="/org/gnome/gnumeric/undo/">
     <key name="show-sheet-name" type="b">
       <default>false</default>
       <_summary>Show Sheet Name in Undo List</_summary>
@@ -32,7 +32,7 @@
       <_description>This value is indicative of the maximum length of the command descriptors in the undo and redo chains.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core" path="/apps/gnumeric/core/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core" path="/org/gnome/gnumeric/core/">
     <child name="defaultfont" schema="org.gnome.gnumeric.core.defaultfont"/>
     <child name="workbook" schema="org.gnome.gnumeric.core.workbook"/>
     <child name="gui" schema="org.gnome.gnumeric.core.gui"/>
@@ -40,7 +40,7 @@
     <child name="file" schema="org.gnome.gnumeric.core.file" />
    <child name="sort" schema="org.gnome.gnumeric.core.sort" />
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.defaultfont" path="/apps/gnumeric/core/defaultfont/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.defaultfont" path="/org/gnome/gnumeric/core/defaultfont/">
     <key name="size" type="d">
       <default>10</default>
       <_summary>Default Font Size</_summary>
@@ -62,7 +62,7 @@
       <_description>This value determines whether the default font for a new workbook is italic.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.workbook" path="/apps/gnumeric/core/workbook/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.workbook" path="/org/gnome/gnumeric/core/workbook/">
     <key name="n-sheet" type="i">
       <default>3</default>
       <_summary>Default Number of Sheets</_summary>
@@ -84,13 +84,13 @@
       <_description>The number of seconds between autosaves.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui" path="/apps/gnumeric/core/gui/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui" path="/org/gnome/gnumeric/core/gui/">
     <child name="screen" schema="org.gnome.gnumeric.core.gui.screen"/>
     <child name="toolbars" schema="org.gnome.gnumeric.core.gui.toolbars"/>
     <child name="editing" schema="org.gnome.gnumeric.core.gui.editing"/>
     <child name="window" schema="org.gnome.gnumeric.core.gui.window"/>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.screen" path="/apps/gnumeric/core/gui/screen/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.screen" path="/org/gnome/gnumeric/core/gui/screen/">
     <key name="horizontaldpi" type="d">
       <default>96</default>
       <_summary>Horizontal DPI</_summary>
@@ -102,7 +102,7 @@
       <_description>Screen resolution in the vertical direction.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.toolbars" path="/apps/gnumeric/core/gui/toolbars/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.toolbars" path="/org/gnome/gnumeric/core/gui/toolbars/">
     <key name="standard-visible" type="b">
       <default>true</default>
       <_summary>Standard toolbar visible</_summary>
@@ -144,7 +144,7 @@
       <_description>This variable determines where the object toolbar should be shown.  0 is left, 1 is right, 2 is top.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.cells" path="/apps/gnumeric/core/gui/cells/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.cells" path="/org/gnome/gnumeric/core/gui/cells/">
     <key name="function-markers" type="b">
       <default>false</default>
       <_summary>Function Markers</_summary>
@@ -156,7 +156,7 @@
       <_description>This variable determines whether cells with truncated content are marked.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.editing" path="/apps/gnumeric/core/gui/editing/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.editing" path="/org/gnome/gnumeric/core/gui/editing/">
     <key name="autocomplete" type="b">
       <default>true</default>
       <_summary>Autocomplete</_summary>
@@ -198,7 +198,7 @@
       <_description>This variable determines whether transition keys are set on. Transition keys are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into page movement rather than jumping to the start/end of series.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.window" path="/apps/gnumeric/core/gui/window/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.gui.window" path="/org/gnome/gnumeric/core/gui/window/">
     <key name="x" type="d">
       <default>0.75</default>
       <_summary>Default Horizontal Window Size</_summary>
@@ -215,17 +215,17 @@
       <_description>The initial zoom factor for new workbooks.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.xml" path="/apps/gnumeric/core/xml/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.xml" path="/org/gnome/gnumeric/core/xml/">
     <key name="compression-level" type="i">
       <default>9</default>
       <_summary>Default Compression Level For Gnumeric Files</_summary>
       <_description>This integer (between 0 and 9) specifies the amount of compression performed by Gnumeric when saving files in the default file format. 0 is minimal compression while 9 is maximal compression.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.file" path="/apps/gnumeric/core/file/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.file" path="/org/gnome/gnumeric/core/file/">
     <child name="save" schema="org.gnome.gnumeric.core.file.save" />
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.file.save" path="/apps/gnumeric/core/file/save/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.file.save" path="/org/gnome/gnumeric/core/file/save/">
     <key name="single-sheet" type="b">
       <default>true</default>
       <_summary>Warn When Exporting Into Single Sheet Format</_summary>
@@ -242,11 +242,11 @@
       <_description>This list contains the ids of the file savers for which the extension check is disabled.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.sort" path="/apps/gnumeric/core/sort/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.sort" path="/org/gnome/gnumeric/core/sort/">
     <child name="default" schema="org.gnome.gnumeric.core.sort.default" />
     <child name="dialog" schema="org.gnome.gnumeric.core.sort.dialog" />
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.sort.default" path="/apps/gnumeric/core/sort/default/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.sort.default" path="/org/gnome/gnumeric/core/sort/default/">
     <key name="by-case" type="b">
       <default>false</default>
       <_summary>Sort is Case-Sensitive</_summary>
@@ -263,14 +263,14 @@
       <_description>This option determines the initial state of the sort-order button in the sort dialog.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.sort.dialog" path="/apps/gnumeric/core/sort/dialog/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.core.sort.dialog" path="/org/gnome/gnumeric/core/sort/dialog/">
     <key name="max-initial-clauses" type="i">
       <default>10</default>
       <_summary>Number of Automatic Clauses</_summary>
       <_description>When selecting a sort region in the sort dialog, sort clauses are automatically added. This number determines the maximum number of clauses to be added automatically.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.cut-and-paste" path="/apps/gnumeric/cut-and-paste/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.cut-and-paste" path="/org/gnome/gnumeric/cut-and-paste/">
     <key name="prefer-clipboard" type="b">
       <default>true</default>
       <_summary>Prefer CLIPBOARD over PRIMARY selection</_summary>

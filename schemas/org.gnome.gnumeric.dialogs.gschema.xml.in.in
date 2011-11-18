@@ -1,5 +1,5 @@
 <schemalist>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.functionselector" path="/apps/gnumeric/functionselector/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.functionselector" path="/org/gnome/gnumeric/functionselector/">
     <key name="recentfunctions" type="as">
       <default>[]</default>
       <_summary>List of recently used functions.</_summary>
@@ -11,7 +11,7 @@
       <_description>The function selector keeps a list of recently used functions. This is the maximum length of that list.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.autocorrect" path="/apps/gnumeric/autocorrect/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.autocorrect" path="/org/gnome/gnumeric/autocorrect/">
     <key name="init-caps" type="b">
       <default>true</default>
       <_summary>Autocorrect initial caps</_summary>
@@ -43,7 +43,7 @@
       <_description>Autocorrect replace</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.plugins" path="/apps/gnumeric/plugins/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.plugins" path="/org/gnome/gnumeric/plugins/">
     <key name="activate-new" type="b">
       <default>true</default>
       <_summary>Activate New Plugins</_summary>
@@ -70,7 +70,7 @@
       <_description>This list contains all extra directories containing plugins.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.autoformat" path="/apps/gnumeric/autoformat/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.autoformat" path="/org/gnome/gnumeric/autoformat/">
     <key name="extra-dirs" type="as">
       <default>[]</default>
       <_summary>List of Extra Autoformat Directories.</_summary>
@@ -87,7 +87,7 @@
       <_description>The main directory for user specific autoformat templates.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.printsetup" path="/apps/gnumeric/printsetup/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.printsetup" path="/org/gnome/gnumeric/printsetup/">
     <key name="all-sheets" type="b">
       <default>false</default>
       <_summary>Apply print-setup to all sheets</_summary>
@@ -256,17 +256,17 @@
       <_description>Please use the Print Setup dialog to edit this value.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.dialogs.rs" path="/apps/gnumeric/dialogs/rs/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.dialogs.rs" path="/org/gnome/gnumeric/dialogs/rs/">
     <key name="unfocused" type="b">
       <default>false</default>
       <_summary>Allow Unfocused Range Selections</_summary>
       <_description>Some dialogs contain only a single entry field that allows range selections in the workbook. Setting this variable to TRUE directs selections to this entry even if the entry does not have keyboard focus.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.stf" path="/apps/gnumeric/stf/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.stf" path="/org/gnome/gnumeric/stf/">
     <child name="export" schema="org.gnome.gnumeric.stf.export" />
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.stf.export" path="/apps/gnumeric/stf/export/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.stf.export" path="/org/gnome/gnumeric/stf/export/">
     <key name="stringindicator" type="s">
       <default>'"'</default>
       <_summary>Text Export String Indicator</_summary>
@@ -283,7 +283,7 @@
       <_description>Please use the Text Export dialog to edit this value.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.searchreplace" path="/apps/gnumeric/searchreplace/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.searchreplace" path="/org/gnome/gnumeric/searchreplace/">
     <key name="ignore-case" type="b">
       <default>true</default>
       <_summary>Search &amp; Replace Ignores Case</_summary>
