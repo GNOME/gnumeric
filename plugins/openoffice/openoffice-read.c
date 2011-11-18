@@ -3116,7 +3116,7 @@ oo_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-oo_cell_content_start (GsfXMLIn *xin, xmlChar const **attrs)
+oo_cell_content_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
        OOParseState *state = (OOParseState *)xin->user_state;
 
@@ -6101,10 +6101,15 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 
 			if (attr_eq (attrs[1], "none"))
 				interpolation = "linear";
-			else if (attr_eq (attrs[1], "b-spline"))
+			else if (attr_eq (attrs[1], "b-spline")) {
 				interpolation = "spline";
-			else if (attr_eq (attrs[1], "cubic-spline"))
-				interpolation = "cspline";
+				oo_warning
+					(xin, _("Unknown interpolation type "
+						"encountered: \'%s\', using "
+						"Bezier cubic spline instead."),
+					 CXML2C(attrs[1]));
+			} else if (attr_eq (attrs[1], "cubic-spline"))
+				interpolation = "spline";
 			else if (g_str_has_prefix (CXML2C(attrs[1]), "gnm:"))
 				interpolation = CXML2C(attrs[1]) + 4;
 			else oo_warning
@@ -6685,7 +6690,6 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmRange cell_base;
 	double frame_offset[4];
-	gchar const *aux = NULL;
 	gdouble height = 0., width = 0., x = 0., y = 0., end_x = 0., end_y = 0.;
 	ColRowInfo const *col, *row;
 	GnmExprTop const *texpr = NULL;
@@ -6693,17 +6697,17 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 	height = width = x = y = 0.;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "width"))
-			aux = oo_parse_distance (xin, attrs[1], "width", &width);
+			oo_parse_distance (xin, attrs[1], "width", &width);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "height"))
-			aux = oo_parse_distance (xin, attrs[1], "height", &height);
+			oo_parse_distance (xin, attrs[1], "height", &height);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "x"))
-			aux = oo_parse_distance (xin, attrs[1], "x", &x);
+			oo_parse_distance (xin, attrs[1], "x", &x);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "y"))
-			aux = oo_parse_distance (xin, attrs[1], "y", &y);
+			oo_parse_distance (xin, attrs[1], "y", &y);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "end-x"))
-			aux = oo_parse_distance (xin, attrs[1], "end-x", &end_x);
+			oo_parse_distance (xin, attrs[1], "end-x", &end_x);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "end-y"))
-			aux = oo_parse_distance (xin, attrs[1], "end-y", &end_y);
+			oo_parse_distance (xin, attrs[1], "end-y", &end_y);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "end-cell-address")) {
 			GnmParsePos   pp;
 			char *end_str = g_strconcat ("[", CXML2C (attrs[1]), "]", NULL);
@@ -9546,6 +9550,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	          GSF_XML_IN_NODE (CHART_TABLE_ROWS, CHART_TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL),
 	            GSF_XML_IN_NODE (CHART_TABLE_ROW, CHART_TABLE_CELL, OO_NS_TABLE, "table-cell", GSF_XML_NO_CONTENT, NULL, NULL),
 	              GSF_XML_IN_NODE (CHART_TABLE_CELL, CHART_CELL_P, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
+	              GSF_XML_IN_NODE (CHART_TABLE_CELL, CHART_CELL_DRAW_G, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),
+	                GSF_XML_IN_NODE (CHART_CELL_DRAW_G, CHART_CELL_SVG_DESC, OO_NS_SVG, "desc", GSF_XML_NO_CONTENT, NULL, NULL),
 	        GSF_XML_IN_NODE (CHART_TABLE, CHART_TABLE_COLS, OO_NS_TABLE, "table-columns", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (CHART_TABLE_COLS, CHART_TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL),
 	        GSF_XML_IN_NODE (CHART_TABLE, CHART_TABLE_HROWS, OO_NS_TABLE, "table-header-rows", GSF_XML_NO_CONTENT, NULL, NULL),
