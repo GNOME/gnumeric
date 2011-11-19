@@ -267,3 +267,12 @@
    ...
    fun:g_type_class_ref
 }
+
+{
+   GIO/OpenSuSE11.4/FMR
+   Memcheck:Addr4
+   fun:g_atomic_int_exchange_and_add
+   fun:g_variant_unref
+   ...
+   fun:g_settings_backend_get_default
+}
