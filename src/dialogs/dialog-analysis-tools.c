@@ -169,7 +169,7 @@ typedef struct {
 	GtkWidget *var2_variance_label;
 	GtkWidget *var1_variance;
 	GtkWidget *var2_variance;
-	GtkWidget *options_table;
+	GtkWidget *options_grid;
 	GtkWidget *mean_diff_entry;
 	GtkWidget *alpha_entry;
 	ttest_type invocation;
@@ -177,7 +177,7 @@ typedef struct {
 
 typedef struct {
 	GenericToolState base;
-	GtkWidget *options_table;
+	GtkWidget *options_grid;
 	GtkWidget *method_label;
 	GtkWidget *periodic_button;
 	GtkWidget *random_button;
@@ -379,7 +379,7 @@ dialog_tool_init (GenericToolState *state,
 		  GCallback sensitivity_cb,
 		  GnmExprEntryFlags flags)
 {
-	GtkTable  *table;
+	GtkGrid  *grid;
 	GtkWidget *widget;
 
 	state->wbcg  = wbcg;
@@ -405,26 +405,26 @@ dialog_tool_init (GenericToolState *state,
 	if (widget == NULL) {
 		state->input_entry = NULL;
 	} else {
-		guint right_attach, top_attach, bottom_attach;
+		guint left_attach, top_attach, width, height;
 
-		table = GTK_TABLE (gtk_widget_get_parent (widget));
+		grid = GTK_GRID (gtk_widget_get_parent (widget));
 		state->input_entry = gnm_expr_entry_new (state->wbcg, TRUE);
+		g_object_set (G_OBJECT (state->input_entry), "hexpand", TRUE, NULL);
 		gnm_expr_entry_disable_tips (state->input_entry);
 		gnm_expr_entry_set_flags (state->input_entry,
 					  flags | GNM_EE_FORCE_ABS_REF,
 					  GNM_EE_MASK);
 
-		gtk_container_child_get (GTK_CONTAINER (table), widget,
-					 "right-attach", &right_attach,
+		gtk_container_child_get (GTK_CONTAINER (grid), widget,
+					 "left-attach", &left_attach,
 					 "top-attach", &top_attach,
-					 "bottom-attach", &bottom_attach,
+		                         "width", &width,
+		                         "height", &height,
 					 NULL);
 
-		gtk_table_attach (table, GTK_WIDGET (state->input_entry),
-				  right_attach, right_attach + 1,
-				  top_attach, bottom_attach,
-				  GTK_EXPAND | GTK_FILL, 0,
-				  0, 0);
+		gtk_grid_attach (grid, GTK_WIDGET (state->input_entry),
+				  left_attach + width, top_attach,
+				  1, height);
 		g_signal_connect_after (G_OBJECT (state->input_entry),
 					"changed",
 					G_CALLBACK (sensitivity_cb), state);
@@ -444,25 +444,25 @@ dialog_tool_init (GenericToolState *state,
 	if (widget == NULL) {
 		state->input_entry_2 = NULL;
 	} else {
-		guint right_attach, top_attach, bottom_attach;
+		guint left_attach, top_attach, width, height;
 
 		state->input_entry_2 = gnm_expr_entry_new (state->wbcg, TRUE);
+		g_object_set (G_OBJECT (state->input_entry_2), "hexpand", TRUE, NULL);
 		gnm_expr_entry_disable_tips (state->input_entry_2);
 		gnm_expr_entry_set_flags (state->input_entry_2,
 					  GNM_EE_SINGLE_RANGE | GNM_EE_FORCE_ABS_REF, GNM_EE_MASK);
-		table = GTK_TABLE (gtk_widget_get_parent (widget));
+		grid = GTK_GRID (gtk_widget_get_parent (widget));
 
-		gtk_container_child_get (GTK_CONTAINER (table), widget,
-					 "right-attach", &right_attach,
+		gtk_container_child_get (GTK_CONTAINER (grid), widget,
+					 "left-attach", &left_attach,
 					 "top-attach", &top_attach,
-					 "bottom-attach", &bottom_attach,
+		                         "width", &width,
+		                         "height", &height,
 					 NULL);
 
-		gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
-				  right_attach, right_attach + 1,
-				  top_attach, bottom_attach,
-				  GTK_EXPAND | GTK_FILL, 0,
-				  0, 0);
+		gtk_grid_attach (grid, GTK_WIDGET (state->input_entry_2),
+				  left_attach + width, top_attach,
+				  1, height);
 		g_signal_connect_after (G_OBJECT (state->input_entry_2),
 					"changed",
 					G_CALLBACK (sensitivity_cb), state);
@@ -1550,8 +1550,8 @@ dialog_ttest_realized (G_GNUC_UNUSED GtkWidget *widget,
 {
 	GtkAllocation alloc;
 
-	gtk_widget_get_allocation (state->options_table, &alloc);
-	gtk_widget_set_size_request (state->options_table,
+	gtk_widget_get_allocation (state->options_grid, &alloc);
+	gtk_widget_set_size_request (state->options_grid,
 				     alloc.width, alloc.height);
 
 	gtk_widget_get_allocation (state->paired_button, &alloc);
@@ -1625,7 +1625,7 @@ dialog_ttest_tool (WBCGtk *wbcg, Sheet *sheet, ttest_type test)
 	state->equal_button  = go_gtk_builder_get_widget (state->base.gui, "equal-button");
 	state->unequal_button  = go_gtk_builder_get_widget (state->base.gui, "unequal-button");
 	state->varianceequal_label = go_gtk_builder_get_widget (state->base.gui, "varianceequal-label");
-	state->options_table = go_gtk_builder_get_widget (state->base.gui, "options-table");
+	state->options_grid = go_gtk_builder_get_widget (state->base.gui, "options-grid");
 	state->var1_variance_label = go_gtk_builder_get_widget (state->base.gui, "var1_variance-label");
 	state->var1_variance = go_gtk_builder_get_widget (state->base.gui, "var1-variance");
 	state->var2_variance_label = go_gtk_builder_get_widget (state->base.gui, "var2_variance-label");
@@ -2004,8 +2004,8 @@ dialog_sampling_realized (G_GNUC_UNUSED GtkWidget *widget,
 {
 	GtkAllocation alloc;
 
-	gtk_widget_get_allocation (state->options_table, &alloc);
-	gtk_widget_set_size_request (state->options_table,
+	gtk_widget_get_allocation (state->options_grid, &alloc);
+	gtk_widget_set_size_request (state->options_grid,
 				     alloc.width, alloc.height);
 
 	gtk_widget_get_allocation (state->random_button, &alloc);
@@ -2063,7 +2063,7 @@ dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 	state->periodic_button  = go_gtk_builder_get_widget (state->base.gui, "periodic-button");
 	state->random_button  = go_gtk_builder_get_widget (state->base.gui, "random-button");
 	state->method_label = go_gtk_builder_get_widget (state->base.gui, "method-label");
-	state->options_table = go_gtk_builder_get_widget (state->base.gui, "options-table");
+	state->options_grid = go_gtk_builder_get_widget (state->base.gui, "options-grid");
 	state->period_label = go_gtk_builder_get_widget (state->base.gui, "period-label");
 	state->random_label = go_gtk_builder_get_widget (state->base.gui, "random-label");
 	state->period_entry = go_gtk_builder_get_widget (state->base.gui, "period-entry");

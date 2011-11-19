@@ -1,3 +1,40 @@
+2011-11-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* advanced-filter.ui: replaced GtkTable by GtkGrid.
+	* anova-one.ui: ditto.
+	* anova-two.ui: ditto.
+	* autofilter-expression.ui: ditto.
+	* chi-squared.ui: ditto.
+	* col-width.ui: ditto.
+	* correlation.ui: ditto.
+	* covariance.ui: ditto.
+	* descriptive-stats.ui: ditto.
+	* dialog-analysis-tools.c (dialog_tool_init),
+	(dialog_ttest_realized), (dialog_ttest_tool),
+	(dialog_sampling_realized), (dialog_sampling_tool): ditto.
+	* exp-smoothing.ui: ditto.
+	* fourier-analysis.ui: ditto.
+	* frequency.ui: ditto.
+	* histogram.ui: ditto.
+	* kaplan-meier.ui: ditto.
+	* mean-tests.ui: ditto.
+	* moving-averages.ui: ditto.
+	* normality-tests.ui: ditto.
+	* principal-components.ui: ditto.
+	* random-generation-cor.ui: ditto.
+	* rank.ui: ditto.
+	* regression.ui: ditto.
+	* row-height.ui: ditto.
+	* sampling.ui: ditto.
+	* scenario-add.ui: ditto.
+	* scenario-manager.ui: ditto.
+	* shuffle.ui: ditto.
+	* sign-test-two.ui: ditto.
+	* sign-test.ui: ditto.
+	* simulation.ui: ditto.
+	* variance-tests.ui: ditto.
+	* wilcoxon-mann-whitney.ui: ditto.
+
 2011-11-12 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* cell-format.u: delete the Conditions tab (again)
