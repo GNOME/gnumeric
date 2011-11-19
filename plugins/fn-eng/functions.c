@@ -1173,7 +1173,7 @@ gnumeric_gestep (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_hexrep[] = {
         { GNM_FUNC_HELP_NAME, F_("HEXREP:hexadecimal representation of numeric value") },
         { GNM_FUNC_HELP_ARG, F_("x:number") },
-        { GNM_FUNC_HELP_DESCRIPTION, F_("HEXREP returns a hexadecimal string representation of @x.") },
+        { GNM_FUNC_HELP_DESCRIPTION, F_("HEXREP returns a hexadecimal string representation of @{x}.") },
 	{ GNM_FUNC_HELP_NOTE, F_("This is a function meant for debugging.  The layout of the result may change and even depend on how Gnumeric was compiled.") },
         { GNM_FUNC_HELP_END}
 };

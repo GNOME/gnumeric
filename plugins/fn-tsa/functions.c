@@ -1047,7 +1047,7 @@ const GnmFuncDescriptor TimeSeriesAnalysis_functions[] = {
 	  help_fourier, gnumeric_fourier, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-	{ "hpfilter",       "A|fb",
+	{ "hpfilter",       "A|f",
 	  help_hpfilter, gnumeric_hpfilter, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 

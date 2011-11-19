@@ -1,3 +1,8 @@
+2011-11-19  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (hpfilter): Fix prototype to match function
+	description.  I hope.
+
 2011-08-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugin.xml.in: add hpfilter
