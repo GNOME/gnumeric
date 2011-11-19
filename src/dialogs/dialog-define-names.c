@@ -41,7 +41,6 @@
 #include <gui-util.h>
 #include <parse-util.h>
 #include <commands.h>
-#include <dead-kittens.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnumeric-cell-renderer-expr-entry.h>
 #include <widgets/gnumeric-cell-renderer-toggle.h>

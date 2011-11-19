@@ -14,6 +14,7 @@
 
 #include "sheet-control-gui-priv.h"
 #include "gui-util.h"
+#include "gutils.h"
 #include "mstyle.h"
 #include "selection.h"
 #include "parse-util.h"
@@ -35,7 +36,6 @@
 #include "item-edit.h"
 #include "item-grid.h"
 #include "gnumeric-conf.h"
-#include "dead-kittens.h"
 
 #include <gsf/gsf-impl-utils.h>
 

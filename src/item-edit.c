@@ -16,7 +16,6 @@
 #include "gnumeric.h"
 #include "item-edit.h"
 #include "gnm-pane-impl.h"
-#include <dead-kittens.h>
 
 #include "item-cursor.h"
 #include "sheet-control-gui-priv.h"

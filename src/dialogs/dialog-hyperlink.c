@@ -45,7 +45,6 @@
 
 #include <string.h>
 
-#include <dead-kittens.h>
 
 typedef struct {
 	WBCGtk  *wbcg;

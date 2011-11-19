@@ -24,7 +24,6 @@
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "dialogs.h"
-#include <dead-kittens.h>
 
 #include "gui-gnumeric.h"
 #include "gui-util.h"

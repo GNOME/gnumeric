@@ -31,7 +31,6 @@
 #include <wbc-gtk.h>
 #include <gui-clipboard.h>
 #include <application.h>
-#include <dead-kittens.h>
 
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>

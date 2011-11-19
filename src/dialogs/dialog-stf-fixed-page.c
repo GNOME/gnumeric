@@ -26,7 +26,6 @@
 #include <gui-util.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
-#include <dead-kittens.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS

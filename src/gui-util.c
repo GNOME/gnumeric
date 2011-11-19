@@ -23,7 +23,6 @@
 #include "workbook.h"
 #include "libgnumeric.h"
 #include "wbc-gtk.h"
-#include "dead-kittens.h"
 #include "widgets/gnumeric-expr-entry.h"
 #include "gnm-rsm.h"
 

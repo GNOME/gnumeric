@@ -50,7 +50,6 @@
 
 #include <string.h>
 
-#include <dead-kittens.h>
 
 #define DOC_METADATA_KEY "dialog-doc-metadata"
 

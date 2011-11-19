@@ -22,7 +22,6 @@
 #include <gnumeric-config.h>
 #include "gnm-notebook.h"
 #include <gsf/gsf-impl-utils.h>
-#include <dead-kittens.h>
 
 struct _GnmNotebook {
 	GtkNotebook parent;

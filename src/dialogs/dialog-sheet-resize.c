@@ -26,7 +26,6 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
-#include <dead-kittens.h>
 
 #include <gui-util.h>
 #include <wbc-gtk.h>

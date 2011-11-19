@@ -24,7 +24,6 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
-#include <dead-kittens.h>
 
 #include <sheet.h>
 #include <sheet-view.h>

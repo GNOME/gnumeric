@@ -11,7 +11,6 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "widget-font-selector.h"
-#include <dead-kittens.h>
 
 #include <value.h>
 #include <mstyle.h>

@@ -28,7 +28,6 @@
 #include "application.h"
 #include "dialogs.h"
 #include "help.h"
-#include <dead-kittens.h>
 
 #include "mstyle.h"
 #include "value.h"

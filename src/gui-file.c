@@ -13,6 +13,7 @@
 #include "gui-file.h"
 
 #include "gui-util.h"
+#include "gutils.h"
 #include "dialogs.h"
 #include "sheet.h"
 #include "application.h"
@@ -22,7 +23,6 @@
 #include "workbook-priv.h"
 #include "gnumeric-conf.h"
 #include "application.h"
-#include <dead-kittens.h>
 
 #include <goffice/goffice.h>
 

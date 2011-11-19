@@ -31,7 +31,6 @@
 #include "analysis-anova.h"
 #include "analysis-histogram.h"
 #include "analysis-exp-smoothing.h"
-#include <dead-kittens.h>
 
 #include <workbook.h>
 #include <workbook-control.h>

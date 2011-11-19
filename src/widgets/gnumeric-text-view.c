@@ -29,7 +29,6 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
-#include <dead-kittens.h>
 
 struct _GnmTextView {
 	GtkBox	parent;

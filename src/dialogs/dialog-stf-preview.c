@@ -25,7 +25,6 @@
 #include <gnumeric.h>
 #include "dialog-stf-preview.h"
 #include "dialog-stf.h"
-#include <dead-kittens.h>
 
 #include <gnm-format.h>
 #include <number-match.h>

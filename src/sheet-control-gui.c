@@ -23,7 +23,6 @@
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "sheet-control-gui-priv.h"
-#include <dead-kittens.h>
 
 #include "sheet.h"
 #include "sheet-private.h"
@@ -41,6 +40,7 @@
 #include "sheet-object-cell-comment.h"
 #include "sheet-object-image.h"
 #include "gui-util.h"
+#include "gutils.h"
 #include "parse-util.h"
 #include "selection.h"
 #include "application.h"

@@ -28,7 +28,6 @@
 #include "sheet.h"
 #include "sheet-control-gui.h"
 #include "gnm-pane-impl.h"
-#include <dead-kittens.h>
 
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>

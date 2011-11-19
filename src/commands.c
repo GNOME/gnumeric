@@ -78,7 +78,6 @@
 #include "tools/tabulate.h"
 #include "wbc-gtk.h"
 #include "undo.h"
-#include <dead-kittens.h>
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-doc-meta-data.h>

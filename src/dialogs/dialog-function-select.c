@@ -30,6 +30,7 @@
 #include "help.h"
 
 #include <gui-util.h>
+#include <gutils.h>
 #include <func.h>
 #include <workbook.h>
 #include <wbc-gtk.h>
@@ -38,7 +39,6 @@
 #include <expr.h>
 #include <value.h>
 #include <sheet.h>
-#include <dead-kittens.h>
 #include <gnumeric-conf.h>
 #include <gnm-format.h>
 #include <auto-format.h>

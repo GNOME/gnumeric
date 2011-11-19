@@ -31,7 +31,6 @@
 #include <wbc-gtk.h>
 #include <workbook-priv.h>
 #include <gtk/gtk.h>
-#include <dead-kittens.h>
 
 #define WORKBOOK_ATTRIBUTE_KEY "workbook-attribute-dialog"
 

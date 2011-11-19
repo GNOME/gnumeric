@@ -29,7 +29,6 @@
 #include "help.h"
 #include "tool-dialogs.h"
 #include "random-generator.h"
-#include <dead-kittens.h>
 
 #include <workbook.h>
 #include <workbook-control.h>

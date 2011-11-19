@@ -50,7 +50,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
 #include <goffice/goffice.h>
-#include <dead-kittens.h>
 
 #define CELL_SORT_KEY "cell-sort-dialog"
 

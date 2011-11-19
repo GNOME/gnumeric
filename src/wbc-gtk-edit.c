@@ -22,7 +22,6 @@
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
-#include <dead-kittens.h>
 
 #include "gnm-pane-impl.h"
 #include "wbc-gtk-impl.h"

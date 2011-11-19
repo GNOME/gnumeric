@@ -49,7 +49,6 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
-#include <dead-kittens.h>
 
 #define SHEET_ORDER_KEY          "sheet-order-dialog"
 

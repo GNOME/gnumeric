@@ -30,7 +30,6 @@
 #include <gtk/gtk.h>
 #include <goffice/goffice.h>
 #include <string.h>
-#include <dead-kittens.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS

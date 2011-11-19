@@ -32,7 +32,6 @@
 #include <gnm-format.h>
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>
-#include <dead-kittens.h>
 
 #define ABOUT_KEY          "about-dialog"
 

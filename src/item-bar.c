@@ -23,7 +23,6 @@
 #include "gui-util.h"
 #include "parse-util.h"
 #include "commands.h"
-#include "dead-kittens.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>

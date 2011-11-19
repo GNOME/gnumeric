@@ -22,7 +22,6 @@
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
-#include <dead-kittens.h>
 
 #include "libgnumeric.h"
 #include "application.h"

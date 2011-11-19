@@ -49,7 +49,6 @@
 #include "commands.h"
 #include "gnm-format.h"
 #include "number-match.h"
-#include <dead-kittens.h>
 
 #include <goffice/goffice.h>
 

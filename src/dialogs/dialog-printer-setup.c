@@ -27,7 +27,6 @@
 #include <gtk/gtk.h>
 #include "dialogs.h"
 #include "help.h"
-#include <dead-kittens.h>
 
 #include <gui-util.h>
 #include <commands.h>
