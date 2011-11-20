@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-11-09 21:00+0000\n"
-"PO-Revision-Date: 2011-11-10 14:27+0100\n"
+"POT-Creation-Date: 2011-11-19 17:57+0000\n"
+"PO-Revision-Date: 2011-11-20 09:41+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2919,8 +2919,8 @@ msgid "HEXREP:hexadecimal representation of numeric value"
 msgstr "HEXREP:šestnáctková podoba číselné hodnoty"
 
 #: ../plugins/fn-eng/functions.c:1176
-msgid "HEXREP returns a hexadecimal string representation of @x."
-msgstr "HEXREP vrací řetězec s šestnáctkovou podobou čísla @x."
+msgid "HEXREP returns a hexadecimal string representation of @{x}."
+msgstr "HEXREP vrací řetězec s šestnáctkovou podobou čísla @{x}."
 
 #: ../plugins/fn-eng/functions.c:1177
 msgid ""
@@ -6120,14 +6120,14 @@ msgid "TANH:the hyperbolic tangent of @{x}"
 msgstr "TANH:hyperbolický tangens @{x}"
 
 #: ../plugins/fn-math/functions.c:1621
-msgid "PI:the constant π"
-msgstr "PI:konstanta π"
+msgid "PI:the constant 𝜋"
+msgstr "PI:konstanta 𝜋"
 
 #: ../plugins/fn-math/functions.c:1622
 msgid ""
-"This function is Excel compatible, but it returns π with a better precision."
+"This function is Excel compatible, but it returns 𝜋 with a better precision."
 msgstr ""
-"Tato funkce je kompatibilní s aplikací Excel, akorát vrací π s větší "
+"Tato funkce je kompatibilní s aplikací Excel, akorát vrací 𝜋 s větší "
 "přesností."
 
 #: ../plugins/fn-math/functions.c:1639
@@ -6233,8 +6233,8 @@ msgid ""
 msgstr "SIGN vrací 1, když je @{x} kladné a -1, když je záporné."
 
 #: ../plugins/fn-math/functions.c:1878
-msgid "SQRTPI:the square root of @{x} times π"
-msgstr "SQRTPI:druhá odmocnina čísla @{x} vynásobená π"
+msgid "SQRTPI:the square root of @{x} times 𝜋"
+msgstr "SQRTPI:druhá odmocnina čísla @{x} vynásobená 𝜋"
 
 #: ../plugins/fn-math/functions.c:1901
 msgid "ROUNDDOWN:@{x} rounded towards 0"
