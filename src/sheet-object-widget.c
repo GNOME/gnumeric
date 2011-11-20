@@ -522,7 +522,6 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (so);
 	WBCGtk   *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	FrameConfigState *state;
-	GtkWidget *table;
 	GtkBuilder *gui;
 
 	g_return_if_fail (swf != NULL);
@@ -541,8 +540,6 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	state->old_focus = NULL;
 	state->old_label = g_strdup(swf->label);
 	state->dialog = go_gtk_builder_get_widget (gui, "so_frame");
-
-	table = go_gtk_builder_get_widget (gui, "table");
 
 	state->label = go_gtk_builder_get_widget (gui, "entry");
 	gtk_entry_set_text (GTK_ENTRY(state->label), swf->label);
