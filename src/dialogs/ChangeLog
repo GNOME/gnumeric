@@ -1,3 +1,8 @@
+2011-11-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* autoformat.ui: replaced GtkTable with GtkGrid.
+	* dialog-autoformat.c (dialog_autoformat): ditto.
+
 2011-11-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* advanced-filter.ui: replaced GtkTable by GtkGrid.

@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="upper">1</property>
+    <property name="value">0.20000000000000001</property>
+    <property name="step_increment">0.01</property>
+    <property name="page_increment">0.10000000000000001</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment2">
+    <property name="upper">1</property>
+    <property name="value">0.20000000000000001</property>
+    <property name="step_increment">0.01</property>
+    <property name="page_increment">0.10000000000000001</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment3">
+    <property name="upper">1</property>
+    <property name="value">0.20000000000000001</property>
+    <property name="step_increment">0.01</property>
+    <property name="page_increment">0.10000000000000001</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment4">
+    <property name="lower">2</property>
+    <property name="upper">4096</property>
+    <property name="value">12</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkDialog" id="ExpSmoothing">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -515,36 +540,6 @@
                         <property name="row_spacing">6</property>
                         <property name="column_spacing">12</property>
                         <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
                           <object class="GtkLabel" id="label7">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
@@ -634,6 +629,24 @@
                             <property name="height">1</property>
                           </packing>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -641,27 +654,6 @@
                         <property name="width">2</property>
                         <property name="height">1</property>
                       </packing>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -746,157 +738,5 @@
       <action-widget response="0">cancelbutton</action-widget>
       <action-widget response="0">okbutton</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkAdjustment" id="adjustment1">
-    <property name="upper">1</property>
-    <property name="value">0.20000000000000001</property>
-    <property name="step_increment">0.01</property>
-    <property name="page_increment">0.10000000000000001</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment2">
-    <property name="upper">1</property>
-    <property name="value">0.20000000000000001</property>
-    <property name="step_increment">0.01</property>
-    <property name="page_increment">0.10000000000000001</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment3">
-    <property name="upper">1</property>
-    <property name="value">0.20000000000000001</property>
-    <property name="step_increment">0.01</property>
-    <property name="page_increment">0.10000000000000001</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment4">
-    <property name="lower">2</property>
-    <property name="upper">4096</property>
-    <property name="value">12</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkBox" id="vbox4">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="orientation">vertical</property>
-    <child>
-      <object class="GtkTable" id="table3">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="border_width">12</property>
-        <property name="n_rows">4</property>
-        <property name="n_columns">2</property>
-        <property name="column_spacing">12</property>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkTable" id="table1">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="border_width">12</property>
-        <property name="n_rows">3</property>
-        <property name="n_columns">5</property>
-        <property name="column_spacing">12</property>
-        <property name="row_spacing">6</property>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="position">2</property>
-      </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkTable" id="table5">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="border_width">12</property>
-        <property name="column_spacing">12</property>
-        <child>
-          <placeholder/>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">4</property>
-      </packing>
-    </child>
   </object>
 </interface>

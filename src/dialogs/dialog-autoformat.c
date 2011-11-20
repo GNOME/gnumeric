@@ -621,9 +621,10 @@ dialog_autoformat (WBCGtk *wbcg)
 
 	state->gridlines  = GTK_CHECK_MENU_ITEM  (gtk_ui_manager_get_widget (ui_manager, "/bar/settings/gridlines"));
 
-	gtk_box_pack_start (GTK_BOX (go_gtk_builder_get_widget (gui, "category-box")),
+	gtk_grid_attach (GTK_GRID (go_gtk_builder_get_widget (gui, "preview-grid")),
 	                    gtk_ui_manager_get_widget (ui_manager, "/bar"),
-	                    FALSE, TRUE, 0);
+	                    2, 0, 1, 1);
+	g_object_set (gtk_ui_manager_get_widget (ui_manager, "/bar"), "hexpand", TRUE, NULL);
 	for (i = 0; i < NUM_PREVIEWS; i++) {
 		char *name;
 
