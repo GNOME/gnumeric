@@ -34,7 +34,7 @@ typedef struct _GODrawingAnchor {
 typedef enum {
 	GNM_SO_RESIZE_MANUAL,   /* can be manually resized */
 	GNM_SO_RESIZE_AUTO, /* automatically resized like cell bounded widgets */
-	GNM_SO_RESIZE_NONE /* can't be resized like some sheen components */
+	GNM_SO_RESIZE_NONE /* can't be resized like some sheet components */
 } GnmSOResizeMode;
 
 struct _SheetObjectAnchor {

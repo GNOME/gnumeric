@@ -1,3 +1,15 @@
+2011-11-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gui-clipboard.c (object_write), (x_clipboard_get_cb): add support for
+	embedded objects.
+	* src/sheet-object-component.c (so_component_view_set_bounds),
+	(gnm_soc_get_object_target_list), (gnm_soc_write_object),
+	(gnm_soc_copy), (component_changed_cb), (destroy_cb),
+	(gnm_soc_user_config), (sheet_object_component_set_component): make edition,
+	clipboard and undo/redo work.
+	* src/sheet-object-component.h: ditto.
+	* src/sheet-object.h: typo.
+
 2011-11-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in: fixed paths.

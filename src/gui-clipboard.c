@@ -783,7 +783,7 @@ image_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 }
 
 static guchar *
-graph_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
+object_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 {
 	guchar *ret = NULL;
 	SheetObject *so = NULL;
@@ -893,9 +893,10 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 					target, 8,
 					(guchar *) buffer, buffer_size);
 		g_free (buffer);
-	} else if (strcmp (target_name, "application/x-goffice-graph") == 0) {
+	} else if (strcmp (target_name, "application/x-goffice-graph") == 0 ||
+	           g_slist_find_custom (go_components_get_mime_types (), target_name, (GCompareFunc) strcmp) != NULL) {
 		int buffer_size;
-		guchar *buffer = graph_write (clipboard, target_name,
+		guchar *buffer = object_write (clipboard, target_name,
 					      &buffer_size);
 		if (debug_clipboard ())
 			g_message ("clipboard graph of %d bytes",

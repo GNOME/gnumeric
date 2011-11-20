@@ -23,6 +23,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "application.h"
+#include "commands.h"
 #include "gnm-pane-impl.h"
 #include "gui-util.h"
 #include "sheet-control-gui.h"
@@ -50,6 +51,7 @@ so_component_view_set_bounds (SheetObjectView *sov, double const *coords, gboole
 			NULL);
 		if (component && ! go_component_is_resizable (component)) {
 			go_component_get_size (component, &width, &height);
+
 			goc_item_set (view,
 				"width", width * gnm_app_display_dpi_get (TRUE),
 				"height", height * gnm_app_display_dpi_get (FALSE),
@@ -128,7 +130,11 @@ gnm_soc_get_target_list (SheetObject const *so)
 static GtkTargetList *
 gnm_soc_get_object_target_list (SheetObject const *so)
 {
+	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (so);
 	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
+	if (soc && soc->component)
+		gtk_target_list_add (tl,
+			gdk_atom_intern (go_component_get_mime_type (soc->component), FALSE), 0, 0);
 	return tl;
 }
 
@@ -163,6 +169,15 @@ gnm_soc_write_object (SheetObject const *so, char const *format,
 		      GsfOutput *output, GError **err,
 		      GnmConventions const *convs)
 {
+	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (so);
+	char *buf;
+	int length;
+	gpointer user_data = NULL;
+	void (*clearfunc) (gpointer);
+	go_component_get_data (soc->component, (gpointer) &buf, &length, &clearfunc, &user_data);
+	gsf_output_write (output, length, buf);
+	if (clearfunc)
+		clearfunc ((user_data)? user_data: buf);
 }
 
 static void
@@ -190,6 +205,19 @@ gnm_soc_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs,
 static void
 gnm_soc_copy (SheetObject *dst, SheetObject const *src)
 {
+	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (src);
+	GOComponent *component;
+	char *buf;
+	int length;
+	gpointer user_data = NULL;
+	void (*clearfunc) (gpointer);
+	go_component_get_data (soc->component, (gpointer) &buf, &length, &clearfunc, &user_data);
+	component = go_component_new_by_mime_type (go_component_get_mime_type (soc->component));
+	go_component_set_data (component, buf, length);
+	if (clearfunc)
+		clearfunc ((user_data)? user_data: buf);
+	sheet_object_component_set_component (dst, component);
+	g_object_unref (component);
 }
 
 static void
@@ -206,16 +234,57 @@ gnm_soc_default_size (SheetObject const *so, double *w, double *h)
 	}
 }
 
+typedef struct {
+	SheetObject *so;
+	WorkbookControl *wbc;
+	GOComponent *component;
+	gulong signal;
+} gnm_soc_user_config_t;
+
+static void
+component_changed_cb (GOComponent *component, gnm_soc_user_config_t *data)
+{
+	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (data->so);
+	cmd_so_component_config (data->wbc, data->so, G_OBJECT (component), G_OBJECT (soc->component));
+}
+
+static void
+destroy_cb ( gnm_soc_user_config_t *data)
+{
+	wbcg_edit_finish (WBC_GTK (data->wbc), WBC_EDIT_REJECT, NULL);
+	g_object_unref (data->component);
+	g_free (data);
+}
+
 static void
 gnm_soc_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (so);
 	GtkWidget *w;
+	char *buf;
+	int length;
+	void (*clearfunc) (gpointer);
+	gpointer user_data = NULL;
+	GOComponent *new_comp;
+
 	g_return_if_fail (soc && soc->component);
 
-	w = (GtkWidget *) go_component_edit (soc->component);
-	if (w)
+	go_component_get_data (soc->component, (gpointer) &buf, &length, &clearfunc, &user_data);
+	new_comp = go_component_new_by_mime_type (go_component_get_mime_type (soc->component));
+	go_component_set_data (new_comp, buf, length);
+
+	w = (GtkWidget *) go_component_edit (new_comp);
+	if (w) {
+		gnm_soc_user_config_t *data = g_new0 (gnm_soc_user_config_t, 1);
+		data->so = so;
+		data->component = new_comp;
+		data->wbc = WORKBOOK_CONTROL (scg_wbcg (SHEET_CONTROL_GUI (sc)));
+		data->signal = g_signal_connect (new_comp, "changed", G_CALLBACK (component_changed_cb), data);
+		g_object_set_data_full (G_OBJECT (w), "editor", data, (GDestroyNotify) destroy_cb);
 		wbc_gtk_attach_guru (scg_wbcg (SHEET_CONTROL_GUI (sc)), w);
+	}
+	if (clearfunc)
+		clearfunc ((user_data)? user_data: buf);
 }
 
 static void
@@ -289,11 +358,6 @@ sheet_object_component_new (GOComponent *component)
 	return SHEET_OBJECT (soc);
 }
 
-void
-sheet_object_component_edit (WBCGtk *wbcg, GOComponent *component, GClosure *closure)
-{
-}
-
 GOComponent*
 sheet_object_component_get_component (SheetObject *soc)
 {
@@ -302,36 +366,31 @@ sheet_object_component_get_component (SheetObject *soc)
 	return ((SheetObjectComponent *) soc)->component;
 }
 
-static void
-component_changed_cb (SheetObject *so)
-{
-	if (!(so->flags & SHEET_OBJECT_CAN_RESIZE)) {
-		GList *l = so->realized_list;
-		double coords[4];
-		g_object_get (l->data, "x", coords, "y", coords + 1, NULL);
-		coords[2] = coords[3] = G_MAXDOUBLE;
-		for (l = so->realized_list; l; l = l->next) {
-			if (l->data)
-				sheet_object_view_set_bounds (l->data, coords, so->flags & SHEET_OBJECT_IS_VISIBLE);
-		}
-		sheet_object_update_bounds (so, NULL);
-	}
-}
-
 void
 sheet_object_component_set_component (SheetObject *so, GOComponent *component)
 {
 	SheetObjectComponent *soc;
+	GList *l = so->realized_list;
+	GnmPane *pane = (l && l->data)? GNM_PANE (GOC_ITEM (l->data)->canvas): NULL;
 
 	g_return_if_fail (IS_SHEET_OBJECT_COMPONENT (so));
 	soc = SHEET_OBJECT_COMPONENT (so);
 	if (soc->component != NULL) {
-		g_signal_handler_disconnect (soc->component, soc->changed_signal);
+		go_component_stop_editing (soc->component);
 		g_object_unref (soc->component);
 	}
 
 	soc->component = component;
+
+	for (; l; l = l->next)
+		if (l->data) {
+			GocGroup *group = GOC_GROUP (l->data);
+			if (group->children->data)
+				g_object_set (group->children->data, "object", component, NULL);
+		}
 	if (component) {
+		g_object_ref (component);
+		go_component_stop_editing (component);
 		if (go_component_is_resizable (component))
 			so->flags |= SHEET_OBJECT_CAN_RESIZE;
 		else
@@ -340,6 +399,20 @@ sheet_object_component_set_component (SheetObject *so, GOComponent *component)
 			so->flags |= SHEET_OBJECT_CAN_EDIT;
 		else
 			so->flags &= ~SHEET_OBJECT_CAN_EDIT;
-		g_signal_connect_swapped (soc->component, "changed", G_CALLBACK (component_changed_cb), soc);
+		if (pane != NULL && !(so->flags & SHEET_OBJECT_CAN_RESIZE)) {
+			SheetControlGUI *scg = pane->simple.scg;
+			double coords[4], w, h;
+			SheetObjectAnchor anchor;
+			/* the size must be updated */
+			scg_object_anchor_to_coords (scg, sheet_object_get_anchor (so), coords);
+			coords[0] = MIN (coords [0], coords[2]);
+			coords[1] = MIN (coords [1], coords[3]);
+			go_component_get_size (component, &w, &h);
+			coords[2] = coords[0] + w * gnm_app_display_dpi_get (TRUE);
+			coords[3] = coords[1] + h * gnm_app_display_dpi_get (FALSE);
+			scg_object_coords_to_anchor (scg, coords, &anchor);
+			sheet_object_set_anchor (so, &anchor);
+		}
 	}
+
 }

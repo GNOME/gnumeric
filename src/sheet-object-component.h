@@ -36,7 +36,6 @@ G_BEGIN_DECLS
 GType	     sheet_object_component_get_type (void);
 SheetObject *sheet_object_component_new  (GOComponent *component);
 
-void	     sheet_object_component_edit (WBCGtk *wbcg, GOComponent *component, GClosure *closure);
 GOComponent *sheet_object_component_get_component (SheetObject *soc);
 void	     sheet_object_component_set_component (SheetObject *soc, GOComponent *component);
 

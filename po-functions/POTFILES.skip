@@ -66,9 +66,6 @@ plugins/sylk/plugin.xml.in
 plugins/uihello/hello.xml.in
 plugins/uihello/plugin.xml.in
 plugins/xbase/plugin.xml.in
-schemas/gnumeric-dialogs.schemas.in
-schemas/gnumeric-general.schemas.in
-schemas/gnumeric-plugins.schemas.in
 schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in
 schemas/org.gnome.gnumeric.gschema.xml.in.in
 schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in
