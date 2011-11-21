@@ -1,3 +1,12 @@
+2011-11-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-analysis-tool-kaplan-meier.c: remove unused variables
+	and mark unused parameters
+	* dialog-analysis-tool-sign-test.c: ditto
+	* dialog-analysis-tools.c: ditto
+	* dialog-autoformat.c: ditto
+	* dialog-cell-format-cond.c: ditto
+
 2011-11-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-printer-setup.c (do_setup_error_display): rename

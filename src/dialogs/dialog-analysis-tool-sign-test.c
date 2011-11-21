@@ -193,7 +193,6 @@ sign_test_two_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data_analysis_output_t  *dao;
 	GtkWidget *w;
 	analysis_tools_data_sign_test_two_t *data;
-	gboolean err;
 	analysis_tool_engine engine;
 
 	data = g_new0 (analysis_tools_data_sign_test_two_t, 1);
@@ -209,7 +208,7 @@ sign_test_two_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
         data->base.labels = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (w));
 
-	err = entry_to_float
+	entry_to_float
 		(GTK_ENTRY (state->median_entry), &data->median, FALSE);
 
 	data->base.alpha = gtk_spin_button_get_value
@@ -308,7 +307,6 @@ sign_test_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data_analysis_output_t  *dao;
 	GtkWidget *w;
 	analysis_tools_data_sign_test_t *data;
-	gboolean err;
 	analysis_tool_engine engine;
 
 	data = g_new0 (analysis_tools_data_sign_test_t, 1);
@@ -322,7 +320,7 @@ sign_test_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
         data->base.labels = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (w));
 
-	err = entry_to_float
+	entry_to_float
 		(GTK_ENTRY (state->median_entry), &data->median, FALSE);
 	data->alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));

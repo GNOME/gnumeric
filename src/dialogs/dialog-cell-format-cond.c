@@ -393,7 +393,7 @@ c_fmt_dialog_get_condition (CFormatState *state)
 }
 
 static void
-cb_c_fmt_dialog_add_button (GtkWidget *btn, CFormatState *state)
+cb_c_fmt_dialog_add_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *state)
 {
 	GnmStyleCond *cond = c_fmt_dialog_get_condition (state);
 	c_fmt_dialog_apply_add_choice (state, cond, TRUE);
@@ -401,7 +401,7 @@ cb_c_fmt_dialog_add_button (GtkWidget *btn, CFormatState *state)
 }
 
 static void
-cb_c_fmt_dialog_replace_button (GtkWidget *btn, CFormatState *state)
+cb_c_fmt_dialog_replace_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *state)
 {
 	GnmStyleCond *cond = c_fmt_dialog_get_condition (state);
 	c_fmt_dialog_apply_add_choice (state, cond, FALSE);
@@ -409,7 +409,7 @@ cb_c_fmt_dialog_replace_button (GtkWidget *btn, CFormatState *state)
 }
 
 static void
-cb_c_fmt_dialog_copy_button (GtkWidget *btn, CFormatState *state)
+cb_c_fmt_dialog_copy_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *state)
 {
 	GnmStyleConditions *sc;
 	GtkTreeIter iter;
@@ -597,7 +597,8 @@ c_fmt_dialog_condition_setter (SheetView *sv, GnmRange const *range, CFormatStat
 }
 
 static gboolean
-c_fmt_dialog_condition_setter_tiled (SheetView *sv, GnmRange const *range, CFormatState *state)
+c_fmt_dialog_condition_setter_tiled (G_GNUC_UNUSED SheetView *sv, GnmRange const *range, 
+				     CFormatState *state)
 {
 	GnmStyleList *l, *list;
 	if (state->action.existing_conds_only)
@@ -1000,7 +1001,8 @@ c_fmt_dialog_conditions_page_load_conditions (GnmStyle *style, char const *range
 }
 
 static gboolean
-c_fmt_dialog_condition_collector (SheetView *sv, GnmRange const *range, gpointer user_data)
+c_fmt_dialog_condition_collector (G_GNUC_UNUSED SheetView *sv, GnmRange const *range,
+				  gpointer user_data)
 {
 	CFormatState *state = user_data;
 	GnmStyleList *l, *list = sheet_style_collect_conditions (state->sheet, range);
@@ -1086,7 +1088,7 @@ c_fmt_dialog_load (CFormatState *state)
 }
 
 static void
-cb_selection_changed (GtkTreeSelection *treeselection, CFormatState *state)
+cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *treeselection, CFormatState *state)
 {
 	c_fmt_dialog_set_sensitive (state);
 }
@@ -1105,7 +1107,7 @@ cb_can_select (G_GNUC_UNUSED GtkTreeSelection *selection,
 }
 
 static gboolean
-cb_c_format_dialog_range (SheetView *sv, GnmRange const *range, GString *str)
+cb_c_format_dialog_range (G_GNUC_UNUSED SheetView *sv, GnmRange const *range, GString *str)
 {
 	g_string_append (str, range_as_string (range));
 	g_string_append (str, ", ");

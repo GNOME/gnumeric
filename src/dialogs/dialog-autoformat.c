@@ -538,7 +538,8 @@ static const char *ui_description =
 "</ui>";
 
 static gboolean
-cb_canvas_focus (GtkWidget *canvas, GtkDirectionType direction,
+cb_canvas_focus (GtkWidget *canvas, 
+		 G_GNUC_UNUSED GtkDirectionType direction,
 		 AutoFormatState *state)
 {
 	if (!gtk_widget_has_focus (canvas)) {

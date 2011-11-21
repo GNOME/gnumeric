@@ -1052,7 +1052,6 @@ cb_desc_stat_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	analysis_tools_data_descriptive_t  *data;
 
 	GtkWidget *w;
-	gint err;
 
 	data = g_new0 (analysis_tools_data_descriptive_t, 1);
 	dao  = parse_output ((GenericToolState *)state, NULL);
@@ -1077,9 +1076,9 @@ cb_desc_stat_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			(GTK_SPIN_BUTTON (state->c_entry));
 
 	if (data->kth_largest == 1)
-		err = entry_to_int (GTK_ENTRY (state->l_entry), &data->k_largest, TRUE);
+		entry_to_int (GTK_ENTRY (state->l_entry), &data->k_largest, TRUE);
 	if (data->kth_smallest == 1)
-		err = entry_to_int (GTK_ENTRY (state->s_entry), &data->k_smallest, TRUE);
+		entry_to_int (GTK_ENTRY (state->s_entry), &data->k_smallest, TRUE);
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -1698,7 +1697,6 @@ ftest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	analysis_tools_data_generic_b_t  *data;
 
 	GtkWidget *w;
-	gint err;
 
 	data = g_new0 (analysis_tools_data_generic_b_t, 1);
 	dao  = parse_output ((GenericToolState *)state, NULL);
@@ -1717,7 +1715,7 @@ ftest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha, TRUE);
+	entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha, TRUE);
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 				dao, data, analysis_tool_ftest_engine, TRUE))
@@ -1921,7 +1919,6 @@ sampling_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	analysis_tools_data_sampling_t  *data;
 
 	GtkWidget *w;
-	gint err;
 
 	data = g_new0 (analysis_tools_data_sampling_t, 1);
 	dao  = parse_output ((GenericToolState *)state, NULL);
@@ -1938,14 +1935,14 @@ sampling_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
         data->periodic = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->periodic_button));
 
 	if (data->periodic) {
-		err = entry_to_int (GTK_ENTRY (state->period_entry), &data->period, TRUE);
-		err = entry_to_int (GTK_ENTRY (state->offset_entry), &data->offset, TRUE);
+		entry_to_int (GTK_ENTRY (state->period_entry), &data->period, TRUE);
+		entry_to_int (GTK_ENTRY (state->offset_entry), &data->offset, TRUE);
 		data->row_major = gtk_toggle_button_get_active
 			(GTK_TOGGLE_BUTTON (state->row_major_button));
 	} else
-		err = entry_to_int (GTK_ENTRY (state->random_entry), &data->size, TRUE);
+		entry_to_int (GTK_ENTRY (state->random_entry), &data->size, TRUE);
 
-	err = entry_to_int (GTK_ENTRY (state->number_entry), &data->number, TRUE);
+	entry_to_int (GTK_ENTRY (state->number_entry), &data->number, TRUE);
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 				dao, data, analysis_tool_sampling_engine, TRUE))
@@ -2154,9 +2151,8 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	analysis_tools_data_regression_t  *data;
 
 	GtkWidget *w;
-	gint err;
 	gnm_float confidence;
-	gint y_h, y_w;
+	gint y_h;
 
 	if (state->base.warning_dialog != NULL)
 		gtk_widget_destroy (state->base.warning_dialog);
@@ -2172,14 +2168,13 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
 	y_h = regression_tool_calc_height(data->base.range_2);
-	y_w = regression_tool_calc_width (data->base.range_2);
 
 	data->group_by = (y_h == 1) ? GROUPED_BY_ROW : GROUPED_BY_COL;
 
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = entry_to_float (GTK_ENTRY (state->confidence_entry), &confidence, TRUE);
+	entry_to_float (GTK_ENTRY (state->confidence_entry), &confidence, TRUE);
 	data->base.alpha = 1 - confidence;
 
 	w = go_gtk_builder_get_widget (state->base.gui, "intercept-button");
@@ -2489,7 +2484,6 @@ exp_smoothing_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	analysis_tools_data_exponential_smoothing_t  *data;
 
 	GtkWidget               *w;
-	gint                    err;
 
 	data = g_new0 (analysis_tools_data_exponential_smoothing_t, 1);
 	dao  = parse_output ((GenericToolState *)state, NULL);
@@ -2501,13 +2495,14 @@ exp_smoothing_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = entry_to_float (GTK_ENTRY (state->damping_fact_entry), &data->damp_fact, TRUE);
-	err = entry_to_float (GTK_ENTRY (state->g_damping_fact_entry),
-			      &data->g_damp_fact, TRUE);
-	err = entry_to_float (GTK_ENTRY (state->s_damping_fact_entry),
-			      &data->s_damp_fact, TRUE);
-	err = entry_to_int (GTK_ENTRY (state->s_period_entry),
-			      &data->s_period, TRUE);
+	entry_to_float (GTK_ENTRY (state->damping_fact_entry),
+			&data->damp_fact, TRUE);
+	entry_to_float (GTK_ENTRY (state->g_damping_fact_entry),
+			&data->g_damp_fact, TRUE);
+	entry_to_float (GTK_ENTRY (state->s_damping_fact_entry),
+			&data->s_damp_fact, TRUE);
+	entry_to_int (GTK_ENTRY (state->s_period_entry),
+		      &data->s_period, TRUE);
 
 	data->std_error_flag = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->show_std_errors));
@@ -2833,7 +2828,6 @@ average_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	analysis_tools_data_moving_average_t  *data;
 
 	GtkWidget               *w;
-	gint                    err;
 
 	data = g_new0 (analysis_tools_data_moving_average_t, 1);
 	dao  = parse_output ((GenericToolState *)state, NULL);
@@ -2845,8 +2839,8 @@ average_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = go_gtk_builder_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = entry_to_int (GTK_ENTRY (state->interval_entry), &data->interval, TRUE);
-	err = entry_to_int (GTK_ENTRY (state->offset_spin), &data->offset, TRUE);
+	entry_to_int (GTK_ENTRY (state->interval_entry), &data->interval, TRUE);
+	entry_to_int (GTK_ENTRY (state->offset_spin), &data->offset, TRUE);
 
 	data->std_error_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
 	data->show_graph = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->graph_button));
@@ -3583,7 +3577,6 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 {
 	data_analysis_output_t  *dao;
 	GtkWidget *w;
-	gint err;
 	analysis_tools_data_anova_two_factor_t *data;
 	char *text;
 
@@ -3604,7 +3597,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	data->alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
-	err = entry_to_int (GTK_ENTRY (state->replication_entry),
+	entry_to_int (GTK_ENTRY (state->replication_entry),
 			    &data->replication, TRUE);
 
 	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
