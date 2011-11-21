@@ -5056,14 +5056,14 @@ odf_write_page_layout (GnmOOExport *state, PrintInformation *pi,
 		g_string_append (gstr, " grid");
 	if (pi->print_titles)
 		g_string_append (gstr, " headers");
-	if (pi->comment_placement != PRINT_COMMENTS_NONE)
+	if (pi->comment_placement != GNM_PRINT_COMMENTS_NONE)
 		g_string_append (gstr, " annotations");
 	gsf_xml_out_add_cstr_unchecked
 		(state->xml, STYLE "print", gstr->str);
 
 	if (state->with_extension) {
 		g_string_truncate (gstr, 0);
-		if (pi->comment_placement == PRINT_COMMENTS_AT_END)
+		if (pi->comment_placement == GNM_PRINT_COMMENTS_AT_END)
 			g_string_append (gstr, " annotations_at_end");
 		if (pi->print_black_and_white)
 			g_string_append (gstr, " black_n_white");
@@ -5072,17 +5072,17 @@ odf_write_page_layout (GnmOOExport *state, PrintInformation *pi,
 		if (pi->print_even_if_only_styles)
 			g_string_append (gstr, " print_even_if_only_styles");
 		switch (pi->error_display) {
-		case PRINT_ERRORS_AS_BLANK:
+		case GNM_PRINT_ERRORS_AS_BLANK:
 			g_string_append (gstr, " errors_as_blank");
 			break;
-		case PRINT_ERRORS_AS_DASHES:
+		case GNM_PRINT_ERRORS_AS_DASHES:
 			g_string_append (gstr, " errors_as_dashes");
 			break;
-		case PRINT_ERRORS_AS_NA:
+		case GNM_PRINT_ERRORS_AS_NA:
 			g_string_append (gstr, " errors_as_na");
 			break;
 		default:
-		case PRINT_ERRORS_AS_DISPLAYED:
+		case GNM_PRINT_ERRORS_AS_DISPLAYED:
 			break;
 		}
 		gsf_xml_out_add_cstr_unchecked

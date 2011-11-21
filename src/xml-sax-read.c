@@ -2711,35 +2711,79 @@ xml_sax_print_order (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_print_comments (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_print_comments_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	gint tmpi;
+
+	xml_sax_must_have_sheet (state);
+
+	/* In 1.11.x and later this is saved as an enum value */
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (xml_sax_attr_enum (attrs, "placement", GNM_PRINT_COMMENT_PLACEMENT_TYPE, &tmpi))
+			state->sheet->print_info->comment_placement = tmpi;
+}
+
+static void
+xml_sax_print_comments_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+
+	if (xin->content->str == NULL || *xin->content->str == 0)
+		/* 1.11.x or later file */
+		return; 
 
 	xml_sax_must_have_sheet (state);
 
 	if (strcmp (xin->content->str, "in_place") == 0)
-		state->sheet->print_info->comment_placement = PRINT_COMMENTS_IN_PLACE;
+		state->sheet->print_info->comment_placement =
+			GNM_PRINT_COMMENTS_IN_PLACE;
 	else if (strcmp (xin->content->str, "at_end") == 0)
-		state->sheet->print_info->comment_placement = PRINT_COMMENTS_AT_END;
+		state->sheet->print_info->comment_placement =
+			GNM_PRINT_COMMENTS_AT_END;
 	else
-		state->sheet->print_info->comment_placement = PRINT_COMMENTS_NONE;
+		state->sheet->print_info->comment_placement =
+			GNM_PRINT_COMMENTS_NONE;
 }
 
 static void
-xml_sax_print_errors (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_print_errors_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	gint tmpi;
+
+	xml_sax_must_have_sheet (state);
+
+	/* In 1.11.x and later this is saved as an enum value */
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (xml_sax_attr_enum (attrs, "PrintErrorsAs", GNM_PRINT_ERRORS_TYPE, &tmpi))
+			state->sheet->print_info->error_display = tmpi;
+}
+
+
+static void
+xml_sax_print_errors_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+
+	if (xin->content->str == NULL || *xin->content->str == 0)
+		/* 1.11.x or later file */
+		return; 
 
 	xml_sax_must_have_sheet (state);
 
 	if (strcmp (xin->content->str, "as_blank") == 0)
-		state->sheet->print_info->error_display = PRINT_ERRORS_AS_BLANK;
+		state->sheet->print_info->error_display =
+			GNM_PRINT_ERRORS_AS_BLANK;
 	else if (strcmp (xin->content->str, "as_dashes") == 0)
-		state->sheet->print_info->error_display = PRINT_ERRORS_AS_DASHES;
+		state->sheet->print_info->error_display =
+			GNM_PRINT_ERRORS_AS_DASHES;
 	else if (strcmp (xin->content->str, "as_na") == 0)
-		state->sheet->print_info->error_display = PRINT_ERRORS_AS_NA;
+		state->sheet->print_info->error_display =
+			GNM_PRINT_ERRORS_AS_NA;
 	else
-		state->sheet->print_info->error_display = PRINT_ERRORS_AS_DISPLAYED;
+		state->sheet->print_info->error_display =
+			GNM_PRINT_ERRORS_AS_DISPLAYED;
 }
 
 
@@ -2930,8 +2974,8 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, TRUE
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_PRINT_RANGE, GNM, "print_range",GSF_XML_NO_CONTENT, &xml_sax_print_print_range, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_MONO,	    GNM, "monochrome",	GSF_XML_NO_CONTENT, &xml_sax_monochrome, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_AS_DRAFT,   GNM, "draft",	GSF_XML_NO_CONTENT, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_COMMENTS,   GNM, "comments",	GSF_XML_CONTENT, NULL, &xml_sax_print_comments),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ERRORS,   GNM, "errors",	GSF_XML_CONTENT, NULL, &xml_sax_print_errors),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_COMMENTS,   GNM, "comments",	GSF_XML_CONTENT, &xml_sax_print_comments_start, &xml_sax_print_comments_end),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ERRORS,   GNM, "errors",	GSF_XML_CONTENT, &xml_sax_print_errors_start, &xml_sax_print_errors_end),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_TITLES,	    GNM, "titles",	GSF_XML_NO_CONTENT, &xml_sax_print_titles, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_REPEAT_TOP, GNM, "repeat_top",	GSF_XML_NO_CONTENT, &xml_sax_repeat_top, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_REPEAT_LEFT,GNM, "repeat_left",	GSF_XML_NO_CONTENT, &xml_sax_repeat_left, NULL),
@@ -3419,14 +3463,13 @@ xml_cellregion_read (WorkbookControl *wbc, GOIOContext *io_context,
 	WorkbookView *wb_view;
 	GsfInput *input;
 	XMLSaxParseState state;
-	gboolean ok;
 	GnmCellRegion *result;
 
 	wb_view = wb_control_view (wbc);
 	input = gsf_input_memory_new (buffer, length, FALSE);
-	ok = read_file_common (READ_CLIPBOARD, &state,
-			       io_context, wb_view, sheet,
-			       input);
+	read_file_common (READ_CLIPBOARD, &state,
+       		       io_context, wb_view, sheet,
+       		       input);
 	g_object_unref (input);
 
 	result = state.clipboard;

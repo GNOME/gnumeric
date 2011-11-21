@@ -42,6 +42,48 @@
 GList *hf_formats = NULL;
 static gint hf_formats_base_num = 0;
 
+GType
+gnm_print_comment_placement_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+	  static GEnumValue const values[] = {
+		  { GNM_PRINT_COMMENTS_NONE, "GNM_PRINT_COMMENTS_NONE", "none"},
+		  { GNM_PRINT_COMMENTS_IN_PLACE, "GNM_PRINT_COMMENTS_IN_PLACE",
+		    "in-place"},
+		  { GNM_PRINT_COMMENTS_AT_END, "GNM_PRINT_COMMENTS_AT_END", 
+		    "at-end"},
+		  { 0, NULL, NULL }
+	  };
+	  etype = g_enum_register_static ("GnmPrintCommentPlacementType", 
+					  values);
+  }
+  return etype;
+}
+
+GType
+gnm_print_errors_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+	  static GEnumValue const values[] = {
+		  { GNM_PRINT_ERRORS_AS_DISPLAYED,
+		    "GNM_PRINT_ERRORS_AS_DISPLAYED", "as-displayed"},
+		  { GNM_PRINT_ERRORS_AS_BLANK,
+		    "GNM_PRINT_ERRORS_AS_BLANK", "as-blank"},
+		  { GNM_PRINT_ERRORS_AS_DASHES,
+		    "GNM_PRINT_ERRORS_AS_DASHES", "as-dashes"},
+		  { GNM_PRINT_ERRORS_AS_NA,
+		    "GNM_PRINT_ERRORS_AS_NA", "as-na"},
+		  { 0, NULL, NULL }
+	  };
+	  etype = g_enum_register_static ("GnmPrintErrorsType", 
+					  values);
+  }
+  return etype;
+}
+
+
 PrintHF *
 print_hf_new (char const *left_side_format,
 	      char const *middle_format,
@@ -295,8 +337,8 @@ print_info_new (gboolean load_defaults)
 	PrintInformation *res = g_new0 (PrintInformation, 1);
 
 	res->print_as_draft	   = FALSE;
-	res->comment_placement = PRINT_COMMENTS_IN_PLACE;
-	res->error_display     = PRINT_ERRORS_AS_DISPLAYED;
+	res->comment_placement = GNM_PRINT_COMMENTS_IN_PLACE;
+	res->error_display     = GNM_PRINT_ERRORS_AS_DISPLAYED;
 
 	res->start_page	   = -1;
 	res->n_copies	   = 0;

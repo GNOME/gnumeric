@@ -8,6 +8,13 @@
 
 G_BEGIN_DECLS
 
+GType gnm_print_comment_placement_get_type (void);
+#define GNM_PRINT_COMMENT_PLACEMENT_TYPE (gnm_print_comment_placement_get_type ())
+
+GType gnm_print_errors_get_type (void);
+#define GNM_PRINT_ERRORS_TYPE (gnm_print_errors_get_type ())
+
+
 typedef struct {
 	GtkUnit   top, bottom, left, right, header, footer;
 } DesiredDisplay;
@@ -18,6 +25,19 @@ typedef struct {
 	char *middle_format;
 	char *right_format;
 } PrintHF;
+
+typedef enum {
+	GNM_PRINT_COMMENTS_NONE,
+	GNM_PRINT_COMMENTS_IN_PLACE,
+	GNM_PRINT_COMMENTS_AT_END
+} GnmPrintCommentPlacementType;
+
+typedef enum {
+	GNM_PRINT_ERRORS_AS_DISPLAYED,
+	GNM_PRINT_ERRORS_AS_BLANK,
+	GNM_PRINT_ERRORS_AS_DASHES,
+	GNM_PRINT_ERRORS_AS_NA
+} GnmPrintErrorsType;
 
 typedef enum {
 	GNM_PAGE_BREAK_NONE,    /* Not actually a page break  */
@@ -75,17 +95,8 @@ struct _PrintInformation {
 	unsigned int     print_even_if_only_styles:1;
 	unsigned int     do_not_print:1;
 
-	enum {
-		PRINT_COMMENTS_NONE,
-		PRINT_COMMENTS_IN_PLACE,
-		PRINT_COMMENTS_AT_END
-	} comment_placement;
-	enum {
-		PRINT_ERRORS_AS_DISPLAYED,
-		PRINT_ERRORS_AS_BLANK,
-		PRINT_ERRORS_AS_DASHES,
-		PRINT_ERRORS_AS_NA
-	} error_display;
+	GnmPrintCommentPlacementType comment_placement;
+	GnmPrintErrorsType error_display;
 
 	struct {
 		GnmPageBreaks *h,  /* between rows */

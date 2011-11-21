@@ -4842,7 +4842,7 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 			gchar **items_c = items;
 			state->print.cur_pi->print_grid_lines = 0;
 			state->print.cur_pi->print_titles = 0;
-			state->print.cur_pi->comment_placement = PRINT_COMMENTS_NONE;
+			state->print.cur_pi->comment_placement = GNM_PRINT_COMMENTS_NONE;
 			for (;items != NULL && *items; items++)
 				if (0 == strcmp (*items, "grid"))
 					state->print.cur_pi->print_grid_lines = 1;
@@ -4850,7 +4850,7 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 					state->print.cur_pi->print_titles = 1;
 				else if (0 == strcmp (*items, "annotations"))
 					/* ODF does not distinguish AT_END and IN_PLACE */
-					state->print.cur_pi->comment_placement = PRINT_COMMENTS_AT_END;
+					state->print.cur_pi->comment_placement = GNM_PRINT_COMMENTS_AT_END;
 			g_strfreev (items_c);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       OO_GNUM_NS_EXT, "style-print")) {
@@ -4860,7 +4860,7 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 			state->print.cur_pi->print_black_and_white = 0;
 			state->print.cur_pi->print_as_draft = 0;
 			state->print.cur_pi->print_even_if_only_styles = 0;
-			state->print.cur_pi->error_display = PRINT_ERRORS_AS_DISPLAYED;
+			state->print.cur_pi->error_display = GNM_PRINT_ERRORS_AS_DISPLAYED;
 			for (;items != NULL && *items; items++)
 				if (0 == strcmp (*items, "annotations_at_end"))
 					annotations_at_end = TRUE;
@@ -4869,19 +4869,19 @@ odf_page_layout_properties (GsfXMLIn *xin, xmlChar const **attrs)
 				else if (0 == strcmp (*items, "draft"))
 					state->print.cur_pi->print_as_draft = 1;
 				else if (0 == strcmp (*items, "errors_as_blank"))
-					state->print.cur_pi->error_display = PRINT_ERRORS_AS_BLANK;
+					state->print.cur_pi->error_display = GNM_PRINT_ERRORS_AS_BLANK;
 				else if (0 == strcmp (*items, "errors_as_dashes"))
-					state->print.cur_pi->error_display = PRINT_ERRORS_AS_DASHES;
+					state->print.cur_pi->error_display = GNM_PRINT_ERRORS_AS_DASHES;
 				else if (0 == strcmp (*items, "errors_as_na"))
-					state->print.cur_pi->error_display = PRINT_ERRORS_AS_NA;
+					state->print.cur_pi->error_display = GNM_PRINT_ERRORS_AS_NA;
 				else if (0 == strcmp (*items, "print_even_if_only_styles"))
 					state->print.cur_pi->print_even_if_only_styles = 1;
 			g_strfreev (items_c);
 		}
 
-	if (gnm_style_print && state->print.cur_pi->comment_placement != PRINT_COMMENTS_NONE)
-		state->print.cur_pi->comment_placement = annotations_at_end ? PRINT_COMMENTS_AT_END :
-			PRINT_COMMENTS_IN_PLACE;
+	if (gnm_style_print && state->print.cur_pi->comment_placement != GNM_PRINT_COMMENTS_NONE)
+		state->print.cur_pi->comment_placement = annotations_at_end ? GNM_PRINT_COMMENTS_AT_END :
+			GNM_PRINT_COMMENTS_IN_PLACE;
 
 	/* STYLE "writing-mode" is being ignored since we can't store it anywhere atm */
 

@@ -4767,7 +4767,7 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 
 		pi->print_as_draft = (flags & 0x10) != 0;
 		pi->comment_placement = (flags & 0x20)
-			? PRINT_COMMENTS_IN_PLACE : PRINT_COMMENTS_NONE;
+			? GNM_PRINT_COMMENTS_IN_PLACE : GNM_PRINT_COMMENTS_NONE;
 		print_info_set_margin_header (pi,
 					      GO_IN_TO_PT (gsf_le_get_double (q->data + 16)));
 		print_info_set_margin_footer (pi,
@@ -4780,13 +4780,14 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 	}
 
 	if (esheet_ver (esheet) >= MS_BIFF_V8) {
-		if ((flags & 0x200) && pi->comment_placement == PRINT_COMMENTS_IN_PLACE)
-			pi->comment_placement = PRINT_COMMENTS_AT_END;
+		if ((flags & 0x200) &&
+		    pi->comment_placement == GNM_PRINT_COMMENTS_IN_PLACE)
+			pi->comment_placement = GNM_PRINT_COMMENTS_AT_END;
 		switch ((flags >> 10) & 3) {
-		case 0 : pi->error_display = PRINT_ERRORS_AS_DISPLAYED; break;
-		case 1 : pi->error_display = PRINT_ERRORS_AS_BLANK; break;
-		case 2 : pi->error_display = PRINT_ERRORS_AS_DASHES; break;
-		case 3 : pi->error_display = PRINT_ERRORS_AS_NA; break;
+		case 0 : pi->error_display = GNM_PRINT_ERRORS_AS_DISPLAYED; break;
+		case 1 : pi->error_display = GNM_PRINT_ERRORS_AS_BLANK; break;
+		case 2 : pi->error_display = GNM_PRINT_ERRORS_AS_DASHES; break;
+		case 3 : pi->error_display = GNM_PRINT_ERRORS_AS_NA; break;
 		}
 	}
 }

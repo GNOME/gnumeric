@@ -1,3 +1,9 @@
+2011-11-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-excel-read.c (excel_read_SETUP): rename
+	PRINT_ERROR and PRINT_COMMENTS constants
+	* ms-excel-write.c (excel_write_SETUP): ditto
+
 2011-10-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* xlsx-read-drawing.c (xlsx_blip_start): don't set an invalid image type.

@@ -495,18 +495,18 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 		if (pi->print_as_draft)
 			flags |= 0x10;
 		switch (pi->comment_placement) {
-		case PRINT_COMMENTS_NONE: break;
+		case GNM_PRINT_COMMENTS_NONE: break;
 		default:
-		case PRINT_COMMENTS_IN_PLACE: flags |= 0x020; break;
-		case PRINT_COMMENTS_AT_END:   flags |= 0x220; break;
+		case GNM_PRINT_COMMENTS_IN_PLACE: flags |= 0x020; break;
+		case GNM_PRINT_COMMENTS_AT_END:   flags |= 0x220; break;
 		}
 
 		switch (pi->error_display) {
 		default :
-		case PRINT_ERRORS_AS_DISPLAYED: break;
-		case PRINT_ERRORS_AS_BLANK:	flags |= 0x400;	break;
-		case PRINT_ERRORS_AS_DASHES:	flags |= 0x800; break;
-		case PRINT_ERRORS_AS_NA:	flags |= 0xC00; break;
+		case GNM_PRINT_ERRORS_AS_DISPLAYED: break;
+		case GNM_PRINT_ERRORS_AS_BLANK:	 flags |= 0x400; break;
+		case GNM_PRINT_ERRORS_AS_DASHES: flags |= 0x800; break;
+		case GNM_PRINT_ERRORS_AS_NA:	 flags |= 0xC00; break;
 		}
 
 		if (pi->scaling.percentage.x < USHRT_MAX)

@@ -75,7 +75,8 @@ print_cell_gtk (GnmCell const *cell,
 	cell_shows_error = (gnm_cell_is_error (cell) != NULL)
 		&& !(gnm_cell_has_expr (cell) && sheet->display_formulas);
 
-	if (cell_shows_error && pinfo->error_display == PRINT_ERRORS_AS_BLANK)
+	if (cell_shows_error && pinfo->error_display ==
+	    GNM_PRINT_ERRORS_AS_BLANK)
 		return;
 
 	/* Get the sizes exclusive of margins and grids */
@@ -86,11 +87,12 @@ print_cell_gtk (GnmCell const *cell,
 	rv = gnm_cell_fetch_rendered_value (cell, TRUE);
 
 	/* Create a rendered value for printing */
-	if (cell_shows_error && (pinfo->error_display == PRINT_ERRORS_AS_NA
-				 || pinfo->error_display == PRINT_ERRORS_AS_DASHES)) {
+	if (cell_shows_error && 
+	    (pinfo->error_display == GNM_PRINT_ERRORS_AS_NA
+	     || pinfo->error_display == GNM_PRINT_ERRORS_AS_DASHES)) {
 		GnmCell *t_cell = (GnmCell *)cell;
 		GnmValue *old = t_cell->value;
-		if (pinfo->error_display == PRINT_ERRORS_AS_NA)
+		if (pinfo->error_display == GNM_PRINT_ERRORS_AS_NA)
 			t_cell->value = value_new_error_NA (NULL);
 		else
 			t_cell->value = value_new_error

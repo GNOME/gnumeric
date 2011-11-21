@@ -1,3 +1,24 @@
+2011-11-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print-info.h (gnm_print_comment_placement_get_type): new
+	(gnm_print_errors_get_type): new
+	(GnmPrintCommentPlacementType): new
+	(GnmPrintErrorsType): new
+	(_PrintInformation): use the above
+	* src/print-cell.c (print_cell_gtk): rename print-error and comment-
+	placement constants
+	* src/print-info.c (gnm_print_comment_placement_get_type): new
+	(gnm_print_errors_get_type): new
+	(print_info_new): rename print-error and comment-placement constants
+	* src/xml-sax-read.c (xml_sax_print_comments_start): new
+	(xml_sax_print_comments): rename to xml_sax_print_comments_end, change
+	all callers; rename comment-placement constants
+	(xml_sax_print_errors_start): new
+	(xml_sax_print_errors): rename to xml_sax_print_errors_end, change
+	all callers; rename print-error constants
+	(xml_cellregion_read): remove unused variable
+	* src/xml-sax-write.c (xml_write_print_info): use gsf_xml_out_add_enum
+
 2011-11-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gui-clipboard.c (object_write), (x_clipboard_get_cb): add support for

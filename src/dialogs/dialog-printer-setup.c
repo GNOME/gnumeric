@@ -2187,15 +2187,15 @@ do_setup_error_display (PrinterSetupState *state)
 		char const *label;
 		guint  type;
 	} display_types[] = {
-		{N_("Print as displayed"), PRINT_ERRORS_AS_DISPLAYED},
-		{N_("Print as spaces"),    PRINT_ERRORS_AS_BLANK},
-		{N_("Print as dashes"),    PRINT_ERRORS_AS_DASHES},
-		{N_("Print as #N/A"),      PRINT_ERRORS_AS_NA}
+		{N_("Print as displayed"), GNM_PRINT_ERRORS_AS_DISPLAYED},
+		{N_("Print as spaces"),    GNM_PRINT_ERRORS_AS_BLANK},
+		{N_("Print as dashes"),    GNM_PRINT_ERRORS_AS_DASHES},
+		{N_("Print as #N/A"),      GNM_PRINT_ERRORS_AS_NA}
 	};
 
 	gint i;
 	GtkCellRenderer  *cell;
-	gint item = PRINT_ERRORS_AS_DISPLAYED;
+	gint item = GNM_PRINT_ERRORS_AS_DISPLAYED;
 	GtkTreeIter iter;
 
 	for (i = 0; i < (int)G_N_ELEMENTS (display_types); i++) {
@@ -2223,14 +2223,14 @@ do_setup_comment_display (PrinterSetupState *state)
 		char const *label;
 		guint  type;
 	} display_types[] = {
-		{N_("Do not print"),    PRINT_COMMENTS_NONE},
-		{N_("Print in place"),  PRINT_COMMENTS_IN_PLACE},
-		{N_("Print at end"),    PRINT_COMMENTS_AT_END}
+		{N_("Do not print"),   GNM_PRINT_COMMENTS_NONE},
+		{N_("Print in place"), GNM_PRINT_COMMENTS_IN_PLACE},
+		{N_("Print at end"),   GNM_PRINT_COMMENTS_AT_END}
 	};
 
 	gint i;
 	GtkCellRenderer  *cell;
-	gint item = PRINT_COMMENTS_NONE;
+	gint item = GNM_PRINT_COMMENTS_NONE;
 	GtkTreeIter iter;
 
 	for (i = 0; i < (int)G_N_ELEMENTS (display_types); i++) {
