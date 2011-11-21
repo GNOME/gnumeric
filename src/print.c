@@ -1188,6 +1188,9 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 	guint paginate = (pi->last_pagination)++;
 	SheetPrintInfo *spi;
 
+	if (gnm_debug_flag ("print"))
+		g_printerr ("paginate %d\n", paginate);
+
 	spi = g_list_nth_data (pi->gnmSheets, paginate);
 	if (spi == NULL) { /*We are done paginating */
 		/* GTK sends additional pagination requests! */
@@ -1283,6 +1286,9 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 	gboolean i_pb;
 	GtkPrintSettings * settings;
 
+	if (gnm_debug_flag ("print"))
+		g_printerr ("begin-print\n");
+
 	settings =  gtk_print_operation_get_print_settings (operation);
 
 	from = gtk_print_settings_get_int_with_default
@@ -1334,11 +1340,8 @@ gnm_end_print_cb (GtkPrintOperation *operation,
                   G_GNUC_UNUSED GtkPrintContext   *context,
                   G_GNUC_UNUSED gpointer           user_data)
 {
-	/*
-	 * There's confusion as to when this is called, so this function
-	 * must allow for multiple calls.
-	 */
-	g_object_set_data (G_OBJECT (operation), "pi", NULL);
+	if (gnm_debug_flag ("print"))
+		g_printerr ("end-print\n");
 }
 
 static void
@@ -1393,6 +1396,9 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 
 	PrintingInstance * pi = (PrintingInstance *) user_data;
 	SheetPageRange * gsr;
+
+	if (gnm_debug_flag ("print"))
+		g_printerr ("draw-page %d\n", page_nr);
 
 	if (pi->cancel) {
 		gtk_print_operation_cancel (operation);
@@ -1760,9 +1766,6 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	pi->wbc = wbc ? WORKBOOK_CONTROL (wbc) : NULL;
 	pi->sheet = sheet;
 	pi->preview = preview;
-	g_object_set_data_full (G_OBJECT (print),
-				"pi", pi,
-				(GDestroyNotify)printing_instance_delete);
 
 	settings = gnm_conf_get_print_settings ();
 	if (default_range == PRINT_SAVED_INFO) {
@@ -1811,7 +1814,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	g_signal_connect (print, "begin-print", G_CALLBACK (gnm_begin_print_cb), pi);
 	g_signal_connect (print, "paginate", G_CALLBACK (gnm_paginate_cb), pi);
 	g_signal_connect (print, "draw-page", G_CALLBACK (gnm_draw_page_cb), pi);
-	g_signal_connect (print, "end-print", G_CALLBACK (gnm_end_print_cb), NULL);
+	g_signal_connect (print, "end-print", G_CALLBACK (gnm_end_print_cb), pi);
 	g_signal_connect (print, "request-page-setup", G_CALLBACK (gnm_request_page_setup_cb), pi);
 
 	gtk_print_operation_set_use_full_page (print, FALSE);
@@ -1878,11 +1881,6 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 			(sheet->print_info, settings);
 		break;
 	case GTK_PRINT_OPERATION_RESULT_CANCEL:
-		/*
-		 * There seems to be confusion as to whether gtk will
-		 * call this.
-		 */
-		gnm_end_print_cb (print, NULL, NULL);
 		break;
 	case GTK_PRINT_OPERATION_RESULT_ERROR:
 		break;
@@ -1891,6 +1889,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 		break;
 	default: ;
 	}
+	printing_instance_delete (pi);
 
 	if (preview_via_pdf) {
 #ifdef G_OS_WIN32
