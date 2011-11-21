@@ -1332,10 +1332,9 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 static void
 gnm_end_print_cb (G_GNUC_UNUSED GtkPrintOperation *operation,
                   G_GNUC_UNUSED GtkPrintContext   *context,
-                  gpointer           user_data)
+                  G_GNUC_UNUSED gpointer           user_data)
 {
-	PrintingInstance * pi = (PrintingInstance *) user_data;
-	printing_instance_delete (pi);
+	/* PrintingInstance * pi = (PrintingInstance *) user_data; */
 }
 
 static void
@@ -1872,16 +1871,14 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 			(sheet->print_info, settings);
 		break;
 	case GTK_PRINT_OPERATION_RESULT_CANCEL:
-		/* printing_instance_delete (pi); Done in response to end-print signal */
-		break;
 	case GTK_PRINT_OPERATION_RESULT_ERROR:
-		/* FIXME? */
 		break;
 	case GTK_PRINT_OPERATION_RESULT_IN_PROGRESS:
-		/* FIXME? */
+		/* This can only happen if we were allowing asynchronous operation */
 		break;
 	default: ;
 	}
+	printing_instance_delete (pi);
 
 	if (preview_via_pdf) {
 #ifdef G_OS_WIN32

@@ -51,6 +51,7 @@ Andreas:
 	* Add 'object' and 'paper=fit' options to ssconvert pdf export. [#661405]
 	* Add cell view to auto expression. [#455712]
 	* Fix import/export of interpolation methods from/to ODF. [#664351]
+	* Fix leak. [#664447]
 
 Jean:
 	* Make things build against gtk+-3.0.
