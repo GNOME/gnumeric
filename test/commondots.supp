@@ -276,3 +276,11 @@
    ...
    fun:g_settings_backend_get_default
 }
+
+{
+   GIO/OpenSuSE11.4/MLK
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:g_file_monitor_file
+}
