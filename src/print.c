@@ -784,7 +784,7 @@ compute_scale_fit_to (Sheet const *sheet,
 		      gboolean repeat, gint repeat_start, gint repeat_end, GnmPageBreaks *pb)
 {
 	double max_p, min_p;
-	gint   max_pages, min_pages;
+	gint   max_pages;
 	double extent;
 
 	extent = get_distance_pts (sheet, start, end + 1);
@@ -826,9 +826,9 @@ compute_scale_fit_to (Sheet const *sheet,
 	if (min_p > max_percent)
 		min_p = max_percent;
 
-	min_pages = paginate (NULL, sheet, start, end, usable/min_p - header,
-			      repeat, repeat_start, repeat_end,
-			      get_distance_pts, get_info, pb, FALSE);
+	paginate (NULL, sheet, start, end, usable/min_p - header,
+		  repeat, repeat_start, repeat_end,
+		  get_distance_pts, get_info, pb, FALSE);
 
 
 	/* And then we pick the middle until the percentage is within 0.1% of */
@@ -840,13 +840,10 @@ compute_scale_fit_to (Sheet const *sheet,
 					  repeat, repeat_start, repeat_end,
 					  get_distance_pts, get_info, pb, FALSE);
 
-		if (cur_pages > pages) {
-			max_pages = cur_pages;
+		if (cur_pages > pages)
 			max_p = cur_p;
-		} else {
-			min_pages = cur_pages;
+		else
 			min_p = cur_p;
-		}
 	}
 
 	return min_p;
@@ -1069,15 +1066,15 @@ compute_sheet_pages (GtkPrintContext   *context,
  */
 static void
 compute_pages (G_GNUC_UNUSED GtkPrintOperation *operation,
-	       PrintingInstance * pi,
-	       PrintRange pr,
-	       guint from,
-	       guint to)
+	       PrintingInstance * pi)
 {
 	Workbook *wb = pi->wb;
 	guint i;
 	guint n;
 	guint ct;
+	PrintRange pr = pi->pr;
+	guint from = pi->from;
+	guint to = pi->to;
 
 	switch (pr) {
 	case PRINT_SAVED_INFO:
@@ -1281,26 +1278,13 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 		    gpointer           user_data)
 {
 	PrintingInstance * pi = (PrintingInstance *) user_data;
-	PrintRange pr;
-	guint from, to;
-	gboolean i_pb;
-	GtkPrintSettings * settings;
 
 	if (gnm_debug_flag ("print"))
 		g_printerr ("begin-print\n");
 
-	settings =  gtk_print_operation_get_print_settings (operation);
-
-	from = gtk_print_settings_get_int_with_default
-		(settings, GNUMERIC_PRINT_SETTING_PRINT_FROM_SHEET_KEY, 1);
-	to = gtk_print_settings_get_int_with_default
-		(settings, GNUMERIC_PRINT_SETTING_PRINT_TO_SHEET_KEY, workbook_sheet_count (pi->wb));
-	pr = gtk_print_settings_get_int_with_default
-		(settings, GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY, PRINT_ACTIVE_SHEET);
-	i_pb = (1 == gtk_print_settings_get_int_with_default
-		(settings, GNUMERIC_PRINT_SETTING_IGNORE_PAGE_BREAKS_KEY, 1));
-	if (from != pi->from || to != pi->to || pr != pi->pr) {
-		/* g_warning ("Working around gtk+ bug 423484."); */
+	{
+		/* Working around gtk+ bug 423484. */
+		GtkPrintSettings *settings = gtk_print_operation_get_print_settings (operation);
 		gtk_print_settings_set_int
 			(settings, GNUMERIC_PRINT_SETTING_PRINT_FROM_SHEET_KEY,
 			 pi->from);
@@ -1311,9 +1295,6 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 			(settings, GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY, pi->pr);
 		gtk_print_settings_set_int
 			(settings, GNUMERIC_PRINT_SETTING_IGNORE_PAGE_BREAKS_KEY, pi->ignore_pb ? 1 : 0);
-		from = pi->from;
-		to = pi->to;
-		pr = pi->pr;
 	}
 
 	if (NULL != pi->wbc && IS_WBC_GTK(pi->wbc)) {
@@ -1332,11 +1313,11 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 		gtk_widget_show_all (pi->progress);
 	}
 
-	compute_pages (operation, pi, pr, from, to);
+	compute_pages (operation, pi);
 }
 
 static void
-gnm_end_print_cb (GtkPrintOperation *operation,
+gnm_end_print_cb (G_GNUC_UNUSED GtkPrintOperation *operation,
                   G_GNUC_UNUSED GtkPrintContext   *context,
                   G_GNUC_UNUSED gpointer           user_data)
 {

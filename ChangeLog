@@ -1,3 +1,9 @@
+2011-11-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print.c (compute_scale_fit_to): remove unsued variables
+	(compute_pages): remove arguments and chnge all callers
+	(gnm_begin_print_cb): just write the settings
+
 2011-11-21  Morten Welinder  <terra@gnome.org>
 
 	* src/print.c (gnm_print_sheet): Call gnm_end_print_cb in response
