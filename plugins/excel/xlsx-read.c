@@ -300,8 +300,11 @@ start_update_progress (XLSXReadState *state, GsfInput *xin,
 		       char const *message, double min, double max)
 {
 	go_io_progress_range_push (state->context, min, max);
-	go_io_value_progress_set (state->context, gsf_input_size (xin), 10000);
-	go_io_progress_message (state->context, message);
+	if (xin) {
+		go_io_value_progress_set (state->context,
+					  gsf_input_size (xin), 10000);
+		go_io_progress_message (state->context, message);
+	}
 }
 
 static void
@@ -4326,12 +4329,10 @@ xlsx_file_open (GOFileOpener const *fo, GOIOContext *context,
 
 			in = gsf_open_pkg_open_rel_by_type (wb_part,
 				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme", NULL);
-			if (in != NULL) {
-				start_update_progress (&state, in, _("Reading theme..."),
-						       0.05, 0.1);
-				xlsx_parse_stream (&state, in, xlsx_theme_dtd);
-				end_update_progress (&state);
-			}
+			start_update_progress (&state, in, _("Reading theme..."),
+					       0.05, 0.1);
+			xlsx_parse_stream (&state, in, xlsx_theme_dtd);
+			end_update_progress (&state);
 
 			in = gsf_open_pkg_open_rel_by_type (wb_part,
 				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", NULL);
@@ -4341,10 +4342,11 @@ xlsx_file_open (GOFileOpener const *fo, GOIOContext *context,
 				end_update_progress (&state);
 			}
 
-			start_update_progress (&state, in, _("Reading workbook..."),
+			start_update_progress (&state, wb_part, _("Reading workbook..."),
 					       0.2, 0.3);
 			xlsx_parse_stream (&state, wb_part, xlsx_workbook_dtd);
 			/* end_update_progress (&state);  moved into xlsx_wb_end */
+			/* MW 20111121: why?  If parsing fails, I don't think that will ever be called.  */
 
 			xlsx_read_docprops (&state);
 

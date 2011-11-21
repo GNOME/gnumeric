@@ -1,3 +1,9 @@
+2011-11-21  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (start_update_progress): Handle NULL xin.
+	(xlsx_file_open): Use right input stream for progress update.
+	Fixes an FMR.
+
 2011-11-20 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ms-excel-read.c (excel_read_SETUP): rename
@@ -6,13 +12,16 @@
 
 2011-10-29  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* xlsx-read-drawing.c (xlsx_blip_start): don't set an invalid image type.
+	* xlsx-read-drawing.c (xlsx_blip_start): don't set an invalid
+	image type.
 
 2011-10-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* ms-excel-read.c (ms_wb_get_font_markup): use subscript/superscript attributes
-	* ms-excel-write.c (excel_font_overlay_pango): export subscript/superscript
-	attributes (and fix PANGO_ATTR_RISE handling)
+	* ms-excel-read.c (ms_wb_get_font_markup): use
+	subscript/superscript attributes
+	* ms-excel-write.c (excel_font_overlay_pango): export
+	subscript/superscript attributes (and fix PANGO_ATTR_RISE
+	handling)
 
 2011-10-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
@@ -38,8 +47,8 @@
 2011-08-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (end), (xl_chart_import_error_bar),
-	(ms_excel_chart_read), (store_dim), (chart_write_series): moved two helpers
-	to goffice.
+	(ms_excel_chart_read), (store_dim), (chart_write_series): moved
+	two helpers to goffice.
 	* xlsx-read-drawing.c (xlsx_tx_pr), (xlsx_draw_text_run_props),
 	(xlsx_ser_labels_show_val), (xlsx_ser_labels_show_cat),
 	(xlsx_ser_labels_pos), (xlsx_ser_labels_start),
