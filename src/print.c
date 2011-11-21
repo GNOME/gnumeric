@@ -109,6 +109,32 @@ typedef struct {
 
 gboolean gnm_print_debug = FALSE;
 
+GType
+gnm_print_range_get_type (void)
+{
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{ PRINT_SAVED_INFO,   "GNM_PRINT_SAVED_INFO",   "as-saved"},
+			{ PRINT_ACTIVE_SHEET, "GNM_PRINT_ACTIVE_SHEET", "active-sheet"},
+			{ PRINT_ALL_SHEETS,   "GNM_PRINT_ALL_SHEETS",   "all-sheets"},
+			{ PRINT_ALL_SHEETS_INCLUDING_HIDDEN, "GNM_PRINT_ALL_SHEETS_INCLUDING_HIDDEN",
+			  "all-sheets-incl-hidden"},
+			{ PRINT_SHEET_RANGE,  "GNM_PRINT_SHEET_RANGE",  "sheet-range"},
+			{ PRINT_SHEET_SELECTION, "GNM_PRINT_SHEET_SELECTION", "sheet-selection"},
+			{ PRINT_IGNORE_PRINTAREA, "GNM_PRINT_IGNORE_PRINTAREA", "ignore-print-area"},
+			{ PRINT_SHEET_SELECTION_IGNORE_PRINTAREA, 
+			  "GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA", 
+			  "sheet-selection-ignore-printarea"},
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("GnmPrintRange",
+						values);
+	}
+	return etype;
+}
+
+
 static PrintingInstance *
 printing_instance_new (void)
 {

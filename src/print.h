@@ -13,7 +13,12 @@ G_BEGIN_DECLS
 #define GNUMERIC_PRINT_SETTING_PRINT_TO_SHEET_KEY	"GnumericPrintToSheet"
 #define GNUMERIC_PRINT_SETTING_IGNORE_PAGE_BREAKS_KEY   "GnumericPrintIgnorePageBreaks"
 
-typedef enum { /* These numbers are saved in .gnumeric files */
+GType gnm_print_range_get_type (void);
+#define GNM_PRINT_RANGE_TYPE (gnm_print_range_get_type ())
+
+typedef enum { /* These numbers are saved in pre 1.11.x .gnumeric files */
+	/* In 1.11.x and later the names as defined in */
+	/* gnm_print_range_get_type are used */
 	PRINT_SAVED_INFO = -1,
 	PRINT_ACTIVE_SHEET = 0,
 	PRINT_ALL_SHEETS = 1,

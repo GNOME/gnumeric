@@ -1055,7 +1055,8 @@ xml_sax_print_print_range (GsfXMLIn *xin, xmlChar const **attrs)
 	pi = state->sheet->print_info;
 
         for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-                if (gnm_xml_attr_int (attrs, "value", &val))
+		if (xml_sax_attr_enum (attrs, "value", GNM_PRINT_RANGE_TYPE, 
+				       &val))
                         print_info_set_printrange (pi, val);
 }
 
