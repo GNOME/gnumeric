@@ -1891,7 +1891,6 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 		break;
 	default: ;
 	}
-	printing_instance_delete (pi);
 
 	if (preview_via_pdf) {
 #ifdef G_OS_WIN32
