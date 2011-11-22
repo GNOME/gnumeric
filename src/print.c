@@ -115,21 +115,33 @@ gnm_print_range_get_type (void)
 	static GType etype = 0;
 	if (etype == 0) {
 		static GEnumValue const values[] = {
-			{ PRINT_SAVED_INFO,   "GNM_PRINT_SAVED_INFO",   "as-saved"},
-			{ PRINT_ACTIVE_SHEET, "GNM_PRINT_ACTIVE_SHEET", "active-sheet"},
-			{ PRINT_ALL_SHEETS,   "GNM_PRINT_ALL_SHEETS",   "all-sheets"},
-			{ PRINT_ALL_SHEETS_INCLUDING_HIDDEN, "GNM_PRINT_ALL_SHEETS_INCLUDING_HIDDEN",
+			{ GNM_PRINT_SAVED_INFO,
+			  "GNM_PRINT_SAVED_INFO",
+			  "as-saved"},
+			{ GNM_PRINT_ACTIVE_SHEET,
+			  "GNM_PRINT_ACTIVE_SHEET",
+			  "active-sheet"},
+			{ GNM_PRINT_ALL_SHEETS,
+			  "GNM_PRINT_ALL_SHEETS",
+			  "all-sheets"},
+			{ GNM_PRINT_ALL_SHEETS_INCLUDING_HIDDEN,
+			  "GNM_PRINT_ALL_SHEETS_INCLUDING_HIDDEN",
 			  "all-sheets-incl-hidden"},
-			{ PRINT_SHEET_RANGE,  "GNM_PRINT_SHEET_RANGE",  "sheet-range"},
-			{ PRINT_SHEET_SELECTION, "GNM_PRINT_SHEET_SELECTION", "sheet-selection"},
-			{ PRINT_IGNORE_PRINTAREA, "GNM_PRINT_IGNORE_PRINTAREA", "ignore-print-area"},
-			{ PRINT_SHEET_SELECTION_IGNORE_PRINTAREA, 
+			{ GNM_PRINT_SHEET_RANGE,
+			  "GNM_PRINT_SHEET_RANGE",
+			  "sheet-range"},
+			{ GNM_PRINT_SHEET_SELECTION,
+			  "GNM_PRINT_SHEET_SELECTION",
+			  "sheet-selection"},
+			{ GNM_PRINT_IGNORE_PRINTAREA,
+			  "GNM_PRINT_IGNORE_PRINTAREA",
+			  "ignore-print-area"},
+			{ GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA, 
 			  "GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA", 
 			  "sheet-selection-ignore-printarea"},
 			{ 0, NULL, NULL }
 		};
-		etype = g_enum_register_static ("GnmPrintRange",
-						values);
+		etype = g_enum_register_static ("GnmPrintRange", values);
 	}
 	return etype;
 }
@@ -1077,12 +1089,12 @@ compute_pages (G_GNUC_UNUSED GtkPrintOperation *operation,
 	guint to = pi->to;
 
 	switch (pr) {
-	case PRINT_SAVED_INFO:
+	case GNM_PRINT_SAVED_INFO:
 		/* This should never happen. */
-	case PRINT_ACTIVE_SHEET:
+	case GNM_PRINT_ACTIVE_SHEET:
 		compute_sheet_pages_add_sheet (pi, pi->sheet, FALSE, FALSE);
 		break;
-	case PRINT_ALL_SHEETS:
+	case GNM_PRINT_ALL_SHEETS:
 		n = workbook_sheet_count (wb);
 		for (i = 0; i < n; i++) {
 			Sheet *sheet = workbook_sheet_by_index (wb, i);
@@ -1094,7 +1106,7 @@ compute_pages (G_GNUC_UNUSED GtkPrintOperation *operation,
 						       FALSE, FALSE);
 		}
 		break;
-	case PRINT_ALL_SHEETS_INCLUDING_HIDDEN:
+	case GNM_PRINT_ALL_SHEETS_INCLUDING_HIDDEN:
 		n = workbook_sheet_count (wb);
 		for (i = 0; i < n; i++) {
 			Sheet *sheet = workbook_sheet_by_index (wb, i);
@@ -1104,7 +1116,7 @@ compute_pages (G_GNUC_UNUSED GtkPrintOperation *operation,
 						       FALSE, FALSE);
 		}
 		break;
-	case PRINT_SHEET_RANGE:
+	case GNM_PRINT_SHEET_RANGE:
 		if (from > to)
 			break;
 		n = workbook_sheet_count (wb);
@@ -1122,13 +1134,13 @@ compute_pages (G_GNUC_UNUSED GtkPrintOperation *operation,
 							       FALSE, FALSE);
 		}
 		break;
-	case PRINT_SHEET_SELECTION:
+	case GNM_PRINT_SHEET_SELECTION:
 		compute_sheet_pages_add_sheet (pi, pi->sheet, TRUE, FALSE);
 		break;
-	case PRINT_IGNORE_PRINTAREA:
+	case GNM_PRINT_IGNORE_PRINTAREA:
 		compute_sheet_pages_add_sheet (pi, pi->sheet, FALSE, TRUE);
 		break;
-	case PRINT_SHEET_SELECTION_IGNORE_PRINTAREA:
+	case GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA:
 		compute_sheet_pages_add_sheet (pi, pi->sheet, TRUE, TRUE);
 		break;
 	}
@@ -1547,27 +1559,27 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 	if (settings) {
 		switch (gtk_print_settings_get_int_with_default
 			(settings, GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY,
-			 PRINT_ACTIVE_SHEET)) {
-		case PRINT_SHEET_SELECTION_IGNORE_PRINTAREA:
+			 GNM_PRINT_ACTIVE_SHEET)) {
+		case GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_ignore_printarea), TRUE);
 			/* no break */
-		case PRINT_SHEET_SELECTION:
+		case GNM_PRINT_SHEET_SELECTION:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_selection), TRUE);
 			/* no break */
-		case PRINT_ACTIVE_SHEET:
+		case GNM_PRINT_ACTIVE_SHEET:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_selected_sheet), TRUE);
 			break;
-		case PRINT_IGNORE_PRINTAREA:
+		case GNM_PRINT_IGNORE_PRINTAREA:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_ignore_printarea), TRUE);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_selected_sheet), TRUE);
 			break;
-		case PRINT_SHEET_RANGE:
+		case GNM_PRINT_SHEET_RANGE:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_spec_sheets), TRUE);
 			break;
-		case PRINT_ALL_SHEETS_INCLUDING_HIDDEN:
+		case GNM_PRINT_ALL_SHEETS_INCLUDING_HIDDEN:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_print_hidden_sheets), TRUE);
 			/* no break */
-		case PRINT_ALL_SHEETS:
+		case GNM_PRINT_ALL_SHEETS:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_all_sheets), TRUE);
 			break;
 		}
@@ -1614,7 +1626,7 @@ gnm_custom_widget_apply_cb (GtkPrintOperation       *operation,
 {
 	PrintingInstance * pi = (PrintingInstance *) user_data;
 	GtkPrintSettings * settings;
-	PrintRange pr = PRINT_ACTIVE_SHEET;
+	PrintRange pr = GNM_PRINT_ACTIVE_SHEET;
 	guint from, to;
 	gboolean ignore_pb;
 
@@ -1636,24 +1648,24 @@ gnm_custom_widget_apply_cb (GtkPrintOperation       *operation,
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pi->button_all_sheets))) {
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pi->button_print_hidden_sheets)))
-			pr = PRINT_ALL_SHEETS_INCLUDING_HIDDEN;
+			pr = GNM_PRINT_ALL_SHEETS_INCLUDING_HIDDEN;
 		else
-			pr = PRINT_ALL_SHEETS;
+			pr = GNM_PRINT_ALL_SHEETS;
 	} else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pi->button_spec_sheets))) {
-		pr = PRINT_SHEET_RANGE;
+		pr = GNM_PRINT_SHEET_RANGE;
 	} else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pi->button_selected_sheet))) {
 		gboolean ignore_printarea = gtk_toggle_button_get_active
 			(GTK_TOGGLE_BUTTON (pi->button_ignore_printarea));
 		gboolean selection = gtk_toggle_button_get_active
 			(GTK_TOGGLE_BUTTON (pi->button_selection));
 		if (selection && ignore_printarea)
-			pr = PRINT_SHEET_SELECTION_IGNORE_PRINTAREA;
+			pr = GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA;
 		else if (selection)
-			pr = PRINT_SHEET_SELECTION;
+			pr = GNM_PRINT_SHEET_SELECTION;
 		else if (ignore_printarea)
-			pr = PRINT_IGNORE_PRINTAREA;
+			pr = GNM_PRINT_IGNORE_PRINTAREA;
 		else
-			pr = PRINT_ACTIVE_SHEET;
+			pr = GNM_PRINT_ACTIVE_SHEET;
 	}
 
 	gtk_print_settings_set_int (settings,
@@ -1721,10 +1733,10 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	gchar *tmp_file_name = NULL;
 	int tmp_file_fd = -1;
 	gboolean preview_via_pdf = FALSE;
-	PrintRange pr_translator[] = {PRINT_ACTIVE_SHEET, PRINT_ALL_SHEETS,
-				      PRINT_ALL_SHEETS, PRINT_ACTIVE_SHEET,
-				      PRINT_SHEET_SELECTION, PRINT_ACTIVE_SHEET,
-				      PRINT_SHEET_SELECTION_IGNORE_PRINTAREA};
+	PrintRange pr_translator[] = {GNM_PRINT_ACTIVE_SHEET, GNM_PRINT_ALL_SHEETS,
+				      GNM_PRINT_ALL_SHEETS, GNM_PRINT_ACTIVE_SHEET,
+				      GNM_PRINT_SHEET_SELECTION, GNM_PRINT_ACTIVE_SHEET,
+				      GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA};
 	GODoc *doc;
 	gchar *output_uri = NULL;
 	gchar const *saved_uri = NULL;
@@ -1749,10 +1761,10 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	pi->preview = preview;
 
 	settings = gnm_conf_get_print_settings ();
-	if (default_range == PRINT_SAVED_INFO) {
+	if (default_range == GNM_PRINT_SAVED_INFO) {
 		gint dr = print_info_get_printrange (sheet->print_info);
 		if (dr < 0 || dr >= (gint)G_N_ELEMENTS (pr_translator))
-			default_range = PRINT_ACTIVE_SHEET;
+			default_range = GNM_PRINT_ACTIVE_SHEET;
 		else
 			default_range = pr_translator[dr];
 	}

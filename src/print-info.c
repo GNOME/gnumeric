@@ -349,7 +349,7 @@ print_info_new (gboolean load_defaults)
 	res->page_breaks.h = NULL;
 
 	res->printtofile_uri = NULL;
-	res->print_range = PRINT_ACTIVE_SHEET;
+	res->print_range = GNM_PRINT_ACTIVE_SHEET;
 
 	if (load_defaults)
 		return print_info_load_defaults (res);
@@ -774,7 +774,7 @@ pdf_write_workbook (G_GNUC_UNUSED GOFileSaver const *fs,
 	}
 
 	gnm_print_sheet (NULL, wb_view_cur_sheet (wbv), FALSE,
-			 PRINT_ALL_SHEETS, output);
+			 GNM_PRINT_ALL_SHEETS, output);
 }
 
 static void
@@ -1641,7 +1641,7 @@ print_info_set_from_settings (PrintInformation *pi,
 	pi->print_range = gtk_print_settings_get_int_with_default
 		(settings,
 		 GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY,
-		 PRINT_ACTIVE_SHEET);
+		 GNM_PRINT_ACTIVE_SHEET);
 }
 
 PrintRange
@@ -1654,11 +1654,11 @@ print_info_get_printrange (PrintInformation *pi)
 void
 print_info_set_printrange (PrintInformation *pi, PrintRange pr)
 {
-	if (pr >= PRINT_ACTIVE_SHEET
-	    && pr <= PRINT_SHEET_SELECTION_IGNORE_PRINTAREA)
+	if (pr >= GNM_PRINT_ACTIVE_SHEET
+	    && pr <= GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA)
 		pi->print_range = pr;
 	else
-		pi->print_range = PRINT_ACTIVE_SHEET;
+		pi->print_range = GNM_PRINT_ACTIVE_SHEET;
 }
 
 

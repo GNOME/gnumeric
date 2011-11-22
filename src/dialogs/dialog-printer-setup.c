@@ -2681,7 +2681,7 @@ cb_do_print_preview (PrinterSetupState *state)
 		}
 	}
 	gnm_print_sheet (WORKBOOK_CONTROL (state->wbcg),
-		state->sheet, TRUE, PRINT_ACTIVE_SHEET, NULL);
+		state->sheet, TRUE, GNM_PRINT_ACTIVE_SHEET, NULL);
 	if (graph)
 		gog_graph_set_size (graph, width, height);
 	state->sheet->print_info = old_pi;
@@ -2715,7 +2715,7 @@ cb_do_print (PrinterSetupState *state)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 
 	cb_do_print_ok (state);
-	gnm_print_sheet (wbc, sheet, FALSE, PRINT_SAVED_INFO, NULL);
+	gnm_print_sheet (wbc, sheet, FALSE, GNM_PRINT_SAVED_INFO, NULL);
 }
 
 static void

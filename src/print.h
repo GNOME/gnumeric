@@ -19,14 +19,14 @@ GType gnm_print_range_get_type (void);
 typedef enum { /* These numbers are saved in pre 1.11.x .gnumeric files */
 	/* In 1.11.x and later the names as defined in */
 	/* gnm_print_range_get_type are used */
-	PRINT_SAVED_INFO = -1,
-	PRINT_ACTIVE_SHEET = 0,
-	PRINT_ALL_SHEETS = 1,
-	PRINT_ALL_SHEETS_INCLUDING_HIDDEN = 2,
-	PRINT_SHEET_RANGE = 3,
-	PRINT_SHEET_SELECTION = 4,
-	PRINT_IGNORE_PRINTAREA = 5,
-	PRINT_SHEET_SELECTION_IGNORE_PRINTAREA = 6
+	GNM_PRINT_SAVED_INFO = -1,
+	GNM_PRINT_ACTIVE_SHEET = 0,
+	GNM_PRINT_ALL_SHEETS = 1,
+	GNM_PRINT_ALL_SHEETS_INCLUDING_HIDDEN = 2,
+	GNM_PRINT_SHEET_RANGE = 3,
+	GNM_PRINT_SHEET_SELECTION = 4,
+	GNM_PRINT_IGNORE_PRINTAREA = 5,
+	GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA = 6
 } PrintRange;
 
 void gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,

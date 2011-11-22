@@ -301,13 +301,13 @@ static GNM_ACTION_DEF (cb_file_print_area_clear_pagebreaks)
 static GNM_ACTION_DEF (cb_file_print)
 {
 	gnm_print_sheet (WORKBOOK_CONTROL (wbcg),
-		wbcg_cur_sheet (wbcg), FALSE, PRINT_SAVED_INFO, NULL);
+		wbcg_cur_sheet (wbcg), FALSE, GNM_PRINT_SAVED_INFO, NULL);
 }
 
 static GNM_ACTION_DEF (cb_file_print_preview)
 {
 	gnm_print_sheet (WORKBOOK_CONTROL (wbcg),
-		wbcg_cur_sheet (wbcg), TRUE, PRINT_ACTIVE_SHEET, NULL);
+		wbcg_cur_sheet (wbcg), TRUE, GNM_PRINT_ACTIVE_SHEET, NULL);
 }
 
 static GNM_ACTION_DEF (cb_doc_meta_data)	{ dialog_doc_metadata_new (wbcg, 0); }
