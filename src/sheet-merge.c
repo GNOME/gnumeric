@@ -222,7 +222,7 @@ gnm_sheet_merge_get_overlap (Sheet const *sheet, GnmRange const *range)
 /**
  * gnm_sheet_merge_contains_pos :
  *
- * If the GnmCellPos is contained in the a merged region return the range.
+ * If the GnmCellPos is contained in a merged region return the range.
  * The GnmRange should NOT be freed.
  */
 GnmRange const *

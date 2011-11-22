@@ -42,7 +42,7 @@
  * stf_dialog_set_initial_keyboard_focus
  * @pagedata: mother struct
  *
- * Sets keyboard focus to the an appropriate widget on the page.
+ * Sets keyboard focus to an appropriate widget on the page.
  *
  * returns: nothing
  **/

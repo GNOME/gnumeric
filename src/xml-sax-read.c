@@ -1912,7 +1912,7 @@ xml_cell_set_array_expr (XMLSaxParseState *state,
  * xml_not_used_old_array_spec : See if the string corresponds to
  *     a pre-0.53 style array expression.
  *     If it is the upper left corner	 - assign it.
- *     If it is a member of the an array - ignore it the corner will assign it.
+ *     If it is a member of an array     - ignore it; the corner will assign it.
  *     If it is not a member of an array return TRUE.
  */
 static gboolean

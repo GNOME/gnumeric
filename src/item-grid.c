@@ -680,7 +680,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 			if (NULL == ri->spans || NULL == (span = row_span_get (ri, col))) {
 
 				/* If it is being edited pretend it is empty to
-				 * avoid problems with the a long cells
+				 * avoid problems with long cells'
 				 * contents extending past the edge of the edit
 				 * box.  Ignore blanks too.
 				 */

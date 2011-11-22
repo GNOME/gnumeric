@@ -1056,7 +1056,7 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
  * @start : the start of the string to parse
  * @pos : the location to parse relative to
  *
- * Returns the a pointer to the first invalid character.
+ * Returns a pointer to the first invalid character.
  * If the result != @start then @res is valid.
  **/
 char const *
