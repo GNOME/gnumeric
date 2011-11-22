@@ -141,6 +141,95 @@ gnm_validation_combo_new (GnmValidation const *val, SheetView *sv)
 
 /***************************************************************************/
 
+GType
+gnm_validation_style_get_type (void)
+{
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{ VALIDATION_STYLE_NONE,
+			  "GNM_VALIDATION_STYLE_NONE", "none"},
+			{ VALIDATION_STYLE_STOP,
+			  "GNM_VALIDATION_STYLE_STOP", "stop"},
+			{ VALIDATION_STYLE_WARNING,
+			  "GNM_VALIDATION_STYLE_WARNING", "warning"},
+			{ VALIDATION_STYLE_INFO,
+			  "GNM_VALIDATION_STYLE_INFO", "info"},
+			{ VALIDATION_STYLE_PARSE_ERROR,
+			  "GNM_VALIDATION_STYLE_PARSE_ERROR", "parse-error"},
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("GnmValidationStyle",
+						values);
+	}
+	return etype;
+}
+
+GType
+gnm_validation_type_get_type (void)
+{
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{ VALIDATION_TYPE_ANY,
+			  "GNM_VALIDATION_TYPE_ANY", "any"},
+			{ VALIDATION_TYPE_AS_INT,
+			  "GNM_VALIDATION_TYPE_AS_INT", "int"},
+			{ VALIDATION_TYPE_AS_NUMBER,
+			  "GNM_VALIDATION_TYPE_AS_NUMBER", "number"},
+			{ VALIDATION_TYPE_IN_LIST,
+			  "GNM_VALIDATION_TYPE_IN_LIST", "list"},
+			{ VALIDATION_TYPE_AS_DATE,
+			  "GNM_VALIDATION_TYPE_AS_DATE", "date"},
+			{ VALIDATION_TYPE_AS_TIME,
+			  "GNM_VALIDATION_TYPE_AS_TIME", "time"},
+			{ VALIDATION_TYPE_TEXT_LENGTH,
+			  "GNM_VALIDATION_TYPE_TEXT_LENGTH", "length"},
+			{ VALIDATION_TYPE_CUSTOM,
+			  "GNM_VALIDATION_TYPE_CUSTOM", "custom"},
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("GnmValidationType",
+						values);
+	}
+	return etype;
+}
+
+GType
+gnm_validation_op_get_type (void)
+{
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{ VALIDATION_OP_NONE,
+			  "GNM_VALIDATION_OP_NONE", "none"},
+			{ VALIDATION_OP_BETWEEN,
+			  "GNM_VALIDATION_OP_BETWEEN", "between"},
+			{ VALIDATION_OP_NOT_BETWEEN,
+			  "GNM_VALIDATION_OP_NOT_BETWEEN", "not-between"},
+			{ VALIDATION_OP_EQUAL,
+			  "GNM_VALIDATION_OP_EQUAL", "equal"},
+			{ VALIDATION_OP_NOT_EQUAL,
+			  "GNM_VALIDATION_OP_NOT_EQUAL", "not-equal"},
+			{ VALIDATION_OP_GT,
+			  "GNM_VALIDATION_OP_GT", "gt"},
+			{ VALIDATION_OP_LT,
+			  "GNM_VALIDATION_OP_LT", "lt"},
+			{ VALIDATION_OP_GTE,
+			  "GNM_VALIDATION_OP_GTE", "gte"},
+			{ VALIDATION_OP_LTE,
+			  "GNM_VALIDATION_OP_LTE", "lte"},
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("GnmValidationOp",
+						values);
+	}
+	return etype;
+}
+
+
+/***************************************************************************/
+
 /**
  * validation_new :
  * @title : will be copied.

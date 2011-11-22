@@ -118,13 +118,11 @@ xml_out_add_points (GsfXMLOut *xml, char const *name, double val)
 }
 
 static void
-xml_write_attribute (GnmOutputXML *state, char const *name, char const *value)
+xml_write_boolean_attribute (GnmOutputXML *state, char const *name, gboolean value)
 {
 	gsf_xml_out_start_element (state->output, GNM "Attribute");
-	/* backwards compatibility with 1.0.x which uses gtk-1.2 GTK_TYPE_BOOLEAN */
-	gsf_xml_out_simple_element (state->output, GNM "type", "4");
 	gsf_xml_out_simple_element (state->output, GNM "name", name);
-	gsf_xml_out_simple_element (state->output, GNM "value", value);
+	gsf_xml_out_simple_element (state->output, GNM "value", value ? "TRUE" : "FALSE");
 	gsf_xml_out_end_element (state->output); /* </Attribute> */
 }
 
@@ -143,16 +141,21 @@ static void
 xml_write_attributes (GnmOutputXML *state)
 {
 	gsf_xml_out_start_element (state->output, GNM "Attributes");
-	xml_write_attribute (state, "WorkbookView::show_horizontal_scrollbar",
-		state->wb_view->show_horizontal_scrollbar ? "TRUE" : "FALSE");
-	xml_write_attribute (state, "WorkbookView::show_vertical_scrollbar",
-		state->wb_view->show_vertical_scrollbar ? "TRUE" : "FALSE");
-	xml_write_attribute (state, "WorkbookView::show_notebook_tabs",
-		state->wb_view->show_notebook_tabs ? "TRUE" : "FALSE");
-	xml_write_attribute (state, "WorkbookView::do_auto_completion",
-		state->wb_view->do_auto_completion ? "TRUE" : "FALSE");
-	xml_write_attribute (state, "WorkbookView::is_protected",
-		state->wb_view->is_protected ? "TRUE" : "FALSE");
+	xml_write_boolean_attribute
+		(state, "WorkbookView::show_horizontal_scrollbar",
+		 state->wb_view->show_horizontal_scrollbar);
+	xml_write_boolean_attribute
+		(state, "WorkbookView::show_vertical_scrollbar",
+		 state->wb_view->show_vertical_scrollbar);
+	xml_write_boolean_attribute
+		(state, "WorkbookView::show_notebook_tabs",
+		 state->wb_view->show_notebook_tabs);
+	xml_write_boolean_attribute
+		(state, "WorkbookView::do_auto_completion",
+		 state->wb_view->do_auto_completion);
+	xml_write_boolean_attribute
+		(state, "WorkbookView::is_protected",
+		 state->wb_view->is_protected);
 	gsf_xml_out_end_element (state->output); /* </Attributes> */
 }
 
@@ -457,29 +460,42 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 	gsf_xml_out_start_element (state->output, GNM "Style");
 
 	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_H))
-		gsf_xml_out_add_int (state->output, "HAlign", gnm_style_get_align_h (style));
+		gsf_xml_out_add_enum (state->output, "HAlign",
+				      GNM_ALIGN_H_TYPE,
+				      gnm_style_get_align_h (style));
 	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_V))
-		gsf_xml_out_add_int (state->output, "VAlign", gnm_style_get_align_v (style));
+		gsf_xml_out_add_enum (state->output, "VAlign",
+				      GNM_ALIGN_V_TYPE,
+				      gnm_style_get_align_v (style));
 	if (gnm_style_is_element_set (style, MSTYLE_WRAP_TEXT))
-		gsf_xml_out_add_bool (state->output, "WrapText", gnm_style_get_wrap_text (style));
+		gsf_xml_out_add_bool (state->output, "WrapText", 
+				      gnm_style_get_wrap_text (style));
 	if (gnm_style_is_element_set (style, MSTYLE_SHRINK_TO_FIT))
-		gsf_xml_out_add_bool (state->output, "ShrinkToFit", gnm_style_get_shrink_to_fit (style));
+		gsf_xml_out_add_bool (state->output, "ShrinkToFit", 
+				      gnm_style_get_shrink_to_fit (style));
 	if (gnm_style_is_element_set (style, MSTYLE_ROTATION))
-		gsf_xml_out_add_int (state->output, "Rotation", gnm_style_get_rotation (style));
+		gsf_xml_out_add_int (state->output, "Rotation", 
+				     gnm_style_get_rotation (style));
 	if (gnm_style_is_element_set (style, MSTYLE_PATTERN))
-		gsf_xml_out_add_int (state->output, "Shade", gnm_style_get_pattern (style));
+		gsf_xml_out_add_int (state->output, "Shade", 
+				     gnm_style_get_pattern (style));
 	if (gnm_style_is_element_set (style, MSTYLE_INDENT))
 		gsf_xml_out_add_int (state->output, "Indent", gnm_style_get_indent (style));
 	if (gnm_style_is_element_set (style, MSTYLE_CONTENTS_LOCKED))
-		gsf_xml_out_add_bool (state->output, "Locked", gnm_style_get_contents_locked (style));
+		gsf_xml_out_add_bool (state->output, "Locked", 
+				      gnm_style_get_contents_locked (style));
 	if (gnm_style_is_element_set (style, MSTYLE_CONTENTS_HIDDEN))
-		gsf_xml_out_add_bool (state->output, "Hidden", gnm_style_get_contents_hidden (style));
+		gsf_xml_out_add_bool (state->output, "Hidden", 
+				      gnm_style_get_contents_hidden (style));
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_COLOR))
-		gnm_xml_out_add_color (state->output, "Fore", gnm_style_get_font_color (style));
+		gnm_xml_out_add_color (state->output, "Fore", 
+				       gnm_style_get_font_color (style));
 	if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
-		gnm_xml_out_add_color (state->output, "Back", gnm_style_get_back_color (style));
+		gnm_xml_out_add_color (state->output, "Back", 
+				       gnm_style_get_back_color (style));
 	if (gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN))
-		gnm_xml_out_add_color (state->output, "PatternColor", gnm_style_get_pattern_color (style));
+		gnm_xml_out_add_color (state->output, "PatternColor", 
+				       gnm_style_get_pattern_color (style));
 	if (gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
 		const char *fmt = go_format_as_XL (gnm_style_get_format (style));
 		gsf_xml_out_add_cstr (state->output, "Format", fmt);
@@ -534,8 +550,10 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 		char *tmp;
 
 		gsf_xml_out_start_element (state->output, GNM "Validation");
-		gsf_xml_out_add_int (state->output, "Style", v->style);
-		gsf_xml_out_add_int (state->output, "Type", v->type);
+		gsf_xml_out_add_enum (state->output, "Style",
+				      GNM_VALIDATION_STYLE_TYPE, v->style);
+		gsf_xml_out_add_enum (state->output, "Type",
+				      GNM_VALIDATION_TYPE_TYPE, v->type);
 
 		switch (v->type) {
 		case VALIDATION_TYPE_AS_INT :
@@ -543,7 +561,8 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 		case VALIDATION_TYPE_AS_DATE :
 		case VALIDATION_TYPE_AS_TIME :
 		case VALIDATION_TYPE_TEXT_LENGTH :
-			gsf_xml_out_add_int (state->output, "Operator", v->op);
+			gsf_xml_out_add_enum (state->output, "Operator",
+					      GNM_VALIDATION_OP_TYPE, v->op);
 			break;
 		default :
 			break;

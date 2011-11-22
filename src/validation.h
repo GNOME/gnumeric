@@ -53,6 +53,16 @@ struct _GnmValidation {
 	gboolean	  use_dropdown;
 };
 
+GType gnm_validation_type_get_type (void);
+#define GNM_VALIDATION_TYPE_TYPE (gnm_validation_type_get_type ())
+
+GType gnm_validation_style_get_type (void);
+#define GNM_VALIDATION_STYLE_TYPE (gnm_validation_style_get_type ())
+
+GType gnm_validation_op_get_type (void);
+#define GNM_VALIDATION_OP_TYPE (gnm_validation_op_get_type ())
+
+
 GnmValidation *validation_new   (ValidationStyle style,
 				 ValidationType type,
 				 ValidationOp op,

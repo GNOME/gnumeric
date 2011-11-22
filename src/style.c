@@ -323,6 +323,53 @@ gnm_font_hash (gconstpointer v)
 		GPOINTER_TO_UINT (k->context);
 }
 
+GType
+gnm_align_h_get_type (void)
+{
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{HALIGN_GENERAL, "GNM_HALIGN_GENERAL", "general"},
+			{HALIGN_LEFT, "GNM_HALIGN_LEFT", "left"},
+			{HALIGN_RIGHT, "GNM_HALIGN_RIGHT", "right"},
+			{HALIGN_CENTER, "GNM_HALIGN_CENTER", "center"},
+			{HALIGN_FILL, "GNM_HALIGN_FILL", "fill"},
+			{HALIGN_JUSTIFY, "GNM_HALIGN_JUSTIFY", "justify"},
+			{HALIGN_CENTER_ACROSS_SELECTION, 
+			 "GNM_HALIGN_CENTER_ACROSS_SELECTION",
+			 "across-selection"},
+			{HALIGN_DISTRIBUTED,
+			 "GNM_HALIGN_DISTRIBUTED", "distributed"},
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("GnmHAlign",
+						values);
+	}
+	return etype;
+}
+
+GType
+gnm_align_v_get_type (void)
+{
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{VALIGN_TOP, "GNM_VALIGN_TOP", "top"},
+			{VALIGN_BOTTOM, "GNM_VALIGN_BOTTOM", "bottom"},
+			{VALIGN_CENTER, "GNM_VALIGN_CENTER", "center"},
+			{VALIGN_JUSTIFY, "GNM_VALIGN_JUSTIFY", "justify"},
+			{VALIGN_DISTRIBUTED, 
+			 "GNM_VALIGN_DISTRIBUTED", "distributed"},
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("GnmVAlign",
+						values);
+	}
+	return etype;
+}
+
+
+
 static PangoFontMap *fontmap;
 static PangoContext *context;
 

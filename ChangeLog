@@ -1,9 +1,27 @@
+2011-11-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/style.c (gnm_align_h_get_type): new
+	(gnm_align_v_get_type): new
+	* src/style.h (gnm_align_h_get_type): new
+	(gnm_align_v_get_type): new
+	* src/validation.c (gnm_validation_type_get_type): new
+	(gnm_validation_style_get_type): new
+	(gnm_validation_op_get_type): new
+	* src/validation.h (gnm_validation_type_get_type): new
+	(gnm_validation_style_get_type): new
+	(gnm_validation_op_get_type): new
+	* src/xml-sax-read.c (xml_sax_style_start): use xml_sax_attr_enum
+	(xml_sax_validation): ditto
+	* src/xml-sax-write.c (xml_write_attribute): change argument
+	type, rename to xml_write_boolean_attribute and  adjust all callers
+	(xml_write_style): use gsf_xml_out_add_enum
+
 2011-11-22  Morten Welinder  <terra@gnome.org>
 
 	* src/print.c (gnm_print_range_get_type): Rename enums to match
 	gtype.
 
-2011-11-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2011-11-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (compute_scale_fit_to): remove unsued variables
 	(compute_pages): remove arguments and chnge all callers

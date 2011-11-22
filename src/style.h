@@ -54,6 +54,12 @@ typedef enum {
 
 #include "mstyle.h"
 
+GType gnm_align_h_get_type (void);
+#define GNM_ALIGN_H_TYPE (gnm_print_range_get_type ())
+
+GType gnm_align_v_get_type (void);
+#define GNM_ALIGN_V_TYPE (gnm_print_range_get_type ())
+
 GnmSpanCalcFlags gnm_style_required_spanflags (GnmStyle const *style);
 GnmHAlign	 gnm_style_default_halign     (GnmStyle const *style,
 					       GnmCell const *c);

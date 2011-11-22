@@ -633,7 +633,7 @@ xml_sax_finish_parse_wb_attr (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				       state->attribute.name,
 				       state->attribute.value);
 	} else {
-		xml_sax_barf (G_STRFUNC, "workbook view attributes complete");
+		xml_sax_barf (G_STRFUNC, _("workbook view attribute is incomplete"));
 	}
 
 	g_free (state->attribute.value);	state->attribute.value = NULL;
@@ -1426,9 +1426,9 @@ xml_sax_style_start (GsfXMLIn *xin, xmlChar const **attrs)
 	xml_sax_must_have_style (state);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gnm_xml_attr_int (attrs, "HAlign", &val))
+		if (xml_sax_attr_enum (attrs, "HAlign", GNM_ALIGN_H_TYPE, &val))
 			gnm_style_set_align_h (state->style, val);
-		else if (gnm_xml_attr_int (attrs, "VAlign", &val))
+		else if (xml_sax_attr_enum (attrs, "VAlign", GNM_ALIGN_V_TYPE, &val))
 			gnm_style_set_align_v (state->style, val);
 
 		/* Pre version V6 */
@@ -1592,11 +1592,17 @@ xml_sax_validation (GsfXMLIn *xin, xmlChar const **attrs)
 	state->validation.use_dropdown = FALSE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gnm_xml_attr_int (attrs, "Style", &dummy)) {
+		if (xml_sax_attr_enum (attrs, "Style", 
+				       GNM_VALIDATION_STYLE_TYPE, 
+				       &dummy)) {
 			state->validation.style = dummy;
-		} else if (gnm_xml_attr_int (attrs, "Type", &dummy)) {
+		} else if (xml_sax_attr_enum (attrs, "Type", 
+					      GNM_VALIDATION_TYPE_TYPE, 
+					      &dummy)) {
 			state->validation.type = dummy;
-		} else if (gnm_xml_attr_int (attrs, "Operator", &dummy)) {
+		} else if (xml_sax_attr_enum (attrs, "Operator", 
+					      GNM_VALIDATION_OP_TYPE, 
+					      &dummy)) {
 			state->validation.op = dummy;
 		} else if (attr_eq (attrs[0], "Title")) {
 			state->validation.title = g_strdup (CXML2C (attrs[1]));
