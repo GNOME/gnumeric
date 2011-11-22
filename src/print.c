@@ -1973,7 +1973,7 @@ gnm_print_so (WorkbookControl *wbc, GPtrArray *sos,
 
 	g_return_if_fail (sos != NULL && sos->len > 0);
 
-	/* FIXME: we should print all objects in teh array, not just the first! */
+	/* FIXME: we should print all objects in the array, not just the first! */
 
 	so = g_ptr_array_index (sos, 0),
 	sheet = sheet_object_get_sheet (so);
