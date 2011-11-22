@@ -97,12 +97,6 @@ static GOptionEntry const libspreadsheet_options [] = {
 
 	/**************************************
 	 * Hidden debugging flags */
-	{
-		"debug-print", 0,
-		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_INT, &gnm_print_debug,
-		N_("Enables some print debugging behavior"),
-		N_("LEVEL")
-	},
 
 	{ NULL }
 };

@@ -107,8 +107,6 @@ typedef struct {
 } PaginationInfo;
 
 
-gboolean gnm_print_debug = FALSE;
-
 GType
 gnm_print_range_get_type (void)
 {
@@ -407,8 +405,7 @@ ensure_decoration_layout (GtkPrintContext *context)
  *
  * Print a header/footer line.
  *
- * Position at y, and clip to rectangle. If gnm_print_debug is TRUE, display
- * the rectangle.
+ * Position at y, and clip to rectangle.
  */
 static void
 print_hf_element (GtkPrintContext *context, cairo_t *cr,

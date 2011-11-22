@@ -41,9 +41,6 @@ void gnm_print_sheet_objects (cairo_t *cr,
 			      GnmRange *range,
 			      double base_x, double base_y);
 
-/* Internal */
-extern gboolean gnm_print_debug;
-
 G_END_DECLS
 
 #endif /* _GNM_PRINT_H_ */
