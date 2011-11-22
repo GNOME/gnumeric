@@ -209,10 +209,10 @@ oleo_parse_style (OleoReader *state, guint8 *str, GnmStyle **res)
 			}
 			break;
 		case 'L':
-			gnm_style_set_align_h (style, HALIGN_LEFT);
+			gnm_style_set_align_h (style, GNM_HALIGN_LEFT);
 			break;
 		case 'R':
-			gnm_style_set_align_h (style, HALIGN_RIGHT);
+			gnm_style_set_align_h (style, GNM_HALIGN_RIGHT);
 		}
 	}
 	if (fmt_string->len)

@@ -546,8 +546,8 @@ gnm_style_new_default (void)
 	gnm_style_set_font_italic (new_style, gnm_conf_get_core_defaultfont_italic ());
 
 	gnm_style_set_format      (new_style, go_format_general ());
-	gnm_style_set_align_v     (new_style, VALIGN_BOTTOM);
-	gnm_style_set_align_h     (new_style, HALIGN_GENERAL);
+	gnm_style_set_align_v     (new_style, GNM_VALIGN_BOTTOM);
+	gnm_style_set_align_h     (new_style, GNM_HALIGN_GENERAL);
 	gnm_style_set_indent      (new_style, 0);
 	gnm_style_set_rotation    (new_style, 0);
 	gnm_style_set_text_dir    (new_style, GNM_TEXT_DIR_CONTEXT);
@@ -1356,8 +1356,8 @@ gnm_style_set_align_h (GnmStyle *style, GnmHAlign a)
 GnmHAlign
 gnm_style_get_align_h (GnmStyle const *style)
 {
-	g_return_val_if_fail (style != NULL, HALIGN_LEFT);
-	g_return_val_if_fail (elem_is_set (style, MSTYLE_ALIGN_H), HALIGN_LEFT);
+	g_return_val_if_fail (style != NULL, GNM_HALIGN_LEFT);
+	g_return_val_if_fail (elem_is_set (style, MSTYLE_ALIGN_H), GNM_HALIGN_LEFT);
 
 	return style->h_align;
 }
@@ -1375,8 +1375,8 @@ gnm_style_set_align_v (GnmStyle *style, GnmVAlign a)
 GnmVAlign
 gnm_style_get_align_v (GnmStyle const *style)
 {
-	g_return_val_if_fail (style != NULL, VALIGN_TOP);
-	g_return_val_if_fail (elem_is_set (style, MSTYLE_ALIGN_V), VALIGN_TOP);
+	g_return_val_if_fail (style != NULL, GNM_VALIGN_TOP);
+	g_return_val_if_fail (elem_is_set (style, MSTYLE_ALIGN_V), GNM_VALIGN_TOP);
 
 	return style->v_align;
 }
@@ -1468,11 +1468,11 @@ gnm_style_get_effective_wrap_text (GnmStyle const *style)
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_ALIGN_V), FALSE);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_ALIGN_H), FALSE);
 
-	/* Note: HALIGN_GENERAL never expands to HALIGN_JUSTIFY.  */
+	/* Note: GNM_HALIGN_GENERAL never expands to GNM_HALIGN_JUSTIFY.  */
 	return (style->wrap_text ||
-		style->v_align == VALIGN_JUSTIFY ||
-		style->v_align == VALIGN_DISTRIBUTED ||
-		style->h_align == HALIGN_JUSTIFY);
+		style->v_align == GNM_VALIGN_JUSTIFY ||
+		style->v_align == GNM_VALIGN_DISTRIBUTED ||
+		style->h_align == GNM_HALIGN_JUSTIFY);
 }
 
 void

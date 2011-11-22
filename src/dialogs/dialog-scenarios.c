@@ -210,8 +210,8 @@ scenario_summary (WorkbookControl *wbc,
 	}
 
 	/* Set the alignment of names of the changing cells to be right. */
-	dao_set_align (&cb.dao, 0, 3, 0, 2 + cb.row, HALIGN_RIGHT,
-		       VALIGN_BOTTOM);
+	dao_set_align (&cb.dao, 0, 3, 0, 2 + cb.row, GNM_HALIGN_RIGHT,
+		       GNM_VALIGN_BOTTOM);
 
 	/* Result cells. */
 	if (results != NULL)
@@ -233,8 +233,8 @@ scenario_summary (WorkbookControl *wbc,
 			style_color_new_go (GO_COLOR_BLACK),
 			style_color_new_gdk (&gs_light_gray));
 
-	dao_set_align (&cb.dao, 1, 1, cb.col + 1, 1, HALIGN_RIGHT,
-		       VALIGN_BOTTOM);
+	dao_set_align (&cb.dao, 1, 1, cb.col + 1, 1, GNM_HALIGN_RIGHT,
+		       GNM_VALIGN_BOTTOM);
 
 	*new_sheet = cb.dao.sheet;
 }

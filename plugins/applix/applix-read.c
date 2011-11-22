@@ -518,10 +518,10 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 			if (g_ascii_isdigit (*sep)) {
 				GnmHAlign a;
 				switch (*sep) {
-				case '1' : a = HALIGN_LEFT; break;
-				case '2' : a = HALIGN_RIGHT; break;
-				case '3' : a = HALIGN_CENTER; break;
-				case '4' : a = HALIGN_FILL; break;
+				case '1' : a = GNM_HALIGN_LEFT; break;
+				case '2' : a = GNM_HALIGN_RIGHT; break;
+				case '3' : a = GNM_HALIGN_CENTER; break;
+				case '4' : a = GNM_HALIGN_FILL; break;
 				default :
 					applix_parse_error (state, "Unknown horizontal alignment '%c'", *sep);
 					return NULL;
@@ -531,9 +531,9 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 			} else if (*sep == 'V') {
 				GnmVAlign a;
 				switch (sep[1]) {
-				case 'T' : a = VALIGN_TOP; break;
-				case 'C' : a = VALIGN_CENTER; break;
-				case 'B' : a = VALIGN_BOTTOM; break;
+				case 'T' : a = GNM_VALIGN_TOP; break;
+				case 'C' : a = GNM_VALIGN_CENTER; break;
+				case 'B' : a = GNM_VALIGN_BOTTOM; break;
 				default :
 					applix_parse_error (state, "Unknown vertical alignment '%c'", *sep);
 					return NULL;

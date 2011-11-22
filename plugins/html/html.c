@@ -493,35 +493,35 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
 	if (cell != NULL) {
 
 		switch (gnm_style_get_align_v (style)) {
-		case VALIGN_TOP:
+		case GNM_VALIGN_TOP:
 			gsf_output_puts (output, " valign=\"top\" ");
 			break;
-		case VALIGN_BOTTOM:
+		case GNM_VALIGN_BOTTOM:
 			gsf_output_puts (output, " valign=\"bottom\" ");
 			break;
-		case VALIGN_DISTRIBUTED:
-		case VALIGN_CENTER:
+		case GNM_VALIGN_DISTRIBUTED:
+		case GNM_VALIGN_CENTER:
 			gsf_output_puts (output, " valign=\"center\" ");
 			break;
-		case VALIGN_JUSTIFY:
+		case GNM_VALIGN_JUSTIFY:
 			gsf_output_puts (output, " valign=\"baseline\" ");
 			break;
 		default:
 			break;
 		}
 		switch (gnm_style_default_halign (style, cell)) {
-		case HALIGN_RIGHT:
+		case GNM_HALIGN_RIGHT:
 			gsf_output_puts (output, " align=\"right\" ");
 			break;
-		case HALIGN_DISTRIBUTED:
-		case HALIGN_CENTER:
-		case HALIGN_CENTER_ACROSS_SELECTION:
+		case GNM_HALIGN_DISTRIBUTED:
+		case GNM_HALIGN_CENTER:
+		case GNM_HALIGN_CENTER_ACROSS_SELECTION:
 			gsf_output_puts (output, " align=\"center\" ");
 			break;
-		case HALIGN_LEFT:
+		case GNM_HALIGN_LEFT:
 			gsf_output_puts (output, " align=\"left\" ");
 			break;
-		case HALIGN_JUSTIFY:
+		case GNM_HALIGN_JUSTIFY:
 			gsf_output_puts (output, " align=\"justify\" ");
 			break;
 		default:

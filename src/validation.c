@@ -69,7 +69,7 @@ static struct {
 	int ntrue;
 	char const *name;
 } const opinfo[] = {
-	/* Note: no entry for VALIDATION_OP_NONE */
+	/* Note: no entry for GNM_VALIDATION_OP_NONE */
 	{ 2, { GNM_EXPR_OP_GTE,       GNM_EXPR_OP_LTE }, 2, N_("Between") },
 	{ 2, { GNM_EXPR_OP_LT,        GNM_EXPR_OP_GT  }, 1, N_("Not_Between") },
 	{ 1, { GNM_EXPR_OP_EQUAL,     NONE            }, 1, N_("Equal") },
@@ -147,15 +147,15 @@ gnm_validation_style_get_type (void)
 	static GType etype = 0;
 	if (etype == 0) {
 		static GEnumValue const values[] = {
-			{ VALIDATION_STYLE_NONE,
+			{ GNM_VALIDATION_STYLE_NONE,
 			  "GNM_VALIDATION_STYLE_NONE", "none"},
-			{ VALIDATION_STYLE_STOP,
+			{ GNM_VALIDATION_STYLE_STOP,
 			  "GNM_VALIDATION_STYLE_STOP", "stop"},
-			{ VALIDATION_STYLE_WARNING,
+			{ GNM_VALIDATION_STYLE_WARNING,
 			  "GNM_VALIDATION_STYLE_WARNING", "warning"},
-			{ VALIDATION_STYLE_INFO,
+			{ GNM_VALIDATION_STYLE_INFO,
 			  "GNM_VALIDATION_STYLE_INFO", "info"},
-			{ VALIDATION_STYLE_PARSE_ERROR,
+			{ GNM_VALIDATION_STYLE_PARSE_ERROR,
 			  "GNM_VALIDATION_STYLE_PARSE_ERROR", "parse-error"},
 			{ 0, NULL, NULL }
 		};
@@ -171,21 +171,21 @@ gnm_validation_type_get_type (void)
 	static GType etype = 0;
 	if (etype == 0) {
 		static GEnumValue const values[] = {
-			{ VALIDATION_TYPE_ANY,
+			{ GNM_VALIDATION_TYPE_ANY,
 			  "GNM_VALIDATION_TYPE_ANY", "any"},
-			{ VALIDATION_TYPE_AS_INT,
+			{ GNM_VALIDATION_TYPE_AS_INT,
 			  "GNM_VALIDATION_TYPE_AS_INT", "int"},
-			{ VALIDATION_TYPE_AS_NUMBER,
+			{ GNM_VALIDATION_TYPE_AS_NUMBER,
 			  "GNM_VALIDATION_TYPE_AS_NUMBER", "number"},
-			{ VALIDATION_TYPE_IN_LIST,
+			{ GNM_VALIDATION_TYPE_IN_LIST,
 			  "GNM_VALIDATION_TYPE_IN_LIST", "list"},
-			{ VALIDATION_TYPE_AS_DATE,
+			{ GNM_VALIDATION_TYPE_AS_DATE,
 			  "GNM_VALIDATION_TYPE_AS_DATE", "date"},
-			{ VALIDATION_TYPE_AS_TIME,
+			{ GNM_VALIDATION_TYPE_AS_TIME,
 			  "GNM_VALIDATION_TYPE_AS_TIME", "time"},
-			{ VALIDATION_TYPE_TEXT_LENGTH,
+			{ GNM_VALIDATION_TYPE_TEXT_LENGTH,
 			  "GNM_VALIDATION_TYPE_TEXT_LENGTH", "length"},
-			{ VALIDATION_TYPE_CUSTOM,
+			{ GNM_VALIDATION_TYPE_CUSTOM,
 			  "GNM_VALIDATION_TYPE_CUSTOM", "custom"},
 			{ 0, NULL, NULL }
 		};
@@ -201,23 +201,23 @@ gnm_validation_op_get_type (void)
 	static GType etype = 0;
 	if (etype == 0) {
 		static GEnumValue const values[] = {
-			{ VALIDATION_OP_NONE,
+			{ GNM_VALIDATION_OP_NONE,
 			  "GNM_VALIDATION_OP_NONE", "none"},
-			{ VALIDATION_OP_BETWEEN,
+			{ GNM_VALIDATION_OP_BETWEEN,
 			  "GNM_VALIDATION_OP_BETWEEN", "between"},
-			{ VALIDATION_OP_NOT_BETWEEN,
+			{ GNM_VALIDATION_OP_NOT_BETWEEN,
 			  "GNM_VALIDATION_OP_NOT_BETWEEN", "not-between"},
-			{ VALIDATION_OP_EQUAL,
+			{ GNM_VALIDATION_OP_EQUAL,
 			  "GNM_VALIDATION_OP_EQUAL", "equal"},
-			{ VALIDATION_OP_NOT_EQUAL,
+			{ GNM_VALIDATION_OP_NOT_EQUAL,
 			  "GNM_VALIDATION_OP_NOT_EQUAL", "not-equal"},
-			{ VALIDATION_OP_GT,
+			{ GNM_VALIDATION_OP_GT,
 			  "GNM_VALIDATION_OP_GT", "gt"},
-			{ VALIDATION_OP_LT,
+			{ GNM_VALIDATION_OP_LT,
 			  "GNM_VALIDATION_OP_LT", "lt"},
-			{ VALIDATION_OP_GTE,
+			{ GNM_VALIDATION_OP_GTE,
 			  "GNM_VALIDATION_OP_GTE", "gte"},
-			{ VALIDATION_OP_LTE,
+			{ GNM_VALIDATION_OP_LTE,
 			  "GNM_VALIDATION_OP_LTE", "lte"},
 			{ 0, NULL, NULL }
 		};
@@ -256,26 +256,26 @@ validation_new (ValidationStyle style,
 
 	g_return_val_if_fail (type >= 0, NULL);
 	g_return_val_if_fail (type < G_N_ELEMENTS (typeinfo), NULL);
-	g_return_val_if_fail (op >= VALIDATION_OP_NONE, NULL);
+	g_return_val_if_fail (op >= GNM_VALIDATION_OP_NONE, NULL);
 	g_return_val_if_fail (op < (int)G_N_ELEMENTS (opinfo), NULL);
 
 	switch (type) {
-	case VALIDATION_TYPE_CUSTOM:
-	case VALIDATION_TYPE_IN_LIST:
+	case GNM_VALIDATION_TYPE_CUSTOM:
+	case GNM_VALIDATION_TYPE_IN_LIST:
 		nops = 1;
-		if (op != VALIDATION_OP_NONE) {
+		if (op != GNM_VALIDATION_OP_NONE) {
 			/*
 			 * This can happen if an .xls file was saved
 			 * as a .gnumeric.
 			 */
-			op = VALIDATION_OP_NONE;
+			op = GNM_VALIDATION_OP_NONE;
 		}
 		break;
-	case VALIDATION_TYPE_ANY:
+	case GNM_VALIDATION_TYPE_ANY:
 		nops = 0;
 		break;
 	default:
-		nops = (op == VALIDATION_OP_NONE) ? 0 : opinfo[op].nops;
+		nops = (op == GNM_VALIDATION_OP_NONE) ? 0 : opinfo[op].nops;
 	}
 
 	v = g_new0 (GnmValidation, 1);
@@ -364,10 +364,10 @@ validation_is_ok (GnmValidation const *v)
 	unsigned nops, i;
 
 	switch (v->type) {
-	case VALIDATION_TYPE_CUSTOM:
-	case VALIDATION_TYPE_IN_LIST:	nops = 1; break;
-	case VALIDATION_TYPE_ANY:	nops = 0; break;
-	default: nops = (v->op == VALIDATION_OP_NONE) ? 0 : opinfo[v->op].nops;
+	case GNM_VALIDATION_TYPE_CUSTOM:
+	case GNM_VALIDATION_TYPE_IN_LIST:	nops = 1; break;
+	case GNM_VALIDATION_TYPE_ANY:	nops = 0; break;
+	default: nops = (v->op == GNM_VALIDATION_OP_NONE) ? 0 : opinfo[v->op].nops;
 	}
 
 	for (i = 0 ; i < 2 ; i++)
@@ -390,9 +390,9 @@ validation_barf (WorkbookControl *wbc, GnmValidation const *gv,
 	char const *title = gv->title ? gv->title->str : _("Gnumeric: Validation");
 	ValidationStatus result;
 
-	if (gv->style == VALIDATION_STYLE_NONE) {
+	if (gv->style == GNM_VALIDATION_STYLE_NONE) {
 		/* Invalid, but we're asked to ignore.  */
-		result = VALIDATION_STATUS_VALID;
+		result = GNM_VALIDATION_STATUS_VALID;
 	} else {
 		if (showed_dialog) *showed_dialog = TRUE;
 		result = wb_control_validation_msg (wbc, gv->style, title, msg);
@@ -438,10 +438,10 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 
 	v = gnm_style_get_validation (mstyle);
 	if (v == NULL)
-		return VALIDATION_STATUS_VALID;
+		return GNM_VALIDATION_STATUS_VALID;
 
-	if (v->type == VALIDATION_TYPE_ANY)
-		return VALIDATION_STATUS_VALID;
+	if (v->type == GNM_VALIDATION_TYPE_ANY)
+		return GNM_VALIDATION_STATUS_VALID;
 
 	cell = sheet_cell_get (sheet, pos->col, pos->row);
 	if (cell != NULL)
@@ -449,7 +449,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 
 	if (gnm_cell_is_empty (cell)) {
 		if (v->allow_blank)
-			return VALIDATION_STATUS_VALID;
+			return GNM_VALIDATION_STATUS_VALID;
 		BARF (g_strdup_printf (_("Cell %s is not permitted to be blank"),
 				       cell_name (cell)));
 	}
@@ -464,7 +464,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 
 	case VALUE_BOOLEAN:
 		if (typeinfo[v->type].bool_always_ok)
-			return VALIDATION_STATUS_VALID;
+			return GNM_VALIDATION_STATUS_VALID;
 		break;
 
 	case VALUE_STRING:
@@ -480,7 +480,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 	eval_pos_init_cell (&ep, cell);
 
 	switch (v->type) {
-	case VALIDATION_TYPE_AS_INT:
+	case GNM_VALIDATION_TYPE_AS_INT:
 		x = value_get_as_float (val);
 		if (gnm_fake_floor (x) == gnm_fake_ceil (x))
 			break;
@@ -488,11 +488,11 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 			BARF (g_strdup_printf (_("'%s' is not an integer"),
 					       value_peek_string (val)));
 
-	case VALIDATION_TYPE_AS_NUMBER:
+	case GNM_VALIDATION_TYPE_AS_NUMBER:
 		x = value_get_as_float (val);
 		break;
 
-	case VALIDATION_TYPE_AS_DATE: /* What the hell does this do?  */
+	case GNM_VALIDATION_TYPE_AS_DATE: /* What the hell does this do?  */
 		x = value_get_as_float (val);
 		if (x < 0)
 			BARF (g_strdup_printf (_("'%s' is not a valid date"),
@@ -500,11 +500,11 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 		break;
 
 
-	case VALIDATION_TYPE_AS_TIME: /* What the hell does this do?  */
+	case GNM_VALIDATION_TYPE_AS_TIME: /* What the hell does this do?  */
 		x = value_get_as_float (val);
 		break;
 
-	case VALIDATION_TYPE_IN_LIST:
+	case GNM_VALIDATION_TYPE_IN_LIST:
 		if (NULL != v->texpr[0]) {
 			GnmValue *list = gnm_expr_top_eval (v->texpr[0], &ep,
 				 GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
@@ -522,9 +522,9 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 				BARF (msg);
 			}
 		}
-		return VALIDATION_STATUS_VALID;
+		return GNM_VALIDATION_STATUS_VALID;
 
-	case VALIDATION_TYPE_TEXT_LENGTH:
+	case GNM_VALIDATION_TYPE_TEXT_LENGTH:
 		/* XL appears to use a very basic value->string mapping that
 		 * ignores formatting.
 		 * eg len (12/13/01) == len (37238) = 5
@@ -533,18 +533,18 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 		x = g_utf8_strlen (value_peek_string (val), -1);
 		break;
 
-	case VALIDATION_TYPE_CUSTOM: {
+	case GNM_VALIDATION_TYPE_CUSTOM: {
 		gboolean valid;
 
 		if (v->texpr[0] == NULL)
-			return VALIDATION_STATUS_VALID;
+			return GNM_VALIDATION_STATUS_VALID;
 
 		val = gnm_expr_top_eval (v->texpr[0], &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 		valid = value_get_as_bool (val, NULL);
 		value_release (val);
 
 		if (valid)
-			return VALIDATION_STATUS_VALID;
+			return GNM_VALIDATION_STATUS_VALID;
 		else {
 			GnmParsePos pp;
 			char *expr_str = gnm_expr_top_as_string
@@ -559,11 +559,11 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 
 	default:
 		g_assert_not_reached ();
-		return VALIDATION_STATUS_VALID;
+		return GNM_VALIDATION_STATUS_VALID;
 	}
 
-	if (v->op == VALIDATION_OP_NONE)
-		return VALIDATION_STATUS_VALID;
+	if (v->op == GNM_VALIDATION_OP_NONE)
+		return GNM_VALIDATION_STATUS_VALID;
 
 	nok = 0;
 	for (i = 0; i < opinfo[v->op].nops; i++) {
@@ -593,7 +593,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 		BARF (g_strdup_printf (_("%s is out of permitted range"),
 				       value_peek_string (val)));
 
-	return VALIDATION_STATUS_VALID;
+	return GNM_VALIDATION_STATUS_VALID;
 }
 
 #undef BARF
@@ -621,7 +621,7 @@ validation_eval_range_cb (GnmCellIter const *iter, validation_eval_t *closure)
 		if (closure->showed_dialog)
 			*closure->showed_dialog = *closure->showed_dialog || showed_dialog;
 
-		if (status != VALIDATION_STATUS_VALID) {
+		if (status != GNM_VALIDATION_STATUS_VALID) {
 			closure->status = status;
 			return VALUE_TERMINATE;
 		}
@@ -644,7 +644,7 @@ validation_eval_range (WorkbookControl *wbc,
 	closure.sheet = sheet;
 	closure.pos = pos;
 	closure.showed_dialog = showed_dialog;
-	closure.status = VALIDATION_STATUS_VALID;
+	closure.status = GNM_VALIDATION_STATUS_VALID;
 
 	eval_pos_init_pos (&ep, sheet, pos);
 
@@ -655,6 +655,6 @@ validation_eval_range (WorkbookControl *wbc,
 	value_release (cell_range);
 
 	if (result == NULL)
-		return VALIDATION_STATUS_VALID;
+		return GNM_VALIDATION_STATUS_VALID;
 	return closure.status;
 }

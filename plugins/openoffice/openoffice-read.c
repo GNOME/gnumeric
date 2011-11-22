@@ -2016,9 +2016,9 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val, guint offset)
 				   val->f_type);
 
 	if (texpr != NULL)
-		validation = validation_new (VALIDATION_STYLE_WARNING,
-					     VALIDATION_TYPE_IN_LIST,
-					     VALIDATION_OP_NONE,
+		validation = validation_new (GNM_VALIDATION_STYLE_WARNING,
+					     GNM_VALIDATION_TYPE_IN_LIST,
+					     GNM_VALIDATION_OP_NONE,
 					     NULL, NULL,
 					     texpr,
 					     NULL,
@@ -2063,7 +2063,7 @@ odf_validation_new_single_expr (GsfXMLIn *xin, odf_validation_t *val,
 				   val->f_type);
 
 	if (texpr != NULL)
-		return validation_new (VALIDATION_STYLE_WARNING,
+		return validation_new (GNM_VALIDATION_STYLE_WARNING,
 				       val_type,
 				       val_op,
 				       NULL, NULL,
@@ -2135,7 +2135,7 @@ odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 		 val->f_type);
 
 	if (texpr_b != NULL)
-		return validation_new (VALIDATION_STYLE_WARNING,
+		return validation_new (GNM_VALIDATION_STYLE_WARNING,
 				       val_type,
 				       val_op,
 				       NULL, NULL,
@@ -2158,39 +2158,39 @@ odf_validation_new_between (GsfXMLIn *xin, odf_validation_t *val, guint offset, 
 		start++;
 
 	return odf_validation_new_pair_expr
-		(xin, val, start, vtype, no_not ? VALIDATION_OP_BETWEEN : VALIDATION_OP_NOT_BETWEEN);
+		(xin, val, start, vtype, no_not ? GNM_VALIDATION_OP_BETWEEN : GNM_VALIDATION_OP_NOT_BETWEEN);
 }
 
 static GnmValidation *
 odf_validation_new_op (GsfXMLIn *xin, odf_validation_t *val, guint offset, ValidationType vtype)
 {
 	char *start = val->condition + offset;
-	ValidationOp val_op = VALIDATION_OP_NONE;
+	ValidationOp val_op = GNM_VALIDATION_OP_NONE;
 
 	while (*start == ' ')
 		start++;
 
 	if (g_str_has_prefix (start, ">=")) {
-		val_op = VALIDATION_OP_GTE;
+		val_op = GNM_VALIDATION_OP_GTE;
 		start += 2;
 	} else if (g_str_has_prefix (start, "<=")) {
-		val_op = VALIDATION_OP_LTE;
+		val_op = GNM_VALIDATION_OP_LTE;
 		start += 2;
 	} else if (g_str_has_prefix (start, "!=")) {
-		val_op = VALIDATION_OP_NOT_EQUAL;
+		val_op = GNM_VALIDATION_OP_NOT_EQUAL;
 		start += 2;
 	} else if (g_str_has_prefix (start, "=")) {
-		val_op = VALIDATION_OP_EQUAL;
+		val_op = GNM_VALIDATION_OP_EQUAL;
 		start += 1;
 	} else if (g_str_has_prefix (start, ">")) {
-		val_op = VALIDATION_OP_GT;
+		val_op = GNM_VALIDATION_OP_GT;
 		start += 1;
 	} else if (g_str_has_prefix (start, "<")) {
-		val_op = VALIDATION_OP_LT;
+		val_op = GNM_VALIDATION_OP_LT;
 		start += 1;
 	}
 
-	if (val_op == VALIDATION_OP_NONE)
+	if (val_op == GNM_VALIDATION_OP_NONE)
 		return NULL;
 
 	while (*start == ' ')
@@ -2214,41 +2214,41 @@ odf_validations_analyze (GsfXMLIn *xin, odf_validation_t *val, guint offset, Val
 	else if (g_str_has_prefix (str, "cell-content-text-length()"))
 		return odf_validation_new_op
 			(xin, val, str - val->condition + strlen ("cell-content-text-length()"),
-			 VALIDATION_TYPE_TEXT_LENGTH);
+			 GNM_VALIDATION_TYPE_TEXT_LENGTH);
 	else if (g_str_has_prefix (str, "cell-content-text-length-is-between"))
 		return odf_validation_new_between
 			(xin, val, str - val->condition + strlen ("cell-content-text-length-is-between"),
-			 VALIDATION_TYPE_TEXT_LENGTH, TRUE);
+			 GNM_VALIDATION_TYPE_TEXT_LENGTH, TRUE);
 	else if (g_str_has_prefix (str, "cell-content-text-length-is-not-between"))
 		return odf_validation_new_between
 			(xin, val, str - val->condition + strlen ("cell-content-text-length-is-not-between"),
-			 VALIDATION_TYPE_TEXT_LENGTH, FALSE);
+			 GNM_VALIDATION_TYPE_TEXT_LENGTH, FALSE);
 	else if (g_str_has_prefix (str, "cell-content-is-decimal-number() and"))
 		return odf_validations_analyze
 			(xin, val, str - val->condition + strlen ("cell-content-is-decimal-number() and"),
-			 VALIDATION_TYPE_AS_NUMBER);
+			 GNM_VALIDATION_TYPE_AS_NUMBER);
 	else if (g_str_has_prefix (str, "cell-content-is-whole-number() and"))
 		return odf_validations_analyze
 			(xin, val, str - val->condition + strlen ("cell-content-is-whole-number() and"),
-			 VALIDATION_TYPE_AS_INT);
+			 GNM_VALIDATION_TYPE_AS_INT);
 	else if (g_str_has_prefix (str, "cell-content-is-date() and"))
 		return odf_validations_analyze
 			(xin, val, str - val->condition + strlen ("cell-content-is-date() and"),
-			 VALIDATION_TYPE_AS_DATE);
+			 GNM_VALIDATION_TYPE_AS_DATE);
 	else if (g_str_has_prefix (str, "cell-content-is-time() and"))
 		return odf_validations_analyze
 			(xin, val, str - val->condition + strlen ("cell-content-is-time() and"),
-			 VALIDATION_TYPE_AS_TIME);
+			 GNM_VALIDATION_TYPE_AS_TIME);
 	else if (g_str_has_prefix (str, "is-true-formula")) {
-		if (vtype != VALIDATION_TYPE_ANY) {
+		if (vtype != GNM_VALIDATION_TYPE_ANY) {
 			oo_warning
 			(xin, _("Validation condition '%s' is not supported. "
 				"It has been changed to '%s'."),
 			 val->condition, str);
 		}
 		return odf_validation_new_single_expr
-			(xin, val, str + strlen ("is-true-formula"), VALIDATION_TYPE_CUSTOM,
-			 VALIDATION_OP_NONE);
+			(xin, val, str + strlen ("is-true-formula"), GNM_VALIDATION_TYPE_CUSTOM,
+			 GNM_VALIDATION_OP_NONE);
 	} else if (g_str_has_prefix (str, "cell-content()"))
 		return odf_validation_new_op
 			(xin, val, str - val->condition + strlen ("cell-content()"),
@@ -2281,7 +2281,7 @@ odf_validations_translate (GsfXMLIn *xin, char const *name)
 
 	if (val->condition != NULL && val->f_type != FORMULA_NOT_SUPPORTED) {
 		GnmValidation *validation = odf_validations_analyze
-			(xin, val, 0, VALIDATION_TYPE_ANY);
+			(xin, val, 0, GNM_VALIDATION_TYPE_ANY);
 		if (validation != NULL) {
 			GError   *err;
 			if (NULL == (err = validation_is_ok (validation)))
@@ -5279,10 +5279,10 @@ static void
 odf_style_set_align_h (GnmStyle *style, gboolean h_align_is_valid, gboolean repeat_content,
 		       int text_align, int gnm_halign)
 {
-	int alignment = HALIGN_GENERAL;
+	int alignment = GNM_HALIGN_GENERAL;
 	if (h_align_is_valid)
-		alignment = repeat_content ? HALIGN_FILL
-			: ((text_align < 0) ? ((gnm_halign > -1) ? gnm_halign : HALIGN_LEFT)
+		alignment = repeat_content ? GNM_HALIGN_FILL
+			: ((text_align < 0) ? ((gnm_halign > -1) ? gnm_halign : GNM_HALIGN_LEFT)
 			   : text_align);
 
 	gnm_style_set_align_h (style, alignment);
@@ -5310,18 +5310,18 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 	static OOEnum const h_alignments [] = {
 		{ "start",	-1 },            /* see below, we may have a gnm:GnmHAlign attribute */
-		{ "left",	HALIGN_LEFT },
-		{ "center",	HALIGN_CENTER },
-		{ "end",	HALIGN_RIGHT },   /* This really depends on the text direction */
-		{ "right",	HALIGN_RIGHT },
-		{ "justify",	HALIGN_JUSTIFY },
-		{ "automatic",	HALIGN_GENERAL },
+		{ "left",	GNM_HALIGN_LEFT },
+		{ "center",	GNM_HALIGN_CENTER },
+		{ "end",	GNM_HALIGN_RIGHT },   /* This really depends on the text direction */
+		{ "right",	GNM_HALIGN_RIGHT },
+		{ "justify",	GNM_HALIGN_JUSTIFY },
+		{ "automatic",	GNM_HALIGN_GENERAL },
 		{ NULL,	0 },
 	};
 	static OOEnum const v_alignments [] = {
-		{ "bottom",	VALIGN_BOTTOM },
-		{ "top",	VALIGN_TOP },
-		{ "middle",	VALIGN_CENTER },
+		{ "bottom",	GNM_VALIGN_BOTTOM },
+		{ "top",	GNM_VALIGN_TOP },
+		{ "middle",	GNM_VALIGN_CENTER },
 		{ "automatic",	-1 },            /* see below, we may have a gnm:GnmVAlign attribute */
 		{ NULL,	0 },
 	};
@@ -5383,7 +5383,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 				v_alignment_is_fixed = TRUE;
 			} else if (!v_alignment_is_fixed)
                                 /* This should depend on the rotation */
-				gnm_style_set_align_v (style, VALIGN_BOTTOM);
+				gnm_style_set_align_v (style, GNM_VALIGN_BOTTOM);
 		} else if (oo_attr_int (xin,attrs, OO_GNUM_NS_EXT, "GnmVAlign", &tmp)) {
 			if (!v_alignment_is_fixed) {
 				gnm_style_set_align_v (style, tmp);

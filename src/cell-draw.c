@@ -112,7 +112,7 @@ cell_calc_layout (G_GNUC_UNUSED GnmCell const *cell, GnmRenderedValue *rv, int y
 			hoffset += (width - indent) - rv->layout_natural_width;
 		}
 	} else if (!rv->rotation && rv->wrap_text
-		   && (rv->effective_halign != HALIGN_FILL)) {
+		   && (rv->effective_halign != GNM_HALIGN_FILL)) {
 		int wanted_width = MAX (0, width - indent);
 		if (wanted_width != pango_layout_get_width (layout)) {
 			pango_layout_set_wrap (layout, PANGO_WRAP_WORD_CHAR);
@@ -121,19 +121,19 @@ cell_calc_layout (G_GNUC_UNUSED GnmCell const *cell, GnmRenderedValue *rv, int y
 		}
 	} else {
 		switch (rv->effective_halign) {
-		case HALIGN_RIGHT:
+		case GNM_HALIGN_RIGHT:
 			hoffset += (width - indent) - rv->layout_natural_width;
 			break;
-		case HALIGN_DISTRIBUTED:
-		case HALIGN_CENTER:
+		case GNM_HALIGN_DISTRIBUTED:
+		case GNM_HALIGN_CENTER:
 			if (h_center == -1)
 				h_center = width / 2;
 			hoffset += h_center + (-indent - rv->layout_natural_width) / 2;
 			break;
-		case HALIGN_CENTER_ACROSS_SELECTION:
+		case GNM_HALIGN_CENTER_ACROSS_SELECTION:
 			hoffset += ((width - indent) - rv->layout_natural_width) / 2;
 			break;
-		case HALIGN_FILL: {
+		case GNM_HALIGN_FILL: {
 			PangoDirection dir = PANGO_DIRECTION_LTR;
 			if (!rv->hfilled &&
 			    rv->layout_natural_width > 0 &&
@@ -182,9 +182,9 @@ cell_calc_layout (G_GNUC_UNUSED GnmCell const *cell, GnmRenderedValue *rv, int y
 #ifndef DEBUG_SWITCH_ENUM
 		default:
 #endif
-		case HALIGN_GENERAL:
+		case GNM_HALIGN_GENERAL:
 			g_warning ("Unhandled horizontal alignment.");
-		case HALIGN_LEFT:
+		case GNM_HALIGN_LEFT:
 			break;
 		}
 	}
@@ -199,11 +199,11 @@ cell_calc_layout (G_GNUC_UNUSED GnmCell const *cell, GnmRenderedValue *rv, int y
 		g_warning ("Unhandled vertical alignment.");
 		/* Fall through.  */
 #endif
-	case VALIGN_TOP:
+	case GNM_VALIGN_TOP:
 		text_base = rect_y;
 		break;
 
-	case VALIGN_BOTTOM: {
+	case GNM_VALIGN_BOTTOM: {
 		int dh = height - rv->layout_natural_height;
 		if (rv->rotation == 0 && dh < 0)
 			dh = 0;
@@ -211,8 +211,8 @@ cell_calc_layout (G_GNUC_UNUSED GnmCell const *cell, GnmRenderedValue *rv, int y
 		break;
 	}
 
-	case VALIGN_DISTRIBUTED: /* dunno what this does yet */
-	case VALIGN_CENTER: {
+	case GNM_VALIGN_DISTRIBUTED: /* dunno what this does yet */
+	case GNM_VALIGN_CENTER: {
 		int dh = (height - rv->layout_natural_height) / 2;
 		if (rv->rotation == 0 && dh < 0)
                         dh = 0;
@@ -220,7 +220,7 @@ cell_calc_layout (G_GNUC_UNUSED GnmCell const *cell, GnmRenderedValue *rv, int y
 		break;
 	}
 
-	case VALIGN_JUSTIFY:
+	case GNM_VALIGN_JUSTIFY:
 		text_base = rect_y;
 		if (!rv->vfilled && height > rv->layout_natural_height) {
 			int line_count = pango_layout_get_line_count (layout);
@@ -339,20 +339,20 @@ cell_draw_h_extension_markers (cairo_t *cr, GnmRenderedValue *rv,
 			       int width, int height)
 {
 	switch (rv->effective_halign) {
-	case HALIGN_GENERAL:
-	case HALIGN_LEFT:
+	case GNM_HALIGN_GENERAL:
+	case GNM_HALIGN_LEFT:
 		cell_draw_extension_mark_right (cr, x1, y1, width, height);
 		break;
-	case HALIGN_RIGHT:
+	case GNM_HALIGN_RIGHT:
 		cell_draw_extension_mark_left (cr, x1, y1, height);
 		break;
-	case HALIGN_DISTRIBUTED:
-	case HALIGN_CENTER:
-	case HALIGN_CENTER_ACROSS_SELECTION:
+	case GNM_HALIGN_DISTRIBUTED:
+	case GNM_HALIGN_CENTER:
+	case GNM_HALIGN_CENTER_ACROSS_SELECTION:
 		cell_draw_extension_mark_right (cr, x1, y1, width, height);
 		cell_draw_extension_mark_left (cr, x1, y1, height);
 		break;
-	case HALIGN_FILL:
+	case GNM_HALIGN_FILL:
 	default:
 		break;
 	}

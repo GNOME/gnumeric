@@ -1638,31 +1638,31 @@ static void
 xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const val_styles[] = {
-		{ "stop",	 VALIDATION_STYLE_STOP },
-		{ "warning",	 VALIDATION_STYLE_WARNING },
-		{ "information", VALIDATION_STYLE_INFO },
+		{ "stop",	 GNM_VALIDATION_STYLE_STOP },
+		{ "warning",	 GNM_VALIDATION_STYLE_WARNING },
+		{ "information", GNM_VALIDATION_STYLE_INFO },
 		{ NULL, 0 }
 	};
 	static EnumVal const val_types[] = {
-		{ "none",	VALIDATION_TYPE_ANY },
-		{ "whole",	VALIDATION_TYPE_AS_INT },
-		{ "decimal",	VALIDATION_TYPE_AS_NUMBER },
-		{ "list",	VALIDATION_TYPE_IN_LIST },
-		{ "date",	VALIDATION_TYPE_AS_DATE },
-		{ "time",	VALIDATION_TYPE_AS_TIME },
-		{ "textLength",	VALIDATION_TYPE_TEXT_LENGTH },
-		{ "custom",	VALIDATION_TYPE_CUSTOM },
+		{ "none",	GNM_VALIDATION_TYPE_ANY },
+		{ "whole",	GNM_VALIDATION_TYPE_AS_INT },
+		{ "decimal",	GNM_VALIDATION_TYPE_AS_NUMBER },
+		{ "list",	GNM_VALIDATION_TYPE_IN_LIST },
+		{ "date",	GNM_VALIDATION_TYPE_AS_DATE },
+		{ "time",	GNM_VALIDATION_TYPE_AS_TIME },
+		{ "textLength",	GNM_VALIDATION_TYPE_TEXT_LENGTH },
+		{ "custom",	GNM_VALIDATION_TYPE_CUSTOM },
 		{ NULL, 0 }
 	};
 	static EnumVal const val_ops[] = {
-		{ "between",	VALIDATION_OP_BETWEEN },
-		{ "notBetween",	VALIDATION_OP_NOT_BETWEEN },
-		{ "equal",	VALIDATION_OP_EQUAL },
-		{ "notEqual",	VALIDATION_OP_NOT_EQUAL },
-		{ "lessThan",		VALIDATION_OP_LT },
-		{ "lessThanOrEqual",	VALIDATION_OP_LTE },
-		{ "greaterThan",	VALIDATION_OP_GT },
-		{ "greaterThanOrEqual",	VALIDATION_OP_GTE },
+		{ "between",	GNM_VALIDATION_OP_BETWEEN },
+		{ "notBetween",	GNM_VALIDATION_OP_NOT_BETWEEN },
+		{ "equal",	GNM_VALIDATION_OP_EQUAL },
+		{ "notEqual",	GNM_VALIDATION_OP_NOT_EQUAL },
+		{ "lessThan",		GNM_VALIDATION_OP_LT },
+		{ "lessThanOrEqual",	GNM_VALIDATION_OP_LTE },
+		{ "greaterThan",	GNM_VALIDATION_OP_GT },
+		{ "greaterThanOrEqual",	GNM_VALIDATION_OP_GTE },
 		{ NULL, 0 }
 	};
 #if 0
@@ -1684,9 +1684,9 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	/* defaults */
-	ValidationStyle	val_style = VALIDATION_STYLE_STOP;
-	ValidationType	val_type  = VALIDATION_TYPE_ANY;
-	ValidationOp	val_op	  = VALIDATION_OP_BETWEEN;
+	ValidationStyle	val_style = GNM_VALIDATION_STYLE_STOP;
+	ValidationType	val_type  = GNM_VALIDATION_TYPE_ANY;
+	ValidationOp	val_op	  = GNM_VALIDATION_OP_BETWEEN;
 	gboolean allowBlank = FALSE;
 	gboolean showDropDown = FALSE;
 	gboolean showInputMessage = FALSE;
@@ -3896,29 +3896,29 @@ static void
 xlsx_xf_align (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const haligns[] = {
-		{ "general" , HALIGN_GENERAL },
-		{ "left" , HALIGN_LEFT },
-		{ "center" , HALIGN_CENTER },
-		{ "right" , HALIGN_RIGHT },
-		{ "fill" , HALIGN_FILL },
-		{ "justify" , HALIGN_JUSTIFY },
-		{ "centerContinuous" , HALIGN_CENTER_ACROSS_SELECTION },
-		{ "distributed" , HALIGN_DISTRIBUTED },
+		{ "general" , GNM_HALIGN_GENERAL },
+		{ "left" , GNM_HALIGN_LEFT },
+		{ "center" , GNM_HALIGN_CENTER },
+		{ "right" , GNM_HALIGN_RIGHT },
+		{ "fill" , GNM_HALIGN_FILL },
+		{ "justify" , GNM_HALIGN_JUSTIFY },
+		{ "centerContinuous" , GNM_HALIGN_CENTER_ACROSS_SELECTION },
+		{ "distributed" , GNM_HALIGN_DISTRIBUTED },
 		{ NULL, 0 }
 	};
 
 	static EnumVal const valigns[] = {
-		{ "top", VALIGN_TOP },
-		{ "center", VALIGN_CENTER },
-		{ "bottom", VALIGN_BOTTOM },
-		{ "justify", VALIGN_JUSTIFY },
-		{ "distributed", VALIGN_DISTRIBUTED },
+		{ "top", GNM_VALIGN_TOP },
+		{ "center", GNM_VALIGN_CENTER },
+		{ "bottom", GNM_VALIGN_BOTTOM },
+		{ "justify", GNM_VALIGN_JUSTIFY },
+		{ "distributed", GNM_VALIGN_DISTRIBUTED },
 		{ NULL, 0 }
 	};
 
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int halign = HALIGN_GENERAL;
-	int valign = VALIGN_BOTTOM;
+	int halign = GNM_HALIGN_GENERAL;
+	int valign = GNM_VALIGN_BOTTOM;
 	int rotation = 0, indent = 0;
 	int wrapText = FALSE, justifyLastLine = FALSE, shrinkToFit = FALSE;
 

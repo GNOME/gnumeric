@@ -3949,7 +3949,7 @@ cmd_merge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	if (me->center) {
 		align_center = gnm_style_new ();
-		gnm_style_set_align_h (align_center, HALIGN_CENTER);
+		gnm_style_set_align_h (align_center, GNM_HALIGN_CENTER);
 	}
 	sheet = me->cmd.sheet;
 	for (i = 0 ; i < me->ranges->len ; ++i) {

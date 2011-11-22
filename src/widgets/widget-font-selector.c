@@ -376,8 +376,8 @@ fs_init (FontSelector *fs)
                 return;
 
 	fs->mstyle = gnm_style_new_default ();
-	gnm_style_set_align_v   (fs->mstyle, VALIGN_CENTER);
-	gnm_style_set_align_h   (fs->mstyle, HALIGN_CENTER);
+	gnm_style_set_align_v   (fs->mstyle, GNM_VALIGN_CENTER);
+	gnm_style_set_align_h   (fs->mstyle, GNM_HALIGN_CENTER);
 	gnm_style_set_font_size (fs->mstyle, 10);
 
 	gtk_box_pack_start (GTK_BOX (fs),

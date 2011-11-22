@@ -526,7 +526,7 @@ cb_align_h_toggle (GtkToggleButton *button, FormatState *state)
 			GPOINTER_TO_INT (g_object_get_data (
 						 G_OBJECT (button), "align"));
 		gboolean const supports_indent =
-			(new_h == HALIGN_LEFT || new_h == HALIGN_RIGHT);
+			(new_h == GNM_HALIGN_LEFT || new_h == GNM_HALIGN_RIGHT);
 		gnm_style_set_align_h (state->result, new_h);
 		gtk_widget_set_sensitive (GTK_WIDGET (state->align.indent_button),
 					  supports_indent);
@@ -596,32 +596,32 @@ fmt_dialog_init_align_page (FormatState *state)
 		char const *const	name;
 		GnmHAlign	align;
 	} const h_buttons[] = {
-		{ "halign_left",	HALIGN_LEFT },
-		{ "halign_center",	HALIGN_CENTER },
-		{ "halign_right",	HALIGN_RIGHT },
-		{ "halign_general",	HALIGN_GENERAL },
-		{ "halign_justify",	HALIGN_JUSTIFY },
-		{ "halign_fill",	HALIGN_FILL },
-		{ "halign_center_across_selection",	HALIGN_CENTER_ACROSS_SELECTION },
-		{ "halign_distributed",			HALIGN_DISTRIBUTED },
+		{ "halign_left",	GNM_HALIGN_LEFT },
+		{ "halign_center",	GNM_HALIGN_CENTER },
+		{ "halign_right",	GNM_HALIGN_RIGHT },
+		{ "halign_general",	GNM_HALIGN_GENERAL },
+		{ "halign_justify",	GNM_HALIGN_JUSTIFY },
+		{ "halign_fill",	GNM_HALIGN_FILL },
+		{ "halign_center_across_selection",	GNM_HALIGN_CENTER_ACROSS_SELECTION },
+		{ "halign_distributed",			GNM_HALIGN_DISTRIBUTED },
 		{ NULL }
 	};
 	static struct {
 		char const *const	name;
 		GnmVAlign	align;
 	} const v_buttons[] = {
-		{ "valign_top", VALIGN_TOP },
-		{ "valign_center", VALIGN_CENTER },
-		{ "valign_bottom", VALIGN_BOTTOM },
-		{ "valign_justify", VALIGN_JUSTIFY },
-		{ "valign_distributed", VALIGN_DISTRIBUTED },
+		{ "valign_top", GNM_VALIGN_TOP },
+		{ "valign_center", GNM_VALIGN_CENTER },
+		{ "valign_bottom", GNM_VALIGN_BOTTOM },
+		{ "valign_justify", GNM_VALIGN_JUSTIFY },
+		{ "valign_distributed", GNM_VALIGN_DISTRIBUTED },
 		{ NULL }
 	};
 
 	GtkWidget *w;
 	gboolean wrap = FALSE;
-	GnmHAlign    h = HALIGN_GENERAL;
-	GnmVAlign    v = VALIGN_CENTER;
+	GnmHAlign    h = GNM_HALIGN_GENERAL;
+	GnmVAlign    v = GNM_VALIGN_CENTER;
 	char const *name;
 	int i, r;
 
@@ -654,7 +654,7 @@ fmt_dialog_init_align_page (FormatState *state)
 			  G_CALLBACK (cb_align_wrap_toggle), state);
 
 	if (0 == (state->conflicts & (1 << MSTYLE_INDENT)) ||
-	    (h != HALIGN_LEFT && h != HALIGN_RIGHT))
+	    (h != GNM_HALIGN_LEFT && h != GNM_HALIGN_RIGHT))
 		state->align.indent = 0;
 	else
 		state->align.indent = gnm_style_get_indent (state->style);
@@ -665,9 +665,9 @@ fmt_dialog_init_align_page (FormatState *state)
 	state->align.indent_button = GTK_SPIN_BUTTON (w);
 	gtk_spin_button_set_value (state->align.indent_button, state->align.indent);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->align.indent_button),
-				  (h == HALIGN_LEFT || h == HALIGN_RIGHT));
+				  (h == GNM_HALIGN_LEFT || h == GNM_HALIGN_RIGHT));
 	gtk_widget_set_sensitive (GTK_WIDGET (state->align.indent_label),
-				  (h == HALIGN_LEFT || h == HALIGN_RIGHT));
+				  (h == GNM_HALIGN_LEFT || h == GNM_HALIGN_RIGHT));
 
 	/* Catch changes to the spin box */
 	g_signal_connect (G_OBJECT (w),
@@ -1563,7 +1563,7 @@ validation_rebuild_validation (FormatState *state)
 	type = gtk_combo_box_get_active (
 		state->validation.constraint_type);
 
-	if (type != VALIDATION_TYPE_ANY) {
+	if (type != GNM_VALIDATION_TYPE_ANY) {
 		ValidationStyle style = gtk_combo_box_get_active (state->validation.error.action);
 		ValidationOp    op    = gtk_combo_box_get_active (state->validation.op);
 		char *title = gtk_editable_get_chars (GTK_EDITABLE (state->validation.error.title), 0, -1);
@@ -1574,10 +1574,10 @@ validation_rebuild_validation (FormatState *state)
 		GnmExprTop const *texpr1 = NULL;
 
 		if (texpr0 != NULL) {
-			if (type == VALIDATION_TYPE_CUSTOM || type == VALIDATION_TYPE_IN_LIST) {
+			if (type == GNM_VALIDATION_TYPE_CUSTOM || type == GNM_VALIDATION_TYPE_IN_LIST) {
 				state->validation.valid = 1;
-				op = VALIDATION_OP_NONE;
-			} else if (op == VALIDATION_OP_BETWEEN || op == VALIDATION_OP_NOT_BETWEEN) {
+				op = GNM_VALIDATION_OP_NONE;
+			} else if (op == GNM_VALIDATION_OP_BETWEEN || op == GNM_VALIDATION_OP_NOT_BETWEEN) {
 				texpr1 = validation_entry_to_expr (state->sheet,
 								   state->validation.expr1.entry);
 				if (texpr1 != NULL)
@@ -1657,35 +1657,35 @@ cb_validation_sensitivity (G_GNUC_UNUSED GtkMenuShell *ignored,
 		state->validation.constraint_type);
 
 	switch (type) {
-	case VALIDATION_TYPE_IN_LIST:		msg0 = _("Source"); break;
-	case VALIDATION_TYPE_CUSTOM:		msg0 = _("Criteria"); break;
+	case GNM_VALIDATION_TYPE_IN_LIST:		msg0 = _("Source"); break;
+	case GNM_VALIDATION_TYPE_CUSTOM:		msg0 = _("Criteria"); break;
 
-	case VALIDATION_TYPE_AS_INT:
-	case VALIDATION_TYPE_AS_NUMBER:
-	case VALIDATION_TYPE_AS_DATE:
-	case VALIDATION_TYPE_AS_TIME:
-	case VALIDATION_TYPE_TEXT_LENGTH: {
+	case GNM_VALIDATION_TYPE_AS_INT:
+	case GNM_VALIDATION_TYPE_AS_NUMBER:
+	case GNM_VALIDATION_TYPE_AS_DATE:
+	case GNM_VALIDATION_TYPE_AS_TIME:
+	case GNM_VALIDATION_TYPE_TEXT_LENGTH: {
 		ValidationOp const op = gtk_combo_box_get_active (
 			state->validation.op);
 		has_operators = TRUE;
 		switch (op) {
-		case VALIDATION_OP_NONE:
+		case GNM_VALIDATION_OP_NONE:
 			break;
-		case VALIDATION_OP_BETWEEN:
-		case VALIDATION_OP_NOT_BETWEEN:
+		case GNM_VALIDATION_OP_BETWEEN:
+		case GNM_VALIDATION_OP_NOT_BETWEEN:
 			msg0 = _("Min:");
 			msg1 = _("Max:");
 			break;
-		case VALIDATION_OP_EQUAL:
-		case VALIDATION_OP_NOT_EQUAL:
+		case GNM_VALIDATION_OP_EQUAL:
+		case GNM_VALIDATION_OP_NOT_EQUAL:
 			msg0 = _("Value:");
 			break;
-		case VALIDATION_OP_GT:
-		case VALIDATION_OP_GTE:
+		case GNM_VALIDATION_OP_GT:
+		case GNM_VALIDATION_OP_GTE:
 			msg0 =_("Min:");
 			break;
-		case VALIDATION_OP_LT:
-		case VALIDATION_OP_LTE:
+		case GNM_VALIDATION_OP_LT:
+		case GNM_VALIDATION_OP_LTE:
 			msg0 = _("Max:");
 			break;
 		default:
@@ -1711,13 +1711,13 @@ cb_validation_sensitivity (G_GNUC_UNUSED GtkMenuShell *ignored,
 				  has_operators);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.action_label),
-				  type != VALIDATION_TYPE_ANY);
+				  type != GNM_VALIDATION_TYPE_ANY);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.action),
-				  type != VALIDATION_TYPE_ANY);
+				  type != GNM_VALIDATION_TYPE_ANY);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.allow_blank),
-				  type != VALIDATION_TYPE_ANY);
+				  type != GNM_VALIDATION_TYPE_ANY);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.use_dropdown),
-				  type == VALIDATION_TYPE_IN_LIST);
+				  type == GNM_VALIDATION_TYPE_IN_LIST);
 
 	validation_rebuild_validation (state);
 }

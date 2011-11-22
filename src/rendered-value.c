@@ -374,7 +374,7 @@ gnm_rendered_value_new (GnmCell const *cell,
 	res->effective_halign = gnm_style_default_halign (mstyle, cell);
 	res->indent_left = res->indent_right = 0;
 
-	if (res->effective_halign == HALIGN_FILL) {
+	if (res->effective_halign == GNM_HALIGN_FILL) {
 		pango_layout_set_single_paragraph_mode (layout, TRUE);
 		res->variable_width = TRUE;
 	}
@@ -454,7 +454,7 @@ gnm_rendered_value_new (GnmCell const *cell,
 			pango_layout_set_text (layout, "", -1);
 			pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
 			res->numeric_overflow = TRUE;
-			res->effective_halign = HALIGN_LEFT;
+			res->effective_halign = GNM_HALIGN_LEFT;
 			break;
 		default:
 			break;
@@ -465,38 +465,38 @@ gnm_rendered_value_new (GnmCell const *cell,
 
 	text = pango_layout_get_text (layout);
 	dir = (text && *text)? pango_find_base_dir (text, -1): PANGO_DIRECTION_LTR;
-	if (gnm_style_get_align_h (mstyle) == HALIGN_GENERAL && dir == PANGO_DIRECTION_RTL) {
+	if (gnm_style_get_align_h (mstyle) == GNM_HALIGN_GENERAL && dir == PANGO_DIRECTION_RTL) {
 		switch (res->effective_halign) {
-		case HALIGN_LEFT:
-			res->effective_halign = HALIGN_RIGHT;
+		case GNM_HALIGN_LEFT:
+			res->effective_halign = GNM_HALIGN_RIGHT;
 			break;
-		case HALIGN_RIGHT:
-			res->effective_halign = HALIGN_LEFT;
+		case GNM_HALIGN_RIGHT:
+			res->effective_halign = GNM_HALIGN_LEFT;
 			break;
 		}
 	}
 	switch (res->effective_halign) {
-	case HALIGN_LEFT:
+	case GNM_HALIGN_LEFT:
 		res->indent_left = calc_indent (context, mstyle);
 		pango_layout_set_alignment (layout, (dir == PANGO_DIRECTION_RTL)? PANGO_ALIGN_RIGHT: PANGO_ALIGN_LEFT);
 		break;
 
-	case HALIGN_JUSTIFY:
+	case GNM_HALIGN_JUSTIFY:
 		pango_layout_set_justify (layout, TRUE);
 		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
 		break;
 
-	case HALIGN_FILL:
+	case GNM_HALIGN_FILL:
 		break;
 
-	case HALIGN_RIGHT:
+	case GNM_HALIGN_RIGHT:
 		res->indent_right = calc_indent (context, mstyle);
 		pango_layout_set_alignment (layout, (dir == PANGO_DIRECTION_RTL)? PANGO_ALIGN_LEFT: PANGO_ALIGN_RIGHT);
 		break;
 
-	case HALIGN_DISTRIBUTED:
-	case HALIGN_CENTER:
-	case HALIGN_CENTER_ACROSS_SELECTION:
+	case GNM_HALIGN_DISTRIBUTED:
+	case GNM_HALIGN_CENTER:
+	case GNM_HALIGN_CENTER_ACROSS_SELECTION:
 		pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
 		break;
 

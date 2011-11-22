@@ -1504,20 +1504,20 @@ wbcg_set_selection_halign (WBCGtk *wbcg, GnmHAlign halign)
 	 * then revert to general */
 	wb_view = wb_control_view (wbc);
 	if (gnm_style_get_align_h (wb_view->current_style) == halign)
-		halign = HALIGN_GENERAL;
+		halign = GNM_HALIGN_GENERAL;
 
 	style = gnm_style_new ();
 	gnm_style_set_align_h (style, halign);
 	cmd_selection_format (wbc, style, NULL, _("Set Horizontal Alignment"));
 }
 static GNM_ACTION_DEF (cb_align_left)
-	{ wbcg_set_selection_halign (wbcg, HALIGN_LEFT); }
+	{ wbcg_set_selection_halign (wbcg, GNM_HALIGN_LEFT); }
 static GNM_ACTION_DEF (cb_align_right)
-	{ wbcg_set_selection_halign (wbcg, HALIGN_RIGHT); }
+	{ wbcg_set_selection_halign (wbcg, GNM_HALIGN_RIGHT); }
 static GNM_ACTION_DEF (cb_align_center)
-	{ wbcg_set_selection_halign (wbcg, HALIGN_CENTER); }
+	{ wbcg_set_selection_halign (wbcg, GNM_HALIGN_CENTER); }
 static GNM_ACTION_DEF (cb_center_across_selection)
-	{ wbcg_set_selection_halign (wbcg, HALIGN_CENTER_ACROSS_SELECTION); }
+	{ wbcg_set_selection_halign (wbcg, GNM_HALIGN_CENTER_ACROSS_SELECTION); }
 
 /*****************************************************************************/
 
@@ -1535,9 +1535,9 @@ wbcg_set_selection_valign (WBCGtk *wbcg, GnmVAlign valign)
 	 * then revert to general */
 	wb_view = wb_control_view (wbc);
 	if (gnm_style_get_align_v (wb_view->current_style) == valign) {
-		if (valign == VALIGN_BOTTOM)
+		if (valign == GNM_VALIGN_BOTTOM)
 			return;
-		valign = VALIGN_BOTTOM;
+		valign = GNM_VALIGN_BOTTOM;
 	}
 
 	style = gnm_style_new ();
@@ -1545,11 +1545,11 @@ wbcg_set_selection_valign (WBCGtk *wbcg, GnmVAlign valign)
 	cmd_selection_format (wbc, style, NULL, _("Set Vertical Alignment"));
 }
 static GNM_ACTION_DEF (cb_align_top)
-	{ wbcg_set_selection_valign (wbcg, VALIGN_TOP); }
+	{ wbcg_set_selection_valign (wbcg, GNM_VALIGN_TOP); }
 static GNM_ACTION_DEF (cb_align_vcenter)
-	{ wbcg_set_selection_valign (wbcg, VALIGN_CENTER); }
+	{ wbcg_set_selection_valign (wbcg, GNM_VALIGN_CENTER); }
 static GNM_ACTION_DEF (cb_align_bottom)
-	{ wbcg_set_selection_valign (wbcg, VALIGN_BOTTOM); }
+	{ wbcg_set_selection_valign (wbcg, GNM_VALIGN_BOTTOM); }
 
 /*****************************************************************************/
 
@@ -2944,21 +2944,21 @@ static GtkToggleActionEntry const font_toggle_actions[] = {
 /****************************************************************************/
 
 static GOActionComboPixmapsElement const halignment_combo_info[] = {
-	{ N_("Align left"),		GTK_STOCK_JUSTIFY_LEFT,		HALIGN_LEFT },
-	{ N_("Center horizontally"),	GTK_STOCK_JUSTIFY_CENTER,	HALIGN_CENTER },
-	{ N_("Align right"),		GTK_STOCK_JUSTIFY_RIGHT,	HALIGN_RIGHT },
-	{ N_("Fill Horizontally"),	"Gnumeric_HAlignFill",		HALIGN_FILL },
-	{ N_("Justify Horizontally"),	GTK_STOCK_JUSTIFY_FILL,		HALIGN_JUSTIFY },
+	{ N_("Align left"),		GTK_STOCK_JUSTIFY_LEFT,		GNM_HALIGN_LEFT },
+	{ N_("Center horizontally"),	GTK_STOCK_JUSTIFY_CENTER,	GNM_HALIGN_CENTER },
+	{ N_("Align right"),		GTK_STOCK_JUSTIFY_RIGHT,	GNM_HALIGN_RIGHT },
+	{ N_("Fill Horizontally"),	"Gnumeric_HAlignFill",		GNM_HALIGN_FILL },
+	{ N_("Justify Horizontally"),	GTK_STOCK_JUSTIFY_FILL,		GNM_HALIGN_JUSTIFY },
 	{ N_("Center horizontally across the selection"),
-					"Gnumeric_CenterAcrossSelection", HALIGN_CENTER_ACROSS_SELECTION },
+					"Gnumeric_CenterAcrossSelection", GNM_HALIGN_CENTER_ACROSS_SELECTION },
 	{ N_("Align numbers right, and text left"),
-					"Gnumeric_HAlignGeneral",	HALIGN_GENERAL },
+					"Gnumeric_HAlignGeneral",	GNM_HALIGN_GENERAL },
 	{ NULL, NULL }
 };
 static GOActionComboPixmapsElement const valignment_combo_info[] = {
-	{ N_("Align Top"),		"stock_alignment-top",			VALIGN_TOP },
-	{ N_("Center Vertically"),	"stock_alignment-centered-vertically",	VALIGN_CENTER },
-	{ N_("Align Bottom"),		"stock_alignment-bottom",		VALIGN_BOTTOM },
+	{ N_("Align Top"),		"stock_alignment-top",			GNM_VALIGN_TOP },
+	{ N_("Center Vertically"),	"stock_alignment-centered-vertically",	GNM_VALIGN_CENTER },
+	{ N_("Align Bottom"),		"stock_alignment-bottom",		GNM_VALIGN_BOTTOM },
 	{ NULL, NULL}
 };
 

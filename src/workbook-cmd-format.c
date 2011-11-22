@@ -91,8 +91,8 @@ workbook_cmd_inc_indent (WorkbookControl *wbc)
 	if (i < 20) {
 		GnmStyle *style = gnm_style_new ();
 
-		if (HALIGN_LEFT != gnm_style_get_align_h (wbv->current_style))
-			gnm_style_set_align_h (style, HALIGN_LEFT);
+		if (GNM_HALIGN_LEFT != gnm_style_get_align_h (wbv->current_style))
+			gnm_style_set_align_h (style, GNM_HALIGN_LEFT);
 		gnm_style_set_indent (style, i+1);
 		cmd_selection_format (wbc, style, NULL, _("Increase Indent"));
 	}

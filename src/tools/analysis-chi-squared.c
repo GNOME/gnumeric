@@ -113,7 +113,7 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell_expr (dao, 0, 0, expr_check);
 	dao_set_format (dao, 0, 0, 0, 0, label);
-	dao_set_align (dao, 0, 0, 0, 0, HALIGN_CENTER, VALIGN_BOTTOM);
+	dao_set_align (dao, 0, 0, 0, 0, GNM_HALIGN_CENTER, GNM_VALIGN_BOTTOM);
 
 	expr_statistic = gnm_expr_new_funcall1 (fd_sum,
 						gnm_expr_new_binary

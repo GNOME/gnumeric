@@ -513,11 +513,11 @@ sylk_rtd_f_parse (SylkReader *state, char *str)
 				int a = -1;
 				switch (alignment) {
 				case 'S' : /* standard ? how does this differ from default */
-				case 'D' : a = HALIGN_GENERAL; break;
-				case 'L' : a = HALIGN_LEFT; break;
-				case 'R' : a = HALIGN_RIGHT; break;
-				case 'C' : a = HALIGN_CENTER; break;
-				case 'X' : a = HALIGN_FILL; break;
+				case 'D' : a = GNM_HALIGN_GENERAL; break;
+				case 'L' : a = GNM_HALIGN_LEFT; break;
+				case 'R' : a = GNM_HALIGN_RIGHT; break;
+				case 'C' : a = GNM_HALIGN_CENTER; break;
+				case 'X' : a = GNM_HALIGN_FILL; break;
 				default :
 					   break;
 				}

@@ -210,12 +210,12 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 			attr &= 0xf8ff;
 			switch (gnm_style_get_align_h (def)) {
 			default :
-			case HALIGN_GENERAL:break;
-			case HALIGN_LEFT:	attr |= 0x0100; break;
-			case HALIGN_RIGHT:	attr |= 0x0200; break;
-			case HALIGN_DISTRIBUTED:
-			case HALIGN_CENTER_ACROSS_SELECTION :
-			case HALIGN_CENTER:	attr |= 0x0300; break;
+			case GNM_HALIGN_GENERAL:break;
+			case GNM_HALIGN_LEFT:	attr |= 0x0100; break;
+			case GNM_HALIGN_RIGHT:	attr |= 0x0200; break;
+			case GNM_HALIGN_DISTRIBUTED:
+			case GNM_HALIGN_CENTER_ACROSS_SELECTION :
+			case GNM_HALIGN_CENTER:	attr |= 0x0300; break;
 			}
 		}
 		if ((attr & 0x8000)) {
@@ -233,7 +233,7 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 	res = g_hash_table_lookup (state->styles, GINT_TO_POINTER (key));
 	if (res == NULL) {
 		static GnmHAlign const haligns[] = {
-			HALIGN_GENERAL, HALIGN_LEFT, HALIGN_RIGHT, HALIGN_CENTER
+			GNM_HALIGN_GENERAL, GNM_HALIGN_LEFT, GNM_HALIGN_RIGHT, GNM_HALIGN_CENTER
 		};
 		res = gnm_style_new_default ();
 		gnm_style_set_font_italic (res, (attr & 0x0010) ? TRUE : FALSE);

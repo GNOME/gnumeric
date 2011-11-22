@@ -106,7 +106,7 @@ vcombo_create_list (SheetObject *so,
 	SheetView const *sv = vcombo->parent.sv;
 
 	g_return_val_if_fail (val != NULL, NULL);
-	g_return_val_if_fail (val->type == VALIDATION_TYPE_IN_LIST, NULL);
+	g_return_val_if_fail (val->type == GNM_VALIDATION_TYPE_IN_LIST, NULL);
 	g_return_val_if_fail (val->texpr[0] != NULL, NULL);
 	g_return_val_if_fail (sv != NULL, NULL);
 

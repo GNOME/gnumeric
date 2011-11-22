@@ -307,7 +307,7 @@ wb_view_style_feedback (WorkbookView *wbv)
 
 	if (gnm_style_is_element_set (style, MSTYLE_VALIDATION) &&
 	    NULL != (val = gnm_style_get_validation (style)) &&
-	    val->type == VALIDATION_TYPE_IN_LIST &&
+	    val->type == GNM_VALIDATION_TYPE_IN_LIST &&
 	    val->use_dropdown)
 		wbv->in_cell_combo = gnm_validation_combo_new (val, sv);
 	else if (NULL != (dslicer = gnm_sheet_slicers_at_pos (sv->sheet, &sv->edit_pos)) &&

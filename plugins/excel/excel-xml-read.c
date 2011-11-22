@@ -562,21 +562,21 @@ static void
 xl_xml_alignment (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const valignments [] = {
-		{ "Bottom", VALIGN_BOTTOM },
-		{ "Center", VALIGN_CENTER },
-		{ "Distributed", VALIGN_DISTRIBUTED },
-		{ "Justify", VALIGN_JUSTIFY },
-		{ "Top", VALIGN_TOP },
+		{ "Bottom", GNM_VALIGN_BOTTOM },
+		{ "Center", GNM_VALIGN_CENTER },
+		{ "Distributed", GNM_VALIGN_DISTRIBUTED },
+		{ "Justify", GNM_VALIGN_JUSTIFY },
+		{ "Top", GNM_VALIGN_TOP },
 		{ NULL, 0 }
 	};
 	static EnumVal const halignments [] = {
-		{ "Center", HALIGN_CENTER },
-		{ "CenterAcrossSelection", HALIGN_CENTER_ACROSS_SELECTION },
-		{ "Distributed", HALIGN_DISTRIBUTED },
-		{ "Fill", HALIGN_FILL },
-		{ "Justify", HALIGN_JUSTIFY },
-		{ "Left", HALIGN_LEFT },
-		{ "Right", HALIGN_RIGHT },
+		{ "Center", GNM_HALIGN_CENTER },
+		{ "CenterAcrossSelection", GNM_HALIGN_CENTER_ACROSS_SELECTION },
+		{ "Distributed", GNM_HALIGN_DISTRIBUTED },
+		{ "Fill", GNM_HALIGN_FILL },
+		{ "Justify", GNM_HALIGN_JUSTIFY },
+		{ "Left", GNM_HALIGN_LEFT },
+		{ "Right", GNM_HALIGN_RIGHT },
 
 		{ NULL, 0 }
 	};

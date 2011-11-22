@@ -283,15 +283,15 @@ gnumeric_cell (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 		if (cell && cell->value && VALUE_IS_STRING (cell->value)) {
 			switch (gnm_style_get_align_h (mstyle)) {
-			case HALIGN_GENERAL:
-			case HALIGN_LEFT:
-			case HALIGN_JUSTIFY:
-			case HALIGN_DISTRIBUTED:
+			case GNM_HALIGN_GENERAL:
+			case GNM_HALIGN_LEFT:
+			case GNM_HALIGN_JUSTIFY:
+			case GNM_HALIGN_DISTRIBUTED:
 						return value_new_string ("'");
-			case HALIGN_RIGHT:	return value_new_string ("\"");
-			case HALIGN_CENTER_ACROSS_SELECTION:
-			case HALIGN_CENTER:	return value_new_string ("^");
-			case HALIGN_FILL:	return value_new_string ("\\");
+			case GNM_HALIGN_RIGHT:	return value_new_string ("\"");
+			case GNM_HALIGN_CENTER_ACROSS_SELECTION:
+			case GNM_HALIGN_CENTER:	return value_new_string ("^");
+			case GNM_HALIGN_FILL:	return value_new_string ("\\");
 			default :		return value_new_string ("");
 			}
 		}

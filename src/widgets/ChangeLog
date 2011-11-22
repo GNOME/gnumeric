@@ -1,3 +1,8 @@
+2011-11-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/widgets/gnm-validation-combo-view.c: rename enums
+	* src/widgets/widget-font-selector.c: rename enums
+
 2011-10-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnm-format-sel.c (cb_generate_preview): call go_pango_translate_layout

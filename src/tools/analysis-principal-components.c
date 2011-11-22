@@ -108,7 +108,7 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 			_("\"Principal Components Analysis\";"
 			  "[Red]\"Principal Components Analysis is invalid.\""));
 	dao_set_align (dao, 0, 0, 0, 0,
-		       HALIGN_LEFT, VALIGN_BOTTOM);
+		       GNM_HALIGN_LEFT, GNM_VALIGN_BOTTOM);
 
 	dao->offset_row++;
 	analysis_tool_table (dao, info, _("Covariances"), "COVAR", TRUE);
@@ -165,7 +165,7 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 
 	for (i = 1; i <= l; i++) {
 		dao_set_align (dao, i, 9 + 2 * l, i, 9 + 2 * l,
-			       HALIGN_CENTER, VALIGN_BOTTOM);
+			       GNM_HALIGN_CENTER, GNM_VALIGN_BOTTOM);
 		dao_set_cell_printf (dao, i, 9 + 2 * l, "\xce\xbe%i", i);
 		dao_set_cell_expr (dao, i, 11 + 3 * l,
 				   gnm_expr_new_binary (make_cellref (0,- 4 - 2 * l),

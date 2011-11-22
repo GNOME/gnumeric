@@ -1124,17 +1124,17 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 		char const *alignment = NULL;
 		gboolean gnum_specs = FALSE;
 		switch (align) {
-		case VALIGN_TOP:
+		case GNM_VALIGN_TOP:
 			alignment = "top";
 			break;
-		case VALIGN_BOTTOM:
+		case GNM_VALIGN_BOTTOM:
 			alignment= "bottom";
 			break;
-		case VALIGN_CENTER:
+		case GNM_VALIGN_CENTER:
 			alignment = "middle";
 			break;
-		case VALIGN_JUSTIFY:
-		case VALIGN_DISTRIBUTED:
+		case GNM_VALIGN_JUSTIFY:
+		case GNM_VALIGN_DISTRIBUTED:
 		default:
 			alignment = "automatic";
 			gnum_specs = TRUE;
@@ -1225,17 +1225,17 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 		GnmHAlign align = gnm_style_get_align_h (style);
 		char const *source = NULL;
 		switch (align) {
-		case HALIGN_LEFT:
-		case HALIGN_RIGHT:
-		case HALIGN_CENTER:
-		case HALIGN_JUSTIFY:
+		case GNM_HALIGN_LEFT:
+		case GNM_HALIGN_RIGHT:
+		case GNM_HALIGN_CENTER:
+		case GNM_HALIGN_JUSTIFY:
 		        source = "fix";
 			break;
-		case HALIGN_FILL:
+		case GNM_HALIGN_FILL:
 			rep_content = TRUE;
-		case HALIGN_GENERAL:
-		case HALIGN_CENTER_ACROSS_SELECTION:
-		case HALIGN_DISTRIBUTED:
+		case GNM_HALIGN_GENERAL:
+		case GNM_HALIGN_CENTER_ACROSS_SELECTION:
+		case GNM_HALIGN_DISTRIBUTED:
 		default:
 			/* Note that since source is value-type, alignment should be ignored */
                         /*(but isn't by OOo) */
@@ -1268,23 +1268,23 @@ odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
 		char const *alignment = NULL;
 		gboolean gnum_specs = FALSE;
 		switch (align) {
-		case HALIGN_LEFT:
+		case GNM_HALIGN_LEFT:
 			alignment = "left";
 			break;
-		case HALIGN_RIGHT:
+		case GNM_HALIGN_RIGHT:
 			alignment= "right";
 			break;
-		case HALIGN_CENTER:
+		case GNM_HALIGN_CENTER:
 			alignment = "center";
 			break;
-		case HALIGN_JUSTIFY:
+		case GNM_HALIGN_JUSTIFY:
 			alignment = "justify";
 			break;
-		case HALIGN_FILL:
+		case GNM_HALIGN_FILL:
 			break;
-		case HALIGN_GENERAL:
-		case HALIGN_CENTER_ACROSS_SELECTION:
-		case HALIGN_DISTRIBUTED:
+		case GNM_HALIGN_GENERAL:
+		case GNM_HALIGN_CENTER_ACROSS_SELECTION:
+		case GNM_HALIGN_DISTRIBUTED:
 		default:
 			/* Note that since source is value-type, alignment should be ignored */
                         /*(but isn't by OOo) */
@@ -1292,7 +1292,7 @@ odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
 			gnum_specs = TRUE;
 			break;
 		}
-		if (align != HALIGN_GENERAL && align != HALIGN_FILL)
+		if (align != GNM_HALIGN_GENERAL && align != GNM_HALIGN_FILL)
 			gsf_xml_out_add_cstr (state->xml, FOSTYLE "text-align", alignment);
 		if (gnum_specs && state->with_extension)
 			gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmHAlign", align);
@@ -4063,38 +4063,38 @@ odf_validation_general (GnmOOExport *state, GnmValidation const *val,
 	str = g_string_append (str, prefix);
 
 	switch (val->op) {
-	case VALIDATION_OP_NONE:
+	case GNM_VALIDATION_OP_NONE:
 		str = g_string_append (str, "is-true-formula(1)");
 		break;
-	case VALIDATION_OP_BETWEEN:
+	case GNM_VALIDATION_OP_BETWEEN:
 		str = g_string_append (str, "cell-content-is-between");
 		odf_validation_append_expression_pair (state, str, val, pp);
 		break;
-	case VALIDATION_OP_NOT_BETWEEN:
+	case GNM_VALIDATION_OP_NOT_BETWEEN:
 		str = g_string_append (str, "cell-content-is-not-between");
 		odf_validation_append_expression_pair (state, str, val, pp);
 		break;
-	case VALIDATION_OP_EQUAL:
+	case GNM_VALIDATION_OP_EQUAL:
 		str = g_string_append (str, "cell-content() = ");
 		odf_validation_append_expression (state, str, val->texpr[0], pp);
 		break;
-	case VALIDATION_OP_NOT_EQUAL:
+	case GNM_VALIDATION_OP_NOT_EQUAL:
 		str = g_string_append (str, "cell-content() != ");
 		odf_validation_append_expression (state, str, val->texpr[0], pp);
 		break;
-	case VALIDATION_OP_GT:
+	case GNM_VALIDATION_OP_GT:
 		str = g_string_append (str, "cell-content() > ");
 		odf_validation_append_expression (state, str, val->texpr[0], pp);
 		break;
-	case VALIDATION_OP_LT:
+	case GNM_VALIDATION_OP_LT:
 		str = g_string_append (str, "cell-content() < ");
 		odf_validation_append_expression (state, str, val->texpr[0], pp);
 		break;
-	case VALIDATION_OP_GTE:
+	case GNM_VALIDATION_OP_GTE:
 		str = g_string_append (str, "cell-content() >= ");
 		odf_validation_append_expression (state, str, val->texpr[0], pp);
 		break;
-	case VALIDATION_OP_LTE:
+	case GNM_VALIDATION_OP_LTE:
 		str = g_string_append (str, "cell-content() <= ");
 		odf_validation_append_expression (state, str, val->texpr[0], pp);
 		break;
@@ -4112,38 +4112,38 @@ odf_validation_length (GnmOOExport *state, GnmValidation const *val,
 	GString *str = g_string_new ("of:");
 
 	switch (val->op) {
-	case VALIDATION_OP_NONE:
+	case GNM_VALIDATION_OP_NONE:
 		str = g_string_append (str, "is-true-formula(1)");
 		break;
-	case VALIDATION_OP_BETWEEN:
+	case GNM_VALIDATION_OP_BETWEEN:
 		str = g_string_append (str, "cell-content-text-length-is-between");
 		odf_validation_append_expression_pair (state, str, val, pp);
 		break;
-	case VALIDATION_OP_NOT_BETWEEN:
+	case GNM_VALIDATION_OP_NOT_BETWEEN:
 		str = g_string_append (str, "cell-content-text-length-is-not-between");
 		odf_validation_append_expression_pair (state, str, val, pp);
 		break;
-	case VALIDATION_OP_EQUAL:
+	case GNM_VALIDATION_OP_EQUAL:
 		str = g_string_append (str, "cell-content-text-length() = ");
 		odf_validation_append_expression (state, str, val->texpr[0], pp);
 		break;
-	case VALIDATION_OP_NOT_EQUAL:
+	case GNM_VALIDATION_OP_NOT_EQUAL:
 		str = g_string_append (str, "cell-content-text-length() != ");
 		odf_validation_append_expression (state, str, val->texpr[0], pp);
 		break;
-	case VALIDATION_OP_GT:
+	case GNM_VALIDATION_OP_GT:
 		str = g_string_append (str, "cell-content-text-length() > ");
 		odf_validation_append_expression (state, str, val->texpr[0], pp);
 		break;
-	case VALIDATION_OP_LT:
+	case GNM_VALIDATION_OP_LT:
 		str = g_string_append (str, "cell-content-text-length() < ");
 		odf_validation_append_expression (state, str, val->texpr[0], pp);
 		break;
-	case VALIDATION_OP_GTE:
+	case GNM_VALIDATION_OP_GTE:
 		str = g_string_append (str, "of:cell-content-text-length() >= ");
 		odf_validation_append_expression (state, str, val->texpr[0], pp);
 		break;
-	case VALIDATION_OP_LTE:
+	case GNM_VALIDATION_OP_LTE:
 		str = g_string_append (str, "cell-content-text-length() <= ");
 		odf_validation_append_expression (state, str, val->texpr[0], pp);
 		break;
@@ -4210,32 +4210,32 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 			odf_validation_general_attributes (state, val);
 			odf_validation_base_cell_address (state, sheet, sr, &pp);
 			switch (val->type) {
-			case VALIDATION_TYPE_ANY:
+			case GNM_VALIDATION_TYPE_ANY:
 				odf_validation_general (state, val, sheet, sr, "", &pp);
 				break;
-			case VALIDATION_TYPE_AS_INT:
+			case GNM_VALIDATION_TYPE_AS_INT:
 				odf_validation_general (state, val, sheet, sr,
 							"cell-content-is-whole-number() and ", &pp);
 				break;
-			case VALIDATION_TYPE_AS_NUMBER:
+			case GNM_VALIDATION_TYPE_AS_NUMBER:
 				odf_validation_general (state, val, sheet, sr,
 							"cell-content-is-decimal-number() and ", &pp);
 				break;
-			case VALIDATION_TYPE_AS_DATE:
+			case GNM_VALIDATION_TYPE_AS_DATE:
 				odf_validation_general (state, val, sheet, sr,
 							"ell-content-is-date() and ", &pp);
 				break;
-			case VALIDATION_TYPE_AS_TIME:
+			case GNM_VALIDATION_TYPE_AS_TIME:
 				odf_validation_general (state, val, sheet, sr,
 							"ell-content-is-time() and ", &pp);
 				break;
-			case VALIDATION_TYPE_IN_LIST:
+			case GNM_VALIDATION_TYPE_IN_LIST:
 				odf_validation_in_list (state, val, sheet, sr, &pp);
 				break;
-			case VALIDATION_TYPE_TEXT_LENGTH:
+			case GNM_VALIDATION_TYPE_TEXT_LENGTH:
 				odf_validation_length (state, val, sheet, sr, &pp);
 				break;
-			case VALIDATION_TYPE_CUSTOM:
+			case GNM_VALIDATION_TYPE_CUSTOM:
 				odf_validation_custom (state, val, sheet, sr, &pp);
 				break;
 			}

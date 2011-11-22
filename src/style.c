@@ -329,16 +329,16 @@ gnm_align_h_get_type (void)
 	static GType etype = 0;
 	if (etype == 0) {
 		static GEnumValue const values[] = {
-			{HALIGN_GENERAL, "GNM_HALIGN_GENERAL", "general"},
-			{HALIGN_LEFT, "GNM_HALIGN_LEFT", "left"},
-			{HALIGN_RIGHT, "GNM_HALIGN_RIGHT", "right"},
-			{HALIGN_CENTER, "GNM_HALIGN_CENTER", "center"},
-			{HALIGN_FILL, "GNM_HALIGN_FILL", "fill"},
-			{HALIGN_JUSTIFY, "GNM_HALIGN_JUSTIFY", "justify"},
-			{HALIGN_CENTER_ACROSS_SELECTION, 
+			{GNM_HALIGN_GENERAL, "GNM_HALIGN_GENERAL", "general"},
+			{GNM_HALIGN_LEFT, "GNM_HALIGN_LEFT", "left"},
+			{GNM_HALIGN_RIGHT, "GNM_HALIGN_RIGHT", "right"},
+			{GNM_HALIGN_CENTER, "GNM_HALIGN_CENTER", "center"},
+			{GNM_HALIGN_FILL, "GNM_HALIGN_FILL", "fill"},
+			{GNM_HALIGN_JUSTIFY, "GNM_HALIGN_JUSTIFY", "justify"},
+			{GNM_HALIGN_CENTER_ACROSS_SELECTION, 
 			 "GNM_HALIGN_CENTER_ACROSS_SELECTION",
 			 "across-selection"},
-			{HALIGN_DISTRIBUTED,
+			{GNM_HALIGN_DISTRIBUTED,
 			 "GNM_HALIGN_DISTRIBUTED", "distributed"},
 			{ 0, NULL, NULL }
 		};
@@ -354,11 +354,11 @@ gnm_align_v_get_type (void)
 	static GType etype = 0;
 	if (etype == 0) {
 		static GEnumValue const values[] = {
-			{VALIGN_TOP, "GNM_VALIGN_TOP", "top"},
-			{VALIGN_BOTTOM, "GNM_VALIGN_BOTTOM", "bottom"},
-			{VALIGN_CENTER, "GNM_VALIGN_CENTER", "center"},
-			{VALIGN_JUSTIFY, "GNM_VALIGN_JUSTIFY", "justify"},
-			{VALIGN_DISTRIBUTED, 
+			{GNM_VALIGN_TOP, "GNM_VALIGN_TOP", "top"},
+			{GNM_VALIGN_BOTTOM, "GNM_VALIGN_BOTTOM", "bottom"},
+			{GNM_VALIGN_CENTER, "GNM_VALIGN_CENTER", "center"},
+			{GNM_VALIGN_JUSTIFY, "GNM_VALIGN_JUSTIFY", "justify"},
+			{GNM_VALIGN_DISTRIBUTED, 
 			 "GNM_VALIGN_DISTRIBUTED", "distributed"},
 			{ 0, NULL, NULL }
 		};
@@ -569,25 +569,25 @@ gnm_style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 	GnmHAlign align = gnm_style_get_align_h (mstyle);
 	GnmValue *v;
 
-	if (align != HALIGN_GENERAL)
+	if (align != GNM_HALIGN_GENERAL)
 		return align;
-	g_return_val_if_fail (c != NULL, HALIGN_RIGHT);
+	g_return_val_if_fail (c != NULL, GNM_HALIGN_RIGHT);
 
 	if (c->base.sheet && c->base.sheet->display_formulas &&
 	    gnm_cell_has_expr (c))
-		return HALIGN_LEFT;
+		return GNM_HALIGN_LEFT;
 
 	for (v = c->value; v != NULL ; )
 		switch (v->type) {
 		case VALUE_BOOLEAN:
 		case VALUE_ERROR:
-			return HALIGN_CENTER;
+			return GNM_HALIGN_CENTER;
 
 		case VALUE_FLOAT: {
 			double a = gnm_style_get_rotation (mstyle);
 			if (a > 0 && a < 180)
-				return HALIGN_LEFT;
-			return HALIGN_RIGHT;
+				return GNM_HALIGN_LEFT;
+			return GNM_HALIGN_RIGHT;
 		}
 
 		case VALUE_ARRAY:
@@ -599,10 +599,10 @@ gnm_style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 
 		default:
 			if (gnm_style_get_rotation (mstyle) > 180)
-				return HALIGN_RIGHT;
-			return HALIGN_LEFT;
+				return GNM_HALIGN_RIGHT;
+			return GNM_HALIGN_LEFT;
 		}
-	return HALIGN_RIGHT;
+	return GNM_HALIGN_RIGHT;
 }
 
 PangoUnderline

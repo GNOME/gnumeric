@@ -609,9 +609,9 @@ sc_parse_label (ScParseState *state, char const *cmd, char const *str,
 	gnm_cell_set_text (cell, s);
 
 	if (strcmp (cmd, "leftstring") == 0)
-		set_h_align (state->sheet, pos, HALIGN_LEFT);
+		set_h_align (state->sheet, pos, GNM_HALIGN_LEFT);
 	else if (strcmp (cmd, "rightstring") == 0)
-		set_h_align (state->sheet, pos, HALIGN_RIGHT);
+		set_h_align (state->sheet, pos, GNM_HALIGN_RIGHT);
 #if 0
 	else
 		cmdtype = LABEL;

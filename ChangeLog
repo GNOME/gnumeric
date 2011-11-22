@@ -1,5 +1,25 @@
 2011-11-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/cell-draw.c: rename enums
+	* src/cellspan.c: rename enums
+	* src/commands.c: rename enums
+	* src/item-edit.c: rename enums
+	* src/mstyle.c: rename enums
+	* src/rendered-value.c: rename enums
+	* src/style.c: rename enums
+	* src/style.h: rename enums
+	* src/validation.c: rename enums
+	* src/validation.h: rename enums
+	* src/wbc-gtk-actions.c: rename enums
+	* src/wbc-gtk-edit.c: rename enums
+	* src/wbc-gtk.c: rename enums
+	* src/workbook-cmd-format.c: rename enums
+	* src/workbook-view.c: rename enums
+	* src/xml-sax-read.c: rename enums
+	* src/xml-sax-write.c: rename enums
+
+2011-11-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/style.c (gnm_align_h_get_type): new
 	(gnm_align_v_get_type): new
 	* src/style.h (gnm_align_h_get_type): new

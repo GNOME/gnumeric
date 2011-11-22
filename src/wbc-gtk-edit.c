@@ -135,7 +135,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 
 	/* Save the results before changing focus */
 	if (result != WBC_EDIT_REJECT) {
-		ValidationStatus valid = VALIDATION_STATUS_VALID;
+		ValidationStatus valid = GNM_VALIDATION_STATUS_VALID;
 		char *free_txt = NULL;
 		char const *txt;
 		GnmStyle const *mstyle;
@@ -279,13 +279,13 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 								   GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
 
 				reedit = wb_control_validation_msg (WORKBOOK_CONTROL (wbcg),
-								    VALIDATION_STYLE_PARSE_ERROR, NULL,
+								    GNM_VALIDATION_STYLE_PARSE_ERROR, NULL,
 								    perr.err->message);
 				if (showed_dialog != NULL)
 					*showed_dialog = TRUE;
 
 				parse_error_free (&perr);
-				if (reedit == VALIDATION_STATUS_INVALID_EDIT) {
+				if (reedit == GNM_VALIDATION_STATUS_INVALID_EDIT) {
 					range_fragment_free (selection);
 					return FALSE;
 				}
@@ -340,7 +340,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 				sheet_range_set_text (&pp, r, txt);
 				valid =	validation_eval_range (wbc, sheet, &sv->edit_pos, r,
 							       showed_dialog);
-				if (valid != VALIDATION_STATUS_VALID)
+				if (valid != GNM_VALIDATION_STATUS_VALID)
 					break;
 			}
 			break;
@@ -391,9 +391,9 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 
 		/* Now we can respond to our validation information */
 
-		if (valid != VALIDATION_STATUS_VALID) {
+		if (valid != GNM_VALIDATION_STATUS_VALID) {
 			result = WBC_EDIT_REJECT;
-			if (valid == VALIDATION_STATUS_INVALID_EDIT) {
+			if (valid == GNM_VALIDATION_STATUS_INVALID_EDIT) {
 				gtk_window_set_focus (wbcg_toplevel (wbcg),
 					(GtkWidget *) wbcg_get_entry (wbcg));
 				g_free (free_txt);

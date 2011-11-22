@@ -1175,37 +1175,37 @@ excel_write_DV (XLValInputPair const *vip, gpointer dummy, ExcelWriteSheet *eshe
 	options = 0;
 	if (vip->v != NULL) {
 		switch (vip->v->type) {
-		case VALIDATION_TYPE_ANY:		options = 0; break;
-		case VALIDATION_TYPE_AS_INT:		options = 1; break;
-		case VALIDATION_TYPE_AS_NUMBER:		options = 2; break;
-		case VALIDATION_TYPE_IN_LIST:		options = 3; break;
-		case VALIDATION_TYPE_AS_DATE:		options = 4; break;
-		case VALIDATION_TYPE_AS_TIME:		options = 5; break;
-		case VALIDATION_TYPE_TEXT_LENGTH:	options = 6; break;
-		case VALIDATION_TYPE_CUSTOM:		options = 7; break;
+		case GNM_VALIDATION_TYPE_ANY:		options = 0; break;
+		case GNM_VALIDATION_TYPE_AS_INT:		options = 1; break;
+		case GNM_VALIDATION_TYPE_AS_NUMBER:		options = 2; break;
+		case GNM_VALIDATION_TYPE_IN_LIST:		options = 3; break;
+		case GNM_VALIDATION_TYPE_AS_DATE:		options = 4; break;
+		case GNM_VALIDATION_TYPE_AS_TIME:		options = 5; break;
+		case GNM_VALIDATION_TYPE_TEXT_LENGTH:	options = 6; break;
+		case GNM_VALIDATION_TYPE_CUSTOM:		options = 7; break;
 		default : g_warning ("EXCEL : Unknown constraint type %d",
 				     vip->v->type);
 		}
 
 		switch (vip->v->style) {
-		case VALIDATION_STYLE_NONE: break;
-		case VALIDATION_STYLE_STOP:	options |= (0 << 4); break;
-		case VALIDATION_STYLE_WARNING:	options |= (1 << 4); break;
-		case VALIDATION_STYLE_INFO:	options |= (2 << 4); break;
+		case GNM_VALIDATION_STYLE_NONE: break;
+		case GNM_VALIDATION_STYLE_STOP:	options |= (0 << 4); break;
+		case GNM_VALIDATION_STYLE_WARNING:	options |= (1 << 4); break;
+		case GNM_VALIDATION_STYLE_INFO:	options |= (2 << 4); break;
 		default : g_warning ("EXCEL : Unknown validation style %d",
 				     vip->v->style);
 		}
 
 		switch (vip->v->op) {
-		case VALIDATION_OP_NONE:
-		case VALIDATION_OP_BETWEEN:	options |= (0 << 20); break;
-		case VALIDATION_OP_NOT_BETWEEN:	options |= (1 << 20); break;
-		case VALIDATION_OP_EQUAL:	options |= (2 << 20); break;
-		case VALIDATION_OP_NOT_EQUAL:	options |= (3 << 20); break;
-		case VALIDATION_OP_GT:		options |= (4 << 20); break;
-		case VALIDATION_OP_LT:		options |= (5 << 20); break;
-		case VALIDATION_OP_GTE:		options |= (6 << 20); break;
-		case VALIDATION_OP_LTE:		options |= (7 << 20); break;
+		case GNM_VALIDATION_OP_NONE:
+		case GNM_VALIDATION_OP_BETWEEN:	options |= (0 << 20); break;
+		case GNM_VALIDATION_OP_NOT_BETWEEN:	options |= (1 << 20); break;
+		case GNM_VALIDATION_OP_EQUAL:	options |= (2 << 20); break;
+		case GNM_VALIDATION_OP_NOT_EQUAL:	options |= (3 << 20); break;
+		case GNM_VALIDATION_OP_GT:		options |= (4 << 20); break;
+		case GNM_VALIDATION_OP_LT:		options |= (5 << 20); break;
+		case GNM_VALIDATION_OP_GTE:		options |= (6 << 20); break;
+		case GNM_VALIDATION_OP_LTE:		options |= (7 << 20); break;
 		default : g_warning ("EXCEL : Unknown constraint operator %d",
 				     vip->v->op);
 		}
@@ -1214,7 +1214,7 @@ excel_write_DV (XLValInputPair const *vip, gpointer dummy, ExcelWriteSheet *eshe
 		/* XL suppesses the dropdown rather than vice versa */
 		if (!vip->v->use_dropdown)
 			options |= 0x200;
-		if (vip->v->style != VALIDATION_STYLE_NONE)
+		if (vip->v->style != GNM_VALIDATION_STYLE_NONE)
 			options |= 0x80000;
 	}
 
@@ -2608,28 +2608,28 @@ halign_to_excel (GnmHAlign halign)
 	guint ialign;
 
 	switch (halign) {
-	case HALIGN_GENERAL:
+	case GNM_HALIGN_GENERAL:
 		ialign = MS_BIFF_H_A_GENERAL;
 		break;
-	case HALIGN_LEFT:
+	case GNM_HALIGN_LEFT:
 		ialign = MS_BIFF_H_A_LEFT;
 		break;
-	case HALIGN_RIGHT:
+	case GNM_HALIGN_RIGHT:
 		ialign = MS_BIFF_H_A_RIGHT;
 		break;
-	case HALIGN_CENTER:
+	case GNM_HALIGN_CENTER:
 		ialign = MS_BIFF_H_A_CENTER;
 		break;
-	case HALIGN_FILL:
+	case GNM_HALIGN_FILL:
 		ialign = MS_BIFF_H_A_FILL;
 		break;
-	case HALIGN_JUSTIFY:
+	case GNM_HALIGN_JUSTIFY:
 		ialign = MS_BIFF_H_A_JUSTIFTY;
 		break;
-	case HALIGN_CENTER_ACROSS_SELECTION:
+	case GNM_HALIGN_CENTER_ACROSS_SELECTION:
 		ialign = MS_BIFF_H_A_CENTER_ACROSS_SELECTION;
 		break;
-	case HALIGN_DISTRIBUTED:
+	case GNM_HALIGN_DISTRIBUTED:
 		ialign = MS_BIFF_H_A_DISTRIBUTED;
 		break;
 	default:
@@ -2645,19 +2645,19 @@ valign_to_excel (GnmVAlign valign)
 	guint ialign;
 
 	switch (valign) {
-	case VALIGN_TOP:
+	case GNM_VALIGN_TOP:
 		ialign = MS_BIFF_V_A_TOP;
 		break;
-	case VALIGN_BOTTOM:
+	case GNM_VALIGN_BOTTOM:
 		ialign = MS_BIFF_V_A_BOTTOM;
 		break;
-	case VALIGN_CENTER:
+	case GNM_VALIGN_CENTER:
 		ialign = MS_BIFF_V_A_CENTER;
 		break;
-	case VALIGN_JUSTIFY:
+	case GNM_VALIGN_JUSTIFY:
 		ialign = MS_BIFF_V_A_JUSTIFY;
 		break;
-	case VALIGN_DISTRIBUTED:
+	case GNM_VALIGN_DISTRIBUTED:
 		ialign = MS_BIFF_V_A_DISTRIBUTED;
 		break;
 	default:
@@ -2720,7 +2720,7 @@ get_xf_differences (BiffXFData *xfd, GnmStyle const *parentst)
 		xfd->differences |= 1 << MS_BIFF_D_FONT_BIT;
 	/* hmm. documentation doesn't say that alignment bit is
 	   affected by vertical alignment, but it's a reasonable guess */
-	if (xfd->halign != HALIGN_GENERAL || xfd->valign != VALIGN_TOP
+	if (xfd->halign != GNM_HALIGN_GENERAL || xfd->valign != GNM_VALIGN_TOP
 	    || xfd->wrap_text)
 		xfd->differences |= 1 << MS_BIFF_D_ALIGN_BIT;
 	for (i = 0; i < STYLE_ORIENT_MAX; i++) {

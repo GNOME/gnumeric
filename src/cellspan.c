@@ -223,7 +223,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	 *	- The alignment mode are set to "justify"
 	 */
 	if (sheet != NULL &&
-	    h_align != HALIGN_CENTER_ACROSS_SELECTION &&
+	    h_align != GNM_HALIGN_CENTER_ACROSS_SELECTION &&
 	    (gnm_cell_is_merged (cell) ||
 	     (!sheet->display_formulas && gnm_cell_is_number (cell)))) {
 		*col1 = *col2 = cell->pos.col;
@@ -233,28 +233,28 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	v_align = gnm_style_get_align_v (style);
 	row   = cell->pos.row;
 	indented_w = cell_width_pixel = gnm_cell_rendered_width (cell);
-	if (h_align == HALIGN_LEFT || h_align == HALIGN_RIGHT) {
+	if (h_align == GNM_HALIGN_LEFT || h_align == GNM_HALIGN_RIGHT) {
 		GnmRenderedValue *rv = gnm_cell_get_rendered_value (cell);
 		char const *text = (rv)? pango_layout_get_text (rv->layout): NULL;
 		PangoDirection dir = (text && *text)? pango_find_base_dir (text, -1): PANGO_DIRECTION_LTR;
-		if (gnm_style_get_align_h (style) == HALIGN_GENERAL && dir == PANGO_DIRECTION_RTL)
-			h_align = HALIGN_RIGHT;
+		if (gnm_style_get_align_h (style) == GNM_HALIGN_GENERAL && dir == PANGO_DIRECTION_RTL)
+			h_align = GNM_HALIGN_RIGHT;
 		indented_w += gnm_cell_rendered_offset (cell);
 		if (sheet->text_is_rtl)
-			h_align = (h_align == HALIGN_LEFT) ? HALIGN_RIGHT : HALIGN_LEFT;
+			h_align = (h_align == GNM_HALIGN_LEFT) ? GNM_HALIGN_RIGHT : GNM_HALIGN_LEFT;
 	}
 
 	ci = sheet_col_get_info	(sheet, cell->pos.col);
 	if (gnm_cell_is_empty (cell) ||
 	    !ci->visible ||
-	    (h_align != HALIGN_CENTER_ACROSS_SELECTION &&
+	    (h_align != GNM_HALIGN_CENTER_ACROSS_SELECTION &&
 		 (gnm_style_get_wrap_text (style) ||
 		  indented_w <= COL_INTERNAL_WIDTH (ci))) ||
-	    h_align == HALIGN_JUSTIFY ||
-	    h_align == HALIGN_FILL ||
-	    h_align == HALIGN_DISTRIBUTED ||
-	    v_align == VALIGN_JUSTIFY ||
-	    v_align == VALIGN_DISTRIBUTED) {
+	    h_align == GNM_HALIGN_JUSTIFY ||
+	    h_align == GNM_HALIGN_FILL ||
+	    h_align == GNM_HALIGN_DISTRIBUTED ||
+	    v_align == GNM_VALIGN_JUSTIFY ||
+	    v_align == GNM_VALIGN_DISTRIBUTED) {
 		*col1 = *col2 = cell->pos.col;
 		return;
 	}
@@ -265,7 +265,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 
 	*col1 = *col2 = cell->pos.col;
 	switch (h_align) {
-	case HALIGN_LEFT:
+	case GNM_HALIGN_LEFT:
 		pos = cell->pos.col + 1;
 		left = indented_w - COL_INTERNAL_WIDTH (ci);
 
@@ -286,7 +286,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 		}
 		return;
 
-	case HALIGN_RIGHT:
+	case GNM_HALIGN_RIGHT:
 		pos = cell->pos.col - 1;
 		left = indented_w - COL_INTERNAL_WIDTH (ci);
 
@@ -307,7 +307,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 		}
 		return;
 
-	case HALIGN_CENTER: {
+	case GNM_HALIGN_CENTER: {
 		int remain_left, remain_right;
 		int pos_l, pos_r;
 
@@ -345,9 +345,9 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 			} else
 				remain_right = 0;
 		break;
-	} /* case HALIGN_CENTER */
+	} /* case GNM_HALIGN_CENTER */
 
-	case HALIGN_CENTER_ACROSS_SELECTION: {
+	case GNM_HALIGN_CENTER_ACROSS_SELECTION: {
 		int const row = cell->pos.row;
 		int pos_l, pos_r;
 
@@ -359,7 +359,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 					GnmStyle const * const style =
 						sheet_style_get (cell->base.sheet, pos_l, row);
 
-					if (gnm_style_get_align_h (style) != HALIGN_CENTER_ACROSS_SELECTION)
+					if (gnm_style_get_align_h (style) != GNM_HALIGN_CENTER_ACROSS_SELECTION)
 						break;
 					*col1 = pos_l;
 				} else
@@ -373,7 +373,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 					GnmStyle const * const style =
 						sheet_style_get (cell->base.sheet, pos_r, row);
 
-					if (gnm_style_get_align_h (style) != HALIGN_CENTER_ACROSS_SELECTION)
+					if (gnm_style_get_align_h (style) != GNM_HALIGN_CENTER_ACROSS_SELECTION)
 						break;
 					*col2 = pos_r;
 				} else

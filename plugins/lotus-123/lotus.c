@@ -2858,32 +2858,32 @@ lotus_read_works (LotusState *state, record_t *r)
 			tmp = (align >> 2) & 7;
 			switch (tmp) {
 				case 1:
-					tmp = HALIGN_LEFT;
+					tmp = GNM_HALIGN_LEFT;
 					break;
 				case 2:
-					tmp = HALIGN_CENTER;
+					tmp = GNM_HALIGN_CENTER;
 					break;
 				case 3:
-					tmp = HALIGN_RIGHT;
+					tmp = GNM_HALIGN_RIGHT;
 					break;
 				case 4:
-					tmp = HALIGN_FILL;
+					tmp = GNM_HALIGN_FILL;
 					break;
 				default:
-					tmp = HALIGN_GENERAL;
+					tmp = GNM_HALIGN_GENERAL;
 			}
 			gnm_style_set_align_h(style, tmp);
 
 			tmp = (align >> 6) & 3;
 			switch (tmp) {
 				case 0:
-					tmp = VALIGN_BOTTOM;
+					tmp = GNM_VALIGN_BOTTOM;
 					break;
 				case 1:
-					tmp = VALIGN_CENTER;
+					tmp = GNM_VALIGN_CENTER;
 					break;
 				case 2:
-					tmp = VALIGN_TOP;
+					tmp = GNM_VALIGN_TOP;
 					break;
 			}
 			gnm_style_set_align_v(style, tmp);

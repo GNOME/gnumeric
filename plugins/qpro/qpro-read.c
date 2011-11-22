@@ -753,26 +753,26 @@ qpro_read_sheet (QProReadState *state)
 			if (validate (QPRO_LABEL_CELL, -1)) {
 				int col = data[0];
 				int row = GSF_LE_GET_GUINT16 (data + 2);
-				GnmHAlign align = HALIGN_GENERAL;
+				GnmHAlign align = GNM_HALIGN_GENERAL;
 				GnmStyle *as = qpro_get_style (state, data + 4);
 				GnmHAlign asa = gnm_style_is_element_set (as, MSTYLE_ALIGN_H)
 					? gnm_style_get_align_h (as)
-					: HALIGN_GENERAL;
-				if (asa == HALIGN_GENERAL)
-					asa = HALIGN_LEFT;
+					: GNM_HALIGN_GENERAL;
+				if (asa == GNM_HALIGN_GENERAL)
+					asa = GNM_HALIGN_LEFT;
 
 				sheet_style_set_pos (sheet, col, row, as);
 				switch (data[6]) {
-				case '\'': align = HALIGN_LEFT; break;
-				case '^':  align = HALIGN_CENTER; break;
-				case '"':  align = HALIGN_RIGHT; break;
+				case '\'': align = GNM_HALIGN_LEFT; break;
+				case '^':  align = GNM_HALIGN_CENTER; break;
+				case '"':  align = GNM_HALIGN_RIGHT; break;
 				case '\\': break; /* Repeat */
 				case '|':  break; /* Page break */
 				case 0:    break; /* Nothing */
 				default:
 					g_printerr ("Ignoring unknown alignment\n");
 				}
-				if (align != HALIGN_GENERAL && align != asa) {
+				if (align != GNM_HALIGN_GENERAL && align != asa) {
 					GnmStyle *s = gnm_style_new ();
 					gnm_style_set_align_h (s, align);
 					sheet_style_apply_pos (sheet, col, row,

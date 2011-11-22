@@ -930,20 +930,20 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 
 
 	/* Send the alignment of the cell through a routine to deal with
-	 * HALIGN_GENERAL and then deal with the three cases. */
+	 * GNM_HALIGN_GENERAL and then deal with the three cases. */
 	switch (gnm_style_default_halign (style, cell)) {
-	case HALIGN_RIGHT:
+	case GNM_HALIGN_RIGHT:
 		gsf_output_printf (output, "\\gnumericPB{\\raggedleft}");
 		break;
-	case HALIGN_DISTRIBUTED:
-	case HALIGN_CENTER:
-	case HALIGN_CENTER_ACROSS_SELECTION:
+	case GNM_HALIGN_DISTRIBUTED:
+	case GNM_HALIGN_CENTER:
+	case GNM_HALIGN_CENTER_ACROSS_SELECTION:
 		gsf_output_printf (output, "\\gnumericPB{\\centering}");
 		break;
-	case HALIGN_LEFT:
+	case GNM_HALIGN_LEFT:
 		gsf_output_printf (output, "\\gnumericPB{\\raggedright}");
 		break;
-	case HALIGN_JUSTIFY:
+	case GNM_HALIGN_JUSTIFY:
 		break;
 	default:
 		break;
@@ -956,18 +956,18 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 	/* it to the second line of the parbox */
 	if (!wrap)
 		switch (gnm_style_default_halign (style, cell)) {
-		case HALIGN_RIGHT:
+		case GNM_HALIGN_RIGHT:
 			gsf_output_printf (output, "\\gnumbox[r]{");
 			break;
-		case HALIGN_DISTRIBUTED:
-		case HALIGN_CENTER:
-		case HALIGN_CENTER_ACROSS_SELECTION:
+		case GNM_HALIGN_DISTRIBUTED:
+		case GNM_HALIGN_CENTER:
+		case GNM_HALIGN_CENTER_ACROSS_SELECTION:
 			gsf_output_printf (output, "\\gnumbox{");
 			break;
-		case HALIGN_LEFT:
+		case GNM_HALIGN_LEFT:
 			gsf_output_printf (output, "\\gnumbox[l]{");
 			break;
-		case HALIGN_JUSTIFY:
+		case GNM_HALIGN_JUSTIFY:
 			gsf_output_printf (output, "\\gnumbox[s]{");
 			break;
 		default:

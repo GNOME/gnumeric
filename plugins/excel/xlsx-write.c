@@ -842,35 +842,35 @@ xlsx_write_style_write_alignment (XLSXWriteState *state, GsfXMLOut *xml,
 	gsf_xml_out_start_element (xml, "alignment");
 	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_H)) {
 		switch (gnm_style_get_align_h (style)) {
-		case HALIGN_LEFT:
+		case GNM_HALIGN_LEFT:
 			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"left");
 			break;
-		case HALIGN_RIGHT:
+		case GNM_HALIGN_RIGHT:
 			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"right");
 			break;
-		case HALIGN_CENTER:
+		case GNM_HALIGN_CENTER:
 			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"center");
 			break;
-		case HALIGN_FILL:
+		case GNM_HALIGN_FILL:
 			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"fill");
 			break;
-		case HALIGN_JUSTIFY:
+		case GNM_HALIGN_JUSTIFY:
 			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"justify");
 			break;
-		case HALIGN_CENTER_ACROSS_SELECTION:
+		case GNM_HALIGN_CENTER_ACROSS_SELECTION:
 			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"centerContinuous");
 			break;
-		case HALIGN_DISTRIBUTED:
+		case GNM_HALIGN_DISTRIBUTED:
 			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"distributed");
 			break;
-		case HALIGN_GENERAL:
+		case GNM_HALIGN_GENERAL:
 		default:
 			gsf_xml_out_add_cstr_unchecked (xml, "horizontal",
 							"general");
@@ -879,24 +879,24 @@ xlsx_write_style_write_alignment (XLSXWriteState *state, GsfXMLOut *xml,
 	}
 	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_V)) {
 		switch (gnm_style_get_align_v (style)) {
-		case VALIGN_TOP:
+		case GNM_VALIGN_TOP:
 			gsf_xml_out_add_cstr_unchecked (xml, "vertical",
 							"top");
 			break;
-		case VALIGN_BOTTOM:
+		case GNM_VALIGN_BOTTOM:
 			gsf_xml_out_add_cstr_unchecked (xml, "vertical",
 							"bottom");
 			break;
-		case VALIGN_CENTER:
+		case GNM_VALIGN_CENTER:
 			gsf_xml_out_add_cstr_unchecked (xml, "vertical",
 							"center");
 			break;
-		case VALIGN_JUSTIFY:
+		case GNM_VALIGN_JUSTIFY:
 			gsf_xml_out_add_cstr_unchecked (xml, "vertical",
 							"justify");
 			break;
 		default:
-		case VALIGN_DISTRIBUTED:
+		case GNM_VALIGN_DISTRIBUTED:
 			gsf_xml_out_add_cstr_unchecked (xml, "vertical",
 							"distributed");
 			break;
@@ -1350,14 +1350,14 @@ xlsx_write_validation (XLValInputPair const *vip, gpointer dummy, XLSXClosure *i
 		tmp = NULL;
 		switch (vip->v->type) {
 		default : /* fall back to the default */
-		case VALIDATION_TYPE_ANY : /* the default "none" */  break;
-		case VALIDATION_TYPE_AS_INT :		tmp = "whole"; break;
-		case VALIDATION_TYPE_AS_NUMBER :	tmp = "decimal"; break;
-		case VALIDATION_TYPE_IN_LIST :		tmp = "list"; break;
-		case VALIDATION_TYPE_AS_DATE :		tmp = "date"; break;
-		case VALIDATION_TYPE_AS_TIME :		tmp = "time"; break;
-		case VALIDATION_TYPE_TEXT_LENGTH :	tmp = "textLength"; break;
-		case VALIDATION_TYPE_CUSTOM :		tmp = "custom"; break;
+		case GNM_VALIDATION_TYPE_ANY : /* the default "none" */  break;
+		case GNM_VALIDATION_TYPE_AS_INT :		tmp = "whole"; break;
+		case GNM_VALIDATION_TYPE_AS_NUMBER :	tmp = "decimal"; break;
+		case GNM_VALIDATION_TYPE_IN_LIST :		tmp = "list"; break;
+		case GNM_VALIDATION_TYPE_AS_DATE :		tmp = "date"; break;
+		case GNM_VALIDATION_TYPE_AS_TIME :		tmp = "time"; break;
+		case GNM_VALIDATION_TYPE_TEXT_LENGTH :	tmp = "textLength"; break;
+		case GNM_VALIDATION_TYPE_CUSTOM :		tmp = "custom"; break;
 		}
 		if (NULL != tmp)
 			gsf_xml_out_add_cstr_unchecked (info->xml, "type", tmp);
@@ -1365,14 +1365,14 @@ xlsx_write_validation (XLValInputPair const *vip, gpointer dummy, XLSXClosure *i
 		tmp = NULL;
 		switch (vip->v->op) {
 		default : /* fall back to the default */
-		case VALIDATION_OP_BETWEEN :	/* the default "between" */ break;
-		case VALIDATION_OP_NOT_BETWEEN: tmp = "notBetween"; break;
-		case VALIDATION_OP_EQUAL :	tmp = "equal"; break;
-		case VALIDATION_OP_NOT_EQUAL :	tmp = "notEqual"; break;
-		case VALIDATION_OP_LT :		tmp = "lessThan"; break;
-		case VALIDATION_OP_GT :		tmp = "greaterThan"; break;
-		case VALIDATION_OP_LTE :	tmp = "lessThanOrEqual"; break;
-		case VALIDATION_OP_GTE :	tmp = "greaterThanOrEqual"; break;
+		case GNM_VALIDATION_OP_BETWEEN :	/* the default "between" */ break;
+		case GNM_VALIDATION_OP_NOT_BETWEEN: tmp = "notBetween"; break;
+		case GNM_VALIDATION_OP_EQUAL :	tmp = "equal"; break;
+		case GNM_VALIDATION_OP_NOT_EQUAL :	tmp = "notEqual"; break;
+		case GNM_VALIDATION_OP_LT :		tmp = "lessThan"; break;
+		case GNM_VALIDATION_OP_GT :		tmp = "greaterThan"; break;
+		case GNM_VALIDATION_OP_LTE :	tmp = "lessThanOrEqual"; break;
+		case GNM_VALIDATION_OP_GTE :	tmp = "greaterThanOrEqual"; break;
 		}
 		if (NULL != tmp)
 			gsf_xml_out_add_cstr_unchecked (info->xml, "operator", tmp);
@@ -1380,9 +1380,9 @@ xlsx_write_validation (XLValInputPair const *vip, gpointer dummy, XLSXClosure *i
 		tmp = NULL;
 		switch (vip->v->style) {
 		default : /* fall back to the default */
-		case VALIDATION_STYLE_STOP : /* "stop" the default */ break;
-		case VALIDATION_STYLE_WARNING : tmp = "warning"; break;
-		case VALIDATION_STYLE_INFO : tmp = "information"; break;
+		case GNM_VALIDATION_STYLE_STOP : /* "stop" the default */ break;
+		case GNM_VALIDATION_STYLE_WARNING : tmp = "warning"; break;
+		case GNM_VALIDATION_STYLE_INFO : tmp = "information"; break;
 		}
 		if (NULL != tmp)
 			gsf_xml_out_add_cstr_unchecked (info->xml, "errorStyle", tmp);

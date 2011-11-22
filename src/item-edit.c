@@ -81,11 +81,11 @@ get_top_left (ItemEdit const *ie, int *top, int *left, PangoDirection dir)
 
 	goc_canvas_c2w (canvas, l, item->y0, left, top);
 
-	if (align == VALIGN_CENTER || align == VALIGN_DISTRIBUTED ||
-	    align == VALIGN_BOTTOM) {
+	if (align == GNM_VALIGN_CENTER || align == GNM_VALIGN_DISTRIBUTED ||
+	    align == GNM_VALIGN_BOTTOM) {
 		int text_height, height = (int)(ie->item.y1 - ie->item.y0) * canvas->pixels_per_unit;
 		pango_layout_get_pixel_size (ie->layout, NULL, &text_height);
-		*top += (align != VALIGN_BOTTOM)
+		*top += (align != GNM_VALIGN_BOTTOM)
 			? (height - text_height)/2
 			: (height - text_height);
 	}
@@ -586,8 +586,8 @@ item_edit_realize (GocItem *item)
 		 gtk_widget_get_pango_context (GTK_WIDGET (pane)));
 	gnm_font_ref (ie->gfont);
 
-	if (gnm_style_get_align_h (ie->style) == HALIGN_GENERAL)
-		gnm_style_set_align_h (ie->style, HALIGN_LEFT);
+	if (gnm_style_get_align_h (ie->style) == GNM_HALIGN_GENERAL)
+		gnm_style_set_align_h (ie->style, GNM_HALIGN_LEFT);
 
 	/* move inwards 1 pixel from the grid line */
 	item->y0 = (1 + pane->first_offset.y +

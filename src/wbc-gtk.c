@@ -2735,31 +2735,31 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 		     char const *title, char const *msg)
 {
 	WBCGtk *wbcg = (WBCGtk *)wbc;
-	ValidationStatus res0, res1 = VALIDATION_STATUS_VALID; /* supress warning */
+	ValidationStatus res0, res1 = GNM_VALIDATION_STATUS_VALID; /* supress warning */
 	char const *btn0, *btn1;
 	GtkMessageType  type;
 	GtkWidget  *dialog;
 	int response;
 
 	switch (v) {
-	case VALIDATION_STYLE_STOP :
-		res0 = VALIDATION_STATUS_INVALID_EDIT;		btn0 = _("_Re-Edit");
-		res1 = VALIDATION_STATUS_INVALID_DISCARD;	btn1 = _("_Discard");
+	case GNM_VALIDATION_STYLE_STOP :
+		res0 = GNM_VALIDATION_STATUS_INVALID_EDIT;		btn0 = _("_Re-Edit");
+		res1 = GNM_VALIDATION_STATUS_INVALID_DISCARD;	btn1 = _("_Discard");
 		type = GTK_MESSAGE_ERROR;
 		break;
-	case VALIDATION_STYLE_WARNING :
-		res0 = VALIDATION_STATUS_VALID;			btn0 = _("_Accept");
-		res1 = VALIDATION_STATUS_INVALID_DISCARD;	btn1 = _("_Discard");
+	case GNM_VALIDATION_STYLE_WARNING :
+		res0 = GNM_VALIDATION_STATUS_VALID;			btn0 = _("_Accept");
+		res1 = GNM_VALIDATION_STATUS_INVALID_DISCARD;	btn1 = _("_Discard");
 		type = GTK_MESSAGE_WARNING;
 		break;
-	case VALIDATION_STYLE_INFO :
-		res0 = VALIDATION_STATUS_VALID;			btn0 = GTK_STOCK_OK;
+	case GNM_VALIDATION_STYLE_INFO :
+		res0 = GNM_VALIDATION_STATUS_VALID;			btn0 = GTK_STOCK_OK;
 		btn1 = NULL;
 		type = GTK_MESSAGE_INFO;
 		break;
-	case VALIDATION_STYLE_PARSE_ERROR:
-		res0 = VALIDATION_STATUS_INVALID_EDIT;		btn0 = _("_Re-Edit");
-		res1 = VALIDATION_STATUS_VALID;			btn1 = _("_Accept");
+	case GNM_VALIDATION_STYLE_PARSE_ERROR:
+		res0 = GNM_VALIDATION_STATUS_INVALID_EDIT;		btn0 = _("_Re-Edit");
+		res1 = GNM_VALIDATION_STATUS_VALID;			btn1 = _("_Accept");
 		type = GTK_MESSAGE_ERROR;
 		break;
 
@@ -3509,23 +3509,23 @@ wbc_gtk_style_feedback_real (WorkbookControl *wbc, GnmStyle const *changes)
 	if (gnm_style_is_element_set (changes, MSTYLE_ALIGN_H)) {
 		GnmHAlign align = gnm_style_get_align_h (changes);
 		gtk_toggle_action_set_active (wbcg->h_align.left,
-			align == HALIGN_LEFT);
+			align == GNM_HALIGN_LEFT);
 		gtk_toggle_action_set_active (wbcg->h_align.center,
-			align == HALIGN_CENTER);
+			align == GNM_HALIGN_CENTER);
 		gtk_toggle_action_set_active (wbcg->h_align.right,
-			align == HALIGN_RIGHT);
+			align == GNM_HALIGN_RIGHT);
 		gtk_toggle_action_set_active (wbcg->h_align.center_across_selection,
-			align == HALIGN_CENTER_ACROSS_SELECTION);
+			align == GNM_HALIGN_CENTER_ACROSS_SELECTION);
 		go_action_combo_pixmaps_select_id (wbcg->halignment, align);
 	}
 	if (gnm_style_is_element_set (changes, MSTYLE_ALIGN_V)) {
 		GnmVAlign align = gnm_style_get_align_v (changes);
 		gtk_toggle_action_set_active (wbcg->v_align.top,
-			align == VALIGN_TOP);
+			align == GNM_VALIGN_TOP);
 		gtk_toggle_action_set_active (wbcg->v_align.bottom,
-			align == VALIGN_BOTTOM);
+			align == GNM_VALIGN_BOTTOM);
 		gtk_toggle_action_set_active (wbcg->v_align.center,
-			align == VALIGN_CENTER);
+			align == GNM_VALIGN_CENTER);
 		go_action_combo_pixmaps_select_id (wbcg->valignment, align);
 	}
 
@@ -5317,7 +5317,7 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 				g_return_if_fail (perr.err != NULL);
 
 				wb_control_validation_msg (WORKBOOK_CONTROL (scg_wbcg (scg)),
-					VALIDATION_STYLE_INFO, NULL, perr.err->message);
+					GNM_VALIDATION_STYLE_INFO, NULL, perr.err->message);
 				parse_error_free (&perr);
 				gtk_editable_select_region (GTK_EDITABLE (gnm_expr_entry_get_entry (editor->entry)), 0, G_MAXINT);
 				editor->changed = TRUE;

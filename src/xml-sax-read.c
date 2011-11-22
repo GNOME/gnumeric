@@ -1585,9 +1585,9 @@ xml_sax_validation (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->validation.texpr[0] == NULL);
 	g_return_if_fail (state->validation.texpr[1] == NULL);
 
-	state->validation.style = VALIDATION_STYLE_NONE;
-	state->validation.type = VALIDATION_TYPE_ANY;
-	state->validation.op = VALIDATION_OP_NONE;
+	state->validation.style = GNM_VALIDATION_STYLE_NONE;
+	state->validation.type = GNM_VALIDATION_TYPE_ANY;
+	state->validation.op = GNM_VALIDATION_OP_NONE;
 	state->validation.allow_blank = TRUE;
 	state->validation.use_dropdown = FALSE;
 

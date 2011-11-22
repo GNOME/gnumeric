@@ -2975,8 +2975,8 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 
 	dao_set_format  (dao, 5, 15, 5, 15, _("\"Lower\" 0%"));
 	dao_set_format  (dao, 6, 15, 6, 15, _("\"Upper\" 0%"));
-	dao_set_align (dao, 5, 15, 5, 15, HALIGN_LEFT, VALIGN_TOP);
-	dao_set_align (dao, 6, 15, 6, 15, HALIGN_RIGHT, VALIGN_TOP);
+	dao_set_align (dao, 5, 15, 5, 15, GNM_HALIGN_LEFT, GNM_VALIGN_TOP);
+	dao_set_align (dao, 6, 15, 6, 15, GNM_HALIGN_RIGHT, GNM_VALIGN_TOP);
 
 	dao_set_cell_float (dao, 5, 15, 1.0 - info->base.alpha);
 	dao_set_cell_expr (dao, 6, 15, make_cellref (-1, 0));

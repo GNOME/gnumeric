@@ -556,11 +556,11 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 				      GNM_VALIDATION_TYPE_TYPE, v->type);
 
 		switch (v->type) {
-		case VALIDATION_TYPE_AS_INT :
-		case VALIDATION_TYPE_AS_NUMBER :
-		case VALIDATION_TYPE_AS_DATE :
-		case VALIDATION_TYPE_AS_TIME :
-		case VALIDATION_TYPE_TEXT_LENGTH :
+		case GNM_VALIDATION_TYPE_AS_INT :
+		case GNM_VALIDATION_TYPE_AS_NUMBER :
+		case GNM_VALIDATION_TYPE_AS_DATE :
+		case GNM_VALIDATION_TYPE_AS_TIME :
+		case GNM_VALIDATION_TYPE_TEXT_LENGTH :
 			gsf_xml_out_add_enum (state->output, "Operator",
 					      GNM_VALIDATION_OP_TYPE, v->op);
 			break;

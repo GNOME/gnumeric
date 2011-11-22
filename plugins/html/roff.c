@@ -124,12 +124,12 @@ roff_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 					GnmStyle const *style = gnm_cell_get_style (cell);
 					if (!style)
 						break;
-					if (gnm_style_get_align_h (style) & HALIGN_RIGHT)
+					if (gnm_style_get_align_h (style) & GNM_HALIGN_RIGHT)
 						gsf_output_printf (output, "r");
-					else if (gnm_style_get_align_h (style) == HALIGN_CENTER ||
+					else if (gnm_style_get_align_h (style) == GNM_HALIGN_CENTER ||
 						 /* FIXME : center across selection is different */
-						 gnm_style_get_align_h (style) == HALIGN_CENTER_ACROSS_SELECTION ||
-						 gnm_style_get_align_h (style) == HALIGN_DISTRIBUTED)
+						 gnm_style_get_align_h (style) == GNM_HALIGN_CENTER_ACROSS_SELECTION ||
+						 gnm_style_get_align_h (style) == GNM_HALIGN_DISTRIBUTED)
 						gsf_output_printf (output, "c");
 					else
 						gsf_output_printf (output, "l");

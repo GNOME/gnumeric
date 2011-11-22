@@ -2406,21 +2406,21 @@ excel_read_XF_OLD (BiffQuery *q, GnmXLImporter *importer)
 	xf->shrink_to_fit = FALSE;
 
 
-        xf->halign = HALIGN_GENERAL;
+        xf->halign = GNM_HALIGN_GENERAL;
 
 	data = (importer->ver >= MS_BIFF_V3) ? q->data[4] : q->data[3];
 	switch (data & 0x07) {
 	default :
-	case 0: xf->halign = HALIGN_GENERAL; break;
-	case 1: xf->halign = HALIGN_LEFT; break;
-	case 2: xf->halign = HALIGN_CENTER; break;
-	case 3: xf->halign = HALIGN_RIGHT; break;
-	case 4: xf->halign = HALIGN_FILL; break;
-	case 5: xf->halign = HALIGN_JUSTIFY; break;
-	case 6: xf->halign = HALIGN_CENTER_ACROSS_SELECTION; break;
+	case 0: xf->halign = GNM_HALIGN_GENERAL; break;
+	case 1: xf->halign = GNM_HALIGN_LEFT; break;
+	case 2: xf->halign = GNM_HALIGN_CENTER; break;
+	case 3: xf->halign = GNM_HALIGN_RIGHT; break;
+	case 4: xf->halign = GNM_HALIGN_FILL; break;
+	case 5: xf->halign = GNM_HALIGN_JUSTIFY; break;
+	case 6: xf->halign = GNM_HALIGN_CENTER_ACROSS_SELECTION; break;
 	}
 
-        xf->valign = VALIGN_BOTTOM;
+        xf->valign = GNM_VALIGN_BOTTOM;
         xf->rotation = 0;
         xf->indent = 0;
         xf->differences = 0;
@@ -2429,10 +2429,10 @@ excel_read_XF_OLD (BiffQuery *q, GnmXLImporter *importer)
         if (importer->ver >= MS_BIFF_V4) {
 		xf->wrap_text = (data & 0x0008) != 0;
 		switch (data & 0x30) {
-		case 0x00: xf->valign = VALIGN_TOP; break;
-		case 0x10: xf->valign = VALIGN_CENTER; break;
+		case 0x00: xf->valign = GNM_VALIGN_TOP; break;
+		case 0x10: xf->valign = GNM_VALIGN_CENTER; break;
 		default :
-		case 0x20: xf->valign = VALIGN_BOTTOM; break;
+		case 0x20: xf->valign = GNM_VALIGN_BOTTOM; break;
 		}
 		switch (data & 0xc0) {
 		case 0x00: xf->rotation = 0; break;
@@ -2443,7 +2443,7 @@ excel_read_XF_OLD (BiffQuery *q, GnmXLImporter *importer)
 	} else if (importer->ver >= MS_BIFF_V3) {
 		xf->wrap_text = (data & 0x0008) != 0;
 		if (xf->wrap_text)
-			xf->valign = VALIGN_TOP;
+			xf->valign = GNM_VALIGN_TOP;
 	}
 
 	if (importer->ver >= MS_BIFF_V3) {
@@ -2534,12 +2534,12 @@ excel_read_XF (BiffQuery *q, GnmXLImporter *importer)
 	data = GSF_LE_GET_GUINT16 (q->data + 6);
 	subdata = data & 0x0007;
 	switch (subdata) {
-	case 0: xf->halign = HALIGN_GENERAL; break;
-	case 1: xf->halign = HALIGN_LEFT; break;
-	case 2: xf->halign = HALIGN_CENTER; break;
-	case 3: xf->halign = HALIGN_RIGHT; break;
-	case 4: xf->halign = HALIGN_FILL; break;
-	case 5: xf->halign = HALIGN_JUSTIFY; break;
+	case 0: xf->halign = GNM_HALIGN_GENERAL; break;
+	case 1: xf->halign = GNM_HALIGN_LEFT; break;
+	case 2: xf->halign = GNM_HALIGN_CENTER; break;
+	case 3: xf->halign = GNM_HALIGN_RIGHT; break;
+	case 4: xf->halign = GNM_HALIGN_FILL; break;
+	case 5: xf->halign = GNM_HALIGN_JUSTIFY; break;
 	case 6:
 		/*
 		 * All adjacent blank cells with this type of alignment
@@ -2547,26 +2547,26 @@ excel_read_XF (BiffQuery *q, GnmXLImporter *importer)
 		 * normally and the span is adjusted if contents are changed.
 		 * Use center for now.
 		 */
-		xf->halign = HALIGN_CENTER_ACROSS_SELECTION;
+		xf->halign = GNM_HALIGN_CENTER_ACROSS_SELECTION;
 		break;
 
 		/* no idea what this does */
-	case 7 : xf->halign = HALIGN_DISTRIBUTED; break;
+	case 7 : xf->halign = GNM_HALIGN_DISTRIBUTED; break;
 
 	default:
-		xf->halign = HALIGN_JUSTIFY;
+		xf->halign = GNM_HALIGN_JUSTIFY;
 		g_printerr ("Unknown halign %d\n", subdata);
 		break;
 	}
 	xf->wrap_text = (data & 0x0008) != 0;
 	subdata = (data & 0x0070) >> 4;
 	switch (subdata) {
-	case 0: xf->valign = VALIGN_TOP; break;
-	case 1: xf->valign = VALIGN_CENTER; break;
-	case 2: xf->valign = VALIGN_BOTTOM; break;
-	case 3: xf->valign = VALIGN_JUSTIFY; break;
+	case 0: xf->valign = GNM_VALIGN_TOP; break;
+	case 1: xf->valign = GNM_VALIGN_CENTER; break;
+	case 2: xf->valign = GNM_VALIGN_BOTTOM; break;
+	case 3: xf->valign = GNM_VALIGN_JUSTIFY; break;
 		/* What does this do ?? */
-	case 4: xf->valign = VALIGN_DISTRIBUTED; break;
+	case 4: xf->valign = GNM_VALIGN_DISTRIBUTED; break;
 	default:
 		g_printerr ("Unknown valign %d\n", subdata);
 		break;
@@ -5563,43 +5563,43 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	 * is easier to read.
 	 */
 	switch (options & 0x0f) {
-	case 0 : type = VALIDATION_TYPE_ANY;		break;
-	case 1 : type = VALIDATION_TYPE_AS_INT;		break;
-	case 2 : type = VALIDATION_TYPE_AS_NUMBER;	break;
-	case 3 : type = VALIDATION_TYPE_IN_LIST;	break;
-	case 4 : type = VALIDATION_TYPE_AS_DATE;	break;
-	case 5 : type = VALIDATION_TYPE_AS_TIME;	break;
-	case 6 : type = VALIDATION_TYPE_TEXT_LENGTH;	break;
-	case 7 : type = VALIDATION_TYPE_CUSTOM;		break;
+	case 0 : type = GNM_VALIDATION_TYPE_ANY;		break;
+	case 1 : type = GNM_VALIDATION_TYPE_AS_INT;		break;
+	case 2 : type = GNM_VALIDATION_TYPE_AS_NUMBER;	break;
+	case 3 : type = GNM_VALIDATION_TYPE_IN_LIST;	break;
+	case 4 : type = GNM_VALIDATION_TYPE_AS_DATE;	break;
+	case 5 : type = GNM_VALIDATION_TYPE_AS_TIME;	break;
+	case 6 : type = GNM_VALIDATION_TYPE_TEXT_LENGTH;	break;
+	case 7 : type = GNM_VALIDATION_TYPE_CUSTOM;		break;
 	default :
 		g_warning ("EXCEL : Unknown constraint type %d", options & 0x0f);
 		return;
 	}
 
 	switch ((options >> 4) & 0x07) {
-	case 0 : style = VALIDATION_STYLE_STOP; break;
-	case 1 : style = VALIDATION_STYLE_WARNING; break;
-	case 2 : style = VALIDATION_STYLE_INFO; break;
+	case 0 : style = GNM_VALIDATION_STYLE_STOP; break;
+	case 1 : style = GNM_VALIDATION_STYLE_WARNING; break;
+	case 2 : style = GNM_VALIDATION_STYLE_INFO; break;
 	default :
 		g_warning ("EXCEL : Unknown validation style %d",
 			   (options >> 4) & 0x07);
 		return;
 	}
 	if (!(options & 0x80000))
-		style = VALIDATION_STYLE_NONE;
+		style = GNM_VALIDATION_STYLE_NONE;
 
-	if (type == VALIDATION_TYPE_CUSTOM || type == VALIDATION_TYPE_IN_LIST)
-		op = VALIDATION_OP_NONE;
+	if (type == GNM_VALIDATION_TYPE_CUSTOM || type == GNM_VALIDATION_TYPE_IN_LIST)
+		op = GNM_VALIDATION_OP_NONE;
 	else
 		switch ((options >> 20) & 0x0f) {
-		case 0:	op = VALIDATION_OP_BETWEEN;	break;
-		case 1:	op = VALIDATION_OP_NOT_BETWEEN; break;
-		case 2:	op = VALIDATION_OP_EQUAL;	break;
-		case 3:	op = VALIDATION_OP_NOT_EQUAL;	break;
-		case 4:	op = VALIDATION_OP_GT;		break;
-		case 5:	op = VALIDATION_OP_LT;		break;
-		case 6:	op = VALIDATION_OP_GTE;		break;
-		case 7:	op = VALIDATION_OP_LTE;		break;
+		case 0:	op = GNM_VALIDATION_OP_BETWEEN;	break;
+		case 1:	op = GNM_VALIDATION_OP_NOT_BETWEEN; break;
+		case 2:	op = GNM_VALIDATION_OP_EQUAL;	break;
+		case 3:	op = GNM_VALIDATION_OP_NOT_EQUAL;	break;
+		case 4:	op = GNM_VALIDATION_OP_GT;		break;
+		case 5:	op = GNM_VALIDATION_OP_LT;		break;
+		case 6:	op = GNM_VALIDATION_OP_GTE;		break;
+		case 7:	op = GNM_VALIDATION_OP_LTE;		break;
 		default :
 			g_warning ("EXCEL : Unknown constraint operator %d",
 				   (options >> 20) & 0x0f);

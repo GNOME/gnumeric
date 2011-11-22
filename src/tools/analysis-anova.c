@@ -233,7 +233,7 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 	dao_set_cell_expr (dao, 0, r, expr_check);
 	dao_set_format (dao, 0, r, 0, r,
 			_("\"ANOVA\";[Red]\"Invalid ANOVA: Missing Observations\""));
-	dao_set_align (dao, 0, r, 0, r, HALIGN_LEFT, VALIGN_BOTTOM);
+	dao_set_align (dao, 0, r, 0, r, GNM_HALIGN_LEFT, GNM_VALIGN_BOTTOM);
 
 	r++;
 	dao_set_italic (dao, 0, r, 0, r + 4);
@@ -591,7 +591,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 	dao_set_cell_expr (dao, 0, r, expr_check);
 	dao_set_format (dao, 0, r, 0, r,
 			_("\"ANOVA\";[Red]\"Invalid ANOVA: Missing Observations\""));
-	dao_set_align (dao, 0, r, 0, r, HALIGN_LEFT, VALIGN_BOTTOM);
+	dao_set_align (dao, 0, r, 0, r, GNM_HALIGN_LEFT, GNM_VALIGN_BOTTOM);
 
 	r++;
 	dao_set_italic (dao, 0, r, 0, r + 5);
