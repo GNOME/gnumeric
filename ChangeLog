@@ -1,5 +1,9 @@
 2011-11-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/style.h: fix definition of GNM_ALIGN_H_TYPE and GNM_ALIGN_V_TYPE
+
+2011-11-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/cell-draw.c: rename enums
 	* src/cellspan.c: rename enums
 	* src/commands.c: rename enums
