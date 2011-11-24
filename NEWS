@@ -73,6 +73,7 @@ Jean:
 	autocompletion. [#663671]
 	* Fixed rendering of outline levels. [#663663, #663802]
 	* Fixed schemas paths. [#664243]
+	* Preserve cairo state in item-edit. [#664692]
 
 Marek Černocký:
         * Add some translation contexts to improve translations.

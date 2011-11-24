@@ -112,6 +112,8 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 		goc_canvas_c2w (item->canvas, item->x1, item->y1, &x1, &y1);
 	}
 
+	cairo_save (cr);
+
 	cairo_rectangle (cr, x0, y0, x1 - x0, y1 - y0);
 	/* avoid a weak/strong cursor to extent outside the item,
 	 a better fix would be to have enough room for cursors */
@@ -204,6 +206,7 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 			cairo_fill (cr);
 		}
 	}
+	cairo_restore (cr);
 }
 
 static double
