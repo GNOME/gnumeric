@@ -301,7 +301,7 @@ cb_icon_clicked (GtkButton *icon,
 				container_props = g_value_array_new (n);
 
 				for (ui = 0; ui < n; ui++) {
-					GValue value = { 0 };
+					GValue value;
 					g_value_init (&value, G_PARAM_SPEC_VALUE_TYPE (container_props_pspec[ui]));
 
 					gtk_container_child_get_property (GTK_CONTAINER (old_entry_parent), GTK_WIDGET (entry),
@@ -625,6 +625,40 @@ gee_scan_for_range (GnmExprEntry *gee)
 			}
 
 			g_slist_free_full (list, (GDestroyNotify)value_release);
+		} else if (gee->lexer_items != NULL) {
+			GnmLexerItem *gli = gee->lexer_items;
+			do {
+				if (gli->token == RANGEREF) {
+					char const *text = gtk_entry_get_text (gee->entry);
+					char *rtext = g_strndup (text + gli->start, 
+								 gli->end - gli->start);
+					char const *tmp;
+					GnmRangeRef rr;
+					tmp = rangeref_parse (&rr, rtext, 
+							      &gee->pp, gee_convs (gee));
+					if (tmp != rtext) {
+						GnmRange r;
+						GnmRange const *merge; /* [#127415] */
+						Sheet *start_sheet, *end_sheet;
+						gnm_rangeref_normalize_pp (&rr, &gee->pp,
+									   &start_sheet,
+									   &end_sheet,
+									   &r);
+						if (start_sheet != sheet || 
+						    end_sheet != sheet)
+							continue;
+						if (range_is_singleton  (&r) &&
+						    NULL != (merge = gnm_sheet_merge_is_corner
+							     (sheet, &r.start)))
+							r = *merge;
+						SCG_FOREACH_PANE 
+							(gee->scg, pane,
+							 gnm_pane_expr_cursor_bound_set
+							 (pane, &r, FALSE););
+					}
+					g_free (rtext);
+				}
+			} while (gli++->token != 0);	
 		}
 		gnm_expr_entry_find_range (gee);
 		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&
@@ -1072,8 +1106,8 @@ gee_check_tooltip (GnmExprEntry *gee)
 		goto not_found;
 
 	if (gnm_debug_flag ("functooltip"))
-		g_print ("last token consider is %d from %2"
-			 G_GSIZE_FORMAT " to %2" G_GSIZE_FORMAT "\n",
+		g_print ("Last token considered is %d from %2"
+			 G_GSIZE_FORMAT " to %2" G_GSIZE_FORMAT ".\n",
 			 gli->token, gli->start, gli->end);
 
 
@@ -1160,9 +1194,9 @@ gee_check_tooltip (GnmExprEntry *gee)
 }
 
 static gboolean
-cb_gee_focus_out_event (GtkWidget         *widget,
-			GdkEventFocus *event,
-			gpointer           user_data)
+cb_gee_focus_out_event (G_GNUC_UNUSED GtkWidget     *widget,
+			G_GNUC_UNUSED GdkEventFocus *event,
+			gpointer                     user_data)
 {
 	gee_delete_tooltip (user_data, FALSE);
 	return FALSE;
@@ -1429,7 +1463,7 @@ cb_gee_button_press_event (G_GNUC_UNUSED GtkEntry *entry,
 }
 
 static gboolean
-gee_mnemonic_activate (GtkWidget *w, gboolean group_cycling)
+gee_mnemonic_activate (GtkWidget *w, G_GNUC_UNUSED gboolean group_cycling)
 {
 	GnmExprEntry *gee = GNM_EXPR_ENTRY (w);
 	gtk_widget_grab_focus (GTK_WIDGET (gee->entry));

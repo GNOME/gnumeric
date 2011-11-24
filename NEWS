@@ -52,6 +52,7 @@ Andreas:
 	* Add cell view to auto expression. [#455712]
 	* Fix import/export of interpolation methods from/to ODF. [#664351]
 	* Fix leak. [#664447]
+	* Improve range markers when editing formulas. [#664754]
 
 Jean:
 	* Make things build against gtk+-3.0.

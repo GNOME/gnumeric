@@ -1,7 +1,12 @@
+2011-11-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_scan_for_range): use the lexer items if the
+	expression is incomplete.
+
 2011-11-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/widgets/gnm-validation-combo-view.c: rename enums
-	* src/widgets/widget-font-selector.c: rename enums
+	* gnm-validation-combo-view.c: rename enums
+	* widget-font-selector.c: rename enums
 
 2011-10-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
