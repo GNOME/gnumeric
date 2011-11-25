@@ -1,3 +1,7 @@
+2011-11-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.0
+
 2011-11-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_style_prop_chart): correct the interpolation

@@ -1,3 +1,7 @@
+2011-11-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.0
+
 2011-11-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_scan_for_range): use the lexer items if the

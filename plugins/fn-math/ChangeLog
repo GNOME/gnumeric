@@ -1,3 +1,7 @@
+2011-11-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.0
+
 2011-11-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_pi): use mathematical pi rather than greek pi

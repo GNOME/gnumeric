@@ -1,3 +1,7 @@
+2011-11-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.0
+
 2011-11-21  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (start_update_progress): Handle NULL xin.

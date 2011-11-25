@@ -1,3 +1,7 @@
+2011-11-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.0
+
 2011-10-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* html.c (cb_html_attrs_as_string): write sub- and superscript
