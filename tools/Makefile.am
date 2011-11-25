@@ -5,5 +5,6 @@ EXTRA_DIST = dumpdef.pl \
 	check-gtk-includes \
 	check-null-false-returns \
 	check-glade-parsing \
+	embedder \
 	handle-conf-options \
 	biffnames
