@@ -3,6 +3,7 @@
 #
 
 libdialogs_la_SOURCES = $(base_files)
+nodist_libdialogs_la_SOURCES = embedded-ui.c
 
 if ENABLE_SOLVER
   libdialogs_la_SOURCES += dialog-solver.c
@@ -90,7 +91,6 @@ base_files =					\
 	dialog-workbook-attr.c			\
 	dialog-zoom.c				\
 	dialogs.h				\
-	embedded-ui.c				\
 	embedded-ui.h				\
 	tool-dialogs.h				\
 	dialog-printer-setup.c

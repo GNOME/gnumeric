@@ -1,5 +1,8 @@
 Gnumeric 1.11.1
 
+Morten:
+	* Build fixes relating to embedded ui files [#664828]
+
 --------------------------------------------------------------------------
 Gnumeric 1.11.0
 
