@@ -17883,7 +17883,7 @@ msgstr "Prerazporejanje listov preglednice"
 #: ../src/xml-sax-read.c:472
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
-msgstr "Zaznanih je več določil različice. Privzeto bo izbrana različica %s"
+msgstr "Zaznanih je več določil različice. Privzeto bo izbrana različica %d"
 
 #: ../src/xml-sax-read.c:636
 #, fuzzy
