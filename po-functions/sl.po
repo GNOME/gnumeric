@@ -1,4 +1,4 @@
-#'gnumeric/po-functions
+# 'gnumeric/po-functions
 # Copyright (C) 2009 gnumeric's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnumeric package.
 #
@@ -9,14 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-10-23 09:21+0000\n"
-"PO-Revision-Date: 2011-10-23 20:28+0100\n"
+"POT-Creation-Date: 2011-11-25 03:47+0000\n"
+"PO-Revision-Date: 2011-11-25 09:03+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-Language: Slovenian\n"
@@ -137,22 +137,22 @@ msgstr "V kolikor @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VA
 #: ../plugins/fn-date/functions.c:617
 #: ../plugins/fn-date/functions.c:658
 #: ../plugins/fn-date/functions.c:696
-#: ../plugins/fn-eng/functions.c:237
-#: ../plugins/fn-eng/functions.c:262
-#: ../plugins/fn-eng/functions.c:286
-#: ../plugins/fn-eng/functions.c:315
-#: ../plugins/fn-eng/functions.c:341
-#: ../plugins/fn-eng/functions.c:364
-#: ../plugins/fn-eng/functions.c:408
-#: ../plugins/fn-eng/functions.c:435
-#: ../plugins/fn-eng/functions.c:458
-#: ../plugins/fn-eng/functions.c:481
-#: ../plugins/fn-eng/functions.c:504
-#: ../plugins/fn-eng/functions.c:524
-#: ../plugins/fn-eng/functions.c:613
-#: ../plugins/fn-eng/functions.c:642
-#: ../plugins/fn-eng/functions.c:1132
-#: ../plugins/fn-eng/functions.c:1155
+#: ../plugins/fn-eng/functions.c:238
+#: ../plugins/fn-eng/functions.c:263
+#: ../plugins/fn-eng/functions.c:287
+#: ../plugins/fn-eng/functions.c:316
+#: ../plugins/fn-eng/functions.c:342
+#: ../plugins/fn-eng/functions.c:365
+#: ../plugins/fn-eng/functions.c:409
+#: ../plugins/fn-eng/functions.c:436
+#: ../plugins/fn-eng/functions.c:459
+#: ../plugins/fn-eng/functions.c:482
+#: ../plugins/fn-eng/functions.c:505
+#: ../plugins/fn-eng/functions.c:525
+#: ../plugins/fn-eng/functions.c:614
+#: ../plugins/fn-eng/functions.c:643
+#: ../plugins/fn-eng/functions.c:1133
+#: ../plugins/fn-eng/functions.c:1156
 #: ../plugins/fn-info/functions.c:97
 #: ../plugins/fn-info/functions.c:1285
 #: ../plugins/fn-info/functions.c:1351
@@ -231,6 +231,7 @@ msgstr "V kolikor @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VA
 #: ../plugins/fn-math/functions.c:2579
 #: ../plugins/fn-math/functions.c:2836
 #: ../plugins/fn-math/functions.c:2903
+#: ../plugins/fn-math/functions.c:2952
 #: ../plugins/fn-random/functions.c:48
 #: ../plugins/fn-random/functions.c:249
 #: ../plugins/fn-stat/functions.c:83
@@ -1213,10 +1214,10 @@ msgstr "Funkcija je skladna s programom Excel, v kolikor je izpuščen zadnji ar
 #: ../plugins/fn-date/functions.c:742
 #: ../plugins/fn-date/functions.c:964
 #: ../plugins/fn-date/functions.c:1254
-#: ../plugins/fn-eng/functions.c:212
-#: ../plugins/fn-eng/functions.c:316
-#: ../plugins/fn-eng/functions.c:385
-#: ../plugins/fn-eng/functions.c:753
+#: ../plugins/fn-eng/functions.c:213
+#: ../plugins/fn-eng/functions.c:317
+#: ../plugins/fn-eng/functions.c:386
+#: ../plugins/fn-eng/functions.c:754
 #: ../plugins/fn-financial/functions.c:1312
 #: ../plugins/fn-math/functions.c:433
 #: ../plugins/fn-math/functions.c:1033
@@ -1225,6 +1226,7 @@ msgstr "Funkcija je skladna s programom Excel, v kolikor je izpuščen zadnji ar
 #: ../plugins/fn-math/functions.c:1397
 #: ../plugins/fn-math/functions.c:2065
 #: ../plugins/fn-math/functions.c:2798
+#: ../plugins/fn-math/functions.c:2969
 #: ../plugins/fn-stat/functions.c:1515
 #: ../plugins/fn-stat/functions.c:2393
 #: ../plugins/fn-stat/functions.c:4525
@@ -1949,235 +1951,234 @@ msgstr ""
 msgid "A larger @{num_time_steps} yields greater accuracy but  OPT_BINOMIAL is slower to calculate."
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:206
+#: ../plugins/fn-eng/functions.c:207
 msgid "BASE:string of digits representing the number @{n} in base @{b}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:207
+#: ../plugins/fn-eng/functions.c:208
 #: ../plugins/fn-math/functions.c:1293
 #: ../plugins/fn-numtheory/numtheory.c:578
 #: ../plugins/fn-numtheory/numtheory.c:608
 msgid "n:integer"
 msgstr "n:celo število"
 
-#: ../plugins/fn-eng/functions.c:208
-#, fuzzy
-msgid "b:base (2 ≤ @{b} ≤ 36)"
-msgstr "Osnovna karta: ~a"
-
 #: ../plugins/fn-eng/functions.c:209
+msgid "b:base (2 ≤ @{b} ≤ 36)"
+msgstr "b:osnova (2 ≤ @{b} ≤ 36)"
+
+#: ../plugins/fn-eng/functions.c:210
 msgid "length:minimum length of the resulting string"
 msgstr "dolžina:najmanjša dolžina končnega niza"
 
-#: ../plugins/fn-eng/functions.c:210
+#: ../plugins/fn-eng/functions.c:211
 msgid "BASE converts @{n} to its string representation in base @{b}. Leading zeroes will be added to reach the minimum length given by @{length}."
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:235
+#: ../plugins/fn-eng/functions.c:236
 msgid "BIN2DEC:decimal representation of the binary number @{x}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:236
-#: ../plugins/fn-eng/functions.c:258
-#: ../plugins/fn-eng/functions.c:282
+#: ../plugins/fn-eng/functions.c:237
+#: ../plugins/fn-eng/functions.c:259
+#: ../plugins/fn-eng/functions.c:283
 msgid "x:a binary number, either as a string or as a number involving only the digits 0 and 1"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:257
+#: ../plugins/fn-eng/functions.c:258
 msgid "BIN2OCT:octal representation of the binary number @{x}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:259
-#: ../plugins/fn-eng/functions.c:283
-#: ../plugins/fn-eng/functions.c:308
-#: ../plugins/fn-eng/functions.c:338
-#: ../plugins/fn-eng/functions.c:361
-#: ../plugins/fn-eng/functions.c:432
-#: ../plugins/fn-eng/functions.c:455
-#: ../plugins/fn-eng/functions.c:478
-#: ../plugins/fn-eng/functions.c:501
+#: ../plugins/fn-eng/functions.c:260
+#: ../plugins/fn-eng/functions.c:284
+#: ../plugins/fn-eng/functions.c:309
+#: ../plugins/fn-eng/functions.c:339
+#: ../plugins/fn-eng/functions.c:362
+#: ../plugins/fn-eng/functions.c:433
+#: ../plugins/fn-eng/functions.c:456
+#: ../plugins/fn-eng/functions.c:479
+#: ../plugins/fn-eng/functions.c:502
 msgid "places:number of digits"
 msgstr "mesta:število številčnih mest"
 
-#: ../plugins/fn-eng/functions.c:260
+#: ../plugins/fn-eng/functions.c:261
 msgid "If @{places} is given, BIN2OCT pads the result with zeros to achieve exactly @{places} digits. If this is not possible, BIN2OCT returns #NUM!"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:281
+#: ../plugins/fn-eng/functions.c:282
 msgid "BIN2HEX:hexadecimal representation of the binary number @{x}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:284
+#: ../plugins/fn-eng/functions.c:285
 msgid "If @{places} is given, BIN2HEX pads the result with zeros to achieve exactly @{places} digits. If this is not possible, BIN2HEX returns #NUM!"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:306
+#: ../plugins/fn-eng/functions.c:307
 msgid "DEC2BIN:binary representation of the decimal number @{x}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:307
-#, fuzzy
+#: ../plugins/fn-eng/functions.c:308
 msgid "x:integer (− 513 < @{x} < 512)"
-msgstr "Izhodna osnova celega števila"
+msgstr "x:celo število (− 513 < @{x} < 512)"
 
-#: ../plugins/fn-eng/functions.c:309
+#: ../plugins/fn-eng/functions.c:310
 msgid "If @{places} is given and @{x} is non-negative, DEC2BIN pads the result with zeros to achieve exactly @{places} digits. If this is not possible, DEC2BIN returns #NUM!"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:313
+#: ../plugins/fn-eng/functions.c:314
 msgid "If @{places} is given and @{x} is negative, @{places} is ignored."
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:314
+#: ../plugins/fn-eng/functions.c:315
 msgid "If @{x} < − 512 or @{x} > 511, DEC2BIN returns #NUM!"
 msgstr "V kolikor je @{x} < − 512 ali pa @{x} > 511, funkcija DEC2BIN vrne napako #NUM!"
 
-#: ../plugins/fn-eng/functions.c:336
+#: ../plugins/fn-eng/functions.c:337
 msgid "DEC2OCT:octal representation of the decimal number @{x}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:337
-#: ../plugins/fn-eng/functions.c:360
+#: ../plugins/fn-eng/functions.c:338
+#: ../plugins/fn-eng/functions.c:361
 #: ../plugins/fn-math/functions.c:1292
 msgid "x:integer"
 msgstr "x:celo število"
 
-#: ../plugins/fn-eng/functions.c:339
+#: ../plugins/fn-eng/functions.c:340
 msgid "If @{places} is given, DEC2OCT pads the result with zeros to achieve exactly @{places} digits. If this is not possible, DEC2OCT returns #NUM!"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:359
+#: ../plugins/fn-eng/functions.c:360
 msgid "DEC2HEX:hexadecimal representation of the decimal number @{x}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:362
+#: ../plugins/fn-eng/functions.c:363
 msgid "If @{places} is given, DEC2HEX pads the result with zeros to achieve exactly @{places} digits. If this is not possible, DEC2HEX returns #NUM!"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:382
+#: ../plugins/fn-eng/functions.c:383
 msgid "DECIMAL:decimal representation of @{x}"
 msgstr "DECIMAL:decimalna predstavitev vrednosti @{x}"
 
-#: ../plugins/fn-eng/functions.c:383
+#: ../plugins/fn-eng/functions.c:384
 msgid "x:number in base @{base}"
 msgstr "x:številka osnove @{osnova}"
 
-#: ../plugins/fn-eng/functions.c:384
+#: ../plugins/fn-eng/functions.c:385
 msgid "base:base of @{x}, (2 ≤ @{base} ≤ 36)"
 msgstr "osnova:osnova @{x}, (2 ≤ @{osnova} ≤ 36)"
 
-#: ../plugins/fn-eng/functions.c:406
+#: ../plugins/fn-eng/functions.c:407
 msgid "OCT2DEC:decimal representation of the octal number @{x}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:407
-#: ../plugins/fn-eng/functions.c:431
-#: ../plugins/fn-eng/functions.c:454
+#: ../plugins/fn-eng/functions.c:408
+#: ../plugins/fn-eng/functions.c:432
+#: ../plugins/fn-eng/functions.c:455
 msgid "x:a octal number, either as a string or as a number"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:430
+#: ../plugins/fn-eng/functions.c:431
 msgid "OCT2BIN:binary representation of the octal number @{x}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:433
+#: ../plugins/fn-eng/functions.c:434
 msgid "If @{places} is given, OCT2BIN pads the result with zeros to achieve exactly @{places} digits. If this is not possible, OCT2BIN returns #NUM!"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:453
+#: ../plugins/fn-eng/functions.c:454
 msgid "OCT2HEX:hexadecimal representation of the octal number @{x}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:456
+#: ../plugins/fn-eng/functions.c:457
 msgid "If @{places} is given, OCT2HEX pads the result with zeros to achieve exactly @{places} digits. If this is not possible, OCT2HEX returns #NUM!"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:476
+#: ../plugins/fn-eng/functions.c:477
 msgid "HEX2BIN:binary representation of the hexadecimal number @{x}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:477
-#: ../plugins/fn-eng/functions.c:500
-#: ../plugins/fn-eng/functions.c:523
+#: ../plugins/fn-eng/functions.c:478
+#: ../plugins/fn-eng/functions.c:501
+#: ../plugins/fn-eng/functions.c:524
 msgid "x:a hexadecimal number, either as a string or as a number if no A to F are needed"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:479
+#: ../plugins/fn-eng/functions.c:480
 msgid "If @{places} is given, HEX2BIN pads the result with zeros to achieve exactly @{places} digits. If this is not possible, HEX2BIN returns #NUM!"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:499
+#: ../plugins/fn-eng/functions.c:500
 msgid "HEX2OCT:octal representation of the hexadecimal number @{x}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:502
+#: ../plugins/fn-eng/functions.c:503
 msgid "If @{places} is given, HEX2OCT pads the result with zeros to achieve exactly @{places} digits. If this is not possible, HEX2OCT returns #NUM!"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:522
+#: ../plugins/fn-eng/functions.c:523
 msgid "HEX2DEC:decimal representation of the hexadecimal number @{x}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:545
+#: ../plugins/fn-eng/functions.c:546
 msgid "BESSELI:Modified Bessel function of the first kind of order @{α} at @{x}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:546
-#: ../plugins/fn-eng/functions.c:584
-#: ../plugins/fn-eng/functions.c:608
-#: ../plugins/fn-eng/functions.c:637
+#: ../plugins/fn-eng/functions.c:547
+#: ../plugins/fn-eng/functions.c:585
+#: ../plugins/fn-eng/functions.c:609
+#: ../plugins/fn-eng/functions.c:638
 msgid "X:number"
 msgstr "X:število"
 
-#: ../plugins/fn-eng/functions.c:547
-#: ../plugins/fn-eng/functions.c:585
-msgid "α:order (any non-negative number)"
-msgstr ""
-
 #: ../plugins/fn-eng/functions.c:548
 #: ../plugins/fn-eng/functions.c:586
-msgid "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned."
+msgid "α:order (any non-negative number)"
 msgstr ""
 
 #: ../plugins/fn-eng/functions.c:549
 #: ../plugins/fn-eng/functions.c:587
+msgid "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned."
+msgstr ""
+
+#: ../plugins/fn-eng/functions.c:550
+#: ../plugins/fn-eng/functions.c:588
 msgid "This function is Excel compatible if only integer orders @{α} are used."
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:552
-#: ../plugins/fn-eng/functions.c:590
-#: ../plugins/fn-eng/functions.c:616
+#: ../plugins/fn-eng/functions.c:553
+#: ../plugins/fn-eng/functions.c:591
+#: ../plugins/fn-eng/functions.c:617
 msgid "wiki:en:Bessel_function"
 msgstr "wiki:en:Bessel_function"
 
-#: ../plugins/fn-eng/functions.c:583
+#: ../plugins/fn-eng/functions.c:584
 msgid "BESSELK:Modified Bessel function of the second kind of order @{α} at @{x}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:607
+#: ../plugins/fn-eng/functions.c:608
 msgid "BESSELJ:Bessel function of the first kind of order @{α} at @{x}"
-msgstr ""
-
-#: ../plugins/fn-eng/functions.c:609
-#: ../plugins/fn-eng/functions.c:638
-msgid "α:order (any non-negative integer)"
 msgstr ""
 
 #: ../plugins/fn-eng/functions.c:610
 #: ../plugins/fn-eng/functions.c:639
+msgid "α:order (any non-negative integer)"
+msgstr ""
+
+#: ../plugins/fn-eng/functions.c:611
+#: ../plugins/fn-eng/functions.c:640
 msgid "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned. If @{α} is not an integer, it is truncated."
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:636
+#: ../plugins/fn-eng/functions.c:637
 msgid "BESSELY:Bessel function of the second kind of order @{α} at @{x}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:663
+#: ../plugins/fn-eng/functions.c:664
 msgid "CONVERT:a converted measurement"
 msgstr "CONVERT:pretvorjena meritev"
 
-#: ../plugins/fn-eng/functions.c:664
-#: ../plugins/fn-eng/functions.c:1108
+#: ../plugins/fn-eng/functions.c:665
+#: ../plugins/fn-eng/functions.c:1109
+#: ../plugins/fn-eng/functions.c:1175
 #: ../plugins/fn-math/functions.c:226
 #: ../plugins/fn-math/functions.c:245
 #: ../plugins/fn-math/functions.c:267
@@ -2236,23 +2237,23 @@ msgstr "CONVERT:pretvorjena meritev"
 msgid "x:number"
 msgstr "x:število"
 
-#: ../plugins/fn-eng/functions.c:665
+#: ../plugins/fn-eng/functions.c:666
 msgid "from:unit (string)"
 msgstr "od:enota (nit)"
 
-#: ../plugins/fn-eng/functions.c:666
+#: ../plugins/fn-eng/functions.c:667
 msgid "to:unit (string)"
 msgstr "do: enota (niz)"
 
-#: ../plugins/fn-eng/functions.c:667
+#: ../plugins/fn-eng/functions.c:668
 msgid "CONVERT returns a conversion from one measurement system to another. @{x} is a value in @{from} units that is to be converted into @{to} units."
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:669
+#: ../plugins/fn-eng/functions.c:670
 msgid "If @{from} and @{to} are different types, CONVERT returns #N/A!"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:670
+#: ../plugins/fn-eng/functions.c:671
 msgid ""
 "@{from} and @{to} can be any of the following:\n"
 "\n"
@@ -2349,93 +2350,107 @@ msgid ""
 "\t'y'  \tyocto \t\t1E-24"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:752
+#: ../plugins/fn-eng/functions.c:753
 msgid "This function is Excel compatible (except \"picapt\")."
 msgstr "Funkcija je združljiva s progamom MS Excel (razen \"picapt\")."
 
-#: ../plugins/fn-eng/functions.c:1075
+#: ../plugins/fn-eng/functions.c:1076
 msgid "ERF:Gauss error function"
 msgstr "ERF:Gaussova funkcija napake"
 
-#: ../plugins/fn-eng/functions.c:1076
+#: ../plugins/fn-eng/functions.c:1077
 msgid "lower:lower limit of the integral, defaults to 0"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:1077
+#: ../plugins/fn-eng/functions.c:1078
 msgid "upper:upper limit of the integral"
 msgstr "zgornja:zgornja limita integrala"
 
-#: ../plugins/fn-eng/functions.c:1078
+#: ../plugins/fn-eng/functions.c:1079
 msgid "ERF returns 2/sqrt(π)* integral from @{lower} to @{upper} of exp(-t*t) dt"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:1079
+#: ../plugins/fn-eng/functions.c:1080
 msgid "This function is Excel compatible if two arguments are supplied and neither is negative."
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:1083
-#: ../plugins/fn-eng/functions.c:1112
+#: ../plugins/fn-eng/functions.c:1084
+#: ../plugins/fn-eng/functions.c:1113
 msgid "wiki:en:Error_function"
 msgstr "wiki:en:Error_function"
 
-#: ../plugins/fn-eng/functions.c:1107
+#: ../plugins/fn-eng/functions.c:1108
 msgid "ERFC:Complementary Gauss error function"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:1109
+#: ../plugins/fn-eng/functions.c:1110
 msgid "ERFC returns 2/sqrt(π)* integral from @{x} to ∞ of exp(-t*t) dt"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:1127
+#: ../plugins/fn-eng/functions.c:1128
 msgid "DELTA:Kronecker delta function"
 msgstr "DELTA:Kroneckerjeva funkcija delta"
 
-#: ../plugins/fn-eng/functions.c:1128
-#: ../plugins/fn-eng/functions.c:1151
+#: ../plugins/fn-eng/functions.c:1129
+#: ../plugins/fn-eng/functions.c:1152
 msgid "x0:number"
 msgstr "x0:število"
 
-#: ../plugins/fn-eng/functions.c:1129
-#: ../plugins/fn-eng/functions.c:1152
+#: ../plugins/fn-eng/functions.c:1130
+#: ../plugins/fn-eng/functions.c:1153
 msgid "x1:number, defaults to 0"
 msgstr "x1:število, privzeto vrednosti 0"
 
-#: ../plugins/fn-eng/functions.c:1130
+#: ../plugins/fn-eng/functions.c:1131
 msgid "DELTA  returns 1 if  @{x1} = @{x0} and 0 otherwise."
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:1131
-#: ../plugins/fn-eng/functions.c:1154
+#: ../plugins/fn-eng/functions.c:1132
+#: ../plugins/fn-eng/functions.c:1155
 msgid "If either argument is non-numeric, #VALUE! is returned."
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:1150
+#: ../plugins/fn-eng/functions.c:1151
 msgid "GESTEP:step function with step at @{x1} evaluated at @{x0}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:1153
+#: ../plugins/fn-eng/functions.c:1154
 msgid "GESTEP returns 1 if  @{x1} ≤ @{x0} and 0 otherwise."
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:1173
+#: ../plugins/fn-eng/functions.c:1174
+#, fuzzy
+msgid "HEXREP:hexadecimal representation of numeric value"
+msgstr "DECIMAL:decimalna predstavitev vrednosti @{x}"
+
+#: ../plugins/fn-eng/functions.c:1176
+#, fuzzy
+msgid "HEXREP returns a hexadecimal string representation of @{x}."
+msgstr "DECIMAL:decimalna predstavitev vrednosti @{x}"
+
+#: ../plugins/fn-eng/functions.c:1177
+msgid "This is a function meant for debugging.  The layout of the result may change and even depend on how Gnumeric was compiled."
+msgstr ""
+
+#: ../plugins/fn-eng/functions.c:1205
 msgid "INVSUMINV:the reciprocal of the sum of reciprocals of the arguments"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:1174
+#: ../plugins/fn-eng/functions.c:1206
 msgid "x0:non-negative number"
 msgstr "x0:ne-negativno število"
 
-#: ../plugins/fn-eng/functions.c:1175
+#: ../plugins/fn-eng/functions.c:1207
 msgid "x1:non-negative number"
 msgstr "x1:ne-negativno število"
 
-#: ../plugins/fn-eng/functions.c:1176
+#: ../plugins/fn-eng/functions.c:1208
 msgid ""
 "If any of the arguments is negative, #VALUE! is returned.\n"
 "If any argument is zero, the result is zero."
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:1178
+#: ../plugins/fn-eng/functions.c:1210
 msgid "INVSUMINV sum calculates the reciprocal (the inverse) of the sum of reciprocals (inverses) of all its arguments."
 msgstr ""
 
@@ -4810,7 +4825,7 @@ msgstr "FACT:fakulteta vrednosti @{x}, na primer: @{x}!"
 
 #: ../plugins/fn-math/functions.c:894
 msgid "The domain of this function has been extended using the GAMMA function."
-msgstr ""
+msgstr "Domena funkcije je razširjena z uporabo funkcije Gama"
 
 #: ../plugins/fn-math/functions.c:922
 msgid "GAMMA:the Gamma function"
@@ -4818,7 +4833,7 @@ msgstr "GAMMA:funkcija gama"
 
 #: ../plugins/fn-math/functions.c:952
 msgid "GAMMALN:natural logarithm of the Gamma function"
-msgstr ""
+msgstr "GAMMALN:naravni logaritem funkcije Gama"
 
 #: ../plugins/fn-math/functions.c:976
 msgid "BETA:Euler beta function"
@@ -4991,7 +5006,7 @@ msgstr "MOD:ostanek vrednosti @{x} pri deljenju s številom @{n}"
 
 #: ../plugins/fn-math/functions.c:1294
 msgid "MOD function returns the remainder when @{x} is divided by @{n}."
-msgstr ""
+msgstr "Funkcija MOD vrne preostanek pri deljenju števila @{x} s številom @{n}."
 
 #: ../plugins/fn-math/functions.c:1295
 msgid "If @{n} is 0, MOD returns #DIV/0!"
@@ -5143,12 +5158,14 @@ msgid "TANH:the hyperbolic tangent of @{x}"
 msgstr "TANH:hiperbolični tangens vrednosti @{x}"
 
 #: ../plugins/fn-math/functions.c:1621
-msgid "PI:the constant π"
+#, fuzzy
+msgid "PI:the constant 𝜋"
 msgstr "PI:konstanta π"
 
 #: ../plugins/fn-math/functions.c:1622
-msgid "This function is Excel compatible, but it returns π with a better precision."
-msgstr ""
+#, fuzzy
+msgid "This function is Excel compatible, but it returns 𝜋 with a better precision."
+msgstr "Funkcija je skladna s programom Excel, v kolikor je izpuščen zadnji argument."
 
 #: ../plugins/fn-math/functions.c:1639
 #, fuzzy
@@ -5241,7 +5258,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1878
 #, fuzzy
-msgid "SQRTPI:the square root of @{x} times π"
+msgid "SQRTPI:the square root of @{x} times 𝜋"
 msgstr "IMSQRT:kvadratni koren kompleksnega števila @{z}"
 
 #: ../plugins/fn-math/functions.c:1901
@@ -5457,6 +5474,7 @@ msgid "SUMPRODUCT:multiplies components and adds the results"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:2938
+#: ../plugins/fn-math/functions.c:2961
 msgid "Multiplies corresponding data entries in the given arrays or ranges, and then returns the sum of those products."
 msgstr ""
 
@@ -5465,26 +5483,49 @@ msgid "If an entry is not numeric, the value zero is used instead."
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:2942
+#: ../plugins/fn-math/functions.c:2965
 msgid "If arrays or range arguments do not have the same dimensions, return #VALUE! error."
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:2944
-msgid "SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5>0 will not work, implicit intersection will kick in. Instead use --(A1:A5>0)"
+msgid "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  Instead use SUMPRODUCT(--(A1:A5>0))"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3058
+#: ../plugins/fn-math/functions.c:2953
+#, fuzzy
+msgid "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
+msgstr "Funkcija je skladna s funkcijami programa OpenFormula."
+
+#: ../plugins/fn-math/functions.c:2959
+msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
+msgstr ""
+
+#: ../plugins/fn-math/functions.c:2964
+msgid "If an entry is not numeric or logical, the value zero is used instead."
+msgstr ""
+
+#: ../plugins/fn-math/functions.c:2967
+msgid "This function differs from SUMPRODUCT by considering booleans."
+msgstr ""
+
+#: ../plugins/fn-math/functions.c:2968
+#, fuzzy
+msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
+msgstr "Ta funkcija ni skladnja s funkcijami programa Excel."
+
+#: ../plugins/fn-math/functions.c:3094
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN:lastna vrednost in lastni vektor simetrične @{matrike}"
 
-#: ../plugins/fn-math/functions.c:3059
+#: ../plugins/fn-math/functions.c:3095
 msgid "matrix:a symmetric matrix"
 msgstr "matrika:simetrična matrika"
 
-#: ../plugins/fn-math/functions.c:3060
+#: ../plugins/fn-math/functions.c:3096
 msgid "If @{matrix} is not symmetric, EIGEN returns #NUM!"
 msgstr "V kolikor @{matrika} ni simetrična, funkcija EIGEN vrne napako #NUM!"
 
-#: ../plugins/fn-math/functions.c:3061
+#: ../plugins/fn-math/functions.c:3097
 msgid "If @{matrix} does not contain an equal number of columns and rows, EIGEN returns #VALUE!"
 msgstr "V kolikor @{matrika} nima enakega števila stolpcev in vrstic, funkcija EIGEN vrne napako #VALUE!"
 
@@ -7128,19 +7169,16 @@ msgid "p:probability of a success"
 msgstr "p:verjetnost uspeha"
 
 #: ../plugins/fn-stat/functions.c:384
-#, fuzzy
 msgid "If @{f} or @{t} is a non-integer it is truncated."
-msgstr "V kolikor katerikoli izmed argumentov ni celo število, je vrednost razdeljena"
+msgstr "V kolikor @{f} ali @{t} nista celi števili, je vrednost razdeljena"
 
 #: ../plugins/fn-stat/functions.c:385
-#, fuzzy
 msgid "If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error."
-msgstr "V kolikor je @{k} < 0 funkcija vrne napako #NUM!."
+msgstr "V kolikor je (@{f} + @{t} -1) <= 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:386
-#, fuzzy
 msgid "If @{p} < 0 or @{p} > 1 this functions returns a #NUM! error."
-msgstr "V kolikor je @{k} < 0 ali @{k} > 1, funkcija vrne napako #NUM!."
+msgstr "V kolikor je @{p} < 0 or @{p} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:409
 msgid "NORMSDIST:cumulative density function of the standard normal distribution"
@@ -7170,9 +7208,8 @@ msgid "p:given probability"
 msgstr "p:podana verjetnost"
 
 #: ../plugins/fn-stat/functions.c:435
-#, fuzzy
 msgid "If @{p} < 0 or @{p} > 1 this function returns #NUM! error."
-msgstr "V kolikor je @{k} < 0 ali @{k} > 1, funkcija vrne napako #NUM!."
+msgstr "V kolikor je @{p} < 0 or @{p} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:437
 #, fuzzy
