@@ -3056,17 +3056,26 @@ gnumeric_sumproduct_common (gboolean ignore_bools, GnmFuncEvalInfo *ei,
 		 */
 		result = value_new_error_VALUE (ei->pos);
 	} else {
-		gnm_float sum = 0;
+
+		void *state = gnm_accumulator_start ();
+		GnmAccumulator *acc = gnm_accumulator_new ();
 		int j;
 
 		for (j = 0; j < sizex * sizey; j++) {
-			gnm_float product = data[0][j];
-			for (i = 1; i < argc; i++)
-				product *= data[i][j];
-			sum += product;
+			int i;
+			GnmQuad product;
+			gnm_quad_init (&product, data[0][j]);
+			for (i = 1; i < argc; i++) {
+				GnmQuad q;
+				gnm_quad_init (&q, data[i][j]);
+				gnm_quad_mul (&product, &product, &q);
+			}
+			gnm_accumulator_add_quad (acc, &product);
 		}
 
-		result = value_new_float (sum);
+		result = value_new_float (gnm_accumulator_value (acc));
+		gnm_accumulator_free (acc);
+		gnm_accumulator_end (state);
 	}
 
 done:

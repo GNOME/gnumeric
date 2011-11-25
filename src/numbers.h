@@ -120,6 +120,18 @@ gnm_float gnm_yn (int n, gnm_float x);
 #define GNM_EPSILON	LDBL_EPSILON
 #define GNM_const(_c)	_c ## L
 
+#define GnmQuad GOQuadl
+#define gnm_quad_init go_quad_initl
+#define gnm_quad_mul go_quad_mull
+#define GnmAccumulator GOAccumulatorl
+#define gnm_accumulator_start go_accumulator_startl
+#define gnm_accumulator_end go_accumulator_endl
+#define gnm_accumulator_new go_accumulator_newl
+#define gnm_accumulator_free go_accumulator_freel
+#define gnm_accumulator_add go_accumulator_addl
+#define gnm_accumulator_add_quad go_accumulator_add_quadl
+#define gnm_accumulator_value go_accumulator_valuel
+
 #else /* !GNM_WITH_LONG_DOUBLE */
 
 typedef double gnm_float;
@@ -189,6 +201,18 @@ typedef double gnm_float;
 #define GNM_MAX		DBL_MAX
 #define GNM_EPSILON	DBL_EPSILON
 #define GNM_const(_c)	_c
+
+#define GnmQuad GOQuad
+#define gnm_quad_init go_quad_init
+#define gnm_quad_mul go_quad_mul
+#define GnmAccumulator GOAccumulator
+#define gnm_accumulator_start go_accumulator_start
+#define gnm_accumulator_end go_accumulator_end
+#define gnm_accumulator_new go_accumulator_new
+#define gnm_accumulator_free go_accumulator_free
+#define gnm_accumulator_add go_accumulator_add
+#define gnm_accumulator_add_quad go_accumulator_add_quad
+#define gnm_accumulator_value go_accumulator_value
 
 #endif
 
