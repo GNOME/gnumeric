@@ -2161,8 +2161,6 @@ gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
 	 * and we are selecting on a different sheet than the expr being edited */
 	if (scg_sheet (scg) != wb_control_cur_sheet (scg_wbc (scg)))
 		item_cursor_set_visibility (pane->cursor.std, FALSE);
-	if (NULL != gee)
-		gnm_expr_entry_disable_highlight (gee);
 	item = goc_item_new (pane->grid_items,
 		item_cursor_get_type (),
 		"SheetControlGUI", scg,
@@ -2176,8 +2174,6 @@ void
 gnm_pane_rangesel_stop (GnmPane *pane)
 {
 	GnmExprEntry *gee = wbcg_get_entry_logical (pane->simple.scg->wbcg);
-	if (NULL != gee)
-		gnm_expr_entry_enable_highlight (gee);
 
 	g_return_if_fail (pane->cursor.rangesel != NULL);
 	g_object_unref (G_OBJECT (pane->cursor.rangesel));
@@ -2237,21 +2233,16 @@ gnm_pane_mouse_cursor_set (GnmPane *pane, GdkCursor *c)
 
 void
 gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r,
-				gboolean main_color)
+				gchar const *color)
 {
-	gchar const *colours[5]
-		= {"green","yellow", "orange", "red", "purple"};
-	gint i;
 	ItemCursor *cursor;
-
-	i = g_slist_length (pane->cursor.expr_range) % 5;
 
 	cursor = (ItemCursor *) goc_item_new
 		(GOC_GROUP (GOC_CANVAS (pane)->root),
 		 item_cursor_get_type (),
 		 "SheetControlGUI",	pane->simple.scg,
 		 "style",		ITEM_CURSOR_EXPR_RANGE,
-		 "color",		main_color ? "blue" : colours[i],
+		 "color",		color,
 		 NULL);
 
 	item_cursor_bound_set (cursor, r);

@@ -585,6 +585,52 @@ gee_destroy_feedback_range (GnmExprEntry *gee)
 		gnm_pane_expr_cursor_stop (pane););
 }
 
+static void
+gnm_expr_entry_colour_ranges (GnmExprEntry *gee, int start, int end, GnmRangeRef *rr, int colour)
+{
+	static struct {
+		guint16 red;
+		guint16 green;
+		guint16 blue;
+		gchar const *name;
+	} colours[] = {{0x0, 0x0, 0xFFFF, "00:00:ff:ff"},
+		       {0x0, 0xFFFF, 0x0, "00:ff:00:ff"},
+		       {0xFFFF, 0x0, 0x0, "ff:00:00:ff"}, 
+		       {0x0, 0x80FF, 0x80FF, "00:80:80:ff"}, 
+		       {0xA0FF, 0xA0FF, 0x0, "a0:a0:00:ff"}, 
+		       {0xA0FF, 0x0, 0xA0FF, "a0:00:a0:ff"}};
+	GtkEntry *entry = gee->entry;
+	PangoLayout *layout = gtk_entry_get_layout (entry);
+	PangoAttribute *at;
+	PangoAttrList *list = pango_layout_get_attributes (layout);
+	GnmRange r;
+	GnmRange const *merge; /*[#127415]*/
+	Sheet *start_sheet, *end_sheet;
+	Sheet *sheet = scg_sheet (gee->scg);
+
+	colour = colour % G_N_ELEMENTS (colours);
+
+	gnm_rangeref_normalize_pp (rr, &gee->pp,
+				   &start_sheet,
+				   &end_sheet,
+				   &r);
+	if (start_sheet != sheet || 
+	    end_sheet != sheet)
+		return;
+	if (range_is_singleton  (&r) &&
+	    NULL != (merge = gnm_sheet_merge_is_corner
+		     (sheet, &r.start)))
+		r = *merge;
+
+	SCG_FOREACH_PANE (gee->scg, pane, gnm_pane_expr_cursor_bound_set (pane, &r, colours[colour].name););
+
+	at = pango_attr_foreground_new (colours[colour].red, colours[colour].green, colours[colour].blue);
+	at->start_index = gtk_entry_text_index_to_layout_index (entry, start);
+	at->end_index = gtk_entry_text_index_to_layout_index (entry, end);
+	
+	pango_attr_list_change (list, at);
+}
+
 /* WARNING : DO NOT CALL THIS FROM FROM UPDATE.  It may create another
  *           canvas-item which would in turn call update and confuse the
  *           canvas.
@@ -592,87 +638,26 @@ gee_destroy_feedback_range (GnmExprEntry *gee)
 static void
 gee_scan_for_range (GnmExprEntry *gee)
 {
-	GnmRange  range;
-	Sheet *sheet = scg_sheet (gee->scg);
-	Sheet *parse_sheet;
-
 	parse_pos_init_editpos (&gee->pp, scg_view (gee->scg));
 	gee_destroy_feedback_range (gee);
-	if (!gee->feedback_disabled && gee_is_editing (gee)) {
-		if (gee->texpr != NULL) {
-			GSList *ptr;
-			GSList *list = gnm_expr_top_get_ranges (gee->texpr);
-			for (ptr = list ; ptr != NULL ; ptr = ptr->next) {
-				GnmValue *v = ptr->data;
-				GnmRange r;
-				Sheet *start_sheet, *end_sheet;
-				GnmRangeRef const *rr = value_get_rangeref (v);
-				GnmRange const *merge; /* [#127415] */
-				gnm_rangeref_normalize_pp (rr, &gee->pp,
-							   &start_sheet,
-							   &end_sheet,
-							   &r);
-
-				if (start_sheet != sheet || end_sheet != sheet)
-					continue;
-				if (range_is_singleton  (&r) &&
-				    NULL != (merge = gnm_sheet_merge_is_corner
-					     (sheet, &r.start)))
-					r = *merge;
-				SCG_FOREACH_PANE (gee->scg, pane,
-						  gnm_pane_expr_cursor_bound_set
-						  (pane, &r, FALSE););
+	if (!gee->feedback_disabled && gee_is_editing (gee) && gee->lexer_items != NULL) {
+		GnmLexerItem *gli = gee->lexer_items;
+		int colour = 0;
+		do {
+			if (gli->token == RANGEREF) {
+				char const *text = gtk_entry_get_text (gee->entry);
+				char *rtext = g_strndup (text + gli->start, 
+							 gli->end - gli->start);
+				char const *tmp;
+				GnmRangeRef rr;
+				tmp = rangeref_parse (&rr, rtext, 
+						      &gee->pp, gee_convs (gee));
+				if (tmp != rtext)
+					gnm_expr_entry_colour_ranges (gee, gli->start, gli->end, &rr, 
+								      colour++);
+				g_free (rtext);
 			}
-
-			g_slist_free_full (list, (GDestroyNotify)value_release);
-		} else if (gee->lexer_items != NULL) {
-			GnmLexerItem *gli = gee->lexer_items;
-			do {
-				if (gli->token == RANGEREF) {
-					char const *text = gtk_entry_get_text (gee->entry);
-					char *rtext = g_strndup (text + gli->start, 
-								 gli->end - gli->start);
-					char const *tmp;
-					GnmRangeRef rr;
-					tmp = rangeref_parse (&rr, rtext, 
-							      &gee->pp, gee_convs (gee));
-					if (tmp != rtext) {
-						GnmRange r;
-						GnmRange const *merge; /* [#127415] */
-						Sheet *start_sheet, *end_sheet;
-						gnm_rangeref_normalize_pp (&rr, &gee->pp,
-									   &start_sheet,
-									   &end_sheet,
-									   &r);
-						if (start_sheet != sheet || 
-						    end_sheet != sheet)
-							continue;
-						if (range_is_singleton  (&r) &&
-						    NULL != (merge = gnm_sheet_merge_is_corner
-							     (sheet, &r.start)))
-							r = *merge;
-						SCG_FOREACH_PANE 
-							(gee->scg, pane,
-							 gnm_pane_expr_cursor_bound_set
-							 (pane, &r, FALSE););
-					}
-					g_free (rtext);
-				}
-			} while (gli++->token != 0);	
-		}
-		gnm_expr_entry_find_range (gee);
-		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&
-		    parse_sheet == sheet) {
-			GnmRange const *merge; /* [#127415] */
-			if (range_is_singleton  (&range) &&
-			    NULL != (merge = gnm_sheet_merge_is_corner
-				     (parse_sheet, &range.start)))
-				range = *merge;
-
-			SCG_FOREACH_PANE (gee->scg, pane,
-					  gnm_pane_expr_cursor_bound_set
-					  (pane, &range, TRUE););
-		}
+		} while (gli++->token != 0);	
 	}
 }
 
@@ -2778,6 +2763,7 @@ gnm_expr_entry_enable_highlight (GnmExprEntry *gee)
 	g_return_if_fail (gee != NULL);
 	gee->feedback_disabled = FALSE;
 	gee_update_lexer_items (gee);
+	gee_scan_for_range (gee);
 }
 
 /*****************************************************************************/

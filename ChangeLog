@@ -1,3 +1,12 @@
+2011-11-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gnm-pane.h (gnm_pane_expr_cursor_bound_set): change argument of
+	gnm_pane_expr_cursor_bound_set
+	* src/gnm-pane.c (gnm_pane_expr_cursor_bound_set): change argument of
+	gnm_pane_expr_cursor_bound_set, receive the colour to use.
+	(gnm_pane_rangesel_stop): do not enable highlights
+	(gnm_pane_rangesel_start): do not disable highlights
+
 2011-11-24  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

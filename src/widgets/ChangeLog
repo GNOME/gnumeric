@@ -1,3 +1,8 @@
+2011-11-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_colour_ranges): new
+	(gee_scan_for_range): use gnm_expr_entry_colour_ranges
+
 2011-11-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.0
