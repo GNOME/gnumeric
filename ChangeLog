@@ -1,3 +1,9 @@
+2011-11-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-cursor.c (item_cursor_enter_notify),
+	(item_cursor_class_init): fixed expression range cursor behavior.
+	[#664852]
+
 2011-11-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gnm-pane.h (gnm_pane_expr_cursor_bound_set): change argument of

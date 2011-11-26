@@ -1369,8 +1369,10 @@ item_cursor_enter_notify (GocItem *item, double x_, double y_)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
 	gint64 x = x_ * item->canvas->pixels_per_unit, y = y_ * item->canvas->pixels_per_unit;
-	if (ic->style == ITEM_CURSOR_EXPR_RANGE)
+	if (ic->style == ITEM_CURSOR_EXPR_RANGE) {
 		gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas), GDK_ARROW);
+		goc_item_invalidate (item);
+	}
 	else if (ic->style == ITEM_CURSOR_SELECTION)
 		item_cursor_set_cursor (item->canvas, ic, x, y);
 	return FALSE;
@@ -1457,7 +1459,7 @@ item_cursor_class_init (GObjectClass *gobject_klass)
 	item_klass->button_released = item_cursor_button_released;
 	item_klass->motion      = item_cursor_motion;
 	item_klass->enter_notify = item_cursor_enter_notify;
-	item_klass->enter_notify = item_cursor_leave_notify;
+	item_klass->leave_notify = item_cursor_leave_notify;
 }
 
 static void
