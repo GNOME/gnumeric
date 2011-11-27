@@ -189,3 +189,5 @@ embedded-ui.c: $(top_srcdir)/tools/embedder $(embedded_uis)
 		COMPRESS $(embedded_uis) >$(abs_builddir)/$@
 
 EXTRA_DIST = $(ui_DATA) $(embedded_uis)
+
+CLEANFILES = $(BUILT_SOURCES)
