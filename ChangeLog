@@ -1,3 +1,11 @@
+2011-11-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-component.c (gnm_soc_get_target_list),
+	(gnm_soc_write_image), (soc_cb_save_as), (soc_cb_save_as_image),
+	(gnm_soc_populate_menu), (gnm_soc_write_object), (gnm_soc_copy),
+	(gnm_soc_user_config): make component support as sheet object work.
+	* src/wbc-gtk-actions.c: cleaned.
+
 2011-11-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-cursor.c (item_cursor_enter_notify),

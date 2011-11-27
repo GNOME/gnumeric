@@ -33,6 +33,7 @@
 #include <goffice/goffice.h>
 #include <goffice/component/go-component.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-output-gio.h>
 #include <glib/gi18n-lib.h>
 
 
@@ -124,6 +125,22 @@ static GtkTargetList *
 gnm_soc_get_target_list (SheetObject const *so)
 {
 	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
+	char *mime_str = go_image_format_to_mime ("svg");
+	GSList *mimes, *ptr;
+
+	mimes = go_strsplit_to_slist (mime_str, ',');
+	for (ptr = mimes; ptr != NULL; ptr = ptr->next) {
+		const char *mime = ptr->data;
+
+		if (mime != NULL && *mime != '\0')
+			gtk_target_list_add (tl, gdk_atom_intern (mime, FALSE),
+					     0, 0);
+	}
+	g_free (mime_str);
+	g_slist_free_full (mimes, g_free);
+	/* No need to eliminate duplicates. */
+	gtk_target_list_add_image_targets (tl, 0, TRUE);
+
 	return tl;
 }
 
@@ -142,18 +159,116 @@ static void
 gnm_soc_write_image (SheetObject const *so, char const *format, double resolution,
 		     GsfOutput *output, GError **err)
 {
+	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (so);
+	gboolean res = FALSE;
+	double coords[4];
+	double w, h;
+
+	if (so->sheet) {
+		sheet_object_position_pts_get (SHEET_OBJECT (so), coords);
+		w = fabs (coords[2] - coords[0]) + 1.;
+		h = fabs (coords[3] - coords[1]) + 1.;
+	} else {
+		w = GPOINTER_TO_UINT
+			(g_object_get_data (G_OBJECT (so), "pt-width-at-copy"));
+		h = GPOINTER_TO_UINT
+			(g_object_get_data (G_OBJECT (so), "pt-height-at-copy"));
+	}
+
+	g_return_if_fail (w > 0 && h > 0);
+
+	res = go_component_export_image (soc->component, go_image_get_format_from_name (format),
+				      output, resolution, resolution);
+
+	if (!res && err && *err == NULL)
+		*err = g_error_new (gsf_output_error_id (), 0,
+				    _("Unknown failure while saving image"));
 }
 
 static void
 soc_cb_save_as (SheetObject *so, SheetControl *sc)
 {
+	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (so);
+	/* FIXME: This violates model gui barrier */
+	WBCGtk *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	GtkWidget *dlg = gtk_file_chooser_dialog_new (_("Save as"),
+	                                              GTK_WINDOW (wbcg_toplevel (wbcg)),
+	                                              GTK_FILE_CHOOSER_ACTION_SAVE,
+	                                              GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+	                                              GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+	                                              NULL);
+	GtkFileFilter *filter = gtk_file_filter_new ();
+	gtk_file_filter_add_mime_type (filter, go_component_get_mime_type (soc->component));
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dlg), filter);
+	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_ACCEPT) {
+		char *uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dlg));
+		GError *err = NULL;
+		GsfOutput *output = gsf_output_gio_new_for_uri (uri, &err);
+		if (err != NULL)
+			go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
+		else {
+			char *buf;
+			int length;
+			gpointer user_data = NULL;
+			void (*clearfunc) (gpointer) = NULL;
+			go_component_get_data (soc->component, (gpointer) &buf, &length, &clearfunc, &user_data);
+			gsf_output_write (output, length, buf);
+			if (clearfunc)
+				clearfunc ((user_data)? user_data: buf);
+			gsf_output_close (output);
+			g_object_unref (output);
+		}
+		g_free (uri);
+	}
+	gtk_widget_destroy (dlg);
+}
+
+static void
+soc_cb_save_as_image (SheetObject *so, SheetControl *sc)
+{
+	WBCGtk *wbcg;
+	char *uri;
+	GError *err = NULL;
+	GsfOutput *output;
+	GSList *l;
+	GOImageFormat selected_format;
+	GOImageFormatInfo const *format_info;
+	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (so);
+	double resolution;
+
+	g_return_if_fail (soc != NULL);
+
+	/* assuming that components support the same image formats than graphs */
+	l = gog_graph_get_supported_image_formats ();
+	g_return_if_fail (l != NULL);
+	selected_format = GPOINTER_TO_UINT (l->data);
+
+	/* FIXME: This violates model gui barrier */
+	wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	uri = go_gui_get_image_save_info (wbcg_toplevel (wbcg), l, &selected_format, &resolution);
+	if (!uri)
+		goto out;
+	output = go_file_create (uri, &err);
+	if (!output)
+		goto out;
+	format_info = go_image_get_format_info (selected_format);
+	sheet_object_write_image (so, format_info->name, resolution, output, &err);
+	g_object_unref (output);
+
+	if (err != NULL)
+		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
+
+out:
+	g_free (uri);
+	g_slist_free (l);
 }
 
 static void
 gnm_soc_populate_menu (SheetObject *so, GPtrArray *actions)
 {
 	static SheetObjectAction const soc_actions[] = {
-		{ GTK_STOCK_SAVE_AS, N_("_Save as Image"), NULL, 0, soc_cb_save_as }
+		{ GTK_STOCK_SAVE_AS, N_("_Save as"), NULL, 0, soc_cb_save_as },
+		{ GTK_STOCK_SAVE_AS, N_("_Save as image"), NULL, 0, soc_cb_save_as_image }
 	};
 
 	unsigned int i;
@@ -173,7 +288,7 @@ gnm_soc_write_object (SheetObject const *so, char const *format,
 	char *buf;
 	int length;
 	gpointer user_data = NULL;
-	void (*clearfunc) (gpointer);
+	void (*clearfunc) (gpointer) = NULL;
 	go_component_get_data (soc->component, (gpointer) &buf, &length, &clearfunc, &user_data);
 	gsf_output_write (output, length, buf);
 	if (clearfunc)
@@ -210,7 +325,7 @@ gnm_soc_copy (SheetObject *dst, SheetObject const *src)
 	char *buf;
 	int length;
 	gpointer user_data = NULL;
-	void (*clearfunc) (gpointer);
+	void (*clearfunc) (gpointer) = NULL;
 	go_component_get_data (soc->component, (gpointer) &buf, &length, &clearfunc, &user_data);
 	component = go_component_new_by_mime_type (go_component_get_mime_type (soc->component));
 	go_component_set_data (component, buf, length);
@@ -261,18 +376,11 @@ gnm_soc_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (so);
 	GtkWidget *w;
-	char *buf;
-	int length;
-	void (*clearfunc) (gpointer);
-	gpointer user_data = NULL;
 	GOComponent *new_comp;
 
 	g_return_if_fail (soc && soc->component);
 
-	go_component_get_data (soc->component, (gpointer) &buf, &length, &clearfunc, &user_data);
-	new_comp = go_component_new_by_mime_type (go_component_get_mime_type (soc->component));
-	go_component_set_data (new_comp, buf, length);
-
+	new_comp = go_component_duplicate (soc->component);
 	w = (GtkWidget *) go_component_edit (new_comp);
 	if (w) {
 		gnm_soc_user_config_t *data = g_new0 (gnm_soc_user_config_t, 1);
@@ -283,8 +391,6 @@ gnm_soc_user_config (SheetObject *so, SheetControl *sc)
 		g_object_set_data_full (G_OBJECT (w), "editor", data, (GDestroyNotify) destroy_cb);
 		wbc_gtk_attach_guru (scg_wbcg (SHEET_CONTROL_GUI (sc)), w);
 	}
-	if (clearfunc)
-		clearfunc ((user_data)? user_data: buf);
 }
 
 static void

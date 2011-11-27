@@ -1393,14 +1393,6 @@ cb_add_component_new (GOComponent *component, gpointer wbcg)
 	wbcg_insert_object (WBC_GTK (wbcg), sheet_object_component_new (component));
 }
 
-#if 0
-static void
-cb_add_component_from_file (GOComponent *component, gpointer wbcg)
-{
-	wbcg_insert_object (WBC_GTK (wbcg), sheet_object_component_new (component));
-}
-#endif
-
 static void
 component_changed_cb (GOComponent *component, gpointer data)
 {
