@@ -1,5 +1,9 @@
 2011-11-27  Morten Welinder <terra@gnome.org>
 
+	* configure.in: Post-release bump.
+
+2011-11-27  Morten Welinder <terra@gnome.org>
+
 	* Release 1.11.1
 
 2011-11-27  Jean Brefort  <jean.brefort@normalesup.org>
