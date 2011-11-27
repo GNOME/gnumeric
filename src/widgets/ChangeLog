@@ -1,3 +1,9 @@
+2011-11-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_colour_ranges): also add cursors
+	to other sheets of the same workbook
+	(gee_destroy_feedback_range): remove from all sheets
+
 2011-11-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_colour_ranges): new

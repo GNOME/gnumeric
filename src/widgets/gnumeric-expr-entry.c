@@ -581,8 +581,14 @@ cb_entry_activate (GnmExprEntry *gee)
 static void
 gee_destroy_feedback_range (GnmExprEntry *gee)
 {
-	SCG_FOREACH_PANE (gee->scg, pane,
-		gnm_pane_expr_cursor_stop (pane););
+	WBCGtk *wbcg = scg_wbcg (gee->scg);
+	int page, pages = wbcg_get_n_scg (wbcg);
+
+	for (page = 0; page < pages; page++) {
+		SheetControlGUI *scg = wbcg_get_nth_scg (wbcg, page);
+		SCG_FOREACH_PANE (scg, pane,
+				  gnm_pane_expr_cursor_stop (pane););
+	}
 }
 
 static void
@@ -607,6 +613,7 @@ gnm_expr_entry_colour_ranges (GnmExprEntry *gee, int start, int end, GnmRangeRef
 	GnmRange const *merge; /*[#127415]*/
 	Sheet *start_sheet, *end_sheet;
 	Sheet *sheet = scg_sheet (gee->scg);
+	SheetControlGUI *scg = NULL;
 
 	colour = colour % G_N_ELEMENTS (colours);
 
@@ -614,15 +621,20 @@ gnm_expr_entry_colour_ranges (GnmExprEntry *gee, int start, int end, GnmRangeRef
 				   &start_sheet,
 				   &end_sheet,
 				   &r);
-	if (start_sheet != sheet || 
-	    end_sheet != sheet)
+	if (start_sheet != end_sheet)
 		return;
 	if (range_is_singleton  (&r) &&
 	    NULL != (merge = gnm_sheet_merge_is_corner
-		     (sheet, &r.start)))
+		     (start_sheet, &r.start)))
 		r = *merge;
-
-	SCG_FOREACH_PANE (gee->scg, pane, gnm_pane_expr_cursor_bound_set (pane, &r, colours[colour].name););
+	if (start_sheet == sheet) 
+		scg = gee->scg;
+	else {
+		WBCGtk *wbcg = scg_wbcg (gee->scg);
+		scg = wbcg_get_nth_scg (wbcg, start_sheet->index_in_wb);
+	}
+	
+	SCG_FOREACH_PANE (scg, pane, gnm_pane_expr_cursor_bound_set (pane, &r, colours[colour].name););
 
 	at = pango_attr_foreground_new (colours[colour].red, colours[colour].green, colours[colour].blue);
 	at->start_index = gtk_entry_text_index_to_layout_index (entry, start);

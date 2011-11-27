@@ -1,7 +1,8 @@
 Gnumeric 1.11.1
 
 Andreas:
-	* Show range selection cursors even while selecting new regions
+	* Show range selection cursors even while selecting new regions and
+	on other sheets.
 
 Jean:
 	* Fixed expression range cursor behavior. [#664852]
