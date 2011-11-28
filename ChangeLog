@@ -1,5 +1,10 @@
 2011-11-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/wbc-gtk.c (wbc_gtk_create_status_area): force auto expression
+	background to white. Fixes #641198.
+
+2011-11-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/item-edit.c (item_edit_draw): use the attr list attached as
 	data
 

@@ -4788,6 +4788,7 @@ static void
 wbc_gtk_create_status_area (WBCGtk *wbcg)
 {
 	GtkWidget *tmp, *frame;
+	GdkRGBA const white = {1.,1.,1.,1.};
 
 	wbcg->progress_bar = gtk_progress_bar_new ();
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), " ");
@@ -4812,6 +4813,9 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (frame), tmp);
+	gtk_widget_override_background_color (GTK_WIDGET (tmp), 
+					      GTK_STATE_FLAG_NORMAL,
+					      &white);
 
 	wbcg->status_text = tmp = gtk_statusbar_new ();
 	gtk_widget_set_size_request (tmp, go_pango_measure_string (
