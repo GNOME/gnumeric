@@ -593,15 +593,15 @@ gee_destroy_feedback_range (GnmExprEntry *gee)
 
 static void
 gnm_expr_entry_colour_ranges (GnmExprEntry *gee, int start, int end, GnmRangeRef *rr, int colour,
-			      PangoAttrList **attrs)
+			      PangoAttrList **attrs, gboolean insert_cursor)
 {
 	static struct {
 		guint16 red;
 		guint16 green;
 		guint16 blue;
 		gchar const *name;
-	} colours[] = {{0x0, 0x0, 0xFFFF, "00:00:ff:ff"},
-		       {0x0, 0xFFFF, 0x0, "00:ff:00:ff"},
+	} colours[] = {{0x0, 0xFFFF, 0x0, "00:ff:00:ff"},
+		       {0x0, 0x0, 0xFFFF, "00:00:ff:ff"},
 		       {0xFFFF, 0x0, 0x0, "ff:00:00:ff"}, 
 		       {0x0, 0x80FF, 0x80FF, "00:80:80:ff"}, 
 		       {0xA0FF, 0xA0FF, 0x0, "a0:a0:00:ff"}, 
@@ -624,20 +624,24 @@ gnm_expr_entry_colour_ranges (GnmExprEntry *gee, int start, int end, GnmRangeRef
 				   &r);
 	if (start_sheet != end_sheet)
 		return;
-	if (range_is_singleton  (&r) &&
-	    NULL != (merge = gnm_sheet_merge_is_corner
-		     (start_sheet, &r.start)))
-		r = *merge;
-	if (start_sheet == sheet) 
-		scg = gee->scg;
-	else {
-		WBCGtk *wbcg = scg_wbcg (gee->scg);
-		scg = wbcg_get_nth_scg (wbcg, start_sheet->index_in_wb);
-	}
+	if (insert_cursor) {
+		if (range_is_singleton  (&r) &&
+		    NULL != (merge = gnm_sheet_merge_is_corner
+			     (start_sheet, &r.start)))
+			r = *merge;
+		if (start_sheet == sheet) 
+			scg = gee->scg;
+		else {
+			WBCGtk *wbcg = scg_wbcg (gee->scg);
+			scg = wbcg_get_nth_scg (wbcg, start_sheet->index_in_wb);
+		}
 	
-	SCG_FOREACH_PANE (scg, pane, gnm_pane_expr_cursor_bound_set (pane, &r, colours[colour].name););
+		SCG_FOREACH_PANE (scg, pane, gnm_pane_expr_cursor_bound_set 
+				  (pane, &r, colours[colour].name););
+	}
 
-	at = pango_attr_foreground_new (colours[colour].red, colours[colour].green, colours[colour].blue);
+	at = pango_attr_foreground_new (colours[colour].red, colours[colour].green, 
+					colours[colour].blue);
 	at->start_index = start;
 	at->end_index = end;
 	
@@ -657,7 +661,11 @@ gee_scan_for_range (GnmExprEntry *gee)
 	gee_destroy_feedback_range (gee);
 	if (!gee->feedback_disabled && gee_is_editing (gee) && gee->lexer_items != NULL) {
 		GnmLexerItem *gli = gee->lexer_items;
-		int colour = 0;
+		int colour = 1; /* We start with 1 since GINT_TO_POINTER (0) == NULL */
+		GHashTable *hash = g_hash_table_new_full ((GHashFunc) gnm_rangeref_hash,
+							  (GEqualFunc) gnm_rangeref_equal,
+							  g_free,
+							  NULL);
 		do {
 			if (gli->token == RANGEREF) {
 				char const *text = gtk_entry_get_text (gee->entry);
@@ -667,12 +675,32 @@ gee_scan_for_range (GnmExprEntry *gee)
 				GnmRangeRef rr;
 				tmp = rangeref_parse (&rr, rtext, 
 						      &gee->pp, gee_convs (gee));
-				if (tmp != rtext)
+				if (tmp != rtext) {
+					gpointer val;
+					gint this_colour;
+					gboolean insert_cursor;
+					if (rr.a.sheet == NULL)
+						rr.a.sheet = gee->sheet;
+					if (rr.b.sheet == NULL)
+						rr.b.sheet = rr.a.sheet;
+					val = g_hash_table_lookup (hash, &rr);
+					if (val == NULL) {
+						GnmRangeRef *rrr = gnm_rangeref_dup (&rr);
+						this_colour = colour++;
+						g_hash_table_insert (hash, rrr, GINT_TO_POINTER (this_colour));
+						insert_cursor = TRUE;
+						rtext = NULL;
+ 					} else {
+						this_colour = GPOINTER_TO_INT (val);
+						insert_cursor = FALSE;
+					}
 					gnm_expr_entry_colour_ranges (gee, gli->start, gli->end, &rr, 
-								      colour++, &attrs);
+								      this_colour, &attrs, insert_cursor);
+				}
 				g_free (rtext);
 			}
-		} while (gli++->token != 0);	
+		} while (gli++->token != 0);
+		g_hash_table_destroy (hash);
 	}
 	if (attrs)
 		g_object_set_data_full (G_OBJECT (gee->entry), "gnm:range-attributes", attrs, 

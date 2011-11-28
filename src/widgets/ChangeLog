@@ -1,5 +1,11 @@
 2011-11-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric-expr-entry.c (gnm_expr_entry_colour_ranges): add arg and only
+	create cursor if required
+	(gee_scan_for_range): ensure to use the same colour for duplicate ranges
+
+2011-11-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric-expr-entry.c (gnm_expr_entry_colour_ranges): add arg
 	and use the attached attribute list rather than the list from the entry
 	(gee_scan_for_range): attach an attribute list as data to the entry
