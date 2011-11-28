@@ -2153,7 +2153,6 @@ gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
 {
 	GocItem *item;
 	SheetControlGUI *scg = pane->simple.scg;
-	GnmExprEntry *gee = wbcg_get_entry_logical (pane->simple.scg->wbcg);
 
 	g_return_if_fail (pane->cursor.rangesel == NULL);
 
@@ -2173,8 +2172,6 @@ gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
 void
 gnm_pane_rangesel_stop (GnmPane *pane)
 {
-	GnmExprEntry *gee = wbcg_get_entry_logical (pane->simple.scg->wbcg);
-
 	g_return_if_fail (pane->cursor.rangesel != NULL);
 	g_object_unref (G_OBJECT (pane->cursor.rangesel));
 	pane->cursor.rangesel = NULL;
