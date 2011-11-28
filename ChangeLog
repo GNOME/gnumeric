@@ -1,3 +1,10 @@
+2011-11-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/item-edit.c (gnm_apply_attribute_list_cb): new
+	(gnm_apply_attribute_list): new
+	(item_edit_draw): retrieve and apply range selection colour
+	highlights
+
 2011-11-27  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-pane.c (gnm_pane_rangesel_start)

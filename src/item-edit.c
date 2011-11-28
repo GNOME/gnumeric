@@ -91,6 +91,28 @@ get_top_left (ItemEdit const *ie, int *top, int *left, PangoDirection dir)
 	}
 }
 
+static gboolean
+gnm_apply_attribute_list_cb (PangoAttribute *attribute,
+			     gpointer data)
+{
+	PangoAttrList *attrs = data;
+	if (attribute->klass->type == PANGO_ATTR_FOREGROUND) {
+		PangoAttribute *copy = pango_attribute_copy (attribute);
+		pango_attr_list_change (attrs, copy);
+	}
+	return FALSE;
+}
+
+static void
+gnm_apply_attribute_list (PangoAttrList *attrs, PangoAttrList *added_attrs)
+{
+	if (added_attrs == NULL)
+		return;
+	pango_attr_list_unref (pango_attr_list_filter (added_attrs,
+						       gnm_apply_attribute_list_cb,
+						       attrs));
+}
+
 static void
 item_edit_draw (GocItem const *item, cairo_t *cr)
 {
@@ -102,6 +124,23 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	PangoRectangle pos, weak;
 	char const *text = gtk_entry_get_text (ie->entry);
 	PangoDirection dir = pango_find_base_dir (text, -1);
+	PangoLayout *layout = gtk_entry_get_layout (ie->entry);
+	PangoAttrList *entry_attributes = pango_layout_get_attributes (layout);
+	int len;
+
+	if (go_pango_attr_list_is_empty (entry_attributes))
+		entry_attributes = NULL;
+	else if (0 == (len = gtk_entry_text_index_to_layout_index (ie->entry, 0))) {
+		entry_attributes = pango_attr_list_copy (entry_attributes);
+	} else {
+		PangoAttrList *attributes = pango_attr_list_copy (entry_attributes);
+		go_pango_attr_list_erase (attributes, 0, len);
+		if (go_pango_attr_list_is_empty (attributes)) {
+			pango_attr_list_unref (attributes);
+			entry_attributes = NULL;
+		} else 
+			entry_attributes = attributes;	
+	}
 
 	get_top_left (ie, &top, &left, dir);
 	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
@@ -158,13 +197,24 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 		attr->start_index = start;
 		attr->end_index = end;
 		pango_attr_list_change (attrs, attr);
+		gnm_apply_attribute_list (attrs, entry_attributes);
 		pango_layout_set_attributes (ie->layout, attrs);
 		pango_attr_list_unref (attrs);
 		pango_cairo_show_layout (cr, ie->layout);
 		pango_layout_set_attributes (ie->layout, orig);
 		pango_attr_list_unref (orig);
-	} else
+	} else if (entry_attributes != NULL) {
+		PangoAttrList *orig = pango_attr_list_ref (pango_layout_get_attributes (ie->layout)),
+			*attrs = pango_attr_list_copy (orig);
+		gnm_apply_attribute_list (attrs, entry_attributes);
+		pango_layout_set_attributes (ie->layout, attrs);
+		pango_attr_list_unref (attrs);
 		pango_cairo_show_layout (cr, ie->layout);
+		pango_layout_set_attributes (ie->layout, orig);
+		pango_attr_list_unref (orig);
+	} else {
+		pango_cairo_show_layout (cr, ie->layout);
+	}
 	if (ie->cursor_visible) {
 		int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
 		double incr = (dir == PANGO_DIRECTION_RTL)? -.5: .5, x, ytop, ybottom;
@@ -222,7 +272,7 @@ item_edit_distance (GocItem *item, double cx, double cy,
 }
 
 static gboolean
-item_edit_enter_notify (GocItem *item, double x, double y)
+item_edit_enter_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 	gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas), GDK_XTERM);
 	return TRUE;
@@ -340,7 +390,8 @@ item_edit_motion (GocItem *item, double x, double y)
 }
 
 static gboolean
-item_edit_button_released (GocItem *item, int button, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
+item_edit_button_released (GocItem *item, G_GNUC_UNUSED int button, 
+			   G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 	ItemEdit *ie = ITEM_EDIT (item);
 	if (ie->sel_start >= 0) {
