@@ -125,21 +125,15 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	char const *text = gtk_entry_get_text (ie->entry);
 	PangoDirection dir = pango_find_base_dir (text, -1);
 	PangoLayout *layout = gtk_entry_get_layout (ie->entry);
-	PangoAttrList *entry_attributes = pango_layout_get_attributes (layout);
-	int len;
+	PangoAttrList *entry_attributes 
+		= g_object_get_data(G_OBJECT (ie->entry), 
+				    "gnm:range-attributes");
 
-	if (go_pango_attr_list_is_empty (entry_attributes))
-		entry_attributes = NULL;
-	else if (0 == (len = gtk_entry_text_index_to_layout_index (ie->entry, 0))) {
-		entry_attributes = pango_attr_list_copy (entry_attributes);
-	} else {
-		PangoAttrList *attributes = pango_attr_list_copy (entry_attributes);
-		go_pango_attr_list_erase (attributes, 0, len);
-		if (go_pango_attr_list_is_empty (attributes)) {
-			pango_attr_list_unref (attributes);
+	if (entry_attributes != NULL) {
+		if (go_pango_attr_list_is_empty (entry_attributes))
 			entry_attributes = NULL;
-		} else 
-			entry_attributes = attributes;	
+		else
+			entry_attributes = pango_attr_list_ref (entry_attributes);
 	}
 
 	get_top_left (ie, &top, &left, dir);
@@ -215,6 +209,8 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	} else {
 		pango_cairo_show_layout (cr, ie->layout);
 	}
+	pango_attr_list_unref (entry_attributes);
+
 	if (ie->cursor_visible) {
 		int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
 		double incr = (dir == PANGO_DIRECTION_RTL)? -.5: .5, x, ytop, ybottom;

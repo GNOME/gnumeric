@@ -592,7 +592,8 @@ gee_destroy_feedback_range (GnmExprEntry *gee)
 }
 
 static void
-gnm_expr_entry_colour_ranges (GnmExprEntry *gee, int start, int end, GnmRangeRef *rr, int colour)
+gnm_expr_entry_colour_ranges (GnmExprEntry *gee, int start, int end, GnmRangeRef *rr, int colour,
+			      PangoAttrList **attrs)
 {
 	static struct {
 		guint16 red;
@@ -605,15 +606,15 @@ gnm_expr_entry_colour_ranges (GnmExprEntry *gee, int start, int end, GnmRangeRef
 		       {0x0, 0x80FF, 0x80FF, "00:80:80:ff"}, 
 		       {0xA0FF, 0xA0FF, 0x0, "a0:a0:00:ff"}, 
 		       {0xA0FF, 0x0, 0xA0FF, "a0:00:a0:ff"}};
-	GtkEntry *entry = gee->entry;
-	PangoLayout *layout = gtk_entry_get_layout (entry);
 	PangoAttribute *at;
-	PangoAttrList *list = pango_layout_get_attributes (layout);
 	GnmRange r;
 	GnmRange const *merge; /*[#127415]*/
 	Sheet *start_sheet, *end_sheet;
 	Sheet *sheet = scg_sheet (gee->scg);
 	SheetControlGUI *scg = NULL;
+
+	if (*attrs == NULL)
+		*attrs = pango_attr_list_new ();
 
 	colour = colour % G_N_ELEMENTS (colours);
 
@@ -637,10 +638,10 @@ gnm_expr_entry_colour_ranges (GnmExprEntry *gee, int start, int end, GnmRangeRef
 	SCG_FOREACH_PANE (scg, pane, gnm_pane_expr_cursor_bound_set (pane, &r, colours[colour].name););
 
 	at = pango_attr_foreground_new (colours[colour].red, colours[colour].green, colours[colour].blue);
-	at->start_index = gtk_entry_text_index_to_layout_index (entry, start);
-	at->end_index = gtk_entry_text_index_to_layout_index (entry, end);
+	at->start_index = start;
+	at->end_index = end;
 	
-	pango_attr_list_change (list, at);
+	pango_attr_list_change (*attrs, at);
 }
 
 /* WARNING : DO NOT CALL THIS FROM FROM UPDATE.  It may create another
@@ -650,6 +651,8 @@ gnm_expr_entry_colour_ranges (GnmExprEntry *gee, int start, int end, GnmRangeRef
 static void
 gee_scan_for_range (GnmExprEntry *gee)
 {
+	PangoAttrList *attrs = NULL;
+
 	parse_pos_init_editpos (&gee->pp, scg_view (gee->scg));
 	gee_destroy_feedback_range (gee);
 	if (!gee->feedback_disabled && gee_is_editing (gee) && gee->lexer_items != NULL) {
@@ -666,11 +669,16 @@ gee_scan_for_range (GnmExprEntry *gee)
 						      &gee->pp, gee_convs (gee));
 				if (tmp != rtext)
 					gnm_expr_entry_colour_ranges (gee, gli->start, gli->end, &rr, 
-								      colour++);
+								      colour++, &attrs);
 				g_free (rtext);
 			}
 		} while (gli++->token != 0);	
 	}
+	if (attrs)
+		g_object_set_data_full (G_OBJECT (gee->entry), "gnm:range-attributes", attrs, 
+					(GDestroyNotify) pango_attr_list_unref);
+	else
+		g_object_set_data (G_OBJECT (gee->entry), "gnm:range-attributes", NULL);	
 }
 
 static void

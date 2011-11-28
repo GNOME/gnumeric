@@ -1,5 +1,10 @@
 2011-11-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/item-edit.c (item_edit_draw): use the attr list attached as
+	data
+
+2011-11-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/item-edit.c (gnm_apply_attribute_list_cb): new
 	(gnm_apply_attribute_list): new
 	(item_edit_draw): retrieve and apply range selection colour
