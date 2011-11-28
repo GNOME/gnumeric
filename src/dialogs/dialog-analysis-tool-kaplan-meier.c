@@ -67,7 +67,7 @@ typedef struct {
 	GtkWidget *remove_group_button;
 	GtkWidget *std_error_button;
 	GtkWidget *groups_check;
-	GtkWidget *groups_table;
+	GtkWidget *groups_grid;
 	GnmExprEntry *groups_input;
 	GtkTreeView *groups_treeview;
 	GtkListStore *groups_list;
@@ -666,14 +666,14 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 	state->groups_check = GTK_WIDGET (go_gtk_builder_get_widget
 						  (state->base.gui,
 						   "groups-check"));
-	state->groups_table = GTK_WIDGET (go_gtk_builder_get_widget
+	state->groups_grid = GTK_WIDGET (go_gtk_builder_get_widget
 						  (state->base.gui,
-						   "groups-table"));
+						   "groups-grid"));
 	state->groups_input = gnm_expr_entry_new (state->base.wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->groups_input, GNM_EE_FORCE_ABS_REF,
 				  GNM_EE_MASK);
-	gtk_table_attach (GTK_TABLE (state->groups_table), GTK_WIDGET (state->groups_input),
-			  1, 3, 0, 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (state->groups_grid),
+	                 GTK_WIDGET (state->groups_input), 1, 1, 2, 1);
 
 	dialog_kaplan_meier_tool_setup_treeview (state);
 

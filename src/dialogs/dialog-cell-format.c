@@ -687,8 +687,8 @@ fmt_dialog_init_align_page (FormatState *state)
 	} else
 		r = 0;
 	state->align.rotation = (GORotationSel *) go_rotation_sel_new ();
-	gtk_box_pack_start (GTK_BOX (go_gtk_builder_get_widget (state->gui, "alignment_box")),
-	                    GTK_WIDGET (state->align.rotation), TRUE, TRUE, 0);
+	gtk_grid_attach (GTK_GRID (go_gtk_builder_get_widget (state->gui, "alignment-grid")),
+	                    GTK_WIDGET (state->align.rotation), 3, 0, 1, 12);
 	go_rotation_sel_set_rotation (state->align.rotation, r);
 	g_signal_connect (G_OBJECT (state->align.rotation), "rotation-changed",
 			  G_CALLBACK (cb_rotation_changed), state);

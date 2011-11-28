@@ -1,3 +1,15 @@
+2011-11-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* cell-comment.ui: more GtkTable eradication work.
+	* cell-format-cond.ui: ditto.
+	* cell-format.ui: ditto.
+	* covariance.ui: fixed widgets names. [#665062]
+	* dialog-analysis-tool-kaplan-meier.c (dialog_kaplan_meier_tool): fixed.
+	[#665062]
+	* dialog-cell-format-cond.c (c_fmt_dialog_init_editor_page): ditto.
+	* dialog-cell-format.c (fmt_dialog_init_align_page): ditto.
+	* kaplan-meier.ui: fixed groups page. [#665062]
+
 2011-11-27  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.1

@@ -10,6 +10,7 @@
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "sheet-object-image.h"
+#include "sheet.h"
 
 #include "gnm-pane.h"
 #include "wbc-gtk.h"
@@ -98,6 +99,7 @@ struct _SheetObjectImage {
 
 	GOImage      *image;
 	char         *type;
+	char	     *name;
 	GByteArray   bytes;
 
 	gboolean dumped;
@@ -169,134 +171,12 @@ gnm_soi_finalize (GObject *object)
 	soi = SHEET_OBJECT_IMAGE (object);
 	g_free (soi->bytes.data);
 	g_free (soi->type);
+	g_free (soi->name);
 	soi->bytes.data = NULL;
 	if (soi->image)
 		g_object_unref (soi->image);
 
 	G_OBJECT_CLASS (gnm_soi_parent_class)->finalize (object);
-}
-
-static GdkPixbuf *
-soi_get_cropped_pixbuf (SheetObjectImage *soi, GdkPixbuf *pixbuf)
-{
-	int width  = gdk_pixbuf_get_width (pixbuf);
-	int height = gdk_pixbuf_get_height (pixbuf);
-	int sub_x = rint (soi->crop_left * width);
-	int sub_y = rint (soi->crop_top * height);
-	int sub_width  = rint (width *
-			       (1. - soi->crop_left - soi->crop_right));
-	int sub_height = rint (height *
-			       (1. - soi->crop_top - soi->crop_bottom));
-	GdkPixbuf *sub = gdk_pixbuf_new_subpixbuf (pixbuf, sub_x, sub_y,
-						   sub_width, sub_height);
-	if (sub) {
-		g_object_unref (G_OBJECT (pixbuf));
-		pixbuf = sub;
-	}
-	return pixbuf;
-}
-
-static void
-soi_info_cb (GdkPixbufLoader *loader,
-	     int              width,
-	     int              height,
-	     gpointer         data)
-{
-	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (data);
-	GdkPixbufFormat *format = gdk_pixbuf_loader_get_format (loader);
-	char *name = gdk_pixbuf_format_get_name (format);
-
-	g_free (soi->type);
-	soi->type = name;
-}
-
-/**
- * be sure to unref the result if it is non-NULL
- *
- * TODO : this is really overkill for now.
- * only wmf/emf will require regenerating the pixbuf for different scale
- * factors.  And even then we should cache them.
- */
-static GdkPixbuf *
-soi_get_pixbuf (SheetObjectImage *soi, double scale)
-{
-	GError *err = NULL;
-	guint8 *data;
-	guint32 data_len;
-	GdkPixbufLoader *loader = NULL;
-	GdkPixbuf	*pixbuf = NULL;
-	gboolean ret;
-
-	g_return_val_if_fail (IS_SHEET_OBJECT_IMAGE (soi), NULL);
-
-	data     = soi->bytes.data;
-	data_len = soi->bytes.len;
-	if (data == NULL || data_len == 0)
-		return pixbuf;
-
-	if (soi->type != NULL && !strcmp (soi->type, "wmf"))
-		loader = gdk_pixbuf_loader_new_with_type (soi->type, &err);
-	else
-		loader = gdk_pixbuf_loader_new ();
-
-	if (soi->type == NULL || strlen (soi->type) == 0)
-		g_signal_connect (loader, "size-prepared",
-				  G_CALLBACK (soi_info_cb), soi);
-
-	if (loader) {
-		ret = gdk_pixbuf_loader_write (loader,
-					       soi->bytes.data, soi->bytes.len,
-					       &err);
-		/* Close in any case. But don't let error during closing
-		 * shadow error from loader_write.  */
-		gdk_pixbuf_loader_close (loader, ret ? &err : NULL);
-		if (ret)
-			pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
-		if (pixbuf) {
-			g_object_ref (G_OBJECT (pixbuf));
-			d (printf ("pixbuf width=%d, height=%d\n",
-				   gdk_pixbuf_get_width (pixbuf),
-				   gdk_pixbuf_get_height (pixbuf)));
-			if (soi->crop_top != 0.0  || soi->crop_bottom != 0.0 ||
-			    soi->crop_left != 0.0 || soi->crop_right != 0.0) {
-				d (printf ("crop rect top=%g, bottom=%g, "
-					   "left=%g, right=%g\n",
-					   soi->crop_top, soi->crop_bottom,
-					   soi->crop_left, soi->crop_right));
-				pixbuf = soi_get_cropped_pixbuf (soi, pixbuf);
-			}
-		}
-		g_object_unref (G_OBJECT (loader));
-	}
-	if (!pixbuf) {
-		if (!soi->dumped) {
-			static int count = 0;
-			char *filename = g_strdup_printf ("unknown%d.%s",
-							  count++, soi->type);
-#if 0
-			GsfOutput *file = gsf_output_stdio_new (filename, NULL);
-			if (file) {
-				gsf_output_write (GSF_OUTPUT (file),
-						  soi->bytes.len,
-						  soi->bytes.data);
-				gsf_output_close (GSF_OUTPUT (file));
-				g_object_unref (file);
-			}
-#endif
-			g_free (filename);
-			soi->dumped = TRUE;
-		}
-
-		if (err != NULL) {
-			g_warning ("%s", err->message);
-			g_error_free (err);
-			err = NULL;
-		} else {
-			g_warning ("Unable to display image");
-		}
-	}
-
-	return pixbuf;
 }
 
 static SheetObjectView *
@@ -322,7 +202,7 @@ gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	} else {
 		GdkPixbuf *pixbuf, *placeholder = NULL;
 
-		pixbuf = soi_get_pixbuf (soi, 1.);
+		pixbuf = go_image_get_pixbuf (soi->image);
 
 		if (pixbuf == NULL) {
 			placeholder = gtk_icon_theme_load_icon (
@@ -364,7 +244,8 @@ static GOImageFormat const standard_formats[] = {
 	GO_IMAGE_FORMAT_JPG,
 	GO_IMAGE_FORMAT_SVG,
 	GO_IMAGE_FORMAT_EMF,
-	GO_IMAGE_FORMAT_WMF
+	GO_IMAGE_FORMAT_WMF,
+	GO_IMAGE_FORMAT_EPS
 };
 
 static GtkTargetList *
@@ -377,7 +258,7 @@ gnm_soi_get_target_list (SheetObject const *so)
 	GdkPixbuf *pixbuf = NULL;
 
 	if (soi->type == NULL || soi->image == NULL)
-		pixbuf = soi_get_pixbuf (soi, 1.0);
+		pixbuf = go_image_get_pixbuf (soi->image);
 	mime_str = go_image_format_to_mime (soi->type);
 	if (mime_str) {
 		mimes = go_strsplit_to_slist (mime_str, ',');
@@ -407,7 +288,7 @@ gnm_soi_write_image (SheetObject const *so, char const *format, double resolutio
 {
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 	gboolean res = FALSE;
-	GdkPixbuf *pixbuf = soi_get_pixbuf (soi, 1.0);
+	GdkPixbuf *pixbuf = go_image_get_pixbuf (soi->image);
 
 	if (!soi->type || strcmp (format, soi->type) == 0)
 		res = gsf_output_write (output,
@@ -440,10 +321,10 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 	g_return_if_fail (soi != NULL);
 
 	sel_fmt  = go_image_get_format_from_name (soi->type);
-	if ((pixbuf = soi_get_pixbuf (soi, 1.0)) != NULL)
+	if ((pixbuf = go_image_get_pixbuf (soi->image)) != NULL)
 		l = go_image_get_formats_with_pixbuf_saver ();
 	/* Move original format first in menu */
-	if (sel_fmt) {
+	if (sel_fmt != GO_IMAGE_FORMAT_UNKNOWN) {
 		l = g_slist_remove (l, GUINT_TO_POINTER (sel_fmt));
 		l = g_slist_prepend (l, GUINT_TO_POINTER (sel_fmt));
 	}
@@ -486,13 +367,17 @@ content_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	SheetObject *so = gnm_xml_in_cur_obj (xin);
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
-	char const *image_type = NULL;
+	char const *image_type = NULL, *image_name = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_eq (attrs[0], "image-type"))
 			image_type = CXML2C (attrs[1]);
+	else if (attr_eq (attrs[0], "name"))
+			image_name = CXML2C (attrs[1]);
 
 	soi->type = g_strdup (image_type);
+	if (image_name)
+		soi->name = g_strdup (image_name);
 }
 static void
 content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
@@ -500,10 +385,12 @@ content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 	SheetObject *so = gnm_xml_in_cur_obj (xin);
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 
-	soi->bytes.len  = gsf_base64_decode_simple (
-		xin->content->str, xin->content->len);
-	soi->bytes.data = g_memdup (xin->content->str, soi->bytes.len);
-	soi->image = go_image_new_from_data (soi->type, xin->content->str, soi->bytes.len, NULL, NULL);
+	if (soi->name == NULL) {
+		soi->bytes.len  = gsf_base64_decode_simple (
+			xin->content->str, xin->content->len);
+		soi->bytes.data = g_memdup (xin->content->str, soi->bytes.len);
+		soi->image = go_image_new_from_data (soi->type, xin->content->str, soi->bytes.len, NULL, NULL);
+	}
 }
 
 static void
@@ -545,8 +432,13 @@ gnm_soi_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 	gsf_xml_out_start_element (output, "Content");
 	if (soi->type != NULL)
 		gsf_xml_out_add_cstr (output, "image-type", soi->type);
-	gsf_xml_out_add_uint (output, "size-bytes", soi->bytes.len);
-	gsf_xml_out_add_base64 (output, NULL, soi->bytes.data, soi->bytes.len);
+	if (soi->image && go_image_get_name (soi->image)) {
+		gsf_xml_out_add_cstr (output, "name", go_image_get_name (soi->image));
+		go_doc_save_image (GO_DOC (sheet_object_get_sheet (so)->workbook), go_image_get_name (soi->image));
+	} else {
+		gsf_xml_out_add_uint (output, "size-bytes", soi->bytes.len);
+		gsf_xml_out_add_base64 (output, NULL, soi->bytes.data, soi->bytes.len);
+	}
 	gsf_xml_out_end_element (output);
 }
 
@@ -589,7 +481,7 @@ gnm_soi_draw_cairo (SheetObject const *so, cairo_t *cr,
 		go_image_draw (soi->image, cr);
 		cairo_restore (cr);
 	} else {
-		pixbuf = soi_get_pixbuf (soi, 1.);
+		pixbuf = go_image_get_pixbuf (soi->image);
 		if (!pixbuf || width == 0. || height == 0.)
 			return;
 		cairo_save (cr);
@@ -617,7 +509,7 @@ gnm_soi_default_size (SheetObject const *so, double *w, double *h)
 		*w = go_image_get_width (soi->image);
 		*h = go_image_get_height (soi->image);
 	} else {
-		GdkPixbuf *buf = soi_get_pixbuf (soi, 1.);
+		GdkPixbuf *buf = go_image_get_pixbuf (soi->image);
 
 		if (!buf) {
 			*w = *h = 5;
@@ -639,6 +531,26 @@ gnm_soi_default_size (SheetObject const *so, double *w, double *h)
 	}
 }
 
+static gboolean
+gnm_soi_assign_to_sheet (SheetObject *so, Sheet *sheet)
+{
+	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+
+	if (soi->image && !go_image_get_name (soi->image)) {
+		GODoc *doc = GO_DOC (sheet->workbook);
+		GOImage *image = go_doc_add_image (doc, NULL, soi->image);
+		if (soi->image != image) {
+			g_object_unref (soi->image);
+			soi->image = image;
+		}
+	} else if (soi->name) {
+		GODoc *doc = GO_DOC (sheet->workbook);
+		GType type = go_image_type_for_format (soi->type);
+		soi->image = g_object_ref (go_doc_image_fetch (doc, soi->name, type));
+	}
+	return FALSE;
+}
+
 static void
 gnm_soi_get_property (GObject     *object,
 		      guint        property_id,
@@ -656,7 +568,7 @@ gnm_soi_get_property (GObject     *object,
 		g_value_set_pointer (value, &soi->bytes);
 		break;
 	case PROP_PIXBUF:
-		pixbuf = soi_get_pixbuf (soi, 1.0);
+		pixbuf = go_image_get_pixbuf (soi->image);
 		g_value_set_object (value, pixbuf);
 		break;
 	default:
@@ -686,6 +598,7 @@ gnm_soi_class_init (GObjectClass *object_class)
 	so_class->draw_cairo		= gnm_soi_draw_cairo;
 	so_class->user_config		= NULL;
 	so_class->default_size		= gnm_soi_default_size;
+	so_class->assign_to_sheet       = gnm_soi_assign_to_sheet;
 	so_class->rubber_band_directly	= TRUE;
 
 	/* The property strings don't need translation */

@@ -1117,25 +1117,25 @@ cb_c_format_dialog_range (G_GNUC_UNUSED SheetView *sv, GnmRange const *range, GS
 static void
 c_fmt_dialog_init_editor_page (CFormatState *state)
 {
-	GtkTable  *table;
+	GtkGrid  *grid;
 
 	state->editor.add_button = go_gtk_builder_get_widget (state->gui, "add-button");
 	state->editor.replace_button = go_gtk_builder_get_widget (state->gui, "replace-button");
 	state->editor.copy_button = go_gtk_builder_get_widget (state->gui, "copy-button");
 	state->editor.edit_style_button = go_gtk_builder_get_widget (state->gui, "edit-style-button");
 	state->editor.combo = go_gtk_builder_get_widget (state->gui, "condition-combo");
-	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "condition-table"));
+	grid = GTK_GRID (go_gtk_builder_get_widget (state->gui, "condition-grid"));
 	state->editor.expr_x = GTK_WIDGET (gnm_expr_entry_new (state->wbcg, TRUE));
-	gtk_table_attach (table, state->editor.expr_x, 1, 2, 2, 3,
-			  GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0);
+	gtk_grid_attach (grid, state->editor.expr_x, 1, 2, 2, 1);
+	gtk_widget_set_hexpand (state->editor.expr_x, TRUE);
 	gtk_widget_show(state->editor.expr_x);
 	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->editor.expr_x),
 				  GNM_EE_CONSTANT_ALLOWED,
 				  GNM_EE_MASK);
 
 	state->editor.expr_y = GTK_WIDGET (gnm_expr_entry_new (state->wbcg, TRUE));
-	gtk_table_attach (table, state->editor.expr_y, 1, 2, 3, 4,
-			  GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0);
+	gtk_grid_attach (grid, state->editor.expr_y, 1, 3, 2, 1);
+	gtk_widget_set_hexpand (state->editor.expr_y, TRUE);
 	gtk_widget_show(state->editor.expr_y);
 	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->editor.expr_y),
 				  GNM_EE_CONSTANT_ALLOWED,
