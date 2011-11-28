@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-11-27 16:42+0000\n"
-"PO-Revision-Date: 2011-11-27 18:19+0100\n"
+"POT-Creation-Date: 2011-11-28 00:46+0000\n"
+"PO-Revision-Date: 2011-11-28 08:01+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4821,8 +4821,9 @@ msgid "Visit the Gnumeric website"
 msgstr "Navštívit webové stránky Gnumeric"
 
 #: ../src/dialogs/dialog-about.c:572
-msgid "Copyright © 1998-2010"
-msgstr "Copyright © 1998 – 2010"
+#| msgid "Copyright © 1998-2010"
+msgid "Copyright © 1998-2011"
+msgstr "Copyright © 1998 – 2011"
 
 #: ../src/dialogs/dialog-about.c:573
 msgid "Free, Fast, Accurate - Pick Any Three!"
@@ -12812,12 +12813,10 @@ msgid "Unknown failure while saving image"
 msgstr "Neznámá chyba při ukládání obrázku"
 
 #: ../src/sheet-object-component.c:194
-#| msgid "Save all"
 msgid "Save as"
 msgstr "Uložení jako"
 
 #: ../src/sheet-object-component.c:270
-#| msgid "Save all"
 msgid "_Save as"
 msgstr "Uložit _jako"
 
