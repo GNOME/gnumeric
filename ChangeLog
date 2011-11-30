@@ -1,5 +1,9 @@
 2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dead-kittens.h: add G_VALUE_INIT
+
+2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/wbc-gtk.c (wbc_gtk_create_status_area): allocate space for spaces
 	surrounding "="
 	* src/workbook-view.c (wb_view_darken_foreground_attributes_cb): new

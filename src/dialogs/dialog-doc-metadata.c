@@ -34,6 +34,7 @@
 #include <value.h>
 #include <commands.h>
 #include <number-match.h>
+#include <dead-kittens.h>
 
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-meta-names.h>
@@ -814,7 +815,7 @@ dialog_doc_metadata_set_gsf_prop_val (DialogDocMetaData *state,
 				      GValue            *prop_value,
 				      const gchar       *str_val)
 {
-	GValue string_value = { 0 };
+	GValue string_value = G_VALUE_INIT;
 	g_value_init (&string_value, G_TYPE_STRING);
 
 	g_value_set_string (&string_value, g_strdup (str_val));
@@ -1596,7 +1597,7 @@ dialog_doc_metadata_get_prop_val (DialogDocMetaData *state,
 				  char const *prop_name,
 				  GValue     *prop_value)
 {
-	GValue str_value = { 0 };
+	GValue str_value = G_VALUE_INIT;
 	gboolean ret = FALSE;
 
 	g_return_val_if_fail (prop_value != NULL, NULL);

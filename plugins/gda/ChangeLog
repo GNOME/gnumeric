@@ -1,3 +1,8 @@
+2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugin-gda.c: add dead-kittens.h
+	(gnm_value_new_from_gda): use G_VALUE_INIT;
+
 2011-11-27  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.1

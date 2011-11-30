@@ -1,4 +1,10 @@
+2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-doc-metadata.c: add dead-kittens.h
+	(dialog_doc_metadata_set_gsf_prop_val): use G_VALUE_INIT;
+
 2011-11-30  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* dialog-cell-format.c: GtkTable eradicated from this one.
 	* cell-format.ui: ditto.
 

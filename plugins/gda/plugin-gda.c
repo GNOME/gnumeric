@@ -34,6 +34,7 @@
 #include "gnm-i18n.h"
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>
+#include <dead-kittens.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 
@@ -122,7 +123,7 @@ gnm_value_new_from_gda (GValue const *gval,
 	}
 
 	if (g_value_type_transformable (G_VALUE_TYPE (gval), G_TYPE_STRING)) {
-		GValue str = { 0 };
+		GValue str = G_VALUE_INIT;
 		g_value_init (&str, G_TYPE_STRING);
 		if (g_value_transform (gval, &str))
 			return value_new_string (g_value_get_string (&str));
