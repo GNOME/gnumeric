@@ -495,6 +495,33 @@ accumulate_regions (SheetView *sv,  GnmRange const *r, gpointer closure)
 		gnm_expr_new_constant (value_new_cellrange_unsafe (&a, &b)));
 }
 
+static gboolean
+wb_view_darken_foreground_attributes_cb (PangoAttribute *attribute,
+					 G_GNUC_UNUSED gpointer data)
+{
+	if (attribute->klass->type == PANGO_ATTR_FOREGROUND) {
+		PangoAttrColor *cat = (PangoAttrColor *) attribute;
+		guint total = (guint)cat->color.red + (guint)cat->color.green + (guint)cat->color.blue;
+		if (total > 98302) {
+			float adj = 98302.5/total;
+			cat->color.red = cat->color.red * adj;
+			cat->color.green = cat->color.green * adj;
+			cat->color.blue = cat->color.blue * adj;
+		}
+	}
+	return FALSE;
+}
+
+static void
+wb_view_darken_foreground_attributes (PangoAttrList *attrs)
+{
+	pango_attr_list_unref 
+		(pango_attr_list_filter 
+		 (attrs,
+		  wb_view_darken_foreground_attributes_cb,
+		  NULL));
+}
+
 void
 wb_view_auto_expr_recalc (WorkbookView *wbv)
 {
@@ -551,7 +578,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 		GOFormat const *tmp_format = NULL;
 		PangoAttrList *attrs = NULL;
 
-		g_string_append_c (str, '=');
+		g_string_append (str, " = ");
 		if (!wbv->auto_expr_use_max_precision) {
 			format = VALUE_FMT (v);
 			if (!format)
@@ -566,8 +593,8 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 			GOFormatNumberError err =
 				format_value_layout (layout, format, v,
 						     /* Note that we created a label large enough for */
-						     /* "Sumerage=-012345678901234" */
-						     25 - g_utf8_strlen (str->str, -1),
+						     /* "Sumerage = -012345678901234" */
+						     27 - g_utf8_strlen (str->str, -1),
 						     workbook_date_conv (wb_view_get_workbook (wbv)));
 			go_format_unref (tmp_format);
 			switch (err) {
@@ -585,6 +612,9 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 						(attrs, atl, old_len,
 						 str->len - old_len);
 					pango_attr_list_unref (atl);
+					/* The field background is white so we need to ensure that no */
+					/* foreground colour is set to white (or close to white)      */
+					wb_view_darken_foreground_attributes (attrs);
 				}
 				break;
 			}
@@ -617,7 +647,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 /* perform whatever initialization of a control that is necessary when it
  * finally gets assigned to a view with a workbook */
 static void
-wb_view_init_control (WorkbookControl *wbc)
+wb_view_init_control (G_GNUC_UNUSED WorkbookControl *wbc)
 {
 }
 

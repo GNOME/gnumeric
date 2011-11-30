@@ -1,5 +1,14 @@
 2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/wbc-gtk.c (wbc_gtk_create_status_area): allocate space for spaces
+	surrounding "="
+	* src/workbook-view.c (wb_view_darken_foreground_attributes_cb): new
+	(wb_view_darken_foreground_attributes): new
+	(wb_view_auto_expr_recalc): call wb_view_darken_foreground_attributes
+	and add spaces around "="
+
+2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/cmd-edit.c: adjust calls to sv_selection_add_full and
 	sv_selection_add_pos throughout
 	(sv_select_cur_inputs): fix leak

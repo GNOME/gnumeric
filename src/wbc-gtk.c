@@ -4804,7 +4804,7 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	gtk_widget_set_size_request (tmp, go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 		gtk_style_context_get_font (gtk_widget_get_style_context (tmp), GTK_STATE_NORMAL),
-		"Sumerage=-012345678901234"), -1);
+		"Sumerage = -012345678901234"), -1);
 	tmp = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (tmp), wbcg->auto_expr_label);
 	g_signal_connect (G_OBJECT (tmp),
