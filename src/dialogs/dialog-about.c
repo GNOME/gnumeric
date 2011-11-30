@@ -417,9 +417,9 @@ about_dialog_timer (gpointer state_)
 }
 
 static gboolean
-about_dialog_anim_draw (GtkWidget *widget,
-                          cairo_t *cr,
-                          AboutState *state)
+about_dialog_anim_draw (G_GNUC_UNUSED GtkWidget *widget,
+			cairo_t *cr,
+			AboutState *state)
 {
 	GList *l;
 
