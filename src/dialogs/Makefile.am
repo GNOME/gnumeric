@@ -185,6 +185,7 @@ BUILT_SOURCES = embedded-ui.c
 embedded-ui.c: $(top_srcdir)/tools/embedder $(embedded_uis)
 	cd $(srcdir) && @PERL@ $(abs_top_srcdir)/tools/embedder \
 		--register-function=gnm_register_ui_files \
+		--register-file-function=gnm_rsm_register_file \
 		--include embedded-ui.h \
 		COMPRESS $(embedded_uis) >$(abs_builddir)/$@
 

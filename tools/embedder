@@ -9,11 +9,15 @@ $myself =~ s|^.*/||;
 
 my $WIDTH = 70;
 my $regfunc = undef;
+my $regfuncstatic = 0;
+my $regfilefunc = undef;
 my @includes;
 
 &GetOptions("register-function=s" => \$regfunc,
+	    "register-file-function=s" => \$regfilefunc,
+	    "static" => \$regfuncstatic,
 	    "include=s" => \@includes,
-    );
+    ) or die "$0: invalid usage -- inquire within\n";
 
 # -----------------------------------------------------------------------------
 
@@ -27,6 +31,7 @@ foreach (@includes) {
 my $fileno = 0;
 my $reg = "";
 my $docompress = 0;
+print "static " if $regfuncstatic;
 print "void\n";
 print "$regfunc (void)\n";
 print "{\n";
@@ -71,7 +76,7 @@ sub embed {
     &embed_data ($data, $id);
 
     my $len = length ($data);
-    $reg .= "  gnm_rsm_register_file (\"$file\", $id, $len);\n";
+    $reg .= "  $regfilefunc (\"$file\", $id, $len);\n";
 }
 
 sub embed_data {
