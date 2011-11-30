@@ -908,10 +908,12 @@ xl_xml_selection (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		end = rangeref_parse (&rr, ptr, &pp, gnm_conventions_xls_r1c1);
 		if (end != ptr) {
 			range_init_rangeref (&r, &rr);
-			sv_selection_add_full (sv,
-				state->pos.col, state->pos.row,
-				r.start.col, r.start.row,
-				r.end.col, r.end.row);
+			sv_selection_add_full 
+				(sv,
+				 state->pos.col, state->pos.row,
+				 r.start.col, r.start.row,
+				 r.end.col, r.end.row, 
+				 GNM_SELECTION_MODE_ADD);
 
 			if (*end != ',')
 				break;

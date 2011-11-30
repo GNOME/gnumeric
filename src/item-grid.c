@@ -807,7 +807,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 }
 
 static double
-item_grid_distance (GocItem *item, double x, double y,
+item_grid_distance (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y,
 		 GocItem **actual_item)
 {
 	*actual_item = item;
@@ -930,7 +930,10 @@ item_grid_button_pressed (GocItem *item, int button, double x_, double y_)
 
 		if (event->button != 1 || !(event->state & GDK_SHIFT_MASK) ||
 		    sv->selections == NULL) {
-			sv_selection_add_pos (sv, pos.col, pos.row);
+			sv_selection_add_pos (sv, pos.col, pos.row, 
+					      (already_selected && (event->state & GDK_CONTROL_MASK)) ? 
+					      GNM_SELECTION_MODE_REMOVE :
+					      GNM_SELECTION_MODE_ADD);
 			sv_make_cell_visible (sv, pos.col, pos.row, FALSE);
 		} else if (event->button != 2)
 			sv_selection_extend_to (sv, pos.col, pos.row);
@@ -1099,6 +1102,7 @@ item_grid_button_released (GocItem *item, int button, G_GNUC_UNUSED double x_, G
 /*				sheet->edit_pos.col, sheet->edit_pos.row, FALSE); */
 		/* Fall through */
 	case ITEM_GRID_SELECTING_CELL_RANGE :
+		sv_selection_simplify (scg_view (scg));
 		wb_view_selection_desc (
 			wb_control_view (scg_wbc (scg)), TRUE, NULL);
 		break;
@@ -1170,7 +1174,7 @@ item_grid_init (ItemGrid *ig)
 
 static void
 item_grid_set_property (GObject *obj, guint param_id,
-			GValue const *value, GParamSpec *pspec)
+			GValue const *value, G_GNUC_UNUSED GParamSpec *pspec)
 {
 	ItemGrid *ig = ITEM_GRID (obj);
 	GnmRange const *r;

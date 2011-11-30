@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * cmd-edit.c: Various commands to be used by the edit menu.
  *
@@ -55,9 +55,11 @@ sv_select_cur_row (SheetView *sv)
 	if (sel != NULL) {
 		GnmRange r = *sel;
 		sv_selection_reset (sv);
-		sv_selection_add_full (sv,
-			sv->edit_pos.col, sv->edit_pos.row,
-			0, r.start.row, gnm_sheet_get_last_col (sv->sheet), r.end.row);
+		sv_selection_add_full 
+			(sv,
+			 sv->edit_pos.col, sv->edit_pos.row,
+			 0, r.start.row, gnm_sheet_get_last_col (sv->sheet), r.end.row, 
+			 GNM_SELECTION_MODE_ADD);
 		sheet_update (sv->sheet);
 	}
 }
@@ -75,9 +77,11 @@ sv_select_cur_col (SheetView *sv)
 	if (sel != NULL) {
 		GnmRange r = *sel;
 		sv_selection_reset (sv);
-		sv_selection_add_full (sv,
-			sv->edit_pos.col, sv->edit_pos.row,
-			r.start.col, 0, r.end.col, gnm_sheet_get_last_row (sv->sheet));
+		sv_selection_add_full 
+			(sv,
+			 sv->edit_pos.col, sv->edit_pos.row,
+			 r.start.col, 0, r.end.col, gnm_sheet_get_last_row (sv->sheet), 
+			 GNM_SELECTION_MODE_ADD);
 		sheet_update (sv->sheet);
 	}
 }
@@ -101,7 +105,8 @@ sv_select_cur_array (SheetView *sv)
 	/* leave the edit pos where it is, select the entire array. */
 	sv_selection_reset (sv);
 	sv_selection_add_full (sv, c, r,
-		a.start.col, a.start.row, a.end.col, a.end.row);
+			       a.start.col, a.start.row, a.end.col, a.end.row, 
+			       GNM_SELECTION_MODE_ADD);
 	sheet_update (sv->sheet);
 }
 
@@ -161,7 +166,8 @@ sv_select_cur_depends (SheetView *sv)
 	/* Short circuit */
 	if (g_list_length (deps) == 1) {
 		GnmCell *cell = deps->data;
-		sv_selection_add_pos (sv, cell->pos.col, cell->pos.row);
+		sv_selection_add_pos (sv, cell->pos.col, cell->pos.row, 
+				      GNM_SELECTION_MODE_ADD);
 	} else {
 		GnmRange *cur = NULL;
 		ptr = NULL;
@@ -253,18 +259,17 @@ sv_select_cur_inputs (SheetView *sv)
 		GnmRangeRef const *r = value_get_rangeref (v);
 
 #warning "FIXME: What do we do in these 3D cases?"
-		if (r->a.sheet != r->b.sheet)
-			continue;
-		if (r->a.sheet != NULL && r->a.sheet != sv->sheet)
-			continue;
-
-		sv_selection_add_full (sv,
-			gnm_cellref_get_col (&r->a, &ep),
-			gnm_cellref_get_row (&r->a, &ep),
-			gnm_cellref_get_col (&r->a, &ep),
-			gnm_cellref_get_row (&r->a, &ep),
-			gnm_cellref_get_col (&r->b, &ep),
-			gnm_cellref_get_row (&r->b, &ep));
+		if ((r->a.sheet == r->b.sheet) && 
+		    (r->a.sheet == NULL || r->a.sheet == sv->sheet)) {
+		      gint row, col;
+		      row = gnm_cellref_get_row (&r->a, &ep);
+		      col = gnm_cellref_get_col (&r->a, &ep);
+		      sv_selection_add_full 
+			      (sv, col, row, col, row,
+			       gnm_cellref_get_col (&r->b, &ep),
+			       gnm_cellref_get_row (&r->b, &ep), 
+			       GNM_SELECTION_MODE_ADD);
+		    }
 		value_release (v);
 	}
 	g_slist_free (ranges);

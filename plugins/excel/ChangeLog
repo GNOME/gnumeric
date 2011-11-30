@@ -1,3 +1,10 @@
+2011-11-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* excel-xml-read.c (xl_xml_selection): adjust call to
+	sv_selection_add_full
+	* ms-excel-read.c (excel_read_SELECTION): adjust calls to
+	sv_selection_add_full and sv_selection_add_pos
+
 2011-11-27  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.1

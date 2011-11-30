@@ -223,6 +223,7 @@ sv_real_dispose (GObject *object)
 
 	sv_unant (sv);
 	sv_selection_free (sv);
+	sv_selection_simplified_free (sv);
 	auto_expr_timer_clear (sv);
 
 	parent_class->dispose (object);
@@ -260,7 +261,10 @@ sheet_view_init (GObject *object)
 	sv->unfrozen_top_left.col = sv->unfrozen_top_left.row = -1;
 	sv->initial_top_left.col = sv->initial_top_left.row = 0;
 
-	sv_selection_add_pos (sv, 0, 0);
+	sv->selections = NULL;
+	sv->selection_mode = GNM_SELECTION_MODE_ADD;
+	sv->selections_simplified = NULL;
+	sv_selection_add_pos (sv, 0, 0, GNM_SELECTION_MODE_ADD);
 }
 
 GSF_CLASS (SheetView, sheet_view,

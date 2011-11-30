@@ -369,7 +369,7 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 		g_return_if_fail (IS_SHEET_VIEW (sv));
 		g_return_if_fail (sv->selections);
 
-		r = sv->selections->data;
+		r = selection_first_range (sv, NULL, NULL);
 
 		if (use_pos || range_is_singleton (r) ||
 		    (NULL != (m = gnm_sheet_merge_is_corner (sv->sheet, &r->start)) &&

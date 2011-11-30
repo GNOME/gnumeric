@@ -485,7 +485,9 @@ scg_select_all (SheetControlGUI *scg)
 		wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
 		sv_selection_reset (sv);
 		sv_selection_add_full (sv, sv->edit_pos.col, sv->edit_pos.row,
-			0, 0, gnm_sheet_get_last_col (sheet), gnm_sheet_get_last_row (sheet));
+				       0, 0, gnm_sheet_get_last_col (sheet), 
+				       gnm_sheet_get_last_row (sheet), 
+				       GNM_SELECTION_MODE_ADD);
 	}
 	sheet_update (sheet);
 }
@@ -528,16 +530,18 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 			GnmPane *pane =
 				scg_pane (scg, scg->pane[3] ? 3 : 0);
 			sv_selection_add_full (sv,
-				index, pane->first.row,
-				index, 0,
-				index, gnm_sheet_get_last_row (sv->sheet));
+					       index, pane->first.row,
+					       index, 0,
+					       index, gnm_sheet_get_last_row (sv->sheet), 
+					       GNM_SELECTION_MODE_ADD);
 		} else {
 			GnmPane *pane =
 				scg_pane (scg, scg->pane[1] ? 1 : 0);
 			sv_selection_add_full (sv,
-				pane->first.col, index,
-				0, index,
-				gnm_sheet_get_last_col (sv->sheet), index);
+					       pane->first.col, index,
+					       0, index,
+					       gnm_sheet_get_last_col (sv->sheet), index, 
+					       GNM_SELECTION_MODE_ADD);
 		}
 	}
 
@@ -3448,7 +3452,7 @@ scg_cursor_move (SheetControlGUI *scg, int n,
 	sv_cursor_set (sv, &tmp,
 		       tmp.col, tmp.row, tmp.col, tmp.row, NULL);
 	sv_make_cell_visible (sv, tmp.col, tmp.row, FALSE);
-	sv_selection_add_pos (sv, tmp.col, tmp.row);
+	sv_selection_add_pos (sv, tmp.col, tmp.row, GNM_SELECTION_MODE_ADD);
 }
 
 /**

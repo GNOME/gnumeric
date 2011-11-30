@@ -2235,10 +2235,12 @@ cmd_colrow_hide_correct_selection (CmdColRowHide *me, WorkbookControl *wbc)
 		sv_selection_reset (sv);
 		if (me->is_cols)
 			sv_selection_add_full (sv, y, x, y, 0,
-					       y, gnm_sheet_get_last_row (sheet));
+					       y, gnm_sheet_get_last_row (sheet), 
+					       GNM_SELECTION_MODE_ADD);
 		else
 			sv_selection_add_full (sv, y, x, 0, x,
-					       gnm_sheet_get_last_col (sheet), x);
+					       gnm_sheet_get_last_col (sheet), x, 
+					       GNM_SELECTION_MODE_ADD);
 	}
 #endif
 }

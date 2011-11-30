@@ -32,6 +32,63 @@
 #include "cell.h"
 
 /**
+ * sv_selection_calc_simplification:
+ * @sv :
+ * @mode:
+ *
+ * Create the simplified seelction list if necessary
+ *
+ * Returns the simplified version
+ **/
+
+static GSList *
+sv_selection_calc_simplification (SheetView const *sv)
+{
+	GSList *simp = NULL, *ptr;
+	GnmRange *r_rm;
+	SheetView *sv_mod = (SheetView *)sv;
+
+	if (sv->selection_mode != GNM_SELECTION_MODE_REMOVE)
+		return sv->selections;
+	if (sv->selections_simplified != NULL)
+		return sv->selections_simplified;
+
+	g_return_val_if_fail (sv->selections != NULL && 
+			      sv->selections->data != NULL,
+			      sv->selections);
+
+	ptr = sv->selections->next;
+	r_rm = sv->selections->data;
+
+	for (ptr = sv->selections->next; ptr != NULL; ptr = ptr->next) {
+		GnmRange *r = ptr->data;
+		if (range_overlap (r_rm, r)) {
+			GSList *pieces;
+			if (range_contained (r, r_rm))
+				continue;
+			pieces = range_split_ranges (r_rm, r);
+			g_free (pieces->data);
+			pieces = g_slist_delete_link (pieces, pieces);
+			simp = g_slist_concat (pieces, simp);
+		} else {
+			GnmRange *r_new = g_new (GnmRange, 1);
+			*r_new = *r;
+			simp = g_slist_prepend (simp, r_new);
+		}
+	}
+	
+	if (simp == NULL) {
+		GnmRange *r_new = g_new (GnmRange, 1);
+		range_init_cellpos (r_new, &sv->edit_pos);
+		simp = g_slist_prepend (simp, r_new);
+	}
+
+	sv_mod->selections_simplified = g_slist_reverse (simp);
+	
+	return sv->selections_simplified;
+}
+
+/**
  * sv_is_singleton_selected:
  * @sv :
  *
@@ -42,6 +99,7 @@
 GnmCellPos const *
 sv_is_singleton_selected (SheetView const *sv)
 {
+#warning FIXME Should we be using the selection rather than the cursor? 
 	if (sv->cursor.move_corner.col == sv->cursor.base_corner.col &&
 	    sv->cursor.move_corner.row == sv->cursor.base_corner.row)
 		return &sv->cursor.move_corner;
@@ -62,7 +120,8 @@ sv_is_pos_selected (SheetView const *sv, int col, int row)
 	GSList *ptr;
 	GnmRange const *sr;
 
-	for (ptr = sv->selections; ptr != NULL ; ptr = ptr->next) {
+	for (ptr = sv_selection_calc_simplification (sv);
+	     ptr != NULL ; ptr = ptr->next) {
 		sr = ptr->data;
 		if (range_contains (sr, col, row))
 			return TRUE;
@@ -83,7 +142,8 @@ sv_is_range_selected (SheetView const *sv, GnmRange const *r)
 	GSList *ptr;
 	GnmRange const *sr;
 
-	for (ptr = sv->selections; ptr != NULL ; ptr = ptr->next){
+	for (ptr = sv_selection_calc_simplification (sv);
+	     ptr != NULL ; ptr = ptr->next){
 		sr = ptr->data;
 		if (range_overlap (sr, r))
 			return TRUE;
@@ -105,7 +165,8 @@ sv_is_full_range_selected (SheetView const *sv, GnmRange const *r)
 	GSList *ptr;
 	GnmRange const *sr;
 
-	for (ptr = sv->selections; ptr != NULL ; ptr = ptr->next) {
+	for (ptr = sv_selection_calc_simplification (sv);
+	     ptr != NULL ; ptr = ptr->next) {
 		sr = ptr->data;
 		if (range_contained (r, sr))
 			return TRUE;
@@ -131,7 +192,11 @@ gboolean
 sv_is_colrow_selected (SheetView const *sv, int colrow, gboolean is_col)
 {
 	GSList *l;
-	for (l = sv->selections; l != NULL; l = l->next) {
+
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
+
+	for (l = sv_selection_calc_simplification (sv);
+	     l != NULL; l = l->next) {
 		GnmRange const *ss = l->data;
 
 		if (is_col) {
@@ -166,7 +231,8 @@ sv_is_full_colrow_selected (SheetView const *sv, gboolean is_cols, int index)
 
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
 
-	for (l = sv->selections; l != NULL; l = l->next){
+	for (l = sv_selection_calc_simplification (sv);
+	     l != NULL; l = l->next){
 		GnmRange const *r = l->data;
 		if (is_cols) {
 			if (r->start.row > 0 || r->end.row < gnm_sheet_get_last_row (sv->sheet))
@@ -203,7 +269,8 @@ sv_selection_col_type (SheetView const *sv, int col)
 	if (sv->selections == NULL)
 		return COL_ROW_NO_SELECTION;
 
-	for (ptr = sv->selections; ptr != NULL; ptr = ptr->next) {
+	for (ptr = sv_selection_calc_simplification (sv);
+	     ptr != NULL; ptr = ptr->next) {
 		sr = ptr->data;
 
 		if (sr->start.col > col || sr->end.col < col)
@@ -238,7 +305,8 @@ sv_selection_row_type (SheetView const *sv, int row)
 	if (sv->selections == NULL)
 		return COL_ROW_NO_SELECTION;
 
-	for (ptr = sv->selections; ptr != NULL; ptr = ptr->next) {
+	for (ptr = sv_selection_calc_simplification (sv);
+	     ptr != NULL; ptr = ptr->next) {
 		sr = ptr->data;
 
 		if (sr->start.row > row || sr->end.row < row)
@@ -429,6 +497,8 @@ sheet_selection_set_internal (SheetView *sv,
 	if (!just_add_it && range_equal (ss, &new_sel))
 		return;
 
+	sv_selection_simplified_free (sv);
+
 	old_sel = *ss;
 	*ss = new_sel;
 
@@ -460,8 +530,9 @@ sheet_selection_set_internal (SheetView *sv,
 	}
 
 	/* Has the entire row been selected/unselected */
-	if ((new_sel.start.row == 0 && new_sel.end.row == gnm_sheet_get_last_row (sv->sheet)) ^
-	    (old_sel.start.row == 0 && old_sel.end.row == gnm_sheet_get_last_row (sv->sheet))) {
+	if (((new_sel.start.row == 0 && new_sel.end.row == gnm_sheet_get_last_row (sv->sheet)) ^
+	     (old_sel.start.row == 0 && old_sel.end.row == gnm_sheet_get_last_row (sv->sheet)))
+	    || sv->selection_mode != GNM_SELECTION_MODE_ADD) {
 		GnmRange tmp = range_union (&new_sel, &old_sel);
 		sv_redraw_headers (sv, TRUE, FALSE, &tmp);
 	} else {
@@ -493,8 +564,9 @@ sheet_selection_set_internal (SheetView *sv,
 	}
 
 	/* Has the entire col been selected/unselected */
-	if ((new_sel.start.col == 0 && new_sel.end.col == gnm_sheet_get_last_col (sv->sheet)) ^
-	    (old_sel.start.col == 0 && old_sel.end.col == gnm_sheet_get_last_col (sv->sheet))) {
+	if (((new_sel.start.col == 0 && new_sel.end.col == gnm_sheet_get_last_col (sv->sheet)) ^
+	     (old_sel.start.col == 0 && old_sel.end.col == gnm_sheet_get_last_col (sv->sheet)))
+	    || sv->selection_mode != GNM_SELECTION_MODE_ADD) {
 		GnmRange tmp = range_union (&new_sel, &old_sel);
 		sv_redraw_headers (sv, FALSE, TRUE, &tmp);
 	} else {
@@ -574,6 +646,29 @@ sv_selection_set (SheetView *sv, GnmCellPos const *edit,
 		move_col, move_row, FALSE);
 }
 
+void
+sv_selection_simplify (SheetView *sv)
+{
+	switch (sv->selection_mode) {
+	case GNM_SELECTION_MODE_ADD:
+		/* already simplified */
+		return;
+	case GNM_SELECTION_MODE_REMOVE:
+		sv_selection_calc_simplification (sv);
+		if (sv->selections_simplified != NULL) {
+			sv_selection_free (sv);
+			sv->selections = sv->selections_simplified;
+			sv->selections_simplified = NULL;
+		}
+		break;
+	default:
+	case GNM_SELECTION_MODE_TOGGLE:
+		g_warning ("Selection mode %d not implemented!\n", sv->selection_mode);
+		break;
+	}
+	sv->selection_mode = GNM_SELECTION_MODE_ADD;
+}
+
 /**
  * sv_selection_add_full :
  * @sv             : #SheetView whose selection is append to.
@@ -587,16 +682,19 @@ void
 sv_selection_add_full (SheetView *sv,
 		       int edit_col, int edit_row,
 		       int base_col, int base_row,
-		       int move_col, int move_row)
+		       int move_col, int move_row, 
+		       GnmSelectionMode mode)
 {
 	GnmRange *ss;
 	GnmCellPos edit;
 
 	g_return_if_fail (IS_SHEET_VIEW (sv));
+	sv_selection_simplify (sv);
 
 	/* Create and prepend new selection */
 	ss = g_new0 (GnmRange, 1);
 	sv->selections = g_slist_prepend (sv->selections, ss);
+	sv->selection_mode = mode;
 	edit.col = edit_col;
 	edit.row = edit_row;
 	sheet_selection_set_internal (sv, &edit,
@@ -608,12 +706,13 @@ void
 sv_selection_add_range (SheetView *sv, GnmRange const *r)
 {
 	sv_selection_add_full (sv, r->start.col, r->start.row,
-		r->start.col, r->start.row, r->end.col, r->end.row);
+			       r->start.col, r->start.row, r->end.col, r->end.row, 
+			       GNM_SELECTION_MODE_ADD);
 }
 void
-sv_selection_add_pos (SheetView *sv, int col, int row)
+sv_selection_add_pos (SheetView *sv, int col, int row, GnmSelectionMode mode)
 {
-	sv_selection_add_full (sv, col, row, col, row, col, row);
+	sv_selection_add_full (sv, col, row, col, row, col, row, mode);
 }
 
 /**
@@ -628,12 +727,23 @@ sv_selection_add_pos (SheetView *sv, int col, int row)
 void
 sv_selection_free (SheetView *sv)
 {
-	GSList *list;
-
-	for (list = sv->selections; list; list = list->next)
-		g_free (list->data);
-	g_slist_free (sv->selections);
+	g_slist_free_full (sv->selections, g_free);
 	sv->selections = NULL;
+	sv->selection_mode = GNM_SELECTION_MODE_ADD;
+}
+
+/**
+ * sv_selection_simplified_free
+ * @sv: #SheetView
+ *
+ * Releases the simplified selection associated with @sv
+ *
+ **/
+void
+sv_selection_simplified_free (SheetView *sv)
+{
+	g_slist_free_full (sv->selections_simplified, g_free);
+	sv->selections_simplified = NULL;
 }
 
 /**
@@ -656,6 +766,7 @@ sv_selection_reset (SheetView *sv)
 	/* Empty the sheets selection */
 	list = sv->selections;
 	sv->selections = NULL;
+	sv->selection_mode = GNM_SELECTION_MODE_ADD;
 
 	/* Redraw the grid, & headers for each region */
 	for (tmp = list; tmp; tmp = tmp->next){
@@ -689,12 +800,14 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 	g_printerr ("============================\n");
 #endif
 
+	l = sv_selection_calc_simplification (sv);
+
 	/*
 	 * Run through all the selection regions to see if any of
 	 * the proposed regions overlap.  Start the search with the
 	 * single user proposed segment and accumulate distict regions.
 	 */
-	for (l = sv->selections; l != NULL; l = l->next) {
+	for (; l != NULL; l = l->next) {
 		GnmRange const *r = l->data;
 
 		/* The set of regions that do not interset with b or
@@ -969,7 +1082,9 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
  * Applies the specified function for all ranges in the selection.  Optionally
  * select whether to use the high level potentially over lapped ranges, rather
  * than the smaller system created non-intersection regions.
+ *
  */
+
 void
 sv_selection_apply (SheetView *sv, SelectionApplyFunc const func,
 		    gboolean allow_intersection,
@@ -981,13 +1096,14 @@ sv_selection_apply (SheetView *sv, SelectionApplyFunc const func,
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 
 	if (allow_intersection) {
-		for (l = sv->selections; l != NULL; l = l->next) {
+		for (l = sv_selection_calc_simplification (sv);
+		     l != NULL; l = l->next) {
 			GnmRange const *ss = l->data;
 
 			(*func) (sv, ss, closure);
 		}
 	} else {
-		proposed = selection_get_ranges (sv, allow_intersection);
+		proposed = selection_get_ranges (sv, FALSE);
 		while (proposed != NULL) {
 			/* pop the 1st element off the list */
 			GnmRange *r = proposed->data;
@@ -1039,7 +1155,7 @@ sv_selection_apply_in_order (SheetView *sv, SelectionApplyFunc const func,
 
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 
-	reverse = g_slist_copy (sv->selections);
+	reverse = g_slist_copy (sv_selection_calc_simplification (sv));
 	reverse = g_slist_reverse (reverse);
 	for (l = reverse; l != NULL; l = l->next) {
 		GnmRange const *ss = l->data;
@@ -1087,7 +1203,7 @@ sv_selection_foreach (SheetView *sv,
 
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
 
-	for (l = sv->selections; l != NULL; l = l->next) {
+	for (l = sv_selection_calc_simplification (sv); l != NULL; l = l->next) {
 		GnmRange *ss = l->data;
 		if (!range_cb (sv, ss, user_data))
 			return FALSE;
@@ -1221,12 +1337,15 @@ sv_selection_walk_step (SheetView *sv, gboolean forward, gboolean horizontal)
 	GnmCellPos destination;
 	GnmRange const *ss;
 	gboolean is_singleton = FALSE;
+	GSList *selections;
 
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 	g_return_if_fail (sv->selections != NULL);
 
-	ss = sv->selections->data;
-	selections_count = g_slist_length (sv->selections);
+	selections = sv_selection_calc_simplification (sv);
+
+	ss = selections->data;
+	selections_count = g_slist_length (selections);
 
 	/* If there is no selection besides the cursor iterate through the
 	 * entire sheet.  Move the cursor and selection as we go.  Ignore
@@ -1358,7 +1477,7 @@ characterize_vec (Sheet *sheet, GnmRange *vector,
 void
 sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 {
-	GSList *ptr, *sels;
+	GSList *ptr, *sels, *selections;
 	GnmRange const *r;
 	int num_cols, num_rows;
 
@@ -1376,11 +1495,13 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 
 	gboolean default_to_cols;
 
+	selections = sv_selection_calc_simplification (sv);
+
 	/* Use the total number of cols vs rows in all of the selected regions.
 	 * We can not use just one in case one of the others happens to be the transpose
 	 * eg select A1 + A:B would default_to_cols = FALSE, then produce a vector for each row */
 	num_cols = num_rows = 0;
-	for (ptr = sv->selections; ptr != NULL ; ptr = ptr->next) {
+	for (ptr = selections; ptr != NULL ; ptr = ptr->next) {
 		r = ptr->data;
 		num_cols += range_width (r);
 		num_rows += range_height (r);
@@ -1403,7 +1524,7 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 		to retrieve the axis data and the matrix z values. We probably should raise
 		an error condition if it is not the case */
 		/* selections are in reverse order so walk them backwards */
-		GSList const *ptr = g_slist_last (sv->selections);
+		GSList const *ptr = g_slist_last (selections);
 		GnmRange vector = *((GnmRange const *) ptr->data);
 		int start_row = vector.start.row;
 		int start_col = vector.start.col;
@@ -1447,7 +1568,7 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 
 	/* selections are in reverse order so walk them backwards */
 	cur_dim = 0;
-	sels = ptr = g_slist_reverse (g_slist_copy (sv->selections));
+	sels = ptr = g_slist_reverse (g_slist_copy (selections));
 	for (; ptr != NULL; ptr = ptr->next) {
 		GnmRange vector = *((GnmRange const *)ptr->data);
 
@@ -1546,5 +1667,5 @@ skip :
 
 	g_slist_free (sels);
 
-#warning TODO is last series is incomplete try to shift data out of optional dimensions
+#warning TODO If last series is incomplete try to shift data out of optional dimensions.
 }

@@ -1,7 +1,8 @@
 Gnumeric 1.11.2
 
 Andreas:
-	* Colour the range expressions to match the range cursor.
+	* Colour the range expressions to match the range cursor. [#632156]
+	* Implement ctrl-click cell deselection. [#610696]
 
 
 --------------------------------------------------------------------------

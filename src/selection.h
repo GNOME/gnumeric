@@ -13,6 +13,12 @@ typedef enum {
 	COL_ROW_FULL_SELECTION
 } ColRowSelectionType;
 
+typedef enum {
+	GNM_SELECTION_MODE_ADD = 0,
+	GNM_SELECTION_MODE_REMOVE,
+	GNM_SELECTION_MODE_TOGGLE
+} GnmSelectionMode;
+
 /* Selection information */
 GnmCellPos const *sv_is_singleton_selected (SheetView const *sv);
 gboolean sv_is_pos_selected         (SheetView const *sv, int col, int row);
@@ -36,17 +42,20 @@ void	 sv_selection_to_plot	   (SheetView *sv, GogPlot *plot);
 
 /* Selection management */
 void	 sv_selection_reset	   (SheetView *sv);
-void	 sv_selection_add_pos	   (SheetView *sv, int col, int row);
+void	 sv_selection_add_pos	   (SheetView *sv, int col, int row, GnmSelectionMode mode);
 void	 sv_selection_add_range	   (SheetView *sv, GnmRange const *range);
 void	 sv_selection_add_full	   (SheetView *sv,
 				    int edit_col, int edit_row,
 				    int base_col, int base_row,
-				    int move_col, int move_row);
+				    int move_col, int move_row, 
+				    GnmSelectionMode mode);
 void	sv_selection_set	   (SheetView *sv, GnmCellPos const *edit,
 				    int base_col, int base_row,
 				    int move_col, int move_row);
 void	sv_selection_extend_to	   (SheetView *sv, int col, int row);
 void	sv_selection_free	   (SheetView *sv);
+void	sv_selection_simplified_free  (SheetView *sv);
+void    sv_selection_simplify         (SheetView *sv);
 
 void	sv_selection_walk_step	   (SheetView *sv,
 				    gboolean forward,

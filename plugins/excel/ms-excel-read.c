@@ -4504,12 +4504,14 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 		sv_selection_add_full (sv,
 				       tmp.col, tmp.row,
 				       r.start.col, r.start.row,
-				       r.end.col, r.end.row);
+				       r.end.col, r.end.row, 
+				       GNM_SELECTION_MODE_ADD);
 	}
 
 	if (sv->selections == NULL) {
 		/* See bug 632050 */
-		sv_selection_add_pos (sv, 0, 0);
+		sv_selection_add_pos (sv, 0, 0, 
+				      GNM_SELECTION_MODE_ADD);
 		d (5, g_printerr ("No selection\n"););
 	}
 

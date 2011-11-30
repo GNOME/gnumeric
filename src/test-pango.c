@@ -42,7 +42,8 @@ cb_exercise_pango (gpointer data)
 
 	if (state == 0) {
 		sv_selection_reset (sv);
-		sv_selection_add_full(sv, 0, 0, 0, 0, 40, STEP_SIZE*TEST_STEPS);
+		sv_selection_add_full (sv, 0, 0, 0, 0, 40, STEP_SIZE*TEST_STEPS, 
+				       GNM_SELECTION_MODE_ADD);
 		cmd_area_set_text (wbc, sv, "=rand()", NULL);
 	} else if (state < TEST_STEPS) {
 		SHEET_VIEW_FOREACH_CONTROL(wb_control_cur_sheet_view (wbc),
