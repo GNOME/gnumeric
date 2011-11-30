@@ -505,7 +505,7 @@ gnm_docprop_vector_as_string (GsfDocPropVector *vector)
 	guint		 i;
 	guint		 num_values;
 	GValueArray	*gva;
-	GValue           vl = {0};
+	GValue           vl = G_VALUE_INIT;
 
 	g_return_val_if_fail (vector != NULL, NULL);
 
@@ -811,7 +811,7 @@ dialog_doc_metadata_get_gsf_prop_val_type (DialogDocMetaData *state,
 }
 
 static void
-dialog_doc_metadata_set_gsf_prop_val (DialogDocMetaData *state,
+dialog_doc_metadata_set_gsf_prop_val (G_GNUC_UNUSED DialogDocMetaData *state,
 				      GValue            *prop_value,
 				      const gchar       *str_val)
 {
@@ -1026,7 +1026,7 @@ dialog_doc_metadata_set_prop (DialogDocMetaData *state,
  **/
 static gboolean
 cb_dialog_doc_metadata_title_changed (GtkEntry          *entry,
-				      GdkEventFocus *event,
+				      G_GNUC_UNUSED GdkEventFocus *event,
 				      DialogDocMetaData *state)
 {
 	dialog_doc_metadata_set_prop (state,
@@ -1038,7 +1038,7 @@ cb_dialog_doc_metadata_title_changed (GtkEntry          *entry,
 
 static gboolean
 cb_dialog_doc_metadata_subject_changed (GtkEntry          *entry,
-					GdkEventFocus *event,
+					G_GNUC_UNUSED GdkEventFocus *event,
 					DialogDocMetaData *state)
 {
 	dialog_doc_metadata_set_prop (state,
@@ -1050,7 +1050,7 @@ cb_dialog_doc_metadata_subject_changed (GtkEntry          *entry,
 
 static gboolean
 cb_dialog_doc_metadata_author_changed (GtkEntry          *entry,
-				       GdkEventFocus *event,
+				       G_GNUC_UNUSED GdkEventFocus *event,
 				       DialogDocMetaData *state)
 {
 	dialog_doc_metadata_set_prop (state,
@@ -1062,7 +1062,7 @@ cb_dialog_doc_metadata_author_changed (GtkEntry          *entry,
 
 static gboolean
 cb_dialog_doc_metadata_manager_changed (GtkEntry          *entry,
-					GdkEventFocus *event,
+					G_GNUC_UNUSED GdkEventFocus *event,
 					DialogDocMetaData *state)
 {
 	dialog_doc_metadata_set_prop (state,
@@ -1074,7 +1074,7 @@ cb_dialog_doc_metadata_manager_changed (GtkEntry          *entry,
 
 static gboolean
 cb_dialog_doc_metadata_company_changed (GtkEntry          *entry,
-					GdkEventFocus *event,
+					G_GNUC_UNUSED GdkEventFocus *event,
 					DialogDocMetaData *state)
 {
 	dialog_doc_metadata_set_prop (state,
@@ -1086,7 +1086,7 @@ cb_dialog_doc_metadata_company_changed (GtkEntry          *entry,
 
 static gboolean
 cb_dialog_doc_metadata_category_changed (GtkEntry          *entry,
-					 GdkEventFocus *event,
+					 G_GNUC_UNUSED GdkEventFocus *event,
 					 DialogDocMetaData *state)
 {
 	dialog_doc_metadata_set_prop (state,
@@ -1098,7 +1098,7 @@ cb_dialog_doc_metadata_category_changed (GtkEntry          *entry,
 
 static gboolean
 cb_dialog_doc_metadata_comments_changed (GtkTextView     *view,
-					 GdkEventFocus *event,
+					 G_GNUC_UNUSED GdkEventFocus *event,
 					 DialogDocMetaData *state)
 {
 	GtkTextIter start_iter;
@@ -1177,7 +1177,7 @@ dialog_doc_metadata_init_description_page (DialogDocMetaData *state)
 static void
 dialog_doc_metadata_update_keywords_changed (DialogDocMetaData *state)
 {
-	GValue val = {0};
+	GValue val = G_VALUE_INIT;
 	GtkTreeIter iter;
 	GsfDocPropVector *vector = gsf_docprop_vector_new ();
 
@@ -1242,8 +1242,8 @@ dialog_doc_metadata_update_keyword_list (DialogDocMetaData *state, GsfDocProp *p
 }
 
 static void
-cb_dialog_doc_metadata_keywords_add_clicked (GtkWidget         *w,
-					     DialogDocMetaData *state)
+cb_dialog_doc_metadata_keywords_add_clicked (G_GNUC_UNUSED GtkWidget *w,
+					     DialogDocMetaData       *state)
 {
 	gtk_list_store_insert_with_values (state->key_store, NULL, G_MAXINT,
 					   0, "<?>", -1);
@@ -1251,8 +1251,8 @@ cb_dialog_doc_metadata_keywords_add_clicked (GtkWidget         *w,
 }
 
 static void
-cb_dialog_doc_metadata_keywords_remove_clicked (GtkWidget         *w,
-						DialogDocMetaData *state)
+cb_dialog_doc_metadata_keywords_remove_clicked (G_GNUC_UNUSED GtkWidget *w,
+						DialogDocMetaData       *state)
 {
 	GtkTreeIter iter;
 	GtkTreeSelection *sel = gtk_tree_view_get_selection (state->key_tree_view);
@@ -1264,10 +1264,10 @@ cb_dialog_doc_metadata_keywords_remove_clicked (GtkWidget         *w,
 }
 
 static void
-cb_dialog_doc_metadata_keyword_edited (GtkCellRendererText *renderer,
-				       gchar               *path,
-				       gchar               *new_text,
-				       DialogDocMetaData   *state)
+cb_dialog_doc_metadata_keyword_edited (G_GNUC_UNUSED GtkCellRendererText *renderer,
+				       gchar                             *path,
+				       gchar                             *new_text,
+				       DialogDocMetaData                 *state)
 {
 	GtkTreeIter iter;
 	if (gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (state->key_store), &iter, path)) {
@@ -1332,10 +1332,10 @@ dialog_doc_metadata_init_keywords_page (DialogDocMetaData *state)
  ******************************************************************************/
 
 static void
-cb_dialog_doc_metadata_value_edited (GtkCellRendererText *renderer,
-				       gchar               *path,
-				       gchar               *new_text,
-				       DialogDocMetaData   *state)
+cb_dialog_doc_metadata_value_edited (G_GNUC_UNUSED GtkCellRendererText *renderer,
+				     gchar                             *path,
+				     gchar                             *new_text,
+				     DialogDocMetaData                 *state)
 {
 	GtkTreeIter iter;
 	if (gtk_tree_model_get_iter_from_string
@@ -1366,8 +1366,8 @@ cb_dialog_doc_metadata_value_edited (GtkCellRendererText *renderer,
  *
  **/
 static void
-cb_dialog_doc_metadata_add_clicked (GtkWidget         *w,
-				    DialogDocMetaData *state)
+cb_dialog_doc_metadata_add_clicked (G_GNUC_UNUSED GtkWidget *w,
+				    DialogDocMetaData       *state)
 {
 	const gchar *name = gtk_entry_get_text (state->ppt_name);
 	const gchar *value = gtk_entry_get_text (state->ppt_value);
@@ -1593,9 +1593,9 @@ cb_dialog_doc_metadata_tree_prop_selected (GtkTreeSelection  *selection,
  *
  **/
 static gchar *
-dialog_doc_metadata_get_prop_val (DialogDocMetaData *state,
-				  char const *prop_name,
-				  GValue     *prop_value)
+dialog_doc_metadata_get_prop_val (G_GNUC_UNUSED DialogDocMetaData *state,
+				  char const                      *prop_name,
+				  GValue                          *prop_value)
 {
 	GValue str_value = G_VALUE_INIT;
 	gboolean ret = FALSE;

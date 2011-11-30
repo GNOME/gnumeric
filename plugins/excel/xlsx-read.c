@@ -53,6 +53,7 @@
 #include "gnm-so-filled.h"
 #include "gnm-so-line.h"
 #include "sheet-object-image.h"
+#include "dead-kittens.h"
 
 #include <goffice/goffice.h>
 

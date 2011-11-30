@@ -36,7 +36,7 @@ xlsx_read_core_keys (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gchar **strs, **orig_strs;
 	GsfDocPropVector *keywords;
-	GValue v = {0};
+	GValue v = G_VALUE_INIT;
 	int count = 0;
 
 	if (strlen (xin->content->str) == 0)

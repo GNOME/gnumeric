@@ -1,5 +1,10 @@
 2011-11-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-read-docprops.c (xlsx_read_core_keys): use G_VALUE_INIT
+	* xlsx-read.c: add dead-kittens.h
+
+2011-11-30 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* excel-xml-read.c (xl_xml_selection): adjust call to
 	sv_selection_add_full
 	* ms-excel-read.c (excel_read_SELECTION): adjust calls to

@@ -1,5 +1,10 @@
 2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-doc-metadata.c (gnm_docprop_vector_as_string): use G_VALUE_INIT;
+	(dialog_doc_metadata_update_keywords_changed): ditto
+
+2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-doc-metadata.c: add dead-kittens.h
 	(dialog_doc_metadata_set_gsf_prop_val): use G_VALUE_INIT;
 
