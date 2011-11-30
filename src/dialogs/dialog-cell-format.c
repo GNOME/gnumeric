@@ -182,7 +182,7 @@ typedef struct _FormatState {
 		gboolean	 sheet_protected_value;
 	} protection;
 	struct {
-		GtkTable       *criteria_table;
+		GtkGrid       *criteria_grid;
 		GtkComboBox  *constraint_type;
 		GtkLabel       *operator_label;
 		GtkComboBox  *op;
@@ -353,6 +353,7 @@ setup_color_pickers (FormatState *state,
 		     ColorPicker *picker,
 		     char const *color_group,
 		     char const *container,
+                     int col, int row,
 		     char const *label,
 		     char const *default_caption,
 		     char const *caption,
@@ -410,7 +411,7 @@ setup_color_pickers (FormatState *state,
 	gtk_container_add (GTK_CONTAINER (frame), combo);
 
 	w = go_gtk_builder_get_widget (state->gui, container);
-	gtk_box_pack_start (GTK_BOX (w), frame, FALSE, FALSE, 0);
+	gtk_grid_attach (GTK_GRID (w), frame, col, row, 1, 1);
 	gtk_widget_show_all (frame);
 
 	w = go_gtk_builder_get_widget (state->gui, label);
@@ -809,7 +810,7 @@ fmt_dialog_init_font_page (FormatState *state)
 {
 	GtkWidget *tmp = font_selector_new ();
 	FontSelector *font_widget = FONT_SELECTOR (tmp);
-	GtkWidget *container = go_gtk_builder_get_widget (state->gui, "font_box");
+	GtkWidget *container = go_gtk_builder_get_widget (state->gui, "font-grid");
 	GtkWidget *uline = go_combo_text_new_default ();
 	char const *uline_str;
 	GtkWidget *strike = go_gtk_builder_get_widget (state->gui, "strikethrough_button");
@@ -823,8 +824,8 @@ fmt_dialog_init_font_page (FormatState *state)
 
 	/* TODO: How to insert the font box in the right place initially */
 	gtk_widget_show (tmp);
-	gtk_box_pack_start (GTK_BOX (container), tmp, TRUE, TRUE, 0);
-	gtk_box_reorder_child (GTK_BOX (container), tmp, 0);
+	gtk_widget_set_vexpand (tmp, TRUE);
+	gtk_grid_attach (GTK_GRID (container), tmp, 0, 0, 5, 1);
 
 	font_selector_editable_enters (font_widget, GTK_WINDOW (state->dialog));
 
@@ -859,8 +860,7 @@ fmt_dialog_init_font_page (FormatState *state)
 			  "entry_changed",
 			  G_CALLBACK (cb_font_underline_changed), state);
 	gtk_widget_show_all (uline);
-	gtk_box_pack_start (GTK_BOX (go_gtk_builder_get_widget (state->gui, "underline-box")),
-	                    uline, TRUE, TRUE, 0);
+	gtk_grid_attach (GTK_GRID (container), uline, 3, 2, 1, 1);
 
 	tmp = go_gtk_builder_get_widget (state->gui, "underline_label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (tmp), uline);
@@ -1735,9 +1735,8 @@ fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 {
 	entry->name  = GTK_LABEL (go_gtk_builder_get_widget (state->gui, name));
 	entry->entry = gnm_expr_entry_new (state->wbcg, TRUE);
-	gtk_table_attach (state->validation.criteria_table,
-		GTK_WIDGET (entry->entry),
-		 1, 2, 2+i, 3+i, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (state->validation.criteria_grid,
+		GTK_WIDGET (entry->entry), 1, 3+i, 3, 1);
 	gtk_widget_show (GTK_WIDGET (entry->entry));
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
@@ -1826,7 +1825,7 @@ fmt_dialog_init_validation_page (FormatState *state)
 	/* Setup widgets */
 	state->validation.changed	  = FALSE;
 	state->validation.valid		  = 1;
-	state->validation.criteria_table  = GTK_TABLE          (go_gtk_builder_get_widget (state->gui, "validation_criteria_table"));
+	state->validation.criteria_grid  = GTK_GRID          (go_gtk_builder_get_widget (state->gui, "validation-grid"));
 	state->validation.constraint_type = GTK_COMBO_BOX    (go_gtk_builder_get_widget (state->gui, "validation_constraint_type"));
 	gtk_combo_box_set_active (state->validation.constraint_type, 0);
 	state->validation.operator_label  = GTK_LABEL          (go_gtk_builder_get_widget (state->gui, "validation_operator_label"));
@@ -1927,7 +1926,7 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 	 * NOTE: This should be removed when the feature
 	 * is implemented.
 	 */
-#if 1
+#if 1L
 	gtk_notebook_remove_page (state->notebook, 7);
 	return;
 #endif
@@ -2265,19 +2264,19 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 				      default_border_style, 54);
 
 	setup_color_pickers (state, &state->border.color,	"border_color_group",
-			     "border_color_hbox",		"border_color_label",
+			     "border-grid", 2, 3,		"border_color_label",
 			     _("Automatic"),			_("Border"),
 			     G_CALLBACK (cb_border_color),	MSTYLE_BORDER_TOP);
 	setup_color_pickers (state, NULL,			"fore_color_group",
-			     "font_color_hbox",			"font_color_label",
+			     "font-grid", 1, 2,		"font_color_label",
 			     _("Automatic"),			_("Foreground"),
 			     G_CALLBACK (cb_font_preview_color), MSTYLE_FONT_COLOR);
 	setup_color_pickers (state, &state->back.back_color,	"back_color_group",
-			     "back_color_hbox",			"back_color_label",
+			     "background-grid",	1, 1,		"back_color_label",
 			     _("Clear Background"),		_("Background"),
 			     G_CALLBACK (cb_back_preview_color), MSTYLE_COLOR_BACK);
 	setup_color_pickers (state, &state->back.pattern_color, "pattern_color_group",
-			     "pattern_color_hbox",		"pattern_color_label",
+			     "background-grid", 1, 3,		"pattern_color_label",
 			     _("Automatic"),			_("Pattern"),
 			     G_CALLBACK (cb_pattern_preview_color), MSTYLE_COLOR_PATTERN);
 
