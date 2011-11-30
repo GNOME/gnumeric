@@ -301,7 +301,8 @@ cb_icon_clicked (GtkButton *icon,
 				container_props = g_value_array_new (n);
 
 				for (ui = 0; ui < n; ui++) {
-					GValue value;
+					/* In glib 2.30 we could be using G_VALUE_INIT */
+					GValue value = { 0, { { 0 } } };
 					g_value_init (&value, G_PARAM_SPEC_VALUE_TYPE (container_props_pspec[ui]));
 
 					gtk_container_child_get_property (GTK_CONTAINER (old_entry_parent), GTK_WIDGET (entry),
