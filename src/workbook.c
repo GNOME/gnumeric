@@ -1117,7 +1117,7 @@ gboolean
 workbook_sheet_rename (Workbook *wb,
 		       GSList *sheet_indices,
 		       GSList *new_names,
-		       GOCmdContext *cc)
+		       G_GNUC_UNUSED GOCmdContext *cc)
 {
 	GSList *sheet_index = sheet_indices;
 	GSList *new_name = new_names;

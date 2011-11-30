@@ -37,7 +37,7 @@ struct closure_colrow_resize {
 };
 
 static gboolean
-cb_colrow_collect (SheetView *sv, GnmRange const *r, gpointer user_data)
+cb_colrow_collect (G_GNUC_UNUSED SheetView *sv, GnmRange const *r, gpointer user_data)
 {
 	struct closure_colrow_resize *info = user_data;
 	int first, last;
@@ -162,7 +162,7 @@ workbook_cmd_wrap_sort (WorkbookControl *wbc, int type)
 	GnmFunc	   *fd_sort;
 	GnmFunc	   *fd_array;
 	GnmExprTop const *texpr;
-	struct workbook_cmd_wrap_sort_t cl = {NULL, NULL};
+	struct workbook_cmd_wrap_sort_t cl = {NULL, NULL, NULL};
 
 	cl.r = selection_first_range
 		(sv, GO_CMD_CONTEXT (wbc), _("Wrap SORT"));;

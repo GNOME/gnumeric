@@ -452,7 +452,8 @@ gnm_font_init (void)
 }
 
 static void
-delete_neg_font (GnmFont *sf, gpointer value, gpointer user_data)
+delete_neg_font (GnmFont *sf, G_GNUC_UNUSED gpointer value, 
+		 G_GNUC_UNUSED gpointer user_data)
 {
 	g_object_unref (sf->context);
 	g_free (sf->font_name);
@@ -460,7 +461,7 @@ delete_neg_font (GnmFont *sf, gpointer value, gpointer user_data)
 }
 
 static void
-list_cached_fonts (GnmFont *font, gpointer value, GSList **lp)
+list_cached_fonts (GnmFont *font, G_GNUC_UNUSED gpointer value, GSList **lp)
 {
 	*lp = g_slist_prepend (*lp, font);
 }

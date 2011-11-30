@@ -53,7 +53,7 @@ gnm_undo_colrow_restore_state_group_finalize (GObject *o)
 }
 
 static void
-gnm_undo_colrow_restore_state_group_undo (GOUndo *u, gpointer data)
+gnm_undo_colrow_restore_state_group_undo (GOUndo *u, G_GNUC_UNUSED gpointer data)
 {
 	GNMUndoColrowRestoreStateGroup *ua = (GNMUndoColrowRestoreStateGroup *)u;
 
@@ -112,7 +112,7 @@ gnm_undo_colrow_set_sizes_finalize (GObject *o)
 }
 
 static void
-gnm_undo_colrow_set_sizes_undo (GOUndo *u, gpointer data)
+gnm_undo_colrow_set_sizes_undo (GOUndo *u, G_GNUC_UNUSED gpointer data)
 {
 	GNMUndoColrowSetSizes *ua = (GNMUndoColrowSetSizes *)u;
 	ColRowStateGroup *group;
@@ -218,7 +218,7 @@ cb_filter_set_condition_undo_set_pb (SheetControl *control, char *text)
 }
 
 static void
-gnm_undo_filter_set_condition_undo (GOUndo *u, gpointer data)
+gnm_undo_filter_set_condition_undo (GOUndo *u, G_GNUC_UNUSED gpointer data)
 {
 	GNMUndoFilterSetCondition *ua = (GNMUndoFilterSetCondition *)u;
 	gint count = 0;

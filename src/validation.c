@@ -100,7 +100,7 @@ gnm_validation_combo_finalize (GObject *object)
 }
 
 static void
-gnm_validation_combo_init (SheetObject *so)
+gnm_validation_combo_init (G_GNUC_UNUSED SheetObject *so)
 {
 }
 

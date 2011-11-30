@@ -1237,7 +1237,6 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 {
 	int row;
 	unsigned int lrow;
-	GODateConventions const *date_conv;
 	GStringChunk *lines_chunk;
 	GPtrArray *lines;
 	gboolean result = TRUE;
@@ -1249,8 +1248,6 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	g_return_val_if_fail (parseoptions != NULL, FALSE);
 	g_return_val_if_fail (data != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-
-	date_conv = workbook_date_conv (sheet->workbook);
 
 	if (!data_end)
 		data_end = data + strlen (data);

@@ -1,5 +1,9 @@
 2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/stf-parse.c (stf_parse_sheet): remove unused variable
+
+2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dead-kittens.h: add G_VALUE_INIT
 
 2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>

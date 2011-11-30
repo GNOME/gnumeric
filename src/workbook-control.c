@@ -382,7 +382,7 @@ wb_control_navigate_to_cell (WorkbookControl *wbc, wb_control_navigator_t to)
 
 
 static void
-cb_wbc_clipboard_modified (GnmApp *app, WorkbookControl *wbc)
+cb_wbc_clipboard_modified (G_GNUC_UNUSED GnmApp *app, WorkbookControl *wbc)
 {
 	wb_control_menu_state_update (wbc, MS_PASTE_SPECIAL);
 }
@@ -474,7 +474,7 @@ workbook_control_init (GObject *obj)
 }
 
 static void
-wbc_cmd_context_init (GOCmdContextClass *iface)
+wbc_cmd_context_init (G_GNUC_UNUSED GOCmdContextClass *iface)
 {
 #if 0
 	iface->get_password	    = ;

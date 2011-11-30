@@ -106,7 +106,7 @@ value_new_float (gnm_float f)
 }
 
 GnmValue *
-value_new_error (GnmEvalPos const *ep, char const *mesg)
+value_new_error (G_GNUC_UNUSED GnmEvalPos const *ep, char const *mesg)
 {
 	GnmValueErr *v = CHUNK_ALLOC (GnmValueErr, value_error_pool);
 	*((GnmValueType *)&(v->type)) = VALUE_ERROR;
@@ -116,7 +116,7 @@ value_new_error (GnmEvalPos const *ep, char const *mesg)
 }
 
 GnmValue *
-value_new_error_str (GnmEvalPos const *ep, GOString *mesg)
+value_new_error_str (G_GNUC_UNUSED GnmEvalPos const *ep, GOString *mesg)
 {
 	GnmValueErr *v = CHUNK_ALLOC (GnmValueErr, value_error_pool);
 	*((GnmValueType *)&(v->type)) = VALUE_ERROR;
@@ -197,7 +197,7 @@ value_error_name (GnmStdError err, gboolean translated)
  * Change the position of a ValueError.
  */
 GnmValue *
-value_error_set_pos (GnmValueErr *err, GnmEvalPos const *pos)
+value_error_set_pos (GnmValueErr *err, G_GNUC_UNUSED GnmEvalPos const *pos)
 {
     g_return_val_if_fail (err != NULL, NULL);
     g_return_val_if_fail (VALUE_IS_ERROR (err), NULL);
