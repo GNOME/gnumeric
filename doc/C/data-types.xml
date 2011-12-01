@@ -837,6 +837,59 @@ FUNCTIONNAME(ARGUMENTS)
 
   </sect3>
 
+  <sect3 id="sect-data-formulas-database">
+    <title>Database Formulas</title>
+  <para>
+    Solely for compatibility with Excel and ODF files, &gnum; supports various database functions:
+    <xref linkend="gnumeric-function-DAVERAGE" />,
+    <xref linkend="gnumeric-function-DCOUNT" />,
+    <xref linkend="gnumeric-function-DCOUNTA" />,
+    <xref linkend="gnumeric-function-DGET" />,
+    <xref linkend="gnumeric-function-DMAX" />,
+    <xref linkend="gnumeric-function-DMIN" />,
+    <xref linkend="gnumeric-function-DPRODUCT" />,
+    <xref linkend="gnumeric-function-DSTDEV" />,
+    <xref linkend="gnumeric-function-DSTDEVP" />,
+    <xref linkend="gnumeric-function-DSUM" />,
+    <xref linkend="gnumeric-function-DVAR" /> and
+    <xref linkend="gnumeric-function-DVARP" />.
+  </para>
+  <para>
+    Since these functions are quite restrictive on the criteria that can be used, it is often
+    easier to use array functions as described in <xref linkend="sect-data-formulas-array" />.
+    Array functions are also useful in the case that a specific database function does not exist:
+  </para>
+
+ <example id="dmedian">
+   <title>Simulating <code>DMEDIAN</code> with an Array Function</title>
+   <para>
+     As shown in  <xref linkend="dmedian-example-1" />, instead of using (the non-existing) 
+     function <code>DMEDIAN</code> one can use the alternative expression 
+     <code>median(if(A1:A20="AA",B1:B2))</code> entered as an array function as described in 
+     <xref linkend="sect-data-formulas-array" />. Multiple conditions can be combined using
+     the <code>AND</code> or <code>OR</code> functions as in 
+     <code>median(if(OR(A1:A20="AA",A1:A20="BB"),B1:B20))</code>.
+     Using defined names as introduced in <xref linkend="sect-data-formulas-names" /> for 
+     <code>A1:A20</code> and <code>B1:B20</code> can make this code very flexible and readable.
+   </para> 
+ </example>
+  
+  <figure id="dmedian-example-1">
+    <title>Calculating the MEDIAN of Some Data Values</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/formula-dmedian.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>Calculating the MEDIAN of some data values.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+ </sect3>
 
 </sect2>
              

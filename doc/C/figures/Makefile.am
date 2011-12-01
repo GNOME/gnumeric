@@ -227,6 +227,7 @@ EXTRA_DIST = \
      files-html-example.png \
      files-html32-example.png \
      files-html40-example.png \
+     formula-dmedian.png \
      gnumeric-icon-24.png \
      gnumeric-labelled.png \
      gnumeric-power-example.png \
