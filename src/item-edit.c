@@ -124,7 +124,6 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	PangoRectangle pos, weak;
 	char const *text = gtk_entry_get_text (ie->entry);
 	PangoDirection dir = pango_find_base_dir (text, -1);
-	PangoLayout *layout = gtk_entry_get_layout (ie->entry);
 	PangoAttrList *entry_attributes 
 		= g_object_get_data(G_OBJECT (ie->entry), 
 				    "gnm:range-attributes");
@@ -169,25 +168,18 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	cairo_move_to (cr, left, top);
 	gtk_editable_get_selection_bounds (GTK_EDITABLE (ie->entry), &start, &end);
 	if (start != end) {
-		unsigned r, g, b;
 		PangoAttribute *attr;
 		PangoAttrList *orig = pango_attr_list_ref (pango_layout_get_attributes (ie->layout)),
 			*attrs = pango_attr_list_copy (orig);
 		start = g_utf8_offset_to_pointer (text, start) - text;
 		end = g_utf8_offset_to_pointer (text, end) - text;
 		color = gnm_style_get_back_color (ie->style)->go_color;
-		r = (GO_COLOR_UINT_R (color) ^ 0xff) * 0x101;
-		g = (GO_COLOR_UINT_G (color) ^ 0xff) * 0x101;
-		b = (GO_COLOR_UINT_B (color) ^ 0xff) * 0x101;
-		attr = pango_attr_background_new (r, g, b);
+		attr = go_color_to_pango (color, FALSE);
 		attr->start_index = start;
 		attr->end_index = end;
 		pango_attr_list_change (attrs, attr);
 		color = gnm_style_get_font_color (ie->style)->go_color;
-		r = (GO_COLOR_UINT_R (color) ^ 0xff) * 0x101;
-		g = (GO_COLOR_UINT_G (color) ^ 0xff) * 0x101;
-		b = (GO_COLOR_UINT_B (color) ^ 0xff) * 0x101;
-		attr = pango_attr_foreground_new (r, g, b);
+		attr = go_color_to_pango (color, TRUE);
 		attr->start_index = start;
 		attr->end_index = end;
 		pango_attr_list_change (attrs, attr);
