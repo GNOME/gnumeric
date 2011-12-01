@@ -849,9 +849,66 @@ FUNCTIONNAME(ARGUMENTS)
   
   <para>
     Cells can display error values if the formula contained in the
-    cell cannot be solved or if other anomalous conditions occur.
+    cell cannot be solved or if other anomalous conditions occur. 
   </para>
-
+  <para>
+    In &gnum; all error values have names that start with <code>#</code>. 
+    8 error values are standardized:
+  </para>
+<!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
+<table frame='all'><title>The standard error values of &gnum;</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<colspec colnum="1" colname="col1" colwidth="1*"/>
+<colspec colnum="2" colname="col2" colwidth="3*"/>
+<thead>
+<row>
+  <entry align="left">Name</entry>
+  <entry align="center">Normal Use</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry><code>#DIV/0!</code></entry>
+  <entry>Division by zero occurred.</entry> 
+</row>
+<row>
+  <entry><code>#N/A</code></entry>
+  <entry>Not applicable. This is the result of the 
+  <code>=NA()</code> formula.
+  </entry> 
+</row>
+<row>
+  <entry><code>#NAME?</code></entry>
+  <entry>An unknown function name or other name was encountered.</entry> 
+</row>
+<row>
+  <entry><code>#NULL!</code></entry>
+  <entry>The result of specifying an intersecting range that in fact does
+  <emphasis>not</emphasis> intersect.</entry> 
+</row>
+<row>
+  <entry><code>#NUM!</code></entry>
+  <entry>A formula could not be evaluated because an invalid number was 
+  used as argument, for example <code>=SQRT(-1)</code></entry> 
+</row>
+<row>
+  <entry><code>#REF!</code></entry>
+  <entry>An invalid cell adress or reference was encountered.</entry> 
+</row>
+<row>
+  <entry><code>#UNKNOWN!</code></entry>
+  <entry>Usually the result of importing an unrecognized error from a
+  different file format.</entry> 
+</row>
+<row>
+  <entry><code>#VALUE!</code></entry>
+  <entry>A formula could not be evaluated because the wrong type of argument
+  was used.</entry> 
+</row>
+</tbody>
+</tgroup>
+</table>
+<!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
 
 </sect2>
 
