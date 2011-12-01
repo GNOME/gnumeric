@@ -1,3 +1,9 @@
+2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* doc/C/files-formats.xml: update
+	* func.defs: update
+	* functions.xml: update
+
 2011-11-27  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.1

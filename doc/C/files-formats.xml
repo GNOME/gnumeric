@@ -114,7 +114,7 @@
   <entry><link linkend="file-format-excel-moox">Microsoft Office Open SpreadsheetML (MOOX/ECMA376/ISO29500)</link></entry>
   <entry><literal>.xlsx</literal></entry> 
   <entry>YES</entry>
-  <entry>YES (incomplete)</entry>
+  <entry>YES</entry>
   <entry>application/vnd.ms-excel</entry>
 </row>
 <row>
@@ -126,10 +126,10 @@
   <entry>application/vnd.sun.xml.calc</entry>
 </row>
 <row>
-  <entry><link linkend="file-format-odf">OpenOffice.Org / StarOffice (OASIS ODF/IS26300)</link></entry>
+  <entry><link linkend="file-format-odf">OpenDocument Format (OASIS ODF and ISO/IEC 26300:2006)</link></entry>
   <entry><literal>.ods</literal> / <literal>.odt</literal> / <literal>.sxc</literal> / <literal>.stc</literal></entry> 
   <entry>YES</entry>
-  <entry>YES (incomplete)</entry>
+  <entry>YES</entry>
   <entry>application/vnd.oasis.opendocument.spreadsheet</entry>
 </row>
 <row>
@@ -2197,7 +2197,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 
 
   <sect2 id="file-format-odf">
-    <title>OpenOffice.org XML File Format (aka ODF or OASIS)</title>
+    <title>OpenDocument Format (OASIS ODF and ISO/IEC 26300:2006)</title>
 
     <para>
       The OpenOffice.org XML file format is zip archive including
@@ -2205,9 +2205,10 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
       markup in the eXtensible Markup Language (XML). 
     </para>
 
-    <para>
-      &gnum; can both open and save files in this format and plans to
-      continue to support this format in the future.
+    <para>&gnum; reads version 1.0, 1.1 and 1.2 of ODF spreadsheet files and writes version 1.2 files
+	    with or without foreign elements. Foreign elements are an extension mechanism defined in ODF and
+	    allow features to be saved in ODF files that are not specifically standardized by ODF.
+      &gnum; plans to continue to support this format in the future.
     </para>
 
     <informaltable frame='all'>
@@ -2217,7 +2218,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	    <entry>
 	      <emphasis role="bold">Name:</emphasis>
 	    </entry>
-	    <entry>ODF, OASIS XML, OpenOffice.org XML, StarOffice</entry>
+	    <entry>Open Document Format, ODF</entry>
 	  </row>
 	  <row>
 	    <entry>
@@ -2230,6 +2231,8 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	      <emphasis role="bold">Compatible Programs:</emphasis>
             </entry>
 	    <entry><application>OpenOffice.org Calc</application>,
+	    <application>LibreOffice Calc</application>,
+	    <application>KSpread</application>,
 	           <application>StarCalc</application></entry>
 	  </row>
 	  <row>
@@ -2261,7 +2264,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	</term>
 	<listitem>
 	  <para>
-	    Supported by the 'OpenCalc/StarCalc' plugin.
+	    Supported by the 'Open Document Format' plugin.
 	  </para>
 	</listitem>
       </varlistentry>
@@ -2298,6 +2301,12 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	    File Format</ulink> web page, part of the OpenOffice.org
 	    project.
 	  </para>
+
+	  <para>
+	  Version 1.0 of ODF was adopted as an international standard by ISO/IEC as 
+	  ISO/IEC 26300:2006.
+	  </para>
+	  
 	</listitem>
       </varlistentry>
 
@@ -2307,19 +2316,14 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	</term>
 	<listitem>
 	  <para>
-	    Files in this format can be imported and modified by the
-	    <application>OpenOffice.org Calc</application> spreadsheet
+	    Files in this format can be imported and modified by many
+	    different programs including the 
+	    <application>OpenOffice.org Calc</application> and
+	    <application>LibreOffice Calc</application> spreadsheets
 	    or may be modified through XML processing. 
 	    </para>
-	  <para>
-	    Other software
-            supports ODF, e.g. KOffice, although some portions of the
-	    specification have yet to be standardized and/or ratified
-	    and can therefore lead to incompatibilities.
-	  </para>
 	</listitem>
       </varlistentry>
-
     </variablelist>
 
 
@@ -2390,7 +2394,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	</term>
 	<listitem>
 	  <para>
-	    Supported by the 'OpenCalc/StarCalc' plugin.
+	    Supported by the 'Open Document Format' plugin.
 	  </para>
 	</listitem>
       </varlistentry>
