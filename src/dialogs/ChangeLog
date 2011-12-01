@@ -1,3 +1,7 @@
+2011-12-01  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am (embedded-ui.c): use --id-prefix.
+
 2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-doc-metadata.c (gnm_docprop_vector_as_string): use G_VALUE_INIT;

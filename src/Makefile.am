@@ -77,8 +77,6 @@ libspreadsheet_la_SOURCES =			\
 	\
 	gnm-data-cache-source.h 	\
 	gnm-data-cache-source.c 	\
-	gnm-rsm.h			\
-	gnm-rsm.c			\
 	gnm-sheet-slicer.h 		\
 	gnm-sheet-slicer.c 		\
 	gnm-sheet-slicer-combo.h	\

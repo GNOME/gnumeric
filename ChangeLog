@@ -1,3 +1,7 @@
+2011-12-01  Morten Welinder  <terra@gnome.org>
+
+	* src/Makefile.am: No need for gnm-rsm.[ch]
+
 2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/stf-parse.c (stf_parse_sheet): remove unused variable

@@ -24,7 +24,6 @@
 #include "libgnumeric.h"
 #include "wbc-gtk.h"
 #include "widgets/gnumeric-expr-entry.h"
-#include "gnm-rsm.h"
 
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>

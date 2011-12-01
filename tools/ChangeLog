@@ -1,3 +1,7 @@
+2011-12-01  Morten Welinder  <terra@gnome.org>
+
+	* embedder: Improve #include handling.
+
 2011-11-30  Morten Welinder  <terra@gnome.org>
 
 	* embedder: Minor improvements targeting goffice.
