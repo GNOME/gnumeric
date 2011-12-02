@@ -1440,7 +1440,7 @@ msgstr "Prezri podatke stolpcev za stolpcem %i."
 #: ../plugins/openoffice/openoffice-read.c:3046
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
-msgstr "Podprta je vsebina za največjim določenim številom vrstic (%s)."
+msgstr "Podprta je vsebina za največjim določenim številom vrstic (%i)."
 
 #: ../plugins/openoffice/openoffice-read.c:2806
 #: ../plugins/openoffice/openoffice-read.c:5168
