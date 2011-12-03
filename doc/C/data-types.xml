@@ -865,7 +865,7 @@ FUNCTIONNAME(ARGUMENTS)
    <para>
      As shown in  <xref linkend="dmedian-example-1" />, instead of using (the non-existing) 
      function <code>DMEDIAN</code> one can use the alternative expression 
-     <code>median(if(A1:A20="AA",B1:B2))</code> entered as an array function as described in 
+     <code>median(if(A1:A20="AA",B1:B20))</code> entered as an array function as described in 
      <xref linkend="sect-data-formulas-array" />. Multiple conditions can be combined using
      the <code>AND</code> or <code>OR</code> functions as in 
      <code>median(if(OR(A1:A20="AA",A1:A20="BB"),B1:B20))</code>.
