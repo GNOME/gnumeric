@@ -9,13 +9,17 @@ $myself =~ s|^.*/||;
 
 my $WIDTH = 70;
 my $regfunc = undef;
+my $unregfunc = undef;
 my $regfuncstatic = 0;
-my $regfilefunc = undef;
+my $regfilefunc = "go_rsm_register_file";
+my $unregfilefunc = "go_rsm_unregister_file";
 my $id_prefix = "";
 my @includes;
 
 &GetOptions("register-function=s" => \$regfunc,
+	    "unregister-function=s" => \$unregfunc,
 	    "register-file-function=s" => \$regfilefunc,
+	    "unregister-file-function=s" => \$unregfilefunc,
 	    "static" => \$regfuncstatic,
 	    "id-prefix=s" => \$id_prefix,
 	    "include=s" => \@includes,
@@ -31,6 +35,7 @@ foreach my $include (@includes) {
 
 my $fileno = 0;
 my $reg = "";
+my $unreg = "";
 my $docompress = 0;
 print "static " if $regfuncstatic;
 print "void\n";
@@ -49,6 +54,16 @@ foreach my $file (@ARGV) {
 }
 print $reg;
 print "}\n";
+
+if (defined $unregfunc) {
+    print "\n";
+    print "static " if $regfuncstatic;
+    print "void\n";
+    print "$unregfunc (void)\n";
+    print "{\n";
+    print $unreg;
+    print "}\n";
+}
 
 sub embed {
     my ($file, $docompress) = @_;
@@ -76,8 +91,10 @@ sub embed {
 
     &embed_data ($data, $id);
 
+    my $res = "$id_prefix$file";
     my $len = length ($data);
-    $reg .= "  $regfilefunc (\"$id_prefix$file\", $id, $len);\n";
+    $reg .= "  $regfilefunc (\"$res\", $id, $len);\n";
+    $unreg .= "  $unregfilefunc (\"$res\");\n";
 }
 
 sub embed_data {
