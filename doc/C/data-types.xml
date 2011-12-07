@@ -867,13 +867,17 @@ FUNCTIONNAME(ARGUMENTS)
      function <code>DMEDIAN</code> one can use the alternative expression 
      <code>median(if(A1:A20="AA",B1:B20))</code> entered as an array function as described in 
      <xref linkend="sect-data-formulas-array" />. Multiple conditions can be combined using
-     the <code>AND</code> or <code>OR</code> functions as in 
-     <code>median(if(OR(A1:A20="AA",A1:A20="BB"),B1:B20))</code>.
+     multiplication to obtain <code>AND</code> and addition to obtain <code>OR</code> as in 
+     <code>median(if((A1:A20="AA")+(C1:C20="BB"),B1:B20))</code>.
      Using defined names as introduced in <xref linkend="sect-data-formulas-names" /> for 
      <code>A1:A20</code> and <code>B1:B20</code> can make this code very flexible and readable.
-   </para> 
+   </para>
  </example>
-  
+     <note><para>
+     In this case we can not use use <code>if(OR(A1:A20="AA",C1:C20="BB"),...)</code> since the
+     OR function would be applied to all 40 equality tests rather than each of the 20 pairs of equality tests.
+   </para></note>
+
   <figure id="dmedian-example-1">
     <title>Calculating the MEDIAN of Some Data Values</title>
     <screenshot>
