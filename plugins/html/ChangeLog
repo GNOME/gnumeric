@@ -1,3 +1,10 @@
+2011-12-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* latex.c (cb_find_font_encodings): new
+	(latex2e_write_font_encodings): new
+	(latex2e_write_file_header): add argument and change caller,
+	call latex2e_write_font_encodings
+
 2011-11-27  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.1

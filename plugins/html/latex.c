@@ -423,6 +423,48 @@ latex_math_fputs (char const *text, GsfOutput *output)
 		latex_math_fputs_latin (text, output);
 }
 
+static GnmValue *
+cb_find_font_encodings (GnmCellIter const *iter, gboolean *fonts)
+{
+	GnmCell *cell = iter->cell;
+	if (cell) {
+		char const *rs = 
+			gnm_rendered_value_get_text 
+			(gnm_cell_fetch_rendered_value (cell, TRUE));
+		while (*rs) {
+			gunichar ch = g_utf8_get_char (rs);
+			GUnicodeScript script = g_unichar_get_script (ch);
+			if (script > 0 && script <= G_UNICODE_SCRIPT_MANDAIC)
+				fonts [script] = 1;
+			rs = g_utf8_next_char (rs);
+		}
+	}
+	return NULL;
+}
+
+/**
+ * latex2e_write_font_encodings writes
+ * \usepackage[T2A]{fontenc}
+ * in the presence of cyrillic text
+ */
+
+static void
+latex2e_write_font_encodings (GsfOutput *output, Sheet *sheet, GnmRange const *range)
+{
+	gboolean *fonts = g_new0 (gboolean, G_UNICODE_SCRIPT_MANDAIC + 1);
+
+	sheet_foreach_cell_in_range
+		(sheet, CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_HIDDEN,
+		 range->start.col, range->start.row,
+		 range->end.col, range->end.row,
+		 (CellIterFunc)&cb_find_font_encodings, fonts);
+
+	if (fonts[G_UNICODE_SCRIPT_CYRILLIC])
+		gsf_output_puts (output,
+"       \\usepackage[T2A]{fontenc}\n"
+				 );
+}
+
 /**
  * latex2e_write_file_header:
  *
@@ -432,7 +474,7 @@ latex_math_fputs (char const *text, GsfOutput *output)
  */
 
 static void
-latex2e_write_file_header(GsfOutput *output)
+latex2e_write_file_header(GsfOutput *output, Sheet *sheet, GnmRange const *range)
 {
 	gsf_output_puts (output,
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
@@ -458,6 +500,7 @@ latex2e_write_file_header(GsfOutput *output)
 		gsf_output_puts (output,
 "%%    \\usepackage{ucs}                                              %%\n"
 "%%    \\usepackage[utf8x]{inputenc}                                  %%\n"
+"%%    \\usepackage[T2A]{fontenc}    % if cyrillic is used            %%\n"
 			);
 	else
 		gsf_output_puts (output,
@@ -508,21 +551,22 @@ latex2e_write_file_header(GsfOutput *output)
 		);
 
 
-	if (gnm_conf_get_plugin_latex_use_utf8 ())
+	if (gnm_conf_get_plugin_latex_use_utf8 ()) {
 		gsf_output_puts (output,
 "       \\usepackage{ucs}\n"
 "       \\usepackage[utf8x]{inputenc}\n"
 			);
-	else
+		latex2e_write_font_encodings (output, sheet, range);
+	} else
 		gsf_output_puts (output,
 "       \\usepackage[latin1]{inputenc}\n"
 			);
 
 	gsf_output_puts (output,
-"	\\usepackage{fullpage}\n"
-"	\\usepackage{color}\n"
+"       \\usepackage{fullpage}\n"
+"       \\usepackage{color}\n"
 "       \\usepackage{array}\n"
-"	\\usepackage{longtable}\n"
+"       \\usepackage{longtable}\n"
 "       \\usepackage{calc}\n"
 "       \\usepackage{multirow}\n"
 "       \\usepackage{hhline}\n"
@@ -722,7 +766,8 @@ latex2e_print_vert_border (GsfOutput *output, GnmStyleBorderType style)
  *
  */
 static void
-latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col, int start_row,
+latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col, 
+				      G_GNUC_UNUSED int start_row,
 				      int num_merged_cols, int num_merged_rows,
 				      gint index,
 				      GnmStyleBorderType *borders, Sheet *sheet)
@@ -1198,7 +1243,7 @@ file_saver_sheet_get_extent (Sheet *sheet)
  * to render the format and contents of the cell.
  */
 void
-latex_file_save (GOFileSaver const *fs, GOIOContext *io_context,
+latex_file_save (G_GNUC_UNUSED GOFileSaver const *fs, G_GNUC_UNUSED GOIOContext *io_context,
 		 WorkbookView const *wb_view, GsfOutput *output)
 {
 	GnmCell *cell;
@@ -1211,12 +1256,12 @@ latex_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	GnmStyleBorderType *prev_vert = NULL, *next_vert = NULL, *this_vert;
 	gboolean needs_hline;
 
-	/* This is the preamble of the LaTeX2e file. */
-	latex2e_write_file_header(output);
-
 	/* Get the topmost sheet and its range from the plugin function argument. */
 	current_sheet = wb_view_cur_sheet(wb_view);
 	total_range = file_saver_sheet_get_extent (current_sheet);
+
+	/* This is the preamble of the LaTeX2e file. */
+	latex2e_write_file_header(output, current_sheet, &total_range);
 
 	num_cols = total_range.end.col - total_range.start.col + 1;
 
@@ -1418,14 +1463,13 @@ latex_file_save (GOFileSaver const *fs, GOIOContext *io_context,
  *
  * @output : output stream where the cell contents will be written.
  * @cell :   the cell whose contents are to be written.
- * @sheet :  the current sheet.
  *
  * This function creates all the LaTeX code for the cell of a table (i.e. all
  * the code that might fall between two ampersands (&)).
  *
  */
 static void
-latex2e_table_write_cell (GsfOutput *output, GnmCell *cell, Sheet *sheet)
+latex2e_table_write_cell (GsfOutput *output, GnmCell *cell)
 {
 	GnmStyle const *style = gnm_cell_get_style (cell);
 
@@ -1474,8 +1518,9 @@ latex2e_table_write_file_header(GsfOutput *output)
  * We try to avoid all formatting.
  */
 void
-latex_table_file_save (GOFileSaver const *fs, GOIOContext *io_context,
-		 WorkbookView const *wb_view, GsfOutput *output)
+latex_table_file_save (G_GNUC_UNUSED GOFileSaver const *fs, 
+		       G_GNUC_UNUSED GOIOContext *io_context,
+		       WorkbookView const *wb_view, GsfOutput *output)
 {
 	GnmCell *cell;
 	Sheet *current_sheet;
@@ -1507,7 +1552,7 @@ latex_table_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 			if (gnm_cell_is_empty (cell))
 				continue;
 
-			latex2e_table_write_cell(output, cell, current_sheet);
+			latex2e_table_write_cell(output, cell);
 		}
 		gsf_output_printf (output, "\\\\\n");
 	}
