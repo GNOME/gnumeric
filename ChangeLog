@@ -1,3 +1,8 @@
+2011-12-16  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-plugin.c (plugin_service_ui_activate): Teach this about
+	resources (and compressed xml).
+
 2011-12-01  Morten Welinder  <terra@gnome.org>
 
 	* src/Makefile.am: No need for gnm-rsm.[ch]

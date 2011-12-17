@@ -16,6 +16,8 @@
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-input-stdio.h>
+#include <gsf/gsf-input-memory.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
@@ -394,26 +396,42 @@ static void
 plugin_service_ui_activate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
-	GError *err = NULL;
-	char *full_file_name;
+	const char *uifile = service_ui->file_name;
 	char *xml_ui, *group_name;
 	char const *textdomain;
+	GError *error = NULL;
+	GsfInput *src;
+	size_t len;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	full_file_name = g_build_filename (
-		go_plugin_get_dir_name (service->plugin),
-		service_ui->file_name, NULL);
-	if (!g_file_get_contents (full_file_name, &xml_ui, NULL, &err)) {
-		*ret_error = go_error_info_new_printf
-			(_("Cannot read UI description from XML file %s: %s"),
-			 full_file_name,
-			 err ? err->message : "?");
-		if (err)
-			g_error_free (err);
+
+	if (strncmp (uifile, "res:", 4) == 0) {
+		size_t len;
+		gconstpointer data = go_rsm_lookup (uifile + 4, &len);
+		src = data
+			? gsf_input_memory_new (data, len, FALSE)
+			: NULL;
+	} else if (strncmp (uifile, "data:", 5) == 0) {
+		const char *data = uifile + 5;
+		src = gsf_input_memory_new (data, strlen (data), FALSE);
+	} else {
+		char *full_file_name = g_path_is_absolute (uifile)
+			? g_strdup (uifile)
+			: g_build_filename
+			(go_plugin_get_dir_name (service->plugin),
+			 uifile,
+			 NULL);
+		src = gsf_input_stdio_new (full_file_name, &error);
 		g_free (full_file_name);
-		return;
 	}
-	g_free (full_file_name);
+	if (!src)
+		goto err;
+
+	src = gsf_input_uncompress (src);
+	len = gsf_input_size (src);
+	xml_ui = g_strndup (gsf_input_read (src, len, NULL), len);
+	if (!xml_ui)
+		goto err;
 
 	textdomain = go_plugin_get_textdomain (service->plugin);
 	group_name = g_strconcat (go_plugin_get_id (service->plugin), service->id, NULL);
@@ -422,7 +440,18 @@ plugin_service_ui_activate (GOPluginService *service, GOErrorInfo **ret_error)
 		xml_ui, textdomain, service);
 	g_free (group_name);
 	g_free (xml_ui);
+	g_object_unref (src);
 	service->is_active = TRUE;
+	return;
+
+err:
+	*ret_error = go_error_info_new_printf
+		(_("Cannot read UI description from %s: %s"),
+		 uifile,
+		 error ? error->message : "?");
+	g_clear_error (&error);
+	if (src)
+		g_object_unref (src);
 }
 
 static void
