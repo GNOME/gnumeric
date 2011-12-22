@@ -518,7 +518,7 @@ workbook_edit_complete_notify (char const *text, void *closure)
 }
 
 static void
-cb_entry_changed (GtkEntry *entry, WBCGtk *wbcg)
+cb_entry_changed (G_GNUC_UNUSED GtkEntry *entry, WBCGtk *wbcg)
 {
 	char const *text;
 	int text_len;
@@ -997,7 +997,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 				GString *new_str = g_string_new (NULL);
 				gnm_render_general (NULL, new_str, go_format_measure_zero,
 						    go_font_metrics_unit, f * 100,
-						    -1, FALSE);
+						    -1, FALSE, 0, 0);
 				cursor_pos = g_utf8_strlen (new_str->str, -1);
 				g_string_append_c (new_str, '%');
 				text = g_string_free (new_str, FALSE);
@@ -1012,7 +1012,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 				GString *new_str = g_string_new (NULL);
 				gnm_render_general (NULL, new_str, go_format_measure_zero,
 						    go_font_metrics_unit, f,
-						    -1, FALSE);
+						    -1, FALSE, 0, 0);
 				text = g_string_free (new_str, FALSE);
 				set_text = TRUE;
 				break;
