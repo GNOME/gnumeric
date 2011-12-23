@@ -212,13 +212,19 @@ gnm_strto (const char *s, char **end)
 {
 	char *s2 = map_nonascii_digits (s);
 	gnm_float res;
+	int save_errno;
+
 	if (!s2)
 		return gnm_strto_base (s, end);
 
+	errno = 0;
 	res = gnm_strto_base (s2, end);
+	save_errno = errno;
+
 	if (end)
 		*end = g_utf8_offset_to_pointer (s, g_utf8_pointer_to_offset (s2, *end));
 	g_free (s2);
+	errno = save_errno;
 	return res;
 }
 
@@ -226,18 +232,24 @@ gnm_strto (const char *s, char **end)
 long
 gnm_strtol (const char *s, char **end, int base)
 {
-	char *s2 = map_nonascii_digits (s);
+	char *s2;
 	long res;
+	int save_errno;
 
-	errno = 0;  /* strtol doesn't clear, so we do */
-
-	if (!s2)
+	if (base != 10 ||
+	    (s2 = map_nonascii_digits (s)) == NULL) {
+		errno = 0;  /* strtol doesn't clear, so we do */
 		return strtol (s, end, base);
+	}
 
+	errno = 0;
 	res = strtol (s2, end, base);
+	save_errno = errno;
+
 	if (end)
 		*end = g_utf8_offset_to_pointer (s, g_utf8_pointer_to_offset (s2, *end));
 	g_free (s2);
+	errno = save_errno;
 	return res;
 }
 
