@@ -2,6 +2,7 @@
 
 	* src/gutils.c (gnm_strto): New function that handles non-ascii
 	digits.
+	(gnm_strtol): Ditto.
 
 2011-12-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

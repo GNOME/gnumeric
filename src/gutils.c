@@ -222,6 +222,25 @@ gnm_strto (const char *s, char **end)
 	return res;
 }
 
+/* Like strtol, but handling non-ascii digits and sane errno.  */
+long
+gnm_strtol (const char *s, char **end, int base)
+{
+	char *s2 = map_nonascii_digits (s);
+	long res;
+
+	errno = 0;  /* strtol doesn't clear, so we do */
+
+	if (!s2)
+		return strtol (s, end, base);
+
+	res = strtol (s2, end, base);
+	if (end)
+		*end = g_utf8_offset_to_pointer (s, g_utf8_pointer_to_offset (s2, *end));
+	g_free (s2);
+	return res;
+}
+
 
 int
 gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags,
