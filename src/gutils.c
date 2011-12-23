@@ -175,6 +175,54 @@ gnm_usr_dir (gboolean versioned)
 	return versioned ? gnumeric_usr_dir : gnumeric_usr_dir_unversioned;
 }
 
+static char *
+map_nonascii_digits (const char *s)
+{
+	const char *p;
+
+	for (p = s; *p; p = g_utf8_next_char (p)) {
+		gunichar uc = g_utf8_get_char (p);
+		if (uc > 127 && g_unichar_isdigit (uc)) {
+			GString *res = g_string_new (s);
+			char *d = res->str + (p - s);
+			p = d;
+
+			while (*p) {
+				gunichar uc = g_utf8_get_char (p);
+				const char *next = g_utf8_next_char (p);
+				if (uc > 127 && g_unichar_isdigit (uc)) {
+					*d++ = '0' + g_unichar_digit_value (uc);
+				} else {
+					g_memmove (d, p, next - p);
+					d += (next - p);
+				}
+				p = next;
+			}
+			g_string_truncate (res, d - res->str);
+			return g_string_free (res, FALSE);
+		}
+	}
+
+	return NULL;
+}
+
+/* Like gnm_strto_base, but handling non-ascii digits.  */
+gnm_float
+gnm_strto (const char *s, char **end)
+{
+	char *s2 = map_nonascii_digits (s);
+	gnm_float res;
+	if (!s2)
+		return gnm_strto_base (s, end);
+
+	res = gnm_strto_base (s2, end);
+	if (end)
+		*end = g_utf8_offset_to_pointer (s, g_utf8_pointer_to_offset (s2, *end));
+	g_free (s2);
+	return res;
+}
+
+
 int
 gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags,
 		gboolean full)

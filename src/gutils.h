@@ -19,6 +19,8 @@ char const *gnm_icon_dir       (void);
 char const *gnm_locale_dir     (void);
 char const *gnm_usr_dir	       (gboolean versioned);
 
+gnm_float gnm_strto (const char *s, char **end);
+
 #define PLUGIN_SUBDIR "plugins"
 
 int gnm_regcomp_XL (GORegexp *preg, char const *pattern,
