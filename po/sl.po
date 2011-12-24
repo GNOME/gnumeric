@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-12-01 21:22+0000\n"
-"PO-Revision-Date: 2011-12-08 20:36+0100\n"
+"POT-Creation-Date: 2011-12-23 21:34+0000\n"
+"PO-Revision-Date: 2011-12-24 20:30+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1763,7 +1763,7 @@ msgstr "Ni mogoče dodeliti pomnilnika za določila polj."
 
 #: ../plugins/paradox/paradox.c:335
 msgid "First line of sheet must contain database specification."
-msgstr ""
+msgstr "Prva vrstica delovnega lista mora vsebovati določila podatkovne zbirke."
 
 #: ../plugins/paradox/paradox.c:350
 msgid "Field specification must be a comma separated value (Name,Type,Size,Prec)."
@@ -1779,14 +1779,14 @@ msgid "Could not allocate memory for %d. field name."
 msgstr "Ni mogoče dodeliti pomnilnika za %d. ime polja."
 
 #: ../plugins/paradox/paradox.c:366
-#, fuzzy, c-format
+#, c-format
 msgid "%d. field specification ended unexpectetly."
-msgstr "Določilu polja manjka velikost stolpca."
+msgstr "%d. določilo polja je nepričakovano končano."
 
 #: ../plugins/paradox/paradox.c:371
-#, fuzzy, c-format
+#, c-format
 msgid "%d. field specification misses type."
-msgstr "Določilu polja manjka velikost stolpca."
+msgstr "%d. določilu polja manjka vrsta."
 
 #: ../plugins/paradox/paradox.c:439
 #, c-format
@@ -2086,7 +2086,7 @@ msgid "Object \"%s\" is not a dictionary."
 msgstr "Predmet \"%s\" ni slovar."
 
 #: ../plugins/python-loader/python-loader.c:722
-#: ../src/gnm-plugin.c:780
+#: ../src/gnm-plugin.c:809
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Neznano dejanje: %s"
@@ -2175,9 +2175,9 @@ msgid "Column format %i is undefined."
 msgstr "Oblika stolpca %i ni določena."
 
 #: ../plugins/sc/sc.c:798
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse cmd='%s', str='%s', col=%d, row=%d."
-msgstr "Ni mogoče razčleniti ukaza cmd='%s', str='%s', col=%d, row=%d."
+msgstr "Ni mogoče razčleniti ukaza '%s' v nizu '%s' v stolpcu %d in vrstici %d."
 
 #: ../plugins/sc/sc.c:933
 msgid "Error parsing line"
@@ -2547,9 +2547,8 @@ msgid "Some dialogs contain only a single entry field that allows range selectio
 msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:74
-#, fuzzy
 msgid "System Directory for Autoformats"
-msgstr "Uporabniška mapa za samodejna oblikovanja"
+msgstr "Sistemska mapa samodejnih oblikovanj"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:75
 #, fuzzy
@@ -2613,7 +2612,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:89
 msgid "The main directory for user specific autoformat templates."
-msgstr ""
+msgstr "Glavna mapa uporabniških predlog samodejnega oblikovanja."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:90
 msgid "This directory contains the pre-installed autoformat templates."
@@ -2637,11 +2636,11 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:95
 msgid "This list contains all extra directories containing autoformat templates."
-msgstr ""
+msgstr "Seznam vseh dodatnih map s predlogami samodejnega oblikovanja."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:96
 msgid "This list contains all extra directories containing plugins."
-msgstr ""
+msgstr "Seznam vseh dodatnih map z vstavki."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:97
 msgid "This list contains all known plugins."
@@ -2653,7 +2652,7 @@ msgstr "Seznam vsebuje vsa stanja datotek vstavkov."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:99
 msgid "This list contains all plugins that are supposed to be automatically activated."
-msgstr ""
+msgstr "Seznam vseh vstavkov, ki naj bi bili samodejno zagnani ob zagonu."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:100
 msgid "This string gives the default region to be repeated at the left of each printed sheet. Please use the Print Setup dialog to edit this value."
@@ -4652,7 +4651,7 @@ msgstr "Vhodni obsegi podatkov niso enake oblike."
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:403
 #, fuzzy
 msgid "Could not create the Sign Test Tool dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna orodja"
+msgstr "Ni mogoče ustvariti pogovornega okna testa normalnosti."
 
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:96
 msgid "The input range should consists of 2 groups."
@@ -4730,7 +4729,7 @@ msgstr ""
 #: ../src/dialogs/dialog-analysis-tools.c:1610
 #, fuzzy
 msgid "Could not create the Mean Tests Tool dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna orodja"
+msgstr "Ni mogoče ustvariti pogovornega okna orodja testa Hi-kvadrat."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1797
 msgid "Could not create the FTest Tool dialog."
@@ -5930,7 +5929,7 @@ msgstr "Zunanja povezava"
 
 #: ../src/dialogs/dialog-hyperlink.c:312
 msgid "Open an external file with the specified name"
-msgstr ""
+msgstr "Odpri zunanjo datoteko z določenim imenom"
 
 #: ../src/dialogs/dialog-hyperlink.c:315
 msgid "Email Link"
@@ -6100,12 +6099,13 @@ msgid "By default, mark cells with spreadsheet functions"
 msgstr "Privzeto označi celice s funkcijami"
 
 #: ../src/dialogs/dialog-preferences.c:865
+#, fuzzy
 msgid "By default, mark cells with truncated content"
-msgstr ""
+msgstr "Privzeto označi celice s funkcijami"
 
 #: ../src/dialogs/dialog-preferences.c:951
 msgid "Default autosave frequency in seconds"
-msgstr ""
+msgstr "Privzeta pogostost samodejnega shranjevanja v sekundah"
 
 #: ../src/dialogs/dialog-preferences.c:972
 msgid "Disable Extension Check for Configurable Text Exporter"
@@ -8540,8 +8540,9 @@ msgid "Save as default formatting"
 msgstr "Shrani privzeto bolikovanje"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
+#, fuzzy
 msgid "Select N_one"
-msgstr ""
+msgstr "Izberite imenik"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid "Select all non-empty sheets for export."
@@ -10917,12 +10918,12 @@ msgstr "Wilcoxonov test predznačenih rangov"
 #: ../src/dialogs/sign-test.ui.h:6
 #, fuzzy
 msgid "Testing 1 Median"
-msgstr "Preizkušanje arhiva"
+msgstr "Mediana metoda"
 
 #: ../src/dialogs/sign-test.ui.h:12
 #, fuzzy
 msgid "_Predicted Median:"
-msgstr "Ocenjen čas"
+msgstr "Mediana metoda"
 
 #: ../src/dialogs/simulation.ui.h:1
 msgid "<b>Simulation summary:</b>"
@@ -11107,7 +11108,7 @@ msgstr "V:"
 #: ../src/dialogs/solver.ui.h:9
 #, fuzzy
 msgid "Max _Iterations:"
-msgstr "Najdaljši čS"
+msgstr "Najveèje tevilo ponovitev:"
 
 #: ../src/dialogs/solver.ui.h:10
 #, fuzzy
@@ -11591,21 +11592,21 @@ msgstr ""
 "%.1f x %.1f znakovnih točk\n"
 "%d x %d točk"
 
-#: ../src/gnm-plugin.c:128
+#: ../src/gnm-plugin.c:130
 #, fuzzy
 msgid "Missing function category name."
 msgstr "Ime nove kategorije:"
 
-#: ../src/gnm-plugin.c:132
+#: ../src/gnm-plugin.c:134
 msgid "Function group is empty."
 msgstr "Skupina funkcije je prazna."
 
-#: ../src/gnm-plugin.c:162
+#: ../src/gnm-plugin.c:164
 #, fuzzy
 msgid "No func_desc_load method.\n"
 msgstr "Nalagalnik nima metode load_base.\n"
 
-#: ../src/gnm-plugin.c:232
+#: ../src/gnm-plugin.c:234
 #, c-format
 msgid "%d function in category \"%s\""
 msgid_plural "Group of %d functions in category \"%s\""
@@ -11614,17 +11615,17 @@ msgstr[1] "Skupina %d funkcije v kategoriji \"%s\""
 msgstr[2] "Skupina %d funkcij v kategoriji \"%s\""
 msgstr[3] "Skupina %d funkcij v kategoriji \"%s\""
 
-#: ../src/gnm-plugin.c:341
+#: ../src/gnm-plugin.c:343
 msgid "Missing file name."
 msgstr "Manjka ime datoteke."
 
-#: ../src/gnm-plugin.c:408
-#, c-format
-msgid "Cannot read UI description from XML file %s: %s"
+#: ../src/gnm-plugin.c:449
+#, fuzzy, c-format
+msgid "Cannot read UI description from %s: %s"
 msgstr "Ni mogoče prebrati opisa uporabniškega vmesnika iz datoteke XML %s: %s"
 
 #. xgettext : %d gives the number of actions. This is input to ngettext.
-#: ../src/gnm-plugin.c:449
+#: ../src/gnm-plugin.c:478
 #, c-format
 msgid "User interface with %d action"
 msgid_plural "User interface with %d actions"
@@ -11633,28 +11634,28 @@ msgstr[1] "Uporabniški vmesnik ima %d opravilo"
 msgstr[2] "Uporabniški vmesnik ima %d opravili"
 msgstr[3] "Uporabniški vmesnik ima %d opravila"
 
-#: ../src/gnm-plugin.c:573
+#: ../src/gnm-plugin.c:602
 msgid "Invalid solver model type."
 msgstr "Neveljavna vrsta reševalnika."
 
-#: ../src/gnm-plugin.c:592
+#: ../src/gnm-plugin.c:621
 msgid "Missing fields in plugin file"
 msgstr "Manjkajo polja v datoteki vstavka"
 
-#: ../src/gnm-plugin.c:638
+#: ../src/gnm-plugin.c:667
 #, c-format
 msgid "Solver Algorithm %s"
 msgstr "Algoritem reševalnika %s"
 
-#: ../src/gnm-plugin.c:736
-#: ../src/gnm-plugin.c:808
-#: ../src/gnm-plugin.c:854
+#: ../src/gnm-plugin.c:765
+#: ../src/gnm-plugin.c:837
+#: ../src/gnm-plugin.c:883
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "Datoteka modula \"%s\" je neveljavno zapisana."
 
-#: ../src/gnm-plugin.c:740
-#: ../src/gnm-plugin.c:811
+#: ../src/gnm-plugin.c:769
+#: ../src/gnm-plugin.c:840
 #, c-format
 msgid "File doesn't contain \"%s\" array."
 msgstr "Datoteka ne vsebuje podatkovnega polja \"%s\"."
@@ -11858,7 +11859,7 @@ msgstr "Potegni in spusti iz %s na %s"
 #: ../src/item-cursor.c:1062
 #, fuzzy
 msgid "Drag to move"
-msgstr "Potegni za premik"
+msgstr "_Klikni za potezo"
 
 #: ../src/libgnumeric.c:79
 msgid "Display Gnumeric's version"
@@ -12038,7 +12039,7 @@ msgid "Unknown workbook"
 msgstr "Neznana preglednica"
 
 #: ../src/parser.y:1097
-#: ../src/parser.y:1374
+#: ../src/parser.y:1373
 #, c-format
 msgid "Could not find matching closing quote"
 msgstr "Ni mogoče najti skladnega končnega navedka"
@@ -12050,37 +12051,37 @@ msgstr "Zahtevano je ime delovnega lista"
 
 #: ../src/parser.y:1288
 #: ../src/parser.y:1297
-#: ../src/parser.y:1322
+#: ../src/parser.y:1321
 #, c-format
 msgid "The number is out of range"
 msgstr "Številka je izven obsega"
 
-#: ../src/parser.y:1356
+#: ../src/parser.y:1355
 #, fuzzy, c-format
 msgid "Improperly formatted error token"
 msgstr "Napaka pridobivanja žetona dostopa:"
 
-#: ../src/parser.y:1612
+#: ../src/parser.y:1611
 #, c-format
 msgid "Multiple expressions are not supported in this context"
 msgstr ""
 
-#: ../src/parser.y:1635
+#: ../src/parser.y:1634
 #, c-format
 msgid "Could not find matching opening parenthesis"
 msgstr "Ni mogoče najti skladnega začetnega uklepaja"
 
-#: ../src/parser.y:1639
+#: ../src/parser.y:1638
 #, c-format
 msgid "Could not find matching closing parenthesis"
 msgstr "Ni mogoče najti skladnega končnega zaklepaja"
 
-#: ../src/parser.y:1643
+#: ../src/parser.y:1642
 #, c-format
 msgid "Invalid expression"
 msgstr "Neveljaven izraz"
 
-#: ../src/parser.y:1647
+#: ../src/parser.y:1646
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Nepričakovan žeton %c"
@@ -13683,7 +13684,7 @@ msgstr "ANOVA"
 #: ../src/tools/analysis-anova.c:855
 #, fuzzy
 msgid "Two Factor ANOVA"
-msgstr "Dvo-faktorska ANOVA"
+msgstr "Žerki večkratnikov"
 
 #: ../src/tools/analysis-auto-expression.c:98
 #, c-format
@@ -13949,7 +13950,7 @@ msgstr ""
 #: ../src/tools/analysis-normality.c:127
 #, fuzzy
 msgid "/Alpha/p-Value/Statistic/N/Conclusion"
-msgstr "/Alfa/Vrednost p/Statistika/N/Conclusion"
+msgstr "Vrednost alfe je izračunana z alfo"
 
 #: ../src/tools/analysis-normality.c:167
 msgid "Not normal"
@@ -14082,9 +14083,9 @@ msgid "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurto
 msgstr "/Mean/Standardna napaka/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
 
 #: ../src/tools/analysis-tools.c:972
-#, c-format
+#, fuzzy, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
-msgstr ""
+msgstr "Znakovni nabor za datoteko %s je bil spremenjen iz \"%s\" v \"%s\"."
 
 #: ../src/tools/analysis-tools.c:1103
 #, c-format
@@ -14310,7 +14311,7 @@ msgstr "/ANOVA/Source of Variation/Med skupinami/Znotraj skupin/Skupno"
 #: ../src/tools/analysis-tools.c:4514
 #, fuzzy, c-format
 msgid "Single Factor ANOVA (%s)"
-msgstr "Eno-faktorska ANOVA (%s)"
+msgstr "Žerki večkratnikov"
 
 #: ../src/tools/analysis-tools.c:4525
 msgid "Anova"
@@ -14319,7 +14320,7 @@ msgstr "Anova"
 #: ../src/tools/analysis-tools.c:4528
 #, fuzzy
 msgid "Single Factor ANOVA"
-msgstr "Eno-faktorska ANOVA"
+msgstr "Žerki večkratnikov"
 
 #: ../src/tools/analysis-tools.c:4560
 msgid "Inverse Fourier Transform"
@@ -14560,7 +14561,7 @@ msgstr "Pporočilo simulacije"
 #: ../src/tools/simulation.c:248
 #, fuzzy
 msgid "Mean"
-msgstr "Povprečje:"
+msgstr "Povpreèje"
 
 #: ../src/tools/simulation.c:251
 msgid "Mode"
@@ -15047,7 +15048,7 @@ msgstr "Pretvori težo testov"
 #: ../src/wbc-gtk-actions.c:2010
 #, fuzzy
 msgid "_One Median"
-msgstr "Ena barva"
+msgstr "Mediana metoda"
 
 #: ../src/wbc-gtk-actions.c:2011
 #, fuzzy
@@ -16048,7 +16049,7 @@ msgstr "Preizkusi _normalnosti ..."
 #: ../src/wbc-gtk-actions.c:2526
 #, fuzzy
 msgid "Testing a sample for normality"
-msgstr "Test vzorca za normalnost porazdelitve"
+msgstr "Vzorčni vstavek za program Anjuta."
 
 #. Statistics -> OneSample -> OneMedian
 #. Statistics -> TwoSamples -> Two Medians
