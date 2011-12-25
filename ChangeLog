@@ -1,3 +1,8 @@
+2011-12-25  Morten Welinder  <terra@gnome.org>
+
+	* src/gutils.c (map_nonascii_digits): Map signs too.  Terminate
+	search/translation no later than third sign.
+
 2011-12-23  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (gnm_strto): New function that handles non-ascii

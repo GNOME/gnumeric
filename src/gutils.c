@@ -175,35 +175,97 @@ gnm_usr_dir (gboolean versioned)
 	return versioned ? gnumeric_usr_dir : gnumeric_usr_dir_unversioned;
 }
 
+static gboolean
+valid_number_char (char c)
+{
+	/* Assuming digits and signs already mapped.  EXCLUDES decimal point */
+	switch (c) {
+	case '0': case '1': case '2': case '3': case '4':
+	case '5': case '6': case '7': case '8': case '9':
+	case '+': case '-':
+	case 'e': case 'E':
+		return TRUE;
+	default:
+		return FALSE;
+	}
+}
+
+
+
 static char *
 map_nonascii_digits (const char *s)
 {
 	const char *p;
+	GString *res;
+	char *d;
+	/* No valid number can extend beyond the third sign.  */
+	int signs = 0;
+	GString const *decimal = go_locale_get_decimal ();
 
 	for (p = s; *p; p = g_utf8_next_char (p)) {
 		gunichar uc = g_utf8_get_char (p);
-		if (uc > 127 && g_unichar_isdigit (uc)) {
-			GString *res = g_string_new (s);
-			char *d = res->str + (p - s);
-			p = d;
+		if (uc <= 127) {
+			if (uc == '+' || uc == '-') {
+				signs++;
+				if (signs == 3)
+					return NULL;
+			} else if (decimal->len == 1 &&
+				   *decimal->str == (char)uc)
+				; /* Nothing */
+			else if (!valid_number_char (uc))
+				return NULL;
+		} else {
+			if (g_unichar_isdigit (uc))
+				break;
 
-			while (*p) {
-				gunichar uc = g_utf8_get_char (p);
-				const char *next = g_utf8_next_char (p);
-				if (uc > 127 && g_unichar_isdigit (uc)) {
-					*d++ = '0' + g_unichar_digit_value (uc);
-				} else {
-					g_memmove (d, p, next - p);
-					d += (next - p);
-				}
-				p = next;
-			}
-			g_string_truncate (res, d - res->str);
-			return g_string_free (res, FALSE);
+			if (go_unichar_issign (uc))
+				break;
+
+			if (strncmp (decimal->str, p, decimal->len) == 0)
+				continue;
+
+			/* Strange unicode; number ends here.  */
+			return NULL;
 		}
 	}
 
-	return NULL;
+	if (*p == 0)
+		return NULL;
+
+	res = g_string_new (s);
+	d = res->str + (p - s);
+	p = d;
+
+	while (*p) {
+		gunichar uc = g_utf8_get_char (p);
+		const char *next = g_utf8_next_char (p);
+		if (uc <= 127) {
+			*d++ = *p;
+			if (uc == '+' || uc == '-') {
+				signs++;
+				if (signs == 3)
+					break;
+			} else if (decimal->len == 1 &&
+				   *decimal->str == (char)uc)
+				; /* Nothing */
+			else if (!valid_number_char (uc))
+				break;
+		} else if (g_unichar_isdigit (uc)) {
+			*d++ = '0' + g_unichar_digit_value (uc);
+		} else if (go_unichar_issign (uc)) {
+			*d++ = "-/+"[1 + go_unichar_issign (uc)];
+			signs++;
+			if (signs == 3)
+				break;
+		} else {
+			g_memmove (d, p, next - p);
+			d += (next - p);
+		}
+		p = next;
+	}
+
+	g_string_truncate (res, d - res->str);
+	return g_string_free (res, FALSE);
 }
 
 /* Like gnm_strto_base, but handling non-ascii digits.  */
