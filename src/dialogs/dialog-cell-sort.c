@@ -951,23 +951,22 @@ cb_toggled_case_sensitive (GtkCellRendererToggle *cell,
 static void
 dialog_init (SortFlowState *state)
 {
-	GtkTable *table;
+	GtkGrid *grid;
 	GtkWidget *scrolled;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 	gboolean col_rb;
 	GnmRange const *range;
 
-	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "cell_sort_options_table"));
+	grid = GTK_GRID (go_gtk_builder_get_widget (state->gui, "cell-sort-grid"));
 	/* setup range entry */
 	state->range_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->range_entry,
 				  GNM_EE_SINGLE_RANGE,
 				  GNM_EE_MASK);
-	gtk_table_attach (table, GTK_WIDGET (state->range_entry),
-			  2, 3, 1, 2,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (state->range_entry), TRUE);
+	gtk_grid_attach (grid, GTK_WIDGET (state->range_entry),
+			  1, 1, 2, 1);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->range_entry));
 	gnm_expr_entry_set_update_policy (state->range_entry, GNM_UPDATE_DISCONTINUOUS);
@@ -977,22 +976,20 @@ dialog_init (SortFlowState *state)
 				  G_CALLBACK (cb_update_to_new_range), state);
 
 	state->locale_selector = GO_LOCALE_SEL (go_locale_sel_new ());
+	gtk_widget_set_hexpand (GTK_WIDGET (state->locale_selector), TRUE);
 	gtk_widget_show_all (GTK_WIDGET (state->locale_selector));
-	gtk_table_attach (table, GTK_WIDGET (state->locale_selector),
-			  2, 3, 5, 6,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_grid_attach (grid, GTK_WIDGET (state->locale_selector),
+			  1, 5, 2, 1);
 
-	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "cell_sort_spec_table"));
+	grid = GTK_GRID (go_gtk_builder_get_widget (state->gui, "cell-sort-spec-grid"));
 	/* setup add entry */
 	state->add_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->add_entry,
 				  GNM_EE_SINGLE_RANGE,
 				  GNM_EE_MASK);
-	gtk_table_attach (table, GTK_WIDGET (state->add_entry),
-			  1, 2, 2, 3,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (state->add_entry), TRUE);
+	gtk_grid_attach (grid, GTK_WIDGET (state->add_entry),
+			  0, 5, 1, 1);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->add_entry));
 	gtk_widget_show (GTK_WIDGET (state->add_entry));
@@ -1013,7 +1010,7 @@ dialog_init (SortFlowState *state)
 				  G_CALLBACK (cb_sort_selection_changed), state);
 
 	state->header_column = gtk_tree_view_column_new_with_attributes (_("Header"),
-									 gtk_cell_renderer_text_new (),
+								 gtk_cell_renderer_text_new (),
 									 "text", ITEM_HEADER, NULL);
 	gtk_tree_view_append_column (state->treeview, state->header_column);
 

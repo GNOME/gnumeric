@@ -1,3 +1,12 @@
+2011-12-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* cell-sort.ui: more GtkTable eradication.
+	* dao.ui: ditto.
+	* data-table.ui: ditto.
+	* delete-cells.ui: ditto.
+	* dialog-cell-sort.c (dialog_init): ditto.
+	* dialog-data-table.c (init_entry), (data_table_init): ditto.
+
 2011-12-01  Morten Welinder  <terra@gnome.org>
 
 	* Makefile.am (embedded-ui.c): use --id-prefix.

@@ -63,16 +63,15 @@ static GnmExprEntry *
 init_entry (GnmDialogDataTable *state, int row)
 {
 	GnmExprEntry *gee = gnm_expr_entry_new (state->wbcg, TRUE);
-	GtkWidget *table = go_gtk_builder_get_widget (state->gui, "table");
+	GtkWidget *grid = go_gtk_builder_get_widget (state->gui, "table-grid");
 
-	g_return_val_if_fail (table != NULL, NULL);
+	g_return_val_if_fail (grid != NULL, NULL);
 
 	gnm_expr_entry_set_flags (gee,
 		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL | GNM_EE_FORCE_REL_REF,
 		GNM_EE_MASK);
 	g_object_set (G_OBJECT (gee), "with-icon", TRUE, NULL);
-	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (gee), 1, 2,
-	                  row, row + 1, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), GTK_WIDGET (gee), 1, row, 1, 1);
 	return gee;
 }
 
@@ -92,14 +91,11 @@ cb_data_table_response (GtkWidget *dialog, gint response_id, GnmDialogDataTable 
 static gboolean
 data_table_init (GnmDialogDataTable *state, WBCGtk *wbcg)
 {
-	GtkTable *table;
-
 	state->gui = gnm_gtk_builder_new ("data-table.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (state->gui == NULL)
                 return TRUE;
 
 	state->dialog = go_gtk_builder_get_widget (state->gui, "DataTable");
-	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "table"));
 
 	state->row_entry = init_entry (state, 0);
 	state->col_entry = init_entry (state, 1);

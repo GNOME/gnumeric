@@ -69,13 +69,12 @@ static void
 gnm_dao_init (GnmDao *gdao)
 {
 	GtkWidget *toplevel;
-	GtkWidget *old_parent;
 
 	gdao->gui = gnm_gtk_builder_new ("dao.ui", NULL, NULL);
 	if (gdao->gui == NULL)
 		return;
 
-	toplevel = go_gtk_builder_get_widget (gdao->gui, "dao_box");
+	toplevel = go_gtk_builder_get_widget (gdao->gui, "output-grid");
 
 	gdao->new_sheet  = go_gtk_builder_get_widget (gdao->gui,
 						 "newsheet-button");
@@ -98,10 +97,8 @@ gnm_dao_init (GnmDao *gdao)
 	gdao->output_entry = NULL;
 	gdao->wbcg = NULL;
 
-	old_parent = gtk_widget_get_toplevel (toplevel);
-	gtk_widget_reparent (toplevel, GTK_WIDGET (gdao));
-	gtk_widget_destroy (old_parent);
-	gtk_widget_queue_resize (toplevel);
+	gtk_container_add (GTK_CONTAINER (gdao), toplevel);
+//	gtk_widget_queue_resize (toplevel);
 }
 
 static void
@@ -232,20 +229,19 @@ GtkWidget *
 gnm_dao_new (WBCGtk *wbcg, gchar *inplace_str)
 {
 	GnmDao *gdao = GNM_DAO (g_object_new (GNM_DAO_TYPE, NULL));
-	GtkTable *table;
+	GtkGrid *grid;
 
 	g_return_val_if_fail (wbcg != NULL, NULL);
 	gdao->wbcg = wbcg;
 
 	/* Create the output range expression entry */
-	table = GTK_TABLE (go_gtk_builder_get_widget (gdao->gui, "output-table"));
+	grid = GTK_GRID (go_gtk_builder_get_widget (gdao->gui, "output-grid"));
 	gdao->output_entry = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (gdao->output_entry,
 				  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
-	gtk_table_attach (table, GTK_WIDGET (gdao->output_entry),
-			  2, 3, 3, 4,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_widget_set_hexpand (GTK_WIDGET (gdao->output_entry), TRUE);
+	gtk_grid_attach (grid, GTK_WIDGET (gdao->output_entry),
+			  1, 3, 1, 1);
 	go_atk_setup_label (gdao->output_range,
 			     GTK_WIDGET (gdao->output_entry));
 	gtk_widget_show (GTK_WIDGET (gdao->output_entry));

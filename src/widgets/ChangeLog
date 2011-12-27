@@ -1,3 +1,7 @@
+2011-12-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* gnm-dao.c (gnm_dao_init), (gnm_dao_new): don't use GtkTable anymore.
+
 2011-11-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (cb_icon_clicked): use G_VALUE_INIT;

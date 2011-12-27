@@ -69,6 +69,7 @@ xlsx_chart_text_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	if (!GOG_IS_LABEL (state->cur_obj) && IS_SHEET_OBJECT_GRAPH (state->so) && NULL == state->series) { /* Hmm, why? */
 		GogObject *label = gog_object_add_by_name (state->cur_obj,
 			(state->cur_obj == (GogObject *)state->chart) ? "Title" : "Label", NULL);
+		g_object_set (G_OBJECT (label), "allow-wrap", TRUE, "justification", "center", NULL);
 		xlsx_chart_push_obj (state, label);
 	}
 }
@@ -158,13 +159,13 @@ xlsx_draw_text_run_props (GsfXMLIn *xin, xmlChar const **attrs)
 	/* FIXME: this should be for a text run, not for the full object */
 	if (GO_IS_STYLED_OBJECT (state->cur_obj) && state->cur_style) {
 		PangoFontDescription *desc = pango_font_description_new ();
-		int size;
+		int size = 1000; /* seems 10*100 is the default */
 		GOFont const *font;
 		/* looks like the default font is Calibri, FIXME: import that from file instead */
 		pango_font_description_set_family (desc, "Calibri");
 		for (; attrs && *attrs; attrs += 2)
-			if (attr_int (xin, attrs, "sz", &size))
-				pango_font_description_set_size (desc, size * PANGO_SCALE / 100);
+			attr_int (xin, attrs, "sz", &size);
+		pango_font_description_set_size (desc, size * PANGO_SCALE / 100);
 		/* FIXME: don't set the size to the whole object, only to the run,
 		 * anyway, this has to wait until we support rich text in chart labels */
 		font = go_font_new_by_desc (desc);

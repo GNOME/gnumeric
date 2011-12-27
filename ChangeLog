@@ -1,3 +1,7 @@
+2011-12-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-image.c (gnm_soi_assign_to_sheet): fix image life time.
+
 2011-12-25  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (map_nonascii_digits): Map signs too.  Terminate
