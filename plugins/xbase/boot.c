@@ -12,6 +12,7 @@
 #include <workbook-view.h>
 #include <workbook.h>
 #include <cell.h>
+#include <gutils.h>
 #include <value.h>
 #include <sheet.h>
 #include <ranges.h>
