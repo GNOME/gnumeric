@@ -27,6 +27,7 @@
 #include <gsf/gsf-input-textline.h>
 #include <glib/gi18n.h>
 #include <string.h>
+#include <errno.h>
 
 static gboolean sstest_show_version = FALSE;
 
@@ -208,6 +209,112 @@ test_func_help (void)
 	mark_test_end (test_name);
 }
 
+/*-------------------------------------------------------------------------- */
+
+static int
+test_strtol_ok (const char *s, long l, size_t expected_len)
+{
+	long l2;
+	char *end;
+	int save_errno;
+
+	l2 = gnm_utf8_strtol (s, &end);
+	save_errno = errno;
+
+	if (end != s + expected_len) {
+		g_printerr ("Unexpect conversion end of [%s]\n", s);
+		return 1;
+	}
+	if (l != l2) {
+		g_printerr ("Unexpect conversion result of [%s]\n", s);
+		return 1;
+	}
+	if (save_errno != 0) {
+		g_printerr ("Unexpect conversion errno of [%s]\n", s);
+		return 1;
+	}
+
+	return 0;
+}
+
+static int
+test_strtol_noconv (const char *s)
+{
+	long l;
+	char *end;
+	int save_errno;
+
+	l = gnm_utf8_strtol (s, &end);
+	save_errno = errno;
+
+	if (end != s) {
+		g_printerr ("Unexpect conversion end of [%s]\n", s);
+		return 1;
+	}
+	if (l != 0) {
+		g_printerr ("Unexpect conversion result of [%s]\n", s);
+		return 1;
+	}
+	if (save_errno != 0) {
+		g_printerr ("Unexpect conversion errno of [%s]\n", s);
+		return 1;
+	}
+
+	return 0;
+}
+
+static int
+test_strtol_reverse (long l)
+{						\
+	char buffer[4*sizeof(l) + 4];
+	int res = 0;
+
+	sprintf(buffer, "%ld", l);
+	res |= test_strtol_ok (buffer, l, strlen (buffer));
+
+	sprintf(buffer, " %ld", l);
+	res |= test_strtol_ok (buffer, l, strlen (buffer));
+
+	sprintf(buffer, "\xc2\xa0\n\t%ld", l);
+	res |= test_strtol_ok (buffer, l, strlen (buffer));
+
+	sprintf(buffer, " \t%ldx", l);
+	res |= test_strtol_ok (buffer, l, strlen (buffer) - 1);
+
+	return res;
+}
+
+static void
+test_nonascii_numbers (void)
+{
+	const char *test_name = "test_nonascii_numbers";
+	int res = 0;
+
+	res |= test_strtol_reverse (0);
+	res |= test_strtol_reverse (1);
+	res |= test_strtol_reverse (-1);
+	res |= test_strtol_reverse (LONG_MIN);
+	res |= test_strtol_reverse (LONG_MIN + 1);
+	res |= test_strtol_reverse (LONG_MAX - 1);
+
+	res |= test_strtol_ok ("\xef\xbc\x8d\xef\xbc\x91", -1, 6);
+
+	res |= test_strtol_ok ("000000000000000000000000000000", 0, 30);
+
+	res |= test_strtol_noconv ("");
+	res |= test_strtol_noconv (" ");
+	res |= test_strtol_noconv (" +");
+	res |= test_strtol_noconv (" -");
+	res |= test_strtol_noconv (" .00");
+	res |= test_strtol_noconv (" e0");
+
+	g_printerr ("Result = %d\n", res);
+
+	mark_test_end (test_name);
+}
+
+/*-------------------------------------------------------------------------- */
+
 #define MAYBE_DO(name) if (strcmp (testname, "all") != 0 && strcmp (testname, (name)) != 0) { } else
 
 int
@@ -259,6 +366,7 @@ main (int argc, char const **argv)
 
 	MAYBE_DO ("test_insdel_rowcol_names") test_insdel_rowcol_names ();
 	MAYBE_DO ("test_func_help") test_func_help ();
+	MAYBE_DO ("test_nonascii_numbers") test_nonascii_numbers ();
 
 	/* ---------------------------------------- */
 
