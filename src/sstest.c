@@ -341,9 +341,13 @@ test_nonascii_numbers (void)
 		sprintf (buffer, "%ld", LONG_MIN);
 		buffer[strlen (buffer) - 1]++;
 		res |= test_strtol_overflow (buffer, FALSE);
+		buffer[strlen (buffer) - 2]++;
+		res |= test_strtol_overflow (buffer, FALSE);
 
 		sprintf (buffer, "%ld", LONG_MAX);
 		buffer[strlen (buffer) - 1]++;
+		res |= test_strtol_overflow (buffer, TRUE);
+		buffer[strlen (buffer) - 2]++;
 		res |= test_strtol_overflow (buffer, TRUE);
 	}
 
