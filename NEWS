@@ -5,6 +5,8 @@ Andreas:
 	* Implement ctrl-click cell deselection. [#610696]
 	* Fix LaTeX export of cyrillic. [#666340]
 
+Morten:
+	* Improve parsing on numbers with non-ascii digits.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.1

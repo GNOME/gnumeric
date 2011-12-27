@@ -290,29 +290,62 @@ gnm_strto (const char *s, char **end)
 	return res;
 }
 
-/* Like strtol, but handling non-ascii digits and sane errno.  */
+/*
+ * Like strtol, but..
+ * 1. handles non-ascii characters
+ * 2. assumes base==10
+ * 3. ensures sane errno on exit
+ */
 long
-gnm_strtol (const char *s, char **end, int base)
+gnm_utf8_strtol (const char *s, char **end)
 {
-	char *s2;
-	long res;
-	int save_errno;
+	const char *p;
+	int sign;
+	char *dummy_end;
+	unsigned long res = 0, lim, limd;
 
-	if (base != 10 ||
-	    (s2 = map_nonascii_digits (s)) == NULL) {
-		errno = 0;  /* strtol doesn't clear, so we do */
-		return strtol (s, end, base);
+	if (!end)
+		end = &dummy_end;
+
+	p = s;
+	while (g_unichar_isspace (g_utf8_get_char (p)))
+		p = g_utf8_next_char (p);
+
+	sign = go_unichar_issign (g_utf8_get_char (p));
+	if (sign)
+		p = g_utf8_next_char (p);
+	if (sign < 0) {
+		lim = (-(unsigned long)LONG_MIN) / 10u;
+		limd = (-(unsigned long)LONG_MIN) % 10u;
+	} else {
+		lim = (unsigned long)LONG_MAX / 10u;
+		limd = (unsigned long)LONG_MAX % 10u;
 	}
 
-	errno = 0;
-	res = strtol (s2, end, base);
-	save_errno = errno;
+	if (!g_unichar_isdigit (g_utf8_get_char (p))) {
+		errno = 0;
+		*end = s;
+		return 0;
+	}
 
-	if (end)
-		*end = g_utf8_offset_to_pointer (s, g_utf8_pointer_to_offset (s2, *end));
-	g_free (s2);
-	errno = save_errno;
-	return res;
+	while (g_unichar_isdigit (g_utf8_get_char (p))) {
+		int dig = g_unichar_digit_value (g_utf8_get_char (p));
+		p = g_utf8_next_char (p);
+
+		if (res > lim || (res == lim && dig > limd)) {
+			/* Overflow */
+			while (g_unichar_isdigit (g_utf8_get_char (p)))
+				p = g_utf8_next_char (p);
+			*end = p;
+			errno = ERANGE;
+			return sign < 0 ? LONG_MIN : LONG_MAX;
+		}
+
+		res = res * 10 + dig;
+	}
+	*end = p;
+	errno = 0;
+	return sign < 0 ? (long)-res : (long)res;
 }
 
 

@@ -1302,7 +1302,7 @@ yylex (void)
 			char *end;
 			long l;
 
-			l = gnm_strtol (start, &end, 10);
+			l = gnm_utf8_strtol (start, &end);
 			if (start == end) {
 				g_warning ("%s is not an integer, but was expected to be one", start);
 			} else if (errno != ERANGE && l >= INT_MIN && l <= INT_MAX) {

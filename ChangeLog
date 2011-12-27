@@ -1,3 +1,8 @@
+2011-12-27  Morten Welinder  <terra@gnome.org>
+
+	* src/gutils.c (gnm_utf8_strtol): Rename from gnm_strtol.  Remove
+	base argument.  Implement independently of strtol.
+
 2011-12-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-image.c (gnm_soi_assign_to_sheet): fix image life time.
