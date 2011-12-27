@@ -264,8 +264,35 @@ test_strtol_noconv (const char *s)
 }
 
 static int
+test_strtol_overflow (const char *s, gboolean pos)
+{
+	long l;
+	char *end;
+	int save_errno;
+	size_t expected_len = strlen (s);
+
+	l = gnm_utf8_strtol (s, &end);
+	save_errno = errno;
+
+	if (end != s + expected_len) {
+		g_printerr ("Unexpect conversion end of [%s]\n", s);
+		return 1;
+	}
+	if (l != (pos ? LONG_MAX : LONG_MIN)) {
+		g_printerr ("Unexpect conversion result of [%s]\n", s);
+		return 1;
+	}
+	if (save_errno != ERANGE) {
+		g_printerr ("Unexpect conversion errno of [%s]\n", s);
+		return 1;
+	}
+
+	return 0;
+}
+
+static int
 test_strtol_reverse (long l)
-{						\
+{
 	char buffer[4*sizeof(l) + 4];
 	int res = 0;
 
@@ -307,6 +334,18 @@ test_nonascii_numbers (void)
 	res |= test_strtol_noconv (" -");
 	res |= test_strtol_noconv (" .00");
 	res |= test_strtol_noconv (" e0");
+
+	{
+		char buffer[4 * sizeof (long) + 2];
+
+		sprintf (buffer, "%ld", LONG_MIN);
+		buffer[strlen (buffer) - 1]++;
+		res |= test_strtol_overflow (buffer, FALSE);
+
+		sprintf (buffer, "%ld", LONG_MAX);
+		buffer[strlen (buffer) - 1]++;
+		res |= test_strtol_overflow (buffer, TRUE);
+	}
 
 	g_printerr ("Result = %d\n", res);
 
