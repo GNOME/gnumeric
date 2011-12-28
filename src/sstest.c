@@ -336,20 +336,22 @@ test_nonascii_numbers (void)
 	res |= test_strtol_noconv (" -");
 	res |= test_strtol_noconv (" .00");
 	res |= test_strtol_noconv (" e0");
+	res |= test_strtol_noconv ("--0");
+	res |= test_strtol_noconv ("+-0");
+	res |= test_strtol_noconv ("+ 0");
+	res |= test_strtol_noconv ("- 0");
 
 	{
 		char buffer[4 * sizeof (long) + 2];
 
-		sprintf (buffer, "%ld", LONG_MIN);
-		buffer[strlen (buffer) - 1]++;
+		sprintf (buffer, "-%lu", 1 + (unsigned long)LONG_MIN);
 		res |= test_strtol_overflow (buffer, FALSE);
-		buffer[strlen (buffer) - 2]++;
+		sprintf (buffer, "-%lu", 10 + (unsigned long)LONG_MIN);
 		res |= test_strtol_overflow (buffer, FALSE);
 
-		sprintf (buffer, "%ld", LONG_MAX);
-		buffer[strlen (buffer) - 1]++;
+		sprintf (buffer, "%lu", 1 + (unsigned long)LONG_MAX);
 		res |= test_strtol_overflow (buffer, TRUE);
-		buffer[strlen (buffer) - 2]++;
+		sprintf (buffer, "%lu", 10 + (unsigned long)LONG_MAX);
 		res |= test_strtol_overflow (buffer, TRUE);
 	}
 
