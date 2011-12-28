@@ -87,6 +87,7 @@ typedef struct {
 		GtkWidget   *objective_value_widget;
 		GtkWidget   *stop_button;
 		GtkWidget   *ok_button;
+		char        *reason; /* for cancel or error */
 		gulong       sig_notify_result, sig_notify_status;
 	} run;
 
@@ -360,6 +361,7 @@ free_state (SolverState *state)
 {
 	if (state->orig_params)
 		g_object_unref (state->orig_params);
+	g_free (state->run.reason);
 	g_free (state);
 }
 
@@ -539,7 +541,16 @@ cb_notify_status (SolverState *state)
 		break;
 	}
 
-	gtk_label_set_text (GTK_LABEL (state->run.status_widget), text);
+	if (state->run.reason) {
+		char *text2 = g_strconcat (text,
+					   " (", state->run.reason, ")",
+					   NULL);
+		gtk_label_set_text (GTK_LABEL (state->run.status_widget),
+				    text2);
+		g_free (text2);
+	} else {
+		gtk_label_set_text (GTK_LABEL (state->run.status_widget), text);
+	}
 
 	if (finished) {
 		if (state->run.timer_source) {
@@ -599,7 +610,8 @@ cb_notify_result (SolverState *state)
 static gboolean
 cb_timer_tick (SolverState *state)
 {
-	double dsecs = gnm_solver_elapsed (state->run.solver);
+	GnmSolver *sol = state->run.solver;
+	double dsecs = gnm_solver_elapsed (sol);
 	int secs = (int)CLAMP (dsecs, 0, INT_MAX);
 	int hh = secs / 3600;
 	int mm = secs / 60 % 60;
@@ -610,6 +622,12 @@ cb_timer_tick (SolverState *state)
 
 	gtk_label_set_text (GTK_LABEL (state->run.timer_widget), txt);
 	g_free (txt);
+
+	if (gnm_solver_check_timeout (sol, TRUE)) {
+		g_free (state->run.reason);
+		state->run.reason = g_strdup (_("Timeout"));
+		cb_notify_status (state);
+	}
 
 	return TRUE;
 }
@@ -642,6 +660,8 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 	}
 
 	state->run.solver = sol;
+	g_free (state->run.reason);
+	state->run.reason = NULL;
 
 	vinput = gnm_solver_param_get_input (param);
 	gnm_sheet_range_from_value (&sr, vinput);
@@ -924,7 +944,7 @@ dialog_init (SolverState *state)
         if (state->dialog == NULL)
                 return TRUE;
 
-/*  buttons  */
+	/*  buttons  */
 	state->solve_button  = go_gtk_builder_get_widget (state->gui, "solvebutton");
 	g_signal_connect (G_OBJECT (state->solve_button), "clicked",
 			  G_CALLBACK (cb_dialog_solve_clicked), state);
@@ -1019,7 +1039,7 @@ dialog_init (SolverState *state)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->max_time_entry),
 				   param->options.max_time_sec);
 
-/* lhs_entry */
+	/* lhs_entry */
 	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "edit-table"));
 	state->lhs.entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->lhs.entry,
@@ -1041,7 +1061,7 @@ dialog_init (SolverState *state)
 		gnm_expr_entry_get_entry (GNM_EXPR_ENTRY (state->lhs.entry)),
 		"activate", G_CALLBACK (cb_dialog_add_clicked), state);
 
-/* rhs_entry */
+	/* rhs_entry */
 	table = GTK_TABLE (go_gtk_builder_get_widget (state->gui, "edit-table"));
 	state->rhs.entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->rhs.entry,
@@ -1064,7 +1084,7 @@ dialog_init (SolverState *state)
 		gnm_expr_entry_get_entry (GNM_EXPR_ENTRY (state->rhs.entry)),
 		"activate", G_CALLBACK (cb_dialog_add_clicked), state);
 
-/* type_menu */
+	/* type_menu */
 	state->type_combo = GTK_COMBO_BOX
 		(go_gtk_builder_get_widget (state->gui, "type_menu"));
 	gtk_combo_box_set_active (state->type_combo, 0);
@@ -1072,7 +1092,7 @@ dialog_init (SolverState *state)
 			  G_CALLBACK (dialog_set_sec_button_sensitivity),
 			  state);
 
-/* constraint_list */
+	/* constraint_list */
 	state->constraint_list = GTK_TREE_VIEW (go_gtk_builder_get_widget
 					    (state->gui, "constraint_list"));
 

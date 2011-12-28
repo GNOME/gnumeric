@@ -915,6 +915,27 @@ gnm_solver_elapsed (GnmSolver *solver)
 	return endtime - solver->starttime;
 }
 
+gboolean
+gnm_solver_check_timeout (GnmSolver *solver, gboolean act)
+{
+	GnmSolverParameters *sp;
+
+	g_return_val_if_fail (GNM_IS_SOLVER (solver), FALSE);
+
+	sp = solver->params;
+
+	if (solver->status != GNM_SOLVER_STATUS_RUNNING)
+		return FALSE;
+
+	if (gnm_solver_elapsed (solver) <= sp->options.max_time_sec)
+		return FALSE;
+
+	if (act)
+		gnm_solver_stop (solver, NULL);
+
+	return TRUE;
+}
+
 void
 gnm_solver_store_result (GnmSolver *sol)
 {

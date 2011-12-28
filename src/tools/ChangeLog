@@ -1,3 +1,7 @@
+2011-12-28  Morten Welinder  <terra@gnome.org>
+
+	* gnm-solver.c (gnm_solver_check_timeout): New function.
+
 2011-11-27  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.1

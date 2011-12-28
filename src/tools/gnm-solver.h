@@ -226,6 +226,8 @@ void gnm_solver_store_result (GnmSolver *solver);
 
 double gnm_solver_elapsed (GnmSolver *solver);
 
+gboolean gnm_solver_check_timeout (GnmSolver *solver, gboolean act);
+
 gboolean gnm_solver_finished (GnmSolver *solver);
 
 gboolean gnm_solver_has_solution (GnmSolver *solver);
