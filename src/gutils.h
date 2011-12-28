@@ -19,7 +19,7 @@ char const *gnm_icon_dir       (void);
 char const *gnm_locale_dir     (void);
 char const *gnm_usr_dir	       (gboolean versioned);
 
-gnm_float gnm_strto (const char *s, char **end);
+gnm_float gnm_utf8_strto (const char *s, char **end);
 long gnm_utf8_strtol (const char *s, char **end);
 
 #define PLUGIN_SUBDIR "plugins"

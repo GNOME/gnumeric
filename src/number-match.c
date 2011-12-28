@@ -91,7 +91,7 @@ format_match_simple (char const *text)
 		char *end;
 		gnm_float d;
 
-		d = gnm_strto (text, &end);
+		d = gnm_utf8_strto (text, &end);
 		if (text != end && errno != ERANGE && gnm_finite (d)) {
 			/* Allow and ignore spaces at the end.  */
 			while (g_ascii_isspace (*end))
@@ -879,7 +879,7 @@ format_match_fraction (char const *text, int *denlen, gboolean mixed_only)
 			return NULL;
 		whole = 0;
 	} else {
-		whole = gnm_strto (start, NULL);
+		whole = gnm_utf8_strto (start, NULL);
 		if (errno == ERANGE)
 			return NULL;
 		if (*text == 0) {
@@ -898,7 +898,7 @@ format_match_fraction (char const *text, int *denlen, gboolean mixed_only)
 			return NULL;
 	}
 
-	num = gnm_strto (start, NULL);
+	num = gnm_utf8_strto (start, NULL);
 	if (errno == ERANGE)
 		return NULL;
 
@@ -912,7 +912,7 @@ format_match_fraction (char const *text, int *denlen, gboolean mixed_only)
 	if (*text != 0)
 		return NULL;
 
-	den = gnm_strto (start, NULL);
+	den = gnm_utf8_strto (start, NULL);
 	if (errno == ERANGE)
 		return NULL;
 	if (den == 0)
@@ -1081,7 +1081,7 @@ format_match_decimal_number_with_locale (char const *text, GOFormatFamily *famil
 		char *end;
 		gboolean bad;
 
-		f = gnm_strto (numstr->str, &end);
+		f = gnm_utf8_strto (numstr->str, &end);
 		bad = *end || errno == ERANGE;
 		g_string_free (numstr, TRUE);
 

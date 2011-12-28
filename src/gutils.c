@@ -175,123 +175,91 @@ gnm_usr_dir (gboolean versioned)
 	return versioned ? gnumeric_usr_dir : gnumeric_usr_dir_unversioned;
 }
 
-static gboolean
-valid_number_char (char c)
-{
-	/* Assuming digits and signs already mapped.  EXCLUDES decimal point */
-	switch (c) {
-	case '0': case '1': case '2': case '3': case '4':
-	case '5': case '6': case '7': case '8': case '9':
-	case '+': case '-':
-	case 'e': case 'E':
-		return TRUE;
-	default:
-		return FALSE;
-	}
-}
-
-
-
-static char *
-map_nonascii_digits (const char *s)
+/*
+ * Like strto[ld], but...
+ * 1. handles non-ascii characters
+ * 2. disallows 0x000.0p+00 and 0.0d+00
+ * 3. ensures sane errno on exit
+ */
+gnm_float
+gnm_utf8_strto (const char *s, char **end)
 {
 	const char *p;
-	GString *res;
-	char *d;
-	/* No valid number can extend beyond the third sign.  */
-	int signs = 0;
+	int sign;
+	char *dummy_end;
+	GString *ascii = g_string_sized_new (100);
 	GString const *decimal = go_locale_get_decimal ();
-
-	for (p = s; *p; p = g_utf8_next_char (p)) {
-		gunichar uc = g_utf8_get_char (p);
-		if (uc <= 127) {
-			if (uc == '+' || uc == '-') {
-				signs++;
-				if (signs == 3)
-					return NULL;
-			} else if (decimal->len == 1 &&
-				   *decimal->str == (char)uc)
-				; /* Nothing */
-			else if (!valid_number_char (uc))
-				return NULL;
-		} else {
-			if (g_unichar_isdigit (uc))
-				break;
-
-			if (go_unichar_issign (uc))
-				break;
-
-			if (strncmp (decimal->str, p, decimal->len) == 0)
-				continue;
-
-			/* Strange unicode; number ends here.  */
-			return NULL;
-		}
-	}
-
-	if (*p == 0)
-		return NULL;
-
-	res = g_string_new (s);
-	d = res->str + (p - s);
-	p = d;
-
-	while (*p) {
-		gunichar uc = g_utf8_get_char (p);
-		const char *next = g_utf8_next_char (p);
-		if (uc <= 127) {
-			*d++ = *p;
-			if (uc == '+' || uc == '-') {
-				signs++;
-				if (signs == 3)
-					break;
-			} else if (decimal->len == 1 &&
-				   *decimal->str == (char)uc)
-				; /* Nothing */
-			else if (!valid_number_char (uc))
-				break;
-		} else if (g_unichar_isdigit (uc)) {
-			*d++ = '0' + g_unichar_digit_value (uc);
-		} else if (go_unichar_issign (uc)) {
-			*d++ = "-/+"[1 + go_unichar_issign (uc)];
-			signs++;
-			if (signs == 3)
-				break;
-		} else {
-			g_memmove (d, p, next - p);
-			d += (next - p);
-		}
-		p = next;
-	}
-
-	g_string_truncate (res, d - res->str);
-	return g_string_free (res, FALSE);
-}
-
-/* Like gnm_strto_base, but handling non-ascii digits.  */
-gnm_float
-gnm_strto (const char *s, char **end)
-{
-	char *s2 = map_nonascii_digits (s);
+	gboolean seen_decimal = FALSE;
+	gboolean seen_digit = FALSE;
+	size_t spaces = 0;
 	gnm_float res;
 	int save_errno;
 
-	if (!s2)
-		return gnm_strto_base (s, end);
+	if (!end)
+		end = &dummy_end;
 
-	errno = 0;
-	res = gnm_strto_base (s2, end);
+	p = s;
+	while (g_unichar_isspace (g_utf8_get_char (p))) {
+		p = g_utf8_next_char (p);
+		spaces++;
+	}
+
+	sign = go_unichar_issign (g_utf8_get_char (p));
+	if (sign) {
+		g_string_append_c (ascii, "-/+"[sign + 1]);
+		p = g_utf8_next_char (p);
+	}
+
+	do {
+		if (strncmp (p, decimal->str, decimal->len) == 0) {
+			if (seen_decimal)
+				break;
+			seen_decimal = TRUE;
+			go_string_append_gstring (ascii, decimal);
+			p += decimal->len;
+		} else if (g_unichar_isdigit (g_utf8_get_char (p))) {
+			g_string_append_c (ascii, '0' + g_unichar_digit_value (g_utf8_get_char (p)));
+			p = g_utf8_next_char (p);
+			seen_digit = TRUE;
+		} else
+			break;
+	} while (1);
+
+	if (!seen_digit) {
+		/* No conversion, bail to gnm_strto for nan etc. */
+		g_string_free (ascii, TRUE);
+		return gnm_strto (s, end);
+	}
+
+	if (*p == 'e' || *p == 'E') {
+		int sign;
+
+		g_string_append_c (ascii, 'e');
+		p = g_utf8_next_char (p);
+
+		sign = go_unichar_issign (g_utf8_get_char (p));
+		if (sign) {
+			g_string_append_c (ascii, "-/+"[sign + 1]);
+			p = g_utf8_next_char (p);
+		}
+		while (g_unichar_isdigit (g_utf8_get_char (p))) {
+			g_string_append_c (ascii, '0' + g_unichar_digit_value (g_utf8_get_char (p)));
+			p = g_utf8_next_char (p);
+		}
+	}
+
+	res = gnm_strto (ascii->str, end);
 	save_errno = errno;
+	*end = g_utf8_offset_to_pointer
+		(s, spaces + g_utf8_pointer_to_offset (ascii->str, *end));
+	g_string_free (ascii, TRUE);
 
-	if (end)
-		*end = g_utf8_offset_to_pointer (s, g_utf8_pointer_to_offset (s2, *end));
-	g_free (s2);
 	errno = save_errno;
 	return res;
 }
 
 /*
- * Like strtol, but..
+ * Like strtol, but...
  * 1. handles non-ascii characters
  * 2. assumes base==10
  * 3. ensures sane errno on exit

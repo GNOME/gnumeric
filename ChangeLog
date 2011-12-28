@@ -1,5 +1,10 @@
 2011-12-27  Morten Welinder  <terra@gnome.org>
 
+	* src/gutils.c (gnm_utf8_strto): Rename from gnm_strto and
+	reimplement.
+
+	* src/sstest.c (test_nonascii_numbers): Test gnm_utf8_strto too.
+
 	* src/gutils.c (gnm_utf8_strtol): Rename from gnm_strtol.  Remove
 	base argument.  Implement independently of strtol.
 

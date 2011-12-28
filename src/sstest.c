@@ -311,6 +311,32 @@ test_strtol_reverse (long l)
 	return res;
 }
 
+static int
+test_strtod_ok (const char *s, double d, size_t expected_len)
+{
+	gnm_float d2;
+	char *end;
+	int save_errno;
+
+	d2 = gnm_utf8_strto (s, &end);
+	save_errno = errno;
+
+	if (end != s + expected_len) {
+		g_printerr ("Unexpect conversion end of [%s]\n", s);
+		return 1;
+	}
+	if (d != d2) {
+		g_printerr ("Unexpect conversion result of [%s]\n", s);
+		return 1;
+	}
+	if (save_errno != 0) {
+		g_printerr ("Unexpect conversion errno of [%s]\n", s);
+		return 1;
+	}
+
+	return 0;
+}
+
 static void
 test_nonascii_numbers (void)
 {
@@ -327,6 +353,7 @@ test_nonascii_numbers (void)
 	res |= test_strtol_reverse (LONG_MAX - 1);
 
 	res |= test_strtol_ok ("\xef\xbc\x8d\xef\xbc\x91", -1, 6);
+	res |= test_strtol_ok ("\xc2\xa0+1", 1, 4);
 
 	res |= test_strtol_ok ("000000000000000000000000000000", 0, 30);
 
@@ -354,6 +381,28 @@ test_nonascii_numbers (void)
 		sprintf (buffer, "%lu", 10 + (unsigned long)LONG_MAX);
 		res |= test_strtol_overflow (buffer, TRUE);
 	}
+
+	/* -------------------- */
+
+	res |= test_strtod_ok ("0", 0, 1);
+	res |= test_strtod_ok ("1", 1, 1);
+	res |= test_strtod_ok ("-1", -1, 2);
+	res |= test_strtod_ok ("+1", 1, 2);
+	res |= test_strtod_ok (" +1", 1, 3);
+	res |= test_strtod_ok ("\xc2\xa0+1", 1, 4);
+	res |= test_strtod_ok ("\xc2\xa0+1x", 1, 4);
+	res |= test_strtod_ok ("\xc2\xa0+1e", 1, 4);
+	res |= test_strtod_ok ("\xc2\xa0+1e+", 1, 4);
+	res |= test_strtod_ok ("\xc2\xa0+1e+0", 1, 7);
+	res |= test_strtod_ok ("-1e1", -10, 4);
+	res |= test_strtod_ok ("100e-2", 1, 6);
+	res |= test_strtod_ok ("100e+2", 10000, 6);
+	res |= test_strtod_ok ("1x0p0", 1, 1);
+	res |= test_strtod_ok ("+inf", gnm_pinf, 4);
+	res |= test_strtod_ok ("-inf", gnm_ninf, 4);
+	res |= test_strtod_ok ("1.25", 1.25, 4);
+	res |= test_strtod_ok ("1.25e1", 12.5, 6);
+	res |= test_strtod_ok ("12.5e-1", 1.25, 7);
 
 	g_printerr ("Result = %d\n", res);
 
