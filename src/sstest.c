@@ -317,6 +317,8 @@ test_nonascii_numbers (void)
 	const char *test_name = "test_nonascii_numbers";
 	int res = 0;
 
+	mark_test_start (test_name);
+
 	res |= test_strtol_reverse (0);
 	res |= test_strtol_reverse (1);
 	res |= test_strtol_reverse (-1);
