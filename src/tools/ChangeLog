@@ -1,6 +1,9 @@
 2011-12-28  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_check_timeout): New function.
+	(gnm_solver_param_class_init): Hook gnm_solver_param_finalize up
+	as a finalizer, not a dispose handler!
+	(gnm_solver_set_reason): New function, backed by a property.
 
 2011-11-27  Morten Welinder <terra@gnome.org>
 

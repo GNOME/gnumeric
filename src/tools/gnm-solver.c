@@ -705,7 +705,7 @@ gnm_solver_param_class_init (GObjectClass *object_class)
 	gnm_solver_param_parent_class = g_type_class_peek_parent (object_class);
 
 	object_class->constructor = gnm_solver_param_constructor;
-	object_class->dispose = gnm_solver_param_finalize;
+	object_class->finalize = gnm_solver_param_finalize;
 	object_class->set_property = gnm_solver_param_set_property;
 	object_class->get_property = gnm_solver_param_get_property;
 
@@ -744,6 +744,7 @@ static guint solver_signals[SOL_SIG_LAST] = { 0 };
 enum {
 	SOL_PROP_0,
 	SOL_PROP_STATUS,
+	SOL_PROP_REASON,
 	SOL_PROP_PARAMS,
 	SOL_PROP_RESULT,
 	SOL_PROP_STARTTIME,
@@ -763,6 +764,8 @@ gnm_solver_dispose (GObject *obj)
 			g_warning ("Failed to stop solver -- now what?");
 		}
 	}
+
+	gnm_solver_set_reason (sol, NULL);
 
 	if (sol->result) {
 		g_object_unref (sol->result);
@@ -786,6 +789,10 @@ gnm_solver_get_property (GObject *object, guint property_id,
 	switch (property_id) {
 	case SOL_PROP_STATUS:
 		g_value_set_enum (value, sol->status);
+		break;
+
+	case SOL_PROP_REASON:
+		g_value_set_string (value, sol->reason);
 		break;
 
 	case SOL_PROP_PARAMS:
@@ -819,6 +826,10 @@ gnm_solver_set_property (GObject *object, guint property_id,
 	switch (property_id) {
 	case SOL_PROP_STATUS:
 		gnm_solver_set_status (sol, g_value_get_enum (value));
+		break;
+
+	case SOL_PROP_REASON:
+		gnm_solver_set_reason (sol, g_value_get_string (value));
 		break;
 
 	case SOL_PROP_PARAMS:
@@ -916,7 +927,7 @@ gnm_solver_elapsed (GnmSolver *solver)
 }
 
 gboolean
-gnm_solver_check_timeout (GnmSolver *solver, gboolean act)
+gnm_solver_check_timeout (GnmSolver *solver)
 {
 	GnmSolverParameters *sp;
 
@@ -930,8 +941,8 @@ gnm_solver_check_timeout (GnmSolver *solver, gboolean act)
 	if (gnm_solver_elapsed (solver) <= sp->options.max_time_sec)
 		return FALSE;
 
-	if (act)
-		gnm_solver_stop (solver, NULL);
+	gnm_solver_stop (solver, NULL);
+	gnm_solver_set_reason (solver, _("Timeout"));
 
 	return TRUE;
 }
@@ -1003,6 +1014,8 @@ gnm_solver_set_status (GnmSolver *solver, GnmSolverStatus status)
 	if (status == solver->status)
 		return;
 
+	gnm_solver_set_reason (solver, NULL);
+
 	old_status = solver->status;
 	solver->status = status;
 	g_object_notify (G_OBJECT (solver), "status");
@@ -1017,6 +1030,19 @@ gnm_solver_set_status (GnmSolver *solver, GnmSolverStatus status)
 			      "endtime", current_time (),
 			      NULL);
 }
+
+void
+gnm_solver_set_reason (GnmSolver *solver, const char *reason)
+{
+	g_return_if_fail (GNM_IS_SOLVER (solver));
+
+	if (g_strcmp0 (reason, solver->reason) == 0)
+		return;
+
+	g_free (solver->reason);
+	solver->reason = g_strdup (reason);
+}
+
 
 gboolean
 gnm_solver_has_solution (GnmSolver *solver)
@@ -1216,6 +1242,13 @@ gnm_solver_class_init (GObjectClass *object_class)
 				    GNM_SOLVER_STATUS_READY,
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE));
+
+        g_object_class_install_property (object_class, SOL_PROP_REASON,
+		 g_param_spec_string ("reason", _("reason"),
+				      _("The reason behind the solver's status"),
+				      NULL,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, SOL_PROP_PARAMS,
 		 g_param_spec_object ("params", _("Parameters"),

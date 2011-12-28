@@ -87,8 +87,9 @@ typedef struct {
 		GtkWidget   *objective_value_widget;
 		GtkWidget   *stop_button;
 		GtkWidget   *ok_button;
-		char        *reason; /* for cancel or error */
-		gulong       sig_notify_result, sig_notify_status;
+		gulong       sig_notify_result;
+		gulong       sig_notify_status;
+		gulong       sig_notify_reason;
 	} run;
 
 	Sheet		    *sheet;
@@ -361,7 +362,6 @@ free_state (SolverState *state)
 {
 	if (state->orig_params)
 		g_object_unref (state->orig_params);
-	g_free (state->run.reason);
 	g_free (state);
 }
 
@@ -541,9 +541,9 @@ cb_notify_status (SolverState *state)
 		break;
 	}
 
-	if (state->run.reason) {
+	if (sol->reason) {
 		char *text2 = g_strconcat (text,
-					   " (", state->run.reason, ")",
+					   " (", sol->reason, ")",
 					   NULL);
 		gtk_label_set_text (GTK_LABEL (state->run.status_widget),
 				    text2);
@@ -623,9 +623,7 @@ cb_timer_tick (SolverState *state)
 	gtk_label_set_text (GTK_LABEL (state->run.timer_widget), txt);
 	g_free (txt);
 
-	if (gnm_solver_check_timeout (sol, TRUE)) {
-		g_free (state->run.reason);
-		state->run.reason = g_strdup (_("Timeout"));
+	if (gnm_solver_check_timeout (sol)) {
 		cb_notify_status (state);
 	}
 
@@ -660,8 +658,6 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 	}
 
 	state->run.solver = sol;
-	g_free (state->run.reason);
-	state->run.reason = NULL;
 
 	vinput = gnm_solver_param_get_input (param);
 	gnm_sheet_range_from_value (&sr, vinput);
@@ -731,14 +727,19 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 			    table, TRUE, TRUE, 0);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 
-	state->run.sig_notify_result =
+	state->run.sig_notify_status =
 		g_signal_connect_swapped (G_OBJECT (sol),
 					  "notify::status",
 					  G_CALLBACK (cb_notify_status),
 					  state);
+	state->run.sig_notify_reason =
+		g_signal_connect_swapped (G_OBJECT (sol),
+					  "notify::reason",
+					  G_CALLBACK (cb_notify_status),
+					  state);
 	cb_notify_status (state);
 
-	state->run.sig_notify_status =
+	state->run.sig_notify_result =
 		g_signal_connect_swapped (G_OBJECT (sol),
 					  "notify::result",
 					  G_CALLBACK (cb_notify_result),
@@ -772,6 +773,8 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 				     state->run.sig_notify_result);
 	g_signal_handler_disconnect (G_OBJECT (sol),
 				     state->run.sig_notify_status);
+	g_signal_handler_disconnect (G_OBJECT (sol),
+				     state->run.sig_notify_reason);
 
 	if (sol->status == GNM_SOLVER_STATUS_RUNNING)
 		gnm_solver_stop (sol, NULL);

@@ -1,6 +1,8 @@
 2011-12-28  Morten Welinder  <terra@gnome.org>
 
 	* dialog-solver.c (cb_timer_tick): Check for timeout.
+	(run_solver): Store the right signal ids in the right variables.
+	Just because we can.  Hook up a reason notifier too.
 
 2011-12-27  Jean Brefort  <jean.brefort@normalesup.org>
 

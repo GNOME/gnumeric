@@ -196,6 +196,8 @@ typedef struct {
 	GObject parent;
 
 	GnmSolverStatus status;
+	char *reason;
+
 	GnmSolverParameters *params;
 	GnmSolverResult *result;
 	double starttime, endtime;
@@ -222,11 +224,13 @@ gboolean gnm_solver_stop (GnmSolver *solver, GError **err);
 
 void gnm_solver_set_status (GnmSolver *solver, GnmSolverStatus status);
 
+void gnm_solver_set_reason (GnmSolver *solver, const char *reason);
+
 void gnm_solver_store_result (GnmSolver *solver);
 
 double gnm_solver_elapsed (GnmSolver *solver);
 
-gboolean gnm_solver_check_timeout (GnmSolver *solver, gboolean act);
+gboolean gnm_solver_check_timeout (GnmSolver *solver);
 
 gboolean gnm_solver_finished (GnmSolver *solver);
 
