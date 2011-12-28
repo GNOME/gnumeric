@@ -324,26 +324,26 @@ gnm_utf8_strtol (const char *s, char **end)
 
 	if (!g_unichar_isdigit (g_utf8_get_char (p))) {
 		errno = 0;
-		*end = s;
+		*end = (char *)s;
 		return 0;
 	}
 
 	while (g_unichar_isdigit (g_utf8_get_char (p))) {
-		int dig = g_unichar_digit_value (g_utf8_get_char (p));
+		guint8 dig = g_unichar_digit_value (g_utf8_get_char (p));
 		p = g_utf8_next_char (p);
 
 		if (res > lim || (res == lim && dig > limd)) {
 			/* Overflow */
 			while (g_unichar_isdigit (g_utf8_get_char (p)))
 				p = g_utf8_next_char (p);
-			*end = p;
+			*end = (char *)p;
 			errno = ERANGE;
 			return sign < 0 ? LONG_MIN : LONG_MAX;
 		}
 
-		res = res * 10 + dig;
+		res = res * 10u + dig;
 	}
-	*end = p;
+	*end = (char *)p;
 	errno = 0;
 	return sign < 0 ? (long)-res : (long)res;
 }
