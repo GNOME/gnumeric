@@ -765,7 +765,8 @@ gnm_solver_dispose (GObject *obj)
 		}
 	}
 
-	gnm_solver_set_reason (sol, NULL);
+	g_free (sol->reason);
+	sol->reason = NULL;
 
 	if (sol->result) {
 		g_object_unref (sol->result);
@@ -1041,6 +1042,8 @@ gnm_solver_set_reason (GnmSolver *solver, const char *reason)
 
 	g_free (solver->reason);
 	solver->reason = g_strdup (reason);
+
+	g_object_notify (G_OBJECT (solver), "reason");
 }
 
 
