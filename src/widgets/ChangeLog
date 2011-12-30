@@ -1,3 +1,8 @@
+2011-12-30  Morten Welinder  <terra@gnome.org>
+
+	* gnm-format-sel.c (cb_generate_preview): Get the pango context
+	from the widget.
+
 2011-12-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* gnm-dao.c (gnm_dao_init), (gnm_dao_new): don't use GtkTable anymore.

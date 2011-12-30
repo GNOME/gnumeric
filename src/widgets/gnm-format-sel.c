@@ -32,7 +32,8 @@ cb_generate_preview (GOFormatSel *gfs, PangoAttrList **attrs)
 		return NULL;
 	else {
 		GOFormat const *fmt = go_format_sel_get_fmt (gfs);
-		PangoContext *context = gnm_pango_context_get ();
+		GtkWidget *w = GTK_WIDGET (gfs);
+		PangoContext *context = gtk_widget_get_pango_context (w);
 		PangoLayout *layout = pango_layout_new (context);
 		char *str;
 		GOFormatNumberError err;
@@ -50,7 +51,6 @@ cb_generate_preview (GOFormatSel *gfs, PangoAttrList **attrs)
 			*attrs = pango_attr_list_ref (pango_layout_get_attributes (layout));
 		}
 		g_object_unref (layout);
-		g_object_unref (context);
 		return str;
 	}
 }

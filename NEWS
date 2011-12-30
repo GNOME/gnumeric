@@ -9,6 +9,7 @@ Morten:
 	* Improve parsing on numbers with non-ascii digits.
 	* Make solver check for exceeding the time limit.
 	* Fix object life-cycle problems in solver.
+	* Fix multihead problem with format dialog.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.1
