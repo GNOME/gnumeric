@@ -11,6 +11,7 @@ Morten:
 	* Fix object life-cycle problems in solver.
 	* Fix multihead problem with format dialog.
 	* Fix auto-expression problem with sheet deletion.
+	* Fix ellipsizing of auto-expression.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.1

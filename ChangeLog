@@ -1,5 +1,11 @@
 2011-12-31  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbc_gtk_create_status_area): Beat the auto
+	expression label into submission with respect to ellipsizing.
+
+	* src/workbook-view.c (wb_view_auto_expr_recalc): No need for
+	manual ellipsizing here.
+
 	* src/workbook-view.h (WorkbookView): Move auto-expression
 	settings into a sub-structure.  All users changed.
 

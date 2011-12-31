@@ -4789,6 +4789,7 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 {
 	GtkWidget *tmp, *frame;
 	GdkRGBA const white = {1.,1.,1.,1.};
+	const char *auto_expr_sample = "Sumerage = -012345678901234";
 
 	wbcg->progress_bar = gtk_progress_bar_new ();
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), " ");
@@ -4801,10 +4802,11 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	g_object_ref (wbcg->auto_expr_label);
 	gtk_label_set_ellipsize (GTK_LABEL (tmp), PANGO_ELLIPSIZE_START);
 	gtk_widget_set_can_focus (tmp, FALSE);
+	gtk_label_set_max_width_chars (GTK_LABEL (tmp), strlen (auto_expr_sample));
 	gtk_widget_set_size_request (tmp, go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 		gtk_style_context_get_font (gtk_widget_get_style_context (tmp), GTK_STATE_NORMAL),
-		"Sumerage = -012345678901234"), -1);
+		auto_expr_sample), -1);
 	tmp = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (tmp), wbcg->auto_expr_label);
 	g_signal_connect (G_OBJECT (tmp),

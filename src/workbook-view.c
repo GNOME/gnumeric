@@ -545,14 +545,12 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 	    wbv->auto_expr.cell.row >= 0 &&
 	    wbv->auto_expr.cell.col >= 0) {
 		GnmValue *v;
+
+		str = g_string_new (wbv->auto_expr.sheet->name_unquoted);
+		g_string_append_c (str, '!');
+
 		range_init_cellpos (&r, &wbv->auto_expr.cell);
 		v = value_new_cellrange_r (wbv->auto_expr.sheet, &r);
-		if (strlen (wbv->auto_expr.sheet->name_unquoted) < 8) {
-			str = g_string_new
-				(wbv->auto_expr.sheet->name_unquoted);
-			g_string_append_c (str, '!');
-		} else
-			str = g_string_new ("\342\200\246!");
 		texpr = gnm_expr_top_new_constant (v);
 		g_string_append (str, wbv->auto_expr.descr);
 	} else if (wbv->auto_expr.func != NULL &&
