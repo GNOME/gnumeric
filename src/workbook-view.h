@@ -30,14 +30,16 @@ struct _WorkbookView {
 	int preferred_width, preferred_height;
 
 	/* The auto-expression */
-	GnmFunc   *auto_expr_func;
-	char	  *auto_expr_descr;
-	char	  *auto_expr_text;
-	PangoAttrList *auto_expr_attrs;
-	gboolean  auto_expr_use_max_precision;
-	Sheet *auto_expr_sheet;
-	gulong auto_expr_sheet_detached_sig;
-	GnmCellPos auto_expr_cell;
+	struct {
+		GnmFunc  *func;
+		char *descr;
+		char *text;
+		PangoAttrList *attrs;
+		gboolean use_max_precision;
+		Sheet *sheet;
+		gulong sheet_detached_sig;
+		GnmCellPos cell;
+	} auto_expr;
 
 	/* selection */
 	char	  *selection_description;

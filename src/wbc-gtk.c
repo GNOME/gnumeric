@@ -1362,8 +1362,8 @@ wbcg_auto_expr_text_changed (WorkbookView *wbv,
 	GtkLabel *lbl = GTK_LABEL (wbcg->auto_expr_label);
 
 	gtk_label_set_text (lbl,
-			    wbv->auto_expr_text ? wbv->auto_expr_text : "");
-	gtk_label_set_attributes (lbl, wbv->auto_expr_attrs);
+			    wbv->auto_expr.text ? wbv->auto_expr.text : "");
+	gtk_label_set_attributes (lbl, wbv->auto_expr.attrs);
 }
 
 static void
@@ -4758,7 +4758,7 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
 
 	item = gtk_check_menu_item_new_with_label (_("Use maximum precision"));
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item),
-		wbv->auto_expr_use_max_precision);
+		wbv->auto_expr.use_max_precision);
 	g_signal_connect (G_OBJECT (item), "activate",
 		G_CALLBACK (cb_auto_expr_precision_toggled), wbcg);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);

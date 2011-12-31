@@ -540,27 +540,27 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 	    sv == NULL)
 		return;
 
-	if (wbv->auto_expr_sheet != NULL &&
-	    wbv->auto_expr_descr != NULL &&
-	    wbv->auto_expr_cell.row >= 0 &&
-	    wbv->auto_expr_cell.col >= 0) {
+	if (wbv->auto_expr.sheet != NULL &&
+	    wbv->auto_expr.descr != NULL &&
+	    wbv->auto_expr.cell.row >= 0 &&
+	    wbv->auto_expr.cell.col >= 0) {
 		GnmValue *v;
-		range_init_cellpos (&r, &wbv->auto_expr_cell);
-		v = value_new_cellrange_r (wbv->auto_expr_sheet, &r);
-		if (strlen (wbv->auto_expr_sheet->name_unquoted) < 8) {
+		range_init_cellpos (&r, &wbv->auto_expr.cell);
+		v = value_new_cellrange_r (wbv->auto_expr.sheet, &r);
+		if (strlen (wbv->auto_expr.sheet->name_unquoted) < 8) {
 			str = g_string_new
-				(wbv->auto_expr_sheet->name_unquoted);
+				(wbv->auto_expr.sheet->name_unquoted);
 			g_string_append_c (str, '!');
 		} else
 			str = g_string_new ("\342\200\246!");
 		texpr = gnm_expr_top_new_constant (v);
-		g_string_append (str, wbv->auto_expr_descr);
-	} else if (wbv->auto_expr_func != NULL &&
-		   wbv->auto_expr_descr != NULL) {
+		g_string_append (str, wbv->auto_expr.descr);
+	} else if (wbv->auto_expr.func != NULL &&
+		   wbv->auto_expr.descr != NULL) {
 		sv_selection_apply (sv, &accumulate_regions, FALSE, &selection);
 		texpr = gnm_expr_top_new
-			(gnm_expr_new_funcall (wbv->auto_expr_func, selection));
-		str = g_string_new (wbv->auto_expr_descr);
+			(gnm_expr_new_funcall (wbv->auto_expr.func, selection));
+		str = g_string_new (wbv->auto_expr.descr);
 	} else {
 		str = g_string_new (NULL);
 		texpr = gnm_expr_top_new_constant (value_new_string (""));
@@ -575,7 +575,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 		PangoAttrList *attrs = NULL;
 
 		g_string_append (str, " = ");
-		if (!wbv->auto_expr_use_max_precision) {
+		if (!wbv->auto_expr.use_max_precision) {
 			format = VALUE_FMT (v);
 			if (!format)
 				format = tmp_format =
@@ -682,15 +682,15 @@ static GObjectClass *parent_class;
 static void
 wb_view_auto_expr_func (WorkbookView *wbv, GnmFunc *func)
 {
-	if (wbv->auto_expr_func == func)
+	if (wbv->auto_expr.func == func)
 		return;
 
-	if (wbv->auto_expr_func)
-		gnm_func_unref (wbv->auto_expr_func);
+	if (wbv->auto_expr.func)
+		gnm_func_unref (wbv->auto_expr.func);
 
 	if (func)
 		gnm_func_ref (func);
-	wbv->auto_expr_func = func;
+	wbv->auto_expr.func = func;
 
 	wb_view_auto_expr_recalc (wbv);
 }
@@ -700,12 +700,12 @@ wb_view_auto_expr_descr (WorkbookView *wbv, const char *descr)
 {
 	char *s;
 
-	if (go_str_compare (descr, wbv->auto_expr_descr) == 0)
+	if (go_str_compare (descr, wbv->auto_expr.descr) == 0)
 		return;
 
 	s = g_strdup (descr);
-	g_free (wbv->auto_expr_descr);
-	wbv->auto_expr_descr = s;
+	g_free (wbv->auto_expr.descr);
+	wbv->auto_expr.descr = s;
 
 	wb_view_auto_expr_recalc (wbv);
 }
@@ -715,10 +715,10 @@ wb_view_auto_expr_precision (WorkbookView *wbv, gboolean use_max_precision)
 {
 	use_max_precision = !!use_max_precision;
 
-	if (wbv->auto_expr_use_max_precision == use_max_precision)
+	if (wbv->auto_expr.use_max_precision == use_max_precision)
 		return;
 
-	wbv->auto_expr_use_max_precision = use_max_precision;
+	wbv->auto_expr.use_max_precision = use_max_precision;
 
 	wb_view_auto_expr_recalc (wbv);
 }
@@ -728,35 +728,35 @@ wb_view_auto_expr_text (WorkbookView *wbv, const char *text)
 {
 	char *s;
 
-	if (go_str_compare (text, wbv->auto_expr_text) == 0)
+	if (go_str_compare (text, wbv->auto_expr.text) == 0)
 		return;
 
 	s = g_strdup (text);
-	g_free (wbv->auto_expr_text);
-	wbv->auto_expr_text = s;
+	g_free (wbv->auto_expr.text);
+	wbv->auto_expr.text = s;
 }
 
 static void
 wb_view_auto_expr_attrs (WorkbookView *wbv, PangoAttrList *attrs)
 {
-	if (gnm_pango_attr_list_equal (attrs, wbv->auto_expr_attrs))
+	if (gnm_pango_attr_list_equal (attrs, wbv->auto_expr.attrs))
 		return;
 
 	if (attrs)
 		pango_attr_list_ref (attrs);
-	if (wbv->auto_expr_attrs)
-		pango_attr_list_unref (wbv->auto_expr_attrs);
-	wbv->auto_expr_attrs = attrs;
+	if (wbv->auto_expr.attrs)
+		pango_attr_list_unref (wbv->auto_expr.attrs);
+	wbv->auto_expr.attrs = attrs;
 }
 
 static void
 wb_view_auto_expr_cell (WorkbookView *wbv, gpointer *cell)
 {
 	if (cell == NULL) {
-		wbv->auto_expr_cell.col = -1;
-		wbv->auto_expr_cell.row = -1;
+		wbv->auto_expr.cell.col = -1;
+		wbv->auto_expr.cell.row = -1;
 	} else {
-		wbv->auto_expr_cell = *((GnmCellPos *)cell);
+		wbv->auto_expr.cell = *((GnmCellPos *)cell);
 		wb_view_auto_expr_recalc (wbv);
 	}
 }
@@ -773,22 +773,22 @@ cb_clear_auto_expr_sheet (WorkbookView *wbv)
 static void
 wb_view_auto_expr_sheet (WorkbookView *wbv, Sheet *sheet)
 {
-	if (wbv->auto_expr_sheet == sheet)
+	if (wbv->auto_expr.sheet == sheet)
 		return;
 
-	if (wbv->auto_expr_sheet_detached_sig) {
-		g_signal_handler_disconnect (wbv->auto_expr_sheet,
-					     wbv->auto_expr_sheet_detached_sig);
-		wbv->auto_expr_sheet_detached_sig = 0;
+	if (wbv->auto_expr.sheet_detached_sig) {
+		g_signal_handler_disconnect (wbv->auto_expr.sheet,
+					     wbv->auto_expr.sheet_detached_sig);
+		wbv->auto_expr.sheet_detached_sig = 0;
 	}
-	if (wbv->auto_expr_sheet)
-		g_object_unref (wbv->auto_expr_sheet);
+	if (wbv->auto_expr.sheet)
+		g_object_unref (wbv->auto_expr.sheet);
 
-	wbv->auto_expr_sheet = sheet;
+	wbv->auto_expr.sheet = sheet;
 	if (sheet) {
 		g_object_ref (sheet);
 
-		wbv->auto_expr_sheet_detached_sig = g_signal_connect_swapped (
+		wbv->auto_expr.sheet_detached_sig = g_signal_connect_swapped (
 			G_OBJECT (sheet),
 			"detached-from-workbook",
 			G_CALLBACK (cb_clear_auto_expr_sheet), wbv);
@@ -871,25 +871,25 @@ wb_view_get_property (GObject *object, guint property_id,
 
 	switch (property_id) {
 	case PROP_AUTO_EXPR_FUNC:
-		g_value_set_pointer (value, wbv->auto_expr_func);
+		g_value_set_pointer (value, wbv->auto_expr.func);
 		break;
 	case PROP_AUTO_EXPR_DESCR:
-		g_value_set_string (value, wbv->auto_expr_descr);
+		g_value_set_string (value, wbv->auto_expr.descr);
 		break;
 	case PROP_AUTO_EXPR_MAX_PRECISION:
-		g_value_set_boolean (value, wbv->auto_expr_use_max_precision);
+		g_value_set_boolean (value, wbv->auto_expr.use_max_precision);
 		break;
 	case PROP_AUTO_EXPR_TEXT:
-		g_value_set_string (value, wbv->auto_expr_text);
+		g_value_set_string (value, wbv->auto_expr.text);
 		break;
 	case PROP_AUTO_EXPR_ATTRS:
-		g_value_set_boxed (value, wbv->auto_expr_attrs);
+		g_value_set_boxed (value, wbv->auto_expr.attrs);
 		break;
 	case PROP_AUTO_EXPR_CELL:
-		g_value_set_pointer (value, &wbv->auto_expr_cell);
+		g_value_set_pointer (value, &wbv->auto_expr.cell);
 		break;
 	case PROP_AUTO_EXPR_SHEET:
-		g_value_set_object (value, wbv->auto_expr_sheet);
+		g_value_set_object (value, wbv->auto_expr.sheet);
 		break;
 	case PROP_SHOW_HORIZONTAL_SCROLLBAR:
 		g_value_set_boolean (value, wbv->show_horizontal_scrollbar);
@@ -1161,13 +1161,13 @@ workbook_view_new (Workbook *wb)
 	wbv->current_sheet_view = NULL;
 
 	/* Set the default operation to be performed over selections */
-	wbv->auto_expr_func = gnm_func_lookup ("sum", NULL);
-	if (wbv->auto_expr_func)
-		gnm_func_ref (wbv->auto_expr_func);
-	wbv->auto_expr_descr = g_strdup (_("Sum"));
-	wbv->auto_expr_text = NULL;
-	wbv->auto_expr_attrs = NULL;
-	wbv->auto_expr_use_max_precision = FALSE;
+	wbv->auto_expr.func = gnm_func_lookup ("sum", NULL);
+	if (wbv->auto_expr.func)
+		gnm_func_ref (wbv->auto_expr.func);
+	wbv->auto_expr.descr = g_strdup (_("Sum"));
+	wbv->auto_expr.text = NULL;
+	wbv->auto_expr.attrs = NULL;
+	wbv->auto_expr.use_max_precision = FALSE;
 
 	for (i = 0 ; i < workbook_sheet_count (wb); i++)
 		wb_view_sheet_add (wbv, workbook_sheet_by_index (wb, i));
