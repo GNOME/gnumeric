@@ -1,3 +1,14 @@
+2011-12-30  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (wb_view_finalize): Merge contents into
+	dispose and eliminate.
+	(workbook_view_class_init): Properly manage auto-expr-sheet as an
+	object, not a pointer.
+	(wb_view_auto_expr_sheet): Keep an eye on the sheet and clear
+	auto-expr-sheet if the sheet gets deleted.
+	(wb_view_auto_expr_recalc): Handle the nothing-selected case
+	better.
+
 2011-12-27  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (gnm_utf8_strto): Rename from gnm_strto and

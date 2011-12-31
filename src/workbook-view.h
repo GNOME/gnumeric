@@ -36,6 +36,7 @@ struct _WorkbookView {
 	PangoAttrList *auto_expr_attrs;
 	gboolean  auto_expr_use_max_precision;
 	Sheet *auto_expr_sheet;
+	gulong auto_expr_sheet_detached_sig;
 	GnmCellPos auto_expr_cell;
 
 	/* selection */

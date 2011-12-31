@@ -544,21 +544,15 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 	    wbv->auto_expr_descr != NULL &&
 	    wbv->auto_expr_cell.row >= 0 &&
 	    wbv->auto_expr_cell.col >= 0) {
-		/* We need to check that wbv->auto_expr_sheet is still valid */
-		GSList *sheets = workbook_sheets (wbv->wb);
-		if (g_slist_find (sheets, wbv->auto_expr_sheet) == NULL) {
-			v = value_new_error_REF (NULL);
-			str = g_string_new ("?!");
-		} else {
-			range_init_cellpos (&r, &wbv->auto_expr_cell);
-			v = value_new_cellrange_r (wbv->auto_expr_sheet, &r);
-			if (strlen (wbv->auto_expr_sheet->name_unquoted) < 8) {
-				str = g_string_new
-					(wbv->auto_expr_sheet->name_unquoted);
-				g_string_append_c (str, '!');
-			} else
-				str = g_string_new ("\342\200\246!");
-		}
+		GnmValue *v;
+		range_init_cellpos (&r, &wbv->auto_expr_cell);
+		v = value_new_cellrange_r (wbv->auto_expr_sheet, &r);
+		if (strlen (wbv->auto_expr_sheet->name_unquoted) < 8) {
+			str = g_string_new
+				(wbv->auto_expr_sheet->name_unquoted);
+			g_string_append_c (str, '!');
+		} else
+			str = g_string_new ("\342\200\246!");
 		texpr = gnm_expr_top_new_constant (v);
 		g_string_append (str, wbv->auto_expr_descr);
 	} else if (wbv->auto_expr_func != NULL &&
@@ -567,8 +561,10 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 		texpr = gnm_expr_top_new
 			(gnm_expr_new_funcall (wbv->auto_expr_func, selection));
 		str = g_string_new (wbv->auto_expr_descr);
-	} else
-		return;
+	} else {
+		str = g_string_new (NULL);
+		texpr = gnm_expr_top_new_constant (value_new_string (""));
+	}
 
 	eval_pos_init_sheet (&ep, wbv->current_sheet);
 	v = gnm_expr_top_eval (texpr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
@@ -766,12 +762,39 @@ wb_view_auto_expr_cell (WorkbookView *wbv, gpointer *cell)
 }
 
 static void
-wb_view_auto_expr_sheet (WorkbookView *wbv, gpointer *sheet)
+cb_clear_auto_expr_sheet (WorkbookView *wbv)
 {
-	wbv->auto_expr_sheet = (Sheet *)sheet;
+	g_object_set (G_OBJECT (wbv),
+		      "auto-expr-sheet", NULL,
+		      "auto-expr-cell", NULL,
+		      NULL);
+}
 
-	if (sheet != NULL)
-		wb_view_auto_expr_recalc (wbv);
+static void
+wb_view_auto_expr_sheet (WorkbookView *wbv, Sheet *sheet)
+{
+	if (wbv->auto_expr_sheet == sheet)
+		return;
+
+	if (wbv->auto_expr_sheet_detached_sig) {
+		g_signal_handler_disconnect (wbv->auto_expr_sheet,
+					     wbv->auto_expr_sheet_detached_sig);
+		wbv->auto_expr_sheet_detached_sig = 0;
+	}
+	if (wbv->auto_expr_sheet)
+		g_object_unref (wbv->auto_expr_sheet);
+
+	wbv->auto_expr_sheet = sheet;
+	if (sheet) {
+		g_object_ref (sheet);
+
+		wbv->auto_expr_sheet_detached_sig = g_signal_connect_swapped (
+			G_OBJECT (sheet),
+			"detached-from-workbook",
+			G_CALLBACK (cb_clear_auto_expr_sheet), wbv);
+	}
+
+	wb_view_auto_expr_recalc (wbv);
 }
 
 
@@ -801,7 +824,7 @@ wb_view_set_property (GObject *object, guint property_id,
 		wb_view_auto_expr_cell (wbv, g_value_get_pointer (value));
 		break;
 	case PROP_AUTO_EXPR_SHEET:
-		wb_view_auto_expr_sheet (wbv, g_value_get_pointer (value));
+		wb_view_auto_expr_sheet (wbv, g_value_get_object (value));
 		break;
 	case PROP_SHOW_HORIZONTAL_SCROLLBAR:
 		wbv->show_horizontal_scrollbar = !!g_value_get_boolean (value);
@@ -866,7 +889,7 @@ wb_view_get_property (GObject *object, guint property_id,
 		g_value_set_pointer (value, &wbv->auto_expr_cell);
 		break;
 	case PROP_AUTO_EXPR_SHEET:
-		g_value_set_pointer (value, wbv->auto_expr_sheet);
+		g_value_set_object (value, wbv->auto_expr_sheet);
 		break;
 	case PROP_SHOW_HORIZONTAL_SCROLLBAR:
 		g_value_set_boolean (value, wbv->show_horizontal_scrollbar);
@@ -928,32 +951,13 @@ wb_view_dispose (GObject *object)
 			g_warning ("Unexpected left-over controls");
 	}
 
+	wb_view_auto_expr_sheet (wbv, NULL);
+	wb_view_auto_expr_func (wbv, NULL);
+	wb_view_auto_expr_attrs (wbv, NULL);
+	wb_view_auto_expr_text (wbv, NULL);
+	wb_view_auto_expr_descr (wbv, NULL);
+
 	wb_view_detach_from_workbook (wbv);
-
-	parent_class->dispose (object);
-}
-
-
-static void
-wb_view_finalize (GObject *object)
-{
-	WorkbookView *wbv = WORKBOOK_VIEW (object);
-
-	if (wbv->auto_expr_func) {
-		gnm_func_unref (wbv->auto_expr_func);
-		wbv->auto_expr_func = NULL;
-	}
-
-	g_free (wbv->auto_expr_descr);
-	wbv->auto_expr_descr = NULL;
-
-	g_free (wbv->auto_expr_text);
-	wbv->auto_expr_text = NULL;
-
-	if (wbv->auto_expr_attrs) {
-		pango_attr_list_unref (wbv->auto_expr_attrs);
-		wbv->auto_expr_attrs = NULL;
-	}
 
 	if (wbv->current_style != NULL) {
 		gnm_style_unref (wbv->current_style);
@@ -965,8 +969,9 @@ wb_view_finalize (GObject *object)
 		wbv->in_cell_combo = NULL;
 	}
 
-	parent_class->finalize (object);
+	parent_class->dispose (object);
 }
+
 
 static void
 workbook_view_class_init (GObjectClass *gobject_class)
@@ -975,7 +980,6 @@ workbook_view_class_init (GObjectClass *gobject_class)
 
 	gobject_class->set_property = wb_view_set_property;
 	gobject_class->get_property = wb_view_get_property;
-	gobject_class->finalize = wb_view_finalize;
 	gobject_class->dispose = wb_view_dispose;
 
 	/* FIXME?  Make a boxed type.  */
@@ -1033,11 +1037,12 @@ workbook_view_class_init (GObjectClass *gobject_class)
         g_object_class_install_property
 		(gobject_class,
 		 PROP_AUTO_EXPR_SHEET,
-		 g_param_spec_pointer ("auto-expr-sheet",
-				       _("Auto-expression Sheet"),
-				       _("The sheet on which the cell resides."),
-				       GSF_PARAM_STATIC |
-				       G_PARAM_READWRITE));
+		 g_param_spec_object ("auto-expr-sheet",
+				      _("Auto-expression Sheet"),
+				      _("The sheet on which the cell resides."),
+				      GNM_SHEET_TYPE,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
         g_object_class_install_property
 		(gobject_class,
 		 PROP_SHOW_HORIZONTAL_SCROLLBAR,
