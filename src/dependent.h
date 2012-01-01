@@ -116,6 +116,7 @@ void             gnm_dep_container_resize (GnmDepContainer *deps, int rows);
 
 void dependent_managed_init (GnmDependent *dep, Sheet *sheet);
 void dependent_managed_set_expr (GnmDependent *dep, GnmExprTop const *texpr);
+void dependent_managed_set_sheet (GnmDependent *dep, Sheet *sheet);
 
 #define DEPENDENT_CONTAINER_FOREACH_DEPENDENT(dc, dep, code)	\
   do {								\

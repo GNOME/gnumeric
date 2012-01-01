@@ -1253,9 +1253,33 @@ dependent_managed_init (GnmDependent *dep, Sheet *sheet)
 void
 dependent_managed_set_expr (GnmDependent *dep, GnmExprTop const *texpr)
 {
+	g_return_if_fail (dep != NULL);
+	g_return_if_fail (dependent_type (dep) == DEPENDENT_MANAGED);
+
 	dependent_set_expr (dep, texpr);
 	if (texpr && dep->sheet)
 		dependent_link (dep);
+}
+
+void
+dependent_managed_set_sheet (GnmDependent *dep, Sheet *sheet)
+{
+	GnmExprTop const *texpr;
+
+	g_return_if_fail (dep != NULL);
+	g_return_if_fail (dependent_type (dep) == DEPENDENT_MANAGED);
+
+	if (dep->sheet == sheet)
+		return;
+
+	texpr = dep->texpr;
+	if (texpr) gnm_expr_top_ref (texpr);
+	dependent_set_expr (dep, NULL);
+	/* We're now unlinked from everything. */
+	if (dep->sheet) g_object_unref (dep->sheet);
+	dep->sheet = sheet ? g_object_ref (sheet) : NULL;
+	dependent_managed_set_expr (dep, texpr);
+	if (texpr) gnm_expr_top_unref (texpr);
 }
 
 static void

@@ -1,3 +1,8 @@
+2012-01-01  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (dependent_managed_set_sheet): New function for
+	this mildly complicated operation.
+
 2011-12-31  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_create_status_area): Beat the auto
