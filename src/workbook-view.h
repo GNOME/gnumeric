@@ -3,6 +3,7 @@
 # define _GNM_WORKBOOK_VIEW_H_
 
 #include "gnumeric.h"
+#include "dependent.h"
 #include <glib-object.h>
 #include <gsf/gsf.h>
 
@@ -31,14 +32,13 @@ struct _WorkbookView {
 
 	/* The auto-expression */
 	struct {
-		GnmFunc  *func;
+		GnmFunc *func;
 		char *descr;
 		char *text;
 		PangoAttrList *attrs;
 		gboolean use_max_precision;
-		Sheet *sheet;
+		GnmDependent dep;
 		gulong sheet_detached_sig;
-		GnmCellPos cell;
 	} auto_expr;
 
 	/* selection */

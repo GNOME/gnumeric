@@ -77,8 +77,7 @@ enum {
 	PROP_AUTO_EXPR_MAX_PRECISION,
 	PROP_AUTO_EXPR_TEXT,
 	PROP_AUTO_EXPR_ATTRS,
-	PROP_AUTO_EXPR_CELL,
-	PROP_AUTO_EXPR_SHEET,
+	PROP_AUTO_EXPR_EVAL_POS,
 	PROP_SHOW_HORIZONTAL_SCROLLBAR,
 	PROP_SHOW_VERTICAL_SCROLLBAR,
 	PROP_SHOW_NOTEBOOK_TABS,
@@ -530,7 +529,6 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 	GnmValue	*v;
 	SheetView	*sv;
 	GnmExprTop const *texpr;
-	GnmRange        r;
 	GString *str;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
@@ -540,19 +538,17 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 	    sv == NULL)
 		return;
 
-	if (wbv->auto_expr.sheet != NULL &&
-	    wbv->auto_expr.descr != NULL &&
-	    wbv->auto_expr.cell.row >= 0 &&
-	    wbv->auto_expr.cell.col >= 0) {
-		GnmValue *v;
+	if (wbv->auto_expr.dep.sheet != NULL &&
+	    wbv->auto_expr.dep.texpr != NULL &&
+	    wbv->auto_expr.descr != NULL) {
+		GnmValue const *v;
 
-		str = g_string_new (wbv->auto_expr.sheet->name_unquoted);
-		g_string_append_c (str, '!');
-
-		range_init_cellpos (&r, &wbv->auto_expr.cell);
-		v = value_new_cellrange_r (wbv->auto_expr.sheet, &r);
-		texpr = gnm_expr_top_new_constant (v);
-		g_string_append (str, wbv->auto_expr.descr);
+		texpr = wbv->auto_expr.dep.texpr;
+		gnm_expr_top_ref (texpr);
+		v = gnm_expr_top_get_constant (texpr);
+		str = g_string_new (v
+				    ? value_peek_string (v)
+				    : value_error_name (GNM_ERROR_REF, TRUE));
 	} else if (wbv->auto_expr.func != NULL &&
 		   wbv->auto_expr.descr != NULL) {
 		sv_selection_apply (sv, &accumulate_regions, FALSE, &selection);
@@ -748,53 +744,46 @@ wb_view_auto_expr_attrs (WorkbookView *wbv, PangoAttrList *attrs)
 }
 
 static void
-wb_view_auto_expr_cell (WorkbookView *wbv, gpointer *cell)
-{
-	if (cell == NULL) {
-		wbv->auto_expr.cell.col = -1;
-		wbv->auto_expr.cell.row = -1;
-	} else {
-		wbv->auto_expr.cell = *((GnmCellPos *)cell);
-		wb_view_auto_expr_recalc (wbv);
-	}
-}
-
-static void
 cb_clear_auto_expr_sheet (WorkbookView *wbv)
 {
 	g_object_set (G_OBJECT (wbv),
-		      "auto-expr-sheet", NULL,
-		      "auto-expr-cell", NULL,
+		      "auto-expr-eval-pos", NULL,
 		      NULL);
 }
 
 static void
-wb_view_auto_expr_sheet (WorkbookView *wbv, Sheet *sheet)
+wb_view_auto_expr_eval_pos (WorkbookView *wbv, GnmEvalPos const *ep)
 {
-	if (wbv->auto_expr.sheet == sheet)
-		return;
+	Sheet *sheet = ep ? ep->sheet : NULL;
 
 	if (wbv->auto_expr.sheet_detached_sig) {
-		g_signal_handler_disconnect (wbv->auto_expr.sheet,
+		g_signal_handler_disconnect (wbv->auto_expr.dep.sheet,
 					     wbv->auto_expr.sheet_detached_sig);
 		wbv->auto_expr.sheet_detached_sig = 0;
 	}
-	if (wbv->auto_expr.sheet)
-		g_object_unref (wbv->auto_expr.sheet);
 
-	wbv->auto_expr.sheet = sheet;
+	dependent_set_expr (&wbv->auto_expr.dep, NULL);
+	dependent_managed_set_sheet (&wbv->auto_expr.dep, sheet);
+
 	if (sheet) {
-		g_object_ref (sheet);
+		GnmRange r;
+		GnmValue *v;
+		GnmExprTop const *texpr;
 
 		wbv->auto_expr.sheet_detached_sig = g_signal_connect_swapped (
 			G_OBJECT (sheet),
 			"detached-from-workbook",
 			G_CALLBACK (cb_clear_auto_expr_sheet), wbv);
+
+		range_init_cellpos (&r, &ep->eval);
+		v = value_new_cellrange_r (sheet, &r);
+		texpr = gnm_expr_top_new_constant (v);
+		dependent_managed_set_expr (&wbv->auto_expr.dep, texpr);
+		gnm_expr_top_unref (texpr);
 	}
 
 	wb_view_auto_expr_recalc (wbv);
 }
-
 
 static void
 wb_view_set_property (GObject *object, guint property_id,
@@ -818,11 +807,8 @@ wb_view_set_property (GObject *object, guint property_id,
 	case PROP_AUTO_EXPR_ATTRS:
 		wb_view_auto_expr_attrs (wbv, g_value_peek_pointer (value));
 		break;
-	case PROP_AUTO_EXPR_CELL:
-		wb_view_auto_expr_cell (wbv, g_value_get_pointer (value));
-		break;
-	case PROP_AUTO_EXPR_SHEET:
-		wb_view_auto_expr_sheet (wbv, g_value_get_object (value));
+	case PROP_AUTO_EXPR_EVAL_POS:
+		wb_view_auto_expr_eval_pos (wbv, g_value_get_pointer (value));
 		break;
 	case PROP_SHOW_HORIZONTAL_SCROLLBAR:
 		wbv->show_horizontal_scrollbar = !!g_value_get_boolean (value);
@@ -882,12 +868,6 @@ wb_view_get_property (GObject *object, guint property_id,
 		break;
 	case PROP_AUTO_EXPR_ATTRS:
 		g_value_set_boxed (value, wbv->auto_expr.attrs);
-		break;
-	case PROP_AUTO_EXPR_CELL:
-		g_value_set_pointer (value, &wbv->auto_expr.cell);
-		break;
-	case PROP_AUTO_EXPR_SHEET:
-		g_value_set_object (value, wbv->auto_expr.sheet);
 		break;
 	case PROP_SHOW_HORIZONTAL_SCROLLBAR:
 		g_value_set_boolean (value, wbv->show_horizontal_scrollbar);
@@ -949,7 +929,7 @@ wb_view_dispose (GObject *object)
 			g_warning ("Unexpected left-over controls");
 	}
 
-	wb_view_auto_expr_sheet (wbv, NULL);
+	wb_view_auto_expr_eval_pos (wbv, NULL);
 	wb_view_auto_expr_func (wbv, NULL);
 	wb_view_auto_expr_attrs (wbv, NULL);
 	wb_view_auto_expr_text (wbv, NULL);
@@ -1026,21 +1006,12 @@ workbook_view_class_init (GObjectClass *gobject_class)
 				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property
 		(gobject_class,
-		 PROP_AUTO_EXPR_CELL,
-		 g_param_spec_pointer ("auto-expr-cell",
-				       _("Auto-expression Cell Position"),
-				       _("The address of the cell to be shown."),
+		 PROP_AUTO_EXPR_EVAL_POS,
+		 g_param_spec_pointer ("auto-expr-eval-pos",
+				       _("Auto-expression position"),
+				       _("The cell position to track."),
 				       GSF_PARAM_STATIC |
-				       G_PARAM_READWRITE));
-        g_object_class_install_property
-		(gobject_class,
-		 PROP_AUTO_EXPR_SHEET,
-		 g_param_spec_object ("auto-expr-sheet",
-				      _("Auto-expression Sheet"),
-				      _("The sheet on which the cell resides."),
-				      GNM_SHEET_TYPE,
-				      GSF_PARAM_STATIC |
-				      G_PARAM_READWRITE));
+				       G_PARAM_WRITABLE));
         g_object_class_install_property
 		(gobject_class,
 		 PROP_SHOW_HORIZONTAL_SCROLLBAR,
@@ -1166,6 +1137,7 @@ workbook_view_new (Workbook *wb)
 	wbv->auto_expr.text = NULL;
 	wbv->auto_expr.attrs = NULL;
 	wbv->auto_expr.use_max_precision = FALSE;
+	dependent_managed_init (&wbv->auto_expr.dep, NULL);
 
 	for (i = 0 ; i < workbook_sheet_count (wb); i++)
 		wb_view_sheet_add (wbv, workbook_sheet_by_index (wb, i));

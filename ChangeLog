@@ -1,5 +1,8 @@
 2012-01-01  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-view.h (WorkbookView): Rework to track a cell in a
+	managed dependent.
+
 	* src/dependent.c (dependent_managed_set_sheet): New function for
 	this mildly complicated operation.
 
