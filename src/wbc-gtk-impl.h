@@ -98,7 +98,6 @@ struct _WBCGtk {
 
 /**********************************************/
 	GtkWidget	 *status_area;
-	int status_area_width;
 	GtkUIManager     *ui;
 	GtkActionGroup   *permanent_actions, *actions, *font_actions,
 			 *data_only_actions, *semi_permanent_actions;

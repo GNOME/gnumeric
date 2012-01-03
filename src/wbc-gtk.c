@@ -425,19 +425,6 @@ cb_sheet_label_edit_finished (EditableLabel *el, char const *new_name,
 	return reject;
 }
 
-static void
-signal_paned_repartition (GtkPaned *paned)
-{
-	gtk_widget_queue_resize (GTK_WIDGET (paned));
-}
-
-static void
-cb_sheet_label_edit_happened (EditableLabel *el, G_GNUC_UNUSED GParamSpec *pspec,
-			      WBCGtk *wbcg)
-{
-	signal_paned_repartition (wbcg->tabs_paned);
-}
-
 void
 wbcg_insert_sheet (GtkWidget *unused, WBCGtk *wbcg)
 {
@@ -966,18 +953,6 @@ cb_bnotebook_button_press (GtkWidget *widget, GdkEventButton *event)
 }
 
 static void
-cb_status_size_allocate (GtkWidget *widget,
-			 GtkAllocation *allocation,
-			 WBCGtk *wbcg)
-{
-	GTK_WIDGET_GET_CLASS(widget)->size_allocate (widget, allocation);
-	if (allocation->width != wbcg->status_area_width) {
-		signal_paned_repartition (wbcg->tabs_paned);
-		wbcg->status_area_width = allocation->width;
-	}
-}
-
-static void
 wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 {
 	wbcg->notebook_area = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -1025,8 +1000,6 @@ wbcg_menu_state_sheet_count (WBCGtk *wbcg)
 	gboolean const multi_sheet = (sheet_count > 1);
 
 	wbc_gtk_set_action_sensitivity (wbcg, "SheetRemove", multi_sheet);
-
-	signal_paned_repartition (wbcg->tabs_paned);
 }
 
 static void
@@ -1048,8 +1021,6 @@ cb_sheet_tab_change (Sheet *sheet,
 				  sheet->tab_text_color
 				  ? go_color_to_gdk_rgba (sheet->tab_text_color->go_color, &cfore)
 				  : NULL);
-
-	signal_paned_repartition (scg->wbcg->tabs_paned);
 }
 
 static void
@@ -1145,9 +1116,6 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	g_signal_connect_after (G_OBJECT (scg->label),
 				"edit_finished",
 				G_CALLBACK (cb_sheet_label_edit_finished), wbcg);
-	g_signal_connect (G_OBJECT (scg->label),
-			  "notify::text",
-			  G_CALLBACK (cb_sheet_label_edit_happened), wbcg);
 
 	/* do not preempt the editable label handler */
 	g_signal_connect_after (G_OBJECT (scg->label),
@@ -4787,12 +4755,11 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	GdkRGBA const white = {1.,1.,1.,1.};
 	const char *auto_expr_sample = "Sumerage = -012345678901234";
 
-	wbcg->progress_bar = gtk_progress_bar_new ();
-	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), " ");
-	gtk_progress_bar_set_inverted (GTK_PROGRESS_BAR (wbcg->progress_bar), FALSE);
-	gtk_progress_bar_set_ellipsize (GTK_PROGRESS_BAR (wbcg->progress_bar),
-					PANGO_ELLIPSIZE_END);
-	g_object_set (G_OBJECT (wbcg->progress_bar), "show-text", TRUE, NULL);
+	wbcg->progress_bar = g_object_new (GTK_TYPE_PROGRESS_BAR,
+					   "text", " ",
+					   "show-text", TRUE,
+					   "ellipsize", PANGO_ELLIPSIZE_END,
+					   NULL);
 
 	wbcg->auto_expr_label = tmp = gtk_label_new ("");
 	g_object_ref (wbcg->auto_expr_label);
@@ -4821,7 +4788,6 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 		gtk_style_context_get_font (gtk_widget_get_style_context (tmp), GTK_STATE_NORMAL),
 	        "W") * 5, -1);
 
-
 	wbcg->tabs_paned = GTK_PANED (gtk_paned_new (GTK_ORIENTATION_HORIZONTAL));
 	gtk_paned_pack2 (wbcg->tabs_paned, wbcg->progress_bar, FALSE, TRUE);
 	/* g_signal_connect (G_OBJECT (wbcg->tabs_paned), */
@@ -4832,9 +4798,6 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	/* 		  NULL); */
 
 	wbcg->status_area = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
-	g_signal_connect (G_OBJECT (wbcg->status_area),
-			  "size-allocate", G_CALLBACK (cb_status_size_allocate),
-			  wbcg);
 	gtk_box_pack_start (GTK_BOX (wbcg->status_area),
 			    GTK_WIDGET (wbcg->tabs_paned),
 			    TRUE, TRUE, 0);
@@ -5859,7 +5822,6 @@ wbc_gtk_new (WorkbookView *optional_view,
 	}
 
 	wbc_gtk_create_notebook_area (wbcg);
-	signal_paned_repartition (wbcg->tabs_paned);
 
 	wbcg_view_changed (wbcg, NULL, NULL);
 
@@ -6027,4 +5989,3 @@ wbcg_find_for_workbook (Workbook *wb,
 
 	return candidate;
 }
-
