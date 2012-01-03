@@ -414,7 +414,7 @@ cell_draw (GnmCell const *cell, cairo_t *cr,
 		 * would be to create a proper cellspan type.)
 		 */
 		if (!rv->rotation) {
-			cairo_new_path (context);
+			cairo_new_path (cr);
 			/* +1 to get past left grid-line.  */
 			cairo_rectangle (cr, x1 + 1 + GNM_COL_MARGIN,
 					 y1 + 1 + GNM_ROW_MARGIN,
