@@ -406,11 +406,6 @@ cell_draw (GnmCell const *cell, cairo_t *cr,
 			      h_center == -1 ? -1 : (h_center * PANGO_SCALE),
 			      &fore_color, &x, &y)) {
 
-		/* +1 to get past left grid-line.  */
-		cairo_rectangle (cr, x1 + 1 + GNM_COL_MARGIN,
-				 y1 + 1 + GNM_ROW_MARGIN,
-				 width, height);
-
 		cairo_save (cr);
 
 		/*
@@ -418,8 +413,15 @@ cell_draw (GnmCell const *cell, cairo_t *cr,
 		 * approximation to the right effect.  (The right way
 		 * would be to create a proper cellspan type.)
 		 */
-		if (!rv->rotation)
+		if (!rv->rotation) {
+			cairo_new_path (context);
+			/* +1 to get past left grid-line.  */
+			cairo_rectangle (cr, x1 + 1 + GNM_COL_MARGIN,
+					 y1 + 1 + GNM_ROW_MARGIN,
+					 width, height);
+
 			cairo_clip (cr);
+		}
 
 		/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
 		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (fore_color));
@@ -437,7 +439,7 @@ cell_draw (GnmCell const *cell, cairo_t *cr,
 			     lines = lines->next, li++) {
 				cairo_save (cr);
 				cairo_move_to (cr, x1 + PANGO_PIXELS (x + li->dx), y1 + PANGO_PIXELS (y + li->dy));
-				cairo_rotate (cr, -rv->rotation * M_PI / 180);
+				cairo_rotate (cr, rv->rotation * (-M_PI / 180));
 				pango_cairo_show_layout_line (cr, lines->data);
 				cairo_restore (cr);
 			}
