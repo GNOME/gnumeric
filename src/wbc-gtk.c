@@ -4,7 +4,7 @@
  * wbc-gtk.c: A gtk based WorkbookControl
  *
  * Copyright (C) 2000-2007 Jody Goldberg (jody@gnome.org)
- * Copyright (C) 2006-2009 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2006-2012 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -40,6 +40,8 @@
 #include "history.h"
 #include "func.h"
 #include "value.h"
+#include "style-font.h"
+#include "gnm-format.h"
 #include "expr.h"
 #include "expr-impl.h"
 #include "style-color.h"
@@ -1322,16 +1324,98 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 	}
 }
 
+static gboolean
+cb_darken_foreground_attributes (PangoAttribute *attribute,
+				 G_GNUC_UNUSED gpointer data)
+{
+	if (attribute->klass->type == PANGO_ATTR_FOREGROUND) {
+		PangoAttrColor *cat = (PangoAttrColor *) attribute;
+		guint total = (guint)cat->color.red + (guint)cat->color.green + (guint)cat->color.blue;
+		if (total > 98302) {
+			float adj = 98302.5/total;
+			cat->color.red = cat->color.red * adj;
+			cat->color.green = cat->color.green * adj;
+			cat->color.blue = cat->color.blue * adj;
+		}
+	}
+	return FALSE;
+}
+
 static void
-wbcg_auto_expr_text_changed (WorkbookView *wbv,
-			     G_GNUC_UNUSED GParamSpec *pspec,
-			     WBCGtk *wbcg)
+darken_foreground_attributes (PangoAttrList *attrs)
+{
+	pango_attr_list_unref 
+		(pango_attr_list_filter 
+		 (attrs,
+		  cb_darken_foreground_attributes,
+		  NULL));
+}
+
+
+static void
+wbcg_auto_expr_value_changed (WorkbookView *wbv,
+			      G_GNUC_UNUSED GParamSpec *pspec,
+			      WBCGtk *wbcg)
 {
 	GtkLabel *lbl = GTK_LABEL (wbcg->auto_expr_label);
+	GnmValue const *v = wbv->auto_expr.value;
 
-	gtk_label_set_text (lbl,
-			    wbv->auto_expr.text ? wbv->auto_expr.text : "");
-	gtk_label_set_attributes (lbl, wbv->auto_expr.attrs);
+	if (v) {
+		GOFormat const *format = VALUE_FMT (v);
+		GString *str = g_string_new (wbv->auto_expr.descr);
+		PangoAttrList *attrs = NULL;
+
+		g_string_append (str, " = ");
+
+		if (format) {
+			PangoLayout *layout = gtk_widget_create_pango_layout (GTK_WIDGET (wbcg->toplevel), NULL);
+			gsize old_len = str->len;
+			GODateConventions const *date_conv = workbook_date_conv (wb_view_get_workbook (wbv));
+			GOFormatNumberError err =
+				format_value_layout (layout, format, v,
+						     /* Note that we created a label large enough for */
+						     /* "Sumerage = -012345678901234" */
+						     27 - g_utf8_strlen (str->str, -1),
+						     date_conv);
+			switch (err) {
+			case GO_FORMAT_NUMBER_OK:
+			case GO_FORMAT_NUMBER_DATE_ERROR: {
+				PangoAttrList *atl;
+
+				go_pango_translate_layout (layout); /* translating custom attributes */
+				g_string_append (str, pango_layout_get_text (layout));
+				/* We need to shift the attribute list  */
+				atl = pango_attr_list_ref (pango_layout_get_attributes (layout));
+				if (atl != NULL) {
+					attrs = pango_attr_list_new ();
+					pango_attr_list_splice
+						(attrs, atl, old_len,
+						 str->len - old_len);
+					pango_attr_list_unref (atl);
+					/* The field background is white so we need to ensure that no */
+					/* foreground colour is set to white (or close to white)      */
+					darken_foreground_attributes (attrs);
+				}
+				break;
+			}
+			default:
+			case GO_FORMAT_NUMBER_INVALID_FORMAT:
+				g_string_append (str,  _("Invalid format"));
+				break;
+			}
+			g_object_unref (layout);
+		} else
+			g_string_append (str, value_peek_string (v));
+
+		gtk_label_set_text (lbl, str->str);
+		gtk_label_set_attributes (lbl, attrs);
+
+		pango_attr_list_unref (attrs);
+		g_string_free (str, TRUE);
+	} else {
+		gtk_label_set_text (lbl, "");
+		gtk_label_set_attributes (lbl, NULL);
+	}
 }
 
 static void
@@ -2792,18 +2876,11 @@ wbcg_view_changed (WBCGtk *wbcg,
 		wbcg->sig_auto_expr_text =
 			g_signal_connect_object
 			(G_OBJECT (wbv),
-			 "notify::auto-expr-text",
-			 G_CALLBACK (wbcg_auto_expr_text_changed),
+			 "notify::auto-expr-value",
+			 G_CALLBACK (wbcg_auto_expr_value_changed),
 			 wbcg,
 			 0);
-		wbcg->sig_auto_expr_attrs =
-			g_signal_connect_object
-			(G_OBJECT (wbv),
-			 "notify::auto-expr-attrs",
-			 G_CALLBACK (wbcg_auto_expr_text_changed),
-			 wbcg,
-			 0);
-		wbcg_auto_expr_text_changed (wbv, NULL, wbcg);
+		wbcg_auto_expr_value_changed (wbv, NULL, wbcg);
 
 		wbcg->sig_show_horizontal_scrollbar =
 			g_signal_connect_object
@@ -4479,22 +4556,29 @@ wbc_gtk_setup_icons (void)
 static void
 cb_auto_expr_cell_changed (GtkWidget *item, WBCGtk *wbcg)
 {
-	const char *descr;
 	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
 	const GnmEvalPos *ep;
+	GnmExprTop const *texpr;
+	GnmValue const *v;
 
 	if (wbcg->updating_ui)
 		return;
 
-	descr = g_object_get_data (G_OBJECT (item), "descr");
 	ep = g_object_get_data (G_OBJECT (item), "evalpos");
 
 	g_object_set (wbv,
 		      "auto-expr-func", NULL,
-		      "auto-expr-descr", descr,
+		      "auto-expr-descr", NULL,
 		      "auto-expr-eval-pos", ep,
 		      NULL);
 
+	/* Now we have the expression set.  */
+	texpr = wbv->auto_expr.dep.texpr;
+	v = gnm_expr_top_get_constant (texpr);
+	if (v)
+		g_object_set (wbv,
+			      "auto-expr-descr", value_peek_string (v),
+			      NULL);
 }
 
 static void
@@ -4651,7 +4735,6 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
 	Sheet *sheet = wb_view_cur_sheet (wbv);
 	GtkWidget *item, *menu;
 	int i;
-	char *rname;
 	char *cell_item;
 	GnmCellPos const *pos;
 	GnmEvalPos ep;
@@ -4701,13 +4784,9 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
 
 	pos = &(scg_view (wbcg_cur_scg (wbcg)))->edit_pos;
 	eval_pos_init_pos (&ep, sheet, pos);
-	rname = g_strdup (cellpos_as_string (pos));
-	cell_item = g_strdup_printf (_("Content of %s"), rname);
-	item = gtk_menu_item_new_with_label(cell_item);
+	cell_item = g_strdup_printf (_("Content of %s"), cellpos_as_string (pos));
+	item = gtk_menu_item_new_with_label (cell_item);
 	g_free (cell_item);
-	g_object_set_data_full (G_OBJECT (item),
-				"descr", rname,
-				(GDestroyNotify)g_free);
 	g_object_set_data_full (G_OBJECT (item),
 				"evalpos", g_memdup (&ep, sizeof (ep)),
 				(GDestroyNotify)g_free);

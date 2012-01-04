@@ -3,6 +3,7 @@
  * workbook-view.c: View functions for the workbook
  *
  * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2012 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -30,8 +31,6 @@
 #include "sheet-view.h"
 #include "sheet-merge.h"
 #include "sheet-style.h"
-#include "style-font.h"
-#include "gnm-format.h"
 #include "func.h"
 #include "expr.h"
 #include "expr-name.h"
@@ -75,8 +74,7 @@ enum {
 	PROP_AUTO_EXPR_FUNC,
 	PROP_AUTO_EXPR_DESCR,
 	PROP_AUTO_EXPR_MAX_PRECISION,
-	PROP_AUTO_EXPR_TEXT,
-	PROP_AUTO_EXPR_ATTRS,
+	PROP_AUTO_EXPR_VALUE,
 	PROP_AUTO_EXPR_EVAL_POS,
 	PROP_SHOW_HORIZONTAL_SCROLLBAR,
 	PROP_SHOW_VERTICAL_SCROLLBAR,
@@ -494,42 +492,14 @@ accumulate_regions (SheetView *sv,  GnmRange const *r, gpointer closure)
 		gnm_expr_new_constant (value_new_cellrange_unsafe (&a, &b)));
 }
 
-static gboolean
-wb_view_darken_foreground_attributes_cb (PangoAttribute *attribute,
-					 G_GNUC_UNUSED gpointer data)
-{
-	if (attribute->klass->type == PANGO_ATTR_FOREGROUND) {
-		PangoAttrColor *cat = (PangoAttrColor *) attribute;
-		guint total = (guint)cat->color.red + (guint)cat->color.green + (guint)cat->color.blue;
-		if (total > 98302) {
-			float adj = 98302.5/total;
-			cat->color.red = cat->color.red * adj;
-			cat->color.green = cat->color.green * adj;
-			cat->color.blue = cat->color.blue * adj;
-		}
-	}
-	return FALSE;
-}
-
-static void
-wb_view_darken_foreground_attributes (PangoAttrList *attrs)
-{
-	pango_attr_list_unref 
-		(pango_attr_list_filter 
-		 (attrs,
-		  wb_view_darken_foreground_attributes_cb,
-		  NULL));
-}
-
 void
 wb_view_auto_expr_recalc (WorkbookView *wbv)
 {
-	GnmEvalPos      ep;
 	GnmExprList	*selection = NULL;
 	GnmValue	*v;
 	SheetView	*sv;
 	GnmExprTop const *texpr;
-	GString *str;
+	GnmEvalPos      ep;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 
@@ -541,96 +511,27 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 	if (wbv->auto_expr.dep.sheet != NULL &&
 	    wbv->auto_expr.dep.texpr != NULL &&
 	    wbv->auto_expr.descr != NULL) {
-		GnmValue const *v;
-
 		texpr = wbv->auto_expr.dep.texpr;
 		gnm_expr_top_ref (texpr);
-		v = gnm_expr_top_get_constant (texpr);
-		str = g_string_new (v
-				    ? value_peek_string (v)
-				    : value_error_name (GNM_ERROR_REF, TRUE));
 	} else if (wbv->auto_expr.func != NULL &&
 		   wbv->auto_expr.descr != NULL) {
 		sv_selection_apply (sv, &accumulate_regions, FALSE, &selection);
 		texpr = gnm_expr_top_new
 			(gnm_expr_new_funcall (wbv->auto_expr.func, selection));
-		str = g_string_new (wbv->auto_expr.descr);
 	} else {
-		str = g_string_new (NULL);
 		texpr = gnm_expr_top_new_constant (value_new_string (""));
 	}
 
 	eval_pos_init_sheet (&ep, wbv->current_sheet);
+
 	v = gnm_expr_top_eval (texpr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-
-	if (v) {
-		GOFormat const *format = NULL;
-		GOFormat const *tmp_format = NULL;
-		PangoAttrList *attrs = NULL;
-
-		g_string_append (str, " = ");
-		if (!wbv->auto_expr.use_max_precision) {
-			format = VALUE_FMT (v);
-			if (!format)
-				format = tmp_format =
-					auto_style_format_suggest (texpr, &ep);
-		}
-
-		if (format) {
-			PangoContext *context = gnm_pango_context_get ();
-			PangoLayout *layout = pango_layout_new (context);
-			gsize old_len = str->len;
-			GOFormatNumberError err =
-				format_value_layout (layout, format, v,
-						     /* Note that we created a label large enough for */
-						     /* "Sumerage = -012345678901234" */
-						     27 - g_utf8_strlen (str->str, -1),
-						     workbook_date_conv (wb_view_get_workbook (wbv)));
-			go_format_unref (tmp_format);
-			switch (err) {
-			case GO_FORMAT_NUMBER_OK:
-			case GO_FORMAT_NUMBER_DATE_ERROR: {
-				PangoAttrList *atl;
-
-				go_pango_translate_layout (layout); /* translating custom attributes */
-				g_string_append (str, pango_layout_get_text (layout));
-				/* We need to shift the attribute list  */
-				atl = pango_attr_list_ref (pango_layout_get_attributes (layout));
-				if (atl != NULL) {
-					attrs = pango_attr_list_new ();
-					pango_attr_list_splice
-						(attrs, atl, old_len,
-						 str->len - old_len);
-					pango_attr_list_unref (atl);
-					/* The field background is white so we need to ensure that no */
-					/* foreground colour is set to white (or close to white)      */
-					wb_view_darken_foreground_attributes (attrs);
-				}
-				break;
-			}
-			default:
-			case GO_FORMAT_NUMBER_INVALID_FORMAT:
-				g_string_append (str,  _("Invalid format"));
-				break;
-			}
-			g_object_unref (layout);
-			g_object_unref (context);
-		} else
-			g_string_append (str, value_peek_string (v));
-
-		g_object_set (wbv,
-			      "auto-expr-text", str->str,
-			      "auto-expr-attrs", attrs,
-			      NULL);
-		pango_attr_list_unref (attrs);
-		value_release (v);
-	} else {
-		g_object_set (wbv,
-			      "auto-expr-text", "Internal ERROR",
-			      "auto-expr-attrs", NULL,
-			      NULL);
+	if (v && !VALUE_FMT (v)) {
+		GOFormat const *fmt = auto_style_format_suggest (texpr, &ep);
+		value_set_fmt (v, fmt);
+		go_format_unref (fmt);
 	}
-	g_string_free (str, TRUE);
+	g_object_set (wbv, "auto-expr-value", v, NULL);
+	value_release (v);
 	gnm_expr_top_unref (texpr);
 }
 
@@ -718,29 +619,10 @@ wb_view_auto_expr_precision (WorkbookView *wbv, gboolean use_max_precision)
 }
 
 static void
-wb_view_auto_expr_text (WorkbookView *wbv, const char *text)
+wb_view_auto_expr_value (WorkbookView *wbv, const GnmValue *value)
 {
-	char *s;
-
-	if (go_str_compare (text, wbv->auto_expr.text) == 0)
-		return;
-
-	s = g_strdup (text);
-	g_free (wbv->auto_expr.text);
-	wbv->auto_expr.text = s;
-}
-
-static void
-wb_view_auto_expr_attrs (WorkbookView *wbv, PangoAttrList *attrs)
-{
-	if (gnm_pango_attr_list_equal (attrs, wbv->auto_expr.attrs))
-		return;
-
-	if (attrs)
-		pango_attr_list_ref (attrs);
-	if (wbv->auto_expr.attrs)
-		pango_attr_list_unref (wbv->auto_expr.attrs);
-	wbv->auto_expr.attrs = attrs;
+	value_release (wbv->auto_expr.value);
+	wbv->auto_expr.value = value_dup (value);
 }
 
 static void
@@ -801,11 +683,8 @@ wb_view_set_property (GObject *object, guint property_id,
 	case PROP_AUTO_EXPR_MAX_PRECISION:
 		wb_view_auto_expr_precision (wbv, g_value_get_boolean (value));
 		break;
-	case PROP_AUTO_EXPR_TEXT:
-		wb_view_auto_expr_text (wbv, g_value_get_string (value));
-		break;
-	case PROP_AUTO_EXPR_ATTRS:
-		wb_view_auto_expr_attrs (wbv, g_value_peek_pointer (value));
+	case PROP_AUTO_EXPR_VALUE:
+		wb_view_auto_expr_value (wbv, g_value_get_boxed (value));
 		break;
 	case PROP_AUTO_EXPR_EVAL_POS:
 		wb_view_auto_expr_eval_pos (wbv, g_value_get_pointer (value));
@@ -863,11 +742,8 @@ wb_view_get_property (GObject *object, guint property_id,
 	case PROP_AUTO_EXPR_MAX_PRECISION:
 		g_value_set_boolean (value, wbv->auto_expr.use_max_precision);
 		break;
-	case PROP_AUTO_EXPR_TEXT:
-		g_value_set_string (value, wbv->auto_expr.text);
-		break;
-	case PROP_AUTO_EXPR_ATTRS:
-		g_value_set_boxed (value, wbv->auto_expr.attrs);
+	case PROP_AUTO_EXPR_VALUE:
+		g_value_set_boxed (value, wbv->auto_expr.value);
 		break;
 	case PROP_SHOW_HORIZONTAL_SCROLLBAR:
 		g_value_set_boolean (value, wbv->show_horizontal_scrollbar);
@@ -931,8 +807,7 @@ wb_view_dispose (GObject *object)
 
 	wb_view_auto_expr_eval_pos (wbv, NULL);
 	wb_view_auto_expr_func (wbv, NULL);
-	wb_view_auto_expr_attrs (wbv, NULL);
-	wb_view_auto_expr_text (wbv, NULL);
+	wb_view_auto_expr_value (wbv, NULL);
 	wb_view_auto_expr_descr (wbv, NULL);
 
 	wb_view_detach_from_workbook (wbv);
@@ -989,21 +864,13 @@ workbook_view_class_init (GObjectClass *gobject_class)
 				       G_PARAM_READWRITE));
         g_object_class_install_property
 		(gobject_class,
-		 PROP_AUTO_EXPR_TEXT,
-		 g_param_spec_string ("auto-expr-text",
-				      _("Auto-expression text"),
-				      _("Displayed text for the automatically computed sheet function."),
-				      NULL,
-				      GSF_PARAM_STATIC |
-				      G_PARAM_READWRITE));
-        g_object_class_install_property
-		(gobject_class,
-		 PROP_AUTO_EXPR_ATTRS,
-		 g_param_spec_boxed ("auto-expr-attrs",
-				     _("Auto-expression Attributes"),
-				     _("Text attributes for the automatically computed sheet function."),
-				     PANGO_TYPE_ATTR_LIST,
-				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
+		 PROP_AUTO_EXPR_VALUE,
+		 g_param_spec_boxed ("auto-expr-value",
+				     _("Auto-expression value"),
+				     _("The current value of the auto-exprssion."),
+				     gnm_value_get_type (),
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READWRITE));
         g_object_class_install_property
 		(gobject_class,
 		 PROP_AUTO_EXPR_EVAL_POS,
@@ -1134,8 +1001,7 @@ workbook_view_new (Workbook *wb)
 	if (wbv->auto_expr.func)
 		gnm_func_ref (wbv->auto_expr.func);
 	wbv->auto_expr.descr = g_strdup (_("Sum"));
-	wbv->auto_expr.text = NULL;
-	wbv->auto_expr.attrs = NULL;
+	wbv->auto_expr.value = NULL;
 	wbv->auto_expr.use_max_precision = FALSE;
 	dependent_managed_init (&wbv->auto_expr.dep, NULL);
 

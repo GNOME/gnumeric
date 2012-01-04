@@ -14,6 +14,7 @@ Morten:
 	* Fix ellipsizing of auto-expression.
 	* Fix auto-expression of single cell when moved.
 	* Fix problems with underlines and rotated cells.  [#667152]
+	* Fix multihead problem with auto-expressions.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.1
