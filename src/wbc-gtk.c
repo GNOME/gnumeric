@@ -72,6 +72,8 @@
 
 #define	SHEET_CONTROL_KEY "SheetControl"
 
+#define AUTO_EXPR_SAMPLE "Sumerage = -012345678901234"
+
 
 enum {
 	WBG_GTK_PROP_0,
@@ -1373,9 +1375,7 @@ wbcg_auto_expr_value_changed (WorkbookView *wbv,
 			GODateConventions const *date_conv = workbook_date_conv (wb_view_get_workbook (wbv));
 			GOFormatNumberError err =
 				format_value_layout (layout, format, v,
-						     /* Note that we created a label large enough for */
-						     /* "Sumerage = -012345678901234" */
-						     27 - g_utf8_strlen (str->str, -1),
+						     strlen (AUTO_EXPR_SAMPLE) - g_utf8_strlen (str->str, -1),
 						     date_conv);
 			switch (err) {
 			case GO_FORMAT_NUMBER_OK:
@@ -4832,7 +4832,6 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 {
 	GtkWidget *tmp, *frame, *align, *ebox;
 	GdkRGBA const white = {1.,1.,1.,1.};
-	const char *auto_expr_sample = "Sumerage = -012345678901234";
 
 	wbcg->progress_bar = g_object_new (GTK_TYPE_PROGRESS_BAR,
 					   "text", " ",
@@ -4844,11 +4843,11 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	g_object_ref (wbcg->auto_expr_label);
 	gtk_label_set_ellipsize (GTK_LABEL (tmp), PANGO_ELLIPSIZE_START);
 	gtk_widget_set_can_focus (tmp, FALSE);
-	gtk_label_set_max_width_chars (GTK_LABEL (tmp), strlen (auto_expr_sample));
+	gtk_label_set_max_width_chars (GTK_LABEL (tmp), strlen (AUTO_EXPR_SAMPLE));
 	gtk_widget_set_size_request (tmp, go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 		gtk_style_context_get_font (gtk_widget_get_style_context (tmp), GTK_STATE_NORMAL),
-		auto_expr_sample), -1);
+		AUTO_EXPR_SAMPLE), -1);
 	align = gtk_alignment_new (0.5, 0.5, 0, 0);
 	gtk_container_add (GTK_CONTAINER (align), wbcg->auto_expr_label);
 	ebox = gtk_event_box_new ();
