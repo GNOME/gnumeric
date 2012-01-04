@@ -1,5 +1,9 @@
 2012-01-03  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbc_gtk_create_status_area): Add magic to ensure
+	the auto-expression label doesn't grow, even if something else
+	makes the status line grow taller.  Fixes #667094.
+
 	* src/cell-draw.c (cell_draw): Fix problems with underlines and
 	rotated cells.  [#667152]
 

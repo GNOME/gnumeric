@@ -4751,7 +4751,7 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
 static void
 wbc_gtk_create_status_area (WBCGtk *wbcg)
 {
-	GtkWidget *tmp, *frame;
+	GtkWidget *tmp, *frame, *align, *ebox;
 	GdkRGBA const white = {1.,1.,1.,1.};
 	const char *auto_expr_sample = "Sumerage = -012345678901234";
 
@@ -4770,15 +4770,17 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 		gtk_style_context_get_font (gtk_widget_get_style_context (tmp), GTK_STATE_NORMAL),
 		auto_expr_sample), -1);
-	tmp = gtk_event_box_new ();
-	gtk_container_add (GTK_CONTAINER (tmp), wbcg->auto_expr_label);
-	g_signal_connect (G_OBJECT (tmp),
+	align = gtk_alignment_new (0.5, 0.5, 0, 0);
+	gtk_container_add (GTK_CONTAINER (align), wbcg->auto_expr_label);
+	ebox = gtk_event_box_new ();
+	g_signal_connect (G_OBJECT (ebox),
 		"button_press_event",
 		G_CALLBACK (cb_select_auto_expr), wbcg);
+	gtk_container_add (GTK_CONTAINER (ebox), align);
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (frame), tmp);
-	gtk_widget_override_background_color (GTK_WIDGET (tmp), 
+	gtk_container_add (GTK_CONTAINER (frame), ebox);
+	gtk_widget_override_background_color (GTK_WIDGET (ebox), 
 					      GTK_STATE_FLAG_NORMAL,
 					      &white);
 
