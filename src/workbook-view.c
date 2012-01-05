@@ -509,12 +509,10 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 		return;
 
 	if (wbv->auto_expr.dep.sheet != NULL &&
-	    wbv->auto_expr.dep.texpr != NULL &&
-	    wbv->auto_expr.descr != NULL) {
+	    wbv->auto_expr.dep.texpr != NULL) {
 		texpr = wbv->auto_expr.dep.texpr;
 		gnm_expr_top_ref (texpr);
-	} else if (wbv->auto_expr.func != NULL &&
-		   wbv->auto_expr.descr != NULL) {
+	} else if (wbv->auto_expr.func != NULL) {
 		sv_selection_apply (sv, &accumulate_regions, FALSE, &selection);
 		texpr = gnm_expr_top_new
 			(gnm_expr_new_funcall (wbv->auto_expr.func, selection));
@@ -525,10 +523,14 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 	eval_pos_init_sheet (&ep, wbv->current_sheet);
 
 	v = gnm_expr_top_eval (texpr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-	if (v && !VALUE_FMT (v)) {
-		GOFormat const *fmt = auto_style_format_suggest (texpr, &ep);
-		value_set_fmt (v, fmt);
-		go_format_unref (fmt);
+	if (v) {
+		if (wbv->auto_expr.use_max_precision)
+			value_set_fmt (v, NULL);
+		else if (!VALUE_FMT (v)) {
+			GOFormat const *fmt = auto_style_format_suggest (texpr, &ep);
+			value_set_fmt (v, fmt);
+			go_format_unref (fmt);
+		}
 	}
 	g_object_set (wbv, "auto-expr-value", v, NULL);
 	value_release (v);
