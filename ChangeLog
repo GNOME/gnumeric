@@ -1,3 +1,8 @@
+2012-01-05  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (wb_view_auto_expr_recalc): Restore
+	use-max-precision.
+
 2012-01-04  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c: Change from "text" to "value" attribute and
