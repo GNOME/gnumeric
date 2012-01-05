@@ -807,10 +807,11 @@ wb_view_dispose (GObject *object)
 			g_warning ("Unexpected left-over controls");
 	}
 
+	/* The order of these are important.  Make sure not to leak the value.  */
+	wb_view_auto_expr_descr (wbv, NULL);
 	wb_view_auto_expr_eval_pos (wbv, NULL);
 	wb_view_auto_expr_func (wbv, NULL);
 	wb_view_auto_expr_value (wbv, NULL);
-	wb_view_auto_expr_descr (wbv, NULL);
 
 	wb_view_detach_from_workbook (wbv);
 
