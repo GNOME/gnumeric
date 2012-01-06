@@ -119,7 +119,7 @@ cb_custom_separator_changed (TextExportState *state)
 static void
 stf_export_dialog_format_page_init (TextExportState *state)
 {
-	GtkWidget *table;
+	GtkWidget *grid;
 	GObject *sobj = G_OBJECT (state->stfe);
 
 	{
@@ -252,12 +252,12 @@ stf_export_dialog_format_page_init (TextExportState *state)
 	gnumeric_editable_enters (state->window,
 			gtk_bin_get_child (GTK_BIN (state->format.quotechar)));
 
-	table = go_gtk_builder_get_widget (state->gui, "format_table");
-	gtk_table_attach_defaults (GTK_TABLE (table), state->format.charset,
-				   1, 2, 5, 6);
-	gtk_table_attach_defaults (GTK_TABLE (table), state->format.locale,
-				   1, 2, 6, 7);
-	gtk_widget_show_all (table);
+	grid = go_gtk_builder_get_widget (state->gui, "format-grid");
+	gtk_grid_attach (GTK_GRID (grid), state->format.charset,
+			 1, 6, 1, 1);
+	gtk_grid_attach (GTK_GRID (grid), state->format.locale,
+			 1, 7, 1, 1);
+	gtk_widget_show_all (grid);
 
 	g_signal_connect_swapped (state->format.separator,
 		"changed",
@@ -555,7 +555,6 @@ static void
 stf_export_dialog_sheet_page_init (TextExportState *state)
 {
 	int i;
-	Sheet *cur_sheet;
 	GtkTreeSelection  *selection;
 	GtkTreeIter iter;
 	GtkCellRenderer *renderer;
@@ -597,7 +596,6 @@ stf_export_dialog_sheet_page_init (TextExportState *state)
 	selection = gtk_tree_view_get_selection (state->sheets.view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 
-	cur_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
 	state->sheets.num = workbook_sheet_count (state->wb);
 	state->sheets.num_selected = 0;
 	state->sheets.non_empty = 0;

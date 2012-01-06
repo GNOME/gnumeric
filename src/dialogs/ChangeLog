@@ -1,3 +1,9 @@
+2012-01-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-stf-export.c (stf_export_dialog_format_page_init),
+	(stf_export_dialog_sheet_page_init): fixed the dialog.
+	* dialog-stf-export.ui: ditto.
+
 2011-12-28  Morten Welinder  <terra@gnome.org>
 
 	* dialog-solver.c (cb_timer_tick): Check for timeout.
