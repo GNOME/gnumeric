@@ -428,12 +428,9 @@ cell_draw (GnmCell const *cell, cairo_t *cr,
 
 		if (rv->rotation) {
 			GnmRenderedRotatedValue *rrv = (GnmRenderedRotatedValue *)rv;
-			PangoContext *context = pango_layout_get_context (rv->layout);
 			struct GnmRenderedRotatedValueInfo const *li = rrv->lines;
 			GSList *lines;
 
-			pango_context_set_matrix (context, &rrv->rotmat);
-			pango_layout_context_changed (rv->layout);
 			for (lines = pango_layout_get_lines (rv->layout);
 			     lines;
 			     lines = lines->next, li++) {
@@ -443,9 +440,6 @@ cell_draw (GnmCell const *cell, cairo_t *cr,
 				pango_cairo_show_layout_line (cr, lines->data);
 				cairo_restore (cr);
 			}
-			pango_context_set_matrix (context, NULL);
-			pango_layout_context_changed (rv->layout);
-			cairo_new_path (cr);
 		} else {
 			cairo_save (cr);
 			cairo_translate (cr, x1 + PANGO_PIXELS (x), y1 + PANGO_PIXELS (y));

@@ -1,3 +1,7 @@
+2012-01-06  Morten Welinder  <terra@gnome.org>
+
+	* src/cell-draw.c (cell_draw): Clean out old code.
+
 2012-01-05  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wb_view_auto_expr_recalc): Restore
