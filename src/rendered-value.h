@@ -33,7 +33,7 @@ struct _GnmRenderedValue {
 
 struct _GnmRenderedRotatedValue {
 	GnmRenderedValue rv;
-	PangoMatrix rotmat;
+	guint sin_a_neg : 1;
 	int linecount;
 	struct GnmRenderedRotatedValueInfo {
 		int dx, dy;

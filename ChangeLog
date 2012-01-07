@@ -1,5 +1,8 @@
 2012-01-06  Morten Welinder  <terra@gnome.org>
 
+	* src/rendered-value.h (GnmRenderedRotatedValue): Storing six
+	double when all we need is a bit is overkill.
+
 	* src/cell-draw.c (cell_draw): Clean out old code.
 
 2012-01-05  Morten Welinder  <terra@gnome.org>

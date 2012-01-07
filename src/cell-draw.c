@@ -107,8 +107,7 @@ cell_calc_layout (G_GNUC_UNUSED GnmCell const *cell, GnmRenderedValue *rv, int y
 
 	if (rv->rotation && !rv->noborders) {
 		GnmRenderedRotatedValue const *rrv = (GnmRenderedRotatedValue *)rv;
-		double sin_a = rrv->rotmat.xy;
-		if (sin_a < 0) {
+		if (rrv->sin_a_neg) {
 			hoffset += (width - indent) - rv->layout_natural_width;
 		}
 	} else if (!rv->rotation && rv->wrap_text

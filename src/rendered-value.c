@@ -91,11 +91,15 @@ gnm_rendered_value_remeasure (GnmRenderedValue *rv)
 		PangoLayoutIter *iter;
 		int l = 0;
 		int lwidth;
+		PangoMatrix rotmat = PANGO_MATRIX_INIT;
 
-		sin_a = rrv->rotmat.xy;
+		pango_matrix_rotate (&rotmat, rv->rotation);
+
+		sin_a = rotmat.xy;
+		rrv->sin_a_neg = (sin_a < 0);
 		abs_sin_a = fabs (sin_a);
-		cos_a = rrv->rotmat.xx;
-		pango_context_set_matrix (context, &rrv->rotmat);
+		cos_a = rotmat.xx;
+		pango_context_set_matrix (context, &rotmat);
 		pango_layout_context_changed (rv->layout);
 
 		rrv->linecount = pango_layout_get_line_count (rv->layout);
@@ -248,15 +252,12 @@ gnm_rendered_value_new (GnmCell const *cell,
 
 	rotation = gnm_style_get_rotation (mstyle);
 	if (rotation) {
-		static PangoMatrix const id = PANGO_MATRIX_INIT;
 		GnmRenderedRotatedValue *rrv;
 		GnmStyleElement e;
 
 		rrv = CHUNK_ALLOC (GnmRenderedRotatedValue, rendered_rotated_value_pool);
 		res = &rrv->rv;
 
-		rrv->rotmat = id;
-		pango_matrix_rotate (&rrv->rotmat, rotation);
 		rrv->linecount = 0;
 		rrv->lines = NULL;
 
