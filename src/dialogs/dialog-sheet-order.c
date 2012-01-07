@@ -1226,19 +1226,11 @@ cb_sheet_order_destroy (SheetManager *state)
 static void
 dialog_sheet_order_update_sheet_order (SheetManager *state)
 {
-	gchar *name, *new_name;
-	gboolean is_locked;
-	gboolean is_visible;
-	gboolean is_rtl;
-	int row_max, col_max;
-	GdkColor *back, *fore;
 	GtkTreeIter iter;
 	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (state->wbcg));
-	gint i, j, n_sheets, n_children;
+	int i, n_sheets, n_children;
 	GtkTreeModel *model = GTK_TREE_MODEL (state->model);
-	Sheet *sheet_wb, *sheet_model;
 	GtkTreeSelection *sel = gtk_tree_view_get_selection (state->sheet_list);
-	gboolean selected;
 
 	n_sheets = workbook_sheet_count (wb);
 	n_children = gtk_tree_model_iter_n_children (model, NULL);
@@ -1250,7 +1242,16 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 	}
 
 	for (i = 0; i < n_sheets; i++) {
-		sheet_wb = workbook_sheet_by_index (wb, i);
+		gchar *name, *new_name;
+		gboolean is_locked;
+		gboolean is_visible;
+		gboolean is_rtl;
+		GdkRGBA *back, *fore;
+		Sheet *sheet_wb = workbook_sheet_by_index (wb, i);
+		Sheet *sheet_model;
+		gboolean selected;
+		int j, row_max, col_max;
+
 		for (j = i; j < n_children; j++) {
 			if (!gtk_tree_model_iter_nth_child (model, &iter,
 							    NULL, j))
@@ -1301,9 +1302,9 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 					    is_rtl ? state->image_rtl : state->image_ltr,
 				    -1);
 		if (back)
-			gdk_color_free (back);
+			gdk_rgba_free (back);
 		if (fore)
-			gdk_color_free (fore);
+			gdk_rgba_free (fore);
 		g_free (name);
 		g_free (new_name);
 		if (selected)
