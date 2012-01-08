@@ -5,6 +5,9 @@ Andreas:
 	* Implement ctrl-click cell deselection. [#610696]
 	* Fix LaTeX export of cyrillic. [#666340]
 
+Jean:
+	* Fix formula interpretation in plot series (with Morten's help). [#662237]
+
 Morten:
 	* Improve parsing on numbers with non-ascii digits.
 	* Make solver check for exceeding the time limit.

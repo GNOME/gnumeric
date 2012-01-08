@@ -1,3 +1,8 @@
+2012-01-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_vector_load_len): use
+	GNM_EXPR_EVAL_ARRAY_CONTEXT, fixes #667237.
+
 2012-01-08  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (gnm_expr_top_eval): When we see
