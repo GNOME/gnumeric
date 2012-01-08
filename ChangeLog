@@ -1,3 +1,8 @@
+2012-01-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_vector_load_len): fix a wrong use of
+	gnm_expr_is_rangeref. [related to #667237]
+
 2012-01-06  Morten Welinder  <terra@gnome.org>
 
 	* src/rendered-value.h (GnmRenderedRotatedValue): Storing six

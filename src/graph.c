@@ -509,25 +509,26 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 
 	eval_pos_init_dep (&ep, &vec->dep);
 	if (vec->val == NULL && vec->dep.texpr != NULL) {
-		GSList *l;
-		if (gnm_expr_is_rangeref (vec->dep.texpr->expr) && ((l = gnm_expr_top_get_ranges (vec->dep.texpr)))) {
+		GSList *l = NULL;
+		if (gnm_expr_is_rangeref (vec->dep.texpr->expr) && ((l = gnm_expr_top_get_ranges (vec->dep.texpr))) && l->next != NULL) {
 			unsigned len = g_slist_length (l);
-			if (l->next == NULL) /* only one range */
-				vec->val = l->data;
-			else {
-				GSList *cur = l;
-				unsigned i;
-				vec->val = value_new_array_empty (len, 1);
-				for (i = 0; i < len; i++) {
-					vec->val->v_array.vals[i][0] = cur->data;
-					cur = cur->next;
-				}
+			GSList *cur = l;
+			unsigned i;
+			vec->val = value_new_array_empty (len, 1);
+			for (i = 0; i < len; i++) {
+				vec->val->v_array.vals[i][0] = cur->data;
+				cur = cur->next;
 			}
-			g_slist_free (l);
 		} else {
+			if (l) {
+				GSList *cur;
+				for (cur = l; cur != NULL; cur = cur->next)
+					value_release (cur->data);
+			}
 			vec->val = gnm_expr_top_eval (vec->dep.texpr, &ep,
 				GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
 		}
+		g_slist_free (l);
 	}
 
 	if (vec->val != NULL) {
