@@ -3032,9 +3032,21 @@ gnm_expr_top_eval (GnmExprTop const *texpr,
 		   GnmExprEvalFlags flags)
 {
 	GnmValue *res;
+	GnmEvalPos ep;
+	GnmExprArrayCorner array;
+
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
 
 	gnm_app_recalc_start ();
+	if ((flags & GNM_EXPR_EVAL_ARRAY_CONTEXT) && !pos->array) {
+		array.oper = GNM_EXPR_OP_ARRAY_CORNER;
+		array.cols = array.rows = 1;
+		array.value = NULL;
+		array.expr = texpr->expr;
+		ep = *pos;
+		ep.array = &array;
+		pos = &ep;
+	}
 	res = gnm_expr_eval (texpr->expr, pos, flags);
 	gnm_app_recalc_finish ();
 

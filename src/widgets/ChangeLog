@@ -1,3 +1,8 @@
+2012-01-08  Morten Welinder  <terra@gnome.org>
+
+	* gnm-validation-combo-view.c (vcombo_create_list): Use new
+	GNM_EXPR_EVAL_ARRAY_CONTEXT flag.
+
 2011-12-30  Morten Welinder  <terra@gnome.org>
 
 	* gnm-format-sel.c (cb_generate_preview): Get the pango context

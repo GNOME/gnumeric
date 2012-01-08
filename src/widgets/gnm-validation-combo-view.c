@@ -102,7 +102,6 @@ vcombo_create_list (SheetObject *so,
 	GnmValue	*v;
 	GnmValue const	*cur_val;
 	GnmValidation const *val = vcombo->validation;
-	GnmExprArrayCorner array = { GNM_EXPR_OP_ARRAY_CORNER, 1, 1, NULL, NULL };
 	SheetView const *sv = vcombo->parent.sv;
 
 	g_return_val_if_fail (val != NULL, NULL);
@@ -111,10 +110,10 @@ vcombo_create_list (SheetObject *so,
 	g_return_val_if_fail (sv != NULL, NULL);
 
 	eval_pos_init_editpos (&ep, sv);
-	/* Force into 'array' mode by supplying a fake corner */
-	ep.array = &array;
 	v = gnm_expr_top_eval (val->texpr[0], &ep,
-		 GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
+			       GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
+			       GNM_EXPR_EVAL_PERMIT_EMPTY |
+			       GNM_EXPR_EVAL_ARRAY_CONTEXT);
 	if (NULL == v)
 		return NULL;
 
