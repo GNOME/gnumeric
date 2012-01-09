@@ -425,7 +425,7 @@ gnm_gui_group_value (gpointer gui, char const * const group[])
 }
 
 static void
-kill_popup_menu (GtkWidget *widget, GtkMenu *menu)
+kill_popup_menu (G_GNUC_UNUSED GtkWidget *widget, GtkMenu *menu)
 {
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (GTK_IS_MENU (menu));
@@ -973,13 +973,29 @@ gnm_store_text_tag_attr_in_pango (PangoAttrList *list, GtkTextTag *tag, GtkTextI
 
 	g_object_get (G_OBJECT (tag), "foreground-set", &is_set, NULL);
 	if (is_set) {
-		GdkColor* color;
+#if GTK_MAJOR_VERSION > 3 || GTK_MINOR_VERSION >= 2
+		GdkRGBA *color = NULL;
+		g_object_get (G_OBJECT (tag), "foreground-rgba", &color, NULL);			
+#else
+		GdkColor *color = NULL;
 		g_object_get (G_OBJECT (tag), "foreground-gdk", &color, NULL);
-		attr =  pango_attr_foreground_new (color->red, color->green, color->blue);
-		attr->start_index = x;
-		attr->end_index = y;
-		pango_attr_list_change (list, attr);
-		gdk_color_free (color);
+#endif
+		if (color) {
+#if GTK_MAJOR_VERSION > 3 || GTK_MINOR_VERSION >= 2
+			/* dividing 0 to 1 into 65536 equal length intervals */
+			attr =  pango_attr_foreground_new 
+				((int)(CLAMP (color->red * 65536, 0., 65535.)), 
+				 (int)(CLAMP (color->green * 65536, 0., 65535.)), 
+				 (int)(CLAMP (color->blue * 65536, 0., 65535.)));
+			gdk_rgba_free (color);
+#else
+			attr =  pango_attr_foreground_new (color->red, color->green, color->blue);
+			gdk_color_free (color);
+#endif
+			attr->start_index = x;
+			attr->end_index = y;
+			pango_attr_list_change (list, attr);
+		}
 	}
 
 	gnmstoretexttagattrinpangoint ("style-set", "style", pango_attr_style_new)

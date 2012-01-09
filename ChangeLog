@@ -1,3 +1,8 @@
+2012-01-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-util.c (gnm_store_text_tag_attr_in_pango): replace
+	GdkColor with GdkRGBA with GTK 3.2 and later
+
 2012-01-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (gnm_go_data_vector_load_len): use
