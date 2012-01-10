@@ -1,3 +1,8 @@
+2012-01-09  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_init): No need to load the file history
+	here.  We will do that in wbc_gtk_new.
+
 2012-01-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gui-util.c (gnm_store_text_tag_attr_in_pango): replace

@@ -5811,7 +5811,6 @@ wbc_gtk_init (GObject *obj)
 
 	wbcg->file_history.actions = NULL;
 	wbcg->file_history.merge_id = 0;
-	wbc_gtk_reload_recent_file_menu (wbcg);
 
 	wbcg->toolbar.merge_id = gtk_ui_manager_new_merge_id (wbcg->ui);
 	wbcg->toolbar.actions = gtk_action_group_new ("Toolbars");
