@@ -2422,11 +2422,16 @@ cb_desktop_font_changed (GtkSettings *settings, GParamSpec *pspec,
 			       (GtkCallback)cb_update_item_bar_font, NULL);
 }
 
+static GdkScreen *
+wbcg_get_screen (WBCGtk *wbcg)
+{
+	return gtk_widget_get_screen (wbcg->everything);
+}
+
 static GtkSettings *
 wbcg_get_gtk_settings (WBCGtk *wbcg)
 {
-	GdkScreen *screen = gtk_widget_get_screen (wbcg->table);
-	return gtk_settings_get_for_screen (screen);
+	return gtk_settings_get_for_screen (wbcg_get_screen (wbcg));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -2442,8 +2447,7 @@ show_gui (WBCGtk *wbcg)
 
 	/* In a Xinerama setup, we want the geometry of the actual display
 	 * unit, if available. See bug 59902.  */
-	gdk_screen_get_monitor_geometry
-		(gtk_window_get_screen (wbcg_toplevel (wbcg)), 0, &rect);
+	gdk_screen_get_monitor_geometry (wbcg_get_screen (wbcg), 0, &rect);
 	sx = MAX (rect.width, 600);
 	sy = MAX (rect.height, 200);
 
@@ -6041,7 +6045,7 @@ wbcg_find_for_workbook (Workbook *wb,
 		return candidate;
 
 	if (!pref_screen && candidate)
-		pref_screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (candidate)));
+		pref_screen = wbcg_get_screen (candidate);
 
 	if (!pref_display && pref_screen)
 		pref_display = gdk_screen_get_display (pref_screen);
@@ -6052,7 +6056,7 @@ wbcg_find_for_workbook (Workbook *wb,
 	WORKBOOK_FOREACH_CONTROL(wb, wbv, wbc, {
 		if (IS_WBC_GTK (wbc)) {
 			WBCGtk *wbcg = WBC_GTK (wbc);
-			GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (wbcg)));
+			GdkScreen *screen = wbcg_get_screen (wbcg);
 			GdkDisplay *display = gdk_screen_get_display (screen);
 
 			if (pref_screen == screen && !has_screen) {

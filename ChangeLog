@@ -2,6 +2,9 @@
 
 	* src/wbc-gtk.c (wbc_gtk_init): No need to load the file history
 	here.  We will do that in wbc_gtk_new.
+	(wbcg_get_screen): New function.
+	(wbcg_get_gtk_settings, show_gui, wbcg_find_for_workbook): Use
+	wbcg_get_screen.
 
 2012-01-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
