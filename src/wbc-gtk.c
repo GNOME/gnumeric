@@ -988,9 +988,9 @@ wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 
 	gtk_widget_show_all (GTK_WIDGET (wbcg->tabs_paned));
 	gtk_widget_show (GTK_WIDGET (wbcg->notebook_area));
-	gtk_grid_attach (GTK_GRID (wbcg->table),
-			 wbcg->notebook_area,
-			 0, 1, 1, 1);
+	gtk_box_pack_start (GTK_BOX (wbcg->table),
+			    wbcg->notebook_area,
+			    TRUE, TRUE, 0);
 }
 
 
@@ -2748,8 +2748,9 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 			   GTK_WIDGET (wbcg->edit_line.entry));
 	gtk_toolbar_insert (tb, item, -1);
 
-	gtk_grid_attach (GTK_GRID (wbcg->table), GTK_WIDGET (tb),
-			 0, 0, 1, 1);
+	gtk_box_pack_start (GTK_BOX (wbcg->table), 
+			    GTK_WIDGET (tb),
+			    FALSE, FALSE, 0);
 
 	/* Do signal setup for the editing input line */
 	g_signal_connect (G_OBJECT (entry),
@@ -5705,7 +5706,7 @@ wbc_gtk_init (GObject *obj)
 	char		*uifile;
 	unsigned	 i;
 
-	wbcg->table       = gtk_grid_new ();
+	wbcg->table       = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	wbcg->bnotebook   = NULL;
 	wbcg->snotebook   = NULL;
 	wbcg->notebook_area = NULL;

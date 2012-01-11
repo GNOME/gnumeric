@@ -1,5 +1,8 @@
 2012-01-11  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbc_gtk_init): No need for a GtkGrid when a vbox
+	will do just fine.
+
 	* src/commands.c (cmd_paste_copy_impl): Fix undo problem.
 	[#667702]
 
