@@ -2984,10 +2984,10 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	old_objects = get_new_objects (me->dst.sheet, NULL);
 
 	contents = clipboard_copy_range (me->dst.sheet, &me->dst.range);
-	actual_dst = me->dst;
 	if (me->has_been_through_cycle)
 		me->dst.paste_flags = PASTE_CONTENTS |
 			(me->dst.paste_flags & PASTE_ALL_TYPES);
+	actual_dst = me->dst;
 	if (clipboard_paste_region (me->contents, &actual_dst, GO_CMD_CONTEXT (wbc))) {
 		/* There was a problem, avoid leaking */
 		cellregion_unref (contents);
