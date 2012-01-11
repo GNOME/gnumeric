@@ -960,6 +960,8 @@ static void
 wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 {
 	wbcg->notebook_area = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_set_hexpand (wbcg->notebook_area, TRUE);
+	gtk_widget_set_vexpand (wbcg->notebook_area, TRUE);
 
 	wbcg->snotebook = g_object_new (GTK_TYPE_NOTEBOOK,
 					"show-tabs", FALSE,
@@ -986,13 +988,9 @@ wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 
 	gtk_widget_show_all (GTK_WIDGET (wbcg->tabs_paned));
 	gtk_widget_show (GTK_WIDGET (wbcg->notebook_area));
-	gtk_table_attach (GTK_TABLE (wbcg->table),
-			  wbcg->notebook_area,
-			  0, 1, 1, 2,
-			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-			  0, 0);
-
+	gtk_grid_attach (GTK_GRID (wbcg->table),
+			 wbcg->notebook_area,
+			 0, 1, 1, 1);
 }
 
 
@@ -2750,9 +2748,8 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 			   GTK_WIDGET (wbcg->edit_line.entry));
 	gtk_toolbar_insert (tb, item, -1);
 
-	gtk_table_attach (GTK_TABLE (wbcg->table), GTK_WIDGET (tb),
-			  0, 1, 0, 1,
-			  GTK_FILL | GTK_EXPAND | GTK_SHRINK, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (wbcg->table), GTK_WIDGET (tb),
+			 0, 0, 1, 1);
 
 	/* Do signal setup for the editing input line */
 	g_signal_connect (G_OBJECT (entry),
@@ -5708,7 +5705,7 @@ wbc_gtk_init (GObject *obj)
 	char		*uifile;
 	unsigned	 i;
 
-	wbcg->table       = gtk_table_new (0, 0, 0);
+	wbcg->table       = gtk_grid_new ();
 	wbcg->bnotebook   = NULL;
 	wbcg->snotebook   = NULL;
 	wbcg->notebook_area = NULL;

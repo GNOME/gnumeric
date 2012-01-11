@@ -1,5 +1,7 @@
 2012-01-10  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbc_gtk_init): Switch from GtkTable to GtkGrid.
+
 	* src/gui-util.c (gnm_store_text_tag_attr_in_pango): Use
 	gnm_object_get_bool.
 
