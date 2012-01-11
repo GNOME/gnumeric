@@ -948,8 +948,7 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 }
 
 #define gnmstoretexttagattrinpangoint(nameset, name, gnm_pango_attr_new)  \
-	g_object_get (G_OBJECT (tag), nameset, &is_set, NULL);            \
-	if (is_set) {                                                     \
+	if (gnm_object_get_bool (tag, nameset)) {			  \
 		int value;                                                \
 		g_object_get (G_OBJECT (tag), name, &value, NULL);        \
 		attr =  gnm_pango_attr_new (value);                       \
@@ -964,15 +963,13 @@ gnm_store_text_tag_attr_in_pango (PangoAttrList *list, GtkTextTag *tag, GtkTextI
 {
 	GtkTextIter end = *start;
 	gint x, y;
-	gboolean is_set;
 	PangoAttribute * attr;
 
 	gtk_text_iter_forward_to_tag_toggle (&end, tag);
 	x = g_utf8_offset_to_pointer (text, gtk_text_iter_get_offset (start)) - text;
 	y = g_utf8_offset_to_pointer (text, gtk_text_iter_get_offset (&end)) - text;
 
-	g_object_get (G_OBJECT (tag), "foreground-set", &is_set, NULL);
-	if (is_set) {
+	if (gnm_object_get_bool (tag, "foreground-set")) {
 #if GTK_MAJOR_VERSION > 3 || GTK_MINOR_VERSION >= 2
 		GdkRGBA *color = NULL;
 		g_object_get (G_OBJECT (tag), "foreground-rgba", &color, NULL);			
