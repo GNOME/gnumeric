@@ -128,7 +128,7 @@ struct _WBCGtk {
 		GtkToggleAction	 *top, *center, *bottom;
 	} v_align;
 
-	GtkWidget *menu_zone, *everything, *toolbar_zones[4];
+	GtkWidget *menu_zone, *toolbar_zones[4];
 	GHashTable *custom_uis;
 
 	guint idle_update_style_feedback;

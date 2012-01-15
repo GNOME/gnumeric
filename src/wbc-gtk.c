@@ -2369,7 +2369,7 @@ cb_desktop_font_changed (GtkSettings *settings, GParamSpec *pspec,
 static GdkScreen *
 wbcg_get_screen (WBCGtk *wbcg)
 {
-	return gtk_widget_get_screen (wbcg->everything);
+	return gtk_widget_get_screen (wbcg->notebook_area);
 }
 
 static GtkSettings *
@@ -5628,7 +5628,6 @@ wbc_gtk_init (GObject *obj)
 	wbcg->snotebook = GET_GUI_ITEM ("snotebook");
 	wbcg->selection_descriptor = GET_GUI_ITEM ("selection_descriptor");
 	wbcg->menu_zone = GET_GUI_ITEM ("menu_zone");
-	wbcg->everything = GET_GUI_ITEM ("everything");
 	wbcg->toolbar_zones[GTK_POS_TOP] = GET_GUI_ITEM ("toolbar_zone_top");
 	wbcg->toolbar_zones[GTK_POS_BOTTOM] = NULL;
 	wbcg->toolbar_zones[GTK_POS_LEFT] = GET_GUI_ITEM ("toolbar_zone_left");
