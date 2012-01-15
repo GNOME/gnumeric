@@ -19,6 +19,8 @@ struct _WBCGtk {
 
 	GtkWidget   *toplevel;
 
+	GtkBuilder  *gui;
+
 	/* The area that contains the sheet and the sheet tabs.  */
 	GtkWidget   *notebook_area;
 

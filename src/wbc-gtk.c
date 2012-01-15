@@ -70,6 +70,9 @@
 #include <errno.h>
 #include <string.h>
 
+#define NEW_UI
+#define GET_GUI_ITEM(i_) (gpointer)(gtk_builder_get_object(wbcg->gui, (i_)))
+
 #define	SHEET_CONTROL_KEY "SheetControl"
 
 #define AUTO_EXPR_SAMPLE "Sumerage = -012345678901234"
@@ -959,6 +962,8 @@ cb_bnotebook_button_press (GtkWidget *widget, GdkEventButton *event)
 static void
 wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 {
+	GtkWidget *placeholder;
+#ifndef NEW_UI
 	wbcg->notebook_area = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_set_hexpand (wbcg->notebook_area, TRUE);
 	gtk_widget_set_vexpand (wbcg->notebook_area, TRUE);
@@ -971,6 +976,7 @@ wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 	gtk_box_pack_start (GTK_BOX (wbcg->notebook_area),
 			    GTK_WIDGET (wbcg->snotebook),
 			    TRUE, TRUE, 0);
+#endif
 
 	wbcg->bnotebook = g_object_new (GNM_NOTEBOOK_TYPE,
 					"tab-pos", GTK_POS_BOTTOM,
@@ -984,13 +990,18 @@ wbc_gtk_create_notebook_area (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (wbcg->bnotebook),
 			  "button-press-event", G_CALLBACK (cb_bnotebook_button_press),
 			  NULL);
+	placeholder = gtk_paned_get_child1 (wbcg->tabs_paned);
+	if (placeholder)
+		gtk_widget_destroy (placeholder);
 	gtk_paned_pack1 (wbcg->tabs_paned, GTK_WIDGET (wbcg->bnotebook), FALSE, TRUE);
 
 	gtk_widget_show_all (GTK_WIDGET (wbcg->tabs_paned));
+#ifndef NEW_UI
 	gtk_widget_show (GTK_WIDGET (wbcg->notebook_area));
 	gtk_box_pack_start (GTK_BOX (wbcg->table),
 			    wbcg->notebook_area,
 			    TRUE, TRUE, 0);
+#endif
 }
 
 
@@ -2186,6 +2197,7 @@ cb_autofunction (WBCGtk *wbcg)
 	}
 }
 
+#ifndef NEW_UI
 static GtkWidget *
 edit_area_button (WBCGtk *wbcg, GtkToolbar *tb,
 		  gboolean sensitive,
@@ -2229,6 +2241,7 @@ edit_area_button_menu (WBCGtk *wbcg, GtkToolbar *tb,
 	gtk_widget_set_sensitive (GTK_WIDGET (button), sensitive);
 	return GTK_WIDGET (button);
 }
+#endif
 
 /*
  * We must not crash on focus=NULL. We're called like that as a result of
@@ -2693,15 +2706,21 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 	GtkEntry *entry;
 	int len;
 	GtkToolbar *tb;
+	GtkWidget *debug_button;
 
+#ifndef NEW_UI
 	wbcg->selection_descriptor = gtk_entry_new ();
+#endif
 	wbc_gtk_init_editline (wbcg);
 	entry = wbcg_get_entry (wbcg);
 
+#ifdef NEW_UI
+	tb = GET_GUI_ITEM ("toolbar");
+#else
 	tb = (GtkToolbar *)gtk_toolbar_new ();
 	gtk_toolbar_set_show_arrow (tb, FALSE);
 	gtk_toolbar_set_style (tb, GTK_TOOLBAR_ICONS);
-
+#endif
 	/* Set a reasonable width for the selection box. */
 	len = go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg))),
@@ -2713,6 +2732,27 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 	 */
 	len = len * 3 / 2;
 	gtk_widget_set_size_request (wbcg->selection_descriptor, len, -1);
+#ifdef NEW_UI
+	g_signal_connect_swapped (wbcg->cancel_button,
+				  "clicked", G_CALLBACK (cb_cancel_input),
+				  wbcg);
+
+	g_signal_connect_swapped (wbcg->ok_button,
+				  "clicked", G_CALLBACK (cb_accept_input),
+				  wbcg);
+	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (wbcg->ok_button),
+				       gtk_menu_new ());
+	gtk_menu_tool_button_set_arrow_tooltip_text
+		(GTK_MENU_TOOL_BUTTON (wbcg->ok_button),
+		 _("Accept change in multiple cells"));
+	g_signal_connect (wbcg->ok_button,
+			  "show-menu", G_CALLBACK (cb_accept_input_menu),
+			  wbcg);
+
+	g_signal_connect_swapped (wbcg->func_button,
+				  "clicked", G_CALLBACK (cb_autofunction),
+				  wbcg);
+#else
 	item = gtk_tool_item_new ();
 	gtk_container_add (GTK_CONTAINER (item), wbcg->selection_descriptor);
 	gtk_toolbar_insert (tb, item, -1);
@@ -2730,18 +2770,36 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 		(wbcg, tb, TRUE,
 		 G_CALLBACK (cb_autofunction), "Gnumeric_Equal",
 		 _("Enter formula..."));
+#endif
 
 	/* Dependency debugger */
+#ifdef NEW_UI
+	debug_button = GET_GUI_ITEM ("debug_button");
+#endif
 	if (gnm_debug_flag ("deps") ||
 	    gnm_debug_flag ("expr-sharer") ||
 	    gnm_debug_flag ("style-optimize")) {
+#ifdef NEW_UI
+		g_signal_connect_swapped (debug_button,
+					  "clicked", G_CALLBACK (cb_workbook_debug_info),
+					  wbcg);
+	} else {
+		gtk_widget_destroy (debug_button);
+#else
 		(void)edit_area_button (wbcg, tb, TRUE,
 					G_CALLBACK (cb_workbook_debug_info),
 					GTK_STOCK_DIALOG_INFO,
 					/* Untranslated */
 					"Dump debug info");
+#endif
 	}
 
+#ifdef NEW_UI
+	item = GET_GUI_ITEM ("edit_line_entry_item");
+	gtk_container_add (GTK_CONTAINER (item),
+			   GTK_WIDGET (wbcg->edit_line.entry));
+	gtk_widget_show_all (item);
+#else
 	item = gtk_tool_item_new ();
 	gtk_tool_item_set_expand (item, TRUE);
 	gtk_container_add (GTK_CONTAINER (item),
@@ -2751,7 +2809,7 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 	gtk_box_pack_start (GTK_BOX (wbcg->table), 
 			    GTK_WIDGET (tb),
 			    FALSE, FALSE, 0);
-
+#endif
 	/* Do signal setup for the editing input line */
 	g_signal_connect (G_OBJECT (entry),
 		"focus-in-event",
@@ -2781,7 +2839,9 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 			  (wbc_gtk_cell_selector_popup),
 			  wbcg);
 
+#ifndef NEW_UI
 	gtk_widget_show_all (GTK_WIDGET (tb));
+#endif
 }
 
 static int
@@ -4835,6 +4895,23 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	GtkWidget *tmp, *frame, *align, *ebox;
 	GdkRGBA const white = {1.,1.,1.,1.};
 
+#ifdef NEW_UI
+	g_object_ref (wbcg->auto_expr_label);
+	gtk_label_set_max_width_chars (GTK_LABEL (wbcg->auto_expr_label),
+				       strlen (AUTO_EXPR_SAMPLE));
+	gtk_widget_set_size_request (wbcg->auto_expr_label,
+		go_pango_measure_string (
+		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
+		gtk_style_context_get_font (gtk_widget_get_style_context (wbcg->auto_expr_label), GTK_STATE_NORMAL),
+		AUTO_EXPR_SAMPLE), -1);
+
+	gtk_widget_set_size_request (wbcg->status_text,
+		go_pango_measure_string (
+		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
+		gtk_style_context_get_font (gtk_widget_get_style_context (wbcg->status_text), GTK_STATE_NORMAL),
+	        "W") * 5, -1);
+	ebox = GET_GUI_ITEM ("auto_expr_event_box");
+#else
 	wbcg->progress_bar = g_object_new (GTK_TYPE_PROGRESS_BAR,
 					   "text", " ",
 					   "show-text", TRUE,
@@ -4853,16 +4930,10 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	align = gtk_alignment_new (0.5, 0.5, 0, 0);
 	gtk_container_add (GTK_CONTAINER (align), wbcg->auto_expr_label);
 	ebox = gtk_event_box_new ();
-	g_signal_connect (G_OBJECT (ebox),
-		"button_press_event",
-		G_CALLBACK (cb_select_auto_expr), wbcg);
 	gtk_container_add (GTK_CONTAINER (ebox), align);
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (frame), ebox);
-	gtk_widget_override_background_color (GTK_WIDGET (ebox), 
-					      GTK_STATE_FLAG_NORMAL,
-					      &white);
 
 	wbcg->status_text = tmp = gtk_statusbar_new ();
 	gtk_widget_set_size_request (tmp, go_pango_measure_string (
@@ -4888,6 +4959,13 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	gtk_box_pack_end (GTK_BOX (wbcg->everything),
 			  wbcg->status_area, FALSE, TRUE, 0);
 	gtk_widget_show_all (wbcg->status_area);
+#endif
+	gtk_widget_override_background_color (GTK_WIDGET (ebox), 
+					      GTK_STATE_FLAG_NORMAL,
+					      &white);
+	g_signal_connect (G_OBJECT (ebox),
+		"button_press_event",
+		G_CALLBACK (cb_select_auto_expr), wbcg);
 
 	g_hash_table_insert (wbcg->visibility_widgets,
 			     g_strdup ("ViewStatusbar"),
@@ -5294,6 +5372,8 @@ wbc_gtk_finalize (GObject *obj)
 
 	g_free (wbcg->preferred_geometry);
 	wbcg->preferred_geometry = NULL;
+
+	UNREF_OBJ (gui);
 
 	parent_class->finalize (obj);
 }
@@ -5706,7 +5786,28 @@ wbc_gtk_init (GObject *obj)
 	char		*uifile;
 	unsigned	 i;
 
+#ifdef NEW_UI
+	wbcg->gui = gnm_gtk_builder_new ("wbcg.ui", NULL, NULL);
+	wbcg->cancel_button = GET_GUI_ITEM ("cancel_button");
+	wbcg->ok_button = GET_GUI_ITEM ("ok_button");
+	wbcg->func_button = GET_GUI_ITEM ("func_button");
+	wbcg->progress_bar = GET_GUI_ITEM ("progress_bar");
+	wbcg->auto_expr_label = GET_GUI_ITEM ("auto_expr_label");
+	wbcg->status_text = GET_GUI_ITEM ("status_text");
+	wbcg->tabs_paned = GET_GUI_ITEM ("tabs_paned");
+	wbcg->status_area = GET_GUI_ITEM ("status_area");
+	wbcg->notebook_area = GET_GUI_ITEM ("notebook_area");
+	wbcg->snotebook = GET_GUI_ITEM ("snotebook");
+	wbcg->selection_descriptor = GET_GUI_ITEM ("selection_descriptor");
+	wbcg->menu_zone = GET_GUI_ITEM ("menu_zone");
+	wbcg->everything = GET_GUI_ITEM ("everything");
+	wbcg->toolbar_zones[GTK_POS_TOP] = GET_GUI_ITEM ("toolbar_zone_top");
+	wbcg->toolbar_zones[GTK_POS_BOTTOM] = NULL;
+	wbcg->toolbar_zones[GTK_POS_LEFT] = GET_GUI_ITEM ("toolbar_zone_left");
+	wbcg->toolbar_zones[GTK_POS_RIGHT] = GET_GUI_ITEM ("toolbar_zone_right");
+#else
 	wbcg->table       = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+#endif
 	wbcg->bnotebook   = NULL;
 	wbcg->snotebook   = NULL;
 	wbcg->notebook_area = NULL;
@@ -5730,6 +5831,11 @@ wbc_gtk_init (GObject *obj)
 
 	wbcg->new_object = NULL;
 
+	wbcg->idle_update_style_feedback = 0;
+
+#ifdef NEW_UI
+	wbcg_set_toplevel (wbcg, GET_GUI_ITEM ("toplevel"));
+#else
 	wbcg->menu_zone = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_set_homogeneous (GTK_BOX (wbcg->menu_zone), TRUE);
 	wbcg->everything = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -5739,13 +5845,7 @@ wbc_gtk_init (GObject *obj)
 	wbcg->toolbar_zones[GTK_POS_LEFT] = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	wbcg->toolbar_zones[GTK_POS_RIGHT] = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 
-	wbcg->idle_update_style_feedback = 0;
-
 	wbcg_set_toplevel (wbcg, gtk_window_new (GTK_WINDOW_TOPLEVEL));
-
-	g_signal_connect (wbcg_toplevel (wbcg), "window_state_event",
-			  G_CALLBACK (cb_wbcg_window_state_event),
-			  wbcg);
 
 	gtk_box_pack_start (GTK_BOX (wbcg->everything),
 		wbcg->menu_zone, FALSE, TRUE, 0);
@@ -5762,6 +5862,11 @@ wbc_gtk_init (GObject *obj)
 
 	gtk_box_pack_start (GTK_BOX (wbcg->everything), hbox, TRUE, TRUE, 0);
 	gtk_widget_show_all (wbcg->everything);
+#endif
+
+	g_signal_connect (wbcg_toplevel (wbcg), "window_state_event",
+			  G_CALLBACK (cb_wbcg_window_state_event),
+			  wbcg);
 
 	wbc_gtk_init_actions (wbcg);
 
@@ -5836,7 +5941,9 @@ wbc_gtk_init (GObject *obj)
 
 	gtk_ui_manager_ensure_update (wbcg->ui);
 
+#ifndef NEW_UI
 	gtk_container_add (GTK_CONTAINER (wbcg->toplevel), wbcg->everything);
+#endif
 
 	/* updates the undo/redo menu labels before check_underlines
 	 * to avoid problems like #324692. */

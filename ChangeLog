@@ -1,3 +1,7 @@
+2012-01-15  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c: Switch to using a GtkBuilder ui.
+
 2012-01-11  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_init): No need for a GtkGrid when a vbox

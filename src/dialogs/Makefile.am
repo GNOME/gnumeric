@@ -177,6 +177,7 @@ embedded_uis = 			\
 	tabulate.ui			\
 	variance-tests.ui		\
 	view.ui				\
+	wbcg.ui				\
 	wilcoxon-mann-whitney.ui	\
 	workbook-attr.ui
 
