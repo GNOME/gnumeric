@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-01-07 16:51+0000\n"
-"PO-Revision-Date: 2012-01-07 21:37+0100\n"
+"PO-Revision-Date: 2012-01-24 22:19+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1449,11 +1449,11 @@ msgstr "Manjka izraz"
 
 #: ../plugins/openoffice/openoffice-read.c:3019
 msgid "Invalid array expression does not specify number of columns."
-msgstr ""
+msgstr "Neveljaven izraz polja ne določa števila stolpcev."
 
 #: ../plugins/openoffice/openoffice-read.c:3022
 msgid "Invalid array expression does not specify number of rows."
-msgstr ""
+msgstr "Neveljaven izraz polja ne določa števila vrstic."
 
 #: ../plugins/openoffice/openoffice-read.c:3038
 #, c-format
@@ -1471,6 +1471,8 @@ msgid ""
 "Left click once to follow this link.\n"
 "Middle click once to select this cell"
 msgstr ""
+"Levi enojni klik sledi povezavi.\n"
+"Srednji enojni klik izbere celico."
 
 #: ../plugins/openoffice/openoffice-read.c:3476
 msgid "Unnamed dash style encountered."
@@ -1605,9 +1607,9 @@ msgid "title"
 msgstr "naslov"
 
 #: ../plugins/openoffice/openoffice-read.c:5214
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
-msgstr "Zaznan je neznan slog besedila \"%s\"!"
+msgstr "Zaznan je neznan slog obrobe '%s'."
 
 #: ../plugins/openoffice/openoffice-read.c:5482
 #, c-format
@@ -1640,9 +1642,9 @@ msgid "Unknown interpolation type encountered: %s"
 msgstr "Zaznana je neocenljiva vrsta funkcije!"
 
 #: ../plugins/openoffice/openoffice-read.c:6492
-#, fuzzy, c-format
+#, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
-msgstr "interaktivnega %s ni mogoče udejanjiti"
+msgstr "izraz '%s' @ '%s' ni sklic celice"
 
 #: ../plugins/openoffice/openoffice-read.c:6509
 #, c-format
@@ -1767,7 +1769,7 @@ msgstr "Prva vrstica delovnega lista mora vsebovati določila podatkovne zbirke.
 
 #: ../plugins/paradox/paradox.c:350
 msgid "Field specification must be a comma separated value (Name,Type,Size,Prec)."
-msgstr ""
+msgstr "Določilo polja morajo biti vrednosti ločene z vejicami (ime,vrsta,velikost,natančnost)"
 
 #: ../plugins/paradox/paradox.c:355
 msgid "Allocate memory for column name."
@@ -1860,7 +1862,7 @@ msgstr "Perl funkcije"
 
 #: ../plugins/perl-func/plugin.xml.in.h:3
 msgid "Sample Perl plugin providing some (useless) functions."
-msgstr ""
+msgstr "Vzorčni vstavek Perl za izvajanje nekaterih (neuporabnih) funkcij."
 
 #: ../plugins/perl-loader/perl-loader.c:76
 msgid "Perl error: "
@@ -1895,12 +1897,12 @@ msgstr "PLN: preglednica je zaščitena z geslom"
 #: ../plugins/plan-perfect/pln.c:572
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
-msgstr ""
+msgstr "Prezri podatke v vrstici %u, ki je za največjo dovoljeno vrstico %u"
 
 #: ../plugins/plan-perfect/pln.c:576
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
-msgstr ""
+msgstr "Prezri podatke v stolpcu %u, ki je za največjim dovoljenim stolpcem %u"
 
 #: ../plugins/plan-perfect/plugin.xml.in.h:1
 msgid "Imports Plan Perfect Formatted Documents"
@@ -1948,7 +1950,7 @@ msgstr "Python funkcije"
 
 #: ../plugins/py-func/plugin.xml.in.h:3
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr ""
+msgstr "Vzorčni vstavek Python za izvajanje nekaterih (neuporabnih) funkcij."
 
 #: ../plugins/python-loader/gnm-py-interpreter.c:255
 msgid "Default interpreter"
@@ -2159,7 +2161,7 @@ msgstr "Splošna napaka uvoza SC"
 #: ../plugins/sc/sc.c:165
 #, c-format
 msgid "The cell in row %i and column %i is beyond Gnumeric's maximum sheet size."
-msgstr ""
+msgstr "Celica v vrstici %i in v stolpcu %i je za omejitvijo največje dovoljene velikosti programa Gnumeric."
 
 #: ../plugins/sc/sc.c:388
 msgid "The sheet is wider than Gnumeric can handle."
@@ -2575,7 +2577,7 @@ msgstr "Programnik za samodejno popravljanje besedila ne popravlja začetnih vel
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:80
 msgid "The configuration of GTKPrintSetting. Do not edit this variable."
-msgstr ""
+msgstr "Nastavitve možnosti GTKPrintSetting. Teh spremenljivk ni priporočljivo spreminjati."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:81
 msgid "The default font name for headers and footers."
@@ -2595,11 +2597,11 @@ msgstr "Privzeta pisava glave in noge je ležeča."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:85
 msgid "The default page footer for new documents that can be modified using the page setup dialog."
-msgstr ""
+msgstr "Privzeta noga strani za nove dokumente, ki jo je mogoče spreminjati z uporabo pogovornega okna nastavitev strani."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:86
 msgid "The default page header for new documents that can be modified using the page setup dialog."
-msgstr ""
+msgstr "Privzeta glava strani za nove dokumente, ki jo je mogoče spreminjati z uporabo pogovornega okna nastavitev strani."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:87
 msgid "The function selector keeps a list of recently used functions. This is that list."
@@ -3019,7 +3021,7 @@ msgstr "Število delovnih listov, ki so ustvarjeni pri ustvarjanju novega delovn
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:56
 msgid "This integer (between 0 and 9) specifies the amount of compression performed by Gnumeric when saving files in the default file format. 0 is minimal compression while 9 is maximal compression."
-msgstr ""
+msgstr "Število (med 0 in 9) določa moč stiskanja podatkov med shranjevanjem datotek v privzeti zapis. Vrednost 0 predstavlja najmanjšo moč stiskanja, vrednost 9 pa največjo."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:57
 msgid "This list contains the ids of the file savers for which the extension check is disabled."
@@ -3027,11 +3029,11 @@ msgstr "Seznam vsebuje vrednosti ID za shranjevalnike za katere je preverjanje p
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:58
 msgid "This number (between 0.25 and 1.00) gives the horizontal fraction of the screen size covered by the default window."
-msgstr ""
+msgstr "Število (med 0,25 in 1,00) določa vodoravni delež velikosti zaslona, ki ga pokriva glavno okno programa."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:59
 msgid "This number (between 0.25 and 1.00) gives the vertical fraction of the screen size covered by the default window."
-msgstr ""
+msgstr "Število (med 0,25 in 1,00) določa navpični delež velikosti zaslona, ki ga pokriva glavno okno programa."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:60
 msgid "This option determines the initial state of the sort-order button in the sort dialog."
@@ -4626,11 +4628,8 @@ msgid "Could not create the Principal Components Analysis Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja Metode glavnih komponent."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:92
-#, fuzzy
 msgid "The predicted median should be a number."
-msgstr ""
-"Vrednost '%s' je klicana z napačnim številom argumentov!\n"
-"(mora jih biti %d)"
+msgstr "Napovedana mediana mora biti število."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:143
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:362
@@ -5972,17 +5971,18 @@ msgstr "Ni mogoče ustvariti pogovornega okna vstavljanja celic."
 
 #: ../src/dialogs/dialog-merge.c:257
 msgid "One field is not part of the merge zone!"
-msgstr ""
+msgstr "Eno polje ni del združenega območja!"
 
+# multiple plural?
 #: ../src/dialogs/dialog-merge.c:259
 #, c-format
 msgid "%i fields are not part of the merge zone!"
-msgstr ""
+msgstr "%i polj ni del združenega območja!"
 
 #: ../src/dialogs/dialog-merge.c:276
 #, c-format
 msgid "The data columns range in length from %i to %i. Shall we trim the lengths to %i and proceed?"
-msgstr ""
+msgstr "Podatkovni stolpci so v obsegu dolžine od %i do %i. Ali naj se dolžina omeji na %i in se opravilo nadaljuje?"
 
 #: ../src/dialogs/dialog-merge.c:385
 msgid "Input Data"
@@ -6973,11 +6973,11 @@ msgstr "Zaganjanje reševalnika"
 
 #: ../src/dialogs/dialog-solver.c:842
 msgid "Optimal solution created by solver.\n"
-msgstr ""
+msgstr "Najustreznejša rešitev, ki jo je podal reševalnik.\n"
 
 #: ../src/dialogs/dialog-solver.c:846
 msgid "Feasible solution created by solver.\n"
-msgstr ""
+msgstr "Verjetna rešitev, ki jo je podal reševalnik.\n"
 
 #: ../src/dialogs/dialog-solver.c:1110
 #, fuzzy
@@ -7000,7 +7000,7 @@ msgstr "Delovni zvezek ne vsebuje izvozljive vsebine."
 
 #: ../src/dialogs/dialog-stf-fixed-page.c:52
 msgid "Autodiscovery did not find any columns in the text. Try manually"
-msgstr ""
+msgstr "Med samodejnim odkrivanjem ni najdenih stolpcev v besedilu. Te bo treba poiskati ročno."
 
 #: ../src/dialogs/dialog-stf-fixed-page.c:68
 msgid "Merge with column on _left"
@@ -7133,7 +7133,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-tabulate.c:228
 msgid "The dependency cells should not contain an expression"
-msgstr ""
+msgstr "Odvisna celica ne sme vsebovati izraza"
 
 #: ../src/dialogs/dialog-tabulate.c:237
 msgid "You should introduce a valid number as minimum"
@@ -7158,15 +7158,15 @@ msgstr "Kako naj bo velikost vsebine določena"
 
 #: ../src/dialogs/dialog-tabulate.c:282
 msgid "You should introduce one or more dependency cells"
-msgstr ""
+msgstr "Vključiti je treba eno ali več odvisnih celic"
 
 #: ../src/dialogs/dialog-tabulate.c:292
 msgid "You should introduce a single valid cell as result cell"
-msgstr ""
+msgstr "Vključiti je treba enojno veljavno celico kot rezultat celice"
 
 #: ../src/dialogs/dialog-tabulate.c:300
 msgid "The target cell should contain an expression"
-msgstr ""
+msgstr "Ciljna celica mora vsebovati izraz"
 
 #: ../src/dialogs/dialog-view.c:81
 #, c-format
@@ -8542,7 +8542,7 @@ msgstr "Izberite imenik"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid "Select all non-empty sheets for export."
-msgstr ""
+msgstr "Izberi vse ne-prazne delovne liste za izvoz."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid "Semicolon (;)"
@@ -8603,7 +8603,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf.ui.h:4
 msgid "Attempt to recognize columns in the text automatically."
-msgstr ""
+msgstr "Poskusi samodejno prepoznati ločilnike za stolpce v besedilu."
 
 #: ../src/dialogs/dialog-stf.ui.h:5
 #, fuzzy
@@ -8628,7 +8628,7 @@ msgstr "Počisti seznam stolpcev"
 
 #: ../src/dialogs/dialog-stf.ui.h:10
 msgid "Custom separator, this can be any character."
-msgstr ""
+msgstr "Ločilnik po meri je lahko katerikoli znak."
 
 #: ../src/dialogs/dialog-stf.ui.h:12
 msgid "Define the width of each column manually."
@@ -10845,18 +10845,16 @@ msgid "y-Offset in points:"
 msgstr "Odmik osi _Y v točkah:"
 
 #: ../src/dialogs/shuffle.ui.h:1
-#, fuzzy
 msgid "Data Shuffling"
-msgstr "Različne podrobnosti"
+msgstr "Premešanje podatkov"
 
 #: ../src/dialogs/shuffle.ui.h:2
 msgid "Input Range: "
 msgstr "Vhodna podatkovna vrsta:"
 
 #: ../src/dialogs/shuffle.ui.h:3
-#, fuzzy
 msgid "Shuffle Method: "
-msgstr "Način razdeljevanja"
+msgstr "Način premešanja:"
 
 #: ../src/dialogs/shuffle.ui.h:4
 #, fuzzy
@@ -11146,7 +11144,7 @@ msgstr "n:ne-negativno celo število"
 
 #: ../src/dialogs/solver.ui.h:22
 msgid "_Create a scenario if the optimal solution is found"
-msgstr ""
+msgstr "_Ustvari scenarij, če je najdena najustreznejša rešitev"
 
 #: ../src/dialogs/solver.ui.h:23
 msgid "_Do not create scenarios"
@@ -11183,14 +11181,12 @@ msgid "_Quadratic Model (QP/MIQP)"
 msgstr "_Kvadratni model (QP/MIQP)"
 
 #: ../src/dialogs/solver.ui.h:31
-#, fuzzy
 msgid "_Right Hand Side:"
-msgstr "Dodelitev desnoročne strani"
+msgstr "_Desnoročna stran:"
 
 #: ../src/dialogs/solver.ui.h:32
-#, fuzzy
 msgid "_Set Target Cell:       "
-msgstr "Nastavi ozadje celice"
+msgstr "_Nastavi ciljno celico:"
 
 #: ../src/dialogs/solver.ui.h:33
 msgid "_Type:"
@@ -11221,12 +11217,10 @@ msgid "Minimum"
 msgstr "Najmanjša vrednost"
 
 #: ../src/dialogs/tabulate.ui.h:6
-#, fuzzy
 msgid "Result cell"
-msgstr "<b>Izbrana celica</b>"
+msgstr "Celica rezultata"
 
 #: ../src/dialogs/tabulate.ui.h:7
-#, fuzzy
 msgid "Step"
 msgstr "Korak"
 
@@ -11720,6 +11714,9 @@ msgid ""
 "If you want to save all sheets, save them in separate files or select different file format.\n"
 "Do you want to save only current sheet?"
 msgstr ""
+"Izbrani zapis datoteke ne podpira shranjevanja več delovnih listov v eni datoteki.\n"
+"V kolikor želite shraniti vse delovne liste, jih shranite v ločene datoteke ali pa izberite drug zapis.\n"
+"Ali želite shraniti le trenutni delovni list?"
 
 #: ../src/gui-file.c:488
 msgid "Save the current workbook as"
@@ -11740,7 +11737,7 @@ msgstr "Več napak\n"
 #: ../src/gui-util.c:1472
 #, c-format
 msgid "The plugin with id %s is required but cannot be found."
-msgstr ""
+msgstr "Zahtevan je vstavek z ID %s, vendar ga ni mogoče najti."
 
 #: ../src/gui-util.c:1480
 #, c-format
@@ -11922,7 +11919,7 @@ msgstr "Ustvari nove datoteke pomoči in datoteke po"
 
 #: ../src/main-application.c:102
 msgid "Exit immediately after loading the selected books"
-msgstr ""
+msgstr "Končaj takoj po nalaganju izbranih knjig."
 
 #: ../src/main-application.c:145
 msgid "[FILE ...]"
@@ -11962,7 +11959,7 @@ msgstr "bessel_k(%"
 
 #: ../src/mathfunc.c:6633
 msgid "This version of Gnumeric has been compiled with inadequate precision in gnm_yn."
-msgstr ""
+msgstr "Različica programa Gnumeric je kodno izgrajena brez ustreznih nastavitev v gnm_yn."
 
 #: ../src/parser.y:364
 #, c-format
@@ -12051,7 +12048,7 @@ msgstr "Napaka pridobivanja žetona dostopa:"
 #: ../src/parser.y:1611
 #, c-format
 msgid "Multiple expressions are not supported in this context"
-msgstr ""
+msgstr "Več sočasnih izrazov ni podprtih za ta način uporabe"
 
 #: ../src/parser.y:1634
 #, c-format
@@ -12142,7 +12139,7 @@ msgstr "Natisni izbor"
 
 #: ../src/print.c:1230
 msgid "You have chosen more than 1000 pages to preview. This may take a long time. Do you really want to proceed?"
-msgstr ""
+msgstr "Izbranih je več kot 100 strani za predogled. Opravilo je lahko dolgotrajno. Ali res želite nadaljevati?"
 
 #: ../src/print.c:1316
 msgid "Preparing to preview"
@@ -12228,7 +12225,7 @@ msgstr "Natisni v datoteko"
 
 #: ../src/search.c:112
 msgid "Searching for regular expressions and numbers are mutually exclusive."
-msgstr ""
+msgstr "Sočasno iskanje z logičnimi izrazi in števili se medsebojno izključuje."
 
 #: ../src/search.c:116
 msgid "The search text must be a number."
@@ -12248,7 +12245,7 @@ msgstr "Je število"
 
 #: ../src/search.c:678
 msgid "Search for Specific Number Regardless of Formatting?"
-msgstr ""
+msgstr "Ali naj se išče določeno število neodvisno od oblikovanja?"
 
 #: ../src/search.c:686
 msgid "Search Strings"
@@ -12320,7 +12317,7 @@ msgstr "Poizvedba"
 
 #: ../src/search.c:759
 msgid "Should we query for each replacement?"
-msgstr ""
+msgstr "Ali naj se izvede poizvedba za vsako zamenjavo?"
 
 #: ../src/search.c:767
 msgid "Keep Strings"
@@ -12328,7 +12325,7 @@ msgstr "Ohrani nize"
 
 #: ../src/search.c:768
 msgid "Should replacement keep strings as strings?"
-msgstr ""
+msgstr "Ali naj se med zamenjavo niz ohrani kot niz?"
 
 #: ../src/search.c:777
 msgid "The sheet in which to search."
@@ -13375,9 +13372,8 @@ msgid "Suppress all normal output"
 msgstr "Skrij vsa običajna opozorila"
 
 #: ../src/ssgrep.c:136
-#, fuzzy
 msgid "Search results of expressions too"
-msgstr "Iskanje s pomočjo logičnih izrazov"
+msgstr "Preišči tudi rezultate izrazov"
 
 #: ../src/ssgrep.c:143
 #, fuzzy
@@ -13469,7 +13465,7 @@ msgstr "Jezikovna oznaka"
 
 #: ../src/stf-export.c:558
 msgid "The locale to use for number and date formatting."
-msgstr ""
+msgstr "Jezikovne nastavitve za uporabo pri izpisu števil, časa in datuma."
 
 #: ../src/stf-export.c:566
 msgid "Transliterate mode"
@@ -13551,7 +13547,7 @@ msgstr "Datoteka ni shranjena v podanem kodnem naboru znakov."
 
 #: ../src/stf.c:492
 msgid "Some data did not fit on the sheet and was dropped."
-msgstr ""
+msgstr "Nekaterih podatkov ni bilo mogoče vključiti v delovni list, zato so bili izbrisani."
 
 #: ../src/stf.c:503
 msgid "Parse error while trying to parse data into sheet"
@@ -13578,9 +13574,8 @@ msgid "ANOVA: Two-Factor Without Replication"
 msgstr ""
 
 #: ../src/tools/analysis-anova.c:124
-#, fuzzy
 msgid "/Summary/Count/Sum/Average/Variance"
-msgstr "/Summary/Števec/Vsota/Average/Varianca"
+msgstr "/povzetek/Števec/Vsota/Povprečna vrednost/Varianca"
 
 #: ../src/tools/analysis-anova.c:150
 #: ../src/tools/analysis-tools.c:180
@@ -13766,9 +13761,8 @@ msgstr "\"δ =\" * 0.000"
 
 #: ../src/tools/analysis-exp-smoothing.c:758
 #: ../src/tools/analysis-exp-smoothing.c:1080
-#, fuzzy
 msgid "/Level/Trend/Seasonal Adjustment"
-msgstr "/Level/Trend/Seasonal Adjustment"
+msgstr "/Raven/Trend/Sezonske prilagoditve"
 
 #: ../src/tools/analysis-exp-smoothing.c:953
 #: ../src/tools/analysis-exp-smoothing.c:956
@@ -13816,43 +13810,37 @@ msgstr "Frekvenčna razpredelnica"
 #. "to below" and "up to" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:181
-#, fuzzy
 msgid "\"to below\" * General"
-msgstr "Premakni na spodnjo delovno površino"
+msgstr ""
 
 #: ../src/tools/analysis-histogram.c:181
-#, fuzzy
 msgid "\"up to\" * General"
-msgstr "Ohrani na"
+msgstr ""
 
 #. translator note: only translate the
 #. "to" and "\xe2\x88\x9e" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:269
-#, fuzzy
 msgid "\"to\" * \"∞\""
-msgstr "Za"
+msgstr ""
 
 #. translator note: only translate the
 #. "from" and "above" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:282
-#, fuzzy
 msgid "\"from\" * General"
-msgstr "Običajna pasjansa"
+msgstr ""
 
 #: ../src/tools/analysis-histogram.c:282
-#, fuzzy
 msgid "\"above\" * General"
-msgstr "Običajna pasjansa"
+msgstr ""
 
 #. translator note: only translate the
 #. "from" and "\xe2\x88\x92\xe2\x88\x9e" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:289
-#, fuzzy
 msgid "\"from\" * \"−∞\";\"from\" * \"−∞\""
-msgstr "Veljavno od:"
+msgstr ""
 
 #: ../src/tools/analysis-histogram.c:446
 #, c-format
@@ -13875,9 +13863,8 @@ msgstr "/At Risk/Deaths/Verjetnost"
 
 #: ../src/tools/analysis-kaplan-meier.c:469
 #: ../src/tools/simulation.c:250
-#, fuzzy
 msgid "Median"
-msgstr "Mediana:"
+msgstr "Mediana"
 
 #: ../src/tools/analysis-kaplan-meier.c:532
 #, fuzzy
@@ -13931,7 +13918,7 @@ msgstr ""
 #: ../src/tools/analysis-normality.c:127
 #, fuzzy
 msgid "/Alpha/p-Value/Statistic/N/Conclusion"
-msgstr "Vrednost alfe je izračunana z alfo"
+msgstr "/Alfa/Vrednost p/Statistika/N/Zaključek"
 
 #: ../src/tools/analysis-normality.c:167
 msgid "Not normal"
@@ -13969,7 +13956,7 @@ msgstr "Kovariance"
 #: ../src/tools/analysis-principal-components.c:138
 #, fuzzy
 msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
-msgstr "/Števec/Mean/Varianca//Lastna vrednost/Lastni vektor"
+msgstr "/Števec/Povprečnje/Varianca//Lastna vrednost/Lastni vektor"
 
 #: ../src/tools/analysis-principal-components.c:143
 #, fuzzy
@@ -13984,12 +13971,12 @@ msgstr "Analiza časovnih nizov"
 #: ../src/tools/analysis-sign-test.c:74
 #, fuzzy
 msgid "/Sign Test/Median/Predicted Median/Test Statistic/N/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
-msgstr "/Sign Test/Mediana/Predicted Median/Testna statistika/N/α/P(T≤t) enostrana/P(T≤t) dvostrana"
+msgstr "/Sign Test/Mediana/Napovedana mediana/Testna statistika/N/α/P(T≤t) enostrana/P(T≤t) dvostrana"
 
 #: ../src/tools/analysis-sign-test.c:216
 #, fuzzy
 msgid "/Sign Test/Median/Predicted Difference/Test Statistic/N/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
-msgstr "/Sign Test/Median/Predicted Difference/Testna statistika/N/α/P(T≤t) enostranska/P(T≤t) dvostranska"
+msgstr "/Sign Test/Median/Napovedana razlika/Testna statistika/N/α/P(T≤t) enostranska/P(T≤t) dvostranska"
 
 #: ../src/tools/analysis-sign-test.c:353
 #: ../src/tools/analysis-sign-test.c:382
@@ -14000,7 +13987,7 @@ msgstr "<b>Izbrani test</b>"
 #: ../src/tools/analysis-signed-rank-test.c:79
 #, fuzzy
 msgid "/Wilcoxon Signed Rank Test/Median/Predicted Median/N/S−/S+/Test Statistic/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
-msgstr "/Wilcoxonov test predznačenih rangov/Mediana/Predvidena mediana/N/S−/S+/Testna statistika/α/P(T≤t) enostranski test/P(T≤t) dvostranski test"
+msgstr "/Wilcoxonov test predznačenih rangov/Mediana/Napovedana mediana/N/S−/S+/Testna statistika/α/P(T≤t) enostranski test/P(T≤t) dvostranski test"
 
 #: ../src/tools/analysis-signed-rank-test.c:235
 #: ../src/tools/analysis-signed-rank-test.c:503
@@ -14014,7 +14001,7 @@ msgstr ""
 #: ../src/tools/analysis-signed-rank-test.c:294
 #, fuzzy
 msgid "/Wilcoxon Signed Rank Test/Median/Observed Median Difference/Predicted Median Difference/N/S−/S+/Test Statistic/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
-msgstr "/Wilcoxonov test predznačenih rangov/Mediana/Observed Median Difference/Predvidena mediana razlika/N/S−/S+/Testna statistika/α/P(T≤t) enostranski test/P(T≤t) dvostranski test"
+msgstr "/Wilcoxonov test predznačenih rangov/Mediana/Observed Median Difference/Napovedana mediana razlika/N/S−/S+/Testna statistika/α/P(T≤t) enostranski test/P(T≤t) dvostranski test"
 
 #: ../src/tools/analysis-signed-rank-test.c:539
 #: ../src/tools/analysis-signed-rank-test.c:568
@@ -16046,7 +16033,7 @@ msgstr "<b>Izbrani test</b>"
 #: ../src/wbc-gtk-actions.c:2532
 #: ../src/wbc-gtk-actions.c:2535
 msgid "Testing the value of a median"
-msgstr "Preizkus razpolovne vrednosti"
+msgstr "Preizkus mediane vrednosti"
 
 #: ../src/wbc-gtk-actions.c:2534
 #: ../src/wbc-gtk-actions.c:2567
@@ -16098,7 +16085,7 @@ msgstr "Primerjava povprečnih vrednosti dveh vzorcev z znano varianco: Z-Test .
 #: ../src/wbc-gtk-actions.c:2565
 #: ../src/wbc-gtk-actions.c:2568
 msgid "Comparing the values of two medians of paired observations"
-msgstr "Primerjava razpolovnih vrednosti dveh odvisnih opazovanj"
+msgstr "Primerjava mediane vrednosti dveh odvisnih opazovanj"
 
 #: ../src/wbc-gtk-actions.c:2570
 msgid "Wilcoxon-_Mann-Whitney Test..."
@@ -16106,7 +16093,7 @@ msgstr "Wilcoxon-_Mann-Whitney Test..."
 
 #: ../src/wbc-gtk-actions.c:2571
 msgid "Comparing the values of two medians of unpaired observations"
-msgstr "Primerjava razpolovnih vrednosti dveh neodvisnih opazovanj"
+msgstr "Primerjava mediane vrednosti dveh neodvisnih opazovanj"
 
 #. Statistics -> MultipleSamples
 #. Statistics -> MultipleSamples -> ANOVA
@@ -17248,7 +17235,7 @@ msgid "Show/Hide toolbar %s"
 msgstr "Pokaži ali skrij orodno vrstico %s"
 
 #: ../src/wbc-gtk.c:4787
-#, fuzzy, c-format
+#, c-format
 msgid "Content of %s"
 msgstr "Vsebina %s"
 
