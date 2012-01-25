@@ -4,6 +4,8 @@
 	parse position.  Fixes #668625.
 	(gee_rangesel_reset): Use the right size for memset.
 	(gnm_expr_entry_set_flags): Make this a no-op if nothing changes.
+	(gee_check_tooltip): No completions for =$h due to the $.  Fixes
+	#668624.
 
 2012-01-08  Morten Welinder  <terra@gnome.org>
 

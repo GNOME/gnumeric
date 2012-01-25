@@ -1100,7 +1100,10 @@ gee_check_tooltip (GnmExprEntry *gee)
 		last_token = (gli - 1)->token;
 
 	/* This creates the completion tooltip */
-	if (!stuff && gli->token == STRING && last_token != CONSTANT) {
+	if (!stuff &&
+	    gli->token == STRING &&
+	    last_token != CONSTANT &&
+	    last_token != '$') {
 		guint start_t = gli->start;
 		char *prefix;
 		GSList *list;
