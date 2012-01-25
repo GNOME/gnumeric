@@ -1,4 +1,4 @@
-# Slovenian translation for gnumeric UI.
+# Slovenian translation for gnumeric.
 # Copyright (C) 2009 gnumeric's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnumeric package.
 #
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-01-24 21:20+0000\n"
-"PO-Revision-Date: 2012-01-24 22:23+0100\n"
+"PO-Revision-Date: 2012-01-25 22:15+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1627,9 +1627,9 @@ msgid "Unable to parse tab text color '%s'"
 msgstr "Ni mogoče razčleniti barve posave zavihka '%s'"
 
 #: ../plugins/openoffice/openoffice-read.c:5737
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
-msgstr "Zaznano je polnilo šrafure '%s' brez navedenega imena!"
+msgstr "Zaznan je neznan pogoj '%s', zato bo opravilo preklicano."
 
 #: ../plugins/openoffice/openoffice-read.c:6107
 #, fuzzy, c-format
@@ -2208,9 +2208,8 @@ msgstr "Več vrednosti v isti celici"
 
 #: ../plugins/sylk/sylk.c:253
 #: ../plugins/sylk/sylk.c:262
-#, fuzzy
 msgid "Multiple expressions in the same cell"
-msgstr "Več vrednosti v isti celici"
+msgstr "V isti celici je določenih več izrazov."
 
 #: ../plugins/sylk/sylk.c:798
 msgid "Missing closing 'E'"
@@ -2399,7 +2398,6 @@ msgid "List of Plugin File States."
 msgstr "Seznam stanja datotek vstavkov."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:38
-#, fuzzy
 msgid "List of initial caps exceptions"
 msgstr "Seznam izjem pojmov z veliko prvo črko"
 
@@ -2604,11 +2602,11 @@ msgstr "Privzeta glava strani za nove dokumente, ki jo je mogoče spreminjati z 
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:87
 msgid "The function selector keeps a list of recently used functions. This is that list."
-msgstr ""
+msgstr "Izbirnik funkcij shranjuje zgodovino nedavno uporabljenih funkcij. To je ta seznam."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:88
 msgid "The function selector keeps a list of recently used functions. This is the maximum length of that list."
-msgstr ""
+msgstr "Izbirnik funkcij shranjuje zgodovino nedavno uporabljenih funkcij. Dosežena je največja dovoljena dolžina seznama."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:89
 msgid "The main directory for user specific autoformat templates."
@@ -2620,7 +2618,7 @@ msgstr "Mapa vsebuje nameščene predloge za samodejno oblikovanje."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:91
 msgid "This is the default error behavior of Search &amp; Replace indicated by an integer from 0 to 4."
-msgstr ""
+msgstr "To je privzeto obnašanje funkcije iskanja in zamenjave ob napaki, ki je določena s številom od 0 do 4."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:92
 msgid "This is the default paper orientation. Please use the Print Setup dialog to edit this value."
@@ -2632,7 +2630,7 @@ msgstr "To je privzeto določilo papirja  za tiskanje. Uporabite pogovorno okno 
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:94
 msgid "This is the default scope of Search &amp; Replace. 0: entire workbook; 1: current sheet; 2: range"
-msgstr ""
+msgstr "To je privzet obseg funkcije iskanja in zamenjave. Vrednost 0 določa celoten delovni zvezek, vrednost 1 trenutni delovni list in 2 določen obseg."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:95
 msgid "This list contains all extra directories containing autoformat templates."
@@ -2722,7 +2720,7 @@ msgstr "Ta vrednost določa ali je privzeto določeno vodoravno sredinjenje stra
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:116
 #, fuzzy
 msgid "This value determines whether the default setting in the Print Setup dialog is to center pages vertically."
-msgstr ">Vrednost določa privzete nastavitve navpičnega sredinjenja strani."
+msgstr "Spremenljivka določa ali je privzeto nastavljeno navpično sredinjenje strani."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:117
 msgid "This value gives the default number of points from the bottom of a page to the end of the body. Please use the Print Setup dialog to edit this value."
@@ -2757,19 +2755,16 @@ msgid "This variable determines whether to activate every new encountered plugin
 msgstr "Spremenljivka določa ali naj bo omogočen vsak nov zaznan vstavek."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:125
-#, fuzzy
 msgid "This variable determines whether to autocorrect first letters"
-msgstr "Spremenljivka določa ali je omogočeno samodejno dopolnjevanje."
+msgstr "Spremenljivka določa ali je omogočeno samodejno popravljanje prve črke v veliko črko."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:126
-#, fuzzy
 msgid "This variable determines whether to autocorrect initial caps"
-msgstr "Spremenljivka določa ali je omogočeno samodejno dopolnjevanje."
+msgstr "Spremenljivka določa ali je omogočeno samodejno popravljanje podvojenih velikih začetnic."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:127
-#, fuzzy
 msgid "This variable determines whether to autocorrect names of days"
-msgstr "Spremenljivka določa ali je omogočeno samodejno dopolnjevanje."
+msgstr "Spremenljivka določa ali je omogočeno samodejno popravljanje imen dni."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:128
 msgid "User Directory for Autoformats"
@@ -4534,9 +4529,8 @@ msgstr "Vrednost alfa mora biti med 0 in 1."
 #: ../src/dialogs/dialog-analysis-tools.c:3491
 #: ../src/dialogs/dialog-analysis-tools.c:3716
 #: ../src/dialogs/dialog-random-generator-cor.c:116
-#, fuzzy
 msgid "The output specification is invalid."
-msgstr "Obseg odvoda ni veljaven."
+msgstr "Določilo odvoda je neveljavno."
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:218
 msgid "Could not create the Chi Squared Tests tool dialog."
@@ -4822,19 +4816,19 @@ msgstr "Ni mogoče ustvariti pogovornega okna orodja regresije."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2557
 msgid "The given seasonal damping factor is invalid."
-msgstr ""
+msgstr "Podan sezonski faktor dušenja je neveljaven."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2566
 msgid "The given seasonal period is invalid."
-msgstr ""
+msgstr "Podano sezonsko obdobje je neveljavno."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2577
 msgid "The given growthdamping factor is invalid."
-msgstr ""
+msgstr "Podan faktor dušenja rasti je neveljaven."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2589
 msgid "The given damping factor is invalid."
-msgstr ""
+msgstr "Podan faktor dušenja je neveljaven."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2719
 msgid "Could not create the Exponential Smoothing Tool dialog."
@@ -7020,7 +7014,7 @@ msgstr "_Zoži stolpec"
 #: ../src/dialogs/dialog-stf-format-page.c:48
 #, c-format
 msgid "Importing %i columns and ignoring none."
-msgstr ""
+msgstr "Uvažanje vseh %i stolpcev."
 
 #: ../src/dialogs/dialog-stf-format-page.c:51
 #, c-format
@@ -7105,7 +7099,7 @@ msgstr[3] "%d od %d vrstic za uvoz"
 #: ../src/dialogs/dialog-stf-main-page.c:184
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
-msgstr ""
+msgstr "Podatki niso veljavni v kodnem zapisu %s; izbrati je treba drug kodni zapis."
 
 #: ../src/dialogs/dialog-stf-main-page.c:386
 #: ../src/wbc-gtk-actions.c:2729
@@ -7253,14 +7247,12 @@ msgid "Output"
 msgstr "Odvod"
 
 #: ../src/dialogs/advanced-filter.ui.h:4
-#, fuzzy
 msgid "_Criteria range:"
-msgstr "Obseg kriterija ni veljaven."
+msgstr "Obseg _kriterija:"
 
 #: ../src/dialogs/advanced-filter.ui.h:5
-#, fuzzy
 msgid "_List range:"
-msgstr "Obseg seznama ni veljaven."
+msgstr "Obseg _seznama:"
 
 #: ../src/dialogs/advanced-filter.ui.h:6
 msgid "_Unique records only"
@@ -7348,9 +7340,8 @@ msgstr "Ploščinski"
 #: ../src/dialogs/sampling.ui.h:16
 #: ../src/dialogs/sign-test.ui.h:10
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:6
-#, fuzzy
 msgid "_Input range:"
-msgstr "_Vhodna podatkovna vrsta:"
+msgstr "_Dovodni obseg podatkov:"
 
 #: ../src/dialogs/anova-one.ui.h:9
 #: ../src/dialogs/anova-two.ui.h:9
@@ -7429,9 +7420,8 @@ msgid "ANOVA - Two-Factor"
 msgstr "Žerki večkratnikov"
 
 #: ../src/dialogs/anova-two.ui.h:4
-#, fuzzy
 msgid "Input _range:"
-msgstr "_Vhodna podatkovna vrsta:"
+msgstr "Dovodni _obseg podatkov:"
 
 #: ../src/dialogs/anova-two.ui.h:7
 #, fuzzy
@@ -7763,9 +7753,8 @@ msgid "Horizontal Stripe"
 msgstr "vodoravno progasto"
 
 #: ../src/dialogs/cell-format.ui.h:45
-#, fuzzy
 msgid "I_n-cell dropdown"
-msgstr "Spustni meni"
+msgstr "Spustni meni v _celici"
 
 #: ../src/dialogs/cell-format.ui.h:46
 msgid "Ignore _blank cells"
@@ -7991,32 +7980,28 @@ msgid "min <= val <= max         (between)"
 msgstr "min <= val <= max         (vmesna vrednost)"
 
 #: ../src/dialogs/cell-format.ui.h:106
-#, fuzzy
 msgid "val  <  bound                  (less than)"
-msgstr "vred <= območje                  (manj ali enako)"
+msgstr "vred < območje                  (manj kot)"
 
 #: ../src/dialogs/cell-format.ui.h:107
-#, fuzzy
 msgid "val  >  bound                  (greater than)"
-msgstr "vred <= območje                  (več ali enako)"
+msgstr "vred > območje                  (več kot)"
 
 #: ../src/dialogs/cell-format.ui.h:108
 msgid "val <= bound                  (less than or equal)"
 msgstr "vred <= območje                  (manj ali enako)"
 
 #: ../src/dialogs/cell-format.ui.h:109
-#, fuzzy
 msgid "val <= min || max <= val (not between)"
-msgstr "Vrednost mora biti med %(min)s in %(max)s"
+msgstr "vred <= min || max <= vred (ni med)"
 
 #: ../src/dialogs/cell-format.ui.h:110
 msgid "val <> bound                  (not equal to)"
 msgstr "vred <= območje                  (ni enako)"
 
 #: ../src/dialogs/cell-format.ui.h:111
-#, fuzzy
 msgid "val == bound                  (equal to)"
-msgstr "vred <= območje                  (ni enako)"
+msgstr "vred == območje                  (je enako)"
 
 #: ../src/dialogs/cell-format.ui.h:112
 msgid "val >= bound                  (greater than or equal)"
@@ -8094,9 +8079,8 @@ msgid "Sort columns by the specified rows"
 msgstr "Razvrsti vrednosti stolpca po določeni vrstici"
 
 #: ../src/dialogs/cell-sort.ui.h:12
-#, fuzzy
 msgid "Sort range has a _header"
-msgstr "Slika BMP ima lažne podatke glave"
+msgstr "Obseg podatkov razvrščanja ima _glavo"
 
 #: ../src/dialogs/cell-sort.ui.h:13
 msgid "Sort rows by the specified columns"
@@ -8204,14 +8188,12 @@ msgid "Delete the currently selected source area"
 msgstr "Odstrani trenutno izbran slovarski vir"
 
 #: ../src/dialogs/consolidate.ui.h:8
-#, fuzzy
 msgid "Labels in _left column"
-msgstr "Stolpec v katerem je postavljen gradnik"
+msgstr "Oznake so v _levem stolpcu"
 
 #: ../src/dialogs/consolidate.ui.h:9
-#, fuzzy
 msgid "Labels in _top row"
-msgstr "Vrstica v kateri je postavljen gradnik"
+msgstr "Oznake so v _vrhnji vrstici"
 
 #: ../src/dialogs/consolidate.ui.h:10
 msgid "MAX"
@@ -8293,9 +8275,8 @@ msgid "A_utofit columns"
 msgstr "_Samodejno prilagajanje stolpcev"
 
 #: ../src/dialogs/dao.ui.h:4
-#, fuzzy
 msgid "C_lear output range"
-msgstr "Obseg odvoda ni veljaven."
+msgstr "Po_čisti odvodni obseg podatkov"
 
 #: ../src/dialogs/dao.ui.h:6
 msgid "Formulæ"
@@ -8310,14 +8291,12 @@ msgid "New _workbook"
 msgstr "Nova _preglednica"
 
 #: ../src/dialogs/dao.ui.h:9
-#, fuzzy
 msgid "Output _range:"
-msgstr "Obseg odvoda ni veljaven."
+msgstr "Odvodni _obseg podatkov:"
 
 #: ../src/dialogs/dao.ui.h:10
-#, fuzzy
 msgid "Retain output range _formatting"
-msgstr "Obseg odvoda ni veljaven."
+msgstr "Ohrani _oblikovanje odvodnega obsega podatkov"
 
 #: ../src/dialogs/dao.ui.h:11
 msgid "Retain output range co_mments"
@@ -8386,9 +8365,8 @@ msgid "(1 - _alpha):"
 msgstr "(1 - _alfa):"
 
 #: ../src/dialogs/descriptive-stats.ui.h:3
-#, fuzzy
 msgid "Confidence Interval for the _Mean"
-msgstr "Razmik samodejnega zajemanja"
+msgstr "Razmik zaupanja za _povprečno vrednost"
 
 #: ../src/dialogs/descriptive-stats.ui.h:4
 #: ../src/tools/analysis-tools.c:1142
@@ -8531,9 +8509,8 @@ msgid "Save as default formatting"
 msgstr "Shrani privzeto bolikovanje"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
-#, fuzzy
 msgid "Select N_one"
-msgstr "Izberite imenik"
+msgstr "Ne izberi _ničesar"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid "Select all non-empty sheets for export."
@@ -8650,9 +8627,8 @@ msgid "Fixed"
 msgstr "Določeno"
 
 #: ../src/dialogs/dialog-stf.ui.h:19
-#, fuzzy
 msgid "Fr_om line:"
-msgstr "Povezava preko serijskih vrat"
+msgstr "_Od vrstice:"
 
 #: ../src/dialogs/dialog-stf.ui.h:20
 msgid "Ignore any separators at the beginning of lines"
@@ -8726,18 +8702,16 @@ msgid "Source Locale:"
 msgstr "Izvorni jezik:"
 
 #: ../src/dialogs/dialog-stf.ui.h:37
-#, fuzzy
 msgid "Te_xt indicator: "
-msgstr "_Besedilna datoteka ..."
+msgstr "Kazalnik _besedila:"
 
 #: ../src/dialogs/dialog-stf.ui.h:38
 msgid "Text Import Configuration"
 msgstr "Nastavitev uvoza besedila"
 
 #: ../src/dialogs/dialog-stf.ui.h:39
-#, fuzzy
 msgid "Text indicator"
-msgstr "Določilnik prosojnosti"
+msgstr "Kazalnik besedila"
 
 #: ../src/dialogs/dialog-stf.ui.h:40
 msgid "The carriage return character (ASCII code 13) breaks lines"
@@ -8752,18 +8726,16 @@ msgid "The sequence of carriage return and line feed (ASCII codes 13 and 10) bre
 msgstr ""
 
 #: ../src/dialogs/dialog-stf.ui.h:43
-#, fuzzy
 msgid "Trim:"
-msgstr "_Robljenje"
+msgstr "Robljenje:"
 
 #: ../src/dialogs/dialog-stf.ui.h:44
 msgid "_Adjacent text indicators escaped"
 msgstr ""
 
 #: ../src/dialogs/dialog-stf.ui.h:45
-#, fuzzy
 msgid "_Auto Column Discovery"
-msgstr "Samodejna velikost stolpca:"
+msgstr "Samodejno _odkrivanje stolpcev"
 
 #: ../src/dialogs/dialog-stf.ui.h:46
 msgid "_Clear"
@@ -8798,9 +8770,8 @@ msgid "_Tab"
 msgstr "_Tabulator"
 
 #: ../src/dialogs/dialog-stf.ui.h:54
-#, fuzzy
 msgid "_To line: "
-msgstr "Skoči v _vrstico ..."
+msgstr "_Do vrstice:"
 
 #: ../src/dialogs/dialog-stf.ui.h:55
 msgid "_Unix (LF)"
@@ -9029,9 +9000,8 @@ msgid "Exponential Smoothing"
 msgstr "Potenčno glajenje"
 
 #: ../src/dialogs/exp-smoothing.ui.h:5
-#, fuzzy
 msgid "Growth damping factor (γ):"
-msgstr "Žerki večkratnikov"
+msgstr "Faktor dušenja rasti (γ):"
 
 #: ../src/dialogs/exp-smoothing.ui.h:6
 msgid "Holt's trend corrected exponential smoothing"
@@ -9047,14 +9017,12 @@ msgid "Multiplicative Holt-Winters exponential smoothing"
 msgstr ""
 
 #: ../src/dialogs/exp-smoothing.ui.h:12
-#, fuzzy
 msgid "Seasonal damping factor (δ):"
-msgstr "Žerki večkratnikov"
+msgstr "Sezonski faktor dušenja (δ):"
 
 #: ../src/dialogs/exp-smoothing.ui.h:13
-#, fuzzy
 msgid "Seasonal period:"
-msgstr "<b>Izberi obdobje</b>"
+msgstr "Sezonsko obdobje:"
 
 #: ../src/dialogs/exp-smoothing.ui.h:14
 msgid "Simple exponential smoothing (Hunter, 1986)"
@@ -9065,9 +9033,8 @@ msgid "Simple exponential smoothing (Roberts, 1959)"
 msgstr "Enostavno potenčno glajenje (Roberts, 1959)"
 
 #: ../src/dialogs/exp-smoothing.ui.h:16
-#, fuzzy
 msgid "_Damping factor (α):"
-msgstr "Faktor odstranitve zasičenosti"
+msgstr "_Faktor dušenja (α):"
 
 #: ../src/dialogs/exp-smoothing.ui.h:19
 #: ../src/dialogs/moving-averages.ui.h:19
@@ -10208,14 +10175,12 @@ msgid "Ties:"
 msgstr "_Lastnosti"
 
 #: ../src/dialogs/rank.ui.h:8
-#, fuzzy
 msgid "_Average rank"
-msgstr "Stopnja strežnika:"
+msgstr "_Povprečni rang"
 
 #: ../src/dialogs/rank.ui.h:11
-#, fuzzy
 msgid "_Top rank"
-msgstr "Stopnja strežnika:"
+msgstr "Vrhnji _rang"
 
 #: ../src/dialogs/regression.ui.h:1
 msgid "0.95"
@@ -10665,9 +10630,8 @@ msgid "Find text within the calculated values of expressions"
 msgstr "Najdi besedilo znotraj izračunanih vrednosti izrazov"
 
 #: ../src/dialogs/search.ui.h:10
-#, fuzzy
 msgid "Match _whole words only"
-msgstr "Skladnja le celih besed."
+msgstr "Išči _le cele besede"
 
 #: ../src/dialogs/search.ui.h:11
 msgid "Matches"
@@ -10694,9 +10658,8 @@ msgid "Search in current sheet only"
 msgstr "Išči le v trenutnem delovnem listu"
 
 #: ../src/dialogs/search.ui.h:21
-#, fuzzy
 msgid "Search in specified range only"
-msgstr "Poišči in zamenjaj le v izbranem obsegu celic."
+msgstr "Poišči le v izbranem obsegu celic"
 
 #: ../src/dialogs/search.ui.h:23
 msgid "Search text is"
@@ -11596,9 +11559,9 @@ msgid "Missing file name."
 msgstr "Manjka ime datoteke."
 
 #: ../src/gnm-plugin.c:449
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot read UI description from %s: %s"
-msgstr "Ni mogoče prebrati opisa uporabniškega vmesnika iz datoteke XML %s: %s"
+msgstr "Ni mogoče prebrati opisa uporabniškega vmesnika iz %s: %s"
 
 #. xgettext : %d gives the number of actions. This is input to ngettext.
 #: ../src/gnm-plugin.c:478
@@ -14484,7 +14447,7 @@ msgstr "ro:korelacija dveh naključnih spremenljivk"
 #: ../src/tools/random-generator-cor.c:101
 #, fuzzy
 msgid "Correlated Random Variables"
-msgstr "ro:korelacija dveh naključnih spremenljivk"
+msgstr "Korelirane naključne spremenljivke"
 
 #: ../src/tools/random-generator-cor.c:143
 #, fuzzy, c-format
@@ -16019,9 +15982,8 @@ msgid "_Normality Tests..."
 msgstr "Preizkusi _normalnosti ..."
 
 #: ../src/wbc-gtk-actions.c:2526
-#, fuzzy
 msgid "Testing a sample for normality"
-msgstr "Vzorčni vstavek za program Anjuta."
+msgstr "Preizkušanje normalnosti vzorca"
 
 #. Statistics -> OneSample -> OneMedian
 #. Statistics -> TwoSamples -> Two Medians
