@@ -208,10 +208,11 @@ static inline void
 gee_force_abs_rel (GnmExprEntry *gee)
 {
 	Rangesel *rs = &gee->rangesel;
+	rs->is_valid = FALSE;
 	if ((gee->flags & GNM_EE_FORCE_ABS_REF))
 		rs->ref.a.col_relative = rs->ref.b.col_relative =
 			rs->ref.a.row_relative = rs->ref.b.row_relative = FALSE;
-	else if ((gee->flags & GNM_EE_FORCE_REL_REF))
+        else if ((gee->flags & GNM_EE_FORCE_REL_REF))
 		rs->ref.a.col_relative = rs->ref.b.col_relative =
 			rs->ref.a.row_relative = rs->ref.b.row_relative = TRUE;
 }
@@ -223,13 +224,13 @@ gee_rangesel_reset (GnmExprEntry *gee)
 
 	rs->text_start = 0;
 	rs->text_end = 0;
-	memset (&rs->ref, 0, sizeof (GnmRange));
+	memset (&rs->ref, 0, sizeof (rs->ref));
 	rs->ref.a.col_relative =
 	rs->ref.b.col_relative =
 	rs->ref.a.row_relative =
 	rs->ref.b.row_relative = ((gee->flags & (GNM_EE_FORCE_ABS_REF|GNM_EE_DEFAULT_ABS_REF)) == 0);
 
-	gee->rangesel.is_valid = FALSE;
+	rs->is_valid = FALSE;
 }
 
 static void
@@ -1316,7 +1317,7 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		/*        look it up rather than reparse */
 
 		/* Look for a range */
-		if (rs->text_start >= rs->text_end)
+		if (!rs->is_valid || rs->text_start >= rs->text_end)
 			gnm_expr_entry_find_range (gee);
 
 		/* no range found */
@@ -1912,6 +1913,7 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 	len = g_utf8_strlen (text, -1);
 
 	if (single) {
+		GnmRangeRef range;
 		rs->text_start = 0;
 		rs->text_end = len;
 		tmp = rangeref_parse (&range, text, &gee->pp, gee_convs (gee));
@@ -1950,7 +1952,7 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 	if (gli->token == 0) {
 		rs->text_start = g_utf8_pointer_to_offset
 			(text, ptr);
-		rs->text_end   = len;
+		rs->text_end = len;
 		return TRUE;
 	}
 
@@ -2272,10 +2274,15 @@ gnm_expr_entry_set_flags (GnmExprEntry *gee,
 			  GnmExprEntryFlags flags,
 			  GnmExprEntryFlags mask)
 {
+	GnmExprEntryFlags newflags;
 	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 
-	gee->flags = (gee->flags & ~mask) | (flags & mask);
-	gee_force_abs_rel (gee);
+	newflags = (gee->flags & ~mask) | (flags & mask);
+	if (gee->flags == newflags)
+		return;
+
+	gee->flags = newflags;
+	gee_rangesel_reset (gee);
 }
 
 /**
@@ -2302,7 +2309,7 @@ gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 		g_object_weak_ref (G_OBJECT (gee->scg),
 				   (GWeakNotify) cb_scg_destroy, gee);
 		gee->sheet = sc_sheet (SHEET_CONTROL (scg));
-		parse_pos_init_sheet (&gee->pp, gee->sheet);
+		parse_pos_init_editpos (&gee->pp, scg_view (gee->scg));
 		gee->wbcg = scg_wbcg (gee->scg);
 	} else
 		gee->sheet = NULL;

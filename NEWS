@@ -20,6 +20,7 @@ Morten:
 	* Fix multihead problem with auto-expressions.
 	* Fix allocate-free mismatch in sheet management dialog.
 	* Fix paste special undo problem.  [#667702]
+	* Fix F4 (abs/rel-cycling) bug.  [#668625]
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.1
