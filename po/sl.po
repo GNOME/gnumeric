@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-01-24 21:20+0000\n"
-"PO-Revision-Date: 2012-01-25 22:15+0100\n"
+"PO-Revision-Date: 2012-01-26 21:58+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -287,10 +287,10 @@ msgstr ""
 "Zapis je pokvarjen.\n"
 "Dolžina za niz, ki bo razdeljen zaradi težav s kodnim naborom, je že določena."
 
-# diff ??? book : workbook = knjiga : delovni zvezek
+# book : workbook = zvezek : delovni zvezek
 #: ../plugins/excel/ms-excel-write.c:6318
 msgid "Couldn't open stream 'Book' for writing\n"
-msgstr "Ni mogoče odpreti pretoka 'knjige' za pisanje\n"
+msgstr "Ni mogoče odpreti pretoka 'zvezka' za pisanje\n"
 
 #: ../plugins/excel/ms-excel-write.c:6340
 msgid "Couldn't open stream 'Workbook' for writing\n"
@@ -1803,7 +1803,7 @@ msgstr "Določilu polja manjka velikost stolpca."
 #: ../plugins/paradox/paradox.c:467
 #, c-format
 msgid "The remainder '%s' of the specification for field %d is being disregarded."
-msgstr ""
+msgstr "Ostanek '%s' določila polja %d ni upoštevan."
 
 #: ../plugins/paradox/paradox.c:476
 msgid "Could not create output file."
@@ -2543,7 +2543,7 @@ msgstr "Rezultati iskanja za: {0}"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:73
 msgid "Some dialogs contain only a single entry field that allows range selections in the workbook. Setting this variable to TRUE directs selections to this entry even if the entry does not have keyboard focus."
-msgstr ""
+msgstr "Nekatera pogovorna okna vsebujejo le eno vnosno polje, ki omogoča izbor obsega v delovnem zvezku. Nastavitev spremenljivke na PRAV usmeri izbor na ta vnos tudi, če vpis ni v žarišču tipkovnice."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:74
 msgid "System Directory for Autoformats"
@@ -2862,7 +2862,7 @@ msgstr "Vodoravne vrednosti DPI"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:21
 msgid "If `lag' is 0, gnumeric recalculates all auto expressions immediately after every change. Non-zero values of `lag' allow gnumeric to accumulate more changes before each recalculation. If `lag' is positive, then whenever a change appears, gnumeric waits `lag' milliseconds and then recalculates; if more changes appear during that period, they are also processed at that time. If `lag' is negative, then recalculation happens only after a quiet period of |lag| milliseconds."
-msgstr ""
+msgstr "V kolikor je `zamik' enak 0, program ponovno izračuna vse samodejne izraze po vsaki spremembi. Vrednosti `zamika', ki so večje od nič, omogočajo kopičenje  sprememb pred preračunavanjem. Pozitivna vrednost `zamika' pomeni čas v milisekundah pred ponovnim preračunavanjem neodvisno od števila sprememb v tem času. V primeru, da je `zamik' negativna vrednost, se preračunavanje izvede šele v `zamiku ' ob nedejavnosti."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:22
 msgid "Length of the Undo Descriptors"
@@ -2892,9 +2892,8 @@ msgstr "Največja velikost pomnilnika razveljavitev"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:28
 #: ../src/dialogs/dialog-preferences.c:1039
-#, fuzzy
 msgid "Minimum Number of Characters for Autocompletion"
-msgstr "Najmanjše zahtevano število znakov za začetek iskanja."
+msgstr "Najmanjše število znakov za začetek samodejnega dopolnjevanja."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:29
 #: ../src/dialogs/dialog-preferences.c:779
@@ -2952,7 +2951,7 @@ msgstr "Pokaži ime delovnega lista v seznamu razveljavitev"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:41
 msgid "Some file formats can contain only a single sheet. This variable determines whether the user will be warned if only a single sheet of a multi-sheet workbook is being saved."
-msgstr ""
+msgstr "Nekateri zapisi podpirajo je en delovni list na datoteko. Spremenljivka določa ali naj bo uporabnik opozorjen o vrsti datoteke in podpori številu delovnih listov med shranjevanjem."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:42
 #: ../src/dialogs/dialog-preferences.c:794
@@ -3035,7 +3034,7 @@ msgstr "Možnost določa začetno stanje gumba načina razvrščanja v pogovorne
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:61
 msgid "This value determines the length of the undo chain. Each editing action has a size associate with it, to compare it with the memory requirements of a simple one-cell edit (size of 1). The undo list will be truncated when its total size exceeds this configurable value."
-msgstr ""
+msgstr "Spremenljivka določa dolžino zgodovine razveljavitev. Vsako urejanje zasede v pomnilniku določen prostor, ki zmanjša razpoložljivi pomnilnik za druga opravila. Ko je zgornja meja dosežena, se seznam razveljavitev razdeli."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:62
 msgid "This value determines the maximum number of items in the undo/redo list."
@@ -3095,7 +3094,7 @@ msgstr "Spremenljivka določa ali naj se omogoči hitro (in ne zamaknjeno) drsen
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:76
 msgid "This variable determines whether the format toolbar should be visible initially."
-msgstr "Spremenljivka določa ali naj bo orodna vrstica oblikovanjav začetku vidna."
+msgstr "Spremenljivka določa ali naj bo orodna vrstica oblikovanja v začetku vidna."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:77
 msgid "This variable determines whether the long format toolbar should be visible initially."
@@ -3119,7 +3118,7 @@ msgstr "Spremenljivka določa ali naj se prikažejo orodni namigi imen funkcij."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:82
 msgid "This variable determines whether transition keys are set on. Transition keys are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into page movement rather than jumping to the start/end of series."
-msgstr ""
+msgstr "Spremenljivka določa ali so omogočene tipke premikanja. V kolikor so, tipki Ctrl+smerna tipka premakne pogled za celo stran in ne le skakanja na začetek ali konec niza podatkov."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:83
 msgid "Toolbar Style"
@@ -3131,9 +3130,8 @@ msgstr "Slog orodne vrstice. Mogoče vrednosti so ikone, besedilo, oboje_vodorav
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:85
 #: ../src/dialogs/dialog-preferences.c:1029
-#, fuzzy
 msgid "Transition Keys"
-msgstr "Predstavne tipke"
+msgstr "Tipke premikanja"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:86
 #: ../src/dialogs/dialog-preferences.c:1000
@@ -3175,7 +3173,7 @@ msgstr "To je polna pot do dvojiške datoteke lp_solve, ki naj bi jo uporabil vs
 
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:5
 msgid "This setting determines whether created LaTeX files use UTF-8 (unicode) or ISO-8859-1 (Latin1). To use the UTF-8 files, you must have the ucs LaTeX package installed."
-msgstr ""
+msgstr "Nastavitev določa ali se ustvarjane datoteke LaTeX shranijo v kodnem naboru UTF-8 (unicode) ali  ISO-8859-1 (Latin1). Za shranjevanje v naboru UTF-8, mora biti nameščen tudi paket LaTeX ucs."
 
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:6
 #: ../src/dialogs/dialog-preferences.c:967
@@ -3196,7 +3194,7 @@ msgstr "Predmetna orodna vrstica"
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:4
 msgid "StandardToolbar"
-msgstr "Običajna orodna vrstica"
+msgstr "Osnovna orodna vrstica"
 
 #: ../src/application.c:279
 msgid "Cut Object"
@@ -3587,14 +3585,14 @@ msgid "Collapse rows"
 msgstr "Zloži vrstice"
 
 #: ../src/commands.c:2462
-#, fuzzy, c-format
+#, c-format
 msgid "Show column outline %d"
-msgstr "Pokaži le stolpec z nazivi"
+msgstr "Pokaži oris stolpca %d"
 
 #: ../src/commands.c:2462
-#, fuzzy, c-format
+#, c-format
 msgid "Show row outline %d"
-msgstr "Pokaži grafične predmete v orisu"
+msgstr "Pokaži oris vrstice %d"
 
 #: ../src/commands.c:2531
 msgid "Those columns are already grouped"
@@ -3836,14 +3834,13 @@ msgid "Remove Name %s"
 msgstr "Odstrani ime %s"
 
 #: ../src/commands.c:6189
-#, fuzzy
 msgid "Change Scope of Name"
-msgstr "Spremeni ime nosilca"
+msgstr "Spremeni obseg imena"
 
 #: ../src/commands.c:6237
-#, fuzzy, c-format
+#, c-format
 msgid "Change Scope of Name %s"
-msgstr "Spremeni ime nosilca"
+msgstr "Spremeni obseg imena %s"
 
 #: ../src/commands.c:6295
 msgid "Add scenario"
@@ -4662,9 +4659,8 @@ msgstr "Izbrani vnosni stolpci morajo biti enake velikosti!"
 
 #: ../src/dialogs/dialog-analysis-tools.c:662
 #: ../src/dialogs/dialog-analysis-tools.c:782
-#, fuzzy
 msgid "The selected input areas must have equal size!"
-msgstr "Izbrane vnosne vrstice morajo biti enake velikosti!"
+msgstr "Izbrana dovodna območja morajo biti enake velikosti!"
 
 #: ../src/dialogs/dialog-analysis-tools.c:710
 msgid "Could not create the Correlation Tool dialog."
@@ -4716,9 +4712,8 @@ msgstr ""
 "populacije za spremenljivko 2."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1610
-#, fuzzy
 msgid "Could not create the Mean Tests Tool dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna orodja testa Hi-kvadrat."
+msgstr "Ni mogoče ustvariti pogovornega okna orodja testa povprečja."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1797
 msgid "Could not create the FTest Tool dialog."
@@ -4859,9 +4854,8 @@ msgid "Could not create the Histogram Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja histograma."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3531
-#, fuzzy
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna  orodja ANOVA (en faktor)."
+msgstr "Ni mogoče ustvariti pogovornega okna orodja ANOVA (en faktor)."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3610
 msgid "The given input range should contain at least two columns and two rows of data and the labels."
@@ -4896,9 +4890,8 @@ msgid "The number of rows per sample should be a positive integer."
 msgstr "Število vrstic na vzorec mora biti pozitivno celo število."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3760
-#, fuzzy
 msgid "Could not create the ANOVA (two factor) tool dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna  orodja ANOVA (dva faktorja)."
+msgstr "Ni mogoče ustvariti pogovornega okna orodja ANOVA (dva faktorja)."
 
 #. xgettext : %d gives the number of items in the autofilter.
 #. This is input to ngettext.
@@ -5538,7 +5531,7 @@ msgstr "Filter"
 #: ../src/tools/analysis-tools.c:224
 #: ../src/tools/analysis-tools.c:2890
 msgid "Row"
-msgstr "Vrstica"
+msgstr "Vrstico"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
@@ -6127,7 +6120,7 @@ msgstr "Zapiši prvo črko vsake besede veliko"
 
 #: ../src/dialogs/dialog-preferences.c:1164
 msgid "Do _not capitalize after:"
-msgstr "Ne zapiši z velikimi črkami po:"
+msgstr "Ne popravljaj velikih črk pri:"
 
 #: ../src/dialogs/dialog-preferences.c:1186
 msgid "Auto Correct"
@@ -7164,7 +7157,7 @@ msgstr "Zaslona \"%s\" ni mogoče odpreti."
 
 #: ../src/dialogs/dialog-view.c:159
 msgid "This screen"
-msgstr "Ta zaslon"
+msgstr "Na tem zaslonu"
 
 #: ../src/dialogs/dialog-view.c:160
 #, c-format
@@ -7259,9 +7252,8 @@ msgid "_Unique records only"
 msgstr "Le _enoznačne zapise"
 
 #: ../src/dialogs/anova-one.ui.h:1
-#, fuzzy
 msgid "ANOVA - Single Factor"
-msgstr "Žerki večkratnikov"
+msgstr "ANOVA - En faktor"
 
 #: ../src/dialogs/anova-one.ui.h:2
 #: ../src/dialogs/chi-squared.ui.h:2
@@ -7415,9 +7407,8 @@ msgid "1"
 msgstr "1"
 
 #: ../src/dialogs/anova-two.ui.h:2
-#, fuzzy
 msgid "ANOVA - Two-Factor"
-msgstr "Žerki večkratnikov"
+msgstr "ANOVA - Dva faktorja"
 
 #: ../src/dialogs/anova-two.ui.h:4
 msgid "Input _range:"
@@ -7504,9 +7495,8 @@ msgid "Bottom"
 msgstr "Na dnu"
 
 #: ../src/dialogs/autofilter-top10.ui.h:2
-#, fuzzy
 msgid "Count or percentage:"
-msgstr "%(categname)s (%(percentage)s%% prevedeno)"
+msgstr "Števec ali odstotek:"
 
 #: ../src/dialogs/autofilter-top10.ui.h:4
 msgid "Items"
@@ -7953,7 +7943,7 @@ msgstr "_Zaščiti delovni list"
 
 #: ../src/dialogs/cell-format.ui.h:97
 msgid "_Show input message when cell is selected"
-msgstr ""
+msgstr "_Pokaži sporočilo dovoda ob izbiri celice"
 
 #: ../src/dialogs/cell-format.ui.h:99
 msgid "_Underline:"
@@ -8025,9 +8015,8 @@ msgid "Number Format"
 msgstr "Zapis števil"
 
 #: ../src/dialogs/cell-format-cond.ui.h:11
-#, fuzzy
 msgid "Style Overlay:"
-msgstr "_Slog kart"
+msgstr "Slog prekrivanja:"
 
 #: ../src/dialogs/cell-format-cond.ui.h:13
 msgid "_Edit Style"
@@ -8178,14 +8167,12 @@ msgid "C_opy labels"
 msgstr "_Kopiraj oznake"
 
 #: ../src/dialogs/consolidate.ui.h:4
-#, fuzzy
 msgid "Clear the list of source areas"
-msgstr "Ni mogoče pridobiti seznama virov. %s"
+msgstr "Počisti seznama izvornega obsega"
 
 #: ../src/dialogs/consolidate.ui.h:6
-#, fuzzy
 msgid "Delete the currently selected source area"
-msgstr "Odstrani trenutno izbran slovarski vir"
+msgstr "Izbriši trenutno izbran izvorni obseg"
 
 #: ../src/dialogs/consolidate.ui.h:8
 msgid "Labels in _left column"
@@ -8798,7 +8785,7 @@ msgstr "20_0 %"
 
 #: ../src/dialogs/dialog-zoom.ui.h:3
 msgid "Magnification"
-msgstr "Povečevanje"
+msgstr "Učinek približanja"
 
 #: ../src/dialogs/dialog-zoom.ui.h:4
 msgid "Sheets"
@@ -9794,7 +9781,7 @@ msgstr "Opo_mbe"
 
 #: ../src/dialogs/paste-special.ui.h:7
 msgid "Cont_ent"
-msgstr "_Vsebina"
+msgstr "_Vsebino"
 
 #: ../src/dialogs/paste-special.ui.h:8
 msgid "D_ivide"
@@ -9869,7 +9856,7 @@ msgstr "_Brez"
 
 #: ../src/dialogs/plugin-manager.ui.h:1
 msgid "Activate _new plugins by default"
-msgstr "_Nove vstavke samodejno omogoči"
+msgstr "_Nove vstavke omogoči samodejno"
 
 #: ../src/dialogs/plugin-manager.ui.h:2
 msgid "Directories"
@@ -11227,12 +11214,11 @@ msgstr "Nov pogled bo odprt na določenem zaslonu"
 
 #: ../src/dialogs/view.ui.h:5
 msgid "Specified screen:"
-msgstr "Določen zaslon:"
+msgstr "Na zaslonu:"
 
 #: ../src/dialogs/view.ui.h:6
-#, fuzzy
 msgid "_Share cursor position"
-msgstr "Povrni prejšnji položaj kazalke"
+msgstr "_Pokaži tudi položaj kazalke"
 
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:4
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:100
@@ -11243,7 +11229,7 @@ msgstr "Wilcoxon-Mann-Whitneyjev test"
 
 #: ../src/dialogs/workbook-attr.ui.h:1
 msgid "A_uto Complete Text in Cells"
-msgstr "_Samodejno dopolnjevanje besedila v celicah"
+msgstr "_Samodejno dopolni besedilo v celicah"
 
 #: ../src/dialogs/workbook-attr.ui.h:2
 msgid "Notebook _Tabs for Sheets"
@@ -11441,7 +11427,7 @@ msgstr "falseval:vrednost, ki se uporabi, če je pogoj NAPAK"
 
 #: ../src/func-builtin.c:277
 msgid "This function first evaluates the condition.  If the result is true, it will then evaluate and return the second argument.  Otherwise, it will evaluate and return the last argument."
-msgstr ""
+msgstr "Funkcija oceni podan pogoj. V kolikor je rezultat PRAV, oceni in vrne drugi argument, sicer oceni in vrne zadnjega."
 
 #: ../src/func.c:240
 #, c-format
@@ -12675,7 +12661,7 @@ msgstr "Shrani kot"
 
 #: ../src/sheet-object-component.c:270
 msgid "_Save as"
-msgstr "Shrani _kot"
+msgstr "Shrani _kot ..."
 
 #: ../src/sheet-object-component.c:271
 #: ../src/sheet-object-image.c:360
@@ -13049,12 +13035,12 @@ msgstr "Pravila izpisa izrazov (privzeta vrednost je A1)"
 
 #: ../src/sheet.c:983
 msgid "How to format displayed expressions, (A1 vs R1C1, function names, ...)"
-msgstr "Pravila oblikovanja izpisa izrazov (A1, R1C1, imena funkcij, ...)"
+msgstr "Pravila označevanja izpisa izrazov (A1, R1C1, imena funkcij, ...)"
 
 #. convenience wrapper to CONVENTIONS
 #: ../src/sheet.c:987
 msgid "Display convention for expressions as XLS_R1C1 vs default"
-msgstr "Pravila izpisa izrazov kot je XLS_R1CI ali privzeto."
+msgstr "Pravila označevanja izrazov kot je XLS_R1C1 ali privzeto."
 
 #: ../src/sheet.c:988
 msgid "How to format displayed expressions, (a convenience api)"
@@ -13461,12 +13447,12 @@ msgstr "Besedilo (nastavljivo)"
 #. FIXME: What locale?
 #: ../src/stf-parse.c:1269
 msgid "There are more rows of data than there is room for in the sheet.  Extra rows will be ignored."
-msgstr ""
+msgstr "Več je vrstic podatkov kot je prostora na delovnem listu. Presežne vrstice bodo prezrte."
 
 #. FIXME: What locale?
 #: ../src/stf-parse.c:1291
 msgid "There are more columns of data than there is room for in the sheet.  Extra columns will be ignored."
-msgstr ""
+msgstr "Več je stolpcev podatkov kot je prostora na delovnem listu. Presežni stolpci bodo prezrti."
 
 #: ../src/stf.c:136
 msgid "Error while trying to read file"
@@ -13480,7 +13466,7 @@ msgstr "Besedilo v stolpce"
 #: ../src/stf.c:323
 #, c-format
 msgid "Only one column of input data can be parsed at a time"
-msgstr ""
+msgstr "Ni mogoče sočasno razčleniti več kot enega stolpca dovodnih podatkov"
 
 #: ../src/stf.c:348
 msgid "There is no data to convert"
@@ -13567,7 +13553,7 @@ msgstr "/SS/df/MS/F/Vvrednost p/F critical"
 #: ../src/tools/analysis-anova.c:387
 #: ../src/tools/analysis-anova.c:793
 msgid "Insufficient space available for ANOVA table."
-msgstr ""
+msgstr "Ni dovolj prostora za razpredelnico ANOVA."
 
 #: ../src/tools/analysis-anova.c:460
 msgid "ANOVA: Two-Factor Fixed Effects With Replication"
@@ -14744,6 +14730,13 @@ msgid ""
 "\n"
 "The replace has been aborted and nothing has been changed."
 msgstr ""
+"V celici %s bi bila vsebina\n"
+"        %s\n"
+"zamenjana z vsebino\n"
+"        %s,\n"
+"kar pa ni veljavno.\n"
+"\n"
+"Zamenjava je prekinjena in ni narejenih sprememb."
 
 #: ../src/wbc-gtk-actions.c:574
 #, c-format
@@ -14920,7 +14913,7 @@ msgstr "_Imena"
 
 #: ../src/wbc-gtk-actions.c:1992
 msgid "S_pecial"
-msgstr ""
+msgstr "Po_sebno"
 
 #: ../src/wbc-gtk-actions.c:1994
 msgid "Func_tion Wrapper"
@@ -14979,7 +14972,7 @@ msgstr "Od_visna opazovanja"
 
 #: ../src/wbc-gtk-actions.c:2008
 msgid "F_orecast"
-msgstr ""
+msgstr "_Napovedovanje"
 
 #: ../src/wbc-gtk-actions.c:2009
 #, fuzzy
@@ -15080,7 +15073,7 @@ msgstr "Pošlji trenutno datoteko preko elektronske pošte"
 
 #: ../src/wbc-gtk-actions.c:2042
 msgid "Print Area & Breaks"
-msgstr "Natisni obseg celic in prelomov"
+msgstr "Natisni obseg celic"
 
 #: ../src/wbc-gtk-actions.c:2043
 msgid "Page Set_up..."
@@ -15100,7 +15093,7 @@ msgstr "Natisni trenutno datoteko"
 
 #: ../src/wbc-gtk-actions.c:2053
 msgid "Full _History..."
-msgstr "Polna _zgodovina ..."
+msgstr "Seznam _zgodovine ..."
 
 #: ../src/wbc-gtk-actions.c:2054
 msgid "Access previously used file"
@@ -15144,16 +15137,16 @@ msgstr "_Ime ..."
 
 #: ../src/wbc-gtk-actions.c:2074
 msgid "Insert a defined name"
-msgstr "Vstavljanje določenega imena"
+msgstr "Vstavi določeno ime"
 
 #: ../src/wbc-gtk-actions.c:2077
 #: ../src/wbc-gtk-actions.c:2186
 msgid "_Contents"
-msgstr "_Vsebina"
+msgstr "_Vsebina-o"
 
 #: ../src/wbc-gtk-actions.c:2078
 msgid "Open a viewer for Gnumeric's documentation"
-msgstr "Odpri pregledovalnik dokumentacije Gnumeric"
+msgstr "Odpre pregledovalnik dokumentacije Gnumeric"
 
 #: ../src/wbc-gtk-actions.c:2080
 msgid "_Functions"
@@ -15257,11 +15250,11 @@ msgstr "Spremeni velikost trenutnega delovnega lista"
 #. View
 #: ../src/wbc-gtk-actions.c:2136
 msgid "_New View..."
-msgstr "_Nov pogled ..."
+msgstr "_Ustvari nov pogled ..."
 
 #: ../src/wbc-gtk-actions.c:2137
 msgid "Create a new view of the workbook"
-msgstr "Ustvari nov delovni list preglednice"
+msgstr "Ustvari nov pogled delovnega zvezka na zaslonu"
 
 #. Format
 #: ../src/wbc-gtk-actions.c:2141
@@ -15319,7 +15312,7 @@ msgstr "Odstrani vse ročne prelome strani iz delovnega lista"
 
 #: ../src/wbc-gtk-actions.c:2178
 msgid "Clear the selected cells' formats, comments, and contents"
-msgstr ""
+msgstr "Počisti vsebino, oblikovanje in opombe izbranih celic"
 
 #: ../src/wbc-gtk-actions.c:2180
 msgid "_Formats & Hyperlinks"
@@ -15347,7 +15340,7 @@ msgstr "Počisti oblikovanje, opombe in vsebino izbranih celic v filtriranih vrs
 
 #: ../src/wbc-gtk-actions.c:2192
 msgid "F_ormats & Hyperlinks in Filtered Rows"
-msgstr ""
+msgstr "_Oblikovanje, hiperpovezave in filtrirane vrstice"
 
 #: ../src/wbc-gtk-actions.c:2193
 msgid "Clear the selected cells' formats and hyperlinks in the filtered rows"
@@ -15363,7 +15356,7 @@ msgstr "Izbriši opombe izbranih celic v filtriranih vrsticah"
 
 #: ../src/wbc-gtk-actions.c:2198
 msgid "Content_s of Filtered Rows"
-msgstr "Vsebina _filtriranih vrstic"
+msgstr "Vsebino _filtriranih vrstic"
 
 #: ../src/wbc-gtk-actions.c:2199
 msgid "Clear the selected cells' contents in the filtered rows"
@@ -15379,18 +15372,18 @@ msgstr "_Vrstice"
 
 #: ../src/wbc-gtk-actions.c:2205
 msgid "Delete the row(s) containing the selected cells"
-msgstr "Izbriši vrstice z izbranimi celicami"
+msgstr "Izbriše vrstice z izbranimi celicami"
 
 #. Translators: Delete "Columns"
 #. Translators: Insert "Columns"
 #: ../src/wbc-gtk-actions.c:2208
 #: ../src/wbc-gtk-actions.c:2331
 msgid "_Columns"
-msgstr "_Stolpci"
+msgstr "_Stolpce"
 
 #: ../src/wbc-gtk-actions.c:2209
 msgid "Delete the column(s) containing the selected cells"
-msgstr "Izbriši stolpce z izbranimi celicami"
+msgstr "Izbriše stolpce z izbranimi celicami"
 
 #. A duplicate that should not go into the menus, used only for the accelerator
 #. Insert
@@ -15405,7 +15398,7 @@ msgstr "C_elice ..."
 #: ../src/wbc-gtk-actions.c:2212
 #: ../src/wbc-gtk-actions.c:2219
 msgid "Delete the selected cells, shifting others into their place"
-msgstr "Izbriši izbrane celicami in premakni druge na njihovo mesto"
+msgstr "Izbriši izbrane celice in premakni druge na njihovo mesto"
 
 #: ../src/wbc-gtk-actions.c:2214
 msgid "_Hyperlinks"
@@ -15437,22 +15430,20 @@ msgid "Select an array of cells"
 msgstr "Izbor polja celic"
 
 #: ../src/wbc-gtk-actions.c:2246
-#, fuzzy
 msgid "_Depends"
-msgstr "Paket je odvisen od"
+msgstr "_Odvisne"
 
 #: ../src/wbc-gtk-actions.c:2247
 msgid "Select all the cells that depend on the current edit cell"
-msgstr "Izberi vse celice, ki so odvisne od trenutno urejane celice"
+msgstr "Izbere vse celice, ki so odvisne od trenutno izbrane celice"
 
 #: ../src/wbc-gtk-actions.c:2249
-#, fuzzy
 msgid "_Inputs"
-msgstr "Vhodi"
+msgstr "_Povezave izraza"
 
 #: ../src/wbc-gtk-actions.c:2250
 msgid "Select all the cells are used by the current edit cell"
-msgstr "Izberi vse celice, ki jih uporablja trenutno urejana celica"
+msgstr "Izbere vse celice, ki jih v izrazu uporablja trenutna celica"
 
 #: ../src/wbc-gtk-actions.c:2253
 msgid "Next _Object"
@@ -15524,7 +15515,7 @@ msgstr "Prilepi z izbirnimi filtri in pretvorbami"
 #: ../src/wbc-gtk-actions.c:2281
 #: ../src/wbc-gtk-actions.c:2352
 msgid "Co_mment..."
-msgstr "_Opomba ..."
+msgstr "_Opombe ..."
 
 #: ../src/wbc-gtk-actions.c:2282
 msgid "Edit the selected cell's comment"
@@ -15533,7 +15524,7 @@ msgstr "Uredi opombe trenutno izbrane celice"
 #: ../src/wbc-gtk-actions.c:2284
 #: ../src/wbc-gtk-actions.c:2355
 msgid "Hyper_link..."
-msgstr "_Hiperpovezava ..."
+msgstr "_Hiperpovezave ..."
 
 #: ../src/wbc-gtk-actions.c:2285
 msgid "Edit the selected cell's hyperlink"
@@ -15569,7 +15560,7 @@ msgstr "Ponovno izračunaj"
 
 #: ../src/wbc-gtk-actions.c:2301
 msgid "Recalculate the spreadsheet"
-msgstr "Ponovno preračunaj vrednosti delovnega lista"
+msgstr "Ponovno preračunavanje vrednosti delovnega lista"
 
 #: ../src/wbc-gtk-actions.c:2304
 msgid "Preferences..."
@@ -15577,7 +15568,7 @@ msgstr "Možnosti ..."
 
 #: ../src/wbc-gtk-actions.c:2305
 msgid "Change Gnumeric Preferences"
-msgstr "Spremeni možnosti programa"
+msgstr "Spreminjanje možnosti programa"
 
 #. View
 #: ../src/wbc-gtk-actions.c:2309
@@ -15588,7 +15579,7 @@ msgstr "_Zamrzni polje"
 #: ../src/wbc-gtk-actions.c:2310
 #: ../src/wbc-gtk.c:1526
 msgid "Freeze the top left of the sheet"
-msgstr "Zamrzni zgornje levo polje delovnega lista"
+msgstr "Zamrzne zgornje levo polje delovnega lista"
 
 #: ../src/wbc-gtk-actions.c:2312
 msgid "_Zoom..."
@@ -15596,7 +15587,7 @@ msgstr "_Približanje ..."
 
 #: ../src/wbc-gtk-actions.c:2313
 msgid "Zoom the spreadsheet in or out"
-msgstr "Približaj ali oddalji preglednico"
+msgstr "Približa ali oddalji preglednico"
 
 #: ../src/wbc-gtk-actions.c:2315
 msgid "Zoom _In"
@@ -15604,7 +15595,7 @@ msgstr "_Približaj"
 
 #: ../src/wbc-gtk-actions.c:2316
 msgid "Increase the zoom to make things larger"
-msgstr "Približaj za navidezno povečanje predmetov"
+msgstr "Približa za navidezno povečanje predmetov"
 
 #: ../src/wbc-gtk-actions.c:2318
 msgid "Zoom _Out"
@@ -15653,7 +15644,7 @@ msgstr "Vstavi nov vstavni predmet GOffice iz datoteke"
 
 #: ../src/wbc-gtk-actions.c:2348
 msgid "_Image..."
-msgstr "_Slika ..."
+msgstr "_Sliko ..."
 
 #: ../src/wbc-gtk-actions.c:2349
 msgid "Insert an image"
@@ -15715,7 +15706,7 @@ msgstr "_Imena ..."
 
 #: ../src/wbc-gtk-actions.c:2380
 msgid "Edit defined names for expressions"
-msgstr "Uredi določena imena za izraze"
+msgstr "Spremeni imena za izraze"
 
 #. Format
 #: ../src/wbc-gtk-actions.c:2384
@@ -15724,7 +15715,7 @@ msgstr "_Samodejno oblikovanje ..."
 
 #: ../src/wbc-gtk-actions.c:2385
 msgid "Format a region of cells according to a pre-defined template"
-msgstr "Oblikuj izbrane celice glede na določeno predlogo"
+msgstr "Oblikovanje izbranih celic glede na določeno predlogo"
 
 #: ../src/wbc-gtk-actions.c:2387
 msgid "Direction"
@@ -15753,11 +15744,11 @@ msgstr "Spremeni pogojno oblikovanje izbranih celic"
 
 #: ../src/wbc-gtk-actions.c:2399
 msgid "Ensure rows are just tall enough to display content of selection"
-msgstr "Prepričajte se, da so vrstice dovolj visoke za prikaz vsebine izbora."
+msgstr "Vrstice morajo biti dovolj visoke za prikaz vsebine izbora."
 
 #: ../src/wbc-gtk-actions.c:2402
 msgid "Ensure columns are just wide enough to display content of selection"
-msgstr "Prepričajte se, da so stolpci dovolj široki za prikaz vsebine izbora."
+msgstr "Stolpci morajo biti dovolj široki za prikaz vsebine izbora."
 
 #: ../src/wbc-gtk-actions.c:2408
 msgid "Change width of the selected columns"
@@ -15765,7 +15756,7 @@ msgstr "Spreminjanje širine izbranih stolpcev"
 
 #: ../src/wbc-gtk-actions.c:2411
 msgid "Ensure columns are just wide enough to display their content"
-msgstr "Prepričajte se, da so stolpci dovolj široki za prikaz vsebine."
+msgstr "Stolpci morajo biti dovolj široki za popoln prikaz vsebine."
 
 #: ../src/wbc-gtk-actions.c:2414
 msgid "Hide the selected columns"
@@ -15786,7 +15777,7 @@ msgstr "Spremeni privzeto širino stolpca"
 #. Format -> Row
 #: ../src/wbc-gtk-actions.c:2424
 msgid "H_eight..."
-msgstr "_Višina:"
+msgstr "_Višina ..."
 
 #: ../src/wbc-gtk-actions.c:2425
 msgid "Change height of the selected rows"
@@ -15794,7 +15785,7 @@ msgstr "Spremeni višino izbranih vrstic"
 
 #: ../src/wbc-gtk-actions.c:2428
 msgid "Ensure rows are just tall enough to display their content"
-msgstr "Prepričajte se, da so vrstice dovolj visoke za prikaz vsebine."
+msgstr "Vrstice morajo biti dovolj visoke za popoln prikaz vsebine."
 
 #: ../src/wbc-gtk-actions.c:2431
 msgid "Hide the selected rows"
@@ -15802,7 +15793,7 @@ msgstr "Skrij izbrane vrstice"
 
 #: ../src/wbc-gtk-actions.c:2434
 msgid "Make any hidden rows in the selection visible"
-msgstr "Pokaži vse skrite vrstice v izboru"
+msgstr "Pokaže vse skrite vrstice v izboru"
 
 #: ../src/wbc-gtk-actions.c:2436
 msgid "_Standard Height"
@@ -15823,7 +15814,7 @@ msgstr "Upravljanje z moduli vstavkov na voljo"
 
 #: ../src/wbc-gtk-actions.c:2444
 msgid "Auto _Correct..."
-msgstr "_Samodejno popravljanje ..."
+msgstr "_Samodejno popravi ..."
 
 #: ../src/wbc-gtk-actions.c:2445
 msgid "Automatically perform simple spell checking"
@@ -16108,7 +16099,7 @@ msgstr "P_remešaj ..."
 
 #: ../src/wbc-gtk-actions.c:2599
 msgid "Shuffle cells, rows or columns"
-msgstr "Premešaj celice, vrstica ali stolpce"
+msgstr "Premešaj celice, vrstice ali stolpce"
 
 #: ../src/wbc-gtk-actions.c:2601
 msgid "_Validate..."
@@ -16350,19 +16341,19 @@ msgstr "Vsota"
 
 #: ../src/wbc-gtk-actions.c:2694
 msgid "Sum into the current cell"
-msgstr "Seštej vrednost v trenutno izbrano celico"
+msgstr "Sešteje vrednost v trenutno izbrano celico"
 
 #: ../src/wbc-gtk-actions.c:2696
 msgid "_Function"
-msgstr "_Funkcija"
+msgstr "_Funkcijo"
 
 #: ../src/wbc-gtk-actions.c:2697
 msgid "Edit a function in the current cell"
-msgstr "Uredi funkcijo trenutne celice"
+msgstr "Vstavi in uredi funkcijo trenutne celice"
 
 #: ../src/wbc-gtk-actions.c:2701
 msgid "Sort the selected region in ascending order based on the first column selected"
-msgstr ""
+msgstr "Razvrsti izbrani obseg celic naraščajoče po prvem izbranem stolpcu podatkov."
 
 #: ../src/wbc-gtk-actions.c:2703
 msgid "Sort Descending"
@@ -16370,7 +16361,7 @@ msgstr "Razvrsti padajoče"
 
 #: ../src/wbc-gtk-actions.c:2704
 msgid "Sort the selected region in descending order based on the first column selected"
-msgstr ""
+msgstr "Razvrsti izbrani obseg celic padajoče po prvem izbranem stolpcu podatkov."
 
 #: ../src/wbc-gtk-actions.c:2709
 msgid "Create a frame"
@@ -16635,13 +16626,12 @@ msgstr "Preklopi prikaz glav vrstic"
 
 #. TODO : Make this a sub menu when we have more convention types
 #: ../src/wbc-gtk-actions.c:2858
-#, fuzzy
 msgid "Use R1C1 N_otation "
-msgstr "Uporabi predelavo/oznako:"
+msgstr "Uporabi _označevanje R1C1"
 
 #: ../src/wbc-gtk-actions.c:2859
 msgid "Display addresses as R1C1 or A1"
-msgstr "Pokaži naslov celice kot R1C1 ali A1"
+msgstr "Pokaži označevanje celic kot R1C1 ali A1"
 
 #: ../src/wbc-gtk-actions.c:2863
 msgid "_Left Align"
@@ -17170,7 +17160,7 @@ msgstr "Običajna orodna vrstica"
 
 #: ../src/wbc-gtk.c:4052
 msgid "Format Toolbar"
-msgstr "Orodna vrstica oblikovanje"
+msgstr "Orodna vrstica oblikovanja"
 
 #: ../src/wbc-gtk.c:4053
 msgid "Long Format Toolbar"
@@ -17589,7 +17579,7 @@ msgstr "Omogoči samodejno izračunavanje"
 #: ../src/workbook.c:314
 #, c-format
 msgid "Book%d.%s"
-msgstr "Knjiga%d.%s"
+msgstr "zvezek%d.%s"
 
 #: ../src/workbook.c:946
 msgid "Graph"
