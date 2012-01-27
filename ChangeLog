@@ -1,3 +1,11 @@
+2012-01-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-util.c (gnumeric_create_tooltip_text_view_widget): new
+	(gnumeric_convert_to_tooltip): new
+	(gnumeric_create_tooltip): use gnumeric_convert_to_tooltip
+	* src/gui-util.h (gnumeric_create_tooltip_text_view_widget): new
+	(gnumeric_convert_to_tooltip): new
+
 2012-01-15  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c: Switch to using a GtkBuilder ui.

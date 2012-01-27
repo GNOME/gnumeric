@@ -477,6 +477,20 @@ gnumeric_tooltip_set_style (GtkWidget *widget)
 }
 
 GtkWidget *
+gnumeric_create_tooltip_text_view_widget (void)
+{
+	GtkWidget *label, *frame;
+
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
+	label = gtk_text_view_new ();
+
+	gtk_container_add (GTK_CONTAINER (frame), label);
+
+	return label;
+}
+
+GtkWidget *
 gnumeric_create_tooltip_widget (void)
 {
 	GtkWidget *label, *frame;
@@ -491,9 +505,9 @@ gnumeric_create_tooltip_widget (void)
 }
 
 GtkWidget *
-gnumeric_create_tooltip (GtkWidget *ref_widget)
+gnumeric_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *label)
 {
-	GtkWidget *tip, *label, *frame;
+	GtkWidget *tip, *frame;
 
 	tip = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_window_set_type_hint (GTK_WINDOW (tip),
@@ -503,7 +517,6 @@ gnumeric_create_tooltip (GtkWidget *ref_widget)
 	gtk_window_set_screen (GTK_WINDOW (tip), gtk_widget_get_screen (ref_widget));
 	gtk_widget_set_name (tip, "gnumeric-tooltip");
 
-	label = gnumeric_create_tooltip_widget ();
 	frame = gtk_widget_get_toplevel (label);
 
 	gtk_container_add (GTK_CONTAINER (tip), frame);
@@ -512,6 +525,12 @@ gnumeric_create_tooltip (GtkWidget *ref_widget)
 	gnumeric_tooltip_set_style (label);
 
 	return label;
+}
+
+GtkWidget *
+gnumeric_create_tooltip (GtkWidget *ref_widget)
+{
+	return gnumeric_convert_to_tooltip (ref_widget, gnumeric_create_tooltip_widget ()); 
 }
 
 void

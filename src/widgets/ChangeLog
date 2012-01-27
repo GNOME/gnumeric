@@ -1,3 +1,8 @@
+2012-01-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_create_tooltip): use a text view
+	(gee_set_tooltip_completion): format the info in a nicer way
+
 2012-01-25  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_set_scg): Set the right

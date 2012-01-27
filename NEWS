@@ -4,6 +4,7 @@ Andreas:
 	* Colour the range expressions to match the range cursor. [#632156]
 	* Implement ctrl-click cell deselection. [#610696]
 	* Fix LaTeX export of cyrillic. [#666340]
+	* Fix function tool tip. [#668685]
 
 Jean:
 	* Fix formula interpretation in plot series (with Morten's help). [#662237]

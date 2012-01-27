@@ -49,6 +49,7 @@
 #define UNICODE_ELLIPSIS "\xe2\x80\xa6"
 #define UNICODE_ELLIPSIS_VERT "\xe2\x8b\xae"
 #define UNICODE_ARROW_UP "\xe2\x87\xa7"
+#define UNICODE_CHECKMARK "\342\234\223"
 
 #warning We should replace these token names with the correct values
    enum yytokentype {
@@ -772,6 +773,9 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 	GdkWindow *gdkw;
 	gchar *markup = NULL;
 	GString *string;
+	GtkTextBuffer *buffer;
+	PangoAttrList *attr_list = NULL;
+	char *text = NULL;
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (gee->entry));
 	gtk_widget_add_events(toplevel, GDK_FOCUS_CHANGE_MASK);
@@ -780,7 +784,7 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 			(G_OBJECT (toplevel), "focus-out-event",
 			 G_CALLBACK (cb_gee_focus_out_event), gee);
 
-	label = gnumeric_create_tooltip (toplevel);
+	label = gnumeric_convert_to_tooltip (toplevel, gnumeric_create_tooltip_text_view_widget ());
 	tip = gtk_widget_get_toplevel (label);
 
 	if (str)
@@ -788,18 +792,31 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 	string = g_string_new (markup);
 	if (marked_str)
 		g_string_append (string, marked_str);
-	gtk_label_set_markup (GTK_LABEL (label), string->str);
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (label));
+
+	if (pango_parse_markup (string->str, -1, 0,
+				&attr_list, &text,
+				NULL, NULL)) {
+		gnm_create_std_tags_for_buffer (buffer);
+		gtk_text_buffer_set_text (buffer, text, -1);
+		gnm_load_pango_attributes_into_buffer (attr_list, buffer, text);
+		g_free (text);
+		pango_attr_list_unref (attr_list);
+	} else
+		gtk_text_buffer_set_text (buffer, string->str, -1);
 	g_free (markup);
 	g_string_free (string, TRUE);
 
 	if (set_tabs) {
-		PangoLayout *pl = gtk_label_get_layout (GTK_LABEL (label));
 		PangoTabArray *tabs;
 		tabs = pango_tab_array_new_with_positions
-			(2, TRUE,
-			 PANGO_TAB_LEFT, 120,
-			 PANGO_TAB_LEFT, 140);
-		pango_layout_set_tabs (pl, tabs);
+			(5, TRUE,
+			 PANGO_TAB_LEFT, 20,
+			 PANGO_TAB_LEFT, 140,
+			 PANGO_TAB_LEFT, 160,
+			 PANGO_TAB_LEFT, 180,
+			 PANGO_TAB_LEFT, 200);
+		gtk_text_view_set_tabs (GTK_TEXT_VIEW (label), tabs);
 		pango_tab_array_free (tabs);
 	}
 
@@ -928,12 +945,12 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 		if ((end - start) < (guint) g_utf8_strlen (name, -1))
 			/* xgettext: the first %s is a function name and */
 			/* the second %s the function description */
-			g_string_append_printf (str, _("%s : \t%s\n"), name,
+			g_string_append_printf (str, _("\t%s \t%s\n"), name,
 						gnm_func_get_description (fd));
 		else {
 			/* xgettext: the first %s is a function name and */
 			/* the second %s the function description */
-			g_string_append_printf (str, _("[%s : \t%s]\n"), name,
+			g_string_append_printf (str, _("\342\234\223\t%s \t%s\n"), name,
 						gnm_func_get_description (fd));
 			i--;
 		}
@@ -941,15 +958,15 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 
 	str_marked = g_string_new (NULL);
 	if (i == max)
-		g_string_append (str_marked, UNICODE_ELLIPSIS_VERT "\n");
+		g_string_append (str_marked, "\t" UNICODE_ELLIPSIS_VERT "\n");
 	if (i == 1) {
 		gee->tooltip.completion
 			= g_strdup (name);
 		/*xgettext: short form for: "type F4-key to complete the name"*/
-		g_string_append (str_marked, _("\n<i>F4 to complete</i>"));
+		g_string_append (str_marked, _("\n\t<i>F4 to complete</i>"));
 	} else if (i > 1)
 		/*xgettext: short form for: "type shift-F4-keys to select the completion"*/
-		g_string_append (str_marked, _("\n<i>\xe2\x87\xa7""F4 to select</i>"));
+		g_string_append (str_marked, _("\n\t<i>\xe2\x87\xa7""F4 to select</i>"));
 	else
 		g_string_truncate (str, str->len - 1);
 	gee->tooltip.completion_start = start;
