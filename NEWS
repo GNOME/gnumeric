@@ -23,6 +23,7 @@ Morten:
 	* Fix paste special undo problem.  [#667702]
 	* Fix F4 (abs/rel-cycling) bug.  [#668625]
 	* Fix minor function name completion bug.  [#668624]
+	* Fix abs/rel stickiness in expression entry.  [#668691]
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.1

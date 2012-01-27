@@ -1,3 +1,8 @@
+2012-01-27  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_find_range): Default to
+	relative references, not previous.  Fixes #668691.
+
 2012-01-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_create_tooltip): use a text view

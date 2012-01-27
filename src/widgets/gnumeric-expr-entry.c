@@ -441,7 +441,8 @@ gee_set_format (GnmExprEntry *gee, GOFormat const *fmt)
 	gee->constant_format = fmt;
 
 	if (gee_debug)
-		g_printerr ("Setting format %s\n", fmt ? go_format_as_XL (fmt) : "-");
+		g_printerr ("Setting format %s\n",
+			    fmt ? go_format_as_XL (fmt) : "-");
 
 	if (fmt && go_format_is_date (fmt)) {
 		if (!gee->calendar_combo) {
@@ -984,12 +985,12 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 
 static void
 gee_dump_lexer (GnmLexerItem *gli) {
-	g_print ("************\n");
+	g_printerr ("************\n");
 	do {
-		g_print ("%2" G_GSIZE_FORMAT " to %2" G_GSIZE_FORMAT ": %d\n",
-			 gli->start, gli->end, gli->token);
+		g_printerr ("%2" G_GSIZE_FORMAT " to %2" G_GSIZE_FORMAT ": %d\n",
+			    gli->start, gli->end, gli->token);
 	} while (gli++->token != 0);
-	g_print ("************\n");
+	g_printerr ("************\n");
 
 }
 
@@ -1160,9 +1161,9 @@ gee_check_tooltip (GnmExprEntry *gee)
 		goto not_found;
 
 	if (gnm_debug_flag ("functooltip"))
-		g_print ("Last token considered is %d from %2"
-			 G_GSIZE_FORMAT " to %2" G_GSIZE_FORMAT ".\n",
-			 gli->token, gli->start, gli->end);
+		g_printerr ("Last token considered is %d from %2"
+			    G_GSIZE_FORMAT " to %2" G_GSIZE_FORMAT ".\n",
+			    gli->token, gli->start, gli->end);
 
 
 	while (gli->start > 1) {
@@ -1912,15 +1913,12 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 
 	g_return_val_if_fail (gee != NULL, FALSE);
 
-	rs     = &gee->rangesel;
 	single = (gee->flags & GNM_EE_SINGLE_RANGE) != 0;
-
-
-	rs->ref.a.sheet = rs->ref.b.sheet = NULL;
+	rs = &gee->rangesel;
+	memset (rs, 0, sizeof (*rs));
+	rs->ref.a.col_relative = rs->ref.a.row_relative = TRUE;
+	rs->ref.b.col_relative = rs->ref.b.row_relative = TRUE;
 	gee_force_abs_rel (gee);
-	rs->is_valid = FALSE;
-	rs->text_start = 0;
-	rs->text_end = 0;
 
 	text = gtk_entry_get_text (gee->entry);
 	if (text == NULL)
@@ -1981,11 +1979,11 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 	gee_find_lexer_token (gli, (guint)token_pos, &gli_before, &gli_after);
 
 	if (gnm_debug_flag ("rangeselection")) {
-		g_print ("before: %p -- after: %p\n", gli_before, gli_after);
+		g_printerr ("before: %p -- after: %p\n", gli_before, gli_after);
 		if (gli_before)
-			g_print ("before token: %d\n", gli_before->token);
+			g_printerr ("before token: %d\n", gli_before->token);
 		if (gli_after)
-			g_print ("after token: %d\n", gli_after->token);
+			g_printerr ("after token: %d\n", gli_after->token);
 	}
 
 	if (gli_before == NULL && gli_after == NULL)
@@ -2085,8 +2083,8 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		}
 
 	if (gnm_debug_flag ("rangeselection"))
-		g_print ("characters from %d to %d\n",
-			 rs->text_start, rs->text_end);
+		g_printerr ("characters from %d to %d\n",
+			    rs->text_start, rs->text_end);
 
 	rs_text = gtk_editable_get_chars (GTK_EDITABLE (gee->entry),
 					  rs->text_start, rs->text_end);
