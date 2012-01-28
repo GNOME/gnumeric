@@ -1193,7 +1193,7 @@ gnumeric_hexrep (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		unsigned char b = data[ui];
 		res[2 * ui] = hex[b >> 4];
 		res[2 * ui + 1] = hex[b & 0xf];
-	}	
+	}
 	res[2 * ui] = 0;
 
 	return value_new_string (res);

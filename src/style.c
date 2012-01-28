@@ -335,7 +335,7 @@ gnm_align_h_get_type (void)
 			{GNM_HALIGN_CENTER, "GNM_HALIGN_CENTER", "center"},
 			{GNM_HALIGN_FILL, "GNM_HALIGN_FILL", "fill"},
 			{GNM_HALIGN_JUSTIFY, "GNM_HALIGN_JUSTIFY", "justify"},
-			{GNM_HALIGN_CENTER_ACROSS_SELECTION, 
+			{GNM_HALIGN_CENTER_ACROSS_SELECTION,
 			 "GNM_HALIGN_CENTER_ACROSS_SELECTION",
 			 "across-selection"},
 			{GNM_HALIGN_DISTRIBUTED,
@@ -358,7 +358,7 @@ gnm_align_v_get_type (void)
 			{GNM_VALIGN_BOTTOM, "GNM_VALIGN_BOTTOM", "bottom"},
 			{GNM_VALIGN_CENTER, "GNM_VALIGN_CENTER", "center"},
 			{GNM_VALIGN_JUSTIFY, "GNM_VALIGN_JUSTIFY", "justify"},
-			{GNM_VALIGN_DISTRIBUTED, 
+			{GNM_VALIGN_DISTRIBUTED,
 			 "GNM_VALIGN_DISTRIBUTED", "distributed"},
 			{ 0, NULL, NULL }
 		};
@@ -452,7 +452,7 @@ gnm_font_init (void)
 }
 
 static void
-delete_neg_font (GnmFont *sf, G_GNUC_UNUSED gpointer value, 
+delete_neg_font (GnmFont *sf, G_GNUC_UNUSED gpointer value,
 		 G_GNUC_UNUSED gpointer user_data)
 {
 	g_object_unref (sf->context);

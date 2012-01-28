@@ -605,9 +605,9 @@ gnm_expr_entry_colour_ranges (GnmExprEntry *gee, int start, int end, GnmRangeRef
 		gchar const *name;
 	} colours[] = {{0x0, 0xFFFF, 0x0, "00:ff:00:ff"},
 		       {0x0, 0x0, 0xFFFF, "00:00:ff:ff"},
-		       {0xFFFF, 0x0, 0x0, "ff:00:00:ff"}, 
-		       {0x0, 0x80FF, 0x80FF, "00:80:80:ff"}, 
-		       {0xA0FF, 0xA0FF, 0x0, "a0:a0:00:ff"}, 
+		       {0xFFFF, 0x0, 0x0, "ff:00:00:ff"},
+		       {0x0, 0x80FF, 0x80FF, "00:80:80:ff"},
+		       {0xA0FF, 0xA0FF, 0x0, "a0:a0:00:ff"},
 		       {0xA0FF, 0x0, 0xA0FF, "a0:00:a0:ff"}};
 	PangoAttribute *at;
 	GnmRange r;
@@ -632,22 +632,22 @@ gnm_expr_entry_colour_ranges (GnmExprEntry *gee, int start, int end, GnmRangeRef
 		    NULL != (merge = gnm_sheet_merge_is_corner
 			     (start_sheet, &r.start)))
 			r = *merge;
-		if (start_sheet == sheet) 
+		if (start_sheet == sheet)
 			scg = gee->scg;
 		else {
 			WBCGtk *wbcg = scg_wbcg (gee->scg);
 			scg = wbcg_get_nth_scg (wbcg, start_sheet->index_in_wb);
 		}
-	
-		SCG_FOREACH_PANE (scg, pane, gnm_pane_expr_cursor_bound_set 
+
+		SCG_FOREACH_PANE (scg, pane, gnm_pane_expr_cursor_bound_set
 				  (pane, &r, colours[colour].name););
 	}
 
-	at = pango_attr_foreground_new (colours[colour].red, colours[colour].green, 
+	at = pango_attr_foreground_new (colours[colour].red, colours[colour].green,
 					colours[colour].blue);
 	at->start_index = start;
 	at->end_index = end;
-	
+
 	pango_attr_list_change (*attrs, at);
 }
 
@@ -672,11 +672,11 @@ gee_scan_for_range (GnmExprEntry *gee)
 		do {
 			if (gli->token == RANGEREF) {
 				char const *text = gtk_entry_get_text (gee->entry);
-				char *rtext = g_strndup (text + gli->start, 
+				char *rtext = g_strndup (text + gli->start,
 							 gli->end - gli->start);
 				char const *tmp;
 				GnmRangeRef rr;
-				tmp = rangeref_parse (&rr, rtext, 
+				tmp = rangeref_parse (&rr, rtext,
 						      &gee->pp, gee_convs (gee));
 				if (tmp != rtext) {
 					gpointer val;
@@ -697,7 +697,7 @@ gee_scan_for_range (GnmExprEntry *gee)
 						this_colour = GPOINTER_TO_INT (val);
 						insert_cursor = FALSE;
 					}
-					gnm_expr_entry_colour_ranges (gee, gli->start, gli->end, &rr, 
+					gnm_expr_entry_colour_ranges (gee, gli->start, gli->end, &rr,
 								      this_colour, &attrs, insert_cursor);
 				}
 				g_free (rtext);
@@ -706,10 +706,10 @@ gee_scan_for_range (GnmExprEntry *gee)
 		g_hash_table_destroy (hash);
 	}
 	if (attrs)
-		g_object_set_data_full (G_OBJECT (gee->entry), "gnm:range-attributes", attrs, 
+		g_object_set_data_full (G_OBJECT (gee->entry), "gnm:range-attributes", attrs,
 					(GDestroyNotify) pango_attr_list_unref);
 	else
-		g_object_set_data (G_OBJECT (gee->entry), "gnm:range-attributes", NULL);	
+		g_object_set_data (G_OBJECT (gee->entry), "gnm:range-attributes", NULL);
 }
 
 static void

@@ -53,7 +53,7 @@ sv_selection_calc_simplification (SheetView const *sv)
 	if (sv->selections_simplified != NULL)
 		return sv->selections_simplified;
 
-	g_return_val_if_fail (sv->selections != NULL && 
+	g_return_val_if_fail (sv->selections != NULL &&
 			      sv->selections->data != NULL,
 			      sv->selections);
 
@@ -76,7 +76,7 @@ sv_selection_calc_simplification (SheetView const *sv)
 			simp = g_slist_prepend (simp, r_new);
 		}
 	}
-	
+
 	if (simp == NULL) {
 		GnmRange *r_new = g_new (GnmRange, 1);
 		range_init_cellpos (r_new, &sv->edit_pos);
@@ -84,7 +84,7 @@ sv_selection_calc_simplification (SheetView const *sv)
 	}
 
 	sv_mod->selections_simplified = g_slist_reverse (simp);
-	
+
 	return sv->selections_simplified;
 }
 
@@ -99,7 +99,7 @@ sv_selection_calc_simplification (SheetView const *sv)
 GnmCellPos const *
 sv_is_singleton_selected (SheetView const *sv)
 {
-#warning FIXME Should we be using the selection rather than the cursor? 
+#warning FIXME Should we be using the selection rather than the cursor?
 	if (sv->cursor.move_corner.col == sv->cursor.base_corner.col &&
 	    sv->cursor.move_corner.row == sv->cursor.base_corner.row)
 		return &sv->cursor.move_corner;
@@ -682,7 +682,7 @@ void
 sv_selection_add_full (SheetView *sv,
 		       int edit_col, int edit_row,
 		       int base_col, int base_row,
-		       int move_col, int move_row, 
+		       int move_col, int move_row,
 		       GnmSelectionMode mode)
 {
 	GnmRange *ss;
@@ -706,7 +706,7 @@ void
 sv_selection_add_range (SheetView *sv, GnmRange const *r)
 {
 	sv_selection_add_full (sv, r->start.col, r->start.row,
-			       r->start.col, r->start.row, r->end.col, r->end.row, 
+			       r->start.col, r->start.row, r->end.col, r->end.row,
 			       GNM_SELECTION_MODE_ADD);
 }
 void

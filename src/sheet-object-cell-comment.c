@@ -159,7 +159,7 @@ static gboolean
 comment_view_leave_notify (GocItem *item, double x, double y)
 {
 	scg_comment_unselect (GNM_PANE (item->canvas)->simple.scg,
-	                     CELL_COMMENT (sheet_object_view_get_so (SHEET_OBJECT_VIEW (item))));
+	                      CELL_COMMENT (sheet_object_view_get_so (SHEET_OBJECT_VIEW (item))));
 	return TRUE;
 }
 

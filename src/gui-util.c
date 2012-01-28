@@ -530,7 +530,7 @@ gnumeric_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *label)
 GtkWidget *
 gnumeric_create_tooltip (GtkWidget *ref_widget)
 {
-	return gnumeric_convert_to_tooltip (ref_widget, gnumeric_create_tooltip_widget ()); 
+	return gnumeric_convert_to_tooltip (ref_widget, gnumeric_create_tooltip_widget ());
 }
 
 void
@@ -991,7 +991,7 @@ gnm_store_text_tag_attr_in_pango (PangoAttrList *list, GtkTextTag *tag, GtkTextI
 	if (gnm_object_get_bool (tag, "foreground-set")) {
 #if GTK_MAJOR_VERSION > 3 || GTK_MINOR_VERSION >= 2
 		GdkRGBA *color = NULL;
-		g_object_get (G_OBJECT (tag), "foreground-rgba", &color, NULL);			
+		g_object_get (G_OBJECT (tag), "foreground-rgba", &color, NULL);
 #else
 		GdkColor *color = NULL;
 		g_object_get (G_OBJECT (tag), "foreground-gdk", &color, NULL);
@@ -999,9 +999,9 @@ gnm_store_text_tag_attr_in_pango (PangoAttrList *list, GtkTextTag *tag, GtkTextI
 		if (color) {
 #if GTK_MAJOR_VERSION > 3 || GTK_MINOR_VERSION >= 2
 			/* dividing 0 to 1 into 65536 equal length intervals */
-			attr =  pango_attr_foreground_new 
-				((int)(CLAMP (color->red * 65536, 0., 65535.)), 
-				 (int)(CLAMP (color->green * 65536, 0., 65535.)), 
+			attr =  pango_attr_foreground_new
+				((int)(CLAMP (color->red * 65536, 0., 65535.)),
+				 (int)(CLAMP (color->green * 65536, 0., 65535.)),
 				 (int)(CLAMP (color->blue * 65536, 0., 65535.)));
 			gdk_rgba_free (color);
 #else

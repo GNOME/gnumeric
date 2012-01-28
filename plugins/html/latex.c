@@ -428,8 +428,8 @@ cb_find_font_encodings (GnmCellIter const *iter, gboolean *fonts)
 {
 	GnmCell *cell = iter->cell;
 	if (cell) {
-		char const *rs = 
-			gnm_rendered_value_get_text 
+		char const *rs =
+			gnm_rendered_value_get_text
 			(gnm_cell_fetch_rendered_value (cell, TRUE));
 		while (*rs) {
 			gunichar ch = g_utf8_get_char (rs);
@@ -766,7 +766,7 @@ latex2e_print_vert_border (GsfOutput *output, GnmStyleBorderType style)
  *
  */
 static void
-latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col, 
+latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col,
 				      G_GNUC_UNUSED int start_row,
 				      int num_merged_cols, int num_merged_rows,
 				      gint index,
@@ -1518,7 +1518,7 @@ latex2e_table_write_file_header(GsfOutput *output)
  * We try to avoid all formatting.
  */
 void
-latex_table_file_save (G_GNUC_UNUSED GOFileSaver const *fs, 
+latex_table_file_save (G_GNUC_UNUSED GOFileSaver const *fs,
 		       G_GNUC_UNUSED GOIOContext *io_context,
 		       WorkbookView const *wb_view, GsfOutput *output)
 {

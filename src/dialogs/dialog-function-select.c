@@ -123,7 +123,7 @@ typedef struct {
 } search_t;
 
 static gboolean
-cb_dialog_function_select_search_all (GtkTreeModel *model, 
+cb_dialog_function_select_search_all (GtkTreeModel *model,
 				      G_GNUC_UNUSED GtkTreePath *path,
 				      GtkTreeIter *iter, gpointer data)
 {

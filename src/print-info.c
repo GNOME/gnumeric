@@ -51,11 +51,11 @@ gnm_print_comment_placement_get_type (void)
 		  { GNM_PRINT_COMMENTS_NONE, "GNM_PRINT_COMMENTS_NONE", "none"},
 		  { GNM_PRINT_COMMENTS_IN_PLACE, "GNM_PRINT_COMMENTS_IN_PLACE",
 		    "in-place"},
-		  { GNM_PRINT_COMMENTS_AT_END, "GNM_PRINT_COMMENTS_AT_END", 
+		  { GNM_PRINT_COMMENTS_AT_END, "GNM_PRINT_COMMENTS_AT_END",
 		    "at-end"},
 		  { 0, NULL, NULL }
 	  };
-	  etype = g_enum_register_static ("GnmPrintCommentPlacementType", 
+	  etype = g_enum_register_static ("GnmPrintCommentPlacementType",
 					  values);
   }
   return etype;
@@ -77,7 +77,7 @@ gnm_print_errors_get_type (void)
 		    "GNM_PRINT_ERRORS_AS_NA", "as-na"},
 		  { 0, NULL, NULL }
 	  };
-	  etype = g_enum_register_static ("GnmPrintErrorsType", 
+	  etype = g_enum_register_static ("GnmPrintErrorsType",
 					  values);
   }
   return etype;

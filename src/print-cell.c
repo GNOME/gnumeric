@@ -87,7 +87,7 @@ print_cell_gtk (GnmCell const *cell,
 	rv = gnm_cell_fetch_rendered_value (cell, TRUE);
 
 	/* Create a rendered value for printing */
-	if (cell_shows_error && 
+	if (cell_shows_error &&
 	    (pinfo->error_display == GNM_PRINT_ERRORS_AS_NA
 	     || pinfo->error_display == GNM_PRINT_ERRORS_AS_DASHES)) {
 		GnmCell *t_cell = (GnmCell *)cell;

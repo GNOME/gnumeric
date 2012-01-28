@@ -1334,8 +1334,8 @@ cb_darken_foreground_attributes (PangoAttribute *attribute,
 static void
 darken_foreground_attributes (PangoAttrList *attrs)
 {
-	pango_attr_list_unref 
-		(pango_attr_list_filter 
+	pango_attr_list_unref
+		(pango_attr_list_filter
 		 (attrs,
 		  cb_darken_foreground_attributes,
 		  NULL));
@@ -4790,7 +4790,7 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 		gtk_style_context_get_font (gtk_widget_get_style_context (wbcg->status_text), GTK_STATE_NORMAL),
 	        "W") * 5, -1);
 	ebox = GET_GUI_ITEM ("auto_expr_event_box");
-	gtk_widget_override_background_color (GTK_WIDGET (ebox), 
+	gtk_widget_override_background_color (GTK_WIDGET (ebox),
 					      GTK_STATE_FLAG_NORMAL,
 					      &white);
 	g_signal_connect (G_OBJECT (ebox),

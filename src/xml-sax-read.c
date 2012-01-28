@@ -1055,7 +1055,7 @@ xml_sax_print_print_range (GsfXMLIn *xin, xmlChar const **attrs)
 	pi = state->sheet->print_info;
 
         for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_attr_enum (attrs, "value", GNM_PRINT_RANGE_TYPE, 
+		if (xml_sax_attr_enum (attrs, "value", GNM_PRINT_RANGE_TYPE,
 				       &val))
                         print_info_set_printrange (pi, val);
 }
@@ -1592,16 +1592,16 @@ xml_sax_validation (GsfXMLIn *xin, xmlChar const **attrs)
 	state->validation.use_dropdown = FALSE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_attr_enum (attrs, "Style", 
-				       GNM_VALIDATION_STYLE_TYPE, 
+		if (xml_sax_attr_enum (attrs, "Style",
+				       GNM_VALIDATION_STYLE_TYPE,
 				       &dummy)) {
 			state->validation.style = dummy;
-		} else if (xml_sax_attr_enum (attrs, "Type", 
-					      GNM_VALIDATION_TYPE_TYPE, 
+		} else if (xml_sax_attr_enum (attrs, "Type",
+					      GNM_VALIDATION_TYPE_TYPE,
 					      &dummy)) {
 			state->validation.type = dummy;
-		} else if (xml_sax_attr_enum (attrs, "Operator", 
-					      GNM_VALIDATION_OP_TYPE, 
+		} else if (xml_sax_attr_enum (attrs, "Operator",
+					      GNM_VALIDATION_OP_TYPE,
 					      &dummy)) {
 			state->validation.op = dummy;
 		} else if (attr_eq (attrs[0], "Title")) {
@@ -2738,7 +2738,7 @@ xml_sax_print_comments_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (xin->content->str == NULL || *xin->content->str == 0)
 		/* 1.11.x or later file */
-		return; 
+		return;
 
 	xml_sax_must_have_sheet (state);
 
@@ -2775,7 +2775,7 @@ xml_sax_print_errors_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (xin->content->str == NULL || *xin->content->str == 0)
 		/* 1.11.x or later file */
-		return; 
+		return;
 
 	xml_sax_must_have_sheet (state);
 

@@ -423,13 +423,13 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 		xml_write_breaks (state, pi->page_breaks.h);
 
 	gsf_xml_out_start_element (state->output, GNM "comments");
-	gsf_xml_out_add_enum (state->output, "placement", 
+	gsf_xml_out_add_enum (state->output, "placement",
 			      GNM_PRINT_COMMENT_PLACEMENT_TYPE,
 			      pi->comment_placement);
 	gsf_xml_out_end_element (state->output);
-	
+
 	gsf_xml_out_start_element (state->output, GNM "errors");
-	gsf_xml_out_add_enum (state->output, "PrintErrorsAs", 
+	gsf_xml_out_add_enum (state->output, "PrintErrorsAs",
 			      GNM_PRINT_ERRORS_TYPE,
 			      pi->error_display);
 	gsf_xml_out_end_element (state->output);
@@ -468,33 +468,33 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 				      GNM_ALIGN_V_TYPE,
 				      gnm_style_get_align_v (style));
 	if (gnm_style_is_element_set (style, MSTYLE_WRAP_TEXT))
-		gsf_xml_out_add_bool (state->output, "WrapText", 
+		gsf_xml_out_add_bool (state->output, "WrapText",
 				      gnm_style_get_wrap_text (style));
 	if (gnm_style_is_element_set (style, MSTYLE_SHRINK_TO_FIT))
-		gsf_xml_out_add_bool (state->output, "ShrinkToFit", 
+		gsf_xml_out_add_bool (state->output, "ShrinkToFit",
 				      gnm_style_get_shrink_to_fit (style));
 	if (gnm_style_is_element_set (style, MSTYLE_ROTATION))
-		gsf_xml_out_add_int (state->output, "Rotation", 
+		gsf_xml_out_add_int (state->output, "Rotation",
 				     gnm_style_get_rotation (style));
 	if (gnm_style_is_element_set (style, MSTYLE_PATTERN))
-		gsf_xml_out_add_int (state->output, "Shade", 
+		gsf_xml_out_add_int (state->output, "Shade",
 				     gnm_style_get_pattern (style));
 	if (gnm_style_is_element_set (style, MSTYLE_INDENT))
 		gsf_xml_out_add_int (state->output, "Indent", gnm_style_get_indent (style));
 	if (gnm_style_is_element_set (style, MSTYLE_CONTENTS_LOCKED))
-		gsf_xml_out_add_bool (state->output, "Locked", 
+		gsf_xml_out_add_bool (state->output, "Locked",
 				      gnm_style_get_contents_locked (style));
 	if (gnm_style_is_element_set (style, MSTYLE_CONTENTS_HIDDEN))
-		gsf_xml_out_add_bool (state->output, "Hidden", 
+		gsf_xml_out_add_bool (state->output, "Hidden",
 				      gnm_style_get_contents_hidden (style));
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_COLOR))
-		gnm_xml_out_add_color (state->output, "Fore", 
+		gnm_xml_out_add_color (state->output, "Fore",
 				       gnm_style_get_font_color (style));
 	if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
-		gnm_xml_out_add_color (state->output, "Back", 
+		gnm_xml_out_add_color (state->output, "Back",
 				       gnm_style_get_back_color (style));
 	if (gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN))
-		gnm_xml_out_add_color (state->output, "PatternColor", 
+		gnm_xml_out_add_color (state->output, "PatternColor",
 				       gnm_style_get_pattern_color (style));
 	if (gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
 		const char *fmt = go_format_as_XL (gnm_style_get_format (style));

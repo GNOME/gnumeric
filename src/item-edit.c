@@ -124,8 +124,8 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	PangoRectangle pos, weak;
 	char const *text = gtk_entry_get_text (ie->entry);
 	PangoDirection dir = pango_find_base_dir (text, -1);
-	PangoAttrList *entry_attributes 
-		= g_object_get_data(G_OBJECT (ie->entry), 
+	PangoAttrList *entry_attributes
+		= g_object_get_data(G_OBJECT (ie->entry),
 				    "gnm:range-attributes");
 
 	if (entry_attributes != NULL) {
@@ -378,7 +378,7 @@ item_edit_motion (GocItem *item, double x, double y)
 }
 
 static gboolean
-item_edit_button_released (GocItem *item, G_GNUC_UNUSED int button, 
+item_edit_button_released (GocItem *item, G_GNUC_UNUSED int button,
 			   G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 	ItemEdit *ie = ITEM_EDIT (item);

@@ -86,7 +86,7 @@ complete_sheet_search_iteration (Complete *complete)
 	CompleteSheet *cs = COMPLETE_SHEET (complete);
 	int i;
 
-	if ((int)strlen (complete->text) < 
+	if ((int)strlen (complete->text) <
 	    gnm_conf_get_core_gui_editing_autocomplete_min_chars ())
 		return FALSE;
 

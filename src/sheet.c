@@ -1201,7 +1201,7 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 			}
 			g_slist_free (sel);
 			if (!any)
-				sv_selection_add_pos (sv, 0, 0, 
+				sv_selection_add_pos (sv, 0, 0,
 						      GNM_SELECTION_MODE_ADD);
 			sv_make_cell_visible (sv, vis.col, vis.row, FALSE);
 		});

@@ -597,7 +597,7 @@ c_fmt_dialog_condition_setter (SheetView *sv, GnmRange const *range, CFormatStat
 }
 
 static gboolean
-c_fmt_dialog_condition_setter_tiled (G_GNUC_UNUSED SheetView *sv, GnmRange const *range, 
+c_fmt_dialog_condition_setter_tiled (G_GNUC_UNUSED SheetView *sv, GnmRange const *range,
 				     CFormatState *state)
 {
 	GnmStyleList *l, *list;

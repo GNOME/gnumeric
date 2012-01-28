@@ -200,8 +200,8 @@ kaplan_meier_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 }
 
 static gboolean
-kaplan_meier_tool_get_groups_cb (GtkTreeModel *model, 
-				 G_GNUC_UNUSED GtkTreePath *path, 
+kaplan_meier_tool_get_groups_cb (GtkTreeModel *model,
+				 G_GNUC_UNUSED GtkTreePath *path,
 				 GtkTreeIter *iter,
 				 gpointer data)
 {

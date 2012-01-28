@@ -134,8 +134,8 @@ gnm_print_range_get_type (void)
 			{ GNM_PRINT_IGNORE_PRINTAREA,
 			  "GNM_PRINT_IGNORE_PRINTAREA",
 			  "ignore-print-area"},
-			{ GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA, 
-			  "GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA", 
+			{ GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA,
+			  "GNM_PRINT_SHEET_SELECTION_IGNORE_PRINTAREA",
 			  "sheet-selection-ignore-printarea"},
 			{ 0, NULL, NULL }
 		};
