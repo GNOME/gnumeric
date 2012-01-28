@@ -90,6 +90,51 @@ url_renderer_func (GtkTreeViewColumn *tree_column,
 	g_free (longname);
 	g_free (duri);
 	g_free (filename);
+	g_object_unref (doc);
+}
+
+static void
+age_renderer_func (GtkTreeViewColumn *tree_column,
+		   GtkCellRenderer   *cell,
+		   GtkTreeModel      *model,
+		   GtkTreeIter       *iter,
+		   gpointer           user_data)
+{
+	GODoc *doc = NULL;
+
+	gtk_tree_model_get (model, iter,
+			    QUIT_COL_DOC, &doc,
+			    -1);
+	g_return_if_fail (GO_IS_DOC (doc));
+
+	if (go_doc_is_dirty (doc)) {
+		int quitting_time = GPOINTER_TO_INT
+			(g_object_get_data (G_OBJECT (tree_column),
+					    "quitting_time"));
+		int age = quitting_time -
+			go_doc_get_dirty_time (doc) / 1000000;
+		char *agestr;
+		if (age < 0)
+			agestr = g_strdup (_("unknown"));
+		else if (age < 60)
+			agestr = g_strdup_printf
+				(ngettext ("%d second", "%d seconds", age),
+				 age);
+		else if (age < 60 * 60) {
+			int mins = age / 60;
+			agestr = g_strdup_printf
+				(ngettext ("%d minute", "%d minutes", mins),
+				 mins);
+		} else
+			agestr = g_strdup (_("a long time"));
+
+		g_object_set (cell, "text", agestr, NULL);
+		g_free (agestr);
+	} else {
+		/* What are we doing here? */
+		g_object_set (cell, "text", "", NULL);
+	}
+	g_object_unref (doc);
 }
 
 static gboolean
@@ -185,154 +230,84 @@ cb_list_row_changed_discard_sensitivity (GtkListStore *list,
 					 GtkTreeIter *iter,
 					 GtkWidget *widget)
 {
-	GtkTreeModel *model = GTK_TREE_MODEL (list);
-
-	if (files_set (model) == TRUE)
-		gtk_widget_set_sensitive (GTK_WIDGET (widget), FALSE);
-	else
-		gtk_widget_set_sensitive (GTK_WIDGET (widget), TRUE);
+	gtk_widget_set_sensitive (GTK_WIDGET (widget),
+				  !files_set (GTK_TREE_MODEL (list)));
 }
 
 static gboolean
 show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 {
+	GtkBuilder *gui;
 	GtkDialog *dialog;
-	GtkTreeView *tree;
-	GtkTreeViewColumn *column;
-	GtkCellRenderer *renderer;
-	GtkWidget *scrollw, *button;
-	GtkListStore *list;
-	int res;
-	GList *l;
-	GtkTreeIter iter;
-	gboolean ok;
-	GtkTreeModel *model;
-	gboolean quit;
 	gboolean multiple = (dirty->next != NULL);
+	GObject *model;
+	GtkWidget *save_selected_button;
+	GtkCellRenderer *save_renderer;
+	GList *l;
+	int res;
+	gboolean quit;
+	GObject *age_column;
+	int quitting_time = g_get_real_time () / 1000000;
 
-	list = gtk_list_store_new (2,
-				   G_TYPE_BOOLEAN,
-				   G_TYPE_POINTER);
+	gui = gnm_gtk_builder_new ("quit.ui", NULL, GO_CMD_CONTEXT (wbcg));
+        if (gui == NULL)
+                return 0;
 
-	dialog = (GtkDialog *)gtk_dialog_new_with_buttons
-		(_("Some Documents have not Been Saved"),
-		 wbcg_toplevel (wbcg), 0,
-		 NULL);
+	dialog = GTK_DIALOG (go_gtk_builder_get_widget (gui, "quit_dialog"));
+	model = gtk_builder_get_object (gui, "quit_model");
+	save_selected_button = go_gtk_builder_get_widget (gui, "save_selected_button");
+	save_renderer = GTK_CELL_RENDERER (gtk_builder_get_object (gui, "save_renderer"));
 
-	button = go_gtk_dialog_add_button (GTK_DIALOG (dialog),
-					   _("_Discard All"),
-					   GTK_STOCK_DELETE,
-					   GTK_RESPONSE_NO);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (button), _("Discard changes in all files"));
-
-	if (multiple)
-		g_signal_connect (G_OBJECT (list),
+	if (multiple) {
+		GObject *model = gtk_builder_get_object (gui, "quit_model");
+		g_signal_connect (model,
 				  "row-changed",
 				  G_CALLBACK (cb_list_row_changed_discard_sensitivity),
-				  GTK_WIDGET (button));
+				  gtk_builder_get_object (gui, "discard_all_button"));
 
-	button = go_gtk_dialog_add_button (GTK_DIALOG (dialog),
-					   _("Don't Quit"),
-					   GTK_STOCK_CANCEL,
-					   GTK_RESPONSE_CANCEL);
-
-	gtk_widget_set_tooltip_text (button, _("Resume editing"));
-
-	if (multiple) {
-		button = go_gtk_dialog_add_button (GTK_DIALOG (dialog),
-						   _("_Save Selected"),
-						   GTK_STOCK_SAVE,
-						   GTK_RESPONSE_OK);
-		gtk_widget_set_tooltip_text (GTK_WIDGET (button),
-					    _("Save selected documents and then quit"));
-
-		g_signal_connect (G_OBJECT (list),
+		g_signal_connect (model,
 				  "row-changed",
 				  G_CALLBACK (cb_list_row_changed_save_sensitivity),
-				  GTK_WIDGET (button));
+				  save_selected_button);
+
+		gtk_widget_destroy (go_gtk_builder_get_widget (gui, "save_button"));
+
+		g_signal_connect (gtk_builder_get_object (gui, "select_all_button"),
+				  "clicked", G_CALLBACK (cb_select_all),
+				  model);
+		g_signal_connect (gtk_builder_get_object (gui, "clear_all_button"),
+				  "clicked", G_CALLBACK (cb_clear_all),
+				  model);
+
+		g_signal_connect (G_OBJECT (save_renderer),
+				  "toggled",
+				  G_CALLBACK (cb_toggled_save), model);
+
 	} else {
-		button = go_gtk_dialog_add_button (GTK_DIALOG (dialog),
-						   _("Save"),
-						   GTK_STOCK_SAVE,
-						   GTK_RESPONSE_OK);
-		gtk_widget_set_tooltip_text (button, _("Save document"));
+		gtk_tree_view_column_set_visible (GTK_TREE_VIEW_COLUMN (gtk_builder_get_object (gui, "save_column")),
+						  FALSE);
+		gtk_widget_destroy (save_selected_button);
+		gtk_widget_destroy (go_gtk_builder_get_widget (gui, "selection_box"));
 	}
 
-	scrollw = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrollw),
-					     GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrollw),
-					GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (dialog)),
-			    scrollw, TRUE, TRUE, 0);
+	gtk_tree_view_column_set_cell_data_func
+		(GTK_TREE_VIEW_COLUMN (gtk_builder_get_object (gui, "url_column")),
+		 GTK_CELL_RENDERER (gtk_builder_get_object (gui, "url_renderer")),
+		 url_renderer_func,
+		 NULL,
+		 NULL);
 
-	if (multiple) {
-		GtkWidget *hbox = gtk_hbutton_box_new ();
-		gtk_button_box_set_layout (GTK_BUTTON_BOX (hbox), GTK_BUTTONBOX_END);
-		gtk_box_set_spacing (GTK_BOX (hbox), 5);
-
-		button = go_gtk_button_new_with_stock (_("Select _All"),
-						       GTK_STOCK_SELECT_ALL);
-		gtk_widget_set_tooltip_text (GTK_WIDGET (button),
-					    _("Select all documents for saving"));
-
-		g_signal_connect (G_OBJECT (button), "clicked",
-				  G_CALLBACK (cb_select_all),
-				  list);
-
-		gtk_box_pack_end (GTK_BOX (hbox),
-				    GTK_WIDGET (button), FALSE, TRUE, 0);
-
-		button = go_gtk_button_new_with_stock (_("_Clear Selection"),
-						       GTK_STOCK_CLEAR);
-		gtk_widget_set_tooltip_text (GTK_WIDGET(button),
-					    _("Unselect all documents for saving"));
-
-		g_signal_connect (G_OBJECT (button), "clicked",
-				  G_CALLBACK (cb_clear_all),
-				  list);
-
-		gtk_box_pack_end (GTK_BOX (hbox),
-				  GTK_WIDGET (button), FALSE, TRUE, 0);
-
-		gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (dialog)),
-				    GTK_WIDGET (hbox), FALSE, FALSE, 0);
-	}
+	age_column = gtk_builder_get_object (gui, "age_column");
+	g_object_set_data (age_column, "quitting_time",
+			   GINT_TO_POINTER (quitting_time));
+	gtk_tree_view_column_set_cell_data_func
+		(GTK_TREE_VIEW_COLUMN (age_column),
+		 GTK_CELL_RENDERER (gtk_builder_get_object (gui, "age_renderer")),
+		 age_renderer_func,
+		 NULL,
+		 NULL);
 
 	gtk_dialog_set_default_response (dialog, GTK_RESPONSE_OK);
-
-	tree = (GtkTreeView *)gtk_tree_view_new ();
-	gtk_tree_view_set_enable_search (tree, FALSE);
-	gtk_container_add (GTK_CONTAINER (scrollw), GTK_WIDGET (tree));
-	gtk_tree_view_set_model (tree, GTK_TREE_MODEL (list));
-
-	if (multiple) {
-		renderer = gtk_cell_renderer_toggle_new ();
-		g_signal_connect (G_OBJECT (renderer),
-				  "toggled",
-				  G_CALLBACK (cb_toggled_save), list);
-		column = gtk_tree_view_column_new_with_attributes
-			(_("Save?"),
-			 renderer,
-			 "active", QUIT_COL_CHECK,
-			 NULL);
-		gtk_tree_view_append_column (tree, column);
-	}
-
-	renderer = gtk_cell_renderer_text_new ();
-	g_object_set (G_OBJECT (renderer),
-		      "ellipsize", PANGO_ELLIPSIZE_END,
-		      NULL);
-	column = gtk_tree_view_column_new ();
-	gtk_tree_view_column_set_title (column, _("Document"));
-	gtk_tree_view_column_pack_start (column, renderer, TRUE);
-	gtk_tree_view_column_set_cell_data_func (column,
-						 renderer,
-						 url_renderer_func,
-						 NULL,
-						 NULL);
-
-	gtk_tree_view_append_column (tree, column);
 
 	/* ---------------------------------------- */
 	/* Size the dialog.  */
@@ -343,12 +318,12 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 		PangoLayout *layout =
 			gtk_widget_create_pango_layout (w, "Mg19");
 
-		gtk_widget_style_get (GTK_WIDGET (tree),
+		gtk_widget_style_get (go_gtk_builder_get_widget (gui, "docs_treeview"),
 				      "vertical_separator", &vsep,
 				      NULL);
 
 		pango_layout_get_pixel_size (layout, &width, &height);
-		gtk_widget_set_size_request (GTK_WIDGET (scrollw),
+		gtk_widget_set_size_request (go_gtk_builder_get_widget (gui, "docs_scrolledwindow"),
 					     width * 60 / 4,
 					     (2 * height + vsep) * (4 + 1));
 		g_object_unref (layout);
@@ -360,6 +335,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 	for (l = dirty; l; l = l->next) {
 		GODoc *doc = l->data;
 		GtkTreeIter iter;
+		GtkListStore *list = GTK_LIST_STORE (model);
 
 		gtk_list_store_append (list, &iter);
 		gtk_list_store_set (list,
@@ -386,9 +362,10 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 		quit = TRUE;
 		break;
 
-	default:
-		model = GTK_TREE_MODEL (list);
-		ok = gtk_tree_model_get_iter_first (model, &iter);
+	default: {
+		GtkTreeModel *tmodel = GTK_TREE_MODEL (model);
+		GtkTreeIter iter;
+		gboolean ok = gtk_tree_model_get_iter_first (tmodel, &iter);
 
 		g_return_val_if_fail (ok, FALSE);
 		quit = TRUE;
@@ -396,7 +373,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 			gboolean save = TRUE;
 			GODoc *doc = NULL;
 
-			gtk_tree_model_get (model, &iter,
+			gtk_tree_model_get (tmodel, &iter,
 					    QUIT_COL_CHECK, &save,
 					    QUIT_COL_DOC, &doc,
 					    -1);
@@ -409,13 +386,16 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 				if (!ok)
 					quit = FALSE;
 			}
+			g_object_unref (doc);
 
-			ok = gtk_tree_model_iter_next (model, &iter);
+			ok = gtk_tree_model_iter_next (tmodel, &iter);
 		} while (ok);
 		break;
 	}
+	}
 
-	g_object_unref (list);
+	g_object_unref (gui);
+
 	return quit;
 }
 

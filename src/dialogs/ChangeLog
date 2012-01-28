@@ -1,3 +1,8 @@
+2012-01-28  Morten Welinder  <terra@gnome.org>
+
+	* dialog-quit.c (show_quit_dialog): Switch to using ui file.  Add
+	age column.
+
 2012-01-15  Morten Welinder  <terra@gnome.org>
 
 	* wbcg.ui: New file.

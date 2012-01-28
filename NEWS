@@ -24,6 +24,7 @@ Morten:
 	* Fix F4 (abs/rel-cycling) bug.  [#668625]
 	* Fix minor function name completion bug.  [#668624]
 	* Fix abs/rel stickiness in expression entry.  [#668691]
+	* Minor quit-dialog improvements.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.1
