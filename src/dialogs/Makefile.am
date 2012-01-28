@@ -150,6 +150,7 @@ embedded_uis = 			\
 	preferences.ui			\
 	principal-components.ui		\
 	print.ui			\
+	quit.ui				\
 	random-generation-cor.ui	\
 	random-generation.ui		\
 	rank.ui				\
