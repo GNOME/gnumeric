@@ -1174,6 +1174,14 @@ xlsx_get_dxf (GsfXMLIn *xin, int dxf)
 /****************************************************************************/
 
 static void
+xlsx_cell_inline_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+
+	state->val = value_new_string (xin->content->str);
+}
+
+static void
 xlsx_cell_val_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
@@ -2654,6 +2662,8 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
       GSF_XML_IN_NODE (ROW, CELL, XL_NS_SS, "c", GSF_XML_NO_CONTENT, &xlsx_cell_begin, &xlsx_cell_end),
 	GSF_XML_IN_NODE (CELL, VALUE, XL_NS_SS, "v", GSF_XML_CONTENT, NULL, &xlsx_cell_val_end),
 	GSF_XML_IN_NODE (CELL, FMLA, XL_NS_SS,  "f", GSF_XML_CONTENT, &xlsx_cell_expr_begin, &xlsx_cell_expr_end),
+        GSF_XML_IN_NODE (CELL, TEXTINLINE, XL_NS_SS,  "is", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (TEXTINLINE, TEXTRUN, XL_NS_SS,  "t", GSF_XML_CONTENT, NULL, &xlsx_cell_inline_text_end),
 
   GSF_XML_IN_NODE (SHEET, CALC_PR, XL_NS_SS, "sheetCalcPr", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (SHEET, CT_SortState, XL_NS_SS, "sortState", GSF_XML_NO_CONTENT, NULL, NULL),
