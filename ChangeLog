@@ -1,3 +1,8 @@
+2012-02-01  Morten Welinder  <terra@gnome.org>
+
+	* src/GNOME_Gnumeric-gtk.xml.in: Restore DataShuffle which has
+	been MIA for at least 8 years.  No idea if it works.
+
 2012-01-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gui-util.c (gnumeric_create_tooltip_text_view_widget): new
