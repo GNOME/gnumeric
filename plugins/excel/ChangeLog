@@ -1,5 +1,19 @@
 2012-01-29 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-read.c (attr_bool): accept "true"
+	(xlsx_run_style): If val is missing it defaults to TRUE
+	(xlsx_run_color): fix the range of values for the pango color
+	attribute
+	(xlsx_comment_text): rename to xlsx_r_text
+	(cb_trunc_attributes): new
+	(xlsx_comment_rich_text): rename to xlsx_rich_text and make sure
+	the attributes do not spill into the next run
+	(xlsx_sstitem_start): new
+	(xlsx_sstitem_end): use state->r_text
+	(xlsx_shared_strings_dtd): connect rich text items
+
+2012-01-29 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-read.c (xlsx_cell_inline_text_end): new
 	(xlsx_sheet_dtd): connect the above
 

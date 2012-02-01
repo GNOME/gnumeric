@@ -136,8 +136,6 @@ typedef struct {
 	SheetView	*sv;		/* current sheetview */
 
 	GArray		*sst;
-	PangoAttrList	*rich_attrs;
-	PangoAttrList	*run_attrs;
 
 	GHashTable	*num_fmts;
 	GOFormat	*date_fmt;
@@ -247,11 +245,15 @@ typedef struct {
 	/* Comment state */
 	GPtrArray	*authors;
 	GObject		*comment;
-	GString		*comment_text;
 
 	/* Document Properties */
 	GsfDocMetaData   *metadata;
 	char *meta_prop_name;
+
+	/* Rich Text handling */
+	GString		*r_text;
+	PangoAttrList	*rich_attrs;
+	PangoAttrList	*run_attrs;
 } XLSXReadState;
 typedef struct {
 	GOString	*str;
@@ -283,7 +285,7 @@ static GsfXMLInNS const xlsx_ns[] = {
 	GSF_XML_IN_NS (XL_NS_PROP,      "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"),
 	GSF_XML_IN_NS (XL_NS_PROP_VT,   "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"),
 	GSF_XML_IN_NS (XL_NS_PROP_CUSTOM,   "http://schemas.openxmlformats.org/officeDocument/2006/custom-properties"),
-	{ NULL }
+	{ NULL, 0 }
 };
 
 static void
@@ -427,7 +429,7 @@ attr_enum (GsfXMLIn *xin, xmlChar const **attrs,
  * Take an _int_ as a result to allow the caller to use -1 as an undefined state.
  **/
 static gboolean
-attr_bool (GsfXMLIn *xin, xmlChar const **attrs,
+attr_bool (G_GNUC_UNUSED GsfXMLIn *xin, xmlChar const **attrs,
 	   char const *target,
 	   int *res)
 {
@@ -438,7 +440,7 @@ attr_bool (GsfXMLIn *xin, xmlChar const **attrs,
 	if (strcmp (attrs[0], target))
 		return FALSE;
 
-	*res = 0 == strcmp (attrs[1], "1");
+	*res = (0 == strcmp (attrs[1], "1") || 0 == strcmp (attrs[1], "true")) ;
 
 	return TRUE;
 }
@@ -711,7 +713,7 @@ static struct {
 };
 
 static GOColor
-indexed_color (XLSXReadState *state, gint idx)
+indexed_color (G_GNUC_UNUSED XLSXReadState *state, gint idx)
 {
 	/* NOTE: not documented but seems close
 	 * If you find a normative reference please forward it.
@@ -1503,7 +1505,7 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_CT_SheetPr (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_CT_SheetPr (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 #if 0
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -1543,7 +1545,7 @@ xlsx_sheet_tabcolor (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_sheet_page_setup (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_sheet_page_setup (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	/* XLSXReadState *state = (XLSXReadState *)xin->user_state; */
 }
@@ -1864,7 +1866,7 @@ xlsx_CT_Filters_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->filter_items = NULL;
 }
 static void
-xlsx_CT_Filter (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_CT_Filter (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 #if 0
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -1876,7 +1878,7 @@ xlsx_CT_Filter (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_CT_CustomFilters_begin (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_CT_CustomFilters_begin (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
@@ -1895,7 +1897,7 @@ xlsx_CT_CustomFilters_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_CT_CustomFilter (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_CT_CustomFilter (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 #if 0
 	static EnumVal const ops[] = {
@@ -1938,7 +1940,7 @@ xlsx_CT_Top10 (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_CT_DynamicFilter (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_CT_DynamicFilter (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 #if 0
 	static EnumVal const types[] = {
@@ -2256,12 +2258,12 @@ xlsx_cond_fmt_formula_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_CT_SheetView_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static EnumVal const view_types[] = {
-		{ "normal",		GNM_SHEET_VIEW_NORMAL_MODE },
-		{ "pageBreakPreview",	GNM_SHEET_VIEW_PAGE_BREAK_MODE },
-		{ "pageLayout",		GNM_SHEET_VIEW_LAYOUT_MODE },
-		{ NULL, 0 }
-	};
+	/* static EnumVal const view_types[] = { */
+	/* 	{ "normal",		GNM_SHEET_VIEW_NORMAL_MODE }, */
+	/* 	{ "pageBreakPreview",	GNM_SHEET_VIEW_PAGE_BREAK_MODE }, */
+	/* 	{ "pageLayout",		GNM_SHEET_VIEW_LAYOUT_MODE }, */
+	/* 	{ NULL, 0 } */
+	/* }; */
 
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int showGridLines	= TRUE;
@@ -2279,8 +2281,8 @@ xlsx_CT_SheetView_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	int showWhiteSpace	= TRUE;
 	int scale		= 100;
 	int grid_color_index	= -1;
-	int tmp;
-	GnmSheetViewMode	view_mode = GNM_SHEET_VIEW_NORMAL_MODE;
+	/* int tmp; */
+	/* GnmSheetViewMode	view_mode = GNM_SHEET_VIEW_NORMAL_MODE; */
 	GnmCellPos topLeft = { -1, -1 };
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -2300,8 +2302,8 @@ xlsx_CT_SheetView_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_bool (xin, attrs, "showWhiteSpace", &showWhiteSpace)) ;
 		else if (attr_int (xin, attrs, "zoomScale", &scale)) ;
 		else if (attr_int (xin, attrs, "colorId", &grid_color_index)) ;
-		else if (attr_enum (xin, attrs, "view", view_types, &tmp))
-			view_mode = tmp;
+		/* else if (attr_enum (xin, attrs, "view", view_types, &tmp)) */
+		/* 	view_mode = tmp; */
 #if 0
 "zoomScaleNormal"		type="xs:unsignedInt" use="optional" default="0"
 "zoomScaleSheetLayoutView"	type="xs:unsignedInt" use="optional" default="0"
@@ -2423,7 +2425,7 @@ xlsx_CT_Selection (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_CT_PivotSelection (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_CT_PivotSelection (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 #if 0
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -2448,7 +2450,7 @@ xlsx_CT_PivotSelection (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_CT_PivotArea (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_CT_PivotArea (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 #if 0
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -2467,14 +2469,14 @@ xlsx_CT_PivotArea (GsfXMLIn *xin, xmlChar const **attrs)
 #endif
 }
 static void
-xlsx_CT_PivotAreaReferences (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_CT_PivotAreaReferences (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 #if 0
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 #endif
 }
 static void
-xlsx_CT_PivotAreaReference (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_CT_PivotAreaReference (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 #if 0
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -2537,7 +2539,7 @@ xlsx_CT_Pane (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_ole_object (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_ole_object (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 #if 0
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -2972,7 +2974,7 @@ xlsx_wb_names_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 /**************************************************************************************************/
 
 static void
-xlsx_read_external_book (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_read_external_book (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GsfOpenPkgRel const *rel = gsf_open_pkg_lookup_rel_by_type (
@@ -3047,14 +3049,16 @@ static void
 xlsx_run_style (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "val")) {
-			PangoAttribute *attr = pango_attr_style_new (strcmp (attrs[1], "true")? PANGO_STYLE_NORMAL: PANGO_STYLE_ITALIC);
-			if (state->run_attrs == NULL)
-				state->run_attrs = pango_attr_list_new ();
-			pango_attr_list_insert (state->run_attrs, attr);
+	PangoAttribute *attr;
+	gboolean val = TRUE; /* If omitted, the default value is true. */
 
-		}
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (simple_bool (xin, attrs, &val));
+
+	attr = pango_attr_style_new (val ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
+	if (state->run_attrs == NULL)
+		state->run_attrs = pango_attr_list_new ();
+	pango_attr_list_insert (state->run_attrs, attr);
 }
 
 static void
@@ -3134,11 +3138,12 @@ xlsx_run_color (GsfXMLIn *xin, xmlChar const **attrs)
 					_("Invalid color '%s' for attribute rgb"),
 					attrs[1]);
 			}
-			attr = pango_attr_foreground_new (r, g, b);
+			attr = pango_attr_foreground_new (CLAMP ((int)r * 257, 0, 65535), 
+							  CLAMP ((int)g * 257, 0, 65535), 
+							  CLAMP ((int)b * 257, 0, 65535));
 			if (state->run_attrs == NULL)
 				state->run_attrs = pango_attr_list_new ();
 			pango_attr_list_insert (state->run_attrs, attr);
-
 		}
 }
 
@@ -3200,15 +3205,15 @@ xlsx_comment_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	sheet_object_anchor_init (&anchor, &anchor_r, NULL, GOD_ANCHOR_DIR_UNKNOWN);
 	sheet_object_set_anchor (so, &anchor);
-	state->comment_text = g_string_new ("");
+	state->r_text = g_string_new ("");
 }
 
 static void
 xlsx_comment_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	char *text = g_string_free (state->comment_text, FALSE);
-	state->comment_text = NULL;
+	char *text = g_string_free (state->r_text, FALSE);
+	state->r_text = NULL;
 	g_object_set (state->comment, "text", text, NULL);
 	g_free (text);
 	if (state->rich_attrs) {
@@ -3223,27 +3228,39 @@ xlsx_comment_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_comment_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+xlsx_r_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	g_string_append (state->comment_text, xin->content->str);
+	g_string_append (state->r_text, xin->content->str);
 }
 
+static gboolean
+cb_trunc_attributes (PangoAttribute *a, gpointer plen)
+{
+	a->end_index = GPOINTER_TO_UINT (plen);
+	return FALSE;
+}
+
+
+
 static void
-xlsx_comment_rich_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+xlsx_rich_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (state->run_attrs) {
-		unsigned start, end;
-		start = state->comment_text->len;
-		end = start + strlen (xin->content->str);
+		unsigned start, end, len = strlen (xin->content->str);
+		start = state->r_text->len;
+		end = start + len;
+		pango_attr_list_filter (state->run_attrs,
+					(PangoAttrFilterFunc) cb_trunc_attributes,
+					GUINT_TO_POINTER (len));
 		if (state->rich_attrs == NULL)
 			state->rich_attrs = pango_attr_list_new ();
 		pango_attr_list_splice (state->rich_attrs, state->run_attrs, start, end);
 		pango_attr_list_unref (state->run_attrs);
 		state->run_attrs = NULL;
 	}
-	g_string_append (state->comment_text, xin->content->str);
+	g_string_append (state->r_text, xin->content->str);
 }
 
 static GsfXMLInNode const xlsx_comments_dtd[] = {
@@ -3254,9 +3271,9 @@ GSF_XML_IN_NODE_FULL (START, COMMENTS, XL_NS_SS, "comments", GSF_XML_NO_CONTENT,
   GSF_XML_IN_NODE (COMMENTS, COMMENTLIST, XL_NS_SS, "commentList", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (COMMENTLIST, COMMENT, XL_NS_SS, "comment", GSF_XML_NO_CONTENT, xlsx_comment_start, xlsx_comment_end),
       GSF_XML_IN_NODE (COMMENT, TEXTITEM, XL_NS_SS, "text", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (TEXTITEM, TEXT, XL_NS_SS, "t", GSF_XML_CONTENT, NULL, xlsx_comment_text),
+        GSF_XML_IN_NODE (TEXTITEM, TEXT, XL_NS_SS, "t", GSF_XML_CONTENT, NULL, xlsx_r_text),
         GSF_XML_IN_NODE (TEXTITEM, RICH, XL_NS_SS, "r", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (RICH, RICH_TEXT, XL_NS_SS, "t", GSF_XML_CONTENT, NULL, xlsx_comment_rich_text),
+          GSF_XML_IN_NODE (RICH, RICH_TEXT, XL_NS_SS, "t", GSF_XML_CONTENT, NULL, xlsx_rich_text),
           GSF_XML_IN_NODE (RICH, RICH_PROPS, XL_NS_SS, "rPr", GSF_XML_NO_CONTENT, NULL, NULL),
 #if 0
 	GSF_XML_IN_NODE (RICH_PROPS, RICH_FONT, XL_NS_SS, "font", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3403,33 +3420,39 @@ xlsx_sst_begin (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_sstitem_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->r_text = g_string_new ("");
+}
+
+static void
 xlsx_sstitem_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	XLSXStr *entry;
+	char *text = g_string_free (state->r_text, FALSE);
+	state->r_text = NULL;
 
 	if (state->count >= state->sst->len)
 		g_array_set_size (state->sst, state->count+1);
 	entry = &g_array_index (state->sst, XLSXStr, state->count);
 	state->count++;
-	entry->str = go_string_new (xin->content->str);
+	entry->str = go_string_new_nocopy (text);
+	
 	if (state->rich_attrs) {
 		entry->markup = go_format_new_markup (state->rich_attrs, FALSE);
 		state->rich_attrs = NULL;
 	}
-
-	/* sst does not have content so that we can ignore whitespace outside
-	 * the <t> elements, but the <t>s do have SHARED content */
-	g_string_truncate (xin->content, 0);
 }
 
 static GsfXMLInNode const xlsx_shared_strings_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, SST, XL_NS_SS, "sst", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_sst_begin, NULL, 0),
-  GSF_XML_IN_NODE (SST, ITEM, XL_NS_SS, "si", GSF_XML_NO_CONTENT, NULL, &xlsx_sstitem_end),		/* beta2 */
-    GSF_XML_IN_NODE (ITEM, TEXT, XL_NS_SS, "t", GSF_XML_SHARED_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SST, ITEM, XL_NS_SS, "si", GSF_XML_NO_CONTENT, &xlsx_sstitem_start, &xlsx_sstitem_end),		/* beta2 */
+    GSF_XML_IN_NODE (ITEM, TEXT, XL_NS_SS, "t", GSF_XML_CONTENT, NULL, xlsx_r_text),
     GSF_XML_IN_NODE (ITEM, RICH, XL_NS_SS, "r", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE (RICH, RICH_TEXT, XL_NS_SS, "t", GSF_XML_SHARED_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (RICH, RICH_TEXT, XL_NS_SS, "t", GSF_XML_CONTENT, NULL, xlsx_rich_text),
       GSF_XML_IN_NODE (RICH, RICH_PROPS, XL_NS_SS, "rPr", GSF_XML_NO_CONTENT, NULL, NULL),
 #if 0
 	GSF_XML_IN_NODE (RICH_PROPS, RICH_FONT, XL_NS_SS, "font", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3438,17 +3461,17 @@ GSF_XML_IN_NODE_FULL (START, SST, XL_NS_SS, "sst", GSF_XML_NO_CONTENT, FALSE, TR
 	GSF_XML_IN_NODE (RICH_PROPS, RICH_FONT, XL_NS_SS, "rFont", GSF_XML_NO_CONTENT, NULL, NULL),
 
 	GSF_XML_IN_NODE (RICH_PROPS, RICH_CHARSET, XL_NS_SS, "charset", GSF_XML_NO_CONTENT, NULL, NULL),
-	GSF_XML_IN_NODE (RICH_PROPS, RICH_FAMILY, XL_NS_SS, "family", GSF_XML_NO_CONTENT, NULL, NULL),
-	GSF_XML_IN_NODE (RICH_PROPS, RICH_BOLD, XL_NS_SS, "b", GSF_XML_NO_CONTENT, NULL, NULL),
-	GSF_XML_IN_NODE (RICH_PROPS, RICH_ITALIC, XL_NS_SS, "i", GSF_XML_NO_CONTENT, NULL, NULL),
-	GSF_XML_IN_NODE (RICH_PROPS, RICH_STRIKE, XL_NS_SS, "strike", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (RICH_PROPS, RICH_FAMILY, XL_NS_SS, "family", GSF_XML_NO_CONTENT, xlsx_run_family, NULL),
+	GSF_XML_IN_NODE (RICH_PROPS, RICH_BOLD, XL_NS_SS, "b", GSF_XML_NO_CONTENT, xlsx_run_weight, NULL),
+	GSF_XML_IN_NODE (RICH_PROPS, RICH_ITALIC, XL_NS_SS, "i", GSF_XML_NO_CONTENT, xlsx_run_style, NULL),
+	GSF_XML_IN_NODE (RICH_PROPS, RICH_STRIKE, XL_NS_SS, "strike", GSF_XML_NO_CONTENT, xlsx_run_strikethrough, NULL),
 	GSF_XML_IN_NODE (RICH_PROPS, RICH_OUTLINE, XL_NS_SS, "outline", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (RICH_PROPS, RICH_SHADOW, XL_NS_SS, "shadow", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (RICH_PROPS, RICH_CONDENSE, XL_NS_SS, "condense", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (RICH_PROPS, RICH_EXTEND, XL_NS_SS, "extend", GSF_XML_NO_CONTENT, NULL, NULL),
-	GSF_XML_IN_NODE (RICH_PROPS, RICH_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, NULL, NULL),
-	GSF_XML_IN_NODE (RICH_PROPS, RICH_SZ, XL_NS_SS, "sz", GSF_XML_NO_CONTENT, NULL, NULL),
-	GSF_XML_IN_NODE (RICH_PROPS, RICH_ULINE, XL_NS_SS, "u", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (RICH_PROPS, RICH_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, xlsx_run_color, NULL),
+	GSF_XML_IN_NODE (RICH_PROPS, RICH_SZ, XL_NS_SS, "sz", GSF_XML_NO_CONTENT, xlsx_run_size, NULL),
+	GSF_XML_IN_NODE (RICH_PROPS, RICH_ULINE, XL_NS_SS, "u", GSF_XML_NO_CONTENT, xlsx_run_underline, NULL),
 	GSF_XML_IN_NODE (RICH_PROPS, RICH_VALIGN, XL_NS_SS, "vertAlign", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (RICH_PROPS, RICH_SCHEME, XL_NS_SS, "scheme", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (RICH, RICH_PROPS, XL_NS_SS, "rPr", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3546,7 +3569,7 @@ xlsx_col_elem_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_col_elem_begin (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_col_elem_begin (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (!state->style_accum_partial) {
@@ -3734,7 +3757,7 @@ xlsx_pattern_fg_bg (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_CT_GradientFill (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_CT_GradientFill (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
@@ -3970,7 +3993,7 @@ static void
 xlsx_cell_style (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	xmlChar const *name = NULL;
+	/* xmlChar const *name = NULL; */
 	xmlChar const *id = NULL;
 	GnmStyle *style = NULL;
 	int tmp;
@@ -3979,9 +4002,9 @@ xlsx_cell_style (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_int (xin, attrs, "xfId", &tmp))
 			style = xlsx_get_style_xf (xin, tmp);
-		else if (0 == strcmp (attrs[0], "name"))
-			name = attrs[1];
-		else if (0 == strcmp (attrs[0], "builtinId"))
+		else /* if (0 == strcmp (attrs[0], "name")) */
+		/* 	name = attrs[1]; */
+		/* else */ if (0 == strcmp (attrs[0], "builtinId"))
 			id = attrs[1];
 
 	if (NULL != style && NULL != id) {
@@ -3991,7 +4014,7 @@ xlsx_cell_style (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_dxf_begin (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_dxf_begin (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	state->style_accum_partial = TRUE;
@@ -4253,7 +4276,7 @@ G_MODULE_EXPORT gboolean
 xlsx_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl);
 
 gboolean
-xlsx_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
+xlsx_file_probe (G_GNUC_UNUSED GOFileOpener const *fo, GsfInput *input, G_GNUC_UNUSED GOFileProbeLevel pl)
 {
 	GsfInfile *zip;
 	GsfInput  *stream;
@@ -4290,7 +4313,7 @@ xlsx_file_open (GOFileOpener const *fo, GOIOContext *context,
 		WorkbookView *wb_view, GsfInput *input);
 
 void
-xlsx_file_open (GOFileOpener const *fo, GOIOContext *context,
+xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 		WorkbookView *wb_view, GsfInput *input)
 {
 	XLSXReadState	 state;

@@ -6,6 +6,7 @@ Andreas:
 	* Fix LaTeX export of cyrillic. [#666340]
 	* Fix function tool tip. [#668685]
 	* Import inline text from xlsx files. [#668936]
+	* Fix rich text import from xlsx. [#669083]
 
 Jean:
 	* Fix formula interpretation in plot series (with Morten's help). [#662237]
