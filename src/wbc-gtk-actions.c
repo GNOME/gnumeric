@@ -65,7 +65,6 @@
 #include "print.h"
 #include "print-info.h"
 #include "gnm-pane-impl.h"
-#include "gutils.h"
 
 #include <goffice/goffice.h>
 #include <goffice/component/goffice-component.h>
@@ -3002,21 +3001,6 @@ wbc_gtk_init_alignments (WBCGtk *wbcg)
 	gtk_action_group_add_action (wbcg->actions, GTK_ACTION (wbcg->valignment));
 }
 
-static void
-list_actions (GtkActionGroup *group)
-{
-	GList *actions = gtk_action_group_list_actions (group);
-	GList *l;
-
-	for (l = actions; l; l = l->next) {
-		GtkAction *act = l->data;
-		const char *name = gtk_action_get_name (act);
-		g_printerr ("Action %s\n", name);
-	}
-
-	g_list_free (actions);
-}
-
 /****************************************************************************/
 
 void
@@ -3049,16 +3033,4 @@ wbc_gtk_init_actions (WBCGtk *wbcg)
 		semi_permanent_toggle_actions, G_N_ELEMENTS (semi_permanent_toggle_actions), wbcg);
 
 	wbc_gtk_init_alignments (wbcg);
-
-	if (gnm_debug_flag ("actions")) {
-		list_actions (wbcg->permanent_actions);
-		list_actions (wbcg->actions);
-		list_actions (wbcg->font_actions);
-		list_actions (wbcg->data_only_actions);
-		list_actions (wbcg->semi_permanent_actions);
-		list_actions (wbcg->file_history.actions);
-		list_actions (wbcg->toolbar.actions);
-		list_actions (wbcg->windows.actions);
-		list_actions (wbcg->templates.actions);
-	}
 }

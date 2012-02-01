@@ -5583,6 +5583,21 @@ wbc_gtk_class_init (GObjectClass *gobject_class)
 }
 
 static void
+list_actions (GtkActionGroup *group)
+{
+	GList *actions = gtk_action_group_list_actions (group);
+	GList *l;
+
+	for (l = actions; l; l = l->next) {
+		GtkAction *act = l->data;
+		const char *name = gtk_action_get_name (act);
+		g_printerr ("Action %s\n", name);
+	}
+
+	g_list_free (actions);
+}
+
+static void
 wbc_gtk_init (GObject *obj)
 {
 	static struct {
@@ -5747,6 +5762,17 @@ wbc_gtk_init (GObject *obj)
 	wbc_gtk_set_action_sensitivity (wbcg, "ToolsSolver", FALSE);
 #endif
 
+	if (gnm_debug_flag ("actions")) {
+		list_actions (wbcg->permanent_actions);
+		list_actions (wbcg->actions);
+		list_actions (wbcg->font_actions);
+		list_actions (wbcg->data_only_actions);
+		list_actions (wbcg->semi_permanent_actions);
+		list_actions (wbcg->file_history.actions);
+		list_actions (wbcg->toolbar.actions);
+		list_actions (wbcg->windows.actions);
+		list_actions (wbcg->templates.actions);
+	}
 }
 
 GSF_CLASS_FULL (WBCGtk, wbc_gtk, NULL, NULL, wbc_gtk_class_init, NULL,
