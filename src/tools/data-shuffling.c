@@ -318,6 +318,6 @@ data_shuffling_redo (data_shuffling_t *st)
 void
 data_shuffling_free (data_shuffling_t *st)
 {
-	g_free (st->dao);
+	dao_free (st->dao);
 	g_slist_free_full (st->changes, g_free);
 }
