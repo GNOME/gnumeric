@@ -496,9 +496,6 @@ static GNM_ACTION_DEF (cb_sheet_remove)
 		scg_delete_sheet_if_possible (scg);
 }
 
-static GNM_ACTION_DEF (cb_edit_undo_last) { command_undo (WORKBOOK_CONTROL (wbcg)); }
-static GNM_ACTION_DEF (cb_edit_redo_last) { command_redo (WORKBOOK_CONTROL (wbcg)); }
-
 static void
 common_cell_goto (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 {
@@ -2062,12 +2059,6 @@ static GtkActionEntry const permanent_actions[] = {
 	{ "EditCopy", GTK_STOCK_COPY, NULL,
 		NULL, N_("Copy the selection"),
 		G_CALLBACK (cb_edit_copy) },
-	{ "UndoLast", GTK_STOCK_UNDO, N_("_Undo"),
-		NULL, N_("Undo the last action"),
-		G_CALLBACK (cb_edit_undo_last) },
-	{ "RedoLast", GTK_STOCK_REDO, N_("_Redo"),
-		NULL, N_("Redo the undone action"),
-		G_CALLBACK (cb_edit_redo_last) },
 
 	{ "InsertNames", GTK_STOCK_PASTE, N_("_Name..."),
 	        "F3", N_("Insert a defined name"),
