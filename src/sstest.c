@@ -411,6 +411,212 @@ test_nonascii_numbers (void)
 
 /*-------------------------------------------------------------------------- */
 
+static void
+define_cell (Sheet *sheet, int c, int r, const char *expr)
+{
+	GnmCell *cell = sheet_cell_fetch (sheet, c, r);
+	sheet_cell_set_text (cell, expr, NULL);
+}
+
+static gnm_float *
+test_random_1 (int N, const char *expr,
+	       gnm_float *mean, gnm_float *var,
+	       gnm_float *skew, gnm_float *kurt)
+{
+	Workbook *wb = workbook_new ();
+	Sheet *sheet = workbook_sheet_add
+		(wb, -1, GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
+	gnm_float *res = g_new (gnm_float, N);
+	int i;
+	char *s;
+
+	g_printerr ("Testing %s\n", expr);
+
+	for (i = 0; i < N; i++)
+		define_cell (sheet, 0, i, expr);
+
+	s = g_strdup_printf ("=average(a1:a%d)", N);
+	define_cell (sheet, 1, 0, s);
+	g_free (s);
+
+	s = g_strdup_printf ("=var(a1:a%d)", N);
+	define_cell (sheet, 1, 1, s);
+	g_free (s);
+
+	s = g_strdup_printf ("=skew(a1:a%d)", N);
+	define_cell (sheet, 1, 2, s);
+	g_free (s);
+
+	s = g_strdup_printf ("=kurt(a1:a%d)", N);
+	define_cell (sheet, 1, 3, s);
+	g_free (s);
+
+	workbook_recalc (sheet->workbook);
+	for (i = 0; i < N; i++)
+		res[i] = value_get_as_float (sheet_cell_get (sheet, 0, i)->value);
+	*mean = value_get_as_float (sheet_cell_get (sheet, 1, 0)->value);
+	g_printerr ("Mean: %.10" GNM_FORMAT_g "\n", *mean);
+
+	*var = value_get_as_float (sheet_cell_get (sheet, 1, 1)->value);
+	g_printerr ("Var: %.10" GNM_FORMAT_g "\n", *var);
+
+	*skew = value_get_as_float (sheet_cell_get (sheet, 1, 2)->value);
+	g_printerr ("Skew: %.10" GNM_FORMAT_g "\n", *skew);
+
+	*kurt = value_get_as_float (sheet_cell_get (sheet, 1, 3)->value);
+	g_printerr ("Kurt: %.10" GNM_FORMAT_g "\n", *kurt);
+
+	g_object_unref (wb);
+	return res;
+}
+
+static void
+test_random_rand (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	int i;
+	gboolean ok;
+	gnm_float T;
+
+	vals = test_random_1 (N, "=RAND()", &mean, &var, &skew, &kurt);
+	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!(r >= 0 && r <= 1)) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+	g_free (vals);
+
+	T = 0.5;
+	if (gnm_abs (mean - T) > 0.01) {
+		g_printerr ("Mean failure [%.10" GNM_FORMAT_g "]\n", T);
+		ok = FALSE;
+	}
+	T = 1.0 / 12;
+	if (gnm_abs (var - T) > 0.01) {
+		g_printerr ("Var failure [%.10" GNM_FORMAT_g "]\n", T);
+		ok = FALSE;
+	}
+	T = 0;
+	if (gnm_abs (skew - T) > 0.05) {
+		g_printerr ("Skew failure [%.10" GNM_FORMAT_g "]\n", T);
+		ok = FALSE;
+	}
+	T = -6.0 / 5;
+	if (gnm_abs (kurt - T) > 0.05) {
+		g_printerr ("Kurt failure [%.10" GNM_FORMAT_g "]\n", T);
+		ok = FALSE;
+	}
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+}
+
+static void
+test_random_randbernoulli (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	int i;
+	gboolean ok;
+	gnm_float p = 0.3;
+	gnm_float q = 1 - p;
+	char *expr;
+	gnm_float T;
+
+	expr = g_strdup_printf ("=RANDBERNOULLI(%.10" GNM_FORMAT_g ")", p);
+	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
+	g_free (expr);
+
+	ok = TRUE;
+	for (i = 0; i < N; i++) {
+		gnm_float r = vals[i];
+		if (!(r == 0 || r == 1)) {
+			g_printerr ("Range failure.\n");
+			ok = FALSE;
+			break;
+		}
+	}
+	g_free (vals);
+
+	T = p;
+	if (gnm_abs (mean - p) > 0.01) {
+		g_printerr ("Mean failure [%.10" GNM_FORMAT_g "]\n", T);
+		ok = FALSE;
+	}
+	T = p * (1 - p);
+	if (gnm_abs (var - T) > 0.01) {
+		g_printerr ("Var failure [%.10" GNM_FORMAT_g "]\n", T);
+		ok = FALSE;
+	}
+	T = (q - p) / gnm_sqrt (p * q);
+	if (gnm_abs (skew - T) > 0.05) {
+		g_printerr ("Skew failure [%.10" GNM_FORMAT_g "]\n", T);
+		ok = FALSE;
+	}
+	T = (1 - 6 * p * q) / (p * q);
+	if (gnm_abs (kurt - T) > 0.10) {
+		g_printerr ("Kurt failure [%.10" GNM_FORMAT_g "]\n", T);
+		ok = FALSE;
+	}
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+}
+
+static void
+test_random (void)
+{
+	const char *test_name = "test_random";
+	const int N = 10000;
+
+	mark_test_start (test_name);
+	test_random_rand (N);
+        test_random_randbernoulli (N);
+#if 0
+        test_random_randbernoulli (N);
+        test_random_randbeta (N);
+        test_random_randbetween (N);
+        test_random_randbinom (N);
+        test_random_randcauchy (N);
+        test_random_randchisq (N);
+	test_random_randdiscrete (N);
+	test_random_randexp (N);
+        test_random_randexppow (N);
+        test_random_randfdist (N);
+        test_random_randgamma (N);
+        test_random_randnormtail (N);
+        test_random_randgeom (N);
+        test_random_randgumbel (N);
+        test_random_randhyperg (N);
+        test_random_randlandau (N);
+        test_random_randlaplace (N);
+        test_random_randlevy (N);
+        test_random_randlog (N);
+        test_random_randlogistic (N);
+        test_random_randlognorm (N);
+        test_random_randnegbinom (N);
+        test_random_randnorm (N);
+        test_random_randpareto (N);
+        test_random_randpoisson (N);
+        test_random_randrayleigh (N);
+        test_random_randrayleightail (N);
+        test_random_randsnorm (N);
+        test_random_randstdist (N);
+        test_random_randtdist (N);
+        test_random_randuniform (N);
+        test_random_randweibull (N);
+#endif
+
+	mark_test_end (test_name);
+}
+
+/*-------------------------------------------------------------------------- */
+
 #define MAYBE_DO(name) if (strcmp (testname, "all") != 0 && strcmp (testname, (name)) != 0) { } else
 
 int
@@ -463,6 +669,7 @@ main (int argc, char const **argv)
 	MAYBE_DO ("test_insdel_rowcol_names") test_insdel_rowcol_names ();
 	MAYBE_DO ("test_func_help") test_func_help ();
 	MAYBE_DO ("test_nonascii_numbers") test_nonascii_numbers ();
+	MAYBE_DO ("test_random") test_random ();
 
 	/* ---------------------------------------- */
 
