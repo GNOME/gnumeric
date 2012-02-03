@@ -1,3 +1,7 @@
+2012-02-03  Morten Welinder  <terra@gnome.org>
+
+	* t2003-random-generators.pl: New test.
+
 2011-11-27  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.1

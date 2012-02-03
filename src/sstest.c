@@ -578,7 +578,6 @@ test_random (void)
 	test_random_rand (N);
         test_random_randbernoulli (N);
 #if 0
-        test_random_randbernoulli (N);
         test_random_randbeta (N);
         test_random_randbetween (N);
         test_random_randbinom (N);
