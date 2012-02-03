@@ -1,3 +1,7 @@
+2012-02-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk-actions.c (permanent_actions): delete MenuInsertNames
+
 2012-02-01  Morten Welinder  <terra@gnome.org>
 
 	* src/GNOME_Gnumeric-gtk.xml.in: Restore DataShuffle which has

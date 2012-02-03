@@ -1988,7 +1988,6 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuViewToolbars",		NULL, N_("_Toolbars") },
 	{ "MenuInsert",		NULL, N_("_Insert"), NULL, NULL, G_CALLBACK (cb_insert_menu)  },
 		{ "MenuInsertObject",		NULL, N_("_Object") },
-		{ "MenuInsertNames",		NULL, N_("_Names") },
 		{ "MenuInsertSpecial",		NULL, N_("S_pecial") },
 		{ "MenuInsertFormulaWrap", "Gnumeric_FormulaGuru",
 		  N_("Func_tion Wrapper") },
