@@ -878,13 +878,32 @@ gnumeric_simtable (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 }
 
 /***************************************************************************/
-
+/*gettext: For translations of the term skew-normal distribution see */
+/* http://isi.cbs.nl/glossary/term3051.htm */
 static GnmFuncHelp const help_randsnorm[] = {
-        { GNM_FUNC_HELP_NAME, F_("RANDSNORM:random variate from a skew normal distribution") },
-        { GNM_FUNC_HELP_ARG, F_("a:amount of skew, defaults to 0") },
-        { GNM_FUNC_HELP_ARG, F_("\xce\xbc:mean of the underlying normal distribution, defaults to 0") },
-        { GNM_FUNC_HELP_ARG, F_("\xcf\x83:standard deviation of the underlying normal distribution, defaults to 1") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{\xcf\x83} < 0, RANDSNORM returns #NUM!") },
+        { GNM_FUNC_HELP_NAME, F_("RANDSNORM:random variate from a skew-normal distribution") },
+        { GNM_FUNC_HELP_ARG, F_("\360\235\233\274:shape parameter of the skew-normal distribution, "
+				"defaults to 0") },
+        { GNM_FUNC_HELP_ARG, F_("\360\235\234\207:location parameter of the skew-normal distribution, "
+				"defaults to 0") },
+        { GNM_FUNC_HELP_ARG, F_("\360\235\234\216:scale parameter of the skew-normal distribution, "
+				"defaults to 1") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The random variates are drawn from a skew-normal "
+					"distribution with shape parameter \360\235\233\274. "
+					"When \360\235\233\274=0, the skewness vanishes, and "
+					"we obtain the standard normal density; as \360\235\233\274"
+					" increases (in absolute value), the skewness of the "
+					"distribution increases; when \360\235\233\274 approaches "
+					"infinity  the density converges to the so-called "
+					"half-normal (or folded normal) density function; "
+					"if the sign of \360\235\233\274 changes, the density "
+					"is reflected on the opposite side of the vertical axis.") },
+	{ GNM_FUNC_HELP_NOTE, F_("The mean of a skew-normal distribution with location parameter \360\235\234\207=0 "
+				 "is not 0.") },
+	{ GNM_FUNC_HELP_NOTE, F_("The standard deviation of a skew-normal distribution with scale parameter "
+				 "\360\235\234\216=1 is not 1.") },
+	{ GNM_FUNC_HELP_NOTE, F_("The skewness of a skew-normal distribution is in general not \360\235\233\274.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{\360\235\234\216} < 0, RANDSNORM returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDSNORM(-3,0,1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDSNORM(-3,0,1)" },
         { GNM_FUNC_HELP_SEEALSO, "RANDNORM" },
@@ -919,9 +938,12 @@ gnumeric_randsnorm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randstdist[] = {
-        { GNM_FUNC_HELP_NAME, F_("RANDSTDIST:random variate from a skew t distribution") },
+        { GNM_FUNC_HELP_NAME, F_("RANDSTDIST:random variate from a skew-t distribution") },
         { GNM_FUNC_HELP_ARG, F_("df:degrees of freedom") },
-        { GNM_FUNC_HELP_ARG, F_("a:amount of skew, defaults to 0") },
+        { GNM_FUNC_HELP_ARG, F_("\360\235\233\274:shape parameter of the skew-t distribution, defaults to 0") },
+	{ GNM_FUNC_HELP_NOTE, F_("The mean of a skew-t distribution is not 0.") },
+	{ GNM_FUNC_HELP_NOTE, F_("The standard deviation of a skew-t distribution is not 1.") },
+	{ GNM_FUNC_HELP_NOTE, F_("The skewness of a skew-t distribution is in general not \360\235\233\274.") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDSTDIST(5,-2)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDSTDIST(5,2)" },
         { GNM_FUNC_HELP_SEEALSO, "RANDTDIST" },
