@@ -6109,7 +6109,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 						"Bezier cubic spline instead."),
 					 CXML2C(attrs[1]));
 			} else if (attr_eq (attrs[1], "cubic-spline"))
-				interpolation = "spline";
+				interpolation = "odf-spline";
 			else if (g_str_has_prefix (CXML2C(attrs[1]), "gnm:"))
 				interpolation = CXML2C(attrs[1]) + 4;
 			else oo_warning

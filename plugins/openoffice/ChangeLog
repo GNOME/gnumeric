@@ -1,3 +1,9 @@
+2012-02-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* openoffice-read.c (od_style_prop_chart): implrt cubic splies as the new
+	odf compatible spline.
+	* openoffice-write.c (odf_write_interpolation_attribute): export odf-spline.
+
 2011-11-27  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.1

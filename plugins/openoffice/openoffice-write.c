@@ -6085,6 +6085,11 @@ odf_write_interpolation_attribute (GnmOOExport *state,
 			gsf_xml_out_add_cstr
 				(state->xml, CHART "interpolation",
 				 "cubic-spline");
+		else if (0 == strcmp (interpolation, "odf-spline"))
+			/* this one is really compatible with ODF */
+			gsf_xml_out_add_cstr
+				(state->xml, CHART "interpolation",
+				 "cubic-spline");
 		else if (state->with_extension) {
 			char *tag = g_strdup_printf ("gnm:%s", interpolation);
 			gsf_xml_out_add_cstr
