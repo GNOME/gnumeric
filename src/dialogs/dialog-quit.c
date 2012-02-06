@@ -251,7 +251,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 
 	gui = gnm_gtk_builder_new ("quit.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
-                return 0;
+                return FALSE;
 
 	dialog = GTK_DIALOG (go_gtk_builder_get_widget (gui, "quit_dialog"));
 	model = gtk_builder_get_object (gui, "quit_model");
