@@ -1,5 +1,10 @@
 2012-02-05 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_randsnorm): adjust argument names
+	(help_randstdist): adjust argument names
+
+2012-02-05 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_randsnorm): clarify
 	(help_randstdist): ditto
 
