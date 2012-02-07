@@ -22,6 +22,7 @@
 #include "func.h"
 #include "parse-util.h"
 #include "sheet-object-cell-comment.h"
+#include "mathfunc.h"
 
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
@@ -569,6 +570,52 @@ test_random_randbernoulli (int N)
 }
 
 static void
+test_random_randsnorm (int N)
+{
+	gnm_float mean, var, skew, kurt;
+	gnm_float *vals;
+	gboolean ok;
+	gnm_float alpha = 5;
+	gnm_float delta = alpha/gnm_sqrt(1+alpha*alpha);
+	gnm_float mean_target = delta * gnm_sqrt (2/M_PIgnum);
+	gnm_float var_target = 1-mean_target*mean_target;
+	char *expr;
+	gnm_float T;
+
+	expr = g_strdup_printf ("=RANDSNORM(%.10" GNM_FORMAT_g ")", alpha);
+	vals = test_random_1 (N, expr, &mean, &var, &skew, &kurt);
+	g_free (expr);
+	g_free (vals);
+
+	ok = TRUE;
+
+	T = mean_target;
+	if (gnm_abs (mean - T) > 0.01) {
+		g_printerr ("Mean failure [%.10" GNM_FORMAT_g "]\n", T);
+		ok = FALSE;
+	}
+	T = var_target;
+	if (gnm_abs (var - T) > 0.01) {
+		g_printerr ("Var failure [%.10" GNM_FORMAT_g "]\n", T);
+		ok = FALSE;
+	}
+	T = mean_target/gnm_sqrt(var_target);
+	T = T*T*T*(4-M_PIgnum)/2;
+	if (gnm_abs (skew - T) > 0.05) {
+		g_printerr ("Skew failure [%.10" GNM_FORMAT_g "]\n", T);
+		ok = FALSE;
+	}
+	T = 2*(M_PIgnum - 3)*mean_target*mean_target*mean_target*mean_target/(var_target*var_target);
+	if (gnm_abs (kurt - T) > 0.10) {
+		g_printerr ("Kurt failure [%.10" GNM_FORMAT_g "]\n", T);
+		ok = FALSE;
+	}
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+}
+
+static void
 test_random (void)
 {
 	const char *test_name = "test_random";
@@ -577,6 +624,7 @@ test_random (void)
 	mark_test_start (test_name);
 	test_random_rand (N);
         test_random_randbernoulli (N);
+        test_random_randsnorm (N);
 #if 0
         test_random_randbeta (N);
         test_random_randbetween (N);
@@ -604,7 +652,6 @@ test_random (void)
         test_random_randpoisson (N);
         test_random_randrayleigh (N);
         test_random_randrayleightail (N);
-        test_random_randsnorm (N);
         test_random_randstdist (N);
         test_random_randtdist (N);
         test_random_randuniform (N);

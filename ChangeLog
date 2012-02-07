@@ -1,3 +1,8 @@
+2012-02-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sstest.c (test_random_randsnorm): new
+	(test_random): enable test_random_randsnorm
+
 2012-02-03  Morten Welinder  <terra@gnome.org>
 
 	* src/GNOME_Gnumeric-gtk.xml.in: Remove names of separators.  They
