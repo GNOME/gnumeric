@@ -1,3 +1,9 @@
+2012-02-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/wbc-gtk-edit.c (wbcg_insert_object): don't destroy the object
+	before inserting it when another object is selected somewhere in the
+	workbook. [#669648]
+
 2012-02-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sstest.c (test_random_randsnorm): new

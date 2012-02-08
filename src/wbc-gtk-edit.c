@@ -1167,7 +1167,6 @@ wbcg_insert_object (WBCGtk *wbcg, SheetObject *so)
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
 	wbcg_insert_object_clear (wbcg);
-	wbcg->new_object = so;
 
 	npages = wbcg_get_n_scg (wbcg);
 	for (i = 0; i < npages; i++) {
@@ -1178,6 +1177,10 @@ wbcg_insert_object (WBCGtk *wbcg, SheetObject *so)
 			sc_unant (SHEET_CONTROL (scg));
 		}
 	}
+	/* we can't set wbcg->new_object before now because if one sheet has a
+	 * selected object, the new object will be destroyed by the loop
+	 * above. See #669648. */
+	wbcg->new_object = so;
 	wb_control_update_action_sensitivity (WORKBOOK_CONTROL (wbcg));
 }
 

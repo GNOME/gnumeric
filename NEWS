@@ -12,6 +12,7 @@ Andreas:
 
 Jean:
 	* Fix formula interpretation in plot series (with Morten's help). [#662237]
+	* Don't destroy a sheet object when inserting it. [#669648]
 
 Morten:
 	* Improve parsing on numbers with non-ascii digits.
