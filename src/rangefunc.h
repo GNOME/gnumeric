@@ -59,6 +59,9 @@ int gnm_range_rsq_pop	(gnm_float const *xs, const gnm_float *ys, int n, gnm_floa
 
 int gnm_range_mode	(gnm_float const *xs, int n, gnm_float *res);
 
+int gnm_range_adtest    (gnm_float const *xs, int n, gnm_float *p, 
+			 gnm_float *statistics);
+
 G_END_DECLS
 
 #endif /* _GNM_RANGEFUNC_H_ */

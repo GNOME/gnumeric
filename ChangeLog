@@ -1,3 +1,13 @@
+2012-02-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sstest.c (test_random_randnorm): new
+	(test_random): enable test_random_randnorm
+	(test_random_normality): new
+	(test_random): use sample size of 20000
+	* src/rangefunc.h (gnm_range_adtest): new
+	* src/rangefunc.c (gnm_range_adtest): new, extracted from
+	plugins/fn-stat/functions.c
+
 2012-02-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/wbc-gtk-edit.c (wbcg_insert_object): don't destroy the object

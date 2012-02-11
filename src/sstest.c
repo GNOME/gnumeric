@@ -56,7 +56,7 @@ mark_test_end (const char *name)
 }
 
 static void
-cb_collect_names (const char *name, GnmNamedExpr *nexpr, GSList **names)
+cb_collect_names (G_GNUC_UNUSED const char *name, GnmNamedExpr *nexpr, GSList **names)
 {
 	*names = g_slist_prepend (*names, nexpr);
 }
@@ -471,6 +471,73 @@ test_random_1 (int N, const char *expr,
 	return res;
 }
 
+static gnm_float *
+test_random_normality (int N, const char *expr,
+		       gnm_float *mean, gnm_float *var,
+		       gnm_float *adtest, gnm_float *cvmtest,
+		       gnm_float *lkstest, gnm_float *sftest)
+{
+	Workbook *wb = workbook_new ();
+	Sheet *sheet = workbook_sheet_add
+		(wb, -1, GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
+	gnm_float *res = g_new (gnm_float, N);
+	int i;
+	char *s;
+
+	g_printerr ("Testing %s\n", expr);
+
+	for (i = 0; i < N; i++)
+		define_cell (sheet, 0, i, expr);
+
+	s = g_strdup_printf ("=average(a1:a%d)", N);
+	define_cell (sheet, 1, 0, s);
+	g_free (s);
+
+	s = g_strdup_printf ("=var(a1:a%d)", N);
+	define_cell (sheet, 1, 1, s);
+	g_free (s);
+
+	s = g_strdup_printf ("=adtest(a1:a%d)", N);
+	define_cell (sheet, 1, 2, s);
+	g_free (s);
+
+	s = g_strdup_printf ("=cvmtest(a1:a%d)", N);
+	define_cell (sheet, 1, 3, s);
+	g_free (s);
+
+	s = g_strdup_printf ("=lkstest(a1:a%d)", N);
+	define_cell (sheet, 1, 4, s);
+	g_free (s);
+
+	s = g_strdup_printf ("=sftest(a1:a%d)", N > 5000 ? 5000 : N);
+	define_cell (sheet, 1, 5, s);
+	g_free (s);
+
+	workbook_recalc (sheet->workbook);
+	for (i = 0; i < N; i++)
+		res[i] = value_get_as_float (sheet_cell_get (sheet, 0, i)->value);
+	*mean = value_get_as_float (sheet_cell_get (sheet, 1, 0)->value);
+	g_printerr ("Mean: %.10" GNM_FORMAT_g "\n", *mean);
+
+	*var = value_get_as_float (sheet_cell_get (sheet, 1, 1)->value);
+	g_printerr ("Var: %.10" GNM_FORMAT_g "\n", *var);
+
+	*adtest = value_get_as_float (sheet_cell_get (sheet, 1, 2)->value);
+	g_printerr ("ADTest: %.10" GNM_FORMAT_g "\n", *adtest);
+
+	*cvmtest = value_get_as_float (sheet_cell_get (sheet, 1, 3)->value);
+	g_printerr ("CVMTest: %.10" GNM_FORMAT_g "\n", *cvmtest);
+
+	*lkstest = value_get_as_float (sheet_cell_get (sheet, 1, 4)->value);
+	g_printerr ("LKSTest: %.10" GNM_FORMAT_g "\n", *lkstest);
+
+	*sftest = value_get_as_float (sheet_cell_get (sheet, 1, 5)->value);
+	g_printerr ("CVMTest: %.10" GNM_FORMAT_g "\n", *sftest);
+
+	g_object_unref (wb);
+	return res;
+}
+
 static void
 test_random_rand (int N)
 {
@@ -570,6 +637,59 @@ test_random_randbernoulli (int N)
 }
 
 static void
+test_random_randnorm (int N)
+{
+  gnm_float mean, var, adtest, cvmtest, lkstest, sftest;
+	gnm_float mean_target = 0, var_target = 1;
+	gnm_float *vals;
+	gboolean ok;
+	char *expr;
+	gnm_float T;
+
+	expr = g_strdup_printf ("=RANDNORM(%.10" GNM_FORMAT_g ",%.10" GNM_FORMAT_g ")", 
+				mean_target, var_target);
+	vals = test_random_normality (N, expr, &mean, &var, &adtest, &cvmtest, &lkstest, &sftest);
+	g_free (expr);
+	g_free (vals);
+
+	ok = TRUE;
+
+	T = mean_target;
+	if (gnm_abs (mean - T) > 0.02) {
+		g_printerr ("Mean failure [%.10" GNM_FORMAT_g "]\n", T);
+		ok = FALSE;
+	}
+	T = var_target;
+	if (gnm_abs (var - T) > 0.02) {
+		g_printerr ("Var failure [%.10" GNM_FORMAT_g "]\n", T);
+		ok = FALSE;
+	}
+
+	if (adtest < 0.05) {
+		g_printerr ("Anderson Darling Test rejected [%.10" GNM_FORMAT_g "]\n", adtest);
+		ok = FALSE;
+	}
+	if (cvmtest < 0.05) {
+		g_printerr ("Cramér-von Mises Test rejected [%.10" GNM_FORMAT_g "]\n", cvmtest);
+		ok = FALSE;
+	}
+	if (lkstest < 0.05) {
+		g_printerr ("Lilliefors (Kolmogorov-Smirnov) Test rejected [%.10" GNM_FORMAT_g "]\n",
+			    lkstest);
+		ok = FALSE;
+	}
+	if (sftest < 0.05) {
+		g_printerr ("Shapiro-Francia Test rejected [%.10" GNM_FORMAT_g "]\n", sftest);
+		ok = FALSE;
+	}
+
+
+	if (ok)
+		g_printerr ("OK\n");
+	g_printerr ("\n");
+}
+
+static void
 test_random_randsnorm (int N)
 {
 	gnm_float mean, var, skew, kurt;
@@ -619,11 +739,12 @@ static void
 test_random (void)
 {
 	const char *test_name = "test_random";
-	const int N = 10000;
+	const int N = 20000;
 
 	mark_test_start (test_name);
 	test_random_rand (N);
         test_random_randbernoulli (N);
+        test_random_randnorm (N);
         test_random_randsnorm (N);
 #if 0
         test_random_randbeta (N);
@@ -647,7 +768,6 @@ test_random (void)
         test_random_randlogistic (N);
         test_random_randlognorm (N);
         test_random_randnegbinom (N);
-        test_random_randnorm (N);
         test_random_randpareto (N);
         test_random_randpoisson (N);
         test_random_randrayleigh (N);

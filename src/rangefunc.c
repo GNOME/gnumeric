@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * rangefunc.c: Functions on ranges (data sets).
  *
@@ -14,9 +15,9 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "tools/analysis-tools.h"
 int
-gnm_range_count (gnm_float const *xs, int n, gnm_float *res)
+gnm_range_count (G_GNUC_UNUSED gnm_float const *xs, int n, gnm_float *res)
 {
 	*res = n;
 	return 0;
@@ -430,4 +431,49 @@ gnm_range_mode (gnm_float const *xs, int n, gnm_float *res)
 
 	*res = mode;
 	return 0;
+}
+
+int 
+gnm_range_adtest    (gnm_float const *xs, int n, gnm_float *pvalue, 
+		     gnm_float *statistics)
+{
+	gnm_float mu = 0.;
+	gnm_float sigma = 1.;
+
+	if ((n < 8) || gnm_range_average (xs, n, &mu)
+	    || gnm_range_stddev_est (xs, n, &sigma))
+		return 1;
+	else {
+		int i;
+		gnm_float total = 0.;
+		gnm_float p;
+		gnm_float *ys;
+
+		ys = range_sort (xs, n);
+
+		for (i = 0; i < n; i++) {
+			gnm_float val = (pnorm (ys[i], mu, sigma, TRUE, TRUE) + 
+					 pnorm (ys[n - i - 1], 
+						mu, sigma, FALSE, TRUE));
+			total += ((2*i+1)* val);
+		}
+
+		total = - n - total/n;
+		g_free (ys);
+
+		total *= (1 + 0.75 / n + 2.25 / (n * n));
+		if (total < 0.2)
+			p = 1. - gnm_exp (-13.436 + 101.14 * total - 223.73 * total * total);
+		else if (total < 0.34)
+			p = 1. - gnm_exp (-8.318 + 42.796 * total - 59.938 * total * total);
+		else if (total < 0.6)
+			p = gnm_exp (0.9177 - 4.279  * total - 1.38 * total * total);
+		else
+			p = gnm_exp (1.2937 - 5.709 * total + 0.0186 * total * total);
+		if (statistics)
+			*statistics = total;
+		if (pvalue)
+			*pvalue = p;
+		return 0;
+	}
 }

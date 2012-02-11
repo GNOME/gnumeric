@@ -1,3 +1,7 @@
+2012-02-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (gnumeric_adtest): use gnm_range_adtest
+
 2011-11-27  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.1
