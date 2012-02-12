@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-01-24 21:20+0000\n"
-"PO-Revision-Date: 2012-02-08 21:22+0100\n"
+"PO-Revision-Date: 2012-02-12 20:36+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -3222,7 +3222,7 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"cilj ni sodi večkratnik izvornih stolpcev (%d napram %d)\n"
+"ciljni obseg celic ni sodi večkratnik izvornih stolpcev (%d napram %d)\n"
 "\n"
 "Poskusite izbrati eno celico ali pa obseg celic enake oblike in velikosti."
 
@@ -3233,7 +3233,7 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"cilj ni sodi večkratnik izvornih vrstic (%d napram %d)\n"
+"ciljni obseg celic ni sodi večkratnik izvornih vrstic (%d napram %d)\n"
 "\n"
 "Poskusite izbrati eno celico ali pa obseg celic enake oblike in velikosti."
 
@@ -3248,9 +3248,9 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"ciljno polje celic je drugačne oblike (%dRx%dC) kot začetno (%dRx%dC)\n"
+"ciljni obseg celic je drugačne oblike (%dRx%dC) kot začetno (%dRx%dC)\n"
 "\n"
-"Izberite le eno celico ali pa polje z enako obliko in velikostjo."
+"Izberite le eno celico ali pa obseg celic z enako obliko in velikostjo."
 
 #: ../src/cmd-edit.c:331
 msgid "Unable to paste into selection"
@@ -4654,7 +4654,7 @@ msgstr "Izbrani vnosni stolpci morajo biti enake velikosti!"
 #: ../src/dialogs/dialog-analysis-tools.c:662
 #: ../src/dialogs/dialog-analysis-tools.c:782
 msgid "The selected input areas must have equal size!"
-msgstr "Izbrana dovodna območja morajo biti enake velikosti!"
+msgstr "Izbrani dovodni obsegi celic morajo biti enake velikosti!"
 
 #: ../src/dialogs/dialog-analysis-tools.c:710
 msgid "Could not create the Correlation Tool dialog."
@@ -6193,7 +6193,7 @@ msgstr "Zapis časa po meri"
 
 #: ../src/dialogs/dialog-printer-setup.c:1668
 msgid "A1 (first cell of the page area)"
-msgstr "A1 (prva celica delovnega lista)"
+msgstr "A1 (prva celica obsega strani)"
 
 #: ../src/dialogs/dialog-printer-setup.c:1675
 msgid "$A$1 (first cell of this worksheet)"
@@ -6356,9 +6356,8 @@ msgid "The number of random numbers requested is invalid."
 msgstr "Število zahtevanih naključnih števil je neveljavno."
 
 #: ../src/dialogs/dialog-random-generator-cor.c:221
-#, fuzzy
 msgid "Could not create the Correlated Random Tool dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna Kaplan-Meierjevega orodja."
+msgstr "Ni mogoče ustvariti pogovornega okna orodja soodnosnih naključnih vrednosti."
 
 #: ../src/dialogs/dialog-random-generator.c:105
 #, fuzzy
@@ -7127,9 +7126,8 @@ msgid "You should introduce a valid number as step size"
 msgstr "Vpeljati je treba veljavno število za velikost koraka."
 
 #: ../src/dialogs/dialog-tabulate.c:271
-#, fuzzy
 msgid "The step size should be positive"
-msgstr "Kako naj bo velikost vsebine določena"
+msgstr "Velikost koraka mora biti pozitivna vrednost."
 
 #: ../src/dialogs/dialog-tabulate.c:282
 msgid "You should introduce one or more dependency cells"
@@ -7306,9 +7304,8 @@ msgstr "_Alfa:"
 #: ../src/dialogs/sampling.ui.h:14
 #: ../src/dialogs/sign-test.ui.h:9
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:5
-#, fuzzy
 msgid "_Areas"
-msgstr "Ploščinski"
+msgstr "_Obsegi celic"
 
 #: ../src/dialogs/anova-one.ui.h:8
 #: ../src/dialogs/correlation.ui.h:6
@@ -7408,9 +7405,8 @@ msgid "Input _range:"
 msgstr "Dovodni _obseg podatkov:"
 
 #: ../src/dialogs/anova-two.ui.h:7
-#, fuzzy
 msgid "Rows per _sample:"
-msgstr "Bitov na vzorec"
+msgstr "Vrstice na _vzorec:"
 
 #: ../src/dialogs/anova-two.ui.h:8
 msgid "_Alpha: "
@@ -7619,9 +7615,8 @@ msgid "<b>Background</b>"
 msgstr "<b>Ozadje</b>"
 
 #: ../src/dialogs/cell-format.ui.h:12
-#, fuzzy
 msgid "<b>Control</b>"
-msgstr "_Nadzor"
+msgstr ""
 
 #: ../src/dialogs/cell-format.ui.h:13
 msgid "<b>Error alerts</b>"
@@ -8161,11 +8156,11 @@ msgstr "_Kopiraj oznake"
 
 #: ../src/dialogs/consolidate.ui.h:4
 msgid "Clear the list of source areas"
-msgstr "Počisti seznama izvornega obsega"
+msgstr "Počisti seznam izvornih obsegov podatkov"
 
 #: ../src/dialogs/consolidate.ui.h:6
 msgid "Delete the currently selected source area"
-msgstr "Izbriši trenutno izbran izvorni obseg"
+msgstr "Izbriši trenutno izbran izvorni obseg podatkov"
 
 #: ../src/dialogs/consolidate.ui.h:8
 msgid "Labels in _left column"
@@ -8300,14 +8295,12 @@ msgid "Format"
 msgstr "Oblika"
 
 #: ../src/dialogs/data-table.ui.h:1
-#, fuzzy
 msgid "Co_lumn Input :"
-msgstr "Naslovi vrstic in sto_lpcev"
+msgstr "Dovod _stolpca :"
 
 #: ../src/dialogs/data-table.ui.h:3
-#, fuzzy
 msgid "_Row Input :"
-msgstr "Standardni dovod:"
+msgstr "Dovod _vrstice :"
 
 #: ../src/dialogs/define-name.ui.h:1
 msgid "Define Names"
@@ -8611,9 +8604,8 @@ msgid "Ignore any separators at the beginning of lines"
 msgstr "Prezri ločilnike na začetku vrstic"
 
 #: ../src/dialogs/dialog-stf.ui.h:21
-#, fuzzy
 msgid "Line breaks:"
-msgstr "Razmik med vrsticami:"
+msgstr "Prelomi vrstic:"
 
 #: ../src/dialogs/dialog-stf.ui.h:22
 #, fuzzy
@@ -9087,7 +9079,7 @@ msgstr "_Datum"
 
 #: ../src/dialogs/fill-series.ui.h:13
 msgid "_Growth"
-msgstr "_Rast"
+msgstr "_Naraščanje"
 
 #: ../src/dialogs/fill-series.ui.h:14
 msgid "_Linear"
@@ -9993,7 +9985,7 @@ msgstr "Območje tiskanja"
 
 #: ../src/dialogs/print.ui.h:28
 msgid "Print _area:"
-msgstr "P_odročje tiskanja:"
+msgstr "_Območje tiskanja:"
 
 #: ../src/dialogs/print.ui.h:29
 msgid "R_ight, then down"
@@ -10112,13 +10104,12 @@ msgid "Co_variance Matrix"
 msgstr "Matrika _kovariance"
 
 #: ../src/dialogs/random-generation-cor.ui.h:3
-#, fuzzy
 msgid "Correlated Random Number Generator"
-msgstr "/Šestnajstiško naključno število (širina)"
+msgstr "Ustvarjalnik soodnosnih naključnih števil."
 
 #: ../src/dialogs/random-generation-cor.ui.h:5
 msgid "Number of _random numbers:"
-msgstr "Število _naključnih števil_"
+msgstr "Število _naključnih števil:"
 
 #: ../src/dialogs/random-generation-cor.ui.h:8
 msgid "_Matrix:"
@@ -10675,9 +10666,8 @@ msgid "Apply _Name Changes"
 msgstr "Uveljavi _spremembe imena"
 
 #: ../src/dialogs/sheet-order.ui.h:3
-#, fuzzy
 msgid "Du_plicate"
-msgstr "Odstrani po_dvojena sporočila"
+msgstr "Po_dvoji"
 
 #: ../src/dialogs/sheet-order.ui.h:4
 msgid "Manage Sheets"
@@ -10784,9 +10774,8 @@ msgid "Shuffle Method: "
 msgstr "Način premešanja:"
 
 #: ../src/dialogs/shuffle.ui.h:4
-#, fuzzy
 msgid "_Area"
-msgstr "Območje"
+msgstr "_Obseg celic"
 
 #. Shuffle metod: Columns
 #: ../src/dialogs/shuffle.ui.h:6
@@ -11168,9 +11157,8 @@ msgid "_Coordinate"
 msgstr "_Koordinata"
 
 #: ../src/dialogs/tabulate.ui.h:12
-#, fuzzy
 msgid "_Visual"
-msgstr "Vidno"
+msgstr "_Predočeno"
 
 #: ../src/dialogs/variance-tests.ui.h:5
 msgid "Testing Equality of 2 Variances (F-Test)"
@@ -11426,7 +11414,7 @@ msgstr "Logična vrednost"
 
 #: ../src/func.c:1387
 msgid "Cell Range"
-msgstr "Podatkovna vrsta celic"
+msgstr "Obseg celic"
 
 #: ../src/func.c:1389
 msgid "Area"
@@ -11496,9 +11484,8 @@ msgstr ""
 "%d x %d točk"
 
 #: ../src/gnm-plugin.c:130
-#, fuzzy
 msgid "Missing function category name."
-msgstr "Ime nove kategorije:"
+msgstr "Manjka ime kategorije funkcije."
 
 #: ../src/gnm-plugin.c:134
 msgid "Function group is empty."
@@ -11758,14 +11745,12 @@ msgid "C_ancel"
 msgstr "P_rekliči"
 
 #: ../src/item-cursor.c:1059
-#, fuzzy
 msgid "Drag to autofill"
-msgstr "Potegni in spusti iz %s na %s"
+msgstr "Potegni za samodejno polnjenje"
 
 #: ../src/item-cursor.c:1062
-#, fuzzy
 msgid "Drag to move"
-msgstr "_Klikni za potezo"
+msgstr "Potegni za premikanje"
 
 #: ../src/libgnumeric.c:79
 msgid "Display Gnumeric's version"
@@ -11963,9 +11948,9 @@ msgid "The number is out of range"
 msgstr "Številka je izven obsega"
 
 #: ../src/parser.y:1355
-#, fuzzy, c-format
+#, c-format
 msgid "Improperly formatted error token"
-msgstr "Napaka pridobivanja žetona dostopa:"
+msgstr "Neustrezno oblikovan žeton napake"
 
 #: ../src/parser.y:1611
 #, c-format
@@ -12120,9 +12105,8 @@ msgid "Current _selection only"
 msgstr "Le _trenutno izbiro"
 
 #: ../src/print.c:1505
-#, fuzzy
 msgid "_Ignore defined print area"
-msgstr "Določi območje tiskanja za %s"
+msgstr "_Prezri določeno območje tiskanja"
 
 #: ../src/print.c:1509
 msgid "from:"
@@ -12655,9 +12639,8 @@ msgid "Open in _New Window"
 msgstr "Odpri v novem _oknu"
 
 #: ../src/sheet-object-graph.c:397
-#, fuzzy
 msgid "Copy to New Graph S_heet"
-msgstr "Ali naj se kopira stara domača mapa na novo mesto?"
+msgstr "Kopiraj v delovni list _novega diagrama"
 
 #: ../src/sheet-object-graph.c:743
 msgid "Series as:"
@@ -13142,7 +13125,7 @@ msgstr "Obseg za izvoz"
 
 #: ../src/ssconvert.c:142
 msgid "Goal seek areas"
-msgstr "Iskanje cilja območij"
+msgstr "Obsegi iskanja cilja"
 
 #: ../src/ssconvert.c:149
 msgid "Run the solver"
@@ -13225,9 +13208,8 @@ msgstr ""
 
 #: ../src/ssconvert.c:704
 #: ../src/ssconvert.c:749
-#, fuzzy
 msgid "INFILE [OUTFILE]"
-msgstr "uporaba: %s [MOŽNOSTI | VHODNADATOTEKA IZHODADATOTEKA\n"
+msgstr "DOVODNA_DATOTEKA [ODVODNA_DATOTEKA]"
 
 #: ../src/ssconvert.c:718
 #, c-format
@@ -13263,9 +13245,8 @@ msgid "Pattern is a set of fixed strings"
 msgstr "Vzorec je podatkovni niz določenih nizov"
 
 #: ../src/ssgrep.c:87
-#, fuzzy
 msgid "Print the filename for each match"
-msgstr "Ne izpiši imena datoteke za vsak zadetek"
+msgstr "Izpiši imena datoteke vsakega zadetka"
 
 #: ../src/ssgrep.c:94
 msgid "Do not print the filename for each match"
@@ -13276,18 +13257,16 @@ msgid "Ignore differences in letter case"
 msgstr "Prezri razlike v velikosti pisave"
 
 #: ../src/ssgrep.c:108
-#, fuzzy
 msgid "Print filenames with matches"
-msgstr "Izpiši imena datotek brez zadetkov"
+msgstr "Izpiši imena datotek skupaj z zadetki"
 
 #: ../src/ssgrep.c:115
 msgid "Print filenames without matches"
 msgstr "Izpiši imena datotek brez zadetkov"
 
 #: ../src/ssgrep.c:122
-#, fuzzy
 msgid "Print the location of each match"
-msgstr "Izpiši položaj zadetka na standardni izhod."
+msgstr "Izpiši mesto vsakega zadetka"
 
 #: ../src/ssgrep.c:129
 msgid "Suppress all normal output"
@@ -13298,9 +13277,8 @@ msgid "Search results of expressions too"
 msgstr "Preišči tudi rezultate izrazov"
 
 #: ../src/ssgrep.c:143
-#, fuzzy
 msgid "Print the location type of each match"
-msgstr "Izpiši položaj zadetka na standardni izhod."
+msgstr "Izpiši vrsto mesta vsakega zadetka"
 
 #: ../src/ssgrep.c:150
 msgid "Search for cells that do not match"
@@ -13323,9 +13301,8 @@ msgid "comment"
 msgstr "opomba"
 
 #: ../src/ssgrep.c:427
-#, fuzzy
 msgid "PATTERN INFILE..."
-msgstr "_Vzorec imena datoteke"
+msgstr "DOVODNA_DATOTEKA VZORCA ..."
 
 #: ../src/ssgrep.c:441
 #, c-format
@@ -13358,9 +13335,8 @@ msgstr "Kazalo podanih datotek"
 
 #: ../src/ssindex.c:248
 #: ../src/ssindex.c:268
-#, fuzzy
 msgid "INFILE..."
-msgstr "INFILE..."
+msgstr "DOVODNA_DATOTEKA"
 
 #: ../src/ssindex.c:262
 #, c-format
@@ -13943,7 +13919,7 @@ msgstr "Smeti"
 #: ../src/tools/analysis-tools.c:190
 #, c-format
 msgid "Area %i"
-msgstr "Obseg vrednosti %i"
+msgstr "Obseg %i"
 
 #: ../src/tools/analysis-tools.c:275
 #, c-format
@@ -14290,9 +14266,9 @@ msgid "Shuffled"
 msgstr "Premešano"
 
 #: ../src/tools/fill-series.c:378
-#, fuzzy, c-format
+#, c-format
 msgid "Fill Series (%s)"
-msgstr "Zapolni niz"
+msgstr "Zapolni podatkovni niz (%s)"
 
 #: ../src/tools/filter.c:137
 msgid "Filtered"
@@ -14402,25 +14378,22 @@ msgid "Cholesky Decomposition of the Covariance Matrix"
 msgstr "Razcep Choleskega kovariančne matrike"
 
 #: ../src/tools/random-generator-cor.c:76
-#, fuzzy
 msgid "Uncorrelated Random Variables"
-msgstr "ro:korelacija dveh naključnih spremenljivk"
+msgstr "Nepovezane naključne spremenljivke."
 
 #: ../src/tools/random-generator-cor.c:101
-#, fuzzy
 msgid "Correlated Random Variables"
-msgstr "Korelirane naključne spremenljivke"
+msgstr "Soodnosne naključne spremenljivke"
 
 #: ../src/tools/random-generator-cor.c:143
-#, fuzzy, c-format
+#, c-format
 msgid "Correlated Random Numbers (%s)"
-msgstr "Število _naključnih števil_"
+msgstr "Soodnosna naključna števila (%s)"
 
 #: ../src/tools/random-generator-cor.c:154
 #: ../src/tools/random-generator-cor.c:157
-#, fuzzy
 msgid "Correlated Random Numbers"
-msgstr "Število _naključnih števil_"
+msgstr "Soodnosna naključna števila"
 
 #: ../src/tools/random-generator.c:53
 msgid "Generating Random Numbers..."
@@ -14998,9 +14971,8 @@ msgid "F_ill"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2020
-#, fuzzy
 msgid "_Random Generators"
-msgstr "Naključni dokument"
+msgstr "_Ustvarjalniki naključnih vrednosti"
 
 #: ../src/wbc-gtk-actions.c:2021
 msgid "_Group and Outline"
@@ -15015,9 +14987,8 @@ msgid "E_xport Data"
 msgstr "_Izvozi podatke"
 
 #: ../src/wbc-gtk-actions.c:2024
-#, fuzzy
 msgid "Data S_licer"
-msgstr "Različne podrobnosti"
+msgstr "_Vrtilna razpredelnica"
 
 #: ../src/wbc-gtk-actions.c:2025
 msgid "_Help"
@@ -15049,7 +15020,7 @@ msgstr "Pošlji trenutno datoteko preko elektronske pošte"
 
 #: ../src/wbc-gtk-actions.c:2042
 msgid "Print Area & Breaks"
-msgstr "Natisni obseg celic"
+msgstr "Območje tiskanja in prelomi"
 
 #: ../src/wbc-gtk-actions.c:2043
 msgid "Page Set_up..."
@@ -15252,19 +15223,19 @@ msgstr "Uredi lastnosti dokumenta"
 
 #: ../src/wbc-gtk-actions.c:2158
 msgid "Use the current selection as print area"
-msgstr "Uporabi trenutni izbor kot območje za tiskanje"
+msgstr "Uporabi trenutni izbor celic kot območje tiskanja"
 
 #: ../src/wbc-gtk-actions.c:2161
 msgid "Undefine the print area"
-msgstr "Počisti določeno področje tiskanja"
+msgstr "Počisti določeno območje tiskanja"
 
 #: ../src/wbc-gtk-actions.c:2163
 msgid "Show Print Area"
-msgstr "Pokaži področje tiskanja"
+msgstr "Pokaži območje tiskanja"
 
 #: ../src/wbc-gtk-actions.c:2164
 msgid "Select the print area"
-msgstr "Izberi področje tiskanja"
+msgstr "Izberi območje tiskanja"
 
 #: ../src/wbc-gtk-actions.c:2166
 msgid "Set Column Page Break"
@@ -15852,7 +15823,7 @@ msgstr "_Vzorčenje ..."
 
 #: ../src/wbc-gtk-actions.c:2472
 msgid "Periodic and random samples"
-msgstr "Periodični in naključni vzorci"
+msgstr "Ponavljajoči in naključni vzorci"
 
 #. Statistics -> Descriptive
 #: ../src/wbc-gtk-actions.c:2477
@@ -16160,7 +16131,7 @@ msgstr "Ustvari razpredelnico vrednosti celic kot funkcijo drugih celic."
 
 #: ../src/wbc-gtk-actions.c:2633
 msgid "_Series..."
-msgstr "_Serije ..."
+msgstr "_Nizi podatkov ..."
 
 #: ../src/wbc-gtk-actions.c:2634
 msgid "Fill according to a linear or exponential series"
@@ -16276,17 +16247,16 @@ msgstr "Uvozi _drugo vrsto datoteke ..."
 msgid "Import data from a file"
 msgstr "Uvoz podatkov iz datoteke"
 
+# Pivot tables are called “data slicers” ("pivot tables" has been registered by MS) ???
 #. Data -> Data Slicer
 #. label and tip are context dependent, see wbcg_menu_state_update
 #: ../src/wbc-gtk-actions.c:2682
-#, fuzzy
 msgid "Add _Data Slicer"
-msgstr "Dodaj nov podatkovni vir ..."
+msgstr "Dodaj _vrtilno razpredelnico"
 
 #: ../src/wbc-gtk-actions.c:2683
-#, fuzzy
 msgid "Create a data slicer"
-msgstr "Ustvari podatkovno razpredelnico"
+msgstr "Ustvari vrtilno razpredelnico"
 
 #: ../src/wbc-gtk-actions.c:2685
 msgid "_Refresh"
@@ -16294,17 +16264,15 @@ msgstr "_Osveži"
 
 #: ../src/wbc-gtk-actions.c:2686
 msgid "Regenerate a data slicer from the source data"
-msgstr ""
+msgstr "Ustvari vrtilno razpredelnico iz izvornih podatkov"
 
 #: ../src/wbc-gtk-actions.c:2688
-#, fuzzy
 msgid "_Edit Data Slicer..."
-msgstr "Pripni prenesene podatke"
+msgstr "_Uredi vrtilno razpredelnico ..."
 
 #: ../src/wbc-gtk-actions.c:2689
-#, fuzzy
 msgid "Adjust a data slicer"
-msgstr "Prilagodi korensko podatkovno mapo"
+msgstr "Prilagodi vrtilno razpredelnico"
 
 #. Standard Toolbar
 #: ../src/wbc-gtk-actions.c:2693
@@ -16913,24 +16881,20 @@ msgid "Add a filter"
 msgstr "Dodaj filter"
 
 #: ../src/wbc-gtk.c:1632
-#, fuzzy
 msgid "Remove _Data Slicer"
-msgstr "Odstrani podatkovni vir"
+msgstr "Odstrani _vrtilno razpredelnico"
 
 #: ../src/wbc-gtk.c:1633
-#, fuzzy
 msgid "Create _Data Slicer"
-msgstr "Ustvari podatkovno razpredelnico"
+msgstr "Ustvari _vrtilno razpredelnico"
 
 #: ../src/wbc-gtk.c:1635
-#, fuzzy
 msgid "Remove a Data Slicer"
-msgstr "Odstrani podatkovni vir"
+msgstr "Odstrani vrtilno razpredelnico"
 
 #: ../src/wbc-gtk.c:1636
-#, fuzzy
 msgid "Create a Data Slicer"
-msgstr "Ustvari podatkovno razpredelnico"
+msgstr "Ustvari vrtilno razpredelnico"
 
 #: ../src/wbc-gtk.c:1679
 #, c-format
@@ -17648,7 +17612,7 @@ msgstr "Neznana vrsta filtra \"%s\""
 
 #: ../src/xml-sax-read.c:2260
 msgid "Invalid filter, missing Area"
-msgstr "Neveljaven filter, ker manjka območje"
+msgstr "Neveljaven filter, ker manjka obseg vrednosti"
 
 #: ../src/xml-sax-read.c:2322
 #, c-format
