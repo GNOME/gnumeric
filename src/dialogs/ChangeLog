@@ -1,6 +1,10 @@
+2012-02-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* histogram.ui: fix tab label order
+
 2012-02-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* dialog-shuffle.c (shuffle_ok_clicked_cb): correctly initialize 
+	* dialog-shuffle.c (shuffle_ok_clicked_cb): correctly initialize
 	dao
 
 2012-01-28  Morten Welinder  <terra@gnome.org>
