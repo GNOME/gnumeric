@@ -9,14 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-11-25 03:47+0000\n"
-"PO-Revision-Date: 2011-11-25 09:03+0100\n"
+"POT-Creation-Date: 2012-02-17 10:12+0000\n"
+"PO-Revision-Date: 2012-02-17 21:36+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-Language: Slovenian\n"
@@ -1579,7 +1579,7 @@ msgstr ""
 #: ../plugins/fn-derivatives/options.c:821
 #, fuzzy
 msgid "f_t:futures price"
-msgstr "gotovinska_cena:gotovinska cena"
+msgstr "Cena izdelka"
 
 #: ../plugins/fn-derivatives/options.c:823
 #, fuzzy
@@ -2682,7 +2682,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:456
 #, fuzzy
 msgid "@{par} defaults to $1000."
-msgstr "Ponastavi prikaz na _privzete vrednosti"
+msgstr "Potrdi privzeto"
 
 #: ../plugins/fn-financial/functions.c:487
 msgid "INTRATE:interest rate"
@@ -2719,8 +2719,9 @@ msgid "RECEIVED calculates the amount to be received when a security matures."
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:566
+#, fuzzy
 msgid "PRICEDISC:discounted price"
-msgstr ""
+msgstr "Skupna cena z DDV"
 
 #: ../plugins/fn-financial/functions.c:569
 #: ../plugins/fn-financial/functions.c:606
@@ -2810,7 +2811,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1799
 #, fuzzy
 msgid "per:period number"
-msgstr "Prekoračeno je število povezav na strežnik %s"
+msgstr "Število 'P' sličic v skupini"
 
 #: ../plugins/fn-financial/functions.c:738
 #: ../plugins/fn-financial/functions.c:1192
@@ -2823,7 +2824,7 @@ msgstr "Prekoračeno je število povezav na strežnik %s"
 #: ../plugins/fn-financial/functions.c:3192
 #, fuzzy
 msgid "nper:number of periods"
-msgstr "Izberite številko igre za igranje"
+msgstr "Zadetek prekinitvene točke številka %s\n"
 
 #: ../plugins/fn-financial/functions.c:739
 #: ../plugins/fn-financial/functions.c:1194
@@ -2877,7 +2878,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:3282
 #, fuzzy
 msgid "life:number of periods"
-msgstr "Izberite številko igre za igranje"
+msgstr "Zadetek prekinitvene točke številka %s\n"
 
 #: ../plugins/fn-financial/functions.c:775
 #: ../plugins/fn-financial/functions.c:825
@@ -3181,7 +3182,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1841
 #, fuzzy
 msgid "NPER:number of periods"
-msgstr "Izberite številko igre za igranje"
+msgstr "Zadetek prekinitvene točke številka %s\n"
 
 #: ../plugins/fn-financial/functions.c:1847
 msgid "NPER calculates the number of periods of an investment based on periodic constant payments and a constant interest rate."
@@ -3190,7 +3191,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1889
 #, fuzzy
 msgid "DURATION:the duration of a security"
-msgstr "Raven varnosti: %s"
+msgstr "Varnostne naprave"
 
 #: ../plugins/fn-financial/functions.c:1892
 #: ../plugins/fn-financial/functions.c:3237
@@ -3296,7 +3297,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:2251
 #, fuzzy
 msgid "PRICE:price of a security"
-msgstr "Raven varnosti: %s"
+msgstr "Varnostne naprave"
 
 #: ../plugins/fn-financial/functions.c:2259
 msgid "PRICE calculates the price per $100 face value of a security that pays periodic interest."
@@ -3305,7 +3306,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:2301
 #, fuzzy
 msgid "YIELD:yield of a security"
-msgstr "Raven varnosti: %s"
+msgstr "Varnostne naprave"
 
 #: ../plugins/fn-financial/functions.c:2305
 #: ../plugins/fn-financial/functions.c:2413
@@ -3314,7 +3315,7 @@ msgstr "Raven varnosti: %s"
 #: ../plugins/fn-financial/functions.c:2823
 #, fuzzy
 msgid "price:price of security"
-msgstr "Raven varnosti: %s"
+msgstr "Varnostne naprave"
 
 #: ../plugins/fn-financial/functions.c:2309
 msgid "YIELD calculates the yield of a security that pays periodic interest."
@@ -3488,7 +3489,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:3122
 #, fuzzy
 msgid "COUPNUM:number of coupons"
-msgstr "Izberite številko igre za igranje"
+msgstr "Zadetek prekinitvene točke številka %s\n"
 
 #: ../plugins/fn-financial/functions.c:3128
 msgid "COUPNUM calculates the number of coupons to be paid between the settlement and maturity dates, rounded up."
@@ -3762,7 +3763,7 @@ msgstr "vrednost:vrednost"
 #: ../plugins/fn-info/functions.c:1456
 #, fuzzy
 msgid "ISNA:TRUE if @{value} is the #N/A error value"
-msgstr "ISBLANK:funkcija vrne PRAV, v kolikor je @{vrednost} prazno polje"
+msgstr "pogojPRAV:vrednost, ki se uporabi, če je pogoj PRAV"
 
 #: ../plugins/fn-info/functions.c:1478
 msgid "ISERR:TRUE if @{value} is any error value except #N/A"
@@ -3820,7 +3821,7 @@ msgstr "n:število"
 #: ../plugins/fn-info/functions.c:1606
 #, fuzzy
 msgid "ISLOGICAL:TRUE if @{value} is a logical value"
-msgstr "ISBLANK:funkcija vrne PRAV, v kolikor je @{vrednost} prazno polje"
+msgstr "pogojPRAV:vrednost, ki se uporabi, če je pogoj PRAV"
 
 #: ../plugins/fn-info/functions.c:1608
 msgid "This function checks if a value is either TRUE or FALSE."
@@ -4245,8 +4246,9 @@ msgid "seek:value to find"
 msgstr "Ni mogoče najti poštnega predala"
 
 #: ../plugins/fn-lookup/functions.c:1151
+#, fuzzy
 msgid "vector:n by 1 or 1 by n range to be searched"
-msgstr ""
+msgstr "Podatkovna vrsta spremenljivke x mora biti vektor (n x 1 ali 1 x n)"
 
 #: ../plugins/fn-lookup/functions.c:1152
 msgid "type:+1 (the default) to find the largest value ≤ @{seek}, 0 to find the first value = @{seek}, or-1 to find the smallest value ≥ @{seek}"
@@ -5160,7 +5162,7 @@ msgstr "TANH:hiperbolični tangens vrednosti @{x}"
 #: ../plugins/fn-math/functions.c:1621
 #, fuzzy
 msgid "PI:the constant 𝜋"
-msgstr "PI:konstanta π"
+msgstr "Stalna bitna hitrost"
 
 #: ../plugins/fn-math/functions.c:1622
 #, fuzzy
@@ -5513,19 +5515,19 @@ msgstr ""
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
 msgstr "Ta funkcija ni skladnja s funkcijami programa Excel."
 
-#: ../plugins/fn-math/functions.c:3094
+#: ../plugins/fn-math/functions.c:3103
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN:lastna vrednost in lastni vektor simetrične @{matrike}"
 
-#: ../plugins/fn-math/functions.c:3095
+#: ../plugins/fn-math/functions.c:3104
 msgid "matrix:a symmetric matrix"
 msgstr "matrika:simetrična matrika"
 
-#: ../plugins/fn-math/functions.c:3096
+#: ../plugins/fn-math/functions.c:3105
 msgid "If @{matrix} is not symmetric, EIGEN returns #NUM!"
 msgstr "V kolikor @{matrika} ni simetrična, funkcija EIGEN vrne napako #NUM!"
 
-#: ../plugins/fn-math/functions.c:3097
+#: ../plugins/fn-math/functions.c:3106
 msgid "If @{matrix} does not contain an equal number of columns and rows, EIGEN returns #VALUE!"
 msgstr "V kolikor @{matrika} nima enakega števila stolpcev in vrstic, funkcija EIGEN vrne napako #VALUE!"
 
@@ -6721,7 +6723,7 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:653
 #: ../plugins/fn-random/functions.c:672
-#: ../plugins/fn-random/functions.c:923
+#: ../plugins/fn-random/functions.c:942
 msgid "df:degrees of freedom"
 msgstr "df:stopnje prostosti"
 
@@ -6840,30 +6842,69 @@ msgid ""
 "The successive use of the simulation tool also requires that you give to the tool at least one input variable having RAND() or any other RAND<distribution name>() function in it. On each round, the simulation tool iterates for the given number of rounds over all the input variables to reevaluate them. On each iteration, the values of the output variables are stored, and when the round is completed, descriptive statistical information is created according to the values."
 msgstr ""
 
-#: ../plugins/fn-random/functions.c:883
-msgid "RANDSNORM:random variate from a skew normal distribution"
-msgstr ""
-
 #: ../plugins/fn-random/functions.c:884
-#: ../plugins/fn-random/functions.c:924
 #, fuzzy
-msgid "a:amount of skew, defaults to 0"
-msgstr "Ponastavi prikaz na _privzete vrednosti"
+msgid "RANDSNORM:random variate from a skew-normal distribution"
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-random/functions.c:885
-msgid "μ:mean of the underlying normal distribution, defaults to 0"
-msgstr ""
-
-#: ../plugins/fn-random/functions.c:886
-msgid "σ:standard deviation of the underlying normal distribution, defaults to 1"
-msgstr ""
+#, fuzzy
+msgid "𝛼:shape parameter of the skew-normal distribution, defaults to 0"
+msgstr "λ:parameter filtra λ, privzeto je določena vrednost 1600"
 
 #: ../plugins/fn-random/functions.c:887
-msgid "If @{σ} < 0, RANDSNORM returns #NUM!"
-msgstr "V kolikor je @{σ} < 0, funkcija RANDSNORM vrne napako #NUM!"
+#, fuzzy
+msgid "𝜉:location parameter of the skew-normal distribution, defaults to 0"
+msgstr "λ:parameter filtra λ, privzeto je določena vrednost 1600"
 
-#: ../plugins/fn-random/functions.c:922
-msgid "RANDSTDIST:random variate from a skew t distribution"
+#: ../plugins/fn-random/functions.c:889
+#, fuzzy
+msgid "𝜔:scale parameter of the skew-normal distribution, defaults to 1"
+msgstr "λ:parameter filtra λ, privzeto je določena vrednost 1600"
+
+#: ../plugins/fn-random/functions.c:891
+msgid "The random variates are drawn from a skew-normal distribution with shape parameter @{𝛼}. When @{𝛼}=0, the skewness vanishes, and we obtain the standard normal density; as 𝛼 increases (in absolute value), the skewness of the distribution increases; when @{𝛼} approaches infinity  the density converges to the so-called half-normal (or folded normal) density function; if the sign of @{𝛼} changes, the density is reflected on the opposite side of the vertical axis."
+msgstr ""
+
+#: ../plugins/fn-random/functions.c:901
+msgid "The mean of a skew-normal distribution with location parameter @{𝜉}=0 is not 0."
+msgstr ""
+
+#: ../plugins/fn-random/functions.c:903
+msgid "The standard deviation of a skew-normal distribution with scale parameter @{𝜔}=1 is not 1."
+msgstr ""
+
+#: ../plugins/fn-random/functions.c:905
+msgid "The skewness of a skew-normal distribution is in general not @{𝛼}."
+msgstr ""
+
+#: ../plugins/fn-random/functions.c:906
+#, fuzzy
+msgid "If @{𝜔} < 0, RANDSNORM returns #NUM!"
+msgstr "Vrne logični PRAV, če je X podmnožica Y"
+
+#: ../plugins/fn-random/functions.c:941
+#, fuzzy
+msgid "RANDSTDIST:random variate from a skew-t distribution"
+msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
+
+#: ../plugins/fn-random/functions.c:943
+#, fuzzy
+msgid "𝛼:shape parameter of the skew-t distribution, defaults to 0"
+msgstr "λ:parameter filtra λ, privzeto je določena vrednost 1600"
+
+#: ../plugins/fn-random/functions.c:944
+#, fuzzy
+msgid "The mean of a skew-t distribution is not 0."
+msgstr "lambda:srednja vrednost porazdelitve"
+
+#: ../plugins/fn-random/functions.c:945
+#, fuzzy
+msgid "The standard deviation of a skew-t distribution is not 1."
+msgstr "σ:standardni odklon (deviacija) porazdelitve"
+
+#: ../plugins/fn-random/functions.c:946
+msgid "The skewness of a skew-t distribution is in general not @{𝛼}."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:45
@@ -7162,7 +7203,7 @@ msgstr "f:število neuspešnih poskusov"
 #: ../plugins/fn-stat/functions.c:382
 #, fuzzy
 msgid "t:threshold number of successes"
-msgstr "Izberite številko igre za igranje"
+msgstr "Zadetek prekinitvene točke številka %s\n"
 
 #: ../plugins/fn-stat/functions.c:383
 msgid "p:probability of a success"
@@ -9472,39 +9513,39 @@ msgstr ""
 msgid "If @{Sequence} contians less than 6 numerical values, this function returns #VALUE!"
 msgstr ""
 
-#: ../plugins/gda/plugin-gda.c:305
+#: ../plugins/gda/plugin-gda.c:306
 msgid "EXECSQL:result of executing @{sql} in the libgda data source @{dsn}"
 msgstr "EXECSQL:rezultat izvajanja @{sql} s podatkovnim virom libgda @{dsn}"
 
-#: ../plugins/gda/plugin-gda.c:307
-#: ../plugins/gda/plugin-gda.c:384
-msgid "dsn:libgda data source"
-msgstr "dsn:libgda podatkovni vir"
-
 #: ../plugins/gda/plugin-gda.c:308
 #: ../plugins/gda/plugin-gda.c:385
-msgid "username:user name to access @{dsn}"
-msgstr "uporabniško-ime: uporabniško ime za dostop do @{dsn}"
+msgid "dsn:libgda data source"
+msgstr "dsn:podatkovni vir libgda"
 
 #: ../plugins/gda/plugin-gda.c:309
 #: ../plugins/gda/plugin-gda.c:386
+msgid "username:user name to access @{dsn}"
+msgstr "uporabniško-ime: uporabniško ime za dostop do @{dsn}"
+
+#: ../plugins/gda/plugin-gda.c:310
+#: ../plugins/gda/plugin-gda.c:387
 msgid "password:password to access @{dsn} as @{username}"
 msgstr "geslo:geslo za dostop do @{dsn} kot @{uporabnik}"
 
-#: ../plugins/gda/plugin-gda.c:310
-msgid "sql:SQL command"
-msgstr "sql:SQL ukaz"
-
 #: ../plugins/gda/plugin-gda.c:311
-#: ../plugins/gda/plugin-gda.c:388
+msgid "sql:SQL command"
+msgstr "sql:ukaz SQL"
+
+#: ../plugins/gda/plugin-gda.c:312
+#: ../plugins/gda/plugin-gda.c:389
 msgid "Before using EXECSQL, you need to set up a libgda data source."
 msgstr "Pred uporabo ukaza EXECSQL je treba nastaviti podatkovni vir libgda."
 
-#: ../plugins/gda/plugin-gda.c:383
+#: ../plugins/gda/plugin-gda.c:384
 msgid "READDBTABLE:all rows of the table @{table} in @{dsn}"
 msgstr "READDBTABLE:vse vrstice v @{razpredelnici} v @{dsn}"
 
-#: ../plugins/gda/plugin-gda.c:387
+#: ../plugins/gda/plugin-gda.c:388
 msgid "table:SQL table to retrieve"
 msgstr "razpredelnica:razpredelnica SQL za pridobivanje"
 
@@ -9523,6 +9564,10 @@ msgstr "ATL_LAST je enostavna izvedba realno-časovnega podatkovnega vira. Ta za
 #: ../plugins/sample_datasource/sample_datasource.c:281
 msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr "Možnost je privzeto onemogočena."
+
+#, fuzzy
+#~ msgid "a:amount of skew, defaults to 0"
+#~ msgstr "Ponastavi prikaz na _privzete vrednosti"
 
 #~ msgid "Then SSMEDIAN(A1:A3, 1) equals 7.75."
 #~ msgstr "Izračun funkcije SSMEDIAN(A1:A3, 1) vrne rešitev 7.75."
