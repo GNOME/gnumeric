@@ -9,6 +9,7 @@ Andreas:
 	* Fix rich text import from xlsx. [#669083]
 	* Fix data shuffle. [#669184]
 	* Clarify the skew-t and skew-normal descriptions.
+	* Fix EXACT. [#670232]
 
 Jean:
 	* Fix formula interpretation in plot series (with Morten's help). [#662237]

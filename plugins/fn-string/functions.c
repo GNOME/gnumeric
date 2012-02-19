@@ -195,6 +195,51 @@ gnumeric_unicode (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static gboolean
+gnm_compare_strings (const char *cstr1, const char *cstr2)
+{
+	const char *a = cstr1, *b = cstr2;
+	char *str1, *str2;
+	gboolean val;
+
+	/* If the string is identical in code points even without normalization */
+	/* then it is exactly the same. */
+	while (*a == *b && *a != 0 && *b != 0)
+		a++, b++;
+	
+	if (*a == 0)
+		return (*b == 0);
+	if (*b == 0)
+		return FALSE;
+
+	/* If they differ in two ASCII characters, the string must be distinct. */
+	if (*a > 0 && *a < 128 && *b > 0 && *b < 128)
+		return FALSE;
+
+	/* We are using NFD normalization, ie. Characters are decomposed by */
+	/* canonical equivalence, and multiple combining characters are arranged */
+	/* in a specific order. Note that ligatures remain ligatures, formatting */
+	/* such as subscript-3 versus 3 are retained. */
+
+	/* Note that for example, the distinct Unicode strings "U+212B" */
+	/*(the angstrom sign "Å") and "U+00C5" (the Swedish letter "Å") */
+	/* are both expanded by NFD (or NFKD) into the sequence */
+	/*"U+0041 U+030A" (Latin letter "A" and combining ring above "°") */
+	/* Of course "U+0041 U+030A" is retained in form, so we need to work with */
+	/* at least the last ASCII character. Performance should nearly be */ 
+	/* identical to using all */
+
+	str1 = g_utf8_normalize (cstr1, -1, G_NORMALIZE_DEFAULT);
+	str2 = g_utf8_normalize (cstr2, -1, G_NORMALIZE_DEFAULT);
+	
+	val = (g_strcmp0 (str1, str2) == 0);
+	
+	g_free (str1);
+	g_free (str2);
+	
+	return val;
+}
+
 static GnmFuncHelp const help_exact[] = {
         { GNM_FUNC_HELP_NAME, F_("EXACT:TRUE if @{string1} is exactly equal to @{string2}")},
         { GNM_FUNC_HELP_ARG, F_("string1:first string")},
@@ -209,8 +254,8 @@ static GnmFuncHelp const help_exact[] = {
 static GnmValue *
 gnumeric_exact (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_bool (g_utf8_collate (value_peek_string (argv[0]),
-					       value_peek_string (argv[1])) == 0);
+	return value_new_bool (gnm_compare_strings (value_peek_string (argv[0]),
+						    value_peek_string (argv[1])));
 }
 
 /***************************************************************************/
