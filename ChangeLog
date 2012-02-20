@@ -1,3 +1,8 @@
+2012-02-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/undo.c: rename GNMUndo* to GnmUndo*.
+	* src/undo.h: ditto.
+
 2012-02-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sstest.c (test_random_randnorm): new

@@ -14,15 +14,15 @@ G_BEGIN_DECLS
 /* ------------------------------------------------------------------------- */
 
 #define GNM_TYPE_UNDO_COLROW_RESTORE_STATE_GROUP  (gnm_undo_colrow_restore_state_group_get_type ())
-#define GNM_UNDO_COLROW_RESTORE_STATE_GROUP(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_UNDO_COLROW_RESTORE_STATE_GROUP, GNMUndoColrowRestoreStateGroup))
+#define GNM_UNDO_COLROW_RESTORE_STATE_GROUP(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_UNDO_COLROW_RESTORE_STATE_GROUP, GnmUndoColrowRestoreStateGroup))
 #define GNM_IS_UNDO_COLROW_RESTORE_STATE_GROUP(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_UNDO_COLROW_RESTORE_STATE_GROUP))
 
 GType gnm_undo_colrow_restore_state_group_get_type (void);
 
-typedef struct _GNMUndoColrowRestoreStateGroup GNMUndoColrowRestoreStateGroup;
-typedef struct _GNMUndoColrowRestoreStateGroupClass GNMUndoColrowRestoreStateGroupClass;
+typedef struct _GnmUndoColrowRestoreStateGroup GnmUndoColrowRestoreStateGroup;
+typedef struct _GnmUndoColrowRestoreStateGroupClass GnmUndoColrowRestoreStateGroupClass;
 
-struct _GNMUndoColrowRestoreStateGroup {
+struct _GnmUndoColrowRestoreStateGroup {
 	GOUndo base;
 	Sheet *sheet;
 	gboolean is_cols;
@@ -30,7 +30,7 @@ struct _GNMUndoColrowRestoreStateGroup {
 	ColRowStateGroup *saved_state;
 };
 
-struct _GNMUndoColrowRestoreStateGroupClass {
+struct _GnmUndoColrowRestoreStateGroupClass {
 	GOUndoClass base;
 };
 
@@ -41,15 +41,15 @@ GOUndo *gnm_undo_colrow_restore_state_group_new (Sheet *sheet, gboolean is_cols,
 /* ------------------------------------------------------------------------- */
 
 #define GNM_TYPE_UNDO_COLROW_SET_SIZES  (gnm_undo_colrow_set_sizes_get_type ())
-#define GNM_UNDO_COLROW_SET_SIZES(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_UNDO_COLROW_SET_SIZES, GNMUndoColrowSetSizes))
+#define GNM_UNDO_COLROW_SET_SIZES(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_UNDO_COLROW_SET_SIZES, GnmUndoColrowSetSizes))
 #define GNM_IS_UNDO_COLROW_SET_SIZES(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_UNDO_COLROW_SET_SIZES))
 
 GType gnm_undo_colrow_set_sizes_get_type (void);
 
-typedef struct _GNMUndoColrowSetSizes GNMUndoColrowSetSizes;
-typedef struct _GNMUndoColrowSetSizesClass GNMUndoColrowSetSizesClass;
+typedef struct _GnmUndoColrowSetSizes GnmUndoColrowSetSizes;
+typedef struct _GnmUndoColrowSetSizesClass GnmUndoColrowSetSizesClass;
 
-struct _GNMUndoColrowSetSizes {
+struct _GnmUndoColrowSetSizes {
 	GOUndo base;
 	Sheet *sheet;
 	gboolean is_cols;
@@ -57,7 +57,7 @@ struct _GNMUndoColrowSetSizes {
 	int new_size, from, to;
 };
 
-struct _GNMUndoColrowSetSizesClass {
+struct _GnmUndoColrowSetSizesClass {
 	GOUndoClass base;
 };
 
@@ -68,22 +68,22 @@ GOUndo *gnm_undo_colrow_set_sizes_new (Sheet *sheet, gboolean is_cols,
 /* ------------------------------------------------------------------------- */
 
 #define GNM_TYPE_UNDO_FILTER_SET_CONDITION  (gnm_undo_filter_set_condition_get_type ())
-#define GNM_UNDO_FILTER_SET_CONDITION(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_UNDO_FILTER_SET_CONDITION, GNMUndoFilterSetCondition))
+#define GNM_UNDO_FILTER_SET_CONDITION(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_UNDO_FILTER_SET_CONDITION, GnmUndoFilterSetCondition))
 #define GNM_IS_UNDO_FILTER_SET_CONDITION(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_UNDO_FILTER_SET_CONDITION))
 
 GType gnm_undo_filter_set_condition_get_type (void);
 
-typedef struct _GNMUndoFilterSetCondition GNMUndoFilterSetCondition;
-typedef struct _GNMUndoFilterSetConditionClass GNMUndoFilterSetConditionClass;
+typedef struct _GnmUndoFilterSetCondition GnmUndoFilterSetCondition;
+typedef struct _GnmUndoFilterSetConditionClass GnmUndoFilterSetConditionClass;
 
-struct _GNMUndoFilterSetCondition {
+struct _GnmUndoFilterSetCondition {
 	GOUndo base;
 	GnmFilter *filter;
 	unsigned i;
 	GnmFilterCondition *cond;
 };
 
-struct _GNMUndoFilterSetConditionClass {
+struct _GnmUndoFilterSetConditionClass {
 	GOUndoClass base;
 };
 

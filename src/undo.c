@@ -42,7 +42,7 @@ static GObjectClass *gnm_undo_colrow_restore_state_group_parent_class;
 static void
 gnm_undo_colrow_restore_state_group_finalize (GObject *o)
 {
-	GNMUndoColrowRestoreStateGroup *ua = (GNMUndoColrowRestoreStateGroup *)o;
+	GnmUndoColrowRestoreStateGroup *ua = (GnmUndoColrowRestoreStateGroup *)o;
 
 	colrow_state_group_destroy (ua->saved_state);
 	ua->saved_state = NULL;
@@ -55,7 +55,7 @@ gnm_undo_colrow_restore_state_group_finalize (GObject *o)
 static void
 gnm_undo_colrow_restore_state_group_undo (GOUndo *u, G_GNUC_UNUSED gpointer data)
 {
-	GNMUndoColrowRestoreStateGroup *ua = (GNMUndoColrowRestoreStateGroup *)u;
+	GnmUndoColrowRestoreStateGroup *ua = (GnmUndoColrowRestoreStateGroup *)u;
 
 	colrow_restore_state_group (ua->sheet, ua->is_cols, ua->selection, ua->saved_state);
 }
@@ -72,7 +72,7 @@ gnm_undo_colrow_restore_state_group_class_init (GObjectClass *gobject_class)
 }
 
 
-GSF_CLASS (GNMUndoColrowRestoreStateGroup, gnm_undo_colrow_restore_state_group,
+GSF_CLASS (GnmUndoColrowRestoreStateGroup, gnm_undo_colrow_restore_state_group,
 	   gnm_undo_colrow_restore_state_group_class_init, NULL, GO_TYPE_UNDO)
 
 /**
@@ -86,7 +86,7 @@ gnm_undo_colrow_restore_state_group_new (Sheet *sheet, gboolean is_cols,
 					ColRowIndexList *selection,
 					ColRowStateGroup *saved_state)
 {
-	GNMUndoColrowRestoreStateGroup *ua = g_object_new (GNM_TYPE_UNDO_COLROW_RESTORE_STATE_GROUP, NULL);
+	GnmUndoColrowRestoreStateGroup *ua = g_object_new (GNM_TYPE_UNDO_COLROW_RESTORE_STATE_GROUP, NULL);
 
 	ua->sheet = sheet;
 	ua->is_cols = is_cols;
@@ -103,7 +103,7 @@ static GObjectClass *gnm_undo_colrow_set_sizes_parent_class;
 static void
 gnm_undo_colrow_set_sizes_finalize (GObject *o)
 {
-	GNMUndoColrowSetSizes *ua = (GNMUndoColrowSetSizes *)o;
+	GnmUndoColrowSetSizes *ua = (GnmUndoColrowSetSizes *)o;
 
 	colrow_index_list_destroy (ua->selection);
 	ua->selection = NULL;
@@ -114,7 +114,7 @@ gnm_undo_colrow_set_sizes_finalize (GObject *o)
 static void
 gnm_undo_colrow_set_sizes_undo (GOUndo *u, G_GNUC_UNUSED gpointer data)
 {
-	GNMUndoColrowSetSizes *ua = (GNMUndoColrowSetSizes *)u;
+	GnmUndoColrowSetSizes *ua = (GnmUndoColrowSetSizes *)u;
 	ColRowStateGroup *group;
 
 	group = colrow_set_sizes (ua->sheet, ua->is_cols, ua->selection, ua->new_size,
@@ -134,7 +134,7 @@ gnm_undo_colrow_set_sizes_class_init (GObjectClass *gobject_class)
 }
 
 
-GSF_CLASS (GNMUndoColrowSetSizes, gnm_undo_colrow_set_sizes,
+GSF_CLASS (GnmUndoColrowSetSizes, gnm_undo_colrow_set_sizes,
 	   gnm_undo_colrow_set_sizes_class_init, NULL, GO_TYPE_UNDO)
 
 /**
@@ -150,7 +150,7 @@ gnm_undo_colrow_set_sizes_new (Sheet *sheet, gboolean is_cols,
 			       ColRowIndexList *selection,
 			       int new_size, GnmRange const *r)
 {
-	GNMUndoColrowSetSizes *ua;
+	GnmUndoColrowSetSizes *ua;
 
 	g_return_val_if_fail (selection != NULL || (r != NULL && new_size == -1), NULL);
 
@@ -191,7 +191,7 @@ static GObjectClass *gnm_undo_filter_set_condition_parent_class;
 static void
 gnm_undo_filter_set_condition_finalize (GObject *o)
 {
-	GNMUndoFilterSetCondition *ua = (GNMUndoFilterSetCondition *)o;
+	GnmUndoFilterSetCondition *ua = (GnmUndoFilterSetCondition *)o;
 
 	gnm_filter_condition_free (ua->cond);
 	ua->cond = NULL;
@@ -220,7 +220,7 @@ cb_filter_set_condition_undo_set_pb (SheetControl *control, char *text)
 static void
 gnm_undo_filter_set_condition_undo (GOUndo *u, G_GNUC_UNUSED gpointer data)
 {
-	GNMUndoFilterSetCondition *ua = (GNMUndoFilterSetCondition *)u;
+	GnmUndoFilterSetCondition *ua = (GnmUndoFilterSetCondition *)u;
 	gint count = 0;
 	char const *format;
 	char *text;
@@ -275,7 +275,7 @@ gnm_undo_filter_set_condition_class_init (GObjectClass *gobject_class)
 }
 
 
-GSF_CLASS (GNMUndoFilterSetCondition, gnm_undo_filter_set_condition,
+GSF_CLASS (GnmUndoFilterSetCondition, gnm_undo_filter_set_condition,
 	   gnm_undo_filter_set_condition_class_init, NULL, GO_TYPE_UNDO)
 
 /**
@@ -291,7 +291,7 @@ gnm_undo_filter_set_condition_new (GnmFilter *filter, unsigned i,
 				   GnmFilterCondition *cond,
 				   gboolean retrieve_from_filter)
 {
-	GNMUndoFilterSetCondition *ua;
+	GnmUndoFilterSetCondition *ua;
 
 	g_return_val_if_fail (filter != NULL, NULL);
 	g_return_val_if_fail (i < filter->fields->len , NULL);
