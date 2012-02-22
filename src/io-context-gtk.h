@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef _GNM_IO_CONTEXT_GTK_H_
 # define _GNM_IO_CONTEXT_GTK_H_
 
@@ -9,18 +8,18 @@
 
 G_BEGIN_DECLS
 
-typedef struct _GOIOContextGtk IOContextGtk;
-typedef struct _GOIOContextGtkClass IOContextGtkClass;
+typedef struct GnmIOContextGtk_ GnmIOContextGtk;
+typedef struct GnmIOContextGtkClass_ GnmIOContextGtkClass;
 
-#define GO_TYPE_IO_CONTEXT_GTK    (io_context_gtk_get_type ())
-#define IO_CONTEXT_GTK(obj) \
-    (G_TYPE_CHECK_INSTANCE_CAST ((obj), GO_TYPE_IO_CONTEXT_GTK, IOContextGtk))
-#define GO_IS_IO_CONTEXT_GTK(obj) \
-    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GO_TYPE_IO_CONTEXT_GTK))
+#define GNM_TYPE_IO_CONTEXT_GTK    (gnm_io_context_gtk_get_type ())
+#define GNM_IO_CONTEXT_GTK(obj) \
+    (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_TYPE_IO_CONTEXT_GTK, GnmIOContextGtk))
+#define GNM_IS_IO_CONTEXT_GTK(obj) \
+    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNM_TYPE_IO_CONTEXT_GTK))
 
-GType io_context_gtk_get_type (void);
-void  icg_set_transient_for (IOContextGtk *icg, GtkWindow *parent_window);
-gboolean icg_get_interrupted (IOContextGtk *icg);
+GType gnm_io_context_gtk_get_type (void);
+void  gnm_io_context_gtk_set_transient_for (GnmIOContextGtk *icg, GtkWindow *parent_window);
+gboolean gnm_io_context_gtk_get_interrupted (GnmIOContextGtk *icg);
 
 G_END_DECLS
 

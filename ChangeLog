@@ -1,3 +1,7 @@
+2012-02-22  Morten Welinder  <terra@gnome.org>
+
+	* src/io-context-gtk.h: Fix namespace issues.
+
 2012-02-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_selection_clear): don't recalc on

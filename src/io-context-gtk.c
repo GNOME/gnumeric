@@ -28,11 +28,11 @@
 #define ICG_POPUP_DELAY 3.0
 
 #define IO_CONTEXT_GTK_CLASS(klass) \
-    (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_IO_CONTEXT_GTK, IOContextGtk))
-#define GO_IS_IO_CONTEXT_GTK_CLASS(klass) \
-    (G_TYPE_CHECK_CLASS_TYPE ((klass), GO_TYPE_IO_CONTEXT_GTK))
+    (G_TYPE_CHECK_CLASS_CAST ((klass), GNM_TYPE_IO_CONTEXT_GTK, GnmIOContextGtk))
+#define GNM_IS_IO_CONTEXT_GTK_CLASS(klass) \
+    (G_TYPE_CHECK_CLASS_TYPE ((klass), GNM_TYPE_IO_CONTEXT_GTK))
 
-struct _GOIOContextGtk {
+struct GnmIOContextGtk_ {
 	GOIOContext parent;
 	GtkWindow *window;
 	GtkWindow *parent_window;
@@ -52,7 +52,7 @@ struct _GOIOContextGtk {
 	gboolean show_warnings;
 };
 
-struct _GOIOContextGtkClass {
+struct GnmIOContextGtkClass_ {
 	GOIOContextClass parent_class;
 };
 
@@ -63,7 +63,7 @@ enum {
 };
 
 static void
-cb_icg_window_destroyed (GObject *window, IOContextGtk *icg)
+cb_icg_window_destroyed (GObject *window, GnmIOContextGtk *icg)
 {
 	icg->window   = NULL;
 	icg->parent_window   = NULL;
@@ -80,7 +80,7 @@ cb_icg_window_destroyed (GObject *window, IOContextGtk *icg)
 static gboolean
 cb_hide_splash (G_GNUC_UNUSED GtkWidget *widget,
 		G_GNUC_UNUSED GdkEventButton *event,
-		IOContextGtk *icg)
+		GnmIOContextGtk *icg)
 {
 	gtk_widget_hide (GTK_WIDGET (icg->window));
 	return TRUE;
@@ -120,7 +120,7 @@ cb_realize (GtkWindow *window, void *dummy)
 }
 
 static void
-icg_show_gui (IOContextGtk *icg)
+icg_show_gui (GnmIOContextGtk *icg)
 {
 	static gboolean init_splash = TRUE;
 	GtkBox *box;
@@ -189,7 +189,7 @@ icg_show_gui (IOContextGtk *icg)
 }
 
 static gboolean
-icg_user_is_impatient (IOContextGtk *icg)
+icg_user_is_impatient (GnmIOContextGtk *icg)
 {
 	gdouble t = g_timer_elapsed (icg->timer, NULL);
 	double progress = icg->progress;
@@ -220,7 +220,7 @@ icg_user_is_impatient (IOContextGtk *icg)
 static char *
 icg_get_password (GOCmdContext *cc, char const *filename)
 {
-	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
+	GnmIOContextGtk *icg = GNM_IO_CONTEXT_GTK (cc);
 	return icg->show_warnings ?
 		dialog_get_password (icg->window, filename) : NULL;
 }
@@ -228,7 +228,7 @@ icg_get_password (GOCmdContext *cc, char const *filename)
 static void
 icg_progress_set (GOCmdContext *cc, double val)
 {
-	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
+	GnmIOContextGtk *icg = GNM_IO_CONTEXT_GTK (cc);
 
 	if (!icg->show_splash)
 		return;
@@ -245,7 +245,7 @@ icg_progress_set (GOCmdContext *cc, double val)
 static void
 icg_progress_message_set (GOCmdContext *cc, gchar const *msg)
 {
-	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
+	GnmIOContextGtk *icg = GNM_IO_CONTEXT_GTK (cc);
 
 	if (!icg->show_splash)
 		return;
@@ -264,7 +264,7 @@ icg_progress_message_set (GOCmdContext *cc, gchar const *msg)
 static void
 icg_error_error_info (GOCmdContext *cc, GOErrorInfo *error)
 {
-	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
+	GnmIOContextGtk *icg = GNM_IO_CONTEXT_GTK (cc);
 	if (icg->show_warnings) {
 		GtkWidget *dialog = gnumeric_go_error_info_dialog_new (error);
 		gtk_widget_show_all (GTK_WIDGET (dialog));
@@ -276,7 +276,7 @@ icg_error_error_info (GOCmdContext *cc, GOErrorInfo *error)
 static void
 icg_error_error_info_list (GOCmdContext *cc, GSList *error)
 {
-	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
+	GnmIOContextGtk *icg = GNM_IO_CONTEXT_GTK (cc);
 	if (icg->show_warnings && error != NULL && error->data != NULL) {
 		GtkWidget *dialog = gnumeric_go_error_info_dialog_new
 			(error->data);
@@ -289,13 +289,13 @@ icg_error_error_info_list (GOCmdContext *cc, GSList *error)
 static void
 icg_set_num_files (GOIOContext *icg, guint files_total)
 {
-	IO_CONTEXT_GTK (icg)->files_total = files_total;
+	GNM_IO_CONTEXT_GTK (icg)->files_total = files_total;
 }
 
 static void
 icg_processing_file (GOIOContext *ioc, char const *file)
 {
-	IOContextGtk *icg = IO_CONTEXT_GTK (ioc);
+	GnmIOContextGtk *icg = GNM_IO_CONTEXT_GTK (ioc);
 
 	g_return_if_fail (icg->files_done < icg->files_total);
 
@@ -339,7 +339,7 @@ icg_processing_file (GOIOContext *ioc, char const *file)
 static void
 icg_finalize (GObject *obj)
 {
-	IOContextGtk *icg = IO_CONTEXT_GTK (obj);
+	GnmIOContextGtk *icg = GNM_IO_CONTEXT_GTK (obj);
 
 	if (icg->window) {
 		g_signal_handlers_disconnect_by_func (
@@ -364,7 +364,7 @@ static void
 icg_set_property (GObject *obj, guint property_id,
 		  GValue const *value, GParamSpec *pspec)
 {
-	IOContextGtk *icg = IO_CONTEXT_GTK (obj);
+	GnmIOContextGtk *icg = GNM_IO_CONTEXT_GTK (obj);
 
 	switch (property_id) {
 	case PROP_SHOW_SPLASH :
@@ -412,7 +412,7 @@ icg_class_init (GObjectClass *gobj_klass)
 }
 
 static void
-icg_init (IOContextGtk *icg)
+icg_init (GnmIOContextGtk *icg)
 {
 	icg->show_splash   = TRUE;
 	icg->show_warnings = TRUE;
@@ -430,13 +430,13 @@ icg_init (IOContextGtk *icg)
 	g_timer_start (icg->timer);
 }
 
-GSF_CLASS_FULL (IOContextGtk, io_context_gtk,
+GSF_CLASS_FULL (GnmIOContextGtk, gnm_io_context_gtk,
 		NULL, NULL, icg_class_init, NULL,
 		icg_init, GO_TYPE_IO_CONTEXT, 0,
 		GSF_INTERFACE (icg_gnm_cmd_context_init, GO_TYPE_CMD_CONTEXT))
 
 void
-icg_set_transient_for (IOContextGtk *icg, GtkWindow *parent_window)
+gnm_io_context_gtk_set_transient_for (GnmIOContextGtk *icg, GtkWindow *parent_window)
 {
 	icg->parent_window = parent_window;
 	if (icg->window)
@@ -444,7 +444,7 @@ icg_set_transient_for (IOContextGtk *icg, GtkWindow *parent_window)
 }
 
 gboolean
-icg_get_interrupted (IOContextGtk *icg)
+gnm_io_context_gtk_get_interrupted (GnmIOContextGtk *icg)
 {
 	return icg->interrupted;
 }

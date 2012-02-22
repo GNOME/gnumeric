@@ -281,7 +281,7 @@ main (int argc, char const **argv)
 		return gnm_dump_func_defs (ext_refs_file, 4);
 
 	if (with_gui) {
-		cc = g_object_new (GO_TYPE_IO_CONTEXT_GTK,
+		cc = g_object_new (GNM_TYPE_IO_CONTEXT_GTK,
 				   "show-splash", !gnumeric_no_splash,
 				   "show-warnings", !gnumeric_no_warnings,
 				   NULL);
@@ -334,7 +334,7 @@ main (int argc, char const **argv)
 				geometry = NULL;
 				sheet_update (wb_view_cur_sheet	(wbv));
 				opened_workbook = TRUE;
-				icg_set_transient_for (IO_CONTEXT_GTK (ioc),
+				gnm_io_context_gtk_set_transient_for (GNM_IO_CONTEXT_GTK (ioc),
 						       wbcg_toplevel (wbcg));
 				if (immediate_exit_flag)
 					wbcgs_to_kill = g_slist_prepend (wbcgs_to_kill,
@@ -343,7 +343,7 @@ main (int argc, char const **argv)
 			/* cheesy attempt to keep the ui from freezing during
 			   load */
 			handle_paint_events ();
-			if (icg_get_interrupted (IO_CONTEXT_GTK (ioc)))
+			if (gnm_io_context_gtk_get_interrupted (GNM_IO_CONTEXT_GTK (ioc)))
 				break; /* Don't load any more workbooks */
 		}
 	}
