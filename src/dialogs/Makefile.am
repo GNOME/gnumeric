@@ -184,7 +184,7 @@ embedded_uis = 			\
 
 BUILT_SOURCES = embedded-ui.c
 
-embedded-ui.c: $(top_srcdir)/tools/embedder $(embedded_uis)
+embedded-ui.c: $(top_srcdir)/tools/embedder $(embedded_uis) Makefile
 	cd $(srcdir) && @PERL@ $(abs_top_srcdir)/tools/embedder \
 		--register-function=gnm_register_ui_files \
 		--register-file-function=go_rsm_register_file \

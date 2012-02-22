@@ -355,7 +355,7 @@ pixbuf_file = $(top_builddir)/src/pixmaps/gnumeric-stock-pixbufs.h
 noinst_DATA = $(pixbuf_file)
 CLEANFILES = $(noinst_DATA)
 
-$(pixbuf_file): $(IMAGES)
+$(pixbuf_file): $(IMAGES) Makefile
 	@echo $(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) '>$@'
 	@     $(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) >$@ || rm $@
 
