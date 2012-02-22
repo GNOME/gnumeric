@@ -1,3 +1,8 @@
+2012-02-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_selection_clear): don't recalc on
+	pure comment deletion
+
 2012-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/workbook-view.c (wb_view_edit_line_set): use

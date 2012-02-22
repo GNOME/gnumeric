@@ -13,6 +13,7 @@ Andreas:
 	* Fix EXACT. [#670232]
 	* Fix editing of decimals. [#670558]
 	* Fix edit line display. [#555519]
+	* Avoid recalculation on pure comment deletion. [#670603]
 
 Jean:
 	* Fix formula interpretation in plot series (with Morten's help). [#662237]

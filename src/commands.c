@@ -1622,6 +1622,10 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 	g_string_free (types, TRUE);
 	size = g_slist_length (selection);
 
+	clear_flags |= CLEAR_NOCHECKARRAY;
+
+	if (clear_flags & (CLEAR_VALUES | CLEAR_FORMATS))
+		clear_flags |= CLEAR_RECALC_DEPS;
 
 	/* We are now ready to build the redo and undo items */
 	for (ranges = selection; ranges != NULL ; ranges = ranges->next) {
@@ -1631,7 +1635,7 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 		undo = go_undo_combine (undo, clipboard_copy_range_undo (sheet, r));
 		redo =  go_undo_combine
 			(redo, sheet_clear_region_undo
-			 (sr, clear_flags | CLEAR_NOCHECKARRAY | CLEAR_RECALC_DEPS));
+			 (sr, clear_flags));
 	}
 
 	range_fragment_free (selection);
