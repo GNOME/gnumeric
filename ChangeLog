@@ -1,5 +1,10 @@
 2012-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/workbook-view.c (wb_view_edit_line_set): use
+	gnm_cell_get_text_for_editing
+
+2012-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/cell.h (gnm_cell_get_text_for_editing): new
 	* src/cell.c (gnm_cell_get_text_for_editing): new, extracted
 	from wbcg_edit_start in src/wbc-gtk-edit.c

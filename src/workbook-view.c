@@ -425,7 +425,7 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 			sv->edit_pos.col, sv->edit_pos.row);
 
 		if (NULL != cell) {
-			text = gnm_cell_get_entered_text (cell);
+			text = gnm_cell_get_text_for_editing (cell, sheet, NULL, NULL);
 
 			if (gnm_cell_has_expr (cell)) {
 				GnmExprTop const *texpr = cell->base.texpr;
