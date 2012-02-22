@@ -1,3 +1,12 @@
+2012-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_delete_tooltip): return info on
+	tooltip visibility, clear appearance timer
+	(cb_show_tooltip): new
+	(gee_create_tooltip): don't show tooltip
+	(gee_set_tooltip): show tooltip
+	(gee_set_tooltip_completion): delay first tooltip
+
 2012-01-27  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_find_range): Default to

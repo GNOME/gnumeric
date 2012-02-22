@@ -137,6 +137,7 @@ struct _GnmExprEntry {
 		gint             args;
 		gboolean         had_stuff;
 		gulong           handlerid;
+		guint            timerid;
 		gboolean         enabled;
 		gboolean         is_expr;
 		gboolean         completion_se_valid;
@@ -728,9 +729,16 @@ gee_update_env (GnmExprEntry *gee)
 
 }
 
-static void
+static gboolean
 gee_delete_tooltip (GnmExprEntry *gee, gboolean remove_completion)
 {
+	gboolean has_tooltip = (gee->tooltip.tooltip != NULL && 
+				gee->tooltip.timerid == 0);
+
+	if (gee->tooltip.timerid) {
+		g_source_remove (gee->tooltip.timerid);
+		gee->tooltip.timerid = 0;
+	}
 	if (gee->tooltip.tooltip) {
 		gtk_widget_destroy (gee->tooltip.tooltip);
 		gee->tooltip.tooltip = NULL;
@@ -750,6 +758,7 @@ gee_delete_tooltip (GnmExprEntry *gee, gboolean remove_completion)
 		gee->tooltip.completion = NULL;
 		gee->tooltip.completion_se_valid = FALSE;
 	}
+	return has_tooltip;
 }
 
 void
@@ -763,6 +772,16 @@ static gboolean
 cb_gee_focus_out_event (GtkWidget         *widget,
 			GdkEventFocus     *event,
 			gpointer           user_data);
+
+static gboolean 
+cb_show_tooltip (gpointer user_data)
+{
+	GnmExprEntry *gee = GNM_EXPR_ENTRY (user_data);
+	gtk_widget_show_all (gee->tooltip.tooltip);
+	gee->tooltip.timerid = 0;
+	return FALSE;
+}
+
 
 static GtkWidget *
 gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
@@ -828,8 +847,6 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 	gtk_window_move (GTK_WINDOW (tip),
 			 root_x + allocation.x,
 			 root_y + allocation.y + allocation.height);
-
-	gtk_widget_show_all (tip);
 
 	return tip;
 }
@@ -919,6 +936,7 @@ gee_set_tooltip (GnmExprEntry *gee, GnmFunc *fd, gint args, gboolean had_stuff)
 
 	gee->tooltip.tooltip = gee_create_tooltip
 		(gee, str->str, _("\n\n<i>Ctrl-F4 to close tooltip</i>"), FALSE);
+	gtk_widget_show_all (gee->tooltip.tooltip);
 	gee->tooltip.args = args;
 	gee->tooltip.had_stuff = (max == 0 && args == 0 && had_stuff);
 
@@ -934,10 +952,10 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 	gint max = 10;
 	GSList *list_c = list;
 	gchar const *name = NULL;
-	gboolean show_tool_tip;
+	gboolean show_tool_tip, had_tool_tip;
 	gboolean localized_function_names = gee->sheet->convs->localized_function_names;
 
-	gee_delete_tooltip (gee, TRUE);
+	had_tool_tip = gee_delete_tooltip (gee, TRUE);
 
 	str = g_string_new (NULL);
 	for (; list_c != NULL && ++i < max; list_c = list_c->next) {
@@ -974,9 +992,18 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 	gee->tooltip.completion_end = end;
 	gee->tooltip.completion_se_valid = TRUE;
 	show_tool_tip = gnm_conf_get_core_gui_editing_function_name_tooltips ();
-	if (show_tool_tip)
+	if (show_tool_tip) {
 		gee->tooltip.tooltip = gee_create_tooltip
 			(gee, str->str, str_marked->str, TRUE);
+		if (had_tool_tip)
+			gtk_widget_show_all (gee->tooltip.tooltip);
+		else
+			gee->tooltip.timerid = g_timeout_add_full 
+				(G_PRIORITY_DEFAULT, 750, 
+				 cb_show_tooltip, 
+				 gee, 
+				 NULL);
+	}
 	g_string_free (str, TRUE);
 	g_string_free (str_marked, TRUE);
 	g_slist_free_full (list, (GDestroyNotify) gnm_func_unref);

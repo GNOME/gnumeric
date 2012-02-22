@@ -5,6 +5,7 @@ Andreas:
 	* Implement ctrl-click cell deselection. [#610696]
 	* Fix LaTeX export of cyrillic. [#666340]
 	* Fix function tool tip. [#668685]
+	* Delay function completion tooltip. [#668683]
 	* Import inline text from xlsx files. [#668936]
 	* Fix rich text import from xlsx. [#669083]
 	* Fix data shuffle. [#669184]
