@@ -10,6 +10,7 @@ Andreas:
 	* Fix data shuffle. [#669184]
 	* Clarify the skew-t and skew-normal descriptions.
 	* Fix EXACT. [#670232]
+	* Fix editing of decimals. [#670558]
 
 Jean:
 	* Fix formula interpretation in plot series (with Morten's help). [#662237]

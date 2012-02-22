@@ -1,3 +1,16 @@
+2012-02-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/cell.h (gnm_cell_get_text_for_editing): new
+	* src/cell.c (gnm_cell_get_text_for_editing): new, extracted
+	from wbcg_edit_start in src/wbc-gtk-edit.c
+	(close_to_int): new, moved here from src/wbc-gtk-edit.c
+	(guess_time_format): ditto
+	* src/commands.c (cmd_set_text_full_check_text): use
+	gnm_cell_get_text_for_editing
+	* src/wbc-gtk-edit.c (close_to_int): move to src/cell.c
+	(guess_time_format): ditto
+	(wbcg_edit_start): use gnm_cell_get_text_for_editing
+
 2012-02-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/undo.c: rename GNMUndo* to GnmUndo*.

@@ -794,52 +794,6 @@ wbcg_edit_get_markup (WBCGtk *wbcg, gboolean full)
 	return full ? wbcg->edit_line.full_content : wbcg->edit_line.markup;
 }
 
-static gboolean
-close_to_int (gnm_float x, gnm_float eps)
-{
-	return gnm_abs (x - gnm_fake_round (x)) < eps;
-}
-
-
-static GOFormat *
-guess_time_format (const char *prefix, gnm_float f)
-{
-	int decs = 0;
-	gnm_float eps = 1e-6;
-	static int maxdecs = 6;
-	GString *str = g_string_new (prefix);
-	GOFormat *fmt;
-
-	if (f >= 0 && f < 1)
-		g_string_append (str, "hh:mm");
-	else
-		g_string_append (str, "[h]:mm");
-	f *= 24 * 60;
-	if (!close_to_int (f, eps / 60)) {
-		g_string_append (str, ":ss");
-		f *= 60;
-		if (!close_to_int (f, eps)) {
-			g_string_append_c (str, '.');
-			while (decs < maxdecs) {
-				decs++;
-				g_string_append_c (str, '0');
-				f *= 10;
-				if (close_to_int (f, eps))
-					break;
-			}
-		}
-	}
-
-	while (go_format_is_invalid ((fmt = go_format_new_from_XL (str->str))) && decs > 0) {
-		/* We don't know how many decimals GOFormat allows.  */
-		go_format_unref (fmt);
-		maxdecs = --decs;
-		g_string_truncate (str, str->len - 1);
-	}
-
-	g_string_free (str, TRUE);
-	return fmt;
-}
 
 static void
 cb_warn_toggled (GtkToggleButton *button, gboolean *b)
@@ -970,105 +924,11 @@ wbcg_edit_start (WBCGtk *wbcg,
 	if (blankp)
 		gtk_entry_set_text (wbcg_get_entry (wbcg), "");
 	else if (cell != NULL) {
-		gboolean set_text = FALSE;
 		gboolean quoted = FALSE;
-		GODateConventions const *date_conv =
-			workbook_date_conv (sv->sheet->workbook);
 
-		if (gnm_cell_is_array (cell)) {
-			/* If this is part of an array we need to remove the
-			 * '{' '}' and the size information from the display.
-			 * That is not actually part of the parsable expression.
-			 */
-			set_text = TRUE;
-		} else if (!gnm_cell_has_expr (cell) && VALUE_IS_FLOAT (cell->value)) {
-			GOFormat const *fmt = gnm_cell_get_format (cell);
-			gnm_float f = value_get_as_float (cell->value);
+		text = gnm_cell_get_text_for_editing (cell, sv->sheet, &quoted, &cursor_pos);
 
-			switch (go_format_get_family (fmt)) {
-			case GO_FORMAT_FRACTION:
-				text = gnm_cell_get_entered_text (cell);
-				g_strchug (text);
-				g_strchomp (text);
-				set_text = TRUE;
-				break;
-
-			case GO_FORMAT_PERCENTAGE: {
-				GString *new_str = g_string_new (NULL);
-				gnm_render_general (NULL, new_str, go_format_measure_zero,
-						    go_font_metrics_unit, f * 100,
-						    -1, FALSE, 0, 0);
-				cursor_pos = g_utf8_strlen (new_str->str, -1);
-				g_string_append_c (new_str, '%');
-				text = g_string_free (new_str, FALSE);
-				set_text = TRUE;
-				break;
-			}
-
-			case GO_FORMAT_NUMBER:
-			case GO_FORMAT_SCIENTIFIC:
-			case GO_FORMAT_CURRENCY:
-			case GO_FORMAT_ACCOUNTING: {
-				GString *new_str = g_string_new (NULL);
-				gnm_render_general (NULL, new_str, go_format_measure_zero,
-						    go_font_metrics_unit, f,
-						    -1, FALSE, 0, 0);
-				text = g_string_free (new_str, FALSE);
-				set_text = TRUE;
-				break;
-			}
-
-			case GO_FORMAT_DATE: {
-				GOFormat *new_fmt;
-
-				new_fmt = gnm_format_for_date_editing (cell);
-
-				if (!close_to_int (f, 1e-6 / (24 * 60 * 60))) {
-					GString *fstr = g_string_new (go_format_as_XL (new_fmt));
-					go_format_unref (new_fmt);
-
-					g_string_append_c (fstr, ' ');
-					new_fmt = guess_time_format
-						(fstr->str,
-						 f - gnm_floor (f));
-					g_string_free (fstr, TRUE);
-				}
-
-				text = format_value (new_fmt, cell->value,
-						     -1, date_conv);
-				if (!text || text[0] == 0) {
-					g_free (text);
-					text = format_value (go_format_general (),
-							     cell->value,
-							     -1,
-							     date_conv);
-				}
-				set_text = TRUE;
-				go_format_unref (new_fmt);
-				break;
-			}
-
-			case GO_FORMAT_TIME: {
-				GOFormat *new_fmt = guess_time_format (NULL, f);
-
-				text = format_value (new_fmt, cell->value, -1,
-						     workbook_date_conv (sv->sheet->workbook));
-				set_text = TRUE;
-				go_format_unref (new_fmt);
-				break;
-			}
-
-			default:
-				break;
-			}
-		}
-
-		if (!text) {
-			text = gnm_cell_get_entered_text (cell);
-			quoted = (text[0] == '\'');
-		}
-
-		if (set_text)
+		if (text)
 			gtk_entry_set_text (wbcg_get_entry (wbcg), text);
 
 		if (cell->value != NULL) {

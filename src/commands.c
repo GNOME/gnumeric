@@ -751,6 +751,7 @@ cmd_set_text_full_check_text (GnmCellIter const *iter, char *text)
 {
 	char *old_text;
 	gboolean same;
+	gboolean quoted = FALSE;
 
 	if (gnm_cell_is_blank (iter->cell))
 		return ((text == NULL || text[0] == '\0') ? NULL : VALUE_TERMINATE);
@@ -758,12 +759,12 @@ cmd_set_text_full_check_text (GnmCellIter const *iter, char *text)
 	if (text == NULL || text[0] == '\0')
 		return VALUE_TERMINATE;
 
-	old_text = gnm_cell_get_entered_text (iter->cell);
-	same = strcmp (old_text, text) == 0;
+	old_text = gnm_cell_get_text_for_editing (iter->cell, iter->pp.sheet, NULL, &quoted);
+	same = g_strcmp0 (old_text, text) == 0;
 
-	if (!same && iter->cell->value && VALUE_IS_STRING (iter->cell->value)
+	if (!same && !quoted && iter->cell->value && VALUE_IS_STRING (iter->cell->value)
 	    && text[0] == '\'')
-		same = strcmp (old_text, text + 1) == 0;
+		same = g_strcmp0 (old_text, text + 1) == 0;
 
 	g_free (old_text);
 
