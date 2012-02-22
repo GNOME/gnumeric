@@ -1,5 +1,8 @@
 2012-02-22  Morten Welinder  <terra@gnome.org>
 
+	* src/io-context-gtk.c (icg_show_gui): Don't pass the splash
+	throught the icon manager for no good reason.
+
 	* src/io-context-gtk.h: Fix namespace issues.
 
 2012-02-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>

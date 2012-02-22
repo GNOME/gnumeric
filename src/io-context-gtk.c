@@ -122,24 +122,13 @@ cb_realize (GtkWindow *window, void *dummy)
 static void
 icg_show_gui (GnmIOContextGtk *icg)
 {
-	static gboolean init_splash = TRUE;
 	GtkBox *box;
 	GtkWidget *frame;
 
-	if (init_splash && icg->show_splash) {
-		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline
-			(-1, gnumeric_splash, FALSE, NULL);
-		gtk_icon_theme_add_builtin_icon ("GnmSplash",
-			gdk_pixbuf_get_width (pixbuf), pixbuf);
-		g_object_unref (pixbuf);
-		init_splash = FALSE;
-	}
-
 	box = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 0));
 	if (icg->show_splash) {
-		GdkPixbuf *pixbuf =
-			gtk_icon_theme_load_icon (gtk_icon_theme_get_default (),
-						  "GnmSplash", 360, 220, NULL);
+		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline
+			(-1, gnumeric_splash, FALSE, NULL);
 		gtk_box_pack_start (box, gtk_image_new_from_pixbuf (pixbuf),
 				    TRUE, FALSE, 0);
 		g_object_unref (pixbuf);
