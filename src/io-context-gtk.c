@@ -136,14 +136,16 @@ icg_show_gui (GnmIOContextGtk *icg)
 
 	/* Don't show this unless we need it. */
 	if (icg->files_total > 1) {
-		icg->file_bar = GTK_PROGRESS_BAR (gtk_progress_bar_new ());
-		gtk_progress_bar_set_inverted (icg->file_bar, FALSE);
-		gtk_progress_bar_set_text (icg->file_bar, "Files");
-		gtk_progress_bar_set_fraction
-			(icg->file_bar,
-			 icg->files_done / (double)icg->files_total);
+		double f = icg->files_done / (double)icg->files_total;
+		icg->file_bar = GTK_PROGRESS_BAR
+			(g_object_new (GTK_TYPE_PROGRESS_BAR,
+				       "text", "Files",
+				       "show-text", TRUE,
+				       "fraction", f,
+				       "inverted", FALSE,
+				       NULL));
 		gtk_box_pack_start (box, GTK_WIDGET (icg->file_bar),
-			FALSE, FALSE, 0);
+				    FALSE, FALSE, 0);
 	}
 
 	icg->work_bar = GTK_PROGRESS_BAR
