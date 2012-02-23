@@ -5974,6 +5974,10 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean default_style_has_lines_set = FALSE;
 	gboolean draw_stroke_set = FALSE;
 	gboolean draw_stroke = FALSE; /* to avoid a warning only */
+	gboolean stacked_set = FALSE;
+	gboolean stacked_unset = FALSE;
+	gboolean overlap_set = FALSE;
+	gboolean percentage_set = FALSE;
 
 	g_return_if_fail (style != NULL ||
 			  state->default_style.cells != NULL);
@@ -6060,22 +6064,28 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				oo_prop_new_bool ("invert-axis", btmp));
 		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "stacked",
 					 &btmp)) {
-			if (btmp)
+			if (btmp) {
 				style->plot_props = g_slist_prepend
 					(style->plot_props,
 					 oo_prop_new_string ("type",
 							     "stacked"));
+				stacked_set = TRUE;
+			} else
+				stacked_unset = TRUE;
 		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "percentage",
 					 &btmp)) {
-			if (btmp)
+			if (btmp) {
 				style->plot_props = g_slist_prepend
 					(style->plot_props,
 					oo_prop_new_string ("type",
 							    "as_percentage"));
+				percentage_set = TRUE;
+			}
 		} else if (oo_attr_int_range (xin, attrs, OO_NS_CHART,
 					      "overlap", &tmp, -150, 150)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_int ("overlap-percentage", tmp));
+			overlap_set = TRUE;
 		} else if (oo_attr_int_range (xin, attrs, OO_NS_CHART,
 						"gap-width", &tmp, 0, 500))
 			style->plot_props = g_slist_prepend (style->plot_props,
@@ -6301,8 +6311,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->other_props,
 				 oo_prop_new_string
 				 ("marker-end", CXML2C(attrs[1])));
-
 	}
+
+	if ((stacked_set && !overlap_set) || 
+	    (percentage_set && !stacked_unset && !overlap_set))
+		style->plot_props = g_slist_prepend (style->plot_props,
+						     oo_prop_new_int ("overlap-percentage", 100));
 
 	if (draw_stroke_set && !default_style_has_lines_set)
 		style->plot_props = g_slist_prepend
