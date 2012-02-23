@@ -21,6 +21,8 @@ GType gnm_io_context_gtk_get_type (void);
 void  gnm_io_context_gtk_set_transient_for (GnmIOContextGtk *icg, GtkWindow *parent_window);
 gboolean gnm_io_context_gtk_get_interrupted (GnmIOContextGtk *icg);
 
+void gnm_io_context_gtk_discharge_splash (GnmIOContextGtk *icg);
+
 G_END_DECLS
 
 #endif /* _GNM_IO_CONTEXT_GTK_H_ */

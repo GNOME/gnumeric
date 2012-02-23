@@ -36,6 +36,7 @@ Morten:
 	* Fix abs/rel stickiness in expression entry.  [#668691]
 	* Minor quit-dialog improvements.
 	* Put DataShuffle back on the menus.
+	* Resurrect the splash screen from bit rot.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.1

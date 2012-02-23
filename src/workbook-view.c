@@ -1011,9 +1011,6 @@ workbook_view_new (Workbook *wb)
 	for (i = 0 ; i < workbook_sheet_count (wb); i++)
 		wb_view_sheet_add (wbv, workbook_sheet_by_index (wb, i));
 
-	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
-		wb_view_init_control (wbc););
-
 	return wbv;
 }
 

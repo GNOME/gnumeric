@@ -146,10 +146,13 @@ icg_show_gui (GnmIOContextGtk *icg)
 			FALSE, FALSE, 0);
 	}
 
-	icg->work_bar = GTK_PROGRESS_BAR (gtk_progress_bar_new ());
-	gtk_progress_bar_set_inverted (icg->work_bar, FALSE);
-	gtk_progress_bar_set_text (icg->work_bar, icg->progress_msg);
-	gtk_progress_bar_set_fraction (icg->work_bar, icg->progress);
+	icg->work_bar = GTK_PROGRESS_BAR
+		(g_object_new (GTK_TYPE_PROGRESS_BAR,
+			       "inverted", FALSE,
+			       "text", icg->progress_msg,
+			       "show-text", TRUE,
+			       "fraction", icg->progress,
+			       NULL));
 	gtk_box_pack_start (box, GTK_WIDGET (icg->work_bar),
 			    FALSE, FALSE, 0);
 
@@ -172,7 +175,7 @@ icg_show_gui (GnmIOContextGtk *icg)
 			  G_CALLBACK (cb_realize), NULL);
 
 	if (icg->parent_window)
-		go_gtk_window_set_transient (icg->window, icg->parent_window);
+		gnm_io_context_gtk_set_transient_for (icg, icg->parent_window);
 
 	gtk_widget_show_all (GTK_WIDGET (icg->window));
 }
@@ -330,22 +333,8 @@ icg_finalize (GObject *obj)
 {
 	GnmIOContextGtk *icg = GNM_IO_CONTEXT_GTK (obj);
 
-	if (icg->window) {
-		g_signal_handlers_disconnect_by_func (
-			G_OBJECT (icg->window),
-			G_CALLBACK (cb_icg_window_destroyed), icg);
-		gtk_window_set_focus (icg->window, NULL);
-		gtk_window_set_default (icg->window, NULL);
-		gtk_widget_destroy (GTK_WIDGET (icg->window));
-	}
+	gnm_io_context_gtk_discharge_splash (icg);
 	g_free (icg->progress_msg);
-	icg->window = NULL;
-	icg->work_bar = NULL;
-	icg->file_bar = NULL;
-	if (icg->timer)
-		g_timer_destroy (icg->timer);
-	icg->timer = NULL;
-
 	G_OBJECT_CLASS (g_type_class_peek (GO_TYPE_IO_CONTEXT))->finalize (obj);
 }
 
@@ -429,11 +418,32 @@ gnm_io_context_gtk_set_transient_for (GnmIOContextGtk *icg, GtkWindow *parent_wi
 {
 	icg->parent_window = parent_window;
 	if (icg->window)
-		go_gtk_window_set_transient (icg->window, parent_window);
+		go_gtk_window_set_transient (parent_window, icg->window);
 }
 
 gboolean
 gnm_io_context_gtk_get_interrupted (GnmIOContextGtk *icg)
 {
 	return icg->interrupted;
+}
+
+void
+gnm_io_context_gtk_discharge_splash (GnmIOContextGtk *icg)
+{
+	if (icg->window) {
+		g_signal_handlers_disconnect_by_func (
+			G_OBJECT (icg->window),
+			G_CALLBACK (cb_icg_window_destroyed), icg);
+		gtk_window_set_focus (icg->window, NULL);
+		gtk_window_set_default (icg->window, NULL);
+		gtk_widget_destroy (GTK_WIDGET (icg->window));
+		icg->window = NULL;
+		icg->work_bar = NULL;
+		icg->file_bar = NULL;
+	}
+
+	if (icg->timer) {
+		g_timer_destroy (icg->timer);
+		icg->timer = NULL;
+	}
 }

@@ -347,6 +347,10 @@ main (int argc, char const **argv)
 				break; /* Don't load any more workbooks */
 		}
 	}
+
+	g_object_unref (cc);
+	cc = NULL;
+
 	/* FIXME: Maybe we should quit here if we were asked to open
 	   files and failed to do so. */
 
@@ -372,6 +376,8 @@ main (int argc, char const **argv)
 				  G_CALLBACK (cb_workbook_removed),
 				  NULL);
 
+		gnm_io_context_gtk_discharge_splash (GNM_IO_CONTEXT_GTK (ioc));
+
 		g_idle_add ((GSourceFunc)pathetic_qt_workaround, NULL);
 		gtk_main ();
 	} else {
@@ -385,8 +391,6 @@ main (int argc, char const **argv)
 	gnm_shutdown ();
 
 	go_component_set_command_context (NULL);
-	g_object_unref (cc);
-	cc = NULL;
 
 #if defined(G_OS_WIN32)
 	if (has_console) {
