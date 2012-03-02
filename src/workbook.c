@@ -972,7 +972,6 @@ workbook_sheet_delete (Sheet *sheet)
 {
 	Workbook *wb;
 	int sheet_index;
-	gboolean still_visible_sheets = FALSE;
 
         g_return_if_fail (IS_SHEET (sheet));
         g_return_if_fail (IS_WORKBOOK (sheet->workbook));
@@ -986,7 +985,7 @@ workbook_sheet_delete (Sheet *sheet)
 		workbook_focus_other_sheet (wb, sheet);
 		/* During destruction this was already done.  */
 		dependents_invalidate_sheet (sheet, FALSE);
-		still_visible_sheets = workbook_sheet_remove_controls (wb, sheet);
+		workbook_sheet_remove_controls (wb, sheet);
 	}
 
 	/* All is fine, remove the sheet */
@@ -1007,8 +1006,8 @@ workbook_sheet_delete (Sheet *sheet)
 		go_doc_set_dirty (GO_DOC (wb), TRUE);
 	g_signal_emit (G_OBJECT (wb), signals[SHEET_DELETED], 0);
 
-	if (still_visible_sheets)
-		workbook_recalc_all (wb);
+	if (!wb->during_destruction)
+		workbook_queue_all_recalc (wb);
 }
 
 /**

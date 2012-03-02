@@ -1,3 +1,8 @@
+2012-03-02  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_sheet_delete): Just queue
+	recalculation, don't perform it.  Fixes #671192.
+
 2012-02-23  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (main): Explicitly discharge the splash.
