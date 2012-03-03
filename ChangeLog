@@ -1,5 +1,9 @@
 2012-03-02  Morten Welinder <terra@gnome.org>
 
+	* configure.in: Post-release bump.
+
+2012-03-02  Morten Welinder <terra@gnome.org>
+
 	* Release 1.11.2
 
 2012-03-02  Morten Welinder  <terra@gnome.org>
