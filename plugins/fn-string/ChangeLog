@@ -1,3 +1,7 @@
+2012-03-02  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.2
+
 2012-02-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (gnm_compare_strings): new

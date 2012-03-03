@@ -1,3 +1,7 @@
+2012-03-02  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.2
+
 2012-02-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* openoffice-read.c (od_style_prop_chart): implrt cubic splies as the new

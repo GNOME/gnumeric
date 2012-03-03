@@ -4101,21 +4101,23 @@ For @{α} = 2, @{β}=0, the Lévy distribution reduces to the normal distributio
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDSNORM
-@SHORTDESC=random variate from a skew normal distribution
-@SYNTAX=RANDSNORM(a,μ,σ)
-@ARGUMENTDESCRIPTION=@{a}: amount of skew, defaults to 0
-@{μ}: mean of the underlying normal distribution, defaults to 0
-@{σ}: standard deviation of the underlying normal distribution, defaults to 1
-@NOTE=If @{σ} < 0, RANDSNORM returns #NUM!
-@SEEALSO=RANDNORM
+@SHORTDESC=random variate from a skew-normal distribution
+@SYNTAX=RANDSNORM(𝛼,𝜉,𝜔)
+@ARGUMENTDESCRIPTION=@{𝛼}: shape parameter of the skew-normal distribution, defaults to 0
+@{𝜉}: location parameter of the skew-normal distribution, defaults to 0
+@{𝜔}: scale parameter of the skew-normal distribution, defaults to 1
+@DESCRIPTION=The random variates are drawn from a skew-normal distribution with shape parameter @{𝛼}. When @{𝛼}=0, the skewness vanishes, and we obtain the standard normal density; as 𝛼 increases (in absolute value), the skewness of the distribution increases; when @{𝛼} approaches infinity  the density converges to the so-called half-normal (or folded normal) density function; if the sign of @{𝛼} changes, the density is reflected on the opposite side of the vertical axis.
+@NOTE=The mean of a skew-normal distribution with location parameter @{𝜉}=0 is not 0. The standard deviation of a skew-normal distribution with scale parameter @{𝜔}=1 is not 1. The skewness of a skew-normal distribution is in general not @{𝛼}. If @{𝜔} < 0, RANDSNORM returns #NUM!
+@SEEALSO=RANDNORM,RANDSTDIST
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDSTDIST
-@SHORTDESC=random variate from a skew t distribution
-@SYNTAX=RANDSTDIST(df,a)
+@SHORTDESC=random variate from a skew-t distribution
+@SYNTAX=RANDSTDIST(df,𝛼)
 @ARGUMENTDESCRIPTION=@{df}: degrees of freedom
-@{a}: amount of skew, defaults to 0
-@SEEALSO=RANDTDIST
+@{𝛼}: shape parameter of the skew-t distribution, defaults to 0
+@NOTE=The mean of a skew-t distribution is not 0. The standard deviation of a skew-t distribution is not 1. The skewness of a skew-t distribution is in general not @{𝛼}.
+@SEEALSO=RANDTDIST,RANDSNORM
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDTDIST
@@ -6134,71 +6136,4 @@ The distinction between half-width and full-width characters is described in htt
 @ARGUMENTDESCRIPTION=@{text}: string
 @EXCEL=This function is Excel compatible.
 @SEEALSO=DOLLAR,FIXED,TEXT
-
-@CATEGORY=Time Series Analysis
-@FUNCTION=FOURIER
-@SHORTDESC=Fourier or inverse Fourier transform
-@SYNTAX=FOURIER(Sequence,Inverse,Separate)
-@ARGUMENTDESCRIPTION=@{Sequence}: the data sequence to be transformed
-@{Inverse}: if true, the inverse Fourier transform is calculated, defaults to false
-@{Separate}: if true, the real and imaginary parts are given separately, defaults to false
-@DESCRIPTION=This array function returns the Fourier or inverse Fourier transform of the given data sequence.
-The output consists of one column of complex numbers if @{Separate} is false and of two columns of real numbers if @{Separate} is true.
-If @{Separate} is true the first output column contains the real parts and the second column the imaginary parts.
-@NOTE=If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #VALUE!
-
-@CATEGORY=Time Series Analysis
-@FUNCTION=HPFILTER
-@SHORTDESC=Hodrick Prescott Filter
-@SYNTAX=HPFILTER(Sequence,λ)
-@ARGUMENTDESCRIPTION=@{Sequence}: the data sequence to be transformed
-@{λ}: filter parameter λ, defaults to 1600
-@DESCRIPTION=This array function returns the trend and cyclical components obtained by applying the Hodrick Prescott Filter with parameter @{λ} to the given data sequence.
-The output consists of two columns of numbers, the first containing the trend component, the second the cyclical component.
-@NOTE=If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #VALUE! If @{Sequence} contians less than 6 numerical values, this function returns #VALUE!
-
-@CATEGORY=Time Series Analysis
-@FUNCTION=INTERPOLATION
-@SHORTDESC=interpolated values corresponding to the given abscissa targets
-@SYNTAX=INTERPOLATION(abscissae,ordinates,targets,interpolation)
-@ARGUMENTDESCRIPTION=@{abscissae}: ordered abscissae of the given data points
-@{ordinates}: ordinates of the given data points
-@{targets}: abscissae of the interpolated data
-@{interpolation}: method of interpolation, defaults to 0 ('linear')
-@DESCRIPTION=The output consists always of one column of numbers.
-Possible interpolation methods are:
-0: linear;
-1: linear with averaging;
-2: staircase;
-3: staircase with averaging;
-4: natural cubic spline;
-5: natural cubic spline with averaging.
-@NOTE=The @{abscissae} must be given in increasing order. If any of interpolation methods 1 ('linear with averaging'), 3 ('staircase with averaging'), and 5 ('natural cubic spline with averaging') is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order. Strings and empty cells in @{abscissae} and @{ordinates} are ignored. If several target data are provided they must be in the same column in consecutive cells.
-@SEEALSO=PERIODOGRAM
-
-@CATEGORY=Time Series Analysis
-@FUNCTION=PERIODOGRAM
-@SHORTDESC=periodogram of the given data
-@SYNTAX=PERIODOGRAM(ordinates,filter,abscissae,interpolation,number)
-@ARGUMENTDESCRIPTION=@{ordinates}: ordinates of the given data
-@{filter}: windowing function to  be used, defaults to no filter
-@{abscissae}: abscissae of the given data, defaults to regularly spaced abscissae
-@{interpolation}: method of interpolation, defaults to none
-@{number}: number of interpolated data points
-@DESCRIPTION=If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order.
-The output consists always of one column of numbers.
-Possible interpolation methods are:
-0: linear;
-1: linear with averaging;
-2: staircase;
-3: staircase with averaging;
-4: natural cubic spline;
-5: natural cubic spline with averaging.
-Possible window functions are:
-0: no filter (rectangular window)
-1: Bartlett (triangular window)
-2: Hahn (cosine window)
-3: Welch (parabolic window)
-@NOTE=Strings and empty cells in @{abscissae} and @{ordinates} are ignored. If several target data are provided they must be in the same column in consecutive cells.
-@SEEALSO=INTERPOLATION
 
