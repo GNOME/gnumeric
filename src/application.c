@@ -682,6 +682,83 @@ gnumeric_application_get_property (GObject *obj, guint param_id,
 }
 
 static void
+install_icons (void)
+{
+	static struct {
+		guchar const   *scalable_data;
+		gchar const    *name;
+	} const entry [] = {
+		/* Cursors */
+		{ gnm_cursor_cross, "cursor_cross" },
+		{ gnm_bucket, "bucket" },
+		{ gnm_font, "font" },
+		{ sheet_move_marker, "sheet_move_marker" },
+		/* Patterns */
+		{ gp_125grey, "gp_125grey" },
+		{ gp_25grey, "gp_25grey" },
+		{ gp_50grey, "gp_50grey" },
+		{ gp_625grey, "gp_625grey" },
+		{ gp_75grey, "gp_75grey" },
+		{ gp_bricks, "gp_bricks" },
+		{ gp_diag, "gp_diag" },
+		{ gp_diag_cross, "gp_diag_cross" },
+		{ gp_foreground_solid, "gp_foreground_solid" },
+		{ gp_horiz, "gp_horiz" },
+		{ gp_large_circles, "gp_large_circles" },
+		{ gp_rev_diag, "gp_rev_diag" },
+		{ gp_semi_circle, "gp_semi_circle" },
+		{ gp_small_circle, "gp_small_circle" },
+		{ gp_solid, "gp_solid" },
+		{ gp_thatch, "gp_thatch" },
+		{ gp_thick_diag_cross, "gp_thick_diag_cross" },
+		{ gp_thin_diag, "gp_thin_diag" },
+		{ gp_thin_diag_cross, "gp_thin_diag_cross" },
+		{ gp_thin_horiz, "gp_thin_horiz" },
+		{ gp_thin_horiz_cross, "gp_thin_horiz_cross" },
+		{ gp_thin_rev_diag, "gp_thin_rev_diag" },
+		{ gp_thin_vert, "gp_thin_vert" },
+		{ gp_vert, "gp_vert" },
+		{ line_pattern_dash_dot, "line_pattern_dash_dot" },
+		{ line_pattern_dash_dot_dot, "line_pattern_dash_dot_dot" },
+		{ line_pattern_dashed, "line_pattern_dashed" },
+		{ line_pattern_dotted, "line_pattern_dotted" },
+		{ line_pattern_double, "line_pattern_double" },
+		{ line_pattern_hair, "line_pattern_hair" },
+		{ line_pattern_medium, "line_pattern_medium" },
+		{ line_pattern_medium_dash, "line_pattern_medium_dash" },
+		{ line_pattern_medium_dash_dot, "line_pattern_medium_dash_dot" },
+		{ line_pattern_medium_dash_dot_dot, "line_pattern_medium_dash_dot_dot" },
+		{ line_pattern_slant, "line_pattern_slant" },
+		{ line_pattern_thick, "line_pattern_thick" },
+		{ line_pattern_thin, "line_pattern_thin" },
+		/* Borders */
+		{ bottom_border, "bottom_border" },
+		{ diag_border, "diag_border" },
+		{ inside_border, "inside_border" },
+		{ inside_horiz_border, "inside_horiz_border" },
+		{ inside_vert_border, "inside_vert_border" },
+		{ left_border, "left_border" },
+		{ no_border, "no_border" },
+		{ outline_border, "outline_border" },
+		{ rev_diag_border, "rev_diag_border" },
+		{ right_border, "right_border" },
+		{ top_border, "top_border" },
+		/* Stuff */
+		{ unknown_image, "unknown_image" }
+	};
+	unsigned int ui;
+
+	for (ui = 0; ui < G_N_ELEMENTS (entry); ui++) {
+		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline
+			(-1, entry[ui].scalable_data, FALSE, NULL);
+		gtk_icon_theme_add_builtin_icon (entry[ui].name,
+			gdk_pixbuf_get_width (pixbuf), pixbuf);
+		g_object_unref (pixbuf);
+	}
+}
+
+
+static void
 gnm_app_class_init (GObjectClass *gobject_klass)
 {
 	parent_klass = g_type_class_peek_parent (gobject_klass);
@@ -750,6 +827,8 @@ gnm_app_class_init (GObjectClass *gobject_klass)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+
+	install_icons ();
 }
 
 static void

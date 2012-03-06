@@ -1,3 +1,12 @@
+2012-03-06  Morten Welinder  <terra@gnome.org>
+
+	* src/application.c (install_icons): Move icon installation to
+	here.  We need unknown_image even without the gui.
+	(gnm_app_class_init): Hook it up here.
+
+	* src/wbc-gtk.c: Move from here.
+	(wbc_gtk_class_init): Instead of here.
+
 2012-03-02  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
