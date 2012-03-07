@@ -930,12 +930,13 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 	guint32 flags = 0x38C3FF;	/* these are always true */
 	unsigned i, expr0_len, expr1_len, header_pos;
 	GArray const *details = gnm_style_conditions_details (sc);
+	unsigned det_len = details ? details->len : 0;
 	GnmStyleCond const *cond;
 	GnmStyle const *s;
 
 	/* The parent record */
 	ms_biff_put_var_next (bp, BIFF_CONDFMT);
-	GSF_LE_SET_GUINT16 (buf+0, details->len);
+	GSF_LE_SET_GUINT16 (buf+0, det_len);
 	GSF_LE_SET_GUINT16 (buf+2, 1); /* force a redraw */
 	xl_le_set_range (buf+4, &cd->bb);
 	range_count = g_slist_length (cd->ranges);
@@ -949,7 +950,7 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 	g_slist_free (cd->ranges);
 
 	/* The individual conditions */
-	for (i = 0 ; i < details->len ; i++) {
+	for (i = 0 ; i < det_len ; i++) {
 		cond = &g_array_index (details, GnmStyleCond, i);
 		s = cond->overlay;
 
@@ -1494,7 +1495,7 @@ excel_write_prep_conditions (ExcelWriteSheet *esheet)
 			continue;
 		conds = gnm_style_conditions_details (
 			gnm_style_get_conditions (sr->style));
-		for (i = 0 ; i < conds->len ; i++) {
+		for (i = 0 ; i < (conds ? conds->len : 0) ; i++) {
 			cond = &g_array_index (conds, GnmStyleCond, i);
 			if (cond->texpr[0] != NULL)
 				excel_write_prep_expr (esheet->ewb, cond->texpr[0]);
@@ -1801,7 +1802,7 @@ put_colors (ExcelStyleVariant const *esv, gpointer dummy, XLExportBase *ewb)
 	    NULL != gnm_style_get_conditions (st)) {
 		GArray const *conds = gnm_style_conditions_details (
 			gnm_style_get_conditions (st));
-		for (i = 0 ; i < conds->len ; i++) {
+		for (i = 0 ; i < (conds ? conds->len : 0) ; i++) {
 			st = g_array_index (conds, GnmStyleCond, i).overlay;
 			if (gnm_style_is_element_set (st, MSTYLE_FONT_COLOR))
 				put_color_gnm (ewb, gnm_style_get_font_color (st));

@@ -1,3 +1,10 @@
+2012-03-06  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (cb_write_condition): Handle lack of style
+	conditions.
+	(excel_write_prep_conditions): Ditto.
+	(put_colors): Ditto.  Fixes crash of #671267.
+
 2012-03-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.2

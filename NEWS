@@ -6,6 +6,7 @@ Andreas:
 
 Morten:
 	* Hook up unknown_image icon for ssconvert too.
+	* Fix xls save crash.  [#671267]
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2
