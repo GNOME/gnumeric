@@ -3444,7 +3444,7 @@ excel_write_RSTRING (ExcelWriteState *ewb, GnmCell const *cell, unsigned xf)
 	EX_SETXF  (buf, xf);
 	ms_biff_put_var_write  (ewb->bp, buf, 6);
 	excel_write_string (ewb->bp, STR_TWO_BYTE_LENGTH,
-		cell->value->v_str.val->str);
+			    value_peek_string (cell->value));
 
 	n = txo->len / 2;
 	if (ewb->bp->version < MS_BIFF_V8) {

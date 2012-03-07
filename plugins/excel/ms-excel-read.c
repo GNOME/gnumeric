@@ -1187,6 +1187,11 @@ excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet,
 	TXORun txo_run;
 	unsigned n;
 
+	d (0, {
+			g_printerr ("strlen=%d len=%d\n", str_len, (int)strlen (str));
+			ms_biff_query_dump (q);
+		});
+
 	txo_run.last = G_MAXINT;
 
 	if (esheet_ver (esheet) >= MS_BIFF_V8) {
@@ -6322,7 +6327,7 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 	if (txt != NULL) {
 		GOFormat *fmt = NULL;
 		if (has_markup)
-			fmt = excel_read_LABEL_markup (q, esheet, txt, strlen (txt));
+			fmt = excel_read_LABEL_markup (q, esheet, txt, str_len);
 
 		/* might free txt, do not do this until after parsing markup */
 		v = value_new_string_nocopy (txt);
