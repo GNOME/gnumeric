@@ -6243,10 +6243,11 @@ odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		      GogObject const *axis)
 {
 	char const *type = NULL;
-	double minima = 0., maxima = 0.;
+	double tmp;
 	GObjectClass *klass = G_OBJECT_GET_CLASS (axis);
 	GParamSpec *spec;
 	GOData const *interval;
+	gboolean user_defined;
 
 	gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "start");
 	odf_add_bool (state->xml, CHART "display-label", TRUE);
@@ -6258,11 +6259,15 @@ odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 		odf_add_bool (state->xml, CHART "logarithmic",
 			      0 != strcmp (type, "Linear"));
 	}
-	if (gog_axis_get_bounds (GOG_AXIS (axis), &minima, &maxima)) {
-		gsf_xml_out_add_float (state->xml, CHART "minimum", minima, -1);
-		gsf_xml_out_add_float (state->xml, CHART "maximum", maxima, -1);
-	}
-
+	
+	tmp = gog_axis_get_entry 
+		(GOG_AXIS (axis), GOG_AXIS_ELEM_MIN, &user_defined);
+	if (user_defined)
+		gsf_xml_out_add_float (state->xml, CHART "minimum", tmp, -1);
+	tmp = gog_axis_get_entry 
+		(GOG_AXIS (axis), GOG_AXIS_ELEM_MAX, &user_defined);
+	if (user_defined)
+		gsf_xml_out_add_float (state->xml, CHART "maximum", tmp, -1);
 
 	interval = gog_dataset_get_dim (GOG_DATASET(axis),2);
 	if (interval != NULL) {
