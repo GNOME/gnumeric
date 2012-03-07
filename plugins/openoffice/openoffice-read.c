@@ -7753,6 +7753,8 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	default:
 		if (state->chart.series == NULL) {
 			state->chart.series = gog_plot_new_series (state->chart.plot);
+			/* In ODF by default we skip invalid data for interpolation */
+			g_object_set (state->chart.series, "interpolation-skip-invalid", TRUE, NULL);
 			if (state->chart.cat_expr != NULL) {
 				oo_plot_assign_dim
 					(xin, state->chart.cat_expr,

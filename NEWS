@@ -3,6 +3,8 @@ Gnumeric 1.11.3
 Andreas:
 	* On ODF import of stacked column charts, set LibreOffice's default overlap.
 	[#670692]
+	* On ODF import set series to default to ignoring invalids for interpolation.
+	[#671508]
 
 Morten:
 	* Hook up unknown_image icon for ssconvert too.
