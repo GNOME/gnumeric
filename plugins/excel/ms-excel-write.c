@@ -1020,6 +1020,8 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 				tmp = 0xFFFFFFFF;
 			GSF_LE_SET_GUINT32 (fbuf+80, tmp);
 
+			GSF_LE_SET_GUINT8 (fbuf + 88, font_flags);
+
 			ms_biff_put_var_write (bp, fbuf, sizeof (fbuf));
 			flags |= 0x04000000;
 		}
