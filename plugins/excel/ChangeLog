@@ -4,6 +4,8 @@
 	conditions.
 	(excel_write_prep_conditions): Ditto.
 	(put_colors): Ditto.  Fixes crash of #671267.
+	(write_sheet_head): Export page breaks even if we have one one of
+	horizontal/vertical.  Part of #671531.
 
 2012-03-02  Morten Welinder <terra@gnome.org>
 

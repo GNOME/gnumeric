@@ -4902,10 +4902,10 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 		excel_write_COUNTRY (bp);
 	excel_write_WSBOOL (bp, esheet);
 
-	if (pi->page_breaks.h != NULL && pi->page_breaks.v != NULL) {
+	if (pi->page_breaks.h)
 		excel_write_PAGE_BREAK (bp, pi->page_breaks.h);
+	if (pi->page_breaks.v)
 		excel_write_PAGE_BREAK (bp, pi->page_breaks.v);
-	}
 
 	if (pi->header != NULL)
 		excel_write_HEADER_FOOTER (bp, pi->header, BIFF_HEADER);
