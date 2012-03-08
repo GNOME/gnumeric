@@ -681,7 +681,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 	switch (obj->excel_type) {
 	case 0: /* group */
 		break;
-	case 1: /* line */
+	case MSOT_LINE:
 		XL_CHECK_CONDITION_VAL (q->data + 41 <= last, TRUE);
 		tmp = GSF_LE_GET_GUINT8 (q->data+38) & 0x0F;
 		if (tmp > 0)
@@ -703,13 +703,13 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_flag (MS_OBJ_ATTR_FLIP_V));
 		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name,
-			(obj->excel_type == 1) ? 42 : 44);
+			(obj->excel_type == MSOT_LINE) ? 42 : 44);
 		break;
 
-	case 2: /* rectangle */
-	case 3: /* oval */
-	case 4: /* arc */
-	case 6: /* textbox */
+	case MSOT_RECTANGLE:
+	case MSOT_OVAL:
+	case MSOT_ARC:
+	case MSOT_TEXTBOX:
 		XL_CHECK_CONDITION_VAL (q->data + 36 <= last, TRUE);
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_BACKGROUND,
@@ -732,7 +732,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_WIDTH,
 					      GSF_LE_GET_GUINT8 (q->data+40) * 256));
 
-		if (obj->excel_type == 6) {
+		if (obj->excel_type == MSOT_TEXTBOX) {
 			g_return_val_if_fail (q->data + 52 <= last, TRUE);
 			len = GSF_LE_GET_GUINT16 (q->data + 44);
 			txo_len = GSF_LE_GET_GUINT16 (q->data + 48);
@@ -749,19 +749,19 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 44);
 		break;
 
-	case 5: /* chart */
+	case MSOT_CHART:
 		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 62);
 		break;
 
-	case 7: /* button */
+	case MSOT_BUTTON:
 		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
 		break;
-	case 8: /* picture */
+	case MSOT_PICTURE:
 /* 50 uint16 cbPictFmla, 60 name len, name, fmla (respect cbMacro), fmla (cbPictFmla) */
 		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 60);
 		break;
 
-	case 9: /* polygon */
+	case MSOT_POLYGON:
 /* 66 name len, name, fmla (respect cbMacro) */
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_COLOR,
@@ -794,29 +794,29 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		}
 		break;
 
-	case 0xB  : /* check box */
+	case MSOT_CHECKBOX:
 /* 76 name len, name, cbfmla1 (IGNORE cbMacro), fmla1, cbfmla2, fmla2, cbtext, text */
 		break;
-	case 0xC  : /* option button */
+	case MSOT_OPTION: /* option button */
 /* 88 name len, name, cbfmla1 (IGNORE cbMacro), fmla1, cbfmla2, fmla2, cbtext, text */
 		break;
-	case 0xD  : /* edit box */
+	case MSOT_EDIT:
 /* 70 name len, name, fmla (respect cbMacro), cbtext, text */
 		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
 		break;
-	case 0xE  : /* label */
+	case MSOT_LABEL:
 /* 70 name len, name, fmla (respect cbMacro), cbtext, text */
 		len = GSF_LE_GET_GUINT16 (q->data + 44);
 		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
 		if (read_pre_biff8_read_text (q, c, obj, data, len, 16))
 			return TRUE;
 		break;
-	case 0xF  : /* dialog frame */
+	case MSOT_DIALOG: /* dialog frame */
 /* 70 name len, name, fmla (respect cbMacro) */
 		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
 		break;
-	case 0x10 : /* spinner & scrollbar (layout is the same) */
-	case 0x11 :
+	case MSOT_SPINNER:
+	case MSOT_SCROLLBAR:
 /* 68 name len, name, cbfmla1 (IGNORE cbMacro), fmla1, cbfmla2, fmla2 */
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_VALUE,
@@ -850,14 +850,14 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 				ptr, last);
 		}
 		break;
-	case 0x12 : /* list box */
+	case MSOT_LIST:
 /* 88 name len, name, cbfmla1 (IGNORE cbMacro), fmla1, cbfmla2, fmla2, cbfmla3, fmla3 */
 		break;
-	case 0x13 : /* group box */
+	case MSOT_GROUP:
 /* 82 name len, name, fmla (respect cbMacro), cbtext, text */
 		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 82);
 		break;
-	case 0x14 : /* drop down */
+	case MSOT_COMBO:
 /* 110 name len, name, cbfmla1 (IGNORE cbMacro), fmla1, cbfmla2, fmla2, cbfmla3, fmla3 */
 		obj->combo_in_autofilter =
 			(GSF_LE_GET_GUINT16 (q->data + 8) & 0x8000) ? TRUE : FALSE;
@@ -866,7 +866,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		break;
 	}
 
-	if (obj->excel_type == 8) { /* picture */
+	if (obj->excel_type == MSOT_PICTURE) { /* picture */
 		guint16 op;
 		if (ms_biff_query_peek_next (q, &op) && op == BIFF_IMDATA) {
 			GdkPixbuf *pixbuf;
