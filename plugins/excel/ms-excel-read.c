@@ -310,7 +310,7 @@ ms_sheet_parse_expr_internal (ExcelReadSheet *esheet, guint8 const *data, int le
 		tmp = gnm_expr_top_as_string (texpr,
 					      parse_pos_init (&pp, wb, sheet, 0, 0),
 					      gnm_conventions_default);
-		puts (tmp);
+		puts (tmp ? tmp : "(null)");
 		g_free (tmp);
 	}
 
@@ -1186,6 +1186,7 @@ excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet,
 	MSContainer const *c = &esheet->container;
 	TXORun txo_run;
 	unsigned n;
+	unsigned int clen = g_utf8_strlen (str, -1);
 
 	d (0, {
 			g_printerr ("strlen=%d len=%d\n", str_len, (int)strlen (str));
@@ -1209,7 +1210,7 @@ excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet,
 
 			o = GSF_LE_GET_GUINT16 (ptr + n);
 			l = GSF_LE_GET_GUINT16 (ptr + n + 2);
-			XL_CHECK_CONDITION_VAL (o + l <= str_len,
+			XL_CHECK_CONDITION_VAL (o <= clen,
 						go_format_new_markup (txo_run.accum, FALSE));
 
 			txo_run.first = g_utf8_offset_to_pointer (str, o) - str;
