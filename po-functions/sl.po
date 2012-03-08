@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-02 14:54+0000\n"
-"PO-Revision-Date: 2012-03-02 21:18+0100\n"
+"PO-Revision-Date: 2012-03-08 13:12+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -47,7 +47,7 @@ msgstr "Dvomestna vrednost leta je prilagojena enako, kot povsod v programu Gnum
 
 #: ../plugins/fn-christian-date/functions.c:146
 msgid "The 1-argument version of EASTERSUNDAY is compatible with OpenOffice for years after 1904. This function is not specified in ODF/OpenFormula."
-msgstr "Različica funkcije EASTERSUNDAY z enim argumentom je skladna s funkcijo programa OpenOffice za leta po letu 1904. Funkcija ni določena v programu ODF/OpenFormula."
+msgstr "Različica funkcije EASTERSUNDAY z enim argumentom je združljiva s funkcijo programa OpenOffice za leta po letu 1904. Funkcija ni določena v programu ODF/OpenFormula."
 
 #: ../plugins/fn-christian-date/functions.c:163
 msgid "ASHWEDNESDAY:Ash Wednesday in the Gregorian calendar according to the Roman rite of the Christian Church"
@@ -330,7 +330,7 @@ msgstr "V kolikor @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VA
 #: ../plugins/fn-string/functions.c:1233
 #: ../plugins/fn-string/functions.c:1316
 msgid "This function is Excel compatible."
-msgstr "Ta funkcija je skladna s funkcijami programa Excel."
+msgstr "Ta funkcija je združljiva s funkcijami programa MS Excel."
 
 #: ../plugins/fn-complex/functions.c:111
 msgid "IMAGINARY:the imaginary part of the complex number @{z}"
@@ -915,7 +915,7 @@ msgstr "V kolikor je podatek za @{mesec} ali @{dan} manjši kot 1 ali prevelik, 
 
 #: ../plugins/fn-date/functions.c:80
 msgid "For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-1904."
-msgstr "Za preglednice ustvarjene z Mac različico programa Excel, zaporedna vrednost 1 določa datum 01. januar 1904."
+msgstr "Za preglednice ustvarjene z Mac različico programa MS Excel, zaporedna vrednost 1 določa datum 01. jan. 1904."
 
 #: ../plugins/fn-date/functions.c:137
 msgid "UNIX2DATE:date value corresponding to the Unix timestamp @{t}"
@@ -1209,7 +1209,7 @@ msgstr "V kolikor vnos @{vikenda} ni enak nič, dan tedna ni delovni dan"
 #: ../plugins/fn-date/functions.c:741
 #: ../plugins/fn-date/functions.c:963
 msgid "This function is Excel compatible if the last argument is omitted."
-msgstr "Funkcija je skladna s programom Excel, v kolikor je izpuščen zadnji argument."
+msgstr "Funkcija je združljiva s programom MS Excel, v kolikor je izpuščen zadnji argument."
 
 #: ../plugins/fn-date/functions.c:742
 #: ../plugins/fn-date/functions.c:964
@@ -1237,7 +1237,7 @@ msgstr "Funkcija je skladna s programom Excel, v kolikor je izpuščen zadnji ar
 #: ../plugins/fn-string/functions.c:1445
 #: ../plugins/fn-string/functions.c:1575
 msgid "This function is OpenFormula compatible."
-msgstr "Funkcija je skladna s funkcijami programa OpenFormula."
+msgstr "Funkcija je združljiva s funkcijami programa OpenFormula."
 
 #: ../plugins/fn-date/functions.c:955
 msgid "NETWORKDAYS:number of workdays in range"
@@ -2354,7 +2354,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:753
 msgid "This function is Excel compatible (except \"picapt\")."
-msgstr "Funkcija je združljiva s progamom MS Excel (razen \"picapt\")."
+msgstr "Funkcija je združljiva s programom MS Excel (razen \"picapt\")."
 
 #: ../plugins/fn-eng/functions.c:1076
 msgid "ERF:Gauss error function"
@@ -2374,7 +2374,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:1080
 msgid "This function is Excel compatible if two arguments are supplied and neither is negative."
-msgstr ""
+msgstr "Funkcija je združljiva s funkcijo programa MS Excel, če sta podana oba argumenta in noben od njiju ni negativen."
 
 #: ../plugins/fn-eng/functions.c:1084
 #: ../plugins/fn-eng/functions.c:1113
@@ -3706,9 +3706,8 @@ msgid "ISFORMULA:TRUE if @{cell} contains a formula"
 msgstr ""
 
 #: ../plugins/fn-info/functions.c:1254
-#, fuzzy
 msgid "ISFORMULA is OpenFormula compatible."
-msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
+msgstr "Funkcija ISFORMULA je združljiva s funkcijo programa OpenFormula."
 
 #: ../plugins/fn-info/functions.c:1283
 msgid "COUNTBLANK:the number of blank cells in @{range}"
@@ -3762,9 +3761,8 @@ msgid "value:a value"
 msgstr "vrednost:vrednost"
 
 #: ../plugins/fn-info/functions.c:1456
-#, fuzzy
 msgid "ISNA:TRUE if @{value} is the #N/A error value"
-msgstr "ISBLANK:funkcija vrne PRAV, v kolikor je @{vrednost} prazno polje"
+msgstr "ISNA:funkcija vrne PRAV, v kolikor je @{vrednost} napaka #N/A"
 
 #: ../plugins/fn-info/functions.c:1478
 msgid "ISERR:TRUE if @{value} is any error value except #N/A"
@@ -3820,9 +3818,8 @@ msgid "n:number"
 msgstr "n:število"
 
 #: ../plugins/fn-info/functions.c:1606
-#, fuzzy
 msgid "ISLOGICAL:TRUE if @{value} is a logical value"
-msgstr "ISBLANK:funkcija vrne PRAV, v kolikor je @{vrednost} prazno polje"
+msgstr "ISLOGICAL:funkcija vrne PRAV, v kolikor je @{vrednost} logična vrednost"
 
 #: ../plugins/fn-info/functions.c:1608
 msgid "This function checks if a value is either TRUE or FALSE."
@@ -5035,7 +5032,7 @@ msgstr "CSC:kosekans vrednosti @{x}"
 #: ../plugins/fn-math/functions.c:1416
 #: ../plugins/fn-math/functions.c:1436
 msgid "This function is not Excel compatible."
-msgstr "Ta funkcija ni skladnja s funkcijami programa Excel."
+msgstr "Ta funkcija ni združljiva s funkcijami programa MS Excel."
 
 #: ../plugins/fn-math/functions.c:1380
 msgid "wolfram:Cosecant.html"
@@ -5143,9 +5140,8 @@ msgid "x2:number"
 msgstr "x2:število"
 
 #: ../plugins/fn-math/functions.c:1567
-#, fuzzy
 msgid "Empty cells are ignored and the empty product is 1."
-msgstr "Celice z besedilnimi nizi, logičnimi vrednostmi in prazne celice so prezrte."
+msgstr "Prazne celice so prezrte, njihov zmnožek pa je 1."
 
 #: ../plugins/fn-math/functions.c:1587
 msgid "TAN:the tangent of @{x}"
@@ -5488,9 +5484,8 @@ msgid "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not wor
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:2953
-#, fuzzy
 msgid "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
-msgstr "Funkcija je skladna s funkcijami programa OpenFormula."
+msgstr "Ta funkcija ni združljiva s funkcijami programa OpenFormula. Za združljivost je treba uporabiti funkcijo ODF.SUMPRODUCT."
 
 #: ../plugins/fn-math/functions.c:2959
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
@@ -5505,9 +5500,8 @@ msgid "This function differs from SUMPRODUCT by considering booleans."
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:2968
-#, fuzzy
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
-msgstr "Ta funkcija ni skladnja s funkcijami programa Excel."
+msgstr "Ta funkcija ni združljiva s funkcijami programa MS Excel. Za združljivost je treba uporabiti funkcijo SUMPRODUCT."
 
 #: ../plugins/fn-math/functions.c:3103
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
@@ -7693,7 +7687,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1198
 msgid "This function is Excel compatible for non-negative @{x}."
-msgstr ""
+msgstr "Funkcija je združljiva s funkcijo programa MS Excel pri ne-negativnih vrednostih @{x}."
 
 #: ../plugins/fn-stat/functions.c:1240
 msgid "TINV:inverse of the survival function of the Student t-distribution"
@@ -8958,8 +8952,9 @@ msgid "UNICODE:the Unicode code point for the character @{c}"
 msgstr "UNICODE:kodna točka nabora Unicode za znak @{c}"
 
 #: ../plugins/fn-string/functions.c:244
+#, fuzzy
 msgid "EXACT:TRUE if @{string1} is exactly equal to @{string2}"
-msgstr ""
+msgstr "EXACT:funkcija vrne PRAV, v kolikor je @{niz1} natanko enak @{nizu2}"
 
 #: ../plugins/fn-string/functions.c:245
 msgid "string1:first string"
@@ -9030,7 +9025,7 @@ msgstr ""
 #: ../plugins/fn-string/functions.c:895
 #: ../plugins/fn-string/functions.c:1386
 msgid "While this function is syntactically Excel compatible, the differences in the underlying text encoding will usually yield different results."
-msgstr ""
+msgstr "Čeprav je ta funkcija po skladnji združljiva s programom MS Excel, se pojavljajo razlike v znakovnem kodiranju, kar lahko povzroči razliko v rezultatu funkcije."
 
 #: ../plugins/fn-string/functions.c:337
 #: ../plugins/fn-string/functions.c:430
@@ -9039,7 +9034,7 @@ msgstr ""
 #: ../plugins/fn-string/functions.c:897
 #: ../plugins/fn-string/functions.c:1388
 msgid "While this function is OpenFormula compatible, most of its behavior is, at this time, implementation specific."
-msgstr ""
+msgstr "Čeprav je ta funkcija združljiva s funkcijami programa OpenFormula, je delovanje še vedno značilno za posamezno izvedbo."
 
 #: ../plugins/fn-string/functions.c:365
 msgid "LOWER:a lower-case version of the string @{text}"
@@ -9329,7 +9324,7 @@ msgstr "Razlikovanje med pol-širokimi in polno-širokimi znaki je podrobno pred
 #: ../plugins/fn-string/functions.c:1443
 #: ../plugins/fn-string/functions.c:1572
 msgid "For most strings, this function has the same effect as in Excel."
-msgstr "Za večino nizov ima ta funkcija enak učinek kot v programu Excel."
+msgstr "Za večino nizov ima ta funkcija enak učinek kot v programu MS Excel."
 
 #: ../plugins/fn-string/functions.c:1444
 msgid "While in obsolete encodings ASC used to translate between 2-byte and 1-byte characters, this is not the case in UTF-8."
