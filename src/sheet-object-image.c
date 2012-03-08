@@ -200,25 +200,17 @@ gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 			NULL));
 
 	} else {
-		GdkPixbuf *pixbuf, *placeholder = NULL;
-
-		pixbuf = go_image_get_pixbuf (soi->image);
-
-		if (pixbuf == NULL) {
-			placeholder = gtk_icon_theme_load_icon (
-				gtk_icon_theme_get_default (),
-				"unknown_image", 100, 0, NULL);
-			pixbuf = gdk_pixbuf_copy (placeholder);
-		}
+		GdkPixbuf *placeholder = gtk_icon_theme_load_icon
+			(gtk_icon_theme_get_default (),
+			 "unknown_image", 100, 0, NULL);
+		GdkPixbuf *pixbuf = gdk_pixbuf_copy (placeholder);
 
 		goc_item_hide (goc_item_new (GOC_GROUP (item),
 			GOC_TYPE_PIXBUF,
 			"pixbuf", pixbuf,
 			NULL));
 		g_object_unref (G_OBJECT (pixbuf));
-
-		if (placeholder)
-			g_object_set_data (G_OBJECT (item), "tile", placeholder);
+		g_object_set_data (G_OBJECT (item), "tile", placeholder);
 	}
 
 	return gnm_pane_object_register (so, item, TRUE);
