@@ -1013,9 +1013,9 @@ excel_write_formula (ExcelWriteState *ewb, GnmExprTop const *texpr,
 		pd.use_name_variant = TRUE;
 	}
 
-	start = ewb->bp->length;
+	start = ewb->bp->curpos;
 	write_node (&pd, texpr->expr, 0, XL_ROOT);
-	len = ewb->bp->length - start;
+	len = ewb->bp->curpos - start;
 
 	write_arrays (&pd);
 

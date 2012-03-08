@@ -1,5 +1,8 @@
 2012-03-08  Morten Welinder  <terra@gnome.org>
 
+	* src/expr-name.c (expr_name_set_pos): Make this work even without
+	an existing scope.
+
 	* src/sheet-object-image.c (gnm_soi_new_view): Fix crash.
 
 2012-03-08  Jean Brefort  <jean.brefort@normalesup.org>

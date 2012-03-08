@@ -499,7 +499,7 @@ static void excel_fill_bmp_header(guint8 *bmphdr, guint8 *data, guint32 len)
 
 	bmphdr[0] = 'B';
 	bmphdr[1] = 'M';
-	GSF_LE_SET_GUINT32 (bmphdr + 2, len + sizeof bmphdr);
+	GSF_LE_SET_GUINT32 (bmphdr + 2, len + BMP_HDR_SIZE);
 	GSF_LE_SET_GUINT16 (bmphdr + 6, 0);
 	GSF_LE_SET_GUINT16 (bmphdr + 8, 0);
 	bpp = GSF_LE_GET_GUINT16 (data + 18);
@@ -509,7 +509,7 @@ static void excel_fill_bmp_header(guint8 *bmphdr, guint8 *data, guint32 len)
 	case 4:  offset = 16 * 3;  break;
 	default: offset = 2 * 3;   break;
 	}
-	offset += sizeof bmphdr + 12;
+	offset += BMP_HDR_SIZE + 2;
 	GSF_LE_SET_GUINT32 (bmphdr + 10, offset);
 }
 

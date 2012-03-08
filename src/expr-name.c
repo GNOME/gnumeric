@@ -837,7 +837,6 @@ expr_name_set_pos (GnmNamedExpr *nexpr, GnmParsePos const *pp)
 	const char *name;
 
 	g_return_val_if_fail (nexpr != NULL, NULL);
-	g_return_val_if_fail (nexpr->scope != NULL, NULL);
 	g_return_val_if_fail (pp != NULL, NULL);
 
 	old_scope = nexpr->scope;
@@ -853,9 +852,10 @@ expr_name_set_pos (GnmNamedExpr *nexpr, GnmParsePos const *pp)
 		return g_strdup_printf (fmt, name);
 	}
 
-	g_hash_table_steal (
-		nexpr->is_placeholder ? old_scope->placeholders : old_scope->names,
-		name);
+	if (old_scope)
+		g_hash_table_steal
+			(nexpr->is_placeholder ? old_scope->placeholders : old_scope->names,
+			 name);
 
 	nexpr->pos = *pp;
 	gnm_named_expr_collection_insert (new_scope, nexpr);

@@ -111,7 +111,7 @@ struct _BlipType {
 	guint8 blip_tag[2];
 	void (*handler) (ExcelWriteState *ewb,
 			 BlipInf *blip,
-			 BlipType *bt);
+			 const BlipType *bt);
 };
 
 /*
@@ -918,8 +918,7 @@ map_script_to_xl (GnmStyle const *style)
 	}
 }
 
-static guint8 const zeros[64];
-static void
+void
 cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		    ExcelWriteSheet *esheet)
 {
@@ -3884,11 +3883,7 @@ static void
 excel_write_autofilter_names (ExcelWriteState *ewb)
 {
 	unsigned i;
-	GnmNamedExpr *nexpr;
 
-	nexpr = expr_name_new ("_FilterDatabase");
-	nexpr->is_hidden = TRUE;
-	expr_name_set_is_placeholder (nexpr, FALSE);
 	for (i = 0; i < ewb->esheets->len; i++) {
 		ExcelWriteSheet const *esheet =
 			g_ptr_array_index (ewb->esheets, i);
@@ -3896,6 +3891,9 @@ excel_write_autofilter_names (ExcelWriteState *ewb)
 		if (sheet->filters != NULL) {
 			GnmFilter const *filter = sheet->filters->data;
 			GnmParsePos pp;
+			GnmNamedExpr *nexpr = expr_name_new ("_FilterDatabase");
+			nexpr->is_hidden = TRUE;
+			expr_name_set_is_placeholder (nexpr, FALSE);
 			parse_pos_init_sheet (&pp, sheet);
 			expr_name_set_pos (nexpr, &pp);
 			expr_name_set_expr (nexpr,
@@ -3906,9 +3904,9 @@ excel_write_autofilter_names (ExcelWriteState *ewb)
 			if (NULL != sheet->filters->next) {
 				/* TODO Warn of lost autofilters */
 			}
+			expr_name_remove (nexpr);
 		}
 	}
-	expr_name_unref (nexpr);
 }
 
 static void
@@ -4180,50 +4178,6 @@ blipinf_free (BlipInf *blip)
 }
 
 static gsize
-excel_write_image_v8 (ExcelWriteSheet *esheet, BlipInf *bi)
-{
-	static guint8 const obj_v8[] = {
-/* SpContainer */   0xf,   0,   4, 0xf0,   0x4c, 0, 0, 0,
-/* Sp */	   0xb2,   4, 0xa, 0xf0,      8, 0, 0, 0,
-			0,   0, 0, 0,	/* fill in spid */
-			0, 0xa, 0, 0,
-
-/* OPT */	   0x33,   0, 0xb, 0xf0,   0x12, 0, 0, 0,
-			0x7f,    0, 0x80,  0, 0x80, 0, /* bool   LockAgainstGrouping 127 = 0x800080; */
-			   4, 0x41,    1, 0,     0, 0, /* blip x is blip (fill in); */
-			0x80,    1,    3, 0,     0, 0, /* FillType fillType 384 = 0x3; */
-
-/* ClientAnchor */    0, 0, 0x10, 0xf0,   0x12, 0, 0, 0, 0,0,
-			0,0,  0,0,	0,0,  0,0,	0,0,  0,0,	0,0,  0,0,
-/* ClientData */      0, 0, 0x11, 0xf0,  0, 0, 0, 0
-	};
-	guint8 buf [sizeof obj_v8];
-	ExcelWriteState *ewb = esheet->ewb;
-	BiffPut *bp = ewb->bp;
-	guint32 id = excel_write_start_drawing (esheet);
-	guint32 blip_id = ewb->cur_blip + 1;
-	gsize draw_len = 0;
-
-	memcpy (buf, obj_v8, sizeof obj_v8);
-	GSF_LE_SET_GUINT32 (buf + 16, id);
-	GSF_LE_SET_GUINT32 (buf + 40, blip_id);
-	excel_write_anchor (buf + 0x3c, sheet_object_get_anchor (bi->so));
-	ms_biff_put_var_write (bp, buf, sizeof obj_v8);
-	draw_len += sizeof (obj_v8);
-	ms_biff_put_commit (bp);
-
-	ms_biff_put_var_next (bp, BIFF_OBJ);
-	ms_objv8_write_common (bp, esheet->cur_obj, MSOT_PICTURE, 0x6011);
-	GSF_LE_SET_GUINT32 (buf, 0); /* end */
-	ms_biff_put_var_write (bp, buf, 4);
-
-	ms_biff_put_commit (bp);
-	ewb->cur_blip++;
-
-	return draw_len;
-}
-
-static gsize
 excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so,
 			   const char *label)
 {
@@ -4319,6 +4273,7 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 	GnmNamedExpr *macro_nexpr;
 	gboolean terminate_obj = TRUE;
 	gboolean transparent = FALSE;
+	gboolean is_image = FALSE;
 
 	if (has_text_prop) {
 		g_object_get (so,
@@ -4400,6 +4355,11 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		shape = 0xc9;
 		type = MSOT_COMBO;
 		flags = 0x2011;
+	} else if (IS_SHEET_OBJECT_IMAGE (so)) {
+		shape = 0x4b;
+		type = MSOT_PICTURE;
+		flags = 0x6011;
+		is_image = TRUE;
 	} else {
 		g_assert_not_reached ();
 		return 0;
@@ -4414,13 +4374,18 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 	if (is_widget)
 		ms_escher_opt_add_bool (escher, optmark,
 					MSEP_LOCKROTATION, TRUE);
-	ms_escher_opt_add_simple (escher, optmark,
-				  MSEP_TXID, 0x00c600a0);
-	ms_escher_opt_add_simple (escher, optmark,
-				  MSEP_WRAPTEXT, 1);
-	ms_escher_opt_add_simple (escher, optmark,
-				  MSEP_TXDIR, 2);
-	ms_escher_opt_add_bool (escher, optmark, MSEP_SELECTTEXT, TRUE);
+	if (is_image)
+		ms_escher_opt_add_bool (escher, optmark,
+					MSEP_LOCKASPECTRATIO, TRUE);
+	if (has_text_prop) {
+		ms_escher_opt_add_simple (escher, optmark,
+					  MSEP_TXID, 0x00c600a0);
+		ms_escher_opt_add_simple (escher, optmark,
+					  MSEP_WRAPTEXT, 1);
+		ms_escher_opt_add_simple (escher, optmark,
+					  MSEP_TXDIR, 2);
+		ms_escher_opt_add_bool (escher, optmark, MSEP_SELECTTEXT, TRUE);
+	}
 	if (is_widget) {
 		ms_escher_opt_add_bool (escher, optmark, MSEP_AUTOTEXTMARGIN, FALSE);
 		ms_escher_opt_add_bool (escher, optmark, MSEP_SHADOWOK, TRUE);
@@ -4428,6 +4393,10 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 		ms_escher_opt_add_bool (escher, optmark, MSEP_FILLOK, TRUE);
 	} else if (transparent)
 		ms_escher_opt_add_bool (escher, optmark, MSEP_FILLOK, FALSE);
+	if (is_image) {
+		guint32 blip_id = ++(ewb->cur_blip);
+		ms_escher_opt_add_simple (escher, optmark, MSEP_BLIPINDEX, blip_id);
+	}
 	ms_escher_opt_add_color (escher, optmark, MSEP_FILLCOLOR,
 				 style == NULL || style->fill.auto_back
 				 ? GO_COLOR_WHITE
@@ -4584,6 +4553,12 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 	if (style) g_object_unref (style);
 
 	return draw_len;
+}
+
+static gsize
+excel_write_image_v8 (ExcelWriteSheet *esheet, BlipInf *bi)
+{
+	return excel_write_textbox_or_widget_v8 (esheet, bi->so, FALSE, FALSE);
 }
 
 static gsize
@@ -5619,12 +5594,8 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	}
 	g_slist_free (objs);
 
-	esheet->blips = g_slist_reverse (esheet->blips);
-	esheet->textboxes = g_slist_reverse (esheet->textboxes);
-	esheet->widgets = g_slist_reverse (esheet->widgets);
-	esheet->lines = g_slist_reverse (esheet->lines);
-	esheet->comments = g_slist_reverse (esheet->comments);
-	esheet->graphs = g_slist_reverse (esheet->graphs);
+	/* We used to reserve the lists here, but we actually need
+	   to write the objects in reverse order for xls.  */
 
 	/* ---------------------------------------- */
 
@@ -5920,7 +5891,7 @@ excel_write_image_bytes (BiffPut *bp, GByteArray *bytes)
  *        OpenOffice.org can read the images.
  */
 static void
-excel_write_vector_blip (ExcelWriteState *ewb, BlipInf *blip, BlipType *bt)
+excel_write_vector_blip (ExcelWriteState *ewb, BlipInf *blip, const BlipType *bt)
 {
 	BiffPut	 *bp = ewb->bp;
 
@@ -5982,7 +5953,7 @@ excel_write_vector_blip (ExcelWriteState *ewb, BlipInf *blip, BlipType *bt)
 }
 
 static void
-excel_write_raster_blip (ExcelWriteState *ewb, BlipInf *blip, BlipType *bt)
+excel_write_raster_blip (ExcelWriteState *ewb, BlipInf *blip, const BlipType *bt)
 {
 	BiffPut	 *bp = ewb->bp;
 
@@ -6003,7 +5974,7 @@ excel_write_raster_blip (ExcelWriteState *ewb, BlipInf *blip, BlipType *bt)
 	}
 }
 
-static BlipType bliptypes[] =
+static const BlipType bliptypes[] =
 {
 	{"emf",  2, {0x40, 0x3d}, excel_write_vector_blip},
 	{"wmf",  3, {0x60, 0x21}, excel_write_vector_blip},
@@ -6013,10 +5984,10 @@ static BlipType bliptypes[] =
 	{"dib",  7, {0x80, 0x7a}, excel_write_raster_blip}
 };
 
-static BlipType *
+static const BlipType *
 get_bliptype (char const *type)
 {
-	int n = sizeof bliptypes / sizeof bliptypes[0];
+	int n = G_N_ELEMENTS (bliptypes);
 	int i;
 
 	for (i = 0; i < n; i++)
@@ -6028,7 +5999,7 @@ static void
 excel_write_blip (ExcelWriteState *ewb, BlipInf *blip)
 {
 	BiffPut	 *bp = ewb->bp;
-	BlipType *bt;
+	const BlipType *bt;
 
 	if (bp->version >= MS_BIFF_V8) {
 		static guint8 const header_obj_v8[] = {

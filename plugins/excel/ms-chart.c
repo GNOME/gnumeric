@@ -3229,9 +3229,7 @@ BC(register_handlers)(void)
 static void
 BC(register_handler)(XLChartHandler const *const handle)
 {
-	unsigned const num_handler = sizeof(chart_biff_handler) /
-		sizeof(XLChartHandler *);
-
+	unsigned const num_handler = G_N_ELEMENTS (chart_biff_handler);
 	guint32 num = handle->opcode & 0xff;
 
 	if (num >= num_handler)
@@ -3546,9 +3544,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 		chart_get_sheet,
 		NULL
 	};
-	int const num_handler = sizeof(chart_biff_handler) /
-		sizeof(XLChartHandler *);
-
+	int const num_handler = G_N_ELEMENTS (chart_biff_handler);
 	int i;
 	gboolean done = FALSE;
 	XLChartReadState state;

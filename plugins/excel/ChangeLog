@@ -1,3 +1,18 @@
+2012-03-08  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-write.c (excel_write_formula): Base length
+	calculation on position, not length.  That matters if we have
+	seeked.
+
+	* ms-excel-write.c (excel_write_image_v8): Reimplement based on
+	excel_write_textbox_or_widget_v8.
+	(excel_write_textbox_or_widget_v8): Don't write text style
+	properties unless we have a text.
+	(excel_write_vector_blip, excel_write_raster_blip): Constify.
+
+	* ms-excel-read.c (excel_fill_bmp_header): Fix incorrect use of
+	sizeof.
+
 2012-03-07  Morten Welinder  <terra@gnome.org>
 
 	* ms-obj.c (ms_obj_read_pre_biff8_obj): Use symbolic object type
