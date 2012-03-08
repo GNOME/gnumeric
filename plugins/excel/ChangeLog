@@ -2,6 +2,9 @@
 
 	* ms-excel-write.c (cb_write_condition): Actually save the font
 	flags.  Part of #671531.
+	(excel_write_ClientTextbox): Fix confusion between byte offsets
+	and character offsets.
+	(excel_write_RSTRING): Ditto.  Part of #671531.
 
 2012-03-06  Morten Welinder  <terra@gnome.org>
 

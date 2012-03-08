@@ -2474,7 +2474,7 @@ txomarkup_new (ExcelWriteState *ewb,
 			gint tmp[2];
 
 			excel_font_overlay_pango (efont, attrs);
-			tmp[0] = start;
+			tmp[0] = start; /* in bytes! */
 			tmp[1] = put_efont (efont, &ewb->base);
 			g_array_append_vals (txo, (gpointer)tmp, 2);
 		}
@@ -3433,6 +3433,7 @@ static void
 excel_write_RSTRING (ExcelWriteState *ewb, GnmCell const *cell, unsigned xf)
 {
 	GArray *txo = g_hash_table_lookup (ewb->cell_markup, cell);
+	const char *txt = value_peek_string (cell->value);
 	guint8 buf [6];
 	unsigned i, n;
 
@@ -3443,16 +3444,16 @@ excel_write_RSTRING (ExcelWriteState *ewb, GnmCell const *cell, unsigned xf)
 	EX_SETCOL (buf, cell->pos.col);
 	EX_SETXF  (buf, xf);
 	ms_biff_put_var_write  (ewb->bp, buf, 6);
-	excel_write_string (ewb->bp, STR_TWO_BYTE_LENGTH,
-			    value_peek_string (cell->value));
+	excel_write_string (ewb->bp, STR_TWO_BYTE_LENGTH, txt);
 
 	n = txo->len / 2;
 	if (ewb->bp->version < MS_BIFF_V8) {
 		GSF_LE_SET_GUINT8 (buf, n);
 		ms_biff_put_var_write  (ewb->bp, buf, 1);
 		for (i = 0; i < n ; i++) {
-			GSF_LE_SET_GUINT8 (buf,
-				g_array_index (txo, gint, i*2));
+			gint bpos = g_array_index (txo, gint, i*2);
+			gint cpos = g_utf8_pointer_to_offset (txt, txt + bpos);
+			GSF_LE_SET_GUINT8 (buf, cpos);
 			GSF_LE_SET_GUINT8 (buf + 1,
 				g_array_index (txo, gint, i*2+1));
 			ms_biff_put_var_write  (ewb->bp, buf, 2);
@@ -3461,8 +3462,9 @@ excel_write_RSTRING (ExcelWriteState *ewb, GnmCell const *cell, unsigned xf)
 		GSF_LE_SET_GUINT16 (buf, n);
 		ms_biff_put_var_write  (ewb->bp, buf, 2);
 		for (i = 0; i < n ; i++) {
-			GSF_LE_SET_GUINT16 (buf,
-				g_array_index (txo, gint, i*2));
+			gint bpos = g_array_index (txo, gint, i*2);
+			gint cpos = g_utf8_pointer_to_offset (txt, txt + bpos);
+			GSF_LE_SET_GUINT16 (buf, cpos);
 			GSF_LE_SET_GUINT16 (buf + 2,
 				g_array_index (txo, gint, i*2+1));
 			ms_biff_put_var_write  (ewb->bp, buf, 4);
@@ -4272,8 +4274,9 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so,
 		int i;
 
 		for (i = 0; i < n ; i++) {
-			GSF_LE_SET_GUINT16 (buf,
-				g_array_index (markup, gint, i*2));
+			gint bpos = g_array_index (markup, gint, i*2);
+			gint cpos = g_utf8_pointer_to_offset (label, label + bpos);
+			GSF_LE_SET_GUINT16 (buf, cpos);
 			GSF_LE_SET_GUINT16 (buf + 2,
 				g_array_index (markup, gint, i*2+1));
 			ms_biff_put_var_write  (ewb->bp, buf, 8);
