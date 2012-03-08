@@ -1,3 +1,8 @@
+2012-03-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-widget.c (widget_wbc), (cb_selection_changed): fixed
+	crash with sheet object. [#671617]
+
 2012-03-07  Morten Welinder  <terra@gnome.org>
 
 	* plugins/excel/ms-excel-read.c (excel_read_LABEL): supply the

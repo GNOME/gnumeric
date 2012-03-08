@@ -331,7 +331,7 @@ static GSF_CLASS (SheetObjectWidget, sheet_object_widget,
 static WorkbookControl *
 widget_wbc (GtkWidget *widget)
 {
-	return scg_wbc (GNM_SIMPLE_CANVAS (gtk_widget_get_parent (gtk_widget_get_parent (widget)))->scg);
+	return scg_wbc (GNM_SIMPLE_CANVAS (gtk_widget_get_ancestor (widget, GNM_SIMPLE_CANVAS_TYPE))->scg);
 }
 
 
@@ -3300,7 +3300,7 @@ cb_selection_changed (GtkTreeSelection *selection,
 		      SheetWidgetListBase *swl)
 {
 	GtkWidget    *view = (GtkWidget *)gtk_tree_selection_get_tree_view (selection);
-	GnmSimpleCanvas *scanvas = GNM_SIMPLE_CANVAS (gtk_widget_get_parent (gtk_widget_get_parent (gtk_widget_get_parent (view))));
+	GnmSimpleCanvas *scanvas = GNM_SIMPLE_CANVAS (gtk_widget_get_ancestor (view, GNM_SIMPLE_CANVAS_TYPE));
 	GtkTreeModel *model;
 	GtkTreeIter   iter;
 	int	      pos = 0;

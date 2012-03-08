@@ -6,6 +6,9 @@ Andreas:
 	* On ODF import set series to default to ignoring invalids for interpolation.
 	[#671508]
 
+Jean:
+	* Fixed crash with sheet object. [#671617]
+
 Morten:
 	* Hook up unknown_image icon for ssconvert too.
 	* Fix xls save crash.  [#671267]
