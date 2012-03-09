@@ -142,7 +142,7 @@ excel_read_metadata (GsfDocMetaData *meta_data, GsfInfile *ole, char const *name
 static void
 cb_dump_vba (char const *name, guint8 const *src_code)
 {
-	printf ("<module name=\"%s\">\n<![CDATA[%s]]>\n</module>\n", name, src_code);
+	g_printerr ("<module name=\"%s\">\n<![CDATA[%s]]>\n</module>\n", name, src_code);
 }
 #endif
 
@@ -346,18 +346,18 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 			continue;
 		if (fd->flags & XL_XLM) {
 			if (fd->flags != XL_XLM)
-				fprintf (stderr, "%s : flags in addition to XLM\n", name);
+				g_printerr ("%s : flags in addition to XLM\n", name);
 			if (fd->min_args != fd->max_args)
-				fprintf (stderr, "%s : min != max\n", name);
+				g_printerr ("%s : min != max\n", name);
 			continue;
 		}
 		if (fd->min_args < 0)
-			fprintf (stderr, "%s : min_args < 0\n", name);
+			g_printerr ("%s : min_args < 0\n", name);
 		if (fd->max_args < 0)
-			fprintf (stderr, "%s : min_args < 0\n", name);
+			g_printerr ("%s : min_args < 0\n", name);
 		if (fd->known_args != NULL &&
 		    fd->num_known_args != strlen (fd->known_args))
-			fprintf (stderr, "%s : num_expected_args inconsistent\n", name);
+			g_printerr ("%s : num_expected_args inconsistent\n", name);
 	}
 }
 #endif

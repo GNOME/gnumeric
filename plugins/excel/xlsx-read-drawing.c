@@ -2133,7 +2133,7 @@ xlsx_drawing_pos (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->drawing_pos[xin->node->user_data.v_int] = val;
 	state->drawing_pos_flags |= 1 << xin->node->user_data.v_int;
 #if 0
-	fprintf (stderr, "%s %s %s = %" G_GINT64_FORMAT "\n",
+	g_printerr ("%s %s %s = %" G_GINT64_FORMAT "\n",
 		 (xin->node->user_data.v_int & TO) ? "To" : "From",
 		 (xin->node->user_data.v_int & ROW) ? "Row" : "Col",
 		 (xin->node->user_data.v_int & OFFSET) ? "Offset" : "",

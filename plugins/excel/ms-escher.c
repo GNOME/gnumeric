@@ -212,7 +212,7 @@ ms_escher_get_data (MSEscherState *state,
 			return NULL;
 		}
 
-		d (1, printf ("Target is 0x%x bytes at 0x%x, current = 0x%x..0x%x;\n"
+		d (1, g_printerr ("Target is 0x%x bytes at 0x%x, current = 0x%x..0x%x;\n"
 			      "Adding biff-0x%x of length 0x%x;\n",
 			      num_bytes, offset,
 			      state->start_offset,
@@ -236,11 +236,11 @@ ms_escher_get_data (MSEscherState *state,
 		int len = q->length - (res - q->data);
 		int counter = 0;
 
-		d (1, printf ("MERGE needed (%d) which is >= %d + %d;\n",
+		d (1, g_printerr ("MERGE needed (%d) which is >= %d + %d;\n",
 			      num_bytes, offset, state->end_offset););
 
 		do {
-			d (1, printf ("record %d) add %d bytes;\n", ++counter, len););
+			d (1, g_printerr ("record %d) add %d bytes;\n", ++counter, len););
 			/* copy necessary portion of current record */
 			memcpy (tmp, res, len);
 			tmp += len;
@@ -272,7 +272,7 @@ ms_escher_get_data (MSEscherState *state,
 
 		/* Copy back stub */
 		memcpy (tmp, res, num_bytes - (tmp-buffer));
-		d (1, printf ("record %d) add %d bytes;\n",
+		d (1, g_printerr ("record %d) add %d bytes;\n",
 			      ++counter,
 			      num_bytes - (int)(tmp-buffer)););
 		return buffer;
@@ -304,7 +304,7 @@ ms_escher_read_ColorMRU (MSEscherState *state, MSEscherHeader *h)
 {
 	d (3 , {
 		guint const num_Colours = h->instance;
-		printf ("There are %d Colours in a record with remaining length %d;\n",
+		g_printerr ("There are %d Colours in a record with remaining length %d;\n",
 			num_Colours, (h->len - COMMON_HEADER_LEN));
 	});
 
@@ -329,7 +329,7 @@ ms_escher_read_SplitMenuColors (MSEscherState *state, MSEscherHeader *h)
 		guint32 const shadow	= GSF_LE_GET_GUINT32(data + 8);
 		guint32 const threeD	= GSF_LE_GET_GUINT32(data + 12);
 
-		d (0, printf ("top_level_fill = 0x%x;\nline = 0x%x;\nshadow = 0x%x;\nthreeD = 0x%x;\n",
+		d (0, g_printerr ("top_level_fill = 0x%x;\nline = 0x%x;\nshadow = 0x%x;\nthreeD = 0x%x;\n",
 			      top_level_fill, line, shadow, threeD););
 	} else
 		return TRUE;
@@ -378,26 +378,26 @@ ms_escher_read_BSE (MSEscherState *state, MSEscherHeader *h)
 		checksum[i] = GSF_LE_GET_GUINT8 (data + 2 + i);
 
 	d (0 , {
-		printf ("Win type = %s;\n", bliptype_name (win_type));
-		printf ("Mac type = %s;\n", bliptype_name (mac_type));
-		printf ("Size = 0x%x(=%d) RefCount = 0x%x DelayOffset = 0x%x '%s';\n",
+		g_printerr ("Win type = %s;\n", bliptype_name (win_type));
+		g_printerr ("Mac type = %s;\n", bliptype_name (mac_type));
+		g_printerr ("Size = 0x%x(=%d) RefCount = 0x%x DelayOffset = 0x%x '%s';\n",
 			size, size, ref_count, del_offset, name);
 
 		switch (is_texture) {
-		case 0: printf ("Default usage;\n"); break;
-		case 1: printf ("Is texture;\n"); break;
-		default:printf ("UNKNOWN USAGE : %d;\n", is_texture);
+		case 0: g_printerr ("Default usage;\n"); break;
+		case 1: g_printerr ("Is texture;\n"); break;
+		default:g_printerr ("UNKNOWN USAGE : %d;\n", is_texture);
 		}
 
-		printf ("Checksum = 0x");
+		g_printerr ("Checksum = 0x");
 		for (i = 0; i < 16; ++i)
-			printf ("%02x", checksum[i]);
-		printf (";\n");
+			g_printerr ("%02x", checksum[i]);
+		g_printerr (";\n");
 	});
 
 	/* Very red herring I think */
 	if (name_len != 0) {
-		puts ("WARNING : Maybe a name ?");
+		g_printerr ("WARNING : Maybe a name?\n");
 		/* name = biff_get_text (data+36, name_len, &txt_byte_len); */
 	}
 
@@ -697,7 +697,7 @@ ms_escher_read_Sp (MSEscherState *state, MSEscherHeader *h)
 	g_return_val_if_fail (h->instance >= 0, TRUE);
 	g_return_val_if_fail (h->instance <= 202, TRUE);
 
-	d (0, printf ("%s (0x%x);\n", shape_names[h->instance],
+	d (0, g_printerr ("%s (0x%x);\n", shape_names[h->instance],
 		      h->instance););
 
 	data = ms_escher_get_data (state,
@@ -707,7 +707,7 @@ ms_escher_read_Sp (MSEscherState *state, MSEscherHeader *h)
 
 	spid  = GSF_LE_GET_GUINT32 (data+0);
 	flags = GSF_LE_GET_GUINT32 (data+4);
-	d (0, printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s%s;\n",
+	d (0, g_printerr ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s%s;\n",
 		      spid, h->instance,
 			(flags&0x01) ? " Group": "",
 			(flags&0x02) ? " Child": "",
@@ -911,7 +911,7 @@ ms_escher_read_Dgg (MSEscherState *state, MSEscherHeader *h)
 	fd.num_shapes_saved   = GSF_LE_GET_GUINT32(data+ 8);
 	fd.num_drawings_saved = GSF_LE_GET_GUINT32(data+12);
 
-	printf ("maxspid 0x%x clusts 0x%x shapes 0x%x drawings x%x\n",
+	g_printerr ("maxspid 0x%x clusts 0x%x shapes 0x%x drawings x%x\n",
 		fd.max_spid, fd.num_id_clust, fd.num_shapes_saved,
 		fd.num_drawings_saved);
 
@@ -1310,7 +1310,7 @@ ms_escher_read_OPT_bools (MSEscherHeader *h,
 	g_return_if_fail (n_bools > 0);
 	g_return_if_fail (bools[n_bools-1].pid == pid);
 
-	d (2, printf ("Set of Bools %d-%d = 0x%08x;\n{\n",
+	d (2, g_printerr ("Set of Bools %d-%d = 0x%08x;\n{\n",
 		      bools[0].pid, bools[n_bools-1].pid, val););
 
 	pid -= (n_bools - 1);
@@ -1322,7 +1322,7 @@ ms_escher_read_OPT_bools (MSEscherHeader *h,
 		if (!(val & mask))	/* the value is set */
 			continue;
 
-		d (0, printf ("bool %s(%d) = %s; /* def: %s; gnm: %d */\n",
+		d (0, g_printerr ("bool %s(%d) = %s; /* def: %s; gnm: %d */\n",
 			      bools[i].name, pid,
 			      set_val ? "true" : "false",
 			      def_val ? "true" : "false",
@@ -1332,7 +1332,7 @@ ms_escher_read_OPT_bools (MSEscherHeader *h,
 			ms_escher_header_add_attr
 				(h, ms_obj_attr_new_flag (aid));
 	}
-	d (2, printf ("};\n"););
+	d (2, g_printerr ("};\n"););
 }
 
 static gboolean
@@ -1362,7 +1362,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 
 		/* container is sorted by pid. Use this as sanity test */
 		if (prev_pid >= pid) {
-			printf ("Pids not monotonic %d >= %d;\n", prev_pid, pid);
+			g_printerr ("Pids not monotonic %d >= %d;\n", prev_pid, pid);
 			if (needs_free)
 				g_free ((guint8 *)data);
 			return TRUE;
@@ -1935,7 +1935,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 
 		d (0, {
 			if (NULL != name)
-				   printf ("%s %d = 0x%08x (=%d) %s%s;\n", name, pid, val, val,
+				   g_printerr ("%s %d = 0x%08x (=%d) %s%s;\n", name, pid, val, val,
 			      is_blip ? " is blip" : "",
 					   is_complex ? " is complex" : "");
 		});
@@ -2020,7 +2020,7 @@ ms_escher_read_ClientTextbox (MSEscherState *state, MSEscherHeader *h)
 			ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP, markup));
 		pango_attr_list_unref (markup);
 	}
-	d (0, printf ("'%s';\n", text););
+	d (0, g_printerr ("'%s';\n", text););
 	return FALSE;
 }
 
@@ -2089,7 +2089,7 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 		h.ver      = tmp & 0x0f;
 		h.instance = (tmp >> 4) & 0xfff;
 
-		d (0 , printf ("length 0x%x(=%d), ver 0x%x, instance 0x%x, offset = 0x%x(=%d);\n",
+		d (0 , g_printerr ("length 0x%x(=%d), ver 0x%x, instance 0x%x, offset = 0x%x(=%d);\n",
 			       h.len, h.len, h.ver, h.instance, h.offset, h.offset););
 
 		if (needs_free)
@@ -2149,10 +2149,10 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 			/* Not really needed */
 			g_return_val_if_fail (handler != NULL, TRUE);
 
-			d (0, printf ("{ /* %s */\n", fbt_name););
+			d (0, g_printerr ("{ /* %s */\n", fbt_name););
 			res = (*handler)(state, &h);
 
-			d (0, printf ("}; /* %s */\n", fbt_name););
+			d (0, g_printerr ("}; /* %s */\n", fbt_name););
 			if (res) {
 				ms_escher_header_release (&h);
 				g_warning ("%s;", fbt_name);
@@ -2216,10 +2216,10 @@ ms_escher_parse (BiffQuery *q, MSContainer *container, gboolean return_attrs)
 	fake_header.container = NULL;
 	fake_header.offset = 0;
 
-	d (0, printf ("{  /* Escher '%s'*/\n", drawing_record_name););
+	d (0, g_printerr ("{  /* Escher '%s'*/\n", drawing_record_name););
 	ms_escher_read_container (&state,
 		&fake_header, -COMMON_HEADER_LEN, return_attrs);
-	d (0, printf ("}; /* Escher '%s'*/\n", drawing_record_name););
+	d (0, g_printerr ("}; /* Escher '%s'*/\n", drawing_record_name););
 
 	if (return_attrs) {
 		res = fake_header.attrs;

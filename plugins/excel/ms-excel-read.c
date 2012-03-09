@@ -238,7 +238,7 @@ gnm_xl_importer_set_codepage (GnmXLImporter *importer, int codepage)
 	g_object_set_data (G_OBJECT (importer->wb), "excel-codepage",
 			   GINT_TO_POINTER (codepage));
 
-	d (0, puts (gsf_msole_language_for_lid (
+	d (0, g_printerr ("%s\n", gsf_msole_language_for_lid (
 						gsf_msole_codepage_to_lid (codepage))););
 }
 
@@ -310,7 +310,7 @@ ms_sheet_parse_expr_internal (ExcelReadSheet *esheet, guint8 const *data, int le
 		tmp = gnm_expr_top_as_string (texpr,
 					      parse_pos_init (&pp, wb, sheet, 0, 0),
 					      gnm_conventions_default);
-		puts (tmp ? tmp : "(null)");
+		g_printerr ("%s\n", tmp ? tmp : "(null)");
 		g_free (tmp);
 	}
 
@@ -1358,7 +1358,7 @@ excel_read_SST (BiffQuery *q, GnmXLImporter *importer)
 			d (4, g_printerr ("Blank string in table at 0x%x.\n", i););
 #ifndef NO_DEBUG_EXCEL
 		else if (ms_excel_read_debug > 4)
-			puts (importer->sst[i].content->str);
+			g_printerr ("%s\n", importer->sst[i].content->str);
 #endif
 	}
 }
@@ -2382,7 +2382,7 @@ excel_read_XF_OLD (BiffQuery *q, GnmXLImporter *importer)
 	guint16 data;
         guint8 subdata;
 
-	d ( 2, fprintf(stderr, "XF # %d\n", importer->XF_cell_records->len); );
+	d ( 2, g_printerr ("XF # %d\n", importer->XF_cell_records->len); );
 	d ( 2, gsf_mem_dump (q->data, q->length); );
 
 	XL_CHECK_CONDITION (q->length > (importer->ver >= MS_BIFF_V3 ? 12 : 4));
@@ -4202,11 +4202,11 @@ excel_read_ROW (BiffQuery *q, ExcelReadSheet *esheet)
 	d (1, {
 			g_printerr ("Row %d height 0x%x, flags=0x%x 0x%x;\n", row + 1, height, flags, flags2);
 			if (is_std_height)
-				fputs ("Is Std Height;\n", stderr);
+				g_printerr ("%s\n", "Is Std Height;\n");
 			if (flags2 & 0x1000)
-				fputs ("Top thick;\n", stderr);
+				g_printerr ("%s\n", "Top thick;\n");
 			if (flags2 & 0x2000)
-				fputs ("Bottom thick;\n", stderr);
+				g_printerr ("%s\n", "Bottom thick;\n");
 		});
 
 	/* TODO: Put mechanism in place to handle thick margins */
@@ -5384,7 +5384,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 		}
 
 		d (3, {
-				puts ("Font");
+				g_printerr ("%s\n", "Font");
 				gsf_mem_dump (data, 54);
 			});
 
@@ -7271,7 +7271,7 @@ excel_read_workbook (GOIOContext *context, WorkbookView *wb_view,
 			}
 
 		case BIFF_XL9FILE:
-			d (0, puts ("XL 2000 file"););
+			d (0, g_printerr ("%s\n", "XL 2000 file"););
 			break;
 
 		case BIFF_RECALCID:	break;

@@ -495,7 +495,7 @@ ms_biff_query_next (BiffQuery *q)
 		q->non_decrypted_data = q->data;
 
 #if BIFF_DEBUG > 2
-	printf ("Biff read code 0x%x, length %d\n", q->opcode, q->length);
+	g_printerr ("Biff read code 0x%x, length %d\n", q->opcode, q->length);
 	ms_biff_query_dump (q);
 #endif
 	return TRUE;
@@ -608,7 +608,7 @@ ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 		XL_CHECK_CONDITION_VAL (len < MAX_BIFF7_RECORD_SIZE, NULL);
 
 #if BIFF_DEBUG > 0
-	printf ("Biff put len 0x%x\n", opcode);
+	g_printerr ("Biff put len 0x%x\n", opcode);
 #endif
 
 	bp->len_fixed  = +1;
@@ -632,7 +632,7 @@ ms_biff_put_var_next (BiffPut *bp, guint16 opcode)
 	g_return_if_fail (bp->len_fixed == -1);
 
 #if BIFF_DEBUG > 0
-	printf ("Biff put var 0x%x\n", opcode);
+	g_printerr ("Biff put var 0x%x\n", opcode);
 #endif
 
 	bp->len_fixed  = 0;

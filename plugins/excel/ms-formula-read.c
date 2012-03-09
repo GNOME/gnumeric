@@ -499,7 +499,7 @@ getRefV7 (GnmCellRef *cr,
 {
 	guint16 const row = (guint16)(gbitrw & 0x3fff);
 
-	d (2, fprintf (stderr, "7In : 0x%x, 0x%x  at %s%s\n", col, gbitrw,
+	d (2, g_printerr ("7In : 0x%x, 0x%x  at %s%s\n", col, gbitrw,
 		      cell_coord_name (curcol, currow), (shared?" (shared)":"")););
 
 	cr->sheet = NULL;
@@ -543,7 +543,7 @@ getRefV8 (GnmCellRef *cr,
 {
 	guint8 const col = (guint8)(gbitcl & 0xff);
 
-	d (2, fprintf (stderr, "8In : 0x%x, 0x%x  at %s%s\n", row, gbitcl,
+	d (2, g_printerr ("8In : 0x%x, 0x%x  at %s%s\n", row, gbitcl,
 		      cell_coord_name (curcol, currow), (shared?" (shared)":"")););
 
 	cr->sheet = NULL;
@@ -570,7 +570,7 @@ getRefV8 (GnmCellRef *cr,
 static void
 parse_list_push (GnmExprList **list, GnmExpr const *pd)
 {
-	d (5, fprintf (stderr, "Push 0x%p\n", (void *)pd););
+	d (5, g_printerr ("Push 0x%p\n", (void *)pd););
 	if (pd == NULL) {
 		g_warning ("FIXME: Pushing nothing onto excel function stack");
 		pd = xl_expr_err (NULL, -1, -1,
@@ -594,7 +594,7 @@ parse_list_pop (GnmExprList **list)
 	if (tmp != NULL) {
 		GnmExpr const *ans = tmp->data;
 		*list = g_slist_remove (*list, ans);
-		d (5, fprintf (stderr, "Pop 0x%p\n", (void *)ans););
+		d (5, g_printerr ("Pop 0x%p\n", (void *)ans););
 		return ans;
 	}
 
@@ -658,7 +658,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 		}
 
 		name = gnm_func_lookup (f_name, wb);
-		d (2, fprintf (stderr, "Function '%s' of %d args\n",
+		d (2, g_printerr ("Function '%s' of %d args\n",
 			       f_name, numargs););
 
 		if (name == NULL)
@@ -671,7 +671,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 		ExcelFuncDesc const *fd = excel_func_desc + fn_idx;
 		GnmExprList *args;
 
-		d (2, fprintf (stderr, "Function '%s', %d, max args: %d flags = 0x%x\n",
+		d (2, g_printerr ("Function '%s', %d, max args: %d flags = 0x%x\n",
 			       fd->name, numargs, fd->max_args, fd->flags););
 
 		if (numargs < 0) { /* fixed, use the built in */
@@ -725,12 +725,12 @@ ms_excel_dump_cellname (GnmXLImporter const *importer, ExcelReadSheet const *esh
 			int fn_col, int fn_row)
 {
 	if (esheet && esheet->sheet && esheet->sheet->name_unquoted)
-		fprintf (stderr, "%s!", esheet->sheet->name_unquoted);
+		g_printerr ("%s!", esheet->sheet->name_unquoted);
 	else if (importer && importer->wb && go_doc_get_uri (GO_DOC (importer->wb))) {
-		fprintf (stderr, "[%s]", go_doc_get_uri (GO_DOC (importer->wb)));
+		g_printerr ("[%s]", go_doc_get_uri (GO_DOC (importer->wb)));
 		return;
 	}
-	fprintf (stderr, "%s%d : ", col_name(fn_col), fn_row+1);
+	g_printerr ("%s%d : ", col_name(fn_col), fn_row+1);
 }
 
 /* Binary operator tokens */
@@ -782,7 +782,7 @@ excel_formula_parses_ref_sheets (MSContainer const *container, guint8 const *dat
 		if (a < 0 || b < 0) /* deleted sheets */
 			return TRUE;
 
-		d (1, fprintf (stderr, " : 0x%hx : 0x%hx : 0x%hx\n", ixals, a, b););
+		d (1, g_printerr (" : 0x%hx : 0x%hx : 0x%hx\n", ixals, a, b););
 
 		/* ixals < 0 == reference within the current workbook
 		 *    ixals == negative one based index into containers externsheet table
@@ -912,7 +912,7 @@ excel_parse_formula1 (MSContainer const *container,
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 1) {
 		ms_excel_dump_cellname (container->importer, esheet, fn_col, fn_row);
-		fprintf (stderr, "\n");
+		g_printerr ("\n");
 		if (ms_excel_formula_debug > 1) {
 			gsf_mem_dump (mem, length);
 		}
@@ -926,10 +926,10 @@ excel_parse_formula1 (MSContainer const *container,
 		if (ptg > FORMULA_PTG_MAX)
 			break;
 		d (2, {
-			fprintf (stderr, "Ptg : %s 0x%02x", ptg_name [ptgbase], ptg);
+			g_printerr ("Ptg : %s 0x%02x", ptg_name [ptgbase], ptg);
 			if (ptg != ptgbase)
-				fprintf (stderr, "(0x%02x)", ptgbase);
-			fprintf (stderr, "\n");
+				g_printerr ("(0x%02x)", ptgbase);
+			g_printerr ("\n");
 		});
 
 		switch (ptgbase) {
@@ -967,7 +967,7 @@ excel_parse_formula1 (MSContainer const *container,
 				return NULL;
 			}
 
-			d (0, fprintf (stderr, "Parse shared formula\n"););
+			d (0, g_printerr ("Parse shared formula\n"););
 			expr = excel_parse_formula1 (container, esheet, fn_col, fn_row,
 						     sf->data, sf->data_len, sf->array_data_len,
 						     TRUE, array_element);
@@ -1085,7 +1085,7 @@ excel_parse_formula1 (MSContainer const *container,
 			if (grbit == 0x00) {
 #if 0
 				ms_excel_dump_cellname (container->importer, esheet, fn_col, fn_row);
-				fprintf (stderr, "Hmm, ptgAttr of type 0 ??\n"
+				g_printerr ("Hmm, ptgAttr of type 0 ??\n"
 					"I've seen a case where an instance of this with flag A and another with flag 3\n"
 					"bracket a 1x1 array formula.  please send us this file.\n"
 					"Flags = 0x%X\n", w);
@@ -1093,29 +1093,29 @@ excel_parse_formula1 (MSContainer const *container,
 				; /* this looks ignoreable */
 #endif
 			} else if (grbit & 0x01) {
-				d (2, fprintf (stderr, "A volatile function\n"););
+				d (2, g_printerr ("A volatile function\n"););
 
 			/* AttrIf: stores jump to FALSE condition */
 			} else if (grbit & 0x02) {
 				/* Ignore cached result */
-				d (2, fprintf (stderr, "ATTR IF\n"););
+				d (2, g_printerr ("ATTR IF\n"););
 
 			/* AttrChoose : stores table of inputs */
 			} else if (grbit & 0x04) {
 				/* Ignore the optimzation to specify which arg to use */
-				d (2, fprintf (stderr, "ATTR CHOOSE\n"););
+				d (2, g_printerr ("ATTR CHOOSE\n"););
 				ptg_length = 2 * ((w + 1) /* args */ + 1 /* count */) + 1;
 
 			/* AttrGoto : bytes/words to skip during _evaluation_.
 			 * We still need to parse them */
 			} else if (grbit & 0x08) {
-				d (2, fprintf (stderr, "ATTR GOTO\n"););
+				d (2, g_printerr ("ATTR GOTO\n"););
 
 			/* AttrSum: 'optimised' SUM function */
 			} else if (grbit & 0x10) {
 				if (!make_function (&stack, 0x04, 1, container->importer->wb)) {
 					error = TRUE;
-					fprintf (stderr, "Error in optimised SUM\n");
+					g_printerr ("Error in optimised SUM\n");
 				}
 
 			/* AttrSpace */
@@ -1125,10 +1125,10 @@ excel_parse_formula1 (MSContainer const *container,
 				if (attrs == 0) /* bitFSpace : ignore it for now */
 					;
 				else
-					d (2, fprintf (stderr, "Redundant whitespace in formula 0x%x count %d\n", attrs, num_space););
+					d (2, g_printerr ("Redundant whitespace in formula 0x%x count %d\n", attrs, num_space););
 			} else {
 				ms_excel_dump_cellname (container->importer, esheet, fn_col, fn_row);
-				fprintf (stderr, "Unknown PTG Attr gr = 0x%x, w = 0x%x ptg = 0x%x\n", grbit, w, ptg);
+				g_printerr ("Unknown PTG Attr gr = 0x%x, w = 0x%x ptg = 0x%x\n", grbit, w, ptg);
 				error = TRUE;
 			}
 		}
@@ -1178,10 +1178,10 @@ excel_parse_formula1 (MSContainer const *container,
 			ptg_length = 1 + byte_len;
 
 			if (str != NULL) {
-				d (2, fprintf (stderr, "   -> '%s'\n", str););
+				d (2, g_printerr ("   -> '%s'\n", str););
 				parse_list_push_raw (&stack, value_new_string_nocopy (str));
 			} else {
-				d (2, fprintf (stderr, "   -> \'\'\n"););
+				d (2, g_printerr ("   -> \'\'\n"););
 				parse_list_push_raw (&stack, value_new_string (""));
 			}
 			break;
@@ -1312,7 +1312,7 @@ excel_parse_formula1 (MSContainer const *container,
 				/* no way to dump the content because we have
 				 * no idea how long it is
 				 */
-				fprintf (stderr, "An Array how interesting: (%d,%d)\n",
+				g_printerr ("An Array how interesting: (%d,%d)\n",
 					cols, rows);
 			}
 #endif
@@ -1326,7 +1326,7 @@ excel_parse_formula1 (MSContainer const *container,
 					array_data++;
 #ifndef NO_DEBUG_EXCEL
 					if (ms_excel_formula_debug > 5) {
-						fprintf (stderr, "\tArray elem type 0x%x (%d,%d)\n", val_type, lpx, lpy);
+						g_printerr ("\tArray elem type 0x%x (%d,%d)\n", val_type, lpx, lpy);
 					}
 #endif
 					switch (val_type) {
@@ -1358,7 +1358,7 @@ excel_parse_formula1 (MSContainer const *container,
 						if (str) {
 #ifndef NO_DEBUG_EXCEL
 							if (ms_excel_formula_debug > 5) {
-								fprintf (stderr, "\tString '%s'\n", str);
+								g_printerr ("\tString '%s'\n", str);
 							}
 #endif
 							elem = value_new_string_nocopy (str);
@@ -1377,7 +1377,7 @@ excel_parse_formula1 (MSContainer const *container,
 						break;
 
 					default :
-						fprintf (stderr, "FIXME: Duff array item type %d @ %s%d:%d,%d\n",
+						g_printerr ("FIXME: Duff array item type %d @ %s%d:%d,%d\n",
 							val_type, col_name(fn_col), fn_row+1, lpx, lpy);
 						gsf_mem_dump (array_data-1, 9);
 						elem = value_new_empty ();
@@ -1403,7 +1403,7 @@ excel_parse_formula1 (MSContainer const *container,
 
 			if (!make_function (&stack, iftab, -1, container->importer->wb)) {
 				error = TRUE;
-				fprintf (stderr, "error making func\n");
+				g_printerr ("error making func\n");
 			}
 			break;
 		}
@@ -1429,7 +1429,7 @@ excel_parse_formula1 (MSContainer const *container,
 
 			if (!make_function (&stack, iftab, numargs, container->importer->wb)) {
 				error = TRUE;
-				fprintf (stderr, "error making func var\n");
+				g_printerr ("error making func var\n");
 			}
 			break;
 		}
@@ -1463,7 +1463,7 @@ excel_parse_formula1 (MSContainer const *container,
 					nexpr = g_ptr_array_index (names, name_idx-1) =
 						expr_name_new (stub_name);
 					name = gnm_expr_new_name (nexpr, NULL, NULL);
-					d (1, fprintf (stderr, "creating stub '%s'", stub_name););
+					d (1, g_printerr ("creating stub '%s'", stub_name););
 					g_free (stub_name);
 				} else
 				{
@@ -1476,7 +1476,7 @@ excel_parse_formula1 (MSContainer const *container,
 				name = gnm_expr_new_name (nexpr, NULL, NULL);
 
 			parse_list_push (&stack, name);
-			d (2, fprintf (stderr, "Name idx %hu\n", name_idx););
+			d (2, g_printerr ("Name idx %hu\n", name_idx););
 		}
 		break;
 
@@ -1577,7 +1577,7 @@ excel_parse_formula1 (MSContainer const *container,
 
 				name_idx  = GSF_LE_GET_GUINT16 (cur+2);
 
-				d (2, fprintf (stderr, "name %hu : externsheet %hu\n",
+				d (2, g_printerr ("name %hu : externsheet %hu\n",
 					       name_idx, sheet_idx););
 			} else {
 				gint16 sheet_idx;
@@ -1587,7 +1587,7 @@ excel_parse_formula1 (MSContainer const *container,
 				name_idx  = GSF_LE_GET_GUINT16 (cur+10);
 #if 0
 				gsf_mem_dump (cur, 24);
-				d (-2, fprintf (stderr, "name = %hu, externsheet = %hd\n",
+				d (-2, g_printerr ("name = %hu, externsheet = %hd\n",
 					       name_idx, sheet_idx););
 #endif
 				if (sheet_idx < 0) {
@@ -1615,7 +1615,7 @@ excel_parse_formula1 (MSContainer const *container,
 			}
 
 			parse_list_push (&stack, name);
-			d (2, fprintf (stderr, "Name idx %hu\n", name_idx););
+			d (2, g_printerr ("Name idx %hu\n", name_idx););
 		}
 		break;
 
@@ -1699,7 +1699,7 @@ excel_parse_formula1 (MSContainer const *container,
 				ptg_length = 1;
 			}
 		}
-/*		fprintf (stderr, "Ptg 0x%x length (not inc. ptg byte) %d\n", ptgbase, ptg_length); */
+/*		g_printerr ("Ptg 0x%x length (not inc. ptg byte) %d\n", ptgbase, ptg_length); */
 		cur      += ptg_length + 1;
 		len_left -= ptg_length + 1;
 	}

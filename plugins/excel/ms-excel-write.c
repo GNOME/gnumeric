@@ -918,7 +918,7 @@ map_script_to_xl (GnmStyle const *style)
 	}
 }
 
-void
+static void
 cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		    ExcelWriteSheet *esheet)
 {
@@ -2405,8 +2405,10 @@ xf_init (XLExportBase *xle)
 						   "xls-default-style");
 	if (xle->xf.default_style == NULL)
 		xle->xf.default_style = gnm_style_new_default ();
-	else
+	else {
+		gnm_style_dump (xle->xf.default_style);
 		gnm_style_ref (xle->xf.default_style);
+	}
 
 	xle->xf.value_fmt_styles = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)gnm_style_unlink);

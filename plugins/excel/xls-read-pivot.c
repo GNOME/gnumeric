@@ -100,35 +100,35 @@ xls_read_pivot_cache_value (XLSReadPivot *s, BiffQuery *q)
 		switch (opcode) {
 		case BIFF_SXNUM: if (check_next (q, 8)) {
 			double v = GSF_LE_GET_DOUBLE  (q->data + 0);
-			d (1, fprintf (stderr, "%g (num);\n", v););
+			d (1, g_printerr ("%g (num);\n", v););
 			return go_val_new_float (v);
 		}
 		break;
 
 		case BIFF_SXBOOL: if (check_next (q, 2)) {
 			gboolean v = 0 != GSF_LE_GET_GINT16  (q->data + 0);
-			d (1, fprintf (stderr, "%s (bool);\n", v ? "true" : "false"););
+			d (1, g_printerr ("%s (bool);\n", v ? "true" : "false"););
 			return go_val_new_bool (v);
 		}
 		break;
 
 		case BIFF_SXERR: if (check_next (q, 2)) {
 			gint16 v = GSF_LE_GET_GINT16  (q->data + 0);
-			d (1, fprintf (stderr, "%hx (err);\n", v););
+			d (1, g_printerr ("%hx (err);\n", v););
 			return xls_value_new_err (NULL, v);
 		}
 		break;
 
 		case BIFF_SXINT: if (check_next (q, 2)) {
 			gint16 v = GSF_LE_GET_GINT16  (q->data + 0);
-			d (1, fprintf (stderr, "%hx (short);\n", v););
+			d (1, g_printerr ("%hx (short);\n", v););
 			return go_val_new_float (v);
 		}
 		break;
 
 		case BIFF_SXSTRING: if (check_next_min (q, 2)) {
 			char *v = excel_biff_text_2 (s->imp, q, 0);
-			d (1, fprintf (stderr, "'%s' (string);\n", v););
+			d (1, g_printerr ("'%s' (string);\n", v););
 			return go_val_new_str_nocopy (v);
 		}
 		break;
@@ -142,7 +142,7 @@ xls_read_pivot_cache_value (XLSReadPivot *s, BiffQuery *q)
 			guint8  se = GSF_LE_GET_GUINT8  (q->data + 7);
 			GDate date;
 
-			d (1, fprintf (stderr, "%hu-%hu-%hhuT%hhu:%hhu:%hhu (data);\n",
+			d (1, g_printerr ("%hu-%hu-%hhuT%hhu:%hhu:%hhu (data);\n",
 				       y, m, d, h, mi, se););
 
 			g_date_set_dmy (&date, d, m, y);
@@ -159,17 +159,17 @@ xls_read_pivot_cache_value (XLSReadPivot *s, BiffQuery *q)
 		break;
 
 		case BIFF_SXNIL: if (check_next (q, 0)) {
-			d (1, fprintf (stderr, "(empty);\n"););
+			d (1, g_printerr ("(empty);\n"););
 			return go_val_new_empty ();
 		}
 
 		default :
-			d (0, fprintf (stderr, "UNEXPECTED RECORD %hx;\n", opcode););
+			d (0, g_printerr ("UNEXPECTED RECORD %hx;\n", opcode););
 			break;
 		}
 	}
 
-	d (0, fprintf (stderr, "missing value;\n"););
+	d (0, g_printerr ("missing value;\n"););
 	return NULL;
 }
 
@@ -181,7 +181,7 @@ xls_read_pivot_cache_values (XLSReadPivot *s, BiffQuery *q, unsigned int n, cons
 	GnmValue *v;
 	unsigned int i;
 
-	d (1, fprintf (stderr, "/* %u %s items */ ;\n", n, type););
+	d (1, g_printerr ("/* %u %s items */ ;\n", n, type););
 	for (i = 0 ; i < n ; i++) {
 		if (NULL == (v = xls_read_pivot_cache_value (s, q))) {
 	/* TODO : go_val_array_set_size */
@@ -214,7 +214,7 @@ xls_read_pivot_cache_group (XLSReadPivot *s, BiffQuery *q, GODataCacheField *fie
 
 		go_val_bucketer_init (&bucketer);
 		bucketer.details.series.step	= 1.;
-		d (0, fprintf (stderr, "group with 0x%hx flag type = %d;\n", flags, type););
+		d (0, g_printerr ("group with 0x%hx flag type = %d;\n", flags, type););
 		switch (type) {
 		case 1 : bucketer.type = GO_VAL_BUCKET_SECOND; break;
 		case 2 : bucketer.type = GO_VAL_BUCKET_MINUTE; break;
@@ -318,7 +318,7 @@ of the calculated field is stored in a directly following SXFormula record. If f
 	guint16 std_items	= GSF_LE_GET_GUINT16  (q->data + 12);
 	GOString *name		= go_string_new_nocopy (excel_biff_text_2 (s->imp, q, 14));
 
-	d(0, fprintf (stderr, "FIELD [%d] '%s' type %d, has %d %d %d %d items, and flags = 0x%hx, parent = %d, child = %d;\n",
+	d(0, g_printerr ("FIELD [%d] '%s' type %d, has %d %d %d %d items, and flags = 0x%hx, parent = %d, child = %d;\n",
 		field_num, name ? name->str : "<UNDEFINED>", index_type, count, grouped_items, base_items, std_items, flags,
 		group_parent, group_child););
 
@@ -388,7 +388,7 @@ xls_read_pivot_cache (XLSReadPivot *s, BiffQuery *q)
 		guint16 base_fields	= GSF_LE_GET_GUINT16 (q->data + 10);	/* base */
 		/* guint16 zero */
 		guint16 type		= GSF_LE_GET_GUINT16 (q->data + 16);
-		fprintf (stderr, "num_rec = %u;\nstream_id = %hu;\n"
+		g_printerr ("num_rec = %u;\nstream_id = %hu;\n"
 			 "rec per block = %hu;\nbase fields = %hu;\ntotal fields = %hu;\n"
 			 "last modified by = '%s';type = 0x%x, flags = 0x%x;\n",
 			 num_records, stream_id, rec_per_block, base_fields,
@@ -403,7 +403,7 @@ xls_read_pivot_cache (XLSReadPivot *s, BiffQuery *q)
 		g_object_set (s->cache, "refreshed-on", refreshedDate, NULL);
 		d (0, {
 			guint32 num_fmla	= GSF_LE_GET_GUINT32 (q->data + 8);
-			fprintf (stderr, "num_fmla %u : last refresh %s\n",
+			g_printerr ("num_fmla %u : last refresh %s\n",
 				 num_fmla, value_peek_string (refreshedDate));
 		});
 		go_val_free (refreshedDate);
@@ -413,7 +413,7 @@ xls_read_pivot_cache (XLSReadPivot *s, BiffQuery *q)
 		if (ms_biff_query_peek_next (q, &opcode) && opcode == BIFF_SXFDB && check_next_min (q, 12))
 			xls_read_pivot_cache_field (s, q, i);
 		else {
-			fprintf (stderr, "expected FDB not %hx\n", opcode);
+			g_printerr ("expected FDB not %hx\n", opcode);
 			return FALSE;
 		}
 
@@ -426,9 +426,9 @@ xls_read_pivot_cache (XLSReadPivot *s, BiffQuery *q)
 				go_data_cache_set_index (s->cache,
 					g_array_index (s->indexed, unsigned int, i), record_count,
 					GSF_LE_GET_GINT8 (q->data + i));
-				d (1, fprintf (stderr, "%hhu ", GSF_LE_GET_GINT8 (q->data + i)););
+				d (1, g_printerr ("%hhu ", GSF_LE_GET_GINT8 (q->data + i)););
 			}
-			d (1, fprintf (stderr, "\n"); );
+			d (1, g_printerr ("\n"); );
 
 			if (s->inlined->len > 0) {
 				GOValArray *vals = xls_read_pivot_cache_values (s, q, s->inlined->len, "inline");
@@ -475,13 +475,13 @@ xls_read_pivot_cache_by_id (XLSReadPivot *s, GsfInfile *container, guint16 n)
 	cache_stream = gsf_infile_child_by_name (GSF_INFILE (dir), name);
 	if (NULL != cache_stream) {
 		q = ms_biff_query_new (cache_stream);
-		d (0, fprintf (stderr, "{ /* PIVOT CACHE [%s] */\n", name););
+		d (0, g_printerr ("{ /* PIVOT CACHE [%s] */\n", name););
 		if (!xls_read_pivot_cache (s, q)) {
 			g_object_unref (s->cache);
 			s->cache = NULL;
 		} else
 			d (2, go_data_cache_dump (s->cache, NULL, NULL););
-		d (0, fprintf (stderr, "}; /* PIVOT CACHE [%s] */\n", name););
+		d (0, g_printerr ("}; /* PIVOT CACHE [%s] */\n", name););
 
 		ms_biff_query_destroy (q);
 		g_object_unref (cache_stream);
@@ -752,7 +752,7 @@ xls_read_SXVIEW (BiffQuery *q, ExcelReadSheet *esheet)
 		excel_get_text (imp, q->data + 44 + len, data_field_name_len,
 				&len, NULL, q->length - 44 - len));
 
-	d(0, fprintf (stderr, "Slicer in : %s named '%s';\n",
+	d(0, g_printerr ("Slicer in : %s named '%s';\n",
 		       range_as_string (&range), name ? name->str : "<UNDEFINED>"););
 	if (NULL != imp->pivot.slicer)
 		g_object_unref (imp->pivot.slicer);
