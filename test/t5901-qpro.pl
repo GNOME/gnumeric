@@ -9,4 +9,4 @@ use GnumericTest;
 my $mode = ((shift @ARGV) || "check");
 
 &message ("Check the Quattro Pro importer.");
-&test_importer ("$samples/qpro/gantt.wb3", "9883c2066d9a2a48f769df5cbd241ec65b6c3afb", $mode);
+&test_importer ("$samples/qpro/gantt.wb3", "79c0d632a20eac4f9e78266bec321d13f6c635c4", $mode);
