@@ -66,10 +66,10 @@ struct _GnmStyle {
 	GPtrArray		*cond_styles;
 };
 
-#define elem_changed(style, elem) { (style)->changed |= (1 << (elem)); }
-#define elem_set(style, elem)	  { (style)->set |=  (1 << (elem)); }
-#define elem_unset(style, elem)	  { (style)->set &= ~(1 << (elem)); }
-#define elem_is_set(style, elem)  (((style)->set & (1 << (elem))) != 0)
+#define elem_changed(style, elem) do { (style)->changed |= (1u << (elem)); } while(0)
+#define elem_set(style, elem)	  do { (style)->set |=  (1u << (elem)); } while(0)
+#define elem_unset(style, elem)	  do { (style)->set &= ~(1u << (elem)); } while(0)
+#define elem_is_set(style, elem)  (((style)->set & (1u << (elem))) != 0)
 
 #define MSTYLE_ANY_BORDER            MSTYLE_BORDER_TOP: \
 				case MSTYLE_BORDER_BOTTOM: \

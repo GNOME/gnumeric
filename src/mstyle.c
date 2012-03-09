@@ -461,14 +461,14 @@ gnm_style_find_conflicts (GnmStyle *accum, GnmStyle const *overlay,
 	g_assert (MSTYLE_ELEMENT_MAX <= CHAR_BIT * sizeof (conflicts));
 
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
-		if (conflicts & (1 << i) || !elem_is_set (overlay, i)) {
+		if (conflicts & (1u << i) || !elem_is_set (overlay, i)) {
 			/* Nothing */
 		} else if (!elem_is_set (accum, i)) {
 			elem_assign_contents (accum, overlay, i);
 			elem_set (accum, i);
 			elem_changed (accum, i);
 		} else if (!elem_is_eq (accum, overlay, i))
-			conflicts |= (1 << i);
+			conflicts |= (1u << i);
 	}
 
 	return conflicts;
