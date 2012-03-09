@@ -694,7 +694,6 @@ ms_escher_read_Sp (MSEscherState *state, MSEscherHeader *h)
 	guint32 spid, flags;
 	guint8 const *data;
 
-	g_return_val_if_fail (h->instance >= 0, TRUE);
 	g_return_val_if_fail (h->instance <= 202, TRUE);
 
 	d (0, g_printerr ("%s (0x%x);\n", shape_names[h->instance],

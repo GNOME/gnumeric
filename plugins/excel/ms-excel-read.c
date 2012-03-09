@@ -5066,7 +5066,6 @@ excel_read_CALCCOUNT (BiffQuery *q, GnmXLImporter *importer)
 	XL_CHECK_CONDITION (q->length == 2);
 
 	count = GSF_LE_GET_GUINT16 (q->data);
-	XL_CHECK_CONDITION (count >= 0);
 
 	workbook_iteration_max_number (importer->wb, count);
 }
