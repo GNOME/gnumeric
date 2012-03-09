@@ -2240,7 +2240,7 @@ sheet_get_printarea	(Sheet const *sheet,
 
 	print_area = sheet_get_extent (sheet, TRUE);
 	if (include_styles)
-		sheet_style_get_extent (sheet, &print_area, NULL);
+		sheet_style_get_extent (sheet, &print_area);
 
 	return print_area;
 }

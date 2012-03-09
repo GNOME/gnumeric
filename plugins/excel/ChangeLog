@@ -1,3 +1,16 @@
+2012-03-09  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx_write_sheet): Use new
+	sheet_style_most_common.
+
+	* ms-excel-write.c (excel_sheet_extent): Use new
+	sheet_style_get_nondefault_extent.
+	(gather_styles): Gather styles for all columns.
+	(excel_write_colinfos): Ensure a column style for all columns.
+	(excel_sheet_write_block): Drop only styles that differ from the
+	column default.  Visibility is irrelevant.
+	(excel_sheet_new): Use new sheet_style_most_common.
+
 2012-03-08  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-write.c (excel_write_formula): Base length

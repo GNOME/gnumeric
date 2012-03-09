@@ -211,9 +211,15 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 		    int maxcols, int maxrows, GOIOContext *io_context)
 {
 	int i;
+	GnmRange r;
 
 	/* Ignore spans and merges past the bound */
 	*extent = sheet_get_extent (sheet, FALSE);
+
+	range_init (&r, 0, 0,
+		    MAX (maxcols, gnm_sheet_get_max_cols(sheet)) - 1,
+		    MAX (maxrows, gnm_sheet_get_max_rows(sheet)) - 1);
+	sheet_style_get_nondefault_extent (sheet, extent, &r, col_styles);
 
 	if (extent->end.col >= maxcols) {
 		go_io_warning (io_context,
@@ -239,8 +245,6 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 			maxrows, extent->end.row);
 		extent->end.row = maxrows - 1;
 	}
-
-	sheet_style_get_extent (sheet, extent, col_styles);
 
 	/* include collapsed or hidden rows */
 	for (i = maxrows ; i-- > extent->end.row ; )
@@ -2406,7 +2410,6 @@ xf_init (XLExportBase *xle)
 	if (xle->xf.default_style == NULL)
 		xle->xf.default_style = gnm_style_new_default ();
 	else {
-		gnm_style_dump (xle->xf.default_style);
 		gnm_style_ref (xle->xf.default_style);
 	}
 
@@ -2587,16 +2590,16 @@ static void
 gather_styles (ExcelWriteState *ewb)
 {
 	unsigned i;
-	int	 col;
-	ExcelWriteSheet *esheet;
 
 	for (i = 0; i < ewb->esheets->len; i++) {
-		esheet = g_ptr_array_index (ewb->esheets, i);
-		sheet_cell_foreach (esheet->gnum_sheet,
+		ExcelWriteSheet *esheet = g_ptr_array_index (ewb->esheets, i);
+		Sheet *sheet = esheet->gnum_sheet;
+		int col, cols = MIN (XLS_MaxCol, gnm_sheet_get_max_cols(sheet));
+		sheet_cell_foreach (sheet,
 			(GHFunc) cb_cell_pre_pass, &ewb->base);
-		sheet_style_foreach (esheet->gnum_sheet,
+		sheet_style_foreach (sheet,
 			(GHFunc) cb_accum_styles, &ewb->base);
-		for (col = 0; col < esheet->max_col; col++) {
+		for (col = 0; col < cols; col++) {
 			ExcelStyleVariant esv;
 			esv.style = esheet->col_style[col];
 			esv.variant = 0;
@@ -3726,12 +3729,11 @@ excel_write_colinfos (BiffPut *bp, ExcelWriteSheet *esheet)
 	ColRowInfo const *ci, *info;
 	int first_col = 0, i;
 	guint16	new_xf, xf = 0;
+	int cols = MIN (XLS_MaxCol, gnm_sheet_get_max_cols (esheet->gnum_sheet));
 
-	if (esheet->max_col <= 0)
-		return;
 	info = sheet_col_get (esheet->gnum_sheet, 0);
 	xf   = esheet->col_xf [0];
-	for (i = 1; i < esheet->max_col; i++) {
+	for (i = 1; i < cols; i++) {
 		ci = sheet_col_get (esheet->gnum_sheet, i);
 		new_xf = esheet->col_xf [i];
 		if (xf != new_xf || !colrow_equal (info, ci)) {
@@ -5122,7 +5124,7 @@ excel_sheet_write_DBCELL (ExcelWriteSheet *esheet,
  *
  * See: 'Finding records in BIFF files'
  */
-static guint32
+guint32
 excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 			 GArray *dbcells)
 {
@@ -5163,8 +5165,8 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 		/* Save start pos of 1st cell in row */
 		r.start.row = r.end.row = row;
 		rc_start [row - begin] = ewb->bp->streamPos;
-		if (! (NULL != sheet_row_get (sheet, row) ||
-		       sheet_style_has_visible_content (sheet, &r)))
+		if (sheet_row_get (sheet, row) == NULL &&
+		    sheet_style_is_default (sheet, &r, esheet->col_style))
 			continue;
 		has_content = TRUE;
 		for (col = 0; col < max_col; col++) {
@@ -5500,9 +5502,8 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	g_return_val_if_fail (ewb, NULL);
 
 	esheet->col_xf = g_new (guint16, gnm_sheet_get_max_cols (sheet));
-	esheet->col_style = g_new (GnmStyle*, gnm_sheet_get_max_cols (sheet));
-	excel_sheet_extent (sheet, &extent, esheet->col_style,
-			    maxcols, maxrows, ewb->io_context);
+	esheet->col_style = sheet_style_most_common (sheet, TRUE);
+	excel_sheet_extent (sheet, &extent, esheet->col_style, maxcols, maxrows, ewb->io_context);
 
 	esheet->gnum_sheet = sheet;
 	esheet->streamPos  = 0x0deadbee;

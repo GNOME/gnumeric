@@ -1925,103 +1925,193 @@ sheet_style_insert_colrow (GnmExprRelocateInfo const *rinfo)
 }
 
 static void
-cb_visible_content (GnmStyle *style,
-		    int corner_col, int corner_row, int width, int height,
-		    GnmRange const *apply_to, gpointer res)
-{
-	*((gboolean *)res) |= gnm_style_visible_in_blank (style);
-}
-
-/**
- * sheet_style_has_visible_content :
- *
- * @sheet :
- * @r     :
- *
- * Are any of the styles in the target region visible in a blank cell.  The
- * implementation is simplistic.  We should really ignore borders at the
- * edges IF they have been seen before.
- */
-gboolean
-sheet_style_has_visible_content (Sheet const *sheet, GnmRange *src)
-{
-	gboolean res = FALSE;
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, src,
-		      cb_visible_content, &res);
-	return res;
-}
-
-typedef struct {
-	GnmRange *res;
-	GnmStyle **most_common_in_cols;
-} StyleExtentData;
-
-static void
 cb_style_extent (GnmStyle *style,
 		 int corner_col, int corner_row, int width, int height,
 		 GnmRange const *apply_to, gpointer user)
 {
-	StyleExtentData *data = user;
+	GnmRange *res = user;
 	if (gnm_style_visible_in_blank (style)) {
-
-		/* always check if the column is extended */
 		int tmp = corner_col+width-1;
-		int i = corner_col;
-		if (data->res->end.col < tmp)
-			data->res->end.col = tmp;
-		if (data->res->start.col > corner_col)
-			data->res->start.col = corner_col;
+		if (res->end.col < tmp)
+			res->end.col = tmp;
+		if (res->start.col > corner_col)
+			res->start.col = corner_col;
 
-		/* only check the row if the style is not the most common in
-		 * all of the columns in the tile */
-		if (data->most_common_in_cols != NULL) {
-			for (; i <= tmp ; i++)
-				if (style != data->most_common_in_cols[i])
-					break;
-			if (i > tmp)
-				return;
-		}
 		tmp = corner_row+height-1;
-		if (data->res->end.row < tmp)
-			data->res->end.row = tmp;
-		if (data->res->start.row > corner_row)
-			data->res->start.row = corner_row;
+		if (res->end.row < tmp)
+			res->end.row = tmp;
+		if (res->start.row > corner_row)
+			res->start.row = corner_row;
 	}
 }
 
 /**
- * sheet_style_get_extent :
+ * sheet_style_get_extent:
  *
- * @sheet :
- * @r     :
- * most_common_in_cols : optionally NULL.
+ * @sheet: sheet to measure
+ * @res: starting range and resulting range
  *
  * A simple implementation that finds the smallest range containing all visible styles
- * and containing res. x If @most_common_in_cols is specified it finds the most common
- * style for each column (0..gnm_sheet_get_last_col (sheet)) and ignores that style in
- * boundary calculations.
+ * and containing @res.
  */
 void
-sheet_style_get_extent (Sheet const *sheet, GnmRange *res,
-			GnmStyle **most_common_in_cols)
+sheet_style_get_extent (Sheet const *sheet, GnmRange *res)
 {
-	StyleExtentData data;
 	GnmRange r;
 
-	if (most_common_in_cols != NULL) {
-		int i;
-		for (i = 0; i < gnm_sheet_get_max_cols (sheet); i++)
-			most_common_in_cols[i] = sheet_style_most_common_in_col (sheet, i);
-	}
-
-	/* This could easily be optimized */
-	data.res = res;
-	data.most_common_in_cols = most_common_in_cols;
 	range_init_full_sheet (&r, sheet);
 	foreach_tile (sheet->style_data->styles,
 		      sheet->tile_top_level, 0, 0, &r,
-		      cb_style_extent, &data);
+		      cb_style_extent, res);
+}
+
+struct cb_nondefault_extent {
+	GnmRange *res;
+	GnmStyle **col_defaults;
+};
+
+static void
+cb_nondefault_extent (GnmStyle *style,
+		      int corner_col, int corner_row, int width, int height,
+		      GnmRange const *apply_to, gpointer user_)
+{
+	struct cb_nondefault_extent *user = user_;
+	GnmRange *res = user->res;
+	int i;
+
+	for (i = 0; i < width; i++) {
+		int col = corner_col + i;
+		if (col >= apply_to->start.col &&
+		    col <= apply_to->end.col &&
+		    style != user->col_defaults[col]) {
+			int max_row = MIN (corner_row + height - 1,
+					   apply_to->end.row);
+			int min_row = MAX (corner_row, apply_to->start.row);
+
+			res->start.col = MIN (col, res->start.col);
+			res->start.row = MIN (min_row, res->start.row);
+
+			res->end.col = MAX (col, res->end.col);
+			res->end.row = MAX (max_row, res->end.row);
+		}
+	}
+}
+
+void
+sheet_style_get_nondefault_extent (Sheet const *sheet, GnmRange *extent,
+				   const GnmRange *src, GnmStyle **col_defaults)
+{
+	struct cb_nondefault_extent user;
+	user.res = extent;
+	user.col_defaults = col_defaults;
+	foreach_tile (sheet->style_data->styles,
+		      sheet->tile_top_level, 0, 0, src,
+		      cb_nondefault_extent, &user);
+}
+
+struct cb_is_default {
+	gboolean res;
+	GnmStyle **col_defaults;
+};
+
+static void
+cb_is_default (GnmStyle *style,
+	       int corner_col, int corner_row, int width, int height,
+	       GnmRange const *apply_to, gpointer user_)
+{
+	struct cb_is_default *user = user_;
+	int i;
+
+	for (i = 0; user->res && i < width; i++) {
+		if (style != user->col_defaults[corner_col + i])
+			user->res = FALSE;
+	}
+}
+
+gboolean
+sheet_style_is_default (Sheet const *sheet, const GnmRange *r, GnmStyle **col_defaults)
+{
+	struct cb_is_default user;
+
+	user.res = TRUE;
+	user.col_defaults = col_defaults;
+
+	foreach_tile (sheet->style_data->styles,
+		      sheet->tile_top_level, 0, 0, r,
+		      cb_is_default, &user);
+
+	return user.res;
+}
+
+
+struct cb_most_common {
+	GHashTable *h;
+	int l;
+	gboolean is_col;
+};
+
+static void
+cb_most_common (GnmStyle *style,
+		int corner_col, int corner_row, int width, int height,
+		GnmRange const *apply_to, gpointer user)
+{
+	struct cb_most_common *cmc = user;
+	int *counts = g_hash_table_lookup (cmc->h, style);
+	int i;
+	if (!counts) {
+		counts = g_new0 (int, cmc->l);
+		g_hash_table_insert (cmc->h, style, counts);
+	}
+
+	if (cmc->is_col)
+		for (i = 0; i < width; i++)
+			counts[corner_col + i] += height;
+	else
+		for (i = 0; i < height; i++)
+			counts[corner_row + i] += width;
+}
+
+GnmStyle **
+sheet_style_most_common (Sheet const *sheet, gboolean is_col)
+{
+	GnmRange r;
+	struct cb_most_common cmc;
+	int *max;
+	GnmStyle **res;
+	GHashTableIter iter;
+	gpointer key, value;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	range_init_full_sheet (&r, sheet);
+	cmc.h = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
+	cmc.l = colrow_max (is_col, sheet);
+	cmc.is_col = is_col;
+	foreach_tile (sheet->style_data->styles,
+		      sheet->tile_top_level, 0, 0, &r,
+		      cb_most_common, &cmc);
+
+	max = g_new0 (int, cmc.l);
+	res = g_new0 (GnmStyle *, cmc.l);
+	g_hash_table_iter_init (&iter, cmc.h);
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		int *counts = value;
+		GnmStyle *style = key;
+		int j;
+		for (j = 0; j < cmc.l; j++) {
+			/* FIXME: we really ought to break ties in a
+			   consistent way that does not depend on hash
+			   order.  */
+			if (counts[j] > max[j]) {
+				max[j] = counts[j];
+				res[j] = style;
+			}
+		}
+	}
+	g_hash_table_destroy (cmc.h);
+	g_free (max);
+
+	return res;
 }
 
 /****************************************************************************/
@@ -2445,68 +2535,6 @@ style_list_get_style (GnmStyleList const *list, int col, int row)
 			return sr->style;
 	}
 	return NULL;
-}
-
-static void
-cb_accumulate_count (GnmStyle *style,
-		     int corner_col, int corner_row, int width, int height,
-		     GnmRange const *apply_to, gpointer accumulator)
-{
-	gpointer count;
-
-	count = g_hash_table_lookup (accumulator, style);
-	if (count == NULL) {
-		int *res = g_new (int, 1);
-		*res = height;
-		g_hash_table_insert (accumulator, style, res);
-	} else
-		*((int *)count) += height;
-}
-
-typedef struct
-{
-	GnmStyle *style;
-	int     count;
-} MostCommon;
-
-static void
-cb_find_max (gpointer key, gpointer value, gpointer user_data)
-{
-	MostCommon *mc = user_data;
-	int count = *((int *)value);
-	if (mc->style == NULL || mc->count < count) {
-		mc->style = key;
-		mc->count = count;
-	}
-
-	g_free (value);
-}
-
-/**
- * sheet_style_most_common_in_col :
- * @sheet :
- * @col :
- *
- * Find the most common style in a column.
- * The resulting style does not have its reference count bumped.
- */
-GnmStyle *
-sheet_style_most_common_in_col (Sheet const *sheet, int col)
-{
-	MostCommon  res;
-	GHashTable *accumulator;
-	GnmRange       r;
-
-	range_init_cols (&r, sheet, col, col);
-	accumulator = g_hash_table_new (gnm_style_hash, (GCompareFunc) gnm_style_equal);
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, &r,
-		      cb_accumulate_count, accumulator);
-
-	res.style = NULL;
-	g_hash_table_foreach (accumulator, cb_find_max, &res);
-	g_hash_table_destroy (accumulator);
-	return res.style;
 }
 
 static void

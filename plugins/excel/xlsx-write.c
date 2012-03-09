@@ -1927,7 +1927,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	GnmStyle **col_styles;
 
 	state->sheet = workbook_sheet_by_index (state->base.wb, i);
-	col_styles = g_new (GnmStyle*, XLSX_MAX_COLS);
+	col_styles = sheet_style_most_common (state->sheet, TRUE);
 	excel_sheet_extent (state->sheet, &extent, col_styles,
 			    XLSX_MAX_COLS, XLSX_MAX_ROWS, state->io_context);
 	cell_extent = sheet_get_cells_extent (state->sheet);

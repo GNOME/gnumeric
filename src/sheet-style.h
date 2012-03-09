@@ -44,18 +44,20 @@ void	 sheet_style_insert_colrow	(GnmExprRelocateInfo const *rinfo);
 void	 sheet_style_relocate		(GnmExprRelocateInfo const *rinfo);
 unsigned int sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 					 GnmStyle **style, GnmBorder **borders);
-void	 sheet_style_get_extent		(Sheet const *sheet, GnmRange *r,
-					 GnmStyle **most_common_in_cols);
-gboolean sheet_style_has_visible_content(Sheet const *sheet, GnmRange *src);
+void	 sheet_style_get_extent		(Sheet const *sheet, GnmRange *r);
+void	 sheet_style_get_nondefault_extent (Sheet const *sheet, GnmRange *extent,
+					    const GnmRange *src, GnmStyle **col_defaults);
+gboolean sheet_style_is_default         (Sheet const *sheet, const GnmRange *r, GnmStyle **col_defaults);
 void     style_row_init			(GnmBorder const * * *prev_vert,
 					 GnmStyleRow *sr, GnmStyleRow *next_sr,
 					 int start_col, int end_col,
 					 gpointer mem, gboolean hide_grid);
-GnmStyle *sheet_style_most_common_in_col   (Sheet const *sheet, int col);
 GnmHLink *sheet_style_region_contains_link (Sheet const *sheet, GnmRange const *r);
 void	  sheet_style_foreach (Sheet const *sheet,
 			       GHFunc	    func,
 			       gpointer    user_data);
+
+GnmStyle **sheet_style_most_common (Sheet const *sheet, gboolean is_col);
 
 void sheet_style_init     (Sheet *sheet);
 void sheet_style_resize   (Sheet *sheet, int cols, int rows);

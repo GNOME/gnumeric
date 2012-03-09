@@ -1,3 +1,11 @@
+2012-03-09  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c (sheet_style_is_default)
+	(sheet_style_get_nondefault_extent): New function.
+	(sheet_style_has_visible_content, sheet_style_most_common_in_col): Delete.
+	(sheet_style_get_extent): Drop col_styles argument.  All callers
+	changed.
+
 2012-03-08  Morten Welinder  <terra@gnome.org>
 
 	* src/expr-name.c (expr_name_set_pos): Make this work even without
