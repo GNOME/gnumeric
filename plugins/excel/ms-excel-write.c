@@ -3615,7 +3615,7 @@ excel_write_DEFAULT_ROW_HEIGHT (BiffPut *bp, ExcelWriteSheet *esheet)
 	guint16 height;
 
 	def_height = sheet_row_get_default_size_pts (esheet->gnum_sheet);
-	height = (guint16) (20. * def_height);
+	height = (guint16) (20. * def_height + 1e-6);
 	d (1, g_printerr ("Default row height 0x%x;\n", height););
 	data = ms_biff_put_len_next (bp, BIFF_DEFAULTROWHEIGHT_v2, 4);
 	GSF_LE_SET_GUINT16 (data + 0, options);
@@ -5014,7 +5014,7 @@ excel_write_ROWINFO (BiffPut *bp, ExcelWriteSheet *esheet, guint32 row, guint32 
 
 	/* We don't worry about standard height. I haven't seen it
 	 * indicated in any actual esheet. */
-	height = (guint16) (20. * ri->size_pts);
+	height = (guint16) (20. * ri->size_pts + 1e-6);
 	options |= (MIN (ri->outline_level, 0x7));
 	if (ri->is_collapsed)
 		options |= 0x10;

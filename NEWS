@@ -26,6 +26,7 @@ Morten:
 	* Improve xls import re. hard column widths.
 	* Export only needed col/row styles to .gnumeric.
 	* Fix export of colours to .gnumeric.
+	* Fix row height xls export rounding issue.  [Part of #671513]
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2

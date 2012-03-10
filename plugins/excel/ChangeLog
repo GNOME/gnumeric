@@ -1,5 +1,9 @@
 2012-03-10  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-write.c (excel_write_DEFAULT_ROW_HEIGHT)
+	(excel_write_ROWINFO): Add 1e-6 to toughen against rounding
+	errors.
+
 	* ms-excel-read.c (excel_read_COLINFO): Drop work-around for buggy
 	pre-Gnumeric 1.7.5 export.  This fixes hard-size-set detection for
 	11_1040.xls
