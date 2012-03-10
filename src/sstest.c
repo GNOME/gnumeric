@@ -639,7 +639,7 @@ test_random_randbernoulli (int N)
 static void
 test_random_randnorm (int N)
 {
-  gnm_float mean, var, adtest, cvmtest, lkstest, sftest;
+	gnm_float mean, var, adtest, cvmtest, lkstest, sftest;
 	gnm_float mean_target = 0, var_target = 1;
 	gnm_float *vals;
 	gboolean ok;
@@ -673,7 +673,7 @@ test_random_randnorm (int N)
 		g_printerr ("Cramér-von Mises Test rejected [%.10" GNM_FORMAT_g "]\n", cvmtest);
 		ok = FALSE;
 	}
-	if (lkstest < 0.05) {
+	if (lkstest < 0.01) {
 		g_printerr ("Lilliefors (Kolmogorov-Smirnov) Test rejected [%.10" GNM_FORMAT_g "]\n",
 			    lkstest);
 		ok = FALSE;
@@ -726,7 +726,7 @@ test_random_randsnorm (int N)
 		ok = FALSE;
 	}
 	T = 2*(M_PIgnum - 3)*mean_target*mean_target*mean_target*mean_target/(var_target*var_target);
-	if (gnm_abs (kurt - T) > 0.10) {
+	if (gnm_abs (kurt - T) > 0.15) {
 		g_printerr ("Kurt failure [%.10" GNM_FORMAT_g "]\n", T);
 		ok = FALSE;
 	}
@@ -740,12 +740,13 @@ test_random (void)
 {
 	const char *test_name = "test_random";
 	const int N = 20000;
+	const int High_N = 65000;
 
 	mark_test_start (test_name);
 	test_random_rand (N);
         test_random_randbernoulli (N);
-        test_random_randnorm (N);
-        test_random_randsnorm (N);
+        test_random_randnorm (High_N);
+        test_random_randsnorm (High_N);
 #if 0
         test_random_randbeta (N);
         test_random_randbetween (N);

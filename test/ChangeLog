@@ -1,6 +1,8 @@
 2012-03-10  Morten Welinder  <terra@gnome.org>
 
 	* normalize-gnumeric: Block out odf version.
+	* GnumericTest.pm (sstest): When failing and using predicate,
+	print entire failure output.
 
 2012-03-02  Morten Welinder <terra@gnome.org>
 

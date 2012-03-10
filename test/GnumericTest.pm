@@ -152,6 +152,11 @@ sub sstest {
     if (ref $expected) {
 	local $_ = $actual;
 	$ok = &$expected ($_);
+	if (!$ok) {
+	    foreach (split ("\n", $actual)) {
+		print "| $_\n";
+	    }
+	}
     } else {
 	my @actual = split ("\n", $actual);
 	chomp @actual;
