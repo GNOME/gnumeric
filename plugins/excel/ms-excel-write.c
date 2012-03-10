@@ -989,7 +989,7 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 					GSF_LE_SET_GUINT16 (fbuf+72, 0x190);
 				if (gnm_style_is_element_set (s, MSTYLE_FONT_ITALIC) &&
 				    gnm_style_get_font_italic (s))
-					tmp |= 1;
+					tmp |= 2;
 				else
 					tmp |= 0;
 			} else

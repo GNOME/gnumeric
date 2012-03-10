@@ -4,6 +4,8 @@
 	to help fix stacking issues.
 	(excel_sheet_new): Eliminate special lists for lines and
 	textboxes.
+	(cb_write_condition): Make export of conditional italic match
+	import.
 
 2012-03-09  Morten Welinder  <terra@gnome.org>
 
