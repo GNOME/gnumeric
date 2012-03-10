@@ -25,6 +25,7 @@ Morten:
 	* Export non-visible style stuff to xls.  [Part of #671513]
 	* Improve xls import re. hard column widths.
 	* Export only needed col/row styles to .gnumeric.
+	* Fix export of colours to .gnumeric.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2

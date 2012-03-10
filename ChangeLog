@@ -2,6 +2,8 @@
 
 	* src/xml-sax-write.c (xml_write_colrow_info): Don't write records
 	that match the default col/row style.
+	(gnm_xml_out_add_gocolor): Don't go through GdkRGBA which causes
+	rounding problems.
 
 	* src/sheet-object-widget.h: Grand rename.  Make GNM_IS_SOW
 	public.
