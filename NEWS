@@ -6,6 +6,7 @@ Andreas:
 	* On ODF import set series to default to ignoring invalids for
 	interpolation. [#671508]
 	* Handle unusual styles created in xls import. [#671745]
+	* Do not show an icon for the range entry in the search dialog. [#671494]
 
 Jean:
 	* Fixed crash with sheet object. [#671617]

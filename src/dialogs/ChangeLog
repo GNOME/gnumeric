@@ -1,3 +1,8 @@
+2012-03-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-search.c (dialog_search): only show the expression entry
+	icon when we allow range selections
+
 2012-03-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.2

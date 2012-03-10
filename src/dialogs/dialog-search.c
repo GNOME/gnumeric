@@ -508,7 +508,11 @@ dialog_search (WBCGtk *wbcg)
 		gtk_notebook_page_num (dd->notebook,
 				       go_gtk_builder_get_widget (gui, "matches_tab"));
 
+#ifdef USE_GURU
 	dd->rangetext = gnm_expr_entry_new (wbcg, TRUE);
+#else
+	dd->rangetext = gnm_expr_entry_new (wbcg, FALSE);
+#endif
 	gnm_expr_entry_set_flags (dd->rangetext, 0, GNM_EE_MASK);
 	table = GTK_TABLE (gtk_builder_get_object (gui, "page1-table"));
 	gtk_table_attach (table, GTK_WIDGET (dd->rangetext),
