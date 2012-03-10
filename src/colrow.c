@@ -129,7 +129,7 @@ colrow_equal (ColRowInfo const *a, ColRowInfo const *b)
  * @dst :
  * @src :
  *
- * Assign all content, accept the position of @src to @dst
+ * Assign all content, except the position of @src to @dst
  */
 void
 colrow_copy (ColRowInfo *dst, ColRowInfo const *src)

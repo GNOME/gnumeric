@@ -23,6 +23,7 @@ Morten:
 	* Fix sheet object order on xls export.
 	* Fix xls export for formulas in conditions.  [Part of #671513]
 	* Export non-visible style stuff to xls.  [Part of #671513]
+	* Improve xls import re. hard column widths.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2
