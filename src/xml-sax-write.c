@@ -710,12 +710,15 @@ xml_write_colrow_info (GnmColRowIter const *iter, closure_write_colrow *closure)
 {
 	ColRowInfo const *prev = closure->prev;
 	GsfXMLOut *output = closure->state->output;
+	ColRowInfo const *def =
+		sheet_colrow_get_default (closure->state->sheet,
+					  closure->is_column);
 
 	closure->rle_count++;
 	if (NULL != iter && colrow_equal (prev, iter->cri))
 		return FALSE;
 
-	if (prev != NULL) {
+	if (prev != NULL && !colrow_equal (prev, def)) {
 		if (closure->is_column)
 			gsf_xml_out_start_element (output, GNM "ColInfo");
 		else

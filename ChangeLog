@@ -1,5 +1,8 @@
 2012-03-10  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-write.c (xml_write_colrow_info): Don't write records
+	that match the default col/row style.
+
 	* src/sheet-object-widget.h: Grand rename.  Make GNM_IS_SOW
 	public.
 
