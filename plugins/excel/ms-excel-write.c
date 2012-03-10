@@ -4251,10 +4251,8 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so,
 }
 
 static gsize
-excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
-				  SheetObject *so,
-				  gboolean has_text_prop,
-				  gboolean is_widget)
+excel_write_other_v8 (ExcelWriteSheet *esheet,
+		      SheetObject *so)
 {
 	GString *escher = g_string_new (NULL);
 	GString *extra;
@@ -4278,6 +4276,9 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 	gboolean terminate_obj = TRUE;
 	gboolean transparent = FALSE;
 	gboolean is_image = FALSE;
+	gboolean has_text_prop = NULL != g_object_class_find_property
+		(G_OBJECT_GET_CLASS (so), "text");
+	gboolean is_widget = GNM_IS_SOW (so);
 
 	if (has_text_prop) {
 		g_object_get (so,
@@ -4559,27 +4560,6 @@ excel_write_textbox_or_widget_v8 (ExcelWriteSheet *esheet,
 	return draw_len;
 }
 
-static gsize
-excel_write_image_v8 (ExcelWriteSheet *esheet, BlipInf *bi)
-{
-	return excel_write_textbox_or_widget_v8 (esheet, bi->so, FALSE, FALSE);
-}
-
-static gsize
-excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
-{
-	return excel_write_textbox_or_widget_v8 (esheet, so, TRUE, FALSE);
-}
-
-static gsize
-excel_write_widget_v8 (ExcelWriteSheet *esheet, SheetObject *so)
-{
-	GParamSpec *pspec = g_object_class_find_property
-		(G_OBJECT_GET_CLASS (so), "text");
-	return excel_write_textbox_or_widget_v8 (esheet, so,
-						 pspec != NULL, TRUE);
-}
-
 static void
 write_arrow (GOArrow const *arrow, GString *escher, gsize optmark,
 	     guint id)
@@ -4743,6 +4723,16 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 	return draw_len;
 }
 
+static gsize
+excel_write_obj_v8 (ExcelWriteSheet *esheet,
+		    SheetObject *so)
+{
+	if (IS_GNM_SO_LINE (so))
+		return excel_write_line_v8 (esheet, so);
+	else
+		return excel_write_other_v8 (esheet, so);
+}
+
 static void
 excel_write_DIMENSION (BiffPut *bp, ExcelWriteSheet *esheet)
 {
@@ -4808,8 +4798,8 @@ excel_write_PAGE_BREAK (BiffPut *bp, GnmPageBreaks const *breaks)
 		n = (ms_biff_max_record_len (bp) - 2 - 2) / step;
 
 	data = ms_biff_put_len_next (bp, manual_pbreaks->is_vert
-		? BIFF_VERTICALPAGEBREAKS : BIFF_HORIZONTALPAGEBREAKS,
-		2 + step * n);
+				     ? BIFF_VERTICALPAGEBREAKS : BIFF_HORIZONTALPAGEBREAKS,
+				     2 + step * n);
 
 	GSF_LE_SET_GUINT16 (data, (guint16)n);
 	for (data += 2, i = 0 ; i < n ; data += step, i++) {
@@ -5064,9 +5054,9 @@ excel_sheet_write_INDEX (ExcelWriteSheet *esheet, gsf_off_t fpos,
 		unsigned pos = g_array_index (dbcells, unsigned, i);
 		GSF_LE_SET_GUINT32 (data + i, pos - esheet->ewb->streamPos);
 		d (2, g_printerr ("Writing index record"
-			      " 0x%4.4x - 0x%4.4x = 0x%4.4x\n",
-			      pos, esheet->ewb->streamPos,
-			      pos - esheet->ewb->streamPos););
+				  " 0x%4.4x - 0x%4.4x = 0x%4.4x\n",
+				  pos, esheet->ewb->streamPos,
+				  pos - esheet->ewb->streamPos););
 	}
 
 	ms_biff_put_abs_write (bp, fpos, data, 4 * dbcells->len);
@@ -5124,7 +5114,7 @@ excel_sheet_write_DBCELL (ExcelWriteSheet *esheet,
  *
  * See: 'Finding records in BIFF files'
  */
-guint32
+static guint32
 excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 			 GArray *dbcells)
 {
@@ -5279,14 +5269,14 @@ excel_write_objs_v8 (ExcelWriteSheet *esheet)
 	/* The header */
 	if (bp->version >= MS_BIFF_V8) {
 		static guint8 const header_obj_v8[] = {
-/* DgContainers */ 0x0f, 0,   2, 0xf0,	   0, 0, 0, 0,	/* fill in length */
-/* Dg */	   0x10, 0,   8, 0xf0,	   8, 0, 0, 0,
+			/* DgContainers */ 0x0f, 0,   2, 0xf0,	   0, 0, 0, 0,	/* fill in length */
+			/* Dg */	   0x10, 0,   8, 0xf0,	   8, 0, 0, 0,
 			0, 0, 0, 0,			/* fill num objects in this group + 1 */
 			0, 0, 0, 0,			/* fill last spid in this group */
-/* SpgrContainer */0x0f, 0,   3, 0xf0,	   0, 0, 0, 0,	/* fill in length */
-/* SpContainer */  0x0f, 0,   4, 0xf0,	0x28, 0, 0, 0,
-/* Spgr */	      1, 0,   9, 0xf0,	0x10, 0, 0, 0,	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* Sp */	      2, 0, 0xa, 0xf0,     8, 0, 0, 0,	0, 4, 0, 0, 5, 0, 0, 0
+			/* SpgrContainer */0x0f, 0,   3, 0xf0,	   0, 0, 0, 0,	/* fill in length */
+			/* SpContainer */  0x0f, 0,   4, 0xf0,	0x28, 0, 0, 0,
+			/* Spgr */	      1, 0,   9, 0xf0,	0x10, 0, 0, 0,	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			/* Sp */	      2, 0, 0xa, 0xf0,     8, 0, 0, 0,	0, 4, 0, 0, 5, 0, 0, 0
 		};
 		guint8 buf [sizeof header_obj_v8];
 		unsigned last_id, num_filters = 0;
@@ -5318,17 +5308,8 @@ excel_write_objs_v8 (ExcelWriteSheet *esheet)
 	for (ptr = esheet->graphs; ptr != NULL ; ptr = ptr->next)
 		len += excel_write_chart_v8 (esheet, ptr->data);
 
-	for (ptr = esheet->blips; ptr != NULL ; ptr = ptr->next)
-		len += excel_write_image_v8 (esheet, ptr->data);
-
-	for (ptr = esheet->textboxes; ptr != NULL ; ptr = ptr->next)
-		len += excel_write_textbox_v8 (esheet, ptr->data);
-
-	for (ptr = esheet->widgets; ptr != NULL ; ptr = ptr->next)
-		len += excel_write_widget_v8 (esheet, ptr->data);
-
-	for (ptr = esheet->lines; ptr != NULL ; ptr = ptr->next)
-		len += excel_write_line_v8 (esheet, ptr->data);
+	for (ptr = esheet->objects; ptr != NULL ; ptr = ptr->next)
+		len += excel_write_obj_v8 (esheet, ptr->data);
 
 	len += excel_write_autofilter_objs (esheet);
 
@@ -5549,17 +5530,19 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 				goto unhandled;
 
 			esheet->blips = g_slist_prepend (esheet->blips, bi);
+			esheet->objects =
+				g_slist_prepend (esheet->objects, so);
 			handled = TRUE;
 		} else if (IS_CELL_COMMENT (so)) {
 			esheet->comments = g_slist_prepend (esheet->comments,
 							    so);
-			/* Also a textbox.  Is that right for v7?  */
-			esheet->textboxes = g_slist_prepend (esheet->textboxes,
-							     so);
+			/* Also an object.  Is that right for v7?  */
+			esheet->objects =
+				g_slist_prepend (esheet->objects, so);
 			handled = TRUE;
 		} else if (IS_GNM_SO_FILLED (so)) {
-			esheet->textboxes =
-				g_slist_prepend (esheet->textboxes, so);
+			esheet->objects =
+				g_slist_prepend (esheet->objects, so);
 			handled = TRUE;
 		} else if (GNM_IS_SOW_CHECKBOX (so) ||
 			   GNM_IS_SOW_RADIO_BUTTON (so) ||
@@ -5568,15 +5551,15 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 			   GNM_IS_SOW_LIST (so) ||
 			   GNM_IS_SOW_BUTTON (so) ||
 			   GNM_IS_SOW_COMBO (so)) {
-			esheet->widgets =
-				g_slist_prepend (esheet->widgets, so);
+			esheet->objects =
+				g_slist_prepend (esheet->objects, so);
 			g_hash_table_insert (esheet->widget_macroname,
 					     so,
 					     create_macroname (so));
 			handled = TRUE;
 		} else if (IS_GNM_SO_LINE (so)) {
-			esheet->lines =
-				g_slist_prepend (esheet->lines, so);
+			esheet->objects =
+				g_slist_prepend (esheet->objects, so);
 			handled = TRUE;
 		} else if (IS_GNM_FILTER_COMBO (so)) {
 			/* Handled outside loop.  */
@@ -5619,9 +5602,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 static void
 excel_sheet_free (ExcelWriteSheet *esheet)
 {
-	g_slist_free (esheet->textboxes);
-	g_slist_free (esheet->widgets);
-	g_slist_free (esheet->lines);
+	g_slist_free (esheet->objects);
 	g_slist_free (esheet->comments);
 	g_slist_free (esheet->graphs);
 	g_hash_table_destroy (esheet->commentshash);
@@ -6059,8 +6040,7 @@ excel_write_blips (ExcelWriteState *ewb, guint32 bliplen)
 
 		for (i = 0, nblips = 0; i < ewb->esheets->len; i++) {
 			s = g_ptr_array_index (ewb->esheets, i);
-			for (b = s->blips; b != NULL; b = b->next)
-					nblips++;
+			nblips += g_slist_length (s->blips);
 		}
 
 		memcpy (buf, header_obj_v8, sizeof header_obj_v8);
@@ -6478,12 +6458,7 @@ excel_write_state_new (GOIOContext *context, WorkbookView const *wb_view,
 		for (ptr = esheet->graphs ; ptr != NULL ; ptr = ptr->next)
 			extract_gog_object_style (&ewb->base,
 				(GogObject *)sheet_object_graph_get_gog (ptr->data));
-		for (ptr = esheet->textboxes ; ptr != NULL ; ptr = ptr->next) {
-			SheetObject *so = ptr->data;
-			extract_txomarkup (ewb, so);
-		}
-
-		for (ptr = esheet->widgets ; ptr != NULL ; ptr = ptr->next) {
+		for (ptr = esheet->objects ; ptr != NULL ; ptr = ptr->next) {
 			SheetObject *so = ptr->data;
 			GParamSpec *pspec = g_object_class_find_property
 				(G_OBJECT_GET_CLASS (so), "text");

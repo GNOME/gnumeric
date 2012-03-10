@@ -177,11 +177,8 @@ static GSF_CLASS (SOWidgetView, so_widget_view,
 
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-config-dialog"
 
-#define SHEET_OBJECT_WIDGET_TYPE     (sheet_object_widget_get_type ())
-#define SHEET_OBJECT_WIDGET(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_OBJECT_WIDGET_TYPE, SheetObjectWidget))
-#define SHEET_OBJECT_WIDGET_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_WIDGET_TYPE, SheetObjectWidgetClass))
-#define IS_SHEET_WIDGET_OBJECT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_WIDGET_TYPE))
-#define SOW_CLASS(so)		     (SHEET_OBJECT_WIDGET_CLASS (G_OBJECT_GET_CLASS(so)))
+#define GNM_SOW_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SOW_TYPE, SheetObjectWidgetClass))
+#define SOW_CLASS(so) (GNM_SOW_CLASS (G_OBJECT_GET_CLASS(so)))
 
 #define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet, fn_foreach_dep, \
 		      fn_copy, fn_write_sax, fn_prep_sax_parser,	\
@@ -191,7 +188,7 @@ static GSF_CLASS (SOWidgetView, so_widget_view,
 static void								\
 sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
 {									\
-	SheetObjectWidgetClass *sow_class = SHEET_OBJECT_WIDGET_CLASS (object_class); \
+	SheetObjectWidgetClass *sow_class = GNM_SOW_CLASS (object_class); \
 	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class);	\
 	object_class->finalize		= &sheet_widget_ ## n1 ## _finalize; \
 	object_class->set_property	= fn_set_property;		\
@@ -211,7 +208,7 @@ sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
 GSF_CLASS (SheetWidget ## n2, sheet_widget_ ## n1,			\
 	   &sheet_widget_ ## n1 ## _class_init,				\
 	   &sheet_widget_ ## n1 ## _init,				\
-	   SHEET_OBJECT_WIDGET_TYPE)
+	   GNM_SOW_TYPE)
 
 typedef struct {
 	SheetObject so;
@@ -224,14 +221,12 @@ typedef struct {
 
 static GObjectClass *sheet_object_widget_class = NULL;
 
-static GType sheet_object_widget_get_type	(void);
-
 static void
 sheet_widget_draw_cairo (SheetObject const *so, cairo_t *cr,
 			 double width, double height)
 {
 	GtkWidget *win = gtk_offscreen_window_new ();
-	GtkWidget *w = SOW_CLASS(so)->create_widget (SHEET_OBJECT_WIDGET (so));
+	GtkWidget *w = SOW_CLASS(so)->create_widget (GNM_SOW (so));
 
 	gtk_container_add (GTK_CONTAINER (win), w);
 	gtk_widget_set_size_request (w, width, height);
@@ -284,7 +279,7 @@ static SheetObjectView *
 sheet_object_widget_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GtkWidget *view_widget =
-		SOW_CLASS(so)->create_widget (SHEET_OBJECT_WIDGET (so));
+		SOW_CLASS(so)->create_widget (GNM_SOW (so));
 	GocItem *view_item = goc_item_new (
 		gnm_pane_object_group (GNM_PANE (container)),
 		so_widget_view_get_type (),
@@ -304,7 +299,7 @@ static void
 sheet_object_widget_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class);
-	SheetObjectWidgetClass *sow_class = SHEET_OBJECT_WIDGET_CLASS (object_class);
+	SheetObjectWidgetClass *sow_class = GNM_SOW_CLASS (object_class);
 
 	sheet_object_widget_class = G_OBJECT_CLASS (object_class);
 
@@ -323,10 +318,10 @@ sheet_object_widget_init (SheetObjectWidget *sow)
 	so->flags |= SHEET_OBJECT_CAN_PRESS;
 }
 
-static GSF_CLASS (SheetObjectWidget, sheet_object_widget,
-		  sheet_object_widget_class_init,
-		  sheet_object_widget_init,
-		  SHEET_OBJECT_TYPE)
+GSF_CLASS (SheetObjectWidget, sheet_object_widget,
+	   sheet_object_widget_class_init,
+	   sheet_object_widget_init,
+	   SHEET_OBJECT_TYPE)
 
 static WorkbookControl *
 widget_wbc (GtkWidget *widget)
@@ -1213,7 +1208,7 @@ sheet_widget_adjustment_set_horizontal (SheetWidgetAdjustment *swa,
 		SheetObjectView *view = ptr->data;
 		GocWidget *item = get_goc_widget (view);
 		GtkWidget *neww =
-			SOW_CLASS (swa)->create_widget (SHEET_OBJECT_WIDGET (swa));
+			SOW_CLASS (swa)->create_widget (GNM_SOW (swa));
 		gtk_widget_show (neww);
 		goc_item_set (GOC_ITEM (item), "widget", neww, NULL);
 	}

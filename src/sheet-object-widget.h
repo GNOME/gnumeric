@@ -11,47 +11,53 @@ G_BEGIN_DECLS
 
 void sheet_object_widget_register (void);
 
+GType sheet_object_widget_get_type (void);
+#define GNM_SOW_TYPE     (sheet_object_widget_get_type ())
+#define GNM_SOW(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_SOW_TYPE, SheetObjectWidget))
+#define GNM_IS_SOW(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_TYPE))
+
+
 GType sheet_widget_frame_get_type	 (void); /* convert to non-widget */
-#define GNM_SOW_FRAME (sheet_widget_frame_get_type ())
-#define GNM_IS_SOW_FRAME(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_FRAME))
+#define GNM_SOW_FRAME_TYPE (sheet_widget_frame_get_type ())
+#define GNM_IS_SOW_FRAME(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_FRAME_TYPE))
 
 GType sheet_widget_button_get_type	 (void);
-#define GNM_SOW_BUTTON (sheet_widget_button_get_type ())
-#define GNM_IS_SOW_BUTTON(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_BUTTON))
+#define GNM_SOW_BUTTON_TYPE (sheet_widget_button_get_type ())
+#define GNM_IS_SOW_BUTTON(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_BUTTON_TYPE))
 
 GType sheet_widget_checkbox_get_type	 (void);
-#define GNM_SOW_CHECKBOX (sheet_widget_checkbox_get_type ())
-#define GNM_IS_SOW_CHECKBOX(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_CHECKBOX))
+#define GNM_SOW_CHECKBOX_TYPE (sheet_widget_checkbox_get_type ())
+#define GNM_IS_SOW_CHECKBOX(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_CHECKBOX_TYPE))
 
 GType sheet_widget_toggle_button_get_type(void);
-#define GNM_SOW_TOGGLE_BUTTON (sheet_widget_toggle_button_get_type ())
-#define GNM_IS_SOW_TOGGLE_BUTTON(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_TOGGLE_BUTTON))
+#define GNM_SOW_TOGGLE_BUTTON_TYPE (sheet_widget_toggle_button_get_type ())
+#define GNM_IS_SOW_TOGGLE_BUTTON(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_TOGGLE_BUTTON_TYPE))
 
 GType sheet_widget_radio_button_get_type (void);
-#define GNM_SOW_RADIO_BUTTON (sheet_widget_radio_button_get_type ())
-#define GNM_IS_SOW_RADIO_BUTTON(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_RADIO_BUTTON))
+#define GNM_SOW_RADIO_BUTTON_TYPE (sheet_widget_radio_button_get_type ())
+#define GNM_IS_SOW_RADIO_BUTTON(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_RADIO_BUTTON_TYPE))
 
 /*Descendents of the list_base sheet widget object*/
 GType sheet_widget_list_get_type	 (void);
-#define GNM_SOW_LIST (sheet_widget_list_get_type ())
-#define GNM_IS_SOW_LIST(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_LIST))
+#define GNM_SOW_LIST_TYPE (sheet_widget_list_get_type ())
+#define GNM_IS_SOW_LIST(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_LIST_TYPE))
 
 GType sheet_widget_combo_get_type	 (void);
-#define GNM_SOW_COMBO (sheet_widget_combo_get_type ())
-#define GNM_IS_SOW_COMBO(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_COMBO))
+#define GNM_SOW_COMBO_TYPE (sheet_widget_combo_get_type ())
+#define GNM_IS_SOW_COMBO(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_COMBO_TYPE))
 
 /*Descendents of the adjustment sheet widget object*/
 GType sheet_widget_scrollbar_get_type	 (void);
-#define GNM_SOW_SCROLLBAR (sheet_widget_scrollbar_get_type ())
-#define GNM_IS_SOW_SCROLLBAR(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_SCROLLBAR))
+#define GNM_SOW_SCROLLBAR_TYPE (sheet_widget_scrollbar_get_type ())
+#define GNM_IS_SOW_SCROLLBAR(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_SCROLLBAR_TYPE))
 
 GType sheet_widget_slider_get_type       (void);
-#define GNM_SOW_SLIDER (sheet_widget_slider_get_type ())
-#define GNM_IS_SOW_SLIDER(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_SLIDER))
+#define GNM_SOW_SLIDER_TYPE (sheet_widget_slider_get_type ())
+#define GNM_IS_SOW_SLIDER(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_SLIDER_TYPE))
 
 GType sheet_widget_spinbutton_get_type   (void);
-#define GNM_SOW_SPINBUTTON (sheet_widget_spinbutton_get_type ())
-#define GNM_IS_SOW_SPINBUTTON(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_SPINBUTTON))
+#define GNM_SOW_SPIN_BUTTON_TYPE (sheet_widget_spinbutton_get_type ())
+#define GNM_IS_SOW_SPINBUTTON(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_SPIN_BUTTON_TYPE))
 
 /* ------------------------------------------------------------------------ */
 
