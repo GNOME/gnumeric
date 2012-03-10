@@ -1,3 +1,7 @@
+2012-03-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-image.c (gnm_soi_write_image): make it work again.
+
 2012-03-09  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (sheet_style_is_default)

@@ -282,10 +282,15 @@ gnm_soi_write_image (SheetObject const *so, char const *format, double resolutio
 	gboolean res = FALSE;
 	GdkPixbuf *pixbuf = go_image_get_pixbuf (soi->image);
 
-	if (!soi->type || strcmp (format, soi->type) == 0)
-		res = gsf_output_write (output,
-					soi->bytes.len, soi->bytes.data);
-	else if (pixbuf)
+	if (!soi->type || strcmp (format, soi->type) == 0) {
+		if (soi->bytes.len == 0) {
+			gsize length;
+			guint8 const *data = go_image_get_data (soi->image, &length);
+			res = gsf_output_write (output,	length, data);
+		} else
+			res = gsf_output_write (output,
+						soi->bytes.len, soi->bytes.data);
+	} else if (pixbuf)
 		res = gdk_pixbuf_save_to_callback (pixbuf,
 						   soi_gdk_pixbuf_save, output,
 						   format,
