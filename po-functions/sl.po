@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-03-02 14:54+0000\n"
-"PO-Revision-Date: 2012-03-08 13:12+0100\n"
+"POT-Creation-Date: 2012-03-10 20:52+0000\n"
+"PO-Revision-Date: 2012-03-10 21:54+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1371,9 +1371,8 @@ msgid "rate:risk-free interest rate to the exercise date in percent"
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:54
-#, fuzzy
 msgid "rate:annualized interest rate"
-msgstr "Obročna obrestna mera"
+msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:55
 msgid "rate:annualized risk-free interest rate"
@@ -1452,6 +1451,7 @@ msgid "Gamma is expressed as the rate of change of delta per unit change in @{sp
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:358
+#, fuzzy
 msgid "Gamma is the same for calls and puts."
 msgstr ""
 
@@ -1515,9 +1515,8 @@ msgid "OPT_GARMAN_KOHLHAGEN:theoretical price of a European currency option"
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:628
-#, fuzzy
 msgid "time:number of days to exercise"
-msgstr "čas:čas trajanja do dospetja v dnevih"
+msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:629
 msgid "domestic_rate:domestic risk-free interest rate to the exercise date in percent"
@@ -1552,9 +1551,8 @@ msgid "OPT_JUMP_DIFF:theoretical price of an option according to the Jump Diffus
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:736
-#, fuzzy
 msgid "rate:the annualized rate of interest"
-msgstr "Obročna obrestna mera"
+msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:738
 msgid "lambda:expected number of 'jumps' per year"
@@ -2152,18 +2150,20 @@ msgid "wiki:en:Bessel_function"
 msgstr "wiki:en:Bessel_function"
 
 #: ../plugins/fn-eng/functions.c:584
+#, fuzzy
 msgid "BESSELK:Modified Bessel function of the second kind of order @{α} at @{x}"
-msgstr ""
+msgstr "BESSELI:prilagojena Besselova funkcija prve vrste reda @{α} pri @{x}"
 
 #: ../plugins/fn-eng/functions.c:608
+#, fuzzy
 msgid "BESSELJ:Bessel function of the first kind of order @{α} at @{x}"
-msgstr ""
+msgstr "BESSELI:prilagojena Besselova funkcija prve vrste reda @{α} pri @{x}"
 
 #: ../plugins/fn-eng/functions.c:610
 #: ../plugins/fn-eng/functions.c:639
 #, fuzzy
 msgid "α:order (any non-negative integer)"
-msgstr "d:ne-negativno celo število, privzeto je določena vrednosti 0"
+msgstr "α:red števil (ne-negativno število)"
 
 #: ../plugins/fn-eng/functions.c:611
 #: ../plugins/fn-eng/functions.c:640
@@ -2171,8 +2171,9 @@ msgid "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM
 msgstr ""
 
 #: ../plugins/fn-eng/functions.c:637
+#, fuzzy
 msgid "BESSELY:Bessel function of the second kind of order @{α} at @{x}"
-msgstr ""
+msgstr "BESSELI:prilagojena Besselova funkcija prve vrste reda @{α} pri @{x}"
 
 #: ../plugins/fn-eng/functions.c:664
 msgid "CONVERT:a converted measurement"
@@ -4239,7 +4240,7 @@ msgstr "indeks %s ni v skladu z indeksom podrejenega procesa"
 #: ../plugins/fn-lookup/functions.c:1150
 #, fuzzy
 msgid "seek:value to find"
-msgstr "išči:vrednost za iskanje"
+msgstr "k:vrednost za iskanje"
 
 #: ../plugins/fn-lookup/functions.c:1151
 msgid "vector:n by 1 or 1 by n range to be searched"
@@ -5104,8 +5105,9 @@ msgid "area1:second cell area"
 msgstr "A1 (prva celica delovnega lista)"
 
 #: ../plugins/fn-math/functions.c:1516
+#, fuzzy
 msgid "SUMSQ:sum of the squares of all values and cells referenced"
-msgstr ""
+msgstr "Funkcija SUM izračuna vsoto vseh vrednosti in sklicanih celic v seznamu argumenta."
 
 #: ../plugins/fn-math/functions.c:1539
 msgid "MULTINOMIAL:multinomial coefficient (@{x1}+⋯+@{xn}) choose (@{x1},…,@{xn})"
@@ -5649,7 +5651,7 @@ msgstr ""
 #: ../plugins/fn-numtheory/numtheory.c:551
 #, fuzzy
 msgid "BITAND:bitwise and"
-msgstr "Streets And Alleys"
+msgstr "BITAND:bitwise and"
 
 #: ../plugins/fn-numtheory/numtheory.c:554
 msgid "BITAND returns the bitwise and of the binary representations of its arguments."
@@ -6732,8 +6734,9 @@ msgid "b:parameter of the Gumbel distribution"
 msgstr "b:parameter Gumbelove porazdelitve"
 
 #: ../plugins/fn-random/functions.c:693
+#, fuzzy
 msgid "type:type of the Gumbel distribution, defaults to 1"
-msgstr ""
+msgstr "β:parameter Lévyjeve porazdelitve, ki je privzeto je določena na vrednost 0."
 
 #: ../plugins/fn-random/functions.c:694
 msgid "If @{type} is neither 1 nor 2, RANDGUMBEL returns #NUM!"
@@ -6864,9 +6867,8 @@ msgid "The skewness of a skew-normal distribution is in general not @{𝛼}."
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:906
-#, fuzzy
 msgid "If @{𝜔} < 0, RANDSNORM returns #NUM!"
-msgstr "V kolikor je vrednost @{x} ≤ 0, funkcija vrne napako #NUM!"
+msgstr "V kolikor je vrednost @{𝜔} < 0, funkcija RANDSNORM vrne napako #NUM!"
 
 #: ../plugins/fn-random/functions.c:941
 #, fuzzy
@@ -7755,8 +7757,9 @@ msgstr "poskusi:število poskusov"
 #: ../plugins/fn-stat/functions.c:1474
 #: ../plugins/fn-stat/functions.c:1508
 #: ../plugins/fn-stat/functions.c:1570
+#, fuzzy
 msgid "p:probability of success in each trial"
-msgstr ""
+msgstr "p:verjetnost uspeha ob enem samem poskusu"
 
 #: ../plugins/fn-stat/functions.c:1475
 #: ../plugins/fn-stat/functions.c:1629
@@ -8739,8 +8742,9 @@ msgid "k:number of trials"
 msgstr "k:število poskusov"
 
 #: ../plugins/fn-stat/functions.c:4295
+#, fuzzy
 msgid "p:probability of success in any trial"
-msgstr ""
+msgstr "p:verjetnost uspeha ob enem samem poskusu"
 
 #: ../plugins/fn-stat/functions.c:4297
 msgid "If @{k} < 0 this function returns a #NUM! error."
@@ -9191,8 +9195,9 @@ msgid "start:starting byte position"
 msgstr "start:začetni bitni položaj"
 
 #: ../plugins/fn-string/functions.c:890
+#, fuzzy
 msgid "num:number of bytes to be replaced"
-msgstr ""
+msgstr "štev:število znakov za zamenjavo"
 
 #: ../plugins/fn-string/functions.c:892
 msgid "REPLACEB replaces the string of valid unicode characters starting at the byte @{start} and ending at @{start}+@{num}-1 with the string @{new}."
