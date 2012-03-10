@@ -1101,7 +1101,9 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 /* Background Color */
 	if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
 		gnm_xml_out_add_hex_color (state->xml, FOSTYLE "background-color",
-					   gnm_style_get_back_color (style), gnm_style_get_pattern (style));
+					   gnm_style_get_back_color (style), 
+					   gnm_style_is_element_set (style, MSTYLE_PATTERN) ? 
+					   gnm_style_get_pattern (style) : 1);
 /* Borders */
 	BORDERSTYLE(MSTYLE_BORDER_TOP,FOSTYLE "border-top", STYLE "border-line-width-top", GNMSTYLE "border-line-style-top");
 	BORDERSTYLE(MSTYLE_BORDER_BOTTOM,FOSTYLE "border-bottom", STYLE "border-line-width-bottom", GNMSTYLE "border-line-style-bottom");

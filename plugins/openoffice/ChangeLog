@@ -1,3 +1,8 @@
+2012-03-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_style_cell_properties): allow for
+	set background color without pattern, default to pattern 1
+
 2012-03-09  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-write.c (odf_write_sheet): Use new
