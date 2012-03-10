@@ -15,6 +15,9 @@ while (<STDIN>) {
     if (m|^\s*<gnm:Version\s+Epoch="\d+"\s+Major="\d+"\s+Minor="\d+"\s+Full="[.0-9]+"/>\s*$|) {
 	s/="[.0-9]+"/="x"/g;
     }
+    if (m|^\s*<office:document-meta |) {
+	s/( office:version=")[.0-9]+(")/$1XXX$2/;
+    }
 
     if (m|^\s*<gnm:PrintInformation>\s*$| .. m|^\s*</gnm:PrintInformation>\s*$|) {
         # "x" out margins.
