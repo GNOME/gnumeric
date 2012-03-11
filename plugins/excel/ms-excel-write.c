@@ -4724,13 +4724,13 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 }
 
 static gsize
-excel_write_obj_v8 (ExcelWriteSheet *esheet,
-		    SheetObject *so)
+excel_write_obj_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 {
+	if (IS_SHEET_OBJECT_GRAPH (so))
+		return excel_write_chart_v8 (esheet, so);
 	if (IS_GNM_SO_LINE (so))
 		return excel_write_line_v8 (esheet, so);
-	else
-		return excel_write_other_v8 (esheet, so);
+	return excel_write_other_v8 (esheet, so);
 }
 
 static void
@@ -5304,10 +5304,6 @@ excel_write_objs_v8 (ExcelWriteSheet *esheet)
 		/* First object commits.  */
 	}
 
-#warning "handle multiple charts in a graph by creating multiple objects"
-	for (ptr = esheet->graphs; ptr != NULL ; ptr = ptr->next)
-		len += excel_write_chart_v8 (esheet, ptr->data);
-
 	for (ptr = esheet->objects; ptr != NULL ; ptr = ptr->next)
 		len += excel_write_obj_v8 (esheet, ptr->data);
 
@@ -5520,6 +5516,8 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 		if (IS_SHEET_OBJECT_GRAPH (so)) {
 			/* No derivation for now.  */
 			esheet->graphs = g_slist_prepend (esheet->graphs, so);
+			esheet->objects =
+				g_slist_prepend (esheet->objects, so);
 			handled = TRUE;
 		} else if (IS_SHEET_OBJECT_IMAGE (so)) {
 			SheetObjectImage *soi = SHEET_OBJECT_IMAGE (l->data);
