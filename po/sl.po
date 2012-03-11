@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-10 20:19+0000\n"
-"PO-Revision-Date: 2012-03-11 21:42+0100\n"
+"PO-Revision-Date: 2012-03-11 22:04+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -5548,7 +5548,6 @@ msgid "_Style"
 msgstr "_Slog"
 
 #: ../src/dialogs/dialog-data-slicer.c:215
-#, fuzzy
 msgid "_Aggregation"
 msgstr "_Sestavljanje"
 
@@ -7618,7 +7617,6 @@ msgid "_Distributed"
 msgstr "_Porazdeljeno"
 
 #: ../src/dialogs/cell-format.ui.h:18
-#, fuzzy
 msgid "<b>Control</b>"
 msgstr "<b>Nadzor</b>"
 
@@ -10191,7 +10189,6 @@ msgid "_Force intercept to be zero"
 msgstr "_Vsili ničelno koordinatno izhodišče"
 
 #: ../src/dialogs/regression.ui.h:12
-#, fuzzy
 msgid "Calculate residuals"
 msgstr "Izračunaj preostanke"
 
@@ -10816,7 +10813,6 @@ msgid "Wilcoxon Signed Rank Test"
 msgstr "Wilcoxonov test predznačenih rangov"
 
 #: ../src/dialogs/sign-test-two.ui.h:8
-#, fuzzy
 msgid "Hypothesized _difference of medians:"
 msgstr "Hipotetična _razlika srednjih vrednosti:"
 
@@ -10847,7 +10843,6 @@ msgid "Variables"
 msgstr "Spremenljivke"
 
 #: ../src/dialogs/simulation.ui.h:5
-#, fuzzy
 msgid "<span weight=\"bold\">Rounds</span>"
 msgstr "<span weight=\"bold\">Ponovitve</span>"
 
@@ -11304,7 +11299,7 @@ msgstr[2] "%d stolpca"
 msgstr[3] "%d stolpci"
 
 #: ../src/format-template.c:730
-#, fuzzy, c-format
+#, c-format
 msgid "The target region is too small.  It should be at least %s by %s"
 msgstr "Ciljni obseg celic je premajhen. Meriti mora vsaj %s krat %s celic."
 
@@ -12575,7 +12570,7 @@ msgid "Merge"
 msgstr "Združi"
 
 #: ../src/sheet-merge.c:81
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "There is already a merged region that intersects\n"
 "%s!%s"
@@ -13543,7 +13538,7 @@ msgstr "/Števec/Vsota/Povprečje/Varianca"
 #: ../src/tools/analysis-anova.c:598
 #, fuzzy
 msgid "/Source of Variation/Factor A/Factor B/Interaction/Error/Total"
-msgstr "/Source of Variation/Faktor A/Faktor B/Interaction/Napaka/Skupno"
+msgstr "/Vir variacije/Faktor A/Faktor B/Interaction/Napaka/Skupno"
 
 #: ../src/tools/analysis-anova.c:836
 #, c-format
@@ -13586,7 +13581,7 @@ msgstr "[>=5]\"Test homogenosti\";[<5][Red]\"Neveljaven test homogenosti\""
 #: ../src/tools/analysis-chi-squared.c:69
 #, fuzzy
 msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
-msgstr "/Testna statistika/Stopnje prostosti dF/Vrednost p/Kritična vrednost"
+msgstr "/Testna statistika/Stopnje prostosti/Vrednost p/Kritična vrednost"
 
 #: ../src/tools/analysis-chi-squared.c:178
 #, c-format
@@ -13753,12 +13748,11 @@ msgstr "Kaplan-Meier"
 #: ../src/tools/analysis-kaplan-meier.c:203
 #, fuzzy
 msgid "/At Risk/Deaths/Censures/Probability"
-msgstr "/At Risk/Deaths/Censures/Verjetnost"
+msgstr "/V nevarnosti/Smrtnost/Censures/Verjetnost"
 
 #: ../src/tools/analysis-kaplan-meier.c:209
-#, fuzzy
 msgid "/At Risk/Deaths/Probability"
-msgstr "/At Risk/Deaths/Verjetnost"
+msgstr "/V nevarnosti/Smrtnost/Verjetnost"
 
 #: ../src/tools/analysis-kaplan-meier.c:469
 #: ../src/tools/simulation.c:250
@@ -13906,7 +13900,7 @@ msgstr ""
 #: ../src/tools/analysis-signed-rank-test.c:294
 #, fuzzy
 msgid "/Wilcoxon Signed Rank Test/Median/Observed Median Difference/Predicted Median Difference/N/S−/S+/Test Statistic/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
-msgstr "/Wilcoxonov test predznačenih rangov/Mediana/Observed Median Difference/Napovedana mediana razlika/N/S−/S+/Testna statistika/α/P(T≤t) enostranska porazdelitev/P(T≤t) dvostranska porazdelitev"
+msgstr "/Wilcoxonov test predznačenih rangov/Mediana/Opazovana mediana razlika/Napovedana mediana razlika/N/S−/S+/Testna statistika/α/P(T≤t) enostranska porazdelitev/P(T≤t) dvostranska porazdelitev"
 
 #: ../src/tools/analysis-signed-rank-test.c:539
 #: ../src/tools/analysis-signed-rank-test.c:568
@@ -13988,7 +13982,7 @@ msgstr "Vzorec"
 #: ../src/tools/analysis-tools.c:1400
 #, fuzzy
 msgid "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
-msgstr "/Mean/Neznana varianca/Observations/Hypothesized Mean Difference/Observed Mean Difference/z/P (Z<=z) enostranska porazdelitev/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
+msgstr "/Mean/Znana varianca/Opazovanja/Hypothesized Mean Difference/Observed Mean Difference/z/P (Z<=z) enostranska porazdelitev/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
 
 #: ../src/tools/analysis-tools.c:1587
 #, c-format
@@ -14003,7 +13997,7 @@ msgstr "Z-Test"
 #: ../src/tools/analysis-tools.c:1651
 #, fuzzy
 msgid "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
-msgstr "/Mean/Varianca/Observations/Pearson Correlation/Hypothesized Mean Difference/Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
+msgstr "/Mean/Varianca/Opazovanja/Pearson Correlation/Hypothesized Mean Difference/Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 
 #: ../src/tools/analysis-tools.c:1879
 #, c-format
@@ -14022,7 +14016,7 @@ msgstr "T-Test"
 #: ../src/tools/analysis-tools.c:1930
 #, fuzzy
 msgid "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
-msgstr "/Mean/Varianca/Observations/Pooled Variance/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
+msgstr "/Mean/Varianca/Opazovanja/Pooled Variance/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 
 #: ../src/tools/analysis-tools.c:2179
 #: ../src/tools/analysis-tools.c:2472
@@ -14033,7 +14027,7 @@ msgstr "T-Test (%s)"
 #: ../src/tools/analysis-tools.c:2227
 #, fuzzy
 msgid "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
-msgstr "/Mean/Varianca/Observations/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
+msgstr "/Mean/Varianca/Opazovanja/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 
 #: ../src/tools/analysis-tools.c:2521
 #: ../src/tools/analysis-tools.c:2770
@@ -14044,7 +14038,7 @@ msgstr "F-Test"
 #: ../src/tools/analysis-tools.c:2522
 #, fuzzy
 msgid "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P (f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
-msgstr "/Mean/Varianca/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P (f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
+msgstr "/Mean/Varianca/Opazovanja/df/F/P (F<=f) right-tail/F Critical right-tail/P (f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 
 #: ../src/tools/analysis-tools.c:2760
 #, c-format
@@ -14114,19 +14108,17 @@ msgid "/Prediction//Residual/Leverages/Internally studentized/Externally student
 msgstr "/Napoved//Residual/Leverages/Internally studentized/Externally studentized/Vrednost p"
 
 #: ../src/tools/analysis-tools.c:3501
-#, fuzzy
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr "/IZPIS POVZETKA//Neodvisna spremenljivka//Opazovanja"
 
 #: ../src/tools/analysis-tools.c:3506
-#, fuzzy
 msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr "/IZPIS POVZETKA//Odzivna spremenljivka//Opazovanja"
 
 #: ../src/tools/analysis-tools.c:3512
 #, fuzzy
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
-msgstr "/Response Variable/R^2/Naklon/Intercept/F/Significance of F"
+msgstr "/Odzivna spremenljivka/R^2/Naklon/Intercept/F/Significance of F"
 
 #: ../src/tools/analysis-tools.c:3518
 #, fuzzy
@@ -14225,7 +14217,7 @@ msgstr "Fourierjeva vrsta"
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:101
 #, fuzzy
 msgid "/Rank-Sum/N/U/Ties/Statistics/U-Statistics/p-Value"
-msgstr "/Rank-Sum/N/U/Vezi/Statistika/U-Statistika/Vrednost p"
+msgstr "/Rank-Sum/N/U/Ties/Statistika/U-Statistika/Vrednost p"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:292
 msgid ""
