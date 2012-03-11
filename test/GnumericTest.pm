@@ -6,7 +6,8 @@ use Config;
 use XML::Parser;
 
 @GnumericTest::ISA = qw (Exporter);
-@GnumericTest::EXPORT = qw(test_sheet_calc test_importer test_valgrind
+@GnumericTest::EXPORT = qw(test_sheet_calc test_valgrind
+                           test_importer test_exporter
 			   test_ssindex sstest test_command message
 			   $ssconvert $sstest $topsrc $top_builddir
 			   $samples $PERL);
@@ -305,6 +306,47 @@ sub test_importer {
     }
 
     &removejunk ($tmp);
+}
+
+# -----------------------------------------------------------------------------
+
+sub test_exporter {
+    my ($file) = @_;
+
+    my $tmp = fileparse ($file);
+    $tmp =~ s/\.([a-zA-Z0-9]+)$// or die "Must have extension for export test.";
+    my $ext = $1;
+    my $code;
+
+    my $tmp1 = "$tmp.gnumeric";
+    &junkfile ($tmp1);
+    $code = system ("$ssconvert '$file' '$tmp1' 2>&1 | sed -e 's/^/| /'");
+    &system_failure ($ssconvert, $code) if $code;
+
+    my $tmp2 = "$tmp-new.$ext";
+    &junkfile ($tmp2);
+    $code = system ("$ssconvert '$file' '$tmp2' 2>&1 | sed -e 's/^/| /'");
+    &system_failure ($ssconvert, $code) if $code;
+
+    my $tmp3 = "$tmp-new.gnumeric";
+    &junkfile ($tmp3);
+    $code = system ("$ssconvert '$tmp2' '$tmp3' 2>&1 | sed -e 's/^/| /'");
+    &system_failure ($ssconvert, $code) if $code;
+
+    my $tmp4 = "$tmp.xml";
+    &junkfile ($tmp4);
+    $code = system ("zcat -f '$tmp1' >'$tmp4'");
+    &system_failure ('zcat', $code) if $code;
+
+    my $tmp5 = "$tmp-new.xml";
+    &junkfile ($tmp5);
+    $code = system ("zcat -f '$tmp3' >'$tmp5'");
+    &system_failure ('zcat', $code) if $code;
+
+    $code = system ('diff', '-u', $tmp4, $tmp5);
+    &system_failure ('diff', $code) if $code;
+
+    print STDERR "Pass\n";
 }
 
 # -----------------------------------------------------------------------------
