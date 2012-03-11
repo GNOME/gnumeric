@@ -1,3 +1,7 @@
+2012-03-11  Morten Welinder  <terra@gnome.org>
+
+	* src/print-info.c (print_info_get_paper_size): New function.
+
 2012-03-11  Morten Welinder  <mwelinder@gmail.com>
 
 	* test/GnumericTest.pm (test_importer): Survive non-compressed

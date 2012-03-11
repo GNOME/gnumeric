@@ -93,4 +93,13 @@ typedef struct {
 XL_font_width const *xl_lookup_font_specs   (char const *name);
 void		     destroy_xl_font_widths (void);
 
+
+/*****************************************************************************/
+
+const char *xls_paper_name (unsigned idx, gboolean *rotated);
+unsigned xls_paper_size (GtkPaperSize *ps, gboolean rotated);
+
+/*****************************************************************************/
+
+
 #endif /* GNM_MS_EXCEL_UTIL_H */

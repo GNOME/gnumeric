@@ -1,5 +1,10 @@
 2012-03-11  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-write.c (excel_write_SETUP): Export paper size.
+
+	* ms-excel-util.c (xls_paper_name): Extract from ms-excel-read.c
+	(xls_paper_size): New pseudo-inverse of above.
+
 	* ms-excel-write.c (excel_write_obj_v8): Handle graphs here too.
 	(excel_sheet_new): Put graphs into the regular object queue too.
 

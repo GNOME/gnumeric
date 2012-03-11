@@ -488,3 +488,174 @@ xl_lookup_font_specs (char const *name)
 	return &unknown_spec;
 }
 
+/*
+ * This mapping was derived from http://sc.openoffice.org/excelfileformat.pdf
+ * and from the documentation for the Spreadsheet::WriteExcel perl module
+ * (http://freshmeat.net/projects/writeexcel/).
+ */
+typedef struct {
+	/* PWG 5101.1-2002 name for a physical paper size,
+	 * and a boolean to indicate the paper is turned */
+	char const *gp_name;
+	gboolean const rotated;
+} paper_size_table_entry;
+
+static paper_size_table_entry const paper_size_table[] = {
+	{ NULL, FALSE},		/* printer default / undefined */
+
+	{ "na_letter_8.5x11in", FALSE },
+	{ "na_letter_8.5x11in", FALSE },	/* Letter small */
+	{ "na_ledger_11x17in", FALSE  },	/* Tabloid */
+	{ "na_ledger_11x17in", TRUE },	/* Ledger ROTATED*/
+	{ "na_legal_8.5x14in", FALSE },	/* Legal */
+
+	{ "na_invoice_5.5x8.5in", FALSE },	/* Statement */
+	{ "na_executive_7.25x10.5in", FALSE },	/* Executive */
+	{ "iso_a3_297x420mm", FALSE },
+	{ "iso_a4_210x297mm", FALSE },
+	{ "iso_a4_210x297mm", FALSE },		/* A4 small */
+
+	{ "iso_a5_148x210mm", FALSE },
+	{ "iso_b4_250x353mm", FALSE },
+	{ "iso_b5_176x250mm", FALSE },
+	{ "na_foolscap_8.5x13in", FALSE },	/* Folio */
+	{ "na_quarto_8.5x10.83in", FALSE },	/* Quarto */
+
+	{ "na_10x14_10x14in",  FALSE },	/* 10x14 */
+	{ "na_ledger_11x17in", FALSE },	/* 11x17 */
+	{ "na_letter_8.5x11in", FALSE },	/* Note */
+	{ "na_number-9_3.875x8.875in", FALSE},	/* Envelope #9 */
+	{ "na_number-10_4.125x9.5in", FALSE},	/* Envelope #10 */
+	{ "na_number-11_4.5x10.375in", FALSE},	/* Envelope #11 */
+	{ "na_number-12_4.75x11in", FALSE },	/* Envelope #12 */
+	{ "na_number-14_5x11.5in", FALSE },	/* Envelope #14 */
+	{ "na_c_17x22in", FALSE },	/* C */
+	{ "na_d_22x34in", FALSE },	/* D */
+	{ "na_e_34x44in", FALSE },	/* E */
+
+	{ "iso_dl_110x220mm", FALSE },		/* Envelope DL */
+	{ "iso_c5_162x229mm", FALSE },		/* Envelope C5 */
+	{ "iso_c3_324x458mm", FALSE },		/* Envelope C3 */
+	{ "iso_c4_229x324mm", FALSE },		/* Envelope C4 */
+
+	{ "iso_c6_114x162mm", FALSE },		/* Envelope C6 */
+	{ "iso_c6c5_114x229mm", FALSE },	/* Envelope C6/C5 */
+	{ "iso_b4_250x353mm", FALSE },
+	{ "iso_b5_176x250mm", FALSE },
+	{ "iso_b6_125x176mm", FALSE },
+
+	{ "om_italian_110x230mm", FALSE },	/* Envelope Italy */
+	{ "na_monarch_3.875x7.5in", FALSE },	/* Envelope Monarch */
+	{ "na_personal_3.625x6.5in", FALSE },	/* 6 1/2 Envelope */
+	{ "na_fanfold-us_11x14.875in", TRUE },	/* US Standard Fanfold ROTATED */
+	{ "na_fanfold-eur_8.5x12in", FALSE },	/* German Std Fanfold */
+
+	{ "na_foolscap_8.5x13in", FALSE },	/* German Legal Fanfold */
+	{ "iso_b4_250x353mm", FALSE },		/* Yes, twice... */
+	{ "jpn_hagaki_100x148mm", FALSE },	/* Japanese Postcard */
+	{ "na_9x11_9x11in", FALSE },	/* 9x11 */
+	{ "na_10x11_10x11in", FALSE },	/* 10x11 */
+
+	{ "na_11x15_11x15in", FALSE },	/* 15x11 switch landscape */
+	{ "om_invite_220x220mm", FALSE },	/* Envelope Invite */
+	{ NULL, FALSE},		/* undefined */
+	{ NULL, FALSE },		/* undefined */
+	{ "na_letter-extra_9.5x12in", FALSE },	/* Letter Extra */
+
+	{ "na_legal-extra_9.5x15in", FALSE },	/* Legal Extra */
+	{ "na_arch-b_12x18in", FALSE },	/* Tabloid Extra */
+	{ "iso_a4_extra_235.5x322.3mm", FALSE },	/* A4 Extra */
+	{ "na_letter_8.5x11in", FALSE },	/* Letter Transverse */
+	{ "iso_a4_210x297mm", FALSE },		/* A4 Transverse */
+
+	{ "na_letter-extra_9.5x12in", FALSE },	/* Letter Extra Transverse */
+	{ "custom_super-aa4_227x356mm", FALSE },	/* Super A/A4 */
+	{ "custom_super-ba3_305x487mm", FALSE },	/* Super B/A3 */
+	{ "na_letter-plus_8.5x12.69in", FALSE },	/* Letter Plus */
+	{ "om_folio_210x330mm", FALSE },	/* A4 Plus */
+
+	{ "iso_a5_148x210mm", FALSE },		/* A5 Transverse */
+	{ "jis_b5_182x257mm", FALSE },		/* B5 (JIS) Transverse */
+	{ "iso_a3-extra_322x455mm", FALSE },	/* A3 Extra */
+	{ "iso_a5-extra_174x235mm", FALSE },	/* A5 Extra */
+	{ "iso_b5-extra_201x276mm", FALSE },	/* B5 (ISO) Extra */
+
+	{ "iso_a2_420x594mm", FALSE },
+	{ "iso_a3_297x420mm", FALSE },		/* A3 Transverse */
+	{ "iso_a3-extra_322x455mm", FALSE },	/* A3 Extra Transverse */
+	{ "jpn_oufuku_148x200mm", TRUE },	/* Dbl. Japanese Postcard ROTATED */
+	{ "iso_a6_105x148mm", FALSE },
+
+	{ NULL, FALSE },		/* FIXME: No documentation found */
+	{ NULL, FALSE },		/* FIXME: No documentation found */
+	{ NULL, FALSE },		/* FIXME: No documentation found */
+	{ NULL, FALSE },		/* FIXME: No documentation found */
+	{ "na_letter_8.5x11in", TRUE },	/* Letter Rotated */
+
+	{ "iso_a3_297x420mm", TRUE },	/* A3 Rotated */
+	{ "iso_a4_210x297mm", TRUE },	/* A4 Rotated */
+	{ "iso_a5_148x210mm", TRUE },	/* A5 Rotated */
+	{ "jis_b4_257x364mm", TRUE },	/* B4 (JIS) Rotated */
+	{ "jis_b5_182x257mm", TRUE },	/* B5 (JIS) Rotated */
+
+	{ "jpn_hagaki_100x148mm", TRUE },	/* Japanese Postcard Rotated */
+	{ "jpn_oufuku_148x200mm", FALSE },	/* Dbl. Jap. Postcard*/
+	{ "iso_a6_105x148mm", TRUE },	/* A6 Rotated */
+	{ NULL, FALSE },		/* FIXME: No documentation found */
+	{ NULL, FALSE },		/* FIXME: No documentation found */
+
+
+	{ NULL, FALSE },		/* FIXME: No documentation found */
+	{ NULL, FALSE },		/* FIXME: No documentation found */
+	{ "jis_b6_128x182mm", FALSE },		/* B6 (JIS) */
+	{ "jis_b6_128x182mm", TRUE },	/* B6 (JIS) Rotated */
+	{ "na_11x12_11x12in", TRUE },	/* 12x11 ROTATED */
+};
+
+
+const char *
+xls_paper_name (unsigned idx, gboolean *rotated)
+{
+	if (idx < G_N_ELEMENTS (paper_size_table)) {
+		*rotated = paper_size_table[idx].rotated;
+		return paper_size_table[idx].gp_name;
+	} else {
+		*rotated = FALSE;
+		return NULL;
+	}
+}
+
+unsigned
+xls_paper_size (GtkPaperSize *ps, gboolean rotated)
+{
+	const char *name = gtk_paper_size_get_name (ps);
+	size_t name_len = strlen (name);
+	double w = gtk_paper_size_get_width (ps, GTK_UNIT_MM);
+	double h = gtk_paper_size_get_height (ps, GTK_UNIT_MM);
+	unsigned ui;
+
+	for (ui = 0; ui < G_N_ELEMENTS (paper_size_table); ui++) {
+		const char *thisname = paper_size_table[ui].gp_name;
+		GtkPaperSize *tps;
+		double d, tw, th;
+
+		if (!thisname ||
+		    strncmp (name, thisname, name_len) != 0 ||
+		    thisname[name_len] != '_')
+			continue;
+
+		if (rotated != paper_size_table[ui].rotated)
+			continue;
+
+		tps = gtk_paper_size_new (thisname);
+		tw = gtk_paper_size_get_width (tps, GTK_UNIT_MM);
+		th = gtk_paper_size_get_height (tps, GTK_UNIT_MM);
+		gtk_paper_size_free (tps);
+		d = hypot (w - tw, h - th);
+		if (d < 2.0) {
+			return ui;
+		}
+	}
+
+	return 0;
+}

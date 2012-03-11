@@ -483,11 +483,15 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_SETUP, 34);
 	guint16 flags = 0;
 	guint16 scale = 100;
+	guint16 papersize = 0; 	/* _invalid_ paper size */
 
 	if (NULL != esheet)
 		pi = esheet->gnum_sheet->print_info;
 	if (NULL != pi) {
 		GtkPageOrientation orient;
+		GtkPaperSize *ps;
+		gboolean rotated = FALSE; /* ??? */
+
 		if (pi->print_across_then_down)
 			flags |= 0x01;
 		orient = print_info_get_paper_orientation (pi);
@@ -517,17 +521,21 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 			scale = pi->scaling.percentage.x + .5;
 		print_info_get_margins (pi, &header, &footer,
 					NULL, NULL, NULL, NULL);
+
+		ps = print_info_get_paper_size (pi);
+		if (ps)
+			papersize = xls_paper_size (ps, rotated);
 	} else
 		flags |= 0x44;  /* mark orientation, copies, and start page as being invalid */
 	header = points_to_inches (header);
 	footer = points_to_inches (footer);
 
-	GSF_LE_SET_GUINT16 (data +  0, 0);	/* _invalid_ paper size */
+	GSF_LE_SET_GUINT16 (data +  0, papersize);
 	GSF_LE_SET_GUINT16 (data +  2, scale);	/* scaling factor */
 	GSF_LE_SET_GUINT16 (data +  4, pi ? pi->start_page : 0);
 	GSF_LE_SET_GUINT16 (data +  6, pi ? pi->scaling.dim.cols : 1);
 	GSF_LE_SET_GUINT16 (data +  8, pi ? pi->scaling.dim.rows : 1);
-	GSF_LE_SET_GUINT32 (data + 10, (guint32)flags);
+	GSF_LE_SET_GUINT16 (data + 10, flags);
 	GSF_LE_SET_GUINT32 (data + 12, 600);	/* guess x resolution */
 	GSF_LE_SET_GUINT32 (data + 14, 600);	/* guess y resolution */
 	gsf_le_set_double  (data + 16, header);

@@ -1236,6 +1236,16 @@ print_info_get_paper (PrintInformation *pi)
 	return page_setup_get_paper (pi->page_setup);
 }
 
+GtkPaperSize *
+print_info_get_paper_size (PrintInformation *pi)
+{
+	g_return_val_if_fail (pi != NULL, NULL);
+	print_info_load_defaults (pi);
+
+	return gtk_page_setup_get_paper_size (pi->page_setup);
+}
+
+
 char  const*
 print_info_get_paper_display_name (PrintInformation *pi)
 {

@@ -27,6 +27,7 @@ Morten:
 	* Export only needed col/row styles to .gnumeric.
 	* Fix export of colours to .gnumeric.
 	* Fix row height xls export rounding issue.  [Part of #671513]
+	* Export paper size to xls.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2

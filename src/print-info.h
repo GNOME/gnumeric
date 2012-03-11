@@ -162,6 +162,7 @@ gboolean    page_setup_set_paper (GtkPageSetup *page_setup, char const *paper);
 char	   *page_setup_get_paper (GtkPageSetup *page_setup); /* caller frees result */
 gboolean    print_info_set_paper (PrintInformation *pi, char const *paper);
 char       *print_info_get_paper (PrintInformation *pi); /* caller frees result */
+GtkPaperSize *print_info_get_paper_size (PrintInformation *pi);
 
 void	    print_info_set_paper_orientation   (PrintInformation *pi,
 						GtkPageOrientation orientation);
