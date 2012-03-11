@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-10 20:52+0000\n"
-"PO-Revision-Date: 2012-03-10 21:54+0100\n"
+"PO-Revision-Date: 2012-03-11 14:02+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1366,29 +1366,30 @@ msgstr "izplačljivost:čas do izplačila dividend"
 msgid "time_exp:time to expiration"
 msgstr "poteklost:čas preteka naložbe"
 
+# exercise date = datum izvršitve
 #: ../plugins/fn-derivatives/options.c:53
 msgid "rate:risk-free interest rate to the exercise date in percent"
-msgstr ""
+msgstr "stopnja: netvegana obrestna mera na dan izvršitve v odstotkih"
 
 #: ../plugins/fn-derivatives/options.c:54
 msgid "rate:annualized interest rate"
-msgstr ""
+msgstr "mera: letna obrestna mera"
 
 #: ../plugins/fn-derivatives/options.c:55
 msgid "rate:annualized risk-free interest rate"
-msgstr ""
+msgstr "mera: letna netvegana obrestna mera"
 
 #: ../plugins/fn-derivatives/options.c:56
 msgid "volatility:annualized volatility of the asset in percent for the period through to the exercise date"
-msgstr ""
+msgstr "nestanovitnost: letna nestanovitnost sredstev v odstotkih za obdobje do datuma izvršitve"
 
 #: ../plugins/fn-derivatives/options.c:57
 msgid "volatility:annualized volatility of the asset"
-msgstr ""
+msgstr "nestanovitnost: letna nestanovitnost sredstev"
 
 #: ../plugins/fn-derivatives/options.c:58
 msgid "d:amount of the dividend to be paid expressed in currency"
-msgstr ""
+msgstr "d: znesek dividende za izplačilo v določeni denarni enoti"
 
 #: ../plugins/fn-derivatives/options.c:59
 msgid "cost_of_carry:net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0"
@@ -1475,6 +1476,7 @@ msgstr ""
 msgid "OPT_BS_VEGA uses the Black-Scholes model to calculate the 'vega' of a European option struck at @{strike} on an asset with spot price @{spot}. The vega of an option is the rate of change of its price with respect to volatility."
 msgstr ""
 
+# 'Opcije' so špekulativni, visoko donosni, visoko tvegani finančni izdelki. Nakupne opcije so »Calls, prodajne pa »Puts«.
 #: ../plugins/fn-derivatives/options.c:457
 msgid "Vega is the same for calls and puts."
 msgstr ""
@@ -1516,15 +1518,15 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:628
 msgid "time:number of days to exercise"
-msgstr ""
+msgstr "čas:število dni do izvršitve"
 
 #: ../plugins/fn-derivatives/options.c:629
 msgid "domestic_rate:domestic risk-free interest rate to the exercise date in percent"
-msgstr ""
+msgstr "domača_obrestna_mera:domača netvegana obrestna mera na dan izvršitve v odstotkih"
 
 #: ../plugins/fn-derivatives/options.c:630
 msgid "foreign_rate:foreign risk-free interest rate to the exercise date in percent"
-msgstr ""
+msgstr "tuja_obrestna_mera:tuja netvegana obrestna mera na dan izvršitve v odstotkih"
 
 #: ../plugins/fn-derivatives/options.c:632
 msgid "OPT_GARMAN_KOHLHAGEN values the theoretical price of a European currency option struck at @{strike} on an asset with spot price @{spot}."
@@ -1536,11 +1538,11 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:682
 msgid "time:ratio of the number of calendar days to exercise and the number of calendar days in the year"
-msgstr ""
+msgstr "čas: razmerje med številom koledarskih dni do datuma izvršitve in številom koledarskih dni v letu"
 
 #: ../plugins/fn-derivatives/options.c:683
 msgid "ttime:ratio of the number of trading days to exercise and the number of trading days in the year"
-msgstr ""
+msgstr "tčas: razmerje med številom trgovalnih dni do izvršitve in števila trgovalnih dni v letu"
 
 #: ../plugins/fn-derivatives/options.c:687
 msgid "OPT_FRENCH values the theoretical price of a European option adjusted for trading day volatility, struck at @{strike} on an asset with spot price @{spot}."
@@ -1552,15 +1554,15 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:736
 msgid "rate:the annualized rate of interest"
-msgstr ""
+msgstr "mera:letna obrestna mera"
 
 #: ../plugins/fn-derivatives/options.c:738
 msgid "lambda:expected number of 'jumps' per year"
-msgstr ""
+msgstr "lambda: pričakovano število 'skokov' na leto"
 
 #: ../plugins/fn-derivatives/options.c:739
 msgid "gamma:proportion of volatility explained by the 'jumps'"
-msgstr ""
+msgstr "gama:delež nestanovitnosti, ki jo je mogoče pripisati 'skokom'"
 
 #: ../plugins/fn-derivatives/options.c:740
 msgid "OPT_JUMP_DIFF models the theoretical price of an option according to the Jump Diffusion process (Merton)."
@@ -1574,10 +1576,10 @@ msgstr ""
 msgid "p_t:zero coupon bond with expiry at option maturity"
 msgstr ""
 
+# futures price = terminske cene?
 #: ../plugins/fn-derivatives/options.c:821
-#, fuzzy
 msgid "f_t:futures price"
-msgstr "Cena izdelka"
+msgstr "tc:terminska cena"
 
 #: ../plugins/fn-derivatives/options.c:823
 #, fuzzy
@@ -1662,7 +1664,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1298
 msgid "a:amount received for each time period"
-msgstr ""
+msgstr "a:prejeti znesek za vsako časovno obdobje"
 
 #: ../plugins/fn-derivatives/options.c:1300
 msgid "m:number of time units the option has already met the condition"
@@ -2168,7 +2170,7 @@ msgstr "α:red števil (ne-negativno število)"
 #: ../plugins/fn-eng/functions.c:611
 #: ../plugins/fn-eng/functions.c:640
 msgid "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned. If @{α} is not an integer, it is truncated."
-msgstr ""
+msgstr "V kolikor vrednost @{x} ali @{α} ni številčna, funkcija vrne napako #VALUE!. V kolikor je @{α} številčna vrednost, vendar < 0, funkcija vrne napako #NUM!. Če @{α} ni celo število, je vrednost razčlenjena."
 
 #: ../plugins/fn-eng/functions.c:637
 #, fuzzy
@@ -2254,7 +2256,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:670
 msgid "If @{from} and @{to} are different types, CONVERT returns #N/A!"
-msgstr ""
+msgstr "V kolikor sta @{od} in @{do} različne vrste, funkcija CONVERT vrne napako #N/A!"
 
 #: ../plugins/fn-eng/functions.c:671
 msgid ""
@@ -2521,11 +2523,11 @@ msgstr ""
 #. *************************************************************************
 #: ../plugins/fn-financial/functions.c:53
 msgid "@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly)."
-msgstr ""
+msgstr "@{frekvenca} je lahko: 1 (letna), 2 (polletna) oziroma 4 (četrtletna)."
 
 #: ../plugins/fn-financial/functions.c:56
 msgid "If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period."
-msgstr ""
+msgstr "V kolikor je @{vrsta} določena kot 0 (privzeto) se izplačilo izvede ob koncu obdobja, sicer (določeno kot 1) je plačilo na začetku določenega obdobja."
 
 #: ../plugins/fn-financial/functions.c:362
 #, fuzzy
@@ -2544,7 +2546,7 @@ msgstr "Izberi datum"
 
 #: ../plugins/fn-financial/functions.c:364
 msgid "first_interest:date of first interest payment"
-msgstr ""
+msgstr "prve_obresti:datum prvega izplačila obresti"
 
 #: ../plugins/fn-financial/functions.c:365
 #: ../plugins/fn-financial/functions.c:488
@@ -2587,7 +2589,7 @@ msgstr "Izberi datum"
 #: ../plugins/fn-financial/functions.c:2744
 #: ../plugins/fn-financial/functions.c:2822
 msgid "rate:nominal annual interest rate"
-msgstr ""
+msgstr "mera: nazivna letna obrestna mera"
 
 #: ../plugins/fn-financial/functions.c:367
 msgid "par:par value, defaults to $1000"
@@ -2609,7 +2611,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:3125
 #: ../plugins/fn-financial/functions.c:3239
 msgid "frequency:number of interest payments per year"
-msgstr ""
+msgstr "frekvenca: število plačil obresti na leto"
 
 #: ../plugins/fn-financial/functions.c:369
 msgid "basis:calendar basis, defaults to 0"
@@ -2617,27 +2619,29 @@ msgstr "osnova:koledarska osnova, privzeto določena kot 0"
 
 #: ../plugins/fn-financial/functions.c:370
 msgid "calc_method:calculation method, defaults to TRUE"
-msgstr ""
+msgstr "način_izračuna: način izračuna, ki je privzeto določen"
 
+# settlement = poravnava?, plačilo
+# coupon periods = kuponsko obdobje?
 #: ../plugins/fn-financial/functions.c:372
 msgid "If @{first_interest} < @{settlement} and @{calc_method} is TRUE, then ACCRINT returns the sum of the interest accrued in all coupon periods from @{issue}  date until @{settlement} date."
-msgstr ""
+msgstr "V kolikor so @{prve_obresti} < @{plačila} in je izbrana možnost @{načina_izračuna}, funkcija ACCRINT vrne vsoto obresti, obračunanih v vseh obdobjih določenih s kuponi od datuma @{izdaje} do datuma @{plačila}."
 
 #: ../plugins/fn-financial/functions.c:377
 msgid "If @{first_interest} < @{settlement} and @{calc_method} is FALSE, then ACCRINT returns the sum of the interest accrued in all coupon periods from @{first_interest}  date until @{settlement} date."
-msgstr ""
+msgstr "V kolikor so @{prve_obresti} < @{plačila} in možnost @{načina_izračuna} ni izbrana, funkcija ACCRINT vrne vsoto obresti, obračunanih v vseh obdobjih določenih s kuponi od datuma @{prve_obresti} do datuma @{plačila}."
 
 #: ../plugins/fn-financial/functions.c:382
 msgid "Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods from @{issue}  date until @{settlement} date."
-msgstr ""
+msgstr "Sicer ACCRINT vrne vsoto obresti obračunane v vseh obdobjih določenih s kuponi od @{izdaje} do {plačila}."
 
 #: ../plugins/fn-financial/functions.c:385
 msgid "@{frequency} must be one of 1, 2 or 4, but the exact value does not affect the result."
-msgstr ""
+msgstr "@{frekvenca} mora biti 1, 2 ali 4, vendar natančna vrednost ne vpliva na rezultat."
 
 #: ../plugins/fn-financial/functions.c:387
 msgid "@{issue} must precede both @{first_interest} and @{settlement}."
-msgstr ""
+msgstr "Datum @{izdaje} mora biti pred datumom @{prvih_obresti} in datumom @{plačila}."
 
 #: ../plugins/fn-financial/functions.c:449
 #, fuzzy
@@ -3877,7 +3881,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:1724
 msgid "=N(\"eleven\")"
-msgstr ""
+msgstr "=N(\"eleven\")"
 
 #: ../plugins/fn-info/functions.c:1751
 msgid "TYPE:a number indicating the data type of @{value}"
@@ -6734,9 +6738,8 @@ msgid "b:parameter of the Gumbel distribution"
 msgstr "b:parameter Gumbelove porazdelitve"
 
 #: ../plugins/fn-random/functions.c:693
-#, fuzzy
 msgid "type:type of the Gumbel distribution, defaults to 1"
-msgstr "β:parameter Lévyjeve porazdelitve, ki je privzeto je določena na vrednost 0."
+msgstr "vrsta:vrsta Gumbelove porazdelitve, ki je privzeto je določena na vrednost 1."
 
 #: ../plugins/fn-random/functions.c:694
 msgid "If @{type} is neither 1 nor 2, RANDGUMBEL returns #NUM!"
@@ -8945,7 +8948,7 @@ msgstr "c:znak"
 
 #: ../plugins/fn-string/functions.c:135
 msgid "@{c} must be a valid CP1252 (Windows-1252) character."
-msgstr ""
+msgstr "@{c} mora biti veljanvi znak v naboru CP1252 (Windows-1252)."
 
 #: ../plugins/fn-string/functions.c:137
 msgid "CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains all of its printable characters (but partially at different positions.)"
