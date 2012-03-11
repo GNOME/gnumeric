@@ -259,7 +259,7 @@ sub test_importer {
     my $code = system ("$ssconvert '$file' '$tmp' 2>&1 | sed -e 's/^/| /'");
     &system_failure ($ssconvert, $code) if $code;
 
-    my $htxt = `gzip -dc '$tmp' | $PERL normalize-gnumeric | sha1sum`;
+    my $htxt = `zcat -f '$tmp' | $PERL normalize-gnumeric | sha1sum`;
     my $newsha1 = lc substr ($htxt, 0, 40);
     die "SHA-1 failure\n" unless $newsha1 =~ /^[0-9a-f]{40}$/;
 
@@ -280,13 +280,13 @@ sub test_importer {
 
 	my $tmp1 = "$tmp-old";
 	&junkfile ($tmp1);
-	my $code1 = system ("gzip -dc '$saved' >'$tmp1'");
-	&system_failure ('gzip', $code1) if $code1;
+	my $code1 = system ("zcat -f '$saved' >'$tmp1'");
+	&system_failure ('zcat', $code1) if $code1;
 
 	my $tmp2 = "$tmp-new";
 	&junkfile ($tmp2);
-	my $code2 = system ("gzip -dc '$tmp' >'$tmp2'");
-	&system_failure ('gzip', $code2) if $code2;
+	my $code2 = system ("zcat -f '$tmp' >'$tmp2'");
+	&system_failure ('zcat', $code2) if $code2;
 
 	my $code3 = system ('diff', @ARGV, $tmp1, $tmp2);
 

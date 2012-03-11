@@ -1,3 +1,8 @@
+2012-03-11  Morten Welinder  <mwelinder@gmail.com>
+
+	* test/GnumericTest.pm (test_importer): Survive non-compressed
+	.gnumeric files.
+
 2012-03-10  Morten Welinder  <terra@gnome.org>
 
 	* src/sstest.c (test_random): Use more samples for normal tests to
