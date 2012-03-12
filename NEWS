@@ -7,6 +7,7 @@ Andreas:
 	interpolation. [#671508]
 	* Handle unusual styles created in xls import. [#671745]
 	* Do not show an icon for the range entry in the search dialog. [#671494]
+	* Import style information attached to grids from ODF. part of [#671461]
 
 Jean:
 	* Fixed crash with sheet object. [#671617]

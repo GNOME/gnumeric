@@ -1,3 +1,7 @@
+2012-03-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (oo_chart_grid): use style name
+
 2012-03-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_style_cell_properties): allow for
