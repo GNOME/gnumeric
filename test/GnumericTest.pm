@@ -317,29 +317,30 @@ sub test_exporter {
     $tmp =~ s/\.([a-zA-Z0-9]+)$// or die "Must have extension for export test.";
     my $ext = $1;
     my $code;
+    my $keep = 0;
 
     my $tmp1 = "$tmp.gnumeric";
-    &junkfile ($tmp1);
+    &junkfile ($tmp1) unless $keep;
     $code = system ("$ssconvert '$file' '$tmp1' 2>&1 | sed -e 's/^/| /'");
     &system_failure ($ssconvert, $code) if $code;
 
     my $tmp2 = "$tmp-new.$ext";
-    &junkfile ($tmp2);
+    &junkfile ($tmp2) unless $keep;
     $code = system ("$ssconvert '$file' '$tmp2' 2>&1 | sed -e 's/^/| /'");
     &system_failure ($ssconvert, $code) if $code;
 
     my $tmp3 = "$tmp-new.gnumeric";
-    &junkfile ($tmp3);
+    &junkfile ($tmp3) unless $keep;
     $code = system ("$ssconvert '$tmp2' '$tmp3' 2>&1 | sed -e 's/^/| /'");
     &system_failure ($ssconvert, $code) if $code;
 
     my $tmp4 = "$tmp.xml";
-    &junkfile ($tmp4);
+    &junkfile ($tmp4) unless $keep;
     $code = system ("zcat -f '$tmp1' >'$tmp4'");
     &system_failure ('zcat', $code) if $code;
 
     my $tmp5 = "$tmp-new.xml";
-    &junkfile ($tmp5);
+    &junkfile ($tmp5) unless $keep;
     $code = system ("zcat -f '$tmp3' >'$tmp5'");
     &system_failure ('zcat', $code) if $code;
 
