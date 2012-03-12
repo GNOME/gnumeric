@@ -616,6 +616,31 @@ static paper_size_table_entry const paper_size_table[] = {
 const char *
 xls_paper_name (unsigned idx, gboolean *rotated)
 {
+#if 0
+	/*
+	 * Self-check code.  We fail in ~15 cases where we lack info
+	 * to distinguish.
+	 */
+	static gboolean first = TRUE;
+	if (first) {
+		unsigned ui;
+
+		first = FALSE;
+
+		for (ui = 0; ui < G_N_ELEMENTS (paper_size_table); ui++) {
+			const char *name = paper_size_table[ui].gp_name;
+			gboolean rotated = paper_size_table[ui].rotated;
+			GtkPaperSize *ps = gtk_paper_size_new (name);
+			unsigned ui2 = xls_paper_size (ps, rotated);
+			if (ui != ui2 && name) {
+				g_printerr ("PAPER MISMATCH: %d %d %s\n",
+					    ui, ui2, name);
+			}
+			gtk_paper_size_free (ps);
+		}
+	}
+#endif
+
 	if (idx < G_N_ELEMENTS (paper_size_table)) {
 		*rotated = paper_size_table[idx].rotated;
 		return paper_size_table[idx].gp_name;
