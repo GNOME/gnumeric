@@ -975,6 +975,11 @@ try_optimize:
 	}
 }
 
+/* Handler for foreach_tile.
+ *
+ * "width" and "height" refer to tile size which may extend beyond
+ * the range supplied to foreach_tile and even beyond the sheet.
+ */
 typedef void (*ForeachTileFunc) (GnmStyle *style,
 				 int corner_col, int corner_row, int width, int height,
 				 GnmRange const *apply_to, gpointer user);
@@ -1931,7 +1936,13 @@ cb_style_extent (GnmStyle *style,
 {
 	GnmRange *res = user;
 	if (gnm_style_visible_in_blank (style)) {
-		int tmp = corner_col+width-1;
+		int tmp;
+
+		/* The given dimensions refer to the tile, not the area. */
+		width = MIN (width, apply_to->end.col - corner_col + 1);
+		height = MIN (height, apply_to->end.row - corner_row + 1);
+
+		tmp = corner_col+width-1;
 		if (res->end.col < tmp)
 			res->end.col = tmp;
 		if (res->start.col > corner_col)
@@ -2022,6 +2033,9 @@ cb_is_default (GnmStyle *style,
 	struct cb_is_default *user = user_;
 	int i;
 
+	/* The given "width" refers to the tile, not the area. */
+	width = MIN (width, apply_to->end.col - corner_col + 1);
+
 	for (i = 0; user->res && i < width; i++) {
 		if (style != user->col_defaults[corner_col + i])
 			user->res = FALSE;
@@ -2062,6 +2076,10 @@ cb_most_common (GnmStyle *style,
 		counts = g_new0 (int, cmc->l);
 		g_hash_table_insert (cmc->h, style, counts);
 	}
+
+	/* The given dimensions refer to the tile, not the area. */
+	width = MIN (width, apply_to->end.col - corner_col + 1);
+	height = MIN (height, apply_to->end.row - corner_row + 1);
 
 	if (cmc->is_col)
 		for (i = 0; i < width; i++)
