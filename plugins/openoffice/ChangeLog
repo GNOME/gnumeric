@@ -1,6 +1,10 @@
 2012-03-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (oo_chart_grid): use style name
+	* openoffice-write.c (odf_write_one_axis_grid): write style name
+
+2012-03-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_chart_grid): use style name
 
 2012-03-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
