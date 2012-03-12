@@ -1,3 +1,8 @@
+2012-03-12  Morten Welinder  <terra@gnome.org>
+
+	* ms-chart.c (chart_write_LEGEND): Include the style when writing
+	text.
+
 2012-03-11  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_SETUP): Export paper size.

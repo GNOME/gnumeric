@@ -1964,6 +1964,11 @@ excel_font_get_gofont (ExcelFont const *efont)
 	if (NULL == efont->go_font) {
 		PangoFontDescription *desc = pango_font_description_new ();
 
+		d (1, { g_printerr ("EFONT: %s %d %d %d\n",
+				    efont->fontname,
+				    efont->boldness,
+				    efont->italic,
+				    efont->height); });
 #warning FINISH when GOFont is smarter
 		pango_font_description_set_family (desc, efont->fontname);
 		pango_font_description_set_weight (desc, efont->boldness);

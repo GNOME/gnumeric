@@ -1025,10 +1025,11 @@ BC_R(fontx)(XLChartHandler const *handle,
 {
 	ExcelFont const *font;
 	GOFont const *gfont;
+	guint16 fno;
 
 	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
-	font = excel_font_get (s->container.importer,
-			       GSF_LE_GET_GUINT16 (q->data));
+	fno = GSF_LE_GET_GUINT16 (q->data);
+	font = excel_font_get (s->container.importer, fno);
 	if (!font)
 		return FALSE;
 
@@ -1036,7 +1037,7 @@ BC_R(fontx)(XLChartHandler const *handle,
 	go_font_ref (gfont);
 	BC_R(get_style) (s);
 	go_style_set_font (s->style, gfont);
-	d (2, g_printerr ("apply font %s;", go_font_as_str (gfont)););
+	d (2, g_printerr ("apply font %u %s;", fno, go_font_as_str (gfont)););
 	return FALSE;
 }
 
@@ -5257,7 +5258,7 @@ chart_write_LEGEND (XLChartWriteState *s, GogObject const *legend)
 
 	chart_write_BEGIN (s);
 	/* BIFF_CHART_pos, optional we use auto positioning */
-	chart_write_text (s, NULL, NULL, 0);
+	chart_write_text (s, NULL, GO_STYLED_OBJECT (legend), 0);
 	chart_write_END (s);
 }
 GNM_END_KILL_SWITCH_WARNING

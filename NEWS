@@ -31,6 +31,7 @@ Morten:
 	* Fix export of colours to .gnumeric.
 	* Fix row height xls export rounding issue.  [Part of #671513]
 	* Export paper size to xls.
+	* Improve xls export of chart legends.  [Part of #671845]
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2
