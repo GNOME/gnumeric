@@ -32,6 +32,7 @@ enum {
 	MSEP_TXDIR                = 0x008b,
 	MSEP_SELECTTEXT           = 0x00bb,
 	MSEP_AUTOTEXTMARGIN       = 0x00bc,
+	MSEP_FITTEXTTOSHAPE       = 0x00bf,
 	MSEP_BLIPINDEX            = 0x0104,
 	MSEP_SHAPEPATH            = 0x0144,
 	MSEP_SHADOWOK             = 0x017a,
@@ -39,6 +40,7 @@ enum {
 	MSEP_FILLOK               = 0x017f,
 	MSEP_FILLTYPE             = 0x0180,
 	MSEP_FILLCOLOR            = 0x0181,
+	MSEP_FILLBACKCOLOR        = 0x0183,
 	MSEP_FILLED               = 0x01bb,
 	MSEP_NOFILLHITTEST        = 0x01bf,
 	MSEP_LINECOLOR            = 0x01c0,
@@ -52,6 +54,8 @@ enum {
 	MSEP_LINEENDARROWLENGTH   = 0x01d5,
 	MSEP_ARROWHEADSOK         = 0x01fb,
 	MSEP_LINE                 = 0x01fc,
+	MSEP_NOLINEDRAWDASH       = 0x01ff,
+	MSEP_SHADOWOBSCURED       = 0x023f,
 	MSEP_NAME                 = 0x0380,
 	MSEP_ISBUTTON             = 0x03bc
 };

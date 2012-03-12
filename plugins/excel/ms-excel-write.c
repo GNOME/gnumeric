@@ -4048,46 +4048,63 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 static gsize
 excel_write_chart_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 {
-	static guint8 const obj_v8[] = {
-/* SpContainer */   0xf,   0,   4, 0xf0,   0x6a, 0, 0, 0,
-/* Sp */	   0x92, 0xc, 0xa, 0xf0,      8, 0, 0, 0,
-			0,   0, 0, 0,	/* fill in spid */
-			0, 0xa, 0, 0,
-
-/* OPT */	   0x83,   0, 0xb, 0xf0,   0x30, 0, 0, 0,
-			0x7f, 0,    4, 1,  4, 1, /* bool   LockAgainstGrouping 127 = 0x1040104; */
-			0xbf, 0,    8, 0,  8, 0, /* bool   fFitTextToShape 191	= 0x0080008; */
-			0x81, 1, 0x4e, 0,  0, 8, /* Colour fillColor 385	= 0x800004e; */
-			0x83, 1, 0x4d, 0,  0, 8, /* Colour fillBackColor 387	= 0x800004d; */
-			0xbf, 1, 0x10, 0,0x10,0, /* bool   fNoFillHitTest 447	= 0x0100010; */
-			0xc0, 1, 0x4d, 0,  0, 8, /* Colour lineColor 448	= 0x800004d; */
-			0xff, 1,    8, 0,  8, 0, /* bool   fNoLineDrawDash 511	= 0x0080008; */
-			0x3f, 2,    0, 0,  2, 0, /* bool   fshadowObscured 575	= 0x0020000; */
-
-/* ClientAnchor */    0, 0, 0x10, 0xf0,   0x12, 0, 0, 0, 0,0,
-			0,0,  0,0,	0,0,  0,0,	0,0,  0,0,	0,0,  0,0,
-/* ClientData */      0, 0, 0x11, 0xf0,  0, 0, 0, 0
-	};
-
-	guint8 buf [sizeof obj_v8];
 	BiffPut *bp = esheet->ewb->bp;
+	GString *escher = g_string_new (NULL);
+	GString *extra;
+	guint32 spflags;
+	gsize spmark, optmark;
 	guint32 id = excel_write_start_drawing (esheet);
+	char *name;
+	guint8 zero[4] = { 0, 0, 0, 0 };
 	gsize draw_len = 0;
+	guint16 shape = 0x92;
 
-	memcpy (buf, obj_v8, sizeof obj_v8);
-	GSF_LE_SET_GUINT32 (buf + 16, id);
-	excel_write_anchor (buf + 0x5a, sheet_object_get_anchor (so));
-	ms_biff_put_var_write (bp, buf, sizeof obj_v8);
-	draw_len += sizeof (obj_v8);
+	g_object_get (so,
+		      "name", &name,
+		      NULL);
+
+	spmark = ms_escher_spcontainer_start (escher);
+	spflags = 0x00000a00; /* fHaveAnchor+fHaveSpt */
+	ms_escher_sp (escher, id, shape, spflags);
+
+	optmark = ms_escher_opt_start (escher);
+	extra = g_string_new (NULL);
+	ms_escher_opt_add_bool (escher, optmark, MSEP_LOCKAGAINSTGROUPING, TRUE);
+	ms_escher_opt_add_bool (escher, optmark, MSEP_FITTEXTTOSHAPE, TRUE);
+	ms_escher_opt_add_color (escher, optmark, MSEP_FILLCOLOR, 0x0800004);
+	ms_escher_opt_add_color (escher, optmark, MSEP_FILLBACKCOLOR, 0x0800004d);
+	ms_escher_opt_add_bool (escher, optmark, MSEP_NOFILLHITTEST, TRUE);
+	ms_escher_opt_add_color (escher, optmark, MSEP_LINECOLOR, 0x0800004d);
+	ms_escher_opt_add_bool (escher, optmark, MSEP_NOLINEDRAWDASH, TRUE);
+	ms_escher_opt_add_bool (escher, optmark, MSEP_SHADOWOBSCURED, TRUE);
+	if (name)
+		ms_escher_opt_add_str_wchar (escher, optmark, extra,
+					     MSEP_NAME, name);
+
+	go_string_append_gstring (escher, extra);
+	ms_escher_opt_end (escher, optmark);
+	g_string_free (extra, TRUE);
+
+	ms_escher_clientanchor (escher, sheet_object_get_anchor (so));
+
+	ms_escher_clientdata (escher);
+
+	ms_escher_spcontainer_end (escher, spmark);
+
+	ms_biff_put_var_write (bp, escher->str, escher->len);
 	ms_biff_put_commit (bp);
+	draw_len += escher->len;
+
+	g_string_free (escher, TRUE);
 
 	ms_biff_put_var_next (bp, BIFF_OBJ);
 	ms_objv8_write_common (bp, esheet->cur_obj, MSOT_CHART, 0x6011);
-	GSF_LE_SET_GUINT32 (buf, 0); /* end */
-	ms_biff_put_var_write (bp, buf, 4);
-
+	ms_biff_put_var_write (bp, zero, 4);
 	ms_biff_put_commit (bp);
+
 	ms_excel_chart_write (esheet->ewb, so);
+
+	g_free (name);
 
 	return draw_len;
 }
