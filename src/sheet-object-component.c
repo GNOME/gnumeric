@@ -321,16 +321,7 @@ static void
 gnm_soc_copy (SheetObject *dst, SheetObject const *src)
 {
 	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (src);
-	GOComponent *component;
-	char *buf;
-	int length;
-	gpointer user_data = NULL;
-	void (*clearfunc) (gpointer) = NULL;
-	go_component_get_data (soc->component, (gpointer) &buf, &length, &clearfunc, &user_data);
-	component = go_component_new_by_mime_type (go_component_get_mime_type (soc->component));
-	go_component_set_data (component, buf, length);
-	if (clearfunc)
-		clearfunc ((user_data)? user_data: buf);
+	GOComponent *component = go_component_duplicate (soc->component);;
 	sheet_object_component_set_component (dst, component);
 	g_object_unref (component);
 }

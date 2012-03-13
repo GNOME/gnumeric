@@ -5,6 +5,11 @@
 	* src/sheet-style.c (cb_style_extent, cb_is_default)
 	(cb_most_common): Fix handling of width and height.
 
+2012-03-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: needs goffice >= 0.9.3.
+	* src/sheet-object-component.c (gnm_soc_copy): rewritten.
+
 2012-03-11  Morten Welinder  <terra@gnome.org>
 
 	* src/print-info.c (print_info_get_paper_size): New function.
