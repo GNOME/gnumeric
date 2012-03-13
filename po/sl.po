@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-10 20:19+0000\n"
-"PO-Revision-Date: 2012-03-11 22:04+0100\n"
+"PO-Revision-Date: 2012-03-13 22:33+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1674,7 +1674,7 @@ msgstr "Program Gnumeric ne podpira izvajanja ne-samodejnih izračunov regresije
 
 #: ../plugins/openoffice/openoffice-read.c:8120
 msgid "Encountered drop lines in a plot not supporting them."
-msgstr ""
+msgstr "Zaznane so spustne črte v vrsti diagrama, ki te možnosti ne podpira."
 
 #: ../plugins/openoffice/openoffice-read.c:8190
 msgid "Encountered an unknown chart type, trying to create a line plot."
@@ -2164,9 +2164,8 @@ msgid "The sheet is wider than Gnumeric can handle."
 msgstr "Delovni list je širši, kot ga podpira program Gnumeric."
 
 #: ../plugins/sc/sc.c:451
-#, fuzzy
 msgid "Encountered precision dependent format without set precision."
-msgstr "Najden od natančnosti odvisen zapis brez določene natančnosti."
+msgstr "Zaznan je zapis, ki zahteva določilo natančnosti, vendar ta ni podana."
 
 #: ../plugins/sc/sc.c:472
 #, c-format
@@ -2447,18 +2446,16 @@ msgid "Default Vertical Centering"
 msgstr "Privzeto navpično postavljanje na sredino"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:51
-#, fuzzy
 msgid "This value determines whether the default setting in the Print Setup dialog is to center pages vertically."
-msgstr "Ta vrednost določa ali je privzeto določeno vodoravno sredinjenje strani v pogovornem oknu nastavitev tiskanja."
+msgstr "Vrednost določa ali je privzeto določeno navpična sredinska poravnava strani v pogovornem oknu nastavitev tiskanja."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:52
 msgid "Default Grid Line Printing"
 msgstr "Privzeto tiskanje mrežnih črt"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:53
-#, fuzzy
 msgid "This value determines the default setting in the Print Setup dialog whether print grid lines. Please use the Print Setup dialog to edit this value."
-msgstr "Vrednost določa privzeto nastavitev  tiskanja za tiskanje praznih vendar oblikovanih celic. V pogovornem oknu nastavitev tiskanja je mogoče te vrednosti spremeniti."
+msgstr "Vrednost določa nastavitev tiskanja mrežnih črt. Za urejanje te vrednosti uporabite pogovorno okno nastavitev tiskanja."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:54
 msgid "Default Print Cells with Only Styles"
@@ -2634,9 +2631,8 @@ msgid "Some dialogs contain only a single entry field that allows range selectio
 msgstr "Nekatera pogovorna okna vsebujejo le eno vnosno polje, ki omogoča izbor obsega v delovnem zvezku. Nastavitev spremenljivke na PRAV usmeri izbor na ta vnos tudi, če vpis ni v žarišču tipkovnice."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:97
-#, fuzzy
 msgid "Text Export String Indicator"
-msgstr "Določilo niza pri izvozu besedila"
+msgstr "Določilo niza izvoza besedila"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:98
 msgid "Please use the Text Export dialog to edit this value."
@@ -2647,9 +2643,8 @@ msgid "Text Export Field Separator"
 msgstr "Ločilnik polja izvoza besedila"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:100
-#, fuzzy
 msgid "Text Export Record Terminator"
-msgstr "Zaključek zapisa pri izvozu besedila"
+msgstr "Zaključek zapisa izvoza besedila"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:101
 msgid "Search &amp; Replace Ignores Case"
@@ -3135,7 +3130,7 @@ msgstr "Število samodejnih stavkov"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:88
 msgid "When selecting a sort region in the sort dialog, sort clauses are automatically added. This number determines the maximum number of clauses to be added automatically."
-msgstr "Pri izboru območja razvrščanja v pogovornem oknu razvrščanja se pogoji razvrščanja dodajo samodejno. To število določa največje število samodejno dodanih pogojev."
+msgstr "Med izbiranjem območja razvrščanja v pogovornem oknu razvrščanja se pogoji razvrščanja dodajo samodejno. To število določa največje število samodejno dodanih pogojev."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:89
 msgid "Prefer CLIPBOARD over PRIMARY selection"
@@ -3280,19 +3275,19 @@ msgid "Shift column %s"
 msgstr "Pomakni stolpec %s"
 
 #: ../src/command-context.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "Would split array %s"
-msgstr "Bi razdelil polje %s"
+msgstr "Razdeli podatkovno polje %s"
 
 #: ../src/command-context.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "Would split an array"
-msgstr "Bi razdelil polje"
+msgstr "Razdelil podatkovno polje"
 
 #: ../src/command-context.c:68
-#, fuzzy, c-format
+#, c-format
 msgid "Would split merge %s"
-msgstr "Bi razdelil spajanje %s"
+msgstr "Razdelil združene celice %s"
 
 #: ../src/commands.c:200
 #, c-format
@@ -4542,17 +4537,15 @@ msgid "The time column should be part of a single column."
 msgstr "Stolpec časa mora biti del enojnega stolpca."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:137
-#, fuzzy
 msgid "The censorship column is not valid."
 msgstr "Stolpec cenzure ni veljaven."
 
+# Cenzurirane vrednosti so v statistiki tiste vrednosti spremenljivke, ki so: manjkajoči analitski podatki oziroma podatki nad ali pod mejo zaznave; vrednost je le delno znana. Leva cenzura - vrednost je pod neko znano mejo, desna - vrednost je nad mejo, interval - vrednost je med dvema znanima mejanima vrednostima.
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:144
-#, fuzzy
 msgid "The censorship column should be part of a single column."
 msgstr "Stolpec cenzure mora biti del enojnega stolpca."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:151
-#, fuzzy
 msgid "The censorship and time columns should have the same height."
 msgstr "Stolpca cenzure in časa morata biti enake velikosti."
 
@@ -4602,7 +4595,7 @@ msgstr "Prišlo je do nepričakovane napake."
 
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:172
 msgid "Could not create the Principal Components Analysis Tool dialog."
-msgstr "Ni mogoče ustvariti pogovornega okna orodja Metode glavnih komponent."
+msgstr "Ni mogoče ustvariti pogovornega okna orodja analize glavnih komponent."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:92
 msgid "The predicted median should be a number."
@@ -6423,14 +6416,12 @@ msgid "_nu Value:"
 msgstr "Vrednost _nu:"
 
 #: ../src/dialogs/dialog-random-generator.c:128
-#, fuzzy
 msgid "Exponential"
-msgstr "Eksponentno"
+msgstr "Potenčno"
 
 #: ../src/dialogs/dialog-random-generator.c:130
-#, fuzzy
 msgid "Exponential Power"
-msgstr "Eksponent"
+msgstr "Stopnja potence"
 
 #: ../src/dialogs/dialog-random-generator.c:132
 msgid "F"
@@ -6479,7 +6470,7 @@ msgstr "Laplace"
 
 #: ../src/dialogs/dialog-random-generator.c:148
 msgid "Levy alpha-Stable"
-msgstr ""
+msgstr "Lévijeva (alfa stabilna) porazdelitev"
 
 #: ../src/dialogs/dialog-random-generator.c:148
 msgid "_c Value:"
@@ -7542,9 +7533,8 @@ msgid "Condition:"
 msgstr "Pogoj:"
 
 #: ../src/dialogs/cell-format-cond.ui.h:4
-#, fuzzy
 msgid "Applicable Style Components:"
-msgstr "Uporabne komponente sloga:"
+msgstr "Uporabne slogovne enote:"
 
 #: ../src/dialogs/cell-format-cond.ui.h:5
 msgid "Number Format"
@@ -8284,9 +8274,8 @@ msgid "Descriptive Statistics"
 msgstr "Opisna statistika"
 
 #: ../src/dialogs/descriptive-stats.ui.h:11
-#, fuzzy
 msgid "S_ummary Statistics"
-msgstr "S_tatistični povzetek"
+msgstr "Opisna s_tatistika"
 
 #: ../src/dialogs/descriptive-stats.ui.h:12
 msgid "_Use ssmedian"
@@ -8350,7 +8339,7 @@ msgstr "Tabulator"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:9
 msgid "Bang (!)"
-msgstr ""
+msgstr "Vzklik (!)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:10
 msgid "Colon (:)"
@@ -8923,19 +8912,16 @@ msgid "Simple exponential smoothing (Roberts, 1959)"
 msgstr "Enostavno potenčno glajenje (Roberts, 1959)"
 
 #: ../src/dialogs/exp-smoothing.ui.h:11
-#, fuzzy
 msgid "Holt's trend corrected exponential smoothing"
-msgstr "Holtovo eksponentno glajenje, korigirano s trendom"
+msgstr "Holtovo linearno ali dvojno potenčno glajenje"
 
 #: ../src/dialogs/exp-smoothing.ui.h:12
-#, fuzzy
 msgid "Additive Holt-Winters exponential smoothing"
-msgstr "Aditivno Holt-Wintersovo eksponentno glajenje"
+msgstr "Holt-Wintersovo seštevalno potenčno glajenje"
 
 #: ../src/dialogs/exp-smoothing.ui.h:13
-#, fuzzy
 msgid "Multiplicative Holt-Winters exponential smoothing"
-msgstr "Multiplikativno Holt-Wintersovo eksponentno glajenje"
+msgstr "Holt-Wintersovo množeno potenčno glajenje"
 
 #: ../src/dialogs/exp-smoothing.ui.h:15
 msgid "_Damping factor (α):"
@@ -9370,18 +9356,18 @@ msgstr "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
 msgid "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
 msgstr "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
 
+# The groups of data are called classes, and in the context of a histogram they are known as bins, 
 #: ../src/dialogs/histogram.ui.h:26
 msgid "_Bins"
-msgstr ""
+msgstr "_Vrednosti stolpcev"
 
 #: ../src/dialogs/histogram.ui.h:30
 msgid "Histogram chart"
 msgstr "Diagram histogram"
 
 #: ../src/dialogs/histogram.ui.h:32
-#, fuzzy
 msgid "C_umulative answers"
-msgstr "_Kumulativni odgovori"
+msgstr "_Zbirni odgovori"
 
 #: ../src/dialogs/histogram.ui.h:33
 msgid "Count numbers only"
@@ -9456,19 +9442,16 @@ msgid "_Time column:"
 msgstr "_Časovni stolpec:"
 
 #: ../src/dialogs/kaplan-meier.ui.h:3
-#, fuzzy
 msgid "Permit censorship"
-msgstr "Dovoli cenzuro"
+msgstr "Dovoli cenzuro vrednosti"
 
 #: ../src/dialogs/kaplan-meier.ui.h:4
-#, fuzzy
 msgid "Censor co_lumn:"
 msgstr "_Stolpec cenzure:"
 
 #: ../src/dialogs/kaplan-meier.ui.h:5
-#, fuzzy
 msgid "Censored record labels from:"
-msgstr "Cenzurirane oznake zapisov od:"
+msgstr "Cenzurirane oznake zapisov so od:"
 
 #: ../src/dialogs/kaplan-meier.ui.h:6
 #: ../src/print.c:1517
@@ -9492,9 +9475,8 @@ msgid "Show graph "
 msgstr "Pokaži diagram"
 
 #: ../src/dialogs/kaplan-meier.ui.h:12
-#, fuzzy
 msgid "Include censorship ticks"
-msgstr "Vključi cenzorske oznake"
+msgstr "Vključi cenzorske črtice osi"
 
 #: ../src/dialogs/kaplan-meier.ui.h:13
 msgid "Show standard errors"
@@ -10163,12 +10145,10 @@ msgid "Regression"
 msgstr "Regresije"
 
 #: ../src/dialogs/regression.ui.h:2
-#, fuzzy
 msgid "_Multiple linear regression"
 msgstr "_Večkratna linearna regresija"
 
 #: ../src/dialogs/regression.ui.h:3
-#, fuzzy
 msgid "Multiple 2-_variable regressions"
 msgstr "Večkratna regresija z dvema _spremenljivkama"
 
@@ -11236,7 +11216,7 @@ msgstr "Pokaži označevalnike celic s _formulami"
 
 #: ../src/dialogs/workbook-attr.ui.h:11
 msgid "This checkbox determines whether each cell containing a spreadsheet formula is marked with a green top left corner."
-msgstr ""
+msgstr "Izbrana možnost omogoči prikaz oznake zelene puščice v desnem levem kotu v celicah, ki vsebujejo formule."
 
 #: ../src/dialogs/workbook-attr.ui.h:12
 msgid "Show _Extension Markers"
@@ -11493,7 +11473,6 @@ msgid "Function group is empty."
 msgstr "Skupina funkcije je prazna."
 
 #: ../src/gnm-plugin.c:164
-#, fuzzy
 msgid "No func_desc_load method.\n"
 msgstr "Ni metode func_desc_load.\n"
 
@@ -11846,9 +11825,8 @@ msgstr ""
 "Zaženite '%s --help' za podroben pregled celotnega seznama možnosti ukazne vrstice.\n"
 
 #: ../src/mathfunc.c:3895
-#, fuzzy
 msgid "bessel_i allocation error"
-msgstr "Napaka pri dodeljevanju bessel_i"
+msgstr "napaka dodeljevanja Besselove _i funkcije"
 
 #: ../src/mathfunc.c:3903
 #: ../src/mathfunc.c:3906
@@ -11856,9 +11834,8 @@ msgid "bessel_i(%"
 msgstr "bessel_i(%"
 
 #: ../src/mathfunc.c:4366
-#, fuzzy
 msgid "bessel_k allocation error"
-msgstr "Napaka pri dodeljevanju bessel_k"
+msgstr "napaka dodeljevanja Besselove _k funkcije"
 
 #: ../src/mathfunc.c:4374
 #: ../src/mathfunc.c:4377
@@ -12200,7 +12177,7 @@ msgstr "Iskanje med skripti"
 
 #: ../src/search.c:732
 msgid "Should scrips (workbook, and worksheet) be searched?"
-msgstr ""
+msgstr "Ali naj bodo delovni zvezki in delovni listi preiskani?"
 
 #: ../src/search.c:740
 msgid "Invert"
@@ -13493,16 +13470,14 @@ msgid "\"ANOVA\";[Red]\"Invalid ANOVA: Missing Observations\""
 msgstr "\"ANOVA\";[Red]\"Neveljavna ANOVA: Manjkajo opazovanja\""
 
 #: ../src/tools/analysis-anova.c:240
-#, fuzzy
 msgid "/Source of Variation/Rows/Columns/Error/Total"
-msgstr "/Source of Variation/Vrstice/Stolpci/Napaka/Skupno"
+msgstr "/Vir variacij/Vrstice/Stolpci/Napaka/Skupno"
 
 #: ../src/tools/analysis-anova.c:250
 #: ../src/tools/analysis-anova.c:609
 #: ../src/tools/analysis-tools.c:4302
-#, fuzzy
 msgid "/SS/df/MS/F/P-value/F critical"
-msgstr "/SS/df/MS/F/Vvrednost p/F critical"
+msgstr "/Vsota kvadratov/Prostostne stopnje/Srednji kvadrat - varianca/F/Vrednost p/F critical"
 
 #: ../src/tools/analysis-anova.c:387
 #: ../src/tools/analysis-anova.c:793
@@ -13538,7 +13513,7 @@ msgstr "/Števec/Vsota/Povprečje/Varianca"
 #: ../src/tools/analysis-anova.c:598
 #, fuzzy
 msgid "/Source of Variation/Factor A/Factor B/Interaction/Error/Total"
-msgstr "/Vir variacije/Faktor A/Faktor B/Interaction/Napaka/Skupno"
+msgstr "/Vir variacij/Faktor A/Faktor B/Interaction/Napaka/Skupno"
 
 #: ../src/tools/analysis-anova.c:836
 #, c-format
@@ -13579,9 +13554,8 @@ msgid "[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\""
 msgstr "[>=5]\"Test homogenosti\";[<5][Red]\"Neveljaven test homogenosti\""
 
 #: ../src/tools/analysis-chi-squared.c:69
-#, fuzzy
 msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
-msgstr "/Testna statistika/Stopnje prostosti/Vrednost p/Kritična vrednost"
+msgstr "/Testna statistika/Prostostne stopnje/Vrednost p/Kritična vrednost"
 
 #: ../src/tools/analysis-chi-squared.c:178
 #, c-format
@@ -13647,6 +13621,9 @@ msgid ""
 "smoothing requires at least 2\n"
 "output columns for each data set."
 msgstr ""
+"Holtovo linearno ali dvojno potenčno\n"
+"glajenje zahteva vsaj 2 odvodna stolpca\n"
+"za vsako podatkovno množico."
 
 #: ../src/tools/analysis-exp-smoothing.c:723
 #: ../src/tools/analysis-exp-smoothing.c:1043
@@ -13665,6 +13642,9 @@ msgid ""
 "smoothing method requires at least 4\n"
 "output columns for each data set."
 msgstr ""
+"Holt-Wintersovo seštevalno potenčno\n"
+"glajenje zahteva vsaj 4 odvodne stolpce za\n"
+"vsako podatkovno množico."
 
 #: ../src/tools/analysis-exp-smoothing.c:1324
 #: ../src/tools/analysis-exp-smoothing.c:1327
@@ -13673,6 +13653,9 @@ msgid ""
 "smoothing method requires at least 4\n"
 "output columns for each data set."
 msgstr ""
+"Holt-Wintersovo množeno potenčno\n"
+"glajenje zahteva vsaj 4 odvodne stolpce za\n"
+"vsako podatkovno množico."
 
 #: ../src/tools/analysis-exp-smoothing.c:1369
 #, c-format
@@ -13746,9 +13729,8 @@ msgid "Kaplan-Meier"
 msgstr "Kaplan-Meier"
 
 #: ../src/tools/analysis-kaplan-meier.c:203
-#, fuzzy
 msgid "/At Risk/Deaths/Censures/Probability"
-msgstr "/V nevarnosti/Smrtnost/Censures/Verjetnost"
+msgstr "/V nevarnosti/Smrtnost/Cenzurirane vrednosti/Verjetnost"
 
 #: ../src/tools/analysis-kaplan-meier.c:209
 msgid "/At Risk/Deaths/Probability"
@@ -13760,9 +13742,8 @@ msgid "Median"
 msgstr "Mediana"
 
 #: ../src/tools/analysis-kaplan-meier.c:532
-#, fuzzy
 msgid "/Log-Rank Test/Statistics/Degrees of Freedom/p-Value"
-msgstr "/Log-Rank Test/Statistika/Stopnje prostosti df/Vrednost p"
+msgstr "/Log-rang test/Statistika/Prostostne stopnje/Vrednost p"
 
 #: ../src/tools/analysis-kaplan-meier.c:657
 #, c-format
@@ -13847,7 +13828,6 @@ msgstr "Za analizo glavnih komponent primanjkuje prostora."
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
 #: ../src/tools/analysis-principal-components.c:108
-#, fuzzy
 msgid "\"Principal Components Analysis\";[Red]\"Principal Components Analysis is invalid.\""
 msgstr "\"Analiza glavnih komponent\";[Red]\"Analiza glavnih element ni veljavna.\""
 
@@ -13861,7 +13841,6 @@ msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 msgstr "/Števec/Povprečje/Varianca//Lastna vrednost/Lastni vektor"
 
 #: ../src/tools/analysis-principal-components.c:143
-#, fuzzy
 msgid "Percent of Trace"
 msgstr "Odstotek zaznave"
 
@@ -13898,7 +13877,6 @@ msgstr ""
 "Vrednost je veljavna le pri vzorcu večjem od 12."
 
 #: ../src/tools/analysis-signed-rank-test.c:294
-#, fuzzy
 msgid "/Wilcoxon Signed Rank Test/Median/Observed Median Difference/Predicted Median Difference/N/S−/S+/Test Statistic/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
 msgstr "/Wilcoxonov test predznačenih rangov/Mediana/Opazovana mediana razlika/Napovedana mediana razlika/N/S−/S+/Testna statistika/α/P(T≤t) enostranska porazdelitev/P(T≤t) dvostranska porazdelitev"
 
@@ -13947,7 +13925,7 @@ msgstr "Kovarianca (%s)"
 #: ../src/tools/analysis-tools.c:838
 #, fuzzy
 msgid "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
-msgstr "/Mean/Standardna napaka/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
+msgstr "/Mean/Standardna napaka/Mediana/Mode/Standard Deviation/Sample Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
 
 #: ../src/tools/analysis-tools.c:972
 #, c-format
@@ -13997,7 +13975,7 @@ msgstr "Z-Test"
 #: ../src/tools/analysis-tools.c:1651
 #, fuzzy
 msgid "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
-msgstr "/Mean/Varianca/Opazovanja/Pearson Correlation/Hypothesized Mean Difference/Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
+msgstr "/Mean/Varianca/Opazovanja/Pearson Correlation/Hypothesized Mean Difference/Observed Mean Difference/Variance of the Differences/Prostostne stopnje/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 
 #: ../src/tools/analysis-tools.c:1879
 #, c-format
@@ -14016,7 +13994,7 @@ msgstr "T-Test"
 #: ../src/tools/analysis-tools.c:1930
 #, fuzzy
 msgid "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
-msgstr "/Mean/Varianca/Opazovanja/Pooled Variance/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
+msgstr "/Mean/Varianca/Opazovanja/Pooled Variance/Hypothesized Mean Difference/Observed Mean Difference/Prostostne stopnje/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 
 #: ../src/tools/analysis-tools.c:2179
 #: ../src/tools/analysis-tools.c:2472
@@ -14027,7 +14005,7 @@ msgstr "T-Test (%s)"
 #: ../src/tools/analysis-tools.c:2227
 #, fuzzy
 msgid "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
-msgstr "/Mean/Varianca/Opazovanja/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
+msgstr "/Mean/Varianca/Opazovanja/Hypothesized Mean Difference/Observed Mean Difference/Prostostne stopnje/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 
 #: ../src/tools/analysis-tools.c:2521
 #: ../src/tools/analysis-tools.c:2770
@@ -14038,7 +14016,7 @@ msgstr "F-Test"
 #: ../src/tools/analysis-tools.c:2522
 #, fuzzy
 msgid "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P (f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
-msgstr "/Mean/Varianca/Opazovanja/df/F/P (F<=f) right-tail/F Critical right-tail/P (f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
+msgstr "/Mean/Varianca/Opazovanja/Prostostne stopnje/F/P (F<=f) right-tail/F Critical right-tail/P (f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 
 #: ../src/tools/analysis-tools.c:2760
 #, c-format
@@ -14055,9 +14033,8 @@ msgid "Response Variable"
 msgstr "Odzivna spremenljivka"
 
 #: ../src/tools/analysis-tools.c:2964
-#, fuzzy
 msgid "/df/SS/MS/F/Significance of F"
-msgstr "/df/SS/MS/F/Significance of F"
+msgstr "/Prostostne stopnje/Vsota kvadratov/Srednji kvadrat - varianca/F/Statistična značilnost F"
 
 #: ../src/tools/analysis-tools.c:2971
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
@@ -14118,12 +14095,12 @@ msgstr "/IZPIS POVZETKA//Odzivna spremenljivka//Opazovanja"
 #: ../src/tools/analysis-tools.c:3512
 #, fuzzy
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
-msgstr "/Odzivna spremenljivka/R^2/Naklon/Intercept/F/Significance of F"
+msgstr "/Odzivna spremenljivka/R^2/Naklon/Intercept/F/Statistična značilnost F"
 
 #: ../src/tools/analysis-tools.c:3518
 #, fuzzy
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
-msgstr "/Neodvisna spremenljivka/R^2/Naklon/Intercept/F/Significance of F"
+msgstr "/Neodvisna spremenljivka/R^2/Naklon/Intercept/F/Statistična značilnost F"
 
 #: ../src/tools/analysis-tools.c:3599
 #, c-format
@@ -14175,9 +14152,8 @@ msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Skupine/Števec/Vsota/Povprečje/Varianca"
 
 #: ../src/tools/analysis-tools.c:4296
-#, fuzzy
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
-msgstr "/ANOVA/Source of Variation/Med skupinami/Znotraj skupin/Skupno"
+msgstr "/ANOVA/Vir variacij/Med skupinami/Znotraj skupin/Skupno"
 
 #: ../src/tools/analysis-tools.c:4514
 #, c-format
@@ -14219,7 +14195,9 @@ msgstr "Fourierjeva vrsta"
 msgid "/Rank-Sum/N/U/Ties/Statistics/U-Statistics/p-Value"
 msgstr "/Rank-Sum/N/U/Ties/Statistika/U-Statistika/Vrednost p"
 
+# ??
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:292
+#, fuzzy
 msgid ""
 "This p-value is calculated using a\n"
 "normal approximation, so it is\n"
@@ -14227,6 +14205,11 @@ msgid ""
 "at least 15 observations in each\n"
 "population, and few if any ties."
 msgstr ""
+"Vrednost p je izračunana na osnovi\n"
+"normalnega približka??, zato je vrednost\n"
+"veljavna le pri velikih vzorcih nad 15\n"
+"opazovanji v vsaki merjeni populaciji\n"
+"in le nekaj, če sploh ties??."
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:300
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:305
@@ -15771,7 +15754,7 @@ msgstr "_Reševalnik ..."
 #: ../src/wbc-gtk-actions.c:2444
 #, fuzzy
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr "Iterativno preračunavaj z omejitvami za dosego ciljne vrednosti"
+msgstr "Iterativno preračunavaj z omejitvami za približevanje ciljni vrednosti"
 
 #: ../src/wbc-gtk-actions.c:2446
 msgid "Si_mulation..."
