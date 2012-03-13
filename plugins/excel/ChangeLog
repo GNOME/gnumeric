@@ -1,5 +1,7 @@
 2012-03-12  Morten Welinder  <terra@gnome.org>
 
+	* ms-formula-write.c (write_node): Handle sets.
+
 	* ms-excel-write.c (excel_write_chart_v8): Regularlize code and
 	output object name too.
 

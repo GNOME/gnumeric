@@ -702,9 +702,9 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		{ FORMULA_PTG_PERCENT,	 6, 0, 0 }, /* Percentage (NOT MODULO) */
 		{ 0, 0, 0, 0 },	/* Array Corner   */
 		{ 0, 0, 0, 0 },	/* Array Element  */
-		{ 0, 0, 0, 0 }, /* Set      */
-		{ FORMULA_PTG_RANGE,	 9, 1, 0 },
-		{ FORMULA_PTG_INTERSECT, 8, 1, 0 }
+		{ 0, 8, 1, 0 }, /* Set      */
+		{ FORMULA_PTG_RANGE,	 10, 1, 0 },
+		{ FORMULA_PTG_INTERSECT, 9, 1, 0 }
 	};
 	const GnmExprOp op = GNM_EXPR_GET_OPER (expr);
 
@@ -869,6 +869,27 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		g_return_if_fail (paren_level == 0);
 		break;
 	}
+
+	case GNM_EXPR_OP_SET:
+		if (expr->set.argc > 0) {
+			int const prec = operations[op].prec;
+			int i;
+
+			write_node (pd, expr->set.argv[0],
+				    operations[op].assoc_left,
+				    target_type);
+
+			for (i = 1; i < expr->set.argc; i++) {
+				write_node (pd, expr->set.argv[i],
+					    operations[op].assoc_right,
+					    target_type);
+				push_guint8 (pd, FORMULA_PTG_UNION);
+			}
+			if (prec <= paren_level)
+				push_guint8 (pd, FORMULA_PTG_PAREN);
+			break;
+		}
+		/* Fall through for now.  */
 
 	default : {
 		gchar *err = g_strdup_printf ("Unknown Operator %d",

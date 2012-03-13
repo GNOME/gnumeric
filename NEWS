@@ -32,6 +32,7 @@ Morten:
 	* Fix row height xls export rounding issue.  [Part of #671513]
 	* Export paper size to xls.
 	* Improve xls export of chart legends.  [Part of #671845]
+	* Export sets to xls.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2

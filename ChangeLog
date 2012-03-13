@@ -1,5 +1,7 @@
 2012-03-12  Morten Welinder  <terra@gnome.org>
 
+	* src/expr.c (do_expr_as_string): Set a precedence for set.
+
 	* src/sheet-style.c (cb_style_extent, cb_is_default)
 	(cb_most_common): Fix handling of width and height.
 

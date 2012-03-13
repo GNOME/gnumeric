@@ -1599,9 +1599,9 @@ do_expr_as_string (GnmExpr const *expr, int paren_level,
 		{ "%",  6, 0, 0, 0 }, /* Percentage (NOT MODULO) */
 		{ "",   0, 0, 0, 0 }, /* ArrayCorner    */
 		{ "",   0, 0, 0, 0 }, /* ArrayElem */
-		{ "",   0, 0, 0, 0 }, /* Set       */
-		{ ":",  9, 1, 0, 0 }, /* Range Ctor   */
-		{ " ",  8, 1, 0, 0 }  /* Intersection */
+		{ "",   8, 0, 0, 0 }, /* Set       */
+		{ ":", 10, 1, 0, 0 }, /* Range Ctor   */
+		{ " ",  9, 1, 0, 0 }  /* Intersection */
 	};
 	GnmExprOp const op = GNM_EXPR_GET_OPER (expr);
 	GString *target = out->accum;
