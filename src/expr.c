@@ -2805,6 +2805,14 @@ gnm_expr_sharer_share (GnmExprSharer *es, GnmExprTop const *texpr)
 	return texpr;
 }
 
+void
+gnm_expr_sharer_report (GnmExprSharer *es)
+{
+	g_printerr ("Expressions in: %d\n", es->nodes_in);
+	g_printerr ("Expressions stored: %d\n", es->nodes_stored);
+	g_printerr ("Expressions killed: %d\n", es->nodes_killed);
+}
+
 /***************************************************************************/
 
 GnmExprTop const *

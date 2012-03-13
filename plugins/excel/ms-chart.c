@@ -3992,7 +3992,10 @@ chart_write_AREAFORMAT (XLChartWriteState *s, GOStyle const *style, gboolean dis
 			break;
 		}
 
-		if (style->fill.auto_type && style->fill.auto_fore && style->fill.auto_back && !disable_auto)
+		/* As we set only one of auto_fore and auto_back when reading,
+		 * we don't need to have both TRUE to set the auto flag here.
+		 * See bug #671845 */
+		if (style->fill.auto_type && (style->fill.auto_fore || style->fill.auto_back) && !disable_auto)
 			flags |= 1;
 		if (style->fill.invert_if_negative)
 			flags |= 2;
@@ -4038,7 +4041,7 @@ chart_write_LINEFORMAT (XLChartWriteState *s, GOStyleLine const *lstyle,
 			w = 2;	/* wide */
 		/* seems that excel understand auto as solid, so if pattern is not solid
 		   do not set the auto flag, see #605043 */
-		flags |= (lstyle->auto_color && pat > 0)? 1: 0;
+		flags |= (lstyle->auto_color && pat == 0)? 1: 0;
 	} else {
 		color_index = chart_write_color (s, data, 0);
 		if (clear_lines_for_null) {
@@ -5580,7 +5583,11 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 
 #warning be smart about singletons and titles
 	data = ms_biff_put_len_next (state.bp, BIFF_CHART_chart, 4*4);
-	chart_write_position (&state, state.chart, data, XL_POS_LOW, XL_POS_LOW);
+//	chart_write_position (&state, state.chart, data, XL_POS_LOW, XL_POS_LOW);
+	GSF_LE_SET_GUINT32 (data + 0, (int) (state.root_view->allocation.x * 65535.));
+	GSF_LE_SET_GUINT32 (data + 4, (int) (state.root_view->allocation.y * 65535.));
+	GSF_LE_SET_GUINT32 (data + 8, (int) (state.root_view->allocation.w * 65535.));
+	GSF_LE_SET_GUINT32 (data + 12, (int) (state.root_view->allocation.h * 65535.));
 	ms_biff_put_commit (state.bp);
 
 	chart_write_BEGIN (&state);

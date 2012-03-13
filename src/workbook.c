@@ -561,6 +561,11 @@ workbook_share_expressions (Workbook *wb, gboolean freeit)
 		}
 	});
 
+	if (gnm_debug_flag ("expr-sharer")) {
+		g_printerr ("Sharing report for %s\n", go_doc_get_uri (GO_DOC (wb)));
+		gnm_expr_sharer_report (es);
+	}
+
 	if (freeit) {
 		gnm_expr_sharer_destroy (es);
 		es = NULL;

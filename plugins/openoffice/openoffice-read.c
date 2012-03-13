@@ -312,6 +312,7 @@ typedef struct {
 	GnmComment      *cell_comment;
 	GnmCell         *curr_cell;
 	GSList          *span_style_stack;
+	GnmExprSharer   *sharer;
 
 	int		 col_inc, row_inc;
 	gboolean	 content_is_simple;
@@ -1643,6 +1644,7 @@ oo_expr_parse_str (GsfXMLIn *xin, char const *str,
 		   GnmParsePos const *pp, GnmExprParseFlags flags,
 		   OOFormula type)
 {
+	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmExprTop const *texpr;
 	GnmParseError  perr;
 
@@ -1663,6 +1665,10 @@ oo_expr_parse_str (GsfXMLIn *xin, char const *str,
 				    str, perr.err->message);
 	}
 	parse_error_free (&perr);
+
+	if (texpr)
+		texpr = gnm_expr_sharer_share (state->sharer, texpr);
+
 	return texpr;
 }
 
@@ -10617,6 +10623,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	state.pos.eval.col	= -1;
 	state.pos.eval.row	= -1;
 	state.cell_comment      = NULL;
+	state.sharer = gnm_expr_sharer_new ();
 	state.chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] = NULL;
 	state.chart.i_plot_styles[OO_CHART_STYLE_SERIES] = NULL;
 	state.styles.sheet = g_hash_table_new_full (g_str_hash, g_str_equal,
@@ -10852,6 +10859,8 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	g_hash_table_destroy (state.chart.arrow_markers);
 	g_slist_free_full (state.span_style_stack, g_free);
 	g_object_unref (contents);
+	gnm_expr_sharer_report (state.sharer);
+	gnm_expr_sharer_destroy (state.sharer);
 
 	g_object_unref (zip);
 

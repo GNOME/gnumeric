@@ -1,3 +1,8 @@
+2012-03-13  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_expr_parse_str): Share expressions because
+	ODS sucks in that regard.
+
 2012-03-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_one_axis_grid): write style name

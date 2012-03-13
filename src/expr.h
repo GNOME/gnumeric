@@ -192,6 +192,7 @@ void	  gnm_expr_top_as_gstring (GnmExprTop const *texpr,
 GnmExprSharer *   gnm_expr_sharer_new  (void);
 void              gnm_expr_sharer_destroy (GnmExprSharer *es);
 GnmExprTop const *gnm_expr_sharer_share (GnmExprSharer *es, GnmExprTop const *texpr);
+void              gnm_expr_sharer_report (GnmExprSharer *es);
 
 /*****************************************************************************/
 

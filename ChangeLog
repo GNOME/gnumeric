@@ -1,3 +1,10 @@
+2012-03-13  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_share_expressions): Add sharing debug
+	code.
+
+	* src/expr.c (gnm_expr_sharer_report): New function.
+
 2012-03-12  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (do_expr_as_string): Set a precedence for set.
