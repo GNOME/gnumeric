@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-10 20:52+0000\n"
-"PO-Revision-Date: 2012-03-11 14:02+0100\n"
+"PO-Revision-Date: 2012-03-14 20:46+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -2408,12 +2408,12 @@ msgstr "x1:število, privzeto vrednosti 0"
 
 #: ../plugins/fn-eng/functions.c:1131
 msgid "DELTA  returns 1 if  @{x1} = @{x0} and 0 otherwise."
-msgstr ""
+msgstr "V kolikor je @{x1} = @{x0}, funkcija DELTA vrne vrednost 1, sicer vrne 0."
 
 #: ../plugins/fn-eng/functions.c:1132
 #: ../plugins/fn-eng/functions.c:1155
 msgid "If either argument is non-numeric, #VALUE! is returned."
-msgstr ""
+msgstr "V kolikor je katerikoli argument ne-številski, funkcija vrne napako #VALUE!."
 
 #: ../plugins/fn-eng/functions.c:1151
 msgid "GESTEP:step function with step at @{x1} evaluated at @{x0}"
@@ -2454,6 +2454,8 @@ msgid ""
 "If any of the arguments is negative, #VALUE! is returned.\n"
 "If any argument is zero, the result is zero."
 msgstr ""
+"V kolikor ima katerikoli izmed argumentov negativno vrednost, funkcija vrne napako #VALUE!.\n"
+"Če je vrednost kateregakoli argumenta enaka 0, je rezultat prav tako 0."
 
 #: ../plugins/fn-eng/functions.c:1210
 msgid "INVSUMINV sum calculates the reciprocal (the inverse) of the sum of reciprocals (inverses) of all its arguments."
@@ -3685,8 +3687,9 @@ msgid "If @{cell} contains no expression, EXPRESSION returns empty."
 msgstr "V kolikor @{celica} ne vsebuje izraza, funkcija EXPRESSION vrne prazno vrednost."
 
 #: ../plugins/fn-info/functions.c:1210
+#, fuzzy
 msgid "GET.FORMULA:the formula in @{cell} as a string"
-msgstr ""
+msgstr "GET.FORMULA:formula v @{cellici} oblikovana kot niz"
 
 #: ../plugins/fn-info/functions.c:1211
 #: ../plugins/fn-info/functions.c:1253
@@ -3700,11 +3703,15 @@ msgid "GET.FORMULA is the OpenFormula function FORMULA."
 msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
 
 #: ../plugins/fn-info/functions.c:1213
+#, fuzzy
 msgid ""
 "If A1 is empty and A2 contains =B1+B2, then\n"
 "GET.FORMULA(A2) yields '=B1+B2' and\n"
 "GET.FORMULA(A1) yields ''."
 msgstr ""
+"V kolikor je celica A1 prazna, celica A2 pa vsebuje forumulo =B1+B2, potem\n"
+"funkcija GET.FORMULA(A2) yields '=B1+B2' in\n"
+"funkcija GET.FORMULA(A1) yields ''."
 
 #: ../plugins/fn-info/functions.c:1252
 msgid "ISFORMULA:TRUE if @{cell} contains a formula"
@@ -3877,7 +3884,7 @@ msgstr "besedilo:nit"
 
 #: ../plugins/fn-info/functions.c:1721
 msgid "If @{text} contains non-numerical text, 0 is returned."
-msgstr ""
+msgstr "V kolikor vsebuje @{besedilo} ne-številske znake, funkcija vrne vrednost 0."
 
 #: ../plugins/fn-info/functions.c:1724
 msgid "=N(\"eleven\")"
@@ -3964,13 +3971,13 @@ msgstr "Nizi in prazne vrednosti so prezrti."
 #: ../plugins/fn-logical/functions.c:129
 #: ../plugins/fn-logical/functions.c:183
 msgid "If no logical values are provided, then the error #VALUE! is returned."
-msgstr ""
+msgstr "V kolikor ni podanih logičnih vrednosti, funkcija vrne napako #VALUE!."
 
 #: ../plugins/fn-logical/functions.c:51
 #: ../plugins/fn-logical/functions.c:130
 #: ../plugins/fn-logical/functions.c:184
 msgid "This function is strict: if any argument is an error, the result will be the first such error."
-msgstr ""
+msgstr "Določilo funkcije je strogo. V kolikor katerikoli argument vrne napako, je rezultat napaka, ki jo vrne prvi argument z napako."
 
 #: ../plugins/fn-logical/functions.c:57
 msgid "wiki:en:Logical_conjunction"
@@ -4093,11 +4100,11 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:722
 msgid "text:name of the worksheet, defaults to no sheet"
-msgstr ""
+msgstr "besedilo:ime delovnega lista, privzeto določeno kot brez imena"
 
 #: ../plugins/fn-lookup/functions.c:723
 msgid "If @{row_num} or @{col_num} is less than one, ADDRESS returns #VALUE!"
-msgstr ""
+msgstr "V kolikor je @{štev_vrstice} ali pa @{štev_stolpca} manj kot ena, funkcija ADDRESS vrne napako #VALUE!."
 
 #: ../plugins/fn-lookup/functions.c:725
 #, fuzzy
