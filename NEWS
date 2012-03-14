@@ -34,6 +34,7 @@ Morten:
 	* Improve xls export of chart legends.  [Part of #671845]
 	* Export sets to xls.
 	* Lower memory usage for ods load.  [#671863]
+	* Improve test suite.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2
