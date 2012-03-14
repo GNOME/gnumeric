@@ -10859,7 +10859,6 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	g_hash_table_destroy (state.chart.arrow_markers);
 	g_slist_free_full (state.span_style_stack, g_free);
 	g_object_unref (contents);
-	gnm_expr_sharer_report (state.sharer);
 	gnm_expr_sharer_destroy (state.sharer);
 
 	g_object_unref (zip);

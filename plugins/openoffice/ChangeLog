@@ -1,3 +1,7 @@
+2012-03-14  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (openoffice_file_open): Remove debug print.
+
 2012-03-13  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_expr_parse_str): Share expressions because
