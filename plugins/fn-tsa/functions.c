@@ -250,6 +250,10 @@ staircase_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_kno
 {
 	int i, j, jmax = nb_knots - 1;
 	gnm_float *res;
+
+	if (nb_knots <= 0)
+		return NULL;
+
 	res = g_new (gnm_float, nb_targets);
 	if (gnm_range_increasing (targets, nb_targets)) {
 		j = 1;
@@ -290,6 +294,11 @@ staircase_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 {
 	int i, j, jmax = nb_knots - 1;
 	gnm_float *res;
+
+
+	if (nb_knots <= 0)
+		return NULL;
+
 	if (!gnm_range_increasing (targets, nb_targets + 1))
 		return NULL;
 	res = g_new (gnm_float, nb_targets);

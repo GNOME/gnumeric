@@ -1,3 +1,8 @@
+2012-03-15  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (staircase_interpolation, staircase_averaging):
+	Handle the no-points case.  Fixes #672154.
+
 2012-03-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.2

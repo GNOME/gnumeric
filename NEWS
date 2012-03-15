@@ -36,6 +36,7 @@ Morten:
 	* Lower memory usage for ods load.  [#671863]
 	* Improve test suite.
 	* Lower per-cell memory usage.
+	* Fix INTERPOLATION crash.  [#672154]
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2
