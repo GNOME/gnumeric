@@ -1718,7 +1718,7 @@ palette_init (XLExportBase *ewb)
 		two_way_table_put (ewb->pal.two_way_table,
 				   GUINT_TO_POINTER (num), FALSE,
 				   (AfterPutFunc) log_put_color,
-				   "Default color %d - 0x%6.6x\n");
+				   "Default color %d - 0x%06.6x\n");
 		if ((i == PALETTE_BLACK) || (i == PALETTE_WHITE))
 			ewb->pal.entry_in_use[i] = TRUE;
 		else
@@ -1742,7 +1742,7 @@ palette_free (XLExportBase *ewb)
  *
  * Get index of color
  * The color index to use is *not* simply the index into the palette.
- * See comment to ms_excel_palette_get in ms-excel-read.c
+ * See comment to excel_palette_get in ms-excel-read.c
  **/
 gint
 palette_get_index (XLExportBase const *ewb, guint c)
@@ -1756,12 +1756,12 @@ palette_get_index (XLExportBase const *ewb, guint c)
 
 	idx = two_way_table_key_to_idx (ewb->pal.two_way_table, GUINT_TO_POINTER (c));
 	if (idx < 0) {
-		g_warning ("Unknown color (%x), converting it to black\n", c);
+		g_warning ("Unknown color (#%06x), converting it to black\n", c);
 		return PALETTE_BLACK;
 	}
 
 	if (idx >= EXCEL_DEF_PAL_LEN) {
-		g_warning ("We lost colour #%d (%x), converting it to black\n", idx, c);
+		g_warning ("We lost colour #%d (#%06x), converting it to black\n", idx, c);
 		return PALETTE_BLACK;
 	}
 	return idx + 8;
@@ -1774,7 +1774,7 @@ put_color_bgr (XLExportBase *ewb, guint32 bgr)
 	gpointer pc = GUINT_TO_POINTER (bgr);
 	gint idx = two_way_table_put (twt, pc, TRUE,
 			   (AfterPutFunc) log_put_color,
-			   "Found unique color %d - 0x%6.6x\n");
+			   "Found unique color %d - 0x%06.6x\n");
 	if (idx >= 0 && idx < EXCEL_DEF_PAL_LEN)
 		ewb->pal.entry_in_use [idx] = TRUE; /* Default entry in use */
 }
@@ -1961,9 +1961,8 @@ static void
 excel_font_free (ExcelWriteFont *efont)
 {
 	/* FONT_SKIP has value == NULL */
-	d (3, g_printerr ("free %p", efont););
 	if (efont != NULL) {
-		d (3, g_printerr ("freeing %s", excel_font_to_string (efont)););
+		d (3, g_printerr ("freeing %s\n", excel_font_to_string (efont)););
 		g_free (efont->font_name_copy);
 		g_free (efont);
 	}
