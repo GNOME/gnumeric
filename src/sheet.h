@@ -337,6 +337,7 @@ GOUndo *     sheet_apply_style_undo (GnmSheetRange *sr,
 				     GnmStyle      *style);
 void	     sheet_apply_border	    (Sheet  *sheet, GnmRange const *range, GnmBorder **borders);
 void	     sheet_queue_respan     (Sheet const *sheet, int start_row, int end_row);
+void         sheet_cell_queue_respan (GnmCell *cell);
 void	     sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, GnmSpanCalcFlags flags);
 
 void	     sheet_set_outline_direction (Sheet *sheet, gboolean is_cols);

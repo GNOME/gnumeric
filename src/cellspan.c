@@ -73,13 +73,14 @@ void
 cell_register_span (GnmCell const *cell, int left, int right)
 {
 	ColRowInfo *ri;
-	int col, i;
+	int col, row, i;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (left <= right);
 
-	ri = cell->row_info;
 	col = cell->pos.col;
+	row = cell->pos.row;
+	ri = sheet_row_get (cell->base.sheet, row);
 
 	if (left == right)
 		return;
@@ -122,14 +123,17 @@ span_remove (G_GNUC_UNUSED gpointer key, gpointer value,
 void
 cell_unregister_span (GnmCell const * const cell)
 {
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->row_info != NULL);
+	ColRowInfo *ri;
 
-	if (cell->row_info->spans == NULL)
+	g_return_if_fail (cell != NULL);
+
+	ri = sheet_row_get (cell->base.sheet, cell->pos.row);
+
+	if (ri->spans == NULL)
 		return;
 
-	g_hash_table_foreach_remove (cell->row_info->spans,
-		&span_remove, (gpointer)cell);
+	g_hash_table_foreach_remove (ri->spans,
+				     &span_remove, (gpointer)cell);
 }
 
 /*
@@ -170,14 +174,16 @@ row_span_get (ColRowInfo const * const ri, int const col)
 static inline gboolean
 cellspan_is_empty (int col, GnmCell const *ok_span_cell)
 {
-	CellSpanInfo const *span = row_span_get (ok_span_cell->row_info, col);
+	Sheet *sheet = ok_span_cell->base.sheet;
+	int row = ok_span_cell->pos.row;
+	ColRowInfo *ri = sheet_row_get (sheet, row);
+	CellSpanInfo const *span = row_span_get (ri, col);
 	GnmCell const *tmp;
 
 	if (span != NULL && span->cell != ok_span_cell)
 		return FALSE;
 
-	tmp = sheet_cell_get (ok_span_cell->base.sheet,
-		col, ok_span_cell->pos.row);
+	tmp = sheet_cell_get (sheet, col, row);
 
 	/* FIXME : cannot use gnm_cell_is_empty until expressions can span.
 	 * because cells with expressions start out with value Empty

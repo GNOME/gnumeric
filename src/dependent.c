@@ -1575,8 +1575,8 @@ iterate :
 			gboolean was_string = had_value && (VALUE_IS_STRING (cell->value) || VALUE_IS_ERROR (cell->value));
 			gboolean is_string = VALUE_IS_STRING (v) || VALUE_IS_ERROR (v);
 
-			if ((was_string || is_string) && cell->row_info)
-				cell->row_info->needs_respan = TRUE;
+			if ((was_string || is_string))
+				sheet_cell_queue_respan (cell);
 
 			if (had_value)
 				value_release (cell->value);

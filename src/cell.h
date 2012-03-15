@@ -25,7 +25,6 @@ struct _GnmCell {
 
 	/* Mandatory state information */
 	GnmCellPos     pos;
-	ColRowInfo    *row_info;
 
 	GnmValue      *value;	/* computed or entered (Must be non NULL) */
 };

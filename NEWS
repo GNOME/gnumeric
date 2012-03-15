@@ -35,6 +35,7 @@ Morten:
 	* Export sets to xls.
 	* Lower memory usage for ods load.  [#671863]
 	* Improve test suite.
+	* Lower per-cell memory usage.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2

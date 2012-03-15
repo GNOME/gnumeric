@@ -215,7 +215,7 @@ print_merged_range_gtk (cairo_t *context,
 {
 	double l, r, t, b;
 	int last;
-	GnmCell  const *cell  = sheet_cell_get (sheet, range->start.col, range->start.row);
+	GnmCell  const *cell = sheet_cell_get (sheet, range->start.col, range->start.row);
 	int const dir = sheet->text_is_rtl ? -1 : 1;
 
 	/* load style from corner which may not be visible */
@@ -265,10 +265,10 @@ print_merged_range_gtk (cairo_t *context,
 			view->end.row+1, range->end.row+1);
 
 	if (cell != NULL) {
-		ColRowInfo const * const ri = cell->row_info;
+		ColRowInfo *ri = sheet_row_get (sheet, range->start.row);
 
 		if (ri->needs_respan)
-			row_calc_spans ((ColRowInfo *)ri, cell->pos.row, sheet);
+			row_calc_spans (ri, cell->pos.row, sheet);
 
 		if (sheet->text_is_rtl)
 			print_cell_gtk (cell, context,

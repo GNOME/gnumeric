@@ -65,8 +65,7 @@ gnm_cell_cleanout (GnmCell *cell)
 
 	gnm_cell_unrender (cell);
 
-	if (cell->row_info != NULL)
-		cell->row_info->needs_respan = TRUE;
+	sheet_cell_queue_respan (cell);
 }
 
 /****************************************************************************/

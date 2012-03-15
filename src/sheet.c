@@ -168,8 +168,7 @@ cb_re_render_formulas (G_GNUC_UNUSED gpointer unused,
 {
 	if (gnm_cell_has_expr (cell)) {
 		gnm_cell_unrender (cell);
-		if (cell->row_info != NULL)
-			cell->row_info->needs_respan = TRUE;
+		sheet_cell_queue_respan (cell);
 	}
 }
 
@@ -322,7 +321,7 @@ static void
 cb_clear_rendered_cells (gpointer ignored, GnmCell *cell)
 {
 	if (gnm_cell_get_rendered_value (cell) != NULL) {
-		cell->row_info->needs_respan = TRUE;
+		sheet_cell_queue_respan (cell);
 		gnm_cell_unrender (cell);
 	}
 }
@@ -1429,28 +1428,32 @@ static void
 sheet_redraw_cell (GnmCell const *cell)
 {
 	CellSpanInfo const * span;
-	int start_col, end_col;
+	int start_col, end_col, row;
 	GnmRange const *merged;
+	Sheet *sheet;
+	ColRowInfo *ri;
 
 	g_return_if_fail (cell != NULL);
 
-	merged = gnm_sheet_merge_is_corner (cell->base.sheet, &cell->pos);
+	sheet = cell->base.sheet;
+	merged = gnm_sheet_merge_is_corner (sheet, &cell->pos);
 	if (merged != NULL) {
-		SHEET_FOREACH_CONTROL (cell->base.sheet, view, control,
+		SHEET_FOREACH_CONTROL (sheet, view, control,
 			sc_redraw_range (control, merged););
 		return;
 	}
 
+	row = cell->pos.row;
 	start_col = end_col = cell->pos.col;
-	span = row_span_get (cell->row_info, start_col);
+	ri = sheet_row_get (sheet, row);
+	span = row_span_get (ri, start_col);
 
 	if (span) {
 		start_col = span->left;
 		end_col = span->right;
 	}
 
-	sheet_redraw_partial_row (cell->base.sheet, cell->pos.row,
-				  start_col, end_col);
+	sheet_redraw_partial_row (sheet, row, start_col, end_col);
 }
 
 static void
@@ -1458,13 +1461,18 @@ sheet_cell_calc_span (GnmCell *cell, GnmSpanCalcFlags flags)
 {
 	CellSpanInfo const * span;
 	int left, right;
-	int min_col, max_col;
+	int min_col, max_col, row;
 	gboolean render = (flags & GNM_SPANCALC_RE_RENDER) != 0;
 	gboolean const resize = (flags & GNM_SPANCALC_RESIZE) != 0;
 	gboolean existing = FALSE;
 	GnmRange const *merged;
+	Sheet *sheet;
+	ColRowInfo *ri;
 
 	g_return_if_fail (cell != NULL);
+
+	sheet = cell->base.sheet;
+	row = cell->pos.row;
 
 	/* Render & Size any unrendered cells */
 	if ((flags & GNM_SPANCALC_RENDER) && gnm_cell_get_rendered_value (cell) == NULL)
@@ -1481,7 +1489,8 @@ sheet_cell_calc_span (GnmCell *cell, GnmSpanCalcFlags flags)
 	}
 
 	/* Is there an existing span ? clear it BEFORE calculating new one */
-	span = row_span_get (cell->row_info, cell->pos.col);
+	ri = sheet_row_get (sheet, row);
+	span = row_span_get (ri, cell->pos.col);
 	if (span != NULL) {
 		GnmCell const * const other = span->cell;
 
@@ -1506,7 +1515,7 @@ sheet_cell_calc_span (GnmCell *cell, GnmSpanCalcFlags flags)
 	} else
 		min_col = max_col = cell->pos.col;
 
-	merged = gnm_sheet_merge_is_corner (cell->base.sheet, &cell->pos);
+	merged = gnm_sheet_merge_is_corner (sheet, &cell->pos);
 	if (NULL != merged) {
 		if (existing) {
 			if (min_col > merged->start.col)
@@ -1539,8 +1548,7 @@ sheet_cell_calc_span (GnmCell *cell, GnmSpanCalcFlags flags)
 			cell_register_span (cell, left, right);
 	}
 
-	sheet_redraw_partial_row (cell->base.sheet,
-		cell->pos.row, min_col, max_col);
+	sheet_redraw_partial_row (sheet, row, min_col, max_col);
 }
 
 /**
@@ -2055,6 +2063,7 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
 {
 	GnmCell const *cell = (GnmCell const *) value;
 	struct sheet_extent_data *res = data;
+	Sheet *sheet = cell->base.sheet;
 
 	if (res->ignore_empties && gnm_cell_is_empty (cell))
 		return;
@@ -2075,13 +2084,14 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
 	/* Cannot span AND merge */
 	if (gnm_cell_is_merged (cell)) {
 		GnmRange const *merged =
-			gnm_sheet_merge_is_corner (cell->base.sheet, &cell->pos);
+			gnm_sheet_merge_is_corner (sheet, &cell->pos);
 		res->range = range_union (&res->range, merged);
 	} else {
 		CellSpanInfo const *span;
-		if (cell->row_info->needs_respan)
-			row_calc_spans (cell->row_info, cell->pos.row, cell->base.sheet);
-		span = row_span_get (cell->row_info, cell->pos.col);
+		ColRowInfo *ri = sheet_row_get (sheet, cell->pos.row);
+		if (ri->needs_respan)
+			row_calc_spans (ri, cell->pos.row, sheet);
+		span = row_span_get (ri, cell->pos.col);
 		if (NULL != span) {
 			if (res->range.start.col > span->left)
 				res->range.start.col = span->left;
@@ -3859,7 +3869,7 @@ sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 	cell->base.flags |= GNM_CELL_IN_SHEET_LIST;
 	/* NOTE :
 	 *   fetching the col/row here serve 3 functions
-	 *   1) The obvious.  Storing the ptr in the cell.
+	 *   1) obsolete: we used to store the pointer in the cell
 	 *   2) Expanding col/row.max_used
 	 *   3) Creating an entry in the COLROW_SEGMENT.  Lots and lots of
 	 *	things use those to help limit iteration
@@ -3868,8 +3878,8 @@ sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 	 * ensure that 2,3 still happen.  Alot will need rewriting to avoid
 	 * these requirements.
 	 **/
-	(void) sheet_col_fetch (sheet, cell->pos.col);
-	cell->row_info   = sheet_row_fetch (sheet, cell->pos.row);
+	(void)sheet_col_fetch (sheet, cell->pos.col);
+	(void)sheet_row_fetch (sheet, cell->pos.row);
 
 	gnm_cell_unrender (cell);
 
@@ -5868,6 +5878,14 @@ sheet_queue_respan (Sheet const *sheet, int start_row, int end_row)
 	colrow_foreach (&sheet->rows, start_row, end_row,
 		cb_queue_respan, NULL);
 }
+
+void
+sheet_cell_queue_respan (GnmCell *cell)
+{
+	ColRowInfo *ri = sheet_row_get (cell->base.sheet, cell->pos.row);
+	ri->needs_respan = TRUE;
+}
+
 
 /**
  * sheet_get_comment :

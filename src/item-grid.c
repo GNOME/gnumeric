@@ -239,7 +239,7 @@ item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
 	gboolean show_function_cell_markers = wbv->show_function_cell_markers;
 	gboolean show_extension_markers = wbv->show_extension_markers;
 	Sheet const *sheet  = sv->sheet;
-	GnmCell  const *cell   = sheet_cell_get (sheet, range->start.col, range->start.row);
+	GnmCell const *cell = sheet_cell_get (sheet, range->start.col, range->start.row);
 	int const dir = sheet->text_is_rtl ? -1 : 1;
 
 	/* load style from corner which may not be visible */
@@ -304,10 +304,10 @@ item_grid_draw_merged_range (cairo_t *cr, ItemGrid *ig,
 			view->end.row+1, range->end.row+1);
 
 	if (cell != NULL) {
-		ColRowInfo const * const ri = cell->row_info;
+		ColRowInfo *ri = sheet_row_get (sheet, range->start.row);
 
 		if (ri->needs_respan)
-			row_calc_spans ((ColRowInfo *)ri, cell->pos.row, sheet);
+			row_calc_spans (ri, cell->pos.row, sheet);
 
 		if (dir > 0) {
 			if (show_function_cell_markers)
