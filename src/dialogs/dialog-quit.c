@@ -75,7 +75,7 @@ url_renderer_func (GtkTreeViewColumn *tree_column,
 		shortname = g_filename_display_basename (uri);
 	}
 
-	duri = go_url_decode (uri);
+	duri = g_uri_unescape_string (uri, NULL);
 	longname = duri
 		? g_filename_display_name (duri)
 		: g_strdup (uri);

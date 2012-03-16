@@ -229,13 +229,14 @@ dhl_set_target_email (HyperlinkState *state, const char* const target)
 
 	subject = strstr (cursor, "?subject=");
 	if (subject) {
-		guitext = go_url_decode (subject + strlen ("?subject="));
+		guitext = g_uri_unescape_string (subject + strlen ("?subject="),
+						 NULL);
 		gtk_entry_set_text (GTK_ENTRY (w2), guitext);
 		*subject = '\0';
 		g_free (guitext);
 	}
 
-	guitext = go_url_decode (cursor);
+	guitext = g_uri_unescape_string (cursor, NULL);
 
 	gtk_entry_set_text (GTK_ENTRY (w), guitext);
 

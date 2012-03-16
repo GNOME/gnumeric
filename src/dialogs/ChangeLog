@@ -1,3 +1,9 @@
+2012-03-16  Morten Welinder  <terra@gnome.org>
+
+	* dialog-quit.c (url_renderer_func): Use g_uri_unescape_string,
+	not go_url_decode.
+	* dialog-hyperlink.c (dhl_set_target_email): Ditto.
+
 2012-03-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-search.c (dialog_search): only show the expression entry
