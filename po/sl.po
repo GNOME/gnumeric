@@ -2,7 +2,8 @@
 # Copyright (C) 2009 gnumeric's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnumeric package.
 #
-# Maja Lovrenov <maja.lovrenov@gmail.com>, 2011.
+# Martin Srebotnjak <miles@filmsi.si>, 2012.
+# Maja Lovrenov <maja.lovrenov@gmail.com>, 2011 - 2012.
 # Matej Urbančič <mateju@svn.gnome.org>, 2010 - 2012.
 #
 msgid ""
@@ -10,7 +11,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-13 21:36+0000\n"
-"PO-Revision-Date: 2012-03-14 15:37+0100\n"
+"PO-Revision-Date: 2012-03-16 22:27+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -54,7 +55,7 @@ msgstr "Manjkajo ustrezni znaki za določitev nabora znakov"
 #: ../plugins/applix/applix-read.c:326
 #, c-format
 msgid "Invalid characters for encoding '%c%c'"
-msgstr "Neveljavni z naki za nabor znakov '%c%c'"
+msgstr "Neveljavni znaki za nabor znakov '%c%c'"
 
 #: ../plugins/applix/applix-read.c:1202
 #, c-format
@@ -4038,9 +4039,8 @@ msgid "Harald Ashburner"
 msgstr "Harald Ashburner"
 
 #: ../src/dialogs/dialog-about.c:74
-#, fuzzy
 msgid "Options pricers"
-msgstr "Možnosti nastavitev:"
+msgstr "Ocenjevanje možnosti"
 
 #: ../src/dialogs/dialog-about.c:75
 msgid "Sean Atkinson"
@@ -6310,9 +6310,8 @@ msgid "Could not create the Correlated Random Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja soodnosnih naključnih vrednosti."
 
 #: ../src/dialogs/dialog-random-generator.c:105
-#, fuzzy
 msgid "Uniform"
-msgstr "Enotna porazdelitev"
+msgstr "Enotno število"
 
 #: ../src/dialogs/dialog-random-generator.c:105
 #: ../src/dialogs/dialog-random-generator.c:107
@@ -6325,7 +6324,6 @@ msgid "_Upper Bound:"
 msgstr "_Zgornja meja:"
 
 #: ../src/dialogs/dialog-random-generator.c:107
-#, fuzzy
 msgid "Uniform Integer"
 msgstr "Enotno celo število"
 
@@ -6497,9 +6495,8 @@ msgid "_Zeta Value:"
 msgstr "Vrednost _zeta:"
 
 #: ../src/dialogs/dialog-random-generator.c:156
-#, fuzzy
 msgid "Negative Binomial"
-msgstr "Vmesnik negativa"
+msgstr "Negativni binom"
 
 #: ../src/dialogs/dialog-random-generator.c:157
 msgid "N_umber of Failures"
@@ -6875,7 +6872,6 @@ msgid "Problem Status:"
 msgstr "Stanje problema:"
 
 #: ../src/dialogs/dialog-solver.c:694
-#, fuzzy
 msgid "Objective Value:"
 msgstr "Končna vrednost:"
 
@@ -6896,11 +6892,8 @@ msgid "Feasible solution created by solver.\n"
 msgstr "Verjetna rešitev, ki jo je podal reševalnik.\n"
 
 #: ../src/dialogs/dialog-solver.c:1110
-#, fuzzy
 msgid "Subject to the Constraints:"
-msgstr ""
-"Izdano za:\n"
-" Zadeva: %s\n"
+msgstr "Upoštevanje omejitev"
 
 #: ../src/dialogs/dialog-solver.c:1260
 msgid "Could not create the Solver dialog."
@@ -9695,7 +9688,7 @@ msgstr "_Vsebino"
 
 #: ../src/dialogs/paste-special.ui.h:5
 msgid "As _Value"
-msgstr "Kot _vrednost"
+msgstr "Kot _vrednosti"
 
 #: ../src/dialogs/paste-special.ui.h:6
 msgid "_Formats"
@@ -9708,17 +9701,17 @@ msgstr "Opo_mbe"
 
 #: ../src/dialogs/paste-special.ui.h:8
 msgid "<b>Paste type</b>"
-msgstr "<b>Vrsta prilepljenja</b>"
+msgstr "<b>Prilepi</b>"
 
 #. Region operation while paste
 #: ../src/dialogs/paste-special.ui.h:10
 msgctxt "operation"
 msgid "None"
-msgstr "Brez"
+msgstr "Ohrani po obliki"
 
 #: ../src/dialogs/paste-special.ui.h:11
 msgid "_Transpose"
-msgstr "_Transponiranje"
+msgstr "_Transponiraj"
 
 #: ../src/dialogs/paste-special.ui.h:12
 msgid "Flip Hori_zontally"
@@ -9729,15 +9722,15 @@ msgid "Fli_p Vertically"
 msgstr "Zrcali _navpično"
 
 #: ../src/dialogs/paste-special.ui.h:14
-#, fuzzy
 msgid "<b>Region operation</b>"
-msgstr "Zaustavi opravilo"
+msgstr "<b>Izbran obseg</>"
 
+# !
 #. Cell operation while paste
 #: ../src/dialogs/paste-special.ui.h:16
 msgctxt "operation"
 msgid "_None"
-msgstr "_Brez"
+msgstr "_Ne naredi ničesar"
 
 #: ../src/dialogs/paste-special.ui.h:17
 msgid "A_dd"
@@ -9749,15 +9742,16 @@ msgstr "_Odštej"
 
 #: ../src/dialogs/paste-special.ui.h:19
 msgid "M_ultiply"
-msgstr "M_noži"
+msgstr "Pom_noži"
 
 #: ../src/dialogs/paste-special.ui.h:20
 msgid "D_ivide"
 msgstr "_Deli"
 
+# !
 #: ../src/dialogs/paste-special.ui.h:21
 msgid "<b>Cell operation</b>"
-msgstr "<b>Opravilo celice</b>"
+msgstr "<b>V celici</b>"
 
 #: ../src/dialogs/paste-special.ui.h:22
 msgid "Skip _Blanks"
@@ -10128,9 +10122,8 @@ msgid "Rank and Percentile"
 msgstr "Rang in percentil"
 
 #: ../src/dialogs/rank.ui.h:11
-#, fuzzy
 msgid "Ties:"
-msgstr "_Lastnosti"
+msgstr "Vezi:"
 
 #: ../src/dialogs/rank.ui.h:12
 msgid "_Average rank"
@@ -10796,7 +10789,7 @@ msgstr "Wilcoxonov test predznačenih rangov"
 
 #: ../src/dialogs/sign-test-two.ui.h:8
 msgid "Hypothesized _difference of medians:"
-msgstr "Hipotetična _razlika srednjih vrednosti:"
+msgstr "Hipotetična _razlika medianih vrednosti:"
 
 #: ../src/dialogs/sign-test.ui.h:1
 msgid "Testing 1 Median"
@@ -13874,7 +13867,7 @@ msgid ""
 "This p-value is calculated by a normal approximation.\n"
 "It is only valid if the sample size is at least 12."
 msgstr ""
-"Vrednost p je izračunana s približkom normalne porazdelitve.\n"
+"Vrednost p je izračunana z normalno aproksimacijo.\n"
 "Vrednost je veljavna le pri vzorcu večjem od 12."
 
 #: ../src/tools/analysis-signed-rank-test.c:294
@@ -13924,9 +13917,8 @@ msgstr "Kovarianca (%s)"
 #. * The items are bundled like this to increase translation context.
 #.
 #: ../src/tools/analysis-tools.c:838
-#, fuzzy
 msgid "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
-msgstr "/Povprečje/Standardna napaka/Mediana/Modus/Standardni odklon/Varianca vzorca/Kurtosis/Skewness/Obseg/Najmanjša vrednost/Največja vrednost/Vsota/Števec"
+msgstr "/Povprečje/Standardna napaka/Mediana/Modus/Standardni odklon/Varianca vzorca/Koeficient sploščenosti/Koeficient asimetričnosti/Obseg/Najmanjša vrednost/Največja vrednost/Vsota/Števec"
 
 #: ../src/tools/analysis-tools.c:972
 #, c-format
@@ -13959,9 +13951,8 @@ msgid "Sample"
 msgstr "Vzorec"
 
 #: ../src/tools/analysis-tools.c:1400
-#, fuzzy
 msgid "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
-msgstr "/Povprečje/Znana varianca/Opazovanja/Hypothesized Mean Difference/Observed Mean Difference/z/P (Z<=z) enostranska porazdelitev/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
+msgstr "/Povprečje/Znana varianca/Opazovanja/Hipotetična razlika povprečja/Opazovana razlika povprečja/z/P (Z<=z) enostranska porazdelitev/kritični enostrani z/dvostrani P (Z<=z)/kritični dvostrani z"
 
 #: ../src/tools/analysis-tools.c:1587
 #, c-format
@@ -13974,9 +13965,8 @@ msgid "z-Test"
 msgstr "Z-Test"
 
 #: ../src/tools/analysis-tools.c:1651
-#, fuzzy
 msgid "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
-msgstr "/Povprečje/Varianca/Opazovanja/Pearson Correlation/Hypothesized Mean Difference/Observed Mean Difference/Variance of the Differences/Prostostne stopnje/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
+msgstr "/Povprečje/Varianca/Opazovanja/Pearsonova soodnosnost/Hipotetična razlika povprečja/Opazovana razlika povprečja/Varianca razlik/Prostostne stopnje/t Stat/P (T<=t) enostrani/kritični enostrani t/dvostrani P (T<=t)/Kritični dvostrani t"
 
 #: ../src/tools/analysis-tools.c:1879
 #, c-format
@@ -13993,9 +13983,8 @@ msgid "t-Test"
 msgstr "T-Test"
 
 #: ../src/tools/analysis-tools.c:1930
-#, fuzzy
 msgid "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
-msgstr "/Povprečje/Varianca/Opazovanja/Pooled Variance/Hypothesized Mean Difference/Observed Mean Difference/Prostostne stopnje/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
+msgstr "/Povprečje/Varianca/Opazovanja/Združena varianca/Hipotetična razlika povprečja/Opazovana razlika povprečja/Prostostne stopnje/Statistika t/enostrani P (T<=t)/kritični enostrani t/dvostrani P (T<=t)/Kritični dvostrani t"
 
 #: ../src/tools/analysis-tools.c:2179
 #: ../src/tools/analysis-tools.c:2472
@@ -14004,9 +13993,8 @@ msgid "t-Test (%s)"
 msgstr "T-Test (%s)"
 
 #: ../src/tools/analysis-tools.c:2227
-#, fuzzy
 msgid "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
-msgstr "/Povprečje/Varianca/Opazovanja/Hypothesized Mean Difference/Observed Mean Difference/Prostostne stopnje/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
+msgstr "/Povprečje/Varianca/Opazovanja/Hipotetična razlika povprečja/Opazovana razlika povprečja/Prostostne stopnje/Statistika t/enostrani P (T<=t)/kritični enostrani t/dvostrani P (T<=t)/Kritični dvostrani t"
 
 #: ../src/tools/analysis-tools.c:2521
 #: ../src/tools/analysis-tools.c:2770
@@ -14015,9 +14003,8 @@ msgid "F-Test"
 msgstr "F-Test"
 
 #: ../src/tools/analysis-tools.c:2522
-#, fuzzy
 msgid "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P (f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
-msgstr "/Povprečje/Varianca/Opazovanja/Prostostne stopnje/F/P (F<=f) right-tail/F Critical right-tail/P (f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
+msgstr "/Povprečje/Varianca/Opazovanja/Prostostne stopnje/F/desnostrani P (F<=f)/Kritični desnostrani F/Levostrani P (f<=F)/Kritični levostrani F/Dvostrani P/Kritični dvostrani F"
 
 #: ../src/tools/analysis-tools.c:2760
 #, c-format
@@ -14025,9 +14012,8 @@ msgid "F-Test (%s)"
 msgstr "F-Test (%s)"
 
 #: ../src/tools/analysis-tools.c:2911
-#, fuzzy
 msgid "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
-msgstr "/IZPIS POVZETKA//Regresijska statistika/Multiple R/R^2/Standardna napaka/Adjusted R^2/Opazovanja//ANOVA//Regresija/Residual/Skupno///Intercept"
+msgstr "/IZPIS POVZETKA//Regresijska statistika/Večkratni R/R^2/Standardna napaka/Prilagojen R^2/Opazovanja//ANOVA//Regresija/Ostanek/Skupno///Izhodišče"
 
 #: ../src/tools/analysis-tools.c:2930
 msgid "Response Variable"
@@ -14081,9 +14067,8 @@ msgid "Constant"
 msgstr "Konstanta"
 
 #: ../src/tools/analysis-tools.c:3306
-#, fuzzy
 msgid "/Prediction//Residual/Leverages/Internally studentized/Externally studentized/p-Value"
-msgstr "/Napoved//Residual/Leverages/Internally studentized/Externally studentized/Vrednost p"
+msgstr "/Napoved//Ostanek/Točke vzvoda/Notranje studentizirano/Zunanje studentizirano/Vrednost p"
 
 #: ../src/tools/analysis-tools.c:3501
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
@@ -14094,14 +14079,12 @@ msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr "/IZPIS POVZETKA//Odzivna spremenljivka//Opazovanja"
 
 #: ../src/tools/analysis-tools.c:3512
-#, fuzzy
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
-msgstr "/Odzivna spremenljivka/R^2/Naklon/Intercept/F/Statistična značilnost F"
+msgstr "/Odzivna spremenljivka/R^2/Naklon/Izhodišče/F/Statistična značilnost F"
 
 #: ../src/tools/analysis-tools.c:3518
-#, fuzzy
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
-msgstr "/Neodvisna spremenljivka/R^2/Naklon/Intercept/F/Statistična značilnost F"
+msgstr "/Neodvisna spremenljivka/R^2/Naklon/Izhodišče/F/Statistična značilnost F"
 
 #: ../src/tools/analysis-tools.c:3599
 #, c-format
@@ -14192,13 +14175,11 @@ msgid "Fourier Series"
 msgstr "Fourierjeva vrsta"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:101
-#, fuzzy
 msgid "/Rank-Sum/N/U/Ties/Statistics/U-Statistics/p-Value"
 msgstr "/Log-rang test/Statistika/Prostostne stopnje/Vrednost p"
 
 # ??
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:292
-#, fuzzy
 msgid ""
 "This p-value is calculated using a\n"
 "normal approximation, so it is\n"
@@ -14206,11 +14187,11 @@ msgid ""
 "at least 15 observations in each\n"
 "population, and few if any ties."
 msgstr ""
-"Vrednost p je izračunana na osnovi\n"
-"normalnega približka??, zato je vrednost\n"
+"Vrednost p je izračunana z uporabo\n"
+"normalne aproksimacije, zato je vrednost\n"
 "veljavna le pri velikih vzorcih nad 15\n"
 "opazovanji v vsaki merjeni populaciji\n"
-"in le nekaj, če sploh ties??."
+"in le nekaj, če sploh kakšna vez med opazovanji."
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:300
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:305
