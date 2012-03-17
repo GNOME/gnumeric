@@ -1,3 +1,18 @@
+2012-03-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_annotation_content_start): new
+	(odf_add_text_to_comment): new
+	(odf_annotation_content_end): some text may already have been added
+	(odf_annotation_content_special): new
+	(odf_annotation_content_symbol): new
+	(odf_annotation_content_space): new
+	(odf_annotation_content_span_start): new
+	(odf_apply_character_style_to_comment): new
+	(odf_annotation_content_span_end): new
+	(opendoc_content_dtd): attach the above
+	(openoffice_file_open): free ann_span_style_stack in case something
+	wasn't cleaned up
+
 2012-03-14  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (openoffice_file_open): Remove debug print.

@@ -9,6 +9,7 @@ Andreas:
 	* Do not show an icon for the range entry in the search dialog. [#671494]
 	* Import/Export style information attached to grids from/to ODF. 
 	Part of [#671461]
+	* Improve annotation import from ODF.
 
 Jean:
 	* Fixed crash with sheet object. [#671617]
