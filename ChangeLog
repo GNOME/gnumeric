@@ -1,5 +1,12 @@
 2012-03-18  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* src/graph.c (gnm_go_data_vector_eval),
+	(gnm_go_data_vector_finalize), (gnm_go_data_vector_get_value),
+	(cb_assign_string), (gnm_go_data_vector_get_str): fixed labels vectors
+	made of multiple ranges. [#672330]
+
+2012-03-18  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/graph.c (gnm_go_data_vector_get_markup): don't access an array with
 	an index larger than the size.
 

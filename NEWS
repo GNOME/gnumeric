@@ -13,6 +13,7 @@ Andreas:
 
 Jean:
 	* Fixed crash with sheet object. [#671617]
+	* Fixed labels vectors made of multiple ranges. [#672330]
 
 Morten:
 	* Hook up unknown_image icon for ssconvert too.

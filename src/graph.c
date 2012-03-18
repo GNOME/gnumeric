@@ -457,6 +457,7 @@ struct _GnmGODataVector {
 	GnmValue	*val;
 	gboolean	 as_col;
 	GPtrArray       *markup;
+	GPtrArray       *strs;
 };
 typedef GODataVectorClass GnmGODataVectorClass;
 
@@ -475,6 +476,10 @@ gnm_go_data_vector_eval (GnmDependent *dep)
 		g_ptr_array_free (vec->markup, TRUE);
 		vec->markup = NULL;
 	}
+	if (vec->strs) {
+		g_ptr_array_free (vec->strs, FALSE);
+		vec->strs = NULL;
+	}
 	go_data_emit_changed (GO_DATA (vec));
 }
 
@@ -492,6 +497,10 @@ gnm_go_data_vector_finalize (GObject *obj)
 	if (vec->markup) {
 		g_ptr_array_free (vec->markup, TRUE);
 		vec->markup = NULL;
+	}
+	if (vec->strs) {
+		g_ptr_array_free (vec->strs, FALSE);
+		vec->strs = NULL;
 	}
 
 	vector_parent_klass->finalize (obj);
@@ -779,21 +788,42 @@ gnm_go_data_vector_get_value (GODataVector *dat, unsigned i)
 	if (vec->val == NULL)
 		gnm_go_data_vector_load_len (dat);
 
-	eval_pos_init_dep (&ep, &vec->dep);
-	v = value_dup (vec->as_col
-		? value_area_get_x_y (vec->val, 0, i, &ep)
-		: value_area_get_x_y (vec->val, i, 0, &ep));
-	if (NULL == v)
-		return go_nan;
+	if (vec->val->type == VALUE_ARRAY) {
+		if ((dat->base.flags & GO_DATA_CACHE_IS_VALID) == 0)
+			gnm_go_data_vector_load_values (dat);
+		return dat->values[i];
+	} else {
+		eval_pos_init_dep (&ep, &vec->dep);
+		v = value_dup (vec->as_col
+			? value_area_get_x_y (vec->val, 0, i, &ep)
+			: value_area_get_x_y (vec->val, i, 0, &ep));
+		if (NULL == v)
+			return go_nan;
 
-	v = value_coerce_to_number (v, &valid, &ep);
-	if (valid) {
-		gnm_float res = value_get_as_float (v);
+		v = value_coerce_to_number (v, &valid, &ep);
+		if (valid) {
+			gnm_float res = value_get_as_float (v);
+			value_release (v);
+			return res;
+		}
 		value_release (v);
-		return res;
 	}
-	value_release (v);
 	return go_nan;
+
+}
+
+static gpointer
+cb_assign_string (GnmCellIter const *iter, GPtrArray *strs)
+{
+	GnmValue *v = NULL;
+
+	if (iter->cell != NULL) {
+		gnm_cell_eval (iter->cell);
+		v = iter->cell->value;
+	}
+	g_ptr_array_add (strs, v);
+
+	return NULL;
 }
 
 static char *
@@ -803,18 +833,56 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 	GnmEvalPos ep;
 	int j;
 	GOFormat const *fmt = NULL;
+	char *ret = NULL;
+	GnmValue *v = NULL;
 
 	if (vec->val == NULL)
 		gnm_go_data_vector_load_len (dat);
 	g_return_val_if_fail (vec->val != NULL, NULL);
 
-	if (vec->as_col)
-		j = 0;
-	else
-		j = i, i = 0;
-
 	eval_pos_init_dep (&ep, &vec->dep);
-	return render_val (vec->val, i, j, fmt, &ep);
+	if (vec->val->type == VALUE_ARRAY) {
+		/* we need to cache the strings if needed */
+		int len = vec->as_col? vec->val->v_array.y: vec->val->v_array.x;
+		while (len-- > 0) {
+			v = vec->as_col
+				? vec->val->v_array.vals [0][len]
+				: vec->val->v_array.vals [len][0];
+
+			if (v->type == VALUE_CELLRANGE) {
+				/* actually we only need to cache in that case */
+				Sheet *start_sheet, *end_sheet;
+				GnmRange r;
+				if (vec->strs == NULL)
+					vec->strs = g_ptr_array_new ();
+				gnm_rangeref_normalize (&v->v_range.cell,
+					eval_pos_init_dep (&ep, &vec->dep),
+					&start_sheet, &end_sheet, &r);
+
+				/* clip here rather than relying on sheet_foreach
+				 * because that only clips if we ignore blanks */
+				if (r.end.row > start_sheet->rows.max_used)
+					r.end.row = start_sheet->rows.max_used;
+				if (r.end.col > start_sheet->cols.max_used)
+					r.end.col = start_sheet->cols.max_used;
+
+				if (r.start.col <= r.end.col && r.start.row <= r.end.row)
+					sheet_foreach_cell_in_range (start_sheet, CELL_ITER_ALL,
+						r.start.col, r.start.row, r.end.col, r.end.row,
+						(CellIterFunc)cb_assign_string, vec->strs);
+			}
+		}
+		if (vec->strs && vec->strs->len > i)
+			v = g_ptr_array_index (vec->strs, i);
+	}
+	if (v == NULL) {
+		if (vec->as_col)
+			j = 0;
+		else
+			j = i, i = 0;
+		}
+	ret = render_val (((v != NULL)? v: vec->val), i, j, fmt, &ep);
+	return ret;
 }
 
 static void
