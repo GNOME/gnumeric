@@ -2,6 +2,8 @@
 
 	* functions.c (gnumeric_vlookup, gnumeric_hlookup): Handle string
 	search with patterns.  [#672319]
+	(wildcard_string_match): Return the index from the cache item.
+	That takes left-out cells into account.
 
 2012-03-02  Morten Welinder <terra@gnome.org>
 

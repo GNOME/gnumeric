@@ -41,6 +41,7 @@ Morten:
 	* Fix INTERPOLATION crash.  [#672154]
 	* Inhibit typing underline style in format dialog.
 	* Allow pattern matching for VLOOKUP/HLOOKUP.  [#672319]
+	* Fix pattern matching for VLOOKUP/HLOOKUP/MATCH.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2

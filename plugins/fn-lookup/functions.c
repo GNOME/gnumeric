@@ -588,7 +588,7 @@ wildcard_string_match (const char *key, LookupBisectionCacheItem *bc)
 
 	for (i = 0; i < bc->n; i++) {
 		if (go_regexec (&rx, bc->data[i].u.str, 1, &rm, 0) == GO_REG_OK) {
-			res = i;
+			res = bc->data[i].index;
 			break;
 		}
 	}
