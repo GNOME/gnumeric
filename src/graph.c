@@ -875,12 +875,10 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 		if (vec->strs && vec->strs->len > i)
 			v = g_ptr_array_index (vec->strs, i);
 	}
-	if (v == NULL) {
-		if (vec->as_col)
-			j = 0;
-		else
-			j = i, i = 0;
-		}
+	if (vec->as_col)
+		j = 0;
+	else
+		j = i, i = 0;
 	ret = render_val (((v != NULL)? v: vec->val), i, j, fmt, &ep);
 	return ret;
 }
