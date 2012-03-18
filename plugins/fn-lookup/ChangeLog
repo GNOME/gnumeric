@@ -1,3 +1,8 @@
+2012-03-18  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_vlookup, gnumeric_hlookup): Handle string
+	search with patterns.  [#672319]
+
 2012-03-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.2

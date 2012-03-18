@@ -437,6 +437,17 @@ find_compare_type_valid (GnmValue const *find, GnmValue const *val)
 
 /* -------------------------------------------------------------------------- */
 
+static gboolean
+is_pattern_match (const char *s)
+{
+	while (*s) {
+		if (*s == '*' || *s == '?' || *s == '~')
+			return TRUE;
+		s++;
+	}
+	return FALSE;
+}
+
 static int
 calc_length (GnmValue const *data, GnmEvalPos const *ep, gboolean vertical)
 {
@@ -949,26 +960,33 @@ static GnmFuncHelp const help_vlookup[] = {
 static GnmValue *
 gnumeric_vlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	int col_idx, index = -1;
-	gboolean approx;
+	GnmValue const *find = args[0];
+	int col_idx = value_get_as_int (args[2]);
+	gboolean approx = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean as_index = args[4] && value_get_as_checked_bool (args[4]);
+	int index;
+	gboolean is_string_match;
 
-	col_idx = value_get_as_int (args[2]);
-
-	if (!find_type_valid (args[0]))
+	if (!find_type_valid (find))
 		return value_new_error_NA (ei->pos);
 	if (col_idx <= 0)
 		return value_new_error_VALUE (ei->pos);
 	if (col_idx > value_area_get_width (args[1], ei->pos))
 		return value_new_error_REF (ei->pos);
 
-	approx = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
-	index = approx
-		? find_index_bisection (ei, args[0], args[1], 1, TRUE)
-		: find_index_linear (ei, args[0], args[1], TRUE);
+	is_string_match = (!approx &&
+			   VALUE_IS_STRING (find) &&
+			   is_pattern_match (value_peek_string (find)));
+
+	index = is_string_match
+		? find_index_bisection (ei, find, args[1], 0, TRUE)
+		: (approx
+		   ? find_index_bisection (ei, find, args[1], 1, TRUE)
+		   : find_index_linear (ei, find, args[1], TRUE));
 	if (index == LOOKUP_DATA_ERROR)
 		return value_new_error_VALUE (ei->pos);  /* 3D */
 
-	if (args[4] != NULL && value_get_as_checked_bool (args[4]))
+	if (as_index)
 		return value_new_int (index);
 
 	if (index >= 0) {
@@ -1010,26 +1028,33 @@ static GnmFuncHelp const help_hlookup[] = {
 static GnmValue *
 gnumeric_hlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	int row_idx, index = -1;
-	gboolean approx;
+	GnmValue const *find = args[0];
+	int row_idx = value_get_as_int (args[2]);
+	gboolean approx = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean as_index = args[4] && value_get_as_checked_bool (args[4]);
+	int index;
+	gboolean is_string_match;
 
-	row_idx = value_get_as_int (args[2]);
-
-	if (!find_type_valid (args[0]))
+	if (!find_type_valid (find))
 		return value_new_error_NA (ei->pos);
 	if (row_idx <= 0)
 		return value_new_error_VALUE (ei->pos);
 	if (row_idx > value_area_get_height (args[1], ei->pos))
 		return value_new_error_REF (ei->pos);
 
-	approx = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
-	index = approx
-		? find_index_bisection (ei, args[0], args[1], 1, FALSE)
-		: find_index_linear (ei, args[0], args[1], FALSE);
+	is_string_match = (!approx &&
+			   VALUE_IS_STRING (find) &&
+			   is_pattern_match (value_peek_string (find)));
+
+	index = is_string_match
+		? find_index_bisection (ei, find, args[1], 0, FALSE)
+		: (approx
+		   ? find_index_bisection (ei, find, args[1], 1, FALSE)
+		   : find_index_linear (ei, find, args[1], FALSE));
 	if (index == LOOKUP_DATA_ERROR)
 		return value_new_error_VALUE (ei->pos);  /* 3D */
 
-	if (args[4] != NULL && value_get_as_checked_bool (args[4]))
+	if (as_index)
 		return value_new_int (index);
 
 	if (index >= 0) {
@@ -1169,7 +1194,7 @@ gnumeric_match (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	int height = value_area_get_height (args[1], ei->pos);
 	gboolean vertical;
 	GnmValue const *find = args[0];
-	gboolean is_string_match = FALSE;
+	gboolean is_string_match;
 
 	if (!find_type_valid (find))
 		return value_new_error_NA (ei->pos);
@@ -1180,16 +1205,9 @@ gnumeric_match (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 	type = VALUE_IS_EMPTY (args[2]) ? 1 : value_get_as_int (args[2]);
 
-	if (type == 0 && VALUE_IS_STRING (find)) {
-		const char *s = value_peek_string (find);
-		while (*s) {
-			if (*s == '*' || *s == '?' || *s == '~') {
-				is_string_match = TRUE;
-				break;
-			}
-			s++;
-		}
-	}
+	is_string_match = (type == 0 &&
+			   VALUE_IS_STRING (find) &&
+			   is_pattern_match (value_peek_string (find)));
 
 	if (type == 0 && !is_string_match)
 		index = find_index_linear (ei, find, args[1], vertical);
