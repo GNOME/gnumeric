@@ -1,3 +1,8 @@
+2012-03-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_vector_get_markup): don't access an array with
+	an index larger than the size.
+
 2012-03-14  Morten Welinder  <terra@gnome.org>
 
 	* src/cell.h (struct _GnmCell): remove row_info pointers.  All

@@ -911,7 +911,8 @@ gnm_go_data_vector_get_markup (GODataVector *dat, unsigned i)
 		}
 	}
 
-	return pango_attr_list_copy (g_ptr_array_index (vec->markup, i));
+	return pango_attr_list_copy ((vec->markup->len > i)?
+	                             g_ptr_array_index (vec->markup, i): NULL);
 }
 
 static void
