@@ -39,6 +39,7 @@ Morten:
 	* Improve test suite.
 	* Lower per-cell memory usage.
 	* Fix INTERPOLATION crash.  [#672154]
+	* Inhibit typing underline style in format dialog.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2

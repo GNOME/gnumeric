@@ -784,15 +784,17 @@ cb_font_script_toggle (GtkToggleButton *button, FormatState *state)
 }
 
 static gboolean
-cb_font_underline_changed (G_GNUC_UNUSED GtkWidget *ct,
-			   char *new_text, FormatState *state)
+cb_font_underline_changed (GtkComboBoxText *combo,
+			   FormatState *state)
 {
 	GnmUnderline res = UNDERLINE_NONE;
 	int i;
+	char *new_text = gtk_combo_box_text_get_active_text (combo);
 
-	/* ignore the clear while assigning a new value */
-	if (!state->enable_edit || new_text == NULL || *new_text == '\0')
+	if (!state->enable_edit) {
+		g_free (new_text);
 		return FALSE;
+	}
 
 	for (i = G_N_ELEMENTS (underline_types); i-- > 0; )
 		if (go_utf8_collate_casefold (new_text, g_dpgettext2 (NULL, "underline", underline_types[i].Cname)) == 0) {
@@ -801,6 +803,7 @@ cb_font_underline_changed (G_GNUC_UNUSED GtkWidget *ct,
 		}
 
 	font_selector_set_underline (state->font.selector, res);
+	g_free (new_text);
 	return TRUE;
 }
 
@@ -811,7 +814,8 @@ fmt_dialog_init_font_page (FormatState *state)
 	GtkWidget *tmp = font_selector_new ();
 	FontSelector *font_widget = FONT_SELECTOR (tmp);
 	GtkWidget *container = go_gtk_builder_get_widget (state->gui, "font-grid");
-	GtkWidget *uline = go_combo_text_new_default ();
+	GtkWidget *uline = gtk_combo_box_text_new_with_entry ();
+	GtkEntry *uline_entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (uline)));
 	char const *uline_str;
 	GtkWidget *strike = go_gtk_builder_get_widget (state->gui, "strikethrough_button");
 	gboolean   strikethrough = FALSE;
@@ -847,17 +851,23 @@ fmt_dialog_init_font_page (FormatState *state)
 					  gnm_style_get_font_size (state->style));
 
 	for (i = 0; i < (int)G_N_ELEMENTS (underline_types); i++)
-		go_combo_text_add_item	(GO_COMBO_TEXT (uline), g_dpgettext2 (NULL, "underline", underline_types[i].Cname));
+		gtk_combo_box_text_append_text
+			(GTK_COMBO_BOX_TEXT (uline),
+			 g_dpgettext2 (NULL, "underline",
+				       underline_types[i].Cname));
 	if (0 == (state->conflicts & (1 << MSTYLE_FONT_UNDERLINE))) {
 		GnmUnderline ut = gnm_style_get_font_uline (state->style);
 		uline_str = g_dpgettext2 (NULL, "underline", underline_types[ut].Cname);
 		font_selector_set_underline (state->font.selector, ut);
 	} else
 		uline_str = "";
-	go_combo_text_set_text	(GO_COMBO_TEXT (uline), uline_str,
-				 GO_COMBO_TEXT_FROM_TOP);
+	gtk_entry_set_text (uline_entry, uline_str);
+	g_object_set (uline_entry,
+		      "editable", FALSE,
+		      "can-focus", FALSE,
+		      NULL);
 	g_signal_connect (G_OBJECT (uline),
-			  "entry_changed",
+			  "changed",
 			  G_CALLBACK (cb_font_underline_changed), state);
 	gtk_widget_show_all (uline);
 	gtk_grid_attach (GTK_GRID (container), uline, 3, 2, 1, 1);
