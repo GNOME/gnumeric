@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-10 20:52+0000\n"
-"PO-Revision-Date: 2012-03-18 22:20+0100\n"
+"PO-Revision-Date: 2012-03-19 13:27+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1582,9 +1582,8 @@ msgid "f_t:futures price"
 msgstr "tc: terminska cena"
 
 #: ../plugins/fn-derivatives/options.c:823
-#, fuzzy
 msgid "t1:time to maturity of the option"
-msgstr "čas: čas trajanja do dospetja v letih"
+msgstr "čas1: čas do dospetja opcije"
 
 #: ../plugins/fn-derivatives/options.c:824
 msgid "t2:time to maturity of the underlying commodity futures contract"
@@ -2366,15 +2365,15 @@ msgstr "ERF:Gaussova funkcija napake"
 
 #: ../plugins/fn-eng/functions.c:1077
 msgid "lower:lower limit of the integral, defaults to 0"
-msgstr ""
+msgstr "spodnja_meja: spodnja limita integrala, privzeto določena pri 0."
 
 #: ../plugins/fn-eng/functions.c:1078
 msgid "upper:upper limit of the integral"
-msgstr "zgornja:zgornja limita integrala"
+msgstr "zgornja_meja: zgornja limita integrala"
 
 #: ../plugins/fn-eng/functions.c:1079
 msgid "ERF returns 2/sqrt(π)* integral from @{lower} to @{upper} of exp(-t*t) dt"
-msgstr ""
+msgstr "Funkcija ERF vrne 2/sqrt(π)* integral od @{spodnje} do @{zgornje} meje funkcije exp(-t*t) dt"
 
 #: ../plugins/fn-eng/functions.c:1080
 msgid "This function is Excel compatible if two arguments are supplied and neither is negative."
@@ -2387,11 +2386,11 @@ msgstr "wiki:en:Error_function"
 
 #: ../plugins/fn-eng/functions.c:1108
 msgid "ERFC:Complementary Gauss error function"
-msgstr ""
+msgstr "ERFC: komplementarna Gaussova funkcija napake"
 
 #: ../plugins/fn-eng/functions.c:1110
 msgid "ERFC returns 2/sqrt(π)* integral from @{x} to ∞ of exp(-t*t) dt"
-msgstr ""
+msgstr "Funkcija ERFC vrne 2/sqrt(π)* integral od @{x} do ∞ funkcije exp(-t*t) dt"
 
 #: ../plugins/fn-eng/functions.c:1128
 msgid "DELTA:Kronecker delta function"
@@ -2675,9 +2674,8 @@ msgstr "ACCRINTM:obračunane obresti"
 #: ../plugins/fn-financial/functions.c:3098
 #: ../plugins/fn-financial/functions.c:3124
 #: ../plugins/fn-financial/functions.c:3236
-#, fuzzy
 msgid "maturity:maturity date"
-msgstr "Izberi datum"
+msgstr "dospetje: datum dospetja"
 
 #: ../plugins/fn-financial/functions.c:453
 #, fuzzy
@@ -2685,9 +2683,8 @@ msgid "par:par value"
 msgstr "Trenutna vrednost"
 
 #: ../plugins/fn-financial/functions.c:455
-#, fuzzy
 msgid "ACCRINTM calculates the accrued interest from @{issue} to @{maturity}."
-msgstr "Funkcija ACCRINTM izračuna obračunane obresti od @{izdaje} to @{maturity}."
+msgstr "Funkcija ACCRINTM izračuna obračunane obresti od @{izdaje} do @{dospetja}."
 
 #: ../plugins/fn-financial/functions.c:456
 #, fuzzy
@@ -2851,7 +2848,7 @@ msgstr "Zadetek prekinitvene točke številka %s\n"
 #: ../plugins/fn-financial/functions.c:3193
 #, fuzzy
 msgid "pv:present value"
-msgstr "NPV:neto trenutna vrednost"
+msgstr "tv:trenutna vrednost"
 
 #: ../plugins/fn-financial/functions.c:740
 msgid "ISPMT calculates the interest payment for period number @{per}."
@@ -2944,11 +2941,11 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:933
 msgid "DOLLARDE:convert to decimal dollar amount"
-msgstr ""
+msgstr "DOLLARDE: pretvarjanje vrednosti na decimalno vrednost dolarja"
 
 #: ../plugins/fn-financial/functions.c:934
 msgid "fractional_dollar:amount to convert"
-msgstr ""
+msgstr "ulomljena_vrednost: vrednost za pretvarjanje"
 
 #: ../plugins/fn-financial/functions.c:935
 #: ../plugins/fn-financial/functions.c:983
@@ -2957,19 +2954,19 @@ msgstr "ulomek: imenovalec"
 
 #: ../plugins/fn-financial/functions.c:936
 msgid "DOLLARDE converts a fractional dollar amount into a decimal amount.  This is the inverse of the DOLLARFR function."
-msgstr ""
+msgstr "Funkcija DOLLARDE pretvori vrednost izraženo z ulomkom v decimalno vrednost. Funkcija je inverzna funkcija funkcije DOLLARFR."
 
 #: ../plugins/fn-financial/functions.c:981
 msgid "DOLLARFR:convert to dollar fraction"
-msgstr ""
+msgstr "DOLLARFR: pretvarjanje vrednosti v vrednost izraženo z ulomkom"
 
 #: ../plugins/fn-financial/functions.c:982
 msgid "decimal_dollar:amount to convert"
-msgstr ""
+msgstr "decimalna_vrednost: vrednost za pretvarjanje"
 
 #: ../plugins/fn-financial/functions.c:984
 msgid "DOLLARFR converts a decimal dollar amount into a fractional amount which is represented as the digits after the decimal point.  For example, 2/8 would be represented as .2 while 3/16 would be represented as .03. This is the inverse of the DOLLARDE function."
-msgstr ""
+msgstr "Funkcija DOLLARFR pretvori decimalno zapisano vrednost dolarja v ulomek, ki je predstavljen kot števke za decimalno točko. Na primer: 2/8 se pretvori v 0,2$, vrednost 3/16 pa v vrednost 0,03$. Funkcija je inverzna funkcija funkcije DOLLARDE."
 
 #: ../plugins/fn-financial/functions.c:1027
 msgid "MIRR:modified internal rate of return"
@@ -3044,7 +3041,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1936
 #, fuzzy
 msgid "fv:future value"
-msgstr "pv: prihodnja vrednost"
+msgstr "bv: bodoča vrednost"
 
 #: ../plugins/fn-financial/functions.c:1196
 #: ../plugins/fn-financial/functions.c:1462
@@ -3154,12 +3151,12 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1691
 #, fuzzy
 msgid "FV:future value"
-msgstr "FV:prihodnja vrednost"
+msgstr "FV:bodoča vrednost"
 
 #: ../plugins/fn-financial/functions.c:1697
 #, fuzzy
 msgid "FV calculates the future value of @{pv} moved @{nper} periods into the future, assuming a periodic payment of @{pmt} and an interest rate of @{rate} per period."
-msgstr "Funkcija FV izračuna"
+msgstr "Funkcija FV izračuna bodočo vrednost @{tv}"
 
 #: ../plugins/fn-financial/functions.c:1727
 #, fuzzy
@@ -3234,7 +3231,7 @@ msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
 #: ../plugins/fn-financial/functions.c:1966
 #, fuzzy
 msgid "FVSCHEDULE:future value"
-msgstr "FVSCHEDULE: prihodnja vrednost"
+msgstr "FVSCHEDULE: bodoča vrednost"
 
 #: ../plugins/fn-financial/functions.c:1967
 #, fuzzy
@@ -3465,39 +3462,39 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3004
 msgid "COUPDAYBS calculates the number of days from the beginning of the coupon period to the settlement date."
-msgstr ""
+msgstr "Funkcija COUPDAYBS izračuna število dni ob začetka kuponskega obdobja do datuma poravnave."
 
 #: ../plugins/fn-financial/functions.c:3022
 msgid "COUPDAYS:number of days in the coupon period of the settlement date"
-msgstr ""
+msgstr "COUPDAYS: število dni kuponskega obdobja do datuma poravnave"
 
 #: ../plugins/fn-financial/functions.c:3028
 msgid "COUPDAYS calculates the number of days in the coupon period of the settlement date."
-msgstr ""
+msgstr "Funkcija COUPDAYS izračuna število dni kuponskega obdobja do datuma poravnave."
 
 #: ../plugins/fn-financial/functions.c:3046
 msgid "COUPDAYSNC:number of days from the settlement date to the next coupon period"
-msgstr ""
+msgstr "COUPDAYSNC: število dni od datuma poravnave do naslednjega kuponskega obdobja"
 
 #: ../plugins/fn-financial/functions.c:3052
 msgid "COUPDAYSNC calculates number of days from the settlement date to the next coupon period."
-msgstr ""
+msgstr "Funkcija COUPDAYSNC izračuna število dni od datuma poravnave do naslednjega kuponskega obdobja."
 
 #: ../plugins/fn-financial/functions.c:3070
 msgid "COUPNCD:the next coupon date after settlement"
-msgstr ""
+msgstr "COUPNCD: naslednji datum kupona po poravnavi"
 
 #: ../plugins/fn-financial/functions.c:3076
 msgid "COUPNCD calculates the coupon date following settlement."
-msgstr ""
+msgstr "Funkcija COUPNCD izračuna datum kupona, ki sledi poravnavi."
 
 #: ../plugins/fn-financial/functions.c:3096
 msgid "COUPPCD:the last coupon date before settlement"
-msgstr ""
+msgstr "COUPPCD: zadnji datum kupona pred poravnavo"
 
 #: ../plugins/fn-financial/functions.c:3102
 msgid "COUPPCD calculates the coupon date preceding settlement."
-msgstr ""
+msgstr "Funkcija COUPPCD izračuna datum kupona, ki je pred poravnavo."
 
 #: ../plugins/fn-financial/functions.c:3122
 #, fuzzy
@@ -3506,7 +3503,7 @@ msgstr "Zadetek prekinitvene točke številka %s\n"
 
 #: ../plugins/fn-financial/functions.c:3128
 msgid "COUPNUM calculates the number of coupons to be paid between the settlement and maturity dates, rounded up."
-msgstr ""
+msgstr "Funkcija COUPNUM izračuna število kuponov za plačilo med  poravnavo in datumi dospetja (zaokroženo)."
 
 #: ../plugins/fn-financial/functions.c:3146
 #, fuzzy
@@ -4899,9 +4896,8 @@ msgid "COMBIN returns the binomial coefficient \"@{n} choose @{k}\", the number 
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1031
-#, fuzzy
 msgid "If @{n} is less than @{k} COMBIN returns #NUM!"
-msgstr "V kolikor je absolutna vrednost @{x} večja od 1.0, funkcija vrne napako #NUM!"
+msgstr "V kolikor je vrednost @{n} manjša od @{k}, funkcija COMBIN vrne napako #NUM!"
 
 #: ../plugins/fn-math/functions.c:1036
 msgid "wiki:en:Binomial_coefficient"
@@ -5101,9 +5097,8 @@ msgid "If @{x} is negative, SQRT returns #NUM!"
 msgstr "V kolikor je @{x} negativen, funkcija SQRT vrne napako #NUM!"
 
 #: ../plugins/fn-math/functions.c:1492
-#, fuzzy
 msgid "SUMA:sum of all values and cells referenced"
-msgstr "SUMSQ:vsota kvadratov vseh vrednosti v sklicanih celicah"
+msgstr "SUMA: vsota vseh vrednosti v sklicanih celicah"
 
 #: ../plugins/fn-math/functions.c:1493
 #: ../plugins/fn-math/functions.c:1517
@@ -5142,9 +5137,8 @@ msgid "wiki:en:Multinomial_theorem"
 msgstr "wiki:en:Multinomial_theorem"
 
 #: ../plugins/fn-math/functions.c:1564
-#, fuzzy
 msgid "G_PRODUCT:product of all the values and cells referenced"
-msgstr "SUMSQ:vsota kvadratov vseh vrednosti v sklicanih celicah"
+msgstr "G_PRODUCT: zmnožek vseh vrednosti sklicnih celic"
 
 #: ../plugins/fn-math/functions.c:1565
 msgid "x1:number"
@@ -5242,9 +5236,8 @@ msgid "numerator:integer"
 msgstr "numerator:celo število"
 
 #: ../plugins/fn-math/functions.c:1826
-#, fuzzy
 msgid "denominator:non-zero integer"
-msgstr "štev:ne-negativno celo število"
+msgstr "števec: celo števil, različno od 0"
 
 #: ../plugins/fn-math/functions.c:1827
 #, fuzzy
@@ -8234,9 +8227,8 @@ msgid "Then ZTEST(A1:A5,20) equals 0.254717826."
 msgstr "Izračun funkcije  ZTEST(A1:A5,20) vrne rešitev 0.254717826."
 
 #: ../plugins/fn-stat/functions.c:2447
-#, fuzzy
 msgid "AVERAGEA:average of all the values and cells"
-msgstr "SUMSQ:vsota kvadratov vseh vrednosti v sklicanih celicah"
+msgstr "AVERAGEA: povprečje vseh vrednosti v sklicanih celicah"
 
 #: ../plugins/fn-stat/functions.c:2452
 #: ../plugins/fn-stat/functions.c:2477
@@ -8253,9 +8245,8 @@ msgid "Then AVERAGEA(A1:A5) equals 18.94."
 msgstr "Izračun funkcije AVERAGEA(A1:A5) vrne rešitev 18.94."
 
 #: ../plugins/fn-stat/functions.c:2472
-#, fuzzy
 msgid "MAXA:largest value, with negative numbers considered smaller than positive numbers"
-msgstr "MINA:najmanjša vrednost med podatki, kjer so negativna števila opredeljena kot manjša od pozitivnih"
+msgstr "MAXA: največja vrednost, pri čemer so negativna števila opredeljena kot manjša od pozitivnih"
 
 #: ../plugins/fn-stat/functions.c:2479
 msgid "Then MAXA(A1:A5) equals 40.1."
