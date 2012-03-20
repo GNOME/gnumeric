@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-10 20:52+0000\n"
-"PO-Revision-Date: 2012-03-19 13:27+0100\n"
+"PO-Revision-Date: 2012-03-20 21:19+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -4372,9 +4372,8 @@ msgid "If @{reference} is neither an array nor a reference nor a range, COLUMNS 
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1443
-#, fuzzy
 msgid "OFFSET:an offset cell range"
-msgstr "podatkovna vrsta:podatkovno področje celice"
+msgstr "OFFSET: odmik obsega celic"
 
 #: ../plugins/fn-lookup/functions.c:1444
 msgid "range:reference or range"
@@ -4693,9 +4692,8 @@ msgid "CEIL(@{x}) is the smallest integer that is at least as large as @{x}."
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:458
-#, fuzzy
 msgid "This function is the OpenFormula function CEILING(@{x})."
-msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
+msgstr "Funkcija je skladna s funkcijo CEILING(@{x}) programa OpenFormula."
 
 #: ../plugins/fn-math/functions.c:475
 msgid "COUNTIF:count of the cells meeting the given @{criteria}"
@@ -4756,7 +4754,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:736
 msgid "If @{x} and @{significance} have different signs, CEILING returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor imata @{x} in statistična @{značilnost} različne predznake, funkcija CEILING vrne napako #NUM!."
 
 #: ../plugins/fn-math/functions.c:738
 msgid "CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). CEILING(@{x},@{significance}) is the OpenFormula function CEILING(@{x},@{significance},1)."
@@ -4823,7 +4821,7 @@ msgstr "EXPM1:EXP(@{x})-1"
 
 #: ../plugins/fn-math/functions.c:876
 msgid "This function has a higher resulting precision than evaluating EXP(@{x})-1."
-msgstr ""
+msgstr "Ta funkcija ima večjo končno natančnost kot ocenjevanje funkcije EXP(@{x})-1."
 
 #: ../plugins/fn-math/functions.c:891
 msgid "FACT:the factorial of @{x}, i.e. @{x}!"
@@ -5276,6 +5274,9 @@ msgid ""
 "If @{d} is zero, @{x} is rounded toward 0 to the next integer.\n"
 "If @{d} is less than zero, @{x} is rounded toward 0 to the left of the decimal point"
 msgstr ""
+"V kolikor je @{d} večji od 0, je vrednost @{x} zaokrožena proti 0 na podano število števk.\n"
+"Če je @{d} = 0, je @{x} zaokrožen proti 0 na naslednje celo število.\n"
+"V primeru, da je @{d} manj kot 0, je @{x} zaokrožen proti 0 na levo stran decimalne vrednosti."
 
 #: ../plugins/fn-math/functions.c:1925
 msgid "ROUND:rounded @{x}"
@@ -5287,6 +5288,9 @@ msgid ""
 "If @{d} is zero, @{x} is rounded to the next integer.\n"
 "If @{d} is less than zero, @{x} is rounded to the left of the decimal point"
 msgstr ""
+"V kolikor je @{d} večji od 0, je vrednost @{x} zaokrožena na podano število števk.\n"
+"Če je @{d} = 0, je @{x} zaokrožen na naslednje celo število.\n"
+"V primeru, da je @{d} manj kot 0, je @{x} zaokrožen na levo stran decimalne vrednosti."
 
 #: ../plugins/fn-math/functions.c:1966
 msgid "ROUNDUP:@{x} rounded away from 0"
@@ -5298,6 +5302,9 @@ msgid ""
 "If @{d} is zero, @{x} is rounded away from 0 to the next integer.\n"
 "If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decimal point"
 msgstr ""
+"V kolikor je @{d} večji od 0, je vrednost @{x} zaokrožena stran od 0 na podano število števk.\n"
+"Če je @{d} = 0, je @{x} zaokrožen stran od 0 na naslednje celo število.\n"
+"V primeru, da je @{d} manj kot 0, je @{x} zaokrožen stran od 0 na levo stran decimalne vrednosti."
 
 #: ../plugins/fn-math/functions.c:2013
 msgid "MROUND:@{x} rounded to a multiple of @{m}"
@@ -5313,7 +5320,7 @@ msgstr "V kolikor imata @{x} in @{m} različni predznak, funkcija MROUND vrne na
 
 #: ../plugins/fn-math/functions.c:2059
 msgid "ARABIC:the Roman numeral @{roman} as number"
-msgstr ""
+msgstr "ARABIC: @{Romanska} številka podana kot število"
 
 #: ../plugins/fn-math/functions.c:2060
 msgid "roman:Roman numeral"
@@ -5321,7 +5328,7 @@ msgstr "rimsko:rimska številka"
 
 #: ../plugins/fn-math/functions.c:2061
 msgid "Any Roman symbol to the left of a larger symbol (directly or indirectly) reduces the final value by the symbol amount, otherwise, it increases the final amount by the symbol's amount."
-msgstr ""
+msgstr "Vsak romanski simbol zapisan na levi, večjega simbola (posredno ali neposredno), zmanjša končno vrednost za vrednost simbola, sicer ga poveča."
 
 #: ../plugins/fn-math/functions.c:2137
 msgid "ROMAN:@{n} as a roman numeral text"
@@ -6175,9 +6182,8 @@ msgid "R.DEXP:probability density function of the exponential distribution"
 msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:719
-#, fuzzy
 msgid "This function returns the probability density function of the exponential distribution."
-msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
+msgstr "Funkcija vrne funkcijo gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:738
 #, fuzzy
@@ -7254,11 +7260,12 @@ msgstr "stddev:standardni odklon"
 
 #: ../plugins/fn-stat/functions.c:465
 msgid "If @{stddev} = 0 LOGNORMDIST returns a #DIV/0! error."
-msgstr ""
+msgstr "V kolikor je @{stod} = 0, funkcija LOGNORMDIST vrne napako #DIV/0!."
 
+# stddev = stod
 #: ../plugins/fn-stat/functions.c:466
 msgid "If @{x} <= 0, @{mean} < 0 or @{stddev} <= 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{x} <= 0, @{povprečje} < 0 ali pa @{stod} <= 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:470
 #: ../plugins/fn-stat/functions.c:499
@@ -7276,19 +7283,19 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:495
 msgid "If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{p} < 0, je @{p} > 1,  ali pa je @{stod} <= 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:522
 msgid "FISHERINV:inverse of the Fisher transformation"
-msgstr ""
+msgstr "FISHERINV: inverzna funkcija Fisherjeve transformacije"
 
 #: ../plugins/fn-stat/functions.c:524
 msgid "If @{x} is a non-number this function returns a #VALUE! error."
-msgstr ""
+msgstr "V kolikor je @{x} neštevilčna vrednost, funkcija vrne napako #VALUE!."
 
 #: ../plugins/fn-stat/functions.c:540
 msgid "MODE:first most common number in the dataset"
-msgstr ""
+msgstr "MODE: prva najpogostejša številka v podatkovni množici."
 
 #: ../plugins/fn-stat/functions.c:541
 #: ../plugins/fn-stat/functions.c:569
@@ -7550,7 +7557,7 @@ msgstr "V kolikor je @{x} < 0, funkcija vrne napako #NUM!."
 #: ../plugins/fn-stat/functions.c:1123
 #: ../plugins/fn-stat/functions.c:1160
 msgid "If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{alfa} <= 0 ali pa je @{beta} <= 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:944
 msgid "GAMMAINV:inverse of the cumulative gamma distribution"
@@ -7559,7 +7566,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:949
 #: ../plugins/fn-stat/functions.c:1726
 msgid "If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{alfa} <= 0 ali pa je @{beta} <= 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:974
 msgid "CHIDIST:survival function of the chi-squared distribution"
@@ -7664,8 +7671,9 @@ msgid "tails:1 or 2"
 msgstr "stranost: 1 ali 2"
 
 #: ../plugins/fn-stat/functions.c:1194
+#, fuzzy
 msgid "If @{tails} is neither 1 or 2 this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor @{stranost} ni ne 1 in ne 2, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1195
 msgid "The parameterization of this function is different from what is used for, e.g., NORMSDIST.  This is a common source of mistakes, but necessary for compatibility."
@@ -7809,8 +7817,9 @@ msgid "CRITBINOM:right-tailed critical value of the binomial distribution"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1571
+#, fuzzy
 msgid "alpha:significance level (area of the tail)"
-msgstr ""
+msgstr "alfa: raven statistične značilnosti (območje stranosti)"
 
 #: ../plugins/fn-stat/functions.c:1572
 msgid "If @{trials} is a non-integer it is truncated."
@@ -7818,7 +7827,7 @@ msgstr "V kolikor število @{poskusov} ni celo število, je to prirezano"
 
 #: ../plugins/fn-stat/functions.c:1575
 msgid "If @{alpha} < 0 or @{alpha} > 1 this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{alfa} < 0 ali pa je @{alfa} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1598
 msgid "PERMUT:number of @{k}-permutations of a @{n}-set"
@@ -7902,7 +7911,7 @@ msgstr "V kolikor je @{size} < 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1667
 msgid "If @{size} is 0 this function returns a #DIV/0! error."
-msgstr ""
+msgstr "V kolikor je @{velikost} enaka 0, funkcija vrne napako #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:1690
 #, fuzzy
@@ -7915,17 +7924,17 @@ msgstr "srednja:srednja vrednost izvorne porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:1693
 msgid "stddev:standard deviation of the original distribution"
-msgstr ""
+msgstr "stod: standardni odklon izvorne porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:1694
 #: ../plugins/fn-stat/functions.c:1758
 msgid "If @{stddev} is 0 this function returns a #DIV/0! error."
-msgstr ""
+msgstr "V kolikor je @{stod} enaka 0, funkcija vrne napako #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:1717
 #, fuzzy
 msgid "WEIBULL:probability density or cumulative distribution function of the Weibull distribution"
-msgstr "BINOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija binomske verjetnosti"
+msgstr "WEIBULL: verjetnostna funkcija ali pa porazdelitvena funkcija Weibull verjetnosti"
 
 #: ../plugins/fn-stat/functions.c:1722
 msgid "If the @{cumulative} boolean is true it will return: 1 - exp (-(@{x}/@{beta})^@{alpha}),otherwise it will return (@{alpha}/@{beta}^@{alpha}) * @{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha}))."
@@ -7952,7 +7961,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1790
 msgid "If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{p} < 0, je @{p} > 1 ali pa je @{stod} <= 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1814
 msgid "KURT:unbiased estimate of the kurtosis of a data set"
@@ -7992,7 +8001,7 @@ msgstr "Izračun funkcije  AVEDEV(A1:A5) vrne rešitev 7.84."
 
 #: ../plugins/fn-stat/functions.c:1895
 msgid "DEVSQ:sum of squares of deviations of a data set"
-msgstr ""
+msgstr "DEVSQ: vsota kvadratov odklona podatkovne množice"
 
 #: ../plugins/fn-stat/functions.c:1901
 msgid "Then DEVSQ(A1:A5) equals 470.56."
@@ -8004,7 +8013,7 @@ msgstr "FISHER:Fisherjeva transformacija"
 
 #: ../plugins/fn-stat/functions.c:1922
 msgid "If @{x} is not a number, this function returns a #VALUE! error."
-msgstr ""
+msgstr "V kolikor @{x} ni število, funkcija vrne napako #VALUE!."
 
 #: ../plugins/fn-stat/functions.c:1923
 msgid "If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error."
@@ -8076,7 +8085,7 @@ msgstr "polje: podatkovna množica"
 
 #: ../plugins/fn-stat/functions.c:2056
 msgid "interval:length of each grouping interval, defaults to 1"
-msgstr ""
+msgstr "interval: dolžina vsakega intervala skupine, privzeto določenega na vrednost 1."
 
 #: ../plugins/fn-stat/functions.c:2057
 msgid ""
@@ -8093,15 +8102,15 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2741
 #: ../plugins/fn-stat/functions.c:2783
 msgid "If @{array} is empty, this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je podatkovno @{polje} prazno, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2069
 msgid "If @{interval} <= 0, this function returns a #NUM! error. SSMEDIAN does not check whether the data points are at least @{interval} apart."
-msgstr ""
+msgstr "V kolikor je @{interval} <= 0, funkcija vrne napako #NUM!. Funkcija SSMEDIAN tudi ne preveri ali so podatkovne točke vsaj za vrednost @{intervala} narazen."
 
 #: ../plugins/fn-stat/functions.c:2156
 msgid "LARGE:@{k}-th largest value in a data set"
-msgstr ""
+msgstr "LARGE:@{k}-ta največja vrednost v podatkovni množici"
 
 #: ../plugins/fn-stat/functions.c:2157
 #: ../plugins/fn-stat/functions.c:2200
@@ -8116,12 +8125,12 @@ msgstr "k:vrednost za iskanje"
 #: ../plugins/fn-stat/functions.c:2159
 #: ../plugins/fn-stat/functions.c:2202
 msgid "If data set is empty this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je podatkovna množica prazna, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2160
 #: ../plugins/fn-stat/functions.c:2203
 msgid "If @{k} <= 0 or @{k} is greater than the number of data items given this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je @{k} <= 0 ali pa je @{k} večji od števila predmetov podatkovne množice, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2165
 msgid "Then LARGE(A1:A5,2) equals 25.9.LARGE(A1:A5,4) equals 17.3."
@@ -8129,7 +8138,7 @@ msgstr "Izračun funkcije  LARGE(A1:A5,2) vrne rešitev 25.9 in LARGE(A1:A5,4) v
 
 #: ../plugins/fn-stat/functions.c:2199
 msgid "SMALL:@{k}-th smallest value in a data set"
-msgstr ""
+msgstr "SMALL:@{k}-ta najmanjša vrednost v podatkovni množici"
 
 #: ../plugins/fn-stat/functions.c:2208
 msgid "Then SMALL(A1:A5,2) equals 17.3.SMALL(A1:A5,4) equals 25.9."
@@ -8153,7 +8162,7 @@ msgstr "spodnja_limita:spodnja limita intervala"
 
 #: ../plugins/fn-stat/functions.c:2247
 msgid "upper_limit:upper interval limit, defaults to @{lower_limit}"
-msgstr ""
+msgstr "zgornja_limita: zgornja limita, privzeto enaka @{spodnji_limiti}"
 
 #: ../plugins/fn-stat/functions.c:2248
 msgid "If the sum of the probabilities in @{prob_range} is not equal to 1 this function returns a #NUM! error."
@@ -8330,15 +8339,15 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2645
 msgid "If @{array} contains no data points, this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor podatkovno @{polje} ne vsebuje podatkovnih točk, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2647
 msgid "If @{significance} is less than one, this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor je statistična @{značilnost} manjša kot ena, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2649
 msgid "If @{x} exceeds the largest value or is less than the smallest value in @{array}, this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor @{x} preseže največjo vrednost ali pa je manjši od najmanjše vrednosti v podatkovnem @{polju}, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2651
 msgid "If @{x} does not match any of the values in @{array} or @{x} matches more than once, this function interpolates the returned value."
@@ -8797,7 +8806,7 @@ msgstr "V kolikor @{x} ali @{y} nista celi števili, sta ti prirezani."
 
 #: ../plugins/fn-stat/functions.c:4552
 msgid "LKSTEST:Lilliefors (Kolmogorov-Smirnov) Test of Normality"
-msgstr ""
+msgstr "LKSTEST: Lillieforjev (Kolmogorov-Smirnovov) Test normalnosti"
 
 #: ../plugins/fn-stat/functions.c:4553
 #: ../plugins/fn-stat/functions.c:4670
@@ -8820,7 +8829,7 @@ msgstr "wiki: en:Lilliefors_test"
 
 #: ../plugins/fn-stat/functions.c:4669
 msgid "SFTEST:Shapiro-Francia Test of Normality"
-msgstr ""
+msgstr "SFTEST: Shapiro-Franciajev Test normalnosti"
 
 #: ../plugins/fn-stat/functions.c:4671
 msgid "This function returns an array with the first row giving the p-value of the Shapiro-Francia Test, the second row the test statistic of the test, and the third the number of observations in the sample."
@@ -8832,7 +8841,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4753
 msgid "CVMTEST:Cramér-von Mises Test of Normality"
-msgstr ""
+msgstr "CVMTEST: Cramér-von Misesov Test normalnosti"
 
 #: ../plugins/fn-stat/functions.c:4755
 msgid "This function returns an array with the first row giving the p-value of the Cramér-von Mises Test, the second row the test statistic of the test, and the third the number of observations in the sample."
@@ -8848,7 +8857,7 @@ msgstr "wiki:en:Cramér–von-Mises_criterion"
 
 #: ../plugins/fn-stat/functions.c:4838
 msgid "ADTEST:Anderson-Darling Test of Normality"
-msgstr ""
+msgstr "ADTEST: Anderson-Darlingov Test normalnosti"
 
 #: ../plugins/fn-stat/functions.c:4840
 msgid "This function returns an array with the first row giving the p-value of the Anderson-Darling Test, the second row the test statistic of the test, and the third the number of observations in the sample."
