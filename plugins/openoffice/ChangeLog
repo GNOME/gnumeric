@@ -1,3 +1,9 @@
+2012-03-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_number_style_end): skip the condition
+	for the second part if we skipped it for the first and it is the
+	default
+
 2012-03-20  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (openoffice_file_open): Don't refer to

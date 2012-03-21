@@ -4494,6 +4494,7 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		GSList *lc, *lf;
 		char *accum;
 		int parts = 0;
+		gboolean default_condition = FALSE;
 
 		accum = g_string_free (state->cur_format.accum, FALSE);
 		if (strlen (accum) == 0) {
@@ -4513,6 +4514,8 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					g_string_append_printf
 						(state->cur_format.accum,
 						 (*(cond+1) == '=') ? "[>=%s]" : "[>%s]", val);
+				else
+					default_condition = TRUE;
 				fmt = g_hash_table_lookup (state->formats, lf->data);
 				if (fmt != NULL)
 					g_string_append (state->cur_format.accum, go_format_as_XL (fmt));
@@ -4598,12 +4601,16 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			if (cond != NULL && *cond == '<' && *(cond + 1) != '>') {
 				GOFormat const *fmt;
 				char *val = cond + strcspn (cond, "0123456789.");
+				float val_d = strtod (val, NULL);
 				if (parts > 0)
 					g_string_append_c (state->cur_format.accum, ';');
-				if ((*(cond+1) != '=') || (strtod (val, NULL) != 0.))
-					g_string_append_printf
-						(state->cur_format.accum,
-						 (*(cond+1) == '=') ? "[<=%s]" : "[<%s]", val);
+				if ((*(cond+1) != '=') || (val_d != 0.)) {
+					if (!(parts == 1 && default_condition && (*(cond+1) != '=')) &&
+					    val_d == 0.)
+						g_string_append_printf
+							(state->cur_format.accum,
+							 (*(cond+1) == '=') ? "[<=%s]" : "[<%s]", val);
+				}
 				fmt = g_hash_table_lookup (state->formats, lf->data);
 				if (fmt != NULL)
 					g_string_append (state->cur_format.accum,

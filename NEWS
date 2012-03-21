@@ -10,6 +10,7 @@ Andreas:
 	* Import/Export style information attached to grids from/to ODF. 
 	Part of [#671461]
 	* Improve annotation import from ODF.
+	* Fix conditional number format import from ODF. [#672489]
 
 Jean:
 	* Fixed crash with sheet object. [#671617]
