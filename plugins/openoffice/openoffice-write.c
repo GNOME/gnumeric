@@ -134,6 +134,7 @@ typedef struct {
 	GHashTable *controls;
 
 	gboolean with_extension;
+	int odf_version;
 	GOFormat const *time_fmt;
 	GOFormat const *date_fmt;
 	GOFormat const *date_long_fmt;
@@ -676,7 +677,7 @@ odf_write_table_style (GnmOOExport *state, Sheet const *sheet)
 		sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE);
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "writing-mode",
 		sheet->text_is_rtl ? "rl-tb" : "lr-tb");
-	if (state->with_extension && get_gsf_odf_version () < 103) {
+	if (state->with_extension && state->odf_version < 103) {
 		if (sheet->tab_color && !sheet->tab_color->is_auto) {
 			gnm_xml_out_add_hex_color (state->xml, GNMSTYLE "tab-color",
 						   sheet->tab_color, 1);
@@ -689,7 +690,7 @@ odf_write_table_style (GnmOOExport *state, Sheet const *sheet)
 						   sheet->tab_text_color, 1);
 		}
 	}
-	if (get_gsf_odf_version () >= 103)
+	if (state->odf_version >= 103)
 		gnm_xml_out_add_hex_color (state->xml, TABLE "tab-color",
 					   sheet->tab_color, 1);
 	gsf_xml_out_end_element (state->xml); /* </style:table-properties> */
@@ -1176,7 +1177,7 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 			/* Note that we will be setting style:writing-mode-automatic below */
 			break;
 		}
-		if (get_gsf_odf_version () > 101)
+		if (state->odf_version > 101)
 			gsf_xml_out_add_cstr (state->xml, STYLE "writing-mode", writing_mode);
 		if (direction != NULL)
 			gsf_xml_out_add_cstr (state->xml, FOSTYLE "direction", direction);
@@ -3599,7 +3600,7 @@ odf_write_sheet_control_content (GnmOOExport *state, GnmExprTop const *texpr)
 		parse_pos_init_sheet (&pp, state->sheet);
 		link = gnm_expr_top_as_string (texpr, &pp, state->conv);
 
-		if (get_gsf_odf_version () > 101)
+		if (state->odf_version > 101)
 			gsf_xml_out_add_cstr (state->xml,
 					      FORM "source-cell-range",
 					      odf_strip_brackets (link));
@@ -3622,7 +3623,7 @@ odf_write_sheet_control_linked_cell (GnmOOExport *state, GnmExprTop const *texpr
 		parse_pos_init_sheet (&pp, state->sheet);
 		link = gnm_expr_top_as_string (texpr, &pp, state->conv);
 
-		if (get_gsf_odf_version () > 101)
+		if (state->odf_version > 101)
 			gsf_xml_out_add_cstr (state->xml, FORM "linked-cell",
 					      odf_strip_brackets (link));
 		else
@@ -3738,7 +3739,7 @@ odf_write_sheet_control_list (GnmOOExport *state, SheetObject *so,
 	texpr = sheet_widget_list_base_get_content_link (so);
 	odf_write_sheet_control_content (state, texpr);
 
-	if (get_gsf_odf_version () > 101)
+	if (state->odf_version > 101)
 		gsf_xml_out_add_cstr_unchecked
 			(state->xml, FORM "list-linkage-type",
 			 as_index ? "selection-indexes" : "selection");
@@ -4261,7 +4262,7 @@ odf_print_spreadsheet_content_prelude (GnmOOExport *state)
 	odf_add_bool (state->xml, TABLE "precision-as-shown", FALSE);
 	odf_add_bool (state->xml, TABLE "search-criteria-must-apply-to-whole-cell", TRUE);
 	odf_add_bool (state->xml, TABLE "use-regular-expressions", FALSE);
-	if (get_gsf_odf_version () > 101)
+	if (state->odf_version > 101)
 		odf_add_bool (state->xml, TABLE "use-wildcards", FALSE);
 	gsf_xml_out_start_element (state->xml, TABLE "null-date");
 	if (go_date_convention_base (workbook_date_conv (state->wb)) == 1900)
@@ -4333,7 +4334,7 @@ odf_write_named_expression (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 			 "print-range filter repeat-row repeat-column");
 
 		if (nexpr->pos.sheet != NULL && state->with_extension
-		    && (get_gsf_odf_version () < 102))
+		    && (state->odf_version < 102))
 			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "scope",
 					      nexpr->pos.sheet->name_unquoted);
 
@@ -4346,7 +4347,7 @@ odf_write_named_expression (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 		formula = gnm_expr_top_as_string (nexpr->texpr,
 						  &nexpr->pos,
 						  state->conv);
-		if (get_gsf_odf_version () > 101) {
+		if (state->odf_version > 101) {
 			char *eq_formula = g_strdup_printf ("of:=%s", formula);
 			gsf_xml_out_add_cstr (state->xml,  TABLE "expression", eq_formula);
 			g_free (eq_formula);
@@ -4365,7 +4366,7 @@ odf_write_named_expression (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 		gnm_expr_top_unref (texpr);
 
 		if (nexpr->pos.sheet != NULL && state->with_extension
-		    && (get_gsf_odf_version () < 102))
+		    && (state->odf_version < 102))
 			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "scope",
 					      nexpr->pos.sheet->name_unquoted);
 
@@ -4467,7 +4468,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 
 		odf_write_sheet_controls (state);
 		odf_write_sheet (state);
-		if (get_gsf_odf_version () > 101 && sheet->names) {
+		if (state->odf_version > 101 && sheet->names) {
 			gsf_xml_out_start_element (state->xml, TABLE "named-expressions");
 			gnm_sheet_foreach_name (sheet,
 						(GHFunc)&odf_write_named_expression, state);
@@ -4503,7 +4504,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 
 	gsf_xml_out_start_element (state->xml, TABLE "named-expressions");
 	workbook_foreach_name
-		(state->wb, (get_gsf_odf_version () > 101),
+		(state->wb, (state->odf_version > 101),
 		 (GHFunc)&odf_write_named_expression, state);
 	gsf_xml_out_end_element (state->xml); /* </table:named-expressions> */
 
@@ -4536,7 +4537,8 @@ odf_write_xl_style (char const *xl, char const *name, GnmOOExport *state, int i)
 	if (xl == NULL)
 		xl = "General";
 	format = go_format_new_from_XL (xl);
-	go_format_output_to_odf (state->xml, format, i, name, state->with_extension);
+	go_format_output_to_odf (state->xml, format, i, name,
+				 state->odf_version, state->with_extension);
 	go_format_unref (format);
 }
 
@@ -5362,7 +5364,7 @@ odf_write_dash_info (char const *name, gpointer data, GnmOOExport *state)
 	GOLineDashType type = GPOINTER_TO_INT (data);
 	GOLineDashSequence *lds;
 	double scale;
-	gboolean new = (get_gsf_odf_version () > 101);
+	gboolean new = (state->odf_version > 101);
 
 	gsf_xml_out_start_element (state->xml, DRAW "stroke-dash");
 	gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "name", name);
@@ -5489,7 +5491,7 @@ odf_write_ooo_settings (GnmOOExport *state)
 		SheetView *sv = sheet_get_view (sheet, state->wbv);
 		gsf_xml_out_start_element (state->xml, CONFIG "config-item-map-entry");
 		gsf_xml_out_add_cstr (state->xml, CONFIG "name", sheet->name_unquoted);
-		if (get_gsf_odf_version () < 103  && sheet->tab_color != NULL
+		if (state->odf_version < 103  && sheet->tab_color != NULL
 		    && !sheet->tab_color->is_auto) {
 			/* Not used by LO 3.3.3 and later */
 			gsf_xml_out_start_element (state->xml, CONFIG "config-item");
@@ -5618,7 +5620,7 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_start_element (xml, MANIFEST "manifest");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:manifest",
 		"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0");
-	if (get_gsf_odf_version () > 101)
+	if (state->odf_version > 101)
 		gsf_xml_out_add_cstr_unchecked (xml, MANIFEST "version",
 						get_gsf_odf_version_string ());
 	odf_file_entry (xml, "application/vnd.oasis.opendocument.spreadsheet" ,"/");
@@ -5797,7 +5799,7 @@ odf_write_regression_curve (GnmOOExport *state, GogObjectRole const *role, GogOb
 		if (equation != NULL) {
 			GObjectClass *klass = G_OBJECT_GET_CLASS (equation);
 			char const *eq_element, *eq_automatic, *eq_display, *eq_r;
-			if (get_gsf_odf_version () > 101) {
+			if (state->odf_version > 101) {
 				eq_element = CHART "equation";
 				eq_automatic = CHART "automatic-content";
 				eq_display = CHART "display-equation";
@@ -6297,7 +6299,7 @@ odf_write_axis_style (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 			}
 		}
 	}
-	if (get_gsf_odf_version () > 101)
+	if (state->odf_version > 101)
 		odf_write_plot_style_bool
 			(state->xml, axis, klass,
 			 "invert-axis", CHART "reverse-direction");
@@ -6316,7 +6318,7 @@ odf_write_generic_axis_style (GnmOOExport *state, char const *style_label)
 	gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "start");
 	odf_add_bool (state->xml, CHART "display-label", TRUE);
 
-	if (get_gsf_odf_version () > 101)
+	if (state->odf_version > 101)
 		odf_add_bool (state->xml, CHART "reverse-direction", TRUE);
 	gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
@@ -7152,7 +7154,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	odf_add_pt (state->xml, SVG "width", res_pts[2] - res_pts[0] - 2 * this_plot->pad);
 	odf_add_pt (state->xml, SVG "height", res_pts[3] - res_pts[1] - 2 * this_plot->pad);
 
-	if (get_gsf_odf_version () > 101) {
+	if (state->odf_version > 101) {
 		gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
 		gsf_xml_out_add_cstr (state->xml, XLINK "href", "..");
 	}
@@ -7219,8 +7221,8 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 
 			if (state->with_extension)
 				odf_write_title (state, title,
-						 GNMSTYLE "title", get_gsf_odf_version () > 101);
-			else if (get_gsf_odf_version () > 101) {
+						 GNMSTYLE "title", state->odf_version > 101);
+			else if (state->odf_version > 101) {
 				GOData const *dat =
 					gog_dataset_get_dim (GOG_DATASET(title),0);
 
@@ -7255,7 +7257,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		g_free (name);
 	}
 
-	if (get_gsf_odf_version () <= 101) {
+	if (state->odf_version <= 101) {
 		for ( l = series; NULL != l ; l = l->next) {
 			GOData const *dat = gog_dataset_get_dim
 				(GOG_DATASET (l->data), GOG_MS_DIM_VALUES);
@@ -7723,6 +7725,7 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 	state.outfile = gsf_outfile_zip_new (output, &err);
 
 	state.with_extension = with_extension;
+	state.odf_version = get_gsf_odf_version ();
 	state.ioc = ioc;
 	state.wbv = wbv;
 	state.wb  = wb_view_get_workbook (wbv);

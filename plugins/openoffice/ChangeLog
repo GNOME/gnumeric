@@ -1,3 +1,10 @@
+2012-03-20  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (openoffice_file_save_real): Store odf
+	version in state.  Else store version elsewhere.
+	(odf_write_xl_style): Supply new odf version argument to
+	go_format_output_to_odf.
+
 2012-03-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_annotation_content_start): new
