@@ -135,6 +135,7 @@ typedef struct {
 
 	gboolean with_extension;
 	int odf_version;
+	char *odf_version_string;
 	GOFormat const *time_fmt;
 	GOFormat const *date_fmt;
 	GOFormat const *date_long_fmt;
@@ -4390,7 +4391,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
 	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version",
-					get_gsf_odf_version_string ());
+					state->odf_version_string);
 
 	gsf_xml_out_simple_element (state->xml, OFFICE "scripts", NULL);
 
@@ -5156,7 +5157,7 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
 	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version",
-					get_gsf_odf_version_string ());
+					state->odf_version_string);
 
 	odf_master_styles_to_xl_styles (state);
 
@@ -5427,7 +5428,7 @@ odf_write_graph_styles (GnmOOExport *state, GsfOutput *child)
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
 	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version",
-					get_gsf_odf_version_string ());
+					state->odf_version_string);
 	gsf_xml_out_start_element (state->xml, OFFICE "styles");
 
 	g_hash_table_foreach (state->graph_dashes, (GHFunc) odf_write_dash_info, state);
@@ -5545,7 +5546,7 @@ odf_write_settings (GnmOOExport *state, GsfOutput *child)
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
 	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version",
-					get_gsf_odf_version_string ());
+					state->odf_version_string);
 
 	gsf_xml_out_start_element (state->xml, OFFICE "settings");
 
@@ -5622,7 +5623,7 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 		"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0");
 	if (state->odf_version > 101)
 		gsf_xml_out_add_cstr_unchecked (xml, MANIFEST "version",
-						get_gsf_odf_version_string ());
+						state->odf_version_string);
 	odf_file_entry (xml, "application/vnd.oasis.opendocument.spreadsheet" ,"/");
 	odf_file_entry (xml, "text/xml", "content.xml");
 	odf_file_entry (xml, "text/xml", "styles.xml");
@@ -7331,7 +7332,7 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so)
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
 	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version",
-					get_gsf_odf_version_string ());
+					state->odf_version_string);
 
 	graph = sheet_object_graph_get_gog (so);
 	if (graph != NULL) {
@@ -7726,6 +7727,7 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 
 	state.with_extension = with_extension;
 	state.odf_version = get_gsf_odf_version ();
+	state.odf_version_string = g_strdup (get_gsf_odf_version_string ());
 	state.ioc = ioc;
 	state.wbv = wbv;
 	state.wb  = wb_view_get_workbook (wbv);
@@ -7840,6 +7842,8 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 	go_io_progress_unset (state.ioc);
 	gsf_output_close (GSF_OUTPUT (state.outfile));
 	g_object_unref (G_OBJECT (state.outfile));
+
+	g_free (state.odf_version_string);
 
 	gnm_pop_C_locale (locale);
 	g_hash_table_unref (state.graphs);
