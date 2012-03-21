@@ -1,5 +1,8 @@
 2012-03-20  Morten Welinder  <terra@gnome.org>
 
+	* openoffice-read.c (openoffice_file_open): Don't refer to
+	gsf_ooo_ns variable.
+
 	* openoffice-write.c (openoffice_file_save_real): Store odf
 	version in state.  Else store version elsewhere.
 	(odf_write_xl_style): Supply new odf version argument to
