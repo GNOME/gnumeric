@@ -4375,6 +4375,18 @@ odf_write_named_expression (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 	}
 }
 
+static GsfXMLOut *
+create_new_xml_child (G_GNUC_UNUSED GnmOOExport *state, GsfOutput *child)
+{
+#ifdef HAVE_GSF_ODF_OUT_GET_VERSION
+	return g_object_new (GSF_ODF_OUT_TYPE,
+			     "sink", child,
+			     "odf-version", state->odf_version,
+			     NULL);
+#else
+	return gsf_xml_out_new (child);
+#endif
+}
 
 static void
 odf_write_content (GnmOOExport *state, GsfOutput *child)
@@ -4384,7 +4396,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 	int image_n = 1;
 	gboolean has_autofilters = FALSE;
 
-	state->xml = gsf_xml_out_new (child);
+	state->xml = create_new_xml_child (state, child);
 	gsf_xml_out_set_doc_type (state->xml, "\n");
 	gsf_xml_out_start_element (state->xml, OFFICE "document-content");
 
@@ -4539,7 +4551,7 @@ odf_write_xl_style (char const *xl, char const *name, GnmOOExport *state, int i)
 		xl = "General";
 	format = go_format_new_from_XL (xl);
 	go_format_output_to_odf (state->xml, format, i, name,
-				 state->odf_version, state->with_extension);
+				 state->with_extension);
 	go_format_unref (format);
 }
 
@@ -5152,7 +5164,7 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 {
 	int i;
 
-	state->xml = gsf_xml_out_new (child);
+	state->xml = create_new_xml_child (state, child);
 	gsf_xml_out_start_element (state->xml, OFFICE "document-styles");
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
@@ -5176,7 +5188,7 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 static void
 odf_write_meta (GnmOOExport *state, GsfOutput *child)
 {
-	GsfXMLOut *xml = gsf_xml_out_new (child);
+	GsfXMLOut *xml = create_new_xml_child (state, child);
 	GsfDocMetaData *meta = go_doc_get_meta_data (GO_DOC (state->wb));
 	GValue *val = g_new0 (GValue, 1);
 	GsfDocProp *prop = gsf_doc_meta_data_steal (meta, GSF_META_NAME_GENERATOR);
@@ -5195,7 +5207,7 @@ odf_write_meta (GnmOOExport *state, GsfOutput *child)
 static void
 odf_write_meta_graph (G_GNUC_UNUSED GnmOOExport *state, GsfOutput *child)
 {
-	GsfXMLOut *xml = gsf_xml_out_new (child);
+	GsfXMLOut *xml = create_new_xml_child (state, child);
 	GsfDocMetaData *meta = gsf_doc_meta_data_new ();
 	GValue *val = g_new0 (GValue, 1);
 
@@ -5423,7 +5435,7 @@ odf_write_graph_styles (GnmOOExport *state, GsfOutput *child)
 {
 	int i;
 
-	state->xml = gsf_xml_out_new (child);
+	state->xml = create_new_xml_child (state, child);
 	gsf_xml_out_start_element (state->xml, OFFICE "document-styles");
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
@@ -5541,7 +5553,7 @@ odf_write_settings (GnmOOExport *state, GsfOutput *child)
 {
 	int i;
 
-	state->xml = gsf_xml_out_new (child);
+	state->xml = create_new_xml_child (state, child);
 	gsf_xml_out_start_element (state->xml, OFFICE "document-settings");
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
@@ -5614,7 +5626,7 @@ odf_write_image_manifest (SheetObject *image, char const *name, GnmOOExport *sta
 static void
 odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 {
-	GsfXMLOut *xml = gsf_xml_out_new (child);
+	GsfXMLOut *xml = create_new_xml_child (state, child);
 	GSList *l;
 
 	gsf_xml_out_set_doc_type (xml, "\n");
@@ -7325,7 +7337,7 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so)
 	GogGraph const	*graph;
 	gboolean plot_written = FALSE;
 
-	state->xml = gsf_xml_out_new (child);
+	state->xml = create_new_xml_child (state, child);
 	gsf_xml_out_set_doc_type (state->xml, "\n");
 	gsf_xml_out_start_element (state->xml, OFFICE "document-content");
 
