@@ -43,6 +43,7 @@ Morten:
 	* Inhibit typing underline style in format dialog.
 	* Allow pattern matching for VLOOKUP/HLOOKUP.  [#672319]
 	* Fix pattern matching for VLOOKUP/HLOOKUP/MATCH.
+	* Improve test suite for ods.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2

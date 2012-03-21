@@ -313,6 +313,8 @@ sub test_importer {
 sub test_exporter {
     my ($file) = @_;
 
+    &report_skip ("file $file does not exist") unless -r $file;
+
     my $tmp = fileparse ($file);
     $tmp =~ s/\.([a-zA-Z0-9]+)$// or die "Must have extension for export test.";
     my $ext = $1;
