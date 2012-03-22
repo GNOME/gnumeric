@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-10 20:52+0000\n"
-"PO-Revision-Date: 2012-03-20 21:19+0100\n"
+"PO-Revision-Date: 2012-03-22 20:53+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1421,7 +1421,7 @@ msgstr "ro:korelacija dveh naključnih spremenljivk"
 
 #: ../plugins/fn-derivatives/options.c:196
 msgid "CUM_BIV_NORM_DIST calculates the probability that two standard normal distributed random variables with correlation @{rho} are respectively each less than @{a} and @{b}."
-msgstr ""
+msgstr "Funkcija CUM_BIV_NORM_DIST izračuna verjetnost, da sta dve standardni normalno porazdeljeni spremenljivki s korelacijo @{ro}, posamič manjši od @{a} in @{b}."
 
 #: ../plugins/fn-derivatives/options.c:245
 msgid "OPT_BS:price of a European option"
@@ -2534,7 +2534,7 @@ msgstr "V kolikor je @{vrsta} določena kot 0 (privzeto) se izplačilo izvede ob
 
 #: ../plugins/fn-financial/functions.c:362
 msgid "ACCRINT:accrued interest"
-msgstr "ACCRINT:obračunane obresti"
+msgstr "ACCRINT: obračunane (nezapadle) obresti"
 
 #: ../plugins/fn-financial/functions.c:363
 #: ../plugins/fn-financial/functions.c:450
@@ -2542,13 +2542,12 @@ msgstr "ACCRINT:obračunane obresti"
 #: ../plugins/fn-financial/functions.c:2458
 #: ../plugins/fn-financial/functions.c:2497
 #: ../plugins/fn-financial/functions.c:2647
-#, fuzzy
 msgid "issue:date of issue"
-msgstr "Izberi datum"
+msgstr "izdaja: datum izdaje"
 
 #: ../plugins/fn-financial/functions.c:364
 msgid "first_interest:date of first interest payment"
-msgstr "prve_obresti:datum prvega izplačila obresti"
+msgstr "prve_obresti: datum prvega izplačila obresti"
 
 #: ../plugins/fn-financial/functions.c:365
 #: ../plugins/fn-financial/functions.c:488
@@ -2575,9 +2574,8 @@ msgstr "prve_obresti:datum prvega izplačila obresti"
 #: ../plugins/fn-financial/functions.c:3097
 #: ../plugins/fn-financial/functions.c:3123
 #: ../plugins/fn-financial/functions.c:3235
-#, fuzzy
 msgid "settlement:settlement date"
-msgstr "Izberi datum"
+msgstr "poravnava: datum poravnave"
 
 #: ../plugins/fn-financial/functions.c:366
 #: ../plugins/fn-financial/functions.c:452
@@ -2617,25 +2615,25 @@ msgstr "frekvenca: število plačil obresti na leto"
 
 #: ../plugins/fn-financial/functions.c:369
 msgid "basis:calendar basis, defaults to 0"
-msgstr "osnova:koledarska osnova, privzeto določena kot 0"
+msgstr "osnova: koledarska osnova, privzeto določena kot 0"
 
 #: ../plugins/fn-financial/functions.c:370
 msgid "calc_method:calculation method, defaults to TRUE"
 msgstr "način_izračuna: način izračuna, ki je privzeto določen"
 
 # settlement = poravnava?, plačilo
-# coupon periods = kuponsko obdobje?
+# coupon periods = kuponsko obdobje
 #: ../plugins/fn-financial/functions.c:372
 msgid "If @{first_interest} < @{settlement} and @{calc_method} is TRUE, then ACCRINT returns the sum of the interest accrued in all coupon periods from @{issue}  date until @{settlement} date."
-msgstr "V kolikor so @{prve_obresti} < @{plačila} in je izbrana možnost @{načina_izračuna}, funkcija ACCRINT vrne vsoto obresti, obračunanih v vseh obdobjih določenih s kuponi od datuma @{izdaje} do datuma @{plačila}."
+msgstr "V kolikor so @{prve_obresti} < @{plačila} in je izbrana možnost @{načina_izračuna}, funkcija ACCRINT vrne vsoto (nezapadlih) obresti, obračunanih v vseh kuponskih obdobjih od datuma @{izdaje} do datuma @{plačila}."
 
 #: ../plugins/fn-financial/functions.c:377
 msgid "If @{first_interest} < @{settlement} and @{calc_method} is FALSE, then ACCRINT returns the sum of the interest accrued in all coupon periods from @{first_interest}  date until @{settlement} date."
-msgstr "V kolikor so @{prve_obresti} < @{plačila} in možnost @{načina_izračuna} ni izbrana, funkcija ACCRINT vrne vsoto obresti, obračunanih v vseh obdobjih določenih s kuponi od datuma @{prve_obresti} do datuma @{plačila}."
+msgstr "V kolikor so @{prve_obresti} < @{plačila} in možnost @{načina_izračuna} ni izbrana, funkcija ACCRINT vrne vsoto (nezapadlih) obresti, obračunanih v vseh kuponskih obdobjih datuma @{prve_obresti} do datuma @{plačila}."
 
 #: ../plugins/fn-financial/functions.c:382
 msgid "Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods from @{issue}  date until @{settlement} date."
-msgstr "Sicer ACCRINT vrne vsoto obresti, obračunane v vseh obdobjih določenih s kuponi od @{izdaje} do {plačila}."
+msgstr "Sicer ACCRINT vrne vsoto (nezapadlih) obresti, obračunanih v vseh kuponskih obdobjih od @{izdaje} do @{poravnave}."
 
 #: ../plugins/fn-financial/functions.c:385
 msgid "@{frequency} must be one of 1, 2 or 4, but the exact value does not affect the result."
@@ -2647,7 +2645,7 @@ msgstr "Datum @{izdaje} mora biti pred datumom @{prvih_obresti} in datumom @{pla
 
 #: ../plugins/fn-financial/functions.c:449
 msgid "ACCRINTM:accrued interest"
-msgstr "ACCRINTM:obračunane obresti"
+msgstr "ACCRINTM: obračunane (nezapadle) obresti"
 
 #: ../plugins/fn-financial/functions.c:451
 #: ../plugins/fn-financial/functions.c:489
@@ -2684,7 +2682,7 @@ msgstr "Trenutna vrednost"
 
 #: ../plugins/fn-financial/functions.c:455
 msgid "ACCRINTM calculates the accrued interest from @{issue} to @{maturity}."
-msgstr "Funkcija ACCRINTM izračuna obračunane obresti od @{izdaje} do @{dospetja}."
+msgstr "Funkcija ACCRINTM izračuna obračunane (nezapadle) obresti od @{izdaje} do @{dospetja}."
 
 #: ../plugins/fn-financial/functions.c:456
 #, fuzzy
@@ -2726,9 +2724,8 @@ msgid "RECEIVED calculates the amount to be received when a security matures."
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:566
-#, fuzzy
 msgid "PRICEDISC:discounted price"
-msgstr "Skupna cena z DDV"
+msgstr "PRICEDISC: diskontirana cena"
 
 #: ../plugins/fn-financial/functions.c:569
 #: ../plugins/fn-financial/functions.c:606
@@ -2751,18 +2748,16 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:2500
 #: ../plugins/fn-financial/functions.c:2745
 #: ../plugins/fn-financial/functions.c:3238
-#, fuzzy
 msgid "yield:annual yield of security"
-msgstr "Varnostno preverjanje ni uspelo"
+msgstr "donos: letni donos vrednostnega papirja"
 
 #: ../plugins/fn-financial/functions.c:609
 msgid "PRICEMAT calculates the price per $100 face value of a bond that pays interest at maturity."
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:647
-#, fuzzy
 msgid "DISC:discount rate"
-msgstr "Vzorčna hitrost zvoka:"
+msgstr "DISC: diskondirana mera"
 
 #: ../plugins/fn-financial/functions.c:650
 msgid "par:price per $100 face value"
@@ -2777,9 +2772,8 @@ msgid "@{redemption} is the redemption value per $100 face value."
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:685
-#, fuzzy
 msgid "EFFECT:effective interest rate"
-msgstr "mera: nazivna letna obrestna mera"
+msgstr "EFFECT: efectivna obrestna mera"
 
 #: ../plugins/fn-financial/functions.c:687
 #: ../plugins/fn-financial/functions.c:712
@@ -2820,7 +2814,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1799
 #, fuzzy
 msgid "per:period number"
-msgstr "Število 'P' sličic v skupini"
+msgstr "per: zaporedna številka obdobja"
 
 #: ../plugins/fn-financial/functions.c:738
 #: ../plugins/fn-financial/functions.c:1192
@@ -2833,7 +2827,7 @@ msgstr "Število 'P' sličic v skupini"
 #: ../plugins/fn-financial/functions.c:3192
 #, fuzzy
 msgid "nper:number of periods"
-msgstr "Zadetek prekinitvene točke številka %s\n"
+msgstr "št.per: število obdobij"
 
 #: ../plugins/fn-financial/functions.c:739
 #: ../plugins/fn-financial/functions.c:1194
@@ -2846,9 +2840,8 @@ msgstr "Zadetek prekinitvene točke številka %s\n"
 #: ../plugins/fn-financial/functions.c:1935
 #: ../plugins/fn-financial/functions.c:3149
 #: ../plugins/fn-financial/functions.c:3193
-#, fuzzy
 msgid "pv:present value"
-msgstr "tv:trenutna vrednost"
+msgstr "sv: sedanja vrednost"
 
 #: ../plugins/fn-financial/functions.c:740
 msgid "ISPMT calculates the interest payment for period number @{per}."
@@ -2922,9 +2915,8 @@ msgid "DDB calculates the depreciation of an asset for a given period using the 
 msgstr "Izračuna amortizacijo osnovnega sredstva v določenem časovnem obdobju z linearno metodo."
 
 #: ../plugins/fn-financial/functions.c:870
-#, fuzzy
 msgid "SLN:depreciation of an asset"
-msgstr "nestanovitnost: letna nestanovitnost sredstev"
+msgstr "SLN: linearna amortizacija sredstva"
 
 #: ../plugins/fn-financial/functions.c:874
 msgid "SLN calculates the depreciation of an asset using the straight-line method."
@@ -3009,7 +3001,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1157
 msgid "TBILLYIELD:yield of a treasury bill"
-msgstr ""
+msgstr "TBILLYIELD: donos za zakladno menico"
 
 #: ../plugins/fn-financial/functions.c:1160
 msgid "price:price"
@@ -3017,12 +3009,11 @@ msgstr "cena:cena"
 
 #: ../plugins/fn-financial/functions.c:1161
 msgid "TBILLYIELD calculates the yield of a treasury bill."
-msgstr ""
+msgstr "Funkcija TBILLYIELD izračuna donos za zakladno menico."
 
 #: ../plugins/fn-financial/functions.c:1191
-#, fuzzy
 msgid "RATE:rate of investment"
-msgstr "MERA: obrestna mera investicije"
+msgstr "MERA: obrestna mera naložbe"
 
 #: ../plugins/fn-financial/functions.c:1193
 #: ../plugins/fn-financial/functions.c:1460
@@ -3039,7 +3030,6 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1802
 #: ../plugins/fn-financial/functions.c:1845
 #: ../plugins/fn-financial/functions.c:1936
-#, fuzzy
 msgid "fv:future value"
 msgstr "bv: bodoča vrednost"
 
@@ -3062,9 +3052,8 @@ msgid "guess:an estimate of what the result should be"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1198
-#, fuzzy
 msgid "RATE calculates the rate of return."
-msgstr "Funkcija RATE izračuna obresti"
+msgstr "Funkcija RATE izračuna obrestno mero za obdobje rente."
 
 #: ../plugins/fn-financial/functions.c:1200
 #: ../plugins/fn-financial/functions.c:1345
@@ -3090,30 +3079,30 @@ msgstr "Vrednost @{p} mora biti celo število, saj se pri decimalnih vrednostih 
 
 #: ../plugins/fn-financial/functions.c:1340
 msgid "IRR:internal rate of return"
-msgstr ""
+msgstr "IRR: notranja stopnja donosa"
 
 #: ../plugins/fn-financial/functions.c:1343
 msgid "IRR calculates the internal rate of return of a cash flow with periodic payments.  @{values} lists the payments (negative values) and receipts (positive values) for each period."
-msgstr ""
+msgstr "Funkcija IRR izračuna notranjo stopnjo donosa za gotovinski tok z obročnimi plačili. Možnost @{vrednosti} izpiše izplačila (negativne vrednosti) in prejemke (pozitivne vrednosti) v vsakem obdobju."
 
 #: ../plugins/fn-financial/functions.c:1457
-#, fuzzy
 msgid "PV:present value"
-msgstr "tv:trenutna vrednost"
+msgstr "PV: sedanja vrednost"
 
 #: ../plugins/fn-financial/functions.c:1458
 #: ../plugins/fn-financial/functions.c:1498
 #: ../plugins/fn-financial/functions.c:1692
 msgid "rate:effective interest rate per period"
-msgstr ""
+msgstr "mera: efektivna obrestna mera na obdobje"
 
 #: ../plugins/fn-financial/functions.c:1463
+#, fuzzy
 msgid "PV calculates the present value of @{fv} which is @{nper} periods into the future, assuming a periodic payment of @{pmt} and an interest rate of @{rate} per period."
-msgstr ""
+msgstr "Funkcija PV izračuna sedanjo vrednost od bodoče vrednosti @{bv}, ki bodo"
 
 #: ../plugins/fn-financial/functions.c:1497
 msgid "NPV:net present value"
-msgstr "NPV:neto trenutna vrednost"
+msgstr "NPV: neto sedanja vrednost"
 
 #: ../plugins/fn-financial/functions.c:1499
 msgid "value1:cash flow for period 1"
@@ -3125,11 +3114,11 @@ msgstr "vrednost2: pretok denarja v drugem obdobju"
 
 #: ../plugins/fn-financial/functions.c:1501
 msgid "NPV calculates the net present value of a cash flow."
-msgstr "NPV izračuna trenutno neto vrednost pretoka denarja."
+msgstr "Funkcija NPV izračuna sedanjo neto vrednost pretoka denarja."
 
 #: ../plugins/fn-financial/functions.c:1541
 msgid "XNPV:net present value"
-msgstr "XNPV:neto trenutna vrednost"
+msgstr "XNPV: neto sedanja vrednost"
 
 #: ../plugins/fn-financial/functions.c:1544
 #: ../plugins/fn-financial/functions.c:1599
@@ -3138,35 +3127,32 @@ msgstr "datumi: datumi pretoka denarja"
 
 #: ../plugins/fn-financial/functions.c:1545
 msgid "XNPV calculates the net present value of a cash flow at irregular times"
-msgstr "XNPV izračuna trenutno neto vrednost pretoka denarja v nedorečenih časovnih obdobjih."
+msgstr "Funkcija XNPV izračuna sedanjo neto vrednost pretoka denarja v nedorečenih časovnih obdobjih."
 
 #: ../plugins/fn-financial/functions.c:1597
 msgid "XIRR:internal rate of return"
-msgstr ""
+msgstr "XIRR: notranja stopnja donosa"
 
 #: ../plugins/fn-financial/functions.c:1601
 msgid "XIRR calculates the annualized internal rate of return of a cash flow at arbitrary points in time.  @{values} lists the payments (negative values) and receipts (positive values) with one value for each entry in @{dates}."
-msgstr ""
+msgstr "Funkcija XIRR izračuna letno notranjo stopnjo donosa za gotovinski tok z določenimi časovnimi točkami izplačili. Možnost @{vrednosti} izpiše izplačila (negativne vrednosti) in prejemke (pozitivne vrednosti) za vsak vnos v polju @{datumov}."
 
 #: ../plugins/fn-financial/functions.c:1691
-#, fuzzy
 msgid "FV:future value"
-msgstr "FV:bodoča vrednost"
+msgstr "FV: bodoča vrednost"
 
 #: ../plugins/fn-financial/functions.c:1697
 #, fuzzy
 msgid "FV calculates the future value of @{pv} moved @{nper} periods into the future, assuming a periodic payment of @{pmt} and an interest rate of @{rate} per period."
-msgstr "Funkcija FV izračuna bodočo vrednost @{tv}"
+msgstr "Funkcija FV izračuna bodočo vrednost sedanje vrednosti @{sv} v zamiku @{nper} obdobij v prihodnost,"
 
 #: ../plugins/fn-financial/functions.c:1727
-#, fuzzy
 msgid "PMT:payment for annuity"
-msgstr "PMT:payment for annuity"
+msgstr "PMT: plačilo za rento"
 
 #: ../plugins/fn-financial/functions.c:1733
-#, fuzzy
 msgid "PMT calculates the payment amount for an annuity."
-msgstr "PMT calculates the payment amount for an annuity."
+msgstr "FUnkcija PMT izračuna periodično plačilo za rento."
 
 #: ../plugins/fn-financial/functions.c:1757
 #, fuzzy
@@ -3189,14 +3175,12 @@ msgid "PPMT calculates the principal part of an annuity's payment for period num
 msgstr "PPMT calculates the principal part of an annuity's payment for period number @{per}."
 
 #: ../plugins/fn-financial/functions.c:1841
-#, fuzzy
 msgid "NPER:number of periods"
-msgstr "NPER:število obdobij"
+msgstr "NPER: število obdobij"
 
 #: ../plugins/fn-financial/functions.c:1847
-#, fuzzy
 msgid "NPER calculates the number of periods of an investment based on periodic constant payments and a constant interest rate."
-msgstr "NPER calculates the number of periods of an investment based on periodic constant payments and a constant interest rate."
+msgstr "Funkcija NPER izračuna število obdobji za naložbo na osnovi stalnih izplačil in stalne obrestne mere."
 
 #: ../plugins/fn-financial/functions.c:1889
 #, fuzzy
@@ -3205,9 +3189,8 @@ msgstr "Varnostne naprave"
 
 #: ../plugins/fn-financial/functions.c:1892
 #: ../plugins/fn-financial/functions.c:3237
-#, fuzzy
 msgid "coupon:annual coupon rate"
-msgstr "mera: nazivna letna obrestna mera"
+msgstr "kupon: letna kuponska stopnja donosa"
 
 #: ../plugins/fn-financial/functions.c:1896
 #, fuzzy
@@ -3229,14 +3212,12 @@ msgid "G_DURATION is the OpenFormula function PDURATION."
 msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
 
 #: ../plugins/fn-financial/functions.c:1966
-#, fuzzy
 msgid "FVSCHEDULE:future value"
 msgstr "FVSCHEDULE: bodoča vrednost"
 
 #: ../plugins/fn-financial/functions.c:1967
-#, fuzzy
 msgid "principal:initial value"
-msgstr "Nastavi začetno vrednost"
+msgstr "glavnica: začetna vrednost"
 
 #: ../plugins/fn-financial/functions.c:1968
 msgid "schedule:range of interest rates"
@@ -3245,7 +3226,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1969
 #, fuzzy
 msgid "FVSCHEDULE calculates the future value of @{principal} after applying a range of interest rates with compounding."
-msgstr "FVSCHEDULE calculates the future value of @{principal} after applying a range of interest rates with compounding."
+msgstr "Funkcija FVSCHEDULE izračuna bodočo vrednost @{glavnice} po vključitvi after applying a range of interest rates with compounding."
 
 #: ../plugins/fn-financial/functions.c:2002
 msgid "EURO:equivalent of 1 EUR"
@@ -3305,48 +3286,44 @@ msgid "@{source} and @{target} must be one of the currencies listed for the EURO
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2251
-#, fuzzy
 msgid "PRICE:price of a security"
-msgstr "Varnostne naprave"
+msgstr "PRICE: cena vrednostnega papirja"
 
 #: ../plugins/fn-financial/functions.c:2259
 msgid "PRICE calculates the price per $100 face value of a security that pays periodic interest."
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2301
-#, fuzzy
 msgid "YIELD:yield of a security"
-msgstr "Varnostne naprave"
+msgstr "YIELD: donos vrednostnega papirja"
 
 #: ../plugins/fn-financial/functions.c:2305
 #: ../plugins/fn-financial/functions.c:2413
 #: ../plugins/fn-financial/functions.c:2460
 #: ../plugins/fn-financial/functions.c:2650
 #: ../plugins/fn-financial/functions.c:2823
-#, fuzzy
 msgid "price:price of security"
-msgstr "Varnostne naprave"
+msgstr "cena: cena vrednostnega papirja"
 
 #: ../plugins/fn-financial/functions.c:2309
 msgid "YIELD calculates the yield of a security that pays periodic interest."
-msgstr ""
+msgstr "FUnkcija YIELD izračuna donos za vrednostni papir, ki daje obresti v enakomernih časovnih razmikih."
 
 #: ../plugins/fn-financial/functions.c:2410
 msgid "YIELDDISC:yield of a discounted security"
-msgstr ""
+msgstr "YIELDDISC: letni donos za diskontirani vrednostni papir"
 
 #: ../plugins/fn-financial/functions.c:2416
 msgid "YIELDDISC calculates the yield of a discounted security."
-msgstr ""
+msgstr "Funkcija YIELDDISC izračuna letni donos za diskontirani vrednostni papir."
 
 #: ../plugins/fn-financial/functions.c:2455
-#, fuzzy
 msgid "YIELDMAT:yield of a security"
-msgstr "Varnostno preverjanje ni uspelo"
+msgstr "YIELDMAT: donosnost vrednostnega papirja"
 
 #: ../plugins/fn-financial/functions.c:2462
 msgid "YIELDMAT calculates the yield of a security for which the interest is paid at maturity date."
-msgstr ""
+msgstr "Funkcija YIELDMAT izračuna donos za vrednostni papir, ki prinese obresti ob dospelosti."
 
 #: ../plugins/fn-financial/functions.c:2494
 msgid "ODDFPRICE:price of a security that has an odd first period"
@@ -3354,17 +3331,17 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2498
 #: ../plugins/fn-financial/functions.c:2648
-#, fuzzy
 msgid "first_interest:first interest date"
-msgstr "prve_obresti:datum prvega izplačila obresti"
+msgstr "prve_obresti: datum prvega izplačila obresti"
 
 #: ../plugins/fn-financial/functions.c:2504
 msgid "ODDFPRICE calculates the price per $100 face value of a security that pays periodic interest, but has an odd first period."
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2644
+#, fuzzy
 msgid "ODDFYIELD:yield of a security that has an odd first period"
-msgstr ""
+msgstr "ODDFYIELD: donos vrednostnega papirja, "
 
 #: ../plugins/fn-financial/functions.c:2654
 msgid "ODDFYIELD calculates the yield of a security that pays periodic interest, but has an odd first period."
@@ -3376,9 +3353,8 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2743
 #: ../plugins/fn-financial/functions.c:2821
-#, fuzzy
 msgid "last_interest:last interest date"
-msgstr "Datum z_adnje spremembe"
+msgstr "zadnje_obresti: datum zadnjega izplačila obresti"
 
 #: ../plugins/fn-financial/functions.c:2749
 msgid "ODDLPRICE calculates the price per $100 face value of a security that pays periodic interest, but has an odd last period."
@@ -3398,15 +3374,13 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2898
 #: ../plugins/fn-financial/functions.c:2954
-#, fuzzy
 msgid "purchase_date:date of purchase"
-msgstr "Izberi datum"
+msgstr "datum_nakupa: datum nakupa"
 
 #: ../plugins/fn-financial/functions.c:2899
 #: ../plugins/fn-financial/functions.c:2955
-#, fuzzy
 msgid "first_period:end of first period"
-msgstr "_Znaki konca vrstice"
+msgstr "prvo_obdobje: konec prvega obdobja"
 
 #: ../plugins/fn-financial/functions.c:2902
 #: ../plugins/fn-financial/functions.c:2958
@@ -3449,7 +3423,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2998
 msgid "COUPDAYBS:number of days from coupon period to settlement"
-msgstr ""
+msgstr "COUPDAYBS: število dni od začetka kuponskega obdobja do datuma poravnave"
 
 #: ../plugins/fn-financial/functions.c:3003
 #: ../plugins/fn-financial/functions.c:3027
@@ -3497,24 +3471,21 @@ msgid "COUPPCD calculates the coupon date preceding settlement."
 msgstr "Funkcija COUPPCD izračuna datum kupona, ki je pred poravnavo."
 
 #: ../plugins/fn-financial/functions.c:3122
-#, fuzzy
 msgid "COUPNUM:number of coupons"
-msgstr "Zadetek prekinitvene točke številka %s\n"
+msgstr "COUPNUM: število kuponov"
 
 #: ../plugins/fn-financial/functions.c:3128
 msgid "COUPNUM calculates the number of coupons to be paid between the settlement and maturity dates, rounded up."
-msgstr "Funkcija COUPNUM izračuna število kuponov za plačilo med  poravnavo in datumi dospetja (zaokroženo)."
+msgstr "Funkcija COUPNUM izračuna število kuponov za izplačilo med datumom poravnave in datumi dospetja (zaokroženo)."
 
 #: ../plugins/fn-financial/functions.c:3146
-#, fuzzy
 msgid "CUMIPMT:cumulative interest payment"
-msgstr "prve_obresti:datum prvega izplačila obresti"
+msgstr "CUMIPMT: izplačila kumulativnih (obrestnih) obresti"
 
 #: ../plugins/fn-financial/functions.c:3147
 #: ../plugins/fn-financial/functions.c:3191
-#, fuzzy
 msgid "rate:interest rate per period"
-msgstr "mera: nazivna letna obrestna mera"
+msgstr "mera: obrestna mera obdobja"
 
 #: ../plugins/fn-financial/functions.c:3150
 #: ../plugins/fn-financial/functions.c:3194
@@ -3530,16 +3501,15 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3153
 msgid "CUMIPMT calculates the cumulative interest paid on a loan from @{start_period} to @{end_period}."
-msgstr ""
+msgstr "Funkcija CUMIPMT izračuna izplačane kumulativne (obrestne) obresti na posojilo od @{začetnega} do @{končnega} obdobja."
 
 #: ../plugins/fn-financial/functions.c:3190
-#, fuzzy
 msgid "CUMPRINC:cumulative principal"
-msgstr "Slabo oblikovani podatki ravnatelja"
+msgstr "CUMPRINC: kumulativna (obrestna) glavnica"
 
 #: ../plugins/fn-financial/functions.c:3197
 msgid "CUMPRINC calculates the cumulative principal paid on a loan from @{start_period} to @{end_period}."
-msgstr ""
+msgstr "Funkcija CUMPRINC izračuna kumulativno (obrestno) glavnico za posojilo, izplačano med @{začetnim} in @{končnim} obdobjem."
 
 #: ../plugins/fn-financial/functions.c:3234
 msgid "MDURATION:the Macaulay duration of a security"
@@ -5844,7 +5814,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:50
 msgid "This function returns the cumulative distribution function of the normal distribution."
-msgstr ""
+msgstr "FUnkcija vrne funkcijo kumulativne porazdelitve normalne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:71
 msgid "R.QNORM:probability quantile function of the normal distribution"
@@ -6746,7 +6716,7 @@ msgstr "vrsta:vrsta Gumbelove porazdelitve, ki je privzeto je določena na vredn
 
 #: ../plugins/fn-random/functions.c:694
 msgid "If @{type} is neither 1 nor 2, RANDGUMBEL returns #NUM!"
-msgstr ""
+msgstr "V kolikor @{vrsta} ni niti 1 niti 2, funkcija RANDGUMBEL vrne napako #NUM!"
 
 #: ../plugins/fn-random/functions.c:719
 msgid "RANDLEVY:random variate from a Lévy distribution"
@@ -7341,7 +7311,7 @@ msgstr "število2:druga vrednost"
 
 #: ../plugins/fn-stat/functions.c:544
 msgid "If the data set does not contain any duplicates this function returns a #N/A error."
-msgstr ""
+msgstr "V kolikor podatkovna množica ne vsebuje podvojenih nizov, funkcija vrne napako #N/A."
 
 #: ../plugins/fn-stat/functions.c:546
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 11.4, 25.9, and 40.1."
@@ -7401,7 +7371,7 @@ msgstr "wolfram:GeometricMean.html"
 
 #: ../plugins/fn-stat/functions.c:622
 msgid "COUNT:total number of integer or floating point arguments passed"
-msgstr ""
+msgstr "COUNT: podano skupno število celoštevilskih argumentov ali argumentov s plavajočo vejico"
 
 #: ../plugins/fn-stat/functions.c:627
 msgid "Then COUNT(A1:A5) equals 5."
@@ -7409,7 +7379,7 @@ msgstr "Izračun funkcije  COUNT(A1:A5) vrne rešitev 5."
 
 #: ../plugins/fn-stat/functions.c:658
 msgid "COUNTA:number of arguments passed not including empty cells"
-msgstr ""
+msgstr "COUNTA: število podanih argumentov brez praznih celic"
 
 #: ../plugins/fn-stat/functions.c:662
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, \"missing\", \"missing\", 25.9, and 40.1."
@@ -7461,7 +7431,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:795
 msgid "If less than three numbers are given, this function returns a #DIV/0! error."
-msgstr ""
+msgstr "V kolikor so podane manj kot tri številke, funkcija vrne napako #DIV/0!"
 
 #: ../plugins/fn-stat/functions.c:798
 msgid "Then SKEW(A1:A5) equals 0.976798268."
@@ -7473,7 +7443,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:821
 msgid "If less than two numbers are given, SKEWP returns a #DIV/0! error."
-msgstr ""
+msgstr "V kolikor sta podani manj kot dve številki, funkcija SKEWP vrne napako #DIV/0!"
 
 #: ../plugins/fn-stat/functions.c:823
 msgid "Then SKEWP(A1:A5) equals 0.655256198."
@@ -7641,12 +7611,12 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:1120
 #: ../plugins/fn-stat/functions.c:1157
 msgid "a:optional lower bound, defaults to 0"
-msgstr ""
+msgstr "a: izbirna spodnja meja, privzeto določena kot 0"
 
 #: ../plugins/fn-stat/functions.c:1121
 #: ../plugins/fn-stat/functions.c:1158
 msgid "b:optional upper bound, defaults to 1"
-msgstr ""
+msgstr "b: izbirna zgornja meja, privzeto določena kot 1"
 
 #: ../plugins/fn-stat/functions.c:1122
 msgid "If @{x} < @{a} or @{x} > @{b} this function returns a #NUM! error."
@@ -7973,7 +7943,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1822
 msgid "If fewer than four numbers are given or all of them are equal this function returns a #DIV/0! error."
-msgstr ""
+msgstr "V kolikor so podane manj kot štiri številke ali pa so vse enake, funkcija vrne napako #DIV/0!"
 
 #: ../plugins/fn-stat/functions.c:1826
 msgid "Then KURT(A1:A5) equals 1.234546305."
@@ -7985,7 +7955,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1849
 msgid "If fewer than two numbers are given or all of them are equal this function returns a #DIV/0! error."
-msgstr ""
+msgstr "V kolikor sta podani manj kot dve številki ali pa sta enaki, funkcija vrne napako #DIV/0!"
 
 #: ../plugins/fn-stat/functions.c:1852
 msgid "Then KURTP(A1:A5) equals -0.691363424."
@@ -8061,7 +8031,7 @@ msgstr "MEDIAN:mediana srednja vrednost podatkovne množice"
 
 #: ../plugins/fn-stat/functions.c:2028
 msgid "If even numbers are given MEDIAN returns the average of the two numbers in the center."
-msgstr ""
+msgstr "V kolikor je podano sodo število števil, funkcija MEDIAN vrne povprečno vrednost dveh števil na sredini."
 
 #: ../plugins/fn-stat/functions.c:2032
 msgid "Then MEDIAN(A1:A5) equals 21.3."
@@ -8566,7 +8536,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3585
 msgid "TREND:estimates future values of a given data set using a least squares approximation"
-msgstr ""
+msgstr "TREND: oceni bodočo vrednost podane podatkovne množice z uporabo aproksimacije najmanjših kvadratov"
 
 #: ../plugins/fn-stat/functions.c:3588
 msgid "new_xs:array of x-values for which to estimate the y-values; defaults to @{known_xs}"
@@ -8618,7 +8588,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3918
 msgid "FORECAST:estimates a future value according to existing values using simple linear regression"
-msgstr ""
+msgstr "FORECAST: oceni bodočo vrednost glede na obstoječe vrednosti z uporabo enostavne linearne regresije"
 
 #: ../plugins/fn-stat/functions.c:3920
 msgid "x:x-value whose matching y-value should be forecast"
@@ -8626,7 +8596,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3923
 msgid "This function estimates a future value according to existing values using simple linear regression."
-msgstr ""
+msgstr "Funkcija oceni bodočo vrednost glede na obstoječe vrednosti z uporabo enostavne linearne regresije."
 
 #: ../plugins/fn-stat/functions.c:3925
 #: ../plugins/fn-stat/functions.c:3982
@@ -9106,11 +9076,11 @@ msgstr "štev: ne-negativno celo število"
 
 #: ../plugins/fn-string/functions.c:666
 msgid "CLEAN:@{text} with any non-printable characters removed"
-msgstr ""
+msgstr "CLEAN: @{besedilu} odstrani ne-natisljive znake"
 
 #: ../plugins/fn-string/functions.c:668
 msgid "CLEAN removes non-printable characters from its argument leaving only regular characters and white-space."
-msgstr ""
+msgstr "Funkcija CLEAN odstrani ne-natisljive znake iz argumentov in pusti le običajne znake in navadne presledne znake."
 
 #: ../plugins/fn-string/functions.c:695
 msgid "FIND:first position of @{string1} in @{string2} following position @{start}"
@@ -9191,7 +9161,7 @@ msgstr "vrednost: izvorna vrednost"
 
 #: ../plugins/fn-string/functions.c:963
 msgid "TEXT:@{value} as a string formatted as @{format}"
-msgstr ""
+msgstr "TEXT: @{vrednost} podana kot niz in oblikovana kot @{oblika}"
 
 #: ../plugins/fn-string/functions.c:964
 msgid "value:value to be formatted"
@@ -9203,7 +9173,7 @@ msgstr "oblika: želena oblika"
 
 #: ../plugins/fn-string/functions.c:1017
 msgid "TRIM:@{text} with only single spaces between words"
-msgstr ""
+msgstr "TRIM: okrajša @{besedilo} na le en presledek med besedami"
 
 #: ../plugins/fn-string/functions.c:1064
 msgid "VALUE:numeric value of @{text}"
@@ -9219,11 +9189,11 @@ msgstr "ločilnik: ločilnik decimalnih mest"
 
 #: ../plugins/fn-string/functions.c:1100
 msgid "If @{text} does not look like a decimal number, NUMBERVALUE returns the value VALUE would return (ignoring the given @{separator})."
-msgstr ""
+msgstr "V kolikor @{besedilo} ni decimalno število, funkcija NUMBERVALUE vrne vrednost VREDNOST (in prezre podan @{ločilnik})."
 
 #: ../plugins/fn-string/functions.c:1156
 msgid "SUBSTITUTE:@{text} with all occurrences of @{old} replaced by @{new}"
-msgstr ""
+msgstr "SUBSTITUTE: zamenjava vseh @{starih} nizov z @{novimi} v @{besedilu}"
 
 #: ../plugins/fn-string/functions.c:1157
 #: ../plugins/fn-string/functions.c:1567
@@ -9236,7 +9206,7 @@ msgstr "staro: niz, ki bo zamenjan"
 
 #: ../plugins/fn-string/functions.c:1160
 msgid "num:if @{num} is specified and a number only the @{num}th occurrence of @{old} is replaced"
-msgstr ""
+msgstr "število: v kolikor je @{število} določeno in je številka, je zamenjana le @{števila}-ta pojavitev @{starega} niza."
 
 #: ../plugins/fn-string/functions.c:1230
 msgid "DOLLAR:@{num} formatted as currency"
@@ -9460,7 +9430,7 @@ msgstr ""
 #: ../plugins/fn-tsa/functions.c:790
 #: ../plugins/fn-tsa/functions.c:887
 msgid "If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #VALUE!"
-msgstr ""
+msgstr "V kolikor @{zaporedje} ni niti polje n x 1 niti 1 x n, funkcija vrne napako #VALUE!"
 
 #: ../plugins/fn-tsa/functions.c:882
 msgid "HPFILTER:Hodrick Prescott Filter"
@@ -9480,7 +9450,7 @@ msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:888
 msgid "If @{Sequence} contians less than 6 numerical values, this function returns #VALUE!"
-msgstr ""
+msgstr "V kolikor vsebuje @{zaporedje} le 6 številčnih vrednosti, funkcija vrne napako #VALUE!"
 
 #: ../plugins/gda/plugin-gda.c:306
 msgid "EXECSQL:result of executing @{sql} in the libgda data source @{dsn}"
