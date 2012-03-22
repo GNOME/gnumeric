@@ -695,6 +695,7 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	char const *fill_image_name = NULL;
 	unsigned int gnm_hatch = 0;
 	int symbol_type = -1, symbol_name = GO_MARKER_DIAMOND;
+	double symbol_height = -1., symbol_width = -1.;
 	GOMarker *m;
 	gboolean line_is_not_dash = FALSE;
 	unsigned int fill_type = OO_FILL_TYPE_UNKNOWN;
@@ -807,6 +808,10 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 			symbol_type = g_value_get_int (&prop->value);
 		else if (0 == strcmp (prop->name, "symbol-name"))
 			symbol_name = g_value_get_int (&prop->value);
+		else if (0 == strcmp (prop->name, "symbol-height"))
+			symbol_height = g_value_get_double (&prop->value);
+		else if (0 == strcmp (prop->name, "symbol-width"))
+			symbol_width = g_value_get_double (&prop->value);
 		else if (0 == strcmp (prop->name, "stroke-width"))
 		        style->line.width = g_value_get_double (&prop->value);
 		else if (0 == strcmp (prop->name, "repeat"))
@@ -942,6 +947,16 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 		style->marker.auto_shape = FALSE;
 		m = go_marker_new ();
 		go_marker_set_shape (m, symbol_name);
+		if (symbol_height >= 0. || symbol_width >= 0.) {
+			int size;
+			if (symbol_height >= 0. && symbol_width >= 0.)
+				size = (symbol_height+symbol_width+1.)/2;
+			else if (symbol_height >= 0.)
+				size = symbol_height + 0.5;
+			else
+				size = symbol_width+ 0.5;
+			go_marker_set_size (m, size);
+		}
 		go_style_set_marker (style, m);
 		break;
 	default:
@@ -6120,6 +6135,16 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			style->style_props = g_slist_prepend
 				(style->style_props,
 				 oo_prop_new_int ("symbol-name", tmp));
+		} else if (oo_attr_distance (xin, attrs, OO_NS_CHART, "symbol-width",
+					     &ftmp)) {
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_double ("symbol-width", ftmp));
+		} else if (oo_attr_distance (xin, attrs, OO_NS_CHART, "symbol-height",
+					     &ftmp)) {
+			style->style_props = g_slist_prepend
+				(style->style_props,
+				 oo_prop_new_double ("symbol-height", ftmp));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       OO_NS_CHART, "interpolation")) {
 			char const *interpolation = NULL;

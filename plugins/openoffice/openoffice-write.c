@@ -6811,16 +6811,20 @@ odf_write_gog_style_chart (GnmOOExport *state, GOStyle const *style, GogObject c
 							      "none");
 			}
 		} else {
-			GOMarkerShape m
-				= go_marker_get_shape (go_style_get_marker ((GOStyle *)style));
+			GOMarker const *marker = go_style_get_marker ((GOStyle *)style);
+			GOMarkerShape m = go_marker_get_shape (marker);
+
 			if (m == GO_MARKER_NONE)
 				gsf_xml_out_add_cstr (state->xml, CHART "symbol-type",
 						      "none");
 			else {
+				int size = go_marker_get_size (marker);
 				gsf_xml_out_add_cstr (state->xml, CHART "symbol-type",
 						      "named-symbol");
 				gsf_xml_out_add_cstr
 					(state->xml, CHART "symbol-name", odf_get_marker (m));
+				odf_add_pt (state->xml, CHART "symbol-width", size);
+				odf_add_pt (state->xml, CHART "symbol-height", size);
 			}
 		}
 	}

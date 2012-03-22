@@ -4,6 +4,14 @@
 
 2012-03-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_apply_style_props): handle symbol-width and
+	symbol-height
+	(od_style_prop_chart) read symbol-width and symbol-height
+	* openoffice-write.c (odf_write_gog_style_chart): write
+	symbol-width and symbol-height
+
+2012-03-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_number_style_end): skip the condition
 	for the second part if we skipped it for the first and it is the
 	default
