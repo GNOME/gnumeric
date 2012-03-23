@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-10 20:52+0000\n"
-"PO-Revision-Date: 2012-03-22 20:53+0100\n"
+"PO-Revision-Date: 2012-03-23 22:23+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1393,11 +1393,11 @@ msgstr "d: znesek dividende za izplačilo v določeni denarni enoti"
 
 #: ../plugins/fn-derivatives/options.c:59
 msgid "cost_of_carry:net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0"
-msgstr ""
+msgstr "stroški_posedovanja: neto stroški posedovanja oziroma financiranja premoženja (pri običajnih delnicah; donosnost brez tveganja je manjša od donosnosti)"
 
 #: ../plugins/fn-derivatives/options.c:60
 msgid "cost_of_carry:net cost of holding the underlying asset"
-msgstr ""
+msgstr "stroški_posedovanja: neto stroški posedovanja oziroma financiranja premoženja"
 
 #: ../plugins/fn-derivatives/options.c:62
 msgid "The returned value will be expressed in the same units as @{strike} and @{spot}."
@@ -1425,96 +1425,95 @@ msgstr "Funkcija CUM_BIV_NORM_DIST izračuna verjetnost, da sta dve standardni n
 
 #: ../plugins/fn-derivatives/options.c:245
 msgid "OPT_BS:price of a European option"
-msgstr ""
+msgstr "OPT_BS: cena evropske opcije"
 
 #: ../plugins/fn-derivatives/options.c:253
 msgid "OPT_BS uses the Black-Scholes model to calculate the price of a European option struck at @{strike} on an asset with spot price @{spot}."
-msgstr ""
+msgstr "Funkcija OPT_BS uporablja Black-Scholesov model za izračun cene evropske opcije, izvršene pri @{izvršilni ceni} na premoženju ovrednotenem z @{gotovinsko ceno}."
 
 #: ../plugins/fn-derivatives/options.c:302
 msgid "OPT_BS_DELTA:delta of a European option"
-msgstr ""
+msgstr "OPT_BS_DELTA: delta evropske opcije"
 
 #: ../plugins/fn-derivatives/options.c:310
 msgid "OPT_BS_DELTA uses the Black-Scholes model to calculate the 'delta' of a European option struck at @{strike} on an asset with spot price @{spot}."
-msgstr ""
+msgstr "Funkcija OPT_BS_DELTA uporablja Black-Scholesov model za izračun 'delte' evropske opcije, izvršene pri @{izvršilni ceni} na premoženju ovrednotenem z @{gotovinsko ceno}."
 
 #: ../plugins/fn-derivatives/options.c:344
 msgid "OPT_BS_GAMMA:gamma of a European option"
-msgstr ""
+msgstr "OPT_BS_GAMMA: gama evropske opcije"
 
 #: ../plugins/fn-derivatives/options.c:351
 msgid "OPT_BS_GAMMA uses the Black-Scholes model to calculate the 'gamma' of a European option struck at @{strike} on an asset with spot price @{spot}. The gamma of an option is the second derivative of its price with respect to the price of the underlying asset."
-msgstr ""
+msgstr "Funkcija OPT_BS_GAMMA uporablja Black-Scholesov model za izračun 'game' evropske opcije, izvršene pri @{izvršilni ceni} na premoženju ovrednotenem z @{gotovinsko ceno}. Gama opcije je drugi derivat cene v odvisnosti od cene premoženja."
 
 #: ../plugins/fn-derivatives/options.c:356
 msgid "Gamma is expressed as the rate of change of delta per unit change in @{spot}."
-msgstr ""
+msgstr "Gama je izražena kot raven spremembe delte na enoto spremembe @{gotovinske cene}."
 
 #: ../plugins/fn-derivatives/options.c:358
-#, fuzzy
 msgid "Gamma is the same for calls and puts."
-msgstr ""
+msgstr "Vrednost game je enaka za nakupne in prodajne opcije"
 
 #: ../plugins/fn-derivatives/options.c:401
 msgid "OPT_BS_THETA:theta of a European option"
-msgstr ""
+msgstr "OPT_BS_THETA: theta evropske opcije"
 
 #: ../plugins/fn-derivatives/options.c:409
 msgid "OPT_BS_THETA uses the Black-Scholes model to calculate the 'theta' of a European option struck at @{strike} on an asset with spot price @{spot}. The theta of an option is the rate of change of its price with respect to time to expiry."
-msgstr ""
+msgstr "Funkcija OPT_BS_THETA uporablja Black-Scholesov model za izračun 'thete' evropske opcije, izvršene pri @{izvršilni ceni} na premoženju ovrednotenem z @{gotovinsko ceno}. Theta opcije je raven spremembe cene v odvisnosti od časa zapadlosti."
 
 #: ../plugins/fn-derivatives/options.c:414
 msgid "Theta is expressed as the negative of the rate of change of the option value, per 365.25 days."
-msgstr ""
+msgstr "Theta je izražena kot negativna raven spremembe vrednosti opcije na 365.25 dni."
 
 #: ../plugins/fn-derivatives/options.c:445
 msgid "OPT_BS_VEGA:vega of a European option"
-msgstr ""
+msgstr "OPT_BS_VEGA: vega evropske opcije"
 
 #: ../plugins/fn-derivatives/options.c:452
 msgid "OPT_BS_VEGA uses the Black-Scholes model to calculate the 'vega' of a European option struck at @{strike} on an asset with spot price @{spot}. The vega of an option is the rate of change of its price with respect to volatility."
-msgstr ""
+msgstr "Funkcija OPT_BS_VEGA uporablja Black-Scholesov model za izračun 'vege' evropske opcije, izvršene pri @{izvršilni ceni} na premoženju ovrednotenem z @{gotovinsko ceno}. Vega opcije je raven spremembe cene v odvisnosti od nihanja cene."
 
 # 'Opcije' so špekulativni, visoko donosni, visoko tvegani finančni izdelki. Nakupne opcije so »Calls, prodajne pa »Puts«.
 #: ../plugins/fn-derivatives/options.c:457
 msgid "Vega is the same for calls and puts."
-msgstr ""
+msgstr "Vrednost vege je enaka za nakupne in prodajne opcije"
 
 #: ../plugins/fn-derivatives/options.c:459
 #, no-c-format
 msgid "Vega is expressed as the rate of change of option value, per 100% volatility."
-msgstr ""
+msgstr "Vega je izražena kot raven spremembe vrednosti opcije na 100% nestanovitvnosti."
 
 #: ../plugins/fn-derivatives/options.c:510
 msgid "OPT_BS_RHO:rho of a European option"
-msgstr ""
+msgstr "OPT_BS_RHO: ro evropske opcije"
 
 #: ../plugins/fn-derivatives/options.c:518
 msgid "OPT_BS_RHO uses the Black-Scholes model to calculate the 'rho' of a European option struck at @{strike} on an asset with spot price @{spot}. The rho of an option is the rate of change of its price with respect to the risk free interest rate."
-msgstr ""
+msgstr "Funkcija OPT_BS_RHO uporablja Black-Scholesov model za izračun 'roja' evropske opcije, izvršene pri @{izvršilni ceni} na premoženju ovrednotenem z @{gotovinsko ceno}. Ro opcije je raven spremembe cene, ki ni izpostavljena tveganjem."
 
 #: ../plugins/fn-derivatives/options.c:524
 #, no-c-format
 msgid "Rho is expressed as the rate of change of the option value, per 100% change in @{rate}."
-msgstr ""
+msgstr "Ro je izražen kot raven spremembe vrednosti opcije pri 100% spreembi @{obrestne mere}."
 
 #: ../plugins/fn-derivatives/options.c:566
 msgid "OPT_BS_CARRYCOST:elasticity of a European option"
-msgstr ""
+msgstr "OPT_BS_CARRYCOST: elastičnost evropske opcije"
 
 #: ../plugins/fn-derivatives/options.c:574
 msgid "OPT_BS_CARRYCOST uses the Black-Scholes model to calculate the 'elasticity' of a European option struck at @{strike} on an asset with spot price @{spot}. The elasticity of an option is the rate of change of its price with respect to its @{cost_of_carry}."
-msgstr ""
+msgstr "Funkcija OPT_BS_CARRYCOST uporablja Black-Scholesov model za izračun 'elastičnosti' evropske opcije, izvršene pri @{izvršilni ceni} na premoženju ovrednotenem z @{gotovinsko ceno}. Elastičnost opcije je raven spremembe cene v odvisnosti od @{stroškov posedovanja}."
 
 #: ../plugins/fn-derivatives/options.c:580
 #, no-c-format
 msgid "Elasticity is expressed as the rate of change of the option value, per 100% volatility."
-msgstr ""
+msgstr "Elastičnost je izražena kot raven spremembe vrednosti opcije pri 100% nestalnosti."
 
 #: ../plugins/fn-derivatives/options.c:624
 msgid "OPT_GARMAN_KOHLHAGEN:theoretical price of a European currency option"
-msgstr ""
+msgstr "OPT_GARMAN_KOHLHAGEN: teoretična cena evropske valutne opcije"
 
 #: ../plugins/fn-derivatives/options.c:628
 msgid "time:number of days to exercise"
@@ -1530,7 +1529,7 @@ msgstr "tuja_obrestna_mera:tuja netvegana obrestna mera na dan izvršitve v odst
 
 #: ../plugins/fn-derivatives/options.c:632
 msgid "OPT_GARMAN_KOHLHAGEN values the theoretical price of a European currency option struck at @{strike} on an asset with spot price @{spot}."
-msgstr ""
+msgstr "Funkcija OPT_GARMAN_KOHLHAGEN oceni teoretično ceno evropske valutne opcije, izvršene pri @{izvršilni ceni} na premoženju ovrednotenem z @{gotovinsko ceno}."
 
 #: ../plugins/fn-derivatives/options.c:678
 msgid "OPT_FRENCH:theoretical price of a European option adjusted for trading day volatility"
@@ -1667,8 +1666,9 @@ msgid "a:amount received for each time period"
 msgstr "a:prejeti znesek za vsako časovno obdobje"
 
 #: ../plugins/fn-derivatives/options.c:1300
+#, fuzzy
 msgid "m:number of time units the option has already met the condition"
-msgstr ""
+msgstr "m: število časovnih enot, ki jih je opcija že"
 
 #: ../plugins/fn-derivatives/options.c:1301
 msgid "dt:agreed upon discrete time period expressed as a fraction of a year"
@@ -1838,15 +1838,13 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1668
 #: ../plugins/fn-derivatives/options.c:1712
-#, fuzzy
 msgid "qty1:quantity of asset 1"
-msgstr "nestanovitnost: letna nestanovitnost sredstev"
+msgstr "kol1: količina premoženja 1"
 
 #: ../plugins/fn-derivatives/options.c:1669
 #: ../plugins/fn-derivatives/options.c:1713
-#, fuzzy
 msgid "qty2:quantity of asset 2"
-msgstr "nestanovitnost: letna nestanovitnost sredstev"
+msgstr "kol: količina premoženja 2"
 
 #: ../plugins/fn-derivatives/options.c:1672
 #: ../plugins/fn-derivatives/options.c:1716
@@ -2121,7 +2119,7 @@ msgstr "HEX2DEC:desetiški prikaz šestnajstiškega števila @{x}"
 
 #: ../plugins/fn-eng/functions.c:546
 msgid "BESSELI:Modified Bessel function of the first kind of order @{α} at @{x}"
-msgstr "BESSELI:prilagojena Besselova funkcija prve vrste reda @{α} pri @{x}"
+msgstr "BESSELI: prilagojena Besselova funkcija prvega reda @{α} pri @{x}"
 
 #: ../plugins/fn-eng/functions.c:547
 #: ../plugins/fn-eng/functions.c:585
@@ -2133,7 +2131,7 @@ msgstr "X:število"
 #: ../plugins/fn-eng/functions.c:548
 #: ../plugins/fn-eng/functions.c:586
 msgid "α:order (any non-negative number)"
-msgstr "α:red števil (ne-negativno število)"
+msgstr "α: red števil (ne-negativno število)"
 
 #: ../plugins/fn-eng/functions.c:549
 #: ../plugins/fn-eng/functions.c:587
@@ -2152,20 +2150,17 @@ msgid "wiki:en:Bessel_function"
 msgstr "wiki:en:Bessel_function"
 
 #: ../plugins/fn-eng/functions.c:584
-#, fuzzy
 msgid "BESSELK:Modified Bessel function of the second kind of order @{α} at @{x}"
-msgstr "BESSELI:prilagojena Besselova funkcija prve vrste reda @{α} pri @{x}"
+msgstr "BESSELI: prilagojena Besselova funkcija drugega reda @{α} pri @{x}"
 
 #: ../plugins/fn-eng/functions.c:608
-#, fuzzy
 msgid "BESSELJ:Bessel function of the first kind of order @{α} at @{x}"
-msgstr "BESSELI:prilagojena Besselova funkcija prve vrste reda @{α} pri @{x}"
+msgstr "BESSELI: prilagojena Besselova funkcija prvega reda @{α} pri @{x}"
 
 #: ../plugins/fn-eng/functions.c:610
 #: ../plugins/fn-eng/functions.c:639
-#, fuzzy
 msgid "α:order (any non-negative integer)"
-msgstr "α:red števil (ne-negativno število)"
+msgstr "α: red (katerokoli ne-negativno celo število)"
 
 #: ../plugins/fn-eng/functions.c:611
 #: ../plugins/fn-eng/functions.c:640
@@ -2173,9 +2168,8 @@ msgid "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM
 msgstr "V kolikor vrednost @{x} ali @{α} ni številčna, funkcija vrne napako #VALUE!. V kolikor je @{α} številčna vrednost, vendar < 0, funkcija vrne napako #NUM!. Če @{α} ni celo število, je to prirezano."
 
 #: ../plugins/fn-eng/functions.c:637
-#, fuzzy
 msgid "BESSELY:Bessel function of the second kind of order @{α} at @{x}"
-msgstr "BESSELI:prilagojena Besselova funkcija prve vrste reda @{α} pri @{x}"
+msgstr "BESSELI: Besselova funkcija drugega reda @{α} pri @{x}"
 
 #: ../plugins/fn-eng/functions.c:664
 msgid "CONVERT:a converted measurement"
@@ -2420,19 +2414,16 @@ msgid "GESTEP:step function with step at @{x1} evaluated at @{x0}"
 msgstr ""
 
 #: ../plugins/fn-eng/functions.c:1154
-#, fuzzy
 msgid "GESTEP returns 1 if  @{x1} ≤ @{x0} and 0 otherwise."
-msgstr "V kolikor je @{x1} = @{x0}, funkcija DELTA vrne vrednost 1, sicer vrne 0."
+msgstr "V kolikor je @{x1} ≤ @{x0}, funkcija GESTEP vrne vrednost 1, sicer vrne 0."
 
 #: ../plugins/fn-eng/functions.c:1174
-#, fuzzy
 msgid "HEXREP:hexadecimal representation of numeric value"
-msgstr "DECIMAL:decimalna predstavitev vrednosti @{x}"
+msgstr "HEXREP: šestnajstiška predstavitev številčne vrednosti"
 
 #: ../plugins/fn-eng/functions.c:1176
-#, fuzzy
 msgid "HEXREP returns a hexadecimal string representation of @{x}."
-msgstr "DECIMAL:decimalna predstavitev vrednosti @{x}"
+msgstr "Funkcija HEXREP vrne šestnajstiško predstavitev vrednosti @{x}."
 
 #: ../plugins/fn-eng/functions.c:1177
 msgid "This is a function meant for debugging.  The layout of the result may change and even depend on how Gnumeric was compiled."
@@ -2778,16 +2769,15 @@ msgstr "EFFECT: efectivna obrestna mera"
 #: ../plugins/fn-financial/functions.c:687
 #: ../plugins/fn-financial/functions.c:712
 msgid "nper:number of periods used for compounding"
-msgstr ""
+msgstr "število_obdobij: število obdobij za obračunavanje sestavljenih obrestnih mer"
 
 #: ../plugins/fn-financial/functions.c:688
 msgid "EFFECT calculates the effective interest rate using the formula (1+@{rate}/@{nper})^@{nper}-1."
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:710
-#, fuzzy
 msgid "NOMINAL:nominal interest rate"
-msgstr "mera: nazivna letna obrestna mera"
+msgstr "NOMINAL: nazivna obrestna mera"
 
 #: ../plugins/fn-financial/functions.c:711
 #: ../plugins/fn-financial/functions.c:736
@@ -2812,9 +2802,8 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:737
 #: ../plugins/fn-financial/functions.c:1759
 #: ../plugins/fn-financial/functions.c:1799
-#, fuzzy
 msgid "per:period number"
-msgstr "per: zaporedna številka obdobja"
+msgstr "per: obdobje"
 
 #: ../plugins/fn-financial/functions.c:738
 #: ../plugins/fn-financial/functions.c:1192
@@ -2825,9 +2814,8 @@ msgstr "per: zaporedna številka obdobja"
 #: ../plugins/fn-financial/functions.c:1800
 #: ../plugins/fn-financial/functions.c:3148
 #: ../plugins/fn-financial/functions.c:3192
-#, fuzzy
 msgid "nper:number of periods"
-msgstr "št.per: število obdobij"
+msgstr "število_obdobij: število obdobij"
 
 #: ../plugins/fn-financial/functions.c:739
 #: ../plugins/fn-financial/functions.c:1194
@@ -2848,9 +2836,8 @@ msgid "ISPMT calculates the interest payment for period number @{per}."
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:771
-#, fuzzy
 msgid "DB:depreciation of an asset"
-msgstr "nestanovitnost: letna nestanovitnost sredstev"
+msgstr "DB: razvrednotenje osnovnega premoženja"
 
 #: ../plugins/fn-financial/functions.c:772
 #: ../plugins/fn-financial/functions.c:822
@@ -2861,7 +2848,7 @@ msgstr "nestanovitnost: letna nestanovitnost sredstev"
 #: ../plugins/fn-financial/functions.c:3280
 #, fuzzy
 msgid "cost:initial cost of asset"
-msgstr "nestanovitnost: letna nestanovitnost sredstev"
+msgstr "cena: začetna cena premoženja"
 
 #: ../plugins/fn-financial/functions.c:773
 #: ../plugins/fn-financial/functions.c:823
@@ -2880,7 +2867,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:3282
 #, fuzzy
 msgid "life:number of periods"
-msgstr "Zadetek prekinitvene točke številka %s\n"
+msgstr "življenjska_doba: število obdobij"
 
 #: ../plugins/fn-financial/functions.c:775
 #: ../plugins/fn-financial/functions.c:825
@@ -2900,9 +2887,8 @@ msgid "DB calculates the depreciation of an asset for a given period using the f
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:821
-#, fuzzy
 msgid "DDB:depreciation of an asset"
-msgstr "nestanovitnost: letna nestanovitnost sredstev"
+msgstr "DDB: izračun razvrednotenje osnovnega premoženja"
 
 #: ../plugins/fn-financial/functions.c:826
 #: ../plugins/fn-financial/functions.c:3285
@@ -2910,9 +2896,8 @@ msgid "factor:factor at which the balance declines"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:827
-#, fuzzy
 msgid "DDB calculates the depreciation of an asset for a given period using the double-declining balance method."
-msgstr "Izračuna amortizacijo osnovnega sredstva v določenem časovnem obdobju z linearno metodo."
+msgstr "Funkcija DDB izračuna razvrednotenje osnovnega premoženja v podanem obdobju z metodo dvojno pojemajočega salda"
 
 #: ../plugins/fn-financial/functions.c:870
 msgid "SLN:depreciation of an asset"
@@ -2923,9 +2908,8 @@ msgid "SLN calculates the depreciation of an asset using the straight-line metho
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:900
-#, fuzzy
 msgid "SYD:sum-of-years depreciation"
-msgstr "Znižanje vsote vseh letnic"
+msgstr "SYD: razvrednotenje po metodi vsote letnih števk"
 
 #: ../plugins/fn-financial/functions.c:905
 msgid "SYD calculates the depreciation of an asset using the sum-of-years method."
@@ -3020,7 +3004,7 @@ msgstr "MERA: obrestna mera naložbe"
 #: ../plugins/fn-financial/functions.c:1694
 #: ../plugins/fn-financial/functions.c:1843
 msgid "pmt:payment at each period"
-msgstr ""
+msgstr "plačilo: plačilo v vsakem obdobju"
 
 #: ../plugins/fn-financial/functions.c:1195
 #: ../plugins/fn-financial/functions.c:1308
@@ -3096,9 +3080,8 @@ msgid "rate:effective interest rate per period"
 msgstr "mera: efektivna obrestna mera na obdobje"
 
 #: ../plugins/fn-financial/functions.c:1463
-#, fuzzy
 msgid "PV calculates the present value of @{fv} which is @{nper} periods into the future, assuming a periodic payment of @{pmt} and an interest rate of @{rate} per period."
-msgstr "Funkcija PV izračuna sedanjo vrednost od bodoče vrednosti @{bv}, ki bodo"
+msgstr "Funkcija PV izračuna sedanjo vrednost od bodoče vrednosti @{bv}, ki je pomaknjena za @{število_obdobij} v prihodnost in predvideva obročno odplačevanje @{obrokov} in določeno obrestno @{mero} za obdobje."
 
 #: ../plugins/fn-financial/functions.c:1497
 msgid "NPV:net present value"
@@ -3142,37 +3125,32 @@ msgid "FV:future value"
 msgstr "FV: bodoča vrednost"
 
 #: ../plugins/fn-financial/functions.c:1697
-#, fuzzy
 msgid "FV calculates the future value of @{pv} moved @{nper} periods into the future, assuming a periodic payment of @{pmt} and an interest rate of @{rate} per period."
-msgstr "Funkcija FV izračuna bodočo vrednost sedanje vrednosti @{sv} v zamiku @{nper} obdobij v prihodnost,"
+msgstr "Funkcija FV izračuna bodočo vrednost sedanje vrednosti @{sv} v zamiku @{števila} obdobij v prihodnost, in predvideva odplačevanje @{obrokov} in določeno obrestno @{mero} za obdobje."
 
 #: ../plugins/fn-financial/functions.c:1727
 msgid "PMT:payment for annuity"
-msgstr "PMT: plačilo za rento"
+msgstr "PMT: plačilo obroka"
 
 #: ../plugins/fn-financial/functions.c:1733
 msgid "PMT calculates the payment amount for an annuity."
-msgstr "FUnkcija PMT izračuna periodično plačilo za rento."
+msgstr "Funkcija PMT izračuna plačilo obroka za vsako obdobje."
 
 #: ../plugins/fn-financial/functions.c:1757
-#, fuzzy
 msgid "IPMT:interest payment for period"
-msgstr "IPMT:interest payment for period"
+msgstr "IPMT: plačilo obroka za določeno obdobje"
 
 #: ../plugins/fn-financial/functions.c:1764
-#, fuzzy
 msgid "IPMT calculates the interest part of an annuity's payment for period number @{per}."
-msgstr "IPMT calculates the interest part of an annuity's payment for period number @{per}."
+msgstr "Funkcija IPMT izračuna obrestni del vrednosti obroka v določenem @{obdobju}."
 
 #: ../plugins/fn-financial/functions.c:1797
-#, fuzzy
 msgid "PPMT:interest payment for period"
-msgstr "PPMT:interest payment for period"
+msgstr "PPMT: plačilo obroka za določeno obdobje"
 
 #: ../plugins/fn-financial/functions.c:1804
-#, fuzzy
 msgid "PPMT calculates the principal part of an annuity's payment for period number @{per}."
-msgstr "PPMT calculates the principal part of an annuity's payment for period number @{per}."
+msgstr "Funkcija PPMT izračuna del glavnice vrednosti obroka v določenem @{obdobju}."
 
 #: ../plugins/fn-financial/functions.c:1841
 msgid "NPER:number of periods"
@@ -3183,9 +3161,8 @@ msgid "NPER calculates the number of periods of an investment based on periodic 
 msgstr "Funkcija NPER izračuna število obdobji za naložbo na osnovi stalnih izplačil in stalne obrestne mere."
 
 #: ../plugins/fn-financial/functions.c:1889
-#, fuzzy
 msgid "DURATION:the duration of a security"
-msgstr "Varnostne naprave"
+msgstr "DURATION: trajanje vrednostnega papirja"
 
 #: ../plugins/fn-financial/functions.c:1892
 #: ../plugins/fn-financial/functions.c:3237
@@ -3193,9 +3170,8 @@ msgid "coupon:annual coupon rate"
 msgstr "kupon: letna kuponska stopnja donosa"
 
 #: ../plugins/fn-financial/functions.c:1896
-#, fuzzy
 msgid "DURATION calculates the duration of a security."
-msgstr "Varnostno preverjanje ni uspelo"
+msgstr "DURATION izračuna trajanje vrednostnega papirja."
 
 #: ../plugins/fn-financial/functions.c:1933
 #, fuzzy
@@ -3207,9 +3183,8 @@ msgid "G_DURATION calculates the number of periods needed for an investment to a
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1938
-#, fuzzy
 msgid "G_DURATION is the OpenFormula function PDURATION."
-msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
+msgstr "Funkcija G_DURATION je skladna s funkcijo PDURATION programa OpenFormula."
 
 #: ../plugins/fn-financial/functions.c:1966
 msgid "FVSCHEDULE:future value"
@@ -3224,9 +3199,8 @@ msgid "schedule:range of interest rates"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1969
-#, fuzzy
 msgid "FVSCHEDULE calculates the future value of @{principal} after applying a range of interest rates with compounding."
-msgstr "Funkcija FVSCHEDULE izračuna bodočo vrednost @{glavnice} po vključitvi after applying a range of interest rates with compounding."
+msgstr "Funkcija FVSCHEDULE izračuna bodočo vrednost @{glavnice} po vključitvi sestavljenih obrestnih mer."
 
 #: ../plugins/fn-financial/functions.c:2002
 msgid "EURO:equivalent of 1 EUR"
@@ -3339,9 +3313,8 @@ msgid "ODDFPRICE calculates the price per $100 face value of a security that pay
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2644
-#, fuzzy
 msgid "ODDFYIELD:yield of a security that has an odd first period"
-msgstr "ODDFYIELD: donos vrednostnega papirja, "
+msgstr "ODDFYIELD: donos vrednostnega papirja, ki ima liho prvo obdobje."
 
 #: ../plugins/fn-financial/functions.c:2654
 msgid "ODDFYIELD calculates the yield of a security that pays periodic interest, but has an odd first period."
@@ -3520,9 +3493,8 @@ msgid "MDURATION calculates the Macaulay duration of a security."
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3279
-#, fuzzy
 msgid "VDB:depreciation of an asset"
-msgstr "nestanovitnost: letna nestanovitnost sredstev"
+msgstr "VDB: razvrednotenje premoženja"
 
 #: ../plugins/fn-financial/functions.c:3286
 msgid "no_switch:do not switch to straight-line depreciation"
@@ -3671,20 +3643,18 @@ msgid "cell:the referenced cell"
 msgstr "celica:sklicna celica"
 
 #: ../plugins/fn-info/functions.c:1212
-#, fuzzy
 msgid "GET.FORMULA is the OpenFormula function FORMULA."
-msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
+msgstr "Funkcija GET.FORMULA je skladna s funkcijo FORMULA programa OpenFormula."
 
 #: ../plugins/fn-info/functions.c:1213
-#, fuzzy
 msgid ""
 "If A1 is empty and A2 contains =B1+B2, then\n"
 "GET.FORMULA(A2) yields '=B1+B2' and\n"
 "GET.FORMULA(A1) yields ''."
 msgstr ""
-"V kolikor je celica A1 prazna, celica A2 pa vsebuje forumulo =B1+B2, potem\n"
-"funkcija GET.FORMULA(A2) yields '=B1+B2' in\n"
-"funkcija GET.FORMULA(A1) yields ''."
+"V kolikor je celica A1 prazna, celica A2 pa vsebuje formulo =B1+B2, potem\n"
+"funkcija GET.FORMULA(A2) vrne '=B1+B2' in\n"
+"funkcija GET.FORMULA(A1) vrne ''."
 
 #: ../plugins/fn-info/functions.c:1252
 msgid "ISFORMULA:TRUE if @{cell} contains a formula"
@@ -3711,9 +3681,8 @@ msgid "INFO:information about the current operating environment according to @{t
 msgstr ""
 
 #: ../plugins/fn-info/functions.c:1340
-#, fuzzy
 msgid "type:string giving the type of information requested"
-msgstr "vrsta:niz določila zahtevane podrobnosti"
+msgstr "vrsta: niz določila zahtevane podrobnosti"
 
 #: ../plugins/fn-info/functions.c:1341
 msgid ""
@@ -4065,7 +4034,7 @@ msgstr "št_st:številka stolpca"
 
 #: ../plugins/fn-lookup/functions.c:717
 msgid "abs_num:1 for an absolute, 2 for a row absolute and column relative, 3 for a row relative and column absolute, and 4 for a relative reference; defaults to 1"
-msgstr ""
+msgstr "absolutno_število: število 1 določa absolutne, število 2 absolutne za vrstice in relativne za stolpce, 3 ravno obratno predhodnemu in 4 vse relativne sklice; privzeto je določena vrednost 1"
 
 #: ../plugins/fn-lookup/functions.c:720
 msgid "a1:if TRUE, an A1-style reference is provided, otherwise an R1C1-style reference; defaults to TRUE"
@@ -4080,9 +4049,8 @@ msgid "If @{row_num} or @{col_num} is less than one, ADDRESS returns #VALUE!"
 msgstr "V kolikor je @{štev_vrstice} ali pa @{štev_stolpca} manj kot ena, funkcija ADDRESS vrne napako #VALUE!."
 
 #: ../plugins/fn-lookup/functions.c:725
-#, fuzzy
 msgid "If @{abs_num} is greater than 4 ADDRESS returns #VALUE!"
-msgstr "V kolikor je absolutna vrednost @{x} večja od 1.0, funkcija vrne napako #NUM!"
+msgstr "V kolikor je @{absolutno_število} večje od 4, funkcija ADDRESS vrne napako #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:812
 #, fuzzy
@@ -4446,15 +4414,15 @@ msgstr "matrika:podatkovna vrsta"
 
 #: ../plugins/fn-lookup/functions.c:1712
 msgid "ARRAY:vertical array of the arguments"
-msgstr "ARRAY:navpično podatkovno polje argumentov"
+msgstr "ARRAY: navpično podatkovno polje argumentov"
 
 #: ../plugins/fn-lookup/functions.c:1713
 msgid "v:value"
-msgstr "v:vrednost"
+msgstr "v: vrednost"
 
 #: ../plugins/fn-lookup/functions.c:1769
 msgid "SORT:sorted list of numbers as vertical array"
-msgstr "SORT:razvrščen seznam števil kot navpično podatkovno polje"
+msgstr "SORT: razvrščen seznam števil kot navpično podatkovno polje"
 
 #: ../plugins/fn-lookup/functions.c:1770
 #: ../plugins/fn-stat/functions.c:163
@@ -4463,9 +4431,8 @@ msgid "ref:list of numbers"
 msgstr "sklic: seznam števil"
 
 #: ../plugins/fn-lookup/functions.c:1771
-#, fuzzy
 msgid "order:0 (descending order) or 1 (ascending order); defaults to 0"
-msgstr "Nastavi razvrščanje padajoče, privzeto je dvigajoče"
+msgstr "red: 0 (padajoče) ali 1 (naraščajoče); privzeta je vrednost 0"
 
 #: ../plugins/fn-lookup/functions.c:1772
 msgid "Strings, booleans, and empty cells are ignored."
@@ -4727,8 +4694,9 @@ msgid "If @{x} and @{significance} have different signs, CEILING returns a #NUM!
 msgstr "V kolikor imata @{x} in statistična @{značilnost} različne predznake, funkcija CEILING vrne napako #NUM!."
 
 #: ../plugins/fn-math/functions.c:738
+#, fuzzy
 msgid "CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). CEILING(@{x},@{significance}) is the OpenFormula function CEILING(@{x},@{significance},1)."
-msgstr ""
+msgstr "Funkcija NORMSINV je skladna s funkcijo LEGACY.NORMSINV programa OpenFormula."
 
 #: ../plugins/fn-math/functions.c:764
 msgid "COS:the cosine of @{x}"
@@ -4889,8 +4857,9 @@ msgid "FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} wh
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1090
+#, fuzzy
 msgid "FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},@{significance}) is the OpenFormula function FLOOR(@{x},@{significance},1)."
-msgstr ""
+msgstr "Funkcija NORMSINV je skladna s funkcijo LEGACY.NORMSINV programa OpenFormula."
 
 #: ../plugins/fn-math/functions.c:1120
 msgid "INT:largest integer not larger than @{x}"
@@ -6379,7 +6348,7 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:47
 msgid "RAND:a random number between zero and one"
-msgstr ""
+msgstr "RAND: naključno število med 0 in 1"
 
 #: ../plugins/fn-random/functions.c:64
 msgid "RANDUNIFORM:random variate from the uniform distribution from @{a} to @{b}"
@@ -7183,9 +7152,8 @@ msgid "NORMSDIST:cumulative density function of the standard normal distribution
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:412
-#, fuzzy
 msgid "NORMSDIST is the OpenFormula function LEGACY.NORMSDIST."
-msgstr "Funkcija FINV je skladna s funkcijoi programa OpenFormula LEGACY.FINV."
+msgstr "Funkcija NORMSDIST je skladna s funkcijo LEGACY.NORMSDIST programa OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:415
 #: ../plugins/fn-stat/functions.c:440
@@ -7210,9 +7178,8 @@ msgid "If @{p} < 0 or @{p} > 1 this function returns #NUM! error."
 msgstr "V kolikor je @{p} < 0 or @{p} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:437
-#, fuzzy
 msgid "NORMSINV is the OpenFormula function LEGACY.NORMSINV."
-msgstr "Funkcija FINV je skladna s funkcijoi programa OpenFormula LEGACY.FINV."
+msgstr "Funkcija NORMSINV je skladna s funkcijo LEGACY.NORMSINV programa OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:461
 msgid "LOGNORMDIST:cumulative distribution function of the lognormal distribution"
@@ -7568,12 +7535,14 @@ msgid "If @{dof} < 1 this function returns a #NUM! error."
 msgstr "V kolikor je @{df} < 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:981
+#, fuzzy
 msgid "CHIDIST(@{x},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{x},@{dof})."
-msgstr ""
+msgstr "Funkcija CHIDIST(@{x},@{dof}) je skladna s funkcijo LEGACY.CHIDIST(@{x},@{dof}) programa OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1002
+#, fuzzy
 msgid "CHIINV:inverse of the survival function of the chi-squared distribution"
-msgstr ""
+msgstr "."
 
 #: ../plugins/fn-stat/functions.c:1006
 #: ../plugins/fn-stat/functions.c:1244
@@ -7581,12 +7550,14 @@ msgid "If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error
 msgstr "V kolikor je @{p} < 0, je @{p} > 1 ali pa je @{df} < 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1008
+#, fuzzy
 msgid "CHIINV(@{p},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{p},@{dof})."
-msgstr ""
+msgstr "Funkcija CHIINV(@{p},@{dof}) je skladna s funkcijo  LEGACY.CHIDIST(@{p},@{dof}) programa OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1029
+#, fuzzy
 msgid "CHITEST:p value of the Goodness of Fit Test"
-msgstr ""
+msgstr "."
 
 #: ../plugins/fn-stat/functions.c:1030
 msgid "actual_range:observed data"
@@ -7602,7 +7573,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1038
 msgid "CHITEST is the OpenFormula function LEGACY.CHITEST."
-msgstr "Funkcija CHITEST je skladna s funkcijo programa OpenFormula LEGACY.CHITEST."
+msgstr "Funkcija CHITEST je skladna s funkcijo LEGACY.CHITEST programa OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1116
 msgid "BETADIST:cumulative distribution function of the beta distribution"
@@ -7681,7 +7652,7 @@ msgstr "V kolikor je @{df_števca} < 1 ali pa je @{df_imenovalca} < 1, funkcija 
 
 #: ../plugins/fn-stat/functions.c:1283
 msgid "FDIST is the OpenFormula function LEGACY.FDIST."
-msgstr "Funkcija FDIST je skladna s funkcijo programa OpenFormula LEGACY.FDIST."
+msgstr "Funkcija FDIST je skladna s funkcijo LEGACY.FDIST programa OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1305
 msgid "LANDAU:approximate probability density function of the Landau distribution"
@@ -7697,7 +7668,7 @@ msgstr "V kolikor je @{df_števca} < 1 ali pa je @{df_imenovalca} < 1, funkcija 
 
 #: ../plugins/fn-stat/functions.c:1449
 msgid "FINV is the OpenFormula function LEGACY.FINV."
-msgstr "Funkcija FINV je skladna s funkcijoi programa OpenFormula LEGACY.FINV."
+msgstr "Funkcija FINV je skladna s funkcijo LEGACY.FINV programa OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1471
 msgid "BINOMDIST:probability mass or cumulative distribution function of the binomial distribution"
@@ -7801,15 +7772,15 @@ msgstr "V kolikor je @{alfa} < 0 ali pa je @{alfa} > 1, funkcija vrne napako #NU
 
 #: ../plugins/fn-stat/functions.c:1598
 msgid "PERMUT:number of @{k}-permutations of a @{n}-set"
-msgstr "PERMUT:število @{k}-permutacij množice @{n}"
+msgstr "PERMUT: število @{k}-permutacij množice @{n}"
 
 #: ../plugins/fn-stat/functions.c:1599
 msgid "n:size of the base set"
-msgstr "n:velikost osnovne množice"
+msgstr "n: velikost osnovne množice"
 
 #: ../plugins/fn-stat/functions.c:1600
 msgid "k:number of elements in each permutation"
-msgstr "k:število predmetov v vsaki permutaciji"
+msgstr "k: število predmetov v vsaki permutaciji"
 
 #: ../plugins/fn-stat/functions.c:1601
 msgid "If @{n} = 0 this function returns a #NUM! error."
@@ -7825,11 +7796,11 @@ msgstr "HYPERGEOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija hipe
 
 #: ../plugins/fn-stat/functions.c:1625
 msgid "x:number of successes"
-msgstr "x:število uspešnih poskusov"
+msgstr "x: število uspešnih poskusov"
 
 #: ../plugins/fn-stat/functions.c:1626
 msgid "n:sample size"
-msgstr "n:velikost vzorca"
+msgstr "n: velikost vzorca"
 
 #: ../plugins/fn-stat/functions.c:1627
 msgid "M:number of possible successes in the population"
@@ -7837,7 +7808,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1628
 msgid "N:population size"
-msgstr "N:velikost populacije"
+msgstr "N: velikost populacije"
 
 #: ../plugins/fn-stat/functions.c:1630
 msgid "If @{x},@{n},@{M} or @{N} is a non-integer it is truncated."
@@ -7857,11 +7828,11 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1661
 msgid "alpha:significance level"
-msgstr "alfa:raven signifikance"
+msgstr "alfa: raven signifikance"
 
 #: ../plugins/fn-stat/functions.c:1662
 msgid "stddev:population standard deviation"
-msgstr "stddev:populacijski standardni odklon"
+msgstr "stddev: populacijski standardni odklon"
 
 #: ../plugins/fn-stat/functions.c:1663
 msgid "size:sample size"
@@ -7884,13 +7855,12 @@ msgid "If @{size} is 0 this function returns a #DIV/0! error."
 msgstr "V kolikor je @{velikost} enaka 0, funkcija vrne napako #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:1690
-#, fuzzy
 msgid "STANDARDIZE:z-score of a value"
-msgstr "Vrednost višine okna."
+msgstr "STANDARDIZE: normalizirana vrednost"
 
 #: ../plugins/fn-stat/functions.c:1692
 msgid "mean:mean of the original distribution"
-msgstr "srednja:srednja vrednost izvorne porazdelitve"
+msgstr "srednja: srednja vrednost izvorne porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:1693
 msgid "stddev:standard deviation of the original distribution"
@@ -7918,12 +7888,12 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:1788
 #: ../plugins/fn-stat/functions.c:1951
 msgid "mean:mean of the distribution"
-msgstr "srednja:srednja vrednost porazdelitve"
+msgstr "srednja: srednja vrednost porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:1756
 #: ../plugins/fn-stat/functions.c:1789
 msgid "stddev:standard deviation of the distribution"
-msgstr "stddev:standardni odklon (deviacija) porazdelitve"
+msgstr "stddev: standardni odklon porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:1786
 msgid "NORMINV:inverse of the cumulative distribution function of a normal distribution"
@@ -7979,7 +7949,7 @@ msgstr "Izračun funkcije  DEVSQ(A1:A5) vrne rešitev470.56."
 
 #: ../plugins/fn-stat/functions.c:1920
 msgid "FISHER:Fisher transformation"
-msgstr "FISHER:Fisherjeva transformacija"
+msgstr "FISHER: Fisherjeva transformacija"
 
 #: ../plugins/fn-stat/functions.c:1922
 msgid "If @{x} is not a number, this function returns a #VALUE! error."
@@ -8035,7 +8005,7 @@ msgstr "V kolikor je podano sodo število števil, funkcija MEDIAN vrne povpreč
 
 #: ../plugins/fn-stat/functions.c:2032
 msgid "Then MEDIAN(A1:A5) equals 21.3."
-msgstr "Izračun funkcije  MEDIAN(A1:A5) vrne rešitev 21.3."
+msgstr "Izračun funkcije MEDIAN(A1:A5) vrne rešitev 21.3."
 
 #: ../plugins/fn-stat/functions.c:2034
 msgid "wiki:en:Median"
@@ -8104,7 +8074,7 @@ msgstr "V kolikor je @{k} <= 0 ali pa je @{k} večji od števila predmetov podat
 
 #: ../plugins/fn-stat/functions.c:2165
 msgid "Then LARGE(A1:A5,2) equals 25.9.LARGE(A1:A5,4) equals 17.3."
-msgstr "Izračun funkcije  LARGE(A1:A5,2) vrne rešitev 25.9 in LARGE(A1:A5,4) vrne rešitev 17.3."
+msgstr "Izračun funkcije LARGE(A1:A5,2) vrne rešitev 25.9 in LARGE(A1:A5,4) vrne rešitev 17.3."
 
 #: ../plugins/fn-stat/functions.c:2199
 msgid "SMALL:@{k}-th smallest value in a data set"
@@ -8112,7 +8082,7 @@ msgstr "SMALL:@{k}-ta najmanjša vrednost v podatkovni množici"
 
 #: ../plugins/fn-stat/functions.c:2208
 msgid "Then SMALL(A1:A5,2) equals 17.3.SMALL(A1:A5,4) equals 25.9."
-msgstr "Izračun funkcije  SMALL(A1:A5,2) vrne rešitev 17.3 in SMALL(A1:A5,4) vrne rešitev 25.9."
+msgstr "Izračun funkcije SMALL(A1:A5,2) vrne rešitev 17.3 in SMALL(A1:A5,4) vrne rešitev 25.9."
 
 #: ../plugins/fn-stat/functions.c:2243
 msgid "PROB:probability of an interval for a discrete (and finite) probability distribution"
@@ -8175,7 +8145,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2338
 msgid "Then STEYX(A1:A5,B1:B5) equals 1.101509979."
-msgstr "Izračun funkcije  STEYX(A1:A5,B1:B5) vrne rešitev 1.101509979."
+msgstr "Izračun funkcije STEYX(A1:A5,B1:B5) vrne rešitev 1.101509979."
 
 #: ../plugins/fn-stat/functions.c:2382
 msgid "ZTEST:the probability of observing a sample mean as large as or larger than the mean of the given sample"
@@ -8203,7 +8173,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2396
 msgid "Then ZTEST(A1:A5,20) equals 0.254717826."
-msgstr "Izračun funkcije  ZTEST(A1:A5,20) vrne rešitev 0.254717826."
+msgstr "Izračun funkcije ZTEST(A1:A5,20) vrne rešitev 0.254717826."
 
 #: ../plugins/fn-stat/functions.c:2447
 msgid "AVERAGEA:average of all the values and cells"
@@ -8229,7 +8199,7 @@ msgstr "MAXA: največja vrednost, pri čemer so negativna števila opredeljena k
 
 #: ../plugins/fn-stat/functions.c:2479
 msgid "Then MAXA(A1:A5) equals 40.1."
-msgstr "Izračun funkcije  MAXA(A1:A5) vrne rešitev 40.1."
+msgstr "Izračun funkcije MAXA(A1:A5) vrne rešitev 40.1."
 
 #: ../plugins/fn-stat/functions.c:2499
 msgid "MINA:smallest value, with negative numbers considered smaller than positive numbers"
@@ -8253,7 +8223,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2538
 msgid "Then VARA(A1:A5) equals 228.613."
-msgstr "Izračun funkcije  VARA(A1:A5) vrne rešitev 228.613."
+msgstr "Izračun funkcije VARA(A1:A5) vrne rešitev 228.613."
 
 #: ../plugins/fn-stat/functions.c:2557
 msgid "VARPA:variance of an entire population"
@@ -8281,7 +8251,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2595
 msgid "Then STDEVA(A1:A5) equals 15.119953704."
-msgstr "Izračun funkcije  STDEVA(A1:A5) vrne rešitev 15.119953704."
+msgstr "Izračun funkcije STDEVA(A1:A5) vrne rešitev 15.119953704."
 
 #: ../plugins/fn-stat/functions.c:2614
 msgid "STDEVPA:population standard deviation of an entire population"
@@ -8289,7 +8259,7 @@ msgstr "STDEVPA:populacijski standardni odklon celotne populacije"
 
 #: ../plugins/fn-stat/functions.c:2622
 msgid "Then STDEVPA(A1:A5) equals 13.523697719."
-msgstr "Izračun funkcije  STDEVPA(A1:A5) vrne rešitev 13.523697719."
+msgstr "Izračun funkcije STDEVPA(A1:A5) vrne rešitev 13.523697719."
 
 #: ../plugins/fn-stat/functions.c:2641
 msgid "PERCENTRANK:rank of a data point in a data set"
@@ -8324,7 +8294,7 @@ msgid "If @{x} does not match any of the values in @{array} or @{x} matches more
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2738
-msgid "PERCENTILE:determines the  100*@{k}-th percentile of the given data points"
+msgid "PERCENTILE:determines the 100*@{k}-th percentile of the given data points"
 msgstr "PERCENTILE:določi 100*@{k}-ti percentil podanih podatkovnih točk"
 
 #: ../plugins/fn-stat/functions.c:2739
@@ -8488,8 +8458,9 @@ msgstr "LOGREG:logaritemska regresija"
 
 #: ../plugins/fn-stat/functions.c:3376
 #: ../plugins/fn-stat/functions.c:3832
+#, fuzzy
 msgid "known_xs:known x-values; defaults to the array {1, 2, 3, …}"
-msgstr ""
+msgstr "{1, 2, 3, …}"
 
 #: ../plugins/fn-stat/functions.c:3378
 #: ../plugins/fn-stat/functions.c:3736
@@ -8501,7 +8472,7 @@ msgid "LOGREG function transforms your x's to z=ln(x) and applies the “least s
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3387
-msgid "Any extra statistical information is written below m and b in the result array.  This extra statistical information consists of four rows of data:  In the first row the standard error values for the coefficients m, b are given.  The second row contains the square of R and the standard error for the y estimate. The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.The default of @{stat} is FALSE."
+msgid "Any extra statistical information is written below m and b in the result array. This extra statistical information consists of four rows of data: In the first row the standard error values for the coefficients m, b are given. The second row contains the square of R and the standard error for the y estimate. The third row contains the F-observed value and the degrees of freedom. The last row contains the regression sum of squares and the residual sum of squares.The default of @{stat} is FALSE."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3396
@@ -8515,7 +8486,7 @@ msgid "LOGFIT:logarithmic least square fit (using a trial and error method)"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3494
-msgid "LOGFIT function applies the “least squares” method to fit the logarithmic equation y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1)."
+msgid "LOGFIT function applies the “least squares” method to fit the logarithmic equation y = a + b * ln(sign * (x - c)) , sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1)."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3500
@@ -8551,8 +8522,9 @@ msgid "Then TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}."
 msgstr "Izračun funkcije TREND(A1:A5,B1:B5) vrne rešitev {12.1, 15.7, 21.6, 26.7, 39.7}."
 
 #: ../plugins/fn-stat/functions.c:3732
+#, fuzzy
 msgid "LOGEST:exponential least square fit"
-msgstr ""
+msgstr "LOGEST: "
 
 #: ../plugins/fn-stat/functions.c:3734
 msgid "known_xs:known x-values; default to an array {1, 2, 3, …}"
@@ -8567,7 +8539,7 @@ msgid "LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }."
 msgstr "Funkcija LOGEST vrne podatkovno polje { m{n},m{n-1}, ...,m{1},b }."
 
 #: ../plugins/fn-stat/functions.c:3742
-msgid "Extra statistical information is written below the regression line coefficients in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m1, (m2, ...), b are represented.  The second row contains the square of R and the standard error for the y estimate.  The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares."
+msgid "Extra statistical information is written below the regression line coefficients in the result array. Extra statistical information consists of four rows of data. In the first row the standard error values for the coefficients m1, (m2, ...), b are represented. The second row contains the square of R and the standard error for the y estimate. The third row contains the F-observed value and the degrees of freedom. The last row contains the regression sum of squares and the residual sum of squares."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3830
@@ -8613,9 +8585,8 @@ msgid "Then FORECAST(7,A1:A5,B1:B5) equals -10.859397661."
 msgstr "Izračun funkcije FORECAST(7,A1:A5,B1:B5) vrne rešitev -10.859397661."
 
 #: ../plugins/fn-stat/functions.c:3979
-#, fuzzy
 msgid "INTERCEPT:the intercept of a linear regression line"
-msgstr "SLOPE:naklon linearne regresijske črte"
+msgstr "INTERCEPT: presečišče linearne regresijske premice"
 
 #: ../plugins/fn-stat/functions.c:3984
 #: ../plugins/fn-stat/functions.c:4037
@@ -8724,7 +8695,7 @@ msgstr "RAYLEIGH:funkcija gostote verjetnosti Rayleighove porazdelitve"
 #: ../plugins/fn-stat/functions.c:4391
 #: ../plugins/fn-stat/functions.c:4427
 msgid "sigma:scale parameter"
-msgstr "sigma:parameter merila"
+msgstr "sigma: parameter merila"
 
 #: ../plugins/fn-stat/functions.c:4424
 msgid "RAYLEIGHTAIL:probability density function of the Rayleigh tail distribution"
@@ -8732,11 +8703,11 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4426
 msgid "a:lower limit"
-msgstr "a:spodnja limita"
+msgstr "a: spodnja limita"
 
 #: ../plugins/fn-stat/functions.c:4462
 msgid "EXPPOWDIST:the probability density function of the Exponential Power distribution"
-msgstr "EXPPOWDIST:funkcija gostote verjetnosti potenčne porazdelitve"
+msgstr "EXPPOWDIST: funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:4468
 msgid "This distribution has been recommended for lifetime analysis when a U-shaped hazard function is desired. This corresponds to rapid failure once the product starts to wear out after a period of steady or even improving reliability."
@@ -8744,11 +8715,11 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4496
 msgid "LAPLACE:probability density function of the Laplace distribution"
-msgstr "LAPLACE:funkcija gostote verjetnosti Laplacove porazdelitve"
+msgstr "LAPLACE: funkcija gostote verjetnosti Laplacove porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:4498
 msgid "a:mean"
-msgstr "a:srednja vrednost"
+msgstr "a: srednja vrednost"
 
 #: ../plugins/fn-stat/functions.c:4519
 msgid "PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} objects with repetition allowed"
@@ -8823,7 +8794,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4759
 msgid "wiki:en:Cramér–von-Mises_criterion"
-msgstr "wiki:en:Cramér–von-Mises_criterion"
+msgstr "wiki: en:Cramér–von-Mises_criterion"
 
 #: ../plugins/fn-stat/functions.c:4838
 msgid "ADTEST:Anderson-Darling Test of Normality"
@@ -8839,7 +8810,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:4844
 msgid "wiki:en:Anderson–Darling_test"
-msgstr "wiki:en:Anderson–Darling_test"
+msgstr "wiki: en:Anderson–Darling_test"
 
 #: ../plugins/fn-string/functions.c:56
 msgid "CHAR:the CP1252 (Windows-1252) character for the code point @{x}"
@@ -8847,7 +8818,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:57
 msgid "x:code point"
-msgstr "x:točka kode"
+msgstr "x: točka kode"
 
 #: ../plugins/fn-string/functions.c:58
 msgid "CHAR(@{x}) returns the CP1252 (Windows-1252) character with code @{x}."
@@ -8882,7 +8853,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:106
 msgid "x:Unicode code point"
-msgstr "x:točka kode Unicode"
+msgstr "x: točka kode Unikod"
 
 #: ../plugins/fn-string/functions.c:133
 msgid "CODE:the CP1252 (Windows-1252) code point for the character @{c}"
@@ -8891,11 +8862,11 @@ msgstr ""
 #: ../plugins/fn-string/functions.c:134
 #: ../plugins/fn-string/functions.c:179
 msgid "c:character"
-msgstr "c:znak"
+msgstr "c: znak"
 
 #: ../plugins/fn-string/functions.c:135
 msgid "@{c} must be a valid CP1252 (Windows-1252) character."
-msgstr "@{c} mora biti veljanvi znak v naboru CP1252 (Windows-1252)."
+msgstr "@{c} mora biti veljavni znak v naboru CP1252 (Windows-1252)."
 
 #: ../plugins/fn-string/functions.c:137
 msgid "CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains all of its printable characters (but partially at different positions.)"
@@ -8903,7 +8874,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:178
 msgid "UNICODE:the Unicode code point for the character @{c}"
-msgstr "UNICODE:kodna točka nabora Unicode za znak @{c}"
+msgstr "UNICODE: kodna točka nabora Unikod za znak @{c}"
 
 #: ../plugins/fn-string/functions.c:244
 msgid "EXACT:TRUE if @{string1} is exactly equal to @{string2}"
@@ -9068,7 +9039,7 @@ msgstr "s2: drugi niz"
 
 #: ../plugins/fn-string/functions.c:622
 msgid "REPT:@{num} repetitions of string @{text}"
-msgstr ""
+msgstr "REPT: @{število} ponovitev niza @{besedila}"
 
 #: ../plugins/fn-string/functions.c:624
 msgid "num:non-negative integer"
@@ -9110,7 +9081,7 @@ msgstr "no_commas: funkcija vrne PRAV, v kolikor ločilnik tisočic ni uporablje
 
 #: ../plugins/fn-string/functions.c:793
 msgid "PROPER:@{text} with initial of each word capitalised"
-msgstr ""
+msgstr "PROPER: @{besedilo} zapisano z veliko črko vsake besede"
 
 #: ../plugins/fn-string/functions.c:835
 msgid "REPLACE:string @{old} with @{num} characters starting at @{start} replaced by @{new}"
@@ -9497,28 +9468,9 @@ msgid "tag:tag to watch"
 msgstr "oznaka: opazovana oznaka"
 
 #: ../plugins/sample_datasource/sample_datasource.c:280
-msgid "ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag."
+msgid "ATL_LAST is a sample implementation of a real time data source. It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag."
 msgstr "ATL_LAST je enostavna izvedba realno-časovnega podatkovnega vira. Ta zahteva oznako niza in nadzira cevovod ~/atl za spremembe vrednosti določene oznake."
 
 #: ../plugins/sample_datasource/sample_datasource.c:281
 msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr "Možnost je privzeto onemogočena."
-
-#, fuzzy
-#~ msgid "a:amount of skew, defaults to 0"
-#~ msgstr "Ponastavi prikaz na _privzete vrednosti"
-
-#~ msgid "Then SSMEDIAN(A1:A3, 1) equals 7.75."
-#~ msgstr "Izračun funkcije SSMEDIAN(A1:A3, 1) vrne rešitev 7.75."
-
-#~ msgid "secz = 1/cosz."
-#~ msgstr "secz = 1/cosz."
-
-#~ msgid "cscz = 1/sinz."
-#~ msgstr "cscz = 1/sinz."
-
-#~ msgid "cotz = cosz/sinz."
-#~ msgstr "cotz = cosz/sinz."
-
-#~ msgid "The output consists always of one column of complex numbers."
-#~ msgstr "Odvod je vedno zapisan kot en stolpec kompleksnih števil."
