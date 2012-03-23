@@ -12,6 +12,7 @@ Andreas:
 	* Improve annotation import from ODF.
 	* Fix conditional number format import from ODF. [#672489]
 	* Import/Export marker size from/to ODF. Part of [#671461]
+	* Export axes data formats to ODF. Part of [#671461]
 
 Jean:
 	* Fixed crash with sheet object. [#671617]

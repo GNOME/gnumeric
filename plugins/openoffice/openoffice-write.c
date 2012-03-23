@@ -5448,6 +5448,11 @@ odf_write_graph_styles (GnmOOExport *state, GsfOutput *child)
 	g_hash_table_foreach (state->graph_gradients, (GHFunc) odf_write_gradient_info, state);
 	g_hash_table_foreach (state->graph_fill_images, (GHFunc) odf_write_fill_images_info, state);
 
+	g_hash_table_foreach (state->xl_styles, (GHFunc) odf_write_this_xl_style, state);
+	g_hash_table_foreach (state->xl_styles_neg, (GHFunc) odf_write_this_xl_style_neg, state);
+	g_hash_table_foreach (state->xl_styles_zero, (GHFunc) odf_write_this_xl_style_zero, state);
+	g_hash_table_foreach (state->xl_styles_conditional, (GHFunc) odf_write_this_conditional_xl_style, state);
+
 	gsf_xml_out_end_element (state->xml); /* </office:styles> */
 	gsf_xml_out_end_element (state->xml); /* </office:document-styles> */
 
@@ -6785,6 +6790,12 @@ odf_write_gog_style_chart (GnmOOExport *state, GOStyle const *style, GogObject c
 	if (GOG_IS_PLOT (obj))
 		odf_write_plot_style (state, obj);
 
+	if (GOG_IS_AXIS (obj)) {
+		GOFormat *fmt = gog_axis_get_format (GOG_AXIS (obj));
+		odf_add_bool (state->xml, CHART "link-data-style-to-source", fmt == NULL);
+	}
+	
+
 	func = g_hash_table_lookup (state->chart_props_hash, type);
 	if (func != NULL)
 		func (state, style, obj);
@@ -6837,6 +6848,19 @@ odf_write_gog_style (GnmOOExport *state, GOStyle const *style,
 	char *name = odf_get_gog_style_name (style, obj);
 	if (name != NULL) {
 		odf_start_style (state->xml, name, "chart");
+
+		if (GOG_IS_AXIS (obj)) {
+			GOFormat *fmt = gog_axis_get_format (GOG_AXIS (obj));
+			if (fmt) {
+				char const *name = NULL;
+				if (go_format_is_simple (fmt))
+					name = xl_find_format (state, fmt, 0);
+				else
+					name = xl_find_conditional_format (state, fmt);
+				if (name != NULL)
+					gsf_xml_out_add_cstr (state->xml, STYLE "data-style-name", name);
+			}
+		}
 
 		gsf_xml_out_start_element (state->xml, STYLE "chart-properties");
 		odf_write_gog_style_chart (state, style, obj);
@@ -7612,6 +7636,11 @@ static void
 odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 {
 	GsfOutput  *child;
+
+	g_hash_table_remove_all (state->xl_styles);
+	g_hash_table_remove_all (state->xl_styles_neg);
+	g_hash_table_remove_all (state->xl_styles_zero);
+	g_hash_table_remove_all (state->xl_styles_conditional);
 
 	state->object_name = name;
 

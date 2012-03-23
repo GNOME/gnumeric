@@ -1,3 +1,9 @@
+2012-03-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_graph_styles): write number styles
+	(odf_write_gog_style): write axis data format
+	(odf_write_graphs): clear the data style hashes
+
 2012-03-21  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-write.c (create_new_xml_child): new function.
