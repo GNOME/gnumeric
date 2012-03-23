@@ -1593,7 +1593,7 @@ sheet_widget_adjustment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 		else if (gnm_xml_attr_double (attrs, "Inc", &tmp))
 			gtk_adjustment_set_step_increment (swa->adjustment, tmp);
 		else if (gnm_xml_attr_double (attrs, "Page", &tmp))
-			gtk_adjustment_set_step_increment (swa->adjustment, tmp);
+			gtk_adjustment_set_page_increment (swa->adjustment, tmp);
 		else if (gnm_xml_attr_double (attrs, "Value", &tmp))
 			gtk_adjustment_set_value (swa->adjustment, tmp);
 		else if (sax_read_dep (attrs, "Input", &swa->dep, xin, convs))
