@@ -1,5 +1,8 @@
 2012-03-23  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-object-image.c (content_end): Simplify.  Decode image
+	also if we don't have a name.
+
 	* src/sheet-object-widget.c
 	(sheet_widget_adjustment_prep_sax_parser): Set the right thing
 	when we see a "Page" attribute.  Fixes #672716 item 2.

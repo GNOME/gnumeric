@@ -3044,7 +3044,7 @@ list_content_eval (GnmDependent *dep)
 				       GNM_EXPR_EVAL_PERMIT_EMPTY);
 	}
 	model = gtk_list_store_new (1, G_TYPE_STRING);
-	if ((dep != NULL) && (v != NULL)) {
+	if (v) {
 		value_area_foreach (v, &ep, CELL_ITER_ALL,
 				    (GnmValueIterFunc) cb_collect, model);
 		value_release (v);
@@ -3093,8 +3093,10 @@ sheet_widget_list_base_finalize (GObject *obj)
 	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (obj);
 	dependent_set_expr (&swl->content_dep, NULL);
 	dependent_set_expr (&swl->output_dep, NULL);
-	if (swl->model != NULL)
-		g_object_unref (G_OBJECT (swl->model)), swl->model = NULL;
+	if (swl->model != NULL) {
+		g_object_unref (swl->model);
+		swl->model = NULL;
+	}
 	sheet_object_widget_class->finalize (obj);
 }
 

@@ -381,12 +381,15 @@ content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 {
 	SheetObject *so = gnm_xml_in_cur_obj (xin);
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	GString *data = xin->content;
 
-	if (soi->name == NULL) {
-		soi->bytes.len  = gsf_base64_decode_simple (
-			xin->content->str, xin->content->len);
-		soi->bytes.data = g_memdup (xin->content->str, soi->bytes.len);
-		soi->image = go_image_new_from_data (soi->type, xin->content->str, soi->bytes.len, NULL, NULL);
+	if (data->len >= 4) {
+		size_t len = gsf_base64_decode_simple (data->str, data->len);
+		soi->bytes.len = len;
+		soi->bytes.data = g_memdup (data->str, len);
+		soi->image = go_image_new_from_data (soi->type,
+						     soi->bytes.data,
+						     len, NULL, NULL);
 	}
 }
 
@@ -544,6 +547,7 @@ gnm_soi_assign_to_sheet (SheetObject *so, Sheet *sheet)
 		GODoc *doc = GO_DOC (sheet->workbook);
 		GType type = go_image_type_for_format (soi->type);
 		soi->image = g_object_ref (go_doc_image_fetch (doc, soi->name, type));
+	} else {
 	}
 	return FALSE;
 }
