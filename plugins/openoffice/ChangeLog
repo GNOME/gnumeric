@@ -1,3 +1,12 @@
+2012-03-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_adjust_offsets_col): new
+	(odf_adjust_offsets_row): new
+	(odf_adjust_offsets): new
+	(oo_table_end): fix anchors and offsets of all objects
+	(od_draw_frame_end): record the given offsets
+	(openoffice_file_open): initialize new chart_list field
+
 2012-03-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (OOChartStyle): add field

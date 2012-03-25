@@ -264,6 +264,7 @@ typedef struct {
 	                                                /* series level*/
 	OOPlotType		 plot_type;
 	SheetObjectAnchor	 anchor;	/* anchor to draw the frame (images or graphs) */
+	double                   frame_offset[4]; /* offset as given in the file */
 } OOChartInfo;
 
 typedef enum {
@@ -301,12 +302,18 @@ typedef enum {
 } odf_elapsed_set_t;
 
 typedef struct {
+	SheetObject     *so;
+	double           frame_offset[4];
+} object_offset_t;
+
+typedef struct {
 	GOIOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	OOVer		 ver;		/* Its an OOo v1.0 or v2.0? */
 	gnm_float	 ver_odf;	/* specific ODF version */
 	GsfInfile	*zip;		/* Reference to the open file, to load graphs and images*/
 	OOChartInfo	 chart;
+	GSList          *chart_list; /* object_offset_t */
 	GnmParsePos	 pos;
 	GnmCellPos	 extent_data;
 	GnmCellPos	 extent_style;
@@ -2386,12 +2393,58 @@ odf_validation (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+odf_adjust_offsets_col (OOParseState *state, int *col, double *x)
+{
+	ColRowInfo const *cr = sheet_col_get_info (state->pos.sheet, 
+						   *col);
+	int last =  gnm_sheet_get_last_col (state->pos.sheet);
+	while (cr->size_pts < *x && *col < last) {
+		(*col)++;
+		(*x) -= cr->size_pts;
+		cr = sheet_col_get_info (state->pos.sheet, *col);
+	}
+	while (*x < 0 && *col > 0) {
+		(*col)--;
+		cr = sheet_col_get_info (state->pos.sheet, *col);
+		(*x) += cr->size_pts;
+	}
+	*x /= cr->size_pts;
+}
+
+static void
+odf_adjust_offsets_row (OOParseState *state, int *row, double *y)
+{
+	ColRowInfo const *cr = sheet_row_get_info (state->pos.sheet, 
+						   *row);
+	int last =  gnm_sheet_get_last_row (state->pos.sheet);
+	while (cr->size_pts < *y && *row < last) {
+		(*row)++;
+		(*y) -= cr->size_pts;
+		cr = sheet_row_get_info (state->pos.sheet, *row);
+	}
+	while (*y < 0 && *row > 0) {
+		(*row)--;
+		cr = sheet_row_get_info (state->pos.sheet, *row);
+		(*y) += cr->size_pts;
+	}
+	*y /= cr->size_pts;
+}
+
+static void
+odf_adjust_offsets (OOParseState *state, GnmCellPos *pos, double *x, double *y)
+{
+	odf_adjust_offsets_col (state, &pos->col, x);
+	odf_adjust_offsets_row (state, &pos->row, y);
+}
+
+static void
 oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmRange r;
 	int rows, cols;
 	int max_cols, max_rows;
+	GSList *l; 
 
 	maybe_update_progress (xin);
 
@@ -2449,6 +2502,25 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		sheet_style_apply_range (state->pos.sheet, &r,
 				       sheet_style_default (state->pos.sheet));
 	}
+
+	/* We need to fix the anchors of all offsets */
+	for (l = state->chart_list; l != NULL; l = l->next) {
+		object_offset_t *ob_off = l->data;
+		SheetObjectAnchor new;
+		GnmRange cell_base = *sheet_object_get_range (ob_off->so);
+		odf_adjust_offsets (state, &cell_base.start, &ob_off->frame_offset[0],
+				    &ob_off->frame_offset[1]);
+		odf_adjust_offsets (state, &cell_base.end, &ob_off->frame_offset[2],
+				    &ob_off->frame_offset[3]);
+		sheet_object_anchor_init (&new, &cell_base, ob_off->frame_offset,
+					  GOD_ANCHOR_DIR_DOWN_RIGHT);
+		sheet_object_set_anchor (ob_off->so, &new);
+		g_object_unref (ob_off->so);
+		g_free (ob_off);
+		l->data = NULL;
+	}
+	g_slist_free (state->chart_list);
+	state->chart_list = NULL;
 
 	state->pos.eval.col = state->pos.eval.row = 0;
 	state->pos.sheet = NULL;
@@ -6802,6 +6874,14 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 		frame_offset[3] = end_y ;
 	}
 
+	/* Column width and row heights are not correct */
+	/* yet so we need to save this */
+	/* info and adjust later. */
+	state->chart.frame_offset[0] = frame_offset[0];
+	state->chart.frame_offset[1] = frame_offset[1];
+	state->chart.frame_offset[2] = frame_offset[2];
+	state->chart.frame_offset[3] = frame_offset[3];
+
 	frame_offset[0] /= col->size_pts;
 	frame_offset[1] /= row->size_pts;
 	frame_offset[2] /= col->size_pts;
@@ -6820,10 +6900,20 @@ od_draw_frame_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 
 	if (state->chart.so != NULL) {
+		/* Column width and row heights are not correct */
+		/* yet so we need to save this */
+		/* info and adjust later. */
+		object_offset_t *ob_off = g_new (object_offset_t, 1);
+
 		sheet_object_set_anchor (state->chart.so, &state->chart.anchor);
 		sheet_object_set_sheet (state->chart.so, state->pos.sheet);
-		g_object_unref (state->chart.so);
+		ob_off->so = state->chart.so; 		
 		state->chart.so = NULL;
+		ob_off->frame_offset[0] = state->chart.frame_offset[0];
+		ob_off->frame_offset[1] = state->chart.frame_offset[1];
+		ob_off->frame_offset[2] = state->chart.frame_offset[2];
+		ob_off->frame_offset[3] = state->chart.frame_offset[3];
+		state->chart_list = g_slist_prepend ( state->chart_list, ob_off);
 	}
 }
 
@@ -10920,6 +11010,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	state.cur_control = NULL;
 	state.span_style_stack = NULL;
 	state.ann_span_style_stack = NULL;
+	state.chart_list = NULL;
 
 	go_io_progress_message (state.context, _("Reading file..."));
 	go_io_value_progress_set (state.context, gsf_input_size (contents), 0);

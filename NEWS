@@ -13,6 +13,7 @@ Andreas:
 	* Fix conditional number format import from ODF. [#672489]
 	* Import/Export marker size from/to ODF. Part of [#671461]
 	* Export/Import axes data formats to ODF. Part of [#671461]
+	* Fix object anchors on ODF import. [#667489]
 
 Jean:
 	* Fixed crash with sheet object. [#671617]
