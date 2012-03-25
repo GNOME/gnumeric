@@ -211,6 +211,7 @@ typedef struct {
 	GSList	*plot_props;	/* plot properties */
 	GSList	*style_props;	/* any other properties */
 	GSList	*other_props;	/* any other properties */
+	GOFormat *fmt;
 } OOChartStyle;
 
 typedef struct {
@@ -3816,6 +3817,8 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 			cur_style->plot_props = NULL;
 			cur_style->style_props = NULL;
 			cur_style->other_props = NULL;
+			if (fmt != NULL)
+				cur_style->fmt = go_format_ref (fmt);
 			state->chart.cur_graph_style = cur_style;
 			g_hash_table_replace (state->chart.graph_styles,
 					      g_strdup (name),
@@ -5916,11 +5919,12 @@ static void
 oo_prop_list_has (GSList *props, gboolean *threed, char const *tag)
 {
 	GSList *ptr;
+	gboolean res;
 	for (ptr = props; ptr; ptr = ptr->next) {
 		OOProp *prop = ptr->data;
 		if (0 == strcmp (prop->name, tag) &&
-		    g_value_get_boolean (&prop->value))
-			*threed = TRUE;
+		    ((res = g_value_get_boolean (&prop->value))))
+			*threed = res;
 	}
 }
 
@@ -6024,6 +6028,11 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			if (btmp)
 				style->axis_props = g_slist_prepend (style->axis_props,
 					oo_prop_new_string ("map-name", "Log"));
+		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "link-data-style-to-source", &btmp)) {
+			if (btmp)
+				style->other_props = g_slist_prepend 
+					(style->other_props,
+					 oo_prop_new_bool ("ignore-axis-data-style", btmp));
 		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "vertical", &btmp)) {
 			/* This is backwards from my intuition */
 			style->plot_props = g_slist_prepend (style->plot_props,
@@ -7403,6 +7412,14 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 						    G_OBJECT (state->chart.axis));
 			odf_apply_style_props (xin, style->style_props, gostyle);
 			g_object_unref (gostyle);
+
+			if (style->fmt) {
+				gboolean has_prop = FALSE;
+				oo_prop_list_has (style->other_props, &has_prop, "ignore-axis-data-style");
+				if (!has_prop)
+					gog_axis_set_format (GOG_AXIS (state->chart.axis), 
+							     go_format_ref (style->fmt));
+			}
 		}
 
 		if (NULL != state->chart.plot && (state->ver == OOO_VER_1))
@@ -8357,6 +8374,7 @@ oo_chart_style_free (OOChartStyle *cstyle)
 	oo_prop_list_free (cstyle->style_props);
 	oo_prop_list_free (cstyle->plot_props);
 	oo_prop_list_free (cstyle->other_props);
+	go_format_unref (cstyle->fmt);
 	g_free (cstyle);
 }
 
