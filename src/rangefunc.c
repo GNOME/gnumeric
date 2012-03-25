@@ -340,9 +340,9 @@ gnm_range_multinomial (gnm_float const *xs, int n, gnm_float *res)
 	return 0;
 }
 
-/* Co-variance.  */
+/* Population co-variance.  */
 int
-gnm_range_covar (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res)
+gnm_range_covar_pop (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res)
 {
 	gnm_float ux, uy, s = 0;
 	int i;
@@ -356,6 +356,22 @@ gnm_range_covar (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res
 	return 0;
 }
 
+/* Estimation co-variance.  */
+int
+gnm_range_covar_est (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res)
+{
+	gnm_float ux, uy, s = 0;
+	int i;
+
+	if (n <= 1 || gnm_range_average (xs, n, &ux) || gnm_range_average (ys, n, &uy))
+		return 1;
+
+	for (i = 0; i < n; i++)
+		s += (xs[i] - ux) * (ys[i] - uy);
+	*res = s / (n - 1);
+	return 0;
+}
+
 /* Population correlation coefficient.  */
 int
 gnm_range_correl_pop (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res)
@@ -364,7 +380,7 @@ gnm_range_correl_pop (gnm_float const *xs, const gnm_float *ys, int n, gnm_float
 
 	if (gnm_range_stddev_pop (xs, n, &sx) || sx == 0 ||
 	    gnm_range_stddev_pop (ys, n, &sy) || sy == 0 ||
-	    gnm_range_covar (xs, ys, n, &vxy))
+	    gnm_range_covar_pop (xs, ys, n, &vxy))
 		return 1;
 
 	*res = vxy / (sx * sy);

@@ -47,6 +47,7 @@ Morten:
 	* Fix pattern matching for VLOOKUP/HLOOKUP/MATCH.
 	* Improve test suite for ods.
 	* Fix scrollbar/spinbutton load-from-.gnumeric.  [Part of #672716]
+	* New function COVARIANCE.S.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2

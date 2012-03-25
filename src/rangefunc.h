@@ -53,7 +53,8 @@ int gnm_range_skew_est	(gnm_float const *xs, int n, gnm_float *res);
 int gnm_range_kurtosis_m3_pop (gnm_float const *xs, int n, gnm_float *res);
 int gnm_range_kurtosis_m3_est (gnm_float const *xs, int n, gnm_float *res);
 
-int gnm_range_covar		(gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res);
+int gnm_range_covar_pop		(gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res);
+int gnm_range_covar_est		(gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res);
 int gnm_range_correl_pop	(gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res);
 int gnm_range_rsq_pop	(gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res);
 

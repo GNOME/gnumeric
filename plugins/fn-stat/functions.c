@@ -337,7 +337,37 @@ gnumeric_covar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return float_range_function2 (argv[0], argv[1],
 				      ei,
-				      gnm_range_covar,
+				      gnm_range_covar_pop,
+				      COLLECT_IGNORE_BLANKS |
+				      COLLECT_IGNORE_STRINGS |
+				      COLLECT_IGNORE_BOOLS,
+				      GNM_ERROR_VALUE);
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_covariance_s[] = {
+	{ GNM_FUNC_HELP_NAME, F_("COVARIANCE.S:sample covariance of two data sets")},
+	{ GNM_FUNC_HELP_ARG, F_("array1:first data set")},
+	{ GNM_FUNC_HELP_ARG, F_("array2:set data set")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
+	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then COVAR(A1:A5,B1:B5) equals 65.858.") },
+	{ GNM_FUNC_HELP_SEEALSO, "COVAR,CORREL"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Covariance") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Covariance.html") },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_covariance_s (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return float_range_function2 (argv[0], argv[1],
+				      ei,
+				      gnm_range_covar_est,
 				      COLLECT_IGNORE_BLANKS |
 				      COLLECT_IGNORE_STRINGS |
 				      COLLECT_IGNORE_BOOLS,
@@ -4271,7 +4301,7 @@ gnumeric_cronbach (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 			GnmValue *fl_val;
 			fl_val = float_range_function2 (values[i], values[j],
 							ei,
-							gnm_range_covar, 0,
+							gnm_range_covar_pop, 0,
 							GNM_ERROR_VALUE);
 			if (!VALUE_IS_NUMBER (fl_val)) {
 				free_values (values, argc);
@@ -4962,6 +4992,9 @@ GnmFuncDescriptor const stat_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "covar",        "AA",
 	  help_covar, gnumeric_covar, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "covariance.s", "AA",
+	  help_covariance_s, gnumeric_covariance_s, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "critbinom",    "fff",
 	  help_critbinom, gnumeric_critbinom, NULL, NULL, NULL, NULL,

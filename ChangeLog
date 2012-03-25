@@ -1,3 +1,9 @@
+2012-03-25  Morten Welinder  <terra@gnome.org>
+
+	* src/rangefunc.c (gnm_range_covar_pop): Rename from
+	gnm_range_covar.
+	(gnm_range_covar_est): New function.
+
 2012-03-23  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-image.c (content_end): Simplify.  Decode image

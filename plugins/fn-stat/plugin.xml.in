@@ -31,6 +31,7 @@
 				<function name="cronbach"/>
 				<function name="correl"/>
 				<function name="covar"/>
+				<function name="covariance.s"/>
 				<function name="cvmtest"/>
 				<function name="devsq"/>
 				<function name="exppowdist"/>
