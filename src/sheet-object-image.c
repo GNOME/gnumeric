@@ -148,6 +148,14 @@ sheet_object_image_set_image (SheetObjectImage *soi,
 	soi->bytes.data = copy_data ? g_memdup (data, data_len) : data;
 	soi->image = go_image_new_from_data (soi->type, soi->bytes.data, soi->bytes.len,
 	                                     ((soi->type == NULL)? &soi->type: NULL), NULL);
+	if (soi->sheet_object.sheet != NULL) {
+		GOImage *image = go_doc_add_image (GO_DOC (soi->sheet_object.sheet->workbook), NULL, soi->image);
+		if (image != soi->image) {
+			g_object_unref (soi->image);
+			soi->image = g_object_ref (image);
+		}
+	}
+	
 }
 
 void
@@ -536,9 +544,9 @@ gnm_soi_assign_to_sheet (SheetObject *so, Sheet *sheet)
 {
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 
-	if (soi->image && !go_image_get_name (soi->image)) {
+	if (soi->image/* && !go_image_get_name (soi->image)*/) {
 		GODoc *doc = GO_DOC (sheet->workbook);
-		GOImage *image = go_doc_add_image (doc, NULL, soi->image);
+		GOImage *image = go_doc_add_image (doc, soi->name, soi->image);
 		if (soi->image != image) {
 			g_object_unref (soi->image);
 			soi->image = g_object_ref (image);
@@ -548,6 +556,7 @@ gnm_soi_assign_to_sheet (SheetObject *so, Sheet *sheet)
 		GType type = go_image_type_for_format (soi->type);
 		soi->image = g_object_ref (go_doc_image_fetch (doc, soi->name, type));
 	} else {
+		/* There is nothing we can do */
 	}
 	return FALSE;
 }

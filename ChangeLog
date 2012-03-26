@@ -1,3 +1,9 @@
+2012-03-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-image.c (sheet_object_image_set_image),
+	(gnm_soi_assign_to_sheet): register the image when importing from .xls.
+	Fixes #672716 item 3.
+
 2012-03-25  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (gnm_expr_simplify_if): New function.
