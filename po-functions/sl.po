@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-03-23 21:30+0000\n"
-"PO-Revision-Date: 2012-03-23 22:35+0100\n"
+"POT-Creation-Date: 2012-03-26 08:27+0000\n"
+"PO-Revision-Date: 2012-03-26 14:25+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -241,70 +241,71 @@ msgstr "V kolikor @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VA
 #: ../plugins/fn-stat/functions.c:276
 #: ../plugins/fn-stat/functions.c:324
 #: ../plugins/fn-stat/functions.c:354
-#: ../plugins/fn-stat/functions.c:387
-#: ../plugins/fn-stat/functions.c:411
-#: ../plugins/fn-stat/functions.c:436
-#: ../plugins/fn-stat/functions.c:467
-#: ../plugins/fn-stat/functions.c:496
-#: ../plugins/fn-stat/functions.c:525
-#: ../plugins/fn-stat/functions.c:545
-#: ../plugins/fn-stat/functions.c:572
-#: ../plugins/fn-stat/functions.c:599
-#: ../plugins/fn-stat/functions.c:625
-#: ../plugins/fn-stat/functions.c:661
-#: ../plugins/fn-stat/functions.c:695
-#: ../plugins/fn-stat/functions.c:721
-#: ../plugins/fn-stat/functions.c:756
-#: ../plugins/fn-stat/functions.c:796
-#: ../plugins/fn-stat/functions.c:850
-#: ../plugins/fn-stat/functions.c:918
-#: ../plugins/fn-stat/functions.c:950
+#: ../plugins/fn-stat/functions.c:384
+#: ../plugins/fn-stat/functions.c:417
+#: ../plugins/fn-stat/functions.c:441
+#: ../plugins/fn-stat/functions.c:466
+#: ../plugins/fn-stat/functions.c:497
+#: ../plugins/fn-stat/functions.c:526
+#: ../plugins/fn-stat/functions.c:555
+#: ../plugins/fn-stat/functions.c:575
+#: ../plugins/fn-stat/functions.c:602
+#: ../plugins/fn-stat/functions.c:629
+#: ../plugins/fn-stat/functions.c:655
+#: ../plugins/fn-stat/functions.c:691
+#: ../plugins/fn-stat/functions.c:725
+#: ../plugins/fn-stat/functions.c:751
+#: ../plugins/fn-stat/functions.c:786
+#: ../plugins/fn-stat/functions.c:826
+#: ../plugins/fn-stat/functions.c:880
+#: ../plugins/fn-stat/functions.c:948
 #: ../plugins/fn-stat/functions.c:980
-#: ../plugins/fn-stat/functions.c:1007
+#: ../plugins/fn-stat/functions.c:1010
 #: ../plugins/fn-stat/functions.c:1037
-#: ../plugins/fn-stat/functions.c:1125
-#: ../plugins/fn-stat/functions.c:1162
-#: ../plugins/fn-stat/functions.c:1245
-#: ../plugins/fn-stat/functions.c:1282
-#: ../plugins/fn-stat/functions.c:1448
-#: ../plugins/fn-stat/functions.c:1480
-#: ../plugins/fn-stat/functions.c:1576
-#: ../plugins/fn-stat/functions.c:1603
+#: ../plugins/fn-stat/functions.c:1067
+#: ../plugins/fn-stat/functions.c:1155
+#: ../plugins/fn-stat/functions.c:1192
+#: ../plugins/fn-stat/functions.c:1275
+#: ../plugins/fn-stat/functions.c:1312
+#: ../plugins/fn-stat/functions.c:1478
+#: ../plugins/fn-stat/functions.c:1510
+#: ../plugins/fn-stat/functions.c:1606
 #: ../plugins/fn-stat/functions.c:1633
-#: ../plugins/fn-stat/functions.c:1668
-#: ../plugins/fn-stat/functions.c:1695
-#: ../plugins/fn-stat/functions.c:1727
-#: ../plugins/fn-stat/functions.c:1759
-#: ../plugins/fn-stat/functions.c:1791
-#: ../plugins/fn-stat/functions.c:1824
-#: ../plugins/fn-stat/functions.c:1874
-#: ../plugins/fn-stat/functions.c:1899
-#: ../plugins/fn-stat/functions.c:1924
-#: ../plugins/fn-stat/functions.c:1956
-#: ../plugins/fn-stat/functions.c:1985
-#: ../plugins/fn-stat/functions.c:2004
-#: ../plugins/fn-stat/functions.c:2030
-#: ../plugins/fn-stat/functions.c:2162
-#: ../plugins/fn-stat/functions.c:2205
-#: ../plugins/fn-stat/functions.c:2254
-#: ../plugins/fn-stat/functions.c:2334
-#: ../plugins/fn-stat/functions.c:2392
-#: ../plugins/fn-stat/functions.c:2451
-#: ../plugins/fn-stat/functions.c:2476
-#: ../plugins/fn-stat/functions.c:2503
-#: ../plugins/fn-stat/functions.c:2535
-#: ../plugins/fn-stat/functions.c:2562
+#: ../plugins/fn-stat/functions.c:1663
+#: ../plugins/fn-stat/functions.c:1698
+#: ../plugins/fn-stat/functions.c:1725
+#: ../plugins/fn-stat/functions.c:1757
+#: ../plugins/fn-stat/functions.c:1789
+#: ../plugins/fn-stat/functions.c:1821
+#: ../plugins/fn-stat/functions.c:1854
+#: ../plugins/fn-stat/functions.c:1904
+#: ../plugins/fn-stat/functions.c:1929
+#: ../plugins/fn-stat/functions.c:1954
+#: ../plugins/fn-stat/functions.c:1986
+#: ../plugins/fn-stat/functions.c:2015
+#: ../plugins/fn-stat/functions.c:2034
+#: ../plugins/fn-stat/functions.c:2060
+#: ../plugins/fn-stat/functions.c:2192
+#: ../plugins/fn-stat/functions.c:2235
+#: ../plugins/fn-stat/functions.c:2284
+#: ../plugins/fn-stat/functions.c:2364
+#: ../plugins/fn-stat/functions.c:2422
+#: ../plugins/fn-stat/functions.c:2481
+#: ../plugins/fn-stat/functions.c:2506
+#: ../plugins/fn-stat/functions.c:2533
+#: ../plugins/fn-stat/functions.c:2565
 #: ../plugins/fn-stat/functions.c:2592
-#: ../plugins/fn-stat/functions.c:2619
-#: ../plugins/fn-stat/functions.c:2743
-#: ../plugins/fn-stat/functions.c:2786
-#: ../plugins/fn-stat/functions.c:2827
-#: ../plugins/fn-stat/functions.c:2893
-#: ../plugins/fn-stat/functions.c:3062
-#: ../plugins/fn-stat/functions.c:3929
-#: ../plugins/fn-stat/functions.c:3986
-#: ../plugins/fn-stat/functions.c:4034
-#: ../plugins/fn-stat/functions.c:4099
+#: ../plugins/fn-stat/functions.c:2622
+#: ../plugins/fn-stat/functions.c:2649
+#: ../plugins/fn-stat/functions.c:2773
+#: ../plugins/fn-stat/functions.c:2816
+#: ../plugins/fn-stat/functions.c:2857
+#: ../plugins/fn-stat/functions.c:2923
+#: ../plugins/fn-stat/functions.c:3092
+#: ../plugins/fn-stat/functions.c:3959
+#: ../plugins/fn-stat/functions.c:4016
+#: ../plugins/fn-stat/functions.c:4064
+#: ../plugins/fn-stat/functions.c:4129
 #: ../plugins/fn-string/functions.c:68
 #: ../plugins/fn-string/functions.c:140
 #: ../plugins/fn-string/functions.c:247
@@ -1227,9 +1228,9 @@ msgstr "Funkcija je združljiva s programom MS Excel, v kolikor je izpuščen za
 #: ../plugins/fn-math/functions.c:2065
 #: ../plugins/fn-math/functions.c:2798
 #: ../plugins/fn-math/functions.c:2969
-#: ../plugins/fn-stat/functions.c:1515
-#: ../plugins/fn-stat/functions.c:2393
-#: ../plugins/fn-stat/functions.c:4525
+#: ../plugins/fn-stat/functions.c:1545
+#: ../plugins/fn-stat/functions.c:2423
+#: ../plugins/fn-stat/functions.c:4555
 #: ../plugins/fn-string/functions.c:304
 #: ../plugins/fn-string/functions.c:388
 #: ../plugins/fn-string/functions.c:515
@@ -2215,26 +2216,26 @@ msgstr "CONVERT:pretvorjena meritev"
 #: ../plugins/fn-math/functions.c:1926
 #: ../plugins/fn-math/functions.c:1967
 #: ../plugins/fn-math/functions.c:2014
-#: ../plugins/fn-stat/functions.c:410
-#: ../plugins/fn-stat/functions.c:462
-#: ../plugins/fn-stat/functions.c:523
-#: ../plugins/fn-stat/functions.c:843
-#: ../plugins/fn-stat/functions.c:912
-#: ../plugins/fn-stat/functions.c:975
-#: ../plugins/fn-stat/functions.c:1117
-#: ../plugins/fn-stat/functions.c:1189
-#: ../plugins/fn-stat/functions.c:1276
+#: ../plugins/fn-stat/functions.c:440
+#: ../plugins/fn-stat/functions.c:492
+#: ../plugins/fn-stat/functions.c:553
+#: ../plugins/fn-stat/functions.c:873
+#: ../plugins/fn-stat/functions.c:942
+#: ../plugins/fn-stat/functions.c:1005
+#: ../plugins/fn-stat/functions.c:1147
+#: ../plugins/fn-stat/functions.c:1219
 #: ../plugins/fn-stat/functions.c:1306
-#: ../plugins/fn-stat/functions.c:1539
-#: ../plugins/fn-stat/functions.c:1718
-#: ../plugins/fn-stat/functions.c:1754
-#: ../plugins/fn-stat/functions.c:1921
-#: ../plugins/fn-stat/functions.c:4325
-#: ../plugins/fn-stat/functions.c:4356
-#: ../plugins/fn-stat/functions.c:4390
-#: ../plugins/fn-stat/functions.c:4425
-#: ../plugins/fn-stat/functions.c:4464
-#: ../plugins/fn-stat/functions.c:4497
+#: ../plugins/fn-stat/functions.c:1336
+#: ../plugins/fn-stat/functions.c:1569
+#: ../plugins/fn-stat/functions.c:1748
+#: ../plugins/fn-stat/functions.c:1784
+#: ../plugins/fn-stat/functions.c:1951
+#: ../plugins/fn-stat/functions.c:4355
+#: ../plugins/fn-stat/functions.c:4386
+#: ../plugins/fn-stat/functions.c:4420
+#: ../plugins/fn-stat/functions.c:4455
+#: ../plugins/fn-stat/functions.c:4494
+#: ../plugins/fn-stat/functions.c:4527
 msgid "x:number"
 msgstr "x:število"
 
@@ -2488,7 +2489,7 @@ msgstr ""
 
 #: ../plugins/fn-erlang/functions.c:131
 msgid "traffic:number of carried calls"
-msgstr ""
+msgstr "promet: število izvedenih nakupnih opcij"
 
 #: ../plugins/fn-erlang/functions.c:133
 msgid "OFFTRAF returns the predicted number of offered calls given @{traffic} carried calls (taken from measurements) on @{circuits} circuits."
@@ -2710,11 +2711,11 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:525
 msgid "RECEIVED:amount to be received at maturity"
-msgstr ""
+msgstr "RECEIVED: pričakovana vsota ob dospelosti"
 
 #: ../plugins/fn-financial/functions.c:531
 msgid "RECEIVED calculates the amount to be received when a security matures."
-msgstr ""
+msgstr "Funkcija RECEIVED izračuna pričakovano vsoto ob dospelosti vrednostnega papirja."
 
 #: ../plugins/fn-financial/functions.c:566
 msgid "PRICEDISC:discounted price"
@@ -2725,15 +2726,15 @@ msgstr "PRICEDISC: diskontirana cena"
 #: ../plugins/fn-financial/functions.c:1088
 #: ../plugins/fn-financial/functions.c:1126
 msgid "discount:annual rate at which to discount"
-msgstr ""
+msgstr "popust: letna stopnja popusta"
 
 #: ../plugins/fn-financial/functions.c:572
 msgid "PRICEDISC calculates the price per $100 face value of a bond that does not pay interest at maturity."
-msgstr ""
+msgstr "Funkcija PRICEDISC izračuna ceno vrednostnega papirja na 100 $ imenske vrednosti, ki ne izplačuje obresti ob dospelosti."
 
 #: ../plugins/fn-financial/functions.c:602
 msgid "PRICEMAT:price at maturity"
-msgstr ""
+msgstr "PRICEMAT: cena ob dospelosti"
 
 #: ../plugins/fn-financial/functions.c:607
 #: ../plugins/fn-financial/functions.c:1893
@@ -2746,7 +2747,7 @@ msgstr "donos: letni donos vrednostnega papirja"
 
 #: ../plugins/fn-financial/functions.c:609
 msgid "PRICEMAT calculates the price per $100 face value of a bond that pays interest at maturity."
-msgstr ""
+msgstr "Funkcija PRICEMAT izračuna ceno vrednostnega papirja na 100 $ imenske vrednosti, ki izplačuje obresti ob dospelosti."
 
 #: ../plugins/fn-financial/functions.c:647
 msgid "DISC:discount rate"
@@ -2758,7 +2759,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:653
 msgid "DISC calculates the discount rate for a security."
-msgstr ""
+msgstr "Funkcija DISC izračuna stopnjo popusta vrednostnega papirja."
 
 #: ../plugins/fn-financial/functions.c:654
 msgid "@{redemption} is the redemption value per $100 face value."
@@ -2775,7 +2776,7 @@ msgstr "število_obdobij: število obdobij za obračunavanje sestavljenih obrest
 
 #: ../plugins/fn-financial/functions.c:688
 msgid "EFFECT calculates the effective interest rate using the formula (1+@{rate}/@{nper})^@{nper}-1."
-msgstr ""
+msgstr "Funkcija EFFECT izračuna efektivno obrestno mero po formuli (1+@{mera}/@{število_obdobij})^@{število_obdobij}-1."
 
 #: ../plugins/fn-financial/functions.c:710
 msgid "NOMINAL:nominal interest rate"
@@ -2795,7 +2796,7 @@ msgstr "mera: nazivna letna obrestna mera"
 
 #: ../plugins/fn-financial/functions.c:713
 msgid "NOMINAL calculates the nominal interest rate from the effective rate."
-msgstr ""
+msgstr "Funkcija NOMINAL izračuna nominalno obrestno mero iz efektivne obrestne mere."
 
 #: ../plugins/fn-financial/functions.c:735
 #, fuzzy
@@ -4491,7 +4492,7 @@ msgstr "GD:Gudermannova funkcija"
 
 #: ../plugins/fn-math/functions.c:179
 #: ../plugins/fn-math/functions.c:290
-#: ../plugins/fn-stat/functions.c:1691
+#: ../plugins/fn-stat/functions.c:1721
 msgid "x:value"
 msgstr "x:vrednost"
 
@@ -5811,13 +5812,13 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:1080
 #: ../plugins/fn-r/functions.c:1157
 #: ../plugins/fn-random/functions.c:630
-#: ../plugins/fn-stat/functions.c:492
-#: ../plugins/fn-stat/functions.c:945
-#: ../plugins/fn-stat/functions.c:1003
-#: ../plugins/fn-stat/functions.c:1154
-#: ../plugins/fn-stat/functions.c:1241
-#: ../plugins/fn-stat/functions.c:1442
-#: ../plugins/fn-stat/functions.c:1787
+#: ../plugins/fn-stat/functions.c:522
+#: ../plugins/fn-stat/functions.c:975
+#: ../plugins/fn-stat/functions.c:1033
+#: ../plugins/fn-stat/functions.c:1184
+#: ../plugins/fn-stat/functions.c:1271
+#: ../plugins/fn-stat/functions.c:1472
+#: ../plugins/fn-stat/functions.c:1817
 msgid "p:probability"
 msgstr "p:verjetnost"
 
@@ -6512,7 +6513,7 @@ msgid "RANDBERNOULLI:random variate from a Bernoulli distribution"
 msgstr ""
 
 #: ../plugins/fn-random/functions.c:301
-#: ../plugins/fn-stat/functions.c:877
+#: ../plugins/fn-stat/functions.c:907
 msgid "p:probability of success"
 msgstr "p:verjetnost uspeha"
 
@@ -6890,10 +6891,10 @@ msgstr "VARP: varianca celotne populacije"
 #: ../plugins/fn-stat/functions.c:77
 #: ../plugins/fn-stat/functions.c:107
 #: ../plugins/fn-stat/functions.c:135
-#: ../plugins/fn-stat/functions.c:2527
-#: ../plugins/fn-stat/functions.c:2558
-#: ../plugins/fn-stat/functions.c:2586
-#: ../plugins/fn-stat/functions.c:2615
+#: ../plugins/fn-stat/functions.c:2557
+#: ../plugins/fn-stat/functions.c:2588
+#: ../plugins/fn-stat/functions.c:2616
+#: ../plugins/fn-stat/functions.c:2645
 msgid "area1:first cell area"
 msgstr "vrsta1: prva vrsta celic"
 
@@ -6901,10 +6902,10 @@ msgstr "vrsta1: prva vrsta celic"
 #: ../plugins/fn-stat/functions.c:78
 #: ../plugins/fn-stat/functions.c:108
 #: ../plugins/fn-stat/functions.c:136
-#: ../plugins/fn-stat/functions.c:2528
-#: ../plugins/fn-stat/functions.c:2559
-#: ../plugins/fn-stat/functions.c:2587
-#: ../plugins/fn-stat/functions.c:2616
+#: ../plugins/fn-stat/functions.c:2558
+#: ../plugins/fn-stat/functions.c:2589
+#: ../plugins/fn-stat/functions.c:2617
+#: ../plugins/fn-stat/functions.c:2646
 msgid "area2:second cell area"
 msgstr "vrsta2: druga vrsta celic"
 
@@ -6939,7 +6940,7 @@ msgid "VAR is also known as the N-1-variance."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:80
-#: ../plugins/fn-stat/functions.c:2532
+#: ../plugins/fn-stat/functions.c:2562
 msgid "Since the N-1-variance includes Bessel's correction, whereas the N-variance calculated by VARPA or VARP does not, under reasonable conditions the N-1-variance is an unbiased estimator of the variance of the population from which the sample is drawn."
 msgstr ""
 
@@ -6947,24 +6948,24 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:112
 #: ../plugins/fn-stat/functions.c:139
 #: ../plugins/fn-stat/functions.c:277
-#: ../plugins/fn-stat/functions.c:573
-#: ../plugins/fn-stat/functions.c:600
-#: ../plugins/fn-stat/functions.c:626
-#: ../plugins/fn-stat/functions.c:696
-#: ../plugins/fn-stat/functions.c:722
-#: ../plugins/fn-stat/functions.c:757
-#: ../plugins/fn-stat/functions.c:797
-#: ../plugins/fn-stat/functions.c:822
-#: ../plugins/fn-stat/functions.c:1825
-#: ../plugins/fn-stat/functions.c:1851
-#: ../plugins/fn-stat/functions.c:1875
-#: ../plugins/fn-stat/functions.c:1900
-#: ../plugins/fn-stat/functions.c:2031
-#: ../plugins/fn-stat/functions.c:2163
-#: ../plugins/fn-stat/functions.c:2206
-#: ../plugins/fn-stat/functions.c:2394
-#: ../plugins/fn-stat/functions.c:2744
-#: ../plugins/fn-stat/functions.c:2787
+#: ../plugins/fn-stat/functions.c:603
+#: ../plugins/fn-stat/functions.c:630
+#: ../plugins/fn-stat/functions.c:656
+#: ../plugins/fn-stat/functions.c:726
+#: ../plugins/fn-stat/functions.c:752
+#: ../plugins/fn-stat/functions.c:787
+#: ../plugins/fn-stat/functions.c:827
+#: ../plugins/fn-stat/functions.c:852
+#: ../plugins/fn-stat/functions.c:1855
+#: ../plugins/fn-stat/functions.c:1881
+#: ../plugins/fn-stat/functions.c:1905
+#: ../plugins/fn-stat/functions.c:1930
+#: ../plugins/fn-stat/functions.c:2061
+#: ../plugins/fn-stat/functions.c:2193
+#: ../plugins/fn-stat/functions.c:2236
+#: ../plugins/fn-stat/functions.c:2424
+#: ../plugins/fn-stat/functions.c:2774
+#: ../plugins/fn-stat/functions.c:2817
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1."
 msgstr ""
 
@@ -7003,7 +7004,7 @@ msgid "STDEVP:population standard deviation of the given population"
 msgstr "STDEVP:populacijski standardni odklon podene populacije"
 
 #: ../plugins/fn-stat/functions.c:137
-#: ../plugins/fn-stat/functions.c:2617
+#: ../plugins/fn-stat/functions.c:2647
 msgid "This is also known as the N-standard deviation"
 msgstr ""
 
@@ -7092,985 +7093,998 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:321
 #: ../plugins/fn-stat/functions.c:351
+#: ../plugins/fn-stat/functions.c:381
 #, fuzzy
 msgid "array1:first data set"
 msgstr "sklic1:prva podatkovna množica"
 
 #: ../plugins/fn-stat/functions.c:322
+#: ../plugins/fn-stat/functions.c:352
 #, fuzzy
 msgid "array2:set data set"
 msgstr "Določeni podatki skladišče"
 
 #: ../plugins/fn-stat/functions.c:323
 #: ../plugins/fn-stat/functions.c:353
-#: ../plugins/fn-stat/functions.c:543
-#: ../plugins/fn-stat/functions.c:791
-#: ../plugins/fn-stat/functions.c:820
-#: ../plugins/fn-stat/functions.c:1817
-#: ../plugins/fn-stat/functions.c:1848
-#: ../plugins/fn-stat/functions.c:1898
-#: ../plugins/fn-stat/functions.c:1984
-#: ../plugins/fn-stat/functions.c:2003
-#: ../plugins/fn-stat/functions.c:2027
+#: ../plugins/fn-stat/functions.c:383
+#: ../plugins/fn-stat/functions.c:573
+#: ../plugins/fn-stat/functions.c:821
+#: ../plugins/fn-stat/functions.c:850
+#: ../plugins/fn-stat/functions.c:1847
+#: ../plugins/fn-stat/functions.c:1878
+#: ../plugins/fn-stat/functions.c:1928
+#: ../plugins/fn-stat/functions.c:2014
+#: ../plugins/fn-stat/functions.c:2033
+#: ../plugins/fn-stat/functions.c:2057
 msgid "Strings and empty cells are simply ignored."
 msgstr "Celice z besedilnimi nizi in prazne celice so prezrte."
 
 #: ../plugins/fn-stat/functions.c:325
 #: ../plugins/fn-stat/functions.c:355
-#: ../plugins/fn-stat/functions.c:2335
-#: ../plugins/fn-stat/functions.c:2828
-#: ../plugins/fn-stat/functions.c:2894
-#: ../plugins/fn-stat/functions.c:3930
-#: ../plugins/fn-stat/functions.c:3987
-#: ../plugins/fn-stat/functions.c:4039
+#: ../plugins/fn-stat/functions.c:385
+#: ../plugins/fn-stat/functions.c:2365
+#: ../plugins/fn-stat/functions.c:2858
+#: ../plugins/fn-stat/functions.c:2924
+#: ../plugins/fn-stat/functions.c:3960
+#: ../plugins/fn-stat/functions.c:4017
+#: ../plugins/fn-stat/functions.c:4069
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7."
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:328
+#: ../plugins/fn-stat/functions.c:358
 msgid "Then COVAR(A1:A5,B1:B5) equals 65.858."
 msgstr "Izračun funkcije  COVAR(A1:A5,B1:B5) vrne rešitev 65.858."
 
 #: ../plugins/fn-stat/functions.c:330
+#: ../plugins/fn-stat/functions.c:360
 msgid "wiki:en:Covariance"
 msgstr "wiki:en:Covariance"
 
 #: ../plugins/fn-stat/functions.c:331
 #: ../plugins/fn-stat/functions.c:361
+#: ../plugins/fn-stat/functions.c:391
 msgid "wolfram:Covariance.html"
 msgstr "wolfram:Covariance.html"
 
 #: ../plugins/fn-stat/functions.c:350
+#, fuzzy
+msgid "COVARIANCE.S:sample covariance of two data sets"
+msgstr "VARA: varianca podanega vzorca"
+
+#: ../plugins/fn-stat/functions.c:380
 msgid "CORREL:Pearson correlation coefficient of two data sets"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:352
+#: ../plugins/fn-stat/functions.c:382
 #, fuzzy
 msgid "array2:second data set"
 msgstr "sklic2:druga podatkovna množica"
 
-#: ../plugins/fn-stat/functions.c:358
+#: ../plugins/fn-stat/functions.c:388
 msgid "Then CORREL(A1:A5,B1:B5) equals 0.996124788."
 msgstr "Izračun funkcije  CORREL(A1:A5,B1:B5) vrne rešitev 0.996124788."
 
-#: ../plugins/fn-stat/functions.c:360
+#: ../plugins/fn-stat/functions.c:390
 msgid "wiki:en:CorrelationCoefficient.html"
 msgstr "wiki:en:CorrelationCoefficient.html"
 
-#: ../plugins/fn-stat/functions.c:380
+#: ../plugins/fn-stat/functions.c:410
 #, fuzzy
 msgid "NEGBINOMDIST:probability mass function of the negative binomial distribution"
 msgstr "BINOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija binomske verjetnosti"
 
-#: ../plugins/fn-stat/functions.c:381
+#: ../plugins/fn-stat/functions.c:411
 msgid "f:number of failures"
 msgstr "f:število neuspešnih poskusov"
 
-#: ../plugins/fn-stat/functions.c:382
+#: ../plugins/fn-stat/functions.c:412
 #, fuzzy
 msgid "t:threshold number of successes"
 msgstr "Zadetek prekinitvene točke številka %s\n"
 
-#: ../plugins/fn-stat/functions.c:383
+#: ../plugins/fn-stat/functions.c:413
 msgid "p:probability of a success"
 msgstr "p:verjetnost uspeha"
 
-#: ../plugins/fn-stat/functions.c:384
+#: ../plugins/fn-stat/functions.c:414
 msgid "If @{f} or @{t} is a non-integer it is truncated."
 msgstr "V kolikor @{f} ali @{t} nista celi števili, sta ti prirezani"
 
-#: ../plugins/fn-stat/functions.c:385
+#: ../plugins/fn-stat/functions.c:415
 msgid "If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error."
 msgstr "V kolikor je (@{f} + @{t} -1) <= 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:386
+#: ../plugins/fn-stat/functions.c:416
 msgid "If @{p} < 0 or @{p} > 1 this functions returns a #NUM! error."
 msgstr "V kolikor je @{p} < 0 or @{p} > 1, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:409
+#: ../plugins/fn-stat/functions.c:439
 msgid "NORMSDIST:cumulative density function of the standard normal distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:412
+#: ../plugins/fn-stat/functions.c:442
 msgid "NORMSDIST is the OpenFormula function LEGACY.NORMSDIST."
 msgstr "Funkcija NORMSDIST je skladna s funkcijo LEGACY.NORMSDIST programa OpenFormula."
 
-#: ../plugins/fn-stat/functions.c:415
-#: ../plugins/fn-stat/functions.c:440
+#: ../plugins/fn-stat/functions.c:445
+#: ../plugins/fn-stat/functions.c:470
 msgid "wiki:en:Normal_distribution"
 msgstr "wiki:en:Normal_distribution"
 
-#: ../plugins/fn-stat/functions.c:416
-#: ../plugins/fn-stat/functions.c:441
+#: ../plugins/fn-stat/functions.c:446
+#: ../plugins/fn-stat/functions.c:471
 msgid "wolfram:NormalDistribution.html"
 msgstr "wolfram:NormalDistribution.html"
 
-#: ../plugins/fn-stat/functions.c:433
+#: ../plugins/fn-stat/functions.c:463
 msgid "NORMSINV:inverse of the cumulative density function of the standard normal distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:434
+#: ../plugins/fn-stat/functions.c:464
 msgid "p:given probability"
 msgstr "p:podana verjetnost"
 
-#: ../plugins/fn-stat/functions.c:435
+#: ../plugins/fn-stat/functions.c:465
 msgid "If @{p} < 0 or @{p} > 1 this function returns #NUM! error."
 msgstr "V kolikor je @{p} < 0 or @{p} > 1, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:437
+#: ../plugins/fn-stat/functions.c:467
 msgid "NORMSINV is the OpenFormula function LEGACY.NORMSINV."
 msgstr "Funkcija NORMSINV je skladna s funkcijo LEGACY.NORMSINV programa OpenFormula."
 
-#: ../plugins/fn-stat/functions.c:461
+#: ../plugins/fn-stat/functions.c:491
 #, fuzzy
 msgid "LOGNORMDIST:cumulative distribution function of the lognormal distribution"
 msgstr "FUnkcija vrne funkcijo kumulativne porazdelitve normalne porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:463
 #: ../plugins/fn-stat/functions.c:493
+#: ../plugins/fn-stat/functions.c:523
 msgid "mean:mean"
 msgstr "srednja:srednja vrednost"
 
-#: ../plugins/fn-stat/functions.c:464
 #: ../plugins/fn-stat/functions.c:494
+#: ../plugins/fn-stat/functions.c:524
 msgid "stddev:standard deviation"
 msgstr "stddev:standardni odklon"
 
-#: ../plugins/fn-stat/functions.c:465
+#: ../plugins/fn-stat/functions.c:495
 msgid "If @{stddev} = 0 LOGNORMDIST returns a #DIV/0! error."
 msgstr "V kolikor je @{stod} = 0, funkcija LOGNORMDIST vrne napako #DIV/0!."
 
 # stddev = stod
-#: ../plugins/fn-stat/functions.c:466
+#: ../plugins/fn-stat/functions.c:496
 msgid "If @{x} <= 0, @{mean} < 0 or @{stddev} <= 0 this function returns a #NUM! error."
 msgstr "V kolikor je @{x} <= 0, @{povprečje} < 0 ali pa @{stod} <= 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:470
-#: ../plugins/fn-stat/functions.c:499
+#: ../plugins/fn-stat/functions.c:500
+#: ../plugins/fn-stat/functions.c:529
 msgid "wiki:en:Log-normal_distribution"
 msgstr "wiki:en:Log-normal_distribution"
 
-#: ../plugins/fn-stat/functions.c:471
-#: ../plugins/fn-stat/functions.c:500
+#: ../plugins/fn-stat/functions.c:501
+#: ../plugins/fn-stat/functions.c:530
 msgid "wolfram:LogNormalDistribution.html"
 msgstr "wolfram:LogNormalDistribution.html"
 
-#: ../plugins/fn-stat/functions.c:491
+#: ../plugins/fn-stat/functions.c:521
 msgid "LOGINV:inverse of the cumulative distribution function of the lognormal distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:495
+#: ../plugins/fn-stat/functions.c:525
 msgid "If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns #NUM! error."
 msgstr "V kolikor je @{p} < 0, je @{p} > 1,  ali pa je @{stod} <= 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:522
+#: ../plugins/fn-stat/functions.c:552
 msgid "FISHERINV:inverse of the Fisher transformation"
 msgstr "FISHERINV: inverzna funkcija Fisherjeve transformacije"
 
-#: ../plugins/fn-stat/functions.c:524
+#: ../plugins/fn-stat/functions.c:554
 msgid "If @{x} is a non-number this function returns a #VALUE! error."
 msgstr "V kolikor je @{x} neštevilčna vrednost, funkcija vrne napako #VALUE!."
 
-#: ../plugins/fn-stat/functions.c:540
+#: ../plugins/fn-stat/functions.c:570
 msgid "MODE:first most common number in the dataset"
 msgstr "MODE: prva najpogostejša številka v podatkovni množici."
 
-#: ../plugins/fn-stat/functions.c:541
-#: ../plugins/fn-stat/functions.c:569
-#: ../plugins/fn-stat/functions.c:596
-#: ../plugins/fn-stat/functions.c:623
-#: ../plugins/fn-stat/functions.c:659
-#: ../plugins/fn-stat/functions.c:693
-#: ../plugins/fn-stat/functions.c:719
-#: ../plugins/fn-stat/functions.c:754
-#: ../plugins/fn-stat/functions.c:789
-#: ../plugins/fn-stat/functions.c:818
-#: ../plugins/fn-stat/functions.c:1815
-#: ../plugins/fn-stat/functions.c:1846
-#: ../plugins/fn-stat/functions.c:1872
-#: ../plugins/fn-stat/functions.c:1896
-#: ../plugins/fn-stat/functions.c:2025
-#: ../plugins/fn-stat/functions.c:2448
-#: ../plugins/fn-stat/functions.c:2473
-#: ../plugins/fn-stat/functions.c:2500
+#: ../plugins/fn-stat/functions.c:571
+#: ../plugins/fn-stat/functions.c:599
+#: ../plugins/fn-stat/functions.c:626
+#: ../plugins/fn-stat/functions.c:653
+#: ../plugins/fn-stat/functions.c:689
+#: ../plugins/fn-stat/functions.c:723
+#: ../plugins/fn-stat/functions.c:749
+#: ../plugins/fn-stat/functions.c:784
+#: ../plugins/fn-stat/functions.c:819
+#: ../plugins/fn-stat/functions.c:848
+#: ../plugins/fn-stat/functions.c:1845
+#: ../plugins/fn-stat/functions.c:1876
+#: ../plugins/fn-stat/functions.c:1902
+#: ../plugins/fn-stat/functions.c:1926
+#: ../plugins/fn-stat/functions.c:2055
+#: ../plugins/fn-stat/functions.c:2478
+#: ../plugins/fn-stat/functions.c:2503
+#: ../plugins/fn-stat/functions.c:2530
 msgid "number1:first value"
 msgstr "število1:prva vrednost"
 
-#: ../plugins/fn-stat/functions.c:542
-#: ../plugins/fn-stat/functions.c:570
-#: ../plugins/fn-stat/functions.c:597
-#: ../plugins/fn-stat/functions.c:624
-#: ../plugins/fn-stat/functions.c:660
-#: ../plugins/fn-stat/functions.c:694
-#: ../plugins/fn-stat/functions.c:720
-#: ../plugins/fn-stat/functions.c:755
-#: ../plugins/fn-stat/functions.c:790
-#: ../plugins/fn-stat/functions.c:819
-#: ../plugins/fn-stat/functions.c:1816
-#: ../plugins/fn-stat/functions.c:1847
-#: ../plugins/fn-stat/functions.c:1873
-#: ../plugins/fn-stat/functions.c:1897
-#: ../plugins/fn-stat/functions.c:2026
-#: ../plugins/fn-stat/functions.c:2449
-#: ../plugins/fn-stat/functions.c:2474
-#: ../plugins/fn-stat/functions.c:2501
+#: ../plugins/fn-stat/functions.c:572
+#: ../plugins/fn-stat/functions.c:600
+#: ../plugins/fn-stat/functions.c:627
+#: ../plugins/fn-stat/functions.c:654
+#: ../plugins/fn-stat/functions.c:690
+#: ../plugins/fn-stat/functions.c:724
+#: ../plugins/fn-stat/functions.c:750
+#: ../plugins/fn-stat/functions.c:785
+#: ../plugins/fn-stat/functions.c:820
+#: ../plugins/fn-stat/functions.c:849
+#: ../plugins/fn-stat/functions.c:1846
+#: ../plugins/fn-stat/functions.c:1877
+#: ../plugins/fn-stat/functions.c:1903
+#: ../plugins/fn-stat/functions.c:1927
+#: ../plugins/fn-stat/functions.c:2056
+#: ../plugins/fn-stat/functions.c:2479
+#: ../plugins/fn-stat/functions.c:2504
+#: ../plugins/fn-stat/functions.c:2531
 msgid "number2:second value"
 msgstr "število2:druga vrednost"
 
-#: ../plugins/fn-stat/functions.c:544
+#: ../plugins/fn-stat/functions.c:574
 msgid "If the data set does not contain any duplicates this function returns a #N/A error."
 msgstr "V kolikor podatkovna množica ne vsebuje podvojenih nizov, funkcija vrne napako #N/A."
 
-#: ../plugins/fn-stat/functions.c:546
+#: ../plugins/fn-stat/functions.c:576
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 11.4, 25.9, and 40.1."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:547
+#: ../plugins/fn-stat/functions.c:577
 msgid "Then MODE(A1:A5) equals 11.4."
 msgstr "Izračun funkcije  MODE(A1:A5) vrne rešitev 11.4."
 
-#: ../plugins/fn-stat/functions.c:549
+#: ../plugins/fn-stat/functions.c:579
 msgid "wiki:en:Mode_(statistics)"
 msgstr "wiki:en:Mode_(statistics)"
 
-#: ../plugins/fn-stat/functions.c:550
+#: ../plugins/fn-stat/functions.c:580
 msgid "wolfram:Mode.html"
 msgstr "wolfram:Mode.html"
 
-#: ../plugins/fn-stat/functions.c:568
+#: ../plugins/fn-stat/functions.c:598
 msgid "HARMEAN:harmonic mean"
 msgstr "HARMEAN:harmonična srednja vrednost"
 
-#: ../plugins/fn-stat/functions.c:571
+#: ../plugins/fn-stat/functions.c:601
 msgid "The harmonic mean of N data points is  N divided by the sum of the reciprocals of the data points)."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:574
+#: ../plugins/fn-stat/functions.c:604
 msgid "Then HARMEAN(A1:A5) equals 19.529814427."
 msgstr "Izračun funkcije  HARMEAN(A1:A5) vrne rešitev 19.529814427."
 
-#: ../plugins/fn-stat/functions.c:576
+#: ../plugins/fn-stat/functions.c:606
 msgid "wiki:en:Harmonic_mean"
 msgstr "wiki:en:Harmonic_mean"
 
-#: ../plugins/fn-stat/functions.c:577
+#: ../plugins/fn-stat/functions.c:607
 msgid "wolfram:HarmonicMean.html"
 msgstr "wolfram:HarmonicMean.html"
 
-#: ../plugins/fn-stat/functions.c:595
+#: ../plugins/fn-stat/functions.c:625
 msgid "GEOMEAN:geometric mean"
 msgstr "GEOMEAN:geometrična strednja vrednost"
 
-#: ../plugins/fn-stat/functions.c:598
+#: ../plugins/fn-stat/functions.c:628
 msgid "The geometric mean is equal to the Nth root of the product of the N values."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:601
+#: ../plugins/fn-stat/functions.c:631
 msgid "Then GEOMEAN(A1:A5) equals 21.279182482."
 msgstr "Izračun funkcije  GEOMEAN(A1:A5) vrne rešitev 21.279182482."
 
-#: ../plugins/fn-stat/functions.c:603
+#: ../plugins/fn-stat/functions.c:633
 msgid "wiki:en:Geometric_mean"
 msgstr "wiki:en:Geometric_mean"
 
-#: ../plugins/fn-stat/functions.c:604
+#: ../plugins/fn-stat/functions.c:634
 msgid "wolfram:GeometricMean.html"
 msgstr "wolfram:GeometricMean.html"
 
-#: ../plugins/fn-stat/functions.c:622
+#: ../plugins/fn-stat/functions.c:652
 msgid "COUNT:total number of integer or floating point arguments passed"
 msgstr "COUNT: podano skupno število celoštevilskih argumentov ali argumentov s plavajočo vejico"
 
-#: ../plugins/fn-stat/functions.c:627
+#: ../plugins/fn-stat/functions.c:657
 msgid "Then COUNT(A1:A5) equals 5."
 msgstr "Izračun funkcije  COUNT(A1:A5) vrne rešitev 5."
 
-#: ../plugins/fn-stat/functions.c:658
+#: ../plugins/fn-stat/functions.c:688
 msgid "COUNTA:number of arguments passed not including empty cells"
 msgstr "COUNTA: število podanih argumentov brez praznih celic"
 
-#: ../plugins/fn-stat/functions.c:662
+#: ../plugins/fn-stat/functions.c:692
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, \"missing\", \"missing\", 25.9, and 40.1."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:663
+#: ../plugins/fn-stat/functions.c:693
 msgid "Then COUNTA(A1:A5) equals 5."
 msgstr "Izračun funkcije  COUNTA(A1:A5) vrne rešitev 5."
 
-#: ../plugins/fn-stat/functions.c:692
+#: ../plugins/fn-stat/functions.c:722
 msgid "AVERAGE:average of all the numeric values and cells"
 msgstr "AVERAGE: povprečje vseh številskih vrednosti celic"
 
-#: ../plugins/fn-stat/functions.c:697
+#: ../plugins/fn-stat/functions.c:727
 msgid "Then AVERAGE(A1:A5) equals 23.2."
 msgstr "Izračun funkcije  AVERAGE(A1:A5) vrne rešitev 23.2."
 
-#: ../plugins/fn-stat/functions.c:699
+#: ../plugins/fn-stat/functions.c:729
 msgid "wiki:en:Arithmetic_mean"
 msgstr "wiki:en:Arithmetic_mean"
 
-#: ../plugins/fn-stat/functions.c:700
+#: ../plugins/fn-stat/functions.c:730
 msgid "wolfram:ArithmeticMean.html"
 msgstr "wolfram:ArithmeticMean.html"
 
-#: ../plugins/fn-stat/functions.c:718
+#: ../plugins/fn-stat/functions.c:748
 msgid "MIN:smallest value, with negative numbers considered smaller than positive numbers"
 msgstr "MIN: najmanjša vrednost, pri čemer so negativna števila opredeljena kot manjša od pozitivnih"
 
-#: ../plugins/fn-stat/functions.c:723
+#: ../plugins/fn-stat/functions.c:753
 msgid "Then MIN(A1:A5) equals 11.4."
 msgstr "Izračun funkcije  MIN(A1:A5) vrne rešitev 11.4."
 
-#: ../plugins/fn-stat/functions.c:753
+#: ../plugins/fn-stat/functions.c:783
 msgid "MAX:largest value, with negative numbers considered smaller than positive numbers"
 msgstr "MAX: največja vrednost, pri čemer so negativna števila opredeljena kot manjša od pozitivnih"
 
-#: ../plugins/fn-stat/functions.c:758
+#: ../plugins/fn-stat/functions.c:788
 msgid "Then MAX(A1:A5) equals 40.1."
 msgstr "Izračun funkcije  MAX(A1:A5) vrne rešitev 40.1."
 
-#: ../plugins/fn-stat/functions.c:788
+#: ../plugins/fn-stat/functions.c:818
 msgid "SKEW:unbiased estimate for skewness of a distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:792
+#: ../plugins/fn-stat/functions.c:822
 msgid "This is only meaningful if the underlying distribution really has a third moment.  The skewness of a symmetric (e.g., normal) distribution is zero."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:795
+#: ../plugins/fn-stat/functions.c:825
 msgid "If less than three numbers are given, this function returns a #DIV/0! error."
 msgstr "V kolikor so podane manj kot tri številke, funkcija vrne napako #DIV/0!"
 
-#: ../plugins/fn-stat/functions.c:798
+#: ../plugins/fn-stat/functions.c:828
 msgid "Then SKEW(A1:A5) equals 0.976798268."
 msgstr "Izračun funkcije  SKEW(A1:A5) vrne rešitev 0.976798268."
 
-#: ../plugins/fn-stat/functions.c:817
+#: ../plugins/fn-stat/functions.c:847
 msgid "SKEWP:population skewness of a data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:821
+#: ../plugins/fn-stat/functions.c:851
 msgid "If less than two numbers are given, SKEWP returns a #DIV/0! error."
 msgstr "V kolikor sta podani manj kot dve številki, funkcija SKEWP vrne napako #DIV/0!"
 
-#: ../plugins/fn-stat/functions.c:823
+#: ../plugins/fn-stat/functions.c:853
 msgid "Then SKEWP(A1:A5) equals 0.655256198."
 msgstr "Izračun funkcije  SKEWP(A1:A5) vrne rešitev 0.655256198."
 
-#: ../plugins/fn-stat/functions.c:842
+#: ../plugins/fn-stat/functions.c:872
 msgid "EXPONDIST:probability density or cumulative distribution function of the exponential distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:844
+#: ../plugins/fn-stat/functions.c:874
 msgid "y:scale parameter"
 msgstr "y:parameter merila"
 
-#: ../plugins/fn-stat/functions.c:845
-#: ../plugins/fn-stat/functions.c:915
-#: ../plugins/fn-stat/functions.c:1541
-#: ../plugins/fn-stat/functions.c:1721
-#: ../plugins/fn-stat/functions.c:1757
+#: ../plugins/fn-stat/functions.c:875
+#: ../plugins/fn-stat/functions.c:945
+#: ../plugins/fn-stat/functions.c:1571
+#: ../plugins/fn-stat/functions.c:1751
+#: ../plugins/fn-stat/functions.c:1787
 msgid "cumulative:whether to evaluate the density function or the cumulative distribution function"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:846
+#: ../plugins/fn-stat/functions.c:876
 msgid "If @{cumulative} is false it will return:\t@{y} * exp (-@{y}*@{x}),otherwise it will return\t1 - exp (-@{y}*@{x})."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:849
+#: ../plugins/fn-stat/functions.c:879
 msgid "If @{x} < 0 or @{y} <= 0 this will return an error."
 msgstr "V kolikor je @{x} < 0 ali pa je @{y} <= 0, funkcija vrne napako."
 
-#: ../plugins/fn-stat/functions.c:875
+#: ../plugins/fn-stat/functions.c:905
 msgid "BERNOULLI:probability mass function of a Bernoulli distribution"
 msgstr "BERNOULLI:funkcija gostote verjetnosti Bernoullijeve porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:876
+#: ../plugins/fn-stat/functions.c:906
 msgid "k:integer"
 msgstr "k:celo število"
 
-#: ../plugins/fn-stat/functions.c:878
+#: ../plugins/fn-stat/functions.c:908
 msgid "If @{k} != 0 and @{k} != 1 this function returns a #NUM! error."
 msgstr "V kolikor je @{k} != 0 in @{k} != 1, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:879
-#: ../plugins/fn-stat/functions.c:948
-#: ../plugins/fn-stat/functions.c:1159
-#: ../plugins/fn-stat/functions.c:1446
-#: ../plugins/fn-stat/functions.c:1479
-#: ../plugins/fn-stat/functions.c:1513
-#: ../plugins/fn-stat/functions.c:1574
-#: ../plugins/fn-stat/functions.c:4298
+#: ../plugins/fn-stat/functions.c:909
+#: ../plugins/fn-stat/functions.c:978
+#: ../plugins/fn-stat/functions.c:1189
+#: ../plugins/fn-stat/functions.c:1476
+#: ../plugins/fn-stat/functions.c:1509
+#: ../plugins/fn-stat/functions.c:1543
+#: ../plugins/fn-stat/functions.c:1604
+#: ../plugins/fn-stat/functions.c:4328
 msgid "If @{p} < 0 or @{p} > 1 this function returns a #NUM! error."
 msgstr "V kolikor je @{p} < 0 ali pa @{p} > 1, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:911
+#: ../plugins/fn-stat/functions.c:941
 msgid "GAMMADIST:probability density or cumulative distribution function of the gamma distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:913
-#: ../plugins/fn-stat/functions.c:946
-#: ../plugins/fn-stat/functions.c:1118
-#: ../plugins/fn-stat/functions.c:1155
-#: ../plugins/fn-stat/functions.c:1719
+#: ../plugins/fn-stat/functions.c:943
+#: ../plugins/fn-stat/functions.c:976
+#: ../plugins/fn-stat/functions.c:1148
+#: ../plugins/fn-stat/functions.c:1185
+#: ../plugins/fn-stat/functions.c:1749
 msgid "alpha:scale parameter"
 msgstr "alfa:parameter merila"
 
-#: ../plugins/fn-stat/functions.c:914
-#: ../plugins/fn-stat/functions.c:947
-#: ../plugins/fn-stat/functions.c:1119
-#: ../plugins/fn-stat/functions.c:1156
-#: ../plugins/fn-stat/functions.c:1720
+#: ../plugins/fn-stat/functions.c:944
+#: ../plugins/fn-stat/functions.c:977
+#: ../plugins/fn-stat/functions.c:1149
+#: ../plugins/fn-stat/functions.c:1186
+#: ../plugins/fn-stat/functions.c:1750
 msgid "beta:scale parameter"
 msgstr "beta:parameter merila"
 
-#: ../plugins/fn-stat/functions.c:916
-#: ../plugins/fn-stat/functions.c:1280
-#: ../plugins/fn-stat/functions.c:1725
-#: ../plugins/fn-stat/functions.c:1954
+#: ../plugins/fn-stat/functions.c:946
+#: ../plugins/fn-stat/functions.c:1310
+#: ../plugins/fn-stat/functions.c:1755
+#: ../plugins/fn-stat/functions.c:1984
 msgid "If @{x} < 0 this function returns a #NUM! error."
 msgstr "V kolikor je @{x} < 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:917
-#: ../plugins/fn-stat/functions.c:1123
-#: ../plugins/fn-stat/functions.c:1160
+#: ../plugins/fn-stat/functions.c:947
+#: ../plugins/fn-stat/functions.c:1153
+#: ../plugins/fn-stat/functions.c:1190
 msgid "If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error."
 msgstr "V kolikor je @{alfa} <= 0 ali pa je @{beta} <= 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:944
+#: ../plugins/fn-stat/functions.c:974
 msgid "GAMMAINV:inverse of the cumulative gamma distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:949
-#: ../plugins/fn-stat/functions.c:1726
+#: ../plugins/fn-stat/functions.c:979
+#: ../plugins/fn-stat/functions.c:1756
 msgid "If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error."
 msgstr "V kolikor je @{alfa} <= 0 ali pa je @{beta} <= 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:974
+#: ../plugins/fn-stat/functions.c:1004
 msgid "CHIDIST:survival function of the chi-squared distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:976
-#: ../plugins/fn-stat/functions.c:1004
-#: ../plugins/fn-stat/functions.c:1190
-#: ../plugins/fn-stat/functions.c:1242
+#: ../plugins/fn-stat/functions.c:1006
+#: ../plugins/fn-stat/functions.c:1034
+#: ../plugins/fn-stat/functions.c:1220
+#: ../plugins/fn-stat/functions.c:1272
 msgid "dof:number of degrees of freedom"
 msgstr "df: število prostostnih stopenj"
 
-#: ../plugins/fn-stat/functions.c:977
-#: ../plugins/fn-stat/functions.c:1005
-#: ../plugins/fn-stat/functions.c:1192
-#: ../plugins/fn-stat/functions.c:1243
-#: ../plugins/fn-stat/functions.c:1279
-#: ../plugins/fn-stat/functions.c:1445
+#: ../plugins/fn-stat/functions.c:1007
+#: ../plugins/fn-stat/functions.c:1035
+#: ../plugins/fn-stat/functions.c:1222
+#: ../plugins/fn-stat/functions.c:1273
+#: ../plugins/fn-stat/functions.c:1309
+#: ../plugins/fn-stat/functions.c:1475
 msgid "The survival function is 1 minus the cumulative distribution function."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:978
+#: ../plugins/fn-stat/functions.c:1008
 msgid "If @{dof} is non-integer it is truncated."
 msgstr "V kolikor vrednost @{df} ni celoštevilska vrednost, je ta prirezana."
 
-#: ../plugins/fn-stat/functions.c:979
-#: ../plugins/fn-stat/functions.c:1193
+#: ../plugins/fn-stat/functions.c:1009
+#: ../plugins/fn-stat/functions.c:1223
 msgid "If @{dof} < 1 this function returns a #NUM! error."
 msgstr "V kolikor je @{df} < 1, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:981
+#: ../plugins/fn-stat/functions.c:1011
 #, fuzzy
 msgid "CHIDIST(@{x},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{x},@{dof})."
 msgstr "Funkcija CHIDIST(@{x},@{dof}) je skladna s funkcijo LEGACY.CHIDIST(@{x},@{dof}) programa OpenFormula."
 
-#: ../plugins/fn-stat/functions.c:1002
+#: ../plugins/fn-stat/functions.c:1032
 #, fuzzy
 msgid "CHIINV:inverse of the survival function of the chi-squared distribution"
 msgstr "."
 
-#: ../plugins/fn-stat/functions.c:1006
-#: ../plugins/fn-stat/functions.c:1244
+#: ../plugins/fn-stat/functions.c:1036
+#: ../plugins/fn-stat/functions.c:1274
 msgid "If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error."
 msgstr "V kolikor je @{p} < 0, je @{p} > 1 ali pa je @{df} < 1, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1008
+#: ../plugins/fn-stat/functions.c:1038
 #, fuzzy
 msgid "CHIINV(@{p},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{p},@{dof})."
 msgstr "Funkcija CHIINV(@{p},@{dof}) je skladna s funkcijo  LEGACY.CHIDIST(@{p},@{dof}) programa OpenFormula."
 
-#: ../plugins/fn-stat/functions.c:1029
+#: ../plugins/fn-stat/functions.c:1059
 #, fuzzy
 msgid "CHITEST:p value of the Goodness of Fit Test"
 msgstr "."
 
-#: ../plugins/fn-stat/functions.c:1030
+#: ../plugins/fn-stat/functions.c:1060
 msgid "actual_range:observed data"
 msgstr "dejanski_obseg:opazovani podatki"
 
-#: ../plugins/fn-stat/functions.c:1031
+#: ../plugins/fn-stat/functions.c:1061
 msgid "theoretical_range:expected values"
 msgstr "teoretični_obseg:pričakovane vrednosti"
 
-#: ../plugins/fn-stat/functions.c:1032
+#: ../plugins/fn-stat/functions.c:1062
 msgid "If the actual range is not an n by 1 or 1 by n range, but an n by m range, then CHITEST uses (n-1) times (m-1) as degrees of freedom. This is useful if the expected values were calculated from the observed value in a test of independence or test of homogeneity."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1038
+#: ../plugins/fn-stat/functions.c:1068
 msgid "CHITEST is the OpenFormula function LEGACY.CHITEST."
 msgstr "Funkcija CHITEST je skladna s funkcijo LEGACY.CHITEST programa OpenFormula."
 
-#: ../plugins/fn-stat/functions.c:1116
+#: ../plugins/fn-stat/functions.c:1146
 #, fuzzy
 msgid "BETADIST:cumulative distribution function of the beta distribution"
 msgstr "FUnkcija vrne funkcijo kumulativne porazdelitve normalne porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:1120
-#: ../plugins/fn-stat/functions.c:1157
+#: ../plugins/fn-stat/functions.c:1150
+#: ../plugins/fn-stat/functions.c:1187
 msgid "a:optional lower bound, defaults to 0"
 msgstr "a: izbirna spodnja meja, privzeto določena kot 0"
 
-#: ../plugins/fn-stat/functions.c:1121
-#: ../plugins/fn-stat/functions.c:1158
+#: ../plugins/fn-stat/functions.c:1151
+#: ../plugins/fn-stat/functions.c:1188
 msgid "b:optional upper bound, defaults to 1"
 msgstr "b: izbirna zgornja meja, privzeto določena kot 1"
 
-#: ../plugins/fn-stat/functions.c:1122
+#: ../plugins/fn-stat/functions.c:1152
 msgid "If @{x} < @{a} or @{x} > @{b} this function returns a #NUM! error."
 msgstr "V kolikor je @{x} < @{a} ali pa @{x} > @{b}, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1124
-#: ../plugins/fn-stat/functions.c:1161
+#: ../plugins/fn-stat/functions.c:1154
+#: ../plugins/fn-stat/functions.c:1191
 msgid "If @{a} >= @{b} this function returns a #NUM! error."
 msgstr "V kolikor je @{a} >= @{b}, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1153
+#: ../plugins/fn-stat/functions.c:1183
 msgid "BETAINV:inverse of the cumulative distribution function of the beta distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1188
+#: ../plugins/fn-stat/functions.c:1218
 #, fuzzy
 msgid "TDIST:survival function of the Student t-distribution"
 msgstr "FINV: inverzna funkcija funkcije preživetja F porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:1191
+#: ../plugins/fn-stat/functions.c:1221
 #, fuzzy
 msgid "tails:1 or 2"
 msgstr "Or_ganizator:"
 
-#: ../plugins/fn-stat/functions.c:1194
+#: ../plugins/fn-stat/functions.c:1224
 #, fuzzy
 msgid "If @{tails} is neither 1 or 2 this function returns a #NUM! error."
 msgstr "V kolikor @{stranost} ni ne 1 in ne 2, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1195
+#: ../plugins/fn-stat/functions.c:1225
 msgid "The parameterization of this function is different from what is used for, e.g., NORMSDIST.  This is a common source of mistakes, but necessary for compatibility."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1198
+#: ../plugins/fn-stat/functions.c:1228
 msgid "This function is Excel compatible for non-negative @{x}."
 msgstr "Funkcija je združljiva s funkcijo programa MS Excel pri ne-negativnih vrednostih @{x}."
 
-#: ../plugins/fn-stat/functions.c:1240
+#: ../plugins/fn-stat/functions.c:1270
 msgid "TINV:inverse of the survival function of the Student t-distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1246
+#: ../plugins/fn-stat/functions.c:1276
 msgid "The parameterization of this function is different from what is used for, e.g., NORMSINV.  This is a common source of mistakes, but necessary for compatibility."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1275
+#: ../plugins/fn-stat/functions.c:1305
 msgid "FDIST:survival function of the F distribution"
 msgstr "FDIST: funkcija preživetja F porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:1277
-#: ../plugins/fn-stat/functions.c:1443
+#: ../plugins/fn-stat/functions.c:1307
+#: ../plugins/fn-stat/functions.c:1473
 msgid "dof_of_num:numerator degrees of freedom"
 msgstr "df_števca: števec prostostnih stopenj"
 
-#: ../plugins/fn-stat/functions.c:1278
-#: ../plugins/fn-stat/functions.c:1444
+#: ../plugins/fn-stat/functions.c:1308
+#: ../plugins/fn-stat/functions.c:1474
 msgid "dof_of_denom:denominator degrees of freedom"
 msgstr "df_imenovalca: imenovalec prostostnih stopenj"
 
-#: ../plugins/fn-stat/functions.c:1281
+#: ../plugins/fn-stat/functions.c:1311
 msgid "If @{dof_of_num} < 1 or @{dof_of_denom} < 1, this function returns a #NUM! error."
 msgstr "V kolikor je @{df_števca} < 1 ali pa je @{df_imenovalca} < 1, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1283
+#: ../plugins/fn-stat/functions.c:1313
 msgid "FDIST is the OpenFormula function LEGACY.FDIST."
 msgstr "Funkcija FDIST je skladna s funkcijo LEGACY.FDIST programa OpenFormula."
 
-#: ../plugins/fn-stat/functions.c:1305
+#: ../plugins/fn-stat/functions.c:1335
 msgid "LANDAU:approximate probability density function of the Landau distribution"
 msgstr "LANDAU: aproksimirana funkcija gostote verjetnosti porazdelitve Landau"
 
-#: ../plugins/fn-stat/functions.c:1441
+#: ../plugins/fn-stat/functions.c:1471
 msgid "FINV:inverse of the survival function of the F distribution"
 msgstr "FINV: inverzna funkcija funkcije preživetja F porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:1447
+#: ../plugins/fn-stat/functions.c:1477
 msgid "If @{dof_of_num} < 1 or @{dof_of_denom} < 1 this function returns a #NUM! error."
 msgstr "V kolikor je @{df_števca} < 1 ali pa je @{df_imenovalca} < 1, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1449
+#: ../plugins/fn-stat/functions.c:1479
 msgid "FINV is the OpenFormula function LEGACY.FINV."
 msgstr "Funkcija FINV je skladna s funkcijo LEGACY.FINV programa OpenFormula."
 
-#: ../plugins/fn-stat/functions.c:1471
+#: ../plugins/fn-stat/functions.c:1501
 msgid "BINOMDIST:probability mass or cumulative distribution function of the binomial distribution"
 msgstr "BINOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija binomske verjetnosti"
 
-#: ../plugins/fn-stat/functions.c:1472
+#: ../plugins/fn-stat/functions.c:1502
 msgid "n:number of successes"
 msgstr "n:število uspešnih poskusov"
 
-#: ../plugins/fn-stat/functions.c:1473
-#: ../plugins/fn-stat/functions.c:1507
-#: ../plugins/fn-stat/functions.c:1569
+#: ../plugins/fn-stat/functions.c:1503
+#: ../plugins/fn-stat/functions.c:1537
+#: ../plugins/fn-stat/functions.c:1599
 msgid "trials:number of trials"
 msgstr "poskusi:število poskusov"
 
-#: ../plugins/fn-stat/functions.c:1474
-#: ../plugins/fn-stat/functions.c:1508
-#: ../plugins/fn-stat/functions.c:1570
+#: ../plugins/fn-stat/functions.c:1504
+#: ../plugins/fn-stat/functions.c:1538
+#: ../plugins/fn-stat/functions.c:1600
 msgid "p:probability of success in each trial"
 msgstr "p:verjetnost uspeha pri vsakem poskusu"
 
-#: ../plugins/fn-stat/functions.c:1475
-#: ../plugins/fn-stat/functions.c:1629
-#: ../plugins/fn-stat/functions.c:1952
-#: ../plugins/fn-stat/functions.c:4296
+#: ../plugins/fn-stat/functions.c:1505
+#: ../plugins/fn-stat/functions.c:1659
+#: ../plugins/fn-stat/functions.c:1982
+#: ../plugins/fn-stat/functions.c:4326
 msgid "cumulative:whether to evaluate the mass function or the cumulative distribution function"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1476
+#: ../plugins/fn-stat/functions.c:1506
 msgid "If @{n} or @{trials} are non-integer they are truncated."
 msgstr "V kolikor @{n} ali pa število @{poskusov} nista celoštevilski vrednosti, so ta prirezana."
 
-#: ../plugins/fn-stat/functions.c:1477
+#: ../plugins/fn-stat/functions.c:1507
 msgid "If @{n} < 0 or @{trials} < 0 this function returns a #NUM! error."
 msgstr "V kolikor je @{n} < 0 ali pa je število @{poskusov} < 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1478
+#: ../plugins/fn-stat/functions.c:1508
 msgid "If @{n} > @{trials} this function returns a #NUM! error."
 msgstr "V kolikor je @{n} < od števila @{poskusovk}, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1506
+#: ../plugins/fn-stat/functions.c:1536
 msgid "BINOM.DIST.RANGE:probability of the binomial distribution over an interval"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1509
+#: ../plugins/fn-stat/functions.c:1539
 msgid "start:start of the interval"
 msgstr "začetekt:začetek intervala"
 
-#: ../plugins/fn-stat/functions.c:1510
+#: ../plugins/fn-stat/functions.c:1540
 msgid "end:end of the interval, defaults to @{start}"
 msgstr "konec:konec intervala, privzeto je enak @{začetku}"
 
-#: ../plugins/fn-stat/functions.c:1511
+#: ../plugins/fn-stat/functions.c:1541
 msgid "If @{start}, @{end} or @{trials} are non-integer they are truncated."
 msgstr "V kolikor @{začetek}, @{konec} ali @{poskusi} niso celoštevilske vrednosti, so te prirezane."
 
-#: ../plugins/fn-stat/functions.c:1512
-#: ../plugins/fn-stat/functions.c:1573
+#: ../plugins/fn-stat/functions.c:1542
+#: ../plugins/fn-stat/functions.c:1603
 msgid "If @{trials} < 0 this function returns a #NUM! error."
 msgstr "V kolikor je število @{poskusov} < 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1514
+#: ../plugins/fn-stat/functions.c:1544
 msgid "If @{start} > @{end} this function returns 0."
 msgstr "V kolikor je @{začetek} > @{konca} funkcija vrne vrednost 0."
 
-#: ../plugins/fn-stat/functions.c:1537
+#: ../plugins/fn-stat/functions.c:1567
 msgid "CAUCHY:probability density or cumulative distribution function of the Cauchy, Lorentz or Breit-Wigner distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1540
-#: ../plugins/fn-stat/functions.c:4326
-#: ../plugins/fn-stat/functions.c:4465
+#: ../plugins/fn-stat/functions.c:1570
+#: ../plugins/fn-stat/functions.c:4356
+#: ../plugins/fn-stat/functions.c:4495
 msgid "a:scale parameter"
 msgstr "a:parameter merila"
 
-#: ../plugins/fn-stat/functions.c:1542
+#: ../plugins/fn-stat/functions.c:1572
 msgid "If @{a} < 0 this function returns a #NUM! error."
 msgstr "V kolikor je @{a} < 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1543
-#: ../plugins/fn-stat/functions.c:4299
+#: ../plugins/fn-stat/functions.c:1573
+#: ../plugins/fn-stat/functions.c:4329
 msgid "If @{cumulative} is neither TRUE nor FALSE this function returns a #VALUE! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1568
+#: ../plugins/fn-stat/functions.c:1598
 msgid "CRITBINOM:right-tailed critical value of the binomial distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1571
+#: ../plugins/fn-stat/functions.c:1601
 #, fuzzy
 msgid "alpha:significance level (area of the tail)"
 msgstr "alfa: raven statistične značilnosti (območje stranosti)"
 
-#: ../plugins/fn-stat/functions.c:1572
+#: ../plugins/fn-stat/functions.c:1602
 msgid "If @{trials} is a non-integer it is truncated."
 msgstr "V kolikor število @{poskusov} ni celo število, je to prirezano"
 
-#: ../plugins/fn-stat/functions.c:1575
+#: ../plugins/fn-stat/functions.c:1605
 msgid "If @{alpha} < 0 or @{alpha} > 1 this function returns a #NUM! error."
 msgstr "V kolikor je @{alfa} < 0 ali pa je @{alfa} > 1, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1598
+#: ../plugins/fn-stat/functions.c:1628
 msgid "PERMUT:number of @{k}-permutations of a @{n}-set"
 msgstr "PERMUT: število @{k}-permutacij množice @{n}"
 
-#: ../plugins/fn-stat/functions.c:1599
+#: ../plugins/fn-stat/functions.c:1629
 msgid "n:size of the base set"
 msgstr "n: velikost osnovne množice"
 
-#: ../plugins/fn-stat/functions.c:1600
+#: ../plugins/fn-stat/functions.c:1630
 msgid "k:number of elements in each permutation"
 msgstr "k: število predmetov v vsaki permutaciji"
 
-#: ../plugins/fn-stat/functions.c:1601
+#: ../plugins/fn-stat/functions.c:1631
 msgid "If @{n} = 0 this function returns a #NUM! error."
 msgstr "V kolikor je @{n} = 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1602
+#: ../plugins/fn-stat/functions.c:1632
 msgid "If @{n} < @{k} this function returns a #NUM! error."
 msgstr "V kolikor je @{n} < @{k}, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1624
+#: ../plugins/fn-stat/functions.c:1654
 msgid "HYPGEOMDIST:probability mass or cumulative distribution function of the hypergeometric distribution"
 msgstr "HYPERGEOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija hipergeometrične porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:1625
+#: ../plugins/fn-stat/functions.c:1655
 msgid "x:number of successes"
 msgstr "x: število uspešnih poskusov"
 
-#: ../plugins/fn-stat/functions.c:1626
+#: ../plugins/fn-stat/functions.c:1656
 msgid "n:sample size"
 msgstr "n: velikost vzorca"
 
-#: ../plugins/fn-stat/functions.c:1627
+#: ../plugins/fn-stat/functions.c:1657
 msgid "M:number of possible successes in the population"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1628
+#: ../plugins/fn-stat/functions.c:1658
 msgid "N:population size"
 msgstr "N: velikost populacije"
 
-#: ../plugins/fn-stat/functions.c:1630
+#: ../plugins/fn-stat/functions.c:1660
 msgid "If @{x},@{n},@{M} or @{N} is a non-integer it is truncated."
 msgstr "V kolikor @{x}, @{n}, @{M} ali @{t} niso cela števili, so ta prirezana."
 
-#: ../plugins/fn-stat/functions.c:1631
+#: ../plugins/fn-stat/functions.c:1661
 msgid "If @{x},@{n},@{M} or @{N} < 0 this function returns a #NUM! error."
 msgstr "V kolikor so @{x},@{n},@{M} ali @{N} < 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1632
+#: ../plugins/fn-stat/functions.c:1662
 msgid "If @{x} > @{M} or @{n} > @{N} this function returns a #NUM! error."
 msgstr "V kolikor je @{x} > @{M} ali pa je @{n} > @{N}, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1660
+#: ../plugins/fn-stat/functions.c:1690
 msgid "CONFIDENCE:margin of error of a confidence interval for the population mean"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1661
+#: ../plugins/fn-stat/functions.c:1691
 msgid "alpha:significance level"
 msgstr "alfa: raven signifikance"
 
-#: ../plugins/fn-stat/functions.c:1662
+#: ../plugins/fn-stat/functions.c:1692
 msgid "stddev:population standard deviation"
 msgstr "stddev: populacijski standardni odklon"
 
-#: ../plugins/fn-stat/functions.c:1663
+#: ../plugins/fn-stat/functions.c:1693
 msgid "size:sample size"
 msgstr "size:velikost vzorca"
 
-#: ../plugins/fn-stat/functions.c:1664
+#: ../plugins/fn-stat/functions.c:1694
 msgid "This function requires the usually unknown population standard deviation."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1665
+#: ../plugins/fn-stat/functions.c:1695
 msgid "If @{size} is non-integer it is truncated."
 msgstr "V kolikor @{velikost} ni celo število, je ta prirezana."
 
-#: ../plugins/fn-stat/functions.c:1666
+#: ../plugins/fn-stat/functions.c:1696
 msgid "If @{size} < 0 this function returns a #NUM! error."
 msgstr "V kolikor je @{size} < 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1667
+#: ../plugins/fn-stat/functions.c:1697
 msgid "If @{size} is 0 this function returns a #DIV/0! error."
 msgstr "V kolikor je @{velikost} enaka 0, funkcija vrne napako #DIV/0!."
 
-#: ../plugins/fn-stat/functions.c:1690
+#: ../plugins/fn-stat/functions.c:1720
 msgid "STANDARDIZE:z-score of a value"
 msgstr "STANDARDIZE: normalizirana vrednost"
 
-#: ../plugins/fn-stat/functions.c:1692
+#: ../plugins/fn-stat/functions.c:1722
 msgid "mean:mean of the original distribution"
 msgstr "srednja: srednja vrednost izvorne porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:1693
+#: ../plugins/fn-stat/functions.c:1723
 msgid "stddev:standard deviation of the original distribution"
 msgstr "stod: standardni odklon izvorne porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:1694
-#: ../plugins/fn-stat/functions.c:1758
+#: ../plugins/fn-stat/functions.c:1724
+#: ../plugins/fn-stat/functions.c:1788
 msgid "If @{stddev} is 0 this function returns a #DIV/0! error."
 msgstr "V kolikor je @{stod} enaka 0, funkcija vrne napako #DIV/0!."
 
-#: ../plugins/fn-stat/functions.c:1717
+#: ../plugins/fn-stat/functions.c:1747
 #, fuzzy
 msgid "WEIBULL:probability density or cumulative distribution function of the Weibull distribution"
 msgstr "BINOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija binomske verjetnosti"
 
-#: ../plugins/fn-stat/functions.c:1722
+#: ../plugins/fn-stat/functions.c:1752
 msgid "If the @{cumulative} boolean is true it will return: 1 - exp (-(@{x}/@{beta})^@{alpha}),otherwise it will return (@{alpha}/@{beta}^@{alpha}) * @{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha}))."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1753
+#: ../plugins/fn-stat/functions.c:1783
 msgid "NORMDIST:probability density or cumulative distribution function of a normal distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1755
-#: ../plugins/fn-stat/functions.c:1788
-#: ../plugins/fn-stat/functions.c:1951
+#: ../plugins/fn-stat/functions.c:1785
+#: ../plugins/fn-stat/functions.c:1818
+#: ../plugins/fn-stat/functions.c:1981
 msgid "mean:mean of the distribution"
 msgstr "srednja: srednja vrednost porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:1756
-#: ../plugins/fn-stat/functions.c:1789
+#: ../plugins/fn-stat/functions.c:1786
+#: ../plugins/fn-stat/functions.c:1819
 msgid "stddev:standard deviation of the distribution"
 msgstr "stddev: standardni odklon porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:1786
+#: ../plugins/fn-stat/functions.c:1816
 #, fuzzy
 msgid "NORMINV:inverse of the cumulative distribution function of a normal distribution"
 msgstr "FUnkcija vrne funkcijo kumulativne porazdelitve normalne porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:1790
+#: ../plugins/fn-stat/functions.c:1820
 msgid "If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns a #NUM! error."
 msgstr "V kolikor je @{p} < 0, je @{p} > 1 ali pa je @{stod} <= 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1814
+# kurtosis = sploščenost
+#: ../plugins/fn-stat/functions.c:1844
 msgid "KURT:unbiased estimate of the kurtosis of a data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1818
+#: ../plugins/fn-stat/functions.c:1848
 msgid "This is only meaningful if the underlying distribution really has a fourth moment.  The kurtosis is offset by three such that a normal distribution will have zero kurtosis."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1822
+#: ../plugins/fn-stat/functions.c:1852
 msgid "If fewer than four numbers are given or all of them are equal this function returns a #DIV/0! error."
 msgstr "V kolikor so podane manj kot štiri številke ali pa so vse enake, funkcija vrne napako #DIV/0!"
 
-#: ../plugins/fn-stat/functions.c:1826
+#: ../plugins/fn-stat/functions.c:1856
 msgid "Then KURT(A1:A5) equals 1.234546305."
 msgstr "Izračun funkcije  KURT(A1:A5) vrne rešitev 1.234546305."
 
-#: ../plugins/fn-stat/functions.c:1845
+#: ../plugins/fn-stat/functions.c:1875
 msgid "KURTP:population kurtosis of a data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1849
+#: ../plugins/fn-stat/functions.c:1879
 msgid "If fewer than two numbers are given or all of them are equal this function returns a #DIV/0! error."
 msgstr "V kolikor sta podani manj kot dve številki ali pa sta enaki, funkcija vrne napako #DIV/0!"
 
-#: ../plugins/fn-stat/functions.c:1852
+#: ../plugins/fn-stat/functions.c:1882
 msgid "Then KURTP(A1:A5) equals -0.691363424."
 msgstr "Izračun funkcije  KURTP(A1:A5) vrne rešitev -0.691363424."
 
-#: ../plugins/fn-stat/functions.c:1871
+#: ../plugins/fn-stat/functions.c:1901
 msgid "AVEDEV:average of the absolute deviations of a data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1876
+#: ../plugins/fn-stat/functions.c:1906
 msgid "Then AVEDEV(A1:A5) equals 7.84."
 msgstr "Izračun funkcije  AVEDEV(A1:A5) vrne rešitev 7.84."
 
-#: ../plugins/fn-stat/functions.c:1895
+#: ../plugins/fn-stat/functions.c:1925
 msgid "DEVSQ:sum of squares of deviations of a data set"
 msgstr "DEVSQ: vsota kvadratov odklona podatkovne množice"
 
-#: ../plugins/fn-stat/functions.c:1901
+#: ../plugins/fn-stat/functions.c:1931
 msgid "Then DEVSQ(A1:A5) equals 470.56."
 msgstr "Izračun funkcije  DEVSQ(A1:A5) vrne rešitev470.56."
 
-#: ../plugins/fn-stat/functions.c:1920
+#: ../plugins/fn-stat/functions.c:1950
 msgid "FISHER:Fisher transformation"
 msgstr "FISHER: Fisherjeva transformacija"
 
-#: ../plugins/fn-stat/functions.c:1922
+#: ../plugins/fn-stat/functions.c:1952
 msgid "If @{x} is not a number, this function returns a #VALUE! error."
 msgstr "V kolikor @{x} ni število, funkcija vrne napako #VALUE!."
 
-#: ../plugins/fn-stat/functions.c:1923
+#: ../plugins/fn-stat/functions.c:1953
 msgid "If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error."
 msgstr "V kolikor je @{x} <= -1 or @{x} >= 1, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1949
+#: ../plugins/fn-stat/functions.c:1979
 #, fuzzy
 msgid "POISSON:probability mass or cumulative distribution function of the Poisson distribution"
 msgstr "BINOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija binomske verjetnosti"
 
-#: ../plugins/fn-stat/functions.c:1950
+#: ../plugins/fn-stat/functions.c:1980
 msgid "x:number of events"
 msgstr "x:število dogodkov"
 
-#: ../plugins/fn-stat/functions.c:1953
+#: ../plugins/fn-stat/functions.c:1983
 msgid "If @{x} is a non-integer it is truncated."
 msgstr "V kolikor @{x} ni celo število, je to prirezano"
 
-#: ../plugins/fn-stat/functions.c:1955
+#: ../plugins/fn-stat/functions.c:1985
 msgid "If @{mean} <= 0 POISSON returns the #NUM! error."
 msgstr "V kolikor je @{povprečje} <= 0, funkcija POISSON vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:1981
+#: ../plugins/fn-stat/functions.c:2011
 #, fuzzy
 msgid "PEARSON:Pearson correlation coefficient of the paired set of data"
 msgstr "PEARSON:Pearsonov koeficient soodnosnosti parjenega niza podatkov"
 
-#: ../plugins/fn-stat/functions.c:1982
-#: ../plugins/fn-stat/functions.c:2001
+#: ../plugins/fn-stat/functions.c:2012
+#: ../plugins/fn-stat/functions.c:2031
 msgid "array1:first component values"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:1983
-#: ../plugins/fn-stat/functions.c:2002
+#: ../plugins/fn-stat/functions.c:2013
+#: ../plugins/fn-stat/functions.c:2032
 msgid "array2:second component values"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2000
+#: ../plugins/fn-stat/functions.c:2030
 msgid "RSQ:square of the Pearson correlation coefficient of the paired set of data"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2024
+#: ../plugins/fn-stat/functions.c:2054
 msgid "MEDIAN:median of a data set"
 msgstr "MEDIAN:mediana srednja vrednost podatkovne množice"
 
-#: ../plugins/fn-stat/functions.c:2028
+#: ../plugins/fn-stat/functions.c:2058
 msgid "If even numbers are given MEDIAN returns the average of the two numbers in the center."
 msgstr "V kolikor je podano sodo število števil, funkcija MEDIAN vrne povprečno vrednost dveh števil na sredini."
 
-#: ../plugins/fn-stat/functions.c:2032
+#: ../plugins/fn-stat/functions.c:2062
 msgid "Then MEDIAN(A1:A5) equals 21.3."
 msgstr "Izračun funkcije MEDIAN(A1:A5) vrne rešitev 21.3."
 
-#: ../plugins/fn-stat/functions.c:2034
+#: ../plugins/fn-stat/functions.c:2064
 msgid "wiki:en:Median"
 msgstr "wiki:en:Median"
 
-#: ../plugins/fn-stat/functions.c:2035
+#: ../plugins/fn-stat/functions.c:2065
 msgid "wolfram:StatisticalMedian.html"
 msgstr "wolfram:StatisticalMedian.html"
 
-#: ../plugins/fn-stat/functions.c:2054
+#: ../plugins/fn-stat/functions.c:2084
 msgid "SSMEDIAN:median for grouped data"
 msgstr "SSMEDIAN:mediana srednja vrednost skupinjenih podatkov"
 
-#: ../plugins/fn-stat/functions.c:2055
+#: ../plugins/fn-stat/functions.c:2085
 msgid "array:data set"
 msgstr "polje: podatkovna množica"
 
-#: ../plugins/fn-stat/functions.c:2056
+#: ../plugins/fn-stat/functions.c:2086
 msgid "interval:length of each grouping interval, defaults to 1"
 msgstr "interval: dolžina vsakega intervala skupine, privzeto določenega na vrednost 1."
 
-#: ../plugins/fn-stat/functions.c:2057
+#: ../plugins/fn-stat/functions.c:2087
 msgid ""
 "The data are assumed to be grouped into intervals of width @{interval}. Each data point in @{array} is the midpoint of the interval containing the true value. The median is calculated by interpolation within the median interval (the interval containing the median value), assuming that the true values within that interval are distributed uniformly:\n"
 "median = L + @{interval}*(N/2 - CF)/F\n"
@@ -8081,580 +8095,579 @@ msgid ""
 "F = the number of data points in the median interval"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2068
-#: ../plugins/fn-stat/functions.c:2741
-#: ../plugins/fn-stat/functions.c:2783
+#: ../plugins/fn-stat/functions.c:2098
+#: ../plugins/fn-stat/functions.c:2771
+#: ../plugins/fn-stat/functions.c:2813
 msgid "If @{array} is empty, this function returns a #NUM! error."
 msgstr "V kolikor je podatkovno @{polje} prazno, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:2069
+#: ../plugins/fn-stat/functions.c:2099
 msgid "If @{interval} <= 0, this function returns a #NUM! error. SSMEDIAN does not check whether the data points are at least @{interval} apart."
 msgstr "V kolikor je @{interval} <= 0, funkcija vrne napako #NUM!. Funkcija SSMEDIAN tudi ne preveri ali so podatkovne točke vsaj za vrednost @{intervala} narazen."
 
-#: ../plugins/fn-stat/functions.c:2156
+#: ../plugins/fn-stat/functions.c:2186
 msgid "LARGE:@{k}-th largest value in a data set"
 msgstr "LARGE:@{k}-ta največja vrednost v podatkovni množici"
 
-#: ../plugins/fn-stat/functions.c:2157
-#: ../plugins/fn-stat/functions.c:2200
+#: ../plugins/fn-stat/functions.c:2187
+#: ../plugins/fn-stat/functions.c:2230
 msgid "data:data set"
 msgstr "podatki: podatkovna množica"
 
-#: ../plugins/fn-stat/functions.c:2158
-#: ../plugins/fn-stat/functions.c:2201
+#: ../plugins/fn-stat/functions.c:2188
+#: ../plugins/fn-stat/functions.c:2231
 msgid "k:which value to find"
 msgstr "k:vrednost za iskanje"
 
-#: ../plugins/fn-stat/functions.c:2159
-#: ../plugins/fn-stat/functions.c:2202
+#: ../plugins/fn-stat/functions.c:2189
+#: ../plugins/fn-stat/functions.c:2232
 msgid "If data set is empty this function returns a #NUM! error."
 msgstr "V kolikor je podatkovna množica prazna, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:2160
-#: ../plugins/fn-stat/functions.c:2203
+#: ../plugins/fn-stat/functions.c:2190
+#: ../plugins/fn-stat/functions.c:2233
 msgid "If @{k} <= 0 or @{k} is greater than the number of data items given this function returns a #NUM! error."
 msgstr "V kolikor je @{k} <= 0 ali pa je @{k} večji od števila predmetov podatkovne množice, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:2165
+#: ../plugins/fn-stat/functions.c:2195
 msgid "Then LARGE(A1:A5,2) equals 25.9.LARGE(A1:A5,4) equals 17.3."
 msgstr "Izračun funkcije LARGE(A1:A5,2) vrne rešitev 25.9 in LARGE(A1:A5,4) vrne rešitev 17.3."
 
-#: ../plugins/fn-stat/functions.c:2199
+#: ../plugins/fn-stat/functions.c:2229
 msgid "SMALL:@{k}-th smallest value in a data set"
 msgstr "SMALL:@{k}-ta najmanjša vrednost v podatkovni množici"
 
-#: ../plugins/fn-stat/functions.c:2208
+#: ../plugins/fn-stat/functions.c:2238
 msgid "Then SMALL(A1:A5,2) equals 17.3.SMALL(A1:A5,4) equals 25.9."
 msgstr "Izračun funkcije SMALL(A1:A5,2) vrne rešitev 17.3 in SMALL(A1:A5,4) vrne rešitev 25.9."
 
-#: ../plugins/fn-stat/functions.c:2243
+#: ../plugins/fn-stat/functions.c:2273
 msgid "PROB:probability of an interval for a discrete (and finite) probability distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2244
+#: ../plugins/fn-stat/functions.c:2274
 msgid "x_range:possible values"
 msgstr "podatkovna_vrsta_x:mogoče vrednosti"
 
-#: ../plugins/fn-stat/functions.c:2245
+#: ../plugins/fn-stat/functions.c:2275
 msgid "prob_range:probabilities of the corresponding values"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2246
+#: ../plugins/fn-stat/functions.c:2276
 msgid "lower_limit:lower interval limit"
 msgstr "spodnja_limita:spodnja limita intervala"
 
-#: ../plugins/fn-stat/functions.c:2247
+#: ../plugins/fn-stat/functions.c:2277
 msgid "upper_limit:upper interval limit, defaults to @{lower_limit}"
 msgstr "zgornja_limita: zgornja limita, privzeto enaka @{spodnji_limiti}"
 
-#: ../plugins/fn-stat/functions.c:2248
+#: ../plugins/fn-stat/functions.c:2278
 msgid "If the sum of the probabilities in @{prob_range} is not equal to 1 this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2250
+#: ../plugins/fn-stat/functions.c:2280
 msgid "If any value in @{prob_range} is <=0 or > 1, this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2252
+#: ../plugins/fn-stat/functions.c:2282
 msgid "If @{x_range} and @{prob_range} contain a different number of data entries, this function returns a #N/A error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2329
+#: ../plugins/fn-stat/functions.c:2359
 msgid "STEYX:standard error of the predicted y-value in the regression"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2330
-#: ../plugins/fn-stat/functions.c:3375
-#: ../plugins/fn-stat/functions.c:3491
-#: ../plugins/fn-stat/functions.c:3733
-#: ../plugins/fn-stat/functions.c:3831
-#: ../plugins/fn-stat/functions.c:3921
-#: ../plugins/fn-stat/functions.c:3980
-#: ../plugins/fn-stat/functions.c:4032
+#: ../plugins/fn-stat/functions.c:2360
+#: ../plugins/fn-stat/functions.c:3405
+#: ../plugins/fn-stat/functions.c:3521
+#: ../plugins/fn-stat/functions.c:3763
+#: ../plugins/fn-stat/functions.c:3861
+#: ../plugins/fn-stat/functions.c:3951
+#: ../plugins/fn-stat/functions.c:4010
+#: ../plugins/fn-stat/functions.c:4062
 msgid "known_ys:known y-values"
 msgstr "poznani_ys:znane vrednosti y"
 
-#: ../plugins/fn-stat/functions.c:2331
-#: ../plugins/fn-stat/functions.c:3492
-#: ../plugins/fn-stat/functions.c:3922
-#: ../plugins/fn-stat/functions.c:3981
-#: ../plugins/fn-stat/functions.c:4033
+#: ../plugins/fn-stat/functions.c:2361
+#: ../plugins/fn-stat/functions.c:3522
+#: ../plugins/fn-stat/functions.c:3952
+#: ../plugins/fn-stat/functions.c:4011
+#: ../plugins/fn-stat/functions.c:4063
 msgid "known_xs:known x-values"
 msgstr "poznani_xs:znane vrednosti x"
 
-#: ../plugins/fn-stat/functions.c:2332
+#: ../plugins/fn-stat/functions.c:2362
 msgid "If @{known_ys} and @{known_xs} are empty or have a different number of arguments then this function returns a #N/A error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2338
+#: ../plugins/fn-stat/functions.c:2368
 msgid "Then STEYX(A1:A5,B1:B5) equals 1.101509979."
 msgstr "Izračun funkcije STEYX(A1:A5,B1:B5) vrne rešitev 1.101509979."
 
-#: ../plugins/fn-stat/functions.c:2382
+#: ../plugins/fn-stat/functions.c:2412
 msgid "ZTEST:the probability of observing a sample mean as large as or larger than the mean of the given sample"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2384
+#: ../plugins/fn-stat/functions.c:2414
 msgid "ref:data set (sample)"
 msgstr "sklic: podatkovna množica (vzorec)"
 
-#: ../plugins/fn-stat/functions.c:2385
+#: ../plugins/fn-stat/functions.c:2415
 msgid "x:population mean"
 msgstr "x:srednja vrednost populacije"
 
-#: ../plugins/fn-stat/functions.c:2386
+#: ../plugins/fn-stat/functions.c:2416
 msgid "stddev:population standard deviation, defaults to the sample standard deviation"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2387
+#: ../plugins/fn-stat/functions.c:2417
 msgid "ZTEST calulates the probability of observing a sample mean as large as or larger than the mean of the given sample for samples drawn from a normal distribution with mean @{x} and standard deviation @{stddev}."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2390
+#: ../plugins/fn-stat/functions.c:2420
 msgid "If @{ref} contains less than two data items ZTEST returns #DIV/0! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2396
+#: ../plugins/fn-stat/functions.c:2426
 msgid "Then ZTEST(A1:A5,20) equals 0.254717826."
 msgstr "Izračun funkcije ZTEST(A1:A5,20) vrne rešitev 0.254717826."
 
-#: ../plugins/fn-stat/functions.c:2447
+#: ../plugins/fn-stat/functions.c:2477
 msgid "AVERAGEA:average of all the values and cells"
 msgstr "AVERAGEA: povprečje vseh vrednosti v sklicanih celicah"
 
-#: ../plugins/fn-stat/functions.c:2452
-#: ../plugins/fn-stat/functions.c:2477
-#: ../plugins/fn-stat/functions.c:2504
-#: ../plugins/fn-stat/functions.c:2536
-#: ../plugins/fn-stat/functions.c:2563
+#: ../plugins/fn-stat/functions.c:2482
+#: ../plugins/fn-stat/functions.c:2507
+#: ../plugins/fn-stat/functions.c:2534
+#: ../plugins/fn-stat/functions.c:2566
 #: ../plugins/fn-stat/functions.c:2593
-#: ../plugins/fn-stat/functions.c:2620
+#: ../plugins/fn-stat/functions.c:2623
+#: ../plugins/fn-stat/functions.c:2650
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, \"missing\", 25.9, and 40.1."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2453
+#: ../plugins/fn-stat/functions.c:2483
 msgid "Then AVERAGEA(A1:A5) equals 18.94."
 msgstr "Izračun funkcije AVERAGEA(A1:A5) vrne rešitev 18.94."
 
-#: ../plugins/fn-stat/functions.c:2472
+#: ../plugins/fn-stat/functions.c:2502
 msgid "MAXA:largest value, with negative numbers considered smaller than positive numbers"
 msgstr "MAXA: največja vrednost, pri čemer so negativna števila opredeljena kot manjša od pozitivnih"
 
-#: ../plugins/fn-stat/functions.c:2479
+#: ../plugins/fn-stat/functions.c:2509
 msgid "Then MAXA(A1:A5) equals 40.1."
 msgstr "Izračun funkcije MAXA(A1:A5) vrne rešitev 40.1."
 
-#: ../plugins/fn-stat/functions.c:2499
+#: ../plugins/fn-stat/functions.c:2529
 msgid "MINA:smallest value, with negative numbers considered smaller than positive numbers"
 msgstr "MINA:najmanjša vrednost med podatki, kjer so negativna števila opredeljena kot manjša od pozitivnih"
 
-#: ../plugins/fn-stat/functions.c:2506
+#: ../plugins/fn-stat/functions.c:2536
 msgid "Then MINA(A1:A5) equals 0."
 msgstr "Izračun funkcije MINA(A1:A5) vrne rešitev 0."
 
-#: ../plugins/fn-stat/functions.c:2526
+#: ../plugins/fn-stat/functions.c:2556
 msgid "VARA:sample variance of the given sample"
 msgstr "VARA: varianca podanega vzorca"
 
-#: ../plugins/fn-stat/functions.c:2529
+#: ../plugins/fn-stat/functions.c:2559
 msgid "VARA is also known as the N-1-variance."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2530
+#: ../plugins/fn-stat/functions.c:2560
 msgid "To get the true variance of a complete population use VARPA."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2538
+#: ../plugins/fn-stat/functions.c:2568
 msgid "Then VARA(A1:A5) equals 228.613."
 msgstr "Izračun funkcije VARA(A1:A5) vrne rešitev 228.613."
 
-#: ../plugins/fn-stat/functions.c:2557
+#: ../plugins/fn-stat/functions.c:2587
 msgid "VARPA:variance of an entire population"
 msgstr "VARPA:varianca celotne populacije"
 
-#: ../plugins/fn-stat/functions.c:2560
+#: ../plugins/fn-stat/functions.c:2590
 msgid "VARPA is also known as the N-variance."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2565
+#: ../plugins/fn-stat/functions.c:2595
 msgid "Then VARPA(A1:A5) equals 182.8904."
 msgstr "Izračun funkcije VARPA(A1:A5) vrne rešitev 182.8904."
 
-#: ../plugins/fn-stat/functions.c:2584
+#: ../plugins/fn-stat/functions.c:2614
 msgid "STDEVA:sample standard deviation of the given sample"
 msgstr "STDEVA: standardni odklon podanega vzorca"
 
-#: ../plugins/fn-stat/functions.c:2588
+#: ../plugins/fn-stat/functions.c:2618
 msgid "STDEVA is also known as the N-1-standard deviation."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2589
+#: ../plugins/fn-stat/functions.c:2619
 msgid "To obtain the population standard deviation of a whole population use STDEVPA."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2595
+#: ../plugins/fn-stat/functions.c:2625
 msgid "Then STDEVA(A1:A5) equals 15.119953704."
 msgstr "Izračun funkcije STDEVA(A1:A5) vrne rešitev 15.119953704."
 
-#: ../plugins/fn-stat/functions.c:2614
+#: ../plugins/fn-stat/functions.c:2644
 msgid "STDEVPA:population standard deviation of an entire population"
 msgstr "STDEVPA:populacijski standardni odklon celotne populacije"
 
-#: ../plugins/fn-stat/functions.c:2622
+#: ../plugins/fn-stat/functions.c:2652
 msgid "Then STDEVPA(A1:A5) equals 13.523697719."
 msgstr "Izračun funkcije STDEVPA(A1:A5) vrne rešitev 13.523697719."
 
-#: ../plugins/fn-stat/functions.c:2641
+#: ../plugins/fn-stat/functions.c:2671
 msgid "PERCENTRANK:rank of a data point in a data set"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2642
+#: ../plugins/fn-stat/functions.c:2672
 msgid "array:range of numeric values"
 msgstr "polje: polje številčnih vrednosti"
 
-#: ../plugins/fn-stat/functions.c:2643
+#: ../plugins/fn-stat/functions.c:2673
 msgid "x:data point to be ranked"
 msgstr "x:podatkovna točka za določitev ranga"
 
-#: ../plugins/fn-stat/functions.c:2644
+#: ../plugins/fn-stat/functions.c:2674
 msgid "significance:number of significant digits, defaults to 3"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2645
+#: ../plugins/fn-stat/functions.c:2675
 msgid "If @{array} contains no data points, this function returns a #NUM! error."
 msgstr "V kolikor podatkovno @{polje} ne vsebuje podatkovnih točk, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:2647
+#: ../plugins/fn-stat/functions.c:2677
 msgid "If @{significance} is less than one, this function returns a #NUM! error."
 msgstr "V kolikor je statistična @{značilnost} manjša kot ena, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:2649
+#: ../plugins/fn-stat/functions.c:2679
 msgid "If @{x} exceeds the largest value or is less than the smallest value in @{array}, this function returns a #NUM! error."
 msgstr "V kolikor @{x} preseže največjo vrednost ali pa je manjši od najmanjše vrednosti v podatkovnem @{polju}, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:2651
+#: ../plugins/fn-stat/functions.c:2681
 msgid "If @{x} does not match any of the values in @{array} or @{x} matches more than once, this function interpolates the returned value."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2738
+#: ../plugins/fn-stat/functions.c:2768
 #, fuzzy
 msgid "PERCENTILE:determines the  100*@{k}-th percentile of the given data points"
 msgstr "PERCENTILE:določi 100*@{k}-ti percentil podanih podatkovnih točk"
 
-#: ../plugins/fn-stat/functions.c:2739
-#: ../plugins/fn-stat/functions.c:2781
+#: ../plugins/fn-stat/functions.c:2769
+#: ../plugins/fn-stat/functions.c:2811
 msgid "array:data points"
 msgstr "polje:podatkovne točke"
 
-#: ../plugins/fn-stat/functions.c:2740
+#: ../plugins/fn-stat/functions.c:2770
 msgid "k:which percentile to calculate"
 msgstr "k:kateri percentil naj bo izračunan"
 
-#: ../plugins/fn-stat/functions.c:2742
+#: ../plugins/fn-stat/functions.c:2772
 msgid "If @{k} < 0 or @{k} > 1, this function returns a #NUM! error."
 msgstr "V kolikor je @{k} < 0 ali @{k} > 1, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:2745
+#: ../plugins/fn-stat/functions.c:2775
 msgid "Then PERCENTILE(A1:A5,0.42) equals 20.02."
 msgstr "Izračun funkcije PERCENTILE(A1:A5,0.42) vrne rešitev 20.02."
 
-#: ../plugins/fn-stat/functions.c:2780
+#: ../plugins/fn-stat/functions.c:2810
 #, fuzzy
 msgid "QUARTILE:the @{k}-th quartile of the data points"
 msgstr "ordinata:navpične koordinate podanih podatkovnih točk"
 
-#: ../plugins/fn-stat/functions.c:2782
+#: ../plugins/fn-stat/functions.c:2812
 msgid "quart:a number from 0 to 4, indicating which quartile to calculate"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2784
+#: ../plugins/fn-stat/functions.c:2814
 msgid "If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error. If @{quart} = 0, the smallest value of @{array} to be returned."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2785
+#: ../plugins/fn-stat/functions.c:2815
 #, fuzzy
 msgid "If @{quart} is not an integer, it is truncated."
 msgstr "V kolikor katerikoli izmed argumentov ni celo število, je vrednost razdeljena"
 
-#: ../plugins/fn-stat/functions.c:2788
+#: ../plugins/fn-stat/functions.c:2818
 msgid "Then QUARTILE(A1:A5,1) equals 17.3."
 msgstr "Izračun funkcije QUARTILE(A1:A5,1) vrne rešitev 17.3."
 
-#: ../plugins/fn-stat/functions.c:2823
+#: ../plugins/fn-stat/functions.c:2853
 msgid "FTEST:p-value for the two-tailed hypothesis test comparing the variances of two populations"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2825
-#: ../plugins/fn-stat/functions.c:2882
+#: ../plugins/fn-stat/functions.c:2855
+#: ../plugins/fn-stat/functions.c:2912
 msgid "array1:sample from the first population"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2826
-#: ../plugins/fn-stat/functions.c:2883
+#: ../plugins/fn-stat/functions.c:2856
+#: ../plugins/fn-stat/functions.c:2913
 msgid "array2:sample from the second population"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2831
+#: ../plugins/fn-stat/functions.c:2861
 msgid "Then FTEST(A1:A5,B1:B5) equals 0.510815017."
 msgstr "Izračun funkcije FTEST(A1:A5,B1:B5) vrne rešitev 0.510815017."
 
-#: ../plugins/fn-stat/functions.c:2880
+#: ../plugins/fn-stat/functions.c:2910
 msgid "TTEST:p-value for a hypothesis test comparing the means of two populations using the Student t-distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2884
+#: ../plugins/fn-stat/functions.c:2914
 #, fuzzy
 msgid "tails:number of tails to consider"
 msgstr "Š_tevilo iger sudoku za tiskanje:"
 
-#: ../plugins/fn-stat/functions.c:2885
+#: ../plugins/fn-stat/functions.c:2915
 msgid "type:Type of test to perform. 1 indicates a test for paired variables, 2 a test of unpaired variables with equal variances, and 3 a test of unpaired variables with unequal variances"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2888
+#: ../plugins/fn-stat/functions.c:2918
 msgid "If the data sets contain a different number of data points and the test is paired (@{type} one), TTEST returns the #N/A error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2890
+#: ../plugins/fn-stat/functions.c:2920
 #, fuzzy
 msgid "@{tails} and @{type} are truncated to integers."
 msgstr "Vrednosti @{stranosti} in @{vrste} so prirezane na celoštevilske vrednosti."
 
-#: ../plugins/fn-stat/functions.c:2891
+#: ../plugins/fn-stat/functions.c:2921
 msgid "If @{tails} is not one or two, this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2892
+#: ../plugins/fn-stat/functions.c:2922
 msgid "If @{type} is any other than one, two, or three, this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:2897
+#: ../plugins/fn-stat/functions.c:2927
 msgid "Then TTEST(A1:A5,B1:B5,1,1) equals 0.003127619.TTEST(A1:A5,B1:B5,2,1) equals 0.006255239.TTEST(A1:A5,B1:B5,1,2) equals 0.111804322.TTEST(A1:A5,B1:B5,1,3) equals 0.113821797."
 msgstr "Izračun funkcije TTEST(A1:A5,B1:B5,1,1) vrne rešitev 0.003127619, TTEST(A1:A5,B1:B5,2,1) vrne rešitev 0.006255239, TTEST(A1:A5,B1:B5,1,2) vrne rešitev 0.111804322 in TTEST(A1:A5,B1:B5,1,3) vrne rešitev 0.113821797."
 
-#: ../plugins/fn-stat/functions.c:3055
+#: ../plugins/fn-stat/functions.c:3085
 msgid "FREQUENCY:frequency table"
 msgstr "FREQUENCY:razpredelnica frekvence"
 
-#: ../plugins/fn-stat/functions.c:3056
+#: ../plugins/fn-stat/functions.c:3086
 msgid "data_array:data values"
 msgstr "podatkovno_polje:podatkovne vrednosti"
 
-#: ../plugins/fn-stat/functions.c:3057
+#: ../plugins/fn-stat/functions.c:3087
 #, fuzzy
 msgid "bins_array:array of cutoff values"
 msgstr "polje: polje številčnih vrednosti"
 
-#: ../plugins/fn-stat/functions.c:3058
+#: ../plugins/fn-stat/functions.c:3088
 msgid "The results are given as an array."
 msgstr "Rezultat je podan kot polje vrednosti."
 
-#: ../plugins/fn-stat/functions.c:3059
+#: ../plugins/fn-stat/functions.c:3089
 msgid "If the @{bins_array} is empty, this function returns the number of data points in @{data_array}."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3277
+#: ../plugins/fn-stat/functions.c:3307
 msgid "LINEST:multiple linear regression coefficients and statistics"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3278
-#: ../plugins/fn-stat/functions.c:3586
+#: ../plugins/fn-stat/functions.c:3308
+#: ../plugins/fn-stat/functions.c:3616
 msgid "known_ys:vector of values of dependent variable"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3279
-#: ../plugins/fn-stat/functions.c:3587
+#: ../plugins/fn-stat/functions.c:3309
+#: ../plugins/fn-stat/functions.c:3617
 msgid "known_xs:array of values of independent variables, defaults to a single vector {1,…,n}"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3280
-#: ../plugins/fn-stat/functions.c:3377
-#: ../plugins/fn-stat/functions.c:3589
-#: ../plugins/fn-stat/functions.c:3735
-#: ../plugins/fn-stat/functions.c:3834
+#: ../plugins/fn-stat/functions.c:3310
+#: ../plugins/fn-stat/functions.c:3407
+#: ../plugins/fn-stat/functions.c:3619
+#: ../plugins/fn-stat/functions.c:3765
+#: ../plugins/fn-stat/functions.c:3864
 msgid "affine:if true, the model contains a constant term, defaults to true"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3281
+#: ../plugins/fn-stat/functions.c:3311
 msgid "stats:if true, some additional statistics are provided, defaults to false"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3282
+#: ../plugins/fn-stat/functions.c:3312
 msgid "This function returns an array with the first row giving the regression coefficients for the independent variables x_m, x_(m-1),…,x_2, x_1 followed by the y-intercept if @{affine} is true."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3285
+#: ../plugins/fn-stat/functions.c:3315
 msgid "If @{stats} is true, the second row contains the corresponding standard errors of the regression coefficients.In this case, the third row contains the R^2 value and the standard error for the predicted value. The fourth row contains the observed F value and its degrees of freedom. Finally, the fifth row contains the regression sum of squares and the residual sum of squares."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3292
+#: ../plugins/fn-stat/functions.c:3322
 msgid "If @{affine} is false, R^2 is the uncentered version of the coefficient of determination; that is the proportion of the sum of squares explained by the model."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3295
-#: ../plugins/fn-stat/functions.c:3590
+#: ../plugins/fn-stat/functions.c:3325
+#: ../plugins/fn-stat/functions.c:3620
 msgid "If the length of @{known_ys} does not match the corresponding length of @{known_xs}, this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3374
+#: ../plugins/fn-stat/functions.c:3404
 msgid "LOGREG:the logarithmic regression"
 msgstr "LOGREG:logaritemska regresija"
 
-#: ../plugins/fn-stat/functions.c:3376
-#: ../plugins/fn-stat/functions.c:3832
+#: ../plugins/fn-stat/functions.c:3406
+#: ../plugins/fn-stat/functions.c:3862
 #, fuzzy
 msgid "known_xs:known x-values; defaults to the array {1, 2, 3, …}"
 msgstr "{1, 2, 3, …}"
 
-#: ../plugins/fn-stat/functions.c:3378
-#: ../plugins/fn-stat/functions.c:3736
+#: ../plugins/fn-stat/functions.c:3408
+#: ../plugins/fn-stat/functions.c:3766
 msgid "stat:if true, extra statistical information will be returned; defaults to FALSE"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3379
+#: ../plugins/fn-stat/functions.c:3409
 msgid "LOGREG function transforms your x's to z=ln(x) and applies the “least squares” method to fit the linear equation y = m * z + b to your y's and z's --- equivalent to fitting the equation y = m * ln(x) + b to y's and x's. LOGREG returns an array having two columns and one row. m is given in the first column and b in the second. "
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3387
+#: ../plugins/fn-stat/functions.c:3417
 msgid "Any extra statistical information is written below m and b in the result array.  This extra statistical information consists of four rows of data:  In the first row the standard error values for the coefficients m, b are given.  The second row contains the square of R and the standard error for the y estimate. The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.The default of @{stat} is FALSE."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3396
-#: ../plugins/fn-stat/functions.c:3751
-#: ../plugins/fn-stat/functions.c:3842
+#: ../plugins/fn-stat/functions.c:3426
+#: ../plugins/fn-stat/functions.c:3781
+#: ../plugins/fn-stat/functions.c:3872
 msgid "If @{known_ys} and @{known_xs} have unequal number of data points, this function returns a #NUM! error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3490
+#: ../plugins/fn-stat/functions.c:3520
 msgid "LOGFIT:logarithmic least square fit (using a trial and error method)"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3494
+#: ../plugins/fn-stat/functions.c:3524
 msgid "LOGFIT function applies the “least squares” method to fit the logarithmic equation y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1)."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3500
+#: ../plugins/fn-stat/functions.c:3530
 msgid "LOGFIT returns an array having five columns and one row. `Sign' is given in the first column, `a', `b', and `c' are given in columns 2 to 4. Column 5 holds the sum of squared residuals."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3504
+#: ../plugins/fn-stat/functions.c:3534
 msgid "An error is returned when there are less than 3 different x's or y's, or when the shape of the point cloud is too different from a ``logarithmic'' one."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3507
+#: ../plugins/fn-stat/functions.c:3537
 msgid "You can use the above formula = a + b * ln(sign * (x - c)) or rearrange it to = (exp((y - a) / b)) / sign + c to compute unknown y's or x's, respectively. "
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3512
+#: ../plugins/fn-stat/functions.c:3542
 msgid "This is non-linear fitting by trial-and-error. The accuracy of `c' is: width of x-range -> rounded to the next smaller (10^integer), times 0.000001. There might be cases in which the returned fit is not the best possible."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3585
+#: ../plugins/fn-stat/functions.c:3615
 msgid "TREND:estimates future values of a given data set using a least squares approximation"
 msgstr "TREND: oceni bodočo vrednost podane podatkovne množice z uporabo aproksimacije najmanjših kvadratov"
 
-#: ../plugins/fn-stat/functions.c:3588
+#: ../plugins/fn-stat/functions.c:3618
 msgid "new_xs:array of x-values for which to estimate the y-values; defaults to @{known_xs}"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3592
+#: ../plugins/fn-stat/functions.c:3622
 msgid "Let us assume that the cells A1, A2, …, A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3595
+#: ../plugins/fn-stat/functions.c:3625
 msgid "Then TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}."
 msgstr "Izračun funkcije TREND(A1:A5,B1:B5) vrne rešitev {12.1, 15.7, 21.6, 26.7, 39.7}."
 
-#: ../plugins/fn-stat/functions.c:3732
+#: ../plugins/fn-stat/functions.c:3762
 #, fuzzy
 msgid "LOGEST:exponential least square fit"
 msgstr "LOGEST: "
 
-#: ../plugins/fn-stat/functions.c:3734
+#: ../plugins/fn-stat/functions.c:3764
 msgid "known_xs:known x-values; default to an array {1, 2, 3, …}"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3737
+#: ../plugins/fn-stat/functions.c:3767
 msgid "LOGEST function applies the “least squares” method to fit an exponential curve of the form\ty = b * m{1}^x{1} * m{2}^x{2}... to your data."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3741
+#: ../plugins/fn-stat/functions.c:3771
 msgid "LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }."
 msgstr "Funkcija LOGEST vrne podatkovno polje { m{n},m{n-1}, ...,m{1},b }."
 
-#: ../plugins/fn-stat/functions.c:3742
+#: ../plugins/fn-stat/functions.c:3772
 msgid "Extra statistical information is written below the regression line coefficients in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m1, (m2, ...), b are represented.  The second row contains the square of R and the standard error for the y estimate.  The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3830
+#: ../plugins/fn-stat/functions.c:3860
 msgid "GROWTH:exponential growth prediction"
 msgstr "GROWTH:napoved potenčne rasti"
 
-#: ../plugins/fn-stat/functions.c:3833
+#: ../plugins/fn-stat/functions.c:3863
 msgid "new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3835
+#: ../plugins/fn-stat/functions.c:3865
 msgid "GROWTH function applies the “least squares” method to fit an exponential curve to your data and predicts the exponential growth by using this curve."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3840
+#: ../plugins/fn-stat/functions.c:3870
 msgid "GROWTH returns an array having one column and a row for each data point in @{new_xs}."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3918
+#: ../plugins/fn-stat/functions.c:3948
 msgid "FORECAST:estimates a future value according to existing values using simple linear regression"
 msgstr "FORECAST: oceni bodočo vrednost glede na obstoječe vrednosti z uporabo enostavne linearne regresije"
 
-#: ../plugins/fn-stat/functions.c:3920
+#: ../plugins/fn-stat/functions.c:3950
 msgid "x:x-value whose matching y-value should be forecast"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3923
+#: ../plugins/fn-stat/functions.c:3953
 msgid "This function estimates a future value according to existing values using simple linear regression."
 msgstr "Funkcija oceni bodočo vrednost glede na obstoječe vrednosti z uporabo enostavne linearne regresije."
 
-#: ../plugins/fn-stat/functions.c:3925
-#: ../plugins/fn-stat/functions.c:3982
-#: ../plugins/fn-stat/functions.c:4035
+#: ../plugins/fn-stat/functions.c:3955
+#: ../plugins/fn-stat/functions.c:4012
+#: ../plugins/fn-stat/functions.c:4065
 msgid "If @{known_xs} or @{known_ys} contains no data entries or different number of data entries, this function returns a #N/A error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3927
+#: ../plugins/fn-stat/functions.c:3957
 msgid "If the variance of the @{known_xs} is zero, this function returns a #DIV/0 error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3933
+#: ../plugins/fn-stat/functions.c:3963
 msgid "Then FORECAST(7,A1:A5,B1:B5) equals -10.859397661."
 msgstr "Izračun funkcije FORECAST(7,A1:A5,B1:B5) vrne rešitev -10.859397661."
 
-#: ../plugins/fn-stat/functions.c:3979
+#: ../plugins/fn-stat/functions.c:4009
 msgid "INTERCEPT:the intercept of a linear regression line"
 msgstr "INTERCEPT: presečišče linearne regresijske premice"
 
-#: ../plugins/fn-stat/functions.c:3984
-#: ../plugins/fn-stat/functions.c:4037
+#: ../plugins/fn-stat/functions.c:4014
+#: ../plugins/fn-stat/functions.c:4067
 msgid "If the variance of the @{known_xs} is zero, this function returns #DIV/0 error."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:3990
+#: ../plugins/fn-stat/functions.c:4020
 msgid "Then INTERCEPT(A1:A5,B1:B5) equals -20.785117212."
 msgstr "Izračun funkcije INTERCEPT(A1:A5,B1:B5) vrne rešitev -20.785117212."
 
-#: ../plugins/fn-stat/functions.c:4031
+#: ../plugins/fn-stat/functions.c:4061
 msgid "SLOPE:the slope of a linear regression line"
 msgstr "SLOPE:naklon linearne regresijske črte"
 
-#: ../plugins/fn-stat/functions.c:4042
+#: ../plugins/fn-stat/functions.c:4072
 msgid "Then SLOPE(A1:A5,B1:B5) equals 1.417959936."
 msgstr "Izračun funkcije SLOPE(A1:A5,B1:B5) vrne rešitev 1.417959936."
 
-#: ../plugins/fn-stat/functions.c:4083
-#, fuzzy
+#: ../plugins/fn-stat/functions.c:4113
 msgid "SUBTOTAL:the subtotal of the given list of arguments"
-msgstr "začni seznam pri podanem modulu"
+msgstr "SUBTOTAL: delna vsota podanega seznama argumentov."
 
-#: ../plugins/fn-stat/functions.c:4084
+#: ../plugins/fn-stat/functions.c:4114
 msgid ""
 "function_nbr:determines which function to use according to the following table:\n"
 "\t1   AVERAGE\n"
@@ -8670,189 +8683,189 @@ msgid ""
 "\t11   VARP"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4097
+#: ../plugins/fn-stat/functions.c:4127
 msgid "ref1:first value"
 msgstr "sklic2:prva vrednost"
 
-#: ../plugins/fn-stat/functions.c:4098
+#: ../plugins/fn-stat/functions.c:4128
 msgid "ref2:second value"
 msgstr "sklic2:druga vrednost"
 
-#: ../plugins/fn-stat/functions.c:4100
+#: ../plugins/fn-stat/functions.c:4130
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, and 39."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4101
+#: ../plugins/fn-stat/functions.c:4131
 msgid "Then SUBTOTAL(1,A1:A5) equals 30.SUBTOTAL(6,A1:A5) equals 22378356.SUBTOTAL(7,A1:A5) equals 6.164414003.SUBTOTAL(9,A1:A5) equals 150.SUBTOTAL(11,A1:A5) equals 30.4."
 msgstr "Izračun funkcije SUBTOTAL(1,A1:A5) vrne rešitev 30, SUBTOTAL(6,A1:A5) vrne rešitev 22378356, SUBTOTAL(7,A1:A5) vrne rešitev 6.164414003, SUBTOTAL(9,A1:A5) vrne rešitev 150 in SUBTOTAL(11,A1:A5) vrne rešitev 30.4."
 
-#: ../plugins/fn-stat/functions.c:4180
+#: ../plugins/fn-stat/functions.c:4210
 msgid "CRONBACH:Cronbach's alpha"
 msgstr "CRONBACH:Cronbachova alpha ali test notranje skladnosti ali zanesljivosti"
 
-#: ../plugins/fn-stat/functions.c:4181
+#: ../plugins/fn-stat/functions.c:4211
 msgid "ref1:first data set"
 msgstr "sklic1:prva podatkovna množica"
 
-#: ../plugins/fn-stat/functions.c:4182
+#: ../plugins/fn-stat/functions.c:4212
 msgid "ref2:second data set"
 msgstr "sklic2:druga podatkovna množica"
 
 # cumulative distribution function = zbirna funkcija, še bolj pogosto pa porazdelitvena funkcija
-#: ../plugins/fn-stat/functions.c:4293
+#: ../plugins/fn-stat/functions.c:4323
 msgid "GEOMDIST:probability mass or cumulative distribution function of the geometric distribution"
 msgstr "GEOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija geometrične verjetnosti"
 
-#: ../plugins/fn-stat/functions.c:4294
+#: ../plugins/fn-stat/functions.c:4324
 msgid "k:number of trials"
 msgstr "k:število poskusov"
 
-#: ../plugins/fn-stat/functions.c:4295
+#: ../plugins/fn-stat/functions.c:4325
 msgid "p:probability of success in any trial"
 msgstr "p:verjetnost uspeha v kateremkoli poskusu"
 
-#: ../plugins/fn-stat/functions.c:4297
+#: ../plugins/fn-stat/functions.c:4327
 msgid "If @{k} < 0 this function returns a #NUM! error."
 msgstr "V kolikor je @{k} < 0 funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-stat/functions.c:4324
+#: ../plugins/fn-stat/functions.c:4354
 msgid "LOGISTIC:probability density function of the logistic distribution"
 msgstr "LOGISTIC:funkcija gostote verjetnosti logistične porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:4355
+#: ../plugins/fn-stat/functions.c:4385
 msgid "PARETO:probability density function of the Pareto distribution"
 msgstr "PARETO:funkcija gostote verjetnosti Paretove porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:4357
+#: ../plugins/fn-stat/functions.c:4387
 msgid "a:exponent"
 msgstr "a:potenca"
 
-#: ../plugins/fn-stat/functions.c:4358
-#: ../plugins/fn-stat/functions.c:4466
+#: ../plugins/fn-stat/functions.c:4388
+#: ../plugins/fn-stat/functions.c:4496
 msgid "b:scale parameter"
 msgstr "b:parameter merila"
 
-#: ../plugins/fn-stat/functions.c:4389
+#: ../plugins/fn-stat/functions.c:4419
 msgid "RAYLEIGH:probability density function of the Rayleigh distribution"
 msgstr "RAYLEIGH:funkcija gostote verjetnosti Rayleighove porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:4391
-#: ../plugins/fn-stat/functions.c:4427
+#: ../plugins/fn-stat/functions.c:4421
+#: ../plugins/fn-stat/functions.c:4457
 msgid "sigma:scale parameter"
 msgstr "sigma: parameter merila"
 
-#: ../plugins/fn-stat/functions.c:4424
+#: ../plugins/fn-stat/functions.c:4454
 msgid "RAYLEIGHTAIL:probability density function of the Rayleigh tail distribution"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4426
+#: ../plugins/fn-stat/functions.c:4456
 msgid "a:lower limit"
 msgstr "a: spodnja limita"
 
-#: ../plugins/fn-stat/functions.c:4462
+#: ../plugins/fn-stat/functions.c:4492
 msgid "EXPPOWDIST:the probability density function of the Exponential Power distribution"
 msgstr "EXPPOWDIST: funkcija gostote verjetnosti potenčne porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:4468
+#: ../plugins/fn-stat/functions.c:4498
 msgid "This distribution has been recommended for lifetime analysis when a U-shaped hazard function is desired. This corresponds to rapid failure once the product starts to wear out after a period of steady or even improving reliability."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4496
+#: ../plugins/fn-stat/functions.c:4526
 msgid "LAPLACE:probability density function of the Laplace distribution"
 msgstr "LAPLACE: funkcija gostote verjetnosti Laplacove porazdelitve"
 
-#: ../plugins/fn-stat/functions.c:4498
+#: ../plugins/fn-stat/functions.c:4528
 msgid "a:mean"
 msgstr "a: srednja vrednost"
 
-#: ../plugins/fn-stat/functions.c:4519
+#: ../plugins/fn-stat/functions.c:4549
 msgid "PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} objects with repetition allowed"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4520
+#: ../plugins/fn-stat/functions.c:4550
 msgid "x:total number of objects"
 msgstr "x: skupno število predmetov"
 
-#: ../plugins/fn-stat/functions.c:4521
+#: ../plugins/fn-stat/functions.c:4551
 msgid "y:number of selected objects"
 msgstr "y: število izbranih predmetov"
 
-#: ../plugins/fn-stat/functions.c:4522
+#: ../plugins/fn-stat/functions.c:4552
 msgid "If both @{x} and @{y} equal 0, PERMUTATIONA returns 1."
 msgstr "V kolikor sta vrednosti @{x} in @{y} enaki 0, funkcija PERMUTATIONA vrne vrednost 1."
 
-#: ../plugins/fn-stat/functions.c:4523
+#: ../plugins/fn-stat/functions.c:4553
 msgid "If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!"
 msgstr "V kolikor je vrednost @{x} < @{y} < 0, funkcija PERMUTATIONA vrne napako #NUM!"
 
-#: ../plugins/fn-stat/functions.c:4524
+#: ../plugins/fn-stat/functions.c:4554
 msgid "If @{x} or @{y} are not integers, they are truncated"
 msgstr "V kolikor @{x} ali @{y} nista celi števili, sta ti prirezani."
 
-#: ../plugins/fn-stat/functions.c:4552
+#: ../plugins/fn-stat/functions.c:4582
 msgid "LKSTEST:Lilliefors (Kolmogorov-Smirnov) Test of Normality"
 msgstr "LKSTEST: Lillieforjev (Kolmogorov-Smirnovov) Test normalnosti"
 
-#: ../plugins/fn-stat/functions.c:4553
-#: ../plugins/fn-stat/functions.c:4670
-#: ../plugins/fn-stat/functions.c:4754
-#: ../plugins/fn-stat/functions.c:4839
+#: ../plugins/fn-stat/functions.c:4583
+#: ../plugins/fn-stat/functions.c:4700
+#: ../plugins/fn-stat/functions.c:4784
+#: ../plugins/fn-stat/functions.c:4869
 msgid "x:array of sample values"
 msgstr "x: polje vzorčnih vrednosti"
 
-#: ../plugins/fn-stat/functions.c:4554
+#: ../plugins/fn-stat/functions.c:4584
 msgid "This function returns an array with the first row giving the p-value of the Lilliefors (Kolmogorov-Smirnov) Test, the second row the test statistic of the test, and the third the number of observations in the sample."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4556
+#: ../plugins/fn-stat/functions.c:4586
 msgid "If there are less than 5 sample values, LKSTEST returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4558
+#: ../plugins/fn-stat/functions.c:4588
 msgid "wiki:en:Lilliefors_test"
 msgstr "wiki: en:Lilliefors_test"
 
-#: ../plugins/fn-stat/functions.c:4669
+#: ../plugins/fn-stat/functions.c:4699
 msgid "SFTEST:Shapiro-Francia Test of Normality"
 msgstr "SFTEST: Shapiro-Franciajev Test normalnosti"
 
-#: ../plugins/fn-stat/functions.c:4671
+#: ../plugins/fn-stat/functions.c:4701
 msgid "This function returns an array with the first row giving the p-value of the Shapiro-Francia Test, the second row the test statistic of the test, and the third the number of observations in the sample."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4673
+#: ../plugins/fn-stat/functions.c:4703
 msgid "If there are less than 5 or more than 5000 sample values, SFTEST returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4753
+#: ../plugins/fn-stat/functions.c:4783
 msgid "CVMTEST:Cramér-von Mises Test of Normality"
 msgstr "CVMTEST: Cramér-von Misesov Test normalnosti"
 
-#: ../plugins/fn-stat/functions.c:4755
+#: ../plugins/fn-stat/functions.c:4785
 msgid "This function returns an array with the first row giving the p-value of the Cramér-von Mises Test, the second row the test statistic of the test, and the third the number of observations in the sample."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4757
+#: ../plugins/fn-stat/functions.c:4787
 msgid "If there are less than 8 sample values, CVMTEST returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4759
+#: ../plugins/fn-stat/functions.c:4789
 msgid "wiki:en:Cramér–von-Mises_criterion"
 msgstr "wiki: en:Cramér–von-Mises_criterion"
 
-#: ../plugins/fn-stat/functions.c:4838
+#: ../plugins/fn-stat/functions.c:4868
 msgid "ADTEST:Anderson-Darling Test of Normality"
 msgstr "ADTEST: Anderson-Darlingov Test normalnosti"
 
-#: ../plugins/fn-stat/functions.c:4840
+#: ../plugins/fn-stat/functions.c:4870
 msgid "This function returns an array with the first row giving the p-value of the Anderson-Darling Test, the second row the test statistic of the test, and the third the number of observations in the sample."
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4842
+#: ../plugins/fn-stat/functions.c:4872
 msgid "If there are less than 8 sample values, ADTEST returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:4844
+#: ../plugins/fn-stat/functions.c:4874
 msgid "wiki:en:Anderson–Darling_test"
 msgstr "wiki: en:Anderson–Darling_test"
 
