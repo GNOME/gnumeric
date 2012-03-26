@@ -193,6 +193,8 @@ struct _GnmConventions {
 				   gboolean no_sheetname);
 		void (*range_ref) (GnmConventionsOut *out,
 				   GnmRangeRef const *range_ref);
+		void (*boolean)	  (GnmConventionsOut *out,
+				   gboolean val);
 
 		GString * (*quote_sheet_name) (GnmConventions const *convs,
 					       char const *name);

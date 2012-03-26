@@ -1729,6 +1729,13 @@ do_expr_as_string (GnmExpr const *expr, int paren_level,
 			return;
 		}
 
+		if (v->type == VALUE_BOOLEAN && 
+		    out->convs->output.boolean != NULL) {
+			out->convs->output.boolean (out, v->v_bool.val);
+			return;
+		}
+		
+
 		value_get_as_gstring (v, target, out->convs);
 
 		/* If the number has a sign, pretend that it is the result of

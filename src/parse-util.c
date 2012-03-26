@@ -1406,6 +1406,7 @@ gnm_conventions_new_full (unsigned size)
 	convs->output.func              = std_expr_func_handler;
 	convs->output.cell_ref		= cellref_as_string;
 	convs->output.range_ref		= rangeref_as_string;
+	convs->output.boolean		= NULL;
 	convs->output.quote_sheet_name	= std_sheet_name_quote;
 
 	return convs;

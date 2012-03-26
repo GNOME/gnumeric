@@ -2547,6 +2547,12 @@ odf_string_handler (GnmConventionsOut *out, GOString const *str)
 	odf_print_string (out, str->str, '"');
 }
 
+static void
+odf_boolean_handler (GnmConventionsOut *out, gboolean val)
+{
+	g_string_append (out->accum, val ? "TRUE()" : "FALSE()");
+}
+
 
 static GnmConventions *
 odf_expr_conventions_new (void)
@@ -2564,6 +2570,7 @@ odf_expr_conventions_new (void)
 	conv->output.cell_ref		= odf_cellref_as_string;
 	conv->output.range_ref		= odf_rangeref_as_string;
 	conv->output.func               = odf_expr_func_handler;
+	conv->output.boolean            = odf_boolean_handler;
 
 	return conv;
 }

@@ -1,3 +1,9 @@
+2012-03-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/expr.c (do_expr_as_string): use new convs->output.boolean
+	* src/parse-util.h (_GnmConventions): add output.boolean
+	* src/parse-util.c (gnm_conventions_new_full): initialize output.boolean
+
 2012-03-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-image.c (sheet_object_image_set_image),
