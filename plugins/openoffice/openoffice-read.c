@@ -10309,6 +10309,19 @@ odf_func_chisqdist_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook 
 	return NULL;
 }
 
+static GnmExpr const *
+odf_func_true_handler (G_GNUC_UNUSED GnmConventions const *convs,
+		       G_GNUC_UNUSED Workbook *scope, G_GNUC_UNUSED GnmExprList *args)
+{
+	return gnm_expr_new_constant (value_new_bool (TRUE));
+}
+
+static GnmExpr const *
+odf_func_false_handler (G_GNUC_UNUSED GnmConventions const *convs,
+			G_GNUC_UNUSED Workbook *scope, G_GNUC_UNUSED GnmExprList *args)
+{
+	return gnm_expr_new_constant (value_new_bool (FALSE));
+}
 
 static GnmExpr const *
 oo_func_map_in (GnmConventions const *convs, Workbook *scope,
@@ -10324,6 +10337,8 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{"ADDRESS", odf_func_address_handler},
 		{"PHI", odf_func_phi_handler},
 		{"GAUSS", odf_func_gauss_handler},
+		{"TRUE", odf_func_true_handler},
+		{"FALSE", odf_func_false_handler},
 		{NULL, NULL}
 	};
 
@@ -10355,6 +10370,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "CEILING","ODF.CEILING" },          /* see handler */
 		{ "CHISQINV","R.QCHISQ" },
 		{ "CHISQDIST","ODF.CHISQDIST" },      /* see handler */
+		{ "FALSE","FALSE" },                  /* see handler */
 		{ "FLOOR","ODF.FLOOR" },              /* see handler */
 		{ "FORMULA","GET.FORMULA" },
 		{ "GAUSS","ODF.GAUSS" },              /* see handler */
@@ -10368,6 +10384,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "PDURATION","G_DURATION" },
 		{ "PHI","NORMDIST" },              /* see handler */
 		{ "SUMPRODUCT","ODF.SUMPRODUCT" },
+		{ "TRUE","TRUE" },                 /* see handler */
 		{ "USDOLLAR","DOLLAR" },
 
 /* { "ADDRESS","ADDRESS" },       also  see handler */
@@ -10489,7 +10506,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "EXPONDIST","EXPONDIST" }, */
 /* { "FACT","FACT" }, */
 /* { "FACTDOUBLE","FACTDOUBLE" }, */
-/* { "FALSE","FALSE" }, */
 /* { "FDIST","FDIST" }, */
 /* { "FIND","FIND" }, */
 /* { "FINDB","FINDB" }, */
@@ -10716,7 +10732,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "TREND","TREND" }, */
 /* { "TRIM","TRIM" }, */
 /* { "TRIMMEAN","TRIMMEAN" }, */
-/* { "TRUE","TRUE" }, */
 /* { "TRUNC","TRUNC" }, */
 /* { "TTEST","TTEST" }, */
 /* { "TYPE","TYPE" }, */

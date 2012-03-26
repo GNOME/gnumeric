@@ -1,3 +1,9 @@
+2012-03-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_func_true_handler): new
+	(odf_func_false_handler): new
+	(oo_func_map_in): connect the above
+
 2012-03-25  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (odf_func_chisqdist_handler): Simplify (at the
