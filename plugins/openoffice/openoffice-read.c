@@ -10311,16 +10311,16 @@ odf_func_chisqdist_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook 
 
 static GnmExpr const *
 odf_func_true_handler (G_GNUC_UNUSED GnmConventions const *convs,
-		       G_GNUC_UNUSED Workbook *scope, G_GNUC_UNUSED GnmExprList *args)
+		       G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
 {
-	return gnm_expr_new_constant (value_new_bool (TRUE));
+	return args ? NULL : gnm_expr_new_constant (value_new_bool (TRUE));
 }
 
 static GnmExpr const *
 odf_func_false_handler (G_GNUC_UNUSED GnmConventions const *convs,
-			G_GNUC_UNUSED Workbook *scope, G_GNUC_UNUSED GnmExprList *args)
+			G_GNUC_UNUSED Workbook *scope, GnmExprList *args)
 {
-	return gnm_expr_new_constant (value_new_bool (FALSE));
+	return args ? NULL : gnm_expr_new_constant (value_new_bool (FALSE));
 }
 
 static GnmExpr const *
