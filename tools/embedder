@@ -154,7 +154,7 @@ sub embed_data {
 	    print "\\\\";
 	    $linelen += 2;
 	} elsif ($ci >= 32 && $ci < 127) {
-	    if ($thisnohex && $c =~ /[a-fA-f0-9]/) {
+	    if ($thisnohex && $c =~ /[a-fA-F0-9]/) {
 		print "\"\"";
 		$linelen += 2;
 	    }
