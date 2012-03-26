@@ -10267,37 +10267,41 @@ odf_func_chisqdist_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook 
 		return gnm_expr_new_funcall (f, args);
 	}
 	case 3: {
-		GSList * link = g_slist_nth ((GSList *) args, 2);
-		GnmExpr const *expr = link->data;
+		GnmExpr const *arg0 = args->data;
+		GnmExpr const *arg1 = args->next->data;
+		GnmExpr const *arg2 = args->next->next->data;
 		GnmFunc  *fd_if;
 		GnmFunc  *fd_pchisq;
 		GnmFunc  *fd_dchisq;
-		GnmExpr  const *expr_pchisq;
-		GnmExpr  const *expr_dchisq;
+		GnmExpr const *expr_pchisq;
+		GnmExpr const *expr_dchisq;
+		GnmExpr const *res, *simp;
 
-		args = (GnmExprList *) g_slist_remove_link ((GSList *) args, link);
-		g_slist_free (link);
-
-		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL) {
-			if (go_ascii_strcase_equal (expr->func.func->name, "TRUE")) {
-				fd_pchisq = gnm_func_lookup_or_add_placeholder ("R.PCHISQ", scope, FALSE);
-				gnm_expr_free (expr);
-				return gnm_expr_new_funcall (fd_pchisq, args);
-			}
-			if (go_ascii_strcase_equal (expr->func.func->name, "FALSE")) {
-				fd_dchisq = gnm_func_lookup_or_add_placeholder ("R.DCHISQ", scope, FALSE);
-				gnm_expr_free (expr);
-				return gnm_expr_new_funcall (fd_dchisq, args);
-			}
-		}
 		fd_if = gnm_func_lookup_or_add_placeholder ("IF", scope, FALSE);
 		fd_pchisq = gnm_func_lookup_or_add_placeholder ("R.PCHISQ", scope, FALSE);
 		fd_dchisq = gnm_func_lookup_or_add_placeholder ("R.DCHISQ", scope, FALSE);
 		expr_pchisq = gnm_expr_new_funcall2
-			(fd_pchisq, gnm_expr_copy (g_slist_nth_data ((GSList *) args, 0)),
-			 gnm_expr_copy (g_slist_nth_data ((GSList *) args, 1)));
-		expr_dchisq = gnm_expr_new_funcall (fd_dchisq, args);
-		return gnm_expr_new_funcall3 (fd_if, expr, expr_pchisq, expr_dchisq);
+			(fd_pchisq,
+			 gnm_expr_copy (arg0),
+			 gnm_expr_copy (arg1));
+		expr_dchisq = gnm_expr_new_funcall2
+			(fd_dchisq,
+			 arg0,
+			 arg1);
+		res = gnm_expr_new_funcall3
+			(fd_if,
+			 arg2,
+			 expr_pchisq,
+			 expr_dchisq);
+
+		simp = gnm_expr_simplify_if (res);
+		if (simp) {
+			gnm_expr_free (res);
+			res = simp;
+		}
+
+		g_slist_free (args);
+		return res;
 	}
 	default:
 		break;

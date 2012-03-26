@@ -1,3 +1,9 @@
+2012-03-25  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (odf_func_chisqdist_handler): Simplify (at the
+	expense of speed).  If we need a pile of these, they need to be
+	simple.
+
 2012-03-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_adjust_offsets_col): new

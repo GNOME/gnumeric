@@ -1,5 +1,7 @@
 2012-03-25  Morten Welinder  <terra@gnome.org>
 
+	* src/expr.c (gnm_expr_simplify_if): New function.
+
 	* src/rangefunc.c (gnm_range_covar_pop): Rename from
 	gnm_range_covar.
 	(gnm_range_covar_est): New function.

@@ -1560,6 +1560,47 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	return value_new_error (pos, _("Unknown evaluation error"));
 }
 
+
+GnmExpr const *
+gnm_expr_simplify_if (GnmExpr const *expr)
+{
+	static GnmFunc *f_if = NULL;
+	GnmExpr const *cond;
+	gboolean c;
+
+	g_return_val_if_fail (expr != NULL, NULL);
+
+	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_FUNCALL)
+		return NULL;
+
+	if (!f_if)
+		f_if = gnm_func_lookup ("if", NULL);
+
+	if (expr->func.func != f_if || expr->func.argc != 3)
+		return NULL;
+
+	cond = expr->func.argv[0];	
+	if (GNM_EXPR_GET_OPER (cond) == GNM_EXPR_OP_CONSTANT) {
+		GnmValue const *condval = cond->constant.value;
+		gboolean err;
+		c = value_get_as_bool (condval, &err);
+		if (err)
+			return NULL;
+	} else if (GNM_EXPR_GET_OPER (cond) == GNM_EXPR_OP_FUNCALL) {
+		if (cond->func.func != gnm_func_lookup ("true", NULL))
+			c = TRUE;
+		else if (cond->func.func != gnm_func_lookup ("false", NULL))
+			c = FALSE;
+		else
+			return NULL;
+	} else
+		return NULL;
+
+	return gnm_expr_copy (expr->func.argv[c ? 1 : 2]);
+}
+
+
+
 /*
  * Converts a parsed tree into its string representation
  * assuming that we are evaluating at col, row

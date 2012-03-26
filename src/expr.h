@@ -101,6 +101,8 @@ gboolean  gnm_expr_contains_subtotal (GnmExpr const *expr);
 GnmValue *gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			 GnmExprEvalFlags flags);
 
+GnmExpr const *gnm_expr_simplify_if  (GnmExpr const *expr);
+
 /*****************************************************************************/
 
 #define gnm_expr_list_append(l,e)  g_slist_append ((l), (gpointer)(e))
