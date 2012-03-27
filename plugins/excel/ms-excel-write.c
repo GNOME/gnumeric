@@ -4999,17 +4999,13 @@ excel_write_selections (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 	excel_write_SELECTION (bp, sv->selections, &sv->edit_pos, 3);
 
 	if (sv->unfrozen_top_left.col > 0) {
-		pos = sv->edit_pos;
-		if (pos.col < sv->unfrozen_top_left.col)
-			pos.col = sv->unfrozen_top_left.col;
+		pos = sv->edit_pos;	/* apparently no bounds check needed */
 		tmp = g_slist_prepend (NULL, range_init_cellpos (&r, &pos));
 		excel_write_SELECTION (bp, tmp, &pos, 1);
 		g_slist_free (tmp);
 	}
 	if (sv->unfrozen_top_left.row > 0) {
-		pos = sv->edit_pos;
-		if (pos.row < sv->unfrozen_top_left.row)
-			pos.row = sv->unfrozen_top_left.row;
+		pos = sv->edit_pos;	/* apparently no bounds check needed */
 		tmp = g_slist_prepend (NULL, range_init_cellpos (&r, &pos));
 		excel_write_SELECTION (bp, tmp, &pos, 2);
 		g_slist_free (tmp);
