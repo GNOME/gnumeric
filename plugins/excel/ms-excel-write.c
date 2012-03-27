@@ -4965,12 +4965,16 @@ excel_write_SELECTION (BiffPut *bp, GSList *selections,
 	int n = g_slist_length (selections);
 	GSList *ptr;
 	guint8 *data;
+	int i_active = n - 1;
+
+	/* Write backwards.  */
+	selections = g_slist_reverse (g_slist_copy (selections));
 
 	data = ms_biff_put_len_next (bp, BIFF_SELECTION, 9 + 6*n);
 	GSF_LE_SET_GUINT8  (data +  0, pane);
 	GSF_LE_SET_GUINT16 (data +  1, pos->row);
 	GSF_LE_SET_GUINT16 (data +  3, pos->col);
-	GSF_LE_SET_GUINT16 (data +  5, 0); /* our edit_pos is in 1st range */
+	GSF_LE_SET_GUINT16 (data +  5, i_active);  /* last due to reverse */
 	GSF_LE_SET_GUINT16 (data +  7, n);
 
 	data += 9;
@@ -4982,6 +4986,8 @@ excel_write_SELECTION (BiffPut *bp, GSList *selections,
 		GSF_LE_SET_GUINT8  (data + 5, r->end.col);
 	}
 	ms_biff_put_commit (bp);
+
+	g_slist_free (selections);
 }
 static void
 excel_write_selections (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)

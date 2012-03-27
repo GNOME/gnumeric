@@ -4476,7 +4476,7 @@ excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 static void
 excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	GnmCellPos edit_pos, tmp;
+	GnmCellPos edit_pos;
 	unsigned pane_number, i, j, num_refs;
 	SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.importer->wbv);
 	GnmRange r;
@@ -4503,10 +4503,17 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 	g_return_if_fail (sv != NULL);
 
 	sv_selection_reset (sv);
-	for (i = 0; i++ < num_refs ; ) {
-		xls_read_range8 (&r, q->data + 9 + 6 * (++j % num_refs));
+	for (i = 0; i <= num_refs ; i++) {
+		GnmCellPos tmp;
+		unsigned i0 = (i == num_refs) ? j : i;
 
-		d (5, g_printerr ("Ref %d = %s\n", i-1, range_as_string (&r)););
+		/* Skip the active; then read it last.  */
+		if (i == j || i0 >= num_refs)
+			continue;
+
+		xls_read_range8 (&r, q->data + 9 + 6 * i0);
+
+		d (5, g_printerr ("Ref %d = %s\n", i, range_as_string (&r)););
 
 		tmp = (i == num_refs) ? edit_pos : r.start;
 		sv_selection_add_full (sv,

@@ -1,3 +1,10 @@
+2012-03-27  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_SELECTION): Read in sane order.
+
+	* ms-excel-write.c (excel_write_SELECTION): Write in reverse
+	order.
+
 2012-03-12  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-write.c (write_node): Handle sets.
