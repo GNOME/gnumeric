@@ -1,3 +1,9 @@
+2012-03-28  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_redraw_all, sheet_redraw_region): Mark whole
+	thing as one computation.  Jit-computation of rendered values
+	would otherwise discard caches between each cell.
+
 2012-03-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/expr.c (do_expr_as_string): use new convs->output.boolean

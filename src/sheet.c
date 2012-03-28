@@ -1380,8 +1380,13 @@ sheet_new (Workbook *wb, char const *name, int columns, int rows)
 void
 sheet_redraw_all (Sheet const *sheet, gboolean headers)
 {
+	/* We potentially do a lot of recalcs as part of this, so make sure
+	   stuff that cachings sub-computations see the whole thing instead
+	   of clearing between cells.  */
+	gnm_app_recalc_start ();
 	SHEET_FOREACH_CONTROL (sheet, view, control,
 		sc_redraw_all (control, headers););
+	gnm_app_recalc_finish ();
 }
 
 static GnmValue *
@@ -2942,10 +2947,17 @@ sheet_redraw_region (Sheet const *sheet,
 
 	g_return_if_fail (IS_SHEET (sheet));
 
+	/* We potentially do a lot of recalcs as part of this, so make sure
+	   stuff that cachings sub-computations see the whole thing instead
+	   of clearing between cells.  */
+	gnm_app_recalc_start ();
+
 	sheet_range_bounding_box (sheet,
 		range_init (&bound, start_col, start_row, end_col, end_row));
 	SHEET_FOREACH_CONTROL (sheet, view, control,
 		sc_redraw_range (control, &bound););
+
+	gnm_app_recalc_finish ();
 }
 
 void
