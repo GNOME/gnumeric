@@ -37,9 +37,7 @@
 #include <string.h>
 #include <math.h>
 
-#ifndef USE_TILE_POOLS
-#define USE_TILE_POOLS 1
-#endif
+#define USE_TILE_POOLS 0
 
 typedef union _CellTile CellTile;
 struct _GnmSheetStyleData {
@@ -287,14 +285,27 @@ union _CellTile {
 	CellTilePtrMatrix	ptr_matrix;
 };
 
+static int active_sheet_count;
 #if USE_TILE_POOLS
-static int tile_pool_users;
 static GOMemChunk *tile_pools[5];
-#define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
-#define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
+#define CHUNK_ALLOC(T,ctt) ((T*)go_mem_chunk_alloc (tile_pools[(ctt)]))
+#define CHUNK_FREE(ctt,v) go_mem_chunk_free (tile_pools[(ctt)], (v))
 #else
-#define CHUNK_ALLOC(T,c) g_new (T,1)
-#define CHUNK_FREE(p,v) g_free ((v))
+static const size_t tile_type_sizeof[5] = {
+	sizeof (CellTileStyleSimple),
+	sizeof (CellTileStyleCol),
+	sizeof (CellTileStyleRow),
+	sizeof (CellTileStyleMatrix),
+	sizeof (CellTilePtrMatrix)
+};
+static int tile_allocations = 0;
+#if 1
+#define CHUNK_ALLOC(T,ctt) (tile_allocations++, (T*)g_slice_alloc (tile_type_sizeof[(ctt)]))
+#define CHUNK_FREE(ctt,v) (tile_allocations--, g_slice_free1 (tile_type_sizeof[(ctt)], (v)))
+#else
+#define CHUNK_ALLOC(T,ctt) (tile_allocations++, (T*)g_malloc (tile_type_sizeof[(ctt)]))
+#define CHUNK_FREE(ctt,v) (tile_allocations--, g_free ((v)))
+#endif
 #endif
 
 
@@ -323,31 +334,13 @@ cell_tile_dtor (CellTile *tile)
 	}
 
 	*((CellTileType *)&(tile->type)) = TILE_UNDEFINED; /* poison it */
-	CHUNK_FREE (tile_pools[t], tile);
+	CHUNK_FREE (t, tile);
 }
 
 static CellTile *
 cell_tile_style_new (GnmStyle *style, CellTileType t)
 {
-	CellTile *res;
-
-#if USE_TILE_POOLS
-	res = CHUNK_ALLOC (CellTile, tile_pools[t]);
-#else
-	switch (t) {
-	case TILE_SIMPLE : res = (CellTile *)g_new (CellTileStyleSimple, 1);
-			   break;
-	case TILE_COL :	   res = (CellTile *)g_new (CellTileStyleCol, 1);
-			   break;
-	case TILE_ROW :	   res = (CellTile *)g_new (CellTileStyleRow, 1);
-			   break;
-	case TILE_MATRIX : res = (CellTile *)g_new (CellTileStyleMatrix, 1);
-			   break;
-	default : g_return_val_if_fail (FALSE, NULL);
-		return NULL;
-	}
-#endif
-
+	CellTile *res = CHUNK_ALLOC (CellTile, t);
 	*((CellTileType *)&(res->type)) = t;
 
 	if (style != NULL) {
@@ -369,7 +362,7 @@ cell_tile_ptr_matrix_new (CellTile *t)
 	g_return_val_if_fail (TILE_SIMPLE <= t->type &&
 			      TILE_MATRIX >= t->type, NULL);
 
-	res = CHUNK_ALLOC (CellTilePtrMatrix, tile_pools[TILE_PTR_MATRIX]);
+	res = CHUNK_ALLOC (CellTilePtrMatrix, TILE_PTR_MATRIX);
 	*((CellTileType *)&(res->type)) = TILE_PTR_MATRIX;
 
 	/* TODO :
@@ -514,8 +507,8 @@ sheet_style_init_size (Sheet *sheet, int cols, int rows)
 	sheet->max_height = tile_heights[sheet->tile_top_level];
 	sheet->max_width = tile_widths[sheet->tile_top_level];
 
+	if (active_sheet_count++ == 0) {
 #if USE_TILE_POOLS
-	if (tile_pool_users++ == 0) {
 		tile_pools[TILE_SIMPLE] =
 			go_mem_chunk_new ("simple tile pool",
 					   sizeof (CellTileStyleSimple),
@@ -537,8 +530,8 @@ sheet_style_init_size (Sheet *sheet, int cols, int rows)
 		/* If this fails one day, just make two pools.  */
 		g_assert (sizeof (CellTileStyleMatrix) == sizeof (CellTilePtrMatrix));
 		tile_pools[TILE_PTR_MATRIX] = tile_pools[TILE_MATRIX];
-	}
 #endif
+	}
 
 	sheet->style_data = g_new (GnmSheetStyleData, 1);
 	sheet->style_data->style_hash =
@@ -654,8 +647,8 @@ sheet_style_shutdown (Sheet *sheet)
 	g_free (sheet->style_data);
 	sheet->style_data = NULL;
 
+	if (--active_sheet_count == 0) {
 #if USE_TILE_POOLS
-	if (--tile_pool_users == 0) {
 		go_mem_chunk_foreach_leak (tile_pools[TILE_SIMPLE],
 					    cb_tile_pool_leak, NULL);
 		go_mem_chunk_destroy (tile_pools[TILE_SIMPLE], FALSE);
@@ -679,8 +672,11 @@ sheet_style_shutdown (Sheet *sheet)
 		/* If this fails one day, just make two pools.  */
 		g_assert (sizeof (CellTileStyleMatrix) == sizeof (CellTilePtrMatrix));
 		tile_pools[TILE_PTR_MATRIX] = NULL;
-	}
+#else
+		if (tile_allocations)
+			g_printerr ("Leaking %d style tiles.\n", tile_allocations);
 #endif
+	}
 }
 
 /**

@@ -1,5 +1,7 @@
 2012-03-29  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-style.c: Switch to g_slice by default.
+
 	* src/colrow.c (colrow_autofit): Mark as unit for recalc.  (This
 	one hits for paste-to-large-area.)
 
