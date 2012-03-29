@@ -1381,7 +1381,7 @@ void
 sheet_redraw_all (Sheet const *sheet, gboolean headers)
 {
 	/* We potentially do a lot of recalcs as part of this, so make sure
-	   stuff that cachings sub-computations see the whole thing instead
+	   stuff that caches sub-computations see the whole thing instead
 	   of clearing between cells.  */
 	gnm_app_recalc_start ();
 	SHEET_FOREACH_CONTROL (sheet, view, control,
@@ -2947,8 +2947,18 @@ sheet_redraw_region (Sheet const *sheet,
 
 	g_return_if_fail (IS_SHEET (sheet));
 
+	/*
+	 * Getting the bounding box causes row respans to be done if
+	 * needed.  That can be expensive, so just redraw the whole
+	 * sheet if the row count is too big.
+	 */
+	if (end_row - start_row > 500) {
+		sheet_redraw_all (sheet, FALSE);
+		return;
+	}
+
 	/* We potentially do a lot of recalcs as part of this, so make sure
-	   stuff that cachings sub-computations see the whole thing instead
+	   stuff that caches sub-computations see the whole thing instead
 	   of clearing between cells.  */
 	gnm_app_recalc_start ();
 

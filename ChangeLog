@@ -1,3 +1,10 @@
+2012-03-29  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_redraw_region): Revert to redrawing the whole
+	sheet if the region is too tall.
+
+	* src/sheet-control-gui.c (scg_redraw_range): Ditto.
+
 2012-03-28  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_redraw_all, sheet_redraw_region): Mark whole

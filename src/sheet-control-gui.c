@@ -149,6 +149,21 @@ scg_redraw_range (SheetControl *sc, GnmRange const *r)
 	Sheet const *sheet = scg_sheet (scg);
 	GnmRange visible, area;
 
+	/*
+	 * Getting the bounding box causes row respans to be done if
+	 * needed.  That can be expensive, so just redraw the whole
+	 * sheet if the row count is too big.
+	 */
+	if (r->end.row - r->start.row > 500) {
+		scg_redraw_all (sc, FALSE);
+		return;
+	}
+
+	/* We potentially do a lot of recalcs as part of this, so make sure
+	   stuff that caches sub-computations see the whole thing instead
+	   of clearing between cells.  */
+	gnm_app_recalc_start ();
+
 	SCG_FOREACH_PANE (scg, pane, {
 		visible.start = pane->first;
 		visible.end = pane->last_visible;
@@ -158,6 +173,8 @@ scg_redraw_range (SheetControl *sc, GnmRange const *r)
 			gnm_pane_redraw_range (pane, &area);
 		}
 	};);
+
+	gnm_app_recalc_finish ();
 }
 
 /* A rough guess of the trade off point between of redrawing all
