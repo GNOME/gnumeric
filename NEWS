@@ -50,6 +50,7 @@ Morten:
 	* Fix scrollbar/spinbutton load-from-.gnumeric.  [Part of #672716]
 	* New function COVARIANCE.S.
 	* Enable MATCH/VLOOKUP/HLOOKUP caches during redraw.
+	* Speed-up some operations on large areas.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2

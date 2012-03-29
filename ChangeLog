@@ -1,5 +1,8 @@
 2012-03-29  Morten Welinder  <terra@gnome.org>
 
+	* src/colrow.c (colrow_autofit): Mark as unit for recalc.  (This
+	one hits for paste-to-large-area.)
+
 	* src/sheet.c (sheet_redraw_region): Revert to redrawing the whole
 	sheet if the region is too tall.
 

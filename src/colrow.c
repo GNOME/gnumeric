@@ -817,7 +817,12 @@ colrow_autofit (Sheet *sheet, const GnmRange *range, gboolean is_cols,
 	if (sizes)
 		*sizes = g_slist_prepend (NULL, colrow_get_states (sheet, is_cols, a, b));
 
+	/* We potentially do a lot of recalcs as part of this, so make sure
+	   stuff that caches sub-computations see the whole thing instead
+	   of clearing between cells.  */
+	gnm_app_recalc_start ();
 	colrow_foreach (crs, a, b, handler, &data);
+	gnm_app_recalc_finish ();
 }
 
 void
