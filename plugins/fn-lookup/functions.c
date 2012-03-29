@@ -101,6 +101,7 @@ bisection_compare_float (const void *a_, const void *b_)
 
 /* -------------------------------------------------------------------------- */
 
+static gboolean debug_lookup_caches;
 static GStringChunk *lookup_string_pool;
 static GOMemChunk *lookup_float_pool;
 static GHashTable *linear_hlookup_string_cache;
@@ -122,6 +123,9 @@ clear_caches (void)
 {
 	if (!lookup_string_pool)
 		return;
+
+	if (debug_lookup_caches)
+		g_printerr ("Clearing lookup caches [%ld]\n", total_cache_size);
 
 	total_cache_size = 0;
 
@@ -1905,6 +1909,7 @@ GnmFuncDescriptor const lookup_functions[] = {
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
+	debug_lookup_caches = gnm_debug_flag ("lookup");
 	g_signal_connect (gnm_app_get_app (), "recalc-clear-caches",
 			  G_CALLBACK (clear_caches), NULL);
 }

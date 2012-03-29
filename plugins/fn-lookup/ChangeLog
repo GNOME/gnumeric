@@ -1,3 +1,7 @@
+2012-03-29  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (clear_caches): Add debug flag.
+
 2012-03-18  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_vlookup, gnumeric_hlookup): Handle string
