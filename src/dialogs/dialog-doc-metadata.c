@@ -1558,8 +1558,10 @@ cb_dialog_doc_metadata_tree_prop_selected (GtkTreeSelection  *selection,
 
 	if (selected) {
 		GType val_type = G_TYPE_INVALID;
+		gchar *prop_name = NULL;
 		gtk_tree_model_get (GTK_TREE_MODEL (state->properties_store),
 				    &iter,
+				    0, &prop_name,
 				    4, &val_type,
 				    -1);
 		switch (val_type) {
@@ -1573,12 +1575,16 @@ cb_dialog_doc_metadata_tree_prop_selected (GtkTreeSelection  *selection,
 			text = _("Edit TRUE/FALSE value directly in above listing.");
 			break;
 		default:
-			if (val_type == GSF_DOCPROP_VECTOR_TYPE)
-				text = _("To edit, use the keywords tab.");
-			else if (val_type == GSF_TIMESTAMP_TYPE)
+			if (val_type == GSF_DOCPROP_VECTOR_TYPE) {
+				if (0 == strcmp (prop_name, "dc:keywords")) 
+					text = _("To edit, use the keywords tab.");
+				else
+					text = _("This property value cannot be edited.");
+			} else if (val_type == GSF_TIMESTAMP_TYPE)
 				text= _("Edit timestamp directly in above listing.");
 			break;
 		}
+		g_free (prop_name);
 	}
 
 	gtk_label_set_text (state->instruction, text);
