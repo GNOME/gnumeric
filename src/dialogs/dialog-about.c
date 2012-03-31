@@ -569,7 +569,7 @@ dialog_about (WBCGtk *wbcg)
 			  "website", "http://www.gnumeric.org/",
 			  "website-label", _("Visit the Gnumeric website"),
 			  "logo-icon-name", "gnumeric",
-			  "copyright", _("Copyright \xc2\xa9 1998-2011"),
+			  "copyright", _("Copyright \xc2\xa9 1998-2012"),
 			  "comments", _("Free, Fast, Accurate - Pick Any Three!"),
 			  NULL);
 	state->dialog = w;
