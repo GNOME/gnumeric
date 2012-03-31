@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-26 08:27+0000\n"
-"PO-Revision-Date: 2012-03-31 14:44+0100\n"
+"PO-Revision-Date: 2012-03-31 22:29+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -3178,9 +3178,8 @@ msgid "DURATION calculates the duration of a security."
 msgstr "DURATION izračuna trajanje vrednostnega papirja."
 
 #: ../plugins/fn-financial/functions.c:1933
-#, fuzzy
 msgid "G_DURATION:the duration of a investment"
-msgstr "MERA: obrestna mera naložbe"
+msgstr "G_DURATION: trajanje naložbe"
 
 #: ../plugins/fn-financial/functions.c:1937
 msgid "G_DURATION calculates the number of periods needed for an investment to attain a desired value."
@@ -4065,18 +4064,16 @@ msgid "If @{abs_num} is greater than 4 ADDRESS returns #VALUE!"
 msgstr "V kolikor je @{absolutno_število} večje od 4, funkcija ADDRESS vrne napako #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:823
-#, fuzzy
 msgid "AREAS:number of areas in @{reference}"
-msgstr "COLUMNS:število stolpcev v @{sklicu}"
+msgstr "AREAS: število obsegov v @{sklicu}"
 
 #: ../plugins/fn-lookup/functions.c:824
 msgid "reference:range"
 msgstr "sklic:podatkovna vrsta"
 
 #: ../plugins/fn-lookup/functions.c:891
-#, fuzzy
 msgid "CHOOSE:the (@{index}+1)th argument"
-msgstr "Funkcija CHOOSE vrne (@{kazalo}+1)-ti argument."
+msgstr "CHOOSE: vrne (@{kazalo}+1)-ti argument"
 
 #: ../plugins/fn-lookup/functions.c:892
 msgid "index:positive number"
@@ -5577,7 +5574,7 @@ msgstr "wolfram:PrimeCountingFunction.html"
 
 #: ../plugins/fn-numtheory/numtheory.c:503
 msgid "BITOR:bitwise or"
-msgstr "BITOR:bitna logična disjunkcija (ALI)"
+msgstr "BITOR: bitni logični ALI"
 
 #: ../plugins/fn-numtheory/numtheory.c:504
 #: ../plugins/fn-numtheory/numtheory.c:528
@@ -5595,47 +5592,47 @@ msgstr "b:ne-negativno celo število"
 
 #: ../plugins/fn-numtheory/numtheory.c:506
 msgid "BITOR returns the bitwise or of the binary representations of its arguments."
-msgstr ""
+msgstr "Funkcija BITOR vrne bitni logični ALI dvojiške predstavitve argumentov"
 
 #: ../plugins/fn-numtheory/numtheory.c:527
 msgid "BITXOR:bitwise exclusive or"
-msgstr ""
+msgstr "BITXOR: bitni logični izključujoči ALI"
 
 #: ../plugins/fn-numtheory/numtheory.c:530
 msgid "BITXOR returns the bitwise exclusive or of the binary representations of its arguments."
-msgstr ""
+msgstr "Funkcija BITXOR vrne bitni logični izključujoči ALI dvojiške predstavitve argumentov"
 
 #: ../plugins/fn-numtheory/numtheory.c:551
 msgid "BITAND:bitwise and"
-msgstr "BITAND: bitni IN"
+msgstr "BITAND: bitni logični IN"
 
 #: ../plugins/fn-numtheory/numtheory.c:554
 msgid "BITAND returns the bitwise and of the binary representations of its arguments."
-msgstr ""
+msgstr "Funkcija BITAND vrne bitni logični IN dvojiške predstavitve argumentov"
 
 #: ../plugins/fn-numtheory/numtheory.c:576
 msgid "BITLSHIFT:bit-shift to the left"
-msgstr "BITLSHIFT:bitni premik v levo"
+msgstr "BITLSHIFT: bitni zamik v levo"
 
 #: ../plugins/fn-numtheory/numtheory.c:579
 msgid "BITLSHIFT returns the binary representations of @{a} shifted @{n} positions to the left."
-msgstr ""
+msgstr "Funkcija BITLSHIFT vrne dvojiško predstavitev @{a} zamaknjen za @{n} mest v levo."
 
 #: ../plugins/fn-numtheory/numtheory.c:580
 msgid "If @{n} is negative, BITLSHIFT shifts the bits to the right by ABS(@{n}) positions."
-msgstr ""
+msgstr "V kolikor je @{n} negativno število, funkcija BITLSHIFT zamakne število za ABS(@{n}) mest v desno."
 
 #: ../plugins/fn-numtheory/numtheory.c:606
 msgid "BITRSHIFT:bit-shift to the right"
-msgstr "BITRSHIFT:bitni premik v desno"
+msgstr "BITRSHIFT: bitni zamik v desno"
 
 #: ../plugins/fn-numtheory/numtheory.c:609
 msgid "BITRSHIFT returns the binary representations of @{a} shifted @{n} positions to the right."
-msgstr ""
+msgstr "Funkcija BITRSHIFT vrne dvojiško predstavitev @{a} zamaknjen za @{n} mest v desno."
 
 #: ../plugins/fn-numtheory/numtheory.c:610
 msgid "If @{n} is negative, BITRSHIFT shifts the bits to the left by ABS(@{n}) positions."
-msgstr ""
+msgstr "V kolikor je @{n} negativno število, funkcija BITRSHIFT zamakne število za ABS(@{n}) mest v levo."
 
 #: ../plugins/fn-r/functions.c:19
 msgid "R.DNORM:probability density function of the normal distribution"
@@ -5820,9 +5817,8 @@ msgid "p:probability"
 msgstr "p:verjetnost"
 
 #: ../plugins/fn-r/functions.c:77
-#, fuzzy
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the normal distribution."
-msgstr "Funkcija vrne  kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne funkcije porazdelitve za normalno porazdelitev"
+msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne normalne porazdelitve."
 
 #: ../plugins/fn-r/functions.c:98
 msgid "R.DLNORM:probability density function of the log-normal distribution"
@@ -5858,7 +5854,7 @@ msgstr "R.QLNORM: kvantilna funkcija verjetnosti logaritemske normalne porazdeli
 
 #: ../plugins/fn-r/functions.c:156
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the log-normal distribution."
-msgstr ""
+msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne logaritemsko normalne porazdelitve."
 
 #: ../plugins/fn-r/functions.c:177
 msgid "R.DGAMMA:probability density function of the gamma distribution"
@@ -5911,7 +5907,7 @@ msgstr "R.QGAMMA: kvantilna funkcija verjetnosti porazdelitve gama"
 
 #: ../plugins/fn-r/functions.c:235
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the gamma distribution."
-msgstr ""
+msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne porazdelitve gama."
 
 #: ../plugins/fn-r/functions.c:256
 msgid "R.DBETA:probability density function of the beta distribution"
@@ -5947,7 +5943,7 @@ msgstr "R.QBETA: kvantilna funkcija verjetnosti porazdelitve beta"
 
 #: ../plugins/fn-r/functions.c:314
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the beta distribution."
-msgstr ""
+msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne porazdelitve beta."
 
 #: ../plugins/fn-r/functions.c:335
 msgid "R.DT:probability density function of the Student t distribution"
@@ -5978,7 +5974,7 @@ msgstr "R.QT: kvantilna funkcija verjetnosti T porazdelitve"
 
 #: ../plugins/fn-r/functions.c:388
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Student t distribution."
-msgstr ""
+msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne T porazdelitve."
 
 #: ../plugins/fn-r/functions.c:408
 msgid "R.DF:probability density function of the F distribution"
@@ -6009,13 +6005,12 @@ msgid "This function returns the cumulative distribution function of the F distr
 msgstr "Funkcija vrne zbirno funkcijo porazdelitve za F porazdelitev"
 
 #: ../plugins/fn-r/functions.c:460
-#, fuzzy
 msgid "R.QF:probability quantile function of the F distribution"
-msgstr "R.QF: funkcija gostote verjetnosti logistične porazdelitve"
+msgstr "R.QF: kvantilna funkcija verjetnosti F porazdelitve"
 
 #: ../plugins/fn-r/functions.c:466
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the F distribution."
-msgstr ""
+msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne F porazdelitve."
 
 #: ../plugins/fn-r/functions.c:487
 msgid "R.DCHISQ:probability density function of the chi-square distribution"
@@ -6053,7 +6048,7 @@ msgstr "R.QCHISQ: kvantilna funkcija verjetnosti porazdelitve hi-kvadrat"
 
 #: ../plugins/fn-r/functions.c:542
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the chi-square distribution."
-msgstr ""
+msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne porazdelitve hi-kvadrat."
 
 #: ../plugins/fn-r/functions.c:543
 msgid "A two argument invocation R.QCHISQ(@{p},@{df}) is exported to OpenFormula as CHISQINV(@{p},@{df})."
@@ -6081,7 +6076,7 @@ msgstr "R.QWEIBULL: kvantilna funkcija verjetnosti Weibullove porazdelitve"
 
 #: ../plugins/fn-r/functions.c:621
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Weibull distribution."
-msgstr ""
+msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne Weibullove porazdelitve."
 
 #: ../plugins/fn-r/functions.c:642
 msgid "R.DPOIS:probability density function of the Poisson distribution"
@@ -6111,7 +6106,7 @@ msgstr "R.QPOIS: kvantilna funkcija verjetnosti Poissonove porazdelitve"
 
 #: ../plugins/fn-r/functions.c:695
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Poisson distribution."
-msgstr ""
+msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne Poissonove porazdelitve."
 
 #: ../plugins/fn-r/functions.c:715
 msgid "R.DEXP:probability density function of the exponential distribution"
@@ -6130,13 +6125,12 @@ msgid "This function returns the cumulative distribution function of the exponen
 msgstr "Funkcija vrne zbirno funkcijo porazdelitve za potenčno porazdelitev."
 
 #: ../plugins/fn-r/functions.c:763
-#, fuzzy
 msgid "R.QEXP:probability quantile function of the exponential distribution"
-msgstr "R.QEXP:probability quantile function of the exponential distribution"
+msgstr "R.QEXP: kvantilna funkcija verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:768
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the exponential distribution."
-msgstr ""
+msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne potenčne porazdelitve."
 
 #: ../plugins/fn-r/functions.c:788
 msgid "R.DBINOM:probability density function of the binomial distribution"
@@ -6176,13 +6170,12 @@ msgid "This function returns the cumulative distribution function of the binomia
 msgstr "Funkcija vrne zbirno funkcijo porazdelitve za binomsko porazdelitev."
 
 #: ../plugins/fn-r/functions.c:840
-#, fuzzy
 msgid "R.QBINOM:probability quantile function of the binomial distribution"
-msgstr "BINOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija binomske verjetnosti"
+msgstr "R.QBINOM: kvantilna funkcija verjetnosti binomske porazdelitve"
 
 #: ../plugins/fn-r/functions.c:846
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the binomial distribution."
-msgstr ""
+msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne binomske porazdelitve."
 
 #: ../plugins/fn-r/functions.c:867
 msgid "R.DNBINOM:probability density function of the negative binomial distribution"
@@ -6206,7 +6199,7 @@ msgstr "R.QNBINOM: kvantilna funkcija verjetnosti negativne binomske porazdelitv
 
 #: ../plugins/fn-r/functions.c:925
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the negative binomial distribution."
-msgstr ""
+msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne negativne binomske porazdelitve."
 
 #: ../plugins/fn-r/functions.c:946
 msgid "R.DHYPER:probability density function of the hypergeometric distribution"
@@ -6243,13 +6236,12 @@ msgid "This function returns the cumulative distribution function of the hyperge
 msgstr "Funkcija vrne zbirno funkcijo porazdelitve za hipergeometrično porazdelitev."
 
 #: ../plugins/fn-r/functions.c:1002
-#, fuzzy
 msgid "R.QHYPER:probability quantile function of the hypergeometric distribution"
-msgstr "HYPERGEOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija hipergeometrične porazdelitve"
+msgstr "R.QHYPER: kvantilna funkcija verjetnosti hipergeometrične porazdelitve"
 
 #: ../plugins/fn-r/functions.c:1009
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the hypergeometric distribution."
-msgstr ""
+msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne hipergeometrične porazdelitve."
 
 #: ../plugins/fn-r/functions.c:1031
 msgid "R.DGEOM:probability density function of the geometric distribution"
@@ -6268,13 +6260,12 @@ msgid "This function returns the cumulative distribution function of the geometr
 msgstr "Funkcija vrne zbirno funkcijo porazdelitve za geometrično porazdelitev."
 
 #: ../plugins/fn-r/functions.c:1079
-#, fuzzy
 msgid "R.QGEOM:probability quantile function of the geometric distribution"
-msgstr "GEOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija geometrične verjetnosti"
+msgstr "R.QGEOM: kvantilna funkcija verjetnosti geometrične porazdelitve"
 
 #: ../plugins/fn-r/functions.c:1084
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the geometric distribution."
-msgstr ""
+msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne geometrične porazdelitve."
 
 #: ../plugins/fn-r/functions.c:1104
 msgid "R.DCAUCHY:probability density function of the Cauchy distribution"
@@ -6304,7 +6295,7 @@ msgstr "R.QCAUCHY: kvantilna funkcija verjetnosti Cauchyjeve porazdelitve"
 
 #: ../plugins/fn-r/functions.c:1162
 msgid "This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Cauchy distribution."
-msgstr ""
+msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo zbirne Cauchyjeve porazdelitve."
 
 #: ../plugins/fn-r/functions.c:1183
 msgid "R.DSNORM:probability density function of the skew-normal distribution"
@@ -6341,15 +6332,15 @@ msgstr "RAND: naključno število med 0 in 1"
 
 #: ../plugins/fn-random/functions.c:64
 msgid "RANDUNIFORM:random variate from the uniform distribution from @{a} to @{b}"
-msgstr "RANDUNIFORM: naključna spremenljivka uniforme porazdelitve od @{a} do @{b}"
+msgstr "RANDUNIFORM: naključna spremenljivka enakomerne porazdelitve od @{a} do @{b}"
 
 #: ../plugins/fn-random/functions.c:65
 msgid "a:lower limit of the uniform distribution"
-msgstr "a: spodnja limita uniformne porazdelitve"
+msgstr "a: spodnja limita enakomerne porazdelitve"
 
 #: ../plugins/fn-random/functions.c:66
 msgid "b:upper limit of the uniform distribution"
-msgstr "b: zgornja limita uniformne porazdelitve"
+msgstr "b: zgornja limita enakomerne porazdelitve"
 
 #: ../plugins/fn-random/functions.c:67
 msgid "If @{a} > @{b} RANDUNIFORM returns #NUM!"
@@ -7097,9 +7088,8 @@ msgid "CORREL:Pearson correlation coefficient of two data sets"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:382
-#, fuzzy
 msgid "array2:second data set"
-msgstr "sklic2:druga podatkovna množica"
+msgstr "polje2: druga podatkovna množica"
 
 #: ../plugins/fn-stat/functions.c:388
 msgid "Then CORREL(A1:A5,B1:B5) equals 0.996124788."
@@ -7110,9 +7100,8 @@ msgid "wiki:en:CorrelationCoefficient.html"
 msgstr "wiki:en:CorrelationCoefficient.html"
 
 #: ../plugins/fn-stat/functions.c:410
-#, fuzzy
 msgid "NEGBINOMDIST:probability mass function of the negative binomial distribution"
-msgstr "BINOMDIST: verjetnostna funkcija ali pa porazdelitvena funkcija binomske verjetnosti"
+msgstr "NEGBINOMDIST: verjetnostna funkcija negativne binomske porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:411
 msgid "f:number of failures"
@@ -7433,7 +7422,7 @@ msgstr "V kolikor je @{x} < 0 ali pa je @{y} <= 0, funkcija vrne napako."
 
 #: ../plugins/fn-stat/functions.c:905
 msgid "BERNOULLI:probability mass function of a Bernoulli distribution"
-msgstr "BERNOULLI:funkcija gostote verjetnosti Bernoullijeve porazdelitve"
+msgstr "BERNOULLI: verjetnostna funkcija Bernoullijeve porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:906
 msgid "k:integer"
@@ -7498,7 +7487,7 @@ msgstr "V kolikor je @{alfa} <= 0 ali pa je @{beta} <= 0, funkcija vrne napako #
 
 #: ../plugins/fn-stat/functions.c:1004
 msgid "CHIDIST:survival function of the chi-squared distribution"
-msgstr ""
+msgstr "CHIDIST: funkcija preživetja porazdelitve hi-kvadrat"
 
 #: ../plugins/fn-stat/functions.c:1006
 #: ../plugins/fn-stat/functions.c:1034
@@ -8115,7 +8104,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:4010
 #: ../plugins/fn-stat/functions.c:4062
 msgid "known_ys:known y-values"
-msgstr "poznani_ys:znane vrednosti y"
+msgstr "znane_vrednosti_y: znane vrednosti y"
 
 #: ../plugins/fn-stat/functions.c:2361
 #: ../plugins/fn-stat/functions.c:3522
@@ -8123,11 +8112,11 @@ msgstr "poznani_ys:znane vrednosti y"
 #: ../plugins/fn-stat/functions.c:4011
 #: ../plugins/fn-stat/functions.c:4063
 msgid "known_xs:known x-values"
-msgstr "poznani_xs:znane vrednosti x"
+msgstr "znane_vrednosti_x: znane vrednosti x"
 
 #: ../plugins/fn-stat/functions.c:2362
 msgid "If @{known_ys} and @{known_xs} are empty or have a different number of arguments then this function returns a #N/A error."
-msgstr ""
+msgstr "V kolikor so @{znane_vrednosti_x} in @{znane_vrednosti_y} prazne ali pa imajo različno število argumentov, funkcija vrne napako #N/A!."
 
 #: ../plugins/fn-stat/functions.c:2368
 msgid "Then STEYX(A1:A5,B1:B5) equals 1.101509979."
@@ -8280,9 +8269,8 @@ msgid "If @{x} does not match any of the values in @{array} or @{x} matches more
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2768
-#, fuzzy
 msgid "PERCENTILE:determines the  100*@{k}-th percentile of the given data points"
-msgstr "PERCENTILE:določi 100*@{k}-ti percentil podanih podatkovnih točk"
+msgstr "PERCENTILE: določi 100*@{k}-ti percentil podanih podatkovnih točk"
 
 #: ../plugins/fn-stat/functions.c:2769
 #: ../plugins/fn-stat/functions.c:2811
@@ -8400,12 +8388,12 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:3308
 #: ../plugins/fn-stat/functions.c:3616
 msgid "known_ys:vector of values of dependent variable"
-msgstr ""
+msgstr "znane_vrednosti_y: vektor vrednosti odvisne spremenljivke"
 
 #: ../plugins/fn-stat/functions.c:3309
 #: ../plugins/fn-stat/functions.c:3617
 msgid "known_xs:array of values of independent variables, defaults to a single vector {1,…,n}"
-msgstr ""
+msgstr "znane_vrednosti_x: polje vrednosti neodvisne spremenljivke, privzeto določene kot enojni vektor {1, ..., n}."
 
 #: ../plugins/fn-stat/functions.c:3310
 #: ../plugins/fn-stat/functions.c:3407
@@ -8434,7 +8422,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:3325
 #: ../plugins/fn-stat/functions.c:3620
 msgid "If the length of @{known_ys} does not match the corresponding length of @{known_xs}, this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor dolžina @{znanih_vrednosti_y} ni skladna z ustrezno dolžino @{znanih_vrednosti_x}, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:3404
 msgid "LOGREG:the logarithmic regression"
@@ -8442,9 +8430,8 @@ msgstr "LOGREG:logaritemska regresija"
 
 #: ../plugins/fn-stat/functions.c:3406
 #: ../plugins/fn-stat/functions.c:3862
-#, fuzzy
 msgid "known_xs:known x-values; defaults to the array {1, 2, 3, …}"
-msgstr "{1, 2, 3, …}"
+msgstr "znane_vrednosti_x: znane vrednosti x; privzeto določeno s poljem {1, 2, 3, …}"
 
 #: ../plugins/fn-stat/functions.c:3408
 #: ../plugins/fn-stat/functions.c:3766
@@ -8463,7 +8450,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:3781
 #: ../plugins/fn-stat/functions.c:3872
 msgid "If @{known_ys} and @{known_xs} have unequal number of data points, this function returns a #NUM! error."
-msgstr ""
+msgstr "V kolikor imajo @{znane_vrednosti_x} in @{znane_vrednosti_y} neenako število podatkovnih točk, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:3520
 msgid "LOGFIT:logarithmic least square fit (using a trial and error method)"
@@ -8494,8 +8481,9 @@ msgid "TREND:estimates future values of a given data set using a least squares a
 msgstr "TREND: oceni bodočo vrednost podane podatkovne množice z uporabo aproksimacije najmanjših kvadratov"
 
 #: ../plugins/fn-stat/functions.c:3618
+#, fuzzy
 msgid "new_xs:array of x-values for which to estimate the y-values; defaults to @{known_xs}"
-msgstr ""
+msgstr "new_xs:array of x-values for which to estimate the y-values; defaults to @{znane_vrednosti_x}"
 
 #: ../plugins/fn-stat/functions.c:3622
 msgid "Let us assume that the cells A1, A2, …, A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7."
@@ -8512,7 +8500,7 @@ msgstr "LOGEST: "
 
 #: ../plugins/fn-stat/functions.c:3764
 msgid "known_xs:known x-values; default to an array {1, 2, 3, …}"
-msgstr ""
+msgstr "znane_vrednosti_x: znane vrednosti x; privzeto določene s poljem {1, 2, 3, …}"
 
 #: ../plugins/fn-stat/functions.c:3767
 msgid "LOGEST function applies the “least squares” method to fit an exponential curve of the form\ty = b * m{1}^x{1} * m{2}^x{2}... to your data."
@@ -8531,8 +8519,9 @@ msgid "GROWTH:exponential growth prediction"
 msgstr "GROWTH:napoved potenčne rasti"
 
 #: ../plugins/fn-stat/functions.c:3863
+#, fuzzy
 msgid "new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}"
-msgstr ""
+msgstr "new_xs:x-values for which to estimate the y-values; defaults to @{znane_vrednosti_x}"
 
 #: ../plugins/fn-stat/functions.c:3865
 msgid "GROWTH function applies the “least squares” method to fit an exponential curve to your data and predicts the exponential growth by using this curve."
@@ -8548,7 +8537,7 @@ msgstr "FORECAST: oceni bodočo vrednost glede na obstoječe vrednosti z uporabo
 
 #: ../plugins/fn-stat/functions.c:3950
 msgid "x:x-value whose matching y-value should be forecast"
-msgstr ""
+msgstr "x: vrednost x, katere vrednost y je treba napovedati"
 
 #: ../plugins/fn-stat/functions.c:3953
 msgid "This function estimates a future value according to existing values using simple linear regression."
@@ -8558,11 +8547,11 @@ msgstr "Funkcija oceni bodočo vrednost glede na obstoječe vrednosti z uporabo 
 #: ../plugins/fn-stat/functions.c:4012
 #: ../plugins/fn-stat/functions.c:4065
 msgid "If @{known_xs} or @{known_ys} contains no data entries or different number of data entries, this function returns a #N/A error."
-msgstr ""
+msgstr "V kolikor @{znane_vrednosti_x} ali @{znane_vrednosti_y} ne vsebujejo podatkovnih vnosov ali pa imajo različno število teh vnosov, funkcija vrne napako #N/A!."
 
 #: ../plugins/fn-stat/functions.c:3957
 msgid "If the variance of the @{known_xs} is zero, this function returns a #DIV/0 error."
-msgstr ""
+msgstr "V kolikor je varianca @{znanih_vrednosti_x} enaka 0, funkcija vrne napako #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:3963
 msgid "Then FORECAST(7,A1:A5,B1:B5) equals -10.859397661."
@@ -8574,9 +8563,8 @@ msgstr "INTERCEPT: presečišče linearne regresijske premice"
 
 #: ../plugins/fn-stat/functions.c:4014
 #: ../plugins/fn-stat/functions.c:4067
-#, fuzzy
 msgid "If the variance of the @{known_xs} is zero, this function returns #DIV/0 error."
-msgstr "V kolikor je varianca @{znani_xs} enaka 0, funkcija vrne napako #DIV/0!."
+msgstr "V kolikor je varianca @{znanih_vrednosti_x} enaka 0, funkcija vrne napako #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:4020
 msgid "Then INTERCEPT(A1:A5,B1:B5) equals -20.785117212."
@@ -9048,7 +9036,7 @@ msgstr "začetek: začetni položaj, privzeto je enak 1"
 
 #: ../plugins/fn-string/functions.c:733
 msgid "FIXED:formatted string representation of @{num}"
-msgstr ""
+msgstr "FIXED: oblikovana predstavitev niza @{številke}"
 
 #: ../plugins/fn-string/functions.c:734
 #: ../plugins/fn-string/functions.c:1231
