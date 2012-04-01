@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-26 08:27+0000\n"
-"PO-Revision-Date: 2012-03-31 22:29+0100\n"
+"PO-Revision-Date: 2012-04-01 14:12+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -949,7 +949,7 @@ msgstr "DATEVALUE:del datuma in zaporedna vrednost časa"
 #: ../plugins/fn-date/functions.c:194
 #: ../plugins/fn-date/functions.c:451
 msgid "serial:date and time serial value"
-msgstr "zaporedje:zaporedna vrednost datuma in časa"
+msgstr "zaporedje: zaporedna vrednost datuma in časa"
 
 #: ../plugins/fn-date/functions.c:195
 msgid "DATEVALUE returns the date serial value part of a date and time serial value."
@@ -1059,7 +1059,7 @@ msgstr "Funkcija TIME določi zaporedno decimalno vrednost dela dneva med polno�
 
 #: ../plugins/fn-date/functions.c:450
 msgid "TIMEVALUE:the time part of a date and time serial value"
-msgstr "TIMEVALUE:časovni del zaporedne vrednosti datuma in časa"
+msgstr "TIMEVALUE: časovni del zaporedne vrednosti datuma in časa"
 
 #: ../plugins/fn-date/functions.c:452
 msgid "TIMEVALUE returns the time-of-day part of a date and time serial value."
@@ -1067,7 +1067,7 @@ msgstr "Funkcija TIMEVALUE vrne čas dneva kot del zaporedne vrednosti datuma in
 
 #: ../plugins/fn-date/functions.c:469
 msgid "HOUR:compute hour part of fractional day"
-msgstr "HOUR:izračunan urni del obdobja dneva, zapisan kot decimalno število"
+msgstr "HOUR: izračunan urni del obdobja dneva, zapisan kot decimalno število"
 
 #: ../plugins/fn-date/functions.c:470
 #: ../plugins/fn-date/functions.c:493
@@ -1081,7 +1081,7 @@ msgstr "Funkcija HOUR izračuna urni del obdobja dneva, ki ga določa @{čas}."
 
 #: ../plugins/fn-date/functions.c:492
 msgid "MINUTE:compute minute part of fractional day"
-msgstr "MINUTE:izračunan minutni del obdobja dneva, zapisan kot decimalno število"
+msgstr "MINUTE: izračunan minutni del obdobja dneva, zapisan kot decimalno število"
 
 #: ../plugins/fn-date/functions.c:494
 msgid "The MINUTE function computes the minute part of the fractional day given by @{time}."
@@ -1089,7 +1089,7 @@ msgstr "Funkcija MINUTE izračuna minutni del obdobja dneva, ki ga določa @{ča
 
 #: ../plugins/fn-date/functions.c:515
 msgid "SECOND:compute seconds part of fractional day"
-msgstr "SECOND:izračunan sekundni del obdobja dneva, zapisan kot decimalno število"
+msgstr "SECOND: izračunan sekundni del obdobja dneva, zapisan kot decimalno število"
 
 #: ../plugins/fn-date/functions.c:517
 msgid "The SECOND function computes the seconds part of the fractional day given by @{time}."
@@ -1600,7 +1600,7 @@ msgstr ""
 #: ../plugins/fn-derivatives/options.c:827
 #, fuzzy
 msgid "v_f:volatility of the forward rate of interest"
-msgstr "mera: nazivna letna obrestna mera"
+msgstr "v_F: nestanovitnost"
 
 #: ../plugins/fn-derivatives/options.c:828
 msgid "rho_se:correlation between the spot commodity price and the convenience yield"
@@ -1667,9 +1667,8 @@ msgid "a:amount received for each time period"
 msgstr "a:prejeti znesek za vsako časovno obdobje"
 
 #: ../plugins/fn-derivatives/options.c:1300
-#, fuzzy
 msgid "m:number of time units the option has already met the condition"
-msgstr "m: število časovnih enot, ki jih je opcija že"
+msgstr "m: število časovnih enot v katerih opcija že izpolnjuje pogoje"
 
 #: ../plugins/fn-derivatives/options.c:1301
 msgid "dt:agreed upon discrete time period expressed as a fraction of a year"
@@ -1680,9 +1679,8 @@ msgid "OPT_TIME_SWITCH models the theoretical price of time switch options. (Pec
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1336
-#, fuzzy
 msgid "OPT_SIMPLE_CHOOSER:theoretical price of a simple chooser option"
-msgstr "OPT_GARMAN_KOHLHAGEN: teoretična cena opcije evropske denarne enote"
+msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1340
 msgid "time1:time in years until the holder chooses a put or a call option"
@@ -1693,9 +1691,8 @@ msgid "time2:time in years until the chosen option expires"
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1385
-#, fuzzy
 msgid "OPT_COMPLEX_CHOOSER:theoretical price of a complex chooser option"
-msgstr "OPT_GARMAN_KOHLHAGEN: teoretična cena opcije evropske denarne enote"
+msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1387
 msgid "strike_call:strike price, if exercised as a call option"
@@ -2480,7 +2477,7 @@ msgstr ""
 #: ../plugins/fn-erlang/functions.c:134
 #, fuzzy
 msgid "@{traffic} cannot exceed @{circuits}."
-msgstr "Veja povezava ne sme preseči 63 bajtov"
+msgstr "Vrednost @{prometa} ne more preseči števila @{circuits}"
 
 #: ../plugins/fn-erlang/functions.c:130
 msgid "OFFTRAF:predicted number of offered calls"
@@ -2585,7 +2582,7 @@ msgstr "mera: nazivna letna obrestna mera"
 
 #: ../plugins/fn-financial/functions.c:367
 msgid "par:par value, defaults to $1000"
-msgstr ""
+msgstr "nazivna_vrednost: nazivna vrednost, privzeto določena s $1000."
 
 #: ../plugins/fn-financial/functions.c:368
 #: ../plugins/fn-financial/functions.c:1894
@@ -2668,18 +2665,16 @@ msgid "maturity:maturity date"
 msgstr "dospetje: datum dospetja"
 
 #: ../plugins/fn-financial/functions.c:453
-#, fuzzy
 msgid "par:par value"
-msgstr "Trenutna vrednost"
+msgstr "nazivna_vrednost: nazivna vrednost"
 
 #: ../plugins/fn-financial/functions.c:455
 msgid "ACCRINTM calculates the accrued interest from @{issue} to @{maturity}."
 msgstr "Funkcija ACCRINTM izračuna obračunane (nezapadle) obresti od @{izdaje} do @{dospetja}."
 
 #: ../plugins/fn-financial/functions.c:456
-#, fuzzy
 msgid "@{par} defaults to $1000."
-msgstr "Potrdi privzeto"
+msgstr "@{nazivna_vrednost} je privzeto določena s $1000."
 
 #: ../plugins/fn-financial/functions.c:487
 msgid "INTRATE:interest rate"
@@ -2728,7 +2723,7 @@ msgstr "popust: letna stopnja popusta"
 
 #: ../plugins/fn-financial/functions.c:572
 msgid "PRICEDISC calculates the price per $100 face value of a bond that does not pay interest at maturity."
-msgstr "Funkcija PRICEDISC izračuna ceno vrednostnega papirja na 100 $ imenske vrednosti, ki ne izplačuje obresti ob dospelosti."
+msgstr "Funkcija PRICEDISC izračuna ceno vrednostnega papirja na 100 $ nazivne vrednosti, ki ne izplačuje obresti ob dospelosti."
 
 #: ../plugins/fn-financial/functions.c:602
 msgid "PRICEMAT:price at maturity"
@@ -2745,15 +2740,16 @@ msgstr "donos: letni donos vrednostnega papirja"
 
 #: ../plugins/fn-financial/functions.c:609
 msgid "PRICEMAT calculates the price per $100 face value of a bond that pays interest at maturity."
-msgstr "Funkcija PRICEMAT izračuna ceno vrednostnega papirja na 100 $ imenske vrednosti, ki izplačuje obresti ob dospelosti."
+msgstr "Funkcija PRICEMAT izračuna ceno vrednostnega papirja na 100 $ nazivne vrednosti, ki izplačuje obresti ob dospelosti."
 
 #: ../plugins/fn-financial/functions.c:647
 msgid "DISC:discount rate"
 msgstr "DISC: diskondirana mera"
 
 #: ../plugins/fn-financial/functions.c:650
+#, fuzzy
 msgid "par:price per $100 face value"
-msgstr ""
+msgstr "nazivna_vrednost: cena za $100 face vrednosti"
 
 #: ../plugins/fn-financial/functions.c:653
 msgid "DISC calculates the discount rate for a security."
@@ -2797,9 +2793,8 @@ msgid "NOMINAL calculates the nominal interest rate from the effective rate."
 msgstr "Funkcija NOMINAL izračuna nominalno obrestno mero iz efektivne obrestne mere."
 
 #: ../plugins/fn-financial/functions.c:735
-#, fuzzy
 msgid "ISPMT:interest payment for period"
-msgstr "IPMT: plačilo obroka za določeno obdobje"
+msgstr "IPMT: izplačilo obresti za obdobje naložbe"
 
 #: ../plugins/fn-financial/functions.c:737
 #: ../plugins/fn-financial/functions.c:1759
@@ -2834,9 +2829,8 @@ msgid "pv:present value"
 msgstr "sv: sedanja vrednost"
 
 #: ../plugins/fn-financial/functions.c:740
-#, fuzzy
 msgid "ISPMT calculates the interest payment for period number @{per}."
-msgstr "Funkcija IPMT izračuna obrestni del vrednosti obroka v določenem @{obdobju}."
+msgstr "Funkcija ISPMT izračuna izplačilo obresti za @{obdobje}."
 
 #: ../plugins/fn-financial/functions.c:771
 msgid "DB:depreciation of an asset"
@@ -2979,9 +2973,8 @@ msgid "TBILLEQ calculates the bond-equivalent yield for a treasury bill."
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1123
-#, fuzzy
 msgid "TBILLPRICE:price of a treasury bill"
-msgstr "TBILLYIELD: donos za zakladno menico"
+msgstr "TBILLPRICE: cena zakladne menice"
 
 #: ../plugins/fn-financial/functions.c:1127
 msgid "TBILLPRICE calculates the price per $100 face value for a treasury bill."
@@ -3303,9 +3296,8 @@ msgid "YIELDMAT calculates the yield of a security for which the interest is pai
 msgstr "Funkcija YIELDMAT izračuna donos za vrednostni papir, ki prinese obresti ob dospelosti."
 
 #: ../plugins/fn-financial/functions.c:2494
-#, fuzzy
 msgid "ODDFPRICE:price of a security that has an odd first period"
-msgstr "ODDFYIELD: donos vrednostnega papirja, ki ima liho prvo obdobje."
+msgstr "ODDFYIELD: cena vrednostnega papirja, ki ima liho prvo obdobje."
 
 #: ../plugins/fn-financial/functions.c:2498
 #: ../plugins/fn-financial/functions.c:2648
@@ -3338,7 +3330,6 @@ msgid "ODDLPRICE calculates the price per $100 face value of a security that pay
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2818
-#, fuzzy
 msgid "ODDLYIELD:yield of a security that has an odd last period"
 msgstr "ODDFYIELD: donos vrednostnega papirja, ki ima liho prvo obdobje."
 
@@ -6779,15 +6770,15 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:901
 msgid "The mean of a skew-normal distribution with location parameter @{𝜉}=0 is not 0."
-msgstr ""
+msgstr "Povprečje nesimetrične normalne porazdelitve s parametrom mesta @{𝜉}=0 ni enako 0."
 
 #: ../plugins/fn-random/functions.c:903
 msgid "The standard deviation of a skew-normal distribution with scale parameter @{𝜔}=1 is not 1."
-msgstr ""
+msgstr "Standardni odklon nesimetrične normalne porazdelitve s parametrom velikosti @{𝜔}=1 ni enak 1."
 
 #: ../plugins/fn-random/functions.c:905
 msgid "The skewness of a skew-normal distribution is in general not @{𝛼}."
-msgstr ""
+msgstr "Nesimetričnost nesimetrične normalne porazdelitve običajno ni @{𝛼}."
 
 #: ../plugins/fn-random/functions.c:906
 msgid "If @{𝜔} < 0, RANDSNORM returns #NUM!"
@@ -6811,7 +6802,7 @@ msgstr "Standardni odklon nesimetrične T porazdelitve ne more biti 1."
 
 #: ../plugins/fn-random/functions.c:946
 msgid "The skewness of a skew-t distribution is in general not @{𝛼}."
-msgstr ""
+msgstr "Nesimetričnost nesimetrične T porazdelitve običajno ni @{𝛼}."
 
 #: ../plugins/fn-stat/functions.c:45
 msgid "Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted."
@@ -7386,7 +7377,7 @@ msgstr "Izračun funkcije  SKEW(A1:A5) vrne rešitev 0.976798268."
 
 #: ../plugins/fn-stat/functions.c:847
 msgid "SKEWP:population skewness of a data set"
-msgstr ""
+msgstr "SKEWP: nesimetričnost podatkovne množice populacije"
 
 #: ../plugins/fn-stat/functions.c:851
 msgid "If less than two numbers are given, SKEWP returns a #DIV/0! error."
@@ -8328,9 +8319,8 @@ msgid "Then FTEST(A1:A5,B1:B5) equals 0.510815017."
 msgstr "Izračun funkcije FTEST(A1:A5,B1:B5) vrne rešitev 0.510815017."
 
 #: ../plugins/fn-stat/functions.c:2910
-#, fuzzy
 msgid "TTEST:p-value for a hypothesis test comparing the means of two populations using the Student t-distribution"
-msgstr "TTEST: vrednost-p za preizkus hipoteze pri primerjavi povprečnih vrednosti dveh počulacij T porazdelitve."
+msgstr "TTEST: vrednost-p za preizkus hipoteze pri primerjavi povprečnih vrednosti dveh populacij T porazdelitve."
 
 #: ../plugins/fn-stat/functions.c:2914
 msgid "tails:number of tails to consider"
