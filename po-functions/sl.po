@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-26 08:27+0000\n"
-"PO-Revision-Date: 2012-04-01 14:12+0100\n"
+"PO-Revision-Date: 2012-04-01 22:21+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -2465,9 +2465,8 @@ msgstr "promet:število klicev"
 #: ../plugins/fn-erlang/functions.c:107
 #: ../plugins/fn-erlang/functions.c:132
 #: ../plugins/fn-erlang/functions.c:229
-#, fuzzy
 msgid "circuits:number of circuits"
-msgstr "Število sider"
+msgstr "kanali: število kanalov"
 
 #: ../plugins/fn-erlang/functions.c:108
 msgid "PROBBLOCK returns probability of blocking when @{traffic} calls load into @{circuits} circuits."
@@ -2475,13 +2474,12 @@ msgstr ""
 
 #: ../plugins/fn-erlang/functions.c:110
 #: ../plugins/fn-erlang/functions.c:134
-#, fuzzy
 msgid "@{traffic} cannot exceed @{circuits}."
-msgstr "Vrednost @{prometa} ne more preseči števila @{circuits}"
+msgstr "Vrednost @{prometa} ne more preseči števila @{kanalov}."
 
 #: ../plugins/fn-erlang/functions.c:130
 msgid "OFFTRAF:predicted number of offered calls"
-msgstr ""
+msgstr "OFFTRAF: predvideno število ponujenih klicev"
 
 #: ../plugins/fn-erlang/functions.c:131
 msgid "traffic:number of carried calls"
@@ -2489,20 +2487,20 @@ msgstr "promet: število izvedenih nakupnih opcij"
 
 #: ../plugins/fn-erlang/functions.c:133
 msgid "OFFTRAF returns the predicted number of offered calls given @{traffic} carried calls (taken from measurements) on @{circuits} circuits."
-msgstr ""
+msgstr "Funkcija OFFTRAF vrne predvideno število ponujenih klicev glede na @{promet} (na osnovi meritev) na določenem številu @{kanalov}."
 
 #: ../plugins/fn-erlang/functions.c:190
 msgid "DIMCIRC:number of circuits required"
-msgstr ""
+msgstr "DIMCIRC: število zahtevanih kanalov"
 
 #: ../plugins/fn-erlang/functions.c:192
 #: ../plugins/fn-erlang/functions.c:230
 msgid "gos:grade of service"
-msgstr ""
+msgstr "ocena: ocena storitve"
 
 #: ../plugins/fn-erlang/functions.c:193
 msgid "DIMCIRC returns the number of circuits required given @{traffic} calls with grade of service @{gos}."
-msgstr ""
+msgstr "Funkcija DIMCIRC vrne število kanalov, ki so zahtevani za podan @{promet} klicev z določeno @oceno} storitve."
 
 #: ../plugins/fn-erlang/functions.c:228
 msgid "OFFCAP:traffic capacity"
@@ -2510,7 +2508,7 @@ msgstr "OFFCAP:zmogljivost prometa"
 
 #: ../plugins/fn-erlang/functions.c:231
 msgid "OFFCAP returns the traffic capacity given @{circuits} circuits with grade of service @{gos}."
-msgstr ""
+msgstr "Funkcija OFFCAP vrne zmožnost prometa na podano število @{kanalov} z določeno @{oceno} storitve."
 
 #. *************************************************************************
 #: ../plugins/fn-financial/functions.c:53
@@ -2696,7 +2694,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:2746
 #: ../plugins/fn-financial/functions.c:2824
 msgid "redemption:amount received at maturity"
-msgstr ""
+msgstr "pavšal: vsota prejeta ob dospetju"
 
 #: ../plugins/fn-financial/functions.c:493
 msgid "INTRATE calculates the interest of a fully vested security."
@@ -2723,7 +2721,7 @@ msgstr "popust: letna stopnja popusta"
 
 #: ../plugins/fn-financial/functions.c:572
 msgid "PRICEDISC calculates the price per $100 face value of a bond that does not pay interest at maturity."
-msgstr "Funkcija PRICEDISC izračuna ceno vrednostnega papirja na 100 $ nazivne vrednosti, ki ne izplačuje obresti ob dospelosti."
+msgstr "Funkcija PRICEDISC izračuna ceno vrednostnega papirja na $100 nazivne vrednosti, ki ne izplačuje obresti ob dospelosti."
 
 #: ../plugins/fn-financial/functions.c:602
 msgid "PRICEMAT:price at maturity"
@@ -2740,16 +2738,15 @@ msgstr "donos: letni donos vrednostnega papirja"
 
 #: ../plugins/fn-financial/functions.c:609
 msgid "PRICEMAT calculates the price per $100 face value of a bond that pays interest at maturity."
-msgstr "Funkcija PRICEMAT izračuna ceno vrednostnega papirja na 100 $ nazivne vrednosti, ki izplačuje obresti ob dospelosti."
+msgstr "Funkcija PRICEMAT izračuna ceno vrednostnega papirja na $100 nazivne vrednosti, ki izplačuje obresti ob dospelosti."
 
 #: ../plugins/fn-financial/functions.c:647
 msgid "DISC:discount rate"
 msgstr "DISC: diskondirana mera"
 
 #: ../plugins/fn-financial/functions.c:650
-#, fuzzy
 msgid "par:price per $100 face value"
-msgstr "nazivna_vrednost: cena za $100 face vrednosti"
+msgstr "nazivna_vrednost: cena za $100 nazivne vrednosti"
 
 #: ../plugins/fn-financial/functions.c:653
 msgid "DISC calculates the discount rate for a security."
@@ -2757,7 +2754,7 @@ msgstr "Funkcija DISC izračuna stopnjo popusta vrednostnega papirja."
 
 #: ../plugins/fn-financial/functions.c:654
 msgid "@{redemption} is the redemption value per $100 face value."
-msgstr ""
+msgstr "@{pavšal} je pavšalna vrednost na $100 nazivne vrednosti."
 
 #: ../plugins/fn-financial/functions.c:685
 msgid "EFFECT:effective interest rate"
@@ -2939,11 +2936,12 @@ msgstr "decimalna_vrednost: vrednost za pretvarjanje"
 
 #: ../plugins/fn-financial/functions.c:984
 msgid "DOLLARFR converts a decimal dollar amount into a fractional amount which is represented as the digits after the decimal point.  For example, 2/8 would be represented as .2 while 3/16 would be represented as .03. This is the inverse of the DOLLARDE function."
-msgstr "Funkcija DOLLARFR pretvori decimalno zapisano vrednost dolarja v ulomek, ki je predstavljen kot števke za decimalno točko. Na primer: 2/8 se pretvori v 0,2$, vrednost 3/16 pa v vrednost 0,03$. Funkcija je inverzna funkcija funkcije DOLLARDE."
+msgstr "Funkcija DOLLARFR pretvori decimalno zapisano vrednost dolarja v ulomek, ki je predstavljen kot števke za decimalno točko. Na primer: 2/8 se pretvori v 0,2, vrednost 3/16 pa v vrednost 0,03. Funkcija je inverzna funkcija funkcije DOLLARDE."
 
 #: ../plugins/fn-financial/functions.c:1027
+#, fuzzy
 msgid "MIRR:modified internal rate of return"
-msgstr ""
+msgstr "MIRR:modified internal rate of return"
 
 #: ../plugins/fn-financial/functions.c:1028
 #: ../plugins/fn-financial/functions.c:1341
@@ -2961,16 +2959,17 @@ msgid "reinvest_rate:interest rate for reinvestments"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1031
+#, fuzzy
 msgid "MIRR calculates the modified internal rate of return of a periodic cash flow."
-msgstr ""
+msgstr "Funkcija MIRR izračuna spremenjeno internal rate of return of a periodic cash flow."
 
 #: ../plugins/fn-financial/functions.c:1085
 msgid "TBILLEQ:bond-equivalent yield for a treasury bill"
-msgstr ""
+msgstr "TBILLEQ: donos, enak obveznici za zakladno menico"
 
 #: ../plugins/fn-financial/functions.c:1089
 msgid "TBILLEQ calculates the bond-equivalent yield for a treasury bill."
-msgstr ""
+msgstr "Funkcija TBILLEQ izračuna donos, enak obveznici za zakladno menico."
 
 #: ../plugins/fn-financial/functions.c:1123
 msgid "TBILLPRICE:price of a treasury bill"
@@ -2978,7 +2977,7 @@ msgstr "TBILLPRICE: cena zakladne menice"
 
 #: ../plugins/fn-financial/functions.c:1127
 msgid "TBILLPRICE calculates the price per $100 face value for a treasury bill."
-msgstr ""
+msgstr "Funkcija TBILLPRICE izračuna ceno zakladne menice na $100 nazivne vrednosti."
 
 #: ../plugins/fn-financial/functions.c:1157
 msgid "TBILLYIELD:yield of a treasury bill"
@@ -3245,7 +3244,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2205
 msgid "EUROCONVERT converts @{n} units of currency @{source} to currency @{target}.  The rates used are the official ones used on the introduction of the Euro."
-msgstr ""
+msgstr "Funkcija EUROCONVERT pretvori @{n} enot @{izvorne_valute} v @{ciljno}. Uporabljene so uradne pretvorbene enote, ki so bile uporabljene v času uvajanja evra za posamezno državo članico."
 
 #: ../plugins/fn-financial/functions.c:2206
 msgid "If @{full_precision} is true, the result is not rounded; if it false the result is rounded to 0 or 2 decimals depending on the target currency; defaults to false."
@@ -3253,7 +3252,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2207
 msgid "@{source} and @{target} must be one of the currencies listed for the EURO function."
-msgstr ""
+msgstr "Pri pretvarjanju so uporabljene @{izvorne} in @{ciljne_valute} držav, ki so prevzele evro kot nacionalno valuto."
 
 #: ../plugins/fn-financial/functions.c:2251
 msgid "PRICE:price of a security"
@@ -3261,7 +3260,7 @@ msgstr "PRICE: cena vrednostnega papirja"
 
 #: ../plugins/fn-financial/functions.c:2259
 msgid "PRICE calculates the price per $100 face value of a security that pays periodic interest."
-msgstr ""
+msgstr "Funkcija PRICE izračuna ceno vrednostnega papirja z nazivno vrednostjo $100, za katerega se izplačujejo obresti."
 
 #: ../plugins/fn-financial/functions.c:2301
 msgid "YIELD:yield of a security"
@@ -3277,7 +3276,7 @@ msgstr "cena: cena vrednostnega papirja"
 
 #: ../plugins/fn-financial/functions.c:2309
 msgid "YIELD calculates the yield of a security that pays periodic interest."
-msgstr "FUnkcija YIELD izračuna donos za vrednostni papir, ki daje obresti v enakomernih časovnih razmikih."
+msgstr "Funkcija YIELD izračuna donos za vrednostni papir, ki daje obresti v enakomernih časovnih razmikih."
 
 #: ../plugins/fn-financial/functions.c:2410
 msgid "YIELDDISC:yield of a discounted security"
@@ -3306,7 +3305,7 @@ msgstr "prve_obresti: datum prvega izplačila obresti"
 
 #: ../plugins/fn-financial/functions.c:2504
 msgid "ODDFPRICE calculates the price per $100 face value of a security that pays periodic interest, but has an odd first period."
-msgstr ""
+msgstr "Funkcija ODDFPRICE izračuna ceno vrednostnega papirja z nazivno vrednostjo $100, za katerega se izplačujejo obresti, vendar ima liho prvo obdobje."
 
 #: ../plugins/fn-financial/functions.c:2644
 msgid "ODDFYIELD:yield of a security that has an odd first period"
@@ -3314,11 +3313,11 @@ msgstr "ODDFYIELD: donos vrednostnega papirja, ki ima liho prvo obdobje."
 
 #: ../plugins/fn-financial/functions.c:2654
 msgid "ODDFYIELD calculates the yield of a security that pays periodic interest, but has an odd first period."
-msgstr ""
+msgstr "Funkcija ODDFYIELD izračuna donos vrednostnega papirja, za katerega se izplačujejo obresti, vendar ima liho prvo obdobje."
 
 #: ../plugins/fn-financial/functions.c:2740
 msgid "ODDLPRICE:price of a security that has an odd last period"
-msgstr ""
+msgstr "ODDFPRICE: cena vrednostnega papirja, ki ima liho prvo obdobje."
 
 #: ../plugins/fn-financial/functions.c:2743
 #: ../plugins/fn-financial/functions.c:2821
@@ -3327,7 +3326,7 @@ msgstr "zadnje_obresti: datum zadnjega izplačila obresti"
 
 #: ../plugins/fn-financial/functions.c:2749
 msgid "ODDLPRICE calculates the price per $100 face value of a security that pays periodic interest, but has an odd last period."
-msgstr ""
+msgstr "Funkcija ODDLPRICE izračuna ceno vrednostnega papirja z nazivno vrednostjo $100, za katerega se izplačujejo obresti, vendar ima liho zadnje obdobje."
 
 #: ../plugins/fn-financial/functions.c:2818
 msgid "ODDLYIELD:yield of a security that has an odd last period"
@@ -3335,7 +3334,7 @@ msgstr "ODDFYIELD: donos vrednostnega papirja, ki ima liho prvo obdobje."
 
 #: ../plugins/fn-financial/functions.c:2827
 msgid "ODDLYIELD calculates the yield of a security that pays periodic interest, but has an odd last period."
-msgstr ""
+msgstr "Funkcija ODDLYIELD izračuna donos vrednostnega papirja, za katerega se izplačujejo obresti, vendar ima liho zadnje obdobje."
 
 #: ../plugins/fn-financial/functions.c:2896
 msgid "AMORDEGRC:depreciation of an asset using French accounting conventions"
@@ -3876,7 +3875,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:1817
 msgid "The value return is not updated automatically when the link attached to @{cell} changes but requires a recalculation."
-msgstr ""
+msgstr "Vrednost se samodejno ne posodobi, ko se spremeni povezava do @{celice}, ki zahteva ponovno preračunavanje."
 
 #: ../plugins/fn-logical/functions.c:44
 msgid "AND:logical conjunction"
@@ -3896,13 +3895,13 @@ msgstr "b1:logična vrednost"
 
 #: ../plugins/fn-logical/functions.c:47
 msgid "AND calculates the logical conjunction of its arguments @{b0},@{b1},..."
-msgstr ""
+msgstr "Funkcija AND izračuna logično konjunkcijo argumentov @{b0}, @{b1}, ..."
 
 #: ../plugins/fn-logical/functions.c:48
 #: ../plugins/fn-logical/functions.c:127
 #: ../plugins/fn-logical/functions.c:181
 msgid "If an argument is numerical, zero is considered FALSE and anything else TRUE."
-msgstr ""
+msgstr "V kolikor je argument številski, je vrednost 0 opredeljena kot NAPAK, druge vrednosti pa kot PRAV."
 
 #: ../plugins/fn-logical/functions.c:49
 #: ../plugins/fn-logical/functions.c:102
@@ -3937,7 +3936,7 @@ msgstr "b:logična vrednost"
 
 #: ../plugins/fn-logical/functions.c:100
 msgid "NOT calculates the logical negation of its argument."
-msgstr ""
+msgstr "Funkcija NOT izračuna logično negacijo argumentov."
 
 #: ../plugins/fn-logical/functions.c:101
 msgid "If the argument is numerical, zero is considered FALSE and anything else TRUE."
@@ -3953,20 +3952,19 @@ msgstr "OR:logična disjunkcija (ALI)"
 
 #: ../plugins/fn-logical/functions.c:126
 msgid "OR calculates the logical disjunction of its arguments @{b0},@{b1},..."
-msgstr ""
+msgstr "Funkcija OR izračuna logično disjunkcijo argumentov @{b0}, @{b1}, ..."
 
 #: ../plugins/fn-logical/functions.c:136
 msgid "wiki:en:Logical_disjunction"
 msgstr "wiki:en:Logical_disjunction"
 
 #: ../plugins/fn-logical/functions.c:177
-#, fuzzy
 msgid "XOR:logical exclusive disjunction"
-msgstr "wiki:en:Exclusive_disjunction"
+msgstr "XOR: logična izključujoča disjunkcija"
 
 #: ../plugins/fn-logical/functions.c:180
 msgid "XOR calculates the logical exclusive disjunction of its arguments @{b0},@{b1},..."
-msgstr ""
+msgstr "Funkcija XOR izračuna logično izključujočo disjunkcijo argumentov @{b0}, @{b1}, ..."
 
 #: ../plugins/fn-logical/functions.c:189
 msgid "wiki:en:Exclusive_disjunction"
@@ -4235,9 +4233,8 @@ msgid "INDEX:reference to a cell in the given @{array}"
 msgstr "INDEX:sklic do celice v podanem @{podatkovnem polju}"
 
 #: ../plugins/fn-lookup/functions.c:1267
-#, fuzzy
 msgid "array:cell or inline array"
-msgstr "Izbriši ali razdeli polje"
+msgstr "polje: celica ali znotrajvrstično polje"
 
 #: ../plugins/fn-lookup/functions.c:1268
 msgid "row:desired row, defaults to 1"
@@ -4787,7 +4784,7 @@ msgstr "y:število"
 
 #: ../plugins/fn-math/functions.c:979
 msgid "BETA function returns the value of the Euler beta function extended to all real numbers except 0 and negative integers."
-msgstr ""
+msgstr "Funkcija BETA vrne vrednost Eulerjeve funkcije beta, ki je razširjena na vsa realna števila razen vrednosti 0 in negativnih celih števil."
 
 #: ../plugins/fn-math/functions.c:980
 msgid "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETA returns #NUM!"
@@ -4800,11 +4797,11 @@ msgstr "wiki:en:Beta_function"
 
 #: ../plugins/fn-math/functions.c:1000
 msgid "BETALN:natural logarithm of the absolute value of the Euler beta function"
-msgstr ""
+msgstr "BETALN: naravni logaritem absolutne vrednosti Eulerjeve funkcije beta"
 
 #: ../plugins/fn-math/functions.c:1003
 msgid "BETALN function returns the natural logarithm of the absolute value of the Euler beta function extended to all real numbers except 0 and negative integers."
-msgstr ""
+msgstr "Funkcija BETALN vrne naravni logaritem absolutne vrednosti Eulerjeve funkcije beta, razširjena na vsa realna števila razen vrednosti 0 in negativnih celih števil."
 
 #: ../plugins/fn-math/functions.c:1004
 msgid "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETALN returns #NUM!"
@@ -4826,8 +4823,9 @@ msgid "k:non-negative integer"
 msgstr "k:ne-negativno celo število"
 
 #: ../plugins/fn-math/functions.c:1028
+#, fuzzy
 msgid "COMBIN returns the binomial coefficient \"@{n} choose @{k}\", the number of @{k}-combinations of an @{n}-element set without repetition."
-msgstr ""
+msgstr "Funkcija COMBIN vrne binomski koeficient \"@{n} choose @{k}\", število @{k}-kombinacij pri @{n}-predmetih brez ponavljanja."
 
 #: ../plugins/fn-math/functions.c:1031
 msgid "If @{n} is less than @{k} COMBIN returns #NUM!"
@@ -5131,7 +5129,7 @@ msgstr "x:ne-negativno celo število"
 
 #: ../plugins/fn-math/functions.c:1748
 msgid "FACTDOUBLE function returns the double factorial @{x}!!"
-msgstr ""
+msgstr "Funkcija FACTDOUBLE vrne dvojno fakulteto @{x}!!"
 
 #: ../plugins/fn-math/functions.c:1749
 msgid "If @{x} is not an integer, it is truncated. If @{x} is negative, FACTDOUBLE returns #NUM!"
@@ -5154,7 +5152,7 @@ msgstr "n:positivno celo število"
 
 #: ../plugins/fn-math/functions.c:1785
 msgid "FIB(@{n}) is the @{n}th Fibonacci number."
-msgstr "FUnkcija FIB (@{n}) vrne naslednje @{n}-to Fibonaccijevo število."
+msgstr "Funkcija FIB (@{n}) vrne naslednje @{n}-to Fibonaccijevo število."
 
 #: ../plugins/fn-math/functions.c:1786
 msgid "If @{n} is not an integer, it is truncated. If it is negative or zero FIB returns #NUM!"
@@ -5173,13 +5171,12 @@ msgid "denominator:non-zero integer"
 msgstr "števec: celo števil, različno od 0"
 
 #: ../plugins/fn-math/functions.c:1827
-#, fuzzy
 msgid ""
 "QUOTIENT yields the integer portion of the division @{numerator}/@{denominator}.\n"
 "QUOTIENT (@{numerator},@{denominator})⨉@{denominator}+MOD(@{numerator},@{denominator})=@{numerator}"
 msgstr ""
-"QUOTIENT yields the integer portion of the division @{numerator}/@{denominator}.\n"
-"QUOTIENT (@{numerator},@{denominator})⨉@{denominator}+MOD(@{numerator},@{denominator})=@{numerator}"
+"Funkcija QUOTIENT vrne celoštevilski del deljenja @{števca}/@{imenovalca}.\n"
+"QUOTIENT (@{števec},@{imenovalec})⨉@{imenovalec}+MOD(@{števec},@{imenovalec})=@{števec}"
 
 #: ../plugins/fn-math/functions.c:1851
 msgid "SIGN:sign of @{x}"
@@ -5187,7 +5184,7 @@ msgstr "SIGN:predznak vrednosti @{x}"
 
 #: ../plugins/fn-math/functions.c:1853
 msgid "SIGN returns 1 if the @{x} is positive and it returns -1 if @{x} is negative."
-msgstr ""
+msgstr "Funkcija SIGN vrne vrednost 1, če je @{x} pozitivno in -1, če je @{x} negativno število."
 
 #: ../plugins/fn-math/functions.c:1878
 msgid "SQRTPI:the square root of @{x} times 𝜋"
@@ -5298,7 +5295,7 @@ msgstr "polje2: drugi obseg celic"
 
 #: ../plugins/fn-math/functions.c:2390
 msgid "SUMX2MY2 function returns the sum of the difference of squares of corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2)."
-msgstr ""
+msgstr "Funkcija SUMX2MY2 vrne vsoto razlik kvadratov ustreznih vrednosti dveh podatkovnih polj. Enačba funkcije SUMX2MY2 je SUM(x^2-y^2)."
 
 #: ../plugins/fn-math/functions.c:2429
 msgid "SUMX2PY2:sum of the sum of squares"
@@ -5306,13 +5303,15 @@ msgstr "SUMX2PY2:vsota vsot kvadratov"
 
 #: ../plugins/fn-math/functions.c:2432
 msgid "SUMX2PY2 function returns the sum of the sum of squares of corresponding values in two arrays. The equation of SUMX2PY2 is SUM(x^2+y^2)."
-msgstr ""
+msgstr "Funkcija SUMX2PY2 vrne vsoto vsot kvadratov ustreznih vrednosti dveh podatkovnih polj. Enačba funkcije SUMX2PY2 je SUM(x^2+y^2)."
 
 #: ../plugins/fn-math/functions.c:2434
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMX2PY2 returns #N/A.\n"
 "Strings and empty cells are simply ignored."
 msgstr ""
+"V kolikor imata @{polje0} in @{polje1} različno število podatkovnih točk, funkcija SUMX2PY2 vrne napako #N/A!.\n"
+"Nizi in prazne celice so prezirti."
 
 #: ../plugins/fn-math/functions.c:2472
 msgid "SUMXMY2:sum of the squares of differences"
@@ -5320,7 +5319,7 @@ msgstr "SUMXMY2:vsota kvadratov razlike"
 
 #: ../plugins/fn-math/functions.c:2475
 msgid "SUMXMY2 function returns the sum of the squares of the differences of corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2)."
-msgstr ""
+msgstr "Funkcija SUMXMY2 vrne vsoto kvadratov razlik ustreznih vrednosti dveh podatkovnih polj. Enačba funkcije SUMXMY2 je SUM((x-y)^2)."
 
 #: ../plugins/fn-math/functions.c:2477
 msgid ""
@@ -5408,9 +5407,8 @@ msgid "MDETERM:the determinant of the matrix @{matrix}"
 msgstr "MDETERM:determinanta @{matrike}"
 
 #: ../plugins/fn-math/functions.c:2936
-#, fuzzy
 msgid "SUMPRODUCT:multiplies components and adds the results"
-msgstr "SUMPRODUCT: zmnoži predmete in doda rezultat"
+msgstr "SUMPRODUCT: vsota zmnožkov ustreznih delov matrike."
 
 #: ../plugins/fn-math/functions.c:2938
 #: ../plugins/fn-math/functions.c:2961
@@ -5419,33 +5417,32 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2941
 msgid "If an entry is not numeric, the value zero is used instead."
-msgstr ""
+msgstr "V kolikor vnos ni številčna vrednost, je uporabljena vrednost 0."
 
 #: ../plugins/fn-math/functions.c:2942
 #: ../plugins/fn-math/functions.c:2965
 msgid "If arrays or range arguments do not have the same dimensions, return #VALUE! error."
-msgstr ""
+msgstr "V kolikor polja ali obsegi vrednosti nimajo enakih razsežnosti, funkcija vrne napako #VALUE!."
 
 #: ../plugins/fn-math/functions.c:2944
 msgid "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  Instead use SUMPRODUCT(--(A1:A5>0))"
-msgstr ""
+msgstr "FUnkcija ne upošteva logičnih parametrov, zato formula SUMPRODUCT(A1:A5>0) ne deluje. Uporabiti je treba formulo SUMPRODUCT(--(A1:A5>0))"
 
 #: ../plugins/fn-math/functions.c:2953
 msgid "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
 msgstr "Ta funkcija ni združljiva s funkcijami programa OpenFormula. Za združljivost je treba uporabiti funkcijo ODF.SUMPRODUCT."
 
 #: ../plugins/fn-math/functions.c:2959
-#, fuzzy
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
-msgstr "ODF.SUMPRODUCT: zmnoži predmete in doda rezultat"
+msgstr "ODF.SUMPRODUCT: vsota zmnožkov ustreznih delov matrike."
 
 #: ../plugins/fn-math/functions.c:2964
 msgid "If an entry is not numeric or logical, the value zero is used instead."
-msgstr ""
+msgstr "V kolikor vnos ni številski ali logični, je uporabljena vrednost 0."
 
 #: ../plugins/fn-math/functions.c:2967
 msgid "This function differs from SUMPRODUCT by considering booleans."
-msgstr ""
+msgstr "Funkcija se loči od funkcije SUMPRODUCT po tem, da upošteva tudi logične vrednosti."
 
 #: ../plugins/fn-math/functions.c:2968
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
@@ -5469,11 +5466,12 @@ msgstr "V kolikor @{matrika} nima enakega števila stolpcev in vrstic, funkcija 
 
 #: ../plugins/fn-numtheory/numtheory.c:218
 msgid "NT_PHI:Euler's totient function"
-msgstr ""
+msgstr "NT_PHI: Eulerjeva funkcija fi"
 
 #: ../plugins/fn-numtheory/numtheory.c:220
+#, fuzzy
 msgid "Euler's totient function gives the number of integers less than or equal to @{n} that are relatively prime (coprime) to @{n}."
-msgstr ""
+msgstr "Eulerjeva funkcija φ(n) poda število celih števil, ki so manša ali enaka @{n} that are relatively prime (coprime) to @{n}."
 
 #: ../plugins/fn-numtheory/numtheory.c:223
 msgid "wiki:en:Euler's_totient_function"
@@ -8509,9 +8507,8 @@ msgid "GROWTH:exponential growth prediction"
 msgstr "GROWTH:napoved potenčne rasti"
 
 #: ../plugins/fn-stat/functions.c:3863
-#, fuzzy
 msgid "new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}"
-msgstr "new_xs:x-values for which to estimate the y-values; defaults to @{znane_vrednosti_x}"
+msgstr "nove_Vrednosti_x: vrednosti x za katere so ocenjene vrednosti y; privzeto so to @{znane_vrednosti_x}"
 
 #: ../plugins/fn-stat/functions.c:3865
 msgid "GROWTH function applies the “least squares” method to fit an exponential curve to your data and predicts the exponential growth by using this curve."
@@ -8807,11 +8804,11 @@ msgstr ""
 #: ../plugins/fn-string/functions.c:67
 #: ../plugins/fn-string/functions.c:139
 msgid "For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have CODE(CHAR(@{x}))=@{x}."
-msgstr ""
+msgstr "Za vrednosti @{x} od 1 do 255, razen 129, 141, 143, 144, in 157, je mogoče uporabiti funkcijo CODE(CHAR(@{x}))=@{x}."
 
 #: ../plugins/fn-string/functions.c:105
 msgid "UNICHAR:the Unicode character represented by the Unicode code point @{x}"
-msgstr ""
+msgstr "UNICHAR: znak v naboru Unikod, ki je določen s kodo @{x}"
 
 #: ../plugins/fn-string/functions.c:106
 msgid "x:Unicode code point"
@@ -8819,7 +8816,7 @@ msgstr "x: točka kode Unikod"
 
 #: ../plugins/fn-string/functions.c:133
 msgid "CODE:the CP1252 (Windows-1252) code point for the character @{c}"
-msgstr ""
+msgstr "CODE: koda CP1252 (Windows-1252) za znak @{c}"
 
 #: ../plugins/fn-string/functions.c:134
 #: ../plugins/fn-string/functions.c:179
@@ -8832,7 +8829,7 @@ msgstr "@{c} mora biti veljavni znak v naboru CP1252 (Windows-1252)."
 
 #: ../plugins/fn-string/functions.c:137
 msgid "CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains all of its printable characters (but partially at different positions.)"
-msgstr ""
+msgstr "Nabor CP1252 (Windows-1252) je zasnovan na osnutku standarda ISO-8859-1 in vsebuje vse natisljive znake (vendar delno na različnih mestih)."
 
 #: ../plugins/fn-string/functions.c:178
 msgid "UNICODE:the Unicode code point for the character @{c}"
@@ -8871,26 +8868,26 @@ msgstr "LENB: število bitov v nizu @{s}"
 
 #: ../plugins/fn-string/functions.c:299
 msgid "LEFT:the first @{num_chars} characters of the string @{s}"
-msgstr ""
+msgstr "LEFT: določeno @{število_znakov}, ki se pojavljajo na začetku niza @{s}"
 
 #: ../plugins/fn-string/functions.c:301
 #: ../plugins/fn-string/functions.c:512
 msgid "num_chars:the number of characters to return (defaults to 1)"
-msgstr ""
+msgstr "število_znakov: število prikazanih znakov (privzeto določeno na 1)"
 
 #: ../plugins/fn-string/functions.c:302
 msgid "If the string @{s} is in a right-to-left script, the returned first characters are from the right of the string."
-msgstr ""
+msgstr "V kolikor je niz @{s} zapisan od desne-proti-levi, so vrnjeni znaki z desne strani."
 
 #: ../plugins/fn-string/functions.c:331
 msgid "LEFTB:the first characters  of the string @{s} comprising at most @{num_bytes} bytes"
-msgstr ""
+msgstr "LEFTB: prvi znaki niza @{s}, ki so sestaljeni iz ne več kot @{števila_Bajtov}"
 
 #: ../plugins/fn-string/functions.c:333
 #: ../plugins/fn-string/functions.c:426
 #: ../plugins/fn-string/functions.c:548
 msgid "num_bytes:the maximum number of bytes to return (defaults to 1)"
-msgstr ""
+msgstr "število_bajtov: največje število vrnjenih bajtov (privzeto 1)"
 
 #: ../plugins/fn-string/functions.c:334
 #: ../plugins/fn-string/functions.c:427
@@ -8898,11 +8895,11 @@ msgstr ""
 #: ../plugins/fn-string/functions.c:894
 #: ../plugins/fn-string/functions.c:1385
 msgid "The semantics of this function is subject to change as various applications implement it."
-msgstr ""
+msgstr "Skladnja te funkcije bo verjetno spremenjena, saj je vgrajena v različne programe."
 
 #: ../plugins/fn-string/functions.c:335
 msgid "If the string is in a right-to-left script, the returned first characters are from the right of the string."
-msgstr ""
+msgstr "V kolikor je niz zapisan od desne-proti-levi, so vrnjeni znaki z desne strani niza."
 
 #: ../plugins/fn-string/functions.c:336
 #: ../plugins/fn-string/functions.c:428
