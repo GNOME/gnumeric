@@ -14,7 +14,7 @@ Andreas:
 	* Import/Export marker size from/to ODF. Part of [#671461]
 	* Export/Import axes data formats to ODF. Part of [#671461]
 	* Fix object anchors on ODF import. [#667489]
-	* Fix properties page of Document Properties dialog. [#673129]
+	* Fix properties page of Document Properties dialog. [#673129, #673256]
 
 Jean:
 	* Fixed crash with sheet object. [#671617]

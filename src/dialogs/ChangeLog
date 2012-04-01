@@ -1,3 +1,12 @@
+2012-04-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-doc-metadata.c (dialog_doc_metadata_get_value_type):
+	also use G_TYPE_FLOAT and G_TYPE_DOUBLE
+	(dialog_doc_metadata_set_gsf_prop_val): don't depend solely on
+	g_value_transform
+	(cb_dialog_doc_metadata_tree_prop_selected): handle G_TYPE_UINT,
+	G_TYPE_FLOAT and G_TYPE_DOUBLE.
+
 2012-03-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-doc-metadata.c (cb_dialog_doc_metadata_tree_prop_selected):

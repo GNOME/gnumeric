@@ -33,6 +33,7 @@
 #include <gui-util.h>
 #include <parse-util.h>
 #include <value.h>
+#include <expr.h>
 #include <commands.h>
 #include <number-match.h>
 #include <dead-kittens.h>
@@ -250,6 +251,8 @@ dialog_doc_metadata_get_value_type (GValue *value)
 	switch (val_type) {
 	case G_TYPE_INT:
 	case G_TYPE_UINT:
+	case G_TYPE_FLOAT:
+	case G_TYPE_DOUBLE:
 	case G_TYPE_STRING:
 	case G_TYPE_BOOLEAN:
 		/* Just leave it as is */
@@ -262,8 +265,11 @@ dialog_doc_metadata_get_value_type (GValue *value)
 				val_type = GSF_TIMESTAMP_TYPE;
 			else if (VAL_IS_GSF_DOCPROP_VECTOR (value))
 				val_type = GSF_DOCPROP_VECTOR_TYPE;
-			else
+			else {
+				g_printerr ("GType %s (%i) not handled in metadata dialog.\n", 
+					    g_type_name (val_type), (int) val_type);
 				val_type = G_TYPE_INVALID;
+			}
 
 			break;
 		}
@@ -812,17 +818,50 @@ dialog_doc_metadata_get_gsf_prop_val_type (DialogDocMetaData *state,
 }
 
 static void
-dialog_doc_metadata_set_gsf_prop_val (G_GNUC_UNUSED DialogDocMetaData *state,
+dialog_doc_metadata_set_gsf_prop_val (DialogDocMetaData *state,
 				      GValue            *prop_value,
 				      const gchar       *str_val)
 {
-	GValue string_value = G_VALUE_INIT;
-	g_value_init (&string_value, G_TYPE_STRING);
+	GType t = G_VALUE_TYPE (prop_value);
 
-	g_value_set_string (&string_value, g_strdup (str_val));
-
-	if (!g_value_transform (&string_value, prop_value))
-		g_warning (_("Transformation of property types failed!"));
+	/* The preinstalled transform functions do not handle simple transformations */
+	/* such as from string to double, so we do that ourselves */
+	switch (t) {
+	case G_TYPE_STRING:
+		g_value_set_string (prop_value, g_strdup (str_val));
+		break;
+	case G_TYPE_DOUBLE:
+	case G_TYPE_FLOAT: {
+		GnmParsePos pos;
+		GnmValue *val = NULL;
+		GnmExprTop const *texpr = NULL;
+		parse_pos_init_sheet (&pos, workbook_sheet_by_index (state->wb, 0));
+		parse_text_value_or_expr (&pos, str_val,
+					  &val, &texpr);
+		if (val != NULL) {
+			gnm_float fl = value_get_as_float (val);
+			value_release (val);
+			if (t == G_TYPE_DOUBLE)
+				g_value_set_double (prop_value, fl);
+			else
+				g_value_set_float (prop_value, fl);
+		}
+		if (texpr)
+			gnm_expr_top_unref (texpr);
+		break;
+	}
+	default:
+		if (g_value_type_transformable (t, G_TYPE_STRING)) {
+			GValue string_value = G_VALUE_INIT;
+			g_value_init (&string_value, G_TYPE_STRING);
+			g_value_set_string (&string_value, g_strdup (str_val));
+			g_value_transform (&string_value, prop_value);
+			g_value_unset (&string_value);
+		} else
+			g_printerr (_("Transform function of G_TYPE_STRING to %s is required!\n"), 
+				    g_type_name (t));
+		break;
+	}
 }
 
 /**
@@ -1568,8 +1607,15 @@ cb_dialog_doc_metadata_tree_prop_selected (GtkTreeSelection  *selection,
 		case G_TYPE_STRING:
 			text = _("Edit string value directly in above listing.");
 			break;
+		case G_TYPE_UINT:
+			text = _("Edit positive integer value directly in above listing.");
+			break;
 		case G_TYPE_INT:
 			text = _("Edit integer value directly in above listing.");
+			break;
+		case G_TYPE_FLOAT:
+		case G_TYPE_DOUBLE:
+			text = _("Edit decimal number value directly in above listing.");
 			break;
 		case G_TYPE_BOOLEAN:
 			text = _("Edit TRUE/FALSE value directly in above listing.");
