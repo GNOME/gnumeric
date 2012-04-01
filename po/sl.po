@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-03-31 20:31+0000\n"
-"PO-Revision-Date: 2012-03-31 22:32+0100\n"
+"POT-Creation-Date: 2012-04-01 09:20+0000\n"
+"PO-Revision-Date: 2012-04-01 13:30+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -891,7 +891,7 @@ msgstr "Statistične funkcije povzete po dogovorjenih sklicnih določilih projek
 
 #: ../plugins/fn-r/plugin.xml.in.h:3
 #: ../plugins/fn-stat/plugin.xml.in.h:2
-#: ../src/dialogs/dialog-doc-metadata.c:2195
+#: ../src/dialogs/dialog-doc-metadata.c:2241
 #: ../src/dialogs/descriptive-stats.ui.h:20
 #: ../src/dialogs/doc-meta-data.ui.h:35
 msgid "Statistics"
@@ -921,7 +921,7 @@ msgid "Functions for manipulating strings"
 msgstr "Funkcije za upravljanje nizov"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
-#: ../src/dialogs/dialog-doc-metadata.c:1817
+#: ../src/dialogs/dialog-doc-metadata.c:1863
 #: ../src/dialogs/dialog-search.c:151
 #: ../src/func.c:1383
 msgid "String"
@@ -1202,7 +1202,7 @@ msgstr "Omejitev"
 
 #: ../plugins/mps/mps.c:593
 #: ../plugins/mps/mps.c:655
-#: ../src/dialogs/dialog-doc-metadata.c:1873
+#: ../src/dialogs/dialog-doc-metadata.c:1919
 #: ../src/dialogs/dialog-simulation.c:221
 msgid "Value"
 msgstr "Vrednost"
@@ -3718,7 +3718,7 @@ msgstr "Oblikuj predmet"
 
 #: ../src/commands.c:4916
 #: ../src/commands.c:5953
-#: ../src/dialogs/dialog-doc-metadata.c:1866
+#: ../src/dialogs/dialog-doc-metadata.c:1912
 #: ../src/dialogs/dialog-formula-guru.c:898
 #: ../src/dialogs/dialog-function-select.c:1240
 #: ../src/dialogs/dialog-scenarios.c:517
@@ -5631,106 +5631,115 @@ msgstr "Izbriši"
 msgid "Could not create the Delete Cell dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna brisanja celic."
 
-#: ../src/dialogs/dialog-doc-metadata.c:499
+#: ../src/dialogs/dialog-doc-metadata.c:505
 msgid "TRUE"
 msgstr "PRAV"
 
-#: ../src/dialogs/dialog-doc-metadata.c:499
+#: ../src/dialogs/dialog-doc-metadata.c:505
 msgid "FALSE"
 msgstr "NAPAK"
 
-#: ../src/dialogs/dialog-doc-metadata.c:705
+#: ../src/dialogs/dialog-doc-metadata.c:711
 msgid "Unknown"
 msgstr "Neznano"
 
-#: ../src/dialogs/dialog-doc-metadata.c:825
-msgid "Transformation of property types failed!"
-msgstr "Pretvarjanje vrst lastnosti je spodletelo!"
+#: ../src/dialogs/dialog-doc-metadata.c:861
+#, c-format
+msgid "Transform function of G_TYPE_STRING to %s is required!\n"
+msgstr "Zahtevano je preoblikovanje funkcije G_TYPE_STRING v %s!\n"
 
-#: ../src/dialogs/dialog-doc-metadata.c:1300
-#: ../src/dialogs/dialog-doc-metadata.c:2198
+#: ../src/dialogs/dialog-doc-metadata.c:1339
+#: ../src/dialogs/dialog-doc-metadata.c:2244
 msgid "Keywords"
 msgstr "Ključne besede"
 
-#: ../src/dialogs/dialog-doc-metadata.c:1569
+#: ../src/dialogs/dialog-doc-metadata.c:1608
 msgid "Edit string value directly in above listing."
 msgstr "Uredi vrednost niza neposredno iz zgornje vrstice."
 
-#: ../src/dialogs/dialog-doc-metadata.c:1572
+#: ../src/dialogs/dialog-doc-metadata.c:1611
+msgid "Edit positive integer value directly in above listing."
+msgstr "Uredi vrednost pozitivnega celega števila neposredno iz zgornje vrstice."
+
+#: ../src/dialogs/dialog-doc-metadata.c:1614
 msgid "Edit integer value directly in above listing."
 msgstr "Uredi vrednost števila neposredno iz zgornje vrstice."
 
-#: ../src/dialogs/dialog-doc-metadata.c:1575
+#: ../src/dialogs/dialog-doc-metadata.c:1618
+msgid "Edit decimal number value directly in above listing."
+msgstr "Uredi vrednost decimalnega števila neposredno iz zgornje vrstice."
+
+#: ../src/dialogs/dialog-doc-metadata.c:1621
 msgid "Edit TRUE/FALSE value directly in above listing."
 msgstr "Uredi vrednost niza prav/napak neposredno iz zgornje vrstice."
 
-#: ../src/dialogs/dialog-doc-metadata.c:1580
+#: ../src/dialogs/dialog-doc-metadata.c:1626
 msgid "To edit, use the keywords tab."
 msgstr "Za urejanje uporabite zavihek ključnih besed."
 
-#: ../src/dialogs/dialog-doc-metadata.c:1582
+#: ../src/dialogs/dialog-doc-metadata.c:1628
 msgid "This property value cannot be edited."
 msgstr "Te vrednosti lastnosti ni mogoče urediti."
 
-#: ../src/dialogs/dialog-doc-metadata.c:1584
+#: ../src/dialogs/dialog-doc-metadata.c:1630
 msgid "Edit timestamp directly in above listing."
 msgstr "Uredi časovni žig neposredno iz zgornje vrstice."
 
-#: ../src/dialogs/dialog-doc-metadata.c:1712
+#: ../src/dialogs/dialog-doc-metadata.c:1758
 #, c-format
 msgid "A document property with the name '%s' already exists."
 msgstr "Lastnost dokumenta z imenom '%s' že obstaja."
 
-#: ../src/dialogs/dialog-doc-metadata.c:1752
+#: ../src/dialogs/dialog-doc-metadata.c:1798
 #, c-format
 msgid "Use the keywords tab to create this property."
 msgstr "Uporabite zavihek ključnih besed za ustvarjanje te lastnosti."
 
-#: ../src/dialogs/dialog-doc-metadata.c:1818
+#: ../src/dialogs/dialog-doc-metadata.c:1864
 msgid "Integer"
 msgstr "Celo število"
 
-#: ../src/dialogs/dialog-doc-metadata.c:1819
+#: ../src/dialogs/dialog-doc-metadata.c:1865
 msgid "Decimal Number"
 msgstr "Decimalno število"
 
-#: ../src/dialogs/dialog-doc-metadata.c:1820
+#: ../src/dialogs/dialog-doc-metadata.c:1866
 msgid "TRUE/FALSE"
 msgstr "PRAV/NAPAK"
 
-#: ../src/dialogs/dialog-doc-metadata.c:1843
+#: ../src/dialogs/dialog-doc-metadata.c:1889
 msgid "Date & Time"
 msgstr "Datum in čas"
 
-#: ../src/dialogs/dialog-doc-metadata.c:1884
+#: ../src/dialogs/dialog-doc-metadata.c:1930
 msgid "Linked To"
 msgstr "Povezano z"
 
 #. IMPORTANT: OBEY THE ORDER 0 - 3 - 2 - 1
-#: ../src/dialogs/dialog-doc-metadata.c:2194
+#: ../src/dialogs/dialog-doc-metadata.c:2240
 #: ../src/dialogs/doc-meta-data.ui.h:14
 #: ../src/dialogs/hf-config.ui.h:18
 msgid "File"
 msgstr "Datoteka"
 
-#: ../src/dialogs/dialog-doc-metadata.c:2196
+#: ../src/dialogs/dialog-doc-metadata.c:2242
 #: ../src/dialogs/doc-meta-data.ui.h:28
 msgid "Properties"
 msgstr "Lastnosti"
 
-#: ../src/dialogs/dialog-doc-metadata.c:2197
+#: ../src/dialogs/dialog-doc-metadata.c:2243
 #: ../src/dialogs/dialog-function-select.c:1245
 #: ../src/dialogs/dialog-plugin-manager.c:721
 #: ../src/dialogs/doc-meta-data.ui.h:22
 msgid "Description"
 msgstr "Opis"
 
-#: ../src/dialogs/dialog-doc-metadata.c:2199
+#: ../src/dialogs/dialog-doc-metadata.c:2245
 #: ../src/dialogs/doc-meta-data.ui.h:42
 msgid "Calculation"
 msgstr "Računanje"
 
-#: ../src/dialogs/dialog-doc-metadata.c:2410
+#: ../src/dialogs/dialog-doc-metadata.c:2456
 msgid "Could not create the Properties dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna lastnosti."
 
@@ -17775,3 +17784,5 @@ msgstr "Bledo vijoličasta predloga seznama"
 msgid "A simple list template"
 msgstr "Predloga enostavnega seznama"
 
+#~ msgid "Transformation of property types failed!"
+#~ msgstr "Pretvarjanje vrst lastnosti je spodletelo!"
