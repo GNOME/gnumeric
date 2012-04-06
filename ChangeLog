@@ -4,6 +4,8 @@
 	before search and search/replace.
 	(gnm_search_replace_comment, gnm_search_replace_cell)
 	(gnm_search_replace_value): Use gnm_search_normalize.
+	(gnm_search_replace_cell): Normalize the result to NFC.  Fixes
+	#673447.
 
 2012-03-29  Morten Welinder  <terra@gnome.org>
 

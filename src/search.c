@@ -62,7 +62,13 @@ gnm_search_replace_value (GnmSearchReplace *sr,
 char *
 gnm_search_normalize (const char *txt)
 {
-	return g_utf8_normalize (txt, -1, G_NORMALIZE_DEFAULT);
+	return g_utf8_normalize (txt, -1, G_NORMALIZE_NFD);
+}
+
+static char *
+gnm_search_normalize_result (const char *txt)
+{
+	return g_utf8_normalize (txt, -1, G_NORMALIZE_NFC);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -402,6 +408,10 @@ gnm_search_replace_cell (GnmSearchReplace *sr,
 			res->new_text = go_search_replace_string (GO_SEARCH_REPLACE (sr),
 								  actual_src);
 			if (res->new_text) {
+				char *norm = gnm_search_normalize_result (res->new_text);
+				g_free (res->new_text);
+				res->new_text = norm;
+
 				if (sr->replace_keep_strings && is_string) {
 					/*
 					 * The initial quote was not part of the s-a-r,

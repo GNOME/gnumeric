@@ -52,6 +52,7 @@ Morten:
 	* New function COVARIANCE.S.
 	* Enable MATCH/VLOOKUP/HLOOKUP caches during redraw.
 	* Speed-up some operations on large areas.
+	* Work around pango bug affecting search/replace.  [#673447]
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2
