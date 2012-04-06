@@ -322,7 +322,7 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	is_regexp = (i == 1);
 	is_number = (i == 2);
 
-	text = g_utf8_normalize (gtk_entry_get_text (dd->gentry), -1, G_NORMALIZE_DEFAULT);
+	text = gnm_search_normalize (gtk_entry_get_text (dd->gentry));
 
 	sr = g_object_new (GNM_SEARCH_REPLACE_TYPE,
 			   "sheet", wb_control_cur_sheet (wbc),

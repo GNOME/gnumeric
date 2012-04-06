@@ -1,3 +1,10 @@
+2012-04-06  Morten Welinder  <terra@gnome.org>
+
+	* src/search.c (gnm_search_normalize): Function to normalize text
+	before search and search/replace.
+	(gnm_search_replace_comment, gnm_search_replace_cell)
+	(gnm_search_replace_value): Use gnm_search_normalize.
+
 2012-03-29  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c: Switch to g_slice by default.

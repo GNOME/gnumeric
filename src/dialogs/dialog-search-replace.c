@@ -135,8 +135,8 @@ apply_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	i = gnm_gui_group_value (gui, scope_group);
 	scope = (i == -1) ? GNM_SRS_SHEET : (GnmSearchReplaceScope)i;
 
-	search_text = g_utf8_normalize (gtk_entry_get_text (dd->search_text), -1, G_NORMALIZE_DEFAULT);
-	replace_text = g_utf8_normalize (gtk_entry_get_text (dd->replace_text), -1, G_NORMALIZE_DEFAULT);
+	search_text = gnm_search_normalize (gtk_entry_get_text (dd->search_text));
+	replace_text = gnm_search_normalize (gtk_entry_get_text (dd->replace_text));
 
 	sr = g_object_new (GNM_SEARCH_REPLACE_TYPE,
 			   "sheet", wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)),

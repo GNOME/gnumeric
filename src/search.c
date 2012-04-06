@@ -58,6 +58,15 @@ gnm_search_replace_value (GnmSearchReplace *sr,
 			  GnmSearchReplaceValueResult *res);
 
 /* ------------------------------------------------------------------------- */
+
+char *
+gnm_search_normalize (const char *txt)
+{
+	return g_utf8_normalize (txt, -1, G_NORMALIZE_DEFAULT);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static gboolean
 check_number (GnmSearchReplace *sr)
 {
@@ -326,7 +335,7 @@ gnm_search_replace_comment (GnmSearchReplace *sr,
 
 	res->old_text = cell_comment_text_get (res->comment);
 
-	norm_text = g_utf8_normalize (res->old_text, -1, G_NORMALIZE_DEFAULT);
+	norm_text = gnm_search_normalize (res->old_text);
 
 	if (repl) {
 		res->new_text = go_search_replace_string (GO_SEARCH_REPLACE (sr),
@@ -387,8 +396,7 @@ gnm_search_replace_cell (GnmSearchReplace *sr,
 		res->old_text = gnm_cell_get_entered_text (cell);
 		initial_quote = (is_string && res->old_text[0] == '\'');
 
-		actual_src = g_utf8_normalize (res->old_text + (initial_quote ? 1 : 0),
-					       -1, G_NORMALIZE_DEFAULT);
+		actual_src = gnm_search_normalize (res->old_text + initial_quote);
 
 		if (repl) {
 			res->new_text = go_search_replace_string (GO_SEARCH_REPLACE (sr),
@@ -440,7 +448,7 @@ gnm_search_replace_value (GnmSearchReplace *sr,
 	else if (sr->is_number) {
 		return gnm_search_match_value (sr, cell->value);
 	} else {
-		char *val = g_utf8_normalize (value_peek_string (cell->value), -1, G_NORMALIZE_DEFAULT);
+		char *val = gnm_search_normalize (value_peek_string (cell->value));
 		gboolean res = go_search_match_string (GO_SEARCH_REPLACE (sr), val);
 		g_free (val);
 		return res;

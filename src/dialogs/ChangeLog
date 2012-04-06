@@ -1,3 +1,10 @@
+2012-04-06  Morten Welinder  <terra@gnome.org>
+
+	* dialog-search-replace.c (apply_clicked): Use
+	gnm_search_normalize.
+
+	* dialog-search.c (search_clicked): Ditto.
+
 2012-04-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-doc-metadata.c (dialog_doc_metadata_get_value_type):
