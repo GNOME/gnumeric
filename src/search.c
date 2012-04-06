@@ -347,6 +347,11 @@ gnm_search_replace_comment (GnmSearchReplace *sr,
 		res->new_text = go_search_replace_string (GO_SEARCH_REPLACE (sr),
 							  norm_text);
 		found = (res->new_text != NULL);
+		if (found) {
+			char *norm = gnm_search_normalize_result (res->new_text);
+			g_free (res->new_text);
+			res->new_text = norm;
+		}
 	} else
 		found = go_search_match_string (GO_SEARCH_REPLACE (sr),
 						norm_text);
