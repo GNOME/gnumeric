@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-26 08:27+0000\n"
-"PO-Revision-Date: 2012-04-01 22:21+0100\n"
+"PO-Revision-Date: 2012-04-08 22:42+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -4689,9 +4689,8 @@ msgid "If @{x} and @{significance} have different signs, CEILING returns a #NUM!
 msgstr "V kolikor imata @{x} in statistična @{značilnost} različne predznake, funkcija CEILING vrne napako #NUM!."
 
 #: ../plugins/fn-math/functions.c:738
-#, fuzzy
 msgid "CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). CEILING(@{x},@{significance}) is the OpenFormula function CEILING(@{x},@{significance},1)."
-msgstr "Funkcija NORMSINV je skladna s funkcijo LEGACY.NORMSINV programa OpenFormula."
+msgstr ""
 
 #: ../plugins/fn-math/functions.c:764
 msgid "COS:the cosine of @{x}"
@@ -4853,9 +4852,8 @@ msgid "FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} wh
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1090
-#, fuzzy
 msgid "FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},@{significance}) is the OpenFormula function FLOOR(@{x},@{significance},1)."
-msgstr "Funkcija NORMSINV je skladna s funkcijo LEGACY.NORMSINV programa OpenFormula."
+msgstr ""
 
 #: ../plugins/fn-math/functions.c:1120
 msgid "INT:largest integer not larger than @{x}"
@@ -7068,13 +7066,12 @@ msgid "wolfram:Covariance.html"
 msgstr "wolfram:Covariance.html"
 
 #: ../plugins/fn-stat/functions.c:350
-#, fuzzy
 msgid "COVARIANCE.S:sample covariance of two data sets"
-msgstr "VARA: varianca podanega vzorca"
+msgstr "COVARIANCE.S: kovarianca vzorca dveh podatkovnih množic"
 
 #: ../plugins/fn-stat/functions.c:380
 msgid "CORREL:Pearson correlation coefficient of two data sets"
-msgstr ""
+msgstr "CORREL: Pearsonov koeficient soodnostnosti dveh podatkovnih množic"
 
 #: ../plugins/fn-stat/functions.c:382
 msgid "array2:second data set"
@@ -7941,9 +7938,8 @@ msgid "If @{mean} <= 0 POISSON returns the #NUM! error."
 msgstr "V kolikor je @{povprečje} <= 0, funkcija POISSON vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2011
-#, fuzzy
 msgid "PEARSON:Pearson correlation coefficient of the paired set of data"
-msgstr "PEARSON:Pearsonov koeficient soodnosnosti parjenega niza podatkov"
+msgstr "PEARSON: Pearsonov koeficient soodnosnosti dveh odvisnih vzorcev podatkov"
 
 #: ../plugins/fn-stat/functions.c:2012
 #: ../plugins/fn-stat/functions.c:2031
@@ -7957,7 +7953,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2030
 msgid "RSQ:square of the Pearson correlation coefficient of the paired set of data"
-msgstr ""
+msgstr "RSQ: kvadrat Pearsonovega koeficienta soodnosnosti dveh odvisnih vzorcev podatkov"
 
 #: ../plugins/fn-stat/functions.c:2054
 msgid "MEDIAN:median of a data set"
@@ -8326,11 +8322,11 @@ msgstr "repi: število upoštevanih repov"
 
 #: ../plugins/fn-stat/functions.c:2915
 msgid "type:Type of test to perform. 1 indicates a test for paired variables, 2 a test of unpaired variables with equal variances, and 3 a test of unpaired variables with unequal variances"
-msgstr "vrsta: vrsta testa. Vrednost 1 določa parjene spremenljivke, 2 neparjene spremenljivke z enakimi variancami in 3 neparjene spremenljivke z neenakimi variancami."
+msgstr "vrsta: vrsta testa. Vrednost 1 določa spremenljivke dveh odvisnih vzorcev, 2 neodvisnih vzorcev spremenljivke z enakimi variancami in 3 neodvisne vzorce spremenljivke z neenakimi variancami."
 
 #: ../plugins/fn-stat/functions.c:2918
 msgid "If the data sets contain a different number of data points and the test is paired (@{type} one), TTEST returns the #N/A error."
-msgstr ""
+msgstr "V kolikor vsebujeta podatkovni množici različno število podatkovnih točk in je test opredeljen od test dveh odvisnih vzorcev (@{vrsta} ena), funkcija TTEST vrne napako #N/A!."
 
 #: ../plugins/fn-stat/functions.c:2920
 msgid "@{tails} and @{type} are truncated to integers."
@@ -8357,9 +8353,8 @@ msgid "data_array:data values"
 msgstr "podatkovno_polje:podatkovne vrednosti"
 
 #: ../plugins/fn-stat/functions.c:3087
-#, fuzzy
 msgid "bins_array:array of cutoff values"
-msgstr "polje: polje številčnih vrednosti"
+msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3088
 msgid "The results are given as an array."
@@ -8484,7 +8479,7 @@ msgstr "Izračun funkcije TREND(A1:A5,B1:B5) vrne rešitev {12.1, 15.7, 21.6, 26
 #: ../plugins/fn-stat/functions.c:3762
 #, fuzzy
 msgid "LOGEST:exponential least square fit"
-msgstr "LOGEST: "
+msgstr "LOGEST:"
 
 #: ../plugins/fn-stat/functions.c:3764
 msgid "known_xs:known x-values; default to an array {1, 2, 3, …}"
