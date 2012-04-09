@@ -155,7 +155,6 @@ sheet_object_image_set_image (SheetObjectImage *soi,
 			soi->image = g_object_ref (image);
 		}
 	}
-	
 }
 
 void
