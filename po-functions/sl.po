@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-26 08:27+0000\n"
-"PO-Revision-Date: 2012-04-08 22:42+0100\n"
+"PO-Revision-Date: 2012-04-09 14:06+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -691,7 +691,7 @@ msgid ""
 "<30\n"
 ">40     \t>46000\n"
 msgstr ""
-"Za primer vzemimo, da vsebuje podatkovna vrsta A1:C7 naslednje vrednosti:\n"
+"Predvidimo, da vsebuje podatkovna vrsta A1:C7 naslednje vrednosti:\n"
 "\n"
 "Ime    \tStarost     \tPlača\n"
 "Janez    \t34      \t54342\n"
@@ -1598,9 +1598,8 @@ msgid "v_e:volatility of the future convenience yield"
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:827
-#, fuzzy
 msgid "v_f:volatility of the forward rate of interest"
-msgstr "v_F: nestanovitnost"
+msgstr "v_F: nestanovitnost terminske obrestne mere"
 
 #: ../plugins/fn-derivatives/options.c:828
 msgid "rho_se:correlation between the spot commodity price and the convenience yield"
@@ -1620,7 +1619,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:832
 msgid "kappa_f:speed of mean reversion of the forward interest rate"
-msgstr ""
+msgstr "kapa_f: hitrost vrnitve k povprečni vrednosti terminske obrestne mere"
 
 #: ../plugins/fn-derivatives/options.c:915
 msgid "OPT_RGW:theoretical price of an American option according to the Roll-Geske-Whaley approximation"
@@ -2781,9 +2780,8 @@ msgstr "NOMINAL: nazivna obrestna mera"
 #: ../plugins/fn-financial/functions.c:1798
 #: ../plugins/fn-financial/functions.c:1842
 #: ../plugins/fn-financial/functions.c:1934
-#, fuzzy
 msgid "rate:effective annual interest rate"
-msgstr "mera: nazivna letna obrestna mera"
+msgstr "mera: dejanska letna obrestna mera"
 
 #: ../plugins/fn-financial/functions.c:713
 msgid "NOMINAL calculates the nominal interest rate from the effective rate."
@@ -2840,9 +2838,8 @@ msgstr "DB: razvrednotenje osnovnega premoženja"
 #: ../plugins/fn-financial/functions.c:2897
 #: ../plugins/fn-financial/functions.c:2953
 #: ../plugins/fn-financial/functions.c:3280
-#, fuzzy
 msgid "cost:initial cost of asset"
-msgstr "nestanovitnost: letna nestanovitnost sredstev"
+msgstr "stroški: začetni stroški sredstev"
 
 #: ../plugins/fn-financial/functions.c:773
 #: ../plugins/fn-financial/functions.c:823
@@ -2867,18 +2864,16 @@ msgstr "življenjska_doba: število obdobij"
 #: ../plugins/fn-financial/functions.c:904
 #: ../plugins/fn-financial/functions.c:2901
 #: ../plugins/fn-financial/functions.c:2957
-#, fuzzy
 msgid "period:subject period"
-msgstr "(brez zadeve)"
+msgstr "obdobje: obdobje predmeta"
 
 #: ../plugins/fn-financial/functions.c:776
 msgid "month:number of months in first year of depreciation"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:777
-#, fuzzy
 msgid "DB calculates the depreciation of an asset for a given period using the fixed-declining balance method."
-msgstr "Funkcija DDB izračuna razvrednotenje osnovnega premoženja v podanem obdobju z metodo dvojno pojemajočega salda"
+msgstr "Funkcija DB izračuna razvrednotenje osnovnega premoženja v podanem obdobju z metodo stalnega pojemajočega salda."
 
 #: ../plugins/fn-financial/functions.c:821
 msgid "DDB:depreciation of an asset"
@@ -2939,9 +2934,8 @@ msgid "DOLLARFR converts a decimal dollar amount into a fractional amount which 
 msgstr "Funkcija DOLLARFR pretvori decimalno zapisano vrednost dolarja v ulomek, ki je predstavljen kot števke za decimalno točko. Na primer: 2/8 se pretvori v 0,2, vrednost 3/16 pa v vrednost 0,03. Funkcija je inverzna funkcija funkcije DOLLARDE."
 
 #: ../plugins/fn-financial/functions.c:1027
-#, fuzzy
 msgid "MIRR:modified internal rate of return"
-msgstr "MIRR:modified internal rate of return"
+msgstr "MIRR: spremenjena notranjo stopnjo donosa"
 
 #: ../plugins/fn-financial/functions.c:1028
 #: ../plugins/fn-financial/functions.c:1341
@@ -2959,9 +2953,8 @@ msgid "reinvest_rate:interest rate for reinvestments"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1031
-#, fuzzy
 msgid "MIRR calculates the modified internal rate of return of a periodic cash flow."
-msgstr "Funkcija MIRR izračuna spremenjeno internal rate of return of a periodic cash flow."
+msgstr "Funkcija MIRR izračuna spremenjeno notranjo stopnjo donosa pretoka gotovine v določenem obdobju."
 
 #: ../plugins/fn-financial/functions.c:1085
 msgid "TBILLEQ:bond-equivalent yield for a treasury bill"
@@ -4258,7 +4251,7 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1278
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9"
-msgstr ""
+msgstr "Predvidimo, da celice A1, A2, ..., A5 vsebujejo števila 11,4, 17,3, 21,3, 25,9 in 40,1. V tem primeru formula INDEX(A1:A5,4,1,1) vrne vrednost 25.9"
 
 #: ../plugins/fn-lookup/functions.c:1367
 msgid "COLUMN:vector of column numbers"
@@ -4323,14 +4316,12 @@ msgid "col:number of columns to offset @{range}"
 msgstr "stolpec:število stolpcev odmika od prvega stolpca v @{obsegu}"
 
 #: ../plugins/fn-lookup/functions.c:1465
-#, fuzzy
 msgid "height:height of the offset range, defaults to height of @{range}"
-msgstr "dejanska_vrsta:področje celice, privzeto določeno kot @{podatkovna vrsta}"
+msgstr "višina: višina odmika obsega, privzeto določena na višino @{podatkovne vrste}"
 
 #: ../plugins/fn-lookup/functions.c:1466
-#, fuzzy
 msgid "width:width of the offset range, defaults to width of @{range}"
-msgstr "dejanska_vrsta:področje celice, privzeto določeno kot @{podatkovna vrsta}"
+msgstr "širina: širina odmika obsega, privzeto določena na širino @{podatkovne vrste}"
 
 #: ../plugins/fn-lookup/functions.c:1467
 msgid "OFFSET returns the cell range starting at offset (@{row},@{col}) from @{range} of height @{height} and width @{width}."
@@ -4822,9 +4813,8 @@ msgid "k:non-negative integer"
 msgstr "k:ne-negativno celo število"
 
 #: ../plugins/fn-math/functions.c:1028
-#, fuzzy
 msgid "COMBIN returns the binomial coefficient \"@{n} choose @{k}\", the number of @{k}-combinations of an @{n}-element set without repetition."
-msgstr "Funkcija COMBIN vrne binomski koeficient \"@{n} choose @{k}\", število @{k}-kombinacij pri @{n}-predmetih brez ponavljanja."
+msgstr "Funkcija COMBIN vrne binomski koeficient \"@{n} nad @{k}\" ali @{k}-kombinacij pri @{n}-predmetih brez ponavljanja."
 
 #: ../plugins/fn-math/functions.c:1031
 msgid "If @{n} is less than @{k} COMBIN returns #NUM!"
@@ -5469,7 +5459,7 @@ msgstr "NT_PHI: Eulerjeva funkcija fi"
 #: ../plugins/fn-numtheory/numtheory.c:220
 #, fuzzy
 msgid "Euler's totient function gives the number of integers less than or equal to @{n} that are relatively prime (coprime) to @{n}."
-msgstr "Eulerjeva funkcija φ(n) poda število celih števil, ki so manša ali enaka @{n} that are relatively prime (coprime) to @{n}."
+msgstr "Eulerjeva funkcija φ(n) poda število celih števil, ki so manjša ali enaka @{n} in so relativna praštevila (coprime) to @{n}."
 
 #: ../plugins/fn-numtheory/numtheory.c:223
 msgid "wiki:en:Euler's_totient_function"
@@ -5521,7 +5511,7 @@ msgstr "i:positivno celo število"
 
 #: ../plugins/fn-numtheory/numtheory.c:361
 msgid "ITHPRIME finds the @{i}th prime."
-msgstr "ITHPRIME:najde @{i}to prašteviko."
+msgstr "ITHPRIME:najde @{i}to praštevilo."
 
 #: ../plugins/fn-numtheory/numtheory.c:385
 msgid "ISPRIME:whether @{n} is prime"
@@ -6686,28 +6676,24 @@ msgid "If @{β} < -1 or @{β} > 1, RANDLEVY returns #NUM!"
 msgstr "V kolikor je vrednost @{β} < -1 ali @{β} >1, funkcija RANDLEVY vrne napako #NUM!"
 
 #: ../plugins/fn-random/functions.c:751
-#, fuzzy
 msgid "RANDEXPPOW:random variate from an exponential power distribution"
-msgstr "RANDEXPPOW: naključna spremenljivka  porazdelitve"
+msgstr "RANDEXPPOW: naključna spremenljivka potenčne porazdelitve"
 
 #: ../plugins/fn-random/functions.c:752
 msgid "a:scale parameter of the exponential power distribution"
 msgstr "a:parameter merila potenčne porazdelitve"
 
 #: ../plugins/fn-random/functions.c:753
-#, fuzzy
 msgid "b:exponent of the exponential power distribution"
-msgstr "a:parameter merila potenčne porazdelitve"
+msgstr "b: potenca potenčne porazdelitve"
 
 #: ../plugins/fn-random/functions.c:754
-#, fuzzy
 msgid "For @{b} = 1 the exponential power distribution reduces to the Laplace distribution."
-msgstr "Pri vrednosti @{b} = 1 se the exponential power porazdelitev preoblikuje v Laplaceovo porazdelitev."
+msgstr "Pri vrednosti @{b} = 1 se potenčna porazdelitev preoblikuje v Laplaceovo porazdelitev."
 
 #: ../plugins/fn-random/functions.c:756
-#, fuzzy
 msgid "For @{b} = 2 the exponential power distribution reduces to the normal distribution with σ = a/sqrt(2)"
-msgstr "Pri vrednostih @{b} = 2 se exponential power porazdelitev spremeni v normalno porazdelitev z σ = a/sqrt(2)"
+msgstr "Pri vrednosti @{b} = 2 se potenčna porazdelitev spremeni v normalno porazdelitev z σ = a/sqrt(2)"
 
 #: ../plugins/fn-random/functions.c:776
 msgid "RANDLANDAU:random variate from the Landau distribution"
@@ -6836,7 +6822,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:54
 msgid "Let us assume that the cells A1, A2, ..., A5 contain number 11.4, 17.3, 21.3, 25.9, and 40.1."
-msgstr ""
+msgstr "Predvidimo, da celice A1, A2, ..., A5 vsebujejo števila 11,4, 17,3, 21,3, 25,9 in 40,1. "
 
 #: ../plugins/fn-stat/functions.c:55
 msgid "Then VARP(A1:A5) equals 94.112"
@@ -6888,7 +6874,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2774
 #: ../plugins/fn-stat/functions.c:2817
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1."
-msgstr ""
+msgstr "Predvidimo, da celice A1, A2, ..., A5 vsebujejo števila 11,4, 17,3, 21,3, 25,9 in 40,1. "
 
 #: ../plugins/fn-stat/functions.c:85
 msgid "Then VAR(A1:A5) equals 117.64."
@@ -7047,7 +7033,7 @@ msgstr "Celice z besedilnimi nizi in prazne celice so prezrte."
 #: ../plugins/fn-stat/functions.c:4017
 #: ../plugins/fn-stat/functions.c:4069
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7."
-msgstr "Predvidimo, da celice A1, A2, ..., A5 vsebujejo števila 11,4, 17,3, 21,3, 25,9, in 40,1, in celice B1, B2, ... B5 števila 23,2, 25,8, 29,9, 33,5, in 42.7."
+msgstr "Predvidimo, da celice A1, A2, ..., A5 vsebujejo števila 11,4, 17,3, 21,3, 25,9, in 40,1, celice B1, B2, ... B5 pa števila 23,2, 25,8, 29,9, 33,5, in 42.7."
 
 #: ../plugins/fn-stat/functions.c:328
 #: ../plugins/fn-stat/functions.c:358
@@ -7316,7 +7302,7 @@ msgstr "COUNTA: število podanih argumentov brez praznih celic"
 
 #: ../plugins/fn-stat/functions.c:692
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, \"missing\", \"missing\", 25.9, and 40.1."
-msgstr ""
+msgstr "Predvidimo, da celice A1, A2, ..., A5 vsebujejo števila 11,4, \"prazno polje\", \"prazno polje\", 25,9 in 40,1. "
 
 #: ../plugins/fn-stat/functions.c:693
 msgid "Then COUNTA(A1:A5) equals 5."
@@ -7501,9 +7487,8 @@ msgid "If @{dof} < 1 this function returns a #NUM! error."
 msgstr "V kolikor je @{df} < 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1011
-#, fuzzy
 msgid "CHIDIST(@{x},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{x},@{dof})."
-msgstr "Funkcija CHIDIST(@{x},@{dof}) je skladna s funkcijo LEGACY.CHIDIST(@{x},@{dof}) programa OpenFormula."
+msgstr "Funkcija CHIDIST(@{x},@{df}) je skladna s funkcijo LEGACY.CHIDIST(@{x},@{df}) programa OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1032
 msgid "CHIINV:inverse of the survival function of the chi-squared distribution"
@@ -7515,14 +7500,12 @@ msgid "If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error
 msgstr "V kolikor je @{p} < 0, je @{p} > 1 ali pa je @{df} < 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1038
-#, fuzzy
 msgid "CHIINV(@{p},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{p},@{dof})."
-msgstr "Funkcija CHIINV(@{p},@{dof}) je skladna s funkcijo  LEGACY.CHIDIST(@{p},@{dof}) programa OpenFormula."
+msgstr "Funkcija CHIINV(@{p},@{df}) je skladna s funkcijo LEGACY.CHIDIST(@{p},@{df}) programa OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1059
-#, fuzzy
 msgid "CHITEST:p value of the Goodness of Fit Test"
-msgstr "."
+msgstr "CHITEST: vrednost-p testa skladnosti funkcije"
 
 #: ../plugins/fn-stat/functions.c:1060
 msgid "actual_range:observed data"
@@ -8147,7 +8130,7 @@ msgstr "AVERAGEA: povprečje vseh vrednosti v sklicanih celicah"
 #: ../plugins/fn-stat/functions.c:2623
 #: ../plugins/fn-stat/functions.c:2650
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, \"missing\", 25.9, and 40.1."
-msgstr ""
+msgstr "Predvidimo, da celice A1, A2, ..., A5 vsebujejo števila 11,4, 17,3, \"prazno polje\", 25,9 in 40,1. "
 
 #: ../plugins/fn-stat/functions.c:2483
 msgid "Then AVERAGEA(A1:A5) equals 18.94."
@@ -8423,7 +8406,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3409
 msgid "LOGREG function transforms your x's to z=ln(x) and applies the “least squares” method to fit the linear equation y = m * z + b to your y's and z's --- equivalent to fitting the equation y = m * ln(x) + b to y's and x's. LOGREG returns an array having two columns and one row. m is given in the first column and b in the second. "
-msgstr ""
+msgstr "Funkcija LOGREG pretvori vrednosti x v z=ln(x) in uveljavi način “prileganja po postopku najmanjših kvadratov” za prileganje po enačbi y = m * z + b za vrednosti y in z, kar je ekvivalentno prilagajanju funkciji y = m * ln(x) + b za vrednosti y in x. Funkcija LOGREG vrne podatkovno polje z dvema stolpcema in eno vrstico. Vrednost m je podana v prvem in b v drugem stolpcu. "
 
 #: ../plugins/fn-stat/functions.c:3417
 msgid "Any extra statistical information is written below m and b in the result array.  This extra statistical information consists of four rows of data:  In the first row the standard error values for the coefficients m, b are given.  The second row contains the square of R and the standard error for the y estimate. The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.The default of @{stat} is FALSE."
@@ -8437,15 +8420,15 @@ msgstr "V kolikor imajo @{znane_vrednosti_x} in @{znane_vrednosti_y} neenako št
 
 #: ../plugins/fn-stat/functions.c:3520
 msgid "LOGFIT:logarithmic least square fit (using a trial and error method)"
-msgstr ""
+msgstr "LOGFIT: logaritemsko prileganje po postopku najmanjših kvadratov (z uporabo načina poskusa in napake)"
 
 #: ../plugins/fn-stat/functions.c:3524
 msgid "LOGFIT function applies the “least squares” method to fit the logarithmic equation y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1)."
-msgstr ""
+msgstr "Funkcija LOGFIT uveljavi način “prileganja po postopku najmanjših kvadratov” za prileganje logaritemski enačbi y = a + b * ln(predznak * (x - c)), pri čemer je  predznak podatkov +1 ali -1. Graf funkcije je logaritemska krivulja, zamaknjena vodoravno za vrednost c ali pa je, če je predznak enak -1, zrcaljena preko osi  y."
 
 #: ../plugins/fn-stat/functions.c:3530
 msgid "LOGFIT returns an array having five columns and one row. `Sign' is given in the first column, `a', `b', and `c' are given in columns 2 to 4. Column 5 holds the sum of squared residuals."
-msgstr ""
+msgstr "Funkcija LOGFIT vrne podatkovno polje s petimi stolpci in eno vrstico. `Predznak' je podan v prvem stolpcu, vrednosti `a', `b' in `c' so podane v stolpcih 2 do 4, v petem stolpcu pa je podan izračun vsot kvadratov preostanka."
 
 #: ../plugins/fn-stat/functions.c:3534
 msgid "An error is returned when there are less than 3 different x's or y's, or when the shape of the point cloud is too different from a ``logarithmic'' one."
@@ -8464,22 +8447,20 @@ msgid "TREND:estimates future values of a given data set using a least squares a
 msgstr "TREND: oceni bodočo vrednost podane podatkovne množice z uporabo aproksimacije najmanjših kvadratov"
 
 #: ../plugins/fn-stat/functions.c:3618
-#, fuzzy
 msgid "new_xs:array of x-values for which to estimate the y-values; defaults to @{known_xs}"
-msgstr "new_xs:array of x-values for which to estimate the y-values; defaults to @{znane_vrednosti_x}"
+msgstr "nove_vrednosti_x: polje vrednosti x za katere je ocenjena vrednost y; privzeto so to @{znane_vrednosti_x}"
 
 #: ../plugins/fn-stat/functions.c:3622
 msgid "Let us assume that the cells A1, A2, …, A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7."
-msgstr ""
+msgstr "Predvidimo, da celice A1, A2, ..., A5 vsebujejo števila 11,4, 17,3, 21,3, 25,9 in 40,1, celice B1, B2, ... B5 pa števila 23,2, 25,8, 29,9, 33,5 in 42,7."
 
 #: ../plugins/fn-stat/functions.c:3625
 msgid "Then TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}."
 msgstr "Izračun funkcije TREND(A1:A5,B1:B5) vrne rešitev {12.1, 15.7, 21.6, 26.7, 39.7}."
 
 #: ../plugins/fn-stat/functions.c:3762
-#, fuzzy
 msgid "LOGEST:exponential least square fit"
-msgstr "LOGEST:"
+msgstr "LOGEST: potenčno prileganje po postopku najmanjših kvadratov"
 
 #: ../plugins/fn-stat/functions.c:3764
 msgid "known_xs:known x-values; default to an array {1, 2, 3, …}"
@@ -8487,7 +8468,7 @@ msgstr "znane_vrednosti_x: znane vrednosti x; privzeto določene s poljem {1, 2,
 
 #: ../plugins/fn-stat/functions.c:3767
 msgid "LOGEST function applies the “least squares” method to fit an exponential curve of the form\ty = b * m{1}^x{1} * m{2}^x{2}... to your data."
-msgstr ""
+msgstr "Funkcija LOGEST uveljavi način “prileganja po postopku najmanjših kvadratov” za prileganje na potenčni krivulji v obliki\ty = b * m{1}^x{1} * m{2}^x{2}... podatkov."
 
 #: ../plugins/fn-stat/functions.c:3771
 msgid "LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }."
@@ -8507,11 +8488,11 @@ msgstr "nove_Vrednosti_x: vrednosti x za katere so ocenjene vrednosti y; privzet
 
 #: ../plugins/fn-stat/functions.c:3865
 msgid "GROWTH function applies the “least squares” method to fit an exponential curve to your data and predicts the exponential growth by using this curve."
-msgstr ""
+msgstr "Funkcija GROWTH uveljavi način “prileganja po postopku najmanjših kvadratov” za prileganje na potenčni krivulji in napove eksponentno rast podane krivulje."
 
 #: ../plugins/fn-stat/functions.c:3870
 msgid "GROWTH returns an array having one column and a row for each data point in @{new_xs}."
-msgstr ""
+msgstr "Funkcija GROWTH vrne polje vrednosti z enim stolpcem in eno vrstico za vsako podatkovno točko med @{novimi_vrednostmi_x}"
 
 #: ../plugins/fn-stat/functions.c:3948
 msgid "FORECAST:estimates a future value according to existing values using simple linear regression"
@@ -8590,7 +8571,7 @@ msgstr "sklic2:druga vrednost"
 
 #: ../plugins/fn-stat/functions.c:4130
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, and 39."
-msgstr ""
+msgstr "Predvidimo, da celice A1, A2, ..., A5 vsebujejo števila 23, 27, 28, 33 in 39."
 
 #: ../plugins/fn-stat/functions.c:4131
 msgid "Then SUBTOTAL(1,A1:A5) equals 30.SUBTOTAL(6,A1:A5) equals 22378356.SUBTOTAL(7,A1:A5) equals 6.164414003.SUBTOTAL(9,A1:A5) equals 150.SUBTOTAL(11,A1:A5) equals 30.4."
@@ -8785,16 +8766,16 @@ msgstr "Vrednost @{x} mora biti v območju od 1 do 255."
 #: ../plugins/fn-string/functions.c:60
 #: ../plugins/fn-string/functions.c:136
 msgid "CP1252 (Windows-1252) is also known as the \"ANSI code page\", but it is not an ANSI standard."
-msgstr ""
+msgstr "Znakivni nabor CP1252 (Windows-1252) je  znan tudi kot \"nabor ANSI\", vendar ni standardni nabor ANSI."
 
 #: ../plugins/fn-string/functions.c:62
 msgid "CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains all of its printable characters. It also contains all of ISO-8859-15's printable characters (but partially at different positions.)"
-msgstr ""
+msgstr "Znakovni nabor CP1252 (Windows-1252) je zasnovan na osnutku standarda ISO-8859-1 in vključuje vse natisljive znake. Vključuje tudi vse natisljive znake standarda ISO-8859-15, vendar delno na različnih mestih."
 
 #: ../plugins/fn-string/functions.c:66
 #: ../plugins/fn-string/functions.c:138
 msgid "In CP1252 (Windows-1252), 129, 141, 143, 144, and 157 do not have matching characters."
-msgstr ""
+msgstr "V znakovnem naboru CP1252 (Windows-1252) na mestih 129, 141, 143, 144 in 157 ni skladnih znakov."
 
 #: ../plugins/fn-string/functions.c:67
 #: ../plugins/fn-string/functions.c:139
@@ -8824,7 +8805,7 @@ msgstr "@{c} mora biti veljavni znak v naboru CP1252 (Windows-1252)."
 
 #: ../plugins/fn-string/functions.c:137
 msgid "CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains all of its printable characters (but partially at different positions.)"
-msgstr "Nabor CP1252 (Windows-1252) je zasnovan na osnutku standarda ISO-8859-1 in vsebuje vse natisljive znake (vendar delno na različnih mestih)."
+msgstr "Znakovni nabor CP1252 (Windows-1252) je zasnovan na osnutku standarda ISO-8859-1 in vsebuje vse natisljive znake (vendar delno na različnih mestih)."
 
 #: ../plugins/fn-string/functions.c:178
 msgid "UNICODE:the Unicode code point for the character @{c}"
@@ -8876,7 +8857,7 @@ msgstr "V kolikor je niz @{s} zapisan od desne-proti-levi, so vrnjeni znaki z de
 
 #: ../plugins/fn-string/functions.c:331
 msgid "LEFTB:the first characters  of the string @{s} comprising at most @{num_bytes} bytes"
-msgstr "LEFTB: prvi znaki niza @{s}, ki so sestaljeni iz ne več kot @{števila_Bajtov}"
+msgstr "LEFTB: prvi znaki niza @{s}, ki so sestavljeni iz ne več kot @{števila_bajtov}"
 
 #: ../plugins/fn-string/functions.c:333
 #: ../plugins/fn-string/functions.c:426
@@ -8920,7 +8901,7 @@ msgstr "LOWER: vrednost niza @{besedila} zapisanega z malimi črkami"
 
 #: ../plugins/fn-string/functions.c:383
 msgid "MID:the substring of the string @{s} starting at position @{position} consisting of @{length} characters"
-msgstr ""
+msgstr "MID: podniz niza @{s} z začetkom na @{mestu}, ki ga sestavlja @{dolžina} znakov"
 
 #: ../plugins/fn-string/functions.c:385
 msgid "position:the starting position"
@@ -8940,7 +8921,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:467
 msgid "FINDB:first byte position of @{string1} in @{string2} following byte position @{start}"
-msgstr ""
+msgstr "FIND: najde prvo bajtno pojavitev @{niza1} v @{nizu2} za @{začetnim} bajtnim mestom"
 
 #: ../plugins/fn-string/functions.c:468
 #: ../plugins/fn-string/functions.c:696
@@ -8955,7 +8936,7 @@ msgstr "niz2: iskalno polje"
 #: ../plugins/fn-string/functions.c:470
 #: ../plugins/fn-string/functions.c:1375
 msgid "start:starting byte position, defaults to 1"
-msgstr ""
+msgstr "začetek: začetno bitno mesto, privzeto 1"
 
 #: ../plugins/fn-string/functions.c:471
 #: ../plugins/fn-string/functions.c:699
@@ -8964,16 +8945,16 @@ msgstr "Iskalnik upošteva velikost črk."
 
 #: ../plugins/fn-string/functions.c:510
 msgid "RIGHT:the last @{num_chars} characters of the string @{s}"
-msgstr ""
+msgstr "RIGHT: določeno @{število_znakov}, ki se pojavljajo na koncu niza @{s}"
 
 #: ../plugins/fn-string/functions.c:513
 #: ../plugins/fn-string/functions.c:550
 msgid "If the string @{s} is in a right-to-left script, the returned last characters are from the left of the string."
-msgstr ""
+msgstr "V kolikor je niz @{s} zapisan od desne-proti-levi, je vrnjeno število  znakov z leve strani niza."
 
 #: ../plugins/fn-string/functions.c:546
 msgid "RIGHTB:the last characters of the string @{s} comprising at most @{num_bytes} bytes"
-msgstr ""
+msgstr "RIGHTB: zadnji znaki niza @{s}, sestavljeni iz ne več kot @{števila_bajtov}"
 
 #: ../plugins/fn-string/functions.c:581
 msgid "UPPER:an upper-case version of the string @{text}"
@@ -8981,7 +8962,7 @@ msgstr "UPPER: vrednost niza @{besedila} zapisanega z velikimi črkami"
 
 #: ../plugins/fn-string/functions.c:600
 msgid "CONCATENATE:the concatenation of the strings @{s1}, @{s2},…"
-msgstr ""
+msgstr "CONCATENATE: združevanje izpisa nizov @{s1}, @{s2}, …"
 
 #: ../plugins/fn-string/functions.c:601
 msgid "s1:first string"
@@ -9009,7 +8990,7 @@ msgstr "Funkcija CLEAN odstrani ne-natisljive znake iz argumentov in pusti le ob
 
 #: ../plugins/fn-string/functions.c:695
 msgid "FIND:first position of @{string1} in @{string2} following position @{start}"
-msgstr ""
+msgstr "FIND: najde prvo pojavitev @{niza1} v @{nizu2} za @{začetnim} mestom"
 
 #: ../plugins/fn-string/functions.c:698
 #: ../plugins/fn-string/functions.c:1306
@@ -9188,11 +9169,11 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:1439
 msgid "ASC:text with full-width katakana and ASCII characters converted to half-width"
-msgstr ""
+msgstr "ASC: spreminjanje znakov polne širine (dvobajtne) v nizu v znake polovične širine (enobajtne)."
 
 #: ../plugins/fn-string/functions.c:1441
 msgid "ASC converts full-width katakana and ASCII characters to half-width equivalent characters, copying all others. "
-msgstr ""
+msgstr "Funkcija ASC spremeni znake polne širine (dvobajtne) v naboru katakana ali ASCII v znake polovične širine (enobajtne), preostale znake pa kopira."
 
 #: ../plugins/fn-string/functions.c:1442
 #: ../plugins/fn-string/functions.c:1570
@@ -9210,11 +9191,11 @@ msgstr "V opuščenem kodiranju je ASC uporabljen za prevajanje med dvo-bajtnimi
 
 #: ../plugins/fn-string/functions.c:1566
 msgid "JIS:text with half-width katakana and ASCII characters converted to full-width"
-msgstr ""
+msgstr "JIS: spreminjanje znakov polovične širine (enobajtne) v nizu v znake polne širine (dvobajtne)."
 
 #: ../plugins/fn-string/functions.c:1568
 msgid "JIS converts half-width katakana and ASCII characters to full-width equivalent characters, copying all others. "
-msgstr ""
+msgstr "Funkcija JIS spremeni znake polovične širine (enobajtne) v naboru katakana ali ASCII v znake polne širine (dvobajtne), preostale znake pa kopira."
 
 #: ../plugins/fn-string/functions.c:1573
 msgid "While in obsolete encodings JIS used to translate between 1-byte and 2-byte characters, this is not the case in UTF-8."
