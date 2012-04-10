@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-26 08:27+0000\n"
-"PO-Revision-Date: 2012-04-09 14:06+0100\n"
+"PO-Revision-Date: 2012-04-10 20:47+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -4500,7 +4500,7 @@ msgstr "ABS:absolutna vrednost"
 
 #: ../plugins/fn-math/functions.c:227
 msgid "ABS gives the absolute value of @{x}, i.e. the non-negative number of the same magnitude as @{x}."
-msgstr ""
+msgstr "Funkcija ABS izračuna absolutno vrednost @{x} oziroma ne-negativno število enake velikosti, ko je @{x}."
 
 #: ../plugins/fn-math/functions.c:244
 msgid "ACOS:the arc cosine of @{x}"
@@ -4545,7 +4545,7 @@ msgstr "ASIN:arkus sinus vrednosti @{x}"
 
 #: ../plugins/fn-math/functions.c:327
 msgid "ASIN calculates the arc sine of @{x}; that is the value whose sine is @{x}."
-msgstr ""
+msgstr "Funkcija ASIN izračuna arkus sinus vrednosti @{x} oziroma vrednost, katere sinus je @{x}."
 
 #: ../plugins/fn-math/functions.c:329
 msgid "If @{x} falls outside the range -1 to 1, ASIN returns #NUM!"
@@ -4557,7 +4557,7 @@ msgstr "ASINH:inverzni hiperbolični sinus vrednosti @{x}"
 
 #: ../plugins/fn-math/functions.c:353
 msgid "ASINH calculates the inverse hyperbolic sine of @{x}; that is the value whose hyperbolic sine is @{x}."
-msgstr ""
+msgstr "Funkcija ASINH izračuna inverzni hiperbolični sinus vrednosti @{x} oziroma vrednost, katere hiperbolični sinus je @{x}."
 
 #: ../plugins/fn-math/functions.c:370
 msgid "ATAN:the arc tangent of @{x}"
@@ -4565,7 +4565,7 @@ msgstr "ATAN:arkus tangens vrednosti @{x}"
 
 #: ../plugins/fn-math/functions.c:372
 msgid "ATAN calculates the arc tangent of @{x}; that is the value whose tangent is @{x}."
-msgstr ""
+msgstr "Funkcija ATAN izračuna arkus tangens vrednosti @{x} oziroma vrednost, katere tangens je @{x}."
 
 #: ../plugins/fn-math/functions.c:375
 msgid "The result will be between −π/2 and +π/2."
@@ -4577,7 +4577,7 @@ msgstr "ATANH:inverzni hiperbolični tangens vrednosti @{x}"
 
 #: ../plugins/fn-math/functions.c:396
 msgid "ATANH calculates the inverse hyperbolic tangent of @{x}; that is the value whose hyperbolic tangent is @{x}."
-msgstr ""
+msgstr "Funkcija ATANH izračuna inverzni hiperbolični tangens vrednosti @{x} oziroma vrednost, katere hiperbolični tangens je @{x}."
 
 #: ../plugins/fn-math/functions.c:398
 msgid "If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!"
@@ -4597,7 +4597,7 @@ msgstr "y:koordinata y"
 
 #: ../plugins/fn-math/functions.c:423
 msgid "ATAN2 calculates the direction from the origin to the point (@{x},@{y}) as an angle from the x-axis in radians."
-msgstr ""
+msgstr "Funkcija ATAN2 izračuna smer od izvora do točke (@{x},@{y}) kot kot od osi x v radianih."
 
 #: ../plugins/fn-math/functions.c:427
 msgid "The result will be between −π and +π."
@@ -4613,7 +4613,7 @@ msgstr "CEIL:najmanjše celo število, ki je večje ali enako vrednosti @{x}"
 
 #: ../plugins/fn-math/functions.c:457
 msgid "CEIL(@{x}) is the smallest integer that is at least as large as @{x}."
-msgstr ""
+msgstr "Funkcija CEIL(@{x}) poišče najmanjše celo število, ki je vsaj tako veliko kot število @{x}."
 
 #: ../plugins/fn-math/functions.c:458
 msgid "This function is the OpenFormula function CEILING(@{x})."
@@ -5456,10 +5456,10 @@ msgstr "V kolikor @{matrika} nima enakega števila stolpcev in vrstic, funkcija 
 msgid "NT_PHI:Euler's totient function"
 msgstr "NT_PHI: Eulerjeva funkcija fi"
 
+# Eulerjeva funkcija φ(n) poda število celih števil, ki so manjša ali enaka @{n} in so relativna praštevila (coprime) to @{n}.
 #: ../plugins/fn-numtheory/numtheory.c:220
-#, fuzzy
 msgid "Euler's totient function gives the number of integers less than or equal to @{n} that are relatively prime (coprime) to @{n}."
-msgstr "Eulerjeva funkcija φ(n) poda število celih števil, ki so manjša ali enaka @{n} in so relativna praštevila (coprime) to @{n}."
+msgstr ""
 
 #: ../plugins/fn-numtheory/numtheory.c:223
 msgid "wiki:en:Euler's_totient_function"
@@ -5805,13 +5805,13 @@ msgstr "R.DLNORM: funkcija verjetnosti gostote logaritemsko normalne porazdelitv
 #: ../plugins/fn-r/functions.c:125
 #: ../plugins/fn-r/functions.c:152
 msgid "logmean:mean of the underlying normal distribution"
-msgstr ""
+msgstr "logmean: povprečna vrednost normalne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:101
 #: ../plugins/fn-r/functions.c:126
 #: ../plugins/fn-r/functions.c:153
 msgid "logsd:standard deviation of the underlying normal distribution"
-msgstr ""
+msgstr "logsd: standardni odklon normalne porazdelitve"
 
 #: ../plugins/fn-r/functions.c:103
 msgid "This function returns the probability density function of the log-normal distribution."
@@ -7101,7 +7101,7 @@ msgstr "V kolikor je @{p} < 0 or @{p} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:439
 msgid "NORMSDIST:cumulative density function of the standard normal distribution"
-msgstr ""
+msgstr "NORMSDIST: zbirna funkcija gostote standardne normalne porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:442
 msgid "NORMSDIST is the OpenFormula function LEGACY.NORMSDIST."
@@ -7119,7 +7119,7 @@ msgstr "wolfram:NormalDistribution.html"
 
 #: ../plugins/fn-stat/functions.c:463
 msgid "NORMSINV:inverse of the cumulative density function of the standard normal distribution"
-msgstr ""
+msgstr "NORMSINV: inverzno funkcijo zbirne funkcije gostote standardne normalne porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:464
 msgid "p:given probability"
