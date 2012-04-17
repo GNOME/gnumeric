@@ -13414,7 +13414,7 @@ msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
-"Nemohu odhadnout export, který se má použít pro „%s“.\n"
+"Není možné odhadnout export, který se má použít pro „%s“.\n"
 "Zkuste si zobrazit seznam možností pomocí --list-exporters.\n"
 
 #: ../src/ssconvert.c:574
