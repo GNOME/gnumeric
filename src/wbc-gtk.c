@@ -2905,12 +2905,14 @@ static GNM_ACTION_DEF (cb_zoom_activated)
 {
 	WorkbookControl *wbc = (WorkbookControl *)wbcg;
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	char const *new_zoom = go_action_combo_text_get_entry (wbcg->zoom_haction);
+	char const *new_zoom;
 	int factor;
 	char *end;
 
-	if (sheet == NULL || wbcg->updating_ui)
+	if (sheet == NULL || wbcg->updating_ui || wbcg->snotebook == NULL)
 		return;
+
+	new_zoom = go_action_combo_text_get_entry (wbcg->zoom_haction);
 
 	errno = 0; /* strtol sets errno, but does not clear it.  */
 	factor = strtol (new_zoom, &end, 10);
@@ -3316,7 +3318,17 @@ wbc_gtk_init_color_back (WBCGtk *gtk)
 static void
 cb_font_name_changed (GOActionComboText *a, WBCGtk *gtk)
 {
-	char const *new_name = go_action_combo_text_get_entry (gtk->font_name);
+	char const *new_name;
+
+	/*
+	 * Ignore events during destruction.  This is an attempt at avoiding
+	 * https://bugzilla.redhat.com/show_bug.cgi?id=803904 for which we
+	 * blame gtk.
+	 */
+	if (gtk->snotebook == NULL)
+		return;
+
+	new_name = go_action_combo_text_get_entry (gtk->font_name);
 
 	while (g_ascii_isspace (*new_name))
 		++new_name;
@@ -3374,10 +3386,19 @@ wbc_gtk_init_font_name (WBCGtk *gtk)
 static void
 cb_font_size_changed (GOActionComboText *a, WBCGtk *gtk)
 {
-	char const *new_size = go_action_combo_text_get_entry (gtk->font_size);
+	char const *new_size;
 	char *end;
 	double size;
 
+	/*
+	 * Ignore events during destruction.  This is an attempt at avoiding
+	 * https://bugzilla.redhat.com/show_bug.cgi?id=803904 for which we
+	 * blame gtk.
+	 */
+	if (gtk->snotebook == NULL)
+		return;
+
+	new_size = go_action_combo_text_get_entry (gtk->font_size);
 	size = go_strtod (new_size, &end);
 	size = floor ((size * 20.) + .5) / 20.;	/* round .05 */
 

@@ -53,6 +53,7 @@ Morten:
 	* Enable MATCH/VLOOKUP/HLOOKUP caches during redraw.
 	* Speed-up some operations on large areas.
 	* Work around pango bug affecting search/replace.  [#673447]
+	* Try to work around gtk bug causing crashes.  [Redhat #803904]
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.2

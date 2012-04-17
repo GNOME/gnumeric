@@ -1,3 +1,8 @@
+2012-04-17  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (cb_font_name_changed, cb_font_size_changed)
+	(cb_zoom_activated): Try working around gtk bug.
+
 2012-04-06  Morten Welinder  <terra@gnome.org>
 
 	* src/search.c (gnm_search_normalize): Function to normalize text
