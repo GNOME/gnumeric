@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-03-26 08:27+0000\n"
-"PO-Revision-Date: 2012-04-10 20:47+0100\n"
+"PO-Revision-Date: 2012-04-17 14:03+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1170,7 +1170,7 @@ msgstr "V kolikor @{način} določen z 2, je uporabljen način, pri katerem je v
 
 #: ../plugins/fn-date/functions.c:692
 msgid "EOMONTH:end of month"
-msgstr "EOMONTH:konec meseca"
+msgstr "EOMONTH: konec meseca"
 
 #: ../plugins/fn-date/functions.c:695
 msgid "EOMONTH returns the date serial value of the end of the month specified by @{date} adjusted forward or backward the number of months specified by @{months}."
@@ -1938,19 +1938,21 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1957
 msgid "amer_euro_flag:'a' for an American style option or 'e' for a European style option"
-msgstr ""
+msgstr "zastavica_amer_evro: 'e' za izvedbo v evropskem slogu, 'a' za ameriškiega"
 
 #: ../plugins/fn-derivatives/options.c:1959
+#, fuzzy
 msgid "num_time_steps:number of time steps used in the valuation"
-msgstr ""
+msgstr "št_časovnih_korakov: število časovnih korakov, upoštevanih v oceni"
 
 #: ../plugins/fn-derivatives/options.c:1966
 msgid "A larger @{num_time_steps} yields greater accuracy but  OPT_BINOMIAL is slower to calculate."
 msgstr ""
 
 #: ../plugins/fn-eng/functions.c:207
+#, fuzzy
 msgid "BASE:string of digits representing the number @{n} in base @{b}"
-msgstr ""
+msgstr "BASE: niz števk, ki predstavljajo število @{n} z osnovo @{b}"
 
 #: ../plugins/fn-eng/functions.c:208
 #: ../plugins/fn-math/functions.c:1293
@@ -2841,6 +2843,7 @@ msgstr "DB: razvrednotenje osnovnega premoženja"
 msgid "cost:initial cost of asset"
 msgstr "stroški: začetni stroški sredstev"
 
+# salvage value - ohranjena, rešena vrednost blaga
 #: ../plugins/fn-financial/functions.c:773
 #: ../plugins/fn-financial/functions.c:823
 #: ../plugins/fn-financial/functions.c:872
@@ -2849,7 +2852,7 @@ msgstr "stroški: začetni stroški sredstev"
 #: ../plugins/fn-financial/functions.c:2956
 #: ../plugins/fn-financial/functions.c:3281
 msgid "salvage:value after depreciation"
-msgstr ""
+msgstr "ohranjena_vrednost: vrednost po upoštevanju amortizacije"
 
 #: ../plugins/fn-financial/functions.c:774
 #: ../plugins/fn-financial/functions.c:824
@@ -2869,7 +2872,7 @@ msgstr "obdobje: obdobje predmeta"
 
 #: ../plugins/fn-financial/functions.c:776
 msgid "month:number of months in first year of depreciation"
-msgstr ""
+msgstr "mesec: število mesecev v prvem letu amortiziranja"
 
 #: ../plugins/fn-financial/functions.c:777
 msgid "DB calculates the depreciation of an asset for a given period using the fixed-declining balance method."
@@ -2894,15 +2897,17 @@ msgstr "SLN: linearna amortizacija sredstva"
 
 #: ../plugins/fn-financial/functions.c:874
 msgid "SLN calculates the depreciation of an asset using the straight-line method."
-msgstr ""
+msgstr "Funkcija SLN izračuna amortizirano vrednost osnovnega sredstva z uporabo metode ravne črte."
 
 #: ../plugins/fn-financial/functions.c:900
 msgid "SYD:sum-of-years depreciation"
 msgstr "SYD: razvrednotenje po metodi vsote letnih števk"
 
+# depreciation - amortizacija ?
+# depreciation - razvrednotenje ?
 #: ../plugins/fn-financial/functions.c:905
 msgid "SYD calculates the depreciation of an asset using the sum-of-years method."
-msgstr ""
+msgstr "Funkcija SYD izračuna amortizirano vrednost osnovnega sredstva z uporabo metode vsote let."
 
 #: ../plugins/fn-financial/functions.c:933
 msgid "DOLLARDE:convert to decimal dollar amount"
@@ -2945,12 +2950,14 @@ msgid "values:cash flow"
 msgstr "vrednosti: pretok denarja"
 
 #: ../plugins/fn-financial/functions.c:1029
+#, fuzzy
 msgid "finance_rate:interest rate for financing cost"
-msgstr ""
+msgstr "mera_financiranja: obrestna mera za strošek financiranja"
 
 #: ../plugins/fn-financial/functions.c:1030
+#, fuzzy
 msgid "reinvest_rate:interest rate for reinvestments"
-msgstr ""
+msgstr "mera_reinvesticije: obrestna mera za reinvesticije"
 
 #: ../plugins/fn-financial/functions.c:1031
 msgid "MIRR calculates the modified internal rate of return of a periodic cash flow."
@@ -3022,7 +3029,7 @@ msgstr "vrsta:vrsta plačila"
 #: ../plugins/fn-financial/functions.c:1342
 #: ../plugins/fn-financial/functions.c:1600
 msgid "guess:an estimate of what the result should be"
-msgstr ""
+msgstr "ugib: ocena pričakovanega rezultata"
 
 #: ../plugins/fn-financial/functions.c:1198
 msgid "RATE calculates the rate of return."
@@ -3032,7 +3039,7 @@ msgstr "Funkcija RATE izračuna obrestno mero za obdobje rente."
 #: ../plugins/fn-financial/functions.c:1345
 #: ../plugins/fn-financial/functions.c:1602
 msgid "The optional @{guess} is needed because there can be more than one valid result.  It defaults to 10%."
-msgstr ""
+msgstr "Izbirno možnost @{ugiba} je treba navesti, saj je mogoč več kot en veljaven rezultat. Privzeta je vrednost 10%."
 
 #: ../plugins/fn-financial/functions.c:1305
 msgid "RRI:equivalent interest rate for an investment increasing in value"
@@ -3184,7 +3191,7 @@ msgstr "glavnica: začetna vrednost"
 
 #: ../plugins/fn-financial/functions.c:1968
 msgid "schedule:range of interest rates"
-msgstr ""
+msgstr "razpored: obseg obrestnih mer"
 
 #: ../plugins/fn-financial/functions.c:1969
 msgid "FVSCHEDULE calculates the future value of @{principal} after applying a range of interest rates with compounding."
@@ -3228,8 +3235,9 @@ msgid "target:three-letter target currency code"
 msgstr "cilj:ciljna denarna enota zapisana s kodo s tremi črkami"
 
 #: ../plugins/fn-financial/functions.c:2203
+#, fuzzy
 msgid "full_precision:whether to provide the full precision; defaults to false"
-msgstr ""
+msgstr "polna_ločljivost: ali naj bo uveljavljena polna natančnost; privzeta vrednost je false (torej ne)"
 
 #: ../plugins/fn-financial/functions.c:2204
 msgid "triangulation_precision:number of digits (at least 3) to be rounded to after conversion of the source currency to euro; defaults to no rounding"
@@ -3363,7 +3371,7 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2914
 msgid "Special depreciation rules are applied for the last two periods resulting in a possible total depreciation exceeding the difference of @{cost} - @{salvage}."
-msgstr ""
+msgstr "Za zadnji dve obdobji so uveljavljena posebna pravila amortizacije, zaradi mogočega skupnega presežka razlike @{stroškov} - @{ohranjene_vrednosti}."
 
 #: ../plugins/fn-financial/functions.c:2916
 msgid "Named for AMORtissement DEGRessif Comptabilite."
@@ -3392,7 +3400,7 @@ msgstr "COUPDAYBS: število dni od začetka kuponskega obdobja do datuma poravna
 #: ../plugins/fn-financial/functions.c:3101
 #: ../plugins/fn-financial/functions.c:3127
 msgid "eom:end-of-month flag"
-msgstr ""
+msgstr "kom: zastavica konca meseca"
 
 #: ../plugins/fn-financial/functions.c:3004
 msgid "COUPDAYBS calculates the number of days from the beginning of the coupon period to the settlement date."
@@ -4013,419 +4021,419 @@ msgstr "FALSE:logična vrednost NAPAK"
 msgid "FALSE returns the value FALSE."
 msgstr "Vrednost NAPAK vrne odgovor NAPAK"
 
-#: ../plugins/fn-lookup/functions.c:725
+#: ../plugins/fn-lookup/functions.c:729
 msgid "ADDRESS:cell address as text"
 msgstr "ADDRESS:naslov celice kot besedilo"
 
-#: ../plugins/fn-lookup/functions.c:726
+#: ../plugins/fn-lookup/functions.c:730
 msgid "row_num:row number"
 msgstr "št_vrstice:številka vrstice"
 
-#: ../plugins/fn-lookup/functions.c:727
+#: ../plugins/fn-lookup/functions.c:731
 msgid "col_num:column number"
 msgstr "št_st:številka stolpca"
 
-#: ../plugins/fn-lookup/functions.c:728
+#: ../plugins/fn-lookup/functions.c:732
 msgid "abs_num:1 for an absolute, 2 for a row absolute and column relative, 3 for a row relative and column absolute, and 4 for a relative reference; defaults to 1"
 msgstr "absolutno_število: število 1 določa absolutne, število 2 absolutne za vrstice in relativne za stolpce, 3 ravno obratno predhodnemu in 4 vse relativne sklice; privzeto je določena vrednost 1"
 
-#: ../plugins/fn-lookup/functions.c:731
+#: ../plugins/fn-lookup/functions.c:735
 msgid "a1:if TRUE, an A1-style reference is provided, otherwise an R1C1-style reference; defaults to TRUE"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:733
+#: ../plugins/fn-lookup/functions.c:737
 msgid "text:name of the worksheet, defaults to no sheet"
 msgstr "besedilo:ime delovnega lista, privzeto določeno kot brez imena"
 
-#: ../plugins/fn-lookup/functions.c:734
+#: ../plugins/fn-lookup/functions.c:738
 msgid "If @{row_num} or @{col_num} is less than one, ADDRESS returns #VALUE!"
 msgstr "V kolikor je @{štev_vrstice} ali pa @{štev_stolpca} manj kot ena, funkcija ADDRESS vrne napako #VALUE!."
 
-#: ../plugins/fn-lookup/functions.c:736
+#: ../plugins/fn-lookup/functions.c:740
 msgid "If @{abs_num} is greater than 4 ADDRESS returns #VALUE!"
 msgstr "V kolikor je @{absolutno_število} večje od 4, funkcija ADDRESS vrne napako #VALUE!"
 
-#: ../plugins/fn-lookup/functions.c:823
+#: ../plugins/fn-lookup/functions.c:827
 msgid "AREAS:number of areas in @{reference}"
 msgstr "AREAS: število obsegov v @{sklicu}"
 
-#: ../plugins/fn-lookup/functions.c:824
+#: ../plugins/fn-lookup/functions.c:828
 msgid "reference:range"
 msgstr "sklic:podatkovna vrsta"
 
-#: ../plugins/fn-lookup/functions.c:891
+#: ../plugins/fn-lookup/functions.c:895
 msgid "CHOOSE:the (@{index}+1)th argument"
 msgstr "CHOOSE: vrne (@{kazalo}+1)-ti argument"
 
-#: ../plugins/fn-lookup/functions.c:892
+#: ../plugins/fn-lookup/functions.c:896
 msgid "index:positive number"
 msgstr "indeks:pozitivno število"
 
-#: ../plugins/fn-lookup/functions.c:893
+#: ../plugins/fn-lookup/functions.c:897
 msgid "value1:first value"
 msgstr "vrednost1:prva vrednost"
 
-#: ../plugins/fn-lookup/functions.c:894
+#: ../plugins/fn-lookup/functions.c:898
 msgid "value2:second value"
 msgstr "vrednost2:druga vrednost"
 
-#: ../plugins/fn-lookup/functions.c:895
+#: ../plugins/fn-lookup/functions.c:899
 msgid "CHOOSE returns its (@{index}+1)th argument."
 msgstr "Funkcija CHOOSE vrne (@{kazalo}+1)-ti argument."
 
-#: ../plugins/fn-lookup/functions.c:896
+#: ../plugins/fn-lookup/functions.c:900
 msgid "@{index} is truncated to an integer. If @{index} < 1 or the truncated @{index} > number of values, CHOOSE returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:938
+#: ../plugins/fn-lookup/functions.c:942
 msgid "VLOOKUP:search the first column of @{range} for @{value}"
 msgstr "VLOOKUP:preišče prvi stolpec @{obsega} za @{vrednost}"
 
-#: ../plugins/fn-lookup/functions.c:939
-#: ../plugins/fn-lookup/functions.c:1007
+#: ../plugins/fn-lookup/functions.c:943
+#: ../plugins/fn-lookup/functions.c:1011
 msgid "value:search value"
 msgstr "vrednost:iskana vrednost"
 
-#: ../plugins/fn-lookup/functions.c:940
-#: ../plugins/fn-lookup/functions.c:1008
+#: ../plugins/fn-lookup/functions.c:944
+#: ../plugins/fn-lookup/functions.c:1012
 msgid "range:range to search"
 msgstr "podatkovna vrsta:podatkovna vrsta za iskanje"
 
-#: ../plugins/fn-lookup/functions.c:941
+#: ../plugins/fn-lookup/functions.c:945
 msgid "column:1-based column offset indicating the return values"
 msgstr "stolpec:številčni odmik od prvga stolpca, v katerem je iskana vrednost"
 
-#: ../plugins/fn-lookup/functions.c:942
-#: ../plugins/fn-lookup/functions.c:1010
+#: ../plugins/fn-lookup/functions.c:946
+#: ../plugins/fn-lookup/functions.c:1014
 msgid "approximate:if false, an exact match of @{value} must be found; defaults to TRUE"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:944
+#: ../plugins/fn-lookup/functions.c:948
 msgid "as_index:if true, the 0-based row offset is returned; defaults to FALSE"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:946
+#: ../plugins/fn-lookup/functions.c:950
 msgid "VLOOKUP function finds the row in @{range} that has a first cell similar to @{value}.  If @{approximate} is not true it finds the row with an exact equality. If @{approximate} is true, it finds the last row with first value less than or equal to @{value}. If @{as_index} is true the 0-based row offset is returned."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:953
-#: ../plugins/fn-lookup/functions.c:1021
+#: ../plugins/fn-lookup/functions.c:957
+#: ../plugins/fn-lookup/functions.c:1025
 msgid "If @{approximate} is true, then the values must be sorted in order of ascending value."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:955
+#: ../plugins/fn-lookup/functions.c:959
 msgid "VLOOKUP returns #REF! if @{column} falls outside @{range}."
 msgstr "V kolikor je @{stolpec} izven @{obsega}, funkcija VLOOKUP vrne napako #REF!."
 
-#: ../plugins/fn-lookup/functions.c:1006
+#: ../plugins/fn-lookup/functions.c:1010
 msgid "HLOOKUP:search the first row of @{range} for @{value}"
 msgstr "HLOOKUP:preišče prvo vrstico @{obsega} za @{vrednost}"
 
-#: ../plugins/fn-lookup/functions.c:1009
+#: ../plugins/fn-lookup/functions.c:1013
 msgid "row:1-based row offset indicating the return values "
 msgstr "vrstica:številčni odmik od prve vrstice, v kateri je iskana vrednost"
 
-#: ../plugins/fn-lookup/functions.c:1012
+#: ../plugins/fn-lookup/functions.c:1016
 msgid "as_index:if true, the 0-based column offset is returned; defaults to FALSE"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1014
+#: ../plugins/fn-lookup/functions.c:1018
 msgid "HLOOKUP function finds the row in @{range} that has a first cell similar to @{value}.  If @{approximate} is not true it finds the column with an exact equality. If @{approximate} is true, it finds the last column with first value less than or equal to @{value}. If @{as_index} is true the 0-based column offset is returned."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1023
+#: ../plugins/fn-lookup/functions.c:1027
 msgid "HLOOKUP returns #REF! if @{row} falls outside @{range}."
 msgstr "V kolikor je @{vrstica} izven @{obsega}, funkcija HLOOKUP vrne napako #REF!."
 
-#: ../plugins/fn-lookup/functions.c:1074
+#: ../plugins/fn-lookup/functions.c:1078
 msgid "LOOKUP:contents of @{vector2} at the corresponding location to @{value} in @{vector1}"
 msgstr "LOOKUP: prevzame vsebino @{vektorja2} na ustreznem mestu @{vrednosti} v @{vektorju1}"
 
-#: ../plugins/fn-lookup/functions.c:1076
+#: ../plugins/fn-lookup/functions.c:1080
 msgid "value:value to look up"
 msgstr "vrednost:vrednost za iskanje"
 
-#: ../plugins/fn-lookup/functions.c:1077
+#: ../plugins/fn-lookup/functions.c:1081
 msgid "vector1:range to search:"
 msgstr "vektor1:obseg za iskanje:"
 
-#: ../plugins/fn-lookup/functions.c:1078
+#: ../plugins/fn-lookup/functions.c:1082
 msgid "vector2:range of return values"
 msgstr "vektor2: obseg vrnjenih vrednosti"
 
-#: ../plugins/fn-lookup/functions.c:1079
+#: ../plugins/fn-lookup/functions.c:1083
 msgid "If  @{vector1} has more rows than columns, LOOKUP searches the first row of @{vector1}, otherwise the first column. If @{vector2} is omitted the return value is taken from the last row or column of @{vector1}."
 msgstr "V kolikor ima @{vektor1} več vrstic kot stolpcev, funkcija LOOKUP preišče prvo vrstico @{vektorja1}, sicer pa preišče prvi stolpec. Če @{vektor2} ni določen, je prevzeta vrednost zanje vrstice ali stolpca v @{vektorju1}."
 
-#: ../plugins/fn-lookup/functions.c:1083
+#: ../plugins/fn-lookup/functions.c:1087
 msgid "If LOOKUP can't find @{value} it uses the largest value less than @{value}."
 msgstr "V kolikor @{vrednosti} ni mogoče najti, funkcija LOOKUP prevzame največjo vrednost, ki je manjša od @{vrednosti}."
 
-#: ../plugins/fn-lookup/functions.c:1085
+#: ../plugins/fn-lookup/functions.c:1089
 msgid "The data must be sorted."
 msgstr "Podatki morajo biti urejeno razvrščeni."
 
-#: ../plugins/fn-lookup/functions.c:1086
+#: ../plugins/fn-lookup/functions.c:1090
 msgid "If @{value} is smaller than the first value it returns #N/A."
 msgstr "V kolikor je @{vrednost} manjša od prve vrednosti, funkcija vrne napako #N/A."
 
-#: ../plugins/fn-lookup/functions.c:1087
+#: ../plugins/fn-lookup/functions.c:1091
 msgid "If the corresponding location does not exist in @{vector2}, it returns #N/A."
 msgstr "V kolikor ustrezno mesto v @{vektorju2} ne obstaja, funkcija vrne napako #N/A!."
 
-#: ../plugins/fn-lookup/functions.c:1174
+#: ../plugins/fn-lookup/functions.c:1178
 msgid "MATCH:the index of @{seek} in @{vector}"
 msgstr "MATCH:kazalo @{iskalnega_niza} v @{vektorju} podatkov"
 
-#: ../plugins/fn-lookup/functions.c:1175
+#: ../plugins/fn-lookup/functions.c:1179
 msgid "seek:value to find"
 msgstr "iskalni_niz:vrednost za iskanje"
 
-#: ../plugins/fn-lookup/functions.c:1176
+#: ../plugins/fn-lookup/functions.c:1180
 msgid "vector:n by 1 or 1 by n range to be searched"
 msgstr "vektor:obseg podatkov n × 1 ali 1 × n za iskanje"
 
-#: ../plugins/fn-lookup/functions.c:1177
+#: ../plugins/fn-lookup/functions.c:1181
 msgid "type:+1 (the default) to find the largest value ≤ @{seek}, 0 to find the first value = @{seek}, or-1 to find the smallest value ≥ @{seek}"
 msgstr "vrsta:+1 (privzeta vrednost) za iskanje največje vrednosti ≤ @{iskalnemu_nizu}, 0 za iskanje vrednosti, ki je = @{iskalnemu_nizu}, ali pa -1 za vrednosti ≥ @{iskalnemu_nizu}"
 
-#: ../plugins/fn-lookup/functions.c:1180
+#: ../plugins/fn-lookup/functions.c:1184
 msgid "MATCH searches @{vector} for @{seek} and returns the 1-based index."
 msgstr "Funkcija MATCH preišče @{vektor} podatkov za @{iskalni_niz} in vrne kazalo osnove 1."
 
-#: ../plugins/fn-lookup/functions.c:1181
+#: ../plugins/fn-lookup/functions.c:1185
 msgid " For @{type} = -1 the data must be sorted in descending order; for @{type} = +1 the data must be sorted in ascending order."
 msgstr "Za vrednost @{vrsta} = -1 morajo biti podatki razvrščeni padajoče; za vrednost @{vrsta} = +1 pa morajo biti podatki razvrščeni naraščajoče."
 
-#: ../plugins/fn-lookup/functions.c:1183
+#: ../plugins/fn-lookup/functions.c:1187
 msgid "If @{seek} could not be found, #N/A is returned."
 msgstr "V kolikor @{iskalnega_niza} ni mogoče najti, funkcija vrne napako #N/A."
 
-#: ../plugins/fn-lookup/functions.c:1184
+#: ../plugins/fn-lookup/functions.c:1188
 msgid "If @{vector} is neither n by 1 nor 1 by n, #N/A is returned."
 msgstr "V kolikor @{vektor} ni niti n krat 1 niti 1 krat n, funkcija vrne napako#N/A."
 
-#: ../plugins/fn-lookup/functions.c:1228
+#: ../plugins/fn-lookup/functions.c:1232
 msgid "INDIRECT:contents of the cell pointed to by the @{ref_text} string"
 msgstr "INDIRECT: vsebina celice, ki ga določa niz @{sklica}"
 
-#: ../plugins/fn-lookup/functions.c:1229
+#: ../plugins/fn-lookup/functions.c:1233
 msgid "ref_text:textual reference"
 msgstr "sklic: besedilni sklic na celico"
 
-#: ../plugins/fn-lookup/functions.c:1230
+#: ../plugins/fn-lookup/functions.c:1234
 msgid "format:if true, @{ref_text} is given in A1-style, otherwise it is given in R1C1 style; defaults to true"
 msgstr "oblika: vrednost PRAV določa @{sklic} v zapisu A1, sicer pa je podan slog R1C1; privzeto je možnost določena kot PRAV."
 
-#: ../plugins/fn-lookup/functions.c:1232
+#: ../plugins/fn-lookup/functions.c:1236
 msgid "If @{ref_text} is not a valid reference in the style determined by @{format}, INDIRECT returns #REF!"
 msgstr "V kolikor @{sklic} ni veljaven sklic določen z @{obliko}, funkcija INDIRECT vrne napako #REF!"
 
-#: ../plugins/fn-lookup/functions.c:1266
+#: ../plugins/fn-lookup/functions.c:1270
 msgid "INDEX:reference to a cell in the given @{array}"
 msgstr "INDEX:sklic do celice v podanem @{podatkovnem polju}"
 
-#: ../plugins/fn-lookup/functions.c:1267
+#: ../plugins/fn-lookup/functions.c:1271
 msgid "array:cell or inline array"
 msgstr "polje: celica ali znotrajvrstično polje"
 
-#: ../plugins/fn-lookup/functions.c:1268
+#: ../plugins/fn-lookup/functions.c:1272
 msgid "row:desired row, defaults to 1"
 msgstr "vrst:želena vrstica, privzeto določena kot 1"
 
-#: ../plugins/fn-lookup/functions.c:1269
+#: ../plugins/fn-lookup/functions.c:1273
 msgid "col:desired column, defaults to 1"
 msgstr "stol:želen stolpec, privzeto določen kot 1"
 
-#: ../plugins/fn-lookup/functions.c:1270
+#: ../plugins/fn-lookup/functions.c:1274
 msgid "area:from which area to select a cell, defaults to 1"
 msgstr "obseg: podatkovna vrsta iz katere bo izbrana celica, privzeto določena na 1"
 
-#: ../plugins/fn-lookup/functions.c:1271
+#: ../plugins/fn-lookup/functions.c:1275
 msgid "INDEX gives a reference to a cell in the given @{array}. The cell is selected by @{row} and @{col}, which count the rows and columns in the array."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1276
+#: ../plugins/fn-lookup/functions.c:1280
 msgid "If the reference falls outside the range of @{array}, INDEX returns #REF!"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1278
+#: ../plugins/fn-lookup/functions.c:1282
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9"
 msgstr "Predvidimo, da celice A1, A2, ..., A5 vsebujejo števila 11,4, 17,3, 21,3, 25,9 in 40,1. V tem primeru formula INDEX(A1:A5,4,1,1) vrne vrednost 25.9"
 
-#: ../plugins/fn-lookup/functions.c:1367
+#: ../plugins/fn-lookup/functions.c:1371
 msgid "COLUMN:vector of column numbers"
 msgstr "COLUMN:vektor številk stolpca"
 
-#: ../plugins/fn-lookup/functions.c:1368
-#: ../plugins/fn-lookup/functions.c:1520
+#: ../plugins/fn-lookup/functions.c:1372
+#: ../plugins/fn-lookup/functions.c:1524
 msgid "x:reference, defaults to the position of the current expression"
 msgstr "x:sklic, privzeto določen na položaj trenutnega izraza"
 
-#: ../plugins/fn-lookup/functions.c:1369
+#: ../plugins/fn-lookup/functions.c:1373
 msgid "COLUMN function returns a Nx1 array containing the sequence of integers from the first column to the last column of @{x}."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1372
-#: ../plugins/fn-lookup/functions.c:1524
+#: ../plugins/fn-lookup/functions.c:1376
+#: ../plugins/fn-lookup/functions.c:1528
 msgid "If @{x} is neither an array nor a reference nor a range, returns #VALUE!"
 msgstr "V kolikor @{x} ni niti polje niti sklic in ne obseg, funkcija vrne napako #VALUE!"
 
-#: ../plugins/fn-lookup/functions.c:1376
+#: ../plugins/fn-lookup/functions.c:1380
 msgid "column() in G13 equals 7."
 msgstr "stolpec() celice G13 je enak 7."
 
-#: ../plugins/fn-lookup/functions.c:1416
+#: ../plugins/fn-lookup/functions.c:1420
 msgid "COLUMNNUMBER:column number for the given column called @{name}"
 msgstr "COLUMNNUMBER:številka stolpca @{ime}"
 
-#: ../plugins/fn-lookup/functions.c:1417
+#: ../plugins/fn-lookup/functions.c:1421
 msgid "name:column name such as \"IV\""
 msgstr "ime:ime stolpca kot je \"IV\""
 
-#: ../plugins/fn-lookup/functions.c:1418
+#: ../plugins/fn-lookup/functions.c:1422
 msgid "If @{name} is invalid, COLUMNNUMBER returns #VALUE!"
 msgstr "V kolikor je vrednost @{name} neveljavna, funkcija vrne vrednost #VALUE!"
 
-#: ../plugins/fn-lookup/functions.c:1443
+#: ../plugins/fn-lookup/functions.c:1447
 msgid "COLUMNS:number of columns in @{reference}"
 msgstr "COLUMNS:število stolpcev v @{sklicu}"
 
-#: ../plugins/fn-lookup/functions.c:1444
+#: ../plugins/fn-lookup/functions.c:1448
 msgid "reference:array or area"
 msgstr "sklic:podatkovno polje ali podatkovno področje"
 
-#: ../plugins/fn-lookup/functions.c:1445
+#: ../plugins/fn-lookup/functions.c:1449
 msgid "If @{reference} is neither an array nor a reference nor a range, COLUMNS returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1461
+#: ../plugins/fn-lookup/functions.c:1465
 msgid "OFFSET:an offset cell range"
 msgstr "OFFSET: odmik obsega celic"
 
-#: ../plugins/fn-lookup/functions.c:1462
+#: ../plugins/fn-lookup/functions.c:1466
 msgid "range:reference or range"
 msgstr "obseg:sklic ali obseg podatkov"
 
-#: ../plugins/fn-lookup/functions.c:1463
+#: ../plugins/fn-lookup/functions.c:1467
 msgid "row:number of rows to offset @{range}"
 msgstr "vrstica:število vrstic odmika od prve vrstice @{obsegu}"
 
-#: ../plugins/fn-lookup/functions.c:1464
+#: ../plugins/fn-lookup/functions.c:1468
 msgid "col:number of columns to offset @{range}"
 msgstr "stolpec:število stolpcev odmika od prvega stolpca v @{obsegu}"
 
-#: ../plugins/fn-lookup/functions.c:1465
+#: ../plugins/fn-lookup/functions.c:1469
 msgid "height:height of the offset range, defaults to height of @{range}"
 msgstr "višina: višina odmika obsega, privzeto določena na višino @{podatkovne vrste}"
 
-#: ../plugins/fn-lookup/functions.c:1466
+#: ../plugins/fn-lookup/functions.c:1470
 msgid "width:width of the offset range, defaults to width of @{range}"
 msgstr "širina: širina odmika obsega, privzeto določena na širino @{podatkovne vrste}"
 
-#: ../plugins/fn-lookup/functions.c:1467
+#: ../plugins/fn-lookup/functions.c:1471
 msgid "OFFSET returns the cell range starting at offset (@{row},@{col}) from @{range} of height @{height} and width @{width}."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1470
+#: ../plugins/fn-lookup/functions.c:1474
 msgid "If @{range} is neither a reference nor a range, OFFSET returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1519
+#: ../plugins/fn-lookup/functions.c:1523
 msgid "ROW:vector of row numbers"
 msgstr "ROW:vektor številk vrstice"
 
-#: ../plugins/fn-lookup/functions.c:1521
+#: ../plugins/fn-lookup/functions.c:1525
 msgid "ROW function returns a 1xN array containing the sequence of integers from the first row to the last row of @{x}."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1567
+#: ../plugins/fn-lookup/functions.c:1571
 msgid "ROWS:number of rows in @{reference}"
 msgstr "ROWS:število vrstic v @{sklicu}"
 
-#: ../plugins/fn-lookup/functions.c:1568
+#: ../plugins/fn-lookup/functions.c:1572
 msgid "reference:array, reference, or range"
 msgstr "sklic:polje,sklic ali podatkovna vrsta"
 
-#: ../plugins/fn-lookup/functions.c:1569
+#: ../plugins/fn-lookup/functions.c:1573
 msgid "If @{reference} is neither an array nor a reference nor a range, ROWS returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1585
+#: ../plugins/fn-lookup/functions.c:1589
 msgid "SHEETS:number of sheets in @{reference}"
 msgstr "SHEETS: število delovnih listov v @{sklicu}"
 
-#: ../plugins/fn-lookup/functions.c:1586
+#: ../plugins/fn-lookup/functions.c:1590
 msgid "reference:array, reference, or range, defaults to the maximum range"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1587
+#: ../plugins/fn-lookup/functions.c:1591
 msgid "If @{reference} is neither an array nor a reference nor a range, SHEETS returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1623
+#: ../plugins/fn-lookup/functions.c:1627
 msgid "SHEET:sheet number of @{reference}"
 msgstr "SHEET:številka delovnega lista @{sklica}"
 
-#: ../plugins/fn-lookup/functions.c:1624
+#: ../plugins/fn-lookup/functions.c:1628
 msgid "reference:reference or literal sheet name, defaults to the current sheet"
 msgstr "sklic:sklic do ustreznega imena delovnega lista, privzeto določen kot trenutni delovni list"
 
-#: ../plugins/fn-lookup/functions.c:1625
+#: ../plugins/fn-lookup/functions.c:1629
 msgid "If @{reference} is neither a reference nor a literal sheet name, SHEET returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1671
+#: ../plugins/fn-lookup/functions.c:1675
 msgid "HYPERLINK:second or first arguments"
 msgstr "HYPERLINK:drugi ali prvi argumenti"
 
-#: ../plugins/fn-lookup/functions.c:1672
+#: ../plugins/fn-lookup/functions.c:1676
 msgid "link_location:string"
 msgstr "mesto_povezave:niz"
 
-#: ../plugins/fn-lookup/functions.c:1673
+#: ../plugins/fn-lookup/functions.c:1677
 msgid "label:string, optional"
 msgstr "oznaka:niz, izbirno"
 
-#: ../plugins/fn-lookup/functions.c:1674
+#: ../plugins/fn-lookup/functions.c:1678
 msgid "HYPERLINK function currently returns its 2nd argument, or if that is omitted the 1st argument."
 msgstr "Funkcija HYPERLINK trenutno vrne njen 2. argument oziroma, če ta manjka, 1. argument."
 
-#: ../plugins/fn-lookup/functions.c:1693
+#: ../plugins/fn-lookup/functions.c:1697
 msgid "TRANSPOSE:the transpose of @{matrix}"
 msgstr "TRANSPOSE:transponirana @{matrika}"
 
-#: ../plugins/fn-lookup/functions.c:1694
+#: ../plugins/fn-lookup/functions.c:1698
 msgid "matrix:range"
 msgstr "matrika:podatkovna vrsta"
 
-#: ../plugins/fn-lookup/functions.c:1730
+#: ../plugins/fn-lookup/functions.c:1734
 msgid "ARRAY:vertical array of the arguments"
 msgstr "ARRAY: navpično podatkovno polje argumentov"
 
-#: ../plugins/fn-lookup/functions.c:1731
+#: ../plugins/fn-lookup/functions.c:1735
 msgid "v:value"
 msgstr "v: vrednost"
 
-#: ../plugins/fn-lookup/functions.c:1787
+#: ../plugins/fn-lookup/functions.c:1791
 msgid "SORT:sorted list of numbers as vertical array"
 msgstr "SORT: razvrščen seznam števil kot navpično podatkovno polje"
 
-#: ../plugins/fn-lookup/functions.c:1788
+#: ../plugins/fn-lookup/functions.c:1792
 #: ../plugins/fn-stat/functions.c:163
 #: ../plugins/fn-stat/functions.c:215
 msgid "ref:list of numbers"
 msgstr "sklic: seznam števil"
 
-#: ../plugins/fn-lookup/functions.c:1789
+#: ../plugins/fn-lookup/functions.c:1793
 msgid "order:0 (descending order) or 1 (ascending order); defaults to 0"
 msgstr "red: 0 (padajoče) ali 1 (naraščajoče); privzeta je vrednost 0"
 
-#: ../plugins/fn-lookup/functions.c:1790
+#: ../plugins/fn-lookup/functions.c:1794
 msgid "Strings, booleans, and empty cells are ignored."
 msgstr "Celice z besedilnimi nizi, logičnimi vrednostmi in prazne celice so prezrte."
 
-#: ../plugins/fn-lookup/functions.c:1791
+#: ../plugins/fn-lookup/functions.c:1795
 msgid "SORT({4,3,5}) evaluates to {5,4,3}"
 msgstr "SORT({4,3,5}) vrne razvrstitev {5,4,3}"
 
@@ -4826,7 +4834,7 @@ msgstr "wiki:en:Binomial_coefficient"
 
 #: ../plugins/fn-math/functions.c:1056
 msgid "COMBINA:the number of @{k}-combinations of an @{n}-element set with repetition"
-msgstr ""
+msgstr "COMBINA: število @{k}-kombinacij @{n}-predmetov s ponovitvami"
 
 # wiki:sl:Večkratna_množica
 #: ../plugins/fn-math/functions.c:1064
@@ -6005,7 +6013,7 @@ msgstr "Funkcija vrne funkcijo gostote verjetnosti porazdelitve hi-kvadrat."
 
 #: ../plugins/fn-r/functions.c:492
 msgid "A two argument invocation R.DCHISQ(@{x},@{df}) is exported to OpenFormula as CHISQDIST(@{x},@{df},FALSE())."
-msgstr ""
+msgstr "Uporaba funkcije R.DCHISQ(@{x},@{df}) z dvema argumentoma je izvožena v program OpenFormula kot CHISQDIST(@{x},@{df},FALSE())."
 
 #: ../plugins/fn-r/functions.c:511
 msgid "R.PCHISQ:cumulative distribution function of the chi-square distribution"
@@ -6017,7 +6025,7 @@ msgstr "Funkcija vrne zbirno funkcijo porazdelitve za porazdelitev hi-kvadrat."
 
 #: ../plugins/fn-r/functions.c:517
 msgid "A two argument invocation R.PCHISQ(@{x},@{df}) is exported to OpenFormula as CHISQDIST(@{x},@{df})."
-msgstr ""
+msgstr "Uporaba funkcije R.PCHISQ(@{x},@{df}) z dvema argumentoma je izvožena v program OpenFormula kot CHISQDIST(@{x},@{df}."
 
 #: ../plugins/fn-r/functions.c:537
 msgid "R.QCHISQ:probability quantile function of the chi-square distribution"
@@ -6029,7 +6037,7 @@ msgstr "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo z
 
 #: ../plugins/fn-r/functions.c:543
 msgid "A two argument invocation R.QCHISQ(@{p},@{df}) is exported to OpenFormula as CHISQINV(@{p},@{df})."
-msgstr ""
+msgstr "Uporaba funkcije R.QCHISQ(@{x},@{df}) z dvema argumentoma je izvožena v program OpenFormula kot CHISQINV(@{p},@{df},FALSE())."
 
 #: ../plugins/fn-r/functions.c:563
 msgid "R.DWEIBULL:probability density function of the Weibull distribution"
@@ -6132,7 +6140,7 @@ msgstr "n: število poskusov"
 #: ../plugins/fn-r/functions.c:1056
 #: ../plugins/fn-r/functions.c:1081
 msgid "psuc:the probability of success in each trial"
-msgstr ""
+msgstr "vusp: verjetnost uspeha v vsakem poskusu"
 
 #: ../plugins/fn-r/functions.c:793
 msgid "This function returns the probability density function of the binomial distribution."
@@ -6818,7 +6826,7 @@ msgstr "vrsta2: druga vrsta celic"
 
 #: ../plugins/fn-stat/functions.c:53
 msgid "VARP is also known as the N-variance."
-msgstr ""
+msgstr "Funkcija VARP je opredeljena tudi kot N-1-varianca."
 
 #: ../plugins/fn-stat/functions.c:54
 msgid "Let us assume that the cells A1, A2, ..., A5 contain number 11.4, 17.3, 21.3, 25.9, and 40.1."
@@ -6844,12 +6852,12 @@ msgstr "VAR: varianca podanega vzorca"
 
 #: ../plugins/fn-stat/functions.c:79
 msgid "VAR is also known as the N-1-variance."
-msgstr ""
+msgstr "Funkcija VAR je opredeljena tudi kot N-1-varianca."
 
 #: ../plugins/fn-stat/functions.c:80
 #: ../plugins/fn-stat/functions.c:2562
 msgid "Since the N-1-variance includes Bessel's correction, whereas the N-variance calculated by VARPA or VARP does not, under reasonable conditions the N-1-variance is an unbiased estimator of the variance of the population from which the sample is drawn."
-msgstr ""
+msgstr "Ker vključuje nepristrana N-1-varianca tudi Besselov popravek, ki ga pri uporabi funkcij VARPA ali VARP ni, je pod nekaterimi pogoji nepristrana varianca ustrezen pokazatelj variance populacije, katere del je vzorec."
 
 #: ../plugins/fn-stat/functions.c:84
 #: ../plugins/fn-stat/functions.c:112
@@ -6886,11 +6894,11 @@ msgstr "STDEV: standardni odklon podanega vzorca"
 
 #: ../plugins/fn-stat/functions.c:109
 msgid "STDEV is also known as the N-1-standard deviation."
-msgstr ""
+msgstr "Funkcija STDEV je opredeljena tudi kot N-1-standardni odklon."
 
 #: ../plugins/fn-stat/functions.c:110
 msgid "To obtain the population standard deviation of a whole population use STDEVP."
-msgstr ""
+msgstr "Za izračun standardnega odklona populacije za celotno populacijo je treba uporabiti funkcijo STDEVP."
 
 #: ../plugins/fn-stat/functions.c:113
 msgid "Then STDEV(A1:A5) equals 10.84619749."
@@ -6913,7 +6921,7 @@ msgstr "STDEVP:populacijski standardni odklon podene populacije"
 #: ../plugins/fn-stat/functions.c:137
 #: ../plugins/fn-stat/functions.c:2647
 msgid "This is also known as the N-standard deviation"
-msgstr ""
+msgstr "Funkcija je opredeljena tudi kot N-standardni odklon."
 
 #: ../plugins/fn-stat/functions.c:140
 msgid "Then STDEVP(A1:A5) equals 9.701133954."
@@ -6931,7 +6939,7 @@ msgstr "x:število, kateremu naj se določi rang"
 #: ../plugins/fn-stat/functions.c:164
 #: ../plugins/fn-stat/functions.c:216
 msgid "order:0 (descending order) or non-zero (ascending order); defaults to 0"
-msgstr ""
+msgstr "red: 0 (padajoča razvrstitev) ali vrednost različna od nič (naraščajoča razvrstitev); privzeto je določena vrednost 0"
 
 #: ../plugins/fn-stat/functions.c:165
 msgid "In case of a tie, RANK returns the largest possible rank."
@@ -6975,11 +6983,12 @@ msgstr "Izračun funkcije  RANK.AVG(25.9,A1:A5) vrne rešitev 1.5."
 
 #: ../plugins/fn-stat/functions.c:271
 msgid "TRIMMEAN:mean of the interior of a data set"
-msgstr ""
+msgstr "TRIMMEAN: srednja vrednost notranjosti podatkovne množice"
 
 #: ../plugins/fn-stat/functions.c:272
+#, fuzzy
 msgid "ref:list of numbers whose mean you want to calculate"
-msgstr ""
+msgstr "ref: seznam števil, katerih srednjo vrednost želite izračunati"
 
 #: ../plugins/fn-stat/functions.c:273
 msgid "fraction:fraction of the data set excluded from the mean"
@@ -7342,7 +7351,7 @@ msgstr "Izračun funkcije  MAX(A1:A5) vrne rešitev 40.1."
 
 #: ../plugins/fn-stat/functions.c:818
 msgid "SKEW:unbiased estimate for skewness of a distribution"
-msgstr ""
+msgstr "SKEW: nepristrana ocena asimetričnosti porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:822
 msgid "This is only meaningful if the underlying distribution really has a third moment.  The skewness of a symmetric (e.g., normal) distribution is zero."
@@ -7656,8 +7665,9 @@ msgid "If @{n} > @{trials} this function returns a #NUM! error."
 msgstr "V kolikor je @{n} < od števila @{poskusovk}, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1536
+#, fuzzy
 msgid "BINOM.DIST.RANGE:probability of the binomial distribution over an interval"
-msgstr ""
+msgstr "BINOM.DIST.RANGE: verjetnost binomske porazdelitve na podanem intervalu"
 
 #: ../plugins/fn-stat/functions.c:1539
 msgid "start:start of the interval"
@@ -7749,7 +7759,7 @@ msgstr "n: velikost vzorca"
 
 #: ../plugins/fn-stat/functions.c:1657
 msgid "M:number of possible successes in the population"
-msgstr ""
+msgstr "M: število možnih uspehov v populaciji"
 
 #: ../plugins/fn-stat/functions.c:1658
 msgid "N:population size"
@@ -7769,7 +7779,7 @@ msgstr "V kolikor je @{x} > @{M} ali pa je @{n} > @{N}, funkcija vrne napako #NU
 
 #: ../plugins/fn-stat/functions.c:1690
 msgid "CONFIDENCE:margin of error of a confidence interval for the population mean"
-msgstr ""
+msgstr "CONFIDENCE: meja napake intervala zaupanja za srednjo vrednost populacije"
 
 #: ../plugins/fn-stat/functions.c:1691
 msgid "alpha:significance level"
@@ -7785,7 +7795,7 @@ msgstr "size:velikost vzorca"
 
 #: ../plugins/fn-stat/functions.c:1694
 msgid "This function requires the usually unknown population standard deviation."
-msgstr ""
+msgstr "Ta funkcija zahteva sicer neznan standardni odklon populacije."
 
 #: ../plugins/fn-stat/functions.c:1695
 msgid "If @{size} is non-integer it is truncated."
@@ -7850,7 +7860,7 @@ msgstr "V kolikor je @{p} < 0, je @{p} > 1 ali pa je @{stod} <= 0, funkcija vrne
 # kurtosis = sploščenost
 #: ../plugins/fn-stat/functions.c:1844
 msgid "KURT:unbiased estimate of the kurtosis of a data set"
-msgstr ""
+msgstr "KURT: nepristrana ocena sploščenosti podatkovne množice"
 
 #: ../plugins/fn-stat/functions.c:1848
 msgid "This is only meaningful if the underlying distribution really has a fourth moment.  The kurtosis is offset by three such that a normal distribution will have zero kurtosis."
@@ -7866,7 +7876,7 @@ msgstr "Izračun funkcije  KURT(A1:A5) vrne rešitev 1.234546305."
 
 #: ../plugins/fn-stat/functions.c:1875
 msgid "KURTP:population kurtosis of a data set"
-msgstr ""
+msgstr "KURTP: sploščenost populacije podatkovne množice"
 
 #: ../plugins/fn-stat/functions.c:1879
 msgid "If fewer than two numbers are given or all of them are equal this function returns a #DIV/0! error."
@@ -7878,7 +7888,7 @@ msgstr "Izračun funkcije  KURTP(A1:A5) vrne rešitev -0.691363424."
 
 #: ../plugins/fn-stat/functions.c:1901
 msgid "AVEDEV:average of the absolute deviations of a data set"
-msgstr ""
+msgstr "AVEDEV: povprečje absolutnih odklonov podatkovne množice"
 
 #: ../plugins/fn-stat/functions.c:1906
 msgid "Then AVEDEV(A1:A5) equals 7.84."
@@ -7926,13 +7936,15 @@ msgstr "PEARSON: Pearsonov koeficient soodnosnosti dveh odvisnih vzorcev podatko
 
 #: ../plugins/fn-stat/functions.c:2012
 #: ../plugins/fn-stat/functions.c:2031
+#, fuzzy
 msgid "array1:first component values"
-msgstr ""
+msgstr "matrika1: vrednosti prve komponente"
 
 #: ../plugins/fn-stat/functions.c:2013
 #: ../plugins/fn-stat/functions.c:2032
+#, fuzzy
 msgid "array2:second component values"
-msgstr ""
+msgstr "matrika2: vrednosti druge komponente"
 
 #: ../plugins/fn-stat/functions.c:2030
 msgid "RSQ:square of the Pearson correlation coefficient of the paired set of data"
@@ -8061,7 +8073,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2359
 msgid "STEYX:standard error of the predicted y-value in the regression"
-msgstr ""
+msgstr "STEYX: standardna napaka napovedane vrednosti y z regresijo"
 
 #: ../plugins/fn-stat/functions.c:2360
 #: ../plugins/fn-stat/functions.c:3405
@@ -8158,11 +8170,11 @@ msgstr "VARA: varianca podanega vzorca"
 
 #: ../plugins/fn-stat/functions.c:2559
 msgid "VARA is also known as the N-1-variance."
-msgstr ""
+msgstr "Funkcija VARA je opredeljena tudi kot nepristrana N-1-varianca"
 
 #: ../plugins/fn-stat/functions.c:2560
 msgid "To get the true variance of a complete population use VARPA."
-msgstr ""
+msgstr "Za izračun prave variance celotne populacije, je treba uporabiti funkcijo VARPA."
 
 #: ../plugins/fn-stat/functions.c:2568
 msgid "Then VARA(A1:A5) equals 228.613."
@@ -8174,7 +8186,7 @@ msgstr "VARPA:varianca celotne populacije"
 
 #: ../plugins/fn-stat/functions.c:2590
 msgid "VARPA is also known as the N-variance."
-msgstr ""
+msgstr "Funkcija VARPA je opredeljena tudi kot nepristrana N-varianca"
 
 #: ../plugins/fn-stat/functions.c:2595
 msgid "Then VARPA(A1:A5) equals 182.8904."
@@ -8186,11 +8198,11 @@ msgstr "STDEVA: standardni odklon podanega vzorca"
 
 #: ../plugins/fn-stat/functions.c:2618
 msgid "STDEVA is also known as the N-1-standard deviation."
-msgstr ""
+msgstr "Funkcija STDEVA je opredeljena tudi kot nepristrani N-1standardni odklon."
 
 #: ../plugins/fn-stat/functions.c:2619
 msgid "To obtain the population standard deviation of a whole population use STDEVPA."
-msgstr ""
+msgstr "Za pridobitev standardnega odklona populacije za celotno populacijo, je treba uporabiti funkcijo STDEVPA."
 
 #: ../plugins/fn-stat/functions.c:2625
 msgid "Then STDEVA(A1:A5) equals 15.119953704."
@@ -8206,7 +8218,7 @@ msgstr "Izračun funkcije STDEVPA(A1:A5) vrne rešitev 13.523697719."
 
 #: ../plugins/fn-stat/functions.c:2671
 msgid "PERCENTRANK:rank of a data point in a data set"
-msgstr ""
+msgstr "PERCENTRANK: rang podatkovne točke v podatkovni množici"
 
 #: ../plugins/fn-stat/functions.c:2672
 msgid "array:range of numeric values"
@@ -8349,7 +8361,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3307
 msgid "LINEST:multiple linear regression coefficients and statistics"
-msgstr ""
+msgstr "LINEST: koeficienti večkratne linearne regresije in pripadajoča statistika"
 
 #: ../plugins/fn-stat/functions.c:3308
 #: ../plugins/fn-stat/functions.c:3616
@@ -8371,7 +8383,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3311
 msgid "stats:if true, some additional statistics are provided, defaults to false"
-msgstr ""
+msgstr "stat: izbrana možnost omogoči podrobnejši izpis statistike; privzeto je NAPAK"
 
 #: ../plugins/fn-stat/functions.c:3312
 msgid "This function returns an array with the first row giving the regression coefficients for the independent variables x_m, x_(m-1),…,x_2, x_1 followed by the y-intercept if @{affine} is true."
@@ -8402,7 +8414,7 @@ msgstr "znane_vrednosti_x: znane vrednosti x; privzeto določeno s poljem {1, 2,
 #: ../plugins/fn-stat/functions.c:3408
 #: ../plugins/fn-stat/functions.c:3766
 msgid "stat:if true, extra statistical information will be returned; defaults to FALSE"
-msgstr ""
+msgstr "stat: izbrana možnost omogoči podrobnejši izpis statistike; privzeto je NAPAK"
 
 #: ../plugins/fn-stat/functions.c:3409
 msgid "LOGREG function transforms your x's to z=ln(x) and applies the “least squares” method to fit the linear equation y = m * z + b to your y's and z's --- equivalent to fitting the equation y = m * ln(x) + b to y's and x's. LOGREG returns an array having two columns and one row. m is given in the first column and b in the second. "
@@ -8658,7 +8670,7 @@ msgstr "a: srednja vrednost"
 
 #: ../plugins/fn-stat/functions.c:4549
 msgid "PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} objects with repetition allowed"
-msgstr ""
+msgstr "PERMUTATIONA: število permutacij @{y} predmetov izbranim med @{x} predmeti z dovoljenimi ponovitvami"
 
 #: ../plugins/fn-stat/functions.c:4550
 msgid "x:total number of objects"
@@ -8916,8 +8928,9 @@ msgid "MIDB:the characters following the first @{start_pos} bytes comprising at 
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:425
+#, fuzzy
 msgid "start_pos:the number of the byte with which to start (defaults to 1)"
-msgstr ""
+msgstr "zač_pol: številka bajta, s katerim je potrebno začeti (privzeta vrednost je 1)"
 
 #: ../plugins/fn-string/functions.c:467
 msgid "FINDB:first byte position of @{string1} in @{string2} following byte position @{start}"
@@ -9276,7 +9289,7 @@ msgstr "filter: uporabljena funkcija podatkovnega okna privzeto določena brez f
 
 #: ../plugins/fn-tsa/functions.c:536
 msgid "abscissae:abscissae of the given data, defaults to regularly spaced abscissae"
-msgstr ""
+msgstr "abscisa: abscisa podanih podatkov, privzeto gre za absciso z enakomernimi razmiki"
 
 #: ../plugins/fn-tsa/functions.c:537
 msgid "interpolation:method of interpolation, defaults to none"
@@ -9288,7 +9301,7 @@ msgstr "število: število interpoliranih podatkovnih točk"
 
 #: ../plugins/fn-tsa/functions.c:539
 msgid "If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order."
-msgstr "V kolikor je uporabljena interpolacija, je število vrnjenih vrednosti za eno manjše od števila ciljev, ti pa morajo biti podani naraščajoče."
+msgstr "Če je uporabljena interpolacija, je število vrnjenih vrednosti za eno manjše od števila ciljev, ti pa morajo biti podani naraščajoče."
 
 #: ../plugins/fn-tsa/functions.c:542
 msgid ""
@@ -9348,11 +9361,11 @@ msgstr "λ: parameter filtra λ, privzeto je določena vrednost 1600"
 
 #: ../plugins/fn-tsa/functions.c:894
 msgid "This array function returns the trend and cyclical components obtained by applying the Hodrick Prescott Filter with parameter @{λ} to the given data sequence."
-msgstr ""
+msgstr "Ta matrična funkcija vrne trendno in ciklično komponento, ki ju pridobi z uveljavljanjem filtra Hodrick Prescott s parametrom @{λ} nad podanim nizom podatkov."
 
 #: ../plugins/fn-tsa/functions.c:895
 msgid "The output consists of two columns of numbers, the first containing the trend component, the second the cyclical component."
-msgstr ""
+msgstr "Izhod sestavljata dva stolpca števil, prvi vsebuje komponento trenda, drugi pa ciklično komponento."
 
 #: ../plugins/fn-tsa/functions.c:897
 msgid "If @{Sequence} contians less than 6 numerical values, this function returns #VALUE!"
@@ -9394,19 +9407,19 @@ msgstr "READDBTABLE: vse vrstice v @{razpredelnici} v @{dsn}"
 msgid "table:SQL table to retrieve"
 msgstr "razpredelnica: razpredelnica SQL za pridobivanje"
 
-#: ../plugins/sample_datasource/sample_datasource.c:278
+#: ../plugins/sample_datasource/sample_datasource.c:277
 msgid "ATL_LAST:sample real-time data source"
 msgstr "ATL_LAST: vzorčni realno-časovni podatkovni vir"
 
-#: ../plugins/sample_datasource/sample_datasource.c:279
+#: ../plugins/sample_datasource/sample_datasource.c:278
 msgid "tag:tag to watch"
 msgstr "oznaka: opazovana oznaka"
 
-#: ../plugins/sample_datasource/sample_datasource.c:280
+#: ../plugins/sample_datasource/sample_datasource.c:279
 msgid "ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag."
-msgstr ""
+msgstr "Funkcija ATL_LAST je vzorčna izvedba podatkovnega vira v resničnem času. Parameter je znakovni zaznamek in spremlja spremembe tega zaznamka v imenovani cevi ~/atl."
 
-#: ../plugins/sample_datasource/sample_datasource.c:281
+#: ../plugins/sample_datasource/sample_datasource.c:280
 msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr "Možnost je privzeto onemogočena."
 
