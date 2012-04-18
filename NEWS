@@ -19,6 +19,7 @@ Andreas:
 Jean:
 	* Fixed crash with sheet object. [#671617]
 	* Fixed labels vectors made of multiple ranges. [#672330]
+	* Never skip a required plot dimension. [#674341]
 
 Morten:
 	* Hook up unknown_image icon for ssconvert too.

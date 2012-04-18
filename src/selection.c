@@ -1629,7 +1629,8 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 				&& (!first_series || !data->share_x)) ||
 			       (desc->series.dim[cur_dim].val_type == GOG_DIM_VALUE && is_string_vec)) {
 				if (desc->series.dim[cur_dim].priority == GOG_SERIES_REQUIRED)
-					goto skip;
+				/* we used to go to the skip label, but see #674341 */
+					break;
 				cur_dim++;
 			}
 
@@ -1653,7 +1654,7 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 			}
 
 			cur_dim++;
-skip :
+/*skip :*/
 
 			if (as_cols) {
 				i += range_width (&vector);
