@@ -12,6 +12,7 @@
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2004, 2005, 2006.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
 # Sylvia Sánchez <LailahFSF@gmail.com>, 2011, 2012.
+# Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
 #
 #: ../src/sheet-control-gui.c:2199 ../src/sheet-control-gui.c:2208
@@ -21,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-04-01 09:20+0000\n"
-"PO-Revision-Date: 2012-04-03 13:14+0200\n"
+"POT-Creation-Date: 2012-04-17 15:21+0000\n"
+"PO-Revision-Date: 2012-04-18 17:05+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +52,7 @@ msgstr "Cálculo, análisis, y visualización de información"
 
 #: ../plugins/applix/applix-read.c:124
 msgid "Parse error while reading Applix file."
-msgstr "Error al leer el archivo Applix."
+msgstr "Error de análisis al leer el archivo Applix."
 
 #: ../plugins/applix/applix-read.c:322
 msgid "Missing characters for character encoding"
@@ -65,7 +66,7 @@ msgstr "Caracteres no válidos para la codificación «%c%c»"
 #: ../plugins/applix/applix-read.c:1202
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
-msgstr "¿La expresión no comenzaba por «=» ? «%s»"
+msgstr "¿La expresión no empezaba con «=» ? «%s»"
 
 #: ../plugins/applix/applix-read.c:1213
 #, c-format
@@ -94,7 +95,7 @@ msgstr "Interfaz CORBA"
 
 #: ../plugins/corba/plugin.xml.in.h:2
 msgid "Provides a CORBA scripting interface"
-msgstr "Proporciona un interfaz para scripts de CORBA"
+msgstr "Proporciona una interfaz de secuencia de comandos de CORBA"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6999
 #: ../plugins/openoffice/openoffice-read.c:11035 ../src/xml-sax-read.c:3311
@@ -127,8 +128,8 @@ msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
 "rows."
 msgstr ""
-"El archivo DIF excede el número máximo de filas (%d). Se ignorarán las "
-"siguientes filas."
+"El archivo DIF excede el número máximo de filas %d. Ignorando el resto de "
+"filas."
 
 #: ../plugins/dif/dif.c:255
 #, c-format
@@ -136,21 +137,18 @@ msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
 "columns."
 msgstr ""
-"El archivo DIF excede el número máximo de columnas (%d). Se ignorarán las "
-"siguientes columnas."
+"El archivo DIF excede el número máximo de columnas (%d). Ignorando el resto "
+"de columnas."
 
 #: ../plugins/dif/dif.c:269
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
-msgstr ""
-"Fin de archivo inesperado mientras se procesaba el encabezado en la línea %d."
+msgstr "Fin de archivo inesperado en la línea %d al leer la cabecera."
 
 #: ../plugins/dif/dif.c:273
 #, c-format
 msgid "Unexpected end of file at line %d while reading data."
-msgstr ""
-"Se encontró fin de archivo en la línea %d, antes de terminar de leer los "
-"datos."
+msgstr "Fin de archivo inesperado en la línea %d al leer los datos."
 
 #: ../plugins/dif/dif.c:293
 msgid "Error while reading DIF file."
@@ -159,7 +157,7 @@ msgstr "Error al leer el archivo DIF."
 #: ../plugins/dif/dif.c:314 ../plugins/paradox/paradox.c:311
 #: ../plugins/sylk/sylk-write.c:235
 msgid "Cannot get default sheet."
-msgstr "No se puede obtener la hoja por omisión."
+msgstr "No se puede obtener la hoja predeterminada."
 
 #: ../plugins/dif/dif.c:363
 msgid "Error while saving DIF file."
@@ -173,8 +171,8 @@ msgstr "Módulo de formato de intercambio de datos (DIF)"
 msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr ""
-"Lee y escribe información almacenada en formato de intercambio de datos (*."
-"dif)"
+"Lee y escribe información almacenada en el formato de intercambio de datos "
+"(*.dif)"
 
 #: ../plugins/dif/plugin.xml.in.h:3
 msgid "Data Interchange Format (*.dif)"
@@ -182,7 +180,7 @@ msgstr "Formato de intercambio de datos (*dif)"
 
 #: ../plugins/excel/boot.c:187
 msgid "No Workbook or Book streams found."
-msgstr "No se ha encontrado ningún flujo de libro de cuentas o libro."
+msgstr "No se ha encontrado ningún flujo de libro o de libro de trabajo."
 
 #: ../plugins/excel/boot.c:263
 msgid "Preparing to save..."
@@ -198,25 +196,25 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atributo inesperado %s::%s == «%s»."
 
 #: ../plugins/excel/excel-xml-read.c:491
-#, fuzzy, c-format
-#| msgid "Invalid attribute 'form:value', expected number, received '%s'"
+#, c-format
 msgid "Invalid content of ss:data element, expected number, received '%s'"
-msgstr "Atributo «form:value» no válido, se esperaba un número y se obtuvo «%s»"
+msgstr ""
+"Contenido no válido del elemento «ss:data», se esperaba un número, se recibió "
+"«%s»"
 
 #: ../plugins/excel/excel-xml-read.c:510
-#, fuzzy, c-format
-#| msgid "Invalid attribute '%s', expected angle, received '%s'"
+#, c-format
 msgid "Invalid content of ss:data element, received '%s'"
-msgstr "Atributo «%s» no válido, se esperaba un ángulo, se ha recibido «%s»"
+msgstr "Contenido no válido del elemento «ss:data», se recibió «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:1093
 #: ../plugins/openoffice/openoffice-read.c:11142 ../src/xml-sax-read.c:3328
 msgid "XML document not well formed!"
-msgstr "El documento XML no se encuentra bien definido"
+msgstr "El documento XML no está bien formado."
 
 #: ../plugins/excel/ms-excel-read.c:1394 ../src/value.c:67
 msgid "#UNKNOWN!"
-msgstr "#DESCONOCIDO!"
+msgstr "#DESCONOCIDO"
 
 #: ../plugins/excel/ms-excel-read.c:1491 ../plugins/excel/ms-excel-read.c:1502
 #: ../plugins/oleo/oleo.c:230 ../plugins/psiconv/psiconv-read.c:544
@@ -232,22 +230,22 @@ msgstr "Macro%d"
 #: ../plugins/excel/ms-excel-read.c:1510
 #, c-format
 msgid "Chart%d"
-msgstr "Diagrama-%d"
+msgstr "Cuadro%d"
 
 #: ../plugins/excel/ms-excel-read.c:1513
 #, c-format
 msgid "Module%d"
-msgstr "Módulo %d"
+msgstr "Módulo%d"
 
 #: ../plugins/excel/ms-excel-read.c:3660
 #, c-format
 msgid "Failure parsing name '%s'"
-msgstr "Ha ocurrido un error al analizar el nombre «%s»"
+msgstr "Falló al analizar el nombre «%s»"
 
 #: ../plugins/excel/ms-excel-read.c:3804
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
-msgstr "Expresión incorrecta para el nombre «%s»: El contenido se perderá.\n"
+msgstr "Expresión incorrecta para el nombre «%s»: el contenido se perderá.\n"
 
 #: ../plugins/excel/ms-excel-read.c:3809
 #, c-format
@@ -273,7 +271,7 @@ msgstr "referencias externas"
 
 #: ../plugins/excel/ms-excel-read.c:6173
 msgid "No password supplied"
-msgstr "No se suministró contraseña"
+msgstr "No se introdujo ninguna contraseña"
 
 #: ../plugins/excel/ms-excel-write.c:226
 #, c-format
@@ -285,10 +283,10 @@ msgid_plural ""
 "columns, and this workbook has %d"
 msgstr[0] ""
 "Algunos contenidos se perderán al guardar. Este formato sólo soporta %u "
-"columna, y este libro de cuentas tiene %d"
+"columna, y este libro de trabajo tiene %d"
 msgstr[1] ""
 "Algunos contenidos se perderán al guardar. Este formato sólo soporta %u "
-"columnas, y este libro de cuentas tiene %d"
+"columnas, y este libro de trabajo tiene %d"
 
 #: ../plugins/excel/ms-excel-write.c:238
 #, c-format
@@ -300,10 +298,10 @@ msgid_plural ""
 "and this workbook has %d"
 msgstr[0] ""
 "Algunos contenidos se perderán al guardar. Este formato sólo soporta %u fila "
-"y este libro de cuentas tiene %d"
+"y este libro de trabajo tiene %d"
 msgstr[1] ""
 "Algunos contenidos se perderán al guardar. Este formato sólo soporta %u "
-"filas y este libro de cuentas tiene %d"
+"filas y este libro de trabajo tiene %d"
 
 #: ../plugins/excel/ms-excel-write.c:359
 msgid ""
@@ -317,7 +315,7 @@ msgstr ""
 
 #: ../plugins/excel/ms-excel-write.c:6302
 msgid "Couldn't open stream 'Book' for writing\n"
-msgstr "No se pudo el flujo «Libro» para escritura\n"
+msgstr "No se pudo abrir el flujo «Libro» para escritura\n"
 
 #: ../plugins/excel/ms-excel-write.c:6324
 msgid "Couldn't open stream 'Workbook' for writing\n"
@@ -846,7 +844,7 @@ msgstr "%s versión %s"
 #: ../plugins/fn-info/functions.c:1406
 #: ../src/dialogs/dialog-cell-format.c:2278
 #: ../src/dialogs/dialog-cell-format.c:2282
-#: ../src/dialogs/dialog-cell-format.c:2290 ../src/wbc-gtk.c:3247
+#: ../src/dialogs/dialog-cell-format.c:2290 ../src/wbc-gtk.c:3249
 msgid "Automatic"
 msgstr "Automático"
 
@@ -5788,19 +5786,19 @@ msgstr "Formatear celdas"
 msgid "Border"
 msgstr "Borde"
 
-#: ../src/dialogs/dialog-cell-format.c:2282 ../src/wbc-gtk.c:3101
-#: ../src/wbc-gtk.c:3249 ../src/wbc-gtk.c:3250 ../src/wbc-gtk.c:3261
-#: ../src/wbc-gtk.c:3367 ../src/wbc-gtk.c:3427
+#: ../src/dialogs/dialog-cell-format.c:2282 ../src/wbc-gtk.c:3103
+#: ../src/wbc-gtk.c:3251 ../src/wbc-gtk.c:3252 ../src/wbc-gtk.c:3263
+#: ../src/wbc-gtk.c:3379 ../src/wbc-gtk.c:3448
 msgid "Foreground"
 msgstr "Primer plano"
 
-#: ../src/dialogs/dialog-cell-format.c:2286 ../src/wbc-gtk.c:3298
+#: ../src/dialogs/dialog-cell-format.c:2286 ../src/wbc-gtk.c:3300
 msgid "Clear Background"
 msgstr "Limpiar el fondo"
 
 #: ../src/dialogs/dialog-cell-format.c:2286
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:79
-#: ../src/wbc-gtk.c:3300 ../src/wbc-gtk.c:3301 ../src/wbc-gtk.c:3310
+#: ../src/wbc-gtk.c:3302 ../src/wbc-gtk.c:3303 ../src/wbc-gtk.c:3312
 msgid "Background"
 msgstr "Fondo"
 
@@ -6484,7 +6482,7 @@ msgstr "Nivel de libro de cuentas"
 
 #: ../src/dialogs/dialog-goto-cell.c:386 ../src/dialogs/dialog-search.c:438
 #: ../src/dialogs/dialog-stf-export.c:592 ../src/dialogs/hf-config.ui.h:16
-#: ../src/dialogs/print.ui.h:53 ../src/print-info.c:545 ../src/search.c:776
+#: ../src/dialogs/print.ui.h:53 ../src/print-info.c:545 ../src/search.c:799
 #: ../src/tools/gnm-solver.c:713 ../src/tools/gnm-solver.c:714
 #: ../src/workbook.c:923 ../src/workbook.c:951
 msgid "Sheet"
@@ -6744,7 +6742,7 @@ msgstr "Corrección automática"
 
 #: ../src/dialogs/dialog-preferences.c:1187
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:28
-#: ../src/wbc-gtk.c:3351
+#: ../src/wbc-gtk.c:3363
 msgid "Font"
 msgstr "Tipografía"
 
@@ -7408,16 +7406,16 @@ msgid "Run on"
 msgstr "Ejecutar en"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4594
+#: ../src/wbc-gtk.c:4615
 msgid "Min"
 msgstr "Mínimo"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4596
+#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4617
 msgid "Average"
 msgstr "Promediación"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:4595
+#: ../src/wbc-gtk.c:4616
 msgid "Max"
 msgstr "Máximo"
 
@@ -8019,7 +8017,7 @@ msgid "Top"
 msgstr "Arriba"
 
 #: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:34
-#: ../src/wbc-gtk.c:2996
+#: ../src/wbc-gtk.c:2998
 msgid "Bottom"
 msgstr "Abajo"
 
@@ -8240,12 +8238,12 @@ msgstr "Línea diagonal"
 
 #. start sub menu
 #: ../src/dialogs/cell-format.ui.h:32 ../src/sheet-control-gui.c:2172
-#: ../src/wbc-gtk.c:2988
+#: ../src/wbc-gtk.c:2990
 msgid "Left"
 msgstr "Izquierda"
 
 #: ../src/dialogs/cell-format.ui.h:33 ../src/sheet-control-gui.c:2175
-#: ../src/wbc-gtk.c:2990
+#: ../src/wbc-gtk.c:2992
 msgid "Right"
 msgstr "Derecha"
 
@@ -9340,8 +9338,8 @@ msgid "Trim:"
 msgstr "Eliminar espacios:"
 
 #. ----- vertical -----
-#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk.c:2952
-#: ../src/wbc-gtk.c:2968
+#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk.c:2954
+#: ../src/wbc-gtk.c:2970
 msgid "Zoom"
 msgstr "Ampliación"
 
@@ -11039,7 +11037,7 @@ msgstr "Ra_ngo"
 msgid "Search and replace in specified range only"
 msgstr "Buscar y reemplazar sólo en el rango especificado"
 
-#: ../src/dialogs/search-replace.ui.h:27 ../src/search.c:785
+#: ../src/dialogs/search-replace.ui.h:27 ../src/search.c:808
 msgid "Scope"
 msgstr "Ámbito"
 
@@ -12808,125 +12806,125 @@ msgstr "Rango de impresión de Gnumeric"
 msgid "Print to File"
 msgstr "Imprimir este archivo"
 
-#: ../src/search.c:112
+#: ../src/search.c:127
 msgid "Searching for regular expressions and numbers are mutually exclusive."
 msgstr ""
 
-#: ../src/search.c:116
+#: ../src/search.c:131
 #, fuzzy
 msgid "The search text must be a number."
 msgstr "El texto de búsqueda se toma literalmente."
 
-#: ../src/search.c:123
+#: ../src/search.c:138
 msgid "You must specify a range to search."
 msgstr "Debe especificar un rango de búsqueda."
 
-#: ../src/search.c:127
+#: ../src/search.c:142
 msgid "The search range is invalid."
 msgstr "El rango de búsqueda no es válido."
 
-#: ../src/search.c:677
+#: ../src/search.c:700
 #, fuzzy
 msgid "Is Number"
 msgstr "Número"
 
-#: ../src/search.c:678
+#: ../src/search.c:701
 msgid "Search for Specific Number Regardless of Formatting?"
 msgstr ""
 
-#: ../src/search.c:686
+#: ../src/search.c:709
 msgid "Search Strings"
 msgstr "Buscar cadenas"
 
-#: ../src/search.c:687
+#: ../src/search.c:710
 msgid "Should strings be searched?"
 msgstr "¿Deben buscarse las cadenas?"
 
-#: ../src/search.c:695
+#: ../src/search.c:718
 msgid "Search Other Values"
 msgstr "Buscar otros valores"
 
-#: ../src/search.c:696
+#: ../src/search.c:719
 msgid "Should non-strings be searched?"
 msgstr "¿Deben buscarse las no cadenas?"
 
-#: ../src/search.c:704
+#: ../src/search.c:727
 msgid "Search Expressions"
 msgstr "Buscar expresiones"
 
-#: ../src/search.c:705
+#: ../src/search.c:728
 msgid "Should expressions be searched?"
 msgstr "¿Deben buscarse las expresiones?"
 
-#: ../src/search.c:713
+#: ../src/search.c:736
 msgid "Search Expression Results"
 msgstr "Buscar el resultado de las expresiones"
 
-#: ../src/search.c:714
+#: ../src/search.c:737
 msgid "Should the results of expressions be searched?"
 msgstr "¿Deben buscarse los resultados de las expresiones?"
 
-#: ../src/search.c:722
+#: ../src/search.c:745
 msgid "Search Comments"
 msgstr "Buscar comentarios"
 
-#: ../src/search.c:723
+#: ../src/search.c:746
 msgid "Should cell comments be searched?"
 msgstr "¿Deben buscarse los comentarios de celdas?"
 
-#: ../src/search.c:731
+#: ../src/search.c:754
 msgid "Search Scripts"
 msgstr "Buscar scripts"
 
-#: ../src/search.c:732
+#: ../src/search.c:755
 msgid "Should scrips (workbook, and worksheet) be searched?"
 msgstr "¿Deben los scripts (libro de cuentas y hoja de trabajo) ser buscables?"
 
-#: ../src/search.c:740
+#: ../src/search.c:763
 msgid "Invert"
 msgstr "Invertir"
 
-#: ../src/search.c:741
+#: ../src/search.c:764
 msgid "Collect non-matching items"
 msgstr "Coleccionar los elementos no coincidentes"
 
-#: ../src/search.c:749
+#: ../src/search.c:772
 msgid "By Row"
 msgstr "por fila"
 
-#: ../src/search.c:750
+#: ../src/search.c:773
 msgid "Is the search order by row?"
 msgstr "¿Es el orden de búsqueda por fila?"
 
-#: ../src/search.c:758
+#: ../src/search.c:781
 msgid "Query"
 msgstr "Consultar"
 
-#: ../src/search.c:759
+#: ../src/search.c:782
 msgid "Should we query for each replacement?"
 msgstr "¿Se debe consultar para cada reemplazo?"
 
-#: ../src/search.c:767
+#: ../src/search.c:790
 msgid "Keep Strings"
 msgstr "Conservar cadenas"
 
-#: ../src/search.c:768
+#: ../src/search.c:791
 msgid "Should replacement keep strings as strings?"
 msgstr "¿Debería el reemplazo conservar las cadenas como cadenas?"
 
-#: ../src/search.c:777
+#: ../src/search.c:800
 msgid "The sheet in which to search."
 msgstr "La hoja en la que buscar."
 
-#: ../src/search.c:786
+#: ../src/search.c:809
 msgid "Where to search."
 msgstr "Dónde buscar."
 
-#: ../src/search.c:795
+#: ../src/search.c:818
 msgid "Range as Text"
 msgstr "Rango como texto"
 
-#: ../src/search.c:796
+#: ../src/search.c:819
 msgid "The range in which to search."
 msgstr "El rango en el que buscar."
 
@@ -13262,7 +13260,7 @@ msgid "Pus_h to Back"
 msgstr "Empujar hasta el _fondo"
 
 #: ../src/sheet-object-component.c:185 ../src/sheet-object-graph.c:288
-#: ../src/sheet-object-image.c:310
+#: ../src/sheet-object-image.c:309
 #, c-format
 msgid "Unknown failure while saving image"
 msgstr "Fallo desconocido guardar la imagen"
@@ -13279,7 +13277,7 @@ msgstr "Guardar todo"
 msgid "_Save as"
 msgstr "Guardar todo"
 
-#: ../src/sheet-object-component.c:271 ../src/sheet-object-image.c:365
+#: ../src/sheet-object-component.c:271 ../src/sheet-object-image.c:364
 msgid "_Save as image"
 msgstr "_Guardar como imagen"
 
@@ -15177,7 +15175,7 @@ msgstr "Curtosis"
 msgid "Range"
 msgstr "Rango"
 
-#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4597
+#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4618
 msgid "Count"
 msgstr "Cuenta"
 
@@ -17051,7 +17049,7 @@ msgid "Adjust a data slicer"
 msgstr "Ajustar el directorio de datos raíz"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk-actions.c:2684 ../src/wbc-gtk.c:4593
+#: ../src/wbc-gtk-actions.c:2684 ../src/wbc-gtk.c:4614
 #: ../src/workbook-view.c:1006
 msgid "Sum"
 msgstr "Suma"
@@ -17784,82 +17782,82 @@ msgstr "_Descartar"
 msgid "_Accept"
 msgstr "_Aceptar"
 
-#: ../src/wbc-gtk.c:2950
+#: ../src/wbc-gtk.c:2952
 msgid "_Zoom"
 msgstr "_Ampliación"
 
-#: ../src/wbc-gtk.c:2989
+#: ../src/wbc-gtk.c:2991
 msgid "Clear Borders"
 msgstr "Limpiar bordes"
 
-#: ../src/wbc-gtk.c:2992
+#: ../src/wbc-gtk.c:2994
 msgid "All Borders"
 msgstr "Todos los bordes"
 
-#: ../src/wbc-gtk.c:2993
+#: ../src/wbc-gtk.c:2995
 msgid "Outside Borders"
 msgstr "Bordes exteriores"
 
-#: ../src/wbc-gtk.c:2994
+#: ../src/wbc-gtk.c:2996
 msgid "Thick Outside Borders"
 msgstr "Bordes exteriores gruesos"
 
-#: ../src/wbc-gtk.c:2997
+#: ../src/wbc-gtk.c:2999
 msgid "Double Bottom"
 msgstr "Doble borde inferior"
 
-#: ../src/wbc-gtk.c:2998
+#: ../src/wbc-gtk.c:3000
 msgid "Thick Bottom"
 msgstr "Borde inferior grueso"
 
-#: ../src/wbc-gtk.c:3000
+#: ../src/wbc-gtk.c:3002
 msgid "Top and Bottom"
 msgstr "Bordes arriba y abajo"
 
-#: ../src/wbc-gtk.c:3001
+#: ../src/wbc-gtk.c:3003
 msgid "Top and Double Bottom"
 msgstr "Borde simple arriba y borde grueso abajo"
 
-#: ../src/wbc-gtk.c:3002
+#: ../src/wbc-gtk.c:3004
 msgid "Top and Thick Bottom"
 msgstr "Borde simple arriba y borde grueso abajo"
 
-#: ../src/wbc-gtk.c:3087
+#: ../src/wbc-gtk.c:3089
 msgid "Set Borders"
 msgstr "Establecer bordes"
 
-#: ../src/wbc-gtk.c:3095 ../src/wbc-gtk.c:3096
+#: ../src/wbc-gtk.c:3097 ../src/wbc-gtk.c:3098
 msgid "Borders"
 msgstr "Bordes"
 
-#: ../src/wbc-gtk.c:3196
+#: ../src/wbc-gtk.c:3198
 msgid "Redo the undone action"
 msgstr "Rehacer la última operación deshecha"
 
-#: ../src/wbc-gtk.c:3201
+#: ../src/wbc-gtk.c:3203
 msgid "Undo the last action"
 msgstr "Deshacer la operación"
 
-#: ../src/wbc-gtk.c:3236
+#: ../src/wbc-gtk.c:3238
 msgid "Set Foreground Color"
 msgstr "Establecer color de primer plano"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:3291
+#: ../src/wbc-gtk.c:3293
 msgid "Set Background Color"
 msgstr "Establecer color del fondo"
 
-#: ../src/wbc-gtk.c:3330
+#: ../src/wbc-gtk.c:3342
 #, c-format
 msgid "Font Name %s"
 msgstr "Nombre de tipografía %s"
 
-#: ../src/wbc-gtk.c:3390
+#: ../src/wbc-gtk.c:3411
 #, c-format
 msgid "Font Size %f"
 msgstr "Tamaño de la tipografía %f"
 
-#: ../src/wbc-gtk.c:3408 ../src/wbc-gtk.c:3409
+#: ../src/wbc-gtk.c:3429 ../src/wbc-gtk.c:3430
 msgid "Font Size"
 msgstr "Tamaño de la tipografía"
 
@@ -17869,88 +17867,88 @@ msgstr "Tamaño de la tipografía"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3623
+#: ../src/wbc-gtk.c:3644
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "En el menú «%s» la clave «%s» se usa tanto para «%s» como para «%s»."
 
-#: ../src/wbc-gtk.c:3941
+#: ../src/wbc-gtk.c:3962
 msgid "Display above sheets"
 msgstr "Mostrar sobre las hojas"
 
-#: ../src/wbc-gtk.c:3942
+#: ../src/wbc-gtk.c:3963
 msgid "Display to the left of sheets"
 msgstr "Mostrar a la izquierda de las hojas"
 
-#: ../src/wbc-gtk.c:3943
+#: ../src/wbc-gtk.c:3964
 msgid "Display to the right of sheets"
 msgstr "Mostrar a la derecha de las hojas"
 
-#: ../src/wbc-gtk.c:3954
+#: ../src/wbc-gtk.c:3975
 msgid "Reattach to main window"
 msgstr "Readjuntar a la ventana principal"
 
-#: ../src/wbc-gtk.c:3988
+#: ../src/wbc-gtk.c:4009
 msgid "Hide"
 msgstr "Ocultar"
 
-#: ../src/wbc-gtk.c:4052
+#: ../src/wbc-gtk.c:4073
 msgid "Standard Toolbar"
 msgstr "Barra estándar"
 
-#: ../src/wbc-gtk.c:4053
+#: ../src/wbc-gtk.c:4074
 msgid "Format Toolbar"
 msgstr "Barra de formato"
 
-#: ../src/wbc-gtk.c:4054
+#: ../src/wbc-gtk.c:4075
 msgid "Long Format Toolbar"
 msgstr "Barra de formato largo"
 
-#: ../src/wbc-gtk.c:4055
+#: ../src/wbc-gtk.c:4076
 msgid "Object Toolbar"
 msgstr "Barra de objetos"
 
-#: ../src/wbc-gtk.c:4069
+#: ../src/wbc-gtk.c:4090
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Mostrar/ocultar barra de herramientas %s"
 
-#: ../src/wbc-gtk.c:4654
+#: ../src/wbc-gtk.c:4675
 #, fuzzy, c-format
 #| msgid "Comment in cell %s!%s"
 msgid "Content of %s"
 msgstr "Comentario en la celda %s!%s"
 
-#: ../src/wbc-gtk.c:4669
+#: ../src/wbc-gtk.c:4690
 msgid "Use maximum precision"
 msgstr "Usar precisión máxima"
 
-#: ../src/wbc-gtk.c:4681
+#: ../src/wbc-gtk.c:4702
 msgid "Insert formula below."
 msgstr "Insertar fórmula debajo."
 
-#: ../src/wbc-gtk.c:4687
+#: ../src/wbc-gtk.c:4708
 msgid "Insert formula to side."
 msgstr "Insertar fórmula al lado."
 
-#: ../src/wbc-gtk.c:4771
+#: ../src/wbc-gtk.c:4792
 #, c-format
 msgid "Open %s"
 msgstr "Abrir %s"
 
-#: ../src/wbc-gtk.c:5485
+#: ../src/wbc-gtk.c:5506
 msgid "Autosave prompt"
 msgstr "Preguntar si autoguardar"
 
-#: ../src/wbc-gtk.c:5486
+#: ../src/wbc-gtk.c:5507
 msgid "Ask about autosave?"
 msgstr "¿Preguntar si autoguardar?"
 
-#: ../src/wbc-gtk.c:5492
+#: ../src/wbc-gtk.c:5513
 msgid "Autosave time in seconds"
 msgstr "Tiempo de autoguardar en segundos"
 
-#: ../src/wbc-gtk.c:5493
+#: ../src/wbc-gtk.c:5514
 msgid "Seconds before autosave"
 msgstr "Seguntos antes de autoguardar"
 
