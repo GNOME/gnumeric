@@ -1,3 +1,8 @@
+2012-04-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* widget-editable-label.c (el_get_preferred_width), (el_draw),
+	(el_class_init): fixed label width and background color.
+
 2012-03-02  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.2

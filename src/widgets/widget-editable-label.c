@@ -212,11 +212,16 @@ el_get_preferred_width (GtkWidget *w, gint *minimal_width, gint *natural_width)
 {
 	PangoRectangle logical_rect;
 	PangoLayout *layout;
+	GtkStyleContext *ctxt = gtk_widget_get_style_context (w);
+	GtkStateFlags flags = gtk_widget_get_state_flags (w);
+	GtkBorder border;
 
 	layout = gtk_entry_get_layout (GTK_ENTRY (w));
 	pango_layout_get_extents (layout, NULL, &logical_rect);
-
-	*minimal_width = *natural_width = logical_rect.width / PANGO_SCALE + 2 * 2;
+	gtk_style_context_get_padding (ctxt, flags, &border);
+	
+	*minimal_width = *natural_width = logical_rect.width / PANGO_SCALE
+					 + border.left + border.right;
 }
 
 static void
@@ -252,6 +257,37 @@ el_motion_notify (GtkWidget      *widget,
 	return res;
 }
 
+static gboolean
+el_draw (GtkWidget *w, cairo_t *cr)
+{
+	EditableLabel *el = EDITABLE_LABEL (w);
+	if (el->unedited_text == NULL && el->base_set) {
+		GtkAllocation alloc;
+		PangoLayout *layout;
+		GtkStyleContext *ctxt = gtk_widget_get_style_context (w);
+		GtkStateFlags flags = gtk_widget_get_state_flags (w);
+		GtkBorder border;
+		gtk_widget_get_allocation (w, &alloc);
+		gtk_style_context_get_padding (ctxt, flags, &border);
+		cairo_rectangle (cr, border.left, border.top,
+		                 alloc.width - border.left - border.right,
+		                 alloc.height - border.top - border.bottom);
+		cairo_set_source_rgba (cr,
+		                       el->base.red, el->base.green,
+		                       el->base.blue, el->base.alpha);
+		cairo_fill (cr);
+		layout = gtk_entry_get_layout (GTK_ENTRY (w));
+		cairo_move_to (cr, border.left, border.top);
+		cairo_set_source_rgba (cr,
+		                       el->text.red, el->text.green,
+		                       el->text.blue, el->text.alpha);
+		pango_cairo_show_layout (cr, layout);
+		return TRUE;
+	}
+	
+	return parent_class->draw (w, cr);
+}
+
 static void
 el_class_init (GObjectClass *object_class)
 {
@@ -260,6 +296,7 @@ el_class_init (GObjectClass *object_class)
 	parent_class = g_type_class_peek_parent (object_class);
 
 	widget_class->destroy		  = el_destroy;
+	widget_class->draw		  = el_draw;
 	widget_class->button_press_event  = el_button_press_event;
 	widget_class->key_press_event	  = el_key_press_event;
 	widget_class->get_preferred_width = el_get_preferred_width;
