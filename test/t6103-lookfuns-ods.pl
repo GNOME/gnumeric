@@ -8,7 +8,7 @@ use GnumericTest;
 &message ("Check the ods exporter.");
 
 my $src = "$samples/excel/lookfuns.xls";
-&report_skip ("file $src does not exist") unless -r $src;
+&GnumericTest::report_skip ("file $src does not exist") unless -r $src;
 
 my $tmp = $src;
 $tmp =~ s|^.*/||;
