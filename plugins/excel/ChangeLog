@@ -1,3 +1,7 @@
+2012-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.3
+
 2012-03-27  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_selections): Evidently we should

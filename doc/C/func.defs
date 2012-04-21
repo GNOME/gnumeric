@@ -4344,6 +4344,16 @@ The successive use of the simulation tool also requires that you give to the too
 @SEEALSO=CORREL,FISHER,FISHERINV
 
 @CATEGORY=Statistics
+@FUNCTION=COVARIANCE.S
+@SHORTDESC=sample covariance of two data sets
+@SYNTAX=COVARIANCE.S(array1,array2)
+@ARGUMENTDESCRIPTION=@{array1}: first data set
+@{array2}: set data set
+@DESCRIPTION=Strings and empty cells are simply ignored.
+@EXCEL=This function is Excel compatible.
+@SEEALSO=COVAR,CORREL
+
+@CATEGORY=Statistics
 @FUNCTION=CRITBINOM
 @SHORTDESC=right-tailed critical value of the binomial distribution
 @SYNTAX=CRITBINOM(trials,p,alpha)

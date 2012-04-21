@@ -1,3 +1,7 @@
+2012-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.3
+
 2012-04-06  Morten Welinder  <terra@gnome.org>
 
 	* dialog-search-replace.c (apply_clicked): Use

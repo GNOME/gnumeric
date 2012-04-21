@@ -14972,6 +14972,43 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-COVARIANCE.S">
+      <refmeta>
+        <refentrytitle>
+          <function>COVARIANCE.S</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>COVARIANCE.S</function>
+        </refname>
+        <refpurpose>
+        sample covariance of two data sets
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>COVARIANCE.S</function>(<parameter>array1</parameter>,<parameter>array2</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>array1</parameter>: first data set</para>
+        <para><parameter>array2</parameter>: set data set</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>Strings and empty cells are simply ignored.</para>
+      </refsect1>
+      <refsect1>
+        <title>Microsoft Excel Compatibility</title>
+        <para>This function is Excel compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-COVAR"><function>COVAR</function></link>,
+        <link linkend="gnumeric-function-CORREL"><function>CORREL</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-CRITBINOM">
       <refmeta>
         <refentrytitle>

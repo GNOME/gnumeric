@@ -1,3 +1,7 @@
+2012-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.3
+
 2012-03-21  Morten Welinder  <terra@gnome.org>
 
 	* GnumericTest.pm (test_exporter): Skip if file doesn't exist.
