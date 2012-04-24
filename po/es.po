@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-04-17 15:21+0000\n"
-"PO-Revision-Date: 2012-04-18 17:05+0200\n"
+"POT-Creation-Date: 2012-04-19 14:40+0000\n"
+"PO-Revision-Date: 2012-04-24 11:49+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -309,8 +309,8 @@ msgid ""
 "We already wrote a length for a string that is being truncated due to "
 "encoding problems."
 msgstr ""
-"Hay algo corrupto.\n"
-"Ya escribimos una longitud para una cadena que ha sido truncada debido a "
+"Esto es algo corrupto.\n"
+"Ya escribimos una longitud para una cadena que se ha truncado debido a "
 "problemas de codificación."
 
 #: ../plugins/excel/ms-excel-write.c:6302
@@ -319,7 +319,7 @@ msgstr "No se pudo abrir el flujo «Libro» para escritura\n"
 
 #: ../plugins/excel/ms-excel-write.c:6324
 msgid "Couldn't open stream 'Workbook' for writing\n"
-msgstr "No se puede abrir el flujo «Libro de cuentas» para escritura\n"
+msgstr "No se puede abrir el flujo «Libro de trabajo» para escritura\n"
 
 #: ../plugins/excel/ms-formula-read.c:655
 msgid "Broken function"
@@ -330,77 +330,75 @@ msgstr "Función rota"
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
-"Demasiados argumentos para la función «%s», MS Excel sólo puede manipular %d "
-"no %d"
+"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d no "
+"%d"
 
 #: ../plugins/excel/plugin.xml.in.h:1
 msgid "MS Excel (tm)"
-msgstr "MS Excel™"
+msgstr "MS Excel (tm)"
 
 #: ../plugins/excel/plugin.xml.in.h:2
 msgid "Imports/Exports MS Excel (tm) files"
-msgstr "Importa/exporta archivos Ms Excel™"
+msgstr "Importa/exporta archivos MS Excel (tm)"
 
 #: ../plugins/excel/plugin.xml.in.h:3
 msgid "MS Excel&#8482; (*.xls)"
-msgstr "MS Excel™ (*.xls)"
+msgstr "MS Excel&#8482; (*.xls)"
 
 #: ../plugins/excel/plugin.xml.in.h:4
 msgid "MS Excel&#8482; 97/2000/XP"
-msgstr "MS Excel™ 97/2000/XP"
+msgstr "MS Excel&#8482; 97/2000/XP"
 
 #: ../plugins/excel/plugin.xml.in.h:5
 msgid "MS Excel&#8482; 5.0/95"
-msgstr "MS Excel™ 5.0/95"
+msgstr "MS Excel&#8482; 5.0/95"
 
 #: ../plugins/excel/plugin.xml.in.h:6
 msgid "MS Excel&#8482; 97/2000/XP &amp; 5.0/95"
-msgstr "MS Excel™ 97/2000/XP & 5.0/95"
+msgstr "MS Excel&#8482; 97/2000/XP &amp; 5.0/95"
 
 #: ../plugins/excel/plugin.xml.in.h:7
 msgid "MS Excel&#8482; 2003 SpreadsheetML"
-msgstr "MS Excel™ 2003 SpreadsheetML"
+msgstr "MS Excel&#8482; 2003 SpreadsheetML"
 
 #: ../plugins/excel/plugin.xml.in.h:8
 msgid "MS Excel&#8482; 2007/2010 (*.xlsx)"
-msgstr "MS Excel™; 2007/2010 (*.xlsx)"
+msgstr "MS Excel&#8482; 2007/2010 (*.xlsx)"
 
 #: ../plugins/excel/plugin.xml.in.h:9
 msgid "MS Excel&#8482; 2007 (ECMA 376 1st edition (2006))"
-msgstr "MS Excel (tm) 2007 (ECMA 376 1ª edición (2006))"
+msgstr "MS Excel&#8482; 2007 (ECMA 376 1a edición (2006))"
 
 #: ../plugins/excel/plugin.xml.in.h:10
 msgid "MS Excel&#8482; 2010 (ECMA 376 2nd edition (2008))"
-msgstr "MS Excel (tm) 2010 (ECMA 376 2ª edición (2008))"
+msgstr "MS Excel&#8482; 2010 (ECMA 376 2a edición (2008))"
 
 #: ../plugins/excel/plugin.xml.in.h:11
 msgid "MS Excel&#8482; (*.xls) requiring encoding specification"
-msgstr "MS Excel&#8482; (*.xls) requiere especificación de formato"
+msgstr "MS Excel&#8482; (*.xls) requiere especificación de codificación"
 
 #: ../plugins/excel/xlsx-read-docprops.c:141
 msgid "Corrupt file: Second child element in custom property encountered."
 msgstr ""
-"Archivo corrupto: se encontró un segundo elemento hijo en una propiedad "
-"personalizada."
+"Archivo corrupto: se encontró un segundo elemento secundario en una "
+"propiedad personalizada."
 
 #: ../plugins/excel/xlsx-read-docprops.c:258
-#, fuzzy
-#| msgid "Changing workbook properties"
 msgid "Reading core properties..."
-msgstr "Leyendo las propiedades centrales..."
+msgstr "Leyendo propiedades básicas..."
 
 #: ../plugins/excel/xlsx-read-docprops.c:275
 msgid "Reading extended properties..."
-msgstr "Leyendo las propiedades extendidas..."
+msgstr "Leyendo propiedades extendidas..."
 
 #: ../plugins/excel/xlsx-read-docprops.c:292
 msgid "Reading custom properties..."
-msgstr "Leyendo las propiedades personalizadas..."
+msgstr "Leyendo propiedades personalizadas..."
 
 #: ../plugins/excel/xlsx-read-drawing.c:216
 #, c-format
 msgid "Invalid number '%s' for node %s"
-msgstr "Número «%s» inválido para el nodo %s"
+msgstr "Número «%s» no válido para el nodo %s"
 
 #: ../plugins/excel/xlsx-read-drawing.c:1287
 #, c-format
@@ -409,23 +407,22 @@ msgstr "Color «%s» desconocido"
 
 #: ../plugins/excel/xlsx-read-drawing.c:2056
 msgid "Dropping missing object"
-msgstr "Omitiendo objeto faltante"
+msgstr "Soltando objeto faltante"
 
 #: ../plugins/excel/xlsx-read-drawing.c:2088
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
-msgstr "Omitiendo objeto con ancla incompleto %2x"
+msgstr "Soltando objeto con ancla incompleta %2x"
 
 #: ../plugins/excel/xlsx-read-pivot.c:1188
 #, c-format
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
-msgstr ""
-"Omitiendo campo de grupo pivote no válido para el campo «%s» debido a %s"
+msgstr "Omitiendo campo de grupo pivote no válido por el campo «%s» porque: %s"
 
 #: ../plugins/excel/xlsx-read.c:332
 #, c-format
 msgid "'%s' is corrupt!"
-msgstr "«%s» está corrompido"
+msgstr "«%s» está corrupto."
 
 #: ../plugins/excel/xlsx-read.c:425
 #, c-format
@@ -440,27 +437,27 @@ msgstr "El entero «%s» está fuera de rango, para el atributo %s"
 #: ../plugins/excel/xlsx-read.c:472 ../plugins/excel/xlsx-read.c:501
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
-msgstr "Entero «%s» inválido para el atributo %s"
+msgstr "Entero «%s» no válido para el atributo %s"
 
 #: ../plugins/excel/xlsx-read.c:527
 #, c-format
 msgid "Invalid RRGGBB color '%s' for attribute %s"
-msgstr "Color RRGGBB «%s» inválido para el atributo %s"
+msgstr "Color RRGGBB «%s» no válido para el atributo %s"
 
 #: ../plugins/excel/xlsx-read.c:558
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
-msgstr "Número inválido «%s» para el atributo %s"
+msgstr "Número no válido «%s» para el atributo %s"
 
 #: ../plugins/excel/xlsx-read.c:583
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
-msgstr "Posición de celda «%s» inválida para el atributo %s"
+msgstr "Posición de celda «%s» no válida para el atributo %s"
 
 #: ../plugins/excel/xlsx-read.c:606
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
-msgstr "Rango inválido «%s» para el atributo %s"
+msgstr "Rango «%s» no válido para el atributo %s"
 
 #: ../plugins/excel/xlsx-read.c:798
 #, c-format
@@ -470,27 +467,27 @@ msgstr "Tema de color %d desconocido"
 #: ../plugins/excel/xlsx-read.c:944
 #, c-format
 msgid "Undefined number format id '%s'"
-msgstr "Id de formato de número «%s» indefinido"
+msgstr "Id de formato de número «%s» no definido"
 
 #: ../plugins/excel/xlsx-read.c:1125 ../plugins/excel/xlsx-read.c:3139
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
-msgstr "Color «%s» inválido para el atributo rgb"
+msgstr "Color «%s» no válido para el atributo rgb"
 
 #: ../plugins/excel/xlsx-read.c:1155 ../plugins/excel/xlsx-read.c:1164
 #, c-format
 msgid "Undefined style record '%d'"
-msgstr "Registro de estilo indefinido «%d»"
+msgstr "Registro de estilo «%d» no definido"
 
 #: ../plugins/excel/xlsx-read.c:1173
 #, c-format
 msgid "Undefined partial style record '%d'"
-msgstr "Registro de estilo parcial indefinido «%d»"
+msgstr "Registro de estilo parcial no definido «%d»"
 
 #: ../plugins/excel/xlsx-read.c:1210
 #, c-format
 msgid "Invalid sst ref '%s'"
-msgstr "Referencia sst %s inválida"
+msgstr "Referencia sst «%s» no válida"
 
 #: ../plugins/excel/xlsx-read.c:1338
 #, c-format
@@ -499,13 +496,14 @@ msgstr "Celda inválida %s"
 
 #: ../plugins/excel/xlsx-read.c:1455
 msgid "Ignoring column information that does not specify first or last."
-msgstr "Ignorar la información de columnas que no especifica primero o último."
+msgstr ""
+"Ignorando la información de la columna que no especifica primera o última."
 
 #: ../plugins/excel/xlsx-read.c:1765
 #: ../plugins/openoffice/openoffice-read.c:2323
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
-msgstr "Ignorando datos inválidos debido a: %s"
+msgstr "Ignorando datos de validación no válidos porque: %s"
 
 #: ../plugins/excel/xlsx-read.c:2179
 msgid "Undefined"
@@ -514,7 +512,7 @@ msgstr "No definido"
 #: ../plugins/excel/xlsx-read.c:2222
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
-msgstr "Ignorando formato condicional no tratado del tipo «%s»"
+msgstr "Ignorando formato condicional no controlado de tipo «%s»"
 
 #: ../plugins/excel/xlsx-read.c:2603
 msgid "Unknown type of hyperlink"
@@ -522,22 +520,22 @@ msgstr "Tipo de hiperenlace desconocido"
 
 #: ../plugins/excel/xlsx-read.c:2865
 msgid "Ignoring a sheet without a name"
-msgstr "Ignorar una hoja sin un nombre"
+msgstr "Ignorando una hoja sin un nombre"
 
 #: ../plugins/excel/xlsx-read.c:2935
 #, c-format
 msgid "Failed to define name: %s"
-msgstr "Falló al definir el nombre: «%s»"
+msgstr "Falló al definir el nombre: %s"
 
 #: ../plugins/excel/xlsx-read.c:3329
 #, c-format
 msgid "Missing part-id for sheet '%s'"
-msgstr "Para el id de parte para la hoja «%s»"
+msgstr "Falta el ID de la parte para la hoja «%s»"
 
 #: ../plugins/excel/xlsx-read.c:3354
 #, c-format
 msgid "Reading sheet '%s'..."
-msgstr "Leyendo la hoja '%s'..."
+msgstr "Leyendo la hoja «%s»..."
 
 #: ../plugins/excel/xlsx-read.c:3362
 msgid "Reading comments..."
