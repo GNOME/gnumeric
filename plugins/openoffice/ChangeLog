@@ -1,3 +1,29 @@
+2012-04-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_character_styles): also write AC-weight1000"
+	* openoffice-read.c (oo_text_p_t): new
+	(OOParseState): new fields
+	(odf_push_text_p): new
+	(odf_pop_text_p): new
+	(oo_cell_start): use new field structure
+	(odf_get_curr_cell_length): new
+	(oo_cell_content_start): call odf_push_text_p
+	(oo_cell_content_end): call odf_pop_text_p
+	(oo_cell_content_span_start): rename to odf_text_span_start and use
+	new fields
+	(oo_cell_content_span_end): rename to odf_text_span_end
+	(oo_cell_content_special): rename to odf_text_special
+	(oo_cell_content_space): rename to odf_text_space
+	(oo_cell_content_symbol): rename to odf_text_symbol
+	(odf_get_curr_comment_length): new
+	(odf_annotation_content_special): delete
+	(odf_annotation_content_symbol): delete
+	(odf_annotation_content_space): delete
+	(odf_annotation_content_span_start): delete
+	(odf_annotation_content_start): call odf_push_text_p
+	(odf_annotation_content_span_end): odfrename to _text_content_end
+	(openoffice_file_open): handle field changes
+
 2012-04-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.3

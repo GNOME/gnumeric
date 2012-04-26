@@ -1709,7 +1709,7 @@ odf_write_character_styles (GnmOOExport *state)
 {
 	int i;
 
-	for (i = 100; i < 1000; i+=100) {
+	for (i = 100; i <= 1000; i+=100) {
 		char * str = g_strdup_printf ("AC-weight%i", i);
 		odf_start_style (state->xml, str, "text");
 		gsf_xml_out_start_element (state->xml, STYLE "text-properties");
