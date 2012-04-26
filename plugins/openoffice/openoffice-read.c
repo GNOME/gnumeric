@@ -311,6 +311,7 @@ typedef struct _OOParseState OOParseState;
 
 typedef struct {
 	gboolean         permanent;
+	gboolean         p_seen;
 	guint            offset;
 	GSList          *span_style_stack;
 	gboolean	 content_is_simple;
@@ -448,50 +449,6 @@ static char const *odf_strunescape (char const *string, GString *target,
 
 
 /* Implementations */
-
-static void
-odf_push_text_p (OOParseState *state, gboolean permanent, void (*add_text) (OOParseState *state, char const *str),
-		     guint (*get_curr_length) (OOParseState *state),
-		     void (*apply_style) (GsfXMLIn *xin, OOParseState *state, char *name, int start, int end))
-{
-	oo_text_p_t *ptr;
-
-	g_return_if_fail (state != NULL);
-	g_return_if_fail (add_text != NULL);
-	g_return_if_fail (get_curr_length != NULL);
-
-	if (permanent)
-		ptr = &(state->text_p_for_cell);
-	else {
-		ptr = g_new0 (oo_text_p_t, 1);
-		ptr->permanent = FALSE;
-		ptr->content_is_simple = TRUE;
-	}
-	ptr->offset = 0;
-	ptr->span_style_stack = NULL;
-	ptr->add_text = add_text;
-	ptr->get_curr_length = get_curr_length;
-	ptr->apply_style = apply_style;
-	state->text_p_stack = g_slist_prepend (state->text_p_stack, ptr);
-}
-
-static void
-odf_pop_text_p (OOParseState *state)
-{
-	oo_text_p_t *ptr;
-	GSList *link = state->text_p_stack;
-
-	g_return_if_fail (state->text_p_stack != NULL);
-	
-	ptr = link->data;
-	g_slist_free_full (ptr->span_style_stack, g_free);
-	ptr->span_style_stack = NULL;
-	if (!ptr->permanent)
-		g_free (ptr);
-	
-	state->text_p_stack = g_slist_remove_link (state->text_p_stack, link);
-	g_slist_free_1 (link);
-}
 
 static void
 odf_go_string_append_c_n (GString *target, char c, int n)
@@ -1499,6 +1456,173 @@ odf_strunescape (char const *string, GString *target,
 	g_string_truncate (target, oldlen);
 	return NULL;
 }
+
+/* Handle formatted text inside text:p */
+static void
+odf_push_text_p (OOParseState *state, gboolean permanent, void (*add_text) (OOParseState *state, char const *str),
+		     guint (*get_curr_length) (OOParseState *state),
+		     void (*apply_style) (GsfXMLIn *xin, OOParseState *state, char *name, int start, int end))
+{
+	oo_text_p_t *ptr;
+
+	g_return_if_fail (state != NULL);
+	g_return_if_fail (add_text != NULL);
+	g_return_if_fail (get_curr_length != NULL);
+
+	if (permanent)
+		ptr = &(state->text_p_for_cell);
+	else {
+		ptr = g_new0 (oo_text_p_t, 1);
+		ptr->permanent = FALSE;
+		ptr->content_is_simple = TRUE;
+	}
+	ptr->p_seen = FALSE;
+	ptr->offset = 0;
+	ptr->span_style_stack = NULL;
+	ptr->add_text = add_text;
+	ptr->get_curr_length = get_curr_length;
+	ptr->apply_style = apply_style;
+	state->text_p_stack = g_slist_prepend (state->text_p_stack, ptr);
+}
+
+static void
+odf_pop_text_p (OOParseState *state)
+{
+	oo_text_p_t *ptr;
+	GSList *link = state->text_p_stack;
+
+	g_return_if_fail (state->text_p_stack != NULL);
+	
+	ptr = link->data;
+	g_slist_free_full (ptr->span_style_stack, g_free);
+	ptr->span_style_stack = NULL;
+	if (!ptr->permanent)
+		g_free (ptr);
+	
+	state->text_p_stack = g_slist_remove_link (state->text_p_stack, link);
+	g_slist_free_1 (link);
+}
+
+static void
+odf_text_content_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+       OOParseState *state = (OOParseState *)xin->user_state;
+       oo_text_p_t *ptr = state->text_p_stack->data;
+
+       if (ptr->p_seen)
+	       ptr->add_text (state, "\n");
+       else
+	       ptr->p_seen = TRUE;
+}
+
+static void
+odf_text_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	oo_text_p_t *ptr = state->text_p_stack->data;
+
+	if (strlen (xin->content->str) > ptr->offset)
+		ptr->add_text 
+			(state, xin->content->str + ptr->offset);
+}
+
+static void
+odf_text_span_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+       OOParseState *state = (OOParseState *)xin->user_state;
+       oo_text_p_t *ptr = state->text_p_stack->data;
+
+	if (ptr->content_is_simple) {
+		span_style_info_t *ssi = g_new0 (span_style_info_t, 1);
+
+		if (xin->content->str != NULL && *xin->content->str != 0) {
+			ptr->add_text (state, xin->content->str + ptr->offset);
+			ptr->offset = strlen (xin->content->str);
+		}
+
+		ssi->start = ptr->get_curr_length (state);
+
+		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TEXT, "style-name"))
+				ssi->style_name = g_strdup (attrs[1]);
+
+		ptr->span_style_stack = g_slist_prepend (ptr->span_style_stack, ssi);
+	}
+}
+
+
+static void
+odf_text_span_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	oo_text_p_t *ptr = state->text_p_stack->data;
+
+	if (ptr->content_is_simple) {
+		int end;
+		span_style_info_t *ssi = NULL;
+
+		g_return_if_fail (ptr->span_style_stack != NULL);
+
+		if (xin->content->str != NULL && *xin->content->str != 0) {
+			ptr->add_text (state, xin->content->str + ptr->offset);
+			ptr->offset = strlen (xin->content->str);
+		}
+
+		end = ptr->get_curr_length (state);
+
+		ssi = ptr->span_style_stack->data;
+		ptr->span_style_stack = ptr->span_style_stack->next;
+
+		if (ssi != NULL) {
+			if (ssi->style_name != NULL && end > 0)
+				ptr->apply_style (xin, state, ssi->style_name, ssi->start, end);
+			g_free (ssi->style_name);
+			g_free (ssi);
+		}
+	}
+}
+
+static void
+odf_text_special (GsfXMLIn *xin, int count, char const *sym)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	oo_text_p_t  *ptr = state->text_p_stack->data;
+
+	if (ptr->content_is_simple) {
+		if (xin->content->str != NULL && *xin->content->str != 0) {
+			ptr->add_text (state, xin->content->str + ptr->offset);
+			ptr->offset = strlen (xin->content->str);
+		}
+
+		if (count == 1)
+			ptr->add_text (state, sym);
+		else if (count > 0) {
+			gchar *space = g_strnfill (count, *sym);
+			ptr->add_text (state, space);
+			g_free (space);
+		}
+	}
+}
+
+static void
+odf_text_space (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	int count = 0;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_int_range (xin, attrs, OO_NS_TEXT, "c", &count, 0, INT_MAX))
+		       ;
+	odf_text_special (xin, count, " ");
+}
+
+static void
+odf_text_symbol (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	odf_text_special (xin, 1, xin->node->user_data.v_str);
+}
+
+/* End of handle formatted text inside text:p */
+
 
 static void
 oo_sheet_style_free (OOSheetStyle *style)
@@ -3408,100 +3532,6 @@ oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 
-static void
-odf_text_span_start (GsfXMLIn *xin, xmlChar const **attrs)
-{
-       OOParseState *state = (OOParseState *)xin->user_state;
-       oo_text_p_t *ptr = state->text_p_stack->data;
-
-	if (ptr->content_is_simple) {
-		span_style_info_t *ssi = g_new0 (span_style_info_t, 1);
-
-		if (xin->content->str != NULL && *xin->content->str != 0) {
-			ptr->add_text (state, xin->content->str + ptr->offset);
-			ptr->offset = strlen (xin->content->str);
-		}
-
-		ssi->start = ptr->get_curr_length (state);
-
-		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TEXT, "style-name"))
-				ssi->style_name = g_strdup (attrs[1]);
-
-		ptr->span_style_stack = g_slist_prepend (ptr->span_style_stack, ssi);
-	}
-}
-
-
-static void
-odf_text_span_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-	OOParseState *state = (OOParseState *)xin->user_state;
-	oo_text_p_t *ptr = state->text_p_stack->data;
-
-	if (ptr->content_is_simple) {
-		int end;
-		span_style_info_t *ssi = NULL;
-
-		g_return_if_fail (ptr->span_style_stack != NULL);
-
-		if (xin->content->str != NULL && *xin->content->str != 0) {
-			ptr->add_text (state, xin->content->str + ptr->offset);
-			ptr->offset = strlen (xin->content->str);
-		}
-
-		end = ptr->get_curr_length (state);
-
-		ssi = ptr->span_style_stack->data;
-		ptr->span_style_stack = ptr->span_style_stack->next;
-
-		if (ssi != NULL) {
-			if (ssi->style_name != NULL && end > 0)
-				ptr->apply_style (xin, state, ssi->style_name, ssi->start, end);
-			g_free (ssi->style_name);
-			g_free (ssi);
-		}
-	}
-}
-
-static void
-odf_text_special (GsfXMLIn *xin, int count, char const *sym)
-{
-	OOParseState *state = (OOParseState *)xin->user_state;
-	oo_text_p_t  *ptr = state->text_p_stack->data;
-
-	if (ptr->content_is_simple) {
-		if (xin->content->str != NULL && *xin->content->str != 0) {
-			ptr->add_text (state, xin->content->str + ptr->offset);
-			ptr->offset = strlen (xin->content->str);
-		}
-
-		if (count == 1)
-			ptr->add_text (state, sym);
-		else if (count > 0) {
-			gchar *space = g_strnfill (count, *sym);
-			ptr->add_text (state, space);
-			g_free (space);
-		}
-	}
-}
-
-static void
-odf_text_space (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	int count = 0;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_int_range (xin, attrs, OO_NS_TEXT, "c", &count, 0, INT_MAX))
-		       ;
-	odf_text_special (xin, count, " ");
-}
-
-static void
-odf_text_symbol (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
-{
-	odf_text_special (xin, 1, xin->node->user_data.v_str);
-}
 
 static void
 oo_cell_content_link (GsfXMLIn *xin, xmlChar const **attrs)
@@ -8574,15 +8604,6 @@ oo_marker_free (OOMarker *m)
 	g_free (m);
 }
 
-static void
-odf_annotation_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
-{
-	OOParseState *state = (OOParseState *)xin->user_state;
-
-	state->cell_comment = cell_set_comment (state->pos.sheet, &state->pos.eval,
-						NULL, NULL, NULL);
-}
-
 static guint 
 odf_get_curr_comment_length (OOParseState *state)
 {
@@ -8642,35 +8663,16 @@ odf_apply_character_style_to_comment
 }
 
 static void
-odf_annotation_content_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
-{
-       OOParseState *state = (OOParseState *)xin->user_state;
-       char const *old = cell_comment_text_get (state->cell_comment);
-
-       odf_push_text_p (state, FALSE, odf_add_text_to_comment, 
-			odf_get_curr_comment_length,
-			odf_apply_character_style_to_comment);
-
-       if (old != NULL && strlen (old) > 0) {
-	       char *new = g_strconcat (old, "\n", NULL);
-	       cell_comment_text_set (state->cell_comment, new);
-	       g_free (new);
-       }
-}
-
-static void
-odf_text_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+odf_annotation_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	oo_text_p_t *ptr = state->text_p_stack->data;
 
-	if (strlen (xin->content->str) > ptr->offset)
-		ptr->add_text 
-			(state, xin->content->str + ptr->offset);
-
-	odf_pop_text_p (state);
+	state->cell_comment = cell_set_comment (state->pos.sheet, &state->pos.eval,
+						NULL, NULL, NULL);
+	odf_push_text_p (state, FALSE, odf_add_text_to_comment, 
+			 odf_get_curr_comment_length,
+			 odf_apply_character_style_to_comment);
 }
-
 
 static void
 odf_annotation_author_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
@@ -8686,6 +8688,7 @@ odf_annotation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 
 	state->cell_comment = NULL;
+	odf_pop_text_p (state);
 }
 
 /****************************************************************************/
@@ -9971,16 +9974,16 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 
 		GSF_XML_IN_NODE (TABLE_ROW, TABLE_CELL, OO_NS_TABLE, "table-cell", GSF_XML_NO_CONTENT, &oo_cell_start, &oo_cell_end),
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, &oo_cell_content_start, &oo_cell_content_end),
-		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, &odf_text_space, NULL),
-		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, &oo_cell_content_link, NULL),
-	            GSF_XML_IN_NODE_FULL (CELL_TEXT, CELL_TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_text_symbol, NULL, .v_str = "\n"),
-	            GSF_XML_IN_NODE_FULL (CELL_TEXT, CELL_TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_SHARED_CONTENT, FALSE, FALSE, odf_text_symbol, NULL, .v_str = "\t"),
-		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, &odf_text_span_start, &odf_text_span_end),
-		      GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		      GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		      GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_LINE_BREAK,    OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		      GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_SPAN_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, NULL, NULL),
-		      GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_S,         OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, &odf_text_space, NULL),
+		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, &oo_cell_content_link, NULL),
+	            GSF_XML_IN_NODE_FULL (CELL_TEXT, TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_text_symbol, NULL, .v_str = "\n"),
+	            GSF_XML_IN_NODE_FULL (CELL_TEXT, TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_SHARED_CONTENT, FALSE, FALSE, odf_text_symbol, NULL, .v_str = "\t"),
+		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_SPAN,      OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, &odf_text_span_start, &odf_text_span_end),
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_LINE_BREAK,    OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_SPAN_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, NULL, NULL),
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, NULL, NULL),		/* ignore for now */
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),			/* ignore for now */
 		    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
@@ -10002,15 +10005,11 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_TEXT_BOX, OO_NS_DRAW, "text-box", GSF_XML_NO_CONTENT, &od_draw_text_box, NULL),
 		    GSF_XML_IN_NODE (DRAW_TEXT_BOX, DRAW_TEXT_BOX_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (TABLE_CELL, CELL_ANNOTATION, OO_NS_OFFICE, "annotation", GSF_XML_NO_CONTENT, &odf_annotation_start, &odf_annotation_end),
-	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, &odf_annotation_content_start, &odf_text_content_end),
-  		      GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT, CELL_ANNOTATION_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, &odf_text_space, NULL),
-		      GSF_XML_IN_NODE_FULL (CELL_ANNOTATION_TEXT, CELL_ANNOTATION_TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_text_symbol, NULL, .v_str = "\n"),
-  		      GSF_XML_IN_NODE_FULL (CELL_ANNOTATION_TEXT, CELL_ANNOTATION_TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_text_symbol, NULL, .v_str = "\t"),
-		      GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT, CELL_ANNOTATION_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, &odf_text_span_start, &odf_text_span_end),
-		        GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT_SPAN, CELL_ANNOTATION_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		        GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT_SPAN, CELL_ANNOTATION_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		        GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT_SPAN, CELL_ANNOTATION_TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		        GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT_SPAN, CELL_ANNOTATION_TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+	            GSF_XML_IN_NODE (CELL_ANNOTATION, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_CONTENT, &odf_text_content_start, &odf_text_content_end),
+  		      GSF_XML_IN_NODE (TEXT_CONTENT, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+		      GSF_XML_IN_NODE (TEXT_CONTENT, TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+  		      GSF_XML_IN_NODE (TEXT_CONTENT, TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+		      GSF_XML_IN_NODE (TEXT_CONTENT, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_AUTHOR, OO_NS_DC, "creator", GSF_XML_CONTENT, NULL, &odf_annotation_author_end),
 	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_DATE, OO_NS_DC, "date", GSF_XML_NO_CONTENT, NULL, NULL),
 
