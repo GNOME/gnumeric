@@ -6567,6 +6567,7 @@ od_style_prop_text (GsfXMLIn *xin, xmlChar const **attrs)
 	int underline_type = 0;
 	int underline_style = 0;
 	gboolean underline_bold = FALSE;
+	GnmColor *color;
 
 	g_return_if_fail (state->cur_style.text != NULL);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -6608,10 +6609,22 @@ od_style_prop_text (GsfXMLIn *xin, xmlChar const **attrs)
 			underline_bold = attr_eq (attrs[1], "bold");
 		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-line-through-style",
 				       line_through_styles, &tmp)) {
-				attr = pango_attr_strikethrough_new (tmp > 0);
-				attr->start_index = 0;
-				attr->end_index = 0;
-				pango_attr_list_insert (state->cur_style.text, attr);
+			attr = pango_attr_strikethrough_new (tmp > 0);
+			attr->start_index = 0;
+			attr->end_index = 0;
+			pango_attr_list_insert (state->cur_style.text, attr);
+		} else if ((color = oo_attr_color (xin, attrs, OO_NS_FO, "color"))) {
+			attr = go_color_to_pango (color->go_color, TRUE);
+			style_color_unref (color);
+			attr->start_index = 0;
+			attr->end_index = 0;
+			pango_attr_list_insert (state->cur_style.text, attr);			
+		} else if ((color = oo_attr_color (xin, attrs, OO_NS_FO, "background-color"))) {
+			attr = go_color_to_pango (color->go_color, FALSE);
+			style_color_unref (color);
+			attr->start_index = 0;
+			attr->end_index = 0;
+			pango_attr_list_insert (state->cur_style.text, attr);
 		}
 
 	if (underline_style > 0) {

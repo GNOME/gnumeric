@@ -1,5 +1,8 @@
 Gnumeric 1.11.4
 
+Andreas:
+	* Handle coloured text formatting during ODF import.
+
 --------------------------------------------------------------------------
 Gnumeric 1.11.3
 
