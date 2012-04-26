@@ -1,5 +1,21 @@
 2012-04-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_text_p_t): change arguments for apply_style
+	(odf_push_text_p): ditto
+	(odf_text_span_end): create attribute list here already
+	(oo_apply_character_style): change arguments
+	(od_draw_text_frame_end): new
+	(odf_get_curr_textbox_length): new
+	(odf_add_text_to_textbox): new
+	(odf_apply_markup_to_object): new
+	(odf_apply_character_style_to_textbox): new
+	(od_draw_text_box): call odf_push_text_p
+	(odf_apply_character_style_to_comment): use odf_apply_markup_to_object
+	(odf_rect): call odf_push_text_p
+	(opendoc_content_dtd): connect new handlers
+
+2012-04-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c: collect all text:p handling functions together
 	(odf_annotation_content_start): rename to odf_text_content_start
 	(opendoc_content_dtd): remove duplicate declarations
