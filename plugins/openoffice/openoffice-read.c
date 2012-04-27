@@ -5345,7 +5345,7 @@ odf_hf_page_count (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 static void
 odf_hf_file (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static OOEnum const dropdown_types [] = {
+	static OOEnum const display_types [] = {
 		{ "full",	  0 },
 		{ "path",	  1 },
 		{ "name", 2 },
@@ -5360,7 +5360,7 @@ odf_hf_file (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_enum (xin, attrs, OO_NS_TABLE, "display-list", dropdown_types, &tmp)) ;
+		if (oo_attr_enum (xin, attrs, OO_NS_TEXT, "display", display_types, &tmp)) ;
 
 	switch (tmp) {
 	case 0:

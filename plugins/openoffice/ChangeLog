@@ -1,5 +1,9 @@
 2012-04-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_hf_file): use the correct attribute name
+
+2012-04-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_header_footer): do not use the cell text
 	(odf_hf_region_end): new
 	(odf_hf_region): call odf_push_text_p
