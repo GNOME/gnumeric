@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-04-19 14:41+0000\n"
-"PO-Revision-Date: 2012-04-25 12:01+0200\n"
+"POT-Creation-Date: 2012-04-25 10:04+0000\n"
+"PO-Revision-Date: 2012-04-27 10:46+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -538,22 +538,27 @@ msgid ""
 "IMARCCOSH returns the complex hyperbolic arccosine of the complex number @"
 "{z}. The branch cut is on the real axis, less than 1."
 msgstr ""
+"IMARCCOSH devuelve el arcocoseno hiperbólico complejo del número complejo @"
+"{z}. Los cortes de la rama están en el eje imaginario, por debajo de -1."
 
 #: ../plugins/fn-complex/functions.c:973
 msgid "IMARCTANH:the complex hyperbolic arctangent of the complex number @{z}"
 msgstr ""
-"IMARCTANH: la arcotangente hiperbólica completa del número complejo @{z}"
+"IMARCTANH: la arcotangente hiperbólica compleja del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:975
 msgid ""
 "IMARCTANH returns the complex hyperbolic arctangent of the complex number @"
 "{z}. The branch cuts are on the real axis, less than -1 and greater than 1."
 msgstr ""
+"IMARCTANH devuelve la arcotangente hiperbólica compleja de un número "
+"complejo @{z}. Los cortes de la rama están en el eje imaginario, por debajo "
+"de -1 y por encima de 1."
 
 #: ../plugins/fn-complex/functions.c:1001
 msgid "IMARCSECH:the complex hyperbolic arcsecant of the complex number @{z}"
 msgstr ""
-"IMARCSECH: la arcosecante hiperbólica completa del número complejo @{z}"
+"IMARCSECH: la arcosecante hiperbólica compleja del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:1025
 msgid "IMARCCSCH:the complex hyperbolic arccosecant of the complex number @{z}"
@@ -727,96 +732,109 @@ msgid ""
 "DCOUNTA:count of cells with data in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
+"DCOUNTA: conteo de celdas con datos en @{campo} de @{base de datos} "
+"pertenecientes a los registros que coinciden con los @{criterios}"
 
 #: ../plugins/fn-database/functions.c:402
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3."
-msgstr ""
+msgstr "DCOUNTA(A1:C7; \"Salario\"; A9:A11) equivale a 3."
 
 #: ../plugins/fn-database/functions.c:403
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2."
-msgstr ""
+msgstr "DCOUNTA(A1:C7; \"Salario\"; A9:B11) equivale a 2."
 
 #: ../plugins/fn-database/functions.c:404
 msgid "DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2."
-msgstr ""
+msgstr "DCOUNTA(A1:C7; \"Nombre\"; A9:B11) equivale a 2."
 
 #: ../plugins/fn-database/functions.c:425
 msgid ""
 "DGET:a value from @{field} in @{database} belonging to records that match @"
 "{criteria}"
 msgstr ""
+"DGET: un valor de @{campo} de @{base de datos} perteneciente a un registro "
+"que coincide con los @{criterios}"
 
 #: ../plugins/fn-database/functions.c:434
 msgid "If none of the records match the conditions, DGET returns #VALUE!"
 msgstr ""
+"Si ninguno de los registros cumple las condiciones, DGET devuelve #VALUE!"
 
 #: ../plugins/fn-database/functions.c:435
 msgid "If more than one record match the conditions, DGET returns #NUM!"
-msgstr ""
+msgstr "Si más de un registro cumple las condiciones, DGET devueve #NUM!"
 
 #: ../plugins/fn-database/functions.c:436
 msgid "DGET(A1:C7, \"Salary\", A9:A10) equals 34323."
-msgstr ""
+msgstr "DGET(A1:C7; \"Salario\"; A9:A10) equivale a 34323."
 
 #: ../plugins/fn-database/functions.c:437
 msgid "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\"."
-msgstr ""
+msgstr "DGET(A1:C7; \"Nombre\"; A9:A10) equivale a «Clark»."
 
 #: ../plugins/fn-database/functions.c:466
 msgid ""
 "DMAX:largest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
 msgstr ""
+"DMAX: número más grande en @{campo} de @{base de datos} perteneciente a un "
+"registro que coincide con los @{criterios}"
 
 #: ../plugins/fn-database/functions.c:475
 msgid "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242."
-msgstr ""
+msgstr "DMAX(A1:C7; \"Salario\"; A9:A11) equivale a 47242."
 
 #: ../plugins/fn-database/functions.c:476
 msgid "DMAX(A1:C7, \"Age\", A9:A11) equals 45."
-msgstr ""
+msgstr "DMAX(A1:C7; \"Edad\"; A9:A11) equivale a 45."
 
 #: ../plugins/fn-database/functions.c:477
 msgid "DMAX(A1:C7, \"Age\", A9:B11) equals 43."
-msgstr ""
+msgstr "DMAX(A1:C7; \"Edad\"; A9:B11) equivale a 43."
 
 #: ../plugins/fn-database/functions.c:502
 msgid ""
 "DMIN:smallest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
 msgstr ""
+"DMIN: número más pequeño en @{campo} de @{base de datos} perteneciente a un "
+"registro que coincide con los @{criterios}"
 
 #: ../plugins/fn-database/functions.c:511
 msgid "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323."
-msgstr ""
+msgstr "DMIN(A1:C7; \"Salario\"; A9:B11) equivale a 34323."
 
 #: ../plugins/fn-database/functions.c:512
 msgid "DMIN(A1:C7, \"Age\", A9:B11) equals 29."
-msgstr ""
+msgstr "DMIN(A1:C7; \"Edad\"; A9:B11) equivale a 29."
 
 #: ../plugins/fn-database/functions.c:535
 msgid ""
 "DPRODUCT:product of all values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
+"DPRODUCT: producto de todos los valores en @{campo} de @{base de datos} "
+"pertenecientes a los registros que coinciden con los @{criterios}"
 
 #: ../plugins/fn-database/functions.c:544
 msgid "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247."
-msgstr ""
+msgstr "DPRODUCT(A1:C7; \"Edad\"; A9:B11) equivale a 1247."
 
 #: ../plugins/fn-database/functions.c:568
 msgid ""
 "DSTDEV:sample standard deviation of the values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
 msgstr ""
+"DSTDEV: desviación estándar de una muestra de valores en @{campo} de @{base "
+"de datos} pertenecientes a los registros que coinciden con los @{criterios}"
 
 #: ../plugins/fn-database/functions.c:577
 msgid "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949."
-msgstr ""
+msgstr "DSTDEV(A1:C7; \"Edad\"; A9:B11) equivale a 9.89949."
 
 #: ../plugins/fn-database/functions.c:578
 msgid "DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506."
-msgstr ""
+msgstr "DSTDEV(A1:C7; \"Salario\"; A9:B11) equivale a 9135.112506."
 
 #: ../plugins/fn-database/functions.c:601
 msgid ""
