@@ -5237,9 +5237,16 @@ odf_header_footer (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 	state->print.cur_hf_format = &state->print.cur_hf->middle_format;
 
-	odf_push_text_p (state, TRUE, odf_add_text_to_hf, 
+	odf_push_text_p (state, FALSE, odf_add_text_to_hf, 
 			 odf_get_curr_hf_length,
 			 odf_apply_character_style_to_hf);
+}
+
+static void
+odf_hf_region_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	odf_pop_text_p (state);
 }
 
 static void
@@ -5259,6 +5266,9 @@ odf_hf_region (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 			state->print.cur_hf_format = &state->print.cur_hf->right_format;
 			break;
 		}
+	odf_push_text_p (state, FALSE, odf_add_text_to_hf, 
+			 odf_get_curr_hf_length,
+			 odf_apply_character_style_to_hf);
 }
 
 static void
@@ -9712,7 +9722,7 @@ GSF_XML_IN_NODE (OFFICE_DOC_STYLES, MASTER_STYLES, OO_NS_OFFICE, "master-styles"
 GSF_XML_IN_NODE (MASTER_PAGE, MASTER_PAGE_HEADER_LEFT, OO_NS_STYLE, "header-left", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (MASTER_PAGE, MASTER_PAGE_FOOTER_LEFT, OO_NS_STYLE, "footer-left", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE_FULL (MASTER_PAGE, MASTER_PAGE_HEADER, OO_NS_STYLE, "header", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_header_footer, &odf_header_footer_end, 0),
-GSF_XML_IN_NODE_FULL (MASTER_PAGE_HEADER, MASTER_PAGE_HF_R_LEFT, OO_NS_STYLE, "region-left", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_hf_region, NULL, 0),
+GSF_XML_IN_NODE_FULL (MASTER_PAGE_HEADER, MASTER_PAGE_HF_R_LEFT, OO_NS_STYLE, "region-left", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_hf_region, &odf_hf_region_end, 0),
 GSF_XML_IN_NODE (MASTER_PAGE_HF_R_LEFT, MASTER_PAGE_HF_P, OO_NS_TEXT, "p", GSF_XML_CONTENT, &odf_text_content_start, &odf_text_content_end),
 GSF_XML_IN_NODE (MASTER_PAGE_HF_P, TEXT_S,         OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, &odf_text_space, NULL),
 GSF_XML_IN_NODE_FULL (MASTER_PAGE_HF_P, TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_text_symbol, NULL, .v_str = "\n"),
@@ -9736,9 +9746,9 @@ GSF_XML_IN_NODE (TEXT_SPAN, HF_PAGE_COUNT, OO_NS_TEXT, "page-count", GSF_XML_NO_
 GSF_XML_IN_NODE (TEXT_SPAN, HF_FILE_NAME, OO_NS_TEXT, "file-name", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 GSF_XML_IN_NODE (TEXT_SPAN, HF_EXPRESSION, OO_NS_TEXT, "expression", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 
-GSF_XML_IN_NODE_FULL (MASTER_PAGE_HEADER, MASTER_PAGE_HF_R_RIGHT, OO_NS_STYLE, "region-right", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_hf_region, NULL, 2),
+GSF_XML_IN_NODE_FULL (MASTER_PAGE_HEADER, MASTER_PAGE_HF_R_RIGHT, OO_NS_STYLE, "region-right", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_hf_region, &odf_hf_region_end, 2),
     GSF_XML_IN_NODE (MASTER_PAGE_HF_R_RIGHT, MASTER_PAGE_HF_P, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd */
-GSF_XML_IN_NODE_FULL (MASTER_PAGE_HEADER, MASTER_PAGE_HF_R_CENTER, OO_NS_STYLE, "region-center", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_hf_region, NULL, 1),
+GSF_XML_IN_NODE_FULL (MASTER_PAGE_HEADER, MASTER_PAGE_HF_R_CENTER, OO_NS_STYLE, "region-center", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_hf_region, &odf_hf_region_end, 1),
     GSF_XML_IN_NODE (MASTER_PAGE_HF_R_CENTER, MASTER_PAGE_HF_P, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd */
   GSF_XML_IN_NODE (MASTER_PAGE_HEADER, MASTER_PAGE_HF_P, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd */
   GSF_XML_IN_NODE_FULL (MASTER_PAGE, MASTER_PAGE_FOOTER, OO_NS_STYLE, "footer", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_header_footer, &odf_header_footer_end, 1),
