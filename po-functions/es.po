@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-04-25 10:04+0000\n"
-"PO-Revision-Date: 2012-04-27 10:46+0200\n"
+"POT-Creation-Date: 2012-04-27 17:11+0000\n"
+"PO-Revision-Date: 2012-04-30 12:57+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Easter "
 "Sunday"
 msgstr ""
-"año: año entre 1582 y 9956, predefinido para ser el día del domingo de "
+"year: año entre 1582 y 9956, el predeterminado es el año del domingo de "
 "Pascua siguiente"
 
 #: ../plugins/fn-christian-date/functions.c:143
@@ -53,17 +53,16 @@ msgid ""
 "Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may "
 "also be prohibited."
 msgstr ""
-"Dos dígitos de los años se ajustan como donde sea en Gnumeric. Los datos "
-"anteriores a 1903 también se pueden prohibir."
+"Los dos dígitos de los años se ajustan como en todas partes de Gnumeric. "
+"También se pueden prohibir fechas anteriores a 1904."
 
 #: ../plugins/fn-christian-date/functions.c:146
 msgid ""
 "The 1-argument version of EASTERSUNDAY is compatible with OpenOffice for "
 "years after 1904. This function is not specified in ODF/OpenFormula."
 msgstr ""
-"La versión 1-argumento de EASTERSUNDAY es compatible con Openoffice para "
-"años posteriores a 1904. Esta función no está especificada en ODF/"
-"OpenFormula."
+"La versión de EASTERSUNDAY de un argumento es compatible con Openoffice para "
+"años posteriores a 1904. Esta función no se especifica en ODF/OpenFormula."
 
 #: ../plugins/fn-christian-date/functions.c:163
 msgid ""
@@ -78,8 +77,8 @@ msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Ash "
 "Wednesday"
 msgstr ""
-"año: año entre 1582 y 9956, predefinido para ser el siguiente día del "
-"Miércoles"
+"year: año entre 1582 y 9956, el predeterminado es el año del miércoles de "
+"Ceniza siguiente"
 
 #: ../plugins/fn-christian-date/functions.c:183
 msgid ""
@@ -94,23 +93,23 @@ msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Pentecost "
 "Sunday"
 msgstr ""
-"año: año entre 1582 y 9956, predefinido para ser el día siguiente del "
-"domingo de Pencostés"
+"year: año entre 1582 y 9956, el predeterminado es el año del domingo de "
+"Pentecostés siguiente"
 
 #: ../plugins/fn-christian-date/functions.c:202
 msgid ""
 "GOODFRIDAY:Good Friday in the Gregorian calendar according to the Roman rite "
 "of the Christian Church"
 msgstr ""
-"GOODFRIDAY: viernes santo en el calendario gregoriano de acuerdo con el rito "
+"GOODFRIDAY: viernes Santo en el calendario gregoriano de acuerdo con el rito "
 "romano de la iglesia cristiana"
 
 #: ../plugins/fn-christian-date/functions.c:204
 msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Good Friday"
 msgstr ""
-"año: año entre 1582 y 9956, predefinido para ser el día siguiente del "
-"viernes santo siguiente"
+"year: año entre 1582 y 9956, el predeterminado es el año del viernes Santo "
+"siguiente"
 
 #: ../plugins/fn-christian-date/functions.c:221
 msgid ""
@@ -125,8 +124,8 @@ msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Ascension "
 "Thursday"
 msgstr ""
-"año: año entre 1582 y 9956, predefinido al año de la siguiente jueves de "
-"Ascensión"
+"yer: año entre 1582 y 9956, el predeterminado es el año del jueves de "
+"Ascensión siguiente"
 
 #: ../plugins/fn-complex/functions.c:81
 msgid "COMPLEX:a complex number of the form @{x} + @{y}@{i}"
@@ -148,7 +147,7 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
-msgstr "Si @{i} es cualquiera «i» o «j», COMPLEX devuelve #VALUE!"
+msgstr "Si @{i} no es «i» ni «j», COMPLEX devuelve #VALUE!"
 
 #: ../plugins/fn-complex/functions.c:86 ../plugins/fn-complex/functions.c:114
 #: ../plugins/fn-complex/functions.c:141 ../plugins/fn-complex/functions.c:165
@@ -539,7 +538,7 @@ msgid ""
 "{z}. The branch cut is on the real axis, less than 1."
 msgstr ""
 "IMARCCOSH devuelve el arcocoseno hiperbólico complejo del número complejo @"
-"{z}. Los cortes de la rama están en el eje imaginario, por debajo de -1."
+"{z}. Los cortes de la rama están en el eje real, por debajo de -1."
 
 #: ../plugins/fn-complex/functions.c:973
 msgid "IMARCTANH:the complex hyperbolic arctangent of the complex number @{z}"
@@ -551,9 +550,9 @@ msgid ""
 "IMARCTANH returns the complex hyperbolic arctangent of the complex number @"
 "{z}. The branch cuts are on the real axis, less than -1 and greater than 1."
 msgstr ""
-"IMARCTANH devuelve la arcotangente hiperbólica compleja de un número "
-"complejo @{z}. Los cortes de la rama están en el eje imaginario, por debajo "
-"de -1 y por encima de 1."
+"IMARCTANH devuelve la arcotangente hiperbólica compleja del número complejo @"
+"{z}. Los cortes de la rama están en el eje real, por debajo de -1 y por "
+"encima de 1."
 
 #: ../plugins/fn-complex/functions.c:1001
 msgid "IMARCSECH:the complex hyperbolic arcsecant of the complex number @{z}"
@@ -563,13 +562,13 @@ msgstr ""
 #: ../plugins/fn-complex/functions.c:1025
 msgid "IMARCCSCH:the complex hyperbolic arccosecant of the complex number @{z}"
 msgstr ""
-"IMARCCSCH: la arcosecante hiperbólica compleja del número complejo @{z}"
+"IMARCCSCH: la arcocosecante hiperbólica compleja del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:1050
 msgid ""
 "IMARCCOTH:the complex hyperbolic arccotangent of the complex number @{z}"
 msgstr ""
-"IMARCCOTH: la arcotangente hiperbólica compleja del número complejo @{z}"
+"IMARCCOTH: la arcocotangente hiperbólica compleja del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:1075
 msgid "IMSQRT:the square root of the complex number @{z}"
@@ -825,8 +824,8 @@ msgid ""
 "DSTDEV:sample standard deviation of the values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
 msgstr ""
-"DSTDEV: desviación estándar de una muestra de valores en @{campo} de @{base "
-"de datos} pertenecientes a los registros que coinciden con los @{criterios}"
+"DSTDEV: desviación estándar muestral de los valores en @{campo} de @{base de "
+"datos} pertenecientes a los registros que coinciden con los @{criterios}"
 
 #: ../plugins/fn-database/functions.c:577
 msgid "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949."
@@ -841,76 +840,86 @@ msgid ""
 "DSTDEVP:standard deviation of the population of values in @{field} in @"
 "{database} belonging to records that match @{criteria}"
 msgstr ""
+"DSTDEVP: desviación estándar poblacional de los valores en @{campo} de @"
+"{base de datos} pertenecientes a los registros que coinciden con los @"
+"{criterios}"
 
 #: ../plugins/fn-database/functions.c:611
 msgid "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7."
-msgstr ""
+msgstr "DSTDEVP(A1:C7; \"Edad\"; A9:B11) equivale a 7."
 
 #: ../plugins/fn-database/functions.c:612
 msgid "DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5."
-msgstr ""
+msgstr "DSTDEVP(A1:C7; \"Salario\"; A9:B11) equivale a 6459.5."
 
 #: ../plugins/fn-database/functions.c:635
 msgid ""
 "DSUM:sum of the values in @{field} in @{database} belonging to records that "
 "match @{criteria}"
 msgstr ""
+"DSUM: suma de los valores en @{campo} de @{base de datos} pertenecientes a "
+"los registros que coinciden con los @{criterios}"
 
 #: ../plugins/fn-database/functions.c:644
 msgid "DSUM(A1:C7, \"Age\", A9:B11) equals 72."
-msgstr ""
+msgstr "DSUM(A1:C7; \"Edad\"; A9:B11) equivale a 72."
 
 #: ../plugins/fn-database/functions.c:645
 msgid "DSUM(A1:C7, \"Salary\", A9:B11) equals 81565."
-msgstr ""
+msgstr "DSUM(A1:C7; \"Salario\"; A9:B11) equivale a 81565."
 
 #: ../plugins/fn-database/functions.c:669
 msgid ""
 "DVAR:sample variance of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
+"DVAR: varianza muestral de los valores en @{campo} de @{base de datos} "
+"pertenecientes a los registros que coinciden con los @{criterios}"
 
 #: ../plugins/fn-database/functions.c:678
 msgid "DVAR(A1:C7, \"Age\", A9:B11) equals 98."
-msgstr ""
+msgstr "DVAR(A1:C7; \"Edad\"; A9:B11) equivale 98."
 
 #: ../plugins/fn-database/functions.c:679
 msgid "DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5."
-msgstr ""
+msgstr "DVAR(A1:C7; \"Salario\"; A9:B11) equivale a 83450280.5."
 
 #: ../plugins/fn-database/functions.c:702
 msgid ""
 "DVARP:variance of the population of values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
 msgstr ""
+"DVARP: varianza poblacional de los valores en @{campo} de @{base de datos} "
+"pertenecientes a los registros que coinciden con los @{criterios}"
 
 #: ../plugins/fn-database/functions.c:712
 msgid "DVARP(A1:C7, \"Age\", A9:B11) equals 49."
-msgstr ""
+msgstr "DVARP(A1:C7; \"Edad\"; A9:B11) equivale a 49."
 
 #: ../plugins/fn-database/functions.c:713
 msgid "DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25."
-msgstr ""
+msgstr "DVARP(A1:C7; \"Salario\"; A9:B11) equivale a 41725140.25."
 
 #: ../plugins/fn-database/functions.c:736
 msgid "GETPIVOTDATA:summary data from a pivot table"
-msgstr ""
+msgstr "GETPIVOTDATA: resumen de los datos de una tabla dinámica"
 
 #: ../plugins/fn-database/functions.c:737
 msgid "pivot_table:cell range containing the pivot table"
-msgstr ""
+msgstr "pivot_table: rango de celdas que contienen la tabla dinámica"
 
 #: ../plugins/fn-database/functions.c:738
 msgid "field_name:name of the field for which the summary data is requested"
 msgstr ""
+"field_name: nombre del campo para el que se solicita el resumen de datos"
 
 #: ../plugins/fn-database/functions.c:739
 msgid "If the summary data is unavailable, GETPIVOTDATA returns #REF!"
-msgstr ""
+msgstr "Si el resumen de datos no se encuentra disponible, devuelve #REF!"
 
 #: ../plugins/fn-date/functions.c:74
 msgid "DATE:create a date serial value"
-msgstr ""
+msgstr "DATE: crear un valor de fecha"
 
 #: ../plugins/fn-date/functions.c:75
 msgid "year:year of date"
@@ -930,6 +939,10 @@ msgid ""
 "2-Jan-1900 is serial value 2, and so on.  For compatibility reasons, a "
 "serial value is reserved for the non-existing date 29-Feb-1900."
 msgstr ""
+"La función DATE crea valores de fechas. 1-Ene-1900 es valor 1, 2-Ene-1900 es "
+"valor 2, 3-Ene-1900 es valor 3 y así sucesivamente. Por motivos de "
+"compatibilidad, se reserva un valor para las fechas no existente como 29-Feb-"
+"1900."
 
 #: ../plugins/fn-date/functions.c:79
 msgid ""
