@@ -320,6 +320,21 @@ typedef struct {
 	void    (*apply_style)     (OOParseState *state, PangoAttrList *attrs, int start, int end);
 } oo_text_p_t;
 
+/* odf_validation <table:name> <val1> */
+/* odf_validation <table:condition> <of:cell-content-is-in-list("1";"2";"3")> */
+/* odf_validation <table:display-list> <unsorted> */
+/* odf_validation <table:base-cell-address> <Tabelle1.A1> */
+typedef struct {
+	char *condition;
+	char *base_cell_address;
+	gboolean allow_blank;
+	gboolean use_dropdown;
+	OOFormula f_type;
+	ValidationStyle style;
+	gchar *title;
+	GString *message;
+} odf_validation_t;
+
 struct  _OOParseState {
 	GOIOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
@@ -345,6 +360,8 @@ struct  _OOParseState {
 	GHashTable	*controls;
 	GHashTable	*validations;
 	GHashTable	*strings;
+
+	odf_validation_t *cur_validation;
 
 	struct {
 		GHashTable	*cell;
@@ -2183,19 +2200,6 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
-/* odf_validation <table:name> <val1> */
-/* odf_validation <table:condition> <of:cell-content-is-in-list("1";"2";"3")> */
-/* odf_validation <table:display-list> <unsorted> */
-/* odf_validation <table:base-cell-address> <Tabelle1.A1> */
-
-typedef struct {
-	char *condition;
-	char *base_cell_address;
-	gboolean allow_blank;
-	gboolean use_dropdown;
-	OOFormula f_type;
-} odf_validation_t;
-
 static GnmValidation *
 odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val, guint offset)
 {
@@ -2246,10 +2250,11 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val, guint offset)
 				   val->f_type);
 
 	if (texpr != NULL)
-		validation = validation_new (GNM_VALIDATION_STYLE_WARNING,
+		validation = validation_new (val->style,
 					     GNM_VALIDATION_TYPE_IN_LIST,
 					     GNM_VALIDATION_OP_NONE,
-					     NULL, NULL,
+					     val->title, 
+					     val->message->str,
 					     texpr,
 					     NULL,
 					     val->allow_blank,
@@ -2293,10 +2298,11 @@ odf_validation_new_single_expr (GsfXMLIn *xin, odf_validation_t *val,
 				   val->f_type);
 
 	if (texpr != NULL)
-		return validation_new (GNM_VALIDATION_STYLE_WARNING,
+		return validation_new (val->style,
 				       val_type,
 				       val_op,
-				       NULL, NULL,
+				       val->title, 
+				       val->message->str,
 				       texpr,
 				       NULL,
 				       val->allow_blank,
@@ -2365,10 +2371,11 @@ odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 		 val->f_type);
 
 	if (texpr_b != NULL)
-		return validation_new (GNM_VALIDATION_STYLE_WARNING,
+		return validation_new (val->style,
 				       val_type,
 				       val_op,
-				       NULL, NULL,
+				       val->title, 
+				       val->message->str,
 				       texpr_a,
 				       texpr_b,
 				       val->allow_blank,
@@ -2539,6 +2546,9 @@ odf_validation_free (odf_validation_t *val)
 {
 	g_free (val->condition);
 	g_free (val->base_cell_address);
+	g_free (val->title);
+	if (val->message)
+		g_string_free (val->message, TRUE);
 }
 
 static odf_validation_t *
@@ -2548,6 +2558,7 @@ odf_validation_new (void)
 	val->use_dropdown = TRUE;
 	val->allow_blank = TRUE;
 	val->f_type = FORMULA_NOT_SUPPORTED;
+	val->style = GNM_VALIDATION_STYLE_WARNING;
 	return val;
 }
 
@@ -2585,11 +2596,77 @@ odf_validation (GsfXMLIn *xin, xmlChar const **attrs)
 			validation->base_cell_address = g_strdup (CXML2C (attrs[1]));
 		}
 	}
-	if (name != NULL)
+	if (name != NULL) {
 		g_hash_table_insert (state->validations, g_strdup (name), validation);
-	else
+		state->cur_validation = validation;
+	} else {
 		odf_validation_free (validation);
+		state->cur_validation = NULL;
+	}
 }
+
+static guint 
+odf_get_curr_error_message_length (OOParseState *state)
+{
+	if (state->cur_validation == NULL || state->cur_validation->message == NULL)
+		return 0;
+	else
+		return state->cur_validation->message->len;
+}
+
+static void
+odf_apply_character_style_to_error_message (G_GNUC_UNUSED OOParseState *state, 
+					    G_GNUC_UNUSED PangoAttrList *attrs,
+					    G_GNUC_UNUSED int start, G_GNUC_UNUSED int end)
+{
+}
+
+static void
+odf_add_text_to_error_message (OOParseState *state, char const *str)
+{
+	if (state->cur_validation->message) {
+		g_string_append (state->cur_validation->message, str);
+	} else
+		state->cur_validation->message = g_string_new (str);
+}
+
+static void
+odf_validation_error_message (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static OOEnum const message_styles [] = {
+		{ "information",  GNM_VALIDATION_STYLE_INFO },
+		{ "stop",	  GNM_VALIDATION_STYLE_STOP },
+		{ "warning",      GNM_VALIDATION_STYLE_WARNING },
+		{ NULL,	0 },
+	};
+
+	OOParseState *state = (OOParseState *)xin->user_state;
+	int tmp;
+
+	if (state->cur_validation)
+		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
+			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+						OO_NS_TABLE, "title" )) {
+				g_free (state->cur_validation->title);
+				state->cur_validation->title = g_strdup (CXML2C (attrs[1]));
+			} else if (oo_attr_enum (xin, attrs, OO_NS_TABLE, "message-type", message_styles, &tmp))
+				state->cur_validation->style = tmp;
+			/* ignoring TABLE "display" */
+		}
+
+	odf_push_text_p (state, FALSE, odf_add_text_to_error_message,
+			 odf_get_curr_error_message_length,
+			 odf_apply_character_style_to_error_message);
+}
+
+static void
+odf_validation_error_message_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	odf_pop_text_p (state);
+}
+
+
 
 static void
 odf_adjust_offsets_col (OOParseState *state, int *col, double *x)
@@ -9968,10 +10045,18 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	          GSF_XML_IN_NODE (DATA_PILOT_FIELD, DATA_PILOT_GROUPS, OO_NS_TABLE, "data-pilot-groups", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (SPREADSHEET, CONTENT_VALIDATIONS, OO_NS_TABLE, "content-validations", GSF_XML_NO_CONTENT, NULL, NULL),
  	      GSF_XML_IN_NODE (CONTENT_VALIDATIONS, CONTENT_VALIDATION, OO_NS_TABLE, "content-validation", GSF_XML_NO_CONTENT, &odf_validation, NULL),
- 	        GSF_XML_IN_NODE (CONTENT_VALIDATION, ERROR_MESSAGE, OO_NS_TABLE, "error-message", GSF_XML_NO_CONTENT, NULL, NULL),
-	          GSF_XML_IN_NODE (ERROR_MESSAGE, ERROR_MESSAGE_P, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
-		    GSF_XML_IN_NODE (ERROR_MESSAGE_P, ERROR_MESSAGE_P_S, OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (SPREADSHEET, CALC_SETTINGS, OO_NS_TABLE, "calculation-settings", GSF_XML_NO_CONTENT, NULL, NULL),
+ 	        GSF_XML_IN_NODE (CONTENT_VALIDATION, ERROR_MESSAGE, OO_NS_TABLE, "error-message", GSF_XML_NO_CONTENT, &odf_validation_error_message , &odf_validation_error_message_end),
+	            GSF_XML_IN_NODE (ERROR_MESSAGE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_CONTENT, &odf_text_content_start, &odf_text_content_end),
+  		    GSF_XML_IN_NODE (TEXT_CONTENT, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT,  &odf_text_space, NULL),
+	            GSF_XML_IN_NODE_FULL (TEXT_CONTENT, TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_text_symbol, NULL, .v_str = "\n"),
+	            GSF_XML_IN_NODE_FULL (TEXT_CONTENT, TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_SHARED_CONTENT, FALSE, FALSE, odf_text_symbol, NULL, .v_str = "\t"),
+		    GSF_XML_IN_NODE (TEXT_CONTENT, TEXT_SPAN,      OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, &odf_text_span_start, &odf_text_span_end),
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_LINE_BREAK,    OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_SPAN_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, NULL, NULL),
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+ 	    GSF_XML_IN_NODE (SPREADSHEET, CALC_SETTINGS, OO_NS_TABLE, "calculation-settings", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (CALC_SETTINGS, ITERATION, OO_NS_TABLE, "iteration", GSF_XML_NO_CONTENT, oo_iteration, NULL),
 	      GSF_XML_IN_NODE (CALC_SETTINGS, DATE_CONVENTION, OO_NS_TABLE, "null-date", GSF_XML_NO_CONTENT, oo_date_convention, NULL),
 	    GSF_XML_IN_NODE (SPREADSHEET, CHART, OO_NS_CHART, "chart", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -10061,30 +10146,21 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (TABLE_H_ROWS, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	      GSF_XML_IN_NODE (TABLE_ROWS, SOFTPAGEBREAK, OO_NS_TEXT, "soft-page-break", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	      GSF_XML_IN_NODE (TABLE_H_ROWS, SOFTPAGEBREAK, OO_NS_TEXT, "soft-page-break", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-
 		GSF_XML_IN_NODE (TABLE_ROW, TABLE_CELL, OO_NS_TABLE, "table-cell", GSF_XML_NO_CONTENT, &oo_cell_start, &oo_cell_end),
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, &oo_cell_content_start, &oo_cell_content_end),
-		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_S,         OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, &odf_text_space, NULL),
+		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_S,   OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, &oo_cell_content_link, NULL),
-	            GSF_XML_IN_NODE_FULL (CELL_TEXT, TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, FALSE, FALSE, &odf_text_symbol, NULL, .v_str = "\n"),
-	            GSF_XML_IN_NODE_FULL (CELL_TEXT, TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_SHARED_CONTENT, FALSE, FALSE, odf_text_symbol, NULL, .v_str = "\t"),
-		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_SPAN,      OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, &odf_text_span_start, &odf_text_span_end),
-		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_LINE_BREAK,    OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
-		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_SPAN_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, NULL, NULL),
-		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_TAB, OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+	            GSF_XML_IN_NODE (CELL_TEXT, TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+	            GSF_XML_IN_NODE (CELL_TEXT, TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT,NULL, NULL ),/* 2nd def */
+		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		      GSF_XML_IN_NODE (TEXT_SPAN, TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, NULL, NULL),		/* ignore for now */
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),			/* ignore for now */
 		    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
 		    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd def */
 	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_CONTROL, OO_NS_DRAW, "control", GSF_XML_NO_CONTENT, &od_draw_control_start, NULL),
 	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_RECT, OO_NS_DRAW, "rect", GSF_XML_NO_CONTENT, &odf_rect, &od_draw_text_frame_end),
-	            GSF_XML_IN_NODE (DRAW_RECT, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_CONTENT, &odf_text_content_start, &odf_text_content_end),
-  		      GSF_XML_IN_NODE (TEXT_CONTENT, TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-		      GSF_XML_IN_NODE (TEXT_CONTENT, TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-  		      GSF_XML_IN_NODE (TEXT_CONTENT, TEXT_TAB,  OO_NS_TEXT, "tab", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-		      GSF_XML_IN_NODE (TEXT_CONTENT, TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
+	            GSF_XML_IN_NODE (DRAW_RECT, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_NO_CONTENT, &odf_line, &od_draw_frame_end),
 	            GSF_XML_IN_NODE (DRAW_LINE, DRAW_LINE_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (TABLE_CELL, DRAW_ELLIPSE, OO_NS_DRAW, "ellipse", GSF_XML_NO_CONTENT, &odf_ellipse, &od_draw_frame_end),

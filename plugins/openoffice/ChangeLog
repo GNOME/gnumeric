@@ -1,3 +1,21 @@
+2012-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_validation_t): add fields
+	(odf_validation_new_list): use title and message
+	(odf_validation_new_single_expr): ditto
+	(odf_validation_new_pair_expr): ditto
+	(odf_validation_free): free new fields
+	(odf_validation_new): initialize new fields
+	(odf_validation): set cur_validation
+	(odf_get_curr_error_message_length): new
+	(odf_apply_character_style_to_error_message): new stub
+	(odf_add_text_to_error_message): new
+	(odf_validation_error_message): new
+	(odf_validation_error_message_end): new
+	(opendoc_content_dtd): connect the above
+	* openoffice-write.c (odf_print_spreadsheet_content_validations):
+	write even empty error messages to account for message type
+
 2012-04-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_hf_file): use the correct attribute name

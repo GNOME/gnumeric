@@ -4209,6 +4209,7 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 			GnmStyleRegion const *sr  = l->data;
 			GnmValidation const *val = gnm_style_get_validation (sr->style);
 			GnmParsePos pp;
+			char const *message_type = NULL;
 
 			if (!element_written) {
 				gsf_xml_out_start_element
@@ -4251,38 +4252,38 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 			}
 
 			/* writing error message */
+			gsf_xml_out_start_element (state->xml,
+						   TABLE "error-message");
+			odf_add_bool (state->xml, TABLE "display", TRUE);
+			switch (val->style) {
+			case GNM_VALIDATION_STYLE_NONE:
+			case GNM_VALIDATION_STYLE_INFO:
+			case GNM_VALIDATION_STYLE_PARSE_ERROR:
+				message_type = "information";
+				break;
+			case GNM_VALIDATION_STYLE_STOP:
+				message_type = "stop";
+				break;
+			case GNM_VALIDATION_STYLE_WARNING:
+				message_type = "warning";
+				break;
+			}
+			gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "message-type", message_type);
+			if (val->title != NULL)
+				gsf_xml_out_add_cstr (state->xml, TABLE "title", val->title->str);
+				
 			if (val->msg != NULL && go_string_get_len (val->msg) > 0) {
-				char const *message_type = NULL;
 				gboolean white_written = TRUE;
 				gboolean pp = TRUE;
-
-				gsf_xml_out_start_element (state->xml,
-							   TABLE "error-message");
-				odf_add_bool (state->xml, TABLE "display", TRUE);
-				switch (val->style) {
-				case GNM_VALIDATION_STYLE_NONE:
-				case GNM_VALIDATION_STYLE_INFO:
-				case GNM_VALIDATION_STYLE_PARSE_ERROR:
-					message_type = "information";
-					break;
-				case GNM_VALIDATION_STYLE_STOP:
-					message_type = "stop";
-					break;
-				case GNM_VALIDATION_STYLE_WARNING:
-					message_type = "warning";
-					break;
-				}
-				gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "message-type", message_type);
-				if (val->title != NULL)
-					gsf_xml_out_add_cstr (state->xml, TABLE "title", val->title->str);
 				g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
 				g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
 				gsf_xml_out_start_element (state->xml, TEXT "p");
 				odf_add_chars (state, val->msg->str, go_string_get_len (val->msg), &white_written);
 				gsf_xml_out_end_element (state->xml);   /* p */
 				g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
-				gsf_xml_out_end_element (state->xml);
 			}
+
+			gsf_xml_out_end_element (state->xml);
 			/* error message written */
 
 			gsf_xml_out_end_element (state->xml);

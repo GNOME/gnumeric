@@ -4,7 +4,7 @@ Andreas:
 	* Handle coloured text formatting during ODF import.
 	* Import text box text formatting during ODF import. [#672815]
 	* Improve import of page headers from ODF.
-	* Export validation error message to ODF.
+	* Export/Import validation error message to/from ODF.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.3
