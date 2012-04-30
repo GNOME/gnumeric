@@ -6,6 +6,9 @@ Andreas:
 	* Improve import of page headers from ODF.
 	* Export/Import validation error message to/from ODF.
 
+Morten:
+	* Minor doc improvement for non-C locales.  [Part of #675000]
+
 --------------------------------------------------------------------------
 Gnumeric 1.11.3
 

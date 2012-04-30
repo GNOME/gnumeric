@@ -1,3 +1,8 @@
+2012-04-30  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (gnm_func_get_arg_description): Ignore initial
+	whitespace is description.  (See bug 675000, comment 10.)
+
 2012-04-21  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

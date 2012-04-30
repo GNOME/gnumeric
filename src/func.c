@@ -1448,7 +1448,13 @@ gnm_func_get_arg_description (GnmFunc const *fn_def, guint arg_idx)
 			continue;
 
 		desc = strchr (F2 (fn_def, fn_def->help[i].text), ':');
-		return desc ? (desc + 1) : "";
+		if (!desc)
+			return "";
+
+		desc++;
+		while (g_unichar_isspace (g_utf8_get_char (desc)))
+			desc = g_utf8_next_char (desc);
+		return desc;
 	}
 
 	return "";
