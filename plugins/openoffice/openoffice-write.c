@@ -133,6 +133,7 @@ typedef struct {
 	GHashTable *arrow_markers;
 	GHashTable *images;
 	GHashTable *controls;
+	GHashTable *text_colours;
 
 	gboolean with_extension;
 	int odf_version;
@@ -362,7 +363,6 @@ odf_add_chars (GnmOOExport *state, char const *text, int len, gboolean *white_wr
 static int
 odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 {
-/* 	PangoColor const *c; */
 	int spans = 0;
 
 	switch (a->klass->type) {
@@ -435,12 +435,23 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 	}
 	break;
 	case PANGO_ATTR_FOREGROUND :
-/* 		c = &((PangoAttrColor *)a)->color; */
-/* 		g_string_append_printf (accum, "[color=%02xx%02xx%02x", */
-/* 			((c->red & 0xff00) >> 8), */
-/* 			((c->green & 0xff00) >> 8), */
-/* 			((c->blue & 0xff00) >> 8)); */
-		break;/* ignored */
+		{
+			PangoColor const *c;
+			gchar *c_str;
+			gchar *name;
+
+			c = &((PangoAttrColor *)a)->color;
+			c_str = g_strdup_printf ("#%02x%02x%02x",
+						((c->red & 0xff00) >> 8),
+						((c->green & 0xff00) >> 8),
+						((c->blue & 0xff00) >> 8));
+			name = g_strdup_printf ("NS-colour-%s", c_str + 1);
+			gsf_xml_out_start_element (state->xml, TEXT "span");
+			gsf_xml_out_add_cstr (state->xml, TEXT "style-name", name);
+			spans += 1;
+			g_hash_table_insert (state->text_colours, name, c_str);
+		}
+		break;
 	default :
 		if (a->klass->type ==
 		    go_pango_attr_subscript_get_type ()) {
@@ -457,7 +468,7 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 					      "AC-superscript" : "AC-script");
 			spans += 1;
 		}
-		break; /* ignored otehrwise */
+		break; /* ignored otherwise */
 	}
 
 	return spans;
@@ -1702,6 +1713,20 @@ odf_save_this_style (GnmStyle *style, G_GNUC_UNUSED gconstpointer dummy, GnmOOEx
 	}
 
 	odf_save_this_style_with_name (style, name, state);
+}
+
+static void
+odf_write_text_colours (char const *name, G_GNUC_UNUSED gpointer data, GnmOOExport *state)
+{
+	char const *colour = data;
+	char *display = g_strdup_printf ("Font Color %s", colour);
+	odf_start_style (state->xml, name, "text");
+	gsf_xml_out_add_cstr (state->xml, STYLE "display-name", display);
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+	gsf_xml_out_add_cstr (state->xml, FOSTYLE "color", colour);
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+	g_free (display);
 }
 
 static void
@@ -4993,6 +5018,8 @@ odf_write_office_styles (GnmOOExport *state)
 
 	g_hash_table_foreach (state->named_cell_styles, (GHFunc) odf_save_this_style_with_name, state);
 
+	g_hash_table_foreach (state->text_colours, (GHFunc) odf_write_text_colours, state);
+
 	if (state->default_style != NULL) {
 		gsf_xml_out_start_element (state->xml, STYLE "default-style");
 		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "family", "table-cell");
@@ -7861,6 +7888,9 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 						     (GEqualFunc)odf_match_arrow_markers,
 						     NULL,
 						     (GDestroyNotify) g_free);
+	state.text_colours = g_hash_table_new_full (g_str_hash, g_str_equal,
+						    (GDestroyNotify) g_free,
+						    (GDestroyNotify) g_free);
 	state.col_styles = NULL;
 	state.row_styles = NULL;
 
@@ -7951,6 +7981,7 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 	g_hash_table_unref (state.graph_gradients);
 	g_hash_table_unref (state.graph_fill_images);
 	g_hash_table_unref (state.arrow_markers);
+	g_hash_table_unref (state.text_colours);
 	g_slist_free (state.col_styles);
 	g_slist_free (state.row_styles);
 	gnm_style_unref (state.default_style);
