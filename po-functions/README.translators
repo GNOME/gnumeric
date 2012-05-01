@@ -1,5 +1,5 @@
-There are two special kind of strings in the translation files for 
-Gnumeric-Functions:
+There are various special kind of strings in the translation files for 
+Gnumeric-Functions. The first two types are:
 
 "CUM_BIV_NORM_DIST:cumulative bivariate normal distribution"
 and
@@ -47,4 +47,16 @@ For example in German this would be translated to
 name changed. Similarly wolfram:Sine.html is a link to Wolfram's Mathworld 
 page called "Sine.html".
 
+
+Finally some regular strings (for a small number of examples) contain formula
+invocations such as:
+  "DGET(A1:C7, \"Salary\", A9:A10) equals 34323."
+Do not translate the function name (DGET). You can translate any English text
+appearing insidethe arguments (Salary). You must change the argument separator,
+that is the comma, to the correct separator in your locale, either comma "," or
+semicolon ";". Typically if the decimal separator is a period the argument
+separator is a comma, and if the decimal separator is a comma then the argument
+separator is a semicolon. For example teh translation of the above string into
+German would be:
+  "DGET(A1:C7; \"Gehalt\"; A9:A10) ist gleich 34323."
 
