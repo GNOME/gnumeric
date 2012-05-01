@@ -6,6 +6,7 @@ Andreas:
 	* Improve import of page headers from ODF.
 	* Export/Import validation error message to/from ODF.
 	* Export in-cell font colours. [#675210]
+	* Fix warning on column insertion. [#675224]
 
 Morten:
 	* Minor doc improvement for non-C locales.  [Part of #675000]

@@ -1453,7 +1453,7 @@ cmd_insert_cols (WorkbookControl *wbc,
 	GnmRange r;
 
 	range_init_full_sheet (&r, sheet);
-	r.start.row = r.end.row - count + 1;
+	r.start.col = r.end.col - count + 1;
 
 	if (!sheet_range_trim (sheet, &r, FALSE, FALSE)) {
 		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_ERROR,

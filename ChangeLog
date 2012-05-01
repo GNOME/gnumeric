@@ -1,3 +1,7 @@
+2012-05-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_insert_cols): check the columns not the rows
+
 2012-04-30  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (gnm_func_get_arg_description): Ignore initial
