@@ -96,7 +96,7 @@ enum {
  * wb_view_get_workbook :
  * @wbv : #WorkbookView
  *
- * Return the #Workbook assciated with @wbv
+ * Return the #Workbook associated with @wbv
  **/
 Workbook *
 wb_view_get_workbook (WorkbookView const *wbv)
@@ -109,7 +109,7 @@ wb_view_get_workbook (WorkbookView const *wbv)
  * wb_view_get_doc :
  * @wbv : #WorkbookView
  *
- * Return the #Workbook assciated with @wbv cast to a #GODoc
+ * Return the #Workbook associated with @wbv cast to a #GODoc
  **/
 GODoc *
 wb_view_get_doc (WorkbookView const *wbv)
@@ -870,7 +870,7 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		 PROP_AUTO_EXPR_VALUE,
 		 g_param_spec_boxed ("auto-expr-value",
 				     _("Auto-expression value"),
-				     _("The current value of the auto-exprssion."),
+				     _("The current value of the auto-expression."),
 				     gnm_value_get_type (),
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READWRITE));
@@ -1249,7 +1249,7 @@ wb_view_new_from_input (GsfInput *input,
 			new_wbv = NULL;
 		} else if (workbook_sheet_count (new_wb) == 0) {
 			/* we didn't get a sheet nor an error, */
-			/* the user must have cancelled        */
+			/* the user must have canceled        */
 			g_object_unref (G_OBJECT (new_wb));
 			new_wbv = NULL;
 		} else {
