@@ -1,3 +1,41 @@
+2012-04-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_text_p_t): change fields
+	(odf_push_text_p): drop arguments, handle changed fields,
+	adjust all callers
+	(odf_text_p_add_text): new
+	(odf_text_p_apply_style): new
+	(odf_pop_text_p): handle changed fields
+	(odf_text_content_start): call odf_text_p_add_text
+	(odf_text_content_end): ditto
+	(odf_text_span_start): ditto
+	(odf_text_span_end): ditto
+	(odf_text_special): ditto
+	(odf_get_curr_error_message_length): delete
+	(odf_apply_character_style_to_error_message): delete
+	(odf_add_text_to_error_message): delete
+	(odf_validation_error_message_end): store text
+	(odf_get_curr_cell_length): delete
+	(oo_add_text_to_cell): add argument and also handle attributes
+	(oo_apply_character_style): delete
+	(oo_cell_content_end)
+	(odf_get_curr_hf_length): delete
+	(odf_apply_character_style_to_hf): delete
+	(odf_add_text_to_hf): delete
+	(odf_header_footer_end): save text
+	(odf_hf_region_end): ditto
+	(odf_hf_item): use odf_text_p_add_text
+	(od_draw_text_frame_end): save text and markup
+	(odf_get_curr_textbox_length): delete
+	(odf_add_text_to_textbox): delete
+	(odf_apply_markup_to_object): delete
+	(odf_apply_character_style_to_textbox): delete
+	(odf_get_curr_comment_length): delete
+	(odf_add_text_to_comment): delete
+	(odf_apply_character_style_to_comment): delete
+	(odf_annotation_end): save text and markup
+	(openoffice_file_open): initialize/free new fields
+
 2012-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_validation_t): add fields

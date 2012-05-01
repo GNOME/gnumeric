@@ -315,9 +315,8 @@ typedef struct {
 	guint            offset;
 	GSList          *span_style_stack;
 	gboolean	 content_is_simple;
-	void    (*add_text)        (OOParseState *state, char const *str);
-	guint   (*get_curr_length) (OOParseState *state);
-	void    (*apply_style)     (OOParseState *state, PangoAttrList *attrs, int start, int end);
+	GString         *gstr;
+	PangoAttrList   *attrs;
 } oo_text_p_t;
 
 /* odf_validation <table:name> <val1> */
@@ -1476,19 +1475,52 @@ odf_strunescape (char const *string, GString *target,
 
 /* Handle formatted text inside text:p */
 static void
-odf_push_text_p (OOParseState *state, gboolean permanent, void (*add_text) (OOParseState *state, char const *str),
-		     guint (*get_curr_length) (OOParseState *state),
-		     void (*apply_style) (OOParseState *state, PangoAttrList *attrs, int start, int end))
+odf_text_p_add_text (OOParseState *state, char const *str)
 {
 	oo_text_p_t *ptr;
 
-	g_return_if_fail (state != NULL);
-	g_return_if_fail (add_text != NULL);
-	g_return_if_fail (get_curr_length != NULL);
+	g_return_if_fail (state->text_p_stack != NULL);
+	ptr = state->text_p_stack->data;
 
-	if (permanent)
+	if (ptr->gstr) {
+		g_string_append (ptr->gstr, str);
+	} else
+		ptr->gstr = g_string_new (str);
+}
+
+static void
+odf_text_p_apply_style (OOParseState *state, 
+			PangoAttrList *attrs,
+			int start, int end)
+{
+	oo_text_p_t *ptr;
+
+	if (attrs == NULL)
+		return;
+
+	g_return_if_fail (state->text_p_stack != NULL);
+	ptr = state->text_p_stack->data;
+
+	if (ptr->attrs == NULL)
+		ptr->attrs = pango_attr_list_new ();
+
+	pango_attr_list_splice  (ptr->attrs, attrs, start, end - start);
+}
+
+static void
+odf_push_text_p (OOParseState *state, gboolean permanent)
+{
+	oo_text_p_t *ptr;
+
+	if (permanent) {
 		ptr = &(state->text_p_for_cell);
-	else {
+		if (ptr->gstr)
+			g_string_truncate (ptr->gstr, 0);
+		if (ptr->attrs) {
+			pango_attr_list_unref (ptr->attrs);
+			ptr->attrs = NULL;
+		}
+	} else {
 		ptr = g_new0 (oo_text_p_t, 1);
 		ptr->permanent = FALSE;
 		ptr->content_is_simple = TRUE;
@@ -1496,9 +1528,6 @@ odf_push_text_p (OOParseState *state, gboolean permanent, void (*add_text) (OOPa
 	ptr->p_seen = FALSE;
 	ptr->offset = 0;
 	ptr->span_style_stack = NULL;
-	ptr->add_text = add_text;
-	ptr->get_curr_length = get_curr_length;
-	ptr->apply_style = apply_style;
 	state->text_p_stack = g_slist_prepend (state->text_p_stack, ptr);
 }
 
@@ -1513,8 +1542,13 @@ odf_pop_text_p (OOParseState *state)
 	ptr = link->data;
 	g_slist_free_full (ptr->span_style_stack, g_free);
 	ptr->span_style_stack = NULL;
-	if (!ptr->permanent)
+	if (!ptr->permanent) {
+		if (ptr->gstr)
+			g_string_free (ptr->gstr, TRUE);
+		if (ptr->attrs)
+			pango_attr_list_unref (ptr->attrs);
 		g_free (ptr);
+	}
 	
 	state->text_p_stack = g_slist_remove_link (state->text_p_stack, link);
 	g_slist_free_1 (link);
@@ -1527,7 +1561,7 @@ odf_text_content_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
        oo_text_p_t *ptr = state->text_p_stack->data;
 
        if (ptr->p_seen)
-	       ptr->add_text (state, "\n");
+	       odf_text_p_add_text (state, "\n");
        else
 	       ptr->p_seen = TRUE;
 }
@@ -1539,7 +1573,7 @@ odf_text_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	oo_text_p_t *ptr = state->text_p_stack->data;
 
 	if (strlen (xin->content->str) > ptr->offset)
-		ptr->add_text 
+		odf_text_p_add_text 
 			(state, xin->content->str + ptr->offset);
 }
 
@@ -1553,11 +1587,11 @@ odf_text_span_start (GsfXMLIn *xin, xmlChar const **attrs)
 		span_style_info_t *ssi = g_new0 (span_style_info_t, 1);
 
 		if (xin->content->str != NULL && *xin->content->str != 0) {
-			ptr->add_text (state, xin->content->str + ptr->offset);
+			odf_text_p_add_text (state, xin->content->str + ptr->offset);
 			ptr->offset = strlen (xin->content->str);
 		}
 
-		ssi->start = ptr->get_curr_length (state);
+		ssi->start = ((ptr->gstr) ? ptr->gstr->len : 0);
 
 		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TEXT, "style-name"))
@@ -1587,11 +1621,11 @@ odf_text_span_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		g_return_if_fail (ptr->span_style_stack != NULL);
 
 		if (xin->content->str != NULL && *xin->content->str != 0) {
-			ptr->add_text (state, xin->content->str + ptr->offset);
+			odf_text_p_add_text (state, xin->content->str + ptr->offset);
 			ptr->offset = strlen (xin->content->str);
 		}
 
-		end = ptr->get_curr_length (state);
+		end = ((ptr->gstr) ? ptr->gstr->len : 0);
 
 		ssi = ptr->span_style_stack->data;
 		ptr->span_style_stack = ptr->span_style_stack->next;
@@ -1606,7 +1640,7 @@ odf_text_span_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					pango_attr_list_filter
 						(attrs, (PangoAttrFilterFunc) oo_pango_set_end, 
 						 GINT_TO_POINTER (end - ssi->start));
-					ptr->apply_style (state, attrs, ssi->start, end);
+					odf_text_p_apply_style (state, attrs, ssi->start, end);
 					pango_attr_list_unref (attrs);
 				}
 			}
@@ -1624,15 +1658,15 @@ odf_text_special (GsfXMLIn *xin, int count, char const *sym)
 
 	if (ptr->content_is_simple) {
 		if (xin->content->str != NULL && *xin->content->str != 0) {
-			ptr->add_text (state, xin->content->str + ptr->offset);
+			odf_text_p_add_text (state, xin->content->str + ptr->offset);
 			ptr->offset = strlen (xin->content->str);
 		}
 
 		if (count == 1)
-			ptr->add_text (state, sym);
+			odf_text_p_add_text (state, sym);
 		else if (count > 0) {
 			gchar *space = g_strnfill (count, *sym);
-			ptr->add_text (state, space);
+			odf_text_p_add_text (state, space);
 			g_free (space);
 		}
 	}
@@ -2605,30 +2639,6 @@ odf_validation (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
-static guint 
-odf_get_curr_error_message_length (OOParseState *state)
-{
-	if (state->cur_validation == NULL || state->cur_validation->message == NULL)
-		return 0;
-	else
-		return state->cur_validation->message->len;
-}
-
-static void
-odf_apply_character_style_to_error_message (G_GNUC_UNUSED OOParseState *state, 
-					    G_GNUC_UNUSED PangoAttrList *attrs,
-					    G_GNUC_UNUSED int start, G_GNUC_UNUSED int end)
-{
-}
-
-static void
-odf_add_text_to_error_message (OOParseState *state, char const *str)
-{
-	if (state->cur_validation->message) {
-		g_string_append (state->cur_validation->message, str);
-	} else
-		state->cur_validation->message = g_string_new (str);
-}
 
 static void
 odf_validation_error_message (GsfXMLIn *xin, xmlChar const **attrs)
@@ -2654,15 +2664,23 @@ odf_validation_error_message (GsfXMLIn *xin, xmlChar const **attrs)
 			/* ignoring TABLE "display" */
 		}
 
-	odf_push_text_p (state, FALSE, odf_add_text_to_error_message,
-			 odf_get_curr_error_message_length,
-			 odf_apply_character_style_to_error_message);
+	odf_push_text_p (state, FALSE);
 }
 
 static void
 odf_validation_error_message_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
+	oo_text_p_t *ptr;
 	OOParseState *state = (OOParseState *)xin->user_state;
+
+	g_return_if_fail (state->text_p_stack != NULL);
+	ptr = state->text_p_stack->data;
+	g_return_if_fail (ptr != NULL);
+
+	if (state->cur_validation) {
+		state->cur_validation->message = ptr->gstr;
+		ptr->gstr = NULL;
+	}
 	odf_pop_text_p (state);
 }
 
@@ -3487,22 +3505,19 @@ oo_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->pos.eval.col += state->col_inc;
 }
 
-static guint 
-odf_get_curr_cell_length (OOParseState *state)
-{
-	return  VALUE_IS_STRING (state->curr_cell->value) ?
-		strlen (state->curr_cell->value->v_str.val->str) : 0;
-}
-
 static void
-oo_add_text_to_cell (OOParseState *state, char const *str)
+oo_add_text_to_cell (OOParseState *state, char const *str, PangoAttrList *attrs)
 {
 	GnmValue *v = NULL;
+	PangoAttrList *old = NULL;
+	int start = 0;
+	GOFormat *fmt;
 
 	if (state->curr_cell == NULL)
 		return;
 
 	if (VALUE_IS_STRING (state->curr_cell->value)) {
+		start = strlen (state->curr_cell->value->v_str.val->str);
 		if (*str != 0) {
 			GOFormat *fmt = state->curr_cell->value->v_str.fmt;
 			if (fmt != NULL)
@@ -3520,22 +3535,14 @@ oo_add_text_to_cell (OOParseState *state, char const *str)
 		v = value_new_string (str);
 	if (v != NULL)
 		gnm_cell_assign_value (state->curr_cell, v);
-}
 
-static void
-oo_apply_character_style (OOParseState *state, PangoAttrList *attrs, int start, int end)
-{
-	PangoAttrList *old = NULL;
-
-	if (VALUE_IS_STRING (state->curr_cell->value)) {
-		GOFormat *fmt;
-
+	if (attrs) {
 		if (state->curr_cell->value->v_str.fmt != NULL) {
 			old = pango_attr_list_copy
 				((PangoAttrList *)go_format_get_markup (state->curr_cell->value->v_str.fmt));
 		} else
 			old = pango_attr_list_new ();
-		pango_attr_list_splice  (old, attrs, start, end - start);
+		pango_attr_list_splice  (old, attrs, start, strlen (str));
 		fmt = go_format_new_markup (old, FALSE);
 		value_set_fmt (state->curr_cell->value, fmt);
 		go_format_unref (fmt);
@@ -3546,10 +3553,6 @@ static void
 oo_cell_content_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
        OOParseState *state = (OOParseState *)xin->user_state;
-
-       odf_push_text_p (state, TRUE, oo_add_text_to_cell, 
-			    odf_get_curr_cell_length,
-			    oo_apply_character_style);
 
        if (state->text_p_for_cell.content_is_simple) {
 		int max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
@@ -3573,11 +3576,13 @@ oo_cell_content_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 			oo_update_data_extent (state, 1, 1);
 		}
        }
+
+       odf_push_text_p (state, TRUE);       
 }
 
 
 static void
-oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+oo_cell_content_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
@@ -3598,8 +3603,8 @@ oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		v = value_new_error (NULL, xin->content->str);
 		gnm_cell_assign_value (state->curr_cell, v);
 	} else if (state->text_p_for_cell.content_is_simple) {
-		oo_add_text_to_cell (state, xin->content->str + state->text_p_for_cell.offset);
-		/* state->text_p_for_cell.offset = strlen (xin->content->str); */
+		odf_text_content_end (xin, blob);
+		oo_add_text_to_cell (state, state->text_p_for_cell.gstr->str, state->text_p_for_cell.attrs);
 	}
 	oo_update_data_extent (state, 1, 1);
 
@@ -5245,38 +5250,19 @@ odf_master_page_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->print.cur_hf_format = NULL;
 }
 
-static guint 
-odf_get_curr_hf_length (OOParseState *state)
-{
-	if (*(state->print.cur_hf_format) == NULL)
-		return 0;
-	else
-		return (strlen (*(state->print.cur_hf_format)));
-}
-
-static void
-odf_apply_character_style_to_hf (G_GNUC_UNUSED OOParseState *state, 
-				G_GNUC_UNUSED PangoAttrList *attrs, 
-				G_GNUC_UNUSED int start, G_GNUC_UNUSED int end)
-{
-}
-
-static void
-odf_add_text_to_hf (OOParseState *state, char const *str)
-{
-	char *new;
-	if (*(state->print.cur_hf_format) == NULL)
-		new = g_strdup (str);
-	else
-		new = g_strconcat (*(state->print.cur_hf_format), str, NULL);
-	g_free (*(state->print.cur_hf_format));
-	*(state->print.cur_hf_format) = new;
-}
-
 static void
 odf_header_footer_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
+
+	if (state->text_p_stack) {
+		oo_text_p_t *ptr = state->text_p_stack->data;
+		if (ptr->gstr) {
+			*(state->print.cur_hf_format) = g_string_free (ptr->gstr, FALSE);
+			ptr->gstr = NULL;
+		}
+	}
+
 	odf_pop_text_p (state);
 }
 
@@ -5314,16 +5300,16 @@ odf_header_footer (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 	state->print.cur_hf_format = &state->print.cur_hf->middle_format;
 
-	odf_push_text_p (state, FALSE, odf_add_text_to_hf, 
-			 odf_get_curr_hf_length,
-			 odf_apply_character_style_to_hf);
+	odf_push_text_p (state, FALSE);
 }
 
 static void
-odf_hf_region_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+odf_hf_region_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	odf_pop_text_p (state);
+
+	odf_header_footer_end (xin, blob);
+	state->print.cur_hf_format = &state->print.cur_hf->middle_format;
 }
 
 static void
@@ -5343,26 +5329,17 @@ odf_hf_region (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 			state->print.cur_hf_format = &state->print.cur_hf->right_format;
 			break;
 		}
-	odf_push_text_p (state, FALSE, odf_add_text_to_hf, 
-			 odf_get_curr_hf_length,
-			 odf_apply_character_style_to_hf);
+	odf_push_text_p (state, FALSE);
 }
 
 static void
 odf_hf_item (GsfXMLIn *xin, char const *item)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	char *new;
 
-	if (state->print.cur_hf_format == NULL)
-		return;
-
-	if (*(state->print.cur_hf_format) == NULL)
-		new = g_strconcat ("&[", item, "]", NULL);
-	else
-		new = g_strconcat (*(state->print.cur_hf_format), "&[", _(item), "]", NULL);
-	g_free (*(state->print.cur_hf_format));
-	*(state->print.cur_hf_format) = new;
+	odf_text_p_add_text (state, "&[");
+	odf_text_p_add_text (state, item);
+	odf_text_p_add_text (state, "]");
 }
 
 static void
@@ -7143,6 +7120,10 @@ static void
 od_draw_text_frame_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
+	oo_text_p_t *ptr;
+
+	if (state->text_p_stack != NULL && (NULL != (ptr = state->text_p_stack->data)))
+		g_object_set (state->chart.so, "text", ptr->gstr->str, "markup", ptr->attrs, NULL);
 	od_draw_frame_end (xin, NULL);
 	odf_pop_text_p (state);
 }
@@ -7505,66 +7486,6 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 
 }
 
-static guint 
-odf_get_curr_textbox_length (OOParseState *state)
-{
-	char *old;
-
-	g_object_get (state->chart.so, "text", &old, NULL);
-	
-	if (old == NULL) {
-		return 0;
-	} else {
-		guint len = strlen (old);
-		g_free (old);
-		return len;
-	}
-}
-
-static void
-odf_add_text_to_textbox (OOParseState *state, char const *str)
-{
-	char *old, *new;
-
-	g_object_get (state->chart.so, "text", &old, NULL);
-
-	if (old == NULL) {
-		g_object_set (state->chart.so, "text", str, NULL);
-	} else {
-		new = g_strconcat (old, str, NULL);
-		g_free (old);
-		g_object_set (state->chart.so, "text", new, NULL);
-		g_free (new);
-	}
-}
-
-static void
-odf_apply_markup_to_object (GObject *obj, 
-			    PangoAttrList *attrs, int start, int end)
-{
-	PangoAttrList *old = NULL;
-
-	g_object_get (obj, "markup", &old, NULL);
-	
-	if (old != NULL) {
-		PangoAttrList *o = old;
-		old = pango_attr_list_copy (old);
-		pango_attr_list_unref (o);
-	} else
-		old = pango_attr_list_new ();
-
-	pango_attr_list_splice  (old, attrs, start, end - start);
-	g_object_set (obj, "markup", old, NULL);
-	pango_attr_list_unref (old);
-}
-
-static void
-odf_apply_character_style_to_textbox (OOParseState *state, 
-				      PangoAttrList *attrs, int start, int end)
-{
-	odf_apply_markup_to_object (G_OBJECT (state->chart.so), attrs, start, end);
-}
-
 static void
 od_draw_text_box (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
@@ -7586,9 +7507,7 @@ od_draw_text_box (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	state->chart.so = g_object_new (GNM_SO_FILLED_TYPE, "is-oval", FALSE, "style", style, NULL);
 	g_object_unref (style);
 
-	odf_push_text_p (state, FALSE, odf_add_text_to_textbox,
-			 odf_get_curr_textbox_length,
-			 odf_apply_character_style_to_textbox);
+	odf_push_text_p (state, FALSE);
 }
 
 static void
@@ -8783,34 +8702,6 @@ oo_marker_free (OOMarker *m)
 	g_free (m);
 }
 
-static guint 
-odf_get_curr_comment_length (OOParseState *state)
-{
-	char const *old_text = cell_comment_text_get (state->cell_comment);
-	return old_text ? strlen (old_text) : 0;
-}
-
-static void
-odf_add_text_to_comment (OOParseState *state, char const *str)
-{
-	char const *old = cell_comment_text_get (state->cell_comment);
-	char *new;
-	
-	if (old != NULL && strlen (old) > 0)
-		new = g_strconcat (old, str, NULL);
-	else
-		new = g_strdup (str);
-	cell_comment_text_set (state->cell_comment, new);
-	g_free (new);
-}
-
-static void
-odf_apply_character_style_to_comment (OOParseState *state, PangoAttrList *attrs,
-				      int start, int end)
-{
-	odf_apply_markup_to_object (G_OBJECT (state->cell_comment), attrs, start, end);
-}
-
 static void
 odf_annotation_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
@@ -8818,9 +8709,7 @@ odf_annotation_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 
 	state->cell_comment = cell_set_comment (state->pos.sheet, &state->pos.eval,
 						NULL, NULL, NULL);
-	odf_push_text_p (state, FALSE, odf_add_text_to_comment, 
-			 odf_get_curr_comment_length,
-			 odf_apply_character_style_to_comment);
+	odf_push_text_p (state, FALSE);
 }
 
 static void
@@ -8835,7 +8724,12 @@ static void
 odf_annotation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
+	oo_text_p_t *ptr;
 
+	if (state->text_p_stack != NULL && (NULL != (ptr = state->text_p_stack->data)))
+		g_object_set (G_OBJECT (state->cell_comment),
+			      "text", ptr->gstr->str,
+			      "markup", ptr->attrs, NULL);
 	state->cell_comment = NULL;
 	odf_pop_text_p (state);
 }
@@ -8881,9 +8775,7 @@ odf_rect (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 
 	odf_so_filled (xin, attrs, FALSE);
-	odf_push_text_p (state, FALSE, odf_add_text_to_textbox,
-			 odf_get_curr_textbox_length,
-			 odf_apply_character_style_to_textbox);
+	odf_push_text_p (state, FALSE);
 }
 
 static void
@@ -11208,6 +11100,8 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 
 	state.text_p_for_cell.permanent = TRUE;
 	state.text_p_for_cell.span_style_stack = NULL;
+	state.text_p_for_cell.gstr = NULL;
+	state.text_p_for_cell.attrs = NULL;
 
 	go_io_progress_message (state.context, _("Reading file..."));
 	go_io_value_progress_set (state.context, gsf_input_size (contents), 0);
@@ -11353,6 +11247,10 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	gnm_expr_sharer_destroy (state.sharer);
 
 	g_slist_free_full (state.text_p_for_cell.span_style_stack, g_free);
+	if (state.text_p_for_cell.gstr)
+		g_string_free (state.text_p_for_cell.gstr, TRUE);
+	if (state.text_p_for_cell.attrs)
+		pango_attr_list_unref (state.text_p_for_cell.attrs);
 
 	g_object_unref (zip);
 
