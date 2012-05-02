@@ -4750,7 +4750,8 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	/* disable statusbar by default going to fullscreen */
 	wbcg->hide_for_fullscreen =
 		g_slist_prepend (wbcg->hide_for_fullscreen,
-				 gtk_action_group_get_action (wbcg->actions, "ViewStatusbar"));
+				 gtk_action_group_get_action (wbcg->semi_permanent_actions, "ViewStatusbar"));
+	g_assert (wbcg->hide_for_fullscreen->data);
 }
 
 /****************************************************************************/

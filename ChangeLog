@@ -1,3 +1,9 @@
+2012-05-02  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_create_status_area): Get the
+	ViewStatusbar action from the right group.  Fixes fullscreen
+	criticals.
+
 2012-05-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_insert_cols): check the columns not the rows

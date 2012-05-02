@@ -10,6 +10,7 @@ Andreas:
 
 Morten:
 	* Minor doc improvement for non-C locales.  [Part of #675000]
+	* Fix fullscreen criticals.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.3
