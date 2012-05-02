@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-04-27 17:11+0000\n"
-"PO-Revision-Date: 2012-04-30 12:57+0200\n"
+"POT-Creation-Date: 2012-04-30 11:00+0000\n"
+"PO-Revision-Date: 2012-05-02 12:48+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Easter "
 "Sunday"
 msgstr ""
-"year: año entre 1582 y 9956, el predeterminado es el año del domingo de "
+"año: año entre 1582 y 9956, el predeterminado es el año del domingo de "
 "Pascua siguiente"
 
 #: ../plugins/fn-christian-date/functions.c:143
@@ -77,7 +77,7 @@ msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Ash "
 "Wednesday"
 msgstr ""
-"year: año entre 1582 y 9956, el predeterminado es el año del miércoles de "
+"año: año entre 1582 y 9956, el predeterminado es el año del miércoles de "
 "Ceniza siguiente"
 
 #: ../plugins/fn-christian-date/functions.c:183
@@ -93,7 +93,7 @@ msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Pentecost "
 "Sunday"
 msgstr ""
-"year: año entre 1582 y 9956, el predeterminado es el año del domingo de "
+"año: año entre 1582 y 9956, el predeterminado es el año del domingo de "
 "Pentecostés siguiente"
 
 #: ../plugins/fn-christian-date/functions.c:202
@@ -108,7 +108,7 @@ msgstr ""
 msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Good Friday"
 msgstr ""
-"year: año entre 1582 y 9956, el predeterminado es el año del viernes Santo "
+"año: año entre 1582 y 9956, el predeterminado es el año del viernes Santo "
 "siguiente"
 
 #: ../plugins/fn-christian-date/functions.c:221
@@ -124,7 +124,7 @@ msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Ascension "
 "Thursday"
 msgstr ""
-"yer: año entre 1582 y 9956, el predeterminado es el año del jueves de "
+"año: año entre 1582 y 9956, el predeterminado es el año del jueves de "
 "Ascensión siguiente"
 
 #: ../plugins/fn-complex/functions.c:81
@@ -143,7 +143,8 @@ msgstr "y: parte imaginaria"
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
-"i: el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es «i»"
+"i: el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es "
+"«i»"
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
@@ -906,12 +907,12 @@ msgstr "GETPIVOTDATA: resumen de los datos de una tabla dinámica"
 
 #: ../plugins/fn-database/functions.c:737
 msgid "pivot_table:cell range containing the pivot table"
-msgstr "pivot_table: rango de celdas que contienen la tabla dinámica"
+msgstr "tabla_dinámica: rango de celdas que contienen la tabla dinámica"
 
 #: ../plugins/fn-database/functions.c:738
 msgid "field_name:name of the field for which the summary data is requested"
 msgstr ""
-"field_name: nombre del campo para el que se solicita el resumen de datos"
+"nombre_campo: nombre del campo para el que se solicita el resumen de datos"
 
 #: ../plugins/fn-database/functions.c:739
 msgid "If the summary data is unavailable, GETPIVOTDATA returns #REF!"
@@ -923,15 +924,15 @@ msgstr "DATE: crear un valor de fecha"
 
 #: ../plugins/fn-date/functions.c:75
 msgid "year:year of date"
-msgstr "year: año de la fecha"
+msgstr "año: año de la fecha"
 
 #: ../plugins/fn-date/functions.c:76
 msgid "month:month of year"
-msgstr "month: mes del año"
+msgstr "mes: mes del año"
 
 #: ../plugins/fn-date/functions.c:77
 msgid "day:day of month"
-msgstr "day: día del mes"
+msgstr "día: día del mes"
 
 #: ../plugins/fn-date/functions.c:78
 msgid ""
@@ -941,28 +942,33 @@ msgid ""
 msgstr ""
 "La función DATE crea valores de fechas. 1-Ene-1900 es valor 1, 2-Ene-1900 es "
 "valor 2, 3-Ene-1900 es valor 3 y así sucesivamente. Por motivos de "
-"compatibilidad, se reserva un valor para las fechas no existente como 29-Feb-"
-"1900."
+"compatibilidad, se reserva un valor para las fechas no existente como 29-"
+"Feb-1900."
 
 #: ../plugins/fn-date/functions.c:79
 msgid ""
 "If @{month} or @{day} is less than 1 or too big, then the year and/or month "
 "will be adjusted."
 msgstr ""
+"Si @{mes} o @{día} es menor que 1 o muy grande, entonces se ajusta el año y/"
+"o mes."
 
 #: ../plugins/fn-date/functions.c:80
 msgid ""
-"For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-"
-"1904."
+"For spreadsheets created with the Mac version of Excel, serial 1 is 1-"
+"Jan-1904."
 msgstr ""
+"Para hojas de cálculo creadas con la versión de Excel para Mac, el valor 1 "
+"es 1-Ene-1904."
 
 #: ../plugins/fn-date/functions.c:137
 msgid "UNIX2DATE:date value corresponding to the Unix timestamp @{t}"
 msgstr ""
+"UNIX2DATE: valor de fecha correspondiente a la marca de tiempo Unix @{t}"
 
 #: ../plugins/fn-date/functions.c:138
 msgid "t:Unix time stamp"
-msgstr ""
+msgstr "t: marca de tiempo Unix"
 
 #: ../plugins/fn-date/functions.c:139
 msgid ""
@@ -970,14 +976,17 @@ msgid ""
 "date.  A Unix timestamp is the number of seconds since midnight (0:00) of "
 "January 1st, 1970 GMT."
 msgstr ""
+"La función UNIX2DATE traduce una marca de tiempo Unix a su fecha "
+"correspondiente. Una marca de tiempo Unix es el número de segundos desde la "
+"medianoche (0:00) del 1 de enero de 1970 GMT."
 
 #: ../plugins/fn-date/functions.c:167
 msgid "DATE2UNIX:the Unix timestamp corresponding to a date @{d}"
-msgstr ""
+msgstr "DATE2UNIX: la marca de tiempo Unix correspondiente a una fecha @{f}"
 
 #: ../plugins/fn-date/functions.c:168
 msgid "d:date"
-msgstr "d: fecha"
+msgstr "f: fecha"
 
 #: ../plugins/fn-date/functions.c:169
 msgid ""
@@ -985,63 +994,75 @@ msgid ""
 "timestamp is the number of seconds since midnight (0:00) of January 1st, "
 "1970 GMT."
 msgstr ""
+"La función DATE2UNIX traduce una fecha en una marca de tiempo Unix. Una "
+"marca de tiempo Unix es el número de segundos desde la medianoche (0:00) del "
+"1º de enero de 1970 GMT."
 
 #: ../plugins/fn-date/functions.c:193
 msgid "DATEVALUE:the date part of a date and time serial value"
-msgstr ""
+msgstr "DATEVALUE: la parte de la fecha de un valor de fecha y hora"
 
 #: ../plugins/fn-date/functions.c:194 ../plugins/fn-date/functions.c:451
 msgid "serial:date and time serial value"
-msgstr ""
+msgstr "valor: valor de fecha y hora"
 
 #: ../plugins/fn-date/functions.c:195
 msgid ""
 "DATEVALUE returns the date serial value part of a date and time serial value."
-msgstr ""
+msgstr "DATEVALUE devuelve la parte de la fecha de un valor de fecha y hora."
 
 #: ../plugins/fn-date/functions.c:211
 msgid "DATEDIF:difference between dates"
-msgstr ""
+msgstr "DATEDIF: diferencia entre fechas"
 
 #: ../plugins/fn-date/functions.c:212 ../plugins/fn-date/functions.c:651
 #: ../plugins/fn-date/functions.c:956 ../plugins/fn-date/functions.c:1222
 #: ../plugins/fn-date/functions.c:1251
 msgid "start_date:starting date serial value"
-msgstr ""
+msgstr "fecha_inicio: valor de fecha inicial"
 
 #: ../plugins/fn-date/functions.c:213 ../plugins/fn-date/functions.c:652
 #: ../plugins/fn-date/functions.c:957 ../plugins/fn-date/functions.c:1223
 #: ../plugins/fn-date/functions.c:1252
 msgid "end_date:ending date serial value"
-msgstr ""
+msgstr "fecha_fin: valor de fecha final"
 
 #: ../plugins/fn-date/functions.c:214
 msgid "interval:counting unit"
-msgstr ""
+msgstr "intervalo: unidad de conteo"
 
 #: ../plugins/fn-date/functions.c:215
 msgid ""
 "DATEDIF returns the distance from @{start_date} to @{end_date} according to "
 "the unit specified by @{interval}."
 msgstr ""
+"DATEDIF devuelve la distancia desde @{fecha_inicio} hasta @{fecha_fin} según "
+"la unidad indicada por @{intervalo}."
 
 #: ../plugins/fn-date/functions.c:216
 msgid ""
 "If @{interval} is \"y\", \"m\", or \"d\" then the distance is measured in "
 "complete years, months, or days respectively."
 msgstr ""
+"Si @{intervalo} es «y», «m» o «d», entonces la distancia se mide en años, "
+"meses o días completos respectivamente."
 
 #: ../plugins/fn-date/functions.c:217
 msgid ""
 "If @{interval} is \"ym\" or \"yd\" then the distance is measured in complete "
 "months or days, respectively, but excluding any difference in years."
 msgstr ""
+"Si @{intervalo} es «ym» o «yd», entonces la distancia se mide en meses o "
+"días completos respectivamente, pero descontando cualquier diferencia en "
+"años."
 
 #: ../plugins/fn-date/functions.c:218
 msgid ""
 "If @{interval} is \"md\" then the distance is measured in complete days but "
 "excluding any difference in months."
 msgstr ""
+"Si @{intervalo} es «md», entonces la distancia se mide en días completos, "
+"pero descontando cualquier diferencia en meses."
 
 #: ../plugins/fn-date/functions.c:352
 msgid "EDATE:adjust a date by a number of months"
@@ -1095,7 +1116,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:423
 msgid "TIME:create a time serial value"
-msgstr "TIME: crear un valor serial de hora"
+msgstr "TIME: crear un valor de hora completa"
 
 #: ../plugins/fn-date/functions.c:424
 msgid "hour:hour of the day"
@@ -1114,31 +1135,38 @@ msgid ""
 "The TIME function computes the fractional day between midnight at the time "
 "given by @{hour}, @{minute}, and @{second}."
 msgstr ""
-"La función TIME calcula el día fraccional entre la medianoche y el tiempo "
+"La función TIME calcula la hora completa entre la medianoche y el tiempo "
 "dado por @{hora}, @{minuto} y @{segundo}."
 
 #: ../plugins/fn-date/functions.c:450
 msgid "TIMEVALUE:the time part of a date and time serial value"
 msgstr ""
+"TIMEVALUE: la hora como fracción decimal del día para un valor de fecha y "
+"hora"
 
 #: ../plugins/fn-date/functions.c:452
 msgid "TIMEVALUE returns the time-of-day part of a date and time serial value."
 msgstr ""
+"TIMEVALUE devuelve la hora como fracción decimal del día para un valor de "
+"fecha y hora."
 
 #: ../plugins/fn-date/functions.c:469
 msgid "HOUR:compute hour part of fractional day"
-msgstr ""
+msgstr "HOUR: calcular la hora de una fracción decimal del día"
 
 #: ../plugins/fn-date/functions.c:470 ../plugins/fn-date/functions.c:493
 #: ../plugins/fn-date/functions.c:516
+#, fuzzy
 msgid "time:time of day as fractional day"
-msgstr ""
+msgstr "fracción: hora del día como una fracción decimal del día"
 
 #: ../plugins/fn-date/functions.c:471
 msgid ""
 "The HOUR function computes the hour part of the fractional day given by @"
 "{time}."
 msgstr ""
+"La función HOUR calcula la hora de una fracción decimal del día dada por @"
+"{fracción}."
 
 #: ../plugins/fn-date/functions.c:492
 msgid "MINUTE:compute minute part of fractional day"
@@ -9679,9 +9707,9 @@ msgid ""
 "reliability."
 msgstr ""
 "Esta distribución se ha recomendado para el análisis del tiempo de función "
-"cuando se desea una función peligroso de forma «U». Esto corresponde al fallo "
-"rápido una vez que el producto comience a desgastarse después de un periodo "
-"estacionario o incluso mejorando la fiabilidad."
+"cuando se desea una función peligroso de forma «U». Esto corresponde al "
+"fallo rápido una vez que el producto comience a desgastarse después de un "
+"periodo estacionario o incluso mejorando la fiabilidad."
 
 #: ../plugins/fn-stat/functions.c:4526
 msgid "LAPLACE:probability density function of the Laplace distribution"
@@ -10797,9 +10825,9 @@ msgstr ""
 #~ "\n"
 #~ "@liquidación es la fecha de liquidación de la acción. @vencimiento es la "
 #~ "fecha de vencimiento de la acción. @emisión es la fecha de emisión de la "
-#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por 100"
-#~ "$ de valor facial de la acción. @base es el tipo de sistema de conteo de "
-#~ "días que quiere usar:\n"
+#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por "
+#~ "100$ de valor facial de la acción. @base es el tipo de sistema de conteo "
+#~ "de días que quiere usar:\n"
 #~ "\n"
 #~ " 0 US 30/360\n"
 #~ " 1 días actuales/días actuales\n"
