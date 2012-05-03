@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-04-27 07:46+0000\n"
-"PO-Revision-Date: 2012-04-27 10:37+0200\n"
+"POT-Creation-Date: 2012-05-02 13:27+0000\n"
+"PO-Revision-Date: 2012-05-03 10:07+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -98,7 +98,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Proporciona una interfaz de secuencia de comandos de CORBA"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6999
-#: ../plugins/openoffice/openoffice-read.c:11126 ../src/xml-sax-read.c:3311
+#: ../plugins/openoffice/openoffice-read.c:11106 ../src/xml-sax-read.c:3311
 msgid "Reading file..."
 msgstr "Leyendo archivo…"
 
@@ -208,7 +208,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Contenido no válido del elemento «ss:data», se recibió «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:1093
-#: ../plugins/openoffice/openoffice-read.c:11233 ../src/xml-sax-read.c:3328
+#: ../plugins/openoffice/openoffice-read.c:11213 ../src/xml-sax-read.c:3328
 msgid "XML document not well formed!"
 msgstr "El documento XML no está bien formado."
 
@@ -355,7 +355,7 @@ msgstr "MS Excel&#8482; 5.0/95"
 
 #: ../plugins/excel/plugin.xml.in.h:6
 msgid "MS Excel&#8482; 97/2000/XP &amp; 5.0/95"
-msgstr "MS Excel&#8482; 97/2000/XP &amp; 5.0/95"
+msgstr "MS Excel&#8482; 97/2000/XP y 5.0/95"
 
 #: ../plugins/excel/plugin.xml.in.h:7
 msgid "MS Excel&#8482; 2003 SpreadsheetML"
@@ -500,7 +500,7 @@ msgstr ""
 "Ignorando la información de la columna que no especifica primera o última."
 
 #: ../plugins/excel/xlsx-read.c:1765
-#: ../plugins/openoffice/openoffice-read.c:2521
+#: ../plugins/openoffice/openoffice-read.c:2562
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignorando datos de validación no válidos porque: %s"
@@ -1156,7 +1156,7 @@ msgstr "TROFF (*.me)"
 
 #: ../plugins/lotus-123/boot.c:87
 msgid "Error while reading lotus workbook."
-msgstr "Ha ocurrido un error al leer la hoja de cálculo Lotus."
+msgstr "Ha ocurrido un error al leer el libro de trabajo Lotus."
 
 #: ../plugins/lotus-123/plugin.xml.in.h:1
 msgid "Lotus 123"
@@ -1181,15 +1181,15 @@ msgstr "Escribiendo archivo lpsolve…"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:1
 msgid "LPSolve Linear Program Solver Interface"
-msgstr "Interfaz del programa resolutor lineal LPSolve"
+msgstr "Interfaz del programa de resolución lineal LPSolve"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:2
 msgid "Solver Interface to LPSolve"
-msgstr "Interfaz Solver para LPSolve"
+msgstr "Interfaz del resolutor para LPSolve"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:3
 msgid "LPSolve Linear Program Solver"
-msgstr "Programa resolutor lineal LPSolve"
+msgstr "Programa de resolución lineal LPSolve"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:4
 msgid "LPSolve"
@@ -1271,11 +1271,11 @@ msgstr "Variable"
 
 #: ../plugins/mps/mps.c:675
 msgid "Objective function"
-msgstr "Función objetivo:"
+msgstr "Función objetivo"
 
 #: ../plugins/mps/mps.c:724
 msgid "Error while reading MPS file."
-msgstr "Error al leer archivo MPS."
+msgstr "Error al leer el archivo MPS."
 
 #: ../plugins/mps/plugin.xml.in.h:1
 msgid "Linear and integer program expression format (MPS) module"
@@ -1283,7 +1283,7 @@ msgstr "Módulo de formato de expresiones de programación lineal y entera (MPS)
 
 #: ../plugins/mps/plugin.xml.in.h:2
 msgid "Reads LP programs stored in the MPS format (*.mps)"
-msgstr "Lee archivos de programación lineal almacenados en formato MPS (*.mps)"
+msgstr "Lee programas de PL almacenados en formato MPS (*.mps)"
 
 #: ../plugins/mps/plugin.xml.in.h:3
 msgid "Linear and integer program (*.mps) file format"
@@ -1301,7 +1301,7 @@ msgstr "Los valores iniciales no satisfacen las restricciones."
 
 #: ../plugins/nlsolve/plugin.xml.in.h:1
 msgid "Non-Linear Program Solver"
-msgstr "Programa resolutor no lineal"
+msgstr "Programa de resolución no lineal"
 
 #: ../plugins/nlsolve/plugin.xml.in.h:2
 msgid "Nlsolve"
@@ -1319,172 +1319,171 @@ msgstr "Importa documentos GNU Oleo"
 msgid "GNU Oleo (*.oleo)"
 msgstr "GNU Oleo (*.oleo)"
 
-#: ../plugins/openoffice/openoffice-read.c:514
+#: ../plugins/openoffice/openoffice-read.c:530
 msgid "General ODF error"
 msgstr "Error ODF general"
 
-#: ../plugins/openoffice/openoffice-read.c:568
+#: ../plugins/openoffice/openoffice-read.c:584
 #, c-format
 msgid "Invalid integer '%s', for '%s'"
-msgstr "Entero «%s» inválido para «%s»"
+msgstr "Entero «%s» no válido para «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:583
+#: ../plugins/openoffice/openoffice-read.c:599
 #, c-format
 msgid "Possible corrupted integer '%s' for '%s'"
 msgstr "Entero «%s» posiblemente corrupto para «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:627
+#: ../plugins/openoffice/openoffice-read.c:643
 #, c-format
 msgid "Invalid attribute '%s', expected number, received '%s'"
 msgstr "Atributo «%s» no válido, se esperaba un número, se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:650
+#: ../plugins/openoffice/openoffice-read.c:666
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
 msgstr "Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:672
+#: ../plugins/openoffice/openoffice-read.c:688
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr "Atributo «%s» no válido, se esperaba un color, se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:856
-#, c-format
-msgid "Unknown hatch name '%s' encountered!"
-msgstr "Se encontró el nombre de entramado desconocido «%s»."
-
-#: ../plugins/openoffice/openoffice-read.c:864
-msgid "Hatch fill without hatch name encountered!"
-msgstr "Se encontró una trama de relleno sin nombre de relleno."
-
 #: ../plugins/openoffice/openoffice-read.c:872
 #, c-format
+msgid "Unknown hatch name '%s' encountered!"
+msgstr "Se encontró el nombre de trama desconocido «%s»"
+
+#: ../plugins/openoffice/openoffice-read.c:880
+msgid "Hatch fill without hatch name encountered!"
+msgstr "Se encontró un relleno de trama sin nombre de trama"
+
+#: ../plugins/openoffice/openoffice-read.c:888
+#, c-format
 msgid "Unknown gradient name '%s' encountered!"
-msgstr "Se encontró el nombre de gradiente desconocido «%s»."
+msgstr "Se encontró nombre de gradiente desconocido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:885
+#: ../plugins/openoffice/openoffice-read.c:901
 msgid "Gradient fill without gradient name encountered!"
-msgstr "Se encontró un gradiente de relleno sin nombre de gradiente."
+msgstr "Se encontró un relleno de gradiente sin nombre de gradiente"
 
-#: ../plugins/openoffice/openoffice-read.c:893
+#: ../plugins/openoffice/openoffice-read.c:909
 #, c-format
 msgid "Unknown image fill name '%s' encountered!"
-msgstr "Se encontró el nombre de relleno de imagen desconocido «%s»."
+msgstr "Se encontró el nombre de relleno de imagen desconocido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:903
+#: ../plugins/openoffice/openoffice-read.c:919
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
-msgstr "Se encontró una especificación absoluta de archivo inválida «%s»-"
+msgstr "Se encontró una especificación de archivo absoluta no válida «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:916
+#: ../plugins/openoffice/openoffice-read.c:932
 #, c-format
 msgid "Unable to open '%s'."
-msgstr "No se pudo abrir «%s»"
+msgstr "No se pudo abrir «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:944
-#: ../plugins/openoffice/openoffice-read.c:7415
+#: ../plugins/openoffice/openoffice-read.c:960
+#: ../plugins/openoffice/openoffice-read.c:7483
 #, c-format
 msgid "Unable to load the file '%s'."
-msgstr "No se pudo cargar el archivo: %s."
+msgstr "No se pudo cargar el archivo «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:952
+#: ../plugins/openoffice/openoffice-read.c:968
 msgid "Image fill without image name encountered!"
 msgstr "Se encontró un relleno de imagen sin nombre de imagen."
 
-#: ../plugins/openoffice/openoffice-read.c:1038
-#: ../plugins/openoffice/openoffice-read.c:1114
+#: ../plugins/openoffice/openoffice-read.c:1054
+#: ../plugins/openoffice/openoffice-read.c:1130
 #, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Atributo «%s» no válido, unidad «%s» desconocida"
 
-#: ../plugins/openoffice/openoffice-read.c:1043
+#: ../plugins/openoffice/openoffice-read.c:1059
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr "Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1120
+#: ../plugins/openoffice/openoffice-read.c:1136
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr "Atributo «%s» no válido, se esperaba un ángulo, se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1187
+#: ../plugins/openoffice/openoffice-read.c:1203
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr "Atributo «%s» no válido, valor de enum «%s» desconocido"
 
-#: ../plugins/openoffice/openoffice-read.c:1387
+#: ../plugins/openoffice/openoffice-read.c:1403
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr "Ignorando la referencia a un libro de trabajo externo desconocido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1586
+#: ../plugins/openoffice/openoffice-read.c:1637
 #, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
-msgstr "Se encontró un estilo de texto desconocido con nombre \"%s\""
+msgstr "Se encontró un estilo de texto desconocido con nombre «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1888
+#: ../plugins/openoffice/openoffice-read.c:1939
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "No se puede analizar «%s» («%s»)"
 
-#: ../plugins/openoffice/openoffice-read.c:1983
-#: ../plugins/openoffice/openoffice-read.c:3109
+#: ../plugins/openoffice/openoffice-read.c:2034
+#: ../plugins/openoffice/openoffice-read.c:3204
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Se encontró un tipo de fórmula no soportado: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:1989
-#: ../plugins/openoffice/openoffice-read.c:3116
+#: ../plugins/openoffice/openoffice-read.c:2040
+#: ../plugins/openoffice/openoffice-read.c:3211
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "La expresión «%s» no empieza con un carácter reconocido"
 
-#: ../plugins/openoffice/openoffice-read.c:2028
-#: ../plugins/openoffice/openoffice-write.c:4760
-#: ../plugins/openoffice/openoffice-write.c:4772 ../src/print-info.c:633
+#: ../plugins/openoffice/openoffice-read.c:2079
+#: ../plugins/openoffice/openoffice-write.c:4822
+#: ../plugins/openoffice/openoffice-write.c:4834 ../src/print-info.c:633
 #: ../src/ssgrep.c:352
 msgid "cell"
 msgstr "celda"
 
-#: ../plugins/openoffice/openoffice-read.c:2087
+#: ../plugins/openoffice/openoffice-read.c:2138
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_EN_ARCHIVO_CORRUPTO"
 
-#: ../plugins/openoffice/openoffice-read.c:2092
+#: ../plugins/openoffice/openoffice-read.c:2143
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to \"%"
 "s\"."
 msgstr ""
-"Este archivo está corrupto con una nombre de hoja duplicado «%s», se renombró "
+"Este archivo está corrupto con un nombre de hoja duplicado «%s», se renombró "
 "a «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:2105
+#: ../plugins/openoffice/openoffice-read.c:2156
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "HOJA_EN_ARCHIVO_CORRUPTO"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:2113
+#: ../plugins/openoffice/openoffice-read.c:2164
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr ""
-"Este archivo está corrupto con una hoja sin nombre, ahora renombrada como \"%"
-"s\"."
+"Este archivo está corrupto con una hoja sin nombre, ahora nombrada «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:2475
+#: ../plugins/openoffice/openoffice-read.c:2516
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
 msgstr ""
 "La condición de validación «%s» no está soportada. Se ha cambiado a «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:2507
+#: ../plugins/openoffice/openoffice-read.c:2548
 #, c-format
 msgid "Undefined validation style encountered: %s"
-msgstr "Se encontró un estilo de validación desconocido: %s"
+msgstr "Se encontró un estilo de validación no definido: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2530
+#: ../plugins/openoffice/openoffice-read.c:2571
 #, c-format
 msgid ""
 "Unsupported validation condition encountered: \"%s\" with base address: \"%s"
@@ -1493,196 +1492,196 @@ msgstr ""
 "Se encontró una condición de validación no soportada: «%s» con dirección "
 "base: «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:2838
+#: ../plugins/openoffice/openoffice-read.c:2933
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr "Ignorando la columna de información más allá de la columna %i"
 
-#: ../plugins/openoffice/openoffice-read.c:2961
-#: ../plugins/openoffice/openoffice-read.c:3341
+#: ../plugins/openoffice/openoffice-read.c:3056
+#: ../plugins/openoffice/openoffice-read.c:3436
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "El contenido excedió el número máximo de filas soportadas (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:3101
-#: ../plugins/openoffice/openoffice-read.c:5395
+#: ../plugins/openoffice/openoffice-read.c:3196
+#: ../plugins/openoffice/openoffice-read.c:5459
 msgid "Missing expression"
 msgstr "Expresión perdida"
 
-#: ../plugins/openoffice/openoffice-read.c:3314
+#: ../plugins/openoffice/openoffice-read.c:3409
 msgid "Invalid array expression does not specify number of columns."
-msgstr "La expresión del vector no indica el número de columnas."
+msgstr "La expresión de la matriz no especifica el número de columnas."
 
-#: ../plugins/openoffice/openoffice-read.c:3317
+#: ../plugins/openoffice/openoffice-read.c:3412
 msgid "Invalid array expression does not specify number of rows."
-msgstr "La expresión del vector no indica el número de filas."
+msgstr "La expresión de la matriz no especifica el número de filas."
 
-#: ../plugins/openoffice/openoffice-read.c:3333
+#: ../plugins/openoffice/openoffice-read.c:3428
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
-msgstr "El contenido excedió el número máximo de filas soportadas (%i)."
+msgstr "El contenido excedió el número máximo de columnas soportadas (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:3539
+#: ../plugins/openoffice/openoffice-read.c:3621
 #: ../src/dialogs/dialog-hyperlink.c:83
 msgid ""
 "Left click once to follow this link.\n"
 "Middle click once to select this cell"
 msgstr ""
-"Cliquear una vez con el botón izquierdo sigue este enlace.\n"
-"Cliquear una vez con el botón del medio selecciona esta celda"
+"Pulsar una vez con el botón izquierdo para seguir este enlace.\n"
+"Pulsar una vez con el botón del medio para seleccionar esta celda"
 
-#: ../plugins/openoffice/openoffice-read.c:3672
+#: ../plugins/openoffice/openoffice-read.c:3754
 msgid "Unnamed dash style encountered."
 msgstr "Se encontró un estilo de guión sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:3690
+#: ../plugins/openoffice/openoffice-read.c:3772
 msgid "Unnamed image fill style encountered."
 msgstr "Se encontró una estilo de imagen de relleno sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:3692
+#: ../plugins/openoffice/openoffice-read.c:3774
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr "El estilo de relleno de imagen «%s» no tiene adjunta ninguna imagen."
 
-#: ../plugins/openoffice/openoffice-read.c:3729
-#: ../plugins/openoffice/openoffice-read.c:3735
+#: ../plugins/openoffice/openoffice-read.c:3811
+#: ../plugins/openoffice/openoffice-read.c:3817
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "No se puee analizar el color de gradiente: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:3755
+#: ../plugins/openoffice/openoffice-read.c:3837
 msgid "Unnamed gradient style encountered."
 msgstr "Se encontró un estilo de gradiente sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:3776
+#: ../plugins/openoffice/openoffice-read.c:3858
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "No se puede analizar el color del entramado: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:3850
+#: ../plugins/openoffice/openoffice-read.c:3932
 msgid "Unnamed hatch encountered!"
 msgstr "Se encontró un entramado sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:3949
+#: ../plugins/openoffice/openoffice-read.c:4031
 msgid "Duplicate default column style encountered."
 msgstr "Se encontró un estilo de columna predeterminado duplicado."
 
-#: ../plugins/openoffice/openoffice-read.c:3965
+#: ../plugins/openoffice/openoffice-read.c:4047
 msgid "Duplicate default row style encountered."
 msgstr "Se encontró un estilo de fila predeterminado duplicado."
 
 # ¿Será mejor "sin nombre" o "desconocido"?
-#: ../plugins/openoffice/openoffice-read.c:4375
+#: ../plugins/openoffice/openoffice-read.c:4457
 msgid "Unnamed date style ignored."
 msgstr "Se ignoró un estilo de fecha sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:4678
+#: ../plugins/openoffice/openoffice-read.c:4760
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Archivo corrupto: se ignoró un estilo de número sin nombre. "
 
-#: ../plugins/openoffice/openoffice-read.c:4714
-#: ../plugins/openoffice/openoffice-read.c:4741
-#: ../plugins/openoffice/openoffice-read.c:4769
-#: ../plugins/openoffice/openoffice-read.c:4810
-#: ../plugins/openoffice/openoffice-read.c:4836
-#: ../plugins/openoffice/openoffice-read.c:4864
+#: ../plugins/openoffice/openoffice-read.c:4796
+#: ../plugins/openoffice/openoffice-read.c:4823
+#: ../plugins/openoffice/openoffice-read.c:4851
+#: ../plugins/openoffice/openoffice-read.c:4892
+#: ../plugins/openoffice/openoffice-read.c:4918
+#: ../plugins/openoffice/openoffice-read.c:4946
 msgid "This file appears corrupted, required formats are missing."
 msgstr "El archivo parece corrupto, requiere de formatos que faltan."
 
-#: ../plugins/openoffice/openoffice-read.c:4930
+#: ../plugins/openoffice/openoffice-read.c:5012
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Papel del archivo ODF: %ipt⨉%ipt"
 
-#: ../plugins/openoffice/openoffice-read.c:5116
+#: ../plugins/openoffice/openoffice-read.c:5198
 msgid "Missing page layout identifier"
 msgstr "Falta el identificador de distribución de página"
 
-#: ../plugins/openoffice/openoffice-read.c:5146
+#: ../plugins/openoffice/openoffice-read.c:5228
 #, fuzzy
 #| msgid "Image fill without image name encountered!"
 msgid "Master page style without page layout encountered!"
 msgstr "Se encontró un estilo de página maestra sin una disposición de página"
 
-#: ../plugins/openoffice/openoffice-read.c:5157
+#: ../plugins/openoffice/openoffice-read.c:5239
 msgid "Master page style without name encountered!"
 msgstr "Se encontró un estilo de página maestra sin nombre"
 
-#: ../plugins/openoffice/openoffice-read.c:5284
-#: ../plugins/openoffice/openoffice-write.c:4753
-#: ../plugins/openoffice/openoffice-write.c:4765 ../src/print-info.c:626
+#: ../plugins/openoffice/openoffice-read.c:5348
+#: ../plugins/openoffice/openoffice-write.c:4815
+#: ../plugins/openoffice/openoffice-write.c:4827 ../src/print-info.c:626
 msgid "tab"
 msgstr "tabulación"
 
-#: ../plugins/openoffice/openoffice-read.c:5314
-#: ../plugins/openoffice/openoffice-write.c:4756
-#: ../plugins/openoffice/openoffice-write.c:4768 ../src/print-info.c:629
+#: ../plugins/openoffice/openoffice-read.c:5378
+#: ../plugins/openoffice/openoffice-write.c:4818
+#: ../plugins/openoffice/openoffice-write.c:4830 ../src/print-info.c:629
 msgid "date"
 msgstr "fecha"
 
-#: ../plugins/openoffice/openoffice-read.c:5320
-#: ../plugins/openoffice/openoffice-write.c:4757
-#: ../plugins/openoffice/openoffice-write.c:4769 ../src/print-info.c:630
+#: ../plugins/openoffice/openoffice-read.c:5384
+#: ../plugins/openoffice/openoffice-write.c:4819
+#: ../plugins/openoffice/openoffice-write.c:4831 ../src/print-info.c:630
 msgid "time"
 msgstr "hora"
 
-#: ../plugins/openoffice/openoffice-read.c:5326
-#: ../plugins/openoffice/openoffice-write.c:4754
-#: ../plugins/openoffice/openoffice-write.c:4766 ../src/print-info.c:627
+#: ../plugins/openoffice/openoffice-read.c:5390
+#: ../plugins/openoffice/openoffice-write.c:4816
+#: ../plugins/openoffice/openoffice-write.c:4828 ../src/print-info.c:627
 msgid "page"
 msgstr "página"
 
-#: ../plugins/openoffice/openoffice-read.c:5332
-#: ../plugins/openoffice/openoffice-write.c:4755
-#: ../plugins/openoffice/openoffice-write.c:4767 ../src/print-info.c:628
+#: ../plugins/openoffice/openoffice-read.c:5396
+#: ../plugins/openoffice/openoffice-write.c:4817
+#: ../plugins/openoffice/openoffice-write.c:4829 ../src/print-info.c:628
 msgid "pages"
 msgstr "páginas"
 
-#: ../plugins/openoffice/openoffice-read.c:5357
-#: ../plugins/openoffice/openoffice-read.c:5364
-#: ../plugins/openoffice/openoffice-write.c:4759
-#: ../plugins/openoffice/openoffice-write.c:4771 ../src/print-info.c:632
+#: ../plugins/openoffice/openoffice-read.c:5421
+#: ../plugins/openoffice/openoffice-read.c:5428
+#: ../plugins/openoffice/openoffice-write.c:4821
+#: ../plugins/openoffice/openoffice-write.c:4833 ../src/print-info.c:632
 msgid "path"
 msgstr "ruta"
 
-#: ../plugins/openoffice/openoffice-read.c:5361
-#: ../plugins/openoffice/openoffice-read.c:5368
-#: ../plugins/openoffice/openoffice-write.c:4758
-#: ../plugins/openoffice/openoffice-write.c:4770 ../src/print-info.c:631
+#: ../plugins/openoffice/openoffice-read.c:5425
+#: ../plugins/openoffice/openoffice-read.c:5432
+#: ../plugins/openoffice/openoffice-write.c:4820
+#: ../plugins/openoffice/openoffice-write.c:4832 ../src/print-info.c:631
 #: ../src/ssconvert.c:90
 msgid "file"
 msgstr "archivo"
 
-#: ../plugins/openoffice/openoffice-read.c:5410
+#: ../plugins/openoffice/openoffice-read.c:5474
 msgid "title"
 msgstr "título"
 
-#: ../plugins/openoffice/openoffice-read.c:5441
+#: ../plugins/openoffice/openoffice-read.c:5505
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Se encontró un estilo de borde '%s' desconocido."
 
-#: ../plugins/openoffice/openoffice-read.c:5709
+#: ../plugins/openoffice/openoffice-read.c:5773
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Tipo de salto «%s» desconocido, cambiando a NINGUNO"
 
-#: ../plugins/openoffice/openoffice-read.c:5787
+#: ../plugins/openoffice/openoffice-read.c:5851
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "No se puede analizar el color «%s» de la pestaña"
 
-#: ../plugins/openoffice/openoffice-read.c:5799
+#: ../plugins/openoffice/openoffice-read.c:5863
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "No se puede analizar el color «%s» del texto de la pestaña"
 
-#: ../plugins/openoffice/openoffice-read.c:5964
+#: ../plugins/openoffice/openoffice-read.c:6028
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Se encontró la condición desconocida «%s», ignorando."
 
-#: ../plugins/openoffice/openoffice-read.c:6360
+#: ../plugins/openoffice/openoffice-read.c:6424
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1691,33 +1690,34 @@ msgstr ""
 "Se encontró un tipo de interpolación desconocido: '%s', se usará una spline "
 "cúbica de Bezier en su lugar."
 
-#: ../plugins/openoffice/openoffice-read.c:6369
+#: ../plugins/openoffice/openoffice-read.c:6433
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Se encontró un tipo de interpolación desconocido: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:6762
+#: ../plugins/openoffice/openoffice-read.c:6826
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "la expresión «%s» @ «%s» no es una referencia de celda"
 
-#: ../plugins/openoffice/openoffice-read.c:6779
+#: ../plugins/openoffice/openoffice-read.c:6843
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "La expresión «%s» tiene un espacio de nombres desconocido"
 
-#: ../plugins/openoffice/openoffice-read.c:6831
+#: ../plugins/openoffice/openoffice-read.c:6895
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Rango DB «%s» no válido"
 
-#: ../plugins/openoffice/openoffice-read.c:7092
-#: ../plugins/openoffice/openoffice-read.c:7131
+#: ../plugins/openoffice/openoffice-read.c:7160
+#: ../plugins/openoffice/openoffice-read.c:7199
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr "Atributo «form:value» no válido, se esperaba un número y se obtuvo «%s»"
+msgstr ""
+"Atributo «form:value» no válido, se esperaba un número y se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:7097
+#: ../plugins/openoffice/openoffice-read.c:7165
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1726,14 +1726,14 @@ msgstr ""
 "Tipo de valor «%s» no válido anunciado para «form:value» en el elemento «form:"
 "value-range»."
 
-#: ../plugins/openoffice/openoffice-read.c:7800
+#: ../plugins/openoffice/openoffice-read.c:7806
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr ""
 "No hay datos suficientes en el rango proporcionado (%s) para todas las "
 "solicitudes"
 
-#: ../plugins/openoffice/openoffice-read.c:8332
+#: ../plugins/openoffice/openoffice-read.c:8338
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1741,47 +1741,47 @@ msgstr ""
 "Gnumeric no soporta ecuaciones con regresión no-automática. En su lugar, se "
 "usará una ecuación automática."
 
-#: ../plugins/openoffice/openoffice-read.c:8475
+#: ../plugins/openoffice/openoffice-read.c:8481
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:8545
+#: ../plugins/openoffice/openoffice-read.c:8551
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr ""
 "Se encontró un tipo de gráfico desconocido, intentando crear una dibujo de "
 "líneas."
 
-#: ../plugins/openoffice/openoffice-read.c:9055
+#: ../plugins/openoffice/openoffice-read.c:9034
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "El atributo «%s» tiene el valor «%s» no soportado."
 
-#: ../plugins/openoffice/openoffice-read.c:10991
+#: ../plugins/openoffice/openoffice-read.c:10969
 msgid "Unknown mimetype for openoffice file."
 msgstr "Tipo mime desconocido para el archivo openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:11001
+#: ../plugins/openoffice/openoffice-read.c:10979
 msgid "No stream named content.xml found."
 msgstr "No se encontró ningún flujo llamado content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:11009
+#: ../plugins/openoffice/openoffice-read.c:10987
 msgid "No stream named styles.xml found."
 msgstr "No se encontró ningún flujo llamado styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:11136
+#: ../plugins/openoffice/openoffice-read.c:11116
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Metadato inválido: «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:11205
+#: ../plugins/openoffice/openoffice-read.c:11185
 msgid "settings.xml stream is malformed!"
 msgstr "El flujo settings.xml está mal formado."
 
-#: ../plugins/openoffice/openoffice-write.c:7840
+#: ../plugins/openoffice/openoffice-write.c:7907
 msgid "Writing Sheets..."
 msgstr "Escribiendo hojas…"
 
-#: ../plugins/openoffice/openoffice-write.c:7869
+#: ../plugins/openoffice/openoffice-write.c:7936
 msgid "Writing Sheet Objects..."
 msgstr "Escribiendo objetos de hojas…"
 
@@ -17927,24 +17927,24 @@ msgstr "Insertar fórmula debajo."
 msgid "Insert formula to side."
 msgstr "Insertar fórmula al lado."
 
-#: ../src/wbc-gtk.c:4792
+#: ../src/wbc-gtk.c:4793
 #, c-format
 msgid "Open %s"
 msgstr "Abrir %s"
 
-#: ../src/wbc-gtk.c:5506
+#: ../src/wbc-gtk.c:5507
 msgid "Autosave prompt"
 msgstr "Preguntar si autoguardar"
 
-#: ../src/wbc-gtk.c:5507
+#: ../src/wbc-gtk.c:5508
 msgid "Ask about autosave?"
 msgstr "¿Preguntar si autoguardar?"
 
-#: ../src/wbc-gtk.c:5513
+#: ../src/wbc-gtk.c:5514
 msgid "Autosave time in seconds"
 msgstr "Tiempo de autoguardar en segundos"
 
-#: ../src/wbc-gtk.c:5514
+#: ../src/wbc-gtk.c:5515
 msgid "Seconds before autosave"
 msgstr "Seguntos antes de autoguardar"
 
@@ -18221,7 +18221,7 @@ msgid "Auto-expression value"
 msgstr "Texto de autoexpresión"
 
 #: ../src/workbook-view.c:873
-msgid "The current value of the auto-exprssion."
+msgid "The current value of the auto-expression."
 msgstr ""
 
 #: ../src/workbook-view.c:881
