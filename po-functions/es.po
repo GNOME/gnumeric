@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-04-30 11:00+0000\n"
-"PO-Revision-Date: 2012-05-02 12:48+0200\n"
+"POT-Creation-Date: 2012-05-03 08:10+0000\n"
+"PO-Revision-Date: 2012-05-04 14:12+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -143,8 +143,7 @@ msgstr "y: parte imaginaria"
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
-"i: el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es "
-"«i»"
+"i: el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es «i»"
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
@@ -942,8 +941,8 @@ msgid ""
 msgstr ""
 "La función DATE crea valores de fechas. 1-Ene-1900 es valor 1, 2-Ene-1900 es "
 "valor 2, 3-Ene-1900 es valor 3 y así sucesivamente. Por motivos de "
-"compatibilidad, se reserva un valor para las fechas no existente como 29-"
-"Feb-1900."
+"compatibilidad, se reserva un valor para las fechas no existente como 29-Feb-"
+"1900."
 
 #: ../plugins/fn-date/functions.c:79
 msgid ""
@@ -955,8 +954,8 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:80
 msgid ""
-"For spreadsheets created with the Mac version of Excel, serial 1 is 1-"
-"Jan-1904."
+"For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-"
+"1904."
 msgstr ""
 "Para hojas de cálculo creadas con la versión de Excel para Mac, el valor 1 "
 "es 1-Ene-1904."
@@ -1044,17 +1043,16 @@ msgid ""
 "If @{interval} is \"y\", \"m\", or \"d\" then the distance is measured in "
 "complete years, months, or days respectively."
 msgstr ""
-"Si @{intervalo} es «y», «m» o «d», entonces la distancia se mide en años, "
-"meses o días completos respectivamente."
+"Si @{intervalo} es «y», «m» o «d», entonces la distancia se mide en años, meses "
+"o días completos respectivamente."
 
 #: ../plugins/fn-date/functions.c:217
 msgid ""
 "If @{interval} is \"ym\" or \"yd\" then the distance is measured in complete "
 "months or days, respectively, but excluding any difference in years."
 msgstr ""
-"Si @{intervalo} es «ym» o «yd», entonces la distancia se mide en meses o "
-"días completos respectivamente, pero descontando cualquier diferencia en "
-"años."
+"Si @{intervalo} es «ym» o «yd», entonces la distancia se mide en meses o días "
+"completos respectivamente, pero descontando cualquier diferencia en años."
 
 #: ../plugins/fn-date/functions.c:218
 msgid ""
@@ -1156,7 +1154,6 @@ msgstr "HOUR: calcular la hora de una fracción decimal del día"
 
 #: ../plugins/fn-date/functions.c:470 ../plugins/fn-date/functions.c:493
 #: ../plugins/fn-date/functions.c:516
-#, fuzzy
 msgid "time:time of day as fractional day"
 msgstr "fracción: hora del día como una fracción decimal del día"
 
@@ -1170,47 +1167,51 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:492
 msgid "MINUTE:compute minute part of fractional day"
-msgstr ""
+msgstr "MINUTE: calcular el minuto de una fracción decimal del día"
 
 #: ../plugins/fn-date/functions.c:494
 msgid ""
 "The MINUTE function computes the minute part of the fractional day given by @"
 "{time}."
 msgstr ""
+"La función MINUTE calcula el minuto de una fracción decimal del día dada por "
+"@{fracción}."
 
 #: ../plugins/fn-date/functions.c:515
 msgid "SECOND:compute seconds part of fractional day"
-msgstr ""
+msgstr "SECOND: calcular el segundo de una fracción decimal del día"
 
 #: ../plugins/fn-date/functions.c:517
 msgid ""
 "The SECOND function computes the seconds part of the fractional day given by "
 "@{time}."
 msgstr ""
+"La función SECOND calcula el segundo de una fracción decimal del día dada "
+"por @{fracción}."
 
 #: ../plugins/fn-date/functions.c:538
 msgid "YEAR:the year part of a date serial value"
-msgstr "YEAR: la parte anual de un valor serial de la fecha"
+msgstr "YEAR: la parte del año de un valor de fecha"
 
 #: ../plugins/fn-date/functions.c:540
 msgid "The YEAR function returns the year part of @{date}."
-msgstr ""
+msgstr "La función YEAR devuelve la parte del año de @{fecha}."
 
 #: ../plugins/fn-date/functions.c:562
 msgid "MONTH:the month part of a date serial value"
-msgstr ""
+msgstr "MONTH: la parte del mes de un valor de fecha"
 
 #: ../plugins/fn-date/functions.c:564
 msgid "The MONTH function returns the month part of @{date}."
-msgstr ""
+msgstr "La función MONTH devuelve la parte del mes de @{fecha}."
 
 #: ../plugins/fn-date/functions.c:586
 msgid "DAY:the day-of-month part of a date serial value"
-msgstr ""
+msgstr "DAY: la parte del día del mes de un valor de @{fecha}"
 
 #: ../plugins/fn-date/functions.c:588
 msgid "The DAY function returns the day-of-month part of @{date}."
-msgstr ""
+msgstr "La función DAY devuelve la parte del día del mes de @{fecha}."
 
 #: ../plugins/fn-date/functions.c:610
 msgid "WEEKDAY:day-of-week"
@@ -1218,37 +1219,40 @@ msgstr "WEEKDAY: día de la semana"
 
 #: ../plugins/fn-date/functions.c:612 ../plugins/fn-date/functions.c:1184
 msgid "method:numbering system, defaults to 1"
-msgstr ""
+msgstr "método: sistema de numeración, el predeterminado es 1."
 
 #: ../plugins/fn-date/functions.c:613
 msgid ""
 "The WEEKDAY function returns the day-of-week of @{date}.  The value of @"
 "{method} determines how days are numbered; it defaults to 1. "
 msgstr ""
+"La función WEEKDAY devuelve el día de la semana de @{fecha}. El valor de @"
+"{método} establece la forma de enumerar los días; el predeterminado es 1."
 
 #: ../plugins/fn-date/functions.c:614
 msgid "If @{method} is 1, then Sunday is 1, Monday is 2, etc."
-msgstr ""
+msgstr "Si @{método} es 1, entonces el domingo es 1, el lunes es 2, etc."
 
 #: ../plugins/fn-date/functions.c:615
 msgid "If @{method} is 2, then Monday is 1, Tuesday is 2, etc."
-msgstr ""
+msgstr "Si @{método} es 2, entonces el lunes es 1, el martes es 2, etc."
 
 #: ../plugins/fn-date/functions.c:616
 msgid "If @{method} is 3, then Monday is 0, Tuesday is 1, etc."
-msgstr ""
+msgstr "Si @{método} es 3, entonces el lunes es 0, el martes es 1, etc."
 
 #: ../plugins/fn-date/functions.c:650
 msgid "DAYS360:days between dates"
-msgstr ""
+msgstr "DAYS360: días entre fechas"
 
 #: ../plugins/fn-date/functions.c:653
 msgid "method:counting method"
-msgstr ""
+msgstr "método: método de conteo"
 
 #: ../plugins/fn-date/functions.c:654
 msgid "DAYS360 returns the number of days from @{start_date} to @{end_date}."
 msgstr ""
+"DAYS360 devuelve el número de días desde @{fecha_inicio} hasta @{fecha_fin}"
 
 #: ../plugins/fn-date/functions.c:655
 msgid ""
@@ -1257,18 +1261,26 @@ msgid ""
 "of February is considered to be the 30th day of the month, but only for @"
 "{start_date}."
 msgstr ""
+"Si @{método} es 0, predeterminado, se utilizará el método MS Excel (tm) EE."
+"UU. Éste es un método estándar de la industria un tanto complicado, donde el "
+"último día de febrero se considera como el 30º día del mes, pero sólo para @"
+"{fecha_inicio}."
 
 #: ../plugins/fn-date/functions.c:656
 msgid ""
 "If @{method} is 1, the European method will be used.  In this case, if the "
 "day of the month is 31 it will be considered as 30"
 msgstr ""
+"Si @{método} es 1, se utilizará el método europeo. Es este caso, si el día "
+"del mes es 31, se considerará como 30."
 
 #: ../plugins/fn-date/functions.c:657
 msgid ""
 "If @{method} is 2, a saner version of the US method is used in which both "
 "dates get the same February treatment."
 msgstr ""
+"Si @{método} es 2, se utilizará una versión más sana del método EE.UU., en "
+"el que ambas fechas tienen el mismo tratamiento para febrero."
 
 #: ../plugins/fn-date/functions.c:692
 msgid "EOMONTH:end of month"
@@ -9707,9 +9719,9 @@ msgid ""
 "reliability."
 msgstr ""
 "Esta distribución se ha recomendado para el análisis del tiempo de función "
-"cuando se desea una función peligroso de forma «U». Esto corresponde al "
-"fallo rápido una vez que el producto comience a desgastarse después de un "
-"periodo estacionario o incluso mejorando la fiabilidad."
+"cuando se desea una función peligroso de forma «U». Esto corresponde al fallo "
+"rápido una vez que el producto comience a desgastarse después de un periodo "
+"estacionario o incluso mejorando la fiabilidad."
 
 #: ../plugins/fn-stat/functions.c:4526
 msgid "LAPLACE:probability density function of the Laplace distribution"
@@ -10825,9 +10837,9 @@ msgstr ""
 #~ "\n"
 #~ "@liquidación es la fecha de liquidación de la acción. @vencimiento es la "
 #~ "fecha de vencimiento de la acción. @emisión es la fecha de emisión de la "
-#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por "
-#~ "100$ de valor facial de la acción. @base es el tipo de sistema de conteo "
-#~ "de días que quiere usar:\n"
+#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por 100"
+#~ "$ de valor facial de la acción. @base es el tipo de sistema de conteo de "
+#~ "días que quiere usar:\n"
 #~ "\n"
 #~ " 0 US 30/360\n"
 #~ " 1 días actuales/días actuales\n"
