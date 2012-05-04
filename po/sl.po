@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-04-01 09:20+0000\n"
-"PO-Revision-Date: 2012-04-01 13:30+0100\n"
+"POT-Creation-Date: 2012-05-03 08:10+0000\n"
+"PO-Revision-Date: 2012-05-04 13:45+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -93,7 +93,7 @@ msgstr "Omogoča vmesnik za skriptno programiranje CORBA"
 
 #: ../plugins/dif/dif.c:70
 #: ../plugins/excel/ms-excel-read.c:6999
-#: ../plugins/openoffice/openoffice-read.c:11035
+#: ../plugins/openoffice/openoffice-read.c:11106
 #: ../src/xml-sax-read.c:3311
 msgid "Reading file..."
 msgstr "Branje datoteke ..."
@@ -193,7 +193,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Neveljavna vsebina predmeta ss:predmet podatka; vrnjena je vrednost '%s'."
 
 #: ../plugins/excel/excel-xml-read.c:1093
-#: ../plugins/openoffice/openoffice-read.c:11142
+#: ../plugins/openoffice/openoffice-read.c:11213
 #: ../src/xml-sax-read.c:3328
 msgid "XML document not well formed!"
 msgstr "Dokument XML ni ustrezno oblikovan!"
@@ -475,7 +475,7 @@ msgid "Ignoring column information that does not specify first or last."
 msgstr "Podatki stolpca, ki ne določajo prvega ali zadnjega, bodo preztri."
 
 #: ../plugins/excel/xlsx-read.c:1765
-#: ../plugins/openoffice/openoffice-read.c:2323
+#: ../plugins/openoffice/openoffice-read.c:2562
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Določanje veljavnosti neveljavnih podatkov bo prezrto: %s"
@@ -794,7 +794,7 @@ msgstr "%s različica %s"
 #: ../src/dialogs/dialog-cell-format.c:2278
 #: ../src/dialogs/dialog-cell-format.c:2282
 #: ../src/dialogs/dialog-cell-format.c:2290
-#: ../src/wbc-gtk.c:3247
+#: ../src/wbc-gtk.c:3249
 msgid "Automatic"
 msgstr "Samodejno"
 
@@ -1272,200 +1272,199 @@ msgstr "Uvažanje datotek programa GNU Oleo"
 msgid "GNU Oleo (*.oleo)"
 msgstr "GNU Oleo (*.oleo)"
 
-#: ../plugins/openoffice/openoffice-read.c:500
+#: ../plugins/openoffice/openoffice-read.c:530
 msgid "General ODF error"
 msgstr "Splošna napaka datoteke ODF"
 
-#: ../plugins/openoffice/openoffice-read.c:554
+#: ../plugins/openoffice/openoffice-read.c:584
 #, c-format
 msgid "Invalid integer '%s', for '%s'"
 msgstr "Neveljavno celo število '%s' za '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:569
+#: ../plugins/openoffice/openoffice-read.c:599
 #, c-format
 msgid "Possible corrupted integer '%s' for '%s'"
 msgstr "Mogoče napačno celo število '%s' za '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:613
+#: ../plugins/openoffice/openoffice-read.c:643
 #, c-format
 msgid "Invalid attribute '%s', expected number, received '%s'"
 msgstr "Neveljaven atribut '%s'; pričakovano je število, prejeto pa vrednost '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:636
+#: ../plugins/openoffice/openoffice-read.c:666
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
 msgstr "Neveljaven atribut '%s'; pričakovan je odstotek, prejeta pa je vrednost '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:658
+#: ../plugins/openoffice/openoffice-read.c:688
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr "Neveljaven atribut '%s'; pričakovana je barva, prejeta pa je vrednost '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:842
+#: ../plugins/openoffice/openoffice-read.c:872
 #, c-format
 msgid "Unknown hatch name '%s' encountered!"
 msgstr "Zaznano je polnilo šrafure '%s' brez navedenega imena!"
 
-#: ../plugins/openoffice/openoffice-read.c:850
+#: ../plugins/openoffice/openoffice-read.c:880
 msgid "Hatch fill without hatch name encountered!"
 msgstr "Zaznan je slog polnila šrafure brez navedenega imena!"
 
-#: ../plugins/openoffice/openoffice-read.c:858
+#: ../plugins/openoffice/openoffice-read.c:888
 #, c-format
 msgid "Unknown gradient name '%s' encountered!"
 msgstr "Zaznan je preliv '%s' brez navedenega imena!"
 
-#: ../plugins/openoffice/openoffice-read.c:871
+#: ../plugins/openoffice/openoffice-read.c:901
 msgid "Gradient fill without gradient name encountered!"
 msgstr "Zaznan je slog preliva brez navedenega imena!"
 
-#: ../plugins/openoffice/openoffice-read.c:879
+#: ../plugins/openoffice/openoffice-read.c:909
 #, c-format
 msgid "Unknown image fill name '%s' encountered!"
 msgstr "Zaznana je datoteka polnila slike '%s' z neznanim imenom!"
 
-#: ../plugins/openoffice/openoffice-read.c:889
+#: ../plugins/openoffice/openoffice-read.c:919
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
 msgstr "Zaznano je neveljavno absolutno določilo datoteke '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:902
+#: ../plugins/openoffice/openoffice-read.c:932
 #, c-format
 msgid "Unable to open '%s'."
 msgstr "Ni mogoče odpreti '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:930
-#: ../plugins/openoffice/openoffice-read.c:7273
+#: ../plugins/openoffice/openoffice-read.c:960
+#: ../plugins/openoffice/openoffice-read.c:7483
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "Ni mogoče naložiti datoteke '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:938
+#: ../plugins/openoffice/openoffice-read.c:968
 msgid "Image fill without image name encountered!"
 msgstr "Zaznano je polnilo slike brez imena slike."
 
-#: ../plugins/openoffice/openoffice-read.c:1024
-#: ../plugins/openoffice/openoffice-read.c:1100
+#: ../plugins/openoffice/openoffice-read.c:1054
+#: ../plugins/openoffice/openoffice-read.c:1130
 #, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Neveljaven atribut '%s'; neznana enota'%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1029
+#: ../plugins/openoffice/openoffice-read.c:1059
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr "Neveljaven atribut '%s'; pričakovana je razdalja, prejeta pa je vrednost '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1106
+#: ../plugins/openoffice/openoffice-read.c:1136
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr "Neveljaven atribut '%s'; pričakovan je kot, prejeta pa je vrednost '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1173
+#: ../plugins/openoffice/openoffice-read.c:1203
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr "Neveljaven atribut '%s'; neznana vrednost enum '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1373
+#: ../plugins/openoffice/openoffice-read.c:1403
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr "Prezrt je sklic na neznani zunanji delovni zvezek '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1690
+#: ../plugins/openoffice/openoffice-read.c:1637
+#, c-format
+msgid "Unknown text style with name \"%s\" encountered!"
+msgstr "Zaznan je neznan slog besedila \"%s\"!"
+
+#: ../plugins/openoffice/openoffice-read.c:1939
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "Ni mogoče razčleniti '%s' ('%s')"
 
-#: ../plugins/openoffice/openoffice-read.c:1785
-#: ../plugins/openoffice/openoffice-read.c:2911
+#: ../plugins/openoffice/openoffice-read.c:2034
+#: ../plugins/openoffice/openoffice-read.c:3204
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Zaznana je nepodprta vrsta formule: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:1791
-#: ../plugins/openoffice/openoffice-read.c:2918
+#: ../plugins/openoffice/openoffice-read.c:2040
+#: ../plugins/openoffice/openoffice-read.c:3211
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Izraz '%s' se ne začne s prepoznavnim znakom"
 
-#: ../plugins/openoffice/openoffice-read.c:1830
-#: ../plugins/openoffice/openoffice-write.c:4760
-#: ../plugins/openoffice/openoffice-write.c:4772
+#: ../plugins/openoffice/openoffice-read.c:2079
+#: ../plugins/openoffice/openoffice-write.c:4822
+#: ../plugins/openoffice/openoffice-write.c:4834
 #: ../src/print-info.c:633
 #: ../src/ssgrep.c:352
 msgid "cell"
 msgstr "celica"
 
-#: ../plugins/openoffice/openoffice-read.c:1889
+#: ../plugins/openoffice/openoffice-read.c:2138
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_V_OKVARJENI_DATOTEKI"
 
-#: ../plugins/openoffice/openoffice-read.c:1894
+#: ../plugins/openoffice/openoffice-read.c:2143
 #, c-format
 msgid "This file is corrupted with a duplicate sheet name \"%s\", now renamed to \"%s\"."
 msgstr "Datoteka je pokvarjena, saj je imela podvojeno ime delovnega lista \"%s\", ki je preimenovano v \"%s\"."
 
-#: ../plugins/openoffice/openoffice-read.c:1907
+#: ../plugins/openoffice/openoffice-read.c:2156
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "DELOVNI_LIST_V_OKVARJENI_DATOTEKI"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:1915
+#: ../plugins/openoffice/openoffice-read.c:2164
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr "Datoteka je pokvarjena, saj ima neimenovano ime delovnega lista \"%s\"."
 
-#: ../plugins/openoffice/openoffice-read.c:2277
+#: ../plugins/openoffice/openoffice-read.c:2516
 #, c-format
 msgid "Validation condition '%s' is not supported. It has been changed to '%s'."
 msgstr "Pogoj določanja veljavnosti '%s' ni podprt. Spremenjen je v  '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:2309
+#: ../plugins/openoffice/openoffice-read.c:2548
 #, c-format
 msgid "Undefined validation style encountered: %s"
 msgstr "Zaznan je nedoločen slog določanja veljavnosti: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2332
+#: ../plugins/openoffice/openoffice-read.c:2571
 #, c-format
 msgid "Unsupported validation condition encountered: \"%s\" with base address: \"%s\""
 msgstr "Zaznan je nepodprt pogoj določanja veljavnosti: \"%s\" z osnovo naslova: \"%s\""
 
-#: ../plugins/openoffice/openoffice-read.c:2640
+#: ../plugins/openoffice/openoffice-read.c:2933
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr "Prezri podatke stolpcev za stolpcem %i."
 
-#: ../plugins/openoffice/openoffice-read.c:2763
-#: ../plugins/openoffice/openoffice-read.c:3143
+#: ../plugins/openoffice/openoffice-read.c:3056
+#: ../plugins/openoffice/openoffice-read.c:3436
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "Podprta je vsebina za največjim določenim številom vrstic (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:2903
-#: ../plugins/openoffice/openoffice-read.c:5274
+#: ../plugins/openoffice/openoffice-read.c:3196
+#: ../plugins/openoffice/openoffice-read.c:5459
 msgid "Missing expression"
 msgstr "Manjka izraz"
 
-#: ../plugins/openoffice/openoffice-read.c:3116
+#: ../plugins/openoffice/openoffice-read.c:3409
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Neveljaven izraz polja ne določa števila stolpcev."
 
-#: ../plugins/openoffice/openoffice-read.c:3119
+#: ../plugins/openoffice/openoffice-read.c:3412
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Neveljaven izraz polja ne določa števila vrstic."
 
-#: ../plugins/openoffice/openoffice-read.c:3135
+#: ../plugins/openoffice/openoffice-read.c:3428
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr "Vsebina presega največje podprto število stolpcev (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:3341
-#: ../plugins/openoffice/openoffice-read.c:8608
-#, c-format
-msgid "Unknown text style with name \"%s\" encountered!"
-msgstr "Zaznan je neznan slog besedila \"%s\"!"
-
-#: ../plugins/openoffice/openoffice-read.c:3440
+#: ../plugins/openoffice/openoffice-read.c:3621
 #: ../src/dialogs/dialog-hyperlink.c:83
 msgid ""
 "Left click once to follow this link.\n"
@@ -1474,245 +1473,245 @@ msgstr ""
 "Levi enojni klik sledi povezavi.\n"
 "Srednji enojni klik izbere celico."
 
-#: ../plugins/openoffice/openoffice-read.c:3573
+#: ../plugins/openoffice/openoffice-read.c:3754
 msgid "Unnamed dash style encountered."
 msgstr "Zaznan je neimenovan slog pomišljaja."
 
-#: ../plugins/openoffice/openoffice-read.c:3591
+#: ../plugins/openoffice/openoffice-read.c:3772
 msgid "Unnamed image fill style encountered."
 msgstr "Zaznan je neimenovan slog polnila slike."
 
-#: ../plugins/openoffice/openoffice-read.c:3593
+#: ../plugins/openoffice/openoffice-read.c:3774
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr "Slog polnila slike '%s' nima priložene slike."
 
-#: ../plugins/openoffice/openoffice-read.c:3630
-#: ../plugins/openoffice/openoffice-read.c:3636
+#: ../plugins/openoffice/openoffice-read.c:3811
+#: ../plugins/openoffice/openoffice-read.c:3817
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "Ni mogoče razčleniti barve preliva: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:3656
+#: ../plugins/openoffice/openoffice-read.c:3837
 msgid "Unnamed gradient style encountered."
 msgstr "Zaznan je neimenovan slog preliva."
 
-#: ../plugins/openoffice/openoffice-read.c:3677
+#: ../plugins/openoffice/openoffice-read.c:3858
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "Ni mogoče razčleniti barve polnila šrafure: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:3751
+#: ../plugins/openoffice/openoffice-read.c:3932
 msgid "Unnamed hatch encountered!"
 msgstr "Zaznano je polnilo šrafure brez imena!"
 
-#: ../plugins/openoffice/openoffice-read.c:3850
+#: ../plugins/openoffice/openoffice-read.c:4031
 msgid "Duplicate default column style encountered."
 msgstr "Zaznan je podvojen privzet slog stolpcev."
 
-#: ../plugins/openoffice/openoffice-read.c:3866
+#: ../plugins/openoffice/openoffice-read.c:4047
 msgid "Duplicate default row style encountered."
 msgstr "Zaznan je podvojen privzet slog vrstic."
 
-#: ../plugins/openoffice/openoffice-read.c:4276
+#: ../plugins/openoffice/openoffice-read.c:4457
 msgid "Unnamed date style ignored."
 msgstr "Neimenovan slog datuma je prezrt."
 
-#: ../plugins/openoffice/openoffice-read.c:4579
+#: ../plugins/openoffice/openoffice-read.c:4760
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Pokvarjena datoteka: neimenovan slog števila je prezrt."
 
-#: ../plugins/openoffice/openoffice-read.c:4615
-#: ../plugins/openoffice/openoffice-read.c:4642
-#: ../plugins/openoffice/openoffice-read.c:4670
-#: ../plugins/openoffice/openoffice-read.c:4711
-#: ../plugins/openoffice/openoffice-read.c:4737
-#: ../plugins/openoffice/openoffice-read.c:4765
+#: ../plugins/openoffice/openoffice-read.c:4796
+#: ../plugins/openoffice/openoffice-read.c:4823
+#: ../plugins/openoffice/openoffice-read.c:4851
+#: ../plugins/openoffice/openoffice-read.c:4892
+#: ../plugins/openoffice/openoffice-read.c:4918
+#: ../plugins/openoffice/openoffice-read.c:4946
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Datoteka je videti pokvarjena, saj manjkajo zahtevani oblike zapisa."
 
-#: ../plugins/openoffice/openoffice-read.c:4831
+#: ../plugins/openoffice/openoffice-read.c:5012
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Stran datoteke ODF: %i⨉%i točk"
 
-#: ../plugins/openoffice/openoffice-read.c:5017
+#: ../plugins/openoffice/openoffice-read.c:5198
 msgid "Missing page layout identifier"
 msgstr "Manjka določilo postavitve strani"
 
-#: ../plugins/openoffice/openoffice-read.c:5047
+#: ../plugins/openoffice/openoffice-read.c:5228
 msgid "Master page style without page layout encountered!"
 msgstr "Zaznan je glavni slog strani brez postavitve strani!"
 
-#: ../plugins/openoffice/openoffice-read.c:5058
+#: ../plugins/openoffice/openoffice-read.c:5239
 msgid "Master page style without name encountered!"
 msgstr "Zaznan je glavni slog strani brez ustreznega imena!"
 
-#: ../plugins/openoffice/openoffice-read.c:5163
-#: ../plugins/openoffice/openoffice-write.c:4753
-#: ../plugins/openoffice/openoffice-write.c:4765
+#: ../plugins/openoffice/openoffice-read.c:5348
+#: ../plugins/openoffice/openoffice-write.c:4815
+#: ../plugins/openoffice/openoffice-write.c:4827
 #: ../src/print-info.c:626
 msgid "tab"
 msgstr "tab"
 
-#: ../plugins/openoffice/openoffice-read.c:5193
-#: ../plugins/openoffice/openoffice-write.c:4756
-#: ../plugins/openoffice/openoffice-write.c:4768
+#: ../plugins/openoffice/openoffice-read.c:5378
+#: ../plugins/openoffice/openoffice-write.c:4818
+#: ../plugins/openoffice/openoffice-write.c:4830
 #: ../src/print-info.c:629
 msgid "date"
 msgstr "datum"
 
-#: ../plugins/openoffice/openoffice-read.c:5199
-#: ../plugins/openoffice/openoffice-write.c:4757
-#: ../plugins/openoffice/openoffice-write.c:4769
+#: ../plugins/openoffice/openoffice-read.c:5384
+#: ../plugins/openoffice/openoffice-write.c:4819
+#: ../plugins/openoffice/openoffice-write.c:4831
 #: ../src/print-info.c:630
 msgid "time"
 msgstr "čas"
 
-#: ../plugins/openoffice/openoffice-read.c:5205
-#: ../plugins/openoffice/openoffice-write.c:4754
-#: ../plugins/openoffice/openoffice-write.c:4766
+#: ../plugins/openoffice/openoffice-read.c:5390
+#: ../plugins/openoffice/openoffice-write.c:4816
+#: ../plugins/openoffice/openoffice-write.c:4828
 #: ../src/print-info.c:627
 msgid "page"
 msgstr "stran"
 
-#: ../plugins/openoffice/openoffice-read.c:5211
-#: ../plugins/openoffice/openoffice-write.c:4755
-#: ../plugins/openoffice/openoffice-write.c:4767
+#: ../plugins/openoffice/openoffice-read.c:5396
+#: ../plugins/openoffice/openoffice-write.c:4817
+#: ../plugins/openoffice/openoffice-write.c:4829
 #: ../src/print-info.c:628
 msgid "pages"
 msgstr "strani"
 
-#: ../plugins/openoffice/openoffice-read.c:5236
-#: ../plugins/openoffice/openoffice-read.c:5243
-#: ../plugins/openoffice/openoffice-write.c:4759
-#: ../plugins/openoffice/openoffice-write.c:4771
+#: ../plugins/openoffice/openoffice-read.c:5421
+#: ../plugins/openoffice/openoffice-read.c:5428
+#: ../plugins/openoffice/openoffice-write.c:4821
+#: ../plugins/openoffice/openoffice-write.c:4833
 #: ../src/print-info.c:632
 msgid "path"
 msgstr "pot"
 
-#: ../plugins/openoffice/openoffice-read.c:5240
-#: ../plugins/openoffice/openoffice-read.c:5247
-#: ../plugins/openoffice/openoffice-write.c:4758
-#: ../plugins/openoffice/openoffice-write.c:4770
+#: ../plugins/openoffice/openoffice-read.c:5425
+#: ../plugins/openoffice/openoffice-read.c:5432
+#: ../plugins/openoffice/openoffice-write.c:4820
+#: ../plugins/openoffice/openoffice-write.c:4832
 #: ../src/print-info.c:631
 #: ../src/ssconvert.c:90
 msgid "file"
 msgstr "datoteka"
 
-#: ../plugins/openoffice/openoffice-read.c:5289
+#: ../plugins/openoffice/openoffice-read.c:5474
 msgid "title"
 msgstr "naslov"
 
-#: ../plugins/openoffice/openoffice-read.c:5320
+#: ../plugins/openoffice/openoffice-read.c:5505
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Zaznan je neznan slog obrobe '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:5588
+#: ../plugins/openoffice/openoffice-read.c:5773
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Neznana vrsta prekinitve '%s' je spremenjena v BREZ"
 
-#: ../plugins/openoffice/openoffice-read.c:5666
+#: ../plugins/openoffice/openoffice-read.c:5851
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Ni mogoče razčleniti barve ozadja zavihka '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:5678
+#: ../plugins/openoffice/openoffice-read.c:5863
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "Ni mogoče razčleniti barve posave zavihka '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:5843
+#: ../plugins/openoffice/openoffice-read.c:6028
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Zaznan je neznan pogoj '%s', zato bo opravilo preklicano."
 
-#: ../plugins/openoffice/openoffice-read.c:6239
+#: ../plugins/openoffice/openoffice-read.c:6424
 #, c-format
 msgid "Unknown interpolation type encountered: '%s', using Bezier cubic spline instead."
 msgstr "Zaznana neznana vrsta interpolacije: '%s', namesto tega bo uporabljena Bezierova kubična polinomska krivulja."
 
-#: ../plugins/openoffice/openoffice-read.c:6248
+#: ../plugins/openoffice/openoffice-read.c:6433
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Zaznana neznana vrsta interpolacije: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:6628
+#: ../plugins/openoffice/openoffice-read.c:6826
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "izraz '%s' @ '%s' ni sklic celice"
 
-#: ../plugins/openoffice/openoffice-read.c:6645
+#: ../plugins/openoffice/openoffice-read.c:6843
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "Izraz '%s' nima znanega imenskega prostora"
 
-#: ../plugins/openoffice/openoffice-read.c:6697
+#: ../plugins/openoffice/openoffice-read.c:6895
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Neveljaven obseg podatkovne zbirke '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:6950
-#: ../plugins/openoffice/openoffice-read.c:6989
+#: ../plugins/openoffice/openoffice-read.c:7160
+#: ../plugins/openoffice/openoffice-read.c:7199
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr "Neveljaven atribut 'oblika:vrednost'; pričakovano je število, prejeto pa '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:6955
+#: ../plugins/openoffice/openoffice-read.c:7165
 #, c-format
 msgid "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-range' element."
 msgstr "Neveljavna vrsta vrednosti '%s' zapisana kot atribut 'oblika:vrednost' v predmetu 'oblika:vrsta-podatkov'."
 
-#: ../plugins/openoffice/openoffice-read.c:7594
+#: ../plugins/openoffice/openoffice-read.c:7806
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr "V podani podatkovni vrsti (%s) ni dovolj podatkov za vse zahteve"
 
-#: ../plugins/openoffice/openoffice-read.c:8126
+#: ../plugins/openoffice/openoffice-read.c:8338
 msgid "Gnumeric does not support non-automatic regression equations. Using automatic equation instead."
 msgstr "Program Gnumeric ne podpira izvajanja ne-samodejnih izračunov regresije. Uporabljena bo samodejno izvedljiva enačba."
 
-#: ../plugins/openoffice/openoffice-read.c:8269
+#: ../plugins/openoffice/openoffice-read.c:8481
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr "Zaznane so spustne črte v vrsti diagrama, ki te možnosti ne podpira."
 
-#: ../plugins/openoffice/openoffice-read.c:8339
+#: ../plugins/openoffice/openoffice-read.c:8551
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr "Zaznana je neznana vrsta diagrama, zato bo izrisan črtni diagram."
 
-#: ../plugins/openoffice/openoffice-read.c:8974
+#: ../plugins/openoffice/openoffice-read.c:9034
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "Atribut '%s' ima nepodprto vrednost '%s'."
 
-#: ../plugins/openoffice/openoffice-read.c:10901
+#: ../plugins/openoffice/openoffice-read.c:10969
 msgid "Unknown mimetype for openoffice file."
 msgstr "Neznana vrsta mime za datoteko openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:10911
+#: ../plugins/openoffice/openoffice-read.c:10979
 msgid "No stream named content.xml found."
 msgstr "Pretoka z imenom content.xml ni mogoče najti."
 
-#: ../plugins/openoffice/openoffice-read.c:10919
+#: ../plugins/openoffice/openoffice-read.c:10987
 msgid "No stream named styles.xml found."
 msgstr "Pretoka z imenom styles.xml ni mogoče najti."
 
-#: ../plugins/openoffice/openoffice-read.c:11045
+#: ../plugins/openoffice/openoffice-read.c:11116
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Neveljavni metapodatki '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:11114
+#: ../plugins/openoffice/openoffice-read.c:11185
 msgid "settings.xml stream is malformed!"
 msgstr "datoteka pretoka settings.xml je napačno oblikovana!"
 
-#: ../plugins/openoffice/openoffice-write.c:7840
+#: ../plugins/openoffice/openoffice-write.c:7907
 msgid "Writing Sheets..."
 msgstr "Čakanje na delovne liste ..."
 
-#: ../plugins/openoffice/openoffice-write.c:7869
+#: ../plugins/openoffice/openoffice-write.c:7936
 msgid "Writing Sheet Objects..."
 msgstr "Zapisovanje predmetov delovnega lista ..."
 
@@ -5206,26 +5205,26 @@ msgid "Border"
 msgstr "Obroba"
 
 #: ../src/dialogs/dialog-cell-format.c:2282
-#: ../src/wbc-gtk.c:3101
-#: ../src/wbc-gtk.c:3249
-#: ../src/wbc-gtk.c:3250
-#: ../src/wbc-gtk.c:3261
-#: ../src/wbc-gtk.c:3367
-#: ../src/wbc-gtk.c:3427
+#: ../src/wbc-gtk.c:3103
+#: ../src/wbc-gtk.c:3251
+#: ../src/wbc-gtk.c:3252
+#: ../src/wbc-gtk.c:3263
+#: ../src/wbc-gtk.c:3379
+#: ../src/wbc-gtk.c:3448
 msgid "Foreground"
 msgstr "Pisava"
 
 #: ../src/dialogs/dialog-cell-format.c:2286
-#: ../src/wbc-gtk.c:3298
+#: ../src/wbc-gtk.c:3300
 msgid "Clear Background"
 msgstr "Počisti ozadje"
 
 #: ../src/dialogs/dialog-cell-format.c:2286
 #: ../src/dialogs/cell-format-cond.ui.h:9
 #: ../src/dialogs/cell-format.ui.h:79
-#: ../src/wbc-gtk.c:3300
-#: ../src/wbc-gtk.c:3301
-#: ../src/wbc-gtk.c:3310
+#: ../src/wbc-gtk.c:3302
+#: ../src/wbc-gtk.c:3303
+#: ../src/wbc-gtk.c:3312
 msgid "Background"
 msgstr "Ozadje"
 
@@ -5866,7 +5865,7 @@ msgstr "Raven delovnega zvezka"
 #: ../src/dialogs/hf-config.ui.h:16
 #: ../src/dialogs/print.ui.h:53
 #: ../src/print-info.c:545
-#: ../src/search.c:776
+#: ../src/search.c:799
 #: ../src/tools/gnm-solver.c:713
 #: ../src/tools/gnm-solver.c:714
 #: ../src/workbook.c:923
@@ -6123,7 +6122,7 @@ msgstr "Samodejno popravljanje"
 #: ../src/dialogs/dialog-preferences.c:1187
 #: ../src/dialogs/cell-format-cond.ui.h:7
 #: ../src/dialogs/cell-format.ui.h:28
-#: ../src/wbc-gtk.c:3351
+#: ../src/wbc-gtk.c:3363
 msgid "Font"
 msgstr "Pisava"
 
@@ -6775,18 +6774,18 @@ msgstr "Zaženi na"
 
 #: ../src/dialogs/dialog-simulation.c:237
 #: ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4594
+#: ../src/wbc-gtk.c:4615
 msgid "Min"
 msgstr "Najmanj"
 
 #: ../src/dialogs/dialog-simulation.c:237
-#: ../src/wbc-gtk.c:4596
+#: ../src/wbc-gtk.c:4617
 msgid "Average"
 msgstr "Povprečje"
 
 #: ../src/dialogs/dialog-simulation.c:237
 #: ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:4595
+#: ../src/wbc-gtk.c:4616
 msgid "Max"
 msgstr "Največ"
 
@@ -7437,7 +7436,7 @@ msgstr "Na vrhu"
 
 #: ../src/dialogs/autofilter-top10.ui.h:4
 #: ../src/dialogs/cell-format.ui.h:34
-#: ../src/wbc-gtk.c:2996
+#: ../src/wbc-gtk.c:2998
 msgid "Bottom"
 msgstr "Na dnu"
 
@@ -7663,13 +7662,13 @@ msgstr "Diagonala"
 #. start sub menu
 #: ../src/dialogs/cell-format.ui.h:32
 #: ../src/sheet-control-gui.c:2172
-#: ../src/wbc-gtk.c:2988
+#: ../src/wbc-gtk.c:2990
 msgid "Left"
 msgstr "Levo"
 
 #: ../src/dialogs/cell-format.ui.h:33
 #: ../src/sheet-control-gui.c:2175
-#: ../src/wbc-gtk.c:2990
+#: ../src/wbc-gtk.c:2992
 msgid "Right"
 msgstr "Desno"
 
@@ -8709,8 +8708,8 @@ msgstr "Robljenje:"
 
 #. ----- vertical -----
 #: ../src/dialogs/dialog-zoom.ui.h:1
-#: ../src/wbc-gtk.c:2952
-#: ../src/wbc-gtk.c:2968
+#: ../src/wbc-gtk.c:2954
+#: ../src/wbc-gtk.c:2970
 msgid "Zoom"
 msgstr "Približanje"
 
@@ -10399,7 +10398,7 @@ msgid "Search and replace in specified range only"
 msgstr "Poišči in zamenjaj le v izbranem obsegu celic."
 
 #: ../src/dialogs/search-replace.ui.h:27
-#: ../src/search.c:785
+#: ../src/search.c:808
 msgid "Scope"
 msgstr "Obseg"
 
@@ -12117,123 +12116,123 @@ msgstr "Obseg tiskanja Gnumeric"
 msgid "Print to File"
 msgstr "Natisni v datoteko"
 
-#: ../src/search.c:112
+#: ../src/search.c:127
 msgid "Searching for regular expressions and numbers are mutually exclusive."
 msgstr "Sočasno iskanje z logičnimi izrazi in števili se medsebojno izključuje."
 
-#: ../src/search.c:116
+#: ../src/search.c:131
 msgid "The search text must be a number."
 msgstr "Iskalno besedilo mora biti število."
 
-#: ../src/search.c:123
+#: ../src/search.c:138
 msgid "You must specify a range to search."
 msgstr "Določiti je treba obseg iskanja."
 
-#: ../src/search.c:127
+#: ../src/search.c:142
 msgid "The search range is invalid."
 msgstr "Obseg iskanja je neveljaven."
 
-#: ../src/search.c:677
+#: ../src/search.c:700
 msgid "Is Number"
 msgstr "Je število"
 
-#: ../src/search.c:678
+#: ../src/search.c:701
 msgid "Search for Specific Number Regardless of Formatting?"
 msgstr "Ali naj se išče določeno število neodvisno od oblikovanja?"
 
-#: ../src/search.c:686
+#: ../src/search.c:709
 msgid "Search Strings"
 msgstr "Iskanje med nizi"
 
-#: ../src/search.c:687
+#: ../src/search.c:710
 msgid "Should strings be searched?"
 msgstr "Ali naj se preiščejo tudi nizi?"
 
-#: ../src/search.c:695
+#: ../src/search.c:718
 msgid "Search Other Values"
 msgstr "Iskanje drugih vrednosti"
 
-#: ../src/search.c:696
+#: ../src/search.c:719
 msgid "Should non-strings be searched?"
 msgstr "Ali naj se preiščejo tudi vrednosti, ki niso nizi?"
 
-#: ../src/search.c:704
+#: ../src/search.c:727
 msgid "Search Expressions"
 msgstr "Iskanje med izrazi"
 
-#: ../src/search.c:705
+#: ../src/search.c:728
 msgid "Should expressions be searched?"
 msgstr "Ali naj se preiščejo tudi izrazi?"
 
-#: ../src/search.c:713
+#: ../src/search.c:736
 msgid "Search Expression Results"
 msgstr "Iskanje med rezultati izrazov"
 
-#: ../src/search.c:714
+#: ../src/search.c:737
 msgid "Should the results of expressions be searched?"
 msgstr "Ali naj se preiščejo tudi rezultati izrazov?"
 
-#: ../src/search.c:722
+#: ../src/search.c:745
 msgid "Search Comments"
 msgstr "Iskanje med opombami"
 
-#: ../src/search.c:723
+#: ../src/search.c:746
 msgid "Should cell comments be searched?"
 msgstr "Ali naj se preiščejo tudi opombe?"
 
-#: ../src/search.c:731
+#: ../src/search.c:754
 msgid "Search Scripts"
 msgstr "Iskanje med skripti"
 
-#: ../src/search.c:732
+#: ../src/search.c:755
 msgid "Should scrips (workbook, and worksheet) be searched?"
 msgstr "Ali naj bodo delovni zvezki in delovni listi preiskani?"
 
-#: ../src/search.c:740
+#: ../src/search.c:763
 msgid "Invert"
 msgstr "Preobrni"
 
-#: ../src/search.c:741
+#: ../src/search.c:764
 msgid "Collect non-matching items"
 msgstr "Zberi neskladne predmete"
 
-#: ../src/search.c:749
+#: ../src/search.c:772
 msgid "By Row"
 msgstr "Po vrstici"
 
-#: ../src/search.c:750
+#: ../src/search.c:773
 msgid "Is the search order by row?"
 msgstr "Ali iskanje teče po vrsticah?"
 
-#: ../src/search.c:758
+#: ../src/search.c:781
 msgid "Query"
 msgstr "Poizvedba"
 
-#: ../src/search.c:759
+#: ../src/search.c:782
 msgid "Should we query for each replacement?"
 msgstr "Ali naj se izvede poizvedba za vsako zamenjavo?"
 
-#: ../src/search.c:767
+#: ../src/search.c:790
 msgid "Keep Strings"
 msgstr "Ohrani nize"
 
-#: ../src/search.c:768
+#: ../src/search.c:791
 msgid "Should replacement keep strings as strings?"
 msgstr "Ali naj se med zamenjavo niz ohrani kot niz?"
 
-#: ../src/search.c:777
+#: ../src/search.c:800
 msgid "The sheet in which to search."
 msgstr "Delovni list za iskanje."
 
-#: ../src/search.c:786
+#: ../src/search.c:809
 msgid "Where to search."
 msgstr "Kje iskati."
 
-#: ../src/search.c:795
+#: ../src/search.c:818
 msgid "Range as Text"
 msgstr "Obseg kot besedilo"
 
-#: ../src/search.c:796
+#: ../src/search.c:819
 msgid "The range in which to search."
 msgstr "Obseg iskanja."
 
@@ -12599,7 +12598,7 @@ msgstr "Potisni v o_zadje"
 
 #: ../src/sheet-object-component.c:185
 #: ../src/sheet-object-graph.c:288
-#: ../src/sheet-object-image.c:310
+#: ../src/sheet-object-image.c:309
 #, c-format
 msgid "Unknown failure while saving image"
 msgstr "Neznana napaka med shranjevanjem slike"
@@ -12613,7 +12612,7 @@ msgid "_Save as"
 msgstr "Shrani _kot ..."
 
 #: ../src/sheet-object-component.c:271
-#: ../src/sheet-object-image.c:365
+#: ../src/sheet-object-image.c:364
 msgid "_Save as image"
 msgstr "Shrani kot s_liko"
 
@@ -14452,7 +14451,7 @@ msgid "Range"
 msgstr "Obseg"
 
 #: ../src/tools/simulation.c:257
-#: ../src/wbc-gtk.c:4597
+#: ../src/wbc-gtk.c:4618
 msgid "Count"
 msgstr "Števec"
 
@@ -16232,7 +16231,7 @@ msgstr "Prilagodi vrtilno razpredelnico"
 
 #. Standard Toolbar
 #: ../src/wbc-gtk-actions.c:2684
-#: ../src/wbc-gtk.c:4593
+#: ../src/wbc-gtk.c:4614
 #: ../src/workbook-view.c:1006
 msgid "Sum"
 msgstr "Vsota"
@@ -16951,84 +16950,84 @@ msgstr "_Zavrzi"
 msgid "_Accept"
 msgstr "_Sprejmi"
 
-#: ../src/wbc-gtk.c:2950
+#: ../src/wbc-gtk.c:2952
 msgid "_Zoom"
 msgstr "_Približaj"
 
-#: ../src/wbc-gtk.c:2989
+#: ../src/wbc-gtk.c:2991
 msgid "Clear Borders"
 msgstr "Počisti obrobe"
 
-#: ../src/wbc-gtk.c:2992
+#: ../src/wbc-gtk.c:2994
 msgid "All Borders"
 msgstr "Vse obrobe"
 
-#: ../src/wbc-gtk.c:2993
+#: ../src/wbc-gtk.c:2995
 msgid "Outside Borders"
 msgstr "Zunanje obrobe"
 
-#: ../src/wbc-gtk.c:2994
+#: ../src/wbc-gtk.c:2996
 msgid "Thick Outside Borders"
 msgstr "Debele zunanje obrobe"
 
-#: ../src/wbc-gtk.c:2997
+#: ../src/wbc-gtk.c:2999
 msgid "Double Bottom"
 msgstr "Dvojno dno"
 
-#: ../src/wbc-gtk.c:2998
+#: ../src/wbc-gtk.c:3000
 msgid "Thick Bottom"
 msgstr "Debelo dno"
 
-#: ../src/wbc-gtk.c:3000
+#: ../src/wbc-gtk.c:3002
 msgid "Top and Bottom"
 msgstr "Zgoraj in spodaj"
 
-#: ../src/wbc-gtk.c:3001
+#: ../src/wbc-gtk.c:3003
 msgid "Top and Double Bottom"
 msgstr "Zgoraj in dvojno spodaj"
 
-#: ../src/wbc-gtk.c:3002
+#: ../src/wbc-gtk.c:3004
 msgid "Top and Thick Bottom"
 msgstr "Zgoraj in debelo spodaj"
 
-#: ../src/wbc-gtk.c:3087
+#: ../src/wbc-gtk.c:3089
 msgid "Set Borders"
 msgstr "Določi robove"
 
-#: ../src/wbc-gtk.c:3095
-#: ../src/wbc-gtk.c:3096
+#: ../src/wbc-gtk.c:3097
+#: ../src/wbc-gtk.c:3098
 msgid "Borders"
 msgstr "Obrobe"
 
-#: ../src/wbc-gtk.c:3196
+#: ../src/wbc-gtk.c:3198
 msgid "Redo the undone action"
 msgstr "Obnovi razveljavljeno spremembo"
 
-#: ../src/wbc-gtk.c:3201
+#: ../src/wbc-gtk.c:3203
 msgid "Undo the last action"
 msgstr "Razveljavi zadnje dejanje"
 
-#: ../src/wbc-gtk.c:3236
+#: ../src/wbc-gtk.c:3238
 msgid "Set Foreground Color"
 msgstr "Določi barvo pisave"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:3291
+#: ../src/wbc-gtk.c:3293
 msgid "Set Background Color"
 msgstr "Določi barvo ozadja"
 
-#: ../src/wbc-gtk.c:3330
+#: ../src/wbc-gtk.c:3342
 #, c-format
 msgid "Font Name %s"
 msgstr "Ime pisave %s"
 
-#: ../src/wbc-gtk.c:3390
+#: ../src/wbc-gtk.c:3411
 #, c-format
 msgid "Font Size %f"
 msgstr "Velikost pisave %f"
 
-#: ../src/wbc-gtk.c:3408
-#: ../src/wbc-gtk.c:3409
+#: ../src/wbc-gtk.c:3429
+#: ../src/wbc-gtk.c:3430
 msgid "Font Size"
 msgstr "Velikost pisave"
 
@@ -17038,87 +17037,87 @@ msgstr "Velikost pisave"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3623
+#: ../src/wbc-gtk.c:3644
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "V meniju `%s' je ključ `%s' uporabljen za `%s' in `%s'."
 
-#: ../src/wbc-gtk.c:3941
+#: ../src/wbc-gtk.c:3962
 msgid "Display above sheets"
 msgstr "Pokaži nad delovnimi listi"
 
-#: ../src/wbc-gtk.c:3942
+#: ../src/wbc-gtk.c:3963
 msgid "Display to the left of sheets"
 msgstr "Pokaži levo od delovnih listov"
 
-#: ../src/wbc-gtk.c:3943
+#: ../src/wbc-gtk.c:3964
 msgid "Display to the right of sheets"
 msgstr "Pokaži desno od delovnih listov"
 
-#: ../src/wbc-gtk.c:3954
+#: ../src/wbc-gtk.c:3975
 msgid "Reattach to main window"
 msgstr "Ponovno pripni k glavnemu oknu"
 
-#: ../src/wbc-gtk.c:3988
+#: ../src/wbc-gtk.c:4009
 msgid "Hide"
 msgstr "Skrij"
 
-#: ../src/wbc-gtk.c:4052
+#: ../src/wbc-gtk.c:4073
 msgid "Standard Toolbar"
 msgstr "Običajna orodna vrstica"
 
-#: ../src/wbc-gtk.c:4053
+#: ../src/wbc-gtk.c:4074
 msgid "Format Toolbar"
 msgstr "Orodna vrstica oblikovanja"
 
-#: ../src/wbc-gtk.c:4054
+#: ../src/wbc-gtk.c:4075
 msgid "Long Format Toolbar"
 msgstr "Dolga orodna vrstica"
 
-#: ../src/wbc-gtk.c:4055
+#: ../src/wbc-gtk.c:4076
 msgid "Object Toolbar"
 msgstr "Orodna vrstica predmetov"
 
-#: ../src/wbc-gtk.c:4069
+#: ../src/wbc-gtk.c:4090
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Pokaži ali skrij orodno vrstico %s"
 
-#: ../src/wbc-gtk.c:4654
+#: ../src/wbc-gtk.c:4675
 #, c-format
 msgid "Content of %s"
 msgstr "Vsebina %s"
 
-#: ../src/wbc-gtk.c:4669
+#: ../src/wbc-gtk.c:4690
 msgid "Use maximum precision"
 msgstr "Uporabi največjo natančnost"
 
-#: ../src/wbc-gtk.c:4681
+#: ../src/wbc-gtk.c:4702
 msgid "Insert formula below."
 msgstr "Vstavi formulo spodaj."
 
-#: ../src/wbc-gtk.c:4687
+#: ../src/wbc-gtk.c:4708
 msgid "Insert formula to side."
 msgstr "Vstavi formulo na stransko celico."
 
-#: ../src/wbc-gtk.c:4771
+#: ../src/wbc-gtk.c:4793
 #, c-format
 msgid "Open %s"
 msgstr "Odpri %s"
 
-#: ../src/wbc-gtk.c:5485
+#: ../src/wbc-gtk.c:5507
 msgid "Autosave prompt"
 msgstr "Vprašalno sporočilo shranjevanja"
 
-#: ../src/wbc-gtk.c:5486
+#: ../src/wbc-gtk.c:5508
 msgid "Ask about autosave?"
 msgstr "Ali naj sistem zahteva potrditev pred samodejnim shranjevanjem?"
 
-#: ../src/wbc-gtk.c:5492
+#: ../src/wbc-gtk.c:5514
 msgid "Autosave time in seconds"
 msgstr "Razmik samodejnega shranjevanje v sekundah."
 
-#: ../src/wbc-gtk.c:5493
+#: ../src/wbc-gtk.c:5515
 msgid "Seconds before autosave"
 msgstr "Sekunde pred samodejnim shranjevanjem"
 
@@ -17384,7 +17383,7 @@ msgid "Auto-expression value"
 msgstr "Vrednost samodejnega izraza"
 
 #: ../src/workbook-view.c:873
-msgid "The current value of the auto-exprssion."
+msgid "The current value of the auto-expression."
 msgstr "Trenutna vrednost samodejnega izraza."
 
 #: ../src/workbook-view.c:881
