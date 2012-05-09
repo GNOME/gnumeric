@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-05-02 13:27+0000\n"
-"PO-Revision-Date: 2012-05-03 10:07+0200\n"
+"POT-Creation-Date: 2012-05-04 17:41+0000\n"
+"PO-Revision-Date: 2012-05-09 10:47+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1536,18 +1536,18 @@ msgstr "Se encontró un estilo de guión sin nombre."
 
 #: ../plugins/openoffice/openoffice-read.c:3772
 msgid "Unnamed image fill style encountered."
-msgstr "Se encontró una estilo de imagen de relleno sin nombre."
+msgstr "Se encontró un estilo de relleno de imagen sin nombre."
 
 #: ../plugins/openoffice/openoffice-read.c:3774
 #, c-format
 msgid "Image fill style '%s' has no attached image."
-msgstr "El estilo de relleno de imagen «%s» no tiene adjunta ninguna imagen."
+msgstr "El estilo de relleno de imagen «%s» no tiene ninguna imagen adjunta."
 
 #: ../plugins/openoffice/openoffice-read.c:3811
 #: ../plugins/openoffice/openoffice-read.c:3817
 #, c-format
 msgid "Unable to parse gradient color: %s"
-msgstr "No se puee analizar el color de gradiente: %s"
+msgstr "No se puede analizar el color del degradado: %s"
 
 #: ../plugins/openoffice/openoffice-read.c:3837
 msgid "Unnamed gradient style encountered."
@@ -1560,7 +1560,7 @@ msgstr "No se puede analizar el color del entramado: %s"
 
 #: ../plugins/openoffice/openoffice-read.c:3932
 msgid "Unnamed hatch encountered!"
-msgstr "Se encontró un entramado sin nombre."
+msgstr "Se encontró un entramado sin nombre."
 
 #: ../plugins/openoffice/openoffice-read.c:4031
 msgid "Duplicate default column style encountered."
@@ -1586,7 +1586,7 @@ msgstr "Archivo corrupto: se ignoró un estilo de número sin nombre. "
 #: ../plugins/openoffice/openoffice-read.c:4918
 #: ../plugins/openoffice/openoffice-read.c:4946
 msgid "This file appears corrupted, required formats are missing."
-msgstr "El archivo parece corrupto, requiere de formatos que faltan."
+msgstr "Este archivo parece corrupto, faltan los formatos requeridos."
 
 #: ../plugins/openoffice/openoffice-read.c:5012
 #, c-format
@@ -1595,23 +1595,21 @@ msgstr "Papel del archivo ODF: %ipt⨉%ipt"
 
 #: ../plugins/openoffice/openoffice-read.c:5198
 msgid "Missing page layout identifier"
-msgstr "Falta el identificador de distribución de página"
+msgstr "Falta el identificador del diseño de página"
 
 #: ../plugins/openoffice/openoffice-read.c:5228
-#, fuzzy
-#| msgid "Image fill without image name encountered!"
 msgid "Master page style without page layout encountered!"
-msgstr "Se encontró un estilo de página maestra sin una disposición de página"
+msgstr "Se encontró un estilo de página maestra sin disposición de página."
 
 #: ../plugins/openoffice/openoffice-read.c:5239
 msgid "Master page style without name encountered!"
-msgstr "Se encontró un estilo de página maestra sin nombre"
+msgstr "Se encontró un estilo de página maestra sin nombre."
 
 #: ../plugins/openoffice/openoffice-read.c:5348
 #: ../plugins/openoffice/openoffice-write.c:4815
 #: ../plugins/openoffice/openoffice-write.c:4827 ../src/print-info.c:626
 msgid "tab"
-msgstr "tabulación"
+msgstr "pestaña"
 
 #: ../plugins/openoffice/openoffice-read.c:5378
 #: ../plugins/openoffice/openoffice-write.c:4818
@@ -1659,12 +1657,12 @@ msgstr "título"
 #: ../plugins/openoffice/openoffice-read.c:5505
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
-msgstr "Se encontró un estilo de borde '%s' desconocido."
+msgstr "Se encontró un estilo de borde de Gnumeric «%s» desconocido."
 
 #: ../plugins/openoffice/openoffice-read.c:5773
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
-msgstr "Tipo de salto «%s» desconocido, cambiando a NINGUNO"
+msgstr "Tipo de salto «%s» desconocido, el predeterminado es NINGUNO"
 
 #: ../plugins/openoffice/openoffice-read.c:5851
 #, c-format
@@ -1687,8 +1685,8 @@ msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
 "instead."
 msgstr ""
-"Se encontró un tipo de interpolación desconocido: '%s', se usará una spline "
-"cúbica de Bezier en su lugar."
+"Se encontró un tipo de interpolación desconocido: «%s», en su lugar se usará "
+"una spline cúbica de Bezier."
 
 #: ../plugins/openoffice/openoffice-read.c:6433
 #, c-format
@@ -1708,14 +1706,13 @@ msgstr "La expresión «%s» tiene un espacio de nombres desconocido"
 #: ../plugins/openoffice/openoffice-read.c:6895
 #, c-format
 msgid "Invalid DB range '%s'"
-msgstr "Rango DB «%s» no válido"
+msgstr "Rango de BD «%s» no válido"
 
 #: ../plugins/openoffice/openoffice-read.c:7160
 #: ../plugins/openoffice/openoffice-read.c:7199
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr ""
-"Atributo «form:value» no válido, se esperaba un número y se ha recibido «%s»"
+msgstr "Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:7165
 #, c-format
@@ -1723,8 +1720,8 @@ msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
 "range' element."
 msgstr ""
-"Tipo de valor «%s» no válido anunciado para «form:value» en el elemento «form:"
-"value-range»."
+"Tipo de valor «%s» no válido anunciado por el atributo «form:value» en el "
+"elemento «form:value-range»."
 
 #: ../plugins/openoffice/openoffice-read.c:7806
 #, c-format
@@ -1738,12 +1735,12 @@ msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
 msgstr ""
-"Gnumeric no soporta ecuaciones con regresión no-automática. En su lugar, se "
-"usará una ecuación automática."
+"Gnumeric no soporta ecuaciones con regresión no-automática. En su lugar, se "
+"usará una ecuación automática."
 
 #: ../plugins/openoffice/openoffice-read.c:8481
 msgid "Encountered drop lines in a plot not supporting them."
-msgstr ""
+msgstr "Se encontraron líneas de caída en un argumento que no los soporta."
 
 #: ../plugins/openoffice/openoffice-read.c:8551
 msgid "Encountered an unknown chart type, trying to create a line plot."
@@ -1771,7 +1768,7 @@ msgstr "No se encontró ningún flujo llamado styles.xml."
 #: ../plugins/openoffice/openoffice-read.c:11116
 #, c-format
 msgid "Invalid metadata '%s'"
-msgstr "Metadato inválido: «%s»"
+msgstr "Metadatos no válidos «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:11185
 msgid "settings.xml stream is malformed!"
@@ -1791,7 +1788,7 @@ msgstr "Formato Open Document"
 
 #: ../plugins/openoffice/plugin.xml.in.h:2
 msgid "Open Document Format as used by OpenOffice, Lotus Symphony, etc."
-msgstr "Formato Open Document como lo usan OpenOffice, Lotus Symphony, etc."
+msgstr "Formato Open Document como lo usa OpenOffice, Lotus Symphony, etc."
 
 #: ../plugins/openoffice/plugin.xml.in.h:3
 msgid "Open Document Format (*.sxc, *.ods)"
