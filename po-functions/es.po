@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-05-03 08:10+0000\n"
-"PO-Revision-Date: 2012-05-04 14:12+0200\n"
+"POT-Creation-Date: 2012-05-04 17:42+0000\n"
+"PO-Revision-Date: 2012-05-09 10:34+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1284,7 +1284,7 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:692
 msgid "EOMONTH:end of month"
-msgstr ""
+msgstr "EOMONTH: fin del mes"
 
 #: ../plugins/fn-date/functions.c:695
 msgid ""
@@ -1292,44 +1292,54 @@ msgid ""
 "{date} adjusted forward or backward the number of months specified by @"
 "{months}."
 msgstr ""
+"EOMONTH devuelve el valor de la fecha del final del mes especificado por @"
+"{fecha} ajustado hacia adelante o atrás la cantidad de meses indicada por @"
+"{meses}."
 
 #: ../plugins/fn-date/functions.c:732
 msgid "WORKDAY:add working days"
-msgstr ""
+msgstr "WORKDAY: agregar días laborales"
 
 #: ../plugins/fn-date/functions.c:734
 msgid "days:number of days to add"
-msgstr ""
+msgstr "días: número de días que agregar"
 
 #: ../plugins/fn-date/functions.c:735 ../plugins/fn-date/functions.c:958
 msgid "holidays:array of holidays"
-msgstr ""
+msgstr "festivos: vector de festivos"
 
 #: ../plugins/fn-date/functions.c:736 ../plugins/fn-date/functions.c:959
 msgid ""
 "weekend:array of 0s and 1s, indicating whether a weekday (S, M, T, W, T, F, "
 "S) is on the weekend, defaults to {1,0,0,0,0,0,1}"
 msgstr ""
+"fin de semana: vector de ceros y unos que indican los días de la semana (D, "
+"L, M, X, J, V, S) correspondientes al fin de semana. El predeterminado es "
+"{1,0,0,0,0,0,1}."
 
 #: ../plugins/fn-date/functions.c:738
 msgid ""
 "WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in "
 "the process."
 msgstr ""
+"WORKDAR ajusta la @{fecha} por @{días} omitiendo los fines de semana y los @"
+"{festivos} en el proceso."
 
 #: ../plugins/fn-date/functions.c:739
 msgid "@{days} may be negative."
-msgstr ""
+msgstr "@{días} puede ser negativo."
 
 #: ../plugins/fn-date/functions.c:740 ../plugins/fn-date/functions.c:962
 msgid ""
 "If an entry of @{weekend} is non-zero, the corresponding weekday is not a "
 "work day."
 msgstr ""
+"Si un valor de @{fin de semana} es distinto de cero, el día de semana "
+"correspondiente no es un día laboral."
 
 #: ../plugins/fn-date/functions.c:741 ../plugins/fn-date/functions.c:963
 msgid "This function is Excel compatible if the last argument is omitted."
-msgstr ""
+msgstr "Esta función es compatible con Excel si se omite el último argumento."
 
 #: ../plugins/fn-date/functions.c:742 ../plugins/fn-date/functions.c:964
 #: ../plugins/fn-date/functions.c:1254 ../plugins/fn-eng/functions.c:213
@@ -1345,53 +1355,64 @@ msgstr ""
 #: ../plugins/fn-string/functions.c:1103 ../plugins/fn-string/functions.c:1445
 #: ../plugins/fn-string/functions.c:1575
 msgid "This function is OpenFormula compatible."
-msgstr ""
+msgstr "Esta función es compatible con OpenFormula."
 
 #: ../plugins/fn-date/functions.c:955
 msgid "NETWORKDAYS:number of workdays in range"
-msgstr ""
+msgstr "NETWORKDAYS: número de días laborales en el rango"
 
 #: ../plugins/fn-date/functions.c:961
 msgid ""
 "NETWORKDAYS calculates the number of days from @{start_date} to @{end_date} "
 "skipping weekends and @{holidays} in the process."
 msgstr ""
+"NETWORKDAYS calcula el número de días desde {fecha_inicio} hasta @"
+"{fecha_fin} omitiendo los fines de semana y los @{festivos} en el proceso."
 
 #: ../plugins/fn-date/functions.c:1122
 msgid "ISOWEEKNUM:ISO week number"
-msgstr ""
+msgstr "ISOWEEKNUM: número de semana ISO"
 
 #: ../plugins/fn-date/functions.c:1124
 msgid ""
 "ISOWEEKNUM calculates the week number according to the ISO 8601 standard.  "
 "Weeks start on Mondays and week 1 contains the first Thursday of the year."
 msgstr ""
+"ISOWEEKNUM calcula el número de semana de acuerdo al estándar ISO-8601. Las "
+"semanas inician en lunes y la semana 1 contiene el primer jueves del año."
 
 #: ../plugins/fn-date/functions.c:1125 ../plugins/fn-date/functions.c:1149
 msgid ""
 "January 1 of a year is sometimes in week 52 or 53 of the previous year.  "
 "Similarly, December 31 is sometimes in week 1 of the following year."
 msgstr ""
+"El 1 de enero de un año está, a veces, en la semana 52 o 53 del año "
+"anterior. De la misma forma, el 31 de diciembre está, a veces, en la semana "
+"1 del año siguiente."
 
 #: ../plugins/fn-date/functions.c:1146
 msgid "ISOYEAR:year corresponding to the ISO week number"
-msgstr ""
+msgstr "ISOYEAR: año correspondiente al número de semana ISO"
 
 #: ../plugins/fn-date/functions.c:1148
 msgid ""
 "ISOYEAR calculates the year to go with week number according to the ISO 8601 "
 "standard."
 msgstr ""
+"ISOYEAR calcula el año que va bien con el número de semana de acuerdo con el "
+"estándar ISO-8601."
 
 #: ../plugins/fn-date/functions.c:1182
 msgid "WEEKNUM:week number"
-msgstr ""
+msgstr "WEEKNUM: número de semana"
 
 #: ../plugins/fn-date/functions.c:1185
 msgid ""
 "WEEKNUM calculates the week number according to @{method} which defaults to "
 "1."
 msgstr ""
+"WEEKNUM calcula el número de semana de acuerdo al @{método}, cuyo valor "
+"predeterminado es 1."
 
 #: ../plugins/fn-date/functions.c:1186
 msgid ""
