@@ -1,3 +1,8 @@
+2012-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (od_draw_text_frame_end): check for empty
+	text content
+
 2012-05-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_attrs_as_string): handle font colour

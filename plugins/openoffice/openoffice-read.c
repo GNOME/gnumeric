@@ -7122,7 +7122,8 @@ od_draw_text_frame_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	oo_text_p_t *ptr;
 
-	if (state->text_p_stack != NULL && (NULL != (ptr = state->text_p_stack->data)))
+	if (state->text_p_stack != NULL && (NULL != (ptr = state->text_p_stack->data)) 
+	    && ptr->gstr != NULL)
 		g_object_set (state->chart.so, "text", ptr->gstr->str, "markup", ptr->attrs, NULL);
 	od_draw_frame_end (xin, NULL);
 	odf_pop_text_p (state);
