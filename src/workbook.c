@@ -108,6 +108,14 @@ workbook_dispose (GObject *wb_object)
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
 		wb_control_sheet_remove_all (control););
 
+	/* Get rid of all the views */
+	WORKBOOK_FOREACH_VIEW (wb, wbv, {
+		wb_view_detach_from_workbook (wbv);
+		g_object_unref (wbv);
+	});
+	if (wb->wb_views != NULL)
+		g_warning ("Unexpected left over views");
+
 	command_list_release (wb->undo_commands);
 	wb->undo_commands = NULL;
 	command_list_release (wb->redo_commands);
@@ -131,19 +139,6 @@ workbook_dispose (GObject *wb_object)
 		workbook_sheet_delete (sheet);
 	}
 	g_slist_free (sheets);
-
-	/* TODO : This should be earlier when we figure out how to deal with
-	 * the issue raised by 'pristine'.
-	 */
-	/* Get rid of all the views */
-	if (wb->wb_views != NULL) {
-		WORKBOOK_FOREACH_VIEW (wb, wbv, {
-			wb_view_detach_from_workbook (wbv);
-			g_object_unref (wbv);
-		});
-		if (wb->wb_views != NULL)
-			g_warning ("Unexpected left over views");
-	}
 
 	workbook_parent_class->dispose (wb_object);
 }

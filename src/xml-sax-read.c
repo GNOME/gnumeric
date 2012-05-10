@@ -1629,6 +1629,7 @@ xml_sax_validation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		validation_new (state->validation.style,
 				state->validation.type,
 				state->validation.op,
+				state->sheet,
 				state->validation.title,
 				state->validation.msg,
 				state->validation.texpr[0],

@@ -1607,7 +1607,9 @@ validation_rebuild_validation (FormatState *state)
 			gnm_style_set_validation
 				(state->result,
 				 validation_new
-				 (style, type, op, title, msg,
+				 (style, type, op,
+				  state->sheet,
+				  title, msg,
 				  texpr0,
 				  texpr1,
 				  allow_blank,
@@ -1905,9 +1907,9 @@ fmt_dialog_init_validation_page (FormatState *state)
 		parse_pos_init (&pp, state->sheet->workbook, state->sheet,
 			state->sv->edit_pos.col, state->sv->edit_pos.row);
 		gnm_expr_entry_load_from_expr (state->validation.expr0.entry,
-			v->texpr[0], &pp);
+					       v->deps[0].texpr, &pp);
 		gnm_expr_entry_load_from_expr (state->validation.expr1.entry,
-			v->texpr[1], &pp);
+					       v->deps[1].texpr, &pp);
 	}
 
 	cb_validation_sensitivity (NULL, state);

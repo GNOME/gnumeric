@@ -326,6 +326,10 @@ sub test_exporter {
     $code = system ("$ssconvert '$file' '$tmp1' 2>&1 | sed -e 's/^/| /'");
     &system_failure ($ssconvert, $code) if $code;
 
+    print STDERR "file=$file\n";
+    print STDERR "tmp1=$tmp1\n";
+    system ("ls -lart | tail");
+
     my $tmp2 = "$tmp-new.$ext";
     &junkfile ($tmp2) unless $keep;
     $code = system ("$ssconvert '$file' '$tmp2' 2>&1 | sed -e 's/^/| /'");

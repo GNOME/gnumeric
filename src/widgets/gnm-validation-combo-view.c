@@ -107,11 +107,11 @@ vcombo_create_list (SheetObject *so,
 
 	g_return_val_if_fail (val != NULL, NULL);
 	g_return_val_if_fail (val->type == GNM_VALIDATION_TYPE_IN_LIST, NULL);
-	g_return_val_if_fail (val->texpr[0] != NULL, NULL);
+	g_return_val_if_fail (val->deps[0].texpr != NULL, NULL);
 	g_return_val_if_fail (sv != NULL, NULL);
 
 	eval_pos_init_editpos (&ep, sv);
-	v = gnm_expr_top_eval (val->texpr[0], &ep,
+	v = gnm_expr_top_eval (val->deps[0].texpr, &ep,
 			       GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
 			       GNM_EXPR_EVAL_PERMIT_EMPTY |
 			       GNM_EXPR_EVAL_ARRAY_CONTEXT);

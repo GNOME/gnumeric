@@ -2242,7 +2242,7 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val, guint offset)
 	char *start = NULL, *end = NULL;
 	GString *str;
 	GnmExprTop const *texpr = NULL;
-	GnmParsePos   pp;
+	GnmParsePos pp;
 
 
 	start = strchr (val->condition + offset, '(');
@@ -2287,6 +2287,7 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val, guint offset)
 		validation = validation_new (val->style,
 					     GNM_VALIDATION_TYPE_IN_LIST,
 					     GNM_VALIDATION_OP_NONE,
+					     state->pos.sheet,
 					     val->title, 
 					     val->message->str,
 					     texpr,
@@ -2301,12 +2302,12 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val, guint offset)
 
 static GnmValidation *
 odf_validation_new_single_expr (GsfXMLIn *xin, odf_validation_t *val,
-				    char const *start, ValidationType val_type,
-				    ValidationOp val_op)
+				char const *start, ValidationType val_type,
+				ValidationOp val_op)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmExprTop const *texpr = NULL;
-	GnmParsePos   pp;
+	GnmParsePos pp;
 
 	pp = state->pos;
 	if (val->base_cell_address != NULL) {
@@ -2335,6 +2336,7 @@ odf_validation_new_single_expr (GsfXMLIn *xin, odf_validation_t *val,
 		return validation_new (val->style,
 				       val_type,
 				       val_op,
+				       state->pos.sheet,
 				       val->title, 
 				       val->message->str,
 				       texpr,
@@ -2351,7 +2353,7 @@ odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmExprTop const *texpr = NULL;
-	GnmParsePos   pp;
+	GnmParsePos pp;
 	GnmExprTop const *texpr_a = NULL, *texpr_b = NULL;
 	char *pair = NULL;
 	guint len = strlen (start);
@@ -2408,6 +2410,7 @@ odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 		return validation_new (val->style,
 				       val_type,
 				       val_op,
+				       state->pos.sheet,
 				       val->title, 
 				       val->message->str,
 				       texpr_a,

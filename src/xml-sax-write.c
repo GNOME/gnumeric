@@ -579,13 +579,13 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 
 		parse_pos_init_sheet (&pp, (Sheet *)state->sheet);
 
-		if (v->texpr[0] != NULL &&
-		    (tmp = gnm_expr_top_as_string (v->texpr[0], &pp, state->convs)) != NULL) {
+		if (v->deps[0].texpr != NULL &&
+		    (tmp = gnm_expr_top_as_string (v->deps[0].texpr, &pp, state->convs)) != NULL) {
 			gsf_xml_out_simple_element (state->output, GNM "Expression0", tmp);
 			g_free (tmp);
 		}
-		if (v->texpr[1] != NULL &&
-		    (tmp = gnm_expr_top_as_string (v->texpr[1], &pp, state->convs)) != NULL) {
+		if (v->deps[1].texpr != NULL &&
+		    (tmp = gnm_expr_top_as_string (v->deps[1].texpr, &pp, state->convs)) != NULL) {
 			gsf_xml_out_simple_element (state->output, GNM "Expression1", tmp);
 			g_free (tmp);
 		}

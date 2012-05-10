@@ -1,3 +1,23 @@
+2012-05-10  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_dispose): Dispose of views early.
+	(This is desirable since the views hold the auto-expression value
+	which in turn may references sheets via validations in the
+	format.)
+
+	* src/validation.h (GnmValidation): Use GnmDependent, not raw
+	GnmExprTop, for storing expressions.  All users changed.
+
+	* src/validation.c (validation_new): Add new "sheet" argument.
+	All callers changed.  Hook up expressions as managed dependents.
+	Fixes #674914.
+
+	* src/sheet-style.c (GnmSheetStyleData): Document the rules for
+	the style_hash member.
+
+	* src/mstyle.c (gnm_style_update): Don't use the validation's
+	address for the hash value -- use just whether it is NULL.
+
 2012-05-02  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_create_status_area): Get the

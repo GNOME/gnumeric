@@ -3,6 +3,7 @@
 # define _GNM_VALIDATION_H_
 
 #include "gnumeric.h"
+#include "dependent.h"
 
 G_BEGIN_DECLS
 
@@ -45,7 +46,7 @@ struct _GnmValidation {
 
 	GOString         *title;
 	GOString         *msg;
-	GnmExprTop const *texpr[2];
+	GnmDependent      deps[2];
 	ValidationStyle   style;
 	ValidationType	  type;
 	ValidationOp	  op;
@@ -66,6 +67,7 @@ GType gnm_validation_op_get_type (void);
 GnmValidation *validation_new   (ValidationStyle style,
 				 ValidationType type,
 				 ValidationOp op,
+				 Sheet *sheet,
 				 char const *title, char const *msg,
 				 GnmExprTop const *texpr0,
 				 GnmExprTop const *texpr1,

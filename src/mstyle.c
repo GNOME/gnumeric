@@ -243,7 +243,8 @@ gnm_style_update (GnmStyle *style)
 
 	/* From here on, fields are not in MS XL */
 
-	hash ^= GPOINTER_TO_UINT (style->validation);
+	if (style->validation)
+		hash ^= 0x1379;
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
 
 	hash ^= GPOINTER_TO_UINT (style->hlink);
@@ -339,6 +340,12 @@ gnm_style_hash (gconstpointer style)
     ? a->conditions == b->conditions					\
     : FALSE)))))))))))))))))))))))))
 
+/*
+ * Note: the above is suboptimal from validation and down.
+ *
+ * We are comparing pointers (which at least safely matches what we do
+ * with the hash), but I think we want proper equality.
+ */
 
 static gboolean
 elem_is_eq (GnmStyle const *a, GnmStyle const *b, GnmStyleElement elem)
@@ -424,16 +431,16 @@ elem_clear_contents (GnmStyle *style, GnmStyleElement elem)
 		return;
 	case MSTYLE_HLINK:
 		if (style->hlink)
-			g_object_unref (G_OBJECT (style->hlink));
+			g_object_unref (style->hlink);
 		return;
 	case MSTYLE_INPUT_MSG:
 		if (style->input_msg)
-			g_object_unref (G_OBJECT (style->input_msg));
+			g_object_unref (style->input_msg);
 		return;
 	case MSTYLE_CONDITIONS:
 		if (style->conditions) {
 			clear_conditional_merges (style);
-			g_object_unref (G_OBJECT (style->conditions));
+			g_object_unref (style->conditions);
 		}
 		return;
 	default:

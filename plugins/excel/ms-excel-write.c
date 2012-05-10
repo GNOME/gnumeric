@@ -1256,10 +1256,10 @@ excel_write_DV (XLValInputPair const *vip, gpointer dummy, ExcelWriteSheet *eshe
 	GSF_LE_SET_GUINT16 (data+2, 0); /* Undocumented, use 0 for now */
 	ms_biff_put_var_write (bp, data, 4);
 
-	if (vip->v != NULL && vip->v->texpr[0] != NULL) {
+	if (vip->v != NULL && vip->v->deps[0].texpr != NULL) {
 		unsigned pos = bp->curpos;
 		guint16 len = excel_write_formula (esheet->ewb,
-				vip->v->texpr[0],
+				vip->v->deps[0].texpr,
 				esheet->gnum_sheet, col, row,
 				EXCEL_CALLED_FROM_VALIDATION);
 		unsigned end_pos = bp->curpos;
@@ -1272,10 +1272,10 @@ excel_write_DV (XLValInputPair const *vip, gpointer dummy, ExcelWriteSheet *eshe
 	GSF_LE_SET_GUINT16 (data  , 0); /* bogus len fill in later */
 	GSF_LE_SET_GUINT16 (data+2, 0); /* Undocumented, use 0 for now */
 	ms_biff_put_var_write (bp, data, 4);
-	if (vip->v != NULL && vip->v->texpr[1] != NULL) {
+	if (vip->v != NULL && vip->v->deps[1].texpr != NULL) {
 		unsigned pos = bp->curpos;
 		guint16 len = excel_write_formula (esheet->ewb,
-				vip->v->texpr[1],
+				vip->v->deps[1].texpr,
 				esheet->gnum_sheet, col, row,
 				EXCEL_CALLED_FROM_VALIDATION);
 		unsigned end_pos = bp->curpos;
@@ -1529,10 +1529,10 @@ excel_write_prep_validations (ExcelWriteSheet *esheet)
 	for (; ptr != NULL ; ptr = ptr->next) {
 		sr = ptr->data;
 		v  = gnm_style_get_validation (sr->style);
-		if (v->texpr[0] != NULL)
-			excel_write_prep_expr (esheet->ewb, v->texpr[0]);
-		if (v->texpr[1] != NULL)
-			excel_write_prep_expr (esheet->ewb, v->texpr[1]);
+		if (v->deps[0].texpr != NULL)
+			excel_write_prep_expr (esheet->ewb, v->deps[0].texpr);
+		if (v->deps[1].texpr != NULL)
+			excel_write_prep_expr (esheet->ewb, v->deps[1].texpr);
 	}
 }
 

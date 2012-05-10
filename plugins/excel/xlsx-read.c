@@ -1744,8 +1744,11 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	if (showErrorMessage) {
 		GnmRange const *r = state->validation_regions->data;
 		state->pos = r->start;
-		state->validation = validation_new (val_style, val_type, val_op,
-			errorTitle, error, NULL, NULL, allowBlank, showDropDown);
+		state->validation = validation_new
+			(val_style, val_type, val_op,
+			 state->sheet,
+			 errorTitle, error,
+			 NULL, NULL, allowBlank, showDropDown);
 	}
 
 	if (showInputMessage && (NULL != promptTitle || NULL != prompt))

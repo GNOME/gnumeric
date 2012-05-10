@@ -245,19 +245,21 @@ gnm_validation_op_get_type (void)
  **/
 GnmValidation *
 validation_new (ValidationStyle style,
-		ValidationType  type,
-		ValidationOp    op,
+		ValidationType type,
+		ValidationOp op,
+		Sheet *sheet,
 		char const *title, char const *msg,
 		GnmExprTop const *texpr0, GnmExprTop const *texpr1,
 		gboolean allow_blank, gboolean use_dropdown)
 {
 	GnmValidation *v;
-	int nops, i;
+	int nops;
 
 	g_return_val_if_fail (type >= 0, NULL);
 	g_return_val_if_fail (type < G_N_ELEMENTS (typeinfo), NULL);
 	g_return_val_if_fail (op >= GNM_VALIDATION_OP_NONE, NULL);
 	g_return_val_if_fail (op < (int)G_N_ELEMENTS (opinfo), NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	switch (type) {
 	case GNM_VALIDATION_TYPE_CUSTOM:
@@ -282,20 +284,26 @@ validation_new (ValidationStyle style,
 	v->ref_count = 1;
 	v->title = title && title[0] ? go_string_new (title) : NULL;
 	v->msg = msg && msg[0] ? go_string_new (msg) : NULL;
-	v->texpr[0] = texpr0;
-	v->texpr[1] = texpr1;
+
+	dependent_managed_init (&v->deps[0], sheet);
+	if (texpr0) {
+		if (nops > 0)
+			dependent_managed_set_expr (&v->deps[0], texpr0);
+		gnm_expr_top_unref (texpr0);
+	}
+
+	dependent_managed_init (&v->deps[1], sheet);
+	if (texpr1) {
+		if (nops > 1)
+			dependent_managed_set_expr (&v->deps[1], texpr1);
+		gnm_expr_top_unref (texpr1);
+	}
+
 	v->style = style;
 	v->type = type;
 	v->op = op;
 	v->allow_blank = (allow_blank != FALSE);
 	v->use_dropdown = (use_dropdown != FALSE);
-
-	/* Clear excess expressions.  */
-	for (i = nops; i < 2; i++)
-		if (v->texpr[i]) {
-			gnm_expr_top_unref (v->texpr[i]);
-			v->texpr[i] = NULL;
-		}
 
 	return v;
 }
@@ -328,10 +336,7 @@ validation_unref (GnmValidation const *val)
 			v->msg = NULL;
 		}
 		for (i = 0 ; i < 2 ; i++)
-			if (v->texpr[i] != NULL) {
-				gnm_expr_top_unref (v->texpr[i]);
-				v->texpr[i] = NULL;
-			}
+			dependent_managed_set_expr (&v->deps[i], NULL);
 		g_free (v);
 	}
 }
@@ -343,7 +348,7 @@ validation_unref (GnmValidation const *val)
  * @indx : 0 or 1
  *
  * Assign an expression to a validation.  validation_is_ok can be used to
- * verify that @v has all of the requisit information.
+ * verify that @v has all of the required information.
  **/
 void
 validation_set_expr (GnmValidation *v,
@@ -351,11 +356,7 @@ validation_set_expr (GnmValidation *v,
 {
 	g_return_if_fail (indx <= 1);
 
-	if (NULL != texpr)
-		gnm_expr_top_ref (texpr);
-	if (NULL != v->texpr[indx])
-		gnm_expr_top_unref (v->texpr[indx]);
-	v->texpr[indx] = texpr;
+	dependent_managed_set_expr (&v->deps[indx], texpr);
 }
 
 GError *
@@ -365,13 +366,17 @@ validation_is_ok (GnmValidation const *v)
 
 	switch (v->type) {
 	case GNM_VALIDATION_TYPE_CUSTOM:
-	case GNM_VALIDATION_TYPE_IN_LIST:	nops = 1; break;
-	case GNM_VALIDATION_TYPE_ANY:	nops = 0; break;
+	case GNM_VALIDATION_TYPE_IN_LIST:
+		nops = 1;
+		break;
+	case GNM_VALIDATION_TYPE_ANY:
+		nops = 0;
+		break;
 	default: nops = (v->op == GNM_VALIDATION_OP_NONE) ? 0 : opinfo[v->op].nops;
 	}
 
 	for (i = 0 ; i < 2 ; i++)
-		if (v->texpr[i] == NULL) {
+		if (v->deps[i].texpr == NULL) {
 			if (i < nops)
 				return g_error_new (1, 0, N_("Missing formula for validation"));
 		} else {
@@ -504,9 +509,11 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 		x = value_get_as_float (val);
 		break;
 
-	case GNM_VALIDATION_TYPE_IN_LIST:
-		if (NULL != v->texpr[0]) {
-			GnmValue *list = gnm_expr_top_eval (v->texpr[0], &ep,
+	case GNM_VALIDATION_TYPE_IN_LIST: {
+		GnmExprTop const *texpr = v->deps[0].texpr;
+		if (texpr) {
+			GnmValue *list = gnm_expr_top_eval
+				(texpr, &ep,
 				 GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
 			GnmValue *res = value_area_foreach (list, &ep, CELL_ITER_IGNORE_BLANK,
 				 (GnmValueIterFunc) cb_validate_custom, val);
@@ -514,7 +521,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 			if (res == NULL) {
 				GnmParsePos pp;
 				char *expr_str = gnm_expr_top_as_string
-					(v->texpr[0],
+					(texpr,
 					 parse_pos_init_evalpos (&pp, &ep),
 					 ep.sheet->convs);
 				char *msg = g_strdup_printf (_("%s does not contain the new value."), expr_str);
@@ -523,6 +530,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 			}
 		}
 		return GNM_VALIDATION_STATUS_VALID;
+	}
 
 	case GNM_VALIDATION_TYPE_TEXT_LENGTH:
 		/* XL appears to use a very basic value->string mapping that
@@ -535,11 +543,12 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 
 	case GNM_VALIDATION_TYPE_CUSTOM: {
 		gboolean valid;
+		GnmExprTop const *texpr = v->deps[0].texpr;
 
-		if (v->texpr[0] == NULL)
+		if (!texpr)
 			return GNM_VALIDATION_STATUS_VALID;
 
-		val = gnm_expr_top_eval (v->texpr[0], &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		val = gnm_expr_top_eval (texpr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 		valid = value_get_as_bool (val, NULL);
 		value_release (val);
 
@@ -548,7 +557,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 		else {
 			GnmParsePos pp;
 			char *expr_str = gnm_expr_top_as_string
-				(v->texpr[0],
+				(texpr,
 				 parse_pos_init_evalpos (&pp, &ep),
 				 ep.sheet->convs);
 			char *msg = g_strdup_printf (_("%s is not true."), expr_str);
@@ -567,7 +576,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 
 	nok = 0;
 	for (i = 0; i < opinfo[v->op].nops; i++) {
-		GnmExprTop const *texpr_i = v->texpr[i];
+		GnmExprTop const *texpr_i = v->deps[i].texpr;
 		GnmExprTop const *texpr;
 		GnmValue *cres;
 

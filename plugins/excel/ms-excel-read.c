@@ -5523,7 +5523,9 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	mstyle = gnm_style_new ();
 	gnm_style_set_validation
 		(mstyle,
-		 validation_new (style, type, op, error_title, error_msg,
+		 validation_new (style, type, op,
+				 esheet->sheet,
+				 error_title, error_msg,
 				 texpr1,
 				 texpr2,
 				 options & 0x0100, 0 == (options & 0x0200)));

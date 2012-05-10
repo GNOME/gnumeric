@@ -41,7 +41,18 @@
 
 typedef union _CellTile CellTile;
 struct _GnmSheetStyleData {
+	/*
+	 * style_hash is a set of all styles used by this sheet.  These
+	 * styles are all linked.
+	 *
+	 * We always re-use styles from here when we can, but there can
+	 * still be duplicates.  This happens when styles are changed
+	 * while they are in the hash; such changes maintain the hash
+	 * value.  For example, this happens when an expression used by
+	 * a validation style changes due to row/col insert/delete.
+	 */
 	GHashTable *style_hash;
+
 	CellTile   *styles;
 	GnmStyle   *default_style;
 	GnmColor   *auto_pattern_color;
@@ -535,7 +546,8 @@ sheet_style_init_size (Sheet *sheet, int cols, int rows)
 
 	sheet->style_data = g_new (GnmSheetStyleData, 1);
 	sheet->style_data->style_hash =
-		g_hash_table_new (gnm_style_hash, (GCompareFunc) gnm_style_equal);
+		g_hash_table_new (gnm_style_hash,
+				  (GCompareFunc) gnm_style_equal);
 #warning "FIXME: Allocating a GnmColor here is dubious."
 	sheet->style_data->auto_pattern_color = g_new (GnmColor, 1);
 	*sheet->style_data->auto_pattern_color =  *style_color_auto_pattern ();
