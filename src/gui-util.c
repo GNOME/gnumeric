@@ -715,7 +715,7 @@ gnumeric_textview_set_text (GtkTextView *text_view, char const *txt)
 void
 gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buffer, gchar const *str)
 {
-	gchar *str_retrieved;
+	gchar *str_retrieved = NULL;
 
 	if (str == NULL) {
 		GtkTextIter start, end;
