@@ -1,3 +1,16 @@
+2012-05-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-util.c (gnm_load_pango_attributes_into_buffer_filter):
+	deleted
+	(gnm_load_pango_attributes_into_buffer_named_filter): deleted
+	(gnm_create_std_tags_for_buffer): deleted
+	(gnm_load_pango_byte_to_char): deleted
+	(gnm_load_pango_attributes_into_buffer): use
+	go_load_pango_attributes_into_buffer
+	* src/gui-util.h (gnm_create_std_tags_for_buffer): delete
+	* src/sheet-control-gui.c (scg_comment_display):  use
+	go_create_std_tags_for_buffer instead of gnm_create_std_tags_for_buffer
+
 2012-05-11  Morten Welinder  <terra@gnome.org>
 
 	* src/mstyle.c (gnm_style_update): Make hashing half-way decent.

@@ -817,7 +817,7 @@ gee_create_tooltip (GnmExprEntry *gee, gchar const *str,
 	if (pango_parse_markup (string->str, -1, 0,
 				&attr_list, &text,
 				NULL, NULL)) {
-		gnm_create_std_tags_for_buffer (buffer);
+		go_create_std_tags_for_buffer (buffer);
 		gtk_text_buffer_set_text (buffer, text, -1);
 		gnm_load_pango_attributes_into_buffer (attr_list, buffer, text);
 		g_free (text);

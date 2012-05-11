@@ -82,7 +82,6 @@ void  gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup,
 					     GtkTextBuffer *buffer,
 					     gchar const *str);
 PangoAttrList *gnm_get_pango_attributes_from_buffer (GtkTextBuffer *buffer);
-void gnm_create_std_tags_for_buffer (GtkTextBuffer *buffer);
 
 void focus_on_entry (GtkEntry *entry);
 

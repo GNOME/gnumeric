@@ -3019,7 +3019,7 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc,
 		gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (text), GTK_WRAP_NONE);
 		gtk_text_view_set_editable  (GTK_TEXT_VIEW (text), FALSE);
 		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text));
-		gnm_create_std_tags_for_buffer (buffer);
+		go_create_std_tags_for_buffer (buffer);
 
 		g_object_get (G_OBJECT (cc), "text", &comment_text,
 			      "markup", &comment_markup, NULL);

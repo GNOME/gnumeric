@@ -1,3 +1,9 @@
+2012-05-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-expr-entry.c (gee_create_tooltip): use
+	go_create_std_tags_for_buffer instead of gnm_create_std_tags_for_buffer
+	* gnumeric-text-view.c (gtv_init): ditto
+
 2012-04-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.3

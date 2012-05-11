@@ -346,7 +346,7 @@ gtv_init (GnmTextView *gtv)
 
 	gtv->view = GTK_TEXT_VIEW (gtk_text_view_new ());
 	gtv->buffer = gtk_text_view_get_buffer (gtv->view);
-	gnm_create_std_tags_for_buffer (gtv->buffer);
+	go_create_std_tags_for_buffer (gtv->buffer);
 
 	gtv->italic = gtv_build_toggle_button (tb, gtv, GTK_STOCK_ITALIC,
 					       G_CALLBACK (cb_gtv_set_italic));
