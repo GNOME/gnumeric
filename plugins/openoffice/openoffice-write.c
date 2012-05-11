@@ -5721,10 +5721,6 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 	odf_file_entry (xml, "text/xml", "meta.xml");
 	odf_file_entry (xml, "text/xml", "settings.xml");
 
-	if (g_hash_table_size (state->graphs) > 0 ||
-	    g_hash_table_size (state->images) > 0)
-		odf_file_entry (xml, "", "Pictures/");
-
 	state->xml = xml;
 	g_hash_table_foreach (state->graphs, (GHFunc) odf_write_graph_manifest, state);
 	g_hash_table_foreach (state->images, (GHFunc) odf_write_image_manifest, state);
@@ -6534,9 +6530,11 @@ odf_write_title (GnmOOExport *state, GogObject const *title,
 		if (dat != NULL) {
 			GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
 			if (texpr != NULL) {
-				GnmParsePos pp;
+				GnmParsePos ppos;
 				char *formula;
 				char *name;
+				gboolean pp = TRUE;
+				g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
 
 				gsf_xml_out_start_element (state->xml, id);
 
@@ -6548,8 +6546,8 @@ odf_write_title (GnmOOExport *state, GogObject const *title,
 					g_free (name);
 				}
 
-				parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
-				formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
+				parse_pos_init (&ppos, WORKBOOK (state->wb), NULL, 0,0 );
+				formula = gnm_expr_top_as_string (texpr, &ppos, state->conv);
 
 				if (gnm_expr_top_is_rangeref (texpr)) {
 					char *f = odf_strip_brackets (formula);
@@ -6563,11 +6561,28 @@ odf_write_title (GnmOOExport *state, GogObject const *title,
 					   && allow_content) {
 					gboolean white_written = TRUE;
 					char const *str;
+					GogText *text;
+					g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
 					gsf_xml_out_start_element (state->xml, TEXT "p");
 					str = value_peek_string (texpr->expr->constant.value);
-					odf_add_chars (state, str, strlen (str),
-						       &white_written);
+					if (GOG_IS_TEXT (title) && 
+					    (text = GOG_TEXT (title))->allow_markup) {
+						PangoAttrList *attr_list = NULL;
+						char *text_clean = NULL;
+						if (pango_parse_markup (str, -1, 0, 
+									&attr_list,
+									&text_clean, NULL, NULL)) {
+							odf_new_markup (state, attr_list, text_clean);
+							g_free (text_clean);
+							pango_attr_list_unref (attr_list);
+						} else
+							odf_add_chars (state, str,strlen (str),
+								       &white_written);
+					} else
+						odf_add_chars (state, str,strlen (str),
+							       &white_written);
 					gsf_xml_out_end_element (state->xml); /* </text:p> */
+					g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
 				} else {
 					gboolean white_written = TRUE;
 					if (state->with_extension)
@@ -6575,6 +6590,7 @@ odf_write_title (GnmOOExport *state, GogObject const *title,
 								      GNMSTYLE "expression",
 								      formula);
 					if (allow_content) {
+						g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
 						gsf_xml_out_start_element
 							(state->xml, TEXT "p");
 						odf_add_chars (state, formula,
@@ -6582,6 +6598,7 @@ odf_write_title (GnmOOExport *state, GogObject const *title,
 							       &white_written);
 						gsf_xml_out_end_element (state->xml);
 						/* </text:p> */
+						g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
 					}
 				}
 				gsf_xml_out_end_element (state->xml); /* </chart:title> */
@@ -7244,6 +7261,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	series = gog_plot_get_series (GOG_PLOT (plot));
 
 	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
+	odf_write_character_styles (state);
 
 	if (this_plot->odf_write_axes_styles != NULL)
 		this_plot->odf_write_axes_styles (state, chart, plot,
