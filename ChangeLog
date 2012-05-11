@@ -1,3 +1,8 @@
+2012-05-11  Morten Welinder  <terra@gnome.org>
+
+	* src/mstyle.c (gnm_style_update): Include font.script in hash.
+	Only use fields that are set.
+
 2012-05-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gui-util.c (gnm_load_pango_attributes_into_buffer_filter):

@@ -164,91 +164,138 @@ gnm_style_update (GnmStyle *style)
 	style->changed = 0;
 
 	clear_conditional_merges (style);
-	if (style->conditions != NULL)
+	if (elem_is_set (style, MSTYLE_CONDITIONS) && style->conditions)
 		style->cond_styles = gnm_style_conditions_overlay (style->conditions, style);
 
-	if (style->color.back && !style->color.back->is_auto)
-		hash ^= GPOINTER_TO_UINT (style->color.back);
+	/* ---------------------------------------- */
+
+	if (elem_is_set (style, MSTYLE_COLOR_BACK)) {
+		if (!style->color.back->is_auto)
+			hash ^= GPOINTER_TO_UINT (style->color.back);
+		else
+			hash++;
+	}
 	MIX (hash);
 
-	if (style->color.pattern && !style->color.pattern->is_auto)
-		hash ^= GPOINTER_TO_UINT (style->color.pattern);
+	if (elem_is_set (style, MSTYLE_COLOR_PATTERN)) {
+		if (!style->color.pattern->is_auto)
+			hash ^= GPOINTER_TO_UINT (style->color.pattern);
+		else
+			hash++;
+	}
 	MIX (hash);
 
-	if (style->color.font && !style->color.font->is_auto)
-		hash ^= GPOINTER_TO_UINT (style->color.font);
+	if (elem_is_set (style, MSTYLE_FONT_COLOR)) {
+		if (!style->color.font->is_auto)
+			hash ^= GPOINTER_TO_UINT (style->color.font);
+		else
+			hash++;
+	}
 	MIX (hash);
 
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
-		hash ^= GPOINTER_TO_UINT (style->borders[i - MSTYLE_BORDER_TOP]);
+		if (elem_is_set (style, i))
+			hash ^= GPOINTER_TO_UINT (style->borders[i - MSTYLE_BORDER_TOP]);
+		else
+			hash++;
 		MIX (hash);
 	}
 
-	hash ^= style->pattern;
+	if (elem_is_set (style, MSTYLE_PATTERN))
+		hash ^= style->pattern;
 	MIX (hash);
 
-	hash ^= GPOINTER_TO_UINT (style->font_detail.name);
+	if (elem_is_set (style, MSTYLE_FONT_NAME))
+		hash ^= GPOINTER_TO_UINT (style->font_detail.name);
 	MIX (hash);
 
-	if (style->font_detail.bold) hash ^= 1;
+	if (elem_is_set (style, MSTYLE_FONT_BOLD))
+		hash ^= (style->font_detail.bold ? 1 : 2);
 	MIX (hash);
 
-	if (style->font_detail.italic) hash ^= 1;
+	if (elem_is_set (style, MSTYLE_FONT_ITALIC))
+		hash ^= (style->font_detail.italic ? 1 : 2);
 	MIX (hash);
 
-	hash ^= style->font_detail.underline;
+	if (elem_is_set (style, MSTYLE_FONT_UNDERLINE))
+		hash ^= (style->font_detail.underline ? 1 : 2);
 	MIX (hash);
 
-	if (style->font_detail.strikethrough) hash ^= 1;
+	if (elem_is_set (style, MSTYLE_FONT_STRIKETHROUGH))
+		hash ^= (style->font_detail.strikethrough ? 1 : 2);
 	MIX (hash);
 
-	hash ^= ((int)(style->font_detail.size * 97));
+	if (elem_is_set (style, MSTYLE_FONT_SCRIPT))
+		hash ^= (style->font_detail.script + 0x100);
 	MIX (hash);
 
-	hash ^= GPOINTER_TO_UINT (style->format);
+	if (elem_is_set (style, MSTYLE_FONT_SIZE))
+		hash ^= ((int)(style->font_detail.size * 97));
 	MIX (hash);
 
-	hash ^= style->h_align;
+	if (elem_is_set (style, MSTYLE_FORMAT))
+		hash ^= GPOINTER_TO_UINT (style->format);
 	MIX (hash);
 
-	hash ^= style->v_align;
+	if (elem_is_set (style, MSTYLE_ALIGN_H))
+		hash ^= (style->h_align + 0x100);
 	MIX (hash);
 
-	hash ^= style->indent;
+	if (elem_is_set (style, MSTYLE_ALIGN_V))
+		hash ^= (style->v_align + 0x100);
 	MIX (hash);
 
-	hash ^= style->rotation;
+	if (elem_is_set (style, MSTYLE_INDENT))
+		hash ^= style->indent;
 	MIX (hash);
 
-	hash ^= style->text_dir;
+	if (elem_is_set (style, MSTYLE_ROTATION))
+		hash ^= style->rotation;
 	MIX (hash);
 
-	if (style->wrap_text) hash ^= 1;
+	if (elem_is_set (style, MSTYLE_TEXT_DIR))
+		hash ^= (style->text_dir + 0x100);
 	MIX (hash);
 
-	if (style->shrink_to_fit) hash ^= 1;
+	if (elem_is_set (style, MSTYLE_WRAP_TEXT))
+		hash ^= (style->wrap_text ? 1 : 2);
 	MIX (hash);
 
-	if (style->contents_locked) hash ^= 1;
+	if (elem_is_set (style, MSTYLE_SHRINK_TO_FIT))
+		hash ^= (style->shrink_to_fit ? 1 : 2);
 	MIX (hash);
 
-	if (style->contents_hidden) hash ^= 1;
+	if (elem_is_set (style, MSTYLE_CONTENTS_LOCKED))
+		hash ^= (style->contents_locked ? 1 : 2);
+	MIX (hash);
+
+	if (elem_is_set (style, MSTYLE_CONTENTS_HIDDEN))
+		hash ^= (style->contents_hidden ? 1 : 2);
 	MIX (hash);
 
 	style->hash_key_xl = (guint32)hash;
 
 	/* From here on, fields are not in MS XL */
 
-	if (style->validation != NULL) hash ^= 1;
+	if (elem_is_set (style, MSTYLE_VALIDATION)) {
+		/*
+		 * The hash used must not depend on the expressions inside
+		 * the validation.
+		 */
+		hash ^= (style->validation != NULL ? 1 : 2);
+	}
 	MIX (hash);
 
-	hash ^= GPOINTER_TO_UINT (style->hlink);
+	if (elem_is_set (style, MSTYLE_HLINK))
+		hash ^= GPOINTER_TO_UINT (style->hlink);
 	MIX (hash);
 
-	hash ^= GPOINTER_TO_UINT (style->input_msg);
+	if (elem_is_set (style, MSTYLE_INPUT_MSG))
+		hash ^= GPOINTER_TO_UINT (style->input_msg);
 	MIX (hash);
 
-	hash ^= GPOINTER_TO_UINT (style->conditions);
+	if (elem_is_set (style, MSTYLE_CONDITIONS))
+		hash ^= GPOINTER_TO_UINT (style->conditions);
 	MIX (hash);
 
 	style->hash_key = (guint32)hash;
