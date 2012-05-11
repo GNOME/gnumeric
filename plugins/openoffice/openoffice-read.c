@@ -551,7 +551,7 @@ odf_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 	case PANGO_ATTR_VARIANT :
 		spans += 1;
 		if (((PangoAttrInt *)a)->value == PANGO_VARIANT_NORMAL)
-			g_string_append (gstr, "<span font_variant=\"mormal\">");
+			g_string_append (gstr, "<span font_variant=\"normal\">");
 		else
 			g_string_append (gstr, "<span font_variant=\"smallcaps\">");
 		break;
@@ -559,6 +559,13 @@ odf_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 		spans += 1;
 		g_string_append_printf (gstr, "<span letter_spacing=\"%i\">", 
 					((PangoAttrInt *)a)->value);
+		break;
+	case PANGO_ATTR_FALLBACK :
+		spans += 1;
+		if (((PangoAttrInt *)a)->value)
+			g_string_append (gstr, "<span fallback=\"true\">");
+		else
+			g_string_append (gstr, "<span fallback=\"false\">");
 		break;
 		
 		
@@ -569,7 +576,6 @@ odf_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 
 	case PANGO_ATTR_STRETCH :
 	case PANGO_ATTR_SCALE :
-	case PANGO_ATTR_FALLBACK :
 	case PANGO_ATTR_GRAVITY :
 	case PANGO_ATTR_GRAVITY_HINT:
 
