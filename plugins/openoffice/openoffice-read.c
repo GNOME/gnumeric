@@ -7578,12 +7578,27 @@ oo_chart_title (GsfXMLIn *xin, xmlChar const **attrs)
 			state->chart.title_style = g_strdup (CXML2C (attrs[1]));
 		}
 	}
+
+	odf_push_text_p (state, FALSE);
 }
 
 static void
 oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
+	oo_text_p_t *ptr;
+
+	g_return_if_fail (state->text_p_stack != NULL);
+	ptr = state->text_p_stack->data;
+	g_return_if_fail (ptr != NULL);
+	
+	if (state->chart.title_expr == NULL && ptr->gstr) {
+		state->chart.title_expr =
+			gnm_expr_top_new_constant
+			(value_new_string (ptr->gstr->str));
+		/*FIXME: ignoring markup attributes atm */
+	}
+		
 	if (state->chart.title_expr) {
 		GOData *data = gnm_go_data_scalar_new_expr
 			(state->chart.src_sheet, state->chart.title_expr);
@@ -7621,18 +7636,7 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			state->chart.title_style = NULL;
 		}
 	}
-
-}
-
-static void
-oo_chart_title_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-	OOParseState *state = (OOParseState *)xin->user_state;
-
-	if (state->chart.title_expr == NULL)
-		state->chart.title_expr =
-			gnm_expr_top_new_constant
-			(value_new_string (xin->content->str));
+	odf_pop_text_p (state);
 }
 
 static void
@@ -9975,12 +9979,12 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	          GSF_XML_IN_NODE (CHART_TABLE_HCOLS, CHART_TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
 
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT,  &oo_chart_title, &oo_chart_title_end),
-		GSF_XML_IN_NODE (CHART_TITLE, TITLE_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &oo_chart_title_text),
+	            GSF_XML_IN_NODE (CHART_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_SUBTITLE, OO_NS_CHART, "subtitle", GSF_XML_NO_CONTENT, &oo_chart_title, &oo_chart_title_end),
-	        GSF_XML_IN_NODE (CHART_SUBTITLE, TITLE_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),                                     /* 2nd Def */
+	            GSF_XML_IN_NODE (CHART_SUBTITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_LEGEND, OO_NS_CHART, "legend", GSF_XML_NO_CONTENT, &oo_legend, &oo_legend_end),
 	        GSF_XML_IN_NODE (CHART_LEGEND, CHART_LEGEND_TITLE, OO_GNUM_NS_EXT, "title", GSF_XML_NO_CONTENT,  &oo_chart_title, &oo_chart_title_end),
-		  GSF_XML_IN_NODE (CHART_LEGEND_TITLE, TITLE_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
+		  GSF_XML_IN_NODE (CHART_LEGEND_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_PLOT_AREA, OO_NS_CHART, "plot-area", GSF_XML_NO_CONTENT, &oo_plot_area, &oo_plot_area_end),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_SERIES, OO_NS_CHART, "series", GSF_XML_NO_CONTENT, &oo_plot_series, &oo_plot_series_end),
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DOMAIN, OO_NS_CHART, "domain", GSF_XML_NO_CONTENT, &oo_series_domain, NULL),
