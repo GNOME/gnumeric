@@ -148,10 +148,15 @@ clear_conditional_merges (GnmStyle *style)
 	}
 }
 
+#define MIX(H) do {				\
+  H *= G_GUINT64_CONSTANT(123456789012345);	\
+  H ^= (H >> 31);				\
+} while (0)
+
 static void
 gnm_style_update (GnmStyle *style)
 {
-	guint32 hash = 0;
+	guint64 hash = 0;
 	int i;
 
 	g_return_if_fail (style->changed);
@@ -164,99 +169,89 @@ gnm_style_update (GnmStyle *style)
 
 	if (style->color.back && !style->color.back->is_auto)
 		hash ^= GPOINTER_TO_UINT (style->color.back);
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
 	if (style->color.pattern && !style->color.pattern->is_auto)
 		hash ^= GPOINTER_TO_UINT (style->color.pattern);
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
 	if (style->color.font && !style->color.font->is_auto)
 		hash ^= GPOINTER_TO_UINT (style->color.font);
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
 		hash ^= GPOINTER_TO_UINT (style->borders[i - MSTYLE_BORDER_TOP]);
-		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+		MIX (hash);
 	}
 
 	hash ^= style->pattern;
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
 	hash ^= GPOINTER_TO_UINT (style->font_detail.name);
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
-	if (style->font_detail.bold) {
-		hash ^= 0x1379;
-		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
-	}
+	if (style->font_detail.bold) hash ^= 1;
+	MIX (hash);
 
-	if (style->font_detail.italic) {
-		hash ^= 0x1379;
-		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
-	}
+	if (style->font_detail.italic) hash ^= 1;
+	MIX (hash);
 
 	hash ^= style->font_detail.underline;
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
-	if (style->font_detail.strikethrough)
-		hash ^= 0x1379;
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	if (style->font_detail.strikethrough) hash ^= 1;
+	MIX (hash);
 
 	hash ^= ((int)(style->font_detail.size * 97));
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
 	hash ^= GPOINTER_TO_UINT (style->format);
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
 	hash ^= style->h_align;
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
 	hash ^= style->v_align;
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
 	hash ^= style->indent;
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
 	hash ^= style->rotation;
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
 	hash ^= style->text_dir;
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
-	if (style->wrap_text)
-		hash ^= 0x1379;
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	if (style->wrap_text) hash ^= 1;
+	MIX (hash);
 
-	if (style->shrink_to_fit)
-		hash ^= 0x1379;
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	if (style->shrink_to_fit) hash ^= 1;
+	MIX (hash);
 
-	if (style->contents_locked)
-		hash ^= 0x1379;
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	if (style->contents_locked) hash ^= 1;
+	MIX (hash);
 
-	if (style->contents_hidden)
-		hash ^= 0x1379;
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	if (style->contents_hidden) hash ^= 1;
+	MIX (hash);
 
-	style->hash_key_xl = hash;
+	style->hash_key_xl = (guint32)hash;
 
 	/* From here on, fields are not in MS XL */
 
-	if (style->validation)
-		hash ^= 0x1379;
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	if (style->validation != NULL) hash ^= 1;
+	MIX (hash);
 
 	hash ^= GPOINTER_TO_UINT (style->hlink);
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
 	hash ^= GPOINTER_TO_UINT (style->input_msg);
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
 	hash ^= GPOINTER_TO_UINT (style->conditions);
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+	MIX (hash);
 
-	style->hash_key = hash;
+	style->hash_key = (guint32)hash;
 
 	if (G_UNLIKELY (style->set == 0)) {
 		/*
@@ -268,6 +263,8 @@ gnm_style_update (GnmStyle *style)
 		g_assert (style->hash_key_xl == 0);
 	}
 }
+
+#undef MIX
 
 guint
 gnm_style_hash_XL (gconstpointer style)

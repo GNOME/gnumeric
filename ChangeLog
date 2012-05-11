@@ -1,3 +1,9 @@
+2012-05-11  Morten Welinder  <terra@gnome.org>
+
+	* src/mstyle.c (gnm_style_update): Make hashing half-way decent.
+	Avoid clash between two styles where one is bold and the other is
+	italic.
+
 2012-05-10  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook.c (workbook_dispose): Dispose of views early.
