@@ -470,15 +470,31 @@ odf_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 	int spans = 0;
 
 	switch (a->klass->type) {
+	case PANGO_ATTR_FONT_DESC : 
+		{
+			char *str = pango_font_description_to_string 
+				(((PangoAttrFontDesc *)a)->desc);
+			spans += 1;
+			g_string_append_printf (gstr, "<span font_desc=\"%s\">", str);
+			g_free (str);
+		}
+		break;
 	case PANGO_ATTR_FAMILY :
-		break; /* ignored */
+		spans += 1;
+		g_string_append_printf (gstr, "<span font_family=\"%s\">", 
+					((PangoAttrString *)a)->value);
+		break;
+	case PANGO_ATTR_ABSOLUTE_SIZE :
 	case PANGO_ATTR_SIZE :
 		spans += 1;
 		g_string_append_printf (gstr, "<span font_size=\"%i\">", 
 					((PangoAttrSize *)a)->size);
 		break;
 	case PANGO_ATTR_RISE:
-		break; /* ignored */
+		spans += 1;
+		g_string_append_printf (gstr, "<span rise=\"%i\">", 
+					((PangoAttrInt *)a)->value);
+		break;
 	case PANGO_ATTR_STYLE :
 		spans += 1;
 		switch (((PangoAttrInt *)a)->value) {
@@ -527,8 +543,37 @@ odf_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 			break;
 		}		
 		break;
+	case PANGO_ATTR_LANGUAGE :
+		spans += 1;
+		g_string_append_printf (gstr, "<span lang=\"%s\">", 
+					pango_language_to_string (((PangoAttrLanguage *)a)->value));
+		break;
+	case PANGO_ATTR_VARIANT :
+		spans += 1;
+		if (((PangoAttrInt *)a)->value == PANGO_VARIANT_NORMAL)
+			g_string_append (gstr, "<span font_variant=\"mormal\">");
+		else
+			g_string_append (gstr, "<span font_variant=\"smallcaps\">");
+		break;
+	case PANGO_ATTR_LETTER_SPACING :
+		spans += 1;
+		g_string_append_printf (gstr, "<span letter_spacing=\"%i\">", 
+					((PangoAttrInt *)a)->value);
+		break;
+		
+		
 	case PANGO_ATTR_FOREGROUND :
-		break; /* ignored */
+	case PANGO_ATTR_BACKGROUND :
+	case PANGO_ATTR_UNDERLINE_COLOR :
+	case PANGO_ATTR_STRIKETHROUGH_COLOR :
+
+	case PANGO_ATTR_STRETCH :
+	case PANGO_ATTR_SCALE :
+	case PANGO_ATTR_FALLBACK :
+	case PANGO_ATTR_GRAVITY :
+	case PANGO_ATTR_GRAVITY_HINT:
+
+	case PANGO_ATTR_SHAPE :
 	default :
 		break; /* ignored */
 	}
