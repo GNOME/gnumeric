@@ -16,6 +16,9 @@
 	* src/mstyle.c (gnm_style_update): Make hashing half-way decent.
 	Avoid clash between two styles where one is bold and the other is
 	italic.
+	(gnm_style_equal, gnm_style_equal_XL): Only compare style elements
+	that are set.  However, if there are a difference in whether an
+	element is set, the styles are different.
 
 2012-05-10  Morten Welinder  <terra@gnome.org>
 

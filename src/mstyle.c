@@ -850,10 +850,10 @@ gnm_style_equal (GnmStyle const *a, GnmStyle const *b)
 
 	if (a == b)
 		return TRUE;
-	if (!gnm_style_equal_XL (a, b))
+	if (a->set != b->set || !gnm_style_equal_XL (a, b))
 		return FALSE;
 	UNROLLED_FOR (i = MSTYLE_VALIDATION, i < MSTYLE_ELEMENT_MAX, i++, {
-		if (!ELEM_IS_EQ (a, b, i))
+		if (elem_is_set (a, i) && !ELEM_IS_EQ (a, b, i))
 			return FALSE;
 	});
 
@@ -870,8 +870,12 @@ gnm_style_equal_XL (GnmStyle const *a, GnmStyle const *b)
 
 	if (a == b)
 		return TRUE;
+
+	if ((a->set ^ b->set) & ((1u << MSTYLE_VALIDATION) - 1))
+		return FALSE;
+
 	UNROLLED_FOR (i = MSTYLE_COLOR_BACK, i < MSTYLE_VALIDATION, i++, {
-		if (!ELEM_IS_EQ (a, b, i))
+		if (elem_is_set (a, i) && !ELEM_IS_EQ (a, b, i))
 			return FALSE;
 	});
 	return TRUE;
