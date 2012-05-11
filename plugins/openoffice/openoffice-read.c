@@ -463,6 +463,122 @@ static OOFormula odf_get_formula_type (GsfXMLIn *xin, char const **str);
 static char const *odf_strunescape (char const *string, GString *target,
 				    G_GNUC_UNUSED GnmConventions const *convs);
 
+/* Some utilities that should belong elsewhere */
+static int
+odf_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
+{
+	int spans = 0;
+
+	switch (a->klass->type) {
+	case PANGO_ATTR_FAMILY :
+		break; /* ignored */
+	case PANGO_ATTR_SIZE :
+		spans += 1;
+		g_string_append_printf (gstr, "<span font_size=\"%i\">", 
+					((PangoAttrSize *)a)->size);
+		break;
+	case PANGO_ATTR_RISE:
+		break; /* ignored */
+	case PANGO_ATTR_STYLE :
+		spans += 1;
+		switch (((PangoAttrInt *)a)->value) {
+		case PANGO_STYLE_ITALIC:
+			g_string_append (gstr, "<span font_style=\"italic\">");
+			break;
+		case PANGO_STYLE_OBLIQUE:
+			g_string_append (gstr, "<span font_style=\"oblique\">");
+			break;
+		case PANGO_STYLE_NORMAL:
+		default:
+			g_string_append (gstr, "<span font_style=\"normal\">");
+			break;
+		}		
+		break;
+	case PANGO_ATTR_WEIGHT :
+		spans += 1;
+		g_string_append_printf (gstr, "<span font_weight=\"%i\">", 
+					((PangoAttrInt *)a)->value);
+	break;
+	case PANGO_ATTR_STRIKETHROUGH :
+		spans += 1;
+		if (((PangoAttrInt *)a)->value)
+			g_string_append (gstr, "<span strikethrough=\"true\">");
+		else
+			g_string_append (gstr, "<span strikethrough=\"false\">");
+		break;
+	case PANGO_ATTR_UNDERLINE :
+		spans += 1;
+		switch (((PangoAttrInt *)a)->value) {
+		case PANGO_UNDERLINE_SINGLE:
+			g_string_append (gstr, "<span underline=\"single\">");
+			break;
+		case PANGO_UNDERLINE_DOUBLE:
+			g_string_append (gstr, "<span underline=\"double\">");
+			break;
+		case PANGO_UNDERLINE_LOW:
+			g_string_append (gstr, "<span underline=\"low\">");
+			break;
+		case PANGO_UNDERLINE_ERROR:
+			g_string_append (gstr, "<span underline=\"error\">");
+			break;
+		case PANGO_UNDERLINE_NONE:
+		default:
+			g_string_append (gstr, "<span underline=\"none\">");
+			break;
+		}		
+		break;
+	case PANGO_ATTR_FOREGROUND :
+		break; /* ignored */
+	default :
+		break; /* ignored */
+	}
+
+	return spans;
+}
+
+static char *
+odf_pango_attrs_to_markup (PangoAttrList *attrs, char const *text)
+{
+	PangoAttrIterator * iter;
+	int handled = 0;
+	int from, to;
+	int len;
+	GString *gstr;
+
+	if (text == NULL)
+		return NULL;
+	if (attrs == NULL || go_pango_attr_list_is_empty (attrs))
+		return g_strdup (text);
+
+	len = strlen (text);
+	gstr = g_string_sized_new (len + 1);
+
+	iter = pango_attr_list_get_iterator (attrs);
+	do {
+		GSList *list, *l;
+		int spans = 0;
+
+		pango_attr_iterator_range (iter, &from, &to);
+		to = (to > len) ? len : to;       /* Since "to" can be really big! */
+		from = (from > len) ? len : from; /* Since "from" can also be really big! */
+		if (from > handled)
+			g_string_append_len (gstr, text + handled, from - handled);
+		list = pango_attr_iterator_get_attrs (iter);
+		for (l = list; l != NULL; l = l->next)
+			spans += odf_pango_attr_as_markup_string (l->data, gstr);
+		g_slist_free (list);
+		if (to > from)
+			g_string_append_len (gstr, text + from, to - from);
+		while (spans-- > 0)
+			g_string_append (gstr, "</span>");
+		handled = to;
+	} while (pango_attr_iterator_next (iter));
+
+	pango_attr_iterator_destroy (iter);
+
+	return g_string_free (gstr, FALSE);
+}
+
 
 /* Implementations */
 
@@ -7587,16 +7703,18 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	oo_text_p_t *ptr;
+	gboolean use_markup = FALSE;
 
 	g_return_if_fail (state->text_p_stack != NULL);
 	ptr = state->text_p_stack->data;
 	g_return_if_fail (ptr != NULL);
 	
 	if (state->chart.title_expr == NULL && ptr->gstr) {
-		state->chart.title_expr =
-			gnm_expr_top_new_constant
-			(value_new_string (ptr->gstr->str));
-		/*FIXME: ignoring markup attributes atm */
+			state->chart.title_expr = gnm_expr_top_new_constant
+				(value_new_string_nocopy 
+				 (odf_pango_attrs_to_markup (ptr->attrs, ptr->gstr->str)));
+			use_markup = (ptr->attrs != NULL && 
+				      !go_pango_attr_list_is_empty (ptr->attrs));
 	}
 		
 	if (state->chart.title_expr) {
@@ -7635,6 +7753,8 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			g_free (state->chart.title_style);
 			state->chart.title_style = NULL;
 		}
+		if (use_markup)
+			g_object_set (label, "allow-markup", TRUE, NULL);
 	}
 	odf_pop_text_p (state);
 }
