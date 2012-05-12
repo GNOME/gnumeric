@@ -567,18 +567,110 @@ odf_pango_attr_as_markup_string (PangoAttribute *a, GString *gstr)
 		else
 			g_string_append (gstr, "<span fallback=\"false\">");
 		break;
-		
+	case PANGO_ATTR_STRETCH :
+		spans += 1;
+		switch (((PangoAttrInt *)a)->value) {
+		case PANGO_STRETCH_ULTRA_CONDENSED:
+			g_string_append (gstr, "<span font_stretch=\"ultracondensed\">");
+			break;
+		case PANGO_STRETCH_EXTRA_CONDENSED:
+			g_string_append (gstr, "<span font_stretch=\"extracondensed\">");
+			break;
+		case PANGO_STRETCH_CONDENSED:
+			g_string_append (gstr, "<span font_stretch=\"condensed\">");
+			break;
+		case PANGO_STRETCH_SEMI_CONDENSED:
+			g_string_append (gstr, "<span font_stretch=\"semicondensed\">");
+			break;
+		case PANGO_STRETCH_SEMI_EXPANDED:
+			g_string_append (gstr, "<span font_stretch=\"semiexpanded\">");
+			break;
+		case PANGO_STRETCH_EXPANDED:
+			g_string_append (gstr, "<span font_stretch=\"expanded\">");
+			break;
+		case PANGO_STRETCH_EXTRA_EXPANDED:
+			g_string_append (gstr, "<span font_stretch=\"extraexpanded\">");
+			break;
+		case PANGO_STRETCH_ULTRA_EXPANDED:
+			g_string_append (gstr, "<span font_stretch=\"ultraexpanded\">");
+			break;
+		case PANGO_STRETCH_NORMAL:
+		default:
+			g_string_append (gstr, "<span font_stretch=\"normal\">");
+			break;
+		}		
+		break;
+	case PANGO_ATTR_GRAVITY :
+		spans += 1;
+		switch (((PangoAttrInt *)a)->value) {
+		case PANGO_GRAVITY_SOUTH:
+			g_string_append (gstr, "<span gravity=\"south\">");
+			break;
+		case PANGO_GRAVITY_EAST:
+			g_string_append (gstr, "<span gravity=\"east\">");
+			break;
+		case PANGO_GRAVITY_NORTH:
+			g_string_append (gstr, "<span gravity=\"north\">");
+			break;
+		case PANGO_GRAVITY_WEST:
+			g_string_append (gstr, "<span gravity=\"west\">");
+			break;
+		case PANGO_GRAVITY_AUTO:
+		default:
+			g_string_append (gstr, "<span gravity=\"auto\">");
+			break;
+		}		
+		break;
+	case PANGO_ATTR_GRAVITY_HINT :
+		spans += 1;
+		switch (((PangoAttrInt *)a)->value) {
+		case PANGO_GRAVITY_HINT_LINE:
+			g_string_append (gstr, "<span gravity_hint=\"line\">");
+			break;
+		case PANGO_GRAVITY_HINT_STRONG:
+			g_string_append (gstr, "<span gravity_hint=\"strong\">");
+			break;
+		case PANGO_GRAVITY_HINT_NATURAL:
+		default:
+			g_string_append (gstr, "<span gravity_hint=\"natural\">");
+			break;
+		}		
+		break;
 		
 	case PANGO_ATTR_FOREGROUND :
+		{
+			PangoColor *color = &((PangoAttrColor *)a)->color;
+			spans += 1;
+			g_string_append_printf (gstr, "<span foreground=\"#%02X%02X%02X\">",
+						color->red, color->green, color->blue);
+		}
+		break;
 	case PANGO_ATTR_BACKGROUND :
+		{
+			PangoColor *color = &((PangoAttrColor *)a)->color;
+			spans += 1;
+			g_string_append_printf (gstr, "<span background=\"#%02X%02X%02X\">",
+						color->red, color->green, color->blue);
+		}
+		break;
 	case PANGO_ATTR_UNDERLINE_COLOR :
+		{
+			PangoColor *color = &((PangoAttrColor *)a)->color;
+			spans += 1;
+			g_string_append_printf (gstr, "<span underline_color=\"#%02X%02X%02X\">",
+						color->red, color->green, color->blue);
+		}
+		break;
 	case PANGO_ATTR_STRIKETHROUGH_COLOR :
+		{
+			PangoColor *color = &((PangoAttrColor *)a)->color;
+			spans += 1;
+			g_string_append_printf (gstr, "<span strikethrough_color=\"#%02X%02X%02X\">",
+						color->red, color->green, color->blue);
+		}
+		break;
 
-	case PANGO_ATTR_STRETCH :
 	case PANGO_ATTR_SCALE :
-	case PANGO_ATTR_GRAVITY :
-	case PANGO_ATTR_GRAVITY_HINT:
-
 	case PANGO_ATTR_SHAPE :
 	default :
 		break; /* ignored */
