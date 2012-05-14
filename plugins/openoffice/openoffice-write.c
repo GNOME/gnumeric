@@ -6523,10 +6523,16 @@ odf_write_axis_grid (GnmOOExport *state, GogObject const *axis)
 
 static void
 odf_write_title (GnmOOExport *state, GogObject const *title,
-		 char const *id, gboolean allow_content)
+		 char const *id, gboolean allow_content, char *position)
 {
 	if (title != NULL && id != NULL) {
 		GOData const *dat = gog_dataset_get_dim (GOG_DATASET(title),0);
+		
+		if (position == NULL && state->with_extension)
+			g_object_get (G_OBJECT (title),
+				      "compass", &position,
+				      NULL);
+		
 		if (dat != NULL) {
 			GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
 			if (texpr != NULL) {
@@ -6537,6 +6543,9 @@ odf_write_title (GnmOOExport *state, GogObject const *title,
 				g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
 
 				gsf_xml_out_start_element (state->xml, id);
+				if (position && state->with_extension)
+					gsf_xml_out_add_cstr (state->xml,
+							      GNMSTYLE "compass", position);
 
 				name = odf_get_gog_style_name_from_obj (title);
 
@@ -6606,6 +6615,7 @@ odf_write_title (GnmOOExport *state, GogObject const *title,
 			}
 		}
 	}
+	g_free (position);
 }
 
 static void
@@ -6618,7 +6628,7 @@ odf_write_label (GnmOOExport *state, GogObject const *axis)
 		GogObject const *label = NULL;
 
 		label = labels->data;
-		odf_write_title (state, label, CHART "title", TRUE);
+		odf_write_title (state, label, CHART "title", TRUE, NULL);
 		g_slist_free (labels);
 	}
 
@@ -7302,12 +7312,21 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 
 	if (titles != NULL) {
 		GogObject const *title = titles->data;
-		odf_write_title (state, title, CHART "title", TRUE);
+		odf_write_title (state, title, CHART "title", TRUE, NULL);
 		g_slist_free (titles);
 	}
 	if (subtitles != NULL) {
 		GogObject const *title = subtitles->data;
-		odf_write_title (state, title, CHART "subtitle", TRUE);
+		char *position = NULL;
+		gboolean is_footer = FALSE;
+
+		g_object_get (G_OBJECT (title),
+		      "compass", &position,
+		      NULL);
+		is_footer = NULL != g_strstr_len (position, -1, "bottom");
+		odf_write_title (state, title, 
+				 is_footer ? CHART "footer" : CHART "subtitle",
+				 TRUE, position);
 		g_slist_free (subtitles);
 	}
 
@@ -7358,7 +7377,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph,
 
 			if (state->with_extension)
 				odf_write_title (state, title,
-						 GNMSTYLE "title", state->odf_version > 101);
+						 GNMSTYLE "title", state->odf_version > 101, NULL);
 			else if (state->odf_version > 101) {
 				GOData const *dat =
 					gog_dataset_get_dim (GOG_DATASET(title),0);
@@ -7536,7 +7555,7 @@ odf_write_images (SheetObjectImage *image, char const *name, GnmOOExport *state)
 		g_object_unref (G_OBJECT (child));
 	}
 
-	g_free(fullname);
+	g_free (fullname);
 	g_free (image_type);
 
 	odf_update_progress (state, state->graph_progress);

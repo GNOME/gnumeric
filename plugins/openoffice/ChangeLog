@@ -1,5 +1,15 @@
 2012-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_chart_title): handle compass position
+	(oo_chart_title_end): ditto
+	(opendoc_content_dtd): support chart:footer
+	* openoffice-write.c (odf_write_title): write compass position,
+	add argument and change all callers
+	(odf_write_plot): write chart:footer or chart:subtitle depending
+	on compass position
+
+2012-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_chart_title_end): potetially add a title
 	to the graph, not just the chart
 	(opendoc_content_dtd): differentiate between chart:title and

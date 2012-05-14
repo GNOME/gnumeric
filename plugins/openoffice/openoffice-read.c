@@ -244,6 +244,7 @@ typedef struct {
 
 	GnmExprTop const        *title_expr;
 	gchar                   *title_style;
+	gchar                   *title_position;
 
 	OOChartStyle		*cur_graph_style; /* for reading of styles */
 
@@ -7543,6 +7544,8 @@ oo_chart_title (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.title_expr = NULL;
 	state->chart.title_style = NULL;
 
+	state->chart.title_position = NULL;
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
 		if ((gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					 OO_NS_TABLE, "cell-address" ) ||
@@ -7575,8 +7578,13 @@ oo_chart_title (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       OO_NS_CHART, "style-name")) {
 			state->chart.title_style = g_strdup (CXML2C (attrs[1]));
-		}
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					       OO_GNUM_NS_EXT, "compass"))
+			state->chart.title_position = g_strdup (CXML2C (attrs[1]));
 	}
+
+	if (state->chart.title_position == NULL)
+		state->chart.title_position = g_strdup ((xin->node->user_data.v_int == 2) ? "bottom" : "top"); 
 
 	odf_push_text_p (state, FALSE);
 }
@@ -7613,7 +7621,7 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		} else if (state->chart.legend != NULL) {
 			obj = (GogObject *)state->chart.legend;
 			tag = "Title";
-		} else if (xin->node->user_data.v_bool) {
+		} else if (xin->node->user_data.v_int == 0) {
 			obj = (GogObject *)state->chart.graph;
 			tag = "Title";
 		} else {
@@ -7641,7 +7649,11 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		}
 		if (use_markup)
 			g_object_set (label, "allow-markup", TRUE, NULL);
+		if (state->chart.title_position)
+			g_object_set (label, "compass", state->chart.title_position, NULL);
 	}
+	g_free (state->chart.title_position);
+	state->chart.title_position = NULL;
 	odf_pop_text_p (state);
 }
 
@@ -9984,10 +9996,12 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	          GSF_XML_IN_NODE (CHART_TABLE_HCOLS, CHART_TABLE_HCOL, OO_NS_TABLE, "table-header-column", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (CHART_TABLE_HCOLS, CHART_TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
 
-	      GSF_XML_IN_NODE_FULL (CHART_CHART, CHART_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_chart_title, &oo_chart_title_end, .v_bool = TRUE),
+	      GSF_XML_IN_NODE_FULL (CHART_CHART, CHART_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_chart_title, &oo_chart_title_end, .v_int = 0),
 	        GSF_XML_IN_NODE (CHART_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
-	      GSF_XML_IN_NODE_FULL (CHART_CHART, CHART_SUBTITLE, OO_NS_CHART, "subtitle", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_chart_title, &oo_chart_title_end, .v_str = FALSE),
+	      GSF_XML_IN_NODE_FULL (CHART_CHART, CHART_SUBTITLE, OO_NS_CHART, "subtitle", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_chart_title, &oo_chart_title_end, .v_int = 1),
 	        GSF_XML_IN_NODE (CHART_SUBTITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
+	      GSF_XML_IN_NODE_FULL (CHART_CHART, CHART_FOOTER, OO_NS_CHART, "footer", GSF_XML_NO_CONTENT, FALSE, FALSE, &oo_chart_title, &oo_chart_title_end, .v_int = 2),
+	        GSF_XML_IN_NODE (CHART_FOOTER, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
 	      GSF_XML_IN_NODE (CHART_CHART, CHART_LEGEND, OO_NS_CHART, "legend", GSF_XML_NO_CONTENT, &oo_legend, &oo_legend_end),
 	        GSF_XML_IN_NODE (CHART_LEGEND, CHART_LEGEND_TITLE, OO_GNUM_NS_EXT, "title", GSF_XML_NO_CONTENT, &oo_chart_title, &oo_chart_title_end),
 		  GSF_XML_IN_NODE (CHART_LEGEND_TITLE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
