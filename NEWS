@@ -10,6 +10,9 @@ Andreas:
 	* Correctly read & write rich-text chart titles to/from ODF. [#675821]
 	* Read and write the graph titles to/from ODF. [#675820]
 
+Jean:
+	* Fix graph series headers when a multiple selection is used. [#675913]
+
 Morten:
 	* Minor doc improvement for non-C locales.  [Part of #675000]
 	* Fix fullscreen criticals.

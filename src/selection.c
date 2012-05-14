@@ -1490,7 +1490,7 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 	GraphDataClosure *data = g_object_get_data (G_OBJECT (graph), "data-closure");
 	gboolean is_string_vec, first_series = TRUE, first_value_dim = TRUE;
 	unsigned i, count, cur_dim = 0, num_series = 1;
-	gboolean has_header, as_cols;
+	gboolean has_header = FALSE, as_cols;
 	GOData *shared_x = NULL;
 
 	gboolean default_to_cols;
@@ -1569,13 +1569,18 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 	/* selections are in reverse order so walk them backwards */
 	cur_dim = 0;
 	sels = ptr = g_slist_reverse (g_slist_copy (selections));
-	for (; ptr != NULL; ptr = ptr->next) {
+	/* first determine if there is a header in at least one range, see #675913 */
+	for (; ptr != NULL && !has_header; ptr = ptr->next) {
+		GnmRange vector = *((GnmRange const *)ptr->data);
+		as_cols = (vector.start.col == vector.end.col || default_to_cols);
+		has_header = sheet_range_has_heading (sheet, &vector, as_cols, TRUE);
+	}
+	for (ptr = sels; ptr != NULL; ptr = ptr->next) {
 		GnmRange vector = *((GnmRange const *)ptr->data);
 
 		/* Special case the handling of a vector rather than a range.
 		 * it should stay in its orientation,  only ranges get split */
 		as_cols = (vector.start.col == vector.end.col || default_to_cols);
-		has_header = sheet_range_has_heading (sheet, &vector, as_cols, TRUE);
 		header.col = vector.start.col;
 		header.row = vector.start.row;
 

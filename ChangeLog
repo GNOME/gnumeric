@@ -1,3 +1,8 @@
+2012-05-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/selection.c (sv_selection_to_plot): when several ranges are selected,
+	use a header for all if at least one has a header. [#675913]
+
 2012-05-11  Morten Welinder  <terra@gnome.org>
 
 	* src/mstyle.c (gnm_style_update): Include font.script in hash.
