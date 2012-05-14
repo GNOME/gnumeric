@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-05-04 17:42+0000\n"
-"PO-Revision-Date: 2012-05-09 10:34+0200\n"
+"POT-Creation-Date: 2012-05-12 22:46+0000\n"
+"PO-Revision-Date: 2012-05-14 13:16+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1379,7 +1379,7 @@ msgid ""
 "Weeks start on Mondays and week 1 contains the first Thursday of the year."
 msgstr ""
 "ISOWEEKNUM calcula el número de semana de acuerdo al estándar ISO-8601. Las "
-"semanas inician en lunes y la semana 1 contiene el primer jueves del año."
+"semanas empiezan en lunes y la semana 1 contiene el primer jueves del año."
 
 #: ../plugins/fn-date/functions.c:1125 ../plugins/fn-date/functions.c:1149
 msgid ""
@@ -1418,19 +1418,23 @@ msgstr ""
 msgid ""
 "If @{method} is 1, then weeks start on Sundays and January 1 is in week 1."
 msgstr ""
+"Si @{método} es 1, entonces las semanas empiezan en domingo y el 1 de enero "
+"se encuentra en la semana 1."
 
 #: ../plugins/fn-date/functions.c:1187
 msgid ""
 "If @{method} is 2, then weeks start on Mondays and January 1 is in week 1."
 msgstr ""
+"Si @{método} es 2, entonces las semanas empiezan en lunes y el 1 de enero se "
+"encuentra en la semana 1."
 
 #: ../plugins/fn-date/functions.c:1188
 msgid "If @{method} is 150, then the ISO 8601 numbering is used."
-msgstr ""
+msgstr "Si @{método} es 150, entonces se utiliza la numeración ISO-8601."
 
 #: ../plugins/fn-date/functions.c:1221
 msgid "YEARFRAC:fractional number of years between dates"
-msgstr ""
+msgstr "YEARFRAC: número fraccional de años entre fechas"
 
 #: ../plugins/fn-date/functions.c:1224 ../plugins/fn-financial/functions.c:454
 #: ../plugins/fn-financial/functions.c:492
@@ -1457,7 +1461,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:3126
 #: ../plugins/fn-financial/functions.c:3240
 msgid "basis:calendar basis"
-msgstr ""
+msgstr "base: base del calendario"
 
 #: ../plugins/fn-date/functions.c:1225
 msgid ""
@@ -1465,67 +1469,75 @@ msgid ""
 "according to the calendar specified by @{basis}, which defaults to 0, and "
 "expresses the result as a fractional number of years."
 msgstr ""
+"YEARFRAC calcula el número de días entre @{fecha_inicio} y @{fecha_fin} de "
+"acuerdo al calendario indicado por @{base}, cuyo predeterminado es 0, y "
+"presenta el resultado como una fracción del año."
 
 #: ../plugins/fn-date/functions.c:1250
 msgid "DAYS:difference between dates in days"
-msgstr ""
+msgstr "DAYS: diferencia entre fechas en días"
 
 #: ../plugins/fn-date/functions.c:1253
 msgid ""
 "DAYS returns the positive or negative number of days from @{start_date} to @"
 "{end_date}."
 msgstr ""
+"DAYS devuelve el número positivo o negativo de días entre @{fecha_inicio} y @"
+"{fecha_fin}."
 
 #. Some common decriptors
 #: ../plugins/fn-derivatives/options.c:46
 msgid "call_put_flag:'c' for a call and 'p' for a put"
-msgstr ""
+msgstr "call_put_flag: «c» para una llamada y «p» para ingresar"
 
 #: ../plugins/fn-derivatives/options.c:47
 msgid "spot:spot price"
-msgstr ""
+msgstr "contado: precio al contado"
 
 #: ../plugins/fn-derivatives/options.c:48
 msgid "strike:strike price"
-msgstr ""
+msgstr "ejercicio: precio de ejercicio"
 
 #: ../plugins/fn-derivatives/options.c:49
 msgid "time:time to maturity in years"
-msgstr ""
+msgstr "tiempo: plazo de vencimiento en años"
 
 #: ../plugins/fn-derivatives/options.c:50
 msgid "time:time to maturity in days"
-msgstr ""
+msgstr "tiempo: plazo de vencimiento en días"
 
 #: ../plugins/fn-derivatives/options.c:51
 msgid "time_payout:time to dividend payout"
-msgstr ""
+msgstr "tiempo de pago: el tiempo de pago de dividendos"
 
 #: ../plugins/fn-derivatives/options.c:52
 msgid "time_exp:time to expiration"
-msgstr ""
+msgstr "tiempo_exp: tiempo de expiración"
 
 #: ../plugins/fn-derivatives/options.c:53
 msgid "rate:risk-free interest rate to the exercise date in percent"
 msgstr ""
+"tasa: tasa de interés libre de riesgo a la fecha de ejercicio en porcentaje"
 
 #: ../plugins/fn-derivatives/options.c:54
 msgid "rate:annualized interest rate"
-msgstr ""
+msgstr "tasa: tasa de interés nominal anual"
 
 #: ../plugins/fn-derivatives/options.c:55
 msgid "rate:annualized risk-free interest rate"
-msgstr ""
+msgstr "tasa: tasa de interés nominal anual libre de riesgo"
 
 #: ../plugins/fn-derivatives/options.c:56
 msgid ""
 "volatility:annualized volatility of the asset in percent for the period "
 "through to the exercise date"
 msgstr ""
+"volatilidad: volatilidad anualizada de los activos en tanto porciento para "
+"el periodo hasta la fecha de ejercicio"
 
 #: ../plugins/fn-derivatives/options.c:57
 msgid "volatility:annualized volatility of the asset"
-msgstr ""
+msgstr "volatilidad: volatilidad anualizada de los activos"
 
 #: ../plugins/fn-derivatives/options.c:58
 msgid "d:amount of the dividend to be paid expressed in currency"
