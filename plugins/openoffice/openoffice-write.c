@@ -143,6 +143,7 @@ typedef struct {
 	GOFormat const *date_long_fmt;
 
 	char const *object_name;
+	GogView const *root_view;
 
 	/* for the manifest */
 	GSList *fill_image_files; /* image/png */
@@ -931,6 +932,14 @@ odf_write_sheet_object_styles (GnmOOExport *state)
 		}
 		g_slist_free (objects);
 	}
+}
+
+static void
+odf_write_gog_position_pts (GnmOOExport *state, GogObject const *title)
+{
+	GogView *view = gog_view_find_child_view  (state->root_view, title);
+	odf_add_pt (state->xml, SVG "x", view->allocation.x);
+	odf_add_pt (state->xml, SVG "y", view->allocation.y);
 }
 
 static void
@@ -6528,11 +6537,6 @@ odf_write_title (GnmOOExport *state, GogObject const *title,
 	if (title != NULL && id != NULL) {
 		GOData const *dat = gog_dataset_get_dim (GOG_DATASET(title),0);
 		
-		if (position == NULL && state->with_extension)
-			g_object_get (G_OBJECT (title),
-				      "compass", &position,
-				      NULL);
-		
 		if (dat != NULL) {
 			GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
 			if (texpr != NULL) {
@@ -6543,9 +6547,19 @@ odf_write_title (GnmOOExport *state, GogObject const *title,
 				g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
 
 				gsf_xml_out_start_element (state->xml, id);
-				if (position && state->with_extension)
-					gsf_xml_out_add_cstr (state->xml,
-							      GNMSTYLE "compass", position);
+				
+				if (state->with_extension) {
+					if (position == NULL)
+						g_object_get (G_OBJECT (title),
+							      "compass", &position,
+							      NULL);
+					if (position)
+						gsf_xml_out_add_cstr (state->xml,
+								      GNMSTYLE "compass", position);
+					odf_write_gog_position (state, title);
+				}
+
+				odf_write_gog_position_pts (state, title);
 
 				name = odf_get_gog_style_name_from_obj (title);
 
@@ -7491,8 +7505,18 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so)
 
 	graph = sheet_object_graph_get_gog (so);
 	if (graph != NULL) {
+		double pos[4];
+		GogRenderer *renderer;	
 		GogObjectRole const *role =
 			gog_object_find_role_by_name (GOG_OBJECT (graph), "Chart");
+
+		sheet_object_position_pts_get (so, pos);
+		renderer  = g_object_new (GOG_TYPE_RENDERER,
+					  "model", graph,
+					  NULL);
+		gog_renderer_update (renderer, pos[2] - pos[0], pos[3] - pos[1]);
+		g_object_get (G_OBJECT (renderer), "view", &state->root_view, NULL);
+	
 		if (role != NULL) {
 			GSList *charts = gog_object_get_children
 				(GOG_OBJECT (graph), role);
@@ -7513,6 +7537,9 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so)
 			}
 			g_slist_free (charts);
 		}
+		g_object_unref (G_OBJECT (state->root_view));
+		state->root_view = NULL;
+		g_object_unref (renderer);
 	}
 	if (!plot_written) {
 		gsf_xml_out_start_element (state->xml, OFFICE "body");
@@ -7525,6 +7552,7 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so)
 		gsf_xml_out_end_element (state->xml); /* </office:chart> */
 		gsf_xml_out_end_element (state->xml); /* </office:body> */
 	}
+
 	gsf_xml_out_end_element (state->xml); /* </office:document-content> */
 	g_object_unref (state->xml);
 	state->xml = NULL;
