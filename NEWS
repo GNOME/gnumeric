@@ -7,7 +7,8 @@ Andreas:
 	* Export/Import validation error message to/from ODF.
 	* Export in-cell font colours. [#675210]
 	* Fix warning on column insertion. [#675224]
-	* Correctly read & write rich-text graph titles to/from ODF. [#675821]
+	* Correctly read & write rich-text chart titles to/from ODF. [#675821]
+	* Read and write the graph titles to/from ODF. [#675820]
 
 Morten:
 	* Minor doc improvement for non-C locales.  [Part of #675000]

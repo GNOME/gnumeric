@@ -7091,7 +7091,8 @@ odf_write_generic_axis (GnmOOExport *state,
 }
 
 static void
-odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, GogObject const *plot)
+odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *graph, 
+		GogObject const *chart, GogObject const *plot)
 {
 	char const *plot_type = G_OBJECT_TYPE_NAME (plot);
 	SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
@@ -7099,7 +7100,10 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	GSList const *series, *l;
 	GogObject const *wall = gog_object_get_child_by_name (chart, "Backplane");
 	GogObject const *legend = gog_object_get_child_by_name (chart, "Legend");
-	GSList *titles = gog_object_get_children (chart, gog_object_find_role_by_name (chart, "Title"));
+	GogObjectRole const *trole = gog_object_find_role_by_name (graph, "Title");
+	GSList *titles = gog_object_get_children (graph, trole);
+	GogObjectRole const *trole2 = gog_object_find_role_by_name (chart, "Title");
+	GSList *subtitles = gog_object_get_children (chart, trole2);
 	char *name;
 	gchar *x_style = NULL;
 	gchar *y_style = NULL;
@@ -7299,12 +7303,12 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	if (titles != NULL) {
 		GogObject const *title = titles->data;
 		odf_write_title (state, title, CHART "title", TRUE);
-		if (titles->next != NULL) {
-			title = titles->next->data;
-			odf_write_title (state, title, CHART "subtitle", TRUE);
-		}
-
 		g_slist_free (titles);
+	}
+	if (subtitles != NULL) {
+		GogObject const *title = subtitles->data;
+		odf_write_title (state, title, CHART "subtitle", TRUE);
+		g_slist_free (subtitles);
 	}
 
 
@@ -7481,7 +7485,8 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so)
 					GSList *plots = gog_object_get_children
 						(chart, gog_object_find_role_by_name (chart, "Plot"));
 					if (plots != NULL && plots->data != NULL) {
-						odf_write_plot (state, so, chart, plots->data);
+						odf_write_plot (state, so, GOG_OBJECT (graph), 
+								chart, plots->data);
 						plot_written = TRUE;
 					}
 					g_slist_free (plots);

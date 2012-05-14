@@ -1,3 +1,14 @@
+2012-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_chart_title_end): potetially add a title
+	to the graph, not just the chart
+	(opendoc_content_dtd): differentiate between chart:title and
+	chart:subtitle
+	* openoffice-write.c (odf_write_plot): write the graph title as
+	chart:title and the chart title as chart:subtitle; add argument
+	(odf_write_graph_content): call odf_write_plot with the
+	additional argument
+
 2012-05-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_pango_attrs_to_markup): move to goffice
