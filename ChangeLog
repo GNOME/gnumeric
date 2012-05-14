@@ -1,3 +1,11 @@
+2012-05-14  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c (sheet_style_get_range, cell_tile_optimize)
+	(sample_styles, verify_styles): Use gnm_style_eq, not
+	gnm_style_equal.  Fixes #675955 item 4.
+
+	* src/mstyle.c (gnm_style_eq): New function.
+
 2012-05-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/selection.c (sv_selection_to_plot): when several ranges are selected,

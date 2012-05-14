@@ -75,6 +75,7 @@ void        gnm_style_link          (GnmStyle *style);
 void        gnm_style_link_multiple (GnmStyle *style, int count);
 void        gnm_style_unlink        (GnmStyle *style);
 
+gboolean    gnm_style_eq            (GnmStyle const *a, GnmStyle const *b);
 gboolean    gnm_style_equal         (GnmStyle const *a, GnmStyle const *b);
 gboolean    gnm_style_equal_XL	    (GnmStyle const *a, GnmStyle const *b);
 gboolean    gnm_style_equal_header  (GnmStyle const *a, GnmStyle const *b,

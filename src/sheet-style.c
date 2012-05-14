@@ -2301,7 +2301,7 @@ sheet_style_get_range (Sheet const *sheet, GnmRange const *r)
 	GnmStyleList *res = NULL;
 	StyleListMerge mi;
 
-	mi.style_equal = gnm_style_equal;
+	mi.style_equal = gnm_style_eq;
 	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
 				     (GCompareFunc)&gnm_cellpos_equal);
 	mi.sheet = sheet;
@@ -2595,32 +2595,6 @@ sheet_style_region_contains_link (Sheet const *sheet, GnmRange const *r)
 	return res;
 }
 
-#if 0
-static void
-cb_validate (GnmStyle *style,
-	     int corner_col, int corner_row, int width, int height,
-	     GnmRange const *apply_to, Sheet const *sheet)
-{
-	if (g_hash_table_lookup (sheet->style_data->style_hash, style) == NULL) {
-		GnmRange r;
-		range_init (&r,
-			   corner_col, corner_row,
-			   corner_col+width -1, corner_row+height-1);
-		g_warning ("%s!%s", sheet->name_unquoted,
-			   range_as_string (&r));
-	}
-}
-
-/* Verify that every style in the sheet is in the style_hash */
-static void
-debug_very_style_hash (Sheet *sheet)
-{
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, NULL,
-		      cb_validate, sheet);
-}
-#endif
-
 void
 sheet_style_foreach (Sheet const *sheet, GHFunc	func, gpointer user_data)
 {
@@ -2662,8 +2636,8 @@ cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 		gboolean same = TRUE;
 
 		for (i = 1; i < s; i++) {
-			if (!gnm_style_equal ((*tile)->style_any.style[0],
-					      (*tile)->style_any.style[i])) {
+			if (!gnm_style_eq ((*tile)->style_any.style[0],
+					   (*tile)->style_any.style[i])) {
 				same = FALSE;
 				break;
 			}
@@ -2684,15 +2658,15 @@ cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r, i += TILE_SIZE_COL) {
 			for (c = 0 ; c < TILE_SIZE_COL ; ++c) {
 				if (rsame && c &&
-				    !gnm_style_equal ((*tile)->style_matrix.style[i + c],
-						      (*tile)->style_matrix.style[i    ])) {
+				    !gnm_style_eq ((*tile)->style_matrix.style[i + c],
+						   (*tile)->style_matrix.style[i    ])) {
 					rsame = FALSE;
 					if (!csame)
 						return;
 				}
 				if (csame && r &&
-				    !gnm_style_equal ((*tile)->style_matrix.style[i + c],
-						      (*tile)->style_matrix.style[    c])) {
+				    !gnm_style_eq ((*tile)->style_matrix.style[i + c],
+						   (*tile)->style_matrix.style[    c])) {
 					csame = FALSE;
 					if (!rsame)
 						return;
@@ -2735,12 +2709,12 @@ cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 				}
 
 				if (rsame && c)
-					rsame = gnm_style_equal (tcr->style_simple.style[0],
-								 t0r->style_simple.style[0]);
+					rsame = gnm_style_eq (tcr->style_simple.style[0],
+							      t0r->style_simple.style[0]);
 
 				if (csame && r)
-					csame = gnm_style_equal (tcr->style_simple.style[0],
-								 tc0->style_simple.style[0]);
+					csame = gnm_style_eq (tcr->style_simple.style[0],
+							      tc0->style_simple.style[0]);
 			}
 		}
 		if (csame && rsame) {
@@ -2827,7 +2801,7 @@ sample_styles (Sheet *sheet)
 
 	while (1) {
 		GnmStyle const *mstyle = sheet_style_get (sheet, c, r);
-		if (res == NULL ||  !gnm_style_equal (mstyle, res->data)) {
+		if (res == NULL ||  !gnm_style_eq (mstyle, res->data)) {
 			gnm_style_ref (mstyle);
 			res = g_slist_prepend (res, GINT_TO_POINTER (c));
 			res = g_slist_prepend (res, GINT_TO_POINTER (r));
@@ -2873,7 +2847,7 @@ verify_styles (GSList *pre, GSList *post)
 				g_warning ("Style optimizer position conflict at %s!",
 					   cell_coord_name (cpre, rpre));
 				silent = TRUE;
-			} else if (!gnm_style_equal (spre, spost)) {
+			} else if (!gnm_style_eq (spre, spost)) {
 				bad = TRUE;
 				g_warning ("Style optimizer failure at %s!",
 					   cell_coord_name (cpre, rpre));

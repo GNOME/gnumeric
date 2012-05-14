@@ -891,6 +891,12 @@ gnm_style_unlink (GnmStyle *style)
 }
 
 gboolean
+gnm_style_eq (GnmStyle const *a, GnmStyle const *b)
+{
+	return a == b;
+}
+
+gboolean
 gnm_style_equal (GnmStyle const *a, GnmStyle const *b)
 {
 	int i;
