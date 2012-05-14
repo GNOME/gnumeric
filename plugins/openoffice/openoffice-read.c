@@ -245,6 +245,10 @@ typedef struct {
 	GnmExprTop const        *title_expr;
 	gchar                   *title_style;
 	gchar                   *title_position;
+	gboolean                 title_manual_pos;
+	gchar                   *title_anchor;
+	double                   title_x;
+	double                   title_y;
 
 	OOChartStyle		*cur_graph_style; /* for reading of styles */
 
@@ -267,6 +271,8 @@ typedef struct {
 	OOPlotType		 plot_type;
 	SheetObjectAnchor	 anchor;	/* anchor to draw the frame (images or graphs) */
 	double                   frame_offset[4]; /* offset as given in the file */
+	gnm_float                width;
+	gnm_float                height;
 } OOChartInfo;
 
 typedef enum {
@@ -7076,6 +7082,9 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 		frame_offset[3] = end_y ;
 	}
 
+	state->chart.width = (width > 0) ? width : go_nan;
+	state->chart.height = (height > 0) ? height : go_nan;
+
 	/* Column width and row heights are not correct */
 	/* yet so we need to save this */
 	/* info and adjust later. */
@@ -7541,10 +7550,14 @@ static void
 oo_chart_title (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
+
 	state->chart.title_expr = NULL;
 	state->chart.title_style = NULL;
-
 	state->chart.title_position = NULL;
+	state->chart.title_anchor = NULL;
+	state->chart.title_manual_pos = TRUE;
+	state->chart.title_x = go_nan;
+	state->chart.title_y = go_nan;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
 		if ((gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
@@ -7581,8 +7594,20 @@ oo_chart_title (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       OO_GNUM_NS_EXT, "compass"))
 			state->chart.title_position = g_strdup (CXML2C (attrs[1]));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					     OO_GNUM_NS_EXT, "anchor"))
+			state->chart.title_anchor = g_strdup (CXML2C (attrs[1]));
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "is-position-manual", 
+				       &state->chart.title_manual_pos))
+			;
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "x"))
+			oo_parse_distance (xin, attrs[1], "x", &state->chart.title_x);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "y"))
+			oo_parse_distance (xin, attrs[1], "y", &state->chart.title_y);
 	}
 
+	if (!(go_finite (state->chart.title_x) && go_finite (state->chart.title_y)))
+		state->chart.title_manual_pos = FALSE;
 	if (state->chart.title_position == NULL)
 		state->chart.title_position = g_strdup ((xin->node->user_data.v_int == 2) ? "bottom" : "top"); 
 
@@ -7649,11 +7674,35 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		}
 		if (use_markup)
 			g_object_set (label, "allow-markup", TRUE, NULL);
-		if (state->chart.title_position)
-			g_object_set (label, "compass", state->chart.title_position, NULL);
+		if (state->chart.title_anchor)
+			g_object_set (label, "anchor", state->chart.title_anchor, NULL);
+		g_object_set (label,
+			      "compass", state->chart.title_position,
+			      "is-position-manual", state->chart.title_manual_pos,
+			      NULL);
+		if (state->chart.title_manual_pos) {
+			if (go_finite (state->chart.width) && (state->chart.height)) {
+				GogViewAllocation alloc;
+				alloc.x = state->chart.title_x / state->chart.width;
+				alloc.w = 0;
+				alloc.y = state->chart.title_y / state->chart.height;
+				alloc.h = 0;
+				
+				gog_object_set_position_flags (label, GOG_POSITION_MANUAL, GOG_POSITION_ANY_MANUAL);
+				gog_object_set_manual_position (label, &alloc);
+			} else {
+				g_object_set (label,
+					      "is-position-manual", FALSE,
+					      NULL);
+				oo_warning (xin, _("Unable to determine manual position for a chart component!"));
+			}
+		}
+			
 	}
 	g_free (state->chart.title_position);
 	state->chart.title_position = NULL;
+	g_free (state->chart.title_anchor);
+	state->chart.title_anchor = NULL;
 	odf_pop_text_p (state);
 }
 

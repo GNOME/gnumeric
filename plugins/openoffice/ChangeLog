@@ -1,5 +1,11 @@
 2012-05-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_draw_frame_start): store width and height
+	(oo_chart_title): read placement information
+	(oo_chart_title_end): apply placement information
+
+2012-05-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_gog_position_pts): new
 	(odf_write_title): write svg:x and svg:y
 	(odf_write_graph_content): create root view
