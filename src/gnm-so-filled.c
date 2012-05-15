@@ -199,7 +199,15 @@ cb_gnm_so_filled_changed (GnmSOFilled const *sof,
 		if (group->text == NULL) {
 			if (sof->is_oval) {
 				double w, h;
+				double scale = goc_canvas_get_pixels_per_unit (GOC_ITEM (group)->canvas);
 				g_object_get (group->bg, "width", &w, "height", &h, NULL);
+				w -= (sof->margin_pts.left + sof->margin_pts.right)
+					/ scale;
+				w = MAX (w, DBL_MIN);
+
+				h -= (sof->margin_pts.top + sof->margin_pts.bottom)
+					/ scale;
+				h = MAX (h, DBL_MIN);
 				group->text = goc_item_new (GOC_GROUP (group), GOC_TYPE_TEXT,
 					"anchor",	GO_ANCHOR_CENTER,
 					"clip",		TRUE,
