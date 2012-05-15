@@ -9,7 +9,8 @@ Andreas:
 	* Fix warning on column insertion. [#675224]
 	* Correctly read & write rich-text chart titles to/from ODF. [#675821]
 	* Read and write the graph titles to/from ODF. [#675820]
-	* Fix loading of ellipse objects define in ODF's shape section. [#676064]
+	* Fix loading of ellipse objects defined in ODF's shape section. [#676064]
+	* Fix loading of line objects defined in ODF's shape section. [#676063 ]
 
 Jean:
 	* Fix graph series headers when a multiple selection is used. [#675913]

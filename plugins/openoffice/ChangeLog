@@ -1,5 +1,15 @@
 2012-05-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_table_end): retain the anchor direction
+	(odf_draw_frame_store_location): new
+	(od_draw_frame_start): use odf_draw_frame_store_location
+	(odf_line_end): new
+	(odf_line): use odf_draw_frame_store_location
+	(opendoc_content_dtd): connect odf_line_end and read text content
+	for lines
+
+2012-05-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_draw_text_box_p_end): delete
 	(odf_ellipse): push text:p structure
 	(opendoc_content_dtd): add elements to table:shapes
