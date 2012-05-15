@@ -1,5 +1,11 @@
 2012-05-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_draw_text_box_p_end): delete
+	(odf_ellipse): push text:p structure
+	(opendoc_content_dtd): add elements to table:shapes
+
+2012-05-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_draw_frame_start): store width and height
 	(oo_chart_title): read placement information
 	(oo_chart_title_end): apply placement information
