@@ -1,3 +1,11 @@
+2012-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-text-view.c (_GnmTextView): add field
+	(gtv_remove_underline_tags): new
+	(gtv_underline_button_activated): new
+	(gtv_build_button_underline): new
+	(gtv_init): call gtv_build_button_underline
+
 2012-05-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-expr-entry.c (gee_create_tooltip): use

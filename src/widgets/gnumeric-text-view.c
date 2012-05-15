@@ -38,6 +38,7 @@ struct _GnmTextView {
 	GtkToggleToolButton *italic;
 	GtkToggleToolButton *strikethrough;
 	GtkToolButton *bold;
+	GtkToolButton *underline;
 };
 
 typedef struct _GnmTextViewClass {
@@ -84,10 +85,10 @@ gnm_toggle_tool_button_set_active_no_signal (GtkToggleToolButton *button,
 }
 
 static void
-cb_gtv_mark_set (GtkTextBuffer *buffer,
-					  G_GNUC_UNUSED GtkTextIter   *location,
-					  G_GNUC_UNUSED GtkTextMark   *mark,
-					  GnmTextView *gtv)
+cb_gtv_mark_set (G_GNUC_UNUSED GtkTextBuffer *buffer,
+		 G_GNUC_UNUSED GtkTextIter   *location,
+		 G_GNUC_UNUSED GtkTextMark   *mark,
+		 GnmTextView *gtv)
 {
 	GtkTextIter start, end;
 	gtk_text_buffer_get_selection_bounds (gtv->buffer, &start, &end);
@@ -115,7 +116,7 @@ cb_gtv_mark_set (GtkTextBuffer *buffer,
 }
 
 static void
-cb_gtv_set_italic (GtkToggleToolButton *toolbutton, GnmTextView *gtv)
+cb_gtv_set_italic (G_GNUC_UNUSED GtkToggleToolButton *toolbutton, GnmTextView *gtv)
 {
 	GtkTextIter start, end;
 
@@ -143,7 +144,7 @@ cb_gtv_set_italic (GtkToggleToolButton *toolbutton, GnmTextView *gtv)
 }
 
 static void
-cb_gtv_set_strikethrough (GtkToggleToolButton *toolbutton, GnmTextView *gtv)
+cb_gtv_set_strikethrough (G_GNUC_UNUSED GtkToggleToolButton *toolbutton, GnmTextView *gtv)
 {
 	GtkTextIter start, end;
 
@@ -205,6 +206,40 @@ gtv_remove_weight_tags (GtkTextBuffer *buffer, GtkTextIter *start, GtkTextIter *
 		gtk_text_buffer_remove_tag_by_name (buffer, *tag_names_ptr, start, end);
 }
 
+static void
+gtv_remove_underline_tags (GtkTextBuffer *buffer, GtkTextIter *start, GtkTextIter *end)
+{
+	static char const *tag_names[] = {
+		"PANGO_UNDERLINE_NONE",
+		"PANGO_UNDERLINE_SINGLE",
+		"PANGO_UNDERLINE_DOUBLE",
+		"PANGO_UNDERLINE_LOW",
+		"PANGO_UNDERLINE_ERROR",
+		NULL
+	};
+	char const **tag_names_ptr;
+
+	for (tag_names_ptr = tag_names; *tag_names_ptr != NULL; tag_names_ptr++)
+		gtk_text_buffer_remove_tag_by_name (buffer, *tag_names_ptr, start, end);
+}
+
+
+static void
+gtv_underline_button_activated (GtkMenuItem *menuitem, GnmTextView *gtv)
+{
+	char const *val = g_object_get_data (G_OBJECT (menuitem), "underlinevalue");
+	if (val != NULL) {
+		GtkTextIter start, end;
+		if (gtk_text_buffer_get_selection_bounds (gtv->buffer, &start, &end)) {
+			GtkTextTag *tag = gtk_text_tag_table_lookup
+				(gtk_text_buffer_get_tag_table (gtv->buffer), val);
+			gtv_remove_underline_tags (gtv->buffer, &start, &end);
+			gtk_text_buffer_apply_tag (gtv->buffer, tag, &start, &end);
+			cb_gtv_emit_changed (NULL, gtv);
+		}
+		g_object_set_data (G_OBJECT (gtv->bold), "underlinevalue", (char *) val);
+	}
+}
 
 static void
 gtv_bold_button_activated (GtkMenuItem *menuitem, GnmTextView *gtv)
@@ -223,7 +258,46 @@ gtv_bold_button_activated (GtkMenuItem *menuitem, GnmTextView *gtv)
 	}
 }
 
-#define SETUPBPLDMENUITEM(string, value)                                       \
+#define SETUPUNDERLINEMENUITEM(string, value)                                  \
+	child = gtk_menu_item_new_with_label (string);                         \
+        gtk_widget_show (child);					       \
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), child);                  \
+	g_signal_connect (G_OBJECT (child), "activate",                        \
+			  G_CALLBACK (gtv_underline_button_activated),         \
+                          gtv);                                                \
+	g_object_set_data (G_OBJECT (child), "underlinevalue",                 \
+			   (char *) value);
+
+
+static GtkToolButton *
+gtv_build_button_underline (GtkWidget *tb, GnmTextView *gtv)
+{
+	GtkToolItem * tb_button;
+	GtkWidget *menu;
+	GtkWidget *child;
+
+	menu = gtk_menu_new ();
+
+	SETUPUNDERLINEMENUITEM(_("None"), "PANGO_UNDERLINE_NONE")
+	SETUPUNDERLINEMENUITEM(_("Single"), "PANGO_UNDERLINE_SINGLE")
+	SETUPUNDERLINEMENUITEM(_("Double"), "PANGO_UNDERLINE_DOUBLE")
+	SETUPUNDERLINEMENUITEM(_("Wavy"), "PANGO_UNDERLINE_ERROR")
+	SETUPUNDERLINEMENUITEM(_("Low Single"), "PANGO_UNDERLINE_LOW")
+
+	tb_button = gtk_menu_tool_button_new_from_stock (GTK_STOCK_UNDERLINE);
+	gtk_toolbar_insert(GTK_TOOLBAR(tb), tb_button, -1);
+	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (tb_button), menu);
+	g_object_set_data (G_OBJECT (tb_button), "underlinevalue",
+                           (char *) "PANGO_UNDERLINE_SINGLE");
+	g_signal_connect (G_OBJECT (tb_button), "clicked",
+			  G_CALLBACK (gtv_underline_button_activated),
+                          gtv);
+	return GTK_TOOL_BUTTON (tb_button);
+}
+
+#undef SETUPUNDERLINEMENUITEM
+
+#define SETUPBOLDMENUITEM(string, value)                                       \
 	child = gtk_menu_item_new_with_label (string);                         \
         gtk_widget_show (child);					       \
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), child);                  \
@@ -243,16 +317,16 @@ gtv_build_button_bold (GtkWidget *tb, GnmTextView *gtv)
 
 	menu = gtk_menu_new ();
 
-	SETUPBPLDMENUITEM(_("Thin"), "PANGO_WEIGHT_THIN")
-	SETUPBPLDMENUITEM(_("Ultralight"), "PANGO_WEIGHT_ULTRALIGHT")
-	SETUPBPLDMENUITEM(_("Light"), "PANGO_WEIGHT_LIGHT")
-	SETUPBPLDMENUITEM(_("Normal"), "PANGO_WEIGHT_NORMAL")
-	SETUPBPLDMENUITEM(_("Medium"), "PANGO_WEIGHT_MEDIUM")
-	SETUPBPLDMENUITEM(_("Semibold"), "PANGO_WEIGHT_SEMIBOLD")
-	SETUPBPLDMENUITEM(_("Bold"), "PANGO_WEIGHT_BOLD")
-	SETUPBPLDMENUITEM(_("Ultrabold"), "PANGO_WEIGHT_ULTRABOLD")
-	SETUPBPLDMENUITEM(_("Heavy"), "PANGO_WEIGHT_HEAVY")
-	SETUPBPLDMENUITEM(_("Ultraheavy"), "PANGO_WEIGHT_ULTRAHEAVY")
+	SETUPBOLDMENUITEM(_("Thin"), "PANGO_WEIGHT_THIN")
+	SETUPBOLDMENUITEM(_("Ultralight"), "PANGO_WEIGHT_ULTRALIGHT")
+	SETUPBOLDMENUITEM(_("Light"), "PANGO_WEIGHT_LIGHT")
+	SETUPBOLDMENUITEM(_("Normal"), "PANGO_WEIGHT_NORMAL")
+	SETUPBOLDMENUITEM(_("Medium"), "PANGO_WEIGHT_MEDIUM")
+	SETUPBOLDMENUITEM(_("Semibold"), "PANGO_WEIGHT_SEMIBOLD")
+	SETUPBOLDMENUITEM(_("Bold"), "PANGO_WEIGHT_BOLD")
+	SETUPBOLDMENUITEM(_("Ultrabold"), "PANGO_WEIGHT_ULTRABOLD")
+	SETUPBOLDMENUITEM(_("Heavy"), "PANGO_WEIGHT_HEAVY")
+	SETUPBOLDMENUITEM(_("Ultraheavy"), "PANGO_WEIGHT_ULTRAHEAVY")
 
 	tb_button = gtk_menu_tool_button_new_from_stock (GTK_STOCK_BOLD);
 	gtk_toolbar_insert(GTK_TOOLBAR(tb), tb_button, -1);
@@ -265,8 +339,7 @@ gtv_build_button_bold (GtkWidget *tb, GnmTextView *gtv)
 	return GTK_TOOL_BUTTON (tb_button);
 }
 
-#undef SETUPBPLDMENUITEM
-
+#undef SETUPBOLDMENUITEM
 
 /* Object routines */
 
@@ -356,6 +429,7 @@ gtv_init (GnmTextView *gtv)
 						      (cb_gtv_set_strikethrough));
 	gtk_toolbar_insert(GTK_TOOLBAR(tb), gtk_separator_tool_item_new (), -1);
 	gtv->bold = gtv_build_button_bold (tb, gtv);
+	gtv->underline = gtv_build_button_underline (tb, gtv);
 
 	gtk_container_set_border_width (GTK_CONTAINER (gtv->view), 5);
 	gtk_text_view_set_wrap_mode (gtv->view, GTK_WRAP_WORD_CHAR);
