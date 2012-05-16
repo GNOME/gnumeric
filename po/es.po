@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-05-14 07:29+0000\n"
-"PO-Revision-Date: 2012-05-14 13:19+0200\n"
+"POT-Creation-Date: 2012-05-15 19:30+0000\n"
+"PO-Revision-Date: 2012-05-16 10:30+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -98,7 +98,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Proporciona una interfaz de secuencia de comandos de CORBA"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7001
-#: ../plugins/openoffice/openoffice-read.c:11134 ../src/xml-sax-read.c:3312
+#: ../plugins/openoffice/openoffice-read.c:11186 ../src/xml-sax-read.c:3312
 msgid "Reading file..."
 msgstr "Leyendo archivo…"
 
@@ -208,7 +208,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Contenido no válido del elemento «ss:data», se recibió «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:1093
-#: ../plugins/openoffice/openoffice-read.c:11241 ../src/xml-sax-read.c:3329
+#: ../plugins/openoffice/openoffice-read.c:11293 ../src/xml-sax-read.c:3329
 msgid "XML document not well formed!"
 msgstr "El documento XML no está bien formado."
 
@@ -500,7 +500,7 @@ msgstr ""
 "Ignorando la información de la columna que no especifica primera o última."
 
 #: ../plugins/excel/xlsx-read.c:1768
-#: ../plugins/openoffice/openoffice-read.c:2565
+#: ../plugins/openoffice/openoffice-read.c:2571
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignorando datos de validación no válidos porque: %s"
@@ -1319,139 +1319,139 @@ msgstr "Importa documentos GNU Oleo"
 msgid "GNU Oleo (*.oleo)"
 msgstr "GNU Oleo (*.oleo)"
 
-#: ../plugins/openoffice/openoffice-read.c:530
+#: ../plugins/openoffice/openoffice-read.c:536
 msgid "General ODF error"
 msgstr "Error ODF general"
 
-#: ../plugins/openoffice/openoffice-read.c:584
+#: ../plugins/openoffice/openoffice-read.c:590
 #, c-format
 msgid "Invalid integer '%s', for '%s'"
 msgstr "Entero «%s» no válido para «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:599
+#: ../plugins/openoffice/openoffice-read.c:605
 #, c-format
 msgid "Possible corrupted integer '%s' for '%s'"
 msgstr "Entero «%s» posiblemente corrupto para «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:643
+#: ../plugins/openoffice/openoffice-read.c:649
 #, c-format
 msgid "Invalid attribute '%s', expected number, received '%s'"
 msgstr "Atributo «%s» no válido, se esperaba un número, se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:666
+#: ../plugins/openoffice/openoffice-read.c:672
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
 msgstr "Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:688
+#: ../plugins/openoffice/openoffice-read.c:694
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr "Atributo «%s» no válido, se esperaba un color, se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:872
+#: ../plugins/openoffice/openoffice-read.c:878
 #, c-format
 msgid "Unknown hatch name '%s' encountered!"
 msgstr "Se encontró el nombre de trama desconocido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:880
+#: ../plugins/openoffice/openoffice-read.c:886
 msgid "Hatch fill without hatch name encountered!"
 msgstr "Se encontró un relleno de trama sin nombre de trama"
 
-#: ../plugins/openoffice/openoffice-read.c:888
+#: ../plugins/openoffice/openoffice-read.c:894
 #, c-format
 msgid "Unknown gradient name '%s' encountered!"
 msgstr "Se encontró nombre de gradiente desconocido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:901
+#: ../plugins/openoffice/openoffice-read.c:907
 msgid "Gradient fill without gradient name encountered!"
 msgstr "Se encontró un relleno de gradiente sin nombre de gradiente"
 
-#: ../plugins/openoffice/openoffice-read.c:909
+#: ../plugins/openoffice/openoffice-read.c:915
 #, c-format
 msgid "Unknown image fill name '%s' encountered!"
 msgstr "Se encontró el nombre de relleno de imagen desconocido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:919
+#: ../plugins/openoffice/openoffice-read.c:925
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
 msgstr "Se encontró una especificación de archivo absoluta no válida «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:932
+#: ../plugins/openoffice/openoffice-read.c:938
 #, c-format
 msgid "Unable to open '%s'."
 msgstr "No se pudo abrir «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:960
-#: ../plugins/openoffice/openoffice-read.c:7487
+#: ../plugins/openoffice/openoffice-read.c:966
+#: ../plugins/openoffice/openoffice-read.c:7519
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "No se pudo cargar el archivo «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:968
+#: ../plugins/openoffice/openoffice-read.c:974
 msgid "Image fill without image name encountered!"
 msgstr "Se encontró un relleno de imagen sin nombre de imagen."
 
-#: ../plugins/openoffice/openoffice-read.c:1054
-#: ../plugins/openoffice/openoffice-read.c:1130
+#: ../plugins/openoffice/openoffice-read.c:1060
+#: ../plugins/openoffice/openoffice-read.c:1136
 #, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Atributo «%s» no válido, unidad «%s» desconocida"
 
-#: ../plugins/openoffice/openoffice-read.c:1059
+#: ../plugins/openoffice/openoffice-read.c:1065
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr "Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1136
+#: ../plugins/openoffice/openoffice-read.c:1142
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr "Atributo «%s» no válido, se esperaba un ángulo, se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1203
+#: ../plugins/openoffice/openoffice-read.c:1209
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr "Atributo «%s» no válido, valor de enum «%s» desconocido"
 
-#: ../plugins/openoffice/openoffice-read.c:1403
+#: ../plugins/openoffice/openoffice-read.c:1409
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr "Ignorando la referencia a un libro de trabajo externo desconocido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1637
+#: ../plugins/openoffice/openoffice-read.c:1643
 #, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
 msgstr "Se encontró un estilo de texto desconocido con nombre «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1939
+#: ../plugins/openoffice/openoffice-read.c:1945
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "No se puede analizar «%s» («%s»)"
 
-#: ../plugins/openoffice/openoffice-read.c:2034
-#: ../plugins/openoffice/openoffice-read.c:3207
+#: ../plugins/openoffice/openoffice-read.c:2040
+#: ../plugins/openoffice/openoffice-read.c:3214
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Se encontró un tipo de fórmula no soportado: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2040
-#: ../plugins/openoffice/openoffice-read.c:3214
+#: ../plugins/openoffice/openoffice-read.c:2046
+#: ../plugins/openoffice/openoffice-read.c:3221
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "La expresión «%s» no empieza con un carácter reconocido"
 
-#: ../plugins/openoffice/openoffice-read.c:2079
+#: ../plugins/openoffice/openoffice-read.c:2085
 #: ../plugins/openoffice/openoffice-write.c:4833
 #: ../plugins/openoffice/openoffice-write.c:4845 ../src/print-info.c:633
 #: ../src/ssgrep.c:352
 msgid "cell"
 msgstr "celda"
 
-#: ../plugins/openoffice/openoffice-read.c:2138
+#: ../plugins/openoffice/openoffice-read.c:2144
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_EN_ARCHIVO_CORRUPTO"
 
-#: ../plugins/openoffice/openoffice-read.c:2143
+#: ../plugins/openoffice/openoffice-read.c:2149
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to \"%"
@@ -1460,30 +1460,30 @@ msgstr ""
 "Este archivo está corrupto con un nombre de hoja duplicado «%s», se renombró "
 "a «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:2156
+#: ../plugins/openoffice/openoffice-read.c:2162
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "HOJA_EN_ARCHIVO_CORRUPTO"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:2164
+#: ../plugins/openoffice/openoffice-read.c:2170
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr ""
 "Este archivo está corrupto con una hoja sin nombre, ahora nombrada «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:2519
+#: ../plugins/openoffice/openoffice-read.c:2525
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
 msgstr ""
 "La condición de validación «%s» no está soportada. Se ha cambiado a «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:2551
+#: ../plugins/openoffice/openoffice-read.c:2557
 #, c-format
 msgid "Undefined validation style encountered: %s"
 msgstr "Se encontró un estilo de validación no definido: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2574
+#: ../plugins/openoffice/openoffice-read.c:2580
 #, c-format
 msgid ""
 "Unsupported validation condition encountered: \"%s\" with base address: \"%s"
@@ -1492,36 +1492,36 @@ msgstr ""
 "Se encontró una condición de validación no soportada: «%s» con dirección "
 "base: «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:2936
+#: ../plugins/openoffice/openoffice-read.c:2943
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr "Ignorando la columna de información más allá de la columna %i"
 
-#: ../plugins/openoffice/openoffice-read.c:3059
-#: ../plugins/openoffice/openoffice-read.c:3439
+#: ../plugins/openoffice/openoffice-read.c:3066
+#: ../plugins/openoffice/openoffice-read.c:3446
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "El contenido excedió el número máximo de filas soportadas (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:3199
-#: ../plugins/openoffice/openoffice-read.c:5462
+#: ../plugins/openoffice/openoffice-read.c:3206
+#: ../plugins/openoffice/openoffice-read.c:5469
 msgid "Missing expression"
 msgstr "Expresión perdida"
 
-#: ../plugins/openoffice/openoffice-read.c:3412
+#: ../plugins/openoffice/openoffice-read.c:3419
 msgid "Invalid array expression does not specify number of columns."
 msgstr "La expresión de la matriz no especifica el número de columnas."
 
-#: ../plugins/openoffice/openoffice-read.c:3415
+#: ../plugins/openoffice/openoffice-read.c:3422
 msgid "Invalid array expression does not specify number of rows."
 msgstr "La expresión de la matriz no especifica el número de filas."
 
-#: ../plugins/openoffice/openoffice-read.c:3431
+#: ../plugins/openoffice/openoffice-read.c:3438
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr "El contenido excedió el número máximo de columnas soportadas (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:3624
+#: ../plugins/openoffice/openoffice-read.c:3631
 #: ../src/dialogs/dialog-hyperlink.c:83
 msgid ""
 "Left click once to follow this link.\n"
@@ -1530,156 +1530,156 @@ msgstr ""
 "Pulsar una vez con el botón izquierdo para seguir este enlace.\n"
 "Pulsar una vez con el botón del medio para seleccionar esta celda"
 
-#: ../plugins/openoffice/openoffice-read.c:3757
+#: ../plugins/openoffice/openoffice-read.c:3764
 msgid "Unnamed dash style encountered."
 msgstr "Se encontró un estilo de guión sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:3775
+#: ../plugins/openoffice/openoffice-read.c:3782
 msgid "Unnamed image fill style encountered."
 msgstr "Se encontró un estilo de relleno de imagen sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:3777
+#: ../plugins/openoffice/openoffice-read.c:3784
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr "El estilo de relleno de imagen «%s» no tiene ninguna imagen adjunta."
 
-#: ../plugins/openoffice/openoffice-read.c:3814
-#: ../plugins/openoffice/openoffice-read.c:3820
+#: ../plugins/openoffice/openoffice-read.c:3821
+#: ../plugins/openoffice/openoffice-read.c:3827
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "No se puede analizar el color del degradado: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:3840
+#: ../plugins/openoffice/openoffice-read.c:3847
 msgid "Unnamed gradient style encountered."
 msgstr "Se encontró un estilo de gradiente sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:3861
+#: ../plugins/openoffice/openoffice-read.c:3868
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "No se puede analizar el color del entramado: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:3935
+#: ../plugins/openoffice/openoffice-read.c:3942
 msgid "Unnamed hatch encountered!"
 msgstr "Se encontró un entramado sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:4034
+#: ../plugins/openoffice/openoffice-read.c:4041
 msgid "Duplicate default column style encountered."
 msgstr "Se encontró un estilo de columna predeterminado duplicado."
 
-#: ../plugins/openoffice/openoffice-read.c:4050
+#: ../plugins/openoffice/openoffice-read.c:4057
 msgid "Duplicate default row style encountered."
 msgstr "Se encontró un estilo de fila predeterminado duplicado."
 
 # ¿Será mejor "sin nombre" o "desconocido"?
-#: ../plugins/openoffice/openoffice-read.c:4460
+#: ../plugins/openoffice/openoffice-read.c:4467
 msgid "Unnamed date style ignored."
 msgstr "Se ignoró un estilo de fecha sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:4763
+#: ../plugins/openoffice/openoffice-read.c:4770
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Archivo corrupto: se ignoró un estilo de número sin nombre. "
 
-#: ../plugins/openoffice/openoffice-read.c:4799
-#: ../plugins/openoffice/openoffice-read.c:4826
-#: ../plugins/openoffice/openoffice-read.c:4854
-#: ../plugins/openoffice/openoffice-read.c:4895
-#: ../plugins/openoffice/openoffice-read.c:4921
-#: ../plugins/openoffice/openoffice-read.c:4949
+#: ../plugins/openoffice/openoffice-read.c:4806
+#: ../plugins/openoffice/openoffice-read.c:4833
+#: ../plugins/openoffice/openoffice-read.c:4861
+#: ../plugins/openoffice/openoffice-read.c:4902
+#: ../plugins/openoffice/openoffice-read.c:4928
+#: ../plugins/openoffice/openoffice-read.c:4956
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Este archivo parece corrupto, faltan los formatos requeridos."
 
-#: ../plugins/openoffice/openoffice-read.c:5015
+#: ../plugins/openoffice/openoffice-read.c:5022
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Papel del archivo ODF: %ipt⨉%ipt"
 
-#: ../plugins/openoffice/openoffice-read.c:5201
+#: ../plugins/openoffice/openoffice-read.c:5208
 msgid "Missing page layout identifier"
 msgstr "Falta el identificador del diseño de página"
 
-#: ../plugins/openoffice/openoffice-read.c:5231
+#: ../plugins/openoffice/openoffice-read.c:5238
 msgid "Master page style without page layout encountered!"
 msgstr "Se encontró un estilo de página maestra sin disposición de página."
 
-#: ../plugins/openoffice/openoffice-read.c:5242
+#: ../plugins/openoffice/openoffice-read.c:5249
 msgid "Master page style without name encountered!"
 msgstr "Se encontró un estilo de página maestra sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:5351
+#: ../plugins/openoffice/openoffice-read.c:5358
 #: ../plugins/openoffice/openoffice-write.c:4826
 #: ../plugins/openoffice/openoffice-write.c:4838 ../src/print-info.c:626
 msgid "tab"
 msgstr "pestaña"
 
-#: ../plugins/openoffice/openoffice-read.c:5381
+#: ../plugins/openoffice/openoffice-read.c:5388
 #: ../plugins/openoffice/openoffice-write.c:4829
 #: ../plugins/openoffice/openoffice-write.c:4841 ../src/print-info.c:629
 msgid "date"
 msgstr "fecha"
 
-#: ../plugins/openoffice/openoffice-read.c:5387
+#: ../plugins/openoffice/openoffice-read.c:5394
 #: ../plugins/openoffice/openoffice-write.c:4830
 #: ../plugins/openoffice/openoffice-write.c:4842 ../src/print-info.c:630
 msgid "time"
 msgstr "hora"
 
-#: ../plugins/openoffice/openoffice-read.c:5393
+#: ../plugins/openoffice/openoffice-read.c:5400
 #: ../plugins/openoffice/openoffice-write.c:4827
 #: ../plugins/openoffice/openoffice-write.c:4839 ../src/print-info.c:627
 msgid "page"
 msgstr "página"
 
-#: ../plugins/openoffice/openoffice-read.c:5399
+#: ../plugins/openoffice/openoffice-read.c:5406
 #: ../plugins/openoffice/openoffice-write.c:4828
 #: ../plugins/openoffice/openoffice-write.c:4840 ../src/print-info.c:628
 msgid "pages"
 msgstr "páginas"
 
-#: ../plugins/openoffice/openoffice-read.c:5424
 #: ../plugins/openoffice/openoffice-read.c:5431
+#: ../plugins/openoffice/openoffice-read.c:5438
 #: ../plugins/openoffice/openoffice-write.c:4832
 #: ../plugins/openoffice/openoffice-write.c:4844 ../src/print-info.c:632
 msgid "path"
 msgstr "ruta"
 
-#: ../plugins/openoffice/openoffice-read.c:5428
 #: ../plugins/openoffice/openoffice-read.c:5435
+#: ../plugins/openoffice/openoffice-read.c:5442
 #: ../plugins/openoffice/openoffice-write.c:4831
 #: ../plugins/openoffice/openoffice-write.c:4843 ../src/print-info.c:631
 #: ../src/ssconvert.c:90
 msgid "file"
 msgstr "archivo"
 
-#: ../plugins/openoffice/openoffice-read.c:5477
+#: ../plugins/openoffice/openoffice-read.c:5484
 msgid "title"
 msgstr "título"
 
-#: ../plugins/openoffice/openoffice-read.c:5508
+#: ../plugins/openoffice/openoffice-read.c:5515
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Se encontró un estilo de borde de Gnumeric «%s» desconocido."
 
-#: ../plugins/openoffice/openoffice-read.c:5776
+#: ../plugins/openoffice/openoffice-read.c:5783
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Tipo de salto «%s» desconocido, el predeterminado es NINGUNO"
 
-#: ../plugins/openoffice/openoffice-read.c:5854
+#: ../plugins/openoffice/openoffice-read.c:5861
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "No se puede analizar el color «%s» de la pestaña"
 
-#: ../plugins/openoffice/openoffice-read.c:5866
+#: ../plugins/openoffice/openoffice-read.c:5873
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "No se puede analizar el color «%s» del texto de la pestaña"
 
-#: ../plugins/openoffice/openoffice-read.c:6031
+#: ../plugins/openoffice/openoffice-read.c:6038
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Se encontró la condición desconocida «%s», ignorando."
 
-#: ../plugins/openoffice/openoffice-read.c:6427
+#: ../plugins/openoffice/openoffice-read.c:6434
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1688,33 +1688,40 @@ msgstr ""
 "Se encontró un tipo de interpolación desconocido: «%s», en su lugar se usará "
 "una spline cúbica de Bezier."
 
-#: ../plugins/openoffice/openoffice-read.c:6436
+#: ../plugins/openoffice/openoffice-read.c:6443
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Se encontró un tipo de interpolación desconocido: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:6829
+#: ../plugins/openoffice/openoffice-read.c:6836
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "la expresión «%s» @ «%s» no es una referencia de celda"
 
-#: ../plugins/openoffice/openoffice-read.c:6846
+#: ../plugins/openoffice/openoffice-read.c:6853
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "La expresión «%s» tiene un espacio de nombres desconocido"
 
-#: ../plugins/openoffice/openoffice-read.c:6898
+#: ../plugins/openoffice/openoffice-read.c:6905
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Rango de BD «%s» no válido"
 
-#: ../plugins/openoffice/openoffice-read.c:7164
-#: ../plugins/openoffice/openoffice-read.c:7203
+#: ../plugins/openoffice/openoffice-read.c:7161
+#, c-format
+msgid ""
+"Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
+"has been dropped."
+msgstr ""
+
+#: ../plugins/openoffice/openoffice-read.c:7196
+#: ../plugins/openoffice/openoffice-read.c:7235
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr "Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:7169
+#: ../plugins/openoffice/openoffice-read.c:7201
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1723,14 +1730,19 @@ msgstr ""
 "Tipo de valor «%s» no válido anunciado por el atributo «form:value» en el "
 "elemento «form:value-range»."
 
-#: ../plugins/openoffice/openoffice-read.c:7832
+#: ../plugins/openoffice/openoffice-read.c:7698
+msgid "Unable to determine manual position for a chart component!"
+msgstr ""
+"No se puede determinar la posición del manual para un componente del cuadro."
+
+#: ../plugins/openoffice/openoffice-read.c:7882
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr ""
 "No hay datos suficientes en el rango proporcionado (%s) para todas las "
 "solicitudes"
 
-#: ../plugins/openoffice/openoffice-read.c:8364
+#: ../plugins/openoffice/openoffice-read.c:8414
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1738,39 +1750,39 @@ msgstr ""
 "Gnumeric no soporta ecuaciones con regresión no-automática. En su lugar, se "
 "usará una ecuación automática."
 
-#: ../plugins/openoffice/openoffice-read.c:8507
+#: ../plugins/openoffice/openoffice-read.c:8557
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr "Se encontraron líneas de caída en un argumento que no los soporta."
 
-#: ../plugins/openoffice/openoffice-read.c:8577
+#: ../plugins/openoffice/openoffice-read.c:8627
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr ""
 "Se encontró un tipo de gráfico desconocido, intentando crear una dibujo de "
 "líneas."
 
-#: ../plugins/openoffice/openoffice-read.c:9060
+#: ../plugins/openoffice/openoffice-read.c:9109
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "El atributo «%s» tiene el valor «%s» no soportado."
 
-#: ../plugins/openoffice/openoffice-read.c:10997
+#: ../plugins/openoffice/openoffice-read.c:11049
 msgid "Unknown mimetype for openoffice file."
 msgstr "Tipo mime desconocido para el archivo openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:11007
+#: ../plugins/openoffice/openoffice-read.c:11059
 msgid "No stream named content.xml found."
 msgstr "No se encontró ningún flujo llamado content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:11015
+#: ../plugins/openoffice/openoffice-read.c:11067
 msgid "No stream named styles.xml found."
 msgstr "No se encontró ningún flujo llamado styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:11144
+#: ../plugins/openoffice/openoffice-read.c:11196
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Metadatos no válidos «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:11213
+#: ../plugins/openoffice/openoffice-read.c:11265
 msgid "settings.xml stream is malformed!"
 msgstr "El flujo settings.xml está mal formado."
 
@@ -2383,42 +2395,32 @@ msgid "Autocorrect first letter"
 msgstr "Autocorregir primera letra"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:10
-#, fuzzy
-#| msgid "This variable determines whether autocompletion is set on."
 msgid "This variable determines whether to autocorrect first letters"
-msgstr "Esta variable determina si la autocompletación está activada."
+msgstr "Esta variable determina si se autocorrigen las primeras letras"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:11
-#, fuzzy
-#| msgid "List of First Letter Exceptions"
 msgid "List of First Letter Exception"
-msgstr "Lista de excepciones de primera letra"
+msgstr "Lista de excepciones de primeras letras"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:12
-#, fuzzy
-#| msgid ""
-#| "The autocorrect engine does not correct the first letter for words in "
-#| "this list."
 msgid ""
 "The autocorrect engine does not capitalize the first letter of words "
 "following strings in this list."
 msgstr ""
-"El motor de auto-corrección no corrige la primera letra de las palabras de "
-"esta lista."
+"El motor de auto-corrección no pone en mayúsculas la primera letra de "
+"palabras después de las cadenas en esta lista."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:13
 msgid "Autocorrect names of days"
 msgstr "Autocorregir los nombres de los días"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:14
-#, fuzzy
-#| msgid "This variable determines whether autocompletion is set on."
 msgid "This variable determines whether to autocorrect names of days"
-msgstr "Esta variable determina si la autocompletación está activada."
+msgstr "Esta variable determina si se autocorrigen los nombres de los días"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:15
 msgid "Autocorrect replace"
-msgstr "Autocorrección reemplaza"
+msgstr "Reemplazo de la autocorrección"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:16
 msgid "Activate New Plugins"
@@ -2439,7 +2441,7 @@ msgid ""
 "This list contains all plugins that are supposed to be automatically "
 "activated."
 msgstr ""
-"Esta lista contiene todos los complementos que se suponen que se activan "
+"Esta lista contiene todos los complementos que se supone que se activan "
 "automáticamente."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:20
@@ -2452,7 +2454,7 @@ msgstr "Esta lista contiene todos los complementos conocidos."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:22
 msgid "List of Plugin File States."
-msgstr "Lista de estados de archivos complementos."
+msgstr "Lista de estados de archivos de complementos."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:23
 msgid "This list contains all plugin file states."
@@ -2470,14 +2472,14 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:26
 msgid "List of Extra Autoformat Directories."
-msgstr "Lista de carpetas de autoformato extra."
+msgstr "Lista de carpetas de autoformato adicionales."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:27
 msgid ""
 "This list contains all extra directories containing autoformat templates."
 msgstr ""
-"Esta lista contiene todos las carpetas extra que contienen plantillas de "
-"autoformato."
+"Esta lista contiene todas las carpetas adicionales que contienen plantillas "
+"de autoformato."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:28
 msgid "System Directory for Autoformats"
@@ -2493,7 +2495,9 @@ msgstr "Carpeta de usuario para autoformatos"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:31
 msgid "The main directory for user specific autoformat templates."
-msgstr "La carpeta principal para las plantillas específicas del usuario."
+msgstr ""
+"La carpeta principal para las plantillas de autoformato específicas del "
+"usuario."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:32
 msgid "Apply print-setup to all sheets"
@@ -2504,8 +2508,8 @@ msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
 msgstr ""
-"Este valor determina si de manera predeterminada el diálogo de «Configuración "
-"de impresión» se aplica a todas las hojas simultáneamente."
+"Este valor determina si de manera predeterminada el diálogo de configuración "
+"de impresión se aplica a todas las hojas simultáneamente."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:34
 msgid "GTKPrintSetting"
@@ -2525,7 +2529,7 @@ msgid ""
 "page setup dialog."
 msgstr ""
 "La cabecera de página predeterminada para los documentos nuevos puede "
-"modificarse usando el diálogo «Configurar página»."
+"modificarse usando el diálogo de configuración de página."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:38
 msgid "Page Footer"
@@ -2537,7 +2541,7 @@ msgid ""
 "page setup dialog."
 msgstr ""
 "El pie de página predeterminado para los documentos nuevos puede modificarse "
-"usando el diálogo «Configuración de página»."
+"usando el diálogo de configuración de página."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:40
 msgid "Default Header/Footer Font Size"
@@ -2545,11 +2549,12 @@ msgstr "Tamaño de la tipografía predeterminada para cabecera/pie de página"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:41
 msgid "The default font size for headers and footers."
-msgstr "El tamaño de tipografía inicial para las cabeceras y pies de página."
+msgstr ""
+"El tamaño de tipografía predeterminado para las cabeceras y pies de página."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:42
 msgid "Default header/footer font name"
-msgstr "Tipografía predeterminada para cabecera/pie de página"
+msgstr "Nombre de la tipografía predeterminada para cabecera/pie de página"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:43
 msgid "The default font name for headers and footers."
@@ -2569,7 +2574,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:46
 msgid "The default header/footer font is italic."
-msgstr "La tipografía predeterminada para cabecera/pie de página es  itálica."
+msgstr "La tipografía predeterminada para cabecera/pie de página es itálica."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:47
 msgid ""
@@ -2584,15 +2589,12 @@ msgid "Default Horizontal Centering"
 msgstr "Centrado horizontal predeterminado"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:49
-#, fuzzy
 msgid ""
 "This value determines whether the default setting in the Print Setup dialog "
 "is to center pages horizontally."
 msgstr ""
-"Este valor determina la configuración predeterminada en el diálogo de "
-"«Configuración de impresión» para indicar si se deben centrar las páginas "
-"horizontalmente. Use el diálogo de «Configuración de impresión» para editar "
-"este valor."
+"Este valor determina si la configuración predeterminada en el diálogo de "
+"configuración de impresión es centrar las páginas horizontalmente."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:50
 msgid "Default Vertical Centering"
@@ -4455,8 +4457,13 @@ msgstr "Configurar botón"
 msgid "Configure Radio Button"
 msgstr "Configurar botón de radio"
 
-#: ../src/commands.c:7737 ../src/commands.c:7844
-#: ../src/sheet-object-widget.c:1524
+#: ../src/commands.c:7737
+#, fuzzy
+#| msgid "Configure"
+msgid "Configure Checkbox"
+msgstr "Configurar"
+
+#: ../src/commands.c:7844 ../src/sheet-object-widget.c:1524
 msgid "Configure Adjustment"
 msgstr "Configurar ajuste"
 
@@ -6952,7 +6959,7 @@ msgstr "Entero uniforme"
 
 #: ../src/dialogs/dialog-random-generator.c:110
 #: ../src/dialogs/search-replace.ui.h:28 ../src/dialogs/search.ui.h:17
-#: ../src/widgets/gnumeric-text-view.c:249
+#: ../src/widgets/gnumeric-text-view.c:323
 #: ../src/widgets/widget-font-selector.c:201
 msgid "Normal"
 msgstr "Normal"
@@ -8225,7 +8232,7 @@ msgstr "Izquierda"
 msgid "Right"
 msgstr "Derecha"
 
-#: ../src/dialogs/cell-format.ui.h:35
+#: ../src/dialogs/cell-format.ui.h:35 ../src/widgets/gnumeric-text-view.c:281
 msgid "None"
 msgstr "Ninguno"
 
@@ -17386,7 +17393,7 @@ msgid "_Bold"
 msgstr "_Negrita"
 
 #. ALSO "<control>2"
-#: ../src/wbc-gtk-actions.c:2900 ../src/widgets/gnumeric-text-view.c:252
+#: ../src/wbc-gtk-actions.c:2900 ../src/widgets/gnumeric-text-view.c:326
 #: ../src/widgets/widget-font-selector.c:202
 msgid "Bold"
 msgstr "Negrita"
@@ -18028,35 +18035,60 @@ msgstr "Formatear para constantes"
 msgid "Expecting a single range"
 msgstr "Se espera un rango simple"
 
-#: ../src/widgets/gnumeric-text-view.c:246
+#: ../src/widgets/gnumeric-text-view.c:282
+#, fuzzy
+#| msgid "Single"
+msgid "Single"
+msgstr "Simple"
+
+#: ../src/widgets/gnumeric-text-view.c:283
+#, fuzzy
+#| msgctxt "underline"
+#| msgid "Double"
+msgid "Double"
+msgstr "Doble"
+
+#: ../src/widgets/gnumeric-text-view.c:284
+#, fuzzy
+#| msgid "Heavy"
+msgid "Wavy"
+msgstr "Pesada"
+
+#: ../src/widgets/gnumeric-text-view.c:285
+#, fuzzy
+#| msgid "Single"
+msgid "Low Single"
+msgstr "Simple"
+
+#: ../src/widgets/gnumeric-text-view.c:320
 msgid "Thin"
 msgstr "Delgada"
 
-#: ../src/widgets/gnumeric-text-view.c:247
+#: ../src/widgets/gnumeric-text-view.c:321
 msgid "Ultralight"
 msgstr "Ultraligera"
 
-#: ../src/widgets/gnumeric-text-view.c:248
+#: ../src/widgets/gnumeric-text-view.c:322
 msgid "Light"
 msgstr "Ligera"
 
-#: ../src/widgets/gnumeric-text-view.c:250
+#: ../src/widgets/gnumeric-text-view.c:324
 msgid "Medium"
 msgstr "Mediana"
 
-#: ../src/widgets/gnumeric-text-view.c:251
+#: ../src/widgets/gnumeric-text-view.c:325
 msgid "Semibold"
 msgstr "Medio negrita"
 
-#: ../src/widgets/gnumeric-text-view.c:253
+#: ../src/widgets/gnumeric-text-view.c:327
 msgid "Ultrabold"
 msgstr "Ultra negrita"
 
-#: ../src/widgets/gnumeric-text-view.c:254
+#: ../src/widgets/gnumeric-text-view.c:328
 msgid "Heavy"
 msgstr "Pesada"
 
-#: ../src/widgets/gnumeric-text-view.c:255
+#: ../src/widgets/gnumeric-text-view.c:329
 msgid "Ultraheavy"
 msgstr "Ultra pesada"
 
