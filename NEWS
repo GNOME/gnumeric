@@ -21,7 +21,7 @@ Morten:
 	* Minor doc improvement for non-C locales.  [Part of #675000]
 	* Fix fullscreen criticals.
 	* Improve handling of expressions in validations.  [#674914]
-	* Fix problems with style hash and equality.
+	* Fix problems with style hash and equality.  [#675955]
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.3

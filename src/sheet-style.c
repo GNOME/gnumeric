@@ -39,6 +39,104 @@
 
 #define USE_TILE_POOLS 0
 
+/* ------------------------------------------------------------------------- */
+
+/*
+ * This is, essentially, an std::multiset implementation for the style hash.
+ * Note, however, that sh_lookup is based on gnm_style_equal, not gnm_style_eq.
+ */
+typedef GHashTable GnmStyleHash;
+
+#if 0
+/* This is a really crummy hash -- except for forcing collisions.  */
+#define gnm_style_hash(st) 0
+#endif
+
+static void
+sh_remove (GnmStyleHash *h, GnmStyle *st)
+{
+	guint32 hv = gnm_style_hash (st);
+	GSList *l = g_hash_table_lookup (h, GUINT_TO_POINTER (hv));
+
+	g_return_if_fail (l != NULL);
+
+	if (l->data == st) {
+		GSList *next = l->next;
+		if (next) {
+			/* We're removing the first of several elements.  */
+			l->next = NULL;
+			g_hash_table_replace (h, GUINT_TO_POINTER (hv), next);
+		} else {
+			/* We're removing the last element.  */
+			g_hash_table_remove (h, GUINT_TO_POINTER (hv));
+		}
+	} else {
+		/* We're removing an element that isn't first.  */
+		l = g_slist_remove (l, st);
+	}
+}
+
+static GnmStyle *
+sh_lookup (GnmStyleHash *h, GnmStyle *st)
+{
+	guint32 hv = gnm_style_hash (st);
+	GSList *l = g_hash_table_lookup (h, GUINT_TO_POINTER (hv));
+	while (l) {
+		GnmStyle *st2 = l->data;
+		/* NOTE: This uses gnm_style_equal, not gnm_style_eq.  */
+		if (gnm_style_equal (st, st2))
+			return st2;
+		l = l->next;
+	}
+	return NULL;
+}
+
+static void
+sh_insert (GnmStyleHash *h, GnmStyle *st)
+{
+	GSList *s = g_slist_prepend (NULL, st);
+	guint32 hv = gnm_style_hash (st);
+	GSList *l = g_hash_table_lookup (h, GUINT_TO_POINTER (hv));
+	if (l) {
+		s->next = l->next;
+		l->next = s;
+	} else {
+		g_hash_table_insert (h, GUINT_TO_POINTER (hv), s);
+	}
+}
+
+static void
+sh_foreach (GnmStyleHash *h, GHFunc func, gpointer user)
+{
+	GHashTableIter iter;
+	gpointer value;
+
+	g_hash_table_iter_init (&iter, h);
+	while (g_hash_table_iter_next (&iter, NULL, &value)) {
+		GSList *l = value;
+		while (l) {
+			GnmStyle *st = l->data;
+			func (st, st, user);
+			l = l->next;
+		}
+	}
+}
+
+static GnmStyleHash *
+sh_create (void)
+{
+	return g_hash_table_new_full (g_direct_hash, g_direct_equal,
+				      NULL, (GDestroyNotify)g_slist_free);
+}
+
+static void
+sh_destroy (GnmStyleHash *h)
+{
+	g_hash_table_destroy (h);
+}
+
+/* ------------------------------------------------------------------------- */
+
 typedef union _CellTile CellTile;
 struct _GnmSheetStyleData {
 	/*
@@ -47,11 +145,11 @@ struct _GnmSheetStyleData {
 	 *
 	 * We always re-use styles from here when we can, but there can
 	 * still be duplicates.  This happens when styles are changed
-	 * while they are in the hash; such changes maintain the hash
-	 * value.  For example, this happens when an expression used by
-	 * a validation style changes due to row/col insert/delete.
+	 * while they are in the hash.  For example, this happens when
+	 * an expression used by a validation style changes due to
+	 * row/col insert/delete.
 	 */
-	GHashTable *style_hash;
+	GnmStyleHash *style_hash;
 
 	CellTile   *styles;
 	GnmStyle   *default_style;
@@ -77,8 +175,8 @@ cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 void
 sheet_style_unlink (Sheet *sheet, GnmStyle *st)
 {
-	if (sheet->style_data->style_hash != NULL)
-		g_hash_table_remove (sheet->style_data->style_hash, st);
+	if (sheet->style_data->style_hash)
+		sh_remove (sheet->style_data->style_hash, st);
 }
 
 /**
@@ -94,7 +192,7 @@ GnmStyle *
 sheet_style_find (Sheet const *sheet, GnmStyle *s)
 {
 	GnmStyle *res;
-	res = g_hash_table_lookup (sheet->style_data->style_hash, s);
+	res = sh_lookup (sheet->style_data->style_hash, s);
 	if (res != NULL) {
 		gnm_style_link (res);
 		gnm_style_unref (s);
@@ -104,7 +202,7 @@ sheet_style_find (Sheet const *sheet, GnmStyle *s)
 	s = gnm_style_link_sheet (s, (Sheet *)sheet);
 
 	/* Retry the lookup in case "s" changed.  See #585178.  */
-	res = g_hash_table_lookup (sheet->style_data->style_hash, s);
+	res = sh_lookup (sheet->style_data->style_hash, s);
 	if (res != NULL) {
 		gnm_style_link (res);
 		/*
@@ -119,7 +217,7 @@ sheet_style_find (Sheet const *sheet, GnmStyle *s)
 		return res;
 	}
 
-	g_hash_table_insert (sheet->style_data->style_hash, s, s);
+	sh_insert (sheet->style_data->style_hash, s);
 	return s;
 }
 
@@ -545,9 +643,7 @@ sheet_style_init_size (Sheet *sheet, int cols, int rows)
 	}
 
 	sheet->style_data = g_new (GnmSheetStyleData, 1);
-	sheet->style_data->style_hash =
-		g_hash_table_new (gnm_style_hash,
-				  (GCompareFunc) gnm_style_equal);
+	sheet->style_data->style_hash = sh_create ();
 #warning "FIXME: Allocating a GnmColor here is dubious."
 	sheet->style_data->auto_pattern_color = g_new (GnmColor, 1);
 	*sheet->style_data->auto_pattern_color =  *style_color_auto_pattern ();
@@ -616,11 +712,10 @@ sheet_style_resize (Sheet *sheet, int cols, int rows)
 	style_list_free	(styles);
 }
 
-static gboolean
+static void
 cb_unlink (void *key, void *value, void *user)
 {
 	gnm_style_unlink (key);
-	return TRUE;
 }
 
 #if USE_TILE_POOLS
@@ -635,7 +730,7 @@ cb_tile_pool_leak (gpointer data, gpointer user)
 void
 sheet_style_shutdown (Sheet *sheet)
 {
-	GHashTable *table;
+	GnmStyleHash *table;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->style_data != NULL);
@@ -652,8 +747,8 @@ sheet_style_shutdown (Sheet *sheet)
 	 */
 	table = sheet->style_data->style_hash;
 	sheet->style_data->style_hash = NULL;
-	g_hash_table_foreach_remove (table, cb_unlink, NULL);
-	g_hash_table_destroy (table);
+	sh_foreach (table, cb_unlink, NULL);
+	sh_destroy (table);
 	style_color_unref (sheet->style_data->auto_pattern_color);
 
 	g_free (sheet->style_data);
@@ -2601,7 +2696,7 @@ sheet_style_foreach (Sheet const *sheet, GHFunc	func, gpointer user_data)
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->style_data != NULL);
 
-	g_hash_table_foreach (sheet->style_data->style_hash, func, user_data);
+	sh_foreach (sheet->style_data->style_hash, func, user_data);
 }
 
 /* ------------------------------------------------------------------------- */

@@ -1,3 +1,8 @@
+2012-05-16  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c: New multiset implementation for style hash.
+	Fixes #67595 item 3.
+
 2012-05-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-so-filled.c (cb_gnm_so_filled_changed): allways use margins
