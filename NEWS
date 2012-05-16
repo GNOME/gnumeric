@@ -12,6 +12,7 @@ Andreas:
 	* Fix loading of ellipse objects defined in ODF's shape section. [#676064]
 	* Fix loading of line objects defined in ODF's shape section. [#676063]
 	* Add underline button to formatted text dialog for sheet objects, commemts, etc.
+	* Write the formatted text of sheet objects to ODF.
 
 Jean:
 	* Fix graph series headers when a multiple selection is used. [#675913]

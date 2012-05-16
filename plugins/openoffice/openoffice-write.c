@@ -481,12 +481,18 @@ odf_new_markup (GnmOOExport *state, const PangoAttrList *markup, char const *tex
 	int handled = 0;
 	PangoAttrIterator * iter;
 	int from, to;
-	int len = strlen (text);
+	int len = text ? strlen (text) : 0;
 	/* Since whitespace at the beginning of a <text:p> will be deleted upon    */
 	/* reading, we need to behave as if we have already written whitespace and */
 	/* use <text:s> if necessary */
 	gboolean white_written = TRUE;
 
+	if (len == 0)
+		return;
+	if (markup == NULL) {
+		odf_add_chars (state, text, len, &white_written);
+		return;
+	}
 
 	iter = pango_attr_list_get_iterator ((PangoAttrList *) markup);
 
@@ -2669,15 +2675,12 @@ odf_write_comment (GnmOOExport *state, GnmComment const *cc)
 	if (text != NULL) {
 		g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
 		gsf_xml_out_start_element (state->xml, TEXT "p");
-		if (markup != NULL) {
-			odf_new_markup (state, markup, text);
-			pango_attr_list_unref (markup);
-		} else {
-			gboolean white_written = TRUE;
-			odf_add_chars (state, text, strlen (text), &white_written);
-		}
+		odf_new_markup (state, markup, text);
 		gsf_xml_out_end_element (state->xml);   /* p */
 		g_free (text);
+		if (markup != NULL)
+			pango_attr_list_unref (markup);
+		
 	}
 	g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
 	gsf_xml_out_end_element (state->xml); /*  OFFICE "annotation" */
@@ -2846,17 +2849,29 @@ odf_write_so_filled (GnmOOExport *state, SheetObject *so)
 	char const *element;
 	gboolean is_oval = FALSE;
 	gchar *text = NULL;
+	PangoAttrList * markup = NULL;
 	gchar const *style_name = g_hash_table_lookup (state->so_styles, so);
+	gboolean pp = TRUE;
 
-	g_object_get (G_OBJECT (so), "is-oval", &is_oval, "text", &text, NULL);
+	g_object_get (G_OBJECT (so), "is-oval", &is_oval, "text", &text, "markup", &markup, NULL);
 	element = is_oval ? DRAW "ellipse" : DRAW "rect";
 
 	gsf_xml_out_start_element (state->xml, element);
 	if (style_name != NULL)
 		gsf_xml_out_add_cstr (state->xml, DRAW "style-name", style_name);
 	odf_write_frame_size (state, so);
-	gsf_xml_out_simple_element (state->xml, TEXT "p", text);
+
+	g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
+	g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
+	gsf_xml_out_start_element (state->xml, TEXT "p");
+	odf_new_markup (state, markup, text);
+	gsf_xml_out_end_element (state->xml);   /* p */
+	g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
+	
 	g_free (text);
+	if (markup)
+		pango_attr_list_unref (markup);
+
 	gsf_xml_out_end_element (state->xml); /*  DRAW "rect" or "ellipse" */
 }
 
@@ -3117,7 +3132,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 					gsf_xml_out_add_cstr (state->xml, OFFICE "date-value", str);
 				}
 				g_free (str);
-			} else if (go_format_is_time (fmt)) {
+			} else if (go_format_is_time (fmt) && (value_get_as_float (cell->value) >= 0.)) {
 				char *str;
 				gsf_xml_out_add_cstr_unchecked (state->xml,
 								OFFICE "value-type", "time");
