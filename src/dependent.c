@@ -1277,8 +1277,7 @@ dependent_managed_set_sheet (GnmDependent *dep, Sheet *sheet)
 	if (texpr) gnm_expr_top_ref (texpr);
 	dependent_set_expr (dep, NULL);
 	/* We're now unlinked from everything. */
-	if (dep->sheet) g_object_unref (dep->sheet);
-	dep->sheet = sheet ? g_object_ref (sheet) : NULL;
+	dep->sheet = sheet;
 	dependent_managed_set_expr (dep, texpr);
 	if (texpr) gnm_expr_top_unref (texpr);
 }

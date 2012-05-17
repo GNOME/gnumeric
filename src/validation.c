@@ -308,6 +308,25 @@ validation_new (ValidationStyle style,
 	return v;
 }
 
+GnmValidation *
+gnm_validation_dup (GnmValidation *v)
+{
+	GnmValidation *dst;
+	int i;
+
+	g_return_val_if_fail (v != NULL, NULL);
+
+	dst = validation_new (v->style, v->type, v->op,
+			      gnm_validation_get_sheet (v),
+			      v->title ? v->title->str : NULL,
+			      v->msg ? v->msg->str : NULL,
+			      NULL, NULL,
+			      v->allow_blank, v->use_dropdown);
+	for (i = 0; i < 2; i++)
+		validation_set_expr (dst, v->deps[i].texpr, i);
+	return dst;
+}
+
 void
 validation_ref (GnmValidation const *v)
 {
@@ -340,6 +359,26 @@ validation_unref (GnmValidation const *val)
 		g_free (v);
 	}
 }
+
+Sheet *
+gnm_validation_get_sheet (GnmValidation *v)
+{
+	g_return_val_if_fail (v != NULL, NULL);
+	return v->deps[0].sheet;
+}
+
+void
+gnm_validation_set_sheet (GnmValidation *v, Sheet *sheet)
+{
+	int i;
+
+	g_return_if_fail (v != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (i = 0; i < 2; i++)
+		dependent_managed_set_sheet (&v->deps[i], sheet);
+}
+
 
 /**
  * validation_set_expr :

@@ -72,12 +72,18 @@ GnmValidation *validation_new   (ValidationStyle style,
 				 GnmExprTop const *texpr0,
 				 GnmExprTop const *texpr1,
 				 gboolean allow_blank, gboolean use_dropdown);
+GnmValidation *gnm_validation_dup (GnmValidation *v);
 
 void        validation_ref      (GnmValidation const *v);
 void        validation_unref    (GnmValidation const *v);
+
 void	    validation_set_expr (GnmValidation *v,
 				 GnmExprTop const *texpr, unsigned indx);
 GError	   *validation_is_ok    (GnmValidation const *v);
+
+Sheet      *gnm_validation_get_sheet (GnmValidation *v);
+void        gnm_validation_set_sheet (GnmValidation *v, Sheet *sheet);
+
 ValidationStatus validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 				  Sheet *sheet, GnmCellPos const *pos,
 				  gboolean *showed_dialog);

@@ -1,4 +1,17 @@
-2012-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2012-05-17  Morten Welinder  <terra@gnome.org>
+
+	* src/validation.c (gnm_validation_dup, gnm_validation_get_sheet)
+	(gnm_validation_set_sheet): New functions.
+
+	* src/mstyle.c (gnm_style_link_sheet): Call
+	gnm_style_linked_sheet_changed.  Fixes duplication of sheets with
+	validation and similar cases.
+	(gnm_style_linked_sheet_changed): New function.
+
+	* src/dependent.c (dependent_managed_set_sheet): We don't own a
+	sheet ref, so don't mess with it.
+
+2012-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* configure.in: push gofffice requirement
 

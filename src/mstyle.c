@@ -814,6 +814,29 @@ link_border_colors (GnmStyle *style, GnmColor *auto_color, gboolean make_copy)
 	return style;
 }
 
+static void
+gnm_style_linked_sheet_changed (GnmStyle *style)
+{
+	Sheet *sheet = style->linked_sheet;
+
+	if (elem_is_set (style, MSTYLE_VALIDATION) &&
+	    style->validation &&
+	    gnm_validation_get_sheet (style->validation) != sheet) {
+		GnmValidation *new_v = gnm_validation_dup (style->validation);
+		gnm_validation_set_sheet (new_v, sheet);
+		gnm_style_set_validation (style, new_v);
+	}
+
+	if (elem_is_set (style, MSTYLE_CONDITIONS) &&
+	    style->conditions
+#if 0
+	    && gnm_style_conditions_get_sheet (style->conditions) != sheet
+#endif
+		) {
+		/* Something goes here.  */
+	}
+}
+
 /**
  * gnm_style_link_sheet :
  * @style :
@@ -854,6 +877,8 @@ gnm_style_link_sheet (GnmStyle *style, Sheet *sheet)
 
 	style->linked_sheet = sheet;
 	style->link_count = 1;
+
+	gnm_style_linked_sheet_changed (style);
 
 	d(("link sheet %p = 1\n", style));
 	return style;
