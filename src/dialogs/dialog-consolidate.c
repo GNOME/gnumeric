@@ -107,10 +107,8 @@ adjust_source_areas (ConsolidateState *state)
 			g_free (source);
 		} while (gtk_tree_model_iter_next
 			 (state->source_areas,&iter));
-	} else {
-		g_warning ("Did not get a valid iterator");
-		return;
 	}
+		
 	for (i = 0; i < cnt_empty; i++) {
 		gtk_list_store_append (GTK_LIST_STORE(state->source_areas),
 				       &iter);
@@ -473,8 +471,13 @@ static gboolean
 add_source_area (SheetView *sv, GnmRange const *r, gpointer closure)
 {
 	ConsolidateState *state = closure;
-	char *range_name = global_range_name (sv_sheet (sv), r);
-	GtkTreeIter      iter;
+	char             *range_name;
+	GtkTreeIter       iter;
+
+	if (range_is_singleton (r))
+		return TRUE;
+
+	range_name = global_range_name (sv_sheet (sv), r);
 
 	gtk_list_store_prepend (GTK_LIST_STORE(state->source_areas),
 				&iter);
@@ -499,8 +502,6 @@ add_source_area (SheetView *sv, GnmRange const *r, gpointer closure)
 static void
 dialog_consolidate_tool_init (ConsolidateState *state)
 {
-	GnmRange const *r = NULL;
-
 	state->areas_index = -1;
 
 	setup_widgets (state, state->base.gui);
@@ -517,9 +518,7 @@ dialog_consolidate_tool_init (ConsolidateState *state)
 	 * When there are non-singleton selections add them all to the
 	 * source range list for convenience
 	 */
-	if ((r = selection_first_range (state->base.sv, NULL, NULL)) != NULL
-	    && !range_is_singleton (r))
-		sv_selection_foreach (state->base.sv, &add_source_area, state);
+	sv_selection_foreach (state->base.sv, &add_source_area, state);
 
 	adjust_source_areas (state);
 	dialog_set_button_sensitivity (NULL, state);

@@ -1,3 +1,11 @@
+2012-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-consolidate.c (adjust_source_areas): also expect empty
+	list stores
+	(add_source_area): do not add singletons
+	(dialog_consolidate_tool_init): even if the first selection range
+	is a singleton, there could be others that are not
+
 2012-04-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.3
