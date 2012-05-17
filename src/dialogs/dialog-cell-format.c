@@ -1606,7 +1606,7 @@ validation_rebuild_validation (FormatState *state)
 			gboolean use_dropdown = gtk_toggle_button_get_active (state->validation.use_dropdown);
 			gnm_style_set_validation
 				(state->result,
-				 validation_new
+				 gnm_validation_new
 				 (style, type, op,
 				  state->sheet,
 				  title, msg,

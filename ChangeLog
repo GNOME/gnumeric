@@ -1,5 +1,7 @@
 2012-05-17  Morten Welinder  <terra@gnome.org>
 
+	* src/validation.h: Grand rename into gnm_ namespace.
+
 	* src/validation.c (gnm_validation_dup, gnm_validation_get_sheet)
 	(gnm_validation_set_sheet): New functions.
 

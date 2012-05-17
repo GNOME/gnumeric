@@ -432,7 +432,7 @@ elem_assign_contents (GnmStyle *dst, GnmStyle const *src, GnmStyleElement elem)
 	case MSTYLE_CONTENTS_HIDDEN:	dst->contents_hidden = src->contents_hidden; return;
 	case MSTYLE_VALIDATION:
 		if ((dst->validation = src->validation))
-			validation_ref (dst->validation);
+			gnm_validation_ref (dst->validation);
 		return;
 	case MSTYLE_HLINK:
 		if ((dst->hlink = src->hlink))
@@ -471,7 +471,7 @@ elem_clear_contents (GnmStyle *style, GnmStyleElement elem)
 	case MSTYLE_FORMAT:		go_format_unref (style->format); return;
 	case MSTYLE_VALIDATION:
 		if (style->validation)
-			validation_unref (style->validation);
+			gnm_validation_unref (style->validation);
 		return;
 	case MSTYLE_HLINK:
 		if (style->hlink)

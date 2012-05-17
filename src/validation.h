@@ -64,32 +64,36 @@ GType gnm_validation_op_get_type (void);
 #define GNM_VALIDATION_OP_TYPE (gnm_validation_op_get_type ())
 
 
-GnmValidation *validation_new   (ValidationStyle style,
-				 ValidationType type,
-				 ValidationOp op,
-				 Sheet *sheet,
-				 char const *title, char const *msg,
-				 GnmExprTop const *texpr0,
-				 GnmExprTop const *texpr1,
-				 gboolean allow_blank, gboolean use_dropdown);
-GnmValidation *gnm_validation_dup (GnmValidation *v);
+GnmValidation *gnm_validation_new   (ValidationStyle style,
+				     ValidationType type,
+				     ValidationOp op,
+				     Sheet *sheet,
+				     char const *title, char const *msg,
+				     GnmExprTop const *texpr0,
+				     GnmExprTop const *texpr1,
+				     gboolean allow_blank,
+				     gboolean use_dropdown);
+GnmValidation *gnm_validation_dup   (GnmValidation *v);
 
-void        validation_ref      (GnmValidation const *v);
-void        validation_unref    (GnmValidation const *v);
+void        gnm_validation_ref      (GnmValidation const *v);
+void        gnm_validation_unref    (GnmValidation const *v);
 
-void	    validation_set_expr (GnmValidation *v,
-				 GnmExprTop const *texpr, unsigned indx);
-GError	   *validation_is_ok    (GnmValidation const *v);
+void	    gnm_validation_set_expr (GnmValidation *v,
+				     GnmExprTop const *texpr, unsigned indx);
+GError	   *gnm_validation_is_ok    (GnmValidation const *v);
 
 Sheet      *gnm_validation_get_sheet (GnmValidation *v);
 void        gnm_validation_set_sheet (GnmValidation *v, Sheet *sheet);
 
-ValidationStatus validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
-				  Sheet *sheet, GnmCellPos const *pos,
-				  gboolean *showed_dialog);
-ValidationStatus validation_eval_range (WorkbookControl *wbc,
-					Sheet *sheet, GnmCellPos const *pos, GnmRange const *r,
-					gboolean *showed_dialog);
+ValidationStatus gnm_validation_eval (WorkbookControl *wbc,
+				      GnmStyle const *mstyle,
+				      Sheet *sheet, GnmCellPos const *pos,
+				      gboolean *showed_dialog);
+ValidationStatus gnm_validation_eval_range (WorkbookControl *wbc,
+					    Sheet *sheet,
+					    GnmCellPos const *pos,
+					    GnmRange const *r,
+					    gboolean *showed_dialog);
 
 G_END_DECLS
 

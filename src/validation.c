@@ -92,7 +92,7 @@ gnm_validation_combo_finalize (GObject *object)
 	GnmValidationCombo *vcombo = GNM_VALIDATION_COMBO (object);
 
 	if (NULL != vcombo->validation) {
-		validation_unref (vcombo->validation);
+		gnm_validation_unref (vcombo->validation);
 		vcombo->validation = NULL;
 	}
 
@@ -135,7 +135,7 @@ gnm_validation_combo_new (GnmValidation const *val, SheetView *sv)
 	g_return_val_if_fail (sv  != NULL, NULL);
 
 	vcombo = g_object_new (GNM_VALIDATION_COMBO_TYPE, "sheet-view", sv, NULL);
-	validation_ref (vcombo->validation = val);
+	gnm_validation_ref (vcombo->validation = val);
 	return SHEET_OBJECT (vcombo);
 }
 
@@ -231,20 +231,20 @@ gnm_validation_op_get_type (void)
 /***************************************************************************/
 
 /**
- * validation_new :
+ * gnm_validation_new :
  * @title : will be copied.
  * @msg   : will be copied.
  * @texpr0 : absorb the reference to the expression (optionally %NULL).
  * @texpr1 : absorb the reference to the expression (optionally %NULL).
  *
  * Does _NOT_ require all necessary information to be set here.
- * validation_set_expr can be used to change the expressions after creation,
- * and validation_is_ok can be used to ensure that things are properly setup.
+ * gnm_validation_set_expr can be used to change the expressions after creation,
+ * and gnm_validation_is_ok can be used to ensure that things are properly setup.
  *
  * Returns a new @GnmValidation object that needs to be unrefed.
  **/
 GnmValidation *
-validation_new (ValidationStyle style,
+gnm_validation_new (ValidationStyle style,
 		ValidationType type,
 		ValidationOp op,
 		Sheet *sheet,
@@ -316,26 +316,26 @@ gnm_validation_dup (GnmValidation *v)
 
 	g_return_val_if_fail (v != NULL, NULL);
 
-	dst = validation_new (v->style, v->type, v->op,
+	dst = gnm_validation_new (v->style, v->type, v->op,
 			      gnm_validation_get_sheet (v),
 			      v->title ? v->title->str : NULL,
 			      v->msg ? v->msg->str : NULL,
 			      NULL, NULL,
 			      v->allow_blank, v->use_dropdown);
 	for (i = 0; i < 2; i++)
-		validation_set_expr (dst, v->deps[i].texpr, i);
+		gnm_validation_set_expr (dst, v->deps[i].texpr, i);
 	return dst;
 }
 
 void
-validation_ref (GnmValidation const *v)
+gnm_validation_ref (GnmValidation const *v)
 {
 	g_return_if_fail (v != NULL);
 	((GnmValidation *)v)->ref_count++;
 }
 
 void
-validation_unref (GnmValidation const *val)
+gnm_validation_unref (GnmValidation const *val)
 {
 	GnmValidation *v = (GnmValidation *)val;
 
@@ -381,16 +381,16 @@ gnm_validation_set_sheet (GnmValidation *v, Sheet *sheet)
 
 
 /**
- * validation_set_expr :
+ * gnm_validation_set_expr :
  * @v : #GnmValidation
  * @texpr : #GnmExprTop
  * @indx : 0 or 1
  *
- * Assign an expression to a validation.  validation_is_ok can be used to
+ * Assign an expression to a validation.  gnm_validation_is_ok can be used to
  * verify that @v has all of the required information.
  **/
 void
-validation_set_expr (GnmValidation *v,
+gnm_validation_set_expr (GnmValidation *v,
 		     GnmExprTop const *texpr, unsigned indx)
 {
 	g_return_if_fail (indx <= 1);
@@ -399,7 +399,7 @@ validation_set_expr (GnmValidation *v,
 }
 
 GError *
-validation_is_ok (GnmValidation const *v)
+gnm_validation_is_ok (GnmValidation const *v)
 {
 	unsigned nops, i;
 
@@ -460,7 +460,7 @@ cb_validate_custom (GnmValueIter const *v_iter, GnmValue const *target)
   } while (0)
 
 /**
- * validation_eval:
+ * gnm_validation_eval:
  * @wbc :
  * @mstyle :
  * @sheet :
@@ -468,7 +468,7 @@ cb_validate_custom (GnmValueIter const *v_iter, GnmValue const *target)
  * validation set in the GnmStyle if applicable.
  **/
 ValidationStatus
-validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
+gnm_validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 		 Sheet *sheet, GnmCellPos const *pos, gboolean *showed_dialog)
 {
 	GnmValidation const *v;
@@ -663,7 +663,7 @@ validation_eval_range_cb (GnmCellIter const *iter, validation_eval_t *closure)
 		(closure->sheet, iter->pp.eval.col, iter->pp.eval.row);
 
 	if (mstyle != NULL) {
-		status = validation_eval (closure->wbc, mstyle,
+		status = gnm_validation_eval (closure->wbc, mstyle,
 					  closure->sheet, &iter->pp.eval,
 					  &showed_dialog);
 		if (closure->showed_dialog)
@@ -679,7 +679,7 @@ validation_eval_range_cb (GnmCellIter const *iter, validation_eval_t *closure)
 }
 
 ValidationStatus
-validation_eval_range (WorkbookControl *wbc,
+gnm_validation_eval_range (WorkbookControl *wbc,
 		       Sheet *sheet, GnmCellPos const *pos, GnmRange const *r,
 		       gboolean *showed_dialog)
 {

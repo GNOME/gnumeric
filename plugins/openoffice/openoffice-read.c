@@ -2290,7 +2290,7 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val, guint offset)
 				   val->f_type);
 
 	if (texpr != NULL)
-		validation = validation_new (val->style,
+		validation = gnm_validation_new (val->style,
 					     GNM_VALIDATION_TYPE_IN_LIST,
 					     GNM_VALIDATION_OP_NONE,
 					     state->pos.sheet,
@@ -2339,7 +2339,7 @@ odf_validation_new_single_expr (GsfXMLIn *xin, odf_validation_t *val,
 				   val->f_type);
 
 	if (texpr != NULL)
-		return validation_new (val->style,
+		return gnm_validation_new (val->style,
 				       val_type,
 				       val_op,
 				       state->pos.sheet,
@@ -2413,7 +2413,7 @@ odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 		 val->f_type);
 
 	if (texpr_b != NULL)
-		return validation_new (val->style,
+		return gnm_validation_new (val->style,
 				       val_type,
 				       val_op,
 				       state->pos.sheet,
@@ -2564,14 +2564,14 @@ odf_validations_translate (GsfXMLIn *xin, char const *name)
 			(xin, val, 0, GNM_VALIDATION_TYPE_ANY);
 		if (validation != NULL) {
 			GError   *err;
-			if (NULL == (err = validation_is_ok (validation)))
+			if (NULL == (err = gnm_validation_is_ok (validation)))
 				return validation;
 			else {
 				oo_warning (xin,
 					    _("Ignoring invalid data "
 					      "validation because : %s"),
 					    _(err->message));
-				validation_unref (validation);
+				gnm_validation_unref (validation);
 				return NULL;
 			}
 		}

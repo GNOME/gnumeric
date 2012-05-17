@@ -1744,7 +1744,7 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	if (showErrorMessage) {
 		GnmRange const *r = state->validation_regions->data;
 		state->pos = r->start;
-		state->validation = validation_new
+		state->validation = gnm_validation_new
 			(val_style, val_type, val_op,
 			 state->sheet,
 			 errorTitle, error,
@@ -1764,10 +1764,10 @@ xlsx_CT_DataValidation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GSList   *ptr;
 
 	if (NULL != state->validation &&
-	    NULL != (err = validation_is_ok (state->validation))) {
+	    NULL != (err = gnm_validation_is_ok (state->validation))) {
 		xlsx_warning (xin, _("Ignoring invalid data validation because : %s"),
 			      _(err->message));
-		validation_unref (state->validation);
+		gnm_validation_unref (state->validation);
 		state->validation = NULL;
 	}
 
@@ -1810,7 +1810,7 @@ xlsx_validation_expr (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		state->pos.col, state->pos.row);
 	texpr = xlsx_parse_expr (xin, xin->content->str, &pp);
 	if (NULL != texpr) {
-		validation_set_expr (state->validation, texpr,
+		gnm_validation_set_expr (state->validation, texpr,
 			xin->node->user_data.v_int);
 		gnm_expr_top_unref (texpr);
 	}

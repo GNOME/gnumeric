@@ -339,7 +339,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 				GnmRange *r = l->data;
 				/* We do this separately since there may be overlap between ranges */
 				sheet_range_set_text (&pp, r, txt);
-				valid =	validation_eval_range (wbc, sheet, &sv->edit_pos, r,
+				valid =	gnm_validation_eval_range (wbc, sheet, &sv->edit_pos, r,
 							       showed_dialog);
 				if (valid != GNM_VALIDATION_STATUS_VALID)
 					break;
@@ -358,7 +358,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 							    texpr);
 				sheet_region_queue_recalc (sheet, r);
 			}
-			valid =	validation_eval_range (wbc, sheet, &sv->edit_pos, r,
+			valid =	gnm_validation_eval_range (wbc, sheet, &sv->edit_pos, r,
 						       showed_dialog);
 			break;
 		}
@@ -374,7 +374,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 						 sv->edit_pos.col,
 						 sv->edit_pos.row);
 			sheet_cell_set_text (cell, txt, NULL);
-			valid = validation_eval (wbc, mstyle, sheet, &sv->edit_pos, showed_dialog);
+			valid = gnm_validation_eval (wbc, mstyle, sheet, &sv->edit_pos, showed_dialog);
 			break;
 		}
 		case (WBC_EDIT_REJECT):

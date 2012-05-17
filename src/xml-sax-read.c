@@ -1626,7 +1626,7 @@ xml_sax_validation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	xml_sax_must_have_style (state);
 
 	gnm_style_set_validation (state->style,
-		validation_new (state->validation.style,
+		gnm_validation_new (state->validation.style,
 				state->validation.type,
 				state->validation.op,
 				state->sheet,
