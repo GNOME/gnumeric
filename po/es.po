@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-05-15 19:30+0000\n"
-"PO-Revision-Date: 2012-05-16 10:30+0200\n"
+"POT-Creation-Date: 2012-05-17 17:55+0000\n"
+"PO-Revision-Date: 2012-05-18 14:35+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1440,8 +1440,8 @@ msgid "Expression '%s' does not start with a recognized character"
 msgstr "La expresión «%s» no empieza con un carácter reconocido"
 
 #: ../plugins/openoffice/openoffice-read.c:2085
-#: ../plugins/openoffice/openoffice-write.c:4833
-#: ../plugins/openoffice/openoffice-write.c:4845 ../src/print-info.c:633
+#: ../plugins/openoffice/openoffice-write.c:4848
+#: ../plugins/openoffice/openoffice-write.c:4860 ../src/print-info.c:633
 #: ../src/ssgrep.c:352
 msgid "cell"
 msgstr "celda"
@@ -1606,46 +1606,46 @@ msgid "Master page style without name encountered!"
 msgstr "Se encontró un estilo de página maestra sin nombre."
 
 #: ../plugins/openoffice/openoffice-read.c:5358
-#: ../plugins/openoffice/openoffice-write.c:4826
-#: ../plugins/openoffice/openoffice-write.c:4838 ../src/print-info.c:626
+#: ../plugins/openoffice/openoffice-write.c:4841
+#: ../plugins/openoffice/openoffice-write.c:4853 ../src/print-info.c:626
 msgid "tab"
 msgstr "pestaña"
 
 #: ../plugins/openoffice/openoffice-read.c:5388
-#: ../plugins/openoffice/openoffice-write.c:4829
-#: ../plugins/openoffice/openoffice-write.c:4841 ../src/print-info.c:629
+#: ../plugins/openoffice/openoffice-write.c:4844
+#: ../plugins/openoffice/openoffice-write.c:4856 ../src/print-info.c:629
 msgid "date"
 msgstr "fecha"
 
 #: ../plugins/openoffice/openoffice-read.c:5394
-#: ../plugins/openoffice/openoffice-write.c:4830
-#: ../plugins/openoffice/openoffice-write.c:4842 ../src/print-info.c:630
+#: ../plugins/openoffice/openoffice-write.c:4845
+#: ../plugins/openoffice/openoffice-write.c:4857 ../src/print-info.c:630
 msgid "time"
 msgstr "hora"
 
 #: ../plugins/openoffice/openoffice-read.c:5400
-#: ../plugins/openoffice/openoffice-write.c:4827
-#: ../plugins/openoffice/openoffice-write.c:4839 ../src/print-info.c:627
+#: ../plugins/openoffice/openoffice-write.c:4842
+#: ../plugins/openoffice/openoffice-write.c:4854 ../src/print-info.c:627
 msgid "page"
 msgstr "página"
 
 #: ../plugins/openoffice/openoffice-read.c:5406
-#: ../plugins/openoffice/openoffice-write.c:4828
-#: ../plugins/openoffice/openoffice-write.c:4840 ../src/print-info.c:628
+#: ../plugins/openoffice/openoffice-write.c:4843
+#: ../plugins/openoffice/openoffice-write.c:4855 ../src/print-info.c:628
 msgid "pages"
 msgstr "páginas"
 
 #: ../plugins/openoffice/openoffice-read.c:5431
 #: ../plugins/openoffice/openoffice-read.c:5438
-#: ../plugins/openoffice/openoffice-write.c:4832
-#: ../plugins/openoffice/openoffice-write.c:4844 ../src/print-info.c:632
+#: ../plugins/openoffice/openoffice-write.c:4847
+#: ../plugins/openoffice/openoffice-write.c:4859 ../src/print-info.c:632
 msgid "path"
 msgstr "ruta"
 
 #: ../plugins/openoffice/openoffice-read.c:5435
 #: ../plugins/openoffice/openoffice-read.c:5442
-#: ../plugins/openoffice/openoffice-write.c:4831
-#: ../plugins/openoffice/openoffice-write.c:4843 ../src/print-info.c:631
+#: ../plugins/openoffice/openoffice-write.c:4846
+#: ../plugins/openoffice/openoffice-write.c:4858 ../src/print-info.c:631
 #: ../src/ssconvert.c:90
 msgid "file"
 msgstr "archivo"
@@ -1714,6 +1714,8 @@ msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
 "has been dropped."
 msgstr ""
+"Las líneas de objetos de la hoja de Gnumeric no soportan texto adjunto. El "
+"texto «%s» se ha soltado."
 
 #: ../plugins/openoffice/openoffice-read.c:7196
 #: ../plugins/openoffice/openoffice-read.c:7235
@@ -1786,11 +1788,11 @@ msgstr "Metadatos no válidos «%s»"
 msgid "settings.xml stream is malformed!"
 msgstr "El flujo settings.xml está mal formado."
 
-#: ../plugins/openoffice/openoffice-write.c:7979
+#: ../plugins/openoffice/openoffice-write.c:7994
 msgid "Writing Sheets..."
 msgstr "Escribiendo hojas…"
 
-#: ../plugins/openoffice/openoffice-write.c:8008
+#: ../plugins/openoffice/openoffice-write.c:8023
 msgid "Writing Sheet Objects..."
 msgstr "Escribiendo objetos de hojas…"
 
@@ -2601,39 +2603,29 @@ msgid "Default Vertical Centering"
 msgstr "Centrado vertical predeterminado"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:51
-#, fuzzy
-#| msgid ""
-#| ">This value determines whether the default setting in the Print Setup "
-#| "dialog is to center pages vertically."
 msgid ""
 "This value determines whether the default setting in the Print Setup dialog "
 "is to center pages vertically."
 msgstr ""
-"> Este valor determina si la configuración predeterminada en el diálogo de "
-"«Configuración de impresión» indica que se deben centrar las páginas "
-"verticalmente."
+"Este valor determina si la configuración predeterminada en el diálogo de "
+"configuración de impresión es centrar las páginas verticalmente."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:52
 msgid "Default Grid Line Printing"
-msgstr "Impresión de líneas de la rejilla predeterminada"
+msgstr "Impresión de línea de la cuadrícula predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:53
-#, fuzzy
-#| msgid ""
-#| ">This value determines the default setting in the Print Setup dialog "
-#| "whether print grid lines. Please use the Print Setup dialog to edit this "
-#| "value."
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "print grid lines. Please use the Print Setup dialog to edit this value."
 msgstr ""
-">Este valor determina el ajuste predeterminado en el diálogo «Configuración "
-"de impresión» indicando si se debe imprimir la rejilla. Por favor use el "
-"diálogo «Configuración de impresión» para editar este valor."
+"Este valor determina si la configuración predeterminada en el diálogo de "
+"configuración de impresión si imprimen las líneas de cuadrículas. Use el "
+"diálogo de configuración de impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:54
 msgid "Default Print Cells with Only Styles"
-msgstr "Celdas a imprimir de forma predeterminada con sólo estilos"
+msgstr "Celdas que imprimir de forma predeterminada con sólo estilos"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:55
 msgid ""
@@ -2642,9 +2634,8 @@ msgid ""
 "edit this value."
 msgstr ""
 "Este valor determina la configuración predeterminada en el diálogo de "
-"«Configuración de impresión» para indicar si se deben imprimir las celdas "
-"vacías que tengan formato. Use el diálogo de «Configuración de impresión» "
-"para editar este valor."
+"configuración de impresión si se imprimen celdas vacías pero con formato. "
+"Use el diálogo de configuración de impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:56
 msgid "Default Black and White Printing"
@@ -2657,9 +2648,8 @@ msgid ""
 "this value."
 msgstr ""
 "Este valor determina la configuración predeterminada en el diálogo de "
-"«Configuración de impresión» para indicar si se deben imprimir sólo en blanco "
-"y negro. Use el diálogo de «Configuración de impresión» para editar este "
-"valor."
+"configuración de impresión si se imprime solo en blanco y negro. Use el "
+"diálogo de configuración de impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:58
 msgid "Default Title Printing"
@@ -2671,9 +2661,9 @@ msgid ""
 "to print row and column headers. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
-"Este valor determina el valor predeterminado en el diálogo de «Configuración "
-"de impresión» que indica si se deben imprimir cabeceras de filas y columnas. "
-"Use el diálogo de «Configuración de impresión» para editar este valor."
+"Este valor determina la configuración predeterminada en el diálogo de "
+"configuración de impresión si se imprimen cabeceras de fila y columna. Use "
+"el diálogo de configuración de impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:60
 msgid "Default Print Direction"
@@ -2686,13 +2676,12 @@ msgid ""
 "this value."
 msgstr ""
 "Este valor determina la configuración predeterminada en el diálogo de "
-"«Configuración de impresión» para indicar si se debe imprimir primero el lado "
-"derecho, luego hacia abajo. Use el diálogo de «Configuración de impresión» "
-"para editar este valor."
+"configuración de impresión si se imprime primero la derecha y luego a abajo. "
+"Use el diálogo de configuración de impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:62
 msgid "Default Scale Type"
-msgstr "Tipos de escala predeterminado"
+msgstr "Tipo de escalado predeterminado"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:63
 msgid ""
@@ -2701,25 +2690,24 @@ msgid ""
 "edit this value."
 msgstr ""
 "Este valor determina la configuración predeterminada en el diálogo de "
-"«Configuración de impresión» para indicar si se deben escalar las páginas a "
-"un porcentaje determinado. Use el diálogo de «Configuración de impresión» "
-"para editar este valor."
+"configuración de impresión si se escalan las páginas a un porcentaje dado. "
+"Use el diálogo de configuración de impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:64
 msgid "Default Scale Percentage"
-msgstr "Porcentaje de escalado predeterminado"
+msgstr "Porcentaje de escala predeterminado"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:65
 msgid ""
 "This value gives the percentage by which to scale each printed page. Please "
 "use the Print Setup dialog to edit this value."
 msgstr ""
-"Este valor da el porcentaje por el cual se escala cada página impresa. Por "
-"favor use el diálogo de «Configuración de impresión» para editar este valor."
+"Este valor da el porcentaje por el cual se escala cada página impresa. Use "
+"el diálogo de configuración de impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:66
 msgid "Default Scaling Width"
-msgstr "Escalado en anchura predeterminado"
+msgstr "Anchura de escala predeterminado"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:67
 msgid ""
@@ -2727,14 +2715,14 @@ msgid ""
 "a printout of the current sheet. The sheet will be reduced to fit within "
 "this width. This value can be changed in the Page Setup dialog."
 msgstr ""
-"Este valor determina el máximo número de páginas que debe tener una "
-"impresión de la hoja actual de alto. La página se reducirá para ajustarse a "
-"esta anchura. Este valor se puede cambiar en el diálogo «Configuración de "
-"impresión»."
+"Este valor determina el número máximo de páginas que componen el ancho de "
+"una impresión de la hoja actual. La hoja se reducirá para ajustarse dentro "
+"de este ancho. Este valor se puede cambiar en el diálogo de configuración de "
+"impresión."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:68
 msgid "Default Scaling Height"
-msgstr "Escalado en altura predeterminado"
+msgstr "Altura del escalado predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:69
 msgid ""
@@ -2742,10 +2730,10 @@ msgid ""
 "a printout of the current sheet. The sheet will be reduced to fit within "
 "this height. This value can be changed in the Page Setup dialog."
 msgstr ""
-"Este valor determina el número de páginas predeterminado que debe tener una "
-"impresión de la hoja actual de alto. La hoja se reducirá para ajustarse a "
-"esta altura. Este valor se puede cambiar en el diálogo «Configuración de "
-"impresión»."
+"Este valor determina el número máximo de páginas que componen la altura de "
+"una impresión de la hoja actual. La hoja se reducirá para ajustarse dentro "
+"de esta altura. Este valor se puede cambiar en el diálogo de configuración "
+"de impresión."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:70
 msgid "Default Repeated Top Region"
@@ -2757,8 +2745,8 @@ msgid ""
 "printed sheet. Please use the Print Setup dialog to edit this value."
 msgstr ""
 "Esta cadena da la región predeterminada que se repetirá en la parte superior "
-"de cada hoja impresa. Por favor, use el diálogo de «Configuración de "
-"impresión» para editar este valor."
+"de cada hoja impresa. Use el diálogo de configuración de impresión para "
+"editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:72
 msgid "Default Repeated Left Region"
@@ -2770,18 +2758,18 @@ msgid ""
 "printed sheet. Please use the Print Setup dialog to edit this value."
 msgstr ""
 "Esta cadena da la región predeterminada que se repetirá en la parte "
-"izquierda de cada hoja impresa. Por favor, use el diálogo de «Configuración "
-"de impresión» para editar este valor."
+"izquierda de cada hoja impresa. Use el diálogo de configuración de impresión "
+"para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:74
 msgid "Preferred Display Unit"
-msgstr "Unidad de mostrado preferida"
+msgstr "Unidad mostrada preferida"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:75
 msgid "This string gives the default unit to be used in the page setup dialog."
 msgstr ""
-"Esta cadena proporciona la unidad predeterminada a usar en el diálogo "
-"«Configuración de impresión»."
+"Esta cadena da la unidad predeterminada a usar en el diálogo de "
+"configuración de página."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:76
 msgid "Default Top Margin"
@@ -2793,8 +2781,8 @@ msgid ""
 "start of the body. Please use the Print Setup dialog to edit this value."
 msgstr ""
 "Este valor da el número de puntos predeterminado desde la parte superior de "
-"una página al inicio del cuerpo. Por favor, use el diálogo «Configuración de "
-"impresión» para editar este valor."
+"una página al inicio del cuerpo. Use el diálogo de configuración de "
+"impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:78
 msgid "Default Bottom Margin"
@@ -2806,8 +2794,8 @@ msgid ""
 "the end of the body. Please use the Print Setup dialog to edit this value."
 msgstr ""
 "Este valor da el número de puntos predeterminado desde la parte inferior de "
-"una página al final del cuerpo. Por favor, use el diálogo de «Configuración "
-"de impresión» para editar este valor."
+"una página al final del cuerpo. Use el diálogo de configuración de impresión "
+"para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:80
 msgid "Default Bottom Outside Margin"
@@ -2819,8 +2807,8 @@ msgid ""
 "the end of the footer. Please use the Print Setup dialog to edit this value."
 msgstr ""
 "Este valor da el número de puntos predeterminado desde la parte inferior de "
-"una página hasta final del pie de página. Por favor, use el diálogo de "
-"«Configuración de impresión» para editar este valor."
+"una página hasta el final del pie de página. Use el diálogo de configuración "
+"de impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:82
 msgid "Default Top Outside Margin"
@@ -2832,8 +2820,8 @@ msgid ""
 "top of the header. Please use the Print Setup dialog to edit this value."
 msgstr ""
 "Este valor da el número de puntos predeterminado desde la parte superior de "
-"una página hasta el inicio de la cabecera. Por favor, use el diálogo "
-"«Configuración de impresión» para editar este valor."
+"una página hasta la parte superior de la cabecera. Use el diálogo de "
+"configuración de impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:84
 msgid "Default Left Margin"
@@ -2844,18 +2832,18 @@ msgid ""
 "This value gives the default number of points from the left of a page to the "
 "left of the body. Please use the Print Setup dialog to edit this value."
 msgstr ""
-"Este valor da el número de puntos predeterminado desde la parte izquierda de "
-"una página hasta la parte izquierda del del cuerpo. Por favor, use el "
-"diálogo «Configuración de impresión» para editar este valor."
+"Este valor da el número de puntos predeterminado desde la izquierda de una "
+"página hasta la izquierda del cuerpo. Use el diálogo de configuración de "
+"impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:86
 msgid ""
 "This value gives the default number of points from the right of a page to "
 "the right of the body. Please use the Print Setup dialog to edit this value."
 msgstr ""
-"Este valor da el número de puntos predeterminado desde la parte derecha de "
-"una página hasta la parte derecha del cuerpo. Por favor, use el diálogo "
-"«Configuración de impresión» para editar este valor."
+"Este valor da el número de puntos predeterminado desde la derecha de una "
+"página hasta la derecha del cuerpo. Use el diálogo de configuración de "
+"impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:87
 msgid "Paper"
@@ -2866,8 +2854,8 @@ msgid ""
 "This is the default paper specification. Please use the Print Setup dialog "
 "to edit this value."
 msgstr ""
-"Esta es la especificación de papel predeterminada. Por favor, use el diálogo "
-"«Configuración de impresión» para editar este valor."
+"Esta es la especificación de papel predeterminada. Use el diálogo de "
+"configuración de impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:89
 #, fuzzy
@@ -2880,7 +2868,7 @@ msgid ""
 "This is the default paper orientation. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
-"Esta es la orientación del papel predeterminada. Por favor, use el diálogo "
+"Esta es la orientación del papel predeterminada. Use el diálogo "
 "«Configuración de impresión» para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:91
@@ -2889,8 +2877,7 @@ msgstr "Formato de cabecera/pie de página (Porción izquierda)"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:92
 msgid "Please use the Print Setup dialog to edit this value."
-msgstr ""
-"Por favor, use el diálogo «Configurar impresión» para editar este valor."
+msgstr "Use el diálogo «Configurar impresión» para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:93
 msgid "Header/Footer Format (Middle Portion)"
@@ -6086,21 +6073,21 @@ msgstr ""
 "Fijar el ancho de columna de selección a <span style='italic' weight='bold'>%"
 "s</span>"
 
-#: ../src/dialogs/dialog-consolidate.c:193
+#: ../src/dialogs/dialog-consolidate.c:191
 #, c-format
 msgid "Specification %s does not define a region"
 msgstr "La especificación %s no define una región"
 
-#: ../src/dialogs/dialog-consolidate.c:202
+#: ../src/dialogs/dialog-consolidate.c:200
 #, c-format
 msgid "Source region %s overlaps with the destination region"
 msgstr "El área de origen %s se superpone a la región de destino"
 
-#: ../src/dialogs/dialog-consolidate.c:327
+#: ../src/dialogs/dialog-consolidate.c:325
 msgid "The output range overlaps with the input ranges."
 msgstr "El rango de salida se solapa con los rangos de entrada."
 
-#: ../src/dialogs/dialog-consolidate.c:551
+#: ../src/dialogs/dialog-consolidate.c:550
 msgid "Could not create the Consolidate dialog."
 msgstr "No se puede crear el diálogo de Consolidación."
 
@@ -7662,8 +7649,7 @@ msgstr[1] "%d de %d líneas para importar"
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr ""
-"El dato no es válido en la codificación %s, por favor, seleccione otra "
-"codificación."
+"El dato no es válido en la codificación %s, seleccione otra codificación."
 
 #: ../src/dialogs/dialog-stf-main-page.c:386 ../src/wbc-gtk-actions.c:2720
 msgid "Line"
@@ -15220,54 +15206,54 @@ msgstr "Mayor que o igual"
 msgid "Less than or Equal"
 msgstr "Menor que o igual"
 
-#: ../src/validation.c:381
+#: ../src/validation.c:420
 msgid "Missing formula for validation"
 msgstr "Falta una fórmula para validar"
 
-#: ../src/validation.c:384
+#: ../src/validation.c:423
 msgid "Extra formula for validation"
 msgstr "Fórmula adicional para validar"
 
-#: ../src/validation.c:395
+#: ../src/validation.c:434
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric: Validación"
 
-#: ../src/validation.c:458
+#: ../src/validation.c:497
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "No se permite que la celda %s esté vacía"
 
-#: ../src/validation.c:466
+#: ../src/validation.c:505
 #, c-format
 msgid "Cell %s is not permitted to contain error values"
 msgstr "No se permite que la celda %s contenga valores de error"
 
-#: ../src/validation.c:477
+#: ../src/validation.c:516
 #, c-format
 msgid "Cell %s is not permitted to contain strings"
 msgstr "No se permite que la celda %s contenga cadenas"
 
-#: ../src/validation.c:493
+#: ../src/validation.c:532
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "«%s» no es un entero"
 
-#: ../src/validation.c:503
+#: ../src/validation.c:542
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "«%s» no es una fecha válida"
 
-#: ../src/validation.c:527
+#: ../src/validation.c:566
 #, c-format
 msgid "%s does not contain the new value."
 msgstr "%s no contiene el valor nuevo."
 
-#: ../src/validation.c:563
+#: ../src/validation.c:602
 #, c-format
 msgid "%s is not true."
 msgstr "%s no es cierto."
 
-#: ../src/validation.c:602
+#: ../src/validation.c:641
 #, c-format
 msgid "%s is out of permitted range"
 msgstr "%s está fuera del rango permitido"
