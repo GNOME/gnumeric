@@ -1,5 +1,13 @@
 2012-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_text_p_apply_pango_attribute): new
+	(odf_text_p_apply_style): splicing messes with the end indices of
+	existing attributes, so just insert.
+	(oo_pango_set_end): delete
+	(odf_text_span_end): keep the original style attribute list
+
+2012-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_print_spreadsheet_content_validations):
 	fix typos
 

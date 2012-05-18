@@ -1494,12 +1494,33 @@ odf_text_p_add_text (OOParseState *state, char const *str)
 		ptr->gstr = g_string_new (str);
 }
 
+typedef struct {
+	guint start;
+	guint end;
+	PangoAttrList *attrs;
+} odf_text_p_apply_style_t;
+
+static gboolean
+odf_text_p_apply_pango_attribute (PangoAttribute *attribute, gpointer ptr)
+{
+	odf_text_p_apply_style_t *data = ptr;
+	PangoAttribute *attr = pango_attribute_copy (attribute);
+	
+	attr->start_index = data->start;
+	attr->end_index = data->end;
+
+	pango_attr_list_insert_before (data->attrs, attr);
+
+	return FALSE;
+}
+
 static void
 odf_text_p_apply_style (OOParseState *state, 
 			PangoAttrList *attrs,
 			int start, int end)
 {
 	oo_text_p_t *ptr;
+	odf_text_p_apply_style_t data;
 
 	if (attrs == NULL)
 		return;
@@ -1510,7 +1531,11 @@ odf_text_p_apply_style (OOParseState *state,
 	if (ptr->attrs == NULL)
 		ptr->attrs = pango_attr_list_new ();
 
-	pango_attr_list_splice  (ptr->attrs, attrs, start, end - start);
+	data.start = start;
+	data.end = end;
+	data.attrs = ptr->attrs;
+	
+	pango_attr_list_filter (attrs, odf_text_p_apply_pango_attribute, &data);
 }
 
 static void
@@ -1607,13 +1632,6 @@ odf_text_span_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
-static gboolean
-oo_pango_set_end (PangoAttribute *attribute, gpointer data)
-{
-	attribute->end_index = GPOINTER_TO_INT (data);
-	return FALSE;
-}
-
 static void
 odf_text_span_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
@@ -1637,18 +1655,12 @@ odf_text_span_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		ptr->span_style_stack = ptr->span_style_stack->next;
 
 		if (ssi != NULL) {
-			if (ssi->style_name != NULL && end > 0) {
+			if (ssi->style_name != NULL && end > 0 && end > ssi->start) {
 				PangoAttrList *attrs = g_hash_table_lookup (state->styles.text, ssi->style_name);
 				if (attrs == NULL)
 					oo_warning (xin, _("Unknown text style with name \"%s\" encountered!"), ssi->style_name);
-				else if (end > ssi->start) {
-					attrs = pango_attr_list_copy (attrs);
-					pango_attr_list_filter
-						(attrs, (PangoAttrFilterFunc) oo_pango_set_end, 
-						 GINT_TO_POINTER (end - ssi->start));
+				else
 					odf_text_p_apply_style (state, attrs, ssi->start, end);
-					pango_attr_list_unref (attrs);
-				}
 			}
 			g_free (ssi->style_name);
 			g_free (ssi);
