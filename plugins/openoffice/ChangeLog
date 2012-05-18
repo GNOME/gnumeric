@@ -1,3 +1,8 @@
+2012-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_print_spreadsheet_content_validations):
+	fix typos
+
 2012-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_validation_new_list): check for empty

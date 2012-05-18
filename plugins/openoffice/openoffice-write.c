@@ -4285,11 +4285,11 @@ odf_print_spreadsheet_content_validations (GnmOOExport *state)
 				break;
 			case GNM_VALIDATION_TYPE_AS_DATE:
 				odf_validation_general (state, val, sheet, sr,
-							"ell-content-is-date() and ", &pp);
+							"cell-content-is-date() and ", &pp);
 				break;
 			case GNM_VALIDATION_TYPE_AS_TIME:
 				odf_validation_general (state, val, sheet, sr,
-							"ell-content-is-time() and ", &pp);
+							"cell-content-is-time() and ", &pp);
 				break;
 			case GNM_VALIDATION_TYPE_IN_LIST:
 				odf_validation_in_list (state, val, sheet, sr, &pp);
