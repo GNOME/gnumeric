@@ -1,5 +1,9 @@
 2012-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_save_style_map): handle more conditions
+
+2012-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_text_p_apply_pango_attribute): new
 	(odf_text_p_apply_style): splicing messes with the end indices of
 	existing attributes, so just insert.

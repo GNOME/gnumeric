@@ -1495,49 +1495,88 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
 
 	switch (cond->op) {
 	case GNM_STYLE_COND_BETWEEN:
-		g_string_append (str, "cell-content-is-between");
+		g_string_append (str, "of:cell-content-is-between");
 		odf_save_style_map_double_f (state, str, cond);
 		break;
 	case GNM_STYLE_COND_NOT_BETWEEN:
-		g_string_append (str, "cell-content-is-not-between");
+		g_string_append (str, "of:cell-content-is-not-between");
 		odf_save_style_map_double_f (state, str, cond);
 		break;
 	case GNM_STYLE_COND_EQUAL:
-		g_string_append (str, "cell-content()=");
+		g_string_append (str, "of:cell-content()=");
 		odf_save_style_map_single_f (state, str, cond->texpr[0]);
 		break;
 	case GNM_STYLE_COND_NOT_EQUAL:
-		g_string_append (str, "cell-content()!=");
+		g_string_append (str, "of:cell-content()!=");
 		odf_save_style_map_single_f (state, str, cond->texpr[0]);
 		break;
 	case GNM_STYLE_COND_GT:
-		g_string_append (str, "cell-content()>");
+		g_string_append (str, "of:cell-content()>");
 		odf_save_style_map_single_f (state, str, cond->texpr[0]);
 		break;
 	case GNM_STYLE_COND_LT:
-		g_string_append (str, "cell-content()<");
+		g_string_append (str, "of:cell-content()<");
 		odf_save_style_map_single_f (state, str, cond->texpr[0]);
 		break;
 	case GNM_STYLE_COND_GTE:
-		g_string_append (str, "cell-content()>=");
+		g_string_append (str, "of:cell-content()>=");
 		odf_save_style_map_single_f (state, str, cond->texpr[0]);
 		break;
 	case GNM_STYLE_COND_LTE:
-		g_string_append (str, "cell-content()<=");
+		g_string_append (str, "of:cell-content()<=");
 		odf_save_style_map_single_f (state, str, cond->texpr[0]);
 		break;
-
-	case GNM_STYLE_COND_CUSTOM:
-	case GNM_STYLE_COND_CONTAINS_STR:
-	case GNM_STYLE_COND_NOT_CONTAINS_STR:
-	case GNM_STYLE_COND_BEGINS_WITH_STR:
-	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
-	case GNM_STYLE_COND_ENDS_WITH_STR:
-	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
 	case GNM_STYLE_COND_CONTAINS_ERR:
+		g_string_append (str, "of:is-true-formula(ISERROR([.A1]))");
+		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_ERR:
+		g_string_append (str, "of:is-true-formula(NOT(ISERROR([.A1])))");
+		break;
+	case GNM_STYLE_COND_CONTAINS_STR:
+		g_string_append (str, "of:is-true-formula(NOT(ISERROR(FIND(");
+		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		g_string_append (str, ";[.A1]))))");
+		break;
+	case GNM_STYLE_COND_NOT_CONTAINS_STR:
+		g_string_append (str, "of:is-true-formula(ISERROR(FIND(");
+		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		g_string_append (str, ";[.A1])))");
+		break;
+	case GNM_STYLE_COND_BEGINS_WITH_STR:
+		g_string_append (str, "of:is-true-formula(IFERROR(FIND(");
+		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		g_string_append (str, ";[.A1]);2)=1)");
+		break;
+	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
+		g_string_append (str, "of:is-true-formula(NOT(IFERROR(FIND(");
+		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		g_string_append (str, ";[.A1]);2)=1))");
+		break;
+	case GNM_STYLE_COND_ENDS_WITH_STR:
+		g_string_append (str, "of:is-true-formula(EXACT(");
+		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		g_string_append (str, ";RIGHT([.A1];LEN(");
+		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		g_string_append (str, ")))");
+		break;
+	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
+		g_string_append (str, "of:is-true-formula(NOT(EXACT(");
+		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		g_string_append (str, ";RIGHT([.A1];LEN(");
+		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		g_string_append (str, "))))");
+		break;
 	case GNM_STYLE_COND_CONTAINS_BLANKS:
+		g_string_append (str, "of:is-true-formula(NOT(ISERROR(FIND(\" \";[.A1]))))");
+		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
+		g_string_append (str, "of:is-true-formula(ISERROR(FIND(\" \";[.A1])))");
+		break;
+	case GNM_STYLE_COND_CUSTOM:
+		g_string_append (str, "of:is-true-formula(");
+		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		g_string_append (str, ")");
+		break;
 	default:
 		g_string_free (str, TRUE);
 		return;
@@ -1546,7 +1585,7 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
 	gsf_xml_out_start_element (state->xml, STYLE "map");
 
 	gsf_xml_out_add_cstr (state->xml, STYLE "apply-style-name", name);
-/* 	gsf_xml_out_add_cstr (state->xml, STYLE "base-cell-address","A1"); */
+	gsf_xml_out_add_cstr (state->xml, STYLE "base-cell-address","A1");
 	gsf_xml_out_add_cstr (state->xml, STYLE "condition", str->str);
 
 	gsf_xml_out_end_element (state->xml); /* </style:map> */
