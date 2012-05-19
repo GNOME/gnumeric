@@ -2717,6 +2717,8 @@ odf_adjust_offsets_col (OOParseState *state, int *col, double *x)
 	ColRowInfo const *cr = sheet_col_get_info (state->pos.sheet, 
 						   *col);
 	int last =  gnm_sheet_get_last_col (state->pos.sheet);
+	if (*col > 0)
+		*x -= sheet_col_get_distance_pts (state->pos.sheet, 0, *col);
 	while (cr->size_pts < *x && *col < last) {
 		(*col)++;
 		(*x) -= cr->size_pts;
@@ -2736,6 +2738,8 @@ odf_adjust_offsets_row (OOParseState *state, int *row, double *y)
 	ColRowInfo const *cr = sheet_row_get_info (state->pos.sheet, 
 						   *row);
 	int last =  gnm_sheet_get_last_row (state->pos.sheet);
+	if (*row > 0)
+		*y -= sheet_row_get_distance_pts (state->pos.sheet, 0, *row);
 	while (cr->size_pts < *y && *row < last) {
 		(*row)++;
 		(*y) -= cr->size_pts;
@@ -5960,7 +5964,7 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmStyleCond cond;
 	GnmStyleConditions *sc;
 	gboolean success = FALSE;
-	OOFormula f_type;
+	/* OOFormula f_type; */
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "condition"))
@@ -5981,7 +5985,7 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 	cond.texpr[0] = NULL;
 	cond.texpr[1] = NULL;
 
-	f_type = odf_get_formula_type (xin, &condition);
+	/* f_type = */ odf_get_formula_type (xin, &condition);
 
 	if (g_str_has_prefix (condition, "cell-content()")) {
 		condition += strlen ("cell-content()") - 1;

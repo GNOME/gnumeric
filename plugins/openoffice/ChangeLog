@@ -1,5 +1,11 @@
 2012-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_adjust_offsets_col): we may not be in
+	column 0
+	(odf_adjust_offsets_row): we may not be in row 0
+
+2012-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_validations_analyze): add argument,
 	change all callers
 	(odf_validations_translate): check for namespaced condition
