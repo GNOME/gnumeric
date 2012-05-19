@@ -1,5 +1,12 @@
 2012-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_validations_analyze): add argument,
+	change all callers
+	(odf_validations_translate): check for namespaced condition
+	(oo_style_map): check for namespaced condition
+
+2012-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_save_style_map): handle more conditions
 
 2012-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>

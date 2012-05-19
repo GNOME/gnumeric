@@ -15,6 +15,7 @@ Andreas:
 	* Write the formatted text of sheet objects to ODF.
 	* Fix consolidate tool. [#670155]
 	* Fix crash on ODF import of messagefree validations.
+	* Improve ODF import/export of style conditions.
 
 Jean:
 	* Fix graph series headers when a multiple selection is used. [#675913]

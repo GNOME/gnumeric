@@ -2493,7 +2493,8 @@ odf_validation_new_op (GsfXMLIn *xin, odf_validation_t *val, guint offset, Valid
 }
 
 static GnmValidation *
-odf_validations_analyze (GsfXMLIn *xin, odf_validation_t *val, guint offset, ValidationType vtype)
+odf_validations_analyze (GsfXMLIn *xin, odf_validation_t *val, guint offset,
+			 ValidationType vtype, OOFormula f_type)
 {
 	char const *str = val->condition + offset;
 
@@ -2518,19 +2519,19 @@ odf_validations_analyze (GsfXMLIn *xin, odf_validation_t *val, guint offset, Val
 	else if (g_str_has_prefix (str, "cell-content-is-decimal-number() and"))
 		return odf_validations_analyze
 			(xin, val, str - val->condition + strlen ("cell-content-is-decimal-number() and"),
-			 GNM_VALIDATION_TYPE_AS_NUMBER);
+			 GNM_VALIDATION_TYPE_AS_NUMBER, f_type);
 	else if (g_str_has_prefix (str, "cell-content-is-whole-number() and"))
 		return odf_validations_analyze
 			(xin, val, str - val->condition + strlen ("cell-content-is-whole-number() and"),
-			 GNM_VALIDATION_TYPE_AS_INT);
+			 GNM_VALIDATION_TYPE_AS_INT, f_type);
 	else if (g_str_has_prefix (str, "cell-content-is-date() and"))
 		return odf_validations_analyze
 			(xin, val, str - val->condition + strlen ("cell-content-is-date() and"),
-			 GNM_VALIDATION_TYPE_AS_DATE);
+			 GNM_VALIDATION_TYPE_AS_DATE, f_type);
 	else if (g_str_has_prefix (str, "cell-content-is-time() and"))
 		return odf_validations_analyze
 			(xin, val, str - val->condition + strlen ("cell-content-is-time() and"),
-			 GNM_VALIDATION_TYPE_AS_TIME);
+			 GNM_VALIDATION_TYPE_AS_TIME, f_type);
 	else if (g_str_has_prefix (str, "is-true-formula")) {
 		if (vtype != GNM_VALIDATION_TYPE_ANY) {
 			oo_warning
@@ -2572,8 +2573,11 @@ odf_validations_translate (GsfXMLIn *xin, char const *name)
 	}
 
 	if (val->condition != NULL && val->f_type != FORMULA_NOT_SUPPORTED) {
-		GnmValidation *validation = odf_validations_analyze
-			(xin, val, 0, GNM_VALIDATION_TYPE_ANY);
+		const char *str = val->condition;
+		GnmValidation *validation;
+		OOFormula f_type = odf_get_formula_type (xin, &str);
+		validation = odf_validations_analyze
+			(xin, val, str - val->condition, GNM_VALIDATION_TYPE_ANY, f_type);
 		if (validation != NULL) {
 			GError   *err;
 			if (NULL == (err = gnm_validation_is_ok (validation)))
@@ -5956,6 +5960,7 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmStyleCond cond;
 	GnmStyleConditions *sc;
 	gboolean success = FALSE;
+	OOFormula f_type;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "condition"))
@@ -5975,6 +5980,8 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 	full_condition = condition;
 	cond.texpr[0] = NULL;
 	cond.texpr[1] = NULL;
+
+	f_type = odf_get_formula_type (xin, &condition);
 
 	if (g_str_has_prefix (condition, "cell-content()")) {
 		condition += strlen ("cell-content()") - 1;
