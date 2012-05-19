@@ -312,6 +312,7 @@ typedef enum {
 typedef struct {
 	SheetObject     *so;
 	double           frame_offset[4];
+	gboolean         absolute_distance;
 } object_offset_t;
 
 typedef struct _OOParseState OOParseState;
@@ -2712,12 +2713,12 @@ odf_validation_error_message_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 
 static void
-odf_adjust_offsets_col (OOParseState *state, int *col, double *x)
+odf_adjust_offsets_col (OOParseState *state, int *col, double *x, gboolean absolute)
 {
 	ColRowInfo const *cr = sheet_col_get_info (state->pos.sheet, 
 						   *col);
 	int last =  gnm_sheet_get_last_col (state->pos.sheet);
-	if (*col > 0)
+	if (absolute && *col > 0)
 		*x -= sheet_col_get_distance_pts (state->pos.sheet, 0, *col);
 	while (cr->size_pts < *x && *col < last) {
 		(*col)++;
@@ -2733,12 +2734,12 @@ odf_adjust_offsets_col (OOParseState *state, int *col, double *x)
 }
 
 static void
-odf_adjust_offsets_row (OOParseState *state, int *row, double *y)
+odf_adjust_offsets_row (OOParseState *state, int *row, double *y, gboolean absolute)
 {
 	ColRowInfo const *cr = sheet_row_get_info (state->pos.sheet, 
 						   *row);
 	int last =  gnm_sheet_get_last_row (state->pos.sheet);
-	if (*row > 0)
+	if (absolute && *row > 0)
 		*y -= sheet_row_get_distance_pts (state->pos.sheet, 0, *row);
 	while (cr->size_pts < *y && *row < last) {
 		(*row)++;
@@ -2754,10 +2755,10 @@ odf_adjust_offsets_row (OOParseState *state, int *row, double *y)
 }
 
 static void
-odf_adjust_offsets (OOParseState *state, GnmCellPos *pos, double *x, double *y)
+odf_adjust_offsets (OOParseState *state, GnmCellPos *pos, double *x, double *y, gboolean absolute)
 {
-	odf_adjust_offsets_col (state, &pos->col, x);
-	odf_adjust_offsets_row (state, &pos->row, y);
+	odf_adjust_offsets_col (state, &pos->col, x, absolute);
+	odf_adjust_offsets_row (state, &pos->row, y, absolute);
 }
 
 static void
@@ -2833,9 +2834,9 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		SheetObjectAnchor const *old = sheet_object_get_anchor (ob_off->so);
 		GnmRange cell_base = *sheet_object_get_range (ob_off->so);
 		odf_adjust_offsets (state, &cell_base.start, &ob_off->frame_offset[0],
-				    &ob_off->frame_offset[1]);
+				    &ob_off->frame_offset[1], ob_off->absolute_distance);
 		odf_adjust_offsets (state, &cell_base.end, &ob_off->frame_offset[2],
-				    &ob_off->frame_offset[3]);
+				    &ob_off->frame_offset[3], ob_off->absolute_distance);
 		sheet_object_anchor_init (&new, &cell_base, ob_off->frame_offset,
 					  old->base.direction);
 		sheet_object_set_anchor (ob_off->so, &new);
@@ -7138,7 +7139,7 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-od_draw_frame_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+od_draw_frame_end_full (GsfXMLIn *xin, gboolean absolute_distance)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
@@ -7150,7 +7151,8 @@ od_draw_frame_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 		sheet_object_set_anchor (state->chart.so, &state->chart.anchor);
 		sheet_object_set_sheet (state->chart.so, state->pos.sheet);
-		ob_off->so = state->chart.so; 		
+		ob_off->so = state->chart.so;
+		ob_off->absolute_distance = absolute_distance;
 		state->chart.so = NULL;
 		ob_off->frame_offset[0] = state->chart.frame_offset[0];
 		ob_off->frame_offset[1] = state->chart.frame_offset[1];
@@ -7161,6 +7163,11 @@ od_draw_frame_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+od_draw_frame_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	od_draw_frame_end_full (xin, FALSE);
+}
+static void
 od_draw_text_frame_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -7169,7 +7176,7 @@ od_draw_text_frame_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->text_p_stack != NULL && (NULL != (ptr = state->text_p_stack->data)) 
 	    && ptr->gstr != NULL)
 		g_object_set (state->chart.so, "text", ptr->gstr->str, "markup", ptr->attrs, NULL);
-	od_draw_frame_end (xin, NULL);
+	od_draw_frame_end_full (xin, FALSE);
 	odf_pop_text_p (state);
 }
 
@@ -7183,7 +7190,7 @@ odf_line_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	    && ptr->gstr != NULL)
 		oo_warning (xin, _("Gnumeric's sheet object lines do not support attached text. "
 				   "The text \"%s\" has been dropped."), ptr->gstr->str);
-	od_draw_frame_end (xin, NULL);
+	od_draw_frame_end_full (xin, TRUE);
 	odf_pop_text_p (state);
 }
 
@@ -7284,7 +7291,7 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 					(oc->t, "text", oc->label, NULL);
 			}
 
-			od_draw_frame_end (xin, NULL);
+			od_draw_frame_end_full (xin, FALSE);
 
 
 			if (oc->linked_cell) {
@@ -7353,7 +7360,7 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 		}
 	} else
-		od_draw_frame_end (xin, NULL);
+		od_draw_frame_end_full (xin, FALSE);
 }
 
 static void

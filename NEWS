@@ -16,6 +16,7 @@ Andreas:
 	* Fix consolidate tool. [#670155]
 	* Fix crash on ODF import of messagefree validations.
 	* Improve ODF import/export of style conditions.
+	* Fix object placement in ODF import. [#676339]
 
 Jean:
 	* Fix graph series headers when a multiple selection is used. [#675913]
