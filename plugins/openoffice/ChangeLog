@@ -1,5 +1,12 @@
 2012-05-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_save_style_map_single_f): add arguments
+	(odf_save_style_map_double_f): ditto
+	(odf_determine_base): new
+	(odf_save_style_map): include the correct base
+
+2012-05-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (OOCellStyle): new type
 	(_OOParseState.default_style.cells): change type
 	(odf_init_pp): new

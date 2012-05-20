@@ -1460,12 +1460,12 @@ odf_find_style (GnmOOExport *state, GnmStyle const *style)
 }
 
 static void
-odf_save_style_map_single_f (GnmOOExport *state, GString *str, GnmExprTop const *texpr)
+odf_save_style_map_single_f (GnmOOExport *state, GString *str, GnmExprTop const *texpr, int col, int row)
 {
 	char *formula;
 	GnmParsePos pp;
 
-	parse_pos_init (&pp, WORKBOOK (state->wb), state->sheet, 0, 0);
+	parse_pos_init (&pp, WORKBOOK (state->wb), state->sheet, col, row);
 
 	formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
 	g_string_append (str, formula);
@@ -1474,13 +1474,47 @@ odf_save_style_map_single_f (GnmOOExport *state, GString *str, GnmExprTop const 
 
 
 static void
-odf_save_style_map_double_f (GnmOOExport *state, GString *str, GnmStyleCond const *cond)
+odf_save_style_map_double_f (GnmOOExport *state, GString *str, GnmStyleCond const *cond, int col, int row)
 {
 	g_string_append_c (str, '(');
-	odf_save_style_map_single_f (state, str, cond->texpr[0]);
+	odf_save_style_map_single_f (state, str, cond->texpr[0], col, row);
 	g_string_append_c (str, ',');
-	odf_save_style_map_single_f (state, str, cond->texpr[1]);
+	odf_save_style_map_single_f (state, str, cond->texpr[1], col, row);
 	g_string_append_c (str, ')');
+}
+
+static char *
+odf_strip_brackets (char *string)
+{
+	char *closing;
+	closing = strrchr(string, ']');
+	if (closing != NULL)
+		*closing = '\0';
+	return ((*string == '[') ? (string + 1) : string);
+}
+
+static void
+odf_determine_base (GnmOOExport *state, GnmExprTop const *texpr1, GnmExprTop const *texpr2, GnmRange *r)
+{
+	GnmRange bound1, bound2;
+
+	if (texpr1 == NULL && texpr2 == NULL)
+		return;
+	if (texpr1) {
+		range_init_full_sheet (&bound1, state->sheet);
+		gnm_expr_top_get_boundingbox (texpr1, state->sheet, &bound1);
+	}
+	if (texpr2) {
+		range_init_full_sheet (&bound2, state->sheet);
+		gnm_expr_top_get_boundingbox (texpr2, state->sheet, &bound2);
+	}
+	if (texpr1 && texpr2) {
+		if (!range_intersection (r, &bound1, &bound2))
+			range_init_full_sheet (r, state->sheet);
+	} else if (texpr1)
+		*r = bound1;
+	else
+		*r = bound2;
 }
 
 static void
@@ -1489,43 +1523,56 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
 	char const *name = odf_find_style (state, cond->overlay);
 	GString *str;
 	gchar *address;
+	GnmExprTop const *texpr = NULL;
+	GnmCellRef ref;
+	GnmRange r;
+	GnmParsePos pp;
 
 	g_return_if_fail (name != NULL);
 
+	range_init_full_sheet (&r, state->sheet);
 	str = g_string_new (NULL);
 
 	switch (cond->op) {
 	case GNM_STYLE_COND_BETWEEN:
+		odf_determine_base (state, cond->texpr[0], cond->texpr[1], &r);
 		g_string_append (str, "of:cell-content-is-between");
-		odf_save_style_map_double_f (state, str, cond);
+		odf_save_style_map_double_f (state, str, cond, r.end.col + 1, r.end.row + 1);
 		break;
 	case GNM_STYLE_COND_NOT_BETWEEN:
+		odf_determine_base (state, cond->texpr[0], cond->texpr[1], &r);
 		g_string_append (str, "of:cell-content-is-not-between");
-		odf_save_style_map_double_f (state, str, cond);
+		odf_save_style_map_double_f (state, str, cond, r.end.col + 1, r.end.row + 1);
 		break;
 	case GNM_STYLE_COND_EQUAL:
+		odf_determine_base (state, cond->texpr[0], NULL, &r);
 		g_string_append (str, "of:cell-content()=");
-		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		odf_save_style_map_single_f (state, str, cond->texpr[0], r.end.col + 1, r.end.row + 1);
 		break;
 	case GNM_STYLE_COND_NOT_EQUAL:
+		odf_determine_base (state, cond->texpr[0], NULL, &r);
 		g_string_append (str, "of:cell-content()!=");
-		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		odf_save_style_map_single_f (state, str, cond->texpr[0], r.end.col + 1, r.end.row + 1);
 		break;
 	case GNM_STYLE_COND_GT:
+		odf_determine_base (state, cond->texpr[0], NULL, &r);
 		g_string_append (str, "of:cell-content()>");
-		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		odf_save_style_map_single_f (state, str, cond->texpr[0], r.end.col + 1, r.end.row + 1);
 		break;
 	case GNM_STYLE_COND_LT:
+		odf_determine_base (state, cond->texpr[0], NULL, &r);
 		g_string_append (str, "of:cell-content()<");
-		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		odf_save_style_map_single_f (state, str, cond->texpr[0], r.end.col + 1, r.end.row + 1);
 		break;
 	case GNM_STYLE_COND_GTE:
+		odf_determine_base (state, cond->texpr[0], NULL, &r);
 		g_string_append (str, "of:cell-content()>=");
-		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		odf_save_style_map_single_f (state, str, cond->texpr[0], r.end.col + 1, r.end.row + 1);
 		break;
 	case GNM_STYLE_COND_LTE:
+		odf_determine_base (state, cond->texpr[0], NULL, &r);
 		g_string_append (str, "of:cell-content()<=");
-		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		odf_save_style_map_single_f (state, str, cond->texpr[0], r.end.col + 1, r.end.row + 1);
 		break;
 	case GNM_STYLE_COND_CONTAINS_ERR:
 		g_string_append (str, "of:is-true-formula(ISERROR([.A1]))");
@@ -1534,37 +1581,50 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
 		g_string_append (str, "of:is-true-formula(NOT(ISERROR([.A1])))");
 		break;
 	case GNM_STYLE_COND_CONTAINS_STR:
+		odf_determine_base (state, cond->texpr[0], NULL, &r);
 		g_string_append (str, "of:is-true-formula(NOT(ISERROR(FIND(");
-		odf_save_style_map_single_f (state, str, cond->texpr[0]);
-		g_string_append (str, ";[.A1]))))");
+		odf_save_style_map_single_f (state, str, cond->texpr[0], r.end.col + 1, r.end.row + 1);
+		g_string_append_printf (str, ";[.%s%s]))))", 
+					col_name (r.end.col), row_name (r.end.row));
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_STR:
+		odf_determine_base (state, cond->texpr[0], NULL, &r);
 		g_string_append (str, "of:is-true-formula(ISERROR(FIND(");
-		odf_save_style_map_single_f (state, str, cond->texpr[0]);
-		g_string_append (str, ";[.A1])))");
+		odf_save_style_map_single_f (state, str, cond->texpr[0], r.end.col + 1, r.end.row + 1);
+		g_string_append_printf (str, ";[.%s%s])))", 
+					col_name (r.end.col), row_name (r.end.row));
 		break;
 	case GNM_STYLE_COND_BEGINS_WITH_STR:
+		odf_determine_base (state, cond->texpr[0], NULL, &r);
+
 		g_string_append (str, "of:is-true-formula(IFERROR(FIND(");
-		odf_save_style_map_single_f (state, str, cond->texpr[0]);
-		g_string_append (str, ";[.A1]);2)=1)");
+		odf_save_style_map_single_f (state, str, cond->texpr[0], r.end.col + 1, r.end.row + 1);
+		g_string_append_printf (str, ";[.%s%s]);2)=1)", 
+					col_name (r.end.col), row_name (r.end.row));
 		break;
 	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
+		odf_determine_base (state, cond->texpr[0], NULL, &r);
 		g_string_append (str, "of:is-true-formula(NOT(IFERROR(FIND(");
-		odf_save_style_map_single_f (state, str, cond->texpr[0]);
-		g_string_append (str, ";[.A1]);2)=1))");
+		odf_save_style_map_single_f (state, str, cond->texpr[0], r.end.col + 1, r.end.row + 1);
+		g_string_append_printf (str, ";[.%s%s]);2)=1))", 
+					col_name (r.end.col), row_name (r.end.row));
 		break;
 	case GNM_STYLE_COND_ENDS_WITH_STR:
+		odf_determine_base (state, cond->texpr[0], NULL, &r);
 		g_string_append (str, "of:is-true-formula(EXACT(");
-		odf_save_style_map_single_f (state, str, cond->texpr[0]);
-		g_string_append (str, ";RIGHT([.A1];LEN(");
-		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		odf_save_style_map_single_f (state, str, cond->texpr[0], r.end.col + 1, r.end.row + 1);
+		g_string_append_printf (str, ";RIGHT([.%s%s];LEN(", 
+					col_name (r.end.col), row_name (r.end.row));
+		odf_save_style_map_single_f (state, str, cond->texpr[0], r.end.col + 1, r.end.row + 1);
 		g_string_append (str, ")))");
 		break;
 	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
+		odf_determine_base (state, cond->texpr[0], NULL, &r);
 		g_string_append (str, "of:is-true-formula(NOT(EXACT(");
-		odf_save_style_map_single_f (state, str, cond->texpr[0]);
-		g_string_append (str, ";RIGHT([.A1];LEN(");
-		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		odf_save_style_map_single_f (state, str, cond->texpr[0], r.end.col + 1, r.end.row + 1);
+		g_string_append_printf (str, ";RIGHT([.%s%s];LEN(", 
+					col_name (r.end.col), row_name (r.end.row));
+		odf_save_style_map_single_f (state, str, cond->texpr[0], r.end.col + 1, r.end.row + 1);
 		g_string_append (str, "))))");
 		break;
 	case GNM_STYLE_COND_CONTAINS_BLANKS:
@@ -1574,8 +1634,9 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
 		g_string_append (str, "of:is-true-formula(ISERROR(FIND(\" \";[.A1])))");
 		break;
 	case GNM_STYLE_COND_CUSTOM:
+		odf_determine_base (state, cond->texpr[0], NULL, &r);
 		g_string_append (str, "of:is-true-formula(");
-		odf_save_style_map_single_f (state, str, cond->texpr[0]);
+		odf_save_style_map_single_f (state, str, cond->texpr[0], r.end.col + 1, r.end.row + 1);
 		g_string_append (str, ")");
 		break;
 	default:
@@ -1589,10 +1650,15 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
 	gsf_xml_out_add_cstr (state->xml, STYLE "condition", str->str);
 
 	/* ODF 1.2 requires a sheet name for the base-cell-address */
-	/* This is reall only needed if we included a formula      */
-	address = g_strdup_printf ("%s.A1", state->sheet->name_quoted);
-	gsf_xml_out_add_cstr (state->xml, STYLE "base-cell-address", address);
+	/* This is really only needed if we included a formula      */
+	gnm_cellref_init (&ref, (Sheet *)state->sheet,
+			  r.end.col + 1, r.end.row + 1, FALSE);
+	texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
+	parse_pos_init (&pp, (Workbook *)state->wb, state->sheet,0,0);
+	address = gnm_expr_top_as_string (texpr, &pp, state->conv);
+	gsf_xml_out_add_cstr (state->xml, STYLE "base-cell-address", odf_strip_brackets (address));
 	g_free (address);
+	gnm_expr_top_unref (texpr);
 
 	gsf_xml_out_end_element (state->xml); /* </style:map> */
 
@@ -2729,16 +2795,6 @@ odf_write_comment (GnmOOExport *state, GnmComment const *cc)
 	}
 	g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
 	gsf_xml_out_end_element (state->xml); /*  OFFICE "annotation" */
-}
-
-static char *
-odf_strip_brackets (char *string)
-{
-	char *closing;
-	closing = strrchr(string, ']');
-	if (closing != NULL)
-		*closing = '\0';
-	return ((*string == '[') ? (string + 1) : string);
 }
 
 static char *
