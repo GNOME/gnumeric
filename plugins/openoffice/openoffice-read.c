@@ -216,6 +216,14 @@ typedef struct {
 } OOChartStyle;
 
 typedef struct {
+	int       ref;
+	GnmStyle *style;
+	GSList   *styles;
+	GSList   *conditions;
+	GSList   *bases;
+} OOCellStyle;
+
+typedef struct {
 	GogGraph	*graph;
 	GogChart	*chart;
 	SheetObject     *so;
@@ -383,7 +391,7 @@ struct  _OOParseState {
 		GHashTable	*text;
 	} styles;
 	struct {
-		GnmStyle	*cells;
+		OOCellStyle	*cells;
 		PangoAttrList   *text;
 		OOColRowStyle	*col_rows;
 		OOSheetStyle	*sheets;
@@ -395,7 +403,7 @@ struct  _OOParseState {
 	int              text_align, gnm_halign;
 
 	struct {
-		GnmStyle	*cells;
+		OOCellStyle	*cells;
 		OOColRowStyle	*rows;
 		OOColRowStyle	*columns;
 	} default_style;
@@ -2252,6 +2260,36 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
+static void
+odf_init_pp (GnmParsePos *pp, GsfXMLIn *xin, gchar const *base)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	*pp = state->pos;
+	if (base != NULL && *base != 0) {
+		GnmExprTop const *texpr = NULL;
+		char *tmp = g_strconcat ("[", base, "]", NULL);
+		GnmParsePos ppp;
+		/* base-cell-addresses are always required to be absolute (and contain a sheet name) */
+		parse_pos_init (&ppp, state->pos.wb, state->pos.sheet, 0, 0);
+		texpr = oo_expr_parse_str
+			(xin, tmp, &ppp,
+			 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
+			 FORMULA_OPENFORMULA);
+		g_free (tmp);
+		if (texpr != NULL) {
+			if (GNM_EXPR_GET_OPER (texpr->expr) ==
+			    GNM_EXPR_OP_CELLREF) {
+				GnmCellRef const *ref = &texpr->expr->cellref.ref;
+				parse_pos_init (pp, state->pos.wb, ref->sheet,
+						ref->col, ref->row);
+			}
+			gnm_expr_top_unref (texpr);
+		}
+	}
+}
+
+
 static GnmValidation *
 odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val, guint offset)
 {
@@ -2262,31 +2300,13 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val, guint offset)
 	GnmExprTop const *texpr = NULL;
 	GnmParsePos pp;
 
-
 	start = strchr (val->condition + offset, '(');
 	if (start != NULL)
 		end = strrchr (start, ')');
 	if (end == NULL)
 		return NULL;
 
-	pp = state->pos;
-	if (val->base_cell_address != NULL) {
-		char *tmp = g_strconcat ("[", val->base_cell_address, "]", NULL);
-		texpr = oo_expr_parse_str
-			(xin, tmp, &pp,
-			 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
-			 FORMULA_OPENFORMULA);
-		g_free (tmp);
-		if (texpr != NULL) {
-			if (GNM_EXPR_GET_OPER (texpr->expr) ==
-			    GNM_EXPR_OP_CELLREF) {
-				GnmCellRef const *ref = &texpr->expr->cellref.ref;
-				parse_pos_init (&pp, state->pos.wb, ref->sheet,
-						ref->col, ref->row);
-			}
-			gnm_expr_top_unref (texpr);
-		}
-	}
+	odf_init_pp (&pp, xin, val->base_cell_address);
 
 	if (*(start + 1) == '\"') {
 		str = g_string_new ("{");
@@ -2327,24 +2347,7 @@ odf_validation_new_single_expr (GsfXMLIn *xin, odf_validation_t *val,
 	GnmExprTop const *texpr = NULL;
 	GnmParsePos pp;
 
-	pp = state->pos;
-	if (val->base_cell_address != NULL) {
-		char *tmp = g_strconcat ("[", val->base_cell_address, "]", NULL);
-		texpr = oo_expr_parse_str
-			(xin, tmp, &pp,
-			 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
-			 FORMULA_OPENFORMULA);
-		g_free (tmp);
-		if (texpr != NULL) {
-			if (GNM_EXPR_GET_OPER (texpr->expr) ==
-			    GNM_EXPR_OP_CELLREF) {
-				GnmCellRef const *ref = &texpr->expr->cellref.ref;
-				parse_pos_init (&pp, state->pos.wb, ref->sheet,
-						ref->col, ref->row);
-			}
-			gnm_expr_top_unref (texpr);
-		}
-	}
+	odf_init_pp (&pp, xin, val->base_cell_address);
 
 	texpr = oo_expr_parse_str (xin, start, &pp,
 				   GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
@@ -2364,13 +2367,14 @@ odf_validation_new_single_expr (GsfXMLIn *xin, odf_validation_t *val,
 	return NULL;
 }
 
+
+
 static GnmValidation *
 odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 			      char const *start, ValidationType val_type,
 			      ValidationOp val_op)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	GnmExprTop const *texpr = NULL;
 	GnmParsePos pp;
 	GnmExprTop const *texpr_a = NULL, *texpr_b = NULL;
 	char *pair = NULL;
@@ -2382,24 +2386,7 @@ odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 	len -= 2;
 	pair = g_strndup (start, len);
 
-	pp = state->pos;
-	if (val->base_cell_address != NULL) {
-		char *tmp = g_strconcat ("[", val->base_cell_address, "]", NULL);
-		texpr = oo_expr_parse_str
-			(xin, tmp, &pp,
-			 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
-			 FORMULA_OPENFORMULA);
-		g_free (tmp);
-		if (texpr != NULL) {
-			if (GNM_EXPR_GET_OPER (texpr->expr) ==
-			    GNM_EXPR_OP_CELLREF) {
-				GnmCellRef const *ref = &texpr->expr->cellref.ref;
-				parse_pos_init (&pp, state->pos.wb, ref->sheet,
-						ref->col, ref->row);
-			}
-			gnm_expr_top_unref (texpr);
-		}
-	}
+	odf_init_pp (&pp, xin, val->base_cell_address);
 
 	while (1) {
 		gchar * try = g_strrstr_len (pair, len, ",");
@@ -2933,12 +2920,270 @@ oo_extent_sheet_cols (Sheet *sheet, int cols)
 	return gnm_sheet_get_max_cols (sheet);
 }
 
+static OOCellStyle *
+odf_oo_cell_style_new (GnmStyle *style)
+{
+	OOCellStyle *oostyle = g_new0 (OOCellStyle, 1);
+	oostyle->ref = 1;
+	if (style)
+		oostyle->style = gnm_style_dup (style);
+	else
+		oostyle->style = gnm_style_new ();
+	return oostyle;
+}
+
+static GnmStyle *
+odf_gnm_style_ref (GnmStyle *style)
+{
+	gnm_style_ref (style);
+	return style;
+}
+
+static OOCellStyle *
+odf_oo_cell_style_copy (OOCellStyle *oostyle)
+{
+	OOCellStyle *new = odf_oo_cell_style_new (oostyle->style);
+	new->styles = go_slist_map (oostyle->styles, (GOMapFunc)odf_gnm_style_ref);
+	new->conditions = go_slist_map (oostyle->conditions, (GOMapFunc)g_strdup);
+	new->bases = go_slist_map (oostyle->bases, (GOMapFunc)g_strdup);
+	return new;
+}
+
+static void
+odf_oo_cell_style_unref (OOCellStyle *oostyle)
+{
+	if (oostyle != NULL && (--(oostyle->ref)) == 0) {
+		gnm_style_unref (oostyle->style);
+		g_slist_free_full (oostyle->styles, (GDestroyNotify) odf_oo_cell_style_unref);
+		g_slist_free_full (oostyle->conditions, g_free);
+		g_slist_free_full (oostyle->bases, g_free);
+		g_free (oostyle);
+	}
+}
+
+static OOCellStyle *
+odf_oo_cell_style_ref (OOCellStyle *oostyle)
+{
+	oostyle->ref++;
+	return oostyle;
+}
+
+static void
+odf_oo_cell_style_attach_condition (OOCellStyle *oostyle, OOCellStyle *cstyle, 
+				gchar const *condition, gchar const *base)
+{
+	g_return_if_fail (oostyle != NULL);
+	g_return_if_fail (cstyle != NULL);
+	g_return_if_fail (condition != NULL);
+
+	if (base == NULL)
+		base = "";
+
+	oostyle->styles = g_slist_append (oostyle->styles, odf_oo_cell_style_ref (cstyle));
+	oostyle->conditions = g_slist_append (oostyle->conditions, g_strdup (condition));
+	oostyle->bases = g_slist_append (oostyle->bases, g_strdup (base));
+}
+
+static gboolean
+odf_style_load_two_values (GsfXMLIn *xin, char *condition, GnmStyleCond *cond, gchar const *base, OOFormula f_type)
+{
+	condition = g_strstrip (condition);
+	if (*(condition++) == '(') {
+		guint len = strlen (condition);
+		char *end = condition + len - 1;
+		if (*end == ')') {
+			GnmParsePos   pp;
+
+			odf_init_pp (&pp, xin, base);
+			len -= 1;
+			*end = '\0';
+			while (1) {
+				gchar * try = g_strrstr_len (condition, len, ",");
+				GnmExprTop const *texpr;
+
+				if (try == NULL || try == condition) return FALSE;
+
+				texpr = oo_expr_parse_str
+					(xin, try + 1, &pp,
+					 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
+					 f_type);
+				if (texpr != NULL) {
+					cond->texpr[1] = texpr;
+					*try = '\0';
+					break;
+				}
+				len = try - condition - 1;
+			}
+			cond->texpr[0] = oo_expr_parse_str
+				(xin, condition, &pp,
+				 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
+				 f_type);
+			return ((cond->texpr[0] != NULL) && (cond->texpr[1] != NULL));
+		}
+	}
+	return FALSE;
+}
+
+static gboolean
+odf_style_load_one_value (GsfXMLIn *xin, char *condition, GnmStyleCond *cond, gchar const *base, OOFormula f_type)
+{
+	GnmParsePos   pp;
+
+	odf_init_pp (&pp, xin, base);
+	cond->texpr[0] = oo_expr_parse_str
+		(xin, condition, &pp,
+		 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
+		 f_type);
+	return (cond->texpr[0] != NULL);
+}
+
+/*odf_style_add_condition absorbs the cstyle reference */
+static void
+odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle, 
+			 gchar const *condition, gchar const *base)
+{
+	/* OOParseState *state = (OOParseState *)xin->user_state; */
+
+	gchar const *full_condition = condition;
+	GnmStyleCond cond;
+	GnmStyleConditions *sc;
+	gboolean success = FALSE;
+	OOFormula f_type;
+
+	g_return_if_fail (style != NULL);
+	g_return_if_fail (cstyle != NULL);
+	g_return_if_fail (condition != NULL);
+	g_return_if_fail (base != NULL);
+	
+	cond.texpr[0] = NULL;
+	cond.texpr[1] = NULL;
+
+	f_type = odf_get_formula_type (xin, &condition);
+
+	if (g_str_has_prefix (condition, "cell-content()")) {
+		condition += strlen ("cell-content()") - 1;
+		while (*(++condition) == ' ');
+		switch (*(condition++)) {
+		case '<':
+			if (*condition == '=') {
+				condition++;
+				cond.op = GNM_STYLE_COND_LTE;
+			} else
+				cond.op = GNM_STYLE_COND_LT;
+			success = TRUE;
+			break;
+		case '>':
+			if (*condition == '=') {
+				condition++;
+				cond.op = GNM_STYLE_COND_GTE;
+			} else
+				cond.op = GNM_STYLE_COND_GT;
+			success = TRUE;
+			break;
+			break;
+		case '=':
+			cond.op = GNM_STYLE_COND_EQUAL;
+			success = TRUE;
+			break;
+		case '!':
+			if (*condition == '=') {
+				condition++;
+				cond.op = GNM_STYLE_COND_NOT_EQUAL;
+				success = TRUE;
+			}
+			break;
+		default:
+			break;
+		}
+		if (success) {
+			char *text = g_strdup (condition);
+			success = odf_style_load_one_value (xin, text, &cond, base, f_type);
+			g_free (text);
+		}
+
+	} else if (g_str_has_prefix (condition, "cell-content-is-between")) {
+		char *text;
+		cond.op = GNM_STYLE_COND_BETWEEN;
+		condition += strlen ("cell-content-is-between");
+		text = g_strdup (condition);
+		success = odf_style_load_two_values (xin, text, &cond, base, f_type);
+		g_free (text);
+	} else if (g_str_has_prefix (condition, "cell-content-is-not-between")) {
+		char *text;
+		cond.op = GNM_STYLE_COND_NOT_BETWEEN;
+		condition += strlen ("cell-content-is-not-between");
+		text = g_strdup (condition);
+		success = odf_style_load_two_values (xin, text, &cond, base, f_type);
+		g_free (text);
+	} else if (g_str_has_prefix (condition, "is-true-formula")) {
+		char *text;
+		cond.op = GNM_STYLE_COND_CUSTOM;
+		condition += strlen ("is-true-formula");
+		text = g_strdup (condition);
+		success = odf_style_load_one_value (xin, text, &cond, base, f_type);
+		g_free (text);
+	}
+
+	if (!success) {
+		if (cond.texpr[0] != NULL)
+			gnm_expr_top_unref (cond.texpr[0]);
+		if (cond.texpr[1] != NULL)
+			gnm_expr_top_unref (cond.texpr[1]);
+		oo_warning (xin,
+			    _("Unknown condition '%s' encountered, ignoring."),
+			    full_condition);
+		gnm_style_unref (cstyle);
+		return;
+	}
+
+	cond.overlay = cstyle;
+
+	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
+	    (sc = gnm_style_get_conditions (style)) != NULL)
+		gnm_style_conditions_insert (sc, &cond, -1);
+	else {
+		sc = gnm_style_conditions_new ();
+		gnm_style_conditions_insert (sc, &cond, -1);
+		gnm_style_set_conditions (style, sc);
+	}	
+}
+
+static GnmStyle *
+odf_style_from_oo_cell_style (GsfXMLIn *xin, OOCellStyle *oostyle)
+{
+	g_return_val_if_fail (oostyle != NULL, NULL);
+
+	if (oostyle->conditions != NULL) {
+		/* We need to incorporate the conditional styles */
+		GnmStyle *new_style = gnm_style_dup (oostyle->style);
+		GSList *styles = oostyle->styles, *conditions = oostyle->conditions, *bases = oostyle->bases;
+		while (styles && conditions && bases) {
+			odf_style_add_condition (xin, new_style,
+						 odf_style_from_oo_cell_style (xin, styles->data),
+						 conditions->data, bases->data);
+			styles = styles->next;
+			conditions = conditions->next;
+			bases = bases->next;
+		}
+		gnm_style_unref (oostyle->style);
+		oostyle->style = new_style;
+		g_slist_free_full (oostyle->styles, (GDestroyNotify) odf_oo_cell_style_unref);
+		g_slist_free_full (oostyle->conditions, g_free);
+		g_slist_free_full (oostyle->bases, g_free);
+		oostyle->styles = NULL;
+		oostyle->conditions = NULL;
+		oostyle->bases = NULL;
+	}
+	gnm_style_ref (oostyle->style);
+	return oostyle->style;
+}
 
 static void
 oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	OOColRowStyle *col_info = NULL;
+	OOCellStyle *oostyle = NULL;
 	GnmStyle *style = NULL;
 	int	  i, repeat_count = 1;
 	gboolean  hidden = FALSE;
@@ -2947,9 +3192,10 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 	maybe_update_progress (xin);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "default-cell-style-name"))
-			style = g_hash_table_lookup (state->styles.cell, attrs[1]);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "default-cell-style-name")) {
+			oostyle = g_hash_table_lookup (state->styles.cell, attrs[1]);
+			style = odf_style_from_oo_cell_style (xin, oostyle);
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			col_info = g_hash_table_lookup (state->styles.col, attrs[1]);
 		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &repeat_count, 0, INT_MAX))
 			;
@@ -2977,7 +3223,6 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 		r.end.col   = state->pos.eval.col + repeat_count - 1;
 		r.start.row = 0;
 		r.end.row  = gnm_sheet_get_last_row (state->pos.sheet);
-		gnm_style_ref (style);
 		sheet_style_apply_range (state->pos.sheet, &r, style);
 		oo_update_style_extent (state, repeat_count, -1);
 	}
@@ -3071,6 +3316,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	OOColRowStyle *row_info = NULL;
+	OOCellStyle *oostyle = NULL;
 	GnmStyle *style = NULL;
 	int	  i, repeat_count = 1;
 	gboolean  hidden = FALSE;
@@ -3090,9 +3336,10 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "default-cell-style-name"))
-			style = g_hash_table_lookup (state->styles.cell, attrs[1]);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "default-cell-style-name")) {
+			oostyle = g_hash_table_lookup (state->styles.cell, attrs[1]);
+			style = odf_style_from_oo_cell_style (xin, oostyle);
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			row_info = g_hash_table_lookup (state->styles.row, attrs[1]);
 		else if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-rows-repeated", &repeat_count, 0, INT_MAX))
 			;
@@ -3120,7 +3367,6 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 		r.end.row   = state->pos.eval.row + repeat_count - 1;
 		r.start.col = 0;
 		r.end.col  = gnm_sheet_get_last_col (state->pos.sheet);
-		gnm_style_ref (style);
 		sheet_style_apply_range (state->pos.sheet, &r, style);
 		oo_update_style_extent (state, -1, repeat_count);
 	}
@@ -3202,6 +3448,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	gnm_float	 float_val = 0;
 	int array_cols = -1, array_rows = -1;
 	int merge_cols = 1, merge_rows = 1;
+	OOCellStyle *oostyle = NULL;
 	GnmStyle *style = NULL;
 	char const *style_name = NULL;
 	char const *validation_name = NULL;
@@ -3329,68 +3576,52 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 	}
 
-
-
 	merge_cols = MIN (merge_cols, max_cols - state->pos.eval.col);
 	merge_rows = MIN (merge_rows, max_rows - state->pos.eval.row);
 
 	if (style_name != NULL) {
 		if (has_datetime)
-			style = g_hash_table_lookup (state->styles.cell_datetime, style_name);
+			oostyle = g_hash_table_lookup (state->styles.cell_datetime, style_name);
 		else if (has_date)
-			style = g_hash_table_lookup (state->styles.cell_date, style_name);
+			oostyle = g_hash_table_lookup (state->styles.cell_date, style_name);
 		else if (has_time)
-			style = g_hash_table_lookup (state->styles.cell_time, style_name);
+			oostyle = g_hash_table_lookup (state->styles.cell_time, style_name);
 
-		if (style == NULL) {
-			style = g_hash_table_lookup (state->styles.cell, style_name);
-
-			if (((style != NULL) || (state->ver == OOO_VER_1))
+		if (oostyle == NULL) {
+			oostyle = g_hash_table_lookup (state->styles.cell, style_name);
+			if (((oostyle != NULL) || (state->ver == OOO_VER_1))
 			    && (has_datetime || has_date || has_time)) {
-				if ((style == NULL) ||
-				    ((!gnm_style_is_element_set (style, MSTYLE_FORMAT))
-				     || go_format_is_general (gnm_style_get_format (style)))) {
+				if ((oostyle == NULL) ||
+				    ((!gnm_style_is_element_set (oostyle->style, MSTYLE_FORMAT))
+				     || go_format_is_general (gnm_style_get_format (oostyle->style)))) {
 					GOFormat *format;
-					style = (style == NULL) ? gnm_style_new () :
-						gnm_style_dup (style);
-					gnm_style_ref (style);
-					/* Now we have 2 references for style */
+					oostyle = (oostyle == NULL) ? odf_oo_cell_style_new (NULL) :
+						odf_oo_cell_style_copy (oostyle);
 					if (has_datetime) {
 						format = go_format_default_date_time ();
 						g_hash_table_replace (state->styles.cell_datetime,
-								      g_strdup (style_name), style);
+								      g_strdup (style_name), oostyle);
 					} else if (has_date) {
 						format = go_format_default_date ();
 						g_hash_table_replace (state->styles.cell_date,
-							      g_strdup (style_name), style);
+							      g_strdup (style_name), oostyle);
 					} else {
 						format = go_format_default_time ();
 						g_hash_table_replace (state->styles.cell_time,
-								      g_strdup (style_name), style);
+								      g_strdup (style_name), oostyle);
 					}
-					gnm_style_set_format (style, format);
-					/* Since (has_datetime || has_date || has_time) we now */
-					/* have 1 references for style */
-				} else
-					gnm_style_ref (style);
-				/* 1 reference for style*/
-			} else if (style != NULL)
-				gnm_style_ref (style);
-			/* 1 reference for style*/
-		} else
-			gnm_style_ref (style);
-		/* 1 reference for style*/
+					gnm_style_set_format (oostyle->style, format);
+				}
+			} 
+		}
+		if (oostyle != NULL)
+			style = odf_style_from_oo_cell_style (xin, oostyle);
 	}
 
 	if ((validation_name != NULL) &&
 	    (NULL != (validation = odf_validations_translate (xin, validation_name)))) {
 		if (style == NULL)
 			style = gnm_style_new ();
-		else {
-			GnmStyle *ostyle = style;
-			style = gnm_style_dup (ostyle);
-			gnm_style_unref (ostyle);
-		}
 		/* 1 reference for style*/
 		gnm_style_set_validation (style, validation);
 	}
@@ -3692,7 +3923,8 @@ oo_covered_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->col_inc = 1;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc, 0, INT_MAX))
+		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated", 
+				       &state->col_inc, 0, INT_MAX))
 			;
 #if 0
 		/* why bother it is covered ? */
@@ -3986,7 +4218,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 	char const *name = NULL;
 	char const *mp_name = NULL;
 	char const *parent_name = NULL;
-	GnmStyle *style;
+	OOCellStyle *oostyle;
 	GOFormat *fmt = NULL;
 	int tmp;
 	OOChartStyle *cur_style;
@@ -4017,35 +4249,30 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 
 		break;
 	case OO_STYLE_CELL:
-		style = (parent_name != NULL)
+		oostyle = (parent_name != NULL)
 			? g_hash_table_lookup (state->styles.cell, parent_name)
 			: NULL;
-		if (style != NULL)
-			state->cur_style.cells = gnm_style_dup (style);
-		else {
-			state->cur_style.cells = gnm_style_new ();
-			gnm_style_set_conditions (state->cur_style.cells, NULL);
-		}
-		gnm_style_ref (state->cur_style.cells); /* We now have 2 references */
+		if (oostyle)
+			state->cur_style.cells = odf_oo_cell_style_copy (oostyle);
+		else
+			state->cur_style.cells = odf_oo_cell_style_new (NULL);
+
 		state->h_align_is_valid = state->repeat_content = FALSE;
 		state->text_align = -2;
 		state->gnm_halign = -2;
 
 		if (fmt != NULL)
-			gnm_style_set_format (state->cur_style.cells, fmt);
+			gnm_style_set_format (state->cur_style.cells->style, fmt);
 
 		if (name != NULL) {
+			odf_oo_cell_style_ref (state->cur_style.cells);
 			g_hash_table_replace (state->styles.cell,
 				g_strdup (name), state->cur_style.cells);
-			/* one reference left for state->cur_style.cells */
 		} else if (0 == strcmp (xin->node->id, "DEFAULT_STYLE")) {
 			 if (state->default_style.cells)
-				 gnm_style_unref (state->default_style.cells);
+				 odf_oo_cell_style_unref (state->default_style.cells);
 			 state->default_style.cells = state->cur_style.cells;
-			 /* one reference left for state->cur_style.cells */
-		} else {
-			gnm_style_unref (state->cur_style.cells);
-			/* one reference left for state->cur_style.cells */
+			 odf_oo_cell_style_ref (state->cur_style.cells);
 		}
 
 		break;
@@ -4124,7 +4351,7 @@ oo_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	switch (state->cur_style.type) {
 	case OO_STYLE_CELL :
 		if (state->cur_style.cells != NULL) {
-			gnm_style_unref (state->cur_style.cells);
+			odf_oo_cell_style_unref (state->cur_style.cells);
 			state->cur_style.cells = NULL;
 		}
 		break;
@@ -5657,7 +5884,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmColor *color;
-	GnmStyle *style = state->cur_style.cells;
+	GnmStyle *style = state->cur_style.cells->style;
 	gboolean  btmp;
 	int	  tmp;
 	gnm_float tmp_f;
@@ -5895,74 +6122,14 @@ oo_style_prop_table (GsfXMLIn *xin, xmlChar const **attrs)
 
 }
 
-static gboolean
-odf_style_map_load_two_values (GsfXMLIn *xin, char *condition, GnmStyleCond *cond)
-{
-	OOParseState *state = (OOParseState *)xin->user_state;
-
-	condition = g_strstrip (condition);
-	if (*(condition++) == '(') {
-		guint len = strlen (condition);
-		char *end = condition + len - 1;
-		if (*end == ')') {
-			GnmParsePos   pp;
-
-			parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
-			len -= 1;
-			*end = '\0';
-			while (1) {
-				gchar * try = g_strrstr_len (condition, len, ",");
-				GnmExprTop const *texpr;
-
-				if (try == NULL || try == condition) return FALSE;
-
-				texpr = oo_expr_parse_str
-					(xin, try + 1, &pp,
-					 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
-					 FORMULA_OPENFORMULA);
-				if (texpr != NULL) {
-					cond->texpr[1] = texpr;
-					*try = '\0';
-					break;
-				}
-				len = try - condition - 1;
-			}
-			cond->texpr[0] = oo_expr_parse_str
-				(xin, condition, &pp,
-				 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
-				 FORMULA_OPENFORMULA);
-			return ((cond->texpr[0] != NULL) && (cond->texpr[1] != NULL));
-		}
-	}
-	return FALSE;
-}
-
-static gboolean
-odf_style_map_load_one_value (GsfXMLIn *xin, char *condition, GnmStyleCond *cond)
-{
-	OOParseState *state = (OOParseState *)xin->user_state;
-	GnmParsePos   pp;
-
-	parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
-	cond->texpr[0] = oo_expr_parse_str
-		(xin, condition, &pp,
-		 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
-		 FORMULA_OPENFORMULA);
-	return (cond->texpr[0] != NULL);
-}
-
 
 static void
 oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	char const *style_name = NULL;
-	char const *condition = NULL, *full_condition;
-	GnmStyle *style = NULL;
-	GnmStyleCond cond;
-	GnmStyleConditions *sc;
-	gboolean success = FALSE;
-	/* OOFormula f_type; */
+	char const *style_name = NULL, *base = NULL;
+	char const *condition = NULL;
+	OOCellStyle *style = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "condition"))
@@ -5970,109 +6137,12 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "apply-style-name"))
 			style_name = attrs[1];
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "base-cell-address"))
-			;
+			base = attrs[1];
 	if (style_name == NULL || condition == NULL)
 		return;
 
 	style = g_hash_table_lookup (state->styles.cell, style_name);
-
-	g_return_if_fail (style != NULL);
-	g_return_if_fail (state->cur_style.cells != NULL);
-
-	full_condition = condition;
-	cond.texpr[0] = NULL;
-	cond.texpr[1] = NULL;
-
-	/* f_type = */ odf_get_formula_type (xin, &condition);
-
-	if (g_str_has_prefix (condition, "cell-content()")) {
-		condition += strlen ("cell-content()") - 1;
-		while (*(++condition) == ' ');
-		switch (*(condition++)) {
-		case '<':
-			if (*condition == '=') {
-				condition++;
-				cond.op = GNM_STYLE_COND_LTE;
-			} else
-				cond.op = GNM_STYLE_COND_LT;
-			success = TRUE;
-			break;
-		case '>':
-			if (*condition == '=') {
-				condition++;
-				cond.op = GNM_STYLE_COND_GTE;
-			} else
-				cond.op = GNM_STYLE_COND_GT;
-			success = TRUE;
-			break;
-			break;
-		case '=':
-			cond.op = GNM_STYLE_COND_EQUAL;
-			success = TRUE;
-			break;
-		case '!':
-			if (*condition == '=') {
-				condition++;
-				cond.op = GNM_STYLE_COND_NOT_EQUAL;
-				success = TRUE;
-			}
-			break;
-		default:
-			break;
-		}
-		if (success) {
-			char *text = g_strdup (condition);
-			success = odf_style_map_load_one_value (xin, text, &cond);
-			g_free (text);
-		}
-
-	} else if (g_str_has_prefix (condition, "cell-content-is-between")) {
-		char *text;
-		cond.op = GNM_STYLE_COND_BETWEEN;
-		condition += strlen ("cell-content-is-between");
-		text = g_strdup (condition);
-		success = odf_style_map_load_two_values (xin, text, &cond);
-		g_free (text);
-	} else if (g_str_has_prefix (condition, "cell-content-is-not-between")) {
-		char *text;
-		cond.op = GNM_STYLE_COND_NOT_BETWEEN;
-		condition += strlen ("cell-content-is-not-between");
-		text = g_strdup (condition);
-		success = odf_style_map_load_two_values (xin, text, &cond);
-		g_free (text);
-	} else if (g_str_has_prefix (condition, "is-true-formula")) {
-		char *text;
-		cond.op = GNM_STYLE_COND_CUSTOM;
-		condition += strlen ("is-true-formula");
-		text = g_strdup (condition);
-		success = odf_style_map_load_one_value (xin, text, &cond);
-		g_free (text);
-	}
-
-	if (!success)
-	{
-		if (cond.texpr[0] != NULL)
-			gnm_expr_top_unref (cond.texpr[0]);
-		if (cond.texpr[1] != NULL)
-			gnm_expr_top_unref (cond.texpr[1]);
-		oo_warning (xin,
-			    _("Unknown condition '%s' encountered, ignoring."),
-			    full_condition);
-		return;
-	}
-
-	cond.overlay = style;
-	gnm_style_ref (style);
-
-	if (gnm_style_is_element_set (state->cur_style.cells, MSTYLE_CONDITIONS) &&
-	    (sc = gnm_style_get_conditions (state->cur_style.cells)) != NULL)
-		gnm_style_conditions_insert (sc, &cond, -1);
-	else {
-		sc = gnm_style_conditions_new ();
-		gnm_style_conditions_insert (sc, &cond, -1);
-		gnm_style_set_conditions (state->cur_style.cells, sc);
-	}
-
+	odf_oo_cell_style_attach_condition(state->cur_style.cells, style, condition, base);
 }
 
 static OOProp *
@@ -11126,16 +11196,16 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 		(GDestroyNotify) g_free);
 	state.styles.cell = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
-		(GDestroyNotify) gnm_style_unref);
+		(GDestroyNotify) odf_oo_cell_style_unref);
 	state.styles.cell_datetime = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
-		(GDestroyNotify) gnm_style_unref);
+		(GDestroyNotify) odf_oo_cell_style_unref);
 	state.styles.cell_date = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
-		(GDestroyNotify) gnm_style_unref);
+		(GDestroyNotify) odf_oo_cell_style_unref);
 	state.styles.cell_time = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
-		(GDestroyNotify) gnm_style_unref);
+		(GDestroyNotify) odf_oo_cell_style_unref);
 	state.styles.master_pages = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) print_info_free);
@@ -11325,7 +11395,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	g_free (state.last_error);
 
 	if (state.default_style.cells)
-		gnm_style_unref (state.default_style.cells);
+		odf_oo_cell_style_unref (state.default_style.cells);
 	g_free (state.default_style.rows);
 	g_free (state.default_style.columns);
 	g_hash_table_destroy (state.styles.sheet);

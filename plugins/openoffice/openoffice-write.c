@@ -1488,6 +1488,7 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
 {
 	char const *name = odf_find_style (state, cond->overlay);
 	GString *str;
+	gchar *address;
 
 	g_return_if_fail (name != NULL);
 
@@ -1585,8 +1586,13 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
 	gsf_xml_out_start_element (state->xml, STYLE "map");
 
 	gsf_xml_out_add_cstr (state->xml, STYLE "apply-style-name", name);
-	gsf_xml_out_add_cstr (state->xml, STYLE "base-cell-address","A1");
 	gsf_xml_out_add_cstr (state->xml, STYLE "condition", str->str);
+
+	/* ODF 1.2 requires a sheet name for the base-cell-address */
+	/* This is reall only needed if we included a formula      */
+	address = g_strdup_printf ("%s.A1", state->sheet->name_quoted);
+	gsf_xml_out_add_cstr (state->xml, STYLE "base-cell-address", address);
+	g_free (address);
 
 	gsf_xml_out_end_element (state->xml); /* </style:map> */
 

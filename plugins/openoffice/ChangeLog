@@ -1,3 +1,32 @@
+2012-05-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (OOCellStyle): new type
+	(_OOParseState.default_style.cells): change type
+	(odf_init_pp): new
+	(odf_validation_new_list): use odf_init_pp
+	(odf_validation_new_single_expr): use odf_init_pp
+	(odf_validation_new_pair_expr): use odf_init_pp
+	(odf_oo_cell_style_new): new
+	(odf_gnm_style_ref): new
+	(odf_oo_cell_style_copy): new
+	(odf_oo_cell_style_unref): new
+	(odf_oo_cell_style_ref): new
+	(odf_oo_cell_style_attach_condition): new
+	(odf_style_load_two_values): modified odf_style_map_load_two_values
+	(odf_style_load_one_value): modified odf_style_map_load_one_value
+	(odf_style_add_condition): new
+	(odf_style_from_oo_cell_style): new
+	(oo_col_start): adjust for above type changes
+	(oo_row_start): ditto
+	(oo_cell_start): ditto
+	(oo_style): ditto
+	(oo_style_end): ditto
+	(oo_style_prop_cell): ditto
+	(oo_style_map): postpone resolution
+	(openoffice_file_open): adjust for above type changes
+	* openoffice-write.c (odf_save_style_map): base-cell-address requires
+	a table name
+
 2012-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c: replace GO_COLOR_FROM_GDK_RGBA with
