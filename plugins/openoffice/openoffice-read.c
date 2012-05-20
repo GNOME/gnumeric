@@ -778,15 +778,14 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 			GdkRGBA rgba;
 			gchar const *color = g_value_get_string (&prop->value);
 			if (gdk_rgba_parse (&rgba, color)) {
-				style->fill.pattern.back = GO_COLOR_FROM_GDK_RGBA (rgba);
+				go_color_from_gdk_rgba (&rgba, &style->fill.pattern.back);
 				style->fill.auto_back = FALSE;
 			}
 		} else if (0 == strcmp (prop->name, "stroke-color")) {
 			GdkRGBA rgba;
 			gchar const *color = g_value_get_string (&prop->value);
 			if (gdk_rgba_parse (&rgba, color)) {
-				style->line.color = GO_COLOR_FROM_GDK_RGBA (rgba);
-				style->line.fore = GO_COLOR_FROM_GDK_RGBA (rgba);
+				style->line.fore = go_color_from_gdk_rgba (&rgba, &style->line.color);
 				style->line.auto_color = FALSE;
 				style->line.auto_fore = FALSE;
 				style->line.pattern = GO_PATTERN_SOLID;
@@ -3837,13 +3836,13 @@ oo_gradient (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "start-color")) {
 			GdkRGBA rgba;
 			if (gdk_rgba_parse (&rgba, CXML2C (attrs[1])))
-				info->from = GO_COLOR_FROM_GDK_RGBA (rgba);
+				go_color_from_gdk_rgba (&rgba, &info->from);
 			else
 				oo_warning (xin, _("Unable to parse gradient color: %s"), CXML2C (attrs[1]));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "end-color")) {
 			GdkRGBA rgba;
 			if (gdk_rgba_parse (&rgba, CXML2C (attrs[1])))
-				info->to = GO_COLOR_FROM_GDK_RGBA (rgba);
+				go_color_from_gdk_rgba (&rgba, &info->to);
 			else
 				oo_warning (xin, _("Unable to parse gradient color: %s"), CXML2C (attrs[1]));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "style"))
@@ -3884,7 +3883,7 @@ oo_hatch (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "color")) {
 			GdkRGBA rgba;
 			if (gdk_rgba_parse (&rgba, CXML2C (attrs[1])))
-				hatch->fore = GO_COLOR_FROM_GDK_RGBA (rgba);
+				go_color_from_gdk_rgba (&rgba, &hatch->fore);
 			else
 				oo_warning (xin, _("Unable to parse hatch color: %s"), CXML2C (attrs[1]));
 		} else if (NULL != oo_attr_distance (xin, attrs, OO_NS_DRAW, "distance", &distance))
@@ -5875,8 +5874,7 @@ oo_style_prop_table (GsfXMLIn *xin, xmlChar const **attrs)
 			/* For ODF 1.3 etc. */
 			GdkRGBA rgba;
 			if (gdk_rgba_parse (&rgba, CXML2C (attrs[1]))) {
-				style->tab_color
-					= GO_COLOR_FROM_GDK_RGBA (rgba);
+				go_color_from_gdk_rgba (&rgba, &style->tab_color);
 				style->tab_color_set = TRUE;
 			} else
 				oo_warning (xin, _("Unable to parse "
@@ -5887,8 +5885,7 @@ oo_style_prop_table (GsfXMLIn *xin, xmlChar const **attrs)
 					       "tab-text-color")) {
 			GdkRGBA rgba;
 			if (gdk_rgba_parse (&rgba, CXML2C (attrs[1]))) {
-				style->tab_text_color
-					= GO_COLOR_FROM_GDK_RGBA (rgba);
+				go_color_from_gdk_rgba (&rgba, &style->tab_text_color);
 				style->tab_text_color_set = TRUE;
 			} else
 				oo_warning (xin, _("Unable to parse tab "
