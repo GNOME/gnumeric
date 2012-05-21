@@ -1,5 +1,12 @@
 2012-05-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_save_style_map_single_f): change arguments
+	(odf_save_style_map_double_f): ditto
+	(odf_determine_base): change arguments and simplify
+	(odf_save_style_map): change the calls to the above
+
+2012-05-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_save_style_map_single_f): add arguments
 	(odf_save_style_map_double_f): ditto
 	(odf_determine_base): new
