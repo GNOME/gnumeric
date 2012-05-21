@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-05-17 17:55+0000\n"
-"PO-Revision-Date: 2012-05-18 14:35+0200\n"
+"POT-Creation-Date: 2012-05-21 06:55+0000\n"
+"PO-Revision-Date: 2012-05-21 16:48+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -98,7 +98,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Proporciona una interfaz de secuencia de comandos de CORBA"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7001
-#: ../plugins/openoffice/openoffice-read.c:11186 ../src/xml-sax-read.c:3312
+#: ../plugins/openoffice/openoffice-read.c:11283 ../src/xml-sax-read.c:3312
 msgid "Reading file..."
 msgstr "Leyendo archivo…"
 
@@ -208,7 +208,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Contenido no válido del elemento «ss:data», se recibió «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:1093
-#: ../plugins/openoffice/openoffice-read.c:11293 ../src/xml-sax-read.c:3329
+#: ../plugins/openoffice/openoffice-read.c:11390 ../src/xml-sax-read.c:3329
 msgid "XML document not well formed!"
 msgstr "El documento XML no está bien formado."
 
@@ -500,7 +500,7 @@ msgstr ""
 "Ignorando la información de la columna que no especifica primera o última."
 
 #: ../plugins/excel/xlsx-read.c:1768
-#: ../plugins/openoffice/openoffice-read.c:2571
+#: ../plugins/openoffice/openoffice-read.c:2574
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignorando datos de validación no válidos porque: %s"
@@ -1319,139 +1319,139 @@ msgstr "Importa documentos GNU Oleo"
 msgid "GNU Oleo (*.oleo)"
 msgstr "GNU Oleo (*.oleo)"
 
-#: ../plugins/openoffice/openoffice-read.c:536
+#: ../plugins/openoffice/openoffice-read.c:545
 msgid "General ODF error"
 msgstr "Error ODF general"
 
-#: ../plugins/openoffice/openoffice-read.c:590
+#: ../plugins/openoffice/openoffice-read.c:599
 #, c-format
 msgid "Invalid integer '%s', for '%s'"
 msgstr "Entero «%s» no válido para «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:605
+#: ../plugins/openoffice/openoffice-read.c:614
 #, c-format
 msgid "Possible corrupted integer '%s' for '%s'"
 msgstr "Entero «%s» posiblemente corrupto para «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:649
+#: ../plugins/openoffice/openoffice-read.c:658
 #, c-format
 msgid "Invalid attribute '%s', expected number, received '%s'"
 msgstr "Atributo «%s» no válido, se esperaba un número, se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:672
+#: ../plugins/openoffice/openoffice-read.c:681
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
 msgstr "Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:694
+#: ../plugins/openoffice/openoffice-read.c:703
 #, c-format
 msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr "Atributo «%s» no válido, se esperaba un color, se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:878
+#: ../plugins/openoffice/openoffice-read.c:886
 #, c-format
 msgid "Unknown hatch name '%s' encountered!"
 msgstr "Se encontró el nombre de trama desconocido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:886
+#: ../plugins/openoffice/openoffice-read.c:894
 msgid "Hatch fill without hatch name encountered!"
 msgstr "Se encontró un relleno de trama sin nombre de trama"
 
-#: ../plugins/openoffice/openoffice-read.c:894
+#: ../plugins/openoffice/openoffice-read.c:902
 #, c-format
 msgid "Unknown gradient name '%s' encountered!"
 msgstr "Se encontró nombre de gradiente desconocido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:907
+#: ../plugins/openoffice/openoffice-read.c:915
 msgid "Gradient fill without gradient name encountered!"
 msgstr "Se encontró un relleno de gradiente sin nombre de gradiente"
 
-#: ../plugins/openoffice/openoffice-read.c:915
+#: ../plugins/openoffice/openoffice-read.c:923
 #, c-format
 msgid "Unknown image fill name '%s' encountered!"
 msgstr "Se encontró el nombre de relleno de imagen desconocido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:925
+#: ../plugins/openoffice/openoffice-read.c:933
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
 msgstr "Se encontró una especificación de archivo absoluta no válida «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:938
+#: ../plugins/openoffice/openoffice-read.c:946
 #, c-format
 msgid "Unable to open '%s'."
 msgstr "No se pudo abrir «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:966
-#: ../plugins/openoffice/openoffice-read.c:7519
+#: ../plugins/openoffice/openoffice-read.c:974
+#: ../plugins/openoffice/openoffice-read.c:7616
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "No se pudo cargar el archivo «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:974
+#: ../plugins/openoffice/openoffice-read.c:982
 msgid "Image fill without image name encountered!"
 msgstr "Se encontró un relleno de imagen sin nombre de imagen."
 
-#: ../plugins/openoffice/openoffice-read.c:1060
-#: ../plugins/openoffice/openoffice-read.c:1136
+#: ../plugins/openoffice/openoffice-read.c:1068
+#: ../plugins/openoffice/openoffice-read.c:1144
 #, c-format
 msgid "Invalid attribute '%s', unknown unit '%s'"
 msgstr "Atributo «%s» no válido, unidad «%s» desconocida"
 
-#: ../plugins/openoffice/openoffice-read.c:1065
+#: ../plugins/openoffice/openoffice-read.c:1073
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
 msgstr "Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1142
+#: ../plugins/openoffice/openoffice-read.c:1150
 #, c-format
 msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr "Atributo «%s» no válido, se esperaba un ángulo, se ha recibido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1209
+#: ../plugins/openoffice/openoffice-read.c:1217
 #, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
 msgstr "Atributo «%s» no válido, valor de enum «%s» desconocido"
 
-#: ../plugins/openoffice/openoffice-read.c:1409
+#: ../plugins/openoffice/openoffice-read.c:1417
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
 msgstr "Ignorando la referencia a un libro de trabajo externo desconocido «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1643
+#: ../plugins/openoffice/openoffice-read.c:1669
 #, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
 msgstr "Se encontró un estilo de texto desconocido con nombre «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:1945
+#: ../plugins/openoffice/openoffice-read.c:1965
 #, c-format
 msgid "Unable to parse '%s' ('%s')"
 msgstr "No se puede analizar «%s» («%s»)"
 
-#: ../plugins/openoffice/openoffice-read.c:2040
-#: ../plugins/openoffice/openoffice-read.c:3214
+#: ../plugins/openoffice/openoffice-read.c:2060
+#: ../plugins/openoffice/openoffice-read.c:3481
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Se encontró un tipo de fórmula no soportado: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2046
-#: ../plugins/openoffice/openoffice-read.c:3221
+#: ../plugins/openoffice/openoffice-read.c:2066
+#: ../plugins/openoffice/openoffice-read.c:3488
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "La expresión «%s» no empieza con un carácter reconocido"
 
-#: ../plugins/openoffice/openoffice-read.c:2085
-#: ../plugins/openoffice/openoffice-write.c:4848
-#: ../plugins/openoffice/openoffice-write.c:4860 ../src/print-info.c:633
+#: ../plugins/openoffice/openoffice-read.c:2105
+#: ../plugins/openoffice/openoffice-write.c:4937
+#: ../plugins/openoffice/openoffice-write.c:4949 ../src/print-info.c:633
 #: ../src/ssgrep.c:352
 msgid "cell"
 msgstr "celda"
 
-#: ../plugins/openoffice/openoffice-read.c:2144
+#: ../plugins/openoffice/openoffice-read.c:2164
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_EN_ARCHIVO_CORRUPTO"
 
-#: ../plugins/openoffice/openoffice-read.c:2149
+#: ../plugins/openoffice/openoffice-read.c:2169
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to \"%"
@@ -1460,12 +1460,12 @@ msgstr ""
 "Este archivo está corrupto con un nombre de hoja duplicado «%s», se renombró "
 "a «%s»."
 
-#: ../plugins/openoffice/openoffice-read.c:2162
+#: ../plugins/openoffice/openoffice-read.c:2182
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "HOJA_EN_ARCHIVO_CORRUPTO"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:2170
+#: ../plugins/openoffice/openoffice-read.c:2190
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr ""
@@ -1483,7 +1483,7 @@ msgstr ""
 msgid "Undefined validation style encountered: %s"
 msgstr "Se encontró un estilo de validación no definido: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:2580
+#: ../plugins/openoffice/openoffice-read.c:2583
 #, c-format
 msgid ""
 "Unsupported validation condition encountered: \"%s\" with base address: \"%s"
@@ -1492,194 +1492,194 @@ msgstr ""
 "Se encontró una condición de validación no soportada: «%s» con dirección "
 "base: «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:2943
+#: ../plugins/openoffice/openoffice-read.c:3133
+#, c-format
+msgid "Unknown condition '%s' encountered, ignoring."
+msgstr "Se encontró la condición desconocida «%s», ignorando."
+
+#: ../plugins/openoffice/openoffice-read.c:3209
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr "Ignorando la columna de información más allá de la columna %i"
 
-#: ../plugins/openoffice/openoffice-read.c:3066
-#: ../plugins/openoffice/openoffice-read.c:3446
+#: ../plugins/openoffice/openoffice-read.c:3332
+#: ../plugins/openoffice/openoffice-read.c:3697
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "El contenido excedió el número máximo de filas soportadas (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:3206
-#: ../plugins/openoffice/openoffice-read.c:5469
+#: ../plugins/openoffice/openoffice-read.c:3473
+#: ../plugins/openoffice/openoffice-read.c:5716
 msgid "Missing expression"
-msgstr "Expresión perdida"
+msgstr "Falta la expresión"
 
-#: ../plugins/openoffice/openoffice-read.c:3419
+#: ../plugins/openoffice/openoffice-read.c:3670
 msgid "Invalid array expression does not specify number of columns."
 msgstr "La expresión de la matriz no especifica el número de columnas."
 
-#: ../plugins/openoffice/openoffice-read.c:3422
+#: ../plugins/openoffice/openoffice-read.c:3673
 msgid "Invalid array expression does not specify number of rows."
 msgstr "La expresión de la matriz no especifica el número de filas."
 
-#: ../plugins/openoffice/openoffice-read.c:3438
+#: ../plugins/openoffice/openoffice-read.c:3689
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr "El contenido excedió el número máximo de columnas soportadas (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:3631
+#: ../plugins/openoffice/openoffice-read.c:3882
 #: ../src/dialogs/dialog-hyperlink.c:83
 msgid ""
 "Left click once to follow this link.\n"
 "Middle click once to select this cell"
 msgstr ""
 "Pulsar una vez con el botón izquierdo para seguir este enlace.\n"
-"Pulsar una vez con el botón del medio para seleccionar esta celda"
+"Pulsar una vez con el botón central para seleccionar esta celda"
 
-#: ../plugins/openoffice/openoffice-read.c:3764
+#: ../plugins/openoffice/openoffice-read.c:4016
 msgid "Unnamed dash style encountered."
 msgstr "Se encontró un estilo de guión sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:3782
+#: ../plugins/openoffice/openoffice-read.c:4034
 msgid "Unnamed image fill style encountered."
 msgstr "Se encontró un estilo de relleno de imagen sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:3784
+#: ../plugins/openoffice/openoffice-read.c:4036
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr "El estilo de relleno de imagen «%s» no tiene ninguna imagen adjunta."
 
-#: ../plugins/openoffice/openoffice-read.c:3821
-#: ../plugins/openoffice/openoffice-read.c:3827
+#: ../plugins/openoffice/openoffice-read.c:4073
+#: ../plugins/openoffice/openoffice-read.c:4079
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "No se puede analizar el color del degradado: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:3847
+#: ../plugins/openoffice/openoffice-read.c:4099
 msgid "Unnamed gradient style encountered."
 msgstr "Se encontró un estilo de gradiente sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:3868
+#: ../plugins/openoffice/openoffice-read.c:4120
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "No se puede analizar el color del entramado: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:3942
+#: ../plugins/openoffice/openoffice-read.c:4194
 msgid "Unnamed hatch encountered!"
 msgstr "Se encontró un entramado sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:4041
+#: ../plugins/openoffice/openoffice-read.c:4288
 msgid "Duplicate default column style encountered."
 msgstr "Se encontró un estilo de columna predeterminado duplicado."
 
-#: ../plugins/openoffice/openoffice-read.c:4057
+#: ../plugins/openoffice/openoffice-read.c:4304
 msgid "Duplicate default row style encountered."
 msgstr "Se encontró un estilo de fila predeterminado duplicado."
 
 # ¿Será mejor "sin nombre" o "desconocido"?
-#: ../plugins/openoffice/openoffice-read.c:4467
+#: ../plugins/openoffice/openoffice-read.c:4714
 msgid "Unnamed date style ignored."
 msgstr "Se ignoró un estilo de fecha sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:4770
+#: ../plugins/openoffice/openoffice-read.c:5017
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Archivo corrupto: se ignoró un estilo de número sin nombre. "
 
-#: ../plugins/openoffice/openoffice-read.c:4806
-#: ../plugins/openoffice/openoffice-read.c:4833
-#: ../plugins/openoffice/openoffice-read.c:4861
-#: ../plugins/openoffice/openoffice-read.c:4902
-#: ../plugins/openoffice/openoffice-read.c:4928
-#: ../plugins/openoffice/openoffice-read.c:4956
+#: ../plugins/openoffice/openoffice-read.c:5053
+#: ../plugins/openoffice/openoffice-read.c:5080
+#: ../plugins/openoffice/openoffice-read.c:5108
+#: ../plugins/openoffice/openoffice-read.c:5149
+#: ../plugins/openoffice/openoffice-read.c:5175
+#: ../plugins/openoffice/openoffice-read.c:5203
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Este archivo parece corrupto, faltan los formatos requeridos."
 
-#: ../plugins/openoffice/openoffice-read.c:5022
+#: ../plugins/openoffice/openoffice-read.c:5269
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Papel del archivo ODF: %ipt⨉%ipt"
 
-#: ../plugins/openoffice/openoffice-read.c:5208
+#: ../plugins/openoffice/openoffice-read.c:5455
 msgid "Missing page layout identifier"
 msgstr "Falta el identificador del diseño de página"
 
-#: ../plugins/openoffice/openoffice-read.c:5238
+#: ../plugins/openoffice/openoffice-read.c:5485
 msgid "Master page style without page layout encountered!"
 msgstr "Se encontró un estilo de página maestra sin disposición de página."
 
-#: ../plugins/openoffice/openoffice-read.c:5249
+#: ../plugins/openoffice/openoffice-read.c:5496
 msgid "Master page style without name encountered!"
 msgstr "Se encontró un estilo de página maestra sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:5358
-#: ../plugins/openoffice/openoffice-write.c:4841
-#: ../plugins/openoffice/openoffice-write.c:4853 ../src/print-info.c:626
+#: ../plugins/openoffice/openoffice-read.c:5605
+#: ../plugins/openoffice/openoffice-write.c:4930
+#: ../plugins/openoffice/openoffice-write.c:4942 ../src/print-info.c:626
 msgid "tab"
 msgstr "pestaña"
 
-#: ../plugins/openoffice/openoffice-read.c:5388
-#: ../plugins/openoffice/openoffice-write.c:4844
-#: ../plugins/openoffice/openoffice-write.c:4856 ../src/print-info.c:629
+#: ../plugins/openoffice/openoffice-read.c:5635
+#: ../plugins/openoffice/openoffice-write.c:4933
+#: ../plugins/openoffice/openoffice-write.c:4945 ../src/print-info.c:629
 msgid "date"
 msgstr "fecha"
 
-#: ../plugins/openoffice/openoffice-read.c:5394
-#: ../plugins/openoffice/openoffice-write.c:4845
-#: ../plugins/openoffice/openoffice-write.c:4857 ../src/print-info.c:630
+#: ../plugins/openoffice/openoffice-read.c:5641
+#: ../plugins/openoffice/openoffice-write.c:4934
+#: ../plugins/openoffice/openoffice-write.c:4946 ../src/print-info.c:630
 msgid "time"
 msgstr "hora"
 
-#: ../plugins/openoffice/openoffice-read.c:5400
-#: ../plugins/openoffice/openoffice-write.c:4842
-#: ../plugins/openoffice/openoffice-write.c:4854 ../src/print-info.c:627
+#: ../plugins/openoffice/openoffice-read.c:5647
+#: ../plugins/openoffice/openoffice-write.c:4931
+#: ../plugins/openoffice/openoffice-write.c:4943 ../src/print-info.c:627
 msgid "page"
 msgstr "página"
 
-#: ../plugins/openoffice/openoffice-read.c:5406
-#: ../plugins/openoffice/openoffice-write.c:4843
-#: ../plugins/openoffice/openoffice-write.c:4855 ../src/print-info.c:628
+#: ../plugins/openoffice/openoffice-read.c:5653
+#: ../plugins/openoffice/openoffice-write.c:4932
+#: ../plugins/openoffice/openoffice-write.c:4944 ../src/print-info.c:628
 msgid "pages"
 msgstr "páginas"
 
-#: ../plugins/openoffice/openoffice-read.c:5431
-#: ../plugins/openoffice/openoffice-read.c:5438
-#: ../plugins/openoffice/openoffice-write.c:4847
-#: ../plugins/openoffice/openoffice-write.c:4859 ../src/print-info.c:632
+#: ../plugins/openoffice/openoffice-read.c:5678
+#: ../plugins/openoffice/openoffice-read.c:5685
+#: ../plugins/openoffice/openoffice-write.c:4936
+#: ../plugins/openoffice/openoffice-write.c:4948 ../src/print-info.c:632
 msgid "path"
 msgstr "ruta"
 
-#: ../plugins/openoffice/openoffice-read.c:5435
-#: ../plugins/openoffice/openoffice-read.c:5442
-#: ../plugins/openoffice/openoffice-write.c:4846
-#: ../plugins/openoffice/openoffice-write.c:4858 ../src/print-info.c:631
+#: ../plugins/openoffice/openoffice-read.c:5682
+#: ../plugins/openoffice/openoffice-read.c:5689
+#: ../plugins/openoffice/openoffice-write.c:4935
+#: ../plugins/openoffice/openoffice-write.c:4947 ../src/print-info.c:631
 #: ../src/ssconvert.c:90
 msgid "file"
 msgstr "archivo"
 
-#: ../plugins/openoffice/openoffice-read.c:5484
+#: ../plugins/openoffice/openoffice-read.c:5731
 msgid "title"
 msgstr "título"
 
-#: ../plugins/openoffice/openoffice-read.c:5515
+#: ../plugins/openoffice/openoffice-read.c:5762
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Se encontró un estilo de borde de Gnumeric «%s» desconocido."
 
-#: ../plugins/openoffice/openoffice-read.c:5783
+#: ../plugins/openoffice/openoffice-read.c:6030
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Tipo de salto «%s» desconocido, el predeterminado es NINGUNO"
 
-#: ../plugins/openoffice/openoffice-read.c:5861
+#: ../plugins/openoffice/openoffice-read.c:6107
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "No se puede analizar el color «%s» de la pestaña"
 
-#: ../plugins/openoffice/openoffice-read.c:5873
+#: ../plugins/openoffice/openoffice-read.c:6118
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "No se puede analizar el color «%s» del texto de la pestaña"
 
-#: ../plugins/openoffice/openoffice-read.c:6038
-#, c-format
-msgid "Unknown condition '%s' encountered, ignoring."
-msgstr "Se encontró la condición desconocida «%s», ignorando."
-
-#: ../plugins/openoffice/openoffice-read.c:6434
+#: ../plugins/openoffice/openoffice-read.c:6525
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1688,27 +1688,27 @@ msgstr ""
 "Se encontró un tipo de interpolación desconocido: «%s», en su lugar se usará "
 "una spline cúbica de Bezier."
 
-#: ../plugins/openoffice/openoffice-read.c:6443
+#: ../plugins/openoffice/openoffice-read.c:6534
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Se encontró un tipo de interpolación desconocido: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:6836
+#: ../plugins/openoffice/openoffice-read.c:6927
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "la expresión «%s» @ «%s» no es una referencia de celda"
 
-#: ../plugins/openoffice/openoffice-read.c:6853
+#: ../plugins/openoffice/openoffice-read.c:6944
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "La expresión «%s» tiene un espacio de nombres desconocido"
 
-#: ../plugins/openoffice/openoffice-read.c:6905
+#: ../plugins/openoffice/openoffice-read.c:6996
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Rango de BD «%s» no válido"
 
-#: ../plugins/openoffice/openoffice-read.c:7161
+#: ../plugins/openoffice/openoffice-read.c:7258
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
@@ -1717,13 +1717,13 @@ msgstr ""
 "Las líneas de objetos de la hoja de Gnumeric no soportan texto adjunto. El "
 "texto «%s» se ha soltado."
 
-#: ../plugins/openoffice/openoffice-read.c:7196
-#: ../plugins/openoffice/openoffice-read.c:7235
+#: ../plugins/openoffice/openoffice-read.c:7293
+#: ../plugins/openoffice/openoffice-read.c:7332
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr "Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:7201
+#: ../plugins/openoffice/openoffice-read.c:7298
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1732,19 +1732,19 @@ msgstr ""
 "Tipo de valor «%s» no válido anunciado por el atributo «form:value» en el "
 "elemento «form:value-range»."
 
-#: ../plugins/openoffice/openoffice-read.c:7698
+#: ../plugins/openoffice/openoffice-read.c:7795
 msgid "Unable to determine manual position for a chart component!"
 msgstr ""
 "No se puede determinar la posición del manual para un componente del cuadro."
 
-#: ../plugins/openoffice/openoffice-read.c:7882
+#: ../plugins/openoffice/openoffice-read.c:7979
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr ""
 "No hay datos suficientes en el rango proporcionado (%s) para todas las "
 "solicitudes"
 
-#: ../plugins/openoffice/openoffice-read.c:8414
+#: ../plugins/openoffice/openoffice-read.c:8511
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1752,47 +1752,47 @@ msgstr ""
 "Gnumeric no soporta ecuaciones con regresión no-automática. En su lugar, se "
 "usará una ecuación automática."
 
-#: ../plugins/openoffice/openoffice-read.c:8557
+#: ../plugins/openoffice/openoffice-read.c:8654
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr "Se encontraron líneas de caída en un argumento que no los soporta."
 
-#: ../plugins/openoffice/openoffice-read.c:8627
+#: ../plugins/openoffice/openoffice-read.c:8724
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr ""
 "Se encontró un tipo de gráfico desconocido, intentando crear una dibujo de "
 "líneas."
 
-#: ../plugins/openoffice/openoffice-read.c:9109
+#: ../plugins/openoffice/openoffice-read.c:9206
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "El atributo «%s» tiene el valor «%s» no soportado."
 
-#: ../plugins/openoffice/openoffice-read.c:11049
+#: ../plugins/openoffice/openoffice-read.c:11146
 msgid "Unknown mimetype for openoffice file."
 msgstr "Tipo mime desconocido para el archivo openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:11059
+#: ../plugins/openoffice/openoffice-read.c:11156
 msgid "No stream named content.xml found."
 msgstr "No se encontró ningún flujo llamado content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:11067
+#: ../plugins/openoffice/openoffice-read.c:11164
 msgid "No stream named styles.xml found."
 msgstr "No se encontró ningún flujo llamado styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:11196
+#: ../plugins/openoffice/openoffice-read.c:11293
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Metadatos no válidos «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:11265
+#: ../plugins/openoffice/openoffice-read.c:11362
 msgid "settings.xml stream is malformed!"
 msgstr "El flujo settings.xml está mal formado."
 
-#: ../plugins/openoffice/openoffice-write.c:7994
+#: ../plugins/openoffice/openoffice-write.c:8083
 msgid "Writing Sheets..."
 msgstr "Escribiendo hojas…"
 
-#: ../plugins/openoffice/openoffice-write.c:8023
+#: ../plugins/openoffice/openoffice-write.c:8112
 msgid "Writing Sheet Objects..."
 msgstr "Escribiendo objetos de hojas…"
 
@@ -2858,18 +2858,16 @@ msgstr ""
 "configuración de impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:89
-#, fuzzy
-#| msgid "Pearson Correlation"
 msgid "Paper orientation"
-msgstr "Correlación de Pearson"
+msgstr "Orientación del papel"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:90
 msgid ""
 "This is the default paper orientation. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
-"Esta es la orientación del papel predeterminada. Use el diálogo "
-"«Configuración de impresión» para editar este valor."
+"Esta es la orientación del papel predeterminada. Use el diálogo de "
+"configuración de impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:91
 msgid "Header/Footer Format (Left Portion)"
@@ -2877,7 +2875,7 @@ msgstr "Formato de cabecera/pie de página (Porción izquierda)"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:92
 msgid "Please use the Print Setup dialog to edit this value."
-msgstr "Use el diálogo «Configurar impresión» para editar este valor."
+msgstr "Use el diálogo de configuración de impresión para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:93
 msgid "Header/Footer Format (Middle Portion)"
@@ -2890,7 +2888,7 @@ msgstr "Formato de cabecera/pie de página (Porción derecha)"
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:95
 #: ../src/dialogs/dialog-preferences.c:1054
 msgid "Allow Unfocused Range Selections"
-msgstr "Permitir selecciones de rangos sin foco"
+msgstr "Permitir selecciones de rango sin foco"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:96
 msgid ""
@@ -2898,10 +2896,10 @@ msgid ""
 "in the workbook. Setting this variable to TRUE directs selections to this "
 "entry even if the entry does not have keyboard focus."
 msgstr ""
-"Algunos diálogos contienen un único campo de entrada que permite selecciones "
-"de rangos en el libro de cuentas. Definir esta variable a VERDADERO dirige "
-"las selecciones a esta entrada incluso cuando la entrada no tiene el foco "
-"del teclado."
+"Algunos diálogos contienen solo un único campo de entrada que permite "
+"selecciones de rangos en el libro de trabajo. Definir esta variable a "
+"VERDADERO dirige las selecciones a esta entrada incluso si la entrada no "
+"tiene el foco del teclado."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:97
 msgid "Text Export String Indicator"
@@ -2909,7 +2907,7 @@ msgstr "Indicador de cadena del exportador de texto"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:98
 msgid "Please use the Text Export dialog to edit this value."
-msgstr "Use el diálogo «Exportar texto» para editar este valor."
+msgstr "Use el diálogo de exportación de texto para editar este valor."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:99
 msgid "Text Export Field Separator"
@@ -2920,185 +2918,143 @@ msgid "Text Export Record Terminator"
 msgstr "Terminador de registro del exportador de texto"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:101
-#, fuzzy
-#| msgid "Search & Replace Ignores Case"
 msgid "Search &amp; Replace Ignores Case"
-msgstr "Buscar y reemplazar ignora capitalización"
+msgstr "Buscar y reemplazar ignora capitalización"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:102
-#, fuzzy
 msgid "Search &amp; Replace ignores case as default"
-msgstr "Buscar y Reemplazar Ignorar mayúsculas o minúsculas por defecto"
+msgstr "Buscar y reemplazar ignora la capitalización de manera predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:103
-#, fuzzy
-#| msgid "Search & Replace Preserves Case"
 msgid "Search &amp; Replace Preserves Case"
-msgstr "Buscar y reemplazar mantiene la capitalización"
+msgstr "Buscar y reemplazar mantiene la capitalización"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:104
-#, fuzzy
 msgid "Search &amp; Replace preserves case as default"
-msgstr "Buscar y Reemplazar conservar mayúsculas por defecto"
+msgstr ""
+"Buscar y reemplazar mantiene la capitalización de manera predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:105
-#, fuzzy
-#| msgid "Search & Replace Poses Query"
 msgid "Search &amp; Replace Poses Query"
-msgstr "Buscar y reemplazar realiza una pregunta"
+msgstr "Buscar reemplazar pregunta"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:106
-#, fuzzy
-#| msgid "Search & Replace poses query before each change as default"
 msgid "Search &amp; Replace poses query before each change as default"
 msgstr ""
-"Buscar y Reemplazar plantear una consulta antes de cada cambio por defecto"
+"Buscar y reemplazar pregunta antes de hacer cada cambio de manera "
+"predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:107
-#, fuzzy
-#| msgid "Search & Replace Whole Words Only"
 msgid "Search &amp; Replace Whole Words Only"
 msgstr "Buscar y reemplazar solo palabras completas"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:108
-#, fuzzy
 msgid "Search &amp; Replace replaces whole words only as default"
-msgstr "Buscar y Reemplazar reemplazar solo palabras completas por defecto"
+msgstr "Buscar y reemplazar solo palabras completas de manera predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:109
-#, fuzzy
-#| msgid "Search & Replace Scope"
 msgid "Search &amp; Replace Scope"
-msgstr "Ámbito de buscar y reemplazar"
+msgstr "Buscar y reemplazar ámbito"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:110
-#, fuzzy
-#| msgid ""
-#| "This is the default scope of Search & Replace. 0: entire workbook; 1: "
-#| "current sheet; 2: range"
 msgid ""
 "This is the default scope of Search &amp; Replace. 0: entire workbook; 1: "
 "current sheet; 2: range"
 msgstr ""
-"Este el el ámbito predeterminado de Buscar y reemplazar. 0: libro completo; "
-"1:hoja actual; 2:rango"
+"Este el el ámbito predeterminado de Buscar y reemplazar. 0: libro de trabajo "
+"completo; 1: hoja actual; 2: rango"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:111
-#, fuzzy
-#| msgid "Search & Replace Changes Strings"
 msgid "Search &amp; Replace Changes Strings"
-msgstr "Buscar y reemplazar cambia las cadenas"
+msgstr "Buscar y reemplazar cambia cadenas"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:112
-#, fuzzy
 msgid "Search &amp; Replace changes cells containing strings as default"
-msgstr "Buscar y Reemplazar Cambiar celdas que contengan texto por defecto"
+msgstr ""
+"Buscar y reemplazar cambia celdas que contienen cadenas de manera "
+"predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:113
-#, fuzzy
-#| msgid "Search & Replace Changes Expressions"
 msgid "Search &amp; Replace Changes Expressions"
-msgstr "Buscar y reemplazar cambia las expresiones"
+msgstr "Buscar y reemplazar cambia expresiones"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:114
-#, fuzzy
 msgid "Search &amp; Replace changes cells containing expressions as default"
 msgstr ""
-"Buscar y Reemplazar Cambiar celdas que contengan expresiones por defecto"
+"Buscar y reemplazar cambia celdas que contienen expresiones de manera "
+"predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:115
-#, fuzzy
-#| msgid "Search & Replace Changes Other Values"
 msgid "Search &amp; Replace Changes Other Values"
 msgstr "Buscar y reemplazar cambia otros valores"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:116
-#, fuzzy
 msgid "Search &amp; Replace changes cells containing other values as default"
 msgstr ""
-"Buscar y Reemplazar Cambiar celdas que contengan otros valores por defecto"
+"Buscar y reemplazar cambia celdas que contienen otros valores de manera "
+"predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:117
-#, fuzzy
-#| msgid "Search & Replace Changes Comments"
 msgid "Search &amp; Replace Changes Comments"
-msgstr "Buscar y reemplazar cambia los comentarios"
+msgstr "Buscar y reemplazar cambia comentarios"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:118
-#, fuzzy
 msgid "Search &amp; Replace changes comments as default"
-msgstr "Buscar y Reemplazar Cambiar comentarios por defecto"
+msgstr "Buscar y reemplazar cambia comentarios de manera predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:119
 msgid "Search searches in results"
-msgstr "La búsqueda busca en los resultados"
+msgstr "La búsqueda busca en los resultados"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:120
 msgid "Search searches in results as default"
-msgstr "La búsqueda busca en resultados de forma predeterminada"
+msgstr "Buscar busca en resultados de manera predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:121
-#, fuzzy
-#| msgid "Search & Replace Keeps Strings as Strings"
 msgid "Search &amp; Replace Keeps Strings as Strings"
 msgstr "Buscar y reemplazar mantiene las cadenas como cadenas"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:122
-#, fuzzy
 msgid ""
 "Search &amp; Replace keeps strings as strings even if they look like numbers "
 "as default"
 msgstr ""
-"Buscar y Reemplazar Conservar las cadenas como cadena incluso si se ven como "
-"números por defecto"
+"Buscar y reemplazar mantiene cadenas como cadenas incluso si parecen números "
+"de manera predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:123
-#, fuzzy
-#| msgid "Search & Replace Search Type"
 msgid "Search &amp; Replace Search Type"
-msgstr "Tipo de búsqueda de Buscar y reemplazar"
+msgstr "Tipo de búsqueda de Buscar y reemplazar"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:124
-#, fuzzy
-#| msgid ""
-#| "This value determines the input type for Search & Replace. 0: text; 1: "
-#| "regular expression; 2: number"
 msgid ""
 "This value determines the input type for Search &amp; Replace. 0: text; 1: "
 "regular expression; 2: number"
 msgstr ""
-"Este valor determina el tipo de entrada para Buscar y reemplazar. 0:texto; 1:"
-"expresión regular; 2: número"
+"Este valor determina el tipo de entrada para Buscar y reemplazar. 0: texto; "
+"1: expresión regular; 2: número"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:125
-#, fuzzy
-#| msgid "Search & Replace Error Behavior"
 msgid "Search &amp; Replace Column Major"
-msgstr "Comportamiento ante error de buscar y reemplazar"
+msgstr "Buscar y reemplazar la columna principal"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:126
-#, fuzzy
 msgid "Search &amp; Replace proceeds in column major order as default"
 msgstr ""
-"Buscar y Reemplazar procede en orden le las columnas principales por defecto"
+"Buscar y reemplazar procede en el orden de la columna principal de manera "
+"predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:127
-#, fuzzy
-#| msgid "Search & Replace Error Behavior"
 msgid "Search &amp; Replace Error Behavior"
-msgstr "Comportamiento ante error de buscar y reemplazar"
+msgstr "Comportamiento del error al Buscar y reemplazar "
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:128
-#, fuzzy
-#| msgid ""
-#| "This is the default error behavior of Search & Replace indicated by an "
-#| "integer from 0 to 4."
 msgid ""
 "This is the default error behavior of Search &amp; Replace indicated by an "
 "integer from 0 to 4."
 msgstr ""
-"Este es el comportamiento predeterminado de Buscar y reemplazar indicado por "
-"un número del 0 al 4."
+"Este es el comportamiento de error predeterminado de Buscar &amp; Reemplazar "
+"indicado por un número entero del 0 al 4."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:1
 msgid "Toolbar Style"
@@ -4406,10 +4362,9 @@ msgid "Reconfigure Graph"
 msgstr "Reconfigurar la gráfica"
 
 #: ../src/commands.c:6998
-#, fuzzy
 #| msgid "Resize Object"
 msgid "Reconfigure Object"
-msgstr "Redimensionar objeto"
+msgstr "Reconfigurar objeto"
 
 #: ../src/commands.c:7042
 msgid "Left to Right"
@@ -5793,16 +5748,14 @@ msgstr "(sin definir)"
 
 #. without any expression
 #: ../src/dialogs/dialog-cell-format-cond.c:536
-#, fuzzy
 #| msgid "Cell %s is not permitted to contain error values"
 msgid "Cell contains an error value."
-msgstr "No se permite que la celda %s contenga valores de error"
+msgstr "La celda contiene un valor de error."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:537
-#, fuzzy
 #| msgid "%s does not contain the new value."
 msgid "Cell does not contain an error value."
-msgstr "%s no contiene el valor nuevo."
+msgstr "La celda no contiene un valor de error."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:538
 msgid "Cell contains whitespace."
@@ -6895,12 +6848,12 @@ msgstr[0] "%d segundo"
 msgstr[1] "%d segundos"
 
 #: ../src/dialogs/dialog-quit.c:126
-#, fuzzy, c-format
+#, c-format
 #| msgid "_minutes"
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] "_minutos"
-msgstr[1] "_minutos"
+msgstr[0] "%d minuto"
+msgstr[1] "%d minutos"
 
 #: ../src/dialogs/dialog-quit.c:129
 #, fuzzy
@@ -7283,7 +7236,6 @@ msgstr "Dir"
 
 #. Translators: Table header for column with number of "Rows"
 #: ../src/dialogs/dialog-sheet-order.c:745
-#, fuzzy
 #| msgid "Rows"
 msgctxt "sheetlist"
 msgid "Rows"
@@ -7291,7 +7243,6 @@ msgstr "Filas"
 
 #. Translators: Table header for column with number of "Cols"
 #: ../src/dialogs/dialog-sheet-order.c:756
-#, fuzzy
 #| msgid "Cols"
 msgctxt "sheetlist"
 msgid "Cols"
@@ -7466,9 +7417,8 @@ msgid "Infeasible"
 msgstr "Factible"
 
 #: ../src/dialogs/dialog-solver.c:595
-#, fuzzy
 msgid "Unbounded"
-msgstr "Problema sin límites"
+msgstr "Sin límites"
 
 #: ../src/dialogs/dialog-solver.c:656
 #, fuzzy
@@ -7500,9 +7450,8 @@ msgid "Problem Status:"
 msgstr "Estado del problema:"
 
 #: ../src/dialogs/dialog-solver.c:694
-#, fuzzy
 msgid "Objective Value:"
-msgstr "Función objetivo:"
+msgstr "Valor objetivo:"
 
 #: ../src/dialogs/dialog-solver.c:695
 msgid "Elapsed Time:"
@@ -7825,7 +7774,6 @@ msgstr "Agrupado por:"
 #: ../src/dialogs/principal-components.ui.h:6 ../src/dialogs/rank.ui.h:6
 #: ../src/dialogs/sampling.ui.h:6 ../src/dialogs/sign-test.ui.h:5
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:6
-#, fuzzy
 #| msgid "_Columns"
 msgctxt "groupby"
 msgid "_Columns"
@@ -7841,7 +7789,6 @@ msgstr "Co_lumnas"
 #: ../src/dialogs/principal-components.ui.h:8 ../src/dialogs/rank.ui.h:8
 #: ../src/dialogs/sampling.ui.h:8 ../src/dialogs/sign-test.ui.h:7
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:8
-#, fuzzy
 #| msgid "_Rows"
 msgctxt "groupby"
 msgid "_Rows"
@@ -7941,9 +7888,8 @@ msgid "is greater than"
 msgstr "es mayor que"
 
 #: ../src/dialogs/autofilter-expression.ui.h:8
-#, fuzzy
 msgid "is greater than or equal to"
-msgstr "Mayor que o igual"
+msgstr "es mayor o igual que"
 
 #: ../src/dialogs/autofilter-expression.ui.h:9
 msgid "is less than"
@@ -8884,12 +8830,8 @@ msgid "Macintosh (carriage return)"
 msgstr "Macintosh (retorno de carro)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:3
-#, fuzzy
 msgid "Windows (carriage return + linefeed)"
-msgstr ""
-"Unix (línea nueva)\n"
-"Macintosh (retorno de carro)\n"
-"Windows (retorno de carro + línea nueva)"
+msgstr "Windows (retorno de carro + línea nueva)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:4
 msgid "Automatic (puts quotes where needed)"
@@ -11315,7 +11257,6 @@ msgstr "Redimensionar hoja"
 
 #. Number of 'Columns' in sheet
 #: ../src/dialogs/sheet-resize.ui.h:3 ../src/sheet.c:1018
-#, fuzzy
 #| msgid "Columns"
 msgctxt "sheetsize"
 msgid "Columns"
@@ -11323,7 +11264,6 @@ msgstr "Columnas"
 
 #. Number of 'Rows' in sheet
 #: ../src/dialogs/sheet-resize.ui.h:5 ../src/sheet.c:1025
-#, fuzzy
 #| msgid "Rows"
 msgctxt "sheetsize"
 msgid "Rows"
@@ -11353,7 +11293,6 @@ msgstr "Método de muestreo: "
 
 #. Shuffle metod: Columns
 #: ../src/dialogs/shuffle.ui.h:5
-#, fuzzy
 #| msgid "_Columns"
 msgctxt "shuffle"
 msgid "_Columns"
@@ -11361,7 +11300,6 @@ msgstr "Co_lumnas"
 
 #. Shuffle metod: Columns
 #: ../src/dialogs/shuffle.ui.h:7
-#, fuzzy
 #| msgid "_Rows"
 msgctxt "shuffle"
 msgid "_Rows"
@@ -11423,14 +11361,11 @@ msgid "Variables"
 msgstr "Variables"
 
 #: ../src/dialogs/simulation.ui.h:5
-#, fuzzy
 #| msgid ""
 #| "   \n"
 #| "   <span weight=\"bold\">Rounds</span>"
 msgid "<span weight=\"bold\">Rounds</span>"
-msgstr ""
-"   \n"
-"<span weight=\"bold\"> Rondas</span>"
+msgstr "<span weight=\"bold\"> Rondas</span>"
 
 #: ../src/dialogs/simulation.ui.h:6
 #, fuzzy
@@ -11886,8 +11821,8 @@ msgstr[1] "%d filas"
 #, c-format
 msgid "%d col"
 msgid_plural "%d cols"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d col"
+msgstr[1] "%d cols"
 
 #: ../src/format-template.c:730
 #, fuzzy, c-format
@@ -12207,10 +12142,9 @@ msgid "All Files"
 msgstr "Todos los archivos"
 
 #: ../src/gui-file.c:369
-#, fuzzy
 #| msgid "Files"
 msgid "Text Files"
-msgstr "Archivos"
+msgstr "Archivos de texto"
 
 #: ../src/gui-file.c:374 ../src/gui-file.c:542
 msgid "Spreadsheets"
@@ -12292,16 +12226,14 @@ msgid "Unable to open '%s'"
 msgstr "No ha sido posible abrir el archivo «%s»"
 
 #: ../src/item-bar.c:789
-#, fuzzy
 #| msgid "Fit Width"
 msgid "Width:"
-msgstr "Ajustar anchura"
+msgstr "Anchura:"
 
 #: ../src/item-bar.c:789
-#, fuzzy
 #| msgid "Row Height"
 msgid "Height"
-msgstr "Altura de la fila"
+msgstr "Altura"
 
 #. xgettext: This is input to ngettext based on the number of pixels.
 #: ../src/item-bar.c:794
@@ -12928,23 +12860,20 @@ msgid "Clear Co_ntents"
 msgstr "_Limpiar el contenido"
 
 #: ../src/sheet-control-gui.c:2143
-#, fuzzy
 msgid "Add _Co_mment"
-msgstr "Co_mentarios"
+msgstr "Añadir co_mentarios"
 
 #: ../src/sheet-control-gui.c:2145
 msgid "Edit Co_mment..."
 msgstr "E_ditar comentario…"
 
 #: ../src/sheet-control-gui.c:2147
-#, fuzzy
 msgid "_Remove Comments"
-msgstr "_Comentarios"
+msgstr "Quita_r comentarios"
 
 #: ../src/sheet-control-gui.c:2150
-#, fuzzy
 msgid "Add _Hyperlink"
-msgstr "Añadir hiperenlace"
+msgstr "Añadir _hiperenlace"
 
 #: ../src/sheet-control-gui.c:2153
 msgid "Edit _Hyperlink"
@@ -13026,7 +12955,6 @@ msgstr "_Mostrar"
 
 #. start sub menu
 #: ../src/sheet-control-gui.c:2212
-#, fuzzy
 msgid "Hei_ght..."
 msgstr "A_ltura…"
 
@@ -13234,7 +13162,6 @@ msgstr "Series en:"
 
 #. Translators: Series as "Columns"
 #: ../src/sheet-object-graph.c:750
-#, fuzzy
 #| msgid "Columns"
 msgctxt "graph"
 msgid "Columns"
@@ -13242,7 +13169,6 @@ msgstr "Columnas"
 
 #. Translators: Series as "Rows"
 #: ../src/sheet-object-graph.c:752
-#, fuzzy
 #| msgid "Rows"
 msgctxt "graph"
 msgid "Rows"
@@ -14824,9 +14750,8 @@ msgid "Inverse Fourier Transform"
 msgstr "Transformada inversa de Fourier"
 
 #: ../src/tools/analysis-tools.c:4561
-#, fuzzy
 msgid "Fourier Transform"
-msgstr "Series de Fourier"
+msgstr "Transformación de Fourier"
 
 #: ../src/tools/analysis-tools.c:4569
 #, fuzzy
@@ -15512,10 +15437,9 @@ msgid "_Cells"
 msgstr "_Celdas"
 
 #: ../src/wbc-gtk-actions.c:1994
-#, fuzzy
 #| msgid "Text"
 msgid "_Text"
-msgstr "Texto"
+msgstr "_Texto"
 
 #: ../src/wbc-gtk-actions.c:1995 ../src/wbc-gtk-actions.c:2905
 msgid "_Underline"
@@ -15539,9 +15463,8 @@ msgid "Sce_narios"
 msgstr "_Escenarios"
 
 #: ../src/wbc-gtk-actions.c:2001
-#, fuzzy
 msgid "_Statistics"
-msgstr "Estadísticas"
+msgstr "E_stadísticas"
 
 #: ../src/wbc-gtk-actions.c:2002
 #, fuzzy
@@ -15843,9 +15766,8 @@ msgstr "Cambiando propiedades de la hoja"
 
 #. File
 #: ../src/wbc-gtk-actions.c:2143
-#, fuzzy
 msgid "Document Proper_ties..."
-msgstr "P_ropiedades…"
+msgstr "P_ropiedades dle documento…"
 
 #: ../src/wbc-gtk-actions.c:2144
 #, fuzzy
@@ -16243,9 +16165,8 @@ msgid "Insert an image"
 msgstr "Insertar una imagen"
 
 #: ../src/wbc-gtk-actions.c:2344
-#, fuzzy
 msgid "Insert a comment"
-msgstr "Insertar columnas"
+msgstr "Insertar un comentario"
 
 #: ../src/wbc-gtk-actions.c:2347
 msgid "Insert a Hyperlink"
@@ -17545,10 +17466,9 @@ msgid " - Gnumeric"
 msgstr " : Gnumeric"
 
 #: ../src/wbc-gtk.c:1392
-#, fuzzy
 #| msgid "Invalid marker"
 msgid "Invalid format"
-msgstr "Marcador no válido"
+msgstr "Formato no válido"
 
 #: ../src/wbc-gtk.c:1490
 msgid "Remove the page break to the left of the current column"
@@ -17848,10 +17768,10 @@ msgid "Show/Hide toolbar %s"
 msgstr "Mostrar/ocultar barra de herramientas %s"
 
 #: ../src/wbc-gtk.c:4675
-#, fuzzy, c-format
+#, c-format
 #| msgid "Comment in cell %s!%s"
 msgid "Content of %s"
-msgstr "Comentario en la celda %s!%s"
+msgstr "Contenido de %s"
 
 #: ../src/wbc-gtk.c:4690
 msgid "Use maximum precision"
@@ -17933,22 +17853,21 @@ msgstr ""
 #. xgettext: the first %s is a function name and
 #. the second %s the function description
 #: ../src/widgets/gnumeric-expr-entry.c:967
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s : \t%s\n"
 msgid "\t%s \t%s\n"
-msgstr "%s : \t%s\n"
+msgstr "\t%s \t%s\n"
 
 #. xgettext: the first %s is a function name and
 #. the second %s the function description
 #: ../src/widgets/gnumeric-expr-entry.c:972
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s : \t%s\n"
 msgid "✓\t%s \t%s\n"
-msgstr "%s : \t%s\n"
+msgstr "✓\t%s \t%s\n"
 
 #. xgettext: short form for: "type F4-key to complete the name"
 #: ../src/widgets/gnumeric-expr-entry.c:985
-#, fuzzy
 #| msgid ""
 #| "\n"
 #| "<i>F4 to complete</i>"
@@ -17957,11 +17876,10 @@ msgid ""
 "\t<i>F4 to complete</i>"
 msgstr ""
 "\n"
-"<i>F4 para completar</i>"
+"\t<i>F4 para completar</i>"
 
 #. xgettext: short form for: "type shift-F4-keys to select the completion"
 #: ../src/widgets/gnumeric-expr-entry.c:988
-#, fuzzy
 #| msgid ""
 #| "\n"
 #| "<i>⇧F4 to select</i>"
@@ -17970,7 +17888,7 @@ msgid ""
 "\t<i>⇧F4 to select</i>"
 msgstr ""
 "\n"
-"<i>⇧F4 para seleccionar</i>"
+"\t<i>⇧F4 para seleccionar</i>"
 
 #: ../src/widgets/gnumeric-expr-entry.c:1715
 msgid "Update policy"
@@ -18022,13 +17940,11 @@ msgid "Expecting a single range"
 msgstr "Se espera un rango simple"
 
 #: ../src/widgets/gnumeric-text-view.c:282
-#, fuzzy
 #| msgid "Single"
 msgid "Single"
 msgstr "Simple"
 
 #: ../src/widgets/gnumeric-text-view.c:283
-#, fuzzy
 #| msgctxt "underline"
 #| msgid "Double"
 msgid "Double"
