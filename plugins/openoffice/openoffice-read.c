@@ -3796,19 +3796,17 @@ oo_add_text_to_cell (OOParseState *state, char const *str, PangoAttrList *attrs)
 		return;
 
 	if (VALUE_IS_STRING (state->curr_cell->value)) {
+		GOFormat *fmt = state->curr_cell->value->v_str.fmt;
 		start = strlen (state->curr_cell->value->v_str.val->str);
-		if (*str != 0) {
-			GOFormat *fmt = state->curr_cell->value->v_str.fmt;
-			if (fmt != NULL)
-				go_format_ref (fmt);
-			v = value_new_string_str
-				(go_string_new_nocopy
-				 (g_strconcat (state->curr_cell->value->v_str.val->str,
-					       str, NULL)));
-			if (fmt != NULL) {
-				value_set_fmt (v, fmt);
-				go_format_unref (fmt);
-			}
+		if (fmt != NULL)
+			go_format_ref (fmt);
+		v = value_new_string_str
+			(go_string_new_nocopy
+			 (g_strconcat (state->curr_cell->value->v_str.val->str,
+				       str, NULL)));
+		if (fmt != NULL) {
+			value_set_fmt (v, fmt);
+			go_format_unref (fmt);
 		}
 	} else
 		v = value_new_string (str);

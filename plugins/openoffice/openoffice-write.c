@@ -3289,15 +3289,13 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			char *rendered_string = gnm_cell_get_rendered_text (cell);
 			gboolean white_written = TRUE;
 
-			if (*rendered_string != '\0' || link != NULL) {
-				gsf_xml_out_start_element (state->xml, TEXT "p");
-				odf_write_link_start (state, link);
-				if (*rendered_string != '\0')
-					odf_add_chars (state, rendered_string, strlen (rendered_string),
-						       &white_written);
-				odf_write_link_end (state, link);
-				gsf_xml_out_end_element (state->xml);   /* p */
-			}
+			gsf_xml_out_start_element (state->xml, TEXT "p");
+			odf_write_link_start (state, link);
+			if (*rendered_string != '\0')
+				odf_add_chars (state, rendered_string, strlen (rendered_string),
+					       &white_written);
+			odf_write_link_end (state, link);
+			gsf_xml_out_end_element (state->xml);   /* p */
 			g_free (rendered_string);
 		} else {
 			GString *str = g_string_new (NULL);
