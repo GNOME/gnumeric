@@ -3562,7 +3562,8 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 
 			objects = odf_sheet_objects_get (sheet, &pos);
 
-			if ((merge_range == NULL) && (objects == NULL) &&
+			if ((!(current_cell && gnm_cell_has_expr(current_cell))) && 
+			    (merge_range == NULL) && (objects == NULL) &&
 			    gnm_cell_is_empty (current_cell) &&
 			    NULL == gnm_style_get_hlink
 			    ((this_style = sheet_style_get (sheet, pos.col, pos.row)))) {
