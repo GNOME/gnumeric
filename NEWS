@@ -17,6 +17,7 @@ Andreas:
 	* Fix crash on ODF import of messagefree validations.
 	* Improve ODF import/export of style conditions. [#676289, #676441]
 	* Fix object placement in ODF import. [#676339]
+	* Fix space handling on ODF import. [Part of #676535]
 
 Jean:
 	* Fix graph series headers when a multiple selection is used. [#675913]

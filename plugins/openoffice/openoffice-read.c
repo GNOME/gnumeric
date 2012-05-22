@@ -1701,7 +1701,7 @@ odf_text_special (GsfXMLIn *xin, int count, char const *sym)
 static void
 odf_text_space (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	int count = 0;
+	int count = 1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_int_range (xin, attrs, OO_NS_TEXT, "c", &count, 0, INT_MAX))

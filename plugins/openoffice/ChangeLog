@@ -1,4 +1,8 @@
-2012-05-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2012-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_text_space): default is 1.
+
+2012-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_cell_content_end): check for NULL GString
 
