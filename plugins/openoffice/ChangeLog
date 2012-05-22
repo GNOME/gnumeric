@@ -1,5 +1,11 @@
 2012-05-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_determine_base): initialize pp even if we
+	raise a warning
+	(odf_save_style_map): make sure pp is initialized.
+
+2012-05-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_determine_base): use a range that has this style,
 	add argument and change all callers
 	(odf_save_style_map): add range argument, change all callers

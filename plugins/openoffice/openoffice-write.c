@@ -1496,8 +1496,10 @@ odf_determine_base (GnmOOExport *state, GnmRange *r, GnmParsePos *pp)
 {
 	if (r)
 		parse_pos_init (pp, (Workbook *) state->wb, state->sheet, r->start.col, r->start.row);
-	else
+	else {
 		g_warning ("Unable to determine an appropriate base cell address.");
+		parse_pos_init (pp, (Workbook *) state->wb, state->sheet, 0, 0);
+	}
 }
 
 static void
@@ -1556,9 +1558,11 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond, GnmRange *r)
 		odf_save_style_map_single_f (state, str, cond->texpr[0], &pp);
 		break;
 	case GNM_STYLE_COND_CONTAINS_ERR:
+		parse_pos_init (&pp, (Workbook *) state->wb, state->sheet, 0, 0);
 		g_string_append (str, "of:is-true-formula(ISERROR([.A1]))");
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_ERR:
+		parse_pos_init (&pp, (Workbook *) state->wb, state->sheet, 0, 0);
 		g_string_append (str, "of:is-true-formula(NOT(ISERROR([.A1])))");
 		break;
 	case GNM_STYLE_COND_CONTAINS_STR:
@@ -1577,7 +1581,6 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond, GnmRange *r)
 		break;
 	case GNM_STYLE_COND_BEGINS_WITH_STR:
 		odf_determine_base (state, r, &pp);
-
 		g_string_append (str, "of:is-true-formula(IFERROR(FIND(");
 		odf_save_style_map_single_f (state, str, cond->texpr[0], &pp);
 		g_string_append_printf (str, ";[.%s%s]);2)=1)", 
@@ -1609,9 +1612,11 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond, GnmRange *r)
 		g_string_append (str, "))))");
 		break;
 	case GNM_STYLE_COND_CONTAINS_BLANKS:
+		parse_pos_init (&pp, (Workbook *) state->wb, state->sheet, 0, 0);
 		g_string_append (str, "of:is-true-formula(NOT(ISERROR(FIND(\" \";[.A1]))))");
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
+		parse_pos_init (&pp, (Workbook *) state->wb, state->sheet, 0, 0);
 		g_string_append (str, "of:is-true-formula(ISERROR(FIND(\" \";[.A1])))");
 		break;
 	case GNM_STYLE_COND_CUSTOM:
@@ -1631,7 +1636,7 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond, GnmRange *r)
 	gsf_xml_out_add_cstr (state->xml, STYLE "condition", str->str);
 
 	/* ODF 1.2 requires a sheet name for the base-cell-address */
-	/* This is really only needed if we included a formula      */
+	/* This is really only needed if we include a formula      */
 	gnm_cellref_init (&ref, (Sheet *)state->sheet,
 			  pp.eval.col, pp.eval.row, FALSE);
 	texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
