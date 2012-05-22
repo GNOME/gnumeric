@@ -940,10 +940,8 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 	guint8 buf[14], type, op;
 	guint32 flags = 0x38C3FF;	/* these are always true */
 	unsigned i, expr0_len, expr1_len, header_pos;
-	GArray const *details = gnm_style_conditions_details (sc);
+	GPtrArray const *details = gnm_style_conditions_details (sc);
 	unsigned det_len = details ? details->len : 0;
-	GnmStyleCond const *cond;
-	GnmStyle const *s;
 
 	/* The parent record */
 	ms_biff_put_var_next (bp, BIFF_CONDFMT);
@@ -962,8 +960,8 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 
 	/* The individual conditions */
 	for (i = 0 ; i < det_len ; i++) {
-		cond = &g_array_index (details, GnmStyleCond, i);
-		s = cond->overlay;
+		GnmStyleCond const *cond = g_ptr_array_index (details, i);
+		GnmStyle const *s = cond->overlay;
 
 		ms_biff_put_var_next (bp, BIFF_CF);
 		header_pos = bp->curpos;
@@ -1497,8 +1495,7 @@ excel_write_prep_conditions (ExcelWriteSheet *esheet)
 {
 	GnmStyleList *ptr = esheet->conditions;
 	GnmStyleRegion const *sr;
-	GnmStyleCond const *cond;
-	GArray const *conds;
+	GPtrArray const *conds;
 	unsigned i;
 
 	for (; ptr != NULL ; ptr = ptr->next) {
@@ -1509,7 +1506,7 @@ excel_write_prep_conditions (ExcelWriteSheet *esheet)
 		conds = gnm_style_conditions_details (
 			gnm_style_get_conditions (sr->style));
 		for (i = 0 ; i < (conds ? conds->len : 0) ; i++) {
-			cond = &g_array_index (conds, GnmStyleCond, i);
+			GnmStyleCond const *cond = g_ptr_array_index (conds, i);
 			if (cond->texpr[0] != NULL)
 				excel_write_prep_expr (esheet->ewb, cond->texpr[0]);
 			if (cond->texpr[1] != NULL)
@@ -1813,10 +1810,11 @@ put_colors (ExcelStyleVariant const *esv, gpointer dummy, XLExportBase *ewb)
 	}
 	if (gnm_style_is_element_set (st, MSTYLE_CONDITIONS) &&
 	    NULL != gnm_style_get_conditions (st)) {
-		GArray const *conds = gnm_style_conditions_details (
+		GPtrArray const *conds = gnm_style_conditions_details (
 			gnm_style_get_conditions (st));
 		for (i = 0 ; i < (conds ? conds->len : 0) ; i++) {
-			st = g_array_index (conds, GnmStyleCond, i).overlay;
+			GnmStyleCond const *cond = g_ptr_array_index (conds, i);
+			st = cond->overlay;
 			if (gnm_style_is_element_set (st, MSTYLE_FONT_COLOR))
 				put_color_gnm (ewb, gnm_style_get_font_color (st));
 			if (gnm_style_is_element_set (st, MSTYLE_COLOR_BACK))

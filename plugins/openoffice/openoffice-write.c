@@ -1656,7 +1656,7 @@ static void
 odf_write_style (GnmOOExport *state, GnmStyle const *style, GnmRange *r, gboolean is_default)
 {
 	GnmStyleConditions const *sc;
-	GArray const *conds;
+	GPtrArray const *conds;
 	guint i;
 
 	if ((!is_default) && gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
@@ -1671,9 +1671,12 @@ odf_write_style (GnmOOExport *state, GnmStyle const *style, GnmRange *r, gboolea
 
 	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
 	    NULL != (sc = gnm_style_get_conditions (style)) &&
-	    NULL != (conds = gnm_style_conditions_details (sc)))
-		for (i = 0 ; i < conds->len ; i++)
-			odf_save_style_map (state, &g_array_index (conds, GnmStyleCond, i), r);
+	    NULL != (conds = gnm_style_conditions_details (sc))) {
+		for (i = 0 ; i < conds->len ; i++) {
+			GnmStyleCond const *cond = g_ptr_array_index (conds, i);
+			odf_save_style_map (state, cond, r);
+		}
+	}
 
 /* MSTYLE_VALIDATION validations need to be written at a different place and time in ODF  */
 /* MSTYLE_HLINK hyperlinks can not be attached to styles but need to be attached to the cell content */
@@ -1793,12 +1796,12 @@ odf_store_this_named_style (GnmStyle *style, char const *name, GnmRange *r, GnmO
 
 	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
 	    NULL != (sc = gnm_style_get_conditions (style))) {
-		GArray const *conds = gnm_style_conditions_details (sc);
+		GPtrArray const *conds = gnm_style_conditions_details (sc);
 		if (conds != NULL) {
 			guint i;
 			for (i = 0 ; i < conds->len ; i++) {
-				GnmStyleCond const *cond;
-				cond = &g_array_index (conds, GnmStyleCond, i);
+				GnmStyleCond const *cond =
+					g_ptr_array_index (conds, i);
 				odf_store_this_named_style (cond->overlay, NULL, r, state);
 			}
 		}
@@ -1819,12 +1822,12 @@ odf_save_this_style (G_GNUC_UNUSED gconstpointer dummy, GnmStyleRegion *sr, GnmO
 
 	if (gnm_style_is_element_set (sr->style, MSTYLE_CONDITIONS) &&
 	    NULL != (sc = gnm_style_get_conditions (sr->style))) {
-		GArray const *conds = gnm_style_conditions_details (sc);
+		GPtrArray const *conds = gnm_style_conditions_details (sc);
 		if (conds != NULL) {
 			guint i;
 			for (i = 0 ; i < conds->len ; i++) {
-				GnmStyleCond const *cond;
-				cond = &g_array_index (conds, GnmStyleCond, i);
+				GnmStyleCond const *cond =
+					g_ptr_array_index (conds, i);
 				odf_store_this_named_style (cond->overlay, NULL, &sr->range, state);
 			}
 		}

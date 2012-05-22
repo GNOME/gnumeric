@@ -42,9 +42,18 @@ typedef struct {
 	GnmStyleCondOp	  op;
 } GnmStyleCond;
 
+GnmStyleCond *gnm_style_cond_new (GnmStyleCondOp op,
+				  GnmStyle *overlay);
+void gnm_style_cond_free (GnmStyleCond *cond);
+GnmStyleCond *gnm_style_cond_dup (GnmStyleCond const *src);
+gboolean      gnm_style_cond_is_valid (GnmStyleCond const *cond);
+void          gnm_style_cond_set_expr (GnmStyleCond *cond,
+				       GnmExprTop const *texpr,
+				       unsigned idx);
+
 GnmStyleConditions *gnm_style_conditions_new  (void);
 GnmStyleConditions *gnm_style_conditions_dup  (GnmStyleConditions const *cond);
-GArray const *gnm_style_conditions_details (GnmStyleConditions const *sc);
+GPtrArray const *gnm_style_conditions_details (GnmStyleConditions const *sc);
 void	      gnm_style_conditions_insert  (GnmStyleConditions *sc,
 					    GnmStyleCond const *cond,
 					    int pos);
@@ -54,8 +63,6 @@ GPtrArray    *gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 					    GnmStyle const *base);
 int	      gnm_style_conditions_eval    (GnmStyleConditions const *sc,
 					    GnmEvalPos const *pos);
-
-gboolean      gnm_style_cond_is_valid (GnmStyleCond const *cond);
 
 G_END_DECLS
 

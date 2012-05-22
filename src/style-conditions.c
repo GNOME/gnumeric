@@ -39,7 +39,7 @@
 typedef GObjectClass GnmStyleConditionsClass;
 struct _GnmStyleConditions {
 	GObject base;
-	GArray *conditions;
+	GPtrArray *conditions;
 };
 
 static GObjectClass *parent_class;
@@ -68,16 +68,58 @@ gnm_style_cond_is_valid (GnmStyleCond const *cond)
 	return TRUE;
 }
 
-static void
-cond_unref (GnmStyleCond const *cond)
+GnmStyleCond *
+gnm_style_cond_new (GnmStyleCondOp op, GnmStyle *overlay)
 {
+	GnmStyleCond *res = g_new0 (GnmStyleCond, 1);
+	res->op = op;
+	gnm_style_ref ((res->overlay = overlay));
+	return res;
+}
+
+GnmStyleCond *
+gnm_style_cond_dup (GnmStyleCond const *src)
+{
+	GnmStyleCond *dst;
+	unsigned ui;
+
+	g_return_val_if_fail (src != NULL, NULL);
+
+	dst = gnm_style_cond_new (src->op, src->overlay);
+	for (ui = 0; ui < 2; ui++)
+		gnm_style_cond_set_expr (dst, src->texpr[ui], ui);
+
+	return dst;
+}
+
+void
+gnm_style_cond_free (GnmStyleCond *cond)
+{
+	unsigned ui;
+
+	g_return_if_fail (cond != NULL);
+
 	/* Be very delicate, this is called for invalid conditions too */
 	if (cond->overlay)
 		gnm_style_unref (cond->overlay);
-	if (cond->texpr[0])
-		gnm_expr_top_unref (cond->texpr[0]);
-	if (cond->texpr[1])
-		gnm_expr_top_unref (cond->texpr[1]);
+	for (ui = 0; ui < 2; ui++)
+		if (cond->texpr[ui])
+			gnm_expr_top_unref (cond->texpr[ui]);
+
+	g_free (cond);
+}
+
+void
+gnm_style_cond_set_expr (GnmStyleCond *cond,
+			 GnmExprTop const *texpr,
+			 unsigned idx)
+{
+	g_return_if_fail (cond != NULL);
+	g_return_if_fail (idx < G_N_ELEMENTS (cond->texpr));
+
+	if (texpr) gnm_expr_top_ref (texpr);
+	if (cond->texpr[idx]) gnm_expr_top_unref (cond->texpr[idx]);
+	cond->texpr[idx] = texpr;
 }
 
 static void
@@ -85,15 +127,11 @@ gnm_style_conditions_finalize (GObject *obj)
 {
 	GnmStyleConditions *sc = (GnmStyleConditions *)obj;
 
-	if (sc->conditions != NULL) {
-		int i = sc->conditions->len;
-		while (i-- > 0)
-			cond_unref (&g_array_index (sc->conditions, GnmStyleCond, i));
-		g_array_free (sc->conditions, TRUE);
-		sc->conditions = NULL;
-	}
+	while (sc->conditions)
+		gnm_style_conditions_delete (sc, sc->conditions->len - 1);
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
+
 static void
 gnm_style_conditions_init (GnmStyleConditions *sc)
 {
@@ -126,26 +164,19 @@ gnm_style_conditions_new (void)
 GnmStyleConditions *
 gnm_style_conditions_dup  (GnmStyleConditions const *cond)
 {
-	GnmStyleConditions  *dup;
-	GArray const *ga;
+	GnmStyleConditions *dup;
+	GPtrArray const *ga;
 	if (cond == NULL)
 		return NULL;
 
-	dup =  gnm_style_conditions_new ();
+	dup = gnm_style_conditions_new ();
 	ga = gnm_style_conditions_details (cond);
 	if (ga != NULL) {
 		guint i;
-		GArray *ga_dup = g_array_sized_new (FALSE, FALSE, sizeof (GnmStyleCond),
-						    ga->len);
+		GPtrArray *ga_dup = g_ptr_array_sized_new (ga->len);
 		for (i = 0; i < ga->len; i++) {
-			GnmStyleCond gsc = g_array_index(ga, GnmStyleCond, i);
-
-			gnm_style_ref (gsc.overlay);
-			if (gsc.texpr[0])
-				gnm_expr_top_ref (gsc.texpr[0]);
-			if (gsc.texpr[1])
-				gnm_expr_top_ref (gsc.texpr[1]);
-			g_array_append_val (ga_dup, gsc);
+			GnmStyleCond *cond = g_ptr_array_index (ga, i);
+			g_ptr_array_add (ga_dup, gnm_style_cond_dup (cond));
 		}
 		dup->conditions = ga_dup;
 	}
@@ -159,7 +190,7 @@ gnm_style_conditions_dup  (GnmStyleConditions const *cond)
  *
  * Returns an array of GnmStyleCond which should not be modified.
  **/
-GArray const	*
+GPtrArray const *
 gnm_style_conditions_details (GnmStyleConditions const *sc)
 {
 	g_return_val_if_fail (sc != NULL, NULL);
@@ -177,22 +208,32 @@ gnm_style_conditions_details (GnmStyleConditions const *sc)
  **/
 void
 gnm_style_conditions_insert (GnmStyleConditions *sc,
-			     GnmStyleCond const *cond, int pos)
+			     GnmStyleCond const *cond_, int pos)
 {
-	g_return_if_fail (cond != NULL);
+	GnmStyleCond *cond;
 
+	g_return_if_fail (cond_ != NULL);
+
+	cond = g_memdup (cond_, sizeof (*cond_));
 	if (sc == NULL || !gnm_style_cond_is_valid (cond)) {
-		cond_unref (cond); /* be careful not to leak */
+		gnm_style_cond_free (cond); /* be careful not to leak */
 		return;
 	}
 
 	if (sc->conditions == NULL)
-		sc->conditions = g_array_new (FALSE, FALSE, sizeof (GnmStyleCond));
+		sc->conditions = g_ptr_array_new ();
 
-	if (pos < 0)
-		g_array_append_val (sc->conditions, *cond);
-	else
-		g_array_insert_val (sc->conditions, pos, *cond);
+	g_ptr_array_add (sc->conditions, cond);
+	if (pos >= 0) {
+		int i;
+
+		for (i = sc->conditions->len - 1;
+		     i > pos;
+		     i--)
+			g_ptr_array_index (sc->conditions, i) =
+				g_ptr_array_index (sc->conditions, i - 1);
+		g_ptr_array_index (sc->conditions, pos) = cond;
+	}
 }
 
 void
@@ -203,8 +244,12 @@ gnm_style_conditions_delete  (GnmStyleConditions *sc,
 	g_return_if_fail (sc->conditions != NULL);
 	g_return_if_fail (sc->conditions->len > pos);
 
-	cond_unref (&g_array_index (sc->conditions, GnmStyleCond, pos));
-	g_array_remove_index (sc->conditions, pos);
+	gnm_style_cond_free (g_ptr_array_index (sc->conditions, pos));
+	if (sc->conditions->len <= 1) {
+		g_ptr_array_free (sc->conditions, TRUE);
+		sc->conditions = NULL;
+	} else
+		g_ptr_array_remove_index (sc->conditions, pos);
 }
 
 
@@ -213,8 +258,6 @@ gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 			      GnmStyle const *base)
 {
 	GPtrArray *res;
-	GnmStyle const *overlay;
-	GnmStyle *merge;
 	unsigned i;
 
 	g_return_val_if_fail (sc != NULL, NULL);
@@ -222,8 +265,10 @@ gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 
 	res = g_ptr_array_sized_new (sc->conditions->len);
 	for (i = 0 ; i < sc->conditions->len; i++) {
-		overlay = g_array_index (sc->conditions, GnmStyleCond, i).overlay;
-		merge = gnm_style_new_merged (base, overlay);
+		GnmStyleCond const *cond =
+			g_ptr_array_index (sc->conditions, i);
+		GnmStyle const *overlay = cond->overlay;
+		GnmStyle *merge = gnm_style_new_merged (base, overlay);
 		/* We only draw a background colour is the pattern != 0 */
 		if (merge->pattern == 0 &&
 		     elem_is_set (overlay, MSTYLE_COLOR_BACK) &&
@@ -247,8 +292,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 	unsigned i;
 	gboolean use_this = FALSE;
 	GnmValue *val = NULL;
-	GArray const *conds;
-	GnmStyleCond const *cond;
+	GPtrArray const *conds;
 	GnmParsePos pp;
 	GnmCell const *cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
 	GnmValue const *cv = cell ? cell->value : NULL;
@@ -260,7 +304,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 	conds = sc->conditions;
 	parse_pos_init_evalpos (&pp, ep);
 	for (i = 0 ; i < conds->len ; i++) {
-		cond = &g_array_index (conds, GnmStyleCond, i);
+		GnmStyleCond const *cond = g_ptr_array_index (conds, i);
 
 		if (cond->op == GNM_STYLE_COND_CONTAINS_ERR)
 			use_this = (cv != NULL) && VALUE_IS_ERROR (cv);

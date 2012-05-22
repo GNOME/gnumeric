@@ -453,7 +453,6 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 	GnmHLink   const *link;
 	GnmInputMsg const *im;
 	GnmStyleConditions const *sc;
-	GnmStyleCond const *cond;
 	GnmStyleBorderType t;
 	unsigned i;
 	gboolean started;
@@ -605,14 +604,15 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 
 	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
 	    NULL != (sc = gnm_style_get_conditions (style))) {
-		GArray const *conds = gnm_style_conditions_details (sc);
+		GPtrArray const *conds = gnm_style_conditions_details (sc);
 		if (conds != NULL) {
 			char *tmp;
 			GnmParsePos pp;
 			parse_pos_init_sheet (&pp, (Sheet *)state->sheet);
 
 			for (i = 0 ; i < conds->len ; i++) {
-				cond = &g_array_index (conds, GnmStyleCond, i);
+				GnmStyleCond const *cond =
+					g_ptr_array_index (conds, i);
 				gsf_xml_out_start_element (state->output, GNM "Condition");
 				gsf_xml_out_add_int (state->output, "Operator", cond->op);
 				if (cond->texpr[0] != NULL &&

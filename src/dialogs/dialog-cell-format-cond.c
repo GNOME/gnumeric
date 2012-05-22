@@ -418,10 +418,10 @@ cb_c_fmt_dialog_copy_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *state)
 		GtkTreePath *path = gtk_tree_model_get_path
 			(GTK_TREE_MODEL (state->model), &iter);
 		gint *pind = gtk_tree_path_get_indices (path);
-		GArray const *conds = gnm_style_conditions_details (sc);
+		GPtrArray const *conds = gnm_style_conditions_details (sc);
 		if (pind && conds) {
 			gint ind = *pind;
-			GnmStyleCond *gsc = &g_array_index (conds, GnmStyleCond, ind);
+			GnmStyleCond *gsc = g_ptr_array_index (conds, ind);
 			GtkTreeIter iter;
 			GnmParsePos pp;
 			GnmStyle   *style;
@@ -809,7 +809,7 @@ c_fmt_dialog_conditions_page_load_cond_double_f (CFormatState *state,
 
 static void
 c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const *cond,
-				      GtkTreeIter *iter)
+					GtkTreeIter *iter)
 {
 	GtkTreeIter iter1;
 
@@ -975,7 +975,7 @@ static void
 c_fmt_dialog_conditions_page_load_conditions (GnmStyle *style, char const *range, CFormatState *state)
 {
 	GnmStyleConditions const *sc;
-	GArray const *conds;
+	GPtrArray const *conds;
 	guint i;
 	GtkTreeIter iter1, *iter;
 
@@ -993,9 +993,7 @@ c_fmt_dialog_conditions_page_load_conditions (GnmStyle *style, char const *range
 		}
 		for (i = 0 ; i < conds->len ; i++)
 			c_fmt_dialog_conditions_page_load_cond
-				(state, &g_array_index (conds,
-							GnmStyleCond,
-							i), iter);
+				(state, g_ptr_array_index (conds, i), iter);
 	}
 
 }
