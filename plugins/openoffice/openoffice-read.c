@@ -3116,14 +3116,32 @@ odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle,
 		success = odf_style_load_two_values (xin, text, &cond, base, f_type);
 		g_free (text);
 	} else if (g_str_has_prefix (condition, "is-true-formula")) {
-		char *text;
-		cond.op = GNM_STYLE_COND_CUSTOM;
-		condition += strlen ("is-true-formula");
-		text = g_strdup (condition);
-		success = odf_style_load_one_value (xin, text, &cond, base, f_type);
-		g_free (text);
+		if (0 == strcmp (full_condition, "of:is-true-formula(ISERROR([.A1]))") &&
+		    g_str_has_suffix (base, ".$A$1")) {
+			cond.op = GNM_STYLE_COND_CONTAINS_ERR;
+			success = TRUE;
+		} else if (0 == strcmp (full_condition, "of:is-true-formula(NOT(ISERROR([.A1])))") &&
+			   g_str_has_suffix (base, ".$A$1")) {
+			cond.op = GNM_STYLE_COND_NOT_CONTAINS_ERR;
+			success = TRUE;
+		} else if (0 == strcmp (full_condition, "of:is-true-formula(NOT(ISERROR(FIND(\" \";[.A1]))))") &&
+			   g_str_has_suffix (base, ".$A$1")) {
+			cond.op = GNM_STYLE_COND_CONTAINS_BLANKS;
+			success = TRUE;
+		} else if (0 == strcmp (full_condition, "of:is-true-formula(ISERROR(FIND(\" \";[.A1])))") &&
+			   g_str_has_suffix (base, ".$A$1")) {
+			cond.op = GNM_STYLE_COND_NOT_CONTAINS_BLANKS;
+			success = TRUE;
+		} else {
+			char *text;
+			cond.op = GNM_STYLE_COND_CUSTOM;
+			condition += strlen ("is-true-formula");
+			text = g_strdup (condition);
+			success = odf_style_load_one_value (xin, text, &cond, base, f_type);
+			g_free (text);
+		}
 	}
-
+	
 	if (!success) {
 		if (cond.texpr[0] != NULL)
 			gnm_expr_top_unref (cond.texpr[0]);
