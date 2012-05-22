@@ -3883,7 +3883,8 @@ oo_cell_content_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 		gnm_cell_assign_value (state->curr_cell, v);
 	} else if (state->text_p_for_cell.content_is_simple) {
 		odf_text_content_end (xin, blob);
-		oo_add_text_to_cell (state, state->text_p_for_cell.gstr->str, state->text_p_for_cell.attrs);
+		if (state->text_p_for_cell.gstr)
+			oo_add_text_to_cell (state, state->text_p_for_cell.gstr->str, state->text_p_for_cell.attrs);
 	}
 	oo_update_data_extent (state, 1, 1);
 
