@@ -56,6 +56,10 @@ GnmHLink *sheet_style_region_contains_link (Sheet const *sheet, GnmRange const *
 void	  sheet_style_foreach (Sheet const *sheet,
 			       GHFunc	    func,
 			       gpointer    user_data);
+void	  sheet_style_range_foreach (Sheet const *sheet,
+				     GHFunc	  func,
+				     gpointer     user_data,
+				     gboolean     optimize);
 
 GnmStyle **sheet_style_most_common (Sheet const *sheet, gboolean is_col);
 
@@ -84,6 +88,10 @@ GnmSpanCalcFlags   sheet_style_set_list  (Sheet *sheet,
 GnmStyleList *sheet_style_collect_conditions	(Sheet const *s, GnmRange const *r);
 GnmStyleList *sheet_style_collect_hlinks	(Sheet const *s, GnmRange const *r);
 GnmStyleList *sheet_style_collect_validations	(Sheet const *s, GnmRange const *r);
+
+GnmStyleRegion *gnm_style_region_new (GnmRange const *range, GnmStyle *style);
+void gnm_style_region_free (GnmStyleRegion *sr);
+
 
 /* For internal use only */
 void	  sheet_style_unlink (Sheet *sheet, GnmStyle *st);

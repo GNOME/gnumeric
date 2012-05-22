@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * sheet-style.c: storage mechanism for styles and eventually cells.
  *
@@ -258,7 +259,7 @@ rstyle_ctor (ReplacementStyle *res, GnmStyle *new_style, GnmStyle *pstyle, Sheet
 }
 
 static void
-cb_style_unlink (gpointer key, gpointer value, gpointer user_data)
+cb_style_unlink (gpointer key, gpointer value, G_GNUC_UNUSED gpointer user_data)
 {
 	gnm_style_unlink ((GnmStyle *)key);
 	gnm_style_unlink ((GnmStyle *)value);
@@ -713,7 +714,7 @@ sheet_style_resize (Sheet *sheet, int cols, int rows)
 }
 
 static void
-cb_unlink (void *key, void *value, void *user)
+cb_unlink (void *key, G_GNUC_UNUSED void *value, G_GNUC_UNUSED void *user)
 {
 	gnm_style_unlink (key);
 }
@@ -1774,8 +1775,9 @@ typedef struct {
 
 static void
 cb_find_conflicts (GnmStyle *style,
-		   int corner_col, int corner_row, int width, int height,
-		   GnmRange const *apply_to, FindConflicts *ptr)
+		   G_GNUC_UNUSED int corner_col, G_GNUC_UNUSED int corner_row, 
+		   G_GNUC_UNUSED int width, G_GNUC_UNUSED int height,
+		   G_GNUC_UNUSED GnmRange const *apply_to, FindConflicts *ptr)
 {
 	ptr->conflicts = gnm_style_find_conflicts (ptr->accum, style, ptr->conflicts);
 }
@@ -2130,7 +2132,8 @@ struct cb_is_default {
 
 static void
 cb_is_default (GnmStyle *style,
-	       int corner_col, int corner_row, int width, int height,
+	       int corner_col, G_GNUC_UNUSED int corner_row, 
+	       int width, G_GNUC_UNUSED int height,
 	       GnmRange const *apply_to, gpointer user_)
 {
 	struct cb_is_default *user = user_;
@@ -2237,8 +2240,8 @@ sheet_style_most_common (Sheet const *sheet, gboolean is_col)
 
 /****************************************************************************/
 
-static GnmStyleRegion *
-style_region_new (GnmRange const *range, GnmStyle *style)
+GnmStyleRegion *
+gnm_style_region_new (GnmRange const *range, GnmStyle *style)
 {
 	GnmStyleRegion *sr;
 
@@ -2250,8 +2253,8 @@ style_region_new (GnmRange const *range, GnmStyle *style)
 	return sr;
 }
 
-static void
-style_region_free (GnmStyleRegion *sr)
+void
+gnm_style_region_free (GnmStyleRegion *sr)
 {
 	g_return_if_fail (sr != NULL);
 
@@ -2319,14 +2322,14 @@ cb_style_list_add_node (GnmStyle *style,
 #ifdef DEBUG_STYLE_LIST
 		range_dump (&range, " <= Added\n");
 #endif
-		sr = style_region_new (&range, style);
+		sr = gnm_style_region_new (&range, style);
 	}
 
 	g_hash_table_insert (mi->cache, &sr->range.end, sr);
 }
 
 static gboolean
-cb_hash_merge_horiz (gpointer hash_key, gpointer value, gpointer user)
+cb_hash_merge_horiz (G_GNUC_UNUSED gpointer hash_key, gpointer value, gpointer user)
 {
 	StyleListMerge *mi = user;
 	GnmStyleRegion *sr = value, *srh;
@@ -2334,7 +2337,7 @@ cb_hash_merge_horiz (gpointer hash_key, gpointer value, gpointer user)
 
 	/* Already merged */
 	if (sr->range.start.col < 0) {
-		style_region_free (sr);
+		gnm_style_region_free (sr);
 		return TRUE;
 	}
 
@@ -2362,14 +2365,14 @@ cb_hash_merge_horiz (gpointer hash_key, gpointer value, gpointer user)
 }
 
 static gboolean
-cb_hash_to_list (gpointer key, gpointer	value, gpointer	user_data)
+cb_hash_to_list (G_GNUC_UNUSED gpointer key, gpointer	value, gpointer	user_data)
 {
 	GnmStyleList **res = user_data;
 	GnmStyleRegion *sr = value;
 
 	/* Already merged */
 	if (sr->range.start.col < 0) {
-		style_region_free (sr);
+		gnm_style_region_free (sr);
 		return TRUE;
 	}
 
@@ -2629,7 +2632,7 @@ style_list_free (GnmStyleList *list)
 	GnmStyleList *l;
 
 	for (l = list; l; l = l->next)
-		style_region_free (l->data);
+		gnm_style_region_free (l->data);
 	g_slist_free (list);
 }
 
@@ -2660,8 +2663,9 @@ style_list_get_style (GnmStyleList const *list, int col, int row)
 
 static void
 cb_find_link (GnmStyle *style,
-	      int corner_col, int corner_row, int width, int height,
-	      GnmRange const *apply_to, gpointer user)
+	      G_GNUC_UNUSED int corner_col, G_GNUC_UNUSED int corner_row, 
+	      G_GNUC_UNUSED int width, G_GNUC_UNUSED int height,
+	      G_GNUC_UNUSED GnmRange const *apply_to, gpointer user)
 {
 	GnmHLink **link = user;
 	if (*link == NULL)
@@ -2691,12 +2695,78 @@ sheet_style_region_contains_link (Sheet const *sheet, GnmRange const *r)
 }
 
 void
-sheet_style_foreach (Sheet const *sheet, GHFunc	func, gpointer user_data)
+sheet_style_foreach (Sheet const *sheet, GHFunc func, gpointer user_data)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->style_data != NULL);
 
 	sh_foreach (sheet->style_data->style_hash, func, user_data);
+}
+
+typedef struct {
+	gpointer user_data;
+	GHFunc func;
+} sheet_style_range_foreach_t;
+
+static gboolean
+cb_hash_to_cb (G_GNUC_UNUSED gpointer key, gpointer value, gpointer user_data)
+{
+	sheet_style_range_foreach_t *ud = user_data;
+	GnmStyleRegion *sr = value;
+
+	/* Already merged */
+	if (sr->range.start.col < 0) {
+		gnm_style_region_free (sr);
+		return TRUE;
+	}
+
+#ifdef DEBUG_STYLE_LIST
+	range_dump (&sr->range, "\n");
+#endif
+
+	ud->func (NULL, sr, ud->user_data);
+	gnm_style_region_free (sr);
+	return TRUE;
+
+}
+
+void
+sheet_style_range_foreach (Sheet const *sheet, GHFunc func, gpointer user_data, gboolean optimize)
+{
+	StyleListMerge mi;
+	GnmRange r;
+	sheet_style_range_foreach_t ud;
+
+	g_return_if_fail (IS_SHEET (sheet));
+
+	ud.user_data = user_data;
+	ud.func = func;
+	range_init_full_sheet (&r, sheet);
+
+	mi.style_equal = gnm_style_eq;
+	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
+				     (GCompareFunc)&gnm_cellpos_equal);
+	mi.sheet = sheet;
+
+#ifdef DEBUG_STYLE_LIST
+	g_printerr ("====A====\n");
+#endif
+	foreach_tile (sheet->style_data->styles,
+		      sheet->tile_top_level, 0, 0, &r,
+		      cb_style_list_add_node, &mi);
+#ifdef DEBUG_STYLE_LIST
+	g_printerr ("====B====\n");
+#endif
+	if (optimize)
+		g_hash_table_foreach_remove (mi.cache, cb_hash_merge_horiz, &mi);
+#ifdef DEBUG_STYLE_LIST
+	g_printerr ("====C====\n");
+#endif
+	g_hash_table_foreach_remove (mi.cache, cb_hash_to_cb, &ud);
+#ifdef DEBUG_STYLE_LIST
+	g_printerr ("====D====\n");
+#endif
+	g_hash_table_destroy (mi.cache);
 }
 
 /* ------------------------------------------------------------------------- */

@@ -1,3 +1,15 @@
+2012-05-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_determine_base): use a range that has this style,
+	add argument and change all callers
+	(odf_save_style_map): add range argument, change all callers
+	(odf_save_this_style_with_name): replace argument, change all callers
+	(odf_write_style): add range argument, change all callers
+	(odf_store_this_named_style): add range argument, change all callers
+	(odf_save_this_style): replace argument, change all callers
+	(odf_write_cell_styles): use sheet_style_range_foreach
+	(odf_write_office_styles): use new hash
+
 2012-05-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_save_style_map_single_f): change arguments

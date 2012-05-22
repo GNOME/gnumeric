@@ -1,3 +1,13 @@
+2012-05-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-style.h (sheet_style_range_foreach): new
+	(gnm_style_region_new): new
+	(gnm_style_region_free): new
+	* src/sheet-style.c (sheet_style_range_foreach): new
+	(style_region_new): rename to gnm_style_region_new and publish
+	(style_region_free): rename to gnm_style_region_free and publish
+	(cb_hash_to_cb): new
+
 2012-05-17  Morten Welinder  <terra@gnome.org>
 
 	* src/validation.h: Grand rename into gnm_ namespace.

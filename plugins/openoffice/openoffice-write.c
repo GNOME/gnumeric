@@ -116,12 +116,13 @@ typedef struct {
 	GSList *col_styles;
 	GHashTable *cell_styles;
 	GHashTable *named_cell_styles;
+	GHashTable *named_cell_style_regions;
 	GHashTable *so_styles;
 	GHashTable *xl_styles;
 	GHashTable *xl_styles_neg;
 	GHashTable *xl_styles_zero;
 	GHashTable *xl_styles_conditional;
-	GnmStyle *default_style;
+	GnmStyleRegion *default_style_region;
 	ColRowInfo const *row_default;
 	ColRowInfo const *column_default;
 	GHashTable *graphs;
@@ -1491,24 +1492,16 @@ odf_strip_brackets (char *string)
 }
 
 static void
-odf_determine_base (GnmOOExport *state, GnmExprTop const *texpr1, GnmExprTop const *texpr2, GnmParsePos *pp)
+odf_determine_base (GnmOOExport *state, GnmRange *r, GnmParsePos *pp)
 {
-	GnmRange r;
-
-	range_init_full_sheet (&r, state->sheet);
-
-	if (texpr1) 
-		gnm_expr_top_get_boundingbox (texpr1, state->sheet, &r);
-	if (texpr2)
-		gnm_expr_top_get_boundingbox (texpr2, state->sheet, &r);
-
-	/* We should be able to use the following, but it doesn't work in the 'common' situation. */
-	/* parse_pos_init (pp, (Workbook *) state->wb, state->sheet, r.start.col, r.start.row); */
-	parse_pos_init (pp, (Workbook *) state->wb, state->sheet, r.end.col + 1, r.end.row + 1);
+	if (r)
+		parse_pos_init (pp, (Workbook *) state->wb, state->sheet, r->start.col, r->start.row);
+	else
+		g_warning ("Unable to determine an appropriate base cell address.");
 }
 
 static void
-odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
+odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond, GnmRange *r)
 {
 	char const *name = odf_find_style (state, cond->overlay);
 	GString *str;
@@ -1523,42 +1516,42 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
 
 	switch (cond->op) {
 	case GNM_STYLE_COND_BETWEEN:
-		odf_determine_base (state, cond->texpr[0], cond->texpr[1], &pp);
+		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:cell-content-is-between");
 		odf_save_style_map_double_f (state, str, cond, &pp);
 		break;
 	case GNM_STYLE_COND_NOT_BETWEEN:
-		odf_determine_base (state, cond->texpr[0], cond->texpr[1], &pp);
+		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:cell-content-is-not-between");
 		odf_save_style_map_double_f (state, str, cond, &pp);
 		break;
 	case GNM_STYLE_COND_EQUAL:
-		odf_determine_base (state, cond->texpr[0], NULL, &pp);
+		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:cell-content()=");
 		odf_save_style_map_single_f (state, str, cond->texpr[0], &pp);
 		break;
 	case GNM_STYLE_COND_NOT_EQUAL:
-		odf_determine_base (state, cond->texpr[0], NULL, &pp);
+		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:cell-content()!=");
 		odf_save_style_map_single_f (state, str, cond->texpr[0], &pp);
 		break;
 	case GNM_STYLE_COND_GT:
-		odf_determine_base (state, cond->texpr[0], NULL, &pp);
+		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:cell-content()>");
 		odf_save_style_map_single_f (state, str, cond->texpr[0], &pp);
 		break;
 	case GNM_STYLE_COND_LT:
-		odf_determine_base (state, cond->texpr[0], NULL, &pp);
+		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:cell-content()<");
 		odf_save_style_map_single_f (state, str, cond->texpr[0], &pp);
 		break;
 	case GNM_STYLE_COND_GTE:
-		odf_determine_base (state, cond->texpr[0], NULL, &pp);
+		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:cell-content()>=");
 		odf_save_style_map_single_f (state, str, cond->texpr[0], &pp);
 		break;
 	case GNM_STYLE_COND_LTE:
-		odf_determine_base (state, cond->texpr[0], NULL, &pp);
+		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:cell-content()<=");
 		odf_save_style_map_single_f (state, str, cond->texpr[0], &pp);
 		break;
@@ -1569,21 +1562,21 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
 		g_string_append (str, "of:is-true-formula(NOT(ISERROR([.A1])))");
 		break;
 	case GNM_STYLE_COND_CONTAINS_STR:
-		odf_determine_base (state, cond->texpr[0], NULL, &pp);
+		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:is-true-formula(NOT(ISERROR(FIND(");
 		odf_save_style_map_single_f (state, str, cond->texpr[0], &pp);
 		g_string_append_printf (str, ";[.%s%s]))))", 
 					col_name (pp.eval.col), row_name (pp.eval.row));
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_STR:
-		odf_determine_base (state, cond->texpr[0], NULL, &pp);
+		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:is-true-formula(ISERROR(FIND(");
 		odf_save_style_map_single_f (state, str, cond->texpr[0], &pp);
 		g_string_append_printf (str, ";[.%s%s])))", 
 					col_name (pp.eval.col), row_name (pp.eval.row));
 		break;
 	case GNM_STYLE_COND_BEGINS_WITH_STR:
-		odf_determine_base (state, cond->texpr[0], NULL, &pp);
+		odf_determine_base (state, r, &pp);
 
 		g_string_append (str, "of:is-true-formula(IFERROR(FIND(");
 		odf_save_style_map_single_f (state, str, cond->texpr[0], &pp);
@@ -1591,14 +1584,14 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
 					col_name (pp.eval.col), row_name (pp.eval.row));
 		break;
 	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
-		odf_determine_base (state, cond->texpr[0], NULL, &pp);
+		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:is-true-formula(NOT(IFERROR(FIND(");
 		odf_save_style_map_single_f (state, str, cond->texpr[0], &pp);
 		g_string_append_printf (str, ";[.%s%s]);2)=1))", 
 					col_name (pp.eval.col), row_name (pp.eval.row));
 		break;
 	case GNM_STYLE_COND_ENDS_WITH_STR:
-		odf_determine_base (state, cond->texpr[0], NULL, &pp);
+		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:is-true-formula(EXACT(");
 		odf_save_style_map_single_f (state, str, cond->texpr[0], &pp);
 		g_string_append_printf (str, ";RIGHT([.%s%s];LEN(", 
@@ -1607,7 +1600,7 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
 		g_string_append (str, ")))");
 		break;
 	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
-		odf_determine_base (state, cond->texpr[0], NULL, &pp);
+		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:is-true-formula(NOT(EXACT(");
 		odf_save_style_map_single_f (state, str, cond->texpr[0], &pp);
 		g_string_append_printf (str, ";RIGHT([.%s%s];LEN(", 
@@ -1622,7 +1615,7 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
 		g_string_append (str, "of:is-true-formula(ISERROR(FIND(\" \";[.A1])))");
 		break;
 	case GNM_STYLE_COND_CUSTOM:
-		odf_determine_base (state, cond->texpr[0], NULL, &pp);
+		odf_determine_base (state, r, &pp);
 		g_string_append (str, "of:is-true-formula(");
 		odf_save_style_map_single_f (state, str, cond->texpr[0], &pp);
 		g_string_append (str, ")");
@@ -1655,7 +1648,7 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
 }
 
 static void
-odf_write_style (GnmOOExport *state, GnmStyle const *style, gboolean is_default)
+odf_write_style (GnmOOExport *state, GnmStyle const *style, GnmRange *r, gboolean is_default)
 {
 	GnmStyleConditions const *sc;
 	GArray const *conds;
@@ -1675,7 +1668,7 @@ odf_write_style (GnmOOExport *state, GnmStyle const *style, gboolean is_default)
 	    NULL != (sc = gnm_style_get_conditions (style)) &&
 	    NULL != (conds = gnm_style_conditions_details (sc)))
 		for (i = 0 ; i < conds->len ; i++)
-			odf_save_style_map (state, &g_array_index (conds, GnmStyleCond, i));
+			odf_save_style_map (state, &g_array_index (conds, GnmStyleCond, i), r);
 
 /* MSTYLE_VALIDATION validations need to be written at a different place and time in ODF  */
 /* MSTYLE_HLINK hyperlinks can not be attached to styles but need to be attached to the cell content */
@@ -1768,15 +1761,15 @@ odf_find_col_style (GnmOOExport *state, ColRowInfo const *ci, gboolean write)
 }
 
 static void
-odf_save_this_style_with_name (GnmStyle *style, char const *name, GnmOOExport *state)
+odf_save_this_style_with_name (GnmStyleRegion *sr, char const *name, GnmOOExport *state)
 {
 	odf_start_style (state->xml, name, "table-cell");
-	odf_write_style (state, style, FALSE);
+	odf_write_style (state, sr->style, &sr->range, FALSE);
 	gsf_xml_out_end_element (state->xml); /* </style:style */
 }
 
 static void
-odf_store_this_named_style (GnmStyle *style, char const *name, GnmOOExport *state)
+odf_store_this_named_style (GnmStyle *style, char const *name, GnmRange *r, GnmOOExport *state)
 {
 	char *real_name;
 	GnmStyleConditions const *sc;
@@ -1790,6 +1783,8 @@ odf_store_this_named_style (GnmStyle *style, char const *name, GnmOOExport *stat
 		real_name = g_strdup (name);
 
 	g_hash_table_insert (state->named_cell_styles, style, real_name);
+	g_hash_table_insert (state->named_cell_style_regions, gnm_style_region_new (r, style), 
+			     g_strdup (real_name));
 
 	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
 	    NULL != (sc = gnm_style_get_conditions (style))) {
@@ -1799,34 +1794,38 @@ odf_store_this_named_style (GnmStyle *style, char const *name, GnmOOExport *stat
 			for (i = 0 ; i < conds->len ; i++) {
 				GnmStyleCond const *cond;
 				cond = &g_array_index (conds, GnmStyleCond, i);
-				odf_store_this_named_style (cond->overlay, NULL, state);
+				odf_store_this_named_style (cond->overlay, NULL, r, state);
 			}
 		}
 	}
 }
 
 static void
-odf_save_this_style (GnmStyle *style, G_GNUC_UNUSED gconstpointer dummy, GnmOOExport *state)
+odf_save_this_style (G_GNUC_UNUSED gconstpointer dummy, GnmStyleRegion *sr, GnmOOExport *state)
 {
-	char *name = g_strdup_printf ("ACE-%p", style);
+	char *name;
 	GnmStyleConditions const *sc;
 
-	g_hash_table_insert (state->cell_styles, style, name);
+	if (NULL != g_hash_table_lookup (state->cell_styles, sr->style))
+		return;
 
-	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
-	    NULL != (sc = gnm_style_get_conditions (style))) {
+	name = g_strdup_printf ("ACE-%p", sr->style);
+	g_hash_table_insert (state->cell_styles, sr->style, name);
+
+	if (gnm_style_is_element_set (sr->style, MSTYLE_CONDITIONS) &&
+	    NULL != (sc = gnm_style_get_conditions (sr->style))) {
 		GArray const *conds = gnm_style_conditions_details (sc);
 		if (conds != NULL) {
 			guint i;
 			for (i = 0 ; i < conds->len ; i++) {
 				GnmStyleCond const *cond;
 				cond = &g_array_index (conds, GnmStyleCond, i);
-				odf_store_this_named_style (cond->overlay, NULL, state);
+				odf_store_this_named_style (cond->overlay, NULL, &sr->range, state);
 			}
 		}
 	}
 
-	odf_save_this_style_with_name (style, name, state);
+	odf_save_this_style_with_name (sr, name, state);
 }
 
 static void
@@ -1955,9 +1954,9 @@ odf_write_cell_styles (GnmOOExport *state)
 	int i;
 	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
 		state->sheet = workbook_sheet_by_index (state->wb, i);
-		sheet_style_foreach (state->sheet,
-				     (GHFunc) odf_save_this_style,
-				     state);
+		sheet_style_range_foreach (state->sheet,
+					   (GHFunc) odf_save_this_style,
+					   state, FALSE);
 	}
 	state->sheet = NULL;
 }
@@ -3352,12 +3351,12 @@ odf_write_formatted_columns (GnmOOExport *state, Sheet const *sheet, GnmStyle **
 
 	gsf_xml_out_start_element (state->xml, TABLE "table-column");
 	number_cols_rep = 1;
-	last_col_style = filter_style (state->default_style, col_styles[0]);
+	last_col_style = filter_style (state->default_style_region->style, col_styles[0]);
 	last_ci = sheet_col_get (sheet, 0);
 	write_col_style (state, last_col_style, last_ci, sheet);
 
 	for (i = from+1; i < to; i++) {
-		GnmStyle *this_col_style = filter_style (state->default_style, col_styles[i]);
+		GnmStyle *this_col_style = filter_style (state->default_style_region->style, col_styles[i]);
 		ColRowInfo const *this_ci = sheet_col_get (sheet, i);
 
 		if ((this_col_style == last_col_style) && colrow_equal (last_ci, this_ci))
@@ -5131,14 +5130,15 @@ odf_write_office_styles (GnmOOExport *state)
 	g_hash_table_foreach (state->xl_styles_zero, (GHFunc) odf_write_this_xl_style_zero, state);
 	g_hash_table_foreach (state->xl_styles_conditional, (GHFunc) odf_write_this_conditional_xl_style, state);
 
-	g_hash_table_foreach (state->named_cell_styles, (GHFunc) odf_save_this_style_with_name, state);
+	g_hash_table_foreach (state->named_cell_style_regions, (GHFunc) odf_save_this_style_with_name, state);
 
 	g_hash_table_foreach (state->text_colours, (GHFunc) odf_write_text_colours, state);
 
-	if (state->default_style != NULL) {
+	if (state->default_style_region->style != NULL) {
 		gsf_xml_out_start_element (state->xml, STYLE "default-style");
 		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "family", "table-cell");
-		odf_write_style (state, state->default_style, TRUE);
+		odf_write_style (state, state->default_style_region->style, 
+				 &state->default_style_region->range, TRUE);
 		gsf_xml_out_end_element (state->xml); /* </style:default-style */
 	}
 	if (state->column_default != NULL) {
@@ -8013,6 +8013,7 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 	Sheet *sheet;
 	GsfOutput  *pictures;
 	GsfOutput  *child;
+	GnmStyle *style;
 
 	locale  = gnm_push_C_locale ();
 
@@ -8033,6 +8034,9 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 					       NULL, (GDestroyNotify) g_free);
 	state.named_cell_styles = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 						   NULL, (GDestroyNotify) g_free);
+	state.named_cell_style_regions = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+								(GDestroyNotify) gnm_style_region_free, 
+								(GDestroyNotify) g_free);
 	state.cell_styles = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 						   NULL, (GDestroyNotify) g_free);
 	state.so_styles = g_hash_table_new_full (g_direct_hash, g_direct_equal,
@@ -8090,9 +8094,18 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 
 	state.column_default = &sheet->cols.default_style;
 	state.row_default = &sheet->rows.default_style;
-	if (NULL != (state.default_style = sheet_style_default (sheet)))
+	if (NULL != (style = sheet_style_default (sheet))) {
+		GnmRange r = {{0,0},{0,0}};
 		/* We need to make sure any referenced styles are added to the named hash */
-		odf_store_this_named_style (state.default_style, "Gnumeric-default", &state);
+		state.default_style_region = gnm_style_region_new (&r, style);
+		odf_store_this_named_style (state.default_style_region->style, "Gnumeric-default", 
+					    &state.default_style_region->range, 
+					    &state);
+		gnm_style_unref (style);
+	} else {
+		GnmRange r = {{0,0},{0,0}};
+		state.default_style_region = gnm_style_region_new (&r, NULL);
+	}
 
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
 		child = gsf_outfile_new_child_full (state.outfile, streams[i].name, FALSE,
@@ -8146,6 +8159,7 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 	g_hash_table_unref (state.images);
 	g_hash_table_unref (state.controls);
 	g_hash_table_unref (state.named_cell_styles);
+	g_hash_table_unref (state.named_cell_style_regions);
 	g_hash_table_unref (state.cell_styles);
 	g_hash_table_unref (state.so_styles);
 	g_hash_table_unref (state.xl_styles);
@@ -8160,7 +8174,8 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 	g_hash_table_unref (state.text_colours);
 	g_slist_free (state.col_styles);
 	g_slist_free (state.row_styles);
-	gnm_style_unref (state.default_style);
+	if (state.default_style_region)
+		gnm_style_region_free (state.default_style_region);
 	go_format_unref (state.time_fmt);
 	go_format_unref (state.date_fmt);
 	go_format_unref (state.date_long_fmt);
