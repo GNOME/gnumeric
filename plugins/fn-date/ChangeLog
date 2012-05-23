@@ -1,3 +1,13 @@
+2012-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_time): adjust information
+	(gnumeric_time): use teh ECMA 376 description but do not trigger error
+	on arguments exceeding 32767
+	(help_odf_time): new
+	(gnumeric_odf_time): formerly gnumeric_time
+	(datetime_functions): add odf.time
+	* plugin.xml.in: add odf.time
+
 2012-04-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.3

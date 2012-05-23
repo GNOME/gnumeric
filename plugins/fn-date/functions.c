@@ -236,12 +236,10 @@ datedif_opt_ym (GDate *gdate1, GDate *gdate2)
 static int
 datedif_opt_yd (GDate *gdate1, GDate *gdate2, int excel_compat)
 {
-	int day;
-
 	g_assert (g_date_valid (gdate1));
 	g_assert (g_date_valid (gdate2));
 
-	day = g_date_get_day (gdate1);
+	g_date_get_day (gdate1);
 
 	gnm_date_add_years (gdate1,
 			    go_date_g_years_between (gdate1, gdate2));
@@ -395,7 +393,7 @@ static GnmFuncHelp const help_today[] = {
 };
 
 static GnmValue *
-gnumeric_today (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_today (GnmFuncEvalInfo *ei, G_GNUC_UNUSED GnmValue const * const *argv)
 {
 	return make_date (value_new_int (go_date_timet_to_serial (time (NULL), DATE_CONV (ei->pos))));
 }
@@ -412,7 +410,7 @@ static GnmFuncHelp const help_now[] = {
 };
 
 static GnmValue *
-gnumeric_now (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_now (GnmFuncEvalInfo *ei, G_GNUC_UNUSED GnmValue const * const *argv)
 {
 	return value_new_float (go_date_timet_to_serial_raw (time (NULL), DATE_CONV (ei->pos)));
 }
@@ -424,15 +422,51 @@ static GnmFuncHelp const help_time[] = {
         { GNM_FUNC_HELP_ARG, F_("hour:hour of the day")},
         { GNM_FUNC_HELP_ARG, F_("minute:minute within the hour")},
         { GNM_FUNC_HELP_ARG, F_("second:second within the minute")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("The TIME function computes the fractional day between midnight at the time given by @{hour}, @{minute}, and @{second}.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The TIME function computes the fractional day after midnight at the time given by @{hour}, @{minute}, and @{second}.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If any of @{hour}, @{minute}, and @{second} is negative, #NUM! is returned")},
         { GNM_FUNC_HELP_EXAMPLES, "=TIME(12,30,2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=TIME(25,100,18)" },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_SEEALSO, "HOUR,MINUTE,SECOND"},
+        { GNM_FUNC_HELP_SEEALSO, "ODF.TIME,HOUR,MINUTE,SECOND"},
 	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
 gnumeric_time (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float hours, minutes, seconds;
+	gnm_float time;
+
+	hours   = gnm_fmod (value_get_as_float (argv [0]), 24);
+	minutes = value_get_as_float (argv [1]);
+	seconds = value_get_as_float (argv [2]);
+
+	if (hours < 0 || minutes < 0 || seconds < 0)
+		return value_new_error_NUM (ei->pos);
+
+	time = (hours * 3600 + minutes * 60 + seconds) / DAY_SECONDS;
+	time -= gnm_fake_floor (time);
+
+	return make_date (value_new_float (time));
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_odf_time[] = {
+        { GNM_FUNC_HELP_NAME, F_("TIME:create a time serial value")},
+        { GNM_FUNC_HELP_ARG, F_("hour:hour")},
+        { GNM_FUNC_HELP_ARG, F_("minute:minute")},
+        { GNM_FUNC_HELP_ARG, F_("second:second")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The TIME function computes the time given by @{hour}, @{minute}, and @{second} as a fraction of a day.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ODF.TIME(12,30,2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ODF.TIME(25,100,-18)" },
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
+        { GNM_FUNC_HELP_SEEALSO, "TIME,HOUR,MINUTE,SECOND"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_odf_time (G_GNUC_UNUSED GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float hours, minutes, seconds;
 
@@ -1327,6 +1361,10 @@ GnmFuncDescriptor const datetime_functions[] = {
 	  gnumeric_now, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_VOLATILE + GNM_FUNC_AUTO_TIME,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "odf.time",        "fff",   help_odf_time,
+	  gnumeric_odf_time, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_TIME,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "second",      "f",     help_second,
 	  gnumeric_second, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,

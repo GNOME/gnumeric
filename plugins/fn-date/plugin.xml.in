@@ -28,6 +28,7 @@
 				<function name="now"/>
 				<function name="second"/>
 				<function name="time"/>
+				<function name="odf.time"/>
 				<function name="timevalue"/>
 				<function name="today"/>
 				<function name="weekday"/>
