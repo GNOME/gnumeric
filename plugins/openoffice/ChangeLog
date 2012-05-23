@@ -1,3 +1,8 @@
+2012-05-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_func_map_in): map TIME -> ODF.TIME
+	* openoffice-write.c (odf_expr_func_handler): map ODF.TIME -> TIME
+
 2012-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_content_rows): note that gnm_cell_is_empty

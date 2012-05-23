@@ -10647,6 +10647,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "PDURATION","G_DURATION" },
 		{ "PHI","NORMDIST" },              /* see handler */
 		{ "SUMPRODUCT","ODF.SUMPRODUCT" },
+		{ "TIME","ODF.TIME" },
 		{ "TRUE","TRUE" },                 /* see handler */
 		{ "USDOLLAR","DOLLAR" },
 

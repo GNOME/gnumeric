@@ -2592,7 +2592,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "TBILLYIELD","TBILLYIELD" },
 		{ "TDIST","TDIST" },
 		{ "TEXT","TEXT" },
-		{ "TIME","TIME" },
+		{ "ODF.TIME","TIME" },
 		{ "TIMEVALUE","TIMEVALUE" },
 		{ "TINV","TINV" },
 		{ "TODAY","TODAY" },
