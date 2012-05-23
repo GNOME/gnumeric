@@ -1424,7 +1424,7 @@
 	       <guimenuitem>Name...</guimenuitem> menu item opens a
 	       dialog (see <xref linkend="menu-insert-names.png"/>) with a 
 	       list of all defined names that can be pasted into
-	       teh current cell.  <xref linkend="sect-data-formulas-names"
+	       the current cell.  <xref linkend="sect-data-formulas-names"
 	       /> explains names in greater detail.
 	     </para>
     <figure id="menu-insert-names.png">

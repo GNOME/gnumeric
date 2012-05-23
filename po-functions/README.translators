@@ -56,7 +56,7 @@ appearing insidethe arguments (Salary). You must change the argument separator,
 that is the comma, to the correct separator in your locale, either comma "," or
 semicolon ";". Typically if the decimal separator is a period the argument
 separator is a comma, and if the decimal separator is a comma then the argument
-separator is a semicolon. For example teh translation of the above string into
+separator is a semicolon. For example the translation of the above string into
 German would be:
   "DGET(A1:C7; \"Gehalt\"; A9:A10) ist gleich 34323."
 
