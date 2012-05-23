@@ -7056,7 +7056,7 @@
 	(x_clipboard_bind_workbook) :
 	Registers the new GNUMERIC XML atom that enables other instances of
 	gnumeric to see that we are also gnumeric and can render the clipboard
-	data in a the special gnumeric xml clipboard format
+	data in the special gnumeric xml clipboard format
 	(clipboard_release) :
 	Handles new CELL_COPY_TYPE_TEXT_AND_COMMENT type
 

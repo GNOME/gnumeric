@@ -141,11 +141,5 @@ This functions receive a scm object and returns a new value smob.
 (value_get_as_int scm)     
 (value_get_as_list scm)
 
-This functions receive a scm object and returns a the value
+This functions receive a scm object and returns the value
 allocated within the smob.
-
-
-
-
-
-

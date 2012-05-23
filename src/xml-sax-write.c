@@ -1,7 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * xml-sax-write.c : export .gnumeric and the clipboard subset using a the sax
+ * xml-sax-write.c : export .gnumeric and the clipboard subset using the sax
  *			like wrappers in libgsf
  *
  * Copyright (C) 2003-2007 Jody Goldberg (jody@gnome.org)
