@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-03-26 08:27+0000\n"
-"PO-Revision-Date: 2012-04-17 14:03+0100\n"
+"POT-Creation-Date: 2012-05-23 08:06+0000\n"
+"PO-Revision-Date: 2012-05-23 10:28+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -123,20 +123,20 @@ msgstr "V kolikor @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VA
 #: ../plugins/fn-date/functions.c:84
 #: ../plugins/fn-date/functions.c:197
 #: ../plugins/fn-date/functions.c:219
-#: ../plugins/fn-date/functions.c:356
-#: ../plugins/fn-date/functions.c:391
-#: ../plugins/fn-date/functions.c:408
+#: ../plugins/fn-date/functions.c:354
+#: ../plugins/fn-date/functions.c:389
+#: ../plugins/fn-date/functions.c:406
 #: ../plugins/fn-date/functions.c:429
-#: ../plugins/fn-date/functions.c:454
-#: ../plugins/fn-date/functions.c:473
-#: ../plugins/fn-date/functions.c:496
-#: ../plugins/fn-date/functions.c:519
-#: ../plugins/fn-date/functions.c:541
-#: ../plugins/fn-date/functions.c:565
-#: ../plugins/fn-date/functions.c:589
-#: ../plugins/fn-date/functions.c:617
-#: ../plugins/fn-date/functions.c:658
-#: ../plugins/fn-date/functions.c:696
+#: ../plugins/fn-date/functions.c:488
+#: ../plugins/fn-date/functions.c:507
+#: ../plugins/fn-date/functions.c:530
+#: ../plugins/fn-date/functions.c:553
+#: ../plugins/fn-date/functions.c:575
+#: ../plugins/fn-date/functions.c:599
+#: ../plugins/fn-date/functions.c:623
+#: ../plugins/fn-date/functions.c:651
+#: ../plugins/fn-date/functions.c:692
+#: ../plugins/fn-date/functions.c:730
 #: ../plugins/fn-eng/functions.c:238
 #: ../plugins/fn-eng/functions.c:263
 #: ../plugins/fn-eng/functions.c:287
@@ -947,7 +947,7 @@ msgid "DATEVALUE:the date part of a date and time serial value"
 msgstr "DATEVALUE:del datuma in zaporedna vrednost časa"
 
 #: ../plugins/fn-date/functions.c:194
-#: ../plugins/fn-date/functions.c:451
+#: ../plugins/fn-date/functions.c:485
 msgid "serial:date and time serial value"
 msgstr "zaporedje: zaporedna vrednost datuma in časa"
 
@@ -960,24 +960,24 @@ msgid "DATEDIF:difference between dates"
 msgstr "DATEDIF:razlika med datumi"
 
 #: ../plugins/fn-date/functions.c:212
-#: ../plugins/fn-date/functions.c:651
-#: ../plugins/fn-date/functions.c:956
-#: ../plugins/fn-date/functions.c:1222
-#: ../plugins/fn-date/functions.c:1251
+#: ../plugins/fn-date/functions.c:685
+#: ../plugins/fn-date/functions.c:990
+#: ../plugins/fn-date/functions.c:1256
+#: ../plugins/fn-date/functions.c:1285
 msgid "start_date:starting date serial value"
 msgstr "začetni_datum:zaporedna vrednost začetnega datuma"
 
 #: ../plugins/fn-date/functions.c:213
-#: ../plugins/fn-date/functions.c:652
-#: ../plugins/fn-date/functions.c:957
-#: ../plugins/fn-date/functions.c:1223
-#: ../plugins/fn-date/functions.c:1252
+#: ../plugins/fn-date/functions.c:686
+#: ../plugins/fn-date/functions.c:991
+#: ../plugins/fn-date/functions.c:1257
+#: ../plugins/fn-date/functions.c:1286
 msgid "end_date:ending date serial value"
 msgstr "končni_datum:zaporedna vrednost končnega datuma"
 
 #: ../plugins/fn-date/functions.c:214
 msgid "interval:counting unit"
-msgstr "interval:enota štetja"
+msgstr "interval: enota štetja"
 
 #: ../plugins/fn-date/functions.c:215
 msgid "DATEDIF returns the distance from @{start_date} to @{end_date} according to the unit specified by @{interval}."
@@ -995,226 +995,93 @@ msgstr "V kolikor je @{interval} določen z \"ym\" ali \"yd\", potem je časovni
 msgid "If @{interval} is \"md\" then the distance is measured in complete days but excluding any difference in months."
 msgstr "V kolikor je @{interval} določen z \"md\", potem je časovni razmik merjen v polnih dnevih, izpuščena pa je razlika v mesecih."
 
-#: ../plugins/fn-date/functions.c:352
+#: ../plugins/fn-date/functions.c:350
 msgid "EDATE:adjust a date by a number of months"
 msgstr "EDATE:prilagodi zapis datuma v število mesecev"
 
-#: ../plugins/fn-date/functions.c:353
-#: ../plugins/fn-date/functions.c:539
-#: ../plugins/fn-date/functions.c:563
-#: ../plugins/fn-date/functions.c:587
-#: ../plugins/fn-date/functions.c:611
-#: ../plugins/fn-date/functions.c:693
-#: ../plugins/fn-date/functions.c:733
-#: ../plugins/fn-date/functions.c:1123
-#: ../plugins/fn-date/functions.c:1147
-#: ../plugins/fn-date/functions.c:1183
+#: ../plugins/fn-date/functions.c:351
+#: ../plugins/fn-date/functions.c:573
+#: ../plugins/fn-date/functions.c:597
+#: ../plugins/fn-date/functions.c:621
+#: ../plugins/fn-date/functions.c:645
+#: ../plugins/fn-date/functions.c:727
+#: ../plugins/fn-date/functions.c:767
+#: ../plugins/fn-date/functions.c:1157
+#: ../plugins/fn-date/functions.c:1181
+#: ../plugins/fn-date/functions.c:1217
 msgid "date:date serial value"
 msgstr "date:zaporedna vrednost datuma"
 
-#: ../plugins/fn-date/functions.c:354
-#: ../plugins/fn-date/functions.c:694
+#: ../plugins/fn-date/functions.c:352
+#: ../plugins/fn-date/functions.c:728
 msgid "months:signed number of months"
 msgstr "meseci:vpisano število mesecev"
 
-#: ../plugins/fn-date/functions.c:355
+#: ../plugins/fn-date/functions.c:353
 msgid "EDATE returns @{date} moved forward or backward the number of months specified by @{months}."
 msgstr "Funkcija EDATE vrne @{datum}, ki je premaknjen naprej ali nazaj za število @{mesecev}."
 
-#: ../plugins/fn-date/functions.c:389
+#: ../plugins/fn-date/functions.c:387
 msgid "TODAY:the date serial value of today"
 msgstr "TODAY:zaporedna vrednost današnjega datuma"
 
-#: ../plugins/fn-date/functions.c:390
+#: ../plugins/fn-date/functions.c:388
 msgid "The TODAY function returns the date serial value of the day it is computed.  Recomputing on a later date will produce a different value."
 msgstr "Funkcija TODAY vrne zaporedno vrednost datuma na dan, ko je ta izračunan. S ponovnim preračunavanjem, se datum spremeni na nov datum dneva."
 
-#: ../plugins/fn-date/functions.c:406
+#: ../plugins/fn-date/functions.c:404
 msgid "NOW:the date and time serial value of the current time"
 msgstr "NOW:zaporedna vrednost trenutnega datuma in časa"
 
-#: ../plugins/fn-date/functions.c:407
+#: ../plugins/fn-date/functions.c:405
 msgid "The NOW function returns the date and time serial value of the moment it is computed.  Recomputing later will produce a different value."
 msgstr "Funkcija NOW vrne zaporedno vrednost datuma in časa na trenutek, ko je ta izračunan. S ponovnim preračunavanjem, se vrednost spremeni na nov trenutek dneva."
 
-#: ../plugins/fn-date/functions.c:423
+#: ../plugins/fn-date/functions.c:421
+#: ../plugins/fn-date/functions.c:456
 msgid "TIME:create a time serial value"
 msgstr "TIME:ustvari zaporedno vrednost časa"
 
-#: ../plugins/fn-date/functions.c:424
+#: ../plugins/fn-date/functions.c:422
 msgid "hour:hour of the day"
 msgstr "ura:ura dneva"
 
-#: ../plugins/fn-date/functions.c:425
+#: ../plugins/fn-date/functions.c:423
 msgid "minute:minute within the hour"
 msgstr "minuta:minuta ure"
 
-#: ../plugins/fn-date/functions.c:426
+#: ../plugins/fn-date/functions.c:424
 msgid "second:second within the minute"
 msgstr "sekunda:sekunda minute"
 
-#: ../plugins/fn-date/functions.c:427
-msgid "The TIME function computes the fractional day between midnight at the time given by @{hour}, @{minute}, and @{second}."
-msgstr "Funkcija TIME določi zaporedno decimalno vrednost dela dneva med polnočjo in podanim časom določenim z @{uro}, @{minuto} in @{sekundo}."
+#: ../plugins/fn-date/functions.c:425
+msgid "The TIME function computes the fractional day after midnight at the time given by @{hour}, @{minute}, and @{second}."
+msgstr "Funkcija TIME izračuna decimalno vrednost dela dneva med polnočjo in podanim časom določenim z @{uro}, @{minuto} in @{sekundo}."
 
-#: ../plugins/fn-date/functions.c:450
-msgid "TIMEVALUE:the time part of a date and time serial value"
-msgstr "TIMEVALUE: časovni del zaporedne vrednosti datuma in časa"
+#: ../plugins/fn-date/functions.c:426
+msgid "If any of @{hour}, @{minute}, and @{second} is negative, #NUM! is returned"
+msgstr "V kolikor je katerokoli izmed vrednosti @{ure}, @{minute} ali @{sekunde} negativna vrednost, funkcija TIME vrne napako #NUM!."
 
-#: ../plugins/fn-date/functions.c:452
-msgid "TIMEVALUE returns the time-of-day part of a date and time serial value."
-msgstr "Funkcija TIMEVALUE vrne čas dneva kot del zaporedne vrednosti datuma in časa."
+#: ../plugins/fn-date/functions.c:457
+msgid "hour:hour"
+msgstr "ure: ure"
 
-#: ../plugins/fn-date/functions.c:469
-msgid "HOUR:compute hour part of fractional day"
-msgstr "HOUR: izračunan urni del obdobja dneva, zapisan kot decimalno število"
+#: ../plugins/fn-date/functions.c:458
+msgid "minute:minute"
+msgstr "minute: minute"
 
-#: ../plugins/fn-date/functions.c:470
-#: ../plugins/fn-date/functions.c:493
-#: ../plugins/fn-date/functions.c:516
-msgid "time:time of day as fractional day"
-msgstr "čas:čas dneva kot obdobje dneva, zapisan kot decimalno število"
+#: ../plugins/fn-date/functions.c:459
+msgid "second:second"
+msgstr "sekunde: sekunde"
 
-#: ../plugins/fn-date/functions.c:471
-msgid "The HOUR function computes the hour part of the fractional day given by @{time}."
-msgstr "Funkcija HOUR izračuna urni del obdobja dneva, ki ga določa @{čas}."
+#: ../plugins/fn-date/functions.c:460
+msgid "The TIME function computes the time given by @{hour}, @{minute}, and @{second} as a fraction of a day."
+msgstr "Funkcija TIME izračuna delež časa, ki je podan z @{uro}, @{minuto} in @{sekundo}."
 
-#: ../plugins/fn-date/functions.c:492
-msgid "MINUTE:compute minute part of fractional day"
-msgstr "MINUTE: izračunan minutni del obdobja dneva, zapisan kot decimalno število"
-
-#: ../plugins/fn-date/functions.c:494
-msgid "The MINUTE function computes the minute part of the fractional day given by @{time}."
-msgstr "Funkcija MINUTE izračuna minutni del obdobja dneva, ki ga določa @{čas}."
-
-#: ../plugins/fn-date/functions.c:515
-msgid "SECOND:compute seconds part of fractional day"
-msgstr "SECOND: izračunan sekundni del obdobja dneva, zapisan kot decimalno število"
-
-#: ../plugins/fn-date/functions.c:517
-msgid "The SECOND function computes the seconds part of the fractional day given by @{time}."
-msgstr "Funkcija SECOND izračuna sekundni del obdobja dneva, ki ga določa @{čas}."
-
-#: ../plugins/fn-date/functions.c:538
-msgid "YEAR:the year part of a date serial value"
-msgstr "YEAR:leto vpisane vrednosti datuma"
-
-#: ../plugins/fn-date/functions.c:540
-msgid "The YEAR function returns the year part of @{date}."
-msgstr "Funkcija YEAR vrne leto vpisanega @{datuma}."
-
-#: ../plugins/fn-date/functions.c:562
-msgid "MONTH:the month part of a date serial value"
-msgstr "MONTH:mesec vpisane vrednosti datuma"
-
-#: ../plugins/fn-date/functions.c:564
-msgid "The MONTH function returns the month part of @{date}."
-msgstr "Funkcija MONTH vrne mesec vpisanega @{datuma}."
-
-#: ../plugins/fn-date/functions.c:586
-msgid "DAY:the day-of-month part of a date serial value"
-msgstr "DAY:dan meseca vpisane vrednosti datuma"
-
-#: ../plugins/fn-date/functions.c:588
-msgid "The DAY function returns the day-of-month part of @{date}."
-msgstr "Funkcija DAY vrne dan meseca vpisanega @{datuma}."
-
-#: ../plugins/fn-date/functions.c:610
-msgid "WEEKDAY:day-of-week"
-msgstr "WEEKDAY:dan v tednu"
-
-#: ../plugins/fn-date/functions.c:612
-#: ../plugins/fn-date/functions.c:1184
-msgid "method:numbering system, defaults to 1"
-msgstr "način:številčni sistem, privzeto določen kot 1"
-
-#: ../plugins/fn-date/functions.c:613
-msgid "The WEEKDAY function returns the day-of-week of @{date}.  The value of @{method} determines how days are numbered; it defaults to 1. "
-msgstr "Funkcija WEEKDAY vrne dan tedna, kot je določen z @{datumom}. Vrednost @{načina} določi oštevilčenje; privzeto je določena vrednost 1. "
-
-#: ../plugins/fn-date/functions.c:614
-msgid "If @{method} is 1, then Sunday is 1, Monday is 2, etc."
-msgstr "V kolikor je @{način} opredeljen z 1, je nedelja 1 dan tedna, ponedeljek 2, ..."
-
-#: ../plugins/fn-date/functions.c:615
-msgid "If @{method} is 2, then Monday is 1, Tuesday is 2, etc."
-msgstr "V kolikor je @{način} opredeljen z 2, je ponedeljek 1 dan tedna, torek 2, ..."
-
-#: ../plugins/fn-date/functions.c:616
-msgid "If @{method} is 3, then Monday is 0, Tuesday is 1, etc."
-msgstr "V kolikor je @{način} opredeljen s 3, je ponedeljek 0 dan tedna, torek 1, ..."
-
-#: ../plugins/fn-date/functions.c:650
-msgid "DAYS360:days between dates"
-msgstr "DAYS360:število dni med dvema datumoma"
-
-#: ../plugins/fn-date/functions.c:653
-msgid "method:counting method"
-msgstr "način:način štetja"
-
-#: ../plugins/fn-date/functions.c:654
-msgid "DAYS360 returns the number of days from @{start_date} to @{end_date}."
-msgstr "Funkcija DAYS360 vrne število dni od @{začetnega_datuma} to @{končnega_datuma}."
-
-#: ../plugins/fn-date/functions.c:655
-msgid "If @{method} is 0, the default, the MS Excel (tm) US method will be used. This is a somewhat complicated industry standard method where the last day of February is considered to be the 30th day of the month, but only for @{start_date}."
-msgstr "V kolikor je uporabljen @{način} določen z 0, je privzeto uporabljen način MS Excel (tm) US. Ta način je zasnovan na določilu, da je zadnji dan meseca februarja 30. dan meseca, vendar le, če je to @{začetni_datum}."
-
-#: ../plugins/fn-date/functions.c:656
-msgid "If @{method} is 1, the European method will be used.  In this case, if the day of the month is 31 it will be considered as 30"
-msgstr "V kolikor je uporabljen @{način} določen z 1, je uporabljen evropski način. Ta način je zasnovan na določilu, da je zadnji dan mesecev, ki imajo 31 dni, obravnavan kot 30. dan."
-
-#: ../plugins/fn-date/functions.c:657
-msgid "If @{method} is 2, a saner version of the US method is used in which both dates get the same February treatment."
-msgstr "V kolikor @{način} določen z 2, je uporabljen način, pri katerem je vsak datum zasnovan na določilu, da je zadnji dan meseca februarja 30. dan meseca."
-
-#: ../plugins/fn-date/functions.c:692
-msgid "EOMONTH:end of month"
-msgstr "EOMONTH: konec meseca"
-
-#: ../plugins/fn-date/functions.c:695
-msgid "EOMONTH returns the date serial value of the end of the month specified by @{date} adjusted forward or backward the number of months specified by @{months}."
-msgstr "Funkcija EOMONTH vrne zaporedno vrednost datuma konca meseca, kot je določen z @{datumom} in je premaknjen naprej ali nazaj za število @{mesecev}."
-
-#: ../plugins/fn-date/functions.c:732
-msgid "WORKDAY:add working days"
-msgstr "WORKDAY:dodajanje delovnih dni working days"
-
-#: ../plugins/fn-date/functions.c:734
-msgid "days:number of days to add"
-msgstr "dni:število dni za dodajanje"
-
-#: ../plugins/fn-date/functions.c:735
-#: ../plugins/fn-date/functions.c:958
-msgid "holidays:array of holidays"
-msgstr "prazniki:polje podatkov o praznikih"
-
-#: ../plugins/fn-date/functions.c:736
-#: ../plugins/fn-date/functions.c:959
-msgid "weekend:array of 0s and 1s, indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {1,0,0,0,0,0,1}"
-msgstr "konec_tedna:podatkovno polje vrednosti 0 in 1, kjer je dan vikenda določen z vrednostjo 1. V vrsti (P, T, S, Č, P, S, N) je konec tedna določen z {0,0,0,0,0,1,1}"
-
-#: ../plugins/fn-date/functions.c:738
-msgid "WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in the process."
-msgstr "Funkcija WORKDAY pretvori @{datum} v @{dni} in medtem preskoči vikende in @{praznike}."
-
-#: ../plugins/fn-date/functions.c:739
-msgid "@{days} may be negative."
-msgstr "vrednost @{dni} je lahko negativna"
-
-#: ../plugins/fn-date/functions.c:740
-#: ../plugins/fn-date/functions.c:962
-msgid "If an entry of @{weekend} is non-zero, the corresponding weekday is not a work day."
-msgstr "V kolikor vnos @{vikenda} ni enak nič, dan tedna ni delovni dan"
-
-#: ../plugins/fn-date/functions.c:741
-#: ../plugins/fn-date/functions.c:963
-msgid "This function is Excel compatible if the last argument is omitted."
-msgstr "Funkcija je združljiva s programom MS Excel, v kolikor je izpuščen zadnji argument."
-
-#: ../plugins/fn-date/functions.c:742
-#: ../plugins/fn-date/functions.c:964
-#: ../plugins/fn-date/functions.c:1254
+#: ../plugins/fn-date/functions.c:463
+#: ../plugins/fn-date/functions.c:776
+#: ../plugins/fn-date/functions.c:998
+#: ../plugins/fn-date/functions.c:1288
 #: ../plugins/fn-eng/functions.c:213
 #: ../plugins/fn-eng/functions.c:317
 #: ../plugins/fn-eng/functions.c:386
@@ -1240,60 +1107,215 @@ msgstr "Funkcija je združljiva s programom MS Excel, v kolikor je izpuščen za
 msgid "This function is OpenFormula compatible."
 msgstr "Funkcija je združljiva s funkcijami programa OpenFormula."
 
-#: ../plugins/fn-date/functions.c:955
+#: ../plugins/fn-date/functions.c:484
+msgid "TIMEVALUE:the time part of a date and time serial value"
+msgstr "TIMEVALUE: časovni del zaporedne vrednosti datuma in časa"
+
+#: ../plugins/fn-date/functions.c:486
+msgid "TIMEVALUE returns the time-of-day part of a date and time serial value."
+msgstr "Funkcija TIMEVALUE vrne čas dneva kot del zaporedne vrednosti datuma in časa."
+
+#: ../plugins/fn-date/functions.c:503
+msgid "HOUR:compute hour part of fractional day"
+msgstr "HOUR: izračunan urni del obdobja dneva, zapisan kot decimalno število"
+
+#: ../plugins/fn-date/functions.c:504
+#: ../plugins/fn-date/functions.c:527
+#: ../plugins/fn-date/functions.c:550
+msgid "time:time of day as fractional day"
+msgstr "čas:čas dneva kot obdobje dneva, zapisan kot decimalno število"
+
+#: ../plugins/fn-date/functions.c:505
+msgid "The HOUR function computes the hour part of the fractional day given by @{time}."
+msgstr "Funkcija HOUR izračuna urni del obdobja dneva, ki ga določa @{čas}."
+
+#: ../plugins/fn-date/functions.c:526
+msgid "MINUTE:compute minute part of fractional day"
+msgstr "MINUTE: izračunan minutni del obdobja dneva, zapisan kot decimalno število"
+
+#: ../plugins/fn-date/functions.c:528
+msgid "The MINUTE function computes the minute part of the fractional day given by @{time}."
+msgstr "Funkcija MINUTE izračuna minutni del obdobja dneva, ki ga določa @{čas}."
+
+#: ../plugins/fn-date/functions.c:549
+msgid "SECOND:compute seconds part of fractional day"
+msgstr "SECOND: izračunan sekundni del obdobja dneva, zapisan kot decimalno število"
+
+#: ../plugins/fn-date/functions.c:551
+msgid "The SECOND function computes the seconds part of the fractional day given by @{time}."
+msgstr "Funkcija SECOND izračuna sekundni del obdobja dneva, ki ga določa @{čas}."
+
+#: ../plugins/fn-date/functions.c:572
+msgid "YEAR:the year part of a date serial value"
+msgstr "YEAR:leto vpisane vrednosti datuma"
+
+#: ../plugins/fn-date/functions.c:574
+msgid "The YEAR function returns the year part of @{date}."
+msgstr "Funkcija YEAR vrne leto vpisanega @{datuma}."
+
+#: ../plugins/fn-date/functions.c:596
+msgid "MONTH:the month part of a date serial value"
+msgstr "MONTH:mesec vpisane vrednosti datuma"
+
+#: ../plugins/fn-date/functions.c:598
+msgid "The MONTH function returns the month part of @{date}."
+msgstr "Funkcija MONTH vrne mesec vpisanega @{datuma}."
+
+#: ../plugins/fn-date/functions.c:620
+msgid "DAY:the day-of-month part of a date serial value"
+msgstr "DAY:dan meseca vpisane vrednosti datuma"
+
+#: ../plugins/fn-date/functions.c:622
+msgid "The DAY function returns the day-of-month part of @{date}."
+msgstr "Funkcija DAY vrne dan meseca vpisanega @{datuma}."
+
+#: ../plugins/fn-date/functions.c:644
+msgid "WEEKDAY:day-of-week"
+msgstr "WEEKDAY:dan v tednu"
+
+#: ../plugins/fn-date/functions.c:646
+#: ../plugins/fn-date/functions.c:1218
+msgid "method:numbering system, defaults to 1"
+msgstr "način:številčni sistem, privzeto določen kot 1"
+
+#: ../plugins/fn-date/functions.c:647
+msgid "The WEEKDAY function returns the day-of-week of @{date}.  The value of @{method} determines how days are numbered; it defaults to 1. "
+msgstr "Funkcija WEEKDAY vrne dan tedna, kot je določen z @{datumom}. Vrednost @{načina} določi oštevilčenje; privzeto je določena vrednost 1. "
+
+#: ../plugins/fn-date/functions.c:648
+msgid "If @{method} is 1, then Sunday is 1, Monday is 2, etc."
+msgstr "V kolikor je @{način} opredeljen z 1, je nedelja 1 dan tedna, ponedeljek 2, ..."
+
+#: ../plugins/fn-date/functions.c:649
+msgid "If @{method} is 2, then Monday is 1, Tuesday is 2, etc."
+msgstr "V kolikor je @{način} opredeljen z 2, je ponedeljek 1 dan tedna, torek 2, ..."
+
+#: ../plugins/fn-date/functions.c:650
+msgid "If @{method} is 3, then Monday is 0, Tuesday is 1, etc."
+msgstr "V kolikor je @{način} opredeljen s 3, je ponedeljek 0 dan tedna, torek 1, ..."
+
+#: ../plugins/fn-date/functions.c:684
+msgid "DAYS360:days between dates"
+msgstr "DAYS360:število dni med dvema datumoma"
+
+#: ../plugins/fn-date/functions.c:687
+msgid "method:counting method"
+msgstr "način:način štetja"
+
+#: ../plugins/fn-date/functions.c:688
+msgid "DAYS360 returns the number of days from @{start_date} to @{end_date}."
+msgstr "Funkcija DAYS360 vrne število dni od @{začetnega_datuma} to @{končnega_datuma}."
+
+#: ../plugins/fn-date/functions.c:689
+msgid "If @{method} is 0, the default, the MS Excel (tm) US method will be used. This is a somewhat complicated industry standard method where the last day of February is considered to be the 30th day of the month, but only for @{start_date}."
+msgstr "V kolikor je uporabljen @{način} določen z 0, je privzeto uporabljen način MS Excel (tm) US. Ta način je zasnovan na določilu, da je zadnji dan meseca februarja 30. dan meseca, vendar le, če je to @{začetni_datum}."
+
+#: ../plugins/fn-date/functions.c:690
+msgid "If @{method} is 1, the European method will be used.  In this case, if the day of the month is 31 it will be considered as 30"
+msgstr "V kolikor je uporabljen @{način} določen z 1, je uporabljen evropski način. Ta način je zasnovan na določilu, da je zadnji dan mesecev, ki imajo 31 dni, obravnavan kot 30. dan."
+
+#: ../plugins/fn-date/functions.c:691
+msgid "If @{method} is 2, a saner version of the US method is used in which both dates get the same February treatment."
+msgstr "V kolikor @{način} določen z 2, je uporabljen način, pri katerem je vsak datum zasnovan na določilu, da je zadnji dan meseca februarja 30. dan meseca."
+
+#: ../plugins/fn-date/functions.c:726
+msgid "EOMONTH:end of month"
+msgstr "EOMONTH: konec meseca"
+
+#: ../plugins/fn-date/functions.c:729
+msgid "EOMONTH returns the date serial value of the end of the month specified by @{date} adjusted forward or backward the number of months specified by @{months}."
+msgstr "Funkcija EOMONTH vrne zaporedno vrednost datuma konca meseca, kot je določen z @{datumom} in je premaknjen naprej ali nazaj za število @{mesecev}."
+
+#: ../plugins/fn-date/functions.c:766
+msgid "WORKDAY:add working days"
+msgstr "WORKDAY:dodajanje delovnih dni working days"
+
+#: ../plugins/fn-date/functions.c:768
+msgid "days:number of days to add"
+msgstr "dni:število dni za dodajanje"
+
+#: ../plugins/fn-date/functions.c:769
+#: ../plugins/fn-date/functions.c:992
+msgid "holidays:array of holidays"
+msgstr "prazniki:polje podatkov o praznikih"
+
+#: ../plugins/fn-date/functions.c:770
+#: ../plugins/fn-date/functions.c:993
+msgid "weekend:array of 0s and 1s, indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {1,0,0,0,0,0,1}"
+msgstr "konec_tedna:podatkovno polje vrednosti 0 in 1, kjer je dan vikenda določen z vrednostjo 1. V vrsti (P, T, S, Č, P, S, N) je konec tedna določen z {0,0,0,0,0,1,1}"
+
+#: ../plugins/fn-date/functions.c:772
+msgid "WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in the process."
+msgstr "Funkcija WORKDAY pretvori @{datum} v @{dni} in medtem preskoči vikende in @{praznike}."
+
+#: ../plugins/fn-date/functions.c:773
+msgid "@{days} may be negative."
+msgstr "vrednost @{dni} je lahko negativna"
+
+#: ../plugins/fn-date/functions.c:774
+#: ../plugins/fn-date/functions.c:996
+msgid "If an entry of @{weekend} is non-zero, the corresponding weekday is not a work day."
+msgstr "V kolikor vnos @{vikenda} ni enak nič, dan tedna ni delovni dan"
+
+#: ../plugins/fn-date/functions.c:775
+#: ../plugins/fn-date/functions.c:997
+msgid "This function is Excel compatible if the last argument is omitted."
+msgstr "Funkcija je združljiva s programom MS Excel, v kolikor je izpuščen zadnji argument."
+
+#: ../plugins/fn-date/functions.c:989
 msgid "NETWORKDAYS:number of workdays in range"
 msgstr "NETWORKDAYS:število delovnih dni v podatkovni vrsti"
 
-#: ../plugins/fn-date/functions.c:961
+#: ../plugins/fn-date/functions.c:995
 msgid "NETWORKDAYS calculates the number of days from @{start_date} to @{end_date} skipping weekends and @{holidays} in the process."
 msgstr "Funkcija NETWORKDAYS izračuna število dni med @{začetnim_datumom} in @{končnim_datumom}, pri tem pa preskoči vikende in @{praznike}."
 
-#: ../plugins/fn-date/functions.c:1122
+#: ../plugins/fn-date/functions.c:1156
 msgid "ISOWEEKNUM:ISO week number"
 msgstr "ISOWEEKNUM:ISO številčna vrednost tedna"
 
-#: ../plugins/fn-date/functions.c:1124
+#: ../plugins/fn-date/functions.c:1158
 msgid "ISOWEEKNUM calculates the week number according to the ISO 8601 standard.  Weeks start on Mondays and week 1 contains the first Thursday of the year."
 msgstr "Funkcija ISOWEEKNUM izračuna zaporedno številka tedna po standardu ISO 8601. Teden se začne s ponedeljkom, prvi teden pa mora vključevati tudi prvi četrtek v letu."
 
-#: ../plugins/fn-date/functions.c:1125
-#: ../plugins/fn-date/functions.c:1149
+#: ../plugins/fn-date/functions.c:1159
+#: ../plugins/fn-date/functions.c:1183
 msgid "January 1 of a year is sometimes in week 52 or 53 of the previous year.  Similarly, December 31 is sometimes in week 1 of the following year."
 msgstr "Zaporedna številka tedna na 1. januar je včasih v 52., včasih pa 53. tednu predhodnega leta. Podobno je 31. december včasih v 1. tednu prihajajočega leta."
 
-#: ../plugins/fn-date/functions.c:1146
+#: ../plugins/fn-date/functions.c:1180
 msgid "ISOYEAR:year corresponding to the ISO week number"
 msgstr "ISOYEAR:leto, kot je določeno z zaporedno številko ISO za teden"
 
-#: ../plugins/fn-date/functions.c:1148
+#: ../plugins/fn-date/functions.c:1182
 msgid "ISOYEAR calculates the year to go with week number according to the ISO 8601 standard."
 msgstr "Funkcija ISOYEAR izračuna leto, ki sovpada z zaporedno številko tedna po standardu ISO 8601."
 
-#: ../plugins/fn-date/functions.c:1182
+#: ../plugins/fn-date/functions.c:1216
 msgid "WEEKNUM:week number"
 msgstr "WEEKNUM:številka tedna"
 
-#: ../plugins/fn-date/functions.c:1185
+#: ../plugins/fn-date/functions.c:1219
 msgid "WEEKNUM calculates the week number according to @{method} which defaults to 1."
 msgstr "Funkcija WEEKNUM izračuna zaporedno številko tedna na @{način}, ki privzeto določa vrednost 1."
 
-#: ../plugins/fn-date/functions.c:1186
+#: ../plugins/fn-date/functions.c:1220
 msgid "If @{method} is 1, then weeks start on Sundays and January 1 is in week 1."
 msgstr "V kolikor je @{način} določen z 1, se teden začne z nedeljo in 1. januar je v prvem tednu leta."
 
-#: ../plugins/fn-date/functions.c:1187
+#: ../plugins/fn-date/functions.c:1221
 msgid "If @{method} is 2, then weeks start on Mondays and January 1 is in week 1."
 msgstr "V kolikor je @{način} določen z 2, se teden začne s ponedeljkom in 1. januar je v prvem tednu leta."
 
-#: ../plugins/fn-date/functions.c:1188
+#: ../plugins/fn-date/functions.c:1222
 msgid "If @{method} is 150, then the ISO 8601 numbering is used."
 msgstr "V kolikor je @{način} določen s 150, bo uporabljeno štetje po standardu 8601."
 
-#: ../plugins/fn-date/functions.c:1221
+#: ../plugins/fn-date/functions.c:1255
 msgid "YEARFRAC:fractional number of years between dates"
 msgstr "YEARFRAC:število let med datumi, zapisanih kot decimalno število"
 
-#: ../plugins/fn-date/functions.c:1224
+#: ../plugins/fn-date/functions.c:1258
 #: ../plugins/fn-financial/functions.c:454
 #: ../plugins/fn-financial/functions.c:492
 #: ../plugins/fn-financial/functions.c:530
@@ -1321,15 +1343,15 @@ msgstr "YEARFRAC:število let med datumi, zapisanih kot decimalno število"
 msgid "basis:calendar basis"
 msgstr "osnova:osnova koledarja"
 
-#: ../plugins/fn-date/functions.c:1225
+#: ../plugins/fn-date/functions.c:1259
 msgid "YEARFRAC calculates the number of days from @{start_date} to @{end_date} according to the calendar specified by @{basis}, which defaults to 0, and expresses the result as a fractional number of years."
 msgstr "Funkcija YEARFRAC izračuna število dni med @{začetnim_datumom} in @{končnim_datumom} po koledarju, določenim z vrednostjo @{osnove}, ki je privzeto določena z 0 in se izrazi kot decimalno število let."
 
-#: ../plugins/fn-date/functions.c:1250
+#: ../plugins/fn-date/functions.c:1284
 msgid "DAYS:difference between dates in days"
 msgstr "DAYS:razlika datumov izražena v dnevih"
 
-#: ../plugins/fn-date/functions.c:1253
+#: ../plugins/fn-date/functions.c:1287
 msgid "DAYS returns the positive or negative number of days from @{start_date} to @{end_date}."
 msgstr "Funkcija DAYS vrne pozitivno ali negativno število dni med @{začetnim_datumom} in @{končnim_datumom}."
 
@@ -1533,8 +1555,9 @@ msgid "OPT_GARMAN_KOHLHAGEN values the theoretical price of a European currency 
 msgstr "Funkcija OPT_GARMAN_KOHLHAGEN oceni teoretično ceno evropske valutne opcije, izvršene pri @{izvršilni ceni} na premoženju ovrednotenem z @{gotovinsko ceno}."
 
 #: ../plugins/fn-derivatives/options.c:678
+#, fuzzy
 msgid "OPT_FRENCH:theoretical price of a European option adjusted for trading day volatility"
-msgstr ""
+msgstr "OPT_FRENCH: teoretična cena evropske opcije, prilagojene na nestanovitnost trgovalnega dne"
 
 #: ../plugins/fn-derivatives/options.c:682
 msgid "time:ratio of the number of calendar days to exercise and the number of calendar days in the year"
@@ -1545,8 +1568,9 @@ msgid "ttime:ratio of the number of trading days to exercise and the number of t
 msgstr "tčas: razmerje med številom trgovalnih dni do izvršitve in števila trgovalnih dni v letu"
 
 #: ../plugins/fn-derivatives/options.c:687
+#, fuzzy
 msgid "OPT_FRENCH values the theoretical price of a European option adjusted for trading day volatility, struck at @{strike} on an asset with spot price @{spot}."
-msgstr ""
+msgstr "Funkcija OPT_FRENCH vrednosti teoretično ceno evropske opcije, prilagojena za nestanovitnost trgovalnega dne, z vrednostjo @{izvršilne cene} na sredstvih vrednotenih z @{gotovinsko ceno}."
 
 #: ../plugins/fn-derivatives/options.c:731
 msgid "OPT_JUMP_DIFF:theoretical price of an option according to the Jump Diffusion process"
@@ -1614,8 +1638,9 @@ msgid "rho_ef:correlation between the forward interest rate and the convenience 
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:831
+#, fuzzy
 msgid "kappa_e:speed of mean reversion of the convenience yield"
-msgstr ""
+msgstr "kapa_f: hitrost vrnitve k povprečni vrednosti terminske obrestne mere"
 
 #: ../plugins/fn-derivatives/options.c:832
 msgid "kappa_f:speed of mean reversion of the forward interest rate"
@@ -1678,8 +1703,9 @@ msgid "OPT_TIME_SWITCH models the theoretical price of time switch options. (Pec
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1336
+#, fuzzy
 msgid "OPT_SIMPLE_CHOOSER:theoretical price of a simple chooser option"
-msgstr ""
+msgstr "OPT_GARMAN_KOHLHAGEN: teoretična cena opcije evropske denarne enote"
 
 #: ../plugins/fn-derivatives/options.c:1340
 msgid "time1:time in years until the holder chooses a put or a call option"
@@ -1690,8 +1716,9 @@ msgid "time2:time in years until the chosen option expires"
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1385
+#, fuzzy
 msgid "OPT_COMPLEX_CHOOSER:theoretical price of a complex chooser option"
-msgstr ""
+msgstr "OPT_GARMAN_KOHLHAGEN: teoretična cena opcije evropske denarne enote"
 
 #: ../plugins/fn-derivatives/options.c:1387
 msgid "strike_call:strike price, if exercised as a call option"
@@ -2456,7 +2483,7 @@ msgstr ""
 
 #: ../plugins/fn-erlang/functions.c:105
 msgid "PROBBLOCK:probability of blocking"
-msgstr ""
+msgstr "PROBBLOCK: verjetnost blokade"
 
 #: ../plugins/fn-erlang/functions.c:106
 #: ../plugins/fn-erlang/functions.c:191
@@ -2471,7 +2498,7 @@ msgstr "kanali: število kanalov"
 
 #: ../plugins/fn-erlang/functions.c:108
 msgid "PROBBLOCK returns probability of blocking when @{traffic} calls load into @{circuits} circuits."
-msgstr ""
+msgstr "Funkcija PROBBLOCK vrne verjetnost blokade, ko se klicni @{promet} prevede v razpoložljive @{kanale}."
 
 #: ../plugins/fn-erlang/functions.c:110
 #: ../plugins/fn-erlang/functions.c:134
@@ -3783,11 +3810,11 @@ msgstr "Funkcija preveri ali je vrednost ali PRAV ali NAPAK."
 
 #: ../plugins/fn-info/functions.c:1624
 msgid "ISNONTEXT:TRUE if @{value} is not text"
-msgstr "ISNONTEXT:funkcija vrne PRAV, v kolikor @{vrednost} ni besedilo"
+msgstr "ISNONTEXT: funkcija vrne PRAV, v kolikor @{vrednost} ni besedilo"
 
 #: ../plugins/fn-info/functions.c:1641
 msgid "ISNUMBER:TRUE if @{value} is a number"
-msgstr "ISNUMBER:funkcija vrne PRAV, v kolikor je @{vrednost} število"
+msgstr "ISNUMBER: funkcija vrne PRAV, v kolikor je @{vrednost} število"
 
 #: ../plugins/fn-info/functions.c:1643
 msgid "This function checks if a value is a number.  Neither TRUE nor FALSE are numbers for this purpose."
@@ -3795,11 +3822,11 @@ msgstr "Funkcija preveri ali je vrednost število. Pri tem vrednosti PRAV in NAP
 
 #: ../plugins/fn-info/functions.c:1659
 msgid "ISODD:TRUE if @{n} is odd"
-msgstr "ISODD:funkcija vrne PRAV, v kolikor je @{n} liho število"
+msgstr "ISODD: funkcija vrne PRAV, v kolikor je @{n} liho število"
 
 #: ../plugins/fn-info/functions.c:1680
 msgid "ISREF:TRUE if @{value} is a reference"
-msgstr "ISREF:funkcija vrne PRAV, v kolikor je @{vrednost} sklic"
+msgstr "ISREF: funkcija vrne PRAV, v kolikor je @{vrednost} sklic"
 
 #: ../plugins/fn-info/functions.c:1682
 msgid "This function checks if a value is a cell reference."
@@ -4336,8 +4363,9 @@ msgid "OFFSET returns the cell range starting at offset (@{row},@{col}) from @{r
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1474
+#, fuzzy
 msgid "If @{range} is neither a reference nor a range, OFFSET returns #VALUE!"
-msgstr ""
+msgstr "V kolikor @{x} ni niti polje niti sklic in ne obseg, funkcija vrne napako #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:1523
 msgid "ROW:vector of row numbers"
@@ -5327,15 +5355,15 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2517
 msgid "SERIESSUM:sum of a power series at @{x}"
-msgstr ""
+msgstr "SERIESSUM: vsota potenčne vrste pri @{x}"
 
 #: ../plugins/fn-math/functions.c:2518
 msgid "x:number where to evaluate the power series"
-msgstr ""
+msgstr "x: število za oceno potenčne vrste"
 
 #: ../plugins/fn-math/functions.c:2519
 msgid "n:non-negative integer, exponent of the lowest term of the series"
-msgstr ""
+msgstr "n: ne-negativno celo število, potenca okrajšanega ulomka vrste"
 
 #: ../plugins/fn-math/functions.c:2520
 msgid "m:increment to each exponent"
@@ -5343,7 +5371,7 @@ msgstr "m:povečanje vsake potence"
 
 #: ../plugins/fn-math/functions.c:2521
 msgid "coeff:coefficients of the power series"
-msgstr ""
+msgstr "coeff: koeficienti potenčne vrste"
 
 #: ../plugins/fn-math/functions.c:2575
 msgid "MINVERSE:the inverse matrix of @{matrix}"
@@ -6986,9 +7014,8 @@ msgid "TRIMMEAN:mean of the interior of a data set"
 msgstr "TRIMMEAN: srednja vrednost notranjosti podatkovne množice"
 
 #: ../plugins/fn-stat/functions.c:272
-#, fuzzy
 msgid "ref:list of numbers whose mean you want to calculate"
-msgstr "ref: seznam števil, katerih srednjo vrednost želite izračunati"
+msgstr "sklic: seznam števil, katerih srednjo vrednost želite izračunati"
 
 #: ../plugins/fn-stat/functions.c:273
 msgid "fraction:fraction of the data set excluded from the mean"
@@ -7086,7 +7113,7 @@ msgstr "NEGBINOMDIST: verjetnostna funkcija negativne binomske porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:411
 msgid "f:number of failures"
-msgstr "f:število neuspešnih poskusov"
+msgstr "f: število neuspešnih poskusov"
 
 #: ../plugins/fn-stat/functions.c:412
 msgid "t:threshold number of successes"
@@ -7094,7 +7121,7 @@ msgstr "t: pražno število uspešnih dogodkov"
 
 #: ../plugins/fn-stat/functions.c:413
 msgid "p:probability of a success"
-msgstr "p:verjetnost uspeha"
+msgstr "p: verjetnost uspeha"
 
 #: ../plugins/fn-stat/functions.c:414
 msgid "If @{f} or @{t} is a non-integer it is truncated."
@@ -7132,7 +7159,7 @@ msgstr "NORMSINV: inverzno funkcijo zbirne funkcije gostote standardne normalne 
 
 #: ../plugins/fn-stat/functions.c:464
 msgid "p:given probability"
-msgstr "p:podana verjetnost"
+msgstr "p: podana verjetnost"
 
 #: ../plugins/fn-stat/functions.c:465
 msgid "If @{p} < 0 or @{p} > 1 this function returns #NUM! error."
@@ -7149,12 +7176,12 @@ msgstr "LOGNORMDIST: zbirna funkcija logaritemsko normalne porazdelitve"
 #: ../plugins/fn-stat/functions.c:493
 #: ../plugins/fn-stat/functions.c:523
 msgid "mean:mean"
-msgstr "srednja:srednja vrednost"
+msgstr "srednja: srednja vrednost"
 
 #: ../plugins/fn-stat/functions.c:494
 #: ../plugins/fn-stat/functions.c:524
 msgid "stddev:standard deviation"
-msgstr "stddev:standardni odklon"
+msgstr "stddev: standardni odklon"
 
 #: ../plugins/fn-stat/functions.c:495
 msgid "If @{stddev} = 0 LOGNORMDIST returns a #DIV/0! error."
@@ -7279,7 +7306,7 @@ msgstr "wolfram:HarmonicMean.html"
 
 #: ../plugins/fn-stat/functions.c:625
 msgid "GEOMEAN:geometric mean"
-msgstr "GEOMEAN:geometrična strednja vrednost"
+msgstr "GEOMEAN: geometrična strednja vrednost"
 
 #: ../plugins/fn-stat/functions.c:628
 msgid "The geometric mean is equal to the Nth root of the product of the N values."
@@ -7434,7 +7461,7 @@ msgstr "GAMMADIST: funkcije verjetnostni gostote ali zbirna funkcija porazdelitv
 #: ../plugins/fn-stat/functions.c:1185
 #: ../plugins/fn-stat/functions.c:1749
 msgid "alpha:scale parameter"
-msgstr "alfa:parameter merila"
+msgstr "alfa: parameter merila"
 
 #: ../plugins/fn-stat/functions.c:944
 #: ../plugins/fn-stat/functions.c:977
@@ -7442,7 +7469,7 @@ msgstr "alfa:parameter merila"
 #: ../plugins/fn-stat/functions.c:1186
 #: ../plugins/fn-stat/functions.c:1750
 msgid "beta:scale parameter"
-msgstr "beta:parameter merila"
+msgstr "beta: parameter merila"
 
 #: ../plugins/fn-stat/functions.c:946
 #: ../plugins/fn-stat/functions.c:1310
@@ -7522,7 +7549,7 @@ msgstr "dejanski_obseg:opazovani podatki"
 
 #: ../plugins/fn-stat/functions.c:1061
 msgid "theoretical_range:expected values"
-msgstr "teoretični_obseg:pričakovane vrednosti"
+msgstr "teoretični_obseg: pričakovane vrednosti"
 
 #: ../plugins/fn-stat/functions.c:1062
 msgid "If the actual range is not an n by 1 or 1 by n range, but an n by m range, then CHITEST uses (n-1) times (m-1) as degrees of freedom. This is useful if the expected values were calculated from the observed value in a test of independence or test of homogeneity."
@@ -7637,13 +7664,13 @@ msgstr "n:število uspešnih poskusov"
 #: ../plugins/fn-stat/functions.c:1537
 #: ../plugins/fn-stat/functions.c:1599
 msgid "trials:number of trials"
-msgstr "poskusi:število poskusov"
+msgstr "poskusi: število poskusov"
 
 #: ../plugins/fn-stat/functions.c:1504
 #: ../plugins/fn-stat/functions.c:1538
 #: ../plugins/fn-stat/functions.c:1600
 msgid "p:probability of success in each trial"
-msgstr "p:verjetnost uspeha pri vsakem poskusu"
+msgstr "p: verjetnost uspeha pri vsakem poskusu"
 
 #: ../plugins/fn-stat/functions.c:1505
 #: ../plugins/fn-stat/functions.c:1659
@@ -7665,17 +7692,16 @@ msgid "If @{n} > @{trials} this function returns a #NUM! error."
 msgstr "V kolikor je @{n} < od števila @{poskusovk}, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1536
-#, fuzzy
 msgid "BINOM.DIST.RANGE:probability of the binomial distribution over an interval"
 msgstr "BINOM.DIST.RANGE: verjetnost binomske porazdelitve na podanem intervalu"
 
 #: ../plugins/fn-stat/functions.c:1539
 msgid "start:start of the interval"
-msgstr "začetekt:začetek intervala"
+msgstr "začetek: začetek intervala"
 
 #: ../plugins/fn-stat/functions.c:1540
 msgid "end:end of the interval, defaults to @{start}"
-msgstr "konec:konec intervala, privzeto je enak @{začetku}"
+msgstr "konec: konec intervala, privzeto je enak @{začetku}"
 
 #: ../plugins/fn-stat/functions.c:1541
 msgid "If @{start}, @{end} or @{trials} are non-integer they are truncated."
@@ -7938,13 +7964,13 @@ msgstr "PEARSON: Pearsonov koeficient soodnosnosti dveh odvisnih vzorcev podatko
 #: ../plugins/fn-stat/functions.c:2031
 #, fuzzy
 msgid "array1:first component values"
-msgstr "matrika1: vrednosti prve komponente"
+msgstr "polje1: prva podatkovna množica"
 
 #: ../plugins/fn-stat/functions.c:2013
 #: ../plugins/fn-stat/functions.c:2032
 #, fuzzy
 msgid "array2:second component values"
-msgstr "matrika2: vrednosti druge komponente"
+msgstr "polje2: druga podatkovna množica"
 
 #: ../plugins/fn-stat/functions.c:2030
 msgid "RSQ:square of the Pearson correlation coefficient of the paired set of data"
@@ -8104,7 +8130,7 @@ msgstr "Izračun funkcije STEYX(A1:A5,B1:B5) vrne rešitev 1.101509979."
 
 #: ../plugins/fn-stat/functions.c:2412
 msgid "ZTEST:the probability of observing a sample mean as large as or larger than the mean of the given sample"
-msgstr ""
+msgstr "ZTEST: verjetnost opazovanja povprečne vrednosti vzorca, ki je tako velik ali večji od povprečja podanega vzorca"
 
 #: ../plugins/fn-stat/functions.c:2414
 msgid "ref:data set (sample)"
@@ -8116,15 +8142,15 @@ msgstr "x:srednja vrednost populacije"
 
 #: ../plugins/fn-stat/functions.c:2416
 msgid "stddev:population standard deviation, defaults to the sample standard deviation"
-msgstr ""
+msgstr "stddev: standardni odklon populacije, ki je enak odklonu vzorca"
 
 #: ../plugins/fn-stat/functions.c:2417
 msgid "ZTEST calulates the probability of observing a sample mean as large as or larger than the mean of the given sample for samples drawn from a normal distribution with mean @{x} and standard deviation @{stddev}."
-msgstr ""
+msgstr "Funkcija ZTEST izračuna verjetnost opazovanja povprečne vrednosti vzorca, ki je tako velik ali večji od povprečne vrednosti podanega vzorca, ki je del normalne populacije s povprečno vrednostjo @{x} in s standardnim odklonom @{stddev}."
 
 #: ../plugins/fn-stat/functions.c:2420
 msgid "If @{ref} contains less than two data items ZTEST returns #DIV/0! error."
-msgstr ""
+msgstr "V kolikor vsebuje @{sklic} manj kot dva podatka, funkcija ZTEST vrne napako #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:2426
 msgid "Then ZTEST(A1:A5,20) equals 0.254717826."
@@ -8348,8 +8374,9 @@ msgid "data_array:data values"
 msgstr "podatkovno_polje:podatkovne vrednosti"
 
 #: ../plugins/fn-stat/functions.c:3087
+#, fuzzy
 msgid "bins_array:array of cutoff values"
-msgstr ""
+msgstr "polje: polje številčnih vrednosti"
 
 #: ../plugins/fn-stat/functions.c:3088
 msgid "The results are given as an array."
@@ -9033,7 +9060,7 @@ msgstr "PROPER: @{besedilo} zapisano z veliko črko vsake besede"
 
 #: ../plugins/fn-string/functions.c:835
 msgid "REPLACE:string @{old} with @{num} characters starting at @{start} replaced by @{new}"
-msgstr ""
+msgstr "REPLACE: zamenja @{star} niz, ki ima določeno @{število} znakov in se začne na @{začetnem} mestu, z @{novim nizom}."
 
 #: ../plugins/fn-string/functions.c:837
 #: ../plugins/fn-string/functions.c:888
@@ -9056,7 +9083,7 @@ msgstr "novo: niz, s katerim bo zamenjan stari niz"
 
 #: ../plugins/fn-string/functions.c:886
 msgid "REPLACEB:string @{old} with up to @{num} bytes starting at @{start} replaced by @{new}"
-msgstr ""
+msgstr "REPLACEB: zamenja @{star} niz s skupno določenim @{številom} znakov na @{začetnem} mestu, z @{novim nizom}."
 
 #: ../plugins/fn-string/functions.c:889
 msgid "start:starting byte position"
@@ -9068,7 +9095,7 @@ msgstr "štev: število bajtov za zamenjavo"
 
 #: ../plugins/fn-string/functions.c:892
 msgid "REPLACEB replaces the string of valid unicode characters starting at the byte @{start} and ending at @{start}+@{num}-1 with the string @{new}."
-msgstr ""
+msgstr "Funkcija REPLACEB zamenja niz, ki je zapisan z veljavnimi znaki nabora unikod z @{začetnim} mestom in končnem mestu pri @{začetno}+@{število znakov}-1, z @{novim} nizom."
 
 #: ../plugins/fn-string/functions.c:940
 msgid "T:@{value} if and only if @{value} is text, otherwise empty"
