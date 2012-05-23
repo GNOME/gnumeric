@@ -1,3 +1,8 @@
+2012-05-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_time): add note about the range of values
+	(help_odf_time): ditto, and fix description
+
 2012-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_time): adjust information
