@@ -69,11 +69,10 @@ gnm_style_cond_is_valid (GnmStyleCond const *cond)
 }
 
 GnmStyleCond *
-gnm_style_cond_new (GnmStyleCondOp op, GnmStyle *overlay)
+gnm_style_cond_new (GnmStyleCondOp op)
 {
 	GnmStyleCond *res = g_new0 (GnmStyleCond, 1);
 	res->op = op;
-	gnm_style_ref ((res->overlay = overlay));
 	return res;
 }
 
@@ -85,7 +84,8 @@ gnm_style_cond_dup (GnmStyleCond const *src)
 
 	g_return_val_if_fail (src != NULL, NULL);
 
-	dst = gnm_style_cond_new (src->op, src->overlay);
+	dst = gnm_style_cond_new (src->op);
+	gnm_style_cond_set_overlay (dst, src->overlay);
 	for (ui = 0; ui < 2; ui++)
 		gnm_style_cond_set_expr (dst, src->texpr[ui], ui);
 
@@ -121,6 +121,19 @@ gnm_style_cond_set_expr (GnmStyleCond *cond,
 	if (cond->texpr[idx]) gnm_expr_top_unref (cond->texpr[idx]);
 	cond->texpr[idx] = texpr;
 }
+
+void
+gnm_style_cond_set_overlay (GnmStyleCond *cond, GnmStyle *overlay)
+{
+	g_return_if_fail (cond != NULL);
+
+	if (overlay)
+		gnm_style_ref (overlay);
+	if (cond->overlay)
+		gnm_style_unref (cond->overlay);
+	cond->overlay = overlay;
+}
+
 
 static void
 gnm_style_conditions_finalize (GObject *obj)
@@ -162,7 +175,7 @@ gnm_style_conditions_new (void)
 }
 
 GnmStyleConditions *
-gnm_style_conditions_dup  (GnmStyleConditions const *cond)
+gnm_style_conditions_dup (GnmStyleConditions const *cond)
 {
 	GnmStyleConditions *dup;
 	GPtrArray const *ga;

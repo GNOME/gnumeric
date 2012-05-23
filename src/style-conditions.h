@@ -42,14 +42,15 @@ typedef struct {
 	GnmStyleCondOp	  op;
 } GnmStyleCond;
 
-GnmStyleCond *gnm_style_cond_new (GnmStyleCondOp op,
-				  GnmStyle *overlay);
+GnmStyleCond *gnm_style_cond_new (GnmStyleCondOp op);
 void gnm_style_cond_free (GnmStyleCond *cond);
 GnmStyleCond *gnm_style_cond_dup (GnmStyleCond const *src);
 gboolean      gnm_style_cond_is_valid (GnmStyleCond const *cond);
 void          gnm_style_cond_set_expr (GnmStyleCond *cond,
 				       GnmExprTop const *texpr,
 				       unsigned idx);
+void          gnm_style_cond_set_overlay (GnmStyleCond *cond,
+					  GnmStyle *overlay);
 
 GnmStyleConditions *gnm_style_conditions_new  (void);
 GnmStyleConditions *gnm_style_conditions_dup  (GnmStyleConditions const *cond);

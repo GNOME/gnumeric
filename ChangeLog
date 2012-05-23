@@ -1,3 +1,12 @@
+2012-05-23  Morten Welinder  <terra@gnome.org>
+
+	* src/style-conditions.c (gnm_style_cond_set_overlay): New
+	function.
+	(gnm_style_cond_new): Drop overlay argument.  All callers fixed.
+	(gnm_style_cond_dup): Use gnm_style_cond_set_overlay.
+
+	* src/xml-sax-read.c: Treat GnmStyleCond as (mostly) opaque.
+
 2012-05-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-style.h (sheet_style_range_foreach): new

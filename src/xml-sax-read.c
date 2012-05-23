@@ -332,7 +332,8 @@ typedef struct {
 		gboolean	 allow_blank;
 		gboolean	 use_dropdown;
 	} validation;
-	GnmStyleCond	cond;
+
+	GnmStyleCond *cond;
 	GnmStyle *cond_save_style;
 
 	gboolean  style_range_init;
@@ -1670,11 +1671,9 @@ static void
 xml_sax_condition (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	GnmStyleCondOp op = GNM_STYLE_COND_CUSTOM;
 
-	int dummy;
-
-	g_return_if_fail (state->cond.texpr[0] == NULL);
-	g_return_if_fail (state->cond.texpr[1] == NULL);
+	g_return_if_fail (state->cond == NULL);
 	g_return_if_fail (state->cond_save_style == NULL);
 
 	xml_sax_must_have_style (state);
@@ -1682,12 +1681,16 @@ xml_sax_condition (GsfXMLIn *xin, xmlChar const **attrs)
 	state->cond_save_style = state->style;
 	state->style = gnm_style_new ();
 
-	state->cond.op = GNM_STYLE_COND_CUSTOM;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		int dummy;
+
 		if (gnm_xml_attr_int (attrs, "Operator", &dummy))
-			state->cond.op = dummy;
+			op = dummy;
 		else
 			unknown_attr (xin, attrs);
+	}
+
+	state->cond = gnm_style_cond_new (op);
 }
 
 static void
@@ -1698,8 +1701,10 @@ xml_sax_condition_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	xml_sax_must_have_style (state);
 	g_return_if_fail (state->cond_save_style != NULL);
+	g_return_if_fail (state->cond != NULL);
 
-	state->cond.overlay = state->style;
+	gnm_style_cond_set_overlay (state->cond, state->style);
+	gnm_style_unref (state->style);
 	state->style = state->cond_save_style;
 	state->cond_save_style = NULL;
 
@@ -1707,9 +1712,10 @@ xml_sax_condition_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	    NULL == (sc = gnm_style_get_conditions (state->style)))
 		gnm_style_set_conditions (state->style,
 			(sc = gnm_style_conditions_new ()));
-	gnm_style_conditions_insert (sc, &state->cond, -1);
+	gnm_style_conditions_insert (sc, state->cond, -1);
 
-	state->cond.texpr[0] = state->cond.texpr[1] = NULL;
+	gnm_style_cond_free (state->cond);
+	state->cond = NULL;
 }
 
 static void
@@ -1721,7 +1727,8 @@ xml_sax_condition_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GnmExprTop const *texpr;
 	GnmParsePos pos;
 
-	g_return_if_fail (state->cond.texpr[i] == NULL);
+	g_return_if_fail (state->cond == NULL);
+	g_return_if_fail (state->cond->texpr[i] == NULL);
 
 	texpr = gnm_expr_parse_str (xin->content->str,
 				    parse_pos_init_sheet (&pos, state->sheet),
@@ -1731,7 +1738,8 @@ xml_sax_condition_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	g_return_if_fail (texpr != NULL);
 
-	state->cond.texpr[i] = texpr;
+	gnm_style_cond_set_expr (state->cond, texpr, i);
+	gnm_expr_top_unref (texpr);
 }
 
 static void
@@ -3214,7 +3222,7 @@ read_file_init_state (XMLSaxParseState *state,
 	state->filter = NULL;
 	state->validation.title = state->validation.msg = NULL;
 	state->validation.texpr[0] = state->validation.texpr[1] = NULL;
-	state->cond.texpr[0] = state->cond.texpr[1] = NULL;
+	state->cond = NULL;
 	state->cond_save_style = NULL;
 	state->expr_map = g_hash_table_new_full
 		(g_direct_hash, g_direct_equal,
