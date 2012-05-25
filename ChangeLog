@@ -1,3 +1,8 @@
+2012-05-25  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_condition_expr_end): Fixed reversed
+	condition.
+
 2012-05-23  Morten Welinder  <terra@gnome.org>
 
 	* src/style-conditions.c (gnm_style_cond_set_overlay): New

@@ -1727,7 +1727,7 @@ xml_sax_condition_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GnmExprTop const *texpr;
 	GnmParsePos pos;
 
-	g_return_if_fail (state->cond == NULL);
+	g_return_if_fail (state->cond != NULL);
 	g_return_if_fail (state->cond->texpr[i] == NULL);
 
 	texpr = gnm_expr_parse_str (xin->content->str,
