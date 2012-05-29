@@ -5128,7 +5128,9 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 	guint16 expr0_len,expr1_len;
 	guint32 flags;
 	unsigned offset;
-	GnmStyleCond cond;
+	GnmStyleCond *cond;
+	GnmStyleCondOp cop;
+	GnmStyle *overlay;
 
 	XL_CHECK_CONDITION (q->length >= 12);
 
@@ -5145,41 +5147,50 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 	switch (type) {
 	case 1 :
 		switch (op) {
-		case 0x01 : cond.op = GNM_STYLE_COND_BETWEEN;	break;
-		case 0x02 : cond.op = GNM_STYLE_COND_NOT_BETWEEN;	break;
-		case 0x03 : cond.op = GNM_STYLE_COND_EQUAL;	break;
-		case 0x04 : cond.op = GNM_STYLE_COND_NOT_EQUAL;	break;
-		case 0x05 : cond.op = GNM_STYLE_COND_GT;		break;
-		case 0x06 : cond.op = GNM_STYLE_COND_LT;		break;
-		case 0x07 : cond.op = GNM_STYLE_COND_GTE;		break;
-		case 0x08 : cond.op = GNM_STYLE_COND_LTE;		break;
+		case 0x01: cop = GNM_STYLE_COND_BETWEEN; break;
+		case 0x02: cop = GNM_STYLE_COND_NOT_BETWEEN; break;
+		case 0x03: cop = GNM_STYLE_COND_EQUAL; break;
+		case 0x04: cop = GNM_STYLE_COND_NOT_EQUAL; break;
+		case 0x05: cop = GNM_STYLE_COND_GT; break;
+		case 0x06: cop = GNM_STYLE_COND_LT; break;
+		case 0x07: cop = GNM_STYLE_COND_GTE; break;
+		case 0x08: cop = GNM_STYLE_COND_LTE; break;
 		default:
 			g_warning ("EXCEL : Unknown condition (%d) for conditional format in sheet %s.",
 				   op, esheet->sheet->name_unquoted);
 			return;
 		}
 		break;
-	case 2 : cond.op = GNM_STYLE_COND_CUSTOM;
+	case 2:
+		cop = GNM_STYLE_COND_CUSTOM;
 		break;
 
-	default :
+	default:
 		g_warning ("EXCEL : Unknown condition type (%d) for format in sheet %s.",
 			   (int)type, esheet->sheet->name_unquoted);
 		return;
 	}
 
-	cond.texpr[0] = (expr0_len <= 0)
-		? NULL
-		: ms_sheet_parse_expr_internal
-		(esheet,
-		 q->data + q->length - expr0_len - expr1_len,
-		 expr0_len);
-	cond.texpr[1] = (expr1_len <= 0)
-		? NULL
-		: ms_sheet_parse_expr_internal
-		(esheet,
-		 q->data + q->length - expr1_len,
-		 expr1_len);
+	cond = gnm_style_cond_new (cop);
+
+	if (expr0_len > 0) {
+		GnmExprTop const *texpr = 
+			ms_sheet_parse_expr_internal
+			(esheet,
+			 q->data + q->length - expr0_len - expr1_len,
+			 expr0_len);
+		gnm_style_cond_set_expr (cond, texpr, 0);
+		gnm_expr_top_unref (texpr);
+	}
+	if (expr1_len > 0) {
+		GnmExprTop const *texpr = 
+			ms_sheet_parse_expr_internal
+			(esheet,
+			 q->data + q->length - expr1_len,
+			 expr1_len);
+		gnm_style_cond_set_expr (cond, texpr, 1);
+		gnm_expr_top_unref (texpr);
+	}
 
 	/* UNDOCUMENTED : the format of the conditional format
 	 * is unspecified.
@@ -5206,7 +5217,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 	 *	Similar to XF from biff7
 	 */
 
-	cond.overlay = gnm_style_new ();
+	overlay = gnm_style_new ();
 
 	offset =  6  /* CF record header */ + 6; /* format header */
 	if (flags & 0x04000000) { /* font */
@@ -5217,29 +5228,29 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 		XL_CHECK_CONDITION (q->length >= 64 + 54);
 
 		if (0xFFFFFFFF != (size = GSF_LE_GET_GUINT32 (data)))
-			gnm_style_set_font_size	(cond.overlay, size / 20.);
+			gnm_style_set_font_size	(overlay, size / 20.);
 		if (0xFFFFFFFF != (colour = GSF_LE_GET_GUINT32 (data + 16)))
-			gnm_style_set_font_color (cond.overlay,
+			gnm_style_set_font_color (overlay,
 						  excel_palette_get (esheet->container.importer,
 								     colour));
 
 		tmp8  = GSF_LE_GET_GUINT8  (data + 4);
 		font_flags = GSF_LE_GET_GUINT8  (data + 24);
 		if (0 == (font_flags & 2)) {
-			gnm_style_set_font_italic (cond.overlay, 0 != (tmp8 & 2));
-			gnm_style_set_font_bold   (cond.overlay,
+			gnm_style_set_font_italic (overlay, 0 != (tmp8 & 2));
+			gnm_style_set_font_bold   (overlay,
 						   GSF_LE_GET_GUINT16 (data + 8) >= 0x2bc);
 		}
 		if (0 == (font_flags & 0x80))
-			gnm_style_set_font_strike (cond.overlay, 0 != (tmp8 & 0x80));
+			gnm_style_set_font_strike (overlay, 0 != (tmp8 & 0x80));
 
 		if (0 == GSF_LE_GET_GUINT8  (data + 28)) {
 			switch (GSF_LE_GET_GUINT8  (data + 10)) {
 			default : g_printerr ("Unknown script %d\n", GSF_LE_GET_GUINT8 (data));
 				/* fall through */
-			case 0: gnm_style_set_font_script (cond.overlay, GO_FONT_SCRIPT_STANDARD); break;
-			case 1: gnm_style_set_font_script (cond.overlay, GO_FONT_SCRIPT_SUPER); break;
-			case 2: gnm_style_set_font_script (cond.overlay, GO_FONT_SCRIPT_SUB); break;
+			case 0: gnm_style_set_font_script (overlay, GO_FONT_SCRIPT_STANDARD); break;
+			case 1: gnm_style_set_font_script (overlay, GO_FONT_SCRIPT_SUPER); break;
+			case 2: gnm_style_set_font_script (overlay, GO_FONT_SCRIPT_SUB); break;
 			}
 		}
 		if (0 == GSF_LE_GET_GUINT8  (data + 32)) {
@@ -5263,7 +5274,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 				break;
 			}
 			gnm_style_set_font_uline
-				(cond.overlay,
+				(overlay,
 				 xls_uline_to_gnm_underline (mul));
 		}
 
@@ -5279,19 +5290,19 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 		guint16 patterns = GSF_LE_GET_GUINT16 (q->data + offset);
 		guint32 colours  = GSF_LE_GET_GUINT32 (q->data + offset + 2);
 		if (0 == (flags & 0x0400))
-			excel_read_CF_border (&cond, esheet, GNM_STYLE_BORDER_LEFT,
+			excel_read_CF_border (cond, esheet, GNM_STYLE_BORDER_LEFT,
 					      (patterns >>  0) & 0xf,
 					      (colours  >>  0) & 0x7f);
 		if (0 == (flags & 0x0800))
-			excel_read_CF_border (&cond, esheet, GNM_STYLE_BORDER_RIGHT,
+			excel_read_CF_border (cond, esheet, GNM_STYLE_BORDER_RIGHT,
 					      (patterns >>  4) & 0xf,
 					      (colours  >>  7) & 0x7f);
 		if (0 == (flags & 0x1000))
-			excel_read_CF_border (&cond, esheet, GNM_STYLE_BORDER_TOP,
+			excel_read_CF_border (cond, esheet, GNM_STYLE_BORDER_TOP,
 					      (patterns >>  8) & 0xf,
 					      (colours  >> 16) & 0x7f);
 		if (0 == (flags & 0x2000))
-			excel_read_CF_border (&cond, esheet, GNM_STYLE_BORDER_BOTTOM,
+			excel_read_CF_border (cond, esheet, GNM_STYLE_BORDER_BOTTOM,
 					      (patterns >> 12) & 0xf,
 					      (colours  >> 23) & 0x7f);
 
@@ -5304,15 +5315,15 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 		int pattern = 0;
 
 		if (0 == (flags & 0x10000))
-			gnm_style_set_pattern (cond.overlay,
+			gnm_style_set_pattern (overlay,
 					       pattern = excel_map_pattern_index_from_excel (
 											     (background_flags >> 10) & 0x3F));
 		if (0 == (flags & 0x20000))
-			gnm_style_set_pattern_color (cond.overlay,
+			gnm_style_set_pattern_color (overlay,
 						     excel_palette_get (esheet->container.importer,
 									(background_flags >> 16) & 0x7F));
 		if (0 == (flags & 0x40000))
-			gnm_style_set_back_color (cond.overlay,
+			gnm_style_set_back_color (overlay,
 						  excel_palette_get (esheet->container.importer,
 								     (background_flags >> 23) & 0x7F));
 
@@ -5321,9 +5332,12 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 
 	XL_CHECK_CONDITION (q->length == offset + expr0_len + expr1_len);
 
-	d (1, gnm_style_dump (cond.overlay););
+	d (1, gnm_style_dump (overlay););
 
-	gnm_style_conditions_insert (sc, &cond, -1);
+	gnm_style_cond_set_overlay (cond, overlay);
+	gnm_style_unref (overlay);
+	gnm_style_conditions_insert (sc, cond, -1);
+	gnm_style_cond_free (cond);
 }
 
 static void

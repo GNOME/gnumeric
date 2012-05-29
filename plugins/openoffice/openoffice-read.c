@@ -3037,7 +3037,6 @@ odf_style_load_one_value (GsfXMLIn *xin, char *condition, GnmStyleCond *cond, gc
 	return (cond->texpr[0] != NULL);
 }
 
-/*odf_style_add_condition absorbs the cstyle reference */
 static void
 odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle, 
 			 gchar const *condition, gchar const *base)
@@ -3045,7 +3044,7 @@ odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle,
 	/* OOParseState *state = (OOParseState *)xin->user_state; */
 
 	gchar const *full_condition = condition;
-	GnmStyleCond cond;
+	GnmStyleCond *cond = NULL;
 	GnmStyleConditions *sc;
 	gboolean success = FALSE;
 	OOFormula f_type;
@@ -3054,9 +3053,6 @@ odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle,
 	g_return_if_fail (cstyle != NULL);
 	g_return_if_fail (condition != NULL);
 	g_return_if_fail (base != NULL);
-	
-	cond.texpr[0] = NULL;
-	cond.texpr[1] = NULL;
 
 	f_type = odf_get_formula_type (xin, &condition);
 
@@ -3067,28 +3063,28 @@ odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle,
 		case '<':
 			if (*condition == '=') {
 				condition++;
-				cond.op = GNM_STYLE_COND_LTE;
+				cond = gnm_style_cond_new (GNM_STYLE_COND_LTE);
 			} else
-				cond.op = GNM_STYLE_COND_LT;
+				cond = gnm_style_cond_new (GNM_STYLE_COND_LT);
 			success = TRUE;
 			break;
 		case '>':
 			if (*condition == '=') {
 				condition++;
-				cond.op = GNM_STYLE_COND_GTE;
+				cond = gnm_style_cond_new (GNM_STYLE_COND_GTE);
 			} else
-				cond.op = GNM_STYLE_COND_GT;
+				cond = gnm_style_cond_new (GNM_STYLE_COND_GT);
 			success = TRUE;
 			break;
 			break;
 		case '=':
-			cond.op = GNM_STYLE_COND_EQUAL;
+			cond = gnm_style_cond_new (GNM_STYLE_COND_EQUAL);
 			success = TRUE;
 			break;
 		case '!':
 			if (*condition == '=') {
 				condition++;
-				cond.op = GNM_STYLE_COND_NOT_EQUAL;
+				cond = gnm_style_cond_new (GNM_STYLE_COND_NOT_EQUAL);
 				success = TRUE;
 			}
 			break;
@@ -3097,73 +3093,72 @@ odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle,
 		}
 		if (success) {
 			char *text = g_strdup (condition);
-			success = odf_style_load_one_value (xin, text, &cond, base, f_type);
+			success = odf_style_load_one_value (xin, text, cond, base, f_type);
 			g_free (text);
 		}
 
 	} else if (g_str_has_prefix (condition, "cell-content-is-between")) {
 		char *text;
-		cond.op = GNM_STYLE_COND_BETWEEN;
+		cond = gnm_style_cond_new (GNM_STYLE_COND_BETWEEN);
 		condition += strlen ("cell-content-is-between");
 		text = g_strdup (condition);
-		success = odf_style_load_two_values (xin, text, &cond, base, f_type);
+		success = odf_style_load_two_values (xin, text, cond, base, f_type);
 		g_free (text);
 	} else if (g_str_has_prefix (condition, "cell-content-is-not-between")) {
 		char *text;
-		cond.op = GNM_STYLE_COND_NOT_BETWEEN;
+		cond = gnm_style_cond_new (GNM_STYLE_COND_NOT_BETWEEN);
 		condition += strlen ("cell-content-is-not-between");
 		text = g_strdup (condition);
-		success = odf_style_load_two_values (xin, text, &cond, base, f_type);
+		success = odf_style_load_two_values (xin, text, cond, base, f_type);
 		g_free (text);
 	} else if (g_str_has_prefix (condition, "is-true-formula")) {
 		if (0 == strcmp (full_condition, "of:is-true-formula(ISERROR([.A1]))") &&
 		    g_str_has_suffix (base, ".$A$1")) {
-			cond.op = GNM_STYLE_COND_CONTAINS_ERR;
+			cond = gnm_style_cond_new (GNM_STYLE_COND_CONTAINS_ERR);
 			success = TRUE;
 		} else if (0 == strcmp (full_condition, "of:is-true-formula(NOT(ISERROR([.A1])))") &&
 			   g_str_has_suffix (base, ".$A$1")) {
-			cond.op = GNM_STYLE_COND_NOT_CONTAINS_ERR;
+			cond = gnm_style_cond_new (GNM_STYLE_COND_NOT_CONTAINS_ERR);
 			success = TRUE;
 		} else if (0 == strcmp (full_condition, "of:is-true-formula(NOT(ISERROR(FIND(\" \";[.A1]))))") &&
 			   g_str_has_suffix (base, ".$A$1")) {
-			cond.op = GNM_STYLE_COND_CONTAINS_BLANKS;
+			cond = gnm_style_cond_new (GNM_STYLE_COND_CONTAINS_BLANKS);
 			success = TRUE;
 		} else if (0 == strcmp (full_condition, "of:is-true-formula(ISERROR(FIND(\" \";[.A1])))") &&
 			   g_str_has_suffix (base, ".$A$1")) {
-			cond.op = GNM_STYLE_COND_NOT_CONTAINS_BLANKS;
+			cond = gnm_style_cond_new (GNM_STYLE_COND_NOT_CONTAINS_BLANKS);
 			success = TRUE;
 		} else {
 			char *text;
-			cond.op = GNM_STYLE_COND_CUSTOM;
+			cond = gnm_style_cond_new (GNM_STYLE_COND_CUSTOM);
 			condition += strlen ("is-true-formula");
 			text = g_strdup (condition);
-			success = odf_style_load_one_value (xin, text, &cond, base, f_type);
+			success = odf_style_load_one_value (xin, text, cond, base, f_type);
 			g_free (text);
 		}
 	}
 	
-	if (!success) {
-		if (cond.texpr[0] != NULL)
-			gnm_expr_top_unref (cond.texpr[0]);
-		if (cond.texpr[1] != NULL)
-			gnm_expr_top_unref (cond.texpr[1]);
+	if (!success || !cond) {
+		if (cond)
+			gnm_style_cond_free (cond);
 		oo_warning (xin,
 			    _("Unknown condition '%s' encountered, ignoring."),
 			    full_condition);
-		gnm_style_unref (cstyle);
 		return;
 	}
 
-	cond.overlay = cstyle;
+	gnm_style_cond_set_overlay (cond, cstyle);
 
 	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
 	    (sc = gnm_style_get_conditions (style)) != NULL)
-		gnm_style_conditions_insert (sc, &cond, -1);
+		gnm_style_conditions_insert (sc, cond, -1);
 	else {
 		sc = gnm_style_conditions_new ();
-		gnm_style_conditions_insert (sc, &cond, -1);
+		gnm_style_conditions_insert (sc, cond, -1);
 		gnm_style_set_conditions (style, sc);
 	}	
+
+	gnm_style_cond_free (cond);
 }
 
 static GnmStyle *
@@ -3176,9 +3171,10 @@ odf_style_from_oo_cell_style (GsfXMLIn *xin, OOCellStyle *oostyle)
 		GnmStyle *new_style = gnm_style_dup (oostyle->style);
 		GSList *styles = oostyle->styles, *conditions = oostyle->conditions, *bases = oostyle->bases;
 		while (styles && conditions && bases) {
-			odf_style_add_condition (xin, new_style,
-						 odf_style_from_oo_cell_style (xin, styles->data),
+			GnmStyle *cstyle = odf_style_from_oo_cell_style (xin, styles->data);
+			odf_style_add_condition (xin, new_style, cstyle,
 						 conditions->data, bases->data);
+			gnm_style_unref (cstyle);
 			styles = styles->next;
 			conditions = conditions->next;
 			bases = bases->next;

@@ -161,7 +161,7 @@ typedef struct {
 
 	GnmStyleConditions *conditions;
 	GSList		   *cond_regions;
-	GnmStyleCond	    cond;
+	GnmStyleCond	   *cond;
 
 	GnmFilter	   *filter;
 	int		    filter_cur_field;
@@ -2180,8 +2180,9 @@ xlsx_cond_fmt_rule_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmStyleCondOp	op = GNM_STYLE_COND_CUSTOM;
 	XlsxCFTypes	type = XLSX_CF_TYPE_UNDEFINED;
 	char const	*type_str = _("Undefined");
+	GnmStyle        *overlay = NULL;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_bool (xin, attrs, "formatRow", &formatRow)) ;
 		else if (attr_bool (xin, attrs, "stopIfTrue", &stopIfTrue)) ;
 		else if (attr_bool (xin, attrs, "above", &above)) ;
@@ -2194,21 +2195,24 @@ xlsx_cond_fmt_rule_begin (GsfXMLIn *xin, xmlChar const **attrs)
 			type = tmp;
 			type_str = attrs[1];
 		}
+	}
 #if 0
+/*
 	"numFmtId"	="ST_NumFmtId" use="optional">
 	"priority"	="xs:int" use="required">
 	"text"		="xs:string" use="optional">
 	"timePeriod"	="ST_TimePeriod" use="optional">
 	"col1"		="xs:unsignedInt" use="optional">
 	"col2"		="xs:unsignedInt" use="optional">
+*/
 #endif
 
-	if (dxf >= 0 && NULL != (state->cond.overlay = xlsx_get_dxf (xin, dxf)))
-		gnm_style_ref (state->cond.overlay);
+	if (dxf >= 0)
+		overlay = xlsx_get_dxf (xin, dxf);
 
 	switch (type) {
 	case XLSX_CF_TYPE_CELL_IS :
-		state->cond.op = op;
+		/* Nothing */
 		break;
 	case XLSX_CF_TYPE_CONTAINS_STR :
 	case XLSX_CF_TYPE_NOT_CONTAINS_STR :
@@ -2218,12 +2222,16 @@ xlsx_cond_fmt_rule_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	case XLSX_CF_TYPE_NOT_CONTAINS_BLANKS :
 	case XLSX_CF_TYPE_CONTAINS_ERRORS :
 	case XLSX_CF_TYPE_NOT_CONTAINS_ERRORS :
-		state->cond.op = type;
+		op = type;
 		break;
 
 	default :
 		xlsx_warning (xin, _("Ignoring unhandled conditional format of type '%s'"), type_str);
 	}
+
+	state->cond = gnm_style_cond_new (op);
+	gnm_style_cond_set_overlay (state->cond, overlay);
+
 	state->count = 0;
 }
 
@@ -2231,20 +2239,16 @@ static void
 xlsx_cond_fmt_rule_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (gnm_style_cond_is_valid (&state->cond)) {
-		if (NULL == state->conditions)
-			state->conditions = gnm_style_conditions_new ();
-		gnm_style_conditions_insert (state->conditions, &state->cond, -1);
-	} else {
-		if (NULL != state->cond.texpr[0])
-			gnm_expr_top_unref (state->cond.texpr[0]);
-		if (NULL != state->cond.texpr[1])
-			gnm_expr_top_unref (state->cond.texpr[1]);
-		if (NULL != state->cond.overlay)
-			gnm_style_unref (state->cond.overlay);
+	if (state->cond) {
+		if (gnm_style_cond_is_valid (state->cond)) {
+			if (NULL == state->conditions)
+				state->conditions = gnm_style_conditions_new ();
+			gnm_style_conditions_insert (state->conditions,
+						     state->cond, -1);
+		}
+		gnm_style_cond_free (state->cond);
+		state->cond = NULL;
 	}
-	state->cond.texpr[0] = state->cond.texpr[1] = NULL;
-	state->cond.overlay = NULL;
 }
 
 static void
@@ -2252,11 +2256,15 @@ xlsx_cond_fmt_formula_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmParsePos pp;
-	if (state->count > 1)
+	if (!state->cond || state->count > 1)
 		return;
 
-	state->cond.texpr[state->count++] = xlsx_parse_expr (xin, xin->content->str,
-		parse_pos_init_sheet (&pp, state->sheet));
+	parse_pos_init_sheet (&pp, state->sheet);
+
+	gnm_style_cond_set_expr (state->cond, 
+				 xlsx_parse_expr (xin, xin->content->str, &pp),
+				 state->count);
+	state->count++;
 }
 
 static void

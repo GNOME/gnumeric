@@ -285,78 +285,80 @@ cb_c_fmt_dialog_edit_style_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *s
 static GnmStyleCond *
 c_fmt_dialog_get_condition (CFormatState *state)
 {
-	GnmStyleCond *cond = g_new0(GnmStyleCond, 1);
+	GnmStyleCondOp op;
+	GnmStyleCond *cond;
 	GtkTreeIter iter;
 	gint n_expr = 0;
 	GnmParsePos pp;
+	GnmStyle *overlay;
 
 	parse_pos_init_editpos (&pp, state->sv);
 
-	cond->overlay = gnm_style_new ();
+	overlay = gnm_style_new ();
 	if (state->editor.style) {
 		if (cb_c_fmt_dialog_chooser_check_page
 		    (state, "check-background", FD_BACKGROUND)) {
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_COLOR_BACK);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_COLOR_PATTERN);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_PATTERN);
 		}
 		if (cb_c_fmt_dialog_chooser_check_page
 		    (state, "check-number", FD_NUMBER)) {
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_FORMAT);
 		}
 		if (cb_c_fmt_dialog_chooser_check_page
 		    (state, "check-align", FD_ALIGNMENT)) {
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_ALIGN_V);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_ALIGN_H);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_INDENT);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_ROTATION);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_TEXT_DIR);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_WRAP_TEXT);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_SHRINK_TO_FIT);
 		}
 		if (cb_c_fmt_dialog_chooser_check_page
 		    (state, "check-font", FD_FONT)) {
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_FONT_COLOR);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_FONT_NAME);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_FONT_BOLD);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_FONT_ITALIC);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_FONT_UNDERLINE);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_FONT_STRIKETHROUGH);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_FONT_SCRIPT);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_FONT_SIZE);
 		}
 		if (cb_c_fmt_dialog_chooser_check_page
 		    (state, "check-border", FD_BORDER)) {
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_BORDER_TOP);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_BORDER_BOTTOM);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_BORDER_LEFT);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_BORDER_RIGHT);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_BORDER_REV_DIAGONAL);
-			gnm_style_merge_element (cond->overlay, state->editor.style,
+			gnm_style_merge_element (overlay, state->editor.style,
 						 MSTYLE_BORDER_DIAGONAL);
 		}
 		if (cb_c_fmt_dialog_chooser_check_page
@@ -371,11 +373,15 @@ c_fmt_dialog_get_condition (CFormatState *state)
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (state->editor.combo), &iter))
 		gtk_tree_model_get (GTK_TREE_MODEL (state->editor.typestore),
 				    &iter,
-				    1, &cond->op,
+				    1, &op,
 				    2, &n_expr,
 				    -1);
 	else
-		cond->op = GNM_STYLE_COND_CONTAINS_ERR;
+		op = GNM_STYLE_COND_CONTAINS_ERR;
+
+	cond = gnm_style_cond_new (op);
+	gnm_style_cond_set_overlay (cond, overlay);
+	gnm_style_unref (overlay);
 
 	if (n_expr > 0) {
 		GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->editor.expr_x), &pp,
@@ -397,7 +403,7 @@ cb_c_fmt_dialog_add_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *state)
 {
 	GnmStyleCond *cond = c_fmt_dialog_get_condition (state);
 	c_fmt_dialog_apply_add_choice (state, cond, TRUE);
-	g_free (cond);
+	gnm_style_cond_free (cond);
 }
 
 static void
@@ -405,7 +411,7 @@ cb_c_fmt_dialog_replace_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *stat
 {
 	GnmStyleCond *cond = c_fmt_dialog_get_condition (state);
 	c_fmt_dialog_apply_add_choice (state, cond, FALSE);
-	g_free (cond);
+	gnm_style_cond_free (cond);
 }
 
 static void

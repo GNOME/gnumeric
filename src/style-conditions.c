@@ -227,15 +227,13 @@ gnm_style_conditions_insert (GnmStyleConditions *sc,
 
 	g_return_if_fail (cond_ != NULL);
 
-	cond = g_memdup (cond_, sizeof (*cond_));
-	if (sc == NULL || !gnm_style_cond_is_valid (cond)) {
-		gnm_style_cond_free (cond); /* be careful not to leak */
+	if (sc == NULL || !gnm_style_cond_is_valid (cond_))
 		return;
-	}
 
 	if (sc->conditions == NULL)
 		sc->conditions = g_ptr_array_new ();
 
+	cond = gnm_style_cond_dup (cond_);
 	g_ptr_array_add (sc->conditions, cond);
 	if (pos >= 0) {
 		int i;
@@ -250,8 +248,7 @@ gnm_style_conditions_insert (GnmStyleConditions *sc,
 }
 
 void
-gnm_style_conditions_delete  (GnmStyleConditions *sc,
-			      guint pos)
+gnm_style_conditions_delete (GnmStyleConditions *sc, guint pos)
 {
 	g_return_if_fail (sc != NULL);
 	g_return_if_fail (sc->conditions != NULL);
