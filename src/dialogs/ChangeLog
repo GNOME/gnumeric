@@ -1,3 +1,8 @@
+2012-05-29  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format-cond.c (c_fmt_dialog_get_condition): Use
+	gnm_style_cond_set_expr.
+
 2012-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-consolidate.c (adjust_source_areas): also expect empty

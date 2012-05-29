@@ -387,13 +387,15 @@ c_fmt_dialog_get_condition (CFormatState *state)
 		GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->editor.expr_x), &pp,
 								NULL, FALSE,
 								GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
-		cond->texpr[0] = texpr;
+		gnm_style_cond_set_expr (cond, texpr, 0);
+		gnm_expr_top_unref (texpr);
 	}
 	if (n_expr > 1) {
 		GnmExprTop const *texpr = gnm_expr_entry_parse (GNM_EXPR_ENTRY (state->editor.expr_y), &pp,
 								NULL, FALSE,
 								GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
-		cond->texpr[1] = texpr;
+		gnm_style_cond_set_expr (cond, texpr, 1);
+		gnm_expr_top_unref (texpr);
 	}
 	return cond;
 }
