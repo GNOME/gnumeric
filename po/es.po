@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-05-23 19:45+0000\n"
-"PO-Revision-Date: 2012-05-28 10:25+0200\n"
+"POT-Creation-Date: 2012-05-29 20:23+0000\n"
+"PO-Revision-Date: 2012-05-30 17:15+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -97,8 +97,8 @@ msgstr "Interfaz CORBA"
 msgid "Provides a CORBA scripting interface"
 msgstr "Proporciona una interfaz de secuencia de comandos de CORBA"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7001
-#: ../plugins/openoffice/openoffice-read.c:11301 ../src/xml-sax-read.c:3320
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7015
+#: ../plugins/openoffice/openoffice-read.c:11297 ../src/xml-sax-read.c:3320
 msgid "Reading file..."
 msgstr "Leyendo archivo…"
 
@@ -208,7 +208,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Contenido no válido del elemento «ss:data», se recibió «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:1093
-#: ../plugins/openoffice/openoffice-read.c:11408 ../src/xml-sax-read.c:3337
+#: ../plugins/openoffice/openoffice-read.c:11404 ../src/xml-sax-read.c:3337
 msgid "XML document not well formed!"
 msgstr "El documento XML no está bien formado."
 
@@ -265,11 +265,11 @@ msgstr ""
 "Los enlaces OLE aún no están soportados.\n"
 "El nombre «%s» se perderá.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6136
+#: ../plugins/excel/ms-excel-read.c:6150
 msgid "external references"
 msgstr "referencias externas"
 
-#: ../plugins/excel/ms-excel-read.c:6175
+#: ../plugins/excel/ms-excel-read.c:6189
 msgid "No password supplied"
 msgstr "No se introdujo ninguna contraseña"
 
@@ -469,7 +469,7 @@ msgstr "Tema de color %d desconocido"
 msgid "Undefined number format id '%s'"
 msgstr "Id de formato de número «%s» no definido"
 
-#: ../plugins/excel/xlsx-read.c:1125 ../plugins/excel/xlsx-read.c:3142
+#: ../plugins/excel/xlsx-read.c:1125 ../plugins/excel/xlsx-read.c:3150
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Color «%s» no válido para el atributo rgb"
@@ -509,55 +509,55 @@ msgstr "Ignorando datos de validación no válidos porque: %s"
 msgid "Undefined"
 msgstr "No definido"
 
-#: ../plugins/excel/xlsx-read.c:2225
+#: ../plugins/excel/xlsx-read.c:2229
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignorando formato condicional no controlado de tipo «%s»"
 
-#: ../plugins/excel/xlsx-read.c:2606
+#: ../plugins/excel/xlsx-read.c:2614
 msgid "Unknown type of hyperlink"
 msgstr "Tipo de hiperenlace desconocido"
 
-#: ../plugins/excel/xlsx-read.c:2868
+#: ../plugins/excel/xlsx-read.c:2876
 msgid "Ignoring a sheet without a name"
 msgstr "Ignorando una hoja sin un nombre"
 
-#: ../plugins/excel/xlsx-read.c:2938
+#: ../plugins/excel/xlsx-read.c:2946
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Falló al definir el nombre: %s"
 
-#: ../plugins/excel/xlsx-read.c:3332
+#: ../plugins/excel/xlsx-read.c:3340
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Falta el ID de la parte para la hoja «%s»"
 
-#: ../plugins/excel/xlsx-read.c:3357
+#: ../plugins/excel/xlsx-read.c:3365
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Leyendo la hoja «%s»..."
 
-#: ../plugins/excel/xlsx-read.c:3365
+#: ../plugins/excel/xlsx-read.c:3373
 msgid "Reading comments..."
 msgstr "Leyendo comentarios…"
 
-#: ../plugins/excel/xlsx-read.c:4362
+#: ../plugins/excel/xlsx-read.c:4370
 msgid "Reading shared strings..."
 msgstr "Leyendo cadenas compartidas…"
 
-#: ../plugins/excel/xlsx-read.c:4370
+#: ../plugins/excel/xlsx-read.c:4378
 msgid "Reading theme..."
 msgstr "Leyendo tema…"
 
-#: ../plugins/excel/xlsx-read.c:4378
+#: ../plugins/excel/xlsx-read.c:4386
 msgid "Reading styles..."
 msgstr "Leyendo estilos…"
 
-#: ../plugins/excel/xlsx-read.c:4383
+#: ../plugins/excel/xlsx-read.c:4391
 msgid "Reading workbook..."
 msgstr "Leyendo libro de trabajo…"
 
-#: ../plugins/excel/xlsx-read.c:4393
+#: ../plugins/excel/xlsx-read.c:4401
 msgid "No workbook stream found."
 msgstr "No se ha encontrado ningún flujo de libro de trabajo."
 
@@ -1382,7 +1382,7 @@ msgid "Unable to open '%s'."
 msgstr "No se pudo abrir «%s»."
 
 #: ../plugins/openoffice/openoffice-read.c:974
-#: ../plugins/openoffice/openoffice-read.c:7633
+#: ../plugins/openoffice/openoffice-read.c:7629
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "No se pudo cargar el archivo «%s»."
@@ -1428,13 +1428,13 @@ msgid "Unable to parse '%s' ('%s')"
 msgstr "No se puede analizar «%s» («%s»)"
 
 #: ../plugins/openoffice/openoffice-read.c:2060
-#: ../plugins/openoffice/openoffice-read.c:3499
+#: ../plugins/openoffice/openoffice-read.c:3495
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Se encontró un tipo de fórmula no soportado: %s"
 
 #: ../plugins/openoffice/openoffice-read.c:2066
-#: ../plugins/openoffice/openoffice-read.c:3506
+#: ../plugins/openoffice/openoffice-read.c:3502
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "La expresión «%s» no empieza con un carácter reconocido"
@@ -1492,41 +1492,41 @@ msgstr ""
 "Se encontró una condición de validación no soportada: «%s» con dirección "
 "base: «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:3151
+#: ../plugins/openoffice/openoffice-read.c:3145
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Se encontró la condición desconocida «%s», ignorando."
 
-#: ../plugins/openoffice/openoffice-read.c:3227
+#: ../plugins/openoffice/openoffice-read.c:3223
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr "Ignorando la columna de información más allá de la columna %i"
 
-#: ../plugins/openoffice/openoffice-read.c:3350
-#: ../plugins/openoffice/openoffice-read.c:3715
+#: ../plugins/openoffice/openoffice-read.c:3346
+#: ../plugins/openoffice/openoffice-read.c:3711
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "El contenido excedió el número máximo de filas soportadas (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:3491
-#: ../plugins/openoffice/openoffice-read.c:5733
+#: ../plugins/openoffice/openoffice-read.c:3487
+#: ../plugins/openoffice/openoffice-read.c:5729
 msgid "Missing expression"
 msgstr "Falta la expresión"
 
-#: ../plugins/openoffice/openoffice-read.c:3688
+#: ../plugins/openoffice/openoffice-read.c:3684
 msgid "Invalid array expression does not specify number of columns."
 msgstr "La expresión de la matriz no especifica el número de columnas."
 
-#: ../plugins/openoffice/openoffice-read.c:3691
+#: ../plugins/openoffice/openoffice-read.c:3687
 msgid "Invalid array expression does not specify number of rows."
 msgstr "La expresión de la matriz no especifica el número de filas."
 
-#: ../plugins/openoffice/openoffice-read.c:3707
+#: ../plugins/openoffice/openoffice-read.c:3703
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr "El contenido excedió el número máximo de columnas soportadas (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:3899
+#: ../plugins/openoffice/openoffice-read.c:3895
 #: ../src/dialogs/dialog-hyperlink.c:83
 msgid ""
 "Left click once to follow this link.\n"
@@ -1535,151 +1535,151 @@ msgstr ""
 "Pulsar una vez con el botón izquierdo para seguir este enlace.\n"
 "Pulsar una vez con el botón central para seleccionar esta celda"
 
-#: ../plugins/openoffice/openoffice-read.c:4033
+#: ../plugins/openoffice/openoffice-read.c:4029
 msgid "Unnamed dash style encountered."
 msgstr "Se encontró un estilo de guión sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:4051
+#: ../plugins/openoffice/openoffice-read.c:4047
 msgid "Unnamed image fill style encountered."
 msgstr "Se encontró un estilo de relleno de imagen sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:4053
+#: ../plugins/openoffice/openoffice-read.c:4049
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr "El estilo de relleno de imagen «%s» no tiene ninguna imagen adjunta."
 
-#: ../plugins/openoffice/openoffice-read.c:4090
-#: ../plugins/openoffice/openoffice-read.c:4096
+#: ../plugins/openoffice/openoffice-read.c:4086
+#: ../plugins/openoffice/openoffice-read.c:4092
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "No se puede analizar el color del degradado: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4116
+#: ../plugins/openoffice/openoffice-read.c:4112
 msgid "Unnamed gradient style encountered."
 msgstr "Se encontró un estilo de gradiente sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:4137
+#: ../plugins/openoffice/openoffice-read.c:4133
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "No se puede analizar el color del entramado: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4211
+#: ../plugins/openoffice/openoffice-read.c:4207
 msgid "Unnamed hatch encountered!"
 msgstr "Se encontró un entramado sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:4305
+#: ../plugins/openoffice/openoffice-read.c:4301
 msgid "Duplicate default column style encountered."
 msgstr "Se encontró un estilo de columna predeterminado duplicado."
 
-#: ../plugins/openoffice/openoffice-read.c:4321
+#: ../plugins/openoffice/openoffice-read.c:4317
 msgid "Duplicate default row style encountered."
 msgstr "Se encontró un estilo de fila predeterminado duplicado."
 
 # ¿Será mejor "sin nombre" o "desconocido"?
-#: ../plugins/openoffice/openoffice-read.c:4731
+#: ../plugins/openoffice/openoffice-read.c:4727
 msgid "Unnamed date style ignored."
 msgstr "Se ignoró un estilo de fecha sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:5034
+#: ../plugins/openoffice/openoffice-read.c:5030
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Archivo corrupto: se ignoró un estilo de número sin nombre. "
 
-#: ../plugins/openoffice/openoffice-read.c:5070
-#: ../plugins/openoffice/openoffice-read.c:5097
-#: ../plugins/openoffice/openoffice-read.c:5125
-#: ../plugins/openoffice/openoffice-read.c:5166
-#: ../plugins/openoffice/openoffice-read.c:5192
-#: ../plugins/openoffice/openoffice-read.c:5220
+#: ../plugins/openoffice/openoffice-read.c:5066
+#: ../plugins/openoffice/openoffice-read.c:5093
+#: ../plugins/openoffice/openoffice-read.c:5121
+#: ../plugins/openoffice/openoffice-read.c:5162
+#: ../plugins/openoffice/openoffice-read.c:5188
+#: ../plugins/openoffice/openoffice-read.c:5216
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Este archivo parece corrupto, faltan los formatos requeridos."
 
-#: ../plugins/openoffice/openoffice-read.c:5286
+#: ../plugins/openoffice/openoffice-read.c:5282
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Papel del archivo ODF: %ipt⨉%ipt"
 
-#: ../plugins/openoffice/openoffice-read.c:5472
+#: ../plugins/openoffice/openoffice-read.c:5468
 msgid "Missing page layout identifier"
 msgstr "Falta el identificador del diseño de página"
 
-#: ../plugins/openoffice/openoffice-read.c:5502
+#: ../plugins/openoffice/openoffice-read.c:5498
 msgid "Master page style without page layout encountered!"
 msgstr "Se encontró un estilo de página maestra sin disposición de página."
 
-#: ../plugins/openoffice/openoffice-read.c:5513
+#: ../plugins/openoffice/openoffice-read.c:5509
 msgid "Master page style without name encountered!"
 msgstr "Se encontró un estilo de página maestra sin nombre."
 
-#: ../plugins/openoffice/openoffice-read.c:5622
+#: ../plugins/openoffice/openoffice-read.c:5618
 #: ../plugins/openoffice/openoffice-write.c:4936
 #: ../plugins/openoffice/openoffice-write.c:4948 ../src/print-info.c:626
 msgid "tab"
 msgstr "pestaña"
 
-#: ../plugins/openoffice/openoffice-read.c:5652
+#: ../plugins/openoffice/openoffice-read.c:5648
 #: ../plugins/openoffice/openoffice-write.c:4939
 #: ../plugins/openoffice/openoffice-write.c:4951 ../src/print-info.c:629
 msgid "date"
 msgstr "fecha"
 
-#: ../plugins/openoffice/openoffice-read.c:5658
+#: ../plugins/openoffice/openoffice-read.c:5654
 #: ../plugins/openoffice/openoffice-write.c:4940
 #: ../plugins/openoffice/openoffice-write.c:4952 ../src/print-info.c:630
 msgid "time"
 msgstr "hora"
 
-#: ../plugins/openoffice/openoffice-read.c:5664
+#: ../plugins/openoffice/openoffice-read.c:5660
 #: ../plugins/openoffice/openoffice-write.c:4937
 #: ../plugins/openoffice/openoffice-write.c:4949 ../src/print-info.c:627
 msgid "page"
 msgstr "página"
 
-#: ../plugins/openoffice/openoffice-read.c:5670
+#: ../plugins/openoffice/openoffice-read.c:5666
 #: ../plugins/openoffice/openoffice-write.c:4938
 #: ../plugins/openoffice/openoffice-write.c:4950 ../src/print-info.c:628
 msgid "pages"
 msgstr "páginas"
 
-#: ../plugins/openoffice/openoffice-read.c:5695
-#: ../plugins/openoffice/openoffice-read.c:5702
+#: ../plugins/openoffice/openoffice-read.c:5691
+#: ../plugins/openoffice/openoffice-read.c:5698
 #: ../plugins/openoffice/openoffice-write.c:4942
 #: ../plugins/openoffice/openoffice-write.c:4954 ../src/print-info.c:632
 msgid "path"
 msgstr "ruta"
 
-#: ../plugins/openoffice/openoffice-read.c:5699
-#: ../plugins/openoffice/openoffice-read.c:5706
+#: ../plugins/openoffice/openoffice-read.c:5695
+#: ../plugins/openoffice/openoffice-read.c:5702
 #: ../plugins/openoffice/openoffice-write.c:4941
 #: ../plugins/openoffice/openoffice-write.c:4953 ../src/print-info.c:631
 #: ../src/ssconvert.c:90
 msgid "file"
 msgstr "archivo"
 
-#: ../plugins/openoffice/openoffice-read.c:5748
+#: ../plugins/openoffice/openoffice-read.c:5744
 msgid "title"
 msgstr "título"
 
-#: ../plugins/openoffice/openoffice-read.c:5779
+#: ../plugins/openoffice/openoffice-read.c:5775
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Se encontró un estilo de borde de Gnumeric «%s» desconocido."
 
-#: ../plugins/openoffice/openoffice-read.c:6047
+#: ../plugins/openoffice/openoffice-read.c:6043
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Tipo de salto «%s» desconocido, el predeterminado es NINGUNO"
 
-#: ../plugins/openoffice/openoffice-read.c:6124
+#: ../plugins/openoffice/openoffice-read.c:6120
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "No se puede analizar el color «%s» de la pestaña"
 
-#: ../plugins/openoffice/openoffice-read.c:6135
+#: ../plugins/openoffice/openoffice-read.c:6131
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "No se puede analizar el color «%s» del texto de la pestaña"
 
-#: ../plugins/openoffice/openoffice-read.c:6542
+#: ../plugins/openoffice/openoffice-read.c:6538
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1688,27 +1688,27 @@ msgstr ""
 "Se encontró un tipo de interpolación desconocido: «%s», en su lugar se usará "
 "una spline cúbica de Bezier."
 
-#: ../plugins/openoffice/openoffice-read.c:6551
+#: ../plugins/openoffice/openoffice-read.c:6547
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Se encontró un tipo de interpolación desconocido: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:6944
+#: ../plugins/openoffice/openoffice-read.c:6940
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "la expresión «%s» @ «%s» no es una referencia de celda"
 
-#: ../plugins/openoffice/openoffice-read.c:6961
+#: ../plugins/openoffice/openoffice-read.c:6957
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "La expresión «%s» tiene un espacio de nombres desconocido"
 
-#: ../plugins/openoffice/openoffice-read.c:7013
+#: ../plugins/openoffice/openoffice-read.c:7009
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Rango de BD «%s» no válido"
 
-#: ../plugins/openoffice/openoffice-read.c:7275
+#: ../plugins/openoffice/openoffice-read.c:7271
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
@@ -1717,13 +1717,13 @@ msgstr ""
 "Las líneas de objetos de la hoja de Gnumeric no soportan texto adjunto. El "
 "texto «%s» se ha soltado."
 
-#: ../plugins/openoffice/openoffice-read.c:7310
-#: ../plugins/openoffice/openoffice-read.c:7349
+#: ../plugins/openoffice/openoffice-read.c:7306
+#: ../plugins/openoffice/openoffice-read.c:7345
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr "Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:7315
+#: ../plugins/openoffice/openoffice-read.c:7311
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1732,19 +1732,19 @@ msgstr ""
 "Tipo de valor «%s» no válido anunciado por el atributo «form:value» en el "
 "elemento «form:value-range»."
 
-#: ../plugins/openoffice/openoffice-read.c:7812
+#: ../plugins/openoffice/openoffice-read.c:7808
 msgid "Unable to determine manual position for a chart component!"
 msgstr ""
 "No se puede determinar la posición del manual para un componente del cuadro."
 
-#: ../plugins/openoffice/openoffice-read.c:7996
+#: ../plugins/openoffice/openoffice-read.c:7992
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr ""
 "No hay datos suficientes en el rango proporcionado (%s) para todas las "
 "solicitudes"
 
-#: ../plugins/openoffice/openoffice-read.c:8528
+#: ../plugins/openoffice/openoffice-read.c:8524
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1752,39 +1752,39 @@ msgstr ""
 "Gnumeric no soporta ecuaciones con regresión no-automática. En su lugar, se "
 "usará una ecuación automática."
 
-#: ../plugins/openoffice/openoffice-read.c:8671
+#: ../plugins/openoffice/openoffice-read.c:8667
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr "Se encontraron líneas de caída en un argumento que no los soporta."
 
-#: ../plugins/openoffice/openoffice-read.c:8741
+#: ../plugins/openoffice/openoffice-read.c:8737
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr ""
 "Se encontró un tipo de gráfico desconocido, intentando crear una dibujo de "
 "líneas."
 
-#: ../plugins/openoffice/openoffice-read.c:9223
+#: ../plugins/openoffice/openoffice-read.c:9219
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "El atributo «%s» tiene el valor «%s» no soportado."
 
-#: ../plugins/openoffice/openoffice-read.c:11164
+#: ../plugins/openoffice/openoffice-read.c:11160
 msgid "Unknown mimetype for openoffice file."
 msgstr "Tipo mime desconocido para el archivo openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:11174
+#: ../plugins/openoffice/openoffice-read.c:11170
 msgid "No stream named content.xml found."
 msgstr "No se encontró ningún flujo llamado content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:11182
+#: ../plugins/openoffice/openoffice-read.c:11178
 msgid "No stream named styles.xml found."
 msgstr "No se encontró ningún flujo llamado styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:11311
+#: ../plugins/openoffice/openoffice-read.c:11307
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Metadatos no válidos «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:11380
+#: ../plugins/openoffice/openoffice-read.c:11376
 msgid "settings.xml stream is malformed!"
 msgstr "El flujo settings.xml está mal formado."
 
@@ -3361,28 +3361,28 @@ msgstr ""
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:55
 #: ../src/dialogs/dialog-preferences.c:1044
 msgid "Show Function Name Tooltips"
-msgstr "Mostrar información de herramientas de nombre de funciones"
+msgstr "Mostrar consejos de nombres de funciones"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:56
-#, fuzzy
 msgid "This variable determines whether to show function name tooltips."
-msgstr "Esta variable determina si la autocompletación está activada."
+msgstr ""
+"Esta variable determina si se muestran los consejos de los nombres de "
+"funciones."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:57
 #: ../src/dialogs/dialog-preferences.c:1049
 msgid "Show Function Argument Tooltips"
-msgstr "Mostrar consejos de argumentos de función"
+msgstr "Mostrar consejos de argumentos de función"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:58
-#, fuzzy
 msgid "This variable determines whether to show function argument tooltips."
-msgstr "Esta variable determina si la autocompletación está activada."
+msgstr ""
+"Esta variable determina si se muestran los consejos de los argumentos de "
+"función."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:59
-#, fuzzy
-#| msgid "Direction"
 msgid "Enter Direction"
-msgstr "Dirección"
+msgstr "Introducir dirección"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:60
 msgid "Which direction pressing Enter will move the edit position."
@@ -3403,18 +3403,9 @@ msgstr ""
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:63
 msgid "Auto Expression Recalculation Lag"
-msgstr "Retardo del recálculo automático de expresiones"
+msgstr "Retardo del recálculo automático de expresiones"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:64
-#, fuzzy
-#| msgid ""
-#| "If `lag' is 0, gnumeric recalculates all auto expressions immediately "
-#| "after every change. Non-zero values of `lag' allow gnumeric to accumulate "
-#| "more changes before each recalculation. If `lag' is positive, then "
-#| "whenever a change appears, gnumeric waits `lag' milleseconds and then "
-#| "recalculates; if more changes appear during that period, they are also "
-#| "processed at that time. If `lag' is negative, then recalculation happens "
-#| "only after a quiet period of |lag| milleseconds."
 msgid ""
 "If `lag' is 0, gnumeric recalculates all auto expressions immediately after "
 "every change. Non-zero values of `lag' allow gnumeric to accumulate more "
@@ -3424,13 +3415,13 @@ msgid ""
 "time. If `lag' is negative, then recalculation happens only after a quiet "
 "period of |lag| milliseconds."
 msgstr ""
-"Si ' retardo' es 0, gnumeric recalcula todas las expresiones automáticas "
-"inmediatamente después de cada cambio. Los valores distintos de cero de "
-"'retardo' permiten a gnumeric acumular más cambios antes de cada recálculo. "
-"Si el 'retardo' es positivo, entonces siempre que aparezca un cambio, "
-"gnumeric espera un 'retardo' en milisegundos y después recalcula; si "
-"aparecen más cambios durante ese periodo, se procesan también en ese tiempo. "
-"Si 'retardo' es negativo, entonces el recálculo ocurre sólo después de un "
+"Si «retardo» es 0, gnumeric recalcula todas las expresiones automáticas "
+"inmediatamente después de cada cambio. Los valores de «retardo» distintos de "
+"cero permiten a gnumeric acumular más cambios antes de cada recálculo. Si el "
+"«retardo» es positivo, entonces siempre que aparezca un cambio, gnumeric "
+"espera un «retardo» en milisegundos y después recalcula; si aparecen más "
+"cambios durante ese periodo, se procesan también en ese tiempo. Si el "
+"«retardo» es negativo, entonces el recálculo ocurre sólo después de un "
 "periodo de inactividad de |retardo| milisegundos."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:65
@@ -3444,9 +3435,9 @@ msgid ""
 "are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into "
 "page movement rather than jumping to the start/end of series."
 msgstr ""
-"Esta variable determina si las claves de transición están activadas. Las "
-"claves de transición son una vuelta atrás a la manipulación de eventos "
-"estilo 1-2-3. Convierten Ctrl-flecha en movimiento de páginas en vez de "
+"Esta variable determina si las teclas de transición están activadas. Las "
+"teclas de transición son una vuelta atrás a la manipulación de eventos al "
+"estilo 1-2-3. Convierten Ctrl-flecha en movimiento de página en vez de "
 "saltar al inicio/fin de las series."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:67
@@ -3465,7 +3456,7 @@ msgstr ""
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:69
 #: ../src/dialogs/dialog-preferences.c:818
 msgid "Default Vertical Window Size"
-msgstr "Tamaño vertical de la ventana preestablecido"
+msgstr "Tamaño vertical predeterminado de la ventana"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:70
 msgid ""
@@ -3478,16 +3469,16 @@ msgstr ""
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:71
 #: ../src/dialogs/dialog-preferences.c:828
 msgid "Default Zoom Factor"
-msgstr "Factor de ampliación preestablecido"
+msgstr "Factor de ampliación predeterminado"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:72
 msgid "The initial zoom factor for new workbooks."
-msgstr "El factor de ampliación inicial para los libros de cuentas nuevos."
+msgstr "El factor de ampliación inicial para libros de trabajo nuevos."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:73
 #: ../src/dialogs/dialog-preferences.c:945
 msgid "Default Compression Level For Gnumeric Files"
-msgstr "Nivel de compresión predeterminado para los archivos de Gnumeric"
+msgstr "Nivel de compresión predeterminado para archivos de Gnumeric"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:74
 msgid ""
@@ -3496,8 +3487,8 @@ msgid ""
 "compression while 9 is maximal compression."
 msgstr ""
 "Este entero (entre 0 y 9) especifica la cantidad de compresión que Gnumeric "
-"aplica al guardar archivos en el formato de archivo predeterminado. 0 es sin "
-"compresión y 9 es compresión máxima."
+"aplica al guardar archivos en el formato de archivo predeterminado. 0 es "
+"compresión mínima y 9 es compresión máxima."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:75
 #: ../src/dialogs/dialog-preferences.c:961
@@ -3512,12 +3503,12 @@ msgid ""
 msgstr ""
 "Algunos formatos de archivo contienen sólo una única hoja. Esta variable "
 "determina si el usuario será advertido si se guarda sólo una única hoja de "
-"un libro multi-hoja."
+"un libro de trabajo multi-hoja."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:77
 #: ../src/dialogs/dialog-preferences.c:956
 msgid "Default To Overwriting Files"
-msgstr "Sobreescribir archivos por omisión"
+msgstr "Sobreescribir archivos de manera predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:78
 msgid ""
@@ -3526,25 +3517,26 @@ msgid ""
 "dialog the default button."
 msgstr ""
 "Antes de que un archivo existente sea sobreescrito, gnumeric mostrará un "
-"diálogo de advertencia. Al poner esta opción se hará que el botón "
-"sobreescribir de ese diálogo sea el botón predeterminado."
+"diálogo de advertencia. Al poner esta opción hará que el botón sobreescribir "
+"de ese diálogo sea el botón predeterminado."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:79
 msgid "List of file savers with disabled extension check."
 msgstr ""
-"Lista de archivos grabados con la comprobación de extensión desactivada."
+"Lista de guardadores de archivos con la verificación de extensión "
+"desactivada."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:80
 msgid ""
 "This list contains the ids of the file savers for which the extension check "
 "is disabled."
 msgstr ""
-"Esta lista contiene los ID de archivos grabados para los cuales la "
-"comprobación de extensión está desactivada."
+"Esta lista contiene los identificadores de los guardadores de archivos para "
+"los que la verificación de extensión está desactivada."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:81
 msgid "Sort is Case-Sensitive"
-msgstr "La ordenación es sensible a la capitalización"
+msgstr "La ordenación es sensible a la capitalización"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:82
 msgid ""
@@ -3553,9 +3545,9 @@ msgid ""
 "checkbox in the sort dialog."
 msgstr ""
 "Poner esta opción hará que los botones de ordenamiento de la barra de "
-"herramientas efectúen una ordenación sensible a mayúsculas y determina el "
-"estado inicial de la casilla de verificación «Sensible a mayúsculas» en el "
-"diálogo «Ordenar»."
+"herramientas efectúen una ordenación sensible a la capitalización y "
+"determinen el estado inicial de la casilla de verificación de sensible a "
+"mayúsculas y minúsculas en el diálogo de ordenación."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:83
 #: ../src/dialogs/dialog-preferences.c:784
@@ -3568,10 +3560,10 @@ msgid ""
 "the cell formats while sorting and determines the initial state of the "
 "preserve-formats checkbox in the sort dialog."
 msgstr ""
-"Al poner esta opción se hará que los botones de ordenación de la barra de "
+"Establecer esta opción hará que los botones de ordenación de la barra de "
 "herramientas conserven el formato de las celdas cuando se ordenan y "
-"determina el estado inicial de la casilla de verificación «Preservar "
-"formatos» en el diálogo «Ordenar»."
+"determina el estado inicial de la casilla de verificación de preservar "
+"formatos en el diálogo de ordenación."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:85
 #: ../src/dialogs/dialog-preferences.c:794 ../src/wbc-gtk-actions.c:2691
@@ -3583,8 +3575,8 @@ msgid ""
 "This option determines the initial state of the sort-order button in the "
 "sort dialog."
 msgstr ""
-"Esta opción determina el estado inicial del botón de ordenación en el "
-"diálogo de ordenación."
+"Esta opción determina el estado inicial del botón de criterio de ordenación "
+"en el diálogo de ordenación."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:87
 #: ../src/dialogs/dialog-preferences.c:779
@@ -3592,14 +3584,13 @@ msgid "Number of Automatic Clauses"
 msgstr "Número de cláusulas automáticas"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:88
-#, fuzzy
 msgid ""
 "When selecting a sort region in the sort dialog, sort clauses are "
 "automatically added. This number determines the maximum number of clauses to "
 "be added automatically."
 msgstr ""
-"Cuando seleccione una región a ordenar en el diálogo de ordenación, las "
-"cláusulas de búsqueda se añaden automáticamente. Este número determina el "
+"Al seleccionar una región de ordenación en el diálogo de ordenación, las "
+"cláusulas de ordenación se añaden automáticamente. Este número determina el "
 "máximo número de cláusulas que se añadirán automáticamente."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:89
@@ -3614,7 +3605,7 @@ msgid ""
 msgstr ""
 "Cuando sea VERDADERO, Gnumeric preferirá la selección moderna del "
 "PORTAPAPELES antes que las selecciones PRIMARIAS heredadas. Establézcalo a "
-"falso si tiene que tratar con otras aplicaciones, como Xterm o Emacs, que "
+"FALSO si tiene que tratar con aplicaciones antiguas, como Xterm o Emacs, que "
 "establecen sólo la selección PRIMARIA."
 
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:1
@@ -3628,9 +3619,9 @@ msgid ""
 "ISO-8859-1 (Latin1). To use the UTF-8 files, you must have the ucs LaTeX "
 "package installed."
 msgstr ""
-"Este ajuste determina si los archivo LaTeX creados usan UTF-8 (unicode) o "
-"ISO-8859-1 (Latin1). Para usar los archivos UTF-8, debe tener el paquete "
-"LaTeX ucs instalado."
+"Esta configuración determina si los archivos LaTeX creados usan UTF-8 "
+"(unicode) o ISO-8859-1 (Latin1). Para usar los archivos UTF-8, debe tener el "
+"paquete LaTeX ucs instalado."
 
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:3
 msgid "Full path of lp_solve program to use"
@@ -3641,36 +3632,36 @@ msgid ""
 "This is the full path to the lp_solve binary that the lpsolve plugin should "
 "use."
 msgstr ""
-"Esta es la ruta completa que el archivo binario de lp_solve que el "
-"complemento lpsolve debería usar."
+"Esta es la ruta completa al binario de lp_solve que el complemento lpsolve "
+"debería usar."
 
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:5
 msgid "Full path of glpsol program to use"
-msgstr "Ruta completa del programa slpsol que usar"
+msgstr "Ruta completa del programa glpsol que usar"
 
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:6
 msgid ""
 "This is the full path to the glpsol binary that the lpsolve plugin should "
 "use."
 msgstr ""
-"Esta es la ruta completa del archivo binario de glpsol que el complemento "
-"Ipsolve debería usar."
+"Esta es la ruta completa del binario de glpsol que el complemento lpsolve "
+"debería usar."
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:1
 msgid "StandardToolbar"
-msgstr "Barra estándar"
+msgstr "Barra de herramientas estándar"
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:2
 msgid "FormatToolbar"
-msgstr "Barra de formato"
+msgstr "Barra de herramientas de formato"
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:3
 msgid "LongFormatToolbar"
-msgstr "Barra de formato largo"
+msgstr "Barra de herramientas de formato largo"
 
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:4
 msgid "ObjectToolbar"
-msgstr "Barra de objetos"
+msgstr "Barra de herramientas de objetos"
 
 #: ../src/application.c:279
 msgid "Cut Object"
@@ -3700,10 +3691,9 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"El destino no contiene un múltiplo par de la cantidad de columnas de origen "
-"(%d en vez de %d)\n"
+"el destino no tiene un múltiplo par de columnas de origen (%d en vez de %d)\n"
 "\n"
-"Pruebe seleccionando una sola celda o un área del mismo tamaño y forma."
+"Pruebe seleccionando una sola celda o un área de la misma forma y tamaño."
 
 #: ../src/clipboard.c:457
 #, c-format
@@ -3712,9 +3702,9 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"No se puede pegar. El destino no contiene un múltiplo de la cantidad de "
-"filas a pegar (%d en vez de %d)\n"
-"Pruebe seleccionando una sola celda o un área del mismo tamaño y forma."
+"el destino no tiene un múltiplo par de filas de origen (%d en vez de %d)\n"
+"\n"
+"Pruebe seleccionando una sola celda o un área de la misma forma y tamaño."
 
 #: ../src/clipboard.c:469
 msgid "result passes the sheet boundary"
@@ -5730,233 +5720,233 @@ msgid "(defined)"
 msgstr "No definido"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:230
-#: ../src/dialogs/dialog-cell-format-cond.c:1147
+#: ../src/dialogs/dialog-cell-format-cond.c:1155
 msgid "(undefined)"
 msgstr "(sin definir)"
 
 #. without any expression
-#: ../src/dialogs/dialog-cell-format-cond.c:536
+#: ../src/dialogs/dialog-cell-format-cond.c:544
 msgid "Cell contains an error value."
 msgstr "La celda contiene un valor de error."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:537
+#: ../src/dialogs/dialog-cell-format-cond.c:545
 msgid "Cell does not contain an error value."
 msgstr "La celda no contiene un valor de error."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:538
+#: ../src/dialogs/dialog-cell-format-cond.c:546
 msgid "Cell contains whitespace."
 msgstr "La celda contiene espacios en blanco."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:539
+#: ../src/dialogs/dialog-cell-format-cond.c:547
 #, fuzzy
 #| msgid "%s does not contain the new value."
 msgid "Cell does not contain whitespace."
 msgstr "%s no contiene el valor nuevo."
 
 #. with one expression
-#: ../src/dialogs/dialog-cell-format-cond.c:541
+#: ../src/dialogs/dialog-cell-format-cond.c:549
 msgid "Cell value is = x."
 msgstr "El valor de la celda es = x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:542
+#: ../src/dialogs/dialog-cell-format-cond.c:550
 msgid "Cell value is ≠ x."
 msgstr "El valor de la celda es ≠ x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:543
+#: ../src/dialogs/dialog-cell-format-cond.c:551
 msgid "Cell value is > x."
 msgstr "El valor de la celda es > x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:544
+#: ../src/dialogs/dialog-cell-format-cond.c:552
 msgid "Cell value is < x."
 msgstr "El valor de la celda es < x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:545
+#: ../src/dialogs/dialog-cell-format-cond.c:553
 msgid "Cell value is ≧ x."
 msgstr "El valor de la celda es ≧ x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:546
+#: ../src/dialogs/dialog-cell-format-cond.c:554
 msgid "Cell value is ≦ x."
 msgstr "El valor de la celda es ≦ x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:547
+#: ../src/dialogs/dialog-cell-format-cond.c:555
 msgid "Expression x evaluates to TRUE."
 msgstr "La expresión x se evalúa a VERDADERA."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:548
+#: ../src/dialogs/dialog-cell-format-cond.c:556
 msgid "Cell contains the string x."
 msgstr "La celda contiene la cadena x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:549
+#: ../src/dialogs/dialog-cell-format-cond.c:557
 msgid "Cell does not contain the string x."
 msgstr "La celda no contiene la cadena x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:550
+#: ../src/dialogs/dialog-cell-format-cond.c:558
 msgid "Cell value begins with the string x."
 msgstr "El valor de la celda comienza por la cadena x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:551
+#: ../src/dialogs/dialog-cell-format-cond.c:559
 msgid "Cell value does not begin with the string x."
 msgstr "El valor de la celda no comienza por la cadena x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:552
+#: ../src/dialogs/dialog-cell-format-cond.c:560
 msgid "Cell value ends with the string x."
 msgstr "El valor de la celda termina por la cadena x."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:553
+#: ../src/dialogs/dialog-cell-format-cond.c:561
 msgid "Cell value does not end with the string x."
 msgstr "El valor de la celda no termina por la cadena x."
 
 #. with two expressions
-#: ../src/dialogs/dialog-cell-format-cond.c:555
+#: ../src/dialogs/dialog-cell-format-cond.c:563
 msgid "Cell value is between x and y (incl.)."
 msgstr "El valor de la celda está entre x e y (incl.)."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:556
+#: ../src/dialogs/dialog-cell-format-cond.c:564
 msgid "Cell value is not between x and y (incl.)."
 msgstr "El valor de la celda no está entre x e y (incl.)."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:693
+#: ../src/dialogs/dialog-cell-format-cond.c:701
 msgid "Set conditional formatting"
 msgstr "Establecer formato condicional"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:709
+#: ../src/dialogs/dialog-cell-format-cond.c:717
 #, fuzzy
 #| msgid "Per column formatting"
 msgid "Clear conditional formatting"
 msgstr "Formato por columna"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:741
+#: ../src/dialogs/dialog-cell-format-cond.c:749
 msgid "Remove condition from conditional formatting"
 msgstr "Quitar condición del formato condicional"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:773
+#: ../src/dialogs/dialog-cell-format-cond.c:781
 #, fuzzy
 #| msgid "Exponential Smoothing"
 msgid "Expand conditional formatting"
 msgstr "Suavización exponencial"
 
-#: ../src/dialogs/dialog-cell-format-cond.c:822
+#: ../src/dialogs/dialog-cell-format-cond.c:830
 msgid ""
 "If the cell content is between these two values, a special style is used."
 msgstr ""
 "Si el contenido de la celda está entre estos dos valores se usa un estilo "
 "especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:830
+#: ../src/dialogs/dialog-cell-format-cond.c:838
 msgid ""
 "If the cell content is not between these two values, a special style is used."
 msgstr ""
 "Si el contenido de la celda no está entre estos dos valores se usa un estilo "
 "especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:838
+#: ../src/dialogs/dialog-cell-format-cond.c:846
 msgid "If the cell content is equal to this value, a special style is used."
 msgstr ""
 "Si el contenido de la celda es igual a este valor se usa un estilo especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:846
+#: ../src/dialogs/dialog-cell-format-cond.c:854
 msgid ""
 "If the cell content is not equal to this value, a special style is used."
 msgstr ""
 "Si el contenido de la celda no es igual a este valor se usa un estilo "
 "especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:854
+#: ../src/dialogs/dialog-cell-format-cond.c:862
 msgid "If the cell content is > this value, a special style is used."
 msgstr ""
 "Si el contenido de la celda es mayor (>) que este valor se usa un estilo "
 "especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:861
+#: ../src/dialogs/dialog-cell-format-cond.c:869
 msgid "If the cell content is < this value, a special style is used."
 msgstr ""
 "Si el contenido de la celda es menor (>) que este valor se usa un estilo "
 "especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:869
+#: ../src/dialogs/dialog-cell-format-cond.c:877
 msgid "If the cell content is ≧ this value, a special style is used."
 msgstr ""
 "Si el contenido de la celda es mayor o igual (≧) que este valor se usa un "
 "estilo especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:878
+#: ../src/dialogs/dialog-cell-format-cond.c:886
 msgid "If the cell content is ≦ this value, a special style is used."
 msgstr ""
 "Si el contenido de la celda es menor o igual (≦) que este valor se usa un "
 "estilo especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:887
+#: ../src/dialogs/dialog-cell-format-cond.c:895
 msgid "If this formula evaluates to TRUE, a special style is used."
 msgstr "Si la fórmula da VERDADERO, se usa un estilo especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:894
+#: ../src/dialogs/dialog-cell-format-cond.c:902
 msgid "If the cell content contains this string, a special style is used."
 msgstr "Si la celda contiene esta cadena se usa un estilo especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:902
+#: ../src/dialogs/dialog-cell-format-cond.c:910
 msgid ""
 "If the cell content does not contain this string, a special style is used."
 msgstr "Si la celda no contiene esta cadena se usa un estilo especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:910
+#: ../src/dialogs/dialog-cell-format-cond.c:918
 msgid "If the cell content begins with this string, a special style is used."
 msgstr ""
 "Si el contenido de la celda comienza con esta cadena se usa un estilo "
 "especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:918
+#: ../src/dialogs/dialog-cell-format-cond.c:926
 msgid ""
 "If the cell content does not begin with this string, a special style is used."
 msgstr ""
 "Si el contenido de la celda no comienza con esta cadena se usa un estilo "
 "especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:925
+#: ../src/dialogs/dialog-cell-format-cond.c:933
 msgid "If the cell content ends with this string, a special style is used."
 msgstr ""
 "Si el contenido de la celda termina con esta cadena se usa un estilo "
 "especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:933
+#: ../src/dialogs/dialog-cell-format-cond.c:941
 msgid ""
 "If the cell content does not end  with this string, a special style is used."
 msgstr ""
 "Si el contenido de la celda no termina con esta cadena se usa un estilo "
 "especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:941
+#: ../src/dialogs/dialog-cell-format-cond.c:949
 msgid "If the cell contains an error value, a special style is used."
 msgstr "Si la celda contiene un valor de error, se usa un estilo especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:947
+#: ../src/dialogs/dialog-cell-format-cond.c:955
 msgid "If the cell does not contain an error value, a special style is used."
 msgstr "Si la celda no contiene un valor de error, se usa un estilo especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:954
+#: ../src/dialogs/dialog-cell-format-cond.c:962
 msgid "If the cell content contains blanks, a special style is used."
 msgstr "Si la celda contiene espacios en blanco se usa un estilo especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:961
+#: ../src/dialogs/dialog-cell-format-cond.c:969
 msgid "If the cell content does not contain blanks, a special style is used."
 msgstr "Si la celda no contiene espacios en blanco se usa un estilo especial."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:968
+#: ../src/dialogs/dialog-cell-format-cond.c:976
 msgid "This is an unknown condition type."
 msgstr "Este es un tipo de condición desconocido."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1069
+#: ../src/dialogs/dialog-cell-format-cond.c:1077
 msgid "The selection is homogeneous with respect to conditions."
 msgstr "La selección es homogénea respecto a las condiciones."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1077
+#: ../src/dialogs/dialog-cell-format-cond.c:1085
 msgid "The selection is <b>not</b> homogeneous with respect to conditions!"
 msgstr "La selección <b>no</b> es homogénea respecto a las condiciones."
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1223
+#: ../src/dialogs/dialog-cell-format-cond.c:1231
 msgid "Editing conditional formatting: "
 msgstr "Editando formato condicional: "
 
-#: ../src/dialogs/dialog-cell-format-cond.c:1269
+#: ../src/dialogs/dialog-cell-format-cond.c:1277
 #: ../src/dialogs/cell-format-cond.ui.h:1
 msgid "Conditional Cell Formatting"
 msgstr "Formato condicional de celda"
