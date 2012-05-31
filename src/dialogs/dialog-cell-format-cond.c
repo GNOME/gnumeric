@@ -379,7 +379,7 @@ c_fmt_dialog_get_condition (CFormatState *state)
 	else
 		op = GNM_STYLE_COND_CONTAINS_ERR;
 
-	cond = gnm_style_cond_new (op);
+	cond = gnm_style_cond_new (op, state->sheet);
 	gnm_style_cond_set_overlay (cond, overlay);
 	gnm_style_unref (overlay);
 
@@ -452,16 +452,16 @@ cb_c_fmt_dialog_copy_button (G_GNUC_UNUSED GtkWidget *btn, CFormatState *state)
 			}
 			/* Set the expressions */
 			parse_pos_init_editpos (&pp, state->sv);
-			if (gsc->texpr[0])
+			if (gnm_style_cond_get_expr (gsc, 0))
 				gnm_expr_entry_load_from_expr (GNM_EXPR_ENTRY (state->editor.expr_x),
-							       gsc->texpr[0],
+							       gnm_style_cond_get_expr (gsc, 0),
 							       &pp);
 			else
 				gnm_expr_entry_load_from_text (GNM_EXPR_ENTRY (state->editor.expr_x),
 							       "");
-			if (gsc->texpr[1])
+			if (gnm_style_cond_get_expr (gsc, 1))
 				gnm_expr_entry_load_from_expr (GNM_EXPR_ENTRY (state->editor.expr_y),
-							       gsc->texpr[1],
+							       gnm_style_cond_get_expr (gsc, 1),
 							       &pp);
 			else
 				gnm_expr_entry_load_from_text (GNM_EXPR_ENTRY (state->editor.expr_y),
@@ -679,7 +679,7 @@ c_fmt_dialog_apply_add_choice (CFormatState *state, GnmStyleCond *cond, gboolean
 		int index = -1;
 		sc = gnm_style_conditions_dup (gnm_style_get_conditions (state->style));
 		if (sc == NULL)
-			sc = gnm_style_conditions_new ();
+			sc = gnm_style_conditions_new (state->sheet);
 		if (!add) {
 			GtkTreeIter iter;
 			if (gtk_tree_selection_get_selected (state->selection, NULL, &iter)) {
@@ -811,8 +811,8 @@ static void
 c_fmt_dialog_conditions_page_load_cond_double_f (CFormatState *state,
 					       GnmStyleCond const *cond, GtkTreeIter *iter1)
 {
-	c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], iter1);
-	c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[1], iter1);
+	c_fmt_dialog_conditions_page_load_cond_single_f (state, gnm_style_cond_get_expr (cond, 0), iter1);
+	c_fmt_dialog_conditions_page_load_cond_single_f (state, gnm_style_cond_get_expr (cond, 1), iter1);
 }
 
 static void
@@ -846,7 +846,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 				    _("If the cell content is equal to this value"
 				      ", a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
-		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
+		c_fmt_dialog_conditions_page_load_cond_single_f (state, gnm_style_cond_get_expr (cond, 0), &iter1);
 		break;
 	case GNM_STYLE_COND_NOT_EQUAL:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
@@ -854,14 +854,14 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 				    _("If the cell content is not equal to this value"
 				      ", a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
-		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
+		c_fmt_dialog_conditions_page_load_cond_single_f (state, gnm_style_cond_get_expr (cond, 0), &iter1);
 		break;
 	case GNM_STYLE_COND_GT:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content is > this value, a "
 				      "special style is used."), -1);
-		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
+		c_fmt_dialog_conditions_page_load_cond_single_f (state, gnm_style_cond_get_expr (cond, 0), &iter1);
 		break;
 	case GNM_STYLE_COND_LT:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
@@ -869,7 +869,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 				    _("If the cell content is < this value, a "
 				      "special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
-		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
+		c_fmt_dialog_conditions_page_load_cond_single_f (state, gnm_style_cond_get_expr (cond, 0), &iter1);
 		break;
 	case GNM_STYLE_COND_GTE:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
@@ -878,7 +878,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 				      "value, a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
 
-		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
+		c_fmt_dialog_conditions_page_load_cond_single_f (state, gnm_style_cond_get_expr (cond, 0), &iter1);
 		break;
 	case GNM_STYLE_COND_LTE:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
@@ -886,7 +886,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 				    _("If the cell content is \xe2\x89\xa6 this "
 				      "value, a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
-		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
+		c_fmt_dialog_conditions_page_load_cond_single_f (state, gnm_style_cond_get_expr (cond, 0), &iter1);
 		break;
 
 	case GNM_STYLE_COND_CUSTOM:
@@ -894,7 +894,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 				    CONDITIONS_COND,
 				    _("If this formula evaluates to TRUE, a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
-		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
+		c_fmt_dialog_conditions_page_load_cond_single_f (state, gnm_style_cond_get_expr (cond, 0), &iter1);
 		break;
 	case GNM_STYLE_COND_CONTAINS_STR:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
@@ -902,7 +902,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 				    _("If the cell content contains this string"
 				      ", a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
-		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
+		c_fmt_dialog_conditions_page_load_cond_single_f (state, gnm_style_cond_get_expr (cond, 0), &iter1);
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_STR:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
@@ -910,7 +910,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 				    _("If the cell content does not contain this string"
 				      ", a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
-		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
+		c_fmt_dialog_conditions_page_load_cond_single_f (state, gnm_style_cond_get_expr (cond, 0), &iter1);
 		break;
 	case GNM_STYLE_COND_BEGINS_WITH_STR:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
@@ -918,14 +918,14 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 				    _("If the cell content begins with this string"
 				      ", a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
-		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
+		c_fmt_dialog_conditions_page_load_cond_single_f (state, gnm_style_cond_get_expr (cond, 0), &iter1);
 		break;
 	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
 				    CONDITIONS_COND,
 				    _("If the cell content does not begin with this string,"
 				      " a special style is used."), -1);
-		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
+		c_fmt_dialog_conditions_page_load_cond_single_f (state, gnm_style_cond_get_expr (cond, 0), &iter1);
 		break;
 	case GNM_STYLE_COND_ENDS_WITH_STR:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
@@ -933,7 +933,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 				    _("If the cell content ends with this string"
 				      ", a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
-		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
+		c_fmt_dialog_conditions_page_load_cond_single_f (state, gnm_style_cond_get_expr (cond, 0), &iter1);
 		break;
 	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,
@@ -941,7 +941,7 @@ c_fmt_dialog_conditions_page_load_cond (CFormatState *state, GnmStyleCond const 
 				    _("If the cell content does not end  "
 				      "with this string, a special style is used."),
 				    CONDITIONS_REFERENCE, NULL, -1);
-		c_fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
+		c_fmt_dialog_conditions_page_load_cond_single_f (state, gnm_style_cond_get_expr (cond, 0), &iter1);
 		break;
 	case GNM_STYLE_COND_CONTAINS_ERR:
 		gtk_tree_store_set (state->model, &iter1, CONDITIONS_RANGE, NULL,

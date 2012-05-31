@@ -5171,7 +5171,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 		return;
 	}
 
-	cond = gnm_style_cond_new (cop);
+	cond = gnm_style_cond_new (cop, esheet->sheet);
 
 	if (expr0_len > 0) {
 		GnmExprTop const *texpr = 
@@ -5374,7 +5374,7 @@ excel_read_CONDFMT (BiffQuery *q, ExcelReadSheet *esheet)
 
 	XL_CHECK_CONDITION (data == q->data + q->length);
 
-	sc = gnm_style_conditions_new ();
+	sc = gnm_style_conditions_new (esheet->sheet);
 	for (i = 0 ; i < num_fmts ; i++) {
 		guint16 next;
 		if (!ms_biff_query_peek_next (q, &next) || next != BIFF_CF) {

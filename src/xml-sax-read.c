@@ -1690,7 +1690,7 @@ xml_sax_condition (GsfXMLIn *xin, xmlChar const **attrs)
 			unknown_attr (xin, attrs);
 	}
 
-	state->cond = gnm_style_cond_new (op);
+	state->cond = gnm_style_cond_new (op, state->sheet);
 }
 
 static void
@@ -1711,7 +1711,7 @@ xml_sax_condition_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (!gnm_style_is_element_set (state->style, MSTYLE_CONDITIONS) ||
 	    NULL == (sc = gnm_style_get_conditions (state->style)))
 		gnm_style_set_conditions (state->style,
-			(sc = gnm_style_conditions_new ()));
+			(sc = gnm_style_conditions_new (state->sheet)));
 	gnm_style_conditions_insert (sc, state->cond, -1);
 
 	gnm_style_cond_free (state->cond);
@@ -1727,8 +1727,7 @@ xml_sax_condition_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GnmExprTop const *texpr;
 	GnmParsePos pos;
 
-	g_return_if_fail (state->cond != NULL);
-	g_return_if_fail (state->cond->texpr[i] == NULL);
+	g_return_if_fail (gnm_style_cond_get_expr (state->cond, i) == NULL);
 
 	texpr = gnm_expr_parse_str (xin->content->str,
 				    parse_pos_init_sheet (&pos, state->sheet),

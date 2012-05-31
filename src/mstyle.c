@@ -829,11 +829,11 @@ gnm_style_linked_sheet_changed (GnmStyle *style)
 
 	if (elem_is_set (style, MSTYLE_CONDITIONS) &&
 	    style->conditions
-#if 0
 	    && gnm_style_conditions_get_sheet (style->conditions) != sheet
-#endif
 		) {
-		/* Something goes here.  */
+		GnmStyleConditions *new_c = gnm_style_conditions_dup (style->conditions);
+		gnm_style_conditions_set_sheet (new_c, sheet);
+		gnm_style_set_conditions (style, new_c);
 	}
 }
 

@@ -606,24 +606,27 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 	    NULL != (sc = gnm_style_get_conditions (style))) {
 		GPtrArray const *conds = gnm_style_conditions_details (sc);
 		if (conds != NULL) {
-			char *tmp;
 			GnmParsePos pp;
 			parse_pos_init_sheet (&pp, (Sheet *)state->sheet);
 
 			for (i = 0 ; i < conds->len ; i++) {
+				unsigned ui;
 				GnmStyleCond const *cond =
 					g_ptr_array_index (conds, i);
 				gsf_xml_out_start_element (state->output, GNM "Condition");
 				gsf_xml_out_add_int (state->output, "Operator", cond->op);
-				if (cond->texpr[0] != NULL &&
-				    (tmp = gnm_expr_top_as_string (cond->texpr[0], &pp, state->convs)) != NULL) {
-					gsf_xml_out_simple_element (state->output, GNM "Expression0", tmp);
-					g_free (tmp);
-				}
-				if (cond->texpr[1] != NULL &&
-				    (tmp = gnm_expr_top_as_string (cond->texpr[1], &pp, state->convs)) != NULL) {
-					gsf_xml_out_simple_element (state->output, GNM "Expression1", tmp);
-					g_free (tmp);
+				for (ui = 0; ui < 2; ui++) {
+					GnmExprTop const *texpr = gnm_style_cond_get_expr (cond, ui);
+					char *tmp = texpr
+						? gnm_expr_top_as_string (texpr, &pp, state->convs)
+						: NULL;
+					const char *attr = (ui == 0)
+						? GNM "Expression0"
+						: GNM "Expression1";
+					if (tmp) {
+						gsf_xml_out_simple_element (state->output, attr, tmp);
+						g_free (tmp);
+					}
 				}
 				xml_write_style (state, cond->overlay);
 				gsf_xml_out_end_element (state->output); /* </Condition> */

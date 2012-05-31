@@ -40,9 +40,43 @@ typedef GObjectClass GnmStyleConditionsClass;
 struct _GnmStyleConditions {
 	GObject base;
 	GPtrArray *conditions;
+	Sheet *sheet;
 };
 
 static GObjectClass *parent_class;
+
+static unsigned
+gnm_style_cond_op_operands (GnmStyleCondOp op)
+{
+	switch (op) {
+	case GNM_STYLE_COND_BETWEEN:
+	case GNM_STYLE_COND_NOT_BETWEEN:
+		return 2;
+
+	case GNM_STYLE_COND_EQUAL:
+	case GNM_STYLE_COND_NOT_EQUAL:
+	case GNM_STYLE_COND_GT:
+	case GNM_STYLE_COND_LT:
+	case GNM_STYLE_COND_GTE:
+	case GNM_STYLE_COND_LTE:
+	case GNM_STYLE_COND_CUSTOM:
+	case GNM_STYLE_COND_CONTAINS_STR:
+	case GNM_STYLE_COND_NOT_CONTAINS_STR:
+	case GNM_STYLE_COND_BEGINS_WITH_STR:
+	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
+	case GNM_STYLE_COND_ENDS_WITH_STR:
+	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
+		return 1;
+
+	case GNM_STYLE_COND_CONTAINS_ERR:
+	case GNM_STYLE_COND_NOT_CONTAINS_ERR:
+	case GNM_STYLE_COND_CONTAINS_BLANKS:
+	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
+		return 0;
+	}
+	g_assert_not_reached ();
+}
+
 
 /**
  * gnm_style_cond_is_valid :
@@ -53,26 +87,35 @@ static GObjectClass *parent_class;
 gboolean
 gnm_style_cond_is_valid (GnmStyleCond const *cond)
 {
+	unsigned ui, N;
+
 	g_return_val_if_fail (cond != NULL, FALSE);
 
 	if (cond->overlay == NULL) return FALSE;
-	if ((cond->texpr[0] != NULL) ^
-	    (cond->op != GNM_STYLE_COND_CONTAINS_ERR &&
-	     cond->op != GNM_STYLE_COND_NOT_CONTAINS_ERR &&
-	     cond->op != GNM_STYLE_COND_CONTAINS_BLANKS &&
-	     cond->op != GNM_STYLE_COND_NOT_CONTAINS_BLANKS)) return FALSE;
-	if ((cond->texpr[1] != NULL) ^
-	    (cond->op == GNM_STYLE_COND_BETWEEN ||
-	     cond->op == GNM_STYLE_COND_NOT_BETWEEN))
-	    return FALSE;
+
+	N = gnm_style_cond_op_operands (cond->op);
+	for (ui = 0; ui < G_N_ELEMENTS (cond->deps); ui++) {
+		gboolean need = (ui < N);
+		gboolean have = (cond->deps[ui].texpr != NULL);
+		if (have != need)
+			return FALSE;		    
+	}
+
 	return TRUE;
 }
 
 GnmStyleCond *
-gnm_style_cond_new (GnmStyleCondOp op)
+gnm_style_cond_new (GnmStyleCondOp op, Sheet *sheet)
 {
-	GnmStyleCond *res = g_new0 (GnmStyleCond, 1);
+	GnmStyleCond *res;
+	unsigned ui;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	res = g_new0 (GnmStyleCond, 1);
 	res->op = op;
+	for (ui = 0; ui < 2; ui++)
+		dependent_managed_init (&res->deps[ui], sheet);
 	return res;
 }
 
@@ -84,10 +127,10 @@ gnm_style_cond_dup (GnmStyleCond const *src)
 
 	g_return_val_if_fail (src != NULL, NULL);
 
-	dst = gnm_style_cond_new (src->op);
+	dst = gnm_style_cond_new (src->op, gnm_style_cond_get_sheet (src));
 	gnm_style_cond_set_overlay (dst, src->overlay);
 	for (ui = 0; ui < 2; ui++)
-		gnm_style_cond_set_expr (dst, src->texpr[ui], ui);
+		gnm_style_cond_set_expr (dst, src->deps[ui].texpr, ui);
 
 	return dst;
 }
@@ -103,10 +146,37 @@ gnm_style_cond_free (GnmStyleCond *cond)
 	if (cond->overlay)
 		gnm_style_unref (cond->overlay);
 	for (ui = 0; ui < 2; ui++)
-		if (cond->texpr[ui])
-			gnm_expr_top_unref (cond->texpr[ui]);
+		gnm_style_cond_set_expr (cond, NULL, ui);
 
 	g_free (cond);
+}
+
+Sheet *
+gnm_style_cond_get_sheet (GnmStyleCond const *cond)
+{
+	g_return_val_if_fail (cond != NULL, NULL);
+	return cond->deps[0].sheet;
+}
+
+void
+gnm_style_cond_set_sheet (GnmStyleCond *cond, Sheet *sheet)
+{
+	int ui;
+
+	g_return_if_fail (cond != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (ui = 0; ui < 2; ui++)
+		dependent_managed_set_sheet (&cond->deps[ui], sheet);
+}
+
+GnmExprTop const *
+gnm_style_cond_get_expr (GnmStyleCond const *cond, unsigned idx)
+{
+	g_return_val_if_fail (cond != NULL, NULL);
+	g_return_val_if_fail (idx < G_N_ELEMENTS (cond->deps), NULL);
+
+	return cond->deps[idx].texpr;
 }
 
 void
@@ -115,11 +185,9 @@ gnm_style_cond_set_expr (GnmStyleCond *cond,
 			 unsigned idx)
 {
 	g_return_if_fail (cond != NULL);
-	g_return_if_fail (idx < G_N_ELEMENTS (cond->texpr));
+	g_return_if_fail (idx < G_N_ELEMENTS (cond->deps));
 
-	if (texpr) gnm_expr_top_ref (texpr);
-	if (cond->texpr[idx]) gnm_expr_top_unref (cond->texpr[idx]);
-	cond->texpr[idx] = texpr;
+	dependent_managed_set_expr (&cond->deps[idx], texpr);
 }
 
 void
@@ -169,21 +237,26 @@ static GSF_CLASS (GnmStyleConditions, gnm_style_conditions,
  * Returns a GnmStyleConditions that the caller is resoinsible for.
  **/
 GnmStyleConditions  *
-gnm_style_conditions_new (void)
+gnm_style_conditions_new (Sheet *sheet)
 {
-	return g_object_new (gnm_style_conditions_get_type (), NULL);
+	GnmStyleConditions *res;
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	res = g_object_new (gnm_style_conditions_get_type (), NULL);
+	res->sheet = sheet;
+	return res;
 }
 
 GnmStyleConditions *
-gnm_style_conditions_dup (GnmStyleConditions const *cond)
+gnm_style_conditions_dup (GnmStyleConditions const *sc)
 {
 	GnmStyleConditions *dup;
 	GPtrArray const *ga;
-	if (cond == NULL)
+	if (sc == NULL)
 		return NULL;
 
-	dup = gnm_style_conditions_new ();
-	ga = gnm_style_conditions_details (cond);
+	dup = gnm_style_conditions_new (gnm_style_conditions_get_sheet (sc));
+	ga = gnm_style_conditions_details (sc);
 	if (ga != NULL) {
 		guint i;
 		GPtrArray *ga_dup = g_ptr_array_sized_new (ga->len);
@@ -194,6 +267,30 @@ gnm_style_conditions_dup (GnmStyleConditions const *cond)
 		dup->conditions = ga_dup;
 	}
 	return dup;
+}
+
+Sheet *
+gnm_style_conditions_get_sheet (GnmStyleConditions const *sc)
+{
+	g_return_val_if_fail (sc != NULL, NULL);
+	return sc->sheet;
+}
+
+void
+gnm_style_conditions_set_sheet (GnmStyleConditions *sc, Sheet *sheet)
+{
+	GPtrArray const *ga;
+	unsigned ui;
+
+	g_return_if_fail (sc != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	sc->sheet = sheet;
+	ga = gnm_style_conditions_details (sc);
+	for (ui = 0; ga && ui < ga->len; ui++) {
+		GnmStyleCond *cond = g_ptr_array_index (ga, ui);
+		gnm_style_cond_set_sheet (cond, sheet);
+	}
 }
 
 
@@ -225,10 +322,13 @@ gnm_style_conditions_insert (GnmStyleConditions *sc,
 {
 	GnmStyleCond *cond;
 
+	g_return_if_fail (sc != NULL);
 	g_return_if_fail (cond_ != NULL);
 
-	if (sc == NULL || !gnm_style_cond_is_valid (cond_))
-		return;
+	g_return_if_fail (gnm_style_cond_is_valid (cond_));
+
+	g_return_if_fail (gnm_style_conditions_get_sheet (sc) ==
+			  gnm_style_cond_get_sheet (cond_));
 
 	if (sc->conditions == NULL)
 		sc->conditions = g_ptr_array_new ();
@@ -336,7 +436,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 				}
 			}
 		} else {
-			val = gnm_expr_top_eval (cond->texpr[0], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+			val = gnm_expr_top_eval (cond->deps[0].texpr, ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 			if (cond->op == GNM_STYLE_COND_CUSTOM) {
 				use_this = value_get_as_bool (val, NULL);
 #if 0
@@ -358,7 +458,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 						break;
 					}
 					value_release (val);
-					val = gnm_expr_top_eval (cond->texpr[1], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+					val = gnm_expr_top_eval (cond->deps[1].texpr, ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 					diff = value_compare (cv, val, TRUE);
 					/* fall through */
 
@@ -369,7 +469,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 					if (diff == IS_LESS)
 						break;
 					value_release (val);
-					val = gnm_expr_top_eval (cond->texpr[1], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+					val = gnm_expr_top_eval (cond->deps[1].texpr, ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 					diff = value_compare (cv, val, TRUE);
 					/* fall through */
 				case GNM_STYLE_COND_LTE:	use_this = (diff == IS_LESS || diff == IS_EQUAL); break;

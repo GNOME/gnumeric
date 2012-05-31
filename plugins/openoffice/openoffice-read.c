@@ -2992,7 +2992,8 @@ odf_style_load_two_values (GsfXMLIn *xin, char *condition, GnmStyleCond *cond, g
 		guint len = strlen (condition);
 		char *end = condition + len - 1;
 		if (*end == ')') {
-			GnmParsePos   pp;
+			GnmParsePos pp;
+			GnmExprTop const *texpr;
 
 			odf_init_pp (&pp, xin, base);
 			len -= 1;
@@ -3008,17 +3009,22 @@ odf_style_load_two_values (GsfXMLIn *xin, char *condition, GnmStyleCond *cond, g
 					 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
 					 f_type);
 				if (texpr != NULL) {
-					cond->texpr[1] = texpr;
+					gnm_style_cond_set_expr (cond, texpr, 1);
+					gnm_expr_top_unref (texpr);
 					*try = '\0';
 					break;
 				}
 				len = try - condition - 1;
 			}
-			cond->texpr[0] = oo_expr_parse_str
+			texpr = oo_expr_parse_str
 				(xin, condition, &pp,
 				 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
 				 f_type);
-			return ((cond->texpr[0] != NULL) && (cond->texpr[1] != NULL));
+			gnm_style_cond_set_expr (cond, texpr, 0);
+			if (texpr) gnm_expr_top_unref (texpr);
+
+			return (gnm_style_cond_get_expr (cond, 0) &&
+				gnm_style_cond_get_expr (cond, 1));
 		}
 	}
 	return FALSE;
@@ -3027,27 +3033,31 @@ odf_style_load_two_values (GsfXMLIn *xin, char *condition, GnmStyleCond *cond, g
 static gboolean
 odf_style_load_one_value (GsfXMLIn *xin, char *condition, GnmStyleCond *cond, gchar const *base, OOFormula f_type)
 {
-	GnmParsePos   pp;
+	GnmParsePos pp;
+	GnmExprTop const *texpr;
 
 	odf_init_pp (&pp, xin, base);
-	cond->texpr[0] = oo_expr_parse_str
+	texpr = oo_expr_parse_str
 		(xin, condition, &pp,
 		 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
 		 f_type);
-	return (cond->texpr[0] != NULL);
+	gnm_style_cond_set_expr (cond, texpr, 0);
+	if (texpr) gnm_expr_top_unref (texpr);
+	return (gnm_style_cond_get_expr (cond, 0) != NULL);
 }
 
 static void
 odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle, 
 			 gchar const *condition, gchar const *base)
 {
-	/* OOParseState *state = (OOParseState *)xin->user_state; */
+	OOParseState *state = (OOParseState *)xin->user_state;
 
 	gchar const *full_condition = condition;
 	GnmStyleCond *cond = NULL;
 	GnmStyleConditions *sc;
 	gboolean success = FALSE;
 	OOFormula f_type;
+	Sheet *sheet = state->pos.sheet;
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (cstyle != NULL);
@@ -3063,28 +3073,28 @@ odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle,
 		case '<':
 			if (*condition == '=') {
 				condition++;
-				cond = gnm_style_cond_new (GNM_STYLE_COND_LTE);
+				cond = gnm_style_cond_new (GNM_STYLE_COND_LTE, sheet);
 			} else
-				cond = gnm_style_cond_new (GNM_STYLE_COND_LT);
+				cond = gnm_style_cond_new (GNM_STYLE_COND_LT, sheet);
 			success = TRUE;
 			break;
 		case '>':
 			if (*condition == '=') {
 				condition++;
-				cond = gnm_style_cond_new (GNM_STYLE_COND_GTE);
+				cond = gnm_style_cond_new (GNM_STYLE_COND_GTE, sheet);
 			} else
-				cond = gnm_style_cond_new (GNM_STYLE_COND_GT);
+				cond = gnm_style_cond_new (GNM_STYLE_COND_GT, sheet);
 			success = TRUE;
 			break;
 			break;
 		case '=':
-			cond = gnm_style_cond_new (GNM_STYLE_COND_EQUAL);
+			cond = gnm_style_cond_new (GNM_STYLE_COND_EQUAL, sheet);
 			success = TRUE;
 			break;
 		case '!':
 			if (*condition == '=') {
 				condition++;
-				cond = gnm_style_cond_new (GNM_STYLE_COND_NOT_EQUAL);
+				cond = gnm_style_cond_new (GNM_STYLE_COND_NOT_EQUAL, sheet);
 				success = TRUE;
 			}
 			break;
@@ -3099,14 +3109,14 @@ odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle,
 
 	} else if (g_str_has_prefix (condition, "cell-content-is-between")) {
 		char *text;
-		cond = gnm_style_cond_new (GNM_STYLE_COND_BETWEEN);
+		cond = gnm_style_cond_new (GNM_STYLE_COND_BETWEEN, sheet);
 		condition += strlen ("cell-content-is-between");
 		text = g_strdup (condition);
 		success = odf_style_load_two_values (xin, text, cond, base, f_type);
 		g_free (text);
 	} else if (g_str_has_prefix (condition, "cell-content-is-not-between")) {
 		char *text;
-		cond = gnm_style_cond_new (GNM_STYLE_COND_NOT_BETWEEN);
+		cond = gnm_style_cond_new (GNM_STYLE_COND_NOT_BETWEEN, sheet);
 		condition += strlen ("cell-content-is-not-between");
 		text = g_strdup (condition);
 		success = odf_style_load_two_values (xin, text, cond, base, f_type);
@@ -3114,23 +3124,23 @@ odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle,
 	} else if (g_str_has_prefix (condition, "is-true-formula")) {
 		if (0 == strcmp (full_condition, "of:is-true-formula(ISERROR([.A1]))") &&
 		    g_str_has_suffix (base, ".$A$1")) {
-			cond = gnm_style_cond_new (GNM_STYLE_COND_CONTAINS_ERR);
+			cond = gnm_style_cond_new (GNM_STYLE_COND_CONTAINS_ERR, sheet);
 			success = TRUE;
 		} else if (0 == strcmp (full_condition, "of:is-true-formula(NOT(ISERROR([.A1])))") &&
 			   g_str_has_suffix (base, ".$A$1")) {
-			cond = gnm_style_cond_new (GNM_STYLE_COND_NOT_CONTAINS_ERR);
+			cond = gnm_style_cond_new (GNM_STYLE_COND_NOT_CONTAINS_ERR, sheet);
 			success = TRUE;
 		} else if (0 == strcmp (full_condition, "of:is-true-formula(NOT(ISERROR(FIND(\" \";[.A1]))))") &&
 			   g_str_has_suffix (base, ".$A$1")) {
-			cond = gnm_style_cond_new (GNM_STYLE_COND_CONTAINS_BLANKS);
+			cond = gnm_style_cond_new (GNM_STYLE_COND_CONTAINS_BLANKS, sheet);
 			success = TRUE;
 		} else if (0 == strcmp (full_condition, "of:is-true-formula(ISERROR(FIND(\" \";[.A1])))") &&
 			   g_str_has_suffix (base, ".$A$1")) {
-			cond = gnm_style_cond_new (GNM_STYLE_COND_NOT_CONTAINS_BLANKS);
+			cond = gnm_style_cond_new (GNM_STYLE_COND_NOT_CONTAINS_BLANKS, sheet);
 			success = TRUE;
 		} else {
 			char *text;
-			cond = gnm_style_cond_new (GNM_STYLE_COND_CUSTOM);
+			cond = gnm_style_cond_new (GNM_STYLE_COND_CUSTOM, sheet);
 			condition += strlen ("is-true-formula");
 			text = g_strdup (condition);
 			success = odf_style_load_one_value (xin, text, cond, base, f_type);
@@ -3153,7 +3163,7 @@ odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle,
 	    (sc = gnm_style_get_conditions (style)) != NULL)
 		gnm_style_conditions_insert (sc, cond, -1);
 	else {
-		sc = gnm_style_conditions_new ();
+		sc = gnm_style_conditions_new (sheet);
 		gnm_style_conditions_insert (sc, cond, -1);
 		gnm_style_set_conditions (style, sc);
 	}	

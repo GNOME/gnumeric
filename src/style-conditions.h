@@ -3,6 +3,7 @@
 # define _GNM_STYLE_CONDITIONS_H_
 
 #include "gnumeric.h"
+#include <dependent.h>
 
 G_BEGIN_DECLS
 
@@ -38,22 +39,29 @@ typedef enum {
 
 typedef struct {
 	GnmStyle	 *overlay;
-	GnmExprTop const *texpr[2];
+	GnmDependent      deps[2];
 	GnmStyleCondOp	  op;
 } GnmStyleCond;
 
-GnmStyleCond *gnm_style_cond_new (GnmStyleCondOp op);
+GnmStyleCond *gnm_style_cond_new (GnmStyleCondOp op, Sheet *sheet);
 void gnm_style_cond_free (GnmStyleCond *cond);
 GnmStyleCond *gnm_style_cond_dup (GnmStyleCond const *src);
 gboolean      gnm_style_cond_is_valid (GnmStyleCond const *cond);
-void          gnm_style_cond_set_expr (GnmStyleCond *cond,
-				       GnmExprTop const *texpr,
-				       unsigned idx);
+
 void          gnm_style_cond_set_overlay (GnmStyleCond *cond,
 					  GnmStyle *overlay);
 
-GnmStyleConditions *gnm_style_conditions_new  (void);
-GnmStyleConditions *gnm_style_conditions_dup  (GnmStyleConditions const *cond);
+GnmExprTop const *gnm_style_cond_get_expr (GnmStyleCond const *cond,
+					   unsigned idx);
+void          gnm_style_cond_set_expr (GnmStyleCond *cond,
+				       GnmExprTop const *texpr,
+				       unsigned idx);
+
+Sheet      *gnm_style_cond_get_sheet (GnmStyleCond const *cond);
+void        gnm_style_cond_set_sheet (GnmStyleCond *cond, Sheet *sheet);
+
+GnmStyleConditions *gnm_style_conditions_new  (Sheet *sheet);
+GnmStyleConditions *gnm_style_conditions_dup  (GnmStyleConditions const *sc);
 GPtrArray const *gnm_style_conditions_details (GnmStyleConditions const *sc);
 void	      gnm_style_conditions_insert  (GnmStyleConditions *sc,
 					    GnmStyleCond const *cond,
@@ -64,6 +72,10 @@ GPtrArray    *gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 					    GnmStyle const *base);
 int	      gnm_style_conditions_eval    (GnmStyleConditions const *sc,
 					    GnmEvalPos const *pos);
+
+Sheet      *gnm_style_conditions_get_sheet (GnmStyleConditions const *sc);
+void        gnm_style_conditions_set_sheet (GnmStyleConditions *sc,
+					    Sheet *sheet);
 
 G_END_DECLS
 

@@ -1091,16 +1091,16 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		} else
 			flags |= 0x70000;
 
-		expr0_len = (cond->texpr[0] == NULL)
+		expr0_len = (gnm_style_cond_get_expr (cond, 0) == NULL)
 			? 0
 			: excel_write_formula (esheet->ewb,
-					       cond->texpr[0],
+					       gnm_style_cond_get_expr (cond, 0),
 					       esheet->gnum_sheet, 0, 0,
 					       EXCEL_CALLED_FROM_CONDITION);
-		expr1_len = (cond->texpr[1] == NULL)
+		expr1_len = (gnm_style_cond_get_expr (cond, 1) == NULL)
 			? 0
 			: excel_write_formula (esheet->ewb,
-					       cond->texpr[1],
+					       gnm_style_cond_get_expr (cond, 1),
 					       esheet->gnum_sheet, 0, 0,
 					       EXCEL_CALLED_FROM_CONDITION);
 
@@ -1507,10 +1507,10 @@ excel_write_prep_conditions (ExcelWriteSheet *esheet)
 			gnm_style_get_conditions (sr->style));
 		for (i = 0 ; i < (conds ? conds->len : 0) ; i++) {
 			GnmStyleCond const *cond = g_ptr_array_index (conds, i);
-			if (cond->texpr[0] != NULL)
-				excel_write_prep_expr (esheet->ewb, cond->texpr[0]);
-			if (cond->texpr[1] != NULL)
-				excel_write_prep_expr (esheet->ewb, cond->texpr[1]);
+			if (gnm_style_cond_get_expr (cond, 0) != NULL)
+				excel_write_prep_expr (esheet->ewb, gnm_style_cond_get_expr (cond, 0));
+			if (gnm_style_cond_get_expr (cond, 1) != NULL)
+				excel_write_prep_expr (esheet->ewb, gnm_style_cond_get_expr (cond, 1));
 		}
 	}
 }

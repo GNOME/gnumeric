@@ -2229,7 +2229,7 @@ xlsx_cond_fmt_rule_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		xlsx_warning (xin, _("Ignoring unhandled conditional format of type '%s'"), type_str);
 	}
 
-	state->cond = gnm_style_cond_new (op);
+	state->cond = gnm_style_cond_new (op, state->sheet);
 	gnm_style_cond_set_overlay (state->cond, overlay);
 
 	state->count = 0;
@@ -2242,7 +2242,7 @@ xlsx_cond_fmt_rule_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->cond) {
 		if (gnm_style_cond_is_valid (state->cond)) {
 			if (NULL == state->conditions)
-				state->conditions = gnm_style_conditions_new ();
+				state->conditions = gnm_style_conditions_new (state->sheet);
 			gnm_style_conditions_insert (state->conditions,
 						     state->cond, -1);
 		}
