@@ -77,6 +77,8 @@ Sheet      *gnm_style_conditions_get_sheet (GnmStyleConditions const *sc);
 void        gnm_style_conditions_set_sheet (GnmStyleConditions *sc,
 					    Sheet *sheet);
 
+guint32     gnm_style_conditions_hash      (GnmStyleConditions const *sc);
+
 G_END_DECLS
 
 #endif /* _GNM_STYLE_CONDITIONS_H_ */

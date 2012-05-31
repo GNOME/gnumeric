@@ -269,6 +269,40 @@ gnm_style_conditions_dup (GnmStyleConditions const *sc)
 	return dup;
 }
 
+#define MIX(H) do {				\
+  H *= G_GUINT64_CONSTANT(123456789012345);	\
+  H ^= (H >> 31);				\
+} while (0)
+
+guint32
+gnm_style_conditions_hash (GnmStyleConditions const *sc)
+{
+	guint64 hash = 42;
+	GPtrArray const *ga;
+	unsigned ui;
+
+	/*
+	 * Note: this hash must not depend on the expressions stored
+	 * in ->deps.  And probably not on the sheet either.
+	 */
+
+	g_return_val_if_fail (sc != NULL, 0u);
+
+	ga = gnm_style_conditions_details (sc);
+	for (ui = 0; ui < (ga ? ga->len : 0u); ui++) {
+		GnmStyleCond *cond = g_ptr_array_index (ga, ui);
+		if (cond->overlay)
+			hash ^= gnm_style_hash_XL (cond->overlay);
+		MIX (hash);
+		hash ^= cond->op;
+		MIX (hash);
+	}
+
+	return hash;
+}
+
+#undef MIX
+
 Sheet *
 gnm_style_conditions_get_sheet (GnmStyleConditions const *sc)
 {

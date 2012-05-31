@@ -294,8 +294,15 @@ gnm_style_update (GnmStyle *style)
 		hash ^= GPOINTER_TO_UINT (style->input_msg);
 	MIX (hash);
 
-	if (elem_is_set (style, MSTYLE_CONDITIONS))
-		hash ^= GPOINTER_TO_UINT (style->conditions);
+	if (elem_is_set (style, MSTYLE_CONDITIONS)) {
+		/*
+		 * The hash used must not depend on the expressions inside
+		 * the conditions.
+		 */
+		hash ^= style->conditions
+			? gnm_style_conditions_hash (style->conditions)
+			: 1u;
+	}
 	MIX (hash);
 
 	style->hash_key = (guint32)hash;

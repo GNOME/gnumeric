@@ -1,11 +1,14 @@
 2012-05-31  Morten Welinder  <terra@gnome.org>
 
+	* src/mstyle.c (gnm_style_update): Use gnm_style_conditions_hash.
+
 	* src/style-conditions.c (gnm_style_conditions_new): Add new sheet
 	argument.  All callers changed.
 	(gnm_style_conditions_insert): Verify that sheets match between
 	objects.
 	(gnm_style_cond_new): Add new sheet argument.  All callers
 	changed.  Initialize managed dependent.
+	(gnm_style_conditions_hash): New function.
 
 	* src/style-conditions.h (GnmStyleCond): Store expressions as
 	managed dependents.
