@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-05-29 10:44+0000\n"
-"PO-Revision-Date: 2012-05-29 12:48+0100\n"
+"PO-Revision-Date: 2012-06-01 21:30+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1079,9 +1079,8 @@ msgid "second:second"
 msgstr "sekunde: sekunde"
 
 #: ../plugins/fn-date/functions.c:462
-#, fuzzy
 msgid "The ODF.TIME function computes the time given by @{hour}, @{minute}, and @{second} as a fraction of a day."
-msgstr "Funkcija TIME izračuna delež časa, ki je podan z @{uro}, @{minuto} in @{sekundo}."
+msgstr "Funkcija ODF.TIME izračuna čas, ki je podan z @{uro}, @{minuto} in @{sekundo}, kot desimalno število."
 
 #: ../plugins/fn-date/functions.c:463
 msgid "While the return value is automatically formatted to look like a time between 0:00 and 24:00, the underlying serial time value can be any number."
@@ -1132,7 +1131,7 @@ msgstr "HOUR: izračunan urni del obdobja dneva, zapisan kot decimalno število"
 #: ../plugins/fn-date/functions.c:531
 #: ../plugins/fn-date/functions.c:554
 msgid "time:time of day as fractional day"
-msgstr "čas:čas dneva kot obdobje dneva, zapisan kot decimalno število"
+msgstr "čas: čas dneva kot obdobje dneva, zapisan kot decimalno število"
 
 #: ../plugins/fn-date/functions.c:509
 msgid "The HOUR function computes the hour part of the fractional day given by @{time}."
@@ -1322,7 +1321,7 @@ msgstr "V kolikor je @{način} določen s 150, bo uporabljeno štetje po standar
 
 #: ../plugins/fn-date/functions.c:1259
 msgid "YEARFRAC:fractional number of years between dates"
-msgstr "YEARFRAC:število let med datumi, zapisanih kot decimalno število"
+msgstr "YEARFRAC: število let med datumi, zapisanih kot decimalno število"
 
 #: ../plugins/fn-date/functions.c:1262
 #: ../plugins/fn-financial/functions.c:454
@@ -1564,9 +1563,8 @@ msgid "OPT_GARMAN_KOHLHAGEN values the theoretical price of a European currency 
 msgstr "Funkcija OPT_GARMAN_KOHLHAGEN oceni teoretično ceno evropske valutne opcije, izvršene pri @{izvršilni ceni} na sredstvih, ovrednotenih z @{gotovinsko ceno}."
 
 #: ../plugins/fn-derivatives/options.c:678
-#, fuzzy
 msgid "OPT_FRENCH:theoretical price of a European option adjusted for trading day volatility"
-msgstr "OPT_FRENCH: teoretična cena evropske opcije, prilagojene na nestanovitnost trgovalnega dne"
+msgstr "OPT_FRENCH: teoretična cena evropske opcije, prilagojene na nestanovitnost dneva trgovanja"
 
 #: ../plugins/fn-derivatives/options.c:682
 msgid "time:ratio of the number of calendar days to exercise and the number of calendar days in the year"
@@ -1577,9 +1575,8 @@ msgid "ttime:ratio of the number of trading days to exercise and the number of t
 msgstr "tčas: razmerje med številom trgovalnih dni do izvršitve in števila trgovalnih dni v letu"
 
 #: ../plugins/fn-derivatives/options.c:687
-#, fuzzy
 msgid "OPT_FRENCH values the theoretical price of a European option adjusted for trading day volatility, struck at @{strike} on an asset with spot price @{spot}."
-msgstr "Funkcija OPT_FRENCH vrednosti teoretično ceno evropske opcije, prilagojene za nestanovitnost trgovalnega dne, z vrednostjo @{izvršilne cene} na sredstvih, ovrednotenih z @{gotovinsko ceno}."
+msgstr "Funkcija OPT_FRENCH vrednosti teoretično ceno evropske opcije, prilagojene za nestanovitnost dneva trgovanja, z vrednostjo @{izvršilne cene} na sredstvih, ovrednotenih z @{gotovinsko ceno}."
 
 #: ../plugins/fn-derivatives/options.c:731
 msgid "OPT_JUMP_DIFF:theoretical price of an option according to the Jump Diffusion process"
@@ -1647,9 +1644,8 @@ msgid "rho_ef:correlation between the forward interest rate and the convenience 
 msgstr "ro_ef: soodnosnost med terminsko obrestno mero in stopnjo prihodnje zaželenosti"
 
 #: ../plugins/fn-derivatives/options.c:831
-#, fuzzy
 msgid "kappa_e:speed of mean reversion of the convenience yield"
-msgstr "kapa_f: hitrost vrnitve k povprečni vrednosti terminske obrestne mere"
+msgstr "kapa_e: hitrost vrnitve k povprečni zaželeni vrednosti"
 
 #: ../plugins/fn-derivatives/options.c:832
 msgid "kappa_f:speed of mean reversion of the forward interest rate"
@@ -1669,14 +1665,12 @@ msgid "OPT_BJER_STENS:theoretical price of American options according to the Bje
 msgstr "OPT_BJER_STENS: teoretična cena Ameriške opcije po Bjerksund in Stenslandovi aproksimaciji"
 
 #: ../plugins/fn-derivatives/options.c:1204
-#, fuzzy
 msgid "OPT_EXEC:theoretical price of executive stock options"
-msgstr "OPT_EXEC: teoretična cena executive stock options"
+msgstr "OPT_EXEC: teoretična cena izvršilne delniške opcije"
 
 #: ../plugins/fn-derivatives/options.c:1212
-#, fuzzy
 msgid "lambda:jump rate for executives"
-msgstr "lambda: jump rate for executives"
+msgstr "lambda: skok cene izvršilne delniške opcije"
 
 #: ../plugins/fn-derivatives/options.c:1213
 #, fuzzy
@@ -1689,12 +1683,10 @@ msgid "OPT_FORWARD_START:theoretical price of forward start options"
 msgstr "OPT_EXTENDIBLE_WRITER: teoretična cena extendible writer options"
 
 #: ../plugins/fn-derivatives/options.c:1245
-#, fuzzy
 msgid "alpha:fraction setting the strike price at the future date @{time_start}"
-msgstr "alfa: fraction setting the izvršilno cena na prihodnji @{čas_začetka}"
+msgstr "alfa: del, ki določa izvršilno cenoa na prihodnji @{čas_začetka}"
 
 #: ../plugins/fn-derivatives/options.c:1246
-#, fuzzy
 msgid "time_start:time until the option starts in days"
 msgstr "čas_začetka: čas do začetka opcije v dneh"
 
@@ -1718,7 +1710,7 @@ msgstr ""
 #: ../plugins/fn-derivatives/options.c:1306
 #, fuzzy
 msgid "OPT_TIME_SWITCH models the theoretical price of time switch options. (Pechtl 1995). The holder receives @{a} * @{dt} for each period that the asset price was greater than @{strike} (for a call) or below it (for a put)."
-msgstr "Funkcija OPT_TIME_SWITCH models the theoretical price of time switch options. (Pechtl 1995). Lastnik prejme @{a} * @{dt} za vsako obdobje, ko je cena premoženja večja od @{izvršilne_cene} (pri nakupu) ali pod njo (pri prodaji)."
+msgstr "Funkcija OPT_TIME_SWITCH models the teoretično ceno time switch options. (Pechtl 1995). Lastnik prejme @{a} * @{dt} za vsako obdobje, ko je cena premoženja večja od @{izvršilne_cene} (pri nakupu) ali pod njo (pri prodaji)."
 
 #: ../plugins/fn-derivatives/options.c:1336
 #, fuzzy
@@ -1868,7 +1860,7 @@ msgstr "ro: soodnosnost med dvema osnovnima vrednostma sredstev"
 
 #: ../plugins/fn-derivatives/options.c:1630
 msgid "OPT_2_ASSET_CORRELATION models the theoretical price of options on 2 assets with correlation @{rho}. The payoff for a call is max(@{spot2} - @{strike2},0) if @{spot1} > @{strike1} or 0 otherwise. The payoff for a put is max (@{strike2} - @{spot2}, 0) if @{spot1} < @{strike1} or 0 otherwise."
-msgstr ""
+msgstr "Funkcija OPT_2_ASSET_CORRELATION izračuna teoretično ceno opcij na dveh vrstah sredstev s soodnosnostjo @{ro}. Izplačilo za nakupno opcijo je največ (@{gotovinska_cena2} - @{izvršilna_cena2},0), v primeru, da je @{gotovinska_cena1} > @{izvršilna_cena1}, sicer je 0. Izplačilo pri prodajni opciji pa je največ (@{izvršilna_cena2} - @{gotovinska_cena2}, 0), če je @{gotovinska_cena1} < @{izvršilna_cena1} oziroma 0, če ni."
 
 #: ../plugins/fn-derivatives/options.c:1665
 msgid "OPT_EURO_EXCHANGE:theoretical price of a European option to exchange assets"
@@ -1987,20 +1979,19 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1956
 msgid "OPT_BINOMIAL:theoretical price of either an American or European style option using a binomial tree"
-msgstr ""
+msgstr "OPT_BINOMIAL: teoretična cena ameriške ali evropske opcije z uporabo binomskega drevesa"
 
 #: ../plugins/fn-derivatives/options.c:1957
 msgid "amer_euro_flag:'a' for an American style option or 'e' for a European style option"
 msgstr "zastavica_amer_evro: 'e' za izvedbo v evropskem slogu, 'a' za ameriškiega"
 
 #: ../plugins/fn-derivatives/options.c:1959
-#, fuzzy
 msgid "num_time_steps:number of time steps used in the valuation"
-msgstr "št_časovnih_korakov: število časovnih korakov, upoštevanih v oceni"
+msgstr "število_časovnih_korakov: število časovnih korakov, upoštevanih v oceni"
 
 #: ../plugins/fn-derivatives/options.c:1966
 msgid "A larger @{num_time_steps} yields greater accuracy but  OPT_BINOMIAL is slower to calculate."
-msgstr ""
+msgstr "Večja vrednost @{števila_časovnih_korakov} doprinese k večji natančnosti funkcije  OPT_BINOMIAL, vendar pa je izračun sam počasnejši."
 
 #: ../plugins/fn-eng/functions.c:207
 msgid "BASE:string of digits representing the number @{n} in base @{b}"
@@ -2023,7 +2014,7 @@ msgstr "dolžina: najmanjša dolžina končnega niza"
 
 #: ../plugins/fn-eng/functions.c:211
 msgid "BASE converts @{n} to its string representation in base @{b}. Leading zeroes will be added to reach the minimum length given by @{length}."
-msgstr ""
+msgstr "Funkcija BASE pretvori vrednost @{n} v niz z osnovo @{b}. Vodilne ničle bodo dodane do podane @{dolžine}."
 
 #: ../plugins/fn-eng/functions.c:236
 msgid "BIN2DEC:decimal representation of the binary number @{x}"
@@ -2578,7 +2569,7 @@ msgstr "Funkcija je namenjena razhroščevanju. Oblikovanje in razvrstitev rezul
 
 #: ../plugins/fn-eng/functions.c:1205
 msgid "INVSUMINV:the reciprocal of the sum of reciprocals of the arguments"
-msgstr ""
+msgstr "INVSUMINV: recipročna vrednost vsote recipročnih vrednosti argumentov"
 
 #: ../plugins/fn-eng/functions.c:1206
 msgid "x0:non-negative number"
@@ -2598,7 +2589,7 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:1210
 msgid "INVSUMINV sum calculates the reciprocal (the inverse) of the sum of reciprocals (inverses) of all its arguments."
-msgstr ""
+msgstr "Funkcija INVSUMINV izračuna recipročno (inverzno) vrednost vsote recipročnih (inverznih) vrednosti vseh argumentov."
 
 #: ../plugins/fn-erlang/functions.c:105
 msgid "PROBBLOCK:probability of blocking"
@@ -2844,9 +2835,8 @@ msgid "redemption:amount received at maturity"
 msgstr "pavšal: vsota prejeta ob dospetju"
 
 #: ../plugins/fn-financial/functions.c:493
-#, fuzzy
 msgid "INTRATE calculates the interest of a fully vested security."
-msgstr "Funkcija INTRATE izračuna obresti of a fully vested security."
+msgstr "Funkcija INTRATE izračuna obresti polno izvršenega vrednostnega papirja."
 
 #: ../plugins/fn-financial/functions.c:525
 msgid "RECEIVED:amount to be received at maturity"
@@ -3032,7 +3022,7 @@ msgstr "DDB: izračun razvrednotenje osnovnih sredstev"
 #: ../plugins/fn-financial/functions.c:826
 #: ../plugins/fn-financial/functions.c:3285
 msgid "factor:factor at which the balance declines"
-msgstr ""
+msgstr "faktor: faktor pojemanja salda"
 
 #: ../plugins/fn-financial/functions.c:827
 msgid "DDB calculates the depreciation of an asset for a given period using the double-declining balance method."
@@ -3097,14 +3087,12 @@ msgid "values:cash flow"
 msgstr "vrednosti: pretok denarja"
 
 #: ../plugins/fn-financial/functions.c:1029
-#, fuzzy
 msgid "finance_rate:interest rate for financing cost"
 msgstr "mera_financiranja: obrestna mera za strošek financiranja"
 
 #: ../plugins/fn-financial/functions.c:1030
-#, fuzzy
 msgid "reinvest_rate:interest rate for reinvestments"
-msgstr "mera_ponovne_naložbe: obrestna mera za ponovno naložbo"
+msgstr "mera_ponovne_naložbe: obrestna mera za ponovne naložbe"
 
 #: ../plugins/fn-financial/functions.c:1031
 msgid "MIRR calculates the modified internal rate of return of a periodic cash flow."
@@ -3197,8 +3185,9 @@ msgid "p:number of periods"
 msgstr "p:število obdobij"
 
 #: ../plugins/fn-financial/functions.c:1309
+#, fuzzy
 msgid "RRI determines an equivalent interest rate for an investment that increases in value. The interest is compounded after each complete period."
-msgstr ""
+msgstr "Funkcija RRI določa equivalent obrestno mero za naložbo, katere vrednost se povečuje. Obrestna mera se "
 
 #: ../plugins/fn-financial/functions.c:1311
 msgid "Note that @{p} need not be an integer but for fractional value the calculated rate is only approximate."
@@ -4411,11 +4400,11 @@ msgstr "obseg: podatkovna vrsta iz katere bo izbrana celica, privzeto določena 
 
 #: ../plugins/fn-lookup/functions.c:1275
 msgid "INDEX gives a reference to a cell in the given @{array}. The cell is selected by @{row} and @{col}, which count the rows and columns in the array."
-msgstr ""
+msgstr "Funkcija INDEX določi sklic do celice v podanem @{podatkovnem polju}. Celica je izbrana glede na @{vrstico} in @{stolpec}, ki štejeta vrstice in stolpce v podatkovnem polju."
 
 #: ../plugins/fn-lookup/functions.c:1280
 msgid "If the reference falls outside the range of @{array}, INDEX returns #REF!"
-msgstr ""
+msgstr "V kolikor je sklic izven obsega @{podatkovnega_polja}, funkcija INDEX vrne napako #REF!."
 
 #: ../plugins/fn-lookup/functions.c:1282
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9"
@@ -4432,7 +4421,7 @@ msgstr "x:sklic, privzeto določen na položaj trenutnega izraza"
 
 #: ../plugins/fn-lookup/functions.c:1373
 msgid "COLUMN function returns a Nx1 array containing the sequence of integers from the first column to the last column of @{x}."
-msgstr ""
+msgstr "Funkcija COLUMN vrne podatkovno polje Nx1 z zaporednimi števili od prvega do zadnjega stolpca @{x}."
 
 #: ../plugins/fn-lookup/functions.c:1376
 #: ../plugins/fn-lookup/functions.c:1528
@@ -4465,7 +4454,7 @@ msgstr "sklic:podatkovno polje ali podatkovno področje"
 
 #: ../plugins/fn-lookup/functions.c:1449
 msgid "If @{reference} is neither an array nor a reference nor a range, COLUMNS returns #VALUE!"
-msgstr ""
+msgstr "Če @{sklic} ni ne podatkovne polje, ne sklic in ne obseg, funkcija COLUMNS vrne napako #VALUE!."
 
 #: ../plugins/fn-lookup/functions.c:1465
 msgid "OFFSET:an offset cell range"
@@ -4493,7 +4482,7 @@ msgstr "širina: širina odmika obsega, privzeto določena na širino @{podatkov
 
 #: ../plugins/fn-lookup/functions.c:1471
 msgid "OFFSET returns the cell range starting at offset (@{row},@{col}) from @{range} of height @{height} and width @{width}."
-msgstr ""
+msgstr "Funkcija OFFSET vrne obseg celic, ki se začne z odmikom (@{vrstice},@{stolpca}) od določenega @{obsega} z določeno @{višino} in @{širino}."
 
 #: ../plugins/fn-lookup/functions.c:1474
 msgid "If @{range} is neither a reference nor a range, OFFSET returns #VALUE!"
@@ -4505,7 +4494,7 @@ msgstr "ROW:vektor številk vrstice"
 
 #: ../plugins/fn-lookup/functions.c:1525
 msgid "ROW function returns a 1xN array containing the sequence of integers from the first row to the last row of @{x}."
-msgstr ""
+msgstr "Funkcija ROW vrne podatkovno polje 1xN z zaporednimi števili od prve do zadnje vrstice @{x}."
 
 #: ../plugins/fn-lookup/functions.c:1571
 msgid "ROWS:number of rows in @{reference}"
@@ -4517,7 +4506,7 @@ msgstr "sklic:polje,sklic ali podatkovna vrsta"
 
 #: ../plugins/fn-lookup/functions.c:1573
 msgid "If @{reference} is neither an array nor a reference nor a range, ROWS returns #VALUE!"
-msgstr ""
+msgstr "Če @{sklic} ni ne podatkovne polje, ne sklic in ne obseg, funkcija ROWS vrne napako #VALUE!."
 
 #: ../plugins/fn-lookup/functions.c:1589
 msgid "SHEETS:number of sheets in @{reference}"
@@ -4525,11 +4514,11 @@ msgstr "SHEETS: število delovnih listov v @{sklicu}"
 
 #: ../plugins/fn-lookup/functions.c:1590
 msgid "reference:array, reference, or range, defaults to the maximum range"
-msgstr ""
+msgstr "sklic: podatkovno polje, sklic ali pa obseg; privzeto določa največji obseg"
 
 #: ../plugins/fn-lookup/functions.c:1591
 msgid "If @{reference} is neither an array nor a reference nor a range, SHEETS returns #VALUE!"
-msgstr ""
+msgstr "Če @{sklic} ni ne podatkovne polje, ne sklic in ne obseg, funkcija SHEETS vrne napako #VALUE!."
 
 #: ../plugins/fn-lookup/functions.c:1627
 msgid "SHEET:sheet number of @{reference}"
@@ -4541,7 +4530,7 @@ msgstr "sklic:sklic do ustreznega imena delovnega lista, privzeto določen kot t
 
 #: ../plugins/fn-lookup/functions.c:1629
 msgid "If @{reference} is neither a reference nor a literal sheet name, SHEET returns #VALUE!"
-msgstr ""
+msgstr "Če @{sklic} ni ne sklic in ne dobesedno ime delovnega lista, funkcija SHEET vrne napako #VALUE!."
 
 #: ../plugins/fn-lookup/functions.c:1675
 msgid "HYPERLINK:second or first arguments"
@@ -4599,7 +4588,7 @@ msgstr "SORT({4,3,5}) vrne razvrstitev {5,4,3}"
 
 #: ../plugins/fn-math/functions.c:51
 msgid "Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1)."
-msgstr ""
+msgstr "Števila, besedilo in logične vrednosti so prav tako vključene v izračun. V primeru, da celica vsebuje besedilo ali pa argument, ki se izraža kot logični NAPAK, se šteje kot nič (0). Če je argument logični PRAV, se šteje kot ena (1)."
 
 #: ../plugins/fn-math/functions.c:59
 msgid "GCD:the greatest common divisor"
@@ -4816,7 +4805,7 @@ msgstr "dejanska_vrsta:področje celice, privzeto določeno kot @{podatkovna vrs
 
 #: ../plugins/fn-math/functions.c:552
 msgid "If the @{actual_range} has a size that differs from the size of @{range}, @{actual_range} is resized (retaining the top-left corner) to match the size of @{range}."
-msgstr ""
+msgstr "Če je velikost @{dejanskega_obsega} različna od podanega @{obsega}, se velikost @{dejanskega} prilagodi (vendar ohrani zgornji levi kot) na velikost @{obsega}."
 
 #: ../plugins/fn-math/functions.c:665
 msgid "AVERAGEIF:average of the cells in @{actual range} for which the corresponding cells in the range meet the given @{criteria}"
@@ -5433,6 +5422,8 @@ msgid ""
 "If @{type} is 0 or it is omitted, ROMAN returns classic roman numbers.\n"
 "Type 1 is more concise than classic type, type 2 is more concise than type 1, and type 3 is more concise than type 2. Type 4 is a simplified type."
 msgstr ""
+"Funkcija ROMAN pretvori število, zapisano z arabskimi številkami @{n}, v rimski zapis števil. V primeru, da je @{vrsta} določena kot 0 ali pa je ta argument izpuščen, funkcija ROMAN vrne rimska števila kot besedilni niz.\n"
+"Vrsta 1 je bolj natančna kot običajna vrsta, vrsta 2 bolj kot 1 in vrsta 3 bolj kot 2. Vrsta 4 je poenostavljen zapis."
 
 #: ../plugins/fn-math/functions.c:2387
 msgid "SUMX2MY2:sum of the difference of squares"
@@ -5570,7 +5561,7 @@ msgstr "SUMPRODUCT: vsota zmnožkov ustreznih delov matrike."
 #: ../plugins/fn-math/functions.c:2938
 #: ../plugins/fn-math/functions.c:2961
 msgid "Multiplies corresponding data entries in the given arrays or ranges, and then returns the sum of those products."
-msgstr ""
+msgstr "Zmnoži pripadajoče podatkovne vnose v podanem podatkovnem polju ali obsegu in vrne vsoto zmnožkov."
 
 #: ../plugins/fn-math/functions.c:2941
 msgid "If an entry is not numeric, the value zero is used instead."
@@ -5927,6 +5918,7 @@ msgstr "spodnji_rep: vrednost PRAV (privzeto) določa upoštevanje le spodnjega 
 #: ../plugins/fn-r/functions.c:1134
 #: ../plugins/fn-r/functions.c:1161
 #: ../plugins/fn-r/functions.c:1216
+#, fuzzy
 msgid "log_p:if true, log of the probability is used"
 msgstr ""
 
@@ -6509,15 +6501,15 @@ msgstr "Funkcija RANDDISCRETE vrne vrednost v @{obsegu_spremenljivk}. Verjetnost
 
 #: ../plugins/fn-random/functions.c:95
 msgid "If the sum of all values in @{prob_range} is not one, RANDDISCRETE returns #NUM!"
-msgstr ""
+msgstr "Če vsota vseh vrednosti v @{obsegu_verjetnosti} ni 1, funkcija RANDDISCRETE vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:96
 msgid "If @{val_range} and @{prob_range} are not the same size, RANDDISCRETE returns #NUM!"
-msgstr ""
+msgstr "V primeru, da @{obsegu_spremenljivk} in @{obseg_verjetnosti} nista enake velikosti, funkcija RANDDISCRETE vrne napako #NUM!"
 
 #: ../plugins/fn-random/functions.c:97
 msgid "If @{val_range} or @{prob_range} is not a range, RANDDISCRETE returns #VALUE!"
-msgstr ""
+msgstr "V primeru, da @{obsegu_spremenljivk} ali pa @{obseg_verjetnosti} ni obseg, funkcija RANDDISCRETE vrne napako #VALUE!"
 
 #: ../plugins/fn-random/functions.c:175
 msgid "RANDEXP:random variate from an exponential distribution"
@@ -6877,7 +6869,7 @@ msgstr "σ: standardni odklon normalne porazdelitve"
 
 #: ../plugins/fn-random/functions.c:795
 msgid "The method is based on Marsaglia's famous rectangle-wedge-tail algorithm (Ann Math Stat 32, 894-899 (1961)), with this aspect explained in Knuth, v2, 3rd ed, p139, 586 (exercise 11)."
-msgstr ""
+msgstr "Način je zasnovan na Marsagliajevem algoritmu 'pravokotnik-klin-rep' (Ann Math Stat 32, 894-899 (1961)), z razlago, kot jo podaja Knuth, v2, 3. izdaja, strani 139, 586 (vaja 11)."
 
 #: ../plugins/fn-random/functions.c:816
 msgid "SIMTABLE:one of the values in the given argument list depending on the round number of the simulation tool"
@@ -6956,7 +6948,7 @@ msgstr "Nesimetričnost nesimetrične T porazdelitve običajno ni @{𝛼}."
 
 #: ../plugins/fn-stat/functions.c:45
 msgid "Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted."
-msgstr ""
+msgstr "Števila, besedilo in logične vrednosti so prav tako vključene v izračun. V primeru, da celica vsebuje besedilo ali pa argument, ki se izraža kot logični NAPAK, se šteje kot nič (0). Če je argument logični PRAV, se šteje kot ena (1). Prazne celice niso vštete."
 
 #: ../plugins/fn-stat/functions.c:50
 msgid "VARP:variance of an entire population"
@@ -7151,11 +7143,11 @@ msgstr "sklic: seznam števil, katerih srednjo vrednost želite izračunati"
 
 #: ../plugins/fn-stat/functions.c:273
 msgid "fraction:fraction of the data set excluded from the mean"
-msgstr ""
+msgstr "del: del podatkovne množice, ki je izločen iz podatkov za izračun povprečja"
 
 #: ../plugins/fn-stat/functions.c:274
 msgid "If @{fraction}=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2): the 4 largest and the 4 smallest. To avoid a bias, the number of points to be excluded is always rounded down to the nearest even number."
-msgstr ""
+msgstr "V kolikor je @{del}=0.2 in podatkovna množica vključuje 40 števil, je skupno 8 števil (4 najvišje vrednosti in 4 najnižje) izločenih (40 x 0.2). V izogib pristranskosti je število točk za izločitev vedno zaokroženo navzdol na najbližje sodo število."
 
 #: ../plugins/fn-stat/functions.c:278
 msgid "Then TRIMMEAN(A1:A5,0.2) equals 23.2 and TRIMMEAN(A1:A5,0.4) equals 21.5."
@@ -7514,7 +7506,7 @@ msgstr "SKEW: nepristrana ocena asimetričnosti porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:822
 msgid "This is only meaningful if the underlying distribution really has a third moment.  The skewness of a symmetric (e.g., normal) distribution is zero."
-msgstr ""
+msgstr "To ima pomen le, če ima osnovna porazdelitev moment tretjega reda. Nesimetričnost (normalnost) porazdelitve je nič."
 
 #: ../plugins/fn-stat/functions.c:825
 msgid "If less than three numbers are given, this function returns a #DIV/0! error."
@@ -7685,7 +7677,7 @@ msgstr "teoretični_obseg: pričakovane vrednosti"
 
 #: ../plugins/fn-stat/functions.c:1062
 msgid "If the actual range is not an n by 1 or 1 by n range, but an n by m range, then CHITEST uses (n-1) times (m-1) as degrees of freedom. This is useful if the expected values were calculated from the observed value in a test of independence or test of homogeneity."
-msgstr ""
+msgstr "Če dejanski obseg ni n x 1 ali pa 1 x n, ampak obseg n krat m, potem funkcija CHITEST določi stopnje prostosti kot (n-1) x (m-1). To je uporabno, če so bile pričakovane vrednosti izračunane na osnovi opazovanih vrednosti pri testu neodvisnosti ali testu homogenosti."
 
 #: ../plugins/fn-stat/functions.c:1068
 msgid "CHITEST is the OpenFormula function LEGACY.CHITEST."
@@ -8205,7 +8197,7 @@ msgstr "podatkovna_vrsta_x:mogoče vrednosti"
 
 #: ../plugins/fn-stat/functions.c:2275
 msgid "prob_range:probabilities of the corresponding values"
-msgstr ""
+msgstr "obseg_verjetnosti: verjetnosti pripadajočih vrednosti"
 
 #: ../plugins/fn-stat/functions.c:2276
 msgid "lower_limit:lower interval limit"
@@ -8217,15 +8209,15 @@ msgstr "zgornja_limita: zgornja limita, privzeto enaka @{spodnji_limiti}"
 
 #: ../plugins/fn-stat/functions.c:2278
 msgid "If the sum of the probabilities in @{prob_range} is not equal to 1 this function returns a #NUM! error."
-msgstr ""
+msgstr "Če vsota verjetnosti v @{obsegu_verjetnosti} ni enaka 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2280
 msgid "If any value in @{prob_range} is <=0 or > 1, this function returns a #NUM! error."
-msgstr ""
+msgstr "Če je katerakoli vrednost v @{obsegu_verjetnosti} <=0 ali pa >1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2282
 msgid "If @{x_range} and @{prob_range} contain a different number of data entries, this function returns a #N/A error."
-msgstr ""
+msgstr "Če vsebujeta @{obseg_x} in @{obseg_verjetnosti} različno število podatkovnih vnosov, funkcija vrne napako #N/A."
 
 #: ../plugins/fn-stat/functions.c:2359
 msgid "STEYX:standard error of the predicted y-value in the regression"
