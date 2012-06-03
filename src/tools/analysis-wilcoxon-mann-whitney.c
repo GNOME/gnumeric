@@ -52,8 +52,6 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_total;
 	GnmExpr const *expr_pop_1;
 	GnmExpr const *expr_pop_2;
-	GnmExpr const *expr_pop_1_adj;
-	GnmExpr const *expr_pop_2_adj;
 	GnmExpr const *expr_u;
 	GnmExpr const *expr_count_total;
 
@@ -120,61 +118,36 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 
 	g_slist_free (input);
 
-	expr_pop_1_adj = gnm_expr_new_funcall3
-		(fd_if,
-		 gnm_expr_new_funcall1
-		 (fd_isblank,
-		  gnm_expr_copy (expr_pop_1)),
-		 gnm_expr_new_funcall1
-		 (fd_min,
-		  gnm_expr_copy (expr_total)),
-		 gnm_expr_copy (expr_pop_1));
-	expr_pop_2_adj = gnm_expr_new_funcall3
-		(fd_if,
-		 gnm_expr_new_funcall1
-		 (fd_isblank,
-		  gnm_expr_copy (expr_pop_2)),
-		 gnm_expr_new_funcall1
-		 (fd_min,
-		  gnm_expr_copy (expr_total)),
-		 gnm_expr_copy (expr_pop_2));
+	/* =sum(if(isblank(region1),0,rank.avg(region1,combined_regions,1))) */
 
 	dao_set_cell_array_expr (dao, 1, 2,
-				 gnm_expr_new_binary
-				 (gnm_expr_new_funcall1
-				  (fd_sum,
+				 gnm_expr_new_funcall1
+				 (fd_sum,
+				  gnm_expr_new_funcall3
+				  (fd_if,
+				   gnm_expr_new_funcall1
+				  (fd_isblank,
+				   gnm_expr_copy (expr_pop_1)),
+				   gnm_expr_new_constant (value_new_int (0)),
 				   gnm_expr_new_funcall3
 				   (fd_rank_avg,
-				    expr_pop_1_adj,
+				    gnm_expr_copy (expr_pop_1),
 				    gnm_expr_copy (expr_total),
-				    gnm_expr_new_constant (value_new_int (1)))),
-				  GNM_EXPR_OP_ADD,
-				  gnm_expr_new_binary
-				  (gnm_expr_new_funcall1
-				   (fd_count,
-				    gnm_expr_copy (expr_pop_1)),
-				   GNM_EXPR_OP_SUB,
-				   gnm_expr_new_funcall1
-				   (fd_rows,
-				    gnm_expr_copy (expr_pop_1)))));
+				    gnm_expr_new_constant (value_new_int (1))))));
 	dao_set_cell_array_expr (dao, 2, 2,
-				 gnm_expr_new_binary
-				 (gnm_expr_new_funcall1
-				  (fd_sum,
+				 gnm_expr_new_funcall1
+				 (fd_sum,
+				  gnm_expr_new_funcall3
+				  (fd_if,
+				   gnm_expr_new_funcall1
+				  (fd_isblank,
+				   gnm_expr_copy (expr_pop_2)),
+				   gnm_expr_new_constant (value_new_int (0)),
 				   gnm_expr_new_funcall3
 				   (fd_rank_avg,
-				    expr_pop_2_adj,
+				    gnm_expr_copy (expr_pop_2),
 				    gnm_expr_copy (expr_total),
-				    gnm_expr_new_constant (value_new_int (1)))),
-				  GNM_EXPR_OP_ADD,
-				  gnm_expr_new_binary
-				  (gnm_expr_new_funcall1
-				   (fd_count,
-				    gnm_expr_copy (expr_pop_2)),
-				   GNM_EXPR_OP_SUB,
-				   gnm_expr_new_funcall1
-				   (fd_rows,
-				    gnm_expr_copy (expr_pop_2)))));
+				    gnm_expr_new_constant (value_new_int (1))))));
 
 	expr_count_total = gnm_expr_new_funcall1
 		(fd_count, gnm_expr_copy (expr_total));

@@ -1,3 +1,9 @@
+2012-06-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-wilcoxon-mann-whitney.c
+	(analysis_tool_wilcoxon_mann_whitney_engine_run): fix formula in the
+	presence of empty cells
+
 2012-04-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.3
