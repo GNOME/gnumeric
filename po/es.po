@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-03 07:09+0000\n"
-"PO-Revision-Date: 2012-06-03 17:39+0200\n"
+"POT-Creation-Date: 2012-06-03 15:42+0000\n"
+"PO-Revision-Date: 2012-06-04 13:53+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -199,8 +199,8 @@ msgstr "Atributo inesperado %s::%s == «%s»."
 #, c-format
 msgid "Invalid content of ss:data element, expected number, received '%s'"
 msgstr ""
-"Contenido no válido del elemento «ss:data», se esperaba un número, se "
-"recibió «%s»"
+"Contenido no válido del elemento «ss:data», se esperaba un número, se recibió "
+"«%s»"
 
 #: ../plugins/excel/excel-xml-read.c:510
 #, c-format
@@ -330,8 +330,8 @@ msgstr "Función rota"
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
-"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d "
-"no %d"
+"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d no "
+"%d"
 
 #: ../plugins/excel/plugin.xml.in.h:1
 msgid "MS Excel (tm)"
@@ -596,8 +596,8 @@ msgstr "Falló al encontrar la función «%s» en XLL/DLL/SO %s .\n"
 msgid ""
 "Excel plugin loader / xlfRegister: at least three XLOPER arguments must be "
 "provided (DLL name[ignored],exported name[mandatory],types string"
-"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file "
-"%s."
+"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file %"
+"s."
 msgstr ""
 "Cargador del complemento para Excel / xlfRegister: se deben proporcionar al "
 "menos tres argumentos XLOPER (nombre DLL [ignorado],nombre exportado "
@@ -1341,8 +1341,7 @@ msgstr "Atributo «%s» no válido, se esperaba un número, se ha recibido «%s
 #: ../plugins/openoffice/openoffice-read.c:681
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
-msgstr ""
-"Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
+msgstr "Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:703
 #, c-format
@@ -1401,8 +1400,7 @@ msgstr "Atributo «%s» no válido, unidad «%s» desconocida"
 #: ../plugins/openoffice/openoffice-read.c:1073
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
-msgstr ""
-"Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
+msgstr "Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:1150
 #, c-format
@@ -1456,8 +1454,8 @@ msgstr "%s_EN_ARCHIVO_CORRUPTO"
 #: ../plugins/openoffice/openoffice-read.c:2169
 #, c-format
 msgid ""
-"This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
-"\"%s\"."
+"This file is corrupted with a duplicate sheet name \"%s\", now renamed to \"%"
+"s\"."
 msgstr ""
 "Este archivo está corrupto con un nombre de hoja duplicado «%s», se renombró "
 "a «%s»."
@@ -1723,8 +1721,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:7355
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr ""
-"Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
+msgstr "Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:7321
 #, c-format
@@ -1908,11 +1905,11 @@ msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
 "Field %d in line %d has possibly been cut off. Data has %d characters."
 msgstr[0] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
-"'%d' caracter."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
+"d' caracter."
 msgstr[1] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
-"'%d' caracteres."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
+"d' caracteres."
 
 #: ../plugins/paradox/paradox.c:550
 #, c-format
@@ -4234,28 +4231,28 @@ msgstr "Estableciendo comentario de %s"
 #: ../src/commands.c:5586
 #, c-format
 msgid "Merging data into %s"
-msgstr "Mezclar datos en %s"
+msgstr "Mezclando datos en %s"
 
 #: ../src/commands.c:5676
 #, c-format
 msgid "Changing workbook properties"
-msgstr "Cambiando propiedades del libro de cuentas"
+msgstr "Cambiando propiedades del libro de trabajo"
 
 #: ../src/commands.c:5750
 msgid "Pull Object to the Front"
-msgstr "Tirar del objeto hasta el frente"
+msgstr "Traer objeto al frente"
 
 #: ../src/commands.c:5753
 msgid "Pull Object Forward"
-msgstr "Tirar del objeto hacia adelante"
+msgstr "Traer objeto hacia delante"
 
 #: ../src/commands.c:5756
 msgid "Push Object Backward"
-msgstr "Empujar el objeto atrás"
+msgstr "Empujar objeto hacia atrás"
 
 #: ../src/commands.c:5759
 msgid "Push Object to the Back"
-msgstr "Empuja el objeto a atrás"
+msgstr "Empujar objeto a atrás"
 
 #: ../src/commands.c:5889
 #, c-format
@@ -4264,7 +4261,7 @@ msgstr "Configuración de página para %s"
 
 #: ../src/commands.c:5891
 msgid "Page Setup For All Sheets"
-msgstr "Configurar impresión para todas las hojas"
+msgstr "Configuración de página para todas las hojas"
 
 #: ../src/commands.c:6015 ../src/commands.c:6026
 msgid "Defined Name"
@@ -4300,12 +4297,12 @@ msgstr "Quitar nombre %s"
 
 #: ../src/commands.c:6195
 msgid "Change Scope of Name"
-msgstr "Cambiar el ámbito del nombre"
+msgstr "Cambiar ámbito del nombre"
 
 #: ../src/commands.c:6243
 #, c-format
 msgid "Change Scope of Name %s"
-msgstr "Cambiar el ámbito del nombre %s"
+msgstr "Cambiar ámbito del nombre %s"
 
 #: ../src/commands.c:6301
 msgid "Add scenario"
@@ -4317,7 +4314,7 @@ msgstr "Mostrar escenario"
 
 #: ../src/commands.c:6423
 msgid "Shuffle Data"
-msgstr "Datos de muestreo"
+msgstr "Mezclar datos"
 
 #. FIXME?
 #: ../src/commands.c:6527
@@ -4337,7 +4334,7 @@ msgstr "Tabulando dependencias"
 
 #: ../src/commands.c:6926
 msgid "Reconfigure Graph"
-msgstr "Reconfigurar la gráfica"
+msgstr "Reconfigurar gráfica"
 
 #: ../src/commands.c:6998
 msgid "Reconfigure Object"
@@ -4353,12 +4350,12 @@ msgstr "Derecha a izquierda"
 
 #: ../src/commands.c:7209
 msgid "Changing Hyperlink"
-msgstr "Cambiar hiperenlace"
+msgstr "Cambiando hiperenlace"
 
 #: ../src/commands.c:7353
 #, c-format
 msgid "Changing hyperlink of %s"
-msgstr "Cambiando el hiperenlace de %s"
+msgstr "Cambiando hiperenlace de %s"
 
 #: ../src/commands.c:7438
 msgid "Configure List"
@@ -4377,10 +4374,8 @@ msgid "Configure Radio Button"
 msgstr "Configurar botón de radio"
 
 #: ../src/commands.c:7737
-#, fuzzy
-#| msgid "Configure"
 msgid "Configure Checkbox"
-msgstr "Configurar"
+msgstr "Configurar casilla de verificación"
 
 #: ../src/commands.c:7844 ../src/sheet-object-widget.c:1524
 msgid "Configure Adjustment"
@@ -4401,7 +4396,7 @@ msgstr "Filtro automático"
 
 #: ../src/commands.c:7924
 msgid "Requires more than 1 row"
-msgstr "Requiere más de una columna"
+msgstr "Requiere más de una fila"
 
 #: ../src/commands.c:7933
 msgid "Unable to create Autofilter"
@@ -4415,21 +4410,21 @@ msgstr "Añadir filtro automático a %s"
 #: ../src/commands.c:7957
 #, c-format
 msgid "Extend Autofilter to %s"
-msgstr "Extender el filtro automático a %s"
+msgstr "Extender filtro automático a %s"
 
 #: ../src/commands.c:7970
 #, c-format
 msgid "Remove Autofilter from %s"
-msgstr "Quitar el filtro automático de %s"
+msgstr "Quitar filtro automático de %s"
 
 #: ../src/commands.c:8000
 #, c-format
 msgid "Change filter condition for %s"
-msgstr "Cambiar la condición %s del filtro"
+msgstr "Cambiar condición del filtro para %s"
 
 #: ../src/commands.c:8069 ../src/wbc-gtk-actions.c:2163
 msgid "Clear All Page Breaks"
-msgstr "Eliminar todos los saltos de página"
+msgstr "Limpiar todos los saltos de página"
 
 #: ../src/commands.c:8096 ../src/wbc-gtk.c:1489
 msgid "Remove Column Page Break"
@@ -4437,15 +4432,15 @@ msgstr "Quitar el salto de página de la columna"
 
 #: ../src/commands.c:8096 ../src/wbc-gtk.c:1499
 msgid "Remove Row Page Break"
-msgstr "Quitar el salto de página de la columna"
+msgstr "Quitar el salto de página de la fila"
 
 #: ../src/commands.c:8099 ../src/wbc-gtk.c:1492
 msgid "Add Column Page Break"
-msgstr "Añadir salto de página en columna"
+msgstr "Añadir salto de página de columna"
 
 #: ../src/commands.c:8099 ../src/wbc-gtk.c:1502
 msgid "Add Row Page Break"
-msgstr "Añadir salto de página en columna"
+msgstr "Añadir salto de página de fila"
 
 #: ../src/consolidate.c:751
 #, c-format
@@ -4459,7 +4454,7 @@ msgstr "Consolidación de datos"
 
 #: ../src/dialogs/dialog-about.c:54
 msgid "Core"
-msgstr "Motor"
+msgstr "Núcleo"
 
 #: ../src/dialogs/dialog-about.c:55
 msgid "Features"
@@ -4527,7 +4522,7 @@ msgstr "Michel Berkelaar"
 
 #: ../src/dialogs/dialog-about.c:78 ../src/dialogs/dialog-about.c:92
 msgid "Simplex algorithm for Solver (LP Solve)."
-msgstr "Algoritmo símplex para solucionador (LP Solve)."
+msgstr "Algoritmo símplex para resolutor (LP Solve)."
 
 #: ../src/dialogs/dialog-about.c:79
 msgid "Jean Brefort"
@@ -4535,7 +4530,7 @@ msgstr "Jean Brefort"
 
 #: ../src/dialogs/dialog-about.c:80
 msgid "Core charting engine."
-msgstr "Motor de dibujo de áreas."
+msgstr "Núcleo de motor de gráficos."
 
 #: ../src/dialogs/dialog-about.c:81
 msgid "Grandma Chema Celorio"
@@ -4543,7 +4538,7 @@ msgstr "Grandma Chema Celorio"
 
 #: ../src/dialogs/dialog-about.c:82
 msgid "Quality Assurance and sheet copy."
-msgstr "Test de calidad y copia de hojas."
+msgstr "Aseguramiento de calidad y copia de hoja."
 
 #: ../src/dialogs/dialog-about.c:83
 msgid "Frank Chiulli"
@@ -4575,7 +4570,7 @@ msgstr "J.H.M. Dassen (Ray)"
 
 #: ../src/dialogs/dialog-about.c:90
 msgid "Debian packaging."
-msgstr "Empaquetado para Debian."
+msgstr "Empaquetado de Debian."
 
 #: ../src/dialogs/dialog-about.c:91
 msgid "Jeroen Dirks"
@@ -4587,7 +4582,7 @@ msgstr "Tom Dyas"
 
 #: ../src/dialogs/dialog-about.c:94
 msgid "Original plugin engine."
-msgstr "Motor de complementos original."
+msgstr "Motor de complemento original."
 
 #: ../src/dialogs/dialog-about.c:95
 msgid "Kjell Eikland"
@@ -4595,7 +4590,7 @@ msgstr "Kjell Eikland"
 
 #: ../src/dialogs/dialog-about.c:96 ../src/dialogs/dialog-about.c:122
 msgid "LP-solve"
-msgstr "LP Solve"
+msgstr "LP-solve"
 
 #: ../src/dialogs/dialog-about.c:97
 msgid "Gergo Erdi"
@@ -4603,7 +4598,7 @@ msgstr "Gergo Erdi"
 
 #: ../src/dialogs/dialog-about.c:98
 msgid "Custom UI tools"
-msgstr "Herramientas a medida del IU"
+msgstr "Herramientas personalizadas de IU"
 
 #: ../src/dialogs/dialog-about.c:99
 msgid "John Gotts"
@@ -4619,7 +4614,7 @@ msgstr "Andreas J. Gülzow"
 
 #: ../src/dialogs/dialog-about.c:102
 msgid "Statistics and GUI master"
-msgstr "El señor de las estadísticas y GUI"
+msgstr "Estadísticas y patrón GUI"
 
 #: ../src/dialogs/dialog-about.c:103
 msgid "Jon Kåre Hellan"
@@ -4627,7 +4622,7 @@ msgstr "Jon Kåre Hellan"
 
 #: ../src/dialogs/dialog-about.c:104
 msgid "UI polish and all round bug fixer"
-msgstr "Pulido del IU y arreglos de bugs"
+msgstr "Pulido del IU y errores arreglados"
 
 #: ../src/dialogs/dialog-about.c:105
 msgid "Ross Ihaka"
@@ -4643,7 +4638,7 @@ msgstr "Jukka-Pekka Iivonen"
 
 #: ../src/dialogs/dialog-about.c:108
 msgid "Solver, lots of worksheet functions, and general trailblazer"
-msgstr "Resolvedor, muchas funciones de hoja de cálculo, y trabajos generales"
+msgstr "Resolutor, muchas funciones de hoja de trabajo, y pionero general"
 
 #: ../src/dialogs/dialog-about.c:109
 msgid "Jakub Jelínek"
@@ -5998,8 +5993,8 @@ msgstr "Cambiar el ancho estándar/predeterminado de columna"
 msgid ""
 "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
-"Fijar el ancho de columna de selección a <span style='italic' weight='bold'>"
-"%s</span>"
+"Fijar el ancho de columna de selección a <span style='italic' weight='bold'>%"
+"s</span>"
 
 #: ../src/dialogs/dialog-consolidate.c:191
 #, c-format
@@ -18476,9 +18471,8 @@ msgstr "Una plantilla de lista simple"
 #~ "value."
 #~ msgstr ""
 #~ ">Este valor determina el ajuste predeterminado en el diálogo "
-#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. "
-#~ "Por favor use el diálogo «Configuración de impresión» para editar este "
-#~ "valor."
+#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. Por "
+#~ "favor use el diálogo «Configuración de impresión» para editar este valor."
 
 #~ msgid ""
 #~ ">This value determines whether the default setting in the Print Setup "
