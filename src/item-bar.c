@@ -250,34 +250,37 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 	GdkRGBA rgba;
 	int ascent;
 
+	/* add "button" to the context path */
+	gtk_style_context_save (ctxt);
+	gtk_style_context_add_class (ctxt, GTK_STYLE_CLASS_BUTTON);
 	switch (type) {
 	default:
 	case COL_ROW_NO_SELECTION:
 		font   = ib->normal_font;
-		gtk_style_context_set_state (ctxt, GTK_STATE_NORMAL);
+		gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_NORMAL);
 		gtk_style_context_get_background_color (ctxt, GTK_STATE_NORMAL, &rgba);
 		color = GO_COLOR_FROM_GDK_RGBA (rgba);
-		gtk_style_context_get_color (ctxt, GTK_STATE_NORMAL, &rgba);
+		gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL, &rgba);
 		font_color = GO_COLOR_FROM_GDK_RGBA (rgba);
 		ascent = ib->normal_font_ascent;
 		break;
 
 	case COL_ROW_PARTIAL_SELECTION:
 		font   = ib->bold_font;
-		gtk_style_context_set_state (ctxt, GTK_STATE_NORMAL);
-		gtk_style_context_get_background_color (ctxt, GTK_STATE_SELECTED, &rgba);
+		gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_PRELIGHT);
+		gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_PRELIGHT, &rgba);
 		color = GO_COLOR_FROM_GDK_RGBA (rgba);
-		gtk_style_context_get_color (ctxt, GTK_STATE_SELECTED, &rgba);
+		gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_PRELIGHT, &rgba);
 		font_color = GO_COLOR_FROM_GDK_RGBA (rgba);
 		ascent = ib->bold_font_ascent;
 		break;
 
 	case COL_ROW_FULL_SELECTION:
 		font   = ib->bold_font;
-		gtk_style_context_set_state (ctxt, GTK_STATE_SELECTED);
-		gtk_style_context_get_background_color (ctxt, GTK_STATE_SELECTED, &rgba);
+		gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_ACTIVE);
+		gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_ACTIVE, &rgba);
 		color = GO_COLOR_FROM_GDK_RGBA (rgba);
-		gtk_style_context_get_color (ctxt, GTK_STATE_SELECTED, &rgba);
+		gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_ACTIVE, &rgba);
 		font_color = GO_COLOR_FROM_GDK_RGBA (rgba);
 		ascent = ib->bold_font_ascent;
 		break;
@@ -289,12 +292,14 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 		cairo_rectangle (cr, rect->x, rect->y, rect->width, rect->height);
 		cairo_fill (cr);
 		cairo_restore (cr);
+		/* restore style context */
+		gtk_style_context_restore (ctxt);
 		return;
 	}
 
+	gtk_render_background (ctxt, cr, rect->x, rect->y, rect->width + 1, rect->height + 1);
 	gtk_render_frame (ctxt, cr, rect->x, rect->y, rect->width + 1, rect->height + 1);
 	cairo_rectangle (cr, rect->x + 1, rect->y + 1, rect->width - 2, rect->height - 2);
-	cairo_fill_preserve (cr);
 	cairo_restore (cr);
 
 	g_return_if_fail (font != NULL);
@@ -311,6 +316,8 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 					 rect->y + (rect->height - PANGO_PIXELS (size.height)) / 2 + ascent);
 	pango_cairo_show_glyph_string (cr, font, ib->pango.glyphs);
 	cairo_restore (cr);
+	/* restore style context */
+	gtk_style_context_restore (ctxt);
 }
 
 int

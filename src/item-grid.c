@@ -397,7 +397,9 @@ item_grid_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0,
 	WorkbookView *wbv = sv_wbv (sv);
 	gboolean show_function_cell_markers = wbv->show_function_cell_markers;
 	gboolean show_extension_markers = wbv->show_extension_markers;
-	GtkStyleContext *ctxt = gtk_widget_get_style_context (GTK_WIDGET (canvas));
+	 /* we use the selected background color from an entry for selected cells */
+	GtkWidget *entry = gtk_entry_new ();
+	GtkStyleContext *ctxt = gtk_widget_get_style_context (entry);
 
 	/* To ensure that far and near borders get drawn we pretend to draw +-2
 	 * pixels around the target area which would include the surrounding
@@ -798,6 +800,8 @@ plain_draw : /* a quick hack to deal with 142267 */
 		} else if (canvas->direction == GOC_DIRECTION_LTR && start_x < 1)
 			ig_cairo_draw_bound (cr, 1, start_y, 1, y);
 	}
+
+	gtk_widget_destroy (entry);
 
 	g_slist_free (merged_used);	   /* merges with bottom in view */
 	g_slist_free (merged_active_seen); /* merges with bottom the view */

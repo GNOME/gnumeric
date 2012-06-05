@@ -93,7 +93,7 @@ gnumeric_background_set (GnmStyle const *mstyle, cairo_t *cr,
 				(cr, gs_lavender.red, gs_lavender.green, gs_lavender.blue);
 		else {
 			GdkRGBA rgba;
-			gtk_style_context_get_background_color (ctxt, GTK_STATE_SELECTED, &rgba);
+			gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_SELECTED, &rgba);
 			cairo_set_source_rgba
 				(cr, gnm_get_light (rgba.red),
 				 gnm_get_light (rgba.green),
