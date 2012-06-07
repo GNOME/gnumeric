@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-03 15:42+0000\n"
-"PO-Revision-Date: 2012-06-04 13:53+0200\n"
+"POT-Creation-Date: 2012-06-05 14:02+0000\n"
+"PO-Revision-Date: 2012-06-07 18:23+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4662,7 +4662,7 @@ msgstr "Takashi Matsuda"
 
 #: ../src/dialogs/dialog-about.c:114
 msgid "The original text plugin"
-msgstr "Complemento para texto original"
+msgstr "El complemento original para texto"
 
 #: ../src/dialogs/dialog-about.c:115
 msgid "Michael Meeks"
@@ -4670,7 +4670,7 @@ msgstr "Michael Meeks"
 
 #: ../src/dialogs/dialog-about.c:116
 msgid "Started the MS Excel import/export engine, and 'GnmStyle'"
-msgstr "Inició el motor de importación/exportación de MS Excel, y «GnmStyle» "
+msgstr "Inició el motor de importación/exportación de MS Excel, y «GnmStyle»"
 
 #: ../src/dialogs/dialog-about.c:117
 msgid "Lutz Muller"
@@ -4678,7 +4678,7 @@ msgstr "Lutz Muller"
 
 #: ../src/dialogs/dialog-about.c:118
 msgid "SheetObject improvement"
-msgstr "Mejoras de SheetObject"
+msgstr "Mejora de SheetObject"
 
 #: ../src/dialogs/dialog-about.c:119
 msgid "Yukihiro Nakai"
@@ -4698,7 +4698,7 @@ msgstr "Emmanuel Pacaud"
 
 #: ../src/dialogs/dialog-about.c:124
 msgid "Many plot types for charting engine."
-msgstr "Muchos tipos de dibujos para el motor de diagramas."
+msgstr "Muchos tipos de dibujos para el motor de gráficos."
 
 #: ../src/dialogs/dialog-about.c:125
 msgid "Federico M. Quintero"
@@ -4730,7 +4730,7 @@ msgstr "Vincent Renardias"
 
 #: ../src/dialogs/dialog-about.c:132
 msgid "original CSV support, French localization"
-msgstr "Soporte CSV original y localización al francés"
+msgstr "Soporte CSV original y traducción al francés"
 
 #: ../src/dialogs/dialog-about.c:133
 msgid "Ariel Rios"
@@ -4774,7 +4774,7 @@ msgstr "Bruno Unna"
 
 #: ../src/dialogs/dialog-about.c:144
 msgid "Pieces of MS Excel import"
-msgstr "Partes del importador MS Excel"
+msgstr "Partes del importador de MS Excel"
 
 #: ../src/dialogs/dialog-about.c:145
 msgid "Arief Mulya Utama"
@@ -4844,7 +4844,7 @@ msgstr "los esfuerzos de mucha gente."
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:467
 msgid "Your help is much appreciated!"
-msgstr "Su ayuda es muy aprociada."
+msgstr "Su ayuda es bienvenida"
 
 #: ../src/dialogs/dialog-about.c:517
 msgid "We apologize if anyone was left out."
@@ -4858,12 +4858,12 @@ msgstr "Contacte con nosotros para corregir errores."
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:533
 msgid "Report problems at http://bugzilla.gnome.org"
-msgstr "Informe de problemas en http://bugzilla.gnome.org"
+msgstr "Informe de errores en http://bugzilla.gnome.org"
 
 #. Overlap.
 #: ../src/dialogs/dialog-about.c:538 ../src/dialogs/dialog-about.c:545
 msgid "We aim to please!"
-msgstr "Encantados de ayudarle."
+msgstr "Nuestro objetivo es agradarle"
 
 #: ../src/dialogs/dialog-about.c:567
 msgid "About Gnumeric"
@@ -4887,7 +4887,7 @@ msgstr "El rango de la lista no es válido."
 
 #: ../src/dialogs/dialog-advanced-filter.c:81
 msgid "The criteria range is invalid."
-msgstr "El rango de los criterios no es válido."
+msgstr "El rango de los criterios no es válido."
 
 #: ../src/dialogs/dialog-advanced-filter.c:89
 #: ../src/dialogs/dialog-simulation.c:88
@@ -4913,11 +4913,11 @@ msgstr "Ha ocurrido un error inesperado: %d."
 
 #: ../src/dialogs/dialog-advanced-filter.c:210
 msgid "Could not create the Advanced Filter dialog."
-msgstr "No se pudo crear el diálogo de «Filtrado avanzado»."
+msgstr "No se pudo crear el diálogo de filtro avanzado."
 
 #: ../src/dialogs/dialog-advanced-filter.c:217 ../src/dialogs/dao.ui.h:7
 msgid "Filter _in-place"
-msgstr "_Filtro en el lugar"
+msgstr "Filtro _en-lugar"
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:144
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:99
@@ -4971,9 +4971,9 @@ msgid "The output specification is invalid."
 msgstr "La especificación de salida no es válida."
 
 #: ../src/dialogs/dialog-analysis-tool-chi-squared.c:218
-#, fuzzy
 msgid "Could not create the Chi Squared Tests tool dialog."
-msgstr "No se puede crear el diálogo para la Herramienta de Prueba de Medias."
+msgstr ""
+"No se puede crear el diálogo de la herramienta de pruebas chi cuadrado."
 
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:113
 msgid "The categories range is not valid."
@@ -5017,7 +5017,7 @@ msgstr "La columna de grupos debe ser parte de una sola columna."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:179
 msgid "The groups and time columns should have the same height."
-msgstr "Los grupos y columnas de tiempo deberían tener la misma altura."
+msgstr "Las columnas de grupos y hora deben tener la misma altura."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:483
 #, c-format
@@ -5038,36 +5038,33 @@ msgid "To"
 msgstr "Hasta"
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:627
-#, fuzzy
 msgid "Could not create the Kaplan Meier Tool dialog."
-msgstr "No se puede crear el diálogo para la Herramienta de Muestreo."
+msgstr "No se pudo crear el diálogo de la herramienta de Kaplan Meier."
 
 #: ../src/dialogs/dialog-analysis-tool-normality.c:202
-#, fuzzy
 msgid "Could not create the Normality Test Tool dialog."
-msgstr "No se puede crear el diálogo para la Herramienta de Prueba-F."
+msgstr "No se pudo crear el diálogo de la herramienta de prueba de normalidad."
 
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:131
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:150
-#, fuzzy, c-format
+#, c-format
 msgid "An unexpected error has occurred."
-msgstr "Ha ocurrido un error inesperado: %d."
+msgstr "Ha ocurrido un error inesperado."
 
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:172
-#, fuzzy
 msgid "Could not create the Principal Components Analysis Tool dialog."
 msgstr ""
-"No se puede crear el diálogo para la Herramienta de Análisis de Fourier."
+"No se pudo crear el diálogo de la herramienta de análisis de componentes "
+"principal."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:92
-#, fuzzy
 msgid "The predicted median should be a number."
-msgstr "El texto de búsqueda se toma literalmente."
+msgstr "La mediana prevista debe ser un número."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:143
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:362
 msgid "The first input range is invalid."
-msgstr "El rango de entrada no es válido."
+msgstr "El primer rango de entrada no es válido."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:162
 msgid "The second input range is invalid."
@@ -5079,53 +5076,49 @@ msgstr "Los rangos de entrada no tienen la misma forma."
 
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:258
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:403
-#, fuzzy
 msgid "Could not create the Sign Test Tool dialog."
-msgstr "No se puede crear el diálogo para la Herramienta de Prueba-F."
+msgstr "No se pudo crear el diálogo de la herramienta de prueba de signo."
 
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:96
-#, fuzzy
 msgid "The input range should consists of 2 groups."
-msgstr "El rango de entrada dado debe contener al menos dos filas de datos."
+msgstr "El rango de entrada debe tener 2 grupos."
 
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:191
-#, fuzzy
 msgid "Could not create the Wilcoxon-Mann-Whitney Analysis Tool dialog."
 msgstr ""
-"No se puede crear el diálogo para la Herramienta de Análisis de Fourier."
+"No se pudo crear el diálogo de la herramienta de análisis de Wilcoxon-Mann-"
+"Whitney."
 
 #: ../src/dialogs/dialog-analysis-tools.c:652
 #: ../src/dialogs/dialog-analysis-tools.c:772
 msgid "The selected input rows must have equal size!"
-msgstr "Las filas de entrada seleccionadas deben ser de igual tamaño."
+msgstr "Las filas de entrada seleccionadas deben tener el mismo tamaño."
 
 #: ../src/dialogs/dialog-analysis-tools.c:657
 #: ../src/dialogs/dialog-analysis-tools.c:777
 msgid "The selected input columns must have equal size!"
-msgstr "Las columnas de entrada seleccionadas deben tener igual tamaño."
+msgstr "Las columnas de entrada seleccionadas deben tener el mismo tamaño."
 
 #: ../src/dialogs/dialog-analysis-tools.c:662
 #: ../src/dialogs/dialog-analysis-tools.c:782
 msgid "The selected input areas must have equal size!"
-msgstr "Las áreas de entrada seleccionadas deben tener igual tamaño."
+msgstr "Las áreas de entrada seleccionadas deben tener el mismo tamaño."
 
 #: ../src/dialogs/dialog-analysis-tools.c:710
 msgid "Could not create the Correlation Tool dialog."
-msgstr "No se puede crear el diálogo para la Herramienta de Correlación."
+msgstr "No se pudo crear el diálogo de la herramienta de correlación."
 
 #: ../src/dialogs/dialog-analysis-tools.c:830
 msgid "Could not create the Covariance Tool dialog."
-msgstr "No se puede crear el diálogo para la Herramienta de Covarianza."
+msgstr "No se pudo crear el diálogo de la herramienta de covarianza."
 
 #: ../src/dialogs/dialog-analysis-tools.c:922
 msgid "Could not create the Rank and Percentile Tools dialog."
-msgstr ""
-"No se puede crear el diálogo para las Herramientas de Rangos y Percentiles."
+msgstr "No se pudo crear el diálogo de las herramientas de rango y percentil."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1015
 msgid "Could not create the Fourier Analysis Tool dialog."
-msgstr ""
-"No se puede crear el diálogo para la Herramienta de Análisis de Fourier."
+msgstr "No se pudo crear el diálogo de la herramienta de análisis de Fourier."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1143
 msgid "No statistics are selected."
@@ -12182,16 +12175,16 @@ msgstr "No ha sido posible activar la URL «%s»"
 msgid "Unable to open '%s'"
 msgstr "No ha sido posible abrir el archivo «%s»"
 
-#: ../src/item-bar.c:789
+#: ../src/item-bar.c:796
 msgid "Width:"
 msgstr "Anchura:"
 
-#: ../src/item-bar.c:789
+#: ../src/item-bar.c:796
 msgid "Height"
 msgstr "Altura"
 
 #. xgettext: This is input to ngettext based on the number of pixels.
-#: ../src/item-bar.c:794
+#: ../src/item-bar.c:801
 #, c-format
 msgid "(%d pixel)"
 msgid_plural "(%d pixels)"
@@ -12199,18 +12192,18 @@ msgstr[0] "(%d píxel)"
 msgstr[1] "(%d píxeles)"
 
 #. xgettext: This is input to ngettext based on the integer number of points.
-#: ../src/item-bar.c:799
+#: ../src/item-bar.c:806
 #, c-format
 msgid "%d.00 pt"
 msgstr "%d.00 pt"
 
-#: ../src/item-bar.c:799
+#: ../src/item-bar.c:806
 #, c-format
 msgid "%d.00 pts"
 msgstr "%d.00 pts"
 
 #. xgettext: The number of points here is always a fractional number, ie. not an integer.
-#: ../src/item-bar.c:803
+#: ../src/item-bar.c:810
 #, c-format
 msgid "%.2f pts"
 msgstr "%.2f pts"
