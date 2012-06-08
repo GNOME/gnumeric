@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-05 14:02+0000\n"
-"PO-Revision-Date: 2012-06-07 18:23+0200\n"
+"POT-Creation-Date: 2012-06-07 20:12+0000\n"
+"PO-Revision-Date: 2012-06-08 12:01+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -5136,14 +5136,14 @@ msgstr "K debe ser un entero positivo."
 #: ../src/dialogs/dialog-analysis-tools.c:1227
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr ""
-"No se puede crear el diálogo para la Herramienta de Estadística Descriptiva."
+"No se pudo crear el diálogo de la herramienta de estadística descriptiva."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1374
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
 msgstr ""
-"Debe introducir una varianza\n"
+"Introduzca una varianza\n"
 "de población válida para la variable 1."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1383
@@ -5151,16 +5151,16 @@ msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
 msgstr ""
-"Debe introducir una varianza\n"
+"Introducir una varianza\n"
 "de población válida para la variable 2."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1610
 msgid "Could not create the Mean Tests Tool dialog."
-msgstr "No se puede crear el diálogo para la Herramienta de Prueba de Medias."
+msgstr "No se pudo crear el diálogo de la herramienta de pruebas de media."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1797
 msgid "Could not create the FTest Tool dialog."
-msgstr "No se puede crear el diálogo para la Herramienta de Prueba-F."
+msgstr "No se pudo crear el diálogo de la herramienta de pruebaF."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1857
 msgid "The requested number of samples is invalid."
@@ -5176,55 +5176,57 @@ msgstr "El desplazamiento solicitado no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1887
 msgid "The requested sample size is invalid."
-msgstr "El tamaño de la muestra solicitada no es válido."
+msgstr "El tamaño de la muestra solicitado no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2052
 msgid "Could not create the Sampling Tool dialog."
-msgstr "No se puede crear el diálogo para la Herramienta de Muestreo."
+msgstr "No se pudo crear el diálogo de la herramienta de muestreo."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2242
 #: ../src/dialogs/dialog-analysis-tools.c:2255
 msgid "The x variable range is invalid."
-msgstr "El rango variable x no es válido."
+msgstr "El rango de la variable x no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2243
 #: ../src/dialogs/dialog-analysis-tools.c:2256
 msgid "The y variable range is invalid."
-msgstr "El rango variable y no es válido."
+msgstr "El rango de la variable y no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2263
 msgid "The x variable range must be a vector (n by 1 or 1 by n)."
-msgstr "La variable x debe ser una matriz (n por 1 o 1 por n)."
+msgstr "El rango de la variable x debe ser un vector (n por 1 o 1 por n)."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2264
 msgid "The y variable range must be a vector (n by 1 or 1 by n)."
-msgstr "La variable y debe ser una matriz (n por 1 o 1 por n)."
+msgstr "El rango de la variable y debe ser un vector (n por 1 o 1 por n)."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2271
 msgid "The x variable range is to small"
-msgstr "El rango variable de x no es demasiado pequeño"
+msgstr "El rango de la variable x es muy pequeño"
 
 #: ../src/dialogs/dialog-analysis-tools.c:2272
 msgid "The y variable range is to small"
-msgstr "El rango variable de y no es demasiado pequeño"
+msgstr "El rango de la variable y es muy pequeño"
 
 #: ../src/dialogs/dialog-analysis-tools.c:2282
 #: ../src/dialogs/dialog-analysis-tools.c:2295
 msgid "The y variables range is invalid."
-msgstr "El rango variable y no es válido."
+msgstr "El rango de las variables y no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2283
 #: ../src/dialogs/dialog-analysis-tools.c:2296
 msgid "The x variables range is invalid."
-msgstr "El rango variable x no es válido."
+msgstr "El rango de las variables x no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2304
 msgid "The sizes of the y variable and x variables ranges do not match."
-msgstr "Los tamaños de las variables «y» y «x» no coinciden."
+msgstr ""
+"Los tamaños de la variable y y los rangos de las variables x no coinciden."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2305
 msgid "The sizes of the x variable and y variables ranges do not match."
-msgstr "Los tamaños de las variables «x» e «y» no coinciden."
+msgstr ""
+"Los tamaños de la variable x y los rangos de las variables y no coinciden."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2314
 msgid "The confidence level is invalid."
@@ -5236,7 +5238,7 @@ msgstr "Variables _Y:"
 
 #: ../src/dialogs/dialog-analysis-tools.c:2368
 msgid "_X variable:"
-msgstr "Variables _X:"
+msgstr "Variable _X:"
 
 #: ../src/dialogs/dialog-analysis-tools.c:2371
 #: ../src/dialogs/regression.ui.h:5
@@ -5250,64 +5252,58 @@ msgstr "Variable _Y:"
 
 #: ../src/dialogs/dialog-analysis-tools.c:2411
 msgid "Could not create the Regression Tool dialog."
-msgstr "No se puede crear el diálogo para la Herramienta de Regresión."
+msgstr "No se pudo crear el diálogo de la herramienta de regresión."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2557
 msgid "The given seasonal damping factor is invalid."
-msgstr "El rango variable de entrada no es válido."
+msgstr "El factor de amortiguación temporal dado no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2566
-#, fuzzy
 msgid "The given seasonal period is invalid."
-msgstr "El rango variable de entrada no es válido."
+msgstr "El periodo temporal dado no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2577
-#, fuzzy
 msgid "The given growthdamping factor is invalid."
-msgstr "Los criterios dados no son válidos."
+msgstr "El factor de amortiguación de crecimiento dado no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2589
-#, fuzzy
 msgid "The given damping factor is invalid."
-msgstr "El rango de entrada no es válido."
+msgstr "El factor de amortiguación dado no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2719
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr ""
-"No se ha podido crear el diálogo de la Herramienta de Suavizado Exponencial."
+"No se pudo crear el diálogo de la herramienta de suavizado exponencial."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2915
 msgid "The given interval is invalid."
-msgstr "El intervalo proporcionado no es válido."
+msgstr "El intervalo dado no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2925
 msgid "The given offset is invalid."
-msgstr "El desplazamiento proporcionado no es válido."
+msgstr "El desplazamiento dado no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3086
 msgid "Could not create the Moving Average Tool dialog."
 msgstr ""
-"No se puede crear el diálogo para la Herramienta de Desplazamiento "
-"Promediado."
+"No se pudo crear el diálogo de la herramienta de desplazamiento promediado."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3204
-#, fuzzy
 msgid "The cutoff range is not valid."
-msgstr "El rango de entrada no es válido."
+msgstr "El rango de corte no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3211
-#, fuzzy
 msgid "The number of to be calculated cutoffs is invalid."
-msgstr "El numero de cutoffs que se calcula no es valido"
+msgstr "El numero de cortes que calcular no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3354
 msgid "Could not create the Histogram Tool dialog."
-msgstr "No se puede crear el diálogo para la herramienta de histograma."
+msgstr "No se pudo crear el diálogo de la herramienta de histograma."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3531
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr ""
-"No se puede crear el diálogo para la herramienta de análisis de varianza (un "
+"No se pudo crear el diálogo de la herramienta de análisis de varianza (un "
 "factor)."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3610
@@ -5316,7 +5312,7 @@ msgid ""
 "data and the labels."
 msgstr ""
 "El rango de entrada dado debe contener al menos dos columnas y dos filas de "
-"datos y la etiquetas."
+"datos y las etiquetas."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3613
 msgid ""
@@ -5331,14 +5327,12 @@ msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
-"El rango de entrada dado debe contener al menos dos o más columnas de datos "
-"y las etiquetas."
+"El rango de entrada dado debe contener al menos dos columnas de datos y las "
+"etiquetas."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3622
 msgid "The given input range should contain at least two columns of data."
-msgstr ""
-"El rango de entrada dado debe contener al menos dos o más columnas de datos "
-"y las etiquetas."
+msgstr "El rango de entrada dado debe contener al menos dos columnas de datos."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3628
 msgid ""
@@ -5355,7 +5349,7 @@ msgstr "El rango de entrada dado debe contener al menos dos filas de datos."
 #: ../src/dialogs/dialog-analysis-tools.c:3638
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
-"El número de filas de datos debe ser múltiplo del número de replicación."
+"El número de filas de datos debe ser un múltiplo del número de replicación."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3707
 msgid "The number of rows per sample should be a positive integer."
@@ -5364,7 +5358,7 @@ msgstr "El número de filas por muestra debe ser un entero positivo."
 #: ../src/dialogs/dialog-analysis-tools.c:3760
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr ""
-"No se puede crear el diálogo para la herramienta análisis de varianza (dos "
+"No se pudo crear el diálogo de la herramienta de análisis de varianza (dos "
 "factores)."
 
 #. xgettext : %d gives the number of items in the autofilter.
@@ -5389,8 +5383,8 @@ msgstr[1] "Mostrar los %3d elementos más pequeños"
 #, c-format
 msgid "Show the items in the top %3d%% of the data range"
 msgid_plural "Show the items in the top %3d%% of the data range"
-msgstr[0] "Mostrar los elementos en la %3d%% cima del rango de datos"
-msgstr[1] "Mostrar los elementos en la %3d%% cima del rango de datos"
+msgstr[0] "Mostrar los elementos en la %3d%% superior del rango de datos"
+msgstr[1] "Mostrar los elementos en la %3d%% superior del rango de datos"
 
 #: ../src/dialogs/dialog-autofilter.c:242
 #, c-format
@@ -5528,7 +5522,7 @@ msgstr "_Bordes"
 
 #: ../src/dialogs/dialog-autoformat.c:496
 msgid "Apply _Number Formats"
-msgstr "Aplicar _formato numérico"
+msgstr "Aplicar _formatos de número"
 
 #: ../src/dialogs/dialog-autoformat.c:498
 msgid "Apply _Borders"
@@ -5540,7 +5534,7 @@ msgstr "Aplicar _fuentes tipográficas"
 
 #: ../src/dialogs/dialog-autoformat.c:502
 msgid "Apply _Patterns"
-msgstr "Aplicar _patrón"
+msgstr "Aplicar _patrones"
 
 #: ../src/dialogs/dialog-autoformat.c:504
 msgid "Apply _Alignment"
@@ -5556,7 +5550,7 @@ msgstr "_Derecha"
 
 #: ../src/dialogs/dialog-autoformat.c:510 ../src/dialogs/cell-format.ui.h:13
 msgid "_Top"
-msgstr "_Encima"
+msgstr "_Superior"
 
 #: ../src/dialogs/dialog-autoformat.c:512 ../src/dialogs/cell-format.ui.h:15
 msgid "_Bottom"
