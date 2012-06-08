@@ -2268,8 +2268,8 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	if (y_h <= 2 && y_w <= 2) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
 				    switch_v ?
-				    _("The x variable range is to small") :
-				    _("The y variable range is to small"));
+				    _("The x variable range is too small") :
+				    _("The y variable range is too small"));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
 	}
@@ -2574,7 +2574,7 @@ exp_smoothing_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				      &damp_fact, FALSE);
 		if (err!= 0 || damp_fact < 0 || damp_fact > 1)  {
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
-					    _("The given growth"
+					    _("The given growth "
 					      "damping factor is invalid."));
 			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 			return;
