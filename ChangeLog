@@ -1,3 +1,8 @@
+2012-06-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/wbc-gtk.c (cb_scroll_wheel): make mouse wheel scrolling work
+	again with gtk+-3.4. [#675089]
+
 2012-06-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-bar.c (ib_draw_cell): make selction background visible. [#648676]

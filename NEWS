@@ -24,6 +24,7 @@ Andreas:
 Jean:
 	* Fix graph series headers when a multiple selection is used. [#675913]
 	* Make selction background visible. [#648676]
+	* Make mouse wheel scrolling work again with gtk+-3.4. [#675089]
 
 Morten:
 	* Minor doc improvement for non-C locales.  [Part of #675000]

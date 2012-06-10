@@ -2205,7 +2205,11 @@ cb_scroll_wheel (GtkWidget *w, GdkEventScroll *event,
 	gboolean go_back = (event->direction == GDK_SCROLL_UP ||
 			    event->direction == GDK_SCROLL_LEFT);
 
-	if (!pane || !gtk_widget_get_realized (w))
+	if (!pane || !gtk_widget_get_realized (w)
+#if GTK_CHECK_VERSION(3,4,0)
+	    || event->direction == GDK_SCROLL_SMOOTH
+#endif
+	    )
 		return FALSE;
 
 	if ((event->state & GDK_MOD1_MASK))
