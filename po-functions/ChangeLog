@@ -1,3 +1,8 @@
+2012-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* POTFILES.in: add src/dialogs/dialog-analysis-tool-one-mean.c,
+	src/dialogs/one-mean-test.ui and src/tools/analysis-one-mean-test.c
+
 2012-05-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* README.translators: add information

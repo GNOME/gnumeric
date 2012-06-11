@@ -31,6 +31,7 @@ base_files =					\
 	dialog-analysis-tool-frequency.c	\
 	dialog-analysis-tool-kaplan-meier.c	\
 	dialog-analysis-tool-normality.c	\
+	dialog-analysis-tool-one-mean.c		\
 	dialog-analysis-tool-principal-components.c	\
 	dialog-analysis-tool-sign-test.c	\
 	dialog-analysis-tool-wilcoxon-mann-whitney.c    \
@@ -145,6 +146,7 @@ embedded_uis = 			\
 	merge.ui			\
 	moving-averages.ui		\
 	normality-tests.ui		\
+	one-mean-test.ui		\
 	paste-special.ui		\
 	plugin-manager.ui		\
 	preferences.ui			\

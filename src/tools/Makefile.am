@@ -31,6 +31,8 @@ libtools_la_SOURCES =					\
 	analysis-kaplan-meier.h				\
 	analysis-normality.c				\
 	analysis-normality.h				\
+	analysis-one-mean-test.c			\
+	analysis-one-mean-test.h			\
 	analysis-principal-components.c			\
 	analysis-principal-components.h			\
 	analysis-sign-test.c				\

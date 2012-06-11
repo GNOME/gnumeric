@@ -1,3 +1,9 @@
+2012-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-one-mean-test.c: new
+	* analysis-one-mean-test.h: new
+	* Makefile.am: add the above
+
 2012-06-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-wilcoxon-mann-whitney.c

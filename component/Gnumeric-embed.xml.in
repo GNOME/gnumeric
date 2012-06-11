@@ -231,6 +231,7 @@
       <separator/>
       <menu name="StatisticsOneSample" action="MenuStatisticsOneSample">
 	<menuitem action="ToolsNormalityTests"/>
+	<menuitem action="ToolsOneMeanTest"/>
 	<menu name="ToolOneMedian" action="MenuToolOneMedian">
           <menuitem action="ToolsOneMedianSignTest"/>
           <menuitem action="ToolsOneMedianWilcoxonSignedRank"/>

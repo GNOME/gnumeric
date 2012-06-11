@@ -100,6 +100,7 @@ int dialog_histogram_tool	 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_frequency_tool	 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_kaplan_meier_tool	 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_normality_tool	 (WBCGtk *wbcg, Sheet *sheet);
+int dialog_one_mean_test_tool    (WBCGtk *wbcg, Sheet *sheet);
 int dialog_chi_square_tool       (WBCGtk *wbcg, Sheet *sheet, gboolean independence);
 int dialog_principal_components_tool	 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_wilcoxon_m_w_tool	 (WBCGtk *wbcg, Sheet *sheet);

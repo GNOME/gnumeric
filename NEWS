@@ -20,6 +20,7 @@ Andreas:
 	* Fix space handling on ODF import. [Part of #676535]
 	* Fix TIME and add ODF.TIME. [#676596]
 	* Fix Wilcoxon Mann Whitney Test in the presence of empty cells.
+	* Add single sample t-test.
 
 Jean:
 	* Fix graph series headers when a multiple selection is used. [#675913]

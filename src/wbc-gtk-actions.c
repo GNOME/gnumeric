@@ -959,6 +959,7 @@ static GNM_ACTION_DEF (cb_tools_frequency)	{ dialog_frequency_tool (wbcg, wbcg_c
 static GNM_ACTION_DEF (cb_tools_histogram)	{ dialog_histogram_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_kaplan_meier)	{ dialog_kaplan_meier_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_normality_tests){ dialog_normality_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_one_mean_test)	{ dialog_one_mean_test_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_principal_components)	{ dialog_principal_components_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_ranking)	{ dialog_ranking_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_regression)	{ dialog_regression_tool (wbcg, wbcg_cur_sheet (wbcg)); }
@@ -2516,6 +2517,9 @@ static GtkActionEntry const actions[] = {
 	{ "ToolsNormalityTests", NULL, N_("_Normality Tests..."),
 		NULL, N_("Testing a sample for normality"),
 		G_CALLBACK (cb_tools_normality_tests) },
+	{ "ToolsOneMeanTest", NULL, N_("_Student-T Test..."),
+	        NULL, N_("Testing the value of a mean"),
+	        G_CALLBACK (cb_tools_one_mean_test) },
 
 /* Statistics -> OneSample -> OneMedian*/
 

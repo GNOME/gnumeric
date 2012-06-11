@@ -161,6 +161,9 @@
 /* dialog-analysis-tool-kaplan-meier.c */
 #define GNUMERIC_HELP_LINK_KAPLAN_MEIER "kaplan-meier-tool"
 
+/* dialog-analysis-tool-sign-test.c */
+#define GNUMERIC_HELP_LINK_ONE_MEAN "one-mean-tool"
+
 /* dialog-analysis-tool-normality.c */
 #define GNUMERIC_HELP_LINK_NORMALITY "normality-tool"
 

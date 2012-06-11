@@ -1,3 +1,8 @@
+2012-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* POTFILES.in: add src/dialogs/dialog-analysis-tool-one-mean.c,
+	src/dialogs/one-mean-test.ui and src/tools/analysis-one-mean-test.c
+
 2012-04-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.3

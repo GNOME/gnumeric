@@ -1,3 +1,11 @@
+2012-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* one-mean-test.ui: new
+	* dialog-analysis-tool-one-mean.c: new
+	* Makefile.am: add the above
+	* help.h (GNUMERIC_HELP_LINK_ONE_MEAN): new
+	* dialogs.h (dialog_one_mean_test_tool): new
+
 2012-05-29  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format-cond.c (c_fmt_dialog_get_condition): Use
