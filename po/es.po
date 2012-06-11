@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-07 20:12+0000\n"
-"PO-Revision-Date: 2012-06-08 12:01+0200\n"
+"POT-Creation-Date: 2012-06-10 09:03+0000\n"
+"PO-Revision-Date: 2012-06-11 11:35+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -492,7 +492,7 @@ msgstr "Referencia sst «%s» no válida"
 #: ../plugins/excel/xlsx-read.c:1338
 #, c-format
 msgid "Invalid cell %s"
-msgstr "Celda inválida %s"
+msgstr "Celda no válida %s"
 
 #: ../plugins/excel/xlsx-read.c:1455
 msgid "Ignoring column information that does not specify first or last."
@@ -841,7 +841,7 @@ msgstr "%s versión %s"
 #: ../plugins/fn-info/functions.c:1406
 #: ../src/dialogs/dialog-cell-format.c:2280
 #: ../src/dialogs/dialog-cell-format.c:2284
-#: ../src/dialogs/dialog-cell-format.c:2292 ../src/wbc-gtk.c:3249
+#: ../src/dialogs/dialog-cell-format.c:2292 ../src/wbc-gtk.c:3253
 msgid "Automatic"
 msgstr "Automático"
 
@@ -2214,7 +2214,7 @@ msgstr "Ampliación no válida  %hd %%"
 #: ../plugins/qpro/qpro-read.c:910
 #, c-format
 msgid "Invalid record %d of length %hd"
-msgstr "Registro %d inválido de longitud %hd"
+msgstr "Registro %d no válido de longitud %hd"
 
 #: ../plugins/qpro/qpro-read.c:943
 msgid ""
@@ -4506,7 +4506,7 @@ msgstr "Harald Ashburner"
 
 #: ../src/dialogs/dialog-about.c:74
 msgid "Options pricers"
-msgstr "Precios de opciones"
+msgstr "Algoritmos de opciones"
 
 #: ../src/dialogs/dialog-about.c:75
 msgid "Sean Atkinson"
@@ -5201,11 +5201,11 @@ msgid "The y variable range must be a vector (n by 1 or 1 by n)."
 msgstr "El rango de la variable y debe ser un vector (n por 1 o 1 por n)."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2271
-msgid "The x variable range is to small"
+msgid "The x variable range is too small"
 msgstr "El rango de la variable x es muy pequeño"
 
 #: ../src/dialogs/dialog-analysis-tools.c:2272
-msgid "The y variable range is to small"
+msgid "The y variable range is too small"
 msgstr "El rango de la variable y es muy pequeño"
 
 #: ../src/dialogs/dialog-analysis-tools.c:2282
@@ -5263,7 +5263,7 @@ msgid "The given seasonal period is invalid."
 msgstr "El periodo temporal dado no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2577
-msgid "The given growthdamping factor is invalid."
+msgid "The given growth damping factor is invalid."
 msgstr "El factor de amortiguación de crecimiento dado no es válido."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2589
@@ -5558,7 +5558,7 @@ msgstr "_Inferior"
 
 #: ../src/dialogs/dialog-autoformat.c:514
 msgid "_Show Gridlines"
-msgstr "_Mostrar rejilla"
+msgstr "_Mostrar líneas de la cuadrícula"
 
 #: ../src/dialogs/dialog-autoformat.c:674
 msgid "An error occurred while reading the category list"
@@ -5567,11 +5567,11 @@ msgstr "Ha ocurrido un error al leer la lista de categorías"
 #: ../src/dialogs/dialog-autosave.c:76
 #, c-format
 msgid "Do you want to save the workbook %s ?"
-msgstr "¿Desea guardar el libro de cuentas %s?"
+msgstr "¿Quiere guardar el libro de trabajo %s?"
 
 #: ../src/dialogs/dialog-autosave.c:150
 msgid "Could not create the autosave dialog."
-msgstr "No se puede crear el diálogo de guardado automático."
+msgstr "No se pudo crear el diálogo de autoguardado."
 
 #: ../src/dialogs/dialog-cell-comment.c:164
 #, c-format
@@ -5581,19 +5581,15 @@ msgstr "Editar comentario de la celda (%s)"
 #: ../src/dialogs/dialog-cell-comment.c:167
 #, c-format
 msgid "New Cell Comment (%s)"
-msgstr "Comentario nuevo en la celda (%s)"
+msgstr "Comentario nuevo de la celda (%s)"
 
 #. xgettext: This refers to a "none underline"
 #: ../src/dialogs/dialog-cell-format.c:73
-#, fuzzy
-#| msgid "None"
 msgctxt "underline"
 msgid "None"
 msgstr "Ninguno"
 
 #: ../src/dialogs/dialog-cell-format.c:74
-#, fuzzy
-#| msgid "Single"
 msgctxt "underline"
 msgid "Single"
 msgstr "Simple"
@@ -5605,17 +5601,15 @@ msgstr "Doble"
 
 #. xgettext: This refers to a "single low underline"
 #: ../src/dialogs/dialog-cell-format.c:77
-#, fuzzy
 msgctxt "underline"
 msgid "Single Low"
-msgstr "Simple"
+msgstr "Simple bajo"
 
 #. xgettext: This refers to a "double low underline"
 #: ../src/dialogs/dialog-cell-format.c:79
-#, fuzzy
 msgctxt "underline"
 msgid "Double Low"
-msgstr "Doble"
+msgstr "Doble bajo"
 
 #: ../src/dialogs/dialog-cell-format.c:485 ../src/dialogs/dialog-search.c:153
 #: ../src/func.c:1381 ../src/wbc-gtk-actions.c:2750
@@ -5647,23 +5641,23 @@ msgstr "Valor:"
 
 #: ../src/dialogs/dialog-cell-format.c:1783
 msgid "None          (silently accept invalid input)"
-msgstr "Ninguno     (acepta silenciosamente datos inválidos)"
+msgstr "Ninguno          (acepta silenciosamente entrada no válida)"
 
 #: ../src/dialogs/dialog-cell-format.c:1791
 msgid "Stop            (never allow invalid input)"
-msgstr "Detener      (no permite datos inválidos)"
+msgstr "Detener            (nunca permite entrada no válida)"
 
 #: ../src/dialogs/dialog-cell-format.c:1800
 msgid "Warning     (accept/discard invalid input)"
-msgstr "Advertencia:     (acepta/descarta datos inválidos)"
+msgstr "Advertencia     (acepta/descarta entrada no válida)"
 
 #: ../src/dialogs/dialog-cell-format.c:1809
 msgid "Information (allow invalid input)"
-msgstr "Información (permite datos inválidos)"
+msgstr "Información (permite entrada no válida)"
 
 #: ../src/dialogs/dialog-cell-format.c:2012
 msgid "The validation criteria are unusable. Disable validation?"
-msgstr "Los criterios de validación no son usables. ¿Desactivar validación?"
+msgstr "El criterio de validación no es usable. ¿Desactivar validación?"
 
 #: ../src/dialogs/dialog-cell-format.c:2218 ../src/dialogs/cell-format.ui.h:1
 msgid "Format Cells"
@@ -5674,19 +5668,19 @@ msgstr "Formatear celdas"
 msgid "Border"
 msgstr "Borde"
 
-#: ../src/dialogs/dialog-cell-format.c:2284 ../src/wbc-gtk.c:3103
-#: ../src/wbc-gtk.c:3251 ../src/wbc-gtk.c:3252 ../src/wbc-gtk.c:3263
-#: ../src/wbc-gtk.c:3379 ../src/wbc-gtk.c:3448
+#: ../src/dialogs/dialog-cell-format.c:2284 ../src/wbc-gtk.c:3107
+#: ../src/wbc-gtk.c:3255 ../src/wbc-gtk.c:3256 ../src/wbc-gtk.c:3267
+#: ../src/wbc-gtk.c:3383 ../src/wbc-gtk.c:3452
 msgid "Foreground"
 msgstr "Primer plano"
 
-#: ../src/dialogs/dialog-cell-format.c:2288 ../src/wbc-gtk.c:3300
+#: ../src/dialogs/dialog-cell-format.c:2288 ../src/wbc-gtk.c:3304
 msgid "Clear Background"
 msgstr "Limpiar el fondo"
 
 #: ../src/dialogs/dialog-cell-format.c:2288
 #: ../src/dialogs/cell-format-cond.ui.h:9 ../src/dialogs/cell-format.ui.h:79
-#: ../src/wbc-gtk.c:3302 ../src/wbc-gtk.c:3303 ../src/wbc-gtk.c:3312
+#: ../src/wbc-gtk.c:3306 ../src/wbc-gtk.c:3307 ../src/wbc-gtk.c:3316
 msgid "Background"
 msgstr "Fondo"
 
@@ -5695,15 +5689,13 @@ msgid "Pattern"
 msgstr "Patrón"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:230
-#, fuzzy
-#| msgid "Undefined"
 msgid "(defined)"
-msgstr "No definido"
+msgstr "(definido)"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:230
 #: ../src/dialogs/dialog-cell-format-cond.c:1155
 msgid "(undefined)"
-msgstr "(sin definir)"
+msgstr "(no definido)"
 
 #. without any expression
 #: ../src/dialogs/dialog-cell-format-cond.c:544
@@ -5719,10 +5711,8 @@ msgid "Cell contains whitespace."
 msgstr "La celda contiene espacios en blanco."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:547
-#, fuzzy
-#| msgid "%s does not contain the new value."
 msgid "Cell does not contain whitespace."
-msgstr "%s no contiene el valor nuevo."
+msgstr "La celda no contiene espacios en blanco."
 
 #. with one expression
 #: ../src/dialogs/dialog-cell-format-cond.c:549
@@ -5763,19 +5753,19 @@ msgstr "La celda no contiene la cadena x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:558
 msgid "Cell value begins with the string x."
-msgstr "El valor de la celda comienza por la cadena x."
+msgstr "El valor de la celda comienza con la cadena x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:559
 msgid "Cell value does not begin with the string x."
-msgstr "El valor de la celda no comienza por la cadena x."
+msgstr "El valor de la celda no comienza con la cadena x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:560
 msgid "Cell value ends with the string x."
-msgstr "El valor de la celda termina por la cadena x."
+msgstr "El valor de la celda termina con la cadena x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:561
 msgid "Cell value does not end with the string x."
-msgstr "El valor de la celda no termina por la cadena x."
+msgstr "El valor de la celda no termina con la cadena x."
 
 #. with two expressions
 #: ../src/dialogs/dialog-cell-format-cond.c:563
@@ -5791,108 +5781,107 @@ msgid "Set conditional formatting"
 msgstr "Establecer formato condicional"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:717
-#, fuzzy
-#| msgid "Per column formatting"
 msgid "Clear conditional formatting"
-msgstr "Formato por columna"
+msgstr "Limpiar formato condicional"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:749
 msgid "Remove condition from conditional formatting"
 msgstr "Quitar condición del formato condicional"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:781
-#, fuzzy
-#| msgid "Exponential Smoothing"
 msgid "Expand conditional formatting"
-msgstr "Suavización exponencial"
+msgstr "Expandir formato condicional"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:830
 msgid ""
 "If the cell content is between these two values, a special style is used."
 msgstr ""
-"Si el contenido de la celda está entre estos dos valores se usa un estilo "
+"Si el contenido de la celda está entre estos dos valores, se usa un estilo "
 "especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:838
 msgid ""
 "If the cell content is not between these two values, a special style is used."
 msgstr ""
-"Si el contenido de la celda no está entre estos dos valores se usa un estilo "
-"especial."
+"Si el contenido de la celda no está entre estos dos valores, se usa un "
+"estilo especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:846
 msgid "If the cell content is equal to this value, a special style is used."
 msgstr ""
-"Si el contenido de la celda es igual a este valor se usa un estilo especial."
+"Si el contenido de la celda es igual a este valor, se usa un estilo especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:854
 msgid ""
 "If the cell content is not equal to this value, a special style is used."
 msgstr ""
-"Si el contenido de la celda no es igual a este valor se usa un estilo "
+"Si el contenido de la celda no es igual a este valor, se usa un estilo "
 "especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:862
 msgid "If the cell content is > this value, a special style is used."
 msgstr ""
-"Si el contenido de la celda es mayor (>) que este valor se usa un estilo "
+"Si el contenido de la celda es mayor (>) que este valor, se usa un estilo "
 "especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:869
 msgid "If the cell content is < this value, a special style is used."
 msgstr ""
-"Si el contenido de la celda es menor (>) que este valor se usa un estilo "
+"Si el contenido de la celda es menor (>) que este valor, se usa un estilo "
 "especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:877
 msgid "If the cell content is ≧ this value, a special style is used."
 msgstr ""
-"Si el contenido de la celda es mayor o igual (≧) que este valor se usa un "
+"Si el contenido de la celda es mayor o igual (≧) que este valor, se usa un "
 "estilo especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:886
 msgid "If the cell content is ≦ this value, a special style is used."
 msgstr ""
-"Si el contenido de la celda es menor o igual (≦) que este valor se usa un "
+"Si el contenido de la celda es menor o igual (≦) que este valor, se usa un "
 "estilo especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:895
 msgid "If this formula evaluates to TRUE, a special style is used."
-msgstr "Si la fórmula da VERDADERO, se usa un estilo especial."
+msgstr "Si esta fórmula evalúa a VERDADERO, se usa un estilo especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:902
 msgid "If the cell content contains this string, a special style is used."
-msgstr "Si la celda contiene esta cadena se usa un estilo especial."
+msgstr ""
+"Si el contenido de la celda contiene esta cadena, se usa un estilo especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:910
 msgid ""
 "If the cell content does not contain this string, a special style is used."
-msgstr "Si la celda no contiene esta cadena se usa un estilo especial."
+msgstr ""
+"Si el contenido de la celda no contiene esta cadena, se usa un estilo "
+"especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:918
 msgid "If the cell content begins with this string, a special style is used."
 msgstr ""
-"Si el contenido de la celda comienza con esta cadena se usa un estilo "
+"Si el contenido de la celda comienza con esta cadena, se usa un estilo "
 "especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:926
 msgid ""
 "If the cell content does not begin with this string, a special style is used."
 msgstr ""
-"Si el contenido de la celda no comienza con esta cadena se usa un estilo "
+"Si el contenido de la celda no comienza con esta cadena, se usa un estilo "
 "especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:933
 msgid "If the cell content ends with this string, a special style is used."
 msgstr ""
-"Si el contenido de la celda termina con esta cadena se usa un estilo "
+"Si el contenido de la celda termina con esta cadena, se usa un estilo "
 "especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:941
 msgid ""
 "If the cell content does not end  with this string, a special style is used."
 msgstr ""
-"Si el contenido de la celda no termina con esta cadena se usa un estilo "
+"Si el contenido de la celda no termina con esta cadena, se usa un estilo "
 "especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:949
@@ -5905,11 +5894,13 @@ msgstr "Si la celda no contiene un valor de error, se usa un estilo especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:962
 msgid "If the cell content contains blanks, a special style is used."
-msgstr "Si la celda contiene espacios en blanco se usa un estilo especial."
+msgstr "Si la celda contiene espacios en blanco, se usa un estilo especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:969
 msgid "If the cell content does not contain blanks, a special style is used."
-msgstr "Si la celda no contiene espacios en blanco se usa un estilo especial."
+msgstr ""
+"Si el contenido de la celda no contiene espacios en blanco, se usa un estilo "
+"especial."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:976
 msgid "This is an unknown condition type."
@@ -5973,15 +5964,15 @@ msgstr "Por valor"
 
 #: ../src/dialogs/dialog-col-width.c:224
 msgid "Set standard/default column width"
-msgstr "Cambiar el ancho estándar/predeterminado de columna"
+msgstr "Establecer la anchura estándar/predeterminado de columna"
 
 #: ../src/dialogs/dialog-col-width.c:229
 #, c-format
 msgid ""
 "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
-"Fijar el ancho de columna de selección a <span style='italic' weight='bold'>%"
-"s</span>"
+"Establecer el ancho de columna de selección a <span style='italic' "
+"weight='bold'>%s</span>"
 
 #: ../src/dialogs/dialog-consolidate.c:191
 #, c-format
@@ -5991,15 +5982,15 @@ msgstr "La especificación %s no define una región"
 #: ../src/dialogs/dialog-consolidate.c:200
 #, c-format
 msgid "Source region %s overlaps with the destination region"
-msgstr "El área de origen %s se superpone a la región de destino"
+msgstr "El área de origen %s se superpone con la región de destino"
 
 #: ../src/dialogs/dialog-consolidate.c:325
 msgid "The output range overlaps with the input ranges."
-msgstr "El rango de salida se solapa con los rangos de entrada."
+msgstr "El rango de salida se superpone con los rangos de entrada."
 
 #: ../src/dialogs/dialog-consolidate.c:550
 msgid "Could not create the Consolidate dialog."
-msgstr "No se puede crear el diálogo de Consolidación."
+msgstr "No se pudo crear el diálogo de consolidación."
 
 #: ../src/dialogs/dialog-data-slicer.c:140
 msgid "Filter"
@@ -6030,7 +6021,7 @@ msgstr "Libre"
 
 #: ../src/dialogs/dialog-data-slicer.c:215
 msgid "_Format"
-msgstr "_Formatos_Formato"
+msgstr "_Formato"
 
 #: ../src/dialogs/dialog-data-slicer.c:216
 msgid "_Style"
@@ -6624,7 +6615,7 @@ msgstr "Corrección automática"
 
 #: ../src/dialogs/dialog-preferences.c:1187
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:28
-#: ../src/wbc-gtk.c:3363
+#: ../src/wbc-gtk.c:3367
 msgid "Font"
 msgstr "Tipografía"
 
@@ -7106,7 +7097,7 @@ msgstr "Celdas modificables:"
 
 #: ../src/dialogs/dialog-scenarios.c:300
 msgid "Invalid changing cells"
-msgstr "Celdas modificables inválidas"
+msgstr "Celdas modificables no válidas"
 
 #: ../src/dialogs/dialog-scenarios.c:308
 msgid "Changing cells should be on the current sheet only."
@@ -7118,7 +7109,7 @@ msgstr "Nombre de escenario ya usado"
 
 #: ../src/dialogs/dialog-scenarios.c:326
 msgid "Invalid scenario name"
-msgstr "Nombre de escenario inválido"
+msgstr "Nombre de escenario no válido"
 
 #: ../src/dialogs/dialog-scenarios.c:377
 msgid "Could not create the Scenario Add dialog."
@@ -7283,22 +7274,22 @@ msgid "Run on"
 msgstr "Ejecutar en"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4615
+#: ../src/wbc-gtk.c:4619
 msgid "Min"
 msgstr "Mínimo"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4617
+#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4621
 msgid "Average"
 msgstr "Promediación"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:4616
+#: ../src/wbc-gtk.c:4620
 msgid "Max"
 msgstr "Máximo"
 
 #: ../src/dialogs/dialog-simulation.c:317
 msgid "Invalid variable range was given"
-msgstr "Se dió un rango de variables inválido"
+msgstr "Se dió un rango de variables no válido"
 
 #: ../src/dialogs/dialog-simulation.c:331
 msgid ""
@@ -7886,7 +7877,7 @@ msgid "Top"
 msgstr "Arriba"
 
 #: ../src/dialogs/autofilter-top10.ui.h:4 ../src/dialogs/cell-format.ui.h:34
-#: ../src/wbc-gtk.c:2998
+#: ../src/wbc-gtk.c:3002
 msgid "Bottom"
 msgstr "Abajo"
 
@@ -8107,12 +8098,12 @@ msgstr "Línea diagonal"
 
 #. start sub menu
 #: ../src/dialogs/cell-format.ui.h:32 ../src/sheet-control-gui.c:2172
-#: ../src/wbc-gtk.c:2990
+#: ../src/wbc-gtk.c:2994
 msgid "Left"
 msgstr "Izquierda"
 
 #: ../src/dialogs/cell-format.ui.h:33 ../src/sheet-control-gui.c:2175
-#: ../src/wbc-gtk.c:2992
+#: ../src/wbc-gtk.c:2996
 msgid "Right"
 msgstr "Derecha"
 
@@ -9197,8 +9188,8 @@ msgid "Trim:"
 msgstr "Eliminar espacios:"
 
 #. ----- vertical -----
-#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk.c:2954
-#: ../src/wbc-gtk.c:2970
+#: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk.c:2958
+#: ../src/wbc-gtk.c:2974
 msgid "Zoom"
 msgstr "Ampliación"
 
@@ -11748,7 +11739,7 @@ msgstr "Error al evaluar"
 #: ../src/file-autoft.c:88
 #, c-format
 msgid "Invalid template file: %s"
-msgstr "Archivo de plantilla inválido: %s"
+msgstr "Archivo de plantilla no válido: %s"
 
 #: ../src/format-template.c:527
 #, fuzzy
@@ -12457,7 +12448,7 @@ msgstr ""
 #: ../src/parser.y:1642
 #, c-format
 msgid "Invalid expression"
-msgstr "Expresión inválida"
+msgstr "Expresión no válida"
 
 #: ../src/parser.y:1646
 #, c-format
@@ -13865,7 +13856,7 @@ msgstr "eol debe ser uno de unix, mac y windows"
 #: ../src/stf-export.c:711
 #, c-format
 msgid "Invalid value for option %s: \"%s\""
-msgstr "Valor inválido para la opción %s: «%s»"
+msgstr "Valor no válido para la opción %s: «%s»"
 
 #: ../src/stf-export.c:713
 msgid "Invalid option for stf exporter"
@@ -14974,7 +14965,7 @@ msgstr "Curtosis"
 msgid "Range"
 msgstr "Rango"
 
-#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4618
+#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4622
 msgid "Count"
 msgstr "Cuenta"
 
@@ -15906,7 +15897,7 @@ msgstr "Cortar objeto"
 msgid "Select the next sheet object"
 msgstr "Seleccionar todas las hojas no vacías para exportar."
 
-#: ../src/wbc-gtk-actions.c:2248 ../src/wbc-gtk.c:2596
+#: ../src/wbc-gtk-actions.c:2248 ../src/wbc-gtk.c:2600
 msgid "Go to Top"
 msgstr ""
 
@@ -15914,7 +15905,7 @@ msgstr ""
 msgid "Go to the top of the data"
 msgstr ""
 
-#: ../src/wbc-gtk-actions.c:2251 ../src/wbc-gtk.c:2597
+#: ../src/wbc-gtk-actions.c:2251 ../src/wbc-gtk.c:2601
 #, fuzzy
 msgid "Go to Bottom"
 msgstr "Bordes arriba y abajo"
@@ -16843,7 +16834,7 @@ msgid "Adjust a data slicer"
 msgstr "Ajustar el directorio de datos raíz"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk-actions.c:2684 ../src/wbc-gtk.c:4614
+#: ../src/wbc-gtk-actions.c:2684 ../src/wbc-gtk.c:4618
 #: ../src/workbook-view.c:1006
 msgid "Sum"
 msgstr "Suma"
@@ -17542,114 +17533,114 @@ msgstr "Buscar sólo en el rango especificado"
 msgid "Enter in selected ranges as array"
 msgstr "Buscar sólo en el rango especificado"
 
-#: ../src/wbc-gtk.c:2332
+#: ../src/wbc-gtk.c:2336
 msgid "END"
 msgstr "FIN"
 
-#: ../src/wbc-gtk.c:2598
+#: ../src/wbc-gtk.c:2602
 msgid "Go to First"
 msgstr "Ir a la primera"
 
-#: ../src/wbc-gtk.c:2599
+#: ../src/wbc-gtk.c:2603
 msgid "Go to Last"
 msgstr "Ir a la última"
 
-#: ../src/wbc-gtk.c:2601
+#: ../src/wbc-gtk.c:2605
 msgid "Go to Cell ..."
 msgstr "Ir a la celda…"
 
-#: ../src/wbc-gtk.c:2672
+#: ../src/wbc-gtk.c:2676
 msgid "Accept change in multiple cells"
 msgstr ""
 
-#: ../src/wbc-gtk.c:2741 ../src/wbc-gtk.c:2756
+#: ../src/wbc-gtk.c:2745 ../src/wbc-gtk.c:2760
 msgid "_Re-Edit"
 msgstr "_Reeditar"
 
-#: ../src/wbc-gtk.c:2742 ../src/wbc-gtk.c:2747
+#: ../src/wbc-gtk.c:2746 ../src/wbc-gtk.c:2751
 msgid "_Discard"
 msgstr "_Descartar"
 
-#: ../src/wbc-gtk.c:2746 ../src/wbc-gtk.c:2757
+#: ../src/wbc-gtk.c:2750 ../src/wbc-gtk.c:2761
 msgid "_Accept"
 msgstr "_Aceptar"
 
-#: ../src/wbc-gtk.c:2952
+#: ../src/wbc-gtk.c:2956
 msgid "_Zoom"
 msgstr "_Ampliación"
 
-#: ../src/wbc-gtk.c:2991
+#: ../src/wbc-gtk.c:2995
 msgid "Clear Borders"
 msgstr "Limpiar bordes"
 
-#: ../src/wbc-gtk.c:2994
+#: ../src/wbc-gtk.c:2998
 msgid "All Borders"
 msgstr "Todos los bordes"
 
-#: ../src/wbc-gtk.c:2995
+#: ../src/wbc-gtk.c:2999
 msgid "Outside Borders"
 msgstr "Bordes exteriores"
 
-#: ../src/wbc-gtk.c:2996
+#: ../src/wbc-gtk.c:3000
 msgid "Thick Outside Borders"
 msgstr "Bordes exteriores gruesos"
 
-#: ../src/wbc-gtk.c:2999
+#: ../src/wbc-gtk.c:3003
 msgid "Double Bottom"
 msgstr "Doble borde inferior"
 
-#: ../src/wbc-gtk.c:3000
+#: ../src/wbc-gtk.c:3004
 msgid "Thick Bottom"
 msgstr "Borde inferior grueso"
 
-#: ../src/wbc-gtk.c:3002
+#: ../src/wbc-gtk.c:3006
 msgid "Top and Bottom"
 msgstr "Bordes arriba y abajo"
 
-#: ../src/wbc-gtk.c:3003
+#: ../src/wbc-gtk.c:3007
 msgid "Top and Double Bottom"
 msgstr "Borde simple arriba y borde grueso abajo"
 
-#: ../src/wbc-gtk.c:3004
+#: ../src/wbc-gtk.c:3008
 msgid "Top and Thick Bottom"
 msgstr "Borde simple arriba y borde grueso abajo"
 
-#: ../src/wbc-gtk.c:3089
+#: ../src/wbc-gtk.c:3093
 msgid "Set Borders"
 msgstr "Establecer bordes"
 
-#: ../src/wbc-gtk.c:3097 ../src/wbc-gtk.c:3098
+#: ../src/wbc-gtk.c:3101 ../src/wbc-gtk.c:3102
 msgid "Borders"
 msgstr "Bordes"
 
-#: ../src/wbc-gtk.c:3198
+#: ../src/wbc-gtk.c:3202
 msgid "Redo the undone action"
 msgstr "Rehacer la última operación deshecha"
 
-#: ../src/wbc-gtk.c:3203
+#: ../src/wbc-gtk.c:3207
 msgid "Undo the last action"
 msgstr "Deshacer la operación"
 
-#: ../src/wbc-gtk.c:3238
+#: ../src/wbc-gtk.c:3242
 msgid "Set Foreground Color"
 msgstr "Establecer color de primer plano"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:3293
+#: ../src/wbc-gtk.c:3297
 msgid "Set Background Color"
 msgstr "Establecer color del fondo"
 
-#: ../src/wbc-gtk.c:3342
+#: ../src/wbc-gtk.c:3346
 #, c-format
 msgid "Font Name %s"
 msgstr "Nombre de tipografía %s"
 
-#: ../src/wbc-gtk.c:3411
+#: ../src/wbc-gtk.c:3415
 #, c-format
 msgid "Font Size %f"
 msgstr "Tamaño de la tipografía %f"
 
-#: ../src/wbc-gtk.c:3429 ../src/wbc-gtk.c:3430
+#: ../src/wbc-gtk.c:3433 ../src/wbc-gtk.c:3434
 msgid "Font Size"
 msgstr "Tamaño de la tipografía"
 
@@ -17659,87 +17650,87 @@ msgstr "Tamaño de la tipografía"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3644
+#: ../src/wbc-gtk.c:3648
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "En el menú «%s» la clave «%s» se usa tanto para «%s» como para «%s»."
 
-#: ../src/wbc-gtk.c:3962
+#: ../src/wbc-gtk.c:3966
 msgid "Display above sheets"
 msgstr "Mostrar sobre las hojas"
 
-#: ../src/wbc-gtk.c:3963
+#: ../src/wbc-gtk.c:3967
 msgid "Display to the left of sheets"
 msgstr "Mostrar a la izquierda de las hojas"
 
-#: ../src/wbc-gtk.c:3964
+#: ../src/wbc-gtk.c:3968
 msgid "Display to the right of sheets"
 msgstr "Mostrar a la derecha de las hojas"
 
-#: ../src/wbc-gtk.c:3975
+#: ../src/wbc-gtk.c:3979
 msgid "Reattach to main window"
 msgstr "Readjuntar a la ventana principal"
 
-#: ../src/wbc-gtk.c:4009
+#: ../src/wbc-gtk.c:4013
 msgid "Hide"
 msgstr "Ocultar"
 
-#: ../src/wbc-gtk.c:4073
+#: ../src/wbc-gtk.c:4077
 msgid "Standard Toolbar"
 msgstr "Barra estándar"
 
-#: ../src/wbc-gtk.c:4074
+#: ../src/wbc-gtk.c:4078
 msgid "Format Toolbar"
 msgstr "Barra de formato"
 
-#: ../src/wbc-gtk.c:4075
+#: ../src/wbc-gtk.c:4079
 msgid "Long Format Toolbar"
 msgstr "Barra de formato largo"
 
-#: ../src/wbc-gtk.c:4076
+#: ../src/wbc-gtk.c:4080
 msgid "Object Toolbar"
 msgstr "Barra de objetos"
 
-#: ../src/wbc-gtk.c:4090
+#: ../src/wbc-gtk.c:4094
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Mostrar/ocultar barra de herramientas %s"
 
-#: ../src/wbc-gtk.c:4675
+#: ../src/wbc-gtk.c:4679
 #, c-format
 msgid "Content of %s"
 msgstr "Contenido de %s"
 
-#: ../src/wbc-gtk.c:4690
+#: ../src/wbc-gtk.c:4694
 msgid "Use maximum precision"
 msgstr "Usar precisión máxima"
 
-#: ../src/wbc-gtk.c:4702
+#: ../src/wbc-gtk.c:4706
 msgid "Insert formula below."
 msgstr "Insertar fórmula debajo."
 
-#: ../src/wbc-gtk.c:4708
+#: ../src/wbc-gtk.c:4712
 msgid "Insert formula to side."
 msgstr "Insertar fórmula al lado."
 
-#: ../src/wbc-gtk.c:4793
+#: ../src/wbc-gtk.c:4797
 #, c-format
 msgid "Open %s"
 msgstr "Abrir %s"
 
-#: ../src/wbc-gtk.c:5507
+#: ../src/wbc-gtk.c:5511
 msgid "Autosave prompt"
 msgstr "Preguntar si autoguardar"
 
-#: ../src/wbc-gtk.c:5508
+#: ../src/wbc-gtk.c:5512
 msgid "Ask about autosave?"
 msgstr "¿Preguntar si autoguardar?"
 
-#: ../src/wbc-gtk.c:5514
+#: ../src/wbc-gtk.c:5518
 msgid "Autosave time in seconds"
 msgstr "Tiempo de autoguardar en segundos"
 
-#: ../src/wbc-gtk.c:5515
+#: ../src/wbc-gtk.c:5519
 msgid "Seconds before autosave"
 msgstr "Seguntos antes de autoguardar"
 
@@ -18218,7 +18209,7 @@ msgstr "Falta el tipo de filtro «%s»"
 
 #: ../src/xml-sax-read.c:2269
 msgid "Invalid filter, missing Area"
-msgstr "Filtro inválido, falta el área"
+msgstr "Filtro no válido, falta el área"
 
 #: ../src/xml-sax-read.c:2331
 #, c-format
