@@ -9,11 +9,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-05-29 10:44+0000\n"
-"PO-Revision-Date: 2012-06-07 22:11+0100\n"
+"POT-Creation-Date: 2012-06-07 20:13+0000\n"
+"PO-Revision-Date: 2012-06-11 21:01+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
-"Language: \n"
+"Language: Slovenian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,13 +22,6 @@ msgstr ""
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-# area - (podatkovno) področje
-# array - (podatkovno) polje
-# range - (podatkovna) vrsta
-# string - niz
-# set - množica
-# rank - rang
-# slope - naklon????
 #: ../plugins/fn-christian-date/functions.c:140
 msgid "EASTERSUNDAY:Easter Sunday in the Gregorian calendar according to the Roman rite of the Christian Church"
 msgstr "EASTERSUNDAY: dan velike noči po gregorijanskem koledarju (prva nedelja po prvi spomladanski polni Luni), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
@@ -567,7 +560,7 @@ msgstr "Funkcija IMARCSIN vrne kompleksno vrednost arkus sinus kompleksnega šte
 
 #: ../plugins/fn-complex/functions.c:791
 msgid "IMARCCOS:the complex arccosine of the complex number "
-msgstr "IMARCCOS:kompleksni arkus kosinus kompleksnega števila @{z}"
+msgstr "IMARCCOS: kompleksni arkus kosinus kompleksnega števila @{z}"
 
 #: ../plugins/fn-complex/functions.c:793
 msgid "IMARCCOS returns the complex arccosine of the complex number @{z}. The branch cuts are on the real axis, less than -1 and greater than 1."
@@ -575,7 +568,7 @@ msgstr "Funkcija IMARCCOS vrne kompleksno vrednost arkus kosinus kompleksnega š
 
 #: ../plugins/fn-complex/functions.c:818
 msgid "IMARCTAN:the complex arctangent of the complex number "
-msgstr "IMARCTAN:kompleksni arkus tangens kompleksnega števila @{z}"
+msgstr "IMARCTAN: kompleksni arkus tangens kompleksnega števila @{z}"
 
 #: ../plugins/fn-complex/functions.c:820
 msgid "IMARCTAN returns the complex arctangent of the complex number @{z}. The branch cuts are on the imaginary axis, below -i and above i."
@@ -583,19 +576,19 @@ msgstr "Funkcija IMARCTAN vrne kompleksno vrednost arkus tangens kompleksnega š
 
 #: ../plugins/fn-complex/functions.c:845
 msgid "IMARCSEC:the complex arcsecant of the complex number @{z}"
-msgstr "IMARCSEC:kompleksni arkus sekans kompleksnega števila @{z}"
+msgstr "IMARCSEC: kompleksni arkus sekans kompleksnega števila @{z}"
 
 #: ../plugins/fn-complex/functions.c:869
 msgid "IMARCCSC:the complex arccosecant of the complex number @{z}"
-msgstr "IMARCCSC:kompleksni arkus kosekans kompleksnega števila @{z}"
+msgstr "IMARCCSC: kompleksni arkus kosekans kompleksnega števila @{z}"
 
 #: ../plugins/fn-complex/functions.c:894
 msgid "IMARCCOT:the complex arccotangent of the complex number @{z}"
-msgstr "IMARCCOT:kompleksni arkus kotangens kompleksnega števila @{z}"
+msgstr "IMARCCOT: kompleksni arkus kotangens kompleksnega števila @{z}"
 
 #: ../plugins/fn-complex/functions.c:918
 msgid "IMARCSINH:the complex hyperbolic arcsine of the complex number @{z}"
-msgstr "IMARCSINH:kompleksni hiperbolični arkus sinus kompleksnega števila @{z}"
+msgstr "IMARCSINH: kompleksni hiperbolični arkus sinus kompleksnega števila @{z}"
 
 #: ../plugins/fn-complex/functions.c:920
 msgid "IMARCSINH returns the complex hyperbolic arcsine of the complex number @{z}.  The branch cuts are on the imaginary axis, below -i and above i."
@@ -603,7 +596,7 @@ msgstr "Funkcija IMARCSINH vrne kompleksno hiperbolično vrednost arkus sinusa k
 
 #: ../plugins/fn-complex/functions.c:945
 msgid "IMARCCOSH:the complex hyperbolic arccosine of the complex number @{z}"
-msgstr "IMARCCOSH:kompleksni hiperbolični arkus kosinus kompleksnega števila @{z}"
+msgstr "IMARCCOSH: kompleksni hiperbolični arkus kosinus kompleksnega števila @{z}"
 
 #: ../plugins/fn-complex/functions.c:947
 msgid "IMARCCOSH returns the complex hyperbolic arccosine of the complex number @{z}. The branch cut is on the real axis, less than 1."
@@ -611,7 +604,7 @@ msgstr "Funkcija IMARCCOSH vrne kompleksno hiperbolično vrednost arkus kosinusa
 
 #: ../plugins/fn-complex/functions.c:973
 msgid "IMARCTANH:the complex hyperbolic arctangent of the complex number @{z}"
-msgstr "IMARCTANH:kompleksni hiperbolični arkus tangens kompleksnega števila @{z}"
+msgstr "IMARCTANH: kompleksni hiperbolični arkus tangens kompleksnega števila @{z}"
 
 #: ../plugins/fn-complex/functions.c:975
 msgid "IMARCTANH returns the complex hyperbolic arctangent of the complex number @{z}. The branch cuts are on the real axis, less than -1 and greater than 1."
@@ -619,27 +612,27 @@ msgstr "Funkcija IMARCTANH vrne kompleksno hiperbolično vrednost arkus tangens 
 
 #: ../plugins/fn-complex/functions.c:1001
 msgid "IMARCSECH:the complex hyperbolic arcsecant of the complex number @{z}"
-msgstr "IMARCSECH:kompleksni hiperbolični arkus sekans kompleksnega števila @{z}"
+msgstr "IMARCSECH: kompleksni hiperbolični arkus sekans kompleksnega števila @{z}"
 
 #: ../plugins/fn-complex/functions.c:1025
 msgid "IMARCCSCH:the complex hyperbolic arccosecant of the complex number @{z}"
-msgstr "IMARCCSCH:kompleksni hiperbolični arkus kosekans kompleksnega števila @{z}"
+msgstr "IMARCCSCH: kompleksni hiperbolični arkus kosekans kompleksnega števila @{z}"
 
 #: ../plugins/fn-complex/functions.c:1050
 msgid "IMARCCOTH:the complex hyperbolic arccotangent of the complex number @{z}"
-msgstr "IMARCCOTH:kompleksni hiperbolični arkus kotangens kompleksnega števila @{z}"
+msgstr "IMARCCOTH: kompleksni hiperbolični arkus kotangens kompleksnega števila @{z}"
 
 #: ../plugins/fn-complex/functions.c:1075
 msgid "IMSQRT:the square root of the complex number @{z}"
-msgstr "IMSQRT:kvadratni koren kompleksnega števila @{z}"
+msgstr "IMSQRT: kvadratni koren kompleksnega števila @{z}"
 
 #: ../plugins/fn-complex/functions.c:1101
 msgid "IMSUB:the difference of two complex numbers"
-msgstr "IMSUB:vrednost razlike dveh kompleksnih števil"
+msgstr "IMSUB: vrednost razlike dveh kompleksnih števil"
 
 #: ../plugins/fn-complex/functions.c:1131
 msgid "IMPRODUCT:the product of the given complex numbers"
-msgstr "IMPRODUCT:zmnožek dveh podatnih kompleksnih števil"
+msgstr "IMPRODUCT: zmnožek dveh podatnih kompleksnih števil"
 
 #: ../plugins/fn-complex/functions.c:1134
 #: ../plugins/fn-complex/functions.c:1203
@@ -648,19 +641,19 @@ msgstr "V kolikor katerokoli število @{z1}, @{z2},... ni veljavno kompleksno š
 
 #: ../plugins/fn-complex/functions.c:1200
 msgid "IMSUM:the sum of the given complex numbers"
-msgstr "IMSUM:vsota podanih kompleksnih števil"
+msgstr "IMSUM: vsota podanih kompleksnih števil"
 
 #: ../plugins/fn-database/functions.c:45
 msgid "database:a range in which rows of related information are records and columns of data are fields"
-msgstr "podatkovna zbirka:podatkovna vrsta v kateri so podatki vrstice vrednosti, stolpci pa so polja."
+msgstr "podatkovna zbirka: podatkovna vrsta v kateri so podatki vrstice vrednosti, stolpci pa so polja."
 
 #: ../plugins/fn-database/functions.c:48
 msgid "field:a string or integer specifying which field is to be used"
-msgstr "polje:niz ali število, ki določa katero polje bo uporabljeno"
+msgstr "polje: niz ali število, ki določa katero polje bo uporabljeno"
 
 #: ../plugins/fn-database/functions.c:50
 msgid "criteria:a range containing conditions"
-msgstr "kriterij:podatkovna vrsta, ki vsebuje pogoje"
+msgstr "kriterij: podatkovna vrsta, ki vsebuje pogoje"
 
 #: ../plugins/fn-database/functions.c:52
 msgid "@{database} is a range in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column."
@@ -708,7 +701,7 @@ msgstr ""
 
 #: ../plugins/fn-database/functions.c:322
 msgid "DAVERAGE:average of the values in @{field} in @{database} belonging to records that match @{criteria}"
-msgstr "DAVERAGE:srednja vrednost polja @{polje} v @{podatkovni zbirki}, ki pripada zapisom skladnimi s @{kriterijem}"
+msgstr "DAVERAGE: srednja vrednost polja @{polje} v @{podatkovni zbirki}, ki pripada zapisom skladnimi s @{kriterijem}"
 
 #: ../plugins/fn-database/functions.c:331
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333."
@@ -728,7 +721,7 @@ msgstr "DAVERAGE(A1:C7, \"Starost\", A9:B11) je enako 36."
 
 #: ../plugins/fn-database/functions.c:358
 msgid "DCOUNT:count of numbers in @{field} in @{database} belonging to records that match @{criteria}"
-msgstr "DCOUNT:seštevek števil @{polja} v @{podatkovni zbirki}, ki pripada zapisom skladnimi s @{kriterijem}"
+msgstr "DCOUNT: seštevek števil @{polja} v @{podatkovni zbirki}, ki pripada zapisom skladnimi s @{kriterijem}"
 
 #: ../plugins/fn-database/functions.c:367
 msgid "DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3."
@@ -744,7 +737,7 @@ msgstr "DCOUNT(A1:C7, \"Ime\", A9:B11) je enako 0."
 
 #: ../plugins/fn-database/functions.c:393
 msgid "DCOUNTA:count of cells with data in @{field} in @{database} belonging to records that match @{criteria}"
-msgstr "DCOUNTA:seštevek vrednosti podatkov celic @{polja} v @{podatkovni zbirki}, ki pripada zapisom skladnimi s @{kriterijem}"
+msgstr "DCOUNTA: seštevek vrednosti podatkov celic @{polja} v @{podatkovni zbirki}, ki pripada zapisom skladnimi s @{kriterijem}"
 
 #: ../plugins/fn-database/functions.c:402
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3."
@@ -760,7 +753,7 @@ msgstr "DCOUNTA(A1:C7, \"Ime\", A9:B11) je enako 2."
 
 #: ../plugins/fn-database/functions.c:425
 msgid "DGET:a value from @{field} in @{database} belonging to records that match @{criteria}"
-msgstr "DGET:vrednost @{polja} v @{podatkovni zbirki}, ki pripada zapisom skladnimi s @{kriterijem}"
+msgstr "DGET: vrednost @{polja} v @{podatkovni zbirki}, ki pripada zapisom skladnimi s @{kriterijem}"
 
 #: ../plugins/fn-database/functions.c:434
 msgid "If none of the records match the conditions, DGET returns #VALUE!"
@@ -780,7 +773,7 @@ msgstr "DGET(A1:C7, \"Ime\", A9:A10) je enako \"Clark\"."
 
 #: ../plugins/fn-database/functions.c:466
 msgid "DMAX:largest number in @{field} in @{database} belonging to a record that match @{criteria}"
-msgstr "DMAX:največje število @{polja} v @{podatkovni zbirki}, ki pripada zapisom skladnimi s @{kriterijem}"
+msgstr "DMAX: največje število @{polja} v @{podatkovni zbirki}, ki pripada zapisom skladnimi s @{kriterijem}"
 
 #: ../plugins/fn-database/functions.c:475
 msgid "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242."
@@ -796,7 +789,7 @@ msgstr "DMAX(A1:C7, \"Starost\", A9:B11) je enako 43."
 
 #: ../plugins/fn-database/functions.c:502
 msgid "DMIN:smallest number in @{field} in @{database} belonging to a record that match @{criteria}"
-msgstr "DMIN:najmanjše število @{polja} v @{podatkovni zbirki}, ki pripada zapisom skladnimi s @{kriterijem}"
+msgstr "DMIN: najmanjše število @{polja} v @{podatkovni zbirki}, ki pripada zapisom skladnimi s @{kriterijem}"
 
 #: ../plugins/fn-database/functions.c:511
 msgid "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323."
@@ -808,7 +801,7 @@ msgstr "DMIN(A1:C7, \"Starost\", A9:B11) je enako 29."
 
 #: ../plugins/fn-database/functions.c:535
 msgid "DPRODUCT:product of all values in @{field} in @{database} belonging to records that match @{criteria}"
-msgstr "DPRODUCT:zmnožek vseh vrednosti @{polja} v @{podatkovni zbirki}, ki pripada vpisom, ki so skladni s @{kriterijem}"
+msgstr "DPRODUCT: zmnožek vseh vrednosti @{polja} v @{podatkovni zbirki}, ki pripada vpisom, ki so skladni s @{kriterijem}"
 
 #: ../plugins/fn-database/functions.c:544
 msgid "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247."
@@ -828,7 +821,7 @@ msgstr "DSTDEV(A1:C7, \"Plača\", A9:B11) je enako 9135.112506."
 
 #: ../plugins/fn-database/functions.c:601
 msgid "DSTDEVP:standard deviation of the population of values in @{field} in @{database} belonging to records that match @{criteria}"
-msgstr "DSTDEVP:standardni odklon vrednosti populacije @{polja} v @{podatkovni zbirki}, ki pripada zapisom skladnimi s @{kriterijem}"
+msgstr "DSTDEVP: standardni odklon vrednosti populacije @{polja} v @{podatkovni zbirki}, ki pripada zapisom skladnimi s @{kriterijem}"
 
 #: ../plugins/fn-database/functions.c:611
 msgid "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7."
@@ -840,7 +833,7 @@ msgstr "DSTDEVP(A1:C7, \"Plača\", A9:B11) je enako 6459.5."
 
 #: ../plugins/fn-database/functions.c:635
 msgid "DSUM:sum of the values in @{field} in @{database} belonging to records that match @{criteria}"
-msgstr "DSUM:vsota vrednosti @{polja} v @{podatkovni zbirki}, ki pripada vpisom, ki so skladni s @{kriterijem}"
+msgstr "DSUM: vsota vrednosti @{polja} v @{podatkovni zbirki}, ki pripada vpisom, ki so skladni s @{kriterijem}"
 
 #: ../plugins/fn-database/functions.c:644
 msgid "DSUM(A1:C7, \"Age\", A9:B11) equals 72."
@@ -864,7 +857,7 @@ msgstr "DVAR(A1:C7, \"Plača\", A9:B11) je enako 83450280.5."
 
 #: ../plugins/fn-database/functions.c:702
 msgid "DVARP:variance of the population of values in @{field} in @{database} belonging to records that match @{criteria}"
-msgstr "DVARP:varianca populacije vrednosti @{polja} v @{podatkovni zbirki}, ki pripada vpisom, ki so skladni s @{kriterijem}"
+msgstr "DVARP: varianca populacije vrednosti @{polja} v @{podatkovni zbirki}, ki pripada vpisom, ki so skladni s @{kriterijem}"
 
 #: ../plugins/fn-database/functions.c:712
 msgid "DVARP(A1:C7, \"Age\", A9:B11) equals 49."
@@ -876,15 +869,15 @@ msgstr "DVARP(A1:C7, \"Plača\", A9:B11) je enako 41725140.25."
 
 #: ../plugins/fn-database/functions.c:736
 msgid "GETPIVOTDATA:summary data from a pivot table"
-msgstr "GETPIVOTDATA:povzeti podatki iz vrtilne razpredelnice"
+msgstr "GETPIVOTDATA: povzeti podatki iz vrtilne razpredelnice"
 
 #: ../plugins/fn-database/functions.c:737
 msgid "pivot_table:cell range containing the pivot table"
-msgstr "vrtilna_razpredelnica:podatkovna vrsta, ki vsebuje vrtilno razpredelnico"
+msgstr "vrtilna_razpredelnica: podatkovna vrsta, ki vsebuje vrtilno razpredelnico"
 
 #: ../plugins/fn-database/functions.c:738
 msgid "field_name:name of the field for which the summary data is requested"
-msgstr "ime_polja:ime polja za katerega je zahtevan povzetek podatkov"
+msgstr "ime_polja: ime polja za katerega je zahtevan povzetek podatkov"
 
 #: ../plugins/fn-database/functions.c:739
 msgid "If the summary data is unavailable, GETPIVOTDATA returns #REF!"
@@ -892,19 +885,19 @@ msgstr "V kolikor povzetek podatkov ni na voljo, funkcija GETPIVOTDATA vrne napa
 
 #: ../plugins/fn-date/functions.c:74
 msgid "DATE:create a date serial value"
-msgstr "DATE:ustvari zaporedno vrednost datuma"
+msgstr "DATE: ustvari zaporedno vrednost datuma"
 
 #: ../plugins/fn-date/functions.c:75
 msgid "year:year of date"
-msgstr "leto:leto datuma"
+msgstr "leto: leto datuma"
 
 #: ../plugins/fn-date/functions.c:76
 msgid "month:month of year"
-msgstr "mesec:mesec leta"
+msgstr "mesec: mesec leta"
 
 #: ../plugins/fn-date/functions.c:77
 msgid "day:day of month"
-msgstr "dan:dan meseca"
+msgstr "dan: dan meseca"
 
 #: ../plugins/fn-date/functions.c:78
 msgid "The DATE function creates date serial values.  1-Jan-1900 is serial value 1, 2-Jan-1900 is serial value 2, and so on.  For compatibility reasons, a serial value is reserved for the non-existing date 29-Feb-1900."
@@ -920,11 +913,11 @@ msgstr "Za preglednice ustvarjene z Mac različico programa MS Excel, zaporedna 
 
 #: ../plugins/fn-date/functions.c:137
 msgid "UNIX2DATE:date value corresponding to the Unix timestamp @{t}"
-msgstr "UNIX2DATE:vrednost datuma, ki je skladen z časovnim žigom Unix @{t}"
+msgstr "UNIX2DATE: vrednost datuma, ki je skladen z časovnim žigom Unix @{t}"
 
 #: ../plugins/fn-date/functions.c:138
 msgid "t:Unix time stamp"
-msgstr "t:časovni žig v Unix zapisu"
+msgstr "t: časovni žig v Unix zapisu"
 
 #: ../plugins/fn-date/functions.c:139
 msgid "The UNIX2DATE function translates Unix timestamps into the corresponding date.  A Unix timestamp is the number of seconds since midnight (0:00) of January 1st, 1970 GMT."
@@ -932,11 +925,11 @@ msgstr "Funkcija UNIX2DATE prevede časovni žig Unix v ustrezen datum. Ta časo
 
 #: ../plugins/fn-date/functions.c:167
 msgid "DATE2UNIX:the Unix timestamp corresponding to a date @{d}"
-msgstr "DATE2UNIX:časovni žig Unix, ki je skladen z datumom @{d}"
+msgstr "DATE2UNIX: časovni žig Unix, ki je skladen z datumom @{d}"
 
 #: ../plugins/fn-date/functions.c:168
 msgid "d:date"
-msgstr "d:datum"
+msgstr "d: datum"
 
 #: ../plugins/fn-date/functions.c:169
 msgid "The DATE2UNIX function translates a date into a Unix timestamp. A Unix timestamp is the number of seconds since midnight (0:00) of January 1st, 1970 GMT."
@@ -944,7 +937,7 @@ msgstr "Funkcija DATE2UNIX prevede datum v časovni žig Unix. Ta časovni žig 
 
 #: ../plugins/fn-date/functions.c:193
 msgid "DATEVALUE:the date part of a date and time serial value"
-msgstr "DATEVALUE:del datuma in zaporedna vrednost časa"
+msgstr "DATEVALUE: del datuma in zaporedna vrednost časa"
 
 #: ../plugins/fn-date/functions.c:194
 #: ../plugins/fn-date/functions.c:489
@@ -957,7 +950,7 @@ msgstr "Funkcija DATEVALUE vrne zaporedno vrednost datuma in vrednost časa."
 
 #: ../plugins/fn-date/functions.c:211
 msgid "DATEDIF:difference between dates"
-msgstr "DATEDIF:razlika med datumi"
+msgstr "DATEDIF: razlika med datumi"
 
 #: ../plugins/fn-date/functions.c:212
 #: ../plugins/fn-date/functions.c:689
@@ -965,7 +958,7 @@ msgstr "DATEDIF:razlika med datumi"
 #: ../plugins/fn-date/functions.c:1260
 #: ../plugins/fn-date/functions.c:1289
 msgid "start_date:starting date serial value"
-msgstr "začetni_datum:zaporedna vrednost začetnega datuma"
+msgstr "začetni_datum: zaporedna vrednost začetnega datuma"
 
 #: ../plugins/fn-date/functions.c:213
 #: ../plugins/fn-date/functions.c:690
@@ -973,7 +966,7 @@ msgstr "začetni_datum:zaporedna vrednost začetnega datuma"
 #: ../plugins/fn-date/functions.c:1261
 #: ../plugins/fn-date/functions.c:1290
 msgid "end_date:ending date serial value"
-msgstr "končni_datum:zaporedna vrednost končnega datuma"
+msgstr "končni_datum: zaporedna vrednost končnega datuma"
 
 #: ../plugins/fn-date/functions.c:214
 msgid "interval:counting unit"
@@ -981,7 +974,7 @@ msgstr "interval: enota štetja"
 
 #: ../plugins/fn-date/functions.c:215
 msgid "DATEDIF returns the distance from @{start_date} to @{end_date} according to the unit specified by @{interval}."
-msgstr "Dunkcija DATEDIF vrne razliko oziroma razmik med @{začetnim_datumom} in @{končnim_datumom} glede na enoto določeno z @{intervalom}."
+msgstr "Funkcija DATEDIF vrne razliko oziroma razmik med @{začetnim_datumom} in @{končnim_datumom} glede na enoto določeno z @{intervalom}."
 
 #: ../plugins/fn-date/functions.c:216
 msgid "If @{interval} is \"y\", \"m\", or \"d\" then the distance is measured in complete years, months, or days respectively."
@@ -997,7 +990,7 @@ msgstr "V kolikor je @{interval} določen z \"md\", potem je časovni razmik mer
 
 #: ../plugins/fn-date/functions.c:350
 msgid "EDATE:adjust a date by a number of months"
-msgstr "EDATE:prilagodi zapis datuma v število mesecev"
+msgstr "EDATE: prilagodi zapis datuma v število mesecev"
 
 #: ../plugins/fn-date/functions.c:351
 #: ../plugins/fn-date/functions.c:577
@@ -1010,12 +1003,12 @@ msgstr "EDATE:prilagodi zapis datuma v število mesecev"
 #: ../plugins/fn-date/functions.c:1185
 #: ../plugins/fn-date/functions.c:1221
 msgid "date:date serial value"
-msgstr "date:zaporedna vrednost datuma"
+msgstr "datum: zaporedna vrednost datuma"
 
 #: ../plugins/fn-date/functions.c:352
 #: ../plugins/fn-date/functions.c:732
 msgid "months:signed number of months"
-msgstr "meseci:vpisano število mesecev"
+msgstr "meseci: vpisano število mesecev"
 
 #: ../plugins/fn-date/functions.c:353
 msgid "EDATE returns @{date} moved forward or backward the number of months specified by @{months}."
@@ -1023,7 +1016,7 @@ msgstr "Funkcija EDATE vrne @{datum}, ki je premaknjen naprej ali nazaj za štev
 
 #: ../plugins/fn-date/functions.c:387
 msgid "TODAY:the date serial value of today"
-msgstr "TODAY:zaporedna vrednost današnjega datuma"
+msgstr "TODAY: zaporedna vrednost današnjega datuma"
 
 #: ../plugins/fn-date/functions.c:388
 msgid "The TODAY function returns the date serial value of the day it is computed.  Recomputing on a later date will produce a different value."
@@ -1031,7 +1024,7 @@ msgstr "Funkcija TODAY vrne zaporedno vrednost datuma na dan, ko je ta izračuna
 
 #: ../plugins/fn-date/functions.c:404
 msgid "NOW:the date and time serial value of the current time"
-msgstr "NOW:zaporedna vrednost trenutnega datuma in časa"
+msgstr "NOW: zaporedna vrednost trenutnega datuma in časa"
 
 #: ../plugins/fn-date/functions.c:405
 msgid "The NOW function returns the date and time serial value of the moment it is computed.  Recomputing later will produce a different value."
@@ -1040,19 +1033,19 @@ msgstr "Funkcija NOW vrne zaporedno vrednost datuma in časa na trenutek, ko je 
 #: ../plugins/fn-date/functions.c:421
 #: ../plugins/fn-date/functions.c:458
 msgid "TIME:create a time serial value"
-msgstr "TIME:ustvari zaporedno vrednost časa"
+msgstr "TIME: ustvari zaporedno vrednost časa"
 
 #: ../plugins/fn-date/functions.c:422
 msgid "hour:hour of the day"
-msgstr "ura:ura dneva"
+msgstr "ura: ura znotraj dneva"
 
 #: ../plugins/fn-date/functions.c:423
 msgid "minute:minute within the hour"
-msgstr "minuta:minuta ure"
+msgstr "minuta: minuta znotraj ure"
 
 #: ../plugins/fn-date/functions.c:424
 msgid "second:second within the minute"
-msgstr "sekunda:sekunda minute"
+msgstr "sekunda: sekunda znotraj minute"
 
 #: ../plugins/fn-date/functions.c:425
 msgid "The TIME function computes the fractional day after midnight at the time given by @{hour}, @{minute}, and @{second}."
@@ -1155,7 +1148,7 @@ msgstr "Funkcija SECOND izračuna sekundni del obdobja dneva, ki ga določa @{č
 
 #: ../plugins/fn-date/functions.c:576
 msgid "YEAR:the year part of a date serial value"
-msgstr "YEAR:leto vpisane vrednosti datuma"
+msgstr "YEAR: leto vpisane vrednosti datuma"
 
 #: ../plugins/fn-date/functions.c:578
 msgid "The YEAR function returns the year part of @{date}."
@@ -1163,7 +1156,7 @@ msgstr "Funkcija YEAR vrne leto vpisanega @{datuma}."
 
 #: ../plugins/fn-date/functions.c:600
 msgid "MONTH:the month part of a date serial value"
-msgstr "MONTH:mesec vpisane vrednosti datuma"
+msgstr "MONTH: mesec vpisane vrednosti datuma"
 
 #: ../plugins/fn-date/functions.c:602
 msgid "The MONTH function returns the month part of @{date}."
@@ -1171,7 +1164,7 @@ msgstr "Funkcija MONTH vrne mesec vpisanega @{datuma}."
 
 #: ../plugins/fn-date/functions.c:624
 msgid "DAY:the day-of-month part of a date serial value"
-msgstr "DAY:dan meseca vpisane vrednosti datuma"
+msgstr "DAY: dan meseca vpisane vrednosti datuma"
 
 #: ../plugins/fn-date/functions.c:626
 msgid "The DAY function returns the day-of-month part of @{date}."
@@ -1179,12 +1172,12 @@ msgstr "Funkcija DAY vrne dan meseca vpisanega @{datuma}."
 
 #: ../plugins/fn-date/functions.c:648
 msgid "WEEKDAY:day-of-week"
-msgstr "WEEKDAY:dan v tednu"
+msgstr "WEEKDAY: dan v tednu"
 
 #: ../plugins/fn-date/functions.c:650
 #: ../plugins/fn-date/functions.c:1222
 msgid "method:numbering system, defaults to 1"
-msgstr "način:številčni sistem, privzeto določen kot 1"
+msgstr "način: številčni sistem, privzeto določen kot 1"
 
 #: ../plugins/fn-date/functions.c:651
 msgid "The WEEKDAY function returns the day-of-week of @{date}.  The value of @{method} determines how days are numbered; it defaults to 1. "
@@ -1204,11 +1197,11 @@ msgstr "V kolikor je @{način} opredeljen s 3, je ponedeljek 0 dan tedna, torek 
 
 #: ../plugins/fn-date/functions.c:688
 msgid "DAYS360:days between dates"
-msgstr "DAYS360:število dni med dvema datumoma"
+msgstr "DAYS360: število dni med dvema datumoma"
 
 #: ../plugins/fn-date/functions.c:691
 msgid "method:counting method"
-msgstr "način:način štetja"
+msgstr "način: način štetja"
 
 #: ../plugins/fn-date/functions.c:692
 msgid "DAYS360 returns the number of days from @{start_date} to @{end_date}."
@@ -1236,21 +1229,21 @@ msgstr "Funkcija EOMONTH vrne zaporedno vrednost datuma konca meseca, kot je dol
 
 #: ../plugins/fn-date/functions.c:770
 msgid "WORKDAY:add working days"
-msgstr "WORKDAY:dodajanje delovnih dni working days"
+msgstr "WORKDAY: dodajanje delovnih dni"
 
 #: ../plugins/fn-date/functions.c:772
 msgid "days:number of days to add"
-msgstr "dni:število dni za dodajanje"
+msgstr "dni: število dni za dodajanje"
 
 #: ../plugins/fn-date/functions.c:773
 #: ../plugins/fn-date/functions.c:996
 msgid "holidays:array of holidays"
-msgstr "prazniki:polje podatkov o praznikih"
+msgstr "prazniki: polje podatkov o praznikih"
 
 #: ../plugins/fn-date/functions.c:774
 #: ../plugins/fn-date/functions.c:997
 msgid "weekend:array of 0s and 1s, indicating whether a weekday (S, M, T, W, T, F, S) is on the weekend, defaults to {1,0,0,0,0,0,1}"
-msgstr "konec_tedna:podatkovno polje vrednosti 0 in 1, kjer je dan vikenda določen z vrednostjo 1. V vrsti (P, T, S, Č, P, S, N) je konec tedna določen z {0,0,0,0,0,1,1}"
+msgstr "konec_tedna: podatkovno polje vrednosti 0 in 1, kjer je dan vikenda določen z vrednostjo 1. V vrsti (P, T, S, Č, P, S, N) je konec tedna določen z {0,0,0,0,0,1,1}"
 
 #: ../plugins/fn-date/functions.c:776
 msgid "WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in the process."
@@ -1258,7 +1251,7 @@ msgstr "Funkcija WORKDAY pretvori @{datum} v @{dni} in medtem preskoči vikende 
 
 #: ../plugins/fn-date/functions.c:777
 msgid "@{days} may be negative."
-msgstr "vrednost @{dni} je lahko negativna"
+msgstr "Vrednost @{dni} je lahko negativna."
 
 #: ../plugins/fn-date/functions.c:778
 #: ../plugins/fn-date/functions.c:1000
@@ -1272,7 +1265,7 @@ msgstr "Funkcija je združljiva s programom MS Excel, v kolikor je izpuščen za
 
 #: ../plugins/fn-date/functions.c:993
 msgid "NETWORKDAYS:number of workdays in range"
-msgstr "NETWORKDAYS:število delovnih dni v podatkovni vrsti"
+msgstr "NETWORKDAYS: število delovnih dni v podatkovni vrsti"
 
 #: ../plugins/fn-date/functions.c:999
 msgid "NETWORKDAYS calculates the number of days from @{start_date} to @{end_date} skipping weekends and @{holidays} in the process."
@@ -1280,7 +1273,7 @@ msgstr "Funkcija NETWORKDAYS izračuna število dni med @{začetnim_datumom} in 
 
 #: ../plugins/fn-date/functions.c:1160
 msgid "ISOWEEKNUM:ISO week number"
-msgstr "ISOWEEKNUM:ISO številčna vrednost tedna"
+msgstr "ISOWEEKNUM: ISO številčna vrednost tedna"
 
 #: ../plugins/fn-date/functions.c:1162
 msgid "ISOWEEKNUM calculates the week number according to the ISO 8601 standard.  Weeks start on Mondays and week 1 contains the first Thursday of the year."
@@ -1293,7 +1286,7 @@ msgstr "Zaporedna številka tedna na 1. januar je včasih v 52., včasih pa 53. 
 
 #: ../plugins/fn-date/functions.c:1184
 msgid "ISOYEAR:year corresponding to the ISO week number"
-msgstr "ISOYEAR:leto, kot je določeno z zaporedno številko ISO za teden"
+msgstr "ISOYEAR: leto, kot je določeno z zaporedno številko ISO za teden"
 
 #: ../plugins/fn-date/functions.c:1186
 msgid "ISOYEAR calculates the year to go with week number according to the ISO 8601 standard."
@@ -1301,7 +1294,7 @@ msgstr "Funkcija ISOYEAR izračuna leto, ki sovpada z zaporedno številko tedna 
 
 #: ../plugins/fn-date/functions.c:1220
 msgid "WEEKNUM:week number"
-msgstr "WEEKNUM:številka tedna"
+msgstr "WEEKNUM: številka tedna"
 
 #: ../plugins/fn-date/functions.c:1223
 msgid "WEEKNUM calculates the week number according to @{method} which defaults to 1."
@@ -1349,7 +1342,7 @@ msgstr "YEARFRAC: število let med datumi, zapisanih kot decimalno število"
 #: ../plugins/fn-financial/functions.c:3126
 #: ../plugins/fn-financial/functions.c:3240
 msgid "basis:calendar basis"
-msgstr "osnova:osnova koledarja"
+msgstr "osnova: osnova koledarja"
 
 #: ../plugins/fn-date/functions.c:1263
 msgid "YEARFRAC calculates the number of days from @{start_date} to @{end_date} according to the calendar specified by @{basis}, which defaults to 0, and expresses the result as a fractional number of years."
@@ -1357,7 +1350,7 @@ msgstr "Funkcija YEARFRAC izračuna število dni med @{začetnim_datumom} in @{k
 
 #: ../plugins/fn-date/functions.c:1288
 msgid "DAYS:difference between dates in days"
-msgstr "DAYS:razlika datumov izražena v dnevih"
+msgstr "DAYS: razlika datumov izražena v dnevih"
 
 #: ../plugins/fn-date/functions.c:1291
 msgid "DAYS returns the positive or negative number of days from @{start_date} to @{end_date}."
@@ -1366,14 +1359,14 @@ msgstr "Funkcija DAYS vrne pozitivno ali negativno število dni med @{začetnim_
 #. Some common decriptors
 #: ../plugins/fn-derivatives/options.c:46
 msgid "call_put_flag:'c' for a call and 'p' for a put"
-msgstr "call_put_flag:'c' za call in 'p' za put"
+msgstr "call_put_flag: 'c' za nakupno opcijo in 'p' za prodajno"
 
 # spot cena - cena na promptnem trgu (takojšnja dostava/poravnava)
 # nasprotje spot ceni je terminska cena po terminski pogodbi (futures)
 # gotovinska_cena
 #: ../plugins/fn-derivatives/options.c:47
 msgid "spot:spot price"
-msgstr "gotovinska_cena:gotovinska cena"
+msgstr "gotovinska_cena: gotovinska cena"
 
 # exercise / strike price - izvršilna cena
 # margin / spread - marža
@@ -1383,15 +1376,15 @@ msgstr "izvršilna_cena: izvršilna cena"
 
 #: ../plugins/fn-derivatives/options.c:49
 msgid "time:time to maturity in years"
-msgstr "čas:čas trajanja do dospetja v letih"
+msgstr "čas: čas trajanja do dospetja v letih"
 
 #: ../plugins/fn-derivatives/options.c:50
 msgid "time:time to maturity in days"
-msgstr "čas:čas trajanja do dospetja v dnevih"
+msgstr "čas: čas trajanja do dospetja v dnevih"
 
 #: ../plugins/fn-derivatives/options.c:51
 msgid "time_payout:time to dividend payout"
-msgstr "izplačljivost:čas do izplačila dividend"
+msgstr "izplačljivost: čas do izplačila dividend"
 
 #: ../plugins/fn-derivatives/options.c:52
 msgid "time_exp:time to expiration"
@@ -1440,15 +1433,15 @@ msgstr "CUM_BIV_NORM_DIST:zbirna bivariatna normalna porazdelitev"
 
 #: ../plugins/fn-derivatives/options.c:193
 msgid "a:limit for first random variable"
-msgstr "a:limita prve naključne spremenljivke"
+msgstr "a: limita prve naključne spremenljivke"
 
 #: ../plugins/fn-derivatives/options.c:194
 msgid "b:limit for second random variable"
-msgstr "b:limita druge naključne spremenljivke"
+msgstr "b: limita druge naključne spremenljivke"
 
 #: ../plugins/fn-derivatives/options.c:195
 msgid "rho:correlation of the two random variables"
-msgstr "ro:korelacija dveh naključnih spremenljivk"
+msgstr "ro: korelacija dveh naključnih spremenljivk"
 
 #: ../plugins/fn-derivatives/options.c:196
 msgid "CUM_BIV_NORM_DIST calculates the probability that two standard normal distributed random variables with correlation @{rho} are respectively each less than @{a} and @{b}."
@@ -1458,7 +1451,6 @@ msgstr "Funkcija CUM_BIV_NORM_DIST izračuna verjetnost, da sta dve standardni n
 msgid "OPT_BS:price of a European option"
 msgstr "OPT_BS: cena evropske opcije"
 
-# :::
 #: ../plugins/fn-derivatives/options.c:253
 msgid "OPT_BS uses the Black-Scholes model to calculate the price of a European option struck at @{strike} on an asset with spot price @{spot}."
 msgstr "Funkcija OPT_BS uporablja Black-Scholesov model za izračun cene evropske opcije, izvršene pri @{izvršilni ceni} na sredstvih, ovrednotenih z @{gotovinsko ceno}."
@@ -1593,7 +1585,7 @@ msgstr "lambda: pričakovano število 'skokov' na leto"
 
 #: ../plugins/fn-derivatives/options.c:739
 msgid "gamma:proportion of volatility explained by the 'jumps'"
-msgstr "gama: delež nestanovitnosti, ki jo je mogoče pripisati 'skokom'"
+msgstr "gama: sorazmerje nestanovitnosti, ki jo je mogoče pripisati 'skokom'"
 
 #: ../plugins/fn-derivatives/options.c:740
 msgid "OPT_JUMP_DIFF models the theoretical price of an option according to the Jump Diffusion process (Merton)."
@@ -1751,7 +1743,7 @@ msgstr "OPT_ON_OPTIONS: teoretična cena opcij na opcije"
 
 #: ../plugins/fn-derivatives/options.c:1487
 msgid "type_flag:'cc' for calls on calls, 'cp' for calls on puts, and so on for 'pc', and 'pp'"
-msgstr ""
+msgstr "type_flag: 'cc' za nakupne opcije na nakupne opcije, 'cp' za nakupne opcije na prodajne opcije in tako naprej za 'pc' in 'pp'"
 
 #: ../plugins/fn-derivatives/options.c:1489
 msgid "strike1:strike price at which the option being valued is struck"
@@ -3738,6 +3730,32 @@ msgid ""
 "  value          \t\tReturns the contents of the cell in @{cell}.\n"
 "  width          \t\tReturns the column width."
 msgstr ""
+"@{vrsta} določa vrste podatkov, ki jih želite pridobiti:\n"
+"  address        \t\tVrne sklic podane celice kot besedilo.\n"
+"  col            \t\tVrne številko stolpca v @{celici}.\n"
+"  color          \t\tVrne 0.\n"
+"  contents       \t\tVrne vsebino @{celice}.\n"
+"  column         \t\tVrne številko stolpca v @{celici}.\n"
+"  columnwidth    \tVrne širino stolpca.\n"
+"  coord          \t\tVrne absolutni naslov @{celice}.\n"
+"  datatype       \tEnako kot type.\n"
+"  filename       \t\tVrne ime datoteke @{celice}.\n"
+"  format         \t\tVrne kodo oblikovanja celice.\n"
+"  formulatype    \tEnako kot type.\n"
+"  locked         \t\tVrne 1, če je @{celica} zaklenjena.\n"
+"  parentheses    \tVrne 1, če vsebuje @{celica} negativno vrednost\n"
+"                 \t\tin njeno oblikovanje izpiše z narekovaji.\n"
+"  prefix         \t\tVrne znak, ki nakazuje vodoravno\n"
+"                 \t\tporavnavo @{celice}.\n"
+"  prefixcharacter  \tEnako kot prefix.\n"
+"  protect        \t\tVrne 1, če je @{celica} zaklenjena.\n"
+"  row            \t\tVrne število vrstice v @{celici}.\n"
+"  sheetname      \tVrne ime delovnega lista @{celice}.\n"
+"  type           \t\tVrne \"l\", če @{celica} vsebuje niz, \n"
+"                 \t\t\"v\", če vsebuje neko drugo vrednost, in \n"
+"                 \t\t\"b\", če je @{celica} prazna.\n"
+"  value          \t\tVrne vsebino celice v @{celici}.\n"
+"  width          \t\tVrne širino stolpca."
 
 #: ../plugins/fn-info/functions.c:1173
 msgid "EXPRESSION:expression in @{cell} as a string"
@@ -6852,12 +6870,11 @@ msgstr "σ: standardni odklon normalne porazdelitve"
 
 #: ../plugins/fn-random/functions.c:795
 msgid "The method is based on Marsaglia's famous rectangle-wedge-tail algorithm (Ann Math Stat 32, 894-899 (1961)), with this aspect explained in Knuth, v2, 3rd ed, p139, 586 (exercise 11)."
-msgstr "Način je zasnovan na Marsagliajevem algoritmu 'pravokotnik-klin-rep' (Ann Math Stat 32, 894-899 (1961)), z razlago, kot jo podaja Knuth, v2, 3. izdaja, strani 139, 586 (vaja 11)."
+msgstr "Ta metoda temelji na Marsagliovem algoritmu 'pravokotnik-klin-rep' (Ann Math Stat 32, 894-899 (1961)), pri čemer je ta vidik razložen v Knuth, v2, 3. izdaja, str.139, 586 (vaja 11)."
 
 #: ../plugins/fn-random/functions.c:816
-#, fuzzy
 msgid "SIMTABLE:one of the values in the given argument list depending on the round number of the simulation tool"
-msgstr "SIMTABLE: ena izmed vrednosti na podanem seznamu argumentov je odvisna od zaokrožene številke orodja simulacije"
+msgstr "SIMTABLE: ena izmed vrednosti na podanem seznamu argumentov, odvisna od zaokrožene številke orodja simulacije"
 
 #: ../plugins/fn-random/functions.c:818
 msgid "d1:first value"
@@ -6868,15 +6885,14 @@ msgid "d2:second value"
 msgstr "d2: druga vrednost"
 
 #: ../plugins/fn-random/functions.c:820
-#, fuzzy
 msgid ""
 "SIMTABLE returns one of the values in the given argument list depending on the round number of the simulation tool. When the simulation tool is not activated, SIMTABLE returns @{d1}.\n"
 "With the simulation tool and the SIMTABLE function you can test given decision variables. Each SIMTABLE function contains the possible values of a simulation variable. In most valid simulation models you should have the same number of values @{dN} for all decision variables.  If the simulation is run more rounds than there are values defined, SIMTABLE returns #N/A! error (e.g. if A1 contains `=SIMTABLE(1)' and A2 `=SIMTABLE(1,2)', A1 yields #N/A! error on the second round).\n"
 "The successive use of the simulation tool also requires that you give to the tool at least one input variable having RAND() or any other RAND<distribution name>() function in it. On each round, the simulation tool iterates for the given number of rounds over all the input variables to reevaluate them. On each iteration, the values of the output variables are stored, and when the round is completed, descriptive statistical information is created according to the values."
 msgstr ""
-"Funkcija SIMTABLE vrne eno izmed vrednosti na podanem seznamu argumentov odvisno od zaokrožene številke orodja simulacije. Kadar orodje za simulacijo ni omogočeno, funkcija SIMTABLE vrne @{d1}.\n"
-"Z orodjem za simulacijo in funkcijo SIMTABLE je mogoče preiskusiti podane spremenljivke odločanja. Vsaka funkcija SIMTABLE vsebuje možne vrednosti simulirane spremenljivke. In most valid simulation models you should have the same number of values @{dN} for all decision variables.  If the simulation is run more rounds than there are values defined, SIMTABLE returns #N/A! error (e.g. if A1 contains `=SIMTABLE(1)' and A2 `=SIMTABLE(1,2)', A1 yields #N/A! error on the second round).\n"
-"The successive use of the simulation tool also requires that you give to the tool at least one input variable having RAND() or any other RAND<distribution name>() function in it. On each round, the simulation tool iterates for the given number of rounds over all the input variables to reevaluate them. On each iteration, the values of the output variables are stored, and when the round is completed, descriptive statistical information is created according to the values."
+"Funkcija SIMTABLE vrne eno izmed vrednosti na podanem seznamu argumentov, odvisno od zaokrožene številke orodja simulacije. Kadar orodje za simulacijo ni omogočeno, funkcija SIMTABLE vrne @{d1}.\n"
+"Z orodjem za simulacijo in funkcijo SIMTABLE je mogoče preizkusiti podane spremenljivke odločanja. Vsaka funkcija SIMTABLE vsebuje možne vrednosti simulirane spremenljivke. V večini veljavnih modelov simulacije mora biti število vrednosti @{dN} enako pri vseh spremenljivkah odločanja.  Če simulacija poteka več krogov, kot je določenih vrednosti, funkcija SIMTABLE vrne napako #N/A! (npr. če A1 vsebuje `=SIMTABLE(1)' in A2 `=SIMTABLE(1,2)', A1 vrne napako #N/A! v drugem krogu).\n"
+"Zaporedna uporaba orodja za simulacijo zahteva tudi, da orodju podate najmanj eno vhodno spremenljivko, ki vsebuje RAND() ali poljubno drugo funkcijo RAND<ime porazdelitve>(). V vsakem krogu orodje za simulacijo ponavlja podano število krogov po vseh vhodnih spremenljivkah, da jih ponovno oceni. Z vsako ponovitvijo so vrednosti izhodnih spremenljivk shranjene in ko je krog zaključen, se glede na vrednosti ustvarijo ustrezni opisni statistični podatki."
 
 #: ../plugins/fn-random/functions.c:884
 msgid "RANDSNORM:random variate from a skew-normal distribution"
@@ -6896,7 +6912,7 @@ msgstr "𝜔: parameter velikosti nesimetrične normalne porazdelitve, privzeto 
 
 #: ../plugins/fn-random/functions.c:891
 msgid "The random variates are drawn from a skew-normal distribution with shape parameter @{𝛼}. When @{𝛼}=0, the skewness vanishes, and we obtain the standard normal density; as 𝛼 increases (in absolute value), the skewness of the distribution increases; when @{𝛼} approaches infinity  the density converges to the so-called half-normal (or folded normal) density function; if the sign of @{𝛼} changes, the density is reflected on the opposite side of the vertical axis."
-msgstr ""
+msgstr "Vrednosti naključne spremenljivke so pridobljene iz nesimetrične normalne porazdelitve s parametrom oblike @{𝛼}. Ko je @{𝛼}=0, nesimetričnost izgine in dobimo standardno normalno gostoto verjetnosti; ko se (absolutna vrednost) 𝛼 poveča, se poveča tudi nesimetričnost porazdelitve; ko se @{𝛼} približuje neskončnosti, gostota verjetnosti konvergira k tako imenovani polnormalni funkciji (ali prepognjene normalne) porazdelitve; če se predznak @{𝛼} spremeni, se gostota verjetnosti odrazi na nasprotni strani navpične osi."
 
 #: ../plugins/fn-random/functions.c:901
 msgid "The mean of a skew-normal distribution with location parameter @{𝜉}=0 is not 0."
@@ -8128,6 +8144,13 @@ msgid ""
 "CF = the number of data points below the median interval\n"
 "F = the number of data points in the median interval"
 msgstr ""
+"Podatki so predvidoma razdeljeni v skupine po intervalih širine @{interval}. Vsaka podatkovna točka v @{podatkovnem polju} je sredinska točka intervala, ki vsebuje dejansko vrednost. Mediana se izračuna z interpolacijo v intervalu mediane (intervalu, ki vsebuje vrednost mediane), pri čemer se privzame, da so dejanske vrednosti v tem intervalu porazdeljene enakomerno:\n"
+"mediana = L + @{interval}*(N/2 - CF)/F\n"
+"kjer predstavlja:\n"
+"L = spodnja meja intervala mediane\n"
+"N = skupno število podatkovnih točk\n"
+"CF = število podatkovnih točk pod intervalom mediane\n"
+"F = število podatkovnih točk v intervalu mediane"
 
 #: ../plugins/fn-stat/functions.c:2098
 #: ../plugins/fn-stat/functions.c:2771
@@ -8515,16 +8538,15 @@ msgstr "znane_vrednosti_x: polje vrednosti neodvisne spremenljivke, privzeto dol
 #: ../plugins/fn-stat/functions.c:3765
 #: ../plugins/fn-stat/functions.c:3864
 msgid "affine:if true, the model contains a constant term, defaults to true"
-msgstr ""
+msgstr "afino: če je logično PRAV, model vsebuje konstanto; privzeto je logično PRAV"
 
 #: ../plugins/fn-stat/functions.c:3311
 msgid "stats:if true, some additional statistics are provided, defaults to false"
 msgstr "statistika: izbrana možnost omogoči podrobnejši izpis statistike; privzeto je NAPAK"
 
 #: ../plugins/fn-stat/functions.c:3312
-#, fuzzy
 msgid "This function returns an array with the first row giving the regression coefficients for the independent variables x_m, x_(m-1),…,x_2, x_1 followed by the y-intercept if @{affine} is true."
-msgstr "Funkcija vrne podatkovno polje, katerega prva vrstica podaja regresijske koeficiente neodvisnih spremenljivk x_m, x_(m-1), …, x_2, x_1, sledi pa točka sekanja osi y, v kolikor je možnost @{afina} logični PRAV."
+msgstr "Funkcija vrne podatkovno polje, katerega prva vrstica podaja regresijske koeficiente neodvisnih spremenljivk x_m, x_(m-1), …, x_2, x_1, sledi pa presečišče z osi y, če je @{afino} logično PRAV."
 
 #: ../plugins/fn-stat/functions.c:3315
 msgid "If @{stats} is true, the second row contains the corresponding standard errors of the regression coefficients.In this case, the third row contains the R^2 value and the standard error for the predicted value. The fourth row contains the observed F value and its degrees of freedom. Finally, the fifth row contains the regression sum of squares and the residual sum of squares."
@@ -8532,7 +8554,7 @@ msgstr "V primeru, da je argument @{statistike} izbran, druga vrstica vsebuje us
 
 #: ../plugins/fn-stat/functions.c:3322
 msgid "If @{affine} is false, R^2 is the uncentered version of the coefficient of determination; that is the proportion of the sum of squares explained by the model."
-msgstr ""
+msgstr "Če je @{afino} logično NAPAK, je R^2 nesredinjena različica koeficienta determinacije;  to je sorazmerje vsote kvadratov, ki ga model razloži."
 
 #: ../plugins/fn-stat/functions.c:3325
 #: ../plugins/fn-stat/functions.c:3620
@@ -8807,7 +8829,7 @@ msgstr "EXPPOWDIST: funkcija gostote verjetnosti potenčne porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:4498
 msgid "This distribution has been recommended for lifetime analysis when a U-shaped hazard function is desired. This corresponds to rapid failure once the product starts to wear out after a period of steady or even improving reliability."
-msgstr ""
+msgstr "Porazdelitev je priporočena za analizo preživetja, ko ima zaželena funkcija ogroženosti obliko črke U. To ustreza naglemu propadanju, ko se izdelek začne obrabljati po obdobju nespremenljive ali celo vedno boljše zanesljivosti.   "
 
 #: ../plugins/fn-stat/functions.c:4526
 msgid "LAPLACE:probability density function of the Laplace distribution"
