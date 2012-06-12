@@ -67,36 +67,31 @@ wilcoxon_mann_whitney_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy
 						 GenericToolState *state)
 {
         GnmValue *input_range;
+        GnmValue *input_range_2;
+	gboolean input_1_ready  = FALSE;
+	gboolean input_2_ready  = FALSE;
 
-	/* Checking Input Range */
+	/* Checking Input Ranges */
         input_range = gnm_expr_entry_parse_as_value (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
-	if (input_range == NULL) {
+	input_range_2 = gnm_expr_entry_parse_as_value
+		(GNM_EXPR_ENTRY (state->input_entry_2), state->sheet);
+
+	input_1_ready = (input_range != NULL);
+	input_2_ready = ((state->input_entry_2 == NULL) || (input_range_2 != NULL));
+        value_release (input_range);
+        value_release (input_range_2);
+
+	if (!input_1_ready) {
 		gtk_label_set_text (GTK_LABEL (state->warning),
-				    _("The input range is invalid."));
+				    _("The input range for variable 1 is invalid."));
 		gtk_widget_set_sensitive (state->ok_button, FALSE);
 		return;
-	} else {
-		GnmRangeRef const *rr = value_get_rangeref (input_range);
-		guint len = 0;
-		GnmRange r;
-
-		if (rr != NULL) {
-			group_by_t group_by
-				= gnm_gui_group_value
-				(state->gui, grouped_by_group);
-			range_init_rangeref (&r, rr);
-			len = (group_by == GROUPED_BY_ROW)
-				? range_height (&r) : range_width (&r);
-		}
-
-		value_release (input_range);
-		if (len != 2) {
-			gtk_label_set_text (GTK_LABEL (state->warning),
-					    _("The input range should consists of 2 groups."));
-			gtk_widget_set_sensitive (state->ok_button, FALSE);
-			return;
-		}
+	} else if (!input_2_ready) {
+		gtk_label_set_text (GTK_LABEL (state->warning),
+				    _("The input range for variable 2 is invalid."));
+		gtk_widget_set_sensitive (state->ok_button, FALSE);
+		return;		
 	}
 
 	/* Checking Output Page */
@@ -125,19 +120,23 @@ wilcoxon_mann_whitney_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			GenericToolState *state)
 {
 	data_analysis_output_t  *dao;
-	analysis_tools_data_generic_t  *data;
+	analysis_tools_data_generic_b_t  *data;
 
  	GtkWidget *w;
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);
 
-	data = g_new0 (analysis_tools_data_generic_t, 1);
+	data = g_new0 (analysis_tools_data_generic_b_t, 1);
 	dao  = parse_output (state, NULL);
 
-	data->input = gnm_expr_entry_parse_as_list (
-		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
-	data->group_by = gnm_gui_group_value (state->gui, grouped_by_group);
+	data->wbc = WORKBOOK_CONTROL (state->wbcg);
+
+	data->range_1 = gnm_expr_entry_parse_as_value
+		(GNM_EXPR_ENTRY (state->input_entry), state->sheet);
+
+	data->range_2 =  gnm_expr_entry_parse_as_value
+		(GNM_EXPR_ENTRY (state->input_entry_2), state->sheet);
 
 	w = go_gtk_builder_get_widget (state->gui, "labels_button");
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -148,8 +147,7 @@ wilcoxon_mann_whitney_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		char   *text;
 		text = g_strdup_printf (
 			_("An unexpected error has occurred."));
-		error_in_entry ((GenericToolState *) state,
-				GTK_WIDGET (state->input_entry), text);
+		error_in_entry (state, GTK_WIDGET (state->input_entry), text);
 		g_free (text);
 	} else
 		gtk_widget_destroy (state->dialog);
@@ -194,13 +192,6 @@ dialog_wilcoxon_m_w_tool (WBCGtk *wbcg, Sheet *sheet)
 			      G_CALLBACK (wilcoxon_mann_whitney_tool_update_sensitivity_cb),
 			      GNM_EE_SINGLE_RANGE))
 		return 0;
-
-	g_signal_connect_after
-		(G_OBJECT (go_gtk_builder_get_widget
-			   (state->gui,
-			    "grouped_by_row")), "toggled",
-		 G_CALLBACK (wilcoxon_mann_whitney_tool_update_sensitivity_cb),
-		 state);
 
 	gnm_dao_set_put (GNM_DAO (state->gdao), TRUE, TRUE);
 	wilcoxon_mann_whitney_tool_update_sensitivity_cb (NULL, state);

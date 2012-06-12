@@ -1,5 +1,13 @@
 2012-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* wilcoxon-mann-whitney.ui: use two input entries
+	* dialog-analysis-tool-wilcoxon-mann-whitney.c (dialog_wilcoxon_m_w_tool):
+	adjust to two input fields
+	(wilcoxon_mann_whitney_tool_ok_clicked_cb): ditto
+	(wilcoxon_mann_whitney_tool_update_sensitivity_cb): ditto
+
+2012-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-analysis-tool-one-mean.c: we are not using Gnumeric_fninfo
 
 2012-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>

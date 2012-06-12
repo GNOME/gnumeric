@@ -1,3 +1,10 @@
+2012-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-wilcoxon-mann-whitney.c (analysis_tool_combine_area): new
+	(analysis_tool_wilcoxon_mann_whitney_engine_run): adjust to use
+	analysis_tools_data_generic_b_t
+	(analysis_tool_wilcoxon_mann_whitney_engine): ditto
+
 2012-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-one-mean-test.c: new

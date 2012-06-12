@@ -34,9 +34,62 @@
 #include "func.h"
 #include "numbers.h"
 
+static
+GnmExpr const *analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Workbook *wb)
+{
+	GnmFunc *fd_array;
+	GnmExpr const *expr;
+
+	if (val_1->type == VALUE_CELLRANGE && val_2->type == VALUE_CELLRANGE &&
+	    val_1->v_range.cell.a.sheet == val_2->v_range.cell.a.sheet) {
+		GnmRange r_1, r_2;
+		gboolean combined = FALSE;
+
+		range_init_rangeref (&r_1, &val_1->v_range.cell);
+		range_init_rangeref (&r_2, &val_2->v_range.cell);
+		
+		if (r_1.start.row == r_2.start.row &&
+		    range_height (&r_1) == range_height (&r_2)) {
+			if (r_1.end.col == r_2.start.col - 1) {
+				combined = TRUE;
+				r_1.end.col = r_2.end.col;
+			} else if (r_2.end.col == r_1.start.col - 1) {
+				combined = TRUE;
+				r_1.start.col = r_2.start.col;
+			} 
+		} else if (r_1.start.col == r_2.start.col &&
+			   range_width (&r_1) == range_width (&r_2)) {
+			if (r_1.end.row == r_2.start.row - 1) {
+				combined = TRUE;
+				r_1.end.row = r_2.end.row;
+			} else if (r_2.end.row == r_1.start.row - 1) {
+				combined = TRUE;
+				r_1.start.row = r_2.start.row;
+			} 			
+		}
+
+		if (combined) {
+			GnmValue *val = value_new_cellrange_r (val_1->v_range.cell.a.sheet, &r_1);
+			return gnm_expr_new_constant (val);
+		}
+	}
+	
+	fd_array = gnm_func_lookup_or_add_placeholder
+		("ARRAY", wb, FALSE);
+	gnm_func_ref (fd_array);
+
+	expr = gnm_expr_new_funcall2 (fd_array, 
+				      gnm_expr_new_constant (value_dup (val_1)),
+				      gnm_expr_new_constant (value_dup (val_2)));
+
+	gnm_func_unref (fd_array);
+	
+	return expr;
+}
+
 static gboolean
 analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
-				      analysis_tools_data_generic_t *info)
+				      analysis_tools_data_generic_b_t *info)
 {
 	GnmFunc *fd_count;
 	GnmFunc *fd_sum;
@@ -55,43 +108,31 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_u;
 	GnmExpr const *expr_count_total;
 
-	GnmValue *total_pop = value_dup (info->input->data);
+	GnmValue *val_1 = value_dup (info->range_1);
+	GnmValue *val_2 = value_dup (info->range_2);
+	Workbook *wb = dao->sheet ? dao->sheet->workbook : NULL;
 
-	GSList *input = g_slist_append (NULL, value_dup (info->input->data));
-
-	prepare_input_range (&input, info->group_by);
-
-	fd_count = gnm_func_lookup_or_add_placeholder
-		("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", wb, FALSE);
 	gnm_func_ref (fd_count);
-	fd_sum = gnm_func_lookup_or_add_placeholder
-		("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", wb, FALSE);
 	gnm_func_ref (fd_sum);
-	fd_rows = gnm_func_lookup_or_add_placeholder
-		("ROWS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_rows = gnm_func_lookup_or_add_placeholder ("ROWS", wb, FALSE);
 	gnm_func_ref (fd_rows);
-	fd_rank_avg = gnm_func_lookup_or_add_placeholder
-		("RANK.AVG", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_rank_avg = gnm_func_lookup_or_add_placeholder ("RANK.AVG", wb, FALSE);
 	gnm_func_ref (fd_rank_avg);
-	fd_rank = gnm_func_lookup_or_add_placeholder
-		("RANK", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_rank = gnm_func_lookup_or_add_placeholder ("RANK", wb, FALSE);
 	gnm_func_ref (fd_rank);
-	fd_min = gnm_func_lookup_or_add_placeholder
-		("MIN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_min = gnm_func_lookup_or_add_placeholder ("MIN", wb, FALSE);
 	gnm_func_ref (fd_min);
-	fd_normdist = gnm_func_lookup_or_add_placeholder
-		("NORMDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_normdist = gnm_func_lookup_or_add_placeholder ("NORMDIST", wb, FALSE);
 	gnm_func_ref (fd_normdist);
-	fd_sqrt = gnm_func_lookup_or_add_placeholder
-		("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", wb, FALSE);
 	gnm_func_ref (fd_sqrt);
-	fd_if = gnm_func_lookup_or_add_placeholder
-		("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF", wb, FALSE);
 	gnm_func_ref (fd_if);
-	fd_isblank = gnm_func_lookup_or_add_placeholder
-		("ISBLANK", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_isblank = gnm_func_lookup_or_add_placeholder ("ISBLANK", wb, FALSE);
 	gnm_func_ref (fd_isblank);
-
+	
 	dao_set_italic (dao, 0, 0, 0, 8);
 	dao_set_italic (dao, 0, 1, 3, 1);
 	dao_set_merge (dao, 0, 0, 3, 0);
@@ -105,18 +146,13 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 					"/p-Value"));
 	dao_set_cell (dao, 3, 1, _("Total"));
 
-	analysis_tools_remove_label (total_pop, info->labels, info->group_by);
-	expr_total = gnm_expr_new_constant (total_pop);
-	analysis_tools_write_a_label (input->data, dao,
-				      info->labels, info->group_by,
-				      1, 1);
-	expr_pop_1 = gnm_expr_new_constant (input->data);
-	analysis_tools_write_a_label (input->next->data, dao,
-				      info->labels, info->group_by,
-				      2, 1);
-	expr_pop_2 = gnm_expr_new_constant (input->next->data);
+	/* Label */
+	analysis_tools_write_label_ftest (val_1, dao, 1, 1, info->labels, 1);
+	analysis_tools_write_label_ftest (val_2, dao, 2, 1, info->labels, 2);
 
-	g_slist_free (input);
+	expr_total = analysis_tool_combine_area (val_1, val_2, wb);
+	expr_pop_1 = gnm_expr_new_constant (val_1);
+	expr_pop_2 = gnm_expr_new_constant (val_2);
 
 	/* =sum(if(isblank(region1),0,rank.avg(region1,combined_regions,1))) */
 
@@ -320,7 +356,7 @@ analysis_tool_wilcoxon_mann_whitney_engine
 		dao_adjust (dao, 4, 9);
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (specs);
+		return analysis_tool_generic_b_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
