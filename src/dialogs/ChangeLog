@@ -1,3 +1,7 @@
+2012-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-analysis-tool-one-mean.c: we are not using Gnumeric_fninfo
+
 2012-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* one-mean-test.ui: new

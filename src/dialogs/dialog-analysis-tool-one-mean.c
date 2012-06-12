@@ -206,7 +206,6 @@ dialog_one_mean_test_tool (WBCGtk *wbcg, Sheet *sheet)
 	char const * plugins[] = { "Gnumeric_fnstat",
 				   "Gnumeric_fnlogical",
 				   "Gnumeric_fnmath",
-				   "Gnumeric_fninfo",
 				   NULL};
         OneeMeanTestToolState *state;
 
