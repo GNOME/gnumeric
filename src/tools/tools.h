@@ -30,6 +30,8 @@ typedef enum {
 	TOOL_ENGINE_CLEAN_UP
 } analysis_tool_engine_t;
 
+/* Note: when the engine is called with TOOL_ENGINE_CLEAN_UP, the GOCmdContext *gcc will be NULL. */
+
 typedef gboolean (* analysis_tool_engine) (GOCmdContext *gcc,
 					   data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);

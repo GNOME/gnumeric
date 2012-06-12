@@ -5352,14 +5352,13 @@ static void
 cmd_analysis_tool_finalize (GObject *cmd)
 {
 	CmdAnalysis_Tool *me = CMD_ANALYSIS_TOOL (cmd);
-	GOCmdContext *cc = GO_CMD_CONTEXT (me->dao->wbc);
 
 	if (me->col_info)
 		me->col_info = colrow_state_list_destroy (me->col_info);
 	if (me->row_info)
 		me->row_info = colrow_state_list_destroy (me->row_info);
 
-	me->engine (cc, me->dao, me->specs, TOOL_ENGINE_CLEAN_UP, NULL);
+	me->engine (NULL, me->dao, me->specs, TOOL_ENGINE_CLEAN_UP, NULL);
 
 	if (me->specs_owned) {
 		g_free (me->specs);
