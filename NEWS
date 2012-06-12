@@ -21,6 +21,7 @@ Andreas:
 	* Fix TIME and add ODF.TIME. [#676596]
 	* Fix Wilcoxon Mann Whitney Test in the presence of empty cells.
 	* Add single sample t-test.
+	* Fix random generator/new view combination crash. [#677956]
 
 Jean:
 	* Fix graph series headers when a multiple selection is used. [#675913]

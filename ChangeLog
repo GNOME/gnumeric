@@ -1,5 +1,10 @@
 2012-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.c (cmd_analysis_tool_undo): update wbc
+	(cmd_analysis_tool_redo): update wbc
+
+2012-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/commands.c (cmd_analysis_tool_finalize): do not pass a context
 	since the tools don't need it for TOOL_ENGINE_CLEAN_UP and it may not
 	be valid

@@ -506,7 +506,7 @@ void
 command_setup_combos (WorkbookControl *wbc)
 {
 	char const *undo_label = NULL, *redo_label = NULL;
-	GSList *ptr, *tmp, *ignore;
+	GSList *ptr, *tmp;
 	Workbook *wb = wb_control_get_workbook (wbc);
 
 	g_return_if_fail (wb);
@@ -517,7 +517,7 @@ command_setup_combos (WorkbookControl *wbc)
 		undo_label = get_menu_label (ptr);
 		wb_control_undo_redo_push (wbc, TRUE, undo_label, ptr->data);
 	}
-	ignore = g_slist_reverse (tmp);	/* ignore, list is in undo_commands */
+	if (g_slist_reverse (tmp)) {}	/* ignore, list is in undo_commands */
 
 	wb_control_undo_redo_truncate (wbc, 0, FALSE);
 	tmp = g_slist_reverse (wb->redo_commands);
@@ -525,7 +525,7 @@ command_setup_combos (WorkbookControl *wbc)
 		redo_label = get_menu_label (ptr);
 		wb_control_undo_redo_push (wbc, FALSE, redo_label, ptr->data);
 	}
-	ignore = g_slist_reverse (tmp);	/* ignore, list is in redo_commands */
+	if (g_slist_reverse (tmp)) {}	/* ignore, list is in redo_commands */
 
 	/* update the menus too */
 	wb_control_undo_redo_labels (wbc, undo_label, redo_label);
@@ -2223,7 +2223,7 @@ MAKE_GNM_COMMAND (CmdColRowHide, cmd_colrow_hide, cmd_colrow_hide_repeat)
  * compatibile
  **/
 static void
-cmd_colrow_hide_correct_selection (CmdColRowHide *me, WorkbookControl *wbc)
+cmd_colrow_hide_correct_selection (G_GNUC_UNUSED CmdColRowHide *me, G_GNUC_UNUSED WorkbookControl *wbc)
 {
 #if 0
 	int x, y, index;
@@ -3762,7 +3762,7 @@ typedef struct {
 } CmdUnmergeCells;
 
 static void
-cmd_unmerge_cells_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
+cmd_unmerge_cells_repeat (G_GNUC_UNUSED GnmCommand const *cmd, WorkbookControl *wbc)
 {
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	GSList *range_list = selection_get_ranges (sv, FALSE);
@@ -5218,6 +5218,9 @@ cmd_analysis_tool_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
+	/* The old view might not exist anymore */
+	me->dao->wbc = wbc;
+
 	switch (me->type) {
 	case NewSheetOutput:
 		if (!command_undo_sheet_delete (me->dao->sheet))
@@ -5274,6 +5277,9 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	GOCmdContext *cc = GO_CMD_CONTEXT (wbc);
 
 	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* The old view might not exist anymore */
+	me->dao->wbc = wbc;
 
 	if (me->col_info)
 		me->col_info = colrow_state_list_destroy (me->col_info);
@@ -6111,7 +6117,7 @@ cmd_remove_name_undo (GnmCommand *cmd,
 }
 
 static gboolean
-cmd_remove_name_redo (GnmCommand *cmd, WorkbookControl *wbc)
+cmd_remove_name_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdRemoveName *me = CMD_REMOVE_NAME (cmd);
 
@@ -6257,7 +6263,7 @@ typedef struct {
 MAKE_GNM_COMMAND (CmdScenarioAdd, cmd_scenario_add, NULL)
 
 static gboolean
-cmd_scenario_add_redo (GnmCommand *cmd, WorkbookControl *wbc)
+cmd_scenario_add_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdScenarioAdd *me = CMD_SCENARIO_ADD (cmd);
 	GnmScenario *sc = g_object_ref (me->scenario);
@@ -6316,7 +6322,7 @@ typedef struct {
 MAKE_GNM_COMMAND (CmdScenarioMngr, cmd_scenario_mngr, NULL)
 
 static gboolean
-cmd_scenario_mngr_redo (GnmCommand *cmd, WorkbookControl *wbc)
+cmd_scenario_mngr_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdScenarioMngr *me = CMD_SCENARIO_MNGR (cmd);
 	if (!me->undo)
@@ -6379,7 +6385,7 @@ typedef struct {
 MAKE_GNM_COMMAND (CmdDataShuffle, cmd_data_shuffle, NULL)
 
 static gboolean
-cmd_data_shuffle_redo (GnmCommand *cmd, WorkbookControl *wbc)
+cmd_data_shuffle_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdDataShuffle *me = CMD_DATA_SHUFFLE (cmd);
 
@@ -6639,7 +6645,7 @@ cmd_goal_seek_impl (GnmCell *cell, GnmValue *value)
 
 
 static gboolean
-cmd_goal_seek_undo (GnmCommand *cmd, WorkbookControl *wbc)
+cmd_goal_seek_undo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdGoalSeek *me = CMD_GOAL_SEEK (cmd);
 
@@ -6647,7 +6653,7 @@ cmd_goal_seek_undo (GnmCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_goal_seek_redo (GnmCommand *cmd, WorkbookControl *wbc)
+cmd_goal_seek_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdGoalSeek *me = CMD_GOAL_SEEK (cmd);
 
