@@ -2577,8 +2577,6 @@ dialog_cell_format_select_style (WBCGtk *wbcg, gint pages,
 
 	gtk_widget_hide (state->apply_button);
 
-	go_gtk_window_set_transient (GTK_WINDOW (w),
-				     GTK_WINDOW (state->dialog));
-	gtk_window_set_modal (GTK_WINDOW (state->dialog), TRUE);
+	go_gtk_nonmodal_dialog (w, GTK_WINDOW (state->dialog));
 	gtk_widget_show (GTK_WIDGET (state->dialog));
 }
