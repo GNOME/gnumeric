@@ -1,3 +1,7 @@
+2012-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* wilcoxon-mann-whitney.ui: adjust spacing
+
 2012-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-cell-format.c (dialog_cell_format_select_style): use
