@@ -60,7 +60,15 @@ style_color_new_pango (PangoColor const *c)
 GnmColor *
 style_color_new_gdk (GdkRGBA const *c)
 {
-	return style_color_new_i8 (c->red * 255, c->green * 255, c->blue * 255);
+	/*
+	 * The important property here is that a color #rrggbb
+	 * (i.e., an 8-bit color) roundtrips correctly when
+	 * translated into GdkRGBA using /255 and back.  Using
+	 * multiplication by 256 here makes rounding unnecessary.
+	 */
+	return style_color_new_i8 (CLAMP (c->red * 256, 0, 255),
+				   CLAMP (c->green * 256, 0, 255),
+				   CLAMP (c->blue * 256, 0, 255));
 }
 
 GnmColor *

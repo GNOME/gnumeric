@@ -1,3 +1,8 @@
+2012-06-15  Morten Welinder  <terra@gnome.org>
+
+	* src/style-color.c (style_color_new_gdk): Improve roundtrip.
+	[#667484]
+
 2012-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object.c (sheet_objects_clear): filter-combos are not
