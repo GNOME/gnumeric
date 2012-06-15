@@ -2,6 +2,7 @@
 
 	* src/style-color.c (style_color_new_gdk): Improve roundtrip.
 	[#667484]
+	(style_color_new_gdk): Keep alpha.
 
 2012-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

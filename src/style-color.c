@@ -66,9 +66,13 @@ style_color_new_gdk (GdkRGBA const *c)
 	 * translated into GdkRGBA using /255 and back.  Using
 	 * multiplication by 256 here makes rounding unnecessary.
 	 */
-	return style_color_new_i8 (CLAMP (c->red * 256, 0, 255),
-				   CLAMP (c->green * 256, 0, 255),
-				   CLAMP (c->blue * 256, 0, 255));
+
+	guint8 r8 = CLAMP (c->red * 256, 0, 255);
+	guint8 g8 = CLAMP (c->green * 256, 0, 255);
+	guint8 b8 = CLAMP (c->blue * 256, 0, 255);
+	guint8 a8 = CLAMP (c->alpha * 256, 0, 255);
+
+	return style_color_new_go (GO_COLOR_FROM_RGBA (r8, g8, b8, a8));
 }
 
 GnmColor *
