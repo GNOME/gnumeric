@@ -34,6 +34,7 @@
 #include "sheet-object-widget.h"
 #include "sheet-object-graph.h"
 #include "sheet-object-image.h"
+#include "sheet-filter-combo.h"
 #include "wbc-gtk-impl.h"
 #include "graph.h"
 #include "print.h"
@@ -356,7 +357,7 @@ sheet_object_init (GObject *object)
 }
 
 static void
-so_default_size (SheetObject const *so, double *width, double *height)
+so_default_size (G_GNUC_UNUSED SheetObject const *so, double *width, double *height)
 {
 	/* Provide some defaults (derived classes may want to override) */
 	*width  = 72.;
@@ -584,7 +585,7 @@ sheet_object_clear_sheet (SheetObject *so)
 }
 
 static void
-cb_sheet_object_invalidate_sheet (GnmDependent *dep, SheetObject *so, gpointer user)
+cb_sheet_object_invalidate_sheet (GnmDependent *dep, G_GNUC_UNUSED SheetObject *so, gpointer user)
 {
 	Sheet *sheet = user;
 	GnmExprRelocateInfo rinfo;
@@ -894,15 +895,15 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 {
 	GSList   *ptr, *next;
 	GnmRange	 dest;
-	gboolean clear, change_sheets;
+	gboolean change_sheets;
 
 	g_return_if_fail (rinfo != NULL);
 	g_return_if_fail (IS_SHEET (rinfo->origin_sheet));
 	g_return_if_fail (IS_SHEET (rinfo->target_sheet));
 
 	dest = rinfo->origin;
-	clear = range_translate (&dest, rinfo->target_sheet,
-				 rinfo->col_offset, rinfo->row_offset);
+	range_translate (&dest, rinfo->target_sheet,
+			 rinfo->col_offset, rinfo->row_offset);
 	change_sheets = (rinfo->origin_sheet != rinfo->target_sheet);
 
 	/* Clear the destination range on the target sheet */
@@ -1005,7 +1006,8 @@ sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t,
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = next ) {
 		GObject *obj = G_OBJECT (ptr->data);
 		next = ptr->next;
-		if (t == G_TYPE_NONE || t == G_OBJECT_TYPE (obj)) {
+		if ((t == G_TYPE_NONE && G_OBJECT_TYPE (obj) != GNM_FILTER_COMBO_TYPE) 
+		    || t == G_OBJECT_TYPE (obj)) {
 			SheetObject *so = SHEET_OBJECT (obj);
 			if (r == NULL || range_contained (&so->anchor.cell_bound, r))
 				clear_sheet (so, pundo);
@@ -1126,7 +1128,7 @@ sheet_object_direction_set (SheetObject *so, gdouble const *coords)
  * Return Value:
  **/
 gboolean
-sheet_object_rubber_band_directly (SheetObject const *so)
+sheet_object_rubber_band_directly (G_GNUC_UNUSED SheetObject const *so)
 {
 	return FALSE;
 }
@@ -1433,6 +1435,7 @@ sheet_object_imageable_get_type (void)
 			sizeof (SheetObjectImageableIface), /* class_size */
 			NULL,				/* base_init */
 			NULL,				/* base_finalize */
+			NULL, NULL, NULL, 0, 0, NULL, NULL
 		};
 
 		type = g_type_register_static (G_TYPE_INTERFACE,
@@ -1476,6 +1479,7 @@ sheet_object_exportable_get_type (void)
 			sizeof (SheetObjectExportableIface), /* class_size */
 			NULL,				/* base_init */
 			NULL,				/* base_finalize */
+			NULL, NULL, NULL, 0, 0, NULL, NULL
 		};
 
 		type = g_type_register_static (G_TYPE_INTERFACE,

@@ -1,3 +1,8 @@
+2012-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object.c (sheet_objects_clear): filter-combos are not
+	included in "all objects"
+
 2012-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_analysis_tool_undo): update wbc

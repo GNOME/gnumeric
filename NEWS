@@ -24,6 +24,7 @@ Andreas:
 	* Fix random generator/new view combination crash. [#677956]
 	* Improve Mann-Whitney test to allow for two separate data ranges.
 	* Fix custom colour combos for conditional format selection. [#677967]
+	* Fix cell-clearing/autofilter interaction. [#674814]
 
 Jean:
 	* Fix graph series headers when a multiple selection is used. [#675913]
