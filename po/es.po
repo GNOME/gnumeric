@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-12 20:49+0000\n"
-"PO-Revision-Date: 2012-06-13 13:46+0200\n"
+"POT-Creation-Date: 2012-06-15 06:22+0000\n"
+"PO-Revision-Date: 2012-06-16 19:44+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -199,8 +199,8 @@ msgstr "Atributo inesperado %s::%s == «%s»."
 #, c-format
 msgid "Invalid content of ss:data element, expected number, received '%s'"
 msgstr ""
-"Contenido no válido del elemento «ss:data», se esperaba un número, se recibió "
-"«%s»"
+"Contenido no válido del elemento «ss:data», se esperaba un número, se "
+"recibió «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:510
 #, c-format
@@ -330,8 +330,8 @@ msgstr "Función rota"
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
-"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d no "
-"%d"
+"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d "
+"no %d"
 
 #: ../plugins/excel/plugin.xml.in.h:1
 msgid "MS Excel (tm)"
@@ -596,8 +596,8 @@ msgstr "Falló al encontrar la función «%s» en XLL/DLL/SO %s .\n"
 msgid ""
 "Excel plugin loader / xlfRegister: at least three XLOPER arguments must be "
 "provided (DLL name[ignored],exported name[mandatory],types string"
-"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file %"
-"s."
+"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file "
+"%s."
 msgstr ""
 "Cargador del complemento para Excel / xlfRegister: se deben proporcionar al "
 "menos tres argumentos XLOPER (nombre DLL [ignorado],nombre exportado "
@@ -1341,7 +1341,8 @@ msgstr "Atributo «%s» no válido, se esperaba un número, se ha recibido «%s
 #: ../plugins/openoffice/openoffice-read.c:681
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
-msgstr "Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
+msgstr ""
+"Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:703
 #, c-format
@@ -1400,7 +1401,8 @@ msgstr "Atributo «%s» no válido, unidad «%s» desconocida"
 #: ../plugins/openoffice/openoffice-read.c:1073
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
-msgstr "Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
+msgstr ""
+"Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:1150
 #, c-format
@@ -1454,8 +1456,8 @@ msgstr "%s_EN_ARCHIVO_CORRUPTO"
 #: ../plugins/openoffice/openoffice-read.c:2169
 #, c-format
 msgid ""
-"This file is corrupted with a duplicate sheet name \"%s\", now renamed to \"%"
-"s\"."
+"This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
+"\"%s\"."
 msgstr ""
 "Este archivo está corrupto con un nombre de hoja duplicado «%s», se renombró "
 "a «%s»."
@@ -1721,7 +1723,8 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:7355
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr "Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
+msgstr ""
+"Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:7321
 #, c-format
@@ -1905,11 +1908,11 @@ msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
 "Field %d in line %d has possibly been cut off. Data has %d characters."
 msgstr[0] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
-"d' caracter."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
+"'%d' caracter."
 msgstr[1] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
-"d' caracteres."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
+"'%d' caracteres."
 
 #: ../plugins/paradox/paradox.c:550
 #, c-format
@@ -5091,12 +5094,10 @@ msgid "Could not create the Sign Test Tool dialog."
 msgstr "No se pudo crear el diálogo de la herramienta de prueba de signo."
 
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:87
-#| msgid "The input variable range is invalid."
 msgid "The input range for variable 1 is invalid."
 msgstr "El rango de entrada para la variable 1 no es válido."
 
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:92
-#| msgid "The input variable range is invalid."
 msgid "The input range for variable 2 is invalid."
 msgstr "El rango de entrada para la variable 2 no es válido."
 
@@ -6502,7 +6503,7 @@ msgstr "Servicios del complemento"
 
 #: ../src/dialogs/dialog-plugin-manager.c:489
 msgid "Errors while activating plugins"
-msgstr "Errores al activar los complementos"
+msgstr "Errores al activar complementos"
 
 #: ../src/dialogs/dialog-plugin-manager.c:587
 msgid ""
@@ -6556,7 +6557,7 @@ msgstr "Directorio"
 
 #: ../src/dialogs/dialog-preferences.c:741
 msgid "Length of Undo Descriptors"
-msgstr "Longitud de los descriptores de deshacer"
+msgstr "Longitud de descriptores de deshacer"
 
 #: ../src/dialogs/dialog-preferences.c:789
 msgid "Sorting is Case-Sensitive"
@@ -6573,7 +6574,7 @@ msgstr "Número predeterminado de columnas en una hoja"
 #: ../src/dialogs/dialog-preferences.c:860
 msgid "By default, mark cells with spreadsheet functions"
 msgstr ""
-"De forma predeterminada, marca las celdas con funciones de hoja de cálculo"
+"De forma predeterminada, marca las celdas con funciones de la hoja de cálculo"
 
 #: ../src/dialogs/dialog-preferences.c:865
 msgid "By default, mark cells with truncated content"
@@ -6584,14 +6585,14 @@ msgid "Default autosave frequency in seconds"
 msgstr "Frecuencia de autoguardado predeterminada en segundos"
 
 #: ../src/dialogs/dialog-preferences.c:972
-#, fuzzy
 msgid "Disable Extension Check for Configurable Text Exporter"
 msgstr ""
-"Desactiva la Extensión para revisar el Exportador de texto configurable"
+"Desactivar la verificación de extensión para el exportador de texto "
+"configurable"
 
 #: ../src/dialogs/dialog-preferences.c:1024
 msgid "Enter _Moves Selection"
-msgstr "Pulsar Retorno _mueve la selección"
+msgstr "Pulsar «Intro» _mueve la selección"
 
 #: ../src/dialogs/dialog-preferences.c:1085
 msgid "Prefer CLIPBOARD Over PRIMARY Selection"
@@ -6599,27 +6600,27 @@ msgstr "Preferir PORTAPAPELES sobre selección PRIMARIA"
 
 #: ../src/dialogs/dialog-preferences.c:1110
 msgid "Capitalize _names of days"
-msgstr "Pasar a mayúsculas los _nombres de los días"
+msgstr "Pasar a mayúsculas _nombres de los días"
 
 #: ../src/dialogs/dialog-preferences.c:1133
 msgid "Correct _TWo INitial CApitals"
-msgstr "Corrige _DOs INiciales MAyúsculas"
+msgstr "Corregir _DOs MAyúsculas INiciales"
 
 #: ../src/dialogs/dialog-preferences.c:1137
 msgid "Do _not correct:"
-msgstr "_No coregir:"
+msgstr "_No corregir:"
 
 #: ../src/dialogs/dialog-preferences.c:1160
 msgid "Capitalize _first letter of sentence"
-msgstr "Pasar a mayúscula la _primera letra de una frase"
+msgstr "Escribir con mayúscula la _primera letra de la oración"
 
 #: ../src/dialogs/dialog-preferences.c:1164
 msgid "Do _not capitalize after:"
-msgstr "_No usar mayúsculas después:"
+msgstr "_No escribir en mayúsculas después:"
 
 #: ../src/dialogs/dialog-preferences.c:1186
 msgid "Auto Correct"
-msgstr "Corrección automática"
+msgstr "Autocorrección"
 
 #: ../src/dialogs/dialog-preferences.c:1187
 #: ../src/dialogs/cell-format-cond.ui.h:7 ../src/dialogs/cell-format.ui.h:28
@@ -6645,7 +6646,7 @@ msgstr "Ventanas"
 
 #: ../src/dialogs/dialog-preferences.c:1192
 msgid "Header/Footer"
-msgstr "Encabezados/pie de página"
+msgstr "Encabezado/pie de página"
 
 #: ../src/dialogs/dialog-preferences.c:1194
 msgid "Copy and Paste"
@@ -6692,10 +6693,8 @@ msgid "Custom time format"
 msgstr "Formato de hora personalizado"
 
 #: ../src/dialogs/dialog-printer-setup.c:1668
-#, fuzzy
-#| msgid "$A$1 (first cell of this worksheet)"
 msgid "A1 (first cell of the page area)"
-msgstr "$A$1 (primera celda de esta hoja de trabajo)"
+msgstr "A1 (primera celda del área de la página)"
 
 #: ../src/dialogs/dialog-printer-setup.c:1675
 msgid "$A$1 (first cell of this worksheet)"
@@ -6703,11 +6702,11 @@ msgstr "$A$1 (primera celda de esta hoja de trabajo)"
 
 #: ../src/dialogs/dialog-printer-setup.c:1682
 msgid "First Printed Cell Of The Page"
-msgstr "La primera celda imprimida de la página"
+msgstr "Primera celda impresa de la página"
 
 #: ../src/dialogs/dialog-printer-setup.c:1744
 msgid "Custom header configuration"
-msgstr "Configuración de cabezal personalizado"
+msgstr "Configuración de encabezado personalizado"
 
 #: ../src/dialogs/dialog-printer-setup.c:1749
 msgid "Custom footer configuration"
@@ -6723,23 +6722,19 @@ msgstr "Selección del formato de hora"
 
 #: ../src/dialogs/dialog-printer-setup.c:2190
 msgid "Print as displayed"
-msgstr "Imprimir este archivo como se ve"
+msgstr "Imprimir como se muestra"
 
 #: ../src/dialogs/dialog-printer-setup.c:2191
-#, fuzzy
-#| msgid "Print filenames with matches"
 msgid "Print as spaces"
-msgstr "Imprimir los nombres de archivo con coincidencias"
+msgstr "Imprimir como espacios"
 
 #: ../src/dialogs/dialog-printer-setup.c:2192
-#, fuzzy
-#| msgid "Print filenames with matches"
 msgid "Print as dashes"
-msgstr "Imprimir los nombres de archivo con coincidencias"
+msgstr "Imprimir como guiones"
 
 #: ../src/dialogs/dialog-printer-setup.c:2193
 msgid "Print as #N/A"
-msgstr ""
+msgstr "Imprimir como #N/A"
 
 #: ../src/dialogs/dialog-printer-setup.c:2226
 #: ../src/dialogs/sheetobject-size.ui.h:14
@@ -6748,13 +6743,11 @@ msgstr "No imprimir"
 
 #: ../src/dialogs/dialog-printer-setup.c:2227
 msgid "Print in place"
-msgstr "_Filtro en el lugar"
+msgstr "Imprimir en lugar"
 
 #: ../src/dialogs/dialog-printer-setup.c:2228
-#, fuzzy
-#| msgid "Print the current file"
 msgid "Print at end"
-msgstr "Imprimir este archivo"
+msgstr "Imprimir al final"
 
 #: ../src/dialogs/dialog-printer-setup.c:2407
 #, c-format
@@ -6769,7 +6762,7 @@ msgstr "%.0f puntos de ancho por %.0f puntos de alto"
 #: ../src/dialogs/dialog-printer-setup.c:2413
 #, c-format
 msgid "%.1f in wide by %.1f in tall"
-msgstr "%.1f pulgadas de ancho por %.1f pulgadas de alto"
+msgstr "%.1f de ancho por %.1f de alto"
 
 #: ../src/dialogs/dialog-printer-setup.c:2416
 #, c-format
@@ -6791,8 +6784,6 @@ msgstr ""
 "<small>Ubicación: %s</small>"
 
 #: ../src/dialogs/dialog-quit.c:118
-#, fuzzy
-#| msgid "Unknown"
 msgid "unknown"
 msgstr "Desconocido"
 
@@ -6811,10 +6802,8 @@ msgstr[0] "%d minuto"
 msgstr[1] "%d minutos"
 
 #: ../src/dialogs/dialog-quit.c:129
-#, fuzzy
-#| msgid "Max time:"
 msgid "a long time"
-msgstr "Tiempo máximo:"
+msgstr "un largo tiempo"
 
 #: ../src/dialogs/dialog-random-generator-cor.c:98
 msgid "The matrix range is not valid."
@@ -6825,14 +6814,13 @@ msgid "The matrix must be symmetric positive-definite."
 msgstr "La matriz debe ser simétrica definida positiva."
 
 #: ../src/dialogs/dialog-random-generator-cor.c:125
-#, fuzzy
 msgid "The number of random numbers requested is invalid."
-msgstr "El número de categorías no es válido."
+msgstr "El número de números aleatorios requeridos no es válido."
 
 #: ../src/dialogs/dialog-random-generator-cor.c:221
-#, fuzzy
 msgid "Could not create the Correlated Random Tool dialog."
-msgstr "No se puede crear el diálogo para la Herramienta de Correlación."
+msgstr ""
+"No se pudo crear el diálogo de la herramienta de aleatoriedad de correlación."
 
 #: ../src/dialogs/dialog-random-generator.c:105
 msgid "Uniform"
@@ -6865,7 +6853,7 @@ msgstr "_Media:"
 
 #: ../src/dialogs/dialog-random-generator.c:110
 msgid "_Standard Deviation:"
-msgstr "_Desviación estándar:"
+msgstr "Desviación _estándar:"
 
 #: ../src/dialogs/dialog-random-generator.c:112
 msgid "Discrete"
@@ -6873,7 +6861,7 @@ msgstr "Discreto"
 
 #: ../src/dialogs/dialog-random-generator.c:112
 msgid "_Value And Probability Input Range:"
-msgstr "_Rango de entrada para valor y probabilidad:"
+msgstr "Rango de entrada de probabilidad y _valor:"
 
 #: ../src/dialogs/dialog-random-generator.c:118
 msgid "Bernoulli"
@@ -6923,7 +6911,7 @@ msgstr "Binomial"
 
 #: ../src/dialogs/dialog-random-generator.c:122
 msgid "N_umber of Trials:"
-msgstr "Nú_mero de intentos:"
+msgstr "N_úmero de pruebas:"
 
 #: ../src/dialogs/dialog-random-generator.c:124
 msgid "Cauchy"
@@ -7020,11 +7008,11 @@ msgstr "Valor _zeta:"
 
 #: ../src/dialogs/dialog-random-generator.c:156
 msgid "Negative Binomial"
-msgstr "Binomial negativa"
+msgstr "Binomial negativo"
 
 #: ../src/dialogs/dialog-random-generator.c:157
 msgid "N_umber of Failures"
-msgstr "Núme_ro de fallas"
+msgstr "Núme_ro de errores"
 
 #: ../src/dialogs/dialog-random-generator.c:159
 msgid "Pareto"
@@ -13042,36 +13030,36 @@ msgstr ""
 "Ya existe una región unida que la intersecta\n"
 "%s!%s"
 
-#: ../src/sheet-object.c:105
+#: ../src/sheet-object.c:106
 msgid "Snap object to grid"
 msgstr "Ajustar objeto a la rejilla"
 
-#: ../src/sheet-object.c:220
+#: ../src/sheet-object.c:221
 #, fuzzy
 msgid "Size _& Position"
 msgstr "A_cción:"
 
-#: ../src/sheet-object.c:221
+#: ../src/sheet-object.c:222
 msgid "_Snap to Grid"
 msgstr "Aju_star a la rejilla"
 
-#: ../src/sheet-object.c:222
+#: ../src/sheet-object.c:223
 msgid "_Order"
 msgstr "_Orden"
 
-#: ../src/sheet-object.c:223
+#: ../src/sheet-object.c:224
 msgid "Pul_l to Front"
 msgstr "_Tirar hasta el frente"
 
-#: ../src/sheet-object.c:224
+#: ../src/sheet-object.c:225
 msgid "Pull _Forward"
 msgstr "Tirar _adelante"
 
-#: ../src/sheet-object.c:225
+#: ../src/sheet-object.c:226
 msgid "Push _Backward"
 msgstr "Empujar _atrás"
 
-#: ../src/sheet-object.c:226
+#: ../src/sheet-object.c:227
 msgid "Pus_h to Back"
 msgstr "Empujar hasta el _fondo"
 
@@ -18495,8 +18483,9 @@ msgstr "Una plantilla de lista simple"
 #~ "value."
 #~ msgstr ""
 #~ ">Este valor determina el ajuste predeterminado en el diálogo "
-#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. Por "
-#~ "favor use el diálogo «Configuración de impresión» para editar este valor."
+#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. "
+#~ "Por favor use el diálogo «Configuración de impresión» para editar este "
+#~ "valor."
 
 #~ msgid ""
 #~ ">This value determines whether the default setting in the Print Setup "
