@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-11 19:17+0000\n"
-"PO-Revision-Date: 2012-06-11 22:30+0100\n"
+"POT-Creation-Date: 2012-06-15 22:55+0000\n"
+"PO-Revision-Date: 2012-06-16 08:32+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -3725,7 +3725,7 @@ msgid "Format Object"
 msgstr "Oblikuj predmet"
 
 #: ../src/commands.c:4916
-#: ../src/commands.c:5953
+#: ../src/commands.c:5958
 #: ../src/dialogs/dialog-doc-metadata.c:1912
 #: ../src/dialogs/dialog-formula-guru.c:898
 #: ../src/dialogs/dialog-function-select.c:1240
@@ -3760,226 +3760,226 @@ msgstr "Odstranjevanje opombe %s"
 msgid "Setting comment of %s"
 msgstr "Dodajanje opombe %s"
 
-#: ../src/commands.c:5586
+#: ../src/commands.c:5591
 #, c-format
 msgid "Merging data into %s"
 msgstr "Združevanje podatkov v %s"
 
-#: ../src/commands.c:5676
+#: ../src/commands.c:5681
 #, c-format
 msgid "Changing workbook properties"
 msgstr "Spreminjanje lastnosti preglednice"
 
-#: ../src/commands.c:5750
+#: ../src/commands.c:5755
 msgid "Pull Object to the Front"
 msgstr "Povleci predmet v ospredje"
 
-#: ../src/commands.c:5753
+#: ../src/commands.c:5758
 msgid "Pull Object Forward"
 msgstr "Povleci predmet naprej"
 
-#: ../src/commands.c:5756
+#: ../src/commands.c:5761
 msgid "Push Object Backward"
 msgstr "Potisni predmet v ozadje"
 
-#: ../src/commands.c:5759
+#: ../src/commands.c:5764
 msgid "Push Object to the Back"
 msgstr "Potisni predmet nazaj"
 
-#: ../src/commands.c:5889
+#: ../src/commands.c:5894
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Nastavitve strani za %s"
 
-#: ../src/commands.c:5891
+#: ../src/commands.c:5896
 msgid "Page Setup For All Sheets"
 msgstr "Nastavitev strani delovnih listov"
 
-#: ../src/commands.c:6015
-#: ../src/commands.c:6026
+#: ../src/commands.c:6020
+#: ../src/commands.c:6031
 msgid "Defined Name"
 msgstr "Določeno ime"
 
-#: ../src/commands.c:6016
+#: ../src/commands.c:6021
 msgid "An empty string is not allowed as defined name."
 msgstr "Prazen niz ni dovoljen kot določeno ime polja."
 
-#: ../src/commands.c:6024
+#: ../src/commands.c:6029
 #, c-format
 msgid "'%s' is not allowed as defined name."
 msgstr "Ime '%s' ni dovoljeno kot določeno ime."
 
-#: ../src/commands.c:6034
+#: ../src/commands.c:6039
 msgid "has a circular reference"
 msgstr "je krožno sklican"
 
-#: ../src/commands.c:6068
+#: ../src/commands.c:6073
 #, c-format
 msgid "Define Name %s"
 msgstr "Določi ime %s"
 
-#: ../src/commands.c:6071
+#: ../src/commands.c:6076
 #, c-format
 msgid "Update Name %s"
 msgstr "Posodobi ime %s"
 
-#: ../src/commands.c:6164
+#: ../src/commands.c:6169
 #, c-format
 msgid "Remove Name %s"
 msgstr "Odstrani ime %s"
 
-#: ../src/commands.c:6195
+#: ../src/commands.c:6200
 msgid "Change Scope of Name"
 msgstr "Spremeni obseg imena"
 
-#: ../src/commands.c:6243
+#: ../src/commands.c:6248
 #, c-format
 msgid "Change Scope of Name %s"
 msgstr "Spremeni obseg imena %s"
 
-#: ../src/commands.c:6301
+#: ../src/commands.c:6306
 msgid "Add scenario"
 msgstr "Dodaj scenarij"
 
-#: ../src/commands.c:6365
+#: ../src/commands.c:6370
 msgid "Scenario Show"
 msgstr "Pokaži scenarij"
 
-#: ../src/commands.c:6423
+#: ../src/commands.c:6428
 msgid "Shuffle Data"
 msgstr "Premešaj podatke"
 
 #. FIXME?
-#: ../src/commands.c:6527
+#: ../src/commands.c:6532
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Besedilo (%s) v stolpce (%s)"
 
-#: ../src/commands.c:6686
+#: ../src/commands.c:6691
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Iskanje cilja (%s)"
 
-#: ../src/commands.c:6852
+#: ../src/commands.c:6857
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Razvrščanje odvisnosti v razpredelnice"
 
-#: ../src/commands.c:6926
+#: ../src/commands.c:6931
 msgid "Reconfigure Graph"
 msgstr "Ponovno nastavi diagram"
 
-#: ../src/commands.c:6998
+#: ../src/commands.c:7003
 msgid "Reconfigure Object"
 msgstr "Ponovno nastavi predmet"
 
-#: ../src/commands.c:7042
+#: ../src/commands.c:7047
 msgid "Left to Right"
 msgstr "Od leve proti desni"
 
-#: ../src/commands.c:7042
+#: ../src/commands.c:7047
 msgid "Right to Left"
 msgstr "Od desne proti levi"
 
-#: ../src/commands.c:7209
+#: ../src/commands.c:7214
 msgid "Changing Hyperlink"
 msgstr "Spreminjanje hiperpovezave"
 
-#: ../src/commands.c:7353
+#: ../src/commands.c:7358
 #, c-format
 msgid "Changing hyperlink of %s"
 msgstr "Spreminjanje hiperpovezave %s"
 
-#: ../src/commands.c:7438
+#: ../src/commands.c:7443
 msgid "Configure List"
 msgstr "Nastavi seznam"
 
-#: ../src/commands.c:7509
+#: ../src/commands.c:7514
 msgid "Set Frame Label"
 msgstr "Določi oznako okvirja"
 
-#: ../src/commands.c:7580
+#: ../src/commands.c:7585
 msgid "Configure Button"
 msgstr "Nastavi gumb"
 
-#: ../src/commands.c:7661
+#: ../src/commands.c:7666
 msgid "Configure Radio Button"
 msgstr "Nastavi izbirni gumb"
 
-#: ../src/commands.c:7737
+#: ../src/commands.c:7742
 msgid "Configure Checkbox"
 msgstr "Nastavi označno polje"
 
-#: ../src/commands.c:7844
+#: ../src/commands.c:7849
 #: ../src/sheet-object-widget.c:1524
 msgid "Configure Adjustment"
 msgstr "Nastavi prilagoditve"
 
-#: ../src/commands.c:7875
+#: ../src/commands.c:7880
 msgid "Add Filter"
 msgstr "Dodaj filter"
 
-#: ../src/commands.c:7891
+#: ../src/commands.c:7896
 #: ../src/wbc-gtk.c:1554
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Samodejni filter onemogoča %s"
 
-#: ../src/commands.c:7896
-#: ../src/commands.c:7923
-#: ../src/commands.c:7932
+#: ../src/commands.c:7901
+#: ../src/commands.c:7928
+#: ../src/commands.c:7937
 msgid "AutoFilter"
 msgstr "Samodejni filter"
 
-#: ../src/commands.c:7924
+#: ../src/commands.c:7929
 msgid "Requires more than 1 row"
 msgstr "Zahteva več kot eno izbrano vrstico"
 
-#: ../src/commands.c:7933
+#: ../src/commands.c:7938
 msgid "Unable to create Autofilter"
 msgstr "Ni mogoče ustvariti samodejnega filtra"
 
-#: ../src/commands.c:7956
+#: ../src/commands.c:7961
 #, c-format
 msgid "Add Autofilter to %s"
 msgstr "Dodaj samodejni filter za %s"
 
-#: ../src/commands.c:7957
+#: ../src/commands.c:7962
 #, c-format
 msgid "Extend Autofilter to %s"
 msgstr "Razširi samodejni filter za %s"
 
-#: ../src/commands.c:7970
+#: ../src/commands.c:7975
 #, c-format
 msgid "Remove Autofilter from %s"
 msgstr "Odstrani samodejni filter %s"
 
-#: ../src/commands.c:8000
+#: ../src/commands.c:8005
 #, c-format
 msgid "Change filter condition for %s"
 msgstr "Spremeni pogoje filtriranja za %s"
 
-#: ../src/commands.c:8069
+#: ../src/commands.c:8074
 #: ../src/wbc-gtk-actions.c:2164
 msgid "Clear All Page Breaks"
 msgstr "Počisti vse prelome strani"
 
-#: ../src/commands.c:8096
+#: ../src/commands.c:8101
 #: ../src/wbc-gtk.c:1489
 msgid "Remove Column Page Break"
 msgstr "Odstrani stolpični prelom strani"
 
-#: ../src/commands.c:8096
+#: ../src/commands.c:8101
 #: ../src/wbc-gtk.c:1499
 msgid "Remove Row Page Break"
 msgstr "Odstrani vrstični prelom strani"
 
-#: ../src/commands.c:8099
+#: ../src/commands.c:8104
 #: ../src/wbc-gtk.c:1492
 msgid "Add Column Page Break"
 msgstr "Dodaj stolpični prelom strani"
 
-#: ../src/commands.c:8099
+#: ../src/commands.c:8104
 #: ../src/wbc-gtk.c:1502
 msgid "Add Row Page Break"
 msgstr "Dodaj vrstični prelom strani"
@@ -4477,7 +4477,6 @@ msgstr "Filtriraj na _mestu"
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:76
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:142
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:361
-#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:76
 #: ../src/dialogs/dialog-analysis-tools.c:587
 #: ../src/dialogs/dialog-analysis-tools.c:1134
 #: ../src/dialogs/dialog-analysis-tools.c:1847
@@ -4510,7 +4509,7 @@ msgstr "Vrednost alfa mora biti med 0 in 1."
 #: ../src/dialogs/dialog-analysis-tool-one-mean.c:109
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:85
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:111
-#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:105
+#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:100
 #: ../src/dialogs/dialog-analysis-tools.c:596
 #: ../src/dialogs/dialog-analysis-tools.c:1185
 #: ../src/dialogs/dialog-analysis-tools.c:1895
@@ -4609,12 +4608,12 @@ msgstr "Napovedano povprečje mora biti število."
 msgid "The first input range is invalid."
 msgstr "Prvi obseg vnosa ni veljaven."
 
-#: ../src/dialogs/dialog-analysis-tool-one-mean.c:226
+#: ../src/dialogs/dialog-analysis-tool-one-mean.c:225
 msgid "Could not create the Student-t Test Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna T-Testa."
 
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:131
-#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:150
+#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:149
 #, c-format
 msgid "An unexpected error has occurred."
 msgstr "Prišlo je do nepričakovane napake."
@@ -4640,11 +4639,15 @@ msgstr "Vhodni obsegi podatkov niso enake oblike."
 msgid "Could not create the Sign Test Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna testa znakov."
 
-#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:96
-msgid "The input range should consists of 2 groups."
-msgstr "Vhodni obseg podatkov bi moral biti iz dveh skupin."
+#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:87
+msgid "The input range for variable 1 is invalid."
+msgstr "Obseg vhodne spremenljivke 1 je neveljaven."
 
-#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:191
+#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:92
+msgid "The input range for variable 2 is invalid."
+msgstr "Obseg vhodne spremenljivke 2 je neveljaven."
+
+#: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:189
 msgid "Could not create the Wilcoxon-Mann-Whitney Analysis Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja za Wilcoxon-Mann-Whitneyevo analizo"
 
@@ -4974,7 +4977,7 @@ msgstr "Mar"
 #: ../src/dialogs/dialog-autoformat.c:71
 #: ../src/dialogs/dialog-autoformat.c:75
 #: ../src/tools/analysis-anova.c:560
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:106
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:147
 msgid "Total"
 msgstr "Skupno"
 
@@ -7184,7 +7187,7 @@ msgstr "Le _enoznačne zapise"
 #: ../src/dialogs/rank.ui.h:10
 #: ../src/dialogs/sign-test.ui.h:10
 #: ../src/dialogs/variance-tests.ui.h:5
-#: ../src/dialogs/wilcoxon-mann-whitney.ui.h:10
+#: ../src/dialogs/wilcoxon-mann-whitney.ui.h:5
 msgid "Input"
 msgstr "Dovod"
 
@@ -7209,7 +7212,7 @@ msgstr "Dovod"
 #: ../src/dialogs/sign-test.ui.h:16
 #: ../src/dialogs/simulation.ui.h:19
 #: ../src/dialogs/variance-tests.ui.h:9
-#: ../src/dialogs/wilcoxon-mann-whitney.ui.h:11
+#: ../src/dialogs/wilcoxon-mann-whitney.ui.h:6
 msgid "Output"
 msgstr "Odvod"
 
@@ -7232,7 +7235,6 @@ msgstr "ANOVA - En faktor"
 #: ../src/dialogs/rank.ui.h:2
 #: ../src/dialogs/sampling.ui.h:2
 #: ../src/dialogs/sign-test.ui.h:2
-#: ../src/dialogs/wilcoxon-mann-whitney.ui.h:2
 msgid "_Input range:"
 msgstr "_Dovodni obseg podatkov:"
 
@@ -7252,7 +7254,6 @@ msgstr "_Dovodni obseg podatkov:"
 #: ../src/dialogs/rank.ui.h:3
 #: ../src/dialogs/sampling.ui.h:3
 #: ../src/dialogs/sign-test.ui.h:3
-#: ../src/dialogs/wilcoxon-mann-whitney.ui.h:3
 msgid "Grouped by:"
 msgstr "Skupine:"
 
@@ -7271,7 +7272,6 @@ msgstr "Skupine:"
 #: ../src/dialogs/rank.ui.h:6
 #: ../src/dialogs/sampling.ui.h:6
 #: ../src/dialogs/sign-test.ui.h:5
-#: ../src/dialogs/wilcoxon-mann-whitney.ui.h:6
 msgctxt "groupby"
 msgid "_Columns"
 msgstr "_Stolpci"
@@ -7293,7 +7293,6 @@ msgstr "_Stolpci"
 #: ../src/dialogs/rank.ui.h:8
 #: ../src/dialogs/sampling.ui.h:8
 #: ../src/dialogs/sign-test.ui.h:7
-#: ../src/dialogs/wilcoxon-mann-whitney.ui.h:8
 msgctxt "groupby"
 msgid "_Rows"
 msgstr "_Vrstice"
@@ -7311,7 +7310,6 @@ msgstr "_Vrstice"
 #: ../src/dialogs/rank.ui.h:9
 #: ../src/dialogs/sampling.ui.h:9
 #: ../src/dialogs/sign-test.ui.h:8
-#: ../src/dialogs/wilcoxon-mann-whitney.ui.h:9
 msgid "_Areas"
 msgstr "_Obsegi celic"
 
@@ -9543,12 +9541,14 @@ msgstr "Preizkušanje razlik dveh medianih vrednosti"
 #: ../src/dialogs/mean-tests.ui.h:2
 #: ../src/dialogs/sign-test-two.ui.h:2
 #: ../src/dialogs/variance-tests.ui.h:2
+#: ../src/dialogs/wilcoxon-mann-whitney.ui.h:2
 msgid "Variable _1 range:"
 msgstr "Podatkovna vrsta spremenljivke _1:"
 
 #: ../src/dialogs/mean-tests.ui.h:3
 #: ../src/dialogs/sign-test-two.ui.h:3
 #: ../src/dialogs/variance-tests.ui.h:3
+#: ../src/dialogs/wilcoxon-mann-whitney.ui.h:3
 msgid "Variable _2 range:"
 msgstr "Podatkovna vrsta spremenljivke _2:"
 
@@ -11223,9 +11223,9 @@ msgid "label"
 msgstr "oznaka"
 
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:1
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:98
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:327
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:330
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:139
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:363
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:366
 msgid "Wilcoxon-Mann-Whitney Test"
 msgstr "Wilcoxon-Mann-Whitneyjev test"
 
@@ -12606,35 +12606,35 @@ msgstr ""
 "Spojeno območje, ki seka\n"
 "%s, že obstaja!%s"
 
-#: ../src/sheet-object.c:105
+#: ../src/sheet-object.c:106
 msgid "Snap object to grid"
 msgstr "Pripni predmet na mrežo"
 
-#: ../src/sheet-object.c:220
+#: ../src/sheet-object.c:221
 msgid "Size _& Position"
 msgstr "Velikost in položaj"
 
-#: ../src/sheet-object.c:221
+#: ../src/sheet-object.c:222
 msgid "_Snap to Grid"
 msgstr "_Vpni v mrežo"
 
-#: ../src/sheet-object.c:222
+#: ../src/sheet-object.c:223
 msgid "_Order"
 msgstr "_Razvrsti"
 
-#: ../src/sheet-object.c:223
+#: ../src/sheet-object.c:224
 msgid "Pul_l to Front"
 msgstr "Potegni v o_spredje"
 
-#: ../src/sheet-object.c:224
+#: ../src/sheet-object.c:225
 msgid "Pull _Forward"
 msgstr "Potegni _naprej"
 
-#: ../src/sheet-object.c:225
+#: ../src/sheet-object.c:226
 msgid "Push _Backward"
 msgstr "Potisni n_azaj"
 
-#: ../src/sheet-object.c:226
+#: ../src/sheet-object.c:227
 msgid "Pus_h to Back"
 msgstr "Potisni v o_zadje"
 
@@ -14239,12 +14239,12 @@ msgstr "Fourierjeva vrsta (%s)"
 msgid "Fourier Series"
 msgstr "Fourierjeva vrsta"
 
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:99
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:140
 msgid "/Rank-Sum/N/U/Ties/Statistics/U-Statistics/p-Value"
 msgstr "/Log-rang test/Statistika/Prostostne stopnje/Vrednost p"
 
 # ??
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:265
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:301
 msgid ""
 "This p-value is calculated using a\n"
 "normal approximation, so it is\n"
@@ -14258,9 +14258,9 @@ msgstr ""
 "opazovanji v vsaki merjeni populaciji\n"
 "in le nekaj, če sploh kakšna vez med opazovanji."
 
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:273
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:278
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:283
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:309
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:314
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:319
 msgid ""
 "Since there is insufficient space\n"
 "for the third column of output,\n"
@@ -14270,7 +14270,7 @@ msgstr ""
 "za tretji stolpec odvoda,\n"
 "ta vrednost ne bo izračunana."
 
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:317
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:353
 #, c-format
 msgid "Wilcoxon-Mann-Whitney Test (%s)"
 msgstr "Wilcoxon-Mann-Whitney Test (%s)"
@@ -17858,3 +17858,5 @@ msgstr "Bledo vijoličasta predloga seznama"
 msgid "A simple list template"
 msgstr "Predloga enostavnega seznama"
 
+#~ msgid "The input range should consists of 2 groups."
+#~ msgstr "Vhodni obseg podatkov bi moral biti iz dveh skupin."
