@@ -1,5 +1,9 @@
 2012-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* autofilter-expression.ui: add missing label fields
+
+2012-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* autofilter-top10.ui: fix radio button grouping
 
 2012-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
