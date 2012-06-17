@@ -602,7 +602,6 @@ gnm_filter_attach (GnmFilter *filter, Sheet *sheet)
 
 	for (i = 0 ; i < range_width (&(filter->r)); i++)
 		gnm_filter_add_field (filter, i);
-
 }
 
 
@@ -886,8 +885,8 @@ gnm_sheet_filter_intersect_rows (Sheet const *sheet, int from, int to)
 }
 
 GnmRange *
-gnm_sheet_filter_can_be_extended (Sheet const *sheet, GnmFilter const *f,
-				  GnmRange const *r)
+gnm_sheet_filter_can_be_extended (G_GNUC_UNUSED Sheet const *sheet, 
+				  GnmFilter const *f, GnmRange const *r)
 {
 	if (r->start.row < f->r.start.row || r->end.row > f->r.end.row)
 		return NULL;
@@ -916,7 +915,8 @@ cb_remove_col_undo_free (struct cb_remove_col_undo *r)
 }
 
 static void
-cb_remove_col_undo (GnmFilter *filter, struct cb_remove_col_undo *r, gpointer data)
+cb_remove_col_undo (GnmFilter *filter, struct cb_remove_col_undo *r, 
+		    G_GNUC_UNUSED gpointer data)
 {
 	while (filter->fields->len <= r->col)
 		gnm_filter_add_field (filter, filter->fields->len);
@@ -946,6 +946,20 @@ remove_col (GnmFilter *filter, unsigned col, GOUndo **pundo)
 	g_ptr_array_remove_index (filter->fields, col);
 }
 
+static void
+gnm_filter_set_range (GnmFilter *filter, GnmRange *r)
+{
+	GnmRange old_r = filter->r;
+	int i;
+	int start = r->start.col;
+
+	filter->r = *r;
+	for (i = start; i < old_r.start.col; i++) 
+		gnm_filter_add_field (filter, i - start);
+	for (i = old_r.end.col + 1; i <= r->end.col; i++) 
+		gnm_filter_add_field (filter, i - start);
+}
+
 /**
  * gnm_sheet_filter_insdel_colrow :
  * @sheet :
@@ -972,6 +986,7 @@ gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 		GnmFilter *filter = ptr->data;
 		gboolean kill_filter = FALSE;
 		gboolean reapply_filter = FALSE;
+		GnmRange r = filter->r;
 
 		if (is_cols) {
 			if (start > filter->r.end.col)	/* a */
@@ -1060,7 +1075,9 @@ gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 					    filter->fields->len - 1,
 					    pundo);
 
+			/* Restore the filters range */
 			gnm_filter_remove (filter);
+			filter->r = r;
 
 			if (pundo) {
 				GOUndo *u = go_undo_binary_new
@@ -1073,6 +1090,17 @@ gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 			}
 			gnm_filter_unref (filter);
 		} else if (reapply_filter) {
+			GnmRange *range = g_new (GnmRange, 1);
+			*range = r;
+			if (pundo) {
+				GOUndo *u = go_undo_binary_new
+					(gnm_filter_ref (filter),
+					 range,
+					 (GOUndoBinaryFunc)gnm_filter_set_range,
+					 (GFreeFunc)gnm_filter_unref,
+					 g_free);
+				*pundo = go_undo_combine (*pundo, u);
+			}			
 			gnm_filter_update_active (filter);
 			gnm_filter_reapply (filter);
 		}

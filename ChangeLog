@@ -1,3 +1,9 @@
+2012-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-filter.c (gnm_filter_set_range): new
+	(gnm_sheet_filter_insdel_colrow): preserve range of to-be-killed filter
+	and set range on undo
+
 2012-06-15  Morten Welinder  <terra@gnome.org>
 
 	* src/style-color.c (style_color_new_gdk): Improve roundtrip.

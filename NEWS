@@ -25,6 +25,7 @@ Andreas:
 	* Improve Mann-Whitney test to allow for two separate data ranges.
 	* Fix custom colour combos for conditional format selection. [#677967]
 	* Fix cell-clearing/autofilter interaction. [#674814]
+	* Fix autofilter handling of column deletion undo. [#625702]
 
 Jean:
 	* Fix graph series headers when a multiple selection is used. [#675913]
