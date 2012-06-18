@@ -1,3 +1,7 @@
+2012-06-18  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (gnm_xml_out_add_gocolor): Handle alpha.
+
 2012-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-filter.c (gnm_filter_set_range): new

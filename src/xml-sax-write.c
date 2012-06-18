@@ -83,9 +83,24 @@ typedef struct {
 void
 gnm_xml_out_add_gocolor (GsfXMLOut *o, char const *id, GOColor c)
 {
+	/*
+	 * This uses format "rrrr:gggg:bbbb" or "rrrr:gggg:bbbb:aaaa"
+	 * using hex numbers, i.e., the numbers are in the range from
+	 * 0 to FFFF.
+	 *
+	 * Note, that while go_xml_out_add_color exists, we cannot use
+	 * it as it using a 0-255 scaling and always includes alpha.
+	 */
 	unsigned r, g, b, a;
+	char buf[4 * 4 * sizeof (unsigned int) + 1];
+
 	GO_COLOR_TO_RGBA (c, &r, &g, &b, &a);
-	gsf_xml_out_add_color (o, id, r * 0x101, g * 0x101, b * 0x101);
+
+	sprintf (buf, "%X:%X:%X%c%X",
+		 r * 0x101, g * 0x101, b * 0x101,
+		 (a == 0xff ? 0 : ':'),
+		 a * 0x101);
+	gsf_xml_out_add_cstr_unchecked (o, id, buf);
 }
 
 static void
