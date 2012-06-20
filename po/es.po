@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-15 06:22+0000\n"
-"PO-Revision-Date: 2012-06-16 19:44+0200\n"
+"POT-Creation-Date: 2012-06-18 15:07+0000\n"
+"PO-Revision-Date: 2012-06-20 14:06+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -199,8 +199,8 @@ msgstr "Atributo inesperado %s::%s == «%s»."
 #, c-format
 msgid "Invalid content of ss:data element, expected number, received '%s'"
 msgstr ""
-"Contenido no válido del elemento «ss:data», se esperaba un número, se "
-"recibió «%s»"
+"Contenido no válido del elemento «ss:data», se esperaba un número, se recibió "
+"«%s»"
 
 #: ../plugins/excel/excel-xml-read.c:510
 #, c-format
@@ -330,8 +330,8 @@ msgstr "Función rota"
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
-"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d "
-"no %d"
+"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d no "
+"%d"
 
 #: ../plugins/excel/plugin.xml.in.h:1
 msgid "MS Excel (tm)"
@@ -596,8 +596,8 @@ msgstr "Falló al encontrar la función «%s» en XLL/DLL/SO %s .\n"
 msgid ""
 "Excel plugin loader / xlfRegister: at least three XLOPER arguments must be "
 "provided (DLL name[ignored],exported name[mandatory],types string"
-"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file "
-"%s."
+"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file %"
+"s."
 msgstr ""
 "Cargador del complemento para Excel / xlfRegister: se deben proporcionar al "
 "menos tres argumentos XLOPER (nombre DLL [ignorado],nombre exportado "
@@ -1341,8 +1341,7 @@ msgstr "Atributo «%s» no válido, se esperaba un número, se ha recibido «%s
 #: ../plugins/openoffice/openoffice-read.c:681
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
-msgstr ""
-"Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
+msgstr "Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:703
 #, c-format
@@ -1401,8 +1400,7 @@ msgstr "Atributo «%s» no válido, unidad «%s» desconocida"
 #: ../plugins/openoffice/openoffice-read.c:1073
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
-msgstr ""
-"Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
+msgstr "Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:1150
 #, c-format
@@ -1456,8 +1454,8 @@ msgstr "%s_EN_ARCHIVO_CORRUPTO"
 #: ../plugins/openoffice/openoffice-read.c:2169
 #, c-format
 msgid ""
-"This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
-"\"%s\"."
+"This file is corrupted with a duplicate sheet name \"%s\", now renamed to \"%"
+"s\"."
 msgstr ""
 "Este archivo está corrupto con un nombre de hoja duplicado «%s», se renombró "
 "a «%s»."
@@ -1723,8 +1721,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:7355
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr ""
-"Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
+msgstr "Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:7321
 #, c-format
@@ -1908,11 +1905,11 @@ msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
 "Field %d in line %d has possibly been cut off. Data has %d characters."
 msgstr[0] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
-"'%d' caracter."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
+"d' caracter."
 msgstr[1] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
-"'%d' caracteres."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
+"d' caracteres."
 
 #: ../plugins/paradox/paradox.c:550
 #, c-format
@@ -2272,7 +2269,7 @@ msgstr "La hoja es más ancha de lo que Gnumeric puede manejar."
 msgid "Encountered precision dependent format without set precision."
 msgstr ""
 "Se encontró un formato dependiente de precisión sin una precisión "
-"copnfigurada."
+"configurada."
 
 #: ../plugins/sc/sc.c:473
 #, c-format
@@ -6911,7 +6908,7 @@ msgstr "Binomial"
 
 #: ../src/dialogs/dialog-random-generator.c:122
 msgid "N_umber of Trials:"
-msgstr "N_úmero de pruebas:"
+msgstr "Nú_mero de intentos:"
 
 #: ../src/dialogs/dialog-random-generator.c:124
 msgid "Cauchy"
@@ -7012,7 +7009,7 @@ msgstr "Binomial negativo"
 
 #: ../src/dialogs/dialog-random-generator.c:157
 msgid "N_umber of Failures"
-msgstr "Núme_ro de errores"
+msgstr "Núme_ro de fallos"
 
 #: ../src/dialogs/dialog-random-generator.c:159
 msgid "Pareto"
@@ -7041,7 +7038,7 @@ msgstr "Cola Rayleigh"
 
 #: ../src/dialogs/dialog-random-generator.c:167
 msgid "Student t"
-msgstr "T student"
+msgstr "T de student"
 
 #: ../src/dialogs/dialog-random-generator.c:167
 msgid "nu Value:"
@@ -7053,7 +7050,7 @@ msgstr "Weibull"
 
 #: ../src/dialogs/dialog-random-generator.c:849
 msgid "Could not create the Random Tool dialog."
-msgstr "No se puede crear el diálogo para la herramienta de aleatoriedad."
+msgstr "No se pudo crear el diálogo de la herramienta de aleatoriedad."
 
 #: ../src/dialogs/dialog-recent.c:70
 msgid "Recently Used Files"
@@ -7069,14 +7066,15 @@ msgstr "Todos los archivos que usa Gnumeric"
 
 #: ../src/dialogs/dialog-row-height.c:228
 msgid "Set standard/default row height"
-msgstr "Fija la altura de fila estándar/predeterminada"
+msgstr "Establecer la altura de fila estándar/predeterminada"
 
 #: ../src/dialogs/dialog-row-height.c:233
 #, c-format
 msgid ""
 "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
-"Fija la altura de la selección a <span style='italic' weigth='bold'>%s</span>"
+"Establecer la altura de la fila de la selección a <span style='italic' "
+"weigth='bold'>%s</span>"
 
 #: ../src/dialogs/dialog-scenarios.c:191 ../src/dialogs/dialog-scenarios.c:227
 msgid "Scenario Summary"
@@ -7097,7 +7095,7 @@ msgstr "Celdas modificables no válidas"
 
 #: ../src/dialogs/dialog-scenarios.c:308
 msgid "Changing cells should be on the current sheet only."
-msgstr "Las celdas modificables deben estar en la hoja activa únicamente."
+msgstr "Las celdas modificables deben estar solo en la hoja actual."
 
 #: ../src/dialogs/dialog-scenarios.c:320
 msgid "Scenario name already used"
@@ -7109,7 +7107,7 @@ msgstr "Nombre de escenario no válido"
 
 #: ../src/dialogs/dialog-scenarios.c:377
 msgid "Could not create the Scenario Add dialog."
-msgstr "No se puede crear el diálogo del escenario «Añadir» ."
+msgstr "No se pudo crear el diálogo del escenario añadir."
 
 #: ../src/dialogs/dialog-scenarios.c:409
 #, c-format
@@ -7127,7 +7125,7 @@ msgstr "No se pudo crear el diálogo de escenarios."
 #: ../src/dialogs/dialog-search-replace.c:184
 #: ../src/dialogs/dialog-search.c:359
 msgid "You must select some cell types to search."
-msgstr "Debe seleccionar al menos un tipo de celda para realizar la búsqueda."
+msgstr "Debe seleccionar algunos tipos de celda para buscar."
 
 #: ../src/dialogs/dialog-search.c:134
 msgid "Comment"
@@ -7140,7 +7138,7 @@ msgstr "Resultado"
 #: ../src/dialogs/dialog-search.c:147 ../src/dialogs/dialog-search.c:173
 #: ../src/dialogs/dialog-search.c:179 ../src/dialogs/dialog-search.c:185
 msgid "Deleted"
-msgstr "Borrado"
+msgstr "Eliminado"
 
 #: ../src/dialogs/dialog-search.c:149
 msgid "Expression"
@@ -7148,7 +7146,7 @@ msgstr "Expresión"
 
 #: ../src/dialogs/dialog-search.c:155
 msgid "Other value"
-msgstr "Otros valores"
+msgstr "Otro valor"
 
 #: ../src/dialogs/dialog-search.c:441 ../src/dialogs/dialog-so-styled.c:170
 msgid "Content"
@@ -7170,7 +7168,7 @@ msgstr "Bloq"
 #. xgettext : "Viz" is short for visibility.  Keep this short.
 #: ../src/dialogs/dialog-sheet-order.c:722
 msgid "Viz"
-msgstr "Vis"
+msgstr "Viz"
 
 #. xgettext : "Dir" is short for direction.  Keep this short.
 #: ../src/dialogs/dialog-sheet-order.c:734
@@ -7221,29 +7219,27 @@ msgstr "Redimensionar objeto"
 
 #: ../src/dialogs/dialog-sheetobject-size.c:244
 msgid "Set Object Name"
-msgstr "Establecer el nombre del objeto"
+msgstr "Establecer nombre del objeto"
 
 #: ../src/dialogs/dialog-sheetobject-size.c:253
-#, fuzzy
 msgid "Set Object Print Property"
-msgstr "Propiedades del objeto rellenado"
+msgstr "Establecer propiedad de impresión de objeto"
 
 #: ../src/dialogs/dialog-sheetobject-size.c:259
-#, fuzzy
 msgid "Set Object Properties"
-msgstr "Propiedades del objeto rellenado"
+msgstr "Establecer propiedades de objeto"
 
 #: ../src/dialogs/dialog-shuffle.c:153
 msgid "Could not create the Data Shuffling dialog."
-msgstr "No se pudo crear el diálogo de muestreo de datos."
+msgstr "No se pudo crear el diálogo de barajar datos."
 
 #: ../src/dialogs/dialog-simulation.c:70
 msgid "The input variable range is invalid."
-msgstr "El rango variable de entrada no es válido."
+msgstr "El rango de la variable de entrada no es válido."
 
 #: ../src/dialogs/dialog-simulation.c:80
 msgid "The output variable range is invalid."
-msgstr "El rango variable de salida no es válido."
+msgstr "El rango de la variable de salida no es válido."
 
 #: ../src/dialogs/dialog-simulation.c:153
 msgid "Simulations"
@@ -7276,7 +7272,7 @@ msgstr "Mínimo"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4621
 msgid "Average"
-msgstr "Promediación"
+msgstr "Promedio"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
 #: ../src/wbc-gtk.c:4620
@@ -7285,7 +7281,7 @@ msgstr "Máximo"
 
 #: ../src/dialogs/dialog-simulation.c:317
 msgid "Invalid variable range was given"
-msgstr "Se dió un rango de variables no válido"
+msgstr "Se dió un rango de variable no válido"
 
 #: ../src/dialogs/dialog-simulation.c:331
 msgid ""
@@ -7301,24 +7297,23 @@ msgstr "No se pudo crear el diálogo de simulación."
 
 #: ../src/dialogs/dialog-so-list.c:162
 msgid "Could not create the List Property dialog."
-msgstr "No se puedo crear el diálogo Listar propiedades."
+msgstr "No se pudo crear el diálogo de propiedad de lista."
 
 #: ../src/dialogs/dialog-solver.c:354
-#, fuzzy
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a "
 "solver for Gnumeric?"
 msgstr ""
-"¿Busca un tema para su tesis? ¿Quizá podría escribir un resolvedor QP para "
+"¿Busca un tema para su tesis? ¿Quizá podría escribir un resolutor para "
 "Gnumeric?"
 
 #: ../src/dialogs/dialog-solver.c:449
 msgid "Changing solver parameters"
-msgstr "Cambiando los parámetros del resolutor"
+msgstr "Cambiando parámetros del resolutor"
 
 #: ../src/dialogs/dialog-solver.c:515
 msgid "Ready"
-msgstr "Preparado"
+msgstr "Listo"
 
 #: ../src/dialogs/dialog-solver.c:518
 msgid "Preparing"
@@ -7330,7 +7325,7 @@ msgstr "Preparado"
 
 #: ../src/dialogs/dialog-solver.c:524
 msgid "Running"
-msgstr "Ejecutándose"
+msgstr "Ejecutando"
 
 #: ../src/dialogs/dialog-solver.c:533
 msgid "Done"
@@ -7353,18 +7348,16 @@ msgid "Optimal"
 msgstr "Óptimo"
 
 #: ../src/dialogs/dialog-solver.c:591
-#, fuzzy
 msgid "Infeasible"
-msgstr "Factible"
+msgstr "Inviable"
 
 #: ../src/dialogs/dialog-solver.c:595
 msgid "Unbounded"
 msgstr "Sin límites"
 
 #: ../src/dialogs/dialog-solver.c:656
-#, fuzzy
 msgid "The chosen solver is not functional."
-msgstr "El nivel de confianza no es válido."
+msgstr "El resolutor seleccionado no es funcional."
 
 #: ../src/dialogs/dialog-solver.c:668
 msgid "Running Solver"
@@ -7372,11 +7365,11 @@ msgstr "Ejecutando resolutor"
 
 #: ../src/dialogs/dialog-solver.c:673
 msgid "Stop"
-msgstr "Parar"
+msgstr "Detener"
 
 #: ../src/dialogs/dialog-solver.c:678
 msgid "Stop the running solver"
-msgstr "Parar la ejecución del resolutor"
+msgstr "Detener la ejecución del resolutor"
 
 #: ../src/dialogs/dialog-solver.c:685
 msgid "OK"
@@ -7404,12 +7397,11 @@ msgstr "Ejecutando resolutor"
 
 #: ../src/dialogs/dialog-solver.c:842
 msgid "Optimal solution created by solver.\n"
-msgstr "Solución óptima creada por el solver.\n"
+msgstr "Solución óptima creada por el resolutor.\n"
 
 #: ../src/dialogs/dialog-solver.c:846
-#, fuzzy
 msgid "Feasible solution created by solver.\n"
-msgstr "Solución óptima creada por el solver.\n"
+msgstr "Solución factible creada por el resolutor.\n"
 
 #: ../src/dialogs/dialog-solver.c:1110
 msgid "Subject to the Constraints:"
@@ -7417,7 +7409,7 @@ msgstr "Sujeto a las restricciones:"
 
 #: ../src/dialogs/dialog-solver.c:1260
 msgid "Could not create the Solver dialog."
-msgstr "No se puede crear el diálogo para el Solver."
+msgstr "No se pudo crear el diálogo del resolutor."
 
 #: ../src/dialogs/dialog-stf-export.c:586
 msgid "Export"
@@ -7425,21 +7417,21 @@ msgstr "Exportar"
 
 #: ../src/dialogs/dialog-stf-export.c:728
 msgid "This workbook does not contain any exportable content."
-msgstr "Este libro de cuentas no contiene ningún contenido exportable."
+msgstr "Este libro de trabajo no contiene ningún contenido exportable."
 
 #: ../src/dialogs/dialog-stf-fixed-page.c:52
 msgid "Autodiscovery did not find any columns in the text. Try manually"
 msgstr ""
-"Descubrir automáticamente no encontró ninguna columna en el texto. Inténtelo "
+"Autodescubrimiento no encontró ninguna columna en el texto. Inténtelo "
 "manualmente"
 
 #: ../src/dialogs/dialog-stf-fixed-page.c:68
 msgid "Merge with column on _left"
-msgstr "Combinar con la columna de la _izquierda"
+msgstr "Combinar con columna de la _izquierda"
 
 #: ../src/dialogs/dialog-stf-fixed-page.c:70
 msgid "Merge with column on _right"
-msgstr "Combinar con la columna a la _derecha"
+msgstr "Combinar con columna de la _derecha"
 
 #: ../src/dialogs/dialog-stf-fixed-page.c:73
 msgid "_Split this column"
@@ -7461,7 +7453,7 @@ msgstr "Importar %i columnas y no ignorar ninguna."
 #: ../src/dialogs/dialog-stf-format-page.c:51
 #, c-format
 msgid "Importing %i columns and ignoring %i."
-msgstr "Importando %i columnas y e ignorar %i."
+msgstr "Importando %i columnas e ignorar %i."
 
 #: ../src/dialogs/dialog-stf-format-page.c:177
 #, c-format
@@ -18247,7 +18239,7 @@ msgstr "Filtro no válido, falta el área"
 msgid "Unsupported object type '%s'"
 msgstr "Tipo de objeto no soportado «%s»"
 
-#: ../src/xml-sax-read.c:3595 ../src/xml-sax-write.c:1593
+#: ../src/xml-sax-read.c:3595 ../src/xml-sax-write.c:1608
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML  (*.gnumeric)"
 
@@ -18483,9 +18475,8 @@ msgstr "Una plantilla de lista simple"
 #~ "value."
 #~ msgstr ""
 #~ ">Este valor determina el ajuste predeterminado en el diálogo "
-#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. "
-#~ "Por favor use el diálogo «Configuración de impresión» para editar este "
-#~ "valor."
+#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. Por "
+#~ "favor use el diálogo «Configuración de impresión» para editar este valor."
 
 #~ msgid ""
 #~ ">This value determines whether the default setting in the Print Setup "
