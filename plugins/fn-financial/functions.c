@@ -1886,17 +1886,19 @@ gnumeric_nper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_duration[] = {
-        { GNM_FUNC_HELP_NAME, F_("DURATION:the duration of a security")},
+        { GNM_FUNC_HELP_NAME, F_("DURATION:the (Macaulay) duration of a security")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("coupon:annual coupon rate")},
         { GNM_FUNC_HELP_ARG, F_("yield:annual yield of security")},
         { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
         { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("DURATION calculates the duration of a security.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("DURATION calculates the (Macaulay) duration of a security.") },
 	FREQ_HELP,
 	GNM_DATE_BASIS_HELP
-        { GNM_FUNC_HELP_SEEALSO, "MDURATION"},
+	{ GNM_FUNC_HELP_EXAMPLES, "=DURATION(TODAY(),TODAY()+365,0.05,0.08,4)"},
+	{ GNM_FUNC_HELP_EXAMPLES, "=DURATION(TODAY(),TODAY()+366,0.05,0.08,4)"},
+        { GNM_FUNC_HELP_SEEALSO, "MDURATION, G_DURATION"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1936,7 +1938,8 @@ static GnmFuncHelp const help_g_duration[] = {
         { GNM_FUNC_HELP_ARG, F_("fv:future value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("G_DURATION calculates the number of periods needed for an investment to attain a desired value.") },
 	{ GNM_FUNC_HELP_ODF, F_("G_DURATION is the OpenFormula function PDURATION.") },
-        { GNM_FUNC_HELP_SEEALSO, "FV,PV"},
+	{ GNM_FUNC_HELP_EXAMPLES, "=G_DURATION(0.08,1000,2000)"},
+        { GNM_FUNC_HELP_SEEALSO, "FV,PV,DURATION,MDURATION"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3231,17 +3234,19 @@ gnumeric_cumprinc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_mduration[] = {
-        { GNM_FUNC_HELP_NAME, F_("MDURATION:the Macaulay duration of a security")},
+        { GNM_FUNC_HELP_NAME, F_("MDURATION:the modified (Macaulay) duration of a security")},
         { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
         { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
         { GNM_FUNC_HELP_ARG, F_("coupon:annual coupon rate")},
         { GNM_FUNC_HELP_ARG, F_("yield:annual yield of security")},
         { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
         { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("MDURATION calculates the Macaulay duration of a security.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("MDURATION calculates the modified (Macaulay) duration of a security.") },
 	FREQ_HELP,
 	GNM_DATE_BASIS_HELP
-        { GNM_FUNC_HELP_SEEALSO, "DURATION"},
+	{ GNM_FUNC_HELP_EXAMPLES, "=MDURATION(TODAY(),TODAY()+365,0.05,0.08,4)"},
+	{ GNM_FUNC_HELP_EXAMPLES, "=MDURATION(TODAY(),TODAY()+366,0.05,0.08,4)"},
+        { GNM_FUNC_HELP_SEEALSO, "DURATION,G_DURATION"},
 	{ GNM_FUNC_HELP_END }
 };
 
