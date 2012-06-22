@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-07 20:13+0000\n"
-"PO-Revision-Date: 2012-06-11 21:01+0100\n"
+"POT-Creation-Date: 2012-06-21 07:07+0000\n"
+"PO-Revision-Date: 2012-06-22 09:30+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -44,7 +44,7 @@ msgstr "Različica funkcije EASTERSUNDAY z enim argumentom je združljiva s funk
 
 #: ../plugins/fn-christian-date/functions.c:163
 msgid "ASHWEDNESDAY:Ash Wednesday in the Gregorian calendar according to the Roman rite of the Christian Church"
-msgstr "ASHWEDNESDAY: dan pepelníčne sréde ali pepelníce po gregorijanskem koledarju (sreda, 46 dni pred veliko nočjo uvedena po letu 1091), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
+msgstr "ASHWEDNESDAY: dan pepelníčne srede ali pepelníce po gregorijanskem koledarju (sreda, 46 dni pred veliko nočjo uvedena po letu 1091), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
 
 #: ../plugins/fn-christian-date/functions.c:165
 msgid "year:year between 1582 and 9956, defaults to the year of the next Ash Wednesday"
@@ -68,11 +68,11 @@ msgstr "leto: leto med leti 1582 in 9956, privzeto določeno kot leto naslednjeg
 
 #: ../plugins/fn-christian-date/functions.c:221
 msgid "ASCENSIONTHURSDAY:Ascension Thursday in the Gregorian calendar according to the Roman rite of the Christian Church"
-msgstr "ASCENSIONTHURSDAY: dan Maríjinega vnebovzétja ali véliki šmáren po gregorijanskem koledarju (na 15. avgust), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
+msgstr "ASCENSIONTHURSDAY: dan Marijinega vnebovzetja ali veliki šmaren po gregorijanskem koledarju (na 15. avgust), kot ga praznuje po rimskem obredu Rimskokatoliška Cerkev."
 
 #: ../plugins/fn-christian-date/functions.c:223
 msgid "year:year between 1582 and 9956, defaults to the year of the next Ascension Thursday"
-msgstr "leto: leto med leti 1582 in 9956, privzeto določeno kot leto naslednjega Maríjinega vnebovzétja."
+msgstr "leto: leto med leti 1582 in 9956, privzeto določeno kot leto naslednjega Marijinega vnebovzetja."
 
 #: ../plugins/fn-complex/functions.c:81
 msgid "COMPLEX:a complex number of the form @{x} + @{y}@{i}"
@@ -1324,23 +1324,23 @@ msgstr "YEARFRAC: število let med datumi, zapisanih kot decimalno število"
 #: ../plugins/fn-financial/functions.c:608
 #: ../plugins/fn-financial/functions.c:652
 #: ../plugins/fn-financial/functions.c:1895
-#: ../plugins/fn-financial/functions.c:2258
-#: ../plugins/fn-financial/functions.c:2308
-#: ../plugins/fn-financial/functions.c:2415
-#: ../plugins/fn-financial/functions.c:2461
-#: ../plugins/fn-financial/functions.c:2503
-#: ../plugins/fn-financial/functions.c:2653
-#: ../plugins/fn-financial/functions.c:2748
-#: ../plugins/fn-financial/functions.c:2826
-#: ../plugins/fn-financial/functions.c:2903
-#: ../plugins/fn-financial/functions.c:2959
-#: ../plugins/fn-financial/functions.c:3002
-#: ../plugins/fn-financial/functions.c:3026
-#: ../plugins/fn-financial/functions.c:3050
-#: ../plugins/fn-financial/functions.c:3074
-#: ../plugins/fn-financial/functions.c:3100
-#: ../plugins/fn-financial/functions.c:3126
-#: ../plugins/fn-financial/functions.c:3240
+#: ../plugins/fn-financial/functions.c:2261
+#: ../plugins/fn-financial/functions.c:2311
+#: ../plugins/fn-financial/functions.c:2418
+#: ../plugins/fn-financial/functions.c:2464
+#: ../plugins/fn-financial/functions.c:2506
+#: ../plugins/fn-financial/functions.c:2656
+#: ../plugins/fn-financial/functions.c:2751
+#: ../plugins/fn-financial/functions.c:2829
+#: ../plugins/fn-financial/functions.c:2906
+#: ../plugins/fn-financial/functions.c:2962
+#: ../plugins/fn-financial/functions.c:3005
+#: ../plugins/fn-financial/functions.c:3029
+#: ../plugins/fn-financial/functions.c:3053
+#: ../plugins/fn-financial/functions.c:3077
+#: ../plugins/fn-financial/functions.c:3103
+#: ../plugins/fn-financial/functions.c:3129
+#: ../plugins/fn-financial/functions.c:3243
 msgid "basis:calendar basis"
 msgstr "osnova: osnova koledarja"
 
@@ -2642,9 +2642,9 @@ msgstr "ACCRINT: obračunane (nezapadle) obresti"
 #: ../plugins/fn-financial/functions.c:363
 #: ../plugins/fn-financial/functions.c:450
 #: ../plugins/fn-financial/functions.c:605
-#: ../plugins/fn-financial/functions.c:2458
-#: ../plugins/fn-financial/functions.c:2497
-#: ../plugins/fn-financial/functions.c:2647
+#: ../plugins/fn-financial/functions.c:2461
+#: ../plugins/fn-financial/functions.c:2500
+#: ../plugins/fn-financial/functions.c:2650
 msgid "issue:date of issue"
 msgstr "izdaja: datum izdaje"
 
@@ -2662,21 +2662,21 @@ msgstr "prve_obresti: datum prvega izplačila obresti"
 #: ../plugins/fn-financial/functions.c:1124
 #: ../plugins/fn-financial/functions.c:1158
 #: ../plugins/fn-financial/functions.c:1890
-#: ../plugins/fn-financial/functions.c:2252
-#: ../plugins/fn-financial/functions.c:2302
-#: ../plugins/fn-financial/functions.c:2411
-#: ../plugins/fn-financial/functions.c:2456
-#: ../plugins/fn-financial/functions.c:2495
-#: ../plugins/fn-financial/functions.c:2645
-#: ../plugins/fn-financial/functions.c:2741
-#: ../plugins/fn-financial/functions.c:2819
-#: ../plugins/fn-financial/functions.c:2999
-#: ../plugins/fn-financial/functions.c:3023
-#: ../plugins/fn-financial/functions.c:3047
-#: ../plugins/fn-financial/functions.c:3071
-#: ../plugins/fn-financial/functions.c:3097
-#: ../plugins/fn-financial/functions.c:3123
-#: ../plugins/fn-financial/functions.c:3235
+#: ../plugins/fn-financial/functions.c:2255
+#: ../plugins/fn-financial/functions.c:2305
+#: ../plugins/fn-financial/functions.c:2414
+#: ../plugins/fn-financial/functions.c:2459
+#: ../plugins/fn-financial/functions.c:2498
+#: ../plugins/fn-financial/functions.c:2648
+#: ../plugins/fn-financial/functions.c:2744
+#: ../plugins/fn-financial/functions.c:2822
+#: ../plugins/fn-financial/functions.c:3002
+#: ../plugins/fn-financial/functions.c:3026
+#: ../plugins/fn-financial/functions.c:3050
+#: ../plugins/fn-financial/functions.c:3074
+#: ../plugins/fn-financial/functions.c:3100
+#: ../plugins/fn-financial/functions.c:3126
+#: ../plugins/fn-financial/functions.c:3238
 msgid "settlement:settlement date"
 msgstr "poravnava: datum poravnave"
 
@@ -2684,13 +2684,13 @@ msgstr "poravnava: datum poravnave"
 #: ../plugins/fn-financial/functions.c:452
 #: ../plugins/fn-financial/functions.c:529
 #: ../plugins/fn-financial/functions.c:686
-#: ../plugins/fn-financial/functions.c:2254
-#: ../plugins/fn-financial/functions.c:2304
-#: ../plugins/fn-financial/functions.c:2459
-#: ../plugins/fn-financial/functions.c:2499
-#: ../plugins/fn-financial/functions.c:2649
-#: ../plugins/fn-financial/functions.c:2744
-#: ../plugins/fn-financial/functions.c:2822
+#: ../plugins/fn-financial/functions.c:2257
+#: ../plugins/fn-financial/functions.c:2307
+#: ../plugins/fn-financial/functions.c:2462
+#: ../plugins/fn-financial/functions.c:2502
+#: ../plugins/fn-financial/functions.c:2652
+#: ../plugins/fn-financial/functions.c:2747
+#: ../plugins/fn-financial/functions.c:2825
 msgid "rate:nominal annual interest rate"
 msgstr "mera: nazivna letna obrestna mera"
 
@@ -2700,19 +2700,19 @@ msgstr "nazivna_vrednost: nazivna vrednost, privzeto določena s $1000."
 
 #: ../plugins/fn-financial/functions.c:368
 #: ../plugins/fn-financial/functions.c:1894
-#: ../plugins/fn-financial/functions.c:2257
-#: ../plugins/fn-financial/functions.c:2307
-#: ../plugins/fn-financial/functions.c:2502
-#: ../plugins/fn-financial/functions.c:2652
-#: ../plugins/fn-financial/functions.c:2747
-#: ../plugins/fn-financial/functions.c:2825
-#: ../plugins/fn-financial/functions.c:3001
-#: ../plugins/fn-financial/functions.c:3025
-#: ../plugins/fn-financial/functions.c:3049
-#: ../plugins/fn-financial/functions.c:3073
-#: ../plugins/fn-financial/functions.c:3099
-#: ../plugins/fn-financial/functions.c:3125
-#: ../plugins/fn-financial/functions.c:3239
+#: ../plugins/fn-financial/functions.c:2260
+#: ../plugins/fn-financial/functions.c:2310
+#: ../plugins/fn-financial/functions.c:2505
+#: ../plugins/fn-financial/functions.c:2655
+#: ../plugins/fn-financial/functions.c:2750
+#: ../plugins/fn-financial/functions.c:2828
+#: ../plugins/fn-financial/functions.c:3004
+#: ../plugins/fn-financial/functions.c:3028
+#: ../plugins/fn-financial/functions.c:3052
+#: ../plugins/fn-financial/functions.c:3076
+#: ../plugins/fn-financial/functions.c:3102
+#: ../plugins/fn-financial/functions.c:3128
+#: ../plugins/fn-financial/functions.c:3242
 msgid "frequency:number of interest payments per year"
 msgstr "frekvenca: število plačil obresti na leto"
 
@@ -2760,21 +2760,21 @@ msgstr "ACCRINTM: obračunane (nezapadle) obresti"
 #: ../plugins/fn-financial/functions.c:1125
 #: ../plugins/fn-financial/functions.c:1159
 #: ../plugins/fn-financial/functions.c:1891
-#: ../plugins/fn-financial/functions.c:2253
-#: ../plugins/fn-financial/functions.c:2303
-#: ../plugins/fn-financial/functions.c:2412
-#: ../plugins/fn-financial/functions.c:2457
-#: ../plugins/fn-financial/functions.c:2496
-#: ../plugins/fn-financial/functions.c:2646
-#: ../plugins/fn-financial/functions.c:2742
-#: ../plugins/fn-financial/functions.c:2820
-#: ../plugins/fn-financial/functions.c:3000
-#: ../plugins/fn-financial/functions.c:3024
-#: ../plugins/fn-financial/functions.c:3048
-#: ../plugins/fn-financial/functions.c:3072
-#: ../plugins/fn-financial/functions.c:3098
-#: ../plugins/fn-financial/functions.c:3124
-#: ../plugins/fn-financial/functions.c:3236
+#: ../plugins/fn-financial/functions.c:2256
+#: ../plugins/fn-financial/functions.c:2306
+#: ../plugins/fn-financial/functions.c:2415
+#: ../plugins/fn-financial/functions.c:2460
+#: ../plugins/fn-financial/functions.c:2499
+#: ../plugins/fn-financial/functions.c:2649
+#: ../plugins/fn-financial/functions.c:2745
+#: ../plugins/fn-financial/functions.c:2823
+#: ../plugins/fn-financial/functions.c:3003
+#: ../plugins/fn-financial/functions.c:3027
+#: ../plugins/fn-financial/functions.c:3051
+#: ../plugins/fn-financial/functions.c:3075
+#: ../plugins/fn-financial/functions.c:3101
+#: ../plugins/fn-financial/functions.c:3127
+#: ../plugins/fn-financial/functions.c:3239
 msgid "maturity:maturity date"
 msgstr "dospetje: datum dospetja"
 
@@ -2802,13 +2802,13 @@ msgstr "naložba: vsota plačana ob poravnavi"
 #: ../plugins/fn-financial/functions.c:491
 #: ../plugins/fn-financial/functions.c:570
 #: ../plugins/fn-financial/functions.c:651
-#: ../plugins/fn-financial/functions.c:2256
-#: ../plugins/fn-financial/functions.c:2306
-#: ../plugins/fn-financial/functions.c:2414
-#: ../plugins/fn-financial/functions.c:2501
-#: ../plugins/fn-financial/functions.c:2651
-#: ../plugins/fn-financial/functions.c:2746
-#: ../plugins/fn-financial/functions.c:2824
+#: ../plugins/fn-financial/functions.c:2259
+#: ../plugins/fn-financial/functions.c:2309
+#: ../plugins/fn-financial/functions.c:2417
+#: ../plugins/fn-financial/functions.c:2504
+#: ../plugins/fn-financial/functions.c:2654
+#: ../plugins/fn-financial/functions.c:2749
+#: ../plugins/fn-financial/functions.c:2827
 msgid "redemption:amount received at maturity"
 msgstr "pavšal: vsota prejeta ob dospetju"
 
@@ -2845,10 +2845,10 @@ msgstr "PRICEMAT: cena ob dospelosti"
 
 #: ../plugins/fn-financial/functions.c:607
 #: ../plugins/fn-financial/functions.c:1893
-#: ../plugins/fn-financial/functions.c:2255
-#: ../plugins/fn-financial/functions.c:2500
-#: ../plugins/fn-financial/functions.c:2745
-#: ../plugins/fn-financial/functions.c:3238
+#: ../plugins/fn-financial/functions.c:2258
+#: ../plugins/fn-financial/functions.c:2503
+#: ../plugins/fn-financial/functions.c:2748
+#: ../plugins/fn-financial/functions.c:3241
 msgid "yield:annual yield of security"
 msgstr "donos: letni donos vrednostnega papirja"
 
@@ -2896,7 +2896,7 @@ msgstr "NOMINAL: nazivna obrestna mera"
 #: ../plugins/fn-financial/functions.c:1758
 #: ../plugins/fn-financial/functions.c:1798
 #: ../plugins/fn-financial/functions.c:1842
-#: ../plugins/fn-financial/functions.c:1934
+#: ../plugins/fn-financial/functions.c:1936
 msgid "rate:effective annual interest rate"
 msgstr "mera: dejanska letna obrestna mera"
 
@@ -2921,8 +2921,8 @@ msgstr "per: obdobje"
 #: ../plugins/fn-financial/functions.c:1729
 #: ../plugins/fn-financial/functions.c:1760
 #: ../plugins/fn-financial/functions.c:1800
-#: ../plugins/fn-financial/functions.c:3148
-#: ../plugins/fn-financial/functions.c:3192
+#: ../plugins/fn-financial/functions.c:3151
+#: ../plugins/fn-financial/functions.c:3195
 msgid "nper:number of periods"
 msgstr "število_obdobij: število obdobij"
 
@@ -2934,9 +2934,9 @@ msgstr "število_obdobij: število obdobij"
 #: ../plugins/fn-financial/functions.c:1761
 #: ../plugins/fn-financial/functions.c:1801
 #: ../plugins/fn-financial/functions.c:1844
-#: ../plugins/fn-financial/functions.c:1935
-#: ../plugins/fn-financial/functions.c:3149
-#: ../plugins/fn-financial/functions.c:3193
+#: ../plugins/fn-financial/functions.c:1937
+#: ../plugins/fn-financial/functions.c:3152
+#: ../plugins/fn-financial/functions.c:3196
 msgid "pv:present value"
 msgstr "sv: sedanja vrednost"
 
@@ -2952,9 +2952,9 @@ msgstr "DB: razvrednotenje osnovnih sredstev"
 #: ../plugins/fn-financial/functions.c:822
 #: ../plugins/fn-financial/functions.c:871
 #: ../plugins/fn-financial/functions.c:901
-#: ../plugins/fn-financial/functions.c:2897
-#: ../plugins/fn-financial/functions.c:2953
-#: ../plugins/fn-financial/functions.c:3280
+#: ../plugins/fn-financial/functions.c:2900
+#: ../plugins/fn-financial/functions.c:2956
+#: ../plugins/fn-financial/functions.c:3285
 msgid "cost:initial cost of asset"
 msgstr "stroški: začetni stroški sredstev"
 
@@ -2963,9 +2963,9 @@ msgstr "stroški: začetni stroški sredstev"
 #: ../plugins/fn-financial/functions.c:823
 #: ../plugins/fn-financial/functions.c:872
 #: ../plugins/fn-financial/functions.c:902
-#: ../plugins/fn-financial/functions.c:2900
-#: ../plugins/fn-financial/functions.c:2956
-#: ../plugins/fn-financial/functions.c:3281
+#: ../plugins/fn-financial/functions.c:2903
+#: ../plugins/fn-financial/functions.c:2959
+#: ../plugins/fn-financial/functions.c:3286
 msgid "salvage:value after depreciation"
 msgstr "ohranjena_vrednost: vrednost po upoštevanju amortizacije"
 
@@ -2973,15 +2973,15 @@ msgstr "ohranjena_vrednost: vrednost po upoštevanju amortizacije"
 #: ../plugins/fn-financial/functions.c:824
 #: ../plugins/fn-financial/functions.c:873
 #: ../plugins/fn-financial/functions.c:903
-#: ../plugins/fn-financial/functions.c:3282
+#: ../plugins/fn-financial/functions.c:3287
 msgid "life:number of periods"
 msgstr "življenjska_doba: število obdobij"
 
 #: ../plugins/fn-financial/functions.c:775
 #: ../plugins/fn-financial/functions.c:825
 #: ../plugins/fn-financial/functions.c:904
-#: ../plugins/fn-financial/functions.c:2901
-#: ../plugins/fn-financial/functions.c:2957
+#: ../plugins/fn-financial/functions.c:2904
+#: ../plugins/fn-financial/functions.c:2960
 msgid "period:subject period"
 msgstr "obdobje: obdobje predmeta"
 
@@ -2998,7 +2998,7 @@ msgid "DDB:depreciation of an asset"
 msgstr "DDB: izračun razvrednotenje osnovnih sredstev"
 
 #: ../plugins/fn-financial/functions.c:826
-#: ../plugins/fn-financial/functions.c:3285
+#: ../plugins/fn-financial/functions.c:3290
 msgid "factor:factor at which the balance declines"
 msgstr "faktor: faktor pojemanja salda"
 
@@ -3122,7 +3122,7 @@ msgstr "plačilo: plačilo v vsakem obdobju"
 #: ../plugins/fn-financial/functions.c:1762
 #: ../plugins/fn-financial/functions.c:1802
 #: ../plugins/fn-financial/functions.c:1845
-#: ../plugins/fn-financial/functions.c:1936
+#: ../plugins/fn-financial/functions.c:1938
 msgid "fv:future value"
 msgstr "bv: bodoča vrednost"
 
@@ -3133,8 +3133,8 @@ msgstr "bv: bodoča vrednost"
 #: ../plugins/fn-financial/functions.c:1763
 #: ../plugins/fn-financial/functions.c:1803
 #: ../plugins/fn-financial/functions.c:1846
-#: ../plugins/fn-financial/functions.c:3152
-#: ../plugins/fn-financial/functions.c:3196
+#: ../plugins/fn-financial/functions.c:3155
+#: ../plugins/fn-financial/functions.c:3199
 msgid "type:payment type"
 msgstr "vrsta: vrsta plačila"
 
@@ -3270,209 +3270,209 @@ msgid "NPER calculates the number of periods of an investment based on periodic 
 msgstr "Funkcija NPER izračuna število obdobji za naložbo na osnovi stalnih izplačil in stalne obrestne mere."
 
 #: ../plugins/fn-financial/functions.c:1889
-msgid "DURATION:the duration of a security"
-msgstr "DURATION: trajanje vrednostnega papirja"
+msgid "DURATION:the (Macaulay) duration of a security"
+msgstr "DURATION: izračuna trajanje vrednostnega papirja po Macauleyju"
 
 #: ../plugins/fn-financial/functions.c:1892
-#: ../plugins/fn-financial/functions.c:3237
+#: ../plugins/fn-financial/functions.c:3240
 msgid "coupon:annual coupon rate"
 msgstr "kupon: letna kuponska stopnja donosa"
 
 #: ../plugins/fn-financial/functions.c:1896
-msgid "DURATION calculates the duration of a security."
-msgstr "DURATION izračuna trajanje vrednostnega papirja."
+msgid "DURATION calculates the (Macaulay) duration of a security."
+msgstr "Funkcija DURATION izračuna trajanje vrednostnega papirja po Macauleyju."
 
-#: ../plugins/fn-financial/functions.c:1933
+#: ../plugins/fn-financial/functions.c:1935
 msgid "G_DURATION:the duration of a investment"
 msgstr "G_DURATION: trajanje naložbe"
 
-#: ../plugins/fn-financial/functions.c:1937
+#: ../plugins/fn-financial/functions.c:1939
 msgid "G_DURATION calculates the number of periods needed for an investment to attain a desired value."
 msgstr "Funkcija G_DURATION izračuna število obdobij do dosega želene vrednosti naložbe."
 
-#: ../plugins/fn-financial/functions.c:1938
+#: ../plugins/fn-financial/functions.c:1940
 msgid "G_DURATION is the OpenFormula function PDURATION."
 msgstr "Funkcija G_DURATION je skladna s funkcijo PDURATION programa OpenFormula."
 
-#: ../plugins/fn-financial/functions.c:1966
+#: ../plugins/fn-financial/functions.c:1969
 msgid "FVSCHEDULE:future value"
 msgstr "FVSCHEDULE: bodoča vrednost"
 
-#: ../plugins/fn-financial/functions.c:1967
+#: ../plugins/fn-financial/functions.c:1970
 msgid "principal:initial value"
 msgstr "glavnica: začetna vrednost"
 
-#: ../plugins/fn-financial/functions.c:1968
+#: ../plugins/fn-financial/functions.c:1971
 msgid "schedule:range of interest rates"
 msgstr "razpored: obseg obrestnih mer"
 
-#: ../plugins/fn-financial/functions.c:1969
+#: ../plugins/fn-financial/functions.c:1972
 msgid "FVSCHEDULE calculates the future value of @{principal} after applying a range of interest rates with compounding."
 msgstr "Funkcija FVSCHEDULE izračuna bodočo vrednost @{glavnice} po vključitvi sestavljenih obrestnih mer."
 
-#: ../plugins/fn-financial/functions.c:2002
+#: ../plugins/fn-financial/functions.c:2005
 msgid "EURO:equivalent of 1 EUR"
 msgstr "EURO: pretvorjena vrednost za 1 evro"
 
-#: ../plugins/fn-financial/functions.c:2003
+#: ../plugins/fn-financial/functions.c:2006
 msgid "currency:three-letter currency code"
 msgstr "valuta: denarna enota zapisana s kodo s tremi črkami"
 
-#: ../plugins/fn-financial/functions.c:2004
+#: ../plugins/fn-financial/functions.c:2007
 msgid "EURO calculates the national currency amount corresponding to 1 EUR for any of the national currencies that were replaced by the Euro on its introduction."
 msgstr "Funkcija EURO preračuna 1 € v opuščeno nacionalno denarno enoto posameznih držav, ki so evro prevzele."
 
-#: ../plugins/fn-financial/functions.c:2005
+#: ../plugins/fn-financial/functions.c:2008
 msgid "@{currency} must be one of ATS (Austria), BEF (Belgium), CYP (Cyprus), DEM (Germany), EEK (Estonia), ESP (Spain), EUR (Euro), FIM (Finland), FRF (France), GRD (Greece), IEP (Ireland), ITL (Italy), LUF (Luxembourg), MTL (Malta), NLG (The Netherlands), PTE (Portugal), SIT (Slovenia), or SKK (Slovakia)."
 msgstr "Vrednost @{denarne_enote} mora biti izbrana med: ATS (Avstrija), BEF (Belgija), CYP (Ciper), DEM (Nemčija), EEK (Estonija), ESP (Španija), EUR (Euro), FIM (Finska), FRF (Francija), GRD (Grčija), IEP (Irska), ITL (Italija), LUF (Luksemburg), MTL (Malta), NLG (Nizozemska), PTE (Portugalska), SIT (Slovenija), or SKK (Slovaška)."
 
-#: ../plugins/fn-financial/functions.c:2024
-#: ../plugins/fn-financial/functions.c:2208
+#: ../plugins/fn-financial/functions.c:2027
+#: ../plugins/fn-financial/functions.c:2211
 msgid "This function is not likely to be useful anymore."
 msgstr "Funkcija najverjetneje ni več uporabna."
 
-#: ../plugins/fn-financial/functions.c:2199
+#: ../plugins/fn-financial/functions.c:2202
 msgid "EUROCONVERT:pre-Euro amount from one currency to another"
 msgstr "EUROCONVERT: preračun vrednosti evra v denarno enoto države ob prevzemu evropske"
 
-#: ../plugins/fn-financial/functions.c:2200
+#: ../plugins/fn-financial/functions.c:2203
 msgid "n:amount"
 msgstr "n: količina"
 
-#: ../plugins/fn-financial/functions.c:2201
+#: ../plugins/fn-financial/functions.c:2204
 msgid "source:three-letter source currency code"
 msgstr "vir: izvorna denarna enota zapisana s kodo s tremi črkami"
 
-#: ../plugins/fn-financial/functions.c:2202
+#: ../plugins/fn-financial/functions.c:2205
 msgid "target:three-letter target currency code"
 msgstr "cilj: ciljna denarna enota zapisana s kodo s tremi črkami"
 
-#: ../plugins/fn-financial/functions.c:2203
+#: ../plugins/fn-financial/functions.c:2206
 msgid "full_precision:whether to provide the full precision; defaults to false"
 msgstr "popolne_natančnosti: ali naj bo uveljavljena popolna natančnost; privzeto vrednost ni določena"
 
-#: ../plugins/fn-financial/functions.c:2204
+#: ../plugins/fn-financial/functions.c:2207
 msgid "triangulation_precision:number of digits (at least 3) to be rounded to after conversion of the source currency to euro; defaults to no rounding"
 msgstr "natančnost_triangulacije: število števk (vsaj 3) za zaokroževanje po pretvarjanju izvorne denarne enote v evre; privzeto je določilo brez zaokroževanja"
 
-#: ../plugins/fn-financial/functions.c:2205
+#: ../plugins/fn-financial/functions.c:2208
 msgid "EUROCONVERT converts @{n} units of currency @{source} to currency @{target}.  The rates used are the official ones used on the introduction of the Euro."
 msgstr "Funkcija EUROCONVERT pretvori @{n} enot @{izvorne_valute} v @{ciljno}. Uporabljene so uradne pretvorbene enote, ki so bile uporabljene v času uvajanja evra za posamezno državo članico."
 
-#: ../plugins/fn-financial/functions.c:2206
+#: ../plugins/fn-financial/functions.c:2209
 msgid "If @{full_precision} is true, the result is not rounded; if it false the result is rounded to 0 or 2 decimals depending on the target currency; defaults to false."
 msgstr "V primeru, da je izbrana možnost @{popolne_natančnosti}, rezultat ni zaokrožen, sicer pa se zaokroži na 0 ali 2 decimalni mesti, odvisno od ciljne denarne enote. Privzeto možnost ni izbrana."
 
-#: ../plugins/fn-financial/functions.c:2207
+#: ../plugins/fn-financial/functions.c:2210
 msgid "@{source} and @{target} must be one of the currencies listed for the EURO function."
 msgstr "Pri pretvarjanju so uporabljene @{izvorne} in @{ciljne_valute} držav, ki so prevzele evro kot nacionalno valuto."
 
-#: ../plugins/fn-financial/functions.c:2251
+#: ../plugins/fn-financial/functions.c:2254
 msgid "PRICE:price of a security"
 msgstr "PRICE: cena vrednostnega papirja"
 
-#: ../plugins/fn-financial/functions.c:2259
+#: ../plugins/fn-financial/functions.c:2262
 msgid "PRICE calculates the price per $100 face value of a security that pays periodic interest."
 msgstr "Funkcija PRICE izračuna ceno vrednostnega papirja z nazivno vrednostjo $100, za katerega se izplačujejo obresti."
 
-#: ../plugins/fn-financial/functions.c:2301
+#: ../plugins/fn-financial/functions.c:2304
 msgid "YIELD:yield of a security"
 msgstr "YIELD: donos vrednostnega papirja"
 
-#: ../plugins/fn-financial/functions.c:2305
-#: ../plugins/fn-financial/functions.c:2413
-#: ../plugins/fn-financial/functions.c:2460
-#: ../plugins/fn-financial/functions.c:2650
-#: ../plugins/fn-financial/functions.c:2823
+#: ../plugins/fn-financial/functions.c:2308
+#: ../plugins/fn-financial/functions.c:2416
+#: ../plugins/fn-financial/functions.c:2463
+#: ../plugins/fn-financial/functions.c:2653
+#: ../plugins/fn-financial/functions.c:2826
 msgid "price:price of security"
 msgstr "cena: cena vrednostnega papirja"
 
-#: ../plugins/fn-financial/functions.c:2309
+#: ../plugins/fn-financial/functions.c:2312
 msgid "YIELD calculates the yield of a security that pays periodic interest."
 msgstr "Funkcija YIELD izračuna donos za vrednostni papir, ki daje obresti v enakomernih časovnih razmikih."
 
-#: ../plugins/fn-financial/functions.c:2410
+#: ../plugins/fn-financial/functions.c:2413
 msgid "YIELDDISC:yield of a discounted security"
 msgstr "YIELDDISC: letni donos za diskontirani vrednostni papir"
 
-#: ../plugins/fn-financial/functions.c:2416
+#: ../plugins/fn-financial/functions.c:2419
 msgid "YIELDDISC calculates the yield of a discounted security."
 msgstr "Funkcija YIELDDISC izračuna letni donos za diskontirani vrednostni papir."
 
-#: ../plugins/fn-financial/functions.c:2455
+#: ../plugins/fn-financial/functions.c:2458
 msgid "YIELDMAT:yield of a security"
 msgstr "YIELDMAT: donosnost vrednostnega papirja"
 
-#: ../plugins/fn-financial/functions.c:2462
+#: ../plugins/fn-financial/functions.c:2465
 msgid "YIELDMAT calculates the yield of a security for which the interest is paid at maturity date."
 msgstr "Funkcija YIELDMAT izračuna donos za vrednostni papir, ki prinese obresti ob dospelosti."
 
-#: ../plugins/fn-financial/functions.c:2494
+#: ../plugins/fn-financial/functions.c:2497
 msgid "ODDFPRICE:price of a security that has an odd first period"
 msgstr "ODDFYIELD: cena vrednostnega papirja, ki ima liho prvo obdobje."
 
-#: ../plugins/fn-financial/functions.c:2498
-#: ../plugins/fn-financial/functions.c:2648
+#: ../plugins/fn-financial/functions.c:2501
+#: ../plugins/fn-financial/functions.c:2651
 msgid "first_interest:first interest date"
 msgstr "prve_obresti: datum prvega izplačila obresti"
 
-#: ../plugins/fn-financial/functions.c:2504
+#: ../plugins/fn-financial/functions.c:2507
 msgid "ODDFPRICE calculates the price per $100 face value of a security that pays periodic interest, but has an odd first period."
 msgstr "Funkcija ODDFPRICE izračuna ceno vrednostnega papirja z nazivno vrednostjo $100, za katerega se izplačujejo obresti, vendar ima liho prvo obdobje."
 
-#: ../plugins/fn-financial/functions.c:2644
+#: ../plugins/fn-financial/functions.c:2647
 msgid "ODDFYIELD:yield of a security that has an odd first period"
 msgstr "ODDFYIELD: donos vrednostnega papirja, ki ima liho prvo obdobje."
 
-#: ../plugins/fn-financial/functions.c:2654
+#: ../plugins/fn-financial/functions.c:2657
 msgid "ODDFYIELD calculates the yield of a security that pays periodic interest, but has an odd first period."
 msgstr "Funkcija ODDFYIELD izračuna donos vrednostnega papirja, za katerega se izplačujejo obresti, vendar ima liho prvo obdobje."
 
-#: ../plugins/fn-financial/functions.c:2740
+#: ../plugins/fn-financial/functions.c:2743
 msgid "ODDLPRICE:price of a security that has an odd last period"
 msgstr "ODDFPRICE: cena vrednostnega papirja, ki ima liho prvo obdobje."
 
-#: ../plugins/fn-financial/functions.c:2743
-#: ../plugins/fn-financial/functions.c:2821
+#: ../plugins/fn-financial/functions.c:2746
+#: ../plugins/fn-financial/functions.c:2824
 msgid "last_interest:last interest date"
 msgstr "zadnje_obresti: datum zadnjega izplačila obresti"
 
-#: ../plugins/fn-financial/functions.c:2749
+#: ../plugins/fn-financial/functions.c:2752
 msgid "ODDLPRICE calculates the price per $100 face value of a security that pays periodic interest, but has an odd last period."
 msgstr "Funkcija ODDLPRICE izračuna ceno vrednostnega papirja z nazivno vrednostjo $100, za katerega se izplačujejo obresti, vendar ima liho zadnje obdobje."
 
-#: ../plugins/fn-financial/functions.c:2818
+#: ../plugins/fn-financial/functions.c:2821
 msgid "ODDLYIELD:yield of a security that has an odd last period"
 msgstr "ODDFYIELD: donos vrednostnega papirja, ki ima liho prvo obdobje."
 
-#: ../plugins/fn-financial/functions.c:2827
+#: ../plugins/fn-financial/functions.c:2830
 msgid "ODDLYIELD calculates the yield of a security that pays periodic interest, but has an odd last period."
 msgstr "Funkcija ODDLYIELD izračuna donos vrednostnega papirja, za katerega se izplačujejo obresti, vendar ima liho zadnje obdobje."
 
-#: ../plugins/fn-financial/functions.c:2896
+#: ../plugins/fn-financial/functions.c:2899
 msgid "AMORDEGRC:depreciation of an asset using French accounting conventions"
 msgstr "AMORDEGRC: izračuna amortizacijo sredstev z uporabo francoskih računovodskih načel"
 
-#: ../plugins/fn-financial/functions.c:2898
-#: ../plugins/fn-financial/functions.c:2954
+#: ../plugins/fn-financial/functions.c:2901
+#: ../plugins/fn-financial/functions.c:2957
 msgid "purchase_date:date of purchase"
 msgstr "datum_nakupa: datum nakupa"
 
-#: ../plugins/fn-financial/functions.c:2899
-#: ../plugins/fn-financial/functions.c:2955
+#: ../plugins/fn-financial/functions.c:2902
+#: ../plugins/fn-financial/functions.c:2958
 msgid "first_period:end of first period"
 msgstr "prvo_obdobje: konec prvega obdobja"
 
-#: ../plugins/fn-financial/functions.c:2902
-#: ../plugins/fn-financial/functions.c:2958
+#: ../plugins/fn-financial/functions.c:2905
+#: ../plugins/fn-financial/functions.c:2961
 msgid "rate:depreciation rate"
 msgstr "mera: mera razvrednotenja"
 
-#: ../plugins/fn-financial/functions.c:2905
+#: ../plugins/fn-financial/functions.c:2908
 msgid "AMORDEGRC calculates the depreciation of an asset using French accounting conventions. Assets purchased in the middle of a period take prorated depreciation into account. This is similar to AMORLINC, except that a depreciation coefficient is applied in the calculation depending on the life of the assets."
 msgstr "Funkcija AMORDEGRC izračuna amortizacijo sredstev z uporabo francoskih računovodskih načel. Pri sredstvih, pridobljenih na sredini obdobja, se upošteva sorazmerna porazdelitev amortizacije. Funkcija je podobna funkciji AMORLINC, z razliko, da je koeficient amortizacije upoštevan v izračunu glede na življenjsko dobo sredstev."
 
-#: ../plugins/fn-financial/functions.c:2909
+#: ../plugins/fn-financial/functions.c:2912
 msgid ""
 "The depreciation coefficient used is:\n"
 "1.0 for an expected lifetime less than 3 years,\n"
@@ -3486,137 +3486,137 @@ msgstr ""
 "2.0 za pričakovano življenjsko dobo vsaj 3 let vendar največ 6 let in\n"
 "2.5 za pričakovano življenjsko dobo več kot 6 let."
 
-#: ../plugins/fn-financial/functions.c:2914
+#: ../plugins/fn-financial/functions.c:2917
 msgid "Special depreciation rules are applied for the last two periods resulting in a possible total depreciation exceeding the difference of @{cost} - @{salvage}."
 msgstr "Za zadnji dve obdobji so uveljavljena posebna pravila amortizacije, zaradi mogočega skupnega presežka razlike @{stroškov} - @{ohranjene_vrednosti}."
 
-#: ../plugins/fn-financial/functions.c:2916
+#: ../plugins/fn-financial/functions.c:2919
 msgid "Named for AMORtissement DEGRessif Comptabilite."
 msgstr "Funkcija je poimenovana po AMORtissement DEGRessif Comptabilite"
 
-#: ../plugins/fn-financial/functions.c:2952
+#: ../plugins/fn-financial/functions.c:2955
 msgid "AMORLINC:depreciation of an asset using French accounting conventions"
 msgstr "AMORLINC: amortizacija sredstev z uporabo francoskih računovodskih načel"
 
-#: ../plugins/fn-financial/functions.c:2961
+#: ../plugins/fn-financial/functions.c:2964
 msgid "AMORLINC calculates the depreciation of an asset using French accounting conventions. Assets purchased in the middle of a period take prorated depreciation into account. "
 msgstr "Funkcija AMORLINC izračuna amortizacijo sredstev z uporabo francoskih računovodskih načel. Pri sredstvih, pridobljenih na sredini obdobja, se upošteva sorazmerna porazdelitev amortizacije"
 
-#: ../plugins/fn-financial/functions.c:2963
+#: ../plugins/fn-financial/functions.c:2966
 msgid "Named for AMORtissement LINeaire Comptabilite."
 msgstr "Funkcija je poimenovana po AMORtissement LINeaire Comptabilite"
 
-#: ../plugins/fn-financial/functions.c:2998
+#: ../plugins/fn-financial/functions.c:3001
 msgid "COUPDAYBS:number of days from coupon period to settlement"
 msgstr "COUPDAYBS: število dni od začetka kuponskega obdobja do datuma poravnave"
 
-#: ../plugins/fn-financial/functions.c:3003
-#: ../plugins/fn-financial/functions.c:3027
-#: ../plugins/fn-financial/functions.c:3051
-#: ../plugins/fn-financial/functions.c:3075
-#: ../plugins/fn-financial/functions.c:3101
-#: ../plugins/fn-financial/functions.c:3127
+#: ../plugins/fn-financial/functions.c:3006
+#: ../plugins/fn-financial/functions.c:3030
+#: ../plugins/fn-financial/functions.c:3054
+#: ../plugins/fn-financial/functions.c:3078
+#: ../plugins/fn-financial/functions.c:3104
+#: ../plugins/fn-financial/functions.c:3130
 msgid "eom:end-of-month flag"
 msgstr "kom: zastavica konca meseca"
 
-#: ../plugins/fn-financial/functions.c:3004
+#: ../plugins/fn-financial/functions.c:3007
 msgid "COUPDAYBS calculates the number of days from the beginning of the coupon period to the settlement date."
 msgstr "Funkcija COUPDAYBS izračuna število dni ob začetka kuponskega obdobja do datuma poravnave."
 
-#: ../plugins/fn-financial/functions.c:3022
+#: ../plugins/fn-financial/functions.c:3025
 msgid "COUPDAYS:number of days in the coupon period of the settlement date"
 msgstr "COUPDAYS: število dni kuponskega obdobja do datuma poravnave"
 
-#: ../plugins/fn-financial/functions.c:3028
+#: ../plugins/fn-financial/functions.c:3031
 msgid "COUPDAYS calculates the number of days in the coupon period of the settlement date."
 msgstr "Funkcija COUPDAYS izračuna število dni kuponskega obdobja do datuma poravnave."
 
-#: ../plugins/fn-financial/functions.c:3046
+#: ../plugins/fn-financial/functions.c:3049
 msgid "COUPDAYSNC:number of days from the settlement date to the next coupon period"
 msgstr "COUPDAYSNC: število dni od datuma poravnave do naslednjega kuponskega obdobja"
 
-#: ../plugins/fn-financial/functions.c:3052
+#: ../plugins/fn-financial/functions.c:3055
 msgid "COUPDAYSNC calculates number of days from the settlement date to the next coupon period."
 msgstr "Funkcija COUPDAYSNC izračuna število dni od datuma poravnave do naslednjega kuponskega obdobja."
 
-#: ../plugins/fn-financial/functions.c:3070
+#: ../plugins/fn-financial/functions.c:3073
 msgid "COUPNCD:the next coupon date after settlement"
 msgstr "COUPNCD: naslednji datum kupona po poravnavi"
 
-#: ../plugins/fn-financial/functions.c:3076
+#: ../plugins/fn-financial/functions.c:3079
 msgid "COUPNCD calculates the coupon date following settlement."
 msgstr "Funkcija COUPNCD izračuna datum kupona, ki sledi poravnavi."
 
-#: ../plugins/fn-financial/functions.c:3096
+#: ../plugins/fn-financial/functions.c:3099
 msgid "COUPPCD:the last coupon date before settlement"
 msgstr "COUPPCD: zadnji datum kupona pred poravnavo"
 
-#: ../plugins/fn-financial/functions.c:3102
+#: ../plugins/fn-financial/functions.c:3105
 msgid "COUPPCD calculates the coupon date preceding settlement."
 msgstr "Funkcija COUPPCD izračuna datum kupona, ki je pred poravnavo."
 
-#: ../plugins/fn-financial/functions.c:3122
+#: ../plugins/fn-financial/functions.c:3125
 msgid "COUPNUM:number of coupons"
 msgstr "COUPNUM: število kuponov"
 
-#: ../plugins/fn-financial/functions.c:3128
+#: ../plugins/fn-financial/functions.c:3131
 msgid "COUPNUM calculates the number of coupons to be paid between the settlement and maturity dates, rounded up."
 msgstr "Funkcija COUPNUM izračuna število kuponov za izplačilo med datumom poravnave in datumi dospetja (zaokroženo)."
 
-#: ../plugins/fn-financial/functions.c:3146
+#: ../plugins/fn-financial/functions.c:3149
 msgid "CUMIPMT:cumulative interest payment"
 msgstr "CUMIPMT: izplačila kumulativnih (obrestnih) obresti"
 
-#: ../plugins/fn-financial/functions.c:3147
-#: ../plugins/fn-financial/functions.c:3191
+#: ../plugins/fn-financial/functions.c:3150
+#: ../plugins/fn-financial/functions.c:3194
 msgid "rate:interest rate per period"
 msgstr "mera: obrestna mera obdobja"
 
-#: ../plugins/fn-financial/functions.c:3150
-#: ../plugins/fn-financial/functions.c:3194
-#: ../plugins/fn-financial/functions.c:3283
+#: ../plugins/fn-financial/functions.c:3153
+#: ../plugins/fn-financial/functions.c:3197
+#: ../plugins/fn-financial/functions.c:3288
 msgid "start_period:first period to accumulate for"
 msgstr "začetno_obdobje: prvo obdobje akumulacije"
 
-#: ../plugins/fn-financial/functions.c:3151
-#: ../plugins/fn-financial/functions.c:3195
-#: ../plugins/fn-financial/functions.c:3284
+#: ../plugins/fn-financial/functions.c:3154
+#: ../plugins/fn-financial/functions.c:3198
+#: ../plugins/fn-financial/functions.c:3289
 msgid "end_period:last period to accumulate for"
 msgstr "končno_obdobje: zadnje obdobje akumulacije"
 
-#: ../plugins/fn-financial/functions.c:3153
+#: ../plugins/fn-financial/functions.c:3156
 msgid "CUMIPMT calculates the cumulative interest paid on a loan from @{start_period} to @{end_period}."
 msgstr "Funkcija CUMIPMT izračuna izplačane kumulativne (obrestne) obresti na posojilo od @{začetnega} do @{končnega} obdobja."
 
-#: ../plugins/fn-financial/functions.c:3190
+#: ../plugins/fn-financial/functions.c:3193
 msgid "CUMPRINC:cumulative principal"
 msgstr "CUMPRINC: kumulativna (obrestna) glavnica"
 
-#: ../plugins/fn-financial/functions.c:3197
+#: ../plugins/fn-financial/functions.c:3200
 msgid "CUMPRINC calculates the cumulative principal paid on a loan from @{start_period} to @{end_period}."
 msgstr "Funkcija CUMPRINC izračuna kumulativno (obrestno) glavnico za posojilo, izplačano med @{začetnim} in @{končnim} obdobjem."
 
-#: ../plugins/fn-financial/functions.c:3234
-msgid "MDURATION:the Macaulay duration of a security"
-msgstr "MDURATION: izračuna trajanje vrednostnega papirja po Macauleyju"
+#: ../plugins/fn-financial/functions.c:3237
+msgid "MDURATION:the modified (Macaulay) duration of a security"
+msgstr "MDURATION: izračuna spremenjeno trajanje vrednostnega papirja po Macauleyju"
 
-#: ../plugins/fn-financial/functions.c:3241
-msgid "MDURATION calculates the Macaulay duration of a security."
-msgstr "Funkcija MDURATION izračuna trajanje vrednostnega papirja po Macauleyju."
+#: ../plugins/fn-financial/functions.c:3244
+msgid "MDURATION calculates the modified (Macaulay) duration of a security."
+msgstr "Funkcija MDURATION izračuna spremenjeno trajanje vrednostnega papirja po Macauleyju."
 
-#: ../plugins/fn-financial/functions.c:3279
+#: ../plugins/fn-financial/functions.c:3284
 msgid "VDB:depreciation of an asset"
 msgstr "VDB: razvrednotenje sredstev"
 
-#: ../plugins/fn-financial/functions.c:3286
+#: ../plugins/fn-financial/functions.c:3291
 msgid "no_switch:do not switch to straight-line depreciation"
 msgstr "brez_preklopa: ne preklopi na linearno amortizacijo"
 
-#: ../plugins/fn-financial/functions.c:3287
+#: ../plugins/fn-financial/functions.c:3292
 msgid "VDB calculates the depreciation of an asset for a given period range using the variable-rate declining balance method."
 msgstr "Funkcija VDB (Variable Declining Balance ali spremenljivo pojemajoči saldo) izračuna amortizacijo sredstva za podano obdobje z uporabo načina dvojno pojemajočega salda."
 
-#: ../plugins/fn-financial/functions.c:3288
+#: ../plugins/fn-financial/functions.c:3293
 msgid "If @{no_switch} is FALSE, the calculation switches to straight-line depreciation when depreciation is greater than the declining balance calculation."
 msgstr "V primeru, da možnost @{brez_preklopa} ni izbrana, izračun preklopi na linearno amortizacijo, ko je amortizacija večja od izračuna pojemajočega salda."
 
@@ -9593,3 +9593,8 @@ msgstr "Funkcija ATL_LAST je vzorčna izvedba podatkovnega vira v resničnem ča
 msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr "Možnost je privzeto onemogočena."
 
+#~ msgid "DURATION:the duration of a security"
+#~ msgstr "DURATION: trajanje vrednostnega papirja"
+
+#~ msgid "DURATION calculates the duration of a security."
+#~ msgstr "DURATION izračuna trajanje vrednostnega papirja."
