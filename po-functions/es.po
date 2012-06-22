@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-05-12 22:46+0000\n"
-"PO-Revision-Date: 2012-05-14 13:16+0200\n"
+"POT-Creation-Date: 2012-06-21 07:07+0000\n"
+"PO-Revision-Date: 2012-06-22 12:58+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -162,13 +162,13 @@ msgstr "Si @{i} no es «i» ni «j», COMPLEX devuelve #VALUE!"
 #: ../plugins/fn-complex/functions.c:1135
 #: ../plugins/fn-complex/functions.c:1204 ../plugins/fn-date/functions.c:84
 #: ../plugins/fn-date/functions.c:197 ../plugins/fn-date/functions.c:219
-#: ../plugins/fn-date/functions.c:356 ../plugins/fn-date/functions.c:391
-#: ../plugins/fn-date/functions.c:408 ../plugins/fn-date/functions.c:429
-#: ../plugins/fn-date/functions.c:454 ../plugins/fn-date/functions.c:473
-#: ../plugins/fn-date/functions.c:496 ../plugins/fn-date/functions.c:519
-#: ../plugins/fn-date/functions.c:541 ../plugins/fn-date/functions.c:565
-#: ../plugins/fn-date/functions.c:589 ../plugins/fn-date/functions.c:617
-#: ../plugins/fn-date/functions.c:658 ../plugins/fn-date/functions.c:696
+#: ../plugins/fn-date/functions.c:354 ../plugins/fn-date/functions.c:389
+#: ../plugins/fn-date/functions.c:406 ../plugins/fn-date/functions.c:431
+#: ../plugins/fn-date/functions.c:492 ../plugins/fn-date/functions.c:511
+#: ../plugins/fn-date/functions.c:534 ../plugins/fn-date/functions.c:557
+#: ../plugins/fn-date/functions.c:579 ../plugins/fn-date/functions.c:603
+#: ../plugins/fn-date/functions.c:627 ../plugins/fn-date/functions.c:655
+#: ../plugins/fn-date/functions.c:696 ../plugins/fn-date/functions.c:734
 #: ../plugins/fn-eng/functions.c:238 ../plugins/fn-eng/functions.c:263
 #: ../plugins/fn-eng/functions.c:287 ../plugins/fn-eng/functions.c:316
 #: ../plugins/fn-eng/functions.c:342 ../plugins/fn-eng/functions.c:365
@@ -1001,7 +1001,7 @@ msgstr ""
 msgid "DATEVALUE:the date part of a date and time serial value"
 msgstr "DATEVALUE: la parte de la fecha de un valor de fecha y hora"
 
-#: ../plugins/fn-date/functions.c:194 ../plugins/fn-date/functions.c:451
+#: ../plugins/fn-date/functions.c:194 ../plugins/fn-date/functions.c:489
 msgid "serial:date and time serial value"
 msgstr "valor: valor de fecha y hora"
 
@@ -1014,15 +1014,15 @@ msgstr "DATEVALUE devuelve la parte de la fecha de un valor de fecha y hora."
 msgid "DATEDIF:difference between dates"
 msgstr "DATEDIF: diferencia entre fechas"
 
-#: ../plugins/fn-date/functions.c:212 ../plugins/fn-date/functions.c:651
-#: ../plugins/fn-date/functions.c:956 ../plugins/fn-date/functions.c:1222
-#: ../plugins/fn-date/functions.c:1251
+#: ../plugins/fn-date/functions.c:212 ../plugins/fn-date/functions.c:689
+#: ../plugins/fn-date/functions.c:994 ../plugins/fn-date/functions.c:1260
+#: ../plugins/fn-date/functions.c:1289
 msgid "start_date:starting date serial value"
 msgstr "fecha_inicio: valor de fecha inicial"
 
-#: ../plugins/fn-date/functions.c:213 ../plugins/fn-date/functions.c:652
-#: ../plugins/fn-date/functions.c:957 ../plugins/fn-date/functions.c:1223
-#: ../plugins/fn-date/functions.c:1252
+#: ../plugins/fn-date/functions.c:213 ../plugins/fn-date/functions.c:690
+#: ../plugins/fn-date/functions.c:995 ../plugins/fn-date/functions.c:1261
+#: ../plugins/fn-date/functions.c:1290
 msgid "end_date:ending date serial value"
 msgstr "fecha_fin: valor de fecha final"
 
@@ -1062,25 +1062,25 @@ msgstr ""
 "Si @{intervalo} es «md», entonces la distancia se mide en días completos, "
 "pero descontando cualquier diferencia en meses."
 
-#: ../plugins/fn-date/functions.c:352
+#: ../plugins/fn-date/functions.c:350
 msgid "EDATE:adjust a date by a number of months"
 msgstr "EDATE: ajustar una fecha por un número de meses"
 
-#: ../plugins/fn-date/functions.c:353 ../plugins/fn-date/functions.c:539
-#: ../plugins/fn-date/functions.c:563 ../plugins/fn-date/functions.c:587
-#: ../plugins/fn-date/functions.c:611 ../plugins/fn-date/functions.c:693
-#: ../plugins/fn-date/functions.c:733 ../plugins/fn-date/functions.c:1123
-#: ../plugins/fn-date/functions.c:1147 ../plugins/fn-date/functions.c:1183
+#: ../plugins/fn-date/functions.c:351 ../plugins/fn-date/functions.c:577
+#: ../plugins/fn-date/functions.c:601 ../plugins/fn-date/functions.c:625
+#: ../plugins/fn-date/functions.c:649 ../plugins/fn-date/functions.c:731
+#: ../plugins/fn-date/functions.c:771 ../plugins/fn-date/functions.c:1161
+#: ../plugins/fn-date/functions.c:1185 ../plugins/fn-date/functions.c:1221
 msgid "date:date serial value"
 msgstr "fecha: valor de la fecha"
 
 # meses:señalados número de meses
 # meses: número señalado de meses
-#: ../plugins/fn-date/functions.c:354 ../plugins/fn-date/functions.c:694
+#: ../plugins/fn-date/functions.c:352 ../plugins/fn-date/functions.c:732
 msgid "months:signed number of months"
 msgstr "meses: número de meses señalado"
 
-#: ../plugins/fn-date/functions.c:355
+#: ../plugins/fn-date/functions.c:353
 msgid ""
 "EDATE returns @{date} moved forward or backward the number of months "
 "specified by @{months}."
@@ -1088,11 +1088,11 @@ msgstr ""
 "EDATE devuelve @{fecha} desplazada hacia adelante o hacia atrás el número de "
 "meses indicado por @{meses}."
 
-#: ../plugins/fn-date/functions.c:389
+#: ../plugins/fn-date/functions.c:387
 msgid "TODAY:the date serial value of today"
 msgstr "TODAY: el valor de la fecha de hoy"
 
-#: ../plugins/fn-date/functions.c:390
+#: ../plugins/fn-date/functions.c:388
 msgid ""
 "The TODAY function returns the date serial value of the day it is computed.  "
 "Recomputing on a later date will produce a different value."
@@ -1100,11 +1100,11 @@ msgstr ""
 "La función TODAY devuelve el valor de la fecha del día en el que se calcula. "
 "Al recalcular en una fecha posterior se producirá un valor diferente."
 
-#: ../plugins/fn-date/functions.c:406
+#: ../plugins/fn-date/functions.c:404
 msgid "NOW:the date and time serial value of the current time"
 msgstr "NOW: fecha y hora del sistema"
 
-#: ../plugins/fn-date/functions.c:407
+#: ../plugins/fn-date/functions.c:405
 msgid ""
 "The NOW function returns the date and time serial value of the moment it is "
 "computed.  Recomputing later will produce a different value."
@@ -1112,52 +1112,114 @@ msgstr ""
 "La función NOW devuelve la fecha y la hora del momento en el que se calcula. "
 "Al recalcular más adelante, se producirá un valor diferente."
 
-#: ../plugins/fn-date/functions.c:423
+#: ../plugins/fn-date/functions.c:421 ../plugins/fn-date/functions.c:458
 msgid "TIME:create a time serial value"
 msgstr "TIME: crear un valor de hora completa"
 
-#: ../plugins/fn-date/functions.c:424
+#: ../plugins/fn-date/functions.c:422
 msgid "hour:hour of the day"
 msgstr "hora: hora del día"
 
-#: ../plugins/fn-date/functions.c:425
+#: ../plugins/fn-date/functions.c:423
 msgid "minute:minute within the hour"
 msgstr "minuto: minuto en la hora"
 
-#: ../plugins/fn-date/functions.c:426
+#: ../plugins/fn-date/functions.c:424
 msgid "second:second within the minute"
 msgstr "segundo: segundo en el minuto"
 
-#: ../plugins/fn-date/functions.c:427
+#: ../plugins/fn-date/functions.c:425
 msgid ""
-"The TIME function computes the fractional day between midnight at the time "
+"The TIME function computes the fractional day after midnight at the time "
 "given by @{hour}, @{minute}, and @{second}."
 msgstr ""
 "La función TIME calcula la hora completa entre la medianoche y el tiempo "
 "dado por @{hora}, @{minuto} y @{segundo}."
 
-#: ../plugins/fn-date/functions.c:450
+#: ../plugins/fn-date/functions.c:426
+msgid ""
+"While the return value is automatically formatted to look like a time "
+"between 0:00 and 24:00, the underlying serial time value is a number between "
+"0 and 1."
+msgstr ""
+"Mientras que el valor devuelto se formatea automáticamente para verse como "
+"una hora entre 0:00 y 24:00, el valor de serie de la hora es, internamente, "
+"un número entre 0 y 1."
+
+#: ../plugins/fn-date/functions.c:428
+msgid ""
+"If any of @{hour}, @{minute}, and @{second} is negative, #NUM! is returned"
+msgstr ""
+"Si cualquiera de los valores @{hora}, @{minuto} o @{segundo} es negativo, se "
+"devolverá #NUM!"
+
+#: ../plugins/fn-date/functions.c:459
+msgid "hour:hour"
+msgstr "hora: hora"
+
+#: ../plugins/fn-date/functions.c:460
+msgid "minute:minute"
+msgstr "minuto: minuto"
+
+#: ../plugins/fn-date/functions.c:461
+msgid "second:second"
+msgstr "segundo: segundo"
+
+#: ../plugins/fn-date/functions.c:462
+msgid ""
+"The ODF.TIME function computes the time given by @{hour}, @{minute}, and @"
+"{second} as a fraction of a day."
+msgstr ""
+"La función ODF.TIME calcula la hora dada por @{hora}, @{minuto} y @{segundo} "
+"como una fracción del día."
+
+#: ../plugins/fn-date/functions.c:463
+msgid ""
+"While the return value is automatically formatted to look like a time "
+"between 0:00 and 24:00, the underlying serial time value can be any number."
+msgstr ""
+"Mientras que el valor devuelto se formatea automáticamente para verse como "
+"una hora entre 0:00 y 24:00, el valor de serie de la hora puede ser, "
+"internamente, cualquier valor."
+
+#: ../plugins/fn-date/functions.c:467 ../plugins/fn-date/functions.c:780
+#: ../plugins/fn-date/functions.c:1002 ../plugins/fn-date/functions.c:1292
+#: ../plugins/fn-eng/functions.c:213 ../plugins/fn-eng/functions.c:317
+#: ../plugins/fn-eng/functions.c:386 ../plugins/fn-eng/functions.c:754
+#: ../plugins/fn-financial/functions.c:1312 ../plugins/fn-math/functions.c:433
+#: ../plugins/fn-math/functions.c:1033 ../plugins/fn-math/functions.c:1060
+#: ../plugins/fn-math/functions.c:1377 ../plugins/fn-math/functions.c:1397
+#: ../plugins/fn-math/functions.c:2065 ../plugins/fn-math/functions.c:2798
+#: ../plugins/fn-math/functions.c:2969 ../plugins/fn-stat/functions.c:1545
+#: ../plugins/fn-stat/functions.c:2423 ../plugins/fn-stat/functions.c:4555
+#: ../plugins/fn-string/functions.c:304 ../plugins/fn-string/functions.c:388
+#: ../plugins/fn-string/functions.c:515 ../plugins/fn-string/functions.c:1103
+#: ../plugins/fn-string/functions.c:1445 ../plugins/fn-string/functions.c:1575
+msgid "This function is OpenFormula compatible."
+msgstr "Esta función es compatible con OpenFormula."
+
+#: ../plugins/fn-date/functions.c:488
 msgid "TIMEVALUE:the time part of a date and time serial value"
 msgstr ""
 "TIMEVALUE: la hora como fracción decimal del día para un valor de fecha y "
 "hora"
 
-#: ../plugins/fn-date/functions.c:452
+#: ../plugins/fn-date/functions.c:490
 msgid "TIMEVALUE returns the time-of-day part of a date and time serial value."
 msgstr ""
 "TIMEVALUE devuelve la hora como fracción decimal del día para un valor de "
 "fecha y hora."
 
-#: ../plugins/fn-date/functions.c:469
+#: ../plugins/fn-date/functions.c:507
 msgid "HOUR:compute hour part of fractional day"
 msgstr "HOUR: calcular la hora de una fracción decimal del día"
 
-#: ../plugins/fn-date/functions.c:470 ../plugins/fn-date/functions.c:493
-#: ../plugins/fn-date/functions.c:516
+#: ../plugins/fn-date/functions.c:508 ../plugins/fn-date/functions.c:531
+#: ../plugins/fn-date/functions.c:554
 msgid "time:time of day as fractional day"
 msgstr "fracción: hora del día como una fracción decimal del día"
 
-#: ../plugins/fn-date/functions.c:471
+#: ../plugins/fn-date/functions.c:509
 msgid ""
 "The HOUR function computes the hour part of the fractional day given by @"
 "{time}."
@@ -1165,11 +1227,11 @@ msgstr ""
 "La función HOUR calcula la hora de una fracción decimal del día dada por @"
 "{fracción}."
 
-#: ../plugins/fn-date/functions.c:492
+#: ../plugins/fn-date/functions.c:530
 msgid "MINUTE:compute minute part of fractional day"
 msgstr "MINUTE: calcular el minuto de una fracción decimal del día"
 
-#: ../plugins/fn-date/functions.c:494
+#: ../plugins/fn-date/functions.c:532
 msgid ""
 "The MINUTE function computes the minute part of the fractional day given by @"
 "{time}."
@@ -1177,11 +1239,11 @@ msgstr ""
 "La función MINUTE calcula el minuto de una fracción decimal del día dada por "
 "@{fracción}."
 
-#: ../plugins/fn-date/functions.c:515
+#: ../plugins/fn-date/functions.c:553
 msgid "SECOND:compute seconds part of fractional day"
-msgstr "SECOND: calcular el segundo de una fracción decimal del día"
+msgstr "SECOND:calcular el segundo de una fracción decimal del día"
 
-#: ../plugins/fn-date/functions.c:517
+#: ../plugins/fn-date/functions.c:555
 msgid ""
 "The SECOND function computes the seconds part of the fractional day given by "
 "@{time}."
@@ -1189,39 +1251,39 @@ msgstr ""
 "La función SECOND calcula el segundo de una fracción decimal del día dada "
 "por @{fracción}."
 
-#: ../plugins/fn-date/functions.c:538
+#: ../plugins/fn-date/functions.c:576
 msgid "YEAR:the year part of a date serial value"
 msgstr "YEAR: la parte del año de un valor de fecha"
 
-#: ../plugins/fn-date/functions.c:540
+#: ../plugins/fn-date/functions.c:578
 msgid "The YEAR function returns the year part of @{date}."
 msgstr "La función YEAR devuelve la parte del año de @{fecha}."
 
-#: ../plugins/fn-date/functions.c:562
+#: ../plugins/fn-date/functions.c:600
 msgid "MONTH:the month part of a date serial value"
 msgstr "MONTH: la parte del mes de un valor de fecha"
 
-#: ../plugins/fn-date/functions.c:564
+#: ../plugins/fn-date/functions.c:602
 msgid "The MONTH function returns the month part of @{date}."
 msgstr "La función MONTH devuelve la parte del mes de @{fecha}."
 
-#: ../plugins/fn-date/functions.c:586
+#: ../plugins/fn-date/functions.c:624
 msgid "DAY:the day-of-month part of a date serial value"
 msgstr "DAY: la parte del día del mes de un valor de @{fecha}"
 
-#: ../plugins/fn-date/functions.c:588
+#: ../plugins/fn-date/functions.c:626
 msgid "The DAY function returns the day-of-month part of @{date}."
 msgstr "La función DAY devuelve la parte del día del mes de @{fecha}."
 
-#: ../plugins/fn-date/functions.c:610
+#: ../plugins/fn-date/functions.c:648
 msgid "WEEKDAY:day-of-week"
 msgstr "WEEKDAY: día de la semana"
 
-#: ../plugins/fn-date/functions.c:612 ../plugins/fn-date/functions.c:1184
+#: ../plugins/fn-date/functions.c:650 ../plugins/fn-date/functions.c:1222
 msgid "method:numbering system, defaults to 1"
 msgstr "método: sistema de numeración, el predeterminado es 1."
 
-#: ../plugins/fn-date/functions.c:613
+#: ../plugins/fn-date/functions.c:651
 msgid ""
 "The WEEKDAY function returns the day-of-week of @{date}.  The value of @"
 "{method} determines how days are numbered; it defaults to 1. "
@@ -1229,32 +1291,32 @@ msgstr ""
 "La función WEEKDAY devuelve el día de la semana de @{fecha}. El valor de @"
 "{método} establece la forma de enumerar los días; el predeterminado es 1."
 
-#: ../plugins/fn-date/functions.c:614
+#: ../plugins/fn-date/functions.c:652
 msgid "If @{method} is 1, then Sunday is 1, Monday is 2, etc."
 msgstr "Si @{método} es 1, entonces el domingo es 1, el lunes es 2, etc."
 
-#: ../plugins/fn-date/functions.c:615
+#: ../plugins/fn-date/functions.c:653
 msgid "If @{method} is 2, then Monday is 1, Tuesday is 2, etc."
 msgstr "Si @{método} es 2, entonces el lunes es 1, el martes es 2, etc."
 
-#: ../plugins/fn-date/functions.c:616
+#: ../plugins/fn-date/functions.c:654
 msgid "If @{method} is 3, then Monday is 0, Tuesday is 1, etc."
 msgstr "Si @{método} es 3, entonces el lunes es 0, el martes es 1, etc."
 
-#: ../plugins/fn-date/functions.c:650
+#: ../plugins/fn-date/functions.c:688
 msgid "DAYS360:days between dates"
 msgstr "DAYS360: días entre fechas"
 
-#: ../plugins/fn-date/functions.c:653
+#: ../plugins/fn-date/functions.c:691
 msgid "method:counting method"
 msgstr "método: método de conteo"
 
-#: ../plugins/fn-date/functions.c:654
+#: ../plugins/fn-date/functions.c:692
 msgid "DAYS360 returns the number of days from @{start_date} to @{end_date}."
 msgstr ""
 "DAYS360 devuelve el número de días desde @{fecha_inicio} hasta @{fecha_fin}"
 
-#: ../plugins/fn-date/functions.c:655
+#: ../plugins/fn-date/functions.c:693
 msgid ""
 "If @{method} is 0, the default, the MS Excel (tm) US method will be used. "
 "This is a somewhat complicated industry standard method where the last day "
@@ -1266,7 +1328,7 @@ msgstr ""
 "último día de febrero se considera como el 30º día del mes, pero sólo para @"
 "{fecha_inicio}."
 
-#: ../plugins/fn-date/functions.c:656
+#: ../plugins/fn-date/functions.c:694
 msgid ""
 "If @{method} is 1, the European method will be used.  In this case, if the "
 "day of the month is 31 it will be considered as 30"
@@ -1274,7 +1336,7 @@ msgstr ""
 "Si @{método} es 1, se utilizará el método europeo. Es este caso, si el día "
 "del mes es 31, se considerará como 30."
 
-#: ../plugins/fn-date/functions.c:657
+#: ../plugins/fn-date/functions.c:695
 msgid ""
 "If @{method} is 2, a saner version of the US method is used in which both "
 "dates get the same February treatment."
@@ -1282,11 +1344,11 @@ msgstr ""
 "Si @{método} es 2, se utilizará una versión más sana del método EE.UU., en "
 "el que ambas fechas tienen el mismo tratamiento para febrero."
 
-#: ../plugins/fn-date/functions.c:692
+#: ../plugins/fn-date/functions.c:730
 msgid "EOMONTH:end of month"
 msgstr "EOMONTH: fin del mes"
 
-#: ../plugins/fn-date/functions.c:695
+#: ../plugins/fn-date/functions.c:733
 msgid ""
 "EOMONTH returns the date serial value of the end of the month specified by @"
 "{date} adjusted forward or backward the number of months specified by @"
@@ -1296,19 +1358,19 @@ msgstr ""
 "{fecha} ajustado hacia adelante o atrás la cantidad de meses indicada por @"
 "{meses}."
 
-#: ../plugins/fn-date/functions.c:732
+#: ../plugins/fn-date/functions.c:770
 msgid "WORKDAY:add working days"
 msgstr "WORKDAY: agregar días laborales"
 
-#: ../plugins/fn-date/functions.c:734
+#: ../plugins/fn-date/functions.c:772
 msgid "days:number of days to add"
 msgstr "días: número de días que agregar"
 
-#: ../plugins/fn-date/functions.c:735 ../plugins/fn-date/functions.c:958
+#: ../plugins/fn-date/functions.c:773 ../plugins/fn-date/functions.c:996
 msgid "holidays:array of holidays"
 msgstr "festivos: vector de festivos"
 
-#: ../plugins/fn-date/functions.c:736 ../plugins/fn-date/functions.c:959
+#: ../plugins/fn-date/functions.c:774 ../plugins/fn-date/functions.c:997
 msgid ""
 "weekend:array of 0s and 1s, indicating whether a weekday (S, M, T, W, T, F, "
 "S) is on the weekend, defaults to {1,0,0,0,0,0,1}"
@@ -1317,7 +1379,7 @@ msgstr ""
 "L, M, X, J, V, S) correspondientes al fin de semana. El predeterminado es "
 "{1,0,0,0,0,0,1}."
 
-#: ../plugins/fn-date/functions.c:738
+#: ../plugins/fn-date/functions.c:776
 msgid ""
 "WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in "
 "the process."
@@ -1325,11 +1387,11 @@ msgstr ""
 "WORKDAR ajusta la @{fecha} por @{días} omitiendo los fines de semana y los @"
 "{festivos} en el proceso."
 
-#: ../plugins/fn-date/functions.c:739
+#: ../plugins/fn-date/functions.c:777
 msgid "@{days} may be negative."
 msgstr "@{días} puede ser negativo."
 
-#: ../plugins/fn-date/functions.c:740 ../plugins/fn-date/functions.c:962
+#: ../plugins/fn-date/functions.c:778 ../plugins/fn-date/functions.c:1000
 msgid ""
 "If an entry of @{weekend} is non-zero, the corresponding weekday is not a "
 "work day."
@@ -1337,31 +1399,15 @@ msgstr ""
 "Si un valor de @{fin de semana} es distinto de cero, el día de semana "
 "correspondiente no es un día laboral."
 
-#: ../plugins/fn-date/functions.c:741 ../plugins/fn-date/functions.c:963
+#: ../plugins/fn-date/functions.c:779 ../plugins/fn-date/functions.c:1001
 msgid "This function is Excel compatible if the last argument is omitted."
 msgstr "Esta función es compatible con Excel si se omite el último argumento."
 
-#: ../plugins/fn-date/functions.c:742 ../plugins/fn-date/functions.c:964
-#: ../plugins/fn-date/functions.c:1254 ../plugins/fn-eng/functions.c:213
-#: ../plugins/fn-eng/functions.c:317 ../plugins/fn-eng/functions.c:386
-#: ../plugins/fn-eng/functions.c:754 ../plugins/fn-financial/functions.c:1312
-#: ../plugins/fn-math/functions.c:433 ../plugins/fn-math/functions.c:1033
-#: ../plugins/fn-math/functions.c:1060 ../plugins/fn-math/functions.c:1377
-#: ../plugins/fn-math/functions.c:1397 ../plugins/fn-math/functions.c:2065
-#: ../plugins/fn-math/functions.c:2798 ../plugins/fn-math/functions.c:2969
-#: ../plugins/fn-stat/functions.c:1545 ../plugins/fn-stat/functions.c:2423
-#: ../plugins/fn-stat/functions.c:4555 ../plugins/fn-string/functions.c:304
-#: ../plugins/fn-string/functions.c:388 ../plugins/fn-string/functions.c:515
-#: ../plugins/fn-string/functions.c:1103 ../plugins/fn-string/functions.c:1445
-#: ../plugins/fn-string/functions.c:1575
-msgid "This function is OpenFormula compatible."
-msgstr "Esta función es compatible con OpenFormula."
-
-#: ../plugins/fn-date/functions.c:955
+#: ../plugins/fn-date/functions.c:993
 msgid "NETWORKDAYS:number of workdays in range"
 msgstr "NETWORKDAYS: número de días laborales en el rango"
 
-#: ../plugins/fn-date/functions.c:961
+#: ../plugins/fn-date/functions.c:999
 msgid ""
 "NETWORKDAYS calculates the number of days from @{start_date} to @{end_date} "
 "skipping weekends and @{holidays} in the process."
@@ -1369,11 +1415,11 @@ msgstr ""
 "NETWORKDAYS calcula el número de días desde {fecha_inicio} hasta @"
 "{fecha_fin} omitiendo los fines de semana y los @{festivos} en el proceso."
 
-#: ../plugins/fn-date/functions.c:1122
+#: ../plugins/fn-date/functions.c:1160
 msgid "ISOWEEKNUM:ISO week number"
 msgstr "ISOWEEKNUM: número de semana ISO"
 
-#: ../plugins/fn-date/functions.c:1124
+#: ../plugins/fn-date/functions.c:1162
 msgid ""
 "ISOWEEKNUM calculates the week number according to the ISO 8601 standard.  "
 "Weeks start on Mondays and week 1 contains the first Thursday of the year."
@@ -1381,7 +1427,7 @@ msgstr ""
 "ISOWEEKNUM calcula el número de semana de acuerdo al estándar ISO-8601. Las "
 "semanas empiezan en lunes y la semana 1 contiene el primer jueves del año."
 
-#: ../plugins/fn-date/functions.c:1125 ../plugins/fn-date/functions.c:1149
+#: ../plugins/fn-date/functions.c:1163 ../plugins/fn-date/functions.c:1187
 msgid ""
 "January 1 of a year is sometimes in week 52 or 53 of the previous year.  "
 "Similarly, December 31 is sometimes in week 1 of the following year."
@@ -1390,11 +1436,11 @@ msgstr ""
 "anterior. De la misma forma, el 31 de diciembre está, a veces, en la semana "
 "1 del año siguiente."
 
-#: ../plugins/fn-date/functions.c:1146
+#: ../plugins/fn-date/functions.c:1184
 msgid "ISOYEAR:year corresponding to the ISO week number"
 msgstr "ISOYEAR: año correspondiente al número de semana ISO"
 
-#: ../plugins/fn-date/functions.c:1148
+#: ../plugins/fn-date/functions.c:1186
 msgid ""
 "ISOYEAR calculates the year to go with week number according to the ISO 8601 "
 "standard."
@@ -1402,11 +1448,11 @@ msgstr ""
 "ISOYEAR calcula el año que va bien con el número de semana de acuerdo con el "
 "estándar ISO-8601."
 
-#: ../plugins/fn-date/functions.c:1182
+#: ../plugins/fn-date/functions.c:1220
 msgid "WEEKNUM:week number"
 msgstr "WEEKNUM: número de semana"
 
-#: ../plugins/fn-date/functions.c:1185
+#: ../plugins/fn-date/functions.c:1223
 msgid ""
 "WEEKNUM calculates the week number according to @{method} which defaults to "
 "1."
@@ -1414,56 +1460,56 @@ msgstr ""
 "WEEKNUM calcula el número de semana de acuerdo al @{método}, cuyo valor "
 "predeterminado es 1."
 
-#: ../plugins/fn-date/functions.c:1186
+#: ../plugins/fn-date/functions.c:1224
 msgid ""
 "If @{method} is 1, then weeks start on Sundays and January 1 is in week 1."
 msgstr ""
 "Si @{método} es 1, entonces las semanas empiezan en domingo y el 1 de enero "
 "se encuentra en la semana 1."
 
-#: ../plugins/fn-date/functions.c:1187
+#: ../plugins/fn-date/functions.c:1225
 msgid ""
 "If @{method} is 2, then weeks start on Mondays and January 1 is in week 1."
 msgstr ""
 "Si @{método} es 2, entonces las semanas empiezan en lunes y el 1 de enero se "
 "encuentra en la semana 1."
 
-#: ../plugins/fn-date/functions.c:1188
+#: ../plugins/fn-date/functions.c:1226
 msgid "If @{method} is 150, then the ISO 8601 numbering is used."
 msgstr "Si @{método} es 150, entonces se utiliza la numeración ISO-8601."
 
-#: ../plugins/fn-date/functions.c:1221
+#: ../plugins/fn-date/functions.c:1259
 msgid "YEARFRAC:fractional number of years between dates"
 msgstr "YEARFRAC: número fraccional de años entre fechas"
 
-#: ../plugins/fn-date/functions.c:1224 ../plugins/fn-financial/functions.c:454
+#: ../plugins/fn-date/functions.c:1262 ../plugins/fn-financial/functions.c:454
 #: ../plugins/fn-financial/functions.c:492
 #: ../plugins/fn-financial/functions.c:530
 #: ../plugins/fn-financial/functions.c:571
 #: ../plugins/fn-financial/functions.c:608
 #: ../plugins/fn-financial/functions.c:652
 #: ../plugins/fn-financial/functions.c:1895
-#: ../plugins/fn-financial/functions.c:2258
-#: ../plugins/fn-financial/functions.c:2308
-#: ../plugins/fn-financial/functions.c:2415
-#: ../plugins/fn-financial/functions.c:2461
-#: ../plugins/fn-financial/functions.c:2503
-#: ../plugins/fn-financial/functions.c:2653
-#: ../plugins/fn-financial/functions.c:2748
-#: ../plugins/fn-financial/functions.c:2826
-#: ../plugins/fn-financial/functions.c:2903
-#: ../plugins/fn-financial/functions.c:2959
-#: ../plugins/fn-financial/functions.c:3002
-#: ../plugins/fn-financial/functions.c:3026
-#: ../plugins/fn-financial/functions.c:3050
-#: ../plugins/fn-financial/functions.c:3074
-#: ../plugins/fn-financial/functions.c:3100
-#: ../plugins/fn-financial/functions.c:3126
-#: ../plugins/fn-financial/functions.c:3240
+#: ../plugins/fn-financial/functions.c:2261
+#: ../plugins/fn-financial/functions.c:2311
+#: ../plugins/fn-financial/functions.c:2418
+#: ../plugins/fn-financial/functions.c:2464
+#: ../plugins/fn-financial/functions.c:2506
+#: ../plugins/fn-financial/functions.c:2656
+#: ../plugins/fn-financial/functions.c:2751
+#: ../plugins/fn-financial/functions.c:2829
+#: ../plugins/fn-financial/functions.c:2906
+#: ../plugins/fn-financial/functions.c:2962
+#: ../plugins/fn-financial/functions.c:3005
+#: ../plugins/fn-financial/functions.c:3029
+#: ../plugins/fn-financial/functions.c:3053
+#: ../plugins/fn-financial/functions.c:3077
+#: ../plugins/fn-financial/functions.c:3103
+#: ../plugins/fn-financial/functions.c:3129
+#: ../plugins/fn-financial/functions.c:3243
 msgid "basis:calendar basis"
 msgstr "base: base del calendario"
 
-#: ../plugins/fn-date/functions.c:1225
+#: ../plugins/fn-date/functions.c:1263
 msgid ""
 "YEARFRAC calculates the number of days from @{start_date} to @{end_date} "
 "according to the calendar specified by @{basis}, which defaults to 0, and "
@@ -1473,11 +1519,11 @@ msgstr ""
 "acuerdo al calendario indicado por @{base}, cuyo predeterminado es 0, y "
 "presenta el resultado como una fracción del año."
 
-#: ../plugins/fn-date/functions.c:1250
+#: ../plugins/fn-date/functions.c:1288
 msgid "DAYS:difference between dates in days"
 msgstr "DAYS: diferencia entre fechas en días"
 
-#: ../plugins/fn-date/functions.c:1253
+#: ../plugins/fn-date/functions.c:1291
 msgid ""
 "DAYS returns the positive or negative number of days from @{start_date} to @"
 "{end_date}."
@@ -1532,49 +1578,55 @@ msgid ""
 "volatility:annualized volatility of the asset in percent for the period "
 "through to the exercise date"
 msgstr ""
-"volatilidad: volatilidad anualizada de los activos en tanto porciento para "
-"el periodo hasta la fecha de ejercicio"
+"volatilidad:volatilidad anualizada de los activos en tanto porciento para el "
+"periodo hasta la fecha de ejercicio"
 
 #: ../plugins/fn-derivatives/options.c:57
 msgid "volatility:annualized volatility of the asset"
-msgstr "volatilidad: volatilidad anualizada de los activos"
+msgstr "volatilidad:volatilidad anualizada de los activos"
 
 #: ../plugins/fn-derivatives/options.c:58
 msgid "d:amount of the dividend to be paid expressed in currency"
-msgstr ""
+msgstr "d:importe del dividendo a pagar expresado en moneda"
 
 #: ../plugins/fn-derivatives/options.c:59
 msgid ""
 "cost_of_carry:net cost of holding the underlying asset (for common stocks, "
 "the risk free rate less the dividend yield), defaults to 0"
 msgstr ""
+"coste_de_financiación:coste neto de la financiación del activo subyacente "
+"(para las acciones comunes, la tasa libre de riesgo menos la rentabilidad "
+"del dividendo efectivo), el valor predeterminado es 0."
 
 #: ../plugins/fn-derivatives/options.c:60
 msgid "cost_of_carry:net cost of holding the underlying asset"
 msgstr ""
+"coste_de_financiación:coste neto de la financiación del activo subyacente"
 
 #: ../plugins/fn-derivatives/options.c:62
 msgid ""
 "The returned value will be expressed in the same units as @{strike} and @"
 "{spot}."
 msgstr ""
+"El valor devuelto se expresará en las mismas unidades que @{ejercicio} y @"
+"{contado}."
 
 #: ../plugins/fn-derivatives/options.c:192
 msgid "CUM_BIV_NORM_DIST:cumulative bivariate normal distribution"
 msgstr ""
-"CUM_BIV_NORM_DIST: función de distribución bivariable normal acumulativa"
+"CUM_BIV_NORM_DIST:función de distribución bivariable normal acumulativa"
 
 #: ../plugins/fn-derivatives/options.c:193
 msgid "a:limit for first random variable"
-msgstr ""
+msgstr "a:límite para la primera variable aleatoria"
 
 #: ../plugins/fn-derivatives/options.c:194
 msgid "b:limit for second random variable"
-msgstr ""
+msgstr "b:límite para la segunda variable aleatoria"
 
 #: ../plugins/fn-derivatives/options.c:195
 msgid "rho:correlation of the two random variables"
-msgstr ""
+msgstr "rho:correlación de las dos variables aleatorias"
 
 #: ../plugins/fn-derivatives/options.c:196
 msgid ""
@@ -2900,9 +2952,9 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:363
 #: ../plugins/fn-financial/functions.c:450
 #: ../plugins/fn-financial/functions.c:605
-#: ../plugins/fn-financial/functions.c:2458
-#: ../plugins/fn-financial/functions.c:2497
-#: ../plugins/fn-financial/functions.c:2647
+#: ../plugins/fn-financial/functions.c:2461
+#: ../plugins/fn-financial/functions.c:2500
+#: ../plugins/fn-financial/functions.c:2650
 msgid "issue:date of issue"
 msgstr ""
 
@@ -2920,21 +2972,21 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1124
 #: ../plugins/fn-financial/functions.c:1158
 #: ../plugins/fn-financial/functions.c:1890
-#: ../plugins/fn-financial/functions.c:2252
-#: ../plugins/fn-financial/functions.c:2302
-#: ../plugins/fn-financial/functions.c:2411
-#: ../plugins/fn-financial/functions.c:2456
-#: ../plugins/fn-financial/functions.c:2495
-#: ../plugins/fn-financial/functions.c:2645
-#: ../plugins/fn-financial/functions.c:2741
-#: ../plugins/fn-financial/functions.c:2819
-#: ../plugins/fn-financial/functions.c:2999
-#: ../plugins/fn-financial/functions.c:3023
-#: ../plugins/fn-financial/functions.c:3047
-#: ../plugins/fn-financial/functions.c:3071
-#: ../plugins/fn-financial/functions.c:3097
-#: ../plugins/fn-financial/functions.c:3123
-#: ../plugins/fn-financial/functions.c:3235
+#: ../plugins/fn-financial/functions.c:2255
+#: ../plugins/fn-financial/functions.c:2305
+#: ../plugins/fn-financial/functions.c:2414
+#: ../plugins/fn-financial/functions.c:2459
+#: ../plugins/fn-financial/functions.c:2498
+#: ../plugins/fn-financial/functions.c:2648
+#: ../plugins/fn-financial/functions.c:2744
+#: ../plugins/fn-financial/functions.c:2822
+#: ../plugins/fn-financial/functions.c:3002
+#: ../plugins/fn-financial/functions.c:3026
+#: ../plugins/fn-financial/functions.c:3050
+#: ../plugins/fn-financial/functions.c:3074
+#: ../plugins/fn-financial/functions.c:3100
+#: ../plugins/fn-financial/functions.c:3126
+#: ../plugins/fn-financial/functions.c:3238
 msgid "settlement:settlement date"
 msgstr ""
 
@@ -2942,13 +2994,13 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:452
 #: ../plugins/fn-financial/functions.c:529
 #: ../plugins/fn-financial/functions.c:686
-#: ../plugins/fn-financial/functions.c:2254
-#: ../plugins/fn-financial/functions.c:2304
-#: ../plugins/fn-financial/functions.c:2459
-#: ../plugins/fn-financial/functions.c:2499
-#: ../plugins/fn-financial/functions.c:2649
-#: ../plugins/fn-financial/functions.c:2744
-#: ../plugins/fn-financial/functions.c:2822
+#: ../plugins/fn-financial/functions.c:2257
+#: ../plugins/fn-financial/functions.c:2307
+#: ../plugins/fn-financial/functions.c:2462
+#: ../plugins/fn-financial/functions.c:2502
+#: ../plugins/fn-financial/functions.c:2652
+#: ../plugins/fn-financial/functions.c:2747
+#: ../plugins/fn-financial/functions.c:2825
 msgid "rate:nominal annual interest rate"
 msgstr ""
 
@@ -2958,19 +3010,19 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:368
 #: ../plugins/fn-financial/functions.c:1894
-#: ../plugins/fn-financial/functions.c:2257
-#: ../plugins/fn-financial/functions.c:2307
-#: ../plugins/fn-financial/functions.c:2502
-#: ../plugins/fn-financial/functions.c:2652
-#: ../plugins/fn-financial/functions.c:2747
-#: ../plugins/fn-financial/functions.c:2825
-#: ../plugins/fn-financial/functions.c:3001
-#: ../plugins/fn-financial/functions.c:3025
-#: ../plugins/fn-financial/functions.c:3049
-#: ../plugins/fn-financial/functions.c:3073
-#: ../plugins/fn-financial/functions.c:3099
-#: ../plugins/fn-financial/functions.c:3125
-#: ../plugins/fn-financial/functions.c:3239
+#: ../plugins/fn-financial/functions.c:2260
+#: ../plugins/fn-financial/functions.c:2310
+#: ../plugins/fn-financial/functions.c:2505
+#: ../plugins/fn-financial/functions.c:2655
+#: ../plugins/fn-financial/functions.c:2750
+#: ../plugins/fn-financial/functions.c:2828
+#: ../plugins/fn-financial/functions.c:3004
+#: ../plugins/fn-financial/functions.c:3028
+#: ../plugins/fn-financial/functions.c:3052
+#: ../plugins/fn-financial/functions.c:3076
+#: ../plugins/fn-financial/functions.c:3102
+#: ../plugins/fn-financial/functions.c:3128
+#: ../plugins/fn-financial/functions.c:3242
 msgid "frequency:number of interest payments per year"
 msgstr ""
 
@@ -3026,21 +3078,21 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1125
 #: ../plugins/fn-financial/functions.c:1159
 #: ../plugins/fn-financial/functions.c:1891
-#: ../plugins/fn-financial/functions.c:2253
-#: ../plugins/fn-financial/functions.c:2303
-#: ../plugins/fn-financial/functions.c:2412
-#: ../plugins/fn-financial/functions.c:2457
-#: ../plugins/fn-financial/functions.c:2496
-#: ../plugins/fn-financial/functions.c:2646
-#: ../plugins/fn-financial/functions.c:2742
-#: ../plugins/fn-financial/functions.c:2820
-#: ../plugins/fn-financial/functions.c:3000
-#: ../plugins/fn-financial/functions.c:3024
-#: ../plugins/fn-financial/functions.c:3048
-#: ../plugins/fn-financial/functions.c:3072
-#: ../plugins/fn-financial/functions.c:3098
-#: ../plugins/fn-financial/functions.c:3124
-#: ../plugins/fn-financial/functions.c:3236
+#: ../plugins/fn-financial/functions.c:2256
+#: ../plugins/fn-financial/functions.c:2306
+#: ../plugins/fn-financial/functions.c:2415
+#: ../plugins/fn-financial/functions.c:2460
+#: ../plugins/fn-financial/functions.c:2499
+#: ../plugins/fn-financial/functions.c:2649
+#: ../plugins/fn-financial/functions.c:2745
+#: ../plugins/fn-financial/functions.c:2823
+#: ../plugins/fn-financial/functions.c:3003
+#: ../plugins/fn-financial/functions.c:3027
+#: ../plugins/fn-financial/functions.c:3051
+#: ../plugins/fn-financial/functions.c:3075
+#: ../plugins/fn-financial/functions.c:3101
+#: ../plugins/fn-financial/functions.c:3127
+#: ../plugins/fn-financial/functions.c:3239
 msgid "maturity:maturity date"
 msgstr ""
 
@@ -3068,13 +3120,13 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:491
 #: ../plugins/fn-financial/functions.c:570
 #: ../plugins/fn-financial/functions.c:651
-#: ../plugins/fn-financial/functions.c:2256
-#: ../plugins/fn-financial/functions.c:2306
-#: ../plugins/fn-financial/functions.c:2414
-#: ../plugins/fn-financial/functions.c:2501
-#: ../plugins/fn-financial/functions.c:2651
-#: ../plugins/fn-financial/functions.c:2746
-#: ../plugins/fn-financial/functions.c:2824
+#: ../plugins/fn-financial/functions.c:2259
+#: ../plugins/fn-financial/functions.c:2309
+#: ../plugins/fn-financial/functions.c:2417
+#: ../plugins/fn-financial/functions.c:2504
+#: ../plugins/fn-financial/functions.c:2654
+#: ../plugins/fn-financial/functions.c:2749
+#: ../plugins/fn-financial/functions.c:2827
 msgid "redemption:amount received at maturity"
 msgstr ""
 
@@ -3113,10 +3165,10 @@ msgstr ""
 
 #: ../plugins/fn-financial/functions.c:607
 #: ../plugins/fn-financial/functions.c:1893
-#: ../plugins/fn-financial/functions.c:2255
-#: ../plugins/fn-financial/functions.c:2500
-#: ../plugins/fn-financial/functions.c:2745
-#: ../plugins/fn-financial/functions.c:3238
+#: ../plugins/fn-financial/functions.c:2258
+#: ../plugins/fn-financial/functions.c:2503
+#: ../plugins/fn-financial/functions.c:2748
+#: ../plugins/fn-financial/functions.c:3241
 msgid "yield:annual yield of security"
 msgstr ""
 
@@ -3168,7 +3220,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1758
 #: ../plugins/fn-financial/functions.c:1798
 #: ../plugins/fn-financial/functions.c:1842
-#: ../plugins/fn-financial/functions.c:1934
+#: ../plugins/fn-financial/functions.c:1936
 msgid "rate:effective annual interest rate"
 msgstr ""
 
@@ -3193,8 +3245,8 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1729
 #: ../plugins/fn-financial/functions.c:1760
 #: ../plugins/fn-financial/functions.c:1800
-#: ../plugins/fn-financial/functions.c:3148
-#: ../plugins/fn-financial/functions.c:3192
+#: ../plugins/fn-financial/functions.c:3151
+#: ../plugins/fn-financial/functions.c:3195
 msgid "nper:number of periods"
 msgstr "nper: número de periodos"
 
@@ -3206,9 +3258,9 @@ msgstr "nper: número de periodos"
 #: ../plugins/fn-financial/functions.c:1761
 #: ../plugins/fn-financial/functions.c:1801
 #: ../plugins/fn-financial/functions.c:1844
-#: ../plugins/fn-financial/functions.c:1935
-#: ../plugins/fn-financial/functions.c:3149
-#: ../plugins/fn-financial/functions.c:3193
+#: ../plugins/fn-financial/functions.c:1937
+#: ../plugins/fn-financial/functions.c:3152
+#: ../plugins/fn-financial/functions.c:3196
 msgid "pv:present value"
 msgstr ""
 
@@ -3224,9 +3276,9 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:822
 #: ../plugins/fn-financial/functions.c:871
 #: ../plugins/fn-financial/functions.c:901
-#: ../plugins/fn-financial/functions.c:2897
-#: ../plugins/fn-financial/functions.c:2953
-#: ../plugins/fn-financial/functions.c:3280
+#: ../plugins/fn-financial/functions.c:2900
+#: ../plugins/fn-financial/functions.c:2956
+#: ../plugins/fn-financial/functions.c:3285
 msgid "cost:initial cost of asset"
 msgstr ""
 
@@ -3234,9 +3286,9 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:823
 #: ../plugins/fn-financial/functions.c:872
 #: ../plugins/fn-financial/functions.c:902
-#: ../plugins/fn-financial/functions.c:2900
-#: ../plugins/fn-financial/functions.c:2956
-#: ../plugins/fn-financial/functions.c:3281
+#: ../plugins/fn-financial/functions.c:2903
+#: ../plugins/fn-financial/functions.c:2959
+#: ../plugins/fn-financial/functions.c:3286
 msgid "salvage:value after depreciation"
 msgstr ""
 
@@ -3244,15 +3296,15 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:824
 #: ../plugins/fn-financial/functions.c:873
 #: ../plugins/fn-financial/functions.c:903
-#: ../plugins/fn-financial/functions.c:3282
+#: ../plugins/fn-financial/functions.c:3287
 msgid "life:number of periods"
 msgstr "life: número de periodos"
 
 #: ../plugins/fn-financial/functions.c:775
 #: ../plugins/fn-financial/functions.c:825
 #: ../plugins/fn-financial/functions.c:904
-#: ../plugins/fn-financial/functions.c:2901
-#: ../plugins/fn-financial/functions.c:2957
+#: ../plugins/fn-financial/functions.c:2904
+#: ../plugins/fn-financial/functions.c:2960
 msgid "period:subject period"
 msgstr ""
 
@@ -3271,7 +3323,7 @@ msgid "DDB:depreciation of an asset"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:826
-#: ../plugins/fn-financial/functions.c:3285
+#: ../plugins/fn-financial/functions.c:3290
 msgid "factor:factor at which the balance declines"
 msgstr ""
 
@@ -3405,7 +3457,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1762
 #: ../plugins/fn-financial/functions.c:1802
 #: ../plugins/fn-financial/functions.c:1845
-#: ../plugins/fn-financial/functions.c:1936
+#: ../plugins/fn-financial/functions.c:1938
 msgid "fv:future value"
 msgstr "fv: valor futuro"
 
@@ -3416,8 +3468,8 @@ msgstr "fv: valor futuro"
 #: ../plugins/fn-financial/functions.c:1763
 #: ../plugins/fn-financial/functions.c:1803
 #: ../plugins/fn-financial/functions.c:1846
-#: ../plugins/fn-financial/functions.c:3152
-#: ../plugins/fn-financial/functions.c:3196
+#: ../plugins/fn-financial/functions.c:3155
+#: ../plugins/fn-financial/functions.c:3199
 msgid "type:payment type"
 msgstr ""
 
@@ -3577,66 +3629,66 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1889
-msgid "DURATION:the duration of a security"
+msgid "DURATION:the (Macaulay) duration of a security"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1892
-#: ../plugins/fn-financial/functions.c:3237
+#: ../plugins/fn-financial/functions.c:3240
 msgid "coupon:annual coupon rate"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:1896
-msgid "DURATION calculates the duration of a security."
+msgid "DURATION calculates the (Macaulay) duration of a security."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1933
+#: ../plugins/fn-financial/functions.c:1935
 msgid "G_DURATION:the duration of a investment"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1937
+#: ../plugins/fn-financial/functions.c:1939
 msgid ""
 "G_DURATION calculates the number of periods needed for an investment to "
 "attain a desired value."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1938
+#: ../plugins/fn-financial/functions.c:1940
 msgid "G_DURATION is the OpenFormula function PDURATION."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1966
+#: ../plugins/fn-financial/functions.c:1969
 msgid "FVSCHEDULE:future value"
 msgstr "FVSCHEDULE: valor futuro"
 
-#: ../plugins/fn-financial/functions.c:1967
+#: ../plugins/fn-financial/functions.c:1970
 msgid "principal:initial value"
 msgstr "principal: valor inicial"
 
-#: ../plugins/fn-financial/functions.c:1968
+#: ../plugins/fn-financial/functions.c:1971
 msgid "schedule:range of interest rates"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:1969
+#: ../plugins/fn-financial/functions.c:1972
 msgid ""
 "FVSCHEDULE calculates the future value of @{principal} after applying a "
 "range of interest rates with compounding."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2002
+#: ../plugins/fn-financial/functions.c:2005
 msgid "EURO:equivalent of 1 EUR"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2003
+#: ../plugins/fn-financial/functions.c:2006
 msgid "currency:three-letter currency code"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2004
+#: ../plugins/fn-financial/functions.c:2007
 msgid ""
 "EURO calculates the national currency amount corresponding to 1 EUR for any "
 "of the national currencies that were replaced by the Euro on its "
 "introduction."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2005
+#: ../plugins/fn-financial/functions.c:2008
 msgid ""
 "@{currency} must be one of ATS (Austria), BEF (Belgium), CYP (Cyprus), DEM "
 "(Germany), EEK (Estonia), ESP (Spain), EUR (Euro), FIM (Finland), FRF "
@@ -3645,171 +3697,171 @@ msgid ""
 "(Slovakia)."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2024
-#: ../plugins/fn-financial/functions.c:2208
+#: ../plugins/fn-financial/functions.c:2027
+#: ../plugins/fn-financial/functions.c:2211
 msgid "This function is not likely to be useful anymore."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2199
+#: ../plugins/fn-financial/functions.c:2202
 msgid "EUROCONVERT:pre-Euro amount from one currency to another"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2200
+#: ../plugins/fn-financial/functions.c:2203
 msgid "n:amount"
 msgstr "n: cantidad"
 
-#: ../plugins/fn-financial/functions.c:2201
+#: ../plugins/fn-financial/functions.c:2204
 msgid "source:three-letter source currency code"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2202
+#: ../plugins/fn-financial/functions.c:2205
 msgid "target:three-letter target currency code"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2203
+#: ../plugins/fn-financial/functions.c:2206
 msgid "full_precision:whether to provide the full precision; defaults to false"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2204
+#: ../plugins/fn-financial/functions.c:2207
 msgid ""
 "triangulation_precision:number of digits (at least 3) to be rounded to after "
 "conversion of the source currency to euro; defaults to no rounding"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2205
+#: ../plugins/fn-financial/functions.c:2208
 msgid ""
 "EUROCONVERT converts @{n} units of currency @{source} to currency @"
 "{target}.  The rates used are the official ones used on the introduction of "
 "the Euro."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2206
+#: ../plugins/fn-financial/functions.c:2209
 msgid ""
 "If @{full_precision} is true, the result is not rounded; if it false the "
 "result is rounded to 0 or 2 decimals depending on the target currency; "
 "defaults to false."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2207
+#: ../plugins/fn-financial/functions.c:2210
 msgid ""
 "@{source} and @{target} must be one of the currencies listed for the EURO "
 "function."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2251
+#: ../plugins/fn-financial/functions.c:2254
 msgid "PRICE:price of a security"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2259
+#: ../plugins/fn-financial/functions.c:2262
 msgid ""
 "PRICE calculates the price per $100 face value of a security that pays "
 "periodic interest."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2301
+#: ../plugins/fn-financial/functions.c:2304
 msgid "YIELD:yield of a security"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2305
-#: ../plugins/fn-financial/functions.c:2413
-#: ../plugins/fn-financial/functions.c:2460
-#: ../plugins/fn-financial/functions.c:2650
-#: ../plugins/fn-financial/functions.c:2823
+#: ../plugins/fn-financial/functions.c:2308
+#: ../plugins/fn-financial/functions.c:2416
+#: ../plugins/fn-financial/functions.c:2463
+#: ../plugins/fn-financial/functions.c:2653
+#: ../plugins/fn-financial/functions.c:2826
 msgid "price:price of security"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2309
+#: ../plugins/fn-financial/functions.c:2312
 msgid "YIELD calculates the yield of a security that pays periodic interest."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2410
+#: ../plugins/fn-financial/functions.c:2413
 msgid "YIELDDISC:yield of a discounted security"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2416
+#: ../plugins/fn-financial/functions.c:2419
 msgid "YIELDDISC calculates the yield of a discounted security."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2455
+#: ../plugins/fn-financial/functions.c:2458
 msgid "YIELDMAT:yield of a security"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2462
+#: ../plugins/fn-financial/functions.c:2465
 msgid ""
 "YIELDMAT calculates the yield of a security for which the interest is paid "
 "at maturity date."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2494
+#: ../plugins/fn-financial/functions.c:2497
 msgid "ODDFPRICE:price of a security that has an odd first period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2498
-#: ../plugins/fn-financial/functions.c:2648
+#: ../plugins/fn-financial/functions.c:2501
+#: ../plugins/fn-financial/functions.c:2651
 msgid "first_interest:first interest date"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2504
+#: ../plugins/fn-financial/functions.c:2507
 msgid ""
 "ODDFPRICE calculates the price per $100 face value of a security that pays "
 "periodic interest, but has an odd first period."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2644
+#: ../plugins/fn-financial/functions.c:2647
 msgid "ODDFYIELD:yield of a security that has an odd first period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2654
+#: ../plugins/fn-financial/functions.c:2657
 msgid ""
 "ODDFYIELD calculates the yield of a security that pays periodic interest, "
 "but has an odd first period."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2740
+#: ../plugins/fn-financial/functions.c:2743
 msgid "ODDLPRICE:price of a security that has an odd last period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2743
-#: ../plugins/fn-financial/functions.c:2821
+#: ../plugins/fn-financial/functions.c:2746
+#: ../plugins/fn-financial/functions.c:2824
 msgid "last_interest:last interest date"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2749
+#: ../plugins/fn-financial/functions.c:2752
 msgid ""
 "ODDLPRICE calculates the price per $100 face value of a security that pays "
 "periodic interest, but has an odd last period."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2818
+#: ../plugins/fn-financial/functions.c:2821
 msgid "ODDLYIELD:yield of a security that has an odd last period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2827
+#: ../plugins/fn-financial/functions.c:2830
 msgid ""
 "ODDLYIELD calculates the yield of a security that pays periodic interest, "
 "but has an odd last period."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2896
+#: ../plugins/fn-financial/functions.c:2899
 msgid "AMORDEGRC:depreciation of an asset using French accounting conventions"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2898
-#: ../plugins/fn-financial/functions.c:2954
+#: ../plugins/fn-financial/functions.c:2901
+#: ../plugins/fn-financial/functions.c:2957
 msgid "purchase_date:date of purchase"
-msgstr ""
-
-#: ../plugins/fn-financial/functions.c:2899
-#: ../plugins/fn-financial/functions.c:2955
-msgid "first_period:end of first period"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2902
 #: ../plugins/fn-financial/functions.c:2958
-msgid "rate:depreciation rate"
+msgid "first_period:end of first period"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2905
+#: ../plugins/fn-financial/functions.c:2961
+msgid "rate:depreciation rate"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:2908
 msgid ""
 "AMORDEGRC calculates the depreciation of an asset using French accounting "
 "conventions. Assets purchased in the middle of a period take prorated "
@@ -3818,7 +3870,7 @@ msgid ""
 "of the assets."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2909
+#: ../plugins/fn-financial/functions.c:2912
 msgid ""
 "The depreciation coefficient used is:\n"
 "1.0 for an expected lifetime less than 3 years,\n"
@@ -3827,159 +3879,159 @@ msgid ""
 "2.5 for an expected lifetime of more than 6 years."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2914
+#: ../plugins/fn-financial/functions.c:2917
 msgid ""
 "Special depreciation rules are applied for the last two periods resulting in "
 "a possible total depreciation exceeding the difference of @{cost} - @"
 "{salvage}."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2916
+#: ../plugins/fn-financial/functions.c:2919
 msgid "Named for AMORtissement DEGRessif Comptabilite."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2952
+#: ../plugins/fn-financial/functions.c:2955
 msgid "AMORLINC:depreciation of an asset using French accounting conventions"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2961
+#: ../plugins/fn-financial/functions.c:2964
 msgid ""
 "AMORLINC calculates the depreciation of an asset using French accounting "
 "conventions. Assets purchased in the middle of a period take prorated "
 "depreciation into account. "
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2963
+#: ../plugins/fn-financial/functions.c:2966
 msgid "Named for AMORtissement LINeaire Comptabilite."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:2998
+#: ../plugins/fn-financial/functions.c:3001
 msgid "COUPDAYBS:number of days from coupon period to settlement"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3003
-#: ../plugins/fn-financial/functions.c:3027
-#: ../plugins/fn-financial/functions.c:3051
-#: ../plugins/fn-financial/functions.c:3075
-#: ../plugins/fn-financial/functions.c:3101
-#: ../plugins/fn-financial/functions.c:3127
+#: ../plugins/fn-financial/functions.c:3006
+#: ../plugins/fn-financial/functions.c:3030
+#: ../plugins/fn-financial/functions.c:3054
+#: ../plugins/fn-financial/functions.c:3078
+#: ../plugins/fn-financial/functions.c:3104
+#: ../plugins/fn-financial/functions.c:3130
 msgid "eom:end-of-month flag"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3004
+#: ../plugins/fn-financial/functions.c:3007
 msgid ""
 "COUPDAYBS calculates the number of days from the beginning of the coupon "
 "period to the settlement date."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3022
+#: ../plugins/fn-financial/functions.c:3025
 msgid "COUPDAYS:number of days in the coupon period of the settlement date"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3028
+#: ../plugins/fn-financial/functions.c:3031
 msgid ""
 "COUPDAYS calculates the number of days in the coupon period of the "
 "settlement date."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3046
+#: ../plugins/fn-financial/functions.c:3049
 msgid ""
 "COUPDAYSNC:number of days from the settlement date to the next coupon period"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3052
+#: ../plugins/fn-financial/functions.c:3055
 msgid ""
 "COUPDAYSNC calculates number of days from the settlement date to the next "
 "coupon period."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3070
+#: ../plugins/fn-financial/functions.c:3073
 msgid "COUPNCD:the next coupon date after settlement"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3076
+#: ../plugins/fn-financial/functions.c:3079
 msgid "COUPNCD calculates the coupon date following settlement."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3096
+#: ../plugins/fn-financial/functions.c:3099
 msgid "COUPPCD:the last coupon date before settlement"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3102
+#: ../plugins/fn-financial/functions.c:3105
 msgid "COUPPCD calculates the coupon date preceding settlement."
 msgstr ""
 
 # bonos, cupones
-#: ../plugins/fn-financial/functions.c:3122
+#: ../plugins/fn-financial/functions.c:3125
 msgid "COUPNUM:number of coupons"
 msgstr "COUPNUM: número de bonos"
 
-#: ../plugins/fn-financial/functions.c:3128
+#: ../plugins/fn-financial/functions.c:3131
 msgid ""
 "COUPNUM calculates the number of coupons to be paid between the settlement "
 "and maturity dates, rounded up."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3146
+#: ../plugins/fn-financial/functions.c:3149
 msgid "CUMIPMT:cumulative interest payment"
-msgstr ""
-
-#: ../plugins/fn-financial/functions.c:3147
-#: ../plugins/fn-financial/functions.c:3191
-msgid "rate:interest rate per period"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3150
 #: ../plugins/fn-financial/functions.c:3194
-#: ../plugins/fn-financial/functions.c:3283
-msgid "start_period:first period to accumulate for"
-msgstr ""
-
-#: ../plugins/fn-financial/functions.c:3151
-#: ../plugins/fn-financial/functions.c:3195
-#: ../plugins/fn-financial/functions.c:3284
-msgid "end_period:last period to accumulate for"
+msgid "rate:interest rate per period"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:3153
+#: ../plugins/fn-financial/functions.c:3197
+#: ../plugins/fn-financial/functions.c:3288
+msgid "start_period:first period to accumulate for"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:3154
+#: ../plugins/fn-financial/functions.c:3198
+#: ../plugins/fn-financial/functions.c:3289
+msgid "end_period:last period to accumulate for"
+msgstr ""
+
+#: ../plugins/fn-financial/functions.c:3156
 msgid ""
 "CUMIPMT calculates the cumulative interest paid on a loan from @"
 "{start_period} to @{end_period}."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3190
+#: ../plugins/fn-financial/functions.c:3193
 msgid "CUMPRINC:cumulative principal"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3197
+#: ../plugins/fn-financial/functions.c:3200
 msgid ""
 "CUMPRINC calculates the cumulative principal paid on a loan from @"
 "{start_period} to @{end_period}."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3234
-msgid "MDURATION:the Macaulay duration of a security"
+#: ../plugins/fn-financial/functions.c:3237
+msgid "MDURATION:the modified (Macaulay) duration of a security"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3241
-msgid "MDURATION calculates the Macaulay duration of a security."
+#: ../plugins/fn-financial/functions.c:3244
+msgid "MDURATION calculates the modified (Macaulay) duration of a security."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3279
+#: ../plugins/fn-financial/functions.c:3284
 msgid "VDB:depreciation of an asset"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3286
+#: ../plugins/fn-financial/functions.c:3291
 msgid "no_switch:do not switch to straight-line depreciation"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3287
+#: ../plugins/fn-financial/functions.c:3292
 msgid ""
 "VDB calculates the depreciation of an asset for a given period range using "
 "the variable-rate declining balance method."
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:3288
+#: ../plugins/fn-financial/functions.c:3293
 msgid ""
 "If @{no_switch} is FALSE, the calculation switches to straight-line "
 "depreciation when depreciation is greater than the declining balance "
