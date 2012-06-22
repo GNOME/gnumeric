@@ -1,3 +1,8 @@
+2012-06-22  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-clipboard.c (gnm_x_store_clipboard_if_needed): More
+	debug.
+
 2012-06-18  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (gnm_xml_out_add_gocolor): Handle alpha.

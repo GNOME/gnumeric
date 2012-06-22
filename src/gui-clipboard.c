@@ -1155,8 +1155,11 @@ gnm_x_store_clipboard_if_needed (Workbook *wb)
 				(gtk_widget_get_display
 				 (GTK_WIDGET (wbcg_toplevel (wbcg))),
 				 GDK_SELECTION_CLIPBOARD);
-			if (gtk_clipboard_get_owner (clip) == gnm_app_get_app ())
+			if (gtk_clipboard_get_owner (clip) == gnm_app_get_app ()) {
+				if (debug_clipboard ())
+					g_printerr ("Handing off clipboard\n");
 				gtk_clipboard_store (clip);
+			}
 		}
 	}
 }

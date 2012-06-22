@@ -40,6 +40,7 @@ Morten:
 	* Improve handling of expressions in validations.  [#674914]
 	* Improve handling of expressions in conditional formats.  [#674954]
 	* Fix problems with style hash and equality.  [#675955]
+	* Fix clipboard criticals on exit.  [#678580]
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.3

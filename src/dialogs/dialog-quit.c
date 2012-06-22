@@ -432,13 +432,13 @@ dialog_quit (WBCGtk *wbcg)
 			return;
 	}
 
-	gnm_x_store_clipboard_if_needed (wb_control_get_workbook (wbc));
-
 	l = g_list_copy (gnm_app_workbook_list ());
 	while (l) {
 		Workbook *wb = l->data;
 		l = g_list_remove (l, wb);
 		go_doc_set_dirty (GO_DOC (wb), FALSE);
+
+		gnm_x_store_clipboard_if_needed (wb);
 
 		/* This is how we kill it?  Ugh!  */
 		g_object_unref (wb);
