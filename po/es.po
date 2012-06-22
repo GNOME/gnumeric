@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-18 15:07+0000\n"
-"PO-Revision-Date: 2012-06-20 14:06+0200\n"
+"POT-Creation-Date: 2012-06-21 07:07+0000\n"
+"PO-Revision-Date: 2012-06-22 12:43+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -7448,12 +7448,12 @@ msgstr "_Estrechar esta columna"
 #: ../src/dialogs/dialog-stf-format-page.c:48
 #, c-format
 msgid "Importing %i columns and ignoring none."
-msgstr "Importar %i columnas y no ignorar ninguna."
+msgstr "Importando %i columnas e ignorando ninguna."
 
 #: ../src/dialogs/dialog-stf-format-page.c:51
 #, c-format
 msgid "Importing %i columns and ignoring %i."
-msgstr "Importando %i columnas e ignorar %i."
+msgstr "Importando %i columnas e ignorando %i."
 
 #: ../src/dialogs/dialog-stf-format-page.c:177
 #, c-format
@@ -7468,11 +7468,11 @@ msgstr "Selector de formato"
 
 #: ../src/dialogs/dialog-stf-format-page.c:387
 msgid "Ignore all columns on right"
-msgstr "Ignorar todas las columnas a la derecha"
+msgstr "Ignorar todas las columnas de la derecha"
 
 #: ../src/dialogs/dialog-stf-format-page.c:388
 msgid "Ignore all columns on left"
-msgstr "Ignorar todas las columnas a la izquierda"
+msgstr "Ignorar todas las columnas de la izquierda"
 
 #: ../src/dialogs/dialog-stf-format-page.c:389
 msgid "Import all columns on right"
@@ -7496,16 +7496,19 @@ msgid "Auto fit"
 msgstr "Autoajustar"
 
 #: ../src/dialogs/dialog-stf-format-page.c:625
-#, fuzzy, c-format
+#, c-format
 msgid "If this checkbox is selected, column %i will be imported into Gnumeric."
-msgstr "Si se selecciona esta casilla, la columna será importada a Gnumeric."
+msgstr ""
+"Si se selecciona esta casilla de verificación, la columna %i se importará en "
+"Gnumeric."
 
 #: ../src/dialogs/dialog-stf-format-page.c:633
-#, fuzzy
 msgid ""
 "If this checkbox is selected, the width of the column will be adjusted to "
 "the longest entry."
-msgstr "Si se selecciona esta casilla, la columna será importada a Gnumeric."
+msgstr ""
+"Si se selecciona esta casilla de verificación, la anchura de la columna se "
+"ajustará a la entrada más larga"
 
 #: ../src/dialogs/dialog-stf-format-page.c:757
 #: ../src/dialogs/dialog-stf-preview.h:24
@@ -7531,7 +7534,7 @@ msgstr[1] "%d de %d líneas para importar"
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr ""
-"El dato no es válido en la codificación %s, seleccione otra codificación."
+"Los datos no son válido en la codificación %s, seleccione otra codificación."
 
 #: ../src/dialogs/dialog-stf-main-page.c:386 ../src/wbc-gtk-actions.c:2724
 msgid "Line"
@@ -7565,7 +7568,7 @@ msgstr "Debe introducir un número válido como máximo"
 
 #: ../src/dialogs/dialog-tabulate.c:253
 msgid "The maximum value should be bigger than the minimum"
-msgstr "El valor máximo debería ser mayor que el mínimo"
+msgstr "El valor máximo debe ser mayor que el mínimo"
 
 #: ../src/dialogs/dialog-tabulate.c:262
 msgid "You should introduce a valid number as step size"
@@ -7573,7 +7576,7 @@ msgstr "Debe introducir un número válido como tamaño del paso"
 
 #: ../src/dialogs/dialog-tabulate.c:270
 msgid "The step size should be positive"
-msgstr "El tamaño del paso debería ser positivo"
+msgstr "El tamaño del paso debe ser positivo"
 
 #: ../src/dialogs/dialog-tabulate.c:281
 msgid "You should introduce one or more dependency cells"
@@ -7581,11 +7584,11 @@ msgstr "Debe introducir una o más celdas de dependencia"
 
 #: ../src/dialogs/dialog-tabulate.c:291
 msgid "You should introduce a single valid cell as result cell"
-msgstr "Debe introducir una sola celda válida como celda resultado"
+msgstr "Debe introducir una sola celda válida como celda de resultado"
 
 #: ../src/dialogs/dialog-tabulate.c:299
 msgid "The target cell should contain an expression"
-msgstr "La celda destino debería contener una expresión"
+msgstr "La celda destino debe contener una expresión"
 
 #: ../src/dialogs/dialog-view.c:82
 #, c-format
@@ -7638,7 +7641,7 @@ msgstr "Rango de _criterios:"
 
 #: ../src/dialogs/advanced-filter.ui.h:4
 msgid "_Unique records only"
-msgstr "Sólo registros _únicos"
+msgstr "Sólo registros ú_nicos"
 
 #: ../src/dialogs/advanced-filter.ui.h:5 ../src/dialogs/anova-one.ui.h:10
 #: ../src/dialogs/anova-two.ui.h:6 ../src/dialogs/chi-squared.ui.h:10
@@ -7708,7 +7711,7 @@ msgstr "Agrupado por:"
 #: ../src/dialogs/sampling.ui.h:6 ../src/dialogs/sign-test.ui.h:5
 msgctxt "groupby"
 msgid "_Columns"
-msgstr "Co_lumnas"
+msgstr "_Columnas"
 
 #. Group by Rows
 #: ../src/dialogs/anova-one.ui.h:7 ../src/dialogs/chi-squared.ui.h:7
@@ -7746,7 +7749,7 @@ msgstr "Á_reas"
 #: ../src/dialogs/variance-tests.ui.h:4
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:4
 msgid "_Labels"
-msgstr "E_tiquetas"
+msgstr "_Etiquetas"
 
 #: ../src/dialogs/anova-one.ui.h:11 ../src/dialogs/chi-squared.ui.h:11
 #: ../src/dialogs/mean-tests.ui.h:19 ../src/dialogs/normality-tests.ui.h:15
@@ -7772,11 +7775,11 @@ msgstr "Análisis de varianza - Dos factores"
 
 #: ../src/dialogs/anova-two.ui.h:2
 msgid "Input _range:"
-msgstr "Rango de _entrada:"
+msgstr "_Rango de entrada:"
 
 #: ../src/dialogs/anova-two.ui.h:4
 msgid "Rows per _sample:"
-msgstr "Filas _por muestra:"
+msgstr "Filas por _muestra:"
 
 #: ../src/dialogs/anova-two.ui.h:5 ../src/dialogs/descriptive-stats.ui.h:19
 #: ../src/dialogs/random-generation.ui.h:6 ../src/dialogs/sampling.ui.h:21
@@ -7810,7 +7813,7 @@ msgstr "igual"
 
 #: ../src/dialogs/autofilter-expression.ui.h:6
 msgid "does not equal"
-msgstr "distinto de"
+msgstr "no es igual"
 
 #: ../src/dialogs/autofilter-expression.ui.h:7
 msgid "is greater than"
@@ -7826,23 +7829,23 @@ msgstr "es menor que"
 
 #: ../src/dialogs/autofilter-expression.ui.h:10
 msgid "is less than or equal to"
-msgstr "es menor que o igual"
+msgstr "es menor que o igual que"
 
 #: ../src/dialogs/autofilter-expression.ui.h:11
 msgid "begins with"
-msgstr "comienza por"
+msgstr "comienza con"
 
 #: ../src/dialogs/autofilter-expression.ui.h:12
 msgid "does not begin with"
-msgstr "no comienza por"
+msgstr "no comienza con"
 
 #: ../src/dialogs/autofilter-expression.ui.h:13
 msgid "ends with"
-msgstr "acaba en"
+msgstr "termina con"
 
 #: ../src/dialogs/autofilter-expression.ui.h:14
 msgid "does not end with"
-msgstr "no acaba en"
+msgstr "no termina con"
 
 #: ../src/dialogs/autofilter-expression.ui.h:15
 msgid "contains"
@@ -7853,10 +7856,8 @@ msgid "does not contain"
 msgstr "no contiene"
 
 #: ../src/dialogs/autofilter-top10.ui.h:2
-#, fuzzy
-#| msgid "_Custom Percentage"
 msgid "Count or percentage:"
-msgstr "_Porcentajes personalizados"
+msgstr "Recuento o porcentaje:"
 
 #: ../src/dialogs/autofilter-top10.ui.h:3 ../src/dialogs/cell-format.ui.h:30
 msgid "Top"
@@ -7906,11 +7907,11 @@ msgstr "Descripción:"
 
 #: ../src/dialogs/autoformat.ui.h:8
 msgid "Name of template"
-msgstr "Nombre de la plantilla"
+msgstr "Nombre de plantilla"
 
 #: ../src/dialogs/autoformat.ui.h:9
 msgid "The group/individual that made the template"
-msgstr "Grupo/individuo que creo la plantilla"
+msgstr "El grupo/individuo que creó la plantilla"
 
 #: ../src/dialogs/autoformat.ui.h:10
 msgid "The category this template belongs to"
@@ -7938,7 +7939,7 @@ msgstr "_minutos"
 
 #: ../src/dialogs/autosave.ui.h:4
 msgid "_Prompt Before Saving"
-msgstr "_Consultar antes de guardar"
+msgstr "_Preguntar antes de guardar"
 
 #: ../src/dialogs/cell-comment.ui.h:1
 msgid "Cell Comment"
@@ -7981,10 +7982,8 @@ msgid "Validation"
 msgstr "Validación"
 
 #: ../src/dialogs/cell-format-cond.ui.h:12
-#, fuzzy
-#| msgid "Style:"
 msgid "Style Overlay:"
-msgstr "Estilo:"
+msgstr "Estilo de superposición:"
 
 #: ../src/dialogs/cell-format-cond.ui.h:13
 msgid "_Edit Style"
