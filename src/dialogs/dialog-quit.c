@@ -414,7 +414,6 @@ doc_order (gconstpointer a_, gconstpointer b_)
 void
 dialog_quit (WBCGtk *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	GList *l, *dirty = NULL;
 	gboolean quit;
 
