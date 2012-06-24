@@ -69,7 +69,7 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-05-01 20:17+0000\n"
-"PO-Revision-Date: 2012-05-08 18:03+0100\n"
+"PO-Revision-Date: 2012-06-24 23:33+0100\n"
 "Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -8591,7 +8591,7 @@ msgstr "Falls die Länge von @{known_ys} nicht mit der korrespondierenden Länge
 
 #: ../plugins/fn-stat/functions.c:3404
 msgid "LOGREG:the logarithmic regression"
-msgstr "LOGREG:die logarithmische Abschreibung"
+msgstr "LOGREG:die logarithmische Regression"
 
 #: ../plugins/fn-stat/functions.c:3406
 #: ../plugins/fn-stat/functions.c:3862
@@ -8695,7 +8695,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:3948
 msgid "FORECAST:estimates a future value according to existing values using simple linear regression"
-msgstr "FORECAST:Schätzt einen Zukunftswert anhand der vorhandenen Werte mittels linearer Abschreibung"
+msgstr "FORECAST:Schätzt einen Zukunftswert anhand der vorhandenen Werte mittels linearer Regression"
 
 #: ../plugins/fn-stat/functions.c:3950
 msgid "x:x-value whose matching y-value should be forecast"
