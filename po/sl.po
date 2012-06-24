@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-06-15 22:55+0000\n"
-"PO-Revision-Date: 2012-06-16 08:32+0100\n"
+"PO-Revision-Date: 2012-06-24 22:20+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -12651,7 +12651,7 @@ msgstr "Shrani kot"
 
 #: ../src/sheet-object-component.c:270
 msgid "_Save as"
-msgstr "Shrani _kot ..."
+msgstr "Shrani _kot"
 
 #: ../src/sheet-object-component.c:271
 #: ../src/sheet-object-image.c:364
@@ -16921,7 +16921,7 @@ msgstr "_Razveljavi"
 #: ../src/wbc-gtk.c:1680
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
-msgstr "Ali naj se shranijo spremembe preglednice \"%s\" pred zapiranjem?"
+msgstr "Ali naj se shranijo spremembe preglednice '%s' pred zapiranjem?"
 
 #: ../src/wbc-gtk.c:1685
 msgid "Save changes to workbook before closing?"
