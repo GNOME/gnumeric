@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-21 07:07+0000\n"
-"PO-Revision-Date: 2012-06-22 12:43+0200\n"
+"POT-Creation-Date: 2012-06-22 14:56+0000\n"
+"PO-Revision-Date: 2012-06-25 20:15+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -199,8 +199,8 @@ msgstr "Atributo inesperado %s::%s == «%s»."
 #, c-format
 msgid "Invalid content of ss:data element, expected number, received '%s'"
 msgstr ""
-"Contenido no válido del elemento «ss:data», se esperaba un número, se recibió "
-"«%s»"
+"Contenido no válido del elemento «ss:data», se esperaba un número, se "
+"recibió «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:510
 #, c-format
@@ -330,8 +330,8 @@ msgstr "Función rota"
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
-"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d no "
-"%d"
+"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d "
+"no %d"
 
 #: ../plugins/excel/plugin.xml.in.h:1
 msgid "MS Excel (tm)"
@@ -596,8 +596,8 @@ msgstr "Falló al encontrar la función «%s» en XLL/DLL/SO %s .\n"
 msgid ""
 "Excel plugin loader / xlfRegister: at least three XLOPER arguments must be "
 "provided (DLL name[ignored],exported name[mandatory],types string"
-"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file %"
-"s."
+"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file "
+"%s."
 msgstr ""
 "Cargador del complemento para Excel / xlfRegister: se deben proporcionar al "
 "menos tres argumentos XLOPER (nombre DLL [ignorado],nombre exportado "
@@ -1341,7 +1341,8 @@ msgstr "Atributo «%s» no válido, se esperaba un número, se ha recibido «%s
 #: ../plugins/openoffice/openoffice-read.c:681
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
-msgstr "Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
+msgstr ""
+"Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:703
 #, c-format
@@ -1400,7 +1401,8 @@ msgstr "Atributo «%s» no válido, unidad «%s» desconocida"
 #: ../plugins/openoffice/openoffice-read.c:1073
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
-msgstr "Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
+msgstr ""
+"Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:1150
 #, c-format
@@ -1454,8 +1456,8 @@ msgstr "%s_EN_ARCHIVO_CORRUPTO"
 #: ../plugins/openoffice/openoffice-read.c:2169
 #, c-format
 msgid ""
-"This file is corrupted with a duplicate sheet name \"%s\", now renamed to \"%"
-"s\"."
+"This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
+"\"%s\"."
 msgstr ""
 "Este archivo está corrupto con un nombre de hoja duplicado «%s», se renombró "
 "a «%s»."
@@ -1721,7 +1723,8 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:7355
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr "Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
+msgstr ""
+"Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:7321
 #, c-format
@@ -1905,11 +1908,11 @@ msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
 "Field %d in line %d has possibly been cut off. Data has %d characters."
 msgstr[0] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
-"d' caracter."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
+"'%d' caracter."
 msgstr[1] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
-"d' caracteres."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
+"'%d' caracteres."
 
 #: ../plugins/paradox/paradox.c:550
 #, c-format
@@ -8023,11 +8026,11 @@ msgstr "_Justificar"
 
 #: ../src/dialogs/cell-format.ui.h:12
 msgid "D_istributed"
-msgstr "_Distribuido"
+msgstr "D_istribuido"
 
 #: ../src/dialogs/cell-format.ui.h:14
 msgid "C_enter"
-msgstr "_Centrar"
+msgstr "C_entrar"
 
 #: ../src/dialogs/cell-format.ui.h:16
 msgid "J_ustify"
@@ -8043,11 +8046,11 @@ msgstr "<b>Control</b>"
 
 #: ../src/dialogs/cell-format.ui.h:19
 msgid "_Wrap text"
-msgstr "Ajustar _texto"
+msgstr "_Ajustar texto"
 
 #: ../src/dialogs/cell-format.ui.h:20
 msgid "Shrin_k to fit"
-msgstr "Enco_ger hasta ajustar"
+msgstr "Encoge_r hasta ajustar"
 
 #: ../src/dialogs/cell-format.ui.h:22
 msgid "<b>Style</b>"
@@ -8059,7 +8062,7 @@ msgstr "C_olor:"
 
 #: ../src/dialogs/cell-format.ui.h:24
 msgid "_Underline:"
-msgstr "S_ubrayado:"
+msgstr "_Subrayado:"
 
 #: ../src/dialogs/cell-format.ui.h:25
 msgid "Stri_kethrough"
@@ -8075,11 +8078,11 @@ msgstr "Su_bíndice"
 
 #: ../src/dialogs/cell-format.ui.h:29
 msgid "Reverse Diagonal"
-msgstr "Línea diagonal inversa"
+msgstr "Diagonal inversa"
 
 #: ../src/dialogs/cell-format.ui.h:31
 msgid "Diagonal"
-msgstr "Línea diagonal"
+msgstr "Diagonal"
 
 #. start sub menu
 #: ../src/dialogs/cell-format.ui.h:32 ../src/sheet-control-gui.c:2172
@@ -8130,7 +8133,7 @@ msgstr "Estilo:"
 #: ../src/dialogs/cell-format.ui.h:45
 msgctxt "line"
 msgid "None"
-msgstr "Ninguna"
+msgstr "Ninguno"
 
 #: ../src/dialogs/cell-format.ui.h:47
 msgid "<b>Background</b>"
@@ -8152,7 +8155,7 @@ msgstr "Sólido"
 #: ../src/dialogs/cell-format.ui.h:52
 #, no-c-format
 msgid "75% Grey"
-msgstr "Gris 75% "
+msgstr "Gris 75%"
 
 #: ../src/dialogs/cell-format.ui.h:54
 #, no-c-format
@@ -8228,7 +8231,7 @@ msgstr "Primer plano sólido"
 
 #: ../src/dialogs/cell-format.ui.h:74
 msgid "Small Circles"
-msgstr "Pequeños círculos"
+msgstr "Círculos pequeños"
 
 #: ../src/dialogs/cell-format.ui.h:75
 msgid "Semi Circles"
@@ -8240,7 +8243,7 @@ msgstr "Techo"
 
 #: ../src/dialogs/cell-format.ui.h:77
 msgid "Large Circles"
-msgstr "Grandes círculos"
+msgstr "Círculos grandes"
 
 #: ../src/dialogs/cell-format.ui.h:78
 msgid "Bricks"
@@ -8258,11 +8261,11 @@ msgstr "_Ocultar"
 msgid "Locking cells or hiding formulæ only affects protected worksheets."
 msgstr ""
 "El bloqueo de celdas u ocultamiento de fórmulas sólo afecta a las hojas de "
-"cálculo protegidas."
+"trabajo protegidas."
 
 #: ../src/dialogs/cell-format.ui.h:83
 msgid "_Protect worksheet"
-msgstr "_Proteger hoja"
+msgstr "_Proteger hoja de trabajo"
 
 #: ../src/dialogs/cell-format.ui.h:85
 msgid "<span weight=\"bold\">Criteria</span>"
@@ -8282,7 +8285,7 @@ msgstr "Ignorar celdas en _blanco"
 
 #: ../src/dialogs/cell-format.ui.h:89
 msgid "I_n-cell dropdown"
-msgstr "Menú _interno de celda"
+msgstr "De_ntro de celda desplegable"
 
 #: ../src/dialogs/cell-format.ui.h:90
 msgid "<b>Error alerts</b>"
@@ -8290,11 +8293,11 @@ msgstr "<b>Alertas de error</b>"
 
 #: ../src/dialogs/cell-format.ui.h:91
 msgid "Ac_tion:"
-msgstr "A_cción:"
+msgstr "Ac_ción:"
 
 #: ../src/dialogs/cell-format.ui.h:92
 msgid "Titl_e:"
-msgstr "_Título:"
+msgstr "Títul_o:"
 
 #: ../src/dialogs/cell-format.ui.h:93
 msgid "_Message:"
@@ -8302,7 +8305,7 @@ msgstr "_Mensaje:"
 
 #: ../src/dialogs/cell-format.ui.h:95
 msgid "_Show input message when cell is selected"
-msgstr "_Mostrar el mensaje de entrada cuando se selecciona la celda"
+msgstr "_Mostrar mensaje de entrada cuando se selecciona la celda"
 
 #: ../src/dialogs/cell-format.ui.h:96
 msgid "Input Message"
@@ -8342,41 +8345,40 @@ msgstr "Longitud del texto"
 
 #: ../src/dialogs/cell-format.ui.h:104
 #: ../src/dialogs/dialog-stf-export.ui.h:16
-#, fuzzy
 msgid "Custom"
-msgstr "Pe_rsonalizado"
+msgstr "Personalizado"
 
 #: ../src/dialogs/cell-format.ui.h:105
 msgid "min <= val <= max         (between)"
-msgstr ""
+msgstr "min <= val <= max          (entre)"
 
 #: ../src/dialogs/cell-format.ui.h:106
 msgid "val <= min || max <= val (not between)"
-msgstr ""
+msgstr "val <= min || max <= val (no entre)"
 
 #: ../src/dialogs/cell-format.ui.h:107
 msgid "val == bound                  (equal to)"
-msgstr ""
+msgstr "valor == límite                 (igual a)"
 
 #: ../src/dialogs/cell-format.ui.h:108
 msgid "val <> bound                  (not equal to)"
-msgstr ""
+msgstr "valor <> límite                 (no igual a)"
 
 #: ../src/dialogs/cell-format.ui.h:109
 msgid "val  >  bound                  (greater than)"
-msgstr ""
+msgstr "val  >  límite                     (mayor que)"
 
 #: ../src/dialogs/cell-format.ui.h:110
 msgid "val  <  bound                  (less than)"
-msgstr ""
+msgstr "valor  <  límite                  (menor que)"
 
 #: ../src/dialogs/cell-format.ui.h:111
 msgid "val >= bound                  (greater than or equal)"
-msgstr ""
+msgstr "valor >= límite                  (mayor que o igual)"
 
 #: ../src/dialogs/cell-format.ui.h:112
 msgid "val <= bound                  (less than or equal)"
-msgstr ""
+msgstr "valor <= límite                  (menor que o igual)"
 
 #: ../src/dialogs/cell-sort.ui.h:1
 msgid "Sort..."
@@ -8384,11 +8386,11 @@ msgstr "Ordenar…"
 
 #: ../src/dialogs/cell-sort.ui.h:2
 msgid "<span weight=\"bold\">Sort Options</span>"
-msgstr "<span weight=\"bold\">Opciones cortas</span>"
+msgstr "<span weight=\"bold\">Opciones de ordenación</span>"
 
 #: ../src/dialogs/cell-sort.ui.h:3
 msgid "<span weight=\"bold\">Sort Specification</span>"
-msgstr "<span weight=\"bold\">Especificación corta</span>"
+msgstr "<span weight=\"bold\">Especificación de ordenación</span>"
 
 #: ../src/dialogs/cell-sort.ui.h:4
 msgid "Locale:"
@@ -18474,8 +18476,9 @@ msgstr "Una plantilla de lista simple"
 #~ "value."
 #~ msgstr ""
 #~ ">Este valor determina el ajuste predeterminado en el diálogo "
-#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. Por "
-#~ "favor use el diálogo «Configuración de impresión» para editar este valor."
+#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. "
+#~ "Por favor use el diálogo «Configuración de impresión» para editar este "
+#~ "valor."
 
 #~ msgid ""
 #~ ">This value determines whether the default setting in the Print Setup "
