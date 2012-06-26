@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-21 07:07+0000\n"
-"PO-Revision-Date: 2012-06-24 22:10+0100\n"
+"POT-Creation-Date: 2012-06-26 00:33+0000\n"
+"PO-Revision-Date: 2012-06-26 08:51+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -1031,7 +1031,6 @@ msgid "The NOW function returns the date and time serial value of the moment it 
 msgstr "Funkcija NOW vrne zaporedno vrednost datuma in časa na trenutek, ko je ta izračunan. S ponovnim preračunavanjem, se vrednost spremeni na nov trenutek dneva."
 
 #: ../plugins/fn-date/functions.c:421
-#: ../plugins/fn-date/functions.c:458
 msgid "TIME:create a time serial value"
 msgstr "TIME: ustvari zaporedno vrednost časa"
 
@@ -1058,6 +1057,10 @@ msgstr "Čeprav je vrnjena vrednost samodejno oblikovana kot čas med 0:00 in 24
 #: ../plugins/fn-date/functions.c:428
 msgid "If any of @{hour}, @{minute}, and @{second} is negative, #NUM! is returned"
 msgstr "V kolikor je katerokoli izmed vrednosti @{ure}, @{minute} ali @{sekunde} negativna vrednost, funkcija TIME vrne napako #NUM!."
+
+#: ../plugins/fn-date/functions.c:458
+msgid "ODF.TIME:create a time serial value"
+msgstr "ODF.TIME: ustvarjanje zaporedne vrednosti datuma in časa"
 
 #: ../plugins/fn-date/functions.c:459
 msgid "hour:hour"
