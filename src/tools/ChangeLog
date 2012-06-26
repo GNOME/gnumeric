@@ -1,3 +1,7 @@
+2012-06-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.4
+
 2012-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-wilcoxon-mann-whitney.c (analysis_tool_combine_area): new

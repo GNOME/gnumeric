@@ -1,3 +1,7 @@
+2012-06-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.4
+
 2012-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_duration): clarify and add examples

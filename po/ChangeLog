@@ -1,3 +1,7 @@
+2012-06-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.4
+
 2012-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* POTFILES.in: add src/dialogs/dialog-analysis-tool-one-mean.c,
