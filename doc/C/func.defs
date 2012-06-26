@@ -836,9 +836,9 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SEEALSO=DATE
 
 @CATEGORY=Date/Time
-@FUNCTION=TIME
+@FUNCTION=ODF.TIME
 @SHORTDESC=create a time serial value
-@SYNTAX=TIME(hour,minute,second)
+@SYNTAX=ODF.TIME(hour,minute,second)
 @ARGUMENTDESCRIPTION=@{hour}: hour
 @{minute}: minute
 @{second}: second

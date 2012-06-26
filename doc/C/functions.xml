@@ -3067,22 +3067,22 @@
       </para>
       </refsect1>
     </refentry>
-    <refentry id="gnumeric-function-TIME">
+    <refentry id="gnumeric-function-ODF.TIME">
       <refmeta>
         <refentrytitle>
-          <function>TIME</function>
+          <function>ODF.TIME</function>
         </refentrytitle>
       </refmeta>
       <refnamediv>
         <refname>
-          <function>TIME</function>
+          <function>ODF.TIME</function>
         </refname>
         <refpurpose>
         create a time serial value
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>TIME</function>(<parameter>hour</parameter>,<parameter>minute</parameter>,<parameter>second</parameter>)</synopsis>
+        <synopsis><function>ODF.TIME</function>(<parameter>hour</parameter>,<parameter>minute</parameter>,<parameter>second</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
@@ -3092,7 +3092,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>The ODF.<function>TIME</function> function computes the time given by <parameter>hour</parameter>, <parameter>minute</parameter>, and <parameter>second</parameter> as a fraction of a day.</para>
+        <para>The <function>ODF.TIME</function> function computes the time given by <parameter>hour</parameter>, <parameter>minute</parameter>, and <parameter>second</parameter> as a fraction of a day.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>

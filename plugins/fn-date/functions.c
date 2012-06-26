@@ -455,7 +455,7 @@ gnumeric_time (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_odf_time[] = {
-        { GNM_FUNC_HELP_NAME, F_("TIME:create a time serial value")},
+        { GNM_FUNC_HELP_NAME, F_("ODF.TIME:create a time serial value")},
         { GNM_FUNC_HELP_ARG, F_("hour:hour")},
         { GNM_FUNC_HELP_ARG, F_("minute:minute")},
         { GNM_FUNC_HELP_ARG, F_("second:second")},
