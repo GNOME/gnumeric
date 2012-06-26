@@ -836,6 +836,18 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @SEEALSO=DATE
 
 @CATEGORY=Date/Time
+@FUNCTION=TIME
+@SHORTDESC=create a time serial value
+@SYNTAX=TIME(hour,minute,second)
+@ARGUMENTDESCRIPTION=@{hour}: hour
+@{minute}: minute
+@{second}: second
+@DESCRIPTION=The ODF.TIME function computes the time given by @{hour}, @{minute}, and @{second} as a fraction of a day.
+@NOTE=While the return value is automatically formatted to look like a time between 0:00 and 24:00, the underlying serial time value can be any number.
+@ODF=This function is OpenFormula compatible.
+@SEEALSO=TIME,HOUR,MINUTE,SECOND
+
+@CATEGORY=Date/Time
 @FUNCTION=PENTECOSTSUNDAY
 @SHORTDESC=Pentecost Sunday in the Gregorian calendar according to the Roman rite of the Christian Church
 @SYNTAX=PENTECOSTSUNDAY(year)
@@ -859,9 +871,10 @@ The natural logarithm is not uniquely defined on complex numbers. You may need t
 @ARGUMENTDESCRIPTION=@{hour}: hour of the day
 @{minute}: minute within the hour
 @{second}: second within the minute
-@DESCRIPTION=The TIME function computes the fractional day between midnight at the time given by @{hour}, @{minute}, and @{second}.
+@DESCRIPTION=The TIME function computes the fractional day after midnight at the time given by @{hour}, @{minute}, and @{second}.
+@NOTE=While the return value is automatically formatted to look like a time between 0:00 and 24:00, the underlying serial time value is a number between 0 and 1. If any of @{hour}, @{minute}, and @{second} is negative, #NUM! is returned
 @EXCEL=This function is Excel compatible.
-@SEEALSO=HOUR,MINUTE,SECOND
+@SEEALSO=ODF.TIME,HOUR,MINUTE,SECOND
 
 @CATEGORY=Date/Time
 @FUNCTION=TIMEVALUE
@@ -1560,7 +1573,7 @@ The depreciation coefficient used is:
 
 @CATEGORY=Finance
 @FUNCTION=DURATION
-@SHORTDESC=the duration of a security
+@SHORTDESC=the (Macaulay) duration of a security
 @SYNTAX=DURATION(settlement,maturity,coupon,yield,frequency,basis)
 @ARGUMENTDESCRIPTION=@{settlement}: settlement date
 @{maturity}: maturity date
@@ -1568,9 +1581,9 @@ The depreciation coefficient used is:
 @{yield}: annual yield of security
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
-@DESCRIPTION=DURATION calculates the duration of a security.
+@DESCRIPTION=DURATION calculates the (Macaulay) duration of a security.
 @NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly). If @{basis} is 0, then the US 30/360 method is used. If @{basis} is 1, then actual number of days is used. If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days. If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days. If @{basis} is 4, then the European 30/360 method is used.
-@SEEALSO=MDURATION
+@SEEALSO=MDURATION, G_DURATION
 
 @CATEGORY=Finance
 @FUNCTION=EFFECT
@@ -1634,7 +1647,7 @@ The depreciation coefficient used is:
 @{fv}: future value
 @DESCRIPTION=G_DURATION calculates the number of periods needed for an investment to attain a desired value.
 @ODF=G_DURATION is the OpenFormula function PDURATION.
-@SEEALSO=FV,PV
+@SEEALSO=FV,PV,DURATION,MDURATION
 
 @CATEGORY=Finance
 @FUNCTION=INTRATE
@@ -1686,7 +1699,7 @@ The depreciation coefficient used is:
 
 @CATEGORY=Finance
 @FUNCTION=MDURATION
-@SHORTDESC=the Macaulay duration of a security
+@SHORTDESC=the modified (Macaulay) duration of a security
 @SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency,basis)
 @ARGUMENTDESCRIPTION=@{settlement}: settlement date
 @{maturity}: maturity date
@@ -1694,9 +1707,9 @@ The depreciation coefficient used is:
 @{yield}: annual yield of security
 @{frequency}: number of interest payments per year
 @{basis}: calendar basis
-@DESCRIPTION=MDURATION calculates the Macaulay duration of a security.
+@DESCRIPTION=MDURATION calculates the modified (Macaulay) duration of a security.
 @NOTE=@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly). If @{basis} is 0, then the US 30/360 method is used. If @{basis} is 1, then actual number of days is used. If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days. If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days. If @{basis} is 4, then the European 30/360 method is used.
-@SEEALSO=DURATION
+@SEEALSO=DURATION,G_DURATION
 
 @CATEGORY=Finance
 @FUNCTION=MIRR

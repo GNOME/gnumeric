@@ -3067,6 +3067,50 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-TIME">
+      <refmeta>
+        <refentrytitle>
+          <function>TIME</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>TIME</function>
+        </refname>
+        <refpurpose>
+        create a time serial value
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>TIME</function>(<parameter>hour</parameter>,<parameter>minute</parameter>,<parameter>second</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>hour</parameter>: hour</para>
+        <para><parameter>minute</parameter>: minute</para>
+        <para><parameter>second</parameter>: second</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>The ODF.<function>TIME</function> function computes the time given by <parameter>hour</parameter>, <parameter>minute</parameter>, and <parameter>second</parameter> as a fraction of a day.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>While the return value is automatically formatted to look like a time between 0:00 and 24:00, the underlying serial time value can be any number.</para>
+      </refsect1>
+      <refsect1>
+        <title>OpenDocument Format (ODF) Compatibility</title>
+        <para>This function is OpenFormula compatible.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-TIME"><function>TIME</function></link>,
+        <link linkend="gnumeric-function-HOUR"><function>HOUR</function></link>,
+        <link linkend="gnumeric-function-MINUTE"><function>MINUTE</function></link>,
+        <link linkend="gnumeric-function-SECOND"><function>SECOND</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-PENTECOSTSUNDAY">
       <refmeta>
         <refentrytitle>
@@ -3160,7 +3204,11 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>The <function>TIME</function> function computes the fractional day between midnight at the time given by <parameter>hour</parameter>, <parameter>minute</parameter>, and <parameter>second</parameter>.</para>
+        <para>The <function>TIME</function> function computes the fractional day after midnight at the time given by <parameter>hour</parameter>, <parameter>minute</parameter>, and <parameter>second</parameter>.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>While the return value is automatically formatted to look like a time between 0:00 and 24:00, the underlying serial time value is a number between 0 and 1. If any of <parameter>hour</parameter>, <parameter>minute</parameter>, and <parameter>second</parameter> is negative, #NUM! is returned</para>
       </refsect1>
       <refsect1>
         <title>Microsoft Excel Compatibility</title>
@@ -3168,7 +3216,8 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-function-HOUR"><function>HOUR</function></link>,
+        <para><link linkend="gnumeric-function-ODF.TIME"><function>ODF.TIME</function></link>,
+        <link linkend="gnumeric-function-HOUR"><function>HOUR</function></link>,
         <link linkend="gnumeric-function-MINUTE"><function>MINUTE</function></link>,
         <link linkend="gnumeric-function-SECOND"><function>SECOND</function></link>.
       </para>
@@ -5349,7 +5398,7 @@
           <function>DURATION</function>
         </refname>
         <refpurpose>
-        the duration of a security
+        the (Macaulay) duration of a security
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -5366,7 +5415,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>DURATION</function> calculates the duration of a security.</para>
+        <para><function>DURATION</function> calculates the (Macaulay) duration of a security.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -5374,7 +5423,8 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-function-MDURATION"><function>MDURATION</function></link>.
+        <para><link linkend="gnumeric-function-MDURATION"><function>MDURATION</function></link>,
+        <link linkend="gnumeric-function-G_DURATION"><function>G_DURATION</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -5589,7 +5639,9 @@
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-function-FV"><function>FV</function></link>,
-        <link linkend="gnumeric-function-PV"><function>PV</function></link>.
+        <link linkend="gnumeric-function-PV"><function>PV</function></link>,
+        <link linkend="gnumeric-function-DURATION"><function>DURATION</function></link>,
+        <link linkend="gnumeric-function-MDURATION"><function>MDURATION</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -5753,7 +5805,7 @@
           <function>MDURATION</function>
         </refname>
         <refpurpose>
-        the Macaulay duration of a security
+        the modified (Macaulay) duration of a security
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -5770,7 +5822,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>MDURATION</function> calculates the Macaulay duration of a security.</para>
+        <para><function>MDURATION</function> calculates the modified (Macaulay) duration of a security.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
@@ -5778,7 +5830,8 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-function-DURATION"><function>DURATION</function></link>.
+        <para><link linkend="gnumeric-function-DURATION"><function>DURATION</function></link>,
+        <link linkend="gnumeric-function-G_DURATION"><function>G_DURATION</function></link>.
       </para>
       </refsect1>
     </refentry>
