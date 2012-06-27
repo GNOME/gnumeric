@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-22 14:56+0000\n"
-"PO-Revision-Date: 2012-06-25 20:15+0200\n"
+"POT-Creation-Date: 2012-06-25 18:17+0000\n"
+"PO-Revision-Date: 2012-06-27 10:58+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -8406,16 +8406,22 @@ msgid ""
 "fore and background colors will remain in the original location. Uncheck "
 "this checkbox to have these formats move with the content. "
 msgstr ""
+"Cuando esta casilla de verificación está activada, el formato de celda como "
+"bordes, hiperenlaces, colores de primer plano y de fondo permanecerán en la "
+"ubicación original. Desactive esta casilla de verificación para hacer que "
+"estos formatos se muevan con el contenido."
 
 #: ../src/dialogs/cell-sort.ui.h:7
 msgid "Sort range has a _header"
-msgstr "Ordenar rango como _cabecera"
+msgstr "El rango de ordenación tiene una _cabecera"
 
 #: ../src/dialogs/cell-sort.ui.h:8
 msgid ""
 "The first row or column of the range is excluded from sorting and assumed to "
 "contain column or row headers."
 msgstr ""
+"La primera fila o columna del rango está excluida de la ordenación y asume "
+"que contiene encabezados de columna o fila."
 
 #: ../src/dialogs/cell-sort.ui.h:9 ../src/dialogs/so-scrollbar.ui.h:7
 msgid "Direction:"
@@ -8435,7 +8441,7 @@ msgstr "Ordenar columnas por las filas especificadas"
 
 #: ../src/dialogs/cell-sort.ui.h:13
 msgid "_Top-Bottom"
-msgstr "_Arriba a abajo"
+msgstr "_Arriba-Abajo"
 
 #: ../src/dialogs/cell-sort.ui.h:14
 msgid "Sort rows by the specified columns"
@@ -8443,31 +8449,31 @@ msgstr "Ordenar filas por las columnas especificadas"
 
 #: ../src/dialogs/cell-sort.ui.h:15
 msgid "Move selected field up in the sort order"
-msgstr "Subir el campo especificado dentro de la lista de ordenación"
+msgstr "Subir el campo seleccionado en el orden de clasificación"
 
 #: ../src/dialogs/cell-sort.ui.h:16
 msgid "Move the selected field down in the sort order"
-msgstr "Bajar el campo especificado dentro de la lista de ordenación"
+msgstr "Bajar el campo seleccionado en el orden de clasificación"
 
 #: ../src/dialogs/cell-sort.ui.h:17
 msgid "Clear all fields from the sort specification"
-msgstr "Vaciar todos los campos de la especificación de ordenación"
+msgstr "Limpiar todos los campos de la especificación de ordenación"
 
 #: ../src/dialogs/cell-sort.ui.h:18
 msgid "Remove the selected field from the sort specification"
-msgstr "Eliminar el campo seleccionado de la especificación de ordenación"
+msgstr "Quitar el campo seleccionado de la especificación de ordenación"
 
 #: ../src/dialogs/cell-sort.ui.h:19
 msgid ""
 "Adds any fields in the range box to the left to the sort criteria or allows "
 "selection of fields from a menu."
 msgstr ""
-"Añadir cualquier campo en la caja de rango a la derecha del criterio de "
+"Añadir cualquier campo en la caja de rango a la izquierda del criterio de "
 "orden o permitir la selección de campos desde un menú."
 
 #: ../src/dialogs/chi-squared.ui.h:1
 msgid "Contingency Table Analysis"
-msgstr "Análisis de la tabla de contingencias"
+msgstr "Análisis de la tabla de contingencia"
 
 #: ../src/dialogs/chi-squared.ui.h:2
 msgid "_Contingency Table:"
@@ -8475,7 +8481,7 @@ msgstr "Tabla de _contingencia:"
 
 #: ../src/dialogs/chi-squared.ui.h:12
 msgid "Test of _Homogeneity"
-msgstr "Comprobación de _homogeneidad"
+msgstr "Prueba de _homogeneidad"
 
 #: ../src/dialogs/chi-squared.ui.h:13
 msgid "Test of _Independence"
@@ -8489,7 +8495,7 @@ msgstr "Agrupar/Desagrupar"
 #: ../src/dialogs/colrow.ui.h:3
 msgctxt "group"
 msgid "_Columns"
-msgstr "Co_lumnas"
+msgstr "_Columnas"
 
 #. Group Rows
 #: ../src/dialogs/colrow.ui.h:5
@@ -8524,7 +8530,7 @@ msgstr "_Función:"
 
 #: ../src/dialogs/consolidate.ui.h:3
 msgid "The function to use when consolidating"
-msgstr "La función se utiliza para consolidar"
+msgstr "La función se utiliza al consolidar"
 
 #: ../src/dialogs/consolidate.ui.h:4
 msgid "_Source areas:"
@@ -8536,7 +8542,7 @@ msgstr "Limpiar la lista de áreas de origen"
 
 #: ../src/dialogs/consolidate.ui.h:6
 msgid "Delete the currently selected source area"
-msgstr "Borrar el área actualmente seleccionada"
+msgstr "Eliminar el área de origen actualmente seleccionada"
 
 #: ../src/dialogs/consolidate.ui.h:7
 msgid "Labels in _top row"
@@ -8547,8 +8553,8 @@ msgid ""
 "The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
 msgstr ""
-"La primera fila contiene etiquetas, las cuales no se consolidarán, pero se "
-"emplearán como claves de comparación"
+"La fila superior contiene etiquetas, las cuales no se consolidarán, pero se "
+"usarán como clave de comparación"
 
 #: ../src/dialogs/consolidate.ui.h:9
 msgid "Labels in _left column"
@@ -8560,16 +8566,15 @@ msgid ""
 "key for comparison"
 msgstr ""
 "La columna izquierda contiene etiquetas, las cuales no se consolidarán, pero "
-"se emplearán como claves de comparación"
+"se usarán como clave de comparación"
 
 #: ../src/dialogs/consolidate.ui.h:11
 msgid "C_opy labels"
 msgstr "C_opiar etiquetas"
 
 #: ../src/dialogs/consolidate.ui.h:14
-#, fuzzy
 msgid "SUM"
-msgstr "RESUMEN"
+msgstr "SUM"
 
 #: ../src/dialogs/consolidate.ui.h:15
 msgid "MIN"
@@ -8581,31 +8586,31 @@ msgstr "MAX"
 
 #: ../src/dialogs/consolidate.ui.h:17
 msgid "AVERAGE"
-msgstr ""
+msgstr "PROMEDIO"
 
 #: ../src/dialogs/consolidate.ui.h:18
 msgid "COUNT"
-msgstr ""
+msgstr "CUENTA"
 
 #: ../src/dialogs/consolidate.ui.h:19
 msgid "PRODUCT"
-msgstr ""
+msgstr "PRODUCTO"
 
 #: ../src/dialogs/consolidate.ui.h:20
 msgid "STDEV"
-msgstr ""
+msgstr "STDEV"
 
 #: ../src/dialogs/consolidate.ui.h:21
 msgid "STDEVP"
-msgstr ""
+msgstr "STDEVP"
 
 #: ../src/dialogs/consolidate.ui.h:22
 msgid "VAR"
-msgstr ""
+msgstr "VAR"
 
 #: ../src/dialogs/consolidate.ui.h:23
 msgid "VARP"
-msgstr ""
+msgstr "VARP"
 
 #: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:697
 #: ../src/tools/analysis-tools.c:700
@@ -8627,7 +8632,7 @@ msgstr "Fórmulas"
 
 #: ../src/dialogs/dao.ui.h:3
 msgid "<b>Output Placement</b>"
-msgstr "<b>Colocación de la salida</b>"
+msgstr "<b>Ubicación de salida</b>"
 
 #: ../src/dialogs/dao.ui.h:4
 msgid "New _sheet"
@@ -8635,7 +8640,7 @@ msgstr "_Hoja nueva"
 
 #: ../src/dialogs/dao.ui.h:5
 msgid "New _workbook"
-msgstr "_Libro de cuentas nuevo"
+msgstr "_Libro de trabajo nuevo"
 
 #: ../src/dialogs/dao.ui.h:6
 msgid "Output _range:"
@@ -8667,7 +8672,7 @@ msgstr "_Insertar en las celdas:"
 
 #: ../src/dialogs/data-slicer.ui.h:1
 msgid "DataSlicer Guru : Gnumeric"
-msgstr ""
+msgstr "DataSlicer Guru : Gnumeric"
 
 #: ../src/dialogs/data-slicer.ui.h:3 ../src/dialogs/dialog-stf.ui.h:59
 #: ../src/stf-export.c:576
@@ -8688,27 +8693,27 @@ msgstr "Definir nombres"
 
 #: ../src/dialogs/delete-cells.ui.h:1
 msgid "Delete cells"
-msgstr "Borrar celdas"
+msgstr "Eliminar celdas"
 
 #: ../src/dialogs/delete-cells.ui.h:2
 msgid "<span weight=\"bold\">Delete Method</span>"
-msgstr "<span weight=\"bold\">Método de borrado</span>"
+msgstr "<span weight=\"bold\">Eliminar método</span>"
 
 #: ../src/dialogs/delete-cells.ui.h:3
 msgid "Shift cells _left"
-msgstr "Desplazar las celdas hacia la _izquierda"
+msgstr "Desplazar celdas hacia la _izquierda"
 
 #: ../src/dialogs/delete-cells.ui.h:4
 msgid "Shift cells _up"
-msgstr "Desplazar las celdas hacia a_rriba"
+msgstr "Desplazar celdas hacia _arriba"
 
 #: ../src/dialogs/delete-cells.ui.h:5
 msgid "Delete _row(s)"
-msgstr "Borrar _fila(s)"
+msgstr "Eliminar _fila(s)"
 
 #: ../src/dialogs/delete-cells.ui.h:6
 msgid "Delete _column(s)"
-msgstr "Borrar _columna(s)"
+msgstr "Eliminar _columna(s)"
 
 #: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1142
 #: ../src/tools/analysis-tools.c:1145
@@ -8728,7 +8733,7 @@ msgid ""
 "Use the ssmedian function with interval width 1 rather than the traditional "
 "median function.  "
 msgstr ""
-"Usar la función ssmedian con amplitud de intervalo 1 en vez de la función de "
+"Usar la función ssmedian con anchura de intervalo 1 en vez de la función de "
 "mediana tradicional.  "
 
 #: ../src/dialogs/descriptive-stats.ui.h:14
@@ -8753,7 +8758,7 @@ msgstr "K-ésimo _mayor"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:1
 msgid "Unix (linefeed)"
-msgstr "Unix (línea nueva)"
+msgstr "Unix (salto de línea)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:2
 msgid "Macintosh (carriage return)"
@@ -8761,7 +8766,7 @@ msgstr "Macintosh (retorno de carro)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:3
 msgid "Windows (carriage return + linefeed)"
-msgstr "Windows (retorno de carro + línea nueva)"
+msgstr "Windows (retorno de carro + salto de línea)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:4
 msgid "Automatic (puts quotes where needed)"
@@ -8809,30 +8814,27 @@ msgstr "Punto y coma (;)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:15
 msgid "Slash (/)"
-msgstr ""
+msgstr "Barra (/)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:17
-#, fuzzy
 msgid "Transliterate"
-msgstr "Modo transliterado"
+msgstr "Transcribir"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:18
 msgid "Escape"
-msgstr "Escape"
+msgstr "Escapar"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:19 ../src/sheet-object-graph.c:748
 msgid "Auto"
 msgstr "Auto"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:20
-#, fuzzy
 msgid "Raw"
 msgstr "Fila"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:21
-#, fuzzy
 msgid "Preserve"
-msgstr "_Conservar mayúsculas"
+msgstr "Mantener"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:22
 msgid "Export as Text"
@@ -8841,7 +8843,7 @@ msgstr "Exportar como texto"
 #: ../src/dialogs/dialog-stf-export.ui.h:23
 msgid "Choose sheets to export and determine export ordering of the sheets:"
 msgstr ""
-"Elija las hojas para exportar y determine el orden de exportación de las "
+"Elegir las hojas para exportar y determinar el orden de exportación de las "
 "hojas:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:24
@@ -8854,7 +8856,7 @@ msgstr "Seleccionar _todo"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:26
 msgid "Deselect all sheets for export."
-msgstr "Deseleccione todas las hojas para exportar."
+msgstr "Deseleccionar todas las hojas para exportar."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:27
 msgid "Select N_one"
