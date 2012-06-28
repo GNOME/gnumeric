@@ -22,14 +22,14 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-25 18:17+0000\n"
-"PO-Revision-Date: 2012-06-27 10:58+0200\n"
+"POT-Creation-Date: 2012-06-27 09:02+0000\n"
+"PO-Revision-Date: 2012-06-28 10:49+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 2.91.4\n"
+"X-Generator: Gtranslator 2.91.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
@@ -8860,7 +8860,7 @@ msgstr "Deseleccionar todas las hojas para exportar."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:27
 msgid "Select N_one"
-msgstr "No seleccionar _ninguno"
+msgstr "Seleccionar _ninguno"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:28
 msgid ""
@@ -8875,32 +8875,32 @@ msgid ""
 "Raise the selected sheet in the list of to be exported sheets to be exported "
 "earlier."
 msgstr ""
-"Subir la hoja seleccionada en la lista de hojas a ser exportadas para que se "
-"exporten más pronto."
+"Subir la hoja seleccionada en la lista de hojas que exportar para que se "
+"exporten antes."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid ""
 "Lower the selected sheet in the list of to be exported sheets to be exported "
 "later."
 msgstr ""
-"Bajar la hoja seleccionada en la lista de hojas que se van a exportar para "
-"que se exporten más tarde."
+"Bajar la hoja seleccionada en la lista de hojas que exportar para que se "
+"exporten más tarde."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
 "Move the selected sheet to the end of the list of to be exported sheets to "
 "be exported last."
 msgstr ""
-"Mover la hoja seleccionada al final de la lista de las hojas que van a "
-"exportarse para que sean exportadas las últimas."
+"Mover la hoja seleccionada al final de la lista de las hojas que exportar "
+"para que se exporten al final."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:32
 msgid "Choose export formatting:"
-msgstr "Elija el formato de exportación:"
+msgstr "Elegir el formato de exportación:"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:33
 msgid "Save as default formatting"
-msgstr "Guardar como formateado predeterminado"
+msgstr "Guardar como formato predeterminado"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:34
 msgid "Line _termination:"
@@ -8948,19 +8948,19 @@ msgstr "`"
 
 #: ../src/dialogs/dialog-stf.ui.h:4
 msgid "Both sides"
-msgstr ""
+msgstr "Ambos lados"
 
 #: ../src/dialogs/dialog-stf.ui.h:5
 msgid "Neither side"
-msgstr ""
+msgstr "Ningún lado"
 
 #: ../src/dialogs/dialog-stf.ui.h:6
 msgid "On left side only"
-msgstr ""
+msgstr "Solo en el lado izquierdo"
 
 #: ../src/dialogs/dialog-stf.ui.h:7
 msgid "On right side only"
-msgstr ""
+msgstr "Solo en el lado derecho"
 
 #: ../src/dialogs/dialog-stf.ui.h:8
 msgid "Text Import Configuration"
@@ -8997,8 +8997,8 @@ msgid ""
 "The sequence of carriage return and line feed (ASCII codes 13 and 10) breaks "
 "lines"
 msgstr ""
-"La secuencia de retorno de carro y alimentar línea (códigos ASCII 13 y 10) "
-"saltan a la siguiente línea"
+"La secuencia de retorno de carro y alimentación de línea (códigos ASCII 13 y "
+"10) saltan a la siguiente línea"
 
 #: ../src/dialogs/dialog-stf.ui.h:16
 msgid "_Macintosh (CR)"
@@ -9007,7 +9007,7 @@ msgstr "_Macintosh (CR)"
 #: ../src/dialogs/dialog-stf.ui.h:17
 msgid "The carriage return character (ASCII code 13) breaks lines"
 msgstr ""
-"El carácter de retorno de carro (código ASCII 13) salta a la línea siguiente"
+"El carácter de retorno de carro (código 13 ASCII) salta a la línea siguiente"
 
 #: ../src/dialogs/dialog-stf.ui.h:18
 msgid "Original data type:"
@@ -9015,15 +9015,15 @@ msgstr "Tipo de dato original:"
 
 #: ../src/dialogs/dialog-stf.ui.h:19
 msgid "_Separated"
-msgstr "_Delimitados"
+msgstr "_Delimitado"
 
 #: ../src/dialogs/dialog-stf.ui.h:20
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
-"Cada columna está separada por un carácter de 'separación', p.e. punto y "
-"coma."
+"Cada columna en el texto está delimitada por un carácter de «separación», "
+"ej. punto y coma."
 
 #: ../src/dialogs/dialog-stf.ui.h:21
 msgid "Fi_xed width"
@@ -9031,7 +9031,7 @@ msgstr "Anchura _fija"
 
 #: ../src/dialogs/dialog-stf.ui.h:22
 msgid "Define the width of each column manually."
-msgstr "Definir el ancho de cada columna en forma manual."
+msgstr "Definir la anchura de cada columna manualmente."
 
 #: ../src/dialogs/dialog-stf.ui.h:23
 msgid "Source Format"
@@ -9046,7 +9046,8 @@ msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
 msgstr ""
-"El procesamiento comenzará en esta línea, las líneas previas serán ignoradas."
+"El procesamiento actual comenzará en esta línea, las líneas previas se "
+"ignorarán."
 
 #: ../src/dialogs/dialog-stf.ui.h:26
 msgid "_To line: "
@@ -9054,15 +9055,16 @@ msgstr "_A línea: "
 
 #: ../src/dialogs/dialog-stf.ui.h:27
 msgid "Processing ends at this line, any subsequent lines will be ignored."
-msgstr "El procesamiento termina en esta línea y se ignorarán las siguientes."
+msgstr ""
+"El procesamiento termina en esta línea y se ignorarán las siguientes líneas."
 
 #: ../src/dialogs/dialog-stf.ui.h:28
 msgid "Number of lines to import"
-msgstr "Número de líneas a importar"
+msgstr "Número de líneas que importar"
 
 #: ../src/dialogs/dialog-stf.ui.h:29
 msgid "Lines to import"
-msgstr "Líneas a importar"
+msgstr "Líneas que importar"
 
 #: ../src/dialogs/dialog-stf.ui.h:31
 msgid "Main"
@@ -9070,7 +9072,7 @@ msgstr "Principal"
 
 #: ../src/dialogs/dialog-stf.ui.h:32
 msgid "C_ustom"
-msgstr "Pe_rsonalizado"
+msgstr "P_ersonalizado"
 
 #: ../src/dialogs/dialog-stf.ui.h:33
 msgid "_Hyphen (-)"
@@ -9086,7 +9088,7 @@ msgstr "_Tabulador"
 
 #: ../src/dialogs/dialog-stf.ui.h:36
 msgid "C_olon (:)"
-msgstr "_Dos puntos (:)"
+msgstr "D_os puntos (:)"
 
 #: ../src/dialogs/dialog-stf.ui.h:37
 msgid "Custom separator, this can be any character."
@@ -9094,11 +9096,11 @@ msgstr "Separador personalizado, puede ser cualquier carácter."
 
 #: ../src/dialogs/dialog-stf.ui.h:38
 msgid "S_ee two separators as one"
-msgstr "C_onsiderar separadores consecutivos como uno solo"
+msgstr "C_onsiderar dos separadores como uno"
 
 #: ../src/dialogs/dialog-stf.ui.h:39
 msgid "See two successive separators as one."
-msgstr "Considerar separadores consecutivos como uno solo."
+msgstr "Considerar dos separadores consecutivos como uno."
 
 #: ../src/dialogs/dialog-stf.ui.h:40
 msgid "_Comma (,)"
@@ -9114,7 +9116,7 @@ msgstr "_Ignorar separadores iniciales"
 
 #: ../src/dialogs/dialog-stf.ui.h:43
 msgid "Ignore any separators at the beginning of lines"
-msgstr "Ignorar cualquier separador el principio de las líneas"
+msgstr "Ignorar cualquier separador al principio de las líneas"
 
 #: ../src/dialogs/dialog-stf.ui.h:44
 msgid "Separators"
@@ -9126,13 +9128,14 @@ msgstr "Indicador de te_xto: "
 
 #: ../src/dialogs/dialog-stf.ui.h:46
 msgid "_Adjacent text indicators escaped"
-msgstr "Indicadores de escape de texto _adyacente"
+msgstr "Indicadores de texto _adyacentes escapados"
 
 #: ../src/dialogs/dialog-stf.ui.h:47
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
-"Ver dos indicadores de texto sucesivos como uno solo que no termina la celda."
+"Considerar dos indicadores de texto sucesivos como uno que no termina la "
+"celda."
 
 #: ../src/dialogs/dialog-stf.ui.h:48
 msgid "Text indicator"
@@ -9148,11 +9151,11 @@ msgstr "Descubrimiento de columna _automático"
 
 #: ../src/dialogs/dialog-stf.ui.h:51
 msgid "Attempt to recognize columns in the text automatically."
-msgstr "Intentar reconocer las columnas en forma automática."
+msgstr "Intentar reconocer columnas en el texto automáticamente."
 
 #: ../src/dialogs/dialog-stf.ui.h:52
 msgid "_Clear"
-msgstr "L_impiar"
+msgstr "_Limpiar"
 
 #: ../src/dialogs/dialog-stf.ui.h:53
 msgid "Clear list of columns"
@@ -9170,11 +9173,11 @@ msgstr "Fijado"
 
 #: ../src/dialogs/dialog-stf.ui.h:57
 msgid "Source Locale:"
-msgstr "Localización del origen (i18n):"
+msgstr "Localización de origen:"
 
 #: ../src/dialogs/dialog-stf.ui.h:58
 msgid "Trim:"
-msgstr "Eliminar espacios:"
+msgstr "Recortar:"
 
 #. ----- vertical -----
 #: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk.c:2958
@@ -9213,7 +9216,7 @@ msgstr "_Ajustar selección"
 
 #: ../src/dialogs/dialog-zoom.ui.h:13
 msgid "_Custom Percentage"
-msgstr "_Porcentajes personalizados"
+msgstr "_Porcentaje personalizado"
 
 # Mejorar traduccion
 #: ../src/dialogs/dialog-zoom.ui.h:14
@@ -9299,13 +9302,11 @@ msgstr "Título:"
 
 #: ../src/dialogs/doc-meta-data.ui.h:23
 msgid "Edit item inside the above listing."
-msgstr ""
+msgstr "Editar elemento dentro de la lista anterior."
 
 #: ../src/dialogs/doc-meta-data.ui.h:24
-#, fuzzy
-#| msgid "Document Properties"
 msgid "New Document Property:"
-msgstr "Propiedades del documento"
+msgstr "Propiedad de documento nuevo:"
 
 #: ../src/dialogs/doc-meta-data.ui.h:25
 msgid "Name: "
