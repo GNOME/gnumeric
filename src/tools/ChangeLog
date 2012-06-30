@@ -1,3 +1,8 @@
+2012-06-30  Morten Welinder  <terra@gnome.org>
+
+	* gnm-solver.c (gnm_sub_solver_locate_binary): Mark various
+	strings for translation.
+
 2012-06-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.4

@@ -1601,11 +1601,11 @@ gnm_sub_solver_locate_binary (const char *binary, const char *solver,
 		 GTK_DIALOG_DESTROY_WITH_PARENT,
 		 GTK_MESSAGE_QUESTION,
 		 GTK_BUTTONS_YES_NO,
-		 "Gnumeric is unable to locate the program <i>%s</i> needed "
-		 "for the <i>%s</i> solver.  For more information see %s.\n\n"
-		 "Would you like to locate it yourself?",
+		 _("Gnumeric is unable to locate the program <i>%s</i> needed "
+		   "for the <i>%s</i> solver.  For more information see %s.\n\n"
+		   "Would you like to locate it yourself?"),
 		 binary, solver, url);
-	title = g_strdup_printf ("Unable to locate %s", binary);
+	title = g_strdup_printf (_("Unable to locate %s"), binary);
 	g_object_set (G_OBJECT (dialog),
 		      "title", title,
 		      NULL);
@@ -1621,7 +1621,7 @@ gnm_sub_solver_locate_binary (const char *binary, const char *solver,
 		break;
 	}
 
-	title = g_strdup_printf ("Locate the %s program", binary);
+	title = g_strdup_printf (_("Locate the %s program"), binary);
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", GTK_FILE_CHOOSER_ACTION_OPEN,
