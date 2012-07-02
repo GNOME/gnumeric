@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-15 22:55+0000\n"
-"PO-Revision-Date: 2012-06-24 22:20+0100\n"
+"POT-Creation-Date: 2012-06-30 14:00+0000\n"
+"PO-Revision-Date: 2012-07-02 09:36+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -55,7 +55,7 @@ msgstr "Manjkajo ustrezni znaki za določitev nabora znakov"
 #: ../plugins/applix/applix-read.c:326
 #, c-format
 msgid "Invalid characters for encoding '%c%c'"
-msgstr "Neveljavni znaki za nabor znakov '%c%c'"
+msgstr "Neveljavni znaki za nabor '%c%c'"
 
 #: ../plugins/applix/applix-read.c:1202
 #, c-format
@@ -146,7 +146,7 @@ msgstr "Napaka med branjem datoteke DIF."
 #: ../plugins/paradox/paradox.c:311
 #: ../plugins/sylk/sylk-write.c:235
 msgid "Cannot get default sheet."
-msgstr "Ni mogoče pridobiti privzetega delovnega lista"
+msgstr "Ni mogoče pridobiti privzetega delovnega lista."
 
 #: ../plugins/dif/dif.c:363
 msgid "Error while saving DIF file."
@@ -229,7 +229,7 @@ msgstr "Modul%d"
 #: ../plugins/excel/ms-excel-read.c:3660
 #, c-format
 msgid "Failure parsing name '%s'"
-msgstr "Napaka med razreševanjem imena '%s'"
+msgstr "Napaka med razčlenjevanjem imena '%s'"
 
 #: ../plugins/excel/ms-excel-read.c:3804
 #, c-format
@@ -1005,7 +1005,7 @@ msgstr "Ustvarjanje datoteke rešitve je spodletelo"
 #: ../plugins/lpsolve/gnm-lpsolve.c:286
 #, c-format
 msgid "The %s program was not found.  You can either install it or use another solver. For more information see %s"
-msgstr "Programa %s ni mogoče najti. Program je treba namestiti ali pa je treba uporabiti drug program za razreševanje. Za več podrobnosti si poglejte %s"
+msgstr "Programa %s ni mogoče najti. Program je treba namestiti, ali pa je treba uporabiti reševalnik. Več podrobnosti je mogoče najti v %s"
 
 #: ../plugins/glpk/plugin.xml.in.h:1
 msgid "GLPK Linear Program Solver Interface"
@@ -10974,11 +10974,11 @@ msgstr "Kot kazalo"
 
 #: ../src/dialogs/solver.ui.h:1
 msgid "Solver"
-msgstr "Razreševalnik"
+msgstr "Reševalnik"
 
 #: ../src/dialogs/solver.ui.h:2
 msgid "Solve"
-msgstr "razreši"
+msgstr "Reši"
 
 #: ../src/dialogs/solver.ui.h:3
 msgid "_Equal To:"
@@ -13177,7 +13177,7 @@ msgstr "Spor v poimenovanju med združevanjem: '%s' se ponovi dvakrat v obsegu d
 #: ../src/ssconvert.c:498
 #, c-format
 msgid "Failed to create solver"
-msgstr "Napaka med ustvarjanjem razrešilnika"
+msgstr "Napaka med ustvarjanjem reševalnika"
 
 #: ../src/ssconvert.c:511
 #, c-format
@@ -14384,7 +14384,7 @@ msgstr "Vzrok za stanje reševalnika"
 
 #: ../src/tools/gnm-solver.c:1258
 msgid "Solver parameters"
-msgstr "Parametri razreševalnika"
+msgstr "Parametri reševalnika"
 
 #: ../src/tools/gnm-solver.c:1266
 msgid "Current best feasible result"
@@ -14396,7 +14396,7 @@ msgstr "Začetni čas"
 
 #: ../src/tools/gnm-solver.c:1273
 msgid "Time the solver was started"
-msgstr "Čas, ko je bil razreševalnik zagnan"
+msgstr "Čas, ko je bil reševalnik zagnan"
 
 #: ../src/tools/gnm-solver.c:1279
 msgid "End Time"
@@ -14404,7 +14404,28 @@ msgstr "Čas zaključka"
 
 #: ../src/tools/gnm-solver.c:1280
 msgid "Time the solver finished"
-msgstr "Čas, ko je razreševalnik končal opravilo"
+msgstr "Čas, ko je reševalnik končal opravilo"
+
+#: ../src/tools/gnm-solver.c:1604
+#, c-format
+msgid ""
+"Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> solver.  For more information see %s.\n"
+"\n"
+"Would you like to locate it yourself?"
+msgstr ""
+"Programa <i>%s</i> ni mogoče najti, je pa ključen za delovanje reševalnika <i>%s</i>.  Več podrobnosti je zapisanih v %s.\n"
+"\n"
+"Ali želite program poiskati ročno?"
+
+#: ../src/tools/gnm-solver.c:1608
+#, c-format
+msgid "Unable to locate %s"
+msgstr "Ni mogoče najti %s"
+
+#: ../src/tools/gnm-solver.c:1624
+#, c-format
+msgid "Locate the %s program"
+msgstr "Najdi program %s"
 
 #: ../src/tools/random-generator-cor.c:64
 msgid "Cholesky Decomposition of the Covariance Matrix"
@@ -17664,7 +17685,7 @@ msgid "Unsupported object type '%s'"
 msgstr "Nepodprta vrsta predmeta '%s'"
 
 #: ../src/xml-sax-read.c:3595
-#: ../src/xml-sax-write.c:1593
+#: ../src/xml-sax-write.c:1608
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
