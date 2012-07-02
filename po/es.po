@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-27 09:02+0000\n"
-"PO-Revision-Date: 2012-06-28 10:49+0200\n"
+"POT-Creation-Date: 2012-06-30 14:00+0000\n"
+"PO-Revision-Date: 2012-07-02 16:05+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -199,8 +199,8 @@ msgstr "Atributo inesperado %s::%s == «%s»."
 #, c-format
 msgid "Invalid content of ss:data element, expected number, received '%s'"
 msgstr ""
-"Contenido no válido del elemento «ss:data», se esperaba un número, se "
-"recibió «%s»"
+"Contenido no válido del elemento «ss:data», se esperaba un número, se recibió "
+"«%s»"
 
 #: ../plugins/excel/excel-xml-read.c:510
 #, c-format
@@ -330,8 +330,8 @@ msgstr "Función rota"
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
-"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d "
-"no %d"
+"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d no "
+"%d"
 
 #: ../plugins/excel/plugin.xml.in.h:1
 msgid "MS Excel (tm)"
@@ -596,8 +596,8 @@ msgstr "Falló al encontrar la función «%s» en XLL/DLL/SO %s .\n"
 msgid ""
 "Excel plugin loader / xlfRegister: at least three XLOPER arguments must be "
 "provided (DLL name[ignored],exported name[mandatory],types string"
-"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file "
-"%s."
+"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file %"
+"s."
 msgstr ""
 "Cargador del complemento para Excel / xlfRegister: se deben proporcionar al "
 "menos tres argumentos XLOPER (nombre DLL [ignorado],nombre exportado "
@@ -1341,8 +1341,7 @@ msgstr "Atributo «%s» no válido, se esperaba un número, se ha recibido «%s
 #: ../plugins/openoffice/openoffice-read.c:681
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
-msgstr ""
-"Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
+msgstr "Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:703
 #, c-format
@@ -1401,8 +1400,7 @@ msgstr "Atributo «%s» no válido, unidad «%s» desconocida"
 #: ../plugins/openoffice/openoffice-read.c:1073
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
-msgstr ""
-"Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
+msgstr "Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:1150
 #, c-format
@@ -1456,8 +1454,8 @@ msgstr "%s_EN_ARCHIVO_CORRUPTO"
 #: ../plugins/openoffice/openoffice-read.c:2169
 #, c-format
 msgid ""
-"This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
-"\"%s\"."
+"This file is corrupted with a duplicate sheet name \"%s\", now renamed to \"%"
+"s\"."
 msgstr ""
 "Este archivo está corrupto con un nombre de hoja duplicado «%s», se renombró "
 "a «%s»."
@@ -1723,8 +1721,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:7355
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr ""
-"Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
+msgstr "Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:7321
 #, c-format
@@ -1908,11 +1905,11 @@ msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
 "Field %d in line %d has possibly been cut off. Data has %d characters."
 msgstr[0] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
-"'%d' caracter."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
+"d' caracter."
 msgstr[1] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
-"'%d' caracteres."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
+"d' caracteres."
 
 #: ../plugins/paradox/paradox.c:550
 #, c-format
@@ -9022,8 +9019,8 @@ msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
-"Cada columna en el texto está delimitada por un carácter de «separación», "
-"ej. punto y coma."
+"Cada columna en el texto está delimitada por un carácter de «separación», ej. "
+"punto y coma."
 
 #: ../src/dialogs/dialog-stf.ui.h:21
 msgid "Fi_xed width"
@@ -9377,7 +9374,7 @@ msgstr "página 6"
 #: ../src/tools/analysis-exp-smoothing.c:1397
 #: ../src/tools/analysis-exp-smoothing.c:1400
 msgid "Exponential Smoothing"
-msgstr "Suavización exponencial"
+msgstr "Alisado exponencial"
 
 #. Group by Columns
 #: ../src/dialogs/exp-smoothing.ui.h:5 ../src/dialogs/moving-averages.ui.h:5
@@ -9387,48 +9384,43 @@ msgstr "C_olumnas"
 
 #: ../src/dialogs/exp-smoothing.ui.h:9
 msgid "Simple exponential smoothing (Hunter, 1986)"
-msgstr "Suavizado exponencial simple (Hunter, 1986)"
+msgstr "Alisado exponencial simple (Hunter, 1986)"
 
 #: ../src/dialogs/exp-smoothing.ui.h:10
 msgid "Simple exponential smoothing (Roberts, 1959)"
-msgstr "Suavizado exponencial simple (Hunter, 1959)"
+msgstr "Alisado exponencial simple (Roberts, 1959)"
 
 #: ../src/dialogs/exp-smoothing.ui.h:11
-#, fuzzy
 msgid "Holt's trend corrected exponential smoothing"
-msgstr ""
-"No se ha podido crear el diálogo de la Herramienta de Suavizado Exponencial."
+msgstr "Tendencia de Holt corregida de alisado exponencial."
 
 #: ../src/dialogs/exp-smoothing.ui.h:12
 msgid "Additive Holt-Winters exponential smoothing"
-msgstr ""
+msgstr "Alisado exponencial del aditivo de Holt-Winters"
 
 #: ../src/dialogs/exp-smoothing.ui.h:13
 msgid "Multiplicative Holt-Winters exponential smoothing"
-msgstr ""
+msgstr "Alisado exponencial multiplicativo de Holt-Winters"
 
 #: ../src/dialogs/exp-smoothing.ui.h:15
-#, fuzzy
 msgid "_Damping factor (α):"
 msgstr "Factor de _amortiguación (α):"
 
 #: ../src/dialogs/exp-smoothing.ui.h:16
-#, fuzzy
 msgid "Growth damping factor (γ):"
-msgstr "Factor de _amortiguación:"
+msgstr "Crecimiento del factor de _amortiguación (γ):"
 
 #: ../src/dialogs/exp-smoothing.ui.h:17
-#, fuzzy
 msgid "Seasonal damping factor (δ):"
-msgstr "Factor de _amortiguación estacional (α):"
+msgstr "Factor de _amortiguación estacional (α):"
 
 #: ../src/dialogs/exp-smoothing.ui.h:18
 msgid "Seasonal period:"
-msgstr "Periodo estacional:"
+msgstr "Período estacional:"
 
 #: ../src/dialogs/exp-smoothing.ui.h:19 ../src/dialogs/moving-averages.ui.h:19
 msgid "Include chart"
-msgstr "Incluir gráfico"
+msgstr "Incluir cuadro"
 
 #: ../src/dialogs/exp-smoothing.ui.h:20 ../src/dialogs/moving-averages.ui.h:20
 msgid "_Standard errors"
@@ -9470,7 +9462,7 @@ msgstr "_Fila"
 
 #: ../src/dialogs/fill-series.ui.h:4 ../src/wbc-gtk-actions.c:2228
 msgid "_Column"
-msgstr "Co_lumnas"
+msgstr "_Columna"
 
 #: ../src/dialogs/fill-series.ui.h:5
 msgid "Type:"
@@ -9510,7 +9502,7 @@ msgstr "Unidad de fecha:"
 
 #: ../src/dialogs/fill-series.ui.h:14
 msgid "D_ay"
-msgstr "D_ía"
+msgstr "Dí_a"
 
 #: ../src/dialogs/fill-series.ui.h:15
 msgid "_Weekday"
@@ -9538,11 +9530,11 @@ msgstr "Tamaño:"
 
 #: ../src/dialogs/formula-guru.ui.h:1
 msgid "Formula Guru"
-msgstr "Asistente para fórmulas"
+msgstr "Asistente de fórmula"
 
 #: ../src/dialogs/formula-guru.ui.h:2
 msgid "Enter as array function"
-msgstr "Introducir como array de funciones"
+msgstr "Introducir como matriz de funciones"
 
 #: ../src/dialogs/formula-guru.ui.h:3
 msgid "Quote unknown names"
@@ -9581,7 +9573,7 @@ msgstr "Categorías pre_determinadas\t"
 
 #: ../src/dialogs/frequency.ui.h:14
 msgid "Category _range:"
-msgstr "_Rango de categorías:"
+msgstr "_Rango de categoría:"
 
 #: ../src/dialogs/frequency.ui.h:15
 msgid "C_ategories"
@@ -9589,7 +9581,7 @@ msgstr "C_ategorías"
 
 #: ../src/dialogs/frequency.ui.h:16 ../src/dialogs/histogram.ui.h:27
 msgid "No chart"
-msgstr "Sin gráfico"
+msgstr "Sin cuadro"
 
 #: ../src/dialogs/frequency.ui.h:17 ../src/dialogs/histogram.ui.h:28
 msgid "Bar chart"
@@ -9620,7 +9612,7 @@ msgstr "_Salida"
 
 #: ../src/dialogs/function-select.ui.h:1
 msgid "Function Selector"
-msgstr "Selector de funciones"
+msgstr "Selector de función"
 
 #: ../src/dialogs/function-select.ui.h:2
 msgid "Select a function to insert:"
@@ -9640,7 +9632,7 @@ msgstr "_Al valor:"
 
 #: ../src/dialogs/goalseek.ui.h:4
 msgid "_By Changing Cell:"
-msgstr "_Por celda modificable:"
+msgstr "_Cambiando celda:"
 
 #: ../src/dialogs/goalseek.ui.h:5
 msgid "(_Minimum):"
@@ -9656,7 +9648,7 @@ msgstr "<span weight=\"bold\">Objetivo</span>"
 
 #: ../src/dialogs/goalseek.ui.h:8
 msgid "Remaining Error:"
-msgstr "Error residual:"
+msgstr "Error restante:"
 
 #: ../src/dialogs/goalseek.ui.h:9
 msgid "Current Value:"
@@ -9692,7 +9684,7 @@ msgstr "Sección _derecha:"
 
 #: ../src/dialogs/hf-config.ui.h:3
 msgid "_Middle section:"
-msgstr "Sección _central:"
+msgstr "Sección _media:"
 
 #: ../src/dialogs/hf-config.ui.h:4
 msgid "_Left section:"
@@ -9700,11 +9692,11 @@ msgstr "Sección _izquierda:"
 
 #: ../src/dialogs/hf-config.ui.h:5
 msgid "Delete the selected fields and text"
-msgstr "Borrar los campos y el texto seleccionados"
+msgstr "Eliminar los campos y el texto seleccionados"
 
 #: ../src/dialogs/hf-config.ui.h:6
 msgid "Delete Field"
-msgstr "Borrar campo"
+msgstr "Eliminar campo"
 
 #: ../src/dialogs/hf-config.ui.h:7
 msgid "Insert the date of printing"
@@ -9716,7 +9708,7 @@ msgstr "Insertar la hora de impresión"
 
 #: ../src/dialogs/hf-config.ui.h:11
 msgid "Insert the page number"
-msgstr "Introduzca el número de página"
+msgstr "Insertar el número de página"
 
 #: ../src/dialogs/hf-config.ui.h:12 ../src/dialogs/print.ui.h:21
 msgid "Page"
@@ -9724,7 +9716,7 @@ msgstr "Página"
 
 #: ../src/dialogs/hf-config.ui.h:13
 msgid "Insert the total number of pages"
-msgstr "Introduzca el número total de páginas"
+msgstr "Insertar el número total de páginas"
 
 #: ../src/dialogs/hf-config.ui.h:14
 msgid "Pages"
@@ -9732,15 +9724,15 @@ msgstr "Páginas"
 
 #: ../src/dialogs/hf-config.ui.h:15
 msgid "Insert the name of the current sheet"
-msgstr "Introduzca el nombre de la hoja actual"
+msgstr "Insertar el nombre de la hoja actual"
 
 #: ../src/dialogs/hf-config.ui.h:17
 msgid "Insert the name of the file"
-msgstr "Introduzca el nombre del archivo"
+msgstr "Insertar el nombre del archivo"
 
 #: ../src/dialogs/hf-config.ui.h:19
 msgid "Insert the path to the file"
-msgstr "Introduzca la ruta al archivo"
+msgstr "Insertar la ruta al archivo"
 
 #: ../src/dialogs/hf-config.ui.h:20
 msgid "Path"
@@ -14877,6 +14869,26 @@ msgstr "Tiempo de finalización"
 msgid "Time the solver finished"
 msgstr ""
 
+#: ../src/tools/gnm-solver.c:1604
+#, c-format
+msgid ""
+"Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
+"solver.  For more information see %s.\n"
+"\n"
+"Would you like to locate it yourself?"
+msgstr ""
+
+#: ../src/tools/gnm-solver.c:1608
+#, fuzzy, c-format
+#| msgid "Unable to open '%s'"
+msgid "Unable to locate %s"
+msgstr "No ha sido posible abrir el archivo «%s»"
+
+#: ../src/tools/gnm-solver.c:1624
+#, c-format
+msgid "Locate the %s program"
+msgstr ""
+
 #: ../src/tools/random-generator-cor.c:64
 msgid "Cholesky Decomposition of the Covariance Matrix"
 msgstr ""
@@ -18479,9 +18491,8 @@ msgstr "Una plantilla de lista simple"
 #~ "value."
 #~ msgstr ""
 #~ ">Este valor determina el ajuste predeterminado en el diálogo "
-#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. "
-#~ "Por favor use el diálogo «Configuración de impresión» para editar este "
-#~ "valor."
+#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. Por "
+#~ "favor use el diálogo «Configuración de impresión» para editar este valor."
 
 #~ msgid ""
 #~ ">This value determines whether the default setting in the Print Setup "
