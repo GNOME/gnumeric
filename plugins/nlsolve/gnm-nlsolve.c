@@ -13,6 +13,13 @@
 
 #define PRIVATE_KEY "::nlsolve::"
 
+/*
+ * Note: the solver code assumes the problem is a minimization problem.
+ * When used for a maximization problem, we flip the objective function
+ * sign.  This is done in functions get_value and gnm_nlsolve_set_solution.
+ */
+
+
 typedef struct {
 	GnmSolver *parent;
 
@@ -21,7 +28,7 @@ typedef struct {
 	GnmCell *target;
 	GnmCellPos origin;
 	int input_width, input_height;
-	gboolean maximize;
+	gboolean maximize; /* See note above */
 
 	/* Initial point.  */
 	gnm_float *x0;
@@ -304,6 +311,7 @@ compute_hessian (GnmNlsolve *nl, const gnm_float *xs, const gnm_float *g0)
 static gboolean
 newton_improve (GnmNlsolve *nl, gnm_float *xs, gnm_float *y, gnm_float ymax)
 {
+	GnmSolver *sol = nl->parent;
 	const int n = nl->vars->len;
 	gnm_float *g, **H, *d;
 	gboolean ok;
@@ -331,7 +339,7 @@ newton_improve (GnmNlsolve *nl, gnm_float *xs, gnm_float *y, gnm_float ymax)
 					    y2);
 			}
 
-			if (y2 < ymax) {
+			if (y2 < ymax && gnm_solver_check_constraints (sol)) {
 				best_f = f;
 				ymax = y2;
 				break;
@@ -397,6 +405,7 @@ rosenbrock_tentative_end (GnmNlsolve *nl, gboolean accept)
 static gboolean
 rosenbrock_iter (GnmNlsolve *nl)
 {
+	GnmSolver *sol = nl->parent;
 	const int n = nl->vars->len;
 	int i, j;
 	const gnm_float alpha = 3;
@@ -449,7 +458,7 @@ rosenbrock_iter (GnmNlsolve *nl)
 	while (dones < n) {
 		/*
 		 * A safety that shouldn't get hit, but might if the function
-		 * being optimized in non-deterministic.
+		 * being optimized is non-deterministic.
 		 */
 		if (safety++ > n * GNM_MANT_DIG)
 			break;
@@ -467,7 +476,7 @@ rosenbrock_iter (GnmNlsolve *nl)
 			set_vector (nl, x);
 			y = get_value (nl);
 
-			if (y <= nl->yk) {
+			if (y <= nl->yk && gnm_solver_check_constraints (sol)) {
 				if (y < nl->yk) {
 					nl->yk = y;
 					memcpy (nl->xk, x, n * sizeof (gnm_float));
@@ -597,6 +606,7 @@ rosenbrock_shutdown (GnmNlsolve *nl)
 static gboolean
 polish_iter (GnmNlsolve *nl)
 {
+	GnmSolver *sol = nl->parent;
 	const int n = nl->vars->len;
 	gnm_float *x;
 	gnm_float step;
@@ -620,7 +630,7 @@ polish_iter (GnmNlsolve *nl)
 				set_vector (nl, x);
 				y = get_value (nl);
 
-				if (y < nl->yk)  {
+				if (y < nl->yk && gnm_solver_check_constraints (sol))  {
 					nl->yk = y;
 					memcpy (nl->xk, x, n * sizeof (gnm_float));
 					any = TRUE;

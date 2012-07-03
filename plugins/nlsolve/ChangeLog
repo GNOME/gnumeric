@@ -1,3 +1,8 @@
+2012-07-02  Morten Welinder  <terra@gnome.org>
+
+	* gnm-nlsolve.c (newton_improve, rosenbrock_iter): Check
+	constraints before using an improved solution.
+
 2012-06-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.4
