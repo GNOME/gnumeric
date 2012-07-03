@@ -3646,6 +3646,19 @@ sheet_colrow_get_info (Sheet const *sheet, int colrow, gboolean is_cols)
 
 /*****************************************************************************/
 
+static gint
+cell_ordering (gconstpointer a_, gconstpointer b_)
+{
+	GnmCell const *a = a_;
+	GnmCell const *b = b_;
+
+	if (a->pos.row != b->pos.row)
+		return a->pos.row - b->pos.row;
+
+	return a->pos.col - b->pos.col;
+}
+
+
 #define SWAP_INT(a,b) do { int t; t = a; a = b; b = t; } while (0)
 
 /**
@@ -3682,26 +3695,96 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 	gboolean const only_existing = (flags & CELL_ITER_IGNORE_NONEXISTENT) != 0;
 	gboolean const ignore_empty = (flags & CELL_ITER_IGNORE_EMPTY) != 0;
 	gboolean ignore;
+	gboolean use_celllist;
+	GSList *celllist = NULL;
+	size_t range_size;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (callback != NULL, NULL);
 
 	iter.pp.sheet = sheet;
 	iter.pp.wb = sheet->workbook;
+
 	if (start_col > end_col)
 		SWAP_INT (start_col, end_col);
+	if (end_col < 0 || start_col > gnm_sheet_get_last_col (sheet))
+		return NULL;
+	start_col = MAX (0, start_col);
+	end_col = MIN (end_col, gnm_sheet_get_last_col (sheet));
 
 	if (start_row > end_row)
 		SWAP_INT (start_row, end_row);
+	if (end_row < 0 || start_row > gnm_sheet_get_last_row (sheet))
+		return NULL;
+	start_row = MAX (0, start_row);
+	end_row = MIN (end_row, gnm_sheet_get_last_row (sheet));
 
-	if (only_existing) {
-		if (end_col > sheet->cols.max_used)
-			end_col = sheet->cols.max_used;
-		if (end_row > sheet->rows.max_used)
-			end_row = sheet->rows.max_used;
+	range_size = (end_row - start_row + 1) * (end_col - start_col + 1);
+	use_celllist =
+		only_existing &&
+		range_size > g_hash_table_size (sheet->cell_hash) + 1000;
+	if (use_celllist) {
+		GHashTableIter hiter;
+		gpointer value;
+		GSList *l;
+		int last_row = -1, last_col = -1;
+		GnmValue *res = NULL;
+
+		if (gnm_debug_flag ("sheet-foreach"))
+			g_printerr ("Using celllist for area of size %d\n",
+				    (int)range_size);
+
+		g_hash_table_iter_init (&hiter, sheet->cell_hash);
+		while (g_hash_table_iter_next (&hiter, NULL, &value)) {
+			GnmCell *cell = value;
+			if (cell->pos.col < start_col ||
+			    cell->pos.col > end_col ||
+			    cell->pos.row < start_row ||
+			    cell->pos.row > end_row)
+				continue;
+			celllist = g_slist_prepend (celllist, cell);
+		}
+		celllist = g_slist_sort (celllist, cell_ordering);
+
+		for (l = celllist; l; l = l->next) {
+			iter.cell = l->data;
+			iter.pp.eval.row = iter.cell->pos.row;
+			iter.pp.eval.col = iter.cell->pos.col;
+
+			if (iter.pp.eval.row != last_row) {
+				last_row = iter.pp.eval.row;
+				iter.ri = sheet_row_get (iter.pp.sheet, last_row);
+			}
+			if (visiblity_matters && !iter.ri->visible)
+				continue;
+			if (subtotal_magic && iter.ri->in_filter && !iter.ri->visible)
+				continue;
+
+			if (iter.pp.eval.col != last_col) {
+				last_col = iter.pp.eval.col;
+				iter.ci = sheet_col_get (iter.pp.sheet, last_col);
+			}
+			if (visiblity_matters && !iter.ci->visible)
+				continue;
+
+			ignore = (ignore_empty &&
+				  VALUE_IS_EMPTY (iter.cell->value) &&
+				  !gnm_cell_needs_recalc (iter.cell));
+			if (ignore)
+				continue;
+
+			res = (*callback) (&iter, closure);
+			if (res != NULL)
+				break;
+		}
+
+		g_slist_free (celllist);
+		return res;
 	}
 
-	for (iter.pp.eval.row = start_row; iter.pp.eval.row <= end_row; ++iter.pp.eval.row) {
+	for (iter.pp.eval.row = start_row;
+	     iter.pp.eval.row <= end_row;
+	     ++iter.pp.eval.row) {
 		iter.ri = sheet_row_get (iter.pp.sheet, iter.pp.eval.row);
 
 		/* no need to check visiblity, that would require a colinfo to exist */
