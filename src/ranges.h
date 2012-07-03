@@ -24,7 +24,6 @@ G_BEGIN_DECLS
 GType	  gnm_range_get_type (void); /* GBoxedType */
 GnmRange *gnm_range_dup	  (GnmRange const *r);
 gboolean  gnm_range_equal (GnmRange const *a, GnmRange const *b);
-guint	  gnm_range_hash  (GnmRange const *r);
 
 /**
  * range_overlap:
@@ -112,7 +111,6 @@ gboolean       gnm_sheet_range_overlap    (GnmSheetRange const *a, GnmSheetRange
 GnmSheetRange *gnm_sheet_range_dup	  (GnmSheetRange const *sr);
 gboolean       gnm_sheet_range_equal      (GnmSheetRange const *a,
 					   GnmSheetRange const *b);
-guint          gnm_sheet_range_hash       (GnmSheetRange const *sr);
 
 char	      *global_range_name	  (Sheet const *sheet, GnmRange const *r);
 char	      *undo_cell_pos_name	  (Sheet const *sheet, GnmCellPos const *pos);

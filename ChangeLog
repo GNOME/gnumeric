@@ -1,5 +1,8 @@
 2012-07-03  Morten Welinder  <terra@gnome.org>
 
+	* src/ranges.c (gnm_sheet_range_hash, gnm_range_hash): Delete
+	crummy and unused hash functions.
+
 	* src/sheet.c (cell_set_hash): Use a decent hash.
 	(sheet_foreach_cell_in_range): Use different algorithm when the
 	range is big and we only need existing cells.
