@@ -1,3 +1,7 @@
+2012-07-03  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (cell_set_hash): Use a decent hash.
+
 2012-06-25  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

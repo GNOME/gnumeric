@@ -709,9 +709,15 @@ gnm_sheet_constructed (GObject *obj)
 static guint
 cell_set_hash (GnmCell const *key)
 {
-	guint h = key->pos.row;
-	h = (h << 16) ^ (h >> 16);
-	h ^= key->pos.col;
+	guint32 r = key->pos.row;
+	guint32 c = key->pos.col;
+	guint32 h;
+
+	h = r;
+	h *= (guint32)123456789;
+	h ^= c;
+	h *= (guint32)123456789;
+
 	return h;
 }
 
