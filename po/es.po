@@ -22,10 +22,11 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-30 14:00+0000\n"
-"PO-Revision-Date: 2012-07-02 16:05+0200\n"
+"POT-Creation-Date: 2012-07-03 22:30+0000\n"
+"PO-Revision-Date: 2012-07-05 10:46+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1289,12 +1290,12 @@ msgstr "Lee programas de PL almacenados en formato MPS (*.mps)"
 msgid "Linear and integer program (*.mps) file format"
 msgstr "Formato de archivo de programación lineal y entera (*.mps)"
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:88
+#: ../plugins/nlsolve/gnm-nlsolve.c:95
 #, c-format
 msgid "This solver does not handle discrete variables."
 msgstr "Este resolutor no maneja variables discretas."
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:178
+#: ../plugins/nlsolve/gnm-nlsolve.c:185
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Los valores iniciales no satisfacen las restricciones."
@@ -3881,7 +3882,7 @@ msgstr "Eliminando filas %s"
 msgid "Deleting row %s"
 msgstr "Eliminando fila %s"
 
-#: ../src/commands.c:1583 ../src/commands.c:1584 ../src/sheet.c:4381
+#: ../src/commands.c:1583 ../src/commands.c:1584 ../src/sheet.c:4470
 msgid "Clear"
 msgstr "Limpiar"
 
@@ -4201,7 +4202,7 @@ msgstr "Formatear objeto"
 #: ../src/dialogs/dialog-function-select.c:1240
 #: ../src/dialogs/dialog-scenarios.c:517
 #: ../src/dialogs/dialog-simulation.c:216 ../src/dialogs/dialog-zoom.c:196
-#: ../src/format-template.c:218 ../src/sheet.c:849
+#: ../src/format-template.c:218 ../src/sheet.c:855
 msgid "Name"
 msgstr "Nombre"
 
@@ -9616,7 +9617,7 @@ msgstr "Selector de función"
 
 #: ../src/dialogs/function-select.ui.h:2
 msgid "Select a function to insert:"
-msgstr "Seleccione una función a insertar:"
+msgstr "Seleccionar una función que insertar:"
 
 #: ../src/dialogs/goalseek.ui.h:1
 msgid "GoalSeek"
@@ -9676,7 +9677,7 @@ msgstr "Columnas:"
 
 #: ../src/dialogs/hf-config.ui.h:1
 msgid "Enter the format string for each section:"
-msgstr "Introduzca el formato de cadena para cada sección:"
+msgstr "Introducir la cadena de formato para cada sección:"
 
 #: ../src/dialogs/hf-config.ui.h:2
 msgid "_Right section:"
@@ -9740,11 +9741,11 @@ msgstr "Ruta"
 
 #: ../src/dialogs/hf-config.ui.h:21
 msgid "Insert a spreadsheet cell"
-msgstr "Insertar una celda de la hoja"
+msgstr "Insertar una celda de la hoja de cálculo"
 
 #: ../src/dialogs/hf-dt-format.ui.h:1
 msgid "<b>Select a date format:</b>"
-msgstr "<b>Seleccione un formato de fecha:</b>"
+msgstr "<b>Seleccionar un formato de fecha:</b>"
 
 #: ../src/dialogs/histogram.ui.h:1 ../src/tools/analysis-histogram.c:160
 #: ../src/tools/analysis-histogram.c:471 ../src/tools/analysis-histogram.c:474
@@ -9752,39 +9753,32 @@ msgid "Histogram"
 msgstr "Histograma"
 
 #: ../src/dialogs/histogram.ui.h:11
-#, fuzzy
 msgid "C_alculated cutoffs"
-msgstr "Binarios _calculados"
+msgstr "Cortes c_alculados"
 
 #: ../src/dialogs/histogram.ui.h:12
-#, fuzzy
 msgid "_Number of cutoffs:"
-msgstr "Número de iteraciones"
+msgstr "_Número de cortes:"
 
 #: ../src/dialogs/histogram.ui.h:13
-#, fuzzy
 msgid "M_inimum cutoff:"
-msgstr "Mínimo"
+msgstr "Corte _mínimo:"
 
 #: ../src/dialogs/histogram.ui.h:14
-#, fuzzy
 msgid "Ma_ximum cutoff:"
-msgstr "(Má_ximo):"
+msgstr "Corte má_ximo:"
 
 #: ../src/dialogs/histogram.ui.h:15
-#, fuzzy
 msgid "_Predetermined cutoffs"
-msgstr "Binarios _predeterminados"
+msgstr "Cortes _predeterminados"
 
 #: ../src/dialogs/histogram.ui.h:16
-#, fuzzy
 msgid "Cutoff _range:"
-msgstr "Rango de _entrada:"
+msgstr "_Rango de corte:"
 
 #: ../src/dialogs/histogram.ui.h:17
-#, fuzzy
 msgid "C_utoffs"
-msgstr "Pe_rsonalizado"
+msgstr "C_ortes"
 
 #: ../src/dialogs/histogram.ui.h:18
 msgid "(−∞,∙), [∙,∙), ⋯, [∙,∙), [∙,∞)"
@@ -9832,7 +9826,7 @@ msgstr "Respuestas ac_umulativas"
 
 #: ../src/dialogs/histogram.ui.h:33
 msgid "Count numbers only"
-msgstr ""
+msgstr "Contar solo números"
 
 #: ../src/dialogs/hyperlink.ui.h:1
 msgid "HyperLink"
@@ -9844,7 +9838,7 @@ msgstr "_Rango objetivo:"
 
 #: ../src/dialogs/hyperlink.ui.h:3
 msgid "Email _Address:"
-msgstr "_Dirección correo-e:"
+msgstr "Dir_ección de correo-e:"
 
 #: ../src/dialogs/hyperlink.ui.h:4
 msgid "_Subject:"
@@ -9876,15 +9870,15 @@ msgstr "Insertar celdas"
 
 #: ../src/dialogs/insert-cells.ui.h:2
 msgid "<span weight=\"bold\">Insert Method</span>"
-msgstr "<span weight=\"bold\">Introducir método</span>"
+msgstr "<span weight=\"bold\">Insertar método</span>"
 
 #: ../src/dialogs/insert-cells.ui.h:3
 msgid "_Shift cells right"
-msgstr "Desplazar las celdas a la _derecha"
+msgstr "_Desplazar celdas a la derecha"
 
 #: ../src/dialogs/insert-cells.ui.h:4
 msgid "Shift cells _down"
-msgstr "Desplazar las celdas hacia _abajo"
+msgstr "Desplazar celdas hacia _abajo"
 
 #: ../src/dialogs/insert-cells.ui.h:5
 msgid "Insert _row(s)"
@@ -9895,9 +9889,8 @@ msgid "_Insert column(s)"
 msgstr "_Insertar columna(s)"
 
 #: ../src/dialogs/kaplan-meier.ui.h:1
-#, fuzzy
 msgid "Kaplan Meier Estimates"
-msgstr "Estimaciones Kaplan-Meier"
+msgstr "Estimaciones Kaplan Meier"
 
 #: ../src/dialogs/kaplan-meier.ui.h:2
 msgid "_Time column:"
@@ -9908,13 +9901,12 @@ msgid "Permit censorship"
 msgstr "Permitir censura"
 
 #: ../src/dialogs/kaplan-meier.ui.h:4
-#, fuzzy
 msgid "Censor co_lumn:"
-msgstr "Insertar columnas"
+msgstr "Censurar co_lumna:"
 
 #: ../src/dialogs/kaplan-meier.ui.h:5
 msgid "Censored record labels from:"
-msgstr ""
+msgstr "Etiquetas de registro censuradas desde:"
 
 #: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1517
 msgid "to:"
@@ -9938,28 +9930,28 @@ msgstr "Mostrar gráfico"
 
 #: ../src/dialogs/kaplan-meier.ui.h:12
 msgid "Include censorship ticks"
-msgstr ""
+msgstr "Incluir marcas de censura"
 
 #: ../src/dialogs/kaplan-meier.ui.h:13
 msgid "Show standard errors"
-msgstr "Mostrar los errores estándar"
+msgstr "Mostrar errores estándar"
 
 #: ../src/dialogs/kaplan-meier.ui.h:14
 msgid "Show median survival times"
-msgstr ""
+msgstr "Mostrar la mediana de supervivencia"
 
 #: ../src/dialogs/kaplan-meier.ui.h:15
 msgid "Perform Log-Rank (Mantel-Haenszel) Test"
-msgstr ""
+msgstr "Realizar prueba de rango logarítmico (Mantel-Haenszel)"
 
 #: ../src/dialogs/kaplan-meier.ui.h:16 ../src/dialogs/regression.ui.h:13
 #: ../src/dialogs/sampling.ui.h:23
 msgid "O_ptions"
-msgstr "O_pciones"
+msgstr "_Opciones"
 
 #: ../src/dialogs/mean-tests.ui.h:1
 msgid "Testing the Difference of 2 Means"
-msgstr "Prueba de la diferencia de dos medias"
+msgstr "Probando la diferencia de dos medias"
 
 #: ../src/dialogs/mean-tests.ui.h:2 ../src/dialogs/sign-test-two.ui.h:2
 #: ../src/dialogs/variance-tests.ui.h:2
@@ -9979,11 +9971,11 @@ msgstr "Las variables son:"
 
 #: ../src/dialogs/mean-tests.ui.h:7
 msgid "Population variances are:"
-msgstr "Las varianzas de la población son:"
+msgstr "Las varianzas de población son:"
 
 #: ../src/dialogs/mean-tests.ui.h:8
 msgid "_Population variances are:"
-msgstr "Las varianzas de la _población son:"
+msgstr "Las varianzas de po_blación son:"
 
 #: ../src/dialogs/mean-tests.ui.h:9
 msgid "Variable _1 population variance:"
@@ -9999,15 +9991,15 @@ msgstr "_Pareadas"
 
 #: ../src/dialogs/mean-tests.ui.h:12
 msgid "_Unpaired"
-msgstr "No pa_readas"
+msgstr "_No pareadas"
 
 #: ../src/dialogs/mean-tests.ui.h:13
 msgid "_Known"
-msgstr "_Conocidas"
+msgstr "_Conocida"
 
 #: ../src/dialogs/mean-tests.ui.h:14
 msgid "_Unknown"
-msgstr "_Desconocido"
+msgstr "_Desconocida"
 
 #: ../src/dialogs/mean-tests.ui.h:15
 msgid "E_qual"
@@ -10015,7 +10007,7 @@ msgstr "I_guales"
 
 #: ../src/dialogs/mean-tests.ui.h:16
 msgid "_Unequal"
-msgstr "D_istintas"
+msgstr "_Distintas"
 
 #: ../src/dialogs/mean-tests.ui.h:17
 msgid "_Populations"
@@ -10027,11 +10019,11 @@ msgstr "_Diferencia de la media de la hipótesis:"
 
 #: ../src/dialogs/mean-tests.ui.h:21 ../src/dialogs/variance-tests.ui.h:7
 msgid "0.05"
-msgstr "0,05"
+msgstr "0.05"
 
 #: ../src/dialogs/mean-tests.ui.h:22 ../src/dialogs/sign-test-two.ui.h:11
 msgid "_Test"
-msgstr "_Test"
+msgstr "_Prueba"
 
 #: ../src/dialogs/merge.ui.h:1
 msgid "Merge..."
@@ -10052,41 +10044,36 @@ msgid "Moving Average"
 msgstr "Desplazamiento promediado"
 
 #: ../src/dialogs/moving-averages.ui.h:9
-#, fuzzy
 msgid "Simple moving average"
-msgstr "Desplazamiento promediado"
+msgstr "Media móvil simple"
 
 #: ../src/dialogs/moving-averages.ui.h:10
-#, fuzzy
 msgid "Cumulative moving average"
-msgstr "Porcentajes ac_umulados"
+msgstr "Media movil acumulativa"
 
 #: ../src/dialogs/moving-averages.ui.h:11
-#, fuzzy
 msgid "Weighted moving average"
-msgstr "Desplazamiento medio…"
+msgstr "Media móvil ponderada"
 
 #: ../src/dialogs/moving-averages.ui.h:12
 msgid "Spencer's 15-point moving average"
-msgstr ""
+msgstr "Media móvil de 15-puntos de Spencer"
 
 #: ../src/dialogs/moving-averages.ui.h:14
 msgid "_Interval:"
-msgstr "In_tervalo:"
+msgstr "_Intervalo:"
 
 #: ../src/dialogs/moving-averages.ui.h:15
 msgid "Other offset"
-msgstr "Otro desplazamiento"
+msgstr "Otra compensación"
 
 #: ../src/dialogs/moving-averages.ui.h:16
-#, fuzzy
 msgid "Central moving average"
-msgstr "Desplazamiento promediado"
+msgstr "Media móvil central"
 
 #: ../src/dialogs/moving-averages.ui.h:17
-#, fuzzy
 msgid "Prior moving average"
-msgstr "Desplazamiento promediado"
+msgstr "Media móvil anterior"
 
 #: ../src/dialogs/moving-averages.ui.h:18
 msgid "3"
@@ -10094,27 +10081,27 @@ msgstr "3"
 
 #: ../src/dialogs/normality-tests.ui.h:1
 msgid "Normality Tests"
-msgstr ""
+msgstr "Pruebas de normalidad"
 
 #: ../src/dialogs/normality-tests.ui.h:11 ../src/tools/analysis-normality.c:63
 msgid "Anderson-Darling Test"
-msgstr "Test de Anderson-Darling"
+msgstr "Prueba de Anderson-Darling"
 
 #: ../src/dialogs/normality-tests.ui.h:12 ../src/tools/analysis-normality.c:70
 msgid "Cramér-von Mises Test"
-msgstr ""
+msgstr "Prueba de Cramér-von Mises"
 
 #: ../src/dialogs/normality-tests.ui.h:13 ../src/tools/analysis-normality.c:77
 msgid "Lilliefors (Kolmogorov-Smirnov) Test"
-msgstr ""
+msgstr "Prueba de Lilliefors (Kolmogorov-Smirnov)"
 
 #: ../src/dialogs/normality-tests.ui.h:14 ../src/tools/analysis-normality.c:83
 msgid "Shapiro-Francia Test"
-msgstr ""
+msgstr "Prueba de Shapiro-Francia"
 
 #: ../src/dialogs/normality-tests.ui.h:16
 msgid "Create Normal Probability Plot"
-msgstr ""
+msgstr "Crear gráfico de probabilidad normal"
 
 #: ../src/dialogs/normality-tests.ui.h:17 ../src/dialogs/one-mean-test.ui.h:13
 #: ../src/dialogs/sign-test.ui.h:15 ../src/dialogs/variance-tests.ui.h:8
@@ -10124,15 +10111,12 @@ msgstr "Prueba"
 #: ../src/dialogs/one-mean-test.ui.h:1
 #: ../src/tools/analysis-one-mean-test.c:168
 #: ../src/tools/analysis-one-mean-test.c:171
-#, fuzzy
-#| msgid "Student t"
 msgid "Student-t Test"
-msgstr "T student"
+msgstr "Prueba t de Student"
 
 #: ../src/dialogs/one-mean-test.ui.h:11
-#, fuzzy
 msgid "_Predicted Mean:"
-msgstr "E_jecutar en:"
+msgstr "Media _prevista:"
 
 #: ../src/dialogs/paste-special.ui.h:1
 msgid "Paste Special"
@@ -10177,8 +10161,6 @@ msgstr "<b>Pegar tipo</b>"
 
 #. Region operation while paste
 #: ../src/dialogs/paste-special.ui.h:10
-#, fuzzy
-#| msgid "None"
 msgctxt "operation"
 msgid "None"
 msgstr "Ninguno"
@@ -10193,17 +10175,14 @@ msgstr "Voltear hori_zontalmente"
 
 #: ../src/dialogs/paste-special.ui.h:13
 msgid "Fli_p Vertically"
-msgstr "Voltear _verticalmente"
+msgstr "Voltea_r verticalmente"
 
 #: ../src/dialogs/paste-special.ui.h:14
-#, fuzzy
 msgid "<b>Region operation</b>"
-msgstr "<b>Información</b>"
+msgstr "<b>Operación de rango</b>"
 
 #. Cell operation while paste
 #: ../src/dialogs/paste-special.ui.h:16
-#, fuzzy
-#| msgid "_None"
 msgctxt "operation"
 msgid "_None"
 msgstr "_Ninguno"
@@ -10225,9 +10204,8 @@ msgid "D_ivide"
 msgstr "_Dividir"
 
 #: ../src/dialogs/paste-special.ui.h:21
-#, fuzzy
 msgid "<b>Cell operation</b>"
-msgstr "<b>Ubicación</b>"
+msgstr "<b>Operación de celda</b>"
 
 #: ../src/dialogs/paste-special.ui.h:22
 msgid "Skip _Blanks"
@@ -10235,7 +10213,7 @@ msgstr "Omitir _blancos"
 
 #: ../src/dialogs/paste-special.ui.h:23
 msgid "D_o not change formulæ"
-msgstr "_No cambiar las fórmulas"
+msgstr "N_o cambiar fórmulas"
 
 #: ../src/dialogs/plugin-manager.ui.h:1
 msgid "Plugin Manager"
@@ -10243,7 +10221,7 @@ msgstr "Gestor de complementos"
 
 #: ../src/dialogs/plugin-manager.ui.h:2
 msgid "Activate _new plugins by default"
-msgstr "Activar por omisión los complementos _nuevos"
+msgstr "Activar complementos _nuevos de manera predeterminada"
 
 #: ../src/dialogs/plugin-manager.ui.h:3
 msgid "_Activate All"
@@ -10255,7 +10233,7 @@ msgstr "Lista de complementos"
 
 #: ../src/dialogs/plugin-manager.ui.h:5
 msgid "Plugin directory:"
-msgstr "Carpeta del complemento:"
+msgstr "Carpeta de complemento:"
 
 #: ../src/dialogs/plugin-manager.ui.h:6
 msgid ""
@@ -11196,13 +11174,13 @@ msgid "Resize Sheet"
 msgstr "Redimensionar hoja"
 
 #. Number of 'Columns' in sheet
-#: ../src/dialogs/sheet-resize.ui.h:3 ../src/sheet.c:1018
+#: ../src/dialogs/sheet-resize.ui.h:3 ../src/sheet.c:1024
 msgctxt "sheetsize"
 msgid "Columns"
 msgstr "Columnas"
 
 #. Number of 'Rows' in sheet
-#: ../src/dialogs/sheet-resize.ui.h:5 ../src/sheet.c:1025
+#: ../src/dialogs/sheet-resize.ui.h:5 ../src/sheet.c:1031
 msgctxt "sheetsize"
 msgid "Rows"
 msgstr "Filas"
@@ -13193,7 +13171,7 @@ msgid "Cut"
 msgstr "Cortar"
 
 #. Oh, yeah?
-#: ../src/sheet.c:819
+#: ../src/sheet.c:825
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -13205,321 +13183,321 @@ msgstr ""
 "columna nombrada TRUE puede crear conflictos con la\n"
 "constante del mismo nombre. Espere comportamientos anómalos."
 
-#: ../src/sheet.c:833
+#: ../src/sheet.c:839
 msgid "Sheet Type"
 msgstr "Tipo de hoja"
 
-#: ../src/sheet.c:834
+#: ../src/sheet.c:840
 #, fuzzy
 msgid "Which type of sheet this is."
 msgstr "Qué tipo de hoja es."
 
-#: ../src/sheet.c:842
+#: ../src/sheet.c:848
 msgid "Parent workbook"
 msgstr "Libro de cuentas padre"
 
-#: ../src/sheet.c:843
+#: ../src/sheet.c:849
 msgid "The workbook in which this sheet lives"
 msgstr "El libro de cuentas en el que está esta hoja"
 
-#: ../src/sheet.c:850
+#: ../src/sheet.c:856
 msgid "The name of the sheet."
 msgstr "El nombre de la hoja."
 
-#: ../src/sheet.c:855
+#: ../src/sheet.c:861
 msgid "text-is-rtl"
 msgstr "el texto es D-->I"
 
-#: ../src/sheet.c:856
+#: ../src/sheet.c:862
 msgid "Text goes from right to left."
 msgstr "El texto va de derecha a izquierda."
 
-#: ../src/sheet.c:861
+#: ../src/sheet.c:867
 msgid "Visibility"
 msgstr "Visibilidad"
 
-#: ../src/sheet.c:862
+#: ../src/sheet.c:868
 msgid "How visible the sheet is."
 msgstr "Cómo de visible es la hoja."
 
-#: ../src/sheet.c:868
+#: ../src/sheet.c:874
 msgid "Display Formulæ"
 msgstr "Mostrar fórmulas"
 
-#: ../src/sheet.c:869
+#: ../src/sheet.c:875
 #, fuzzy
 #| msgid "Control whether formulas are shown instead of values."
 msgid "Control whether formulæ are shown instead of values."
 msgstr "Controla si se muestran las fórmulas en vez de los valores."
 
-#: ../src/sheet.c:874
+#: ../src/sheet.c:880
 msgid "Display Zeros"
 msgstr "Mostrar ceros"
 
-#: ../src/sheet.c:875
+#: ../src/sheet.c:881
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Controla si se muestran los ceros."
 
-#: ../src/sheet.c:880
+#: ../src/sheet.c:886
 msgid "Display Grid"
 msgstr "Mostrar cuadrícula"
 
-#: ../src/sheet.c:881
+#: ../src/sheet.c:887
 msgid "Control whether the grid is shown."
 msgstr "Controla si se muestra la cuadrícula."
 
-#: ../src/sheet.c:886
+#: ../src/sheet.c:892
 msgid "Display Column Headers"
 msgstr "Mostrar cabeceras de columnas"
 
-#: ../src/sheet.c:887
+#: ../src/sheet.c:893
 msgid "Control whether column headers are shown."
 msgstr "Controla si se muestran las cabeceras de las columnas."
 
-#: ../src/sheet.c:892
+#: ../src/sheet.c:898
 msgid "Display Row Headers"
 msgstr "Mostrar cabeceras de fila"
 
-#: ../src/sheet.c:893
+#: ../src/sheet.c:899
 msgid "Control whether row headers are shown."
 msgstr "Controla si se muestran las cabeceras de las filas."
 
-#: ../src/sheet.c:898
+#: ../src/sheet.c:904
 msgid "Display Outlines"
 msgstr "Mostrar contornos"
 
-#: ../src/sheet.c:899
+#: ../src/sheet.c:905
 msgid "Control whether outlines are shown."
 msgstr "Controla si se muestran los contornos."
 
-#: ../src/sheet.c:904
+#: ../src/sheet.c:910
 msgid "Display Outlines Below"
 msgstr "Mostrar contornos abajo"
 
-#: ../src/sheet.c:905
+#: ../src/sheet.c:911
 msgid "Control whether outline symbols are shown below."
 msgstr "Controla si se muestran los símbolos de los contornos abajo."
 
-#: ../src/sheet.c:910
+#: ../src/sheet.c:916
 msgid "Display Outlines Right"
 msgstr "Mostrar contornos de la derecha"
 
-#: ../src/sheet.c:911
+#: ../src/sheet.c:917
 msgid "Control whether outline symbols are shown to the right."
 msgstr "Controla si se muestran los contornos de la derecha."
 
-#: ../src/sheet.c:917 ../src/workbook-view.c:944
+#: ../src/sheet.c:923 ../src/workbook-view.c:944
 msgid "Protected"
 msgstr "Protegida"
 
-#: ../src/sheet.c:918
+#: ../src/sheet.c:924
 msgid "Sheet is protected."
 msgstr "La hoja está protegida."
 
-#: ../src/sheet.c:921
+#: ../src/sheet.c:927
 msgid "Protected Allow Edit objects"
 msgstr "Protegido permite editar objetos"
 
-#: ../src/sheet.c:922
+#: ../src/sheet.c:928
 msgid "Allow objects to be edited while a sheet is protected"
 msgstr "Permitir editar objetos cuando una hoja está protegida"
 
-#: ../src/sheet.c:925
+#: ../src/sheet.c:931
 msgid "Protected allow edit scenarios"
 msgstr "Protegido permite editar escenarios"
 
-#: ../src/sheet.c:926
+#: ../src/sheet.c:932
 msgid "Allow scenarios to be edited while a sheet is protected"
 msgstr "Permitir editar escenarios cuando una hoja está protegida"
 
-#: ../src/sheet.c:929
+#: ../src/sheet.c:935
 msgid "Protected allow cell formatting"
 msgstr "Protegido permite formatear celdas"
 
-#: ../src/sheet.c:930
+#: ../src/sheet.c:936
 msgid "Allow cell format changes while a sheet is protected"
 msgstr ""
 "Permitir cambios en el formato de las celdas cuando una hoja está protegida"
 
-#: ../src/sheet.c:933
+#: ../src/sheet.c:939
 msgid "Protected allow column formatting"
 msgstr "Protegido permite formatear columnas"
 
-#: ../src/sheet.c:934
+#: ../src/sheet.c:940
 msgid "Allow column formatting while a sheet is protected"
 msgstr "Permitir formatear columnas cuando una hoja está protegida"
 
-#: ../src/sheet.c:937
+#: ../src/sheet.c:943
 msgid "Protected allow row formatting"
 msgstr "Protegido permite formatear filas"
 
-#: ../src/sheet.c:938
+#: ../src/sheet.c:944
 msgid "Allow row formatting while a sheet is protected"
 msgstr "Permitir formatear filas cuando una hoja está protegida"
 
-#: ../src/sheet.c:941
+#: ../src/sheet.c:947
 msgid "Protected allow insert columns"
 msgstr "Protegido permite insertar columnas"
 
-#: ../src/sheet.c:942
+#: ../src/sheet.c:948
 msgid "Allow columns to be inserted while a sheet is protected"
 msgstr "Permitir insertar columnas cuando una hoja está protegida"
 
-#: ../src/sheet.c:945
+#: ../src/sheet.c:951
 msgid "Protected allow insert rows"
 msgstr "Protegido permite insertar filas"
 
-#: ../src/sheet.c:946
+#: ../src/sheet.c:952
 msgid "Allow rows to be inserted while a sheet is protected"
 msgstr "Permitir insertar filas cuando una hoja está protegida"
 
-#: ../src/sheet.c:949
+#: ../src/sheet.c:955
 msgid "Protected allow insert hyperlinks"
 msgstr "Protegido permite introducir hiperenlaces"
 
-#: ../src/sheet.c:950
+#: ../src/sheet.c:956
 msgid "Allow hyperlinks to be inserted while a sheet is protected"
 msgstr "Permitir insertar hiperenlaces cuando una hoja está protegida"
 
-#: ../src/sheet.c:953
+#: ../src/sheet.c:959
 msgid "Protected allow delete columns"
 msgstr "Protegido permite borrar columnas"
 
-#: ../src/sheet.c:954
+#: ../src/sheet.c:960
 msgid "Allow columns to be deleted while a sheet is protected"
 msgstr "Permitir borrar columnas cuando una hoja está protegida"
 
-#: ../src/sheet.c:957
+#: ../src/sheet.c:963
 msgid "Protected allow delete rows"
 msgstr "Protegido permite borrar filas"
 
-#: ../src/sheet.c:958
+#: ../src/sheet.c:964
 msgid "Allow rows to be deleted while a sheet is protected"
 msgstr "Permitir borrar filas cuando una hoja está protegida"
 
-#: ../src/sheet.c:961
+#: ../src/sheet.c:967
 msgid "Protected allow select locked cells"
 msgstr "Protegido permite seleccionar celdas bloqueadas"
 
-#: ../src/sheet.c:962
+#: ../src/sheet.c:968
 msgid "Allow the user to select locked cells while a sheet is protected"
 msgstr ""
 "Permitir al usuario que seleccione celdas bloqueadas cuando una hoja está "
 "protegida"
 
-#: ../src/sheet.c:965
+#: ../src/sheet.c:971
 msgid "Protected allow sort ranges"
 msgstr "Protegido permite ordenar rangos"
 
-#: ../src/sheet.c:966
+#: ../src/sheet.c:972
 msgid "Allow ranges to be sorted while a sheet is protected"
 msgstr "Permitir ordenar los rangos cuando una hoja está protegida"
 
-#: ../src/sheet.c:969
+#: ../src/sheet.c:975
 msgid "Protected allow edit auto filters"
 msgstr "Protegido permite editar autofiltros"
 
-#: ../src/sheet.c:970
+#: ../src/sheet.c:976
 msgid "Allow auto filters to be edited while a sheet is protected"
 msgstr "Permitir editar los autofiltros cuando una hoja está protegida"
 
-#: ../src/sheet.c:973
+#: ../src/sheet.c:979
 msgid "Protected allow edit pivottable"
 msgstr "Protegido permite editar tablas pivote"
 
-#: ../src/sheet.c:974
+#: ../src/sheet.c:980
 #, fuzzy
 msgid "Allow pivottable to be edited while a sheet is protected"
 msgstr "Permitir editar las tablas pivote cuando una hoja está protegida"
 
-#: ../src/sheet.c:977
+#: ../src/sheet.c:983
 msgid "Protected allow select unlocked cells"
 msgstr "Protegido permite seleccionar celdas no bloqueadas"
 
-#: ../src/sheet.c:978
+#: ../src/sheet.c:984
 msgid "Allow the user to select unlocked cells while a sheet is protected"
 msgstr ""
 "Permitir al usuario que seleccione celdas no bloqueadas cuando una hoja está "
 "protegida"
 
-#: ../src/sheet.c:982
+#: ../src/sheet.c:988
 msgid "Display convention for expressions (default Gnumeric A1)"
 msgstr ""
 "Mostrar la convención para las expresiones (Gnumeric A1 predeterminado)"
 
-#: ../src/sheet.c:983
+#: ../src/sheet.c:989
 msgid "How to format displayed expressions, (A1 vs R1C1, function names, ...)"
 msgstr ""
 "Cómo formatear las expresiones mostradas, (A1 contra R1C1, nombres de "
 "funciones, ...)"
 
 #. convenience wrapper to CONVENTIONS
-#: ../src/sheet.c:987
+#: ../src/sheet.c:993
 msgid "Display convention for expressions as XLS_R1C1 vs default"
 msgstr ""
 "Mostrar la convención para expresiones como XLS_R1C1 contra predeterminadas"
 
-#: ../src/sheet.c:988
+#: ../src/sheet.c:994
 msgid "How to format displayed expressions, (a convenience api)"
 msgstr "Cómo formatear las expresiones mostradas, (un interfaz conveniente)"
 
-#: ../src/sheet.c:994
+#: ../src/sheet.c:1000
 msgid "Tab Foreground"
 msgstr "Primer plano de la pestaña"
 
-#: ../src/sheet.c:995
+#: ../src/sheet.c:1001
 msgid "The foreground color of the tab."
 msgstr "El color de la pestaña en primer plano."
 
-#: ../src/sheet.c:1000
+#: ../src/sheet.c:1006
 msgid "Tab Background"
 msgstr "Fondo de la pestaña"
 
-#: ../src/sheet.c:1001
+#: ../src/sheet.c:1007
 msgid "The background color of the tab."
 msgstr "El color de fondo de la pestaña."
 
-#: ../src/sheet.c:1008
+#: ../src/sheet.c:1014
 msgid "Zoom Factor"
 msgstr "Factor de ampliación"
 
-#: ../src/sheet.c:1009
+#: ../src/sheet.c:1015
 msgid "The level of zoom used for this sheet."
 msgstr "El nivel de amplicación que se usa para esta hoja."
 
-#: ../src/sheet.c:1019
+#: ../src/sheet.c:1025
 msgid "Columns number in the sheet"
 msgstr "Número de columnas en la hoja"
 
-#: ../src/sheet.c:1026
+#: ../src/sheet.c:1032
 msgid "Rows number in the sheet"
 msgstr "Número de filas en la hoja"
 
-#: ../src/sheet.c:3380
+#: ../src/sheet.c:3386
 msgid "Target region contains merged cells"
 msgstr "La región de destino contiene celdas combinadas"
 
-#: ../src/sheet.c:3441
+#: ../src/sheet.c:3447
 msgid "cannot operate on merged cells"
 msgstr "no se puede operar sobre celdas combinadas"
 
-#: ../src/sheet.c:3451
+#: ../src/sheet.c:3457
 msgid "cannot operate on array formulæ"
 msgstr "no se puede operar sobre un vector de fórmulas"
 
-#: ../src/sheet.c:4760
+#: ../src/sheet.c:4849
 msgid "Insert Columns"
 msgstr "Insertar columnas"
 
-#: ../src/sheet.c:4851
+#: ../src/sheet.c:4940
 msgid "Delete Columns"
 msgstr "Borrar columnas"
 
-#: ../src/sheet.c:4932
+#: ../src/sheet.c:5021
 msgid "Insert Rows"
 msgstr "Insertar filas"
 
-#: ../src/sheet.c:5023
+#: ../src/sheet.c:5112
 msgid "Delete Rows"
 msgstr "Borrar filas"
 
