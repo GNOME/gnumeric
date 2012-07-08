@@ -255,7 +255,7 @@ gplp_func_file_open (GOFileOpener const *fo,
 		     GOPluginService *service,
 		     GOIOContext *io_context,
 		     gpointer wb_view,
-		     GsfInput *input)
+		     GsfInput *input, char const *enc)
 {
 	ServiceLoaderDataFileOpener *loader_data;
 	Sheet *sheet, *old_sheet;
