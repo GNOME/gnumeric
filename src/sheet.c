@@ -65,6 +65,7 @@
 #include "scenarios.h"
 #include "cell-draw.h"
 #include "sort.h"
+#include "gutils.h"
 #include <goffice/goffice.h>
 
 #include <glib/gi18n-lib.h>
