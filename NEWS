@@ -5,6 +5,7 @@ Morten:
 	* Teach non-linear solver about constraints.  [Part of #620368]
 	* Avoid too many hash collissions for dense sheets.
 	* Speed up operations that iterate over cells in large areas.
+	* Fix problems with linear solvers and cross-sheet target.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.4

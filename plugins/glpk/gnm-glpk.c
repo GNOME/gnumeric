@@ -362,7 +362,7 @@ glpk_solver_factory (GnmSolverFactory *factory, GnmSolverParameters *params)
 	lp->parent = GNM_SUB_SOLVER (res);
 	gnm_sheet_range_from_value (&lp->srinput,
 				    gnm_solver_param_get_input (params));
-	if (lp->srinput.sheet) lp->srinput.sheet = params->sheet;
+	if (!lp->srinput.sheet) lp->srinput.sheet = params->sheet;
 
 	g_signal_connect (res, "prepare", G_CALLBACK (gnm_glpk_prepare), lp);
 	g_signal_connect (res, "start", G_CALLBACK (gnm_glpk_start), lp);
