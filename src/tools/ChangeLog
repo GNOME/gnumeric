@@ -1,3 +1,11 @@
+2012-07-09  Morten Welinder  <terra@gnome.org>
+
+	* gnm-solver.c (gnm_solver_create_report): Do constraints too.
+
+	* dao.c (dao_set_colors): Allow setting foreground without
+	background and vice versa.
+	(dao_redraw_respan): Re-render to make formatting changes work.
+
 2012-07-08  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_create_report): New function.

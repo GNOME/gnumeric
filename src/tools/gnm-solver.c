@@ -1382,13 +1382,26 @@ gnm_solver_get_limits (GnmSolver *solver, gnm_float **pmin, gnm_float **pmax)
 #undef SET_UPPER
 
 #define ADD_HEADER(txt_) do {			\
-	dao_set_cell (dao, 0, R, (txt_));	\
 	dao_set_bold (dao, 0, R, 0, R);		\
+	dao_set_cell (dao, 0, R, (txt_));	\
 	R++;					\
 } while (0)
 
 #define AT_LIMIT(s_,l_) \
   (gnm_finite (l_) ? gnm_abs ((s_) - (l_)) <= (gnm_abs ((s_)) + gnm_abs ((l_))) / 1e10 : (s_) == (l_))
+
+static void
+add_value_or_special (data_analysis_output_t *dao, int col, int row,
+		      gnm_float x)
+{
+	if (gnm_finite (x))
+		dao_set_cell_float (dao, col, row, x);
+	else {
+		dao_set_cell (dao, col, row, "-");
+		dao_set_align (dao, col, row, col, row,
+			       GNM_HALIGN_CENTER, GNM_VALIGN_TOP);
+	}
+}
 
 void
 gnm_solver_create_report (GnmSolver *solver, const char *name)
@@ -1397,7 +1410,7 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 	int R = 0;
 	GnmValue const *vinput;
 	data_analysis_output_t *dao;
-	char *tmp;
+	GSList *l;
 
 	dao = dao_init_new_sheet (NULL);
 	dao->sheet = params->sheet;
@@ -1405,15 +1418,21 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 
 	/* ---------------------------------------- */
 
-	ADD_HEADER (_("Target"));
-	tmp = gnm_solver_param_cell_name (params,
-					  gnm_solver_param_get_target_cell (params));
-	dao_set_cell (dao, 1, R, tmp);
-	g_free (tmp);
+	{
+		char *tmp;
 
-	dao_set_cell_float (dao, 2, R, solver->result->value);
-	R++;
-	R++;
+		ADD_HEADER (_("Target"));
+		tmp = gnm_solver_param_cell_name
+			(params,
+			 gnm_solver_param_get_target_cell (params));
+		dao_set_cell (dao, 1, R, tmp);
+		g_free (tmp);
+
+		dao_set_cell_float (dao, 2, R, solver->result->value);
+		R++;
+
+		R++;
+	}
 
 	/* ---------------------------------------- */
 
@@ -1434,23 +1453,21 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 
 		for (x = 0; x < w; x++) {
 			for (y = 0; y < h; y++) {
-				int vcol = sr.range.start.col + x;
-				int vrow = sr.range.start.row + y;
+				GnmCell *cell = sheet_cell_fetch
+					(sr.sheet,
+					 sr.range.start.col + x,
+					 sr.range.start.row + y);
+				char *cname;
 				gnm_float m = pmin[y * w + x];
 				gnm_float M = pmax[y * w + x];
 				GnmValue const *vs = value_area_fetch_x_y (solver->result->solution, x, y, NULL);
 				gnm_float s = value_get_as_float (vs);
-				dao_set_cell (dao, 1, R, cell_coord_name (vcol, vrow));
+				cname = gnm_solver_param_cell_name (params, cell);
+				dao_set_cell (dao, 1, R, cname);
+				g_free (cname);
 				dao_set_cell_value (dao, 2, R, value_dup (vs));
-				if (gnm_finite (m))
-					dao_set_cell_float (dao, 3, R, m);
-				else
-					dao_set_cell (dao, 3, R, "-");
-
-				if (gnm_finite (M))
-					dao_set_cell_float (dao, 4, R, M);
-				else
-					dao_set_cell (dao, 4, R, "-");
+				add_value_or_special (dao, 3, R, m);
+				add_value_or_special (dao, 4, R, M);
 
 				if (AT_LIMIT (s, m) || AT_LIMIT (s, M))
 					dao_set_cell (dao, 5, R, _("At limit"));
@@ -1469,6 +1486,75 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 	}
 
 	/* ---------------------------------------- */
+
+	ADD_HEADER (_("Constraints"));
+
+	for (l = params->constraints; l; l = l->next) {
+		GnmSolverConstraint *c = l->data;
+		int i;
+		gnm_float cl, cr;
+		GnmCell *lhs, *rhs;
+
+		for (i = 0;
+		     gnm_solver_constraint_get_part (c, params, i,
+						     &lhs, &cl,
+						     &rhs, &cr);
+		     i++) {
+			gnm_float slack = 0;
+			char *ctxt = gnm_solver_constraint_as_str (c, params->sheet);
+			dao_set_cell (dao, 1, R, ctxt);
+			g_free (ctxt);
+
+			if (lhs) {
+				gnm_cell_eval (lhs);
+				cl = value_get_as_float (lhs->value);
+			}
+			if (rhs) {
+				gnm_cell_eval (rhs);
+				cr = value_get_as_float (rhs->value);
+			}
+
+			switch (c->type) {
+			case GNM_SOLVER_INTEGER: {
+				gnm_float c = gnm_fake_round (cl);
+				slack = 0 - gnm_abs (c - cl);
+				break;
+			}
+			case GNM_SOLVER_BOOLEAN: {
+				gnm_float c = (cl > 0.5 ? 1 : 0);
+				slack = 0 - gnm_abs (c - cl);
+				break;
+			}
+			case GNM_SOLVER_LE:
+				slack = cr - cl;
+				break;
+			case GNM_SOLVER_GE:
+				slack = cl - cr;
+				break;
+			case GNM_SOLVER_EQ:
+				slack = 0 - gnm_abs (cl - cr);
+				break;
+			default:
+				g_assert_not_reached ();
+			}
+
+			add_value_or_special (dao, 2, R, cl);
+			if (rhs)
+				add_value_or_special (dao, 3, R, cr);
+
+			add_value_or_special (dao, 4, R, slack);
+			if (slack < 0)
+				dao_set_colors (dao, 4, R, 4, R,
+						style_color_new_i8 (255, 0, 0),
+						NULL);
+
+			R++;
+		}
+	}
+
+	/* ---------------------------------------- */
+
+	dao_redraw_respan (dao);
 
 	dao_free (dao);
 }

@@ -835,11 +835,13 @@ dao_set_colors (data_analysis_output_t *dao, int col1, int row1,
 	GnmStyle *mstyle;
 
 	mstyle = gnm_style_new ();
-	gnm_style_set_font_color (mstyle, fore);
-	gnm_style_set_back_color (mstyle, back);
-	gnm_style_set_pattern (mstyle, 1);
-	dao_set_style (dao, col1, row1,
-		       col2, row2, mstyle);
+	if (fore)
+		gnm_style_set_font_color (mstyle, fore);
+	if (back) {
+		gnm_style_set_back_color (mstyle, back);
+		gnm_style_set_pattern (mstyle, 1);
+	}
+	dao_set_style (dao, col1, row1, col2, row2, mstyle);
 }
 
 /**
@@ -1094,7 +1096,7 @@ dao_redraw_respan (data_analysis_output_t *dao)
 		    dao->start_col + dao->cols - 1,
 		    dao->start_row + dao->rows - 1);
 	sheet_range_calc_spans (dao->sheet, &r,
-				GNM_SPANCALC_RESIZE | GNM_SPANCALC_RENDER);
+				GNM_SPANCALC_RESIZE | GNM_SPANCALC_RE_RENDER);
 	sheet_region_queue_recalc (dao->sheet, &r);
 	dao_convert_to_values (dao);
 	sheet_redraw_range (dao->sheet, &r);
