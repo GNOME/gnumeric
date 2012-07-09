@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-07-03 22:30+0000\n"
-"PO-Revision-Date: 2012-07-06 10:07+0200\n"
+"POT-Creation-Date: 2012-07-09 03:43+0000\n"
+"PO-Revision-Date: 2012-07-09 14:09+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -3882,7 +3882,7 @@ msgstr "Eliminando filas %s"
 msgid "Deleting row %s"
 msgstr "Eliminando fila %s"
 
-#: ../src/commands.c:1583 ../src/commands.c:1584 ../src/sheet.c:4470
+#: ../src/commands.c:1583 ../src/commands.c:1584 ../src/sheet.c:4471
 msgid "Clear"
 msgstr "Limpiar"
 
@@ -4202,7 +4202,7 @@ msgstr "Formatear objeto"
 #: ../src/dialogs/dialog-function-select.c:1240
 #: ../src/dialogs/dialog-scenarios.c:517
 #: ../src/dialogs/dialog-simulation.c:216 ../src/dialogs/dialog-zoom.c:196
-#: ../src/format-template.c:218 ../src/sheet.c:855
+#: ../src/format-template.c:218 ../src/sheet.c:856
 msgid "Name"
 msgstr "Nombre"
 
@@ -6364,7 +6364,7 @@ msgstr "Nivel del libro de trabajo"
 #: ../src/dialogs/dialog-goto-cell.c:386 ../src/dialogs/dialog-search.c:438
 #: ../src/dialogs/dialog-stf-export.c:592 ../src/dialogs/hf-config.ui.h:16
 #: ../src/dialogs/print.ui.h:53 ../src/print-info.c:545 ../src/search.c:799
-#: ../src/tools/gnm-solver.c:713 ../src/tools/gnm-solver.c:714
+#: ../src/tools/gnm-solver.c:732 ../src/tools/gnm-solver.c:733
 #: ../src/workbook.c:918 ../src/workbook.c:946
 msgid "Sheet"
 msgstr "Hoja"
@@ -7132,7 +7132,7 @@ msgstr "Debe seleccionar algunos tipos de celda para buscar."
 msgid "Comment"
 msgstr "Comentario"
 
-#: ../src/dialogs/dialog-search.c:137 ../src/tools/gnm-solver.c:1265
+#: ../src/dialogs/dialog-search.c:137 ../src/tools/gnm-solver.c:1513
 msgid "Result"
 msgstr "Resultado"
 
@@ -7356,59 +7356,59 @@ msgstr "Inviable"
 msgid "Unbounded"
 msgstr "Sin límites"
 
-#: ../src/dialogs/dialog-solver.c:656
+#: ../src/dialogs/dialog-solver.c:666
 msgid "The chosen solver is not functional."
 msgstr "El resolutor seleccionado no es funcional."
 
-#: ../src/dialogs/dialog-solver.c:668
+#: ../src/dialogs/dialog-solver.c:678
 msgid "Running Solver"
 msgstr "Ejecutando resolutor"
 
-#: ../src/dialogs/dialog-solver.c:673
+#: ../src/dialogs/dialog-solver.c:683
 msgid "Stop"
 msgstr "Detener"
 
-#: ../src/dialogs/dialog-solver.c:678
+#: ../src/dialogs/dialog-solver.c:688
 msgid "Stop the running solver"
 msgstr "Detener la ejecución del resolutor"
 
-#: ../src/dialogs/dialog-solver.c:685
+#: ../src/dialogs/dialog-solver.c:695
 msgid "OK"
 msgstr "Aceptar"
 
-#: ../src/dialogs/dialog-solver.c:692
+#: ../src/dialogs/dialog-solver.c:702
 msgid "Solver Status:"
 msgstr "Estado del resolutor:"
 
-#: ../src/dialogs/dialog-solver.c:693
+#: ../src/dialogs/dialog-solver.c:703
 msgid "Problem Status:"
 msgstr "Estado del problema:"
 
-#: ../src/dialogs/dialog-solver.c:694
+#: ../src/dialogs/dialog-solver.c:704
 msgid "Objective Value:"
 msgstr "Valor objetivo:"
 
-#: ../src/dialogs/dialog-solver.c:695
+#: ../src/dialogs/dialog-solver.c:705
 msgid "Elapsed Time:"
 msgstr "Tiempo transcurrido:"
 
-#: ../src/dialogs/dialog-solver.c:805
+#: ../src/dialogs/dialog-solver.c:818
 msgid "Running solver"
 msgstr "Ejecutando resolutor"
 
-#: ../src/dialogs/dialog-solver.c:842
+#: ../src/dialogs/dialog-solver.c:855
 msgid "Optimal solution created by solver.\n"
 msgstr "Solución óptima creada por el resolutor.\n"
 
-#: ../src/dialogs/dialog-solver.c:846
+#: ../src/dialogs/dialog-solver.c:859
 msgid "Feasible solution created by solver.\n"
 msgstr "Solución factible creada por el resolutor.\n"
 
-#: ../src/dialogs/dialog-solver.c:1110
+#: ../src/dialogs/dialog-solver.c:1123
 msgid "Subject to the Constraints:"
 msgstr "Sujeto a las restricciones:"
 
-#: ../src/dialogs/dialog-solver.c:1260
+#: ../src/dialogs/dialog-solver.c:1273
 msgid "Could not create the Solver dialog."
 msgstr "No se pudo crear el diálogo del resolutor."
 
@@ -10267,7 +10267,7 @@ msgstr "Preferencias de Gnumeric"
 #: ../src/tools/analysis-principal-components.c:236
 #: ../src/wbc-gtk-actions.c:2498
 msgid "Principal Components Analysis"
-msgstr ""
+msgstr "Análisis de componentes principales"
 
 #: ../src/dialogs/print.ui.h:1
 msgid "Page Setup"
@@ -10311,7 +10311,7 @@ msgstr "Margen derecho:"
 
 #: ../src/dialogs/print.ui.h:11
 msgid "Change Paper Type"
-msgstr "Cambiar el tipo de papel"
+msgstr "Cambiar tipo de papel"
 
 #: ../src/dialogs/print.ui.h:12
 msgid "8.5 in wide by 11.0 in high"
@@ -10343,11 +10343,11 @@ msgstr "Paisaje"
 
 #: ../src/dialogs/print.ui.h:19
 msgid "Reverse portrait"
-msgstr "Invertir el retrato"
+msgstr "Invertir retrato"
 
 #: ../src/dialogs/print.ui.h:20
 msgid "Reverse landscape"
-msgstr "Invertir el paisaje"
+msgstr "Invertir paisaje"
 
 #: ../src/dialogs/print.ui.h:22
 msgid "<b>Scale</b>"
@@ -10359,7 +10359,7 @@ msgstr "Escalar para ajustar _horizontalmente"
 
 #: ../src/dialogs/print.ui.h:24
 msgid "page(s)"
-msgstr "página(s"
+msgstr "página(s)"
 
 #: ../src/dialogs/print.ui.h:25
 msgid "Scale to fit _vertically on"
@@ -10400,7 +10400,7 @@ msgstr "_Pie de página:"
 
 #: ../src/dialogs/print.ui.h:35
 msgid "Fi_rst page number:"
-msgstr "_Primer página:"
+msgstr "P_rimer número de página:"
 
 #: ../src/dialogs/print.ui.h:36
 msgid "Headers and Footers"
@@ -10432,7 +10432,7 @@ msgstr "<b>Imprimir</b>"
 
 #: ../src/dialogs/print.ui.h:43
 msgid "_Grid lines"
-msgstr "Líneas de la re_jilla"
+msgstr "Líneas de la _cuadrícula"
 
 #: ../src/dialogs/print.ui.h:44
 msgid "_Black and white"
@@ -10440,7 +10440,7 @@ msgstr "_Blanco y negro"
 
 #: ../src/dialogs/print.ui.h:45
 msgid "Row and co_lumn headings"
-msgstr "_Encabezados de las filas y columnas"
+msgstr "Encabezados de fila y co_lumna"
 
 #: ../src/dialogs/print.ui.h:46
 msgid "Styles with no content"
@@ -10460,19 +10460,19 @@ msgstr "Co_mentarios:"
 
 #: ../src/dialogs/print.ui.h:50
 msgid "<b>Page Order</b>"
-msgstr "<b>Orden de páginas</b>"
+msgstr "<b>Orden de página</b>"
 
 #: ../src/dialogs/print.ui.h:51
 msgid "_Down, then right"
-msgstr "_Abajo y luego a la derecha"
+msgstr "_Abajo, luego a la derecha"
 
 #: ../src/dialogs/print.ui.h:52
 msgid "R_ight, then down"
-msgstr "A la _derecha y luego abajo"
+msgstr "A la _derecha, luego abajo"
 
 #: ../src/dialogs/print.ui.h:54
 msgid "Apply to all sheets of this _workbook."
-msgstr "Aplicar a _todas las hojas de este libro de cuentas."
+msgstr "Aplicar a todas las hojas de este _libro de trabajo."
 
 #: ../src/dialogs/print.ui.h:55
 msgid "Apply _to:"
@@ -10480,7 +10480,7 @@ msgstr "Aplicar _a:"
 
 #: ../src/dialogs/print.ui.h:56
 msgid "Save as default settings"
-msgstr "Guardar como ajustes predeterminados"
+msgstr "Guardar como configuraciones predeterminadas"
 
 #: ../src/dialogs/quit.ui.h:1
 msgid "Some Documents have not Been Saved"
@@ -10503,9 +10503,8 @@ msgid "_Discard All"
 msgstr "_Descartar todo"
 
 #: ../src/dialogs/quit.ui.h:7
-#, fuzzy
 msgid "Discard changes in all files"
-msgstr "Descartar los cambios"
+msgstr "Descartar cambios en todos los archivos"
 
 #: ../src/dialogs/quit.ui.h:8
 msgid "Don't Quit"
@@ -10544,18 +10543,16 @@ msgid "Unsaved"
 msgstr "Sin guardar"
 
 #: ../src/dialogs/random-generation-cor.ui.h:1
-#, fuzzy
 msgid "Correlated Random Number Generator"
-msgstr "Generación de números aleatorios"
+msgstr "Generador de números aleatorios correlacionados"
 
 #: ../src/dialogs/random-generation-cor.ui.h:2
-#, fuzzy
 msgid "Co_variance Matrix"
-msgstr "Covarianza"
+msgstr "Matriz de covarianza"
 
 #: ../src/dialogs/random-generation-cor.ui.h:3
 msgid "Cholesky _Decomposition of the Covariance Matrix"
-msgstr ""
+msgstr "_Descomposición Cholesky de la matriz de covarianza"
 
 #: ../src/dialogs/random-generation-cor.ui.h:4
 msgid "_Matrix:"
@@ -10563,7 +10560,7 @@ msgstr "_Matriz:"
 
 #: ../src/dialogs/random-generation-cor.ui.h:6
 msgid "Number of _random numbers:"
-msgstr "Número de elementos aleato_rios:"
+msgstr "Número de números aleato_rios:"
 
 #: ../src/dialogs/random-generation.ui.h:1
 msgid "Random Number Generation"
@@ -10579,11 +10576,11 @@ msgstr "_Número de variables:"
 
 #: ../src/dialogs/random-generation.ui.h:5
 msgid "_Size of sample:"
-msgstr "_Tamaño de la muestra:"
+msgstr "_Tamaño de muestra:"
 
 #: ../src/dialogs/rank.ui.h:1
 msgid "Rank and Percentile"
-msgstr "Rangos y porcentajes"
+msgstr "Rango y percentil"
 
 #: ../src/dialogs/rank.ui.h:11
 msgid "Ties:"
@@ -10603,17 +10600,16 @@ msgid "Regression"
 msgstr "Regresión"
 
 #: ../src/dialogs/regression.ui.h:2
-#, fuzzy
 msgid "_Multiple linear regression"
-msgstr "Errores múltiples\n"
+msgstr "Regresión lineal _múltiple"
 
 #: ../src/dialogs/regression.ui.h:3
 msgid "Multiple 2-_variable regressions"
-msgstr ""
+msgstr "Regresiones múltiples de 2-_variables"
 
 #: ../src/dialogs/regression.ui.h:4
 msgid "Multiple dependent (y) variables"
-msgstr ""
+msgstr "Múltiples variables (y) dependientes"
 
 #: ../src/dialogs/regression.ui.h:9
 msgid "Confidence level:"
@@ -10621,16 +10617,15 @@ msgstr "Nivel de confianza:"
 
 #: ../src/dialogs/regression.ui.h:10
 msgid "0.95"
-msgstr "0,95"
+msgstr "0.95"
 
 #: ../src/dialogs/regression.ui.h:11
 msgid "_Force intercept to be zero"
-msgstr "_Forzar la intercepción para que sea cero"
+msgstr "_Forzar intercepción para que sea cero"
 
 #: ../src/dialogs/regression.ui.h:12
-#, fuzzy
 msgid "Calculate residuals"
-msgstr "Binarios _calculados"
+msgstr "Cálculo de los residuos"
 
 #: ../src/dialogs/row-height.ui.h:1
 msgid "Row Height"
@@ -10638,11 +10633,11 @@ msgstr "Altura de la fila"
 
 #: ../src/dialogs/row-height.ui.h:2
 msgid "_Row height in pixels:"
-msgstr "Altura de _fila en píxeles:"
+msgstr "Altura de la _fila en píxeles:"
 
 #: ../src/dialogs/row-height.ui.h:3
 msgid "Row height in points:"
-msgstr "Altura de fila en puntos:"
+msgstr "Altura de la fila en puntos:"
 
 #: ../src/dialogs/sampling.ui.h:1
 msgid "Sampling"
@@ -10658,7 +10653,7 @@ msgstr "Método de muestreo:"
 
 #: ../src/dialogs/sampling.ui.h:13
 msgid "Size of sample:"
-msgstr "Tamaño de la muestra:"
+msgstr "Tamaño de la muestra:"
 
 #: ../src/dialogs/sampling.ui.h:14
 msgid "Per_iod:"
@@ -10674,19 +10669,19 @@ msgstr "Dirección primaria:"
 
 #: ../src/dialogs/sampling.ui.h:17
 msgid "Row major"
-msgstr "_Fila mayor"
+msgstr "Fila mayor"
 
 #: ../src/dialogs/sampling.ui.h:18
 msgid "Column major"
-msgstr "_Columna mayor"
+msgstr "Columna mayor"
 
 #: ../src/dialogs/sampling.ui.h:19
 msgid "_Periodic"
-msgstr "_Periódico"
+msgstr "Periódico"
 
 #: ../src/dialogs/sampling.ui.h:20
 msgid "_Random"
-msgstr "A_leatorio"
+msgstr "_Aleatorio"
 
 #: ../src/dialogs/scenario-add.ui.h:1
 msgid "Add Scenario"
@@ -10698,11 +10693,11 @@ msgstr "Nombre del escenario:"
 
 #: ../src/dialogs/scenario-add.ui.h:3
 msgid "_Changing cells:"
-msgstr "Celdas modifi_cadas:"
+msgstr "_Cambiando celdas:"
 
 #: ../src/dialogs/scenario-add.ui.h:4
 msgid "Comment:"
-msgstr "Comentarios:"
+msgstr "Comentario:"
 
 #: ../src/dialogs/scenario-manager.ui.h:1
 msgid "Scenario Manager"
@@ -10722,7 +10717,7 @@ msgstr "Crear _informe"
 
 #: ../src/dialogs/scenario-manager.ui.h:6
 msgid "<span weight=\"bold\">Changing Cells</span>"
-msgstr "<span weight=\"bold\">Celdas modificadas</span>"
+msgstr "<span weight=\"bold\">Cambiando celdas</span>"
 
 #: ../src/dialogs/scenario-manager.ui.h:7
 msgid "<span weight=\"bold\">Comment</span>"
@@ -10731,15 +10726,15 @@ msgstr "<span weight=\"bold\">Comentario</span>"
 #: ../src/dialogs/scenario-manager.ui.h:8 ../src/dialogs/workbook-attr.ui.h:5
 #: ../src/workbook-control.c:460
 msgid "View"
-msgstr "Ver"
+msgstr "Vista"
 
 #: ../src/dialogs/scenario-manager.ui.h:9
 msgid "<span weight=\"bold\">Reporting</span>"
-msgstr "<span weight=\"bold\">Informe</span>"
+msgstr "<span weight=\"bold\">Informando</span>"
 
 #: ../src/dialogs/scenario-manager.ui.h:10
 msgid "Result Cells:"
-msgstr "Celdas resultado:"
+msgstr "Celdas de resultado:"
 
 #: ../src/dialogs/search-replace.ui.h:1
 msgid "Search and Replace Query"
@@ -10747,7 +10742,7 @@ msgstr "Consulta de búsqueda y reemplazo"
 
 #: ../src/dialogs/search-replace.ui.h:2
 msgid "Perform no more replacements"
-msgstr "No efectuar más reemplazos"
+msgstr "No realizar más reemplazos"
 
 #: ../src/dialogs/search-replace.ui.h:3
 msgid "Do not perform this replacement"
@@ -10755,7 +10750,7 @@ msgstr "No realizar este reemplazo"
 
 #: ../src/dialogs/search-replace.ui.h:4
 msgid "Perform this replacement"
-msgstr "Reemplazar"
+msgstr "Realizar este reemplazo"
 
 #: ../src/dialogs/search-replace.ui.h:6
 msgid "Location"
@@ -10771,7 +10766,7 @@ msgstr "Por"
 
 #: ../src/dialogs/search-replace.ui.h:9
 msgid "_Query"
-msgstr "_Consultar"
+msgstr "_Consulta"
 
 #: ../src/dialogs/search-replace.ui.h:10
 msgid "Ask before each change"
@@ -10787,7 +10782,7 @@ msgstr "_Reemplazar por"
 
 #: ../src/dialogs/search-replace.ui.h:13
 msgid "_Search for"
-msgstr "_Buscar"
+msgstr "_Buscar por"
 
 #: ../src/dialogs/search-replace.ui.h:14 ../src/dialogs/search.ui.h:7
 msgid "_Ignore case"
@@ -10795,15 +10790,16 @@ msgstr "_Ignorar mayúsculas"
 
 #: ../src/dialogs/search-replace.ui.h:15 ../src/dialogs/search.ui.h:8
 msgid "When set, do not distinguish between upper and lower case letters"
-msgstr "No hacer distinción entre letras mayúsculas y minúsculas"
+msgstr ""
+"Al establecer, no hacer distinción entre letras mayúsculas y minúsculas"
 
 #: ../src/dialogs/search-replace.ui.h:16
 msgid "Ma_tch whole words only"
-msgstr "Coi_ncidir sólo con palabras completas"
+msgstr "Coi_ncidir sólo palabras completas"
 
 #: ../src/dialogs/search-replace.ui.h:17 ../src/dialogs/search.ui.h:10
 msgid "Do not consider matches in the middle of words"
-msgstr "No considerar las ocurrencias en el medio de las palabras"
+msgstr "No considerar coincidencias en el medio de las palabras"
 
 #: ../src/dialogs/search-replace.ui.h:18
 msgid "_Preserve case"
@@ -10811,7 +10807,7 @@ msgstr "_Conservar mayúsculas"
 
 #: ../src/dialogs/search-replace.ui.h:19
 msgid "Attempt to preserve case of text when replacing"
-msgstr "Intentar preservar la capitalización al reemplazar"
+msgstr "Intentar conservar la capitalización al reemplazar"
 
 #: ../src/dialogs/search-replace.ui.h:20 ../src/dialogs/search.ui.h:1
 msgid "Search"
@@ -10819,11 +10815,11 @@ msgstr "Buscar"
 
 #: ../src/dialogs/search-replace.ui.h:21 ../src/dialogs/search.ui.h:11
 msgid "_Entire workbook"
-msgstr "_Libro de cuentas completo"
+msgstr "_Libro de trabajo completo"
 
 #: ../src/dialogs/search-replace.ui.h:22
 msgid "Search and replace in all cells in the workbook"
-msgstr "Buscar y reemplazar en todas las celdas de libro de cuentas"
+msgstr "Buscar y reemplazar en todas las celdas en el libro de trabajo"
 
 #: ../src/dialogs/search-replace.ui.h:23 ../src/dialogs/search.ui.h:13
 msgid "_Current sheet"
@@ -10851,7 +10847,7 @@ msgstr "_Otros valores"
 
 #: ../src/dialogs/search-replace.ui.h:30
 msgid "Perform changes within non-string values"
-msgstr "Efectuar los cambios dentro de los valores que no son cadenas"
+msgstr "Realizar cambios dentro de valores que no son cadenas"
 
 #: ../src/dialogs/search-replace.ui.h:31 ../src/dialogs/search.ui.h:24
 msgid "_Comments"
@@ -11174,13 +11170,13 @@ msgid "Resize Sheet"
 msgstr "Redimensionar hoja"
 
 #. Number of 'Columns' in sheet
-#: ../src/dialogs/sheet-resize.ui.h:3 ../src/sheet.c:1024
+#: ../src/dialogs/sheet-resize.ui.h:3 ../src/sheet.c:1025
 msgctxt "sheetsize"
 msgid "Columns"
 msgstr "Columnas"
 
 #. Number of 'Rows' in sheet
-#: ../src/dialogs/sheet-resize.ui.h:5 ../src/sheet.c:1031
+#: ../src/dialogs/sheet-resize.ui.h:5 ../src/sheet.c:1032
 msgctxt "sheetsize"
 msgid "Rows"
 msgstr "Filas"
@@ -11270,7 +11266,7 @@ msgstr "Variables de entrada:"
 msgid "Output variables:"
 msgstr "Variables de salida:"
 
-#: ../src/dialogs/simulation.ui.h:4
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1426
 msgid "Variables"
 msgstr "Variables"
 
@@ -11399,7 +11395,7 @@ msgstr "Mí_n"
 msgid "_Set Target Cell:       "
 msgstr "_Definir celda objetivo:   "
 
-#: ../src/dialogs/solver.ui.h:8 ../src/tools/gnm-solver.c:1257
+#: ../src/dialogs/solver.ui.h:8 ../src/tools/gnm-solver.c:1505
 msgid "Parameters"
 msgstr "Parámetros"
 
@@ -13171,7 +13167,7 @@ msgid "Cut"
 msgstr "Cortar"
 
 #. Oh, yeah?
-#: ../src/sheet.c:825
+#: ../src/sheet.c:826
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -13183,321 +13179,321 @@ msgstr ""
 "columna nombrada TRUE puede crear conflictos con la\n"
 "constante del mismo nombre. Espere comportamientos anómalos."
 
-#: ../src/sheet.c:839
+#: ../src/sheet.c:840
 msgid "Sheet Type"
 msgstr "Tipo de hoja"
 
-#: ../src/sheet.c:840
+#: ../src/sheet.c:841
 #, fuzzy
 msgid "Which type of sheet this is."
 msgstr "Qué tipo de hoja es."
 
-#: ../src/sheet.c:848
+#: ../src/sheet.c:849
 msgid "Parent workbook"
 msgstr "Libro de cuentas padre"
 
-#: ../src/sheet.c:849
+#: ../src/sheet.c:850
 msgid "The workbook in which this sheet lives"
 msgstr "El libro de cuentas en el que está esta hoja"
 
-#: ../src/sheet.c:856
+#: ../src/sheet.c:857
 msgid "The name of the sheet."
 msgstr "El nombre de la hoja."
 
-#: ../src/sheet.c:861
+#: ../src/sheet.c:862
 msgid "text-is-rtl"
 msgstr "el texto es D-->I"
 
-#: ../src/sheet.c:862
+#: ../src/sheet.c:863
 msgid "Text goes from right to left."
 msgstr "El texto va de derecha a izquierda."
 
-#: ../src/sheet.c:867
+#: ../src/sheet.c:868
 msgid "Visibility"
 msgstr "Visibilidad"
 
-#: ../src/sheet.c:868
+#: ../src/sheet.c:869
 msgid "How visible the sheet is."
 msgstr "Cómo de visible es la hoja."
 
-#: ../src/sheet.c:874
+#: ../src/sheet.c:875
 msgid "Display Formulæ"
 msgstr "Mostrar fórmulas"
 
-#: ../src/sheet.c:875
+#: ../src/sheet.c:876
 #, fuzzy
 #| msgid "Control whether formulas are shown instead of values."
 msgid "Control whether formulæ are shown instead of values."
 msgstr "Controla si se muestran las fórmulas en vez de los valores."
 
-#: ../src/sheet.c:880
+#: ../src/sheet.c:881
 msgid "Display Zeros"
 msgstr "Mostrar ceros"
 
-#: ../src/sheet.c:881
+#: ../src/sheet.c:882
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Controla si se muestran los ceros."
 
-#: ../src/sheet.c:886
+#: ../src/sheet.c:887
 msgid "Display Grid"
 msgstr "Mostrar cuadrícula"
 
-#: ../src/sheet.c:887
+#: ../src/sheet.c:888
 msgid "Control whether the grid is shown."
 msgstr "Controla si se muestra la cuadrícula."
 
-#: ../src/sheet.c:892
+#: ../src/sheet.c:893
 msgid "Display Column Headers"
 msgstr "Mostrar cabeceras de columnas"
 
-#: ../src/sheet.c:893
+#: ../src/sheet.c:894
 msgid "Control whether column headers are shown."
 msgstr "Controla si se muestran las cabeceras de las columnas."
 
-#: ../src/sheet.c:898
+#: ../src/sheet.c:899
 msgid "Display Row Headers"
 msgstr "Mostrar cabeceras de fila"
 
-#: ../src/sheet.c:899
+#: ../src/sheet.c:900
 msgid "Control whether row headers are shown."
 msgstr "Controla si se muestran las cabeceras de las filas."
 
-#: ../src/sheet.c:904
+#: ../src/sheet.c:905
 msgid "Display Outlines"
 msgstr "Mostrar contornos"
 
-#: ../src/sheet.c:905
+#: ../src/sheet.c:906
 msgid "Control whether outlines are shown."
 msgstr "Controla si se muestran los contornos."
 
-#: ../src/sheet.c:910
+#: ../src/sheet.c:911
 msgid "Display Outlines Below"
 msgstr "Mostrar contornos abajo"
 
-#: ../src/sheet.c:911
+#: ../src/sheet.c:912
 msgid "Control whether outline symbols are shown below."
 msgstr "Controla si se muestran los símbolos de los contornos abajo."
 
-#: ../src/sheet.c:916
+#: ../src/sheet.c:917
 msgid "Display Outlines Right"
 msgstr "Mostrar contornos de la derecha"
 
-#: ../src/sheet.c:917
+#: ../src/sheet.c:918
 msgid "Control whether outline symbols are shown to the right."
 msgstr "Controla si se muestran los contornos de la derecha."
 
-#: ../src/sheet.c:923 ../src/workbook-view.c:944
+#: ../src/sheet.c:924 ../src/workbook-view.c:944
 msgid "Protected"
 msgstr "Protegida"
 
-#: ../src/sheet.c:924
+#: ../src/sheet.c:925
 msgid "Sheet is protected."
 msgstr "La hoja está protegida."
 
-#: ../src/sheet.c:927
+#: ../src/sheet.c:928
 msgid "Protected Allow Edit objects"
 msgstr "Protegido permite editar objetos"
 
-#: ../src/sheet.c:928
+#: ../src/sheet.c:929
 msgid "Allow objects to be edited while a sheet is protected"
 msgstr "Permitir editar objetos cuando una hoja está protegida"
 
-#: ../src/sheet.c:931
+#: ../src/sheet.c:932
 msgid "Protected allow edit scenarios"
 msgstr "Protegido permite editar escenarios"
 
-#: ../src/sheet.c:932
+#: ../src/sheet.c:933
 msgid "Allow scenarios to be edited while a sheet is protected"
 msgstr "Permitir editar escenarios cuando una hoja está protegida"
 
-#: ../src/sheet.c:935
+#: ../src/sheet.c:936
 msgid "Protected allow cell formatting"
 msgstr "Protegido permite formatear celdas"
 
-#: ../src/sheet.c:936
+#: ../src/sheet.c:937
 msgid "Allow cell format changes while a sheet is protected"
 msgstr ""
 "Permitir cambios en el formato de las celdas cuando una hoja está protegida"
 
-#: ../src/sheet.c:939
+#: ../src/sheet.c:940
 msgid "Protected allow column formatting"
 msgstr "Protegido permite formatear columnas"
 
-#: ../src/sheet.c:940
+#: ../src/sheet.c:941
 msgid "Allow column formatting while a sheet is protected"
 msgstr "Permitir formatear columnas cuando una hoja está protegida"
 
-#: ../src/sheet.c:943
+#: ../src/sheet.c:944
 msgid "Protected allow row formatting"
 msgstr "Protegido permite formatear filas"
 
-#: ../src/sheet.c:944
+#: ../src/sheet.c:945
 msgid "Allow row formatting while a sheet is protected"
 msgstr "Permitir formatear filas cuando una hoja está protegida"
 
-#: ../src/sheet.c:947
+#: ../src/sheet.c:948
 msgid "Protected allow insert columns"
 msgstr "Protegido permite insertar columnas"
 
-#: ../src/sheet.c:948
+#: ../src/sheet.c:949
 msgid "Allow columns to be inserted while a sheet is protected"
 msgstr "Permitir insertar columnas cuando una hoja está protegida"
 
-#: ../src/sheet.c:951
+#: ../src/sheet.c:952
 msgid "Protected allow insert rows"
 msgstr "Protegido permite insertar filas"
 
-#: ../src/sheet.c:952
+#: ../src/sheet.c:953
 msgid "Allow rows to be inserted while a sheet is protected"
 msgstr "Permitir insertar filas cuando una hoja está protegida"
 
-#: ../src/sheet.c:955
+#: ../src/sheet.c:956
 msgid "Protected allow insert hyperlinks"
 msgstr "Protegido permite introducir hiperenlaces"
 
-#: ../src/sheet.c:956
+#: ../src/sheet.c:957
 msgid "Allow hyperlinks to be inserted while a sheet is protected"
 msgstr "Permitir insertar hiperenlaces cuando una hoja está protegida"
 
-#: ../src/sheet.c:959
+#: ../src/sheet.c:960
 msgid "Protected allow delete columns"
 msgstr "Protegido permite borrar columnas"
 
-#: ../src/sheet.c:960
+#: ../src/sheet.c:961
 msgid "Allow columns to be deleted while a sheet is protected"
 msgstr "Permitir borrar columnas cuando una hoja está protegida"
 
-#: ../src/sheet.c:963
+#: ../src/sheet.c:964
 msgid "Protected allow delete rows"
 msgstr "Protegido permite borrar filas"
 
-#: ../src/sheet.c:964
+#: ../src/sheet.c:965
 msgid "Allow rows to be deleted while a sheet is protected"
 msgstr "Permitir borrar filas cuando una hoja está protegida"
 
-#: ../src/sheet.c:967
+#: ../src/sheet.c:968
 msgid "Protected allow select locked cells"
 msgstr "Protegido permite seleccionar celdas bloqueadas"
 
-#: ../src/sheet.c:968
+#: ../src/sheet.c:969
 msgid "Allow the user to select locked cells while a sheet is protected"
 msgstr ""
 "Permitir al usuario que seleccione celdas bloqueadas cuando una hoja está "
 "protegida"
 
-#: ../src/sheet.c:971
+#: ../src/sheet.c:972
 msgid "Protected allow sort ranges"
 msgstr "Protegido permite ordenar rangos"
 
-#: ../src/sheet.c:972
+#: ../src/sheet.c:973
 msgid "Allow ranges to be sorted while a sheet is protected"
 msgstr "Permitir ordenar los rangos cuando una hoja está protegida"
 
-#: ../src/sheet.c:975
+#: ../src/sheet.c:976
 msgid "Protected allow edit auto filters"
 msgstr "Protegido permite editar autofiltros"
 
-#: ../src/sheet.c:976
+#: ../src/sheet.c:977
 msgid "Allow auto filters to be edited while a sheet is protected"
 msgstr "Permitir editar los autofiltros cuando una hoja está protegida"
 
-#: ../src/sheet.c:979
+#: ../src/sheet.c:980
 msgid "Protected allow edit pivottable"
 msgstr "Protegido permite editar tablas pivote"
 
-#: ../src/sheet.c:980
+#: ../src/sheet.c:981
 #, fuzzy
 msgid "Allow pivottable to be edited while a sheet is protected"
 msgstr "Permitir editar las tablas pivote cuando una hoja está protegida"
 
-#: ../src/sheet.c:983
+#: ../src/sheet.c:984
 msgid "Protected allow select unlocked cells"
 msgstr "Protegido permite seleccionar celdas no bloqueadas"
 
-#: ../src/sheet.c:984
+#: ../src/sheet.c:985
 msgid "Allow the user to select unlocked cells while a sheet is protected"
 msgstr ""
 "Permitir al usuario que seleccione celdas no bloqueadas cuando una hoja está "
 "protegida"
 
-#: ../src/sheet.c:988
+#: ../src/sheet.c:989
 msgid "Display convention for expressions (default Gnumeric A1)"
 msgstr ""
 "Mostrar la convención para las expresiones (Gnumeric A1 predeterminado)"
 
-#: ../src/sheet.c:989
+#: ../src/sheet.c:990
 msgid "How to format displayed expressions, (A1 vs R1C1, function names, ...)"
 msgstr ""
 "Cómo formatear las expresiones mostradas, (A1 contra R1C1, nombres de "
 "funciones, ...)"
 
 #. convenience wrapper to CONVENTIONS
-#: ../src/sheet.c:993
+#: ../src/sheet.c:994
 msgid "Display convention for expressions as XLS_R1C1 vs default"
 msgstr ""
 "Mostrar la convención para expresiones como XLS_R1C1 contra predeterminadas"
 
-#: ../src/sheet.c:994
+#: ../src/sheet.c:995
 msgid "How to format displayed expressions, (a convenience api)"
 msgstr "Cómo formatear las expresiones mostradas, (un interfaz conveniente)"
 
-#: ../src/sheet.c:1000
+#: ../src/sheet.c:1001
 msgid "Tab Foreground"
 msgstr "Primer plano de la pestaña"
 
-#: ../src/sheet.c:1001
+#: ../src/sheet.c:1002
 msgid "The foreground color of the tab."
 msgstr "El color de la pestaña en primer plano."
 
-#: ../src/sheet.c:1006
+#: ../src/sheet.c:1007
 msgid "Tab Background"
 msgstr "Fondo de la pestaña"
 
-#: ../src/sheet.c:1007
+#: ../src/sheet.c:1008
 msgid "The background color of the tab."
 msgstr "El color de fondo de la pestaña."
 
-#: ../src/sheet.c:1014
+#: ../src/sheet.c:1015
 msgid "Zoom Factor"
 msgstr "Factor de ampliación"
 
-#: ../src/sheet.c:1015
+#: ../src/sheet.c:1016
 msgid "The level of zoom used for this sheet."
 msgstr "El nivel de amplicación que se usa para esta hoja."
 
-#: ../src/sheet.c:1025
+#: ../src/sheet.c:1026
 msgid "Columns number in the sheet"
 msgstr "Número de columnas en la hoja"
 
-#: ../src/sheet.c:1032
+#: ../src/sheet.c:1033
 msgid "Rows number in the sheet"
 msgstr "Número de filas en la hoja"
 
-#: ../src/sheet.c:3386
+#: ../src/sheet.c:3387
 msgid "Target region contains merged cells"
 msgstr "La región de destino contiene celdas combinadas"
 
-#: ../src/sheet.c:3447
+#: ../src/sheet.c:3448
 msgid "cannot operate on merged cells"
 msgstr "no se puede operar sobre celdas combinadas"
 
-#: ../src/sheet.c:3457
+#: ../src/sheet.c:3458
 msgid "cannot operate on array formulæ"
 msgstr "no se puede operar sobre un vector de fórmulas"
 
-#: ../src/sheet.c:4849
+#: ../src/sheet.c:4850
 msgid "Insert Columns"
 msgstr "Insertar columnas"
 
-#: ../src/sheet.c:4940
+#: ../src/sheet.c:4941
 msgid "Delete Columns"
 msgstr "Borrar columnas"
 
-#: ../src/sheet.c:5021
+#: ../src/sheet.c:5022
 msgid "Insert Rows"
 msgstr "Insertar filas"
 
-#: ../src/sheet.c:5112
+#: ../src/sheet.c:5113
 msgid "Delete Rows"
 msgstr "Borrar filas"
 
@@ -14712,23 +14708,23 @@ msgstr ""
 msgid "Wilcoxon-Mann-Whitney Test (%s)"
 msgstr "Prueba-t (%s)"
 
-#: ../src/tools/dao.c:171
+#: ../src/tools/dao.c:172
 msgid "New Sheet"
 msgstr "Hoja nueva"
 
-#: ../src/tools/dao.c:174
+#: ../src/tools/dao.c:175
 msgid "New Workbook"
 msgstr "Libro de cuentas nuevo"
 
-#: ../src/tools/dao.c:983
+#: ../src/tools/dao.c:987
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: ../src/tools/dao.c:989
+#: ../src/tools/dao.c:993
 msgid "Worksheet:"
 msgstr "Hoja de trabajo:"
 
-#: ../src/tools/dao.c:996
+#: ../src/tools/dao.c:1000
 msgid "Report Created: "
 msgstr "Informe creado: "
 
@@ -14754,100 +14750,119 @@ msgstr ""
 msgid "Advanced Filter (%s)"
 msgstr "Filtro avanzado"
 
-#: ../src/tools/gnm-solver.c:569
+#: ../src/tools/gnm-solver.c:570
 #, fuzzy, c-format
 msgid "Invalid solver target"
 msgstr "Número de argumentos inválido"
 
-#: ../src/tools/gnm-solver.c:579
+#: ../src/tools/gnm-solver.c:580
 #, fuzzy, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr "La celda destino debería contener una fórmula."
 
-#: ../src/tools/gnm-solver.c:588
+#: ../src/tools/gnm-solver.c:589
 #, fuzzy, c-format
 msgid "Invalid solver input range"
 msgstr "Nombre de escenario inválido"
 
-#: ../src/tools/gnm-solver.c:598
+#: ../src/tools/gnm-solver.c:599
 #, fuzzy, c-format
 msgid "Input cell %s contains a formula"
 msgstr "La celda destino debería contener una fórmula."
 
-#: ../src/tools/gnm-solver.c:612
+#: ../src/tools/gnm-solver.c:613
 #, fuzzy, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "El rango de la lista no es válido."
 
-#: ../src/tools/gnm-solver.c:721 ../src/tools/gnm-solver.c:722
+#: ../src/tools/gnm-solver.c:740 ../src/tools/gnm-solver.c:741
 msgid "Problem Type"
 msgstr "Tipo de problema"
 
-#: ../src/tools/gnm-solver.c:946
+#: ../src/tools/gnm-solver.c:965
 #, fuzzy
 #| msgid "Time"
 msgid "Timeout"
 msgstr "Hora"
 
-#: ../src/tools/gnm-solver.c:1196
+#: ../src/tools/gnm-solver.c:1215
 #, fuzzy, c-format
 msgid "Failed to create file for linear program"
 msgstr "No se puede crear archivo temporal para el envío."
 
-#: ../src/tools/gnm-solver.c:1205
+#: ../src/tools/gnm-solver.c:1224
 #, fuzzy, c-format
 msgid "Failed to create linear program file"
 msgstr "No se puede crear archivo temporal para el envío."
 
-#: ../src/tools/gnm-solver.c:1225
+#: ../src/tools/gnm-solver.c:1244
 #, c-format
 msgid "Failed to save linear program"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1242
+#. ----------------------------------------
+#: ../src/tools/gnm-solver.c:1408
+#, fuzzy
+#| msgid "Target _Range:"
+msgid "Target"
+msgstr "_Rango objetivo:"
+
+#: ../src/tools/gnm-solver.c:1456
+#, fuzzy
+#| msgid "Limit"
+msgid "At limit"
+msgstr "Límite"
+
+#: ../src/tools/gnm-solver.c:1460
+#, fuzzy
+#| msgid "Outside Borders"
+msgid "Outside bounds"
+msgstr "Bordes exteriores"
+
+#: ../src/tools/gnm-solver.c:1490
 msgid "status"
 msgstr "estado"
 
-#: ../src/tools/gnm-solver.c:1243
+#: ../src/tools/gnm-solver.c:1491
 msgid "The solver's current status"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1250
+#: ../src/tools/gnm-solver.c:1498
 #, fuzzy
 #| msgid "_Areas"
 msgid "reason"
 msgstr "Á_reas"
 
-#: ../src/tools/gnm-solver.c:1251
+#: ../src/tools/gnm-solver.c:1499
 msgid "The reason behind the solver's status"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1258
+#: ../src/tools/gnm-solver.c:1506
 #, fuzzy
 msgid "Solver parameters"
 msgstr "Separadores"
 
-#: ../src/tools/gnm-solver.c:1266
+#: ../src/tools/gnm-solver.c:1514
 msgid "Current best feasible result"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1272
+#: ../src/tools/gnm-solver.c:1520
 msgid "Start Time"
 msgstr "Tiempo de inicio"
 
-#: ../src/tools/gnm-solver.c:1273
+#: ../src/tools/gnm-solver.c:1521
 msgid "Time the solver was started"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1279
+#: ../src/tools/gnm-solver.c:1527
 msgid "End Time"
 msgstr "Tiempo de finalización"
 
-#: ../src/tools/gnm-solver.c:1280
+#: ../src/tools/gnm-solver.c:1528
 msgid "Time the solver finished"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1604
+#: ../src/tools/gnm-solver.c:1852
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14856,13 +14871,13 @@ msgid ""
 "Would you like to locate it yourself?"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1608
+#: ../src/tools/gnm-solver.c:1856
 #, fuzzy, c-format
 #| msgid "Unable to open '%s'"
 msgid "Unable to locate %s"
 msgstr "No ha sido posible abrir el archivo «%s»"
 
-#: ../src/tools/gnm-solver.c:1624
+#: ../src/tools/gnm-solver.c:1872
 #, c-format
 msgid "Locate the %s program"
 msgstr ""
