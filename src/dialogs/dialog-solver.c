@@ -630,6 +630,16 @@ cb_timer_tick (SolverState *state)
 	return TRUE;
 }
 
+static void
+create_report (GnmSolver *sol, SolverState *state)
+{
+	Sheet *sheet = state->sheet;
+	char *base = g_strdup_printf ("%s Report", sheet->name_unquoted);
+	gnm_solver_create_report (sol, base);
+	g_free (base);
+}
+
+
 static GnmSolverResult *
 run_solver (SolverState *state, GnmSolverParameters *param)
 {
@@ -800,6 +810,9 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 		GOUndo *redo;
 
 		gnm_solver_store_result (sol);
+		if (param->options.program_report)
+			create_report (sol, state);
+
 		redo = clipboard_copy_range_undo (sr.sheet, &sr.range);
 		cmd_generic (WORKBOOK_CONTROL (state->wbcg),
 			     _("Running solver"),

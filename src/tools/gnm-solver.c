@@ -11,6 +11,7 @@
 #include "workbook-view.h"
 #include "workbook-control.h"
 #include "gnm-marshalers.h"
+#include "dao.h"
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
 #include <glib/gi18n-lib.h>
@@ -617,6 +618,24 @@ gnm_solver_param_valid (GnmSolverParameters const *sp, GError **err)
 
 	return TRUE;
 }
+
+static char *
+gnm_solver_param_cell_name (GnmSolverParameters const *sp, GnmCell const *cell)
+{
+	GnmConventionsOut out;
+	GnmCellRef cr;
+	GnmParsePos pp;
+
+	gnm_cellref_init (&cr, cell->base.sheet,
+			  cell->pos.col, cell->pos.row,
+			  TRUE);
+	out.accum = g_string_new (NULL);
+	out.pp = parse_pos_init_sheet (&pp, sp->sheet);
+	out.convs = sheet_get_conventions (sp->sheet);
+	cellref_as_string (&out, &cr, cell->base.sheet == sp->sheet);
+	return g_string_free (out.accum, FALSE);
+}
+
 
 static GObject *
 gnm_solver_param_constructor (GType type,
@@ -1228,6 +1247,235 @@ gnm_solver_saveas (GnmSolver *solver, WorkbookControl *wbc,
 
 	return TRUE;
 }
+
+static gboolean
+cell_in_cr (GnmCell const *cell, GnmSheetRange *sr, gboolean follow,
+	    int *px, int *py)
+{
+	if (!cell)
+		return FALSE;
+
+	if (sr->sheet != cell->base.sheet ||
+	    !range_contains (&sr->range, cell->pos.col, cell->pos.row)) {
+		/* If the expression is just =X42 thenm look at X42 instead.
+		   This is because the mps loader uses such a level of
+		   indirection.  Note: we follow only one such step.  */
+		GnmCellRef const *cr = gnm_expr_top_get_cellref (cell->base.texpr);
+		GnmCellRef cr2;
+		GnmCell const *new_cell;
+		GnmEvalPos ep;
+
+		if (!cr)
+			return FALSE;
+
+		eval_pos_init_cell (&ep, cell);
+		gnm_cellref_make_abs (&cr2, cr, &ep);
+		new_cell = sheet_cell_get (eval_sheet (cr2.sheet, cell->base.sheet),
+					   cr2.col, cr2.row);
+		return cell_in_cr (new_cell, sr, FALSE, px, py);
+
+	}
+
+	*px = cell->pos.col - sr->range.start.col;
+	*py = cell->pos.row - sr->range.start.row;
+	return TRUE;
+}
+
+static gboolean
+cell_is_constant (GnmCell const *cell, gnm_float *pc)
+{
+	if (!cell)
+		return TRUE;
+
+	if (cell->base.texpr)
+		return FALSE;
+
+	*pc = value_get_as_float (cell->value);
+	return TRUE;
+}
+
+#define SET_LOWER(l_)						\
+  do {								\
+	  (*pmin)[y * w + x] = MAX ((*pmin)[y * w + x], (l_));	\
+  } while (0)
+
+#define SET_UPPER(l_)						\
+  do {								\
+	  (*pmax)[y * w + x] = MIN ((*pmax)[y * w + x], (l_));	\
+  } while (0)
+
+
+
+static void
+gnm_solver_get_limits (GnmSolver *solver, gnm_float **pmin, gnm_float **pmax)
+{
+	GnmValue const *vinput;
+	GnmSolverParameters *params = solver->params;
+	int x, y, w, h;
+	GnmSheetRange sr;
+	GSList *l;
+
+	*pmin = *pmax = NULL;
+
+	vinput = gnm_solver_param_get_input (params);
+	if (!vinput) return;
+		
+	gnm_sheet_range_from_value (&sr, vinput);
+	if (!sr.sheet) sr.sheet = params->sheet;
+	h = range_height (&sr.range);
+	w = range_width (&sr.range);
+
+	*pmin = g_new (gnm_float, h * w);
+	*pmax = g_new (gnm_float, h * w);
+
+	for (x = 0; x < w; x++) {
+		for (y = 0; y < h; y++) {
+			(*pmin)[y * w + x] = params->options.assume_non_negative ? 0 : gnm_ninf;
+			(*pmax)[y * w + x] = gnm_pinf;
+		}
+	}
+
+	for (l = params->constraints; l; l = l->next) {
+		GnmSolverConstraint *c = l->data;
+		int i;
+		gnm_float cl, cr;
+		GnmCell *lhs, *rhs;
+
+		for (i = 0;
+		     gnm_solver_constraint_get_part (c, params, i,
+						     &lhs, &cl,
+						     &rhs, &cr);
+		     i++) {
+			if (!cell_in_cr (lhs, &sr, TRUE, &x, &y))
+				continue;
+			if (!cell_is_constant (rhs, &cr))
+				continue;
+
+			switch (c->type) {
+			case GNM_SOLVER_INTEGER:
+				break;
+			case GNM_SOLVER_BOOLEAN:
+				SET_LOWER (0.0);
+				SET_UPPER (1.0);
+				break;
+			case GNM_SOLVER_LE:
+				SET_UPPER (cr);
+				break;
+			case GNM_SOLVER_GE:
+				SET_LOWER (cr);
+				break;
+			case GNM_SOLVER_EQ:
+				SET_LOWER (cr);
+				SET_UPPER (cr);
+				break;
+
+			default:
+				g_assert_not_reached ();
+				break;
+			}
+		}
+	}
+
+}
+
+#undef SET_LOWER
+#undef SET_UPPER
+
+#define ADD_HEADER(txt_) do {			\
+	dao_set_cell (dao, 0, R, (txt_));	\
+	dao_set_bold (dao, 0, R, 0, R);		\
+	R++;					\
+} while (0)
+
+#define AT_LIMIT(s_,l_) \
+  (gnm_finite (l_) ? gnm_abs ((s_) - (l_)) <= (gnm_abs ((s_)) + gnm_abs ((l_))) / 1e10 : (s_) == (l_))
+
+void
+gnm_solver_create_report (GnmSolver *solver, const char *name)
+{
+	GnmSolverParameters *params = solver->params;
+	int R = 0;
+	GnmValue const *vinput;
+	data_analysis_output_t *dao;
+	char *tmp;
+
+	dao = dao_init_new_sheet (NULL);
+	dao->sheet = params->sheet;
+	dao_prepare_output (NULL, dao, name);
+
+	/* ---------------------------------------- */
+
+	ADD_HEADER (_("Target"));
+	tmp = gnm_solver_param_cell_name (params,
+					  gnm_solver_param_get_target_cell (params));
+	dao_set_cell (dao, 1, R, tmp);
+	g_free (tmp);
+
+	dao_set_cell_float (dao, 2, R, solver->result->value);
+	R++;
+	R++;
+
+	/* ---------------------------------------- */
+
+	vinput = gnm_solver_param_get_input (params);
+	if (vinput) {
+		int x, y, w, h;
+		GnmSheetRange sr;
+		gnm_float *pmin, *pmax;
+
+		ADD_HEADER (_("Variables"));
+
+		gnm_sheet_range_from_value (&sr, vinput);
+		if (!sr.sheet) sr.sheet = params->sheet;
+		h = range_height (&sr.range);
+		w = range_width (&sr.range);
+
+		gnm_solver_get_limits (solver, &pmin, &pmax);
+
+		for (x = 0; x < w; x++) {
+			for (y = 0; y < h; y++) {
+				int vcol = sr.range.start.col + x;
+				int vrow = sr.range.start.row + y;
+				gnm_float m = pmin[y * w + x];
+				gnm_float M = pmax[y * w + x];
+				GnmValue const *vs = value_area_fetch_x_y (solver->result->solution, x, y, NULL);
+				gnm_float s = value_get_as_float (vs);
+				dao_set_cell (dao, 1, R, cell_coord_name (vcol, vrow));
+				dao_set_cell_value (dao, 2, R, value_dup (vs));
+				if (gnm_finite (m))
+					dao_set_cell_float (dao, 3, R, m);
+				else
+					dao_set_cell (dao, 3, R, "-");
+
+				if (gnm_finite (M))
+					dao_set_cell_float (dao, 4, R, M);
+				else
+					dao_set_cell (dao, 4, R, "-");
+
+				if (AT_LIMIT (s, m) || AT_LIMIT (s, M))
+					dao_set_cell (dao, 5, R, _("At limit"));
+
+
+				if (s < m || s > M)
+					dao_set_cell (dao, 6, R, _("Outside bounds"));
+
+				R++;
+			}
+		}
+
+		g_free (pmin);
+		g_free (pmax);
+		R++;
+	}
+
+	/* ---------------------------------------- */
+
+	dao_free (dao);
+}
+
+#undef AT_LIMIT
+#undef ADD_HEADER
+
 
 static void
 gnm_solver_class_init (GObjectClass *object_class)

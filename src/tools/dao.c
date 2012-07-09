@@ -85,6 +85,7 @@ dao_init (data_analysis_output_t *dao,
 	dao->retain_format     = FALSE;
 	dao->retain_comments   = FALSE;
 	dao->put_formulas      = FALSE;
+	dao->wbc               = NULL;
 	dao->sos               = NULL;
         dao->omit_so           = FALSE;
 
@@ -248,8 +249,10 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 		dao->wbc = wbc;
 
 	if (dao->type == NewSheetOutput) {
-		Sheet *old_sheet = wb_control_cur_sheet (dao->wbc);
-		Workbook *wb = wb_control_get_workbook (dao->wbc);
+		Sheet *old_sheet = dao->wbc
+			? wb_control_cur_sheet (dao->wbc)
+			: dao->sheet;
+		Workbook *wb = old_sheet->workbook;
 		char *name_with_counter = g_strdup_printf ("%s (1)", name);
 		unique_name = workbook_sheet_get_free_name
 			(wb, name_with_counter, FALSE, TRUE);
@@ -270,7 +273,9 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 		workbook_sheet_attach (wb, dao->sheet);
 		dao->wbc = wb_control_wrapper_new (dao->wbc, NULL, wb, NULL);
 	}
-	wb_view_sheet_focus (wb_control_view (dao->wbc), dao->sheet);
+
+	if (dao->wbc)
+		wb_view_sheet_focus (wb_control_view (dao->wbc), dao->sheet);
 
 	if (dao->rows == 0 || (dao->rows == 1 && dao->cols == 1))
 		dao->rows = gnm_sheet_get_max_rows (dao->sheet) - dao->start_row;
@@ -678,8 +683,7 @@ dao_autofit_columns (data_analysis_output_t *dao)
  * @row2:
  * @style:
  *
- * sets the given cell range to bold
- *
+ * Applies a partial style to the given region.
  *
  **/
 static void
