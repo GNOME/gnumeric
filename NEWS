@@ -7,6 +7,7 @@ Morten:
 	* Speed up operations that iterate over cells in large areas.
 	* Fix problems with linear solvers and cross-sheet target.
 	* Fix python-loader vs. goffice interface problem.
+	* Add solver report.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.4

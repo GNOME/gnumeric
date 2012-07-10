@@ -659,8 +659,8 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 
 	sol = gnm_solver_factory_functional (param->options.algorithm,
 					     state->wbcg)
-	    ? gnm_solver_factory_create (param->options.algorithm, param)
-	    : NULL;
+		? gnm_solver_factory_create (param->options.algorithm, param)
+		: NULL;
 	if (!sol) {
 		go_gtk_notice_dialog (top, GTK_MESSAGE_ERROR,
 				      _("The chosen solver is not functional."));
@@ -810,10 +810,35 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 		GOUndo *redo;
 
 		gnm_solver_store_result (sol);
-		if (param->options.program_report)
+		redo = clipboard_copy_range_undo (sr.sheet, &sr.range);
+
+		if (param->options.program_report) {
+			Workbook *wb = param->sheet->workbook;
+			GOUndo *undo_report, *redo_report;
+
+			/* This is a bit of overkill -- it just removes the
+			   sheet that create_report will add.  However, if
+			   in the future we add multiple sheets then this
+			   should still be good.  */
+			undo_report = go_undo_binary_new
+				(wb,
+				 workbook_sheet_state_new (wb),
+				 (GOUndoBinaryFunc)workbook_sheet_state_restore,
+				 NULL,
+				 (GFreeFunc)workbook_sheet_state_free);
+			undo = go_undo_combine (undo, undo_report);
+
 			create_report (sol, state);
 
-		redo = clipboard_copy_range_undo (sr.sheet, &sr.range);
+			redo_report = go_undo_binary_new
+				(wb,
+				 workbook_sheet_state_new (wb),
+				 (GOUndoBinaryFunc)workbook_sheet_state_restore,
+				 NULL,
+				 (GFreeFunc)workbook_sheet_state_free);
+			redo = go_undo_combine (redo, redo_report);
+		}
+
 		cmd_generic (WORKBOOK_CONTROL (state->wbcg),
 			     _("Running solver"),
 			     undo, redo);
