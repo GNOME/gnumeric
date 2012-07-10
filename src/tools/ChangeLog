@@ -1,3 +1,10 @@
+2012-07-10  Morten Welinder  <terra@gnome.org>
+
+	* gnm-solver.c (gnm_solver_constraint_as_str): Fix translation
+	issue.
+	(gnm_solver_constraint_get_part): Make this work for constraint
+	cells on other sheets too.
+
 2012-07-09  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_create_report): Do constraints too.

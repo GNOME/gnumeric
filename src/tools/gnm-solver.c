@@ -44,6 +44,23 @@ gnm_solver_debug (void)
 	return debug;
 }
 
+static char *
+gnm_solver_cell_name (GnmCell const *cell, Sheet *origin)
+{
+	GnmConventionsOut out;
+	GnmCellRef cr;
+	GnmParsePos pp;
+
+	gnm_cellref_init (&cr, cell->base.sheet,
+			  cell->pos.col, cell->pos.row,
+			  TRUE);
+	out.accum = g_string_new (NULL);
+	out.pp = parse_pos_init_sheet (&pp, origin);
+	out.convs = origin->convs;
+	cellref_as_string (&out, &cr, cell->base.sheet == origin);
+	return g_string_free (out.accum, FALSE);
+}
+
 /* ------------------------------------------------------------------------- */
 
 GType
@@ -183,13 +200,13 @@ gnm_solver_constraint_valid (GnmSolverConstraint const *c,
 		if (rhs == NULL)
 			return FALSE;
 		if (rhs->type == VALUE_CELLRANGE) {
-			GnmRange rl, rr;
+			GnmSheetRange srl, srr;
 
-			range_init_value (&rl, lhs);
-			range_init_value (&rr, rhs);
+			gnm_sheet_range_from_value (&srl, lhs);
+			gnm_sheet_range_from_value (&srr, rhs);
 
-			if (range_width (&rl) != range_width (&rr) ||
-			    range_height (&rl) != range_height (&rr))
+			if (range_width (&srl.range) != range_width (&srr.range) ||
+			    range_height (&srl.range) != range_height (&srr.range))
 				return FALSE;
 		} else if (VALUE_IS_FLOAT (rhs)) {
 			/* Nothing */
@@ -261,7 +278,7 @@ gnm_solver_constraint_get_part (GnmSolverConstraint const *c,
 				GnmCell **lhs, gnm_float *cl,
 				GnmCell **rhs, gnm_float *cr)
 {
-	GnmRange r;
+	GnmSheetRange sr;
 	int h, w, dx, dy;
 	GnmValue const *vl, *vr;
 
@@ -276,9 +293,9 @@ gnm_solver_constraint_get_part (GnmSolverConstraint const *c,
 	vl = gnm_solver_constraint_get_lhs (c);
 	vr = gnm_solver_constraint_get_rhs (c);
 
-	range_init_value (&r, vl);
-	w = range_width (&r);
-	h = range_height (&r);
+	gnm_sheet_range_from_value (&sr, vl);
+	w = range_width (&sr.range);
+	h = range_height (&sr.range);
 
 	dy = i / w;
 	dx = i % w;
@@ -286,20 +303,21 @@ gnm_solver_constraint_get_part (GnmSolverConstraint const *c,
 		return FALSE;
 
 	if (lhs)
-		*lhs = sheet_cell_get (sp->sheet,
-				       r.start.col + dx, r.start.row + dy);
+		*lhs = sheet_cell_get (eval_sheet (sr.sheet, sp->sheet),
+				       sr.range.start.col + dx,
+				       sr.range.start.row + dy);
 
-	if (gnm_solver_constraint_has_rhs (c)) {
-		if (VALUE_IS_FLOAT (vr)) {
-			if (cr)
-				*cr = value_get_as_float (vr);
-		} else {
-			range_init_value (&r, vr);
-			if (rhs)
-				*rhs = sheet_cell_get (sp->sheet,
-						       r.start.col + dx,
-						       r.start.row + dy);
-		}
+	if (!gnm_solver_constraint_has_rhs (c)) {
+		/* Nothing */
+	} else if (VALUE_IS_FLOAT (vr)) {
+		if (cr)
+			*cr = value_get_as_float (vr);
+	} else {
+		gnm_sheet_range_from_value (&sr, vr);
+		if (rhs)
+			*rhs = sheet_cell_get (eval_sheet (sr.sheet, sp->sheet),
+					       sr.range.start.col + dx,
+					       sr.range.start.row + dy);
 	}
 
 	return TRUE;
@@ -360,13 +378,17 @@ gnm_solver_constraint_as_str (GnmSolverConstraint const *c, Sheet *sheet)
 	const char * const type_str[] =	{
 		"\xe2\x89\xa4" /* "<=" */,
 		"\xe2\x89\xa5" /* ">=" */,
-		"=", "Int", "Bool"
+		"=",
+		N_("Int"),
+		N_("Bool")
 	};
+	const char *type = type_str[c->type];
+	gboolean translate = (c->type >= GNM_SOLVER_INTEGER);
 	GString *buf = g_string_new (NULL);
 
 	gnm_solver_constraint_side_as_str (c, sheet, buf, TRUE);
 	g_string_append_c (buf, ' ');
-	g_string_append (buf, type_str[c->type]);
+	g_string_append (buf, translate ? _(type) : type);
 	if (gnm_solver_constraint_has_rhs (c)) {
 		g_string_append_c (buf, ' ');
 		gnm_solver_constraint_side_as_str (c, sheet, buf, FALSE);
@@ -574,11 +596,13 @@ gnm_solver_param_valid (GnmSolverParameters const *sp, GError **err)
 	if (!gnm_cell_has_expr (target_cell) ||
 	    target_cell->value == NULL ||
 	    !VALUE_IS_FLOAT (target_cell->value)) {
+		char *tcname = gnm_solver_cell_name (target_cell, sp->sheet);
 		g_set_error (err,
 			     go_error_invalid (),
 			     0,
 			     _("Target cell, %s, must contain a formula that evaluates to a number"),
-			     cell_name (target_cell));
+			     tcname);
+		g_free (tcname);
 		return FALSE;
 	}
 
@@ -593,11 +617,13 @@ gnm_solver_param_valid (GnmSolverParameters const *sp, GError **err)
 	for (l = input_cells; l; l = l->next) {
 		GnmCell *cell = l->data;
 		if (gnm_cell_has_expr (cell)) {
+			char *cname = gnm_solver_cell_name (cell, sp->sheet);
 			g_set_error (err,
 				     go_error_invalid (),
 				     0,
 				     _("Input cell %s contains a formula"),
-				     cell_name (cell));
+				     cname);
+			g_free (cname);
 			g_slist_free (input_cells);
 			return FALSE;
 		}
@@ -618,24 +644,6 @@ gnm_solver_param_valid (GnmSolverParameters const *sp, GError **err)
 
 	return TRUE;
 }
-
-static char *
-gnm_solver_param_cell_name (GnmSolverParameters const *sp, GnmCell const *cell)
-{
-	GnmConventionsOut out;
-	GnmCellRef cr;
-	GnmParsePos pp;
-
-	gnm_cellref_init (&cr, cell->base.sheet,
-			  cell->pos.col, cell->pos.row,
-			  TRUE);
-	out.accum = g_string_new (NULL);
-	out.pp = parse_pos_init_sheet (&pp, sp->sheet);
-	out.convs = sheet_get_conventions (sp->sheet);
-	cellref_as_string (&out, &cr, cell->base.sheet == sp->sheet);
-	return g_string_free (out.accum, FALSE);
-}
-
 
 static GObject *
 gnm_solver_param_constructor (GType type,
@@ -1437,9 +1445,9 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 		dao_set_cell (dao, 4, R, _("Status"));
 		R++;
 
-		tmp = gnm_solver_param_cell_name
-			(params,
-			 gnm_solver_param_get_target_cell (params));
+		tmp = gnm_solver_cell_name
+			(gnm_solver_param_get_target_cell (params),
+			 params->sheet);
 		dao_set_cell (dao, 1, R, tmp);
 		g_free (tmp);
 
@@ -1505,7 +1513,7 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 				gnm_float s = value_get_as_float (vs);
 				gnm_float slack = MIN (s - m, M - s);
 
-				char *cname = gnm_solver_param_cell_name (params, cell);
+				char *cname = gnm_solver_cell_name (cell, params->sheet);
 				dao_set_cell (dao, 1, R, cname);
 				g_free (cname);
 				dao_set_cell_value (dao, 2, R, value_dup (vs));
