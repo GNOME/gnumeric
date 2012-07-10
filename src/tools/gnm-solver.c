@@ -1390,6 +1390,15 @@ gnm_solver_get_limits (GnmSolver *solver, gnm_float **pmin, gnm_float **pmax)
 #define AT_LIMIT(s_,l_) \
   (gnm_finite (l_) ? gnm_abs ((s_) - (l_)) <= (gnm_abs ((s_)) + gnm_abs ((l_))) / 1e10 : (s_) == (l_))
 
+#define MARK_BAD(col_)						\
+  do {								\
+	  int c = (col_);					\
+	  dao_set_colors (dao, c, R, c, R,			\
+			  style_color_new_i8 (255, 0, 0),	\
+			  NULL);				\
+  } while (0)
+
+
 static void
 add_value_or_special (data_analysis_output_t *dao, int col, int row,
 		      gnm_float x)
@@ -1422,6 +1431,12 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 		char *tmp;
 
 		ADD_HEADER (_("Target"));
+		dao_set_cell (dao, 1, R, _("Cell"));
+		dao_set_cell (dao, 2, R, _("Value"));
+		dao_set_cell (dao, 3, R, _("Type"));
+		dao_set_cell (dao, 4, R, _("Status"));
+		R++;
+
 		tmp = gnm_solver_param_cell_name
 			(params,
 			 gnm_solver_param_get_target_cell (params));
@@ -1429,8 +1444,28 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 		g_free (tmp);
 
 		dao_set_cell_float (dao, 2, R, solver->result->value);
-		R++;
 
+		switch (params->problem_type) {
+		case GNM_SOLVER_MINIMIZE:
+			dao_set_cell (dao, 3, R, _("Minimize"));
+			break;
+		case GNM_SOLVER_MAXIMIZE:
+			dao_set_cell (dao, 3, R, _("Maximize"));
+			break;
+		}
+
+		switch (solver->result->quality) {
+		default:
+			break;
+		case GNM_SOLVER_RESULT_FEASIBLE:
+			dao_set_cell (dao, 4, R, _("Feasible"));
+			break;
+		case GNM_SOLVER_RESULT_OPTIMAL:
+			dao_set_cell (dao, 4, R, _("Optimal"));
+			break;
+		}
+
+		R++;
 		R++;
 	}
 
@@ -1443,6 +1478,13 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 		gnm_float *pmin, *pmax;
 
 		ADD_HEADER (_("Variables"));
+
+		dao_set_cell (dao, 1, R, _("Cell"));
+		dao_set_cell (dao, 2, R, _("Value"));
+		dao_set_cell (dao, 3, R, _("Lower"));
+		dao_set_cell (dao, 4, R, _("Upper"));
+		dao_set_cell (dao, 5, R, _("Slack"));
+		R++;
 
 		gnm_sheet_range_from_value (&sr, vinput);
 		if (!sr.sheet) sr.sheet = params->sheet;
@@ -1457,24 +1499,31 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 					(sr.sheet,
 					 sr.range.start.col + x,
 					 sr.range.start.row + y);
-				char *cname;
 				gnm_float m = pmin[y * w + x];
 				gnm_float M = pmax[y * w + x];
 				GnmValue const *vs = value_area_fetch_x_y (solver->result->solution, x, y, NULL);
 				gnm_float s = value_get_as_float (vs);
-				cname = gnm_solver_param_cell_name (params, cell);
+				gnm_float slack = MIN (s - m, M - s);
+
+				char *cname = gnm_solver_param_cell_name (params, cell);
 				dao_set_cell (dao, 1, R, cname);
 				g_free (cname);
 				dao_set_cell_value (dao, 2, R, value_dup (vs));
 				add_value_or_special (dao, 3, R, m);
 				add_value_or_special (dao, 4, R, M);
 
+				add_value_or_special (dao, 5, R, slack);
+				if (slack < 0)
+					MARK_BAD (5);
+
 				if (AT_LIMIT (s, m) || AT_LIMIT (s, M))
-					dao_set_cell (dao, 5, R, _("At limit"));
+					dao_set_cell (dao, 6, R, _("At limit"));
 
 
-				if (s < m || s > M)
-					dao_set_cell (dao, 6, R, _("Outside bounds"));
+				if (s < m || s > M) {
+					dao_set_cell (dao, 7, R, _("Outside bounds"));
+					MARK_BAD (7);
+				}
 
 				R++;
 			}
@@ -1488,6 +1537,16 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 	/* ---------------------------------------- */
 
 	ADD_HEADER (_("Constraints"));
+
+	if (params->constraints) {
+		dao_set_cell (dao, 1, R, _("Condition"));
+		dao_set_cell (dao, 2, R, _("Value"));
+		dao_set_cell (dao, 3, R, _("Limit"));
+		dao_set_cell (dao, 4, R, _("Slack"));
+	} else {
+		dao_set_cell (dao, 1, R, _("No constraints"));
+	}
+	R++;
 
 	for (l = params->constraints; l; l = l->next) {
 		GnmSolverConstraint *c = l->data;
@@ -1544,9 +1603,7 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 
 			add_value_or_special (dao, 4, R, slack);
 			if (slack < 0)
-				dao_set_colors (dao, 4, R, 4, R,
-						style_color_new_i8 (255, 0, 0),
-						NULL);
+				MARK_BAD (4);
 
 			R++;
 		}
@@ -1561,7 +1618,7 @@ gnm_solver_create_report (GnmSolver *solver, const char *name)
 
 #undef AT_LIMIT
 #undef ADD_HEADER
-
+#undef MARK_BAD
 
 static void
 gnm_solver_class_init (GObjectClass *object_class)
