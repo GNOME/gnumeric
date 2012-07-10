@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-30 14:00+0000\n"
-"PO-Revision-Date: 2012-07-02 09:36+0100\n"
+"POT-Creation-Date: 2012-07-10 01:28+0000\n"
+"PO-Revision-Date: 2012-07-10 08:37+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1204,16 +1204,21 @@ msgstr "Omejitev"
 #: ../plugins/mps/mps.c:655
 #: ../src/dialogs/dialog-doc-metadata.c:1919
 #: ../src/dialogs/dialog-simulation.c:221
+#: ../src/tools/gnm-solver.c:1435
+#: ../src/tools/gnm-solver.c:1483
+#: ../src/tools/gnm-solver.c:1543
 msgid "Value"
 msgstr "Vrednost"
 
 #: ../plugins/mps/mps.c:594
 #: ../src/dialogs/dialog-formula-guru.c:902
 #: ../src/dialogs/dialog-search.c:440
+#: ../src/tools/gnm-solver.c:1436
 msgid "Type"
 msgstr "Vrsta"
 
 #: ../plugins/mps/mps.c:595
+#: ../src/tools/gnm-solver.c:1544
 msgid "Limit"
 msgstr "Omejitev"
 
@@ -1242,12 +1247,12 @@ msgstr "Prebere programe linearnega programiranja v zapisu MPS (*.mps)"
 msgid "Linear and integer program (*.mps) file format"
 msgstr "Linearno in številsko programiranje (*.mps)"
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:88
+#: ../plugins/nlsolve/gnm-nlsolve.c:95
 #, c-format
 msgid "This solver does not handle discrete variables."
 msgstr "Ta reševalnik je brez podpore za upravljanje diskretnih spremenljivk."
 
-#: ../plugins/nlsolve/gnm-nlsolve.c:178
+#: ../plugins/nlsolve/gnm-nlsolve.c:185
 #, c-format
 msgid "The initial values do not satisfy the constraints."
 msgstr "Začetne vrednosti ne zadostujejo omejitev."
@@ -3404,7 +3409,7 @@ msgstr "Brisanje vrstice %s"
 
 #: ../src/commands.c:1583
 #: ../src/commands.c:1584
-#: ../src/sheet.c:4381
+#: ../src/sheet.c:4471
 msgid "Clear"
 msgstr "Počisti"
 
@@ -3733,7 +3738,7 @@ msgstr "Oblikuj predmet"
 #: ../src/dialogs/dialog-simulation.c:216
 #: ../src/dialogs/dialog-zoom.c:196
 #: ../src/format-template.c:218
-#: ../src/sheet.c:849
+#: ../src/sheet.c:856
 msgid "Name"
 msgstr "Ime"
 
@@ -5890,8 +5895,8 @@ msgstr "Raven delovnega zvezka"
 #: ../src/dialogs/print.ui.h:53
 #: ../src/print-info.c:545
 #: ../src/search.c:799
-#: ../src/tools/gnm-solver.c:713
-#: ../src/tools/gnm-solver.c:714
+#: ../src/tools/gnm-solver.c:732
+#: ../src/tools/gnm-solver.c:733
 #: ../src/workbook.c:918
 #: ../src/workbook.c:946
 msgid "Sheet"
@@ -5902,6 +5907,8 @@ msgstr "Delovni list"
 #: ../src/dialogs/hf-config.ui.h:22
 #: ../src/dialogs/tabulate.ui.h:5
 #: ../src/sheet-control-gui.c:2192
+#: ../src/tools/gnm-solver.c:1434
+#: ../src/tools/gnm-solver.c:1482
 msgid "Cell"
 msgstr "Celica"
 
@@ -6659,7 +6666,7 @@ msgid "Comment"
 msgstr "Opomba"
 
 #: ../src/dialogs/dialog-search.c:137
-#: ../src/tools/gnm-solver.c:1265
+#: ../src/tools/gnm-solver.c:1656
 msgid "Result"
 msgstr "Rezultat"
 
@@ -6866,10 +6873,12 @@ msgid "Cancelled"
 msgstr "Preklicano"
 
 #: ../src/dialogs/dialog-solver.c:583
+#: ../src/tools/gnm-solver.c:1461
 msgid "Feasible"
 msgstr "Izvedljivo"
 
 #: ../src/dialogs/dialog-solver.c:587
+#: ../src/tools/gnm-solver.c:1464
 msgid "Optimal"
 msgstr "Optimalno"
 
@@ -6881,59 +6890,59 @@ msgstr "Neizvedljivo"
 msgid "Unbounded"
 msgstr "Neomejeno"
 
-#: ../src/dialogs/dialog-solver.c:656
+#: ../src/dialogs/dialog-solver.c:666
 msgid "The chosen solver is not functional."
 msgstr "Izbrani reševalnik ni delujoč."
 
-#: ../src/dialogs/dialog-solver.c:668
+#: ../src/dialogs/dialog-solver.c:678
 msgid "Running Solver"
 msgstr "Zaganjanje reševalnika"
 
-#: ../src/dialogs/dialog-solver.c:673
+#: ../src/dialogs/dialog-solver.c:683
 msgid "Stop"
 msgstr "Zaustavi"
 
-#: ../src/dialogs/dialog-solver.c:678
+#: ../src/dialogs/dialog-solver.c:688
 msgid "Stop the running solver"
 msgstr "Zaustavi zagnan reševalnik"
 
-#: ../src/dialogs/dialog-solver.c:685
+#: ../src/dialogs/dialog-solver.c:695
 msgid "OK"
 msgstr "V redu"
 
-#: ../src/dialogs/dialog-solver.c:692
+#: ../src/dialogs/dialog-solver.c:702
 msgid "Solver Status:"
 msgstr "Stanje reševalnika:"
 
-#: ../src/dialogs/dialog-solver.c:693
+#: ../src/dialogs/dialog-solver.c:703
 msgid "Problem Status:"
 msgstr "Stanje problema:"
 
-#: ../src/dialogs/dialog-solver.c:694
+#: ../src/dialogs/dialog-solver.c:704
 msgid "Objective Value:"
 msgstr "Končna vrednost:"
 
-#: ../src/dialogs/dialog-solver.c:695
+#: ../src/dialogs/dialog-solver.c:705
 msgid "Elapsed Time:"
 msgstr "Pretečni čas:"
 
-#: ../src/dialogs/dialog-solver.c:805
+#: ../src/dialogs/dialog-solver.c:818
 msgid "Running solver"
 msgstr "Zaganjanje reševalnika"
 
-#: ../src/dialogs/dialog-solver.c:842
+#: ../src/dialogs/dialog-solver.c:855
 msgid "Optimal solution created by solver.\n"
 msgstr "Najustreznejša rešitev, ki jo je podal reševalnik.\n"
 
-#: ../src/dialogs/dialog-solver.c:846
+#: ../src/dialogs/dialog-solver.c:859
 msgid "Feasible solution created by solver.\n"
 msgstr "Verjetna rešitev, ki jo je podal reševalnik.\n"
 
-#: ../src/dialogs/dialog-solver.c:1110
+#: ../src/dialogs/dialog-solver.c:1123
 msgid "Subject to the Constraints:"
 msgstr "Upoštevanje omejitev"
 
-#: ../src/dialogs/dialog-solver.c:1260
+#: ../src/dialogs/dialog-solver.c:1273
 msgid "Could not create the Solver dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna reševalnika."
 
@@ -10773,14 +10782,14 @@ msgstr "Spremeni velikost delovnega lista"
 
 #. Number of 'Columns' in sheet
 #: ../src/dialogs/sheet-resize.ui.h:3
-#: ../src/sheet.c:1018
+#: ../src/sheet.c:1025
 msgctxt "sheetsize"
 msgid "Columns"
 msgstr "Stolpci"
 
 #. Number of 'Rows' in sheet
 #: ../src/dialogs/sheet-resize.ui.h:5
-#: ../src/sheet.c:1025
+#: ../src/sheet.c:1032
 msgctxt "sheetsize"
 msgid "Rows"
 msgstr "Vrstice"
@@ -10870,6 +10879,7 @@ msgid "Output variables:"
 msgstr "Izhodne spremenljivke:"
 
 #: ../src/dialogs/simulation.ui.h:4
+#: ../src/tools/gnm-solver.c:1480
 msgid "Variables"
 msgstr "Spremenljivke"
 
@@ -11001,7 +11011,7 @@ msgid "_Set Target Cell:       "
 msgstr "_Nastavi ciljno celico:"
 
 #: ../src/dialogs/solver.ui.h:8
-#: ../src/tools/gnm-solver.c:1257
+#: ../src/tools/gnm-solver.c:1648
 msgid "Parameters"
 msgstr "Parametri"
 
@@ -11049,7 +11059,9 @@ msgstr "_Levoročna stran:"
 msgid "Re_place"
 msgstr "_Zamenjaj"
 
+#. ----------------------------------------
 #: ../src/dialogs/solver.ui.h:20
+#: ../src/tools/gnm-solver.c:1539
 msgid "Constraints"
 msgstr "Omejitve"
 
@@ -12777,7 +12789,7 @@ msgid "Cut"
 msgstr "Izreži"
 
 #. Oh, yeah?
-#: ../src/sheet.c:819
+#: ../src/sheet.c:826
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -12789,309 +12801,309 @@ msgstr ""
 "do stolpca z imenom PRAV, lahko povzroči spor z logično konstanto\n"
 "z istim imenom. Pričakujte čudno delovanje."
 
-#: ../src/sheet.c:833
+#: ../src/sheet.c:840
 msgid "Sheet Type"
 msgstr "Vrsta delovnega lista"
 
-#: ../src/sheet.c:834
+#: ../src/sheet.c:841
 msgid "Which type of sheet this is."
 msgstr "Kakšna je vrsta delovnega lista"
 
-#: ../src/sheet.c:842
+#: ../src/sheet.c:849
 msgid "Parent workbook"
 msgstr "nadrejena preglednica"
 
-#: ../src/sheet.c:843
+#: ../src/sheet.c:850
 msgid "The workbook in which this sheet lives"
 msgstr "Delovni zvezek v katerem je delovni list."
 
-#: ../src/sheet.c:850
+#: ../src/sheet.c:857
 msgid "The name of the sheet."
 msgstr "Ime delovnega lista."
 
-#: ../src/sheet.c:855
+#: ../src/sheet.c:862
 msgid "text-is-rtl"
 msgstr "besedilo teče od desne proti levi"
 
-#: ../src/sheet.c:856
+#: ../src/sheet.c:863
 msgid "Text goes from right to left."
 msgstr "Besedilo je usmerjeno od desne proti levi"
 
-#: ../src/sheet.c:861
+#: ../src/sheet.c:868
 msgid "Visibility"
 msgstr "Vidnost"
 
-#: ../src/sheet.c:862
+#: ../src/sheet.c:869
 msgid "How visible the sheet is."
 msgstr "Kako je delovni list viden."
 
-#: ../src/sheet.c:868
+#: ../src/sheet.c:875
 msgid "Display Formulæ"
 msgstr "Pokaži formule"
 
-#: ../src/sheet.c:869
+#: ../src/sheet.c:876
 msgid "Control whether formulæ are shown instead of values."
 msgstr "Ali naj se pokažejo formule namesto vrednosti."
 
-#: ../src/sheet.c:874
+#: ../src/sheet.c:881
 msgid "Display Zeros"
 msgstr "Pokaži ničle"
 
-#: ../src/sheet.c:875
+#: ../src/sheet.c:882
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Ali naj se pokažejo prazna polja za nične vrednosti."
 
-#: ../src/sheet.c:880
+#: ../src/sheet.c:887
 msgid "Display Grid"
 msgstr "Pokaži mrežo"
 
-#: ../src/sheet.c:881
+#: ../src/sheet.c:888
 msgid "Control whether the grid is shown."
 msgstr "Ali naj bo izrisana mreža polj."
 
-#: ../src/sheet.c:886
+#: ../src/sheet.c:893
 msgid "Display Column Headers"
 msgstr "Pokaži glave stolpca"
 
-#: ../src/sheet.c:887
+#: ../src/sheet.c:894
 msgid "Control whether column headers are shown."
 msgstr "Ali naj bodo pokazane glave stolpcev."
 
-#: ../src/sheet.c:892
+#: ../src/sheet.c:899
 msgid "Display Row Headers"
 msgstr "Pokaži glave vrstic"
 
-#: ../src/sheet.c:893
+#: ../src/sheet.c:900
 msgid "Control whether row headers are shown."
 msgstr "Ali naj bodo pokazane glave vrstic."
 
-#: ../src/sheet.c:898
+#: ../src/sheet.c:905
 msgid "Display Outlines"
 msgstr "Pokaži oris"
 
-#: ../src/sheet.c:899
+#: ../src/sheet.c:906
 msgid "Control whether outlines are shown."
 msgstr "Ali naj bo izrisani orisi."
 
-#: ../src/sheet.c:904
+#: ../src/sheet.c:911
 msgid "Display Outlines Below"
 msgstr "Pokaži oris spodaj"
 
-#: ../src/sheet.c:905
+#: ../src/sheet.c:912
 msgid "Control whether outline symbols are shown below."
 msgstr "Ali naj bodo simboli orisa izrisani spodaj."
 
-#: ../src/sheet.c:910
+#: ../src/sheet.c:917
 msgid "Display Outlines Right"
 msgstr "Pokaži oris na desni"
 
-#: ../src/sheet.c:911
+#: ../src/sheet.c:918
 msgid "Control whether outline symbols are shown to the right."
 msgstr "Ali naj bodo simboli orisa izrisani na desni."
 
-#: ../src/sheet.c:917
+#: ../src/sheet.c:924
 #: ../src/workbook-view.c:944
 msgid "Protected"
 msgstr "Zaščiteno"
 
-#: ../src/sheet.c:918
+#: ../src/sheet.c:925
 msgid "Sheet is protected."
 msgstr "Delovni list je zaščiten."
 
-#: ../src/sheet.c:921
+#: ../src/sheet.c:928
 msgid "Protected Allow Edit objects"
 msgstr "Kljub zaščiti dovoli urejanje predmetov"
 
-#: ../src/sheet.c:922
+#: ../src/sheet.c:929
 msgid "Allow objects to be edited while a sheet is protected"
 msgstr "Dovoli urejanje predmetov kljub zaščiti delovnega lista"
 
-#: ../src/sheet.c:925
+#: ../src/sheet.c:932
 msgid "Protected allow edit scenarios"
 msgstr "Kljub zaščiti dovoli urejanje scenarijev"
 
-#: ../src/sheet.c:926
+#: ../src/sheet.c:933
 msgid "Allow scenarios to be edited while a sheet is protected"
 msgstr "Dovoli urejanje scenarijev kljub zaščiti delovnega lista"
 
-#: ../src/sheet.c:929
+#: ../src/sheet.c:936
 msgid "Protected allow cell formatting"
 msgstr "Kljub zaščiti dovoli oblikovanje celic"
 
-#: ../src/sheet.c:930
+#: ../src/sheet.c:937
 msgid "Allow cell format changes while a sheet is protected"
 msgstr "Dovoli spreminjanje oblikovanja celic kljub zaščiti delovnega lista"
 
-#: ../src/sheet.c:933
+#: ../src/sheet.c:940
 msgid "Protected allow column formatting"
 msgstr "Kljub zaščiti dovoli oblikovanje stolpcev"
 
-#: ../src/sheet.c:934
+#: ../src/sheet.c:941
 msgid "Allow column formatting while a sheet is protected"
 msgstr "Dovoli spreminjanje oblikovanja stolpcev kljub zaščiti delovnega lista"
 
-#: ../src/sheet.c:937
+#: ../src/sheet.c:944
 msgid "Protected allow row formatting"
 msgstr "Kljub zaščiti dovoli oblikovanje vrstic"
 
-#: ../src/sheet.c:938
+#: ../src/sheet.c:945
 msgid "Allow row formatting while a sheet is protected"
 msgstr "Dovoli spreminjanje oblikovanja vrstic kljub zaščiti delovnega lista"
 
-#: ../src/sheet.c:941
+#: ../src/sheet.c:948
 msgid "Protected allow insert columns"
 msgstr "Kljub zaščiti dovoli vstavljanje stolpcev"
 
-#: ../src/sheet.c:942
+#: ../src/sheet.c:949
 msgid "Allow columns to be inserted while a sheet is protected"
 msgstr "Dovoli vstavljanje stolpcev kljub zaščiti delovnega lista"
 
-#: ../src/sheet.c:945
+#: ../src/sheet.c:952
 msgid "Protected allow insert rows"
 msgstr "Kljub zaščiti dovoli vstavljanje vrstic"
 
-#: ../src/sheet.c:946
+#: ../src/sheet.c:953
 msgid "Allow rows to be inserted while a sheet is protected"
 msgstr "Dovoli vstavljanje vrstic kljub zaščiti delovnega lista"
 
-#: ../src/sheet.c:949
+#: ../src/sheet.c:956
 msgid "Protected allow insert hyperlinks"
 msgstr "Kljub zaščiti dovoli vstavljanje hiperpovezav"
 
-#: ../src/sheet.c:950
+#: ../src/sheet.c:957
 msgid "Allow hyperlinks to be inserted while a sheet is protected"
 msgstr "Dovoli vstavljanje hiperpovezav kljub zaščiti delovnega lista"
 
-#: ../src/sheet.c:953
+#: ../src/sheet.c:960
 msgid "Protected allow delete columns"
 msgstr "Kljub zaščiti dovoli brisanje stolpcev"
 
-#: ../src/sheet.c:954
+#: ../src/sheet.c:961
 msgid "Allow columns to be deleted while a sheet is protected"
 msgstr "Dovoli brisanje stolpcev kljub zaščiti delovnega lista"
 
-#: ../src/sheet.c:957
+#: ../src/sheet.c:964
 msgid "Protected allow delete rows"
 msgstr "Kljub zaščiti dovoli brisanje vrstic"
 
-#: ../src/sheet.c:958
+#: ../src/sheet.c:965
 msgid "Allow rows to be deleted while a sheet is protected"
 msgstr "Dovoli brisanje vrstic kljub zaščiti delovnega lista"
 
-#: ../src/sheet.c:961
+#: ../src/sheet.c:968
 msgid "Protected allow select locked cells"
 msgstr "Kljub zaščiti dovoli izbiranje zaklenjenih celic"
 
-#: ../src/sheet.c:962
+#: ../src/sheet.c:969
 msgid "Allow the user to select locked cells while a sheet is protected"
 msgstr "Dovoli izbiranje zaklenjenih celic kljub zaščiti delovnega lista"
 
-#: ../src/sheet.c:965
+#: ../src/sheet.c:972
 msgid "Protected allow sort ranges"
 msgstr "Kljub zaščiti dovoli razvrščanje izbranih celic"
 
-#: ../src/sheet.c:966
+#: ../src/sheet.c:973
 msgid "Allow ranges to be sorted while a sheet is protected"
 msgstr "Dovoli razvrščanje izbranih celic kljub zaščiti delovnega lista"
 
-#: ../src/sheet.c:969
+#: ../src/sheet.c:976
 msgid "Protected allow edit auto filters"
 msgstr "Kljub zaščiti dovoli urejanje samodejnih filtrov"
 
-#: ../src/sheet.c:970
+#: ../src/sheet.c:977
 msgid "Allow auto filters to be edited while a sheet is protected"
 msgstr "Dovoli urejanje samodejnih filtrov kljub zaščiti delovnega lista"
 
-#: ../src/sheet.c:973
+#: ../src/sheet.c:980
 msgid "Protected allow edit pivottable"
 msgstr "Kljub zaščiti dovoli urejanje vrtilnih razpredelnic"
 
-#: ../src/sheet.c:974
+#: ../src/sheet.c:981
 msgid "Allow pivottable to be edited while a sheet is protected"
 msgstr "Dovoli urejanje vrtilnih razpredelnic kljub zaščiti delovnega lista"
 
-#: ../src/sheet.c:977
+#: ../src/sheet.c:984
 msgid "Protected allow select unlocked cells"
 msgstr "Kljub zaščiti dovoli izbiranje poljubnih celic"
 
-#: ../src/sheet.c:978
+#: ../src/sheet.c:985
 msgid "Allow the user to select unlocked cells while a sheet is protected"
 msgstr "Dovoli izbiranje nezaklenjenih celic kljub zaščiti delovnega lista"
 
-#: ../src/sheet.c:982
+#: ../src/sheet.c:989
 msgid "Display convention for expressions (default Gnumeric A1)"
 msgstr "Pravila izpisa izrazov (privzeta vrednost je A1)"
 
-#: ../src/sheet.c:983
+#: ../src/sheet.c:990
 msgid "How to format displayed expressions, (A1 vs R1C1, function names, ...)"
 msgstr "Pravila označevanja izpisa izrazov (A1, R1C1, imena funkcij, ...)"
 
 #. convenience wrapper to CONVENTIONS
-#: ../src/sheet.c:987
+#: ../src/sheet.c:994
 msgid "Display convention for expressions as XLS_R1C1 vs default"
 msgstr "Pravila označevanja izrazov kot je XLS_R1C1 ali privzeto."
 
-#: ../src/sheet.c:988
+#: ../src/sheet.c:995
 msgid "How to format displayed expressions, (a convenience api)"
 msgstr "Pravila oblikovanja izpisa izrazov (poenostavljen api)"
 
-#: ../src/sheet.c:994
+#: ../src/sheet.c:1001
 msgid "Tab Foreground"
 msgstr "Pisava zavihka"
 
-#: ../src/sheet.c:995
+#: ../src/sheet.c:1002
 msgid "The foreground color of the tab."
 msgstr "Barva pisave zavihka"
 
-#: ../src/sheet.c:1000
+#: ../src/sheet.c:1007
 msgid "Tab Background"
 msgstr "Ozadje zavihka"
 
-#: ../src/sheet.c:1001
+#: ../src/sheet.c:1008
 msgid "The background color of the tab."
 msgstr "Barva ozadja zavihka"
 
-#: ../src/sheet.c:1008
+#: ../src/sheet.c:1015
 msgid "Zoom Factor"
 msgstr "Določilo približevanja"
 
-#: ../src/sheet.c:1009
+#: ../src/sheet.c:1016
 msgid "The level of zoom used for this sheet."
 msgstr "Raven približanja uporabljen za ta delovni list."
 
-#: ../src/sheet.c:1019
+#: ../src/sheet.c:1026
 msgid "Columns number in the sheet"
 msgstr "Število stolpcev v delovnem listu"
 
-#: ../src/sheet.c:1026
+#: ../src/sheet.c:1033
 msgid "Rows number in the sheet"
 msgstr "Število vrstic v delovnem listu"
 
-#: ../src/sheet.c:3380
+#: ../src/sheet.c:3387
 msgid "Target region contains merged cells"
 msgstr "Ciljne celice vsebujejo tudi združene celice"
 
-#: ../src/sheet.c:3441
+#: ../src/sheet.c:3448
 msgid "cannot operate on merged cells"
 msgstr "ni mogoče izvajati opravil na združenih celicah"
 
-#: ../src/sheet.c:3451
+#: ../src/sheet.c:3458
 msgid "cannot operate on array formulæ"
 msgstr "ni mogoče izvajati opravil na formulah polja"
 
-#: ../src/sheet.c:4760
+#: ../src/sheet.c:4850
 msgid "Insert Columns"
 msgstr "Vstavi stolpce"
 
-#: ../src/sheet.c:4851
+#: ../src/sheet.c:4941
 msgid "Delete Columns"
 msgstr "Izbriši stolpce"
 
-#: ../src/sheet.c:4932
+#: ../src/sheet.c:5022
 msgid "Insert Rows"
 msgstr "Vstavi vrstice"
 
-#: ../src/sheet.c:5023
+#: ../src/sheet.c:5113
 msgid "Delete Rows"
 msgstr "Izbriši vrstice"
 
@@ -14275,23 +14287,23 @@ msgstr ""
 msgid "Wilcoxon-Mann-Whitney Test (%s)"
 msgstr "Wilcoxon-Mann-Whitney Test (%s)"
 
-#: ../src/tools/dao.c:171
+#: ../src/tools/dao.c:172
 msgid "New Sheet"
 msgstr "Nov delovni list"
 
-#: ../src/tools/dao.c:174
+#: ../src/tools/dao.c:175
 msgid "New Workbook"
 msgstr "Nova preglednica"
 
-#: ../src/tools/dao.c:983
+#: ../src/tools/dao.c:989
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: ../src/tools/dao.c:989
+#: ../src/tools/dao.c:995
 msgid "Worksheet:"
 msgstr "Delovni list:"
 
-#: ../src/tools/dao.c:996
+#: ../src/tools/dao.c:1002
 msgid "Report Created: "
 msgstr "Poročilo ustvarjeno:"
 
@@ -14317,96 +14329,141 @@ msgstr "/Napredni filter:/Izvorni obseg:/Obseg kriterijev:"
 msgid "Advanced Filter (%s)"
 msgstr "Napreden filter (%s)"
 
-#: ../src/tools/gnm-solver.c:569
+#: ../src/tools/gnm-solver.c:570
 #, c-format
 msgid "Invalid solver target"
 msgstr "Neveljaven cilj reševalnika"
 
-#: ../src/tools/gnm-solver.c:579
+#: ../src/tools/gnm-solver.c:580
 #, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr "Ciljna celica %s mora vsebovati formulo, ki se vrednosti v število."
 
-#: ../src/tools/gnm-solver.c:588
+#: ../src/tools/gnm-solver.c:589
 #, c-format
 msgid "Invalid solver input range"
 msgstr "Neveljaven obseg reševalnika"
 
-#: ../src/tools/gnm-solver.c:598
+#: ../src/tools/gnm-solver.c:599
 #, c-format
 msgid "Input cell %s contains a formula"
 msgstr "Vnosna celica %s vsebuje formulo"
 
-#: ../src/tools/gnm-solver.c:612
+#: ../src/tools/gnm-solver.c:613
 #, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "Omejitev reševalnika #%d ni veljavna"
 
-#: ../src/tools/gnm-solver.c:721
-#: ../src/tools/gnm-solver.c:722
+#: ../src/tools/gnm-solver.c:740
+#: ../src/tools/gnm-solver.c:741
 msgid "Problem Type"
 msgstr "Vrsta problema"
 
-#: ../src/tools/gnm-solver.c:946
+#: ../src/tools/gnm-solver.c:965
 msgid "Timeout"
 msgstr "Zakasnitev"
 
-#: ../src/tools/gnm-solver.c:1196
+#: ../src/tools/gnm-solver.c:1215
 #, c-format
 msgid "Failed to create file for linear program"
 msgstr "Ustvarjanje datoteke za linearno programiranje je spodletelo."
 
-#: ../src/tools/gnm-solver.c:1205
+#: ../src/tools/gnm-solver.c:1224
 #, c-format
 msgid "Failed to create linear program file"
 msgstr "Ustvarjanje datoteke za linearno programiranje je spodletelo."
 
-#: ../src/tools/gnm-solver.c:1225
+#: ../src/tools/gnm-solver.c:1244
 #, c-format
 msgid "Failed to save linear program"
 msgstr "Shranjevanje linearega programa je spodletelo."
 
-#: ../src/tools/gnm-solver.c:1242
+#: ../src/tools/gnm-solver.c:1433
+msgid "Target"
+msgstr "Cilj"
+
+#: ../src/tools/gnm-solver.c:1437
+msgid "Status"
+msgstr "Stanje"
+
+#: ../src/tools/gnm-solver.c:1450
+msgid "Minimize"
+msgstr "Skrči"
+
+#: ../src/tools/gnm-solver.c:1453
+msgid "Maximize"
+msgstr "Razpni"
+
+#: ../src/tools/gnm-solver.c:1484
+msgid "Lower"
+msgstr "Spodnja"
+
+#: ../src/tools/gnm-solver.c:1485
+msgid "Upper"
+msgstr "Zgornja"
+
+#: ../src/tools/gnm-solver.c:1486
+#: ../src/tools/gnm-solver.c:1545
+msgid "Slack"
+msgstr "Ohlapno"
+
+#: ../src/tools/gnm-solver.c:1520
+msgid "At limit"
+msgstr "Na meji"
+
+#: ../src/tools/gnm-solver.c:1524
+msgid "Outside bounds"
+msgstr "Izven meja"
+
+#: ../src/tools/gnm-solver.c:1542
+msgid "Condition"
+msgstr "Pogoj"
+
+#: ../src/tools/gnm-solver.c:1547
+msgid "No constraints"
+msgstr "Brez omejitev"
+
+#: ../src/tools/gnm-solver.c:1633
 msgid "status"
 msgstr "stanje"
 
-#: ../src/tools/gnm-solver.c:1243
+#: ../src/tools/gnm-solver.c:1634
 msgid "The solver's current status"
 msgstr "Trenutno stanje reševalnika"
 
-#: ../src/tools/gnm-solver.c:1250
+#: ../src/tools/gnm-solver.c:1641
 msgid "reason"
 msgstr "vzrok"
 
-#: ../src/tools/gnm-solver.c:1251
+#: ../src/tools/gnm-solver.c:1642
 msgid "The reason behind the solver's status"
 msgstr "Vzrok za stanje reševalnika"
 
-#: ../src/tools/gnm-solver.c:1258
+#: ../src/tools/gnm-solver.c:1649
 msgid "Solver parameters"
 msgstr "Parametri reševalnika"
 
-#: ../src/tools/gnm-solver.c:1266
+#: ../src/tools/gnm-solver.c:1657
 msgid "Current best feasible result"
 msgstr "Trenutni najboljši izvedljivi rezultat"
 
-#: ../src/tools/gnm-solver.c:1272
+#: ../src/tools/gnm-solver.c:1663
 msgid "Start Time"
 msgstr "Začetni čas"
 
-#: ../src/tools/gnm-solver.c:1273
+#: ../src/tools/gnm-solver.c:1664
 msgid "Time the solver was started"
 msgstr "Čas, ko je bil reševalnik zagnan"
 
-#: ../src/tools/gnm-solver.c:1279
+#: ../src/tools/gnm-solver.c:1670
 msgid "End Time"
 msgstr "Čas zaključka"
 
-#: ../src/tools/gnm-solver.c:1280
+#: ../src/tools/gnm-solver.c:1671
 msgid "Time the solver finished"
 msgstr "Čas, ko je reševalnik končal opravilo"
 
-#: ../src/tools/gnm-solver.c:1604
+#: ../src/tools/gnm-solver.c:1995
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> solver.  For more information see %s.\n"
@@ -14417,12 +14474,12 @@ msgstr ""
 "\n"
 "Ali želite program poiskati ročno?"
 
-#: ../src/tools/gnm-solver.c:1608
+#: ../src/tools/gnm-solver.c:1999
 #, c-format
 msgid "Unable to locate %s"
 msgstr "Ni mogoče najti %s"
 
-#: ../src/tools/gnm-solver.c:1624
+#: ../src/tools/gnm-solver.c:2015
 #, c-format
 msgid "Locate the %s program"
 msgstr "Najdi program %s"
