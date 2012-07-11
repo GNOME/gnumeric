@@ -1010,7 +1010,7 @@ cell_copy (GnmCell *cell)
 	return cell;
 }
 
-static GnmCell *
+static void
 cell_free (GnmCell *cell)
 {
 }
