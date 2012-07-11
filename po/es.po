@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-07-09 03:43+0000\n"
-"PO-Revision-Date: 2012-07-09 14:09+0200\n"
+"POT-Creation-Date: 2012-07-10 20:08+0000\n"
+"PO-Revision-Date: 2012-07-11 14:15+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -1253,16 +1253,17 @@ msgstr "Restricción"
 
 #: ../plugins/mps/mps.c:593 ../plugins/mps/mps.c:655
 #: ../src/dialogs/dialog-doc-metadata.c:1919
-#: ../src/dialogs/dialog-simulation.c:221
+#: ../src/dialogs/dialog-simulation.c:221 ../src/tools/gnm-solver.c:1443
+#: ../src/tools/gnm-solver.c:1491 ../src/tools/gnm-solver.c:1551
 msgid "Value"
 msgstr "Valor"
 
 #: ../plugins/mps/mps.c:594 ../src/dialogs/dialog-formula-guru.c:902
-#: ../src/dialogs/dialog-search.c:440
+#: ../src/dialogs/dialog-search.c:440 ../src/tools/gnm-solver.c:1444
 msgid "Type"
 msgstr "Tipo"
 
-#: ../plugins/mps/mps.c:595
+#: ../plugins/mps/mps.c:595 ../src/tools/gnm-solver.c:1552
 msgid "Limit"
 msgstr "Límite"
 
@@ -6364,14 +6365,15 @@ msgstr "Nivel del libro de trabajo"
 #: ../src/dialogs/dialog-goto-cell.c:386 ../src/dialogs/dialog-search.c:438
 #: ../src/dialogs/dialog-stf-export.c:592 ../src/dialogs/hf-config.ui.h:16
 #: ../src/dialogs/print.ui.h:53 ../src/print-info.c:545 ../src/search.c:799
-#: ../src/tools/gnm-solver.c:732 ../src/tools/gnm-solver.c:733
+#: ../src/tools/gnm-solver.c:740 ../src/tools/gnm-solver.c:741
 #: ../src/workbook.c:918 ../src/workbook.c:946
 msgid "Sheet"
 msgstr "Hoja"
 
 #: ../src/dialogs/dialog-goto-cell.c:392 ../src/dialogs/dialog-search.c:439
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:5
-#: ../src/sheet-control-gui.c:2192
+#: ../src/sheet-control-gui.c:2192 ../src/tools/gnm-solver.c:1442
+#: ../src/tools/gnm-solver.c:1490
 msgid "Cell"
 msgstr "Celda"
 
@@ -7132,7 +7134,7 @@ msgstr "Debe seleccionar algunos tipos de celda para buscar."
 msgid "Comment"
 msgstr "Comentario"
 
-#: ../src/dialogs/dialog-search.c:137 ../src/tools/gnm-solver.c:1513
+#: ../src/dialogs/dialog-search.c:137 ../src/tools/gnm-solver.c:1664
 msgid "Result"
 msgstr "Resultado"
 
@@ -7340,11 +7342,11 @@ msgstr "Error"
 msgid "Cancelled"
 msgstr "Cancelado"
 
-#: ../src/dialogs/dialog-solver.c:583
+#: ../src/dialogs/dialog-solver.c:583 ../src/tools/gnm-solver.c:1469
 msgid "Feasible"
 msgstr "Factible"
 
-#: ../src/dialogs/dialog-solver.c:587
+#: ../src/dialogs/dialog-solver.c:587 ../src/tools/gnm-solver.c:1472
 msgid "Optimal"
 msgstr "Óptimo"
 
@@ -7392,23 +7394,23 @@ msgstr "Valor objetivo:"
 msgid "Elapsed Time:"
 msgstr "Tiempo transcurrido:"
 
-#: ../src/dialogs/dialog-solver.c:818
+#: ../src/dialogs/dialog-solver.c:843
 msgid "Running solver"
 msgstr "Ejecutando resolutor"
 
-#: ../src/dialogs/dialog-solver.c:855
+#: ../src/dialogs/dialog-solver.c:880
 msgid "Optimal solution created by solver.\n"
 msgstr "Solución óptima creada por el resolutor.\n"
 
-#: ../src/dialogs/dialog-solver.c:859
+#: ../src/dialogs/dialog-solver.c:884
 msgid "Feasible solution created by solver.\n"
 msgstr "Solución factible creada por el resolutor.\n"
 
-#: ../src/dialogs/dialog-solver.c:1123
+#: ../src/dialogs/dialog-solver.c:1148
 msgid "Subject to the Constraints:"
 msgstr "Sujeto a las restricciones:"
 
-#: ../src/dialogs/dialog-solver.c:1273
+#: ../src/dialogs/dialog-solver.c:1298
 msgid "Could not create the Solver dialog."
 msgstr "No se pudo crear el diálogo del resolutor."
 
@@ -10891,7 +10893,7 @@ msgstr "Expresión reg_ular"
 
 #: ../src/dialogs/search-replace.ui.h:41 ../src/dialogs/search.ui.h:32
 msgid "The search text is a regular expression"
-msgstr "El texto a buscar es una expresión regular"
+msgstr "El texto que buscar es una expresión regular"
 
 #: ../src/dialogs/search-replace.ui.h:42
 msgid "<span weight=\"bold\">Search Text Type</span>"
@@ -10903,7 +10905,7 @@ msgstr "<span weight=\"bold\"> Miscelánea</span>"
 
 #: ../src/dialogs/search-replace.ui.h:44 ../src/dialogs/search.ui.h:35
 msgid "_Row major"
-msgstr "_Fila mayor"
+msgstr "_Fila principal"
 
 #: ../src/dialogs/search-replace.ui.h:45 ../src/dialogs/search.ui.h:36
 msgid "Search line by line"
@@ -10911,7 +10913,7 @@ msgstr "Buscar línea por línea"
 
 #: ../src/dialogs/search-replace.ui.h:46
 msgid "_Column major"
-msgstr "_Columna mayor"
+msgstr "_Columna principal"
 
 #: ../src/dialogs/search-replace.ui.h:47 ../src/dialogs/search.ui.h:38
 msgid "Search column by column"
@@ -10926,18 +10928,21 @@ msgid ""
 "When set, string values will remain as such after replacement, even if they "
 "look like numbers or expressions"
 msgstr ""
-"Cuando se establece, los valores de cadena permanecerán así después del "
+"Cuando está establecido, los valores de cadena permanecerán como después del "
 "reemplazo, incluso si parecen números o expresiones"
 
 #: ../src/dialogs/search-replace.ui.h:50
 msgid "Save the current settings as default settings"
-msgstr "Guardar los ajustes actuales como predeterminados"
+msgstr "Guardar los ajustes actuales como ajustes predeterminados"
 
 #: ../src/dialogs/search-replace.ui.h:51
 msgid ""
 "When set, the current settings will be saved as the default settings for "
 "future invocations of this and the Search dialog."
 msgstr ""
+"Al establecer, las configuraciones actuales se guardarán como las "
+"configuraciones predeterminadas para invocaciones futuras de esto y del "
+"diálogo de búsqueda."
 
 #: ../src/dialogs/search-replace.ui.h:52 ../src/dialogs/search.ui.h:42
 #: ../templates/autoformat/autoformat.General.advanced.xml.in.h:1
@@ -10950,17 +10955,15 @@ msgstr "_Fallar"
 
 #: ../src/dialogs/search-replace.ui.h:54
 msgid "Fail without any changes actually being done to any cell"
-msgstr "Fallar sin registrar cambios en ninguna celda"
+msgstr "Fallar sin los cambios hechos en ninguna celda"
 
 #: ../src/dialogs/search-replace.ui.h:55
 msgid "_Don't change"
 msgstr "_No cambiar"
 
 #: ../src/dialogs/search-replace.ui.h:56
-#, fuzzy
-#| msgid "Skip cells that that would result in errors"
 msgid "Skip cells that would result in errors"
-msgstr "Saltar las celdas que produzcan errores"
+msgstr "Omitir las celdas que producirían en errores"
 
 #: ../src/dialogs/search-replace.ui.h:57
 msgid "Query for replacement"
@@ -10968,7 +10971,7 @@ msgstr "Consultar antes de reemplazar"
 
 #: ../src/dialogs/search-replace.ui.h:58
 msgid "Make _error expression"
-msgstr "Crear una _expresión de error"
+msgstr "Crear expresión de _error"
 
 #: ../src/dialogs/search-replace.ui.h:59
 msgid "Create =ERROR(\"...\")"
@@ -10976,11 +10979,11 @@ msgstr "Crear =ERROR(\"…\")"
 
 #: ../src/dialogs/search-replace.ui.h:60
 msgid "Make _string value"
-msgstr "Conver_tir el valor en una cadena"
+msgstr "Crear valor de _cadena"
 
 #: ../src/dialogs/search-replace.ui.h:61
 msgid "Turn unparsable entries into string values"
-msgstr "Convertir a texto los registros que no se puedan procesar"
+msgstr "Convertir a valores de cadena los registros que no se puedan procesar"
 
 #: ../src/dialogs/search-replace.ui.h:62
 msgid "Error Behaviour"
@@ -10988,7 +10991,7 @@ msgstr "Comportamiento de error"
 
 #: ../src/dialogs/search.ui.h:2
 msgid "Dismiss search center"
-msgstr "Cerrar el centro de búsqueda"
+msgstr "Descartar el centro de búsqueda"
 
 #: ../src/dialogs/search.ui.h:3
 msgid "Show previous match"
@@ -11004,23 +11007,23 @@ msgstr "Iniciar búsqueda"
 
 #: ../src/dialogs/search.ui.h:6
 msgid "_Search for:"
-msgstr "_Buscar:"
+msgstr "_Buscar por:"
 
 #: ../src/dialogs/search.ui.h:9
 msgid "Match _whole words only"
-msgstr "_Sólo palabras completas"
+msgstr "Sólo palabras _completas"
 
 #: ../src/dialogs/search.ui.h:12
 msgid "Search in all cells in the workbook"
-msgstr "Buscar en todas las celdas de libro de cuentas"
+msgstr "Buscar en todas las celdas en el libro de trabajo"
 
 #: ../src/dialogs/search.ui.h:14
 msgid "Search in current sheet only"
-msgstr "Buscar sólo en la hoja activa"
+msgstr "Buscar sólo en la hoja actual"
 
 #: ../src/dialogs/search.ui.h:15
 msgid "_Range"
-msgstr "Ran_go"
+msgstr "_Rango"
 
 #: ../src/dialogs/search.ui.h:16
 msgid "Search in specified range only"
@@ -11028,19 +11031,19 @@ msgstr "Buscar sólo en el rango especificado"
 
 #: ../src/dialogs/search.ui.h:19
 msgid "Find text within non-string values"
-msgstr "Buscar texto dentro de valores que no son cadenas de texto"
+msgstr "Buscar texto dentro de valores que no son cadenas"
 
 #: ../src/dialogs/search.ui.h:21
 msgid "Find text within expressions"
-msgstr "Buscar texto en las expresiones"
+msgstr "Buscar texto dentro de las expresiones"
 
 #: ../src/dialogs/search.ui.h:23
 msgid "Find text within string values"
-msgstr "Buscar texto dentro de cadenas de texto"
+msgstr "Buscar texto dentro de valores de la cadena"
 
 #: ../src/dialogs/search.ui.h:25
 msgid "Find text within cell comments"
-msgstr "Buscar texto en los comentarios de las celdas"
+msgstr "Buscar texto dentro de los comentarios de las celdas"
 
 #: ../src/dialogs/search.ui.h:26
 msgid "_Results"
@@ -11052,7 +11055,7 @@ msgstr "Buscar texto dentro de los valores calculados de las expresiones"
 
 #: ../src/dialogs/search.ui.h:28
 msgid "Search cells containing"
-msgstr "Cambiar las celdas que contienen"
+msgstr "Buscar las celdas que contienen"
 
 #: ../src/dialogs/search.ui.h:33
 msgid "_Number"
@@ -11064,23 +11067,24 @@ msgstr "El texto de búsqueda es"
 
 #: ../src/dialogs/search.ui.h:37
 msgid "C_olumn major"
-msgstr "Co_lumna"
+msgstr "C_olumna principal"
 
 #: ../src/dialogs/search.ui.h:39
 msgid "Save settings as _default"
-msgstr "Guardar como ajustes p_redeterminados"
+msgstr "Guardar configuraciones como _predeterminadas"
 
 #: ../src/dialogs/search.ui.h:40
 msgid "These settings are shared with the Search & Replace dialog."
 msgstr ""
+"Estas configuraciones se comparten con el diálogo de buscar y reemplazar."
 
 #: ../src/dialogs/search.ui.h:41
 msgid "Miscellaneous"
-msgstr "Misceláneos"
+msgstr "Miscelánea"
 
 #: ../src/dialogs/search.ui.h:43
 msgid "Matches"
-msgstr "Coincide"
+msgstr "Coincidencias"
 
 #: ../src/dialogs/sheetobject-size.ui.h:1
 msgid "Size & Position"
@@ -11088,7 +11092,7 @@ msgstr "Tamaño y posición"
 
 #: ../src/dialogs/sheetobject-size.ui.h:2
 msgid "_Width in pixels:"
-msgstr "Anchura en píxeles:"
+msgstr "_Anchura en píxeles:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:4
 msgid "Width in points:"
@@ -11096,7 +11100,7 @@ msgstr "Anchura en puntos:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:5
 msgid "_Height in pixels:"
-msgstr "Altura en píxeles:"
+msgstr "_Altura en píxeles:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:6
 msgid "Height in points:"
@@ -11111,10 +11115,13 @@ msgid ""
 "This name is used by some plugins that provide programmability to address "
 "this object. Most users will not need to set this name. "
 msgstr ""
+"Este nombre lo utilizan algunos complementos que proporcionan capacidad de "
+"programación para tratar a este objeto. La mayoría de los usuarios no "
+"necesitarán establecer este nombre."
 
 #: ../src/dialogs/sheetobject-size.ui.h:9
 msgid "Object position relative to its current position:"
-msgstr ""
+msgstr "Posición de objeto con respecto a su posición actual:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:10
 msgid "_x-Offset in pixels:"
@@ -11126,27 +11133,26 @@ msgstr "Desplazamiento _Y en píxeles:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:12
 msgid "x-Offset in points:"
-msgstr "Desplazamiento X en píxeles:"
+msgstr "Desplazamiento X en puntos:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:13
 msgid "y-Offset in points:"
-msgstr "Desplazamiento Y en píxeles:"
+msgstr "Desplazamiento Y en puntos:"
 
 #: ../src/dialogs/sheetobject-size.ui.h:15
 msgid ""
 "Sheet objects with this property do not print with the remainder of the "
 "sheet."
 msgstr ""
+"Objetos de hoja con esta propiedad no se imprimen con el resto de la hoja."
 
 #: ../src/dialogs/sheet-order.ui.h:1
 msgid "Manage Sheets"
 msgstr "Gestionar hojas"
 
 #: ../src/dialogs/sheet-order.ui.h:2
-#, fuzzy
-#| msgid "Apply _Number Formats"
 msgid "Apply _Name Changes"
-msgstr "Aplicar _formato numérico"
+msgstr "Aplicar cambios de _nombre"
 
 #: ../src/dialogs/sheet-order.ui.h:3 ../src/wbc-gtk-actions.c:1988
 #: ../src/wbc-gtk-actions.c:2104
@@ -11159,11 +11165,11 @@ msgstr "Du_plicar"
 
 #: ../src/dialogs/sheet-order.ui.h:5
 msgid "A_ppend"
-msgstr "A_ñadir"
+msgstr "Aña_dir"
 
 #: ../src/dialogs/sheet-order.ui.h:6
 msgid "_Show advanced sheet properties"
-msgstr "_Mostrar las propiedades avanzadas de la hoja"
+msgstr "_Mostrar propiedades avanzadas de la hoja"
 
 #: ../src/dialogs/sheet-resize.ui.h:1
 msgid "Resize Sheet"
@@ -11183,17 +11189,17 @@ msgstr "Filas"
 
 #: ../src/dialogs/sheet-resize.ui.h:6
 msgid "Apply change to all sheets"
-msgstr "Aplicar los cambios a todas las hojas"
+msgstr "Aplicar cambios a todas las hojas"
 
 #: ../src/dialogs/sheet-resize.ui.h:7
 msgid "Check this to apply the new size to all sheets in the workbook"
 msgstr ""
 "Marcar esto para aplicar el tamaño nuevo a todas las hojas en el libro de "
-"cuentas"
+"trabajo"
 
 #: ../src/dialogs/shuffle.ui.h:1
 msgid "Data Shuffling"
-msgstr "Muestreo de datos"
+msgstr "Mezclar datos"
 
 #: ../src/dialogs/shuffle.ui.h:2
 msgid "Input Range: "
@@ -11201,13 +11207,13 @@ msgstr "Rango de entrada: "
 
 #: ../src/dialogs/shuffle.ui.h:3
 msgid "Shuffle Method: "
-msgstr "Método de muestreo: "
+msgstr "Método de mezcla: "
 
 #. Shuffle metod: Columns
 #: ../src/dialogs/shuffle.ui.h:5
 msgctxt "shuffle"
 msgid "_Columns"
-msgstr "Co_lumnas"
+msgstr "_Columnas"
 
 #. Shuffle metod: Columns
 #: ../src/dialogs/shuffle.ui.h:7
@@ -11221,14 +11227,13 @@ msgstr "Á_rea"
 
 #: ../src/dialogs/sign-test-two.ui.h:1
 msgid "Comparing 2 Medians (Paired Sample)"
-msgstr ""
+msgstr "Comparando 2 medianas (muestra pareada)"
 
 #: ../src/dialogs/sign-test-two.ui.h:6 ../src/dialogs/sign-test.ui.h:11
 #: ../src/tools/analysis-sign-test.c:364 ../src/tools/analysis-sign-test.c:367
 #: ../src/tools/analysis-sign-test.c:392 ../src/tools/analysis-sign-test.c:395
-#, fuzzy
 msgid "Sign Test"
-msgstr "Alineación izquierda"
+msgstr "Prueba de signo"
 
 #: ../src/dialogs/sign-test-two.ui.h:7 ../src/dialogs/sign-test.ui.h:12
 #: ../src/tools/analysis-signed-rank-test.c:550
@@ -11236,27 +11241,24 @@ msgstr "Alineación izquierda"
 #: ../src/tools/analysis-signed-rank-test.c:578
 #: ../src/tools/analysis-signed-rank-test.c:581
 msgid "Wilcoxon Signed Rank Test"
-msgstr ""
+msgstr "Prueba de signos de Wilcoxon"
 
 #: ../src/dialogs/sign-test-two.ui.h:8
-#, fuzzy
 msgid "Hypothesized _difference of medians:"
-msgstr "_Diferencia de la media de la hipótesis:"
+msgstr "_Diferencia de la hipótesis de medianas:"
 
 #: ../src/dialogs/sign-test.ui.h:1
-#, fuzzy
 msgid "Testing 1 Median"
-msgstr "Prueba de la diferencia de dos medias"
+msgstr "Probando 1 mediana"
 
 #: ../src/dialogs/sign-test.ui.h:13
-#, fuzzy
 msgid "_Predicted Median:"
-msgstr "E_jecutar en:"
+msgstr "Mediana _prevista"
 
 #. Fill in the header titles.
 #: ../src/dialogs/simulation.ui.h:1 ../src/tools/simulation.c:342
 msgid "Risk Simulation"
-msgstr "Simulación de riesgos"
+msgstr "Simulación de riesgo"
 
 #: ../src/dialogs/simulation.ui.h:2
 msgid "Input variables:"
@@ -11266,7 +11268,7 @@ msgstr "Variables de entrada:"
 msgid "Output variables:"
 msgstr "Variables de salida:"
 
-#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1426
+#: ../src/dialogs/simulation.ui.h:4 ../src/tools/gnm-solver.c:1488
 msgid "Variables"
 msgstr "Variables"
 
@@ -11275,8 +11277,6 @@ msgid "<span weight=\"bold\">Rounds</span>"
 msgstr "<span weight=\"bold\"> Rondas</span>"
 
 #: ../src/dialogs/simulation.ui.h:6
-#, fuzzy
-#| msgid "   <span weight=\"bold\">Limits</span>"
 msgid "<span weight=\"bold\">Limits</span>"
 msgstr "<span weight=\"bold\">Límites</span>"
 
@@ -11290,7 +11290,7 @@ msgstr "Última ronda #:"
 
 #: ../src/dialogs/simulation.ui.h:9
 msgid "Iterations:"
-msgstr "Repeticiones:"
+msgstr "Iteraciones:"
 
 #: ../src/dialogs/simulation.ui.h:10
 msgid "Max time:"
@@ -11302,15 +11302,15 @@ msgstr "<b>Resumen de la simulación:</b>"
 
 #: ../src/dialogs/simulation.ui.h:13
 msgid "Prev. Sim."
-msgstr "Anterior sim."
+msgstr "Simulación anterior"
 
 #: ../src/dialogs/simulation.ui.h:14
 msgid "Next Sim."
-msgstr "Siguiente sim."
+msgstr "Siguiente simulación"
 
 #: ../src/dialogs/simulation.ui.h:15
 msgid "Find Min."
-msgstr "Buscar mín."
+msgstr "Buscar mín."
 
 #: ../src/dialogs/simulation.ui.h:16
 msgid "Find Max."
@@ -11325,7 +11325,6 @@ msgid "Summary"
 msgstr "Resumen"
 
 #: ../src/dialogs/so-button.ui.h:1
-#, fuzzy
 msgid "Button Properties"
 msgstr "Propiedades del botón"
 
@@ -11341,7 +11340,7 @@ msgstr "Etiqueta:"
 
 #: ../src/dialogs/so-checkbox.ui.h:1
 msgid "Checkbox Properties"
-msgstr "Propiedades del casilla de verificación"
+msgstr "Propiedades de la casilla de verificación"
 
 #: ../src/dialogs/so-frame.ui.h:1
 msgid "Frame Properties"
@@ -11349,15 +11348,15 @@ msgstr "Propiedades del marco"
 
 #: ../src/dialogs/so-list.ui.h:1
 msgid "List Properties"
-msgstr "Listar propiedades"
+msgstr "Propiedades de lista"
 
 #: ../src/dialogs/so-list.ui.h:2
 msgid "_Link :"
-msgstr "_Enlace:"
+msgstr "_Enlace :"
 
 #: ../src/dialogs/so-list.ui.h:3
 msgid "_Content :"
-msgstr "Índ_ice:"
+msgstr "_Contenido :"
 
 #: ../src/dialogs/so-list.ui.h:4
 msgid "As value"
@@ -11369,11 +11368,11 @@ msgstr "Como índice"
 
 #: ../src/dialogs/solver.ui.h:1
 msgid "Solver"
-msgstr "Solver"
+msgstr "Resolutor"
 
 #: ../src/dialogs/solver.ui.h:2
 msgid "Solve"
-msgstr "Calcular"
+msgstr "Resolver"
 
 #: ../src/dialogs/solver.ui.h:3
 msgid "_Equal To:"
@@ -11381,7 +11380,7 @@ msgstr "_Igual a:"
 
 #: ../src/dialogs/solver.ui.h:4
 msgid "B_y Changing Cells: "
-msgstr "Po_r celdas modificadas: "
+msgstr "P_or celdas modificadas: "
 
 #: ../src/dialogs/solver.ui.h:5
 msgid "_Max"
@@ -11393,9 +11392,9 @@ msgstr "Mí_n"
 
 #: ../src/dialogs/solver.ui.h:7
 msgid "_Set Target Cell:       "
-msgstr "_Definir celda objetivo:   "
+msgstr "_Establecer celda objetivo:       "
 
-#: ../src/dialogs/solver.ui.h:8 ../src/tools/gnm-solver.c:1505
+#: ../src/dialogs/solver.ui.h:8 ../src/tools/gnm-solver.c:1656
 msgid "Parameters"
 msgstr "Parámetros"
 
@@ -11412,14 +11411,12 @@ msgid "_Linear Model (LP/MILP)"
 msgstr "Modelo _lineal (LP/MILP)"
 
 #: ../src/dialogs/solver.ui.h:12
-#, fuzzy
 msgid "_Non-Linear Model"
-msgstr "Modelo _lineal (LP/MILP)"
+msgstr "Modelo _no lineal"
 
 #: ../src/dialogs/solver.ui.h:13
-#, fuzzy
 msgid "_Assume Non-Negative"
-msgstr "Asumir _no-negativo"
+msgstr "_Asumir no-negativo"
 
 #: ../src/dialogs/solver.ui.h:14
 msgid "Assume _Integer (Discrete)"
@@ -11445,7 +11442,8 @@ msgstr "Lado _izquierdo:"
 msgid "Re_place"
 msgstr "Rem_plazar"
 
-#: ../src/dialogs/solver.ui.h:20
+#. ----------------------------------------
+#: ../src/dialogs/solver.ui.h:20 ../src/tools/gnm-solver.c:1547
 msgid "Constraints"
 msgstr "Restricciones"
 
@@ -11471,11 +11469,11 @@ msgstr "Informes"
 
 #: ../src/dialogs/solver.ui.h:27
 msgid "_Do not create scenarios"
-msgstr "No crear _escenarios"
+msgstr "_No crear escenarios"
 
 #: ../src/dialogs/solver.ui.h:28
 msgid "_Create a scenario if the optimal solution is found"
-msgstr "_Crear un escenario si se encuentra una solución óptima"
+msgstr "_Crear un escenario si se encuentra la solución óptima"
 
 #: ../src/dialogs/solver.ui.h:29
 msgid "_Name: "
@@ -11497,12 +11495,12 @@ msgstr "≥"
 msgid "="
 msgstr "="
 
-#: ../src/dialogs/solver.ui.h:34
+#: ../src/dialogs/solver.ui.h:34 ../src/tools/gnm-solver.c:382
 #, fuzzy
 msgid "Int"
 msgstr "Entrada"
 
-#: ../src/dialogs/solver.ui.h:35
+#: ../src/dialogs/solver.ui.h:35 ../src/tools/gnm-solver.c:383
 #, fuzzy
 msgid "Bool"
 msgstr "Negrita"
@@ -14716,15 +14714,15 @@ msgstr "Hoja nueva"
 msgid "New Workbook"
 msgstr "Libro de cuentas nuevo"
 
-#: ../src/tools/dao.c:987
+#: ../src/tools/dao.c:989
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: ../src/tools/dao.c:993
+#: ../src/tools/dao.c:995
 msgid "Worksheet:"
 msgstr "Hoja de trabajo:"
 
-#: ../src/tools/dao.c:1000
+#: ../src/tools/dao.c:1002
 msgid "Report Created: "
 msgstr "Informe creado: "
 
@@ -14750,119 +14748,166 @@ msgstr ""
 msgid "Advanced Filter (%s)"
 msgstr "Filtro avanzado"
 
-#: ../src/tools/gnm-solver.c:570
+#: ../src/tools/gnm-solver.c:592
 #, fuzzy, c-format
 msgid "Invalid solver target"
 msgstr "Número de argumentos inválido"
 
-#: ../src/tools/gnm-solver.c:580
+#: ../src/tools/gnm-solver.c:603
 #, fuzzy, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
 msgstr "La celda destino debería contener una fórmula."
 
-#: ../src/tools/gnm-solver.c:589
+#: ../src/tools/gnm-solver.c:613
 #, fuzzy, c-format
 msgid "Invalid solver input range"
 msgstr "Nombre de escenario inválido"
 
-#: ../src/tools/gnm-solver.c:599
+#: ../src/tools/gnm-solver.c:624
 #, fuzzy, c-format
 msgid "Input cell %s contains a formula"
 msgstr "La celda destino debería contener una fórmula."
 
-#: ../src/tools/gnm-solver.c:613
+#: ../src/tools/gnm-solver.c:639
 #, fuzzy, c-format
 msgid "Solver constraint #%d is invalid"
 msgstr "El rango de la lista no es válido."
 
-#: ../src/tools/gnm-solver.c:740 ../src/tools/gnm-solver.c:741
+#: ../src/tools/gnm-solver.c:748 ../src/tools/gnm-solver.c:749
 msgid "Problem Type"
 msgstr "Tipo de problema"
 
-#: ../src/tools/gnm-solver.c:965
+#: ../src/tools/gnm-solver.c:973
 #, fuzzy
 #| msgid "Time"
 msgid "Timeout"
 msgstr "Hora"
 
-#: ../src/tools/gnm-solver.c:1215
+#: ../src/tools/gnm-solver.c:1223
 #, fuzzy, c-format
 msgid "Failed to create file for linear program"
 msgstr "No se puede crear archivo temporal para el envío."
 
-#: ../src/tools/gnm-solver.c:1224
+#: ../src/tools/gnm-solver.c:1232
 #, fuzzy, c-format
 msgid "Failed to create linear program file"
 msgstr "No se puede crear archivo temporal para el envío."
 
-#: ../src/tools/gnm-solver.c:1244
+#: ../src/tools/gnm-solver.c:1252
 #, c-format
 msgid "Failed to save linear program"
 msgstr ""
 
-#. ----------------------------------------
-#: ../src/tools/gnm-solver.c:1408
+#: ../src/tools/gnm-solver.c:1441
 #, fuzzy
 #| msgid "Target _Range:"
 msgid "Target"
 msgstr "_Rango objetivo:"
 
-#: ../src/tools/gnm-solver.c:1456
+#: ../src/tools/gnm-solver.c:1445
+#, fuzzy
+#| msgid "status"
+msgid "Status"
+msgstr "estado"
+
+#: ../src/tools/gnm-solver.c:1458
+#, fuzzy
+#| msgid "Minimum"
+msgid "Minimize"
+msgstr "Mínimo"
+
+#: ../src/tools/gnm-solver.c:1461
+#, fuzzy
+#| msgid "Maximum"
+msgid "Maximize"
+msgstr "Máximo"
+
+#: ../src/tools/gnm-solver.c:1492
+#, fuzzy
+#| msgid "\"Lower\" 0%"
+msgid "Lower"
+msgstr "«Inferior» 0%"
+
+#: ../src/tools/gnm-solver.c:1493
+#, fuzzy
+#| msgid "\"Upper\" 0%"
+msgid "Upper"
+msgstr "«Superior» 0%"
+
+#: ../src/tools/gnm-solver.c:1494 ../src/tools/gnm-solver.c:1553
+#, fuzzy
+#| msgid "Black"
+msgid "Slack"
+msgstr "Negro"
+
+#: ../src/tools/gnm-solver.c:1528
 #, fuzzy
 #| msgid "Limit"
 msgid "At limit"
 msgstr "Límite"
 
-#: ../src/tools/gnm-solver.c:1460
+#: ../src/tools/gnm-solver.c:1532
 #, fuzzy
 #| msgid "Outside Borders"
 msgid "Outside bounds"
 msgstr "Bordes exteriores"
 
-#: ../src/tools/gnm-solver.c:1490
+#: ../src/tools/gnm-solver.c:1550
+#, fuzzy
+#| msgid "Condition:"
+msgid "Condition"
+msgstr "Condición:"
+
+#: ../src/tools/gnm-solver.c:1555
+#, fuzzy
+#| msgid "Constraints"
+msgid "No constraints"
+msgstr "Restricciones"
+
+#: ../src/tools/gnm-solver.c:1641
 msgid "status"
 msgstr "estado"
 
-#: ../src/tools/gnm-solver.c:1491
+#: ../src/tools/gnm-solver.c:1642
 msgid "The solver's current status"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1498
+#: ../src/tools/gnm-solver.c:1649
 #, fuzzy
 #| msgid "_Areas"
 msgid "reason"
 msgstr "Á_reas"
 
-#: ../src/tools/gnm-solver.c:1499
+#: ../src/tools/gnm-solver.c:1650
 msgid "The reason behind the solver's status"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1506
+#: ../src/tools/gnm-solver.c:1657
 #, fuzzy
 msgid "Solver parameters"
 msgstr "Separadores"
 
-#: ../src/tools/gnm-solver.c:1514
+#: ../src/tools/gnm-solver.c:1665
 msgid "Current best feasible result"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1520
+#: ../src/tools/gnm-solver.c:1671
 msgid "Start Time"
 msgstr "Tiempo de inicio"
 
-#: ../src/tools/gnm-solver.c:1521
+#: ../src/tools/gnm-solver.c:1672
 msgid "Time the solver was started"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1527
+#: ../src/tools/gnm-solver.c:1678
 msgid "End Time"
 msgstr "Tiempo de finalización"
 
-#: ../src/tools/gnm-solver.c:1528
+#: ../src/tools/gnm-solver.c:1679
 msgid "Time the solver finished"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1852
+#: ../src/tools/gnm-solver.c:2003
 #, c-format
 msgid ""
 "Gnumeric is unable to locate the program <i>%s</i> needed for the <i>%s</i> "
@@ -14871,13 +14916,13 @@ msgid ""
 "Would you like to locate it yourself?"
 msgstr ""
 
-#: ../src/tools/gnm-solver.c:1856
+#: ../src/tools/gnm-solver.c:2007
 #, fuzzy, c-format
 #| msgid "Unable to open '%s'"
 msgid "Unable to locate %s"
 msgstr "No ha sido posible abrir el archivo «%s»"
 
-#: ../src/tools/gnm-solver.c:1872
+#: ../src/tools/gnm-solver.c:2023
 #, c-format
 msgid "Locate the %s program"
 msgstr ""
