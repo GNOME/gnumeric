@@ -391,7 +391,7 @@ workbook_new_with_sheets (int sheet_count)
  *
  * If level is sufficiently advanced assign the info.
  *
- * Returns : TRUE if save info was set and history may require updating
+ * Returns: TRUE if save info was set and history may require updating
  *
  * FIXME : Add a check to ensure the name is unique.
  */
@@ -445,13 +445,13 @@ workbook_get_file_exporter (Workbook *wb)
 }
 
 /**
- * workbook_foreach_cell_in_range :
+ * workbook_foreach_cell_in_range:
  *
- * @pos : The position the range is relative to.
- * @cell_range : A value containing a range;
- * @only_existing : if TRUE only existing cells are sent to the handler.
- * @handler : The operator to apply to each cell.
- * @closure : User data.
+ * @pos: The position the range is relative to.
+ * @cell_range: A value containing a range;
+ * @only_existing: if TRUE only existing cells are sent to the handler.
+ * @handler: The operator to apply to each cell.
+ * @closure: User data.
  *
  * The supplied value must be a cellrange.
  * The range bounds are calculated relative to the eval position
@@ -509,7 +509,7 @@ workbook_foreach_cell_in_range (GnmEvalPos const *pos,
 /**
  * workbook_cells:
  *
- * @wb : The workbook to find cells in.
+ * @wb: The workbook to find cells in.
  * @comments: If true, include cells with only comments also.
  * @vis: How visible a sheet needs to be in order to be considered.
  *
@@ -680,8 +680,8 @@ workbook_detach_view (WorkbookView *wbv)
 /*****************************************************************************/
 
 /**
- * workbook_sheets : Get an ordered list of the sheets in the workbook
- *                   The caller is required to free the list.
+ * workbook_sheets: Get an ordered list of the sheets in the workbook
+ *                  The caller is required to free the list.
  */
 GSList *
 workbook_sheets (Workbook const *wb)
@@ -750,6 +750,14 @@ workbook_sheet_index_update (Workbook *wb, int start)
 	}
 }
 
+/**
+ * workbook_sheet_by_index:
+ * @wb: workbook to lookup the sheet on
+ * @i: the sheet index we are looking for.
+ *
+ * Return value: (transfer none): a pointer to a Sheet or NULL if the sheet
+ * was not found.
+ */
 Sheet *
 workbook_sheet_by_index (Workbook const *wb, int i)
 {
@@ -768,9 +776,9 @@ workbook_sheet_by_index (Workbook const *wb, int i)
 /**
  * workbook_sheet_by_name:
  * @wb: workbook to lookup the sheet on
- * @name: the sheet name we are looking for.
+ * @sheet_name: the sheet name we are looking for.
  *
- * Returns a pointer to a Sheet or NULL if the sheet
+ * Return value: (transfer none): a pointer to a Sheet or NULL if the sheet
  * was not found.
  */
 Sheet *
@@ -820,9 +828,9 @@ workbook_focus_other_sheet (Workbook *wb, Sheet *sheet)
 }
 
 /**
- * workbook_sheet_remove_controls :
- * @wb : #Workbook
- * @sheet : #Sheet
+ * workbook_sheet_remove_controls:
+ * @wb: #Workbook
+ * @sheet: #Sheet
  *
  * Remove the visible SheetControls of a sheet and shut them down politely.
  *
@@ -854,9 +862,9 @@ workbook_sheet_remove_controls (Workbook *wb, Sheet *sheet)
 }
 
 /**
- * workbook_sheet_attach_at_pos :
- * @wb :
- * @new_sheet :
+ * workbook_sheet_attach_at_pos:
+ * @wb:
+ * @new_sheet:
  * @pos;
  *
  * Add @new_sheet to @wb, placing it at @pos.  This will add a ref to
@@ -890,8 +898,8 @@ workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 
 /**
  * workbook_sheet_attach:
- * @wb :
- * @new_sheet :
+ * @wb:
+ * @new_sheet:
  *
  * Add @new_sheet to @wb, placing it at the end.  SURPRISE: This assumes
  * a ref to the sheet.
@@ -905,12 +913,16 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet)
 }
 
 /**
- * workbook_sheet_add :
- * @wb :
- * @pos : position to add, -1 meaning append.
+ * workbook_sheet_add:
+ * @wb: a workbook.
+ * @pos: position to add, -1 meaning append.
+ * @columns: the sheet columns number.
+ * @rows: the sheet rows number.
  *
  * Create and name a new sheet, putting it at position @pos.  The sheet
  * returned is not ref'd.  (The ref belongs to the workbook.)
+ *
+ * Return value: (transfer none): the new sheet.
  */
 Sheet *
 workbook_sheet_add (Workbook *wb, int pos, int columns, int rows)
@@ -932,13 +944,17 @@ workbook_sheet_add (Workbook *wb, int pos, int columns, int rows)
 }
 
 /**
- * workbook_sheet_add_with_type :
- * @wb :
- * @pos : position to add, -1 meaning append.
- * @type : sheet type.
+ * workbook_sheet_add_with_type:
+ * @wb: a workbook.
+ * @sheet_type: the sheet type.
+ * @pos: position to add, -1 meaning append.
+ * @columns: the sheet columns number.
+ * @rows: the sheet rows number.
  *
  * Create and name a new sheet, putting it at position @pos.  The sheet
  * returned is not ref'd.  (The ref belongs to the workbook.)
+ *
+ * Return value: (transfer none): the new sheet.
  */
 Sheet *
 workbook_sheet_add_with_type (Workbook *wb, GnmSheetType sheet_type, int pos, int columns, int rows)
@@ -1051,7 +1067,7 @@ workbook_sheet_move (Sheet *sheet, int direction)
  * @wb:   workbook to look for
  * @base: base for the name, e. g. "Sheet"
  * @always_suffix: if true, add suffix even if the name "base" is not in use.
- * @handle_counter : strip counter if necessary
+ * @handle_counter: strip counter if necessary
  *
  * Gets a new unquoted name for a sheets such that it does not exist on the
  * workbook.
@@ -1146,10 +1162,10 @@ workbook_sheet_rename (Workbook *wb,
 }
 
 /**
- * workbook_find_command :
- * @wb : #Workbook
- * @is_undo : undo vs redo
- * @key : command
+ * workbook_find_command:
+ * @wb: #Workbook
+ * @is_undo: undo vs redo
+ * @key: command
  *
  * returns the 1 based index of the @key command, or 0 if it is not found
  **/
@@ -1201,8 +1217,8 @@ workbook_sheet_reorder (Workbook *wb, GSList *new_order)
 }
 
 /**
- * workbook_date_conv :
- * @wb : Workbook
+ * workbook_date_conv:
+ * @wb: Workbook
  *
  * Returns: the date convention in effect for the workbook.
  **/
@@ -1214,9 +1230,9 @@ workbook_date_conv (Workbook const *wb)
 }
 
 /**
- * workbook_set_date_conv :
- * @wb : worknook
- * @date_conv : new date convention
+ * workbook_set_date_conv:
+ * @wb: workbook
+ * @date_conv: new date convention
  *
  * Sets the date convention @date_conv.
  * NOTE : THIS IS NOT A SMART ROUTINE.  If you want to actually change this
