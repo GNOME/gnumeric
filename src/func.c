@@ -1003,6 +1003,8 @@ gnm_func_unref (GnmFunc *func)
 		func->ref_notify (func, 0);
 }
 
+/**
+ */
 GnmFunc *
 gnm_func_lookup (char const *name, Workbook *scope)
 {

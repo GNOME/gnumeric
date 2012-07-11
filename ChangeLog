@@ -1,3 +1,21 @@
+2012-07-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: add support for introspection. [#670271]
+	* src/Makefile.am: ditto.
+	* src/application.c: ditto.
+	* src/cell.c (cell_copy), (cell_free), (gnm_cell_get_type): ditto.
+	* src/cell.h: ditto.
+	* src/complex.h: ditto.
+	* src/format-template.h: ditto.
+	* src/func.c: ditto.
+	* src/gnm-style-impl.h: ditto.
+	* src/parse-util.h: ditto.
+	* src/print-info.h: ditto.
+	* src/sheet.c: ditto.
+	* src/stf-parse.h: ditto.
+	* src/style-font.h: ditto.
+	* src/workbook-control-priv.h: ditto.
+
 2012-07-03  Morten Welinder  <terra@gnome.org>
 
 	* src/ranges.c (gnm_sheet_range_hash, gnm_range_hash): Delete

@@ -144,7 +144,7 @@ struct _GnmConventions {
 	gboolean exp_is_left_associative;
 
 /* Import specific functions ------------------------------------- */
-	struct {
+	struct _GnmConventionsImport {
 		/* Called a lot for anything that might be a reference.  */
 		char const *(*range_ref) (GnmRangeRef *res, char const *in,
 					  GnmParsePos const *pp,
@@ -164,7 +164,7 @@ struct _GnmConventions {
 
 		/* Must return non-NULL, and absorb the args, including the list. */
 		GnmExpr const *(*func) (GnmConventions const *convs,
-				        /* make scope more useful, eg a
+					/* make scope more useful, eg a
 					 * ParsePos * to allow for
 					 * sheet/object specific functions
 					 * */
@@ -177,7 +177,7 @@ struct _GnmConventions {
 	} input;
 
 /* Export specific functions ----------------------------------- */
-	struct {
+	struct _GnmConventionsExport {
 		int decimal_digits;
 
 		gboolean translated;

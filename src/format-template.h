@@ -89,8 +89,8 @@ struct _GnmFormatTemplate {
 	gboolean font;
 	gboolean patterns;
 	gboolean alignment;
-
-	struct {
+	
+	struct _FormatEdges {
 		gboolean left;
 		gboolean right;
 		gboolean top;

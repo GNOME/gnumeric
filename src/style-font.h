@@ -12,7 +12,7 @@ struct _GnmFont {
 	int	 ref_count;
 	char	*font_name;
 	double	 size_pts;
-	struct {
+	struct _GnmGOFont {
 		GOFont const *font;
 		GOFontMetrics *metrics;
 	} go;

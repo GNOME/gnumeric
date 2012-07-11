@@ -19,8 +19,6 @@
 #include <unistd.h>
 
 #include <Python.h>
-#define NO_IMPORT_PYGOBJECT
-#include <pygobject.h>
 
 struct _GnmPython {
 	GObject parent_instance;
@@ -108,60 +106,6 @@ gnm_python_class_init (GObjectClass *gobject_class)
 
 /* ---------- */
 
-
-/* Initialize _PyGObject_API. To get the gtk2 version of gobject, we first
- * have to do the C equivalent of
- *	import pygtk
- *	pygtk.require('2.0')
- *      import gobject
- */
-static void
-gnm_init_pygobject (GOErrorInfo **err)
-{
-	PyObject *pygtk, *mdict, *require, *ret, *gobject, *cobject;
-
-	GO_INIT_RET_ERROR_INFO (err);
-	_PyGObject_API = NULL;
-	pygtk = PyImport_ImportModule((char *) "pygtk");
-	if (pygtk == NULL) {
-		if (err != NULL)
-			*err = go_error_info_new_printf (_("Could not import %s."),
-						      "pygtk");
-		return;
-	}
-	mdict = PyModule_GetDict (pygtk);
-	require = PyDict_GetItemString (mdict, (char *) "require");
-	if (!PyFunction_Check (require)) {
-		*err = go_error_info_new_printf (_("Could not find %s."),
-					      "pygtk.require");
-		return;
-	} else {
-		ret = PyObject_CallFunction
-			(require, (char *) "O",
-			 PyString_FromString ((char *) "2.0"));
-		if (!ret) {
-			*err = go_error_info_new_printf (_("Could not initialize Python bindings for Gtk+, etc: %s"),
-						      py_exc_to_string ());
-			return;
-		}
-	}
-	gobject = PyImport_ImportModule((char *) "gobject");
-	if (gobject == NULL) {
-		*err = go_error_info_new_printf (_("Could not import %s."),
-					      "gobject");
-		return;
-	}
-        mdict = PyModule_GetDict(gobject);
-        cobject = PyDict_GetItemString(mdict, (char *) "_PyGObject_API");
-        if (!PyCObject_Check(cobject)) {
-		*err = go_error_info_new_printf (_("Could not find %s"),
-					      "_PyGObject_API");
-		return;
-        } else {
-		_PyGObject_API = (struct _PyGObject_Functions *)PyCObject_AsVoidPtr(cobject);
-	}
-}
-
 GnmPython *
 gnm_python_object_get (GOErrorInfo **err)
 {
@@ -172,7 +116,6 @@ gnm_python_object_get (GOErrorInfo **err)
 		PyEval_InitThreads ();
 #endif
 	}
-	gnm_init_pygobject (err);
 	if (err && *err != NULL) {
 		Py_Finalize ();
 		return NULL;

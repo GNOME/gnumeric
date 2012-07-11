@@ -29,16 +29,16 @@ struct _GnmStyle {
 	PangoContext  *font_context;
 
 /* public */
-	struct {
+	struct _GnmStyleColor {
 		GnmColor *font;
 		GnmColor *back;
 		GnmColor *pattern;
-	}  color;
+	} color;
 	GnmBorder	*borders[MSTYLE_BORDER_DIAGONAL - MSTYLE_BORDER_TOP + 1];
 	guint32          pattern;
 
 #warning TODO use GOFont
-	struct {
+	struct _GnmStyleFontDetails {
 		GOString	*name;
 		gboolean	bold;
 		gboolean	italic;

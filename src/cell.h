@@ -29,6 +29,8 @@ struct _GnmCell {
 	GnmValue      *value;	/* computed or entered (Must be non NULL) */
 };
 
+GType	    gnm_cell_get_type (void);
+
 /**
  * GnmCell state checking
  */

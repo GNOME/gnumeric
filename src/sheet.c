@@ -2758,6 +2758,9 @@ sheet_cell_get_value (Sheet *sheet, int const col, int const row)
 
 /**
  * sheet_cell_set_text:
+ * @cell A cell.
+ * @text, the text to set.
+ * @markup: (allow-none): an optional PangoAttrList.
  *
  * Marks the sheet as dirty
  * Clears old spans.

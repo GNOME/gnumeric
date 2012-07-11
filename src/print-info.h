@@ -58,8 +58,8 @@ typedef struct {
 } GnmPageBreaks;
 
 struct _PrintInformation {
-	struct {
-		enum {
+	struct _PrintInfoScaling {
+		enum _PrintScaleType {
 			PRINT_SCALE_PERCENTAGE,
 			PRINT_SCALE_FIT_PAGES
 		} type;
@@ -69,12 +69,12 @@ struct _PrintInformation {
 		* When the user is doing the simple scaling, both these values
 		* will be equal.
 		*/
-		struct {
+		struct _PrintScalePercent {
 			double x;
 			double y;
 		} percentage;
 
-		struct { /* zero == use as many as required */
+		struct _PrintScaleDim { /* zero == use as many as required */
 			int cols;
 			int rows;
 		} dim;
@@ -98,7 +98,7 @@ struct _PrintInformation {
 	GnmPrintCommentPlacementType comment_placement;
 	GnmPrintErrorsType error_display;
 
-	struct {
+	struct _PrintInfoPageBreaks {
 		GnmPageBreaks *h,  /* between rows */
 			      *v;  /* between columns */
 	} page_breaks;

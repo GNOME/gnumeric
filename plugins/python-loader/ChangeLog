@@ -1,3 +1,7 @@
+2012-07-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* gnm-python.c (gnm_python_object_get): make python support work again.
+
 2012-07-08  Morten Welinder  <terra@gnome.org>
 
 	* python-loader.c (gplp_func_file_open): Add dummy encoding

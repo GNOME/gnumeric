@@ -484,3 +484,41 @@ gtkaction_DATA = GNOME_Gnumeric-gtk.xml
 GNOME_Gnumeric-gtk.xml: GNOME_Gnumeric-gtk.xml.in
 	sed -e 's/ _name *=/ name=/' <$<  >$@
 DISTCLEANFILES = GNOME_Gnumeric-gtk.xml
+
+BUILT_GIRSOURCES = Gnm-@GNUMERIC_API_VER@.gir
+
+Gnm-@GNUMERIC_API_VER@.gir: $(libspreadsheet_include_HEADER)
+Gnm-@GNUMERIC_API_VER@.gir: $(libspreadsheet_la_SOURCES)
+Gnm-@GNUMERIC_API_VER@.gir: libspreadsheet.la
+Gnm-@GNUMERIC_API_VER@.gir: $(INTROSPECTION_SCANNER) Makefile
+	$(AM_V_GEN) $(INTROSPECTION_SCANNER) -v --namespace Gnm \
+		--nsversion="@GNUMERIC_API_VER@" \
+	    --add-include-path=$(srcdir) --add-include-path=. \
+	    --include=GObject-2.0 \
+	    --include=Gio-2.0 \
+	    --include=libxml2-2.0 \
+	    --include=Gsf-1 \
+	    --include=GOffice-0.10 \
+	    --library=libspreadsheet.la \
+	    --libtool="$(LIBTOOL)" \
+	    --output $@ \
+	    --pkg libspreadsheet-@GNUMERIC_API_VER@ \
+	    --accept-unprefixed \
+	    -I$(top_srcdir) \
+	    $(libspreadsheet_include_HEADERS) $(libspreadsheet_la_SOURCES)
+
+if HAVE_INTROSPECTION
+
+girdir = $(GIRDIR)
+gir_DATA = $(BUILT_GIRSOURCES)
+
+typelibsdir = $(TYPELIBDIR)
+typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
+
+CLEANFILES += $(gir_DATA) $(typelibs_DATA)
+
+%.typelib: %.gir $(INTROSPECTION_COMPILER)
+	$(AM_V_GEN) LD_LIBRARY_PATH=$${LD_LIBRARY_PATH:+$$LD_LIBRARY_PATH:}. $(INTROSPECTION_COMPILER) --includedir=$(srcdir) --includedir=. $(G_IR_COMPILER_OPTS) $< -o $(builddir)/$(@F)
+
+endif # HAVE_INTROSPECTION
+

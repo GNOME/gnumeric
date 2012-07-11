@@ -1004,3 +1004,27 @@ gnm_cell_convert_expr_to_value (GnmCell *cell)
 	cell->base.texpr = NULL;
 }
 
+static GnmCell *
+cell_copy (GnmCell *cell)
+{
+	return cell;
+}
+
+static GnmCell *
+cell_free (GnmCell *cell)
+{
+}
+
+GType
+gnm_cell_get_type (void)
+{
+    static GType type_cell = 0;
+
+    if (!type_cell)
+	type_cell = g_boxed_type_register_static
+	    ("GnmCell",
+	     (GBoxedCopyFunc) cell_copy,
+	     (GBoxedFreeFunc) cell_free);
+
+    return type_cell;
+}

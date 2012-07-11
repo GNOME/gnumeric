@@ -1,5 +1,8 @@
 Gnumeric 1.11.5
 
+Jean:
+	* Add support for introspection. [#670271]
+
 Morten:
 	* Solver translation fixes.
 	* Teach non-linear solver about constraints.  [Part of #620368]
