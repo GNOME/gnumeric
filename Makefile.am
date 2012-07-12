@@ -10,7 +10,10 @@ change_logs = ChangeLog \
 CLEANFILES = gnumeric.desktop gnumeric.keys
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update $(pkgconfig_DATA)
 
-DISTCHECK_CONFIGURE_FLAGS=--without-perl --without-python
+DISTCHECK_CONFIGURE_FLAGS = --without-perl --without-python \
+	--enable-introspection=auto \
+	--with-gir-dir=\$${datadir}/gir-1.0 \
+	--with-typelib-dir=\$${libdir}/girepository-1.0
 
 EXTRA_DIST = \
 	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\

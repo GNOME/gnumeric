@@ -1,3 +1,7 @@
+2012-07-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* Makefile.am: update DISTCHECK_CONFIGURE_FLAGS for introspection.
+
 2012-07-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: add support for introspection. [#670271]
