@@ -1004,16 +1004,8 @@ gnm_cell_convert_expr_to_value (GnmCell *cell)
 	cell->base.texpr = NULL;
 }
 
-static GnmCell *
-cell_copy (GnmCell *cell)
-{
-	return cell;
-}
-
-static void
-cell_free (GnmCell *cell)
-{
-}
+static gpointer cell_boxed_copy (gpointer c) { return c; }
+static void cell_boxed_free (gpointer c) { }
 
 GType
 gnm_cell_get_type (void)
@@ -1023,8 +1015,8 @@ gnm_cell_get_type (void)
     if (!type_cell)
 	type_cell = g_boxed_type_register_static
 	    ("GnmCell",
-	     (GBoxedCopyFunc) cell_copy,
-	     (GBoxedFreeFunc) cell_free);
+	     cell_boxed_copy,
+	     cell_boxed_free);
 
     return type_cell;
 }
