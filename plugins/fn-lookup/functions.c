@@ -125,7 +125,7 @@ clear_caches (void)
 		return;
 
 	if (debug_lookup_caches)
-		g_printerr ("Clearing lookup caches [%ld]\n", total_cache_size);
+		g_printerr ("Clearing lookup caches [%ld]\n", (long)total_cache_size);
 
 	total_cache_size = 0;
 
