@@ -1,3 +1,7 @@
+2012-07-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.5
+
 2012-07-08  Morten Welinder  <terra@gnome.org>
 
 	* gnm-glpk.c (glpk_solver_factory): Fix reversed condition

@@ -1,3 +1,7 @@
+2012-07-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.5
+
 2012-07-10  Morten Welinder  <terra@gnome.org>
 
 	* gnm-solver.c (gnm_solver_constraint_as_str): Fix translation

@@ -1,3 +1,7 @@
+2012-07-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.5
+
 2012-07-02  Morten Welinder  <terra@gnome.org>
 
 	* gnm-nlsolve.c (newton_improve, rosenbrock_iter): Check
