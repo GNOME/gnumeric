@@ -133,7 +133,7 @@ sub epilog {
 
     print "  <h2>Availability</h2>\n";
     print "  <blockquote>\n";
-    print "    <a href=\"$link\">$link</a>\n";
+    print "    <p><a href=\"$link\">$link</a></p>\n";
     print "  </blockquote>\n";
 
     print "<!--#include virtual=\"../../footer.shtml\" -->\n";
