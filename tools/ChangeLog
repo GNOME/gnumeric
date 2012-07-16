@@ -1,3 +1,7 @@
+2012-07-15  Morten Welinder  <terra@gnome.org>
+
+	* news-to-html (finish_author): Fix missing </li>
+
 2012-07-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.5

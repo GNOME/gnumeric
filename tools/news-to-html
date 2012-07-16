@@ -79,6 +79,7 @@ sub finish_author {
     print "    <ul>\n";
     print $item;
     print "    </ul>\n";
+    print "  </li>\n";
     $item = '';
     $who = undef;
 }
