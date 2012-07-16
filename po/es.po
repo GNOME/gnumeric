@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-07-10 20:08+0000\n"
-"PO-Revision-Date: 2012-07-11 14:15+0200\n"
+"POT-Creation-Date: 2012-07-11 18:36+0000\n"
+"PO-Revision-Date: 2012-07-16 11:10+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Gtranslator 2.91.5\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:440
@@ -972,7 +972,7 @@ msgstr "Funciones para manipular cadenas"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 #: ../src/dialogs/dialog-doc-metadata.c:1863
-#: ../src/dialogs/dialog-search.c:151 ../src/func.c:1383
+#: ../src/dialogs/dialog-search.c:151 ../src/func.c:1385
 msgid "String"
 msgstr "Cadena"
 
@@ -2049,27 +2049,6 @@ msgstr "Python"
 #: ../plugins/python-loader/gnm-py-interpreter.c:255
 msgid "Default interpreter"
 msgstr "Intérprete predeterminado"
-
-#: ../plugins/python-loader/gnm-python.c:128
-#: ../plugins/python-loader/gnm-python.c:150
-#, c-format
-msgid "Could not import %s."
-msgstr "No se pudo importar %s."
-
-#: ../plugins/python-loader/gnm-python.c:135
-#, c-format
-msgid "Could not find %s."
-msgstr "No se pudo encontrar %s."
-
-#: ../plugins/python-loader/gnm-python.c:143
-#, c-format
-msgid "Could not initialize Python bindings for Gtk+, etc: %s"
-msgstr "No se pudo inicializar los bindings de Pyton para Gtk+, etc: %s"
-
-#: ../plugins/python-loader/gnm-python.c:157
-#, c-format
-msgid "Could not find %s"
-msgstr "No se pudo encontrar: %s"
 
 #: ../plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -3669,11 +3648,11 @@ msgstr "Barra de herramientas de objetos"
 msgid "Cut Object"
 msgstr "Cortar objeto"
 
-#: ../src/application.c:770
+#: ../src/application.c:776
 msgid "File History List"
 msgstr "Lista del archivo histórico"
 
-#: ../src/application.c:771
+#: ../src/application.c:777
 msgid "A list of filenames that have been read recently"
 msgstr "Una lista de nombres de archivo leídos recientemente"
 
@@ -3883,7 +3862,7 @@ msgstr "Eliminando filas %s"
 msgid "Deleting row %s"
 msgstr "Eliminando fila %s"
 
-#: ../src/commands.c:1583 ../src/commands.c:1584 ../src/sheet.c:4471
+#: ../src/commands.c:1583 ../src/commands.c:1584 ../src/sheet.c:4474
 msgid "Clear"
 msgstr "Limpiar"
 
@@ -5629,7 +5608,7 @@ msgid "Double Low"
 msgstr "Doble bajo"
 
 #: ../src/dialogs/dialog-cell-format.c:485 ../src/dialogs/dialog-search.c:153
-#: ../src/func.c:1381 ../src/wbc-gtk-actions.c:2754
+#: ../src/func.c:1383 ../src/wbc-gtk-actions.c:2754
 msgid "Number"
 msgstr "Número"
 
@@ -6366,7 +6345,7 @@ msgstr "Nivel del libro de trabajo"
 #: ../src/dialogs/dialog-stf-export.c:592 ../src/dialogs/hf-config.ui.h:16
 #: ../src/dialogs/print.ui.h:53 ../src/print-info.c:545 ../src/search.c:799
 #: ../src/tools/gnm-solver.c:740 ../src/tools/gnm-solver.c:741
-#: ../src/workbook.c:918 ../src/workbook.c:946
+#: ../src/workbook.c:930 ../src/workbook.c:962
 msgid "Sheet"
 msgstr "Hoja"
 
@@ -11326,7 +11305,7 @@ msgstr "Resumen"
 
 #: ../src/dialogs/so-button.ui.h:1
 msgid "Button Properties"
-msgstr "Propiedades del botón"
+msgstr "Propiedades del botón de radio"
 
 #: ../src/dialogs/so-button.ui.h:2 ../src/dialogs/so-checkbox.ui.h:2
 #: ../src/dialogs/so-radiobutton.ui.h:4 ../src/dialogs/so-scrollbar.ui.h:2
@@ -11496,18 +11475,16 @@ msgid "="
 msgstr "="
 
 #: ../src/dialogs/solver.ui.h:34 ../src/tools/gnm-solver.c:382
-#, fuzzy
 msgid "Int"
-msgstr "Entrada"
+msgstr "Entero"
 
 #: ../src/dialogs/solver.ui.h:35 ../src/tools/gnm-solver.c:383
-#, fuzzy
 msgid "Bool"
-msgstr "Negrita"
+msgstr "Bool"
 
 #: ../src/dialogs/so-radiobutton.ui.h:1
 msgid "Radiobutton Properties"
-msgstr "Propiedades de los botones de radio"
+msgstr "Propiedades del botón de opción"
 
 #: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:1684
 msgid "Scrollbar Properties"
@@ -11551,7 +11528,7 @@ msgstr "Celdas de dependencia"
 
 #: ../src/dialogs/tabulate.ui.h:7
 msgid "Result cell"
-msgstr "Celda resultado"
+msgstr "Celda de resultado"
 
 #: ../src/dialogs/tabulate.ui.h:8
 msgid "_Visual"
@@ -11561,7 +11538,7 @@ msgstr "_Visual"
 msgid ""
 "Use down for first source, right for second, and multiple sheets for third"
 msgstr ""
-"Use abajo para el primer origen, derecha para el segundo múltiples hojas "
+"Use abajo para el primer origen, derecha para el segundo y múltiples hojas "
 "para el tercero"
 
 #: ../src/dialogs/tabulate.ui.h:10
@@ -11582,7 +11559,7 @@ msgstr "Prueba de igualdad de dos varianzas (Prueba-F)"
 
 #: ../src/dialogs/view.ui.h:1
 msgid "Create New View"
-msgstr "Crear una vista nueva"
+msgstr "Crear vista nueva"
 
 #: ../src/dialogs/view.ui.h:2
 msgid "<b>Location</b>"
@@ -11617,10 +11594,8 @@ msgid "Enter formula..."
 msgstr "Introducir fórmula…"
 
 #: ../src/dialogs/wbcg.ui.h:5
-#, fuzzy
-#| msgid "Label:"
 msgid "label"
-msgstr "Etiqueta:"
+msgstr "etiqueta"
 
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:1
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:139
@@ -11630,13 +11605,12 @@ msgid "Wilcoxon-Mann-Whitney Test"
 msgstr "Test de Wilcoxon-Mann-Whitney"
 
 #: ../src/dialogs/workbook-attr.ui.h:1
-#, fuzzy
 msgid "View Properties"
-msgstr "Propiedades del deslizador"
+msgstr "Propiedades de la vista"
 
 #: ../src/dialogs/workbook-attr.ui.h:2
 msgid "Notebook _Tabs for Sheets"
-msgstr "Encuadernar pe_stañas para las hojas"
+msgstr "_Pestañas del cuaderno para las hojas"
 
 #: ../src/dialogs/workbook-attr.ui.h:3
 msgid "_Horizontal Scrollbar"
@@ -11648,7 +11622,7 @@ msgstr "Barra de desplazamiento _vertical"
 
 #: ../src/dialogs/workbook-attr.ui.h:6
 msgid "_Protect Workbook"
-msgstr "_Proteger libro de cuentas"
+msgstr "_Proteger libro de trabajo"
 
 #: ../src/dialogs/workbook-attr.ui.h:7
 msgid "Unimplementented"
@@ -11660,27 +11634,31 @@ msgstr "_Contraseña:"
 
 #: ../src/dialogs/workbook-attr.ui.h:9
 msgid "A_uto Complete Text in Cells"
-msgstr "_Autocompletar texto en las celdas"
+msgstr "A_utocompletar el texto en las celdas"
 
 #: ../src/dialogs/workbook-attr.ui.h:10
 msgid "Show _Formula Cell Markers"
-msgstr ""
+msgstr "Mostrar marcadores de celda de _fórmula"
 
 #: ../src/dialogs/workbook-attr.ui.h:11
 msgid ""
 "This checkbox determines whether each cell containing a spreadsheet formula "
 "is marked with a green top left corner."
 msgstr ""
+"Esta casilla determina si cada celda que contiene una fórmula de la hoja de "
+"cálculo está marcada con una esquina superior izquierda verde."
 
 #: ../src/dialogs/workbook-attr.ui.h:12
 msgid "Show _Extension Markers"
-msgstr ""
+msgstr "Mostrar marcadores de _extensión"
 
 #: ../src/dialogs/workbook-attr.ui.h:13
 msgid ""
 "This checkbox determines whether small red arrows indicate that the content "
 "has been truncated in that direction."
 msgstr ""
+"Esta casilla determina si las pequeñas flechas rojas indican que el "
+"contenido se truncó en esa dirección."
 
 #: ../src/expr-name.c:590
 #, c-format
@@ -11690,12 +11668,12 @@ msgstr "«%s» tiene una referencia circular"
 #: ../src/expr-name.c:618 ../src/expr-name.c:850
 #, c-format
 msgid "'%s' is already defined in sheet"
-msgstr "«%s» ya se encuentra definido en la hoja"
+msgstr "«%s» ya está definido en la hoja"
 
 #: ../src/expr-name.c:619 ../src/expr-name.c:851
 #, c-format
 msgid "'%s' is already defined in workbook"
-msgstr "«%s» ya se encuentra definido en el libro de cuentas"
+msgstr "«%s» ya está definido en el libro de trabajo"
 
 #: ../src/expr.c:847
 msgid "Internal type error"
@@ -11703,7 +11681,7 @@ msgstr "Error de tipo interno"
 
 #: ../src/expr.c:1561
 msgid "Unknown evaluation error"
-msgstr "Error al evaluar"
+msgstr "Error de evaluación desconocido"
 
 #: ../src/file-autoft.c:88
 #, c-format
@@ -11711,9 +11689,8 @@ msgid "Invalid template file: %s"
 msgstr "Archivo de plantilla no válido: %s"
 
 #: ../src/format-template.c:527
-#, fuzzy
 msgid "Error while opening autoformat template"
-msgstr "Error al intentar cargar plantilla de autoformato"
+msgstr "Error al abrir la plantilla de autoformato"
 
 #: ../src/format-template.c:727
 #, c-format
@@ -11726,57 +11703,51 @@ msgstr[1] "%d filas"
 #, c-format
 msgid "%d col"
 msgid_plural "%d cols"
-msgstr[0] "%d col"
-msgstr[1] "%d cols"
+msgstr[0] "%d columna"
+msgstr[1] "%d columnas"
 
 #: ../src/format-template.c:730
-#, fuzzy, c-format
-#| msgid ""
-#| "The target region is too small.  It should be at least %d rows by %d "
-#| "columns"
+#, c-format
 msgid "The target region is too small.  It should be at least %s by %s"
-msgstr ""
-"La región de destino es muy pequeña, debe tener al menos %d filas por %d "
-"columnas"
+msgstr "La región de destino es muy pequeña. Debe ser al menos %s por %s"
 
 #: ../src/format-template.c:736
-#, fuzzy, c-format
-#| msgid ""
-#| "The target region is too small.  It should be at least %d columns wide"
+#, c-format
 msgid "The target region is too small.  It should be at least %d column wide"
 msgid_plural ""
 "The target region is too small.  It should be at least %d columns wide"
 msgstr[0] ""
-"La región de destino es muy pequeña, debe tener al menos %d columnas de ancho"
+"La región de destino es muy pequeña. Debe tener al menos %d columna de ancho"
 msgstr[1] ""
-"La región de destino es muy pequeña, debe tener al menos %d columnas de ancho"
+"La región de destino es muy pequeña. Debe tener al menos %d columnas de ancho"
 
 #: ../src/format-template.c:742
-#, fuzzy, c-format
-#| msgid "The target region is too small.  It should be at least %d rows high"
+#, c-format
 msgid "The target region is too small.  It should be at least %d row high"
 msgid_plural ""
 "The target region is too small.  It should be at least %d rows high"
 msgstr[0] ""
-"La región de destino es muy pequeña, debe tener al menos %d filas de alto"
+"La región de destino es muy pequeña. Debe tener al menos %d fila de alto"
 msgstr[1] ""
-"La región de destino es muy pequeña, debe tener al menos %d filas de alto"
+"La región de destino es muy pequeña. Debe tener al menos %d filas de alto"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:44
 msgid "SUM:sum of the given values"
-msgstr ""
+msgstr "SUM:suma de los valores dados"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:46
 msgid "values:a list of values to add"
-msgstr ""
+msgstr "values:una lista de valores que añadir"
 
 #: ../src/func-builtin.c:47
 msgid ""
 "SUM computes the sum of all the values and cells referenced in the argument "
 "list."
 msgstr ""
+"SUM calcula la suma de todos los valores y celdas referenciadas en la lista "
+"de argumento."
 
 #: ../src/func-builtin.c:48 ../src/func-builtin.c:75
 msgid "This function is Excel compatible."
@@ -11789,55 +11760,53 @@ msgstr "Esta función es compatible con OpenFormula."
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:70
 msgid "PRODUCT:product  of the given values"
-msgstr ""
+msgstr "PRODUCT:el producto  de los valores dados"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:72
 msgid "values:a list of values to multiply"
-msgstr ""
+msgstr "valores:una lista de valores a multiplicar"
 
 #: ../src/func-builtin.c:73
 msgid ""
 "PRODUCT computes the product of all the values and cells referenced in the "
 "argument list."
 msgstr ""
+"PRODUCO calcula el producto de todos los valores y celdas referenciadas en "
+"la lista de argumentos."
 
 #: ../src/func-builtin.c:74
 msgid "If all cells are empty, the result will be 0."
-msgstr ""
+msgstr "Si todas las celdas están vacías, el resultado será 0."
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:107
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
-msgstr ""
+msgstr "GNUMERIC_VERSION:la versión actual de Gnumeric"
 
 #: ../src/func-builtin.c:108
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
-msgstr ""
+msgstr "GNUMERIC_VERSION devuelve la versión de gnumeric como una cadena."
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:270
-#, fuzzy
 msgid "IF:conditional expression"
-msgstr "IF:expresión condicional."
+msgstr "IF:expresión condicional"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:272
-#, fuzzy
 msgid "cond:condition"
-msgstr "cond:condición."
+msgstr "cond:condición"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:274
-#, fuzzy
 msgid "trueval:value to use if condition is true"
-msgstr "trueval:valor que usar si la condición es cierta."
+msgstr "trueval:valor que usar si la condición es verdadera"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:276
-#, fuzzy
 msgid "falseval:value to use if condition is false"
-msgstr "falseval:valor que usar si la condición es falsa."
+msgstr "falseval:valor que usar si la condición es falsa"
 
 #: ../src/func-builtin.c:277
 msgid ""
@@ -11845,6 +11814,9 @@ msgid ""
 "then evaluate and return the second argument.  Otherwise, it will evaluate "
 "and return the last argument."
 msgstr ""
+"Esta función primero evalúa la condición. Si el resultado es verdadero, "
+"entonces evaluará y devolverá el segundo argumento. De lo contrario, "
+"evaluará y devolverá el último argumento."
 
 #: ../src/func.c:240
 #, c-format
@@ -11855,39 +11827,39 @@ msgstr "No se puede crear el archivo %s\n"
 msgid "Function implementation not available."
 msgstr "La implementación de la función no se encuentra disponible."
 
-#: ../src/func.c:1141
+#: ../src/func.c:1143
 msgid "Unknown Function"
 msgstr "Función desconocida"
 
-#: ../src/func.c:1385
-msgid "Boolean"
-msgstr "Valor de verdad (booleano)"
-
 #: ../src/func.c:1387
+msgid "Boolean"
+msgstr "Booleano"
+
+#: ../src/func.c:1389
 msgid "Cell Range"
 msgstr "Rango de celda"
 
-#: ../src/func.c:1389
+#: ../src/func.c:1391
 msgid "Area"
 msgstr "Área"
 
-#: ../src/func.c:1391
+#: ../src/func.c:1393
 msgid "Scalar, Blank, or Error"
 msgstr "Escalar, blanco o error"
 
-#: ../src/func.c:1393
+#: ../src/func.c:1395
 msgid "Scalar"
 msgstr "Escalar"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1396
+#: ../src/func.c:1398
 msgid "Any"
 msgstr "Cualquiera"
 
 #: ../src/gnm-commands-slicer.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Refreshing DataSlicer in %s"
-msgstr "Creando una tabla de datos en %s"
+msgstr "Actualizando DataSlicer en %s"
 
 #: ../src/gnm-graph-window.c:182
 msgid "Fit"
@@ -11931,16 +11903,16 @@ msgid ""
 "%.1f x %.1f pts\n"
 "%d x %d pixels"
 msgstr ""
-"%.1f x %.1f pts\n"
+"%.1f x %.1f puntos\n"
 "%d x %d píxeles"
 
 #: ../src/gnm-plugin.c:130
 msgid "Missing function category name."
-msgstr "Falta el nombre de la categoría de la función."
+msgstr "Falta nombre de categoría de la función."
 
 #: ../src/gnm-plugin.c:134
 msgid "Function group is empty."
-msgstr "La función de agrupamiento está vacía."
+msgstr "El grupo de la función está vacío."
 
 #: ../src/gnm-plugin.c:164
 msgid "No func_desc_load method.\n"
@@ -11955,35 +11927,33 @@ msgstr[1] "Grupo de %d funciones en la categoría «%s»"
 
 #: ../src/gnm-plugin.c:343
 msgid "Missing file name."
-msgstr "Falta el nombre de archivo."
+msgstr "Falta nombre de archivo."
 
 #: ../src/gnm-plugin.c:449
-#, fuzzy, c-format
-#| msgid "Cannot read UI description from XML file %s: %s"
+#, c-format
 msgid "Cannot read UI description from %s: %s"
-msgstr "No se puede leer la descripción de la IU del archivo XML %s: %s"
+msgstr "No se puede leer la descripción de IU del %s: %s"
 
 #. xgettext : %d gives the number of actions. This is input to ngettext.
 #: ../src/gnm-plugin.c:478
 #, c-format
 msgid "User interface with %d action"
 msgid_plural "User interface with %d actions"
-msgstr[0] "Interfaz de usuario con %d acción"
-msgstr[1] "Interfaz de usuario con %d acciones"
+msgstr[0] "Interfaz de usuario con acción %d"
+msgstr[1] "Interfaz de usuario con acciones %d"
 
 #: ../src/gnm-plugin.c:602
-#, fuzzy
 msgid "Invalid solver model type."
-msgstr "Problema no abordable"
+msgstr "Tipo de modelo de resolutor no válido."
 
 #: ../src/gnm-plugin.c:621
 msgid "Missing fields in plugin file"
-msgstr ""
+msgstr "Faltan campos en el archivo del complemento"
 
 #: ../src/gnm-plugin.c:667
-#, fuzzy, c-format
+#, c-format
 msgid "Solver Algorithm %s"
-msgstr "Algoritmo:"
+msgstr "Algoritmo del resolutor %s"
 
 #: ../src/gnm-plugin.c:765 ../src/gnm-plugin.c:837 ../src/gnm-plugin.c:883
 #, c-format
@@ -11993,7 +11963,7 @@ msgstr "El archivo del módulo «%s» no tiene un formato válido."
 #: ../src/gnm-plugin.c:769 ../src/gnm-plugin.c:840
 #, c-format
 msgid "File doesn't contain \"%s\" array."
-msgstr "El archivo no contiene el array «%s»."
+msgstr "El archivo no contiene matriz la «%s»."
 
 #: ../src/gnm-so-filled.c:176
 msgid "Filled Object Properties"
@@ -13467,31 +13437,31 @@ msgstr "Número de columnas en la hoja"
 msgid "Rows number in the sheet"
 msgstr "Número de filas en la hoja"
 
-#: ../src/sheet.c:3387
+#: ../src/sheet.c:3390
 msgid "Target region contains merged cells"
 msgstr "La región de destino contiene celdas combinadas"
 
-#: ../src/sheet.c:3448
+#: ../src/sheet.c:3451
 msgid "cannot operate on merged cells"
 msgstr "no se puede operar sobre celdas combinadas"
 
-#: ../src/sheet.c:3458
+#: ../src/sheet.c:3461
 msgid "cannot operate on array formulæ"
 msgstr "no se puede operar sobre un vector de fórmulas"
 
-#: ../src/sheet.c:4850
+#: ../src/sheet.c:4853
 msgid "Insert Columns"
 msgstr "Insertar columnas"
 
-#: ../src/sheet.c:4941
+#: ../src/sheet.c:4944
 msgid "Delete Columns"
 msgstr "Borrar columnas"
 
-#: ../src/sheet.c:5022
+#: ../src/sheet.c:5025
 msgid "Insert Rows"
 msgstr "Insertar filas"
 
-#: ../src/sheet.c:5113
+#: ../src/sheet.c:5116
 msgid "Delete Rows"
 msgstr "Borrar filas"
 
@@ -18199,18 +18169,18 @@ msgstr "Activar el cálculo automático."
 msgid "Book%d.%s"
 msgstr "Libro%d.%s"
 
-#: ../src/workbook.c:946
+#: ../src/workbook.c:962
 msgid "Graph"
 msgstr "Gráfico"
 
-#: ../src/workbook.c:1431
+#: ../src/workbook.c:1447
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
 msgstr[0] "Renombrando una hoja"
 msgstr[1] "Renombrando %d hojas"
 
-#: ../src/workbook.c:1433
+#: ../src/workbook.c:1449
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -18221,18 +18191,18 @@ msgstr[1] "Añadiendo %d hojas"
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1439
+#: ../src/workbook.c:1455
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
 msgstr[0] "Insertando una hoja"
 msgstr[1] "Insertando %d hojas"
 
-#: ../src/workbook.c:1441
+#: ../src/workbook.c:1457
 msgid "Changing sheet tab colors"
 msgstr "Cambiando colores de pestaña de la hoja"
 
-#: ../src/workbook.c:1443
+#: ../src/workbook.c:1459
 msgid "Changing sheet properties"
 msgstr "Cambiando propiedades de la hoja"
 
@@ -18240,18 +18210,18 @@ msgstr "Cambiando propiedades de la hoja"
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1450
+#: ../src/workbook.c:1466
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
 msgstr[0] "Eliminando una hoja"
 msgstr[1] "Eliminando %d hojas"
 
-#: ../src/workbook.c:1452
+#: ../src/workbook.c:1468
 msgid "Changing sheet order"
 msgstr "Cambiando el orden de la hoja"
 
-#: ../src/workbook.c:1454
+#: ../src/workbook.c:1470
 msgid "Reorganizing Sheets"
 msgstr "Reorganizar hojas"
 
@@ -18486,6 +18456,18 @@ msgstr "Una plantilla de lista lila"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:2
 msgid "A simple list template"
 msgstr "Una plantilla de lista simple"
+
+#~ msgid "Could not import %s."
+#~ msgstr "No se pudo importar %s."
+
+#~ msgid "Could not find %s."
+#~ msgstr "No se pudo encontrar %s."
+
+#~ msgid "Could not initialize Python bindings for Gtk+, etc: %s"
+#~ msgstr "No se pudo inicializar los bindings de Pyton para Gtk+, etc: %s"
+
+#~ msgid "Could not find %s"
+#~ msgstr "No se pudo encontrar: %s"
 
 #~ msgid "The input range should consists of 2 groups."
 #~ msgstr "El rango de entrada debe tener 2 grupos."
