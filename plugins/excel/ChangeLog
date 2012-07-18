@@ -1,3 +1,7 @@
+2012-07-18  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_LABEL): Fix crash [#679992].
+
 2012-07-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.5

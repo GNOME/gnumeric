@@ -6216,6 +6216,8 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 	XL_CHECK_CONDITION (q->length - 8 >= in_len);
 
 	xf = excel_set_xf (esheet, q);
+	if (!xf)
+		return;
 	fd = excel_font_get (esheet->container.importer, xf->font_idx);
 
 	txt = excel_get_text_fixme (esheet->container.importer, q->data + 8,
