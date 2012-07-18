@@ -1591,7 +1591,8 @@ excel_read_FORMAT (BiffQuery *q, GnmXLImporter *importer)
 			? excel_biff_text_2 (importer, q, 2)
 			: excel_biff_text_1 (importer, q, 2);
 	} else {
-		XL_CHECK_CONDITION (q->length >= 3);
+		size_t minlen = (ver >= MS_BIFF_V4 ? 3 : 1);
+		XL_CHECK_CONDITION (q->length >= minlen);
 
 		d = g_new (BiffFormatData, 1);
 		/* no usable index */
@@ -1620,6 +1621,7 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 	fd->italic     = (data & 0x2) == 0x2;
 	fd->struck_out = (data & 0x8) == 0x8;
 	if (ver <= MS_BIFF_V2) {
+		int cp;
 		guint16 opcode;
 		fd->boldness  = (data & 0x1) ? 0x2bc : 0x190;
 		fd->underline = (data & 0x4) ? XLS_ULINE_SINGLE : XLS_ULINE_NONE;
@@ -1631,13 +1633,18 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 			fd->color_idx  = GSF_LE_GET_GUINT16 (q->data);
 		} else
 			fd->color_idx  = 0x7f;
+		cp = gnm_font_override_codepage (fd->fontname);
+		fd->codepage = (cp > 0 ? cp : 1252);
 	} else if (ver <= MS_BIFF_V4) /* Guess */ {
+		int cp;
 		XL_CHECK_CONDITION (q->length >= 6);
 		fd->color_idx  = GSF_LE_GET_GUINT16 (q->data + 4);
 		fd->boldness  = (data & 0x1) ? 0x2bc : 0x190;
 		fd->underline = (data & 0x4) ? XLS_ULINE_SINGLE : XLS_ULINE_NONE;
 		fd->script = GO_FONT_SCRIPT_STANDARD;
 		fd->fontname = excel_biff_text_1 (importer, q, 6);
+		cp = gnm_font_override_codepage (fd->fontname);
+		fd->codepage = (cp > 0 ? cp : 1252);
 	} else {
 		XL_CHECK_CONDITION (q->length >= 11);
 		fd->color_idx  = GSF_LE_GET_GUINT16 (q->data + 4);
@@ -2391,7 +2398,7 @@ excel_read_XF_OLD (BiffQuery *q, GnmXLImporter *importer)
 	d ( 2, g_printerr ("XF # %d\n", importer->XF_cell_records->len); );
 	d ( 2, gsf_mem_dump (q->data, q->length); );
 
-	XL_CHECK_CONDITION (q->length > (importer->ver >= MS_BIFF_V3 ? 12 : 4));
+	XL_CHECK_CONDITION (q->length >= (importer->ver >= MS_BIFF_V3 ? 12 : 4));
 
 	xf = g_new0 (BiffXFData, 1);
         xf->font_idx = q->data[0];

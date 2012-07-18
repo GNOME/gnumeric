@@ -1,6 +1,9 @@
 2012-07-18  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_LABEL): Fix crash [#679992].
+	(excel_read_XF_OLD): Fix length check.
+	(excel_read_FORMAT): Fix length check for pre-v7 records.
+	(excel_read_FONT): Guess codepage for <=v4 records.
 
 2012-07-15  Morten Welinder <terra@gnome.org>
 
