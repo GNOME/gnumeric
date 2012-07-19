@@ -249,7 +249,7 @@ atl_last (GnmFuncEvalInfo *ei, GnmValue const * const argv[])
 	return value_new_float (val->value);
 }
 
-static DependentFlags
+static GnmDependentFlags
 atl_last_link (GnmFuncEvalInfo *ei)
 {
 	if (debug)

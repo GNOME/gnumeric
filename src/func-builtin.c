@@ -119,7 +119,7 @@ gnumeric_version (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
-static DependentFlags
+static GnmDependentFlags
 gnumeric_table_link (GnmFuncEvalInfo *ei)
 {
 	GnmDependent *dep = ei->pos->dep;

@@ -8,13 +8,13 @@
 G_BEGIN_DECLS
 
 typedef enum {
-	/* MUST BE > 0xFFF,FFFF to avoid conflict with GnmDependent */
+	/* MUST BE > 0xFFF,FFFF to avoid conflict with GnmDependentFlags */
 	/* GnmCell is linked into the sheet */
 	GNM_CELL_IN_SHEET_LIST  = 0x10000000,
 	/* Is the top left corner of a merged region */
-	GNM_CELL_IS_MERGED	    = 0x20000000,
+	GNM_CELL_IS_MERGED	= 0x20000000,
 	/* Cells expression was changed, recalc before rendering */
-	GNM_CELL_HAS_NEW_EXPR    = 0x40000000
+	GNM_CELL_HAS_NEW_EXPR   = 0x40000000
 } GnmCellFlags;
 
 /* Definition of a GnmCell */
@@ -24,9 +24,9 @@ struct _GnmCell {
 	GnmDependent base;
 
 	/* Mandatory state information */
-	GnmCellPos     pos;
+	GnmCellPos   pos;
 
-	GnmValue      *value;	/* computed or entered (Must be non NULL) */
+	GnmValue    *value;	/* computed or entered (Must be non NULL) */
 };
 
 GType	    gnm_cell_get_type (void);

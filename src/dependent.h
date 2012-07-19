@@ -51,7 +51,7 @@ typedef enum {
 	/* An internal utility flag */
 	DEPENDENT_FLAGGED	   = 0x01000000,
 	DEPENDENT_CAN_RELOCATE	   = 0x02000000
-} DependentFlags;
+} GnmDependentFlags;
 
 #define dependent_type(dep)		((dep)->flags & DEPENDENT_TYPE_MASK)
 #define dependent_is_cell(dep)		(dependent_type (dep) == DEPENDENT_CELL)
@@ -81,7 +81,7 @@ struct _GnmDepContainer {
 	GHashTable *dynamic_deps;
 };
 
-typedef void (*DepFunc) (GnmDependent *dep, gpointer user);
+typedef void (*GnmDepFunc) (GnmDependent *dep, gpointer user);
 
 guint32	 dependent_type_register   (GnmDependentClass const *klass);
 void	 dependent_types_init	   (void);
@@ -98,7 +98,7 @@ GOUndo  *dependents_relocate	    (GnmExprRelocateInfo const *info);
 void	 dependents_link	    (GSList *deps);
 
 void	 cell_queue_recalc	    (GnmCell *cell);
-void	 cell_foreach_dep	    (GnmCell const *cell, DepFunc func, gpointer user);
+void	 cell_foreach_dep	    (GnmCell const *cell, GnmDepFunc func, gpointer user);
 gboolean gnm_cell_eval_content	    (GnmCell *cell);
 
 void sheet_region_queue_recalc	  (Sheet const *sheet, GnmRange const *range);

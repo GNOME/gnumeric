@@ -841,13 +841,13 @@ depsingle_equal (DependencySingle const *a, DependencySingle const *b)
 	return (a->pos.row == b->pos.row && a->pos.col == b->pos.col);
 }
 
-static DependentFlags
+static GnmDependentFlags
 link_single_dep (GnmDependent *dep, GnmCellPos const *pos, GnmCellRef const *ref)
 {
 	DependencySingle lookup;
 	DependencySingle *single;
 	GnmDepContainer *deps;
-	DependentFlags flag = DEPENDENT_NO_FLAG;
+	GnmDependentFlags flag = DEPENDENT_NO_FLAG;
 	Sheet const *sheet = eval_sheet (ref->sheet, dep->sheet);
 
 	if (sheet != dep->sheet)
@@ -960,12 +960,12 @@ unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 	}
 }
 
-static DependentFlags
+static GnmDependentFlags
 link_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
 		    GnmCellRef const *a, GnmCellRef const *b)
 {
 	DependencyRange range;
-	DependentFlags flag = DEPENDENT_NO_FLAG;
+	GnmDependentFlags flag = DEPENDENT_NO_FLAG;
 
 	gnm_cellpos_init_cellref (&range.range.start, a, pos, dep->sheet);
 	gnm_cellpos_init_cellref (&range.range.end, b, pos, dep->sheet);
@@ -1028,7 +1028,7 @@ unlink_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
 		unlink_range_dep (dep->sheet->deps, dep, &range);
 }
 
-static DependentFlags
+static GnmDependentFlags
 link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 {
 	g_return_val_if_fail (tree != NULL, DEPENDENT_NO_FLAG);
@@ -1057,7 +1057,7 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 	/* TODO : Can we use argument types to be smarter here ? */
 	case GNM_EXPR_OP_FUNCALL: {
 		int i;
-		DependentFlags flag = DEPENDENT_NO_FLAG;
+		GnmDependentFlags flag = DEPENDENT_NO_FLAG;
 		if (tree->func.func->fn_type == GNM_FUNC_TYPE_STUB)
 			gnm_func_load_stub (tree->func.func);
 		if (tree->func.func->linker) {
@@ -1104,7 +1104,7 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 
 	case GNM_EXPR_OP_SET: {
 		int i;
-		DependentFlags res = DEPENDENT_NO_FLAG;
+		GnmDependentFlags res = DEPENDENT_NO_FLAG;
 
 		for (i = 0; i < tree->set.argc; i++)
 			res |= link_expr_dep (ep, tree->set.argv[i]);
@@ -1322,7 +1322,7 @@ dynamic_dep_debug_name (GnmDependent const *dep, GString *target)
 void
 dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr)
 {
-	DependentFlags    flags;
+	GnmDependentFlags    flags;
 	DynamicDep	 *dyn;
 	GnmCellPos const *pos;
 	DependencyRange   range;
@@ -1658,8 +1658,8 @@ cell_queue_recalc (GnmCell *cell)
 }
 
 typedef struct {
-	int      col, row;
-	DepFunc	 func;
+	int col, row;
+	GnmDepFunc func;
 	gpointer user;
 } search_rangedeps_closure_t;
 
@@ -1679,14 +1679,14 @@ cb_search_rangedeps (gpointer key, G_GNUC_UNUSED gpointer value,
 #endif
 
 	if (range_contains (range, c->col, c->row)) {
-		DepFunc	 func = c->func;
+		GnmDepFunc func = c->func;
 		micro_hash_foreach_dep (deprange->deps, dep,
 			(func) (dep, c->user););
 	}
 }
 
 static void
-cell_foreach_range_dep (GnmCell const *cell, DepFunc func, gpointer user)
+cell_foreach_range_dep (GnmCell const *cell, GnmDepFunc func, gpointer user)
 {
 	search_rangedeps_closure_t closure;
 	GHashTable *bucket =
@@ -1703,7 +1703,7 @@ cell_foreach_range_dep (GnmCell const *cell, DepFunc func, gpointer user)
 
 static void
 cell_foreach_single_dep (Sheet const *sheet, int col, int row,
-			 DepFunc func, gpointer user)
+			 GnmDepFunc func, gpointer user)
 {
 	DependencySingle lookup, *single;
 	GnmDepContainer *deps = sheet->deps;
@@ -1718,7 +1718,7 @@ cell_foreach_single_dep (Sheet const *sheet, int col, int row,
 }
 
 void
-cell_foreach_dep (GnmCell const *cell, DepFunc func, gpointer user)
+cell_foreach_dep (GnmCell const *cell, GnmDepFunc func, gpointer user)
 {
 	g_return_if_fail (cell != NULL);
 
@@ -2404,7 +2404,7 @@ handle_referencing_names (GnmDepContainer *deps, Sheet *sheet)
 static void
 handle_outgoing_references (GnmDepContainer *deps, Sheet *sheet)
 {
-	DependentFlags what = DEPENDENT_USES_NAME;
+	GnmDependentFlags what = DEPENDENT_USES_NAME;
 	GSList *accum = NULL;
 
 	what |= (sheet->workbook && sheet->workbook->during_destruction)

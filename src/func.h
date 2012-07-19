@@ -126,7 +126,7 @@ typedef enum {
 typedef GnmValue	*(*GnmFuncArgs)	  (GnmFuncEvalInfo *ei, GnmValue const * const *args);
 typedef GnmValue	*(*GnmFuncNodes)  (GnmFuncEvalInfo *ei,
 					   int argc, GnmExprConstPtr const *argv);
-typedef DependentFlags	 (*GnmFuncLink)	  (GnmFuncEvalInfo *ei);
+typedef GnmDependentFlags	 (*GnmFuncLink)	  (GnmFuncEvalInfo *ei);
 typedef void		 (*GnmFuncUnlink) (GnmFuncEvalInfo *ei);
 
 typedef void	 (*GnmFuncRefNotify) (GnmFunc *f, int refcount);
