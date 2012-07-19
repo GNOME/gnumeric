@@ -308,6 +308,7 @@ EXTRA_DIST = \
      menu-torn-off.png \
      menu-view-labelled.png \
      menu-view-properties-dialog.png \
+     menu-view-properties-dialog-cm.png \
      number-format-border-dialog.png \
      number-format-color-dialog.png \
      number-format-dialog.png \

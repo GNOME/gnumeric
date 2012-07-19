@@ -278,6 +278,27 @@
 -->
 
 <para>
+  <emphasis role="bold">New features introduced in the Gnumeric 1.12 release
+  series:</emphasis>
+</para>
+
+<para>
+  The 1.12 series of &gnum; is primarily a port of &gnum; to version 3 of the GTK library. It alos includes some other improvements over the versions in the 1.10 series.
+
+  <itemizedlist>
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved OpenDocument Format (ODF) support</emphasis>
+      </para>
+      <para>
+	Both ODF import and export have been improved.
+      </para>
+    </listitem>
+  </itemizedlist>
+</para>
+
+
+<para>
   <emphasis role="bold">New features introduced in the Gnumeric 1.10 release
   series:</emphasis>
 </para>

@@ -1,5 +1,8 @@
 Gnumeric 1.11.6
 
+Andreas:
+	* Some documentation updates.
+
 Morten:
 	* Fix xls read crash.  [#679992]
 

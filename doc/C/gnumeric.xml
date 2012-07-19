@@ -15,10 +15,10 @@
 "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 
   <!ENTITY gnum "<application>Gnumeric</application>">
-  <!ENTITY appversion "1.10">
-  <!ENTITY devversion "1.11">
-  <!ENTITY manrevision "1.10">
-  <!ENTITY date "February 2010">
+  <!ENTITY appversion "1.12">
+  <!ENTITY devversion "1.13">
+  <!ENTITY manrevision "1.12">
+  <!ENTITY date "July 2012">
   <!ENTITY file-format-open "Gnumeric XML, 
                              Microsoft Excel 95/97/2000/2003/XP/2007, 
                              Open Document Format (ODF 1.0 &amp; 1.1), 
@@ -187,6 +187,7 @@
 -->
 
     <copyright>
+      <year>2012</year>
       <year>2010</year>
       <year>2009</year>
       <holder>Andreas J. Guelzow.

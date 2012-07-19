@@ -228,10 +228,13 @@
 		<guimenuitem>Save As...</guimenuitem> menu item allows
 		users to save a file which has not yet been named to a
 		named file. This is always used when a user saves a
-		file which Gnumeric has named by default.  This menu
+		file which Gnumeric &gnum; has named by default.  This menu
 		item can also be used to save a newly created file or
 		to save an existing file to a new and different
-		name. For an explanation of the file formats which
+		name. To export data from &gnum; to a non-spreadsheet format,
+		use the <guimenuitem>Data</guimenuitem> menu described in
+		<xref linkend="Data-Menu"/>. 
+		For an explanation of the file formats which
 		gnumeric supports see <xref linkend="sect-file-save"
 		/>.
               </para>
@@ -1172,7 +1175,7 @@
                 </para> 
 
                 <figure id="menu-view-properties-dialog.png">
-                <title>The <guimenu>View Properties</guimenu> dialog.</title>
+                <title>The <guimenu>View Properties</guimenu> dialog</title>
                     <screenshot>
                         <mediaobject>
                             <imageobject>
@@ -1185,12 +1188,33 @@
                     </screenshot>
                 </figure>
 
-                <para>The <guimenu>View Properties</guimenu> dialog has three tabs.
+                <para>The <guimenu>View Properties</guimenu> dialog has four tabs.
                     <guimenu>Auto Completion </guimenu>is described in 
                     <xref linkend="sect-worksheets-settings" />, 
                     <guimenu>Protection</guimenu> in
                     <xref linkend="sect-worksheets-settings-protection" />.
                 </para>
+
+                <figure id="menu-view-properties-dialog-cm.png">
+                <title>The <guimenu>View Properties</guimenu> dialog, <guimenu>Cell Markers</guimenu> tab</title>
+                    <screenshot>
+                        <mediaobject>
+                            <imageobject>
+                            <imagedata fileref="figures/menu-view-properties-dialog-cm.png" />
+                            </imageobject>
+                            <textobject>
+                            <phrase>An image of the Cell Markers tab of the View Properties dialog.</phrase>
+                            </textobject>
+                        </mediaobject>
+                    </screenshot>
+                </figure>
+
+                <para>The check boxes on the <guimenu>Cell Markers</guimenu> tab shown in 
+                    <xref linkend="menu-view-properties-dialog-cm.png" /> determine
+                    whether cells are shown with indicators that they contain formulae and/or 
+                    that they have clipped content.
+                </para>
+
                 <para>The check boxes on the <guimenu>Widget</guimenu> tab shown in 
                     <xref linkend="menu-view-properties-dialog.png" /> determine
                     whether the notebook tabs, the horizontal scrollbar and/or 

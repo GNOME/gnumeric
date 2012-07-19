@@ -1,3 +1,13 @@
+2012-07-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* figures/menu-view-properties-dialog-cm.png: new
+	* figures/Makefile.am" add menu-view-properties-dialog-cm.png
+	* figures/menu-edit-labelled.png: updated
+	* figures/menu-view-properties-dialog.png: updated
+	* gnumeric.xml: updated
+	* gui-menus.xml: updated
+	* welcome.xml: updated
+
 2012-07-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.5
