@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-07-16 09:12+0000\n"
-"PO-Revision-Date: 2012-07-18 17:16+0200\n"
+"POT-Creation-Date: 2012-07-19 02:23+0000\n"
+"PO-Revision-Date: 2012-07-20 12:37+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -98,7 +98,7 @@ msgstr "Interfaz CORBA"
 msgid "Provides a CORBA scripting interface"
 msgstr "Proporciona una interfaz de secuencia de comandos de CORBA"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7015
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7024
 #: ../plugins/openoffice/openoffice-read.c:11307 ../src/xml-sax-read.c:3319
 msgid "Reading file..."
 msgstr "Leyendo archivo…"
@@ -238,17 +238,17 @@ msgstr "Cuadro%d"
 msgid "Module%d"
 msgstr "Módulo%d"
 
-#: ../plugins/excel/ms-excel-read.c:3660
+#: ../plugins/excel/ms-excel-read.c:3667
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Falló al analizar el nombre «%s»"
 
-#: ../plugins/excel/ms-excel-read.c:3804
+#: ../plugins/excel/ms-excel-read.c:3811
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Expresión incorrecta para el nombre «%s»: el contenido se perderá.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3809
+#: ../plugins/excel/ms-excel-read.c:3816
 #, c-format
 msgid ""
 "DDE links are not supported yet.\n"
@@ -257,7 +257,7 @@ msgstr ""
 "Los enlaces DDE aún no están soportados.\n"
 "El nombre «%s» se perderá.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3813
+#: ../plugins/excel/ms-excel-read.c:3820
 #, c-format
 msgid ""
 "OLE links are not supported yet.\n"
@@ -266,11 +266,11 @@ msgstr ""
 "Los enlaces OLE aún no están soportados.\n"
 "El nombre «%s» se perderá.\n"
 
-#: ../plugins/excel/ms-excel-read.c:6150
+#: ../plugins/excel/ms-excel-read.c:6157
 msgid "external references"
 msgstr "referencias externas"
 
-#: ../plugins/excel/ms-excel-read.c:6189
+#: ../plugins/excel/ms-excel-read.c:6196
 msgid "No password supplied"
 msgstr "No se introdujo ninguna contraseña"
 
@@ -12575,7 +12575,7 @@ msgstr "¿Deben buscarse las expresiones?"
 
 #: ../src/search.c:736
 msgid "Search Expression Results"
-msgstr "Buscar el resultado de las expresiones"
+msgstr "Buscar resultados de la expresión"
 
 #: ../src/search.c:737
 msgid "Should the results of expressions be searched?"
@@ -12587,7 +12587,7 @@ msgstr "Buscar comentarios"
 
 #: ../src/search.c:746
 msgid "Should cell comments be searched?"
-msgstr "¿Deben buscarse los comentarios de celdas?"
+msgstr "¿Deben buscarse los comentarios de celda?"
 
 #: ../src/search.c:754
 msgid "Search Scripts"
@@ -12595,7 +12595,7 @@ msgstr "Buscar scripts"
 
 #: ../src/search.c:755
 msgid "Should scrips (workbook, and worksheet) be searched?"
-msgstr "¿Deben los scripts (libro de cuentas y hoja de trabajo) ser buscables?"
+msgstr "¿Deben buscarse los scripts (libro de trabajo y hoja de trabajo)?"
 
 #: ../src/search.c:763
 msgid "Invert"
@@ -12603,15 +12603,15 @@ msgstr "Invertir"
 
 #: ../src/search.c:764
 msgid "Collect non-matching items"
-msgstr "Coleccionar los elementos no coincidentes"
+msgstr "Recolectar elementos no coincidentes"
 
 #: ../src/search.c:772
 msgid "By Row"
-msgstr "por fila"
+msgstr "Por fila"
 
 #: ../src/search.c:773
 msgid "Is the search order by row?"
-msgstr "¿Es el orden de búsqueda por fila?"
+msgstr "¿Está el orden de búsqueda por fila?"
 
 #: ../src/search.c:781
 msgid "Query"
@@ -12664,11 +12664,11 @@ msgid "(empty)"
 msgstr "(vacía)"
 
 #: ../src/sheet-control-gui.c:2017 ../src/wbc-gtk-actions.c:412
-#, fuzzy, c-format
+#, c-format
 msgid "Remove %d Link"
 msgid_plural "Remove %d Links"
-msgstr[0] "Eliminar hiperenlace"
-msgstr[1] "Eliminar hiperenlace"
+msgstr[0] "Quitar %d enlace"
+msgstr[1] "Quitar %d enlaces"
 
 #: ../src/sheet-control-gui.c:2104
 msgid "Cu_t"
@@ -12688,7 +12688,7 @@ msgstr "_Insertar celdas…"
 
 #: ../src/sheet-control-gui.c:2118
 msgid "_Delete Cells..."
-msgstr "_Borrar celdas…"
+msgstr "_Eliminar celdas…"
 
 #: ../src/sheet-control-gui.c:2121
 msgid "_Insert Column(s)"
@@ -12696,7 +12696,7 @@ msgstr "_Insertar columna(s)"
 
 #: ../src/sheet-control-gui.c:2125
 msgid "_Delete Column(s)"
-msgstr "Borrar _columna(s)"
+msgstr "Eliminar _columna(s)"
 
 #: ../src/sheet-control-gui.c:2129
 msgid "_Insert Row(s)"
@@ -12704,23 +12704,23 @@ msgstr "_Insertar fila(s)"
 
 #: ../src/sheet-control-gui.c:2133
 msgid "_Delete Row(s)"
-msgstr "Borrar _fila(s)"
+msgstr "_Eliminar fila(s)"
 
 #: ../src/sheet-control-gui.c:2138
 msgid "Clear Co_ntents"
-msgstr "_Limpiar el contenido"
+msgstr "Limpiar el co_ntenido"
 
 #: ../src/sheet-control-gui.c:2143
 msgid "Add _Co_mment"
-msgstr "Añadir co_mentarios"
+msgstr "Añadir _co_mentario"
 
 #: ../src/sheet-control-gui.c:2145
 msgid "Edit Co_mment..."
-msgstr "E_ditar comentario…"
+msgstr "Editar co_mentario…"
 
 #: ../src/sheet-control-gui.c:2147
 msgid "_Remove Comments"
-msgstr "Quita_r comentarios"
+msgstr "_Quitar comentarios"
 
 #: ../src/sheet-control-gui.c:2150
 msgid "Add _Hyperlink"
@@ -12732,21 +12732,19 @@ msgstr "Editar _hiperenlace"
 
 #: ../src/sheet-control-gui.c:2156
 msgid "_Remove Hyperlink"
-msgstr "_Eliminar hiperenlace"
+msgstr "_Quitar hiperenlace"
 
 #: ../src/sheet-control-gui.c:2162
-#, fuzzy
 msgid "_Edit DataSlicer"
-msgstr "_Rodaja de datos…"
+msgstr "_Editar DataSlicer"
 
 #: ../src/sheet-control-gui.c:2165
-#, fuzzy
 msgid "_Refresh DataSlicer"
-msgstr "Crea una rodaja de datos"
+msgstr "_Actualizar DataSlicer"
 
 #: ../src/sheet-control-gui.c:2169
 msgid "DataSlicer Field _Order "
-msgstr ""
+msgstr "_Orden de campo DataSlicer"
 
 #: ../src/sheet-control-gui.c:2178
 msgid "Up"
@@ -12758,41 +12756,34 @@ msgstr "Abajo"
 
 #. end sub menu
 #: ../src/sheet-control-gui.c:2188
-#, fuzzy
 msgid "_Format All Cells..."
-msgstr "_Formatear celdas…"
+msgstr "_Formatear todas las celdas…"
 
 #: ../src/sheet-control-gui.c:2190
-#, fuzzy
-#| msgid "_Exponential Smoothing..."
 msgid "C_onditional Formating..."
-msgstr "Suavizado _exponencial…"
+msgstr "Fomato c_ondicional..."
 
 #: ../src/sheet-control-gui.c:2195
-#, fuzzy
 msgid "_Unmerge"
-msgstr "_Combinar"
+msgstr "_Separar"
 
 #: ../src/sheet-control-gui.c:2197 ../src/wbc-gtk-actions.c:2393
-#, fuzzy
 msgid "Auto Fit _Width"
-msgstr "Ajustar anchura"
+msgstr "Autoajustar _anchura"
 
 #: ../src/sheet-control-gui.c:2198 ../src/wbc-gtk-actions.c:2390
-#, fuzzy
 msgid "Auto Fit _Height"
-msgstr "Ajustar altura"
+msgstr "Autoajustar _altura"
 
 #. start sub menu
 #. Format -> Col
 #: ../src/sheet-control-gui.c:2204 ../src/wbc-gtk-actions.c:2399
 msgid "_Width..."
-msgstr "A_nchura…"
+msgstr "_Anchura…"
 
 #: ../src/sheet-control-gui.c:2205 ../src/wbc-gtk-actions.c:2402
-#, fuzzy
 msgid "_Auto Fit Width"
-msgstr "Ajustar anchura"
+msgstr "_Autoajustar anchura"
 
 #: ../src/sheet-control-gui.c:2206 ../src/sheet-control-gui.c:2214
 #: ../src/wbc-gtk-actions.c:2405 ../src/wbc-gtk-actions.c:2422
@@ -12810,17 +12801,16 @@ msgid "Hei_ght..."
 msgstr "A_ltura…"
 
 #: ../src/sheet-control-gui.c:2213 ../src/wbc-gtk-actions.c:2419
-#, fuzzy
 msgid "_Auto Fit Height"
-msgstr "Ajustar altura"
+msgstr "_Autoajustar altura"
 
 #. xgettext : %d gives the number of links. This is input to ngettext.
 #: ../src/sheet-control-gui.c:2348
 #, c-format
 msgid "_Remove %d Link"
 msgid_plural "_Remove %d Links"
-msgstr[0] "_Eliminar %d enlace"
-msgstr[1] "_Eliminar %d enlaces"
+msgstr[0] "_Quitar %d enlace"
+msgstr[1] "_Quitar %d enlaces"
 
 #. xgettext : %d gives the number of comments. This is input to ngettext.
 #: ../src/sheet-control-gui.c:2353
@@ -12941,16 +12931,15 @@ msgstr ""
 
 #: ../src/sheet-object.c:106
 msgid "Snap object to grid"
-msgstr "Ajustar objeto a la rejilla"
+msgstr "Ajustar objeto a la cuadrícula"
 
 #: ../src/sheet-object.c:221
-#, fuzzy
 msgid "Size _& Position"
-msgstr "A_cción:"
+msgstr "_Tamaño y posición"
 
 #: ../src/sheet-object.c:222
 msgid "_Snap to Grid"
-msgstr "Aju_star a la rejilla"
+msgstr "Aju_star a la cuadrícula"
 
 #: ../src/sheet-object.c:223
 msgid "_Order"
@@ -12958,7 +12947,7 @@ msgstr "_Orden"
 
 #: ../src/sheet-object.c:224
 msgid "Pul_l to Front"
-msgstr "_Tirar hasta el frente"
+msgstr "_Tirar al frente"
 
 #: ../src/sheet-object.c:225
 msgid "Pull _Forward"
@@ -12966,29 +12955,25 @@ msgstr "Tirar _adelante"
 
 #: ../src/sheet-object.c:226
 msgid "Push _Backward"
-msgstr "Empujar _atrás"
+msgstr "Empujar hacia _atrás"
 
 #: ../src/sheet-object.c:227
 msgid "Pus_h to Back"
-msgstr "Empujar hasta el _fondo"
+msgstr "_Empujar hasta el fondo"
 
 #: ../src/sheet-object-component.c:185 ../src/sheet-object-graph.c:288
 #: ../src/sheet-object-image.c:309
 #, c-format
 msgid "Unknown failure while saving image"
-msgstr "Fallo desconocido guardar la imagen"
+msgstr "Fallo desconocido al guardar imagen"
 
 #: ../src/sheet-object-component.c:194
-#, fuzzy
-#| msgid "Save all"
 msgid "Save as"
-msgstr "Guardar todo"
+msgstr "Guardar como"
 
 #: ../src/sheet-object-component.c:270
-#, fuzzy
-#| msgid "Save all"
 msgid "_Save as"
-msgstr "Guardar todo"
+msgstr "_Guardar como"
 
 #: ../src/sheet-object-component.c:271 ../src/sheet-object-image.c:364
 msgid "_Save as image"
@@ -13003,13 +12988,12 @@ msgid "Open in _New Window"
 msgstr "Abrir en una ventana _nueva"
 
 #: ../src/sheet-object-graph.c:398
-#, fuzzy
 msgid "Copy to New Graph S_heet"
-msgstr "_Hoja nueva"
+msgstr "Copiar a una _hoja gráfica nueva"
 
 #: ../src/sheet-object-graph.c:744
 msgid "Series as:"
-msgstr "Series en:"
+msgstr "Series como:"
 
 #. Translators: Series as "Columns"
 #: ../src/sheet-object-graph.c:750
@@ -13028,9 +13012,8 @@ msgid "Use first series as shared abscissa"
 msgstr "Usar las primeras series como abscisa compartida"
 
 #: ../src/sheet-object-graph.c:759
-#, fuzzy
 msgid "New graph sheet"
-msgstr "_Hoja nueva"
+msgstr "Hoja gráfica nueva"
 
 #. Object Toolbar
 #: ../src/sheet-object-widget.c:390 ../src/wbc-gtk-actions.c:2703
@@ -13043,14 +13026,12 @@ msgid "Button"
 msgstr "Botón"
 
 #: ../src/sheet-object-widget.c:731
-#, fuzzy
 msgid "Pressed Button"
-msgstr "Crea un botón"
+msgstr "Botón pulsado"
 
 #: ../src/sheet-object-widget.c:746
-#, fuzzy
 msgid "Released Button"
-msgstr "RadioButton"
+msgstr "Botón soltado"
 
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:1186
@@ -13059,7 +13040,7 @@ msgstr "Cambiar widget"
 
 #: ../src/sheet-object-widget.c:1525
 msgid "Adjustment Properties"
-msgstr ""
+msgstr "Propiedades de ajuste"
 
 #: ../src/sheet-object-widget.c:1683
 msgid "Configure Scrollbar"
@@ -13067,11 +13048,11 @@ msgstr "Configurar barra de desplazamiento"
 
 #: ../src/sheet-object-widget.c:1732
 msgid "Configure Spinbutton"
-msgstr ""
+msgstr "Configurar botón incremental"
 
 #: ../src/sheet-object-widget.c:1733
 msgid "Spinbutton Properties"
-msgstr ""
+msgstr "Propiedades de botón incremental"
 
 #: ../src/sheet-object-widget.c:1782
 msgid "Configure Slider"
@@ -13089,17 +13070,16 @@ msgstr "Casilla %d"
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:1971
 msgid "Clicking checkbox"
-msgstr "Marcar casilla"
+msgstr "Pulsando casilla"
 
 #: ../src/sheet-object-widget.c:2463 ../src/wbc-gtk-actions.c:2739
 msgid "RadioButton"
-msgstr "RadioButton"
+msgstr "Botón de opción"
 
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:2509
-#, fuzzy
 msgid "Clicking radiobutton"
-msgstr "Crear un botón de selección"
+msgstr "Pulsando botón de opción"
 
 #: ../src/sheet-object-widget.c:2952
 msgid "Clicking in list"
@@ -13121,27 +13101,26 @@ msgid ""
 "column named TRUE may conflict with the constant of the same\n"
 "name.  Expect weirdness."
 msgstr ""
-"Esta es una versión especial de Gnumeric. Ha sido compilada\n"
+"Esta es una versión especial de Gnumeric. Se ha compilado\n"
 "con soporte para un gran número de columnas. Acceder a la\n"
-"columna nombrada TRUE puede crear conflictos con la\n"
-"constante del mismo nombre. Espere comportamientos anómalos."
+"columna nombrada VERDADERA puede crear conflictos con\n"
+"la constante del mismo nombre. Espere comportamientos extraños."
 
 #: ../src/sheet.c:840
 msgid "Sheet Type"
 msgstr "Tipo de hoja"
 
 #: ../src/sheet.c:841
-#, fuzzy
 msgid "Which type of sheet this is."
-msgstr "Qué tipo de hoja es."
+msgstr "Qué tipo de hoja es esta."
 
 #: ../src/sheet.c:849
 msgid "Parent workbook"
-msgstr "Libro de cuentas padre"
+msgstr "Libro de trabajo padre"
 
 #: ../src/sheet.c:850
 msgid "The workbook in which this sheet lives"
-msgstr "El libro de cuentas en el que está esta hoja"
+msgstr "El libro de trabajo en el que está esta hoja"
 
 #: ../src/sheet.c:857
 msgid "The name of the sheet."
@@ -13165,7 +13144,7 @@ msgstr "Cómo de visible es la hoja."
 
 #: ../src/sheet.c:875
 msgid "Display Formulæ"
-msgstr "Mostrar fórmulas"
+msgstr "Mostrar fórmulæ"
 
 #: ../src/sheet.c:876
 #, fuzzy
