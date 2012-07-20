@@ -89,7 +89,7 @@ go_gnm_component_get_data (GOComponent *component, gpointer *data, int *length,
 {
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	if (gognm->wv) {
-		GOCmdContext *cc = go_component_get_command_context ();
+		GOCmdContext *cc = go_component_get_command_context (component);
 		GOIOContext *io_context = go_io_context_new (cc);
 		GsfOutput *output = gsf_output_memory_new ();
 		GOFileSaver *gfs = workbook_get_file_saver (gognm->wb);
@@ -130,7 +130,7 @@ static void
 go_gnm_component_set_data (GOComponent *component)
 {
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
-	GOCmdContext *cc = go_component_get_command_context ();
+	GOCmdContext *cc = go_component_get_command_context (component);
 	GOIOContext *io_context = go_io_context_new (cc);
 	GsfInput *input = gsf_input_memory_new (component->data, component->length, FALSE);
 
@@ -219,7 +219,7 @@ go_gnm_component_edit (GOComponent *component)
 		component->width = 0.;
 		wv = workbook_view_new (workbook_new_with_sheets (1));
 	} else {
-		GOCmdContext *cc = go_component_get_command_context ();
+		GOCmdContext *cc = go_component_get_command_context (component);
 		GOIOContext *io_context = GO_IS_IO_CONTEXT (cc)? GO_IO_CONTEXT (g_object_ref (cc)): go_io_context_new (cc);
 		GsfInput *input = gsf_input_memory_new (component->data, component->length, FALSE);
 
@@ -318,7 +318,7 @@ go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 
 	go_components_set_mime_suffix ("application/x-gnumeric", "*.gnumeric");
 
-	go_plugins_init (go_component_get_command_context (),
+	go_plugins_init (go_component_get_command_context (NULL),
 			gnm_conf_get_plugins_file_states (),
 			gnm_conf_get_plugins_active (),
 			dir_list,

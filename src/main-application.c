@@ -293,7 +293,7 @@ main (int argc, char const **argv)
 		cc = cmd_context_stderr_new ();
 		ioc = go_io_context_new (cc);
 	}
-	go_component_set_command_context (cc);
+	go_component_set_default_command_context (cmd_context_stderr_new ());
 
 	/* Keep in sync with .desktop file */
 	g_set_application_name (_("Gnumeric Spreadsheet"));
@@ -369,7 +369,6 @@ main (int argc, char const **argv)
 			for (l = wbcgs_to_kill; l; l = l->next)
 				g_idle_add ((GSourceFunc)cb_kill_wbcg, l->data);
 		}
-		g_object_unref (ioc);
 
 		g_signal_connect (gnm_app_get_app (),
 				  "workbook_removed",
@@ -377,6 +376,7 @@ main (int argc, char const **argv)
 				  NULL);
 
 		gnm_io_context_gtk_discharge_splash (GNM_IO_CONTEXT_GTK (ioc));
+		g_object_unref (ioc);
 
 		g_idle_add ((GSourceFunc)pathetic_qt_workaround, NULL);
 		gtk_main ();
@@ -390,8 +390,6 @@ main (int argc, char const **argv)
 	store_plugin_state ();
 	gnm_shutdown ();
 
-	go_component_set_command_context (NULL);
-
 #if defined(G_OS_WIN32)
 	if (has_console) {
 		close(1);
@@ -401,6 +399,7 @@ main (int argc, char const **argv)
 #endif
 
 	gnm_pre_parse_shutdown ();
+	go_component_set_default_command_context (NULL);
 
 	/*
 	 * This helps finding leaks.  We might want it in developent

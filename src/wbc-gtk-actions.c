@@ -1430,7 +1430,8 @@ static GNM_ACTION_DEF (cb_launch_go_component_from_file)
 	go_components_add_filter (GTK_FILE_CHOOSER (dlg));
 	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_ACCEPT) {
 		char *uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dlg));
-		GOComponent *component = go_component_new_from_uri (uri);
+		GOComponent *component;
+		component = go_component_new_from_uri (uri);
 		g_free (uri);
 		if (component)
 			wbcg_insert_object (WBC_GTK (wbcg), sheet_object_component_new (component));

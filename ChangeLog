@@ -1,3 +1,14 @@
+2012-07-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* component/gnumeric.c (go_gnm_component_get_data),
+	(go_gnm_component_set_data), (go_gnm_component_edit),
+	(go_plugin_init): fixed command context issues.
+	* configure.in: need goffice-0.9.6.
+	* src/main-application.c (main): fixed command context issues.
+	* src/sheet-object-component.c (component_changed_cb),
+	(gnm_soc_user_config): ditto.
+	* src/wbc-gtk-actions.c: ditto.
+
 2012-07-15  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

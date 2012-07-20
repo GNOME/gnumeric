@@ -352,6 +352,7 @@ component_changed_cb (GOComponent *component, gnm_soc_user_config_t *data)
 {
 	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (data->so);
 	cmd_so_component_config (data->wbc, data->so, G_OBJECT (component), G_OBJECT (soc->component));
+	go_component_set_command_context (component, NULL);
 }
 
 static void
@@ -371,8 +372,11 @@ gnm_soc_user_config (SheetObject *so, SheetControl *sc)
 
 	g_return_if_fail (soc && soc->component);
 
+	go_component_set_command_context (soc->component, GO_CMD_CONTEXT (scg_wbcg (SHEET_CONTROL_GUI (sc))));
 	new_comp = go_component_duplicate (soc->component);
+	go_component_set_command_context (new_comp, GO_CMD_CONTEXT (scg_wbcg (SHEET_CONTROL_GUI (sc))));
 	w = (GtkWidget *) go_component_edit (new_comp);
+	go_component_set_command_context (soc->component, NULL);
 	if (w) {
 		gnm_soc_user_config_t *data = g_new0 (gnm_soc_user_config_t, 1);
 		data->so = so;
