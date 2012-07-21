@@ -1,3 +1,15 @@
+2012-07-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* component/gnumeric.c (go_gnm_component_set_data),
+	(cb_gognm_save), (cb_editor_destroyed): fixed component life issues.
+	* src/commands.c (cmd_so_component_config): cosmetic.
+	* src/main-application.c (main):
+	* src/sheet-object-component.c (component_changed_cb): fixed component
+	life issues.
+	* src/ssconvert.c (main): set the default command context for components.
+	* src/wbc-gtk-actions.c: fixed component life issues.
+	* src/workbook-view.c: introspection warnings.
+
 2012-07-20  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (link_cellrange_dep, unlink_cellrange_dep):

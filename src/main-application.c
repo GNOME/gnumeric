@@ -281,6 +281,8 @@ main (int argc, char const **argv)
 		return gnm_dump_func_defs (ext_refs_file, 4);
 
 	if (with_gui) {
+		go_component_set_default_command_context (cc = cmd_context_stderr_new ());
+		g_object_unref (cc);
 		cc = g_object_new (GNM_TYPE_IO_CONTEXT_GTK,
 				   "show-splash", !gnumeric_no_splash,
 				   "show-warnings", !gnumeric_no_warnings,
@@ -292,8 +294,8 @@ main (int argc, char const **argv)
 		/* TODO: Make this inconsistency go away */
 		cc = cmd_context_stderr_new ();
 		ioc = go_io_context_new (cc);
+		go_component_set_default_command_context (cc);
 	}
-	go_component_set_default_command_context (cmd_context_stderr_new ());
 
 	/* Keep in sync with .desktop file */
 	g_set_application_name (_("Gnumeric Spreadsheet"));

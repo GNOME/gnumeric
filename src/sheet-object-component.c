@@ -352,7 +352,6 @@ component_changed_cb (GOComponent *component, gnm_soc_user_config_t *data)
 {
 	SheetObjectComponent *soc = SHEET_OBJECT_COMPONENT (data->so);
 	cmd_so_component_config (data->wbc, data->so, G_OBJECT (component), G_OBJECT (soc->component));
-	go_component_set_command_context (component, NULL);
 }
 
 static void

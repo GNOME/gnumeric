@@ -1413,6 +1413,7 @@ static GNM_ACTION_DEF (cb_launch_go_component_new)
 				g_signal_connect (G_OBJECT (component), "changed", G_CALLBACK (component_changed_cb), wbcg);
 				win = go_component_edit (component);
 				gtk_window_set_transient_for (win, GTK_WINDOW (wbcg_toplevel (wbcg)));
+				g_object_set_data_full (G_OBJECT (win), "component", component, g_object_unref);
 			}
 		}
 	}
@@ -1433,8 +1434,10 @@ static GNM_ACTION_DEF (cb_launch_go_component_from_file)
 		GOComponent *component;
 		component = go_component_new_from_uri (uri);
 		g_free (uri);
-		if (component)
+		if (component) {
 			wbcg_insert_object (WBC_GTK (wbcg), sheet_object_component_new (component));
+			g_object_unref (component);
+		}
 	}
 	gtk_widget_destroy (dlg);
 }

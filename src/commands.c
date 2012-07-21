@@ -6993,10 +6993,8 @@ cmd_so_component_config (WorkbookControl *wbc, SheetObject *so,
 	me->so = so;
 	g_object_ref (G_OBJECT (so));
 
-	me->new_obj = GO_COMPONENT (n_obj);
-	g_object_ref (G_OBJECT (me->new_obj));
-	me->old_obj = GO_COMPONENT (o_obj);
-	g_object_ref (G_OBJECT (me->old_obj));
+	me->new_obj = GO_COMPONENT (g_object_ref (n_obj));
+	me->old_obj = GO_COMPONENT (g_object_ref (o_obj));
 
 	me->cmd.sheet = sheet_object_get_sheet (so);;
 	me->cmd.size = 10;

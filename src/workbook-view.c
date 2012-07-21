@@ -93,10 +93,10 @@ enum {
 };
 
 /**
- * wb_view_get_workbook :
+ * wb_view_get_workbook:
  * @wbv : #WorkbookView
  *
- * Return the #Workbook associated with @wbv
+ * Returns: (transfer none): the #Workbook associated with @wbv
  **/
 Workbook *
 wb_view_get_workbook (WorkbookView const *wbv)
@@ -106,10 +106,10 @@ wb_view_get_workbook (WorkbookView const *wbv)
 }
 
 /**
- * wb_view_get_doc :
+ * wb_view_get_doc:
  * @wbv : #WorkbookView
  *
- * Return the #Workbook associated with @wbv cast to a #GODoc
+ * Returns: (transfer none): the #Workbook associated with @wbv cast to a #GODoc
  **/
 GODoc *
 wb_view_get_doc (WorkbookView const *wbv)
@@ -1015,11 +1015,11 @@ workbook_view_new (Workbook *wb)
 }
 
 /**
- * wbv_save_to_output :
- * @wbv : #WorkbookView
- * @fs  : #GOFileSaver
- * @output : #GsfOutput
- * @io_context : #GOIOContext
+ * wbv_save_to_output:
+ * @wbv: #WorkbookView
+ * @fs: #GOFileSaver
+ * @output: #GsfOutput
+ * @io_context: #GOIOContext
  *
  * NOTE : Temporary api until we get the new output framework.
  **/
@@ -1078,10 +1078,10 @@ wb_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
 
 /**
  * wb_view_save_as:
- * @wbv         : Workbook View
- * @fs          : GOFileSaver object
- * @uri         : URI to save as.
- * @context     :
+ * @wbv: Workbook View
+ * @fs: GOFileSaver object
+ * @uri: URI to save as.
+ * @context:
  *
  * Saves @wbv and workbook it's attached to into @uri file using
  * @fs file saver.  If the format sufficiently advanced make it the saver
@@ -1131,8 +1131,8 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 
 /**
  * wb_view_save:
- * @wbv         : The view to save.
- * @context     : The context that invoked the operation
+ * @wbv: The view to save.
+ * @context: The context that invoked the operation
  *
  * Saves @wbv and workbook it's attached to into file assigned to the
  * workbook using workbook's file saver. If the workbook has no file
@@ -1266,11 +1266,11 @@ wb_view_new_from_input (GsfInput *input,
 }
 
 /**
- * wb_view_new_from_uri :
- * @uri          : URI for file
- * @optional_fmt : Optional GOFileOpener
- * @io_context   : Optional context to display errors.
- * @optional_enc : Optional encoding for GOFileOpener that understand it
+ * wb_view_new_from_uri:
+ * @uri: URI for file
+ * @optional_fmt: Optional GOFileOpener
+ * @io_context: Optional context to display errors.
+ * @optional_enc: Optional encoding for GOFileOpener that understand it
  *
  * Reads @uri file using given file opener @optional_fmt, or probes for a valid
  * possibility if @optional_fmt is NULL.  Reports problems to @io_context.

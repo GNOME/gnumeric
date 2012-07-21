@@ -24,6 +24,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <application.h>
 #include <gnumeric.h>
 #include <gnm-plugin.h>
 #include <gnumeric-conf.h>
@@ -141,6 +142,7 @@ go_gnm_component_set_data (GOComponent *component)
 	}
 	gognm->wv = wb_view_new_from_input (input, NULL, NULL, io_context, NULL);
 	gognm->wb = wb_view_get_workbook (gognm->wv);
+	gnm_app_workbook_list_remove (gognm->wb);
 	g_object_unref (io_context);
 	go_gnm_component_update_data (gognm);
 }
@@ -182,7 +184,8 @@ cb_gognm_save (G_GNUC_UNUSED GtkAction *a, WBCGtk *wbcg)
 				g_object_unref (gognm->wb);
 			}
 			gognm->wv = g_object_ref (wv);
-			gognm->wb = g_object_ref (wb_view_get_workbook (wv));
+			gognm->wb = wb_view_get_workbook (wv);
+			gnm_app_workbook_list_remove (gognm->wb); /* no need to have this one in the list */
 		}
 		go_doc_set_dirty (GO_DOC (gognm->wb), FALSE);
 		go_gnm_component_update_data (gognm);
@@ -201,6 +204,7 @@ static GtkActionEntry const actions[] = {
 static void
 cb_editor_destroyed (GOGnmComponent *gognm)
 {
+	g_object_unref (gognm->edited);
 	gognm->edited = NULL;
 }
 
