@@ -120,10 +120,13 @@ gnumeric_version (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmDependentFlags
-gnumeric_table_link (GnmFuncEvalInfo *ei)
+gnumeric_table_link (GnmFuncEvalInfo *ei, gboolean qlink)
 {
 	GnmDependent *dep = ei->pos->dep;
 	GnmRangeRef rr;
+
+	if (!qlink)
+		return DEPENDENT_NO_FLAG;
 
 	rr.a.col_relative = rr.a.row_relative =
 	rr.b.col_relative = rr.b.row_relative = FALSE;
@@ -155,7 +158,7 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	int x, y;
 
 	/* evaluation clears the dynamic deps */
-	gnumeric_table_link (ei);
+	gnumeric_table_link (ei, TRUE);
 
 	if (argc != 2 ||
 	    ei->pos->eval.col < 1 ||
@@ -392,40 +395,40 @@ func_builtin_init (void)
 		/* --- Math --- */
 		{	"sum",		NULL,
 			help_sum,	NULL,	gnumeric_sum,
-			NULL, NULL, NULL, GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+			NULL, NULL, GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 			GNM_FUNC_IMPL_STATUS_COMPLETE,
 			GNM_FUNC_TEST_STATUS_BASIC
 		},
 		{	"product",		NULL,
 			help_product,	NULL,	gnumeric_product,
-			NULL, NULL, NULL, GNM_FUNC_SIMPLE,
+			NULL, NULL, GNM_FUNC_SIMPLE,
 			GNM_FUNC_IMPL_STATUS_COMPLETE,
 			GNM_FUNC_TEST_STATUS_BASIC
 		},
 		/* --- Gnumeric --- */
 		{	"gnumeric_version",	"",
 			help_gnumeric_version,	gnumeric_version, NULL,
-			NULL, NULL, NULL, GNM_FUNC_SIMPLE,
+			NULL, NULL, GNM_FUNC_SIMPLE,
 			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 			GNM_FUNC_TEST_STATUS_EXHAUSTIVE
 		},
 		{	"table",	"",
 			NULL,		NULL,	gnumeric_table,
-			gnumeric_table_link, NULL,
+			gnumeric_table_link,
 			NULL, GNM_FUNC_SIMPLE + GNM_FUNC_INTERNAL,
 			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 			GNM_FUNC_TEST_STATUS_EXHAUSTIVE
 		},
 		{	"number_match", "s|s",
 			help_number_match, gnumeric_number_match, NULL,
-			NULL, NULL, NULL,
+			NULL, NULL,
 			GNM_FUNC_SIMPLE,
 			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 			GNM_FUNC_TEST_STATUS_BASIC },
 		/* --- Logic --- */
 		{	"if", "b|EE",
 			help_if, gnumeric_if, NULL,
-			NULL, NULL, NULL,
+			NULL, NULL,
 			GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_SECOND,
 			GNM_FUNC_IMPL_STATUS_COMPLETE,
 			GNM_FUNC_TEST_STATUS_BASIC },

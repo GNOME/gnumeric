@@ -250,27 +250,26 @@ atl_last (GnmFuncEvalInfo *ei, GnmValue const * const argv[])
 }
 
 static GnmDependentFlags
-atl_last_link (GnmFuncEvalInfo *ei)
+atl_last_link (GnmFuncEvalInfo *ei, gboolean qlink)
 {
-	if (debug)
-		g_printerr ("link atl_last\n");
-	return DEPENDENT_ALWAYS_UNLINK;
-}
-static void
-atl_last_unlink (GnmFuncEvalInfo *ei)
-{
-	Watcher key, *w;
-	key.node = ei->func_call;
-	key.dep = ei->pos->dep;
+	if (qlink) {
+		if (debug)
+			g_printerr ("link atl_last\n");
+	} else {
+		Watcher key, *w;
+		key.node = ei->func_call;
+		key.dep = ei->pos->dep;
 
-	w = g_hash_table_lookup (watchers, &key);
-	if (w != NULL) {
-		if (w->value != NULL)
-			g_hash_table_remove (w->value->deps, w);
-		g_free (w);
+		w = g_hash_table_lookup (watchers, &key);
+		if (w != NULL) {
+			if (w->value != NULL)
+				g_hash_table_remove (w->value->deps, w);
+			g_free (w);
+		}
+		if (debug)
+			g_printerr ("unlink atl_last\n");
 	}
-	if (debug)
-		g_printerr ("unlink atl_last\n");
+	return DEPENDENT_NO_FLAG;
 }
 
 static GnmFuncHelp const help_atl_last[] = {
@@ -282,7 +281,7 @@ static GnmFuncHelp const help_atl_last[] = {
 };
 
 GnmFuncDescriptor const ATL_functions[] = {
-	{"atl_last", "s", help_atl_last, atl_last, NULL, atl_last_link, atl_last_unlink },
+	{"atl_last", "s", help_atl_last, atl_last, NULL, atl_last_link },
 
 	{NULL}
 };

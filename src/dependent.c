@@ -3,7 +3,7 @@
  * dependent.c:  Manage calculation dependencies between objects
  *
  * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
- * Copyright (C) 2006-2009 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2006-2012 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -33,7 +33,6 @@
 #include "expr-name.h"
 #include "application.h"
 #include "workbook-view.h"
-#include "rendered-value.h" /* FIXME : should not be needed with JIT-R */
 #include "ranges.h"
 #include "gutils.h"
 #include "sheet-view.h"
@@ -238,7 +237,6 @@ static void name_dep_debug_name	   (GnmDependent const *dep, GString *target);
 static void managed_dep_eval	   (GnmDependent *dep);
 static void managed_dep_debug_name (GnmDependent const *dep, GString *target);
 
-static GnmCellPos const dummy = { 0, 0 };
 static GPtrArray *dep_classes = NULL;
 static GnmDependentClass dynamic_dep_class = {
 	dynamic_dep_eval,
@@ -397,6 +395,7 @@ dependent_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr)
 static inline GnmCellPos const *
 dependent_pos (GnmDependent const *dep)
 {
+	static GnmCellPos const dummy = { 0, 0 };
 	return dependent_is_cell (dep) ? &GNM_DEP_TO_CELL (dep)->pos : &dummy;
 }
 
@@ -846,16 +845,14 @@ link_single_dep (GnmDependent *dep, GnmCellPos const *pos, GnmCellRef const *ref
 {
 	DependencySingle lookup;
 	DependencySingle *single;
-	GnmDepContainer *deps;
 	GnmDependentFlags flag = DEPENDENT_NO_FLAG;
 	Sheet const *sheet = eval_sheet (ref->sheet, dep->sheet);
+	GnmDepContainer *deps = sheet->deps;
 
 	if (sheet != dep->sheet)
 		flag = (sheet->workbook != dep->sheet->workbook)
 			? DEPENDENT_GOES_INTERBOOK
 			: DEPENDENT_GOES_INTERSHEET;
-
-	deps = sheet->deps;
 
 	/* Inserts if it is not already there */
 	gnm_cellpos_init_cellref (&lookup.pos, ref, pos, sheet);
@@ -871,16 +868,21 @@ link_single_dep (GnmDependent *dep, GnmCellPos const *pos, GnmCellRef const *ref
 	return flag;
 }
 
-static void
+static GnmDependentFlags
 unlink_single_dep (GnmDependent *dep, GnmCellPos const *pos, GnmCellRef const *a)
 {
 	DependencySingle lookup;
 	DependencySingle *single;
+	GnmDependentFlags flag = DEPENDENT_NO_FLAG;
 	Sheet const *sheet = eval_sheet (a->sheet, dep->sheet);
 	GnmDepContainer *deps = sheet->deps;
 
+	if (sheet != dep->sheet)
+		flag = (sheet->workbook != dep->sheet->workbook)
+			? DEPENDENT_GOES_INTERBOOK
+			: DEPENDENT_GOES_INTERSHEET;
 	if (!deps)
-		return;
+		return flag;
 
 	gnm_cellpos_init_cellref (&lookup.pos, a, pos, sheet);
 	single = g_hash_table_lookup (deps->single_hash, &lookup);
@@ -892,7 +894,19 @@ unlink_single_dep (GnmDependent *dep, GnmCellPos const *pos, GnmCellRef const *a
 			go_mem_chunk_free (deps->single_pool, single);
 		}
 	}
+
+	return flag;
 }
+
+static inline GnmDependentFlags
+link_unlink_single_dep (GnmDependent *dep, GnmCellPos const *pos,
+			GnmCellRef const *a, gboolean qlink)
+{
+	return qlink
+		? link_single_dep (dep, pos, a)
+		: unlink_single_dep (dep, pos, a);
+}
+
 
 static void
 link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
@@ -960,9 +974,20 @@ unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 	}
 }
 
+static inline void
+link_unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
+		       DependencyRange const *r, gboolean qlink)
+{
+	if (qlink)
+		link_range_dep (deps, dep, r);
+	else
+		unlink_range_dep (deps, dep, r);
+}
+
 static GnmDependentFlags
-link_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
-		    GnmCellRef const *a, GnmCellRef const *b)
+link_unlink_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
+			   GnmCellRef const *a, GnmCellRef const *b,
+			   gboolean qlink)
 {
 	DependencyRange range;
 	GnmDependentFlags flag = DEPENDENT_NO_FLAG;
@@ -987,49 +1012,21 @@ link_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
 			while (i <= stop) {
 				Sheet *sheet = g_ptr_array_index (wb->sheets, i);
 				i++;
-				link_range_dep (sheet->deps, dep, &range);
+				link_unlink_range_dep (sheet->deps, dep, &range,
+						       qlink);
 			}
 			flag |= DEPENDENT_HAS_3D;
 		} else
-			link_range_dep (a->sheet->deps, dep, &range);
+			link_unlink_range_dep (a->sheet->deps, dep, &range,
+					       qlink);
 	} else
-		link_range_dep (dep->sheet->deps, dep, &range);
+		link_unlink_range_dep (dep->sheet->deps, dep, &range, qlink);
 
 	return flag;
 }
 
-static void
-unlink_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
-		      GnmCellRef const *a, GnmCellRef const *b)
-{
-	DependencyRange range;
-
-	gnm_cellpos_init_cellref (&range.range.start, a, pos, dep->sheet);
-	gnm_cellpos_init_cellref (&range.range.end, b, pos, dep->sheet);
-	range_normalize (&range.range);
-
-	if (a->sheet != NULL) {
-		if (b->sheet != NULL && a->sheet != b->sheet) {
-			Workbook const *wb = a->sheet->workbook;
-			int i = a->sheet->index_in_wb;
-			int stop = b->sheet->index_in_wb;
-			if (i > stop) { int tmp = i; i = stop ; stop = tmp; }
-
-			g_return_if_fail (b->sheet->workbook == wb);
-
-			while (i <= stop) {
-				Sheet *sheet = g_ptr_array_index (wb->sheets, i);
-				i++;
-				unlink_range_dep (sheet->deps, dep, &range);
-			}
-		} else
-			unlink_range_dep (a->sheet->deps, dep, &range);
-	} else
-		unlink_range_dep (dep->sheet->deps, dep, &range);
-}
-
 static GnmDependentFlags
-link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
+link_unlink_expr_dep (GnmEvalPos *ep, GnmExpr const *tree, gboolean qlink)
 {
 	g_return_val_if_fail (tree != NULL, DEPENDENT_NO_FLAG);
 
@@ -1037,24 +1034,29 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 	case GNM_EXPR_OP_RANGE_CTOR:  /* See #562363 */
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
-		return link_expr_dep (ep, tree->binary.value_a) |
-		       link_expr_dep (ep, tree->binary.value_b);
+		return link_unlink_expr_dep (ep, tree->binary.value_a, qlink) |
+		       link_unlink_expr_dep (ep, tree->binary.value_b, qlink);
 	case GNM_EXPR_OP_ANY_UNARY:
-		return link_expr_dep (ep, tree->unary.value);
+		return link_unlink_expr_dep (ep, tree->unary.value, qlink);
 	case GNM_EXPR_OP_CELLREF:
-		return link_single_dep (ep->dep, dependent_pos (ep->dep), &tree->cellref.ref);
+		return link_unlink_single_dep (ep->dep, dependent_pos (ep->dep), &tree->cellref.ref, qlink);
 
 	case GNM_EXPR_OP_CONSTANT:
 		/* TODO: pass in eval flags so that we can use implicit
 		 * intersection
 		 */
 		if (VALUE_CELLRANGE == tree->constant.value->type)
-			return link_cellrange_dep (ep->dep, dependent_pos (ep->dep),
+			return link_unlink_cellrange_dep
+				(ep->dep, dependent_pos (ep->dep),
 				 &tree->constant.value->v_range.cell.a,
-				 &tree->constant.value->v_range.cell.b);
+				 &tree->constant.value->v_range.cell.b,
+				 qlink);
 		return DEPENDENT_NO_FLAG;
 
-	/* TODO : Can we use argument types to be smarter here ? */
+	/*
+	 * FIXME: needs to be taught implicit intersection +
+	 * more cunning handling of argument type matching.
+	 */
 	case GNM_EXPR_OP_FUNCALL: {
 		int i;
 		GnmDependentFlags flag = DEPENDENT_NO_FLAG;
@@ -1064,18 +1066,18 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 			GnmFuncEvalInfo fei;
 			fei.pos = ep;
 			fei.func_call = &tree->func;
-			flag = tree->func.func->linker (&fei);
+			flag = tree->func.func->linker (&fei, qlink);
 		}
 		if (!(flag & DEPENDENT_IGNORE_ARGS))
 			for (i = 0; i < tree->func.argc; i++)
-				flag |= link_expr_dep (ep, tree->func.argv[i]);
+				flag |= link_unlink_expr_dep (ep, tree->func.argv[i], qlink);
 		return flag;
 	}
 
 	case GNM_EXPR_OP_NAME:
 		expr_name_add_dep (tree->name.name, ep->dep);
 		if (expr_name_is_active (tree->name.name))
-			return link_expr_dep (ep, tree->name.name->texpr->expr) | DEPENDENT_USES_NAME;
+			return link_unlink_expr_dep (ep, tree->name.name->texpr->expr, qlink) | DEPENDENT_USES_NAME;
 		return DEPENDENT_USES_NAME;
 
 	case GNM_EXPR_OP_ARRAY_ELEM: {
@@ -1092,14 +1094,14 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 		a.col   = pos->col - tree->array_elem.x;
 		a.row   = pos->row - tree->array_elem.y;
 
-		return link_single_dep (ep->dep, pos, &a);
+		return link_unlink_single_dep (ep->dep, pos, &a, qlink);
 	}
 
 	case GNM_EXPR_OP_ARRAY_CORNER: {
 		GnmEvalPos pos = *ep;
 		pos.array = &tree->array_corner;
 		/* Corner cell depends on the contents of the expr */
-		return link_expr_dep (&pos, tree->array_corner.expr);
+		return link_unlink_expr_dep (&pos, tree->array_corner.expr, qlink);
 	}
 
 	case GNM_EXPR_OP_SET: {
@@ -1107,7 +1109,7 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 		GnmDependentFlags res = DEPENDENT_NO_FLAG;
 
 		for (i = 0; i < tree->set.argc; i++)
-			res |= link_expr_dep (ep, tree->set.argv[i]);
+			res |= link_unlink_expr_dep (ep, tree->set.argv[i], qlink);
 		return res;
 	}
 #ifndef DEBUG_SWITCH_ENUM
@@ -1115,93 +1117,7 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 		g_assert_not_reached ();
 #endif
 	}
-	return 0;
-}
-
-static void
-unlink_expr_dep (GnmDependent *dep, GnmExpr const *tree)
-{
-	switch (GNM_EXPR_GET_OPER (tree)) {
-	case GNM_EXPR_OP_RANGE_CTOR:  /* See #562363 */
-	case GNM_EXPR_OP_INTERSECT:
-	case GNM_EXPR_OP_ANY_BINARY:
-		unlink_expr_dep (dep, tree->binary.value_a);
-		unlink_expr_dep (dep, tree->binary.value_b);
-		return;
-
-	case GNM_EXPR_OP_ANY_UNARY:
-		unlink_expr_dep (dep, tree->unary.value);
-		return;
-	case GNM_EXPR_OP_CELLREF:
-		unlink_single_dep (dep, dependent_pos (dep), &tree->cellref.ref);
-		return;
-
-	case GNM_EXPR_OP_CONSTANT:
-		if (VALUE_CELLRANGE == tree->constant.value->type)
-			unlink_cellrange_dep (dep, dependent_pos (dep),
-				&tree->constant.value->v_range.cell.a,
-				&tree->constant.value->v_range.cell.b);
-		return;
-
-	/*
-	 * FIXME: needs to be taught implicit intersection +
-	 * more cunning handling of argument type matching.
-	 */
-	case GNM_EXPR_OP_FUNCALL: {
-		int i;
-		if (tree->func.func->unlinker) {
-			GnmEvalPos ep;
-			GnmFuncEvalInfo fei;
-			fei.pos = eval_pos_init_dep (&ep, dep);
-			fei.func_call = &tree->func;
-			tree->func.func->unlinker (&fei);
-		}
-		for (i = 0; i < tree->func.argc; i++)
-			unlink_expr_dep (dep, tree->func.argv[i]);
-		return;
-	}
-
-	case GNM_EXPR_OP_NAME:
-		expr_name_remove_dep (tree->name.name, dep);
-		if (expr_name_is_active (tree->name.name))
-			unlink_expr_dep (dep, tree->name.name->texpr->expr);
-		return;
-
-	case GNM_EXPR_OP_ARRAY_ELEM: {
-		GnmCellRef a;
-		GnmCellPos const *pos = dependent_pos (dep);
-
-		g_return_if_fail (pos != NULL);
-
-		/* Non-corner cells depend on the corner */
-		a.col_relative = a.row_relative = FALSE;
-		a.sheet = dep->sheet;
-		a.col   = pos->col - tree->array_elem.x;
-		a.row   = pos->row - tree->array_elem.y;
-
-		unlink_single_dep (dep, pos, &a);
-		return;
-	}
-
-	case GNM_EXPR_OP_ARRAY_CORNER:
-		/* Corner depends on the contents of the expr */
-		unlink_expr_dep (dep, tree->array_corner.expr);
-		return;
-
-	case GNM_EXPR_OP_SET: {
-		int i;
-
-		for (i = 0; i < tree->set.argc; i++)
-			unlink_expr_dep (dep, tree->set.argv[i]);
-		return;
-	}
-
-#ifndef DEBUG_SWITCH_ENUM
-	default:
-		g_assert_not_reached ();
-		break;
-#endif
-	}
+	return DEPENDENT_NO_FLAG;
 }
 
 static void
@@ -1255,7 +1171,10 @@ void
 dependent_managed_set_expr (GnmDependent *dep, GnmExprTop const *texpr)
 {
 	g_return_if_fail (dep != NULL);
+#if 0
+	/* We need some kind of IS_A */
 	g_return_if_fail (dependent_type (dep) == DEPENDENT_MANAGED);
+#endif
 
 	dependent_set_expr (dep, texpr);
 	if (texpr && dep->sheet)
@@ -1268,7 +1187,10 @@ dependent_managed_set_sheet (GnmDependent *dep, Sheet *sheet)
 	GnmExprTop const *texpr;
 
 	g_return_if_fail (dep != NULL);
+#if 0
+	/* We need some kind of IS_A */
 	g_return_if_fail (dependent_type (dep) == DEPENDENT_MANAGED);
+#endif
 
 	if (dep->sheet == sheet)
 		return;
@@ -1351,7 +1273,7 @@ dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr)
 		flags = link_single_dep (&dyn->base, pos, &rr->a);
 		dyn->singles = g_slist_prepend (dyn->singles, gnm_rangeref_dup (rr));
 	} else {
-		flags = link_cellrange_dep (&dyn->base, pos, &rr->a, &rr->b);
+		flags = link_unlink_cellrange_dep (&dyn->base, pos, &rr->a, &rr->b, TRUE);
 		dyn->ranges = g_slist_prepend (dyn->ranges, gnm_rangeref_dup (rr));
 	}
 	if (flags & DEPENDENT_HAS_3D)
@@ -1395,7 +1317,8 @@ dependent_link (GnmDependent *dep)
 		sheet->deps->head = dep; /* first element */
 	sheet->deps->tail = dep;
 	dep->flags |= DEPENDENT_IS_LINKED |
-		link_expr_dep (eval_pos_init_dep (&ep, dep), dep->texpr->expr);
+		link_unlink_expr_dep (eval_pos_init_dep (&ep, dep),
+				      dep->texpr->expr, TRUE);
 
 	if (dep->flags & DEPENDENT_HAS_3D)
 		workbook_link_3d_dep (dep);
@@ -1412,13 +1335,15 @@ void
 dependent_unlink (GnmDependent *dep)
 {
 	GnmDepContainer *contain;
+	GnmEvalPos ep;
 
 	g_return_if_fail (dep != NULL);
 	g_return_if_fail (dependent_is_linked (dep));
 	g_return_if_fail (dep->texpr != NULL);
 	g_return_if_fail (IS_SHEET (dep->sheet));
 
-	unlink_expr_dep (dep, dep->texpr->expr);
+	link_unlink_expr_dep (eval_pos_init_dep (&ep, dep),
+			      dep->texpr->expr, FALSE);
 	contain = dep->sheet->deps;
 	if (contain != NULL) {
 		if (contain->head == dep)
@@ -2766,7 +2691,8 @@ dynamic_dep_free (DynamicDep *dyn)
 
 	for (ptr = dyn->ranges ; ptr != NULL ; ptr = ptr->next) {
 		rr = ptr->data;
-		unlink_cellrange_dep (&dyn->base, pos, &rr->a, &rr->b);
+		link_unlink_cellrange_dep (&dyn->base, pos,
+					   &rr->a, &rr->b, FALSE);
 		g_free (rr);
 	}
 	g_slist_free (dyn->ranges);

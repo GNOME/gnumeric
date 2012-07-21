@@ -5,6 +5,7 @@ Andreas:
 
 Morten:
 	* Fix xls read crash.  [#679992]
+	* Reduce code duplication for dependencies.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.5

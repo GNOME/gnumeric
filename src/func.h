@@ -126,8 +126,7 @@ typedef enum {
 typedef GnmValue	*(*GnmFuncArgs)	  (GnmFuncEvalInfo *ei, GnmValue const * const *args);
 typedef GnmValue	*(*GnmFuncNodes)  (GnmFuncEvalInfo *ei,
 					   int argc, GnmExprConstPtr const *argv);
-typedef GnmDependentFlags	 (*GnmFuncLink)	  (GnmFuncEvalInfo *ei);
-typedef void		 (*GnmFuncUnlink) (GnmFuncEvalInfo *ei);
+typedef GnmDependentFlags (*GnmFuncLink)  (GnmFuncEvalInfo *ei, gboolean qlink);
 
 typedef void	 (*GnmFuncRefNotify) (GnmFunc *f, int refcount);
 typedef gboolean (*GnmFuncLoadDesc)  (GnmFunc const *f, GnmFuncDescriptor *fd);
@@ -181,7 +180,6 @@ struct _GnmFuncDescriptor {
 	GnmFuncArgs	  fn_args;
 	GnmFuncNodes	  fn_nodes;
 	GnmFuncLink	  linker;
-	GnmFuncUnlink	  unlinker;
 	GnmFuncRefNotify  ref_notify;
 	GnmFuncFlags	  flags;
 	GnmFuncImplStatus impl_status;
@@ -207,7 +205,6 @@ struct _GnmFunc {
 	} fn;
 	GnmFuncGroup		*fn_group; /* most recent it was assigned to */
 	GnmFuncLink		 linker;
-	GnmFuncUnlink		 unlinker;
 	GnmFuncRefNotify	 ref_notify;
 	GnmFuncImplStatus	 impl_status;
 	GnmFuncTestStatus	 test_status;

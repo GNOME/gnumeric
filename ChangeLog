@@ -1,3 +1,12 @@
+2012-07-20  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (link_cellrange_dep, unlink_cellrange_dep):
+	merge into link_unlink_cellrange_dep.
+	(link_expr_dep, unlink_expr_dep): merge into link_unlink_expr_dep.
+
+	* src/func.h (_GnmFuncDescriptor, _GnmFunc): Merge unlinker into
+	linker.  All users changed.
+
 2012-07-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* component/gnumeric.c (go_gnm_component_get_data),

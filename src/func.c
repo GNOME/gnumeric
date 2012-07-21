@@ -926,7 +926,6 @@ gnm_func_load_stub (GnmFunc *func)
 			g_warning ("Invalid function descriptor with no function");
 		}
 		func->linker	  = desc.linker;
-		func->unlinker	  = desc.unlinker;
 		func->impl_status = desc.impl_status;
 		func->test_status = desc.test_status;
 		func->flags	  = desc.flags;
@@ -936,7 +935,6 @@ gnm_func_load_stub (GnmFunc *func)
 		func->fn_type = GNM_FUNC_TYPE_NODES;
 		func->fn.nodes = &error_function_no_full_info;
 		func->linker   = NULL;
-		func->unlinker = NULL;
 	}
 }
 
@@ -1045,7 +1043,6 @@ gnm_func_add (GnmFuncGroup *fn_group,
 	func->help		= desc->help ? desc->help : NULL;
 	func->textdomain        = go_string_new (textdomain);
 	func->linker		= desc->linker;
-	func->unlinker		= desc->unlinker;
 	func->ref_notify	= desc->ref_notify;
 	func->flags		= desc->flags;
 	func->impl_status	= desc->impl_status;
@@ -1155,7 +1152,6 @@ gnm_func_add_placeholder (Workbook *scope,
 	desc.fn_args	  = NULL;
 	desc.fn_nodes	  = &unknownFunctionHandler;
 	desc.linker	  = NULL;
-	desc.unlinker	  = NULL;
 	desc.ref_notify	  = NULL;
 	desc.flags	  = GNM_FUNC_IS_PLACEHOLDER | (copy_name ? GNM_FUNC_FREE_NAME : 0);
 	desc.impl_status  = GNM_FUNC_IMPL_STATUS_EXISTS;

@@ -1045,20 +1045,20 @@ gnumeric_hpfilter (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 const GnmFuncDescriptor TimeSeriesAnalysis_functions[] = {
 
         { "interpolation",       "AAA|f",
-	  help_interpolation, gnumeric_interpolation, NULL, NULL, NULL, NULL,
+	  help_interpolation, gnumeric_interpolation, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "periodogram",       "A|fAff",
-	  help_periodogram, gnumeric_periodogram, NULL, NULL, NULL, NULL,
+	  help_periodogram, gnumeric_periodogram, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "fourier",       "A|bb",
-	  help_fourier, gnumeric_fourier, NULL, NULL, NULL, NULL,
+	  help_fourier, gnumeric_fourier, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "hpfilter",       "A|f",
-	  help_hpfilter, gnumeric_hpfilter, NULL, NULL, NULL, NULL,
+	  help_hpfilter, gnumeric_hpfilter, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0}
+	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0}
 };
