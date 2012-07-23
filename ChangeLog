@@ -1,3 +1,18 @@
+2012-07-22  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (dependent_eval): Do the same thing for all
+	dependents.
+	(gnm_cell_eval_content): Don't clear dynamic dependents here.
+	We're now always called via dependent_eval.
+	(gnm_cell_eval): Now a function instead of a macro in cell.h
+
+2012-07-21  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (dependent_debug_name_for_sheet)
+	(dependent_debug_name, dependent_set_expr): simplify.
+	(dependent_types_init): Make a proper class for cells as
+	dependencies.
+
 2012-07-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: make introspection build with no libspreadsheet installed.

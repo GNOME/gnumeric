@@ -41,6 +41,7 @@
 #include <goffice/goffice.h>
 #include <string.h>
 
+static gboolean gnm_cell_eval_content (GnmCell *cell);
 static void dependent_changed (GnmDependent *dep);
 static void dependent_clear_dynamic_deps (GnmDependent *dep);
 
@@ -230,6 +231,9 @@ gnm_dep_unlink_undo_new (GSList *deps)
 
 #undef DEBUG_EVALUATION
 
+static void cell_dep_eval	   (GnmDependent *dep);
+static void cell_dep_set_expr	   (GnmDependent *dep, GnmExprTop const *new_texpr);
+static void cell_dep_debug_name    (GnmDependent const *dep, GString *target);
 static void dynamic_dep_eval	   (GnmDependent *dep);
 static void dynamic_dep_debug_name (GnmDependent const *dep, GString *target);
 static void name_dep_eval	   (GnmDependent *dep);
@@ -238,6 +242,11 @@ static void managed_dep_eval	   (GnmDependent *dep);
 static void managed_dep_debug_name (GnmDependent const *dep, GString *target);
 
 static GPtrArray *dep_classes = NULL;
+static GnmDependentClass cell_dep_class = {
+	cell_dep_eval,
+	cell_dep_set_expr,
+	cell_dep_debug_name,
+};
 static GnmDependentClass dynamic_dep_class = {
 	dynamic_dep_eval,
 	NULL,
@@ -268,7 +277,7 @@ dependent_types_init (void)
 	/* Init with a trio of NULL classes so we can access directly */
 	dep_classes = g_ptr_array_new ();
 	g_ptr_array_add	(dep_classes, NULL); /* bogus filler */
-	g_ptr_array_add	(dep_classes, NULL); /* Cell */
+	g_ptr_array_add	(dep_classes, &cell_dep_class);
 	g_ptr_array_add	(dep_classes, &dynamic_dep_class);
 	g_ptr_array_add	(dep_classes, &name_dep_class);
 	g_ptr_array_add	(dep_classes, &managed_dep_class);
@@ -363,27 +372,18 @@ void
 dependent_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr)
 {
 	int const t = dependent_type (dep);
+	GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
 
 	if (dependent_is_linked (dep))
 		dependent_unlink (dep);
 	if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS)
 		dependent_clear_dynamic_deps (dep);
 
-	if (t == DEPENDENT_CELL) {
-		/*
-		 * Explicitly do not check for array subdivision, we may be
-		 * replacing the corner of an array.
-		 */
-		gnm_cell_set_expr_unsafe (GNM_DEP_TO_CELL (dep), new_texpr);
-	} else {
-		GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
-
-		g_return_if_fail (klass);
+	if (klass->set_expr)
+		klass->set_expr (dep, new_texpr);
+	else {
 		if (new_texpr)
 			gnm_expr_top_ref (new_texpr);
-		if (klass->set_expr)
-			klass->set_expr (dep, new_texpr);
-
 		if (dep->texpr)
 			gnm_expr_top_unref (dep->texpr);
 		dep->texpr = new_texpr;
@@ -1149,6 +1149,34 @@ workbook_unlink_3d_dep (GnmDependent *dep)
 }
 
 /*****************************************************************************/
+
+static void
+cell_dep_eval (GnmDependent *dep)
+{
+	gboolean finished = gnm_cell_eval_content (GNM_DEP_TO_CELL (dep));
+	dep->flags &= ~GNM_CELL_HAS_NEW_EXPR;
+
+	/* This should always be the top of the stack */
+	g_return_if_fail (finished);
+}
+
+static void
+cell_dep_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr)
+{
+	/*
+	 * Explicitly do not check for array subdivision, we may be
+	 * replacing the corner of an array.
+	 */
+	gnm_cell_set_expr_unsafe (GNM_DEP_TO_CELL (dep), new_texpr);
+}
+
+static void
+cell_dep_debug_name (GnmDependent const *dep, GString *target)
+{
+	g_string_append (target, cell_name (GNM_DEP_TO_CELL (dep)));
+}
+
+/*****************************************************************************/
 /*
  * "Managed" dependent handling.
  *
@@ -1372,7 +1400,7 @@ dependent_unlink (GnmDependent *dep)
  * it should not be used by anyone. It is an internal
  * function.
  **/
-gboolean
+static gboolean
 gnm_cell_eval_content (GnmCell *cell)
 {
 	static GnmCell *iterating = NULL;
@@ -1383,15 +1411,6 @@ gnm_cell_eval_content (GnmCell *cell)
 	if (!gnm_cell_has_expr (cell) ||	/* plain cells without expr */
 	    !dependent_is_linked (&cell->base)) /* special case within TABLE */
 		return TRUE;
-
-	/* do this here rather than dependent_eval
-	 * because this routine is sometimes called
-	 * directly
-	 */
-	if (cell->base.flags & DEPENDENT_HAS_DYNAMIC_DEPS) {
-		dependent_clear_dynamic_deps (GNM_CELL_TO_DEP (cell));
-		cell->base.flags &= ~DEPENDENT_HAS_DYNAMIC_DEPS;
-	}
 
 #ifdef DEBUG_EVALUATION
 	{
@@ -1529,32 +1548,23 @@ static void
 dependent_eval (GnmDependent *dep)
 {
 	int const t = dependent_type (dep);
+	GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
 
-	if (t != DEPENDENT_CELL) {
-		GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
-
-		g_return_if_fail (klass);
-
-		if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS) {
-			dependent_clear_dynamic_deps (dep);
-			dep->flags &= ~DEPENDENT_HAS_DYNAMIC_DEPS;
-		}
-
-		klass->eval (dep);
-	} else {
-		/* This will clear the dynamic deps too, see comment there
-		 * to explain asymmetry.
-		 */
-		gboolean finished = gnm_cell_eval_content (GNM_DEP_TO_CELL (dep));
-
-		/* This should always be the top of the stack */
-		g_return_if_fail (finished);
-
-		dep->flags &= ~GNM_CELL_HAS_NEW_EXPR;
+	if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS) {
+		dependent_clear_dynamic_deps (dep);
+		dep->flags &= ~DEPENDENT_HAS_DYNAMIC_DEPS;
 	}
+	klass->eval (dep);
 
 	/* Don't clear flag until after in case we iterate */
 	dep->flags &= ~DEPENDENT_NEEDS_RECALC;
+}
+
+void
+gnm_cell_eval (GnmCell *cell)
+{
+	if (gnm_cell_needs_recalc (cell))
+		dependent_eval (GNM_CELL_TO_DEP (cell));
 }
 
 
@@ -2761,10 +2771,39 @@ static void
 dependent_debug_name_for_sheet (GnmDependent const *dep, Sheet *sheet,
 				GString *target)
 {
-	if (sheet && sheet == dep->sheet && dependent_is_cell (dep))
-		g_string_append (target, cell_name (GNM_DEP_TO_CELL (dep)));
-	else
-		dependent_debug_name (dep, target);
+	int t;
+	GnmDependentClass *klass;
+
+	g_return_if_fail (dep != NULL);
+	g_return_if_fail (dep_classes);
+
+	if (!dep->sheet)
+		g_warning ("Invalid dep, missing sheet");
+
+	if (sheet == dep->sheet) {
+		/* Nothing */
+	} else {
+		g_string_append (target,
+				 dep->sheet ? dep->sheet->name_quoted : "?");
+		g_string_append_c (target, '!');
+	}
+
+	t = dependent_type (dep);
+	klass = g_ptr_array_index (dep_classes, t);
+	klass->debug_name (dep, target);
+}
+
+
+/**
+ * dependent_debug_name :
+ * @dep : The dependent we are interested in.
+ *
+ * A useful little debugging utility.
+ */
+void
+dependent_debug_name (GnmDependent const *dep, GString *target)
+{
+	dependent_debug_name_for_sheet (dep, NULL, target);
 }
 
 
@@ -2968,36 +3007,6 @@ gnm_dep_container_sanity_check (GnmDepContainer const *deps)
 		g_hash_table_insert (seenb4, (gpointer)dep, (gpointer)dep);
 	}
 	g_hash_table_destroy (seenb4);
-}
-
-/**
- * dependent_debug_name :
- * @dep : The dependent we are interested in.
- *
- * A useful little debugging utility.
- */
-void
-dependent_debug_name (GnmDependent const *dep, GString *target)
-{
-	int t;
-
-	g_return_if_fail (dep != NULL);
-	g_return_if_fail (dep_classes);
-
-	if (dep->sheet != NULL) {
-		g_string_append (target, dep->sheet->name_quoted);
-		g_string_append_c (target, '!');
-	} else
-		g_warning ("Invalid dep, missing sheet");
-
-	t = dependent_type (dep);
-	if (t != DEPENDENT_CELL) {
-		GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
-
-		g_return_if_fail (klass);
-		klass->debug_name (dep, target);
-	} else
-		g_string_append (target, cell_name (GNM_DEP_TO_CELL (dep)));
 }
 
 /* ------------------------------------------------------------------------- */

@@ -96,9 +96,9 @@ void	 dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr);
 GOUndo  *dependents_relocate	    (GnmExprRelocateInfo const *info);
 void	 dependents_link	    (GSList *deps);
 
+void	 gnm_cell_eval		    (GnmCell *cell);
 void	 cell_queue_recalc	    (GnmCell *cell);
 void	 cell_foreach_dep	    (GnmCell const *cell, GnmDepFunc func, gpointer user);
-gboolean gnm_cell_eval_content	    (GnmCell *cell);
 
 void sheet_region_queue_recalc	  (Sheet const *sheet, GnmRange const *range);
 void dependents_invalidate_sheet  (Sheet *sheet, gboolean destroy);

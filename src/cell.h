@@ -50,14 +50,6 @@ GnmExprArrayCorner const *
 	    gnm_cell_is_array_corner  (GnmCell const *cell);
 gboolean    gnm_cell_array_bound	  (GnmCell const *cell, GnmRange *res);
 
-#define gnm_cell_eval(cell)									     \
-	do {											     \
-		if (gnm_cell_needs_recalc (cell)) {						     \
-			gnm_cell_eval_content (cell);						     \
-			(cell)->base.flags &= ~(DEPENDENT_NEEDS_RECALC | (int)GNM_CELL_HAS_NEW_EXPR ); \
-		}										     \
-	} while (0)
-
 /**
  * Utilities to assign the contents of a cell
  */

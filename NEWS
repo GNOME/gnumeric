@@ -5,7 +5,8 @@ Andreas:
 
 Morten:
 	* Fix xls read crash.  [#679992]
-	* Reduce code duplication for dependencies.
+	* Reduce code duplication for dependents.
+	* Make cells regular dependents.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.5
