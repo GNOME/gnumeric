@@ -1,3 +1,8 @@
+2012-07-24  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (link_unlink_expr_dep): Fix problem from
+	earlier cleanup.
+
 2012-07-22  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (dependent_eval): Do the same thing for all

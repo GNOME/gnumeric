@@ -1075,7 +1075,10 @@ link_unlink_expr_dep (GnmEvalPos *ep, GnmExpr const *tree, gboolean qlink)
 	}
 
 	case GNM_EXPR_OP_NAME:
-		expr_name_add_dep (tree->name.name, ep->dep);
+		if (qlink)
+			expr_name_add_dep (tree->name.name, ep->dep);
+		else
+			expr_name_remove_dep (tree->name.name, ep->dep);
 		if (expr_name_is_active (tree->name.name))
 			return link_unlink_expr_dep (ep, tree->name.name->texpr->expr, qlink) | DEPENDENT_USES_NAME;
 		return DEPENDENT_USES_NAME;
