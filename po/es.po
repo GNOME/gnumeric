@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-07-21 16:22+0000\n"
-"PO-Revision-Date: 2012-07-23 12:40+0200\n"
+"POT-Creation-Date: 2012-07-23 10:42+0000\n"
+"PO-Revision-Date: 2012-07-24 12:59+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -10776,11 +10776,11 @@ msgstr ""
 
 #: ../src/dialogs/search-replace.ui.h:16
 msgid "Ma_tch whole words only"
-msgstr "Coi_ncidir sólo palabras completas"
+msgstr "Coi_ncidir sólo con palabras completas"
 
 #: ../src/dialogs/search-replace.ui.h:17 ../src/dialogs/search.ui.h:10
 msgid "Do not consider matches in the middle of words"
-msgstr "No considerar coincidencias en el medio de las palabras"
+msgstr "No considerar coincidencias en medio de las palabras"
 
 #: ../src/dialogs/search-replace.ui.h:18
 msgid "_Preserve case"
@@ -13633,11 +13633,11 @@ msgstr "Imprimir la ubicación de cada coincidencia"
 
 #: ../src/ssgrep.c:129
 msgid "Suppress all normal output"
-msgstr "Elimina toda salida normal"
+msgstr "Suprimir toda salida normal"
 
 #: ../src/ssgrep.c:136
 msgid "Search results of expressions too"
-msgstr "Buscar también en los resultados de expresiones"
+msgstr "Buscar también resultados de expresiones"
 
 #: ../src/ssgrep.c:143
 msgid "Print the location type of each match"
@@ -13649,7 +13649,7 @@ msgstr "Buscar celdas que no coincidan"
 
 #: ../src/ssgrep.c:164
 msgid "Match only whole words"
-msgstr "Coincidir sólo con palabras completas"
+msgstr "Coincidir sólo palabras completas"
 
 #: ../src/ssgrep.c:171
 msgid "Recalculate all cells"
@@ -13665,7 +13665,7 @@ msgstr "comentario"
 
 #: ../src/ssgrep.c:427
 msgid "PATTERN INFILE..."
-msgstr "PATRÓN DE ARCHIVO-ENTRADA…"
+msgstr "PATRÓN ARCHIVO_ENTRADA…"
 
 #: ../src/ssgrep.c:441
 #, c-format
@@ -13698,7 +13698,7 @@ msgstr "Indexar los archivos dados"
 
 #: ../src/ssindex.c:248 ../src/ssindex.c:268
 msgid "INFILE..."
-msgstr "ARCHIVO-ENTRADA…"
+msgstr "ARCHIVO_ENTRADA…"
 
 #: ../src/ssindex.c:262
 #, c-format
@@ -13717,7 +13717,7 @@ msgstr "Conjunto de caracteres"
 
 #: ../src/stf-export.c:549
 msgid "The character encoding of the output."
-msgstr "El conjunto de caracteres de la salida."
+msgstr "La codificación de caracteres de la salida."
 
 #: ../src/stf-export.c:557
 msgid "Locale"
@@ -13725,7 +13725,7 @@ msgstr "Región"
 
 #: ../src/stf-export.c:558
 msgid "The locale to use for number and date formatting."
-msgstr "La configuración regional para el formateo de fechas y números."
+msgstr "La región que usar para el formato de número y fecha."
 
 #: ../src/stf-export.c:566
 msgid "Transliterate mode"
@@ -13745,7 +13745,7 @@ msgstr "Error al intentar exportar el archivo como texto"
 
 #: ../src/stf-export.c:691
 msgid "eol must be one of unix, mac, and windows"
-msgstr "eol debe ser uno de unix, mac y windows"
+msgstr "eol debe ser de unix, mac y windows"
 
 #: ../src/stf-export.c:711
 #, c-format
@@ -13754,7 +13754,7 @@ msgstr "Valor no válido para la opción %s: «%s»"
 
 #: ../src/stf-export.c:713
 msgid "Invalid option for stf exporter"
-msgstr "Opción no válida para exportar stf"
+msgstr "Opción no válida para el exportador stf"
 
 #: ../src/stf-export.c:738
 msgid "Text (configurable)"
@@ -13762,12 +13762,11 @@ msgstr "Texto (configurable)"
 
 #. FIXME: What locale?
 #: ../src/stf-parse.c:1269
-#, fuzzy
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
 msgstr ""
-"Hay más columnas de datos que espacio en la hoja. Las columnas extra se "
+"Hay más filas de datos que espacio en la hoja. Las filas adicionales se "
 "ignorarán."
 
 #. FIXME: What locale?
@@ -13776,8 +13775,8 @@ msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
 msgstr ""
-"Hay más columnas de datos que espacio en la hoja. Las columnas extra se "
-"ignorarán."
+"Hay más columnas de datos que espacio en la hoja. Las columnas adicionales "
+"se ignorarán."
 
 #: ../src/stf.c:136
 msgid "Error while trying to read file"
@@ -13788,25 +13787,25 @@ msgid "Text to Columns"
 msgstr "Texto a columnas"
 
 #: ../src/stf.c:323
-#, fuzzy, c-format
+#, c-format
 msgid "Only one column of input data can be parsed at a time"
-msgstr "Sólo se puede analizar a la vez una columna de datos de <b>entrada</b>"
+msgstr "Sólo se puede analizar a la vez una columna de datos de entrada"
 
 #: ../src/stf.c:348
 msgid "There is no data to convert"
-msgstr "No hay datos para convertir"
+msgstr "No hay datos que convertir"
 
 #: ../src/stf.c:368
 msgid "Error while trying to parse data into sheet"
-msgstr "Ha ocurrido un error al procesar los datos en la hoja"
+msgstr "Error al analizar los datos en la hoja"
 
 #: ../src/stf.c:395
 #, c-format
 msgid "The file contains %d NULL character. It has been changed to a space."
 msgid_plural ""
 "The file contains %d NULL characters. They have been changed to spaces."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "El archivo contiene %d caracter NULL. Se cambió a un espacio."
+msgstr[1] "El archivo contiene %d caracteres NULL. Se cambiaron a espacios."
 
 #: ../src/stf.c:448
 msgid "That file is not in the given encoding."
@@ -13814,11 +13813,11 @@ msgstr "Ese archivo no está en la codificación dada."
 
 #: ../src/stf.c:492
 msgid "Some data did not fit on the sheet and was dropped."
-msgstr ""
+msgstr "Algunos datos no se ajustaban en la hoja y se dejaron."
 
 #: ../src/stf.c:503
 msgid "Parse error while trying to parse data into sheet"
-msgstr "Ha ocurrido un error al intentar parsear los datos en la hoja"
+msgstr "Error de análisis al analizar datos dentro de la hoja."
 
 #: ../src/stf.c:537
 msgid "Error while trying to write CSV file"
@@ -13837,14 +13836,12 @@ msgid "Comma separated values (CSV)"
 msgstr "Valores separados por comas (CSV)"
 
 #: ../src/tools/analysis-anova.c:122
-#, fuzzy
 msgid "ANOVA: Two-Factor Without Replication"
-msgstr "Anova: Dos factores sin replicación"
+msgstr "ANOVA: dos factores sin replicación"
 
 #: ../src/tools/analysis-anova.c:124
-#, fuzzy
 msgid "/Summary/Count/Sum/Average/Variance"
-msgstr "/Cuenta/Suma/Promediación/Varianza"
+msgstr "/Resumen/Cuenta/Suma/Promedio/Varianza"
 
 #: ../src/tools/analysis-anova.c:150 ../src/tools/analysis-tools.c:180
 #, c-format
@@ -13858,32 +13855,30 @@ msgstr "Columna %i"
 
 #: ../src/tools/analysis-anova.c:235 ../src/tools/analysis-anova.c:593
 msgid "\"ANOVA\";[Red]\"Invalid ANOVA: Missing Observations\""
-msgstr ""
+msgstr "«ANOVA»;[Rojo]\"ANOVA no válida: faltan observaciones\""
 
 #: ../src/tools/analysis-anova.c:240
-#, fuzzy
 msgid "/Source of Variation/Rows/Columns/Error/Total"
-msgstr "/Análisis de varianza/Origen de variación/Filas/Columnas/Error/Total"
+msgstr "/Fuente de variación/Filas/Columnas/Error/Total"
 
 #: ../src/tools/analysis-anova.c:250 ../src/tools/analysis-anova.c:609
 #: ../src/tools/analysis-tools.c:4302
 msgid "/SS/df/MS/F/P-value/F critical"
-msgstr "/Suma de cuadrados/Cuadrado medio/Valor P/F crítico"
+msgstr "/SS/df/MS/F/valor-P/F crítica"
 
 #: ../src/tools/analysis-anova.c:387 ../src/tools/analysis-anova.c:793
 msgid "Insufficient space available for ANOVA table."
-msgstr ""
+msgstr "No hay suficiente espacio disponible para la tabla de ANOVA."
 
 #: ../src/tools/analysis-anova.c:460
-#, fuzzy
 msgid "ANOVA: Two-Factor Fixed Effects With Replication"
-msgstr "Anova: Dos factores con replicación"
+msgstr "ANOVA: efectos de dos factores ajustados con replicación"
 
 #. xgettext: this is a label for the first, second,... level of factor B in an ANOVA
 #: ../src/tools/analysis-anova.c:475
 #, c-format
 msgid "B, Level %i"
-msgstr ""
+msgstr "B, nivel %i"
 
 #: ../src/tools/analysis-anova.c:477 ../src/tools/analysis-anova.c:535
 msgid "Subtotal"
@@ -13893,16 +13888,15 @@ msgstr "Subtotal"
 #: ../src/tools/analysis-anova.c:494
 #, c-format
 msgid "A, Level %i"
-msgstr ""
+msgstr "A, nivel %i"
 
 #: ../src/tools/analysis-anova.c:495 ../src/tools/analysis-anova.c:536
 msgid "/Count/Sum/Average/Variance"
-msgstr "/Cuenta/Suma/Promediación/Varianza"
+msgstr "/Cuenta/Suma/Promedio/Varianza"
 
 #: ../src/tools/analysis-anova.c:598
-#, fuzzy
 msgid "/Source of Variation/Factor A/Factor B/Interaction/Error/Total"
-msgstr "/Análisis de varianza/Origen de variación/Filas/Columnas/Error/Total"
+msgstr "/Fuente de variación/Factor A/Factor B/Interacción/Error/Total"
 
 #: ../src/tools/analysis-anova.c:836
 #, c-format
@@ -13915,58 +13909,60 @@ msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Análisis de varianza de dos factores (%s),  con replicación"
 
 #: ../src/tools/analysis-anova.c:852
-#, fuzzy
 msgid "ANOVA"
-msgstr "_Análisis de varianza"
+msgstr "Análisis de varianza"
 
 #: ../src/tools/analysis-anova.c:855
 msgid "Two Factor ANOVA"
 msgstr "Análisis de varianza de dos factores"
 
 #: ../src/tools/analysis-auto-expression.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Auto Expression (%s)"
-msgstr "Texto de autoexpresión"
+msgstr "Expresión automática (%s)"
 
 #: ../src/tools/analysis-auto-expression.c:115
 #: ../src/tools/analysis-auto-expression.c:118
-#, fuzzy
 msgid "Auto Expression"
-msgstr "Expresión"
+msgstr "Expresión automática"
 
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
 #: ../src/tools/analysis-chi-squared.c:65
 msgid "[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
 msgstr ""
+"[>=5]\"Prueba de independencia\";[<5][Rojo]\"Prueba de independencia no "
+"válida\""
 
 #: ../src/tools/analysis-chi-squared.c:66
 msgid "[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\""
 msgstr ""
+"[>=5]\"Prueba de homogeneidad\";[<5][Rojo]\"Prueba de homogeneidad no válida"
+"\""
 
 #: ../src/tools/analysis-chi-squared.c:69
 msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
-msgstr ""
+msgstr "/Prueba de estadística/Grados de libertad/Valor-p/Valor crítico"
 
 #: ../src/tools/analysis-chi-squared.c:178
 #, c-format
 msgid "Test of Independence (%s)"
-msgstr ""
+msgstr "Prueba de independencia (%s)"
 
 #: ../src/tools/analysis-chi-squared.c:179
 #, c-format
 msgid "Test of Homogeneity (%s)"
-msgstr ""
+msgstr "Prueba de homogeneidad (%s)"
 
 #: ../src/tools/analysis-chi-squared.c:190
 #: ../src/tools/analysis-chi-squared.c:195
 msgid "Test of Independence"
-msgstr ""
+msgstr "Prueba de independencia"
 
 #: ../src/tools/analysis-chi-squared.c:191
 #: ../src/tools/analysis-chi-squared.c:196
 msgid "Test of Homogeneity"
-msgstr ""
+msgstr "Prueba de homogeneidad"
 
 #: ../src/tools/analysis-exp-smoothing.c:114
 #: ../src/tools/analysis-exp-smoothing.c:290
@@ -14004,13 +14000,14 @@ msgstr "«γ =» * 0.000"
 
 #: ../src/tools/analysis-exp-smoothing.c:639
 #: ../src/tools/analysis-exp-smoothing.c:642
-#, fuzzy
 msgid ""
 "Holt's trend corrected exponential\n"
 "smoothing requires at least 2\n"
 "output columns for each data set."
 msgstr ""
-"No se ha podido crear el diálogo de la Herramienta de Suavizado Exponencial."
+"La tendencia exponencial de Holt corregida\n"
+"el alisado requiere al menos 2\n"
+"columnas de salida para cada conjunto de datos."
 
 #: ../src/tools/analysis-exp-smoothing.c:723
 #: ../src/tools/analysis-exp-smoothing.c:1043
@@ -14020,7 +14017,7 @@ msgstr "«δ =» * 0.000"
 #: ../src/tools/analysis-exp-smoothing.c:758
 #: ../src/tools/analysis-exp-smoothing.c:1080
 msgid "/Level/Trend/Seasonal Adjustment"
-msgstr ""
+msgstr "/Nivel/Tendencia/Ajuste temporal"
 
 #: ../src/tools/analysis-exp-smoothing.c:953
 #: ../src/tools/analysis-exp-smoothing.c:956
@@ -14029,6 +14026,9 @@ msgid ""
 "smoothing method requires at least 4\n"
 "output columns for each data set."
 msgstr ""
+"El exponencial aditivo de Holt-Winters\n"
+"el método de alisado requiere al menos 4\n"
+"columnas de salida para cada conjunto de datos."
 
 #: ../src/tools/analysis-exp-smoothing.c:1324
 #: ../src/tools/analysis-exp-smoothing.c:1327
@@ -14037,15 +14037,18 @@ msgid ""
 "smoothing method requires at least 4\n"
 "output columns for each data set."
 msgstr ""
+"El exponencial multiplicativo de Holt-Winters\n"
+"el método de alisado requiere al menos 4\n"
+"columnas de salida para cada conjunto de datos."
 
 #: ../src/tools/analysis-exp-smoothing.c:1369
 #, c-format
 msgid "Exponential Smoothing (%s)"
-msgstr "Suavizado exponencial (%s)"
+msgstr "Alisado exponencial (%s)"
 
 #: ../src/tools/analysis-frequency.c:77
 msgid "/Frequency Table/Category"
-msgstr ""
+msgstr "/Tabla de frecuencia/Categoría"
 
 #: ../src/tools/analysis-frequency.c:152 ../src/tools/analysis-histogram.c:328
 #: ../src/tools/analysis-tools.c:1225
@@ -14056,49 +14059,47 @@ msgstr "Área %d"
 #: ../src/tools/analysis-frequency.c:270
 #, c-format
 msgid "Frequency Table (%s)"
-msgstr "Tabla de frecuencias (%s)"
+msgstr "Tabla de frecuencia (%s)"
 
 #: ../src/tools/analysis-frequency.c:289 ../src/tools/analysis-frequency.c:292
-#, fuzzy
 msgid "Frequency Table"
-msgstr "Frecuencia"
+msgstr "Tabla de frecuencia"
 
 #. translator note: only translate the
 #. "to below" and "up to" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:181
 msgid "\"to below\" * General"
-msgstr ""
+msgstr "«a continuación» * General"
 
 #: ../src/tools/analysis-histogram.c:181
 msgid "\"up to\" * General"
-msgstr ""
+msgstr "«hasta» * General"
 
 #. translator note: only translate the
 #. "to" and "\xe2\x88\x9e" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:269
 msgid "\"to\" * \"∞\""
-msgstr "«de» * «∞»"
+msgstr "«a» * «∞»"
 
 #. translator note: only translate the
 #. "from" and "above" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:282
-#, fuzzy
 msgid "\"from\" * General"
-msgstr "Formatear como general"
+msgstr "«desde» * General"
 
 #: ../src/tools/analysis-histogram.c:282
 msgid "\"above\" * General"
-msgstr ""
+msgstr "«sobre» * General"
 
 #. translator note: only translate the
 #. "from" and "\xe2\x88\x92\xe2\x88\x9e" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:289
 msgid "\"from\" * \"−∞\";\"from\" * \"−∞\""
-msgstr ""
+msgstr "«desde» * «−∞»;«desde» * «−∞»"
 
 #: ../src/tools/analysis-histogram.c:446
 #, c-format
@@ -14111,11 +14112,11 @@ msgstr "Kaplan-Meier"
 
 #: ../src/tools/analysis-kaplan-meier.c:203
 msgid "/At Risk/Deaths/Censures/Probability"
-msgstr ""
+msgstr "/En riesgo/Muertes/Censuras/Probabilidad"
 
 #: ../src/tools/analysis-kaplan-meier.c:209
 msgid "/At Risk/Deaths/Probability"
-msgstr ""
+msgstr "/En riesgo/Muertes/Probabilidad"
 
 #: ../src/tools/analysis-kaplan-meier.c:469 ../src/tools/simulation.c:250
 msgid "Median"
@@ -14123,7 +14124,7 @@ msgstr "Mediana"
 
 #: ../src/tools/analysis-kaplan-meier.c:532
 msgid "/Log-Rank Test/Statistics/Degrees of Freedom/p-Value"
-msgstr ""
+msgstr "/Prueba de Log-Rank/Estadísticas/Grados de libertad/valor-p"
 
 #: ../src/tools/analysis-kaplan-meier.c:657
 #, c-format
