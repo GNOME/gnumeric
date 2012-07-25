@@ -2093,16 +2093,6 @@
 	    </para>
 	  </listitem>
 
-	  <listitem>
-	    <para>
-	        <guimenuitem>Statistical Analysis</guimenuitem> &mdash; The
-	        <guimenuitem>Statistical Analysis</guimenuitem> menu item opens a
-	        submenu with all available statistical analysis tools. These tools
-            are explained in <xref linkend="chapter-stat-analysis" />.
-	      constraints. 
-	    </para>
-	  </listitem>
-
 	</itemizedlist>
 	</listitem>
       </varlistentry>
@@ -2131,6 +2121,29 @@
 
 </sect2>
 
+<!--   ********************* Statistics MENU ************  -->
+<sect2 id="Statistics-Menu">
+  <title>The Statistics Menu</title>
+  
+  <para>The <guimenu>Statistics</guimenu> menu is </para>
+  <figure id="menu-statistics-labelled.png">
+    <title>The <guimenu>Statistics</guimenu> menu.</title>
+    <screenshot>
+      <mediaobject>
+	<imageobject>
+	  <imagedata fileref="figures/menu-statistics-labelled.png" />
+	</imageobject>
+	<textobject>
+	  <phrase>An image of the Statistics menu.</phrase>
+	</textobject>
+      </mediaobject>
+    </screenshot>
+  </figure>
+  <para>The
+  <guimenuitem>Statistis</guimenuitem> menu and its submenus contain
+  all available statistical analysis tools. These tools
+  are explained in <xref linkend="chapter-stat-analysis" />.</para>
+</sect2>
 
   <!-- ******************* THE DATA MENU   ************** -->
   <sect2 id="Data-Menu">

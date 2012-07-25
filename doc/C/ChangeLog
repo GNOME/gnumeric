@@ -1,5 +1,11 @@
 2012-07-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* figures/menu-statistics-labelled.png: new
+	* figures/Makefile.am: add the above
+	* gui-menus.xml: updated
+
+2012-07-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* figures/menu-format-column.png: updated
 	* figures/menu-format-labelled.png: updated
 	* gui-menus.xml: updated
@@ -7,7 +13,7 @@
 2012-07-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* figures/menu-view-properties-dialog-cm.png: new
-	* figures/Makefile.am" add menu-view-properties-dialog-cm.png
+	* figures/Makefile.am add menu-view-properties-dialog-cm.png
 	* figures/menu-edit-labelled.png: updated
 	* figures/menu-view-properties-dialog.png: updated
 	* gnumeric.xml: updated

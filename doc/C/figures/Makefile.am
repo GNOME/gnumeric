@@ -304,6 +304,7 @@ EXTRA_DIST = \
      menu-insert-fw.png \
      menu-insert-labelled.png \
      menu-insert-names.png \
+     menu-statistics-labelled.png \
      menu-tools-labelled.png \
      menu-torn-off.png \
      menu-view-labelled.png \
