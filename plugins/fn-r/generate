@@ -345,7 +345,7 @@ sub distribution {
 		  "\t\t\"r.$func\",\n" .
 		  "\t\t\"$typespec\",\n" .
 		  "\t\thelp_r_$func,\n" .
-		  "\t\tgnumeric_r_$func, NULL, NULL, NULL, NULL,\n" .
+		  "\t\tgnumeric_r_$func, NULL, NULL, NULL,\n" .
 		  "\t\tGNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,\n" .
 		  "\t},\n");
 }

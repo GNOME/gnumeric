@@ -1,3 +1,7 @@
+2012-07-24  Morten Welinder  <terra@gnome.org>
+
+	* generate (distribution): Remove NULL for unlinker.
+
 2012-07-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.5
