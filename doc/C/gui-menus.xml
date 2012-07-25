@@ -1535,14 +1535,15 @@
     </para>
 
     <figure id="menu-format-labelled.png">
-      <title>The <guimenu>Format</guimenu> Menu.</title>
+      <title>The <guimenu>Format</guimenu> Menu and Its <guimenu>Cells</guimenu>
+      Submenu.</title>
       <screenshot>
         <mediaobject>
             <imageobject>
               <imagedata fileref="figures/menu-format-labelled.png" />
             </imageobject>
             <textobject>
-              <phrase>An image of the Format menu.</phrase>
+              <phrase>An image of the Format menu and its Cells submenu.</phrase>
             </textobject>
         </mediaobject>
       </screenshot>
@@ -1552,18 +1553,74 @@
     <variablelist> 
       <varlistentry>
        <term><guimenu>The Format Menu</guimenu> offers these menuitems:</term>
+
+
        <listitem>
        <para>
          <itemizedlist>
           <listitem>
            <para>
-            <guimenuitem>Cells...</guimenuitem> &mdash; The
-	    <guimenuitem>Cells...</guimenuitem> menu item opens the
-	    cell format dialog. This dialog is used to set cell data
-	    types and formats. It is explained in <xref
-	    linkend="sect-data-format" />.
+            <guimenuitem>Cells</guimenuitem> &mdash; The
+	    <guimenuitem>Cells...</guimenuitem> menu item opens a sub-menu
+	    with choices to allows the user to modify the formatting of the
+	    selected cells.
+	   </para>
+
+	  <para>
+	    <itemizedlist>
+	      <listitem>
+		<para>
+		  <guimenuitem>Format...</guimenuitem> &mdash; The
+		  <guimenuitem>Format...</guimenuitem> menu item opens the
+		  cell format dialog. This dialog is used to set cell data
+		  types and formats. It is explained in <xref
+		  linkend="sect-data-format" />.
+		</para>
+	      </listitem>
+	      <listitem>
+		<para>
+		  <guimenuitem>Conditional Formating...</guimenuitem> &mdash; The
+		  <guimenuitem>Conditional Formating...</guimenuitem> menu item 
+		  opens the
+		  conditional format dialog. This dialog is used to set cell data
+		  types and formats that depend on values in the wworkbook.
+		  It is explained in <xref
+		  linkend="sect-data-format-conditional" />.
+		</para>
+	      </listitem>
+	      <listitem>
+		<para>
+		  <guimenuitem>Merge</guimenuitem> &mdash;
+		  This menu item combines the current selection into a single
+		  large cell.
+		</para>
+	      </listitem>
+	      <listitem>
+		<para>
+		  <guimenuitem>Unmerge</guimenuitem> &mdash;
+		  This menu item divides a merged selection into the original
+		  cells.
+		</para>
+	      </listitem>
+	      <listitem>
+		<para>
+		  <guimenuitem>Auto Fit Height</guimenuitem> &mdash;
+		  This menu item makes &gnum;
+		  automatically choose the optimal row heights to display
+		  all of the text in the current selection.
+		</para>
+	      </listitem>
+	      <listitem>
+		<para>
+		  <guimenuitem>Auto Fit Width</guimenuitem> &mdash;
+		  This menu item makes &gnum;
+		  automatically choose the optimal columnn widths to display
+		  all of the text in the current selection.
+		</para>
+	      </listitem>
+	    </itemizedlist>
 	  </para>
-        </listitem>
+	  </listitem>
 
         <listitem>
          <para>
@@ -1601,7 +1658,7 @@
 	 </listitem>
 	 <listitem>
 	   <para>
-	     <guimenuitem>Auto Fit Selection</guimenuitem> &mdash;
+	     <guimenuitem>Auto Fit Width</guimenuitem> &mdash;
 	     This menu item makes &gnum;
 	     automatically choose the optimal column size to display
 	     all of the text in the current selection.
@@ -1637,56 +1694,61 @@
 	     zoom this is 48 points or 64 pixels.
 	   </para>
 	 </listitem>
-       </itemizedlist>
-     </para>
-   </listitem>
-
-
-        <listitem>
-         <para>
-           <guimenuitem>Row</guimenuitem> &mdash; The <guimenuitem>Row</guimenuitem>
-					 menu item provides the same functions as the <guimenuitem>Column</guimenuitem>
-					 menu item but operates on rows.
-					 <itemizedlist>
+	 </itemizedlist>
+	</para>
+	</listitem>
+	
+	
+	<listitem>
+	  <para>
+	    <guimenuitem>Row</guimenuitem> &mdash; The 
+	    <guimenuitem>Row</guimenuitem>
+	    menu item provides the same functions as the 
+	    <guimenuitem>Column</guimenuitem>
+	    menu item but operates on rows.
+	    <itemizedlist>
               <listitem>
                 <para>
-                <guimenuitem>Height...</guimenuitem> &mdash; This menu item opens a
-								dialog which allows the user to type in a row height in pixels.
-								</para>
+		  <guimenuitem>Height...</guimenuitem> &mdash; This menu item 
+		  opens a
+		  dialog which allows the user to type in a row height in pixels.
+		</para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Auto Fit Selection</guimenuitem> &mdash; This menu item
-								changes the rows which hold the selection to the optimal height
-								to hold the text in the selection. 
-								</para>
+		  <guimenuitem>Auto Fit Height</guimenuitem> &mdash; This menu
+		  item
+		  changes the rows which hold the selection to the optimal height
+		  to hold the text in the selection. 
+		</para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Hide</guimenuitem> &mdash; The 
-								  <guimenuitem>Hide</guimenuitem> menu item will hide the rows
-									in the selection. The workbook still contains the data in the
-									hidden rows but those rows are not shown. 
-									</para>
+		  <guimenuitem>Hide</guimenuitem> &mdash; The 
+		  <guimenuitem>Hide</guimenuitem> menu item will hide the rows
+		  in the selection. The workbook still contains the data in the
+		  hidden rows but those rows are not shown. 
+		</para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Unhide</guimenuitem> &mdash; This menu item will make
-								hidden rows visible. The selection must span the rows which are
-								hidden for this menu item to unhide the hidden rows.
+		  <guimenuitem>Unhide</guimenuitem> &mdash; This menu item will 
+		  make
+		  hidden rows visible. The selection must span the rows which are
+		  hidden for this menu item to unhide the hidden rows.
 	        </para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Standard Height</guimenuitem> &mdash; This menu item 
-                resizes the rows back to the default height of 12.75 points or
-								17 pixels (at 100 percent zoom).
+		  <guimenuitem>Standard Height</guimenuitem> &mdash; This menu item 
+		  resizes the rows back to the default height of 12.75 points or
+		  17 pixels (at 100 percent zoom).
 	        </para>
 	      </listitem>
-           </itemizedlist>
-         </para>
+	    </itemizedlist>
+	  </para>
         </listitem>
-
+	
 
         <listitem>
          <para>

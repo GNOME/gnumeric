@@ -254,9 +254,10 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 								 NULL, &tmp_err);
 				parse_error_free (&tmp_err);
 
-				if (texpr_test != NULL)
+				if (texpr_test != NULL) {
 					txt = free_txt = tmp;
-				else
+					expr_txt = gnm_expr_char_start_p (txt);
+				} else
 					g_free (tmp);
 			}
 
