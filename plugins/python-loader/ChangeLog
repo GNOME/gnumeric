@@ -1,3 +1,8 @@
+2012-07-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* python-loader.c (gplp_func_desc_load): fixed build after
+	GnmFuncDescriptor change.
+
 2012-07-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.5
