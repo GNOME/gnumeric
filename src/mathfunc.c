@@ -6447,17 +6447,25 @@ void
 mmult (gnm_float *A, gnm_float *B, int cols_a, int rows_a, int cols_b,
        gnm_float *product)
 {
-	gnm_float tmp;
 	int	c, r, i;
+	void *state = gnm_accumulator_start ();
+	GnmAccumulator *acc = gnm_accumulator_new ();
 
 	for (c = 0; c < cols_b; ++c) {
 		for (r = 0; r < rows_a; ++r) {
-			tmp = 0;
-			for (i = 0; i < cols_a; ++i)
-				tmp += A[r + i * rows_a] * B[i + c * cols_a];
-			product[r + c * rows_a] = tmp;
+			go_accumulator_clear (acc);
+			for (i = 0; i < cols_a; ++i) {
+				GnmQuad p;
+				gnm_quad_mul12 (&p,
+						A[r + i * rows_a],
+						B[i + c * cols_a]);
+				gnm_accumulator_add_quad (acc, &p);
+			}
+			product[r + c * rows_a] = gnm_accumulator_value (acc);
 		}
 	}
+	gnm_accumulator_free (acc);
+	gnm_accumulator_end (state);
 }
 
 /***************************************************************************/

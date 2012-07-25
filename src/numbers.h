@@ -123,6 +123,7 @@ gnm_float gnm_yn (int n, gnm_float x);
 #define GnmQuad GOQuadl
 #define gnm_quad_init go_quad_initl
 #define gnm_quad_mul go_quad_mull
+#define gnm_quad_mul12 go_quad_mul12l
 #define GnmAccumulator GOAccumulatorl
 #define gnm_accumulator_start go_accumulator_startl
 #define gnm_accumulator_end go_accumulator_endl
@@ -205,6 +206,7 @@ typedef double gnm_float;
 #define GnmQuad GOQuad
 #define gnm_quad_init go_quad_init
 #define gnm_quad_mul go_quad_mul
+#define gnm_quad_mul12 go_quad_mul12
 #define GnmAccumulator GOAccumulator
 #define gnm_accumulator_start go_accumulator_start
 #define gnm_accumulator_end go_accumulator_end

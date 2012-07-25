@@ -1,9 +1,11 @@
+2012-07-25  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (mmult): Use GnmAccumulator for extra accuracy.
+
 2012-07-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk-edit.c (wbcg_edit_finish): reset the expr_txt pointer
 	when changing the txt pointer. Fixes #680548
-
-2012-07-24  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (link_unlink_expr_dep): Fix problem from
 	earlier cleanup.
