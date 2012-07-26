@@ -1,3 +1,10 @@
+2012-07-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* component/gnumeric.c (go_gnm_component_get_data),
+	(cb_editor_destroyed): fix references issues. [#680190]
+	* src/ssgrep.c (main): don't crash for files with components.
+	* src/ssindex.c (main):
+
 2012-07-25  Morten Welinder  <terra@gnome.org>
 
 	* src/func.h (GnmFunc): Use "usage" instead of "ref_count".

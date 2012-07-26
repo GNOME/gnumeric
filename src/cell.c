@@ -735,32 +735,32 @@ guess_time_format (const char *prefix, gnm_float f)
  */
 
 char *
-gnm_cell_get_text_for_editing (GnmCell const * cell, Sheet *sheet, 
+gnm_cell_get_text_for_editing (GnmCell const * cell, Sheet *sheet,
 			       gboolean *quoted, int *cursor_pos)
 {
 	GODateConventions const *date_conv;
 	gchar *text = NULL;
-	
+
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
 
 	if (quoted)
 		*quoted = FALSE;
-	
+
 	date_conv = workbook_date_conv (sheet->workbook);
 
 	if (!gnm_cell_is_array (cell) &&
 	    !gnm_cell_has_expr (cell) && VALUE_IS_FLOAT (cell->value)) {
 		GOFormat const *fmt = gnm_cell_get_format (cell);
 		gnm_float f = value_get_as_float (cell->value);
-		
+
 		switch (go_format_get_family (fmt)) {
 		case GO_FORMAT_FRACTION:
 			text = gnm_cell_get_entered_text (cell);
 			g_strchug (text);
 			g_strchomp (text);
 			break;
-			
+
 		case GO_FORMAT_PERCENTAGE: {
 			GString *new_str = g_string_new (NULL);
 			gnm_render_general (NULL, new_str, go_format_measure_zero,
@@ -772,7 +772,7 @@ gnm_cell_get_text_for_editing (GnmCell const * cell, Sheet *sheet,
 			text = g_string_free (new_str, FALSE);
 			break;
 		}
-			
+
 		case GO_FORMAT_NUMBER:
 		case GO_FORMAT_SCIENTIFIC:
 		case GO_FORMAT_CURRENCY:
@@ -784,23 +784,23 @@ gnm_cell_get_text_for_editing (GnmCell const * cell, Sheet *sheet,
 			text = g_string_free (new_str, FALSE);
 			break;
 		}
-			
+
 		case GO_FORMAT_DATE: {
 			GOFormat *new_fmt;
-			
+
 			new_fmt = gnm_format_for_date_editing (cell);
-			
+
 			if (!close_to_int (f, 1e-6 / (24 * 60 * 60))) {
 				GString *fstr = g_string_new (go_format_as_XL (new_fmt));
 				go_format_unref (new_fmt);
-				
+
 				g_string_append_c (fstr, ' ');
 				new_fmt = guess_time_format
 					(fstr->str,
 					 f - gnm_floor (f));
 				g_string_free (fstr, TRUE);
 			}
-			
+
 			text = format_value (new_fmt, cell->value,
 					     -1, date_conv);
 			if (!text || text[0] == 0) {
@@ -813,27 +813,27 @@ gnm_cell_get_text_for_editing (GnmCell const * cell, Sheet *sheet,
 			go_format_unref (new_fmt);
 			break;
 		}
-			
+
 		case GO_FORMAT_TIME: {
 			GOFormat *new_fmt = guess_time_format (NULL, f);
-			
+
 			text = format_value (new_fmt, cell->value, -1,
 					     date_conv);
 			go_format_unref (new_fmt);
 			break;
 		}
-			
+
 		default:
 			break;
 		}
 	}
-	
+
 	if (!text) {
 		text = gnm_cell_get_entered_text (cell);
 		if (quoted)
 			*quoted = (text[0] == '\'');
 	}
-	
+
 	return text;
 }
 

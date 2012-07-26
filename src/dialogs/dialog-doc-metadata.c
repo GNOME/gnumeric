@@ -266,7 +266,7 @@ dialog_doc_metadata_get_value_type (GValue *value)
 			else if (VAL_IS_GSF_DOCPROP_VECTOR (value))
 				val_type = GSF_DOCPROP_VECTOR_TYPE;
 			else {
-				g_printerr ("GType %s (%i) not handled in metadata dialog.\n", 
+				g_printerr ("GType %s (%i) not handled in metadata dialog.\n",
 					    g_type_name (val_type), (int) val_type);
 				val_type = G_TYPE_INVALID;
 			}
@@ -858,7 +858,7 @@ dialog_doc_metadata_set_gsf_prop_val (DialogDocMetaData *state,
 			g_value_transform (&string_value, prop_value);
 			g_value_unset (&string_value);
 		} else
-			g_printerr (_("Transform function of G_TYPE_STRING to %s is required!\n"), 
+			g_printerr (_("Transform function of G_TYPE_STRING to %s is required!\n"),
 				    g_type_name (t));
 		break;
 	}
@@ -1622,7 +1622,7 @@ cb_dialog_doc_metadata_tree_prop_selected (GtkTreeSelection  *selection,
 			break;
 		default:
 			if (val_type == GSF_DOCPROP_VECTOR_TYPE) {
-				if (0 == strcmp (prop_name, "dc:keywords")) 
+				if (0 == strcmp (prop_name, "dc:keywords"))
 					text = _("To edit, use the keywords tab.");
 				else
 					text = _("This property value cannot be edited.");

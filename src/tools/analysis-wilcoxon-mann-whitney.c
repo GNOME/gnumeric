@@ -47,7 +47,7 @@ GnmExpr const *analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Wor
 
 		range_init_rangeref (&r_1, &val_1->v_range.cell);
 		range_init_rangeref (&r_2, &val_2->v_range.cell);
-		
+
 		if (r_1.start.row == r_2.start.row &&
 		    range_height (&r_1) == range_height (&r_2)) {
 			if (r_1.end.col == r_2.start.col - 1) {
@@ -56,7 +56,7 @@ GnmExpr const *analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Wor
 			} else if (r_2.end.col == r_1.start.col - 1) {
 				combined = TRUE;
 				r_1.start.col = r_2.start.col;
-			} 
+			}
 		} else if (r_1.start.col == r_2.start.col &&
 			   range_width (&r_1) == range_width (&r_2)) {
 			if (r_1.end.row == r_2.start.row - 1) {
@@ -65,7 +65,7 @@ GnmExpr const *analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Wor
 			} else if (r_2.end.row == r_1.start.row - 1) {
 				combined = TRUE;
 				r_1.start.row = r_2.start.row;
-			} 			
+			}
 		}
 
 		if (combined) {
@@ -73,17 +73,17 @@ GnmExpr const *analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Wor
 			return gnm_expr_new_constant (val);
 		}
 	}
-	
+
 	fd_array = gnm_func_lookup_or_add_placeholder
 		("ARRAY", wb, FALSE);
 	gnm_func_ref (fd_array);
 
-	expr = gnm_expr_new_funcall2 (fd_array, 
+	expr = gnm_expr_new_funcall2 (fd_array,
 				      gnm_expr_new_constant (value_dup (val_1)),
 				      gnm_expr_new_constant (value_dup (val_2)));
 
 	gnm_func_unref (fd_array);
-	
+
 	return expr;
 }
 
@@ -132,7 +132,7 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 	gnm_func_ref (fd_if);
 	fd_isblank = gnm_func_lookup_or_add_placeholder ("ISBLANK", wb, FALSE);
 	gnm_func_ref (fd_isblank);
-	
+
 	dao_set_italic (dao, 0, 0, 0, 8);
 	dao_set_italic (dao, 0, 1, 3, 1);
 	dao_set_merge (dao, 0, 0, 3, 0);

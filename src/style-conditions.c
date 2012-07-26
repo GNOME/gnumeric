@@ -98,7 +98,7 @@ gnm_style_cond_is_valid (GnmStyleCond const *cond)
 		gboolean need = (ui < N);
 		gboolean have = (cond->deps[ui].texpr != NULL);
 		if (have != need)
-			return FALSE;		    
+			return FALSE;
 	}
 
 	return TRUE;

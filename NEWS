@@ -4,6 +4,9 @@ Andreas:
 	* Some documentation updates.
 	* Fix implicit ')' for array functions. [#680548]
 
+Jean:
+	* Fix component references issues. [#680190]
+
 Morten:
 	* Fix xls read crash.  [#679992]
 	* Reduce code duplication for dependents.

@@ -1006,7 +1006,7 @@ sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t,
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = next ) {
 		GObject *obj = G_OBJECT (ptr->data);
 		next = ptr->next;
-		if ((t == G_TYPE_NONE && G_OBJECT_TYPE (obj) != GNM_FILTER_COMBO_TYPE) 
+		if ((t == G_TYPE_NONE && G_OBJECT_TYPE (obj) != GNM_FILTER_COMBO_TYPE)
 		    || t == G_OBJECT_TYPE (obj)) {
 			SheetObject *so = SHEET_OBJECT (obj);
 			if (r == NULL || range_contained (&so->anchor.cell_bound, r))

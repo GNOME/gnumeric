@@ -219,7 +219,7 @@ el_get_preferred_width (GtkWidget *w, gint *minimal_width, gint *natural_width)
 	layout = gtk_entry_get_layout (GTK_ENTRY (w));
 	pango_layout_get_extents (layout, NULL, &logical_rect);
 	gtk_style_context_get_padding (ctxt, flags, &border);
-	
+
 	*minimal_width = *natural_width = logical_rect.width / PANGO_SCALE
 					 + border.left + border.right;
 }
@@ -284,7 +284,7 @@ el_draw (GtkWidget *w, cairo_t *cr)
 		pango_cairo_show_layout (cr, layout);
 		return TRUE;
 	}
-	
+
 	return parent_class->draw (w, cr);
 }
 

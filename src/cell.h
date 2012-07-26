@@ -91,7 +91,7 @@ int	gnm_cell_rendered_width		(GnmCell const * cell);	/* excludes offset */
 int	gnm_cell_rendered_offset	(GnmCell const * cell);
 GOColor gnm_cell_get_render_color	(GnmCell const * cell);
 char *	gnm_cell_get_entered_text	(GnmCell const * cell);
-char *	gnm_cell_get_text_for_editing	(GnmCell const * cell, Sheet *sheet, 
+char *	gnm_cell_get_text_for_editing	(GnmCell const * cell, Sheet *sheet,
 					 gboolean *quoted, int *cursor_pos);
 char *  gnm_cell_get_rendered_text	(GnmCell *cell);
 

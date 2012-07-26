@@ -521,6 +521,7 @@ main (int argc, char const **argv)
 
 	ioc = go_io_context_new (cc);
 	go_io_context_set_num_files (ioc, N);
+	go_component_set_default_command_context (cc);
 
 	if (ssgrep_print_filenames == (gboolean)2)
 		ssgrep_print_filenames = (N > 1);
@@ -535,6 +536,7 @@ main (int argc, char const **argv)
 
 	g_hash_table_destroy (ssgrep_targets);
 
+	go_component_set_default_command_context (NULL);
 	g_object_unref (ioc);
 
 	g_object_unref (cc);

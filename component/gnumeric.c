@@ -101,6 +101,7 @@ go_gnm_component_get_data (GOComponent *component, gpointer *data, int *length,
 		*length = gsf_output_size (output);
 		*clearfunc = g_object_unref;
 		*user_data = output;
+		g_object_unref (io_context);
 		return TRUE;
 	}
 	return FALSE;
@@ -204,7 +205,8 @@ static GtkActionEntry const actions[] = {
 static void
 cb_editor_destroyed (GOGnmComponent *gognm)
 {
-	g_object_unref (gognm->edited);
+	if (gognm->edited && G_OBJECT (gognm->edited)->ref_count > 0)
+		g_object_unref (gognm->edited);
 	gognm->edited = NULL;
 }
 

@@ -444,7 +444,7 @@ gnm_app_workbook_foreach (GnmWbIterFunc cback, gpointer data)
 /**
  * gnm_app_workbook_get_by_index:
  * @i: index
- * 
+ *
  * Get nth workbook.  Index is zero-based.
  * Return value: (transfer none): the nth workbook if any.
  */

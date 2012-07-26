@@ -5854,7 +5854,7 @@ wbcg_get_nth_scg (WBCGtk *wbcg, int i)
 Sheet *
 wbcg_focus_cur_scg (WBCGtk *wbcg)
 {
-	SheetControlGUI *scg;	
+	SheetControlGUI *scg;
 
 	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
 

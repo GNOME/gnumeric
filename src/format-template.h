@@ -89,7 +89,7 @@ struct _GnmFormatTemplate {
 	gboolean font;
 	gboolean patterns;
 	gboolean alignment;
-	
+
 	struct _FormatEdges {
 		gboolean left;
 		gboolean right;

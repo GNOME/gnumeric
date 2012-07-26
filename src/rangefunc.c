@@ -449,8 +449,8 @@ gnm_range_mode (gnm_float const *xs, int n, gnm_float *res)
 	return 0;
 }
 
-int 
-gnm_range_adtest    (gnm_float const *xs, int n, gnm_float *pvalue, 
+int
+gnm_range_adtest    (gnm_float const *xs, int n, gnm_float *pvalue,
 		     gnm_float *statistics)
 {
 	gnm_float mu = 0.;
@@ -468,8 +468,8 @@ gnm_range_adtest    (gnm_float const *xs, int n, gnm_float *pvalue,
 		ys = range_sort (xs, n);
 
 		for (i = 0; i < n; i++) {
-			gnm_float val = (pnorm (ys[i], mu, sigma, TRUE, TRUE) + 
-					 pnorm (ys[n - i - 1], 
+			gnm_float val = (pnorm (ys[i], mu, sigma, TRUE, TRUE) +
+					 pnorm (ys[n - i - 1],
 						mu, sigma, FALSE, TRUE));
 			total += ((2*i+1)* val);
 		}

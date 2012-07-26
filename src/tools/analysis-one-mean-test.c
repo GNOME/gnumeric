@@ -110,26 +110,26 @@ analysis_tool_one_mean_test_engine_run (data_analysis_output_t *dao,
 		expr = gnm_expr_new_funcall1 (fd_var, expr_range_clean);
 		dao_set_cell_array_expr (dao, col, 4, expr);
 
-		dao_set_cell_expr (dao, col, 6,  gnm_expr_new_binary 
+		dao_set_cell_expr (dao, col, 6,  gnm_expr_new_binary
 				   (make_cellref (0,-5), GNM_EXPR_OP_SUB, gnm_expr_new_constant (value_new_int (1))));
 
-		expr_stddev = gnm_expr_new_funcall1 
+		expr_stddev = gnm_expr_new_funcall1
 			(fd_sqrt, gnm_expr_new_binary (make_cellref (0,-1), GNM_EXPR_OP_DIV, make_cellref (0,-4)));
-		expr = gnm_expr_new_binary 
+		expr = gnm_expr_new_binary
 			(gnm_expr_new_binary (make_cellref (0,-3), GNM_EXPR_OP_SUB, make_cellref (0,-2)),
 			 GNM_EXPR_OP_DIV,
 			 expr_stddev);
 		dao_set_cell_array_expr (dao, col, 5, expr);
 
 		expr_abs = gnm_expr_new_funcall1 (fd_abs, make_cellref (0,-3));
-		expr = gnm_expr_new_funcall3 (fd_tdist, expr_abs, make_cellref (0,-2), 
+		expr = gnm_expr_new_funcall3 (fd_tdist, expr_abs, make_cellref (0,-2),
 					      gnm_expr_new_constant (value_new_int (1)));
 		dao_set_cell_expr (dao, col, 8, expr);
 
 		expr_abs = gnm_expr_new_funcall1 (fd_abs, make_cellref (0,-4));
-		expr = gnm_expr_new_funcall3 (fd_tdist, expr_abs, make_cellref (0,-3), 
+		expr = gnm_expr_new_funcall3 (fd_tdist, expr_abs, make_cellref (0,-3),
 					      gnm_expr_new_constant (value_new_int (2)));
-		dao_set_cell_expr (dao, col, 9, expr);		
+		dao_set_cell_expr (dao, col, 9, expr);
 	}
 	gnm_func_unref (fd_count);
 	gnm_func_unref (fd_mean);

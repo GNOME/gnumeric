@@ -732,7 +732,7 @@ gee_update_env (GnmExprEntry *gee)
 static gboolean
 gee_delete_tooltip (GnmExprEntry *gee, gboolean remove_completion)
 {
-	gboolean has_tooltip = (gee->tooltip.tooltip != NULL && 
+	gboolean has_tooltip = (gee->tooltip.tooltip != NULL &&
 				gee->tooltip.timerid == 0);
 
 	if (gee->tooltip.timerid) {
@@ -773,7 +773,7 @@ cb_gee_focus_out_event (GtkWidget         *widget,
 			GdkEventFocus     *event,
 			gpointer           user_data);
 
-static gboolean 
+static gboolean
 cb_show_tooltip (gpointer user_data)
 {
 	GnmExprEntry *gee = GNM_EXPR_ENTRY (user_data);
@@ -998,10 +998,10 @@ gee_set_tooltip_completion (GnmExprEntry *gee, GSList *list, guint start, guint 
 		if (had_tool_tip)
 			gtk_widget_show_all (gee->tooltip.tooltip);
 		else
-			gee->tooltip.timerid = g_timeout_add_full 
-				(G_PRIORITY_DEFAULT, 750, 
-				 cb_show_tooltip, 
-				 gee, 
+			gee->tooltip.timerid = g_timeout_add_full
+				(G_PRIORITY_DEFAULT, 750,
+				 cb_show_tooltip,
+				 gee,
 				 NULL);
 	}
 	g_string_free (str, TRUE);

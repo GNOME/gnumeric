@@ -1327,7 +1327,7 @@ gnm_solver_get_limits (GnmSolver *solver, gnm_float **pmin, gnm_float **pmax)
 
 	vinput = gnm_solver_param_get_input (params);
 	if (!vinput) return;
-		
+
 	gnm_sheet_range_from_value (&sr, vinput);
 	if (!sr.sheet) sr.sheet = params->sheet;
 	h = range_height (&sr.range);

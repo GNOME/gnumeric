@@ -2261,7 +2261,7 @@ xlsx_cond_fmt_formula_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	parse_pos_init_sheet (&pp, state->sheet);
 
-	gnm_style_cond_set_expr (state->cond, 
+	gnm_style_cond_set_expr (state->cond,
 				 xlsx_parse_expr (xin, xin->content->str, &pp),
 				 state->count);
 	state->count++;
@@ -3150,8 +3150,8 @@ xlsx_run_color (GsfXMLIn *xin, xmlChar const **attrs)
 					_("Invalid color '%s' for attribute rgb"),
 					attrs[1]);
 			}
-			attr = pango_attr_foreground_new (CLAMP ((int)r * 257, 0, 65535), 
-							  CLAMP ((int)g * 257, 0, 65535), 
+			attr = pango_attr_foreground_new (CLAMP ((int)r * 257, 0, 65535),
+							  CLAMP ((int)g * 257, 0, 65535),
 							  CLAMP ((int)b * 257, 0, 65535));
 			if (state->run_attrs == NULL)
 				state->run_attrs = pango_attr_list_new ();
@@ -3451,7 +3451,7 @@ xlsx_sstitem_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	entry = &g_array_index (state->sst, XLSXStr, state->count);
 	state->count++;
 	entry->str = go_string_new_nocopy (text);
-	
+
 	if (state->rich_attrs) {
 		entry->markup = go_format_new_markup (state->rich_attrs, FALSE);
 		state->rich_attrs = NULL;

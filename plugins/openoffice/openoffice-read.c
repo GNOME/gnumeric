@@ -367,7 +367,7 @@ struct  _OOParseState {
 
 	int		 col_inc, row_inc;
 	gboolean	 content_is_error;
-	
+
 	GSList          *text_p_stack;
 	oo_text_p_t      text_p_for_cell;
 
@@ -1513,7 +1513,7 @@ odf_text_p_apply_pango_attribute (PangoAttribute *attribute, gpointer ptr)
 {
 	odf_text_p_apply_style_t *data = ptr;
 	PangoAttribute *attr = pango_attribute_copy (attribute);
-	
+
 	attr->start_index = data->start;
 	attr->end_index = data->end;
 
@@ -1523,7 +1523,7 @@ odf_text_p_apply_pango_attribute (PangoAttribute *attribute, gpointer ptr)
 }
 
 static void
-odf_text_p_apply_style (OOParseState *state, 
+odf_text_p_apply_style (OOParseState *state,
 			PangoAttrList *attrs,
 			int start, int end)
 {
@@ -1542,7 +1542,7 @@ odf_text_p_apply_style (OOParseState *state,
 	data.start = start;
 	data.end = end;
 	data.attrs = ptr->attrs;
-	
+
 	pango_attr_list_filter (attrs, odf_text_p_apply_pango_attribute, &data);
 }
 
@@ -1577,7 +1577,7 @@ odf_pop_text_p (OOParseState *state)
 	GSList *link = state->text_p_stack;
 
 	g_return_if_fail (state->text_p_stack != NULL);
-	
+
 	ptr = link->data;
 	g_slist_free_full (ptr->span_style_stack, g_free);
 	ptr->span_style_stack = NULL;
@@ -1588,7 +1588,7 @@ odf_pop_text_p (OOParseState *state)
 			pango_attr_list_unref (ptr->attrs);
 		g_free (ptr);
 	}
-	
+
 	state->text_p_stack = g_slist_remove_link (state->text_p_stack, link);
 	g_slist_free_1 (link);
 }
@@ -1612,7 +1612,7 @@ odf_text_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	oo_text_p_t *ptr = state->text_p_stack->data;
 
 	if (strlen (xin->content->str) > ptr->offset)
-		odf_text_p_add_text 
+		odf_text_p_add_text
 			(state, xin->content->str + ptr->offset);
 }
 
@@ -2326,7 +2326,7 @@ odf_validation_new_list (GsfXMLIn *xin, odf_validation_t *val, guint offset)
 					     GNM_VALIDATION_TYPE_IN_LIST,
 					     GNM_VALIDATION_OP_NONE,
 					     state->pos.sheet,
-					     val->title, 
+					     val->title,
 					     val->message ? val->message->str : NULL,
 					     texpr,
 					     NULL,
@@ -2358,7 +2358,7 @@ odf_validation_new_single_expr (GsfXMLIn *xin, odf_validation_t *val,
 				       val_type,
 				       val_op,
 				       state->pos.sheet,
-				       val->title, 
+				       val->title,
 				       val->message ? val->message->str : NULL,
 				       texpr,
 				       NULL,
@@ -2416,7 +2416,7 @@ odf_validation_new_pair_expr (GsfXMLIn *xin, odf_validation_t *val,
 				       val_type,
 				       val_op,
 				       state->pos.sheet,
-				       val->title, 
+				       val->title,
 				       val->message ? val->message->str : NULL,
 				       texpr_a,
 				       texpr_b,
@@ -2701,7 +2701,7 @@ odf_validation_error_message_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 odf_adjust_offsets_col (OOParseState *state, int *col, double *x, gboolean absolute)
 {
-	ColRowInfo const *cr = sheet_col_get_info (state->pos.sheet, 
+	ColRowInfo const *cr = sheet_col_get_info (state->pos.sheet,
 						   *col);
 	int last =  gnm_sheet_get_last_col (state->pos.sheet);
 	if (absolute && *col > 0)
@@ -2722,7 +2722,7 @@ odf_adjust_offsets_col (OOParseState *state, int *col, double *x, gboolean absol
 static void
 odf_adjust_offsets_row (OOParseState *state, int *row, double *y, gboolean absolute)
 {
-	ColRowInfo const *cr = sheet_row_get_info (state->pos.sheet, 
+	ColRowInfo const *cr = sheet_row_get_info (state->pos.sheet,
 						   *row);
 	int last =  gnm_sheet_get_last_row (state->pos.sheet);
 	if (absolute && *row > 0)
@@ -2754,7 +2754,7 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GnmRange r;
 	int rows, cols;
 	int max_cols, max_rows;
-	GSList *l; 
+	GSList *l;
 
 	maybe_update_progress (xin);
 
@@ -2969,7 +2969,7 @@ odf_oo_cell_style_ref (OOCellStyle *oostyle)
 }
 
 static void
-odf_oo_cell_style_attach_condition (OOCellStyle *oostyle, OOCellStyle *cstyle, 
+odf_oo_cell_style_attach_condition (OOCellStyle *oostyle, OOCellStyle *cstyle,
 				gchar const *condition, gchar const *base)
 {
 	g_return_if_fail (oostyle != NULL);
@@ -3047,7 +3047,7 @@ odf_style_load_one_value (GsfXMLIn *xin, char *condition, GnmStyleCond *cond, gc
 }
 
 static void
-odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle, 
+odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle,
 			 gchar const *condition, gchar const *base)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -3147,7 +3147,7 @@ odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle,
 			g_free (text);
 		}
 	}
-	
+
 	if (!success || !cond) {
 		if (cond)
 			gnm_style_cond_free (cond);
@@ -3166,7 +3166,7 @@ odf_style_add_condition (GsfXMLIn *xin, GnmStyle *style, GnmStyle *cstyle,
 		sc = gnm_style_conditions_new (sheet);
 		gnm_style_conditions_insert (sc, cond, -1);
 		gnm_style_set_conditions (style, sc);
-	}	
+	}
 
 	gnm_style_cond_free (cond);
 }
@@ -3636,7 +3636,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 					}
 					gnm_style_set_format (oostyle->style, format);
 				}
-			} 
+			}
 		}
 		if (oostyle != NULL)
 			style = odf_style_from_oo_cell_style (xin, oostyle);
@@ -3860,7 +3860,7 @@ oo_cell_content_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 		}
        }
 
-       odf_push_text_p (state, TRUE);       
+       odf_push_text_p (state, TRUE);
 }
 
 
@@ -3946,7 +3946,7 @@ oo_covered_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->col_inc = 1;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated", 
+		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated",
 				       &state->col_inc, 0, INT_MAX))
 			;
 #if 0
@@ -6412,7 +6412,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 					oo_prop_new_string ("map-name", "Log"));
 		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "link-data-style-to-source", &btmp)) {
 			if (btmp)
-				style->other_props = g_slist_prepend 
+				style->other_props = g_slist_prepend
 					(style->other_props,
 					 oo_prop_new_bool ("ignore-axis-data-style", btmp));
 		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "vertical", &btmp)) {
@@ -6744,7 +6744,7 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				 ("marker-end", CXML2C(attrs[1])));
 	}
 
-	if ((stacked_set && !overlap_set) || 
+	if ((stacked_set && !overlap_set) ||
 	    (percentage_set && !stacked_unset && !overlap_set))
 		style->plot_props = g_slist_prepend (style->plot_props,
 						     oo_prop_new_int ("overlap-percentage", 100));
@@ -6856,7 +6856,7 @@ od_style_prop_text (GsfXMLIn *xin, xmlChar const **attrs)
 			style_color_unref (color);
 			attr->start_index = 0;
 			attr->end_index = 0;
-			pango_attr_list_insert (state->cur_style.text, attr);			
+			pango_attr_list_insert (state->cur_style.text, attr);
 		} else if ((color = oo_attr_color (xin, attrs, OO_NS_FO, "background-color"))) {
 			attr = go_color_to_pango (color->go_color, FALSE);
 			style_color_unref (color);
@@ -7212,7 +7212,7 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 		frame_offset[3] = end_y ;
 	}
 
-	odf_draw_frame_store_location (state, frame_offset, 
+	odf_draw_frame_store_location (state, frame_offset,
 				       (height > 0) ? height : go_nan,
 				       (width > 0) ? width : go_nan);
 
@@ -7263,7 +7263,7 @@ od_draw_text_frame_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	oo_text_p_t *ptr;
 
-	if (state->text_p_stack != NULL && (NULL != (ptr = state->text_p_stack->data)) 
+	if (state->text_p_stack != NULL && (NULL != (ptr = state->text_p_stack->data))
 	    && ptr->gstr != NULL)
 		g_object_set (state->chart.so, "text", ptr->gstr->str, "markup", ptr->attrs, NULL);
 	od_draw_frame_end_full (xin, FALSE);
@@ -7276,7 +7276,7 @@ odf_line_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	oo_text_p_t *ptr;
 
-	if (state->text_p_stack != NULL && (NULL != (ptr = state->text_p_stack->data)) 
+	if (state->text_p_stack != NULL && (NULL != (ptr = state->text_p_stack->data))
 	    && ptr->gstr != NULL)
 		oo_warning (xin, _("Gnumeric's sheet object lines do not support attached text. "
 				   "The text \"%s\" has been dropped."), ptr->gstr->str);
@@ -7718,7 +7718,7 @@ oo_chart_title (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					     OO_GNUM_NS_EXT, "anchor"))
 			state->chart.title_anchor = g_strdup (CXML2C (attrs[1]));
-		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "is-position-manual", 
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "is-position-manual",
 				       &state->chart.title_manual_pos))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "x"))
@@ -7730,7 +7730,7 @@ oo_chart_title (GsfXMLIn *xin, xmlChar const **attrs)
 	if (!(go_finite (state->chart.title_x) && go_finite (state->chart.title_y)))
 		state->chart.title_manual_pos = FALSE;
 	if (state->chart.title_position == NULL)
-		state->chart.title_position = g_strdup ((xin->node->user_data.v_int == 2) ? "bottom" : "top"); 
+		state->chart.title_position = g_strdup ((xin->node->user_data.v_int == 2) ? "bottom" : "top");
 
 	odf_push_text_p (state, FALSE);
 }
@@ -7745,15 +7745,15 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (state->text_p_stack != NULL);
 	ptr = state->text_p_stack->data;
 	g_return_if_fail (ptr != NULL);
-	
+
 	if (state->chart.title_expr == NULL && ptr->gstr) {
 			state->chart.title_expr = gnm_expr_top_new_constant
-				(value_new_string_nocopy 
+				(value_new_string_nocopy
 				 (go_pango_attrs_to_markup (ptr->attrs, ptr->gstr->str)));
-			use_markup = (ptr->attrs != NULL && 
+			use_markup = (ptr->attrs != NULL &&
 				      !go_pango_attr_list_is_empty (ptr->attrs));
 	}
-		
+
 	if (state->chart.title_expr) {
 		GOData *data = gnm_go_data_scalar_new_expr
 			(state->chart.src_sheet, state->chart.title_expr);
@@ -7773,7 +7773,7 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		} else {
 			obj = (GogObject *)state->chart.chart;
 			tag = "Title";
-		} 
+		}
 
 		label = gog_object_add_by_name (obj, tag, NULL);
 		gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
@@ -7808,7 +7808,7 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				alloc.w = 0;
 				alloc.y = state->chart.title_y / state->chart.height;
 				alloc.h = 0;
-				
+
 				gog_object_set_position_flags (label, GOG_POSITION_MANUAL, GOG_POSITION_ANY_MANUAL);
 				gog_object_set_manual_position (label, &alloc);
 			} else {
@@ -7818,7 +7818,7 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				oo_warning (xin, _("Unable to determine manual position for a chart component!"));
 			}
 		}
-			
+
 	}
 	g_free (state->chart.title_position);
 	state->chart.title_position = NULL;
@@ -7916,7 +7916,7 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 				gboolean has_prop = FALSE;
 				oo_prop_list_has (style->other_props, &has_prop, "ignore-axis-data-style");
 				if (!has_prop)
-					gog_axis_set_format (GOG_AXIS (state->chart.axis), 
+					gog_axis_set_format (GOG_AXIS (state->chart.axis),
 							     go_format_ref (style->fmt));
 			}
 		}
@@ -8826,18 +8826,18 @@ oo_chart_grid (GsfXMLIn *xin, xmlChar const **attrs)
 				grid = gog_object_add_by_name (state->chart.axis, "MinorGrid", NULL);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
 			style_name = CXML2C (attrs[1]);
-	
+
 	if (grid != NULL && style_name != NULL) {
 		GOStyle *style = NULL;
 		g_object_get (G_OBJECT (grid), "style", &style, NULL);
-		
+
 		if (style) {
 			OOChartStyle *chart_style = g_hash_table_lookup
 				(state->chart.graph_styles, style_name);
 			odf_apply_style_props (xin, chart_style->style_props, style);
 			g_object_unref (style);
 		}
-	}	
+	}
 }
 
 static void
@@ -9074,8 +9074,8 @@ odf_line (GsfXMLIn *xin, xmlChar const **attrs)
 		height = y1 - y2;
 	}
 
-	odf_draw_frame_store_location (state, frame_offset, 
-				       height, width);	
+	odf_draw_frame_store_location (state, frame_offset,
+				       height, width);
 
 	col = sheet_col_get_info (state->pos.sheet, cell_base.start.col);
 	row = sheet_row_get_info (state->pos.sheet, cell_base.start.row);
@@ -10202,11 +10202,11 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (TABLE, TABLE_SHAPES, OO_NS_TABLE, "shapes", GSF_XML_NO_CONTENT, NULL, NULL),
 		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame_start, &od_draw_frame_end),
 	          GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_ELLIPSE, OO_NS_DRAW, "ellipse", GSF_XML_NO_CONTENT, &odf_ellipse, &od_draw_text_frame_end),
-	            GSF_XML_IN_NODE (DRAW_ELLIPSE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */ 
+	            GSF_XML_IN_NODE (DRAW_ELLIPSE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	          GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_NO_CONTENT, &odf_line, &odf_line_end),
                     GSF_XML_IN_NODE (DRAW_LINE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	          GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_RECT, OO_NS_DRAW, "rect", GSF_XML_NO_CONTENT, &odf_rect, &od_draw_text_frame_end),
-	            GSF_XML_IN_NODE (DRAW_RECT, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */                  
+	            GSF_XML_IN_NODE (DRAW_RECT, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	      GSF_XML_IN_NODE (TABLE, FORMS, OO_NS_OFFICE, "forms", GSF_XML_NO_CONTENT, NULL, NULL),
 	        GSF_XML_IN_NODE (FORMS, FORM, OO_NS_FORM, "form", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (FORM, FORM_PROPERTIES, OO_NS_FORM, "properties", GSF_XML_NO_CONTENT, NULL, NULL),

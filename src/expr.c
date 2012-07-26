@@ -1580,7 +1580,7 @@ gnm_expr_simplify_if (GnmExpr const *expr)
 	if (expr->func.func != f_if || expr->func.argc != 3)
 		return NULL;
 
-	cond = expr->func.argv[0];	
+	cond = expr->func.argv[0];
 	if (GNM_EXPR_GET_OPER (cond) == GNM_EXPR_OP_CONSTANT) {
 		GnmValue const *condval = cond->constant.value;
 		gboolean err;
@@ -1730,12 +1730,12 @@ do_expr_as_string (GnmExpr const *expr, int paren_level,
 			return;
 		}
 
-		if (v->type == VALUE_BOOLEAN && 
+		if (v->type == VALUE_BOOLEAN &&
 		    out->convs->output.boolean != NULL) {
 			out->convs->output.boolean (out, v->v_bool.val);
 			return;
 		}
-		
+
 
 		value_get_as_gstring (v, target, out->convs);
 

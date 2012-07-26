@@ -279,6 +279,7 @@ main (int argc, char const **argv)
 		/* FIXME: What do we want to do here? */
 		go_error_info_free (plugin_errs);
 	}
+	go_component_set_default_command_context (cc);
 
 	if (ssindex_run_indexer) {
 		GOIOContext *ioc = go_io_context_new (cc);
@@ -301,6 +302,7 @@ main (int argc, char const **argv)
 		}
 	}
 
+	go_component_set_default_command_context (NULL);
 	g_object_unref (cc);
 	gnm_shutdown ();
 	gnm_pre_parse_shutdown ();

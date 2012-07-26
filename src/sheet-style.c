@@ -1775,7 +1775,7 @@ typedef struct {
 
 static void
 cb_find_conflicts (GnmStyle *style,
-		   G_GNUC_UNUSED int corner_col, G_GNUC_UNUSED int corner_row, 
+		   G_GNUC_UNUSED int corner_col, G_GNUC_UNUSED int corner_row,
 		   G_GNUC_UNUSED int width, G_GNUC_UNUSED int height,
 		   G_GNUC_UNUSED GnmRange const *apply_to, FindConflicts *ptr)
 {
@@ -2132,7 +2132,7 @@ struct cb_is_default {
 
 static void
 cb_is_default (GnmStyle *style,
-	       int corner_col, G_GNUC_UNUSED int corner_row, 
+	       int corner_col, G_GNUC_UNUSED int corner_row,
 	       int width, G_GNUC_UNUSED int height,
 	       GnmRange const *apply_to, gpointer user_)
 {
@@ -2663,7 +2663,7 @@ style_list_get_style (GnmStyleList const *list, int col, int row)
 
 static void
 cb_find_link (GnmStyle *style,
-	      G_GNUC_UNUSED int corner_col, G_GNUC_UNUSED int corner_row, 
+	      G_GNUC_UNUSED int corner_col, G_GNUC_UNUSED int corner_row,
 	      G_GNUC_UNUSED int width, G_GNUC_UNUSED int height,
 	      G_GNUC_UNUSED GnmRange const *apply_to, gpointer user)
 {

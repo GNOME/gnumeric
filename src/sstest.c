@@ -646,7 +646,7 @@ test_random_randnorm (int N)
 	char *expr;
 	gnm_float T;
 
-	expr = g_strdup_printf ("=RANDNORM(%.10" GNM_FORMAT_g ",%.10" GNM_FORMAT_g ")", 
+	expr = g_strdup_printf ("=RANDNORM(%.10" GNM_FORMAT_g ",%.10" GNM_FORMAT_g ")",
 				mean_target, var_target);
 	vals = test_random_normality (N, expr, &mean, &var, &adtest, &cvmtest, &lkstest, &sftest);
 	g_free (expr);

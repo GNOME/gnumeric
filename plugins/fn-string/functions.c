@@ -206,7 +206,7 @@ gnm_compare_strings (const char *cstr1, const char *cstr2)
 	/* then it is exactly the same. */
 	while (*a == *b && *a != 0 && *b != 0)
 		a++, b++;
-	
+
 	if (*a == 0)
 		return (*b == 0);
 	if (*b == 0)
@@ -226,17 +226,17 @@ gnm_compare_strings (const char *cstr1, const char *cstr2)
 	/* are both expanded by NFD (or NFKD) into the sequence */
 	/*"U+0041 U+030A" (Latin letter "A" and combining ring above "°") */
 	/* Of course "U+0041 U+030A" is retained in form, so we need to work with */
-	/* at least the last ASCII character. Performance should nearly be */ 
+	/* at least the last ASCII character. Performance should nearly be */
 	/* identical to using all */
 
 	str1 = g_utf8_normalize (cstr1, -1, G_NORMALIZE_DEFAULT);
 	str2 = g_utf8_normalize (cstr2, -1, G_NORMALIZE_DEFAULT);
-	
+
 	val = (g_strcmp0 (str1, str2) == 0);
-	
+
 	g_free (str1);
 	g_free (str2);
-	
+
 	return val;
 }
 

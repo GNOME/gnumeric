@@ -91,7 +91,7 @@ wilcoxon_mann_whitney_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy
 		gtk_label_set_text (GTK_LABEL (state->warning),
 				    _("The input range for variable 2 is invalid."));
 		gtk_widget_set_sensitive (state->ok_button, FALSE);
-		return;		
+		return;
 	}
 
 	/* Checking Output Page */

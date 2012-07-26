@@ -4902,7 +4902,7 @@ gnumeric_adtest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		value_array_set (result, 0, 0,
 				 value_new_error_VALUE (ei->pos));
 		value_array_set (result, 0, 1,
-				 value_new_error_VALUE (ei->pos));		
+				 value_new_error_VALUE (ei->pos));
 	} else {
 		value_array_set (result, 0, 0,
 				 value_new_float (p));

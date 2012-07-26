@@ -108,7 +108,7 @@ adjust_source_areas (ConsolidateState *state)
 		} while (gtk_tree_model_iter_next
 			 (state->source_areas,&iter));
 	}
-		
+
 	for (i = 0; i < cnt_empty; i++) {
 		gtk_list_store_append (GTK_LIST_STORE(state->source_areas),
 				       &iter);

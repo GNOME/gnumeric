@@ -5181,7 +5181,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 	cond = gnm_style_cond_new (cop, esheet->sheet);
 
 	if (expr0_len > 0) {
-		GnmExprTop const *texpr = 
+		GnmExprTop const *texpr =
 			ms_sheet_parse_expr_internal
 			(esheet,
 			 q->data + q->length - expr0_len - expr1_len,
@@ -5190,7 +5190,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 		gnm_expr_top_unref (texpr);
 	}
 	if (expr1_len > 0) {
-		GnmExprTop const *texpr = 
+		GnmExprTop const *texpr =
 			ms_sheet_parse_expr_internal
 			(esheet,
 			 q->data + q->length - expr1_len,
