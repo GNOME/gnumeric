@@ -1,3 +1,11 @@
+2012-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_transpose): add FLIP to SEEALSO
+	(help_flip): new
+	(gnumeric_flip): new
+	(lookup_functions): add FLIP
+	* plugin.xml.in: add FLIP
+
 2012-07-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.5

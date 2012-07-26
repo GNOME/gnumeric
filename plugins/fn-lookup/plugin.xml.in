@@ -18,6 +18,7 @@
 				<function name="column"/>
 				<function name="columnnumber"/>
 				<function name="columns"/>
+				<function name="flip"/>
 				<function name="hlookup"/>
 				<function name="hyperlink"/>
 				<function name="indirect"/>

@@ -1696,7 +1696,7 @@ gnumeric_hyperlink (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 static GnmFuncHelp const help_transpose[] = {
 	{ GNM_FUNC_HELP_NAME, F_("TRANSPOSE:the transpose of @{matrix}")},
         { GNM_FUNC_HELP_ARG, F_("matrix:range")},
-        { GNM_FUNC_HELP_SEEALSO, "MMULT"},
+        { GNM_FUNC_HELP_SEEALSO, "FLIP,MMULT"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -1725,6 +1725,54 @@ gnumeric_transpose (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			res->v_array.vals[r][c] = value_dup(
 				value_area_get_x_y (matrix, c, r, ep));
 	}
+
+	return res;
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_flip[] = {
+	{ GNM_FUNC_HELP_NAME, F_("FLIP:@{matrix} flipped")},
+        { GNM_FUNC_HELP_ARG, F_("matrix:range")},
+        { GNM_FUNC_HELP_ARG, F_("vertical:if true, @{matrix} is flipped vertically, "
+				"otherwise horizontally; defaults to TRUE")},
+        { GNM_FUNC_HELP_SEEALSO, "TRANSPOSE"},
+        { GNM_FUNC_HELP_END}
+};
+
+
+static GnmValue *
+gnumeric_flip (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	GnmEvalPos const * const ep = ei->pos;
+        GnmValue const * const matrix = argv[0];
+	int	r, c;
+        GnmValue *res;
+	gboolean vertical = argv[1] ? value_get_as_checked_bool (argv[1]) : TRUE;
+
+	int const cols = value_area_get_width (matrix, ep);
+	int const rows = value_area_get_height (matrix, ep);
+
+	/* Return the value directly for a singleton */
+	if (rows == 1 && cols == 1)
+		return value_dup (value_area_get_x_y (matrix, 0, 0, ep));
+
+	res = value_new_array_non_init (cols, rows);
+
+	if (vertical)
+		for (c = 0; c < cols; ++c) {
+			res->v_array.vals [c] = g_new (GnmValue *, rows);
+			for (r = 0; r < rows; ++r)
+				res->v_array.vals[c][rows - r - 1] = value_dup
+					(value_area_get_x_y (matrix, c, r, ep));
+		}
+	else
+		for (c = 0; c < cols; ++c) {
+			res->v_array.vals [c] = g_new (GnmValue *, rows);
+			for (r = 0; r < rows; ++r)
+				res->v_array.vals[c][r] = value_dup
+					(value_area_get_x_y (matrix, cols - c - 1, r, ep));
+		}
 
 	return res;
 }
@@ -1901,6 +1949,9 @@ GnmFuncDescriptor const lookup_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "array", NULL,
 	  help_array, NULL, gnumeric_array, NULL, NULL,
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "flip", "A|b",
+	  help_flip, gnumeric_flip, NULL, NULL, NULL, 
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
         {NULL}

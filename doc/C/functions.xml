@@ -9489,6 +9489,33 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-FLIP">
+      <refmeta>
+        <refentrytitle>
+          <function>FLIP</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>FLIP</function>
+        </refname>
+        <refpurpose><parameter>matrix</parameter> flipped
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>FLIP</function>(<parameter>matrix</parameter>,<parameter>vertical</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>matrix</parameter>: range</para>
+        <para><parameter>vertical</parameter>: if true, <parameter>matrix</parameter> is flipped vertically, otherwise horizontally; defaults to TRUE</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-TRANSPOSE"><function>TRANSPOSE</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-HLOOKUP">
       <refmeta>
         <refentrytitle>
@@ -9931,7 +9958,8 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-function-MMULT"><function>MMULT</function></link>.
+        <para><link linkend="gnumeric-function-FLIP"><function>FLIP</function></link>,
+        <link linkend="gnumeric-function-MMULT"><function>MMULT</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -21240,6 +21268,172 @@
         <para><link linkend="gnumeric-function-DOLLAR"><function>DOLLAR</function></link>,
         <link linkend="gnumeric-function-FIXED"><function>FIXED</function></link>,
         <link linkend="gnumeric-function-TEXT"><function>TEXT</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+  </sect1>
+  <sect1 id="CATEGORY_Time_Series_Analysis">
+    <title>Time Series Analysis</title>
+    <refentry id="gnumeric-function-FOURIER">
+      <refmeta>
+        <refentrytitle>
+          <function>FOURIER</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>FOURIER</function>
+        </refname>
+        <refpurpose>
+        Fourier or inverse Fourier transform
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>FOURIER</function>(<parameter>Sequence</parameter>,<parameter>Inverse</parameter>,<parameter>Separate</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>Sequence</parameter>: the data sequence to be transformed</para>
+        <para><parameter>Inverse</parameter>: if true, the inverse Fourier transform is calculated, defaults to false</para>
+        <para><parameter>Separate</parameter>: if true, the real and imaginary parts are given separately, defaults to false</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This array function returns the Fourier or inverse Fourier transform of the given data sequence.</para>
+        <para>The output consists of one column of complex numbers if <parameter>Separate</parameter> is false and of two columns of real numbers if <parameter>Separate</parameter> is true.</para>
+        <para>If <parameter>Separate</parameter> is true the first output column contains the real parts and the second column the imaginary parts.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>Sequence</parameter> is neither an n by 1 nor 1 by n array, this function returns #VALUE!</para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-HPFILTER">
+      <refmeta>
+        <refentrytitle>
+          <function>HPFILTER</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>HPFILTER</function>
+        </refname>
+        <refpurpose>
+        Hodrick Prescott Filter
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>HPFILTER</function>(<parameter>Sequence</parameter>,<parameter/>λ)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>Sequence</parameter>: the data sequence to be transformed</para>
+        <para><parameter>λ</parameter>: filter parameter λ, defaults to 1600</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>This array function returns the trend and cyclical components obtained by applying the Hodrick Prescott Filter with parameter <parameter>λ</parameter> to the given data sequence.</para>
+        <para>The output consists of two columns of numbers, the first containing the trend component, the second the cyclical component.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If <parameter>Sequence</parameter> is neither an n by 1 nor 1 by n array, this function returns #VALUE! If <parameter>Sequence</parameter> contians less than 6 numerical values, this function returns #VALUE!</para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-INTERPOLATION">
+      <refmeta>
+        <refentrytitle>
+          <function>INTERPOLATION</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>INTERPOLATION</function>
+        </refname>
+        <refpurpose>
+        interpolated values corresponding to the given abscissa targets
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>INTERPOLATION</function>(<parameter>abscissae</parameter>,<parameter>ordinates</parameter>,<parameter>targets</parameter>,<parameter>interpolation</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>abscissae</parameter>: ordered abscissae of the given data points</para>
+        <para><parameter>ordinates</parameter>: ordinates of the given data points</para>
+        <para><parameter>targets</parameter>: abscissae of the interpolated data</para>
+        <para><parameter>interpolation</parameter>: method of interpolation, defaults to 0 ('linear')</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>The output consists always of one column of numbers.</para>
+        <para>Possible interpolation methods are:</para>
+        <para>0: linear;</para>
+        <para>1: linear with averaging;</para>
+        <para>2: staircase;</para>
+        <para>3: staircase with averaging;</para>
+        <para>4: natural cubic spline;</para>
+        <para>5: natural cubic spline with averaging.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>The <parameter>abscissae</parameter> must be given in increasing order. If any of interpolation methods 1 ('linear with averaging'), 3 ('staircase with averaging'), and 5 ('natural cubic spline with averaging') is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order. Strings and empty cells in <parameter>abscissae</parameter> and <parameter>ordinates</parameter> are ignored. If several target data are provided they must be in the same column in consecutive cells.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-PERIODOGRAM"><function>PERIODOGRAM</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-function-PERIODOGRAM">
+      <refmeta>
+        <refentrytitle>
+          <function>PERIODOGRAM</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>PERIODOGRAM</function>
+        </refname>
+        <refpurpose>
+        periodogram of the given data
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>PERIODOGRAM</function>(<parameter>ordinates</parameter>,<parameter>filter</parameter>,<parameter>abscissae</parameter>,<parameter>interpolation</parameter>,<parameter>number</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>ordinates</parameter>: ordinates of the given data</para>
+        <para><parameter>filter</parameter>: windowing function to  be used, defaults to no filter</para>
+        <para><parameter>abscissae</parameter>: abscissae of the given data, defaults to regularly spaced abscissae</para>
+        <para><parameter>interpolation</parameter>: method of interpolation, defaults to none</para>
+        <para><parameter>number</parameter>: number of interpolated data points</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order.</para>
+        <para>The output consists always of one column of numbers.</para>
+        <para>Possible interpolation methods are:</para>
+        <para>0: linear;</para>
+        <para>1: linear with averaging;</para>
+        <para>2: staircase;</para>
+        <para>3: staircase with averaging;</para>
+        <para>4: natural cubic spline;</para>
+        <para>5: natural cubic spline with averaging.</para>
+        <para>Possible window functions are:</para>
+        <para>0: no filter (rectangular window)</para>
+        <para>1: Bartlett (triangular window)</para>
+        <para>2: Hahn (cosine window)</para>
+        <para>3: Welch (parabolic window)</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>Strings and empty cells in <parameter>abscissae</parameter> and <parameter>ordinates</parameter> are ignored. If several target data are provided they must be in the same column in consecutive cells.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-INTERPOLATION"><function>INTERPOLATION</function></link>.
       </para>
       </refsect1>
     </refentry>
