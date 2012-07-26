@@ -1044,8 +1044,6 @@ gnm_func_add (GnmFuncGroup *fn_group,
 	func->textdomain        = go_string_new (textdomain);
 	func->linker		= desc->linker;
 	func->usage_notify	= desc->usage_notify;
-	if (func->usage_notify)
-		g_printerr ("A: %s\n", func->name);
 	func->flags		= desc->flags;
 	func->impl_status	= desc->impl_status;
 	func->test_status	= desc->test_status;
@@ -1112,8 +1110,6 @@ gnm_func_add_stub (GnmFuncGroup *fn_group,
 
 	func->name		= name;
 	func->usage_notify	= opt_usage_notify;
-	if (func->usage_notify)
-		g_printerr ("B: %s\n", name);
 	func->fn_type		= GNM_FUNC_TYPE_STUB;
 	func->fn.load_desc	= load_desc;
 	func->textdomain        = go_string_new (textdomain);
