@@ -128,7 +128,7 @@ typedef GnmValue	*(*GnmFuncNodes)  (GnmFuncEvalInfo *ei,
 					   int argc, GnmExprConstPtr const *argv);
 typedef GnmDependentFlags (*GnmFuncLink)  (GnmFuncEvalInfo *ei, gboolean qlink);
 
-typedef void	 (*GnmFuncRefNotify) (GnmFunc *f, int refcount);
+typedef void	 (*GnmFuncUsageNotify) (GnmFunc *f, int refcount);
 typedef gboolean (*GnmFuncLoadDesc)  (GnmFunc const *f, GnmFuncDescriptor *fd);
 
 typedef enum {
@@ -180,7 +180,7 @@ struct _GnmFuncDescriptor {
 	GnmFuncArgs	  fn_args;
 	GnmFuncNodes	  fn_nodes;
 	GnmFuncLink	  linker;
-	GnmFuncRefNotify  ref_notify;
+	GnmFuncUsageNotify usage_notify;
 	GnmFuncFlags	  flags;
 	GnmFuncImplStatus impl_status;
 	GnmFuncTestStatus test_status;
@@ -205,12 +205,12 @@ struct _GnmFunc {
 	} fn;
 	GnmFuncGroup		*fn_group; /* most recent it was assigned to */
 	GnmFuncLink		 linker;
-	GnmFuncRefNotify	 ref_notify;
+	GnmFuncUsageNotify	 usage_notify;
 	GnmFuncImplStatus	 impl_status;
 	GnmFuncTestStatus	 test_status;
 	GnmFuncFlags		 flags;
 
-	gint			 ref_count;
+	gint			 usage_count;
 	gpointer		 user_data;
 };
 
@@ -237,7 +237,7 @@ GnmFunc    *gnm_func_add_stub	     (GnmFuncGroup *group,
 				      const char *name,
 				      const char *textdomain,
 				      GnmFuncLoadDesc load_desc,
-				      GnmFuncRefNotify opt_ref_notify);
+				      GnmFuncUsageNotify opt_usage_notify);
 GnmFunc    *gnm_func_add_placeholder (Workbook *optional_scope,			/* change scope one day */
 				      char const *name,
 				      char const *type,

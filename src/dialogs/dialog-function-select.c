@@ -1154,7 +1154,7 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 				 FUNCTION_CAT, func->fn_group,
 				 FUNCTION_VISIBLE, TRUE,
 				 FUNCTION_RECENT, FALSE,
-				 FUNCTION_USED, (func->ref_count > 1),
+				 FUNCTION_USED, (func->usage_count > 1),
 				 -1);
 			g_free (desc);
 			pango_attr_list_unref (pal);

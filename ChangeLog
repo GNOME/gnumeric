@@ -1,5 +1,7 @@
 2012-07-25  Morten Welinder  <terra@gnome.org>
 
+	* src/func.h (GnmFunc): Use "usage" instead of "ref_count".
+
 	* src/mathfunc.c (mmult): Use GnmAccumulator for extra accuracy.
 
 2012-07-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>

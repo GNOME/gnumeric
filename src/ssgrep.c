@@ -213,7 +213,7 @@ cb_check_func (gpointer clean, gpointer orig, gpointer user_data)
 	StringTableSearch *state = user_data;
 	GnmFunc	*func = gnm_func_lookup (clean, state->wb);
 	if (NULL != func)
-		add_result (state, clean, func->ref_count);
+		add_result (state, clean, func->usage_count);
 }
 
 static void

@@ -54,11 +54,11 @@ functions_shutdown (void)
 {
 	while (unknown_cat != NULL && unknown_cat->functions != NULL) {
 		GnmFunc *func = unknown_cat->functions->data;
-		if (func->ref_count > 0) {
-			g_warning ("Function %s still has %d refs.\n",
+		if (func->usage_count > 0) {
+			g_warning ("Function %s still has %d users.\n",
 				   gnm_func_get_name (func, FALSE),
-				   func->ref_count);
-			func->ref_count = 0;
+				   func->usage_count);
+			func->usage_count = 0;
 		}
 		gnm_func_free (func);
 	}
@@ -122,8 +122,8 @@ cb_dump_usage (gpointer key, Symbol *sym, FILE *out)
 {
 	if (sym != NULL) {
 		GnmFunc const *fd = sym->data;
-		if (fd != NULL && fd->ref_count > 0)
-			fprintf (out, "%d,%s\n", fd->ref_count, fd->name);
+		if (fd != NULL && fd->usage_count > 0)
+			fprintf (out, "%d,%s\n", fd->usage_count, fd->name);
 	}
 }
 
@@ -945,7 +945,7 @@ gnm_func_free (GnmFunc *func)
 	GnmFuncGroup *group;
 
 	g_return_if_fail (func != NULL);
-	g_return_if_fail (func->ref_count == 0);
+	g_return_if_fail (func->usage_count == 0);
 
 	group = func->fn_group;
 	if (group != NULL) {
@@ -985,20 +985,20 @@ gnm_func_ref (GnmFunc *func)
 {
 	g_return_if_fail (func != NULL);
 
-	func->ref_count++;
-	if (func->ref_count == 1 && func->ref_notify != NULL)
-		func->ref_notify (func, 1);
+	func->usage_count++;
+	if (func->usage_count == 1 && func->usage_notify != NULL)
+		func->usage_notify (func, 1);
 }
 
 void
 gnm_func_unref (GnmFunc *func)
 {
 	g_return_if_fail (func != NULL);
-	g_return_if_fail (func->ref_count > 0);
+	g_return_if_fail (func->usage_count > 0);
 
-	func->ref_count--;
-	if (func->ref_count == 0 && func->ref_notify != NULL)
-		func->ref_notify (func, 0);
+	func->usage_count--;
+	if (func->usage_count == 0 && func->usage_notify != NULL)
+		func->usage_notify (func, 0);
 }
 
 /**
@@ -1043,14 +1043,16 @@ gnm_func_add (GnmFuncGroup *fn_group,
 	func->help		= desc->help ? desc->help : NULL;
 	func->textdomain        = go_string_new (textdomain);
 	func->linker		= desc->linker;
-	func->ref_notify	= desc->ref_notify;
+	func->usage_notify	= desc->usage_notify;
+	if (func->usage_notify)
+		g_printerr ("A: %s\n", func->name);
 	func->flags		= desc->flags;
 	func->impl_status	= desc->impl_status;
 	func->test_status	= desc->test_status;
 	func->localized_name    = NULL;
 
 	func->user_data		= NULL;
-	func->ref_count		= 0;
+	func->usage_count	= 0;
 
 	if (desc->fn_args != NULL) {
 		/* Check those arguments */
@@ -1101,7 +1103,7 @@ gnm_func_add_stub (GnmFuncGroup *fn_group,
 		   const char *name,
 		   const char *textdomain,
 		   GnmFuncLoadDesc   load_desc,
-		   GnmFuncRefNotify  opt_ref_notify)
+		   GnmFuncUsageNotify opt_usage_notify)
 {
 	GnmFunc *func = g_new0 (GnmFunc, 1);
 
@@ -1109,7 +1111,9 @@ gnm_func_add_stub (GnmFuncGroup *fn_group,
 		textdomain = GETTEXT_PACKAGE;
 
 	func->name		= name;
-	func->ref_notify	= opt_ref_notify;
+	func->usage_notify	= opt_usage_notify;
+	if (func->usage_notify)
+		g_printerr ("B: %s\n", name);
 	func->fn_type		= GNM_FUNC_TYPE_STUB;
 	func->fn.load_desc	= load_desc;
 	func->textdomain        = go_string_new (textdomain);
@@ -1152,7 +1156,7 @@ gnm_func_add_placeholder (Workbook *scope,
 	desc.fn_args	  = NULL;
 	desc.fn_nodes	  = &unknownFunctionHandler;
 	desc.linker	  = NULL;
-	desc.ref_notify	  = NULL;
+	desc.usage_notify = NULL;
 	desc.flags	  = GNM_FUNC_IS_PLACEHOLDER | (copy_name ? GNM_FUNC_FREE_NAME : 0);
 	desc.impl_status  = GNM_FUNC_IMPL_STATUS_EXISTS;
 	desc.test_status  = GNM_FUNC_TEST_STATUS_UNKNOWN;
