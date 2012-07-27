@@ -1,3 +1,10 @@
+2012-07-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (gnumeric_interpolation): sort abscissae
+	if they are unordered
+	(help_interpolation): delete the requirement that abscissae
+	are ordered
+
 2012-07-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.5

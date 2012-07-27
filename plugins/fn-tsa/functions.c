@@ -378,13 +378,15 @@ typedef  gnm_float* (*INTERPPROC) (const gnm_float*, const gnm_float*,
 
 static GnmFuncHelp const help_interpolation[] = {
 	{ GNM_FUNC_HELP_NAME, F_("INTERPOLATION:interpolated values corresponding to the given abscissa targets") },
-	{ GNM_FUNC_HELP_ARG, F_("abscissae:ordered abscissae of the given data points") },
+	{ GNM_FUNC_HELP_ARG, F_("abscissae:abscissae of the given data points") },
 	{ GNM_FUNC_HELP_ARG, F_("ordinates:ordinates of the given data points") },
 	{ GNM_FUNC_HELP_ARG, F_("targets:abscissae of the interpolated data") },
 	{ GNM_FUNC_HELP_ARG, F_("interpolation:method of interpolation, defaults to 0 (\'linear\')") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The output consists always of one column of numbers.") },
 	INTERPOLATIONMETHODS,
-	{ GNM_FUNC_HELP_NOTE, F_("The @{abscissae} must be given in increasing order.") },
+	{ GNM_FUNC_HELP_NOTE, F_("The @{abscissae} should be given in increasing order. If the @{abscissae} is not in "
+				 "increasing order the INTERPOLATION function is significantly slower.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If any two @{abscissae} values are equal an error is returned.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If any of interpolation methods 1 ('linear with averaging'), 3 "
 				 "('staircase with averaging'), and 5 ('natural cubic spline with "
 				 "averaging') is used, the number "
@@ -484,10 +486,36 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return error;
 	}
 
-	/* Check whether the abscissaa are increasing, if not an error is returned */
-	if (!gnm_range_increasing (vals0, n0))
-		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
-	else {
+	/* Check whether the abscissae are increasing, if not order them */
+	if (!gnm_range_increasing (vals0, n0)) {
+		gboolean switched = FALSE;
+		if (constp) {
+			vals0 = g_memdup (vals0, sizeof(gnm_float) * n0);
+			vals1 = g_memdup (vals1, sizeof(gnm_float) * n0);
+			constp = FALSE;	
+		}
+		while (!switched) {
+			gnm_float *val;
+			switched = FALSE;
+			for (i = 1, val = vals0; i < n0; i++, val++) {
+				if (*val == *(val + 1)) {
+					res = value_new_error_std (ei->pos, GNM_ERROR_VALUE) ;
+					goto done;
+				}
+				if (*val > *(val + 1)) {
+					gnm_float v = *val;
+					*val = *(val + 1);
+					*(val + 1) = v;
+					v = *(vals1 + i);
+					*(vals1 + i) = *(vals1 + i - 1);
+					*(vals1 + i - 1) = v;
+					switched = TRUE;
+				}
+			}
+		}
+	}
+
+	{
 		int n = n2;
 
 		if (missing2)
@@ -514,6 +542,8 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		}
 
 	}
+
+ done:
 	g_slist_free (missing2);
 	if (!constp) {
 		g_free (vals0);

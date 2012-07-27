@@ -4,6 +4,7 @@ Andreas:
 	* Some documentation updates.
 	* Fix implicit ')' for array functions. [#680548]
 	* Add FLIP function. [#680511]
+	* Allow unordered abscissae in INTERPOLATION. [#680510]
 
 Jean:
 	* Fix component references issues. [#680190]
