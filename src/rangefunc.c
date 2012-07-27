@@ -26,6 +26,12 @@ gnm_range_count (G_GNUC_UNUSED gnm_float const *xs, int n, gnm_float *res)
 int
 gnm_range_hypot (gnm_float const *xs, int n, gnm_float *res)
 {
+	/* Drop outside zeros because the n<=2 cases are more accurate.  */
+	while (n > 0 && xs[0] == 0)
+		xs++, n--;
+	while (n > 0 && xs[n - 1] == 0)
+		n--;
+
 	switch (n) {
 	case 0: *res = 0; return 0;
 	case 1: *res = gnm_abs (xs[0]); return 0;

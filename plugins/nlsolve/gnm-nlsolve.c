@@ -536,10 +536,16 @@ rosenbrock_iter (GnmNlsolve *nl)
 				}
                 }
 
-                div = sqrt (t[0]);
-                for (i = 0; i < n; i++) {
-			nl->xi[0][i] = A[0][i] / div;
-			g_assert (gnm_finite (nl->xi[0][i]));
+		gnm_range_hypot (dx, n, &div);
+		if (div != 0) {
+			for (i = 0; i < n; i++) {
+				nl->xi[0][i] = A[0][i] / div;
+				if (!gnm_finite (nl->xi[0][i])) {
+					g_printerr ("%g %g %g\n",
+						    div, A[0][i], nl->xi[0][i]);
+					g_assert (gnm_finite (nl->xi[0][i]));
+				}
+			}
 		}
 
 		/* ---------------------------------------- */

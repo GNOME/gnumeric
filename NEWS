@@ -14,6 +14,7 @@ Morten:
 	* Fix xls read crash.  [#679992]
 	* Reduce code duplication for dependents.
 	* Make cells regular dependents.
+	* Fix non-linear solver crash.  [#680719]
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.5
