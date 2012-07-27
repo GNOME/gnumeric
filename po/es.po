@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-07-23 10:42+0000\n"
-"PO-Revision-Date: 2012-07-24 12:59+0200\n"
+"POT-Creation-Date: 2012-07-26 15:41+0000\n"
+"PO-Revision-Date: 2012-07-27 12:47+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -2136,8 +2136,8 @@ msgstr "Algún nombre"
 
 #: ../plugins/python-loader/python-loader.c:338
 #: ../plugins/python-loader/python-loader.c:431
-#: ../plugins/python-loader/python-loader.c:662
-#: ../plugins/python-loader/python-loader.c:774
+#: ../plugins/python-loader/python-loader.c:660
+#: ../plugins/python-loader/python-loader.c:772
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "El archivo de Python «%s» no tiene un formato válido."
@@ -2148,24 +2148,24 @@ msgstr "El archivo de Python «%s» no tiene un formato válido."
 msgid "File doesn't contain \"%s\" function."
 msgstr "El archivo no contiene la función «%s»."
 
-#: ../plugins/python-loader/python-loader.c:667
-#: ../plugins/python-loader/python-loader.c:779
+#: ../plugins/python-loader/python-loader.c:665
+#: ../plugins/python-loader/python-loader.c:777
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "El archivo no contiene el diccionario «%s»."
 
-#: ../plugins/python-loader/python-loader.c:672
-#: ../plugins/python-loader/python-loader.c:784
+#: ../plugins/python-loader/python-loader.c:670
+#: ../plugins/python-loader/python-loader.c:782
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Objeto «%s» no es un diccionario."
 
-#: ../plugins/python-loader/python-loader.c:722 ../src/gnm-plugin.c:809
+#: ../plugins/python-loader/python-loader.c:720 ../src/gnm-plugin.c:809
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Acción desconocida: %s"
 
-#: ../plugins/python-loader/python-loader.c:727
+#: ../plugins/python-loader/python-loader.c:725
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr "No es una función válida para la acción: %s"
@@ -12269,7 +12269,7 @@ msgstr "error de asignación de bessel_k"
 msgid "bessel_k(%"
 msgstr "bessel_k(%"
 
-#: ../src/mathfunc.c:6633
+#: ../src/mathfunc.c:6641
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
@@ -14142,6 +14142,9 @@ msgid ""
 "the sample size must be at\n"
 "least 8."
 msgstr ""
+"Para la prueba de Anderson-Darling\n"
+"el tamaño de la muestra debe ser\n"
+"al menos 8."
 
 #: ../src/tools/analysis-normality.c:71
 msgid ""
@@ -14149,12 +14152,17 @@ msgid ""
 "the sample size must be at\n"
 "least 8."
 msgstr ""
+"Para la prueba de Cramér-von Mises\n"
+"el tamaño de la muestra debe ser\n"
+"al menos 8."
 
 #: ../src/tools/analysis-normality.c:78
 msgid ""
 "For the Lilliefors (Kolmogorov-Smirnov) Test\n"
 "the sample size must be at least 5."
 msgstr ""
+"Para la prueba de Lilliefors (Kolmogorov-Smirnov)\n"
+"el tamaño de la muestra debe ser al menos 5."
 
 #: ../src/tools/analysis-normality.c:84
 msgid ""
@@ -14162,6 +14170,9 @@ msgid ""
 "the sample size must be at\n"
 "least 5 and at most 5000."
 msgstr ""
+"Para la prueba de Shapiro-Francia\n"
+"el tamaño de la muestra debe estar\n"
+"entre 5 y 5000."
 
 #. xgettext:
 #. * Note to translators: in the following string and others like it,
@@ -14172,42 +14183,41 @@ msgstr ""
 #.
 #: ../src/tools/analysis-normality.c:127
 msgid "/Alpha/p-Value/Statistic/N/Conclusion"
-msgstr ""
+msgstr "/Alfa/valor-p/Estadísticas/N/Conclusión"
 
 #: ../src/tools/analysis-normality.c:167
-#, fuzzy
 msgid "Not normal"
-msgstr "Normal"
+msgstr "No normal"
 
 #: ../src/tools/analysis-normality.c:168
 msgid "Possibly normal"
-msgstr ""
+msgstr "Posiblemente normal"
 
 #: ../src/tools/analysis-normality.c:194
-#, fuzzy, c-format
+#, c-format
 msgid "Normality Test (%s)"
-msgstr "Prueba-t (%s)"
+msgstr "Prueba de normalidad (%s)"
 
 #: ../src/tools/analysis-normality.c:205 ../src/tools/analysis-normality.c:208
-#, fuzzy
 msgid "Normality Test"
-msgstr "Formatear celdas"
+msgstr "Prueba de normalidad"
 
 #: ../src/tools/analysis-one-mean-test.c:69
 msgid ""
 "/Student-t Test/N/Observed Mean/Hypothesized Mean/Observed Variance/Test "
 "Statistic/df/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
 msgstr ""
+"/Prueba t de Student/N/Media observada/Media de la hipótesis/Varianza "
+"observada/Prueba de estadística/df/α/P(T≤t) de una cola/P(T≤t) de dos colas"
 
 #: ../src/tools/analysis-one-mean-test.c:157
-#, fuzzy, c-format
-#| msgid "t-Test (%s)"
+#, c-format
 msgid "Student-t Test (%s)"
-msgstr "Prueba-t (%s)"
+msgstr "Prueba t de Student (%s)"
 
 #: ../src/tools/analysis-principal-components.c:67
 msgid "Principal components analysis has insufficient space."
-msgstr ""
+msgstr "El análisis de componentes principales no tiene espacio suficiente."
 
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
@@ -14216,6 +14226,8 @@ msgid ""
 "\"Principal Components Analysis\";[Red]\"Principal Components Analysis is "
 "invalid.\""
 msgstr ""
+"«Análisis de Componentes Principales»;[Rojo]«El análisis de componentes "
+"principales no es válido.»"
 
 #: ../src/tools/analysis-principal-components.c:114
 #: ../src/tools/analysis-tools.c:724
@@ -14224,40 +14236,45 @@ msgstr "Covarianzas"
 
 #: ../src/tools/analysis-principal-components.c:138
 msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
-msgstr ""
+msgstr "/Cuenta/Media/Varianza//Valores propios/Vectores propios"
 
 #: ../src/tools/analysis-principal-components.c:143
-#, fuzzy
 msgid "Percent of Trace"
-msgstr "Porcentaje"
+msgstr "Porcentaje de seguimiento"
 
 #: ../src/tools/analysis-principal-components.c:221
 #, c-format
 msgid "Principal Components Analysis (%s)"
-msgstr ""
+msgstr "Análisis de componentes principales (%s)"
 
 #: ../src/tools/analysis-sign-test.c:74
 msgid ""
 "/Sign Test/Median/Predicted Median/Test Statistic/N/α/P(T≤t) one-tailed/P"
 "(T≤t) two-tailed"
 msgstr ""
+"/Prueba de signo/Mediana/Mediana prevista/Prueba de estadística/N/α/P(T≤t) "
+"de una cola/P(T≤t) de dos colas"
 
 #: ../src/tools/analysis-sign-test.c:216
 msgid ""
 "/Sign Test/Median/Predicted Difference/Test Statistic/N/α/P(T≤t) one-tailed/P"
 "(T≤t) two-tailed"
 msgstr ""
+"/Prueba de signo/Mediana/Diferencia prevista/Prueba de estadística/N/α/P"
+"(T≤t) de una cola/P(T≤t) de dos colas"
 
 #: ../src/tools/analysis-sign-test.c:353 ../src/tools/analysis-sign-test.c:382
-#, fuzzy, c-format
+#, c-format
 msgid "Sign Test (%s)"
-msgstr "Prueba-z (%s)"
+msgstr "Prueba de signo (%s)"
 
 #: ../src/tools/analysis-signed-rank-test.c:79
 msgid ""
 "/Wilcoxon Signed Rank Test/Median/Predicted Median/N/S−/S+/Test Statistic/α/P"
 "(T≤t) one-tailed/P(T≤t) two-tailed"
 msgstr ""
+"/Prueba de signos de Wilcoxon/Mediana/Mediana prevista/N/S−/S+/Prueba de "
+"estadística/N/α/P(T≤t) de una cola/P(T≤t) de dos colas"
 
 #: ../src/tools/analysis-signed-rank-test.c:235
 #: ../src/tools/analysis-signed-rank-test.c:503
@@ -14265,6 +14282,8 @@ msgid ""
 "This p-value is calculated by a normal approximation.\n"
 "It is only valid if the sample size is at least 12."
 msgstr ""
+"Este valor-p es calculado por una aproximación normal.\n"
+"Sólo es válido si el tamaño de la muestra es al menos 12."
 
 #: ../src/tools/analysis-signed-rank-test.c:294
 msgid ""
@@ -14272,12 +14291,15 @@ msgid ""
 "Median Difference/N/S−/S+/Test Statistic/α/P(T≤t) one-tailed/P(T≤t) two-"
 "tailed"
 msgstr ""
+"/Prueba de signos de Wilcoxon/Mediana/Diferencia de mediana observada/"
+"Diferencia de mediana prevista/N/S−/S+/Prueba de estadística/α/P(T≤t) de una "
+"cola/P(T≤t) de dos colas"
 
 #: ../src/tools/analysis-signed-rank-test.c:539
 #: ../src/tools/analysis-signed-rank-test.c:568
-#, fuzzy, c-format
+#, c-format
 msgid "Wilcoxon Signed Rank Test (%s)"
-msgstr "Prueba-t (%s)"
+msgstr "Prueba de signos de Wilcoxon (%s)"
 
 #: ../src/tools/analysis-tools.c:186
 #, c-format
@@ -14350,7 +14372,7 @@ msgstr "Muestreo (%s)"
 
 #: ../src/tools/analysis-tools.c:1356 ../src/tools/analysis-tools.c:1359
 msgid "Sample"
-msgstr "Ejemplo"
+msgstr "Muestra"
 
 #: ../src/tools/analysis-tools.c:1400
 msgid ""
@@ -14359,8 +14381,8 @@ msgid ""
 "Critical two-tail"
 msgstr ""
 "/Media/Varianza conocida/Observaciones/Diferencia de las media de la "
-"hipótesis/Diferencia de la media observada/z/P (Z<=z) - una cola/z crítico - "
-"una cola/P (Z<=z) - dos colas/z crítico - dos colas"
+"hipótesis/Diferencia de la media observada/z/P (Z<=z) de una cola/z crítico "
+"de una cola/P (Z<=z) de dos colas/z crítico de dos colas"
 
 #: ../src/tools/analysis-tools.c:1587
 #, c-format
@@ -14378,14 +14400,14 @@ msgid ""
 "tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
 "/Media/Varianza/Observaciones/Correlación de Pearson/Diferencia de la media "
-"de la hipótesis/Diferencia de media observada/Varianza de distancias/df/t "
-"Stat/P (T<=t) - una cola/t crítico - una cola/ P (T<=t) - dos colas/t "
-"crítico - dos colas"
+"de la hipótesis/Diferencia de media observada/Varianza de diferencias/df/"
+"Estadística t/P (T<=t) de una cola/t crítico de una cola/P (T<=t) de dos "
+"colas/t crítico de dos colas"
 
 #: ../src/tools/analysis-tools.c:1879
 #, c-format
 msgid "t-Test, paired (%s)"
-msgstr "Prueba-t, emparejado (%s)"
+msgstr "Prueba-t, pareadas (%s)"
 
 #: ../src/tools/analysis-tools.c:1889 ../src/tools/analysis-tools.c:1892
 #: ../src/tools/analysis-tools.c:2189 ../src/tools/analysis-tools.c:2192
@@ -14399,9 +14421,9 @@ msgid ""
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 msgstr ""
-"/Media/Varianza/Observaciones/Varianza Pooled/Diferencia de la media de la "
-"hipótesis/Media observada/df/t Stat/P (T<=t) - una cola/t crítico - una "
-"cola/ P (T<=t) - dos colas/t crítico - dos colas"
+"/Media/Varianza/Observaciones/Varianza agrupada/Diferencia de la media de la "
+"hipótesis/Diferencia de la media observada/df/Estadística t/P (T<=t) de una "
+"cola/t crítico de una cola/P (T<=t) de dos colas/t crítico de dos colas"
 
 #: ../src/tools/analysis-tools.c:2179 ../src/tools/analysis-tools.c:2472
 #, c-format
@@ -14414,9 +14436,9 @@ msgid ""
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 msgstr ""
-"/Media/Varianza/Observaciones/Diferencia de las media de la hipótesis/"
-"Diferencia de la medias observada/df/t Stat/P (T<=t) - una cola/t crítico - "
-"una cola/ P (T<=t) - dos colas/t crítico - dos colas"
+"/Media/Varianza/Observaciones/Diferencia de la media de la hipótesis/"
+"Diferencia de la media observada/df/Estadística t/P (T<=t) de una cola/t "
+"crítico de una cola/P (T<=t) de dos colas/t crítico de dos colas"
 
 #: ../src/tools/analysis-tools.c:2521 ../src/tools/analysis-tools.c:2770
 #: ../src/tools/analysis-tools.c:2773
@@ -14428,9 +14450,9 @@ msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
-"/Media/Varianza/Observaciones/df/F/P (F<=f) - cola derecha/F crítico - cola "
-"derecha/ P (f<=F) - cola izquierda/F crítico - colas izquierda/P dos colas/F "
-"crítico - dos colas"
+"/Media/Varianza/Observaciones/df/F/P (F<=f) de cola derecha/F crítico de "
+"cola derecha/P (f<=F) de cola izquierda/F crítico de cola izquierda/P de dos "
+"colas/F crítico de dos colas"
 
 #: ../src/tools/analysis-tools.c:2760
 #, c-format
@@ -14442,18 +14464,17 @@ msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
-"/SALIDA RESUMEN//Estadísticas de regresión/R múltiple/Cuadrado R/Error "
-"estándar/Cuadrado R ajustado/Observaciones//Análisis de varianza//Regresión/"
-"Residual/Total///Interceptar"
+"/SALIDA RESUMEN//Estadísticas de regresión/R múltiple/R^2/Error estándar/R^2 "
+"ajustado/Observaciones//Análisis de varianza//Regresión/Residual/Total///"
+"Interceptar"
 
 #: ../src/tools/analysis-tools.c:2930
-#, fuzzy
 msgid "Response Variable"
-msgstr "Variable Y"
+msgstr "Variable de respuesta"
 
 #: ../src/tools/analysis-tools.c:2964
 msgid "/df/SS/MS/F/Significance of F"
-msgstr "/df/Suma de los cuadrados/Media cuadrática/F/Significancia de F"
+msgstr "/df/SS/MS/F/Significancia de F"
 
 #: ../src/tools/analysis-tools.c:2971
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
@@ -14475,6 +14496,11 @@ msgid ""
 "observed t-statistic, assuming the null\n"
 "hypothesis is in fact true."
 msgstr ""
+"La probabilidad de observar un estadístico t\n"
+"cuyo valor absoluto es al menos tan grande\n"
+"como el valor absoluto del actual\n"
+"estadística t observada, suponiendo que la hipótesis\n"
+"nula es de hecho verdad."
 
 #: ../src/tools/analysis-tools.c:2993
 msgid ""
@@ -14499,22 +14525,26 @@ msgid ""
 "/Prediction//Residual/Leverages/Internally studentized/Externally "
 "studentized/p-Value"
 msgstr ""
+"/Predicción//Residual/Apalancamiento/Internamente con t de Student/"
+"Externamente con t de Student/valor-p"
 
 #: ../src/tools/analysis-tools.c:3501
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
-msgstr ""
+msgstr "/SALIDA RESUMEN//Variable independiente//Observaciones"
 
 #: ../src/tools/analysis-tools.c:3506
 msgid "/SUMMARY OUTPUT//Response Variable//Observations"
-msgstr ""
+msgstr "/SALIDA RESUMEN//Variable de respuesta//Observaciones"
 
 #: ../src/tools/analysis-tools.c:3512
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr ""
+"/Variable de respuesta/R^2/Inclinación/Interceptar/F/Significancia de F"
 
 #: ../src/tools/analysis-tools.c:3518
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr ""
+"/Variable independiente/R^2/Inclinación/Interceptar/F/Significancia de F"
 
 #: ../src/tools/analysis-tools.c:3599
 #, c-format
@@ -14527,9 +14557,8 @@ msgid "Moving Average (%s)"
 msgstr "Desplazamiento promediado (%s)"
 
 #: ../src/tools/analysis-tools.c:4072
-#, fuzzy
 msgid "Ranks & Percentiles"
-msgstr "Rangos y porcentajes"
+msgstr "Rangos y percentiles"
 
 #: ../src/tools/analysis-tools.c:4083
 msgid "Point"
@@ -14540,22 +14569,21 @@ msgid "Rank"
 msgstr "Rango"
 
 #: ../src/tools/analysis-tools.c:4085
-#, fuzzy
 msgid "Percentile Rank"
-msgstr "Porcentaje"
+msgstr "Rango de percentil"
 
 #: ../src/tools/analysis-tools.c:4177
 #, c-format
 msgid "Ranks (%s)"
-msgstr "Clasificaciones (%s)"
+msgstr "Rangos (%s)"
 
 #: ../src/tools/analysis-tools.c:4189 ../src/tools/analysis-tools.c:4192
 msgid "Ranks"
-msgstr "Rango"
+msgstr "Rangos"
 
 #: ../src/tools/analysis-tools.c:4224
 msgid "Anova: Single Factor"
-msgstr "Anova: un factor"
+msgstr "Análisis de varianza: un factor"
 
 #: ../src/tools/analysis-tools.c:4225 ../src/tools/simulation.c:336
 msgid "SUMMARY"
@@ -14563,38 +14591,37 @@ msgstr "RESUMEN"
 
 #: ../src/tools/analysis-tools.c:4228
 msgid "/Groups/Count/Sum/Average/Variance"
-msgstr "/Grupos/Cuenta/Suma/Promediación/Varianza"
+msgstr "/Grupos/Cuenta/Suma/Promedio/Varianza"
 
 #: ../src/tools/analysis-tools.c:4296
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
-"/Análisis de varianza/Origen de variación/Entre grupos/Dentro de grupos/Total"
+"/Análisis de varianza/Fuente de variación/Entre grupos/Dentro de grupos/Total"
 
 #: ../src/tools/analysis-tools.c:4514
 #, c-format
 msgid "Single Factor ANOVA (%s)"
-msgstr "Factor simple Análisis de varianza (%s)"
+msgstr "Análisis de varianza de un factor (%s)"
 
 #: ../src/tools/analysis-tools.c:4525
 msgid "Anova"
-msgstr "Anova"
+msgstr "Análisis de varianza"
 
 #: ../src/tools/analysis-tools.c:4528
 msgid "Single Factor ANOVA"
-msgstr "Factor simple Análisis de varianza"
+msgstr "Análisis de varianza de un factor"
 
 #: ../src/tools/analysis-tools.c:4560
 msgid "Inverse Fourier Transform"
-msgstr "Transformada inversa de Fourier"
+msgstr "Transformación inversa de Fourier"
 
 #: ../src/tools/analysis-tools.c:4561
 msgid "Fourier Transform"
 msgstr "Transformación de Fourier"
 
 #: ../src/tools/analysis-tools.c:4569
-#, fuzzy
 msgid "/Real/Imaginary"
-msgstr "Imaginario"
+msgstr "/Real/Imaginario"
 
 #: ../src/tools/analysis-tools.c:4617
 #, c-format
@@ -14607,7 +14634,7 @@ msgstr "Series de Fourier"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:140
 msgid "/Rank-Sum/N/U/Ties/Statistics/U-Statistics/p-Value"
-msgstr ""
+msgstr "/Rango-Suma/N/U/Colas/Estadísticas/Estadísticas U/valor-p"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:301
 msgid ""
@@ -14617,6 +14644,11 @@ msgid ""
 "at least 15 observations in each\n"
 "population, and few if any ties."
 msgstr ""
+"Este valor-p se calcula utilizando una\n"
+"aproximación normal, por lo que\n"
+"sólo es válido para muestras grandes de\n"
+"al menos 15 observaciones en cada\n"
+"población, y pocas o ninguna cola."
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:309
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:314
@@ -14626,11 +14658,14 @@ msgid ""
 "for the third column of output,\n"
 "this value is not calculated."
 msgstr ""
+"Al no haber suficiente espacio\n"
+"para la tercera columna de salida,\n"
+"este valor no se calcula."
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:353
-#, fuzzy, c-format
+#, c-format
 msgid "Wilcoxon-Mann-Whitney Test (%s)"
-msgstr "Prueba-t (%s)"
+msgstr "Prueba de Wilcoxon-Mann-Whitney (%s)"
 
 #: ../src/tools/dao.c:172
 msgid "New Sheet"
@@ -14638,7 +14673,7 @@ msgstr "Hoja nueva"
 
 #: ../src/tools/dao.c:175
 msgid "New Workbook"
-msgstr "Libro de cuentas nuevo"
+msgstr "Libro de trabajo nuevo"
 
 #: ../src/tools/dao.c:989
 msgid "Gnumeric "
@@ -14654,12 +14689,12 @@ msgstr "Informe creado: "
 
 #: ../src/tools/data-shuffling.c:291
 msgid "Shuffled"
-msgstr "Aleatorio"
+msgstr "Mezclado"
 
 #: ../src/tools/fill-series.c:378
 #, c-format
 msgid "Fill Series (%s)"
-msgstr "Series de llenado (%s)"
+msgstr "Relleno de series (%s)"
 
 #: ../src/tools/filter.c:137
 msgid "Filtered"
@@ -14667,12 +14702,12 @@ msgstr "Filtrado"
 
 #: ../src/tools/filter.c:199
 msgid "/Advanced Filter:/Source Range:/Criteria Range:"
-msgstr ""
+msgstr "/Filtro avanzado:/Rango de fuente:/Rango de criterio:"
 
 #: ../src/tools/filter.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "Advanced Filter (%s)"
-msgstr "Filtro avanzado"
+msgstr "Filtro avanzado (%s)"
 
 #: ../src/tools/gnm-solver.c:592
 #, fuzzy, c-format
@@ -17332,24 +17367,24 @@ msgstr "Alineación horizontal"
 msgid "Vertical Alignment"
 msgstr "Alineación vertical"
 
-#: ../src/wbc-gtk-edit.c:861
+#: ../src/wbc-gtk-edit.c:862
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s está bloqueado"
 
-#: ../src/wbc-gtk-edit.c:865
+#: ../src/wbc-gtk-edit.c:866
 msgid "Unprotect the workbook to enable editing."
 msgstr "Desproteger el libro de cuentas para permitir la edición."
 
-#: ../src/wbc-gtk-edit.c:866
+#: ../src/wbc-gtk-edit.c:867
 msgid "Unprotect the sheet to enable editing."
 msgstr "Desproteger la hoja para permitir la edición."
 
-#: ../src/wbc-gtk-edit.c:885
+#: ../src/wbc-gtk-edit.c:886
 msgid "You are about to edit a cell with \"text\" format."
 msgstr "Va a editar una celda con formato «texto»."
 
-#: ../src/wbc-gtk-edit.c:886
+#: ../src/wbc-gtk-edit.c:887
 msgid ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
@@ -17357,11 +17392,11 @@ msgstr ""
 "La celda actualmente no contiene texto, aunque, si procede a editarla "
 "entonces el contenido se convertirá en texto."
 
-#: ../src/wbc-gtk-edit.c:891
+#: ../src/wbc-gtk-edit.c:892
 msgid "Remove format"
 msgstr "Quitar formato"
 
-#: ../src/wbc-gtk-edit.c:896
+#: ../src/wbc-gtk-edit.c:897
 msgid "Show this dialog next time."
 msgstr "Mostrar este diálogo la próxima vez."
 
