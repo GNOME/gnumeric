@@ -432,12 +432,6 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return error;
 	}
 
-	if (n2 <= 0) {
-		g_slist_free (missing2);
-		g_free (vals2);
-		return value_new_error_std (ei->pos, GNM_ERROR_VALUE);
-	}
-
 	/* argv[3] */
 
 	if (argv[3]) {
@@ -472,6 +466,12 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		interpproc = spline_averaging;
 		n2--;
 		break;
+	}
+
+	if (n2 <= 0) {
+		g_slist_free (missing2);
+		g_free (vals2);
+		return value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 	}
 
 	/* argv[0] & argv[1] */

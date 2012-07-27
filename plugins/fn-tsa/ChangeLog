@@ -1,5 +1,10 @@
 2012-07-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (gnumeric_interpolation): check for target size
+	after adjustment
+
+2012-07-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (gnumeric_interpolation): sort abscissae
 	if they are unordered
 	(help_interpolation): delete the requirement that abscissae
