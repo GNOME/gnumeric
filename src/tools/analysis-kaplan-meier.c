@@ -519,7 +519,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 
 	if (info->logrank_test) {
 		GnmFunc *fd_chidist;
-		GnmExpr const *expr_statistics = gnm_expr_new_constant (value_new_int (0));
+		GnmExpr const *expr_statistic = gnm_expr_new_constant (value_new_int (0));
 		GnmExpr const *expr_p;
 		GnmExpr const *expr_n_total = gnm_expr_new_constant (value_new_int (0));
 		GnmExpr const *expr_death_total = gnm_expr_new_constant (value_new_int (0));
@@ -530,11 +530,11 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 		dao_set_italic (dao, 1, logrank_test_y_offset, 1, logrank_test_y_offset+3);
 		set_cell_text_col (dao, 1, logrank_test_y_offset,
 				   _("/Log-Rank Test"
-				     "/Statistics"
+				     "/Statistic"
 				     "/Degrees of Freedom"
 				     "/p-Value"));
 
-		/* Test Statistics */
+		/* Test Statistic */
 		for (i = 0; i < repetitions; i++) {
 			gint atrisk_dx = - (repetitions - i)* colspan - 2;
 			expr_n_total = gnm_expr_new_binary
@@ -590,13 +590,13 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 					gnm_expr_new_constant (value_new_int (2))),
 				GNM_EXPR_OP_DIV,
 				expr_expect);
-			expr_statistics =  gnm_expr_new_binary (
-				expr_statistics, GNM_EXPR_OP_ADD, expr_expect);
+			expr_statistic =  gnm_expr_new_binary (
+				expr_statistic, GNM_EXPR_OP_ADD, expr_expect);
 		}
 		gnm_expr_free (expr_n_total);
 		gnm_expr_free (expr_death_total);
 
-		dao_set_cell_array_expr (dao, 2, logrank_test_y_offset + 1, expr_statistics);
+		dao_set_cell_array_expr (dao, 2, logrank_test_y_offset + 1, expr_statistic);
 
 		/* Degree of Freedoms */
 		dao_set_cell_int (dao, 2, logrank_test_y_offset + 2, repetitions - 1);

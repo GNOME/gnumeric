@@ -141,8 +141,8 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 					"/N"
 					"/U"
 					"/Ties"
-					"/Statistics"
-					"/U-Statistics"
+					"/Statistic"
+					"/U-Statistic"
 					"/p-Value"));
 	dao_set_cell (dao, 3, 1, _("Total"));
 
