@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-07-27 10:49+0000\n"
-"PO-Revision-Date: 2012-07-28 12:06+0200\n"
+"PO-Revision-Date: 2012-07-28 18:35+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -14713,120 +14713,98 @@ msgid "Advanced Filter (%s)"
 msgstr "Filtro avanzado (%s)"
 
 #: ../src/tools/gnm-solver.c:592
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid solver target"
-msgstr "Número de argumentos inválido"
+msgstr "Objetivo de resolutor no válido"
 
 #: ../src/tools/gnm-solver.c:603
-#, fuzzy, c-format
+#, c-format
 msgid "Target cell, %s, must contain a formula that evaluates to a number"
-msgstr "La celda destino debería contener una fórmula."
+msgstr ""
+"La celda objetivo, %s, debería contener una fórmula que de como resultado un "
+"número."
 
 #: ../src/tools/gnm-solver.c:613
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid solver input range"
-msgstr "Nombre de escenario inválido"
+msgstr "Rango de entrada del resolutor no válido"
 
 #: ../src/tools/gnm-solver.c:624
-#, fuzzy, c-format
+#, c-format
 msgid "Input cell %s contains a formula"
-msgstr "La celda destino debería contener una fórmula."
+msgstr "La celda de entrada %s contiene una fórmula."
 
 #: ../src/tools/gnm-solver.c:639
-#, fuzzy, c-format
+#, c-format
 msgid "Solver constraint #%d is invalid"
-msgstr "El rango de la lista no es válido."
+msgstr "La restricción del resolutor #%d no es válida."
 
 #: ../src/tools/gnm-solver.c:748 ../src/tools/gnm-solver.c:749
 msgid "Problem Type"
 msgstr "Tipo de problema"
 
 #: ../src/tools/gnm-solver.c:973
-#, fuzzy
-#| msgid "Time"
 msgid "Timeout"
-msgstr "Hora"
+msgstr "Tiempo de espera"
 
 #: ../src/tools/gnm-solver.c:1223
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create file for linear program"
-msgstr "No se puede crear archivo temporal para el envío."
+msgstr "Falló al crear archivo para el programa lineal"
 
 #: ../src/tools/gnm-solver.c:1232
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create linear program file"
-msgstr "No se puede crear archivo temporal para el envío."
+msgstr "Falló al crear archivo del programa lineal"
 
 #: ../src/tools/gnm-solver.c:1252
 #, c-format
 msgid "Failed to save linear program"
-msgstr ""
+msgstr "Falló al guardar el programa lineal"
 
 #: ../src/tools/gnm-solver.c:1441
-#, fuzzy
-#| msgid "Target _Range:"
 msgid "Target"
-msgstr "_Rango objetivo:"
+msgstr "Objetivo"
 
 #: ../src/tools/gnm-solver.c:1445
-#, fuzzy
-#| msgid "status"
 msgid "Status"
-msgstr "estado"
+msgstr "Estado"
 
 #: ../src/tools/gnm-solver.c:1458
-#, fuzzy
-#| msgid "Minimum"
 msgid "Minimize"
-msgstr "Mínimo"
+msgstr "Mínimizar"
 
 #: ../src/tools/gnm-solver.c:1461
-#, fuzzy
-#| msgid "Maximum"
 msgid "Maximize"
-msgstr "Máximo"
+msgstr "Máximizar"
 
 #: ../src/tools/gnm-solver.c:1492
-#, fuzzy
-#| msgid "\"Lower\" 0%"
 msgid "Lower"
-msgstr "«Inferior» 0%"
+msgstr "Inferior"
 
 #: ../src/tools/gnm-solver.c:1493
-#, fuzzy
-#| msgid "\"Upper\" 0%"
 msgid "Upper"
-msgstr "«Superior» 0%"
+msgstr "Superior"
 
 #: ../src/tools/gnm-solver.c:1494 ../src/tools/gnm-solver.c:1553
-#, fuzzy
-#| msgid "Black"
 msgid "Slack"
-msgstr "Negro"
+msgstr "Débil"
 
 #: ../src/tools/gnm-solver.c:1528
-#, fuzzy
-#| msgid "Limit"
 msgid "At limit"
-msgstr "Límite"
+msgstr "Al límite"
 
 #: ../src/tools/gnm-solver.c:1532
-#, fuzzy
-#| msgid "Outside Borders"
 msgid "Outside bounds"
-msgstr "Bordes exteriores"
+msgstr "Límites exteriores"
 
 #: ../src/tools/gnm-solver.c:1550
-#, fuzzy
-#| msgid "Condition:"
 msgid "Condition"
-msgstr "Condición:"
+msgstr "Condición"
 
 #: ../src/tools/gnm-solver.c:1555
-#, fuzzy
-#| msgid "Constraints"
 msgid "No constraints"
-msgstr "Restricciones"
+msgstr "Sin restricciones"
 
 #: ../src/tools/gnm-solver.c:1641
 msgid "status"
@@ -14834,42 +14812,39 @@ msgstr "estado"
 
 #: ../src/tools/gnm-solver.c:1642
 msgid "The solver's current status"
-msgstr ""
+msgstr "El estado actual del resolutor"
 
 #: ../src/tools/gnm-solver.c:1649
-#, fuzzy
-#| msgid "_Areas"
 msgid "reason"
-msgstr "Á_reas"
+msgstr "razón"
 
 #: ../src/tools/gnm-solver.c:1650
 msgid "The reason behind the solver's status"
-msgstr ""
+msgstr "La razón detrás del estado del resolutor"
 
 #: ../src/tools/gnm-solver.c:1657
-#, fuzzy
 msgid "Solver parameters"
-msgstr "Separadores"
+msgstr "Parámetros del resolutor"
 
 #: ../src/tools/gnm-solver.c:1665
 msgid "Current best feasible result"
-msgstr ""
+msgstr "Actual mejor resultado factible"
 
 #: ../src/tools/gnm-solver.c:1671
 msgid "Start Time"
-msgstr "Tiempo de inicio"
+msgstr "Hora de inicio"
 
 #: ../src/tools/gnm-solver.c:1672
 msgid "Time the solver was started"
-msgstr ""
+msgstr "Hora en la que se inició el resolutor"
 
 #: ../src/tools/gnm-solver.c:1678
 msgid "End Time"
-msgstr "Tiempo de finalización"
+msgstr "Hora de finalización"
 
 #: ../src/tools/gnm-solver.c:1679
 msgid "Time the solver finished"
-msgstr ""
+msgstr "Hora en que la resolutor finalizó"
 
 #: ../src/tools/gnm-solver.c:2003
 #, c-format
@@ -14879,52 +14854,53 @@ msgid ""
 "\n"
 "Would you like to locate it yourself?"
 msgstr ""
+"Gnumeric no puede encontrar el programa <i>%s</i> necesario para el "
+"resolutor </i>%s</i>. Para obtener más información, consulte %s.\n"
+"\n"
+"¿Le gustaría encontrarlo usted mismo?"
 
 #: ../src/tools/gnm-solver.c:2007
-#, fuzzy, c-format
-#| msgid "Unable to open '%s'"
+#, c-format
 msgid "Unable to locate %s"
-msgstr "No ha sido posible abrir el archivo «%s»"
+msgstr "No se puede encontrar %s"
 
 #: ../src/tools/gnm-solver.c:2023
 #, c-format
 msgid "Locate the %s program"
-msgstr ""
+msgstr "Encontrar el programa %s"
 
 #: ../src/tools/random-generator-cor.c:64
 msgid "Cholesky Decomposition of the Covariance Matrix"
-msgstr ""
+msgstr "Descomposición Cholesky de la matriz de covarianza"
 
 #: ../src/tools/random-generator-cor.c:76
 msgid "Uncorrelated Random Variables"
-msgstr "Variables aleatorias sin correlar"
+msgstr "Variables aleatorias sin correlacionar"
 
 #: ../src/tools/random-generator-cor.c:101
 msgid "Correlated Random Variables"
-msgstr "Variables aleatorias correladas"
+msgstr "Variables aleatorias correlacionadas"
 
 #: ../src/tools/random-generator-cor.c:143
-#, fuzzy, c-format
+#, c-format
 msgid "Correlated Random Numbers (%s)"
-msgstr "Números aleatorios (%s)"
+msgstr "Números aleatorios correlacionados (%s)"
 
 #: ../src/tools/random-generator-cor.c:154
 #: ../src/tools/random-generator-cor.c:157
-#, fuzzy
 msgid "Correlated Random Numbers"
-msgstr "Generación de números aleatorios"
+msgstr "Números aleatorios correlacionados"
 
 #: ../src/tools/random-generator.c:53
-#, fuzzy
 msgid "Generating Random Numbers..."
-msgstr "Generación de números aleatorios"
+msgstr "Generando números aleatorios…"
 
 #: ../src/tools/random-generator.c:119
 msgid ""
 "The probability input range contains a non-numeric value.\n"
 "All probabilities must be non-negative numbers."
 msgstr ""
-"La probabilidad del rango de entrada contiene un valor no numérico.\n"
+"La probabilidad de que el rango de entrada contenga un valor no numérico.\n"
 "Todas las probabilidades deben ser números no negativos."
 
 #: ../src/tools/random-generator.c:127
@@ -14932,12 +14908,12 @@ msgid ""
 "The probability input range contains a negative number.\n"
 "All probabilities must be non-negative!"
 msgstr ""
-"La probabilidad del rango de entrada contiene un número negativo.\n"
+"La probabilidad de que el rango de entrada contenga un número negativo.\n"
 "Todas las probabilidades deben ser no negativas."
 
 #: ../src/tools/random-generator.c:142
 msgid "None of the values in the value range may be empty!"
-msgstr "Ninguno de los valores del rango de valores puede estar vacío."
+msgstr "Ninguno de los valores del rango de valor puede estar vacío."
 
 #: ../src/tools/random-generator.c:158
 msgid "The probabilities may not all be 0!"
@@ -14953,7 +14929,7 @@ msgid ""
 "Input variable did not yield to a numeric value. Check the model (maybe your "
 "last round # is too high)."
 msgstr ""
-"La variable de entrada no produjo un valor numérico. Compruebe el modelo "
+"La variable de entrada no produjo un valor numérico. Verifique el modelo "
 "(quizá su última ronda # es demasiado alta)."
 
 #: ../src/tools/simulation.c:118
@@ -14961,8 +14937,8 @@ msgid ""
 "Output variable did not yield to a numeric value. Check the output variables "
 "in your model (maybe your last round # is too high)."
 msgstr ""
-"La salida de la variable no produjo un valor numérico. Verifique las "
-"variables de salida en su modelo (quizá su última ronda # es demasiado alta)."
+"La variable de salida no produjo un valor numérico. Verifique las variables "
+"de salida en su modelo (quizá su última ronda # es demasiado alta)."
 
 #: ../src/tools/simulation.c:235
 msgid "Simulation Report"
@@ -14986,7 +14962,7 @@ msgstr "Varianza"
 
 #: ../src/tools/simulation.c:254
 msgid "Skewness"
-msgstr "Sesgo"
+msgstr "Desviación"
 
 #: ../src/tools/simulation.c:255
 msgid "Kurtosis"
@@ -15001,19 +14977,16 @@ msgid "Count"
 msgstr "Cuenta"
 
 #: ../src/tools/simulation.c:258
-#, fuzzy
 msgid "Confidence (95%)"
-msgstr "Nivel de confianza (95%)"
+msgstr "Confianza (95%)"
 
 #: ../src/tools/simulation.c:259
-#, fuzzy
 msgid "Lower Limit (95%)"
-msgstr "Límite inferior (95 %)"
+msgstr "Límite inferior (95%)"
 
 #: ../src/tools/simulation.c:260
-#, fuzzy
 msgid "Upper Limit (95%)"
-msgstr "Límite superior (95 %)"
+msgstr "Límite superior (95%)"
 
 #: ../src/tools/simulation.c:328
 msgid "SUMMARY OF SIMULATION ROUND #"
@@ -15029,7 +15002,7 @@ msgstr "(Entrada) "
 
 #: ../src/tools/simulation.c:404
 msgid "Maximum time exceeded. Simulation was not completed. "
-msgstr "Tiempo máximo excedido: La simulación no se terminó"
+msgstr "Tiempo máximo excedido. La simulación no se completó."
 
 #: ../src/tools/tabulate.c:146
 msgid "Tabulation"
@@ -15046,19 +15019,17 @@ msgstr "Tabulación"
 #, c-format
 msgid "%d row of %d matches"
 msgid_plural "%d rows of %d match"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "coincide %d fila de %d"
+msgstr[1] "coinciden %d filas de %d"
 
 #. xgettext: The %d gives the number of rows that match.
 #. This is input to ngettext.
 #: ../src/undo.c:254
-#, fuzzy, c-format
-#| msgid "%d row"
-#| msgid_plural "%d rows"
+#, c-format
 msgid "%d row matches"
 msgid_plural "%d rows match"
-msgstr[0] "%d fila"
-msgstr[1] "%d filas"
+msgstr[0] "coincide %d fila"
+msgstr[1] "coinciden %d filas"
 
 #. Note: no entry for GNM_VALIDATION_OP_NONE
 #: ../src/validation.c:73
@@ -15067,7 +15038,7 @@ msgstr "Entre"
 
 #: ../src/validation.c:74
 msgid "Not_Between"
-msgstr "No _ente"
+msgstr "No _entre"
 
 #: ../src/validation.c:75
 msgid "Equal"
@@ -15075,7 +15046,7 @@ msgstr "Igual"
 
 #: ../src/validation.c:76
 msgid "Not Equal"
-msgstr "Distintos"
+msgstr "No es igual"
 
 #: ../src/validation.c:77
 msgid "Greater Than"
@@ -15095,11 +15066,11 @@ msgstr "Menor que o igual"
 
 #: ../src/validation.c:420
 msgid "Missing formula for validation"
-msgstr "Falta una fórmula para validar"
+msgstr "Falta fórmula para validación"
 
 #: ../src/validation.c:423
 msgid "Extra formula for validation"
-msgstr "Fórmula adicional para validar"
+msgstr "Fórmula adicional para validación"
 
 #: ../src/validation.c:434
 msgid "Gnumeric: Validation"
@@ -15147,7 +15118,7 @@ msgstr "%s está fuera del rango permitido"
 
 #: ../src/value.c:60
 msgid "#NULL!"
-msgstr "#NULO!"
+msgstr "#NULL!"
 
 #: ../src/value.c:61
 msgid "#DIV/0!"
@@ -15175,11 +15146,11 @@ msgstr "#N/D"
 
 #: ../src/wbc-gtk-actions.c:160
 msgid "Failed to create temporary file for sending."
-msgstr "No se puede crear archivo temporal para el envío."
+msgstr "Falló al crear archivo temporal para el envío."
 
 #: ../src/wbc-gtk-actions.c:217 ../src/workbook-view.c:1164
 msgid "Default file saver is not available."
-msgstr "No se encuentra disponible el guardador de archivos preestablecido."
+msgstr "No se encuentra disponible el guardador de archivos predeterminado."
 
 #. File->PrintArea
 #: ../src/wbc-gtk-actions.c:242 ../src/wbc-gtk-actions.c:2153
@@ -15206,13 +15177,13 @@ msgid ""
 "\n"
 "The replace has been aborted and nothing has been changed."
 msgstr ""
-"En la celda %s, el contenido\n"
+"En la celda %s, el contenido actual\n"
 "        %s\n"
-"debiera haber sido reemplazado por\n"
+"debería haber sido reemplazado por\n"
 "        %s\n"
-"lo cual no es válido.\n"
+"lo que no es válido.\n"
 "\n"
-"El reemplazo ha sido cancelado y no se han efectuado cambios."
+"El reemplazo se ha cancelado y no se han efectuado cambios."
 
 #: ../src/wbc-gtk-actions.c:572
 #, c-format
@@ -15233,7 +15204,7 @@ msgstr "Insertar columnas"
 
 #: ../src/wbc-gtk-actions.c:1011 ../src/wbc-gtk-actions.c:1031
 msgid "Show Detail"
-msgstr "Mostrar detalle"
+msgstr "Mostrar detalles"
 
 #: ../src/wbc-gtk-actions.c:1011 ../src/wbc-gtk-actions.c:1031
 msgid "Hide Detail"
