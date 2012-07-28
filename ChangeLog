@@ -1,3 +1,10 @@
+2012-07-27  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (cell_dep_eval): Don't complain if we're not
+	finished with the eval.  That can and will happen with circular
+	dependents.  (It didn't use to because we had two different ways
+	into this code.)
+
 2012-07-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* component/gnumeric.c (go_gnm_component_get_data),

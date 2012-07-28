@@ -1157,10 +1157,8 @@ static void
 cell_dep_eval (GnmDependent *dep)
 {
 	gboolean finished = gnm_cell_eval_content (GNM_DEP_TO_CELL (dep));
+	(void)finished; /* We don't currently care */
 	dep->flags &= ~GNM_CELL_HAS_NEW_EXPR;
-
-	/* This should always be the top of the stack */
-	g_return_if_fail (finished);
 }
 
 static void
@@ -1557,6 +1555,10 @@ dependent_eval (GnmDependent *dep)
 		dependent_clear_dynamic_deps (dep);
 		dep->flags &= ~DEPENDENT_HAS_DYNAMIC_DEPS;
 	}
+
+	/*
+	 * Problem: this really should be a tail call.
+	 */
 	klass->eval (dep);
 
 	/* Don't clear flag until after in case we iterate */
@@ -1566,8 +1568,13 @@ dependent_eval (GnmDependent *dep)
 void
 gnm_cell_eval (GnmCell *cell)
 {
-	if (gnm_cell_needs_recalc (cell))
+	if (gnm_cell_needs_recalc (cell)) {
+		/*
+		 * This should be a tail call so the stack frame can be
+		 * eliminated before the call.
+		 */
 		dependent_eval (GNM_CELL_TO_DEP (cell));
+	}
 }
 
 
