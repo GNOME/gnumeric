@@ -19,6 +19,7 @@ struct _GnmDependent {
 typedef struct {
 	void (*eval)	   (GnmDependent *dep);
 	void (*set_expr)   (GnmDependent *dep, GnmExprTop const *new_texpr);
+	GSList* (*changed) (GnmDependent *dep);
 	void (*debug_name) (GnmDependent const *dep, GString *target);
 } GnmDependentClass;
 

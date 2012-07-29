@@ -12,7 +12,7 @@ Jean:
 
 Morten:
 	* Fix xls read crash.  [#679992]
-	* Reduce code duplication for dependents.
+	* Dependents code cleanups.
 	* Make cells regular dependents.
 	* Fix non-linear solver crash.  [#680719]
 

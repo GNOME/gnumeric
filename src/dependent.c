@@ -233,8 +233,10 @@ gnm_dep_unlink_undo_new (GSList *deps)
 
 static void cell_dep_eval	   (GnmDependent *dep);
 static void cell_dep_set_expr	   (GnmDependent *dep, GnmExprTop const *new_texpr);
+static GSList *cell_dep_changed	   (GnmDependent *dep);
 static void cell_dep_debug_name    (GnmDependent const *dep, GString *target);
 static void dynamic_dep_eval	   (GnmDependent *dep);
+static GSList *dynamic_dep_changed (GnmDependent *dep);
 static void dynamic_dep_debug_name (GnmDependent const *dep, GString *target);
 static void name_dep_eval	   (GnmDependent *dep);
 static void name_dep_debug_name	   (GnmDependent const *dep, GString *target);
@@ -245,20 +247,24 @@ static GPtrArray *dep_classes = NULL;
 static GnmDependentClass cell_dep_class = {
 	cell_dep_eval,
 	cell_dep_set_expr,
+	cell_dep_changed,
 	cell_dep_debug_name,
 };
 static GnmDependentClass dynamic_dep_class = {
 	dynamic_dep_eval,
 	NULL,
+	dynamic_dep_changed,
 	dynamic_dep_debug_name,
 };
 static GnmDependentClass name_dep_class = {
 	name_dep_eval,
 	NULL,
+	NULL,
 	name_dep_debug_name,
 };
 static GnmDependentClass managed_dep_class = {
 	managed_dep_eval,
+	NULL,
 	NULL,
 	managed_dep_debug_name,
 };
@@ -447,34 +453,16 @@ dependent_queue_recalc_main (GSList *work)
 	while (work) {
 		GnmDependent *dep = work->data;
 		int const t = dependent_type (dep);
+		GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
+
 		/* Pop the top element.  */
-		GSList *list = work;
-		work = work->next;
+		work = g_slist_delete_link (work, work);
 
-		g_slist_free_1 (list);
-
-		if (t == DEPENDENT_CELL) {
-			GSList *deps = cell_list_deps (GNM_DEP_TO_CELL (dep));
-			GSList *waste = NULL;
-			GSList *next;
-			for (list = deps; list != NULL ; list = next) {
-				GnmDependent *dep = list->data;
-				next = list->next;
-				if (dependent_needs_recalc (dep)) {
-					list->next = waste;
-					waste = list;
-				} else {
-					dependent_flag_recalc (dep);
-					list->next = work;
-					work = list;
-				}
-			}
-			g_slist_free (waste);
-		} else if (t == DEPENDENT_DYNAMIC_DEP) {
-			DynamicDep const *dyn = (DynamicDep *)dep;
-			if (!dependent_needs_recalc (dyn->container)) {
-				dependent_flag_recalc (dyn->container);
-				work = g_slist_prepend (work, dyn->container);
+		if (klass->changed) {
+			GSList *extra = klass->changed (dep);
+			if (extra) {
+				g_slist_last (extra)->next = work;
+				work = extra;
 			}
 		}
 	}
@@ -1171,6 +1159,30 @@ cell_dep_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr)
 	gnm_cell_set_expr_unsafe (GNM_DEP_TO_CELL (dep), new_texpr);
 }
 
+static GSList *
+cell_dep_changed (GnmDependent *dep)
+{
+	/* When a cell changes, so do its dependents.  */
+
+	GSList *deps = cell_list_deps (GNM_DEP_TO_CELL (dep));
+	GSList *waste = NULL, *work = NULL;
+	GSList *next, *list;
+	for (list = deps; list != NULL ; list = next) {
+		GnmDependent *dep = list->data;
+		next = list->next;
+		if (dependent_needs_recalc (dep)) {
+			list->next = waste;
+			waste = list;
+		} else {
+			dependent_flag_recalc (dep);
+			list->next = work;
+			work = list;
+		}
+	}
+	g_slist_free (waste);
+	return work;
+}
+
 static void
 cell_dep_debug_name (GnmDependent const *dep, GString *target)
 {
@@ -1262,6 +1274,20 @@ name_dep_debug_name (GnmDependent const *dep, GString *target)
 static void
 dynamic_dep_eval (G_GNUC_UNUSED GnmDependent *dep)
 {
+}
+
+static GSList *
+dynamic_dep_changed (GnmDependent *dep)
+{
+	DynamicDep const *dyn = (DynamicDep *)dep;
+
+	/* When a dynamic dependent changes, we mark its container.  */
+
+	if (dependent_needs_recalc (dyn->container))
+		return NULL;
+
+	dependent_flag_recalc (dyn->container);
+	return g_slist_prepend (NULL, dyn->container);
 }
 
 static void

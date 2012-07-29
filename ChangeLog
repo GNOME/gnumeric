@@ -1,3 +1,11 @@
+2012-07-28  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.h (GnmDependentClass): Add new "changed" method
+	for propagating changes.
+
+	* src/dependent.c (dependent_queue_recalc_main): Use new
+	->changed.
+
 2012-07-27  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (cell_dep_eval): Don't complain if we're not
