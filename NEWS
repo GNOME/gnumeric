@@ -6,6 +6,8 @@ Andreas:
 	* Add FLIP function. [#680511]
 	* Allow unordered abscissae in INTERPOLATION. [#680510]
 	* Fix INTERPOLATION crash. [#680711]
+	* Suppress range markers that should be in an external workbook.
+	[Part of #680718]
 
 Jean:
 	* Fix component references issues. [#680190]

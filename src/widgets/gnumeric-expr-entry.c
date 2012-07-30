@@ -617,6 +617,11 @@ gnm_expr_entry_colour_ranges (GnmExprEntry *gee, int start, int end, GnmRangeRef
 	Sheet *sheet = scg_sheet (gee->scg);
 	SheetControlGUI *scg = NULL;
 
+	if (rr->a.sheet->workbook != gee->sheet->workbook) {
+		/* We should show the range in an external workbook! */
+		return;
+	}
+
 	if (*attrs == NULL)
 		*attrs = pango_attr_list_new ();
 
@@ -694,7 +699,7 @@ gee_scan_for_range (GnmExprEntry *gee)
 						g_hash_table_insert (hash, rrr, GINT_TO_POINTER (this_colour));
 						insert_cursor = TRUE;
 						rtext = NULL;
- 					} else {
+					} else {
 						this_colour = GPOINTER_TO_INT (val);
 						insert_cursor = FALSE;
 					}
