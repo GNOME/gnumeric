@@ -1492,6 +1492,11 @@ gnm_cell_eval_content (GnmCell *cell)
 	/* Prepare to calculate */
 	eval_pos_init_cell (&pos, cell);
 	cell->base.flags |= DEPENDENT_BEING_CALCULATED;
+
+	/*
+	 * I'm somewhat afraid of thinking about the semantics of iteration
+	 * if different workbooks have different settings.
+	 */
 	max_iteration = cell->base.sheet->workbook->iteration.max_number;
 
 iterate :
