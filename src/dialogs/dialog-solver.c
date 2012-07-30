@@ -44,6 +44,7 @@
 #include <commands.h>
 #include <clipboard.h>
 #include <selection.h>
+#include <application.h>
 #include <tools/gnm-solver.h>
 #include <widgets/gnumeric-expr-entry.h>
 
@@ -924,7 +925,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	res = run_solver (state, param);
 
-	workbook_recalc (state->sheet->workbook);
+	gnm_app_recalc ();
 
 	if (res != NULL) {
 		if ((res->quality == GNM_SOLVER_RESULT_OPTIMAL ||

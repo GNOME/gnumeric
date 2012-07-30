@@ -946,6 +946,31 @@ _gnm_app_flag_windows_changed (void)
 
 /**********************************************************************/
 
+/**
+ * gnm_app_recalc:
+ *
+ * Recalculate everything dirty in all workbooks that have automatic
+ * recalc turned on.
+ **/
+void
+gnm_app_recalc (void)
+{
+	GList *l;
+
+	g_return_if_fail (app != NULL);
+
+	gnm_app_recalc_start ();
+
+	for (l = app->workbook_list; l; l = l->next) {
+		Workbook *wb = l->data;
+
+		if (workbook_get_recalcmode (wb))
+			workbook_recalc (wb);
+	}
+
+	gnm_app_recalc_finish ();
+}
+
 void
 gnm_app_recalc_start (void)
 {

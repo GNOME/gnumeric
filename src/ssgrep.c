@@ -12,6 +12,7 @@
 #include "command-context-stderr.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "application.h"
 #include "gutils.h"
 #include "gnm-plugin.h"
 #include "search.h"
@@ -289,8 +290,7 @@ ssgrep (const char *arg, char const *uri, GOIOContext *ioc, GHashTable *targets,
 	if (ssgrep_locus_results) {
 		if (ssgrep_recalc)
 			workbook_recalc_all (wb);
-		else
-			workbook_recalc (wb);
+		gnm_app_recalc ();
 	}
 
 	if (ssgrep_string_table) {

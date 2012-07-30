@@ -7,6 +7,7 @@
 #include "regression.h"
 #include "rangefunc.h"
 #include "workbook.h"
+#include "application.h"
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -696,7 +697,7 @@ gnm_nlsolve_idle (gpointer data)
 
 	if (!call_again) {
 		set_vector (nl, nl->x0);
-		workbook_recalc (sol->params->sheet->workbook);
+		gnm_app_recalc ();
 
 		rosenbrock_shutdown (nl);
 	}

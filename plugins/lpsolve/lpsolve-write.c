@@ -20,6 +20,7 @@
 #include <boot.h>
 #include <numbers.h>
 #include <workbook-view.h>
+#include <application.h>
 #include <sheet.h>
 #include <workbook.h>
 #include <value.h>
@@ -42,6 +43,7 @@ gnm_solver_get_lp_coeff (GnmCell *target, GnmCell *cell,
         gnm_float x0, x1;
 	gboolean res = FALSE;
 
+	gnm_cell_eval (target);
 	if (!VALUE_IS_NUMBER (target->value))
 		goto fail;
 	x0 = value_get_as_float (target->value);
@@ -338,7 +340,7 @@ lpsolve_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	prg = lpsolve_create_program (sheet, io_context, ssol, &err);
 	gnm_pop_C_locale (locale);
 
-	workbook_recalc (sheet->workbook);
+	gnm_app_recalc ();
 
 	if (!prg) {
 		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),

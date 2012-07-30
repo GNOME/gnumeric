@@ -2713,13 +2713,19 @@ workbook_recalc (Workbook *wb)
  * workbook_recalc_all :
  * @wb :
  *
- * Queues all dependents for recalc and marks them all as dirty.
+ * Queues all dependents for recalc and recalculates.
  */
 void
 workbook_recalc_all (Workbook *wb)
 {
 	workbook_queue_all_recalc (wb);
+
+	/* Recalculate this workbook unconditionally.  */
 	workbook_recalc (wb);
+
+	/* Recalculate other workbooks when needed.  */
+	gnm_app_recalc ();
+
 	WORKBOOK_FOREACH_VIEW (wb, view,
 		sheet_update (wb_view_cur_sheet (view)););
 }

@@ -25,6 +25,7 @@
 #include "func.h"
 #include "value.h"
 #include "workbook.h"
+#include "application.h"
 #include "sheet.h"
 #include "gutils.h"
 #include "gnm-i18n.h"
@@ -103,8 +104,7 @@ cb_watcher_queue_recalc (gpointer key, gpointer value, gpointer closure)
 	Sheet *sheet = w->dep->sheet;
 	dependent_queue_recalc (w->dep);
 
-	if (sheet && workbook_get_recalcmode (sheet->workbook))
-		workbook_recalc (sheet->workbook);
+	gnm_app_recalc ();
 }
 
 static gboolean

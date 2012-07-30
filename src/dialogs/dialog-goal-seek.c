@@ -47,6 +47,7 @@
 #include <mathfunc.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <selection.h>
+#include <application.h>
 #include <gtk/gtk.h>
 
 #include <math.h>
@@ -107,7 +108,7 @@ goal_seek_eval (gnm_float x, gnm_float *y, void *vevaldata)
 		gnm_cell_set_value (evaldata->xcell, v);
 		cell_queue_recalc (evaldata->xcell);
 	}
-	workbook_recalc (evaldata->state->wb);
+	gnm_cell_eval (evaldata->ycell);
 
 	if (evaldata->ycell->value) {
 		*y = value_get_as_float (evaldata->ycell->value) - evaldata->ytarget;
@@ -286,9 +287,10 @@ cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	if ((state->old_cell != NULL) && (state->old_value != NULL)) {
 		sheet_cell_set_value (state->old_cell, state->old_value);
-		workbook_recalc (state->wb);
 		state->old_value = NULL;
 	}
+
+	gnm_app_recalc ();
 	gtk_widget_destroy (state->dialog);
 }
 
@@ -398,13 +400,15 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	if ((state->old_cell != NULL) && (state->old_value != NULL)) {
 		sheet_cell_set_value (state->old_cell, state->old_value);
-		workbook_recalc (state->wb);
 		state->old_value = NULL;
 	}
+	gnm_app_recalc ();
 	state->old_cell = state->change_cell;
 	state->old_value = value_dup (state->change_cell->value);
 
 	status = gnumeric_goal_seek (state);
+
+	gnm_app_recalc ();
 
 	switch (status) {
 	case GOAL_SEEK_OK: {

@@ -724,9 +724,7 @@ mps_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 				  (_("Error while reading MPS file.")));
 	} else {
 		mps_fill_sheet (&state);
-
-		workbook_queue_all_recalc (state.wb);
-		workbook_recalc (state.wb);
+		workbook_recalc_all (state.wb);
 	}
 
 	g_hash_table_destroy (state.row_hash);

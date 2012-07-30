@@ -109,7 +109,7 @@
  *    events.  None of the internal utility routines should do so.  Those are
  *    expensive events and should only be done once per command to avoid
  *    duplicating work.  The lower levels can queue redraws if they must, and
- *    flag state changes but the call to workbook_recalc and sheet_update is
+ *    flag state changes but the call to gnm_app_recalc and sheet_update is
  *    by GnmCommand.
  *
  * FIXME: Filter the list of commands when a sheet is deleted.
@@ -339,12 +339,12 @@ undo_redo_menu_labels (Workbook *wb)
 static void
 update_after_action (Sheet *sheet, WorkbookControl *wbc)
 {
+	gnm_app_recalc ();
+
 	if (sheet != NULL) {
 		g_return_if_fail (IS_SHEET (sheet));
 
 		sheet_mark_dirty (sheet);
-		if (workbook_get_recalcmode (sheet->workbook))
-			workbook_recalc (sheet->workbook);
 		sheet_update (sheet);
 
 		if (sheet->workbook == wb_control_get_workbook (wbc))
@@ -2620,16 +2620,10 @@ cmd_paste_cut_update (GnmExprRelocateInfo const *info,
 
 	/* Dirty and update both sheets */
 	sheet_mark_dirty (t);
-	if (workbook_get_recalcmode (t->workbook))
-		workbook_recalc (t->workbook);
 	sheet_update (t);
 
 	if (IS_SHEET (o) && o != t) {
 		sheet_mark_dirty (o);
-		if (o->workbook != t->workbook) {
-			if (workbook_get_recalcmode (o->workbook))
-				workbook_recalc (o->workbook);
-		}
 		sheet_update (o);
 	}
 }
@@ -5255,7 +5249,6 @@ cmd_analysis_tool_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		if (me->newSheetObjects == NULL)
 			me->newSheetObjects = dao_surrender_so (me->dao);
 		g_slist_foreach (me->newSheetObjects, (GFunc)sheet_object_clear_sheet, NULL);
-		workbook_recalc (me->dao->sheet->workbook);
 		sheet_update (me->dao->sheet);
 	}
 
@@ -5343,7 +5336,6 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	dao_autofit_columns (me->dao);
 	sheet_mark_dirty (me->dao->sheet);
-	workbook_recalc (me->dao->sheet->workbook);
 	sheet_update (me->dao->sheet);
 
 	/* The concept of an undo if we create a new worksheet is extremely strange,
@@ -6639,7 +6631,6 @@ static gboolean
 cmd_goal_seek_impl (GnmCell *cell, GnmValue *value)
 {
 	sheet_cell_set_value (cell, value_dup(value));
-	workbook_recalc (cell->base.sheet->workbook);
 	return FALSE;
 }
 
@@ -7069,7 +7060,6 @@ cmd_so_set_value_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 	GnmCell *cell = sheet_cell_fetch (sheet, me->ref.col, me->ref.row);
 
 	sheet_cell_set_value (cell, value_dup (me->val));
-	workbook_recalc (sheet->workbook);
 	sheet_update (sheet);
 
 	return FALSE;

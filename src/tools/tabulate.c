@@ -264,7 +264,8 @@ do_tabulation (WorkbookControl *wbc,
 			gnm_cell_set_value (data->cells[i], old_values[i]);
 			cell_queue_recalc (data->cells[i]);
 		}
-		workbook_recalc (wb);
+		gnm_cell_eval (data->target);
+		gnm_app_recalc (wb);
 	}
 
 	g_free (values);

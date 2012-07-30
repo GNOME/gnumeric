@@ -15,6 +15,7 @@
 #include "gnumeric.h"
 #include "position.h"
 #include "parse-util.h"
+#include "application.h"
 #include "workbook.h"
 #include "workbook-priv.h"
 #include "workbook-control.h"
@@ -637,8 +638,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 
 	if (ssconvert_recalc)
 		workbook_recalc_all (wb);
-	else
-		workbook_recalc (wb);
+	gnm_app_recalc ();
 
 	if (ssconvert_range)
 		setup_range (G_OBJECT (wb),

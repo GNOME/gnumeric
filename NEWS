@@ -17,6 +17,7 @@ Morten:
 	* Dependents code cleanups.
 	* Make cells regular dependents.
 	* Fix non-linear solver crash.  [#680719]
+	* Improve inter-workbook recalculations.
 
 --------------------------------------------------------------------------
 Gnumeric 1.11.5

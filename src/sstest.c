@@ -452,7 +452,9 @@ test_random_1 (int N, const char *expr,
 	define_cell (sheet, 1, 3, s);
 	g_free (s);
 
+	/* Force recalc of all dirty cells even in manual mode.  */
 	workbook_recalc (sheet->workbook);
+
 	for (i = 0; i < N; i++)
 		res[i] = value_get_as_float (sheet_cell_get (sheet, 0, i)->value);
 	*mean = value_get_as_float (sheet_cell_get (sheet, 1, 0)->value);
@@ -513,7 +515,9 @@ test_random_normality (int N, const char *expr,
 	define_cell (sheet, 1, 5, s);
 	g_free (s);
 
+	/* Force recalc of all dirty cells even in manual mode.  */
 	workbook_recalc (sheet->workbook);
+
 	for (i = 0; i < N; i++)
 		res[i] = value_get_as_float (sheet_cell_get (sheet, 0, i)->value);
 	*mean = value_get_as_float (sheet_cell_get (sheet, 1, 0)->value);

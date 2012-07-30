@@ -24,6 +24,7 @@ Workbook    *gnm_app_workbook_get_by_index (int i);
 GSList      *gnm_app_history_get_list	   (int max_elements);
 void	     gnm_app_history_add	   (char const *filename, const char *mimetype);
 
+void         gnm_app_recalc                (void);
 void         gnm_app_recalc_start          (void);
 void         gnm_app_recalc_finish         (void);
 void         gnm_app_recalc_clear_caches   (void);

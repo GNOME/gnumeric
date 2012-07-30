@@ -1,3 +1,9 @@
+2012-07-30  Morten Welinder  <terra@gnome.org>
+
+	* src/application.c (gnm_app_recalc): New function.  (After almost
+	15 years we get this?)  Most calls to workbook_recalc redirected
+	to this.
+
 2012-07-28  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.h (GnmDependentClass): Add new "changed" method
