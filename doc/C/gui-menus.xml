@@ -70,7 +70,7 @@
               <imagedata fileref="figures/menubar.png" />
             </imageobject>
             <textobject>
-              <phrase>An image of the Gnumeric menubar.</phrase>
+              <phrase>An image of the &gnum; menubar.</phrase>
             </textobject>
            </mediaobject>
     </screenshot>
@@ -95,7 +95,7 @@
     </para>
 
     <para>
-      Many menu entries are followed by a series of keynames. These
+      Many menu entries are followed by a series of key names. These
       keys can be used to perform the menu action without having to
       open the menu.  These are often combinations of keys involving
       the control key which is labeled as <keycap>Ctrl</keycap>, the
@@ -189,8 +189,11 @@
      	        <guimenuitem>Open</guimenuitem> &mdash; The
 	        <guimenuitem>Open</guimenuitem> menu item opens the
 	        file chooser dialog to allow the user to pick an
-	        existing workbook for Gnumeric to open. Files in many
-	        different formats can be opened, see <xref
+	        existing workbook for &gnum; to open. Files in many
+	        different spreadsheet formats can be opened.
+		To open files in  a non-spreadsheet format,
+		use the <guimenuitem>Data</guimenuitem> menu described in
+		<xref linkend="Data-Menu"/>. See <xref
 	        linkend="sect-file-formats" /> for details.  The
 	        <guimenuitem>Open</guimenuitem> menu item creates a
 	        new window containing the selected file.  A more
@@ -228,15 +231,14 @@
 		<guimenuitem>Save As...</guimenuitem> menu item allows
 		users to save a file which has not yet been named to a
 		named file. This is always used when a user saves a
-		file which Gnumeric &gnum; has named by default.  This menu
+		file which &gnum; has named by default.  This menu
 		item can also be used to save a newly created file or
 		to save an existing file to a new and different
 		name. To export data from &gnum; to a non-spreadsheet format,
 		use the <guimenuitem>Data</guimenuitem> menu described in
 		<xref linkend="Data-Menu"/>. 
 		For an explanation of the file formats which
-		gnumeric supports see <xref linkend="sect-file-save"
-		/>.
+		&gnum; supports see <xref linkend="sect-file-save"/>.
               </para>
             </listitem>
           </itemizedlist>
@@ -303,7 +305,7 @@
    	        <guimenuitem>Print...</guimenuitem> &mdash; The
 		<guimenuitem>Print...</guimenuitem> menu item allows a
 		user to print one or all of the worksheets in a
-		workbook. Gnumeric can send files directly to a
+		workbook. &gnum; can send files directly to a
 		printer or can print to postscript or portable
 		document format files. The <guilabel>Print</guilabel>
 		dialog is explained further in <xref
@@ -412,7 +414,7 @@
 	  <para>
 	    These menu items either close the current worksheet,
 	    <guimenuitem>Close</guimenuitem>, or close all open
-	    worksheets, <guimenuitem>Quit</guimenuitem>. Gnumeric will
+	    worksheets, <guimenuitem>Quit</guimenuitem>. &gnum; will
 	    prompt the user with a <guilabel>Save
 	    Workbook..</guilabel> dialog for any workbooks that have
 	    been changed since the last time they were opened or
@@ -514,7 +516,7 @@
 	  specific. The user will not be able to undo changes through
 	  the change history if the file is saved and then
 	  re-opened. Note also that the list only covers the last few
-	  dozen operations. The number of operations which Gnumeric
+	  dozen operations. The number of operations which &gnum;
 	  tracks in its history depends on the size and complexity of
 	  those operations. You can customize this number using the preference
 	  facility described in <xref linkend="chapter-configuring" />. 
@@ -572,9 +574,9 @@
 	</para>
 
 	<para>
-	  To use these menuitems, the user must first select the range
+	  To use these menu items, the user must first select the range
 	  of the cut or copy area. When the user then picks these
-	  menuitems, the contents of the selected areas will be
+	  menu items, the contents of the selected areas will be
 	  entered into the &gnum;
 	  clipboard and into the X clipboard. The
 	  contents of the &gnum;
@@ -660,7 +662,7 @@
 	      the opposite --- only cell formats copied (no
 	      contents). Furthermore, the user can insert the
 	      selection while transforming all the contents into
-	      values only. In this case, formulas will not be copied, only the
+	      values only. In this case, formulae will not be copied, only the
 	      results will be.
 	    </para>
 	    <para>
@@ -902,7 +904,7 @@
 				    <para>
 				      The <guimenuitem>Depends
                       </guimenuitem> 
-				      menu item selects all the cells which contain formulas that
+				      menu item selects all the cells which contain formula that
 				      reference data in the current cell. 
 				    </para>
      	   		</listitem>
@@ -940,7 +942,7 @@
       	    	<listitem>
      	      	<para>
      	       	<guimenuitem>Goto cell...</guimenuitem> &mdash; The
-			       <guimenuitem>Goto cell...</guimenuitem> menuitem opens up a
+			       <guimenuitem>Goto cell...</guimenuitem> menu item opens up a
 				   dialog which allows the user to type the name or address of 
                     a cell in
 				   the worksheet. The current view will then change to ensure
@@ -977,7 +979,7 @@
                 <para>
                     <guimenuitem>Preferences...</guimenuitem> &mdash; The
                     <guimenuitem>Preference...</guimenuitem> menu item calls
-                    the <guilabel>Gnumeric Preferences</guilabel> dialog 
+                    the <guilabel>&gnum; Preferences</guilabel> dialog 
                     explained in detail in <xref linkend="chapter-configuring" />
                 </para>
 	    </listitem>
@@ -1158,7 +1160,7 @@
               <para>
                 <guimenuitem>Full Screen</guimenuitem> &mdash; The
                 <guimenuitem>Full Screen</guimenuitem> menu item
-                changes the display of gnumeric from a window based
+                changes the display of &gnum; from a window based
                 display to a display which occupies the whole
                 screen. In full screen mode, the window borders will
                 not be displayed nor will the toolbars. The key
@@ -1583,7 +1585,7 @@
 		  <guimenuitem>Conditional Formating...</guimenuitem> menu item 
 		  opens the
 		  conditional format dialog. This dialog is used to set cell data
-		  types and formats that depend on values in the wworkbook.
+		  types and formats that depend on values in the workbook.
 		  It is explained in <xref
 		  linkend="sect-data-format-conditional" />.
 		</para>
@@ -1614,7 +1616,7 @@
 		<para>
 		  <guimenuitem>Auto Fit Width</guimenuitem> &mdash;
 		  This menu item makes &gnum;
-		  automatically choose the optimal columnn widths to display
+		  automatically choose the optimal column widths to display
 		  all of the text in the current selection.
 		</para>
 	      </listitem>
@@ -1827,12 +1829,12 @@
               <listitem>
                 <para>
                 <guimenuitem>Display Formulas</guimenuitem> &mdash; This menu item
-						acts as a toggle. By default it is unset and formulas results
+						acts as a toggle. By default it is unset and formula results
 						are displayed. If this menu item is clicked, it will display a
 						little check mark on the left. The worksheet will show the
-						actual formulas for all cells with formulas instead of showing
+						actual formulae for all cells with formulae instead of showing
 						the calculated result. This is useful for quickly assessing
-						which cells contain formulas and which contain data.
+						which cells contain formulae and which contain data.
 	        			</para>
 	      </listitem>
               <listitem>
@@ -1996,7 +1998,7 @@
 		<para><guimenuitem>Auto Correct...</guimenuitem> &mdash;
 		The <guimenuitem>Auto Correct...</guimenuitem> menu
 		item opens a dialog which allows the user to configure
-		the way in which gnumeric automatically corrects text
+		the way in which &gnum; automatically corrects text
 		which is being entered. The dialog presents the user
 		with three tabs. Each of these tabs allows the user to
 		correct one type of common spelling mistake, while
@@ -2106,7 +2108,7 @@
 	  <para>This entry launches the plug-in management
 	  dialog. Plug-ins are programs which are separate from
 	  &gnum; but provide useful
-	  functionality.  Some of the core parts of gnumeric, such as
+	  functionality.  Some of the core parts of &gnum;, such as
 	  Excel file format support, are actually plugins. This means
 	  that a user who never uses Excel files can remove this
 	  module from &gnum; and make
@@ -2140,7 +2142,7 @@
     </screenshot>
   </figure>
   <para>The
-  <guimenuitem>Statistis</guimenuitem> menu and its submenus contain
+  <guimenuitem>Statistics</guimenuitem> menu and its submenus contain
   all available statistical analysis tools. These tools
   are explained in <xref linkend="chapter-stat-analysis" />.</para>
 </sect2>
@@ -2227,9 +2229,20 @@
 
 	    <listitem>
 	      <para>
+	        <guimenuitem>Shuffle...</guimenuitem> &mdash; The
+		<guimenuitem>Shuffle...</guimenuitem> menu item opens a
+		sub-menu that allows various forms of data to be created.
+	      </para>
+	    </listitem>
+
+	    <listitem>
+	      <para>
 	        <guimenuitem>Fill</guimenuitem> &mdash; The
 		<guimenuitem>Fill</guimenuitem> menu item opens a
-		sub-menu that allows various forms of data to be created.
+		dialog that allows users to shuffle a selection. Shuffling
+		means to rearrange the cells in the selection into a random
+		order. The dialog allows users to shuffle the data within a
+		column, within a row, or within an area.
 	      </para>
 	    </listitem>
 
@@ -2313,13 +2326,66 @@
 
 	    <listitem>
 	      <para>
-	        <guimenuitem>Get External Data</guimenuitem> &mdash; The
-		<guimenuitem>Get External Data</guimenuitem> menu item
-		provides a sub-menu which currently only allow the
-		import of text data from an external source.
+	        <guimenuitem>Import Data</guimenuitem> &mdash; The
+		<guimenuitem>Import Data</guimenuitem> menu item
+		provides the following  sub-menu:
+	      </para>
+	      <figure id="menu-data-import.png">
+		<title>The <guimenu>Import Data</guimenu> submenu.</title>
+		<screenshot>
+		  <mediaobject>
+		    <imageobject>
+		      <imagedata fileref="figures/menu-data-import.png" />
+		    </imageobject>
+		    <textobject>
+		      <phrase>An image of the Import Data submenu.</phrase>
+		    </textobject>
+		  </mediaobject>
+		</screenshot>
+	      </figure>
+	      <para>
+		The items in this submenu allow the user to import data
+		from various non-spreadsheet formats. To open files in  a
+		non-spreadsheet format,
+		use the <guimenuitem>Open</guimenuitem> menu described in
+		<xref linkend="File-Menu"/>. See <xref
+	        linkend="sect-file-formats" /> for details.  These
+	        submenu items create a
+	        new window containing the selected file.  A more
+	        extensive discussion is presented in <xref
+	        linkend="sect-file-open" />.
 	      </para>
 	    </listitem>
 
+	    <listitem>
+	      <para>
+	        <guimenuitem>Export Data</guimenuitem> &mdash; The
+		<guimenuitem>Export Data</guimenuitem> menu item
+		provides the following sub-menu:
+	      </para>
+	      <figure id="menu-data-export.png">
+		<title>The <guimenu>Export Data</guimenu> submenu.</title>
+		<screenshot>
+		  <mediaobject>
+		    <imageobject>
+		      <imagedata fileref="figures/menu-data-export.png" />
+		    </imageobject>
+		    <textobject>
+		      <phrase>An image of the Export Data submenu.</phrase>
+		    </textobject>
+		  </mediaobject>
+		</screenshot>
+	      </figure>
+	      <para>
+		The items in this submenu allows users to export the current
+		file or sheet to a non-spreadsheet format.
+		To save data from &gnum; in a spreadsheet format,
+		use the <guimenuitem>Save As...</guimenuitem> menu described in
+		<xref linkend="File-Menu"/>.
+		For an explanation of the file formats which
+		&gnum; supports see <xref linkend="sect-file-save"/>.
+	      </para>
+	    </listitem>
 
 	  </itemizedlist>
 	</listitem>
@@ -2391,7 +2457,7 @@
 
 	    <listitem>
               <para>
-                <guimenuitem>Gnumeric on the Web</guimenuitem> &mdash;
+                <guimenuitem>&gnum; on the Web</guimenuitem> &mdash;
                 This menu entry allows the user to launch a web
                 browser and explore the web site dedicated to &gnum;
                 on the server used by the GNOME project.
@@ -2403,7 +2469,7 @@
                 <guimenuitem>Live Assistance</guimenuitem> &mdash;
                 This menu entry allows the user to launch an Internet
                 Relay Chat (IRC) client to join the GIMPnet network
-                and the #gnumeric channel. This channel is used by the
+                and the #&gnum; channel. This channel is used by the
                 &gnum; developers. There is generally someone around
                 who will, after a few minutes, notice a nice question
                 and attempt to answer it.
@@ -2440,7 +2506,7 @@
       <varlistentry>
 	<term>
 	  <emphasis role="bold">2</emphasis>
-	    The <interface>About Gnumeric</interface> dialog.
+	    The <interface>About &gnum;</interface> dialog.
 	</term>
 
         <listitem>
@@ -2469,7 +2535,7 @@
 	<para>Context menus are menus which open up under the mouse pointer and are
 	therefore detached from the format graphical structure
 	of the application. These menus provide an extra and convenient way to access
-	Gnumeric commands. All of the commands in context menus are available
+	&gnum; commands. All of the commands in context menus are available
 	through the regular menu system. Context menus provide different commands
 	depending on the position of the pointer.</para>
 
@@ -2481,7 +2547,7 @@
 	themselves.</para>
 
   <para>
-    Currently Gnumeric provides five different context menus. The
+    Currently &gnum; provides five different context menus. The
     context menu that is called in the central grid area is discussed
     next in <xref linkend="menu-context-grid" />. The Context menu
     that appears when the pointer is over the row headers or column
@@ -2516,7 +2582,7 @@
            </mediaobject>
 		    </screenshot>
 	    </figure>
-	<para>The grid context menu merely provides an extra way to access Gnumeric
+	<para>The grid context menu merely provides an extra way to access &gnum;
 	commands. The <guimenuitem>Cut</guimenuitem>, <guimenuitem>Copy</guimenuitem>, 
 	<guimenuitem>Paste</guimenuitem>, <guimenuitem>Paste Special...</guimenuitem>,
 	<guimenuitem>Delete...</guimenuitem>, and <guimenuitem>Clear Contents...</guimenuitem> 
@@ -2666,7 +2732,7 @@
       menu item allows the user to remove the element from its current
       position and then paste the object in a different location on
       the same sheet, in a different worksheet, in a different
-      gnumeric file, or in a file from a different program entirely. The
+      &gnum; file, or in a file from a different program entirely. The
       <guimenuitem>Copy</guimenuitem> menu item provides the same
       functionality while leaving the original item in place. The
       <guimenuitem>Delete</guimenuitem> allows the user to remove the
@@ -2724,7 +2790,7 @@
 	    </figure>
 	<para>The context menu for toolbars allows the user to configure toolbars.
 	Each toolbar entry can have text associated with it or simply be an icon. The
-	text only does not currently work in Gnumeric. The tooltips which are
+	text only does not currently work in &gnum;. The tooltips which are
 	displayed by default can be turned off for this toolbar. The toolbar itself
 	can be removed to save space. Finally the customize dialog can be launched
 	which allows the user to configure these options for all the toolbars at
@@ -2794,7 +2860,7 @@
 	<varlistentry>
 	  <term><guimenuitem><accel>Q</accel>uit</guimenuitem></term>
 	  <listitem><para>Close the open worksheets and quit
-	  Gnumeric</para></listitem>
+	  &gnum;</para></listitem>
 	</varlistentry>
 	
       </variablelist>  
@@ -2895,7 +2961,7 @@
       <title><guimenu><accel>H</accel>elp</guimenu></title>
       <variablelist>
 	<varlistentry><term><guimenuitem>Cells</guimenuitem></term>
-	  <listitem><para>View the online help for Gnumeric</para></listitem>
+	  <listitem><para>View the online help for &gnum;</para></listitem>
 	</varlistentry>
       </variablelist>
     </sect3>-->

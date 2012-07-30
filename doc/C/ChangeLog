@@ -1,3 +1,11 @@
+2012-07-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* figures/menu-data-export.png: new
+	* figures/menu-data-import.png: new
+	* figures/Makefile.am: add the above
+	* figures/menu-data-labelled.png: updated
+	* gui-menus.xml: updated
+
 2012-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* func.defs: update

@@ -291,6 +291,8 @@ EXTRA_DIST = \
      menu-context-tabs.png \
      menu-context-toolbars.png \
      menu-edit-delete-cells.png \
+     menu-data-export.png \
+     menu-data-import.png \
      menu-data-labelled.png \
      menu-edit-labelled.png \
      menu-edit-paste-special.png \
