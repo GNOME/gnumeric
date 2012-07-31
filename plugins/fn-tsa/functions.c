@@ -231,12 +231,13 @@ linear_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 			slope = (ord[j] - ord[k]) / x0 / 2.;
 			res[i - 1] += x0 * (slope * x0 + ord[k]);
 		}
-		if (j > k - 1) {
+		if (j > k + 1) {
 			k = j - 1;
 			slope = (ord[j] - ord[k]) / (absc[j] - absc[k]) / 2.;
+			j = k;
 		}
-		x0 = targets[i] - absc[k];
-		res[i - 1] += x0 * (slope * x0 + ord[k]);
+		x0 = targets[i] - absc[j];
+		res[i - 1] += x0 * (slope * x0 + ord[j]);
 		res[i - 1] /= (targets[i] - targets[i - 1]);
 	}
 	return res;
@@ -391,7 +392,8 @@ static GnmFuncHelp const help_interpolation[] = {
 				 "('staircase with averaging'), and 5 ('natural cubic spline with "
 				 "averaging') is used, the number "
 				 "of returned values is one less than the number of targets and the targets "
-				 "values must be given in increasing order.") },
+				 "values must be given in increasing order. The interpolated values returned"
+				 "are the averages of the interpolation on each interval.") },
 	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty cells in @{abscissae} and @{ordinates} are ignored.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If several target data are provided they must be in the same column in consecutive cells.") },
 	{ GNM_FUNC_HELP_SEEALSO, "PERIODOGRAM" },
