@@ -392,7 +392,7 @@ static GnmFuncHelp const help_interpolation[] = {
 				 "('staircase with averaging'), and 5 ('natural cubic spline with "
 				 "averaging') is used, the number "
 				 "of returned values is one less than the number of targets and the target "
-				 "values must be given in increasing order. The values returned"
+				 "values must be given in increasing order. The values returned "
 				 "are the averages of the interpolation on each interval.") },
 	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty cells in @{abscissae} and @{ordinates} are ignored.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If several target data are provided they must be in the same column in consecutive cells.") },
