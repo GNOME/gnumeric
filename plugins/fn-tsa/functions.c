@@ -391,8 +391,8 @@ static GnmFuncHelp const help_interpolation[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If any of interpolation methods 1 ('linear with averaging'), 3 "
 				 "('staircase with averaging'), and 5 ('natural cubic spline with "
 				 "averaging') is used, the number "
-				 "of returned values is one less than the number of targets and the targets "
-				 "values must be given in increasing order. The interpolated values returned"
+				 "of returned values is one less than the number of targets and the target "
+				 "values must be given in increasing order. The values returned"
 				 "are the averages of the interpolation on each interval.") },
 	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty cells in @{abscissae} and @{ordinates} are ignored.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If several target data are provided they must be in the same column in consecutive cells.") },
@@ -490,13 +490,13 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	/* Check whether the abscissae are increasing, if not order them */
 	if (!gnm_range_increasing (vals0, n0)) {
-		gboolean switched = FALSE;
+		gboolean switched = TRUE;
 		if (constp) {
 			vals0 = g_memdup (vals0, sizeof(gnm_float) * n0);
 			vals1 = g_memdup (vals1, sizeof(gnm_float) * n0);
 			constp = FALSE;	
 		}
-		while (!switched) {
+		while (switched) {
 			gnm_float *val;
 			switched = FALSE;
 			for (i = 1, val = vals0; i < n0; i++, val++) {
