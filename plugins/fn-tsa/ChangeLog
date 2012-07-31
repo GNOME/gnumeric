@@ -1,13 +1,12 @@
+
+2012-07-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* functions.c (linear_averaging): really fixed it. [#680918]
+
 2012-07-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (gnumeric_interpolation): completely sort the
 	abscissae
-
-2012-07-31  Jean Brefort  <jean.brefort@normalesup.org>
-
-	reviewed by: <delete if not using a buddy>
-
-	* functions.c (linear_averaging):
 
 2012-07-31  Jean Brefort  <jean.brefort@normalesup.org>
 
