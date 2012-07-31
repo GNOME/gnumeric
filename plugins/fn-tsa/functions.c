@@ -234,10 +234,10 @@ linear_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 		if (j > k + 1) {
 			k = j - 1;
 			slope = (ord[j] - ord[k]) / (absc[j] - absc[k]) / 2.;
-			j = k;
-		}
-		x0 = targets[i] - absc[j];
-		res[i - 1] += x0 * (slope * x0 + ord[j]);
+		} else
+			k = j;
+		x0 = targets[i] - absc[k];
+		res[i - 1] += x0 * (slope * x0 + ord[k]);
 		res[i - 1] /= (targets[i] - targets[i - 1]);
 	}
 	return res;

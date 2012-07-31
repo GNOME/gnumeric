@@ -11,7 +11,7 @@ Andreas:
 
 Jean:
 	* Fix component references issues. [#680190]
-	* Fix linear averaging interpolation. [#680723]
+	* Fix linear averaging interpolation. [#680723][#680918]
 
 Morten:
 	* Fix xls read crash.  [#679992]
