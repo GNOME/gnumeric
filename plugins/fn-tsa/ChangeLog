@@ -1,3 +1,7 @@
+2012-07-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help__interpolation): clarify description and
+	add examples
 
 2012-07-31  Jean Brefort  <jean.brefort@normalesup.org>
 

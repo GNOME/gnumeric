@@ -393,9 +393,12 @@ static GnmFuncHelp const help_interpolation[] = {
 				 "averaging') is used, the number "
 				 "of returned values is one less than the number of targets and the target "
 				 "values must be given in increasing order. The values returned "
-				 "are the averages of the interpolation on each interval.") },
+				 "are the average heights of the interpolation function on the intervals "
+				 "determined by consecutive target values.") },
 	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty cells in @{abscissae} and @{ordinates} are ignored.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If several target data are provided they must be in the same column in consecutive cells.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=interpolation(array(1,2,3),array(10,20,20),1.5,0)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=interpolation(array(1,2,3),array(10,20,20),array(1.5,4),1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "PERIODOGRAM" },
 	{ GNM_FUNC_HELP_END, NULL }
 };

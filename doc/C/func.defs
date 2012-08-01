@@ -1402,6 +1402,14 @@ The depreciation coefficient used is:
 @SEEALSO=AMORDEGRC
 
 @CATEGORY=Finance
+@FUNCTION=ATL_LAST
+@SHORTDESC=sample real-time data source
+@SYNTAX=ATL_LAST(tag)
+@ARGUMENTDESCRIPTION=@{tag}: tag to watch
+@DESCRIPTION=ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.
+@NOTE=This is not intended to be generally enabled and is OFF by default.
+
+@CATEGORY=Finance
 @FUNCTION=COUPDAYBS
 @SHORTDESC=number of days from coupon period to settlement
 @SYNTAX=COUPDAYBS(settlement,maturity,frequency,basis,eom)
@@ -6194,7 +6202,7 @@ The output consists of two columns of numbers, the first containing the trend co
 @FUNCTION=INTERPOLATION
 @SHORTDESC=interpolated values corresponding to the given abscissa targets
 @SYNTAX=INTERPOLATION(abscissae,ordinates,targets,interpolation)
-@ARGUMENTDESCRIPTION=@{abscissae}: ordered abscissae of the given data points
+@ARGUMENTDESCRIPTION=@{abscissae}: abscissae of the given data points
 @{ordinates}: ordinates of the given data points
 @{targets}: abscissae of the interpolated data
 @{interpolation}: method of interpolation, defaults to 0 ('linear')
@@ -6206,7 +6214,7 @@ Possible interpolation methods are:
 3: staircase with averaging;
 4: natural cubic spline;
 5: natural cubic spline with averaging.
-@NOTE=The @{abscissae} must be given in increasing order. If any of interpolation methods 1 ('linear with averaging'), 3 ('staircase with averaging'), and 5 ('natural cubic spline with averaging') is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order. Strings and empty cells in @{abscissae} and @{ordinates} are ignored. If several target data are provided they must be in the same column in consecutive cells.
+@NOTE=The @{abscissae} should be given in increasing order. If the @{abscissae} is not in increasing order the INTERPOLATION function is significantly slower. If any two @{abscissae} values are equal an error is returned. If any of interpolation methods 1 ('linear with averaging'), 3 ('staircase with averaging'), and 5 ('natural cubic spline with averaging') is used, the number of returned values is one less than the number of targets and the target values must be given in increasing order. The values returned are the average heights of the interpolation function on the intervals determined by consecutive target values. Strings and empty cells in @{abscissae} and @{ordinates} are ignored. If several target data are provided they must be in the same column in consecutive cells.
 @SEEALSO=PERIODOGRAM
 
 @CATEGORY=Time Series Analysis
