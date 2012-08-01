@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-07-29 11:12+0000\n"
-"PO-Revision-Date: 2012-07-29 13:41+0100\n"
+"POT-Creation-Date: 2012-08-01 02:37+0000\n"
+"PO-Revision-Date: 2012-08-01 10:09+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -9413,82 +9413,82 @@ msgstr ""
 "4: interpolacija z naravnimi kubičnimi zlepki;\n"
 "5: interpolacija z naravnimi kubičnimi zlepki s povprečenjem."
 
-#: ../plugins/fn-tsa/functions.c:380
+#: ../plugins/fn-tsa/functions.c:381
 msgid "INTERPOLATION:interpolated values corresponding to the given abscissa targets"
 msgstr "INTERPOLATION: interpolirane vrednosti, ki sovpadajo s podanimi cilji abscise"
 
-#: ../plugins/fn-tsa/functions.c:381
+#: ../plugins/fn-tsa/functions.c:382
 msgid "abscissae:abscissae of the given data points"
 msgstr "abscise: abscise podanih podatkovnih točk"
 
-#: ../plugins/fn-tsa/functions.c:382
+#: ../plugins/fn-tsa/functions.c:383
 msgid "ordinates:ordinates of the given data points"
 msgstr "ordinata: navpične koordinate podanih podatkovnih točk"
 
-#: ../plugins/fn-tsa/functions.c:383
+#: ../plugins/fn-tsa/functions.c:384
 msgid "targets:abscissae of the interpolated data"
 msgstr "cilji: vodoravne koordinate interpoliranih podatkov"
 
-#: ../plugins/fn-tsa/functions.c:384
+#: ../plugins/fn-tsa/functions.c:385
 msgid "interpolation:method of interpolation, defaults to 0 ('linear')"
 msgstr "interpolacija: način interpolacije, privzeto določen z 0 ('linearni')"
 
-#: ../plugins/fn-tsa/functions.c:385
-#: ../plugins/fn-tsa/functions.c:570
+#: ../plugins/fn-tsa/functions.c:386
+#: ../plugins/fn-tsa/functions.c:575
 msgid "The output consists always of one column of numbers."
 msgstr "Odvod je vedno izpisan v enem stolpcu števil."
 
-#: ../plugins/fn-tsa/functions.c:387
+#: ../plugins/fn-tsa/functions.c:388
 msgid "The @{abscissae} should be given in increasing order. If the @{abscissae} is not in increasing order the INTERPOLATION function is significantly slower."
 msgstr "Vrednosti @{abscis} morajo biti podane v naraščajočem redu. V kolikor vrednosti @{abscis} niso ustrezno urejene, deluje funkcija INTERPOLATION opazno počasneje."
 
-#: ../plugins/fn-tsa/functions.c:389
+#: ../plugins/fn-tsa/functions.c:390
 msgid "If any two @{abscissae} values are equal an error is returned."
 msgstr "V kolikor sta katerikoli dve vrednosti @{abscis} enaki, funkcija vrne napako."
 
-#: ../plugins/fn-tsa/functions.c:390
-msgid "If any of interpolation methods 1 ('linear with averaging'), 3 ('staircase with averaging'), and 5 ('natural cubic spline with averaging') is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order."
-msgstr "V kolikor je uporabljena ena izmed metod interpolacije; 1 ('linearna s povprečenjem'), 3 ('stopničasta s povprečenjem') oziroma 5 ('interpolacija z naravnimi kubičnimi zlepki s povprečenjem'), je število vrnjene vrednosti manjše kot število ciljev in vrednosti ciljev morajo biti razvrščeni v naraščajočem vrstnem redu."
+#: ../plugins/fn-tsa/functions.c:391
+msgid "If any of interpolation methods 1 ('linear with averaging'), 3 ('staircase with averaging'), and 5 ('natural cubic spline with averaging') is used, the number of returned values is one less than the number of targets and the target values must be given in increasing order. The values returned are the average heights of the interpolation function on the intervals determined by consecutive target values."
+msgstr "V kolikor je uporabljena ena izmed metod interpolacije; 1 ('linearna s povprečenjem'), 3 ('stopničasta s povprečenjem') oziroma 5 ('interpolacija z naravnimi kubičnimi zlepki s povprečenjem'), je število vrnjenih vrednosti manjše od števila ciljev, vrednosti ciljev pa morajo biti razvrščeni v naraščajočem vrstnem redu. Vrnjene vrednosti so povprečne višine interpolirane funkcije na intervalih, določenih v zaporedju ciljnih vrednosti."
 
-#: ../plugins/fn-tsa/functions.c:395
-#: ../plugins/fn-tsa/functions.c:577
+#: ../plugins/fn-tsa/functions.c:398
+#: ../plugins/fn-tsa/functions.c:582
 msgid "Strings and empty cells in @{abscissae} and @{ordinates} are ignored."
 msgstr "Celica z nizi in prazne celice @{abscise} in @{ordinate} so prezrte."
 
-#: ../plugins/fn-tsa/functions.c:396
-#: ../plugins/fn-tsa/functions.c:578
+#: ../plugins/fn-tsa/functions.c:399
+#: ../plugins/fn-tsa/functions.c:583
 msgid "If several target data are provided they must be in the same column in consecutive cells."
 msgstr "V kolikor je podanih več ciljnih podatkov, morajo biti ti v istem stolpcu v zaporednih navpičnih celicah."
 
-#: ../plugins/fn-tsa/functions.c:563
+#: ../plugins/fn-tsa/functions.c:568
 msgid "PERIODOGRAM:periodogram of the given data"
 msgstr "PERIODOGRAM: periodogram (ocena spektralne gostote signala) podanih podatkov"
 
-#: ../plugins/fn-tsa/functions.c:564
+#: ../plugins/fn-tsa/functions.c:569
 msgid "ordinates:ordinates of the given data"
 msgstr "ordinata: navpične koordinate podanih podatkov"
 
-#: ../plugins/fn-tsa/functions.c:565
+#: ../plugins/fn-tsa/functions.c:570
 msgid "filter:windowing function to  be used, defaults to no filter"
 msgstr "filter: uporabljena funkcija podatkovnega okna privzeto določena brez filtra"
 
-#: ../plugins/fn-tsa/functions.c:566
+#: ../plugins/fn-tsa/functions.c:571
 msgid "abscissae:abscissae of the given data, defaults to regularly spaced abscissae"
 msgstr "abscisa: abscisa podanih podatkov, privzeto gre za absciso z enakomernimi razmiki"
 
-#: ../plugins/fn-tsa/functions.c:567
+#: ../plugins/fn-tsa/functions.c:572
 msgid "interpolation:method of interpolation, defaults to none"
 msgstr "interpolacija: način interpolacije, privzeto določen na brez"
 
-#: ../plugins/fn-tsa/functions.c:568
+#: ../plugins/fn-tsa/functions.c:573
 msgid "number:number of interpolated data points"
 msgstr "število: število interpoliranih podatkovnih točk"
 
-#: ../plugins/fn-tsa/functions.c:569
+#: ../plugins/fn-tsa/functions.c:574
 msgid "If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order."
 msgstr "Če je uporabljena interpolacija, je število vrnjenih vrednosti za eno manjše od števila ciljev, ti pa morajo biti podani naraščajoče."
 
-#: ../plugins/fn-tsa/functions.c:572
+#: ../plugins/fn-tsa/functions.c:577
 msgid ""
 "Possible window functions are:\n"
 "0: no filter (rectangular window)\n"
@@ -9502,57 +9502,57 @@ msgstr ""
 "2: Hahn (ko-sinusno okno)\n"
 "3: Welch (parabolično okno)"
 
-#: ../plugins/fn-tsa/functions.c:822
+#: ../plugins/fn-tsa/functions.c:827
 msgid "FOURIER:Fourier or inverse Fourier transform"
 msgstr "FOURIER: Fourierjeva transformacija ali njena inverzna vrednost "
 
-#: ../plugins/fn-tsa/functions.c:823
-#: ../plugins/fn-tsa/functions.c:922
+#: ../plugins/fn-tsa/functions.c:828
+#: ../plugins/fn-tsa/functions.c:927
 msgid "Sequence:the data sequence to be transformed"
 msgstr "zaporedje: zaporedje podatkov za preoblikovanje"
 
-#: ../plugins/fn-tsa/functions.c:824
+#: ../plugins/fn-tsa/functions.c:829
 msgid "Inverse:if true, the inverse Fourier transform is calculated, defaults to false"
 msgstr "Inverzna vrednost: izbrana možnost vrne inverzno vrednost Fourierjeve transformacije"
 
-#: ../plugins/fn-tsa/functions.c:825
+#: ../plugins/fn-tsa/functions.c:830
 msgid "Separate:if true, the real and imaginary parts are given separately, defaults to false"
 msgstr "ločenost: argument določa, ali sta realni in imaginarni del podana ločeno; privzeto je argument izpuščen"
 
-#: ../plugins/fn-tsa/functions.c:826
+#: ../plugins/fn-tsa/functions.c:831
 msgid "This array function returns the Fourier or inverse Fourier transform of the given data sequence."
 msgstr "Funkcija polja vrne Fourierjevo transformacijo ali njeno inverzno vrednost podanega zaporedja podatkov."
 
-#: ../plugins/fn-tsa/functions.c:827
+#: ../plugins/fn-tsa/functions.c:832
 msgid "The output consists of one column of complex numbers if @{Separate} is false and of two columns of real numbers if @{Separate} is true."
 msgstr "V primeru, da je argument @{ločenosti} določen, je odvod sestavljen iz dveh stolpcev realnih števil, če pa @{ločenost} ni določena, je odvod en stolpec kompleksnih števil."
 
-#: ../plugins/fn-tsa/functions.c:828
+#: ../plugins/fn-tsa/functions.c:833
 msgid "If @{Separate} is true the first output column contains the real parts and the second column the imaginary parts."
 msgstr "V kolikor je argument @{ločenosti} določen, pomeni, da prvi stolpec določa realne, drugi stolpec pa imaginarne vrednosti."
 
-#: ../plugins/fn-tsa/functions.c:829
-#: ../plugins/fn-tsa/functions.c:926
+#: ../plugins/fn-tsa/functions.c:834
+#: ../plugins/fn-tsa/functions.c:931
 msgid "If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #VALUE!"
 msgstr "V kolikor @{zaporedje} ni niti polje n x 1 niti 1 x n, funkcija vrne napako #VALUE!"
 
-#: ../plugins/fn-tsa/functions.c:921
+#: ../plugins/fn-tsa/functions.c:926
 msgid "HPFILTER:Hodrick Prescott Filter"
 msgstr "HPFILTER: Hodrick-Prescottov filter"
 
-#: ../plugins/fn-tsa/functions.c:923
+#: ../plugins/fn-tsa/functions.c:928
 msgid "λ:filter parameter λ, defaults to 1600"
 msgstr "λ: parameter filtra λ, privzeto je določena vrednost 1600"
 
-#: ../plugins/fn-tsa/functions.c:924
+#: ../plugins/fn-tsa/functions.c:929
 msgid "This array function returns the trend and cyclical components obtained by applying the Hodrick Prescott Filter with parameter @{λ} to the given data sequence."
 msgstr "Ta matrična funkcija vrne trendno in ciklično komponento, ki ju pridobi z uveljavljanjem filtra Hodrick Prescott s parametrom @{λ} nad podanim nizom podatkov."
 
-#: ../plugins/fn-tsa/functions.c:925
+#: ../plugins/fn-tsa/functions.c:930
 msgid "The output consists of two columns of numbers, the first containing the trend component, the second the cyclical component."
 msgstr "Izhod sestavljata dva stolpca števil, prvi vsebuje komponento trenda, drugi pa ciklično komponento."
 
-#: ../plugins/fn-tsa/functions.c:927
+#: ../plugins/fn-tsa/functions.c:932
 msgid "If @{Sequence} contians less than 6 numerical values, this function returns #VALUE!"
 msgstr "V kolikor vsebuje @{zaporedje} le 6 številčnih vrednosti, funkcija vrne napako #VALUE!"
 
