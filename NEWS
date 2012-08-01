@@ -8,6 +8,7 @@ Andreas:
 	* Fix INTERPOLATION crash. [#680711]
 	* Suppress range markers that should be in an external workbook.
 	[Part of #680718]
+	* Fix layering of sheet objects in ODF export. [Part of #681009]
 
 Jean:
 	* Fix component references issues. [#680190]

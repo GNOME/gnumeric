@@ -2822,6 +2822,7 @@ odf_write_frame_size (GnmOOExport *state, SheetObject *so)
 	GnmExprTop const *texpr;
 	GnmParsePos pp;
 	char *formula;
+	Sheet *sheet;
 
 	sheet_object_anchor_to_offset_pts (anchor, state->sheet, res_pts);
 
@@ -2844,6 +2845,14 @@ odf_write_frame_size (GnmOOExport *state, SheetObject *so)
 	gsf_xml_out_add_cstr (state->xml, TABLE "end-cell-address",
 			      odf_strip_brackets (formula));
 	g_free (formula);
+
+	sheet = sheet_object_get_sheet (so);
+	if (sheet) {
+		int z;
+		z = g_slist_length (sheet->sheet_objects) 
+			- sheet_object_get_stacking (so);
+		gsf_xml_out_add_int (state->xml, DRAW "z-index", z);
+	}
 }
 
 static void

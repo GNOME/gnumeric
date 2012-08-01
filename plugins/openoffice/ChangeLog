@@ -1,3 +1,7 @@
+2012-08-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_frame_size): write draw:z-index
+
 2012-08-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* openoffice-read.c (oo_parse_color): Rename style_color_new_i8.
