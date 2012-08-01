@@ -46,7 +46,7 @@ style_color_new_uninterned (GOColor c, gboolean is_auto)
 }
 
 GnmColor *
-style_color_new_rgba16 (gushort red, gushort green, gushort blue, gushort alpha)
+style_color_new_rgba16 (guint16 red, guint16 green, guint16 blue, guint16 alpha)
 {
 	return style_color_new_rgba8 (red >> 8, green >> 8, blue >> 8, alpha >> 8);
 }

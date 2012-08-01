@@ -1,7 +1,13 @@
+2012-08-01  Morten Welinder  <terra@gnome.org>
+
+	* src/style-color.c (style_color_new_rgba16): Explicitly use a
+	16-bit type argument.
+
 2012-08-01  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/sheet-style.c (sheet_style_init_size): Rename style_color_new_i8 and
-	style_color_new_i16 and add an alpha aware version.
+	* src/sheet-style.c (sheet_style_init_size): Rename
+	style_color_new_i8 and style_color_new_i16 and add an alpha-aware
+	version.
 	* src/style-border.c (style_border_equal), (style_border_hash): ditto.
 	* src/style-color.c (style_color_new_rgba16),
 	(style_color_new_pango), (style_color_new_gdk),
