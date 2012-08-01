@@ -695,7 +695,7 @@ oo_parse_color (GsfXMLIn *xin, xmlChar const *str, char const *name)
 	g_return_val_if_fail (str != NULL, NULL);
 
 	if (3 == sscanf (CXML2C (str), "#%2x%2x%2x", &r, &g, &b))
-		return style_color_new_i8 (r, g, b);
+		return style_color_new_rgb8 (r, g, b);
 
 	if (0 == strcmp (CXML2C (str), "transparent"))
 		return style_color_ref (magic_transparent);

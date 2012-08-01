@@ -358,7 +358,8 @@ setup_color_pickers (FormatState *state,
 		     char const *default_caption,
 		     char const *caption,
 		     GCallback preview_update,
-		     GnmStyleElement e)
+		     GnmStyleElement e,
+                     gboolean allow_alpha)
 {
 	GtkWidget *combo, *w, *frame;
 	GOColorGroup *cg;
@@ -406,6 +407,8 @@ setup_color_pickers (FormatState *state,
 	else
 		go_combo_color_set_color_to_default (GO_COMBO_COLOR (combo));
 
+	if (allow_alpha)
+		go_combo_color_set_allow_alpha (GO_COMBO_COLOR (combo), TRUE);
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
 	gtk_container_add (GTK_CONTAINER (frame), combo);
@@ -1090,7 +1093,8 @@ border_get_mstyle (FormatState const *state, GnmStyleBorderLocation const loc)
 		guint8 const r = (guint8) (edge->rgba >> 24);
 		guint8 const g = (guint8) (edge->rgba >> 16);
 		guint8 const b = (guint8) (edge->rgba >>  8);
-		color = style_color_new_i8 (r, g, b);
+		guint8 const a = (guint8) (edge->rgba >>  0);
+		color = style_color_new_rgba8 (r, g, b, a);
 	}
 	return gnm_style_border_fetch
 		(state->border.edge[loc].pattern_index, color,
@@ -2278,19 +2282,19 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	setup_color_pickers (state, &state->border.color,	"border_color_group",
 			     "border-grid", 2, 3,		"border_color_label",
 			     _("Automatic"),			_("Border"),
-			     G_CALLBACK (cb_border_color),	MSTYLE_BORDER_TOP);
+			     G_CALLBACK (cb_border_color),	MSTYLE_BORDER_TOP, FALSE);
 	setup_color_pickers (state, NULL,			"fore_color_group",
 			     "font-grid", 1, 2,		"font_color_label",
 			     _("Automatic"),			_("Foreground"),
-			     G_CALLBACK (cb_font_preview_color), MSTYLE_FONT_COLOR);
+			     G_CALLBACK (cb_font_preview_color), MSTYLE_FONT_COLOR, TRUE);
 	setup_color_pickers (state, &state->back.back_color,	"back_color_group",
 			     "background-grid",	1, 1,		"back_color_label",
 			     _("Clear Background"),		_("Background"),
-			     G_CALLBACK (cb_back_preview_color), MSTYLE_COLOR_BACK);
+			     G_CALLBACK (cb_back_preview_color), MSTYLE_COLOR_BACK, FALSE);
 	setup_color_pickers (state, &state->back.pattern_color, "pattern_color_group",
 			     "background-grid", 1, 3,		"pattern_color_label",
 			     _("Automatic"),			_("Pattern"),
-			     G_CALLBACK (cb_pattern_preview_color), MSTYLE_COLOR_PATTERN);
+			     G_CALLBACK (cb_pattern_preview_color), MSTYLE_COLOR_PATTERN, FALSE);
 
 	/* Setup the border images */
 	for (i = 0; (name = border_buttons[i]) != NULL; ++i) {

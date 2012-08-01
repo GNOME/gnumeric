@@ -28,8 +28,9 @@ GNM_VAR_DECL GdkRGBA gs_yellow;
 
 GnmColor *style_color_new_go    (GOColor c);
 GnmColor *style_color_new_name  (char const *name);
-GnmColor *style_color_new_i16   (gushort red, gushort green, gushort blue);
-GnmColor *style_color_new_i8    (guint8 red, guint8 green, guint8 blue);
+GnmColor *style_color_new_rgba16(gushort red, gushort green, gushort blue, gushort alpha);
+GnmColor *style_color_new_rgb8  (guint8 red, guint8 green, guint8 blue);
+GnmColor *style_color_new_rgba8 (guint8 red, guint8 green, guint8 blue, guint8 alpha);
 GnmColor *style_color_new_pango (PangoColor const *c);
 GnmColor *style_color_new_gdk   (GdkRGBA const *c);
 GnmColor *style_color_auto_font (void);

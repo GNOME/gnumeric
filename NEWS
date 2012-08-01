@@ -12,6 +12,7 @@ Andreas:
 Jean:
 	* Fix component references issues. [#680190]
 	* Fix linear averaging interpolation. [#680723][#680918]
+	* Support semi-transparent fonts in cells. [#678176]
 
 Morten:
 	* Fix xls read crash.  [#679992]

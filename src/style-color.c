@@ -46,15 +46,15 @@ style_color_new_uninterned (GOColor c, gboolean is_auto)
 }
 
 GnmColor *
-style_color_new_i16 (gushort red, gushort green, gushort blue)
+style_color_new_rgba16 (gushort red, gushort green, gushort blue, gushort alpha)
 {
-	return style_color_new_i8 (red >> 8, green >> 8, blue >> 8);
+	return style_color_new_rgba8 (red >> 8, green >> 8, blue >> 8, alpha >> 8);
 }
 
 GnmColor *
 style_color_new_pango (PangoColor const *c)
 {
-	return style_color_new_i16 (c->red, c->green, c->blue);
+	return style_color_new_rgba16 (c->red, c->green, c->blue, 0xffff);
 }
 
 GnmColor *
@@ -72,13 +72,19 @@ style_color_new_gdk (GdkRGBA const *c)
 	guint8 b8 = CLAMP (c->blue * 256, 0, 255);
 	guint8 a8 = CLAMP (c->alpha * 256, 0, 255);
 
-	return style_color_new_go (GO_COLOR_FROM_RGBA (r8, g8, b8, a8));
+	return style_color_new_rgba8 (r8, g8, b8, a8);
 }
 
 GnmColor *
-style_color_new_i8 (guint8 red, guint8 green, guint8 blue)
+style_color_new_rgba8 (guint8 red, guint8 green, guint8 blue, guint8 alpha)
 {
-	return style_color_new_go (GO_COLOR_FROM_RGBA (red, green, blue, 0xff));
+	return style_color_new_go (GO_COLOR_FROM_RGBA (red, green, blue, alpha));
+}
+
+GnmColor *
+style_color_new_rgb8 (guint8 red, guint8 green, guint8 blue)
+{
+	return style_color_new_rgba8 (red, green, blue, 0xff);
 }
 
 GnmColor *
@@ -104,7 +110,7 @@ GnmColor *
 style_color_black (void)
 {
 	if (!sc_black)
-		sc_black = style_color_new_i8 (0, 0, 0);
+		sc_black = style_color_new_rgb8 (0, 0, 0);
 	return style_color_ref (sc_black);
 }
 
@@ -112,7 +118,7 @@ GnmColor *
 style_color_white (void)
 {
 	if (!sc_white)
-		sc_white = style_color_new_i8 (0xff, 0xff, 0xff);
+		sc_white = style_color_new_rgb8 (0xff, 0xff, 0xff);
 	return style_color_ref (sc_white);
 }
 
@@ -120,7 +126,7 @@ GnmColor *
 style_color_grid (void)
 {
 	if (!sc_grid)
-		sc_grid = style_color_new_i8 (0xc7, 0xc7, 0xc7);
+		sc_grid = style_color_new_rgb8 (0xc7, 0xc7, 0xc7);
 	return style_color_ref (sc_grid);
 }
 

@@ -253,7 +253,7 @@ xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, GnmCellPos
 static gboolean
 xml_sax_attr_color (xmlChar const * const *attrs, char const *name, GnmColor **res)
 {
-	unsigned int red, green, blue;
+	unsigned int red, green, blue, alpha = 0xffff;
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -262,12 +262,12 @@ xml_sax_attr_color (xmlChar const * const *attrs, char const *name, GnmColor **r
 	if (strcmp (CXML2C (attrs[0]), name))
 		return FALSE;
 
-	if (sscanf (CXML2C (attrs[1]), "%X:%X:%X", &red, &green, &blue) != 3){
+	if (sscanf (CXML2C (attrs[1]), "%X:%X:%X:%X", &red, &green, &blue, &alpha) < 3){
 		g_warning ("Invalid attribute '%s', expected colour, received '%s'",
 			   name, attrs[1]);
 		return FALSE;
 	}
-	*res = style_color_new_i16 (red, green, blue);
+	*res = style_color_new_rgba16 (red, green, blue, alpha);
 	return TRUE;
 }
 

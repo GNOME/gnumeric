@@ -1,3 +1,7 @@
+2012-08-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* gnm-solver.c: Rename style_color_new_i8.
+
 2012-07-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-kaplan-meier.c (analysis_tool_kaplan_meier_engine_run):

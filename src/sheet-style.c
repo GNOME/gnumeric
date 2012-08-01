@@ -656,7 +656,7 @@ sheet_style_init_size (Sheet *sheet, int cols, int rows)
 	 * 'none' by default.  Then displays that as white. */
 	if (sheet->sheet_type == GNM_SHEET_OBJECT) {
 		gnm_style_set_back_color (default_style,
-			style_color_new_i8 (0x50, 0x50, 0x50));
+			style_color_new_rgb8 (0x50, 0x50, 0x50));
 		gnm_style_set_pattern (default_style, 1);
 	}
 #endif

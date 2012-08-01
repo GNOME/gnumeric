@@ -1,3 +1,17 @@
+2012-08-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-style.c (sheet_style_init_size): Rename style_color_new_i8 and
+	style_color_new_i16 and add an alpha aware version.
+	* src/style-border.c (style_border_equal), (style_border_hash): ditto.
+	* src/style-color.c (style_color_new_rgba16),
+	(style_color_new_pango), (style_color_new_gdk),
+	(style_color_new_rgba8), (style_color_new_rgb8),
+	(style_color_black), (style_color_white), (style_color_grid): ditto.
+	* src/style-color.h: ditto.
+	* src/wbc-gtk.c (wbc_gtk_init_color_fore): add alpha channel support.
+	[#678176]
+	* src/xml-sax-read.c (xml_sax_attr_color): load font alpha channel.
+
 2012-07-30  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (gnm_app_recalc): New function.  (After almost

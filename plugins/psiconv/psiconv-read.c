@@ -179,7 +179,7 @@ set_format(GnmStyle *style, const psiconv_sheet_numberformat psi_numberformat)
 static GnmColor *
 get_color(const psiconv_color color)
 {
-	return style_color_new_i8 (color->red, color->green, color->blue);
+	return style_color_new_rgb8 (color->red, color->green, color->blue);
 }
 
 static void

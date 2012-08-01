@@ -1,3 +1,8 @@
+2012-08-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* excel-xml-read.c (parse_color): Rename style_color_new_i8.
+	* ms-excel-read.c (excel_palette_get), (excel_read_WINDOW2): ditto.
+
 2012-07-18  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_LABEL): Fix crash [#679992].
