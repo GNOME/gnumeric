@@ -2769,6 +2769,7 @@ odf_z_idx_compare (gconstpointer a, gconstpointer b)
 	g_return_val_if_fail (za != NULL, -1);
 	g_return_val_if_fail (zb != NULL, 1);
 
+	/* We are sorting indices in decreasing order! */
 	return (*zb - *za);
 }
 
