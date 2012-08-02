@@ -10,7 +10,7 @@ Andreas:
 	[Part of #680718]
 	* Fix layering of sheet objects in ODF export and import. 
 	[Part of #681009]
-	* Export opacity of sheet objects to ODF. [Part of #681009]
+	* Export/import opacity of fill-colours to/from ODF. [Part of #681009]
 
 Jean:
 	* Fix component references issues. [#680190]

@@ -756,6 +756,9 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	unsigned int fill_type = OO_FILL_TYPE_UNKNOWN;
 	gboolean stroke_colour_set = FALSE;
 
+	gchar const *fill_color = NULL;
+	gnm_float opacity = 1;
+
 	desc = pango_font_description_copy (style->font.font->desc);
 	for (l = props; l != NULL; l = l->next) {
 		OOProp *prop = l->data;
@@ -783,14 +786,11 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 				style->fill.auto_type = FALSE;
 				fill_type = OO_FILL_TYPE_NONE;
 			}
-		} else if (0 == strcmp (prop->name, "fill-color")) {
-			GdkRGBA rgba;
-			gchar const *color = g_value_get_string (&prop->value);
-			if (gdk_rgba_parse (&rgba, color)) {
-				go_color_from_gdk_rgba (&rgba, &style->fill.pattern.back);
-				style->fill.auto_back = FALSE;
-			}
-		} else if (0 == strcmp (prop->name, "stroke-color")) {
+		} else if (0 == strcmp (prop->name, "fill-color"))
+			fill_color = g_value_get_string (&prop->value);
+		else if (0 == strcmp (prop->name, "opacity"))
+			opacity = g_value_get_double (&prop->value);
+		else if (0 == strcmp (prop->name, "stroke-color")) {
 			GdkRGBA rgba;
 			gchar const *color = g_value_get_string (&prop->value);
 			if (gdk_rgba_parse (&rgba, color)) {
@@ -870,7 +870,14 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 		        style->line.width = g_value_get_double (&prop->value);
 		else if (0 == strcmp (prop->name, "repeat"))
 			style->fill.image.type = g_value_get_int (&prop->value);
-
+	}
+	if (fill_color) {
+		GdkRGBA rgba;
+		if (gdk_rgba_parse (&rgba, fill_color)) {
+			rgba.alpha = opacity;
+			go_color_from_gdk_rgba (&rgba, &style->fill.pattern.back);
+			style->fill.auto_back = FALSE;
+		}		
 	}
 	if (desc_changed)
 		go_style_set_font_desc	(style, desc);
@@ -6657,6 +6664,9 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 				(style->style_props,
 				 oo_prop_new_string ("fill-color",
 						     CXML2C(attrs[1])));
+		else if (oo_attr_percent (xin, attrs, OO_NS_DRAW, "opacity", &ftmp))
+			style->style_props = g_slist_prepend (style->style_props,
+							      oo_prop_new_double ("opacity", ftmp));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "fill-hatch-name"))
 			style->style_props = g_slist_prepend
 				(style->style_props,

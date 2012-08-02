@@ -1,3 +1,8 @@
+2012-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_apply_style_props): handle opacity
+	(od_style_prop_chart): save opacity
+
 2012-08-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_go_color_opacity): new
