@@ -323,6 +323,7 @@ typedef struct {
 	double           frame_offset[4];
 	gboolean         absolute_distance;
 	gint             z_index;
+	gchar           *control;
 } object_offset_t;
 
 typedef struct _OOParseState OOParseState;
@@ -2764,6 +2765,82 @@ odf_z_idx_compare (gconstpointer a, gconstpointer b)
 }
 
 static void
+odf_complete_control_setup (OOParseState *state, object_offset_t const *ob_off)
+{
+	OOControl *oc = g_hash_table_lookup (state->controls, ob_off->control);
+	GnmExprTop const *result_texpr = NULL;
+	SheetObject *so = ob_off->so;
+
+	if (oc == NULL)
+		return;
+	
+	if (oc->linked_cell) {
+		GnmParsePos pp;
+		GnmRangeRef ref;
+		char const *ptr = oo_rangeref_parse
+			(&ref, oc->linked_cell,
+			 parse_pos_init_sheet (&pp, state->pos.sheet),
+			 NULL);
+		if (ptr != oc->linked_cell
+		    && ref.a.sheet != invalid_sheet) {
+			GnmValue *v = value_new_cellrange
+				(&ref.a, &ref.a, 0, 0);
+			GnmExprTop const *texpr
+				= gnm_expr_top_new_constant (v);
+			if (texpr != NULL) {
+				if (oc->t == sheet_widget_scrollbar_get_type () ||
+				    oc->t == sheet_widget_spinbutton_get_type () ||
+				    oc->t == sheet_widget_slider_get_type ())
+					sheet_widget_adjustment_set_link
+						(so, texpr);
+				else if (oc->t == sheet_widget_checkbox_get_type ())
+					sheet_widget_checkbox_set_link
+						(so, texpr);
+				else if (oc->t == sheet_widget_radio_button_get_type ())
+					sheet_widget_radio_button_set_link
+						(so, texpr);
+				else if (oc->t == sheet_widget_button_get_type ())
+					sheet_widget_button_set_link
+						(so, texpr);
+				else if (oc->t == sheet_widget_list_get_type () ||
+					 oc->t == sheet_widget_combo_get_type ()) {
+					gnm_expr_top_ref ((result_texpr = texpr));
+					sheet_widget_list_base_set_links (so, texpr, NULL);
+				}
+				gnm_expr_top_unref (texpr);
+			}
+		}
+	}
+	if (oc->t == sheet_widget_list_get_type () ||
+	    oc->t == sheet_widget_combo_get_type ()) {
+		if (oc->source_cell_range) {
+			GnmParsePos pp;
+			GnmRangeRef ref;
+			char const *ptr = oo_rangeref_parse
+				(&ref, oc->source_cell_range,
+				 parse_pos_init_sheet (&pp, state->pos.sheet),
+				 NULL);
+			if (ptr != oc->source_cell_range &&
+			    ref.a.sheet != invalid_sheet) {
+				GnmValue *v = value_new_cellrange
+					(&ref.a, &ref.b, 0, 0);
+				GnmExprTop const *texpr
+					= gnm_expr_top_new_constant (v);
+				if (texpr != NULL) {
+					sheet_widget_list_base_set_links
+						(so,
+						 result_texpr, texpr);
+					gnm_expr_top_unref (texpr);
+				}
+			}
+		}
+		if (result_texpr != NULL)
+			gnm_expr_top_unref (result_texpr);
+		sheet_widget_list_base_set_result_type (so, oc->as_index);
+	}
+}
+
+static void
 oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -2862,6 +2939,9 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		sheet_object_set_anchor (ob_off->so, &new);
 
 		sheet_object_set_sheet (ob_off->so, state->pos.sheet);
+		if (ob_off->control)
+			odf_complete_control_setup (state, ob_off);
+		g_free (ob_off->control);
 		g_object_unref (ob_off->so);
 		g_free (ob_off);
 		l->data = NULL;
@@ -7279,7 +7359,7 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-od_draw_frame_end_full (GsfXMLIn *xin, gboolean absolute_distance)
+od_draw_frame_end_full (GsfXMLIn *xin, gboolean absolute_distance, char const *control_name)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
@@ -7292,6 +7372,7 @@ od_draw_frame_end_full (GsfXMLIn *xin, gboolean absolute_distance)
 		ob_off->so = state->chart.so;
 		ob_off->absolute_distance = absolute_distance;
 		ob_off->z_index = state->chart.z_index;
+		ob_off->control = g_strdup (control_name);
 		ob_off->frame_offset[0] = state->chart.frame_offset[0];
 		ob_off->frame_offset[1] = state->chart.frame_offset[1];
 		ob_off->frame_offset[2] = state->chart.frame_offset[2];
@@ -7305,7 +7386,7 @@ od_draw_frame_end_full (GsfXMLIn *xin, gboolean absolute_distance)
 static void
 od_draw_frame_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	od_draw_frame_end_full (xin, FALSE);
+	od_draw_frame_end_full (xin, FALSE, NULL);
 }
 static void
 od_draw_text_frame_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
@@ -7316,7 +7397,7 @@ od_draw_text_frame_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->text_p_stack != NULL && (NULL != (ptr = state->text_p_stack->data))
 	    && ptr->gstr != NULL)
 		g_object_set (state->chart.so, "text", ptr->gstr->str, "markup", ptr->attrs, NULL);
-	od_draw_frame_end_full (xin, FALSE);
+	od_draw_frame_end_full (xin, FALSE, NULL);
 	odf_pop_text_p (state);
 }
 
@@ -7330,7 +7411,7 @@ odf_line_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	    && ptr->gstr != NULL)
 		oo_warning (xin, _("Gnumeric's sheet object lines do not support attached text. "
 				   "The text \"%s\" has been dropped."), ptr->gstr->str);
-	od_draw_frame_end_full (xin, TRUE);
+	od_draw_frame_end_full (xin, TRUE, NULL);
 	odf_pop_text_p (state);
 }
 
@@ -7348,7 +7429,6 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (name != NULL) {
 		OOControl *oc = g_hash_table_lookup (state->controls, name);
-		GnmExprTop const *result_texpr = NULL;
 		if (oc != NULL) {
 			SheetObject *so = NULL;
 			if (oc->t == sheet_widget_scrollbar_get_type () ||
@@ -7417,90 +7497,23 @@ od_draw_control_start (GsfXMLIn *xin, xmlChar const **attrs)
 					value_release (val);
 				}
 			} else if (oc->t == sheet_widget_checkbox_get_type ()) {
-				so = state->chart.so = g_object_new
+				state->chart.so = g_object_new
 					(oc->t, "text", oc->label, NULL);
 			} else if (oc->t == sheet_widget_list_get_type () ||
 				   oc->t == sheet_widget_combo_get_type ()) {
-				so = state->chart.so = g_object_new
+				state->chart.so = g_object_new
 					(oc->t, NULL);
 			} else if (oc->t == sheet_widget_button_get_type ()) {
-				so = state->chart.so = g_object_new
+				state->chart.so = g_object_new
 					(oc->t, "text", oc->label, NULL);
 			} else if (oc->t == sheet_widget_frame_get_type ()) {
-				so = state->chart.so = g_object_new
+				state->chart.so = g_object_new
 					(oc->t, "text", oc->label, NULL);
 			}
-
-			od_draw_frame_end_full (xin, FALSE);
-
-
-			if (oc->linked_cell) {
-				GnmParsePos pp;
-				GnmRangeRef ref;
-				char const *ptr = oo_rangeref_parse
-					(&ref, oc->linked_cell,
-					 parse_pos_init_sheet (&pp, state->pos.sheet),
-					 NULL);
-				if (ptr != oc->linked_cell
-				    && ref.a.sheet != invalid_sheet) {
-					GnmValue *v = value_new_cellrange
-						(&ref.a, &ref.a, 0, 0);
-					GnmExprTop const *texpr
-						= gnm_expr_top_new_constant (v);
-					if (texpr != NULL) {
-						if (oc->t == sheet_widget_scrollbar_get_type () ||
-						    oc->t == sheet_widget_spinbutton_get_type () ||
-						    oc->t == sheet_widget_slider_get_type ())
-							sheet_widget_adjustment_set_link
-								(so, texpr);
-						else if (oc->t == sheet_widget_checkbox_get_type ())
-							sheet_widget_checkbox_set_link
-								(so, texpr);
-						else if (oc->t == sheet_widget_radio_button_get_type ())
-							sheet_widget_radio_button_set_link
-								(so, texpr);
-						else if (oc->t == sheet_widget_button_get_type ())
-							sheet_widget_button_set_link
-								(so, texpr);
-						else if (oc->t == sheet_widget_list_get_type () ||
-							 oc->t == sheet_widget_combo_get_type ()) {
-							gnm_expr_top_ref ((result_texpr = texpr));
-							sheet_widget_list_base_set_links (so, texpr, NULL);
-						}
-						gnm_expr_top_unref (texpr);
-					}
-				}
-			}
-			if (oc->t == sheet_widget_list_get_type () ||
-			    oc->t == sheet_widget_combo_get_type ()) {
-				if (oc->source_cell_range) {
-					GnmParsePos pp;
-					GnmRangeRef ref;
-					char const *ptr = oo_rangeref_parse
-						(&ref, oc->source_cell_range,
-						 parse_pos_init_sheet (&pp, state->pos.sheet),
-						 NULL);
-					if (ptr != oc->source_cell_range &&
-					    ref.a.sheet != invalid_sheet) {
-						GnmValue *v = value_new_cellrange
-							(&ref.a, &ref.b, 0, 0);
-						GnmExprTop const *texpr
-							= gnm_expr_top_new_constant (v);
-						if (texpr != NULL) {
-							sheet_widget_list_base_set_links
-								(so,
-								 result_texpr, texpr);
-							gnm_expr_top_unref (texpr);
-						}
-					}
-				}
-				if (result_texpr != NULL)
-					gnm_expr_top_unref (result_texpr);
-				sheet_widget_list_base_set_result_type (so, oc->as_index);
-			}
-		}
-	} else
-		od_draw_frame_end_full (xin, FALSE);
+		} else
+			oo_warning (xin, "Undefined control '%s' encountered!", name);
+	}
+	od_draw_frame_end_full (xin, FALSE, name);
 }
 
 static void

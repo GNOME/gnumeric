@@ -1,5 +1,14 @@
 2012-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (object_offset_t): new field
+	(odf_complete_control_setup): new
+	(oo_table_end): call odf_complete_control_setup
+	(od_draw_frame_end_full): add argument and change all callers
+	(od_draw_control_start): move code that depends on the
+	control to be attached to a sheet, to odf_complete_control_setup
+
+2012-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_custom_shape): new
 	(opendoc_content_dtd): connect odf_custom_shape
 
