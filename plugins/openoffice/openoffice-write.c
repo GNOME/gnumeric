@@ -570,6 +570,12 @@ odf_go_color_to_string (GOColor color)
 					 GO_COLOR_UINT_B (color));
 }
 
+static double
+odf_go_color_opacity (GOColor color)
+{
+	return (GO_COLOR_UINT_A (color)/255.);
+}
+
 static void
 gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c, int pattern)
 {
@@ -6866,12 +6872,16 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 				if (!style->fill.auto_back) {
 					color = odf_go_color_to_string (style->fill.pattern.back);
 					gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+					odf_add_percent (state->xml, DRAW "opacity", 
+							 odf_go_color_opacity (style->fill.pattern.back));
 				}
 			} else if (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID) {
 				gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
 				if (!style->fill.auto_fore) {
 					color = odf_go_color_to_string (style->fill.pattern.fore);
 					gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+					odf_add_percent (state->xml, DRAW "opacity", 
+							 odf_go_color_opacity (style->fill.pattern.fore));
 				}
 			} else {
 				gchar *hatch = odf_get_pattern_name (state, style);
@@ -6881,6 +6891,8 @@ odf_write_gog_style_graphic (GnmOOExport *state, GOStyle const *style)
 				if (!style->fill.auto_back) {
 					color = odf_go_color_to_string (style->fill.pattern.back);
 					gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", color);
+					odf_add_percent (state->xml, DRAW "opacity", 
+							 odf_go_color_opacity (style->fill.pattern.back));
 				}
 				g_free (hatch);
 				odf_add_bool (state->xml, DRAW "fill-hatch-solid", TRUE);
