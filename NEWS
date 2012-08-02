@@ -12,6 +12,7 @@ Andreas:
 	[Part of #681009]
 	* Export/import opacity of fill-colours to/from ODF. [Part of #681009]
 	* Some basic custom-shape support in ODF import.
+	* Map captions onto text rectangles on ODF import.
 
 Jean:
 	* Fix component references issues. [#680190]
