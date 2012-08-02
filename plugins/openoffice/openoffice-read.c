@@ -11355,6 +11355,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	state.default_style.cells = NULL;
 	state.default_style.rows = NULL;
 	state.default_style.columns = NULL;
+	state.default_style.graphics = NULL;
 	state.cur_style.type   = OO_STYLE_UNKNOWN;
 	state.cur_style.requires_disposal = FALSE;
 	state.sheet_order = NULL;
