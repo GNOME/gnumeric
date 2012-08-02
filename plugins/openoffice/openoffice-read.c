@@ -407,6 +407,7 @@ struct  _OOParseState {
 		OOCellStyle	*cells;
 		OOColRowStyle	*rows;
 		OOColRowStyle	*columns;
+		OOChartStyle    *graphics;
 	} default_style;
 	GSList		*sheet_order;
 	int		 richtext_len;
@@ -756,9 +757,6 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 	unsigned int fill_type = OO_FILL_TYPE_UNKNOWN;
 	gboolean stroke_colour_set = FALSE;
 
-	gchar const *fill_color = NULL;
-	gnm_float opacity = 1;
-
 	desc = pango_font_description_copy (style->font.font->desc);
 	for (l = props; l != NULL; l = l->next) {
 		OOProp *prop = l->data;
@@ -786,11 +784,19 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 				style->fill.auto_type = FALSE;
 				fill_type = OO_FILL_TYPE_NONE;
 			}
-		} else if (0 == strcmp (prop->name, "fill-color"))
-			fill_color = g_value_get_string (&prop->value);
-		else if (0 == strcmp (prop->name, "opacity"))
-			opacity = g_value_get_double (&prop->value);
-		else if (0 == strcmp (prop->name, "stroke-color")) {
+		} else if (0 == strcmp (prop->name, "fill-color")) {
+			GdkRGBA rgba;
+			gchar const *color = g_value_get_string (&prop->value);
+			if (gdk_rgba_parse (&rgba, color)) {
+				guint a = GO_COLOR_UINT_A (style->fill.pattern.back);
+				go_color_from_gdk_rgba (&rgba, &style->fill.pattern.back);
+				style->fill.auto_back = FALSE;
+				style->fill.pattern.back = GO_COLOR_CHANGE_A (style->fill.pattern.back, a);
+			}
+		} else if (0 == strcmp (prop->name, "opacity")) {
+			guint a = 255 * g_value_get_double (&prop->value);
+			style->fill.pattern.back = GO_COLOR_CHANGE_A (style->fill.pattern.back, a);
+		} else if (0 == strcmp (prop->name, "stroke-color")) {
 			GdkRGBA rgba;
 			gchar const *color = g_value_get_string (&prop->value);
 			if (gdk_rgba_parse (&rgba, color)) {
@@ -870,14 +876,6 @@ odf_apply_style_props (GsfXMLIn *xin, GSList *props, GOStyle *style)
 		        style->line.width = g_value_get_double (&prop->value);
 		else if (0 == strcmp (prop->name, "repeat"))
 			style->fill.image.type = g_value_get_int (&prop->value);
-	}
-	if (fill_color) {
-		GdkRGBA rgba;
-		if (gdk_rgba_parse (&rgba, fill_color)) {
-			rgba.alpha = opacity;
-			go_color_from_gdk_rgba (&rgba, &style->fill.pattern.back);
-			style->fill.auto_back = FALSE;
-		}		
 	}
 	if (desc_changed)
 		go_style_set_font_desc	(style, desc);
@@ -4395,21 +4393,26 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_STYLE_CHART:
 	case OO_STYLE_GRAPHICS:
 		state->chart.plot_type = OO_PLOT_UNKNOWN;
-		if (name != NULL){
-			cur_style = g_new0(OOChartStyle, 1);
-			cur_style->axis_props = NULL;
-			cur_style->plot_props = NULL;
-			cur_style->style_props = NULL;
-			cur_style->other_props = NULL;
-			if (fmt != NULL)
-				cur_style->fmt = go_format_ref (fmt);
-			state->chart.cur_graph_style = cur_style;
+		cur_style = g_new0(OOChartStyle, 1);
+		cur_style->axis_props = NULL;
+		cur_style->plot_props = NULL;
+		cur_style->style_props = NULL;
+		cur_style->other_props = NULL;
+		if (fmt != NULL)
+			cur_style->fmt = go_format_ref (fmt);
+		state->chart.cur_graph_style = cur_style;
+		if (name != NULL)
 			g_hash_table_replace (state->chart.graph_styles,
 					      g_strdup (name),
 					      state->chart.cur_graph_style);
-		} else {
-			state->chart.cur_graph_style = NULL;
-		}
+		else if (0 == strcmp (xin->node->id, "DEFAULT_STYLE")) {
+			if (state->default_style.graphics) {
+				oo_warning (xin, _("Duplicate default chart/graphics style encountered."));
+				g_free (state->default_style.graphics);
+			}
+			state->default_style.graphics = state->chart.cur_graph_style;	
+		} else
+			state->cur_style.requires_disposal = TRUE;
 		break;
 	default:
 		break;
@@ -4441,6 +4444,8 @@ oo_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		break;
 	case OO_STYLE_CHART :
 	case OO_STYLE_GRAPHICS :
+		if (state->cur_style.requires_disposal)
+			oo_chart_style_free (state->chart.cur_graph_style);
 		state->chart.cur_graph_style = NULL;
 		break;
 	case OO_STYLE_TEXT:
@@ -8929,6 +8934,8 @@ oo_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 oo_chart_style_free (OOChartStyle *cstyle)
 {
+	if (cstyle == NULL)
+		return;
 	oo_prop_list_free (cstyle->axis_props);
 	oo_prop_list_free (cstyle->style_props);
 	oo_prop_list_free (cstyle->plot_props);
@@ -8998,30 +9005,33 @@ odf_so_filled (GsfXMLIn *xin, xmlChar const **attrs, gboolean is_oval)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char const *style_name = NULL;
+	GOStyle *style;
 
 	od_draw_frame_start (xin, attrs);
 	state->chart.so = g_object_new (GNM_SO_FILLED_TYPE,
 					"is-oval", is_oval, NULL);
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
-					OO_NS_DRAW, "style-name"))
-			style_name = CXML2C (attrs[1]);
+	g_object_get (G_OBJECT (state->chart.so),
+		      "style", &style, NULL);
 
-	if (style_name != NULL) {
-		OOChartStyle *oostyle = g_hash_table_lookup
-			(state->chart.graph_styles, style_name);
-		if (oostyle != NULL) {
-			GOStyle *style;
-			g_object_get (G_OBJECT (state->chart.so),
-				      "style", &style, NULL);
-
-			if (style != NULL) {
+	if (style != NULL) {
+		if (state->default_style.graphics)
+			odf_apply_style_props 
+				(xin, state->default_style.graphics->style_props,
+				 style);
+			
+		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+						OO_NS_DRAW, "style-name"))
+				style_name = CXML2C (attrs[1]);
+		if (style_name != NULL) {
+			OOChartStyle *oostyle = g_hash_table_lookup
+				(state->chart.graph_styles, style_name);
+			if (oostyle != NULL)
 				odf_apply_style_props (xin, oostyle->style_props,
 						       style);
-				g_object_unref (style);
-			}
 		}
+		g_object_unref (style);
 	}
 }
 
@@ -9856,7 +9866,7 @@ GSF_XML_IN_NODE (OFFICE_DOC_STYLES, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_X
   GSF_XML_IN_NODE (OFFICE_STYLES, DEFAULT_STYLE, OO_NS_STYLE, "default-style", GSF_XML_NO_CONTENT, &oo_style, &oo_style_end),
     GSF_XML_IN_NODE (DEFAULT_STYLE, DEFAULT_TABLE_CELL_PROPS, OO_NS_STYLE, "table-cell-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
     GSF_XML_IN_NODE (DEFAULT_STYLE, DEFAULT_TEXT_PROP, OO_NS_STYLE,	   "text-properties", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (DEFAULT_STYLE, DEFAULT_GRAPHIC_PROPS, OO_NS_STYLE,	   "graphic-properties", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (DEFAULT_STYLE, DEFAULT_GRAPHIC_PROPS, OO_NS_STYLE,	   "graphic-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
     GSF_XML_IN_NODE (DEFAULT_STYLE, DEFAULT_PARAGRAPH_PROPS, OO_NS_STYLE,  "paragraph-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
       GSF_XML_IN_NODE (DEFAULT_PARAGRAPH_PROPS, DEFAULT_PARA_TABS, OO_NS_STYLE,  "tab-stops", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (DEFAULT_STYLE, DEFAULT_STYLE_PROP, OO_NS_STYLE,	   "properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
@@ -11482,6 +11492,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 		odf_oo_cell_style_unref (state.default_style.cells);
 	g_free (state.default_style.rows);
 	g_free (state.default_style.columns);
+	oo_chart_style_free (state.default_style.graphics);
 	g_hash_table_destroy (state.styles.sheet);
 	g_hash_table_destroy (state.styles.text);
 	g_hash_table_destroy (state.styles.col);
