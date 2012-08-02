@@ -1,6 +1,16 @@
 2012-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (openoffice_file_open): initialize 
+	* openoffice-read.c (object_offset_t): add field
+	(odf_set_z_index): deleted
+	(odf_z_idx_compare): use object_offset_t
+	(oo_table_end): use object_offset_t to determine z-ordering
+	and attach the objects to the sheet here
+	(od_draw_frame_end_full): postpone attaching of the object to
+	the sheet.
+
+2012-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (openoffice_file_open): initialize
 	default_style.graphics
 
 2012-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
