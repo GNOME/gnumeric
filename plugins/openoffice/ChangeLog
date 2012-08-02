@@ -1,5 +1,12 @@
 2012-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_caption): new, copy of odf_rect + error
+	message
+	(odf_custom_shape): change error message
+	(opendoc_content_dtd): connect odf_caption
+
+2012-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (opendoc_content_dtd): add draw:caption
 	and fix draw:custom-shape text handling
 
