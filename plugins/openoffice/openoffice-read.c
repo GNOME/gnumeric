@@ -281,6 +281,7 @@ typedef struct {
 	double                   frame_offset[4]; /* offset as given in the file */
 	gnm_float                width;
 	gnm_float                height;
+	gint                     z_index;
 } OOChartInfo;
 
 typedef enum {
@@ -2720,6 +2721,14 @@ odf_adjust_offsets_col (OOParseState *state, int *col, double *x, gboolean absol
 }
 
 static void
+odf_set_z_index (GObject *so, gint z)
+{
+	gint *zstore = g_new (gint, 1);
+	*zstore = z;
+	g_object_set_data_full (so, "odf-z-index", zstore, g_free);
+}
+
+static void
 odf_adjust_offsets_row (OOParseState *state, int *row, double *y, gboolean absolute)
 {
 	ColRowInfo const *cr = sheet_row_get_info (state->pos.sheet,
@@ -2747,6 +2756,22 @@ odf_adjust_offsets (OOParseState *state, GnmCellPos *pos, double *x, double *y, 
 	odf_adjust_offsets_row (state, &pos->row, y, absolute);
 }
 
+static gint 
+odf_z_idx_compare (gconstpointer a, gconstpointer b)
+{
+	gint *za, *zb;
+
+	za = g_object_get_data (G_OBJECT (a), "odf-z-index");
+	zb = g_object_get_data (G_OBJECT (b), "odf-z-index");
+
+	/* za and zb should be non-NULL but just in case: */
+	g_return_val_if_fail (za != NULL || zb != NULL, 0);
+	g_return_val_if_fail (za != NULL, -1);
+	g_return_val_if_fail (zb != NULL, 1);
+
+	return (*zb - *za);
+}
+
 static void
 oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
@@ -2755,6 +2780,7 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	int rows, cols;
 	int max_cols, max_rows;
 	GSList *l;
+	gint top_z = -1;
 
 	maybe_update_progress (xin);
 
@@ -2813,12 +2839,17 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				       sheet_style_default (state->pos.sheet));
 	}
 
-	/* We need to fix the anchors of all offsets */
+	/* We need to fix the anchors of all offsets and ensure that each object has an "odf-z-index" */
+	/* We want to run throught the list from the back forward. */
+	state->chart_list = g_slist_reverse (state->chart_list);
+
 	for (l = state->chart_list; l != NULL; l = l->next) {
 		object_offset_t *ob_off = l->data;
 		SheetObjectAnchor new;
 		SheetObjectAnchor const *old = sheet_object_get_anchor (ob_off->so);
 		GnmRange cell_base = *sheet_object_get_range (ob_off->so);
+		gint *z;
+
 		odf_adjust_offsets (state, &cell_base.start, &ob_off->frame_offset[0],
 				    &ob_off->frame_offset[1], ob_off->absolute_distance);
 		odf_adjust_offsets (state, &cell_base.end, &ob_off->frame_offset[2],
@@ -2826,12 +2857,23 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		sheet_object_anchor_init (&new, &cell_base, ob_off->frame_offset,
 					  old->base.direction);
 		sheet_object_set_anchor (ob_off->so, &new);
+
+		/* We also need to make sure that each object has an "odf-z-index" */
+		z = g_object_get_data (G_OBJECT (ob_off->so), "odf-z-index");
+		if (z == NULL) {
+			top_z++;
+			odf_set_z_index (G_OBJECT (ob_off->so), top_z);
+		} else if (top_z < *z)
+			top_z = *z;
 		g_object_unref (ob_off->so);
 		g_free (ob_off);
 		l->data = NULL;
 	}
 	g_slist_free (state->chart_list);
 	state->chart_list = NULL;
+
+	state->pos.sheet->sheet_objects = g_slist_sort (state->pos.sheet->sheet_objects,
+							odf_z_idx_compare);
 
 	state->pos.eval.col = state->pos.eval.row = 0;
 	state->pos.sheet = NULL;
@@ -7166,6 +7208,7 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 	gdouble height = 0., width = 0., x = 0., y = 0., end_x = 0., end_y = 0.;
 	ColRowInfo const *col, *row;
 	GnmExprTop const *texpr = NULL;
+	int z = -1;
 
 	height = width = x = y = 0.;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
@@ -7189,7 +7232,9 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 						   GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
 						   FORMULA_OPENFORMULA);
 			g_free (end_str);
-		}
+		} else if (oo_attr_int_range (xin,attrs, OO_NS_DRAW, "z-index",
+					      &z, 0, G_MAXINT))
+			;
 	}
 
 	cell_base.start.col = cell_base.end.col = state->pos.eval.col;
@@ -7226,6 +7271,7 @@ od_draw_frame_start (GsfXMLIn *xin, xmlChar const **attrs)
 	sheet_object_anchor_init (&state->chart.anchor, &cell_base, frame_offset,
 				  GOD_ANCHOR_DIR_DOWN_RIGHT);
 	state->chart.so = NULL;
+	state->chart.z_index = z;
 }
 
 static void
@@ -7238,6 +7284,9 @@ od_draw_frame_end_full (GsfXMLIn *xin, gboolean absolute_distance)
 		/* yet so we need to save this */
 		/* info and adjust later. */
 		object_offset_t *ob_off = g_new (object_offset_t, 1);
+
+		if (state->chart.z_index >= 0)
+			odf_set_z_index (G_OBJECT (state->chart.so), state->chart.z_index);
 
 		sheet_object_set_anchor (state->chart.so, &state->chart.anchor);
 		sheet_object_set_sheet (state->chart.so, state->pos.sheet);
