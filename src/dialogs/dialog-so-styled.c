@@ -143,7 +143,7 @@ dialog_so_styled (WBCGtk *wbcg,
 	dialog = gtk_dialog_new_with_buttons (title,
 		wbcg_toplevel (state->wbcg),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
-		NULL);
+		NULL, NULL);
 
 	help = gtk_dialog_add_button (GTK_DIALOG (dialog),
 		GTK_STOCK_HELP,		GTK_RESPONSE_HELP);

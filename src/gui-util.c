@@ -1040,7 +1040,7 @@ gnumeric_message_dialog_new (GtkWindow * parent,
 	const gchar *stock_id = NULL;
 	GtkStockItem item;
 
-	dialog = gtk_dialog_new_with_buttons ("", parent, flags, NULL);
+	dialog = gtk_dialog_new_with_buttons ("", parent, flags, NULL, NULL);
 
 	if (dialog) {
 		image = gtk_image_new ();

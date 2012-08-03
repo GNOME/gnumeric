@@ -1,3 +1,11 @@
+2012-08-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-doc-metadata.c
+	(dialog_doc_metadata_transform_str_to_timestamp): replace deprecated
+	functions calls.
+	* dialog-password.c (dialog_get_password): ditto.
+	* dialog-so-styled.c (dialog_so_styled): ditto.
+
 2012-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* autofilter-top10.ui: add radio buttons

@@ -7627,7 +7627,7 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	if (content != NULL) {
 		GsfXMLInDoc *doc =
 			gsf_xml_in_doc_new (get_styles_dtd (),
-					    get_gsf_ooo_ns ());
+					    gsf_odf_get_ns ());
 		odf_clear_conventions (state); /* contain references to xin */
 		gsf_xml_in_doc_parse (doc, content, state);
 		gsf_xml_in_doc_free (doc);
@@ -7638,7 +7638,7 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	content = gsf_infile_child_by_vname (state->zip, name, "content.xml", NULL);
 	if (content != NULL) {
 		GsfXMLInDoc *doc =
-			gsf_xml_in_doc_new (get_dtd (), get_gsf_ooo_ns ());
+			gsf_xml_in_doc_new (get_dtd (), gsf_odf_get_ns ());
 		odf_clear_conventions (state); /* contain references to xin */
 		gsf_xml_in_doc_parse (doc, content, state);
 		gsf_xml_in_doc_free (doc);
@@ -11409,7 +11409,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 		GsfInput *meta_file = gsf_infile_child_by_name (zip, "meta.xml");
 		if (NULL != meta_file) {
 			meta_data = gsf_doc_meta_data_new ();
-			err = gsf_opendoc_metadata_read (meta_file, meta_data);
+			err = gsf_doc_meta_data_read_from_odf (meta_data, meta_file);
 			if (NULL != err) {
 				go_io_warning (io_context,
 					_("Invalid metadata '%s'"), err->message);
@@ -11424,7 +11424,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 
 	if (NULL != styles) {
 		GsfXMLInDoc *doc = gsf_xml_in_doc_new (styles_dtd,
-						       get_gsf_ooo_ns ());
+						       gsf_odf_get_ns ());
 		gsf_xml_in_doc_parse (doc, styles, &state);
 		gsf_xml_in_doc_free (doc);
 		odf_clear_conventions (&state); /* contain references to xin */
@@ -11434,7 +11434,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	doc  = gsf_xml_in_doc_new ((state.ver == OOO_VER_1)
 				   ? ooo1_content_dtd
 				   : opendoc_content_dtd,
-				   get_gsf_ooo_ns ());
+				   gsf_odf_get_ns ());
 	if (gsf_xml_in_doc_parse (doc, contents, &state)) {
 		GsfInput *settings;
 		char const *filesaver;
@@ -11473,7 +11473,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 		settings = gsf_infile_child_by_name (zip, "settings.xml");
 		if (settings != NULL) {
 			GsfXMLInDoc *sdoc = gsf_xml_in_doc_new
-				(opendoc_settings_dtd, get_gsf_ooo_ns ());
+				(opendoc_settings_dtd, gsf_odf_get_ns ());
 			gsf_xml_in_doc_parse (sdoc, settings, &state);
 			gsf_xml_in_doc_free (sdoc);
 			odf_clear_conventions (&state); /* contain references to xin */

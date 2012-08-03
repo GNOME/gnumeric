@@ -41,17 +41,17 @@ dialog_get_password (GtkWindow *parent, const char *filename)
 					 GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 					 NULL);
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
-	hb = gtk_hbox_new (FALSE, 0);
+	hb = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), hb,
 			    TRUE, TRUE, 8);
 	image = gtk_image_new_from_stock ("Gnumeric_Protection_Yes_Dialog",
 					  GTK_ICON_SIZE_DIALOG);
 	gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0.0);
 	gtk_box_pack_start (GTK_BOX (hb), image, FALSE, FALSE, 0);
-	vb = gtk_vbox_new (FALSE, 8);
+	vb = gtk_box_new (GTK_ORIENTATION_VERTICAL, 8);
 	gtk_box_pack_start (GTK_BOX (hb), vb, TRUE, TRUE, 6);
 	gtk_box_pack_start (GTK_BOX (vb), label, TRUE, TRUE, 0);
-	pwb = gtk_hbox_new (FALSE, 8);
+	pwb = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
 	/* Strange width so that width of primary/secondary text will win. */
 	entry = g_object_new (GTK_TYPE_ENTRY,
 			      "visibility", FALSE,

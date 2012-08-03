@@ -489,7 +489,7 @@ xml_sax_document_meta (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	gsf_opendoc_metadata_subtree (xin, go_doc_get_meta_data (GO_DOC (state->wb)));
+	gsf_doc_meta_data_odf_subtree (go_doc_get_meta_data (GO_DOC (state->wb)), xin);
 }
 
 

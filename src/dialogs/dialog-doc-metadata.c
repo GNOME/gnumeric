@@ -323,7 +323,7 @@ dialog_doc_metadata_transform_str_to_timestamp (const GValue *string_value,
 
 	gt = gsf_timestamp_new ();
 	gsf_timestamp_set_time (gt, s);
-	gsf_value_set_timestamp (timestamp_value, gt);
+	gsf_timestamp_to_value (gt, timestamp_value);
 }
 
 static void

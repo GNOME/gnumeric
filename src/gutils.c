@@ -613,7 +613,7 @@ gnm_insert_meta_date (GODoc *doc, char const *name)
 
 	gsf_timestamp_set_time (ts, tm.tv_sec);
 	g_value_init (value, GSF_TIMESTAMP_TYPE);
-	gsf_value_set_timestamp (value, ts);
+	gsf_timestamp_to_value (ts, value);
 	gsf_timestamp_free (ts);
 
 	gsf_doc_meta_data_insert (go_doc_get_meta_data (doc),

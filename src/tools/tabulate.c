@@ -44,7 +44,7 @@
 #include "sheet-style.h"
 #include "style-color.h"
 #include "mathfunc.h"
-
+#include "application.h"
 
 static GnmValue *
 tabulation_eval (G_GNUC_UNUSED Workbook *wb, int dims, gnm_float const *x,

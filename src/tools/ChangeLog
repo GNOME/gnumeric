@@ -1,3 +1,7 @@
+2012-08-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* tabulate.c: add missing header.
+
 2012-08-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* gnm-solver.c: Rename style_color_new_i8.

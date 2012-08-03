@@ -178,8 +178,8 @@ xml_write_attributes (GnmOutputXML *state)
 static void
 xml_write_meta_data (GnmOutputXML *state)
 {
-	gsf_opendoc_metadata_write (state->output,
-		go_doc_get_meta_data (GO_DOC (state->wb)));
+	gsf_doc_meta_data_write_to_odf (go_doc_get_meta_data (GO_DOC (state->wb)),
+	                            state->output);
 }
 
 /* DEPRECATED in 1.7.11 */
