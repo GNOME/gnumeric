@@ -258,7 +258,6 @@ gplp_func_desc_load (GOPluginService *service,
 	res->fn_args = &call_perl_function_args;
 	res->fn_nodes = NULL;
 	res->linker = NULL;
-	res->unlinker = NULL;
 	res->impl_status = GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC;
 	res->test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
 

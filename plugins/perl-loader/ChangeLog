@@ -1,3 +1,7 @@
+2012-08-03  Morten Welinder  <terra@gnome.org>
+
+	* perl-loader.c (gplp_func_desc_load): "unlinker" is gone.
+
 2012-07-15  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.5
