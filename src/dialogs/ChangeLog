@@ -1,3 +1,10 @@
+2012-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* autofilter-top10.ui: add radio buttons
+	* dialog-autofilter.c (cb_top10_count_changed): handle new buttons
+	(cb_top10_type_changed): simplified)
+	(dialog_auto_filter): handle new buttons
+
 2012-08-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-cell-format.c (setup_color_pickers), (border_get_mstyle),

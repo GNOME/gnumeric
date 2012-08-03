@@ -7195,9 +7195,9 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "!match",		GNM_FILTER_OP_NO_MATCH },
 		{ "empty",		GNM_FILTER_OP_BLANKS },
 		{ "!empty",		GNM_FILTER_OP_NON_BLANKS },
-		{ "bottom percent",	GNM_FILTER_OP_BOTTOM_N_PERCENT },
+		{ "bottom percent",	GNM_FILTER_OP_BOTTOM_N_PERCENT_N },
 		{ "bottom values",	GNM_FILTER_OP_BOTTOM_N },
-		{ "top percent",	GNM_FILTER_OP_TOP_N_PERCENT },
+		{ "top percent",	GNM_FILTER_OP_TOP_N_PERCENT_N },
 		{ "top values",		GNM_FILTER_OP_TOP_N },
 
 		{ NULL,	0 },
@@ -7255,6 +7255,7 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 				cond = gnm_filter_condition_new_bucket (
 					0 == (op & GNM_FILTER_OP_BOTTOM_MASK),
 					0 == (op & GNM_FILTER_OP_PERCENT_MASK),
+					0 == (op & GNM_FILTER_OP_REL_N_MASK),
 					value_get_as_float (v));
 			break;
 		}

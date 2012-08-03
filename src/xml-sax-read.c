@@ -2242,8 +2242,8 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 		cond = gnm_filter_condition_new_single (
 			GNM_FILTER_OP_NON_BLANKS, NULL);
 	} else if (0 == g_ascii_strcasecmp (type, "bucket")) {
-		cond = gnm_filter_condition_new_bucket (
-			top, items, bucket_count);
+		cond = gnm_filter_condition_new_bucket
+			(top, items, TRUE, bucket_count);
 	} else {
 		go_io_warning (state->context, _("Unknown filter type \"%s\""), type);
 	}

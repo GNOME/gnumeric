@@ -5907,6 +5907,7 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelReadSheet *esheet)
 		cond = gnm_filter_condition_new_bucket (
 							(flags & 0x20) ? TRUE  : FALSE,
 							(flags & 0x40) ? FALSE : TRUE,
+							FALSE,
 							(flags >> 7) & 0x1ff);
 
 	if (cond == NULL) {

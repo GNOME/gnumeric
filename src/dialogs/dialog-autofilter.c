@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * dialog-autofilter.c:  A pair of dialogs for autofilter conditions
  *
@@ -59,6 +60,8 @@ static char const * const type_group[] = {
 	"items-smallest",
 	"percentage-largest",
 	"percentage-smallest",
+	"percentage-largest-number",
+	"percentage-smallest-number",
 	NULL
 };
 
@@ -171,6 +174,7 @@ cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 		cond = gnm_filter_condition_new_bucket
 			(!(op & GNM_FILTER_OP_BOTTOM_MASK),
 			 !(op & GNM_FILTER_OP_PERCENT_MASK),
+			 !(op & GNM_FILTER_OP_REL_N_MASK),
 			 count);
 	}
 	if (cond != NULL)
@@ -246,6 +250,27 @@ cb_top10_count_changed (GtkSpinButton *button,
 	g_free(label);
 
 
+	w = go_gtk_builder_get_widget (state->gui, type_group[4]);
+	/* xgettext : %d gives the percentage of item number in the autofilter. */
+	/* This is input to ngettext. */
+	label = g_strdup_printf
+		(ngettext ("Show the top %3d%% of all items",
+			   "Show the top %3d%% of all items", val),
+		 val);
+	gtk_button_set_label (GTK_BUTTON (w),label);
+	g_free(label);
+
+	w = go_gtk_builder_get_widget (state->gui, type_group[5]);
+	/* xgettext : %d gives the percentage of the item number in the autofilter. */
+	/* This is input to ngettext. */
+	label = g_strdup_printf
+		(ngettext ("Show the bottom %3d%% of all items",
+			   "Show the bottom %3d%% of all items", val),
+		 val);
+	gtk_button_set_label (GTK_BUTTON (w),label);
+	g_free(label);
+
+
 }
 
 static void
@@ -256,8 +281,7 @@ cb_top10_type_changed (G_GNUC_UNUSED GtkToggleButton *button,
 	GtkWidget *spin = go_gtk_builder_get_widget (state->gui, "item_count");
 	GtkWidget *label = go_gtk_builder_get_widget (state->gui, "cp-label");
 
-	if (op == GNM_FILTER_OP_TOP_N_PERCENT ||
-	    op == GNM_FILTER_OP_BOTTOM_N_PERCENT) {
+	if ((op & GNM_FILTER_OP_PERCENT_MASK) != 0) {
 		gtk_spin_button_set_range (GTK_SPIN_BUTTON (spin), 1.,
 					   100.);
 		gtk_label_set_text (GTK_LABEL (label), _("Percentage:"));
@@ -491,25 +515,31 @@ dialog_auto_filter (WBCGtk *wbcg,
 		case GNM_FILTER_OP_BOTTOM_N_PERCENT:
 			radio = type_group[3];
 			break;
+		case GNM_FILTER_OP_TOP_N_PERCENT_N:
+			radio = type_group[4];
+			break;
+		case GNM_FILTER_OP_BOTTOM_N_PERCENT_N:
+			radio = type_group[5];
+			break;
 		}
 		w = go_gtk_builder_get_widget (state->gui, radio);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
-		w = go_gtk_builder_get_widget (state->gui, "item_count");
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), cond->count);
 	} else {
 		w = go_gtk_builder_get_widget (state->gui, "items-largest");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
-		w = go_gtk_builder_get_widget (state->gui, "item_count");
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), 1);
 	}
 
+	w = go_gtk_builder_get_widget (state->gui, "item_count");
 	g_signal_connect (G_OBJECT (w),
 			  "value-changed",
 			  G_CALLBACK (cb_top10_count_changed), state);
+	if (cond != NULL && GNM_FILTER_OP_TOP_N == (cond->op[0] & GNM_FILTER_OP_TYPE_MASK))
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), cond->count);
+	else
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w),
+				   range_height(&(state->filter->r))/2);
 	cb_top10_count_changed (GTK_SPIN_BUTTON (w), state);
 	cb_top10_type_changed (NULL, state);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w),
-				   range_height(&(state->filter->r))/2);
 
 	rb = type_group;
 	while (*rb != NULL) {

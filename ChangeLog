@@ -1,3 +1,13 @@
+2012-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-filter.c (gnm_filter_condition_new_bucket): add argument
+	and change all callers
+	(gnm_filter_combo_apply): handle new filter ops
+	* src/sheet-filter.h (gnm_filter_condition_new_bucket): add argument
+	(GNM_FILTER_OP_*): add new values
+	* src/xml-sax-read.c (xml_sax_filter_condition): adjust call to
+	gnm_filter_condition_new_bucket
+
 2012-08-01  Morten Welinder  <terra@gnome.org>
 
 	* src/style-color.c (style_color_new_rgba16): Explicitly use a

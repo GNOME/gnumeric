@@ -24,8 +24,12 @@ typedef enum {
 	GNM_FILTER_OP_BOTTOM_N		= 0x31,
 	GNM_FILTER_OP_TOP_N_PERCENT	= 0x32,
 	GNM_FILTER_OP_BOTTOM_N_PERCENT	= 0x33,
+	/* Next two added in 1.11.6 */
+	GNM_FILTER_OP_TOP_N_PERCENT_N	= 0x34,
+	GNM_FILTER_OP_BOTTOM_N_PERCENT_N	= 0x35,
 	GNM_FILTER_OP_BOTTOM_MASK	= 0x01,
-	GNM_FILTER_OP_PERCENT_MASK	= 0x02,
+	GNM_FILTER_OP_REL_N_MASK	= 0x04,
+	GNM_FILTER_OP_PERCENT_MASK	= 0x06,
 
 	/* Added in 1.7.7 */
 	GNM_FILTER_OP_GT_AVERAGE	= 0x40,
@@ -69,6 +73,7 @@ GnmFilterCondition *gnm_filter_condition_new_double (GnmFilterOp op1, GnmValue *
 						     GnmFilterOp op2, GnmValue *v2);
 GnmFilterCondition *gnm_filter_condition_new_bucket (gboolean top,
 						     gboolean absolute,
+						     gboolean rel_range,
 						     double n);
 
 GnmFilter		 *gnm_filter_new	    (Sheet *sheet, GnmRange const *r);

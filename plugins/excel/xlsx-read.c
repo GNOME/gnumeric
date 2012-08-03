@@ -1938,7 +1938,7 @@ xlsx_CT_Top10 (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_bool (xin, attrs, "top", &top)) ;
 		else if (attr_bool (xin, attrs, "percent", &percent)) ;
 
-	if (NULL != (cond = gnm_filter_condition_new_bucket (top, !percent, val)))
+	if (NULL != (cond = gnm_filter_condition_new_bucket (top, !percent, FALSE, val)))
 		gnm_filter_set_condition (state->filter, state->filter_cur_field,
 			cond, FALSE);
 }

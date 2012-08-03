@@ -1,3 +1,10 @@
+2012-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-excel-read.c (excel_read_AUTOFILTER): adjust call to
+	gnm_filter_condition_new_bucket
+	* xlsx-read.c (xlsx_CT_Top10): adjust call to
+	gnm_filter_condition_new_bucket
+
 2012-08-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* excel-xml-read.c (parse_color): Rename style_color_new_i8.

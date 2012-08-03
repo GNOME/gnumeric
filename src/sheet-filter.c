@@ -85,10 +85,12 @@ gnm_filter_condition_new_double (GnmFilterOp op0, GnmValue *v0,
 }
 
 GnmFilterCondition *
-gnm_filter_condition_new_bucket (gboolean top, gboolean absolute, double n)
+gnm_filter_condition_new_bucket (gboolean top, gboolean absolute,
+				 gboolean rel_range, double n)
 {
 	GnmFilterCondition *res = g_new0 (GnmFilterCondition, 1);
-	res->op[0] = GNM_FILTER_OP_TOP_N | (top ? 0 : 1) | (absolute ? 0 : 2);
+	res->op[0] = GNM_FILTER_OP_TOP_N | (top ? 0 : 1) | 
+		(absolute ? 0 : (rel_range ? 2 : 4));
 	res->op[1] = GNM_FILTER_UNUSED;
 	res->count = n;
 	return res;
@@ -454,24 +456,43 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 			col, start_row, col, end_row,
 			(CellIterFunc) cb_filter_non_blanks, target_sheet);
 	else if (0x30 == (cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
-		if (cond->op[0] & 0x2) { /* relative */
-			FilterPercentage data;
-			gnm_float	 offset;
+		if (cond->op[0] & GNM_FILTER_OP_PERCENT_MASK) { /* relative */
+			if (cond->op[0] & GNM_FILTER_OP_REL_N_MASK) {
+				FilterItems data;
+				data.find_max = (cond->op[0] & 0x1) ? FALSE : TRUE;
+				data.elements    = 0;
+				data.count  = 0.5 + cond->count * (end_row - start_row + 1) /100.;
+				if (data.count < 1)
+					data.count = 1;
+				data.vals   = g_alloca (sizeof (GnmValue *) * data.count);
+				sheet_foreach_cell_in_range (filter->sheet,
+							     CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
+							     col, start_row, col, end_row,
+							     (CellIterFunc) cb_filter_find_items, &data);
+				data.target_sheet = target_sheet;
+				sheet_foreach_cell_in_range (filter->sheet,
+							     CELL_ITER_IGNORE_HIDDEN,
+							     col, start_row, col, end_row,
+							     (CellIterFunc) cb_hide_unwanted_items, &data);
+			} else {
+				FilterPercentage data;
+				gnm_float	 offset;
 
-			data.find_max = (cond->op[0] & 0x1) ? FALSE : TRUE;
-			data.initialized = FALSE;
-			sheet_foreach_cell_in_range (filter->sheet,
-				CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
-				col, start_row, col, end_row,
-				(CellIterFunc) cb_filter_find_percentage, &data);
-			offset = (data.high - data.low) * cond->count / 100.;
-			data.high -= offset;
-			data.low  += offset;
-			data.target_sheet = target_sheet;
-			sheet_foreach_cell_in_range (filter->sheet,
-				CELL_ITER_IGNORE_HIDDEN,
-				col, start_row, col, end_row,
-				(CellIterFunc) cb_hide_unwanted_percentage, &data);
+				data.find_max = (cond->op[0] & 0x1) ? FALSE : TRUE;
+				data.initialized = FALSE;
+				sheet_foreach_cell_in_range (filter->sheet,
+							     CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
+							     col, start_row, col, end_row,
+							     (CellIterFunc) cb_filter_find_percentage, &data);
+				offset = (data.high - data.low) * cond->count / 100.;
+				data.high -= offset;
+				data.low  += offset;
+				data.target_sheet = target_sheet;
+				sheet_foreach_cell_in_range (filter->sheet,
+							     CELL_ITER_IGNORE_HIDDEN,
+							     col, start_row, col, end_row,
+							     (CellIterFunc) cb_hide_unwanted_percentage, &data);
+			}
 		} else { /* absolute */
 			FilterItems data;
 			data.find_max = (cond->op[0] & 0x1) ? FALSE : TRUE;
