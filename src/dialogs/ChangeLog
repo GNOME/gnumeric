@@ -1,5 +1,9 @@
 2012-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* dialog-solver.c (run_solver): fix warning.
+
+2012-08-03  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* dialog-doc-metadata.c
 	(dialog_doc_metadata_transform_str_to_timestamp): replace deprecated
 	functions calls.

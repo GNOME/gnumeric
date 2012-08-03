@@ -129,7 +129,7 @@ excel_read_metadata (GsfDocMetaData *meta_data, GsfInfile *ole, char const *name
 	GsfInput *stream = gsf_infile_child_by_name (ole, name);
 
 	if (stream != NULL) {
-		GError *err = gsf_msole_metadata_read (stream, meta_data);
+		GError *err = gsf_doc_meta_data_read_from_msole (meta_data, stream);
 		if (err != NULL) {
 			go_io_warning (context, "%s", err->message);
 			g_error_free (err);
@@ -285,13 +285,13 @@ excel_save (GOIOContext *context, WorkbookView const *wbv, GsfOutput *output,
 	if (meta_data != NULL) {
 		content = gsf_outfile_new_child (outfile,
 			"\05DocumentSummaryInformation", FALSE);
-		gsf_msole_metadata_write (content, meta_data, TRUE);
+		gsf_doc_meta_data_write_to_msole (meta_data, content, TRUE);
 		gsf_output_close (content);
 		g_object_unref (G_OBJECT (content));
 
 		content = gsf_outfile_new_child (outfile,
 			"\05SummaryInformation", FALSE);
-		gsf_msole_metadata_write (content, meta_data, FALSE);
+		gsf_doc_meta_data_write_to_msole (meta_data, content, FALSE);
 		gsf_output_close (content);
 		g_object_unref (G_OBJECT (content));
 	}

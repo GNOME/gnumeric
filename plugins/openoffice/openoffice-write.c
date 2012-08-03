@@ -5406,7 +5406,7 @@ odf_write_meta (GnmOOExport *state, GsfOutput *child)
 	g_value_set_string (val, PACKAGE_NAME "/" VERSION);
 
 	gsf_doc_meta_data_insert  (meta, g_strdup (GSF_META_NAME_GENERATOR), val);
-	gsf_opendoc_metadata_write (xml, meta);
+	gsf_doc_meta_data_write_to_odf (meta, xml);
 	gsf_doc_meta_data_remove (meta,GSF_META_NAME_GENERATOR);
 	if (prop != NULL)
 		gsf_doc_meta_data_store (meta, prop);
@@ -5424,7 +5424,7 @@ odf_write_meta_graph (G_GNUC_UNUSED GnmOOExport *state, GsfOutput *child)
 	g_value_set_string (val, PACKAGE_NAME "/" VERSION);
 
 	gsf_doc_meta_data_insert  (meta, g_strdup (GSF_META_NAME_GENERATOR), val);
-	gsf_opendoc_metadata_write (xml, meta);
+	gsf_doc_meta_data_write_to_odf (meta, xml);
 
 	g_object_unref (meta);
 	g_object_unref (xml);
@@ -8048,8 +8048,8 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 	state.outfile = gsf_outfile_zip_new (output, &err);
 
 	state.with_extension = with_extension;
-	state.odf_version = get_gsf_odf_version ();
-	state.odf_version_string = g_strdup (get_gsf_odf_version_string ());
+	state.odf_version = gsf_odf_get_version ();
+	state.odf_version_string = g_strdup (gsf_odf_get_version_string ());
 	state.ioc = ioc;
 	state.wbv = wbv;
 	state.wb  = wb_view_get_workbook (wbv);

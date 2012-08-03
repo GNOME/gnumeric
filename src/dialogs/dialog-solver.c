@@ -678,7 +678,7 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 	dialog = (GtkDialog *)gtk_dialog_new_with_buttons
 		(_("Running Solver"),
 		 wbcg_toplevel (state->wbcg), 0,
-		 NULL);
+		 NULL, NULL);
 	state->run.stop_button =
 		go_gtk_dialog_add_button (dialog,
 					  _("Stop"),

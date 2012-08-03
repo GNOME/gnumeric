@@ -1,5 +1,10 @@
 2012-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* openoffice-write.c (odf_write_meta), (odf_write_meta_graph),
+	(openoffice_file_save_real): replace more deprecated functions calls.
+
+2012-08-03  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* openoffice-read.c (od_draw_object), (openoffice_file_open): replace
 	deprecated functions calls.
 
