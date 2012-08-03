@@ -1,5 +1,9 @@
 2012-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* configure.in: require libgsf >= 1.14.24.
+
+2012-08-03  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* src/gui-util.c (gnumeric_message_dialog_new): replaced deprecated
 	functions calls.
 	* src/gutils.c (gnm_insert_meta_date): ditto.
