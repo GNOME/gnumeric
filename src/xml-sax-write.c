@@ -1400,22 +1400,14 @@ gnm_xml_io_conventions (void)
 }
 
 static void
-gnm_xml_file_save (GOFileSaver const *fs, GOIOContext *io_context,
-		   gconstpointer wb_view, GsfOutput *output)
+gnm_xml_file_save_full (G_GNUC_UNUSED GOFileSaver const *fs, 
+			G_GNUC_UNUSED GOIOContext *io_context,
+			gconstpointer wb_view, GsfOutput *output, 
+			gboolean compress)
 {
 	GnmOutputXML state;
-	char const  *extension = NULL;
 	GsfOutput   *gzout = NULL;
 	GnmLocale   *locale;
-	gboolean     compress;
-
-	/* If the suffix is .xml disable compression */
-	if (NULL != gsf_output_name (output))
-		extension = gsf_extension_pointer (gsf_output_name (output));
-	if (NULL != extension && g_ascii_strcasecmp (extension, "xml") == 0)
-		compress = FALSE;
-	else
-		compress = (gnm_conf_get_core_xml_compression_level () > 0);
 
 	if (compress) {
 		gzout  = gsf_output_gzip_new (output, NULL);
@@ -1475,6 +1467,31 @@ gnm_xml_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	}
 }
 
+static void
+gnm_xml_file_save (GOFileSaver const *fs, GOIOContext *io_context,
+		   gconstpointer wb_view, GsfOutput *output)
+{
+	gboolean compress;
+	char const  *extension = NULL;
+
+	/* If the suffix is .xml disable compression */
+	if (NULL != gsf_output_name (output))
+		extension = gsf_extension_pointer (gsf_output_name (output));
+	if (NULL != extension && g_ascii_strcasecmp (extension, "xml") == 0)
+		compress = FALSE;
+	else
+		compress = (gnm_conf_get_core_xml_compression_level () > 0);
+	
+	gnm_xml_file_save_full (fs, io_context, wb_view, output, compress);
+}
+
+static void
+gnm_xml_file_save_xml (GOFileSaver const *fs, GOIOContext *io_context,
+		   gconstpointer wb_view, GsfOutput *output)
+{
+	gnm_xml_file_save_full (fs, io_context, wb_view, output, FALSE);
+}
+
 /**************************************************************************/
 
 typedef struct {
@@ -1484,7 +1501,8 @@ typedef struct {
 } XMLCellCopyState;
 
 static void
-cb_xml_write_cell_region_cells (GnmCellCopy *cc, gconstpointer ignore,
+cb_xml_write_cell_region_cells (GnmCellCopy *cc, 
+				G_GNUC_UNUSED gconstpointer ignore,
 				XMLCellCopyState *state)
 {
 	state->pp.eval.col = state->cr->base.col + cc->offset.col;
@@ -1598,6 +1616,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 }
 
 #define XML_SAX_ID "Gnumeric_XmlIO:sax"
+#define XML_SAX_ID_0 "Gnumeric_XmlIO:sax:0"
 
 void
 gnm_xml_sax_write_init (void)
@@ -1613,10 +1632,23 @@ gnm_xml_sax_write_init (void)
 
 	go_file_saver_register_as_default (saver, 50);
 	g_object_unref (saver);
+
+	saver = go_file_saver_new
+		(XML_SAX_ID_0,
+		 "xml",
+		 _("Gnumeric XML uncompressed (*.xml)"),
+		 GO_FILE_FL_AUTO, gnm_xml_file_save_xml);
+	g_object_set (G_OBJECT (saver),
+		      "mime-type", "application/xml",
+		      NULL);
+
+	go_file_saver_register (saver);
+	g_object_unref (saver);
 }
 
 void
 gnm_xml_sax_write_shutdown (void)
 {
 	go_file_saver_unregister (go_file_saver_for_id (XML_SAX_ID));
+	go_file_saver_unregister (go_file_saver_for_id (XML_SAX_ID_0));
 }

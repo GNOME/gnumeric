@@ -1,3 +1,12 @@
+2012-08-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/xml-sax-write.c (gnm_xml_file_save): renamed to
+	gnm_xml_file_save_full
+	(gnm_xml_file_save): new
+	(gnm_xml_file_save_xml): new
+	(gnm_xml_sax_write_init): initialize new saver
+	(gnm_xml_sax_write_shutdown): free new saver
+
 2012-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: require libgsf >= 1.14.24.

@@ -14,6 +14,7 @@ Andreas:
 	* Some basic custom-shape support in ODF import.
 	* Map captions onto text rectangles on ODF import.
 	* Add new autofilter op. [#647401]
+	* Provide new saver for uncompressed Gnumeric xml. [#672622]
 
 Jean:
 	* Fix component references issues. [#680190]

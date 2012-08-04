@@ -9,7 +9,7 @@
 		<attribute name="module_name" value="gnome_glossary"/>
 	</loader>
 	<services>
-		<service type="file_saver" id="po" file_extension="po" format_level="auto">
+		<service type="file_saver" id="po" file_extension="po" format_level="write_only">
 			<information>
 				<_description>Gnome Glossary PO file format</_description>
 			</information>
