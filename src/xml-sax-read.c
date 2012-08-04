@@ -3442,7 +3442,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 
 static void
 gnm_xml_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_context,
-		   gpointer wb_view, GsfInput *input)
+		   GoView *view, GsfInput *input)
 {
 	XMLSaxParseState state;
 	gboolean ok;
@@ -3452,7 +3452,7 @@ gnm_xml_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_context
 	input = maybe_convert (input, FALSE);
 
 	ok = read_file_common (READ_FULL_FILE, &state,
-			       io_context, wb_view, NULL,
+			       io_context, WORKBOOK_VIEW (view), NULL,
 			       input);
 
 	g_object_unref (input);

@@ -1402,12 +1402,13 @@ gnm_xml_io_conventions (void)
 static void
 gnm_xml_file_save_full (G_GNUC_UNUSED GOFileSaver const *fs, 
 			G_GNUC_UNUSED GOIOContext *io_context,
-			gconstpointer wb_view, GsfOutput *output, 
+			GoView const *view, GsfOutput *output, 
 			gboolean compress)
 {
 	GnmOutputXML state;
 	GsfOutput   *gzout = NULL;
 	GnmLocale   *locale;
+	WorkbookView *wb_view = WORKBOOK_VIEW (view);
 
 	if (compress) {
 		gzout  = gsf_output_gzip_new (output, NULL);
@@ -1469,7 +1470,7 @@ gnm_xml_file_save_full (G_GNUC_UNUSED GOFileSaver const *fs,
 
 static void
 gnm_xml_file_save (GOFileSaver const *fs, GOIOContext *io_context,
-		   gconstpointer wb_view, GsfOutput *output)
+		   GoView const *view, GsfOutput *output)
 {
 	gboolean compress;
 	char const  *extension = NULL;
@@ -1482,14 +1483,14 @@ gnm_xml_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	else
 		compress = (gnm_conf_get_core_xml_compression_level () > 0);
 	
-	gnm_xml_file_save_full (fs, io_context, wb_view, output, compress);
+	gnm_xml_file_save_full (fs, io_context, view, output, compress);
 }
 
 static void
 gnm_xml_file_save_xml (GOFileSaver const *fs, GOIOContext *io_context,
-		   gconstpointer wb_view, GsfOutput *output)
+		   GoView const *view, GsfOutput *output)
 {
-	gnm_xml_file_save_full (fs, io_context, wb_view, output, FALSE);
+	gnm_xml_file_save_full (fs, io_context, view, output, FALSE);
 }
 
 /**************************************************************************/

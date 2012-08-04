@@ -1,3 +1,18 @@
+2012-08-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gui-clipboard.c (table_cellregion_write): make WorkbookView derive
+	from GoView.
+	* src/print-info.c (pdf_export): ditto.
+	* src/stf-export.c (gnm_stf_file_saver_save): ditto.
+	* src/stf.c (stf_read_workbook), (stf_read_workbook_auto_csvtab),
+	(stf_write_csv): ditto.
+	* src/workbook-view.c (wbv_save_to_output),
+	(wb_view_new_from_input): ditto.
+	* src/workbook-view.h: ditto.
+	* src/xml-sax-read.c (gnm_xml_file_open):
+	* src/xml-sax-write.c (gnm_xml_file_save_full),
+	(gnm_xml_file_save), (gnm_xml_file_save_xml): ditto.
+
 2012-08-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/xml-sax-write.c (gnm_xml_file_save): renamed to

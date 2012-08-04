@@ -4,13 +4,13 @@
 
 #include "gnumeric.h"
 #include "dependent.h"
-#include <glib-object.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf.h>
 
 G_BEGIN_DECLS
 
 struct _WorkbookView {
-	GObject  base;
+	GoView  base;
 
 	Workbook *wb;
 	GPtrArray *wb_controls;

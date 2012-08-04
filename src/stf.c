@@ -215,12 +215,13 @@ resize_columns (Sheet *sheet)
  **/
 static void
 stf_read_workbook (G_GNUC_UNUSED GOFileOpener const *fo,  gchar const *enc,
-		   GOIOContext *context, gpointer wbv, GsfInput *input)
+		   GOIOContext *context, GoView *view, GsfInput *input)
 {
 	DialogStfResult_t *dialogresult = NULL;
 	char *name, *nameutf8 = NULL;
 	char *data = NULL;
 	size_t data_len;
+	WorkbookView *wbv = WORKBOOK_VIEW (view);
 
 	/* FIXME : how to do this cleanly ? */
 	if (!IS_WBC_GTK (context->impl))
@@ -416,7 +417,7 @@ clear_stray_NULs (GOIOContext *context, GString *utf8data)
 static void
 stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const *enc,
 			       GOIOContext *context,
-			       gpointer wbv, GsfInput *input)
+			       GoView *view, GsfInput *input)
 {
 	Sheet *sheet, *old_sheet;
 	Workbook *book;
@@ -429,6 +430,7 @@ stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const
 	int cols, rows, i;
 	GStringChunk *lines_chunk;
 	GPtrArray *lines;
+	WorkbookView *wbv = WORKBOOK_VIEW (view);
 
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (wbv != NULL);
@@ -512,10 +514,11 @@ stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const
 
 static void
 stf_write_csv (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *context,
-	       gconstpointer wbv, GsfOutput *output)
+	       GoView const *view, GsfOutput *output)
 {
 	Sheet *sheet;
 	GnmRangeRef const *range;
+	WorkbookView *wbv = WORKBOOK_VIEW (view);
 
 	GnmStfExport *config = g_object_new
 		(GNM_STF_EXPORT_TYPE,

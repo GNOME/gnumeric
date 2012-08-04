@@ -969,7 +969,7 @@ workbook_view_class_init (GObjectClass *gobject_class)
 }
 
 GSF_CLASS (WorkbookView, workbook_view,
-	   workbook_view_class_init, NULL, G_TYPE_OBJECT)
+	   workbook_view_class_init, NULL, GO_TYPE_VIEW)
 
 WorkbookView *
 workbook_view_new (Workbook *wb)
@@ -1034,7 +1034,7 @@ wbv_save_to_output (WorkbookView *wbv, GOFileSaver const *fs,
 	if (go_doc_is_dirty (godoc))
 	  /* FIXME: we should be using the true modification time */
 	  gnm_insert_meta_date (godoc, GSF_META_NAME_DATE_MODIFIED);
-	go_file_saver_save (fs, io_context, wbv, output);
+	go_file_saver_save (fs, io_context, GO_VIEW (wbv), output);
 
 	/* The plugin convention is unclear */
 	if (!gsf_output_is_closed (output))
@@ -1241,7 +1241,8 @@ wb_view_new_from_input (GsfInput *input,
 
 		/* disable recursive dirtying while loading */
 		old = workbook_enable_recursive_dirty (new_wb, FALSE);
-		go_file_opener_open (optional_fmt, optional_enc, io_context, new_wbv, input);
+		go_file_opener_open (optional_fmt, optional_enc, io_context,
+		                     GO_VIEW (new_wbv), input);
 		workbook_enable_recursive_dirty (new_wb, old);
 
 		if (go_io_error_occurred (io_context)) {

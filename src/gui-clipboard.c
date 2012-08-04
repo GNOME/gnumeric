@@ -701,7 +701,7 @@ table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 			   PASTE_AS_VALUES | PASTE_FORMATS |
 			   PASTE_COMMENTS | PASTE_OBJECTS);
 	if (clipboard_paste_region (cr, &pt, ctx) == FALSE) {
-		go_file_saver_save (saver, ioc, wb_view, output);
+		go_file_saver_save (saver, ioc, GO_VIEW (wb_view), output);
 		if (!go_io_error_occurred (ioc)) {
 			GsfOutputMemory *omem = GSF_OUTPUT_MEMORY (output);
 			gsf_off_t osize = gsf_output_size (output);

@@ -779,9 +779,9 @@ pdf_write_workbook (G_GNUC_UNUSED GOFileSaver const *fs,
 
 static void
 pdf_export (GOFileSaver const *fs, GOIOContext *context,
-		    gconstpointer wbv_, GsfOutput *output)
+		    GoView const *view, GsfOutput *output)
 {
-	WorkbookView const *wbv = wbv_;
+	WorkbookView const *wbv = WORKBOOK_VIEW (view);
 	Workbook const *wb = wb_view_get_workbook (wbv);
 	GPtrArray *objects = g_object_get_data (G_OBJECT (wb), "pdf-objects");
 
