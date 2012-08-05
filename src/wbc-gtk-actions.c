@@ -2262,7 +2262,7 @@ static GtkActionEntry const actions[] = {
 	{ "EditGotoLast", GTK_STOCK_GOTO_LAST, N_("Go to the Last"),
 		NULL, N_("Go to the last data cell"),
 		G_CALLBACK (cb_edit_goto_last) },
-	{ "EditGoto", GTK_STOCK_JUMP_TO, N_("_Goto cell..."),
+	{ "EditGoto", GTK_STOCK_JUMP_TO, N_("_Go to cell..."),
 		"<control>G", N_("Jump to a specified cell"),
 		G_CALLBACK (cb_edit_goto) },
 
