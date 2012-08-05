@@ -422,7 +422,7 @@ workbook_set_saveinfo (Workbook *wb, GOFileFormatLevel level, GOFileSaver *fs)
 					   (GWeakNotify) cb_saver_finalize, wb);
 	}
 
-	if (level == GO_FILE_FL_WRITE_ONLY)
+	if (level != GO_FILE_FL_AUTO)
 		return FALSE;
 	wb->file_format_level = level;
 	return TRUE;

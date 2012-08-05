@@ -15,6 +15,11 @@
 
 2012-08-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/workbook.c (workbook_set_saveinfo): enforce the
+	distinction between save and export
+
+2012-08-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/xml-sax-write.c (gnm_xml_file_save): renamed to
 	gnm_xml_file_save_full
 	(gnm_xml_file_save): new
