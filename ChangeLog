@@ -1,3 +1,7 @@
+2012-08-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object-widget.c: use the defines from src/sheet-object-widget.h
+
 2012-08-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gui-clipboard.c (table_cellregion_write): make WorkbookView derive
