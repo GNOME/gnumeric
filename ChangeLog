@@ -1,3 +1,8 @@
+2012-08-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-widget.c (sheet_widget_frame_set_label): fix label
+	change. [681307]
+
 2012-08-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-widget.c: use the defines from src/sheet-object-widget.h

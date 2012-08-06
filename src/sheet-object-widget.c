@@ -489,7 +489,9 @@ sheet_widget_frame_set_label (SheetObject *so, char const* str)
 	for (ptr = swf->sow.so.realized_list; ptr != NULL; ptr = ptr->next) {
 		SheetObjectView *view = ptr->data;
 		GocWidget *item = get_goc_widget (view);
-		gtk_frame_set_label (GTK_FRAME (item->widget), str);
+		GList *children = gtk_container_get_children (GTK_CONTAINER (item->widget));
+		gtk_frame_set_label (GTK_FRAME (children->data), str);
+		g_list_free (children);
 	}
 }
 
