@@ -1,3 +1,8 @@
+2012-08-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-file.c (gui_file_save_as): use the default format whenever
+	specified
+
 2012-08-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-widget.c (sheet_widget_frame_set_label): fix label

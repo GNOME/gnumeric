@@ -16,6 +16,7 @@ Andreas:
 	* Add new autofilter op. [#647401]
 	* Provide new saver for uncompressed Gnumeric xml. [#672622]
 	* Do not change workbook save info when exporting. [#672323]
+	* Fix format selection on export. [#681316]
 
 Jean:
 	* Fix component references issues. [#680190]

@@ -581,10 +581,12 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 		if (!fs || g_list_find (savers, fs) == NULL)
 			fs = go_file_saver_get_default ();
 	} else {
-		fs = workbook_get_file_exporter (wb);
+		if (default_format)
+			fs = go_file_saver_for_id (default_format);
+		else
+			fs = workbook_get_file_exporter (wb);
 		if (!fs || g_list_find (savers, fs) == NULL)
-			fs = go_file_saver_for_id (default_format ? default_format
-						   : "Gnumeric_html:latex_table");
+			fs = go_file_saver_for_id ("Gnumeric_html:latex_table");
 	}
 
 	gtk_combo_box_set_active (format_combo, g_list_index (savers, fs));
