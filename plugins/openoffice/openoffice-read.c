@@ -9074,7 +9074,7 @@ od_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 
 	if (state->chart.cs_type) {
-		if (g_ascii_strcasecmp (state->chart.cs_type, "ellipse") && 
+		if (0 == g_ascii_strcasecmp (state->chart.cs_type, "ellipse") && 
 		    g_str_has_prefix (state->chart.cs_enhanced_path, "U ")) {
 			/* We have already created an ellipse */
 		} else
@@ -10344,6 +10344,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, &odf_custom_shape, &od_custom_shape_end),
 	            GSF_XML_IN_NODE (DRAW_CUSTOM_SHAPE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	            GSF_XML_IN_NODE (DRAW_CUSTOM_SHAPE, DRAW_ENHANCED_GEOMETRY, OO_NS_DRAW, "enhanced-geometry", GSF_XML_NO_CONTENT, &odf_custom_shape_enhanced_geometry, NULL),
+	GSF_XML_IN_NODE (DRAW_ENHANCED_GEOMETRY, DRAW_ENHANCED_GEOMETRY_EQUATION, OO_NS_DRAW, "equation", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (DRAW_ENHANCED_GEOMETRY, DRAW_ENHANCED_GEOMETRY_HANDLE, OO_NS_DRAW, "handle", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_ELLIPSE, OO_NS_DRAW, "ellipse", GSF_XML_NO_CONTENT, &odf_ellipse, &od_draw_text_frame_end),
 	            GSF_XML_IN_NODE (DRAW_ELLIPSE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	          GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_NO_CONTENT, &odf_line, &odf_line_end),
