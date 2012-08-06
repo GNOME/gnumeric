@@ -282,6 +282,10 @@ typedef struct {
 	gnm_float                width;
 	gnm_float                height;
 	gint                     z_index;
+
+	/* Custom Shape */
+	char                    *cs_type;
+	char                    *cs_enhanced_path;
 } OOChartInfo;
 
 typedef enum {
@@ -9063,16 +9067,58 @@ odf_ellipse (GsfXMLIn *xin, xmlChar const **attrs)
 	odf_push_text_p (state, FALSE);
 }
 
+
+static void
+od_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	if (state->chart.cs_type) {
+		if (g_ascii_strcasecmp (state->chart.cs_type, "ellipse") && 
+		    g_str_has_prefix (state->chart.cs_enhanced_path, "U ")) {
+			/* We have already created an ellipse */
+		} else
+			oo_warning (xin , _("An unsupported custom shape of type '%s' was encountered and "
+					    "converted to an ellipse."), state->chart.cs_type);
+	} else 		
+		oo_warning (xin , _("An unsupported custom shape was encountered and "
+				    "converted to an ellipse."));
+
+	od_draw_text_frame_end (xin, blob);
+	
+	g_free (state->chart.cs_enhanced_path);
+	g_free (state->chart.cs_type);
+	state->chart.cs_enhanced_path = NULL;
+	state->chart.cs_type = NULL;
+}
+
 static void
 odf_custom_shape (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
+	
+	/* to avoid spill over */
+	g_free (state->chart.cs_enhanced_path);
+	g_free (state->chart.cs_type);
+	state->chart.cs_enhanced_path = NULL;
+	state->chart.cs_type = NULL;
 		
-	oo_warning (xin , _("An unsupported custom shape was encountered and "
-			    "converted to an ellipse."));
-
 	odf_so_filled (xin, attrs, TRUE);
 	odf_push_text_p (state, FALSE);
+}
+
+static void
+odf_custom_shape_enhanced_geometry (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					OO_NS_DRAW, "type"))
+			state->chart.cs_type = g_strdup (CXML2C (attrs[1]));
+		else 	if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+						OO_NS_DRAW, "enhanced-path"))
+			state->chart.cs_enhanced_path = g_strdup (CXML2C (attrs[1]));
 }
 
 static GOArrow *
@@ -10295,9 +10341,9 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame_start, &od_draw_frame_end),
 		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_CAPTION, OO_NS_DRAW, "caption", GSF_XML_NO_CONTENT, &odf_caption, &od_draw_text_frame_end),
 	            GSF_XML_IN_NODE (DRAW_CAPTION, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, &odf_custom_shape, &od_draw_text_frame_end),
+		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, &odf_custom_shape, &od_custom_shape_end),
 	            GSF_XML_IN_NODE (DRAW_CUSTOM_SHAPE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-	            GSF_XML_IN_NODE (DRAW_CUSTOM_SHAPE, DRAW_ENHANCED_GEOMETRY, OO_NS_DRAW, "enhanced-geometry", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (DRAW_CUSTOM_SHAPE, DRAW_ENHANCED_GEOMETRY, OO_NS_DRAW, "enhanced-geometry", GSF_XML_NO_CONTENT, &odf_custom_shape_enhanced_geometry, NULL),
 	          GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_ELLIPSE, OO_NS_DRAW, "ellipse", GSF_XML_NO_CONTENT, &odf_ellipse, &od_draw_text_frame_end),
 	            GSF_XML_IN_NODE (DRAW_ELLIPSE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	          GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_LINE, OO_NS_DRAW, "line", GSF_XML_NO_CONTENT, &odf_line, &odf_line_end),
@@ -11301,6 +11347,8 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	state.pos.eval.row	= -1;
 	state.cell_comment      = NULL;
 	state.sharer = gnm_expr_sharer_new ();
+	state.chart.cs_enhanced_path = NULL;
+	state.chart.cs_type = NULL;
 	state.chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] = NULL;
 	state.chart.i_plot_styles[OO_CHART_STYLE_SERIES] = NULL;
 	state.styles.sheet = g_hash_table_new_full (g_str_hash, g_str_equal,
@@ -11545,6 +11593,8 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	g_hash_table_destroy (state.chart.arrow_markers);
 	g_object_unref (contents);
 	gnm_expr_sharer_destroy (state.sharer);
+	g_free (state.chart.cs_enhanced_path);
+	g_free (state.chart.cs_type);
 
 	g_slist_free_full (state.text_p_for_cell.span_style_stack, g_free);
 	if (state.text_p_for_cell.gstr)
