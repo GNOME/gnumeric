@@ -1,5 +1,11 @@
 2012-08-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (od_custom_shape_end): rename to odf_custom_shape_end
+	throughout, expand list of custom-shapes handled
+	(odf_custom_shape_replace_object): new
+
+2012-08-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_custom_shape_end): fix sense of test
 	(opendoc_content_dtd): add draw:equation and draw:handle
 

@@ -9067,9 +9067,35 @@ odf_ellipse (GsfXMLIn *xin, xmlChar const **attrs)
 	odf_push_text_p (state, FALSE);
 }
 
+static void
+odf_custom_shape_replace_object (OOParseState *state, SheetObject *so)
+{
+	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (so));
+	
+	if (NULL != g_object_class_find_property (klass, "text")) {
+		char *text = NULL;
+		g_object_get (state->chart.so, "text", &text, NULL);
+		g_object_set (so, "text", text, NULL);
+		g_free (text);
+	}
+	if (NULL != g_object_class_find_property (klass, "style")) {
+		GOStyle *style = NULL;
+		g_object_get (state->chart.so, "style", &style, NULL);
+		g_object_set (so, "style", style, NULL);
+		g_object_unref (G_OBJECT (style));
+	}
+	if (NULL != g_object_class_find_property (klass, "markup")) {
+		PangoAttrList   *attrs = NULL;
+		g_object_get (state->chart.so, "markup", &attrs, NULL);
+		g_object_set (so, "markup", attrs, NULL);
+		pango_attr_list_unref (attrs);
+	}
+	g_object_unref (G_OBJECT (state->chart.so));
+	state->chart.so = so;
+}
 
 static void
-od_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
+odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
@@ -9077,7 +9103,28 @@ od_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 		if (0 == g_ascii_strcasecmp (state->chart.cs_type, "ellipse") && 
 		    g_str_has_prefix (state->chart.cs_enhanced_path, "U ")) {
 			/* We have already created an ellipse */
-		} else
+		} else if (0 == g_ascii_strcasecmp (state->chart.cs_type, "rectangle") && 
+		    g_str_has_prefix (state->chart.cs_enhanced_path, "M ")) {
+			/* We have already created an ellipse */
+			odf_custom_shape_replace_object 
+				(state, g_object_new (GNM_SO_FILLED_TYPE,
+						      "is-oval", FALSE, NULL));
+		}  else if (0 == g_ascii_strcasecmp (state->chart.cs_type, "frame") && 
+		    g_str_has_prefix (state->chart.cs_enhanced_path, "M ")) {
+			/* We have already created an ellipse */
+			odf_custom_shape_replace_object 
+				(state, g_object_new (GNM_SOW_FRAME_TYPE, NULL));
+		} else if (0 == g_ascii_strcasecmp (state->chart.cs_type, "round-rectangle") ||
+			   0 == g_ascii_strcasecmp (state->chart.cs_type, "paper") ||
+			   0 == g_ascii_strcasecmp (state->chart.cs_type, "parallelogram") ||
+			   0 == g_ascii_strcasecmp (state->chart.cs_type, "trapezoid")) {
+			/* We have already created an ellipse */
+			odf_custom_shape_replace_object 
+				(state, g_object_new (GNM_SO_FILLED_TYPE,
+						      "is-oval", FALSE, NULL));
+			oo_warning (xin , _("An unsupported custom shape of type '%s' was encountered and "
+					    "converted to a rectangle."), state->chart.cs_type);
+		}else
 			oo_warning (xin , _("An unsupported custom shape of type '%s' was encountered and "
 					    "converted to an ellipse."), state->chart.cs_type);
 	} else 		
@@ -10341,7 +10388,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame_start, &od_draw_frame_end),
 		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_CAPTION, OO_NS_DRAW, "caption", GSF_XML_NO_CONTENT, &odf_caption, &od_draw_text_frame_end),
 	            GSF_XML_IN_NODE (DRAW_CAPTION, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, &odf_custom_shape, &od_custom_shape_end),
+		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, &odf_custom_shape, &odf_custom_shape_end),
 	            GSF_XML_IN_NODE (DRAW_CUSTOM_SHAPE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	            GSF_XML_IN_NODE (DRAW_CUSTOM_SHAPE, DRAW_ENHANCED_GEOMETRY, OO_NS_DRAW, "enhanced-geometry", GSF_XML_NO_CONTENT, &odf_custom_shape_enhanced_geometry, NULL),
 	GSF_XML_IN_NODE (DRAW_ENHANCED_GEOMETRY, DRAW_ENHANCED_GEOMETRY_EQUATION, OO_NS_DRAW, "equation", GSF_XML_NO_CONTENT, NULL, NULL),
