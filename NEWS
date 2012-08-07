@@ -17,7 +17,7 @@ Andreas:
 	* Provide new saver for uncompressed Gnumeric xml. [#672622]
 	* Do not change workbook save info when exporting. [#672323]
 	* Fix format selection on export. [#681316]
-	* Remember export file name.
+	* Add Repeat Export menu item. [#594154]
 
 Jean:
 	* Fix component references issues. [#680190]

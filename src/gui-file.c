@@ -703,3 +703,53 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 		return ok;
 	}
 }
+
+gboolean
+gui_file_export_repeat (WBCGtk *wbcg)
+{
+	WorkbookView *wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	Workbook *wb = wb_view_get_workbook (wb_view);
+	GOFileSaver *fs = wb->file_exporter;
+
+	if (fs != NULL &&  wb->last_export_uri != NULL) {
+		char const *msg;
+		GtkWidget *dialog;
+
+		if (go_file_saver_get_save_scope (fs) != GO_FILE_SAVE_WORKBOOK)
+			msg = _("Do you want to export the <b>current sheet</b> of this "
+				"workbook to the location '<b>%s</b>' "
+				"using the '<b>%s</b>' exporter.");
+		else
+			msg = _("Do you want to export this workbook to the "
+				"location '<b>%s</b>' "
+				"using the '<b>%s</b>' exporter.");
+
+		/* go_gtk_query_yes_no does not handle markup ... */
+		dialog = gtk_message_dialog_new_with_markup (wbcg_toplevel (wbcg),
+							     GTK_DIALOG_DESTROY_WITH_PARENT,
+							     GTK_MESSAGE_QUESTION,
+							     GTK_BUTTONS_YES_NO,
+							     msg, wb->last_export_uri, 
+							     go_file_saver_get_description (fs));
+		gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
+
+		if (GTK_RESPONSE_YES ==
+		    go_gtk_dialog_run (GTK_DIALOG (dialog), wbcg_toplevel (wbcg))) {
+			/* We need to copy wb->last_export_uri since it will be reset during saving */
+			gchar *uri = g_strdup (wb->last_export_uri);
+			if(wb_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg))) {
+				workbook_update_history (wb, FILE_SAVE_AS_EXPORT);
+				g_free (uri);
+				return TRUE;
+			}
+			g_free (uri);
+		}
+		return FALSE;
+	} else {
+		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
+				      _("Unable to repeat export since no previous "
+					"export information has been saved in this "
+					"session."));
+		return FALSE;
+	}
+}

@@ -316,6 +316,8 @@
 	<menuitem action="DataExportText"/>
 	<menuitem action="DataExportCSV"/>
 	<menuitem action="DataExport"/>
+	<separator/>
+	<menuitem action="DataExportRepeat"/>
       </menu>
     </menu>
     <menu name="Help" action="MenuHelp">

@@ -1002,6 +1002,7 @@ static GNM_ACTION_DEF (cb_data_export_text)	        { gui_file_save_as
 static GNM_ACTION_DEF (cb_data_export_csv)	        { gui_file_save_as
 		(wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)),
 		 FILE_SAVE_AS_EXPORT, "Gnumeric_stf:stf_csv"); }
+static GNM_ACTION_DEF (cb_data_export_repeat)	{ gui_file_export_repeat (wbcg); }
 
 static void
 hide_show_detail_real (WBCGtk *wbcg, gboolean is_cols, gboolean show)
@@ -2618,6 +2619,9 @@ static GtkActionEntry const actions[] = {
 	{ "DataExportCSV", NULL, N_("Export as _CSV File"),
 		NULL, N_("Export the current sheet as a csv file"),
 		G_CALLBACK (cb_data_export_csv) },
+	{ "DataExportRepeat", NULL, N_("Repeat Export"),
+		"<control>E", N_("Repeat the last data export"),
+		G_CALLBACK (cb_data_export_repeat) },
 
 /* Data -> Fill */
 	{ "EditFillAutofill", NULL, N_("Auto_fill"),
