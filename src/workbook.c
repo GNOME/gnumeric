@@ -79,15 +79,29 @@ cb_exporter_finalize (Workbook *wb, GOFileSaver *saver)
 }
 
 void
-workbook_update_history (Workbook *wb)
+workbook_update_history (Workbook *wb, file_save_as_t type)
 {
 	g_return_if_fail (IS_WORKBOOK (wb));
 
-	if (wb->doc.uri && wb->file_format_level >= GO_FILE_FL_MANUAL_REMEMBER) {
-		const char *mimetype = wb->file_saver
-			? go_file_saver_get_mime_type (wb->file_saver)
-			: NULL;
-		gnm_app_history_add (wb->doc.uri, mimetype);
+	switch (type) {
+	case FILE_SAVE_AS_SAVE:
+		if (wb->doc.uri && wb->file_format_level >= GO_FILE_FL_MANUAL_REMEMBER) {
+			const char *mimetype = wb->file_saver
+				? go_file_saver_get_mime_type (wb->file_saver)
+				: NULL;
+			gnm_app_history_add (wb->doc.uri, mimetype);
+		}
+		break;
+	case FILE_SAVE_AS_EXPORT:
+	default:
+		if (wb->last_export_uri && 
+		    wb->file_export_format_level >= GO_FILE_FL_MANUAL_REMEMBER) {
+			const char *mimetype = wb->file_exporter
+				? go_file_saver_get_mime_type (wb->file_exporter)
+				: NULL;
+			gnm_app_history_add (wb->last_export_uri, mimetype);
+		}
+		break;
 	}
 }
 
@@ -103,6 +117,9 @@ workbook_dispose (GObject *wb_object)
 		workbook_set_saveinfo (wb, GO_FILE_FL_AUTO, NULL);
 	if (wb->file_exporter)
 		workbook_set_saveinfo (wb, GO_FILE_FL_WRITE_ONLY, NULL);
+
+	g_free (wb->last_export_uri);
+	wb->last_export_uri = NULL;
 
 	/* Remove all the sheet controls to avoid displaying while we exit */
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
@@ -192,8 +209,10 @@ workbook_init (GObject *object)
 	workbook_set_1904 (wb, FALSE);
 
 	wb->file_format_level = GO_FILE_FL_NEW;
+	wb->file_export_format_level = GO_FILE_FL_NEW;
 	wb->file_saver        = NULL;
-	wb->file_exporter        = NULL;
+	wb->file_exporter     = NULL;
+	wb->last_export_uri   = NULL;
 
 	wb->during_destruction = FALSE;
 	wb->being_reordered    = FALSE;
@@ -422,8 +441,10 @@ workbook_set_saveinfo (Workbook *wb, GOFileFormatLevel level, GOFileSaver *fs)
 					   (GWeakNotify) cb_saver_finalize, wb);
 	}
 
-	if (level != GO_FILE_FL_AUTO)
+	if (level != GO_FILE_FL_AUTO) {
+		wb->file_export_format_level = level;
 		return FALSE;
+	}
 	wb->file_format_level = level;
 	return TRUE;
 }
@@ -442,6 +463,14 @@ workbook_get_file_exporter (Workbook *wb)
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
 
 	return wb->file_exporter;
+}
+
+gchar const *
+workbook_get_last_export_uri (Workbook *wb)
+{
+	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+
+	return wb->last_export_uri;
 }
 
 /**

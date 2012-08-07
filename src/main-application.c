@@ -330,7 +330,7 @@ main (int argc, char const **argv)
 			if (wbv != NULL) {
 				WBCGtk *wbcg;
 
-				workbook_update_history (wb_view_get_workbook (wbv));
+				workbook_update_history (wb_view_get_workbook (wbv), FILE_SAVE_AS_SAVE);
 
 				wbcg = wbc_gtk_new (wbv, NULL, NULL, geometry);
 				geometry = NULL;

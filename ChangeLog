@@ -1,3 +1,17 @@
+2012-08-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-file.c: adjust all calls to workbook_update_history
+	(gui_file_save_as): get the correct file name,
+	* src/main-application.c: adjust all calls to workbook_update_history
+	* src/workbook-priv.h (_Workbook): add fields
+	* src/workbook-view.c (wb_view_save_as): save all file names
+	* src/workbook.c (workbook_update_history): add argument and change all callers
+	(workbook_dispose): free saved export file name
+	(workbook_set_saveinfo): save format level for exports too
+	(workbook_get_last_export_uri): new
+	* src/workbook.h (workbook_update_history): add argument
+	(workbook_get_last_export_uri): new
+
 2012-08-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gui-file.c (gui_file_save_as): use the default format whenever

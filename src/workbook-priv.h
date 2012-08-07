@@ -20,8 +20,10 @@ struct _Workbook {
 	gboolean is_placeholder;
 
 	GOFileFormatLevel  file_format_level;
+	GOFileFormatLevel  file_export_format_level;
 	GOFileSaver	*file_saver;
 	GOFileSaver	*file_exporter;
+	char            *last_export_uri;
 
 	/* Undo support */
 	GSList	   *undo_commands;

@@ -5,6 +5,7 @@
 #include "gnumeric.h"
 #include <goffice/goffice.h>
 #include <glib-object.h>
+#include "gui-file.h"
 
 G_BEGIN_DECLS
 
@@ -47,9 +48,10 @@ void        workbook_optimize_style     (Workbook *wb);
 /* IO Routines */
 gboolean       workbook_set_saveinfo	(Workbook *wb, GOFileFormatLevel lev,
 					 GOFileSaver *saver);
-void           workbook_update_history  (Workbook *wb);
+void           workbook_update_history  (Workbook *wb, file_save_as_t type);
 GOFileSaver *workbook_get_file_saver	(Workbook *wb);
 GOFileSaver *workbook_get_file_exporter	(Workbook *wb);
+gchar const *workbook_get_last_export_uri	(Workbook *wb);
 
 /* See also sheet_cell_foreach_range */
 GnmValue   *workbook_foreach_cell_in_range (GnmEvalPos const  *pos,

@@ -126,7 +126,7 @@ gui_file_read (WBCGtk *wbcg, char const *uri,
 
 	if (wbv != NULL) {
 		gui_wb_view_show (wbcg, wbv);
-		workbook_update_history (wb_view_get_workbook (wbv));
+		workbook_update_history (wb_view_get_workbook (wbv), FILE_SAVE_AS_SAVE);
 		return TRUE;
 	}
 	return FALSE;
@@ -592,7 +592,10 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 	gtk_combo_box_set_active (format_combo, g_list_index (savers, fs));
 
 	/* Set default file name */
-	wb_uri = go_doc_get_uri (GO_DOC (wb));
+	if (wb->last_export_uri && (type == FILE_SAVE_AS_EXPORT) && fs == wb->file_exporter)
+		wb_uri = wb->last_export_uri;
+	else
+		wb_uri = go_doc_get_uri (GO_DOC (wb));
 	if (wb_uri != NULL) {
 		char *basename = go_basename_from_uri (wb_uri);
 		char *dot = basename ? strrchr (basename, '.') : NULL;
@@ -655,7 +658,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 		gtk_widget_destroy (GTK_WIDGET (fsel));
 		fsel = NULL;
 		if (wb_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg)))
-			workbook_update_history (wb);
+			workbook_update_history (wb, type);
 	}
 
 	g_free (uri);
@@ -695,7 +698,7 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 
 		ok = wb_view_save (wb_view, GO_CMD_CONTEXT (wbcg));
 		if (ok)
-			workbook_update_history (wb);
+			workbook_update_history (wb, FILE_SAVE_AS_SAVE);
 		g_object_unref (wb);
 		return ok;
 	}
