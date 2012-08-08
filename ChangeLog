@@ -1,5 +1,20 @@
 2012-08-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/gui-file.c (gui_file_save_as): use workbook_get_last_export_uri
+	and workbook_get_file_exporter
+	(gui_file_export_repeat): ditto
+	* src/wbc-gtk.c (wbcg_menu_state_update): handle MS_FILE_EXPORT_IMPORT
+	* src/workbook-control.h (MS_FILE_EXPORT_IMPORT): new
+	* src/workbook-view.c (wb_view_save_as): use workbook_set_last_export_uri
+	* src/workbook.c (workbook_set_file_exporter): new
+	(workbook_set_last_export_uri): new
+	(cb_exporter_finalize): use workbook_set_file_exporter
+	(workbook_dispose): use workbook_set_last_export_uri
+	* src/workbook.h (workbook_set_file_exporter): new
+	(workbook_set_last_export_uri): new
+
+2012-08-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/stf.c (stf_read_workbook_auto_csvtab): use the csv exporter in the
 	saveinfo if appropriate
 

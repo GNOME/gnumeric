@@ -75,7 +75,7 @@ cb_exporter_finalize (Workbook *wb, GOFileSaver *saver)
 	g_return_if_fail (GO_IS_FILE_SAVER (saver));
 	g_return_if_fail (IS_WORKBOOK (wb));
 	g_return_if_fail (wb->file_exporter == saver);
-	wb->file_exporter = NULL;
+	workbook_set_file_exporter (wb, NULL);
 }
 
 void
@@ -117,9 +117,7 @@ workbook_dispose (GObject *wb_object)
 		workbook_set_saveinfo (wb, GO_FILE_FL_AUTO, NULL);
 	if (wb->file_exporter)
 		workbook_set_saveinfo (wb, GO_FILE_FL_WRITE_ONLY, NULL);
-
-	g_free (wb->last_export_uri);
-	wb->last_export_uri = NULL;
+	workbook_set_last_export_uri (wb, NULL);
 
 	/* Remove all the sheet controls to avoid displaying while we exit */
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
@@ -425,8 +423,7 @@ workbook_set_saveinfo (Workbook *wb, GOFileFormatLevel level, GOFileSaver *fs)
 		if (wb->file_exporter != NULL)
 			g_object_weak_unref (G_OBJECT (wb->file_exporter),
 					     (GWeakNotify) cb_exporter_finalize, wb);
-
-		wb->file_exporter = fs;
+		workbook_set_file_exporter (wb, fs);
 		if (fs != NULL)
 			g_object_weak_ref (G_OBJECT (fs),
 					   (GWeakNotify) cb_exporter_finalize, wb);
@@ -472,6 +469,24 @@ workbook_get_last_export_uri (Workbook *wb)
 
 	return wb->last_export_uri;
 }
+
+void         
+workbook_set_file_exporter (Workbook *wb, GOFileSaver *fs)
+{
+	wb->file_exporter = fs;
+	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc, 
+				  wb_control_menu_state_update (wbc, MS_FILE_EXPORT_IMPORT););
+}
+
+void         
+workbook_set_last_export_uri (Workbook *wb, gchar *uri)
+{
+	g_free (wb->last_export_uri);
+	wb->last_export_uri = uri;
+	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc, 
+				  wb_control_menu_state_update (wbc, MS_FILE_EXPORT_IMPORT););
+}
+
 
 /**
  * workbook_foreach_cell_in_range:

@@ -51,7 +51,9 @@ gboolean       workbook_set_saveinfo	(Workbook *wb, GOFileFormatLevel lev,
 void           workbook_update_history  (Workbook *wb, file_save_as_t type);
 GOFileSaver *workbook_get_file_saver	(Workbook *wb);
 GOFileSaver *workbook_get_file_exporter	(Workbook *wb);
-gchar const *workbook_get_last_export_uri	(Workbook *wb);
+gchar const *workbook_get_last_export_uri (Workbook *wb);
+void         workbook_set_file_exporter	  (Workbook *wb, GOFileSaver *fs);
+void         workbook_set_last_export_uri (Workbook *wb, gchar *uri);
 
 /* See also sheet_cell_foreach_range */
 GnmValue   *workbook_foreach_cell_in_range (GnmEvalPos const  *pos,

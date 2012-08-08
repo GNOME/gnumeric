@@ -1120,10 +1120,8 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 				/* See 634792.  */
 				go_doc_set_pristine (GO_DOC (wb), FALSE);
 			}
-		} else {
-			g_free (wb->last_export_uri);
-			wb->last_export_uri = g_strdup (uri);
-		}
+		} else 
+			workbook_set_last_export_uri (wb, g_strdup (uri));
 	}
 	if (has_error || has_warning)
 		go_io_error_display (io_context);
@@ -1262,10 +1260,9 @@ wb_view_new_from_input (GsfInput *input,
 			workbook_optimize_style (new_wb);
 			workbook_recalc (new_wb);
 			go_doc_set_dirty (GO_DOC (new_wb), FALSE);
-			if (new_wb->file_exporter && optional_uri) {
-				g_free (new_wb->last_export_uri);
-				new_wb->last_export_uri = g_strdup (optional_uri);
-			}
+			if (optional_uri && workbook_get_file_exporter (new_wb))
+				workbook_set_last_export_uri 
+					(new_wb, g_strdup (optional_uri));
 		}
 	} else
 		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),

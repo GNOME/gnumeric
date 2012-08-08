@@ -1627,6 +1627,23 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		wbc_gtk_set_action_sensitivity
 			(wbcg, "InsertSortIncreasing", sel_is_vector);
 	}
+	if (MS_FILE_EXPORT_IMPORT & flags) {
+		Workbook *wb = wb_control_get_workbook (wbc);
+		gboolean has_export_info = workbook_get_file_exporter (wb) && 
+			workbook_get_last_export_uri (wb);
+		wbc_gtk_set_action_sensitivity (wbcg, "DataExportRepeat", has_export_info);
+		if (has_export_info) {
+			gchar *base = go_basename_from_uri (workbook_get_last_export_uri (wb));
+			gchar *new_label = g_strdup_printf (_("Repeat Export to %s"), 
+							    base);
+			g_free (base);
+			wbc_gtk_set_action_label (wbcg, "DataExportRepeat", NULL, 
+						  new_label, N_("Repeat the last data export"));
+			g_free (new_label);
+		} else
+			wbc_gtk_set_action_label (wbcg, "DataExportRepeat", NULL, 
+						  N_("Repeat Export"), N_("Repeat the last data export"));
+	}	
 	{
 		gboolean const has_slicer = (NULL != sv_editpos_in_slicer (sv));
 		char const* label = has_slicer
