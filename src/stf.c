@@ -419,7 +419,7 @@ stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const
 			       GOIOContext *context,
 			       GoView *view, GsfInput *input)
 {
-	Sheet *sheet, *old_sheet;
+	Sheet *sheet;
 	Workbook *book;
 	char *name;
 	char *data;
@@ -436,7 +436,6 @@ stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const
 	g_return_if_fail (wbv != NULL);
 
 	book = wb_view_get_workbook (wbv);
-	old_sheet = wb_view_cur_sheet (wbv);
 
 	data = stf_preparse (context, input, &data_len);
 	if (!data)
@@ -487,6 +486,7 @@ stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const
 	workbook_sheet_attach (book, sheet);
 
 	if (stf_parse_sheet (po, utf8data->str, NULL, sheet, 0, 0)) {
+		gboolean is_csv;
 		workbook_recalc_all (book);
 		resize_columns (sheet);
 		if (po->cols_exceeded || po->rows_exceeded) {
@@ -494,11 +494,12 @@ stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const
 				     _("Some data did not fit on the "
 				       "sheet and was dropped."));
 		}
+		is_csv = po->sep.chr[0] == ','; 
 		workbook_set_saveinfo
 			(book,
 			 GO_FILE_FL_WRITE_ONLY,
 			 go_file_saver_for_id
-			 ("Gnumeric_stf:stf_assistant"));
+			 (is_csv ? "Gnumeric_stf:stf_csv" : "Gnumeric_stf:stf_assistant"));
 	} else {
 		workbook_sheet_delete (sheet);
 		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
