@@ -1,5 +1,10 @@
 2012-08-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/workbook-view.c (wb_view_new_from_input): save uri for
+	export if appropriate
+
+2012-08-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* component/Gnumeric-embed.xml.in: add Repeat Export menu item
 	* src/GNOME_Gnumeric-gtk.xml.in: add Repeat Export menu item
 	* src/gui-file.c (gui_file_export_repeat): new

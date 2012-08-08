@@ -1262,6 +1262,10 @@ wb_view_new_from_input (GsfInput *input,
 			workbook_optimize_style (new_wb);
 			workbook_recalc (new_wb);
 			go_doc_set_dirty (GO_DOC (new_wb), FALSE);
+			if (new_wb->file_exporter && optional_uri) {
+				g_free (new_wb->last_export_uri);
+				new_wb->last_export_uri = g_strdup (optional_uri);
+			}
 		}
 	} else
 		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
