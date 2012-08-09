@@ -16574,7 +16574,7 @@ msgstr "_Dos factores…"
 
 #: ../src/wbc-gtk-actions.c:2582
 msgid "Two Factor Analysis of Variance..."
-msgstr "Análisis de dos factores de varianza…"
+msgstr "Análisis de varianza de dos factores…"
 
 #. Statistics -> MultipleSamples -> ContingencyTable
 #: ../src/wbc-gtk-actions.c:2587
