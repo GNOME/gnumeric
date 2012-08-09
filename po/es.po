@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-08-08 04:37+0000\n"
-"PO-Revision-Date: 2012-08-08 11:00+0200\n"
+"POT-Creation-Date: 2012-08-08 09:02+0000\n"
+"PO-Revision-Date: 2012-08-09 10:42+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -16566,7 +16566,7 @@ msgstr "_Un factor…"
 
 #: ../src/wbc-gtk-actions.c:2579
 msgid "One Factor Analysis of Variance..."
-msgstr "Un análisis del factor de varianza…"
+msgstr "Análisis de un factor de varianza…"
 
 #: ../src/wbc-gtk-actions.c:2581
 msgid "_Two Factor..."
@@ -16574,7 +16574,7 @@ msgstr "_Dos factores…"
 
 #: ../src/wbc-gtk-actions.c:2582
 msgid "Two Factor Analysis of Variance..."
-msgstr "Dos análisis de factores de varianza…"
+msgstr "Análisis de dos factores de varianza…"
 
 #. Statistics -> MultipleSamples -> ContingencyTable
 #: ../src/wbc-gtk-actions.c:2587
@@ -17012,11 +17012,11 @@ msgstr "Contabilidad"
 
 #: ../src/wbc-gtk-actions.c:2769
 msgid "Format the selection as accounting"
-msgstr "Formatea la selección como financiera"
+msgstr "Formatear la selección como contabilidad"
 
 #: ../src/wbc-gtk-actions.c:2772
 msgid "Format the selection as percentage"
-msgstr "Formatear la selección como porcentual"
+msgstr "Formatear la selección como porcentaje"
 
 #: ../src/wbc-gtk-actions.c:2774
 msgid "Scientific"
@@ -17057,7 +17057,7 @@ msgstr "Separador de miles"
 #: ../src/wbc-gtk-actions.c:2791
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr ""
-"Establece el formato de las celdas seleccionadas para incluir un separador "
+"Establecer el formato de las celdas seleccionadas para incluir un separador "
 "de miles"
 
 #: ../src/wbc-gtk-actions.c:2793
@@ -17066,7 +17066,7 @@ msgstr "Incrementar precisión"
 
 #: ../src/wbc-gtk-actions.c:2794
 msgid "Increase the number of decimals displayed"
-msgstr "Incrementar la cantidad de decimales visibles"
+msgstr "Incrementar el número de decimales mostrados"
 
 #: ../src/wbc-gtk-actions.c:2796
 msgid "Decrease Precision"
@@ -17074,89 +17074,89 @@ msgstr "Decrementar precisión"
 
 #: ../src/wbc-gtk-actions.c:2797
 msgid "Decrease the number of decimals displayed"
-msgstr "Decrementar la cantidad de decimales visibles"
+msgstr "Decrementar el número de decimales mostrados"
 
 #: ../src/wbc-gtk-actions.c:2803
 msgid "Decrease the indent, and align the contents to the left"
-msgstr "Decrementar el sangrado, y alinear el contenido a la izquierda"
+msgstr "Decrementar el sangrado, y alinear los contenidos a la izquierda"
 
 #: ../src/wbc-gtk-actions.c:2806
 msgid "Increase the indent, and align the contents to the left"
-msgstr "Incrementar el sangrado, y alinear el contenido a la izquierda"
+msgstr "Incrementar el sangrado, y alinear los contenidos a la izquierda"
 
 #: ../src/wbc-gtk-actions.c:2833
 msgid "Display _Outlines"
-msgstr "Mostrar c_ontornos"
+msgstr "Mostrar _contornos"
 
 #: ../src/wbc-gtk-actions.c:2834
 msgid "Toggle whether or not to display outline groups"
-msgstr "Muestra u oculta los contornos de grupo"
+msgstr "Cambiar para mostrar o no los contornos de los grupos"
 
 #: ../src/wbc-gtk-actions.c:2836
 msgid "Outlines _Below"
-msgstr "Esquemas de_bajo"
+msgstr "Contornos _inferiores"
 
 #: ../src/wbc-gtk-actions.c:2837
 msgid "Toggle whether to display row outlines on top or bottom"
-msgstr "Cambia la visualización de los contornos de fila entre arriba y abajo"
+msgstr "Cambiar para mostrar contornos de fila en la parte superior o inferior"
 
 #: ../src/wbc-gtk-actions.c:2839
 msgid "Outlines _Right"
-msgstr "Esquemas a la de_recha"
+msgstr "Contornos a la _derecha"
 
 #: ../src/wbc-gtk-actions.c:2840
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
-"Cambia la visualización de los contornos de columna entre izquierda y derecha"
+"Cambiar para mostrar contornos de columna a la izquierda o a la derecha"
 
 #: ../src/wbc-gtk-actions.c:2843
 msgid "Display _Formulæ"
-msgstr "_Mostrar fórmulas"
+msgstr "Mostrar _fórmulæ"
 
 #: ../src/wbc-gtk-actions.c:2845
 msgid "Display the value of a formula or the formula itself"
-msgstr "Muestra el valor de una fórmula o la fórmula"
+msgstr "Mostrar el valor de una fórmula o la misma fórmula"
 
 #: ../src/wbc-gtk-actions.c:2847
 msgid "_Hide Zeros"
-msgstr "Ocultar c_eros"
+msgstr "_Ocultar ceros"
 
 #: ../src/wbc-gtk-actions.c:2848
 msgid "Toggle whether or not to display zeros as blanks"
-msgstr "Mostrar los ceros como blancos"
+msgstr "Cambiar para mostrar o no ceros como blancos"
 
 #: ../src/wbc-gtk-actions.c:2850
 msgid "Hide _Gridlines"
-msgstr "Ocultar re_jilla"
+msgstr "Ocultar _cuadrículas"
 
 #: ../src/wbc-gtk-actions.c:2851
 msgid "Toggle whether or not to display gridlines"
-msgstr "Muestra u oculta la rejilla"
+msgstr "Cambiar para mostrar o no cuadrículas"
 
 #: ../src/wbc-gtk-actions.c:2853
 msgid "Hide _Column Headers"
-msgstr "Ocultar cabeceras de col_umnas"
+msgstr "Ocultar cabeceras de _columna"
 
 #: ../src/wbc-gtk-actions.c:2854
 msgid "Toggle whether or not to display column headers"
-msgstr "Muestra/oculta los encabezados de columna"
+msgstr "Cambiar para mostrar o no cabeceras de columna"
 
 #: ../src/wbc-gtk-actions.c:2856
 msgid "Hide _Row Headers"
-msgstr "Ocultar cabecera de _fila"
+msgstr "Ocultar cabeceras de _fila"
 
 #: ../src/wbc-gtk-actions.c:2857
 msgid "Toggle whether or not to display row headers"
-msgstr "Muestra u oculta los encabezados de las filas"
+msgstr "Cambiar para mostrar o no cabeceras de fila"
 
 #. TODO : Make this a sub menu when we have more convention types
 #: ../src/wbc-gtk-actions.c:2861
 msgid "Use R1C1 N_otation "
-msgstr "Usar _notación R1C1"
+msgstr "Usar n_otación R1C1"
 
 #: ../src/wbc-gtk-actions.c:2862
 msgid "Display addresses as R1C1 or A1"
-msgstr "Muestra las direcciones como R1C1 o A1"
+msgstr "Mostrar direcciones como R1C1 o A1"
 
 #: ../src/wbc-gtk-actions.c:2866
 msgid "_Left Align"
@@ -17208,7 +17208,7 @@ msgstr "Alineación superior"
 
 #: ../src/wbc-gtk-actions.c:2890
 msgid "_Vertically Center"
-msgstr "_Centrar verticalmente"
+msgstr "Centrar _verticalmente"
 
 #: ../src/wbc-gtk-actions.c:2891
 msgid "Vertically Center"
@@ -17216,19 +17216,19 @@ msgstr "Centrar verticalmente"
 
 #: ../src/wbc-gtk-actions.c:2893
 msgid "Align _Bottom"
-msgstr "Alineamiento _inferior"
+msgstr "Alineación _inferior"
 
 #: ../src/wbc-gtk-actions.c:2894 ../src/wbc-gtk-actions.c:2956
 msgid "Align Bottom"
-msgstr "Alineamiento inferior"
+msgstr "Alineación inferior"
 
 #: ../src/wbc-gtk-actions.c:2899
 msgid "View _Statusbar"
-msgstr "Ver barra d_e estado"
+msgstr "Ver _barra de estado"
 
 #: ../src/wbc-gtk-actions.c:2900
 msgid "Toggle visibility of statusbar"
-msgstr "Conmutar visibilidad de la barra de estado"
+msgstr "Cambiar visibilidad de la barra de estado"
 
 #: ../src/wbc-gtk-actions.c:2904
 msgid "F_ull Screen"
@@ -17236,7 +17236,7 @@ msgstr "Pantalla _completa"
 
 #: ../src/wbc-gtk-actions.c:2905
 msgid "Switch to or from full screen mode"
-msgstr "Cambiar modo a pantalla completa"
+msgstr "Cambiar a o desde el modo de pantalla completa"
 
 #: ../src/wbc-gtk-actions.c:2911
 msgid "_Bold"
@@ -17273,25 +17273,21 @@ msgstr "Subrayado doble"
 
 #. from icon theme
 #: ../src/wbc-gtk-actions.c:2923
-#, fuzzy
 msgid "_Single Low Underline"
-msgstr "Subrayado _doble"
+msgstr "Subrayado _simple bajo"
 
 #: ../src/wbc-gtk-actions.c:2924
-#, fuzzy
 msgid "Single Low Underline"
-msgstr "Subrayado doble"
+msgstr "Subrayado simple bajo"
 
 #. from icon theme
 #: ../src/wbc-gtk-actions.c:2926
-#, fuzzy
 msgid "Double _Low Underline"
-msgstr "Subrayado doble"
+msgstr "Subrayado doble _bajo"
 
 #: ../src/wbc-gtk-actions.c:2927
-#, fuzzy
 msgid "Double Low Underline"
-msgstr "Subrayado doble"
+msgstr "Subrayado doble bajo"
 
 #: ../src/wbc-gtk-actions.c:2929
 msgid "_Strike Through"
@@ -17311,7 +17307,7 @@ msgstr "Superíndice"
 
 #: ../src/wbc-gtk-actions.c:2935
 msgid "Subscrip_t"
-msgstr "Su_bíndice"
+msgstr "Subíndic_e"
 
 #: ../src/wbc-gtk-actions.c:2936
 msgid "Subscript"
@@ -17327,7 +17323,7 @@ msgstr "Justificar horizontalmente"
 
 #: ../src/wbc-gtk-actions.c:2949
 msgid "Align numbers right, and text left"
-msgstr "Alinear números a la derecha, y el texto a la izquierda"
+msgstr "Alinear números a la derecha, y texto a la izquierda"
 
 #: ../src/wbc-gtk-actions.c:2955
 msgid "Center Vertically"
@@ -17349,11 +17345,11 @@ msgstr "%s!%s está bloqueado"
 
 #: ../src/wbc-gtk-edit.c:866
 msgid "Unprotect the workbook to enable editing."
-msgstr "Desproteger el libro de cuentas para permitir la edición."
+msgstr "Desproteger el libro de trabajo para activar la edición."
 
 #: ../src/wbc-gtk-edit.c:867
 msgid "Unprotect the sheet to enable editing."
-msgstr "Desproteger la hoja para permitir la edición."
+msgstr "Desproteger la hoja para activar la edición."
 
 #: ../src/wbc-gtk-edit.c:886
 msgid "You are about to edit a cell with \"text\" format."
@@ -17364,8 +17360,8 @@ msgid ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
 msgstr ""
-"La celda actualmente no contiene texto, aunque, si procede a editarla "
-"entonces el contenido se convertirá en texto."
+"La celda actualmente no contiene texto, aunque, si continua editándolo luego "
+"los contenidos se convertirán en texto."
 
 #: ../src/wbc-gtk-edit.c:892
 msgid "Remove format"
@@ -17381,7 +17377,7 @@ msgstr "Administrar hojas…"
 
 #: ../src/wbc-gtk.c:521
 msgid "Append"
-msgstr "Concatenar"
+msgstr "Añadir"
 
 #: ../src/wbc-gtk.c:522
 msgid "Duplicate"
@@ -17404,9 +17400,8 @@ msgid "Select (sorted)"
 msgstr "Seleccionar (ordenado)"
 
 #: ../src/wbc-gtk.c:1273
-#, fuzzy
 msgid " - Gnumeric"
-msgstr " : Gnumeric"
+msgstr " - Gnumeric"
 
 #: ../src/wbc-gtk.c:1392
 msgid "Invalid format"
@@ -17414,78 +17409,73 @@ msgstr "Formato no válido"
 
 #: ../src/wbc-gtk.c:1490
 msgid "Remove the page break to the left of the current column"
-msgstr ""
+msgstr "Quitar el salto de página a la izquierda de la columna actual"
 
 #: ../src/wbc-gtk.c:1493
 msgid "Add a page break to the left of the current column"
-msgstr ""
+msgstr "Añadir un salto de página a la izquierda de la columna actual"
 
 #: ../src/wbc-gtk.c:1500
 msgid "Remove the page break above the current row"
-msgstr ""
+msgstr "Quitar el salto de página sobre la fila actual"
 
 #: ../src/wbc-gtk.c:1503
 msgid "Add a page break above current row"
-msgstr ""
+msgstr "Añadir un salto de página sobre la fila actual"
 
 #: ../src/wbc-gtk.c:1523
 msgid "Un_freeze Panes"
-msgstr "Desb_loquear paneles"
+msgstr "Des_bloquear paneles"
 
 #: ../src/wbc-gtk.c:1526
 msgid "Unfreeze the top left of the sheet"
 msgstr "Desbloquear la esquina superior izquierda de la hoja"
 
 #: ../src/wbc-gtk.c:1544
-#, fuzzy, c-format
+#, c-format
 msgid "Extend _Auto Filter to %s"
-msgstr "Añadir filtro automático a %s"
+msgstr "Extender filtro _automático a %s"
 
 #: ../src/wbc-gtk.c:1546
 msgid "Extend the existing filter."
-msgstr ""
+msgstr "Extender el filtro existente."
 
 #: ../src/wbc-gtk.c:1556
 msgid "The selection intersects an existing auto filter."
-msgstr ""
+msgstr "La selección intersecta un filtro automático existente."
 
 #: ../src/wbc-gtk.c:1565
 msgid "Remove _Auto Filter"
-msgstr "Eliminar el _autofiltro"
+msgstr "Quitar filtro _automático"
 
 #: ../src/wbc-gtk.c:1568
 msgid "Remove a filter"
-msgstr "Eliminar un filtro"
+msgstr "Quitar un filtro"
 
 #: ../src/wbc-gtk.c:1569
 msgid "Add a filter"
-msgstr "Añade un filtro"
+msgstr "Añadir un filtro"
 
 #: ../src/wbc-gtk.c:1637
 #, c-format
-#| msgid "Repeat Export"
 msgid "Repeat Export to %s"
-msgstr "Repetir la exportación a %s"
+msgstr "Repetir exportación a %s"
 
 #: ../src/wbc-gtk.c:1650
-#, fuzzy
 msgid "Remove _Data Slicer"
-msgstr "Eliminar un filtro"
+msgstr "Quitar rodaja de _datos"
 
 #: ../src/wbc-gtk.c:1651
-#, fuzzy
 msgid "Create _Data Slicer"
-msgstr "Crea una rodaja de datos"
+msgstr "Crear rodaja de _datos"
 
 #: ../src/wbc-gtk.c:1653
-#, fuzzy
 msgid "Remove a Data Slicer"
-msgstr "Crea una rodaja de datos"
+msgstr "Quitar una rodaja de datos"
 
 #: ../src/wbc-gtk.c:1654
-#, fuzzy
 msgid "Create a Data Slicer"
-msgstr "Crea una rodaja de datos"
+msgstr "Crear una rodaja de datos"
 
 #: ../src/wbc-gtk.c:1667
 msgid "_Redo"
@@ -17498,11 +17488,11 @@ msgstr "_Deshacer"
 #: ../src/wbc-gtk.c:1697
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
-msgstr "¿Guardar los cambios al libro de cuentas «%s» antes de cerrar?"
+msgstr "¿Guardar los cambios al libro de trabajo «%s» antes de cerrar?"
 
 #: ../src/wbc-gtk.c:1702
 msgid "Save changes to workbook before closing?"
-msgstr "¿Guardar los cambios al libro de cuentas antes de cerrar?"
+msgstr "¿Guardar los cambios al libro de trabajo antes de cerrar?"
 
 #: ../src/wbc-gtk.c:1709
 msgid "If you close without saving, changes will be discarded."
@@ -17529,28 +17519,24 @@ msgid "Don't close"
 msgstr "No cerrar"
 
 #: ../src/wbc-gtk.c:2034
-#, fuzzy
 msgid "Enter in current cell"
-msgstr "_Insertar en las celdas:"
+msgstr "Introducir en la celda actual"
 
 #: ../src/wbc-gtk.c:2036
-#, fuzzy
 msgid "Enter in current cell without autocorrection"
-msgstr "_Insertar en las celdas:"
+msgstr "Introducir en la celda actual sin autocorrección"
 
 #: ../src/wbc-gtk.c:2043
 msgid "Enter in current range merged"
-msgstr ""
+msgstr "Introducir en el rango combinado actual"
 
 #: ../src/wbc-gtk.c:2046
-#, fuzzy
 msgid "Enter in selected ranges"
-msgstr "Buscar sólo en el rango especificado"
+msgstr "Introducir en los rangos seleccionados"
 
 #: ../src/wbc-gtk.c:2048
-#, fuzzy
 msgid "Enter in selected ranges as array"
-msgstr "Buscar sólo en el rango especificado"
+msgstr "Introducir en los rangos seleccionados como matriz"
 
 #: ../src/wbc-gtk.c:2353
 msgid "END"
@@ -17566,11 +17552,11 @@ msgstr "Ir a la última"
 
 #: ../src/wbc-gtk.c:2622
 msgid "Go to Cell ..."
-msgstr "Ir a la celda…"
+msgstr "Ir a la celda …"
 
 #: ../src/wbc-gtk.c:2693
 msgid "Accept change in multiple cells"
-msgstr ""
+msgstr "Aceptar cambio en múltiples celdas"
 
 #: ../src/wbc-gtk.c:2762 ../src/wbc-gtk.c:2777
 msgid "_Re-Edit"
@@ -17614,15 +17600,15 @@ msgstr "Borde inferior grueso"
 
 #: ../src/wbc-gtk.c:3023
 msgid "Top and Bottom"
-msgstr "Bordes arriba y abajo"
+msgstr "Borde superior e inferior"
 
 #: ../src/wbc-gtk.c:3024
 msgid "Top and Double Bottom"
-msgstr "Borde simple arriba y borde grueso abajo"
+msgstr "Borde superior y doble borde inferior"
 
 #: ../src/wbc-gtk.c:3025
 msgid "Top and Thick Bottom"
-msgstr "Borde simple arriba y borde grueso abajo"
+msgstr "Borde superior y borde inferior grueso"
 
 #: ../src/wbc-gtk.c:3110
 msgid "Set Borders"
@@ -17634,11 +17620,11 @@ msgstr "Bordes"
 
 #: ../src/wbc-gtk.c:3219
 msgid "Redo the undone action"
-msgstr "Rehacer la última operación deshecha"
+msgstr "Rehacer la acción deshecha"
 
 #: ../src/wbc-gtk.c:3224
 msgid "Undo the last action"
-msgstr "Deshacer la operación"
+msgstr "Deshacer la última acción"
 
 #: ../src/wbc-gtk.c:3259
 msgid "Set Foreground Color"
@@ -17647,7 +17633,7 @@ msgstr "Establecer color de primer plano"
 #. Set background to NONE
 #: ../src/wbc-gtk.c:3315
 msgid "Set Background Color"
-msgstr "Establecer color del fondo"
+msgstr "Establecer color de fondo"
 
 #: ../src/wbc-gtk.c:3364
 #, c-format
@@ -17657,11 +17643,11 @@ msgstr "Nombre de tipografía %s"
 #: ../src/wbc-gtk.c:3433
 #, c-format
 msgid "Font Size %f"
-msgstr "Tamaño de la tipografía %f"
+msgstr "Tamaño de tipografía %f"
 
 #: ../src/wbc-gtk.c:3451 ../src/wbc-gtk.c:3452
 msgid "Font Size"
-msgstr "Tamaño de la tipografía"
+msgstr "Tamaño de tipografía"
 
 #. xgettext: Translators: if this warning shows up when
 #. * running Gnumeric in your locale, the underlines need
@@ -17672,7 +17658,7 @@ msgstr "Tamaño de la tipografía"
 #: ../src/wbc-gtk.c:3666
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
-msgstr "En el menú «%s» la clave «%s» se usa tanto para «%s» como para «%s»."
+msgstr "En el menú «%s», la clave «%s» se usa tanto para «%s» como para «%s»."
 
 #: ../src/wbc-gtk.c:3984
 msgid "Display above sheets"
@@ -17696,19 +17682,19 @@ msgstr "Ocultar"
 
 #: ../src/wbc-gtk.c:4095
 msgid "Standard Toolbar"
-msgstr "Barra estándar"
+msgstr "Barra de herramientas estándar"
 
 #: ../src/wbc-gtk.c:4096
 msgid "Format Toolbar"
-msgstr "Barra de formato"
+msgstr "Barra de herramientas de formato"
 
 #: ../src/wbc-gtk.c:4097
 msgid "Long Format Toolbar"
-msgstr "Barra de formato largo"
+msgstr "Barra de herramientas de formato largo"
 
 #: ../src/wbc-gtk.c:4098
 msgid "Object Toolbar"
-msgstr "Barra de objetos"
+msgstr "Barra de herramientas de objeto"
 
 #: ../src/wbc-gtk.c:4112
 #, c-format
@@ -17739,19 +17725,19 @@ msgstr "Abrir %s"
 
 #: ../src/wbc-gtk.c:5529
 msgid "Autosave prompt"
-msgstr "Preguntar si autoguardar"
+msgstr "Preguntar para autoguardar"
 
 #: ../src/wbc-gtk.c:5530
 msgid "Ask about autosave?"
-msgstr "¿Preguntar si autoguardar?"
+msgstr "¿Preguntar sobre autoguardar?"
 
 #: ../src/wbc-gtk.c:5536
 msgid "Autosave time in seconds"
-msgstr "Tiempo de autoguardar en segundos"
+msgstr "Tiempo de autoguardado en segundos"
 
 #: ../src/wbc-gtk.c:5537
 msgid "Seconds before autosave"
-msgstr "Seguntos antes de autoguardar"
+msgstr "Seguntos antes del autoguardado"
 
 #: ../src/widgets/gnm-filter-combo-view.c:170
 msgid "(All)"
@@ -17759,23 +17745,23 @@ msgstr "(Todo)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:175
 msgid "(Top 10...)"
-msgstr "(Top 10…)"
+msgstr "(10 primeros…)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:182
 msgid "(Custom...)"
-msgstr "(Personalizada…)"
+msgstr "(Personalizar…)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:261
 msgid "(Blanks...)"
-msgstr "(Vacías…)"
+msgstr "(Blancos…)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:267
 msgid "(Non Blanks...)"
-msgstr "(No vacías…)"
+msgstr "(No blancos…)"
 
 #: ../src/widgets/gnm-sheet-slicer-combo-view.c:117
 msgid "<Blank>"
-msgstr "<Vacía>"
+msgstr "<Blank>"
 
 #: ../src/widgets/gnumeric-expr-entry.c:928
 #, c-format
