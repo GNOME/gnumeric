@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-08-08 09:02+0000\n"
-"PO-Revision-Date: 2012-08-09 10:42+0200\n"
+"POT-Creation-Date: 2012-08-10 08:16+0000\n"
+"PO-Revision-Date: 2012-08-10 10:22+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -1578,10 +1578,8 @@ msgid "Duplicate default row style encountered."
 msgstr "Se encontró un estilo de fila predeterminado duplicado."
 
 #: ../plugins/openoffice/openoffice-read.c:4482
-#, fuzzy
-#| msgid "Duplicate default row style encountered."
 msgid "Duplicate default chart/graphics style encountered."
-msgstr "Se encontró un estilo de fila predeterminado duplicado."
+msgstr "Se encontró un estilo de cuadro/gráficos predeterminado duplicado."
 
 # ¿Será mejor "sin nombre" o "desconocido"?
 #: ../plugins/openoffice/openoffice-read.c:4864
@@ -5427,22 +5425,18 @@ msgstr[0] "Mostrar los elementos en el %3d%% fondo del rango de datos"
 msgstr[1] "Mostrar los elementos en el %3d%% fondo del rango de datos"
 
 #: ../src/dialogs/dialog-autofilter.c:257
-#, fuzzy, c-format
-#| msgid "Show the smallest item"
-#| msgid_plural "Show the %3d smallest items"
+#, c-format
 msgid "Show the top %3d%% of all items"
 msgid_plural "Show the top %3d%% of all items"
-msgstr[0] "Mostrar el elemento más pequeño"
-msgstr[1] "Mostrar los %3d elementos más pequeños"
+msgstr[0] "Mostrar el primer %3d%% de todos los elementos"
+msgstr[1] "Mostrar los primeros %3d%% de todos los elementos"
 
 #: ../src/dialogs/dialog-autofilter.c:267
-#, fuzzy, c-format
-#| msgid "Show the items in the bottom %3d%% of the data range"
-#| msgid_plural "Show the items in the bottom %3d%% of the data range"
+#, c-format
 msgid "Show the bottom %3d%% of all items"
 msgid_plural "Show the bottom %3d%% of all items"
-msgstr[0] "Mostrar los elementos en el %3d%% fondo del rango de datos"
-msgstr[1] "Mostrar los elementos en el %3d%% fondo del rango de datos"
+msgstr[0] "Mostrar el último %3d%% de todos los elementos"
+msgstr[1] "Mostrar los últimos %3d%% de todos los elementos"
 
 #: ../src/dialogs/dialog-autofilter.c:287
 msgid "Percentage:"
@@ -12114,23 +12108,35 @@ msgstr ""
 
 #: ../src/gui-file.c:720
 #, c-format
+#| msgid ""
+#| "Do you want to export the <b>current sheet</b> of this workbook to the "
+#| "location '<b>%s</b>' using the '<b>%s</b>' exporter."
 msgid ""
 "Do you want to export the <b>current sheet</b> of this workbook to the "
-"location '<b>%s</b>' using the '<b>%s</b>' exporter."
+"location '<b>%s</b>' using the '<b>%s</b>' exporter?"
 msgstr ""
+"¿Quiere exportar la <b>hoja actual</b> de este libro de trabajo a la "
+"ubicación «<b>%s</b>» usando el exportador «<b>%s</b>»?"
 
 #: ../src/gui-file.c:724
 #, c-format
+#| msgid ""
+#| "Do you want to export this workbook to the location '<b>%s</b>' using the "
+#| "'<b>%s</b>' exporter."
 msgid ""
 "Do you want to export this workbook to the location '<b>%s</b>' using the "
-"'<b>%s</b>' exporter."
+"'<b>%s</b>' exporter?"
 msgstr ""
+"¿Quiere exportar este libro de trabajo a la ubicación «<b>%s</b>» usando el "
+"exportador «<b>%s</b>»?"
 
 #: ../src/gui-file.c:751
 msgid ""
 "Unable to repeat export since no previous export information has been saved "
 "in this session."
 msgstr ""
+"No se puede repetir la exportación ya que no se ha guardado información de "
+"exportación previa en esta sesión."
 
 #: ../src/gui-util.c:48
 msgid "Multiple errors\n"
@@ -12162,7 +12168,7 @@ msgstr "No se puede activar el URL «%s»"
 #: ../src/hlink.c:287
 #, c-format
 msgid "Unable to open '%s'"
-msgstr "No se pudo abrir «%s»"
+msgstr "No se puede abrir «%s»"
 
 #: ../src/item-bar.c:796
 msgid "Width:"
@@ -17766,7 +17772,7 @@ msgstr "<Blank>"
 #: ../src/widgets/gnumeric-expr-entry.c:928
 #, c-format
 msgid "%s takes no arguments"
-msgstr "%s no admite argumentos"
+msgstr "%s no tiene argumentos"
 
 #: ../src/widgets/gnumeric-expr-entry.c:932
 #, c-format
@@ -17821,7 +17827,7 @@ msgstr "Actualizar política"
 
 #: ../src/widgets/gnumeric-expr-entry.c:1721
 msgid "How frequently changes to the entry should be applied"
-msgstr "Con qué frecuencia se deben aplicar los cambios sobre la entrada"
+msgstr "Con qué frecuencia se deben aplicar los cambios a la entrada"
 
 #: ../src/widgets/gnumeric-expr-entry.c:1728
 msgid "With icon"
@@ -17829,7 +17835,7 @@ msgstr "Con icono"
 
 #: ../src/widgets/gnumeric-expr-entry.c:1729
 msgid "Should there be an icon to the right of the entry?"
-msgstr "¿Debería existir un icono a la derecha de la entrada?"
+msgstr "¿Debería haber un icono a la derecha de la entrada?"
 
 #: ../src/widgets/gnumeric-expr-entry.c:1737
 msgid "The contents of the entry"
@@ -17837,11 +17843,11 @@ msgstr "El contenido de la entrada"
 
 #: ../src/widgets/gnumeric-expr-entry.c:1750
 msgid "SheetControlGUI"
-msgstr "IGU de control de hoja"
+msgstr "IGU de control de la hoja"
 
 #: ../src/widgets/gnumeric-expr-entry.c:1751
 msgid "The GUI container associated with the entry."
-msgstr "El contenedor IGU asociada con la entrada"
+msgstr "El contenedor IGU asociado con la entrada."
 
 #: ../src/widgets/gnumeric-expr-entry.c:1758
 msgid "WBCGtk"
@@ -17857,7 +17863,7 @@ msgstr "Formato constante"
 
 #: ../src/widgets/gnumeric-expr-entry.c:1767
 msgid "Format for constants"
-msgstr "Formatear para constantes"
+msgstr "Formato para constantes"
 
 #: ../src/widgets/gnumeric-expr-entry.c:2659
 #, c-format
@@ -17873,16 +17879,12 @@ msgid "Double"
 msgstr "Doble"
 
 #: ../src/widgets/gnumeric-text-view.c:284
-#, fuzzy
-#| msgid "Heavy"
 msgid "Wavy"
-msgstr "Pesada"
+msgstr "Ondulado"
 
 #: ../src/widgets/gnumeric-text-view.c:285
-#, fuzzy
-#| msgid "Single"
 msgid "Low Single"
-msgstr "Simple"
+msgstr "Bajo simple"
 
 #: ../src/widgets/gnumeric-text-view.c:320
 msgid "Thin"
@@ -17914,11 +17916,11 @@ msgstr "Pesada"
 
 #: ../src/widgets/gnumeric-text-view.c:329
 msgid "Ultraheavy"
-msgstr "Ultra pesada"
+msgstr "Ultrapesada"
 
 #: ../src/widgets/widget-font-selector.c:203
 msgid "Bold italic"
-msgstr "Negritas cursivas"
+msgstr "Negrita cursiva"
 
 #. Translators: "AaBbCcDdEe12345" is preview text for selected font.
 #. You can change it to any text suitable for your language.
@@ -17939,19 +17941,19 @@ msgstr "Decrementar sangrado"
 #: ../src/workbook-cmd-format.c:179 ../src/workbook-cmd-format.c:186
 #: ../src/workbook-cmd-format.c:194
 msgid "Wrap SORT"
-msgstr ""
+msgstr "Ajustar ordenación"
 
 #: ../src/workbook-cmd-format.c:173
 msgid "A single selection is required."
-msgstr "Se requiere una sola selección."
+msgstr "Se requiere una selección simple."
 
 #: ../src/workbook-cmd-format.c:180
 msgid "An n⨯1 or 1⨯n selection is required."
-msgstr "Se requiere una sección nx1 o 1xn."
+msgstr "Se requiere una selección n⨯1 o 1⨯n."
 
 #: ../src/workbook-cmd-format.c:187
 msgid "There is no point in sorting a single cell."
-msgstr "No se puede ordenar una sola celda."
+msgstr "No hay puntos en la ordenación de una sola celda."
 
 #: ../src/workbook-cmd-format.c:195
 msgid "The range to be sorted may not contain any merged cells."
@@ -17971,7 +17973,7 @@ msgstr "Dirección"
 
 #: ../src/workbook-control.c:461
 msgid "The workbook view being controlled."
-msgstr "La vista del libro de cuentas que se está controlando."
+msgstr "La vista del libro de trabajo se está controlando."
 
 #. Translators: "%dC" is a very short format to indicate the number of full columns
 #: ../src/workbook-view.c:386
@@ -17997,7 +17999,7 @@ msgstr "Función de autoexpresión"
 
 #: ../src/workbook-view.c:847
 msgid "The automatically computed sheet function."
-msgstr "La función de hoja automáticamente computada."
+msgstr "La función de hoja calculada automáticamente."
 
 #: ../src/workbook-view.c:854
 msgid "Auto-expression description"
@@ -18005,7 +18007,7 @@ msgstr "Descripción de autoexpresión"
 
 #: ../src/workbook-view.c:855
 msgid "Description of the automatically computed sheet function."
-msgstr "Descripción de la función de hoja automáticamente computada."
+msgstr "Descripción de la función de hoja calculada automáticamente."
 
 #: ../src/workbook-view.c:863
 msgid "Auto-expression maximum precision"
@@ -18013,31 +18015,27 @@ msgstr "Máxima precisión de la autoexpresión"
 
 #: ../src/workbook-view.c:864
 msgid "Use maximum available precision for auto-expressions"
-msgstr "Usar la precisión máxima disponible para las autoexpresiones"
+msgstr "Usar la precisión máxima disponible para autoexpresiones"
 
 #: ../src/workbook-view.c:872
-#, fuzzy
-#| msgid "Auto-expression text"
 msgid "Auto-expression value"
-msgstr "Texto de autoexpresión"
+msgstr "Valor de autoexpresión"
 
 #: ../src/workbook-view.c:873
 msgid "The current value of the auto-expression."
-msgstr ""
+msgstr "El valor actual de la autoexpresión."
 
 #: ../src/workbook-view.c:881
-#, fuzzy
-#| msgid "Auto-expression description"
 msgid "Auto-expression position"
-msgstr "Descripción de autoexpresión"
+msgstr "Posición de autoexpresión"
 
 #: ../src/workbook-view.c:882
 msgid "The cell position to track."
-msgstr ""
+msgstr "La posición de celda que rastrear."
 
 #: ../src/workbook-view.c:889
 msgid "Show horizontal scrollbar"
-msgstr "Mostrar la barra de desplazamiento horizontal"
+msgstr "Mostrar barra de desplazamiento horizontal"
 
 #: ../src/workbook-view.c:890
 msgid "Show the horizontal scrollbar"
@@ -18045,7 +18043,7 @@ msgstr "Mostrar la barra de desplazamiento horizontal"
 
 #: ../src/workbook-view.c:898
 msgid "Show vertical scrollbar"
-msgstr "Mostrar la barra de desplazamiento vertical"
+msgstr "Mostrar barra de desplazamiento vertical"
 
 #: ../src/workbook-view.c:899
 msgid "Show the vertical scrollbar"
@@ -18053,15 +18051,15 @@ msgstr "Mostrar la barra de desplazamiento vertical"
 
 #: ../src/workbook-view.c:907
 msgid "Show notebook tabs"
-msgstr "Mostrar las pestañas del libro de notas"
+msgstr "Mostrar pestañas del cuaderno"
 
 #: ../src/workbook-view.c:908
 msgid "Show the notebook tabs for sheets"
-msgstr "Mostrar las pestañas del libro de notas para las hojas"
+msgstr "Mostrar las pestañas del cuaderno para las hojas"
 
 #: ../src/workbook-view.c:916
 msgid "Show formula cell markers"
-msgstr "Mostrar marcadores de fórmula de celda"
+msgstr "Mostrar marcadores de celda de fórmula"
 
 #: ../src/workbook-view.c:917
 msgid "Mark each cell containing a formula"
@@ -18069,11 +18067,11 @@ msgstr "Marcar cada celda que contenga una fórmula"
 
 #: ../src/workbook-view.c:925
 msgid "Show extension markers"
-msgstr ""
+msgstr "Mostrar marcadores de extensión"
 
 #: ../src/workbook-view.c:926
 msgid "Mark each cell that fails to show the complete content"
-msgstr ""
+msgstr "Marcar cada celda que no muestre el contenido completo"
 
 #: ../src/workbook-view.c:935
 msgid "Do auto completion"
@@ -18097,7 +18095,7 @@ msgstr "Altura preferida"
 
 #: ../src/workbook-view.c:1046
 msgid "An unexplained error happened while saving."
-msgstr "Ocurrió un error inexplicable mientras se guardaba."
+msgstr "Ocurrió un error inexplicable al guardar."
 
 #: ../src/workbook-view.c:1062
 #, c-format
@@ -18116,11 +18114,11 @@ msgstr "Formato de archivo no soportado."
 #: ../src/workbook-view.c:1319
 #, c-format
 msgid "An unexplained error happened while opening %s"
-msgstr "Ocurrió un error no explicado mientras se abría %s"
+msgstr "Ocurrió un error inexplicable al abrir %s"
 
 #: ../src/workbook.c:266
 msgid "Enable automatic recalculation."
-msgstr "Activar el cálculo automático."
+msgstr "Activar el recálculo automático."
 
 #: ../src/workbook.c:326
 #, c-format
@@ -18135,14 +18133,14 @@ msgstr "Gráfico"
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
-msgstr[0] "Renombrando una hoja"
+msgstr[0] "Renombrando hoja"
 msgstr[1] "Renombrando %d hojas"
 
 #: ../src/workbook.c:1493
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
-msgstr[0] "Añadiendo una hoja"
+msgstr[0] "Añadiendo hoja"
 msgstr[1] "Añadiendo %d hojas"
 
 #.
@@ -18153,7 +18151,7 @@ msgstr[1] "Añadiendo %d hojas"
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
-msgstr[0] "Insertando una hoja"
+msgstr[0] "Insertando hoja"
 msgstr[1] "Insertando %d hojas"
 
 #: ../src/workbook.c:1501
@@ -18172,27 +18170,25 @@ msgstr "Cambiando propiedades de la hoja"
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
-msgstr[0] "Eliminando una hoja"
+msgstr[0] "Eliminando hoja"
 msgstr[1] "Eliminando %d hojas"
 
 #: ../src/workbook.c:1512
 msgid "Changing sheet order"
-msgstr "Cambiando el orden de la hoja"
+msgstr "Cambiando orden de hoja"
 
 #: ../src/workbook.c:1514
 msgid "Reorganizing Sheets"
-msgstr "Reorganizar hojas"
+msgstr "Reorganizando hojas"
 
 #: ../src/xml-sax-read.c:474
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
-msgstr "Especificaciones correspondientes a múltiples versiones. Se asume %d"
+msgstr "Especificaciones de versión múltiples. Suponiendo %d"
 
 #: ../src/xml-sax-read.c:638
-#, fuzzy
-#| msgid "The workbook view being controlled."
 msgid "workbook view attribute is incomplete"
-msgstr "La vista del libro de cuentas que se está controlando."
+msgstr "el atributo de vista del libro de trabajo está incompleto."
 
 #: ../src/xml-sax-read.c:787
 msgid "File has inconsistent SheetNameIndex element."
@@ -18201,16 +18197,16 @@ msgstr "El archivo tiene un elemento SheetNameIndex inconsistente."
 #: ../src/xml-sax-read.c:2186
 #, c-format
 msgid "Unknown filter operator \"%s\""
-msgstr "Operador de filtro desconocido «%s»"
+msgstr "Operador de filtro «%s» desconocido"
 
 #: ../src/xml-sax-read.c:2226
 msgid "Missing filter type"
-msgstr "Falta el tipo de filtro"
+msgstr "Falta tipo de filtro"
 
 #: ../src/xml-sax-read.c:2248
 #, c-format
 msgid "Unknown filter type \"%s\""
-msgstr "Falta el tipo de filtro «%s»"
+msgstr "Tipo de filtro «%s» desconocido"
 
 #: ../src/xml-sax-read.c:2269
 msgid "Invalid filter, missing Area"
@@ -18219,21 +18215,19 @@ msgstr "Filtro no válido, falta el área"
 #: ../src/xml-sax-read.c:2331
 #, c-format
 msgid "Unsupported object type '%s'"
-msgstr "Tipo de objeto no soportado «%s»"
+msgstr "Tipo de objeto «%s» no soportado"
 
 #: ../src/xml-sax-read.c:3595 ../src/xml-sax-write.c:1628
 msgid "Gnumeric XML (*.gnumeric)"
-msgstr "Gnumeric XML  (*.gnumeric)"
+msgstr "Gnumeric XML (*.gnumeric)"
 
 #: ../src/xml-sax-write.c:1640
-#, fuzzy
-#| msgid "Gnumeric XML (*.gnumeric)"
 msgid "Gnumeric XML uncompressed (*.xml)"
-msgstr "Gnumeric XML  (*.gnumeric)"
+msgstr "Gnumeric XML sin comprimir (*.xml)"
 
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "A button like template"
-msgstr "Una plantilla como un botón"
+msgstr "Un botón como plantilla"
 
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:3
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:3
@@ -18259,7 +18253,7 @@ msgstr "Una plantilla como un botón"
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:3
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:3
 msgid "Gnumeric Team"
-msgstr "El equipo de Gnumeric "
+msgstr "Equipo de Gnumeric "
 
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:2
 msgid "A 3D list template"
@@ -18267,11 +18261,11 @@ msgstr "Una plantilla de lista 3D"
 
 #: ../templates/autoformat/autoformat.Classical.cool.xml.in.h:1
 msgid "Cool"
-msgstr "Divertido"
+msgstr "Genial"
 
 #: ../templates/autoformat/autoformat.Classical.cool.xml.in.h:2
 msgid "Template with a 'cool' look"
-msgstr "Plantilla con una apariencia divertida"
+msgstr "Plantilla con una apariencia «genial»"
 
 #: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:1
 #: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:1
@@ -18281,11 +18275,11 @@ msgstr "Simple"
 
 #: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:2
 msgid "A simple template with classical look and feel"
-msgstr "Una plantilla simple con una apariencia clásica"
+msgstr "Una plantilla simple con una apariencia y sensación clásica"
 
 #: ../templates/autoformat/autoformat.Classical.trendy.xml.in.h:1
 msgid "Trendy"
-msgstr "Trendy"
+msgstr "De moda"
 
 #: ../templates/autoformat/autoformat.Classical.trendy.xml.in.h:2
 msgid "A classical yet colorful template"
@@ -18293,7 +18287,7 @@ msgstr "Una plantilla clásica a color"
 
 #: ../templates/autoformat/autoformat.Colourful.banana.xml.in.h:1
 msgid "Banana"
-msgstr "Banana"
+msgstr "Plátano"
 
 #: ../templates/autoformat/autoformat.Colourful.banana.xml.in.h:2
 msgid "A banana coloured template"
@@ -18313,7 +18307,8 @@ msgstr "Azul"
 
 #: ../templates/autoformat/autoformat.Colourful.blue.xml.in.h:2
 msgid "A colourful template with mainly blue and teal colours"
-msgstr "Una plantilla a todo color con colores dominantes azules"
+msgstr ""
+"Una plantilla a todo color con colores azul y verde azulado principalmente"
 
 #: ../templates/autoformat/autoformat.Colourful.orange.xml.in.h:1
 msgid "Orange"
@@ -18341,7 +18336,7 @@ msgstr "Desierto"
 
 #: ../templates/autoformat/autoformat.Financial.desert.xml.in.h:2
 msgid "Desert colored financial template"
-msgstr "Plantilla financiera coloreada como un desierto"
+msgstr "Plantilla financiera color desierto"
 
 #: ../templates/autoformat/autoformat.Financial.ice.xml.in.h:1
 msgid "Ice"
@@ -18365,7 +18360,7 @@ msgstr "Morado"
 
 #: ../templates/autoformat/autoformat.Financial.purple.xml.in.h:2
 msgid "Financial template with purple borders"
-msgstr "Una plantilla financiera con bordes morados"
+msgstr "Plantilla financiera con bordes morados"
 
 #: ../templates/autoformat/autoformat.General.advanced.xml.in.h:2
 msgid "An advanced colorless template"
@@ -18394,8 +18389,7 @@ msgstr "Tabla"
 
 #: ../templates/autoformat/autoformat.General.table.xml.in.h:2
 msgid "Very simple table template with the same border everywhere "
-msgstr ""
-"Una plantilla de tabla muy simple con los mismos bordes por todas partes"
+msgstr "Plantilla de tabla muy simple con el mismo borde por todas partes "
 
 #: ../templates/autoformat/autoformat.List.basic.xml.in.h:2
 msgid "A basic list"
@@ -18407,7 +18401,7 @@ msgstr "Verde"
 
 #: ../templates/autoformat/autoformat.List.green.xml.in.h:2
 msgid "A green list template"
-msgstr "Una plantilla con lista verde"
+msgstr "Plantilla de lista verde"
 
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:1
 msgid "Lila"
@@ -18415,7 +18409,7 @@ msgstr "Lila"
 
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:2
 msgid "Lila list template"
-msgstr "Una plantilla de lista lila"
+msgstr "Plantilla de lista lila"
 
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:2
 msgid "A simple list template"
