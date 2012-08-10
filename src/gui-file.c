@@ -719,11 +719,11 @@ gui_file_export_repeat (WBCGtk *wbcg)
 		if (go_file_saver_get_save_scope (fs) != GO_FILE_SAVE_WORKBOOK)
 			msg = _("Do you want to export the <b>current sheet</b> of this "
 				"workbook to the location '<b>%s</b>' "
-				"using the '<b>%s</b>' exporter.");
+				"using the '<b>%s</b>' exporter?");
 		else
 			msg = _("Do you want to export this workbook to the "
 				"location '<b>%s</b>' "
-				"using the '<b>%s</b>' exporter.");
+				"using the '<b>%s</b>' exporter?");
 
 		/* go_gtk_query_yes_no does not handle markup ... */
 		dialog = gtk_message_dialog_new_with_markup (wbcg_toplevel (wbcg),
