@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-08-10 08:16+0000\n"
-"PO-Revision-Date: 2012-08-10 10:22+0200\n"
+"POT-Creation-Date: 2012-08-10 08:24+0000\n"
+"PO-Revision-Date: 2012-08-11 09:55+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Gtranslator 2.91.5\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:443
@@ -200,8 +200,8 @@ msgstr "Atributo inesperado %s::%s == «%s»."
 #, c-format
 msgid "Invalid content of ss:data element, expected number, received '%s'"
 msgstr ""
-"Contenido no válido del elemento «ss:data», se esperaba un número, se recibió "
-"«%s»"
+"Contenido no válido del elemento «ss:data», se esperaba un número, se "
+"recibió «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:510
 #, c-format
@@ -331,8 +331,8 @@ msgstr "Función rota"
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
-"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d no "
-"%d"
+"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d "
+"no %d"
 
 #: ../plugins/excel/plugin.xml.in.h:1
 msgid "MS Excel (tm)"
@@ -597,8 +597,8 @@ msgstr "Falló al encontrar la función «%s» en XLL/DLL/SO %s .\n"
 msgid ""
 "Excel plugin loader / xlfRegister: at least three XLOPER arguments must be "
 "provided (DLL name[ignored],exported name[mandatory],types string"
-"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file %"
-"s."
+"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file "
+"%s."
 msgstr ""
 "Cargador del complemento para Excel / xlfRegister: se deben proporcionar al "
 "menos tres argumentos XLOPER (nombre DLL [ignorado],nombre exportado "
@@ -1343,7 +1343,8 @@ msgstr "Atributo «%s» no válido, se esperaba un número, se ha recibido «%s
 #: ../plugins/openoffice/openoffice-read.c:689
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
-msgstr "Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
+msgstr ""
+"Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:711
 #, c-format
@@ -1402,7 +1403,8 @@ msgstr "Atributo «%s» no válido, unidad «%s» desconocida"
 #: ../plugins/openoffice/openoffice-read.c:1085
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
-msgstr "Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
+msgstr ""
+"Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:1162
 #, c-format
@@ -1456,8 +1458,8 @@ msgstr "%s_EN_ARCHIVO_CORRUPTO"
 #: ../plugins/openoffice/openoffice-read.c:2181
 #, c-format
 msgid ""
-"This file is corrupted with a duplicate sheet name \"%s\", now renamed to \"%"
-"s\"."
+"This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
+"\"%s\"."
 msgstr ""
 "Este archivo está corrupto con un nombre de hoja duplicado «%s», se renombró "
 "a «%s»."
@@ -1727,7 +1729,8 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:7490
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr "Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
+msgstr ""
+"Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:7456
 #, c-format
@@ -1942,11 +1945,11 @@ msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
 "Field %d in line %d has possibly been cut off. Data has %d characters."
 msgstr[0] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
-"d' caracter."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
+"'%d' caracter."
 msgstr[1] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
-"d' caracteres."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
+"'%d' caracteres."
 
 #: ../plugins/paradox/paradox.c:550
 #, c-format
@@ -9050,8 +9053,8 @@ msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
-"Cada columna en el texto está delimitada por un carácter de «separación», ej. "
-"punto y coma."
+"Cada columna en el texto está delimitada por un carácter de «separación», "
+"ej. punto y coma."
 
 #: ../src/dialogs/dialog-stf.ui.h:21
 msgid "Fi_xed width"
@@ -12108,9 +12111,6 @@ msgstr ""
 
 #: ../src/gui-file.c:720
 #, c-format
-#| msgid ""
-#| "Do you want to export the <b>current sheet</b> of this workbook to the "
-#| "location '<b>%s</b>' using the '<b>%s</b>' exporter."
 msgid ""
 "Do you want to export the <b>current sheet</b> of this workbook to the "
 "location '<b>%s</b>' using the '<b>%s</b>' exporter?"
@@ -12120,9 +12120,6 @@ msgstr ""
 
 #: ../src/gui-file.c:724
 #, c-format
-#| msgid ""
-#| "Do you want to export this workbook to the location '<b>%s</b>' using the "
-#| "'<b>%s</b>' exporter."
 msgid ""
 "Do you want to export this workbook to the location '<b>%s</b>' using the "
 "'<b>%s</b>' exporter?"
@@ -17941,7 +17938,7 @@ msgstr "Decrementar sangrado"
 #: ../src/workbook-cmd-format.c:179 ../src/workbook-cmd-format.c:186
 #: ../src/workbook-cmd-format.c:194
 msgid "Wrap SORT"
-msgstr "Ajustar ordenación"
+msgstr "Ajustar ORDENACIÓN"
 
 #: ../src/workbook-cmd-format.c:173
 msgid "A single selection is required."
@@ -18469,8 +18466,9 @@ msgstr "Una plantilla de lista simple"
 #~ "value."
 #~ msgstr ""
 #~ ">Este valor determina el ajuste predeterminado en el diálogo "
-#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. Por "
-#~ "favor use el diálogo «Configuración de impresión» para editar este valor."
+#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. "
+#~ "Por favor use el diálogo «Configuración de impresión» para editar este "
+#~ "valor."
 
 #~ msgid ""
 #~ ">This value determines whether the default setting in the Print Setup "
