@@ -1,11 +1,12 @@
 # gnumeric ja.po.
-# Copyright (C) 1998-2004,2010 Free Software Foundation, Inc.
+# Copyright (C) 1998-2004,2010,2012 Free Software Foundation, Inc.
 # Mitsuru Oka <95i44@is.kochi-u.ac.jp>, 1998.
 # Mitsuru Oka <mitsu-o@is.aist-nara.ac.jp>, 1999-2000.
 # Mitsuo Hamada <mhamada@redhat.com>, 2000.
 # Yukihiro Nakai <nakai@gnome.gr.jp>, 2000-2001,2003-2004.
 # Takeshi Aihana <aihana@gnome.gr.jp>, 2000-2002.
 # Takayuki KUSANO <AE5T-KSN@asahi-net.or.jp>, 2010.
+# Jiro Matsuzawa <jmatsuzawa@gnome.org>, 2012.
 #
 #: ../src/sheet-control-gui.c:2199 ../src/sheet-control-gui.c:2208
 #: ../src/sheet-control-gui.c:2216
@@ -14,8 +15,8 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-08-10 08:16+0000\n"
-"PO-Revision-Date: 2012-01-12 00:40+0900\n"
-"Last-Translator: Jiro Matsuzawa <jmatsuzawa@src.gnome.org>\n"
+"PO-Revision-Date: 2012-08-12 11:45+0900\n"
+"Last-Translator: Jiro Matsuzawa <jmatsuzawa@gnome.org>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -15569,11 +15570,11 @@ msgstr "不具合を報告します "
 
 #: ../src/wbc-gtk-actions.c:2089
 msgid "_About"
-msgstr "情報(_A)"
+msgstr "このアプリケーションについて(_A)"
 
 #: ../src/wbc-gtk-actions.c:2090
 msgid "About this application"
-msgstr "このアプリケーションについて"
+msgstr "このアプリケーションの情報を表示します"
 
 #: ../src/wbc-gtk-actions.c:2097
 msgid "Cut the selection"
