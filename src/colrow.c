@@ -36,6 +36,28 @@
 #include "rendered-value.h"
 #include <goffice/goffice.h>
 
+/* Making ColRowInfo a boxed type to make introspection happy. using no-op
+ * functions for copy and free, and  crossing fingers.
+ */
+static ColRowInfo *
+col_row_info_copy (ColRowInfo *cri)
+{
+	return cri;
+}
+
+GType
+col_row_info_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("ColRowInfo",
+			 (GBoxedCopyFunc)col_row_info_copy,
+			 (GBoxedFreeFunc)col_row_info_copy);
+	}
+	return t;
+}
+
 double
 colrow_compute_pixel_scale (Sheet const *sheet, gboolean horizontal)
 {
@@ -1043,11 +1065,11 @@ colrow_find_outline_bound (Sheet const *sheet, gboolean is_cols,
 
 /**
  * colrow_set_visibility:
- * @sheet	: the sheet
- * @is_cols	: Are we dealing with rows or columns.
- * @visible	: Make things visible or invisible.
- * @first	: The index of the first row/col (inclusive)
- * @last	: The index of the last row/col (inclusive)
+ * @sheet: the sheet
+ * @is_cols: Are we dealing with rows or columns.
+ * @visible: Make things visible or invisible.
+ * @first: The index of the first row/col (inclusive)
+ * @last: The index of the last row/col (inclusive)
  *
  * Change the visibility of the selected range of contiguous cols/rows.
  * NOTE : only changes the collapsed state for the LAST+1 element.

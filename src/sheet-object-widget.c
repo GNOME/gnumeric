@@ -1070,6 +1070,7 @@ SOW_MAKE_TYPE (button, Button,
 
 #define GNM_SOW_ADJUSTMENT_TYPE   (sheet_widget_adjustment_get_type())
 #define GNM_SOW_ADJUSTMENT(obj)	(G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_SOW_ADJUSTMENT_TYPE, SheetWidgetAdjustment))
+#define GNM_IS_SOW_ADJUSTMENT(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_SOW_ADJUSTMENT_TYPE))
 #define DEP_TO_ADJUSTMENT(d_ptr)	(SheetWidgetAdjustment *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetAdjustment, dep))
 #define GNM_SOW_ADJUSTMENT_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SOW_ADJUSTMENT_TYPE, SheetWidgetAdjustmentClass))
 #define SWA_CLASS(so)		     (GNM_SOW_ADJUSTMENT_CLASS (G_OBJECT_GET_CLASS(so)))
@@ -1107,15 +1108,23 @@ sheet_widget_adjustment_set_value (SheetWidgetAdjustment *swa, double new_val)
 	swa->being_updated = FALSE;
 }
 
+/**
+ * sheet_widget_adjustment_get_adjustment:
+ * @so: #SheetObject
+ *
+ * Returns: (transfer none): the associated #GtkAdjustment.
+ **/
 GtkAdjustment *
 sheet_widget_adjustment_get_adjustment (SheetObject *so)
 {
+	g_return_val_if_fail (GNM_IS_SOW_ADJUSTMENT (so), NULL);
 	return (GNM_SOW_ADJUSTMENT (so)->adjustment);
 }
 
 gboolean
 sheet_widget_adjustment_get_horizontal (SheetObject *so)
 {
+	g_return_val_if_fail (GNM_IS_SOW_ADJUSTMENT (so), TRUE);
 	return (GNM_SOW_ADJUSTMENT (so)->horizontal);
 }
 
@@ -3241,13 +3250,22 @@ sheet_widget_list_base_set_result_type (SheetObject *so, gboolean as_index)
 
 }
 
-/* Note: allocates a new adjustment.  */
+/**
+ * sheet_widget_list_base_get_adjustment:
+ * @so: #SheetObject
+ *
+ * Note: allocates a new adjustment.
+ * Returns: (transfer full): the newly created #GtkAdjustment.
+ **/
 GtkAdjustment *
 sheet_widget_list_base_get_adjustment (SheetObject *so)
 {
 	SheetWidgetListBase *swl = GNM_SOW_LIST_BASE (so);
+	GtkAdjustment *adj;
 
-	GtkAdjustment *adj = (GtkAdjustment*)gtk_adjustment_new
+	g_return_val_if_fail (swl, NULL);
+
+	adj = (GtkAdjustment*)gtk_adjustment_new
 		(swl->selection,
 		 1,
 		 1 + gtk_tree_model_iter_n_children (swl->model, NULL),

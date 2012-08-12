@@ -127,6 +127,13 @@ gnm_stf_export_options_sheet_list_add (GnmStfExport *stfe, Sheet *sheet)
 }
 
 
+/**
+ * gnm_stf_export_options_sheet_list_get:
+ * @stfe: #GnmStfExport
+ *
+ * Returns: (element-type Sheet) (transfer none): the list of #Sheet instances
+ * added to @stfe using gnm_stf_export_options_sheet_list_add().
+ **/
 GSList *
 gnm_stf_export_options_sheet_list_get (const GnmStfExport *stfe)
 {

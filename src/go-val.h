@@ -27,6 +27,7 @@
 #include "gnm-format.h"	/* remove after move to goffice */
 
 G_BEGIN_DECLS
+#ifndef GOFFICE_NAMESPACE_DISABLE
 
 typedef GnmValue	GOVal;
 #define GO_VAL_TYPE	gnm_value_get_type()
@@ -88,6 +89,7 @@ void	go_val_bucketer_init	 (GOValBucketer *bucketer);
 GError *go_val_bucketer_validate (GOValBucketer *bucketer);
 int	go_val_bucketer_apply	 (GOValBucketer const *bucketer, GOVal const *v);
 
+#endif
 G_END_DECLS
 
 #endif /* GO_VAL_H */

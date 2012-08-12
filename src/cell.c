@@ -266,10 +266,10 @@ gnm_cell_set_expr (GnmCell *cell, GnmExprTop const *texpr)
 /**
  * gnm_cell_set_array_formula:
  * @sheet:   The sheet to set the expr in.
- * @col_a:   The left column in the destination region.
- * @row_a:   The top row in the destination region.
- * @col_b:   The right column in the destination region.
- * @row_b:   The bottom row in the destination region.
+ * @cola:   The left column in the destination region.
+ * @rowa:   The top row in the destination region.
+ * @colb:   The right column in the destination region.
+ * @rowb:   The bottom row in the destination region.
  * @texpr:   an expression (the inner expression, not a corner or element)
  *
  * Uses cell_set_expr_internal to store the expr as an

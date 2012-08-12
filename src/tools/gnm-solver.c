@@ -1402,7 +1402,7 @@ gnm_solver_get_limits (GnmSolver *solver, gnm_float **pmin, gnm_float **pmax)
   do {								\
 	  int c = (col_);					\
 	  dao_set_colors (dao, c, R, c, R,			\
-			  style_color_new_rgb8 (255, 0, 0),	\
+			  gnm_color_new_rgb8 (255, 0, 0),	\
 			  NULL);				\
   } while (0)
 

@@ -27,6 +27,7 @@
 #include <go-val.h>
 
 G_BEGIN_DECLS
+#ifndef GOFFICE_NAMESPACE_DISABLE
 
 struct _GODataCacheField {
 	GObject		base;
@@ -45,6 +46,7 @@ typedef struct {
 	GObjectClass base;
 } GODataCacheFieldClass;
 
+#endif
 G_END_DECLS
 
 #endif /* GO_DATA_CACHE_FIELD_IMPL_H */

@@ -47,13 +47,13 @@ range_row_cmp (GnmRange const *a, GnmRange const *b)
 }
 
 /**
- * gnm_sheet_merge_add :
+ * gnm_sheet_merge_add:
  *
- * @sheet : the sheet which will contain the region
- * @src : The region to merge
- * @clear : should the non-corner content of the region be cleared and the
+ * @sheet: the sheet which will contain the region
+ * @src: The region to merge
+ * @clear: should the non-corner content of the region be cleared and the
  *          style from the corner applied.
- * @cc : the calling context
+ * @cc: the calling context
  *
  * Add a range to the list of merge targets.  Checks for array spliting returns
  * %TRUE if there was an error.  Queues a respan.  Only queus a redraw if @clear
@@ -151,11 +151,11 @@ gnm_sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 }
 
 /**
- * gnm_sheet_merge_remove :
+ * gnm_sheet_merge_remove:
  *
- * @sheet : the sheet which will contain the region
- * @range : The region
- * @cc    : the calling context
+ * @sheet: the sheet which will contain the region
+ * @range: The region
+ * @cc: the calling context
  *
  * Remove a merged range.
  * Queues a redraw.
@@ -196,9 +196,10 @@ gnm_sheet_merge_remove (Sheet *sheet, GnmRange const *r, GOCmdContext *cc)
 }
 
 /**
- * gnm_sheet_merge_get_overlap :
+ * gnm_sheet_merge_get_overlap:
  *
- * Returns a list of the merged regions that overlap the target region.
+ * Returns: (element-type GnmRange) (transfer container): a list of the merged
+ * regions that overlap the target region.
  * The list is ordered from top to bottom and RIGHT TO LEFT (by start coord).
  * Caller is responsible for freeing the list, but not the content.
  */
@@ -221,7 +222,7 @@ gnm_sheet_merge_get_overlap (Sheet const *sheet, GnmRange const *range)
 }
 
 /**
- * gnm_sheet_merge_contains_pos :
+ * gnm_sheet_merge_contains_pos:
  *
  * If the GnmCellPos is contained in a merged region return the range.
  * The GnmRange should NOT be freed.
@@ -243,11 +244,11 @@ gnm_sheet_merge_contains_pos (Sheet const *sheet, GnmCellPos const *pos)
 }
 
 /**
- * gnm_sheet_merge_get_adjacent
- * @sheet : The sheet to look in.
- * @pos : the cell to test for adjacent regions.
- * @left : the return for a region on the left
- * @right : the return for a region on the right
+ * gnm_sheet_merge_get_adjacent:
+ * @sheet: The sheet to look in.
+ * @pos: the cell to test for adjacent regions.
+ * @left: the return for a region on the left
+ * @right: the return for a region on the right
  *
  * Returns the nearest regions to either side of @pos.
  */
@@ -280,10 +281,10 @@ gnm_sheet_merge_get_adjacent (Sheet const *sheet, GnmCellPos const *pos,
 }
 
 /**
- * gnm_sheet_merge_is_corner :
+ * gnm_sheet_merge_is_corner:
  *
- * @sheet :
- * @pos : cellpos if top left corner
+ * @sheet:
+ * @pos: cellpos if top left corner
  *
  * Returns a GnmRange pointer if the @pos is the topleft of a merged region.
  * The pointer should NOT be freed by the caller.
@@ -298,9 +299,8 @@ gnm_sheet_merge_is_corner (Sheet const *sheet, GnmCellPos const *pos)
 }
 
 /**
- * gnm_sheet_merge_relocate :
- *
- * @rinfo : Descriptor of what is moving.
+ * gnm_sheet_merge_relocate:
+ * @rinfo: Descriptor of what is moving.
  *
  * Shifts merged regions that need to move.
  */
@@ -358,8 +358,8 @@ gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri)
 
 /**
  * gnm_sheet_merge_find_container
- * @sheet : sheet
- * @r     : the range to test
+ * @sheet: sheet
+ * @r: the range to test
  */
 void
 gnm_sheet_merge_find_container (Sheet const *sheet, GnmRange *target)

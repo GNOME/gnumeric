@@ -132,10 +132,10 @@ value_area_get_height (GnmValue const *v, GnmEvalPos const *ep)
 
 /**
  * value_area_fetch_x_y:
- * @v : const #GnmValue *
- * @x : column
- * @y : row
- * @ep : const #GnmEvalPos *
+ * @v: const #GnmValue *
+ * @x: column
+ * @y: row
+ * @ep: const #GnmEvalPos *
  *
  * An internal routine to get a cell from an array or range.
  * Ensures that elements of CELLRANGE are evaluated
@@ -154,10 +154,10 @@ value_area_fetch_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 
 /**
  * value_area_get_x_y:
- * @v : const #GnmValue *
- * @x : column
- * @y : row
- * @ep : const #GnmEvalPos *
+ * @v: const #GnmValue *
+ * @x: column
+ * @y: row
+ * @ep: const #GnmEvalPos *
  *
  * An internal routine to get a cell from an array or range.
  * Ensures that elements of CELLRANGE are evaluated
@@ -262,11 +262,11 @@ cb_wrapper_foreach_cell_in_area (GnmCellIter const *iter, WrapperClosure *wrap)
 
 /**
  * value_area_foreach:
- * @v : const #GnmValue
- * @ep : const #GnmEvalPos
- * @flags : #CellIterFlags
- * @func  : #GnmValueIterFunc
- * @user_data :
+ * @v: const #GnmValue
+ * @ep: const #GnmEvalPos
+ * @flags: #CellIterFlags
+ * @func: #GnmValueIterFunc
+ * @user_data:
  *
  * For each existing element in an array or range , invoke the
  * callback routine.

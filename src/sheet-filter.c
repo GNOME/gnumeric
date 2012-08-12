@@ -125,6 +125,19 @@ gnm_filter_condition_free (GnmFilterCondition *cond)
 	g_free (cond);
 }
 
+GType
+gnm_filter_condition_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmFilterCondition",
+			 (GBoxedCopyFunc)gnm_filter_condition_dup,
+			 (GBoxedFreeFunc)gnm_filter_condition_free);
+	}
+	return t;
+}
+
 /*****************************************************************************/
 
 typedef struct  {
@@ -708,6 +721,19 @@ gnm_filter_unref (GnmFilter *filter)
 
 	g_ptr_array_free (filter->fields, TRUE);
 	g_free (filter);
+}
+
+GType
+gnm_filter_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmFilter",
+			 (GBoxedCopyFunc)gnm_filter_ref,
+			 (GBoxedFreeFunc)gnm_filter_unref);
+	}
+	return t;
 }
 
 void

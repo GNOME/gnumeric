@@ -104,6 +104,7 @@ void        range_dump		(GnmRange const *r, char const *suffix);
 GSList     *range_split_ranges    (GnmRange const *hard, GnmRange const *soft);
 GSList     *range_fragment        (GnmRange const *a, GnmRange const *b);
 
+GType	       gnm_sheet_range_get_type   (void); /* GBoxedType */
 GnmSheetRange *gnm_sheet_range_new	  (Sheet *sheet, GnmRange const *r);
 void           gnm_sheet_range_free       (GnmSheetRange *r);
 gboolean       gnm_sheet_range_from_value (GnmSheetRange *r, GnmValue const *v);

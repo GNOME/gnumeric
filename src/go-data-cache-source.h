@@ -27,6 +27,7 @@
 #include <glib-object.h>
 
 G_BEGIN_DECLS
+#ifndef GOFFICE_NAMESPACE_DISABLE
 
 typedef struct {
 	GTypeInterface		   base;
@@ -48,6 +49,7 @@ GType go_data_cache_source_get_type (void);
 GODataCache *	go_data_cache_source_allocate	  (GODataCacheSource const *src);
 gboolean	go_data_cache_source_needs_update (GODataCacheSource const *src);
 
+#endif
 G_END_DECLS
 
 #endif /* GO_DATA_CACHE_SOURCE_H */

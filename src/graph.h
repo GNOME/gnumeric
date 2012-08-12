@@ -45,7 +45,7 @@ typedef struct {
 	gboolean share_x, new_sheet;
 	GObject *obj;
 	GogDataAllocator *dalloc;
-} GraphDataClosure;
+} GnmGraphDataClosure;
 
 G_END_DECLS
 

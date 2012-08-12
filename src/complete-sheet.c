@@ -118,6 +118,16 @@ complete_sheet_class_init (GObjectClass *object_class)
 	auto_complete_class->search_iteration = complete_sheet_search_iteration;
 }
 
+/**
+ * complete_sheet_new:
+ * @sheet: #Sheet
+ * @col: column
+ * @row: row
+ * @notify: (scope async): #CompleteMatchNotifyFn
+ * @notify_closure: user data
+ *
+ * Returns: (transfer full): the new #Complete.
+ **/
 Complete *
 complete_sheet_new (Sheet *sheet, int col, int row, CompleteMatchNotifyFn notify, void *notify_closure)
 {

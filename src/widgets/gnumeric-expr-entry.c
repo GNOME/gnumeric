@@ -2214,8 +2214,8 @@ gee_reset_update_timer (GnmExprEntry *gee, gboolean user_requested)
 
 /**
  * gnm_expr_entry_signal_update:
- * @gee :
- * @user_requested : is the update requested by the user (eg activation)
+ * @gee:
+ * @user_requested: is the update requested by the user (eg activation)
  *
  * Higher level operations know when they are logically complete and can notify
  * GnmExprEntry clients.  For example, button-up after a drag selection
@@ -2254,8 +2254,8 @@ gnm_expr_entry_set_update_policy (GnmExprEntry *gee,
 
 /**
  * gnm_expr_entry_new:
- * @wbcg : #WBCGtk non-NULL
- * @with_icon : append a rollup icon to the end of the entry
+ * @wbcg: #WBCGtk non-NULL
+ * @with_icon: append a rollup icon to the end of the entry
  *
  * Creates a new #GnmExprEntry, which is an entry widget with support
  * for range selections.
@@ -2369,6 +2369,12 @@ gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 			    gee, gee->sheet->name_unquoted);
 }
 
+/**
+ * gnm_expr_entry_get_scg:
+ * @gee:
+ *
+ * Returns: (transfer none): the associated #SheetControlGUI.
+ **/
 SheetControlGUI *
 gnm_expr_entry_get_scg (GnmExprEntry *gee)
 {
@@ -2376,9 +2382,9 @@ gnm_expr_entry_get_scg (GnmExprEntry *gee)
 }
 
 /**
- * gnm_expr_entry_load_from_text :
- * @gee :
- * @txt :
+ * gnm_expr_entry_load_from_text:
+ * @gee:
+ * @txt:
  */
 void
 gnm_expr_entry_load_from_text (GnmExprEntry *gee, char const *txt)
@@ -2434,7 +2440,7 @@ gnm_expr_entry_load_from_dep (GnmExprEntry *gee, GnmDependent const *dep)
  * gnm_expr_entry_load_from_expr
  * @gee: a #GnmExprEntry
  * @texpr: An expression
- * @pp  : The parse position
+ * @pp: The parse position
  *
  * Sets the text of the entry, and removes saved information about earlier
  * range selections.
@@ -2467,7 +2473,6 @@ gnm_expr_entry_load_from_expr (GnmExprEntry *gee,
  * @gee: a #GnmExprEntry
  * @r:          a #GnmRange
  * @sheet:      a #sheet
- * @pos:        position
  *
  * Returns: true if displayed range is different from input range. false
  * otherwise.
@@ -2593,11 +2598,11 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
 }
 
 /**
- * gnm_expr_entry_parse :
- * @gee : the entry
- * @pp : a parse position
- * @start_sel : start range selection when things change.
- * @flags :
+ * gnm_expr_entry_parse:
+ * @gee: the entry
+ * @pp: a parse position
+ * @start_sel: start range selection when things change.
+ * @flags:
  *
  * Attempts to parse the content of the entry line honouring
  * the flags.
@@ -2688,7 +2693,7 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 
 /**
  * gnm_expr_entry_get_text
- * @gee :
+ * @gee:
  *
  * A small convenience routine.  Think long and hard before using this.
  * There are lots of parse routines that serve the common case.
@@ -2703,7 +2708,7 @@ gnm_expr_entry_get_text	(GnmExprEntry const *gee)
 }
 
 /**
- * gnm_expr_entry_parse_as_value :
+ * gnm_expr_entry_parse_as_value:
  *
  * @gee: GnmExprEntry
  * @sheet: the sheet where the cell range is evaluated.
@@ -2749,7 +2754,7 @@ gnm_expr_entry_parse_as_value (GnmExprEntry *gee, Sheet *sheet)
  * @sheet: the sheet where the cell range is evaluated. This really only needed if
  *         the range given does not include a sheet specification.
  *
- * Returns a (GSList *)
+ * Returns: (element-type GnmValue) (transfer full): a (GSList *)
  *	or NULL on failure.
  */
 GSList *
@@ -2761,6 +2766,12 @@ gnm_expr_entry_parse_as_list (GnmExprEntry *gee, Sheet *sheet)
 		gtk_entry_get_text (gnm_expr_entry_get_entry (gee)));
 }
 
+/**
+ * gnm_expr_entry_get_entry:
+ * @gee: #GnmExprEntry
+ *
+ * Returns: (transfer none): the associated #GtkEntry.
+ **/
 GtkEntry *
 gnm_expr_entry_get_entry (GnmExprEntry *gee)
 {

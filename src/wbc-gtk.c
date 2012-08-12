@@ -3255,7 +3255,7 @@ cb_fore_color_changed (GOActionComboColor *a, WBCGtk *wbcg)
 	mstyle = gnm_style_new ();
 	gnm_style_set_font_color (mstyle, is_default
 		? style_color_auto_font ()
-		: style_color_new_go (c));
+		: gnm_color_new_go (c));
 	cmd_selection_format (wbc, mstyle, NULL, _("Set Foreground Color"));
 }
 
@@ -3309,7 +3309,7 @@ cb_back_color_changed (GOActionComboColor *a, WBCGtk *wbcg)
 		    gnm_style_get_pattern (mstyle) < 1)
 			gnm_style_set_pattern (mstyle, 1);
 
-		gnm_style_set_back_color (mstyle, style_color_new_go (c));
+		gnm_style_set_back_color (mstyle, gnm_color_new_go (c));
 	} else
 		gnm_style_set_pattern (mstyle, 0);	/* Set background to NONE */
 	cmd_selection_format (wbc, mstyle, NULL, _("Set Background Color"));
@@ -4447,14 +4447,20 @@ wbc_gtk_setup_icons (void)
 	if (!done) {
 		unsigned int ui = 0;
 		GtkIconFactory *factory = gtk_icon_factory_new ();
+		GObject *app = gnm_app_get_app ();
+		/* adding a test because this is called from  wbc_gtk_class_init()
+		during introspection with no proper initialization.*/
+		if (!app)
+			return;
 		for (ui = 0; ui < G_N_ELEMENTS (entry) ; ui++)
 			add_icon (factory,
 				  entry[ui].scalable_data,
 				  entry[ui].sized_data,
 				  entry[ui].stock_id);
 		gtk_icon_factory_add_default (factory);
-		g_object_set_data_full (gnm_app_get_app (),
-					"icon-factory", factory,
+		/* adding a test because this is called from  wbc_gtk_class_init()
+		during introspection with no proper initialization.*/
+		g_object_set_data_full (app, "icon-factory", factory,
 					(GDestroyNotify)gtk_icon_factory_remove_default);
 		g_object_unref (G_OBJECT (factory));
 		done = TRUE;
@@ -5833,8 +5839,8 @@ wbcg_get_n_scg (WBCGtk const *wbcg)
 
 /**
  * wbcg_get_nth_scg
- * @wbcg : #WBCGtk
- * @i :
+ * @wbcg: #WBCGtk
+ * @i:
  *
  * Returns the scg associated with the @i-th tab in @wbcg's notebook.
  * NOTE : @i != scg->sv->sheet->index_in_wb

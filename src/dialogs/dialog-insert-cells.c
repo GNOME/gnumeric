@@ -70,7 +70,7 @@ cb_insert_cell_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	radio_0 = go_gtk_builder_get_widget (state->gui, "radio_0");
 	g_return_if_fail (radio_0 != NULL);
 
-	i = gtk_radio_group_get_selected
+	i = gnm_gtk_radio_group_get_selected
 	  (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio_0)));
 
 	cols = state->sel->end.col - state->sel->start.col + 1;

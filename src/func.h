@@ -219,8 +219,9 @@ struct _GnmFuncEvalInfo {
 	GnmExprFunction const *func_call;
 };
 
+GType       gnm_func_get_type        (void);
 void	    gnm_func_free	     (GnmFunc *func);
-void	    gnm_func_ref	     (GnmFunc *func);
+GnmFunc	   *gnm_func_ref	     (GnmFunc *func);
 void	    gnm_func_unref	     (GnmFunc *func);
 void        gnm_func_load_if_stub    (GnmFunc *func);
 void	    gnm_func_load_stub	     (GnmFunc *fn_def);
@@ -273,8 +274,8 @@ GnmValue *function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn
 typedef GnmValue * (*FunctionIterateCB) (GnmEvalPos const *ep, GnmValue const *value,
 					 gpointer user_data);
 GnmValue *function_iterate_argument_values (GnmEvalPos const *ep,
-					    FunctionIterateCB cb,
-					    gpointer user_data,
+					    FunctionIterateCB callback,
+					    gpointer callback_closure,
 					    int argc,
 					    GnmExprConstPtr const *argv,
 					    gboolean strict,

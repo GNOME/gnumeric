@@ -639,9 +639,10 @@ cell_name (GnmCell const *cell)
 }
 
 /**
- * cellpos_parse
- * @cell_name:   a string representation of a cell name.
- * @pos:         result
+ * cellpos_parse:
+ * @cell_str:   a string representation of a cell name.
+ * @ss:          #GnmSheetSize
+ * @res:         result
  * @strict:      if this is TRUE, then parsing stops at possible errors,
  *               otherwise an attempt is made to return cell names with
  *               trailing garbage.
@@ -721,9 +722,9 @@ gnm_expr_char_start_p (char const * c)
  * parse_text_value_or_expr : Utility routine to parse a string and convert it
  *     into an expression or value.
  *
- * @pos : If the string looks like an expression parse it at this location.
+ * @pos: If the string looks like an expression parse it at this location.
  * @text: The text to be parsed.
- * @val : Returns a GnmValue* if the text was a value, otherwise NULL.
+ * @val: Returns a GnmValue* if the text was a value, otherwise NULL.
  * @texpr: Returns a GnmExprTop* if the text was an expression, otherwise NULL.
  *
  * If there is a parse failure for an expression an error GnmValue with the syntax
@@ -1456,6 +1457,19 @@ gnm_conventions_ref (GnmConventions *c)
 	return c;
 }
 
+GType
+gnm_conventions_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmConventions",
+			 (GBoxedCopyFunc)gnm_conventions_ref,
+			 (GBoxedFreeFunc)gnm_conventions_unref);
+	}
+	return t;
+}
+
 /* ------------------------------------------------------------------------- */
 
 GnmConventions const *gnm_conventions_default;
@@ -1489,8 +1503,8 @@ parse_util_shutdown (void)
 /* ------------------------------------------------------------------------- */
 /**
  * gnm_expr_conv_quote:
- * @convs : #GnmConventions
- * @str   : string to quote
+ * @conv: #GnmConventions
+ * @str: string to quote
  *
  * Quotes @str according to the convention @convs if necessary.
  * or returns a literal copy of @str if no quoting was needed.

@@ -358,9 +358,9 @@ range_flip_v (GnmRange *range, Sheet const *sheet, int const *data)
 
 /**
  * clipboard_paste_region:
- * @cr : The GnmCellRegion to paste.
- * @pt : Where to paste the values.
- * @cc : The context for error handling.
+ * @cr: The GnmCellRegion to paste.
+ * @pt: Where to paste the values.
+ * @cc: The context for error handling.
  *
  * Pastes the supplied GnmCellRegion (@cr) into the supplied
  * GnmPasteTarget (@pt).  This operation is not undoable.  It does not auto grow
@@ -708,8 +708,8 @@ clipboard_copy_range_undo (Sheet *sheet, GnmRange const *r)
 
 /**
  * clipboard_copy_obj:
- * @sheet : #Sheet
- * @objects : #GSList
+ * @sheet: #Sheet
+ * @objects: #GSList
  *
  * Returns a cell region with copies of objects in list.  Caller is responsible
  *	for cellregion_unref-ing the result.

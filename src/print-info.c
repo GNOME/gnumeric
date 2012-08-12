@@ -190,6 +190,19 @@ print_info_free (PrintInformation *pi)
 	g_free (pi);
 }
 
+GType
+print_information_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("PrintInformation",
+			 (GBoxedCopyFunc)print_info_dup,
+			 (GBoxedFreeFunc)print_info_free);
+	}
+	return t;
+}
+
 static void
 load_formats (void)
 {
@@ -686,8 +699,8 @@ render_opcode (GString *target, char /* non-const */ *opcode,
           &Y              Subscript on/off (BIFF5-BIFF8)
      &"<fontname>"        Set new font <fontname>
 &"<fontname>,<fontstyle>" Set new font with specified style <fontstyle>. The style <fontstyle> is in most cases
-                          one of “Regular”, “Bold”, “Italic”, or “Bold Italic”. But this setting is dependent on the
-                          used font, it may differ (localised style names, or “Standard”, “Oblique”, ...). (BIFF5-
+                          one of "Regular", "Bold", "Italic", or "Bold Italic". But this setting is dependent on the
+                          used font, it may differ (localised style names, or "Standard", "Oblique", ...). (BIFF5-
                           BIFF8)
      &<fontheight>        Set font height in points (<fontheight> is a decimal value). If this command is followed
                           by a plain number to be printed in the header, it will be separated from the font height

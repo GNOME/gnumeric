@@ -190,9 +190,9 @@ value_error_name (GnmStdError err, gboolean translated)
 }
 
 /**
- * value_error_set_pos :
- * @err :
- * @pos :
+ * value_error_set_pos:
+ * @err:
+ * @pos:
  *
  * Change the position of a ValueError.
  */
@@ -263,7 +263,7 @@ value_new_cellrange_unsafe (GnmCellRef const *a, GnmCellRef const *b)
 }
 
 /**
- * value_new_cellrange : Create a new range reference.
+ * value_new_cellrange: Create a new range reference.
  *
  * Attempt to do a sanity check for inverted ranges.
  * NOTE : This is no longer necessary and will be removed.
@@ -341,7 +341,7 @@ value_new_cellrange_r (Sheet *sheet, GnmRange const *r)
 }
 
 /**
- * value_new_cellrange_str :
+ * value_new_cellrange_str:
  * @sheet: the sheet where the cell range is evaluated. This really only needed if
  *         the range given does not include a sheet specification.
  * @str: a range specification (ex: "A1", "A1:C3", "Sheet1!A1:C3", "R1C1").
@@ -365,7 +365,7 @@ value_new_cellrange_str (Sheet *sheet, char const *str)
 }
 
 /**
- * value_new_cellrange_parsepos_str :
+ * value_new_cellrange_parsepos_str:
  * @pp:  if a relative range is specified, then it will be interpreted relative
  *       to this position (affects only A1-style relative references).
  * @str: a range specification (ex: "A1", "A1:C3", "Sheet1!A1:C3", "R1C1").
@@ -595,10 +595,10 @@ value_release (GnmValue *value)
 }
 
 /**
- * value_dup :
- * @src : #GnmValue
+ * value_dup:
+ * @v: #GnmValue
  *
- * Returns a copy of @src.  @src == NULL will return NULL
+ * Returns a copy of @v.  @v == NULL will return NULL
  **/
 GnmValue *
 value_dup (GnmValue const *src)
@@ -665,9 +665,9 @@ value_compare_real (GnmValue const *a, GnmValue const *b,
 
 
 /**
- * value_cmp :
- * @ptr_a :
- * @ptr_b :
+ * value_cmp:
+ * @ptr_a:
+ * @ptr_b:
  *
  * qsort style comparison function.
  **/
@@ -849,9 +849,9 @@ value_get_as_checked_bool (GnmValue const *v)
 
 /**
  * value_get_as_gstring:
- * @v : #GnmValue
- * @target : #GString
- * @conv : #GnmConventions
+ * @v: #GnmValue
+ * @target: #GString
+ * @conv: #GnmConventions
  *
  * A simple value formatter to convert @v into a string stored in @target
  * according to @conv.  See format_value_gstring for something more elaborate
@@ -959,8 +959,8 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 
 
 /**
- * value_get_as_string :
- * @v :
+ * value_get_as_string:
+ * @v:
  *
  * simplistic value rendering
  *
@@ -1091,9 +1091,9 @@ value_get_rangeref (GnmValue const *v)
 
 
 /**
- * value_coerce_to_number :
- * @v :
- * @valid :
+ * value_coerce_to_number:
+ * @v:
+ * @valid:
  *
  * If the value can be used as a number return that number
  * otherwise free it at return an appropriate error
@@ -1162,10 +1162,10 @@ compare_float_float (GnmValue const *va, GnmValue const *vb)
 }
 
 /**
- * value_diff :
+ * value_diff:
  *
- * @a : value a
- * @b : value b
+ * @a: value a
+ * @b: value b
  *
  * IGNORES format.
  *
@@ -1270,11 +1270,11 @@ gnm_string_cmp_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
 
 
 /**
- * value_compare :
+ * value_compare:
  *
- * @a : value a
- * @b : value b
- * @case_sensitive : are string comparisons case sensitive.
+ * @a: value a
+ * @b: value b
+ * @case_sensitive: are string comparisons case sensitive.
  *
  * IGNORES format.
  */
@@ -1653,11 +1653,11 @@ free_criterias (GSList *criterias)
 }
 
 /**
- * parse_criteria :
- * @crit_val : #GnmValue
- * @date_conv : #GODateConventions
+ * parse_criteria:
+ * @crit_val: #GnmValue
+ * @date_conv: #GODateConventions
  *
- * Returns GnmCriteria which caller must free.
+ * Returns: (transfer full): GnmCriteria which caller must free.
  *
  * ">=value"
  * "<=value"

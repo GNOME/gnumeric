@@ -1356,7 +1356,7 @@ static GNM_ACTION_DEF (cb_sort_descending) { sort_by_rows (wbcg, TRUE); }
 static void
 cb_add_graph (GogGraph *graph, gpointer wbcg)
 {
-	GraphDataClosure *data = (GraphDataClosure *) g_object_get_data (G_OBJECT (graph), "data-closure");
+	GnmGraphDataClosure *data = (GnmGraphDataClosure *) g_object_get_data (G_OBJECT (graph), "data-closure");
 	if (data) {
 		if (data->new_sheet) {
 			WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);

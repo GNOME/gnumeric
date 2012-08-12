@@ -526,7 +526,7 @@ static GnmColor *
 lotus_color (guint i)
 {
 	if (i < G_N_ELEMENTS (lotus_color_table))
-		return style_color_new_rgb8 (lotus_color_table[i][0],
+		return gnm_color_new_rgb8 (lotus_color_table[i][0],
 					     lotus_color_table[i][1],
 					     lotus_color_table[i][2]);
 	switch (i) {
@@ -2496,7 +2496,7 @@ works_color (guint i)
 {
 	if (i == 0) return style_color_auto_font();
 	if (i < G_N_ELEMENTS (works_color_table))
-		return style_color_new_rgb8 (works_color_table[i][0],
+		return gnm_color_new_rgb8 (works_color_table[i][0],
 					     works_color_table[i][1],
 					     works_color_table[i][2]);
 	return NULL;

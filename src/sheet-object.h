@@ -9,26 +9,6 @@
 
 G_BEGIN_DECLS
 
-/***********************************************************
- * Move to goffice during 1.7 */
-
-typedef enum {
-	GOD_ANCHOR_DIR_UNKNOWN    = 0xFF,
-	GOD_ANCHOR_DIR_UP_LEFT    = 0x00,
-	GOD_ANCHOR_DIR_UP_RIGHT   = 0x01,
-	GOD_ANCHOR_DIR_DOWN_LEFT  = 0x10,
-	GOD_ANCHOR_DIR_DOWN_RIGHT = 0x11,
-
-	GOD_ANCHOR_DIR_NONE_MASK  = 0x00,
-	GOD_ANCHOR_DIR_H_MASK	  = 0x01,
-	GOD_ANCHOR_DIR_RIGHT	  = 0x01,
-	GOD_ANCHOR_DIR_V_MASK	  = 0x10,
-	GOD_ANCHOR_DIR_DOWN	  = 0x10
-} GODrawingAnchorDir;
-typedef struct _GODrawingAnchor {
-	int			pos_pts [4];	/* position in points */
-	GODrawingAnchorDir	direction;
-} GODrawingAnchor;
 /***********************************************************/
 
 typedef enum {

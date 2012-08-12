@@ -9,7 +9,9 @@ G_BEGIN_DECLS
 
 typedef struct {
 	GnmCellCombo	parent;
+#ifndef GOFFICE_NAMESPACE_DISABLE
 	GODataSlicerField *dsf;
+#endif
 } GnmSheetSlicerCombo;
 
 #define GNM_SHEET_SLICER_COMBO_TYPE     (gnm_sheet_slicer_combo_get_type ())

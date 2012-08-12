@@ -48,6 +48,7 @@ typedef enum {
 	case GNM_EXPR_OP_EXP: case GNM_EXPR_OP_CAT
 #define GNM_EXPR_OP_ANY_UNARY GNM_EXPR_OP_PAREN: case GNM_EXPR_OP_UNARY_NEG: case GNM_EXPR_OP_UNARY_PLUS: case GNM_EXPR_OP_PERCENTAGE
 
+GType          gnm_expr_get_type        (void);
 GnmExpr const *gnm_expr_new_constant	(GnmValue *v);
 GnmExpr const *gnm_expr_new_unary	(GnmExprOp op, GnmExpr const *e);
 GnmExpr const *gnm_expr_new_binary	(GnmExpr const *l, GnmExprOp op,
@@ -128,6 +129,7 @@ GnmExprTop const *gnm_expr_top_new_constant	(GnmValue *v);
 GnmExprTop const *gnm_expr_top_new_array_corner (int cols, int rows, GnmExpr const *expr);
 GnmExprTop const *gnm_expr_top_new_array_elem	(int x, int y);
 
+GType		gnm_expr_top_get_type (void);
 void		gnm_expr_top_ref		(GnmExprTop const *texpr);
 void		gnm_expr_top_unref		(GnmExprTop const *texpr);
 gboolean	gnm_expr_top_equal		(GnmExprTop const *te1, GnmExprTop const *te2);
@@ -191,6 +193,7 @@ void	  gnm_expr_top_as_gstring (GnmExprTop const *texpr,
 
 /*****************************************************************************/
 
+GType             gnm_expr_sharer_get_type (void);
 GnmExprSharer *   gnm_expr_sharer_new  (void);
 void              gnm_expr_sharer_destroy (GnmExprSharer *es);
 GnmExprTop const *gnm_expr_sharer_share (GnmExprSharer *es, GnmExprTop const *texpr);

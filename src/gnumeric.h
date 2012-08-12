@@ -46,10 +46,10 @@ typedef struct _SheetControl		SheetControl;
 
 typedef struct _SheetObject		SheetObject;
 typedef struct _SheetObjectAnchor	SheetObjectAnchor;
-typedef struct _SheetObjectView		 SheetObjectView;
+typedef struct _SheetObjectView		SheetObjectView;
 typedef struct _SheetObjectViewContainer SheetObjectViewContainer;
-typedef struct _SheetObjectImageableIface SheetObjectImageableIface;
-typedef struct _SheetObjectExportableIface SheetObjectExportableIface;
+typedef struct _SheetObjectImageable    SheetObjectImageable;
+typedef struct _SheetObjectExportable   SheetObjectExportable;
 
 typedef struct _GnmDepContainer		GnmDepContainer;
 typedef struct _GnmDependent		GnmDependent;

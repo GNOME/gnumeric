@@ -183,11 +183,13 @@ sheet_style_unlink (Sheet *sheet, GnmStyle *st)
 /**
  * sheet_style_find :
  *
- * @sheet : the sheet
- * @s     : a style
+ * @sheet: (transfer full): the sheet
+ * @s: a style
  *
  * Looks up a style from the sheets collection.  Linking if necessary.
  * ABSORBS the reference and adds a link.
+ *
+ * Returns: (transfer full): the new style.
  */
 GnmStyle *
 sheet_style_find (Sheet const *sheet, GnmStyle *s)
@@ -656,7 +658,7 @@ sheet_style_init_size (Sheet *sheet, int cols, int rows)
 	 * 'none' by default.  Then displays that as white. */
 	if (sheet->sheet_type == GNM_SHEET_OBJECT) {
 		gnm_style_set_back_color (default_style,
-			style_color_new_rgb8 (0x50, 0x50, 0x50));
+			gnm_color_new_rgb8 (0x50, 0x50, 0x50));
 		gnm_style_set_pattern (default_style, 1);
 	}
 #endif
@@ -2385,13 +2387,15 @@ cb_hash_to_list (G_GNUC_UNUSED gpointer key, gpointer	value, gpointer	user_data)
 }
 
 /**
- * sheet_style_get_range :
+ * sheet_style_get_range:
  *
- * @sheet :
- * @range :
+ * @sheet:
+ * @range:
  *
  * Get a list of rectangles and their associated styles
  * Caller is responsible for freeing.
+ *
+ * Returns: (element-type GnmStyleRange) (transfer full):
  */
 GnmStyleList *
 sheet_style_get_range (Sheet const *sheet, GnmRange const *r)
@@ -2444,11 +2448,11 @@ style_conditions_equal (GnmStyle const *a, GnmStyle const *b)
 
 /**
  * sheet_style_collect_conditions:
- * @sheet :
- * @range :
+ * @sheet:
+ * @range:
  *
- * Returns a list of areas with conditionals, Caller is responsible for
- * freeing.
+ * Returns: (transfer full): a list of areas with conditionals, Caller is
+ * responsible for freeing.
  **/
 GnmStyleList *
 sheet_style_collect_conditions (Sheet const *sheet, GnmRange const *r)
@@ -2494,11 +2498,12 @@ style_hlink_equal (GnmStyle const *a, GnmStyle const *b)
 }
 
 /**
- * sheet_style_collect_hlinks :
- * @sheet :
- * @range :
+ * sheet_style_collect_hlinks:
+ * @sheet:
+ * @range:
  *
- * Returns a list of areas with hyperlinks, Caller is responsible for freeing.
+ * Returns: (transfer full): a list of areas with hyperlinks, Caller is
+ * responsible for freeing.
  **/
 GnmStyleList *
 sheet_style_collect_hlinks (Sheet const *sheet, GnmRange const *r)
@@ -2548,11 +2553,12 @@ style_validation_equal (GnmStyle const *a, GnmStyle const *b)
 }
 
 /**
- * sheet_style_collect_validations :
- * @sheet :
- * @range :
+ * sheet_style_collect_validations:
+ * @sheet:
+ * @range:
  *
- * Returns a list of areas with validation, Caller is responsible for freeing.
+ * Returns: (transfer full): a list of areas with validation, Caller is
+ * responsible for freeing.
  **/
 GnmStyleList *
 sheet_style_collect_validations (Sheet const *sheet, GnmRange const *r)
@@ -2582,11 +2588,12 @@ sheet_style_collect_validations (Sheet const *sheet, GnmRange const *r)
 }
 
 /**
- * sheet_style_set_list
- * @sheet     : #Sheet
- * @corner    : The top-left corner (in LTR mode)
- * @transpose : should the styles be transposed
- * @list      : #GnmStyleList
+ * sheet_style_set_list:
+ * @sheet: #Sheet
+ * @corner: The top-left corner (in LTR mode)
+ * @l: #GnmStyleList
+ * @range_modify: (scope call):
+ * @data: user data
  *
  * Overwrites the styles of the ranges given by @corner with the content of
  * @list. Optionally transposing the ranges
@@ -2673,12 +2680,14 @@ cb_find_link (GnmStyle *style,
 }
 
 /**
- * sheet_style_region_contains_link :
- * @sheet :
- * @r :
+ * sheet_style_region_contains_link:
+ * @sheet:
+ * @r:
  *
  * Utility routine that checks to see if a region contains at least 1 hyper link
  * and returns the 1st one it finds.
+ *
+ * Returns: (transfer none): the found #GmHLink if any.
  **/
 GnmHLink *
 sheet_style_region_contains_link (Sheet const *sheet, GnmRange const *r)
@@ -2694,6 +2703,14 @@ sheet_style_region_contains_link (Sheet const *sheet, GnmRange const *r)
 	return res;
 }
 
+/**
+ * sheet_style_foreach:
+ * @sheet: #Sheet
+ * @func: (scope call): callback
+ * @user_data: user data.
+ *
+ * Executes @func for each style in the sheet.
+ **/
 void
 sheet_style_foreach (Sheet const *sheet, GHFunc func, gpointer user_data)
 {
@@ -2730,6 +2747,14 @@ cb_hash_to_cb (G_GNUC_UNUSED gpointer key, gpointer value, gpointer user_data)
 
 }
 
+/**
+ * sheet_style_range_foreach:
+ * @sheet: #Sheet
+ * @func: (scope call): callback.
+ * @user_data: user data
+ * @optimize:
+ *
+ **/
 void
 sheet_style_range_foreach (Sheet const *sheet, GHFunc func, gpointer user_data, gboolean optimize)
 {

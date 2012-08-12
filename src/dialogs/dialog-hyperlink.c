@@ -393,7 +393,7 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 		style = gnm_style_new ();
 		gnm_style_set_hlink (style, g_object_ref (state->link));
 		gnm_style_set_font_uline (style, UNDERLINE_SINGLE);
-		gnm_style_set_font_color (style, style_color_new_name ("blue"));
+		gnm_style_set_font_color (style, gnm_color_new_name ("blue"));
 
 		if (state->is_new) {
 			cmdname = _("Add Hyperlink");

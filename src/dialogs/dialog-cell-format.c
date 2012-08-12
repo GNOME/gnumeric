@@ -753,7 +753,7 @@ cb_font_preview_color (G_GNUC_UNUSED GOComboColor *combo,
 
 	col = is_default
 		? style_color_auto_font ()
-		: style_color_new_go (c);
+		: gnm_color_new_go (c);
 	font_selector_set_color (state->font.selector, col);
 }
 
@@ -949,7 +949,7 @@ cb_back_preview_color (G_GNUC_UNUSED GOComboColor *combo,
 		sc = style_color_auto_back ();
 		gnm_style_set_pattern (state->back.style, 0);
 	} else {
-		sc = style_color_new_go (c);
+		sc = gnm_color_new_go (c);
 		gnm_style_set_pattern (state->back.style, state->back.pattern.cur_index);
 	}
 
@@ -966,7 +966,7 @@ cb_pattern_preview_color (G_GNUC_UNUSED GOComboColor *combo,
 {
 	GnmColor *col = is_default
 		? sheet_style_get_auto_pattern_color (state->sheet)
-		: style_color_new_go (c);
+		: gnm_color_new_go (c);
 
 	gnm_style_set_pattern_color (state->back.style, col);
 
@@ -1094,7 +1094,7 @@ border_get_mstyle (FormatState const *state, GnmStyleBorderLocation const loc)
 		guint8 const g = (guint8) (edge->rgba >> 16);
 		guint8 const b = (guint8) (edge->rgba >>  8);
 		guint8 const a = (guint8) (edge->rgba >>  0);
-		color = style_color_new_rgba8 (r, g, b, a);
+		color = gnm_color_new_rgba8 (r, g, b, a);
 	}
 	return gnm_style_border_fetch
 		(state->border.edge[loc].pattern_index, color,

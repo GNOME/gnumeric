@@ -26,6 +26,7 @@
 #include <glib-object.h>
 
 G_BEGIN_DECLS
+#ifndef GOFFICE_NAMESPACE_DISABLE
 
 struct _GODataCache {
 	GObject		base;
@@ -52,6 +53,7 @@ typedef struct {
 /* utility macro */
 #define go_data_cache_records_index(c, i)	((c)->records + ((c)->record_size * (i)))
 
+#endif
 G_END_DECLS
 
 #endif /* GO_DATA_CACHE_IMPL_H */

@@ -532,6 +532,19 @@ gnm_expr_free (GnmExpr const *expr)
 	}
 }
 
+GType
+gnm_expr_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmExpr",
+			 (GBoxedCopyFunc)gnm_expr_copy,
+			 (GBoxedFreeFunc)gnm_expr_free);
+	}
+	return t;
+}
+
 /**
  * gnm_expr_equal : Returns TRUE if the supplied expressions are exactly the
  *   same.  No eval position is used to see if they are effectively the same.
@@ -2814,14 +2827,37 @@ gnm_expr_sharer_new (void)
 		 (GEqualFunc)gnm_expr_top_equal,
 		 (GDestroyNotify)gnm_expr_top_unref,
 		 NULL);
+	es->ref_count = 1;
 	return es;
 }
 
 void
 gnm_expr_sharer_destroy (GnmExprSharer *es)
 {
+	if (!es || es->ref_count-- > 1)
+		return;
 	g_hash_table_destroy (es->exprs);
 	g_free (es);
+}
+
+static GnmExprSharer *
+gnm_expr_sharer_ref (GnmExprSharer *es)
+{
+	es->ref_count++;
+	return es;
+}
+
+GType
+gnm_expr_sharer_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmExprSharer",
+			 (GBoxedCopyFunc)gnm_expr_sharer_ref,
+			 (GBoxedFreeFunc)gnm_expr_sharer_destroy);
+	}
+	return t;
 }
 
 GnmExprTop const *
@@ -2905,6 +2941,19 @@ gnm_expr_top_unref (GnmExprTop const *texpr)
 		((GnmExprTop *)texpr)->magic = 0;
 		g_free ((GnmExprTop *)texpr);
 	}
+}
+
+GType
+gnm_expr_top_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmExprTop",
+			 (GBoxedCopyFunc)gnm_expr_top_ref,
+			 (GBoxedFreeFunc)gnm_expr_top_unref);
+	}
+	return t;
 }
 
 gboolean

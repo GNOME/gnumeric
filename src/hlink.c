@@ -50,11 +50,11 @@
  * The type names are used in the xml persistence DO NOT CHANGE THEM
  **/
 /**
- * gnm_hlink_activate :
- * @link :
- * @wbcg : the wbcg that activated the link
+ * gnm_hlink_activate:
+ * @link:
+ * @wbcg: the wbcg that activated the link
  *
- * Return TRUE if the link successfully activated.
+ * Returns: TRUE if the link successfully activated.
  **/
 gboolean
 gnm_hlink_activate (GnmHLink *lnk, WBCGtk *wbcg)
@@ -64,6 +64,13 @@ gnm_hlink_activate (GnmHLink *lnk, WBCGtk *wbcg)
 	return GET_CLASS (lnk)->Activate (lnk, wbcg);
 }
 
+/**
+ * sheet_hlink_find:
+ * @sheet: #Sheet
+ * @pos: #GcmCellPos
+ *
+ * Returns: (transfer none): the found #GnmHLink.
+ **/
 GnmHLink *
 sheet_hlink_find (Sheet const *sheet, GnmCellPos const *pos)
 {

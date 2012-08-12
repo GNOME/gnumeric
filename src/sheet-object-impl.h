@@ -155,7 +155,7 @@ void so_vc_coords_to_anchor (SheetObjectViewContainer *sovc,
 
 /***************************************************************************/
 
-struct _SheetObjectImageableIface {
+typedef struct {
 	GTypeInterface base;
 
 	GtkTargetList *(*get_target_list) (SheetObject const *so);
@@ -164,11 +164,11 @@ struct _SheetObjectImageableIface {
 					   double resolution,
 					   GsfOutput *output,
 					   GError **err);
-};
+} SheetObjectImageableIface;
 
 /***************************************************************************/
 
-struct _SheetObjectExportableIface {
+typedef struct {
 	GTypeInterface base;
 
 	GtkTargetList *(*get_target_list) (SheetObject const *so);
@@ -176,7 +176,7 @@ struct _SheetObjectExportableIface {
 					   char const *format,
 					   GsfOutput *output, GError **err,
 					   GnmConventions const *convs);
-};
+} SheetObjectExportableIface;
 
 G_END_DECLS
 

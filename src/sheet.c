@@ -73,6 +73,27 @@
 #include <stdlib.h>
 #include <string.h>
 
+static GnmSheetSize *
+gnm_sheet_size_copy (GnmSheetSize *size)
+{
+	GnmSheetSize *res = g_new (GnmSheetSize, 1);
+	*res = *size;
+	return res;
+}
+
+GType
+gnm_sheet_size_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmSheetSize",
+			 (GBoxedCopyFunc)gnm_sheet_size_copy,
+			 (GBoxedFreeFunc)g_free);
+	}
+	return t;
+}
+
 enum {
 	DETACHED_FROM_WORKBOOK,
 	LAST_SIGNAL
@@ -1290,6 +1311,16 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 	}
 }
 
+/**
+ * gnm_sheet_resize:
+ * @sheet: #Sheet
+ * @cols: the new columns number.
+ * @rows: the new rows number.
+ * @cc: #GOCmdContext.
+ * @perr: will be %TRUE on error.
+ *
+ * Returns: (transfer full): the newly allocated #GOUndo.
+ **/
 GOUndo *
 gnm_sheet_resize (Sheet *sheet, int cols, int rows,
 		  GOCmdContext *cc, gboolean *perr)
@@ -1331,15 +1362,16 @@ gnm_sheet_resize (Sheet *sheet, int cols, int rows,
 
 
 /**
- * sheet_new_with_type :
- * @wb      : #Workbook
- * @name    : An unquoted name
- * @type    : @GnmSheetType
- * @columns : The number of columns for the sheet
- * @rows    : The number of rows for the sheet
+ * sheet_new_with_type:
+ * @wb: #Workbook
+ * @name: An unquoted name
+ * @type: @GnmSheetType
+ * @columns: The number of columns for the sheet
+ * @rows: The number of rows for the sheet
  *
  * Create a new Sheet of type @type, and associate it with @wb.
  * The type cannot be changed later.
+ * Returns: (transfer full): the newly allocated sheet.
  **/
 Sheet *
 sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type,
@@ -1367,14 +1399,15 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type,
 }
 
 /**
- * sheet_new :
- * @wb    : #Workbook
- * @name  : The name for the sheet (unquoted).
- * @columns : The requested columns number.
- * @rows    : The requested rows number.
+ * sheet_new:
+ * @wb: #Workbook
+ * @name: The name for the sheet (unquoted).
+ * @columns: The requested columns number.
+ * @rows: The requested rows number.
  *
  * Create a new Sheet of type SHEET_DATA, and associate it with @wb.
  * The type can not be changed later
+ * Returns: (transfer full): the newly allocated sheet.
  **/
 Sheet *
 sheet_new (Workbook *wb, char const *name, int columns, int rows)
@@ -1565,10 +1598,10 @@ sheet_cell_calc_span (GnmCell *cell, GnmSpanCalcFlags flags)
 }
 
 /**
- * sheet_apply_style :
+ * sheet_apply_style:
  * @sheet: the sheet in which can be found
  * @range: the range to which should be applied
- * @style: the style
+ * @mstyle: the style
  *
  * A mid level routine that applies the supplied partial style @style to the
  * target @range and performs the necessary respanning and redrawing.
@@ -1595,6 +1628,13 @@ sheet_apply_style_cb (GnmSheetRange *sr,
 	sheet_flag_style_update_range (sr->sheet, &sr->range);
 }
 
+/**
+ * sheet_apply_style_undo:
+ * @sr: #GnmSheetRange
+ * @style: #GnmStyle
+ *
+ * Returns: (transfer full): the new #GOUndo.
+ **/
 GOUndo *
 sheet_apply_style_undo (GnmSheetRange *sr,
 			GnmStyle      *style)
@@ -1701,11 +1741,11 @@ sheet_reposition_objects (Sheet const *sheet, GnmCellPos const *pos)
 
 /**
  * sheet_flag_status_update_cell:
+ * @cell: The cell that has changed.
+ *
  *    flag the sheet as requiring an update to the status display
  *    if the supplied cell location is the edit cursor, or part of the
  *    selected region.
- *
- * @cell : The cell that has changed.
  *
  * Will cause the format toolbar, the edit area, and the auto expressions to be
  * updated if appropriate.
@@ -1719,12 +1759,12 @@ sheet_flag_status_update_cell (GnmCell const *cell)
 
 /**
  * sheet_flag_status_update_range:
+ * @sheet:
+ * @range: If NULL then force an update.
+ *
  *    flag the sheet as requiring an update to the status display
  *    if the supplied cell location contains the edit cursor, or intersects of
  *    the selected region.
- *
- * @sheet :
- * @range : If NULL then force an update.
  *
  * Will cause the format toolbar, the edit area, and the auto expressions to be
  * updated if appropriate.
@@ -1737,9 +1777,9 @@ sheet_flag_status_update_range (Sheet const *sheet, GnmRange const *range)
 }
 
 /**
- * sheet_flag_style_update_range :
- * @sheet : The sheet being changed
- * @range : the range that is changing.
+ * sheet_flag_style_update_range:
+ * @sheet: The sheet being changed
+ * @range: the range that is changing.
  *
  * Flag format changes that will require updating the format indicators.
  **/
@@ -1752,7 +1792,7 @@ sheet_flag_style_update_range (Sheet const *sheet, GnmRange const *range)
 
 /**
  * sheet_flag_recompute_spans:
- * @sheet :
+ * @sheet:
  *
  * Flag the sheet as requiring a full span recomputation the next time
  * sheet_update is called.
@@ -1789,7 +1829,8 @@ sheet_colrow_fit_gutter (Sheet const *sheet, gboolean is_cols)
 }
 
 /**
- * sheet_update_only_grid :
+ * sheet_update_only_grid:
+ * @sheet: #Sheet
  *
  * Should be called after a logical command has finished processing
  * to request redraws for any pending events
@@ -1899,7 +1940,7 @@ sheet_update_only_grid (Sheet const *sheet)
 
 /**
  * sheet_update:
- * @sheet : #Sheet
+ * @sheet: #Sheet
  *
  * Should be called after a logical command has finished processing to request
  * redraws for any pending events, and to update the various status regions
@@ -1963,9 +2004,9 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
 
 /**
  * sheet_colrow_can_group:
- * @sheet : #Sheet
- * @r : A #GnmRange
- * @is_cols : boolean
+ * @sheet: #Sheet
+ * @r: A #GnmRange
+ * @is_cols: boolean
  *
  * Returns TRUE if the cols/rows in @r.start -> @r.end can be grouped, return
  * FALSE otherwise. You can invert the result if you need to find out if a
@@ -2043,11 +2084,10 @@ sheet_colrow_group_ungroup (Sheet *sheet, GnmRange const *r,
 }
 
 /**
- * sheet_colrow_gutter :
- *
- * @sheet :
- * @is_cols :
- * @max_outline :
+ * sheet_colrow_gutter:
+ * @sheet:
+ * @is_cols:
+ * @max_outline:
  *
  * Set the maximum outline levels for cols or rows.
  */
@@ -2321,7 +2361,7 @@ cb_max_cell_width (GnmCellIter const *iter, struct cb_fit *data)
  * This routine computes the ideal size for the column to make the contents all
  * cells in the column visible.
  *
- * Return : Maximum size in pixels INCLUDING margins and grid lines
+ * Returns: Maximum size in pixels INCLUDING margins and grid lines
  *          or 0 if there are no cells.
  **/
 int
@@ -2405,7 +2445,7 @@ cb_max_cell_height (GnmCellIter const *iter, struct cb_fit *data)
  * This routine computes the ideal size for the row to make all data fit
  * properly.
  *
- * Return : Maximum size in pixels INCLUDING margins and grid lines
+ * Returns: Maximum size in pixels INCLUDING margins and grid lines
  *          or 0 if there are no cells.
  **/
 int
@@ -2544,7 +2584,9 @@ cb_clear_non_corner (GnmCellIter const *iter, GnmRange const *merged)
 }
 
 /**
- * sheet_range_set_expr_cb :
+ * sheet_range_set_expr_cb:
+ * @sr: #GnmSheetRange
+ * @texpr: #GnmExprTop
  *
  *
  * Does NOT check for array division.
@@ -2604,11 +2646,10 @@ sheet_range_set_expr_undo (GnmSheetRange *sr, GnmExprTop const  *texpr)
 
 
 /**
- * sheet_range_set_text :
- *
- * @pos : The position from which to parse an expression.
- * @r  :  The range to fill
- * @str : The text to be parsed and assigned.
+ * sheet_range_set_text:
+ * @pos: The position from which to parse an expression.
+ * @r:  The range to fill
+ * @str: The text to be parsed and assigned.
  *
  * Does NOT check for array division.
  * Does NOT redraw
@@ -2758,8 +2799,8 @@ sheet_cell_get_value (Sheet *sheet, int const col, int const row)
 
 /**
  * sheet_cell_set_text:
- * @cell A cell.
- * @text, the text to set.
+ * @cell: A cell.
+ * @str: the text to set.
  * @markup: (allow-none): an optional PangoAttrList.
  *
  * Marks the sheet as dirty
@@ -2848,9 +2889,13 @@ sheet_cell_set_expr (GnmCell *cell, GnmExprTop const *texpr)
 	sheet_flag_status_update_cell (cell);
 }
 
-/*
- * sheet_cell_set_value : Stores (WITHOUT COPYING) the supplied value.  It marks the
- *          sheet as dirty.
+/**
+ * sheet_cell_set_value:
+ * @cell: #GnmCell
+ * @v: #GnmValue
+ *
+ * Stores (WITHOUT COPYING) the supplied value.  It marks the
+ * sheet as dirty.
  *
  * The value is rendered, spans are calculated, and the rendered string
  * is stored as if that is what the user had entered.  It queues a redraw
@@ -3008,14 +3053,14 @@ sheet_row_is_hidden (Sheet const *sheet, int row)
 }
 
 
-/*
- * sheet_find_boundary_horizontal
+/**
+ * sheet_find_boundary_horizontal:
  * @sheet:  The Sheet
- * @start_col	: The column from which to begin searching.
- * @move_row	: The row in which to search for the edge of the range.
- * @base_row	: The height of the area being moved.
- * @n:      units to extend the selection vertically
- * @jump_to_boundaries : Jump to range boundaries.
+ * @col: The column from which to begin searching.
+ * @move_row: The row in which to search for the edge of the range.
+ * @base_row: The height of the area being moved.
+ * @count:      units to extend the selection vertically
+ * @jump_to_boundaries: Jump to range boundaries.
  *
  * Calculate the column index for the column which is @n units
  * from @start_col doing bounds checking.  If @jump_to_boundaries is
@@ -3026,7 +3071,8 @@ sheet_row_is_hidden (Sheet const *sheet, int row)
  * of cells with content.  If you are at the end of a range it will find the
  * start of the next.  Make sure that is the sort of behavior you want before
  * calling this.
- */
+ * Returns: the column inex.
+ **/
 int
 sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 				int base_row, int count,
@@ -3108,14 +3154,14 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 	return MIN (new_col, max_col);
 }
 
-/*
- * sheet_find_boundary_vertical
+/**
+ * sheet_find_boundary_vertical:
  * @sheet:  The Sheet *
- * @move_col	: The col in which to search for the edge of the range.
- * @start_row	: The row from which to begin searching.
- * @base_col	: The width of the area being moved.
- * @n:      units to extend the selection vertically
- * @jump_to_boundaries : Jump to range boundaries.
+ * @move_col: The col in which to search for the edge of the range.
+ * @row: The row from which to begin searching.
+ * @base_col: The width of the area being moved.
+ * @count:      units to extend the selection vertically
+ * @jump_to_boundaries: Jump to range boundaries.
  *
  * Calculate the row index for the row which is @n units
  * from @start_row doing bounds checking.  If @jump_to_boundaries is
@@ -3126,7 +3172,8 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
  * of cells with content.  If you are at the end of a range it will find the
  * start of the next.  Make sure that is the sort of behavior you want before
  * calling this.
- */
+ * Returns: the row index.
+ **/
 int
 sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 			      int base_col, int count,
@@ -3276,18 +3323,18 @@ cb_check_array_vertical (GnmColRowIter const *iter, ArrayCheckData *data)
 }
 
 /**
- * sheet_range_splits_array :
- * @sheet : The sheet.
- * @r     : The range to check
+ * sheet_range_splits_array:
+ * @sheet: The sheet.
+ * @r: The range to check
  * @ignore: an optionally NULL range in which it is ok to have an array.
- * @cc   : an optional place to report an error.
- * @cmd   : an optional cmd name used with @cc.
+ * @cc: an optional place to report an error.
+ * @cmd: an optional cmd name used with @cc.
  *
  * Check the outer edges of range @sheet!@r to ensure that if an array is
  * within it then the entire array is within the range.  @ignore is useful when
  * src & dest ranges may overlap.
  *
- * returns TRUE if an array would be split.
+ * Returns: TRUE if an array would be split.
  **/
 gboolean
 sheet_range_splits_array (Sheet const *sheet,
@@ -3349,15 +3396,16 @@ sheet_range_splits_array (Sheet const *sheet,
 }
 
 /**
- * sheet_range_splits_region :
+ * sheet_range_splits_region:
  * @sheet: the sheet.
- * @r : The range whose boundaries are checked
- * @ignore : An optional range in which it is ok to have arrays and merges
- * @cc : The context that issued the command
- * @cmd : The translated command name.
+ * @r: The range whose boundaries are checked
+ * @ignore: An optional range in which it is ok to have arrays and merges
+ * @cc: The context that issued the command
+ * @cmd: The translated command name.
  *
  * A utility to see whether moving the range @r will split any arrays
  * or merged regions.
+ * Returns: whether any arrays or merged regions will be splitted.
  */
 gboolean
 sheet_range_splits_region (Sheet const *sheet,
@@ -3397,12 +3445,13 @@ sheet_range_splits_region (Sheet const *sheet,
 /**
  * sheet_ranges_split_region:
  * @sheet: the sheet.
- * @ranges : A list of ranges to check.
- * @cc : The context that issued the command
- * @cmd : The translated command name.
+ * @ranges: (element-type GnmRange): A list of ranges to check.
+ * @cc: The context that issued the command
+ * @cmd: The translated command name.
  *
- * A utility to see whether moving the any of the ranges @ranges will split any
+ * A utility to see whether moving any of the ranges @ranges will split any
  * arrays or merged regions.
+ * Returns: whether any arrays or merged regions will be splitted.
  */
 gboolean
 sheet_ranges_split_region (Sheet const * sheet, GSList const *ranges,
@@ -3426,15 +3475,16 @@ cb_cell_is_array (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 }
 
 /**
- * sheet_range_contains_region :
- *
- * @sheet : The sheet
- * @r     : the range to check.
- * @cc   : an optional place to report errors.
- * @cmd   :
+ * sheet_range_contains_region:
+ * @sheet: The sheet
+ * @r: the range to check.
+ * @cc: an optional place to report errors.
+ * @cmd:
  *
  * Check to see if the target region @sheet!@r contains any merged regions or
  * arrays.  Report an error to the @cc if it is supplied.
+ * Returns: %TRUE if the target region @sheet!@r contains any merged regions or
+ * arrays.
  **/
 gboolean
 sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
@@ -3468,9 +3518,11 @@ sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
 /***************************************************************************/
 
 /**
- * sheet_colrow_get_default :
- * @sheet :
- * @is_cols :
+ * sheet_colrow_get_default:
+ * @sheet:
+ * @is_cols:
+ *
+ * Returns: (transfer none): the default #ColRowInfo.
  */
 ColRowInfo const *
 sheet_colrow_get_default (Sheet const *sheet, gboolean is_cols)
@@ -3539,7 +3591,8 @@ sheet_colrow_optimize (Sheet *sheet)
 /**
  * sheet_col_get:
  *
- * Returns an allocated column:  either an existing one, or NULL
+ * Returns: (transfer none): an allocated column:  either an existing one,
+ * or NULL
  */
 ColRowInfo *
 sheet_col_get (Sheet const *sheet, int pos)
@@ -3667,12 +3720,20 @@ cell_ordering (gconstpointer a_, gconstpointer b_)
 
 /**
  * sheet_foreach_cell_in_range:
+ * @sheet: #Sheet
+ * @flags:
+ * @start_col:
+ * @start_row:
+ * @end_col:
+ * @end_row:
+ * @callback: (scope call): #CellFiletrFunc
+ * @closure: user data.
  *
  * For each existing cell in the range specified, invoke the
  * callback routine.  If the only_existing flag is passed, then
  * callbacks are only invoked for existing cells.
  *
- * Returns the value returned by the callback, which can be :
+ * Returns: (transfer none): the value returned by the callback, which can be :
  *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
  *    to stop (by returning non-NULL).
  *
@@ -3852,10 +3913,10 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 }
 
 /**
- * sheet_cell_foreach :
- * @sheet : #Sheet
- * @callback :
- * @data :
+ * sheet_cell_foreach:
+ * @sheet: #Sheet
+ * @callback: (scope call):
+ * @data:
  *
  * Call @callback with an argument of @data for each cell in the sheet
  **/
@@ -3868,8 +3929,8 @@ sheet_cell_foreach (Sheet const *sheet, GHFunc callback, gpointer data)
 }
 
 /**
- * sheet_cells_count :
- * @sheet : #Sheet
+ * sheet_cells_coun :
+ * @sheet: #Sheet
  *
  * Returns the number of cells with content in the current workbook.
  **/
@@ -3891,11 +3952,12 @@ cb_sheet_cells_collect (G_GNUC_UNUSED gpointer unused,
 /**
  * sheet_cells:
  *
- * @sheet     : The sheet to find cells in.
- * @comments  : If true, include cells with only comments also.
+ * @sheet: The sheet to find cells in.
+ * @comments: If true, include cells with only comments also.
  *
  * Collects a GPtrArray of GnmEvalPos pointers for all cells in a sheet.
  * No particular order should be assumed.
+ * Returns: (element-type GnmEvalPos) (transfer full): the newly created array
  **/
 GPtrArray *
 sheet_cells (Sheet *sheet, gboolean comments)
@@ -3941,10 +4003,7 @@ cb_fail_if_exist (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 /**
  * sheet_is_region_empty:
  * @sheet: sheet to check
- * @start_col: starting column
- * @start_row: starting row
- * @end_col:   end column
- * @end_row:   end row
+ * @r: region to check
  *
  * Returns TRUE if the specified region of the @sheet does not
  * contain any cells
@@ -4078,10 +4137,10 @@ gnm_sheet_cell_shutdown (void)
 /****************************************************************************/
 
 /**
- * sheet_cell_create :
- * @sheet : #Sheet
- * @col   :
- * @row   :
+ * sheet_cell_create:
+ * @sheet: #Sheet
+ * @col:
+ * @row:
  *
  * Creates a new cell and adds it to the sheet hash.
  **/
@@ -4107,7 +4166,9 @@ sheet_cell_create (Sheet *sheet, int col, int row)
 }
 
 /**
- * sheet_cell_remove_from_hash :
+ * sheet_cell_remove_from_hash:
+ * @sheet:
+ * @cell:
  *
  * Removes a cell from the sheet hash, clears any spans, and unlinks it from
  * the dependent collection.
@@ -4123,9 +4184,14 @@ sheet_cell_remove_from_hash (Sheet *sheet, GnmCell *cell)
 }
 
 /**
- * sheet_cell_destroy : Remove the cell from the web of dependencies of a
+ * sheet_cell_destroy:
+ * @sheet:
+ * @cell:
+ * @queue_recalc:
+ *
+ * Remove the cell from the web of dependencies of a
  *        sheet.  Do NOT redraw.
- */
+ **/
 static void
 sheet_cell_destroy (Sheet *sheet, GnmCell *cell, gboolean queue_recalc)
 {
@@ -4145,10 +4211,16 @@ sheet_cell_destroy (Sheet *sheet, GnmCell *cell, gboolean queue_recalc)
 }
 
 /**
- * sheet_cell_remove : Remove the cell from the web of dependencies of a
+ * sheet_cell_remove:
+ * @sheet:
+ * @cell:
+ * @redraw:
+ * @queue_recalc:
+ *
+ * Remove the cell from the web of dependencies of a
  *        sheet.  Do NOT free the cell, optionally redraw it, optionally
  *        queue it for recalc.
- */
+ **/
 void
 sheet_cell_remove (Sheet *sheet, GnmCell *cell,
 		   gboolean redraw, gboolean queue_recalc)
@@ -4176,6 +4248,9 @@ cb_free_cell (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 
 /**
  * sheet_col_destroy:
+ * @sheet:
+ * @col:
+ * @free_cells:
  *
  * Destroys a ColRowInfo from the Sheet with all of its cells
  */
@@ -4444,10 +4519,15 @@ cb_empty_cell (GnmCellIter const *iter, gpointer user)
 
 /**
  * sheet_clear_region:
+ * @sheet:
+ * @start_col:
+ * @start_row:
+ * @end_col:
+ * @end_row:
+ * @clear_flags: If this is TRUE then styles are erased.
+ * @cc:
  *
  * Clears are region of cells
- *
- * @clear_flags : If this is TRUE then styles are erased.
  *
  * We assemble a list of cells to destroy, since we will be making changes
  * to the structure being manipulated by the sheet_foreach_cell_in_range routine
@@ -4531,6 +4611,14 @@ sheet_clear_region_cb (GnmSheetRange *sr, int *flags)
 			  *flags | CLEAR_NOCHECKARRAY, NULL);
 }
 
+
+/**
+ * sheet_clear_region_undo:
+ * @sr: #GnmSheetRange
+ * @clear_flags: flags.
+ *
+ * Returns: (transfer full): the new #GOUndo.
+ **/
 GOUndo *sheet_clear_region_undo (GnmSheetRange *sr, int clear_flags)
 {
 	int *flags = g_new(int, 1);
@@ -4812,11 +4900,11 @@ schedule_reapply_filters (Sheet *sheet, GOUndo **pundo)
 
 /**
  * sheet_insert_cols:
- * @sheet  : #Sheet
- * @col    : At which position we want to insert
- * @count  : The number of columns to be inserted
- * @pundo  : undo closure, optionally NULL; caller releases result
- * @cc     :
+ * @sheet: #Sheet
+ * @col: At which position we want to insert
+ * @count: The number of columns to be inserted
+ * @pundo: undo closure, optionally NULL; caller releases result
+ * @cc:
  **/
 gboolean
 sheet_insert_cols (Sheet *sheet, int col, int count,
@@ -4887,11 +4975,11 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 
 /*
  * sheet_delete_cols
- * @sheet   The sheet
- * @col     At which position we want to start deleting columns
- * @count   The number of columns to be deleted
- * @pundo  : undo closure, optionally NULL; caller releases result
- * @cc : The command context
+ * @sheet: The sheet
+ * @col:     At which position we want to start deleting columns
+ * @count:   The number of columns to be deleted
+ * @pundo: undo closure, optionally NULL; caller releases result
+ * @cc: The command context
  */
 gboolean
 sheet_delete_cols (Sheet *sheet, int col, int count,
@@ -4984,11 +5072,11 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
 
 /**
  * sheet_insert_rows:
- * @sheet  : The sheet
- * @row    : At which position we want to insert
- * @count  : The number of rows to be inserted
- * @pundo  : undo closure, optionally NULL; caller releases result
- * @cc : The command context
+ * @sheet: The sheet
+ * @row: At which position we want to insert
+ * @count: The number of rows to be inserted
+ * @pundo: undo closure, optionally NULL; caller releases result
+ * @cc: The command context
  */
 gboolean
 sheet_insert_rows (Sheet *sheet, int row, int count,
@@ -5059,11 +5147,11 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 
 /*
  * sheet_delete_rows
- * @sheet  : The sheet
- * @row    : At which position we want to start deleting rows
- * @count  : The number of rows to be deleted
- * @pundo  : undo closure, optionally NULL; caller releases result
- * @cc : The command context
+ * @sheet: The sheet
+ * @row: At which position we want to start deleting rows
+ * @count: The number of rows to be deleted
+ * @pundo: undo closure, optionally NULL; caller releases result
+ * @cc: The command context
  */
 gboolean
 sheet_delete_rows (Sheet *sheet, int row, int count,
@@ -5155,10 +5243,10 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 }
 
 /**
- * sheet_move_range :
- * @cc :
- * @rinfo :
- * @pundo : optionally NULL, caller releases result
+ * sheet_move_range:
+ * @cc:
+ * @rinfo:
+ * @pundo: optionally NULL, caller releases result
  *
  * Move a range as specified in @rinfo report warnings to @cc.
  * if @pundo is non NULL, invalidate references to the
@@ -5859,10 +5947,11 @@ sheet_dup_filters (Sheet const *src, Sheet *dst)
 }
 
 /**
- * sheet_dup :
- * @src : #Sheet
+ * sheet_dup:
+ * @source_sheet: #Sheet
  *
  * Create a new Sheet and return it.
+ * Returns: (transfer full): the newly allocated #Sheet.
  **/
 Sheet *
 sheet_dup (Sheet const *src)
@@ -5932,9 +6021,9 @@ sheet_dup (Sheet const *src)
 }
 
 /**
- * sheet_set_outline_direction :
- * @sheet   : the sheet
- * @is_cols : use cols or rows
+ * sheet_set_outline_direction:
+ * @sheet: the sheet
+ * @is_cols: use cols or rows
  *
  * When changing the placement of outline collapse markers the flags
  * need to be recomputed.
@@ -5951,11 +6040,12 @@ sheet_set_outline_direction (Sheet *sheet, gboolean is_cols)
 }
 
 /**
- * sheet_get_view :
- * @sheet :
- * @wbv   :
+ * sheet_get_view:
+ * @sheet:
+ * @wbv:
  *
  * Find the SheetView corresponding to the supplied @wbv.
+ * Returns: (transfer none): the view.
  */
 SheetView *
 sheet_get_view (Sheet const *sheet, WorkbookView const *wbv)
@@ -5981,9 +6071,9 @@ cb_queue_respan (GnmColRowIter const *iter, void *user_data)
 
 /**
  * sheet_queue_respan *
- * @sheet :
- * @start_row :
- * @end_row :
+ * @sheet:
+ * @start_row:
+ * @end_row:
  *
  * queues a span generation for the selected rows.
  * the caller is responsible for queuing a redraw
@@ -6004,13 +6094,14 @@ sheet_cell_queue_respan (GnmCell *cell)
 
 
 /**
- * sheet_get_comment :
- * @sheet : #Sheet const *
- * @pos   : #GnmCellPos const *
+ * sheet_get_comment:
+ * @sheet: #Sheet const *
+ * @pos: #GnmCellPos const *
  *
  * If there is a cell comment at @pos in @sheet return it.
  *
  * Caller does get a reference to the object if it exists.
+ * Returns: (transfer full): the comment or %NULL.
  **/
 GnmComment *
 sheet_get_comment (Sheet const *sheet, GnmCellPos const *pos)
@@ -6094,7 +6185,7 @@ sheet_range_trim (Sheet const *sheet, GnmRange *r,
  * header row from the top and if false it looks for a header col from the
  * left
  *
- * Returns : TRUE if @src seems to have a heading
+ * Returns: TRUE if @src seems to have a heading
  **/
 gboolean
 sheet_range_has_heading (Sheet const *sheet, GnmRange const *src,
@@ -6148,6 +6239,14 @@ sheet_range_has_heading (Sheet const *sheet, GnmRange const *src,
 	return FALSE;
 }
 
+/**
+ * gnm_sheet_foreach_name:
+ * @sheet: #Sheet
+ * @func: (scope call): #GHFunc
+ * @data: user data.
+ *
+ * Executes @func for each name in @sheet.
+ **/
 void
 gnm_sheet_foreach_name (Sheet const *sheet, GHFunc func, gpointer data)
 {
@@ -6157,6 +6256,12 @@ gnm_sheet_foreach_name (Sheet const *sheet, GHFunc func, gpointer data)
 		gnm_named_expr_collection_foreach (sheet->names, func, data);
 }
 
+/**
+ * gnm_sheet_get_size:
+ * @sheet: #Sheet
+ *
+ * Returns: (transfer none): the sheet size.
+ **/
 GnmSheetSize const *
 gnm_sheet_get_size (Sheet const *sheet)
 {
@@ -6176,6 +6281,14 @@ gnm_sheet_get_size (Sheet const *sheet)
 	return &sheet->size;
 }
 
+/**
+ * gnm_sheet_get_size2:
+ * @sheet: #Sheet, might be %NULL
+ * @wb: #Workbook, must be non %NULL if @sheet is %NULL
+ *
+ * Returns: (transfer none): the sheet size if @sheet is non %NULL, or the
+ * default sheet size for @wb.
+ **/
 GnmSheetSize const *
 gnm_sheet_get_size2 (Sheet const *sheet, Workbook const *wb)
 {
@@ -6197,6 +6310,13 @@ gnm_sheet_set_solver_params (Sheet *sheet, GnmSolverParameters *param)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_sheet_scenario_new:
+ * @sheet:  #Sheet
+ * @name: the new scenario name.
+ *
+ * Returns: (transfer full): the newly created #GnmScenario.
+ **/
 GnmScenario *
 gnm_sheet_scenario_new (Sheet *sheet, const char *name)
 {
@@ -6246,6 +6366,13 @@ gnm_sheet_scenario_new (Sheet *sheet, const char *name)
 	return sc;
 }
 
+/**
+ * gnm_sheet_scenario_find:
+ * @sheet:  #Sheet
+ * @name: the scenario name.
+ *
+ * Returns: (transfer none): the newly created #GnmScenario.
+ **/
 GnmScenario *
 gnm_sheet_scenario_find (Sheet *sheet, const char *name)
 {
@@ -6263,6 +6390,12 @@ gnm_sheet_scenario_find (Sheet *sheet, const char *name)
 	return NULL;
 }
 
+/**
+ * gnm_sheet_scenario_add:
+ * @sheet:  #Sheet
+ * @sc: (transfer full): #GnmScenario
+ *
+ **/
 void
 gnm_sheet_scenario_add (Sheet *sheet, GnmScenario *sc)
 {
@@ -6285,6 +6418,12 @@ gnm_sheet_scenario_remove (Sheet *sheet, GnmScenario *sc)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_sheet_get_sort_setups:
+ * @sheet: #Sheet
+ *
+ * Returns: (transfer none): the sort setups for @sheet.
+ **/
 GHashTable *
 gnm_sheet_get_sort_setups (Sheet *sheet)
 {
@@ -6307,6 +6446,13 @@ gnm_sheet_add_sort_setup (Sheet *sheet, char *key, gpointer setup)
 	g_hash_table_insert (hash, key, setup);
 }
 
+/**
+ * gnm_sheet_find_sort_setup:
+ * @sheet: #Sheet
+ * @key:
+ *
+ * Returns: (transfer none): the found sort setup or %NULL.
+ **/
 gconstpointer
 gnm_sheet_find_sort_setup (Sheet *sheet, char const *key)
 {

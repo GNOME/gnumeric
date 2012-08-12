@@ -30,6 +30,7 @@
 #include <gnumeric.h>
 
 G_BEGIN_DECLS
+#ifndef GOFFICE_NAMESPACE_DISABLE
 
 #define GO_DATA_CACHE_FIELD_TYPE  (go_data_cache_field_get_type ())
 #define GO_DATA_CACHE_FIELD(o)	  (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_DATA_CACHE_FIELD_TYPE, GODataCacheField))
@@ -56,6 +57,7 @@ gboolean 	  go_data_cache_field_is_base (GODataCacheField const *field);
 GODataCacheFieldType
 		  go_data_cache_field_ref_type (GODataCacheField const *field);
 
+#endif
 G_END_DECLS
 
 #endif /* GO_DATA_CACHE_FIELD_H */

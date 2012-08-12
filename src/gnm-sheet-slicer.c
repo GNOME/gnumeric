@@ -299,11 +299,11 @@ gnm_sheet_slicer_field_header_at_pos (GnmSheetSlicer const *gss,
 /************************************************************/
 
 /**
- * gnm_sheet_slicers_at_pos :
- * @sheet : #Sheet
- * @pos : #GnmCellPos
+ * gnm_sheet_slicers_at_pos:
+ * @sheet: #Sheet
+ * @pos: #GnmCellPos
  *
- * Returns: %NULL or the #GnmSheetSlicer in @sheet that overlaps with @pos.
+ * Returns: (transfer none): %NULL or the #GnmSheetSlicer in @sheet that overlaps with @pos.
  **/
 GnmSheetSlicer *
 gnm_sheet_slicers_at_pos (Sheet const *sheet, GnmCellPos const *pos)
@@ -358,7 +358,7 @@ gnm_sheet_slicer_test_sort (GnmSheetSlicer *gss)
 
 /**
  * gnm_sheet_slicer_regenerate:
- * @gss : #GnmSheetSlicer
+ * @gss: #GnmSheetSlicer
  *
  * Do some work!
  * See what we need to do then think about when portions belong in the GODataSlicer base.

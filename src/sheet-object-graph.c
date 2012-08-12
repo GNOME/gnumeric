@@ -609,10 +609,11 @@ GSF_CLASS_FULL (SheetObjectGraph, sheet_object_graph,
 		GSF_INTERFACE (sog_exportable_init, SHEET_OBJECT_EXPORTABLE_TYPE))
 
 /**
- * sheet_object_graph_new :
- * @graph : #GogGraph
+ * sheet_object_graph_new:
+ * @graph: #GogGraph
  *
  * Adds a reference to @graph and creates a gnumeric sheet object wrapper
+ * Returns: (transfer full): the newly allocated #SheetObject.
  **/
 SheetObject *
 sheet_object_graph_new (GogGraph *graph)
@@ -621,6 +622,13 @@ sheet_object_graph_new (GogGraph *graph)
 	sheet_object_graph_set_gog (SHEET_OBJECT (sog), graph);
 	return SHEET_OBJECT (sog);
 }
+
+/**
+ * sheet_object_graph_get_gog:
+ * @soc: #SheetObject
+ *
+ * Returns: (transfer none): the embedded #GogGraph or %NULL on error.
+ **/
 
 GogGraph *
 sheet_object_graph_get_gog (SheetObject *sog)
@@ -631,9 +639,9 @@ sheet_object_graph_get_gog (SheetObject *sog)
 }
 
 /**
- * sheet_object_graph_set_gog :
- * @so : #SheetObjectGraph
- * @graph : #GogGraph
+ * sheet_object_graph_set_gog:
+ * @so: #SheetObjectGraph
+ * @graph: #GogGraph
  *
  * If @graph is non NULL add a reference to it, otherwise create a new graph.
  * Assign the graph to its SheetObjectGraph wrapper and initialize the
@@ -685,7 +693,7 @@ cb_graph_guru_done (WBCGtk *wbcg)
 }
 
 static void
-cb_graph_data_closure_done (GraphDataClosure *data)
+cb_graph_data_closure_done (GnmGraphDataClosure *data)
 {
 	if (data->obj)
 		g_object_set_data (data->obj,"data-closure", NULL);
@@ -693,7 +701,7 @@ cb_graph_data_closure_done (GraphDataClosure *data)
 }
 
 static void
-cb_selection_mode_changed (GtkComboBox *box, GraphDataClosure *data)
+cb_selection_mode_changed (GtkComboBox *box, GnmGraphDataClosure *data)
 {
 	GogObject *graph = (GogObject *) g_object_get_data (data->obj, "graph");
 	data->colrowmode = gtk_combo_box_get_active (box);
@@ -708,7 +716,7 @@ cb_selection_mode_changed (GtkComboBox *box, GraphDataClosure *data)
 }
 
 static void
-cb_shared_mode_changed (GtkToggleButton *btn, GraphDataClosure *data)
+cb_shared_mode_changed (GtkToggleButton *btn, GnmGraphDataClosure *data)
 {
 	GogObject *graph = (GogObject *) g_object_get_data (data->obj, "graph");
 	data->share_x = gtk_toggle_button_get_active (btn);
@@ -723,7 +731,7 @@ cb_shared_mode_changed (GtkToggleButton *btn, GraphDataClosure *data)
 }
 
 static void
-cb_sheet_target_changed (GtkToggleButton *btn, GraphDataClosure *data)
+cb_sheet_target_changed (GtkToggleButton *btn, GnmGraphDataClosure *data)
 {
 	data->new_sheet = gtk_toggle_button_get_active (btn);
 }
@@ -735,7 +743,7 @@ sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 	GtkWidget *dialog = gog_guru (graph, GOG_DATA_ALLOCATOR (wbcg),
 		GO_CMD_CONTEXT (wbcg), closure);
 	if (!graph) {
-		GraphDataClosure *data = (GraphDataClosure *) g_new0 (GraphDataClosure, 1);
+		GnmGraphDataClosure *data = (GnmGraphDataClosure *) g_new0 (GnmGraphDataClosure, 1);
 		GtkWidget *custom = gtk_table_new (2, 3, FALSE), *w;
 		GObject *object;
 

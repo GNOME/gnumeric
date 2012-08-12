@@ -244,7 +244,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 				gnm_style_set_font_uline (
 					mstyle, UNDERLINE_SINGLE);
 				gnm_style_set_font_color (mstyle,
-					style_color_new_name ("blue"));
+					gnm_color_new_name ("blue"));
 				g_free (url);
 				xmlBufferFree (h_buf);
 			}

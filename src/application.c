@@ -98,8 +98,8 @@ gnm_app_get_app (void)
 }
 
 /**
- * gnm_app_workbook_list_add :
- * @wb :
+ * gnm_app_workbook_list_add:
+ * @wb:
  *
  * Add @wb to the application's list of workbooks.
  **/
@@ -118,8 +118,8 @@ gnm_app_workbook_list_add (Workbook *wb)
 }
 
 /**
- * gnm_app_workbook_list_remove :
- * @wb :
+ * gnm_app_workbook_list_remove:
+ * @wb:
  *
  * Remove @wb from the application's list of workbooks.
  **/
@@ -201,11 +201,11 @@ gnm_app_clipboard_unant (void)
 /**
  * gnm_app_clipboard_cut_copy:
  *
- * @wbc   : the workbook control that requested the operation.
+ * @wbc: the workbook control that requested the operation.
  * @is_cut: is this a cut or a copy.
- * @sheet : The source sheet for the copy.
- * @area  : A single rectangular range to be copied.
- * @animate_cursor : Do we want ot add an animated cursor around things.
+ * @sv: The source sheet for the copy.
+ * @area: A single rectangular range to be copied.
+ * @animate_range: Do we want ot add an animated cursor around things.
  *
  * When Cutting we
  *   Clear and free the contents of the clipboard and save the sheet and area
@@ -253,11 +253,11 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 	}
 }
 
-/** gnm_app_clipboard_cut_copy_obj :
- * @wbc : #WorkbookControl
- * @is_cut :
- * @sv : #SheetView
- * @objects : a list of #SheetObject which is freed
+/** gnm_app_clipboard_cut_copy_obj:
+ * @wbc: #WorkbookControl
+ * @is_cut:
+ * @sv: #SheetView
+ * @objects: a list of #SheetObject which is freed
  *
  * Different than copying/cutting a region, this can actually cuts an object
  **/
@@ -887,6 +887,16 @@ gnm_action_free (GnmAction *action)
 	}
 }
 
+/**
+ * gnm_app_add_extra_ui:
+ * @group_name: action group name.
+ * @actions: (element-type GnmAction): list of actions.
+ * @layout: the xml string describing the menus and toolbars.
+ * @domain: localization domain.
+ * @user_data: user data
+ *
+ * Returns: (transfer full): the newly allocated #GnmAppExtraUI.
+ **/
 GnmAppExtraUI *
 gnm_app_add_extra_ui (char const *group_name,
 		      GSList *actions,
@@ -913,6 +923,13 @@ gnm_app_remove_extra_ui (GnmAppExtraUI *extra_ui)
 	g_free (extra_ui);
 }
 
+/**
+ * gnm_app_foreach_extra_ui:
+ * @func: (scope call): #GFunc
+ * @data: user data.
+ *
+ * Applies @func to each #GnmAppExtraUI.
+ **/
 void
 gnm_app_foreach_extra_ui (GFunc func, gpointer data)
 {
@@ -932,7 +949,7 @@ cb_flag_windows_changed (void)
 }
 
 /**
- * _gnm_app_flag_windows_changed :
+ * _gnm_app_flag_windows_changed:
  *
  * An internal utility routine to flag a regeneration of the window lists
  **/

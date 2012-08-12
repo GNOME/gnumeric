@@ -24,6 +24,7 @@ struct _ColRowInfo {
 
 	gpointer spans;	/* Only used for rows */
 };
+GType col_row_info_get_type (void);
 
 struct _ColRowCollection {
 	int         max_used;

@@ -38,8 +38,10 @@ GType gnm_data_cache_source_get_type (void);
 
 typedef struct _GnmDataCacheSource GnmDataCacheSource;
 
+#ifndef GOFFICE_NAMESPACE_DISABLE
 GODataCacheSource *gnm_data_cache_source_new (Sheet *src_sheet,
 					      GnmRange const *src_range, char const *src_name);
+#endif
 
 Sheet		*gnm_data_cache_source_get_sheet (GnmDataCacheSource const *src);
 void		 gnm_data_cache_source_set_sheet (GnmDataCacheSource *src, Sheet *sheet);

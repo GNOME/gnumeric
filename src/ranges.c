@@ -424,9 +424,9 @@ range_split_ranges (GnmRange const *hard, GnmRange const *soft)
 
 /**
  * gnm_range_dup:
- * @a: Source range to copy
+ * @r: Source range to copy
  *
- * Copies the @a range.
+ * Copies the @r range.
  *
  * Return value: A copy of the GnmRange.
  **/
@@ -498,7 +498,7 @@ range_intersection (GnmRange *r, GnmRange const *a, GnmRange const *b)
 
 /**
  * range_normalize:
- * @a: a range
+ * @r: a range
  *
  * Ensures that start <= end for rows and cols.
  **/
@@ -636,7 +636,7 @@ range_height (GnmRange const *r)
 /**
  * range_translate:
  * @range:
- * @sheet : the sheet in which @range lives
+ * @sheet: the sheet in which @range lives
  * @col_offset:
  * @row_offset:
  *
@@ -707,7 +707,7 @@ range_is_sane (GnmRange const *range)
 /**
  * range_transpose:
  * @range: The range.
- * @sheet : the sheet in which @range lives
+ * @sheet: the sheet in which @range lives
  * @boundary: The box to transpose inside
  *
  *   Effectively mirrors the ranges in 'boundary' around a
@@ -828,6 +828,18 @@ void
 gnm_sheet_range_free (GnmSheetRange *gr)
 {
 	g_free (gr);
+}
+
+GType
+gnm_sheet_range_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0)
+		t = g_boxed_type_register_static ("GnmSheetRange",
+			 (GBoxedCopyFunc)gnm_sheet_range_dup,
+			 (GBoxedFreeFunc)gnm_sheet_range_free);
+	return t;
 }
 
 gboolean
@@ -954,7 +966,7 @@ range_list_name_try (GString *names, char const *sheet, GSList const *ranges)
 /**
  * undo_range_list_name:
  * @sheet:
- * @ranges : GSList containing GnmRange *'s
+ * @ranges: GSList containing GnmRange *'s
  *
  * Returns the range list name depending on the preference setting.
  * (The result will be something like: "A1:C3, D4:E5"). The string will be
@@ -1003,12 +1015,13 @@ undo_range_list_name (Sheet const *sheet, GSList const *ranges)
 /**
  * global_range_list_parse:
  * @sheet: Sheet where the range specification is relatively parsed to
- * @str  : a range or list of ranges to parse (ex: "A1", "A1:B1,C2,Sheet2!D2:D4")
+ * @str: a range or list of ranges to parse (ex: "A1", "A1:B1,C2,Sheet2!D2:D4")
  *
  * Parses a list of ranges, relative to the @sheet and returns a list with the
  * results.
  *
- * Returns a GSList containing Values of type VALUE_CELLRANGE, or NULL on failure
+ * Returns: (element-type GnmValue) (transfer full): a GSList containing
+ * Values of type VALUE_CELLRANGE, or NULL on failure
  **/
 GSList *
 global_range_list_parse (Sheet *sheet, char const *str)
@@ -1072,7 +1085,7 @@ global_range_list_foreach (GSList *gr_list, GnmEvalPos const *ep,
 
 /**
  * global_range_contained:
- * @sheet : The calling context #Sheet for references with sheet==NULL
+ * @sheet: The calling context #Sheet for references with sheet==NULL
  * @a:
  * @b:
  *

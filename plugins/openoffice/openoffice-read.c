@@ -703,7 +703,7 @@ oo_parse_color (GsfXMLIn *xin, xmlChar const *str, char const *name)
 	g_return_val_if_fail (str != NULL, NULL);
 
 	if (3 == sscanf (CXML2C (str), "#%2x%2x%2x", &r, &g, &b))
-		return style_color_new_rgb8 (r, g, b);
+		return gnm_color_new_rgb8 (r, g, b);
 
 	if (0 == strcmp (CXML2C (str), "transparent"))
 		return style_color_ref (magic_transparent);
@@ -2230,7 +2230,7 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 				      NULL);
 			if (style->tab_color_set) {
 				GnmColor *color
-					= style_color_new_go (style->tab_color);
+					= gnm_color_new_go (style->tab_color);
 				g_object_set
 					(state->pos.sheet,
 					 "tab-background",
@@ -2240,7 +2240,7 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 			if (style->tab_text_color_set){
 				GnmColor *color
-					= style_color_new_go
+					= gnm_color_new_go
 					(style->tab_text_color);
 				g_object_set
 					(state->pos.sheet,
@@ -4051,7 +4051,7 @@ oo_cell_content_link (GsfXMLIn *xin, xmlChar const **attrs)
 		style = gnm_style_new ();
 		gnm_style_set_hlink (style, hlink);
 		gnm_style_set_font_uline (style, UNDERLINE_SINGLE);
-		gnm_style_set_font_color (style, style_color_new_name ("blue"));
+		gnm_style_set_font_color (style, gnm_color_new_name ("blue"));
 		sheet_style_apply_pos (state->pos.sheet,
 				       state->pos.eval.col, state->pos.eval.row,
 				       style);
@@ -9823,7 +9823,7 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT)) {
 				GOColor color = g_value_get_int (item);
 				color = color << 8;
-				sheet->tab_color = style_color_new_go (color);
+				sheet->tab_color = gnm_color_new_go (color);
 			}
 			item = g_hash_table_lookup (hash, "CursorPositionX");
 			if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT)) {

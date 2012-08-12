@@ -49,7 +49,9 @@ GnmSheetSlicerLayout
 		 gnm_sheet_slicer_get_layout     (GnmSheetSlicer const *src);
 void		 gnm_sheet_slicer_set_layout     (GnmSheetSlicer *gss, GnmSheetSlicerLayout l);
 
+#ifndef GOFFICE_NAMESPACE_DISABLE
 GODataSlicerField *gnm_sheet_slicer_field_header_at_pos (GnmSheetSlicer const *gss, GnmCellPos const *pos);
+#endif
 
 void		   gnm_sheet_slicer_regenerate	 (GnmSheetSlicer *gss);
 

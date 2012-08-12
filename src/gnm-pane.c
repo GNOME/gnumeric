@@ -1205,9 +1205,9 @@ gnm_pane_new (SheetControlGUI *scg,
 
 /**
  * gnm_pane_find_col:
- * @pane :
- * @x : In canvas coords
- * @col_origin : optionally return the canvas coord of the col
+ * @pane:
+ * @x: In canvas coords
+ * @col_origin: optionally return the canvas coord of the col
  *
  * Returns the column containing canvas coord @x
  **/
@@ -1255,9 +1255,9 @@ gnm_pane_find_col (GnmPane const *pane, gint64 x, gint64 *col_origin)
 
 /**
  * gnm_pane_find_row:
- * @pane :
- * @y : In canvas coords
- * @row_origin : optionally return the canvas coord of the row
+ * @pane:
+ * @y: In canvas coords
+ * @row_origin: optionally return the canvas coord of the row
  *
  * Returns the column containing canvas coord @y
  **/
@@ -1672,12 +1672,12 @@ cb_pane_sliding (GnmPane *pane)
 }
 
 /**
- * gnm_pane_handle_motion :
- * @pane	 : The GnmPane managing the scroll
- * @canvas	 : The Canvas the event comes from
- * @slide_flags	 :
- * @slide_handler: The handler when sliding
- * @user_data	 : closure data
+ * gnm_pane_handle_motion:
+ * @pane: The GnmPane managing the scroll
+ * @canvas: The Canvas the event comes from
+ * @slide_flags:
+ * @handler: The handler when sliding
+ * @user_data: closure data
  *
  * Handle a motion event from a @canvas and scroll the @pane
  * depending on how far outside the bounds of @pane the @event is.
@@ -2080,9 +2080,9 @@ gnm_pane_size_guide_stop (GnmPane *pane)
 
 /**
  * gnm_pane_size_guide_motion
- * @pane : #GnmPane
- * @vert : TRUE for a vertical guide, FALSE for horizontal
- * @guide_pos : in unscaled sheet pixel coords
+ * @p: #GnmPane
+ * @vert: TRUE for a vertical guide, FALSE for horizontal
+ * @guide_pos: in unscaled sheet pixel coords
  *
  * Moves the guide line to @guide_pos.
  * NOTE : gnm_pane_size_guide_start must be called before any calls to
@@ -2953,9 +2953,9 @@ gnm_pane_object_unselect (GnmPane *pane, SheetObject *so)
 }
 
 /**
- * gnm_pane_object_update_bbox :
- * @pane : #GnmPane
- * @so : #SheetObject
+ * gnm_pane_object_update_bbox:
+ * @pane: #GnmPane
+ * @so: #SheetObject
  *
  * Updates the position and potentially creates control points
  * for manipulating the size/position of @so.
@@ -3013,10 +3013,10 @@ cb_bounds_changed (SheetObject *so, GocItem *sov)
 }
 
 /**
- * gnm_pane_object_register :
- * @so : A sheet object
- * @view   : A canvas item acting as a view for @so
- * @selectable : Add handlers for selecting and editing the object
+ * gnm_pane_object_register:
+ * @so: A sheet object
+ * @view: A canvas item acting as a view for @so
+ * @selectable: Add handlers for selecting and editing the object
  *
  * Setup some standard callbacks for manipulating a view of a sheet object.
  **/
@@ -3029,11 +3029,11 @@ gnm_pane_object_register (SheetObject *so, GocItem *view, gboolean selectable)
 }
 
 /**
- * gnm_pane_object_widget_register :
+ * gnm_pane_object_widget_register:
  *
- * @so : A sheet object
- * @widget : The widget for the sheet object view
- * @view   : A canvas item acting as a view for @so
+ * @so: A sheet object
+ * @widget: The widget for the sheet object view
+ * @view: A canvas item acting as a view for @so
  *
  * Setup some standard callbacks for manipulating widgets as views of sheet
  * objects.

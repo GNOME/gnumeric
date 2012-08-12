@@ -4,6 +4,7 @@
 #include <glib-object.h>
 
 G_BEGIN_DECLS
+#ifndef GOFFICE_NAMESPACE_DISABLE
 
 /* DOES NOT BELONG HERE */
 typedef struct _GODataCache		GODataCache;
@@ -38,6 +39,7 @@ typedef enum {
 	GO_AGGREGATE_BY_VAR,
 	GO_AGGREGATE_BY_VARP
 } GOAggregateBy;
+#endif
 G_END_DECLS
 
 #endif /* GOFFICE_DUMMY_DATA_H */

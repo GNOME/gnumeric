@@ -1487,7 +1487,7 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 	GogPlotDesc const *desc;
 	GogSeries *series;
 	GogGraph *graph = gog_object_get_graph (GOG_OBJECT (go_plot));
-	GraphDataClosure *data = g_object_get_data (G_OBJECT (graph), "data-closure");
+	GnmGraphDataClosure *data = g_object_get_data (G_OBJECT (graph), "data-closure");
 	gboolean is_string_vec, first_series = TRUE, first_value_dim = TRUE;
 	unsigned i, count, cur_dim = 0, num_series = 1;
 	gboolean has_header = FALSE, as_cols;

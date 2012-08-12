@@ -113,7 +113,7 @@ style_border_equal (gconstpointer v1, gconstpointer v2)
 
 	/*
 	 * ->color is a pointer, but the comparison is safe because
-	 * all colours are cached, see style_color_new_go.
+	 * all colours are cached, see gnm_color_new_go.
 	 */
 	return	(k1->color == k2->color) &&
 		(k1->line_type == k2->line_type);
@@ -128,7 +128,7 @@ style_border_hash (gconstpointer v)
 	 * HACK ALERT!
 	 *
 	 * ->color is a pointer, but the comparison is safe because
-	 * all colours are cached, see style_color_new_go.
+	 * all colours are cached, see gnm_color_new_go.
 	 *
 	 */
 	return (GPOINTER_TO_UINT(b->color) ^ b->line_type);

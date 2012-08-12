@@ -267,7 +267,7 @@ xml_sax_attr_color (xmlChar const * const *attrs, char const *name, GnmColor **r
 			   name, attrs[1]);
 		return FALSE;
 	}
-	*res = style_color_new_rgba16 (red, green, blue, alpha);
+	*res = gnm_color_new_rgba16 (red, green, blue, alpha);
 	return TRUE;
 }
 
@@ -3472,7 +3472,7 @@ gnm_xml_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_context
 /* ------------------------------------------------------------------------- */
 
 GnmCellRegion *
-xml_cellregion_read (WorkbookControl *wbc, GOIOContext *io_context,
+gnm_xml_cellregion_read (WorkbookControl *wbc, GOIOContext *io_context,
 		     Sheet *sheet,
 		     const char *buffer, int length)
 {

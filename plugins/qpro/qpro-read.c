@@ -849,7 +849,7 @@ qpro_read_sheet (QProReadState *state)
 
 		case QPRO_PAGE_TAB_COLOR :
 			if (validate (QPRO_PAGE_TAB_COLOR, 4)) {
-				GnmColor *bc = style_color_new_rgb8 (
+				GnmColor *bc = gnm_color_new_rgb8 (
 					data[0], data[1], data[2]);
 				g_object_set (sheet,
 					      "tab-background", bc,

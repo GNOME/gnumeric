@@ -555,8 +555,8 @@ format_template_new_from_file (char const *filename, GOCmdContext *cc)
 
 /**
  * format_template_compare_name:
- * @ft_a: First GnmFormatTemplate
- * @ft_b: Second GnmFormatTemplate
+ * @a: First GnmFormatTemplate
+ * @b: Second GnmFormatTemplate
  *
  **/
 gint

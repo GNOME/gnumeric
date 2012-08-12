@@ -1856,14 +1856,14 @@ excel_palette_get (GnmXLImporter *importer, gint idx)
 		return style_color_white ();
 
 	case 80 : /* tooltip background */
-		return style_color_new_gdk (&gs_yellow);
+		return gnm_color_new_gdk (&gs_yellow);
 
-	case 2 : return style_color_new_rgb8 (0xff,    0,    0); /* red */
-	case 3 : return style_color_new_rgb8 (   0, 0xff,    0); /* green */
-	case 4 : return style_color_new_rgb8 (   0,    0, 0xff); /* blue */
-	case 5 : return style_color_new_rgb8 (0xff, 0xff,    0); /* yellow */
-	case 6 : return style_color_new_rgb8 (0xff,    0, 0xff); /* magenta */
-	case 7 : return style_color_new_rgb8 (   0, 0xff, 0xff); /* cyan */
+	case 2 : return gnm_color_new_rgb8 (0xff,    0,    0); /* red */
+	case 3 : return gnm_color_new_rgb8 (   0, 0xff,    0); /* green */
+	case 4 : return gnm_color_new_rgb8 (   0,    0, 0xff); /* blue */
+	case 5 : return gnm_color_new_rgb8 (0xff, 0xff,    0); /* yellow */
+	case 6 : return gnm_color_new_rgb8 (0xff,    0, 0xff); /* magenta */
+	case 7 : return gnm_color_new_rgb8 (   0, 0xff, 0xff); /* cyan */
 	default :
 		break;
 	}
@@ -1877,7 +1877,7 @@ excel_palette_get (GnmXLImporter *importer, gint idx)
 
 	if (pal->gnm_colors[idx] == NULL) {
 		pal->gnm_colors[idx] =
-			style_color_new_rgb8 (pal->red[idx],
+			gnm_color_new_rgb8 (pal->red[idx],
 					      pal->green[idx],
 					      pal->blue[idx]);
 		g_return_val_if_fail (pal->gnm_colors[idx],
@@ -5097,7 +5097,7 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 			r = (guint8) biff_pat_col;
 			g = (guint8) (biff_pat_col >> 8);
 			b = (guint8) (biff_pat_col >> 16);
-			pattern_color = style_color_new_rgb8 (r, g, b);
+			pattern_color = gnm_color_new_rgb8 (r, g, b);
 		}
 		d (2, g_printerr ("auto pattern color "
 				  "0x%08x\n",

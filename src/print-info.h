@@ -128,6 +128,7 @@ typedef struct {
 	GnmCellPos top_repeating;
 } HFRenderInfo;
 
+GType             print_information_get_type (void);
 PrintInformation *print_info_new         (gboolean load_defaults);
 PrintInformation *print_info_load_defaults (PrintInformation *pi);
 PrintInformation *print_info_dup	 (PrintInformation const *pi);

@@ -88,6 +88,7 @@ struct _GnmExprSharer {
 	GHashTable *exprs;
 
 	int nodes_in, nodes_stored, nodes_killed;
+	unsigned ref_count;
 };
 
 

@@ -28,6 +28,7 @@
 #include <glib-object.h>
 
 G_BEGIN_DECLS
+#ifndef GOFFICE_NAMESPACE_DISABLE
 
 #define GO_DATA_CACHE_TYPE	(go_data_cache_get_type ())
 #define GO_DATA_CACHE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_DATA_CACHE_TYPE, GODataCache))
@@ -65,6 +66,7 @@ void go_data_cache_dump (GODataCache *dc,
 			 GArray const *permutation);
 void go_data_cache_dump_value (GOVal const *v);
 
+#endif
 G_END_DECLS
 
 #endif /* GO_DATA_CACHE_H */

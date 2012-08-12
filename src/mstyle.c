@@ -737,6 +737,19 @@ gnm_style_unref (GnmStyle const *style)
 	}
 }
 
+GType
+gnm_style_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmStyle",
+			 (GBoxedCopyFunc)gnm_style_ref,
+			 (GBoxedFreeFunc)gnm_style_unref);
+	}
+	return t;
+}
+
 /**
  * Replace auto pattern color in style with sheet's auto pattern color.
  * make_copy tells if we are allowed to modify the style in place or we must
@@ -1656,6 +1669,12 @@ gnm_style_set_hlink (GnmStyle *style, GnmHLink *link)
 	style->hlink = link;
 }
 
+/**
+ * gnm_style_get_hlink:
+ * @style: #GnmStyle
+ *
+ * Returns: (transfer none): the associated #GnmHLink.
+ **/
 GnmHLink *
 gnm_style_get_hlink (GnmStyle const *style)
 {
@@ -1879,7 +1898,7 @@ gnm_style_set_from_pango_attribute (GnmStyle *style, PangoAttribute const *attr)
 			((PangoAttrInt *)attr)->value >= PANGO_WEIGHT_BOLD);
 		break;
 	case PANGO_ATTR_FOREGROUND :
-		gnm_style_set_font_color (style, style_color_new_pango (
+		gnm_style_set_font_color (style, gnm_color_new_pango (
 			&((PangoAttrColor *)attr)->color));
 		break;
 	case PANGO_ATTR_UNDERLINE :

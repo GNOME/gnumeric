@@ -47,7 +47,7 @@ void expr_name_set_is_placeholder (GnmNamedExpr *ne, gboolean is_placeholder);
 
 char    *expr_name_as_string  (GnmNamedExpr const *ne, GnmParsePos const *pp,
 			       GnmConventions const *fmt);
-char    *expr_name_set_pos    (GnmNamedExpr *ne, GnmParsePos const *pp);
+char    *expr_name_set_pos    (GnmNamedExpr *nexpr, GnmParsePos const *pp);
 void	 expr_name_set_expr   (GnmNamedExpr *ne, GnmExprTop const *texpr);
 void	 expr_name_add_dep    (GnmNamedExpr *ne, GnmDependent *dep);
 void	 expr_name_remove_dep (GnmNamedExpr *ne, GnmDependent *dep);
@@ -60,7 +60,7 @@ gboolean expr_name_check_for_loop (char const *name, GnmExprTop const *texpr);
 
 char const *sheet_names_check	      (Sheet const *sheet, GnmRange const *r);
 
-GOUndo *expr_name_set_expr_undo_new (GnmNamedExpr *ne);
+GOUndo *expr_name_set_expr_undo_new (GnmNamedExpr *nexpr);
 
 /******************************************************************************/
 

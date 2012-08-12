@@ -1143,7 +1143,7 @@ elem_color (GsfXMLIn *xin, xmlChar const **attrs, gboolean allow_alpha)
 	c = apply_tint (c, tint);
 	if (!allow_alpha)
 		c |= 0xFF;
-	return style_color_new_go (c);
+	return gnm_color_new_go (c);
 }
 
 static GnmStyle *
@@ -2358,7 +2358,7 @@ xlsx_CT_SheetView_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (!defaultGridColor && grid_color_index >= 0)
 		sheet_style_set_auto_pattern_color (state->sheet,
-			style_color_new_go (indexed_color (state, grid_color_index)));
+			gnm_color_new_go (indexed_color (state, grid_color_index)));
 	if (tabSelected)
 		wb_view_sheet_focus (state->wb_view, state->sheet);
 }

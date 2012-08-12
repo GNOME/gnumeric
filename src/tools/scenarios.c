@@ -146,6 +146,13 @@ gnm_scenario_new (char const *name, Sheet *sheet)
 	return sc;
 }
 
+/**
+ * gnm_scenario_dup:
+ * @src: #GnmScenario
+ * @new_sheet: #Sheet
+ *
+ * Returns: (transfer full): the duplicated scenario.
+ **/
 GnmScenario *
 gnm_scenario_dup (GnmScenario *src, Sheet *new_sheet)
 {
@@ -217,6 +224,12 @@ gnm_scenario_add_area (GnmScenario *sc, const GnmSheetRange *sr)
 				    g_slist_reverse (data.items));
 }
 
+/**
+ * gnm_scenario_apply:
+ * @sc: #GnmScenario
+ *
+ * Returns: (transfer full): the newly allocated #GOUndo.
+ **/
 GOUndo *
 gnm_scenario_apply (GnmScenario *sc)
 {

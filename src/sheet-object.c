@@ -239,9 +239,9 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 }
 
 /**
- * sheet_object_populate_menu :
- * @so : #SheetObject
- * @actions : #GPtrArray
+ * sheet_object_populate_menu:
+ * @so: #SheetObject
+ * @actions: #GPtrArray
  *
  * Get a list of the actions that can be performed on @so
  **/
@@ -254,8 +254,8 @@ sheet_object_populate_menu (SheetObject *so, GPtrArray *actions)
 }
 
 /**
- * sheet_objects_max_extent :
- * @sheet :
+ * sheet_objects_max_extent:
+ * @sheet:
  *
  * Utility routine to calculate the maximum extent of objects in this sheet.
  */
@@ -408,6 +408,13 @@ GSF_CLASS (SheetObject, sheet_object,
 	   sheet_object_class_init, sheet_object_init,
 	   G_TYPE_OBJECT)
 
+/**
+ * sheet_object_get_view:
+ * @so: #SheetObject
+ * @container: #SheetObjectViewContainer
+ *
+ * Returns: (transfer none): the found #SheetObjectView or %NULL.
+ **/
 SheetObjectView *
 sheet_object_get_view (SheetObject const *so, SheetObjectViewContainer *container)
 {
@@ -425,14 +432,14 @@ sheet_object_get_view (SheetObject const *so, SheetObjectViewContainer *containe
 }
 
 /**
- * sheet_object_update_bounds :
+ * sheet_object_update_bounds:
  *
- * @so  : The sheet object
- * @pos : An optional position marking the top left of the region
+ * @so: The sheet object
+ * @p: An optional position marking the top left of the region
  *        needing relocation (default == A1)
  *
  * update the bounds of an object that intersects the region whose top left
- * is @pos.  This is used when an objects position is anchored to cols/rows
+ * is @p.  This is used when an objects position is anchored to cols/rows
  * and they change position.
  **/
 void
@@ -469,9 +476,11 @@ sheet_object_update_bounds (SheetObject *so, GnmCellPos const *pos)
 }
 
 /**
- * sheet_object_get_sheet :
+ * sheet_object_get_sheet:
+ * @so: #SheetObject
  *
  * A small utility to help keep the implementation of SheetObjects modular.
+ * Returns: (transfer none): the #Sheet owning the object.
  **/
 Sheet *
 sheet_object_get_sheet (SheetObject const *so)
@@ -491,9 +500,9 @@ cb_create_views (SheetObject *so)
 }
 
 /**
- * sheet_object_set_sheet :
- * @so :
- * @sheet :
+ * sheet_object_set_sheet:
+ * @so:
+ * @sheet:
  *
  * Adds a reference to the object.
  *
@@ -532,8 +541,8 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 }
 
 /**
- * sheet_object_clear_sheet :
- * @so : #SheetObject
+ * sheet_object_clear_sheet:
+ * @so: #SheetObject
  *
  * Removes @so from its container, unrealizes all views, disconects the
  * associated data and unrefs the object
@@ -624,9 +633,14 @@ sheet_object_invalidate_sheet (SheetObject *so, Sheet const *sheet)
 				  (gpointer)sheet);
 }
 
-/*
+/**
+ * sheet_object_foreach_dep:
+ * @so: #SheetObject
+ * @func: (scope call): #SheetObjectForeachDepFunc
+ * @user: user data
+ *
  * Loops over each dependent contained in a sheet object and call the handler.
- */
+ **/
 void
 sheet_object_foreach_dep (SheetObject *so,
 			  SheetObjectForeachDepFunc func,
@@ -638,11 +652,12 @@ sheet_object_foreach_dep (SheetObject *so,
 
 /**
  * sheet_object_new_view:
- * @so :
- * @sc :
- * @key :
+ * @so:
+ * @sc:
+ * @key:
  *
  * Asks @so to create a view for the (@sc,@key) pair.
+ * Returns: (transfer none): the new #SheetObjectView.
  **/
 SheetObjectView *
 sheet_object_new_view (SheetObject *so, SheetObjectViewContainer *container)
@@ -673,7 +688,7 @@ sheet_object_new_view (SheetObject *so, SheetObjectViewContainer *container)
 }
 
 /**
- * sheet_object_draw_cairo :
+ * sheet_object_draw_cairo:
  *
  * Draw a sheet object using cairo.
  *
@@ -744,6 +759,12 @@ sheet_object_get_range (SheetObject const *so)
 	return &so->anchor.cell_bound;
 }
 
+/**
+ * sheet_object_get_anchor:
+ * @so: #SheetObject
+ *
+ * Returns: (transfer none): the #SheetObjectAnchor for @so.
+ **/
 SheetObjectAnchor const *
 sheet_object_get_anchor (SheetObject const *so)
 {
@@ -779,10 +800,10 @@ cell_offset_calc_pt (Sheet const *sheet, int i, gboolean is_col, double offset)
 }
 
 /**
- * sheet_object_default_size
- * @so : The sheet object
- * @w : a ptr into which to store the default_width.
- * @h : a ptr into which to store the default_height.
+ * sheet_object_default_size:
+ * @so: The sheet object
+ * @w: a ptr into which to store the default_width.
+ * @h: a ptr into which to store the default_height.
  *
  * Measurements are in pts.
  **/
@@ -797,10 +818,10 @@ sheet_object_default_size (SheetObject *so, double *w, double *h)
 }
 
 /**
- * sheet_object_position_pts_get :
+ * sheet_object_position_pts_get:
  *
- * @so : The sheet object
- * @coords : array of 4 doubles
+ * @so: The sheet object
+ * @coords: array of 4 doubles
  *
  * Calculate the position of the object @so in pts from the logical position in
  * the object.
@@ -879,12 +900,12 @@ clear_sheet (SheetObject *so, GOUndo **pundo)
 
 
 /**
- * sheet_objects_relocate :
+ * sheet_objects_relocate:
  *
- * @rinfo : details on what should be moved.
- * @update : Should we do the bound_update now, or leave it for later.
+ * @rinfo: details on what should be moved.
+ * @update: Should we do the bound_update now, or leave it for later.
  *		if FALSE honour the move_with_cells flag.
- * @undo : if non-NULL add dropped objects to ::objects
+ * @pundo: if non-NULL add dropped objects to ::objects
  *
  * Uses the relocation info and the anchors to decide whether or not, and how
  * to relocate objects when the grid moves (eg ins/del col/row).
@@ -957,13 +978,14 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 }
 
 /**
- * sheet_objects_get :
+ * sheet_objects_get:
  *
- * @sheet : the sheet.
- * @r     : an optional range to look in
- * @t     : The type of object to lookup
+ * @sheet: the sheet.
+ * @r: an optional range to look in
+ * @t: The type of object to lookup
  *
- * Returns a list of which the caller must free (just the list not the content).
+ * Returns: (element-type SheetObject) (transfer container): a list of which
+ * the caller must free (just the list not the content).
  * Containing all objects of exactly the specified type (inheritence does not count)
  * that are completely contained by @r.
  **/
@@ -988,10 +1010,10 @@ sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
 }
 
 /**
- * sheet_objects_clear :
+ * sheet_objects_clear:
  *
- * @sheet : the sheet.
- * @r     : an optional range to look in
+ * @sheet: the sheet.
+ * @r: an optional range to look in
  *
  * removes the objects in the region.
  **/
@@ -1019,7 +1041,7 @@ sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t,
  * sheet_object_dup:
  * @so: a #SheetObject to duplicate
  *
- * Returns : A copy of @so that is not attached to a sheet.
+ * Returns: (transfer full): A copy of @so that is not attached to a sheet.
  *    Caller is responsible for the reference.
  **/
 SheetObject *
@@ -1134,11 +1156,11 @@ sheet_object_rubber_band_directly (G_GNUC_UNUSED SheetObject const *so)
 }
 
 /**
- * sheet_object_anchor_init :
- * @anchor : #SheetObjectAnchor
- * @r : #GnmRange
- * @offsets : double[4]
- * @direction : #GODrawingAnchorDir
+ * sheet_object_anchor_init:
+ * @anchor: #SheetObjectAnchor
+ * @cell_bound: #GnmRange
+ * @offsets: double[4]
+ * @direction: #GODrawingAnchorDir
  *
  * A utility routine to initialize an anchor.  Useful in case we change fields
  * in the future and want to ensure that everything is initialized.
@@ -1170,8 +1192,8 @@ sheet_object_anchor_init (SheetObjectAnchor *anchor,
 /*****************************************************************************/
 
 /**
- * sheet_object_get_stacking :
- * @so : #SheetObject
+ * sheet_object_get_stacking:
+ * @so: #SheetObject
  *
  * Returns @so's position in the stack of sheet objects.
  **/
@@ -1295,6 +1317,15 @@ cb_ptr_array_free (GPtrArray *actions)
 	g_ptr_array_free (actions, TRUE);
 }
 
+/**
+ * sheet_object_build_menu:
+ * @view: #SheetObjectView
+ * @actions: (element-type SheetObjectAction): array of actions.
+ * @i: index of first action to add in the array.
+ *
+ * Builds the contextual menu for @view.
+ * Returns: (transfer full): the newly constructed #GtkMenu.
+ **/
 GtkWidget *
 sheet_object_build_menu (SheetObjectView *view,
 			 GPtrArray const *actions, unsigned *i)
@@ -1515,6 +1546,13 @@ sheet_object_write_object (SheetObject const *so, char const *format,
 	gnm_pop_C_locale (locale);
 }
 
+/**
+ * sheet_object_move_do:
+ * @objects: (element-type SheetObject):
+ * @objects_created:
+ *
+ * Returns: (transfer full): the newly allocated #GOUndo.
+ **/
 GOUndo *
 sheet_object_move_undo (GSList *objects, gboolean objects_created)
 {
@@ -1548,6 +1586,14 @@ sheet_object_move_undo (GSList *objects, gboolean objects_created)
 	return undo;
 }
 
+/**
+ * sheet_object_move_do:
+ * @objects: (element-type SheetObject):
+ * @anchors: (element-type SheetObjectAnchor):
+ * @objects_created:
+ *
+ * Returns: (transfer full): the newly allocated #GOUndo.
+ **/
 GOUndo *
 sheet_object_move_do (GSList *objects, GSList *anchors,
 		      gboolean objects_created)

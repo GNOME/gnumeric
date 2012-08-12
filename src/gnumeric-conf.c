@@ -1211,7 +1211,9 @@ static struct cb_watch_bool watch_core_gui_editing_autocomplete = {
 gboolean
 gnm_conf_get_core_gui_editing_autocomplete (void)
 {
-	if (!watch_core_gui_editing_autocomplete.handler)
+	/* testing for node_pool since this is called from
+	 workbook_view_class_init(), fixes criticals during intospêction build */
+	if (node_pool && !watch_core_gui_editing_autocomplete.handler)
 		watch_bool (&watch_core_gui_editing_autocomplete);
 	return watch_core_gui_editing_autocomplete.var;
 }

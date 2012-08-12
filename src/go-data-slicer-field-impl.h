@@ -26,6 +26,7 @@
 #include <glib-object.h>
 
 G_BEGIN_DECLS
+#ifndef GOFFICE_NAMESPACE_DISABLE
 
 struct _GODataSlicerField {
 	GObject		base;
@@ -43,6 +44,7 @@ typedef struct {
 	GObjectClass base;
 } GODataSlicerFieldClass;
 
+#endif
 G_END_DECLS
 
 #endif /* GO_DATA_SLICER_FIELD_IMPL_H */

@@ -980,14 +980,15 @@ gnm_func_free (GnmFunc *func)
 	g_free (func);
 }
 
-void
+GnmFunc *
 gnm_func_ref (GnmFunc *func)
 {
-	g_return_if_fail (func != NULL);
+	g_return_val_if_fail (func != NULL, NULL);
 
 	func->usage_count++;
 	if (func->usage_count == 1 && func->usage_notify != NULL)
 		func->usage_notify (func, 1);
+	return func;
 }
 
 void
@@ -999,6 +1000,19 @@ gnm_func_unref (GnmFunc *func)
 	func->usage_count--;
 	if (func->usage_count == 0 && func->usage_notify != NULL)
 		func->usage_notify (func, 0);
+}
+
+GType
+gnm_func_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmFunc",
+			 (GBoxedCopyFunc)gnm_func_ref,
+			 (GBoxedFreeFunc)gnm_func_unref);
+	}
+	return t;
 }
 
 /**
@@ -1273,7 +1287,7 @@ gnm_func_get_description (GnmFunc const *fn_def)
 
 /**
  * function_def_count_args:
- * @func: pointer to function definition
+ * @fn_def: pointer to function definition
  * @min: pointer to min. args
  * @max: pointer to max. args
  *
@@ -1926,10 +1940,11 @@ function_iterate_do_value (GnmEvalPos const  *ep,
 /**
  * function_iterate_argument_values
  *
- * @fp:               The position in a workbook at which to evaluate
+ * @ep:               The position in a workbook at which to evaluate
  * @callback:         The routine to be invoked for every value computed
  * @callback_closure: Closure for the callback.
- * @expr_node_list:   a GnmExprList of ExprTrees (what a Gnumeric function would get).
+ * @argc:
+ * @argv:
  * @strict:           If TRUE, the function is considered "strict".  This means
  *                   that if an error value occurs as an argument, the iteration
  *                   will stop and that error will be returned.  If FALSE, an

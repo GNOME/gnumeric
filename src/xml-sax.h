@@ -23,7 +23,7 @@ Sheet	    *gnm_xml_in_cur_sheet (GsfXMLIn const *xin);
 
 GsfOutputMemory *gnm_cellregion_to_xml (GnmCellRegion const *cr);
 
-GnmCellRegion *xml_cellregion_read (WorkbookControl *wbc,
+GnmCellRegion *gnm_xml_cellregion_read (WorkbookControl *wbc,
 				    GOIOContext *io_context,
 				    Sheet *sheet,
 				    const char *buffer, int length);

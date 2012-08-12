@@ -30,6 +30,12 @@
 #define PARENT_TYPE (G_TYPE_OBJECT)
 #define ACC(o) (COMPLETE_CLASS (G_OBJECT_GET_CLASS (o)))
 
+/**
+ * complete_construct:
+ * @complete: #Complete
+ * @notify: (scope async): #CompleteMatchNotifyFn
+ * @notify_closure: user data
+ **/
 void
 complete_construct (Complete *complete,
 		    CompleteMatchNotifyFn notify,

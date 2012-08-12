@@ -448,7 +448,10 @@ GSF_CLASS_FULL (SheetObjectComponent, sheet_object_component,
 		GSF_INTERFACE (soc_exportable_init, SHEET_OBJECT_EXPORTABLE_TYPE));
 
 /**
- * sheet_object_component_new :
+ * sheet_object_component_new:
+ * @component: #GOComponent
+ *
+ * Returns: (transfer full): the newly allocated #SheetObject.
  **/
 SheetObject *
 sheet_object_component_new (GOComponent *component)
@@ -458,6 +461,12 @@ sheet_object_component_new (GOComponent *component)
 	return SHEET_OBJECT (soc);
 }
 
+/**
+ * sheet_object_component_get_component:
+ * @soc: #SheetObject
+ *
+ * Returns: (transfer none): the embedded #GOComponent or %NULL on error.
+ **/
 GOComponent*
 sheet_object_component_get_component (SheetObject *soc)
 {

@@ -4,7 +4,9 @@
 -include $(INTROSPECTION_MAKEFILE)
 INTROSPECTION_GIRS =
 INTROSPECTION_SCANNER_ARGS = \
-	-v --accept-unprefixed
+	-v --warn-all --accept-unprefixed \
+	--identifier-prefix="Gnm"  --identifier-prefix="Gnumeric" \
+	-DGOFFICE_NAMESPACE_DISABLE
 INTROSPECTION_COMPILER_ARGS = \
 	--includedir=$(srcdir) \
     --includedir=.
@@ -497,10 +499,17 @@ if HAVE_INTROSPECTION
 INTROSPECTION_GIRS += Gnm-@GNUMERIC_API_VER@.gir
 
 Gnm-@GNUMERIC_API_VER@.gir: $(INTROSPECTION_SCANNER) libspreadsheet.la Makefile
-Gnm_@GNUMERIC_API_VER_@_gir_INCLUDES = GObject-2.0 Gio-2.0 libxml2-2.0 GOffice-@GOFFICE_API_VER@
+Gnm_@GNUMERIC_API_VER_@_gir_INCLUDES = GObject-2.0 Gio-2.0 libxml2-2.0 \
+									   Gsf-1 GOffice-@GOFFICE_API_VER@
 Gnm_@GNUMERIC_API_VER_@_gir_CFLAGS = $(AM_CPPFLAGS)
 Gnm_@GNUMERIC_API_VER_@_gir_LIBS = libspreadsheet.la
-Gnm_@GNUMERIC_API_VER_@_gir_FILES = $(libspreadsheet_la_SOURCES) $(libspreadsheet_include_HEADERS)
+Gnm_@GNUMERIC_API_VER_@_gir_FILES = \
+	$(libspreadsheet_la_SOURCES) \
+	$(libspreadsheet_include_HEADERS) \
+	tools/scenarios.c \
+	tools/scenarios.h \
+	widgets/gnumeric-expr-entry.c \
+	widgets/gnumeric-expr-entry.h
 
 
 girdir = $(GIRDIR)

@@ -391,8 +391,14 @@ gnumeric_editable_enters (GtkWindow *window, GtkWidget *w)
 		G_CALLBACK (cb_activate_default), window);
 }
 
+/**
+ * gnm_gtk_radio_group_get_selected:
+ * @radio_group: (element-type GtkRadioButton): list of radio buttons.
+ *
+ * Returns: the index of the selected radio button starting from list end.
+ **/
 int
-gtk_radio_group_get_selected (GSList *radio_group)
+gnm_gtk_radio_group_get_selected (GSList *radio_group)
 {
 	GSList *l;
 	int i, c;

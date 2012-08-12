@@ -397,7 +397,7 @@ applix_read_colormap (ApplixReadState *state)
 
 			/* Store the result */
 			g_ptr_array_add	(state->colors,
-					 style_color_new_rgb8 (r, g, b));
+					 gnm_color_new_rgb8 (r, g, b));
 #if 0
 			printf ("'%s' %ld %ld %ld %ld\n", buffer, numbers[1],
 				numbers[2], numbers[3], numbers[4]);

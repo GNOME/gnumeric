@@ -41,12 +41,6 @@ typedef enum {
 } GnmUnderline;
 
 typedef enum {
-	GO_FONT_SCRIPT_SUB	= -1,
-	GO_FONT_SCRIPT_STANDARD =  0,
-	GO_FONT_SCRIPT_SUPER	=  1
-} GOFontScript;
-
-typedef enum {
 	GNM_TEXT_DIR_RTL	= -1,
 	GNM_TEXT_DIR_CONTEXT	=  0,
 	GNM_TEXT_DIR_LTR	=  1

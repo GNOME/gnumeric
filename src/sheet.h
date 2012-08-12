@@ -16,6 +16,7 @@ GNM_VAR_DECL Sheet *invalid_sheet;
 struct _GnmSheetSize {
 	int max_cols, max_rows;
 };
+GType gnm_sheet_size_get_type (void);
 
 typedef struct _SheetPrivate SheetPrivate;
 GType gnm_sheet_type_get_type (void);
@@ -297,13 +298,13 @@ void     sheet_redraw_region    (Sheet const *sheet,
 				 int start_col, int start_row,
 				 int end_col,   int end_row);
 
-void	 sheet_flag_status_update_cell	(GnmCell const *c);
-void	 sheet_flag_status_update_range	(Sheet const *s, GnmRange const *r);
-void     sheet_flag_style_update_range	(Sheet const *s, GnmRange const *r);
-void	 sheet_flag_recompute_spans	(Sheet const *s);
-void	 sheet_update_only_grid		(Sheet const *s);
-void     sheet_update                   (Sheet const *s);
-void	 sheet_scrollbar_config		(Sheet const *s);
+void	 sheet_flag_status_update_cell	(GnmCell const *cell);
+void	 sheet_flag_status_update_range	(Sheet const *sheet, GnmRange const *range);
+void     sheet_flag_style_update_range	(Sheet const *sheet, GnmRange const *range);
+void	 sheet_flag_recompute_spans	(Sheet const *sheet);
+void	 sheet_update_only_grid		(Sheet const *sheet);
+void     sheet_update                   (Sheet const *sheet);
+void	 sheet_scrollbar_config		(Sheet const *sheet);
 
 void     sheet_mark_dirty	(Sheet *sheet);
 GnmRange    sheet_get_extent	(Sheet const *sheet,

@@ -26,6 +26,7 @@
 #include <glib-object.h>
 
 G_BEGIN_DECLS
+#ifndef GOFFICE_NAMESPACE_DISABLE
 
 #define GO_DATA_SLICER_TYPE	(go_data_slicer_get_type ())
 #define GO_DATA_SLICER(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_DATA_SLICER_TYPE, GODataSlicer))
@@ -40,6 +41,7 @@ void		   go_data_slicer_add_field   (GODataSlicer *ds, GODataSlicerField *field)
 GODataSlicerField *go_data_slicer_get_field   (GODataSlicer const *ds, unsigned int field_index);
 unsigned int	   go_data_slicer_num_fields  (GODataSlicer const *ds);
 
+#endif
 G_END_DECLS
 
 #endif /* GO_DATA_SLICER_H */

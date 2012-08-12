@@ -65,6 +65,7 @@ struct _GnmFilter {
 	gboolean   is_active;
 };
 
+GType               gnm_filter_condition_get_type   (void);
 GnmFilterCondition *gnm_filter_condition_dup        (GnmFilterCondition const *src);
 void                gnm_filter_condition_free       (GnmFilterCondition *cond);
 GnmFilterCondition *gnm_filter_condition_new_single (GnmFilterOp op, GnmValue *v);
@@ -76,6 +77,7 @@ GnmFilterCondition *gnm_filter_condition_new_bucket (gboolean top,
 						     gboolean rel_range,
 						     double n);
 
+GType                     gnm_filter_get_type       (void);
 GnmFilter		 *gnm_filter_new	    (Sheet *sheet, GnmRange const *r);
 GnmFilter		 *gnm_filter_dup	    (GnmFilter const *src,
 						     Sheet *sheet);

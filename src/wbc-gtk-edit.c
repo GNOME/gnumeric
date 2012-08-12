@@ -1232,6 +1232,12 @@ wbc_gtk_detach_guru (WBCGtk *wbcg)
 	wb_control_menu_state_update (wbc, MS_GURU_MENU_ITEMS);
 }
 
+/**
+ * wbc_gtk_get_guru:
+ * @wbcg: #WBCGtk
+ *
+ * Returns: (transfer none): the guru attached to the workbook view.
+ **/
 GtkWidget *
 wbc_gtk_get_guru (WBCGtk const *wbcg)
 {

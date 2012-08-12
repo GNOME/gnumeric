@@ -230,7 +230,7 @@ parse_color (GsfXMLIn *xin, xmlChar const *str, char const *name)
 	g_return_val_if_fail (str != NULL, NULL);
 
 	if (3 == sscanf (str, "#%2x%2x%2x", &r, &g, &b))
-		return style_color_new_rgb8 (r, g, b);
+		return gnm_color_new_rgb8 (r, g, b);
 
 	xl_xml_warning (xin, "Invalid attribute '%s', expected color, received '%s'",
 			name, str);

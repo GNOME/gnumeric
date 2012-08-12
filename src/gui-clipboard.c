@@ -484,7 +484,7 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		/* The data is the gnumeric specific XML interchange format */
 		GOIOContext *io_context =
 			go_io_context_new (GO_CMD_CONTEXT (wbcg));
-		content = xml_cellregion_read
+		content = gnm_xml_cellregion_read
 			(wbc, io_context,
 			 pt->sheet,
 			 (const char *)gtk_selection_data_get_data (sel), gtk_selection_data_get_length (sel));

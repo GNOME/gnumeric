@@ -178,6 +178,12 @@ item_bar_calc_size (ItemBar *ib)
 		(ib->is_col_header ? ib->cell_height : ib->cell_width);
 }
 
+/**
+ * item_bar_normal_font:
+ * @ib: #ItemBar
+ * 
+ * Returns: (transfer none): the bar normal font.
+ **/
 PangoFont *
 item_bar_normal_font (ItemBar const *ib)
 {

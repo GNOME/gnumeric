@@ -24,7 +24,7 @@ WBCGtk *wbc_gtk_new (WorkbookView *optional_view,
 GtkWindow	*wbcg_toplevel	  (WBCGtk *wbcg);
 void	         wbcg_set_transient (WBCGtk *wbcg,
 				     GtkWindow *window);
-SheetControlGUI *wbcg_get_nth_scg (WBCGtk *wbcg, int page);
+SheetControlGUI *wbcg_get_nth_scg (WBCGtk *wbcg, int i);
 SheetControlGUI *wbcg_cur_scg	  (WBCGtk *wbcg);
 Sheet		*wbcg_cur_sheet	  (WBCGtk *wbcg);
 Sheet		*wbcg_focus_cur_scg (WBCGtk *wbcg);

@@ -313,7 +313,7 @@ cb_color_changed_fore (G_GNUC_UNUSED GOComboColor *go_combo_color,
 	selected_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
 
 	p_gdk_color = (color == 0) ? NULL : go_color_to_gdk_rgba (color, &gdk_color);
-	gnm_color = (color == 0) ? NULL : style_color_new_gdk (&gdk_color);
+	gnm_color = (color == 0) ? NULL : gnm_color_new_gdk (&gdk_color);
 
 	old_state = workbook_sheet_state_new (wb);
 
@@ -365,7 +365,7 @@ cb_color_changed_back (G_GNUC_UNUSED GOComboColor *go_combo_color,
 	selected_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
 
 	p_gdk_color = (color == 0) ? NULL : go_color_to_gdk_rgba (color, &gdk_color);
-	gnm_color = (color == 0) ? NULL : style_color_new_gdk (&gdk_color);
+	gnm_color = (color == 0) ? NULL : gnm_color_new_gdk (&gdk_color);
 
 	old_state = workbook_sheet_state_new (wb);
 

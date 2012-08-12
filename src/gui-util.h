@@ -25,10 +25,10 @@ void       gnumeric_keyed_dialog (WBCGtk *wbcg,
 				  char const *key);
 gpointer   gnumeric_dialog_raise_if_exists (WBCGtk *wbcg,
 					    char const *key);
-void       gnumeric_editable_enters	(GtkWindow *window, GtkWidget *w);
+void       gnumeric_editable_enters	(GtkWindow *window, GtkWidget *editable);
 
 /* Utility routine as Gtk does not have any decent routine to do this */
-int gtk_radio_group_get_selected (GSList *radio_group);
+int gnm_gtk_radio_group_get_selected (GSList *radio_group);
 /* Utility routine as libglade does not have any decent routine to do this */
 int gnm_gui_group_value (gpointer gui, char const * const group[]);
 

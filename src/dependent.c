@@ -1345,7 +1345,7 @@ dependent_clear_dynamic_deps (GnmDependent *dep)
 
 /**
  * dependent_link:
- * @dep : the dependent that changed
+ * @dep: the dependent that changed
  *
  * Adds the dependent to the workbook wide list of dependents.
  */
@@ -1381,7 +1381,7 @@ dependent_link (GnmDependent *dep)
 
 /**
  * dependent_unlink:
- * @dep : the dependent that changed
+ * @dep: the dependent that changed
  *
  * Removes the dependent from its container's set of dependents and always
  * removes the linkages to what it depends on.
@@ -2018,7 +2018,7 @@ names_referencing_sheet (Sheet *sheet)
 
 /**
  * dependents_relocate:
- * @rinfo : the descriptor record for what is being moved where.
+ * @info: the descriptor record for what is being moved where.
  *
  * Fixes references to or from a region that is going to be moved.
  * Returns a list of the locations and expressions that were changed outside of

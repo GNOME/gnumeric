@@ -26,15 +26,15 @@ static GnmColor *sc_white;
 static GnmColor *sc_grid;
 
 GnmColor *
-style_color_new_name (char const *name)
+gnm_color_new_name (char const *name)
 {
 	GdkRGBA c;
 	gdk_rgba_parse (&c, name);
-	return style_color_new_gdk (&c);
+	return gnm_color_new_gdk (&c);
 }
 
 static GnmColor *
-style_color_new_uninterned (GOColor c, gboolean is_auto)
+gnm_color_new_uninterned (GOColor c, gboolean is_auto)
 {
 	GnmColor *sc = g_new (GnmColor, 1);
 
@@ -46,19 +46,19 @@ style_color_new_uninterned (GOColor c, gboolean is_auto)
 }
 
 GnmColor *
-style_color_new_rgba16 (guint16 red, guint16 green, guint16 blue, guint16 alpha)
+gnm_color_new_rgba16 (guint16 red, guint16 green, guint16 blue, guint16 alpha)
 {
-	return style_color_new_rgba8 (red >> 8, green >> 8, blue >> 8, alpha >> 8);
+	return gnm_color_new_rgba8 (red >> 8, green >> 8, blue >> 8, alpha >> 8);
 }
 
 GnmColor *
-style_color_new_pango (PangoColor const *c)
+gnm_color_new_pango (PangoColor const *c)
 {
-	return style_color_new_rgba16 (c->red, c->green, c->blue, 0xffff);
+	return gnm_color_new_rgba16 (c->red, c->green, c->blue, 0xffff);
 }
 
 GnmColor *
-style_color_new_gdk (GdkRGBA const *c)
+gnm_color_new_gdk (GdkRGBA const *c)
 {
 	/*
 	 * The important property here is that a color #rrggbb
@@ -72,23 +72,23 @@ style_color_new_gdk (GdkRGBA const *c)
 	guint8 b8 = CLAMP (c->blue * 256, 0, 255);
 	guint8 a8 = CLAMP (c->alpha * 256, 0, 255);
 
-	return style_color_new_rgba8 (r8, g8, b8, a8);
+	return gnm_color_new_rgba8 (r8, g8, b8, a8);
 }
 
 GnmColor *
-style_color_new_rgba8 (guint8 red, guint8 green, guint8 blue, guint8 alpha)
+gnm_color_new_rgba8 (guint8 red, guint8 green, guint8 blue, guint8 alpha)
 {
-	return style_color_new_go (GO_COLOR_FROM_RGBA (red, green, blue, alpha));
+	return gnm_color_new_go (GO_COLOR_FROM_RGBA (red, green, blue, alpha));
 }
 
 GnmColor *
-style_color_new_rgb8 (guint8 red, guint8 green, guint8 blue)
+gnm_color_new_rgb8 (guint8 red, guint8 green, guint8 blue)
 {
-	return style_color_new_rgba8 (red, green, blue, 0xff);
+	return gnm_color_new_rgba8 (red, green, blue, 0xff);
 }
 
 GnmColor *
-style_color_new_go (GOColor c)
+gnm_color_new_go (GOColor c)
 {
 	GnmColor *sc;
 	GnmColor key;
@@ -98,7 +98,7 @@ style_color_new_go (GOColor c)
 
 	sc = g_hash_table_lookup (style_color_hash, &key);
 	if (!sc) {
-		sc = style_color_new_uninterned (c, FALSE);
+		sc = gnm_color_new_uninterned (c, FALSE);
 		g_hash_table_insert (style_color_hash, sc, sc);
 	} else
 		sc->ref_count++;
@@ -110,7 +110,7 @@ GnmColor *
 style_color_black (void)
 {
 	if (!sc_black)
-		sc_black = style_color_new_rgb8 (0, 0, 0);
+		sc_black = gnm_color_new_rgb8 (0, 0, 0);
 	return style_color_ref (sc_black);
 }
 
@@ -118,7 +118,7 @@ GnmColor *
 style_color_white (void)
 {
 	if (!sc_white)
-		sc_white = style_color_new_rgb8 (0xff, 0xff, 0xff);
+		sc_white = gnm_color_new_rgb8 (0xff, 0xff, 0xff);
 	return style_color_ref (sc_white);
 }
 
@@ -126,7 +126,7 @@ GnmColor *
 style_color_grid (void)
 {
 	if (!sc_grid)
-		sc_grid = style_color_new_rgb8 (0xc7, 0xc7, 0xc7);
+		sc_grid = gnm_color_new_rgb8 (0xc7, 0xc7, 0xc7);
 	return style_color_ref (sc_grid);
 }
 
@@ -143,7 +143,7 @@ style_color_auto_font (void)
 	static GnmColor *color = NULL;
 
 	if (!color)
-		color = style_color_new_uninterned (GO_COLOR_BLACK, TRUE);
+		color = gnm_color_new_uninterned (GO_COLOR_BLACK, TRUE);
 	return style_color_ref (color);
 }
 
@@ -156,7 +156,7 @@ style_color_auto_back (void)
 	static GnmColor *color = NULL;
 
 	if (!color)
-		color = style_color_new_uninterned (GO_COLOR_WHITE, TRUE);
+		color = gnm_color_new_uninterned (GO_COLOR_WHITE, TRUE);
 	return style_color_ref (color);
 }
 
@@ -169,7 +169,7 @@ style_color_auto_pattern (void)
 	static GnmColor *color = NULL;
 
 	if (!color)
-		color = style_color_new_uninterned (GO_COLOR_BLACK, TRUE);
+		color = gnm_color_new_uninterned (GO_COLOR_BLACK, TRUE);
 	return style_color_ref (color);
 }
 
@@ -196,6 +196,18 @@ style_color_unref (GnmColor *sc)
 
 	g_hash_table_remove (style_color_hash, sc);
 	g_free (sc);
+}
+
+GType
+gnm_color_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0)
+		t = g_boxed_type_register_static ("GnmColor",
+			 (GBoxedCopyFunc)style_color_ref,
+			 (GBoxedFreeFunc)style_color_unref);
+	return t;
 }
 
 gint

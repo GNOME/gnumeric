@@ -446,6 +446,12 @@ workbook_set_saveinfo (Workbook *wb, GOFileFormatLevel level, GOFileSaver *fs)
 	return TRUE;
 }
 
+/**
+ * workbook_get_file_saver:
+ * @wb: #Workbook
+ *
+ * Returns: (transfer none): the saver for the Workbook.
+ **/
 GOFileSaver *
 workbook_get_file_saver (Workbook *wb)
 {
@@ -454,6 +460,12 @@ workbook_get_file_saver (Workbook *wb)
 	return wb->file_saver;
 }
 
+/**
+ * workbook_get_file_exporter:
+ * @wb: #Workbook
+ *
+ * Returns: (transfer none): the exporter for the Workbook.
+ **/
 GOFileSaver *
 workbook_get_file_exporter (Workbook *wb)
 {
@@ -462,6 +474,12 @@ workbook_get_file_exporter (Workbook *wb)
 	return wb->file_exporter;
 }
 
+/**
+ * workbook_get_last_export_uri:
+ * @wb: #Workbook
+ *
+ * Returns: (transfer none): the URI for export.
+ **/
 gchar const *
 workbook_get_last_export_uri (Workbook *wb)
 {
@@ -494,7 +512,7 @@ workbook_set_last_export_uri (Workbook *wb, gchar *uri)
  * @pos: The position the range is relative to.
  * @cell_range: A value containing a range;
  * @only_existing: if TRUE only existing cells are sent to the handler.
- * @handler: The operator to apply to each cell.
+ * @handler: (scope call): The operator to apply to each cell.
  * @closure: User data.
  *
  * The supplied value must be a cellrange.
@@ -559,6 +577,8 @@ workbook_foreach_cell_in_range (GnmEvalPos const *pos,
  *
  * Collects a GPtrArray of GnmEvalPos pointers for all cells in a workbook.
  * No particular order should be assumed.
+ *
+ * Returns: (transfer container): the cells array
  */
 GPtrArray *
 workbook_cells (Workbook *wb, gboolean comments, GnmSheetVisibility vis)
@@ -621,6 +641,15 @@ workbook_optimize_style (Workbook *wb)
 	});
 }
 
+/**
+ * workbook_foreach_name:
+ *
+ * @wb: #Workbook
+ * @globals_only: whether to apply only to global names.
+ * @func: (scope call): The operator to apply to each cell.
+ * @data: User data.
+ *
+ **/
 void
 workbook_foreach_name (Workbook const *wb, gboolean globals_only,
 		       GHFunc func, gpointer data)
@@ -724,8 +753,12 @@ workbook_detach_view (WorkbookView *wbv)
 /*****************************************************************************/
 
 /**
- * workbook_sheets: Get an ordered list of the sheets in the workbook
- *                  The caller is required to free the list.
+ * workbook_sheets:
+ * @wb: #Workbook
+ *
+ * Get an ordered list of the sheets in the workbook
+ * The caller is required to free the list.
+ * Returns: (element-type Sheet) (transfer container): the sheets list.
  */
 GSList *
 workbook_sheets (Workbook const *wb)
@@ -1164,13 +1197,13 @@ workbook_sheet_get_free_name (Workbook *wb,
 /**
  * workbook_sheet_rename:
  * @wb:          workbook to look for
- * @sheet_indices:   list of sheet indices (ignore -1)
- * @new_names:   list of new names
+ * @sheet_indices: (element-type void):  list of sheet indices (ignore -1)
+ * @new_names: (element-type char):  list of new names
  *
  * Adjusts the names of the sheets. We assume that everything is
  * valid. If in doubt call workbook_sheet_reorder_check first.
  *
- * Returns FALSE when it was successful
+ * Returns: FALSE when it was successful
  **/
 gboolean
 workbook_sheet_rename (Workbook *wb,
@@ -1211,7 +1244,7 @@ workbook_sheet_rename (Workbook *wb,
  * @is_undo: undo vs redo
  * @key: command
  *
- * returns the 1 based index of the @key command, or 0 if it is not found
+ * Returns: the 1 based index of the @key command, or 0 if it is not found
  **/
 unsigned
 workbook_find_command (Workbook *wb, gboolean is_undo, gpointer cmd)
@@ -1232,7 +1265,7 @@ workbook_find_command (Workbook *wb, gboolean is_undo, gpointer cmd)
 /**
  * workbook_sheet_reorder:
  * @wb:          workbook to look for
- * @new_order:   list of sheets
+ * @new_order: (element-type Sheet):  list of sheets
  *
  * Adjusts the order of the sheets.
  *
@@ -1300,6 +1333,12 @@ workbook_set_1904 (Workbook *wb, gboolean base1904)
 	workbook_set_date_conv (wb, date_conv);
 }
 
+/**
+ * workbook_get_sheet_size:
+ * @wb: #Workbook
+ *
+ * Returns: (transfer none): the current sheet size for @wb.
+ **/
 GnmSheetSize const *
 workbook_get_sheet_size (Workbook const *wb)
 {
@@ -1325,6 +1364,7 @@ struct _WorkbookSheetState {
 	GSList *properties;
 	int n_sheets;
 	WorkbookSheetStateSheet *sheets;
+	unsigned ref_count;
 };
 
 
@@ -1342,6 +1382,7 @@ workbook_sheet_state_new (const Workbook *wb)
 		wsss->sheet = g_object_ref (workbook_sheet_by_index (wb, i));
 		wsss->properties = go_object_properties_collect (G_OBJECT (wsss->sheet));
 	}
+	wss->ref_count = 1; 
 	return wss;
 }
 
@@ -1349,6 +1390,9 @@ void
 workbook_sheet_state_free (WorkbookSheetState *wss)
 {
 	int i;
+
+	if (!wss || wss->ref_count-- > 1)
+		return;
 
 	go_object_properties_free (wss->properties);
 
@@ -1359,6 +1403,26 @@ workbook_sheet_state_free (WorkbookSheetState *wss)
 	}
 	g_free (wss->sheets);
 	g_free (wss);
+}
+
+static WorkbookSheetState *
+workbook_sheet_state_ref (WorkbookSheetState *wss)
+{
+	wss->ref_count++;
+	return wss;
+}
+
+GType
+workbook_sheet_state_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("WorkbookSheetState",
+			 (GBoxedCopyFunc)workbook_sheet_state_ref,
+			 (GBoxedFreeFunc)workbook_sheet_state_free);
+	}
+	return t;
 }
 
 void

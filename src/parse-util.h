@@ -200,6 +200,7 @@ struct _GnmConventions {
 					       char const *name);
 	} output;
 };
+GType           gnm_conventions_get_type (void);
 GnmConventions *gnm_conventions_new	 (void);
 GnmConventions *gnm_conventions_new_full (unsigned size);
 

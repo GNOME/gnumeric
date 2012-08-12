@@ -370,13 +370,13 @@ cell_draw_v_extension_markers (cairo_t *cr,
 
 /**
  * cell_draw:
- * @cell : #GnmCell const
- * @cr   : #cairo_t
- * @x1 :
- * @y1 :
- * @width : including margins and leading grid line
- * @height : including margins and leading grid line
- * @h_center :
+ * @cell: #GnmCell const
+ * @cr: #cairo_t
+ * @x1:
+ * @y1:
+ * @width: including margins and leading grid line
+ * @height: including margins and leading grid line
+ * @h_center:
  * @show_extension_markers:
  **/
 void

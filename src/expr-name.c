@@ -824,7 +824,7 @@ expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr)
  */
 /**
  * expr_name_set_pos:
- * @nexpr : the named expression
+ * @nexpr: the named expression
  * @pp: the new position
  *
  * Returns a translated error string which the caller must free if something
