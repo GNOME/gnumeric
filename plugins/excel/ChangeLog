@@ -1,3 +1,8 @@
+2012-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xlsx-read.c (xlsx_border_begin_v2): new
+	(xlsx_file_open): use version info to set the saver
+
 2012-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* boot.c (excel_read_metadata), (excel_save): replace deprecated functions

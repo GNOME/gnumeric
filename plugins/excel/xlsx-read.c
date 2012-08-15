@@ -82,6 +82,11 @@
 
 #define CXML2C(s) ((char const *)(s))
 
+enum {
+	ECMA_376_2006 = 1,
+	ECMA_376_2008 = 2
+};
+
 typedef enum {
 	XLXS_TYPE_NUM,
 	XLXS_TYPE_SST_STR,	/* 0 based index into sst */
@@ -119,6 +124,8 @@ typedef struct {
 
 typedef struct {
 	GsfInfile	*zip;
+
+	int              version;
 
 	GOIOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
@@ -3817,6 +3824,14 @@ xlsx_border_begin (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_border_begin_v2 (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->version = ECMA_376_2008;
+	xlsx_border_begin (xin, attrs);
+}
+
+static void
 xlsx_border_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -4086,13 +4101,13 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
 			    &xlsx_border_begin, &xlsx_border_end, GNM_STYLE_BORDER_LEFT),
         GSF_XML_IN_NODE (LEFT_B, LEFT_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
       GSF_XML_IN_NODE_FULL (BORDER, START_B, XL_NS_SS, "start", GSF_XML_NO_CONTENT, FALSE, FALSE,
-			    &xlsx_border_begin, &xlsx_border_end, GNM_STYLE_BORDER_LEFT),
+			    &xlsx_border_begin_v2, &xlsx_border_end, GNM_STYLE_BORDER_LEFT),
         GSF_XML_IN_NODE (START_B, START_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
       GSF_XML_IN_NODE_FULL (BORDER, RIGHT_B, XL_NS_SS, "right", GSF_XML_NO_CONTENT, FALSE, FALSE,
 			    &xlsx_border_begin, &xlsx_border_end, GNM_STYLE_BORDER_RIGHT),
         GSF_XML_IN_NODE (RIGHT_B, RIGHT_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
       GSF_XML_IN_NODE_FULL (BORDER, END_B, XL_NS_SS, "end", GSF_XML_NO_CONTENT, FALSE, FALSE,
-			    &xlsx_border_begin, &xlsx_border_end, GNM_STYLE_BORDER_RIGHT),
+			    &xlsx_border_begin_v2, &xlsx_border_end, GNM_STYLE_BORDER_RIGHT),
         GSF_XML_IN_NODE (END_B, END_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
        GSF_XML_IN_NODE_FULL (BORDER, TOP_B, XL_NS_SS,	"top", GSF_XML_NO_CONTENT, FALSE, FALSE,
 			    &xlsx_border_begin, &xlsx_border_end, GNM_STYLE_BORDER_TOP),
@@ -4332,6 +4347,7 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 	GnmLocale       *locale;
 
 	memset (&state, 0, sizeof (XLSXReadState));
+	state.version   = ECMA_376_2006;
 	state.context	= context;
 	state.wb_view	= wb_view;
 	state.wb	= wb_view_get_workbook (wb_view);
@@ -4430,7 +4446,9 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 	g_hash_table_destroy (state.theme_colors_by_name);
 
 	workbook_set_saveinfo (state.wb, GO_FILE_FL_AUTO,
-		go_file_saver_for_id ("Gnumeric_Excel:xlsx"));
+			       go_file_saver_for_id ((state.version == ECMA_376_2006) ? 
+						     "Gnumeric_Excel:xlsx" :
+						     "Gnumeric_Excel:xlsx2"));
 }
 
 /* TODO * TODO * TODO
