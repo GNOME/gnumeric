@@ -377,6 +377,8 @@ xlsx_write_docprops_core (XLSXWriteState *state, GsfOutfile *root_part, GsfOutfi
 		(docprops_dir, "core.xml",
 		 "application/vnd.openxmlformats-package.core-properties+xml",
 		 root_part,
+/* According to 15.2.12.1 this ought to be  "http://schemas.openxmlformats.org/officedocument/2006/relationships/metadata/core-properties" */
+/* but this is what MS Office apparently writes. As a side effect this makes us fail strict validation */
 		 "http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties");
 	GsfXMLOut *xml = gsf_xml_out_new (part);
 	GsfDocMetaData *meta = go_doc_get_meta_data (GO_DOC (state->base.wb));
