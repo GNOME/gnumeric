@@ -1,4 +1,4 @@
-2012-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2012-08-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-read.c (xlsx_border_begin_v2): new
 	(xlsx_file_open): use version info to set the saver
