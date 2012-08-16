@@ -104,7 +104,7 @@ so_list_init (GnmDialogSOList *state, WBCGtk *wbcg, SheetObject *so)
 	GnmExprTop const *texpr;
 	GtkBuilder *gui;
 
-	gui = gnm_gtk_builder_new ("so-list.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("so-list.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
                 return TRUE;
 

@@ -156,6 +156,27 @@ row_span_get (ColRowInfo const * const ri, int const col)
 	return g_hash_table_lookup (ri->spans, GINT_TO_POINTER(col));
 }
 
+/* making CellSpanInfo a boxed type. As this objects are constant, no need
+ * to really copy free them. Right? */
+static const CellSpanInfo*
+cell_span_info_copy (CellSpanInfo const *sp)
+{
+	return sp;
+}
+
+GType
+cell_span_info_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("CellSpanInfo",
+			 (GBoxedCopyFunc)cell_span_info_copy,
+			 (GBoxedFreeFunc)cell_span_info_copy);
+	}
+	return t;
+}
+
 /**
  * cellspan_is_empty :
  *

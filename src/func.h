@@ -21,8 +21,10 @@ struct _GnmFuncGroup {
 	GOString *internal_name, *display_name;
 	gboolean has_translation;
 	GSList *functions;
+	unsigned ref_count; /* boxed type */
 };
 
+GType gnm_func_group_get_type (void); /* boxed type */
 GnmFuncGroup *gnm_func_group_get_nth (gint n);
 GnmFuncGroup *gnm_func_group_fetch (char const *name,
 				    char const *translation);

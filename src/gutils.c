@@ -526,7 +526,7 @@ struct _GnmLocale {
 	char *monetary_locale;
 };
 /**
- * gnm_push_C_locale :
+ * gnm_push_C_locale: (skip)
  *
  * Returns the current locale, and sets the locale and the value-format
  * engine's locale to 'C'.  The caller must call gnm_pop_C_locale to free the
@@ -547,8 +547,8 @@ gnm_push_C_locale (void)
 }
 
 /**
- * gnm_pop_C_locale :
- * @locale : #GnmLocale
+ * gnm_pop_C_locale: (skip)
+ * @locale: #GnmLocale
  *
  * Frees the result of gnm_push_C_locale and restores the original locale.
  **/

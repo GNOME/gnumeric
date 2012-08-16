@@ -5837,6 +5837,20 @@ pf (gnm_float x, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p
 
 #undef DEBUG_pfuncinverter
 
+/**
+ * pfuncinverter:
+ * @p:
+ * @shape:
+ * @lower_tail:
+ * @log_p:
+ * @xlow:
+ * @xhigh:
+ * @x0:
+ * @pfunc: (scope call):
+ * @dpfunc_dx: (scope call):
+ *
+ * Returns:
+ **/
 gnm_float
 pfuncinverter (gnm_float p, const gnm_float shape[],
 	       gboolean lower_tail, gboolean log_p,
@@ -6001,8 +6015,19 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 	return x;
 }
 
-/*
- * Discrete pfuncs only.  (Specifically: only integer x are allowed.
+/**
+ * discpfuncinverter:
+ * @p:
+ * @shape:
+ * @lower_tail:
+ * @log_p:
+ * @xlow:
+ * @xhigh:
+ * @x0:
+ * @pfunc: (scope call):
+ *
+ * Discrete pfuncs only.  (Specifically: only integer x are allowed).
+ * Returns:
  */
 gnm_float
 discpfuncinverter (gnm_float p, const gnm_float shape[],

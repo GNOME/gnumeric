@@ -94,7 +94,7 @@ enum {
 
 /**
  * wb_view_get_workbook:
- * @wbv : #WorkbookView
+ * @wbv: #WorkbookView
  *
  * Returns: (transfer none): the #Workbook associated with @wbv
  **/
@@ -107,7 +107,7 @@ wb_view_get_workbook (WorkbookView const *wbv)
 
 /**
  * wb_view_get_doc:
- * @wbv : #WorkbookView
+ * @wbv: #WorkbookView
  *
  * Returns: (transfer none): the #Workbook associated with @wbv cast to a #GODoc
  **/
@@ -137,6 +137,12 @@ wb_view_get_index_in_wb (WorkbookView const *wbv)
 	return -1;
 }
 
+/**
+ * wb_view_cur_sheet:
+ * @wbv: #WorkbookView
+ *
+ * Returns: (transfer none): the current sheet.
+ **/
 Sheet *
 wb_view_cur_sheet (WorkbookView const *wbv)
 {
@@ -144,6 +150,12 @@ wb_view_cur_sheet (WorkbookView const *wbv)
 	return wbv->current_sheet;
 }
 
+/**
+ * wb_view_cur_sheet_view:
+ * @wbv: #WorkbookView
+ *
+ * Returns: (transfer none): the current sheet view.
+ **/
 SheetView *
 wb_view_cur_sheet_view (WorkbookView const *wbv)
 {
@@ -1080,7 +1092,7 @@ wb_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
  * wb_view_save_as:
  * @wbv: Workbook View
  * @fs: GOFileSaver object
- * @uri: URI to save as.
+ * @file_name: URI to save as.
  * @context:
  *
  * Saves @wbv and workbook it's attached to into @uri file using
@@ -1113,14 +1125,14 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 	has_error   = go_io_error_occurred (io_context);
 	has_warning = go_io_warning_occurred (io_context);
 	if (!has_error) {
-		if (workbook_set_saveinfo 
+		if (workbook_set_saveinfo
 		    (wb, go_file_saver_get_format_level (fs), fs)) {
 			if (go_doc_set_uri (GO_DOC (wb), uri)) {
 				go_doc_set_dirty (GO_DOC (wb), FALSE);
 				/* See 634792.  */
 				go_doc_set_pristine (GO_DOC (wb), FALSE);
 			}
-		} else 
+		} else
 			workbook_set_last_export_uri (wb, g_strdup (uri));
 	}
 	if (has_error || has_warning)
@@ -1134,7 +1146,7 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 /**
  * wb_view_save:
  * @wbv: The view to save.
- * @context: The context that invoked the operation
+ * @cc: The context that invoked the operation
  *
  * Saves @wbv and workbook it's attached to into file assigned to the
  * workbook using workbook's file saver. If the workbook has no file
@@ -1182,12 +1194,25 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 	return !has_error;
 }
 
+/**
+ * workbook_view_new_from_uri:
+ * @input: #GsfInput to read data from.
+ * @optional_format: Optional GOFileOpener
+ * @io_context: Optional context to display errors.
+ * @optional_encoding: Optional encoding for GOFileOpener that understand it
+ *
+ * Reads @uri file using given file opener @optional_fmt, or probes for a valid
+ * possibility if @optional_fmt is NULL.  Reports problems to @io_context.
+ *
+ * Return value: (transfer full): the newly allocated WorkbookView or %NULL
+ * on error.
+ **/
 WorkbookView *
-wb_view_new_from_input (GsfInput *input,
-			const char *optional_uri,
-			GOFileOpener const *optional_fmt,
-			GOIOContext *io_context,
-			char const *optional_enc)
+workbook_view_new_from_input (GsfInput *input,
+                              const char *optional_uri,
+                              GOFileOpener const *optional_fmt,
+                              GOIOContext *io_context,
+                              char const *optional_enc)
 {
 	WorkbookView *new_wbv = NULL;
 
@@ -1261,7 +1286,7 @@ wb_view_new_from_input (GsfInput *input,
 			workbook_recalc (new_wb);
 			go_doc_set_dirty (GO_DOC (new_wb), FALSE);
 			if (optional_uri && workbook_get_file_exporter (new_wb))
-				workbook_set_last_export_uri 
+				workbook_set_last_export_uri
 					(new_wb, g_strdup (optional_uri));
 		}
 	} else
@@ -1272,19 +1297,20 @@ wb_view_new_from_input (GsfInput *input,
 }
 
 /**
- * wb_view_new_from_uri:
+ * workbook_view_new_from_uri:
  * @uri: URI for file
- * @optional_fmt: Optional GOFileOpener
+ * @optional_format: Optional GOFileOpener
  * @io_context: Optional context to display errors.
- * @optional_enc: Optional encoding for GOFileOpener that understand it
+ * @optional_encoding: Optional encoding for GOFileOpener that understand it
  *
  * Reads @uri file using given file opener @optional_fmt, or probes for a valid
  * possibility if @optional_fmt is NULL.  Reports problems to @io_context.
  *
- * Return value: TRUE if file was successfully read and FALSE otherwise.
- */
+ * Return value: (transfer full): the newly allocated WorkbookView or %NULL
+ * on error.
+ **/
 WorkbookView *
-wb_view_new_from_uri (char const *uri,
+workbook_view_new_from_uri (char const *uri,
 		      GOFileOpener const *optional_fmt,
 		      GOIOContext *io_context,
 		      char const *optional_enc)
@@ -1302,7 +1328,7 @@ wb_view_new_from_uri (char const *uri,
 #if 0
 		g_printerr ("Reading %s\n", uri);
 #endif
-		res = wb_view_new_from_input (input, uri,
+		res = workbook_view_new_from_input (input, uri,
 					      optional_fmt, io_context,
 					      optional_enc);
 		g_object_unref (G_OBJECT (input));

@@ -978,7 +978,7 @@ dialog_init (SolverState *state)
 
 	param = state->sheet->solver_parameters;
 
-	state->gui = gnm_gtk_builder_new ("solver.ui", NULL, GO_CMD_CONTEXT (state->wbcg));
+	state->gui = gnm_gtk_builder_load ("solver.ui", NULL, GO_CMD_CONTEXT (state->wbcg));
         if (state->gui == NULL)
                 return TRUE;
 

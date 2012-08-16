@@ -109,6 +109,7 @@ consolidate_new (void)
 	cs->fd = NULL;
 	cs->src = NULL;
 	cs->mode = CONSOLIDATE_PUT_VALUES;
+	cs->ref_count = 1;
 
 	return cs;
 }
@@ -120,6 +121,8 @@ consolidate_free (GnmConsolidate *cs, gboolean content_only)
 
 	g_return_if_fail (cs != NULL);
 
+	if (cs->ref_count-- > 1)
+		return;
 	if (cs->fd) {
 		gnm_func_unref (cs->fd);
 		cs->fd = NULL;
@@ -132,6 +135,33 @@ consolidate_free (GnmConsolidate *cs, gboolean content_only)
 
 	if (!content_only)
 		g_free (cs);
+}
+
+static GnmConsolidate *
+gnm_consolidate_ref (GnmConsolidate *cs)
+{
+	cs->ref_count++;
+}
+
+static GnmConsolidate *
+gnm_consolidate_unref (GnmConsolidate *cs)
+{
+	cs->ref_count--;
+	if (cs->ref_count == 0)
+		consolidate_free (cs, TRUE);
+}
+
+GType
+gnm_consolidate_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmConsolidate",
+			 (GBoxedCopyFunc)gnm_consolidate_ref,
+			 (GBoxedFreeFunc)gnm_consolidate_unref);
+	}
+	return t;
 }
 
 void

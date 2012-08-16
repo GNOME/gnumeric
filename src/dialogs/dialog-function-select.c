@@ -1373,7 +1373,7 @@ dialog_function_select_full (WBCGtk *wbcg, char const *guru_key,
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, key))
 		return;
-	gui = gnm_gtk_builder_new ("function-select.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("function-select.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
 		return;
 

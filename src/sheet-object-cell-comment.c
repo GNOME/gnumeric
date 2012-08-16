@@ -418,6 +418,16 @@ cell_comment_set_pos (GnmComment *cc, GnmCellPos const *pos)
 	sheet_object_set_anchor (SHEET_OBJECT (cc), &anchor);
 }
 
+/**
+ * cell_set_comment:
+ * @sheet: #Sheet.
+ * @pos: the position.
+ * @author: comment author.
+ * @text: comment text.
+ * @markup: comment markup.
+ *
+ * Returns: (transfer none): the newly allocated #GnmComment.
+ **/
 GnmComment *
 cell_set_comment (Sheet *sheet, GnmCellPos const *pos,
 		  char const *author, char const *text,

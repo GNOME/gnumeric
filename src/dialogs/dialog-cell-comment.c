@@ -108,7 +108,7 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, COMMENT_DIALOG_KEY))
 		return;
-	gui = gnm_gtk_builder_new ("cell-comment.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("cell-comment.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

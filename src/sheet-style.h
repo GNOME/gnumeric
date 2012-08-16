@@ -89,6 +89,7 @@ GnmStyleList *sheet_style_collect_conditions	(Sheet const *s, GnmRange const *r)
 GnmStyleList *sheet_style_collect_hlinks	(Sheet const *s, GnmRange const *r);
 GnmStyleList *sheet_style_collect_validations	(Sheet const *s, GnmRange const *r);
 
+GType gnm_style_region_get_type (void); /* boxed type */
 GnmStyleRegion *gnm_style_region_new (GnmRange const *range, GnmStyle *style);
 void gnm_style_region_free (GnmStyleRegion *sr);
 

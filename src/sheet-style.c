@@ -1242,11 +1242,10 @@ tail_recursion :
 }
 
 /**
- * sheet_style_set_range
- *
- * @sheet :
- * @range :
- * @style : #GnmStyle
+ * sheet_style_set_range:
+ * @sheet:
+ * @range:
+ * @style: #GnmStyle
  *
  * Change the complete style for a region.
  * This function absorbs a reference to the new @style.
@@ -1267,10 +1266,10 @@ sheet_style_set_range (Sheet *sheet, GnmRange const *range,
 }
 
 /**
- * sheet_style_apply_col
- * @sheet :
- * @col :
- * @pstyle : #GnmStyle
+ * sheet_style_apply_col:
+ * @sheet:
+ * @col:
+ * @style: #GnmStyle
  *
  * NOTE : This is a simple wrapper for now.  When we support col/row styles it
  *	will make life easier.
@@ -1287,10 +1286,10 @@ sheet_style_apply_col (Sheet *sheet, int col, GnmStyle *pstyle)
 }
 
 /**
- * sheet_style_apply_row
- * @sheet :
- * @row :
- * @pstyle : #GnmStyle
+ * sheet_style_apply_row:
+ * @sheet:
+ * @row:
+ * @style: #GnmStyle
  *
  * NOTE : This is a simple wrapper for now.  When we support col/row styles it
  *	will make life easier.
@@ -2067,7 +2066,7 @@ cb_style_extent (GnmStyle *style,
  * sheet_style_get_extent:
  *
  * @sheet: sheet to measure
- * @res: starting range and resulting range
+ * @r: starting range and resulting range
  *
  * A simple implementation that finds the smallest range containing all visible styles
  * and containing @res.
@@ -2242,6 +2241,13 @@ sheet_style_most_common (Sheet const *sheet, gboolean is_col)
 
 /****************************************************************************/
 
+/**
+ * gnm_style_region_new:
+ * @range: #GnmRange
+ * @style: #GnmStyle
+ *
+ * Returns: (transfer full): the newly allocated #GnmStyleRegion.
+ **/
 GnmStyleRegion *
 gnm_style_region_new (GnmRange const *range, GnmStyle *style)
 {
@@ -2264,6 +2270,29 @@ gnm_style_region_free (GnmStyleRegion *sr)
 	sr->style = NULL;
 	g_free (sr);
 }
+
+static GnmStyleRegion *
+gnm_style_region_copy (GnmStyleRegion *sr)
+{
+	GnmStyleRegion *res = g_new (GnmStyleRegion, 1);
+	*res = *sr;
+	gnm_style_ref (sr->style);
+	return res;
+}
+
+GType
+gnm_style_region_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmStyleRegion",
+			 (GBoxedCopyFunc)gnm_style_region_copy,
+			 (GBoxedFreeFunc)gnm_style_region_free);
+	}
+	return t;
+}
+
 
 typedef struct {
 	GHashTable *cache;
@@ -2388,14 +2417,13 @@ cb_hash_to_list (G_GNUC_UNUSED gpointer key, gpointer	value, gpointer	user_data)
 
 /**
  * sheet_style_get_range:
- *
  * @sheet:
  * @range:
  *
  * Get a list of rectangles and their associated styles
  * Caller is responsible for freeing.
  *
- * Returns: (element-type GnmStyleRange) (transfer full):
+ * Returns: (transfer full):
  */
 GnmStyleList *
 sheet_style_get_range (Sheet const *sheet, GnmRange const *r)

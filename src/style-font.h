@@ -22,6 +22,7 @@ struct _GnmFont {
 	unsigned int is_italic : 1;
 };
 
+GType    gnm_font_get_type (void);
 GnmFont *gnm_font_new   (PangoContext *context,
 			 char const *font_name,
 			 double size_pts, gboolean bold, gboolean italic);

@@ -23,6 +23,7 @@ struct _GnmSortData {
 	char            *locale;
 };
 
+GType gnm_sort_data_get_type (void);
 void gnm_sort_data_destroy   (GnmSortData *data);
 GnmSortData *gnm_sort_data_copy   (GnmSortData *data);
 void gnm_sort_position	     (GnmSortData *data, int *perm, GOCmdContext *cc);

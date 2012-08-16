@@ -506,8 +506,11 @@ Gnm_@GNUMERIC_API_VER_@_gir_LIBS = libspreadsheet.la
 Gnm_@GNUMERIC_API_VER_@_gir_FILES = \
 	$(libspreadsheet_la_SOURCES) \
 	$(libspreadsheet_include_HEADERS) \
+	tools/dao.c \
+	tools/dao.h \
 	tools/scenarios.c \
 	tools/scenarios.h \
+	tools/tools.h \
 	widgets/gnumeric-expr-entry.c \
 	widgets/gnumeric-expr-entry.h
 

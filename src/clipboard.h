@@ -58,6 +58,8 @@ typedef struct {
 	GnmExprTop const *texpr;
 } GnmCellCopy;
 
+GType gnm_cell_copy_get_type (void);
+
 struct _GnmCellRegion {
 	Sheet		*origin_sheet; /* can be NULL */
 	const GODateConventions *date_conv; /* can be NULL */
@@ -79,6 +81,8 @@ struct _GnmPasteTarget {
 	int         paste_flags;
 };
 
+GType gnm_paste_target_get_type (void);
+
 GnmCellRegion  *clipboard_copy_range   (Sheet *sheet, GnmRange const *r);
 GOUndo         *clipboard_copy_range_undo (Sheet *sheet, GnmRange const *r);
 GnmCellRegion  *clipboard_copy_obj     (Sheet *sheet, GSList *objects);
@@ -89,7 +93,8 @@ GnmPasteTarget *paste_target_init      (GnmPasteTarget *pt,
 					Sheet *sheet, GnmRange const *r,
 					int flags);
 
-GnmCellRegion *cellregion_new	(Sheet *origin_sheet);
+GType          gnm_cell_region_get_type (void);
+GnmCellRegion *gnm_cell_region_new	(Sheet *origin_sheet);
 void           cellregion_ref		(GnmCellRegion *cr);
 void           cellregion_unref		(GnmCellRegion *cr);
 GString	      *cellregion_to_string	(GnmCellRegion const *cr,

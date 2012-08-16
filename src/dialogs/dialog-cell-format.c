@@ -2480,7 +2480,7 @@ dialog_cell_format_init (WBCGtk *wbcg)
 	GnmCell	     *edit_cell;
 	FormatState  *state;
 
-	gui = gnm_gtk_builder_new ("cell-format.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("cell-format.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return NULL;
 

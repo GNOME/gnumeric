@@ -255,7 +255,7 @@ read_files_to_merge (const char *inputs[], GOFileOpener *fo,
 		const char *fname = *inputs;
 		char *uri = go_shell_arg_to_uri (fname);
 		WorkbookView *wbv =
-			wb_view_new_from_uri (uri, fo, io_context,
+			workbook_view_new_from_uri (uri, fo, io_context,
 					      ssconvert_import_encoding);
 		g_free (uri);
 		inputs++;
@@ -594,7 +594,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 
 	io_context = go_io_context_new (cc);
 	if (mergeargs == NULL) {
-		wbv = wb_view_new_from_uri (infile, fo,
+		wbv = workbook_view_new_from_uri (infile, fo,
 					    io_context,
 					    ssconvert_import_encoding);
 	} else {

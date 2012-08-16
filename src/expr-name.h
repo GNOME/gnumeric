@@ -23,6 +23,7 @@ struct _GnmNamedExpr {
 
 gboolean expr_name_validate (const char *name);
 
+GType         gnm_named_expr_get_type (void);
 GnmNamedExpr *expr_name_new    (char const *name);
 GnmNamedExpr *expr_name_lookup (GnmParsePos const *pos, char const *name);
 GnmNamedExpr *expr_name_add    (GnmParsePos const *pp, char const *name,
@@ -70,8 +71,12 @@ struct _GnmNamedExprCollection {
 
 	/* placeholders for references to undefined names */
 	GHashTable *placeholders;
+
+	/* <private> */
+	unsigned ref_count;     /* boxed type */
 };
 
+GType gnm_named_expr_collection_get_type (void);
 GnmNamedExprCollection *gnm_named_expr_collection_new (void);
 void gnm_named_expr_collection_free (GnmNamedExprCollection *names);
 void gnm_named_expr_collection_unlink (GnmNamedExprCollection *names);

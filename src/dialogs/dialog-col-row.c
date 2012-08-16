@@ -87,7 +87,7 @@ dialog_col_row (WBCGtk *wbcg,  char const *operation,
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, COL_ROW_DIALOG_KEY))
 		return;
-	gui = gnm_gtk_builder_new ("colrow.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("colrow.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

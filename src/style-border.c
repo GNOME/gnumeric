@@ -317,6 +317,19 @@ gnm_style_border_unref (GnmBorder *border)
 	g_free (border);
 }
 
+GType
+gnm_border_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmBorder",
+			 (GBoxedCopyFunc)gnm_style_border_ref,
+			 (GBoxedFreeFunc)gnm_style_border_unref);
+	}
+	return t;
+}
+
 static gboolean
 style_border_hmargins (GnmBorder const * const * prev_vert,
 		       GnmStyleRow const *sr, int col,

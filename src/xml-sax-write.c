@@ -1400,9 +1400,9 @@ gnm_xml_io_conventions (void)
 }
 
 static void
-gnm_xml_file_save_full (G_GNUC_UNUSED GOFileSaver const *fs, 
+gnm_xml_file_save_full (G_GNUC_UNUSED GOFileSaver const *fs,
 			G_GNUC_UNUSED GOIOContext *io_context,
-			GoView const *view, GsfOutput *output, 
+			GoView const *view, GsfOutput *output,
 			gboolean compress)
 {
 	GnmOutputXML state;
@@ -1482,7 +1482,7 @@ gnm_xml_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		compress = FALSE;
 	else
 		compress = (gnm_conf_get_core_xml_compression_level () > 0);
-	
+
 	gnm_xml_file_save_full (fs, io_context, view, output, compress);
 }
 
@@ -1502,7 +1502,7 @@ typedef struct {
 } XMLCellCopyState;
 
 static void
-cb_xml_write_cell_region_cells (GnmCellCopy *cc, 
+cb_xml_write_cell_region_cells (GnmCellCopy *cc,
 				G_GNUC_UNUSED gconstpointer ignore,
 				XMLCellCopyState *state)
 {
@@ -1513,12 +1513,11 @@ cb_xml_write_cell_region_cells (GnmCellCopy *cc,
 }
 
 /**
- * gnm_cellregion_to_xml :
- * @cr  : the content to store.
- * @size: store the size of the buffer here.
+ * gnm_cellregion_to_xml:
+ * @cr: the content to store.
  *
  * Caller is responsible for free-ing the result.
- * Returns NULL on error
+ * Returns: (transfer full): NULL on error
  **/
 GsfOutputMemory *
 gnm_cellregion_to_xml (GnmCellRegion const *cr)

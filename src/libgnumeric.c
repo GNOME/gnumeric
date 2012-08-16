@@ -117,7 +117,7 @@ cb_gnm_option_group_post_parse (GOptionContext *context,
 }
 
 /**
- * gnm_get_option_group:
+ * gnm_get_option_group: (skip)
  *
  * Returns a #GOptionGroup for the commandline arguments recognized
  * by libspreadsheet. You should add this group to your #GOptionContext with
@@ -142,11 +142,14 @@ gnm_get_option_group (void)
 }
 
 /**
- * gnm_pre_parse_init :
- * @gnumeric_binary : argv[0]
+ * gnm_pre_parse_init:
+ * @argc:
+ * @argv:
  *
  * Initialization to be done before cmd line arguments are handled.
  * Needs to be called first, before any other initialization.
+ *
+ * Returns: (transfer none): the arguments in UTF-8 encoding.
  **/
 gchar const **
 gnm_pre_parse_init (int argc, gchar const **argv)

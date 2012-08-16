@@ -56,10 +56,12 @@ typedef struct {
 	                                            /* we tried to import more than */
 	                                            /* SHEET_MAX_COLS columns */
 	gboolean             rows_exceeded;         /* Ditto rows.  */
+	unsigned             ref_count;             /* Boxed type */
 } StfParseOptions_t;
 
 /* CREATION/DESTRUCTION of stf options struct */
 
+GType               stf_parse_options_get_type                        (void);
 void                stf_parse_options_free                            (StfParseOptions_t *parseoptions);
 
 StfParseOptions_t  *stf_parse_options_guess                           (char const *data);

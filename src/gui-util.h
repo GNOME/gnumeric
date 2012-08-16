@@ -12,8 +12,8 @@ G_BEGIN_DECLS
 #define GNM_ACTION_DEF(name)			\
 	void name (GtkAction *a, WBCGtk *wbcg)
 
-GtkWidget* gnumeric_go_error_info_dialog_new (GOErrorInfo *error);
-GtkWidget* gnumeric_go_error_info_list_dialog_new (GSList *errs);
+GtkWidget* gnumeric_go_error_info_dialog_create (GOErrorInfo *error);
+GtkWidget* gnumeric_go_error_info_list_dialog_create (GSList *errs);
 void       gnumeric_go_error_info_dialog_show (GtkWindow *parent,
 					       GOErrorInfo *error);
 void       gnumeric_go_error_info_list_dialog_show (GtkWindow *parent,
@@ -47,7 +47,7 @@ GtkWidget  *gnumeric_convert_to_tooltip (GtkWidget *ref_widget,
 					 GtkWidget *widget);
 void        gnumeric_tooltip_set_style (GtkWidget *widget);
 
-GtkBuilder *gnm_gtk_builder_new (char const *uifile, char const *domain,
+GtkBuilder *gnm_gtk_builder_load (char const *uifile, char const *domain,
 				 GOCmdContext *cc);
 
 typedef struct {
@@ -110,11 +110,11 @@ void gnm_link_button_and_entry (GtkWidget *button, GtkWidget *entry);
 void gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct);
 void gnm_widget_set_cursor (GtkWidget *w, GdkCursor *ct);
 
-GtkWidget * gnumeric_message_dialog_new (GtkWindow * parent,
-					 GtkDialogFlags flags,
-					 GtkMessageType type,
-					 char const *primary_message,
-					 char const *secondary_message);
+GtkWidget * gnumeric_message_dialog_create (GtkWindow * parent,
+                                            GtkDialogFlags flags,
+                                            GtkMessageType type,
+                                            char const *primary_message,
+                                            char const *secondary_message);
 
 typedef gboolean (*gnm_iter_search_t) (GtkTreeModel *model, GtkTreeIter* iter);
 #define gnm_tree_model_iter_next gtk_tree_model_iter_next

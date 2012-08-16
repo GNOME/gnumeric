@@ -197,13 +197,13 @@ rv_adjust_attributes (PangoAttrList *markup, double zoom, double scale, int rise
 
 
 /**
- * gnm_rendered_value_new:
+ * gnm_rendered_value_new: (skip)
  * @cell:   The cell
- * @allow_variable_width : Allow format to depend on column width.
+ * @variable_width: Allow format to depend on column width.
  *
  * Formats the value of the cell according to the format style given in @mstyle
  *
- * Return value: a new GnmRenderedValue
+ * Returns: a new GnmRenderedValue
  **/
 GnmRenderedValue *
 gnm_rendered_value_new (GnmCell const *cell,
@@ -528,6 +528,13 @@ gnm_rendered_value_destroy (GnmRenderedValue *rv)
 		CHUNK_FREE (rendered_value_pool, rv);
 }
 
+/**
+ * gnm_rendered_value_recontext: (skip)
+ * @rv: #GnmRenderedValue
+ * @context: the new Pango context.
+ *
+ * Returns:
+ **/
 GnmRenderedValue *
 gnm_rendered_value_recontext (GnmRenderedValue *rv, PangoContext *context)
 {
@@ -607,6 +614,13 @@ debug_rvc (void)
 	return res > 0;
 }
 
+/**
+ * gnm_rvc_new: (skip)
+ * @context:   The context
+ * @size:
+ *
+ * Returns: a new GnmRenderedValueCollection
+ **/
 GnmRenderedValueCollection *
 gnm_rvc_new (PangoContext *context, gsize size)
 {
@@ -640,6 +654,13 @@ gnm_rvc_free (GnmRenderedValueCollection *rvc)
 	g_free (rvc);
 }
 
+/**
+ * gnm_rvc_query: (skip)
+ * @rvc:   The rendered value collection
+ * @cell: #GnmCell
+ *
+ * Returns: the rendered value for @cell.
+ **/
 GnmRenderedValue *
 gnm_rvc_query (GnmRenderedValueCollection *rvc, GnmCell const *cell)
 {

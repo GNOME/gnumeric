@@ -253,7 +253,7 @@ dialog_data_slicer (WBCGtk *wbcg, gboolean create)
 	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
 		return;
 
-	gui = gnm_gtk_builder_new ("data-slicer.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("data-slicer.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (NULL == gui)
 		return;
 

@@ -94,7 +94,7 @@ workbook_update_history (Workbook *wb, file_save_as_t type)
 		break;
 	case FILE_SAVE_AS_EXPORT:
 	default:
-		if (wb->last_export_uri && 
+		if (wb->last_export_uri &&
 		    wb->file_export_format_level >= GO_FILE_FL_MANUAL_REMEMBER) {
 			const char *mimetype = wb->file_exporter
 				? go_file_saver_get_mime_type (wb->file_exporter)
@@ -403,8 +403,8 @@ workbook_new_with_sheets (int sheet_count)
 /**
  * workbook_set_saveinfo:
  * @wb: the workbook to modify
- * @name: the file name for this worksheet.
- * @level: the file format level
+ * @lev: the file format level
+ * @saver: the file saver.
  *
  * If level is sufficiently advanced assign the info.
  *
@@ -488,20 +488,20 @@ workbook_get_last_export_uri (Workbook *wb)
 	return wb->last_export_uri;
 }
 
-void         
+void
 workbook_set_file_exporter (Workbook *wb, GOFileSaver *fs)
 {
 	wb->file_exporter = fs;
-	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc, 
+	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc,
 				  wb_control_menu_state_update (wbc, MS_FILE_EXPORT_IMPORT););
 }
 
-void         
+void
 workbook_set_last_export_uri (Workbook *wb, gchar *uri)
 {
 	g_free (wb->last_export_uri);
 	wb->last_export_uri = uri;
-	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc, 
+	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc,
 				  wb_control_menu_state_update (wbc, MS_FILE_EXPORT_IMPORT););
 }
 
@@ -511,7 +511,7 @@ workbook_set_last_export_uri (Workbook *wb, gchar *uri)
  *
  * @pos: The position the range is relative to.
  * @cell_range: A value containing a range;
- * @only_existing: if TRUE only existing cells are sent to the handler.
+ * @flags: if TRUE only existing cells are sent to the handler.
  * @handler: (scope call): The operator to apply to each cell.
  * @closure: User data.
  *
@@ -578,7 +578,7 @@ workbook_foreach_cell_in_range (GnmEvalPos const *pos,
  * Collects a GPtrArray of GnmEvalPos pointers for all cells in a workbook.
  * No particular order should be assumed.
  *
- * Returns: (transfer container): the cells array
+ * Returns: (element-type GnmEvalPos) (transfer full): the cells array
  */
 GPtrArray *
 workbook_cells (Workbook *wb, gboolean comments, GnmSheetVisibility vis)
@@ -1242,7 +1242,7 @@ workbook_sheet_rename (Workbook *wb,
  * workbook_find_command:
  * @wb: #Workbook
  * @is_undo: undo vs redo
- * @key: command
+ * @cmd: command
  *
  * Returns: the 1 based index of the @key command, or 0 if it is not found
  **/
@@ -1382,7 +1382,7 @@ workbook_sheet_state_new (const Workbook *wb)
 		wsss->sheet = g_object_ref (workbook_sheet_by_index (wb, i));
 		wsss->properties = go_object_properties_collect (G_OBJECT (wsss->sheet));
 	}
-	wss->ref_count = 1; 
+	wss->ref_count = 1;
 	return wss;
 }
 

@@ -1258,7 +1258,7 @@ dialog_cell_format_cond (WBCGtk *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	gui = gnm_gtk_builder_new ("cell-format-cond.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("cell-format-cond.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

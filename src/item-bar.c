@@ -181,7 +181,7 @@ item_bar_calc_size (ItemBar *ib)
 /**
  * item_bar_normal_font:
  * @ib: #ItemBar
- * 
+ *
  * Returns: (transfer none): the bar normal font.
  **/
 PangoFont *

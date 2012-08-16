@@ -319,7 +319,7 @@ stf_export_sheet (GnmStfExport *stfe, Sheet *sheet)
 
 /**
  * gnm_stf_export:
- * @stfe: an export options struct
+ * @export_options: an export options struct
  *
  * Exports the sheets given in @stfe
  *
@@ -601,6 +601,13 @@ GSF_CLASS (GnmStfExport, gnm_stf_export,
 #include "dialog-stf-export.h"
 #include "workbook-view.h"
 
+/**
+ * gnm_stf_get_stfe:
+ * @obj: #GObject with a #GnmStfExport attached as data.
+ *
+ * If non is found, a new one is created ans attached to @obj.
+ * Returns: (transfer none): the #GnmStfExport.
+ **/
 GnmStfExport *
 gnm_stf_get_stfe (GObject *obj)
 {
@@ -738,8 +745,14 @@ gnm_stf_fs_set_export_options (GOFileSaver *fs,
 	return go_parse_key_value (options, err, cb_set_export_option, doc);
 }
 
+/**
+ * gnm_stf_file_saver_create:
+ * @id:
+ *
+ * Returns: (transfer full): the newly allocated #GOFileSaver.
+ **/
 GOFileSaver *
-gnm_stf_file_saver_new (gchar const *id)
+gnm_stf_file_saver_create (gchar const *id)
 {
 	GOFileSaver *fs = go_file_saver_new (id,
 					     "txt",

@@ -29,7 +29,7 @@
 #include <goffice/goffice.h>
 
 /**
- * gnm_cell_cleanout :
+ * gnm_cell_cleanout:
  *      Empty a cell's
  *		- value.
  *		- rendered_value.
@@ -71,7 +71,7 @@ gnm_cell_cleanout (GnmCell *cell)
 /****************************************************************************/
 
 /*
- * gnm_cell_set_text : Parses the supplied text for storage as a value or
+ * gnm_cell_set_text: Parses the supplied text for storage as a value or
  *		expression.  It marks the sheet as dirty.
  *
  * If the text is an expression it IS queued for recalc.
@@ -108,7 +108,7 @@ gnm_cell_set_text (GnmCell *cell, char const *text)
 }
 
 /*
- * gnm_cell_assign_value : Stores (WITHOUT COPYING) the supplied value.
+ * gnm_cell_assign_value: Stores (WITHOUT COPYING) the supplied value.
  *    no changes are made to the expression or entered text.  This
  *    is for use by routines that wish to store values directly such
  *    as expression calculation or import for array formulas.
@@ -133,7 +133,7 @@ gnm_cell_assign_value (GnmCell *cell, GnmValue *v)
 }
 
 /**
- * gnm_cell_set_value : Stores (WITHOUT COPYING) the supplied value.  It marks the
+ * gnm_cell_set_value: Stores (WITHOUT COPYING) the supplied value.  It marks the
  *          sheet as dirty.
  *
  * WARNING : This is an internal routine that does not
@@ -159,7 +159,7 @@ gnm_cell_set_value (GnmCell *cell, GnmValue *v)
 }
 
 /*
- * gnm_cell_set_expr_and_value : Stores (WITHOUT COPYING) the supplied value, and
+ * gnm_cell_set_expr_and_value: Stores (WITHOUT COPYING) the supplied value, and
  *        references the supplied expression and links it into the expression
  *        list.  It marks the sheet as dirty. It is intended for use by import
  *        routines or operations that do bulk assignment.
@@ -223,7 +223,7 @@ cell_set_expr_internal (GnmCell *cell, GnmExprTop const *texpr)
 }
 
 /*
- * gnm_cell_set_expr_unsafe : Stores and references the supplied expression.  It
+ * gnm_cell_set_expr_unsafe: Stores and references the supplied expression.  It
  *         marks the sheet as dirty.  Intented for use by import routines that
  *         do bulk assignment.  The resulting cell is NOT linked into the
  *         dependent list.  Nor marked for recalc.
@@ -243,7 +243,7 @@ gnm_cell_set_expr_unsafe (GnmCell *cell, GnmExprTop const *texpr)
 }
 
 /**
- * gnm_cell_set_expr :  Stores and references the supplied expression
+ * gnm_cell_set_expr:  Stores and references the supplied expression
  *         marks the sheet as dirty.  Intented for use by import routines that
  *         do bulk assignment.  The resulting cell _is_ linked into the
  *         dependent list, but NOT marked for recalc.
@@ -344,6 +344,13 @@ gnm_cell_set_array_formula_cb (GnmSheetRange const *sr, GnmExprTop const  *texpr
 	sheet_queue_respan (sr->sheet, sr->range.start.row, sr->range.end.row);
 }
 
+/**
+ * gnm_cell_set_array_formula_undo:
+ * @sr:
+ * @texpr:
+ *
+ * Returns: (transfer full): the newly allocated #GOUndo.
+ **/
 GOUndo *
 gnm_cell_set_array_formula_undo (GnmSheetRange *sr, GnmExprTop const  *texpr)
 {
@@ -396,8 +403,8 @@ gnm_cell_set_array (Sheet *sheet,
 /***************************************************************************/
 
 /**
- * gnm_cell_is_empty :
- * @cell : #GnmCell
+ * gnm_cell_is_empty:
+ * @cell: #GnmCell
  *
  * If the cell has not been created, or has VALUE_EMPTY.
  **/
@@ -408,8 +415,8 @@ gnm_cell_is_empty (GnmCell const * cell)
 }
 
 /**
- * gnm_cell_is_blank :
- * @cell : #GnmCell
+ * gnm_cell_is_blank:
+ * @cell: #GnmCell
  *
  * If the cell has not been created, has VALUE_EMPTY, or has a VALUE_STRING == ""
  **/
@@ -487,8 +494,8 @@ gnm_cell_is_array_corner (GnmCell const *cell)
 }
 
 /**
- * gnm_cell_is_array :
- * @cell : #GnmCell const *
+ * gnm_cell_is_array:
+ * @cell: #GnmCell const *
  *
  * Return TRUE is @cell is part of an array
  **/
@@ -501,8 +508,8 @@ gnm_cell_is_array (GnmCell const *cell)
 }
 
 /**
- * gnm_cell_is_nonsingleton_array :
- * @cell : #GnmCell const *
+ * gnm_cell_is_nonsingleton_array:
+ * @cell: #GnmCell const *
  *
  * Return TRUE is @cell is part of an array larger than 1x1
  **/
@@ -522,6 +529,12 @@ gnm_cell_is_nonsingleton_array (GnmCell const *cell)
 
 /***************************************************************************/
 
+/**
+ * gnm_cell_get_rendered_value: (skip)
+ * @cell: #GnmCell
+ *
+ * Returns:
+ **/
 GnmRenderedValue *
 gnm_cell_get_rendered_value (GnmCell const *cell)
 {
@@ -530,6 +543,12 @@ gnm_cell_get_rendered_value (GnmCell const *cell)
 	return gnm_rvc_query (cell->base.sheet->rendered_values, cell);
 }
 
+/**
+ * gnm_cell_fetch_rendered_value: (skip)
+ * @cell: #GnmCell
+ *
+ * Returns:
+ **/
 GnmRenderedValue *
 gnm_cell_fetch_rendered_value (GnmCell const *cell,
 			       gboolean allow_variable_width)
@@ -552,9 +571,9 @@ gnm_cell_unrender (GnmCell const *cell)
 }
 
 /**
- * gnm_cell_render_value :
+ * gnm_cell_render_value: (skip)
  * @cell: The cell whose value needs to be rendered
- * @allow_variable_width : Allow format to depend on column width.
+ * @allow_variable_width: Allow format to depend on column width.
  */
 GnmRenderedValue *
 gnm_cell_render_value (GnmCell const *cell, gboolean allow_variable_width)
@@ -894,8 +913,8 @@ gnm_cell_get_style (GnmCell const *cell)
 }
 
 /**
- * gnm_cell_get_format :
- * @cell :
+ * gnm_cell_get_format:
+ * @cell:
  *
  * Get the display format.  If the assigned format is General,
  * the format of the value will be used.
@@ -965,7 +984,9 @@ cb_set_array_value (GnmCellIter const *iter, gpointer user)
 }
 
 /**
- * gnm_cell_convert_expr_to_value : drops the expression keeps its value.  Then uses the formatted
+ * gnm_cell_convert_expr_to_value:
+ * @cell: #GnmCell
+ * drops the expression keeps its value.  Then uses the formatted
  *      result as if that had been entered.
  *
  * NOTE : the cell's expression cannot be linked into the expression * list.

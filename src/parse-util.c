@@ -48,6 +48,27 @@
 #include <glib.h>
 #include <string.h>
 
+static GnmLexerItem *
+gnm_lexer_item_copy (GnmLexerItem *li)
+{
+	GnmLexerItem *res = g_new (GnmLexerItem, 1);
+	*res = *li;
+	return res;
+}
+
+GType
+gnm_lexer_item_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmLexerItem",
+			 (GBoxedCopyFunc)gnm_lexer_item_copy,
+			 (GBoxedFreeFunc)g_free);
+	}
+	return t;
+}
+
 static void
 col_name_internal (GString *target, int col)
 {
@@ -671,7 +692,7 @@ cellpos_parse (char const *cell_str, GnmSheetSize const *ss,
 }
 
 /**
- * gnm_expr_char_start_p :
+ * gnm_expr_char_start_p:
  *
  * Can the supplied string be an expression ?  It does not guarantee that it is,
  * however, it is possible.  If it is possible it strips off any header
@@ -802,6 +823,29 @@ parse_error_free (GnmParseError *pe)
 		g_error_free (pe->err);
 		pe->err = NULL;
 	}
+}
+
+static GnmParseError *
+gnm_parse_error_copy (GnmParseError *pe)
+{
+	GnmParseError *res = g_new (GnmParseError, 1);
+	res->begin_char = pe->begin_char;
+	res->end_char = pe->end_char;
+	res->err = (pe->err)? g_error_copy (pe->err): NULL;
+	return res;
+}
+
+GType
+gnm_parse_error_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmParseError",
+			 (GBoxedCopyFunc)gnm_parse_error_copy,
+			 (GBoxedFreeFunc)parse_error_free);
+	}
+	return t;
 }
 
 /***************************************************************************/

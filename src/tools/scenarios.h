@@ -11,6 +11,7 @@ typedef struct {
 	GnmValue *value;
 } GnmScenarioItem;
 
+GType gnm_scenario_item_get_type (void);
 GnmScenarioItem *gnm_scenario_item_new (Sheet *sheet);
 void gnm_scenario_item_free (GnmScenarioItem *sci);
 void gnm_scenario_item_set_range (GnmScenarioItem *sci,
@@ -45,7 +46,7 @@ GType gnm_scenario_get_type (void);
 
 GnmScenario *gnm_scenario_new (char const *name, Sheet *sheet);
 
-GnmScenario *gnm_scenario_dup (GnmScenario *s, Sheet *new_sheet);
+GnmScenario *gnm_scenario_dup (GnmScenario *sc, Sheet *new_sheet);
 
 void gnm_scenario_set_comment (GnmScenario *sc, const char *comment);
 

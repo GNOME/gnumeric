@@ -58,7 +58,7 @@ typedef struct {
 
 	SheetObjectView	*(*new_view) (SheetObject	*sheet_object,
 				      SheetObjectViewContainer *container);
-	void        (*populate_menu) (SheetObject	*sheet_object,
+	void        (*populate_menu) (SheetObject	*so,
 				      GPtrArray		*actions);
 	void	      (*user_config) (SheetObject	*sheet_object,
 				      SheetControl	*s_control);
@@ -72,7 +72,7 @@ typedef struct {
 				      SheetObject const *src);
 
 	void	     (*default_size) (SheetObject const *so,
-				      double *width_pts, double *height_pts);
+				      double *w, double *h);
 
 	void	       (*draw_cairo) (SheetObject const *so, cairo_t *cr,
 				      double width, double height);

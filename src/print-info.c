@@ -168,6 +168,19 @@ print_hf_free (PrintHF *print_hf)
 	g_free (print_hf);
 }
 
+GType
+print_hf_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("PrintHF",
+			 (GBoxedCopyFunc)print_hf_copy,
+			 (GBoxedFreeFunc)print_hf_free);
+	}
+	return t;
+}
+
 void
 print_info_free (PrintInformation *pi)
 {
@@ -339,13 +352,13 @@ print_info_load_defaults (PrintInformation *res)
 }
 
 /**
- * print_info_new:
+ * print_information_new:
  *
  * Returns a newly allocated PrintInformation buffer
  *
  */
 PrintInformation *
-print_info_new (gboolean load_defaults)
+print_information_new (gboolean load_defaults)
 {
 	PrintInformation *res = g_new0 (PrintInformation, 1);
 
@@ -765,6 +778,36 @@ hf_render_info_destroy (HFRenderInfo *hfi)
 	g_free (hfi);
 }
 
+static HFRenderInfo *
+hf_render_info_copy (HFRenderInfo *hfi)
+{
+	HFRenderInfo *res;
+	g_return_val_if_fail (hfi != NULL, NULL);
+
+	res = g_new (HFRenderInfo, 1);
+	res->sheet = hfi->sheet;
+	res->page = hfi->page;
+	res->pages = hfi->pages;
+	res->date_time = value_dup (hfi->date_time);
+	res->date_conv = hfi->date_conv;
+	res->page_area = hfi->page_area;
+	res->top_repeating = hfi->top_repeating;
+	return res;
+}
+
+GType
+hf_render_info_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("HFRenderInfo",
+			 (GBoxedCopyFunc)hf_render_info_copy,
+			 (GBoxedFreeFunc)hf_render_info_destroy);
+	}
+	return t;
+}
+
 static void
 pdf_write_workbook (G_GNUC_UNUSED GOFileSaver const *fs,
 		    G_GNUC_UNUSED GOIOContext *context,
@@ -942,7 +985,7 @@ print_shutdown (void)
 PrintInformation *
 print_info_dup (PrintInformation const *src)
 {
-	PrintInformation *dst = print_info_new (TRUE);
+	PrintInformation *dst = print_information_new (TRUE);
 
 	print_info_load_defaults ((PrintInformation *)src);
 
@@ -1290,6 +1333,12 @@ print_info_get_paper_height (PrintInformation *pi, GtkUnit unit)
 	return gtk_page_setup_get_paper_height (pi->page_setup, unit);
 }
 
+/**
+ * print_info_get_page_setup:
+ * @pi: #PrintInformation
+ *
+ * Returns: (transfer none): the page setup.
+ **/
 GtkPageSetup*
 print_info_get_page_setup (PrintInformation *pi)
 {
@@ -1436,6 +1485,19 @@ gnm_page_breaks_free (GnmPageBreaks *breaks)
 		g_array_free (breaks->details, TRUE);
 		g_free (breaks);
 	}
+}
+
+GType
+gnm_page_breaks_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmPageBreaks",
+			 (GBoxedCopyFunc)gnm_page_breaks_dup,
+			 (GBoxedFreeFunc)gnm_page_breaks_free);
+	}
+	return t;
 }
 
 GnmPageBreaks *

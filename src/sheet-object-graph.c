@@ -625,7 +625,7 @@ sheet_object_graph_new (GogGraph *graph)
 
 /**
  * sheet_object_graph_get_gog:
- * @soc: #SheetObject
+ * @sog: #SheetObject
  *
  * Returns: (transfer none): the embedded #GogGraph or %NULL on error.
  **/
@@ -640,7 +640,7 @@ sheet_object_graph_get_gog (SheetObject *sog)
 
 /**
  * sheet_object_graph_set_gog:
- * @so: #SheetObjectGraph
+ * @sog: #SheetObjectGraph
  * @graph: #GogGraph
  *
  * If @graph is non NULL add a reference to it, otherwise create a new graph.

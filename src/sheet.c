@@ -805,7 +805,7 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->rows.info = g_ptr_array_new ();
 	sheet_row_set_default_size_pts (sheet, 12.75);
 
-	sheet->print_info = print_info_new (FALSE);
+	sheet->print_info = print_information_new (FALSE);
 
 	sheet->filters = NULL;
 	sheet->scenarios = NULL;
@@ -1669,7 +1669,7 @@ sheet_row_new (Sheet *sheet)
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	ri = colrow_new ();
+	ri = col_row_info_new ();
 	*ri = sheet->rows.default_style;
 	ri->is_default = FALSE;
 	ri->needs_respan = TRUE;
@@ -1684,7 +1684,7 @@ sheet_col_new (Sheet *sheet)
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	ci = colrow_new ();
+	ci = col_row_info_new ();
 	*ci = sheet->cols.default_style;
 	ci->is_default = FALSE;
 
@@ -2633,6 +2633,13 @@ sheet_range_set_expr_cb (GnmSheetRange const *sr, GnmExprTop const *texpr)
 			    sr->range.end.row);
 }
 
+/**
+ * sheet_range_set_expr_undo:
+ * @sr: #GnmSheetRange
+ * @texpr: #GnmExprTop
+ *
+ * Returns: (transfer full): the newly created #GOUndo.
+ **/
 GOUndo *
 sheet_range_set_expr_undo (GnmSheetRange *sr, GnmExprTop const  *texpr)
 {
@@ -2718,6 +2725,13 @@ sheet_range_set_text_cb (GnmSheetRange const *sr, gchar const *text)
 			    sr->range.end.row);
 }
 
+/**
+ * sheet_range_set_text_undo:
+ * @sr: #GnmSheetRange
+ * @text:
+ *
+ * Returns: (transfer full): the newly created #GOUndo.
+ **/
 GOUndo *
 sheet_range_set_text_undo (GnmSheetRange *sr,
 			   char const *text)
@@ -2764,6 +2778,13 @@ sheet_range_set_markup_cb (GnmSheetRange const *sr, PangoAttrList *markup)
 			    sr->range.end.row);
 }
 
+/**
+ * sheet_range_set_markup_undo:
+ * @sr: #GnmSheetRange
+ * @markup: #PangoAttrList
+ *
+ * Returns: (transfer full): the newly created #GOUndo.
+ **/
 GOUndo *
 sheet_range_set_markup_undo (GnmSheetRange *sr, PangoAttrList *markup)
 {
@@ -3929,7 +3950,7 @@ sheet_cell_foreach (Sheet const *sheet, GHFunc callback, gpointer data)
 }
 
 /**
- * sheet_cells_coun :
+ * sheet_cells_count:
  * @sheet: #Sheet
  *
  * Returns the number of cells with content in the current workbook.

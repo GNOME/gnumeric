@@ -95,7 +95,7 @@ gui_wb_view_show (WBCGtk *wbcg, WorkbookView *wbv)
 	} else {
 		GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
 		WorkbookControl *new_wbc =
-			wb_control_wrapper_new (WORKBOOK_CONTROL (wbcg),
+			workbook_control_new_wrapper (WORKBOOK_CONTROL (wbcg),
 						wbv, NULL, screen);
 		new_wbcg = WBC_GTK (new_wbc);
 
@@ -114,7 +114,7 @@ gui_file_read (WBCGtk *wbcg, char const *uri,
 
 	go_cmd_context_set_sensitive (GO_CMD_CONTEXT (wbcg), FALSE);
 	io_context = go_io_context_new (GO_CMD_CONTEXT (wbcg));
-	wbv = wb_view_new_from_uri (uri, optional_format, io_context,
+	wbv = workbook_view_new_from_uri (uri, optional_format, io_context,
 				    optional_encoding);
 
 	if (go_io_error_occurred (io_context) ||
@@ -142,7 +142,7 @@ gui_file_template (WBCGtk *wbcg, char const *uri)
 
 	go_cmd_context_set_sensitive (GO_CMD_CONTEXT (wbcg), FALSE);
 	io_context = go_io_context_new (GO_CMD_CONTEXT (wbcg));
-	wbv = wb_view_new_from_uri (uri, optional_format, io_context,
+	wbv = workbook_view_new_from_uri (uri, optional_format, io_context,
 				    optional_encoding);
 
 	if (go_io_error_occurred (io_context) ||
@@ -592,7 +592,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view, file_save_as_t type,
 	gtk_combo_box_set_active (format_combo, g_list_index (savers, fs));
 
 	/* Set default file name */
-	if (!(wb_uri = workbook_get_last_export_uri (wb)) || (type != FILE_SAVE_AS_EXPORT) 
+	if (!(wb_uri = workbook_get_last_export_uri (wb)) || (type != FILE_SAVE_AS_EXPORT)
 	    || (fs !=  workbook_get_file_exporter (wb)))
 		wb_uri = go_doc_get_uri (GO_DOC (wb));
 
@@ -730,7 +730,7 @@ gui_file_export_repeat (WBCGtk *wbcg)
 							     GTK_DIALOG_DESTROY_WITH_PARENT,
 							     GTK_MESSAGE_QUESTION,
 							     GTK_BUTTONS_YES_NO,
-							     msg, last_uri, 
+							     msg, last_uri,
 							     go_file_saver_get_description (fs));
 		gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
 

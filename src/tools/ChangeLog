@@ -1,3 +1,9 @@
+2012-08-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dao.c (dao_prepare_output): fixed introspection warnings.
+	* scenarios.c (gnm_scenario_item_get_type): ditto.
+	* scenarios.h: ditto.
+
 2012-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* tabulate.c: add missing header.

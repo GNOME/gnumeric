@@ -265,13 +265,13 @@ cb_wrapper_foreach_cell_in_area (GnmCellIter const *iter, WrapperClosure *wrap)
  * @v: const #GnmValue
  * @ep: const #GnmEvalPos
  * @flags: #CellIterFlags
- * @func: #GnmValueIterFunc
+ * @func: (scope call): #GnmValueIterFunc
  * @user_data:
  *
  * For each existing element in an array or range , invoke the
  * callback routine.
  *
- * Return value:
+ * Returns: (transfer none):
  *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
  *    to stop (by returning non-NULL).
  **/

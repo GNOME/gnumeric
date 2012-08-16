@@ -545,6 +545,19 @@ gnm_expr_get_type (void)
 	return t;
 }
 
+GType
+gnm_expr_array_corner_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmExprArrayCorner",
+			 (GBoxedCopyFunc)gnm_expr_copy,
+			 (GBoxedFreeFunc)gnm_expr_free);
+	}
+	return t;
+}
+
 /**
  * gnm_expr_equal : Returns TRUE if the supplied expressions are exactly the
  *   same.  No eval position is used to see if they are effectively the same.
@@ -2981,8 +2994,8 @@ gnm_expr_top_new_array_elem  (int x, int y)
  * @texpr :
  *
  * A collect the set of GnmRanges in @expr.
- * Return a list of the unique references Caller is responsible for releasing
- * the list and the content.
+ * Return: (element-type GnmRange) (transfer full): a list of the unique
+ * references Caller is responsible for releasing the list and the content.
  **/
 GSList *
 gnm_expr_top_get_ranges (GnmExprTop const *texpr)
@@ -3160,12 +3173,13 @@ gnm_expr_top_eval (GnmExprTop const *texpr,
 }
 
 /**
- * gnm_expr_top_referenced_sheets :
- * @texpr :
+ * gnm_expr_top_referenced_sheets:
+ * @texpr:
  *
  * Generates a list of the sheets referenced by the supplied expression.
  * Caller must free the list.  Note, that NULL may occur in the result
  * if the expression has a range or cellref without a sheet.
+ * Returns: (element-type Sheet) (transfer container): the created list.
  */
 GSList *
 gnm_expr_top_referenced_sheets (GnmExprTop const *texpr)
@@ -3246,6 +3260,12 @@ gnm_expr_top_is_rangeref (GnmExprTop const *texpr)
 	return gnm_expr_is_rangeref (texpr->expr);
 }
 
+/**
+ * gnm_expr_top_new_array_corner:
+ * @expr: #GnmExprTop
+ *
+ * Returns: (transfer none): the #GnmExprArrayCorner or %NULL.
+ **/
 GnmExprArrayCorner const *
 gnm_expr_top_get_array_corner (GnmExprTop const *texpr)
 {

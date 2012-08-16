@@ -70,7 +70,7 @@ gnm_dao_init (GnmDao *gdao)
 {
 	GtkWidget *toplevel;
 
-	gdao->gui = gnm_gtk_builder_new ("dao.ui", NULL, NULL);
+	gdao->gui = gnm_gtk_builder_load ("dao.ui", NULL, NULL);
 	if (gdao->gui == NULL)
 		return;
 

@@ -359,3 +359,16 @@ gnm_sort_data_copy   (GnmSortData *data)
 
 	return result;
 }
+
+GType
+gnm_sort_data_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmSortData",
+			 (GBoxedCopyFunc)gnm_sort_data_copy,
+			 (GBoxedFreeFunc)gnm_sort_data_destroy);
+	}
+	return t;
+}

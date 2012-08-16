@@ -1693,6 +1693,13 @@ cell_foreach_single_dep (Sheet const *sheet, int col, int row,
 			(*func) (dep, user););
 }
 
+/**
+ * cell_foreach_dep:
+ * @cell: #GnmCell
+ * @func: (scope call):
+ * @user: user data.
+ *
+ **/
 void
 cell_foreach_dep (GnmCell const *cell, GnmDepFunc func, gpointer user)
 {
@@ -1898,8 +1905,8 @@ dependents_unrelocate (GSList *info)
 }
 
 /**
- * dependents_link :
- * @deps : An slist of dependents.
+ * dependents_link:
+ * @deps: (element-type GnmDependent): An slist of dependents.
  *
  * link a list of dependents.  (The list used to get freed, but is not
  * freed anymore.)
@@ -2021,7 +2028,7 @@ names_referencing_sheet (Sheet *sheet)
  * @info: the descriptor record for what is being moved where.
  *
  * Fixes references to or from a region that is going to be moved.
- * Returns a list of the locations and expressions that were changed outside of
+ * Returns: (transfer full): a list of the locations and expressions that were changed outside of
  * the region.
  **/
 GOUndo *
@@ -2760,6 +2767,12 @@ dynamic_dep_free (DynamicDep *dyn)
 	g_free (dyn);
 }
 
+/**
+ * gnm_dep_container_new: (skip)
+ * @sheet: #Sheet
+ *
+ * Returns: (transfer full):
+ **/
 GnmDepContainer *
 gnm_dep_container_new (Sheet *sheet)
 {

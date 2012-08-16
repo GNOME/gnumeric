@@ -297,8 +297,9 @@ cb_get_content (GnmCellIter const *iter, GsfOutput *buf)
 }
 
 /**
- * stf_text_to_columns
- * @wbc  : The control making the request
+ * stf_text_to_columns:
+ * @wbc: The control making the request
+ * @cc:
  *
  * Main routine, handles importing a file including all dialog mumbo-jumbo
  **/
@@ -494,7 +495,7 @@ stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const
 				     _("Some data did not fit on the "
 				       "sheet and was dropped."));
 		}
-		is_csv = po->sep.chr[0] == ','; 
+		is_csv = po->sep.chr[0] == ',';
 		workbook_set_saveinfo
 			(book,
 			 GO_FILE_FL_WRITE_ONLY,
@@ -650,7 +651,7 @@ stf_init (void)
 	go_file_opener_register (opener, 0);
 	g_object_unref (opener);
 
-	saver = gnm_stf_file_saver_new ("Gnumeric_stf:stf_assistant");
+	saver = gnm_stf_file_saver_create ("Gnumeric_stf:stf_assistant");
 	go_file_saver_register (saver);
 	g_object_unref (saver);
 

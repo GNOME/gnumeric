@@ -275,8 +275,8 @@ cb_autosave (WBCGtk *wbcg)
 }
 
 /**
- * wbcg_rangesel_possible
- * @wbcg : the workbook control gui
+ * wbcg_rangesel_possible:
+ * @wbcg: the workbook control gui
  *
  * Returns true if the cursor keys should be used to select
  * a cell range (if the cursor is in a spot in the expression
@@ -1629,21 +1629,21 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	}
 	if (MS_FILE_EXPORT_IMPORT & flags) {
 		Workbook *wb = wb_control_get_workbook (wbc);
-		gboolean has_export_info = workbook_get_file_exporter (wb) && 
+		gboolean has_export_info = workbook_get_file_exporter (wb) &&
 			workbook_get_last_export_uri (wb);
 		wbc_gtk_set_action_sensitivity (wbcg, "DataExportRepeat", has_export_info);
 		if (has_export_info) {
 			gchar *base = go_basename_from_uri (workbook_get_last_export_uri (wb));
-			gchar *new_label = g_strdup_printf (_("Repeat Export to %s"), 
+			gchar *new_label = g_strdup_printf (_("Repeat Export to %s"),
 							    base);
 			g_free (base);
-			wbc_gtk_set_action_label (wbcg, "DataExportRepeat", NULL, 
+			wbc_gtk_set_action_label (wbcg, "DataExportRepeat", NULL,
 						  new_label, N_("Repeat the last data export"));
 			g_free (new_label);
 		} else
-			wbc_gtk_set_action_label (wbcg, "DataExportRepeat", NULL, 
+			wbc_gtk_set_action_label (wbcg, "DataExportRepeat", NULL,
 						  N_("Repeat Export"), N_("Repeat the last data export"));
-	}	
+	}
 	{
 		gboolean const has_slicer = (NULL != sv_editpos_in_slicer (sv));
 		char const* label = has_slicer
@@ -1702,7 +1702,7 @@ wbcg_show_save_dialog (WBCGtk *wbcg,
 		msg = g_strdup (_("Save changes to workbook before closing?"));
 	}
 
-	d = gnumeric_message_dialog_new (wbcg_toplevel (wbcg),
+	d = gnumeric_message_dialog_create (wbcg_toplevel (wbcg),
 					 GTK_DIALOG_DESTROY_WITH_PARENT,
 					 GTK_MESSAGE_WARNING,
 					 msg,
@@ -1830,7 +1830,7 @@ wbcg_close_if_user_permits (WBCGtk *wbcg,
 
 /**
  * wbc_gtk_close:
- * @wbcg : #WBCGtk
+ * @wbcg: #WBCGtk
  *
  * Returns TRUE if the control should NOT be closed.
  */
@@ -5604,7 +5604,7 @@ wbc_gtk_init (GObject *obj)
 	char		*uifile;
 	unsigned	 i;
 
-	wbcg->gui = gnm_gtk_builder_new ("wbcg.ui", NULL, NULL);
+	wbcg->gui = gnm_gtk_builder_load ("wbcg.ui", NULL, NULL);
 	wbcg->cancel_button = GET_GUI_ITEM ("cancel_button");
 	wbcg->ok_button = GET_GUI_ITEM ("ok_button");
 	wbcg->func_button = GET_GUI_ITEM ("func_button");
@@ -5817,6 +5817,12 @@ wbc_gtk_new (WorkbookView *optional_view,
 	return wbcg;
 }
 
+/**
+ * wbcg_toplevel:
+ * @wbcg: #WBCGtk
+ *
+ * Returns: (transfer none): the toplevel #GtkWindow.
+ **/
 GtkWindow *
 wbcg_toplevel (WBCGtk *wbcg)
 {
@@ -5838,11 +5844,12 @@ wbcg_get_n_scg (WBCGtk const *wbcg)
 }
 
 /**
- * wbcg_get_nth_scg
+ * wbcg_get_nth_scg:
  * @wbcg: #WBCGtk
  * @i:
  *
- * Returns the scg associated with the @i-th tab in @wbcg's notebook.
+ * Returns: (transfer none):  the scg associated with the @i-th tab in
+ * @wbcg's notebook.
  * NOTE : @i != scg->sv->sheet->index_in_wb
  **/
 SheetControlGUI *
@@ -5866,15 +5873,16 @@ wbcg_get_nth_scg (WBCGtk *wbcg, int i)
 
 #warning merge these and clarfy whether we want the visible scg, or the logical (view) scg
 /**
- * wbcg_focus_cur_scg :
- * @wbcg : The workbook control to operate on.
+ * wbcg_focus_cur_scg:
+ * @wbcg: The workbook control to operate on.
  *
  * A utility routine to safely ensure that the keyboard focus
  * is attached to the item-grid.  This is required when a user
  * edits a combo-box or and entry-line which grab focus.
  *
  * It is called for zoom, font name/size, and accept/cancel for the editline.
- */
+ * Returns: (transfer none): the sheet.
+ **/
 Sheet *
 wbcg_focus_cur_scg (WBCGtk *wbcg)
 {
@@ -5894,12 +5902,24 @@ wbcg_focus_cur_scg (WBCGtk *wbcg)
 	return scg_sheet (scg);
 }
 
+/**
+ * wbcg_cur_scg:
+ * @wbcg: #WBCGtk
+ *
+ * Returns: (transfer none): the current #ShetControlGUI.
+ **/
 SheetControlGUI *
 wbcg_cur_scg (WBCGtk *wbcg)
 {
 	return wbcg_get_scg (wbcg, wbcg_cur_sheet (wbcg));
 }
 
+/**
+ * wbcg_cur_sheet:
+ * @wbcg: #WBCGtk
+ *
+ * Returns: (transfer none): the current #Sheet.
+ **/
 Sheet *
 wbcg_cur_sheet (WBCGtk *wbcg)
 {
@@ -5921,6 +5941,15 @@ wbcg_get_font_desc (WBCGtk *wbcg)
 	return wbcg->font_desc;
 }
 
+/**
+ * wbcg_find_for_workbook:
+ * @wb: #Workbook
+ * @candidate: a candidate #WBCGtk
+ * @pref_screen: the preferred screen.
+ * @pref_display: the preferred display.
+ *
+ * Returns: (transfer none): the found #WBCGtk or %NULL.
+ **/
 WBCGtk *
 wbcg_find_for_workbook (Workbook *wb,
 			WBCGtk *candidate,

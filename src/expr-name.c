@@ -174,6 +174,11 @@ expr_name_relink_deps (GnmNamedExpr *nexpr)
 	g_slist_free (deps);
 }
 
+/**
+ * gnm_named_expr_collection_new:
+ *
+ * Returns: (transfer full): the newly allocated #GnmNamedExprCollection/
+ **/
 GnmNamedExprCollection *
 gnm_named_expr_collection_new (void)
 {
@@ -183,13 +188,14 @@ gnm_named_expr_collection_new (void)
 		NULL, (GDestroyNotify) cb_nexpr_remove);
 	res->placeholders = g_hash_table_new_full (g_str_hash, g_str_equal,
 		NULL, (GDestroyNotify) cb_nexpr_remove);
+	res->ref_count = 1;
 
 	return res;
 }
 
 /**
- * gnm_named_expr_collection_free :
- * @names : The collection of names
+ * gnm_named_expr_collection_free:
+ * @names: The collection of names
  *
  * Frees names defined in the local scope.
  * NOTE : THIS DOES NOT INVALIDATE NAMES THAT REFER
@@ -201,11 +207,31 @@ gnm_named_expr_collection_new (void)
 void
 gnm_named_expr_collection_free (GnmNamedExprCollection *names)
 {
-	if (names != NULL) {
+	if (names != NULL && names->ref_count-- > 1) {
 		g_hash_table_destroy (names->names);
 		g_hash_table_destroy (names->placeholders);
 		g_free (names);
 	}
+}
+
+static GnmNamedExprCollection *
+gnm_named_expr_collection_ref (GnmNamedExprCollection *names)
+{
+	names->ref_count++;
+	return names;
+}
+
+GType
+gnm_named_expr_collection_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmNamedExprCollection",
+			 (GBoxedCopyFunc)gnm_named_expr_collection_ref,
+			 (GBoxedFreeFunc)gnm_named_expr_collection_free);
+	}
+	return t;
 }
 
 static void
@@ -271,6 +297,12 @@ cb_list_names (G_GNUC_UNUSED gpointer key,
 	GO_SLIST_PREPEND (*pres, value);
 }
 
+/**
+ * gnm_named_expr_collection_list:
+ * @scope: #GnmNamedExprCollection
+ *
+ * Returns: (element-type GnmNamedExpr) (transfer container):
+ **/
 GSList *
 gnm_named_expr_collection_list (GnmNamedExprCollection const *scope)
 {
@@ -357,7 +389,14 @@ gnm_named_expr_collection_check (GnmNamedExprCollection *scope,
 	return user.res;
 }
 
-/* Iterate over all names, including placeholders.  */
+/**
+ * gnm_named_expr_collection_foreach:
+ * @names: #GnmNamedExprCollection
+ * @func: (scope call):
+ * @data: user data.
+ *
+ * Iterate over all names, including placeholders.
+ **/
 void
 gnm_named_expr_collection_foreach (GnmNamedExprCollection *names,
 				   GHFunc func,
@@ -688,6 +727,19 @@ expr_name_unref (GnmNamedExpr *nexpr)
 	nexpr->pos.sheet   = NULL;
 
 	g_free (nexpr);
+}
+
+GType
+gnm_named_expr_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmNamedExpr",
+			 (GBoxedCopyFunc)expr_name_ref,
+			 (GBoxedFreeFunc)expr_name_unref);
+	}
+	return t;
 }
 
 /**
@@ -1117,7 +1169,12 @@ expr_name_set_expr_ref (GnmNamedExpr *nexpr, GnmExprTop const *texpr)
 	expr_name_set_expr (nexpr, texpr);
 }
 
-
+/**
+ * expr_name_set_expr_undo_new:
+ * @nexpr: #GnmNamedExpr
+ *
+ * Returns: (transfer full):
+ **/
 GOUndo *
 expr_name_set_expr_undo_new (GnmNamedExpr *ne)
 {

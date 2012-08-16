@@ -371,7 +371,7 @@ fs_init (FontSelector *fs)
 {
 	GtkWidget *w;
 
-	fs->gui = gnm_gtk_builder_new ("font-sel.ui", NULL, NULL);
+	fs->gui = gnm_gtk_builder_load ("font-sel.ui", NULL, NULL);
 	if (fs->gui == NULL)
                 return;
 

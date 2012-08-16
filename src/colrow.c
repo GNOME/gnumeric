@@ -165,7 +165,7 @@ colrow_copy (ColRowInfo *dst, ColRowInfo const *src)
 }
 
 ColRowInfo *
-colrow_new (void)
+col_row_info_new (void)
 {
 	return g_slice_new (ColRowInfo);
 }
@@ -178,13 +178,13 @@ colrow_free (ColRowInfo *cri)
 
 /**
  * colrow_foreach:
- * @sheet	the sheet
- * @infos	The Row or Column collection.
- * @start	start position (inclusive)
- * @end		stop column (inclusive)
- * @callback	A callback function which should return TRUE to stop
+ * @sheet:	the sheet
+ * @infos:	The Row or Column collection.
+ * @start:	start position (inclusive)
+ * @end	:	stop column (inclusive)
+ * @callback: (scope call): A callback function which should return TRUE to stop
  *              the iteration.
- * @user_data	A bagage pointer.
+ * @user_data:	A bagage pointer.
  *
  * Iterates through the existing rows or columns within the range supplied.
  * Currently only support left -> right iteration.  If a callback returns
@@ -247,6 +247,12 @@ colrow_vis_list_length (ColRowVisList *list)
 	return count;
 }
 
+/**
+ * colrow_state_group_destroy:
+ * @set: (transfer full): the group to destroy.
+ *
+ * Returns: (transfer none): %NULL.
+ **/
 ColRowStateGroup *
 colrow_state_group_destroy (ColRowStateGroup *group)
 {
@@ -306,10 +312,15 @@ colrow_index_list_to_string (ColRowIndexList *list, gboolean is_cols, gboolean *
 }
 
 /**
- * colrow_get_index_list :
+ * colrow_get_index_list:
+ * @first:
+ * @last:
+ * @list: (transfer full):
  *
  * Build an ordered list of pairs doing intelligent merging
  * of overlapping regions.
+ *
+ * Returns: (transfer full): @list.
  */
 ColRowIndexList *
 colrow_get_index_list (int first, int last, ColRowIndexList *list)
@@ -343,6 +354,12 @@ colrow_get_index_list (int first, int last, ColRowIndexList *list)
 	return list;
 }
 
+/**
+ * colrow_index_list_copy:
+ * @list: #ColRowIndexList
+ *
+ * Returns: (transfer full):
+ **/
 ColRowIndexList *
 colrow_index_list_copy (ColRowIndexList *list)
 {
@@ -371,6 +388,12 @@ colrow_set_single_state (ColRowState *state,
 	state->visible = info->visible;
 }
 
+/**
+ * colrow_state_list_destroy:
+ * @list: (transfer full): the list to destroy.
+ *
+ * Returns: (transfer none): %NULL.
+ **/
 ColRowStateList *
 colrow_state_list_destroy (ColRowStateList *list)
 {
@@ -378,6 +401,15 @@ colrow_state_list_destroy (ColRowStateList *list)
 	return NULL;
 }
 
+/**
+ * colrow_get_states:
+ * @sheet: #Sheet
+ * @is_cols: %TRUE if columns.
+ * @first:
+ * @last:
+ *
+ * Returns: (transfer full):
+ **/
 ColRowStateList *
 colrow_get_states (Sheet *sheet, gboolean is_cols, int first, int last)
 {
@@ -457,6 +489,15 @@ cb_clear_variable_width_content (GnmCellIter const *iter,
 	return NULL;
 }
 
+/**
+ * colrow_get_sizes:
+ * @sheet: #Sheet
+ * @is_cols: %TRUE if columns.
+ * @src:
+ * @new_size:
+ *
+ * Returns: (transfer full):
+ **/
 ColRowStateGroup *
 colrow_get_sizes (Sheet *sheet, gboolean is_cols,
 		  ColRowIndexList *src, int new_size)
@@ -488,6 +529,17 @@ colrow_get_sizes (Sheet *sheet, gboolean is_cols,
 	return res;
 }
 
+/**
+ * colrow_set_sizes:
+ * @sheet: #Sheet
+ * @is_cols:
+ * @src:
+ * @new_size:
+ * @from:
+ * @to:
+ *
+ * Returns: (transfer full):
+ **/
 ColRowStateGroup *
 colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 		  ColRowIndexList *src, int new_size, int from, int to)
@@ -933,6 +985,16 @@ colrow_visibility (Sheet const *sheet, ColRowVisiblity * const dat,
 	}
 }
 
+/**
+ * colrow_get_outline_toggle:
+ * @sheet: #Sheet
+ * @is_cols:
+ * @visible:
+ * @first:
+ * @last:
+ *
+ * Returns: (transfer full):
+ **/
 ColRowVisList *
 colrow_get_outline_toggle (Sheet const *sheet, gboolean is_cols, gboolean visible,
 			   int first, int last)
@@ -963,16 +1025,18 @@ cb_colrow_visibility (SheetView *sv, GnmRange const *r, gpointer closure)
 }
 
 /**
- * colrow_get_visiblity_toggle :
- * @sheet : The sheet whose selection we are interested in.
+ * colrow_get_visiblity_toggle:
+ * @sv: The sheet view whose selection we are interested in.
  * @is_cols: A flag indicating whether this it is a column or a row.
- * @is_visible: Should we unhide or hide the cols/rows.
+ * @visible: Should we unhide or hide the cols/rows.
  *
  * Searches the selection list and generates a list of index,count
  * pairs of row/col ranges that need to be hidden or unhiden.
  *
  * NOTE : leave sheet non-const until we have a const version of
  *        sv_selection_apply.
+ *
+ * Returns: (transfer full): the list.
  */
 ColRowVisList *
 colrow_get_visiblity_toggle (SheetView *sv, gboolean is_cols,

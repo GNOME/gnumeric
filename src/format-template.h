@@ -123,6 +123,7 @@ typedef struct {
 /*
  * Functions for GnmFormatTemplate
  */
+GType              gnm_format_template_get_type   (void);
 void               format_template_free           (GnmFormatTemplate *ft);
 GnmFormatTemplate *format_template_clone          (GnmFormatTemplate const *ft);
 GnmFormatTemplate *format_template_new_from_file  (char const *filename,

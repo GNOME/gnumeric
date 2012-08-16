@@ -2759,7 +2759,7 @@ odf_adjust_offsets (OOParseState *state, GnmCellPos *pos, double *x, double *y, 
 	odf_adjust_offsets_row (state, &pos->row, y, absolute);
 }
 
-static gint 
+static gint
 odf_z_idx_compare (gconstpointer a, gconstpointer b)
 {
 	object_offset_t const *za = a, *zb = b;
@@ -2777,7 +2777,7 @@ odf_complete_control_setup (OOParseState *state, object_offset_t const *ob_off)
 
 	if (oc == NULL)
 		return;
-	
+
 	if (oc->linked_cell) {
 		GnmParsePos pp;
 		GnmRangeRef ref;
@@ -2914,7 +2914,7 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	/* We need to fix the anchors of all offsets, ensure that each object has an "odf-z-index", */
 	/* and add the objects in the correct order. */
 	state->chart_list = g_slist_reverse (state->chart_list);
-	
+
 	for (l = state->chart_list; l != NULL; l = l->next) {
 		object_offset_t *ob_off = l->data;
 		if (ob_off->z_index < 0) {
@@ -2926,7 +2926,7 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	state->chart_list = g_slist_sort (state->chart_list,
 					  odf_z_idx_compare);
-	
+
 
 	for (l = state->chart_list; l != NULL; l = l->next) {
 		object_offset_t *ob_off = l->data;
@@ -4482,7 +4482,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 				oo_warning (xin, _("Duplicate default chart/graphics style encountered."));
 				g_free (state->default_style.graphics);
 			}
-			state->default_style.graphics = state->chart.cur_graph_style;	
+			state->default_style.graphics = state->chart.cur_graph_style;
 		} else
 			state->cur_style.requires_disposal = TRUE;
 		break;
@@ -5599,7 +5599,7 @@ odf_page_layout (GsfXMLIn *xin, xmlChar const **attrs)
 			name = CXML2C (attrs[1]);
 
 	if (name != NULL) {
-		state->print.cur_pi = print_info_new (TRUE);
+		state->print.cur_pi = print_information_new (TRUE);
 		g_hash_table_insert (state->styles.page_layouts, g_strdup (name), state->print.cur_pi);
 	} else
 		oo_warning (xin, _("Missing page layout identifier"));
@@ -5633,7 +5633,7 @@ odf_master_page (GsfXMLIn *xin, xmlChar const **attrs)
 			pi = g_hash_table_lookup (state->styles.page_layouts, pl_name);
 		if (pi == NULL) {
 			oo_warning (xin, _("Master page style without page layout encountered!"));
-			state->print.cur_pi = print_info_new (TRUE);
+			state->print.cur_pi = print_information_new (TRUE);
 		} else
 			state->print.cur_pi = print_info_dup (pi);
 		print_hf_free (state->print.cur_pi->header);
@@ -9019,10 +9019,10 @@ odf_so_filled (GsfXMLIn *xin, xmlChar const **attrs, gboolean is_oval)
 
 	if (style != NULL) {
 		if (state->default_style.graphics)
-			odf_apply_style_props 
+			odf_apply_style_props
 				(xin, state->default_style.graphics->style_props,
 				 style);
-			
+
 		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 						OO_NS_DRAW, "style-name"))
@@ -9071,7 +9071,7 @@ static void
 odf_custom_shape_replace_object (OOParseState *state, SheetObject *so)
 {
 	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (so));
-	
+
 	if (NULL != g_object_class_find_property (klass, "text")) {
 		char *text = NULL;
 		g_object_get (state->chart.so, "text", &text, NULL);
@@ -9100,26 +9100,26 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 
 	if (state->chart.cs_type) {
-		if (0 == g_ascii_strcasecmp (state->chart.cs_type, "ellipse") && 
+		if (0 == g_ascii_strcasecmp (state->chart.cs_type, "ellipse") &&
 		    g_str_has_prefix (state->chart.cs_enhanced_path, "U ")) {
 			/* We have already created an ellipse */
-		} else if (0 == g_ascii_strcasecmp (state->chart.cs_type, "rectangle") && 
+		} else if (0 == g_ascii_strcasecmp (state->chart.cs_type, "rectangle") &&
 		    g_str_has_prefix (state->chart.cs_enhanced_path, "M ")) {
 			/* We have already created an ellipse */
-			odf_custom_shape_replace_object 
+			odf_custom_shape_replace_object
 				(state, g_object_new (GNM_SO_FILLED_TYPE,
 						      "is-oval", FALSE, NULL));
-		}  else if (0 == g_ascii_strcasecmp (state->chart.cs_type, "frame") && 
+		}  else if (0 == g_ascii_strcasecmp (state->chart.cs_type, "frame") &&
 		    g_str_has_prefix (state->chart.cs_enhanced_path, "M ")) {
 			/* We have already created an ellipse */
-			odf_custom_shape_replace_object 
+			odf_custom_shape_replace_object
 				(state, g_object_new (GNM_SOW_FRAME_TYPE, NULL));
 		} else if (0 == g_ascii_strcasecmp (state->chart.cs_type, "round-rectangle") ||
 			   0 == g_ascii_strcasecmp (state->chart.cs_type, "paper") ||
 			   0 == g_ascii_strcasecmp (state->chart.cs_type, "parallelogram") ||
 			   0 == g_ascii_strcasecmp (state->chart.cs_type, "trapezoid")) {
 			/* We have already created an ellipse */
-			odf_custom_shape_replace_object 
+			odf_custom_shape_replace_object
 				(state, g_object_new (GNM_SO_FILLED_TYPE,
 						      "is-oval", FALSE, NULL));
 			oo_warning (xin , _("An unsupported custom shape of type '%s' was encountered and "
@@ -9127,12 +9127,12 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 		}else
 			oo_warning (xin , _("An unsupported custom shape of type '%s' was encountered and "
 					    "converted to an ellipse."), state->chart.cs_type);
-	} else 		
+	} else
 		oo_warning (xin , _("An unsupported custom shape was encountered and "
 				    "converted to an ellipse."));
 
 	od_draw_text_frame_end (xin, blob);
-	
+
 	g_free (state->chart.cs_enhanced_path);
 	g_free (state->chart.cs_type);
 	state->chart.cs_enhanced_path = NULL;
@@ -9143,13 +9143,13 @@ static void
 odf_custom_shape (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	
+
 	/* to avoid spill over */
 	g_free (state->chart.cs_enhanced_path);
 	g_free (state->chart.cs_type);
 	state->chart.cs_enhanced_path = NULL;
 	state->chart.cs_type = NULL;
-		
+
 	odf_so_filled (xin, attrs, TRUE);
 	odf_push_text_p (state, FALSE);
 }

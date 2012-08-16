@@ -299,6 +299,19 @@ gnm_font_unref (GnmFont *sf)
 	g_free (sf);
 }
 
+GType
+gnm_font_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmFont",
+			 (GBoxedCopyFunc)gnm_font_ref,
+			 (GBoxedFreeFunc)gnm_font_unref);
+	}
+	return t;
+}
+
 gint
 gnm_font_equal (gconstpointer v, gconstpointer v2)
 {
@@ -374,9 +387,10 @@ static PangoFontMap *fontmap;
 static PangoContext *context;
 
 /**
- * gnm_pango_context_get :
+ * gnm_pango_context_get:
  *
  * Simple wrapper to handle windowless operation
+ * Returns: (transfer full):
  **/
 PangoContext *
 gnm_pango_context_get (void)

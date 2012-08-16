@@ -54,7 +54,7 @@
 #include <parse-util.h>
 
 /**
- * dao_INIT:
+ * dao_init: (skip)
  * @dao:
  * @type:
  *
@@ -92,6 +92,11 @@ dao_init (data_analysis_output_t *dao,
 	return dao;
 }
 
+/**
+ * dao_init_new_sheet: (skip)
+ * @dao:
+ *
+ **/
 data_analysis_output_t *
 dao_init_new_sheet (data_analysis_output_t *dao)
 {
@@ -107,6 +112,12 @@ void dao_free (data_analysis_output_t *dao)
 		g_free (dao);
 }
 
+/**
+ * dao_load_from_value: (skip)
+ * @dao:
+ * @value:
+ *
+ **/
 data_analysis_output_t *
 dao_load_from_value (data_analysis_output_t *dao,
 		     GnmValue *output_range)
@@ -271,7 +282,7 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 		dao->sheet = sheet_new (wb, name, dao->cols, dao->rows);
 		dao->start_col = dao->start_row = 0;
 		workbook_sheet_attach (wb, dao->sheet);
-		dao->wbc = wb_control_wrapper_new (dao->wbc, NULL, wb, NULL);
+		dao->wbc = workbook_control_new_wrapper (dao->wbc, NULL, wb, NULL);
 	}
 
 	if (dao->wbc)
@@ -905,7 +916,7 @@ dao_set_border (data_analysis_output_t *dao, int col1, int row1,
  * @is_cols:
  *
  *
- *
+ * Returns: (transfer full):
  **/
 ColRowStateList *
 dao_get_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols)
@@ -1163,12 +1174,28 @@ dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetObject
 	dao->sos = g_slist_prepend (dao->sos, so);
 }
 
+/**
+ * dao_go_data_vector:
+ * @dao:
+ * @ax:
+ * @ay:
+ * @bx:
+ * @by:
+ *
+ * Returns: (transfer full):
+ **/
 GOData	*
 dao_go_data_vector (data_analysis_output_t *dao, int ax, int ay,  int bx, int by)
 {
 	return gnm_go_data_vector_new_expr (dao->sheet, gnm_expr_top_new (dao_get_rangeref (dao, ax, ay, bx, by)));
 }
 
+/**
+ * dao_surrender_so:
+ * @dao:
+ *
+ * Returns: (element-type GObject) (transfer full):
+ **/
 GSList *
 dao_surrender_so (data_analysis_output_t *dao)
 {

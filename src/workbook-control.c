@@ -60,8 +60,17 @@ void wb_control_ ## func arglist				\
 }
 #define WBC_VIRTUAL(func, arglist, call) WBC_VIRTUAL_FULL(func, func, arglist, call)
 
+/**
+ * workbook_control_new_wrapper:
+ * @wbc: #WorkbookControl
+ * @wbv: #WorkbookView
+ * @wb: #Workbook
+ * @extra:
+ *
+ * Returns: (transfer full): the newly allocated #WorkbookControl.
+ **/
 WorkbookControl *
-wb_control_wrapper_new (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb,
+workbook_control_new_wrapper (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb,
 			void *extra)
 {
 	WorkbookControlClass *wbc_class = WBC_CLASS (wbc);
@@ -147,11 +156,11 @@ wb_control_claim_selection (WorkbookControl *wbc)
 }
 
 /**
- * wb_control_validation_msg :
+ * wb_control_validation_msg:
  *	 1 : ignore invalid and accept result
  *	 0 : discard invalid and finish editing
  *	-1 : continue editing
- */
+ **/
 int
 wb_control_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 			   char const *title, char const *msg)
@@ -166,6 +175,12 @@ wb_control_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 	return 1; /* no handler, always accept */
 }
 
+/**
+ * wb_control_view:
+ * @wbc: #WorkbookControl
+ *
+ * Returns: (transfer none): the workbook view.
+ **/
 WorkbookView *
 wb_control_view (WorkbookControl const *wbc)
 {
@@ -173,12 +188,24 @@ wb_control_view (WorkbookControl const *wbc)
 	return wbc->wb_view;
 }
 
+/**
+ * wb_control_get_doc:
+ * @wbc: #WorkbookControl
+ *
+ * Returns: (transfer none): the workbook set as a #GODoc.
+ **/
 GODoc *
 wb_control_get_doc (WorkbookControl const *wbc)
 {
 	return GO_DOC (wb_control_get_workbook (wbc));
 }
 
+/**
+ * wb_control_get_workbook:
+ * @wbc: #WorkbookControl
+ *
+ * Returns: (transfer none): the workbook.
+ **/
 Workbook *
 wb_control_get_workbook (WorkbookControl const *wbc)
 {
@@ -186,6 +213,12 @@ wb_control_get_workbook (WorkbookControl const *wbc)
 	return wbc->wb_view ? wb_view_get_workbook (wbc->wb_view) : NULL;
 }
 
+/**
+ * wb_control_cur_sheet:
+ * @wbc: #WorkbookControl
+ *
+ * Returns: (transfer none): the current sheet.
+ **/
 Sheet *
 wb_control_cur_sheet (WorkbookControl const *wbc)
 {
@@ -193,6 +226,12 @@ wb_control_cur_sheet (WorkbookControl const *wbc)
 	return wb_view_cur_sheet (wbc->wb_view);
 }
 
+/**
+ * wb_control_cur_sheet_view:
+ * @wbc: #WorkbookControl
+ *
+ * Returns: (transfer none): the current sheet view.
+ **/
 SheetView *
 wb_control_cur_sheet_view (WorkbookControl const *wbc)
 {

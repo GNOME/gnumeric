@@ -47,6 +47,28 @@
 
 #include <string.h>
 
+/* GType code for SheetObjectAnchor */
+static SheetObjectAnchor *
+sheet_object_anchor_copy (SheetObjectAnchor * soa)
+{
+	SheetObjectAnchor *res = g_new (SheetObjectAnchor, 1);
+	*res = *soa;
+	return res;
+}
+
+GType
+sheet_object_anchor_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("SheetObjectAnchor",
+			 (GBoxedCopyFunc)sheet_object_anchor_copy,
+			 (GBoxedFreeFunc)g_free);
+	}
+	return t;
+}
+
 /* Returns the class for a SheetObject */
 #define SO_CLASS(so) SHEET_OBJECT_CLASS(G_OBJECT_GET_CLASS(so))
 
@@ -1273,6 +1295,12 @@ sheet_object_view_set_bounds (SheetObjectView *sov,
 		(klass->set_bounds) (sov, coords, visible);
 }
 
+/**
+ * sheet_object_view_get_so:
+ * @sov: #SheetObjectView
+ *
+ * Returns: (transfer none): the #SheetObject owning @view.
+ **/
 SheetObject *
 sheet_object_view_get_so (SheetObjectView *view)
 {
@@ -1547,7 +1575,7 @@ sheet_object_write_object (SheetObject const *so, char const *format,
 }
 
 /**
- * sheet_object_move_do:
+ * sheet_object_move_undo:
  * @objects: (element-type SheetObject):
  * @objects_created:
  *

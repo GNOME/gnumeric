@@ -43,6 +43,7 @@ typedef struct {
 	GnmStyleCondOp	  op;
 } GnmStyleCond;
 
+GType         gnm_style_cond_get_type (void);
 GnmStyleCond *gnm_style_cond_new (GnmStyleCondOp op, Sheet *sheet);
 void gnm_style_cond_free (GnmStyleCond *cond);
 GnmStyleCond *gnm_style_cond_dup (GnmStyleCond const *src);
@@ -60,6 +61,7 @@ void          gnm_style_cond_set_expr (GnmStyleCond *cond,
 Sheet      *gnm_style_cond_get_sheet (GnmStyleCond const *cond);
 void        gnm_style_cond_set_sheet (GnmStyleCond *cond, Sheet *sheet);
 
+GType         gnm_style_conditions_get_type (void);
 GnmStyleConditions *gnm_style_conditions_new  (Sheet *sheet);
 GnmStyleConditions *gnm_style_conditions_dup  (GnmStyleConditions const *sc);
 GPtrArray const *gnm_style_conditions_details (GnmStyleConditions const *sc);

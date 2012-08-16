@@ -80,7 +80,9 @@ typedef struct {
 	gsize start, end;
 	int token;
 } GnmLexerItem;
+GType       gnm_lexer_item_get_type (void); /* Boxed type */
 
+GType       gnm_parse_error_get_type (void); /* Boxed type */
 GnmParseError *parse_error_init (GnmParseError *pe);
 void        parse_error_free (GnmParseError *pe);
 

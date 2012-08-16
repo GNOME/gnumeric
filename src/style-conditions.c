@@ -119,6 +119,12 @@ gnm_style_cond_new (GnmStyleCondOp op, Sheet *sheet)
 	return res;
 }
 
+/**
+ * gnm_style_cond_dup:
+ * @src: #GnmStyleCond
+ *
+ * Returns: (transfer full): the newly allocated #GnmStyleCond.
+ **/
 GnmStyleCond *
 gnm_style_cond_dup (GnmStyleCond const *src)
 {
@@ -151,6 +157,25 @@ gnm_style_cond_free (GnmStyleCond *cond)
 	g_free (cond);
 }
 
+GType
+gnm_style_cond_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmStyleCond",
+			 (GBoxedCopyFunc)gnm_style_cond_dup,
+			 (GBoxedFreeFunc)gnm_style_cond_free);
+	}
+	return t;
+}
+
+/**
+ * gnm_style_cond_get_sheet:
+ * @cond: #GnmStyleCond
+ *
+ * Returns: (transfer none): the #Sheet.
+ **/
 Sheet *
 gnm_style_cond_get_sheet (GnmStyleCond const *cond)
 {
@@ -225,9 +250,9 @@ gnm_style_conditions_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 	gobject_class->finalize         = gnm_style_conditions_finalize;
 }
-static GSF_CLASS (GnmStyleConditions, gnm_style_conditions,
-		  gnm_style_conditions_class_init, gnm_style_conditions_init,
-		  G_TYPE_OBJECT)
+GSF_CLASS (GnmStyleConditions, gnm_style_conditions,
+	   gnm_style_conditions_class_init, gnm_style_conditions_init,
+	   G_TYPE_OBJECT)
 
 /**
  * gnm_style_conditions_new :
@@ -247,6 +272,12 @@ gnm_style_conditions_new (Sheet *sheet)
 	return res;
 }
 
+/**
+ * gnm_style_conditions_dup:
+ * @sc: the #GnmStyleConditions to duplicate.
+ *
+ * Returns: (transfer full): the duplicated #GnmStyleConditions.
+ **/
 GnmStyleConditions *
 gnm_style_conditions_dup (GnmStyleConditions const *sc)
 {
@@ -303,6 +334,13 @@ gnm_style_conditions_hash (GnmStyleConditions const *sc)
 
 #undef MIX
 
+
+/**
+ * gnm_style_conditions_get_sheet:
+ * @sc: #GnmStyleConditions
+ *
+ * Returns: (transfer none): the #Sheet.
+ **/
 Sheet *
 gnm_style_conditions_get_sheet (GnmStyleConditions const *sc)
 {
@@ -329,10 +367,10 @@ gnm_style_conditions_set_sheet (GnmStyleConditions *sc, Sheet *sheet)
 
 
 /**
- * gnm_style_conditions_details :
- * @sc : #GnmStyleConditions
+ * gnm_style_conditions_details:
+ * @sc: #GnmStyleConditions
  *
- * Returns an array of GnmStyleCond which should not be modified.
+ * Returns: (transfer none): an array of GnmStyleCond which should not be modified.
  **/
 GPtrArray const *
 gnm_style_conditions_details (GnmStyleConditions const *sc)
@@ -397,6 +435,13 @@ gnm_style_conditions_delete (GnmStyleConditions *sc, guint pos)
 }
 
 
+/**
+ * gnm_style_conditions_overlay:
+ * @sc: #GnmStyleConditions
+ * @base: #GnmStyle
+ *
+ * Returns: (element-type GnmStyle) (transfer full): an array of #GnmStyle.
+ **/
 GPtrArray *
 gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 			      GnmStyle const *base)
@@ -424,11 +469,11 @@ gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 }
 
 /**
- * gnm_style_conditions_eval :
- * @sc : #GnmStyleConditions
- * @ep : #GnmEvalPos
+ * gnm_style_conditions_eval:
+ * @sc: #GnmStyleConditions
+ * @pos: #GnmEvalPos
  *
- * Returns the condition to use or -1 if none match.
+ * Returns: the condition to use or -1 if none match.
  **/
 int
 gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)

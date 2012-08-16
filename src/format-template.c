@@ -298,7 +298,7 @@ format_template_set_description (GnmFormatTemplate *ft, char const *description)
  *
  * Make a copy of @ft.
  *
- * Returns : a copy of @ft
+ * Returns: transfer full): a copy of @ft
  **/
 GnmFormatTemplate *
 format_template_clone (GnmFormatTemplate const *ft)
@@ -329,6 +329,19 @@ format_template_clone (GnmFormatTemplate const *ft)
 	clone->invalidate_hash = TRUE;
 
 	return clone;
+}
+
+GType
+gnm_format_template_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmFormatTemplate",
+			 (GBoxedCopyFunc)format_template_clone,
+			 (GBoxedFreeFunc)format_template_free);
+	}
+	return t;
 }
 
 #define GNM 100
@@ -507,7 +520,7 @@ GSF_XML_IN_NODE (START, TEMPLATE, GMR, "FormatTemplate", GSF_XML_NO_CONTENT, NUL
  * Create a new GnmFormatTemplate and load a template file
  * into it.
  *
- * Return value: a new GnmFormatTemplate (or NULL on error)
+ * Return value: (transfer full): a new GnmFormatTemplate (or NULL on error)
  **/
 GnmFormatTemplate *
 format_template_new_from_file (char const *filename, GOCmdContext *cc)
@@ -1025,10 +1038,10 @@ cb_format_sheet_style (GnmFormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, gpo
 }
 
 /**
- * format_template_check_valid :
- * @ft :
- * @regions :
- * @cc : where to report errors
+ * format_template_check_valid:
+ * @ft:
+ * @regions: (element-type GnmRange):
+ * @cc: where to report errors
  *
  * check to see if the @regions are able to contain the support template @ft.
  * Returns TRUE if ok, else FALSE.  Will report an error to @cc if it is
@@ -1050,7 +1063,7 @@ format_template_check_valid (GnmFormatTemplate *ft, GSList *regions, GOCmdContex
  * format_template_apply_to_sheet_regions:
  * @ft: GnmFormatTemplate
  * @sheet: the Target sheet
- * @regions: Region list
+ * @regions: (element-type GnmRange): Region list
  *
  * Apply the template to all selected regions in @sheet.
  **/

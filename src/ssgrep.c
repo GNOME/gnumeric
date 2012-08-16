@@ -280,7 +280,7 @@ ssgrep (const char *arg, char const *uri, GOIOContext *ioc, GHashTable *targets,
 	GPtrArray *matches;
 	gboolean has_match;
 
-	wbv = wb_view_new_from_uri (uri, NULL, ioc, NULL);
+	wbv = workbook_view_new_from_uri (uri, NULL, ioc, NULL);
 	if (wbv == NULL) {
 		ssgrep_error = TRUE;
 		return;

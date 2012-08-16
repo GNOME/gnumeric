@@ -64,6 +64,7 @@ GType gnm_validation_op_get_type (void);
 #define GNM_VALIDATION_OP_TYPE (gnm_validation_op_get_type ())
 
 
+GType gnm_validation_get_type (void);
 GnmValidation *gnm_validation_new   (ValidationStyle style,
 				     ValidationType type,
 				     ValidationOp op,

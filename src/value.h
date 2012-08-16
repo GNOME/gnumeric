@@ -202,7 +202,9 @@ struct _GnmCriteria {
 	GODateConventions const *date_conv;
 	GORegexp rx;
 	gboolean has_rx;
+	unsigned ref_count; /* for boxed type */
 };
+GType   gnm_criteria_get_type (void);
 
 typedef struct {
         int     row;	/* absolute */

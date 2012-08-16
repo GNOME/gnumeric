@@ -37,8 +37,12 @@ struct _GnmConsolidate {
 	GSList      *src;
 
 	GnmConsolidateMode mode;
+
+	/* <private> */
+	unsigned ref_count;     /* boxed type */
 };
 
+GType        gnm_consolidate_get_type (void);
 GnmConsolidate *consolidate_new  (void);
 void         consolidate_free (GnmConsolidate *cs, gboolean content_only);
 

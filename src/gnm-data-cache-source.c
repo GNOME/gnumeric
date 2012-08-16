@@ -211,6 +211,13 @@ gnm_data_cache_source_new (Sheet *src_sheet,
 
 	return GO_DATA_CACHE_SOURCE (res);
 }
+
+/**
+ * gnm_data_cache_source_get_sheet:
+ * @src: #GnmDataCacheSource
+ *
+ * Returns: (transfer none): the #Sheet for @src.
+ **/
 Sheet *
 gnm_data_cache_source_get_sheet (GnmDataCacheSource const *src)
 {

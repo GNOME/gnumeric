@@ -371,7 +371,7 @@ dialog_auto_filter_expression (WBCGtk *wbcg,
 	if (gnumeric_dialog_raise_if_exists
 	    (wbcg, DIALOG_KEY_EXPRESSION))
 		return;
-	gui = gnm_gtk_builder_new ("autofilter-expression.ui",
+	gui = gnm_gtk_builder_load ("autofilter-expression.ui",
 				   NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
@@ -471,7 +471,7 @@ dialog_auto_filter (WBCGtk *wbcg,
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
 		return;
-	gui = gnm_gtk_builder_new ("autofilter-top10.ui",
+	gui = gnm_gtk_builder_load ("autofilter-top10.ui",
 				   NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;

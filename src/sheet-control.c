@@ -63,6 +63,12 @@ sc_class_init (GObjectClass *object_class)
 GSF_CLASS (SheetControl, sheet_control,
 	   sc_class_init, NULL, G_TYPE_OBJECT)
 
+/**
+ * sc_wbc:
+ * @sc: #SheetControl
+ *
+ * Returns: (transfer none): the workbook control.
+ **/
 WorkbookControl *
 sc_wbc (SheetControl const *sc)
 {
@@ -70,6 +76,12 @@ sc_wbc (SheetControl const *sc)
 	return sc->wbc;
 }
 
+/**
+ * sc_sheet:
+ * @sc: #SheetControl
+ *
+ * Returns: (transfer none): the sheet.
+ **/
 Sheet *
 sc_sheet (SheetControl const *sc)
 {
@@ -77,6 +89,12 @@ sc_sheet (SheetControl const *sc)
 	return sc->view ? sc->view->sheet : NULL;
 }
 
+/**
+ * sc_view:
+ * @sc: #SheetControl
+ *
+ * Returns: (transfer none): the sheet view.
+ **/
 SheetView *
 sc_view (SheetControl const *sc)
 {

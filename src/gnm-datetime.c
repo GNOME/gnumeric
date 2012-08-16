@@ -126,7 +126,7 @@ datetime_value_to_g (GDate *res, GnmValue const *v, GODateConventions const *con
  * year).
  */
 int
-annual_year_basis (GnmValue const *value_date, go_basis_t basis,
+annual_year_basis (GnmValue const *value_date, GOBasisType basis,
 		   GODateConventions const *date_conv)
 {
         GDate    date;
@@ -151,7 +151,7 @@ annual_year_basis (GnmValue const *value_date, go_basis_t basis,
 }
 
 gnm_float
-yearfrac (GDate const *from, GDate const *to, go_basis_t basis)
+yearfrac (GDate const *from, GDate const *to, GOBasisType basis)
 {
 	int days;
 	gnm_float peryear;

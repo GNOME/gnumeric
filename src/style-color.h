@@ -26,7 +26,7 @@ GNM_VAR_DECL GdkRGBA gs_black;
 GNM_VAR_DECL GdkRGBA gs_lavender;
 GNM_VAR_DECL GdkRGBA gs_yellow;
 
-GType     gnm_color_get_type    (void); 
+GType     gnm_color_get_type    (void);
 GnmColor *gnm_color_new_go    (GOColor c);
 GnmColor *gnm_color_new_name  (char const *name);
 GnmColor *gnm_color_new_rgba16(guint16 red, guint16 green, guint16 blue, guint16 alpha);

@@ -89,7 +89,7 @@ gnm_filter_condition_new_bucket (gboolean top, gboolean absolute,
 				 gboolean rel_range, double n)
 {
 	GnmFilterCondition *res = g_new0 (GnmFilterCondition, 1);
-	res->op[0] = GNM_FILTER_OP_TOP_N | (top ? 0 : 1) | 
+	res->op[0] = GNM_FILTER_OP_TOP_N | (top ? 0 : 1) |
 		(absolute ? 0 : (rel_range ? 2 : 4));
 	res->op[1] = GNM_FILTER_UNUSED;
 	res->count = n;

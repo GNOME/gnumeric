@@ -41,7 +41,7 @@ GnmStfExport *gnm_stf_get_stfe (GObject *obj);
 gboolean gnm_stf_export (GnmStfExport *export_options);
 
 
-GOFileSaver *gnm_stf_file_saver_new (gchar const *id);
+GOFileSaver *gnm_stf_file_saver_create (gchar const *id);
 
 G_END_DECLS
 

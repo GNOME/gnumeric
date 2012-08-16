@@ -20,6 +20,7 @@ typedef struct {
 	void        *data;
 } Symbol;
 
+GType        symbol_table_get_type       (void);
 SymbolTable *symbol_table_new      (void);
 void         symbol_table_destroy  (SymbolTable *st);
 
@@ -28,6 +29,7 @@ Symbol      *symbol_install        (SymbolTable *st, char const *str,
 				    SymbolType type, void *data);
 GSList      *symbol_names (SymbolTable *st, GSList *list, char const *prefix);
 
+GType        symbol_get_type       (void);
 void         symbol_ref            (Symbol *sym);
 void         symbol_unref          (Symbol *sym);
 

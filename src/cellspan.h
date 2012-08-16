@@ -17,6 +17,7 @@ void cell_calc_span (GnmCell const *cell, int *col1, int *col2);
 void cell_register_span    (GnmCell const *cell, int left, int right);
 void cell_unregister_span  (GnmCell const *cell);
 
+GType               cell_span_info_get_type (void);
 CellSpanInfo const *row_span_get     (ColRowInfo const *ri, int col);
 void		    row_destroy_span (ColRowInfo *ri);
 void		    row_calc_spans   (ColRowInfo *ri, int row, Sheet const *sheet);

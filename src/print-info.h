@@ -129,7 +129,7 @@ typedef struct {
 } HFRenderInfo;
 
 GType             print_information_get_type (void);
-PrintInformation *print_info_new         (gboolean load_defaults);
+PrintInformation *print_information_new         (gboolean load_defaults);
 PrintInformation *print_info_load_defaults (PrintInformation *pi);
 PrintInformation *print_info_dup	 (PrintInformation const *pi);
 void              print_info_free        (PrintInformation *pi);
@@ -138,6 +138,7 @@ void              print_info_save        (PrintInformation *pi);
 GtkPageSetup     *print_info_get_page_setup (PrintInformation *pi); /* Does not return a ref! */
 void              print_info_set_page_setup (PrintInformation *pi, GtkPageSetup *page_setup);
 
+GType             print_hf_get_type      (void);
 PrintHF          *print_hf_new           (char const *left,
 					  char const *middle,
 				          char const *right);
@@ -149,6 +150,8 @@ gboolean          print_hf_same          (PrintHF const *a, PrintHF const *b);
 char             *hf_format_render       (char const *format,
 					  HFRenderInfo *info,
 					  HFRenderType render_type);
+
+GType             hf_render_info_get_type      (void);
 HFRenderInfo     *hf_render_info_new     (void);
 void              hf_render_info_destroy (HFRenderInfo *hfi);
 
@@ -204,6 +207,7 @@ void        print_info_set_breaks (PrintInformation *pi, GnmPageBreaks *breaks);
 
 gboolean        print_info_has_manual_breaks (PrintInformation *pi);
 
+GType            gnm_page_breaks_get_type       (void);
 GnmPageBreaks	*gnm_page_breaks_new		(gboolean is_vert);
 GnmPageBreaks	*gnm_page_breaks_dup		(GnmPageBreaks const *src);
 void		 gnm_page_breaks_free		(GnmPageBreaks *breaks);

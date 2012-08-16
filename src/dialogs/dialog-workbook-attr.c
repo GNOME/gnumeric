@@ -336,7 +336,7 @@ dialog_workbook_attr (WBCGtk *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, WORKBOOK_ATTRIBUTE_KEY))
 		return;
 
-	gui = gnm_gtk_builder_new ("workbook-attr.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("workbook-attr.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

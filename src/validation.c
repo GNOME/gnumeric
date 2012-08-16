@@ -360,6 +360,25 @@ gnm_validation_unref (GnmValidation const *val)
 	}
 }
 
+GType
+gnm_validation_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmValidation",
+			 (GBoxedCopyFunc)gnm_validation_ref,
+			 (GBoxedFreeFunc)gnm_validation_unref);
+	}
+	return t;
+}
+
+/**
+ * gnm_validation_get_sheet:
+ * @v: #GnmValidation
+ *
+ * Returns: (transfer none): the sheet.
+ **/
 Sheet *
 gnm_validation_get_sheet (GnmValidation *v)
 {

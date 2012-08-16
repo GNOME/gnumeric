@@ -173,7 +173,7 @@ ssindex (char const *file, GOIOContext *ioc)
 	GsfOutput  *gsf_stdout;
 	Workbook   *wb;
 
-	state.wb_view = wb_view_new_from_uri (str, NULL,
+	state.wb_view = workbook_view_new_from_uri (str, NULL,
 		ioc, ssindex_import_encoding);
 	g_free (str);
 

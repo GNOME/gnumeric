@@ -33,12 +33,12 @@
 
 /**
  * sv_selection_calc_simplification:
- * @sv :
+ * @sv:
  * @mode:
  *
  * Create the simplified seelction list if necessary
  *
- * Returns the simplified version
+ * Returns: the simplified version
  **/
 
 static GSList *
@@ -90,7 +90,7 @@ sv_selection_calc_simplification (SheetView const *sv)
 
 /**
  * sv_is_singleton_selected:
- * @sv :
+ * @sv:
  *
  * See if the 1st selected region is a singleton.
  *
@@ -107,12 +107,12 @@ sv_is_singleton_selected (SheetView const *sv)
 }
 
 /**
- * sv_is_pos_selected :
- * @sv :
- * @col :
- * @row :
+ * sv_is_pos_selected:
+ * @sv:
+ * @col:
+ * @row:
  *
- * Returns TRUE if the supplied position is selected in view @sv.
+ * Returns: TRUE if the supplied position is selected in view @sv.
  **/
 gboolean
 sv_is_pos_selected (SheetView const *sv, int col, int row)
@@ -130,11 +130,11 @@ sv_is_pos_selected (SheetView const *sv, int col, int row)
 }
 
 /**
- * sv_is_range_selected :
- * @sv :
- * @r  :
+ * sv_is_range_selected:
+ * @sv:
+ * @r:
  *
- * Returns TRUE If @r overlaps with any part of the selection in @sv.
+ * Returns: TRUE If @r overlaps with any part of the selection in @sv.
  **/
 gboolean
 sv_is_range_selected (SheetView const *sv, GnmRange const *r)
@@ -152,10 +152,10 @@ sv_is_range_selected (SheetView const *sv, GnmRange const *r)
 }
 
 /**
- * sv_is_full_range_selected :
+ * sv_is_full_range_selected:
  *
- * @sv :
- * @r :
+ * @sv:
+ * @r:
  *
  * Returns TRUE if all of @r is contained by the selection in @sv.
  **/
@@ -175,8 +175,8 @@ sv_is_full_range_selected (SheetView const *sv, GnmRange const *r)
 }
 
 /*
- * sv_is_colrow_selected :
- * @sv : containing the selection
+ * sv_is_colrow_selected:
+ * @sv: containing the selection
  * @colrow: The column or row number we are interested in.
  * @is_col: A flag indicating whether this it is a column or a row.
  *
@@ -216,11 +216,11 @@ sv_is_colrow_selected (SheetView const *sv, int colrow, gboolean is_col)
 
 /**
  * sv_is_full_colrow_selected
- * @sv :
- * @is_cols :
- * @index :
+ * @sv:
+ * @is_cols:
+ * @index:
  *
- * Returns TRUE if all of the selected cols/rows in the selection
+ * Returns: TRUE if all of the selected cols/rows in the selection
  *	are fully selected and the selection contains the specified col.
  **/
 gboolean
@@ -251,11 +251,11 @@ sv_is_full_colrow_selected (SheetView const *sv, gboolean is_cols, int index)
 }
 
 /**
- * sv_selection_col_type :
- * @sv :
- * @col :
+ * sv_selection_col_type:
+ * @sv:
+ * @col:
  *
- * Returns How much of column @col is selected in @sv.
+ * Returns: How much of column @col is selected in @sv.
  **/
 ColRowSelectionType
 sv_selection_col_type (SheetView const *sv, int col)
@@ -287,11 +287,11 @@ sv_selection_col_type (SheetView const *sv, int col)
 }
 
 /**
- * sv_selection_row_type :
- * @sv :
- * @col :
+ * sv_selection_row_type:
+ * @sv:
+ * @col:
  *
- * Returns How much of column @col is selected in @sv.
+ * Returns: How much of column @col is selected in @sv.
  **/
 ColRowSelectionType
 sv_selection_row_type (SheetView const *sv, int row)
@@ -352,10 +352,10 @@ segments_intersect (int const s_a, int const e_a,
 }
 
 /**
- * sv_menu_enable_insert :
- * @sv :
- * @col :
- * @row :
+ * sv_menu_enable_insert:
+ * @sv:
+ * @col:
+ * @row:
  *
  * control whether or not it is ok to insert cols or rows.  An internal routine
  * used by the selection mechanism to avoid erasing the entire sheet when
@@ -391,9 +391,9 @@ sv_menu_enable_insert (SheetView *sv, gboolean col, gboolean row)
 
 /**
  * selection_first_range
- * @sv		 : The #SheetView whose selection we are testing.
- * @wbc          : The calling context to report errors to (GUI or corba)
- * @command_name : A string naming the operation requiring a single range.
+ * @sv: The #SheetView whose selection we are testing.
+ * @cc: The calling context to report errors to (GUI or corba)
+ * @cmd_name: A string naming the operation requiring a single range.
  *
  * Returns the first range, if a control is supplied it displays an error if
  *    there is more than one range.
@@ -670,11 +670,14 @@ sv_selection_simplify (SheetView *sv)
 }
 
 /**
- * sv_selection_add_full :
- * @sv             : #SheetView whose selection is append to.
- * @edit_{col,row} : cell to mark as the new edit cursor.
- * @base_{col,row} : stationary corner of the newly selected range.
- * @move_{col,row} : moving corner of the newly selected range.
+ * sv_selection_add_full:
+ * @sv: #SheetView whose selection is append to.
+ * @edit_col:
+ * @edit_row: cell to mark as the new edit cursor.
+ * @base_col:
+ * @base_row: stationary corner of the newly selected range.
+ * @move_col:
+ * @move_row: moving corner of the newly selected range.
  *
  * Prepends a range to the selection list and sets the edit position.
  **/
@@ -747,7 +750,7 @@ sv_selection_simplified_free (SheetView *sv)
 }
 
 /**
- * sv_selection_reset :
+ * sv_selection_reset:
  * @sv:  The sheet view
  *
  * Releases the selection associated with @sv , and forces a redraw of the
@@ -785,9 +788,10 @@ sv_selection_reset (SheetView *sv)
 /**
  * selection_get_ranges:
  * @sv: #SheetView
- * @allow_intersection : Divide the selection into nonoverlapping subranges.
+ * @allow_intersection: Divide the selection into nonoverlapping subranges.
  *
  * Caller is responsible for free the list and the content.
+ * Returns: (element-type GnmRange) (transfer full):
  **/
 GSList *
 selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
@@ -1075,9 +1079,9 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 /**
  * sv_selection_apply:
  * @sv: #SheetView
- * @func:  The function to apply.
- * @allow_intersection : Call the routine for the non-intersecting subregions.
- * @closure : A parameter to pass to each invocation of @func.
+ * @func: (scope call): The function to apply.
+ * @allow_intersection: Call the routine for the non-intersecting subregions.
+ * @user_data: A parameter to pass to each invocation of @func.
  *
  * Applies the specified function for all ranges in the selection.  Optionally
  * select whether to use the high level potentially over lapped ranges, rather
@@ -1183,10 +1187,10 @@ selection_to_string (SheetView *sv, gboolean include_sheet_name_prefix)
 }
 
 /**
- * sv_selection_foreach :
- * @sv : The whose selection is being iterated.
- * @range_cb : A function to call for each selected range.
- * @user_data :
+ * sv_selection_foreach:
+ * @sv: The whose selection is being iterated.
+ * @handler: (scope call): A function to call for each selected range.
+ * @user_data:
  *
  * Iterate through the ranges in a selection.
  * NOTE : The function assumes that the callback routine does NOT change the
@@ -1228,16 +1232,15 @@ sheet_selection_is_allowed (Sheet const *sheet, GnmCellPos const *pos)
 }
 
 /**
- * walk_boundaries : Iterates through a region by row then column.
- *
- * @sv : The sheet being iterated in
- * @bound : The bounding range
- * @forward : iterate forward or backwards
- * @horizontal : across then down
+ * walk_boundaries: Iterates through a region by row then column.
+ * @sv: The sheet being iterated in
+ * @bound: The bounding range
+ * @forward: iterate forward or backwards
+ * @horizontal: across then down
  * @smart_merge: iterate into merged cells only at their corners
- * @res : The result.
+ * @res: The result.
  *
- * returns TRUE if the cursor leaves the boundary region.
+ * Returns: TRUE if the cursor leaves the boundary region.
  **/
 static gboolean
 walk_boundaries (SheetView const *sv, GnmRange const * const bound,
@@ -1318,10 +1321,10 @@ loop :
 }
 
 /**
- * sv_selection_walk_step :
- * @sv : #SheetView
- * @forward :
- * @horizontal :
+ * sv_selection_walk_step:
+ * @sv: #SheetView
+ * @forward:
+ * @horizontal:
  *
  * Move the edit_pos of @sv 1 step according to @forward and @horizontal.  The
  * behavior depends several factors

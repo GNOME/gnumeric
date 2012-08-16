@@ -50,7 +50,7 @@ range_row_cmp (GnmRange const *a, GnmRange const *b)
  * gnm_sheet_merge_add:
  *
  * @sheet: the sheet which will contain the region
- * @src: The region to merge
+ * @r: The region to merge
  * @clear: should the non-corner content of the region be cleared and the
  *          style from the corner applied.
  * @cc: the calling context
@@ -154,7 +154,7 @@ gnm_sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
  * gnm_sheet_merge_remove:
  *
  * @sheet: the sheet which will contain the region
- * @range: The region
+ * @r: The region
  * @cc: the calling context
  *
  * Remove a merged range.
@@ -300,7 +300,7 @@ gnm_sheet_merge_is_corner (Sheet const *sheet, GnmCellPos const *pos)
 
 /**
  * gnm_sheet_merge_relocate:
- * @rinfo: Descriptor of what is moving.
+ * @ri: Descriptor of what is moving.
  *
  * Shifts merged regions that need to move.
  */

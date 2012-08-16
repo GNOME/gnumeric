@@ -83,12 +83,12 @@ wbcg_auto_complete_destroy (WBCGtk *wbcg)
 }
 
 /**
- * wbcg_edit_finish :
- * @wbcg : #WBCGtk
- * @result : what should we do with the content
- * @showed_dialog : If non-NULL will indicate if a dialog was displayed.
+ * wbcg_edit_finish:
+ * @wbcg: #WBCGtk
+ * @result: what should we do with the content
+ * @showed_dialog: If non-NULL will indicate if a dialog was displayed.
  *
- * Return TRUE if editing completed successfully, or we were no editing.
+ * Return: TRUE if editing completed successfully, or we were no editing.
  **/
 gboolean
 wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
@@ -749,9 +749,9 @@ set_or_unset (PangoAttrList *dst, const PangoAttribute *attr,
 }
 
 /**
- * wbcg_edit_add_markup :
- * @wbcg : #WBCGtk
- * @attr : #PangoAttribute
+ * wbcg_edit_add_markup:
+ * @wbcg: #WBCGtk
+ * @attr: #PangoAttribute
  *
  * Absorbs the ref to @attr.
  **/
@@ -784,10 +784,10 @@ wbcg_edit_add_markup (WBCGtk *wbcg, PangoAttribute *attr)
 }
 
 /**
- * wbcg_edit_get_markup :
- * @wbcg : #WBCGtk
+ * wbcg_edit_get_markup:
+ * @wbcg: #WBCGtk
  *
- * Returns a potentially NULL PangoAttrList of the current markup while
+ * Returns: a potentially NULL PangoAttrList of the current markup while
  * editing.  The list belongs to @wbcg and should not be freed.
  **/
 PangoAttrList *
@@ -879,7 +879,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 		GtkWidget *check;
 		GtkWidget *align;
 
-		GtkWidget *d = gnumeric_message_dialog_new
+		GtkWidget *d = gnumeric_message_dialog_create
 			(wbcg_toplevel (wbcg),
 			 GTK_DIALOG_DESTROY_WITH_PARENT,
 			 GTK_MESSAGE_WARNING,
@@ -1010,9 +1010,9 @@ wbcg_edit_start (WBCGtk *wbcg,
 }
 
 /**
- * wbcg_insert_object :
- * @wbcg : #WBCGtk *
- * @so : The object the needs to be placed
+ * wbcg_insert_object:
+ * @wbcg: #WBCGtk *
+ * @so: The object the needs to be placed
  *
  * Takes a newly created #SheetObject that has not yet been realized and
  * prepares to place it on the sheet.
@@ -1047,8 +1047,8 @@ wbcg_insert_object (WBCGtk *wbcg, SheetObject *so)
 }
 
 /**
- * wbcg_insert_object_clear :
- * @wbcg : #WBCGtk
+ * wbcg_insert_object_clear:
+ * @wbcg: #WBCGtk
  *
  * If we are preparing to insert a new object, unref the object, and restore
  * a normal state to the scgs that was changed in wbcg_insert_object
@@ -1075,10 +1075,10 @@ wbcg_insert_object_clear (WBCGtk *wbcg)
 
 
 /**
- * wbcg_get_entry :
- * @WBCGtk : @wbcg
+ * wbcg_get_entry:
+ * @wbcg: #WBCGtk
  *
- * Returns the #GtkEntry associated with the current GnmExprEntry
+ * Returns: (transfer none): the #GtkEntry associated with the current GnmExprEntry
  **/
 GtkEntry *
 wbcg_get_entry (WBCGtk const *wbcg)
@@ -1090,11 +1090,11 @@ wbcg_get_entry (WBCGtk const *wbcg)
 }
 
 /**
- * wbcg_get_entry_logical :
- * @WBCGtk : @wbcg
+ * wbcg_get_entry_logical:
+ * @wbcg: #WBCGtk
  *
- * Returns the logical (allowing redirection via wbcg_set_entry for gurus)
- * #GnmExprEntry
+ * Returns: (transfer none): the logical (allowing redirection via
+ * wbcg_set_entry for gurus) #GnmExprEntry
  **/
 GnmExprEntry *
 wbcg_get_entry_logical (WBCGtk const *wbcg)
@@ -1108,10 +1108,11 @@ wbcg_get_entry_logical (WBCGtk const *wbcg)
 }
 
 /**
- * wbcg_get_entry_underlying :
- * @wbcg : #WBCGtk
+ * wbcg_get_entry_underlying:
+ * @wbcg: #WBCGtk
  *
- * Returns the #GtkEntry associated with the logical #GnmExprEntry.
+ * Returns: (transfer none): the #GtkEntry associated with the logical
+ * #GnmExprEntry.
  **/
 GtkWidget *
 wbcg_get_entry_underlying (WBCGtk const *wbcg)
@@ -1133,10 +1134,10 @@ wbcg_set_entry (WBCGtk *wbcg, GnmExprEntry *entry)
 }
 
 /**
- * wbcg_entry_has_logical :
- * @wbcg : #WBCGtk
+ * wbcg_entry_has_logical:
+ * @wbcg: #WBCGtk
  *
- * Returns TRUE if wbcg_set_entry has redirected the edit_entry.
+ * Returns: TRUE if wbcg_set_entry has redirected the edit_entry.
  **/
 gboolean
 wbcg_entry_has_logical (WBCGtk const *wbcg)

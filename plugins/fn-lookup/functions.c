@@ -1951,7 +1951,7 @@ GnmFuncDescriptor const lookup_functions[] = {
 	  help_array, NULL, gnumeric_array, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "flip", "A|b",
-	  help_flip, gnumeric_flip, NULL, NULL, NULL, 
+	  help_flip, gnumeric_flip, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
         {NULL}

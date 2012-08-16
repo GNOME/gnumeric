@@ -389,7 +389,7 @@ dialog_tool_init (GenericToolState *state,
 	state->help_link      = help_file;
 	state->state_destroy = NULL;
 
-	state->gui = gnm_gtk_builder_new (gui_name, NULL, GO_CMD_CONTEXT (wbcg));
+	state->gui = gnm_gtk_builder_load (gui_name, NULL, GO_CMD_CONTEXT (wbcg));
         if (state->gui == NULL)
 		goto dialog_tool_init_error;
 

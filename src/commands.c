@@ -233,6 +233,7 @@ cmd_dao_is_locked_effective (data_analysis_output_t  *dao,
 }
 
 /**
+ * cmd_selection_is_locked_effective: (skip)
  * checks whether the selection is effectively locked
  *
  * static gboolean cmd_selection_is_locked_effective
@@ -4554,6 +4555,13 @@ cmd_zoom_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_zoom:
+ * @wbc: #WorkbookControl
+ * @sheets: (element-type Sheet) (transfer container):
+ * @factor:
+ *
+ **/
 gboolean
 cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 {
@@ -4663,8 +4671,16 @@ cmd_objects_store_location (SheetObject *so, GArray *location)
 	g_array_append_val (location, loc);
 }
 
-/* Absorbs the list, adding references to the contents */
-gboolean
+/**
+ * cmd_objects_delete:
+ * @wbc: #WorkbookControl
+ * @objects: (element-type SheetObject) (transfer container): the objects to
+ * delete.
+ * @name:
+ *
+ * Absorbs the list, adding references to the contents.
+ **/
+ gboolean
 cmd_objects_delete (WorkbookControl *wbc, GSList *objects,
 		    char const *name)
 {
@@ -4691,6 +4707,15 @@ cmd_objects_delete (WorkbookControl *wbc, GSList *objects,
 
 /******************************************************************/
 
+/**
+ * cmd_objects_move:
+ * @wbc: #WorkbookControl
+ * @objects: (element-type SheetObject) (transfer container): the objects to move.
+ * @anchors: (element-type SheetObjectAnchor) (transfer full): the anchors for the objects.
+ * @objects_created:
+ * @name:
+ *
+ **/
 gboolean
 cmd_objects_move (WorkbookControl *wbc, GSList *objects, GSList *anchors,
 		  gboolean objects_created, char const *name)
@@ -4996,6 +5021,14 @@ cmd_resize_sheets_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_resize_sheets:
+ * @wbc: #WorkbookControl
+ * @sheets: (element-type Sheet) (transfer container): the sheets to resize.
+ * @cols: new columns number.
+ * @rows: new rows number.
+ *
+ **/
 gboolean
 cmd_resize_sheets (WorkbookControl *wbc,
 		   GSList *sheets,
@@ -5376,10 +5409,11 @@ cmd_analysis_tool_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
-/*
+/**
+ * cmd_analysis_tool: (skip)
  * Note: this takes ownership of specs and dao if and if only the command
  * succeeds.
- */
+ **/
 gboolean
 cmd_analysis_tool (WorkbookControl *wbc, G_GNUC_UNUSED Sheet *sheet,
 		   data_analysis_output_t *dao, gpointer specs,
@@ -5568,6 +5602,15 @@ cmd_merge_data_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_merge_data:
+ * @wbc: #WorkbookControl
+ * @sheet: #Sheet
+ * @merge_zone: (transfer full): #GnmValue
+ * @merge_fields: (element-type GnmRange) (transfer full):
+ * @merge_data: (element-type GnmRange) (transfer full):
+ *
+ **/
 gboolean
 cmd_merge_data (WorkbookControl *wbc, Sheet *sheet,
 		GnmValue *merge_zone, GSList *merge_fields, GSList *merge_data)
@@ -5665,6 +5708,13 @@ cmd_change_summary_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_change_meta_data:
+ * @wbc: #WorkbookControl
+ * @changes: (element-type GsfDocMetaData) (transfer full): the changed metadata.
+ * @removed: (element-type GsfDocMetaData) (transfer full): the removed metadata.
+ *
+ **/
 gboolean
 cmd_change_meta_data (WorkbookControl *wbc, GSList *changes, GSList *removed)
 {

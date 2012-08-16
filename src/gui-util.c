@@ -63,12 +63,14 @@ insert_error_info (GtkTextBuffer* text, GOErrorInfo *error, gint level)
 }
 
 /**
- * gnumeric_go_error_info_dialog_new
+ * gnumeric_go_error_info_list_dialog_create:
+ * @errs: (element-type GOErrorInfo):
  *
  * SHOULD BE IN GOFFICE
+ * Returns: (transfer full): the newly allocated dialog.
  */
 GtkWidget *
-gnumeric_go_error_info_list_dialog_new (GSList *errs)
+gnumeric_go_error_info_list_dialog_create (GSList *errs)
 {
 	GtkWidget *dialog;
 	GtkWidget *scrolled_window;
@@ -146,11 +148,17 @@ gnumeric_go_error_info_list_dialog_new (GSList *errs)
 	return dialog;
 }
 
+/**
+ * gnumeric_go_error_info_dialog_create:
+ *
+ * SHOULD BE IN GOFFICE
+ * Returns: (transfer full): the newly allocated dialog.
+ */
 GtkWidget *
-gnumeric_go_error_info_dialog_new (GOErrorInfo *error)
+gnumeric_go_error_info_dialog_create (GOErrorInfo *error)
 {
 	GSList *l = g_slist_append (NULL, error);
-	GtkWidget *w = gnumeric_go_error_info_list_dialog_new (l);
+	GtkWidget *w = gnumeric_go_error_info_list_dialog_create (l);
 	g_slist_free (l);
 	return w;
 }
@@ -162,15 +170,21 @@ gnumeric_go_error_info_dialog_new (GOErrorInfo *error)
 void
 gnumeric_go_error_info_dialog_show (GtkWindow *parent, GOErrorInfo *error)
 {
-	GtkWidget *dialog = gnumeric_go_error_info_dialog_new (error);
+	GtkWidget *dialog = gnumeric_go_error_info_dialog_create (error);
 	go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
 }
 
+/**
+ * gnumeric_go_error_info_list_dialog_show:
+ * @parent:
+ * @errs: (element-type GOErrorInfo):
+ *
+ */
 void
 gnumeric_go_error_info_list_dialog_show (GtkWindow *parent,
 					 GSList *errs)
 {
-	GtkWidget *dialog = gnumeric_go_error_info_list_dialog_new (errs);
+	GtkWidget *dialog = gnumeric_go_error_info_list_dialog_create (errs);
 	go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
 }
 
@@ -323,13 +337,13 @@ gnumeric_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 }
 
 /**
- * gnumeric_dialog_raise_if_exists
+ * gnumeric_dialog_raise_if_exists:
  *
- * @wbcg    A WBCGtk
- * @key     A key to identify the dialog
+ * @wbcg:    A WBCGtk
+ * @key:     A key to identify the dialog
  *
  * Raise the dialog identified by key if it is registered on the wbcg.
- * Returns TRUE if dialog found, FALSE if not.
+ * Returns: (transfer none): TRUE if dialog found, FALSE if not.
  **/
 gpointer
 gnumeric_dialog_raise_if_exists (WBCGtk *wbcg, char const *key)
@@ -482,6 +496,11 @@ gnumeric_tooltip_set_style (GtkWidget *widget)
 	}
 }
 
+/**
+ * gnumeric_create_tooltip_text_view_widget:
+ *
+ * Returns: (transfer full): the newly allocated #GtkWidget.
+ **/
 GtkWidget *
 gnumeric_create_tooltip_text_view_widget (void)
 {
@@ -496,6 +515,11 @@ gnumeric_create_tooltip_text_view_widget (void)
 	return label;
 }
 
+/**
+ * gnumeric_create_tooltip_widget:
+ *
+ * Returns: (transfer full): the newly allocated #GtkWidget.
+ **/
 GtkWidget *
 gnumeric_create_tooltip_widget (void)
 {
@@ -510,6 +534,13 @@ gnumeric_create_tooltip_widget (void)
 	return label;
 }
 
+/**
+ * gnumeric_convert_to_tooltip:
+ * @ref_widget:
+ * @label:
+ *
+ * Returns: (transfer full): the newly allcated #GtkWindow.
+ **/
 GtkWidget *
 gnumeric_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *label)
 {
@@ -533,6 +564,11 @@ gnumeric_convert_to_tooltip (GtkWidget *ref_widget, GtkWidget *label)
 	return label;
 }
 
+/**
+ * gnumeric_create_tooltip:
+ *
+ * Returns: (transfer full): the newly allocated #GtkWidget.
+ **/
 GtkWidget *
 gnumeric_create_tooltip (GtkWidget *ref_widget)
 {
@@ -563,14 +599,15 @@ gnumeric_position_tooltip (GtkWidget *tip, int px, int py, gboolean horizontal)
 }
 
 /**
- * gnm_gtk_builder_new :
- * @cc : #GOCmdContext
- * @uifile :
+ * gnm_gtk_builder_load:
+ * @cc: #GOCmdContext
+ * @uifile:
  *
  * Simple utility to open ui files
+ * Returns: (transfer full): the newly allocated #GtkBuilder.
  **/
 GtkBuilder *
-gnm_gtk_builder_new (char const *uifile, char const *domain, GOCmdContext *cc)
+gnm_gtk_builder_load (char const *uifile, char const *domain, GOCmdContext *cc)
 {
 	GtkBuilder *gui;
 	char *f;
@@ -581,7 +618,7 @@ gnm_gtk_builder_new (char const *uifile, char const *domain, GOCmdContext *cc)
 		f = g_strconcat ("res:gnm:", uifile, NULL);
 	}
 
-	gui = go_gtk_builder_new (f, domain, cc);
+	gui = go_gtk_builder_load (f, domain, cc);
 	g_free (f);
 
 	return gui;
@@ -603,6 +640,15 @@ popup_item_activate (GtkWidget *item, gpointer *user_data)
 		gtk_widget_destroy (gtk_widget_get_toplevel (item));
 }
 
+/**
+ * gnumeric_create_popup_menu:
+ * @element:
+ * @handler: (scope async):
+ * @user_data: user data to pass to @handler.
+ * @display_filter:
+ * @sensitive_filter:
+ * @event:
+ **/
 void
 gnumeric_create_popup_menu (GnumericPopupMenuElement const *element,
 			    GnumericPopupMenuHandler handler,
@@ -945,6 +991,14 @@ int_to_entry (GtkEntry *entry, gint the_int)
 	}
 }
 
+/**
+ * gnumeric_load_image:
+ * @name: the file name.
+ *
+ * utility routine to create image widgets from file named @name.
+ * looking in the gnumeric icondir.
+ * Returns: (transfer full): the newly allocated #GtkImage.
+ **/
 GtkWidget *
 gnumeric_load_image (char const *filename)
 {
@@ -959,8 +1013,12 @@ gnumeric_load_image (char const *filename)
 }
 
 /**
- * gnumeric_load_pixbuf : utility routine to create pixbufs from file named @name.
+ * gnumeric_load_pixbuf:
+ * @name: the file name.
+ *
+ * utility routine to create pixbufs from file named @name.
  * looking in the gnumeric icondir.
+ * Returns: (transfer full): the newly allocated pixbuf.
  **/
 GdkPixbuf *
 gnumeric_load_pixbuf (char const *filename)
@@ -1018,7 +1076,7 @@ gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct)
 /* ------------------------------------------------------------------------- */
 
 /**
- * gnumeric_message_dialog_new :
+ * gnumeric_message_dialog_create:
  *
  * A convenience fonction to build HIG compliant message dialogs.
  *
@@ -1028,11 +1086,11 @@ gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct)
  *   primary_message : message displayed in bold
  *   secondary_message : message displayed below
  *
- *   return : a GtkDialog, without buttons.
+ * Returns: (transfer full): a GtkDialog, without buttons.
  **/
 
 GtkWidget *
-gnumeric_message_dialog_new (GtkWindow * parent,
+gnumeric_message_dialog_create (GtkWindow * parent,
 			     GtkDialogFlags flags,
 			     GtkMessageType type,
 			     gchar const * primary_message,

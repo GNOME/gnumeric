@@ -96,7 +96,7 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	gtk_widget_destroy (state->dialog);
 
-	new_wbc = wb_control_wrapper_new
+	new_wbc = workbook_control_new_wrapper
 		(wbc,
 		 shared ? wb_control_view (wbc) : NULL,
 		 wb_control_get_workbook (wbc),
@@ -130,7 +130,7 @@ dialog_new_view (WBCGtk *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, VIEW_DIALOG_KEY))
 		return;
-	gui = gnm_gtk_builder_new ("view.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("view.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

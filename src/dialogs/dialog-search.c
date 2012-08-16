@@ -488,7 +488,7 @@ dialog_search (WBCGtk *wbcg)
 		return;
 #endif
 
-	gui = gnm_gtk_builder_new ("search.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("search.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

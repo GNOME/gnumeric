@@ -319,7 +319,7 @@ main (int argc, char const **argv)
 			}
 
 			go_io_context_processing_file (ioc, uri);
-			wbv = wb_view_new_from_uri (uri, NULL, ioc, NULL);
+			wbv = workbook_view_new_from_uri (uri, NULL, ioc, NULL);
 			g_free (uri);
 
 			if (go_io_error_occurred (ioc) ||

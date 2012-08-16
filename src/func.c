@@ -776,9 +776,32 @@ gnm_func_group_free (GnmFuncGroup *fn_group)
 	g_return_if_fail (fn_group != NULL);
 	g_return_if_fail (fn_group->functions == NULL);
 
+	if (fn_group->ref_count-- > 1)
+		return;
+
 	go_string_unref (fn_group->internal_name);
 	go_string_unref (fn_group->display_name);
 	g_free (fn_group);
+}
+
+static GnmFuncGroup * 
+gnm_func_group_ref (GnmFuncGroup *fn_group)
+{
+	fn_group->ref_count++;
+	return fn_group;
+}
+
+GType
+gnm_func_group_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmFuncGroup",
+			 (GBoxedCopyFunc)gnm_func_group_ref,
+			 (GBoxedFreeFunc)gnm_func_group_free);
+	}
+	return t;
 }
 
 static gint
@@ -808,6 +831,7 @@ gnm_func_group_fetch (char const *name, char const *translation)
 	if (l == NULL) {
 		cat = g_new (GnmFuncGroup, 1);
 		cat->internal_name = go_string_new (name);
+		cat->ref_count = 1;
 		if (translation != NULL) {
 			cat->display_name = go_string_new (translation);
 			cat->has_translation = TRUE;
@@ -1028,6 +1052,13 @@ gnm_func_lookup (char const *name, Workbook *scope)
 	return g_hash_table_lookup (scope->sheet_local_functions, (gpointer)name);
 }
 
+/**
+ * gnm_func_lookup_prefix:
+ * @prefix:
+ * @scope:
+ *
+ * Returns: (element-type GnmFunc*) (transfer full):
+ **/
 GSList *
 gnm_func_lookup_prefix   (char const *prefix, Workbook *scope)
 {
@@ -1110,6 +1141,14 @@ unknownFunctionHandler (GnmFuncEvalInfo *ei,
 	return value_new_error_NAME (ei->pos);
 }
 
+/**
+ * gnm_func_add_stub:
+ * @fn_group:
+ * @name:
+ * @textdomain:
+ * @load_desc: (scope async):
+ * @opt_usage_notify: (scope async):
+ **/
 GnmFunc *
 gnm_func_add_stub (GnmFuncGroup *fn_group,
 		   const char *name,
@@ -1201,7 +1240,12 @@ gnm_func_lookup_or_add_placeholder (char const *name, Workbook *scope, gboolean 
 	return f;
 }
 
-
+/**
+ * gnm_func_get_user_data:
+ * @func:
+ *
+ * Returns: (transfer none):
+ **/
 gpointer
 gnm_func_get_user_data (GnmFunc const *func)
 {
@@ -1941,7 +1985,7 @@ function_iterate_do_value (GnmEvalPos const  *ep,
  * function_iterate_argument_values
  *
  * @ep:               The position in a workbook at which to evaluate
- * @callback:         The routine to be invoked for every value computed
+ * @callback: (scope call): The routine to be invoked for every value computed
  * @callback_closure: Closure for the callback.
  * @argc:
  * @argv:

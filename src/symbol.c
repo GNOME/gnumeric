@@ -46,7 +46,16 @@ symbol_names_cb (char const * key, Symbol *symbol, symbol_names_cb_t *data)
 	}
 }
 
-/* returns a list of reffed GnmFunc* */
+/**
+ * symbol_names:
+ * @st: #SymbolTable
+ * @list: (element-type GnmFunc*) (transfer full): list to which add new
+ * GnmFunc* from @st.
+ * @prefix: function name start.
+ *
+ * Lists functions whose name start with @prefix and add the mto the list.
+ * Returns: (element-type GnmFunc*) (transfer full): a list of reffed GnmFunc*.
+ **/
 GSList *
 symbol_names (SymbolTable *st, GSList *list, char const *prefix)
 {
@@ -66,7 +75,7 @@ symbol_names (SymbolTable *st, GSList *list, char const *prefix)
  *
  * @st: The symbol table
  * @str: the string name
- * @SymbolType: in which hash table we perform the lookup
+ * @type: in which hash table we perform the lookup
  * @data: information attached to the symbol
  */
 Symbol *
@@ -126,6 +135,19 @@ symbol_unref (Symbol *sym)
 	}
 }
 
+GType
+symbol_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("Symbol",
+			 (GBoxedCopyFunc)symbol_ref,
+			 (GBoxedFreeFunc)symbol_unref);
+	}
+	return t;
+}
+
 SymbolTable *
 symbol_table_new (void)
 {
@@ -153,3 +175,25 @@ symbol_table_destroy (SymbolTable *st)
 	g_hash_table_destroy (st->hash);
 	g_free (st);
 }
+
+static SymbolTable *
+symbol_table_copy (SymbolTable *st)
+{
+	return st;
+}
+
+/* since there is only one global symbol table, there shouls be no need
+ * to ref/unref it for introspecion. */
+GType
+symbol_table_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("SymbolTable",
+			 (GBoxedCopyFunc)symbol_table_copy,
+			 (GBoxedFreeFunc)symbol_table_copy);
+	}
+	return t;
+}
+

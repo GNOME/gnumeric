@@ -23,6 +23,7 @@ struct _SheetObjectAnchor {
 	GnmRange cell_bound; /* cellpos containing corners */
 	double	 offset[4];  /* offsets from the top left (in LTR of cell_bound) */
 };
+GType sheet_object_anchor_get_type (void); /* Boxed type */
 
 #define SHEET_OBJECT_TYPE     (sheet_object_get_type ())
 #define SHEET_OBJECT(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_OBJECT_TYPE, SheetObject))

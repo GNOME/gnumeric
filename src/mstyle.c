@@ -670,7 +670,7 @@ gnm_style_dup (GnmStyle const *src)
  * A new GnmStyle that contains any elements of @overlay that are set, and uses
  * @base for anything that is not set in @overlay.
  *
- * Returns A ref to a new GnmStyle.
+ * Returns: (transfer full): A ref to a new GnmStyle.
  **/
 GnmStyle *
 gnm_style_new_merged (GnmStyle const *base, GnmStyle const *overlay)
@@ -1223,6 +1223,13 @@ gnm_style_get_pattern (GnmStyle const *style)
 	return style->pattern;
 }
 
+/**
+ * gnm_style_get_font:
+ * @style: #GnmStyle
+ * @context: #PangoContext
+ *
+ * Returns: (transfer none):
+ **/
 GnmFont *
 gnm_style_get_font (GnmStyle const *style, PangoContext *context)
 {
@@ -1649,6 +1656,12 @@ gnm_style_set_validation (GnmStyle *style, GnmValidation *v)
 	style->validation = v;
 }
 
+/**
+ * gnm_style_get_validation:
+ * @style: #GnmStyle
+ *
+ * Returns: (transfer none):
+ **/
 GnmValidation const *
 gnm_style_get_validation (GnmStyle const *style)
 {
@@ -1695,6 +1708,12 @@ gnm_style_set_input_msg (GnmStyle *style, GnmInputMsg *msg)
 	style->input_msg = msg;
 }
 
+/**
+ * gnm_style_get_input_msg:
+ * @style: #GnmStyle
+ *
+ * Returns: (transfer none):
+ **/
 GnmInputMsg *
 gnm_style_get_input_msg (GnmStyle const *style)
 {
@@ -1715,6 +1734,12 @@ gnm_style_set_conditions (GnmStyle *style, GnmStyleConditions *sc)
 	style->conditions = sc;
 }
 
+/**
+ * gnm_style_get_conditions:
+ * @style: #GnmStyle
+ *
+ * Returns: (transfer none):
+ **/
 GnmStyleConditions *
 gnm_style_get_conditions (GnmStyle const *style)
 {

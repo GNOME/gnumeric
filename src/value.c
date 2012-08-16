@@ -1628,13 +1628,38 @@ find_column_of_field (GnmEvalPos const *ep,
 void
 free_criteria (GnmCriteria *criteria)
 {
+	if (!criteria || criteria->ref_count-- > 1)
+		return;
 	value_release (criteria->x);
 	if (criteria->has_rx)
 		go_regfree (&criteria->rx);
 	g_free (criteria);
 }
 
-/*
+static GnmCriteria *
+gnm_criteria_ref (GnmCriteria *criteria)
+{
+	criteria->ref_count++;
+	return criteria;
+}
+
+GType
+gnm_criteria_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmCriteria",
+			 (GBoxedCopyFunc)gnm_criteria_ref,
+			 (GBoxedFreeFunc)free_criteria);
+	}
+	return t;
+}
+
+/**
+ * free_criterias:
+ * @criterias: (element-type GnmCriteria) (transfer full): the criteria to be
+ * freed.
  * Frees the allocated memory.
  */
 void
@@ -1719,6 +1744,7 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv)
 	if (res->fun (empty, res))
 		res->iter_flags &= ~CELL_ITER_IGNORE_BLANK;
 	value_release (empty);
+	res->ref_count = 1;
 
 	return res;
 }
@@ -1759,8 +1785,14 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 	return g_slist_reverse (criterias);
 }
 
-/*
+/**
+ * parse_database_criteria:
+ * @ep: #GnmEvalPos
+ * @database: #GnmValue
+ * @criteria: #GnmValue
+ *
  * Parses the criteria cell range.
+ * Returns: (element-type GnmDBCriteria) (transfer full):
  */
 GSList *
 parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValue const *criteria)
@@ -1804,8 +1836,19 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValu
 				     e_col, e_row, field_ind);
 }
 
-/* Finds the rows from the given database that match the criteria.
- */
+/**
+ * find_rows_that_match:
+ * @sheet: #Sheet
+ * @first_col: first column.
+ * @first_row: first row.
+ * @last_col: last column.
+ * @last_row: laset row.
+ * @criterias: (element-type GnmDBCriteria): the criteria to use.
+ * @unique_only:
+ *
+ * Finds the rows from the given database that match the criteria.
+ * Returns: (element-type int) (transfer full): the list of matching rows. 
+ **/
 GSList *
 find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 		      int last_col, int last_row,

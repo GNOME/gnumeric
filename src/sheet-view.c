@@ -99,6 +99,12 @@ sv_sheet_r1c1_changed (Sheet *sheet,
 	sv->edit_pos_changed.location = TRUE;
 }
 
+/**
+ * sv_sheet:
+ * @sv: #SheetView
+ *
+ * Returns: (transfer none): the sheet.
+ **/
 Sheet *
 sv_sheet (SheetView const *sv)
 {
@@ -106,6 +112,12 @@ sv_sheet (SheetView const *sv)
 	return sv->sheet;
 }
 
+/**
+ * sv_wbv:
+ * @sv: #SheetView
+ *
+ * Returns: (transfer none): the workbook view.
+ **/
 WorkbookView *
 sv_wbv (SheetView const *sv)
 {
@@ -329,9 +341,9 @@ sv_unant (SheetView *sv)
 }
 
 /**
- * sv_ant :
- * @sv :
- * @ranges :
+ * sv_ant:
+ * @sv:
+ * @ranges: (element-type GnmRange):
  */
 void
 sv_ant (SheetView *sv, GList *ranges)
@@ -525,11 +537,12 @@ sv_set_edit_pos (SheetView *sv, GnmCellPos const *pos)
 
 /**
  * sv_flag_status_update_pos:
+ * @sv:
+ * @pos:
+ *
  *    flag the view as requiring an update to the status display
  *    if the supplied cell location is the edit cursor, or part of the
  *    selected region.
- *
- * @cell : The cell that has changed.
  *
  * Will cause the format toolbar, the edit area, and the auto expressions to be
  * updated if appropriate.
@@ -560,8 +573,8 @@ sv_flag_status_update_pos (SheetView *sv, GnmCellPos const *pos)
  *    if the supplied cell location contains the edit cursor, or intersects of
  *    the selected region.
  *
- * @sheet :
- * @range : If NULL then force an update.
+ * @sheet:
+ * @range: If NULL then force an update.
  *
  * Will cause the format toolbar, the edit area, and the auto expressions to be
  * updated if appropriate.
@@ -704,7 +717,7 @@ sv_selection_intersects_filter_rows (SheetView const *sv)
 
 /**
  * sv_selection_extends_filter:
- * @sv : #SheetView
+ * @sv: #SheetView
  *
  * Returns: %NULL or GnmFilter whose rows intersect the rows
  *          of the current selectiona range to which the filter can be
@@ -724,10 +737,11 @@ sv_selection_extends_filter (SheetView const *sv, GnmFilter const *f)
 
 
 /**
- * sv_editpos_in_slicer :
- * @sv : #SheetView
+ * sv_editpos_in_slicer:
+ * @sv: #SheetView
  *
- * Returns: %NULL or #GnmSheetSlicer that overlaps the sv::edit_pos
+ * Returns: (transfer none): %NULL or #GnmSheetSlicer that overlaps the
+ * sv::edit_pos
  **/
 GnmSheetSlicer *
 sv_editpos_in_slicer (SheetView const *sv)
@@ -867,9 +881,9 @@ sv_is_frozen (SheetView const *sv)
 
 /**
  * sv_set_initial_top_left
- * @sv : the sheet view.
- * @col   :
- * @row   :
+ * @sv: the sheet view.
+ * @col:
+ * @row:
  *
  * Sets the top left cell that a newly created sheet control should display.
  * This corresponds to the top left cell visible in pane 0 (frozen or not).

@@ -249,7 +249,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 	GObject *age_column;
 	int quitting_time = g_get_real_time () / 1000000;
 
-	gui = gnm_gtk_builder_new ("quit.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("quit.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return FALSE;
 

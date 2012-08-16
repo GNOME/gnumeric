@@ -91,6 +91,11 @@ static GnmApp *app;
 
 static Workbook *gnm_app_workbook_get_by_uri (char const *uri);
 
+/**
+ * gnm_app_get_app:
+ *
+ * Returns: (transfer none): the #GnmApp instance.
+ **/
 GObject *
 gnm_app_get_app (void)
 {
@@ -136,6 +141,11 @@ gnm_app_workbook_list_remove (Workbook *wb)
 	g_signal_emit (G_OBJECT (app), signals [WORKBOOK_REMOVED], 0, wb);
 }
 
+/**
+ * gnm_app_workbook_list:
+ *
+ * Returns: (element-type Workbook) (transfer none): the workbook list.
+ **/
 GList *
 gnm_app_workbook_list (void)
 {
@@ -253,11 +263,12 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 	}
 }
 
-/** gnm_app_clipboard_cut_copy_obj:
+/**
+ * gnm_app_clipboard_cut_copy_obj:
  * @wbc: #WorkbookControl
  * @is_cut:
  * @sv: #SheetView
- * @objects: a list of #SheetObject which is freed
+ * @objects: (element-type SheetObject): a list of #SheetObject which is freed
  *
  * Different than copying/cutting a region, this can actually cuts an object
  **/
@@ -306,6 +317,11 @@ gnm_app_clipboard_is_cut (void)
 	return FALSE;
 }
 
+/**
+ * gnm_app_clipboard_sheet_get:
+ *
+ * Returns: (transfer none): the current clipboard #Sheet.
+ **/
 Sheet *
 gnm_app_clipboard_sheet_get (void)
 {
@@ -316,6 +332,11 @@ gnm_app_clipboard_sheet_get (void)
 	return sv_sheet (app->clipboard_sheet_view);
 }
 
+/**
+ * gnm_app_clipboard_sheet_view_get:
+ *
+ * Returns: (transfer none): the current clipboard #SheetView.
+ **/
 SheetView *
 gnm_app_clipboard_sheet_view_get (void)
 {
@@ -345,6 +366,13 @@ gnm_app_clipboard_area_get (void)
 	return NULL;
 }
 
+/**
+ * gnm_app_workbook_get_by_name:
+ * @name: the workbook name.
+ * @ref_uri:
+ *
+ * Returns: (transfer none): the #Workbook or %NULL.
+ **/
 Workbook *
 gnm_app_workbook_get_by_name (char const *name,
 			      char const *ref_uri)
@@ -470,6 +498,14 @@ gnm_app_dpi_to_pixels (void)
 }
 
 /* GtkFileFilter */
+/**
+ * gnm_app_create_opener_filter:
+ * @openers: (element-type GOFileOpener): a list of file openers.
+ *
+ * Creates a #GtkFileFilter from the list of file types supported by the
+ * openers in the list.
+ * Returns: (transfer full): the newly allocated #GtkFileFilter.
+ **/
 void *
 gnm_app_create_opener_filter (GList *openers)
 {
@@ -559,7 +595,8 @@ compare_mru (GtkRecentInfo *a, GtkRecentInfo *b)
  *
  * creating it if necessary.
  *
- * Return value: the list, which must be freed along with the strings in it.
+ * Return value: (element-type char) (transfer full): the list, which must be
+ * freed along with the strings in it.
  **/
 GSList *
 gnm_app_history_get_list (int max_elements)
@@ -862,6 +899,16 @@ GSF_CLASS (GnmApp, gnm_app,
 /**********************************************************************/
 static GSList *extra_uis = NULL;
 
+/**
+ * gnm_action_new:
+ * @name: action ID.
+ * @label: label.
+ * @icon: icon name.
+ * @always_available: whether the action should always be available.
+ * @handler: (scope async): the handler.
+ *
+ * Returns: (transfer full): the newly allocated #GnmAction.
+ **/
 GnmAction *
 gnm_action_new (char const *id, char const *label,
 		char const *icon_name, gboolean always_available,
@@ -885,6 +932,49 @@ gnm_action_free (GnmAction *action)
 		g_free (action->icon_name);
 		g_free (action);
 	}
+}
+
+static GnmAction *
+gnm_action_copy (GnmAction const *action)
+{
+	return gnm_action_new (action->id, action->label, action->icon_name,
+	                       action->always_available, action->handler);
+}
+
+GType
+gnm_action_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmAction",
+			 (GBoxedCopyFunc)gnm_action_copy,
+			 (GBoxedFreeFunc)gnm_action_free);
+	}
+	return t;
+}
+
+/***************
+ * making GnmAppExtraUI a boxed type for introspection. copy and free don't do
+ anything which might be critical, crossing fingers.*/
+
+static GnmAppExtraUI *
+gnm_app_extra_ui_ref (GnmAppExtraUI *ui)
+{
+	return ui;
+}
+
+GType
+gnm_app_extra_ui_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmAppExtraUI",
+			 (GBoxedCopyFunc)gnm_app_extra_ui_ref,
+			 (GBoxedFreeFunc)gnm_app_extra_ui_ref);
+	}
+	return t;
 }
 
 /**

@@ -1438,7 +1438,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	gui = gnm_gtk_builder_new ("sheet-order.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("sheet-order.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

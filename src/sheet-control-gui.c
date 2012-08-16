@@ -82,6 +82,14 @@ static void scg_unant (SheetControl *sc);
 static void set_resize_pane_pos (SheetControlGUI *scg, GtkPaned *p);
 static void cb_resize_pane_motion (GtkPaned *p, GParamSpec *pspec, SheetControlGUI *scg);
 
+
+/**
+ * scg_pane:
+ * @scg: #SheetControlGUI
+ * @pane: the pane index.
+ *
+ * Returns: (transfer none): the pane.
+ **/
 GnmPane *
 scg_pane (SheetControlGUI *scg, int p)
 {
@@ -93,7 +101,12 @@ scg_pane (SheetControlGUI *scg, int p)
 	return scg->pane[p];
 }
 
-
+/**
+ * scg_view:
+ * @scg: #SheetControlGUI
+ *
+ * Returns: (transfer none): the sheet view.
+ **/
 SheetView *
 scg_view (SheetControlGUI const *scg)
 {
@@ -101,18 +114,40 @@ scg_view (SheetControlGUI const *scg)
 	return scg->sheet_control.view;
 }
 
+
+/**
+ * scg_sheet:
+ * @scg: #SheetControlGUI
+ *
+ * Returns: (transfer none): the sheet.
+ **/
 Sheet *
 scg_sheet (SheetControlGUI const *scg)
 {
 	return sc_sheet ((SheetControl *)scg);
 }
 
+
+/**
+ * scg_wbc:
+ * @scg: #SheetControlGUI
+ *
+ * Returns: (transfer none): the workbook control.
+ **/
 WorkbookControl *
 scg_wbc (SheetControlGUI const *scg)
 {
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
 	return scg->sheet_control.wbc;
 }
+
+
+/**
+ * scg_wbcg:
+ * @scg: #SheetControlGUI
+ *
+ * Returns: (transfer none): the #WBCGtk.
+ **/
 
 WBCGtk *
 scg_wbcg (SheetControlGUI const *scg)
@@ -983,11 +1018,11 @@ gnm_pane_make_cell_visible (GnmPane *pane, int col, int row,
 
 /**
  * scg_make_cell_visible
- * @scg  : The gui control
- * @col  :
- * @row  :
- * @force_scroll : Completely recalibrate the offsets to the new position
- * @couple_panes : Scroll scroll dynamic panes back to bounds if target
+ * @scg: The gui control
+ * @col:
+ * @row:
+ * @force_scroll: Completely recalibrate the offsets to the new position
+ * @couple_panes: Scroll scroll dynamic panes back to bounds if target
  *                 is in frozen segment.
  *
  * Ensure that cell (col, row) is visible.
@@ -2424,7 +2459,7 @@ scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 
 /**
  * scg_mode_edit:
- * @sc:  The sheet control
+ * @scg:  The sheet control
  *
  * Put @sheet into the standard state 'edit mode'.  This shuts down
  * any object editing and frees any objects that are created but not
@@ -2493,7 +2528,7 @@ calc_obj_place (GnmPane *pane, gint64 canvas_coord, gboolean is_col,
 /**
  * scg_object_select
  * @scg: The #SheetControl to edit in.
- * @so : The #SheetObject to select.
+ * @so: The #SheetObject to select.
  *
  * Adds @so to the set of selected objects and prepares it for user editing.
  * Adds a reference to @ref if it is selected.
@@ -3436,11 +3471,11 @@ scg_rangesel_extend (SheetControlGUI *scg, int n,
 /**
  * scg_cursor_move:
  *
- * @scg    : The scg
- * @count  : Number of units to move the cursor
+ * @scg: The scg
+ * @dir: Number of units to move the cursor
  * @jump_to_bound: skip from the start to the end of ranges
  *                 of filled or unfilled cells.
- * @horiz  : is the movement horizontal or vertical
+ * @horiz: is the movement horizontal or vertical
  *
  * Moves the cursor count rows
  */
@@ -3657,13 +3692,12 @@ cb_scg_queued_movement (SheetControlGUI *scg)
 }
 
 /**
- * scg_queue_movement :
- *
- * @scg :
- * @handler :	The movement handler
- * @n :		how far
- * @jump :	TRUE jump to bound
- * @horiz :	TRUE move by cols
+ * scg_queue_movement:
+ * @scg:
+ * @handler: (scope async): The movement handler
+ * @n:		how far
+ * @jump:	TRUE jump to bound
+ * @horiz:	TRUE move by cols
  *
  * Do motion compression when possible to avoid redrawing an area that will
  * disappear when we scroll again.
@@ -3797,7 +3831,7 @@ scg_drag_receive_spreadsheet (SheetControlGUI *scg, const gchar *uri)
 	if (input != NULL) {
 		WorkbookView *wbv;
 
-		wbv = wb_view_new_from_input (input, uri, NULL, ioc, NULL);
+		wbv = workbook_view_new_from_input (input, uri, NULL, ioc, NULL);
 		if (wbv != NULL)
 			gui_wb_view_show (scg->wbcg,
 					  wbv);

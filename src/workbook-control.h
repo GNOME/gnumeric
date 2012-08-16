@@ -19,9 +19,9 @@ void  wb_control_set_view	   (WorkbookControl *wbc,
 void  wb_control_init_state	   (WorkbookControl *wbc);
 
 /* Create a new control of the same form */
-WorkbookControl *wb_control_wrapper_new (WorkbookControl *wbc,
-					 WorkbookView *wbv, Workbook *wb,
-					 void *extra);
+WorkbookControl *workbook_control_new_wrapper (WorkbookControl *wbc,
+                                               WorkbookView *wbv, Workbook *wb,
+                                               void *extra);
 
 void wb_control_style_feedback	     (WorkbookControl *wbc, GnmStyle const *changes);
 void wb_control_edit_line_set        (WorkbookControl *wbc, char const *text);

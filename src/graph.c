@@ -277,6 +277,12 @@ gnm_go_data_set_sheet (GOData *dat, Sheet *sheet)
 	dependent_set_sheet (dep, sheet);
 }
 
+/**
+ * gnm_go_data_get_sheet:
+ * @dat: #GOData
+ *
+ * Returns: (transfer none): the sheet.
+ **/
 Sheet *
 gnm_go_data_get_sheet (GOData const *dat)
 {
@@ -294,6 +300,14 @@ gnm_go_data_get_expr (GOData const *dat)
 	return dep->texpr;
 }
 
+/**
+ * gnm_go_data_foreach_dep:
+ * @dat: #GOData
+ * @so: #SheetObject
+ * @func: (scope call):
+ * @user: user data.
+ *
+ **/
 void
 gnm_go_data_foreach_dep (GOData *dat, SheetObject *so,
 			 SheetObjectForeachDepFunc func, gpointer user)

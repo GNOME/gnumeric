@@ -197,7 +197,13 @@ search_collect_cells_cb (GnmCellIter const *iter, gpointer user)
 	return NULL;
 }
 
-/* Collect a list of all cells subject to search.  */
+/**
+ * gnm_search_collect_cells:
+ * @sr: #GnmSearchReplace
+ *
+ * Collect a list of all cells subject to search.
+ * Returns: (element-type GnmEvalPos) (transfer full): the newly created array.
+ **/
 GPtrArray *
 gnm_search_collect_cells (GnmSearchReplace *sr)
 {
@@ -253,11 +259,13 @@ gnm_search_collect_cells_free (GPtrArray *cells)
 }
 
 /* ------------------------------------------------------------------------- */
-/*
- * sr: The search spec.
- * cells: An array of GnmEvalPos*, presumably a result of gnm_search_collect_cells.
+/**
+ * gnm_search_filter_matching:
+ * @sr: The search spec.
+ * @cells: An array of GnmEvalPos*, presumably a result of gnm_search_collect_cells.
  *
- * Returns an array of GnmSearchFilterResult*s, which the caller must free.
+ * Returns: (element-type GnmSearchReplace) (transfer full): an array of
+ * GnmSearchFilterResult*s, which the caller must free.
  */
 
 GPtrArray *

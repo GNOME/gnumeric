@@ -497,7 +497,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		if (constp) {
 			vals0 = g_memdup (vals0, sizeof(gnm_float) * n0);
 			vals1 = g_memdup (vals1, sizeof(gnm_float) * n0);
-			constp = FALSE;	
+			constp = FALSE;
 		}
 		while (switched) {
 			gnm_float *val;

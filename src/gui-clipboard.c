@@ -151,7 +151,7 @@ text_to_cell_region (WBCGtk *wbcg,
 	if (oneline) {
 		GODateConventions const *date_conv = workbook_date_conv (wb);
 		GnmCellCopy *cc = gnm_cell_copy_new (
-			(cr = cellregion_new (NULL)), 0, 0);
+			(cr = gnm_cell_region_new (NULL)), 0, 0);
 		char *tmp = g_strndup (data, data_len);
 
 		g_free (data_converted);
@@ -172,13 +172,13 @@ text_to_cell_region (WBCGtk *wbcg,
 		if (dialogresult != NULL) {
 			cr = stf_parse_region (dialogresult->parseoptions,
 					       dialogresult->text, NULL, wb);
-			g_return_val_if_fail (cr != NULL, cellregion_new (NULL));
+			g_return_val_if_fail (cr != NULL, gnm_cell_region_new (NULL));
 
 			stf_dialog_result_attach_formats_to_cr (dialogresult, cr);
 
 			stf_dialog_result_free (dialogresult);
 		} else
-			cr = cellregion_new (NULL);
+			cr = gnm_cell_region_new (NULL);
 	}
 
 	return cr;
@@ -279,7 +279,7 @@ utf8_content_received (GtkClipboard *clipboard,  const gchar *text,
  * as well, but the file_opener service makes workbooks, not sheets.
  *
  * We use the file_opener service by wrapping the selection data in a GsfInput,
- * and calling wb_view_new_from_input.
+ * and calling workbook_view_new_from_input.
  **/
 static GnmCellRegion *
 table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
@@ -299,7 +299,7 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 
 	ioc = go_io_context_new (GO_CMD_CONTEXT (wbc));
 	input = gsf_input_memory_new (buffer, length, FALSE);
-	wb_view = wb_view_new_from_input  (input, NULL, reader, ioc, NULL);
+	wb_view = workbook_view_new_from_input  (input, NULL, reader, ioc, NULL);
 	if (go_io_error_occurred (ioc) || wb_view == NULL) {
 		go_io_error_display (ioc);
 		goto out;

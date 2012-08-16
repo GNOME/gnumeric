@@ -9,7 +9,7 @@
 G_BEGIN_DECLS
 
 #ifdef GNM_WITH_LONG_DOUBLE
-#define complex_t go_complexl
+#define complex_t GOComplexl
 #define complex_init go_complex_initl
 #define complex_add go_complex_addl
 #define complex_sub go_complex_subl
@@ -31,7 +31,7 @@ G_BEGIN_DECLS
 #define complex_to_polar go_complex_to_polarl
 #define complex_from_polar go_complex_from_polarl
 #else
-#define complex_t go_complex
+#define complex_t GOComplex
 #define complex_init go_complex_init
 #define complex_add go_complex_add
 #define complex_sub go_complex_sub

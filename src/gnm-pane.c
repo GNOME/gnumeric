@@ -1676,7 +1676,7 @@ cb_pane_sliding (GnmPane *pane)
  * @pane: The GnmPane managing the scroll
  * @canvas: The Canvas the event comes from
  * @slide_flags:
- * @handler: The handler when sliding
+ * @handler: (scope call): The handler when sliding
  * @user_data: closure data
  *
  * Handle a motion event from a @canvas and scroll the @pane
@@ -1919,6 +1919,13 @@ gnm_pane_object_autoscroll (GnmPane *pane, GdkDragContext *context,
 		cb_pane_sliding (pane);
 }
 
+/**
+ * gnm_pane_object_group:
+ * @pane: #GnmPane
+ *
+ * Returns: (transfer none): the #GocGroup including all #ShetObjectiew
+ * instances in @pane.
+ **/
 GocGroup *
 gnm_pane_object_group (GnmPane *pane)
 {
@@ -3019,6 +3026,7 @@ cb_bounds_changed (SheetObject *so, GocItem *sov)
  * @selectable: Add handlers for selecting and editing the object
  *
  * Setup some standard callbacks for manipulating a view of a sheet object.
+ * Returns: (transfer none): @view set to a #SheetObjectView.
  **/
 SheetObjectView *
 gnm_pane_object_register (SheetObject *so, GocItem *view, gboolean selectable)

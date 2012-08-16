@@ -139,7 +139,7 @@ dialog_insert_cells (WBCGtk *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, INSERT_CELL_DIALOG_KEY))
 		return;
 
-	gui = gnm_gtk_builder_new ("insert-cells.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("insert-cells.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

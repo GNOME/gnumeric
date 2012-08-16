@@ -561,7 +561,17 @@ collect_floats_value (GnmValue const *val, GnmEvalPos const *ep,
 }
 
 /* ------------------------------------------------------------------------- */
-/* Like collect_floats_value, but keeps info on missing values */
+/**
+ * collect_floats_value_with_info:
+ * @val: #GnmValue
+ * @ep: #GnmEvalPos
+ * @flags: #CollectFlags
+ * @n:
+ * @info: (element-type void):
+ * @error:
+ *
+ * Like collect_floats_value, but keeps info on missing values
+ **/
 
 gnm_float *
 collect_floats_value_with_info (GnmValue const *val, GnmEvalPos const *ep,
@@ -584,6 +594,17 @@ collect_floats_value_with_info (GnmValue const *val, GnmEvalPos const *ep,
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * float_range_function:
+ * @arcg:
+ * @argv:
+ * @ei:
+ * @func: (scope call):
+ * @flags:
+ * @func_error:
+ *
+ * Returns: (transfer full):
+ **/
 GnmValue *
 float_range_function (int argc, GnmExprConstPtr const *argv,
 		      GnmFuncEvalInfo *ei,
@@ -612,16 +633,18 @@ float_range_function (int argc, GnmExprConstPtr const *argv,
 
 /* ------------------------------------------------------------------------- */
 
-/*
- *  gnm_slist_sort_merge:
- *  @list_1: a sorted list of ints with no duplicates
- *  @list_2: another one
+/**
+ * gnm_slist_sort_merge:
+ * @list_1: (element-type void): a sorted list of ints with no duplicates
+ * @list_2: (element-type void): another one
  *
- *  gnm_slist_sort_merge returns a new sorted list with all elements
- *  from both @list_1 and @list_2. Duplicates are destroyed. @list1 and @list2
- *  are not anymore valid afterwards since their elements are in the new list
- *  or have been destroyed, in case of duplicates.
- */
+ * gnm_slist_sort_merge returns a new sorted list with all elements
+ * from both @list_1 and @list_2. Duplicates are destroyed. @list1 and @list2
+ * are not anymore valid afterwards since their elements are in the new list
+ * or have been destroyed, in case of duplicates.
+ *
+ * Returns: (element-type void) (transfer container): the new list.
+ **/
 
 GSList *
 gnm_slist_sort_merge (GSList *l1,
@@ -653,12 +676,12 @@ gnm_slist_sort_merge (GSList *l1,
 }
 
 
-/*
- *  gnm_strip_missing:
- *  @data:
- *  @missing:
+/**
+ * gnm_strip_missing:
+ * @data:
+ * @missing: (element-type void):
  *
- */
+ **/
 void
 gnm_strip_missing (gnm_float *data, int *n, GSList *missing)
 {
@@ -835,6 +858,17 @@ collect_float_pairs (GnmValue const *vx, GnmValue const *vy,
 	}
 }
 
+/**
+ * float_range_function2d:
+ * @arcg:
+ * @argv:
+ * @ei:
+ * @func: (scope call):
+ * @flags:
+ * @func_error:
+ *
+ * Returns: (transfer full):
+ **/
 GnmValue *
 float_range_function2d (GnmValue const *val0, GnmValue const *val1,
 			GnmFuncEvalInfo *ei,
@@ -869,6 +903,17 @@ float_range_function2d (GnmValue const *val0, GnmValue const *val1,
 	return res;
 }
 
+/**
+ * float_range_function2:
+ * @arcg:
+ * @argv:
+ * @ei:
+ * @func: (scope call):
+ * @flags:
+ * @func_error:
+ *
+ * Returns: (transfer full):
+ **/
 GnmValue *
 float_range_function2 (GnmValue const *val0, GnmValue const *val1,
 		       GnmFuncEvalInfo *ei,
@@ -961,6 +1006,17 @@ collect_strings (int argc, GnmExprConstPtr const *argv,
 	return cl.data;
 }
 
+/**
+ * string_range_function:
+ * @argc:
+ * @argv:
+ * @ei:
+ * @func: (scope call):
+ * @flags:
+ * @func_error:
+ *
+ * Returns: (transfer full):
+ **/
 GnmValue *
 string_range_function (int argc, GnmExprConstPtr const *argv,
 		       GnmFuncEvalInfo *ei,

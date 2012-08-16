@@ -397,12 +397,25 @@ maybe_update_progress (GsfXMLIn *xin)
 	}
 }
 
+/**
+ * gnm_xml_in_cur_obj:
+ * @xin: #GsfXMLIn
+ *
+ * Returns: (transfer none): the current sheet object.
+ **/
 SheetObject *
 gnm_xml_in_cur_obj (GsfXMLIn const *xin)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	return state->so;
 }
+
+/**
+ * gnm_xml_in_cur_sheet:
+ * @xin: #GsfXMLIn
+ *
+ * Returns: (transfer none): the current sheet.
+ **/
 Sheet *
 gnm_xml_in_cur_sheet (GsfXMLIn const *xin)
 {
@@ -3102,7 +3115,7 @@ xml_sax_clipboardrange_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int cols = -1, rows = -1, base_col = -1, base_row = -1;
 	GnmCellRegion *cr;
 
-	cr = state->clipboard = cellregion_new (state->sheet);
+	cr = state->clipboard = gnm_cell_region_new (state->sheet);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_int (attrs, "Cols", &cols) ||
@@ -3506,6 +3519,14 @@ style_parser_done (GsfXMLIn *xin, XMLSaxParseState *old_state)
 	read_file_free_state (old_state, TRUE);
 }
 
+/**
+ * gnm_xml_prep_style_parser:
+ * @xin:
+ * @attrs:
+ * @handler: (scope call):
+ * @user: user data.
+ *
+ **/
 void
 gnm_xml_prep_style_parser (GsfXMLIn *xin,
 			   xmlChar const **attrs,

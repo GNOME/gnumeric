@@ -6,6 +6,8 @@
 
 G_BEGIN_DECLS
 
+GType gnm_cell_pos_get_type (void); /* boxed type */
+
 struct _GnmEvalPos {
 	GnmCellPos		  eval;
 	Sheet			 *sheet;
@@ -26,6 +28,7 @@ struct _GnmParsePos {
 #define eval_sheet(a,b)     (((a) != NULL) ? (a) : (b))
 
 /* Initialization routines for Evaluation Positions */
+GType        gnm_eval_pos_get_type (void); /* Boxed type */
 GnmEvalPos  *eval_pos_init	   (GnmEvalPos *ep, Sheet *s, int col, int row);
 GnmEvalPos  *eval_pos_init_pos	   (GnmEvalPos *ep, Sheet *s, GnmCellPos const *pos);
 GnmEvalPos  *eval_pos_init_dep	   (GnmEvalPos *ep, GnmDependent const *dep);
@@ -35,6 +38,7 @@ GnmEvalPos  *eval_pos_init_sheet   (GnmEvalPos *ep, Sheet const *sheet);
 #define      eval_pos_is_array_context(ep) ((ep)->array != NULL)
 
 /* Initialization routines for Parse Positions */
+GType        gnm_parse_pos_get_type (void); /* Boxed type */
 GnmParsePos *parse_pos_init         (GnmParsePos *pp, Workbook *wb,
 				     Sheet const *sheet, int col, int row);
 GnmParsePos *parse_pos_init_dep	    (GnmParsePos *pp, GnmDependent const *dep);
@@ -56,6 +60,7 @@ struct _GnmRangeRef {
 	GnmCellRef a, b;
 };
 
+GType       gnm_cellref_get_type   (void); /* Boxed type */
 GnmCellRef *gnm_cellref_init       (GnmCellRef *ref, Sheet *sheet,
 				    int col, int row, gboolean rel);
 gboolean    gnm_cellref_equal	   (GnmCellRef const *a, GnmCellRef const *b);
@@ -69,6 +74,7 @@ void        gnm_cellref_set_row_ar (GnmCellRef *cr, GnmParsePos const *pp,
 int         gnm_cellref_get_col	   (GnmCellRef const *cr, GnmEvalPos const *ep);
 int         gnm_cellref_get_row	   (GnmCellRef const *cr, GnmEvalPos const *ep);
 
+GType        gnm_rangeref_get_type (void); /* Boxed type */
 gboolean     gnm_rangeref_equal	   (GnmRangeRef const *a, GnmRangeRef const *b);
 guint	     gnm_rangeref_hash	   (GnmRangeRef const *cr);
 GnmRangeRef *gnm_rangeref_dup	   (GnmRangeRef const *cr);

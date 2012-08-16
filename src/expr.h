@@ -49,6 +49,7 @@ typedef enum {
 #define GNM_EXPR_OP_ANY_UNARY GNM_EXPR_OP_PAREN: case GNM_EXPR_OP_UNARY_NEG: case GNM_EXPR_OP_UNARY_PLUS: case GNM_EXPR_OP_PERCENTAGE
 
 GType          gnm_expr_get_type        (void);
+GType	       gnm_expr_array_corner_get_type (void); /* boxed type */
 GnmExpr const *gnm_expr_new_constant	(GnmValue *v);
 GnmExpr const *gnm_expr_new_unary	(GnmExprOp op, GnmExpr const *e);
 GnmExpr const *gnm_expr_new_binary	(GnmExpr const *l, GnmExprOp op,

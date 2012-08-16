@@ -175,7 +175,7 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, ZOOM_DIALOG_KEY))
 		return;
-	gui = gnm_gtk_builder_new ("dialog-zoom.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("dialog-zoom.ui", NULL, GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

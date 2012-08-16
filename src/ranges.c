@@ -161,7 +161,8 @@ range_parse (GnmRange *r, char const *text, GnmSheetSize const *ss)
 
 /**
  * range_list_destroy:
- * @ranges: a list of value ranges to destroy.
+ * @ranges: (element-type GnmValue) (transfer full):  a list of value ranges
+ * to destroy.
  *
  * Destroys a list of ranges returned from parse_cell_range_list
  **/
@@ -265,7 +266,7 @@ range_contained (GnmRange const *a, GnmRange const *b)
  * overlapping remainder of soft as the first list item
  * ( the central region in the pathalogical case ).
  *
- * Return value: A list of fragments.
+ * Returns: (element-type GnmRange) (transfer full): A list of fragments.
  **/
 GSList *
 range_split_ranges (GnmRange const *hard, GnmRange const *soft)
@@ -428,7 +429,7 @@ range_split_ranges (GnmRange const *hard, GnmRange const *soft)
  *
  * Copies the @r range.
  *
- * Return value: A copy of the GnmRange.
+ * Returns: (transfer full): A copy of the GnmRange.
  **/
 GnmRange *
 gnm_range_dup (GnmRange const *a)
@@ -445,8 +446,8 @@ gnm_range_dup (GnmRange const *a)
  *
  * Fragments the ranges into totaly non-overlapping regions,
  *
- * Return value: A list of fragmented ranges or at minimum
- * simply a and b.
+ * Returns: (element-type GnmRange) (transfer full): A list of fragmented
+ * ranges or at minimum simply a and b.
  **/
 GSList *
 range_fragment (GnmRange const *a, GnmRange const *b)
@@ -498,7 +499,7 @@ range_intersection (GnmRange *r, GnmRange const *a, GnmRange const *b)
 
 /**
  * range_normalize:
- * @r: a range
+ * @src: a range
  *
  * Ensures that start <= end for rows and cols.
  **/
@@ -708,7 +709,7 @@ range_is_sane (GnmRange const *range)
  * range_transpose:
  * @range: The range.
  * @sheet: the sheet in which @range lives
- * @boundary: The box to transpose inside
+ * @origin: The box to transpose inside
  *
  *   Effectively mirrors the ranges in 'boundary' around a
  * leading diagonal projected from offset.
@@ -966,7 +967,7 @@ range_list_name_try (GString *names, char const *sheet, GSList const *ranges)
 /**
  * undo_range_list_name:
  * @sheet:
- * @ranges: GSList containing GnmRange *'s
+ * @ranges: (element-type GnmRange): GSList containing GnmRange *'s
  *
  * Returns the range list name depending on the preference setting.
  * (The result will be something like: "A1:C3, D4:E5"). The string will be
@@ -1065,6 +1066,16 @@ global_range_list_parse (Sheet *sheet, char const *str)
 	return g_slist_reverse (ranges);
 }
 
+/**
+ * global_range_list_foreach:
+ * @gr_list: (element-type GnmRange): list of ranges.
+ * @ep:
+ * @flags:
+ * @handler: (scope call):
+ * @closure: user data.
+ *
+ * Returns: (transfer none):
+ **/
 GnmValue *
 global_range_list_foreach (GSList *gr_list, GnmEvalPos const *ep,
 			   CellIterFlags flags,

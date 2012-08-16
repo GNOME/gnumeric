@@ -67,6 +67,19 @@ gnm_scenario_item_dup (GnmScenarioItem *src)
 	return dst;
 }
 
+GType
+gnm_scenario_item_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmScenarioItem",
+			 (GBoxedCopyFunc)gnm_scenario_item_dup,
+			 (GBoxedFreeFunc)gnm_scenario_item_free);
+	}
+	return t;
+}
+
 void
 gnm_scenario_item_set_range (GnmScenarioItem *sci, const GnmSheetRange *sr)
 {
@@ -148,7 +161,7 @@ gnm_scenario_new (char const *name, Sheet *sheet)
 
 /**
  * gnm_scenario_dup:
- * @src: #GnmScenario
+ * @sc: #GnmScenario
  * @new_sheet: #Sheet
  *
  * Returns: (transfer full): the duplicated scenario.

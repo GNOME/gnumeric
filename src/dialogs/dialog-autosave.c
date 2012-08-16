@@ -124,7 +124,7 @@ dialog_autosave (WBCGtk *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, AUTOSAVE_KEY))
 		return;
-	gui = gnm_gtk_builder_new ("autosave.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("autosave.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

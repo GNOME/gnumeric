@@ -61,6 +61,49 @@ static GOMemChunk *cell_copy_pool;
 #define CHUNK_FREE(p,v) g_free ((v))
 #endif
 
+/* creating a boxed type for GnmCellCopy (needed by introspection) */
+static gpointer
+pointer_dup (gpointer *cc)
+{
+	return cc;
+}
+
+GType
+gnm_cell_copy_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmCellCopy",
+			 (GBoxedCopyFunc)pointer_dup,
+			 (GBoxedFreeFunc)pointer_dup);
+	}
+	return t;
+}
+
+/* creating a boxed type for GnmPasteTarget (needed by introspection) */
+
+static GnmPasteTarget *
+gnm_paste_target_copy (GnmPasteTarget *pt)
+{
+	GnmPasteTarget *res = g_new (GnmPasteTarget, 1);
+	memcpy (res, pt, sizeof (GnmPasteTarget));
+	return res;
+}
+
+GType
+gnm_paste_target_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmPasteTarget",
+			 (GBoxedCopyFunc)gnm_paste_target_copy,
+			 (GBoxedFreeFunc)g_free);
+	}
+	return t;
+}
+
 static gboolean
 cell_has_expr_or_number_or_blank (GnmCell const * cell)
 {
@@ -647,7 +690,7 @@ clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (range_is_sane (r), NULL);
 
-	cr = cellregion_new (sheet);
+	cr = gnm_cell_region_new (sheet);
 	cr->base = r->start;
 	cr->cols = range_width (r);
 	cr->rows = range_height (r);
@@ -693,7 +736,13 @@ cb_clipboard_copy_range_undo (GnmCellRegion *cr, GnmSheetRange *sr,
 		 cc);
 }
 
-
+/**
+ * clipboard_copy_range_undo:
+ * @sheet: #Sheet
+ * @r: #GnmRange
+ *
+ * Returns: (transfer full):
+ **/
 GOUndo *
 clipboard_copy_range_undo (Sheet *sheet, GnmRange const *r)
 {
@@ -709,7 +758,7 @@ clipboard_copy_range_undo (Sheet *sheet, GnmRange const *r)
 /**
  * clipboard_copy_obj:
  * @sheet: #Sheet
- * @objects: #GSList
+ * @objects: (element-type SheetObject): #GSList
  *
  * Returns a cell region with copies of objects in list.  Caller is responsible
  *	for cellregion_unref-ing the result.
@@ -729,7 +778,7 @@ clipboard_copy_obj (Sheet *sheet, GSList *objects)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (objects != NULL, NULL);
 
-	cr = cellregion_new (sheet);
+	cr = gnm_cell_region_new (sheet);
 	for (ptr = objects ; ptr != NULL ; ptr = ptr->next)
 		if (NULL != (so = sheet_object_dup (ptr->data))) {
 			anchor = sheet_object_get_anchor (so);
@@ -770,13 +819,13 @@ paste_target_init (GnmPasteTarget *pt, Sheet *sheet, GnmRange const *r, int flag
 }
 
 /**
- * cellregion_new :
+ * gnm_cell_region_new :
  * @origin_sheet : optionally NULL.
  *
  * A convenience routine to create CellRegions and init the flags nicely.
  */
 GnmCellRegion *
-cellregion_new (Sheet *origin_sheet)
+gnm_cell_region_new (Sheet *origin_sheet)
 {
 	GnmCellRegion *cr = g_new0 (GnmCellRegion, 1);
 	cr->origin_sheet	= origin_sheet;
@@ -842,6 +891,19 @@ cellregion_unref (GnmCellRegion *cr)
 	}
 
 	g_free (cr);
+}
+
+GType
+gnm_cell_region_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmCellRegion",
+			 (GBoxedCopyFunc)cellregion_ref,
+			 (GBoxedFreeFunc)cellregion_unref);
+	}
+	return t;
 }
 
 static GnmCellCopy *

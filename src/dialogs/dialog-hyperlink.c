@@ -581,7 +581,7 @@ dialog_hyperlink (WBCGtk *wbcg, SheetControl *sc)
 	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
 		return;
 
-	gui = gnm_gtk_builder_new ("hyperlink.ui", NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_gtk_builder_load ("hyperlink.ui", NULL, GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

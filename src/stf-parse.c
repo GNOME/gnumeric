@@ -158,6 +158,7 @@ stf_parse_options_new (void)
 
 	parseoptions->cols_exceeded = FALSE;
 	parseoptions->rows_exceeded = FALSE;
+	parseoptions->ref_count = 1;
 
 	return parseoptions;
 }
@@ -172,6 +173,9 @@ void
 stf_parse_options_free (StfParseOptions_t *parseoptions)
 {
 	g_return_if_fail (parseoptions != NULL);
+
+	if (parseoptions->ref_count-- > 1)
+		return;
 
 	g_free (parseoptions->col_import_array);
 	g_free (parseoptions->col_autofit_array);
@@ -201,6 +205,26 @@ stf_parse_options_free (StfParseOptions_t *parseoptions)
 	}
 
 	g_free (parseoptions);
+}
+
+static StfParseOptions_t *
+stf_parse_options_ref (StfParseOptions_t *parseoptions)
+{
+	parseoptions->ref_count++;
+	return parseoptions;
+}
+
+GType
+stf_parse_options_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("StfParseOptions_t",
+			 (GBoxedCopyFunc)stf_parse_options_ref,
+			 (GBoxedFreeFunc)stf_parse_options_free);
+	}
+	return t;
 }
 
 void
@@ -286,6 +310,9 @@ stf_parse_options_set_trim_spaces (StfParseOptions_t *parseoptions, StfTrimType_
 
 /**
  * stf_parse_options_csv_set_separators:
+ * @parseoptions: #StfParseOptions_t
+ * @character:
+ * @string: (element-type char):
  *
  * A copy is made of the parameters.
  **/
@@ -312,7 +339,7 @@ stf_parse_options_csv_set_stringindicator (StfParseOptions_t *parseoptions, guni
 
 /**
  * stf_parse_options_csv_set_indicator_2x_is_single:
- * @indic_2x : a boolean value indicating whether we want to see two
+ * @indic_2x: a boolean value indicating whether we want to see two
  *		adjacent string indicators as a single string indicator
  *		that is part of the cell, rather than a terminator.
  **/
@@ -327,7 +354,8 @@ stf_parse_options_csv_set_indicator_2x_is_single (StfParseOptions_t *parseoption
 
 /**
  * stf_parse_options_csv_set_duplicates:
- * @duplicates : a boolean value indicating whether we want to see two
+ * @pareseoptions:
+ * @duplicates: a boolean value indicating whether we want to see two
  *               separators right behind each other as one
  **/
 void
@@ -340,7 +368,7 @@ stf_parse_options_csv_set_duplicates (StfParseOptions_t *parseoptions, gboolean 
 
 /**
  * stf_parse_options_csv_set_trim_seps:
- * @trim_seps : a boolean value indicating whether we want to ignore
+ * @trim_seps: a boolean value indicating whether we want to ignore
  *               separators at the beginning of lines
  **/
 void
@@ -797,7 +825,7 @@ stf_parse_general_free (GPtrArray *lines)
 /**
  * stf_parse_general:
  *
- * Returns a GPtrArray of lines, where each line is itself a
+ * Returns: (transfer full): a GPtrArray of lines, where each line is itself a
  * GPtrArray of strings.
  *
  * The caller must free this entire structure, for example by calling
@@ -850,6 +878,20 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 	return lines;
 }
 
+/**
+ * stf_parse_lines:
+ * @parseoptions: #StfParseOptions_t
+ * @lines_chunk:
+ * @data:
+ * @maxlines:
+ * @with_lineno:
+ *
+ * Returns: (transfer full): a GPtrArray of lines, where each line is itself a
+ * GPtrArray of strings.
+ *
+ * The caller must free this entire structure, for example by calling
+ * stf_parse_general_free.
+ **/
 GPtrArray *
 stf_parse_lines (StfParseOptions_t *parseoptions,
 		 GStringChunk *lines_chunk,
@@ -918,8 +960,8 @@ stf_parse_find_line (StfParseOptions_t *parseoptions,
 /**
  * stf_parse_options_fixed_autodiscover:
  * @parseoptions: a Parse options struct.
- * @data_lines : The number of lines to look at in @data.
- * @data : The actual data.
+ * @data: The actual data.
+ * @data_end: data end.
  *
  * Automatically try to discover columns in the text to be parsed.
  * We ignore empty lines (only containing parseoptions->terminator)
@@ -1353,7 +1395,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 
 	START_LOCALE_SWITCH;
 
-	cr = cellregion_new (NULL);
+	cr = gnm_cell_region_new (NULL);
 
 	if (!data_end)
 		data_end = data + strlen (data);
@@ -1488,7 +1530,12 @@ dump_guessed_options (const StfParseOptions_t *res)
 	g_printerr ("\n");
 }
 
-
+/**
+ * stf_parse_options_guess:
+ * @data: the input data.
+ *
+ * Returns: (transfer full): the guessed options.
+ **/
 StfParseOptions_t *
 stf_parse_options_guess (char const *data)
 {
@@ -1567,7 +1614,12 @@ stf_parse_options_guess (char const *data)
 	return res;
 }
 
-
+/**
+ * stf_parse_options_guess_csv:
+ * @data: the CSV input data.
+ *
+ * Returns: (transfer full): the guessed options.
+ **/
 StfParseOptions_t *
 stf_parse_options_guess_csv (char const *data)
 {

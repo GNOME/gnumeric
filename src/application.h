@@ -80,11 +80,13 @@ typedef struct {
 	gpointer    user_data;
 } GnmAppExtraUI;
 
+GType      gnm_action_get_type (void);
 GnmAction *gnm_action_new  (char const *name, char const *label,
 			    char const *icon, gboolean always_available,
 			    GnmActionHandler handler);
 void	   gnm_action_free (GnmAction *action);
 
+GType      gnm_app_extra_ui_get_type (void);
 GnmAppExtraUI *gnm_app_add_extra_ui (char const *group_name,
 				     GSList *actions, const char *layout,
 				     char const *domain,

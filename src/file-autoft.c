@@ -199,6 +199,13 @@ add_dir (GSList **pl, const char *dir, const char *base_dir)
 	*pl = g_slist_prepend (*pl, dirc);
 }
 
+/**
+ * category_group_list_get:
+ *
+ * Returns: (element-type FormatTemplateCategoryGroup) (transfer full):
+ * the list of #FormatTemplateCategoryGroup which should be freed using
+ * category_group_list_free().
+ **/
 GList *
 category_group_list_get (void)
 {
@@ -251,6 +258,11 @@ category_group_list_get (void)
 }
 
 
+/**
+ * category_group_list_free:
+ * @category_groups: (element-type FormatTemplateCategoryGroup): the fist to free.
+ *
+ **/
 void
 category_group_list_free (GList *groups)
 {
@@ -266,6 +278,13 @@ category_group_list_free (GList *groups)
 	g_list_free (groups);
 }
 
+/**
+ * category_group_get_templates_list:
+ * @category_group: #FormatTemplateCategoryGroup
+ * @context: #GOCmdContext
+ *
+ * Returns: (element-type FormatTemplate) (transfer container):
+ **/
 GSList *
 category_group_get_templates_list (FormatTemplateCategoryGroup *category_group,
 				   GOCmdContext *cc)

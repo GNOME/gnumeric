@@ -31,9 +31,62 @@
 #include "cell.h"
 #include "value.h"
 #include "ranges.h"
+#include <string.h>
 #include "workbook.h"
 
+/* GnmCellPos made a boxed type */
+static GnmCellPos *
+gnm_cell_pos_dup (GnmCellPos *pos)
+{
+	GnmCellPos *res = g_new (GnmCellPos, 1);
+	*res = *pos;
+	return res;
+}
 
+GType
+gnm_cell_pos_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmCellPos",
+			 (GBoxedCopyFunc)gnm_cell_pos_dup,
+			 (GBoxedFreeFunc)g_free);
+	}
+	return t;
+}
+
+/* GnmEvalPos made a boxed type */
+static GnmEvalPos *
+gnm_eval_pos_dup (GnmEvalPos *ep)
+{
+	GnmEvalPos *res = g_new0 (GnmEvalPos, 1);
+	memcpy (res, ep, sizeof (GnmEvalPos)); /* is this safe? */
+	return res;
+}
+
+GType
+gnm_eval_pos_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmEvalPos",
+			 (GBoxedCopyFunc)gnm_eval_pos_dup,
+			 (GBoxedFreeFunc)g_free);
+	}
+	return t;
+}
+
+/**
+ * eval_pos_init:
+ * @ep: (transfer full): The position to init.
+ * @s: #Sheet
+ * @col: column.
+ * @row: row
+ *
+ * Returns: (transfer full): the initialized #GnmEvalPos (@ep).
+ **/
 GnmEvalPos *
 eval_pos_init (GnmEvalPos *ep, Sheet *sheet, int col, int row)
 {
@@ -49,6 +102,14 @@ eval_pos_init (GnmEvalPos *ep, Sheet *sheet, int col, int row)
 	return ep;
 }
 
+/**
+ * eval_pos_init_pos:
+ * @ep: (transfer full): The position to init.
+ * @s: #Sheet
+ * @pos: #GnmCellPos
+ *
+ * Returns: (transfer full): the initialized #GnmEvalPos (@ep).
+ **/
 GnmEvalPos *
 eval_pos_init_pos (GnmEvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
 {
@@ -64,6 +125,13 @@ eval_pos_init_pos (GnmEvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
 	return ep;
 }
 
+/**
+ * eval_pos_init_dep:
+ * @ep: (transfer full): The position to init.
+ * @dep:
+ *
+ * Returns: (transfer full): the initialized #GnmEvalPos (@ep).
+ **/
 GnmEvalPos *
 eval_pos_init_dep (GnmEvalPos *ep, GnmDependent const *dep)
 {
@@ -82,16 +150,14 @@ eval_pos_init_dep (GnmEvalPos *ep, GnmDependent const *dep)
 }
 
 /**
- * eval_pos_init_editpos :
- *
- * @ep : The position to init.
- * @sv : Sheetview
+ * eval_pos_init_editpos:
+ * @ep: (transfer full): The position to init.
+ * @sv: @Sheetview
  *
  * The function initializes an evalpos with the edit position from the
  * given sheetview.
- *
- * Returns @ep
- */
+ * Returns: (transfer full): the initialized #GnmEvalPos (@ep).
+ **/
 GnmEvalPos *
 eval_pos_init_editpos (GnmEvalPos *ep, SheetView const *sv)
 {
@@ -103,14 +169,13 @@ eval_pos_init_editpos (GnmEvalPos *ep, SheetView const *sv)
 }
 
 /**
- * eval_pos_init_cell :
- *
- * @ep : The position to init.
- * @cell : A cell
+ * eval_pos_init_cell:
+ * @ep: (transfer full): The position to init.
+ * @cell: A cell
  *
  * The function initializes an evalpos with the given cell
  *
- * Returns @ep
+ * Returns: (transfer full): the initialized #GnmEvalPos (@ep).
  */
 GnmEvalPos *
 eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
@@ -126,6 +191,15 @@ eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
 	return ep;
 }
 
+/**
+ * eval_pos_init_cell:
+ * @ep: (transfer full): The position to init.
+ * @cell: A cell
+ *
+ * The function initializes an evalpos with the given sheet.
+ *
+ * Returns: (transfer full): the initialized #GnmEvalPos (@ep).
+ */
 GnmEvalPos *
 eval_pos_init_sheet (GnmEvalPos *ep, Sheet const *sheet)
 {
@@ -141,17 +215,39 @@ eval_pos_init_sheet (GnmEvalPos *ep, Sheet const *sheet)
 }
 
 
+static GnmParsePos *
+gnm_parse_pos_dup (GnmParsePos *ep)
+{
+	GnmParsePos *res = g_new0 (GnmParsePos, 1);
+	memcpy (res, ep, sizeof (GnmParsePos)); /* is this safe? */
+	return res;
+}
+
+GType
+gnm_parse_pos_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmParsePos",
+			 (GBoxedCopyFunc)gnm_parse_pos_dup,
+			 (GBoxedFreeFunc)g_free);
+	}
+	return t;
+}
+
 /*
- * parse_pos_init :
+ * parse_pos_init:
  *
- * @pp : The position to init.
- * @sheet : The sheet being selected
- * @wb : The workbook being selected.
- * @row :
- * @col :
+ * @pp: (transfer full): The position to init.
+ * @sheet: The sheet being selected
+ * @wb: The workbook being selected.
+ * @row:
+ * @col:
  *
  * Use either a sheet (preferred) or a workbook to initialize the supplied
  * ParsePosition.
+ * Returns: (transfer full): the initialized #GnmParsePos (@pp).
  */
 GnmParsePos *
 parse_pos_init (GnmParsePos *pp, Workbook *wb, Sheet const *sheet,
@@ -172,10 +268,11 @@ parse_pos_init (GnmParsePos *pp, Workbook *wb, Sheet const *sheet,
 }
 
 /*
- * parse_pos_init_dep :
+ * parse_pos_init_dep:
+ * @pp: (transfer full): The position to init.
+ * @dep: The dependent
  *
- * @pp : The position to init.
- * @dep : The dependent
+ * Returns: (transfer full): the initialized #GnmParsePos (@pp).
  */
 GnmParsePos *
 parse_pos_init_dep (GnmParsePos *pp, GnmDependent const *dep)
@@ -192,6 +289,13 @@ parse_pos_init_dep (GnmParsePos *pp, GnmDependent const *dep)
 	return pp;
 }
 
+/*
+ * parse_pos_init_cell:
+ * @pp: (transfer full): The position to init.
+ * @cell: The cell
+ *
+ * Returns: (transfer full): the initialized #GnmParsePos (@pp).
+ */
 GnmParsePos *
 parse_pos_init_cell (GnmParsePos *pp, GnmCell const *cell)
 {
@@ -203,6 +307,13 @@ parse_pos_init_cell (GnmParsePos *pp, GnmCell const *cell)
 			       cell->pos.col, cell->pos.row);
 }
 
+/*
+ * parse_pos_init_evalpos:
+ * @pp: (transfer full): The position to init.
+ * @ep: #GnmEvalPos
+ *
+ * Returns: (transfer full): the initialized #GnmParsePos (@pp).
+ */
 GnmParsePos *
 parse_pos_init_evalpos (GnmParsePos *pp, GnmEvalPos const *ep)
 {
@@ -211,6 +322,13 @@ parse_pos_init_evalpos (GnmParsePos *pp, GnmEvalPos const *ep)
 	return parse_pos_init (pp, NULL, ep->sheet, ep->eval.col, ep->eval.row);
 }
 
+/*
+ * parse_pos_init_editpos:
+ * @pp: (transfer full): The position to init.
+ * @sv: sheet view
+ *
+ * Returns: (transfer full): the initialized #GnmParsePos (@pp).
+ */
 GnmParsePos *
 parse_pos_init_editpos (GnmParsePos *pp, SheetView const *sv)
 {
@@ -220,6 +338,13 @@ parse_pos_init_editpos (GnmParsePos *pp, SheetView const *sv)
 		sv->edit_pos.col, sv->edit_pos.row);
 }
 
+/*
+ * parse_pos_init_sheet:
+ * @pp: (transfer full): The position to init.
+ * @sheet: The sheet
+ *
+ * Returns: (transfer full): the initialized #GnmParsePos (@pp).
+ */
 GnmParsePos *
 parse_pos_init_sheet (GnmParsePos *pp, Sheet const *sheet)
 {
@@ -230,6 +355,27 @@ parse_pos_init_sheet (GnmParsePos *pp, Sheet const *sheet)
 
 /********************************************************************************/
 
+
+static GnmCellRef *
+gnm_cellref_dup (GnmCellRef *ep)
+{
+	GnmCellRef *res = g_new0 (GnmCellRef, 1);
+	memcpy (res, ep, sizeof (GnmCellRef)); /* is this safe? */
+	return res;
+}
+
+GType
+gnm_cellref_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmCellRef",
+			 (GBoxedCopyFunc)gnm_cellref_dup,
+			 (GBoxedFreeFunc)g_free);
+	}
+	return t;
+}
 GnmCellRef *
 gnm_cellref_init (GnmCellRef *ref, Sheet *sheet, int col, int row, gboolean relative)
 {
@@ -401,6 +547,19 @@ gnm_rangeref_dup (GnmRangeRef const *rr)
 	res = g_new (GnmRangeRef, 1);
 	*res = *rr;
 	return res;
+}
+
+GType
+gnm_rangeref_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GnmRangeRef",
+			 (GBoxedCopyFunc)gnm_rangeref_dup,
+			 (GBoxedFreeFunc)g_free);
+	}
+	return t;
 }
 
 /**
