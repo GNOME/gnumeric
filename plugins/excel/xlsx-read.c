@@ -3388,6 +3388,18 @@ xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	}
 }
 
+static void
+xlsx_webpub_begin (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (strcmp (attrs[0], "characterSet") == 0) {
+			XLSXReadState *state = (XLSXReadState *)xin->user_state;
+			state->version = ECMA_376_2008;
+		}
+}
+
+
+
 static GsfXMLInNode const xlsx_workbook_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "workbook", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, &xlsx_wb_end, 0),
@@ -3405,7 +3417,7 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "workbook", GSF_XML_NO_CONTENT,
     GSF_XML_IN_NODE (SHEETS, SHEET,	 XL_NS_SS, "sheet", GSF_XML_NO_CONTENT, &xlsx_sheet_begin, NULL),
   GSF_XML_IN_NODE (WORKBOOK, FGROUPS,	 XL_NS_SS, "functionGroups", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (FGROUPS, FGROUP,	 XL_NS_SS, "functionGroup", GSF_XML_NO_CONTENT, NULL, NULL),
-  GSF_XML_IN_NODE (WORKBOOK, WEB_PUB,	 XL_NS_SS, "webPublishing", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (WORKBOOK, WEB_PUB,	 XL_NS_SS, "webPublishing", GSF_XML_NO_CONTENT, xlsx_webpub_begin, NULL),
   GSF_XML_IN_NODE (WORKBOOK, EXTERNS,	 XL_NS_SS, "externalReferences", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (EXTERNS, EXTERN,	 XL_NS_SS, "externalReference", GSF_XML_NO_CONTENT, xlsx_wb_external_ref, NULL),
   GSF_XML_IN_NODE (WORKBOOK, NAMES,	 XL_NS_SS, "definedNames", GSF_XML_NO_CONTENT, NULL, xlsx_wb_names_end),
