@@ -207,7 +207,7 @@ gnm_named_expr_collection_new (void)
 void
 gnm_named_expr_collection_free (GnmNamedExprCollection *names)
 {
-	if (names != NULL && names->ref_count-- > 1) {
+	if (names != NULL && names->ref_count-- < 2) {
 		g_hash_table_destroy (names->names);
 		g_hash_table_destroy (names->placeholders);
 		g_free (names);
