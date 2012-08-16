@@ -11,6 +11,7 @@
 # Francisco Javier F. Serrador <fserrador@gmail.com>, 2006, 2011.
 # Sylvia Sánchez <LailahFSF@gmail.com>, 2011, 2012.
 # Juan Matías Olmos <colonizare@yahoo.com.ar>, 2012.
+# Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
 #
 msgid ""
@@ -18,31 +19,31 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-21 07:07+0000\n"
-"PO-Revision-Date: 2012-06-22 12:58+0200\n"
+"POT-Creation-Date: 2012-08-12 19:03+0000\n"
+"PO-Revision-Date: 2012-08-16 10:43+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
 msgid ""
 "EASTERSUNDAY:Easter Sunday in the Gregorian calendar according to the Roman "
 "rite of the Christian Church"
 msgstr ""
-"EASTERSUNDAY: domingo de Pascua en el calendario gregoriano de acuerdo con "
-"el rito romano de la iglesia cristiana"
+"EASTERSUNDAY:domingo de Pascua en el calendario gregoriano de acuerdo con el "
+"rito romano de la iglesia cristiana"
 
 #: ../plugins/fn-christian-date/functions.c:142
 msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Easter "
 "Sunday"
 msgstr ""
-"año: año entre 1582 y 9956, el predeterminado es el año del domingo de "
-"Pascua siguiente"
+"año:año entre 1582 y 9956, el predeterminado es el año del domingo de Pascua "
+"siguiente"
 
 #: ../plugins/fn-christian-date/functions.c:143
 #: ../plugins/fn-christian-date/functions.c:166
@@ -53,8 +54,8 @@ msgid ""
 "Two digit years are adjusted as elsewhere in Gnumeric. Dates before 1904 may "
 "also be prohibited."
 msgstr ""
-"Los dos dígitos de los años se ajustan como en todas partes de Gnumeric. "
-"También se pueden prohibir fechas anteriores a 1904."
+"Los años de dos dígitos se ajustan como en todas partes de Gnumeric. También "
+"se pueden prohibir fechas anteriores a 1904."
 
 #: ../plugins/fn-christian-date/functions.c:146
 msgid ""
@@ -69,7 +70,7 @@ msgid ""
 "ASHWEDNESDAY:Ash Wednesday in the Gregorian calendar according to the Roman "
 "rite of the Christian Church"
 msgstr ""
-"ASHWEDNESDAY: miércoles de Ceniza en el calendario gregoriano de acuerdo con "
+"ASHWEDNESDAY:miércoles de Ceniza en el calendario gregoriano de acuerdo con "
 "el rito romano de la iglesia cristiana"
 
 #: ../plugins/fn-christian-date/functions.c:165
@@ -77,7 +78,7 @@ msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Ash "
 "Wednesday"
 msgstr ""
-"año: año entre 1582 y 9956, el predeterminado es el año del miércoles de "
+"año:año entre 1582 y 9956, el predeterminado es el año del miércoles de "
 "Ceniza siguiente"
 
 #: ../plugins/fn-christian-date/functions.c:183
@@ -85,7 +86,7 @@ msgid ""
 "PENTECOSTSUNDAY:Pentecost Sunday in the Gregorian calendar according to the "
 "Roman rite of the Christian Church"
 msgstr ""
-"PENTECOSTSUNDAY: domingo de Pentecostés en el calendario gregoriano de "
+"PENTECOSTSUNDAY:domingo de Pentecostés en el calendario gregoriano de "
 "acuerdo al rito romano de la iglesia cristiana"
 
 #: ../plugins/fn-christian-date/functions.c:185
@@ -93,7 +94,7 @@ msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Pentecost "
 "Sunday"
 msgstr ""
-"año: año entre 1582 y 9956, el predeterminado es el año del domingo de "
+"año:año entre 1582 y 9956, el predeterminado es el año del domingo de "
 "Pentecostés siguiente"
 
 #: ../plugins/fn-christian-date/functions.c:202
@@ -101,14 +102,14 @@ msgid ""
 "GOODFRIDAY:Good Friday in the Gregorian calendar according to the Roman rite "
 "of the Christian Church"
 msgstr ""
-"GOODFRIDAY: viernes Santo en el calendario gregoriano de acuerdo con el rito "
+"GOODFRIDAY:viernes Santo en el calendario gregoriano de acuerdo con el rito "
 "romano de la iglesia cristiana"
 
 #: ../plugins/fn-christian-date/functions.c:204
 msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Good Friday"
 msgstr ""
-"año: año entre 1582 y 9956, el predeterminado es el año del viernes Santo "
+"año:año entre 1582 y 9956, el predeterminado es el año del viernes Santo "
 "siguiente"
 
 #: ../plugins/fn-christian-date/functions.c:221
@@ -116,34 +117,34 @@ msgid ""
 "ASCENSIONTHURSDAY:Ascension Thursday in the Gregorian calendar according to "
 "the Roman rite of the Christian Church"
 msgstr ""
-"ASCENSIONTHURSDAY: jueves de Ascensión en el calendario gregoriano de "
-"acuerdo con el rito romano de la iglesia cristiana"
+"ASCENSIONTHURSDAY:jueves de Ascensión en el calendario gregoriano de acuerdo "
+"con el rito romano de la iglesia cristiana"
 
 #: ../plugins/fn-christian-date/functions.c:223
 msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Ascension "
 "Thursday"
 msgstr ""
-"año: año entre 1582 y 9956, el predeterminado es el año del jueves de "
+"año:año entre 1582 y 9956, el predeterminado es el año del jueves de "
 "Ascensión siguiente"
 
 #: ../plugins/fn-complex/functions.c:81
 msgid "COMPLEX:a complex number of the form @{x} + @{y}@{i}"
-msgstr "COMPLEX: un número complejo de la forma @{x} + @{y}@{i}"
+msgstr "COMPLEX:un número complejo de la forma @{x} + @{y}@{i}"
 
 #: ../plugins/fn-complex/functions.c:82
 msgid "x:real part"
-msgstr "x: parte real"
+msgstr "x:parte real"
 
 #: ../plugins/fn-complex/functions.c:83
 msgid "y:imaginary part"
-msgstr "y: parte imaginaria"
+msgstr "y:parte imaginaria"
 
 #: ../plugins/fn-complex/functions.c:84
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
-"i: el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es «i»"
+"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es «i»"
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
@@ -271,7 +272,7 @@ msgstr "Esta función es compatible con Excel."
 
 #: ../plugins/fn-complex/functions.c:111
 msgid "IMAGINARY:the imaginary part of the complex number @{z}"
-msgstr "IMAGINARY: la parte imaginaria del número complejo @{z}"
+msgstr "IMAGINARY:la parte imaginaria del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:112 ../plugins/fn-complex/functions.c:139
 #: ../plugins/fn-complex/functions.c:163 ../plugins/fn-complex/functions.c:190
@@ -294,7 +295,7 @@ msgstr "IMAGINARY: la parte imaginaria del número complejo @{z}"
 #: ../plugins/fn-complex/functions.c:1051
 #: ../plugins/fn-complex/functions.c:1076
 msgid "z:a complex number"
-msgstr "z: un número complejo"
+msgstr "z:un número complejo"
 
 #: ../plugins/fn-complex/functions.c:113 ../plugins/fn-complex/functions.c:140
 #: ../plugins/fn-complex/functions.c:164 ../plugins/fn-complex/functions.c:191
@@ -321,35 +322,35 @@ msgstr "Si @{z} no es un número complejo válido, se devuelve #VALUE!."
 
 #: ../plugins/fn-complex/functions.c:138
 msgid "IMABS:the absolute value of the complex number @{z}"
-msgstr "IMABS: el valor absoluto del número complejo @{z}"
+msgstr "IMABS:el valor absoluto del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:162
 msgid "IMREAL:the real part of the complex number @{z}"
-msgstr "IMREAL: la parte real del número complejo @{z}"
+msgstr "IMREAL:la parte real del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:189
 msgid "IMCONJUGATE:the complex conjugate of the complex number @{z}"
-msgstr "IMCONJUGATE: el complejo conjugado del número complejo @{z}"
+msgstr "IMCONJUGATE:el complejo conjugado del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:214
 msgid "IMINV:the reciprocal, or inverse, of the complex number @{z}"
-msgstr "IMINV: el recíproco, o inverso, del número complejo @{z}"
+msgstr "IMINV:el recíproco, o inverso, del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:237
 msgid "IMNEG:the negative of the complex number @{z}"
-msgstr "IMNEG: el negativo del número complejo @{z}"
+msgstr "IMNEG:el negativo del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:260
 msgid "IMCOS:the cosine of the complex number @{z}"
-msgstr "IMCOS: el coseno del número complejo @{z}"
+msgstr "IMCOS:el coseno del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:286
 msgid "IMTAN:the tangent of the complex number @{z}"
-msgstr "IMTAN: la tangente del número complejo @{z}"
+msgstr "IMTAN:la tangente del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:312
 msgid "IMSEC:the secant of the complex number @{z}"
-msgstr "IMSEC: la secante del número complejo @{z}"
+msgstr "IMSEC:la secante del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:314
 msgid "IMSEC(@{z}) = 1/IMCOS(@{z})."
@@ -357,7 +358,7 @@ msgstr "IMSEC(@{z}) = 1/IMCOS(@{z})."
 
 #: ../plugins/fn-complex/functions.c:339
 msgid "IMCSC:the cosecant of the complex number @{z}"
-msgstr "IMCSC: la cosecante del número complejo @{z}"
+msgstr "IMCSC:la cosecante del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:341
 msgid "IMCSC(@{z}) = 1/IMSIN(@{z})."
@@ -365,7 +366,7 @@ msgstr "IMCSC(@{z}) = 1/IMSIN(@{z})."
 
 #: ../plugins/fn-complex/functions.c:365
 msgid "IMCOT:the cotangent of the complex number @{z}"
-msgstr "IMCOT: la cotangente del número complejo @{z}"
+msgstr "IMCOT:la cotangente del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:367
 msgid "IMCOT(@{z}) = IMCOS(@{z})/IMSIN(@{z})."
@@ -373,23 +374,23 @@ msgstr "IMCOT(@{z}) = IMCOS(@{z})/IMSIN(@{z})."
 
 #: ../plugins/fn-complex/functions.c:392
 msgid "IMEXP:the exponential of the complex number @{z}"
-msgstr "IMEXP: el exponencial del número complejo @{z}"
+msgstr "IMEXP:el exponencial del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:419
 msgid "IMARGUMENT:the argument theta of the complex number @{z} "
-msgstr "IMARGUMENT: el argumento theta del número complejo @{z} "
+msgstr "IMARGUMENT:el argumento theta del número complejo @{z} "
 
 #: ../plugins/fn-complex/functions.c:421
 msgid ""
 "The argument theta of a complex number is its angle in radians from the real "
 "axis."
 msgstr ""
-"El argumento theta de un número complejo es el ángulo, en radianes, desde el "
+"El argumento theta de un número complejo es su ángulo en radianes desde el "
 "eje real."
 
 #: ../plugins/fn-complex/functions.c:443
 msgid "IMLN:the natural logarithm of the complex number @{z}"
-msgstr "IMLN: el logaritmo natural del número complejo @{z}"
+msgstr "IMLN:el logaritmo natural del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:445
 msgid ""
@@ -398,77 +399,75 @@ msgid ""
 "need to add or subtract an even multiple of π to the imaginary part."
 msgstr ""
 "El resultado tendrá una parte imaginaria entre -π y +π.\n"
-"Los logaritmos naturales no están definidos de forma unívoca sobre los "
-"números complejos. Puede que necesite sumar o restar múltiplos de π a la "
-"parte imaginaria."
+"El logaritmo natural no se define únicamente en números complejos. Puede "
+"necesitar sumar o restar múltiplos de π a la parte imaginaria."
 
 #: ../plugins/fn-complex/functions.c:471
 msgid "IMLOG2:the base-2 logarithm of the complex number @{z}"
-msgstr "IMLOG2: el logaritmo en base 2 del número complejo @{z}"
+msgstr "IMLOG2:el logaritmo en base 2 del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:498
 msgid "IMLOG10:the base-10 logarithm of the complex number @{z}"
-msgstr "IMLOG10: el logaritmo en base 10 del número complejo @{z}"
+msgstr "IMLOG10:el logaritmo en base 10 del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:524
 msgid "IMPOWER:the complex number @{z1} raised to the @{z2}th power"
-msgstr "IMPOWER: el número complejo @{z1} elevado a la @{z2}a potencia"
+msgstr "IMPOWER:el número complejo @{z1} elevado a la @{z2}a potencia"
 
 #: ../plugins/fn-complex/functions.c:525 ../plugins/fn-complex/functions.c:560
 #: ../plugins/fn-complex/functions.c:1102
 #: ../plugins/fn-complex/functions.c:1132
 #: ../plugins/fn-complex/functions.c:1201
 msgid "z1:a complex number"
-msgstr "z1: un número complejo"
+msgstr "z1:un número complejo"
 
 #: ../plugins/fn-complex/functions.c:526 ../plugins/fn-complex/functions.c:561
 #: ../plugins/fn-complex/functions.c:1103
 #: ../plugins/fn-complex/functions.c:1133
 #: ../plugins/fn-complex/functions.c:1202
 msgid "z2:a complex number"
-msgstr "z2: un número complejo"
+msgstr "z2:un número complejo"
 
 #: ../plugins/fn-complex/functions.c:527 ../plugins/fn-complex/functions.c:562
 #: ../plugins/fn-complex/functions.c:1104
 msgid "If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned."
-msgstr ""
-"Si @{z1} o @{z2} no son números complejos válidos, se devolverá #VALUE!"
+msgstr "Si @{z1} o @{z2} no son números complejos válidos, se devuelve #VALUE!"
 
 #: ../plugins/fn-complex/functions.c:559
 msgid "IMDIV:the quotient of two complex numbers @{z1}/@{z2}"
-msgstr "IMDIV: el cociente de dos números complejos @{z1}/@{z2}"
+msgstr "IMDIV:el cociente de dos números complejos @{z1}/@{z2}"
 
 #: ../plugins/fn-complex/functions.c:592
 msgid "IMSIN:the sine of the complex number @{z}"
-msgstr "IMSIN: el seno del número complejo @{z}"
+msgstr "IMSIN:el seno del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:617
 msgid "IMSINH:the hyperbolic sine of the complex number @{z}"
-msgstr "IMSINH: el seno hiperbólico del número complejo @{z}"
+msgstr "IMSINH:el seno hiperbólico del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:641
 msgid "IMCOSH:the hyperbolic cosine of the complex number @{z}"
-msgstr "IMCOSH: el coseno hiperbólico del número complejo @{z}"
+msgstr "IMCOSH:el coseno hiperbólico del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:666
 msgid "IMTANH:the hyperbolic tangent of the complex number @{z}"
-msgstr "IMTANH: la tangente hiperbólica del número complejo @{z}"
+msgstr "IMTANH:la tangente hiperbólica del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:691
 msgid "IMSECH:the hyperbolic secant of the complex number @{z}"
-msgstr "IMSECH: la secante hiperbólica del número complejo @{z}"
+msgstr "IMSECH:la secante hiperbólica del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:715
 msgid "IMCSCH:the hyperbolic cosecant of the complex number @{z}"
-msgstr "IMCSCH: la cosecante hiperbólica del número complejo @{z}"
+msgstr "IMCSCH:la cosecante hiperbólica del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:740
 msgid "IMCOTH:the hyperbolic cotangent of the complex number @{z}"
-msgstr "IMCOTH: la cotangente hiperbólica del número complejo @{z}"
+msgstr "IMCOTH:la cotangente hiperbólica del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:764
 msgid "IMARCSIN:the complex arcsine of the complex number @{z}"
-msgstr "IMARCSIN: el arcoseno complejo del número complejo @{z}"
+msgstr "IMARCSIN:el arcoseno complejo del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:766
 msgid ""
@@ -480,7 +479,7 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:791
 msgid "IMARCCOS:the complex arccosine of the complex number "
-msgstr "IMARCCOS: el arcocoseno compleja del número complejo "
+msgstr "IMARCCOS:el arcocoseno complejo del número complejo "
 
 #: ../plugins/fn-complex/functions.c:793
 msgid ""
@@ -492,32 +491,31 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:818
 msgid "IMARCTAN:the complex arctangent of the complex number "
-msgstr "IMARCTAN: la arcotangente compleja del número complejo"
+msgstr "IMARCTAN:la arcotangente compleja del número complejo"
 
 #: ../plugins/fn-complex/functions.c:820
 msgid ""
 "IMARCTAN returns the complex arctangent of the complex number @{z}. The "
 "branch cuts are on the imaginary axis, below -i and above i."
 msgstr ""
-"IMARCTAN devuelve la arcotangente complejo de un número complejo @{z}. Los "
-"cortes de la rama están en el eje imaginario, por debajo de -i y por encima "
-"de i."
+"IMARCTAN devuelve la arcotangente compleja de un número complejo @{z}. Los "
+"cortes de la rama están en el eje imaginario, inferior a -i y superior a i."
 
 #: ../plugins/fn-complex/functions.c:845
 msgid "IMARCSEC:the complex arcsecant of the complex number @{z}"
-msgstr "IMARCSEC: la arcosecante compleja del número complejo @{z}"
+msgstr "IMARCSEC:la arcosecante compleja del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:869
 msgid "IMARCCSC:the complex arccosecant of the complex number @{z}"
-msgstr "IMARCCSC: la arcosecante compleja del número complejo @{z}"
+msgstr "IMARCCSC:la arcocosecante compleja del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:894
 msgid "IMARCCOT:the complex arccotangent of the complex number @{z}"
-msgstr "IMARCCOT: la arcotangente compleja del número complejo @{z}"
+msgstr "IMARCCOT:la arcocotangente compleja del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:918
 msgid "IMARCSINH:the complex hyperbolic arcsine of the complex number @{z}"
-msgstr "IMARCSINH: el arcoseno hiperbólico complejo del número complejo @{z}"
+msgstr "IMARCSINH:el arcoseno hiperbólico complejo del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:920
 msgid ""
@@ -525,12 +523,12 @@ msgid ""
 "{z}.  The branch cuts are on the imaginary axis, below -i and above i."
 msgstr ""
 "IMARCSINH devuelve el arcoseno hiperbólico complejo del número complejo @"
-"{z}. Los cortes de la rama están en el eje imaginario, por debajo de -i y "
-"por encima de i."
+"{z}. Los cortes de la rama están en el eje imaginario, inferior a -i y "
+"superior a i."
 
 #: ../plugins/fn-complex/functions.c:945
 msgid "IMARCCOSH:the complex hyperbolic arccosine of the complex number @{z}"
-msgstr "IMARCCOSH: el arcocoseno hiperbólico complejo del número complejo @{z}"
+msgstr "IMARCCOSH:el arcocoseno hiperbólico complejo del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:947
 msgid ""
@@ -538,12 +536,12 @@ msgid ""
 "{z}. The branch cut is on the real axis, less than 1."
 msgstr ""
 "IMARCCOSH devuelve el arcocoseno hiperbólico complejo del número complejo @"
-"{z}. Los cortes de la rama están en el eje real, por debajo de -1."
+"{z}. Los cortes de la rama están en el eje real, menor que 1."
 
 #: ../plugins/fn-complex/functions.c:973
 msgid "IMARCTANH:the complex hyperbolic arctangent of the complex number @{z}"
 msgstr ""
-"IMARCTANH: la arcotangente hiperbólica compleja del número complejo @{z}"
+"IMARCTANH:la arcotangente hiperbólica compleja del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:975
 msgid ""
@@ -551,36 +549,34 @@ msgid ""
 "{z}. The branch cuts are on the real axis, less than -1 and greater than 1."
 msgstr ""
 "IMARCTANH devuelve la arcotangente hiperbólica compleja del número complejo @"
-"{z}. Los cortes de la rama están en el eje real, por debajo de -1 y por "
-"encima de 1."
+"{z}. Los cortes de la rama están en el eje real, menor que -1 y mayor a 1."
 
 #: ../plugins/fn-complex/functions.c:1001
 msgid "IMARCSECH:the complex hyperbolic arcsecant of the complex number @{z}"
-msgstr ""
-"IMARCSECH: la arcosecante hiperbólica compleja del número complejo @{z}"
+msgstr "IMARCSECH:la arcosecante hiperbólica compleja del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:1025
 msgid "IMARCCSCH:the complex hyperbolic arccosecant of the complex number @{z}"
 msgstr ""
-"IMARCCSCH: la arcocosecante hiperbólica compleja del número complejo @{z}"
+"IMARCCSCH:la arcocosecante hiperbólica compleja del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:1050
 msgid ""
 "IMARCCOTH:the complex hyperbolic arccotangent of the complex number @{z}"
 msgstr ""
-"IMARCCOTH: la arcocotangente hiperbólica compleja del número complejo @{z}"
+"IMARCCOTH:la arcocotangente hiperbólica compleja del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:1075
 msgid "IMSQRT:the square root of the complex number @{z}"
-msgstr "IMSQRT: la raíz cuadrada del número complejo @{z}"
+msgstr "IMSQRT:la raíz cuadrada del número complejo @{z}"
 
 #: ../plugins/fn-complex/functions.c:1101
 msgid "IMSUB:the difference of two complex numbers"
-msgstr "IMSUB: la diferencia entre dos números complejos"
+msgstr "IMSUB:la diferencia de dos números complejos"
 
 #: ../plugins/fn-complex/functions.c:1131
 msgid "IMPRODUCT:the product of the given complex numbers"
-msgstr "IMPRODUCT: el producto de dos números complejos dados"
+msgstr "IMPRODUCT:el producto de los números complejos dados"
 
 #: ../plugins/fn-complex/functions.c:1134
 #: ../plugins/fn-complex/functions.c:1203
@@ -588,28 +584,28 @@ msgid ""
 "If any of @{z1}, @{z2},... is not a valid complex number, #VALUE! is "
 "returned."
 msgstr ""
-"Si cualquiera de los valores @{z1}, @{z2},... no es un número complejo "
-"válido, se devolverá #VALUE!"
+"Si cualquiera de @{z1}, @{z2},… no es un número complejo válido, se devuelve "
+"#VALUE!"
 
 #: ../plugins/fn-complex/functions.c:1200
 msgid "IMSUM:the sum of the given complex numbers"
-msgstr "IMSUM: la suma de los números complejos dados"
+msgstr "IMSUM:la suma de los números complejos dados"
 
 #: ../plugins/fn-database/functions.c:45
 msgid ""
 "database:a range in which rows of related information are records and "
 "columns of data are fields"
 msgstr ""
-"base de datos: un rango donde las filas de información relacionada son "
+"base de datos:un rango en el que las filas de información relacionada son "
 "registros y las columnas de datos son campos"
 
 #: ../plugins/fn-database/functions.c:48
 msgid "field:a string or integer specifying which field is to be used"
-msgstr "campo: una cadena o un entero que especifica qué campo se va a usar"
+msgstr "campo:una cadena o entero que especifica qué campo usar"
 
 #: ../plugins/fn-database/functions.c:50
 msgid "criteria:a range containing conditions"
-msgstr "criterios: un rango que contiene condiciones"
+msgstr "criterios:un rango que contiene condiciones"
 
 #: ../plugins/fn-database/functions.c:52
 msgid ""
@@ -617,9 +613,9 @@ msgid ""
 "columns of data are fields. The first row of a database contains labels for "
 "each column."
 msgstr ""
-"@{base de datos} es un rango donde las filas de información relacionada son "
-"registros y las columnas de datos son campos. La primera fila de una base de "
-"datos contiene las etiquetas de cada columna."
+"@{base de datos} es un rango en el que filas de información relacionada son "
+"registros y columnas de datos son campos. La primera fila de una base de "
+"datos contiene etiquetas para cada columna."
 
 #: ../plugins/fn-database/functions.c:57
 msgid ""
@@ -627,10 +623,9 @@ msgid ""
 "{field} is an integer n then the nth column will be used. If @{field} is a "
 "string, then the column with the matching label will be used."
 msgstr ""
-"@{campo} es una cadena o un entero que especifica qué campos se utilizarán. "
-"Si @{campo} es un entero n, entonces se utilizará la n-ésima columna. Si @"
-"{campo} es una cadena, entonces se utilizará la columna cuya etiqueta "
-"coincida con la cadena."
+"@{campo} es una cadena o un entero que especifica qué campos usar. Si @"
+"{campo} es un entero n entonces se utilizará la n-ésima columna. Si @{campo} "
+"es una cadena entonces se utilizará la columna con la etiqueta coincidente."
 
 #: ../plugins/fn-database/functions.c:62
 msgid ""
@@ -643,12 +638,11 @@ msgid ""
 msgstr ""
 "@{criterios} es un rango que contiene condiciones. La primera fila de unos @"
 "{criterios} debería contener etiquetas. Cada etiqueta especifica en qué "
-"campo estarán las condiciones dadas para aplicar a la columna. Cada celda "
-"debajo de la etiqueta especifica una condición al estilo de «>3» o «<9». Se "
-"puede dar una condición de igualdad por la simple especificación de un "
-"valor, por ejemplo: «3» o «Jody». Para que un registro se considere, debe "
-"satisfacer todas las condiciones de, al menos, una de las filas de los @"
-"{criterios}."
+"campo aplican las condiciones dadas en la columna. Cada celda debajo de la "
+"etiqueta especifica una condición como «>3» o «<9». Se puede dar una condición "
+"de igualdad por simple especificación de un valor, por ejemplo «3» o «Jody». "
+"Para que un registro se considere debe satisfacer todas las condiciones de "
+"al menos una de las filas de los @{criterios}."
 
 #: ../plugins/fn-database/functions.c:73
 msgid ""
@@ -667,7 +661,7 @@ msgid ""
 "<30\n"
 ">40     \t>46000\n"
 msgstr ""
-"Suponiendo que el rango A1:C7 contiene los valores siguientes:\n"
+"Suponiendo que el rango A1:C7 contiene los siguientes valores:\n"
 "\n"
 "Nombre  \tEdad    \tSalario\n"
 "John    \t34      \t54342\n"
@@ -677,7 +671,7 @@ msgstr ""
 "Susan   \t37      \t42932\n"
 "Jill    \t45      \t45324\n"
 "\n"
-"Además, las celdas A9:B11 contienen los valores siguientes:\n"
+"Además, las celdas A9:B11 contienen los siguientes valores:\n"
 "Edad    \tSalario\n"
 "<30\n"
 ">40     \t>46000\n"
@@ -687,72 +681,72 @@ msgid ""
 "DAVERAGE:average of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
-"DAVERAGE: es el promedio de los valores de @{campo} en @{base de datos} "
-"pertenecientes a los registros que coinciden con los @{criterios}"
+"DAVERAGE:promedio de los valores en el @{campo} en la @{base de datos} "
+"pertenecientes a registros que coinciden con los @{criterios}"
 
 #: ../plugins/fn-database/functions.c:331
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333."
-msgstr "DAVERAGE(A1:C7; \"Salario\"; A9:A11) equivale a 42296,3333."
+msgstr "DAVERAGE(A1:C7; \"Salario\"; A9:A11) igual a 42296,3333."
 
 #: ../plugins/fn-database/functions.c:332
 msgid "DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39."
-msgstr "DAVERAGE(A1:C7; \"Edad\"; A9:A11) equivale a 39."
+msgstr "DAVERAGE(A1:C7; \"Edad\"; A9:A11) igual a 39."
 
 #: ../plugins/fn-database/functions.c:333
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5."
-msgstr "DAVERAGE(A1:C7; \"Salario\"; A9:B11) equivale a 40782,5."
+msgstr "DAVERAGE(A1:C7; \"Salario\"; A9:B11) igual a 40782,5."
 
 #: ../plugins/fn-database/functions.c:334
 msgid "DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36."
-msgstr "DAVERAGE(A1:C7; \"Edad\"; A9:B11) equivale a 36."
+msgstr "DAVERAGE(A1:C7; \"Edad\"; A9:B11) igual a 36."
 
 #: ../plugins/fn-database/functions.c:358
 msgid ""
 "DCOUNT:count of numbers in @{field} in @{database} belonging to records that "
 "match @{criteria}"
 msgstr ""
-"DCOUNT: conteo de números en @{campo} de @{base de datos} pertenecientes a "
-"los registros que coinciden con los @{criterios}"
+"DCOUNT:conteo de números en el @{campo} en la @{base de datos} "
+"pertenecientes a los registros que coinciden con los @{criterios}"
 
 #: ../plugins/fn-database/functions.c:367
 msgid "DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3."
-msgstr "DCOUNT(A1:C7; \"Salario\"; A9:A11) equivale a 3."
+msgstr "DCOUNT(A1:C7; \"Salario\"; A9:A11) igual a 3."
 
 #: ../plugins/fn-database/functions.c:368
 msgid "DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2."
-msgstr "DCOUNT(A1:C7; \"Salario\"; A9:B11) equivale a 2."
+msgstr "DCOUNT(A1:C7; \"Salario\"; A9:B11) igual a 2."
 
 #: ../plugins/fn-database/functions.c:369
 msgid "DCOUNT(A1:C7, \"Name\", A9:B11) equals 0."
-msgstr "DCOUNT(A1:C7; \"Nombre\"; A9:B11) equivale a 0."
+msgstr "DCOUNT(A1:C7; \"Nombre\"; A9:B11) igual a 0."
 
 #: ../plugins/fn-database/functions.c:393
 msgid ""
 "DCOUNTA:count of cells with data in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
-"DCOUNTA: conteo de celdas con datos en @{campo} de @{base de datos} "
+"DCOUNTA:conteo de celdas con datos en el @{campo} en la @{base de datos} "
 "pertenecientes a los registros que coinciden con los @{criterios}"
 
 #: ../plugins/fn-database/functions.c:402
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3."
-msgstr "DCOUNTA(A1:C7; \"Salario\"; A9:A11) equivale a 3."
+msgstr "DCOUNTA(A1:C7; \"Salario\"; A9:A11) igual a 3."
 
 #: ../plugins/fn-database/functions.c:403
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2."
-msgstr "DCOUNTA(A1:C7; \"Salario\"; A9:B11) equivale a 2."
+msgstr "DCOUNTA(A1:C7; \"Salario\"; A9:B11) igual a 2."
 
 #: ../plugins/fn-database/functions.c:404
 msgid "DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2."
-msgstr "DCOUNTA(A1:C7; \"Nombre\"; A9:B11) equivale a 2."
+msgstr "DCOUNTA(A1:C7; \"Nombre\"; A9:B11) igual a 2."
 
 #: ../plugins/fn-database/functions.c:425
 msgid ""
 "DGET:a value from @{field} in @{database} belonging to records that match @"
 "{criteria}"
 msgstr ""
-"DGET: un valor de @{campo} de @{base de datos} perteneciente a un registro "
-"que coincide con los @{criterios}"
+"DGET:un valor de @{campo} en la @{base de datos} perteneciente a registros "
+"que coinciden con los @{criterios}"
 
 #: ../plugins/fn-database/functions.c:434
 msgid "If none of the records match the conditions, DGET returns #VALUE!"
@@ -765,11 +759,11 @@ msgstr "Si más de un registro cumple las condiciones, DGET devueve #NUM!"
 
 #: ../plugins/fn-database/functions.c:436
 msgid "DGET(A1:C7, \"Salary\", A9:A10) equals 34323."
-msgstr "DGET(A1:C7; \"Salario\"; A9:A10) equivale a 34323."
+msgstr "DGET(A1:C7; \"Salario\"; A9:A10) igual a 34323."
 
 #: ../plugins/fn-database/functions.c:437
 msgid "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\"."
-msgstr "DGET(A1:C7; \"Nombre\"; A9:A10) equivale a «Clark»."
+msgstr "DGET(A1:C7; \"Nombre\"; A9:A10) igual a «Clark»."
 
 #: ../plugins/fn-database/functions.c:466
 msgid ""
@@ -1112,7 +1106,7 @@ msgstr ""
 "La función NOW devuelve la fecha y la hora del momento en el que se calcula. "
 "Al recalcular más adelante, se producirá un valor diferente."
 
-#: ../plugins/fn-date/functions.c:421 ../plugins/fn-date/functions.c:458
+#: ../plugins/fn-date/functions.c:421
 msgid "TIME:create a time serial value"
 msgstr "TIME: crear un valor de hora completa"
 
@@ -1152,6 +1146,12 @@ msgid ""
 msgstr ""
 "Si cualquiera de los valores @{hora}, @{minuto} o @{segundo} es negativo, se "
 "devolverá #NUM!"
+
+#: ../plugins/fn-date/functions.c:458
+#, fuzzy
+#| msgid "TIME:create a time serial value"
+msgid "ODF.TIME:create a time serial value"
+msgstr "TIME: crear un valor de hora completa"
 
 #: ../plugins/fn-date/functions.c:459
 msgid "hour:hour"
@@ -4998,36 +4998,46 @@ msgstr ""
 msgid "TRANSPOSE:the transpose of @{matrix}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1698
+#: ../plugins/fn-lookup/functions.c:1698 ../plugins/fn-lookup/functions.c:1736
 msgid "matrix:range"
 msgstr "matrix: rango"
 
-#: ../plugins/fn-lookup/functions.c:1734
+#: ../plugins/fn-lookup/functions.c:1735
+msgid "FLIP:@{matrix} flipped"
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:1737
+msgid ""
+"vertical:if true, @{matrix} is flipped vertically, otherwise horizontally; "
+"defaults to TRUE"
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:1782
 msgid "ARRAY:vertical array of the arguments"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1735
+#: ../plugins/fn-lookup/functions.c:1783
 msgid "v:value"
 msgstr "v: valor"
 
-#: ../plugins/fn-lookup/functions.c:1791
+#: ../plugins/fn-lookup/functions.c:1839
 msgid "SORT:sorted list of numbers as vertical array"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1792 ../plugins/fn-stat/functions.c:163
+#: ../plugins/fn-lookup/functions.c:1840 ../plugins/fn-stat/functions.c:163
 #: ../plugins/fn-stat/functions.c:215
 msgid "ref:list of numbers"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1793
+#: ../plugins/fn-lookup/functions.c:1841
 msgid "order:0 (descending order) or 1 (ascending order); defaults to 0"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1794
+#: ../plugins/fn-lookup/functions.c:1842
 msgid "Strings, booleans, and empty cells are ignored."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1795
+#: ../plugins/fn-lookup/functions.c:1843
 msgid "SORT({4,3,5}) evaluates to {5,4,3}"
 msgstr ""
 
@@ -10433,86 +10443,94 @@ msgstr ""
 "4: estría cúbica natural;\n"
 "5: estrías cúbicos naturales con promedio."
 
-#: ../plugins/fn-tsa/functions.c:380
+#: ../plugins/fn-tsa/functions.c:381
 msgid ""
 "INTERPOLATION:interpolated values corresponding to the given abscissa targets"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:381
-msgid "abscissae:ordered abscissae of the given data points"
-msgstr ""
-
 #: ../plugins/fn-tsa/functions.c:382
-msgid "ordinates:ordinates of the given data points"
+msgid "abscissae:abscissae of the given data points"
 msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:383
-msgid "targets:abscissae of the interpolated data"
+msgid "ordinates:ordinates of the given data points"
 msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:384
+msgid "targets:abscissae of the interpolated data"
+msgstr ""
+
+#: ../plugins/fn-tsa/functions.c:385
 msgid "interpolation:method of interpolation, defaults to 0 ('linear')"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:385 ../plugins/fn-tsa/functions.c:540
+#: ../plugins/fn-tsa/functions.c:386 ../plugins/fn-tsa/functions.c:575
 msgid "The output consists always of one column of numbers."
-msgstr ""
-
-#: ../plugins/fn-tsa/functions.c:387
-msgid "The @{abscissae} must be given in increasing order."
 msgstr ""
 
 #: ../plugins/fn-tsa/functions.c:388
 msgid ""
+"The @{abscissae} should be given in increasing order. If the @{abscissae} is "
+"not in increasing order the INTERPOLATION function is significantly slower."
+msgstr ""
+
+#: ../plugins/fn-tsa/functions.c:390
+msgid "If any two @{abscissae} values are equal an error is returned."
+msgstr ""
+
+#: ../plugins/fn-tsa/functions.c:391
+msgid ""
 "If any of interpolation methods 1 ('linear with averaging'), 3 ('staircase "
 "with averaging'), and 5 ('natural cubic spline with averaging') is used, the "
 "number of returned values is one less than the number of targets and the "
-"targets values must be given in increasing order."
+"target values must be given in increasing order. The values returned are the "
+"average heights of the interpolation function on the intervals determined by "
+"consecutive target values."
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:393 ../plugins/fn-tsa/functions.c:547
+#: ../plugins/fn-tsa/functions.c:398 ../plugins/fn-tsa/functions.c:582
 msgid "Strings and empty cells in @{abscissae} and @{ordinates} are ignored."
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:394 ../plugins/fn-tsa/functions.c:548
+#: ../plugins/fn-tsa/functions.c:399 ../plugins/fn-tsa/functions.c:583
 msgid ""
 "If several target data are provided they must be in the same column in "
 "consecutive cells."
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:533
+#: ../plugins/fn-tsa/functions.c:568
 msgid "PERIODOGRAM:periodogram of the given data"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:534
+#: ../plugins/fn-tsa/functions.c:569
 msgid "ordinates:ordinates of the given data"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:535
+#: ../plugins/fn-tsa/functions.c:570
 msgid "filter:windowing function to  be used, defaults to no filter"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:536
+#: ../plugins/fn-tsa/functions.c:571
 msgid ""
 "abscissae:abscissae of the given data, defaults to regularly spaced abscissae"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:537
+#: ../plugins/fn-tsa/functions.c:572
 msgid "interpolation:method of interpolation, defaults to none"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:538
+#: ../plugins/fn-tsa/functions.c:573
 msgid "number:number of interpolated data points"
 msgstr "number: número de puntos de datos interpolados"
 
-#: ../plugins/fn-tsa/functions.c:539
+#: ../plugins/fn-tsa/functions.c:574
 msgid ""
 "If an interpolation method is used, the number of returned values is one "
 "less than the number of targets and the targets values must be given in "
 "increasing order."
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:542
+#: ../plugins/fn-tsa/functions.c:577
 msgid ""
 "Possible window functions are:\n"
 "0: no filter (rectangular window)\n"
@@ -10521,28 +10539,28 @@ msgid ""
 "3: Welch (parabolic window)"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:792
+#: ../plugins/fn-tsa/functions.c:827
 msgid "FOURIER:Fourier or inverse Fourier transform"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:793 ../plugins/fn-tsa/functions.c:892
+#: ../plugins/fn-tsa/functions.c:828 ../plugins/fn-tsa/functions.c:927
 msgid "Sequence:the data sequence to be transformed"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:794
+#: ../plugins/fn-tsa/functions.c:829
 msgid ""
 "Inverse:if true, the inverse Fourier transform is calculated, defaults to "
 "false"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:795
+#: ../plugins/fn-tsa/functions.c:830
 msgid ""
 "Separate:if true, the real and imaginary parts are given separately, "
 "defaults to false"
 msgstr ""
 
 # qué tradución de array cojo?
-#: ../plugins/fn-tsa/functions.c:796
+#: ../plugins/fn-tsa/functions.c:831
 msgid ""
 "This array function returns the Fourier or inverse Fourier transform of the "
 "given data sequence."
@@ -10550,34 +10568,34 @@ msgstr ""
 "Esta función de serie devuelve el Fourier o la transformación inversa de "
 "Fourier de los datos dados en secuencia."
 
-#: ../plugins/fn-tsa/functions.c:797
+#: ../plugins/fn-tsa/functions.c:832
 msgid ""
 "The output consists of one column of complex numbers if @{Separate} is false "
 "and of two columns of real numbers if @{Separate} is true."
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:798
+#: ../plugins/fn-tsa/functions.c:833
 msgid ""
 "If @{Separate} is true the first output column contains the real parts and "
 "the second column the imaginary parts."
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:799 ../plugins/fn-tsa/functions.c:896
+#: ../plugins/fn-tsa/functions.c:834 ../plugins/fn-tsa/functions.c:931
 msgid ""
 "If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns "
 "#VALUE!"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:891
+#: ../plugins/fn-tsa/functions.c:926
 msgid "HPFILTER:Hodrick Prescott Filter"
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:893
+#: ../plugins/fn-tsa/functions.c:928
 msgid "λ:filter parameter λ, defaults to 1600"
 msgstr ""
 
 # qué tradución de array cojo?
-#: ../plugins/fn-tsa/functions.c:894
+#: ../plugins/fn-tsa/functions.c:929
 #, fuzzy
 #| msgid ""
 #| "This array function returns the Fourier or inverse Fourier transform of "
@@ -10590,13 +10608,13 @@ msgstr ""
 "Esta función de serie devuelve el Fourier o la transformación inversa de "
 "Fourier de los datos dados en secuencia."
 
-#: ../plugins/fn-tsa/functions.c:895
+#: ../plugins/fn-tsa/functions.c:930
 msgid ""
 "The output consists of two columns of numbers, the first containing the "
 "trend component, the second the cyclical component."
 msgstr ""
 
-#: ../plugins/fn-tsa/functions.c:897
+#: ../plugins/fn-tsa/functions.c:932
 msgid ""
 "If @{Sequence} contians less than 6 numerical values, this function returns "
 "#VALUE!"
@@ -10634,15 +10652,15 @@ msgstr ""
 msgid "table:SQL table to retrieve"
 msgstr ""
 
-#: ../plugins/sample_datasource/sample_datasource.c:277
+#: ../plugins/sample_datasource/sample_datasource.c:276
 msgid "ATL_LAST:sample real-time data source"
 msgstr ""
 
-#: ../plugins/sample_datasource/sample_datasource.c:278
+#: ../plugins/sample_datasource/sample_datasource.c:277
 msgid "tag:tag to watch"
 msgstr ""
 
-#: ../plugins/sample_datasource/sample_datasource.c:279
+#: ../plugins/sample_datasource/sample_datasource.c:278
 msgid ""
 "ATL_LAST is a sample implementation of a real time data source.  It takes a "
 "string tag and monitors the named pipe ~/atl for changes to the value of "
@@ -10652,7 +10670,7 @@ msgstr ""
 "Toma una cadena etiquetada y monitoriza el pipe ~/atl esperando cambios en "
 "el valor de esa etiqueta."
 
-#: ../plugins/sample_datasource/sample_datasource.c:280
+#: ../plugins/sample_datasource/sample_datasource.c:279
 msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr ""
 "El objetivo de esto no es estar generalmente activado y está apagado (OFF) "
