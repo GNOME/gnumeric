@@ -29,14 +29,14 @@
 		         format_level="auto" overwrite_files="TRUE" 
 			 mime_type="application/vnd.oasis.opendocument.spreadsheet">
 			<information>
-				<_description>ODF/OpenOffice without foreign elements (*.ods)</_description>
+				<_description>ODF 1.2 strict conformance (*.ods)</_description>
 			</information>
 		</service>
 		<service type="file_saver" id="odf" file_extension="ods"
 		         format_level="auto" overwrite_files="TRUE" 
 			 mime_type="application/vnd.oasis.opendocument.spreadsheet">
 			<information>
-				<_description>ODF/OpenOffice with foreign elements (*.ods)</_description>
+				<_description>ODF 1.2 extended conformance (*.ods)</_description>
 			</information>
 		</service>
 	</services>

@@ -1,3 +1,8 @@
+2012-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugin.xml.in: use the standards terms of conformance rather than
+	referring to foreign elements
+
 2012-08-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_custom_shape_end): rename to odf_custom_shape_end

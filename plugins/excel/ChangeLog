@@ -1,3 +1,8 @@
+2012-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugin.xml.in: refer to ISO/IEC 29500:2008 and emphasize the
+	Standards compliance
+
 2012-08-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-read.c (xlsx_webpub_begin): new

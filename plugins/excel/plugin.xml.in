@@ -71,7 +71,7 @@
 		<!-- Office Open XML packages from Office 2007 -->
 		<service type="file_opener" id="xlsx" priority="100" probe="TRUE">
 			<information>
-				<_description>MS Excel&#8482; 2007/2010 (*.xlsx)</_description>
+				<_description>ECMA 376 / Office Open XML [MS Excel&#8482; 2007/2010] (*.xlsx)</_description>
 			</information>
 			<suffixes>
 				<suffix>xlsx</suffix>
@@ -95,7 +95,7 @@
 		         format_level="auto" overwrite_files="TRUE"
 			 mime_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
 			<information>
-				<_description>MS Excel&#8482; 2007 (ECMA 376 1st edition (2006))</_description>
+				<_description> ECMA 376 1st edition (2006); [MS Excel&#8482; 2007]</_description>
 			</information>
 		</service>
 
@@ -103,7 +103,7 @@
 		         format_level="auto" overwrite_files="TRUE"
 			 mime_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
 			<information>
-				<_description>MS Excel&#8482; 2010 (ECMA 376 2nd edition (2008))</_description>
+				<_description>ISO/IEC 29500:2008 &amp; ECMA 376 2nd edition (2008); [MS Excel&#8482; 2010]</_description>
 			</information>
 		</service>
 		<service type="file_opener" id="excel_enc" priority="200" probe="FALSE" 
