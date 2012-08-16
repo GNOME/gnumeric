@@ -141,9 +141,10 @@ static GnmConsolidate *
 gnm_consolidate_ref (GnmConsolidate *cs)
 {
 	cs->ref_count++;
+	return cs;
 }
 
-static GnmConsolidate *
+static void
 gnm_consolidate_unref (GnmConsolidate *cs)
 {
 	cs->ref_count--;
