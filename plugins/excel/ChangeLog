@@ -1,5 +1,10 @@
 2012-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-read-pivot.c (xlsx_CT_pivotCacheDefinition): also look for
+	refreshedDateIso
+
+2012-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* plugin.xml.in: refer to ISO/IEC 29500:2008 and emphasize the
 	Standards compliance
 

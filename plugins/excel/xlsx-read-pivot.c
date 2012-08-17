@@ -852,6 +852,7 @@ xlsx_CT_pivotCacheDefinition (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	char const *refreshedBy = NULL;
 	GOVal *refreshedDate = NULL;
+	GOVal *date = NULL;
 	unsigned int createdVersion = 0;
 	unsigned int refreshedVersion = 0;
 	gboolean upgradeOnRefresh = FALSE;
@@ -862,11 +863,20 @@ xlsx_CT_pivotCacheDefinition (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
 			state->pivot.cache_record_part_id = g_strdup (attrs[1]);
 		else if (0 == strcmp (attrs[0], "refreshedBy")) refreshedBy = attrs[1];
-		else if (attr_float (xin, attrs, "refreshedDate", &v))  {
-			/* idiots : why not use an actual date ?
-			 * Assume that this is in the same date convention as the workbook */
-			refreshedDate = value_new_float (v);
-			value_set_fmt (refreshedDate, state->date_fmt);
+		else if (attr_float (xin, attrs, "refreshedDate", &v)) {
+			 /* idiots : why not use an actual date ?
+			  * Assume that this is in the same date convention as the workbook */
+			if (refreshedDate == NULL) {
+				refreshedDate = value_new_float (v);
+				value_set_fmt (refreshedDate, state->date_fmt);
+			} else
+				xlsx_warning (xin, _("Encountered both the  \"refreshedDate\" and "
+						     "the \"refreshedDateIso\" attributes!"));
+		} else if ((date = attr_datetime (xin, attrs, "refreshedDateIso")) != NULL) {
+			if (refreshedDate)
+				go_val_free (refreshedDate);
+			refreshedDate = date;
+			state->version = ECMA_376_2008;
 		} else if (attr_int (xin, attrs, "createdVersion", &createdVersion)) ;
 		else if (attr_int (xin, attrs, "refreshedVersion", &refreshedVersion)) ;
 		else if (attr_bool (xin, attrs, "upgradeOnRefresh", &upgradeOnRefresh)) ;
