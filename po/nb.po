@@ -333,7 +333,7 @@ msgstr "MS Excel&#8482; 2003 SpreadsheetML"
 
 #: ../plugins/excel/plugin.xml.in.h:8
 msgid "ECMA 376 / Office Open XML [MS Excel&#8482; 2007/2010] (*.xlsx)"
-msgstr "ECMA 376 / Office Open XML [MS Excel&#8482; 2007/2010 (*.xls)"
+msgstr "ECMA 376 / Office Open XML [MS Excel&#8482; 2007/2010 (*.xlsx)"
 
 #: ../plugins/excel/plugin.xml.in.h:9
 msgid "ECMA 376 1st edition (2006); [MS Excel&#8482; 2007]"
