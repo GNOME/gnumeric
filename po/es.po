@@ -14939,7 +14939,7 @@ msgid ""
 "Would you like to locate it yourself?"
 msgstr ""
 "Gnumeric no puede encontrar el programa <i>%s</i> necesario para el "
-"resolutor </i>%s</i>. Para obtener más información, consulte %s.\n"
+"resolutor <i>%s</i>. Para obtener más información, consulte %s.\n"
 "\n"
 "¿Le gustaría encontrarlo usted mismo?"
 
