@@ -19,15 +19,16 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-08-16 19:08+0000\n"
-"PO-Revision-Date: 2012-08-17 10:19+0200\n"
+"POT-Creation-Date: 2012-08-17 08:27+0000\n"
+"PO-Revision-Date: 2012-08-25 10:50+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.5\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
 msgid ""
@@ -144,7 +145,8 @@ msgstr "y:parte imaginaria"
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
-"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es «i»"
+"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es "
+"«i»"
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
@@ -639,10 +641,10 @@ msgstr ""
 "@{criterios} es un rango que contiene condiciones. La primera fila de unos @"
 "{criterios} debería contener etiquetas. Cada etiqueta especifica en qué "
 "campo aplican las condiciones dadas en la columna. Cada celda debajo de la "
-"etiqueta especifica una condición como «>3» o «<9». Se puede dar una condición "
-"de igualdad por simple especificación de un valor, por ejemplo «3» o «Jody». "
-"Para que un registro se considere debe satisfacer todas las condiciones de "
-"al menos una de las filas de los @{criterios}."
+"etiqueta especifica una condición como «>3» o «<9». Se puede dar una "
+"condición de igualdad por simple especificación de un valor, por ejemplo «3» "
+"o «Jody». Para que un registro se considere debe satisfacer todas las "
+"condiciones de al menos una de las filas de los @{criterios}."
 
 #: ../plugins/fn-database/functions.c:73
 msgid ""
@@ -951,8 +953,8 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:80
 msgid ""
-"For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-"
-"1904."
+"For spreadsheets created with the Mac version of Excel, serial 1 is 1-"
+"Jan-1904."
 msgstr ""
 "Para hojas de cálculo creadas con la versión de Excel para Mac, la serie 1 "
 "es 1-Ene-1904."
@@ -1050,8 +1052,8 @@ msgid ""
 "If @{interval} is \"ym\" or \"yd\" then the distance is measured in complete "
 "months or days, respectively, but excluding any difference in years."
 msgstr ""
-"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días completos, "
-"respectivamente, pero excluyendo cualquier diferencia en años."
+"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días "
+"completos, respectivamente, pero excluyendo cualquier diferencia en años."
 
 #: ../plugins/fn-date/functions.c:218
 msgid ""
@@ -1356,37 +1358,37 @@ msgid ""
 "{date} adjusted forward or backward the number of months specified by @"
 "{months}."
 msgstr ""
-"EOMONTH devuelve el valor de serie de la fecha del final del mes "
-"especificado por @{fecha} ajustado hacia adelante o atrás la cantidad de "
-"meses especificados por @{meses}."
+"EOMONTH devuelve el valor de serie de la fecha del fin del mes especificado "
+"por @{fecha} ajustado hacia adelante o hacia atrás el número de meses "
+"especificados por @{meses}."
 
 #: ../plugins/fn-date/functions.c:770
 msgid "WORKDAY:add working days"
-msgstr "WORKDAY: agregar días laborales"
+msgstr "WORKDAY:añadir días laborales"
 
 #: ../plugins/fn-date/functions.c:772
 msgid "days:number of days to add"
-msgstr "días: número de días que agregar"
+msgstr "días:número de días que añadir"
 
 #: ../plugins/fn-date/functions.c:773 ../plugins/fn-date/functions.c:996
 msgid "holidays:array of holidays"
-msgstr "festivos: vector de festivos"
+msgstr "feriados:matriz de festivos"
 
 #: ../plugins/fn-date/functions.c:774 ../plugins/fn-date/functions.c:997
 msgid ""
 "weekend:array of 0s and 1s, indicating whether a weekday (S, M, T, W, T, F, "
 "S) is on the weekend, defaults to {1,0,0,0,0,0,1}"
 msgstr ""
-"fin de semana: vector de ceros y unos que indican los días de la semana (D, "
-"L, M, X, J, V, S) correspondientes al fin de semana. El predeterminado es "
-"{1,0,0,0,0,0,1}."
+"fin de semana:matriz de ceros y unos, indicando si un día de la semana (D, "
+"L, M, M, J, V, S) está en el fin de semana, el predeterminado es "
+"{1,0,0,0,0,0,1}"
 
 #: ../plugins/fn-date/functions.c:776
 msgid ""
 "WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in "
 "the process."
 msgstr ""
-"WORKDAR ajusta la @{fecha} por @{días} omitiendo los fines de semana y los @"
+"WORKDAY ajusta la @{fecha} por @{días} omitiendo los fines de semana y los @"
 "{festivos} en el proceso."
 
 #: ../plugins/fn-date/functions.c:777
@@ -1398,7 +1400,7 @@ msgid ""
 "If an entry of @{weekend} is non-zero, the corresponding weekday is not a "
 "work day."
 msgstr ""
-"Si un valor de @{fin de semana} es distinto de cero, el día de semana "
+"Si una entrada de @{fin de semana} no es cero, el día de semana "
 "correspondiente no es un día laboral."
 
 #: ../plugins/fn-date/functions.c:779 ../plugins/fn-date/functions.c:1001
@@ -1407,7 +1409,7 @@ msgstr "Esta función es compatible con Excel si se omite el último argumento."
 
 #: ../plugins/fn-date/functions.c:993
 msgid "NETWORKDAYS:number of workdays in range"
-msgstr "NETWORKDAYS: número de días laborales en el rango"
+msgstr "NETWORKDAYS:número de días laborales en el rango"
 
 #: ../plugins/fn-date/functions.c:999
 msgid ""
@@ -1419,14 +1421,14 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:1160
 msgid "ISOWEEKNUM:ISO week number"
-msgstr "ISOWEEKNUM: número de semana ISO"
+msgstr "ISOWEEKNUM:número de semana ISO"
 
 #: ../plugins/fn-date/functions.c:1162
 msgid ""
 "ISOWEEKNUM calculates the week number according to the ISO 8601 standard.  "
 "Weeks start on Mondays and week 1 contains the first Thursday of the year."
 msgstr ""
-"ISOWEEKNUM calcula el número de semana de acuerdo al estándar ISO-8601. Las "
+"ISOWEEKNUM calcula el número de semana de acuerdo al estándar ISO 8601. Las "
 "semanas empiezan en lunes y la semana 1 contiene el primer jueves del año."
 
 #: ../plugins/fn-date/functions.c:1163 ../plugins/fn-date/functions.c:1187
@@ -1434,32 +1436,32 @@ msgid ""
 "January 1 of a year is sometimes in week 52 or 53 of the previous year.  "
 "Similarly, December 31 is sometimes in week 1 of the following year."
 msgstr ""
-"El 1 de enero de un año está, a veces, en la semana 52 o 53 del año "
-"anterior. De la misma forma, el 31 de diciembre está, a veces, en la semana "
-"1 del año siguiente."
+"El 1 de enero de un año está a veces en la semana 52 o 53 del año anterior. "
+"Del mismo modo, el 31 de diciembre está a veces en la semana 1 del año "
+"siguiente."
 
 #: ../plugins/fn-date/functions.c:1184
 msgid "ISOYEAR:year corresponding to the ISO week number"
-msgstr "ISOYEAR: año correspondiente al número de semana ISO"
+msgstr "ISOYEAR:año correspondiente al número de semana ISO"
 
 #: ../plugins/fn-date/functions.c:1186
 msgid ""
 "ISOYEAR calculates the year to go with week number according to the ISO 8601 "
 "standard."
 msgstr ""
-"ISOYEAR calcula el año que va bien con el número de semana de acuerdo con el "
-"estándar ISO-8601."
+"ISOYEAR calcula el año que va con el número de semana de acuerdo con el "
+"estándar ISO 8601."
 
 #: ../plugins/fn-date/functions.c:1220
 msgid "WEEKNUM:week number"
-msgstr "WEEKNUM: número de semana"
+msgstr "WEEKNUM:número de semana"
 
 #: ../plugins/fn-date/functions.c:1223
 msgid ""
 "WEEKNUM calculates the week number according to @{method} which defaults to "
 "1."
 msgstr ""
-"WEEKNUM calcula el número de semana de acuerdo al @{método}, cuyo valor "
+"WEEKNUM calcula el número de semana de acuerdo al @{método} cuyo "
 "predeterminado es 1."
 
 #: ../plugins/fn-date/functions.c:1224
@@ -1467,22 +1469,22 @@ msgid ""
 "If @{method} is 1, then weeks start on Sundays and January 1 is in week 1."
 msgstr ""
 "Si @{método} es 1, entonces las semanas empiezan en domingo y el 1 de enero "
-"se encuentra en la semana 1."
+"está en la semana 1."
 
 #: ../plugins/fn-date/functions.c:1225
 msgid ""
 "If @{method} is 2, then weeks start on Mondays and January 1 is in week 1."
 msgstr ""
-"Si @{método} es 2, entonces las semanas empiezan en lunes y el 1 de enero se "
-"encuentra en la semana 1."
+"Si @{método} es 2, entonces las semanas empiezan en lunes y el 1 de enero "
+"está en la semana 1."
 
 #: ../plugins/fn-date/functions.c:1226
 msgid "If @{method} is 150, then the ISO 8601 numbering is used."
-msgstr "Si @{método} es 150, entonces se utiliza la numeración ISO-8601."
+msgstr "Si @{método} es 150, entonces se usa la numeración ISO 8601."
 
 #: ../plugins/fn-date/functions.c:1259
 msgid "YEARFRAC:fractional number of years between dates"
-msgstr "YEARFRAC: número fraccional de años entre fechas"
+msgstr "YEARFRAC:número fraccional de años entre fechas"
 
 #: ../plugins/fn-date/functions.c:1262 ../plugins/fn-financial/functions.c:454
 #: ../plugins/fn-financial/functions.c:492
@@ -1509,7 +1511,7 @@ msgstr "YEARFRAC: número fraccional de años entre fechas"
 #: ../plugins/fn-financial/functions.c:3129
 #: ../plugins/fn-financial/functions.c:3243
 msgid "basis:calendar basis"
-msgstr "base: base del calendario"
+msgstr "base:base del calendario"
 
 #: ../plugins/fn-date/functions.c:1263
 msgid ""
@@ -1518,12 +1520,12 @@ msgid ""
 "expresses the result as a fractional number of years."
 msgstr ""
 "YEARFRAC calcula el número de días entre @{fecha_inicio} y @{fecha_fin} de "
-"acuerdo al calendario indicado por @{base}, cuyo predeterminado es 0, y "
-"presenta el resultado como una fracción del año."
+"acuerdo al calendario especificado por @{base}, cuyo predeterminado es 0, y "
+"expresa el resultado como un número fraccional de años."
 
 #: ../plugins/fn-date/functions.c:1288
 msgid "DAYS:difference between dates in days"
-msgstr "DAYS: diferencia entre fechas en días"
+msgstr "DAYS:diferencia entre fechas en días"
 
 #: ../plugins/fn-date/functions.c:1291
 msgid ""
@@ -1540,47 +1542,47 @@ msgstr "call_put_flag: «c» para una llamada y «p» para ingresar"
 
 #: ../plugins/fn-derivatives/options.c:47
 msgid "spot:spot price"
-msgstr "contado: precio al contado"
+msgstr "contado:precio al contado"
 
 #: ../plugins/fn-derivatives/options.c:48
 msgid "strike:strike price"
-msgstr "ejercicio: precio de ejercicio"
+msgstr "ejercicio:precio de ejercicio"
 
 #: ../plugins/fn-derivatives/options.c:49
 msgid "time:time to maturity in years"
-msgstr "tiempo: plazo de vencimiento en años"
+msgstr "tiempo:tiempo de vencimiento en años"
 
 #: ../plugins/fn-derivatives/options.c:50
 msgid "time:time to maturity in days"
-msgstr "tiempo: plazo de vencimiento en días"
+msgstr "tiempo:tiempo de vencimiento en días"
 
 #: ../plugins/fn-derivatives/options.c:51
 msgid "time_payout:time to dividend payout"
-msgstr "tiempo de pago: el tiempo de pago de dividendos"
+msgstr "tiempo_recuperación:tiempo de pago de dividendos"
 
 #: ../plugins/fn-derivatives/options.c:52
 msgid "time_exp:time to expiration"
-msgstr "tiempo_exp: tiempo de expiración"
+msgstr "tiempo_exp:tiempo de expiración"
 
 #: ../plugins/fn-derivatives/options.c:53
 msgid "rate:risk-free interest rate to the exercise date in percent"
 msgstr ""
-"tasa: tasa de interés libre de riesgo a la fecha de ejercicio en porcentaje"
+"tasa:tasa de interés libre de riesgo a la fecha de ejercicio en porcentaje"
 
 #: ../plugins/fn-derivatives/options.c:54
 msgid "rate:annualized interest rate"
-msgstr "tasa: tasa de interés nominal anual"
+msgstr "tasa:tasa de interés anualizada"
 
 #: ../plugins/fn-derivatives/options.c:55
 msgid "rate:annualized risk-free interest rate"
-msgstr "tasa: tasa de interés nominal anual libre de riesgo"
+msgstr "tasa:tasa de interés anualizada libre de riesgo"
 
 #: ../plugins/fn-derivatives/options.c:56
 msgid ""
 "volatility:annualized volatility of the asset in percent for the period "
 "through to the exercise date"
 msgstr ""
-"volatilidad:volatilidad anualizada de los activos en tanto porciento para el "
+"volatilidad:volatilidad anualizada de los activos en porcentaje para el "
 "periodo hasta la fecha de ejercicio"
 
 #: ../plugins/fn-derivatives/options.c:57
@@ -1589,16 +1591,16 @@ msgstr "volatilidad:volatilidad anualizada de los activos"
 
 #: ../plugins/fn-derivatives/options.c:58
 msgid "d:amount of the dividend to be paid expressed in currency"
-msgstr "d:importe del dividendo a pagar expresado en moneda"
+msgstr "d:importe del dividendo a pagar expresado en divisa"
 
 #: ../plugins/fn-derivatives/options.c:59
 msgid ""
 "cost_of_carry:net cost of holding the underlying asset (for common stocks, "
 "the risk free rate less the dividend yield), defaults to 0"
 msgstr ""
-"coste_de_financiación:coste neto de la financiación del activo subyacente "
-"(para las acciones comunes, la tasa libre de riesgo menos la rentabilidad "
-"del dividendo efectivo), el valor predeterminado es 0."
+"coste_de_financiación:costo neto de la financiación del activo subyacente "
+"(para acciones comunes, la tasa libre de riesgo menos la rentabilidad del "
+"dividendo), el predeterminado es 0."
 
 #: ../plugins/fn-derivatives/options.c:60
 msgid "cost_of_carry:net cost of holding the underlying asset"
@@ -1615,8 +1617,7 @@ msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:192
 msgid "CUM_BIV_NORM_DIST:cumulative bivariate normal distribution"
-msgstr ""
-"CUM_BIV_NORM_DIST:función de distribución bivariable normal acumulativa"
+msgstr "CUM_BIV_NORM_DIST:distribución normal bivariable acumulativa"
 
 #: ../plugins/fn-derivatives/options.c:193
 msgid "a:limit for first random variable"
@@ -1636,30 +1637,39 @@ msgid ""
 "distributed random variables with correlation @{rho} are respectively each "
 "less than @{a} and @{b}."
 msgstr ""
+"CUM_BIV_NORM_DIST calcula la probabilidad de que dos variables aleatorias "
+"distribuidas normalmente con correlacion @{rho} son respectivamente cada una "
+"menores que @{a} y @{b}"
 
 #: ../plugins/fn-derivatives/options.c:245
 msgid "OPT_BS:price of a European option"
-msgstr ""
+msgstr "OPT_BS:precio de una opción europea"
 
 #: ../plugins/fn-derivatives/options.c:253
 msgid ""
 "OPT_BS uses the Black-Scholes model to calculate the price of a European "
 "option struck at @{strike} on an asset with spot price @{spot}."
 msgstr ""
+"OPT_BS usa el modelo Black-Scholes para calcular el precio de una opción "
+"europea producida en @{ejercicio} en un activo con precio al contado @"
+"{contado}."
 
 #: ../plugins/fn-derivatives/options.c:302
 msgid "OPT_BS_DELTA:delta of a European option"
-msgstr ""
+msgstr "OPT_BS_DELTA:delta de una opción europea"
 
 #: ../plugins/fn-derivatives/options.c:310
 msgid ""
 "OPT_BS_DELTA uses the Black-Scholes model to calculate the 'delta' of a "
 "European option struck at @{strike} on an asset with spot price @{spot}."
 msgstr ""
+"OPT_BS_DELTA usa el modelo Black-Scholes para calcular el «delta» de una "
+"opción europea producida en @{ejercicio} en un activo con precio al contado @"
+"{contado}."
 
 #: ../plugins/fn-derivatives/options.c:344
 msgid "OPT_BS_GAMMA:gamma of a European option"
-msgstr ""
+msgstr "OPT_BS_GAMMA:gama de una opción europea"
 
 #: ../plugins/fn-derivatives/options.c:351
 msgid ""
@@ -1668,19 +1678,25 @@ msgid ""
 "gamma of an option is the second derivative of its price with respect to the "
 "price of the underlying asset."
 msgstr ""
+"OPT_BS_GAMMA usa el modelo Black-Scholes para calcular el «gama» de una "
+"opción europea producida en @{ejercicio} en un activo con precio al contado @"
+"{contado}. El gama de una opción es la segunda derivada de su precio con "
+"respecto al precio del activo subyacente."
 
 #: ../plugins/fn-derivatives/options.c:356
 msgid ""
 "Gamma is expressed as the rate of change of delta per unit change in @{spot}."
 msgstr ""
+"Gama está expresada como la tasa de cambio de delta por unidad de cambio en @"
+"{contado}."
 
 #: ../plugins/fn-derivatives/options.c:358
 msgid "Gamma is the same for calls and puts."
-msgstr ""
+msgstr "Gama es lo mismo para llamadas y entradas."
 
 #: ../plugins/fn-derivatives/options.c:401
 msgid "OPT_BS_THETA:theta of a European option"
-msgstr ""
+msgstr "OPT_BS_THETA:theta de una opción europea"
 
 #: ../plugins/fn-derivatives/options.c:409
 msgid ""
@@ -1689,16 +1705,22 @@ msgid ""
 "theta of an option is the rate of change of its price with respect to time "
 "to expiry."
 msgstr ""
+"OPT_BS_THETA usa el modelo Black-Scholes para calcular el «theta» de una "
+"opción europea producida en @{ejercicio} en un activo con precio al contado @"
+"{contado}. El theta de una opción es la tasa de cambio de su precio con "
+"respecto al tiempo de expiración."
 
 #: ../plugins/fn-derivatives/options.c:414
 msgid ""
 "Theta is expressed as the negative of the rate of change of the option "
 "value, per 365.25 days."
 msgstr ""
+"Theta está expresada como el negativo de la tasa de cambio del valor de la "
+"opción, por 365.25 días."
 
 #: ../plugins/fn-derivatives/options.c:445
 msgid "OPT_BS_VEGA:vega of a European option"
-msgstr ""
+msgstr "OPT_BS_VEGA:vega de una opción europea"
 
 #: ../plugins/fn-derivatives/options.c:452
 msgid ""
@@ -1707,20 +1729,26 @@ msgid ""
 "vega of an option is the rate of change of its price with respect to "
 "volatility."
 msgstr ""
+"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una "
+"opción europea producida en @{ejercicio} en un activo con precio al contado @"
+"{contado}. El vega de una opción es la tasa de cambio de su precio con "
+"respecto a la volatilidad."
 
 #: ../plugins/fn-derivatives/options.c:457
 msgid "Vega is the same for calls and puts."
-msgstr ""
+msgstr "Vega es lo mismo para llamadas y entradas."
 
 #: ../plugins/fn-derivatives/options.c:459
 #, no-c-format
 msgid ""
 "Vega is expressed as the rate of change of option value, per 100% volatility."
 msgstr ""
+"Vega está expresada como la tasa de cambio del valor de la opción, por 100% "
+"de volatilidad."
 
 #: ../plugins/fn-derivatives/options.c:510
 msgid "OPT_BS_RHO:rho of a European option"
-msgstr ""
+msgstr "OPT_BS_RHO:rho de una opción europea"
 
 #: ../plugins/fn-derivatives/options.c:518
 msgid ""
@@ -1729,6 +1757,10 @@ msgid ""
 "an option is the rate of change of its price with respect to the risk free "
 "interest rate."
 msgstr ""
+"OPT_BS_RHO usa el modelo Black-Scholes para calcular el «rho» de una opción "
+"europea producida en @{ejercicio} en un activo con precio al contado @"
+"{contado}. El rho de una opción es la tasa de cambio de su precio con "
+"respecto a la tasa de interés libre de riesgo."
 
 #: ../plugins/fn-derivatives/options.c:524
 #, no-c-format
@@ -1736,10 +1768,12 @@ msgid ""
 "Rho is expressed as the rate of change of the option value, per 100% change "
 "in @{rate}."
 msgstr ""
+"Rho está expresado como la tasa de cambio del valor de opción, por 100% de "
+"cambio en @{tasa}."
 
 #: ../plugins/fn-derivatives/options.c:566
 msgid "OPT_BS_CARRYCOST:elasticity of a European option"
-msgstr ""
+msgstr "OPT_BS_CARRYCOST:elasticidad de una opción europea"
 
 #: ../plugins/fn-derivatives/options.c:574
 msgid ""
@@ -1748,6 +1782,10 @@ msgid ""
 "{spot}. The elasticity of an option is the rate of change of its price with "
 "respect to its @{cost_of_carry}."
 msgstr ""
+"OPT_BS_CARRYCOST usa el modelo Black-Scholes para calcular la «elasticidad» "
+"de una opción europea producida en @{ejercicio} en un activo con precio al "
+"contado @{contado}. La elasticidad de una opción es la tasa de cambio de su "
+"precio con respecto a su @{costo_de_financiación}."
 
 #: ../plugins/fn-derivatives/options.c:580
 #, no-c-format
@@ -1755,10 +1793,12 @@ msgid ""
 "Elasticity is expressed as the rate of change of the option value, per 100% "
 "volatility."
 msgstr ""
+"La elasticidad está expresada como la tasa de cambio del valor de opción, "
+"por 100% de volatilidad."
 
 #: ../plugins/fn-derivatives/options.c:624
 msgid "OPT_GARMAN_KOHLHAGEN:theoretical price of a European currency option"
-msgstr ""
+msgstr "OPT_GARMAN_KOHLHAGEN:precio teórico de una opción de divisa europea"
 
 #: ../plugins/fn-derivatives/options.c:628
 msgid "time:number of days to exercise"
@@ -1769,35 +1809,48 @@ msgid ""
 "domestic_rate:domestic risk-free interest rate to the exercise date in "
 "percent"
 msgstr ""
+"tasa_doméstica: tasa de interés doméstico libre de riesgo a la fecha de "
+"ejercicio en porcentaje"
 
 #: ../plugins/fn-derivatives/options.c:630
 msgid ""
 "foreign_rate:foreign risk-free interest rate to the exercise date in percent"
 msgstr ""
+"tasa_exterior:tasa de interes externo libre de riesgo a la fecha de "
+"ejercicio en porcentaje"
 
 #: ../plugins/fn-derivatives/options.c:632
 msgid ""
 "OPT_GARMAN_KOHLHAGEN values the theoretical price of a European currency "
 "option struck at @{strike} on an asset with spot price @{spot}."
 msgstr ""
+"OPT_GARMAN_KOHLHAGEN valora el precio teórico de una opción de divisa "
+"europea producida en @{ejercicio} en un activo con precio al contado @"
+"{contado}."
 
 #: ../plugins/fn-derivatives/options.c:678
 msgid ""
 "OPT_FRENCH:theoretical price of a European option adjusted for trading day "
 "volatility"
 msgstr ""
+"OPT_FRENCH:precio teórico de una opción europea ajustada para la volatilidad "
+"de días de negociación"
 
 #: ../plugins/fn-derivatives/options.c:682
 msgid ""
 "time:ratio of the number of calendar days to exercise and the number of "
 "calendar days in the year"
 msgstr ""
+"tiempo:proporción del número de días calendario para el ejercicio y el "
+"número de días calendario en el año"
 
 #: ../plugins/fn-derivatives/options.c:683
 msgid ""
 "ttime:ratio of the number of trading days to exercise and the number of "
 "trading days in the year"
 msgstr ""
+"tiempot:proporción del número de días de negociación para el ejercicio y el "
+"número de días de negociación en el año"
 
 #: ../plugins/fn-derivatives/options.c:687
 msgid ""
@@ -1805,64 +1858,74 @@ msgid ""
 "trading day volatility, struck at @{strike} on an asset with spot price @"
 "{spot}."
 msgstr ""
+"OPT_FRENCH valora el precio teórico de una opción europea ajustada por la "
+"volatilidad del día de negociación, producida en @{ejercicio} en un activo "
+"con precio al contado @{contado}."
 
 #: ../plugins/fn-derivatives/options.c:731
 msgid ""
 "OPT_JUMP_DIFF:theoretical price of an option according to the Jump Diffusion "
 "process"
 msgstr ""
+"OPT_JUMP_DIFF:precio teórico de una opción de acuerdo al proceso de difusión "
+"de salto"
 
 #: ../plugins/fn-derivatives/options.c:736
 msgid "rate:the annualized rate of interest"
-msgstr ""
+msgstr "tasa:la tasa anualizada de interés"
 
 #: ../plugins/fn-derivatives/options.c:738
 msgid "lambda:expected number of 'jumps' per year"
-msgstr ""
+msgstr "lambda:número esperado de «saltos» por año"
 
 #: ../plugins/fn-derivatives/options.c:739
 msgid "gamma:proportion of volatility explained by the 'jumps'"
-msgstr ""
+msgstr "gama:proporción de volatilidad explicada por los «saltos»"
 
 #: ../plugins/fn-derivatives/options.c:740
 msgid ""
 "OPT_JUMP_DIFF models the theoretical price of an option according to the "
 "Jump Diffusion process (Merton)."
 msgstr ""
+"OPT_JUMP_DIFF modela el precio teórico de una opción de acuerdo al proceso "
+"de difusión de salto (Merton)."
 
 #: ../plugins/fn-derivatives/options.c:818
 msgid ""
 "OPT_MILTERSEN_SCHWARTZ:theoretical price of options on commodities futures "
 "according to Miltersen & Schwartz"
 msgstr ""
+"OPT_MILTERSEN_SCHWARTZ:precio teórico de opciones en materias primas futuras "
+"de acuerdo a Miltersen & Schwartz"
 
 #: ../plugins/fn-derivatives/options.c:820
 msgid "p_t:zero coupon bond with expiry at option maturity"
-msgstr ""
+msgstr "p_t:bono cupón cero con vencimiento en la madurez de opción"
 
 #: ../plugins/fn-derivatives/options.c:821
 msgid "f_t:futures price"
-msgstr ""
+msgstr "f_t:precio futuro"
 
 #: ../plugins/fn-derivatives/options.c:823
 msgid "t1:time to maturity of the option"
-msgstr ""
+msgstr "t1:tiempo de vencimiento de la opción"
 
 #: ../plugins/fn-derivatives/options.c:824
 msgid "t2:time to maturity of the underlying commodity futures contract"
 msgstr ""
+"t2:tiempo de vencimiento de la materia prima subyacente de contrato futuro"
 
 #: ../plugins/fn-derivatives/options.c:825
 msgid "v_s:volatility of the spot commodity price"
-msgstr ""
+msgstr "v_s:volatilidad del precio al contado de la materia prima"
 
 #: ../plugins/fn-derivatives/options.c:826
 msgid "v_e:volatility of the future convenience yield"
-msgstr ""
+msgstr "v_e:volatilidad de la futura producción de conveniencia"
 
 #: ../plugins/fn-derivatives/options.c:827
 msgid "v_f:volatility of the forward rate of interest"
-msgstr ""
+msgstr "v_f:volatilidad de la tasa de interés de adelante"
 
 #: ../plugins/fn-derivatives/options.c:828
 msgid ""
@@ -9816,9 +9879,9 @@ msgid ""
 "reliability."
 msgstr ""
 "Esta distribución se ha recomendado para el análisis del tiempo de función "
-"cuando se desea una función peligroso de forma «U». Esto corresponde al fallo "
-"rápido una vez que el producto comience a desgastarse después de un periodo "
-"estacionario o incluso mejorando la fiabilidad."
+"cuando se desea una función peligroso de forma «U». Esto corresponde al "
+"fallo rápido una vez que el producto comience a desgastarse después de un "
+"periodo estacionario o incluso mejorando la fiabilidad."
 
 #: ../plugins/fn-stat/functions.c:4526
 msgid "LAPLACE:probability density function of the Laplace distribution"
@@ -10942,9 +11005,9 @@ msgstr ""
 #~ "\n"
 #~ "@liquidación es la fecha de liquidación de la acción. @vencimiento es la "
 #~ "fecha de vencimiento de la acción. @emisión es la fecha de emisión de la "
-#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por 100"
-#~ "$ de valor facial de la acción. @base es el tipo de sistema de conteo de "
-#~ "días que quiere usar:\n"
+#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por "
+#~ "100$ de valor facial de la acción. @base es el tipo de sistema de conteo "
+#~ "de días que quiere usar:\n"
 #~ "\n"
 #~ " 0 US 30/360\n"
 #~ " 1 días actuales/días actuales\n"
