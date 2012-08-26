@@ -9099,46 +9099,35 @@ static void
 odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
+	GOPath *path = go_path_new_from_odf_enhanced_path (state->chart.cs_enhanced_path, NULL);
 
-	if (state->chart.cs_type) {
-		GOPath *path = go_path_new_from_odf_enhanced_path (state->chart.cs_enhanced_path, NULL);
-		if (path) {
-			odf_custom_shape_replace_object
-				(state, g_object_new (GNM_SO_PATH_TYPE,
-						      "path", path, NULL));
-			go_path_free (path);
-		}
-		else if (0 == g_ascii_strcasecmp (state->chart.cs_type, "ellipse") &&
-		    g_str_has_prefix (state->chart.cs_enhanced_path, "U ")) {
-			/* We have already created an ellipse */
-		} else if (0 == g_ascii_strcasecmp (state->chart.cs_type, "rectangle") &&
+	/* Note that ee have already created a rectangle */
+	
+	if (path) {
+		odf_custom_shape_replace_object
+			(state, g_object_new (GNM_SO_PATH_TYPE,
+					      "path", path, NULL));
+		go_path_free (path);
+	} else if (state->chart.cs_type) {
+		/* ignoring "ellipse" and "rectangle" since they will be handled by the GOPath */
+		if (0 == g_ascii_strcasecmp (state->chart.cs_type, "frame") &&
 		    g_str_has_prefix (state->chart.cs_enhanced_path, "M ")) {
-			/* We have already created an ellipse */
-			odf_custom_shape_replace_object
-				(state, g_object_new (GNM_SO_FILLED_TYPE,
-						      "is-oval", FALSE, NULL));
-		}  else if (0 == g_ascii_strcasecmp (state->chart.cs_type, "frame") &&
-		    g_str_has_prefix (state->chart.cs_enhanced_path, "M ")) {
-			/* We have already created an ellipse */
 			odf_custom_shape_replace_object
 				(state, g_object_new (GNM_SOW_FRAME_TYPE, NULL));
 		} else if (0 == g_ascii_strcasecmp (state->chart.cs_type, "round-rectangle") ||
 			   0 == g_ascii_strcasecmp (state->chart.cs_type, "paper") ||
 			   0 == g_ascii_strcasecmp (state->chart.cs_type, "parallelogram") ||
 			   0 == g_ascii_strcasecmp (state->chart.cs_type, "trapezoid")) {
-			/* We have already created an ellipse */
-			odf_custom_shape_replace_object
-				(state, g_object_new (GNM_SO_FILLED_TYPE,
-						      "is-oval", FALSE, NULL));
+			/* We have already created the rectangle */
 			oo_warning (xin , _("An unsupported custom shape of type '%s' was encountered and "
 					    "converted to a rectangle."), state->chart.cs_type);
-		}else
+		} else
 			oo_warning (xin , _("An unsupported custom shape of type '%s' was encountered and "
-					    "converted to an ellipse."), state->chart.cs_type);
+					    "converted to a rectangle."), state->chart.cs_type);
 	} else
 		oo_warning (xin , _("An unsupported custom shape was encountered and "
-				    "converted to an ellipse."));
-
+				    "converted to a rectangle."));
+	
 	od_draw_text_frame_end (xin, blob);
 
 	g_free (state->chart.cs_enhanced_path);
@@ -9158,7 +9147,7 @@ odf_custom_shape (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.cs_enhanced_path = NULL;
 	state->chart.cs_type = NULL;
 
-	odf_so_filled (xin, attrs, TRUE);
+	odf_so_filled (xin, attrs, FALSE);
 	odf_push_text_p (state, FALSE);
 }
 
