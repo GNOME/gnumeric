@@ -168,6 +168,7 @@ libspreadsheet_la_SOURCES =			\
 	sheet-object-cell-comment.c		\
 	gnm-so-filled.c				\
 	gnm-so-line.c				\
+	gnm-so-path.c				\
 	gnm-so-polygon.c			\
 	sheet-object-component.c		\
 	sheet-object-graph.c			\
@@ -298,6 +299,7 @@ libspreadsheet_include_HEADERS = 	\
 	sheet-object-widget-impl.h		\
 	gnm-so-filled.h				\
 	gnm-so-line.h				\
+	gnm-so-path.h			\
 	gnm-so-polygon.h			\
 	sheet-object-component.h		\
 	sheet-object-graph.h			\

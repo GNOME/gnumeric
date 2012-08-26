@@ -62,6 +62,7 @@
 #include <graph.h>
 #include <gnm-so-filled.h>
 #include <gnm-so-line.h>
+#include <gnm-so-path.h>
 #include <hlink.h>
 
 
@@ -9100,7 +9101,14 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 
 	if (state->chart.cs_type) {
-		if (0 == g_ascii_strcasecmp (state->chart.cs_type, "ellipse") &&
+		GOPath *path = go_path_new_from_odf_enhanced_path (state->chart.cs_enhanced_path, NULL);
+		if (path) {
+			odf_custom_shape_replace_object
+				(state, g_object_new (GNM_SO_PATH_TYPE,
+						      "path", path, NULL));
+			go_path_free (path);
+		}
+		else if (0 == g_ascii_strcasecmp (state->chart.cs_type, "ellipse") &&
 		    g_str_has_prefix (state->chart.cs_enhanced_path, "U ")) {
 			/* We have already created an ellipse */
 		} else if (0 == g_ascii_strcasecmp (state->chart.cs_type, "rectangle") &&

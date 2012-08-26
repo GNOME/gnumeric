@@ -1,3 +1,7 @@
+2012-08-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* openoffice-read.c (odf_custom_shape_end): use GnmSOPath when possible.
+
 2012-08-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugin.xml.in: use the standards terms of conformance rather than
