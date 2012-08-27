@@ -3547,7 +3547,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>BASE</function> converts <parameter>n</parameter> to its string representation in base <parameter>b</parameter>. Leading zeroes will be added to reach the minimum length given by <parameter>length</parameter>.</para>
+        <para><function>BASE</function> converts <parameter>n</parameter> to its string representation in base <parameter>b</parameter>. Leading zeros will be added to reach the minimum length given by <parameter>length</parameter>.</para>
       </refsect1>
       <refsect1>
         <title>OpenDocument Format (ODF) Compatibility</title>
@@ -6244,7 +6244,7 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>spot1</parameter>: spot price of asset 1</para>
-        <para><parameter>spot2</parameter>: spot price of asset 1</para>
+        <para><parameter>spot2</parameter>: spot price of asset 2</para>
         <para><parameter>qty1</parameter>: quantity of asset 1</para>
         <para><parameter>qty2</parameter>: quantity of asset 2</para>
         <para><parameter>time</parameter>: time to maturity in years</para>
