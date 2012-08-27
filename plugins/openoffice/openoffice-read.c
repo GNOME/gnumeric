@@ -288,6 +288,7 @@ typedef struct {
 	char                    *cs_type;
 	char                    *cs_enhanced_path;
 	char                    *cs_modifiers;
+	char                    *cs_viewbox;
 	GHashTable              *cs_variables;
 } OOChartInfo;
 
@@ -9106,10 +9107,227 @@ odf_parse_float (char *text, char **end)
 		x = 1.;
 
 	if (**end == 'E' || **end == 'e') {
-		gnm_float exp = gnm_strto (*end, end);
+		gnm_float exp = gnm_strto (*end + 1, end);
 		x *= gnm_pow10 (exp);
 	}
 	return x;
+}
+
+static double
+odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint level)
+{
+	double *x = g_hash_table_lookup (vals, key);
+	OOParseState *state = (OOParseState *)xin->user_state;
+	gchar *formula, *o_formula;
+	GString *gstr;
+	GnmConventions const *convs = gnm_conventions_default;
+	GnmExprTop const *texpr;
+	GnmLocale *oldlocale = NULL;
+	double x_ret = level;
+	double viewbox_left = 0.;
+	double viewbox_top = 0.;
+	double viewbox_width = 0.;
+	double viewbox_height = 0.;
+	
+	if (x)
+		return *x;
+
+	o_formula = formula = g_hash_table_lookup (state->chart.cs_variables, key);
+
+	if (level < 0) {
+		oo_warning (xin, _("Infinite loop encountered while parsing formula '%s' "
+				   "of name '%s'"), 
+			    o_formula, key);
+		return 0;
+	}
+	
+	g_return_val_if_fail (formula != NULL, level);
+
+	if (state->chart.cs_viewbox) {
+		/*
+		  Note:
+		  In ODF 1.2 part 1 19.570 svg:viewBox we have:
+		  "The syntax for using this attribute is the same as the [SVG] syntax. 
+		  The value of the attribute are four numbers separated by white spaces,
+		  which define the left, top, right, and bottom dimensions of the user
+		  coordinate system."
+		  but [SVG] specifies:
+		  "The value of the viewBox attribute is a list of four numbers <min-x>,
+		  <min-y>, <width> and <height>"
+		  Since so far we have only seen cases with left  == top == 0, We don't know which
+		  version is really used. We are implementing the [SVG] version.
+		 */
+		char *end = NULL;
+		viewbox_left = go_strtod (state->chart.cs_viewbox, &end);
+		viewbox_top = go_strtod (end, &end);
+		viewbox_width = go_strtod (end, &end);
+		viewbox_height = go_strtod (end, &end);		
+	}
+	
+	gstr = g_string_new ("");
+
+	while (*formula != 0) {
+		gchar *here;
+		gchar *name;
+		double *val, fval;
+
+		switch (*formula) {
+		case ' ':
+		case '\t':
+			formula++;
+			break;
+		case '?':
+			here = formula + 1;
+			while (*here != ' ' && *here != '\t')
+				here++;
+			name = g_strndup (formula, here - formula);
+			formula = here;
+			fval = odf_get_cs_formula_value (xin, name, vals, level - 1);
+			g_string_append_printf (gstr, "%.12" GNM_FORMAT_g , fval);
+			g_free (name);
+			break;
+		case '$':
+			here = formula + 1;
+			while (g_ascii_isdigit (*here))
+				here++;
+			name = g_strndup (formula, here - formula);
+			formula = here;
+			val = g_hash_table_lookup (vals, name);
+			g_free (name);
+			if (val == NULL)
+				g_string_append_c (gstr, '0');
+			else
+				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g, *val);
+			break;
+		case 'p':
+			if (g_str_has_prefix (formula, "pi")) {
+				formula += 2;
+				g_string_append (gstr, "pi()");
+			} else {
+				g_string_append_c (gstr, *formula);
+				formula++;
+			}
+			break;
+		case 't':
+			if (g_str_has_prefix (formula, "top")) {
+				formula += 3;
+				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g, viewbox_top);
+			} else {
+				g_string_append_c (gstr, *formula);
+				formula++;
+			}
+			break;
+		case 'b':
+			if (g_str_has_prefix (formula, "bottom")) {
+				formula += 6;
+				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g, 
+							viewbox_top + viewbox_height);
+			} else {
+				g_string_append_c (gstr, *formula);
+				formula++;
+			}
+			break;
+		case 'l':
+			if (g_str_has_prefix (formula, "left")) {
+				formula += 4;
+				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g, viewbox_left);
+			} else {
+				g_string_append_c (gstr, *formula);
+				formula++;
+			}
+			break;
+		case 'r':
+			if (g_str_has_prefix (formula, "right")) {
+				formula += 5;
+				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g, 
+							viewbox_left + viewbox_width);
+			} else {
+				g_string_append_c (gstr, *formula);
+				formula++;
+			}
+			break;
+		case 'h':
+			if (g_str_has_prefix (formula, "height")) {
+				formula += 6;
+				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g, viewbox_height);
+			} else {
+				g_string_append_c (gstr, *formula);
+				formula++;
+			}
+			break;
+		case 'w':
+			if (g_str_has_prefix (formula, "width")) {
+				formula += 6;
+				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g, viewbox_width);
+			} else {
+				g_string_append_c (gstr, *formula);
+				formula++;
+			}
+			break;
+
+
+			/* The ODF specs says (in ODF 1.2 part 1 item 19.171): 
+			   "sin(n) returns the trigonometric sine of n, where n is an angle 
+			   specified in degrees"
+			   but LibreOffice clearly uses sin(n) with n in radians
+			*/
+		/* case 'c': */
+		/* 	if (g_str_has_prefix (formula, "cos(")) { */
+		/* 		formula += 4; */
+		/* 		/\* FIXME: this does not work in general, eg. if the argument *\/ */
+		/* 		/\* to cos is a sum *\/ */
+		/* 		g_string_append (gstr, "cos(pi()/180*"); */
+		/* 	} else { */
+		/* 		g_string_append_c (gstr, *formula); */
+		/* 		formula++; */
+		/* 	} */
+		/* 	break; */
+		/* case 's': */
+		/* 	if (g_str_has_prefix (formula, "sin(")) { */
+		/* 		formula += 4; */
+		/* 		/\* FIXME: this does not work in general, eg. if the argument *\/ */
+		/* 		/\* to sin is a sum *\/ */
+		/* 		g_string_append (gstr, "sin(pi()/180*"); */
+		/* 	} else { */
+		/* 		g_string_append_c (gstr, *formula); */
+		/* 		formula++; */
+		/* 	} */
+		/* 	break; */
+		default:
+			g_string_append_c (gstr, *formula);
+			formula++;
+			break;			
+		}
+	}
+
+	oldlocale = gnm_push_C_locale ();
+	texpr = gnm_expr_parse_str (gstr->str, &state->pos,
+				    GNM_EXPR_PARSE_DEFAULT,
+				    convs,
+				    NULL);
+	gnm_pop_C_locale (oldlocale);
+
+	if (texpr) {
+		GnmEvalPos ep;
+		GnmValue *val;
+		eval_pos_init_sheet (&ep, state->pos.sheet);
+		val  = gnm_expr_top_eval
+			(texpr, &ep, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+		if (VALUE_IS_NUMBER (val)) {
+			x_ret = value_get_as_float (val);
+			x = g_new (double, 1);
+			*x = x_ret;
+			g_hash_table_insert (vals, g_strdup (key), x);
+		} else
+			oo_warning (xin, _("Unable to evaluate formula '%s' ('%s') of name '%s'"), 
+				    o_formula, gstr->str, key);
+		value_release (val);
+		gnm_expr_top_unref (texpr);
+	} else
+		oo_warning (xin, _("Unable to parse formula '%s' ('%s') of name '%s'"), 
+			    o_formula, gstr->str, key);
+	g_string_free (gstr, TRUE);
+	return x_ret;
 }
 
 static void
@@ -9143,7 +9361,12 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 			}
 		}
 		if (state->chart.cs_variables) {
-			
+			GList *keys = g_hash_table_get_keys (state->chart.cs_variables);
+			GList *l;
+			gint level = g_hash_table_size (state->chart.cs_variables);
+			for (l = keys; l != NULL; l = l->next)
+				odf_get_cs_formula_value (xin, l->data, vals, level);
+			g_list_free (keys);
 		}
 	}
 	path = go_path_new_from_odf_enhanced_path (state->chart.cs_enhanced_path, 
@@ -9182,9 +9405,11 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 
 	g_free (state->chart.cs_enhanced_path);
 	g_free (state->chart.cs_modifiers);
+	g_free (state->chart.cs_viewbox);
 	g_free (state->chart.cs_type);
 	state->chart.cs_enhanced_path = NULL;
 	state->chart.cs_modifiers = NULL;
+	state->chart.cs_viewbox = NULL;
 	state->chart.cs_type = NULL;
 	if (state->chart.cs_variables)
 		g_hash_table_remove_all (state->chart.cs_variables);
@@ -9242,6 +9467,9 @@ odf_custom_shape_enhanced_geometry (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					     OO_NS_DRAW, "modifiers"))
 			state->chart.cs_modifiers = g_strdup (CXML2C (attrs[1]));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					     OO_NS_SVG, "viewBox"))
+			state->chart.cs_viewbox = g_strdup (CXML2C (attrs[1]));
 }
 
 static GOArrow *
@@ -11474,6 +11702,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	state.sharer = gnm_expr_sharer_new ();
 	state.chart.cs_enhanced_path = NULL;
 	state.chart.cs_modifiers = NULL;
+	state.chart.cs_viewbox = NULL;
 	state.chart.cs_type = NULL;
 	state.chart.cs_variables = NULL;
 	state.chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] = NULL;
@@ -11722,6 +11951,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	gnm_expr_sharer_destroy (state.sharer);
 	g_free (state.chart.cs_enhanced_path);
 	g_free (state.chart.cs_modifiers);
+	g_free (state.chart.cs_viewbox);
 	g_free (state.chart.cs_type);
 	if (state.chart.cs_variables)
 		g_hash_table_destroy (state.chart.cs_variables);
