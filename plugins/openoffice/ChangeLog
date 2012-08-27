@@ -1,5 +1,13 @@
 2012-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_parse_float): new
+	(odf_custom_shape_end): interpret modifiers
+	(odf_custom_shape_equation): new
+	(opendoc_content_dtd): connect odf_custom_shape_equation
+	(openoffice_file_open): initialize and finalize new fields
+
+2012-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_custom_shape_end): cs_type is optional and not
 	needed for GnmSOPath, "ellipse" and "rectangle" are handled by GOPath so
 	we need not special case them (especially since they are not defined by ODF)

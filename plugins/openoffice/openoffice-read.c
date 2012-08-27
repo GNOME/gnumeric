@@ -287,6 +287,8 @@ typedef struct {
 	/* Custom Shape */
 	char                    *cs_type;
 	char                    *cs_enhanced_path;
+	char                    *cs_modifiers;
+	GHashTable              *cs_variables;
 } OOChartInfo;
 
 typedef enum {
@@ -9095,13 +9097,61 @@ odf_custom_shape_replace_object (OOParseState *state, SheetObject *so)
 	state->chart.so = so;
 }
 
+static gnm_float
+odf_parse_float (char *text, char **end)
+{
+	gnm_float x = gnm_strto (text, end);
+	
+	if (text == *end)
+		x = 1.;
+
+	if (**end == 'E' || **end == 'e') {
+		gnm_float exp = gnm_strto (*end, end);
+		x *= gnm_pow10 (exp);
+	}
+	return x;
+}
+
 static void
 odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	GOPath *path = go_path_new_from_odf_enhanced_path (state->chart.cs_enhanced_path, NULL);
-
-	/* Note that ee have already created a rectangle */
+	GOPath *path;
+	GHashTable *vals = NULL;
+	
+	if (state->chart.cs_variables || state->chart.cs_modifiers) {
+		vals = g_hash_table_new_full
+			(g_str_hash, g_str_equal,
+			 (GDestroyNotify) g_free, (GDestroyNotify) g_free);
+		if (state->chart.cs_modifiers) {
+			int i = 0;
+			char *next = state->chart.cs_modifiers;
+			
+			while (*next != 0) {
+				char *end  = next;
+				gnm_float x = odf_parse_float (next, &end);
+				if (end > next) {
+					gnm_float *xp = g_new (gnm_float, 1);
+					char *name = g_strdup_printf ("$%i", i);
+					*xp = x;
+					g_hash_table_insert (vals, name, xp);
+					i++;
+					while (*end == ' ')
+						end++;
+					next = end;
+				} else break;
+			}
+		}
+		if (state->chart.cs_variables) {
+			
+		}
+	}
+	path = go_path_new_from_odf_enhanced_path (state->chart.cs_enhanced_path, 
+						   vals);
+	if (vals)
+		g_hash_table_unref (vals);
+		
+	/* Note that we have already created a rectangle */
 	
 	if (path) {
 		odf_custom_shape_replace_object
@@ -9131,9 +9181,35 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 	od_draw_text_frame_end (xin, blob);
 
 	g_free (state->chart.cs_enhanced_path);
+	g_free (state->chart.cs_modifiers);
 	g_free (state->chart.cs_type);
 	state->chart.cs_enhanced_path = NULL;
+	state->chart.cs_modifiers = NULL;
 	state->chart.cs_type = NULL;
+	if (state->chart.cs_variables)
+		g_hash_table_remove_all (state->chart.cs_variables);
+}
+
+static void
+odf_custom_shape_equation (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	gchar const *name = NULL, *meaning = NULL;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) 
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					OO_NS_DRAW, "name"))
+			name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					     OO_NS_DRAW, "formula"))
+			meaning = CXML2C (attrs[1]);
+	if (name && meaning) {
+		if (state->chart.cs_variables == NULL)
+			state->chart.cs_variables = g_hash_table_new_full
+				(g_str_hash, g_str_equal,
+				 (GDestroyNotify) g_free, (GDestroyNotify) g_free);
+		g_hash_table_insert (state->chart.cs_variables,
+				     g_strdup_printf ("?%s", name), g_strdup (meaning));
+	}
 }
 
 static void
@@ -9160,9 +9236,12 @@ odf_custom_shape_enhanced_geometry (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					OO_NS_DRAW, "type"))
 			state->chart.cs_type = g_strdup (CXML2C (attrs[1]));
-		else 	if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
-						OO_NS_DRAW, "enhanced-path"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					     OO_NS_DRAW, "enhanced-path"))
 			state->chart.cs_enhanced_path = g_strdup (CXML2C (attrs[1]));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
+					     OO_NS_DRAW, "modifiers"))
+			state->chart.cs_modifiers = g_strdup (CXML2C (attrs[1]));
 }
 
 static GOArrow *
@@ -10388,7 +10467,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, &odf_custom_shape, &odf_custom_shape_end),
 	            GSF_XML_IN_NODE (DRAW_CUSTOM_SHAPE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	            GSF_XML_IN_NODE (DRAW_CUSTOM_SHAPE, DRAW_ENHANCED_GEOMETRY, OO_NS_DRAW, "enhanced-geometry", GSF_XML_NO_CONTENT, &odf_custom_shape_enhanced_geometry, NULL),
-	GSF_XML_IN_NODE (DRAW_ENHANCED_GEOMETRY, DRAW_ENHANCED_GEOMETRY_EQUATION, OO_NS_DRAW, "equation", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (DRAW_ENHANCED_GEOMETRY, DRAW_ENHANCED_GEOMETRY_EQUATION, OO_NS_DRAW, "equation", GSF_XML_NO_CONTENT, odf_custom_shape_equation, NULL),
 	GSF_XML_IN_NODE (DRAW_ENHANCED_GEOMETRY, DRAW_ENHANCED_GEOMETRY_HANDLE, OO_NS_DRAW, "handle", GSF_XML_NO_CONTENT, NULL, NULL),
 	          GSF_XML_IN_NODE (TABLE_SHAPES, DRAW_ELLIPSE, OO_NS_DRAW, "ellipse", GSF_XML_NO_CONTENT, &odf_ellipse, &od_draw_text_frame_end),
 	            GSF_XML_IN_NODE (DRAW_ELLIPSE, TEXT_CONTENT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
@@ -11394,7 +11473,9 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	state.cell_comment      = NULL;
 	state.sharer = gnm_expr_sharer_new ();
 	state.chart.cs_enhanced_path = NULL;
+	state.chart.cs_modifiers = NULL;
 	state.chart.cs_type = NULL;
+	state.chart.cs_variables = NULL;
 	state.chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] = NULL;
 	state.chart.i_plot_styles[OO_CHART_STYLE_SERIES] = NULL;
 	state.styles.sheet = g_hash_table_new_full (g_str_hash, g_str_equal,
@@ -11640,7 +11721,10 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	g_object_unref (contents);
 	gnm_expr_sharer_destroy (state.sharer);
 	g_free (state.chart.cs_enhanced_path);
+	g_free (state.chart.cs_modifiers);
 	g_free (state.chart.cs_type);
+	if (state.chart.cs_variables)
+		g_hash_table_destroy (state.chart.cs_variables);
 
 	g_slist_free_full (state.text_p_for_cell.span_style_stack, g_free);
 	if (state.text_p_for_cell.gstr)
