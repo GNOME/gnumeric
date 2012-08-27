@@ -19,15 +19,15 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-08-17 08:27+0000\n"
-"PO-Revision-Date: 2012-08-25 10:50+0200\n"
+"POT-Creation-Date: 2012-08-25 09:18+0000\n"
+"PO-Revision-Date: 2012-08-27 13:32+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
@@ -145,8 +145,7 @@ msgstr "y:parte imaginaria"
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
-"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es "
-"«i»"
+"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es «i»"
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
@@ -641,10 +640,10 @@ msgstr ""
 "@{criterios} es un rango que contiene condiciones. La primera fila de unos @"
 "{criterios} debería contener etiquetas. Cada etiqueta especifica en qué "
 "campo aplican las condiciones dadas en la columna. Cada celda debajo de la "
-"etiqueta especifica una condición como «>3» o «<9». Se puede dar una "
-"condición de igualdad por simple especificación de un valor, por ejemplo «3» "
-"o «Jody». Para que un registro se considere debe satisfacer todas las "
-"condiciones de al menos una de las filas de los @{criterios}."
+"etiqueta especifica una condición como «>3» o «<9». Se puede dar una condición "
+"de igualdad por simple especificación de un valor, por ejemplo «3» o «Jody». "
+"Para que un registro se considere debe satisfacer todas las condiciones de "
+"al menos una de las filas de los @{criterios}."
 
 #: ../plugins/fn-database/functions.c:73
 msgid ""
@@ -953,8 +952,8 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:80
 msgid ""
-"For spreadsheets created with the Mac version of Excel, serial 1 is 1-"
-"Jan-1904."
+"For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-"
+"1904."
 msgstr ""
 "Para hojas de cálculo creadas con la versión de Excel para Mac, la serie 1 "
 "es 1-Ene-1904."
@@ -1052,8 +1051,8 @@ msgid ""
 "If @{interval} is \"ym\" or \"yd\" then the distance is measured in complete "
 "months or days, respectively, but excluding any difference in years."
 msgstr ""
-"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días "
-"completos, respectivamente, pero excluyendo cualquier diferencia en años."
+"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días completos, "
+"respectivamente, pero excluyendo cualquier diferencia en años."
 
 #: ../plugins/fn-date/functions.c:218
 msgid ""
@@ -1729,8 +1728,8 @@ msgid ""
 "vega of an option is the rate of change of its price with respect to "
 "volatility."
 msgstr ""
-"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una "
-"opción europea producida en @{ejercicio} en un activo con precio al contado @"
+"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una opción "
+"europea producida en @{ejercicio} en un activo con precio al contado @"
 "{contado}. El vega de una opción es la tasa de cambio de su precio con "
 "respecto a la volatilidad."
 
@@ -1931,86 +1930,108 @@ msgstr "v_f:volatilidad de la tasa de interés de adelante"
 msgid ""
 "rho_se:correlation between the spot commodity price and the convenience yield"
 msgstr ""
+"rho_se:correlación entre el precio al contado de la materia prima y la "
+"producción de conveniencia"
 
 #: ../plugins/fn-derivatives/options.c:829
 msgid ""
 "rho_sf:correlation between the spot commodity price and the forward interest "
 "rate"
 msgstr ""
+"rho_sf:correlación entre el precio al contado de la materia prima y la tasa "
+"de interés de adelante"
 
 #: ../plugins/fn-derivatives/options.c:830
 msgid ""
 "rho_ef:correlation between the forward interest rate and the convenience "
 "yield"
 msgstr ""
+"rho_ef:correlación entre la tasa de interés de adelante y la producción de "
+"conveniencia"
 
 #: ../plugins/fn-derivatives/options.c:831
 msgid "kappa_e:speed of mean reversion of the convenience yield"
 msgstr ""
+"kappa_e:velocidad de la reversión de la media de la producción de "
+"conveniencia"
 
 #: ../plugins/fn-derivatives/options.c:832
 msgid "kappa_f:speed of mean reversion of the forward interest rate"
 msgstr ""
+"kappa_e:velocidad de la reversión de la media de la tasa de interes de "
+"adelante"
 
 #: ../plugins/fn-derivatives/options.c:915
 msgid ""
 "OPT_RGW:theoretical price of an American option according to the Roll-Geske-"
 "Whaley approximation"
 msgstr ""
+"OPT_RGW:precio teórico de una opción americana de acuerdo con la "
+"aproximación de Roll-Geske-Whaley"
 
 #: ../plugins/fn-derivatives/options.c:958
 msgid ""
 "OPT_BAW_AMER:theoretical price of an option according to the Barone Adesie & "
 "Whaley approximation"
 msgstr ""
+"OPT_BAW_AMER:precio teórico de una opción de acuerdo con la aproximación de "
+"Barone Adesie & Whaley"
 
 #: ../plugins/fn-derivatives/options.c:1130
 msgid ""
 "OPT_BJER_STENS:theoretical price of American options according to the "
 "Bjerksund & Stensland approximation technique"
 msgstr ""
+"OPT_BJER_STENS:precio teórico de opciones americanas de acuerdo con la "
+"técnica de aproximación de Bjerksund & Stensland"
 
 #: ../plugins/fn-derivatives/options.c:1204
 msgid "OPT_EXEC:theoretical price of executive stock options"
-msgstr ""
+msgstr "OPT_EXEC:precio teórico de opciones de acciones ejecutivas"
 
 #: ../plugins/fn-derivatives/options.c:1212
 msgid "lambda:jump rate for executives"
-msgstr ""
+msgstr "lambda:tasa de saltos para ejecutivos"
 
 #: ../plugins/fn-derivatives/options.c:1213
 msgid ""
 "The model assumes executives forfeit their options if they leave the company."
 msgstr ""
+"El modelo asume que los ejecutivos pierden sus opciones si dejan la empresa."
 
 #: ../plugins/fn-derivatives/options.c:1242
 msgid "OPT_FORWARD_START:theoretical price of forward start options"
-msgstr ""
+msgstr "OPT_FORWARD_START:precio teórico de opciones de inicio de adelante"
 
 #: ../plugins/fn-derivatives/options.c:1245
 msgid ""
 "alpha:fraction setting the strike price at the future date @{time_start}"
 msgstr ""
+"alfa:fracción que establece el precio de ejercicio a la fecha futura @"
+"{tiempo_inicio}"
 
 #: ../plugins/fn-derivatives/options.c:1246
 msgid "time_start:time until the option starts in days"
-msgstr ""
+msgstr "tiempo_inicio:tiempo hasta que la opción inicie en días"
 
 #: ../plugins/fn-derivatives/options.c:1294
 msgid "OPT_TIME_SWITCH:theoretical price of time switch options"
-msgstr ""
+msgstr "OPT_TIME_SWITCH:precio teórico de opciones de cambio de tiempo"
 
 #: ../plugins/fn-derivatives/options.c:1298
 msgid "a:amount received for each time period"
-msgstr ""
+msgstr "a:cantidad recibida por cada periodo de tiempo"
 
 #: ../plugins/fn-derivatives/options.c:1300
 msgid "m:number of time units the option has already met the condition"
 msgstr ""
+"m:número de unidades de tiempo en los que la opción ya ha reunido la "
+"condición"
 
 #: ../plugins/fn-derivatives/options.c:1301
 msgid "dt:agreed upon discrete time period expressed as a fraction of a year"
 msgstr ""
+"dt:acordado período de tiempo discreto expresado como una fracción de un año"
 
 #: ../plugins/fn-derivatives/options.c:1306
 msgid ""
@@ -2018,112 +2039,142 @@ msgid ""
 "1995). The holder receives @{a} * @{dt} for each period that the asset price "
 "was greater than @{strike} (for a call) or below it (for a put)."
 msgstr ""
+"OPT_TIME_SWITCH modela el precio teórico de opciones de cambio de tiempo. "
+"(Pechtl 1995). El titular recibe @{a} * @{dt} para cada periodo que el "
+"precio de los activos fue mayor que @{ejercicio} (para una llamada) o debajo "
+"de este (para una entrada)."
 
 #: ../plugins/fn-derivatives/options.c:1336
 msgid "OPT_SIMPLE_CHOOSER:theoretical price of a simple chooser option"
-msgstr ""
+msgstr "OPT_SIMPLE_CHOOSER:precio teórico de una opción de selector simple"
 
 #: ../plugins/fn-derivatives/options.c:1340
 msgid "time1:time in years until the holder chooses a put or a call option"
 msgstr ""
+"tiempo1:tiempo en años desde que el titular elige una opción de entrada o "
+"llamada"
 
 #: ../plugins/fn-derivatives/options.c:1341
 msgid "time2:time in years until the chosen option expires"
-msgstr ""
+msgstr "tiempo2:tiempo en años desde que la opción elegida expira"
 
 #: ../plugins/fn-derivatives/options.c:1385
 msgid "OPT_COMPLEX_CHOOSER:theoretical price of a complex chooser option"
-msgstr ""
+msgstr "OPT_COMPLEX_CHOOSER:precio teórico de una opción de selector complejo"
 
 #: ../plugins/fn-derivatives/options.c:1387
 msgid "strike_call:strike price, if exercised as a call option"
 msgstr ""
+"llamada_ejercicio:precio de ejercicio, si se ejercita como una opción de "
+"llamada"
 
 #: ../plugins/fn-derivatives/options.c:1388
 msgid "strike_put:strike price, if exercised as a put option"
 msgstr ""
+"entrada_ejercicio:precio de ejercicio, si se ejercita como una opción de "
+"entrada"
 
 #: ../plugins/fn-derivatives/options.c:1389
 msgid "time:time in years until the holder chooses a put or a call option"
 msgstr ""
+"tiempo:tiempo en años desde que el titular elige una opción de entrada o "
+"llamada"
 
 #: ../plugins/fn-derivatives/options.c:1390
 msgid "time_call:time in years to maturity of the call option if chosen"
 msgstr ""
+"tiempo_llamada:tiempo en años de vencimiento de la opción de llamada si se "
+"elige"
 
 #: ../plugins/fn-derivatives/options.c:1391
 msgid "time_put:time in years  to maturity of the put option if chosen"
 msgstr ""
+"tiempo_entrada:tiempo en años de vencimiento de la opción de entrada si se "
+"elige"
 
 #: ../plugins/fn-derivatives/options.c:1486
 msgid "OPT_ON_OPTIONS:theoretical price of options on options"
-msgstr ""
+msgstr "OPT_ON_OPTIONS:precio teórico de opciones en opciones"
 
 #: ../plugins/fn-derivatives/options.c:1487
 msgid ""
 "type_flag:'cc' for calls on calls, 'cp' for calls on puts, and so on for "
 "'pc', and 'pp'"
 msgstr ""
+"type_flag:«cc» para llamadas en llamadas, «cp» para llamadas en entradas, "
+"etcétera para «pc» y «pp»"
 
 #: ../plugins/fn-derivatives/options.c:1489
 msgid "strike1:strike price at which the option being valued is struck"
 msgstr ""
+"ejercicio1:precio de ejercicio en el cual la opción que se ha valorado se "
+"produce"
 
 #: ../plugins/fn-derivatives/options.c:1490
 msgid "strike2:strike price at which the underlying option is struck"
 msgstr ""
+"ejercicio2:precio de ejercicio en el cual la opción subyacente se produce"
 
 #: ../plugins/fn-derivatives/options.c:1491
 msgid "time1:time in years to maturity of the option"
-msgstr ""
+msgstr "tiempo1:tiempo en años de vencimiento de la opción"
 
 #: ../plugins/fn-derivatives/options.c:1492
 msgid "time2:time in years to the maturity of the underlying option"
-msgstr ""
+msgstr "tiempo2:tiempo en años de el vencimiento de la opción subyacente"
 
 #: ../plugins/fn-derivatives/options.c:1494
 msgid ""
 "cost_of_carry:net cost of holding the underlying asset of the underlying "
 "option"
 msgstr ""
+"coste_de_financiación: costo neto de la financiación del activo subyacente "
+"de la opción subyacente"
 
 #: ../plugins/fn-derivatives/options.c:1495
 msgid ""
 "volatility:annualized volatility in price of the underlying asset of the "
 "underlying option"
 msgstr ""
+"volatilidad:volatilidad anualizada en precio de los activos subyacentes de "
+"la opción subyacente"
 
 #: ../plugins/fn-derivatives/options.c:1496
 msgid ""
 "For common stocks, @{cost_of_carry} is the risk free rate less the dividend "
 "yield."
 msgstr ""
+"Para acciones comunes, @{coste_de_financiación} es la tasa libre de riesgo "
+"menos la rentabilidad del dividendo."
 
 #: ../plugins/fn-derivatives/options.c:1497
 msgid "@{time2} ≥ @{time1}"
-msgstr "@{time2} ≥ @{time1}"
+msgstr "@{tiempo2} ≥ @{tiempo1}"
 
 #: ../plugins/fn-derivatives/options.c:1563
 msgid "OPT_EXTENDIBLE_WRITER:theoretical price of extendible writer options"
 msgstr ""
+"OPT_EXTENDIBLE_WRITER:precio teórico de opciones de escritor extensibles"
 
 #: ../plugins/fn-derivatives/options.c:1566
 msgid "strike1:strike price at which the option is struck"
-msgstr ""
+msgstr "ejercicio1:precio de ejercicio en el cual la opción se produce"
 
 #: ../plugins/fn-derivatives/options.c:1567
 msgid ""
 "strike2:strike price at which the option is re-struck if out of the money at "
 "@{time1}"
 msgstr ""
+"ejercicio2:precio de ejercicio en el cual la opción se reproduce si fuera "
+"del dinero en @{tiempo1}"
 
 #: ../plugins/fn-derivatives/options.c:1568
 msgid "time1:initial maturity of the option in years"
-msgstr ""
+msgstr "tiempo1:vencimiento inicial de la opción en años"
 
 #: ../plugins/fn-derivatives/options.c:1569
 msgid "time2:extended maturity in years if chosen"
-msgstr ""
+msgstr "tiempo2:vencimiento extendido en años si se elige"
 
 #: ../plugins/fn-derivatives/options.c:1573
 msgid ""
@@ -2131,56 +2182,73 @@ msgid ""
 "options. These are options that have their maturity extended to @{time2} if "
 "the option is out of the money at @{time1}."
 msgstr ""
+"OPT_TIME_SWITCH modela el precio teórico de opciones de escritor "
+"extendibles. Estas son opciones que tienen su vencimiento extendido a @"
+"{tiempo2} si la opción está fuera del dinero en @{tiempo1}."
 
 #: ../plugins/fn-derivatives/options.c:1615
 msgid ""
 "OPT_2_ASSET_CORRELATION:theoretical price of options on 2 assets with "
 "correlation @{rho}"
 msgstr ""
+"OPT_2_ASSET_CORRELATION:precio teórico de opciones en 2 activos con "
+"correlación @{rho}"
 
 #: ../plugins/fn-derivatives/options.c:1617
 msgid "spot1:spot price of the underlying asset of the first option"
 msgstr ""
+"contado1:precio al contado de los activos subyacentes de la primera opción"
 
 #: ../plugins/fn-derivatives/options.c:1618
 msgid "spot2:spot price of the underlying asset of the second option"
 msgstr ""
+"contado2:precio al contado de los activos subyacentes de la segunda opción"
 
 #: ../plugins/fn-derivatives/options.c:1619
 msgid "strike1:strike prices of the first option"
-msgstr ""
+msgstr "ejercicio1:precios de ejercicio de la primera opción"
 
 #: ../plugins/fn-derivatives/options.c:1620
 msgid "strike2:strike prices of the second option"
-msgstr ""
+msgstr "ejercicio2:precios de ejercicio de la segunda opción"
 
 #: ../plugins/fn-derivatives/options.c:1622
 msgid ""
 "cost_of_carry1:net cost of holding the underlying asset of the first option "
 "(for common stocks, the risk free rate less the dividend yield)"
 msgstr ""
+"coste_de_financiación1:costo neto de la financiación del activo subyacente "
+"de la primera opción (para acciones comunes, la tasa libre de riesgo menos "
+"la rentabilidad del dividendo)"
 
 #: ../plugins/fn-derivatives/options.c:1624
 msgid ""
 "cost_of_carry2:net cost of holding the underlying asset of the second option "
 "(for common stocks, the risk free rate less the dividend yield)"
 msgstr ""
+"coste_de_financiación2:costo neto de la financiación del activo subyacente "
+"de la segunda opción (para acciones comunes, la tasa libre de riesgo menos "
+"la rentabilidad del dividendo)"
 
 #: ../plugins/fn-derivatives/options.c:1627
 msgid ""
 "volatility1:annualized volatility in price of the underlying asset of the "
 "first option"
 msgstr ""
+"volatilidad1:volatilidad anualizada en precio de los activos subyacentes de "
+"la primera opción"
 
 #: ../plugins/fn-derivatives/options.c:1628
 msgid ""
 "volatility2:annualized volatility in price of the underlying asset of the "
 "second option"
 msgstr ""
+"volatilidad2:volatilidad anualizada en precio de los activos subyacentes de "
+"la segunda opción"
 
 #: ../plugins/fn-derivatives/options.c:1629
 msgid "rho:correlation between the two underlying assets"
-msgstr ""
+msgstr "rho:correlación entre los dos activos subyacentes"
 
 #: ../plugins/fn-derivatives/options.c:1630
 msgid ""
@@ -2189,31 +2257,38 @@ msgid ""
 "{strike2},0) if @{spot1} > @{strike1} or 0 otherwise. The payoff for a put "
 "is max (@{strike2} - @{spot2}, 0) if @{spot1} < @{strike1} or 0 otherwise."
 msgstr ""
+"OPT_2_ASSET_CORRELATION modela el precio teórico de opciones en 2 activos "
+"con correlación @{rho}. La rentabilidad para una llamada es max(@{contado2} "
+"- @{ejercicio2},0) si @{contado1} > @{ejercicio1} o 0 de lo contrario. La "
+"rentabilidad para una entrada es max (@{ejercicio2} - @{contado2}, 0) si @"
+"{contado1} < @{ejercicio1} o 0 de lo contrario."
 
 #: ../plugins/fn-derivatives/options.c:1665
 msgid ""
 "OPT_EURO_EXCHANGE:theoretical price of a European option to exchange assets"
 msgstr ""
+"OPT_EURO_EXCHANGE:precio teórico de una opción europea para intercambiar "
+"activos"
 
 #: ../plugins/fn-derivatives/options.c:1666
 #: ../plugins/fn-derivatives/options.c:1710
 msgid "spot1:spot price of asset 1"
-msgstr ""
+msgstr "contado1:precio al contado de activo 1"
 
 #: ../plugins/fn-derivatives/options.c:1667
 #: ../plugins/fn-derivatives/options.c:1711
-msgid "spot2:spot price of asset 1"
-msgstr ""
+msgid "spot2:spot price of asset 2"
+msgstr "contado2:precio al contado de activo 2"
 
 #: ../plugins/fn-derivatives/options.c:1668
 #: ../plugins/fn-derivatives/options.c:1712
 msgid "qty1:quantity of asset 1"
-msgstr ""
+msgstr "qty1:cantidad de activo 1"
 
 #: ../plugins/fn-derivatives/options.c:1669
 #: ../plugins/fn-derivatives/options.c:1713
 msgid "qty2:quantity of asset 2"
-msgstr ""
+msgstr "qty1:cantidad de activo 2"
 
 #: ../plugins/fn-derivatives/options.c:1672
 #: ../plugins/fn-derivatives/options.c:1716
@@ -2221,6 +2296,9 @@ msgid ""
 "cost_of_carry1:net cost of holding asset 1 (for common stocks, the risk free "
 "rate less the dividend yield)"
 msgstr ""
+"coste_de_financiación1:costo neto de la financiación del activo 1 (para "
+"acciones comunes, la tasa libre de riesgo menos la rentabilidad del "
+"dividendo)"
 
 #: ../plugins/fn-derivatives/options.c:1674
 #: ../plugins/fn-derivatives/options.c:1718
@@ -2228,21 +2306,24 @@ msgid ""
 "cost_of_carry2:net cost of holding asset 2 (for common stocks, the risk free "
 "rate less the dividend yield)"
 msgstr ""
+"coste_de_financiación2:costo neto de la financiación del activo 2 (para "
+"acciones comunes, la tasa libre de riesgo menos la rentabilidad del "
+"dividendo)"
 
 #: ../plugins/fn-derivatives/options.c:1676
 #: ../plugins/fn-derivatives/options.c:1720
 msgid "volatility1:annualized volatility in price of asset 1"
-msgstr ""
+msgstr "volatilidad1:volatilidad anualizada en precio del activo 1"
 
 #: ../plugins/fn-derivatives/options.c:1677
 #: ../plugins/fn-derivatives/options.c:1721
 msgid "volatility2:annualized volatility in price of asset 2"
-msgstr ""
+msgstr "volatilidad2:volatilidad anualizada en precio del activo 2"
 
 #: ../plugins/fn-derivatives/options.c:1678
 #: ../plugins/fn-derivatives/options.c:1722
 msgid "rho:correlation between the prices of the two assets"
-msgstr ""
+msgstr "rho:correlación entre los precios de los dos activos"
 
 #: ../plugins/fn-derivatives/options.c:1679
 msgid ""
@@ -2250,11 +2331,16 @@ msgid ""
 "exchange one asset with quantity @{qty2} and spot price @{spot2} for another "
 "with quantity @{qty1} and spot price @{spot1}."
 msgstr ""
+"OPT_EURO_EXCHANGE modela el precio teórico de una opción europea para "
+"intercambiar un activo con cantidad @{qty2} y precio al contado @{contado2} "
+"para otro con cantidad @{qty1} y precio al contado @{contado1}."
 
 #: ../plugins/fn-derivatives/options.c:1709
 msgid ""
 "OPT_AMER_EXCHANGE:theoretical price of an American option to exchange assets"
 msgstr ""
+"OPT_AMER_EXCHANGE:precio teórico de una opción americana para intercambiar "
+"activos"
 
 #: ../plugins/fn-derivatives/options.c:1723
 msgid ""
@@ -2262,51 +2348,66 @@ msgid ""
 "exchange one asset with quantity @{qty2} and spot price @{spot2} for another "
 "with quantity @{qty1} and spot price @{spot1}."
 msgstr ""
+"OPT_AMER_EXCHANGE modela el precio teórico de una opción americana para "
+"intercambiar un activo con cantidad @{qty2} y precio al contado @{contado2} "
+"para otro con cantidad @{qty1} y precio al contado @{contado1}."
 
 #: ../plugins/fn-derivatives/options.c:1753
 msgid ""
 "OPT_SPREAD_APPROX:theoretical price of a European option on the spread "
 "between two futures contracts"
 msgstr ""
+"OPT_SPREAD_APPROX:precio teórico de una opción europea en el cálculo entre "
+"dos contratos futuros"
 
 #: ../plugins/fn-derivatives/options.c:1755
 msgid "fut_price1:price of the first futures contract"
-msgstr ""
+msgstr "precio_fut1:precio del primer contrato futuro"
 
 #: ../plugins/fn-derivatives/options.c:1756
 msgid "fut_price2:price of the second futures contract"
-msgstr ""
+msgstr "precio_fut2:precio del segundo contrato futuro"
 
 #: ../plugins/fn-derivatives/options.c:1760
 msgid ""
 "volatility1:annualized volatility in price of the first underlying futures "
 "contract"
 msgstr ""
+"volatilidad1:volatilidad anualizada en precio del primer contrato futuro "
+"subyacente"
 
 #: ../plugins/fn-derivatives/options.c:1761
 msgid ""
 "volatility2:annualized volatility in price of the second underlying futures "
 "contract"
 msgstr ""
+"volatilidad2:volatilidad anualizada en precio del segundo contrato futuro "
+"subyacente"
 
 #: ../plugins/fn-derivatives/options.c:1762
 msgid "rho:correlation between the two futures contracts"
-msgstr ""
+msgstr "rho:correlación entre los dos contratos futuros"
 
 #: ../plugins/fn-derivatives/options.c:1808
 msgid ""
 "OPT_FLOAT_STRK_LKBK:theoretical price of floating-strike lookback option"
 msgstr ""
+"OPT_FLOAT_STRK_LKBK:precio teórico de opción retroactiva de ejercicio "
+"flotante"
 
 #: ../plugins/fn-derivatives/options.c:1811
 #: ../plugins/fn-derivatives/options.c:1875
 msgid "spot_min:minimum spot price of the underlying asset so far observed"
 msgstr ""
+"contado_min:precio al contado mínimo del activo subyacente observado hasta "
+"ahora"
 
 #: ../plugins/fn-derivatives/options.c:1812
 #: ../plugins/fn-derivatives/options.c:1876
 msgid "spot_max:maximum spot price of the underlying asset so far observed"
 msgstr ""
+"contado_max:precio al contado máximo del activo subyacente observado hasta "
+"ahora"
 
 #: ../plugins/fn-derivatives/options.c:1817
 msgid ""
@@ -2315,10 +2416,16 @@ msgid ""
 "most favourable price observed during the options life of the underlying "
 "asset."
 msgstr ""
+"OPT_FLOAT_STRK_LKBK determina el precio teórico de una opción retroactiva de "
+"ejercicio flotante donde el titular de la opción podrá ejercer al "
+"vencimiento al precio más favorable observado durante la vida de las "
+"opciones del activo subyacente."
 
 #: ../plugins/fn-derivatives/options.c:1872
 msgid "OPT_FIXED_STRK_LKBK:theoretical price of a fixed-strike lookback option"
 msgstr ""
+"OPT_FIXED_STRK_LKBK:precio teórico de una opción retroactiva de ejercicio "
+"flotante"
 
 #: ../plugins/fn-derivatives/options.c:1882
 msgid ""
@@ -2327,38 +2434,48 @@ msgid ""
 "most favourable price observed during the options life of the underlying "
 "asset."
 msgstr ""
+"OPT_FLOAT_STRK_LKBK determina el precio teórico de una opción retroactiva de "
+"ejercicio flotante donde el titular de la opción podrá ejercer al "
+"vencimiento al precio más favorable observado durante la vida de las "
+"opciones del activo subyacente."
 
 #: ../plugins/fn-derivatives/options.c:1956
 msgid ""
 "OPT_BINOMIAL:theoretical price of either an American or European style "
 "option using a binomial tree"
 msgstr ""
+"OPT_BINOMIAL:precio teórico de una opción de estilo ya sea americano o "
+"europeo usando un árbol binomial"
 
 #: ../plugins/fn-derivatives/options.c:1957
 msgid ""
 "amer_euro_flag:'a' for an American style option or 'e' for a European style "
 "option"
 msgstr ""
+"amer_euro_flag:«a» para una opción de estilo americano o «e» para una opción "
+"de estilo europeo"
 
 #: ../plugins/fn-derivatives/options.c:1959
 msgid "num_time_steps:number of time steps used in the valuation"
-msgstr ""
+msgstr "num_pasos_tiempo:número de pasos de tiempo usados en la valoración"
 
 #: ../plugins/fn-derivatives/options.c:1966
 msgid ""
 "A larger @{num_time_steps} yields greater accuracy but  OPT_BINOMIAL is "
 "slower to calculate."
 msgstr ""
+"Un @{num_pasos_tiempo} más grande produce mayor precisión pero  OPT_BINOMIAL "
+"es más lento de calcular."
 
 #: ../plugins/fn-eng/functions.c:207
 msgid "BASE:string of digits representing the number @{n} in base @{b}"
-msgstr ""
+msgstr "BASE:cadenas de dígitos que representan el número @{n} en base @{b}"
 
 #: ../plugins/fn-eng/functions.c:208 ../plugins/fn-math/functions.c:1293
 #: ../plugins/fn-numtheory/numtheory.c:578
 #: ../plugins/fn-numtheory/numtheory.c:608
 msgid "n:integer"
-msgstr "n: entero"
+msgstr "n:entero"
 
 #: ../plugins/fn-eng/functions.c:209
 msgid "b:base (2 ≤ @{b} ≤ 36)"
@@ -2366,17 +2483,19 @@ msgstr "b:base (2 ≤ @{b} ≤ 36)"
 
 #: ../plugins/fn-eng/functions.c:210
 msgid "length:minimum length of the resulting string"
-msgstr ""
+msgstr "longitud:longitud mínima de la cadena resultante"
 
 #: ../plugins/fn-eng/functions.c:211
 msgid ""
 "BASE converts @{n} to its string representation in base @{b}. Leading zeroes "
 "will be added to reach the minimum length given by @{length}."
 msgstr ""
+"BASE conviertee @{n} a su representación de cadena en base @{b}. Los ceros "
+"iniciales se añadirán para alcanzar la longitud mínima dada por @{longitud}."
 
 #: ../plugins/fn-eng/functions.c:236
 msgid "BIN2DEC:decimal representation of the binary number @{x}"
-msgstr ""
+msgstr "BIN2DEC:representación decimal del número binario @{x}"
 
 #: ../plugins/fn-eng/functions.c:237 ../plugins/fn-eng/functions.c:259
 #: ../plugins/fn-eng/functions.c:283
@@ -2384,10 +2503,12 @@ msgid ""
 "x:a binary number, either as a string or as a number involving only the "
 "digits 0 and 1"
 msgstr ""
+"x:un número binario, ya sea como una cadena o como un número que involucra "
+"sólo los dígitos 0 y 1"
 
 #: ../plugins/fn-eng/functions.c:258
 msgid "BIN2OCT:octal representation of the binary number @{x}"
-msgstr ""
+msgstr "BIN2OCT:representación octal del número binario @{x}"
 
 #: ../plugins/fn-eng/functions.c:260 ../plugins/fn-eng/functions.c:284
 #: ../plugins/fn-eng/functions.c:309 ../plugins/fn-eng/functions.c:339
@@ -2395,27 +2516,31 @@ msgstr ""
 #: ../plugins/fn-eng/functions.c:456 ../plugins/fn-eng/functions.c:479
 #: ../plugins/fn-eng/functions.c:502
 msgid "places:number of digits"
-msgstr "places: número de dígitos"
+msgstr "lugares:número de dígitos"
 
 #: ../plugins/fn-eng/functions.c:261
 msgid ""
 "If @{places} is given, BIN2OCT pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, BIN2OCT returns #NUM!"
 msgstr ""
+"Si se da @{lugares}, BIN2OCT rellena el resultado con ceros para lograr "
+"exactamente dígitos @{lugares}. Si esto no es posible, BIN2OCT devuelve #NUM!"
 
 #: ../plugins/fn-eng/functions.c:282
 msgid "BIN2HEX:hexadecimal representation of the binary number @{x}"
-msgstr ""
+msgstr "BIN2HEX:representación hexadecimal del número binario @{x}"
 
 #: ../plugins/fn-eng/functions.c:285
 msgid ""
 "If @{places} is given, BIN2HEX pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, BIN2HEX returns #NUM!"
 msgstr ""
+"Si se da @{lugares}, BIN2HEX rellena el resultado con ceros para lograr "
+"exactamente dígitos @{lugares}. Si esto no es posible, BIN2HEX devuelve #NUM!"
 
 #: ../plugins/fn-eng/functions.c:307
 msgid "DEC2BIN:binary representation of the decimal number @{x}"
-msgstr ""
+msgstr "DEC2BIN:representación binaria del número decimal @{x}"
 
 #: ../plugins/fn-eng/functions.c:308
 msgid "x:integer (− 513 < @{x} < 512)"
@@ -2427,84 +2552,95 @@ msgid ""
 "zeros to achieve exactly @{places} digits. If this is not possible, DEC2BIN "
 "returns #NUM!"
 msgstr ""
+"Si se da @{lugares} y @{x} no es negativo, DEC2BIN rellena el resultado con "
+"ceros para lograr exactamente dígitos @{lugares}. Si esto no es posible, "
+"DEC2BIN devuelve #NUM!"
 
 #: ../plugins/fn-eng/functions.c:314
 msgid "If @{places} is given and @{x} is negative, @{places} is ignored."
-msgstr ""
+msgstr "Si se da @{lugares} y @{x} es negativo, se ignora @{lugares}."
 
 #: ../plugins/fn-eng/functions.c:315
 msgid "If @{x} < − 512 or @{x} > 511, DEC2BIN returns #NUM!"
-msgstr ""
+msgstr "Si @{x} < − 512 o @{x} > 511, DEC2BIN devuelve #NUM!"
 
 #: ../plugins/fn-eng/functions.c:337
 msgid "DEC2OCT:octal representation of the decimal number @{x}"
-msgstr ""
+msgstr "DEC2OCT:representación octal del número decimal @{x}"
 
 #: ../plugins/fn-eng/functions.c:338 ../plugins/fn-eng/functions.c:361
 #: ../plugins/fn-math/functions.c:1292
 msgid "x:integer"
-msgstr "x: entero"
+msgstr "x:entero"
 
 #: ../plugins/fn-eng/functions.c:340
 msgid ""
 "If @{places} is given, DEC2OCT pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, DEC2OCT returns #NUM!"
 msgstr ""
+"Si se da @{lugares}, DEC2OCT rellena el resultado con ceros para lograr "
+"exactamente dígitos @{lugares}. Si esto no es posible, DEC2OCT devuelve #NUM!"
 
 #: ../plugins/fn-eng/functions.c:360
 msgid "DEC2HEX:hexadecimal representation of the decimal number @{x}"
-msgstr ""
+msgstr "DEC2HEX:representación hexadecimal del número decimal @{x}"
 
 #: ../plugins/fn-eng/functions.c:363
 msgid ""
 "If @{places} is given, DEC2HEX pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, DEC2HEX returns #NUM!"
 msgstr ""
+"Si se da @{lugares}, DEC2HEX rellena el resultado con ceros para lograr "
+"exactamente dígitos @{lugares}. Si esto no es posible, DEC2HEX devuelve #NUM!"
 
 #: ../plugins/fn-eng/functions.c:383
 msgid "DECIMAL:decimal representation of @{x}"
-msgstr ""
+msgstr "DECIMAL:representación decimal de @{x}"
 
 #: ../plugins/fn-eng/functions.c:384
 msgid "x:number in base @{base}"
-msgstr "x: número en base @{base}"
+msgstr "x:número en base @{base}"
 
 #: ../plugins/fn-eng/functions.c:385
 msgid "base:base of @{x}, (2 ≤ @{base} ≤ 36)"
-msgstr "base: base de @{x}, (2 ≤ @{base} ≤ 36)"
+msgstr "base:base de @{x}, (2 ≤ @{base} ≤ 36)"
 
 #: ../plugins/fn-eng/functions.c:407
 msgid "OCT2DEC:decimal representation of the octal number @{x}"
-msgstr ""
+msgstr "OCT2DEC:representación decimal del número octal @{x}"
 
 #: ../plugins/fn-eng/functions.c:408 ../plugins/fn-eng/functions.c:432
 #: ../plugins/fn-eng/functions.c:455
 msgid "x:a octal number, either as a string or as a number"
-msgstr ""
+msgstr "x:un número octal, ya sea como una cadena o como un número"
 
 #: ../plugins/fn-eng/functions.c:431
 msgid "OCT2BIN:binary representation of the octal number @{x}"
-msgstr ""
+msgstr "OCT2BIN:representación binaria del número octal @{x}"
 
 #: ../plugins/fn-eng/functions.c:434
 msgid ""
 "If @{places} is given, OCT2BIN pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, OCT2BIN returns #NUM!"
 msgstr ""
+"Si se da @{lugares}, OCT2BIN rellena el resultado con ceros para lograr "
+"exactamente dígitos @{lugares}. Si esto no es posible, OCT2BIN devuelve #NUM!"
 
 #: ../plugins/fn-eng/functions.c:454
 msgid "OCT2HEX:hexadecimal representation of the octal number @{x}"
-msgstr ""
+msgstr "OCT2HEX:representación hexadecimal del número octal @{x}"
 
 #: ../plugins/fn-eng/functions.c:457
 msgid ""
 "If @{places} is given, OCT2HEX pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, OCT2HEX returns #NUM!"
 msgstr ""
+"Si se da @{lugares}, OCT2HEX rellena el resultado con ceros para lograr "
+"exactamente dígitos @{lugares}. Si esto no es posible, OCT2HEX devuelve #NUM!"
 
 #: ../plugins/fn-eng/functions.c:477
 msgid "HEX2BIN:binary representation of the hexadecimal number @{x}"
-msgstr ""
+msgstr "HEX2BIN:representación binaria del número hexadecimal @{x}"
 
 #: ../plugins/fn-eng/functions.c:478 ../plugins/fn-eng/functions.c:501
 #: ../plugins/fn-eng/functions.c:524
@@ -2512,26 +2648,32 @@ msgid ""
 "x:a hexadecimal number, either as a string or as a number if no A to F are "
 "needed"
 msgstr ""
+"x:un número hexadecimal, ya sea como una cadena o como un número si no A a F "
+"se necesitan"
 
 #: ../plugins/fn-eng/functions.c:480
 msgid ""
 "If @{places} is given, HEX2BIN pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, HEX2BIN returns #NUM!"
 msgstr ""
+"Si se da @{lugares}, HEX2BIN rellena el resultado con ceros para lograr "
+"exactamente dígitos @{lugares}. Si esto no es posible, HEX2BIN devuelve #NUM!"
 
 #: ../plugins/fn-eng/functions.c:500
 msgid "HEX2OCT:octal representation of the hexadecimal number @{x}"
-msgstr ""
+msgstr "HEX2OCT:representación octal del número hexadecimal @{x}"
 
 #: ../plugins/fn-eng/functions.c:503
 msgid ""
 "If @{places} is given, HEX2OCT pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, HEX2OCT returns #NUM!"
 msgstr ""
+"Si se da @{lugares}, HEX2OCT rellena el resultado con ceros para lograr "
+"exactamente dígitos @{lugares}. Si esto no es posible, HEX2OCT devuelve #NUM!"
 
 #: ../plugins/fn-eng/functions.c:523
 msgid "HEX2DEC:decimal representation of the hexadecimal number @{x}"
-msgstr ""
+msgstr "HEX2DEC:representación decimal del número hexadecimal @{x}"
 
 #: ../plugins/fn-eng/functions.c:546
 msgid ""
@@ -2541,7 +2683,7 @@ msgstr ""
 #: ../plugins/fn-eng/functions.c:547 ../plugins/fn-eng/functions.c:585
 #: ../plugins/fn-eng/functions.c:609 ../plugins/fn-eng/functions.c:638
 msgid "X:number"
-msgstr "X: número"
+msgstr "X:número"
 
 #: ../plugins/fn-eng/functions.c:548 ../plugins/fn-eng/functions.c:586
 #, fuzzy
@@ -9879,9 +10021,9 @@ msgid ""
 "reliability."
 msgstr ""
 "Esta distribución se ha recomendado para el análisis del tiempo de función "
-"cuando se desea una función peligroso de forma «U». Esto corresponde al "
-"fallo rápido una vez que el producto comience a desgastarse después de un "
-"periodo estacionario o incluso mejorando la fiabilidad."
+"cuando se desea una función peligroso de forma «U». Esto corresponde al fallo "
+"rápido una vez que el producto comience a desgastarse después de un periodo "
+"estacionario o incluso mejorando la fiabilidad."
 
 #: ../plugins/fn-stat/functions.c:4526
 msgid "LAPLACE:probability density function of the Laplace distribution"
@@ -11005,9 +11147,9 @@ msgstr ""
 #~ "\n"
 #~ "@liquidación es la fecha de liquidación de la acción. @vencimiento es la "
 #~ "fecha de vencimiento de la acción. @emisión es la fecha de emisión de la "
-#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por "
-#~ "100$ de valor facial de la acción. @base es el tipo de sistema de conteo "
-#~ "de días que quiere usar:\n"
+#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por 100"
+#~ "$ de valor facial de la acción. @base es el tipo de sistema de conteo de "
+#~ "días que quiere usar:\n"
 #~ "\n"
 #~ " 0 US 30/360\n"
 #~ " 1 días actuales/días actuales\n"
