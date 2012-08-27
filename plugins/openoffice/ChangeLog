@@ -1,5 +1,10 @@
 2012-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_custom_shape_end): put doubles in teh hash since
+	goffice does not know gnm_float.
+
+2012-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_parse_float): new
 	(odf_custom_shape_end): interpret modifiers
 	(odf_custom_shape_equation): new

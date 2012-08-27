@@ -9131,7 +9131,7 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 				char *end  = next;
 				gnm_float x = odf_parse_float (next, &end);
 				if (end > next) {
-					gnm_float *xp = g_new (gnm_float, 1);
+					double *xp = g_new (double, 1);
 					char *name = g_strdup_printf ("$%i", i);
 					*xp = x;
 					g_hash_table_insert (vals, name, xp);
