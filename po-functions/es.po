@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-08-25 09:18+0000\n"
-"PO-Revision-Date: 2012-08-27 13:32+0200\n"
+"POT-Creation-Date: 2012-08-27 11:35+0000\n"
+"PO-Revision-Date: 2012-08-28 15:29+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -2277,7 +2277,7 @@ msgstr "contado1:precio al contado de activo 1"
 
 #: ../plugins/fn-derivatives/options.c:1667
 #: ../plugins/fn-derivatives/options.c:1711
-msgid "spot2:spot price of asset 2"
+msgid "spot2:spot price of asset 1"
 msgstr "contado2:precio al contado de activo 2"
 
 #: ../plugins/fn-derivatives/options.c:1668
@@ -2679,6 +2679,7 @@ msgstr "HEX2DEC:representación decimal del número hexadecimal @{x}"
 msgid ""
 "BESSELI:Modified Bessel function of the first kind of order @{α} at @{x}"
 msgstr ""
+"BESSELI:función modificada de Bessel del primer tipo de orden @{α} en @{x}"
 
 #: ../plugins/fn-eng/functions.c:547 ../plugins/fn-eng/functions.c:585
 #: ../plugins/fn-eng/functions.c:609 ../plugins/fn-eng/functions.c:638
@@ -2686,52 +2687,56 @@ msgid "X:number"
 msgstr "X:número"
 
 #: ../plugins/fn-eng/functions.c:548 ../plugins/fn-eng/functions.c:586
-#, fuzzy
-#| msgid "α:order (any number)"
 msgid "α:order (any non-negative number)"
-msgstr "α: orden (cualquier número)"
+msgstr "α:orden (cualquier número no negativo)"
 
 #: ../plugins/fn-eng/functions.c:549 ../plugins/fn-eng/functions.c:587
 msgid ""
 "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is "
 "returned."
 msgstr ""
+"Si @{x} o @{α} no son numéricos, se devuelve #VALUE!. Si @{α} < 0, se "
+"devuelve #NUM!."
 
 #: ../plugins/fn-eng/functions.c:550 ../plugins/fn-eng/functions.c:588
 msgid "This function is Excel compatible if only integer orders @{α} are used."
 msgstr ""
+"Esta función es compatible con Excel si solo se usan órdenes enteros @{α}."
 
 #: ../plugins/fn-eng/functions.c:553 ../plugins/fn-eng/functions.c:591
 #: ../plugins/fn-eng/functions.c:617
 msgid "wiki:en:Bessel_function"
-msgstr ""
+msgstr "wiki:es:función_Bessel"
 
 #: ../plugins/fn-eng/functions.c:584
 msgid ""
 "BESSELK:Modified Bessel function of the second kind of order @{α} at @{x}"
 msgstr ""
+"BESSELK:función modificada de Bessel del segundo tipo de orden @{α} en @{x}"
 
 #: ../plugins/fn-eng/functions.c:608
 msgid "BESSELJ:Bessel function of the first kind of order @{α} at @{x}"
-msgstr ""
+msgstr "BESSELJ:función de Bessel del primer tipo de orden @{α} en @{x}"
 
 #: ../plugins/fn-eng/functions.c:610 ../plugins/fn-eng/functions.c:639
 msgid "α:order (any non-negative integer)"
-msgstr ""
+msgstr "α:orden (cualquier entero no negativo)"
 
 #: ../plugins/fn-eng/functions.c:611 ../plugins/fn-eng/functions.c:640
 msgid ""
 "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is "
 "returned. If @{α} is not an integer, it is truncated."
 msgstr ""
+"Si @{x} o @{α} no son numéricos, se devuelve #VALUE!. Si @{α} < 0, se "
+"devuelve #NUM!. Si @{α} no es un entero, se trunca."
 
 #: ../plugins/fn-eng/functions.c:637
 msgid "BESSELY:Bessel function of the second kind of order @{α} at @{x}"
-msgstr ""
+msgstr "BESSELY:Función de Bessel del segundo tipo de orden @{α} en @{x}"
 
 #: ../plugins/fn-eng/functions.c:664
 msgid "CONVERT:a converted measurement"
-msgstr ""
+msgstr "CONVERT:una medida convertida"
 
 #: ../plugins/fn-eng/functions.c:665 ../plugins/fn-eng/functions.c:1109
 #: ../plugins/fn-eng/functions.c:1175 ../plugins/fn-math/functions.c:226
@@ -2763,25 +2768,27 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:4420 ../plugins/fn-stat/functions.c:4455
 #: ../plugins/fn-stat/functions.c:4494 ../plugins/fn-stat/functions.c:4527
 msgid "x:number"
-msgstr "x: número"
+msgstr "x:número"
 
 #: ../plugins/fn-eng/functions.c:666
 msgid "from:unit (string)"
-msgstr "desde: unidad (cadena)"
+msgstr "desde:unidad (cadena)"
 
 #: ../plugins/fn-eng/functions.c:667
 msgid "to:unit (string)"
-msgstr "hasta: unidad (cadena)"
+msgstr "hasta:unidad (cadena)"
 
 #: ../plugins/fn-eng/functions.c:668
 msgid ""
 "CONVERT returns a conversion from one measurement system to another. @{x} is "
 "a value in @{from} units that is to be converted into @{to} units."
 msgstr ""
+"CONVERT devuelve una conversión desde un sistema de medida a otro. @{x} es "
+"un valor en @{desde} unidades que se convertirán en @{hasta} unidades."
 
 #: ../plugins/fn-eng/functions.c:670
 msgid "If @{from} and @{to} are different types, CONVERT returns #N/A!"
-msgstr ""
+msgstr "Si @{desde} y @{hasta} son tipos diferentes, CONVERT devuelve #N/A!"
 
 #: ../plugins/fn-eng/functions.c:671
 msgid ""
@@ -2879,7 +2886,7 @@ msgid ""
 "\t'z'  \tzepto \t\t1E-21\n"
 "\t'y'  \tyocto \t\t1E-24"
 msgstr ""
-"@{from} y @{to} puede ser cualquiera de los siguientes:\n"
+"@{desde} y @{hasta} pueden ser cualquiera de los siguientes:\n"
 "\n"
 "Peso y masa:\n"
 "\t'g'   \t\tGramo\n"
@@ -2951,7 +2958,8 @@ msgstr ""
 "\t'gal'  \tGalón\n"
 "\t'l'  \t\tLitro\n"
 "\n"
-"Se pueden emplear los siguiente prefijos para las unidades métricas:\n"
+"Se puede usar cualquier de los siguiente prefijos para las unidades "
+"métricas:\n"
 "\t'Y'  \tyotta \t1E+24\n"
 "\t'Z'  \tzetta \t1E+21\n"
 "\t'E'  \texa   \t1E+18\n"
@@ -2975,24 +2983,26 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:753
 msgid "This function is Excel compatible (except \"picapt\")."
-msgstr ""
+msgstr "Esta función es compatible con Excel (excepto «pica»)."
 
 #: ../plugins/fn-eng/functions.c:1076
 msgid "ERF:Gauss error function"
-msgstr ""
+msgstr "ERF:función de error de Gauss"
 
 #: ../plugins/fn-eng/functions.c:1077
 msgid "lower:lower limit of the integral, defaults to 0"
-msgstr ""
+msgstr "inferior:límite inferior del integral, el predeterminado es 0"
 
 #: ../plugins/fn-eng/functions.c:1078
 msgid "upper:upper limit of the integral"
-msgstr ""
+msgstr "superior:límite superior del integral"
 
 #: ../plugins/fn-eng/functions.c:1079
 msgid ""
 "ERF returns 2/sqrt(π)* integral from @{lower} to @{upper} of exp(-t*t) dt"
 msgstr ""
+"ERF devuelve 2/sqrt(π)* integral desde @{inferior} hasta @{superior} de exp(-"
+"t*t) dt"
 
 #: ../plugins/fn-eng/functions.c:1080
 msgid ""
@@ -3004,157 +3014,173 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:1084 ../plugins/fn-eng/functions.c:1113
 msgid "wiki:en:Error_function"
-msgstr "wiki:es: función_error"
+msgstr "wiki:es:función_error"
 
 #: ../plugins/fn-eng/functions.c:1108
 msgid "ERFC:Complementary Gauss error function"
-msgstr ""
+msgstr "ERFC:función de error de Gauss complementaria"
 
 #: ../plugins/fn-eng/functions.c:1110
 msgid "ERFC returns 2/sqrt(π)* integral from @{x} to ∞ of exp(-t*t) dt"
-msgstr ""
+msgstr "ERFC devuelve 2/sqrt(π)* integral desde @{x} a ∞ de exp(-t*t) dt"
 
 #: ../plugins/fn-eng/functions.c:1128
 msgid "DELTA:Kronecker delta function"
-msgstr ""
+msgstr "DELTA:función delta de Kronecker"
 
 #: ../plugins/fn-eng/functions.c:1129 ../plugins/fn-eng/functions.c:1152
 msgid "x0:number"
-msgstr "x0: número"
+msgstr "x0:número"
 
 #: ../plugins/fn-eng/functions.c:1130 ../plugins/fn-eng/functions.c:1153
 msgid "x1:number, defaults to 0"
-msgstr ""
+msgstr "x1:número, el predeterminado es 0"
 
 #: ../plugins/fn-eng/functions.c:1131
 msgid "DELTA  returns 1 if  @{x1} = @{x0} and 0 otherwise."
-msgstr ""
+msgstr "DELTA devuelve 1 si @{x1} = @{x0} y 0 de lo contrario."
 
 #: ../plugins/fn-eng/functions.c:1132 ../plugins/fn-eng/functions.c:1155
 msgid "If either argument is non-numeric, #VALUE! is returned."
-msgstr ""
+msgstr "Si alguno de los argumentos no es numérico, se devuelve #VALUE!."
 
 #: ../plugins/fn-eng/functions.c:1151
 msgid "GESTEP:step function with step at @{x1} evaluated at @{x0}"
-msgstr ""
+msgstr "GESTEP:función de paso con paso en @{x1} evaluado en @{x0}"
 
 #: ../plugins/fn-eng/functions.c:1154
 msgid "GESTEP returns 1 if  @{x1} ≤ @{x0} and 0 otherwise."
-msgstr ""
+msgstr "GESTEP devuelve 1 si @{x1} ≤ @{x0} y 0 de lo contrario."
 
 #: ../plugins/fn-eng/functions.c:1174
 msgid "HEXREP:hexadecimal representation of numeric value"
-msgstr ""
+msgstr "HEXREP:representación hexadecimal de valor numérico"
 
 #: ../plugins/fn-eng/functions.c:1176
 msgid "HEXREP returns a hexadecimal string representation of @{x}."
-msgstr ""
+msgstr "HEXREP devuelve una representación de cadena hexadecimal de @{x}."
 
 #: ../plugins/fn-eng/functions.c:1177
 msgid ""
 "This is a function meant for debugging.  The layout of the result may change "
 "and even depend on how Gnumeric was compiled."
 msgstr ""
+"Esta es una función destinada a la depuración. La distribución del resultado "
+"puede cambiar y aún depende de cómo se compiló Gnumeric.f"
 
 #: ../plugins/fn-eng/functions.c:1205
 msgid "INVSUMINV:the reciprocal of the sum of reciprocals of the arguments"
-msgstr ""
+msgstr "INVSUMINV:el recíproco de la suma de recíprocos de los argumentos"
 
 #: ../plugins/fn-eng/functions.c:1206
 msgid "x0:non-negative number"
-msgstr "x0: número no negativo"
+msgstr "x0:número no negativo"
 
 #: ../plugins/fn-eng/functions.c:1207
 msgid "x1:non-negative number"
-msgstr "x1: número no negativo"
+msgstr "x1:número no negativo"
 
 #: ../plugins/fn-eng/functions.c:1208
 msgid ""
 "If any of the arguments is negative, #VALUE! is returned.\n"
 "If any argument is zero, the result is zero."
 msgstr ""
+"Si alguno de los argumentos es negativo, se devuelve #VALUE!.\n"
+"Si alguno de los argumentos es cero, el resultado es cero."
 
 #: ../plugins/fn-eng/functions.c:1210
 msgid ""
 "INVSUMINV sum calculates the reciprocal (the inverse) of the sum of "
 "reciprocals (inverses) of all its arguments."
 msgstr ""
+"La suma INVSUMINV calcula el recíproco (el inverso) de la suma de recíprocos "
+"(inversos) de todos sus argumentos."
 
 #: ../plugins/fn-erlang/functions.c:105
 msgid "PROBBLOCK:probability of blocking"
-msgstr ""
+msgstr "PROBBLOCK:probabilidad de bloqueo"
 
 #: ../plugins/fn-erlang/functions.c:106 ../plugins/fn-erlang/functions.c:191
 msgid "traffic:number of calls"
-msgstr "traffic: número de llamadas"
+msgstr "tráfico:número de llamadas"
 
 #: ../plugins/fn-erlang/functions.c:107 ../plugins/fn-erlang/functions.c:132
 #: ../plugins/fn-erlang/functions.c:229
 msgid "circuits:number of circuits"
-msgstr ""
+msgstr "circuitos:número de circuitos"
 
 #: ../plugins/fn-erlang/functions.c:108
 msgid ""
 "PROBBLOCK returns probability of blocking when @{traffic} calls load into @"
 "{circuits} circuits."
 msgstr ""
+"PROBBLOCK devuelve probabilidad de bloqueo cuando @{tráfico} llama carga en @"
+"{circuitos} circuitos."
 
 #: ../plugins/fn-erlang/functions.c:110 ../plugins/fn-erlang/functions.c:134
 msgid "@{traffic} cannot exceed @{circuits}."
-msgstr ""
+msgstr "@{tráfico} no puede exceder @{circuitos}."
 
 #: ../plugins/fn-erlang/functions.c:130
 msgid "OFFTRAF:predicted number of offered calls"
-msgstr "OFFTRAF:predicción del número de llamadas ofrecidas"
+msgstr "OFFTRAF:número previsto de llamadas ofrecidas"
 
 #: ../plugins/fn-erlang/functions.c:131
 msgid "traffic:number of carried calls"
-msgstr "traffic: número de llamadas realizadas"
+msgstr "tráfico:número de llamadas realizadas"
 
 #: ../plugins/fn-erlang/functions.c:133
 msgid ""
 "OFFTRAF returns the predicted number of offered calls given @{traffic} "
 "carried calls (taken from measurements) on @{circuits} circuits."
 msgstr ""
+"OFFTRAF devuelve el número previsto de llamadas ofrecidas dadas @{tráfico} "
+"llamadas realizadas (tomadas de medidas) en @{circuitos} circuitos."
 
 #: ../plugins/fn-erlang/functions.c:190
 msgid "DIMCIRC:number of circuits required"
-msgstr ""
+msgstr "DIMCIRC:número de circuitos requeridos"
 
 #: ../plugins/fn-erlang/functions.c:192 ../plugins/fn-erlang/functions.c:230
 msgid "gos:grade of service"
-msgstr ""
+msgstr "gos:grado de servicio"
 
 #: ../plugins/fn-erlang/functions.c:193
 msgid ""
 "DIMCIRC returns the number of circuits required given @{traffic} calls with "
 "grade of service @{gos}."
 msgstr ""
+"DIMCIRC devuelve el número de circuitos requeridos dados @{tráfico} llama "
+"con grado de servicio @{gos}."
 
 #: ../plugins/fn-erlang/functions.c:228
 msgid "OFFCAP:traffic capacity"
-msgstr ""
+msgstr "OFFCAP:capacidad de tráfico"
 
 #: ../plugins/fn-erlang/functions.c:231
 msgid ""
 "OFFCAP returns the traffic capacity given @{circuits} circuits with grade of "
 "service @{gos}."
 msgstr ""
+"OFFCAP devuelve la capacidad de tráfico dados @{circuitos} circuitos con "
+"grado de servicio @{gos}."
 
 #. *************************************************************************
 #: ../plugins/fn-financial/functions.c:53
 msgid "@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly)."
-msgstr ""
+msgstr "@{frecuencia} puede ser 1 (anual), 2 (semi-anual), o 4 (trimestral)."
 
 #: ../plugins/fn-financial/functions.c:56
 msgid ""
 "If @{type} is 0, the default, payment is at the end of each period.  If @"
 "{type} is 1, payment is at the beginning of each period."
 msgstr ""
+"Si @{tipo} es 0, el predeterminado, el pago está al final de cada periodo. "
+"Si @{tipo} es 1, el pago está al principio de cada periodo."
 
 #: ../plugins/fn-financial/functions.c:362
 msgid "ACCRINT:accrued interest"
-msgstr ""
+msgstr "ACCRINT:interés acumulado"
 
 #: ../plugins/fn-financial/functions.c:363
 #: ../plugins/fn-financial/functions.c:450
@@ -3163,11 +3189,11 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:2500
 #: ../plugins/fn-financial/functions.c:2650
 msgid "issue:date of issue"
-msgstr ""
+msgstr "problema:fecha de problema"
 
 #: ../plugins/fn-financial/functions.c:364
 msgid "first_interest:date of first interest payment"
-msgstr ""
+msgstr "primer_interés:fecha de pago del primer interés"
 
 #: ../plugins/fn-financial/functions.c:365
 #: ../plugins/fn-financial/functions.c:488
@@ -3195,7 +3221,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:3126
 #: ../plugins/fn-financial/functions.c:3238
 msgid "settlement:settlement date"
-msgstr ""
+msgstr "liquidación:fecha de liquidación"
 
 #: ../plugins/fn-financial/functions.c:366
 #: ../plugins/fn-financial/functions.c:452
@@ -3209,11 +3235,11 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:2747
 #: ../plugins/fn-financial/functions.c:2825
 msgid "rate:nominal annual interest rate"
-msgstr ""
+msgstr "tasa:tasa de interés anual nominal"
 
 #: ../plugins/fn-financial/functions.c:367
 msgid "par:par value, defaults to $1000"
-msgstr ""
+msgstr "par:valor par, el predeterminado es $1000"
 
 #: ../plugins/fn-financial/functions.c:368
 #: ../plugins/fn-financial/functions.c:1894
@@ -3231,15 +3257,15 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:3128
 #: ../plugins/fn-financial/functions.c:3242
 msgid "frequency:number of interest payments per year"
-msgstr ""
+msgstr "frecuencia:número de pagos de interés por año"
 
 #: ../plugins/fn-financial/functions.c:369
 msgid "basis:calendar basis, defaults to 0"
-msgstr ""
+msgstr "base:calendario base, el predeterminado es 0"
 
 #: ../plugins/fn-financial/functions.c:370
 msgid "calc_method:calculation method, defaults to TRUE"
-msgstr ""
+msgstr "método_calc:método de cálculo, el predeterminado es VERDADERO"
 
 #: ../plugins/fn-financial/functions.c:372
 msgid ""
@@ -3247,6 +3273,9 @@ msgid ""
 "ACCRINT returns the sum of the interest accrued in all coupon periods from @"
 "{issue}  date until @{settlement} date."
 msgstr ""
+"Si @{primer_interés} < @{liquidación} y @{método_calc} es VERDADERO, luego "
+"ACCRINT devuelve la suma del interés acumulado en todos los periodos de "
+"cupón desde la fecha del @{problema} hasta la fecha de @{liquidación}."
 
 #: ../plugins/fn-financial/functions.c:377
 msgid ""
@@ -3254,26 +3283,35 @@ msgid ""
 "ACCRINT returns the sum of the interest accrued in all coupon periods from @"
 "{first_interest}  date until @{settlement} date."
 msgstr ""
+"Si @{primer_interés} < @{liquidación} y @{método_calc} es FALSO, luego "
+"ACCRINT devuelve la suma del interés acumulado en todos los periodos de "
+"cupón desde la fecha de @{primer_interes} hasta la fecha de @{liquidación}."
 
 #: ../plugins/fn-financial/functions.c:382
 msgid ""
 "Otherwise ACCRINT returns the sum of the interest accrued in all coupon "
 "periods from @{issue}  date until @{settlement} date."
 msgstr ""
+"Al contrario ACCRINT devuelve la suma del interés acumulado en todos los "
+"periodos de cupón desde la fecha del @{problema} hasta la fecha de @"
+"{liquidación}."
 
 #: ../plugins/fn-financial/functions.c:385
 msgid ""
 "@{frequency} must be one of 1, 2 or 4, but the exact value does not affect "
 "the result."
 msgstr ""
+"@{frecuencia} debe ser uno de 1, 2 o 4, pero el valor exacto no afecta el "
+"resultado."
 
 #: ../plugins/fn-financial/functions.c:387
 msgid "@{issue} must precede both @{first_interest} and @{settlement}."
 msgstr ""
+"@{problema} debe preceder tanto a @{primer_interés} y a @{liquidación}."
 
 #: ../plugins/fn-financial/functions.c:449
 msgid "ACCRINTM:accrued interest"
-msgstr ""
+msgstr "ACCRINTM:interés acumulado"
 
 #: ../plugins/fn-financial/functions.c:451
 #: ../plugins/fn-financial/functions.c:489
@@ -3301,28 +3339,29 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:3127
 #: ../plugins/fn-financial/functions.c:3239
 msgid "maturity:maturity date"
-msgstr ""
+msgstr "vencimiento:fecha de vencimiento"
 
 #: ../plugins/fn-financial/functions.c:453
 msgid "par:par value"
-msgstr ""
+msgstr "par:valor par"
 
 #: ../plugins/fn-financial/functions.c:455
 msgid "ACCRINTM calculates the accrued interest from @{issue} to @{maturity}."
 msgstr ""
+"ACCRINTM calcula el interés acumulado desde @{problema} hasta @{vencimiento}."
 
 #: ../plugins/fn-financial/functions.c:456
 msgid "@{par} defaults to $1000."
-msgstr ""
+msgstr "@{par} predeterminado es $1000"
 
 #: ../plugins/fn-financial/functions.c:487
 msgid "INTRATE:interest rate"
-msgstr ""
+msgstr "INTRATE:tasa de interés"
 
 #: ../plugins/fn-financial/functions.c:490
 #: ../plugins/fn-financial/functions.c:528
 msgid "investment:amount paid on settlement"
-msgstr ""
+msgstr "inversión:cantidad pagada en la liquidación"
 
 #: ../plugins/fn-financial/functions.c:491
 #: ../plugins/fn-financial/functions.c:570
@@ -3335,40 +3374,43 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:2749
 #: ../plugins/fn-financial/functions.c:2827
 msgid "redemption:amount received at maturity"
-msgstr ""
+msgstr "redención:cantidad recibida al vencimiento"
 
 #: ../plugins/fn-financial/functions.c:493
 msgid "INTRATE calculates the interest of a fully vested security."
-msgstr ""
+msgstr "INTRATE calcula el interés de una seguridad totalmente creada."
 
 #: ../plugins/fn-financial/functions.c:525
 msgid "RECEIVED:amount to be received at maturity"
-msgstr ""
+msgstr "RECEIVED:cantidad que se recibirá al vencimiento"
 
 #: ../plugins/fn-financial/functions.c:531
 msgid "RECEIVED calculates the amount to be received when a security matures."
 msgstr ""
+"RECEIVED calcula la cantidad que se recibirá cuando una seguridad vence."
 
 #: ../plugins/fn-financial/functions.c:566
 msgid "PRICEDISC:discounted price"
-msgstr ""
+msgstr "PRICEDISC:precio descontado"
 
 #: ../plugins/fn-financial/functions.c:569
 #: ../plugins/fn-financial/functions.c:606
 #: ../plugins/fn-financial/functions.c:1088
 #: ../plugins/fn-financial/functions.c:1126
 msgid "discount:annual rate at which to discount"
-msgstr ""
+msgstr "descuento:tasa anual en la que se descuenta"
 
 #: ../plugins/fn-financial/functions.c:572
 msgid ""
 "PRICEDISC calculates the price per $100 face value of a bond that does not "
 "pay interest at maturity."
 msgstr ""
+"PRICEDISC calcula el precio por valor nominal de $100 de un bono que no paga "
+"interés al vencimiento."
 
 #: ../plugins/fn-financial/functions.c:602
 msgid "PRICEMAT:price at maturity"
-msgstr ""
+msgstr "PRICEMAT:precio al vencimiento"
 
 #: ../plugins/fn-financial/functions.c:607
 #: ../plugins/fn-financial/functions.c:1893
@@ -3377,48 +3419,52 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:2748
 #: ../plugins/fn-financial/functions.c:3241
 msgid "yield:annual yield of security"
-msgstr ""
+msgstr "producción:producción anual de seguridad"
 
 #: ../plugins/fn-financial/functions.c:609
 msgid ""
 "PRICEMAT calculates the price per $100 face value of a bond that pays "
 "interest at maturity."
 msgstr ""
+"PRICEMAT calcula el precio por valor nominal de $100 de un bono que paga "
+"interés al vencimiento."
 
 #: ../plugins/fn-financial/functions.c:647
 msgid "DISC:discount rate"
-msgstr ""
+msgstr "DISC:tasa de descuento"
 
 #: ../plugins/fn-financial/functions.c:650
 msgid "par:price per $100 face value"
-msgstr ""
+msgstr "par:precio por valor nominal de $100"
 
 #: ../plugins/fn-financial/functions.c:653
 msgid "DISC calculates the discount rate for a security."
-msgstr ""
+msgstr "DISC calcula la tasa de descuento para una seguridad."
 
 #: ../plugins/fn-financial/functions.c:654
 msgid "@{redemption} is the redemption value per $100 face value."
-msgstr ""
+msgstr "@{redención} es el valor de redención por valor nominal de $100."
 
 #: ../plugins/fn-financial/functions.c:685
 msgid "EFFECT:effective interest rate"
-msgstr ""
+msgstr "EFFECT:tasa de interés efectiva"
 
 #: ../plugins/fn-financial/functions.c:687
 #: ../plugins/fn-financial/functions.c:712
 msgid "nper:number of periods used for compounding"
-msgstr ""
+msgstr "nper:número de periodos usados para componer"
 
 #: ../plugins/fn-financial/functions.c:688
 msgid ""
 "EFFECT calculates the effective interest rate using the formula (1+@{rate}/@"
 "{nper})^@{nper}-1."
 msgstr ""
+"EFFECT calcula la tasa de interes efectiva usando la fórmula (1+@{tasa}/@"
+"{nper})^@{nper}-1."
 
 #: ../plugins/fn-financial/functions.c:710
 msgid "NOMINAL:nominal interest rate"
-msgstr ""
+msgstr "NOMINAL:tasa de interes nominal"
 
 #: ../plugins/fn-financial/functions.c:711
 #: ../plugins/fn-financial/functions.c:736
@@ -3429,21 +3475,21 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1842
 #: ../plugins/fn-financial/functions.c:1936
 msgid "rate:effective annual interest rate"
-msgstr ""
+msgstr "tasa:tasa de interés anual efectiva"
 
 #: ../plugins/fn-financial/functions.c:713
 msgid "NOMINAL calculates the nominal interest rate from the effective rate."
-msgstr ""
+msgstr "NOMINAL calcula la tasa de interes nominal desde la tasa efectiva."
 
 #: ../plugins/fn-financial/functions.c:735
 msgid "ISPMT:interest payment for period"
-msgstr ""
+msgstr "ISPMT:pago de interés por periodo"
 
 #: ../plugins/fn-financial/functions.c:737
 #: ../plugins/fn-financial/functions.c:1759
 #: ../plugins/fn-financial/functions.c:1799
 msgid "per:period number"
-msgstr ""
+msgstr "per:número de periodo"
 
 #: ../plugins/fn-financial/functions.c:738
 #: ../plugins/fn-financial/functions.c:1192
@@ -3455,7 +3501,7 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:3151
 #: ../plugins/fn-financial/functions.c:3195
 msgid "nper:number of periods"
-msgstr "nper: número de periodos"
+msgstr "nper:número de periodos"
 
 #: ../plugins/fn-financial/functions.c:739
 #: ../plugins/fn-financial/functions.c:1194
