@@ -1,3 +1,8 @@
+2012-08-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-so-path.c (gnm_so_path_new_view),
+	(gnm_so_path_draw_cairo): force odd-even filling rule for custom shapes.
+
 2012-08-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/Makefile.am: add new GOPath based sheet objects.

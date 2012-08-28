@@ -215,6 +215,7 @@ gnm_so_path_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	item->path = goc_item_new (GOC_GROUP (item),
 	                           GOC_TYPE_PATH,
 	                           "closed", TRUE,
+	                           "fill-rule", TRUE,
 	                           NULL);
 	cb_gnm_so_path_changed (sop, NULL, item);
 	g_signal_connect_object (sop,
@@ -238,20 +239,8 @@ gnm_so_path_draw_cairo (SheetObject const *so, cairo_t *cr,
 	cairo_scale (cr, width / sop->width, height / sop->height);
 	go_path_to_cairo (sop->path, GO_PATH_DIRECTION_FORWARD, cr);
 	cairo_restore (cr);
-/*	if (sof->is_oval) {
-		cairo_save (cr);
-		cairo_scale (cr, width, height);
-		cairo_arc (cr, .5, .5, .5, 0., 2 * M_PI);
-		cairo_restore (cr);
-	} else {
-		cairo_move_to (cr, 0., 0.);
-		cairo_line_to (cr, width, 0.);
-		cairo_line_to (cr, width, height);
-		cairo_line_to (cr, 0., height);
-		cairo_line_to (cr, 0., 0.);
-		cairo_close_path (cr);
-	}*/
 	/* Fill the shape */
+	cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD); /* might be an option */
 	go_style_fill (style, cr, TRUE);
 	/* Draw the line */
 	if (go_style_set_cairo_line (style, cr))
