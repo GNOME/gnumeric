@@ -297,6 +297,7 @@ src/gnm-plugin.c
 src/gnm-plugin.h
 src/gnm-so-filled.c
 src/gnm-so-line.c
+src/gnm-so-path.c
 src/gnm-so-polygon.c
 src/gui-clipboard.c
 src/gui-file.c
