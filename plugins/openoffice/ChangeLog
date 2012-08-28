@@ -1,5 +1,10 @@
 2012-08-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (opendoc_content_dtd): support custom-shapes
+	inside table-cells
+
+2012-08-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_parse_float): skip the 'e'
 	(odf_get_cs_formula_value): new
 	(odf_custom_shape_end): calculate all variables and
@@ -9,8 +14,8 @@
 
 2012-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (odf_custom_shape_end): put doubles in teh hash since
-	goffice does not know gnm_float.
+	* openoffice-read.c (odf_custom_shape_end): put doubles in the hash
+	since goffice does not know gnm_float.
 
 2012-08-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

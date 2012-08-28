@@ -10738,7 +10738,9 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (TABLE_ROWS, SOFTPAGEBREAK, OO_NS_TEXT, "soft-page-break", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	      GSF_XML_IN_NODE (TABLE_H_ROWS, SOFTPAGEBREAK, OO_NS_TEXT, "soft-page-break", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 		GSF_XML_IN_NODE (TABLE_ROW, TABLE_CELL, OO_NS_TABLE, "table-cell", GSF_XML_NO_CONTENT, &oo_cell_start, &oo_cell_end),
+		  GSF_XML_IN_NODE (TABLE_CELL, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, &oo_cell_content_start, &oo_cell_content_end),
+		    GSF_XML_IN_NODE (CELL_TEXT, DRAW_CUSTOM_SHAPE, OO_NS_DRAW, "custom-shape", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_S,   OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
 		    GSF_XML_IN_NODE (CELL_TEXT, TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, &oo_cell_content_link, NULL),
 	            GSF_XML_IN_NODE (CELL_TEXT, TEXT_LINE_BREAK, OO_NS_TEXT, "line-break", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
