@@ -9178,8 +9178,27 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 			break;
 		case '?':
 			here = formula + 1;
-			while (*here != ' ' && *here != '\t')
+			/* ODF 1.2 is quite clear that:
+			   --------------------------
+			   function_reference::= "?" name
+			   name::= [^#x20#x9]+
+			   --------------------------
+			   so we should graball non-space, non-tab characters 
+			   as a function_reference name.
+			   
+			   The problem is that LO creates files in which these
+			   function reference are not terminated by space or tab!
+
+			   So if we want to read them correctly we should only use
+			   alphanumerics...
+			*/
+
+			/* while (*here != ' ' && *here != '\t') */
+			/* 	here++; */
+
+			while (g_ascii_isalnum (*here))
 				here++;
+
 			name = g_strndup (formula, here - formula);
 			formula = here;
 			fval = odf_get_cs_formula_value (xin, name, vals, level - 1);
@@ -9257,7 +9276,7 @@ odf_get_cs_formula_value (GsfXMLIn *xin, char const *key, GHashTable *vals, gint
 			break;
 		case 'w':
 			if (g_str_has_prefix (formula, "width")) {
-				formula += 6;
+				formula += 5;
 				g_string_append_printf (gstr, "%.12" GNM_FORMAT_g, viewbox_width);
 			} else {
 				g_string_append_c (gstr, *formula);
