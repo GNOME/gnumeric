@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-09-03 09:33+0000\n"
-"PO-Revision-Date: 2012-09-04 11:56+0200\n"
+"POT-Creation-Date: 2012-09-04 10:00+0000\n"
+"PO-Revision-Date: 2012-09-05 11:04+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -4782,15 +4782,15 @@ msgstr "text:cadena"
 
 #: ../plugins/fn-info/functions.c:1721
 msgid "If @{text} contains non-numerical text, 0 is returned."
-msgstr ""
+msgstr "Si @{texto} contiene texto no numérico, se devuelve 0."
 
 #: ../plugins/fn-info/functions.c:1724
 msgid "=N(\"eleven\")"
-msgstr ""
+msgstr "=N(\"once\")"
 
 #: ../plugins/fn-info/functions.c:1751
 msgid "TYPE:a number indicating the data type of @{value}"
-msgstr ""
+msgstr "TYPE:un número que indique el tipo de datos de @{valor}"
 
 #: ../plugins/fn-info/functions.c:1753
 msgid ""
@@ -4801,66 +4801,77 @@ msgid ""
 "16 \t= error\n"
 "64 \t= array"
 msgstr ""
+"TYPE devuelve un número que indica el tipo de datos de @{valor}:\n"
+"1  \t= número\n"
+"2  \t= texto\n"
+"4  \t= booleano\n"
+"16 \t= error\n"
+"64 \t= matriz"
 
 #: ../plugins/fn-info/functions.c:1792
 msgid "GETENV:the value of execution environment variable @{name}"
-msgstr ""
+msgstr "GETENV:el valor de la variable de entorno de ejecución @{nombre}"
 
 #: ../plugins/fn-info/functions.c:1793
 msgid "name:the name of the environment variable"
-msgstr ""
+msgstr "nombre:el nombre de la variable de entorno"
 
 #: ../plugins/fn-info/functions.c:1794
 msgid "If a variable called @{name} does not exist, #N/A! will be returned."
-msgstr ""
+msgstr "Si la variable @{nombre} no existe, se devolverá #N/A!."
 
 #: ../plugins/fn-info/functions.c:1795
 msgid "Variable names are case sensitive."
-msgstr ""
+msgstr "Los nombres de las variablse son sensibles a capitalización."
 
 #: ../plugins/fn-info/functions.c:1815
 msgid "GET.LINK:the target of the hyperlink attached to @{cell} as a string"
 msgstr ""
+"GET.LINK:el objetivo del hiperenlace adjunto a @{celda} como una cadena"
 
 #: ../plugins/fn-info/functions.c:1817
 msgid ""
 "The value return is not updated automatically when the link attached to @"
 "{cell} changes but requires a recalculation."
 msgstr ""
+"El valor de retorno no se actualiza automáticamente cuando el enlace adjunto "
+"a @{celda} cambia pero requiere recálculo."
 
 #: ../plugins/fn-logical/functions.c:44
 msgid "AND:logical conjunction"
-msgstr ""
+msgstr "AND:conjunción lógica"
 
 #: ../plugins/fn-logical/functions.c:45 ../plugins/fn-logical/functions.c:124
 #: ../plugins/fn-logical/functions.c:178
 msgid "b0:logical value"
-msgstr "b0: valor lógico"
+msgstr "b0:valor lógico"
 
 #: ../plugins/fn-logical/functions.c:46 ../plugins/fn-logical/functions.c:125
 #: ../plugins/fn-logical/functions.c:179
 msgid "b1:logical value"
-msgstr "b1: valor lógico"
+msgstr "b1:valor lógico"
 
 #: ../plugins/fn-logical/functions.c:47
 msgid "AND calculates the logical conjunction of its arguments @{b0},@{b1},..."
-msgstr ""
+msgstr "AND calcula la conjunción lógica de sus argumentos @{b0},@{b1},…"
 
 #: ../plugins/fn-logical/functions.c:48 ../plugins/fn-logical/functions.c:127
 #: ../plugins/fn-logical/functions.c:181
 msgid ""
 "If an argument is numerical, zero is considered FALSE and anything else TRUE."
 msgstr ""
+"Si un argumento es numérico, cero se considera FALSO y cualquier otro "
+"VERDADERO."
 
 #: ../plugins/fn-logical/functions.c:49 ../plugins/fn-logical/functions.c:102
 #: ../plugins/fn-logical/functions.c:128 ../plugins/fn-logical/functions.c:182
 msgid "Strings and empty values are ignored."
-msgstr ""
+msgstr "Las cadenas y los valores vacíos se ignoran."
 
 #: ../plugins/fn-logical/functions.c:50 ../plugins/fn-logical/functions.c:129
 #: ../plugins/fn-logical/functions.c:183
 msgid "If no logical values are provided, then the error #VALUE! is returned."
-msgstr ""
+msgstr "Si se proporcionan valores no lógicos, se devuelve el error #VALUE!."
 
 #: ../plugins/fn-logical/functions.c:51 ../plugins/fn-logical/functions.c:130
 #: ../plugins/fn-logical/functions.c:184
@@ -4868,70 +4879,75 @@ msgid ""
 "This function is strict: if any argument is an error, the result will be the "
 "first such error."
 msgstr ""
+"Esta función es estricta: si cualquier argumento es un error, el resultado "
+"será el primero como error."
 
 #: ../plugins/fn-logical/functions.c:57
 msgid "wiki:en:Logical_conjunction"
-msgstr ""
+msgstr "wiki:es:conjunción_lógica"
 
 #: ../plugins/fn-logical/functions.c:98
 msgid "NOT:logical negation"
-msgstr ""
+msgstr "NOT:negación lógica"
 
 #: ../plugins/fn-logical/functions.c:99
 msgid "b:logical value"
-msgstr "b: valor lógico"
+msgstr "b:valor lógico"
 
 #: ../plugins/fn-logical/functions.c:100
 msgid "NOT calculates the logical negation of its argument."
-msgstr ""
+msgstr "NOT calcula la negación lógica de su argumento."
 
 #: ../plugins/fn-logical/functions.c:101
 msgid ""
 "If the argument is numerical, zero is considered FALSE and anything else "
 "TRUE."
 msgstr ""
+"Si el argumento es numérico, cero se considera FALSO y cualquier otro "
+"VERDADERO."
 
 #: ../plugins/fn-logical/functions.c:107
 msgid "wiki:en:Negation"
-msgstr ""
+msgstr "wiki:es:negación"
 
 #: ../plugins/fn-logical/functions.c:123
 msgid "OR:logical disjunction"
-msgstr ""
+msgstr "OR:disyunción lógica"
 
 #: ../plugins/fn-logical/functions.c:126
 msgid "OR calculates the logical disjunction of its arguments @{b0},@{b1},..."
-msgstr ""
+msgstr "OR calcula la disyunción lógica de sus argumentos @{b0},@{b1},…"
 
 #: ../plugins/fn-logical/functions.c:136
 msgid "wiki:en:Logical_disjunction"
-msgstr ""
+msgstr "wiki:es:disyunción_lógica"
 
 #: ../plugins/fn-logical/functions.c:177
 msgid "XOR:logical exclusive disjunction"
-msgstr ""
+msgstr "XOR:disyunción lógica exclusiva"
 
 #: ../plugins/fn-logical/functions.c:180
 msgid ""
 "XOR calculates the logical exclusive disjunction of its arguments @{b0},@"
 "{b1},..."
 msgstr ""
+"XOR calcula la disyunción lógica exclusiva de sus argumentos @{b0},@{b1},…"
 
 #: ../plugins/fn-logical/functions.c:189
 msgid "wiki:en:Exclusive_disjunction"
-msgstr ""
+msgstr "wiki:es:disyunción_exclusiva"
 
 #: ../plugins/fn-logical/functions.c:230
 msgid "IFERROR:test for error"
-msgstr "IFERROR: test de error"
+msgstr "IFERROR:prueba de error"
 
 #: ../plugins/fn-logical/functions.c:231
 msgid "x:value to test for error"
-msgstr "x: valor con el que probar el error"
+msgstr "x:valor con el que probar el error"
 
 #: ../plugins/fn-logical/functions.c:232 ../plugins/fn-logical/functions.c:250
 msgid "y:alternate value"
-msgstr "y: valor alternativo"
+msgstr "y:valor alternativo"
 
 #: ../plugins/fn-logical/functions.c:233
 msgid ""
@@ -4943,11 +4959,11 @@ msgstr ""
 
 #: ../plugins/fn-logical/functions.c:248
 msgid "IFNA:test for #NA! error"
-msgstr "IFNA: test para #NA! error"
+msgstr "IFNA:prueba para el error #NA!"
 
 #: ../plugins/fn-logical/functions.c:249
 msgid "x:value to test for #NA! error"
-msgstr "x: valor con el que probar el error #NA!"
+msgstr "x:valor con el que probar el error #NA!"
 
 #: ../plugins/fn-logical/functions.c:251
 msgid ""
@@ -4959,7 +4975,7 @@ msgstr ""
 
 #: ../plugins/fn-logical/functions.c:267
 msgid "TRUE:the value TRUE"
-msgstr "TRUE: el valor TRUE"
+msgstr "TRUE:el valor VERDADERO"
 
 #: ../plugins/fn-logical/functions.c:268
 msgid "TRUE returns the value TRUE."
