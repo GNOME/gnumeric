@@ -3547,7 +3547,7 @@
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para><function>BASE</function> converts <parameter>n</parameter> to its string representation in base <parameter>b</parameter>. Leading zeros will be added to reach the minimum length given by <parameter>length</parameter>.</para>
+        <para><function>BASE</function> converts <parameter>n</parameter> to its string representation in base <parameter>b</parameter>. Leading zeroes will be added to reach the minimum length given by <parameter>length</parameter>.</para>
       </refsect1>
       <refsect1>
         <title>OpenDocument Format (ODF) Compatibility</title>
@@ -4859,36 +4859,6 @@
         <title>See also</title>
         <para><link linkend="gnumeric-function-AMORDEGRC"><function>AMORDEGRC</function></link>.
       </para>
-      </refsect1>
-    </refentry>
-    <refentry id="gnumeric-function-ATL_LAST">
-      <refmeta>
-        <refentrytitle>
-          <function>ATL_LAST</function>
-        </refentrytitle>
-      </refmeta>
-      <refnamediv>
-        <refname>
-          <function>ATL_LAST</function>
-        </refname>
-        <refpurpose>
-        sample real-time data source
-      </refpurpose>
-      </refnamediv>
-      <refsynopsisdiv>
-        <synopsis><function>ATL_LAST</function>(<parameter>tag</parameter>)</synopsis>
-      </refsynopsisdiv>
-      <refsect1>
-        <title>Arguments</title>
-        <para><parameter>tag</parameter>: tag to watch</para>
-      </refsect1>
-      <refsect1>
-        <title>Description</title>
-        <para><function>ATL_LAST</function> is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.</para>
-      </refsect1>
-      <refsect1>
-        <title>Note</title>
-        <para>This is not intended to be generally enabled and is OFF by default.</para>
       </refsect1>
     </refentry>
     <refentry id="gnumeric-function-COUPDAYBS">
@@ -6244,7 +6214,7 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>spot1</parameter>: spot price of asset 1</para>
-        <para><parameter>spot2</parameter>: spot price of asset 2</para>
+        <para><parameter>spot2</parameter>: spot price of asset 1</para>
         <para><parameter>qty1</parameter>: quantity of asset 1</para>
         <para><parameter>qty2</parameter>: quantity of asset 2</para>
         <para><parameter>time</parameter>: time to maturity in years</para>

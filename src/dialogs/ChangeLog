@@ -1,3 +1,7 @@
+2012-09-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.6
+
 2012-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-solver.c (run_solver): fix warning.

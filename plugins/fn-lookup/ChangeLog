@@ -1,3 +1,7 @@
+2012-09-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.6
+
 2012-07-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_transpose): add FLIP to SEEALSO

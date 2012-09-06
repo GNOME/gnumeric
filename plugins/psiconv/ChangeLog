@@ -1,3 +1,7 @@
+2012-09-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.6
+
 2012-08-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* psiconv-read.c (get_color): Rename style_color_new_i8.
