@@ -1664,7 +1664,7 @@ opt_euro_exchange(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_opt_euro_exchange[] = {
 	{ GNM_FUNC_HELP_NAME, F_("OPT_EURO_EXCHANGE:theoretical price of a European option to exchange assets")},
 	{ GNM_FUNC_HELP_ARG, F_("spot1:spot price of asset 1")},
-        { GNM_FUNC_HELP_ARG, F_("spot2:spot price of asset 1")},
+        { GNM_FUNC_HELP_ARG, F_("spot2:spot price of asset 2")},
 	{ GNM_FUNC_HELP_ARG, F_("qty1:quantity of asset 1")},
 	{ GNM_FUNC_HELP_ARG, F_("qty2:quantity of asset 2")},
 	DEF_ARG_TIME_MATURITY_Y,
@@ -1708,7 +1708,7 @@ opt_amer_exchange(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_opt_amer_exchange[] = {
 	{ GNM_FUNC_HELP_NAME, F_("OPT_AMER_EXCHANGE:theoretical price of an American option to exchange assets")},
 	{ GNM_FUNC_HELP_ARG, F_("spot1:spot price of asset 1")},
-        { GNM_FUNC_HELP_ARG, F_("spot2:spot price of asset 1")},
+        { GNM_FUNC_HELP_ARG, F_("spot2:spot price of asset 2")},
 	{ GNM_FUNC_HELP_ARG, F_("qty1:quantity of asset 1")},
 	{ GNM_FUNC_HELP_ARG, F_("qty2:quantity of asset 2")},
 	DEF_ARG_TIME_MATURITY_Y,

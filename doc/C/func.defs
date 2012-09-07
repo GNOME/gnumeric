@@ -1843,7 +1843,7 @@ The depreciation coefficient used is:
 @SHORTDESC=theoretical price of an American option to exchange assets
 @SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,volatility2,rho)
 @ARGUMENTDESCRIPTION=@{spot1}: spot price of asset 1
-@{spot2}: spot price of asset 1
+@{spot2}: spot price of asset 2
 @{qty1}: quantity of asset 1
 @{qty2}: quantity of asset 2
 @{time}: time to maturity in years
@@ -2021,7 +2021,7 @@ The depreciation coefficient used is:
 @SHORTDESC=theoretical price of a European option to exchange assets
 @SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,volatility2,rho)
 @ARGUMENTDESCRIPTION=@{spot1}: spot price of asset 1
-@{spot2}: spot price of asset 1
+@{spot2}: spot price of asset 2
 @{qty1}: quantity of asset 1
 @{qty2}: quantity of asset 2
 @{time}: time to maturity in years

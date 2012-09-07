@@ -6214,7 +6214,7 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>spot1</parameter>: spot price of asset 1</para>
-        <para><parameter>spot2</parameter>: spot price of asset 1</para>
+        <para><parameter>spot2</parameter>: spot price of asset 2</para>
         <para><parameter>qty1</parameter>: quantity of asset 1</para>
         <para><parameter>qty2</parameter>: quantity of asset 2</para>
         <para><parameter>time</parameter>: time to maturity in years</para>
@@ -6729,7 +6729,7 @@
       <refsect1>
         <title>Arguments</title>
         <para><parameter>spot1</parameter>: spot price of asset 1</para>
-        <para><parameter>spot2</parameter>: spot price of asset 1</para>
+        <para><parameter>spot2</parameter>: spot price of asset 2</para>
         <para><parameter>qty1</parameter>: quantity of asset 1</para>
         <para><parameter>qty2</parameter>: quantity of asset 2</para>
         <para><parameter>time</parameter>: time to maturity in years</para>
