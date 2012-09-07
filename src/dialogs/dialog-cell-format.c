@@ -657,7 +657,7 @@ fmt_dialog_init_align_page (FormatState *state)
 			  "toggled",
 			  G_CALLBACK (cb_align_wrap_toggle), state);
 
-	if (0 == (state->conflicts & (1 << MSTYLE_INDENT)) ||
+	if (0 != (state->conflicts & (1 << MSTYLE_INDENT)) ||
 	    (h != GNM_HALIGN_LEFT && h != GNM_HALIGN_RIGHT))
 		state->align.indent = 0;
 	else
