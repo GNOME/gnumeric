@@ -1,3 +1,8 @@
+2012-09-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* openoffice-read.c (odf_custom_shape_end): use the "paths" property for
+	GnmSOPath objects when needed.
+
 2012-09-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.6

@@ -30,6 +30,7 @@
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
+#include <values.h>
 
 #define CXML2C(s) ((char const *)(s))
 
@@ -46,6 +47,7 @@ typedef struct {
 	GOStyle *style;
 	GOPath	 *path;
 	double x_offset, y_offset, width, height;
+	GPtrArray *paths, *styles;
 
 	char *text;
 	PangoAttrList  *markup;
@@ -61,6 +63,7 @@ typedef SheetObjectClass GnmSOPathClass;
 typedef struct {
 	SheetObjectView	base;
 	GocItem *path, *text;
+	GPtrArray *paths;
 } GnmSOPathView;
 
 static void
@@ -73,7 +76,7 @@ so_path_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 		GnmSOPath const	*sop  = GNM_SO_PATH (so);
 		GOPath *path;
 		double scale, x_scale, y_scale, x, y;
-		if (sop->path == NULL || sop->width <=0. || sop->height <=0.)
+		if ((sop->path == NULL && sop->paths == NULL) || sop->width <=0. || sop->height <=0.)
 			return;
 
 		scale = goc_canvas_get_pixels_per_unit (GOC_ITEM (sov)->canvas);
@@ -82,13 +85,40 @@ so_path_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 		x = MIN (coords[0], coords[2]) / scale - sop->x_offset * x_scale;
 		y = MIN (coords[1], coords[3]) / scale - sop->y_offset * y_scale;
 
-		path = go_path_scale (sop->path, x_scale, y_scale);
-		goc_item_set (spv->path, "x", x, "y", y, "path", path, NULL);
-		go_path_free (path);
+		if (sop->path != NULL) {
+			path = go_path_scale (sop->path, x_scale, y_scale);
+			goc_item_set (spv->path, "x", x, "y", y, "path", path, NULL);
+			go_path_free (path);
+		} else {
+			unsigned i;
+			for (i = 0; i < sop->paths->len; i++) {
+				path = go_path_scale ((GOPath *) g_ptr_array_index (sop->paths, i), x_scale, y_scale);
+				goc_item_set (GOC_ITEM (g_ptr_array_index (spv->paths, i)), "x", x, "y", y, "path", path, NULL);
+				go_path_free (path);
+			}
+		}
 
 		if (spv->text != NULL && GOC_ITEM (spv->text)) {
 			double x0, y0, x1, y1;
-			goc_item_get_bounds (spv->path, &x0, &y0, &x1, &y1);
+			if (spv->path)
+				goc_item_get_bounds (spv->path, &x0, &y0, &x1, &y1);
+			else {
+				unsigned i;
+				double mx, my, Mx, My;
+				x0 = y0 = MAXDOUBLE;
+				x1 = y1 = -MAXDOUBLE;
+				for (i = 0; i < spv->paths->len; i++) {
+					goc_item_get_bounds (GOC_ITEM (g_ptr_array_index (spv->paths, i)), &mx, &my, &Mx, &My);
+					if (mx < x0)
+						x0 = mx;
+					if (my < y0)
+						y0 = my;
+					if (Mx > x1)
+						x1 = Mx;
+					if (My > y1)
+						y1 = My;
+				}
+			}
 			x1 += x0 + (sop->margin_pts.left - sop->margin_pts.right);
 			y1 += y0 + (sop->margin_pts.top - sop->margin_pts.bottom);
 			x1 = MAX (x1, DBL_MIN);
@@ -127,7 +157,8 @@ enum {
 	SOP_PROP_STYLE,
 	SOP_PROP_PATH,
 	SOP_PROP_TEXT,
-	SOP_PROP_MARKUP
+	SOP_PROP_MARKUP,
+	SOP_PROP_PATHS
 };
 
 
@@ -171,7 +202,10 @@ cb_gnm_so_path_changed (GnmSOPath const *sop,
 			  G_GNUC_UNUSED GParamSpec *pspec,
 			  GnmSOPathView *group)
 {
-	cb_gnm_so_path_style_changed (GOC_ITEM (group->path), sop);
+	GList *ptr = GOC_GROUP (group)->children;
+	for (; ptr && ptr->data; ptr = ptr->next)
+		if (GOC_IS_PATH (ptr->data))
+			cb_gnm_so_path_style_changed (GOC_ITEM (ptr->data), sop);
 
 	if (sop->text != NULL && *sop->text != 0) {
 		/* set a font, a very bad solution, but will do until we move to GOString */
@@ -212,11 +246,25 @@ gnm_so_path_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	    gnm_pane_object_group (GNM_PANE (container)),
 		so_path_goc_view_get_type (),
 		NULL);
-	item->path = goc_item_new (GOC_GROUP (item),
-	                           GOC_TYPE_PATH,
-	                           "closed", TRUE,
-	                           "fill-rule", TRUE,
-	                           NULL);
+	/* FIXME: this is unsafe if the paths change after the view is created,
+	 * but this can't occur for now */
+	unsigned i;
+	if (sop->path)
+		item->path = goc_item_new (GOC_GROUP (item),
+		                           GOC_TYPE_PATH,
+		                           "closed", TRUE,
+		                           "fill-rule", TRUE,
+		                           NULL);
+	else {
+		item->paths = g_ptr_array_new_full (sop->paths->len, g_object_unref);
+		for (i = 0; i < sop->paths->len; i++)
+			g_ptr_array_add (item->paths,
+				             goc_item_new (GOC_GROUP (item),
+				                           GOC_TYPE_PATH,
+				                           "closed", TRUE,
+				                           "fill-rule", TRUE,
+				                           NULL));
+	}
 	cb_gnm_so_path_changed (sop, NULL, item);
 	g_signal_connect_object (sop,
 		"notify::style", G_CALLBACK (cb_gnm_so_path_changed),
@@ -380,8 +428,11 @@ gnm_so_path_set_property (GObject *obj, guint param_id,
 	case SOP_PROP_PATH: {
 		GOPath *path = g_value_get_boxed (value);
 		if (sop->path)
-				go_path_free (sop->path);
+			go_path_free (sop->path);
+		else if (sop->paths)
+			g_ptr_array_unref (sop->paths);
 		sop->path = NULL;
+		sop->paths = NULL;
 		if (path) {
 			cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 			cairo_t *cr = cairo_create (surface);
@@ -389,6 +440,37 @@ gnm_so_path_set_property (GObject *obj, guint param_id,
 			sop->path = go_path_ref (path);
 			/* evaluates the bounding rectangle */
 			go_path_to_cairo (path, GO_PATH_DIRECTION_FORWARD, cr);
+			cairo_fill_extents (cr,
+			                    &sop->x_offset, &sop->y_offset,
+			                    &sop->width, &sop->height);
+			sop->width -= sop->x_offset;
+			sop->height -= sop->y_offset;
+			cairo_destroy (cr);
+			cairo_surface_destroy (surface);
+		}
+		break;
+	}
+	case SOP_PROP_PATHS: {
+		GPtrArray *paths = g_value_get_boxed (value);
+		unsigned i;
+		for (i = 0; i < paths->len; i++)
+			/* we can only check that the path is not NULL */
+			g_return_if_fail (g_ptr_array_index (paths, i) != NULL);
+		if (sop->path)
+			go_path_free (sop->path);
+		else if (sop->paths)
+			g_ptr_array_unref (sop->paths);
+		sop->path = NULL;
+		sop->paths = NULL;
+		if (paths) {
+			cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+			cairo_t *cr = cairo_create (surface);
+
+			sop->paths = g_ptr_array_ref (paths);
+			/* evaluates the bounding rectangle */
+			for (i = 0; i < paths->len; i++)
+				go_path_to_cairo ((GOPath *) g_ptr_array_index (paths, i),
+				                  GO_PATH_DIRECTION_FORWARD, cr);
 			cairo_fill_extents (cr,
 			                    &sop->x_offset, &sop->y_offset,
 			                    &sop->width, &sop->height);
@@ -431,6 +513,9 @@ gnm_so_path_get_property (GObject *obj, guint param_id,
 	case SOP_PROP_PATH:
 		g_value_set_boxed (value, sop->path);
 		break;
+	case SOP_PROP_PATHS:
+		g_value_set_boxed (value, sop->paths);
+		break;
 	case SOP_PROP_TEXT :
 		g_value_set_string (value, sop->text);
 		break;
@@ -451,8 +536,12 @@ gnm_so_path_finalize (GObject *object)
 	if (sop->path != NULL)
 		go_path_free (sop->path);
 	sop->path = NULL;
+	if (sop->paths != NULL)
+		g_ptr_array_unref (sop->paths);
+	sop->paths = NULL;
 	g_object_unref (sop->style);
 	sop->style = NULL;
+	sop->paths = NULL;
 	g_free (sop->text);
 	sop->text = NULL;
 	if (NULL != sop->markup) {
@@ -495,6 +584,9 @@ gnm_so_path_class_init (GObjectClass *gobject_class)
 		GSF_PARAM_STATIC | G_PARAM_READWRITE));
     g_object_class_install_property (gobject_class, SOP_PROP_MARKUP,
              g_param_spec_boxed ("markup", NULL, NULL, PANGO_TYPE_ATTR_LIST,
+		GSF_PARAM_STATIC | G_PARAM_READWRITE));
+    g_object_class_install_property (gobject_class, SOP_PROP_PATHS,
+             g_param_spec_boxed ("paths", NULL, NULL, G_TYPE_PTR_ARRAY,
 		GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 

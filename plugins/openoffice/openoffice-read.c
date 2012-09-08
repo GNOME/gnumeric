@@ -9355,6 +9355,8 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GOPath *path;
 	GHashTable *vals = NULL;
+	char **strs, **cur;
+	GPtrArray *paths;
 	
 	if (state->chart.cs_variables || state->chart.cs_modifiers) {
 		vals = g_hash_table_new_full
@@ -9388,18 +9390,28 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 			g_list_free (keys);
 		}
 	}
-	path = go_path_new_from_odf_enhanced_path (state->chart.cs_enhanced_path, 
-						   vals);
+	paths = g_ptr_array_new_with_free_func ((GDestroyNotify) go_path_free);
+	strs = g_strsplit (state->chart.cs_enhanced_path, "N", 0);
+	for (cur = strs; *cur != NULL; cur++) {
+		path = go_path_new_from_odf_enhanced_path (*cur, vals);
+		if (path)
+			g_ptr_array_add (paths, path);
+	}
+	g_strfreev (strs);
+
 	if (vals)
 		g_hash_table_unref (vals);
 		
 	/* Note that we have already created a rectangle */
 	
-	if (path) {
+	if (paths->len == 1) {
 		odf_custom_shape_replace_object
 			(state, g_object_new (GNM_SO_PATH_TYPE,
-					      "path", path, NULL));
-		go_path_free (path);
+					      "path", g_ptr_array_index (paths, 0), NULL));
+	} else if (paths->len > 1) {
+		odf_custom_shape_replace_object
+			(state, g_object_new (GNM_SO_PATH_TYPE,
+					      "paths", paths, NULL));
 	} else if (state->chart.cs_type) {
 		/* ignoring "ellipse" and "rectangle" since they will be handled by the GOPath */
 		if (0 == g_ascii_strcasecmp (state->chart.cs_type, "frame") &&
@@ -9419,6 +9431,7 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 	} else
 		oo_warning (xin , _("An unsupported custom shape was encountered and "
 				    "converted to a rectangle."));
+	g_ptr_array_unref (paths);
 	
 	od_draw_text_frame_end (xin, blob);
 
