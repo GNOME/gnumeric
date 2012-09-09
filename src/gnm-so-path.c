@@ -331,10 +331,8 @@ gnm_so_path_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 			     GnmConventions const *convs)
 {
 	GnmSOPath const *sop = GNM_SO_PATH (so);
-	char *svg = go_path_to_svg (sop->path);
+	char *svg;
 
-	gsf_xml_out_add_cstr (output, "Path", svg);
-	g_free (svg);
 	if (sop->text != NULL && *(sop->text) != '\0') {
 		gsf_xml_out_add_cstr (output, "Label", sop->text);
 		if (sop->markup != NULL) {
@@ -344,10 +342,46 @@ gnm_so_path_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 			go_format_unref (fmt);
 		}
 	}
+	if (sop->path) {
+		svg = go_path_to_svg (sop->path);
+		gsf_xml_out_add_cstr (output, "Path", svg);
+		g_free (svg);
+	} else if (sop->paths) {
+		unsigned i;
+		for (i = 0; i < sop->paths->len; i++) {
+			gsf_xml_out_start_element (output, "Path");
+			svg = go_path_to_svg ((GOPath *) g_ptr_array_index (sop->paths, i));
+			gsf_xml_out_add_cstr (output, "Path", svg);
+			g_free (svg);
+			gsf_xml_out_end_element (output); /* </Path> */
+		}
+	}
 
 	gsf_xml_out_start_element (output, "Style");
 	go_persist_sax_save (GO_PERSIST (sop->style), output);
 	gsf_xml_out_end_element (output); /* </Style> */
+}
+
+static void
+sop_sax_path (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	SheetObject *so = gnm_xml_in_cur_obj (xin);
+	GnmSOPath *sop = GNM_SO_PATH (so);
+	GOPath *path;
+	g_return_if_fail (sop->path == NULL);
+	if (sop->paths == NULL)
+		sop->paths = g_ptr_array_new_with_free_func ((GDestroyNotify) go_path_free);
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_eq (attrs[0], "Path")) {
+			path = go_path_new_from_svg (attrs[1]);
+			if (path)
+				g_ptr_array_add (sop->paths, path);
+			/* we need to update the extents, not optimal */
+			g_ptr_array_ref (sop->paths);
+			g_object_set (G_OBJECT (sop), "paths", sop->paths, NULL);
+			g_ptr_array_unref (sop->paths);
+			return;
+		}	
 }
 
 static void
@@ -364,7 +398,9 @@ gnm_so_path_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 			       GnmConventions const *convs)
 {
 	static GsfXMLInNode const dtd[] = {
-	  GSF_XML_IN_NODE (STYLE, STYLE, -1, "Style",	GSF_XML_NO_CONTENT, &sop_sax_style, NULL),
+	  GSF_XML_IN_NODE (SOPATH, SOPATH, -1, "SheetObjectPath",	GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (SOPATH, PATH, -1, "Path",	GSF_XML_NO_CONTENT, &sop_sax_path, NULL),
+	  GSF_XML_IN_NODE (SOPATH, STYLE, -1, "Style",	GSF_XML_NO_CONTENT, &sop_sax_style, NULL),
 	  GSF_XML_IN_NODE_END
 	};
 	static GsfXMLInDoc *doc = NULL;
