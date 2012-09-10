@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-09-04 10:00+0000\n"
-"PO-Revision-Date: 2012-09-05 11:04+0200\n"
+"POT-Creation-Date: 2012-09-07 12:07+0000\n"
+"PO-Revision-Date: 2012-09-10 10:43+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -2277,7 +2277,9 @@ msgstr "contado1:precio al contado de activo 1"
 
 #: ../plugins/fn-derivatives/options.c:1667
 #: ../plugins/fn-derivatives/options.c:1711
-msgid "spot2:spot price of asset 1"
+#, fuzzy
+#| msgid "spot2:spot price of asset 1"
+msgid "spot2:spot price of asset 2"
 msgstr "contado2:precio al contado de activo 2"
 
 #: ../plugins/fn-derivatives/options.c:1668
@@ -4979,31 +4981,31 @@ msgstr "TRUE:el valor VERDADERO"
 
 #: ../plugins/fn-logical/functions.c:268
 msgid "TRUE returns the value TRUE."
-msgstr ""
+msgstr "TRUE devuelve el valor VERDADERO."
 
 #: ../plugins/fn-logical/functions.c:272 ../plugins/fn-logical/functions.c:290
 msgid "wiki:en:Logical_value"
-msgstr ""
+msgstr "wiki:es:valor_lógico"
 
 #: ../plugins/fn-logical/functions.c:285
 msgid "FALSE:the value FALSE"
-msgstr "FALSE: el valor FALSE"
+msgstr "FALSE:el valor FALSO"
 
 #: ../plugins/fn-logical/functions.c:286
 msgid "FALSE returns the value FALSE."
-msgstr ""
+msgstr "FALSE devuelve el valor FALSO."
 
 #: ../plugins/fn-lookup/functions.c:729
 msgid "ADDRESS:cell address as text"
-msgstr ""
+msgstr "ADDRESS:dirección de celda como texto"
 
 #: ../plugins/fn-lookup/functions.c:730
 msgid "row_num:row number"
-msgstr "row_num: número de fila"
+msgstr "num_fila:número de fila"
 
 #: ../plugins/fn-lookup/functions.c:731
 msgid "col_num:column number"
-msgstr "col_num: número de columna"
+msgstr "num_col:número de columna"
 
 #: ../plugins/fn-lookup/functions.c:732
 msgid ""
@@ -5011,84 +5013,97 @@ msgid ""
 "row relative and column absolute, and 4 for a relative reference; defaults "
 "to 1"
 msgstr ""
+"num_abs:1 para un absoluto, 2 para una fila absoluta y columna relativa, 3 "
+"para una fila relativa y columna absoluta, y 4 para una referencia relativa; "
+"el predeterminado es 1"
 
 #: ../plugins/fn-lookup/functions.c:735
 msgid ""
 "a1:if TRUE, an A1-style reference is provided, otherwise an R1C1-style "
 "reference; defaults to TRUE"
 msgstr ""
+"a1:si es cierto, una referencia de estilo A1 se proporciona, de lo contrario "
+"una referencia de estilo R1C1; el predeterminado es VERDADERO"
 
 #: ../plugins/fn-lookup/functions.c:737
 msgid "text:name of the worksheet, defaults to no sheet"
-msgstr ""
+msgstr "texto:nombre de la hoja de trabajo, el predeterminado es sin hoja"
 
 #: ../plugins/fn-lookup/functions.c:738
 msgid "If @{row_num} or @{col_num} is less than one, ADDRESS returns #VALUE!"
-msgstr ""
+msgstr "Si @{num_fila} o @{num_col} es menor que uno, ADDRESS devuelve #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:740
 msgid "If @{abs_num} is greater than 4 ADDRESS returns #VALUE!"
-msgstr ""
+msgstr "Si @{num_abs} es mayor que 4 ADDRESS devuelve #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:827
 msgid "AREAS:number of areas in @{reference}"
-msgstr ""
+msgstr "AREAS:número de áreas en @{referencia}"
 
 #: ../plugins/fn-lookup/functions.c:828
 msgid "reference:range"
-msgstr "reference: rango"
+msgstr "referencia:rango"
 
 #: ../plugins/fn-lookup/functions.c:895
 msgid "CHOOSE:the (@{index}+1)th argument"
-msgstr ""
+msgstr "CHOOSE:el (@{índice}+1)avo argumento"
 
 #: ../plugins/fn-lookup/functions.c:896
 msgid "index:positive number"
-msgstr ""
+msgstr "índice:número positivo"
 
 #: ../plugins/fn-lookup/functions.c:897
 msgid "value1:first value"
-msgstr "value1: primer valor"
+msgstr "valor1:primer valor"
 
 #: ../plugins/fn-lookup/functions.c:898
 msgid "value2:second value"
-msgstr ""
+msgstr "valor2:segundo valor"
 
 #: ../plugins/fn-lookup/functions.c:899
 msgid "CHOOSE returns its (@{index}+1)th argument."
-msgstr ""
+msgstr "CHOOSE devuelve su (@{índice}+1)avo argumento."
 
 #: ../plugins/fn-lookup/functions.c:900
 msgid ""
 "@{index} is truncated to an integer. If @{index} < 1 or the truncated @"
 "{index} > number of values, CHOOSE returns #VALUE!"
 msgstr ""
+"@{índice} se trunca a un entero. Si @{índice} < 1 o el truncado @{índice} > "
+"número de valores, CHOOSE devuelve #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:942
 msgid "VLOOKUP:search the first column of @{range} for @{value}"
-msgstr ""
+msgstr "VLOOKUP:busca la primera columna de @{rango} para @{valor}"
 
 #: ../plugins/fn-lookup/functions.c:943 ../plugins/fn-lookup/functions.c:1011
 msgid "value:search value"
-msgstr ""
+msgstr "valor:valor de búsqueda"
 
 #: ../plugins/fn-lookup/functions.c:944 ../plugins/fn-lookup/functions.c:1012
 msgid "range:range to search"
-msgstr ""
+msgstr "rango:rango que buscar"
 
 #: ../plugins/fn-lookup/functions.c:945
 msgid "column:1-based column offset indicating the return values"
 msgstr ""
+"columna:desplazamiento de columna basado en 1 que indica los valores de "
+"retorno"
 
 #: ../plugins/fn-lookup/functions.c:946 ../plugins/fn-lookup/functions.c:1014
 msgid ""
 "approximate:if false, an exact match of @{value} must be found; defaults to "
 "TRUE"
 msgstr ""
+"approximado:si es falso, una coincidencia exacta de @{valor} debe ser "
+"encontrada; el predeterminado es VERDADERO"
 
 #: ../plugins/fn-lookup/functions.c:948
 msgid "as_index:if true, the 0-based row offset is returned; defaults to FALSE"
 msgstr ""
+"índice_como:si es verdadero, se devuelve el desplazamiento de fila basado en "
+"0; el predeterminado es FALSO"
 
 #: ../plugins/fn-lookup/functions.c:950
 msgid ""
@@ -5098,29 +5113,39 @@ msgid ""
 "less than or equal to @{value}. If @{as_index} is true the 0-based row "
 "offset is returned."
 msgstr ""
+"Función VLOOKUP encuentra la fila en @{rango} que tiene una primera celda "
+"similar a @{valor}. Si @{aproximado} no es verdadero encuentra la fila con "
+"una igualdad exacta. Si @{aproximado} es verdadero, encuentra la última fila "
+"con primer valor menor que o igual a @{valor}. Si @{índice_como} es "
+"verdadero se devuelve el desplazamiento de fila basado en 0."
 
 #: ../plugins/fn-lookup/functions.c:957 ../plugins/fn-lookup/functions.c:1025
 msgid ""
 "If @{approximate} is true, then the values must be sorted in order of "
 "ascending value."
 msgstr ""
+"Si @{aproximadi} es verdadero, los valores se deben ordenar en orden de "
+"valor ascendente."
 
 #: ../plugins/fn-lookup/functions.c:959
 msgid "VLOOKUP returns #REF! if @{column} falls outside @{range}."
-msgstr ""
+msgstr "VLOOKUP devuelve #REF! si @{columna} cae fuera de @{rango}."
 
 #: ../plugins/fn-lookup/functions.c:1010
 msgid "HLOOKUP:search the first row of @{range} for @{value}"
-msgstr ""
+msgstr "HLOOKUP:busca la primera fila de @{rango} para @{valor}"
 
 #: ../plugins/fn-lookup/functions.c:1013
 msgid "row:1-based row offset indicating the return values "
 msgstr ""
+"fila:desplazamiento de fila basado en 1 que indica los valores de retorno"
 
 #: ../plugins/fn-lookup/functions.c:1016
 msgid ""
 "as_index:if true, the 0-based column offset is returned; defaults to FALSE"
 msgstr ""
+"índice_como:si es verdadero, se devuelve el desplazamiento de columna basado "
+"en 0; el predeterminado es FALSO"
 
 #: ../plugins/fn-lookup/functions.c:1018
 msgid ""
@@ -5130,28 +5155,35 @@ msgid ""
 "value less than or equal to @{value}. If @{as_index} is true the 0-based "
 "column offset is returned."
 msgstr ""
+"Función HLOOKUP encuentra la fila en @{rango} que tiene una primera celda "
+"similar a @{valor}. Si @{aproximado} no es verdadero encuentra la columna "
+"con una igualdad exacta. Si @{aproximado} es verdadero, encuentra la última "
+"columna con primer valor menor que o igual a @{valor}. Si @{índice_como} es "
+"verdadero se devuelve el desplazamiento de columna basado en 0."
 
 #: ../plugins/fn-lookup/functions.c:1027
 msgid "HLOOKUP returns #REF! if @{row} falls outside @{range}."
-msgstr ""
+msgstr "HLOOKUP devuelve #REF! si @{fila} cae fuera de @{rango}."
 
 #: ../plugins/fn-lookup/functions.c:1078
 msgid ""
 "LOOKUP:contents of @{vector2} at the corresponding location to @{value} in @"
 "{vector1}"
 msgstr ""
+"LOOKUP:contenidos de @{vector2} en la ubicación correspondiente a @{valor} "
+"en @{vector1}"
 
 #: ../plugins/fn-lookup/functions.c:1080
 msgid "value:value to look up"
-msgstr ""
+msgstr "valor:valor que buscar"
 
 #: ../plugins/fn-lookup/functions.c:1081
 msgid "vector1:range to search:"
-msgstr ""
+msgstr "vector1:rango que buscar:"
 
 #: ../plugins/fn-lookup/functions.c:1082
 msgid "vector2:range of return values"
-msgstr ""
+msgstr "vector2:rango de valores de retorno"
 
 #: ../plugins/fn-lookup/functions.c:1083
 msgid ""
@@ -5159,32 +5191,38 @@ msgid ""
 "{vector1}, otherwise the first column. If @{vector2} is omitted the return "
 "value is taken from the last row or column of @{vector1}."
 msgstr ""
+"Si @{vector1} tiene más filas que columnas, LOOKUP busca la primera fila de @"
+"{vector1}, de lo contrario la primera columna. Si @{vector2} se omite el "
+"valor de retorno se toma de la última fila o columna de @{vector1}."
 
 #: ../plugins/fn-lookup/functions.c:1087
 msgid ""
 "If LOOKUP can't find @{value} it uses the largest value less than @{value}."
 msgstr ""
+"Si LOOKUP no puede encontrar @{valor} usa el valor más grande menor que @"
+"{valor}."
 
 #: ../plugins/fn-lookup/functions.c:1089
 msgid "The data must be sorted."
-msgstr ""
+msgstr "Los datos se deben ordenar."
 
 #: ../plugins/fn-lookup/functions.c:1090
 msgid "If @{value} is smaller than the first value it returns #N/A."
-msgstr ""
+msgstr "Si @{valor} es menor que el primer valor devuelve #N/A."
 
 #: ../plugins/fn-lookup/functions.c:1091
 msgid ""
 "If the corresponding location does not exist in @{vector2}, it returns #N/A."
 msgstr ""
+"Si la ubicación correspondiente no existe en @{vector2}, devuelve #N/A."
 
 #: ../plugins/fn-lookup/functions.c:1178
 msgid "MATCH:the index of @{seek} in @{vector}"
-msgstr ""
+msgstr "MATCH:el índice de @{objetivo} en @{vector}"
 
 #: ../plugins/fn-lookup/functions.c:1179
 msgid "seek:value to find"
-msgstr "seek: valor que buscar"
+msgstr "buscar:valor que buscar"
 
 #: ../plugins/fn-lookup/functions.c:1180
 msgid "vector:n by 1 or 1 by n range to be searched"
