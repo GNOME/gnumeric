@@ -256,7 +256,8 @@ gnm_so_path_new_view (SheetObject *so, SheetObjectViewContainer *container)
 		                           "fill-rule", TRUE,
 		                           NULL);
 	else {
-		item->paths = g_ptr_array_new_full (sop->paths->len, g_object_unref);
+		item->paths = g_ptr_array_sized_new (sop->paths->len);
+		g_ptr_array_set_free_func (item->paths, g_object_unref);
 		for (i = 0; i < sop->paths->len; i++)
 			g_ptr_array_add (item->paths,
 				             goc_item_new (GOC_GROUP (item),
