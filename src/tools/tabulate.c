@@ -44,6 +44,7 @@
 #include "sheet-style.h"
 #include "style-color.h"
 #include "mathfunc.h"
+#include "application.h"
 
 
 static GnmValue *
@@ -265,7 +266,7 @@ do_tabulation (WorkbookControl *wbc,
 			cell_queue_recalc (data->cells[i]);
 		}
 		gnm_cell_eval (data->target);
-		gnm_app_recalc (wb);
+		gnm_app_recalc ();
 	}
 
 	g_free (values);
