@@ -1,3 +1,9 @@
+2012-09-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_store_data_style_for_style_with_name): new
+	(odf_write_office_styles): call odf_store_data_style_for_style_with_name
+	to ensure data files for named styles are collected (and later written)
+
 2012-09-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* openoffice-read.c (odf_custom_shape_end): use the "paths" property for

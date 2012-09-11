@@ -5143,9 +5143,28 @@ odf_write_hf (GnmOOExport *state, PrintInformation *pi, char const *id, gboolean
 }
 
 static void
+odf_store_data_style_for_style_with_name (GnmStyleRegion *sr, G_GNUC_UNUSED char const *name, GnmOOExport *state)
+{
+	GnmStyle const *style = sr->style;
+
+	if (gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
+		GOFormat const *format = gnm_style_get_format(style);
+		if (format != NULL && !go_format_is_markup (format) && !go_format_is_general (format)) {
+			if (go_format_is_simple (format))
+				xl_find_format (state, format, 0);
+			else
+				xl_find_conditional_format (state, format);
+		}
+	}
+}
+
+static void
 odf_write_office_styles (GnmOOExport *state)
 {
 	gsf_xml_out_start_element (state->xml, OFFICE "styles");
+
+	/* We need to make sure all teh data styles for the named styles are included */
+	g_hash_table_foreach (state->named_cell_style_regions, (GHFunc) odf_store_data_style_for_style_with_name, state);
 
 	g_hash_table_foreach (state->xl_styles, (GHFunc) odf_write_this_xl_style, state);
 	g_hash_table_foreach (state->xl_styles_neg, (GHFunc) odf_write_this_xl_style_neg, state);
