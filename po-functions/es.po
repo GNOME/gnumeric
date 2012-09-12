@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-09-07 12:07+0000\n"
-"PO-Revision-Date: 2012-09-10 10:43+0200\n"
+"POT-Creation-Date: 2012-09-10 09:02+0000\n"
+"PO-Revision-Date: 2012-09-12 09:49+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -2277,8 +2277,6 @@ msgstr "contado1:precio al contado de activo 1"
 
 #: ../plugins/fn-derivatives/options.c:1667
 #: ../plugins/fn-derivatives/options.c:1711
-#, fuzzy
-#| msgid "spot2:spot price of asset 1"
 msgid "spot2:spot price of asset 2"
 msgstr "contado2:precio al contado de activo 2"
 
@@ -5226,224 +5224,262 @@ msgstr "buscar:valor que buscar"
 
 #: ../plugins/fn-lookup/functions.c:1180
 msgid "vector:n by 1 or 1 by n range to be searched"
-msgstr ""
+msgstr "vector:rango n por 1 o 1 por n que buscar"
 
 #: ../plugins/fn-lookup/functions.c:1181
 msgid ""
 "type:+1 (the default) to find the largest value ≤ @{seek}, 0 to find the "
 "first value = @{seek}, or-1 to find the smallest value ≥ @{seek}"
 msgstr ""
+"tipo:+1 (el predeterminado) para encontrar el valor más grande ≤ @"
+"{objetivo}, 0 para encontrar el primer valor = @{objetivo}, o-1 para "
+"encontrar el valor más pequeño ≥ @{objetivo}"
 
 #: ../plugins/fn-lookup/functions.c:1184
 msgid "MATCH searches @{vector} for @{seek} and returns the 1-based index."
 msgstr ""
+"MATCH busca @{vector} para @{objetivo} y devuelve el índice basado en 1."
 
 #: ../plugins/fn-lookup/functions.c:1185
 msgid ""
 " For @{type} = -1 the data must be sorted in descending order; for @{type} = "
 "+1 the data must be sorted in ascending order."
 msgstr ""
+"Para @{tipo} = -1 los datos deben ordenarse de manera descendente; para @"
+"{tipo} = +1 los datos deben ser ordenados en orden ascendente."
 
 #: ../plugins/fn-lookup/functions.c:1187
 msgid "If @{seek} could not be found, #N/A is returned."
-msgstr ""
+msgstr "Si @{objetivo} no se pudo encontrar, se devuelve #N/A."
 
 #: ../plugins/fn-lookup/functions.c:1188
 msgid "If @{vector} is neither n by 1 nor 1 by n, #N/A is returned."
-msgstr ""
+msgstr "Si @{vector} no es n por 1 ni 1 por n, se devuelve #N/A."
 
 #: ../plugins/fn-lookup/functions.c:1232
 msgid "INDIRECT:contents of the cell pointed to by the @{ref_text} string"
 msgstr ""
+"INDIRECT:contenidos de la celda a la que apunta la cadena @{ref_textual}"
 
 #: ../plugins/fn-lookup/functions.c:1233
 msgid "ref_text:textual reference"
-msgstr ""
+msgstr "ref_textual:referencia textual"
 
 #: ../plugins/fn-lookup/functions.c:1234
 msgid ""
 "format:if true, @{ref_text} is given in A1-style, otherwise it is given in "
 "R1C1 style; defaults to true"
 msgstr ""
+"formato:si es verdadero, @{ref_textual} se da en estilo A1, de otra manera "
+"se da en estilo R1C1; el predeterminado es verdadero"
 
 #: ../plugins/fn-lookup/functions.c:1236
 msgid ""
 "If @{ref_text} is not a valid reference in the style determined by @"
 "{format}, INDIRECT returns #REF!"
 msgstr ""
+"Si @{ref_textual} no es una referencia valida en el estilo determinado por @"
+"{formato}, INDIRECT devuelve #REF!"
 
 #: ../plugins/fn-lookup/functions.c:1270
 msgid "INDEX:reference to a cell in the given @{array}"
-msgstr ""
+msgstr "INDEX:referencia a una celda en la @{matriz} dada"
 
 #: ../plugins/fn-lookup/functions.c:1271
 msgid "array:cell or inline array"
-msgstr ""
+msgstr "matriz:celda o matriz en línea"
 
 #: ../plugins/fn-lookup/functions.c:1272
 msgid "row:desired row, defaults to 1"
-msgstr ""
+msgstr "fila:fila que quiere, la predeterminada es 1"
 
 #: ../plugins/fn-lookup/functions.c:1273
 msgid "col:desired column, defaults to 1"
-msgstr ""
+msgstr "col:columna que quiere, la predeterminada es 1"
 
 #: ../plugins/fn-lookup/functions.c:1274
 msgid "area:from which area to select a cell, defaults to 1"
-msgstr ""
+msgstr "área:desde que área seleccionar una celda, el predeterminado es 1"
 
 #: ../plugins/fn-lookup/functions.c:1275
 msgid ""
 "INDEX gives a reference to a cell in the given @{array}. The cell is "
 "selected by @{row} and @{col}, which count the rows and columns in the array."
 msgstr ""
+"INDEX da una referencia a una celda en la @{matriz} dada. La celda se "
+"selecciona con @{fila} y @{col}, que cuenta las filas y columnas en la "
+"matriz."
 
 #: ../plugins/fn-lookup/functions.c:1280
 msgid ""
 "If the reference falls outside the range of @{array}, INDEX returns #REF!"
 msgstr ""
+"Si la referencia está fuera del rando de @{matriz}, INDEX devuelve #REF!"
 
 #: ../plugins/fn-lookup/functions.c:1282
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9"
 msgstr ""
+"Asumiendo que las celdas A1, A2, …, A5 contiene números 11.4, 17.3, 21.3, "
+"25.9 y 40.1. Luego INDEX(A1:A5,4,1,1) igual a 25.9"
 
 #: ../plugins/fn-lookup/functions.c:1371
 msgid "COLUMN:vector of column numbers"
-msgstr "COLUMN: vector de números de columna"
+msgstr "COLUMN:vector de números de columna"
 
 #: ../plugins/fn-lookup/functions.c:1372 ../plugins/fn-lookup/functions.c:1524
 msgid "x:reference, defaults to the position of the current expression"
-msgstr ""
+msgstr "x:referencia, lo predeterminado es la posición de la expresión actual"
 
 #: ../plugins/fn-lookup/functions.c:1373
 msgid ""
 "COLUMN function returns a Nx1 array containing the sequence of integers from "
 "the first column to the last column of @{x}."
 msgstr ""
+"La función COLUMN devuelve una matriz Nx1 que contiene la secuencia de "
+"enteros desde la primera columna a la última columna de @{x}."
 
 #: ../plugins/fn-lookup/functions.c:1376 ../plugins/fn-lookup/functions.c:1528
 msgid ""
 "If @{x} is neither an array nor a reference nor a range, returns #VALUE!"
 msgstr ""
+"Si @{x} no es una matriz ni una referencia ni un rango, devuelve #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:1380
 msgid "column() in G13 equals 7."
-msgstr "column() en G13 equivale a 7."
+msgstr "column() en G13 igual a 7."
 
 #: ../plugins/fn-lookup/functions.c:1420
 msgid "COLUMNNUMBER:column number for the given column called @{name}"
-msgstr ""
+msgstr "COLUMNNUMBER:número de columna para la columna dada llamada @{nombre}"
 
 #: ../plugins/fn-lookup/functions.c:1421
 msgid "name:column name such as \"IV\""
-msgstr ""
+msgstr "nombre:nombre de columna como «IV»"
 
 #: ../plugins/fn-lookup/functions.c:1422
 msgid "If @{name} is invalid, COLUMNNUMBER returns #VALUE!"
-msgstr ""
+msgstr "Si @{nombre} no es válido, COLUMNNUMBER devuelve #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:1447
 msgid "COLUMNS:number of columns in @{reference}"
-msgstr "COLUMNS: números columnas en @{reference}"
+msgstr "COLUMNS:número de columnas en @{referencia}"
 
 #: ../plugins/fn-lookup/functions.c:1448
 msgid "reference:array or area"
-msgstr ""
+msgstr "referencia:matriz o área"
 
 #: ../plugins/fn-lookup/functions.c:1449
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, COLUMNS "
 "returns #VALUE!"
 msgstr ""
+"Si @{referencia} no es una matriz ni una referencia ni un rango, COLUMNS "
+"devuelve #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:1465
 msgid "OFFSET:an offset cell range"
-msgstr ""
+msgstr "OFFSET:un rango de desplazamiento de celdas"
 
 #: ../plugins/fn-lookup/functions.c:1466
 msgid "range:reference or range"
-msgstr ""
+msgstr "rango:referencia o rango"
 
 #: ../plugins/fn-lookup/functions.c:1467
 msgid "row:number of rows to offset @{range}"
-msgstr ""
+msgstr "fila:número de filas que desplazar @{rango}"
 
 #: ../plugins/fn-lookup/functions.c:1468
 msgid "col:number of columns to offset @{range}"
-msgstr ""
+msgstr "col:número de columnas que desplazar @{rango}"
 
 #: ../plugins/fn-lookup/functions.c:1469
 msgid "height:height of the offset range, defaults to height of @{range}"
 msgstr ""
+"altura:altura del rango de desplazamiento, la predeterminada es la altura de "
+"@{rango}"
 
 #: ../plugins/fn-lookup/functions.c:1470
 msgid "width:width of the offset range, defaults to width of @{range}"
 msgstr ""
+"anchura:anchura del rango de desplazamiento, la predeterminada es la anchura "
+"de @{rango}"
 
 #: ../plugins/fn-lookup/functions.c:1471
 msgid ""
 "OFFSET returns the cell range starting at offset (@{row},@{col}) from @"
 "{range} of height @{height} and width @{width}."
 msgstr ""
+"OFFSET devuelve el rango de celda empezando en desplazamiento (@{fila},@"
+"{col}) desde @{rango} de altura @{altura} y anchura @{anchura}."
 
 #: ../plugins/fn-lookup/functions.c:1474
 msgid "If @{range} is neither a reference nor a range, OFFSET returns #VALUE!"
-msgstr ""
+msgstr "Si @{rango} no es una referencia ni un rango, OFFSET devuelve #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:1523
 msgid "ROW:vector of row numbers"
-msgstr "ROW: vector de números de fila"
+msgstr "ROW:vector de números de fila"
 
 #: ../plugins/fn-lookup/functions.c:1525
 msgid ""
 "ROW function returns a 1xN array containing the sequence of integers from "
 "the first row to the last row of @{x}."
 msgstr ""
+"La función ROW devuelve una matriz 1xN que contiene la secuencia de enteros "
+"desde la primera fila a la última fila de @{x}."
 
 #: ../plugins/fn-lookup/functions.c:1571
 msgid "ROWS:number of rows in @{reference}"
-msgstr ""
+msgstr "ROWS:número de filas en @{referencia}"
 
 #: ../plugins/fn-lookup/functions.c:1572
 msgid "reference:array, reference, or range"
-msgstr ""
+msgstr "referencia:matriz, referencia, o rango"
 
 #: ../plugins/fn-lookup/functions.c:1573
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, ROWS "
 "returns #VALUE!"
 msgstr ""
+"Si @{referencia} no es una matriz ni una referencia ni un rango, ROWS "
+"devuelve #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:1589
 msgid "SHEETS:number of sheets in @{reference}"
-msgstr "SHEETS: vector de números de hojas en @{reference}"
+msgstr "SHEETS:números de hojas en @{referencia}"
 
 #: ../plugins/fn-lookup/functions.c:1590
 msgid "reference:array, reference, or range, defaults to the maximum range"
-msgstr ""
+msgstr "referencia:matriz, referencia, o rango, predeterminado al rango máximo"
 
 #: ../plugins/fn-lookup/functions.c:1591
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, SHEETS "
 "returns #VALUE!"
 msgstr ""
+"Si @{referencia} no es una matriz ni una referencia ni un rango, SHEETS "
+"devuelve #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:1627
 msgid "SHEET:sheet number of @{reference}"
-msgstr "SHEET: número de hojas de @{reference}"
+msgstr "SHEET:número de hoja de @{referencia}"
 
 #: ../plugins/fn-lookup/functions.c:1628
 msgid ""
 "reference:reference or literal sheet name, defaults to the current sheet"
 msgstr ""
+"referencia:referencia o nombre de hoja literal, predeterminado a la hoja "
+"actual"
 
 #: ../plugins/fn-lookup/functions.c:1629
 msgid ""
 "If @{reference} is neither a reference nor a literal sheet name, SHEET "
 "returns #VALUE!"
 msgstr ""
+"Si @{referencia} no es una referencia o un nombre de hoja literal, SHEET "
+"devuelve #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:1675
 msgid "HYPERLINK:second or first arguments"
