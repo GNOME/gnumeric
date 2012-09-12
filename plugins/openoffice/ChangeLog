@@ -1,7 +1,7 @@
 2012-09-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_custom_shape_end): only split on "N" that
-	isn't part of a varaible name
+	isn't part of a variable name
 
 2012-09-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
