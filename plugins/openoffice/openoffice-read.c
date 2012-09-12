@@ -9391,7 +9391,7 @@ odf_custom_shape_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 		}
 	}
 	paths = g_ptr_array_new_with_free_func ((GDestroyNotify) go_path_free);
-	strs = g_strsplit (state->chart.cs_enhanced_path, "N", 0);
+	strs = g_strsplit (state->chart.cs_enhanced_path, " N", 0);
 	for (cur = strs; *cur != NULL; cur++) {
 		path = go_path_new_from_odf_enhanced_path (*cur, vals);
 		if (path)
