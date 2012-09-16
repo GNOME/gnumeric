@@ -19,15 +19,15 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-09-10 09:02+0000\n"
-"PO-Revision-Date: 2012-09-12 09:49+0200\n"
+"POT-Creation-Date: 2012-09-12 07:52+0000\n"
+"PO-Revision-Date: 2012-09-16 11:56+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
@@ -145,7 +145,8 @@ msgstr "y:parte imaginaria"
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
-"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es «i»"
+"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es "
+"«i»"
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
@@ -640,10 +641,10 @@ msgstr ""
 "@{criterios} es un rango que contiene condiciones. La primera fila de unos @"
 "{criterios} debería contener etiquetas. Cada etiqueta especifica en qué "
 "campo aplican las condiciones dadas en la columna. Cada celda debajo de la "
-"etiqueta especifica una condición como «>3» o «<9». Se puede dar una condición "
-"de igualdad por simple especificación de un valor, por ejemplo «3» o «Jody». "
-"Para que un registro se considere debe satisfacer todas las condiciones de "
-"al menos una de las filas de los @{criterios}."
+"etiqueta especifica una condición como «>3» o «<9». Se puede dar una "
+"condición de igualdad por simple especificación de un valor, por ejemplo «3» "
+"o «Jody». Para que un registro se considere debe satisfacer todas las "
+"condiciones de al menos una de las filas de los @{criterios}."
 
 #: ../plugins/fn-database/functions.c:73
 msgid ""
@@ -952,8 +953,8 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:80
 msgid ""
-"For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-"
-"1904."
+"For spreadsheets created with the Mac version of Excel, serial 1 is 1-"
+"Jan-1904."
 msgstr ""
 "Para hojas de cálculo creadas con la versión de Excel para Mac, la serie 1 "
 "es 1-Ene-1904."
@@ -1051,8 +1052,8 @@ msgid ""
 "If @{interval} is \"ym\" or \"yd\" then the distance is measured in complete "
 "months or days, respectively, but excluding any difference in years."
 msgstr ""
-"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días completos, "
-"respectivamente, pero excluyendo cualquier diferencia en años."
+"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días "
+"completos, respectivamente, pero excluyendo cualquier diferencia en años."
 
 #: ../plugins/fn-date/functions.c:218
 msgid ""
@@ -1728,8 +1729,8 @@ msgid ""
 "vega of an option is the rate of change of its price with respect to "
 "volatility."
 msgstr ""
-"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una opción "
-"europea producida en @{ejercicio} en un activo con precio al contado @"
+"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una "
+"opción europea producida en @{ejercicio} en un activo con precio al contado @"
 "{contado}. El vega de una opción es la tasa de cambio de su precio con "
 "respecto a la volatilidad."
 
@@ -5483,68 +5484,73 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1675
 msgid "HYPERLINK:second or first arguments"
-msgstr ""
+msgstr "HYPERLINK:segundos o primeros argumentos"
 
 #: ../plugins/fn-lookup/functions.c:1676
 msgid "link_location:string"
-msgstr ""
+msgstr "ubicación_enlace:cadena"
 
 #: ../plugins/fn-lookup/functions.c:1677
 msgid "label:string, optional"
-msgstr ""
+msgstr "etiqueta:cadena, opcional"
 
 #: ../plugins/fn-lookup/functions.c:1678
 msgid ""
 "HYPERLINK function currently returns its 2nd argument, or if that is omitted "
 "the 1st argument."
 msgstr ""
+"La función HYPERLINK actualmente devuelve su segundo argumento, o si este "
+"está omitido el primer argumento."
 
 #: ../plugins/fn-lookup/functions.c:1697
 msgid "TRANSPOSE:the transpose of @{matrix}"
-msgstr ""
+msgstr "TRANSPOSE:la transpuesta de @{matriz}"
 
 #: ../plugins/fn-lookup/functions.c:1698 ../plugins/fn-lookup/functions.c:1736
 msgid "matrix:range"
-msgstr "matrix: rango"
+msgstr "matriz:rango"
 
 #: ../plugins/fn-lookup/functions.c:1735
 msgid "FLIP:@{matrix} flipped"
-msgstr ""
+msgstr "FLIP:@{matriz} volteada"
 
 #: ../plugins/fn-lookup/functions.c:1737
 msgid ""
 "vertical:if true, @{matrix} is flipped vertically, otherwise horizontally; "
 "defaults to TRUE"
 msgstr ""
+"vertical:si es verdadero, @{matriz} se voltea verticalmente, de lo contrario "
+"horizontalmente; el predeterminado es VERDADERO"
 
 #: ../plugins/fn-lookup/functions.c:1782
 msgid "ARRAY:vertical array of the arguments"
-msgstr ""
+msgstr "ARRAY:matriz vertical de los argumentos"
 
 #: ../plugins/fn-lookup/functions.c:1783
 msgid "v:value"
-msgstr "v: valor"
+msgstr "v:valor"
 
 #: ../plugins/fn-lookup/functions.c:1839
 msgid "SORT:sorted list of numbers as vertical array"
-msgstr ""
+msgstr "SORT:lista ordenada de números como matriz vertical"
 
 #: ../plugins/fn-lookup/functions.c:1840 ../plugins/fn-stat/functions.c:163
 #: ../plugins/fn-stat/functions.c:215
 msgid "ref:list of numbers"
-msgstr ""
+msgstr "ref:lista de números"
 
 #: ../plugins/fn-lookup/functions.c:1841
 msgid "order:0 (descending order) or 1 (ascending order); defaults to 0"
 msgstr ""
+"orden:0 (orden descendente) o 1 (orden ascendente); el predeterminado es 0"
 
 #: ../plugins/fn-lookup/functions.c:1842
 msgid "Strings, booleans, and empty cells are ignored."
-msgstr ""
+msgstr "Se ignoran cadenas, booleanos, y celdas vacías."
 
 #: ../plugins/fn-lookup/functions.c:1843
 msgid "SORT({4,3,5}) evaluates to {5,4,3}"
-msgstr ""
+msgstr "SORT({4,3,5}) evalua a {5,4,3}"
 
 #: ../plugins/fn-math/functions.c:51
 msgid ""
@@ -5552,174 +5558,189 @@ msgid ""
 "cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0). If the argument evaluates to TRUE, it is counted as one (1)."
 msgstr ""
+"Valores de números, texto y lógicos se incluyen en el cálculo también. Si la "
+"celda contiene texto o el argumento se evalúa como FALSO, se cuenta como "
+"valor cero (0). Si el argumento se evalúa como VERDADERO, se cuenta como uno "
+"(1)."
 
 #: ../plugins/fn-math/functions.c:59
 msgid "GCD:the greatest common divisor"
-msgstr ""
+msgstr "GCD:el máximo común divisor"
 
 #: ../plugins/fn-math/functions.c:60 ../plugins/fn-math/functions.c:123
 msgid "n0:positive integer"
-msgstr "n0: entero positivo"
+msgstr "n0:entero positivo"
 
 #: ../plugins/fn-math/functions.c:61 ../plugins/fn-math/functions.c:124
 msgid "n1:positive integer"
-msgstr "n1: entero positivo"
+msgstr "n1:entero positivo"
 
 #: ../plugins/fn-math/functions.c:62
 msgid ""
 "GCD calculates the greatest common divisor of the given numbers @{n0},@"
 "{n1},..., the greatest integer that is a divisor of each argument."
 msgstr ""
+"GCD calcula el máximo común divisor de los números dados @{n0},@{n1},…, el "
+"máximo entero que es un divisor de cada argumento."
 
 #: ../plugins/fn-math/functions.c:63 ../plugins/fn-math/functions.c:126
 msgid "If any of the arguments is not an integer, it is truncated."
-msgstr ""
+msgstr "Si cualquiera de los argumentos no es un entero, se trunca."
 
 #: ../plugins/fn-math/functions.c:122
 msgid "LCM:the least common multiple"
-msgstr ""
+msgstr "LCM:el mínimo común múltiplo"
 
 #: ../plugins/fn-math/functions.c:125
 msgid ""
 "LCM calculates the least common multiple of the given numbers @{n0},@"
 "{n1},..., the smallest integer that is a multiple of each argument."
 msgstr ""
+"LCM calcula el mínimo común múltiplo de los números dados @{n0},@{n1},…, el "
+"mínimo entero que es un múltiplo de cada argumento."
 
 #: ../plugins/fn-math/functions.c:178
 msgid "GD:Gudermannian function"
-msgstr ""
+msgstr "GD:Función de Gudermann"
 
 #: ../plugins/fn-math/functions.c:179 ../plugins/fn-math/functions.c:290
 #: ../plugins/fn-stat/functions.c:1721
 msgid "x:value"
-msgstr "x: valor"
+msgstr "x:valor"
 
 #: ../plugins/fn-math/functions.c:182
 msgid "wolfram:Gudermannian.html"
-msgstr ""
+msgstr "wolfram:Gudermannian.html"
 
 #: ../plugins/fn-math/functions.c:183
 msgid "wiki:en:Gudermannian_function"
-msgstr ""
+msgstr "wiki:es:función_Gudermann"
 
 #: ../plugins/fn-math/functions.c:202
 msgid "HYPOT:the square root of the sum of the squares of the arguments"
-msgstr ""
+msgstr "HYPOT:la raíz cuadrada de la suma de los cuadrados de los argumentos"
 
 #: ../plugins/fn-math/functions.c:203
 msgid "n0:number"
-msgstr "n0: número"
+msgstr "n0:número"
 
 #: ../plugins/fn-math/functions.c:204
 msgid "n1:number"
-msgstr "n1: número"
+msgstr "n1:número"
 
 #: ../plugins/fn-math/functions.c:225
 msgid "ABS:absolute value"
-msgstr "ABS: valor absoluto"
+msgstr "ABS:valor absoluto"
 
 #: ../plugins/fn-math/functions.c:227
 msgid ""
 "ABS gives the absolute value of @{x}, i.e. the non-negative number of the "
 "same magnitude as @{x}."
 msgstr ""
+"ABS da el valor absoluto de @{x}, es decir el número no negativo de la misma "
+"magnitud que @{x}."
 
 #: ../plugins/fn-math/functions.c:244
 msgid "ACOS:the arc cosine of @{x}"
-msgstr ""
+msgstr "ACOS:el arcocoseno de @{x}"
 
 #: ../plugins/fn-math/functions.c:266
 msgid "ACOSH:the hyperbolic arc cosine of @{x}"
-msgstr ""
+msgstr "ACOSH:el arcocoseno hiperbólico de @{x}"
 
 #: ../plugins/fn-math/functions.c:289
 msgid "ACOT:inverse cotangent of @{x}"
-msgstr ""
+msgstr "ACOT:cotangente inversa de @{x}"
 
 #: ../plugins/fn-math/functions.c:293
 msgid "wolfram:InverseCotangent.html"
-msgstr ""
+msgstr "wolfram:InverseCotangent.html"
 
 #: ../plugins/fn-math/functions.c:294 ../plugins/fn-math/functions.c:768
 #: ../plugins/fn-math/functions.c:807 ../plugins/fn-math/functions.c:1361
 #: ../plugins/fn-math/functions.c:1381 ../plugins/fn-math/functions.c:1421
 msgid "wiki:en:Trigonometric_functions"
-msgstr ""
+msgstr "wiki:es:funciones_Trigonométricas"
 
 #: ../plugins/fn-math/functions.c:307
 msgid "ACOTH:the inverse hyperbolic cotangent of @{x}"
-msgstr ""
+msgstr "ACOTH:la cotangente hiperbólica inversa de @{x}"
 
 #: ../plugins/fn-math/functions.c:311
 msgid "wolfram:InverseHyperbolicCotangent.html"
-msgstr ""
+msgstr "wolfram:InverseHyperbolicCotangent.html"
 
 #: ../plugins/fn-math/functions.c:312
 msgid "wiki:en:Inverse_hyperbolic_function"
-msgstr ""
+msgstr "wiki:es:función_hiperbólica_inversa"
 
 #: ../plugins/fn-math/functions.c:325
 msgid "ASIN:the arc sine of @{x}"
-msgstr "ASIN: el arcoseno de @{x}"
+msgstr "ASIN:el arcoseno de @{x}"
 
 #: ../plugins/fn-math/functions.c:327
 msgid ""
 "ASIN calculates the arc sine of @{x}; that is the value whose sine is @{x}."
-msgstr ""
+msgstr "ASIN calcula el arcoseno de @{x}; que es el valor cuyo seno es @{x}."
 
 #: ../plugins/fn-math/functions.c:329
 msgid "If @{x} falls outside the range -1 to 1, ASIN returns #NUM!"
-msgstr ""
+msgstr "Si @{x} está fuera del rango -1 a 1, ASIN devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:351
 msgid "ASINH:the inverse hyperbolic sine of @{x}"
-msgstr ""
+msgstr "ASINH:el seno hiperbólico inverso de @{x}"
 
 #: ../plugins/fn-math/functions.c:353
 msgid ""
 "ASINH calculates the inverse hyperbolic sine of @{x}; that is the value "
 "whose hyperbolic sine is @{x}."
 msgstr ""
+"ASINH calcula el seno hiperbólico inverso de @{x}; que es el valor cuyo seno "
+"hiperbólico es @{x}."
 
 #: ../plugins/fn-math/functions.c:370
 msgid "ATAN:the arc tangent of @{x}"
-msgstr ""
+msgstr "ATAN:la arcotangente de @{x}"
 
 #: ../plugins/fn-math/functions.c:372
 msgid ""
 "ATAN calculates the arc tangent of @{x}; that is the value whose tangent is @"
 "{x}."
 msgstr ""
+"ATAN calcula la arcotangente de @{x}; que es el valor cuya tangente es @{x}."
 
 #: ../plugins/fn-math/functions.c:375
 msgid "The result will be between −π/2 and +π/2."
-msgstr ""
+msgstr "El resultado estará entre −π/2 y +π/2."
 
 #: ../plugins/fn-math/functions.c:394
 msgid "ATANH:the inverse hyperbolic tangent of @{x}"
-msgstr ""
+msgstr "ATANH:la tangente hiperbólica inversa de @{x}"
 
 #: ../plugins/fn-math/functions.c:396
 msgid ""
 "ATANH calculates the inverse hyperbolic tangent of @{x}; that is the value "
 "whose hyperbolic tangent is @{x}."
 msgstr ""
+"ATANH calcula la tangente hiperbólica inversa de @{x}; que es el valor cuya "
+"tangente hiperbólica es @{x}."
 
 #: ../plugins/fn-math/functions.c:398
 msgid "If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!"
-msgstr ""
+msgstr "Si el valor absoluto de @{x} es mayor que 1.0, ATANH devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:419
 msgid "ATAN2:the arc tangent of the ratio @{y}/@{x}"
-msgstr ""
+msgstr "ATAN2:la arcotangente de la proporción @{y}/@{x}"
 
 #: ../plugins/fn-math/functions.c:421
 msgid "x:x-coordinate"
-msgstr ""
+msgstr "x:coordenada-x"
 
 #: ../plugins/fn-math/functions.c:422
 msgid "y:y-coordinate"
-msgstr ""
+msgstr "y:coordenada-y"
 
 #: ../plugins/fn-math/functions.c:423
 msgid ""
@@ -10319,9 +10340,9 @@ msgid ""
 "reliability."
 msgstr ""
 "Esta distribución se ha recomendado para el análisis del tiempo de función "
-"cuando se desea una función peligroso de forma «U». Esto corresponde al fallo "
-"rápido una vez que el producto comience a desgastarse después de un periodo "
-"estacionario o incluso mejorando la fiabilidad."
+"cuando se desea una función peligroso de forma «U». Esto corresponde al "
+"fallo rápido una vez que el producto comience a desgastarse después de un "
+"periodo estacionario o incluso mejorando la fiabilidad."
 
 #: ../plugins/fn-stat/functions.c:4526
 msgid "LAPLACE:probability density function of the Laplace distribution"
@@ -11445,9 +11466,9 @@ msgstr ""
 #~ "\n"
 #~ "@liquidación es la fecha de liquidación de la acción. @vencimiento es la "
 #~ "fecha de vencimiento de la acción. @emisión es la fecha de emisión de la "
-#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por 100"
-#~ "$ de valor facial de la acción. @base es el tipo de sistema de conteo de "
-#~ "días que quiere usar:\n"
+#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por "
+#~ "100$ de valor facial de la acción. @base es el tipo de sistema de conteo "
+#~ "de días que quiere usar:\n"
 #~ "\n"
 #~ " 0 US 30/360\n"
 #~ " 1 días actuales/días actuales\n"
