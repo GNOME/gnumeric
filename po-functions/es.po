@@ -19,15 +19,15 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-09-12 07:52+0000\n"
-"PO-Revision-Date: 2012-09-16 11:56+0200\n"
+"POT-Creation-Date: 2012-09-16 10:10+0000\n"
+"PO-Revision-Date: 2012-09-19 16:44+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
@@ -145,8 +145,7 @@ msgstr "y:parte imaginaria"
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
-"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es "
-"«i»"
+"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es «i»"
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
@@ -641,10 +640,10 @@ msgstr ""
 "@{criterios} es un rango que contiene condiciones. La primera fila de unos @"
 "{criterios} debería contener etiquetas. Cada etiqueta especifica en qué "
 "campo aplican las condiciones dadas en la columna. Cada celda debajo de la "
-"etiqueta especifica una condición como «>3» o «<9». Se puede dar una "
-"condición de igualdad por simple especificación de un valor, por ejemplo «3» "
-"o «Jody». Para que un registro se considere debe satisfacer todas las "
-"condiciones de al menos una de las filas de los @{criterios}."
+"etiqueta especifica una condición como «>3» o «<9». Se puede dar una condición "
+"de igualdad por simple especificación de un valor, por ejemplo «3» o «Jody». "
+"Para que un registro se considere debe satisfacer todas las condiciones de "
+"al menos una de las filas de los @{criterios}."
 
 #: ../plugins/fn-database/functions.c:73
 msgid ""
@@ -953,8 +952,8 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:80
 msgid ""
-"For spreadsheets created with the Mac version of Excel, serial 1 is 1-"
-"Jan-1904."
+"For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-"
+"1904."
 msgstr ""
 "Para hojas de cálculo creadas con la versión de Excel para Mac, la serie 1 "
 "es 1-Ene-1904."
@@ -1052,8 +1051,8 @@ msgid ""
 "If @{interval} is \"ym\" or \"yd\" then the distance is measured in complete "
 "months or days, respectively, but excluding any difference in years."
 msgstr ""
-"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días "
-"completos, respectivamente, pero excluyendo cualquier diferencia en años."
+"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días completos, "
+"respectivamente, pero excluyendo cualquier diferencia en años."
 
 #: ../plugins/fn-date/functions.c:218
 msgid ""
@@ -1729,8 +1728,8 @@ msgid ""
 "vega of an option is the rate of change of its price with respect to "
 "volatility."
 msgstr ""
-"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una "
-"opción europea producida en @{ejercicio} en un activo con precio al contado @"
+"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una opción "
+"europea producida en @{ejercicio} en un activo con precio al contado @"
 "{contado}. El vega de una opción es la tasa de cambio de su precio con "
 "respecto a la volatilidad."
 
@@ -5747,53 +5746,58 @@ msgid ""
 "ATAN2 calculates the direction from the origin to the point (@{x},@{y}) as "
 "an angle from the x-axis in radians."
 msgstr ""
+"ATAN2 calcula la dirección desde el origen hasta el punto (@{x},@{y}) como "
+"un ángulo desde el eje x en radianes."
 
 #: ../plugins/fn-math/functions.c:427
 msgid "The result will be between −π and +π."
-msgstr ""
+msgstr "El resultado estará entre -n y +n."
 
 #: ../plugins/fn-math/functions.c:430
 msgid "The order of the arguments may be unexpected."
-msgstr ""
+msgstr "El orden de los argumentos puede ser inesperado."
 
 #: ../plugins/fn-math/functions.c:455
 msgid "CEIL:smallest integer larger than or equal to @{x}"
-msgstr ""
+msgstr "CEIL:entero más pequeño mayor que o igual a @{x}"
 
 #: ../plugins/fn-math/functions.c:457
 msgid "CEIL(@{x}) is the smallest integer that is at least as large as @{x}."
 msgstr ""
+"CEIL(@{x}) es el entero más pequeño que es al menos tan grande como @{x}."
 
 #: ../plugins/fn-math/functions.c:458
 msgid "This function is the OpenFormula function CEILING(@{x})."
-msgstr ""
+msgstr "Esta función es la función OpenFormula CEILING(@{x})."
 
 #: ../plugins/fn-math/functions.c:475
 msgid "COUNTIF:count of the cells meeting the given @{criteria}"
-msgstr ""
+msgstr "COUNTIF:conteo de las celdas que cumplen los @{criterios} dados"
 
 #: ../plugins/fn-math/functions.c:476 ../plugins/fn-math/functions.c:549
 #: ../plugins/fn-math/functions.c:666
 msgid "range:cell area"
-msgstr ""
+msgstr "rango:área de celda"
 
 #: ../plugins/fn-math/functions.c:477
 msgid "criteria:condition for a cell to be counted"
-msgstr ""
+msgstr "criterios:condición para que una celda se cuente"
 
 #: ../plugins/fn-math/functions.c:548
 msgid ""
 "SUMIF:sum of the cells in @{actual_range} for which the corresponding cells "
 "in the range meet the given @{criteria}"
 msgstr ""
+"SUMIF:suma de las celdas en @{rango_actual} para el cual las celdas "
+"correspondientes en el rango cumplen los @{criterios} dados"
 
 #: ../plugins/fn-math/functions.c:550
 msgid "criteria:condition for a cell to be summed"
-msgstr ""
+msgstr "criterios:condición para que una celda se sume"
 
 #: ../plugins/fn-math/functions.c:551 ../plugins/fn-math/functions.c:668
 msgid "actual_range:cell area, defaults to @{range}"
-msgstr ""
+msgstr "rango_actual:área de celda, el predeterminado es @{rango}"
 
 #: ../plugins/fn-math/functions.c:552
 msgid ""
@@ -5801,157 +5805,178 @@ msgid ""
 "{actual_range} is resized (retaining the top-left corner) to match the size "
 "of @{range}."
 msgstr ""
+"Si el @{rango_actual} tiene un tamaño que difiere del tamaño de @{rango}, @"
+"{rango_actual} se redimensiona (manteniendo la esquina superior izquierda) "
+"para que coincida con el tamaño del @{rango}."
 
 #: ../plugins/fn-math/functions.c:665
 msgid ""
 "AVERAGEIF:average of the cells in @{actual range} for which the "
 "corresponding cells in the range meet the given @{criteria}"
 msgstr ""
+"AVERAGEIF:promedio de las celdas en @{rango_actual} para que las celdas "
+"correspondientes en el rango cumplan los @{criterios} dados"
 
 #: ../plugins/fn-math/functions.c:667
 msgid "criteria:condition for a cell to be included"
-msgstr ""
+msgstr "criterios:condición para que una celda se incluya"
 
 #: ../plugins/fn-math/functions.c:731
 msgid ""
 "CEILING:nearest multiple of @{significance} whose absolute value is at least "
 "ABS(@{x})"
 msgstr ""
+"CEILING:múltiplo más cercano de @{significancia} cuyo valor absoluto es al "
+"menos ABS(@{x})"
 
 #: ../plugins/fn-math/functions.c:733 ../plugins/fn-math/functions.c:1086
 msgid ""
 "significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)"
 msgstr ""
-"significance: base múltiple (predeterminado a 1 para @{x} > 0 y -1 para @{x} "
-"< 0)"
+"significancia:múltiplo base (predeterminado es 1 para @{x} > 0 y -1 para @"
+"{x} < 0)"
 
 #: ../plugins/fn-math/functions.c:734
 msgid ""
 "CEILING(@{x},@{significance}) is the nearest multiple of @{significance} "
 "whose absolute value is at least ABS(@{x})."
 msgstr ""
+"CEILING(@{x},@{significancia}) es el múltiplo más cercano de @"
+"{significancia} cuyo valor absoluto es al menos ABS(@{x})."
 
 #: ../plugins/fn-math/functions.c:735
 msgid ""
 "If @{x} or @{significance} is non-numeric, CEILING returns a #VALUE! error."
 msgstr ""
+"Si @{x} o @{significancia} no son numéricos, CEILING devuelve un error "
+"#VALUE!."
 
 #: ../plugins/fn-math/functions.c:736
 msgid ""
 "If @{x} and @{significance} have different signs, CEILING returns a #NUM! "
 "error."
 msgstr ""
+"Si @{x} y @{significancia} tienen signos diferentes, CEILING devuelve un "
+"error #NUM!."
 
 #: ../plugins/fn-math/functions.c:738
 msgid ""
 "CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). CEILING(@{x},"
 "@{significance}) is the OpenFormula function CEILING(@{x},@{significance},1)."
 msgstr ""
+"CEILING(@{x}) se exporta a ODF como CEILING(@{x},SIGN(@{x}),1). CEILING(@{x},"
+"@{significancia}) es la función OpenFormula CEILING(@{x},@{significancia},1)."
 
 #: ../plugins/fn-math/functions.c:764
 msgid "COS:the cosine of @{x}"
-msgstr ""
+msgstr "COS:el coseno de @{x}"
 
 #: ../plugins/fn-math/functions.c:765 ../plugins/fn-math/functions.c:839
 #: ../plugins/fn-math/functions.c:1356 ../plugins/fn-math/functions.c:1375
 #: ../plugins/fn-math/functions.c:1415 ../plugins/fn-math/functions.c:1588
 msgid "x:angle in radians"
-msgstr ""
+msgstr "x:ángulo en radianes"
 
 #: ../plugins/fn-math/functions.c:767
 msgid "wolfram:Cosine.html"
-msgstr ""
+msgstr "wolfram:Cosine.html"
 
 #: ../plugins/fn-math/functions.c:784
 msgid "COSH:the hyperbolic cosine of @{x}"
-msgstr ""
+msgstr "COSH:el coseno hiperbólico de @{x}"
 
 #: ../plugins/fn-math/functions.c:802
 msgid "COT:the cotangent of @{x}"
-msgstr ""
+msgstr "COT:la cotangente de @{x}"
 
 #: ../plugins/fn-math/functions.c:806
 msgid "wolfram:Cotangent.html"
-msgstr ""
+msgstr "wolfram:Cotangent.html"
 
 #: ../plugins/fn-math/functions.c:820
 msgid "COTH:the hyperbolic cotangent of @{x}"
-msgstr ""
+msgstr "COTH:la cotangente hiperbólico de @{x}"
 
 #: ../plugins/fn-math/functions.c:824
 msgid "wolfram:HyperbolicCotangent.html"
-msgstr ""
+msgstr "wolfram:HyperbolicCotangent.html"
 
 #: ../plugins/fn-math/functions.c:825 ../plugins/fn-math/functions.c:1401
 #: ../plugins/fn-math/functions.c:1441
 msgid "wiki:en:Hyperbolic_function"
-msgstr ""
+msgstr "wiki:es:función_hiperbólica"
 
 #: ../plugins/fn-math/functions.c:838
 msgid "DEGREES:equivalent degrees to @{x} radians"
-msgstr ""
+msgstr "DEGREES:grados equivalentes a @{x} radianes"
 
 #: ../plugins/fn-math/functions.c:856
 msgid "EXP:e raised to the power of @{x}"
-msgstr ""
+msgstr "EXP:e elevado a la potencia de @{x}"
 
 #: ../plugins/fn-math/functions.c:858
 msgid "e is the base of the natural logarithm."
-msgstr ""
+msgstr "e es la base del logaritmo natural."
 
 #: ../plugins/fn-math/functions.c:874
 msgid "EXPM1:EXP(@{x})-1"
-msgstr ""
+msgstr "EXPM1:EXP(@{x})-1"
 
 #: ../plugins/fn-math/functions.c:876
 msgid ""
 "This function has a higher resulting precision than evaluating EXP(@{x})-1."
 msgstr ""
+"Esta función tiene una precisión resultante superior que la evaluación de EXP"
+"(@{x})-1."
 
 #: ../plugins/fn-math/functions.c:891
 msgid "FACT:the factorial of @{x}, i.e. @{x}!"
-msgstr ""
+msgstr "FACT:el factorial de @{x}, es decir @{x}!"
 
 #: ../plugins/fn-math/functions.c:894
 msgid "The domain of this function has been extended using the GAMMA function."
-msgstr ""
+msgstr "El dominio de esta función se ha extendido usando la función GAMMA."
 
 #: ../plugins/fn-math/functions.c:922
 msgid "GAMMA:the Gamma function"
-msgstr ""
+msgstr "GAMMA:la función Gamma"
 
 #: ../plugins/fn-math/functions.c:952
 msgid "GAMMALN:natural logarithm of the Gamma function"
-msgstr ""
+msgstr "GAMMALN:logaritmo natural de la función Gamma"
 
 #: ../plugins/fn-math/functions.c:976
 msgid "BETA:Euler beta function"
-msgstr ""
+msgstr "BETA:función beta de Euler"
 
 #: ../plugins/fn-math/functions.c:978 ../plugins/fn-math/functions.c:1002
 #: ../plugins/fn-math/functions.c:1218
 msgid "y:number"
-msgstr ""
+msgstr "y:número"
 
 #: ../plugins/fn-math/functions.c:979
 msgid ""
 "BETA function returns the value of the Euler beta function extended to all "
 "real numbers except 0 and negative integers."
 msgstr ""
+"Función BETA devuelve el valor de la función beta de Euler extendida a todos "
+"los números reales excepto el 0 y enteros negativos."
 
 #: ../plugins/fn-math/functions.c:980
 msgid ""
 "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETA returns #NUM!"
 msgstr ""
+"Si @{x}, @{y}, o (@{x} + @{y}) son enteros no positivos, BETA devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:984 ../plugins/fn-math/functions.c:1008
 msgid "wiki:en:Beta_function"
-msgstr ""
+msgstr "wiki:es:función_beta"
 
 #: ../plugins/fn-math/functions.c:1000
 msgid ""
 "BETALN:natural logarithm of the absolute value of the Euler beta function"
 msgstr ""
+"BETALN:logaritmo natural del valor absoluto de la función beta de Euler"
 
 #: ../plugins/fn-math/functions.c:1003
 msgid ""
@@ -5959,39 +5984,46 @@ msgid ""
 "Euler beta function extended to all real numbers except 0 and negative "
 "integers."
 msgstr ""
+"Función BETALN devuelve el logaritmo natural del valor absoluto de la "
+"función beta de Euler extendida a todos los números reales excepto 0 y "
+"enteros negativos."
 
 #: ../plugins/fn-math/functions.c:1004
 msgid ""
 "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETALN returns "
 "#NUM!"
 msgstr ""
+"Si @{x}, @{y}, o (@{x} + @{y}) son enteros no positivos, BETALN devuelve "
+"#NUM!"
 
 #: ../plugins/fn-math/functions.c:1025
 msgid "COMBIN:binomial coefficient"
-msgstr ""
+msgstr "COMBIN:coeficiente binomial"
 
 #: ../plugins/fn-math/functions.c:1026 ../plugins/fn-math/functions.c:1058
 #: ../plugins/fn-math/functions.c:2138
 msgid "n:non-negative integer"
-msgstr ""
+msgstr "n:entero no negativo"
 
 #: ../plugins/fn-math/functions.c:1027 ../plugins/fn-math/functions.c:1059
 msgid "k:non-negative integer"
-msgstr ""
+msgstr "k:entero no negativo"
 
 #: ../plugins/fn-math/functions.c:1028
 msgid ""
 "COMBIN returns the binomial coefficient \"@{n} choose @{k}\", the number of @"
 "{k}-combinations of an @{n}-element set without repetition."
 msgstr ""
+"COMBIN devuelve el coeficiente binomial \"@{n} escoge @{k}\", ell número de @"
+"{k}-combinaciones de un @{n}-elemento establecido sin repetición."
 
 #: ../plugins/fn-math/functions.c:1031
 msgid "If @{n} is less than @{k} COMBIN returns #NUM!"
-msgstr ""
+msgstr "Si @{n} es menor que @{k} COMBIN devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:1036
 msgid "wiki:en:Binomial_coefficient"
-msgstr ""
+msgstr "wiki:es:coeficiente_binomial"
 
 #: ../plugins/fn-math/functions.c:1056
 msgid ""
@@ -10340,9 +10372,9 @@ msgid ""
 "reliability."
 msgstr ""
 "Esta distribución se ha recomendado para el análisis del tiempo de función "
-"cuando se desea una función peligroso de forma «U». Esto corresponde al "
-"fallo rápido una vez que el producto comience a desgastarse después de un "
-"periodo estacionario o incluso mejorando la fiabilidad."
+"cuando se desea una función peligroso de forma «U». Esto corresponde al fallo "
+"rápido una vez que el producto comience a desgastarse después de un periodo "
+"estacionario o incluso mejorando la fiabilidad."
 
 #: ../plugins/fn-stat/functions.c:4526
 msgid "LAPLACE:probability density function of the Laplace distribution"
@@ -11466,9 +11498,9 @@ msgstr ""
 #~ "\n"
 #~ "@liquidación es la fecha de liquidación de la acción. @vencimiento es la "
 #~ "fecha de vencimiento de la acción. @emisión es la fecha de emisión de la "
-#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por "
-#~ "100$ de valor facial de la acción. @base es el tipo de sistema de conteo "
-#~ "de días que quiere usar:\n"
+#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por 100"
+#~ "$ de valor facial de la acción. @base es el tipo de sistema de conteo de "
+#~ "días que quiere usar:\n"
 #~ "\n"
 #~ " 0 US 30/360\n"
 #~ " 1 días actuales/días actuales\n"
