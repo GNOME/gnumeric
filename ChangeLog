@@ -1,3 +1,9 @@
+2012-09-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_vector_load_len),
+	(gnm_go_data_vector_load_values): add 1 column/row to the clipped area
+	to allow empty cells at the end. Related to #684072.
+
 2012-09-09  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-so-path.c (gnm_so_path_write_xml_sax), (sop_sax_path),
