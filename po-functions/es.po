@@ -5751,7 +5751,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:427
 msgid "The result will be between −π and +π."
-msgstr "El resultado estará entre -n y +n."
+msgstr "El resultado estará entre -π y +π."
 
 #: ../plugins/fn-math/functions.c:430
 msgid "The order of the arguments may be unexpected."
