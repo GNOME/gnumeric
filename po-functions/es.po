@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-09-16 10:10+0000\n"
-"PO-Revision-Date: 2012-09-19 16:44+0200\n"
+"POT-Creation-Date: 2012-09-19 14:45+0000\n"
+"PO-Revision-Date: 2012-09-21 14:05+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -6030,230 +6030,243 @@ msgid ""
 "COMBINA:the number of @{k}-combinations of an @{n}-element set with "
 "repetition"
 msgstr ""
+"COMBINA:el número de @{k}-combinaciones de un @{n}-elemento establecido con"
+"\t repetición"
 
 #: ../plugins/fn-math/functions.c:1064
 msgid "wiki:en:Multiset"
-msgstr ""
+msgstr "wiki:es:Multiconjunto"
 
 #: ../plugins/fn-math/functions.c:1084
 msgid ""
 "FLOOR:nearest multiple of @{significance} whose absolute value is at most ABS"
 "(@{x})"
 msgstr ""
+"FLOOR:múltiplo más cercano de @{significancia} cuyo valor absoluto es a lo "
+"sumo ABS(@{x})"
 
 #: ../plugins/fn-math/functions.c:1088
 msgid ""
 "FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} whose "
 "absolute value is at most ABS(@{x})"
 msgstr ""
+"FLOOR(@{x},@{significancia}) es el múltiplo más cercano de @{significancia} "
+"cuyo valor absoluto es a lo sumo ABS(@{x})"
 
 #: ../plugins/fn-math/functions.c:1090
 msgid ""
 "FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},@"
 "{significance}) is the OpenFormula function FLOOR(@{x},@{significance},1)."
 msgstr ""
+"FLOOR(@{x}) se exporta a ODF como FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},@"
+"{significancia}) es la función OpenFormula FLOOR(@{x},@{significancia},1)."
 
 #: ../plugins/fn-math/functions.c:1120
 msgid "INT:largest integer not larger than @{x}"
-msgstr ""
+msgstr "INT:entero más grande inferior a @{x}"
 
 #: ../plugins/fn-math/functions.c:1139
 msgid "LOG:logarithm of @{x} with base @{base}"
-msgstr ""
+msgstr "LOG:logaritmo de @{x} con base @{base}"
 
 #: ../plugins/fn-math/functions.c:1140 ../plugins/fn-math/functions.c:1170
 #: ../plugins/fn-math/functions.c:1193 ../plugins/fn-math/functions.c:1248
 #: ../plugins/fn-math/functions.c:1270
 msgid "x:positive number"
-msgstr ""
+msgstr "x:número positivo"
 
 #: ../plugins/fn-math/functions.c:1141
 msgid "base:base of the logarithm, defaults to 10"
-msgstr ""
+msgstr "base:base del logaritmo, el predeterminado es 10"
 
 #: ../plugins/fn-math/functions.c:1142
 msgid "@{base} must be positive and not equal to 1."
-msgstr ""
+msgstr "@{base} debe ser positivo y no igual a 1."
 
 #: ../plugins/fn-math/functions.c:1143
 msgid "If @{x} ≤ 0, LOG returns #NUM! error."
-msgstr ""
+msgstr "Si @{x} ≤ 0, LOG devuelve un error #NUM!."
 
 #: ../plugins/fn-math/functions.c:1169
 msgid "LN:the natural logarithm of @{x}"
-msgstr ""
+msgstr "LN:el logaritmo natural de @{x}"
 
 #: ../plugins/fn-math/functions.c:1171
 msgid "If @{x} ≤ 0, LN returns #NUM! error."
-msgstr ""
+msgstr "Si @{x} ≤ 0, LN devuelve un error #NUM!."
 
 #: ../plugins/fn-math/functions.c:1192
 msgid "LN1P:LN(1+@{x})"
-msgstr ""
+msgstr "LN1P:LN(1+@{x})"
 
 #: ../plugins/fn-math/functions.c:1194
 msgid ""
 "LN1P calculates LN(1+@{x}) but yielding a higher precision than evaluating LN"
 "(1+@{x})."
 msgstr ""
+"LN1P calcula LN(1+@{x}) pero dando una precisión superior a la evaluación LN"
+"(1+@{x})."
 
 #: ../plugins/fn-math/functions.c:1195
 msgid "If @{x} ≤ -1, LN returns #NUM! error."
-msgstr ""
+msgstr "Si @{x} ≤ -1, LN devuelve un error #NUM!."
 
 #: ../plugins/fn-math/functions.c:1216
 msgid "POWER:the value of @{x} raised to the power @{y}"
-msgstr ""
+msgstr "POWER:el valor de @{x} elevado a la potencia @{y}"
 
 #: ../plugins/fn-math/functions.c:1219
 msgid "If both @{x} and @{y} equal 0, POWER returns #NUM!"
-msgstr ""
+msgstr "Si ambos @{x} e @{y} igual a 0, POWER devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:1220
 msgid "If @{x} = 0 and @{y} < 0, POWER returns #DIV/0!"
-msgstr ""
+msgstr "Si @{x} = 0 e @{y} < 0, POWER devuelve #DIV/0!"
 
 #: ../plugins/fn-math/functions.c:1221
 msgid "If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!"
-msgstr ""
+msgstr "Si @{x} < 0 e @{y} no es un entero, POWER devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:1247
 msgid "LOG2:the base-2 logarithm of @{x}"
-msgstr ""
+msgstr "LOG2:el logaritmo de base-2 de @{x}"
 
 #: ../plugins/fn-math/functions.c:1249
 msgid "If @{x} ≤ 0, LOG2 returns #NUM!"
-msgstr ""
+msgstr "Si @{x} ≤ 0, LOG2 devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:1269
 msgid "LOG10:the base-10 logarithm of @{x}"
-msgstr ""
+msgstr "LOG10:el logaritmo de base-10 de @{x}"
 
 #: ../plugins/fn-math/functions.c:1271
 msgid "If @{x} ≤ 0, LOG10 returns #NUM!"
-msgstr ""
+msgstr "Si @{x} ≤ 0, LOG10 devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:1291
 msgid "MOD:the remainder of @{x} under division by @{n}"
-msgstr ""
+msgstr "MOD:el residuo de @{x} bajo la división por @{n}"
 
 #: ../plugins/fn-math/functions.c:1294
 msgid "MOD function returns the remainder when @{x} is divided by @{n}."
-msgstr ""
+msgstr "La función MOD devuelve el residuo cuando @{x} se divide por @{n}."
 
 #: ../plugins/fn-math/functions.c:1295
 msgid "If @{n} is 0, MOD returns #DIV/0!"
-msgstr ""
+msgstr "Si @{n} es 0, MOD devuelve #DIV/0!"
 
 #: ../plugins/fn-math/functions.c:1337
 msgid "RADIANS:the number of radians equivalent to @{x} degrees"
-msgstr ""
+msgstr "RADIANS:el número de radianes equivalente a @{x} grados"
 
 #: ../plugins/fn-math/functions.c:1338
 msgid "x:angle in degrees"
-msgstr ""
+msgstr "x:ángulo en grados"
 
 #: ../plugins/fn-math/functions.c:1355
 msgid "SIN:the sine of @{x}"
-msgstr ""
+msgstr "SIN:el seno de @{x}"
 
 #: ../plugins/fn-math/functions.c:1360
 msgid "wolfram:Sine.html"
-msgstr ""
+msgstr "wolfram:Sine.html"
 
 #: ../plugins/fn-math/functions.c:1374
 msgid "CSC:the cosecant of @{x}"
-msgstr ""
+msgstr "CSC:la cosecante de @{x}"
 
 #: ../plugins/fn-math/functions.c:1376 ../plugins/fn-math/functions.c:1396
 #: ../plugins/fn-math/functions.c:1416 ../plugins/fn-math/functions.c:1436
 msgid "This function is not Excel compatible."
-msgstr ""
+msgstr "Esta función no es compatible con Excel."
 
 #: ../plugins/fn-math/functions.c:1380
 msgid "wolfram:Cosecant.html"
-msgstr ""
+msgstr "wolfram:Cosecant.html"
 
 #: ../plugins/fn-math/functions.c:1394
 msgid "CSCH:the hyperbolic cosecant of @{x}"
-msgstr ""
+msgstr "CSCH:la cosecante hiperbólica de @{x}"
 
 #: ../plugins/fn-math/functions.c:1400
 msgid "wolfram:HyperbolicCosecant.html"
-msgstr ""
+msgstr "wolfram:HyperbolicCosecant.html"
 
 #: ../plugins/fn-math/functions.c:1414
 msgid "SEC:Secant"
-msgstr ""
+msgstr "SEC:Secante"
 
 #: ../plugins/fn-math/functions.c:1417
 msgid "SEC(@{x}) is exported to OpenFormula as 1/COS(@{x})."
-msgstr ""
+msgstr "SEC(@{x}) se exporta a OpenFormula como 1/COS(@{x})."
 
 #: ../plugins/fn-math/functions.c:1420
 msgid "wolfram:Secant.html"
-msgstr ""
+msgstr "wolfram:Secant.html"
 
 #: ../plugins/fn-math/functions.c:1434
 msgid "SECH:the hyperbolic secant of @{x}"
-msgstr ""
+msgstr "SECH:la secante hiperbólica de @{x}"
 
 #: ../plugins/fn-math/functions.c:1437
 msgid "SECH(@{x}) is exported to OpenFormula as 1/COSH(@{x})."
-msgstr ""
+msgstr "SECH(@{x}) se exporta a OpenFormula como 1/COSH(@{x})."
 
 #: ../plugins/fn-math/functions.c:1440
 msgid "wolfram:HyperbolicSecant.html"
-msgstr ""
+msgstr "wolfram:HyperbolicSecant.html"
 
 #: ../plugins/fn-math/functions.c:1452
 msgid "SINH:the hyperbolic sine of @{x}"
-msgstr ""
+msgstr "SINH:el seno hiperbólico de @{x}"
 
 #: ../plugins/fn-math/functions.c:1470
 msgid "SQRT:square root of @{x}"
-msgstr ""
+msgstr "SQRT:raíz cuadrada de @{x}"
 
 #: ../plugins/fn-math/functions.c:1471 ../plugins/fn-math/functions.c:1880
 msgid "x:non-negative number"
-msgstr ""
+msgstr "x:número no negativo"
 
 #: ../plugins/fn-math/functions.c:1473
 msgid "If @{x} is negative, SQRT returns #NUM!"
-msgstr ""
+msgstr "Si @{x} es negativo, SQRT devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:1492
 msgid "SUMA:sum of all values and cells referenced"
-msgstr ""
+msgstr "SUMA:suma de todos los valores y celdas referenciadas"
 
 #: ../plugins/fn-math/functions.c:1493 ../plugins/fn-math/functions.c:1517
 msgid "area0:first cell area"
-msgstr ""
+msgstr "área0:primera área de celda"
 
 #: ../plugins/fn-math/functions.c:1494 ../plugins/fn-math/functions.c:1518
 msgid "area1:second cell area"
-msgstr ""
+msgstr "área1:segunda área de celda"
 
 #: ../plugins/fn-math/functions.c:1516
 msgid "SUMSQ:sum of the squares of all values and cells referenced"
 msgstr ""
+"SUMSQ:suma de las raíces cuadradas de todos los valores y celdas "
+"referenciadas"
 
 #: ../plugins/fn-math/functions.c:1539
 msgid ""
 "MULTINOMIAL:multinomial coefficient (@{x1}+⋯+@{xn}) choose (@{x1},…,@{xn})"
 msgstr ""
+"MULTINOMIAL:coeficiente multinomial (@{x1}+⋯+@{xn}) escoge (@{x1},…,@{xn})"
 
 #: ../plugins/fn-math/functions.c:1540
 msgid "x1:first number"
-msgstr ""
+msgstr "x1:primer número"
 
 #: ../plugins/fn-math/functions.c:1541
 msgid "x2:second number"
-msgstr ""
+msgstr "x2:segundo número"
 
 #: ../plugins/fn-math/functions.c:1542
 msgid "xn:nth number"
-msgstr "xn: enésimo número"
+msgstr "xn:enésimo número"
 
 #: ../plugins/fn-math/functions.c:1546
 msgid "wiki:en:Multinomial_theorem"
