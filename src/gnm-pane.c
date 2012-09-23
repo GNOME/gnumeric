@@ -604,12 +604,7 @@ gnm_pane_key_press (GtkWidget *widget, GdkEventKey *event)
 	if (gtk_im_context_filter_keypress (pane->im_context, event))
 		return TRUE;
 
-	/* in gtk-2.8 something changed.  gtk_im_context_reset started
-	 * triggering a pre-edit-changed.  We'd end up start and finishing an
-	 * empty edit every time the cursor moved */
-	pane->im_block_edit_start = TRUE;
 	gtk_im_context_reset (pane->im_context);
-	pane->im_block_edit_start = FALSE;
 
 	if (gnm_pane_key_mode_sheet (pane, event, allow_rangesel))
 		return TRUE;
@@ -645,17 +640,8 @@ gnm_pane_key_release (GtkWidget *widget, GdkEventKey *event)
 static gint
 gnm_pane_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
-	/* The first call to focus-in was sometimes the first thing to init the
-	 * imcontext.  In which case the im_context_focus_in would fire a
-	 * preedit-changed, and we would start editing. */
 	GnmPane *pane = GNM_PANE (widget);
-	if (pane->im_first_focus)
-		pane->im_block_edit_start = TRUE;
 	gtk_im_context_focus_in (GNM_PANE (widget)->im_context);
-	if (pane->im_first_focus) {
-		pane->im_first_focus = FALSE;
-		pane->im_block_edit_start = FALSE;
-	}
 	return (*GTK_WIDGET_CLASS (parent_klass)->focus_in_event) (widget, event);
 }
 
@@ -672,7 +658,6 @@ gnm_pane_realize (GtkWidget *w)
 {
 	GtkStyleContext *ctxt;
 	GdkRGBA rgba;
-	GNM_PANE (w)->im_block_edit_start = FALSE;
 
 	if (GTK_WIDGET_CLASS (parent_klass)->realize)
 		(*GTK_WIDGET_CLASS (parent_klass)->realize) (w);
@@ -698,7 +683,6 @@ gnm_pane_unrealize (GtkWidget *widget)
 	g_return_if_fail (pane != NULL);
 
 	if (pane->im_context) {
-		pane->im_block_edit_start = TRUE;
 		gtk_im_context_set_client_window (pane->im_context, NULL);
 	}
 
@@ -752,6 +736,15 @@ cb_gnm_pane_commit (GtkIMContext *context, char const *str, GnmPane *pane)
 }
 
 static void
+cb_gnm_pane_preedit_start (GtkIMContext *context, GnmPane *pane)
+{
+	WBCGtk *wbcg = pane->simple.scg->wbcg;
+	pane->im_preedit_started = TRUE;
+	if (!wbcg_is_editing (wbcg))
+		wbcg_edit_start (wbcg, TRUE, TRUE);
+}
+
+static void
 cb_gnm_pane_preedit_changed (GtkIMContext *context, GnmPane *pane)
 {
 	gchar *preedit_string;
@@ -759,14 +752,15 @@ cb_gnm_pane_preedit_changed (GtkIMContext *context, GnmPane *pane)
 	int cursor_pos;
 	WBCGtk *wbcg = pane->simple.scg->wbcg;
 	GtkEditable *editable = gnm_pane_get_editable (pane);
+	if (!pane->im_preedit_started)
+		return;
 
 	tmp_pos = gtk_editable_get_position (editable);
 	if (pane->preedit_attrs)
 		pango_attr_list_unref (pane->preedit_attrs);
 	gtk_im_context_get_preedit_string (pane->im_context, &preedit_string, &pane->preedit_attrs, &cursor_pos);
 
-	if (!pane->im_block_edit_start &&
-	    !wbcg_is_editing (wbcg) && !wbcg_edit_start (wbcg, TRUE, TRUE)) {
+	if (!wbcg_is_editing (wbcg) && !wbcg_edit_start (wbcg, FALSE, TRUE)) {
 		gtk_im_context_reset (pane->im_context);
 		pane->preedit_length = 0;
 		if (pane->preedit_attrs)
@@ -783,6 +777,12 @@ cb_gnm_pane_preedit_changed (GtkIMContext *context, GnmPane *pane)
 	if (pane->preedit_length)
 		gtk_editable_insert_text (editable, preedit_string, pane->preedit_length, &tmp_pos);
 	g_free (preedit_string);
+}
+
+static void
+cb_gnm_pane_preedit_end (GtkIMContext *context, GnmPane *pane)
+{
+	pane->im_preedit_started = FALSE;
 }
 
 static gboolean
@@ -866,7 +866,11 @@ gnm_pane_dispose (GObject *obj)
 		g_signal_handlers_disconnect_by_func
 			(imc, cb_gnm_pane_commit, pane);
 		g_signal_handlers_disconnect_by_func
+			(imc, cb_gnm_pane_preedit_start, pane);
+		g_signal_handlers_disconnect_by_func
 			(imc, cb_gnm_pane_preedit_changed, pane);
+		g_signal_handlers_disconnect_by_func
+			(imc, cb_gnm_pane_preedit_end, pane);
 		g_signal_handlers_disconnect_by_func
 			(imc, cb_gnm_pane_retrieve_surrounding, pane);
 		g_signal_handlers_disconnect_by_func
@@ -940,16 +944,19 @@ gnm_pane_init (GnmPane *pane)
 	pane->im_context = gtk_im_multicontext_new ();
 	pane->preedit_length = 0;
 	pane->preedit_attrs    = NULL;
-	pane->im_block_edit_start = FALSE;
-	pane->im_first_focus = TRUE;
+	pane->im_preedit_started = FALSE;
 
 	gtk_widget_set_can_focus (GTK_WIDGET (canvas), TRUE);
 	gtk_widget_set_can_default (GTK_WIDGET (canvas), TRUE);
 
 	g_signal_connect (G_OBJECT (pane->im_context), "commit",
 			  G_CALLBACK (cb_gnm_pane_commit), pane);
+	g_signal_connect (G_OBJECT (pane->im_context), "preedit_start",
+			  G_CALLBACK (cb_gnm_pane_preedit_start), pane);
 	g_signal_connect (G_OBJECT (pane->im_context), "preedit_changed",
 			  G_CALLBACK (cb_gnm_pane_preedit_changed), pane);
+	g_signal_connect (G_OBJECT (pane->im_context), "preedit_end",
+			  G_CALLBACK (cb_gnm_pane_preedit_end), pane);
 	g_signal_connect (G_OBJECT (pane->im_context), "retrieve_surrounding",
 			  G_CALLBACK (cb_gnm_pane_retrieve_surrounding),
 			  pane);

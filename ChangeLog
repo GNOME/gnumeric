@@ -1,3 +1,17 @@
+2012-09-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	for Weng Xuetian
+
+	* src/gnm-pane-impl.h: change IM fields of _GnmPane
+	* src/gnm-pane.c (gnm_pane_key_press): skip im_block_edit_start
+	(gnm_pane_focus_in): ditto
+	(gnm_pane_realize): ditto
+	(gnm_pane_unrealize): ditto
+	(cb_gnm_pane_preedit_start): new
+	(cb_gnm_pane_preedit_end): new
+	(cb_gnm_pane_preedit_changed): check  im_preedit_started
+	(gnm_pane_dispose): disconnect cb_gnm_pane_preedit_*
+	(gnm_pane_init): connect cb_gnm_pane_preedit_*
+
 2012-09-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (gnm_go_data_vector_load_len),

@@ -34,8 +34,7 @@ struct _GnmPane {
 	gboolean   sliding_adjacent_h, sliding_adjacent_v;
 
 	/*  IM */
-	guint im_block_edit_start :1; /* see gnm_pane_key_press for details */
-	guint im_first_focus	  :1; /* see gnm_pane_init for details */
+	guint im_preedit_started :1;
 	guint preedit_length;
 	GtkIMContext  *im_context;
 	PangoAttrList *preedit_attrs;
