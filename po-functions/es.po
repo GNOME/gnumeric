@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-09-19 14:45+0000\n"
-"PO-Revision-Date: 2012-09-21 14:05+0200\n"
+"POT-Creation-Date: 2012-09-21 12:15+0000\n"
+"PO-Revision-Date: 2012-09-25 15:48+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -6270,90 +6270,90 @@ msgstr "xn:enésimo número"
 
 #: ../plugins/fn-math/functions.c:1546
 msgid "wiki:en:Multinomial_theorem"
-msgstr ""
+msgstr "wiki:es:teorema_multinomial"
 
 #: ../plugins/fn-math/functions.c:1564
 msgid "G_PRODUCT:product of all the values and cells referenced"
-msgstr ""
+msgstr "G_PRODUCT:producto de todos los valores y celdas referenciadas"
 
 #: ../plugins/fn-math/functions.c:1565
 msgid "x1:number"
-msgstr ""
+msgstr "x1:número"
 
 #: ../plugins/fn-math/functions.c:1566
 msgid "x2:number"
-msgstr ""
+msgstr "x2:número"
 
 #: ../plugins/fn-math/functions.c:1567
 msgid "Empty cells are ignored and the empty product is 1."
-msgstr ""
+msgstr "Las celdas vacías se ignoran y el producto vacío es 1."
 
 #: ../plugins/fn-math/functions.c:1587
 msgid "TAN:the tangent of @{x}"
-msgstr ""
+msgstr "TAN:la tangente de @{x}"
 
 #: ../plugins/fn-math/functions.c:1604
 msgid "TANH:the hyperbolic tangent of @{x}"
-msgstr ""
+msgstr "TANH:la tangente hiperbólica de @{x}"
 
 #: ../plugins/fn-math/functions.c:1621
 msgid "PI:the constant 𝜋"
-msgstr ""
+msgstr "PI:la constante 𝜋"
 
 #: ../plugins/fn-math/functions.c:1622
-#, fuzzy
-#| msgid ""
-#| "This function is Excel compatible if two arguments are supplied and "
-#| "neither is negative."
 msgid ""
 "This function is Excel compatible, but it returns 𝜋 with a better precision."
 msgstr ""
-"Esta función es compatible con Excel si se suministran dos argumentos y "
-"ninguno es negativo."
+"Esta función es compatible con Excel, pero devuelve 𝜋 con una mejor "
+"precisión."
 
 #: ../plugins/fn-math/functions.c:1639
 msgid "TRUNC:@{x} truncated to @{d} digits"
-msgstr ""
+msgstr "TRUNC:@{x} se trunca a @{d} dígitos"
 
 #: ../plugins/fn-math/functions.c:1641
 msgid "d:non-negative integer, defaults to 0"
-msgstr ""
+msgstr "d:entero no negativo, el predeterminado es 0"
 
 #: ../plugins/fn-math/functions.c:1642
 msgid ""
 "If @{d} is omitted or negative then it defaults to zero. If it is not an "
 "integer then it is truncated to an integer."
 msgstr ""
+"Si @{d} se omite o es negativo, el predeterminado es cero. Si no es un "
+"entero, se trunca a un entero."
 
 #: ../plugins/fn-math/functions.c:1676
 msgid "EVEN:@{x} rounded away from 0 to the next even integer"
-msgstr ""
+msgstr "EVEN:@{x} redondeado de 0 al siguiente entero par"
 
 #: ../plugins/fn-math/functions.c:1711
 msgid "ODD:@{x} rounded away from 0 to the next odd integer"
-msgstr ""
+msgstr "ODD:@{x} redondeado de 0 al siguiente entero impar"
 
 #: ../plugins/fn-math/functions.c:1746
 msgid "FACTDOUBLE:double factorial"
-msgstr ""
+msgstr "FACTDOUBLE:factorial doble"
 
 #: ../plugins/fn-math/functions.c:1747
 msgid "x:non-negative integer"
-msgstr ""
+msgstr "x:entero no negativo"
 
 #: ../plugins/fn-math/functions.c:1748
 msgid "FACTDOUBLE function returns the double factorial @{x}!!"
-msgstr ""
+msgstr "La función FACTDOUBLE devuelve el factorial doble @{x}!!"
 
 #: ../plugins/fn-math/functions.c:1749
 msgid ""
 "If @{x} is not an integer, it is truncated. If @{x} is negative, FACTDOUBLE "
 "returns #NUM!"
 msgstr ""
+"Si @{x} no es un entero, se trunca. Si @{x} es negativo, FACTDOUBLE devuelve "
+"#NUM!"
 
 #: ../plugins/fn-math/functions.c:1783
 msgid "FIB:Fibonacci numbers"
-msgstr ""
+msgstr "FIB:números Fibonacci"
 
 #: ../plugins/fn-math/functions.c:1784 ../plugins/fn-numtheory/numtheory.c:219
 #: ../plugins/fn-numtheory/numtheory.c:253
@@ -6363,29 +6363,30 @@ msgstr ""
 #: ../plugins/fn-numtheory/numtheory.c:442
 #: ../plugins/fn-numtheory/numtheory.c:473
 msgid "n:positive integer"
-msgstr ""
+msgstr "n:entero positivo"
 
 #: ../plugins/fn-math/functions.c:1785
 msgid "FIB(@{n}) is the @{n}th Fibonacci number."
-msgstr ""
+msgstr "FIB(@{n}) es el @{n}avo número Fibonacci."
 
 #: ../plugins/fn-math/functions.c:1786
 msgid ""
 "If @{n} is not an integer, it is truncated. If it is negative or zero FIB "
 "returns #NUM!"
 msgstr ""
+"Si @{n} no es un entero, se trunca. Si es negativo o cero FIB devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:1824
 msgid "QUOTIENT:integer portion of a division"
-msgstr ""
+msgstr "QUOTIENT:porción entera de una división"
 
 #: ../plugins/fn-math/functions.c:1825
 msgid "numerator:integer"
-msgstr ""
+msgstr "numerador:entero"
 
 #: ../plugins/fn-math/functions.c:1826
 msgid "denominator:non-zero integer"
-msgstr ""
+msgstr "denominador:entero distinto a cero"
 
 #: ../plugins/fn-math/functions.c:1827
 msgid ""
@@ -6394,30 +6395,33 @@ msgid ""
 "QUOTIENT (@{numerator},@{denominator})⨉@{denominator}+MOD(@{numerator},@"
 "{denominator})=@{numerator}"
 msgstr ""
+"QUOTIENT produce la porción entera de la división @{numerador}/@"
+"{denominador}.\n"
+"QUOTIENT (@{numerador},@{denominador})⨉@{denominador}+MOD(@{numerador},@"
+"{denominador})=@{numerador}"
 
 #: ../plugins/fn-math/functions.c:1851
 msgid "SIGN:sign of @{x}"
-msgstr ""
+msgstr "SIGN:signo de @{x}"
 
 #: ../plugins/fn-math/functions.c:1853
 msgid ""
 "SIGN returns 1 if the @{x} is positive and it returns -1 if @{x} is negative."
 msgstr ""
+"SIGN devuelve 1 si el @{x} es positivo y devuelve -1 si @{x} es negativo."
 
 #: ../plugins/fn-math/functions.c:1878
-#, fuzzy
-#| msgid "IMSQRT:the square root of the complex number @{z}"
 msgid "SQRTPI:the square root of @{x} times 𝜋"
-msgstr "IMSQRT: la raíz cuadrada del número complejo @{z}"
+msgstr "SQRTPI:la raíz cuadrada de @{x} por 𝜋"
 
 #: ../plugins/fn-math/functions.c:1901
 msgid "ROUNDDOWN:@{x} rounded towards 0"
-msgstr ""
+msgstr "ROUNDDOWN:@{x} redondeado hacia 0"
 
 #: ../plugins/fn-math/functions.c:1903 ../plugins/fn-math/functions.c:1927
 #: ../plugins/fn-math/functions.c:1968
 msgid "d:integer, defaults to 0"
-msgstr ""
+msgstr "d:entero, el predeterminado es 0"
 
 #: ../plugins/fn-math/functions.c:1904
 msgid ""
@@ -6427,10 +6431,15 @@ msgid ""
 "If @{d} is less than zero, @{x} is rounded toward 0 to the left of the "
 "decimal point"
 msgstr ""
+"Si @{d} es mayor que cero, @{x} se redondea hacia 0 al número dado de "
+"dígitos.\n"
+"Si @{d} es cero, @{x} se redondea hacia 0 al siguiente entero.\n"
+"Si @{d} es menor que cero, @{x} se redondea hacia 0 a la izquierda del punto "
+"decimal"
 
 #: ../plugins/fn-math/functions.c:1925
 msgid "ROUND:rounded @{x}"
-msgstr ""
+msgstr "ROUND:redondeado @{x}"
 
 #: ../plugins/fn-math/functions.c:1928
 msgid ""
@@ -6439,10 +6448,13 @@ msgid ""
 "If @{d} is zero, @{x} is rounded to the next integer.\n"
 "If @{d} is less than zero, @{x} is rounded to the left of the decimal point"
 msgstr ""
+"Si @{d} es mayor que cero, @{x} se redondea al número dado de dígitos.\n"
+"Si @{d} es cero, @{x} se redondea al siguiente entero.\n"
+"Si @{d} es menor que cero, @{x} se redondea a la izquierda del punto decimal"
 
 #: ../plugins/fn-math/functions.c:1966
 msgid "ROUNDUP:@{x} rounded away from 0"
-msgstr ""
+msgstr "ROUNDUP:@{x} redondeado lejos de 0"
 
 #: ../plugins/fn-math/functions.c:1969
 msgid ""
@@ -6452,26 +6464,31 @@ msgid ""
 "If @{d} is less than zero, @{x} is rounded away from 0 to the left of the "
 "decimal point"
 msgstr ""
+"Si @{d} es mayor que cero, @{x} se redondea lejos de 0 al número dado de "
+"dígitos.\n"
+"Si @{d} es cero, @{x} se redondea lejos de 0 al siguiente entero.\n"
+"Si @{d} es menor que cero, @{x} se redondea lejos de 0 a la izquierda del "
+"punto decimal"
 
 #: ../plugins/fn-math/functions.c:2013
 msgid "MROUND:@{x} rounded to a multiple of @{m}"
-msgstr ""
+msgstr "MROUND:@{x} redondeado al múltiplo de @{m}"
 
 #: ../plugins/fn-math/functions.c:2015
 msgid "m:number"
-msgstr ""
+msgstr "m:número"
 
 #: ../plugins/fn-math/functions.c:2016
 msgid "If @{x} and @{m} have different sign, MROUND returns #NUM!"
-msgstr ""
+msgstr "Si @{x} y @{m} tienen signos diferentes, MROUND devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:2059
 msgid "ARABIC:the Roman numeral @{roman} as number"
-msgstr ""
+msgstr "ARABIC:el número romano @{romano} como número"
 
 #: ../plugins/fn-math/functions.c:2060
 msgid "roman:Roman numeral"
-msgstr ""
+msgstr "romano:número romano"
 
 #: ../plugins/fn-math/functions.c:2061
 msgid ""
@@ -6479,14 +6496,17 @@ msgid ""
 "reduces the final value by the symbol amount, otherwise, it increases the "
 "final amount by the symbol's amount."
 msgstr ""
+"Cualquier símbolo romano a la izquierda de un símbolo más grande (directa o "
+"indirectamente) reduce el valor final por la cantidad del símbolo, de lo "
+"contrario, aumenta la cantidad final por la cantidad del símbolo."
 
 #: ../plugins/fn-math/functions.c:2137
 msgid "ROMAN:@{n} as a roman numeral text"
-msgstr ""
+msgstr "ROMAN:@{n} como un texto número romano"
 
 #: ../plugins/fn-math/functions.c:2139
 msgid "type:0,1,2,3,or 4, defaults to 0"
-msgstr ""
+msgstr "tipo:0,1,2,3,o 4, el predeterminado es 0"
 
 #: ../plugins/fn-math/functions.c:2140
 msgid ""
@@ -6495,20 +6515,24 @@ msgid ""
 "Type 1 is more concise than classic type, type 2 is more concise than type "
 "1, and type 3 is more concise than type 2. Type 4 is a simplified type."
 msgstr ""
+"ROMAN devuelve el número arábico @{n} como un texto número romano.\n"
+"Si @{tipo} es 0 o se omite, ROMAN devuelve números romanos clásicos.\n"
+"Tipo 1 es más conciso que el tipo clásico, tipo 2 es más conciso que tipo 1, "
+"y tipo 3 es más conciso que tipo 2. Tipo 4 es un tipo simplificado."
 
 #: ../plugins/fn-math/functions.c:2387
 msgid "SUMX2MY2:sum of the difference of squares"
-msgstr ""
+msgstr "SUMX2MY2:suma de la diferencia de cuadrados"
 
 #: ../plugins/fn-math/functions.c:2388 ../plugins/fn-math/functions.c:2430
 #: ../plugins/fn-math/functions.c:2473
 msgid "array0:first cell area"
-msgstr ""
+msgstr "matriz0:primera área de celda"
 
 #: ../plugins/fn-math/functions.c:2389 ../plugins/fn-math/functions.c:2431
 #: ../plugins/fn-math/functions.c:2474
 msgid "array1:second cell area"
-msgstr ""
+msgstr "matriz1:segunda área de celda"
 
 #: ../plugins/fn-math/functions.c:2390
 msgid ""
