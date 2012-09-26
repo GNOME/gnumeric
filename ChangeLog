@@ -1,3 +1,7 @@
+2012-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sstest.c (test_random_normality): fix text
+
 2012-09-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-control-gui.c (sheet_control_gui_new): check for NULL sheets

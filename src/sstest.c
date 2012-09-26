@@ -536,7 +536,7 @@ test_random_normality (int N, const char *expr,
 	g_printerr ("LKSTest: %.10" GNM_FORMAT_g "\n", *lkstest);
 
 	*sftest = value_get_as_float (sheet_cell_get (sheet, 1, 5)->value);
-	g_printerr ("CVMTest: %.10" GNM_FORMAT_g "\n", *sftest);
+	g_printerr ("SFTest: %.10" GNM_FORMAT_g "\n", *sftest);
 
 	g_object_unref (wb);
 	return res;
