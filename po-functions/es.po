@@ -19,15 +19,15 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-09-21 12:15+0000\n"
-"PO-Revision-Date: 2012-09-25 15:48+0200\n"
+"POT-Creation-Date: 2012-09-25 13:50+0000\n"
+"PO-Revision-Date: 2012-09-30 11:55+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
@@ -145,7 +145,8 @@ msgstr "y:parte imaginaria"
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
-"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es «i»"
+"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es "
+"«i»"
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
@@ -640,10 +641,10 @@ msgstr ""
 "@{criterios} es un rango que contiene condiciones. La primera fila de unos @"
 "{criterios} debería contener etiquetas. Cada etiqueta especifica en qué "
 "campo aplican las condiciones dadas en la columna. Cada celda debajo de la "
-"etiqueta especifica una condición como «>3» o «<9». Se puede dar una condición "
-"de igualdad por simple especificación de un valor, por ejemplo «3» o «Jody». "
-"Para que un registro se considere debe satisfacer todas las condiciones de "
-"al menos una de las filas de los @{criterios}."
+"etiqueta especifica una condición como «>3» o «<9». Se puede dar una "
+"condición de igualdad por simple especificación de un valor, por ejemplo «3» "
+"o «Jody». Para que un registro se considere debe satisfacer todas las "
+"condiciones de al menos una de las filas de los @{criterios}."
 
 #: ../plugins/fn-database/functions.c:73
 msgid ""
@@ -952,8 +953,8 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:80
 msgid ""
-"For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-"
-"1904."
+"For spreadsheets created with the Mac version of Excel, serial 1 is 1-"
+"Jan-1904."
 msgstr ""
 "Para hojas de cálculo creadas con la versión de Excel para Mac, la serie 1 "
 "es 1-Ene-1904."
@@ -1051,8 +1052,8 @@ msgid ""
 "If @{interval} is \"ym\" or \"yd\" then the distance is measured in complete "
 "months or days, respectively, but excluding any difference in years."
 msgstr ""
-"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días completos, "
-"respectivamente, pero excluyendo cualquier diferencia en años."
+"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días "
+"completos, respectivamente, pero excluyendo cualquier diferencia en años."
 
 #: ../plugins/fn-date/functions.c:218
 msgid ""
@@ -1728,8 +1729,8 @@ msgid ""
 "vega of an option is the rate of change of its price with respect to "
 "volatility."
 msgstr ""
-"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una opción "
-"europea producida en @{ejercicio} en un activo con precio al contado @"
+"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una "
+"opción europea producida en @{ejercicio} en un activo con precio al contado @"
 "{contado}. El vega de una opción es la tasa de cambio de su precio con "
 "respecto a la volatilidad."
 
@@ -6539,16 +6540,21 @@ msgid ""
 "SUMX2MY2 function returns the sum of the difference of squares of "
 "corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2)."
 msgstr ""
+"La función SUMX2MY2 devuelve la suma de la diferencia de cuadrados de los "
+"valores correspondientes en dos matrices. La ecuación de SUMX2MY2 es SUM(x^2-"
+"y^2)."
 
 #: ../plugins/fn-math/functions.c:2429
 msgid "SUMX2PY2:sum of the sum of squares"
-msgstr ""
+msgstr "SUMX2PY2:suma de la suma de cuadrados"
 
 #: ../plugins/fn-math/functions.c:2432
 msgid ""
 "SUMX2PY2 function returns the sum of the sum of squares of corresponding "
 "values in two arrays. The equation of SUMX2PY2 is SUM(x^2+y^2)."
 msgstr ""
+"La función SUMX2PY2 devuelve la suma de la suma de cuadrados de los valores "
+"correspondientes en dos matrices. La ecuación de SUMX2PY2 es SUM(x^2+y^2)."
 
 #: ../plugins/fn-math/functions.c:2434
 msgid ""
@@ -6556,16 +6562,22 @@ msgid ""
 "returns #N/A.\n"
 "Strings and empty cells are simply ignored."
 msgstr ""
+"Si @{matriz0} y @{matriz1} tienen un número diferente de puntos de datos, "
+"SUMX2PY2 devuelve #N/A.\n"
+"Las cadenas y celdas vacías simplemente se ignoran."
 
 #: ../plugins/fn-math/functions.c:2472
 msgid "SUMXMY2:sum of the squares of differences"
-msgstr ""
+msgstr "SUMXMY2:suma de los cuadrados de diferencias"
 
 #: ../plugins/fn-math/functions.c:2475
 msgid ""
 "SUMXMY2 function returns the sum of the squares of the differences of "
 "corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2)."
 msgstr ""
+"La función SUMXMY2 devuelve la suma de los cuadrados de las diferencias de "
+"los valores correspondientes en dos matrices. La ecuación de SUMXMY2 es SUM"
+"((x-y)^2)."
 
 #: ../plugins/fn-math/functions.c:2477
 msgid ""
@@ -6573,101 +6585,112 @@ msgid ""
 "returns #N/A.\n"
 "Strings and empty cells are simply ignored."
 msgstr ""
+"Si @{matriz0} y @{matriz1} tienen un número diferente de puntos de datos, "
+"SUMXMY2 devuelve #N/A.\n"
+"Las cadenas y celdas vacías simplemente se ignoran."
 
 #: ../plugins/fn-math/functions.c:2517
 msgid "SERIESSUM:sum of a power series at @{x}"
-msgstr ""
+msgstr "SERIESSUM:suma de una serie de potencias en @{x}"
 
 #: ../plugins/fn-math/functions.c:2518
 msgid "x:number where to evaluate the power series"
-msgstr ""
+msgstr "x:número donde se evalúa la serie de potencias"
 
 #: ../plugins/fn-math/functions.c:2519
 msgid "n:non-negative integer, exponent of the lowest term of the series"
-msgstr ""
+msgstr "n:entero no negativo, exponente del menor término de la serie"
 
 #: ../plugins/fn-math/functions.c:2520
 msgid "m:increment to each exponent"
-msgstr ""
+msgstr "m:incremento para cada exponente"
 
 #: ../plugins/fn-math/functions.c:2521
 msgid "coeff:coefficients of the power series"
-msgstr ""
+msgstr "coef:coeficientes de las serie de potencias\t"
 
 #: ../plugins/fn-math/functions.c:2575
 msgid "MINVERSE:the inverse matrix of @{matrix}"
-msgstr ""
+msgstr "MINVERSE:la matriz inversa de @{matriz}"
 
 #: ../plugins/fn-math/functions.c:2576 ../plugins/fn-math/functions.c:2901
 msgid "matrix:a square matrix"
-msgstr ""
+msgstr "matriz:una matriz cuadrada"
 
 #: ../plugins/fn-math/functions.c:2577
 msgid "If @{matrix} is not invertible, MINVERSE returns #NUM!"
-msgstr ""
+msgstr "Si @{matriz} no es invertible, MINVERSE devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:2578
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, MINVERSE "
 "returns #VALUE!"
 msgstr ""
+"Si @{matriz} no contiene un número igual de columnas y filas, MINVERSE "
+"devuelve #VALUE!"
 
 #: ../plugins/fn-math/functions.c:2709
 msgid ""
 "CHOLESKY:the Cholesky decomposition of the symmetric positive-definite @"
 "{matrix}"
 msgstr ""
+"CHOLESKY:la descomposición de Cholesky de la @{matriz} simétrica definida "
+"positiva"
 
 #: ../plugins/fn-math/functions.c:2710
 msgid "matrix:a symmetric positive definite matrix"
-msgstr ""
+msgstr "matriz:una matriz simétrica definida positiva"
 
 #: ../plugins/fn-math/functions.c:2711
 msgid ""
 "If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky "
 "returns #NUM!"
 msgstr ""
+"Si el algoritmo Cholesky-Banachiewicz aplicado a @{matriz} falla, Cholesky "
+"devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:2712
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, CHOLESKY "
 "returns #VALUE!"
 msgstr ""
+"Si @{matriz} no contiene un número igual de columnas y filas, CHOLESKY "
+"devuelve #VALUE!"
 
 #: ../plugins/fn-math/functions.c:2796
 msgid "MUNIT:the @{n} by @{n} identity matrix"
-msgstr ""
+msgstr "MUNIT:la matriz identidad de @{n} por @{n}"
 
 #: ../plugins/fn-math/functions.c:2797
 msgid "n:size of the matrix"
-msgstr ""
+msgstr "n:tamaño de la matriz"
 
 #: ../plugins/fn-math/functions.c:2833
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
-msgstr ""
+msgstr "MMULT:el producto de la matriz de @{mat1} y @{mat2}"
 
 #: ../plugins/fn-math/functions.c:2834
 msgid "mat1:a matrix"
-msgstr ""
+msgstr "mat1:una matriz"
 
 #: ../plugins/fn-math/functions.c:2835
 msgid "mat2:a matrix"
-msgstr ""
+msgstr "mat2:una matriz"
 
 #: ../plugins/fn-math/functions.c:2900
 msgid "MDETERM:the determinant of the matrix @{matrix}"
-msgstr ""
+msgstr "MDETERM:la determinante de la matriz @{matriz}"
 
 #: ../plugins/fn-math/functions.c:2936
 msgid "SUMPRODUCT:multiplies components and adds the results"
-msgstr "SUMPRODUCT: multiplica componentes y añade el resultado"
+msgstr "SUMPRODUCT:multiplica componentes y añade los resultados"
 
 #: ../plugins/fn-math/functions.c:2938 ../plugins/fn-math/functions.c:2961
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
 msgstr ""
-"Multiplica las entradas de datos correspondientes en los vectores o rangos "
+"Multiplica las entradas de datos correspondientes en las matrices o rangos "
 "dados y entonces devuelve la suma de esos productos."
 
 #: ../plugins/fn-math/functions.c:2941
@@ -6679,77 +6702,80 @@ msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
 msgstr ""
-"Si los argumentos los rangos de los vectores no tienen la misma dimensión, "
-"devolver un error #VALOR!"
+"Si los argumentos de las matrices o rangos no tienen las mismas dimensiones, "
+"se devuelve el error #VALUE!"
 
 #: ../plugins/fn-math/functions.c:2944
 msgid ""
 "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  "
 "Instead use SUMPRODUCT(--(A1:A5>0))"
 msgstr ""
+"Esta función ignora lógicos, así que usando SUMAPRODUCT(A1:A5>0) no "
+"funcionará. En su lugar use SUMPRODUCT(--(A1:A5>0))"
 
 #: ../plugins/fn-math/functions.c:2953
 msgid ""
 "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
 msgstr ""
+"Esta no es una función comatible con OpenFormula. Use ODF.SUMPRODUCT en su "
+"lugar."
 
 #: ../plugins/fn-math/functions.c:2959
-#, fuzzy
-#| msgid "SUMPRODUCT:multiplies components and adds the results"
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
-msgstr "SUMPRODUCT: multiplica componentes y añade el resultado"
+msgstr "ODF.SUMPRODUCT:multiplica componentes y añade los resultados"
 
 #: ../plugins/fn-math/functions.c:2964
-#, fuzzy
-#| msgid "If an entry is not numeric, the value zero is used instead."
 msgid "If an entry is not numeric or logical, the value zero is used instead."
-msgstr "Si una entrada no es numérica, se usa el valor cero en su lugar."
+msgstr ""
+"Si una entrada no es numérica o lógica, se usa el valor cero en su lugar."
 
 #: ../plugins/fn-math/functions.c:2967
 msgid "This function differs from SUMPRODUCT by considering booleans."
-msgstr ""
+msgstr "Esta función difiere de SUMPRODUCT considerando booleanos."
 
 #: ../plugins/fn-math/functions.c:2968
-#, fuzzy
-#| msgid "This function is Excel compatible."
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
-msgstr "Esta función es compatible con Excel."
+msgstr "Esta función no es compatible con Excel. Use SUMPRODUCT en su lugar."
 
 #: ../plugins/fn-math/functions.c:3103
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
-msgstr ""
+msgstr "EIGEN:valores propios y vectores propios de la {@matriz} simétrica"
 
 #: ../plugins/fn-math/functions.c:3104
 msgid "matrix:a symmetric matrix"
-msgstr ""
+msgstr "matriz:una matriz simétrica"
 
 #: ../plugins/fn-math/functions.c:3105
 msgid "If @{matrix} is not symmetric, EIGEN returns #NUM!"
-msgstr ""
+msgstr "Si @{matriz} no es simétrica, EIGEN devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:3106
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
 msgstr ""
+"Si @{matriz} no contiene un número igual de columnas y filas, EIGEN devuelve "
+"#VALUE!"
 
 #: ../plugins/fn-numtheory/numtheory.c:218
 msgid "NT_PHI:Euler's totient function"
-msgstr ""
+msgstr "NT_PHI:función indicatriz de Euler"
 
 #: ../plugins/fn-numtheory/numtheory.c:220
 msgid ""
 "Euler's totient function gives the number of integers less than or equal to @"
 "{n} that are relatively prime (coprime) to @{n}."
 msgstr ""
+"La función indicatriz de Euler da el número de enteros menor que o igual a @"
+"{n} que son relativamente primos (primos entre sí) a @{n}."
 
 #: ../plugins/fn-numtheory/numtheory.c:223
 msgid "wiki:en:Euler's_totient_function"
-msgstr ""
+msgstr "wiki:es:función_indicatriz_Euler"
 
 #: ../plugins/fn-numtheory/numtheory.c:252
 msgid "NT_MU:Möbius mu function"
-msgstr ""
+msgstr "NT_MU:función mu de Möbius"
 
 #: ../plugins/fn-numtheory/numtheory.c:255
 msgid ""
@@ -6766,55 +6792,55 @@ msgstr ""
 
 #: ../plugins/fn-numtheory/numtheory.c:262
 msgid "wiki:en:Möbius_function"
-msgstr ""
+msgstr "wiki:es:función_Möbius"
 
 #: ../plugins/fn-numtheory/numtheory.c:263
 msgid "wolfram:MoebiusFunction.html"
-msgstr ""
+msgstr "wolfram:MoebiusFunction.html"
 
 #: ../plugins/fn-numtheory/numtheory.c:293
 msgid "NT_D:number of divisors"
-msgstr ""
+msgstr "NT_D:número de divisores"
 
 #: ../plugins/fn-numtheory/numtheory.c:295
 msgid "NT_D calculates the number of divisors of @{n}."
-msgstr ""
+msgstr "NT_D calcula el número de divisores de @{n}."
 
 #: ../plugins/fn-numtheory/numtheory.c:325
 msgid "NT_SIGMA:sigma function"
-msgstr ""
+msgstr "NT_SIGMA:función sigma"
 
 #: ../plugins/fn-numtheory/numtheory.c:327
 msgid "NT_SIGMA calculates the sum of the divisors of @{n}."
-msgstr ""
+msgstr "NT_SIGMA calcula la suma de los divisores de @{n}."
 
 #: ../plugins/fn-numtheory/numtheory.c:330
 msgid "wiki:en:Divisor_function"
-msgstr ""
+msgstr "wiki:es:función_divisor"
 
 #: ../plugins/fn-numtheory/numtheory.c:359
 msgid "ITHPRIME:@{i}th prime"
-msgstr ""
+msgstr "ITHPRIME:@{i}-ésimo primo"
 
 #: ../plugins/fn-numtheory/numtheory.c:360
 msgid "i:positive integer"
-msgstr ""
+msgstr "i:entero positivo"
 
 #: ../plugins/fn-numtheory/numtheory.c:361
 msgid "ITHPRIME finds the @{i}th prime."
-msgstr ""
+msgstr "ITHPRIME busca el @{i}-ésimo primo."
 
 #: ../plugins/fn-numtheory/numtheory.c:385
 msgid "ISPRIME:whether @{n} is prime"
-msgstr ""
+msgstr "ISPRIME:si @{n} es primo"
 
 #: ../plugins/fn-numtheory/numtheory.c:387
 msgid "ISPRIME returns TRUE if @{n} is prime and FALSE otherwise."
-msgstr ""
+msgstr "ISPRIME devuelve VERDADERO si @{n} es primo y FALSO de caso contrario."
 
 #: ../plugins/fn-numtheory/numtheory.c:390
 msgid "wolfram:PrimeNumber.html"
-msgstr ""
+msgstr "wolfram:PrimeNumber.html"
 
 #: ../plugins/fn-numtheory/numtheory.c:441
 msgid "PFACTOR:smallest prime factor"
@@ -10409,9 +10435,9 @@ msgid ""
 "reliability."
 msgstr ""
 "Esta distribución se ha recomendado para el análisis del tiempo de función "
-"cuando se desea una función peligroso de forma «U». Esto corresponde al fallo "
-"rápido una vez que el producto comience a desgastarse después de un periodo "
-"estacionario o incluso mejorando la fiabilidad."
+"cuando se desea una función peligroso de forma «U». Esto corresponde al "
+"fallo rápido una vez que el producto comience a desgastarse después de un "
+"periodo estacionario o incluso mejorando la fiabilidad."
 
 #: ../plugins/fn-stat/functions.c:4526
 msgid "LAPLACE:probability density function of the Laplace distribution"
@@ -11535,9 +11561,9 @@ msgstr ""
 #~ "\n"
 #~ "@liquidación es la fecha de liquidación de la acción. @vencimiento es la "
 #~ "fecha de vencimiento de la acción. @emisión es la fecha de emisión de la "
-#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por 100"
-#~ "$ de valor facial de la acción. @base es el tipo de sistema de conteo de "
-#~ "días que quiere usar:\n"
+#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por "
+#~ "100$ de valor facial de la acción. @base es el tipo de sistema de conteo "
+#~ "de días que quiere usar:\n"
 #~ "\n"
 #~ " 0 US 30/360\n"
 #~ " 1 días actuales/días actuales\n"
