@@ -559,7 +559,9 @@ gnm_expr_array_corner_get_type (void)
 }
 
 /**
- * gnm_expr_equal : Returns TRUE if the supplied expressions are exactly the
+ * gnm_expr_equal:
+ *
+ * Return:s TRUE if the supplied expressions are exactly the
  *   same.  No eval position is used to see if they are effectively the same.
  *   Named expressions must refer the same name, having equivalent names is
  *   insufficeient.

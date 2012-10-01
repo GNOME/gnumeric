@@ -26,6 +26,7 @@ typedef GObjectClass CmdContextStderrClass;
 
 /**
  * cmd_context_stderr_new:
+ *
  * Returns: (transfer full): the newly allocated #GOCmdContext.
  **/
 GOCmdContext *

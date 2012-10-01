@@ -210,7 +210,6 @@ gnm_app_clipboard_unant (void)
 
 /**
  * gnm_app_clipboard_cut_copy:
- *
  * @wbc: the workbook control that requested the operation.
  * @is_cut: is this a cut or a copy.
  * @sv: The source sheet for the copy.

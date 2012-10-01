@@ -364,9 +364,9 @@ dependent_changed (GnmDependent *dep)
 }
 
 /**
- * dependent_set_expr :
- * @dep : The dependent we are interested in.
- * @new_expr : new expression.
+ * dependent_set_expr:
+ * @dep: The dependent we are interested in.
+ * @new_texpr: new expression.
  *
  * When the expression associated with @dep needs to change this routine
  * dispatches to the virtual handler, unlinking @dep if necessary beforehand.
@@ -407,9 +407,9 @@ dependent_pos (GnmDependent const *dep)
 
 
 /**
- * dependent_set_sheet
- * @dep :
- * @sheet :
+ * dependent_set_sheet:
+ * @dep:
+ * @sheet:
  */
 void
 dependent_set_sheet (GnmDependent *dep, Sheet *sheet)
@@ -1772,10 +1772,9 @@ cb_single_contained_depend (gpointer key,
 }
 
 /**
- * sheet_region_queue_recalc :
- *
- * @sheet : The sheet.
- * @range : Optionally NULL range.
+ * sheet_region_queue_recalc:
+ * @sheet: The sheet.
+ * @range: Optionally NULL range.
  *
  * Queues things that depend on @sheet!@range for recalc.
  *

@@ -757,7 +757,7 @@ colrow_restore_state_group (Sheet *sheet, gboolean is_cols,
 }
 
 /**
- * rows_height_update
+ * rows_height_update:
  * @sheet:  The sheet,
  * @range:  The range whose rows should be resized.
  * @shrink: If set to FALSE, rows will never shrink!

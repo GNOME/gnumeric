@@ -133,7 +133,10 @@ gnm_cell_assign_value (GnmCell *cell, GnmValue *v)
 }
 
 /**
- * gnm_cell_set_value: Stores (WITHOUT COPYING) the supplied value.  It marks the
+ * gnm_cell_set_value:
+ * @c: #GnmCell
+ * @v: #GnmValue
+ * Stores (WITHOUT COPYING) the supplied value.  It marks the
  *          sheet as dirty.
  *
  * WARNING : This is an internal routine that does not
@@ -362,11 +365,12 @@ gnm_cell_set_array_formula_undo (GnmSheetRange *sr, GnmExprTop const  *texpr)
 }
 
 /**
- * gnm_cell_set_array: set an array expression for a range.
+ * gnm_cell_set_array:
  * @sheet:   The sheet to set the expr in.
  * @r:       The range to set.
  * @texpr:   an expression (the inner expression, not a corner or element)
  *
+ * Set an array expression for a range.
  * Uses cell_set_expr_internal to store the expr as an
  * 'array-formula'.  The supplied expression is wrapped in an array
  * operator for each cell in the range and scheduled for recalc.

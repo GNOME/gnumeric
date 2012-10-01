@@ -409,10 +409,12 @@ gnm_named_expr_collection_foreach (GnmNamedExprCollection *names,
 /******************************************************************************/
 
 /**
- * expr_name_handle_references : register or unregister a name with
- *    all of the sheets it explicitly references.  This is necessary
- *    because names are not dependents, and if they reference a deleted
- *    sheet we will not notice.
+ * expr_name_handle_references:
+ *
+ * Register or unregister a name with
+ * all of the sheets it explicitly references.  This is necessary
+ * because names are not dependents, and if they reference a deleted
+ * sheet we will not notice.
  */
 static void
 expr_name_handle_references (GnmNamedExpr *nexpr, gboolean add)
@@ -481,7 +483,8 @@ expr_name_lookup (GnmParsePos const *pp, char const *name)
 }
 
 /**
- * expr_name_new :
+ * expr_name_new:
+ * @name:
  *
  * Creates a new name without linking it into any container.
  **/

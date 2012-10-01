@@ -345,6 +345,8 @@ retrieve_row_tree (GnmConsolidate *cs)
 }
 
 /**
+ * retrieve_col_tree:
+ *
  * Same as retrieve_row_tree, but for cols
  **/
 static GTree *
@@ -455,6 +457,8 @@ key_list_get (GnmConsolidate *cs, gboolean is_cols)
  **********************************************************************************/
 
 /**
+ * simple_consolidate:
+ *
  * This routine consolidates all the ranges in source into
  * the region dst using the function "fd" on all the overlapping
  * src regions.
@@ -599,7 +603,7 @@ row_consolidate (GnmConsolidate *cs, data_analysis_output_t *dao)
 }
 
 /**
- * cb_col_tree
+ * cb_col_tree:
  *
  * Consolidates a list of regions which all specify a single
  * column and share the same key into a single target range.

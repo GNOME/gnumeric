@@ -243,13 +243,13 @@ struct paste_cell_data {
 };
 
 /**
- * paste_cell: Pastes a cell in the spreadsheet
- * @dst_sheet:   The sheet where the pasting will be done
+ * paste_cell:
  * @target_col:  Column to put the cell into
  * @target_row:  Row to put the cell into.
- * @rinfo:	 A #GnmExprRelocateInfo on how to relocate content
  * @src:         A #GnmCelCopy with the content to paste
  * @paste_flags: Bit mask that describes the paste options.
+ *
+ *  Pastes a cell in the spreadsheet.
  */
 static void
 paste_cell (int target_col, int target_row,
