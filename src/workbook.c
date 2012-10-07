@@ -594,7 +594,7 @@ workbook_cells (Workbook *wb, gboolean comments, GnmSheetVisibility vis)
 		if (sheet->visibility > vis)
 			continue;
 
-		scells = sheet_cells (sheet, comments);
+		scells = sheet_cell_positions (sheet, comments);
 		g_ptr_array_set_size (cells, oldlen + scells->len);
 		memcpy (&g_ptr_array_index (cells, oldlen),
 			&g_ptr_array_index (scells, 0),

@@ -641,7 +641,7 @@ static gint
 gnm_pane_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
 	GnmPane *pane = GNM_PANE (widget);
-	gtk_im_context_focus_in (GNM_PANE (widget)->im_context);
+	gtk_im_context_focus_in (pane->im_context);
 	return (*GTK_WIDGET_CLASS (parent_klass)->focus_in_event) (widget, event);
 }
 

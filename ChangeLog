@@ -1,3 +1,10 @@
+2012-10-06  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_cell_positions): Renamed from sheet_cells.
+	All callers changed.
+	(sheet_cells): New function.
+	(sheet_foreach_cell_in_range): Use new sheet_cells.
+
 2012-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sstest.c (test_random_normality): fix text

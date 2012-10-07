@@ -165,7 +165,9 @@ GnmValue *sheet_foreach_cell_in_range	(Sheet *sheet, CellIterFlags flags,
 void	    sheet_cell_foreach	 (Sheet const *sheet,
 				  GHFunc callback, gpointer data);
 unsigned    sheet_cells_count	 (Sheet const *sheet);
-GPtrArray  *sheet_cells          (Sheet *sheet, gboolean comments);
+GPtrArray  *sheet_cell_positions (Sheet *sheet, gboolean comments);
+
+GPtrArray  *sheet_cells          (Sheet *sheet);
 
 void        sheet_recompute_spans_for_col     (Sheet *sheet, int col);
 

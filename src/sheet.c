@@ -3727,14 +3727,31 @@ sheet_colrow_get_info (Sheet const *sheet, int colrow, gboolean is_cols)
 static gint
 cell_ordering (gconstpointer a_, gconstpointer b_)
 {
-	GnmCell const *a = a_;
-	GnmCell const *b = b_;
+	GnmCell const *a = *(GnmCell **)a_;
+	GnmCell const *b = *(GnmCell **)b_;
 
 	if (a->pos.row != b->pos.row)
 		return a->pos.row - b->pos.row;
 
 	return a->pos.col - b->pos.col;
 }
+
+GPtrArray *
+sheet_cells (Sheet *sheet)
+{
+	GPtrArray *res = g_ptr_array_new ();
+	GHashTableIter hiter;	
+	gpointer value;
+
+	g_hash_table_iter_init (&hiter, sheet->cell_hash);
+	while (g_hash_table_iter_next (&hiter, NULL, &value)) {
+		g_ptr_array_add (res, value);
+	}
+	g_ptr_array_sort (res, cell_ordering);
+
+	return res;
+}
+
 
 
 #define SWAP_INT(a,b) do { int t; t = a; a = b; b = t; } while (0)
@@ -3782,7 +3799,6 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 	gboolean const ignore_empty = (flags & CELL_ITER_IGNORE_EMPTY) != 0;
 	gboolean ignore;
 	gboolean use_celllist;
-	GSList *celllist = NULL;
 	size_t range_size;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -3810,32 +3826,29 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 		only_existing &&
 		range_size > g_hash_table_size (sheet->cell_hash) + 1000;
 	if (use_celllist) {
-		GHashTableIter hiter;
-		gpointer value;
-		GSList *l;
+		GPtrArray *all_cells;
 		int last_row = -1, last_col = -1;
 		GnmValue *res = NULL;
+		unsigned ui;
 
 		if (gnm_debug_flag ("sheet-foreach"))
 			g_printerr ("Using celllist for area of size %d\n",
 				    (int)range_size);
 
-		g_hash_table_iter_init (&hiter, sheet->cell_hash);
-		while (g_hash_table_iter_next (&hiter, NULL, &value)) {
-			GnmCell *cell = value;
+		all_cells = sheet_cells (sheet);
+
+		for (ui = 0; ui < all_cells->len; ui++) {
+			GnmCell *cell = g_ptr_array_index (all_cells, ui);
+
 			if (cell->pos.col < start_col ||
 			    cell->pos.col > end_col ||
 			    cell->pos.row < start_row ||
 			    cell->pos.row > end_row)
 				continue;
-			celllist = g_slist_prepend (celllist, cell);
-		}
-		celllist = g_slist_sort (celllist, cell_ordering);
 
-		for (l = celllist; l; l = l->next) {
-			iter.cell = l->data;
-			iter.pp.eval.row = iter.cell->pos.row;
-			iter.pp.eval.col = iter.cell->pos.col;
+			iter.cell = cell;
+			iter.pp.eval.row = cell->pos.row;
+			iter.pp.eval.col = cell->pos.col;
 
 			if (iter.pp.eval.row != last_row) {
 				last_row = iter.pp.eval.row;
@@ -3854,8 +3867,8 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 				continue;
 
 			ignore = (ignore_empty &&
-				  VALUE_IS_EMPTY (iter.cell->value) &&
-				  !gnm_cell_needs_recalc (iter.cell));
+				  VALUE_IS_EMPTY (cell->value) &&
+				  !gnm_cell_needs_recalc (cell));
 			if (ignore)
 				continue;
 
@@ -3864,7 +3877,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 				break;
 		}
 
-		g_slist_free (celllist);
+		g_ptr_array_free (all_cells, TRUE);
 		return res;
 	}
 
@@ -3971,7 +3984,7 @@ cb_sheet_cells_collect (G_GNUC_UNUSED gpointer unused,
 }
 
 /**
- * sheet_cells:
+ * sheet_cell_positions:
  *
  * @sheet: The sheet to find cells in.
  * @comments: If true, include cells with only comments also.
@@ -3981,7 +3994,7 @@ cb_sheet_cells_collect (G_GNUC_UNUSED gpointer unused,
  * Returns: (element-type GnmEvalPos) (transfer full): the newly created array
  **/
 GPtrArray *
-sheet_cells (Sheet *sheet, gboolean comments)
+sheet_cell_positions (Sheet *sheet, gboolean comments)
 {
 	GPtrArray *cells = g_ptr_array_new ();
 
