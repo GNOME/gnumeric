@@ -1161,26 +1161,72 @@ xlsx_get_style_id (XLSXWriteState *state, GnmStyle const *style)
 	return GPOINTER_TO_INT (tmp) - 1;
 }
 
+/* Find a number of rows, not bigger than the given, such that those rows
+   are using column style only.  We don't try to find the largest such
+   number.  */
+static int
+count_default_rows (Sheet *sheet, GnmStyle **col_styles, int r, int rows)
+{
+	while (rows > 0) {
+		GnmRange rg;
+		range_init_rows (&rg, sheet, r, r + (rows - 1));
+		if (sheet_style_is_default (sheet, &rg, col_styles))
+			break;
+		rows /= 2;
+	}
+	return rows;
+}
+
+static gboolean
+row_boring (Sheet *sheet, int r)
+{
+	ColRowInfo const *ri = sheet_row_get (sheet, r);
+	if (!ri)
+		return TRUE;
+
+	return (!ri->hard_size &&
+		!ri->is_collapsed &&
+		ri->visible &&
+		ri->outline_level == 0);
+}
+
 static void
-xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
+xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
+		  GnmRange const *extent, GnmStyle **col_styles)
 {
 	int r, c;
 	char const *type;
 	char *content;
-	int   str_id = -1;
+	int str_id = -1;
 	GnmParsePos pp;
-	GnmCell const *cell;
 	GnmExprTop const *texpr;
 	GnmExprArrayCorner const *array;
-	ColRowInfo const *ri;
 	GnmValue const *val;
 	gpointer tmp;
 	char *cheesy_span = g_strdup_printf ("%d:%d", extent->start.col+1, extent->end.col+1);
+	Sheet *sheet = (Sheet *)state->sheet;
+	GPtrArray *all_cells = sheet_cells (sheet);
+	guint cno = 0;
+	int *boring_count;
+
+	boring_count = g_new0 (int, extent->end.row + 1);
+	r = extent->end.row;
+	boring_count[r] = row_boring (sheet, r);
+	while (r-- > extent->start.row)
+		boring_count[r] = row_boring (sheet, r)
+			? 1 + boring_count[r + 1]
+			: 0;
+
+	/* Add a NULL to simplify code.  */
+	g_ptr_array_add (all_cells, NULL);
 
 	gsf_xml_out_start_element (xml, "sheetData");
-	for (r = extent->start.row ; r <= extent->end.row ; r++) {
+       	for (r = extent->start.row ; r <= extent->end.row ; r++) {
 		gboolean needs_row = TRUE;
-		if (NULL != (ri = sheet_row_get (state->sheet, r))) {
+
+		if (boring_count[r] == 0) {
+			ColRowInfo const *ri = sheet_row_get (sheet, r);
+
 			if (ri->hard_size) {
 				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
 				gsf_xml_out_add_float (xml, "ht", ri->size_pts, 4);
@@ -1200,12 +1246,54 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 			}
 		}
 
-		for (c = extent->start.col ; c <= extent->end.col ; c++) {
-			GnmStyle const *style  = sheet_style_get (state->sheet, c, r);
-			gint style_id = (style != NULL) ?
-				style_id = xlsx_get_style_id (state, style) : -1;
+		/* Sanity check */
+		while (1) {
+			GnmCell *cell = g_ptr_array_index (all_cells, cno);
+			if (cell && cell->pos.row < r) {
+				g_warning ("This shouldn't happen: "
+					   "%d %d %s %s",
+					   cno, r,
+					   sheet->name_unquoted,
+					   cell_name (cell));
+				cno++;
+			} else
+				break;
+		}
 
-			if (NULL != (cell = sheet_cell_get (state->sheet, c, r))) {
+		/*
+		 * If we didn't have to write anything yet and if the whole
+		 * row -- and possibly the ones after it -- are all
+		 * using default style, skip them.
+		 */
+		if (needs_row) {
+			GnmCell *cell = g_ptr_array_index (all_cells, cno);
+			int rows = (cell ? cell->pos.row : extent->end.row) - r;
+			rows = count_default_rows (sheet, col_styles, r, rows);
+			rows = MIN (rows, boring_count[r]);
+			if (rows > 0) {
+				r += (rows - 1);
+				continue;
+			}
+		}
+
+		for (c = extent->start.col ; c <= extent->end.col ; c++) {
+			GnmCell *cell;
+			GnmStyle const *style;
+			gint style_id;
+
+			cell = g_ptr_array_index (all_cells, cno);
+			if (cell && cell->pos.row == r && cell->pos.col == c)
+				cno++;
+			else
+				cell = NULL;
+
+			/* FIXME: Use sheet_style_get_row once per row */
+			style = sheet_style_get (sheet, c, r);
+			style_id = style && style != col_styles[c]
+				? xlsx_get_style_id (state, style)
+				: -1;
+
+			if (cell) {
 				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
 				val = cell->value;
 				gsf_xml_out_start_element (xml, "c");
@@ -1291,7 +1379,9 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 			gsf_xml_out_end_element (xml); /* </row> */
 	}
 	gsf_xml_out_end_element (xml); /* </sheetData> */
-	g_free (cheesy_span);;
+	g_free (boring_count);
+	g_ptr_array_free (all_cells, TRUE);
+	g_free (cheesy_span);
 }
 
 static void
@@ -1500,68 +1590,65 @@ xlsx_write_hlinks (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent
 	}
 }
 
-static gboolean
+static void
 xlsx_write_col (XLSXWriteState *state, GsfXMLOut *xml,
-		ColRowInfo const *ci, int first, int last, gboolean has_child)
+		ColRowInfo const *ci, int first, int last,
+		GnmStyle *style)
 {
 	double const def_width = state->sheet->cols.default_style.size_pts;
-
-	if (NULL == ci)
-		return has_child;
-
-	if (!has_child)
-		gsf_xml_out_start_element (xml, "cols");
+	gint style_id = xlsx_get_style_id (state, style);
 
 	gsf_xml_out_start_element (xml, "col");
-	gsf_xml_out_add_int (xml, "min", first+1) ;
-	gsf_xml_out_add_int (xml, "max", last+1) ;
+	gsf_xml_out_add_int (xml, "min", first + 1);
+	gsf_xml_out_add_int (xml, "max", last + 1);
+	gsf_xml_out_add_int (xml, "style", style_id);
 
-	gsf_xml_out_add_float (xml, "width",
-		ci->size_pts / ((130. / 18.5703125) * (72./96.)), 7);
-	if (!ci->visible)
-		gsf_xml_out_add_cstr_unchecked (xml, "hidden", "1");
-	if (ci->hard_size)
-		gsf_xml_out_add_cstr_unchecked (xml, "customWidth", "1");
-	else if (fabs (def_width - ci->size_pts) > .1) {
-		gsf_xml_out_add_cstr_unchecked (xml, "bestFit", "1");
-		gsf_xml_out_add_cstr_unchecked (xml, "customWidth", "1");
+	if (ci) {
+		gsf_xml_out_add_float (xml, "width",
+				       ci->size_pts / ((130. / 18.5703125) * (72./96.)), 7);
+		if (!ci->visible)
+			gsf_xml_out_add_cstr_unchecked (xml, "hidden", "1");
+		if (ci->hard_size)
+			gsf_xml_out_add_cstr_unchecked (xml, "customWidth", "1");
+		else if (fabs (def_width - ci->size_pts) > .1) {
+			gsf_xml_out_add_cstr_unchecked (xml, "bestFit", "1");
+			gsf_xml_out_add_cstr_unchecked (xml, "customWidth", "1");
+		}
+
+		if (ci->outline_level > 0)
+			gsf_xml_out_add_int (xml, "outlineLevel",
+					     ci->outline_level);
+		if (ci->is_collapsed)
+			gsf_xml_out_add_cstr_unchecked (xml, "collapsed", "1");
 	}
 
-	if (ci->outline_level > 0)
-		gsf_xml_out_add_int (xml, "outlineLevel", ci->outline_level);
-	if (ci->is_collapsed)
-		gsf_xml_out_add_cstr_unchecked (xml, "collapsed", "1");
 	gsf_xml_out_end_element (xml); /* </col> */
-
-	return TRUE;
 }
 
 static void
-xlsx_write_cols (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
+xlsx_write_cols (XLSXWriteState *state, GsfXMLOut *xml, GnmStyle **styles)
 {
-	ColRowInfo const *ci, *info;
-	gboolean has_child = FALSE;
-	int first_col = -1, i;
+	int first_col = 0, i;
+	int last_col = gnm_sheet_get_last_col (state->sheet);
+	ColRowInfo const *info = sheet_col_get (state->sheet, first_col);
 
-	do {
-		info = sheet_col_get (state->sheet, ++first_col);
-	} while (info == NULL && first_col < extent->end.col);
+	gsf_xml_out_start_element (xml, "cols");
 
-	if (info == NULL)
-		return;
-
-	for (i = first_col + 1; i <= extent->end.col ; i++) {
-		ci = sheet_col_get (state->sheet, i);
-		if (!colrow_equal (info, ci)) {
-			has_child |= xlsx_write_col (state, xml, info, first_col, i-1, has_child);
+	for (i = first_col + 1; i <= last_col; i++) {
+		ColRowInfo const *ci = sheet_col_get (state->sheet, i);
+		if (!colrow_equal (info, ci) || styles[i] != styles[i - 1]) {
+			xlsx_write_col (state, xml, info,
+					first_col, i - 1,
+					styles[i - 1]);
 			info	  = ci;
 			first_col = i;
 		}
 	}
-	has_child |= xlsx_write_col (state, xml, info, first_col, i-1, has_child);
+	xlsx_write_col (state, xml, info,
+			first_col, i - 1,
+			styles[i - 1]);
 
-	if (has_child)
-		gsf_xml_out_end_element (xml); /* </cols> */
+	gsf_xml_out_end_element (xml); /* </cols> */
 }
 
 static void
@@ -1986,9 +2073,9 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 			state->sheet->cols.max_outline_level);
 	gsf_xml_out_end_element (xml); /* </sheetFormatPr> */
 /*   element cols { CT_Cols }*,     */
-	xlsx_write_cols (state, xml, &extent);
+	xlsx_write_cols (state, xml, col_styles);
 /*   element sheetData { CT_SheetData },     */
-	xlsx_write_cells (state, xml, &extent);
+	xlsx_write_cells (state, xml, &extent, col_styles);
 /*   element sheetCalcPr { CT_SheetCalcPr }?,     */
 /*   element sheetProtection { CT_SheetProtection }?,     */
 	xlsx_write_protection (state, xml);

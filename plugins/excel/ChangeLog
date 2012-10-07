@@ -1,3 +1,11 @@
+2012-10-06  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (xlsx_write_cells): Get all cells in the order we
+	need them instead of doing a million lookups.  Don't write styles
+	that match the column default -- especially not for cells with
+	style only.
+	(xlsx_write_cols): Write column default styles.
+
 2012-09-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.11.6

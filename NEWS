@@ -7,7 +7,10 @@ Andreas:
 Jean:
 	* Fixed indentation in cell format dialog. [#683576]
 
-Weng Xuetian
+Morten:
+	* Fix xlsx save performance problems.  [#662058]  [#685530]
+
+Weng Xuetian:
         * Fix interaction with ibus & fcitx. [#684511]
 
 --------------------------------------------------------------------------
