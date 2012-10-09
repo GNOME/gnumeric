@@ -1268,8 +1268,8 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 		if (needs_row) {
 			GnmCell *cell = g_ptr_array_index (all_cells, cno);
 			int rows = (cell ? cell->pos.row : extent->end.row) - r;
-			rows = count_default_rows (sheet, col_styles, r, rows);
 			rows = MIN (rows, boring_count[r]);
+			rows = count_default_rows (sheet, col_styles, r, rows);
 			if (rows > 0) {
 				r += (rows - 1);
 				continue;
