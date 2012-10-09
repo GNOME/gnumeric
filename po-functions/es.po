@@ -11,23 +11,23 @@
 # Francisco Javier F. Serrador <fserrador@gmail.com>, 2006, 2011.
 # Sylvia Sánchez <LailahFSF@gmail.com>, 2011, 2012.
 # Juan Matías Olmos <colonizare@yahoo.com.ar>, 2012.
-# Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
+# Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-10-01 18:27+0000\n"
-"PO-Revision-Date: 2012-10-06 11:00+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2012-10-07 23:32+0000\n"
+"PO-Revision-Date: 2012-10-07 21:15-0500\n"
+"Last-Translator: Milagros Alessandra Infante Montero <maim92@gmail.com>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
@@ -7201,107 +7201,108 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:256
 msgid "R.DBETA:probability density function of the beta distribution"
-msgstr "R.DBETA: función de densidad de probabilidad de la distribución beta"
+msgstr "R.DBETA:función de la densidad de probabilidad de la distribución beta"
 
 #: ../plugins/fn-r/functions.c:258 ../plugins/fn-r/functions.c:283
 #: ../plugins/fn-r/functions.c:310
 msgid "a:the first shape parameter of the distribution"
-msgstr "a: el primer parámetro de forma de la distribución"
+msgstr "a:el primer parámetro de forma de la distribución"
 
 #: ../plugins/fn-r/functions.c:259 ../plugins/fn-r/functions.c:284
 #: ../plugins/fn-r/functions.c:311
 msgid "b:the second scale parameter of the distribution"
-msgstr "b: el segundo parámetro de escala de la distribución"
+msgstr "b:el segundo parámetro de escala de la distribución"
 
 #: ../plugins/fn-r/functions.c:261
 msgid ""
 "This function returns the probability density function of the beta "
 "distribution."
 msgstr ""
-"Esta función devuelve la función de densidad de probabilidad de la "
+"Esta función devuelve la función de la densidad de probabilidad de la "
 "distribución beta."
 
 #: ../plugins/fn-r/functions.c:281
 msgid "R.PBETA:cumulative distribution function of the beta distribution"
-msgstr "R.PBETA: función de distribución acumulada de la distribución beta"
+msgstr "R.PBETA:función de distribución acumulativa de la distribución beta"
 
 #: ../plugins/fn-r/functions.c:287
 msgid ""
 "This function returns the cumulative distribution function of the beta "
 "distribution."
 msgstr ""
-"Esta función devuelve la dunción de distribución acumulada de la "
+"Esta función devuelve la función de distribución acumulativa de la "
 "distribución beta."
 
 #: ../plugins/fn-r/functions.c:308
 msgid "R.QBETA:probability quantile function of the beta distribution"
-msgstr "R.QBETA: función de cuantil de probabilidad de la distribución beta"
+msgstr "R.QBETA:función cuantil de probabilidad la distribución beta"
 
 #: ../plugins/fn-r/functions.c:314
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the beta distribution."
 msgstr ""
-"Esta función devuelve la función del cuantil de probabilidad, ej, la inversa "
-"de la función de distribución acumulada, o la distribución beta."
+"Esta función devuelve la función cuantil de la probabilidad, es decir, la "
+"inversa de la función de la distribución acumulativa, de la distribución "
+"beta."
 
 #: ../plugins/fn-r/functions.c:335
 msgid "R.DT:probability density function of the Student t distribution"
 msgstr ""
-"R.DT: función de densidad de probabilidad de la distribución t - Student"
+"R.DT:función de densidad de probabilidad de la distribución t de Student"
 
 #: ../plugins/fn-r/functions.c:337 ../plugins/fn-r/functions.c:360
 #: ../plugins/fn-r/functions.c:385 ../plugins/fn-r/functions.c:1241
 msgid "n:the number of degrees of freedom of the distribution"
-msgstr "n: número de grados de libertad de la distribución"
+msgstr "n:el número de grados de libertad de la distribución"
 
 #: ../plugins/fn-r/functions.c:339
 msgid ""
 "This function returns the probability density function of the Student t "
 "distribution."
 msgstr ""
-"Esta función devuelve la función de densidad de probabilidad de la "
-"distribución de T Student."
+"Esta función devuelve la función de la densidad de probabilidad de la "
+"distribución t de Student."
 
 #: ../plugins/fn-r/functions.c:358
 msgid "R.PT:cumulative distribution function of the Student t distribution"
 msgstr ""
-"R.PT: función de distribución acumulada de la distribución t de Student"
+"R.PT:función de la distribución acumulativa de la distribución t de Student"
 
 #: ../plugins/fn-r/functions.c:363
 msgid ""
 "This function returns the cumulative distribution function of the Student t "
 "distribution."
 msgstr ""
-"Esta función devuelve la función de distribución acumulada de la "
-"distribución de Student T."
+"Esta función devuelve la función de distribución acumulativa de la "
+"distribución t de Student ."
 
 #: ../plugins/fn-r/functions.c:383
 msgid "R.QT:probability quantile function of the Student t distribution"
-msgstr ""
-"R.QT: función del cuantil de probabilidad de la distribución t de Studen."
+msgstr "R.QT:función cuantil de probabilidad de la distribución t de Student."
 
 #: ../plugins/fn-r/functions.c:388
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Student t distribution."
 msgstr ""
-"Esta función devuelve la función del cuantil de probabilidad, ej, la inversa "
-"de la función de distribución acumulada de la distribución t de Student."
+"Esta función devuelve la función cuantil de probabilidad, es decir, la "
+"inversa de la función de distribución acumulativa de la distribución t de "
+"Student."
 
 #: ../plugins/fn-r/functions.c:408
 msgid "R.DF:probability density function of the F distribution"
-msgstr "R.DF: función de densidad de probabilidad de la distribución F"
+msgstr "R.DF:función de la densidad de probabilidad de la distribución F"
 
 #: ../plugins/fn-r/functions.c:410 ../plugins/fn-r/functions.c:435
 #: ../plugins/fn-r/functions.c:462
 msgid "n1:the first number of degrees of freedom of the distribution"
-msgstr "n1: el primer número de grados de libertad de la distribución"
+msgstr "n1:el primer número de grados de libertad de la distribución"
 
 #: ../plugins/fn-r/functions.c:411 ../plugins/fn-r/functions.c:436
 #: ../plugins/fn-r/functions.c:463
 msgid "n2:the second number of degrees of freedom of the distribution"
-msgstr "n2: el segundo número de grados de libertad de la distribución"
+msgstr "n2:el segundo número de grados de libertad de la distribución"
 
 #: ../plugins/fn-r/functions.c:413
 msgid ""
@@ -7312,7 +7313,7 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:433
 msgid "R.PF:cumulative distribution function of the F distribution"
-msgstr "R.PF: función de distribucion acumulativa de la distribución F"
+msgstr "R.PF:función de distribucion acumulativa de la distribución F"
 
 #: ../plugins/fn-r/functions.c:439
 msgid ""
@@ -7324,25 +7325,25 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:460
 msgid "R.QF:probability quantile function of the F distribution"
-msgstr "R.QF: función de cuantil de probabilidad de la distribución F"
+msgstr "R.QF:función cuantil de probabilidad de la distribución F"
 
 #: ../plugins/fn-r/functions.c:466
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the F distribution."
 msgstr ""
-"Esta función devuelve la función del cuantil de probabilidad, la inversa de "
-"la función de distribución acumulada, de la distribución F."
+"Esta función devuelve la función cuantil de probabilidad, es decir, la "
+"inversa de la función de distribución acumulativa de la distribución F."
 
 #: ../plugins/fn-r/functions.c:487
 msgid "R.DCHISQ:probability density function of the chi-square distribution"
 msgstr ""
-"R.DCHISQ: función de densidad de probabilidad de la distribución chi-cuadrado"
+"R.DCHISQ:función de densidad de probabilidad de la distribución chi-cuadrado"
 
 #: ../plugins/fn-r/functions.c:489 ../plugins/fn-r/functions.c:513
 #: ../plugins/fn-r/functions.c:539
 msgid "df:the number of degrees of freedom of the distribution"
-msgstr "df: el número de grados de libertad de la distribución"
+msgstr "df:el número de grados de libertad de la distribución"
 
 #: ../plugins/fn-r/functions.c:491
 msgid ""
@@ -7357,19 +7358,21 @@ msgid ""
 "A two argument invocation R.DCHISQ(@{x},@{df}) is exported to OpenFormula as "
 "CHISQDIST(@{x},@{df},FALSE())."
 msgstr ""
+"Una invocación de dos argumentos R.DCHISQ(@{x},@{df}) se exporta a "
+"OpenFormula como CHISQDIST(@{x},@{df},FALSE())."
 
 #: ../plugins/fn-r/functions.c:511
 msgid ""
 "R.PCHISQ:cumulative distribution function of the chi-square distribution"
 msgstr ""
-"R.PCHISQ: función de distribución acumulada de la distribución chi-cuadrado"
+"R.PCHISQ:función de distribución acumulativa de la distribución chi-cuadrado"
 
 #: ../plugins/fn-r/functions.c:516
 msgid ""
 "This function returns the cumulative distribution function of the chi-square "
 "distribution."
 msgstr ""
-"Esta función devuelve la función de distribución acumulada de la "
+"Esta función devuelve la función de distribución acumulativa de la "
 "distribución chi-cuadrado."
 
 #: ../plugins/fn-r/functions.c:517
@@ -7377,31 +7380,35 @@ msgid ""
 "A two argument invocation R.PCHISQ(@{x},@{df}) is exported to OpenFormula as "
 "CHISQDIST(@{x},@{df})."
 msgstr ""
+"Una invocación de dos argumentos R.PCHISQ(@{x},@{df}) se exporta a "
+"OpenFormula como CHISQDIST(@{x},@{df})."
 
 #: ../plugins/fn-r/functions.c:537
 msgid "R.QCHISQ:probability quantile function of the chi-square distribution"
 msgstr ""
-"R.QCHISQ: función del cuantil de probabilidad de la distribución chi-"
-"cuadarado"
+"R.QCHISQ:función cuantil de probabilidad de la distribución chi-cuadarado"
 
 #: ../plugins/fn-r/functions.c:542
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the chi-square distribution."
 msgstr ""
-"Esta función devuelve la función del cuantil de probabilidad, ej, la inversa "
-"de la función de distribución acumulada, de la distribución chi cuadrado."
+"Esta función devuelve la función cuantil de probabilidad, es decir, la "
+"inversa de la función de distribución acumulativa de la distribución chi "
+"cuadrado."
 
 #: ../plugins/fn-r/functions.c:543
 msgid ""
 "A two argument invocation R.QCHISQ(@{p},@{df}) is exported to OpenFormula as "
 "CHISQINV(@{p},@{df})."
 msgstr ""
+"Una invocación de dos argumentos R.QCHISQ(@{p},@{df}) se exporta a "
+"OpenFormula como CHISQINV(@{p},@{df})."
 
 #: ../plugins/fn-r/functions.c:563
 msgid "R.DWEIBULL:probability density function of the Weibull distribution"
 msgstr ""
-"R.DWEIBULL: función de densidad de probabilidad de la distribución de Weibull"
+"R.DWEIBULL:función de densidad de probabilidad de la distribución de Weibull"
 
 #: ../plugins/fn-r/functions.c:568
 msgid ""
@@ -7414,33 +7421,34 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:588
 msgid "R.PWEIBULL:cumulative distribution function of the Weibull distribution"
 msgstr ""
-"R.PWEIBULL: función acumulada de distribución de la distribución de Weibull"
+"R.PWEIBULL:función de distribución acumulativa de la distribución de Weibull"
 
 #: ../plugins/fn-r/functions.c:594
 msgid ""
 "This function returns the cumulative distribution function of the Weibull "
 "distribution."
 msgstr ""
-"Esta función devuelve la función de distribución acumulada de la "
+"Esta función devuelve la función de distribución acumulativa de la "
 "distribución de Weibull."
 
 #: ../plugins/fn-r/functions.c:615
 msgid "R.QWEIBULL:probability quantile function of the Weibull distribution"
 msgstr ""
-"R.QWEIBULL: función del cuantil de probabilidad de la distribución de Weibull"
+"R.QWEIBULL:función cuantil de probabilidad de la distribución de Weibull"
 
 #: ../plugins/fn-r/functions.c:621
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Weibull distribution."
 msgstr ""
-"Esta función devuelve la función del cuantil de probabilidad, la función "
-"inversa de la distribución acumulada de la distribución de Weibull."
+"Esta función devuelve la función cuantil de probabilidad, es decir, la "
+"inversa de la función de distribución acumulativa de la distribución de "
+"Weibull."
 
 #: ../plugins/fn-r/functions.c:642
 msgid "R.DPOIS:probability density function of the Poisson distribution"
 msgstr ""
-"R.DPOIS: función de densidad de probabilidad de la distribución de Poisson"
+"R.DPOIS:función de densidad de probabilidad de la distribución de Poisson"
 
 #: ../plugins/fn-r/functions.c:644 ../plugins/fn-r/functions.c:667
 #: ../plugins/fn-r/functions.c:692
@@ -7458,34 +7466,33 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:665
 msgid "R.PPOIS:cumulative distribution function of the Poisson distribution"
 msgstr ""
-"R.PPOIS: función de distribución acumulada de la distribución de Poisson"
+"R.PPOIS:función de distribución acumulativa de la distribución de Poisson"
 
 #: ../plugins/fn-r/functions.c:670
 msgid ""
 "This function returns the cumulative distribution function of the Poisson "
 "distribution."
 msgstr ""
-"Esta función devuelve la función de distribución acumulada de la "
+"Esta función devuelve la función de distribución acumulativa de la "
 "distribución de Poisson."
 
 #: ../plugins/fn-r/functions.c:690
 msgid "R.QPOIS:probability quantile function of the Poisson distribution"
-msgstr ""
-"R.QPOIS: función del cuantil de probabilidad de la distribución de Poisson"
+msgstr "R.QPOIS:función cuantil de probabilidad de la distribución de Poisson"
 
 #: ../plugins/fn-r/functions.c:695
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Poisson distribution."
 msgstr ""
-"Esta función devuelve la función del cuantil de probabilidad, la función "
-"inversa de la función de distribución acumulada, de la distribución de "
+"Esta función devuelve la función cuantil de probabilidad, es decir, la "
+"inversa de la función de distribución acumulativa de la distribución de "
 "Poisson."
 
 #: ../plugins/fn-r/functions.c:715
 msgid "R.DEXP:probability density function of the exponential distribution"
 msgstr ""
-"R.DEXP: función de densidad de probabilidad de la distribución exponencial"
+"R.DEXP:función de densidad de probabilidad de la distribución exponencial"
 
 #: ../plugins/fn-r/functions.c:719
 msgid ""
@@ -7493,19 +7500,19 @@ msgid ""
 "distribution."
 msgstr ""
 "Esta función devuelve la función de densidad de probabilidad de la "
-"distribución exponencial"
+"distribución exponencial."
 
 #: ../plugins/fn-r/functions.c:738
 msgid "R.PEXP:cumulative distribution function of the exponential distribution"
 msgstr ""
-"R.PEXP: función de distribución acumulada de la distribución exponencial"
+"R.PEXP:función de distribución acumulativa de la distribución exponencial"
 
 #: ../plugins/fn-r/functions.c:743
 msgid ""
 "This function returns the cumulative distribution function of the "
 "exponential distribution."
 msgstr ""
-"Esta función devuelve la función de distribución acumulada de la "
+"Esta función devuelve la función de distribución acumulativa de la "
 "distribución exponencial."
 
 #: ../plugins/fn-r/functions.c:763
