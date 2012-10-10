@@ -260,7 +260,7 @@ category_group_list_get (void)
 
 /**
  * category_group_list_free:
- * @category_groups: (element-type FormatTemplateCategoryGroup): the fist to free.
+ * @category_groups: (element-type FormatTemplateCategoryGroup): the list to free.
  *
  **/
 void
