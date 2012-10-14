@@ -3540,6 +3540,14 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 			GSList **sheet_merges, GnmPageBreaks *pb, G_GNUC_UNUSED GnmStyle **col_styles)
 {
 	int col, row;
+	GnmRange fake_extent;
+	GPtrArray *all_cells;
+	guint cno = 0;
+
+	range_init_rows (&fake_extent, sheet, from, to - 1);
+	all_cells = sheet_cells ((Sheet*)sheet, &fake_extent);
+	/* Add a NULL to simplify code.  */
+	g_ptr_array_add (all_cells, NULL);
 
 	for (row = from; row < to; row++) {
 		ColRowInfo const *ci = sheet_row_get (sheet, row);
@@ -3559,10 +3567,18 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 		write_row_style (state, ci, sheet);
 
 		for (col = 0; col < row_length; col++) {
-			GnmCell *current_cell = sheet_cell_get (sheet, col, row);
+			GnmCell *current_cell;
 			GnmRange const	*merge_range;
 			GSList *objects;
 			GnmStyle const *this_style;
+
+			current_cell = g_ptr_array_index (all_cells, cno);
+			if (current_cell &&
+			    current_cell->pos.row == row &&
+			    current_cell->pos.col == col)
+				cno++;
+			else
+				current_cell = NULL;
 
 			pos.col = col;
 			merge_range = gnm_sheet_merge_is_corner (sheet, &pos);
@@ -3612,7 +3628,7 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 		gsf_xml_out_end_element (state->xml);   /* table-row */
 	}
 
-
+	g_ptr_array_free (all_cells, TRUE);
 }
 
 static void
