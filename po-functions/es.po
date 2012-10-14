@@ -11,23 +11,23 @@
 # Francisco Javier F. Serrador <fserrador@gmail.com>, 2006, 2011.
 # Sylvia Sánchez <LailahFSF@gmail.com>, 2011, 2012.
 # Juan Matías Olmos <colonizare@yahoo.com.ar>, 2012.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
 # Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-10-07 23:32+0000\n"
-"PO-Revision-Date: 2012-10-07 21:15-0500\n"
-"Last-Translator: Milagros Alessandra Infante Montero <maim92@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2012-10-09 13:08+0000\n"
+"PO-Revision-Date: 2012-10-14 11:48+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
@@ -7517,22 +7517,21 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:763
 msgid "R.QEXP:probability quantile function of the exponential distribution"
-msgstr ""
-"R.QEXP: función del cuantil de probabilidad de la distribución exponencial"
+msgstr "R.QEXP:función cuantil de probabilidad de la distribución exponencial"
 
 #: ../plugins/fn-r/functions.c:768
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the exponential distribution."
 msgstr ""
-"Esta función devuelve la funcio del cuantil de probabilidad , la inversa de "
-"la función de distribución acumulada, de la distribución exponencial."
+"Esta función devuelve la función cuantil de probabilidad, es decir, la "
+"inversa de la función de distribución acumulativa, de la distribución "
+"exponencial."
 
 #: ../plugins/fn-r/functions.c:788
 msgid "R.DBINOM:probability density function of the binomial distribution"
 msgstr ""
-"R.DBINOM: función que devuelve la función de densidad de probabilidad de la "
-"distribución binomial"
+"R.DBINOM:función de densidad de probabilidad de la distribución binomial"
 
 #: ../plugins/fn-r/functions.c:790 ../plugins/fn-r/functions.c:815
 #: ../plugins/fn-r/functions.c:842 ../plugins/fn-r/functions.c:869
@@ -7559,34 +7558,34 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:813
 msgid "R.PBINOM:cumulative distribution function of the binomial distribution"
 msgstr ""
-"R.PBINOM: función de distribución acumulada de la distribución binomial"
+"R.PBINOM:función de distribución acumulativa de la distribución binomial"
 
 #: ../plugins/fn-r/functions.c:819
 msgid ""
 "This function returns the cumulative distribution function of the binomial "
 "distribution."
 msgstr ""
-"Esta función devuelve la función de distribución acumulada de la "
+"Esta función devuelve la función de distribución acumulativa de la "
 "distribución binomial."
 
 #: ../plugins/fn-r/functions.c:840
 msgid "R.QBINOM:probability quantile function of the binomial distribution"
-msgstr ""
-"R.QBINOM: función del cuantil de probabilidad de la distribución binomial"
+msgstr "R.QBINOM:función cuantil de probabilidad de la distribución binomial"
 
 #: ../plugins/fn-r/functions.c:846
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the binomial distribution."
 msgstr ""
-"Esta función devuelve la función del cuantil de probabilidad, la inversa de "
-"la función de distribución acumulada, de la distribución binomial."
+"Esta función devuelve la función cuantil de probabilidad, es decir, la "
+"inversa de la función de distribución acumulativa, de la distribución "
+"binomial."
 
 #: ../plugins/fn-r/functions.c:867
 msgid ""
 "R.DNBINOM:probability density function of the negative binomial distribution"
 msgstr ""
-"R.DNBINOM: función de densidad de probabilidad de la distribución binomial "
+"R.DNBINOM:función de densidad de probabilidad de la distribución binomial "
 "negativa"
 
 #: ../plugins/fn-r/functions.c:872
@@ -7602,7 +7601,7 @@ msgid ""
 "R.PNBINOM:cumulative distribution function of the negative binomial "
 "distribution"
 msgstr ""
-"R.PNBINOM: función de distribución acumulativa de la distribución binomial "
+"R.PNBINOM:función de distribución acumulativa de la distribución binomial "
 "negativa"
 
 #: ../plugins/fn-r/functions.c:898
@@ -7610,14 +7609,14 @@ msgid ""
 "This function returns the cumulative distribution function of the negative "
 "binomial distribution."
 msgstr ""
-"Esta función devuelve la distribución acumulada negativa de la distribución "
-"binomial negativa."
+"Esta función devuelve la función de distribución acumulativa de la "
+"distribución binomial negativa."
 
 #: ../plugins/fn-r/functions.c:919
 msgid ""
 "R.QNBINOM:probability quantile function of the negative binomial distribution"
 msgstr ""
-"R.QNBINOM: función del cuantil de probabilidad de la distribución binomial "
+"R.QNBINOM:función cuantil de probabilidad de la distribución binomial "
 "negativa"
 
 #: ../plugins/fn-r/functions.c:925
@@ -7626,14 +7625,15 @@ msgid ""
 "of the cumulative distribution function, of the negative binomial "
 "distribution."
 msgstr ""
-"Esta función devuelve la función del cuantil de probabilidad, la inversa de "
-"la función acumulada de distribución de la distribución negativa binomial."
+"Esta función devuelve la función cuantil de probabilidad, es decir, la "
+"inversa de la función de distribución acumulativa de la distribución "
+"binomial negativa."
 
 #: ../plugins/fn-r/functions.c:946
 msgid ""
 "R.DHYPER:probability density function of the hypergeometric distribution"
 msgstr ""
-"R.DHYPER: función de densidad de probabilidad de la distribución "
+"R.DHYPER:función de densidad de probabilidad de la distribución "
 "hipergeométrica"
 
 #: ../plugins/fn-r/functions.c:948 ../plugins/fn-r/functions.c:975
@@ -7663,7 +7663,7 @@ msgstr ""
 msgid ""
 "R.PHYPER:cumulative distribution function of the hypergeometric distribution"
 msgstr ""
-"R.PHYPER: función de distribución acumulada de la distribución "
+"R.PHYPER:función de distribución acumulativa de la distribución "
 "hipergeométrica"
 
 #: ../plugins/fn-r/functions.c:980
@@ -7671,28 +7671,28 @@ msgid ""
 "This function returns the cumulative distribution function of the "
 "hypergeometric distribution."
 msgstr ""
-"Esta función devuelve la función de de distribución acumulada de la "
+"Esta función devuelve la función de distribución acumulativa de la "
 "distribución hipergeométrica."
 
 #: ../plugins/fn-r/functions.c:1002
 msgid ""
 "R.QHYPER:probability quantile function of the hypergeometric distribution"
 msgstr ""
-"R.QHYPER: función de cuantil de probabilidad de la distribución "
-"hipergeométrica"
+"R.QHYPER:función cuantil de probabilidad de la distribución hipergeométrica"
 
 #: ../plugins/fn-r/functions.c:1009
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the hypergeometric distribution."
 msgstr ""
-"Esta función devuelve la función del cuantil de probabilidad, ej, la inversa "
-"de la función de distribución acumulada, o la distribución hipergeométrica."
+"Esta función devuelve la función cuantil de probabilidad, es decir, la "
+"inversa de la función de distribución acumulativa, de la distribución "
+"hipergeométrica."
 
 #: ../plugins/fn-r/functions.c:1031
 msgid "R.DGEOM:probability density function of the geometric distribution"
 msgstr ""
-"R.DGEOM: función de densidad de probabilidad de la distribución geométrica"
+"R.DGEOM:función de densidad de probabilidad de la distribución geométrica"
 
 #: ../plugins/fn-r/functions.c:1035
 msgid ""
@@ -7705,7 +7705,7 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:1054
 msgid "R.PGEOM:cumulative distribution function of the geometric distribution"
 msgstr ""
-"R.PGEOM: función de distribución acumulativa de la distribución geométrica"
+"R.PGEOM:función de distribución acumulativa de la distribución geométrica"
 
 #: ../plugins/fn-r/functions.c:1059
 msgid ""
@@ -7717,27 +7717,26 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1079
 msgid "R.QGEOM:probability quantile function of the geometric distribution"
-msgstr ""
-"R.QGEOM: función del cuantil de probabilidad de la distribución geométrica"
+msgstr "R.QGEOM:función cuantil de probabilidad de la distribución geométrica"
 
 #: ../plugins/fn-r/functions.c:1084
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the geometric distribution."
 msgstr ""
-"Esta función devuelve la función del cuantil de probabilidad, o sea, la "
-"inversa de la función de distribución acumulada, de la distribución "
+"Esta función devuelve la función cuantil de probabilidad, es decir, la "
+"inversa de la función de distribución acumulativa, de la distribución "
 "geométrica."
 
 #: ../plugins/fn-r/functions.c:1104
 msgid "R.DCAUCHY:probability density function of the Cauchy distribution"
 msgstr ""
-"R.DCAUCHY: función de densidad de probabilidad de la distribución de Cauchy"
+"R.DCAUCHY:función de densidad de probabilidad de la distribución de Cauchy"
 
 #: ../plugins/fn-r/functions.c:1106 ../plugins/fn-r/functions.c:1131
 #: ../plugins/fn-r/functions.c:1158
 msgid "location:the center of the distribution"
-msgstr "ubicación: el centro de la distribución"
+msgstr "ubicación:el centro de la distribución"
 
 #: ../plugins/fn-r/functions.c:1109
 msgid ""
@@ -7750,36 +7749,37 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:1129
 msgid "R.PCAUCHY:cumulative distribution function of the Cauchy distribution"
 msgstr ""
-"R.PCAUCHY: función de distribución acumulada de la distribución de Cauchy"
+"R.PCAUCHY:función de distribución acumulativa de la distribución de Cauchy"
 
 #: ../plugins/fn-r/functions.c:1135
 msgid ""
 "This function returns the cumulative distribution function of the Cauchy "
 "distribution."
 msgstr ""
-"Esta función devuelve la función de distribución acumulada de la "
+"Esta función devuelve la función de distribución acumulativa de la "
 "distribución de Cauchy."
 
 #: ../plugins/fn-r/functions.c:1156
 msgid "R.QCAUCHY:probability quantile function of the Cauchy distribution"
-msgstr ""
-"R.QCAUCHY: función de cuantil de probabilidad de la distribución de Cauchy"
+msgstr "R.QCAUCHY:función cuantil de probabilidad de la distribución de Cauchy"
 
 #: ../plugins/fn-r/functions.c:1162
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Cauchy distribution."
 msgstr ""
-"Esta función devuelve la función del cuantil de probablidada, ejm el inverso "
-"de la función de distribución acumulada, de la distribución de Cauchy."
+"Esta función devuelve la función cuantil de probabilidad, es decir, la "
+"inversa de la función de distribución acumulativa, de la distribución de "
+"Cauchy."
 
 #: ../plugins/fn-r/functions.c:1183
 msgid "R.DSNORM:probability density function of the skew-normal distribution"
-msgstr "R.DNORM: función de densidad de probabilidad de la distribución normal"
+msgstr ""
+"R.DNORM:función de densidad de probabilidad de la distribución normal sesgada"
 
 #: ../plugins/fn-r/functions.c:1186 ../plugins/fn-r/functions.c:1213
 msgid "location:the location parameter of the distribution"
-msgstr "ubicación:dirección del parámetro de la distribución"
+msgstr "ubicación:el parámetro de ubicación de la distribución"
 
 #: ../plugins/fn-r/functions.c:1189
 msgid ""
@@ -7787,25 +7787,26 @@ msgid ""
 "distribution."
 msgstr ""
 "Esta función devuelve la función de densidad de probabilidad de la "
-"distribución skew-normal."
+"distribución normal sesgada."
 
 #: ../plugins/fn-r/functions.c:1210
 msgid ""
 "R.PSNORM:cumulative distribution function of the skew-normal distribution"
 msgstr ""
-"R.PSNORM: función de distribución acumulativa de la distribución skew-normal"
+"R.PSNORM:función de distribución acumulativa de la distribución normal "
+"sesgada"
 
 #: ../plugins/fn-r/functions.c:1217
 msgid ""
 "This function returns the cumulative distribution function of the skew-"
 "normal distribution."
 msgstr ""
-"Esta función devueleve una función de distribución acumulada de la "
-"distribución skew-normal."
+"Esta función devueleve una función de distribución acumulativa de la "
+"distribución normal sesgada."
 
 #: ../plugins/fn-r/functions.c:1239
 msgid "R.DST:probability density function of the skew-t distribution"
-msgstr "R.DST: función de densidad de probabilidad de la distribución skew-t"
+msgstr "R.DST:función de densidad de probabilidad de la distribución t sesgada"
 
 #: ../plugins/fn-r/functions.c:1244
 msgid ""
@@ -7813,166 +7814,177 @@ msgid ""
 "distribution."
 msgstr ""
 "Esta función devuelve la función de densidad de probabilidad de la "
-"distribución skew-t."
+"distribución t sesgada."
 
 #: ../plugins/fn-random/functions.c:47
 msgid "RAND:a random number between zero and one"
-msgstr ""
+msgstr "RAND:un número aleatorio entre cero y uno"
 
 #: ../plugins/fn-random/functions.c:64
 msgid ""
 "RANDUNIFORM:random variate from the uniform distribution from @{a} to @{b}"
 msgstr ""
+"RANDUNIFORM:variable aleatoria variate de la distribución uniforme desde @"
+"{a} a @{b}"
 
 #: ../plugins/fn-random/functions.c:65
 msgid "a:lower limit of the uniform distribution"
-msgstr "a: límite inferior de la distribución uniforme"
+msgstr "a:límite inferior de la distribución uniforme"
 
 #: ../plugins/fn-random/functions.c:66
 msgid "b:upper limit of the uniform distribution"
-msgstr "b: límite superior de la distribución uniforme"
+msgstr "b:límite superior de la distribución uniforme"
 
 #: ../plugins/fn-random/functions.c:67
 msgid "If @{a} > @{b} RANDUNIFORM returns #NUM!"
-msgstr ""
+msgstr "Si @{a} > @{b} RANDUNIFORM devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:89
 msgid "RANDDISCRETE:random variate from a finite discrete distribution"
-msgstr ""
+msgstr "RANDDISCRETE:variable aleatoria de una distribución discreta finita"
 
 #: ../plugins/fn-random/functions.c:90
 msgid "val_range:possible values of the random variable"
-msgstr ""
+msgstr "val_rango:valores posibles de la variable aleatoria"
 
 #: ../plugins/fn-random/functions.c:91
 msgid ""
 "prob_range:probabilities of the corresponding values in @{val_range}, "
 "defaults to equal probabilities"
 msgstr ""
+"prob_rango:probabilidades de los valores correspondientes en @{val_rango}, "
+"de manera predeterminada se igualan probabilidades"
 
 #: ../plugins/fn-random/functions.c:93
 msgid ""
 "RANDDISCRETE returns one of the values in the @{val_range}. The "
 "probabilities for each value are given in the @{prob_range}."
 msgstr ""
+"RANDDISCRETE devuelve uno de los valores en el @{val_rango}. Las "
+"probabilidades para cada valor se dan en el @{prob_rango}."
 
 #: ../plugins/fn-random/functions.c:95
 msgid ""
 "If the sum of all values in @{prob_range} is not one, RANDDISCRETE returns "
 "#NUM!"
 msgstr ""
+"Si la suma de todos los valores en @{prob_rango} no es uno, RANDDISCRETE "
+"devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:96
 msgid ""
 "If @{val_range} and @{prob_range} are not the same size, RANDDISCRETE "
 "returns #NUM!"
 msgstr ""
+"Si @{val_rango} y @{prob_rango} no son del mismo tamaño, RANDDISCRETE "
+"devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:97
 msgid ""
 "If @{val_range} or @{prob_range} is not a range, RANDDISCRETE returns #VALUE!"
 msgstr ""
+"Si @{val_rango} o @{prob_rango} no es un rango, RANDDISCRETE devuelve #VALUE!"
 
 #: ../plugins/fn-random/functions.c:175
 msgid "RANDEXP:random variate from an exponential distribution"
-msgstr "RANDEXP: variable aleatoria al azar de una distribución exponencial"
+msgstr "RANDEXP:variable aleatoria de una distribución exponencial"
 
 #: ../plugins/fn-random/functions.c:176
 msgid "b:parameter of the exponential distribution"
-msgstr "b: parámetro de la distribución exponencial"
+msgstr "b:parámetro de la distribución exponencial"
 
 #: ../plugins/fn-random/functions.c:194
 msgid "RANDPOISSON:random variate from a Poisson distribution"
-msgstr "RANDPOISSON: variable aleatoria al azar de una distribución de Poisson"
+msgstr "RANDPOISSON:variable aleatoria de una distribución de Poisson"
 
 #: ../plugins/fn-random/functions.c:195
 msgid "λ:parameter of the Poisson distribution"
-msgstr "λ: parámetro de distribución de Poisson"
+msgstr "λ:parámetro de la distribución de Poisson"
 
 #: ../plugins/fn-random/functions.c:196
 msgid "If @{λ} < 0 RANDPOISSON returns #NUM!"
-msgstr ""
+msgstr "Si @{λ} < 0 RANDPOISSON devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:218
 msgid "RANDBINOM:random variate from a binomial distribution"
-msgstr "RANDBINOM: variable aleatoria al azar de una distribución binomial"
+msgstr "RANDBINOM:variable aleatoria de una distribución binomial"
 
 #: ../plugins/fn-random/functions.c:219 ../plugins/fn-random/functions.c:276
 #: ../plugins/fn-random/functions.c:582
 msgid "p:probability of success in a single trial"
-msgstr "p: probabilidad de éxito en un único intento"
+msgstr "p:probabilidad de éxito en un único intento"
 
 #: ../plugins/fn-random/functions.c:220
 msgid "n:number of trials"
-msgstr "n: número de intentos"
+msgstr "n:número de intentos"
 
 #: ../plugins/fn-random/functions.c:221
 msgid "If @{p} < 0 or @{p} > 1 RANDBINOM returns #NUM!"
-msgstr ""
+msgstr "Si @{p} < 0 o @{p} > 1 RANDBINOM devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:222
 msgid "If @{n} < 0 RANDBINOM returns #NUM!"
-msgstr ""
+msgstr "Si @{n} < 0 RANDBINOM devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:244
 msgid ""
 "RANDBETWEEN:a random integer number between and including @{bottom} and @"
 "{top}"
 msgstr ""
+"RANDBETWEEN:un número entero aleatorio entre e incluyendo @{inferior} y @"
+"{superior}"
 
 #: ../plugins/fn-random/functions.c:246
 msgid "bottom:lower limit"
-msgstr ""
+msgstr "inferior:límite inferior"
 
 #: ../plugins/fn-random/functions.c:247
 msgid "top:upper limit"
-msgstr ""
+msgstr "superior:límite superior"
 
 #: ../plugins/fn-random/functions.c:248
 msgid "If @{bottom} > @{top}, RANDBETWEEN returns #NUM!"
-msgstr ""
+msgstr "Si @{inferior} > @{superior}, RANDBETWEEN devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:275
 msgid "RANDNEGBINOM:random variate from a negative binomial distribution"
-msgstr ""
-"RANDNEGBINOM: variable aleatoria al azar de una distribución binomial "
-"negativa"
+msgstr "RANDNEGBINOM:variable aleatoria de una distribución binomial negativa"
 
 #: ../plugins/fn-random/functions.c:277
 msgid "n:number of failures"
-msgstr "n: número de fallos"
+msgstr "n:número de fallos"
 
 #: ../plugins/fn-random/functions.c:278
 msgid "If @{p} < 0 or @{p} > 1 RANDNEGBINOM returns #NUM!"
-msgstr ""
+msgstr "Si @{p} < 0 o @{p} > 1 RANDNEGBINOM devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:279
 msgid "If @{n} < 1 RANDNEGBINOM returns #NUM!"
-msgstr ""
+msgstr "Si @{n} < 1 RANDNEGBINOM devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:300
 msgid "RANDBERNOULLI:random variate from a Bernoulli distribution"
-msgstr ""
+msgstr "RANDBERNOULLI:variable aleatoria de una distribución de Bernoulli"
 
 #: ../plugins/fn-random/functions.c:301 ../plugins/fn-stat/functions.c:907
 msgid "p:probability of success"
-msgstr "p: probabilidad de éxito"
+msgstr "p:probabilidad de éxito"
 
 #: ../plugins/fn-random/functions.c:302
 msgid "If @{p} < 0 or @{p} > 1 RANDBERNOULLI returns #NUM!"
-msgstr ""
+msgstr "Si @{p} < 0 o @{p} > 1 RANDBERNOULLI devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:324
 msgid "RANDNORM:random variate from a normal distribution"
-msgstr "RANDNORM: variable aleatoria desde una distribución normal"
+msgstr "RANDNORM:variable aleatoria de una distribución normal"
 
 #: ../plugins/fn-random/functions.c:325
 msgid "μ:mean of the distribution"
-msgstr "μ: media de la distribución"
+msgstr "μ:media de la distribución"
 
 #: ../plugins/fn-random/functions.c:326 ../plugins/fn-random/functions.c:374
 msgid "σ:standard deviation of the distribution"
-msgstr "σ: desviación estándar de la distribución"
+msgstr "σ:desviación estándar de la distribución"
 
 #: ../plugins/fn-random/functions.c:327
 msgid "If @{σ} < 0, RANDNORM returns #NUM!"
