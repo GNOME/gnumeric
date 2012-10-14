@@ -167,7 +167,7 @@ void	    sheet_cell_foreach	 (Sheet const *sheet,
 unsigned    sheet_cells_count	 (Sheet const *sheet);
 GPtrArray  *sheet_cell_positions (Sheet *sheet, gboolean comments);
 
-GPtrArray  *sheet_cells          (Sheet *sheet);
+GPtrArray  *sheet_cells          (Sheet *sheet, const GnmRange *r);
 
 void        sheet_recompute_spans_for_col     (Sheet *sheet, int col);
 

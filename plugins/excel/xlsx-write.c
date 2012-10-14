@@ -1205,7 +1205,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 	gpointer tmp;
 	char *cheesy_span = g_strdup_printf ("%d:%d", extent->start.col+1, extent->end.col+1);
 	Sheet *sheet = (Sheet *)state->sheet;
-	GPtrArray *all_cells = sheet_cells (sheet);
+	GPtrArray *all_cells = sheet_cells (sheet, extent);
 	guint cno = 0;
 	int *boring_count;
 

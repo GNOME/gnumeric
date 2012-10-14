@@ -3737,7 +3737,7 @@ cell_ordering (gconstpointer a_, gconstpointer b_)
 }
 
 GPtrArray *
-sheet_cells (Sheet *sheet)
+sheet_cells (Sheet *sheet, const GnmRange *r)
 {
 	GPtrArray *res = g_ptr_array_new ();
 	GHashTableIter hiter;	
@@ -3745,7 +3745,9 @@ sheet_cells (Sheet *sheet)
 
 	g_hash_table_iter_init (&hiter, sheet->cell_hash);
 	while (g_hash_table_iter_next (&hiter, NULL, &value)) {
-		g_ptr_array_add (res, value);
+		GnmCell *cell = value;
+		if (!r || range_contains (r, cell->pos.col, cell->pos.row))
+			g_ptr_array_add (res, cell);
 	}
 	g_ptr_array_sort (res, cell_ordering);
 
@@ -3830,21 +3832,17 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 		int last_row = -1, last_col = -1;
 		GnmValue *res = NULL;
 		unsigned ui;
+		GnmRange r;
 
 		if (gnm_debug_flag ("sheet-foreach"))
 			g_printerr ("Using celllist for area of size %d\n",
 				    (int)range_size);
 
-		all_cells = sheet_cells (sheet);
+		range_init (&r, start_col, start_row, end_col, end_row);
+		all_cells = sheet_cells (sheet, &r);
 
 		for (ui = 0; ui < all_cells->len; ui++) {
 			GnmCell *cell = g_ptr_array_index (all_cells, ui);
-
-			if (cell->pos.col < start_col ||
-			    cell->pos.col > end_col ||
-			    cell->pos.row < start_row ||
-			    cell->pos.row > end_row)
-				continue;
 
 			iter.cell = cell;
 			iter.pp.eval.row = cell->pos.row;

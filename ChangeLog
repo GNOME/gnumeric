@@ -1,3 +1,8 @@
+2012-10-14  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_cells): Take extra optional range argument.
+	All callers changed.
+
 2012-10-06  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_cell_positions): Renamed from sheet_cells.
