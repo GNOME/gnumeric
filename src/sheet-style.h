@@ -47,6 +47,9 @@ unsigned int sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 void	 sheet_style_get_extent		(Sheet const *sheet, GnmRange *r);
 void	 sheet_style_get_nondefault_extent (Sheet const *sheet, GnmRange *extent,
 					    const GnmRange *src, GnmStyle **col_defaults);
+guint8 * sheet_style_get_nondefault_rows (Sheet const *sheet,
+					  GnmStyle **col_defaults);
+					   
 gboolean sheet_style_is_default         (Sheet const *sheet, const GnmRange *r, GnmStyle **col_defaults);
 void     style_row_init			(GnmBorder const * * *prev_vert,
 					 GnmStyleRow *sr, GnmStyleRow *next_sr,

@@ -2731,8 +2731,8 @@ odf_expr_conventions_new (void)
 static gboolean
 odf_cell_is_covered (G_GNUC_UNUSED Sheet const *sheet,
 		     G_GNUC_UNUSED GnmCell *current_cell,
-		    int col, int row, GnmRange const *merge_range,
-		    GSList **merge_ranges)
+		     int col, int row, GnmRange const *merge_range,
+		     GSList **merge_ranges)
 {
 	GSList *l;
 
@@ -3415,6 +3415,25 @@ write_row_style (GnmOOExport *state, ColRowInfo const *ci,
 		gsf_xml_out_add_cstr (state->xml, TABLE "style-name", name);
 }
 
+static gboolean
+row_style_eq (GnmOOExport *state, Sheet const *sheet,
+	      ColRowInfo const *ci1, ColRowInfo const *ci2)
+{
+	if (ci1 == ci2)
+		return TRUE;
+	else {
+		char const *n1 =
+			odf_find_row_style (state,
+					    (ci1 == NULL) ? &sheet->rows.default_style: ci1,
+					    FALSE);
+		char const *n2 =
+			odf_find_row_style (state,
+					    (ci2 == NULL) ? &sheet->rows.default_style: ci2,
+					    FALSE);
+		return g_str_equal (n1, n2);
+	}
+}
+
 
 static gint
 finder (gconstpointer a, gconstpointer b)
@@ -3534,20 +3553,66 @@ odf_sheet_objects_get (Sheet const *sheet, GnmCellPos const *pos)
 	return res;
 }
 
+enum {
+	RF_CELL = 1,
+	RF_PAGEBREAK = 2,
+	RF_OBJECT = 4,
+	RF_STYLE = 8
+};
+
 static void
 odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to,
 			G_GNUC_UNUSED int col_from, G_GNUC_UNUSED int col_to, int row_length,
-			GSList **sheet_merges, GnmPageBreaks *pb, G_GNUC_UNUSED GnmStyle **col_styles)
+			GSList **sheet_merges, GnmPageBreaks *pb, GnmStyle **col_styles)
 {
-	int col, row;
-	GnmRange fake_extent;
+	int row;
 	GPtrArray *all_cells;
 	guint cno = 0;
+	guint8 *row_flags;
 
-	range_init_rows (&fake_extent, sheet, from, to - 1);
-	all_cells = sheet_cells ((Sheet*)sheet, &fake_extent);
-	/* Add a NULL to simplify code.  */
-	g_ptr_array_add (all_cells, NULL);
+	row_flags = g_new0 (guint8, gnm_sheet_get_max_rows (sheet));
+
+	/* Find out what rows have objects.  */
+	{
+		GSList *ptr;
+
+		for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
+			SheetObject *so = SHEET_OBJECT (ptr->data);
+			SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
+			int row = anchor->cell_bound.start.row;
+			row_flags[row] |= RF_OBJECT;
+		}
+	}
+
+	/* Find out what rows have page breaks.  */
+	for (row = from; row < to; row++) {
+		if (gnm_page_breaks_get_break (pb, row) != GNM_PAGE_BREAK_NONE)
+			row_flags[row] |= RF_PAGEBREAK;
+	}
+
+	/* Find out what rows have cells.  */
+	{
+		GnmRange fake_extent;
+		unsigned ui;
+		range_init_rows (&fake_extent, sheet, from, to - 1);
+		all_cells = sheet_cells ((Sheet*)sheet, &fake_extent);
+		for (ui = 0; ui < all_cells->len; ui++) {
+			GnmCell *cell = g_ptr_array_index (all_cells, ui);
+			row_flags[cell->pos.row] |= RF_CELL;
+		}
+		/* Add a NULL to simplify code.  */
+		g_ptr_array_add (all_cells, NULL);
+	}
+
+	/* Find out what rows have style not covered by column styles.  */
+	{
+		guint8 *non_defaults_rows =
+			sheet_style_get_nondefault_rows (sheet, col_styles);
+		for (row = from; row < to; row++)
+			if (non_defaults_rows[row])
+				row_flags[row] |= RF_STYLE;
+		g_free (non_defaults_rows);
+	}
 
 	for (row = from; row < to; row++) {
 		ColRowInfo const *ci = sheet_row_get (sheet, row);
@@ -3558,7 +3623,7 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 
 		pos.row = row;
 
-		if (gnm_page_breaks_get_break (pb, row) != GNM_PAGE_BREAK_NONE)
+		if (row_flags[row] & RF_PAGEBREAK)
 			gsf_xml_out_simple_element (state->xml,
 						    TEXT "soft-page-break",
 						    NULL);
@@ -3566,59 +3631,77 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 		gsf_xml_out_start_element (state->xml, TABLE "table-row");
 		write_row_style (state, ci, sheet);
 
-		for (col = 0; col < row_length; col++) {
-			GnmCell *current_cell;
-			GnmRange const	*merge_range;
-			GSList *objects;
-			GnmStyle const *this_style;
+		if (row_flags[row] == 0) {
+			int count = 1;
+			while (row + count < to &&
+			       row_flags[row + count] == 0 &&
+			       row_style_eq (state, sheet, ci, sheet_row_get (sheet, row + count)))
+				count++;
+			if (count > 1) {
+				gsf_xml_out_add_int (state->xml, TABLE "number-rows-repeated",
+						     count);
+				row += (count - 1);
+			}
 
-			current_cell = g_ptr_array_index (all_cells, cno);
-			if (current_cell &&
-			    current_cell->pos.row == row &&
-			    current_cell->pos.col == col)
-				cno++;
-			else
-				current_cell = NULL;
+		} else {
+			int col;
 
-			pos.col = col;
-			merge_range = gnm_sheet_merge_is_corner (sheet, &pos);
+			for (col = 0; col < row_length; col++) {
+				GnmCell *current_cell;
+				GnmRange const	*merge_range;
+				GSList *objects;
+				GnmStyle const *this_style;
 
-			if (odf_cell_is_covered (sheet, current_cell, col, row,
-						merge_range, sheet_merges)) {
+				current_cell = g_ptr_array_index (all_cells, cno);
+				if (current_cell &&
+				    current_cell->pos.row == row &&
+				    current_cell->pos.col == col)
+					cno++;
+				else
+					current_cell = NULL;
+
+				pos.col = col;
+				merge_range = gnm_sheet_merge_is_corner (sheet, &pos);
+
+				if (odf_cell_is_covered (sheet, current_cell, col, row,
+							 merge_range, sheet_merges)) {
+					odf_write_empty_cell (state, null_cell, null_style, NULL);
+					null_cell = 0;
+					covered_cell++;
+					continue;
+				}
+
+				objects = (row_flags[row] & RF_OBJECT)
+					? odf_sheet_objects_get (sheet, &pos)
+					: NULL;
+
+				if ((!(current_cell && gnm_cell_has_expr(current_cell))) &&
+				    (merge_range == NULL) && (objects == NULL) &&
+				    gnm_cell_is_empty (current_cell) &&
+				    NULL == gnm_style_get_hlink
+				    ((this_style = sheet_style_get (sheet, pos.col, pos.row)))) {
+					if ((null_cell == 0) || (null_style == this_style)) {
+						null_style = this_style;
+						if (covered_cell > 0)
+							odf_write_covered_cell (state, &covered_cell);
+						null_cell++;
+					} else {
+						odf_write_empty_cell (state, null_cell, null_style, NULL);
+						null_style = this_style;
+						null_cell = 1;
+					}
+					continue;
+				}
+
 				odf_write_empty_cell (state, null_cell, null_style, NULL);
 				null_cell = 0;
-				covered_cell++;
-				continue;
+				if (covered_cell > 0)
+					odf_write_covered_cell (state, &covered_cell);
+				odf_write_cell (state, current_cell, merge_range, objects);
+
+				g_slist_free (objects);
+
 			}
-
-			objects = odf_sheet_objects_get (sheet, &pos);
-
-			if ((!(current_cell && gnm_cell_has_expr(current_cell))) &&
-			    (merge_range == NULL) && (objects == NULL) &&
-			    gnm_cell_is_empty (current_cell) &&
-			    NULL == gnm_style_get_hlink
-			    ((this_style = sheet_style_get (sheet, pos.col, pos.row)))) {
-				if ((null_cell == 0) || (null_style == this_style)) {
-					null_style = this_style;
-					if (covered_cell > 0)
-						odf_write_covered_cell (state, &covered_cell);
-					null_cell++;
-				} else {
-					odf_write_empty_cell (state, null_cell, null_style, NULL);
-					null_style = this_style;
-					null_cell = 1;
-				}
-				continue;
-			}
-
-			odf_write_empty_cell (state, null_cell, null_style, NULL);
-			null_cell = 0;
-			if (covered_cell > 0)
-				odf_write_covered_cell (state, &covered_cell);
-			odf_write_cell (state, current_cell, merge_range, objects);
-
-			g_slist_free (objects);
-
 		}
 		odf_write_empty_cell (state, null_cell, null_style, NULL);
 		null_cell = 0;
@@ -3629,6 +3712,7 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 	}
 
 	g_ptr_array_free (all_cells, TRUE);
+	g_free (row_flags);
 }
 
 static void

@@ -2164,6 +2164,51 @@ sheet_style_is_default (Sheet const *sheet, const GnmRange *r, GnmStyle **col_de
 	return user.res;
 }
 
+struct cb_get_nondefault {
+	guint8 *res;
+	GnmStyle **col_defaults;
+};
+
+static void
+cb_get_nondefault (GnmStyle *style,
+		   int corner_col, G_GNUC_UNUSED int corner_row,
+		   int width, G_GNUC_UNUSED int height,
+		   GnmRange const *apply_to, gpointer user_)
+{
+	struct cb_get_nondefault *user = user_;
+	int i;
+
+	/* The given dimensions refer to the tile, not the area. */
+	width = MIN (width, apply_to->end.col - corner_col + 1);
+	height = MIN (height, apply_to->end.row - corner_row + 1);
+
+	for (i = 0; i < width; i++) {
+		if (style != user->col_defaults[corner_col + i]) {
+			int j;
+			for (j = 0; j < height; j++)
+				user->res[corner_row + j] = 1;
+			break;
+		}
+	}
+}
+
+guint8 * 
+sheet_style_get_nondefault_rows (Sheet const *sheet, GnmStyle **col_defaults)
+{
+	struct cb_get_nondefault user;
+	GnmRange r;
+
+	range_init_full_sheet (&r, sheet);
+
+	user.res = g_new0 (guint8, gnm_sheet_get_max_rows (sheet));
+	user.col_defaults = col_defaults;
+
+	foreach_tile (sheet->style_data->styles,
+		      sheet->tile_top_level, 0, 0, &r,
+		      cb_get_nondefault, &user);
+
+	return user.res;
+}
 
 struct cb_most_common {
 	GHashTable *h;
