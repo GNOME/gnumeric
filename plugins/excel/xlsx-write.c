@@ -1161,22 +1161,6 @@ xlsx_get_style_id (XLSXWriteState *state, GnmStyle const *style)
 	return GPOINTER_TO_INT (tmp) - 1;
 }
 
-/* Find a number of rows, not bigger than the given, such that those rows
-   are using column style only.  We don't try to find the largest such
-   number.  */
-static int
-count_default_rows (Sheet *sheet, GnmStyle **col_styles, int r, int rows)
-{
-	while (rows > 0) {
-		GnmRange rg;
-		range_init_rows (&rg, sheet, r, r + (rows - 1));
-		if (sheet_style_is_default (sheet, &rg, col_styles))
-			break;
-		rows /= 2;
-	}
-	return rows;
-}
-
 static gboolean
 row_boring (Sheet *sheet, int r)
 {
@@ -1208,6 +1192,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 	GPtrArray *all_cells = sheet_cells (sheet, extent);
 	guint cno = 0;
 	int *boring_count;
+	guint8 *non_defaults_rows = sheet_style_get_nondefault_rows (sheet, col_styles);
 
 	boring_count = g_new0 (int, extent->end.row + 1);
 	r = extent->end.row;
@@ -1226,6 +1211,8 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 
 		if (boring_count[r] == 0) {
 			ColRowInfo const *ri = sheet_row_get (sheet, r);
+
+			/* The code here needs to match row_boring.  */
 
 			if (ri->hard_size) {
 				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
@@ -1246,20 +1233,6 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 			}
 		}
 
-		/* Sanity check */
-		while (1) {
-			GnmCell *cell = g_ptr_array_index (all_cells, cno);
-			if (cell && cell->pos.row < r) {
-				g_warning ("This shouldn't happen: "
-					   "%d %d %s %s",
-					   cno, r,
-					   sheet->name_unquoted,
-					   cell_name (cell));
-				cno++;
-			} else
-				break;
-		}
-
 		/*
 		 * If we didn't have to write anything yet and if the whole
 		 * row -- and possibly the ones after it -- are all
@@ -1267,9 +1240,12 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 		 */
 		if (needs_row) {
 			GnmCell *cell = g_ptr_array_index (all_cells, cno);
-			int rows = (cell ? cell->pos.row : extent->end.row) - r;
+			int dr, rows = (cell ? cell->pos.row : extent->end.row + 1) - r;
 			rows = MIN (rows, boring_count[r]);
-			rows = count_default_rows (sheet, col_styles, r, rows);
+			for (dr = 0; dr < rows; dr++)
+				if (non_defaults_rows[r + dr])
+					break;
+			rows = MIN (rows, dr);
 			if (rows > 0) {
 				r += (rows - 1);
 				continue;
@@ -1379,6 +1355,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 			gsf_xml_out_end_element (xml); /* </row> */
 	}
 	gsf_xml_out_end_element (xml); /* </sheetData> */
+	g_free (non_defaults_rows);
 	g_free (boring_count);
 	g_ptr_array_free (all_cells, TRUE);
 	g_free (cheesy_span);

@@ -1,3 +1,9 @@
+2012-10-17  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-write.c (count_default_rows): Delete.
+	(xlsx_write_cells): Simplify and speed up using
+	sheet_style_get_nondefault_rows.
+
 2012-10-06  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write.c (xlsx_write_cells): Get all cells in the order we
