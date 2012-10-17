@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-08-11 07:57+0000\n"
-"PO-Revision-Date: 2012-08-12 16:23+0700\n"
+"POT-Creation-Date: 2012-08-17 08:27+0000\n"
+"PO-Revision-Date: 2012-10-17 19:33+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesia <gnome@i15n.org>\n"
 "Language: id\n"
@@ -18,6 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: ../gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:443
@@ -85,7 +86,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Menyediakan sebuah antarmuka skripting CORBA"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:7026
-#: ../plugins/openoffice/openoffice-read.c:11502 ../src/xml-sax-read.c:3319
+#: ../plugins/openoffice/openoffice-read.c:11502 ../src/xml-sax-read.c:3332
 msgid "Reading file..."
 msgstr "Sedang membaca berkas..."
 
@@ -177,7 +178,7 @@ msgstr "Bersiap untuk menyimpan..."
 msgid "Saving file..."
 msgstr "Sedang menyimpan berkas..."
 
-#: ../plugins/excel/excel-xml-read.c:132 ../src/xml-sax-read.c:438
+#: ../plugins/excel/excel-xml-read.c:132 ../src/xml-sax-read.c:451
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atribut tak diharapkan %s::%s == '%s'."
@@ -193,7 +194,7 @@ msgid "Invalid content of ss:data element, received '%s'"
 msgstr "Isi tak valid dari elemen ss:data, diterima '%s'"
 
 #: ../plugins/excel/excel-xml-read.c:1093
-#: ../plugins/openoffice/openoffice-read.c:11609 ../src/xml-sax-read.c:3336
+#: ../plugins/openoffice/openoffice-read.c:11609 ../src/xml-sax-read.c:3349
 msgid "XML document not well formed!"
 msgstr "Dokumen XML tidak dibentuk dengan baik!"
 
@@ -341,16 +342,18 @@ msgid "MS Excel&#8482; 2003 SpreadsheetML"
 msgstr "MS Excel&#8482; 2003 SpreadsheetML"
 
 #: ../plugins/excel/plugin.xml.in.h:8
-msgid "MS Excel&#8482; 2007/2010 (*.xlsx)"
-msgstr "MS Excel&#8482; 2007/2010 (*.xlsx)"
+msgid "ECMA 376 / Office Open XML [MS Excel&#8482; 2007/2010] (*.xlsx)"
+msgstr "ECMA 376 / Office Open XML [MS Excel&#8482; 2007/2010] (*.xlsx)"
 
 #: ../plugins/excel/plugin.xml.in.h:9
-msgid "MS Excel&#8482; 2007 (ECMA 376 1st edition (2006))"
-msgstr "MS Excel&#8482; 2007 (ECMA 376 edisi 1 (2006))"
+msgid "ECMA 376 1st edition (2006); [MS Excel&#8482; 2007]"
+msgstr "ECMA 376 edisi 1 (2006); [MS Excel&#8482; 2007]"
 
 #: ../plugins/excel/plugin.xml.in.h:10
-msgid "MS Excel&#8482; 2010 (ECMA 376 2nd edition (2008))"
-msgstr "MS Excel&#8482; 2010 (ECMA 376 edisi 2 (2008))"
+msgid ""
+"ISO/IEC 29500:2008 &amp; ECMA 376 2nd edition (2008); [MS Excel&#8482; 2010]"
+msgstr ""
+"ISO/IEC 29500:2008 &amp; ECMA 376 edisi 2 (2008); [MS Excel&#8482; 2010]"
 
 #: ../plugins/excel/plugin.xml.in.h:11
 msgid "MS Excel&#8482; (*.xls) requiring encoding specification"
@@ -391,149 +394,155 @@ msgstr "Membuang objek yang hilang"
 msgid "Dropping object with incomplete anchor %2x"
 msgstr "Membuang objek dengan jangkar %2x yang tak lengkap"
 
-#: ../plugins/excel/xlsx-read-pivot.c:1188
+#: ../plugins/excel/xlsx-read-pivot.c:873
+msgid ""
+"Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
+"attributes!"
+msgstr "Menemui kedua atribut \"refreshedDate\" dan \"refreshedDateIso\"!"
+
+#: ../plugins/excel/xlsx-read-pivot.c:1198
 #, c-format
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
 msgstr "Melewati grup ruas pivot yang tak valid bagi ruas '%s' karena: %s"
 
-#: ../plugins/excel/xlsx-read.c:332
+#: ../plugins/excel/xlsx-read.c:339
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr "'%s' korup!"
 
-#: ../plugins/excel/xlsx-read.c:425
+#: ../plugins/excel/xlsx-read.c:432
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr "Nilai enum '%s' tak dikenal bagi atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:468 ../plugins/excel/xlsx-read.c:497
+#: ../plugins/excel/xlsx-read.c:475 ../plugins/excel/xlsx-read.c:504
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr "Integer '%s' di luar jangkauan, bagi atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:472 ../plugins/excel/xlsx-read.c:501
+#: ../plugins/excel/xlsx-read.c:479 ../plugins/excel/xlsx-read.c:508
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr "Integer '%s' tak valid bagi atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:527
+#: ../plugins/excel/xlsx-read.c:534
 #, c-format
 msgid "Invalid RRGGBB color '%s' for attribute %s"
 msgstr "Warna RRGGBB '%s' tak valid bagi atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:558
+#: ../plugins/excel/xlsx-read.c:565
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "Angka '%s' tak valid bagi atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:583
+#: ../plugins/excel/xlsx-read.c:590
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr "Posisi sel '%s' tak valid bagi atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:606
+#: ../plugins/excel/xlsx-read.c:613
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr "Jangkauan '%s' tak valid bagi atribut %s"
 
-#: ../plugins/excel/xlsx-read.c:798
+#: ../plugins/excel/xlsx-read.c:805
 #, c-format
 msgid "Unknown theme color %d"
 msgstr "Warna tema %d tak dikenal"
 
-#: ../plugins/excel/xlsx-read.c:944
+#: ../plugins/excel/xlsx-read.c:951
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "Id format angka '%s' tak didefinisikan"
 
-#: ../plugins/excel/xlsx-read.c:1125 ../plugins/excel/xlsx-read.c:3150
+#: ../plugins/excel/xlsx-read.c:1132 ../plugins/excel/xlsx-read.c:3157
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Warna '%s' tak valid bagi atribut rgb"
 
-#: ../plugins/excel/xlsx-read.c:1155 ../plugins/excel/xlsx-read.c:1164
+#: ../plugins/excel/xlsx-read.c:1162 ../plugins/excel/xlsx-read.c:1171
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "Record gaya '%d' tak didefinisikan"
 
-#: ../plugins/excel/xlsx-read.c:1173
+#: ../plugins/excel/xlsx-read.c:1180
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "Record gaya parsial '%d' tak didefinisikan"
 
-#: ../plugins/excel/xlsx-read.c:1210
+#: ../plugins/excel/xlsx-read.c:1217
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Acuan sst '%s' tak valid"
 
-#: ../plugins/excel/xlsx-read.c:1338
+#: ../plugins/excel/xlsx-read.c:1345
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Sel %s tak valid"
 
-#: ../plugins/excel/xlsx-read.c:1455
+#: ../plugins/excel/xlsx-read.c:1462
 msgid "Ignoring column information that does not specify first or last."
 msgstr "Mengabaikan informasi kolom yang tak menyatakan pertama atau terakhir."
 
-#: ../plugins/excel/xlsx-read.c:1768
+#: ../plugins/excel/xlsx-read.c:1775
 #: ../plugins/openoffice/openoffice-read.c:2586
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Mengabaikan validasi data yang tak valid karena: %s"
 
-#: ../plugins/excel/xlsx-read.c:2182
+#: ../plugins/excel/xlsx-read.c:2189
 msgid "Undefined"
 msgstr "Belum didefinisikan"
 
-#: ../plugins/excel/xlsx-read.c:2229
+#: ../plugins/excel/xlsx-read.c:2236
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Mengabaikan format bersyarat yang tak tertangani bertipe '%s'"
 
-#: ../plugins/excel/xlsx-read.c:2614
+#: ../plugins/excel/xlsx-read.c:2621
 msgid "Unknown type of hyperlink"
 msgstr "Tipe hyperlink tak dikenal"
 
-#: ../plugins/excel/xlsx-read.c:2876
+#: ../plugins/excel/xlsx-read.c:2883
 msgid "Ignoring a sheet without a name"
 msgstr "Mengabaikan lembaran tanpa nama"
 
-#: ../plugins/excel/xlsx-read.c:2946
+#: ../plugins/excel/xlsx-read.c:2953
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Gagal mendefinisikan nama: '%s'"
 
-#: ../plugins/excel/xlsx-read.c:3340
+#: ../plugins/excel/xlsx-read.c:3347
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Kurang part-id bagi lembaran '%s'"
 
-#: ../plugins/excel/xlsx-read.c:3365
+#: ../plugins/excel/xlsx-read.c:3372
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Membaca lembaran '%s'…"
 
-#: ../plugins/excel/xlsx-read.c:3373
+#: ../plugins/excel/xlsx-read.c:3380
 msgid "Reading comments..."
 msgstr "Membaca komentar…"
 
-#: ../plugins/excel/xlsx-read.c:4370
+#: ../plugins/excel/xlsx-read.c:4398
 msgid "Reading shared strings..."
 msgstr "Membaca string bersama…"
 
-#: ../plugins/excel/xlsx-read.c:4378
+#: ../plugins/excel/xlsx-read.c:4406
 msgid "Reading theme..."
 msgstr "Membaca tema…"
 
-#: ../plugins/excel/xlsx-read.c:4386
+#: ../plugins/excel/xlsx-read.c:4414
 msgid "Reading styles..."
 msgstr "Membaca gaya…"
 
-#: ../plugins/excel/xlsx-read.c:4391
+#: ../plugins/excel/xlsx-read.c:4419
 msgid "Reading workbook..."
 msgstr "Membaca buku kerja…"
 
-#: ../plugins/excel/xlsx-read.c:4401
+#: ../plugins/excel/xlsx-read.c:4429
 msgid "No workbook stream found."
 msgstr "Tak ditemukan stream buku kerja."
 
@@ -592,19 +601,21 @@ msgstr "Tidak bisa membuka berkas modul \"%s\"."
 #: ../plugins/excelplugins/excelplugins.c:948
 #, c-format
 msgid "Module \"%s\" doesn't contain (\"register_actual_excel4v\" symbol)."
-msgstr ""
+msgstr "Modul \"%s\" tak memuat (simbol \"register_actual_excel4v\")."
 
 #: ../plugins/excelplugins/excelplugins.c:992
 #, c-format
 msgid "No loadable worksheet functions found in XLL/DLL/SO file %s ."
 msgstr ""
+"Tak ditemukan fungsi lembar kerja yang dapat dimuat dalam berkas XLL/DLL/SO "
+"%s ."
 
 #. xgettext : %lu gives the number of functions. This is input to ngettext.
 #: ../plugins/excelplugins/excelplugins.c:996
 #, c-format
 msgid "Loaded %lu function from XLL/DLL/SO %s."
 msgid_plural "Loaded %lu functions from XLL/DLL/SO %s."
-msgstr[0] ""
+msgstr[0] "Memuat %lu fungsi dari XLL/DLL/SO %s."
 
 #. *************************************************************************
 #: ../plugins/excelplugins/plugin.xml.in.h:1
@@ -896,6 +907,7 @@ msgstr "Fungsi-fungsi Statistika"
 msgid ""
 "Statistical Functions with naming and calling conventions from The R Project"
 msgstr ""
+"Fungsi Statistik dengan konvensi pemanggilan dan penamaan dari Projek R"
 
 #: ../plugins/fn-r/plugin.xml.in.h:3 ../plugins/fn-stat/plugin.xml.in.h:2
 #: ../src/dialogs/dialog-doc-metadata.c:2241
@@ -928,7 +940,7 @@ msgstr "Fungsi-fungsi untuk manipulasi string"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 #: ../src/dialogs/dialog-doc-metadata.c:1863
-#: ../src/dialogs/dialog-search.c:151 ../src/func.c:1381
+#: ../src/dialogs/dialog-search.c:151 ../src/func.c:1439
 msgid "String"
 msgstr "String"
 
@@ -945,9 +957,8 @@ msgid "Too much data returned"
 msgstr "Terlalu banyak data yang dikembalikan"
 
 #: ../plugins/gda/plugin-gda.c:165
-#, fuzzy
 msgid "Can't obtain data"
-msgstr "Tak bisa mengakses data"
+msgstr "Tak bisa mendapat data"
 
 #: ../plugins/gda/plugin-gda.c:259
 msgid "Database Connection"
@@ -964,7 +975,7 @@ msgstr "Kesalahan: Tidak bisa membuka koneksi ke %s"
 
 #: ../plugins/gda/plugin-gda.c:361 ../plugins/gda/plugin-gda.c:441
 msgid "More than one statement in SQL string"
-msgstr ""
+msgstr "Lebih dari satu pernyataan dalam string SQL"
 
 #: ../plugins/gda/plugin-gda.c:418
 msgid "Format: readDBTable(dsn,user,password,table)"
@@ -973,7 +984,7 @@ msgstr "Format: readDBTable(dsn,pengguna,kata-sandi,tabel)"
 #: ../plugins/gda/plugin-gda.c:470 ../plugins/gnome-db/plugin-gnomedb.c:20
 #, c-format
 msgid "Could not run GNOME database configuration tool ('%s')"
-msgstr ""
+msgstr "Tak bisa menjalankan alat konfigurasi basis data GNOME ('%s')"
 
 #: ../plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for retrieval of data from a database."
@@ -986,7 +997,7 @@ msgstr "Basis Data..."
 #: ../plugins/glpk/glpk-write.c:66 ../plugins/lpsolve/lpsolve-write.c:66
 #, c-format
 msgid "Target cell did not evaluate to a number."
-msgstr ""
+msgstr "Sel target tak mengevaluasi ke suatu angka."
 
 #: ../plugins/glpk/glpk-write.c:354
 msgid "Writing glpk file..."
@@ -1008,20 +1019,20 @@ msgid ""
 "The %s program was not found.  You can either install it or use another "
 "solver. For more information see %s"
 msgstr ""
+"Program %s tak ditemukan. Anda dapat memasangnya atau memakai pemecah lain. "
+"Untuk informasi lebih lanjut lihat %s"
 
 #: ../plugins/glpk/plugin.xml.in.h:1
 msgid "GLPK Linear Program Solver Interface"
-msgstr ""
+msgstr "Antar Muka Pemecah Program Linier GLPK"
 
 #: ../plugins/glpk/plugin.xml.in.h:2
-#, fuzzy
 msgid "Solver Interface to GLPK"
-msgstr "Tidak dapat menyambung ke antar muka, '%s'"
+msgstr "Antar Muka Pemecah ke GLPK"
 
 #: ../plugins/glpk/plugin.xml.in.h:3
-#, fuzzy
 msgid "GLPK Linear Program Solver"
-msgstr "Pemecah Program Nonlinier"
+msgstr "Pemecah Program Linier GLPK"
 
 #: ../plugins/glpk/plugin.xml.in.h:4
 msgid "GLPK"
@@ -1059,6 +1070,8 @@ msgid ""
 "The original html file is\n"
 "using nested tables."
 msgstr ""
+"Berkas html asli memakai\n"
+"tabel bersarang."
 
 #: ../plugins/html/html_read.c:569
 msgid "Unable to parse the html."
@@ -1135,17 +1148,15 @@ msgstr "Menulis berkas lpsolve..."
 
 #: ../plugins/lpsolve/plugin.xml.in.h:1
 msgid "LPSolve Linear Program Solver Interface"
-msgstr ""
+msgstr "Antar Muka Pemecah Program Linier LPSolve"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:2
-#, fuzzy
 msgid "Solver Interface to LPSolve"
-msgstr "Tidak dapat menyambung ke antar muka, '%s'"
+msgstr "Antar Muka Pemecah ke LPSolve"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:3
-#, fuzzy
 msgid "LPSolve Linear Program Solver"
-msgstr "Pemecah Program Nonlinier"
+msgstr "Pemecah Program Linier LPSolve"
 
 #: ../plugins/lpsolve/plugin.xml.in.h:4
 msgid "LPSolve"
@@ -1156,9 +1167,8 @@ msgid "Program Name"
 msgstr "Nama Program"
 
 #: ../plugins/mps/mps.c:222
-#, fuzzy
 msgid "Invalid line in ROWS section"
-msgstr "Seksi ROWS tidak sah dalam berkas."
+msgstr "Baris tak valid dalam seksi BARIS"
 
 #: ../plugins/mps/mps.c:231
 #, c-format
@@ -1307,32 +1317,32 @@ msgid "Invalid attribute '%s', expected color, received '%s'"
 msgstr "Atribut '%s' tak valid, diharapkan warna, diterima '%s'"
 
 #: ../plugins/openoffice/openoffice-read.c:898
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown hatch name '%s' encountered!"
-msgstr "Ditemui syarat '%s' yang tidak dikenal, diabaikan."
+msgstr "Ditemui nama arsir silang '%s' yang tidak dikenal!"
 
 #: ../plugins/openoffice/openoffice-read.c:906
 msgid "Hatch fill without hatch name encountered!"
-msgstr ""
+msgstr "Ditemui pengisian arsir silang tanpa nama arsir!"
 
 #: ../plugins/openoffice/openoffice-read.c:914
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown gradient name '%s' encountered!"
-msgstr "Ditemui syarat '%s' yang tidak dikenal, diabaikan."
+msgstr "Ditemui nama gradien '%s' yang tidak dikenal!"
 
 #: ../plugins/openoffice/openoffice-read.c:927
 msgid "Gradient fill without gradient name encountered!"
-msgstr ""
+msgstr "Ditemuai pengisian gradien tanpa nama gradien!"
 
 #: ../plugins/openoffice/openoffice-read.c:935
 #, c-format
 msgid "Unknown image fill name '%s' encountered!"
-msgstr ""
+msgstr "Ditemui nama pengisian gambar '%s' yang tak dikenal!"
 
 #: ../plugins/openoffice/openoffice-read.c:945
 #, c-format
 msgid "Invalid absolute file specification '%s' encountered."
-msgstr ""
+msgstr "Ditemui spesifikasi berkas absolut '%s' yang tak valid."
 
 #: ../plugins/openoffice/openoffice-read.c:958
 #, c-format
@@ -1347,7 +1357,7 @@ msgstr "Tidak dapat memuat berkas '%s'."
 
 #: ../plugins/openoffice/openoffice-read.c:994
 msgid "Image fill without image name encountered!"
-msgstr ""
+msgstr "Ditemui pengisian gambar tanpa nama gambar!"
 
 #: ../plugins/openoffice/openoffice-read.c:1080
 #: ../plugins/openoffice/openoffice-read.c:1156
@@ -1366,19 +1376,19 @@ msgid "Invalid attribute '%s', expected angle, received '%s'"
 msgstr "Atribut '%s' tak valid, diharapkan sudut, diterima '%s'"
 
 #: ../plugins/openoffice/openoffice-read.c:1229
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid attribute '%s', unknown enum value '%s'"
-msgstr "Nilai enum '%s' tak dikenal bagi atribut %s"
+msgstr "Atribut '%s' tak valid, nilai enum '%s' yang tak dikenal"
 
 #: ../plugins/openoffice/openoffice-read.c:1429
 #, c-format
 msgid "Ignoring reference to unknown external workbook '%s'"
-msgstr ""
+msgstr "Mengabaikan acuan ke buku kerja eksternal '%s' yang tak dikenal"
 
 #: ../plugins/openoffice/openoffice-read.c:1681
 #, c-format
 msgid "Unknown text style with name \"%s\" encountered!"
-msgstr ""
+msgstr "Ditemui gaya teks dengan nama \"%s\" yang tak dikenal!"
 
 #: ../plugins/openoffice/openoffice-read.c:1977
 #, c-format
@@ -1399,7 +1409,7 @@ msgstr "Ekspresi '%s' tidak dimulai dengan sebuah karakter yang dikenal"
 
 #: ../plugins/openoffice/openoffice-read.c:2117
 #: ../plugins/openoffice/openoffice-write.c:4958
-#: ../plugins/openoffice/openoffice-write.c:4970 ../src/print-info.c:633
+#: ../plugins/openoffice/openoffice-write.c:4970 ../src/print-info.c:659
 #: ../src/ssgrep.c:352
 msgid "cell"
 msgstr "sel"
@@ -1430,12 +1440,12 @@ msgstr ""
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
-msgstr ""
+msgstr "Kondisi validasi '%s' tak didukung. Itu telah diubah ke '%s'."
 
 #: ../plugins/openoffice/openoffice-read.c:2569
-#, fuzzy, c-format
+#, c-format
 msgid "Undefined validation style encountered: %s"
-msgstr "Ditemui gaya dash tanpa nama."
+msgstr "Ditemui gaya validasi yang tak terdefinisi: %s"
 
 #: ../plugins/openoffice/openoffice-read.c:2595
 #, c-format
@@ -1443,6 +1453,8 @@ msgid ""
 "Unsupported validation condition encountered: \"%s\" with base address: \"%s"
 "\""
 msgstr ""
+"Ditemui kondisi validasi yang tak didukung: \"%s\" dengan alamat dasar: \"%s"
+"\""
 
 #: ../plugins/openoffice/openoffice-read.c:3275
 #, c-format
@@ -1493,50 +1505,47 @@ msgstr "Ditemui gaya dash tanpa nama."
 
 #: ../plugins/openoffice/openoffice-read.c:4177
 msgid "Unnamed image fill style encountered."
-msgstr ""
+msgstr "Ditemui gaya pengisian gambar tanpa nama."
 
 #: ../plugins/openoffice/openoffice-read.c:4179
 #, c-format
 msgid "Image fill style '%s' has no attached image."
-msgstr ""
+msgstr "Gaya pengisian gambar '%s' tak memiliki gambar yang dilampirkan."
 
 #: ../plugins/openoffice/openoffice-read.c:4216
 #: ../plugins/openoffice/openoffice-read.c:4222
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse gradient color: %s"
-msgstr "Tak bisa mengurai berkas projek"
+msgstr "Tak bisa mengurai warna gradien: %s"
 
 #: ../plugins/openoffice/openoffice-read.c:4242
-#, fuzzy
 msgid "Unnamed gradient style encountered."
-msgstr "Ditemui gaya dash tanpa nama."
+msgstr "Ditemui gaya gradien tanpa nama."
 
 #: ../plugins/openoffice/openoffice-read.c:4263
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse hatch color: %s"
-msgstr "Tak bisa mengurai berkas projek"
+msgstr "Tak bisa mengurai warna arsir silang: %s"
 
 #: ../plugins/openoffice/openoffice-read.c:4337
-#, fuzzy
 msgid "Unnamed hatch encountered!"
-msgstr "Ditemui gaya dash tanpa nama."
+msgstr "Ditemui arsir silang tanpa nama!"
 
 #: ../plugins/openoffice/openoffice-read.c:4431
 msgid "Duplicate default column style encountered."
-msgstr ""
+msgstr "Ditemui gaya kolom baku duplikat."
 
 #: ../plugins/openoffice/openoffice-read.c:4447
 msgid "Duplicate default row style encountered."
-msgstr ""
+msgstr "Ditemui gaya baris baku duplikat."
 
 #: ../plugins/openoffice/openoffice-read.c:4482
 msgid "Duplicate default chart/graphics style encountered."
-msgstr ""
+msgstr "Ditemui gaya bagan/grafis baku duplikat."
 
 #: ../plugins/openoffice/openoffice-read.c:4864
-#, fuzzy
 msgid "Unnamed date style ignored."
-msgstr "Ditemui gaya dash tanpa nama."
+msgstr "Gaya tanggal tanpa nama diabaikan."
 
 #: ../plugins/openoffice/openoffice-read.c:5167
 msgid "Corrupted file: unnamed number style ignored."
@@ -1554,62 +1563,61 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:5419
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
-msgstr ""
+msgstr "Kertas dari berkas ODF: %ipt⨉%ipt"
 
 #: ../plugins/openoffice/openoffice-read.c:5605
-#, fuzzy
 msgid "Missing page layout identifier"
-msgstr "Pratinjau ukuran, orientasi, dan tata letak halaman"
+msgstr "Kurang identifier tata letak halaman"
 
 #: ../plugins/openoffice/openoffice-read.c:5635
 msgid "Master page style without page layout encountered!"
-msgstr ""
+msgstr "Ditemui gaya halaman induk tanpa tata letak halaman!"
 
 #: ../plugins/openoffice/openoffice-read.c:5646
 msgid "Master page style without name encountered!"
-msgstr ""
+msgstr "Ditemui gaya halaman induk tanpa nama!"
 
 #: ../plugins/openoffice/openoffice-read.c:5755
 #: ../plugins/openoffice/openoffice-write.c:4951
-#: ../plugins/openoffice/openoffice-write.c:4963 ../src/print-info.c:626
+#: ../plugins/openoffice/openoffice-write.c:4963 ../src/print-info.c:652
 msgid "tab"
 msgstr "tab"
 
 #: ../plugins/openoffice/openoffice-read.c:5785
 #: ../plugins/openoffice/openoffice-write.c:4954
-#: ../plugins/openoffice/openoffice-write.c:4966 ../src/print-info.c:629
+#: ../plugins/openoffice/openoffice-write.c:4966 ../src/print-info.c:655
 msgid "date"
 msgstr "tanggal"
 
 #: ../plugins/openoffice/openoffice-read.c:5791
 #: ../plugins/openoffice/openoffice-write.c:4955
-#: ../plugins/openoffice/openoffice-write.c:4967 ../src/print-info.c:630
+#: ../plugins/openoffice/openoffice-write.c:4967 ../src/print-info.c:656
 msgid "time"
 msgstr "waktu"
 
 #: ../plugins/openoffice/openoffice-read.c:5797
 #: ../plugins/openoffice/openoffice-write.c:4952
-#: ../plugins/openoffice/openoffice-write.c:4964 ../src/print-info.c:627
+#: ../plugins/openoffice/openoffice-write.c:4964 ../src/print-info.c:653
 msgid "page"
 msgstr "halaman"
 
 #: ../plugins/openoffice/openoffice-read.c:5803
 #: ../plugins/openoffice/openoffice-write.c:4953
-#: ../plugins/openoffice/openoffice-write.c:4965 ../src/print-info.c:628
+#: ../plugins/openoffice/openoffice-write.c:4965 ../src/print-info.c:654
 msgid "pages"
 msgstr "halaman"
 
 #: ../plugins/openoffice/openoffice-read.c:5828
 #: ../plugins/openoffice/openoffice-read.c:5835
 #: ../plugins/openoffice/openoffice-write.c:4957
-#: ../plugins/openoffice/openoffice-write.c:4969 ../src/print-info.c:632
+#: ../plugins/openoffice/openoffice-write.c:4969 ../src/print-info.c:658
 msgid "path"
 msgstr "lokasi"
 
 #: ../plugins/openoffice/openoffice-read.c:5832
 #: ../plugins/openoffice/openoffice-read.c:5839
 #: ../plugins/openoffice/openoffice-write.c:4956
-#: ../plugins/openoffice/openoffice-write.c:4968 ../src/print-info.c:631
+#: ../plugins/openoffice/openoffice-write.c:4968 ../src/print-info.c:657
 #: ../src/ssconvert.c:91
 msgid "file"
 msgstr "berkas"
@@ -1621,22 +1629,22 @@ msgstr "judul"
 #: ../plugins/openoffice/openoffice-read.c:5912
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
-msgstr ""
+msgstr "Ditemui gaya tepi Gnumeric '%s' yang tak dikenal."
 
 #: ../plugins/openoffice/openoffice-read.c:6180
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
-msgstr ""
+msgstr "Tipe putus tak dikenal '%s' membakukan ke NIHIL"
 
 #: ../plugins/openoffice/openoffice-read.c:6257
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse tab color '%s'"
-msgstr "Tak bisa mengurai berkas projek"
+msgstr "Tak bisa mengurai warna tab '%s'"
 
 #: ../plugins/openoffice/openoffice-read.c:6268
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse tab text color '%s'"
-msgstr "Tidak bisa mengaktifkan url '%s'"
+msgstr "Tak bisa mengurai warna teks tab '%s'"
 
 #: ../plugins/openoffice/openoffice-read.c:6675
 #, c-format
@@ -1644,26 +1652,28 @@ msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
 "instead."
 msgstr ""
+"Ditemui tipe interpolasi yang tak dikenal: '%s', memakai spline kubik Bezier "
+"sebagai gantinya."
 
 #: ../plugins/openoffice/openoffice-read.c:6684
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown interpolation type encountered: %s"
-msgstr "Ditemui tipe rumus yang tidak didukung: %s"
+msgstr "Ditemui tipe interpolasi yang tak dikenal: %s"
 
 #: ../plugins/openoffice/openoffice-read.c:7080
-#, fuzzy, c-format
+#, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
-msgstr "%s interaktif tidak dapat dijalankan"
+msgstr "ekspresi '%s' @ '%s' bukan suatu cellref"
 
 #: ../plugins/openoffice/openoffice-read.c:7097
-#, fuzzy, c-format
+#, c-format
 msgid "Expression '%s' has unknown namespace"
-msgstr "Moniker menggunakan prefiks yang tidak dikenal"
+msgstr "Ekspresi '%s' memiliki ruang nama yang tak dikenal"
 
 #: ../plugins/openoffice/openoffice-read.c:7149
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid DB range '%s'"
-msgstr "Kisaran daftar tidak sah."
+msgstr "Kisaran DB '%s' tak valid"
 
 #: ../plugins/openoffice/openoffice-read.c:7417
 #, c-format
@@ -1752,7 +1762,7 @@ msgstr "Tidak ada aliran bernama styles.xml yang ditemukan."
 #: ../plugins/openoffice/openoffice-read.c:11512
 #, fuzzy, c-format
 msgid "Invalid metadata '%s'"
-msgstr "Bagian metadata salah pada '%s': %s"
+msgstr "Perbaikan Metadata"
 
 #: ../plugins/openoffice/openoffice-read.c:11581
 msgid "settings.xml stream is malformed!"
@@ -1781,11 +1791,11 @@ msgid "Open Document Format (*.sxc, *.ods)"
 msgstr "Open Document Format (*.sxc, *.ods)"
 
 #: ../plugins/openoffice/plugin.xml.in.h:4
-msgid "ODF/OpenOffice without foreign elements (*.ods)"
+msgid "ODF 1.2 strict conformance (*.ods)"
 msgstr ""
 
 #: ../plugins/openoffice/plugin.xml.in.h:5
-msgid "ODF/OpenOffice with foreign elements (*.ods)"
+msgid "ODF 1.2 extended conformance (*.ods)"
 msgstr ""
 
 #: ../plugins/paradox/paradox.c:67 ../plugins/paradox/paradox.c:117
@@ -1832,20 +1842,21 @@ msgstr "Kurang nama kolom bagi tabel '%s'"
 msgid "Could not allocate memory for %d. field name."
 msgstr "Tak bisa mengalokasikan memori bagi pembuatan berkas PEM."
 
+# typo: unexpectetly -> unexpectedly
 #: ../plugins/paradox/paradox.c:366
-#, fuzzy, c-format
+#, c-format
 msgid "%d. field specification ended unexpectetly."
-msgstr "Buang field yang dipilih dari spesifikasi pengurutan"
+msgstr "%d. spesifikasi ruas berakhir tak disangka."
 
 #: ../plugins/paradox/paradox.c:371
-#, fuzzy, c-format
+#, c-format
 msgid "%d. field specification misses type."
-msgstr "Tipe field %d tidak didukung."
+msgstr "%d. spesifikasi ruas kurang tipe."
 
 #: ../plugins/paradox/paradox.c:439
-#, fuzzy, c-format
+#, c-format
 msgid "%d. field type '%c' is unknown."
-msgstr "Jenis berkas tidak dikenal"
+msgstr "%d. tipe ruas '%c' tak dikenal."
 
 #: ../plugins/paradox/paradox.c:450 ../plugins/paradox/paradox.c:460
 msgid "Field specification misses the column size."
@@ -2025,9 +2036,9 @@ msgid "Python console"
 msgstr "Konsol Python"
 
 #: ../plugins/python-loader/py-console.c:91
-#, fuzzy, c-format
+#, c-format
 msgid "*** Interpreter: %s\n"
-msgstr "Interpreter"
+msgstr "*** Interpreter: %s\n"
 
 #: ../plugins/python-loader/py-console.c:160
 msgid "Gnumeric Python console"
@@ -3230,7 +3241,7 @@ msgstr ""
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:47
 #, fuzzy
 msgid "Function Markers"
-msgstr "Fungsi berisi"
+msgstr "Penanda Sel"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:48
 #, fuzzy
@@ -3564,28 +3575,28 @@ msgstr "FormatToolbar"
 msgid "ObjectToolbar"
 msgstr "ObjectToolbar"
 
-#: ../src/application.c:279
+#: ../src/application.c:290
 msgid "Cut Object"
 msgstr "Potong Obyek"
 
-#: ../src/application.c:776
+#: ../src/application.c:813
 msgid "File History List"
 msgstr "Daftar Riwayat Berkas"
 
-#: ../src/application.c:777
+#: ../src/application.c:814
 msgid "A list of filenames that have been read recently"
 msgstr "Daftar nama berkas yang baru-baru ini telah dibaca"
 
-#: ../src/clipboard.c:437 ../src/clipboard.c:449 ../src/clipboard.c:460
-#: ../src/clipboard.c:468
+#: ../src/clipboard.c:480 ../src/clipboard.c:492 ../src/clipboard.c:503
+#: ../src/clipboard.c:511
 msgid "Unable to paste"
 msgstr "Tidak bisa menempelkan"
 
-#: ../src/clipboard.c:438
+#: ../src/clipboard.c:481
 msgid "Contents can only be pasted by value or by link."
 msgstr ""
 
-#: ../src/clipboard.c:446
+#: ../src/clipboard.c:489
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -3593,7 +3604,7 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: ../src/clipboard.c:457
+#: ../src/clipboard.c:500
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -3601,7 +3612,7 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: ../src/clipboard.c:469
+#: ../src/clipboard.c:512
 msgid "result passes the sheet boundary"
 msgstr "hasil melewati batas lembaran"
 
@@ -3672,41 +3683,41 @@ msgstr "%s terkunci. Buka proteksi workbook agar bisa mengubahnya."
 msgid "%s is locked. Unprotect the sheet to enable editing."
 msgstr "%s terkunci. Buka proteksi lembaran agar bisa mengubahnya."
 
-#: ../src/commands.c:870
+#: ../src/commands.c:872
 #, fuzzy, c-format
 msgid "Inserting expression in %s"
 msgstr "Galat dalam ekspresi filter"
 
-#: ../src/commands.c:966
+#: ../src/commands.c:968
 #, fuzzy, c-format
 msgid "Editing style of %s"
 msgstr "Mengubah gaya dalam %s"
 
-#: ../src/commands.c:969
+#: ../src/commands.c:971
 #, fuzzy, c-format
 msgid "Typing \"%s\" in %s"
 msgstr "Mengetikkan \"%s%s\" dalam %s"
 
-#: ../src/commands.c:1115 ../src/wbc-gtk-edit.c:159 ../src/wbc-gtk-edit.c:173
+#: ../src/commands.c:1117 ../src/wbc-gtk-edit.c:159 ../src/wbc-gtk-edit.c:173
 #: ../src/wbc-gtk-edit.c:194 ../src/wbc-gtk-edit.c:208
 msgid "Set Text"
 msgstr "Set Teks"
 
-#: ../src/commands.c:1160
+#: ../src/commands.c:1162
 #, fuzzy, c-format
 msgid "Inserting array expression in %s"
 msgstr "Galat dalam ekspresi filter"
 
-#: ../src/commands.c:1231
+#: ../src/commands.c:1233
 #, c-format
 msgid "Creating a Data Table in %s"
 msgstr "Membuat Tabel Data dalam %s"
 
-#: ../src/commands.c:1291
+#: ../src/commands.c:1293
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Del Kolom/Baris"
 
-#: ../src/commands.c:1460
+#: ../src/commands.c:1462
 #, c-format
 msgid ""
 "Inserting %i column before column %s would push data off the sheet. Please "
@@ -3716,13 +3727,13 @@ msgid_plural ""
 "enlarge the sheet first."
 msgstr[0] ""
 
-#: ../src/commands.c:1470
+#: ../src/commands.c:1472
 #, fuzzy, c-format
 msgid "Inserting %d column before %s"
 msgid_plural "Inserting %d columns before %s"
 msgstr[0] "Sebelum menyisipkan Teks Otomatis"
 
-#: ../src/commands.c:1489
+#: ../src/commands.c:1491
 #, c-format
 msgid ""
 "Inserting %i row before row %s would push data off the sheet. Please enlarge "
@@ -3732,256 +3743,256 @@ msgid_plural ""
 "enlarge the sheet first."
 msgstr[0] ""
 
-#: ../src/commands.c:1499
+#: ../src/commands.c:1501
 #, c-format
 msgid "Inserting %d row before %s"
 msgid_plural "Inserting %d rows before %s"
 msgstr[0] "Menyisipkan %d baris sebelum %s"
 
-#: ../src/commands.c:1511
+#: ../src/commands.c:1513
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Menghapus kolom %s"
 
-#: ../src/commands.c:1512
+#: ../src/commands.c:1514
 #, c-format
 msgid "Deleting column %s"
 msgstr "Menghapus kolom %s"
 
-#: ../src/commands.c:1522
+#: ../src/commands.c:1524
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Menghapus baris %s"
 
-#: ../src/commands.c:1523
+#: ../src/commands.c:1525
 #, c-format
 msgid "Deleting row %s"
 msgstr "Menghapus baris %s"
 
-#: ../src/commands.c:1583 ../src/commands.c:1584 ../src/sheet.c:4474
+#: ../src/commands.c:1585 ../src/commands.c:1586 ../src/sheet.c:4575
 msgid "Clear"
 msgstr "Hapus"
 
-#: ../src/commands.c:1596
+#: ../src/commands.c:1598
 msgid "contents"
 msgstr "konten"
 
-#: ../src/commands.c:1598
+#: ../src/commands.c:1600
 msgid "formats"
 msgstr "format"
 
-#: ../src/commands.c:1600
+#: ../src/commands.c:1602
 msgid "comments"
 msgstr "komentar"
 
-#: ../src/commands.c:1615
+#: ../src/commands.c:1617
 msgid "all"
 msgstr "semua"
 
-#: ../src/commands.c:1621
+#: ../src/commands.c:1623
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Menghapus %s dalam %s"
 
-#: ../src/commands.c:1741
+#: ../src/commands.c:1743
 msgid "Changing Format"
 msgstr "Mengubah Format"
 
-#: ../src/commands.c:1878
+#: ../src/commands.c:1880
 #, c-format
 msgid "Changing format of %s"
 msgstr "Mengubah format %s"
 
-#: ../src/commands.c:1965
+#: ../src/commands.c:1967
 #, c-format
 msgid "Setting Font Style of %s"
 msgstr "Menata Gaya Fonta %s"
 
-#: ../src/commands.c:2018
+#: ../src/commands.c:2020
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Mengepaskan otomatis kolom %s"
 
-#: ../src/commands.c:2019
+#: ../src/commands.c:2021
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Mengepaskan otomatis baris %s"
 
-#: ../src/commands.c:2022
+#: ../src/commands.c:2024
 #, c-format
 msgid "Setting width of column %s to %d pixel"
 msgid_plural "Setting width of column %s to %d pixels"
 msgstr[0] "Menata lebar kolom %s ke %d piksel"
 
-#: ../src/commands.c:2026
+#: ../src/commands.c:2028
 #, c-format
 msgid "Setting height of row %s to %d pixel"
 msgid_plural "Setting height of row %s to %d pixels"
 msgstr[0] "Menata tinggi baris %s ke %d piksel"
 
-#: ../src/commands.c:2031
+#: ../src/commands.c:2033
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Menyeting lebar kolom %s ke default"
 
-#: ../src/commands.c:2034
+#: ../src/commands.c:2036
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Menyeting tinggi baris %s ke default"
 
-#: ../src/commands.c:2038
+#: ../src/commands.c:2040
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Mengepaskan otomatis kolom %s"
 
-#: ../src/commands.c:2039
+#: ../src/commands.c:2041
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Mengepaskan otomatis baris %s"
 
-#: ../src/commands.c:2042
+#: ../src/commands.c:2044
 #, c-format
 msgid "Setting width of columns %s to %d pixel"
 msgid_plural "Setting width of columns %s to %d pixels"
 msgstr[0] "Menata lebar kolom %s ke %d piksel"
 
-#: ../src/commands.c:2046
+#: ../src/commands.c:2048
 #, c-format
 msgid "Setting height of rows %s to %d pixel"
 msgid_plural "Setting height of rows %s to %d pixels"
 msgstr[0] "Menata tinggi baris %s ke %d piksel"
 
-#: ../src/commands.c:2052
+#: ../src/commands.c:2054
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Menyeting lebar kolom %s ke default"
 
-#: ../src/commands.c:2054
+#: ../src/commands.c:2056
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Menyeting tinggi baris %s ke default"
 
-#: ../src/commands.c:2081
+#: ../src/commands.c:2083
 #, fuzzy, c-format
 msgid "Autofitting width of %s"
 msgstr "Lebar jendela"
 
-#: ../src/commands.c:2081
+#: ../src/commands.c:2083
 #, fuzzy, c-format
 msgid "Autofitting height of %s"
 msgstr "Tinggi jendela"
 
-#: ../src/commands.c:2155 ../src/dialogs/dialog-preferences.c:1196
+#: ../src/commands.c:2157 ../src/dialogs/dialog-preferences.c:1196
 msgid "Sorting"
 msgstr "Pengurutan"
 
-#: ../src/commands.c:2178
+#: ../src/commands.c:2180
 #, c-format
 msgid "Sorting %s"
 msgstr "Mengurutkan %s"
 
-#: ../src/commands.c:2338
+#: ../src/commands.c:2340
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format→Column→Unhide' menu item."
 msgstr ""
 
-#: ../src/commands.c:2342
+#: ../src/commands.c:2344
 msgid ""
 "Are you sure that you want to hide all rows? If you do so you can unhide "
 "them with the 'Format→Row→Unhide' menu item."
 msgstr ""
 
-#: ../src/commands.c:2362
+#: ../src/commands.c:2364
 msgid "Unhide columns"
 msgstr "Perlihatkan kolom"
 
-#: ../src/commands.c:2362
+#: ../src/commands.c:2364
 msgid "Hide columns"
 msgstr "Sembunyikan kolom"
 
-#: ../src/commands.c:2363
+#: ../src/commands.c:2365
 msgid "Unhide rows"
 msgstr "Perlihatkan baris"
 
-#: ../src/commands.c:2363
+#: ../src/commands.c:2365
 msgid "Hide rows"
 msgstr "Sembunyikan baris"
 
-#: ../src/commands.c:2443
+#: ../src/commands.c:2445
 msgid "Expand columns"
 msgstr "Lebarkan kolom"
 
-#: ../src/commands.c:2443
+#: ../src/commands.c:2445
 msgid "Collapse columns"
 msgstr "Sembunyikan kolom"
 
-#: ../src/commands.c:2444
+#: ../src/commands.c:2446
 msgid "Expand rows"
 msgstr "Lebarkan baris"
 
-#: ../src/commands.c:2444
+#: ../src/commands.c:2446
 msgid "Collapse rows"
 msgstr "Sembunyikan baris"
 
-#: ../src/commands.c:2468
+#: ../src/commands.c:2470
 #, c-format
 msgid "Show column outline %d"
 msgstr "Tampilkan outline kolom %d"
 
-#: ../src/commands.c:2468
+#: ../src/commands.c:2470
 #, c-format
 msgid "Show row outline %d"
 msgstr "Tampilkan ouline baris %d"
 
-#: ../src/commands.c:2537
+#: ../src/commands.c:2539
 msgid "Those columns are already grouped"
 msgstr "Kolom-kolom itu sudah dikelompokkan"
 
-#: ../src/commands.c:2538
+#: ../src/commands.c:2540
 msgid "Those rows are already grouped"
 msgstr "Baris-baris itu sudah dikelompokkan"
 
-#: ../src/commands.c:2561
+#: ../src/commands.c:2563
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr ""
 "Kolom-kolom itu tidak dikelompokkan, Anda tidak bisa memecah kelompok mereka"
 
-#: ../src/commands.c:2562
+#: ../src/commands.c:2564
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr ""
 "Baris-baris itu tidak dikelompokkan, Anda tidak bisa memecah kelompok mereka"
 
-#: ../src/commands.c:2575
+#: ../src/commands.c:2577
 #, c-format
 msgid "Group columns %s"
 msgstr "Kelompokkan kolom-kolom %s"
 
-#: ../src/commands.c:2575
+#: ../src/commands.c:2577
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Pecahkan kelompok kolom %s"
 
-#: ../src/commands.c:2577
+#: ../src/commands.c:2579
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Kelompokkan baris %d:%d"
 
-#: ../src/commands.c:2577
+#: ../src/commands.c:2579
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Pecahkan kelompok baris %d:%d"
 
-#: ../src/commands.c:2806
+#: ../src/commands.c:2808
 #, c-format
 msgid "Moving %s"
 msgstr "Memindah %s"
 
-#: ../src/commands.c:2816 ../src/commands.c:3216
+#: ../src/commands.c:2818 ../src/commands.c:3218
 msgid "is beyond sheet boundaries"
 msgstr "di luar batas lembaran"
 
-#: ../src/commands.c:2874
+#: ../src/commands.c:2876
 #, c-format
 msgid ""
 "Copying between files with different date conventions.\n"
@@ -3989,348 +4000,347 @@ msgid ""
 "incorrectly."
 msgstr ""
 
-#: ../src/commands.c:2908
+#: ../src/commands.c:2910
 msgid "Paste Copy"
 msgstr "Tempel Salinan"
 
-#: ../src/commands.c:3108
+#: ../src/commands.c:3110
 #, c-format
 msgid "Pasting into %s"
 msgstr "Menempelkan ke dalam %s"
 
-#: ../src/commands.c:3202
+#: ../src/commands.c:3204
 #, fuzzy, c-format
 msgid "Do you really want to paste %s copies?"
 msgstr "Apakah Anda benar-benar ingin menambahkan \"%s\" untuk pemilihan?"
 
 #. Check arrays or merged regions in src or target regions
-#: ../src/commands.c:3259 ../src/commands.c:3415 ../src/commands.c:3416
+#: ../src/commands.c:3261 ../src/commands.c:3417 ../src/commands.c:3418
 #: ../src/item-cursor.c:982 ../src/wbc-gtk-actions.c:614
 msgid "Autofill"
 msgstr "Isi Otomatis"
 
 #. Changed in initial redo.
-#: ../src/commands.c:3438
+#: ../src/commands.c:3440
 #, c-format
 msgid "Autofilling %s"
 msgstr "Mengisi otomatis %s"
 
-#: ../src/commands.c:3738
+#: ../src/commands.c:3740
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Memformat otomatis %s"
 
-#: ../src/commands.c:3855
+#: ../src/commands.c:3859
 #, c-format
 msgid "Unmerging %s"
 msgstr "Memecah gabungan %s"
 
-#: ../src/commands.c:4021
+#: ../src/commands.c:4028
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Gabung dan Tengahkan %s"
 
-#: ../src/commands.c:4021
+#: ../src/commands.c:4028
 #, c-format
 msgid "Merging %s"
 msgstr "Menggabungkan %s"
 
 #. Corrected below.
-#: ../src/commands.c:4388 ../src/dialogs/search-replace.ui.h:5
+#: ../src/commands.c:4395 ../src/dialogs/search-replace.ui.h:5
 msgid "Search and Replace"
 msgstr "Cari dan Ganti"
 
-#: ../src/commands.c:4481
+#: ../src/commands.c:4488
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Menyeting lebar kolom default ke %.2fpts"
 
-#: ../src/commands.c:4482
+#: ../src/commands.c:4489
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Menyeting tinggi baris default ke %.2fpts"
 
-#: ../src/commands.c:4586
+#: ../src/commands.c:4600
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Pembesaran %s sampai %.0f%%"
 
-#: ../src/commands.c:4681
+#: ../src/commands.c:4703
 msgid "Delete Object"
 msgstr "Hapus Obyek"
 
-#: ../src/commands.c:4801
+#: ../src/commands.c:4832
 msgid "Format Object"
 msgstr "Format Obyek"
 
-#: ../src/commands.c:4910 ../src/commands.c:5950
+#: ../src/commands.c:4941 ../src/commands.c:6006
 #: ../src/dialogs/dialog-doc-metadata.c:1912
 #: ../src/dialogs/dialog-formula-guru.c:898
 #: ../src/dialogs/dialog-function-select.c:1240
 #: ../src/dialogs/dialog-scenarios.c:517
 #: ../src/dialogs/dialog-simulation.c:216 ../src/dialogs/dialog-zoom.c:196
-#: ../src/format-template.c:218 ../src/sheet.c:856
+#: ../src/format-template.c:218 ../src/sheet.c:877
 msgid "Name"
 msgstr "Nama"
 
-#: ../src/commands.c:4910
+#: ../src/commands.c:4941
 msgid "Sheet names must be non-empty."
 msgstr ""
 
-#: ../src/commands.c:4917
+#: ../src/commands.c:4948
 #, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr "Suatu buku kerja tak bisa memiliki dua lembaran dengan nama sama."
 
-#: ../src/commands.c:5006
+#: ../src/commands.c:5045
 #, fuzzy
 msgid "Resizing sheet"
 msgstr "_Lembaran baru"
 
-#: ../src/commands.c:5159
+#: ../src/commands.c:5198
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Menghapus komentar %s"
 
-#: ../src/commands.c:5160
+#: ../src/commands.c:5199
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Menyeting komentar %s"
 
-#: ../src/commands.c:5583
+#: ../src/commands.c:5632
 #, c-format
 msgid "Merging data into %s"
 msgstr "Menggabungkan data ke dalam %s"
 
-#: ../src/commands.c:5673
+#: ../src/commands.c:5729
 #, fuzzy, c-format
 msgid "Changing workbook properties"
 msgstr "Mengubah properti lembaran"
 
-#: ../src/commands.c:5747
+#: ../src/commands.c:5803
 msgid "Pull Object to the Front"
 msgstr "Tarik Obyek ke Depan"
 
-#: ../src/commands.c:5750
+#: ../src/commands.c:5806
 msgid "Pull Object Forward"
 msgstr "Tarik Obyek Maju"
 
-#: ../src/commands.c:5753
+#: ../src/commands.c:5809
 msgid "Push Object Backward"
 msgstr "Dorong Obyek Mundur"
 
-#: ../src/commands.c:5756
+#: ../src/commands.c:5812
 msgid "Push Object to the Back"
 msgstr "Dorong Obyek ke Belakang"
 
-#: ../src/commands.c:5886
+#: ../src/commands.c:5942
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Seting Halaman untuk %s"
 
-#: ../src/commands.c:5888
+#: ../src/commands.c:5944
 msgid "Page Setup For All Sheets"
 msgstr "Seting Halaman untuk Semua Lembaran"
 
-#: ../src/commands.c:6012 ../src/commands.c:6023
+#: ../src/commands.c:6068 ../src/commands.c:6079
 #, fuzzy
 msgid "Defined Name"
 msgstr "Nama aturan:"
 
-#: ../src/commands.c:6013
+#: ../src/commands.c:6069
 msgid "An empty string is not allowed as defined name."
 msgstr ""
 
-#: ../src/commands.c:6021
-#, fuzzy, c-format
+#: ../src/commands.c:6077
+#, c-format
 msgid "'%s' is not allowed as defined name."
-msgstr "'%s' sudah didefinisikan dalam lembaran"
+msgstr "'%s' tak diijinkan sebagai nama yang didefinisikan."
 
-#: ../src/commands.c:6031
+#: ../src/commands.c:6087
 msgid "has a circular reference"
 msgstr "mempunyai referensi sirkuler"
 
-#: ../src/commands.c:6065
+#: ../src/commands.c:6121
 #, c-format
 msgid "Define Name %s"
 msgstr "Definisikan Nama %s"
 
-#: ../src/commands.c:6068
+#: ../src/commands.c:6124
 #, c-format
 msgid "Update Name %s"
 msgstr "Perbarui Nama %s"
 
-#: ../src/commands.c:6161
+#: ../src/commands.c:6217
 #, c-format
 msgid "Remove Name %s"
 msgstr "Hapus Nama %s"
 
-#: ../src/commands.c:6192
+#: ../src/commands.c:6248
 #, fuzzy
 msgid "Change Scope of Name"
 msgstr "Mengubah nama volume"
 
-#: ../src/commands.c:6240
+#: ../src/commands.c:6296
 #, fuzzy, c-format
 msgid "Change Scope of Name %s"
 msgstr "Mengubah nama volume"
 
-#: ../src/commands.c:6298
+#: ../src/commands.c:6354
 msgid "Add scenario"
 msgstr "Tambah skenario"
 
-#: ../src/commands.c:6362
+#: ../src/commands.c:6418
 msgid "Scenario Show"
 msgstr "Tampilan Skenario"
 
-#: ../src/commands.c:6420
+#: ../src/commands.c:6476
 msgid "Shuffle Data"
 msgstr "Aduk Data"
 
 #. FIXME?
-#: ../src/commands.c:6524
+#: ../src/commands.c:6580
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Teks (%s) ke Kolom (%s)"
 
-#: ../src/commands.c:6682
+#: ../src/commands.c:6738
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Pencarian Sasaran (%s)"
 
-#: ../src/commands.c:6848
+#: ../src/commands.c:6904
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Mentabulasikan Dependensi"
 
-#: ../src/commands.c:6922
+#: ../src/commands.c:6978
 msgid "Reconfigure Graph"
 msgstr "Mengkonfigurasi-ulang Grafik"
 
-#: ../src/commands.c:6992
+#: ../src/commands.c:7048
 #, fuzzy
 msgid "Reconfigure Object"
 msgstr "Objek berisi"
 
-#: ../src/commands.c:7036
+#: ../src/commands.c:7092
 msgid "Left to Right"
 msgstr "Kiri ke Kanan"
 
-#: ../src/commands.c:7036
+#: ../src/commands.c:7092
 msgid "Right to Left"
 msgstr "Kanan ke Kiri"
 
-#: ../src/commands.c:7202
+#: ../src/commands.c:7258
 #, fuzzy
 msgid "Changing Hyperlink"
 msgstr "Warna hyperlink"
 
-#: ../src/commands.c:7346
+#: ../src/commands.c:7401
 #, fuzzy, c-format
 msgid "Changing hyperlink of %s"
 msgstr "Warna hyperlink"
 
-#: ../src/commands.c:7431
+#: ../src/commands.c:7486
 #, fuzzy
 msgid "Configure List"
 msgstr "Daftar Hasil"
 
-#: ../src/commands.c:7502
+#: ../src/commands.c:7557
 #, fuzzy
 msgid "Set Frame Label"
 msgstr "Teks pada bingkai label"
 
-#: ../src/commands.c:7573
+#: ../src/commands.c:7628
 #, fuzzy
 msgid "Configure Button"
 msgstr "Tata isi tombol"
 
-#: ../src/commands.c:7654
+#: ../src/commands.c:7709
 #, fuzzy
 msgid "Configure Radio Button"
 msgstr "Tombol Alat Radio"
 
-#: ../src/commands.c:7730
+#: ../src/commands.c:7785
 #, fuzzy
 msgid "Configure Checkbox"
 msgstr "Properti Kotak-cek"
 
-#: ../src/commands.c:7837 ../src/sheet-object-widget.c:1524
+#: ../src/commands.c:7892 ../src/sheet-object-widget.c:1533
 #, fuzzy
 msgid "Configure Adjustment"
 msgstr "Kolom penyesuaian"
 
-#: ../src/commands.c:7868
+#: ../src/commands.c:7923
 msgid "Add Filter"
 msgstr "Tambah Filter"
 
-#: ../src/commands.c:7884 ../src/wbc-gtk.c:1554
+#: ../src/commands.c:7939 ../src/wbc-gtk.c:1554
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr ""
 
-#: ../src/commands.c:7889 ../src/commands.c:7916 ../src/commands.c:7925
+#: ../src/commands.c:7944 ../src/commands.c:7971 ../src/commands.c:7980
 msgid "AutoFilter"
 msgstr "OtoFilter"
 
-#: ../src/commands.c:7917
+#: ../src/commands.c:7972
 msgid "Requires more than 1 row"
 msgstr "Perlu lebih dari 1 baris"
 
-#: ../src/commands.c:7926
+#: ../src/commands.c:7981
 #, fuzzy
 msgid "Unable to create Autofilter"
 msgstr "Tak bisa membuat soket: %s"
 
-#: ../src/commands.c:7949
-#, fuzzy, c-format
+#: ../src/commands.c:8004
+#, c-format
 msgid "Add Autofilter to %s"
-msgstr "Tambahkan ke Repositori"
+msgstr "Tambah Saring Otomatis ke %s"
 
-#: ../src/commands.c:7950
+#: ../src/commands.c:8005
 #, fuzzy, c-format
 msgid "Extend Autofilter to %s"
 msgstr "Gagal untuk mengurai atau mengembangkan '%s'"
 
-#: ../src/commands.c:7963
+#: ../src/commands.c:8018
 #, fuzzy, c-format
 msgid "Remove Autofilter from %s"
 msgstr "Hapus dari projek"
 
-#: ../src/commands.c:7993
+#: ../src/commands.c:8048
 #, fuzzy, c-format
 msgid "Change filter condition for %s"
 msgstr "Edit kondisi untuk filter: "
 
-#: ../src/commands.c:8062 ../src/wbc-gtk-actions.c:2169
+#: ../src/commands.c:8117 ../src/wbc-gtk-actions.c:2169
 #, fuzzy
 msgid "Clear All Page Breaks"
 msgstr "B_olehkan penundaan istirahat"
 
-#: ../src/commands.c:8089 ../src/wbc-gtk.c:1489
+#: ../src/commands.c:8144 ../src/wbc-gtk.c:1489
 msgid "Remove Column Page Break"
 msgstr ""
 
-#: ../src/commands.c:8089 ../src/wbc-gtk.c:1499
+#: ../src/commands.c:8144 ../src/wbc-gtk.c:1499
 msgid "Remove Row Page Break"
 msgstr ""
 
-#: ../src/commands.c:8092 ../src/wbc-gtk.c:1492
-#, fuzzy
+#: ../src/commands.c:8147 ../src/wbc-gtk.c:1492
 msgid "Add Column Page Break"
-msgstr "Tambahkan kolom setelah kolom yang dinyatakan"
+msgstr "Tambah Pemutus Halaman Kolom"
 
-#: ../src/commands.c:8092 ../src/wbc-gtk.c:1502
+#: ../src/commands.c:8147 ../src/wbc-gtk.c:1502
 #, fuzzy
 msgid "Add Row Page Break"
 msgstr "Catat alamat untuk halaman ini"
 
-#: ../src/consolidate.c:751
+#: ../src/consolidate.c:782
 #, c-format
 msgid "Consolidating to (%s)"
 msgstr "Mengkonsolidasikan ke (%s)"
 
-#: ../src/consolidate.c:790 ../src/consolidate.c:793
+#: ../src/consolidate.c:821 ../src/consolidate.c:824
 #: ../src/dialogs/consolidate.ui.h:1
 msgid "Data Consolidation"
 msgstr "Konsolidasi Data"
@@ -5514,7 +5524,6 @@ msgstr "Komentar dalam sel %s!%s"
 
 #. xgettext: This refers to a "none underline"
 #: ../src/dialogs/dialog-cell-format.c:73
-#, fuzzy
 msgctxt "underline"
 msgid "None"
 msgstr "Tak Ada"
@@ -5526,7 +5535,6 @@ msgid "Single"
 msgstr "Tunggal"
 
 #: ../src/dialogs/dialog-cell-format.c:75
-#, fuzzy
 msgctxt "underline"
 msgid "Double"
 msgstr "Ganda"
@@ -5546,7 +5554,7 @@ msgid "Double Low"
 msgstr "tanda petik ganda bawah"
 
 #: ../src/dialogs/dialog-cell-format.c:488 ../src/dialogs/dialog-search.c:153
-#: ../src/func.c:1379 ../src/wbc-gtk-actions.c:2762
+#: ../src/func.c:1437 ../src/wbc-gtk-actions.c:2762
 msgid "Number"
 msgstr "Angka"
 
@@ -5623,36 +5631,32 @@ msgid "Pattern"
 msgstr "Pola"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:230
-#, fuzzy
 msgid "(defined)"
-msgstr "Ubahan pengguna (%s)"
+msgstr "(didefinisikan)"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:230
 #: ../src/dialogs/dialog-cell-format-cond.c:1155
-#, fuzzy
 msgid "(undefined)"
-msgstr "tak terdefinisi"
+msgstr "(tak terdefinisi)"
 
 #. without any expression
 #: ../src/dialogs/dialog-cell-format-cond.c:544
-#, fuzzy
 msgid "Cell contains an error value."
-msgstr "Galat saat mengambil nilai untuk '%s': %s"
+msgstr "Sel berisi nilai galat."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:545
-#, fuzzy
 msgid "Cell does not contain an error value."
-msgstr "%s tidak berisi nilai baru."
+msgstr "Sel tidak berisi nilai galat."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:546
 #, fuzzy
 msgid "Cell contains whitespace."
-msgstr "Non Breaking Whitespace"
+msgstr "Sel berisi string x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:547
 #, fuzzy
 msgid "Cell does not contain whitespace."
-msgstr "Na_ma tidak berisi"
+msgstr "Sel tidak berisi string x."
 
 #. with one expression
 #: ../src/dialogs/dialog-cell-format-cond.c:549
@@ -5685,14 +5689,12 @@ msgid "Expression x evaluates to TRUE."
 msgstr "Tata ke TRUE untuk mengaktifkan"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:556
-#, fuzzy
 msgid "Cell contains the string x."
-msgstr "Warna latar sel dalam string"
+msgstr "Sel berisi string x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:557
-#, fuzzy
 msgid "Cell does not contain the string x."
-msgstr "Na_ma tidak berisi"
+msgstr "Sel tidak berisi string x."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:558
 msgid "Cell value begins with the string x."
@@ -5920,14 +5922,14 @@ msgstr "Tapis"
 
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
-#: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2211
+#: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2246
 #: ../src/tools/analysis-tools.c:224 ../src/tools/analysis-tools.c:2890
 msgid "Row"
 msgstr "Baris"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
-#: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2203
+#: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2238
 #: ../src/tools/analysis-tools.c:224 ../src/tools/analysis-tools.c:2891
 msgid "Column"
 msgstr "Kolom"
@@ -6100,9 +6102,9 @@ msgid "Edit timestamp directly in above listing."
 msgstr ""
 
 #: ../src/dialogs/dialog-doc-metadata.c:1758
-#, fuzzy, c-format
+#, c-format
 msgid "A document property with the name '%s' already exists."
-msgstr "Alat dengan nama yang sama sudah ada!"
+msgstr "Suatu properti dokumen dengan nama '%s' sudah ada."
 
 #: ../src/dialogs/dialog-doc-metadata.c:1798
 #, c-format
@@ -6114,9 +6116,8 @@ msgid "Integer"
 msgstr "Integer"
 
 #: ../src/dialogs/dialog-doc-metadata.c:1865
-#, fuzzy
 msgid "Decimal Number"
-msgstr "Bilangan desimal"
+msgstr "Bilangan Desimal"
 
 #: ../src/dialogs/dialog-doc-metadata.c:1866
 #, fuzzy
@@ -6188,14 +6189,12 @@ msgstr "Baru Digunakan"
 #: ../src/dialogs/dialog-function-select.c:517
 #, fuzzy
 msgid "In Use"
-msgstr ""
-"%s:\n"
-"%u%% terpakai"
+msgstr "Sedang Digunakan"
 
 #: ../src/dialogs/dialog-function-select.c:665
-#, fuzzy, c-format
+#, c-format
 msgid "%s evaluates to %s."
-msgstr "Balas ke %s"
+msgstr "%s mengevaluasi ke %s."
 
 #: ../src/dialogs/dialog-function-select.c:734
 msgid "Arguments:"
@@ -6236,9 +6235,8 @@ msgid "ODF (OpenFormula): "
 msgstr "ODF (OpenFormula): "
 
 #: ../src/dialogs/dialog-function-select.c:1356
-#, fuzzy
 msgid "Gnumeric Function Help Browser"
-msgstr "Tampilkan bantuan browser web"
+msgstr "Perambang Bantuan Fungsi Gnumeric"
 
 #: ../src/dialogs/dialog-function-select.c:1360
 #, fuzzy
@@ -6287,15 +6285,15 @@ msgstr "Tingkat Workbook"
 
 #: ../src/dialogs/dialog-goto-cell.c:386 ../src/dialogs/dialog-search.c:438
 #: ../src/dialogs/dialog-stf-export.c:592 ../src/dialogs/hf-config.ui.h:16
-#: ../src/dialogs/print.ui.h:53 ../src/print-info.c:545 ../src/search.c:799
+#: ../src/dialogs/print.ui.h:53 ../src/print-info.c:571 ../src/search.c:807
 #: ../src/tools/gnm-solver.c:740 ../src/tools/gnm-solver.c:741
-#: ../src/workbook.c:974 ../src/workbook.c:1006
+#: ../src/workbook.c:1007 ../src/workbook.c:1039
 msgid "Sheet"
 msgstr "Lembaran"
 
 #: ../src/dialogs/dialog-goto-cell.c:392 ../src/dialogs/dialog-search.c:439
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:5
-#: ../src/sheet-control-gui.c:2192 ../src/tools/gnm-solver.c:1442
+#: ../src/sheet-control-gui.c:2227 ../src/tools/gnm-solver.c:1442
 #: ../src/tools/gnm-solver.c:1490
 msgid "Cell"
 msgstr "Sel"
@@ -6598,24 +6596,20 @@ msgid "mm"
 msgstr "mm"
 
 #: ../src/dialogs/dialog-printer-setup.c:1592
-#, fuzzy
 msgid "Default date format"
-msgstr "Format Tanggal/Waktu"
+msgstr "Format tanggal baku"
 
 #: ../src/dialogs/dialog-printer-setup.c:1598
-#, fuzzy
 msgid "Custom date format"
-msgstr "Format Tanggal/Waktu"
+msgstr "Format tanggal ubahan"
 
 #: ../src/dialogs/dialog-printer-setup.c:1630
-#, fuzzy
 msgid "Default time format"
-msgstr "Format Tanggal/Waktu"
+msgstr "Format waktu baku"
 
 #: ../src/dialogs/dialog-printer-setup.c:1636
-#, fuzzy
 msgid "Custom time format"
-msgstr "Format Tanggal/Waktu"
+msgstr "Format waktu ubahan"
 
 #: ../src/dialogs/dialog-printer-setup.c:1668
 msgid "A1 (first cell of the page area)"
@@ -6639,9 +6633,8 @@ msgid "Custom footer configuration"
 msgstr "Konfigurasi footer kustom"
 
 #: ../src/dialogs/dialog-printer-setup.c:1900
-#, fuzzy
 msgid "Date format selection"
-msgstr "Format pilihan sebagai tanggal"
+msgstr "Pemilihan format tanggal"
 
 #: ../src/dialogs/dialog-printer-setup.c:1902
 #, fuzzy
@@ -6681,7 +6674,7 @@ msgstr "Filter d_i-tempat"
 #: ../src/dialogs/dialog-printer-setup.c:2228
 #, fuzzy
 msgid "Print at end"
-msgstr "Cetak etag baru di akhir"
+msgstr "%s saat pertemuan berakhir"
 
 #: ../src/dialogs/dialog-printer-setup.c:2407
 #, c-format
@@ -7159,7 +7152,7 @@ msgstr "Ubah ukuran Obyek"
 #: ../src/dialogs/dialog-sheetobject-size.c:244
 #, fuzzy
 msgid "Set Object Name"
-msgstr "Nama klien dari objek konteks"
+msgstr "Nama Unik dari Objek"
 
 #: ../src/dialogs/dialog-sheetobject-size.c:253
 #, fuzzy
@@ -7208,16 +7201,16 @@ msgid "Run on"
 msgstr "Jalankan pada"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4637
+#: ../src/wbc-gtk.c:4643
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4639
+#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4645
 msgid "Average"
 msgstr "Rata-rata"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:4638
+#: ../src/wbc-gtk.c:4644
 msgid "Max"
 msgstr "Maks"
 
@@ -7408,10 +7401,10 @@ msgid "Importing %i columns and ignoring %i."
 msgstr "Mengimpor %i kolom dan mengabaikan %i."
 
 #: ../src/dialogs/dialog-stf-format-page.c:177
-#, fuzzy, c-format
+#, c-format
 msgid "A maximum of %d column can be imported."
 msgid_plural "A maximum of %d columns can be imported."
-msgstr[0] "Maksimum %d kolom bisa diimpor."
+msgstr[0] "Maksimum %d kolom yang bisa diimpor."
 
 #: ../src/dialogs/dialog-stf-format-page.c:205
 #, fuzzy
@@ -7473,10 +7466,10 @@ msgid "Column %d"
 msgstr "Kolom %d"
 
 #: ../src/dialogs/dialog-stf-main-page.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "%d of %d line to import"
 msgid_plural "%d of %d lines to import"
-msgstr[0] "_Berkas yang akan diimpor:"
+msgstr[0] "%d dari %d baris akan diimpor"
 
 #: ../src/dialogs/dialog-stf-main-page.c:184
 #, c-format
@@ -7571,9 +7564,8 @@ msgid "Auto Completion"
 msgstr "Pelengkapan Otomatis"
 
 #: ../src/dialogs/dialog-workbook-attr.c:201
-#, fuzzy
 msgid "Cell Markers"
-msgstr "Tunjukkan penanda sel rumus"
+msgstr "Penanda Sel"
 
 #: ../src/dialogs/advanced-filter.ui.h:1 ../src/tools/filter.c:287
 #: ../src/tools/filter.c:290
@@ -7785,9 +7777,8 @@ msgid "begins with"
 msgstr "diawali dengan"
 
 #: ../src/dialogs/autofilter-expression.ui.h:12
-#, fuzzy
 msgid "does not begin with"
-msgstr "tidak diakhiri dengan"
+msgstr "tidak diawali dengan"
 
 #: ../src/dialogs/autofilter-expression.ui.h:13
 msgid "ends with"
@@ -7981,9 +7972,8 @@ msgid "_Justify"
 msgstr "_Ratakan"
 
 #: ../src/dialogs/cell-format.ui.h:12
-#, fuzzy
 msgid "D_istributed"
-msgstr "Ter_distribusi"
+msgstr "Terd_istribusi"
 
 #: ../src/dialogs/cell-format.ui.h:14
 #, fuzzy
@@ -8043,12 +8033,12 @@ msgid "Diagonal"
 msgstr "Diagonal"
 
 #. start sub menu
-#: ../src/dialogs/cell-format.ui.h:32 ../src/sheet-control-gui.c:2172
+#: ../src/dialogs/cell-format.ui.h:32 ../src/sheet-control-gui.c:2207
 #: ../src/wbc-gtk.c:3011
 msgid "Left"
 msgstr "Kiri"
 
-#: ../src/dialogs/cell-format.ui.h:33 ../src/sheet-control-gui.c:2175
+#: ../src/dialogs/cell-format.ui.h:33 ../src/sheet-control-gui.c:2210
 #: ../src/wbc-gtk.c:3013
 msgid "Right"
 msgstr "Kanan"
@@ -8059,7 +8049,6 @@ msgstr "Tidak satupun"
 
 #. Cell border
 #: ../src/dialogs/cell-format.ui.h:37
-#, fuzzy
 msgctxt "border"
 msgid "None"
 msgstr "Tak Ada"
@@ -8090,7 +8079,6 @@ msgstr "Gaya:"
 
 #. Cell border line
 #: ../src/dialogs/cell-format.ui.h:45
-#, fuzzy
 msgctxt "line"
 msgid "None"
 msgstr "Tak Ada"
@@ -8314,7 +8302,7 @@ msgstr "Kustom"
 
 #: ../src/dialogs/cell-format.ui.h:105
 msgid "min <= val <= max         (between)"
-msgstr ""
+msgstr "min <= val <= max         (diantara)"
 
 #: ../src/dialogs/cell-format.ui.h:106
 msgid "val <= min || max <= val (not between)"
@@ -8644,7 +8632,7 @@ msgid "DataSlicer Guru : Gnumeric"
 msgstr "Konsol Python Gnumeric"
 
 #: ../src/dialogs/data-slicer.ui.h:3 ../src/dialogs/dialog-stf.ui.h:59
-#: ../src/stf-export.c:576
+#: ../src/stf-export.c:583
 msgid "Format"
 msgstr "Format"
 
@@ -8802,7 +8790,7 @@ msgstr "Moda transliterate"
 msgid "Escape"
 msgstr "Escape"
 
-#: ../src/dialogs/dialog-stf-export.ui.h:19 ../src/sheet-object-graph.c:748
+#: ../src/dialogs/dialog-stf-export.ui.h:19 ../src/sheet-object-graph.c:756
 msgid "Auto"
 msgstr "Otomatis"
 
@@ -9421,7 +9409,7 @@ msgstr "Kesalahan _standar"
 
 #: ../src/dialogs/exp-smoothing.ui.h:21 ../src/dialogs/moving-averages.ui.h:21
 msgid "Denominator:"
-msgstr ""
+msgstr "Denominator:"
 
 #: ../src/dialogs/exp-smoothing.ui.h:22 ../src/dialogs/moving-averages.ui.h:22
 msgid "n"
@@ -9909,7 +9897,7 @@ msgstr "_Sisipkan kolom(s)"
 
 #: ../src/dialogs/kaplan-meier.ui.h:1
 msgid "Kaplan Meier Estimates"
-msgstr ""
+msgstr "Estimasi Kaplan Meier"
 
 #: ../src/dialogs/kaplan-meier.ui.h:2
 #, fuzzy
@@ -9945,7 +9933,6 @@ msgid "Groups column:"
 msgstr "Kolom tepi"
 
 #: ../src/dialogs/kaplan-meier.ui.h:10
-#, fuzzy
 msgid "_Groups"
 msgstr "_Grup"
 
@@ -10058,7 +10045,7 @@ msgid "Merge..."
 msgstr "Gabung..."
 
 #. start sub menu
-#: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2193
+#: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2228
 msgid "_Merge"
 msgstr "_Gabung"
 
@@ -10114,9 +10101,8 @@ msgid "3"
 msgstr "3"
 
 #: ../src/dialogs/normality-tests.ui.h:1
-#, fuzzy
 msgid "Normality Tests"
-msgstr "Uji sendiri:"
+msgstr "Uji Kenormalan"
 
 #: ../src/dialogs/normality-tests.ui.h:11 ../src/tools/analysis-normality.c:63
 msgid "Anderson-Darling Test"
@@ -10128,7 +10114,7 @@ msgstr ""
 
 #: ../src/dialogs/normality-tests.ui.h:13 ../src/tools/analysis-normality.c:77
 msgid "Lilliefors (Kolmogorov-Smirnov) Test"
-msgstr ""
+msgstr "Uji Lilliefors (Kolmogorov-Smirnov)"
 
 #: ../src/dialogs/normality-tests.ui.h:14 ../src/tools/analysis-normality.c:83
 #, fuzzy
@@ -10200,7 +10186,6 @@ msgstr "Tempel tipe"
 
 #. Region operation while paste
 #: ../src/dialogs/paste-special.ui.h:10
-#, fuzzy
 msgctxt "operation"
 msgid "None"
 msgstr "Tak Ada"
@@ -10220,13 +10205,11 @@ msgid "Fli_p Vertically"
 msgstr "Besarkan secara vertikal"
 
 #: ../src/dialogs/paste-special.ui.h:14
-#, fuzzy
 msgid "<b>Region operation</b>"
-msgstr "Operasi gagal"
+msgstr "<b>Operasi wilayah</b>"
 
 #. Cell operation while paste
 #: ../src/dialogs/paste-special.ui.h:16
-#, fuzzy
 msgctxt "operation"
 msgid "_None"
 msgstr "_Nihil"
@@ -10343,7 +10326,6 @@ msgid "Bottom margin:"
 msgstr "Marjin dasar:"
 
 #: ../src/dialogs/print.ui.h:7
-#, fuzzy
 msgid "Header:"
 msgstr "Tajuk:"
 
@@ -10580,9 +10562,8 @@ msgid "Discard changes in all files"
 msgstr "Semua berkas ada di dalam direktori: %s\n"
 
 #: ../src/dialogs/quit.ui.h:8
-#, fuzzy
 msgid "Don't Quit"
-msgstr "Jangan keluar"
+msgstr "Jangan Keluar"
 
 #: ../src/dialogs/quit.ui.h:9
 #, fuzzy
@@ -10614,7 +10595,6 @@ msgid "Save?"
 msgstr "_Simpan"
 
 #: ../src/dialogs/quit.ui.h:15
-#, fuzzy
 msgid "Document"
 msgstr "Dokumen"
 
@@ -10638,7 +10618,6 @@ msgid "Cholesky _Decomposition of the Covariance Matrix"
 msgstr ""
 
 #: ../src/dialogs/random-generation-cor.ui.h:4
-#, fuzzy
 msgid "_Matrix:"
 msgstr "_Matriks:"
 
@@ -10754,7 +10733,7 @@ msgstr "Per_iode:"
 #: ../src/dialogs/sampling.ui.h:15
 #, fuzzy
 msgid "Offset:"
-msgstr "Ofset"
+msgstr "Ofset:"
 
 #: ../src/dialogs/sampling.ui.h:16
 #, fuzzy
@@ -10820,7 +10799,7 @@ msgid "<span weight=\"bold\">Comment</span>"
 msgstr "<span weight=\"bold\">Komentar</span>"
 
 #: ../src/dialogs/scenario-manager.ui.h:8 ../src/dialogs/workbook-attr.ui.h:5
-#: ../src/workbook-control.c:460
+#: ../src/workbook-control.c:499
 msgid "View"
 msgstr "Lihat"
 
@@ -10849,14 +10828,13 @@ msgid "Perform this replacement"
 msgstr "Lakukan penggantian ini"
 
 #: ../src/dialogs/search-replace.ui.h:6
-#, fuzzy
 msgid "Location"
 msgstr "Lokasi"
 
 #: ../src/dialogs/search-replace.ui.h:7
 #, fuzzy
 msgid "Replacing"
-msgstr "_Ganti menurut"
+msgstr "Penggantian regex"
 
 #: ../src/dialogs/search-replace.ui.h:8
 #, fuzzy
@@ -10936,7 +10914,7 @@ msgstr "Kisara_n"
 msgid "Search and replace in specified range only"
 msgstr "Cari dan ganti dalam kisaran yang disebutkan saja"
 
-#: ../src/dialogs/search-replace.ui.h:27 ../src/search.c:808
+#: ../src/dialogs/search-replace.ui.h:27 ../src/search.c:816
 msgid "Scope"
 msgstr "Lingkup"
 
@@ -11194,7 +11172,7 @@ msgstr "Posisi relatif"
 #: ../src/dialogs/sheetobject-size.ui.h:2
 #, fuzzy
 msgid "_Width in pixels:"
-msgstr "Lebar kursor, dalam piksel"
+msgstr "Lebar dalam piksel."
 
 #: ../src/dialogs/sheetobject-size.ui.h:4
 #, fuzzy
@@ -11204,15 +11182,14 @@ msgstr "Lebar kolom dalam point:"
 #: ../src/dialogs/sheetobject-size.ui.h:5
 #, fuzzy
 msgid "_Height in pixels:"
-msgstr "Tinggi jendela dalam piksel"
+msgstr "Tinggi dalam piksel."
 
 #: ../src/dialogs/sheetobject-size.ui.h:6
 #, fuzzy
 msgid "Height in points:"
-msgstr "Ukuran fonta dalam poin"
+msgstr "Tinggi dalam piksel."
 
 #: ../src/dialogs/sheetobject-size.ui.h:7
-#, fuzzy
 msgid "_Name:"
 msgstr "_Nama:"
 
@@ -11229,12 +11206,12 @@ msgstr ""
 #: ../src/dialogs/sheetobject-size.ui.h:10
 #, fuzzy
 msgid "_x-Offset in pixels:"
-msgstr "Lebar kursor, dalam piksel"
+msgstr "Tinggi dalam piksel."
 
 #: ../src/dialogs/sheetobject-size.ui.h:11
 #, fuzzy
 msgid "_y-Offset in pixels:"
-msgstr "Lebar kursor, dalam piksel"
+msgstr "Tinggi dalam piksel."
 
 #: ../src/dialogs/sheetobject-size.ui.h:12
 #, fuzzy
@@ -11268,9 +11245,8 @@ msgid "_Insert"
 msgstr "_Sisipkan"
 
 #: ../src/dialogs/sheet-order.ui.h:4
-#, fuzzy
 msgid "Du_plicate"
-msgstr "Hapus Pesan Du_plikat"
+msgstr "Du_plikat"
 
 #: ../src/dialogs/sheet-order.ui.h:5
 #, fuzzy
@@ -11288,14 +11264,14 @@ msgid "Resize Sheet"
 msgstr "_Lembaran baru"
 
 #. Number of 'Columns' in sheet
-#: ../src/dialogs/sheet-resize.ui.h:3 ../src/sheet.c:1025
+#: ../src/dialogs/sheet-resize.ui.h:3 ../src/sheet.c:1046
 #, fuzzy
 msgctxt "sheetsize"
 msgid "Columns"
 msgstr "Kolom"
 
 #. Number of 'Rows' in sheet
-#: ../src/dialogs/sheet-resize.ui.h:5 ../src/sheet.c:1032
+#: ../src/dialogs/sheet-resize.ui.h:5 ../src/sheet.c:1053
 #, fuzzy
 msgctxt "sheetsize"
 msgid "Rows"
@@ -11636,7 +11612,7 @@ msgstr "Bool"
 msgid "Radiobutton Properties"
 msgstr "Properti breakpoint"
 
-#: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:1683
+#: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:1692
 msgid "Scrollbar Properties"
 msgstr "Properti Scrollbar"
 
@@ -11811,26 +11787,26 @@ msgid ""
 "has been truncated in that direction."
 msgstr ""
 
-#: ../src/expr-name.c:590
+#: ../src/expr-name.c:629
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "'%s' mempunyai referensi sirkuler"
 
-#: ../src/expr-name.c:618 ../src/expr-name.c:850
+#: ../src/expr-name.c:657 ../src/expr-name.c:902
 #, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "'%s' sudah didefinisikan dalam lembaran"
 
-#: ../src/expr-name.c:619 ../src/expr-name.c:851
+#: ../src/expr-name.c:658 ../src/expr-name.c:903
 #, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "'%s' sudah didefinisikan dalam workbook"
 
-#: ../src/expr.c:847
+#: ../src/expr.c:873
 msgid "Internal type error"
 msgstr "Tipe internal salah"
 
-#: ../src/expr.c:1561
+#: ../src/expr.c:1587
 msgid "Unknown evaluation error"
 msgstr "Evaluasi tidak dikenal salah"
 
@@ -11839,37 +11815,36 @@ msgstr "Evaluasi tidak dikenal salah"
 msgid "Invalid template file: %s"
 msgstr "Berkas templat tidak sah: %s"
 
-#: ../src/format-template.c:527
+#: ../src/format-template.c:540
 #, fuzzy
 msgid "Error while opening autoformat template"
 msgstr "Kesalahan saat membuka berkas Paradox."
 
-#: ../src/format-template.c:727
+#: ../src/format-template.c:740
 #, c-format
 msgid "%d row"
 msgid_plural "%d rows"
 msgstr[0] "%d baris"
 
-#: ../src/format-template.c:728
+#: ../src/format-template.c:741
 #, c-format
 msgid "%d col"
 msgid_plural "%d cols"
 msgstr[0] "%d kol"
 
-#: ../src/format-template.c:730
+#: ../src/format-template.c:743
 #, fuzzy, c-format
 msgid "The target region is too small.  It should be at least %s by %s"
-msgstr ""
-"Wilayah target terlalu kecil.  Ia sedikitnya harus %d baris per %d kolom"
+msgstr "Wilayah target terlalu kecil.  Ia sedikitnya harus %d lebar kolom"
 
-#: ../src/format-template.c:736
+#: ../src/format-template.c:749
 #, fuzzy, c-format
 msgid "The target region is too small.  It should be at least %d column wide"
 msgid_plural ""
 "The target region is too small.  It should be at least %d columns wide"
 msgstr[0] "Wilayah target terlalu kecil.  Ia sedikitnya harus %d lebar kolom"
 
-#: ../src/format-template.c:742
+#: ../src/format-template.c:755
 #, fuzzy, c-format
 msgid "The target region is too small.  It should be at least %d row high"
 msgid_plural ""
@@ -11926,9 +11901,8 @@ msgstr ""
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:107
-#, fuzzy
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
-msgstr "Tampilkan versi Gnumeric"
+msgstr "GNUMERIC_VERSION:versi Gnumeric kini"
 
 #: ../src/func-builtin.c:108
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
@@ -11938,7 +11912,7 @@ msgstr ""
 #: ../src/func-builtin.c:273
 #, fuzzy
 msgid "IF:conditional expression"
-msgstr "Ekspresi re_guler"
+msgstr "`:' diharapkan untuk sebuah pernyataan kondisional"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:275
@@ -11968,37 +11942,37 @@ msgstr ""
 msgid "Cannot create file %s\n"
 msgstr "Tak bisa membuat berkas %s\n"
 
-#: ../src/func.c:871
+#: ../src/func.c:895
 msgid "Function implementation not available."
 msgstr "Implementasi fungsi tidak tersedia."
 
-#: ../src/func.c:1140
+#: ../src/func.c:1193
 msgid "Unknown Function"
 msgstr "Fungsi Tidak Dikenal"
 
-#: ../src/func.c:1383
+#: ../src/func.c:1441
 msgid "Boolean"
 msgstr "Boolean"
 
-#: ../src/func.c:1385
+#: ../src/func.c:1443
 msgid "Cell Range"
 msgstr "Kisaran Sel"
 
-#: ../src/func.c:1387
+#: ../src/func.c:1445
 msgid "Area"
 msgstr "Area"
 
-#: ../src/func.c:1389
+#: ../src/func.c:1447
 #, fuzzy
 msgid "Scalar, Blank, or Error"
 msgstr "kesalahan internal atau objek rusak"
 
-#: ../src/func.c:1391
+#: ../src/func.c:1449
 msgid "Scalar"
 msgstr "Skalar"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1394
+#: ../src/func.c:1452
 msgid "Any"
 msgstr "Sembarang"
 
@@ -12046,7 +12020,7 @@ msgstr "300%"
 msgid "500%"
 msgstr "500 K"
 
-#: ../src/gnm-pane.c:1976
+#: ../src/gnm-pane.c:1983
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -12068,10 +12042,10 @@ msgid "No func_desc_load method.\n"
 msgstr ""
 
 #: ../src/gnm-plugin.c:234
-#, fuzzy, c-format
+#, c-format
 msgid "%d function in category \"%s\""
 msgid_plural "Group of %d functions in category \"%s\""
-msgstr[0] "Kehilangan nama kategori fungsi."
+msgstr[0] "Kelompok %d fungsi dalam kategori \"%s\""
 
 #: ../src/gnm-plugin.c:343
 msgid "Missing file name."
@@ -12230,62 +12204,62 @@ msgstr ""
 msgid "Multiple errors\n"
 msgstr "Galat Pengaya"
 
-#: ../src/gui-util.c:1268
+#: ../src/gui-util.c:1332
 #, c-format
 msgid "The plugin with id %s is required but cannot be found."
 msgstr ""
 
-#: ../src/gui-util.c:1276
+#: ../src/gui-util.c:1340
 #, c-format
 msgid "The %s plugin is required but is not loaded."
 msgstr ""
 
-#: ../src/hlink.c:164 ../src/hlink.c:180
+#: ../src/hlink.c:171 ../src/hlink.c:187
 msgid "Link target"
 msgstr "Link target"
 
-#: ../src/hlink.c:164
+#: ../src/hlink.c:171
 msgid "(none)"
 msgstr "(nihil)"
 
-#: ../src/hlink.c:230
+#: ../src/hlink.c:237
 #, c-format
 msgid "Unable to activate the url '%s'"
 msgstr "Tidak bisa mengaktifkan url '%s'"
 
-#: ../src/hlink.c:287
+#: ../src/hlink.c:294
 #, c-format
 msgid "Unable to open '%s'"
 msgstr "Tidak bisa membuka '%s'"
 
-#: ../src/item-bar.c:796
+#: ../src/item-bar.c:802
 msgid "Width:"
 msgstr "Lebar:"
 
-#: ../src/item-bar.c:796
+#: ../src/item-bar.c:802
 msgid "Height"
 msgstr "Tinggi"
 
 #. xgettext: This is input to ngettext based on the number of pixels.
-#: ../src/item-bar.c:801
+#: ../src/item-bar.c:807
 #, c-format
 msgid "(%d pixel)"
 msgid_plural "(%d pixels)"
 msgstr[0] "(%d piksel)"
 
 #. xgettext: This is input to ngettext based on the integer number of points.
-#: ../src/item-bar.c:806
+#: ../src/item-bar.c:812
 #, c-format
 msgid "%d.00 pt"
 msgstr "%d.00 pt"
 
-#: ../src/item-bar.c:806
+#: ../src/item-bar.c:812
 #, c-format
 msgid "%d.00 pts"
 msgstr "%d.00 pt"
 
 #. xgettext: The number of points here is always a fractional number, ie. not an integer.
-#: ../src/item-bar.c:810
+#: ../src/item-bar.c:816
 #, c-format
 msgid "%.2f pts"
 msgstr "%.2f pt"
@@ -12294,7 +12268,7 @@ msgstr "%.2f pt"
 msgid "_Move"
 msgstr "_Pindah"
 
-#: ../src/item-cursor.c:771 ../src/sheet-control-gui.c:2106
+#: ../src/item-cursor.c:771 ../src/sheet-control-gui.c:2141
 msgid "_Copy"
 msgstr "Sa_lin"
 
@@ -12362,9 +12336,8 @@ msgid ""
 msgstr ""
 
 #: ../src/libgnumeric.c:136
-#, fuzzy
 msgid "Gnumeric Options"
-msgstr "Pilihan penerimaan"
+msgstr "Opsi Gnumeric"
 
 #: ../src/libgnumeric.c:136
 #, fuzzy
@@ -12414,7 +12387,7 @@ msgstr "[FILE …]"
 
 #: ../src/main-application.c:163 ../src/ssconvert.c:711 ../src/ssgrep.c:434
 #: ../src/ssindex.c:255
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
@@ -12439,7 +12412,7 @@ msgstr "alokasi kesalahan bessel_k"
 msgid "bessel_k(%"
 msgstr "bessel_k(%"
 
-#: ../src/mathfunc.c:6641
+#: ../src/mathfunc.c:6666
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
@@ -12470,12 +12443,12 @@ msgstr "Semua entri dalam set harus berupa referensi"
 #: ../src/parser.y:509
 #, fuzzy, c-format
 msgid "Name '%s' does not exist"
-msgstr "Nama '%s' tidak ada dalam lembaran '%s'"
+msgstr "Program '%s' tak ada"
 
 #: ../src/parser.y:523
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' cannot be used as a name"
-msgstr "Beagle tak dapat dijalankan sebagai root"
+msgstr "'%s' tak bisa dipakai sebagai suatu nama"
 
 #: ../src/parser.y:560
 #, c-format
@@ -12552,53 +12525,53 @@ msgstr "Ekspresi tidak sah"
 msgid "Unexpected token %c"
 msgstr "Token tidak diharapkan %c"
 
-#: ../src/print-info.c:202 ../src/print-info.c:205 ../src/print-info.c:206
-#: ../src/print-info.c:319
+#: ../src/print-info.c:228 ../src/print-info.c:231 ../src/print-info.c:232
+#: ../src/print-info.c:345
 msgid "Page &[PAGE]"
 msgstr "Halaman &[PAGE]"
 
-#: ../src/print-info.c:203 ../src/print-info.c:208
+#: ../src/print-info.c:229 ../src/print-info.c:234
 msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Halaman &[PAGE] dari &[halaman]"
 
-#: ../src/print-info.c:204 ../src/print-info.c:205 ../src/print-info.c:206
-#: ../src/print-info.c:208 ../src/print-info.c:312
+#: ../src/print-info.c:230 ../src/print-info.c:231 ../src/print-info.c:232
+#: ../src/print-info.c:234 ../src/print-info.c:338
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
-#: ../src/print-info.c:206 ../src/print-info.c:207 ../src/print-info.c:208
+#: ../src/print-info.c:232 ../src/print-info.c:233 ../src/print-info.c:234
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: ../src/print-info.c:606
+#: ../src/print-info.c:632
 msgid "File Name"
 msgstr "Nama Berkas"
 
-#: ../src/print-info.c:618
+#: ../src/print-info.c:644
 msgid "Path "
 msgstr "Lokasi "
 
-#: ../src/print-info.c:816 ../src/stf-export.c:674
+#: ../src/print-info.c:872 ../src/stf-export.c:688
 #, fuzzy, c-format
 msgid "There is no such sheet"
 msgstr "Tidak ada disc di \"%s\"."
 
-#: ../src/print-info.c:859
+#: ../src/print-info.c:915
 #, fuzzy, c-format
 msgid "There is no object with name '%s'"
 msgstr "Sudah ada kelas dengan nama ini"
 
-#: ../src/print-info.c:876
+#: ../src/print-info.c:932
 #, fuzzy, c-format
 msgid "Unknown paper size"
 msgstr "Ukuran Kertas: {0} x {1} mm"
 
-#: ../src/print-info.c:886
+#: ../src/print-info.c:942
 #, c-format
 msgid "Invalid option for pdf exporter"
 msgstr ""
 
-#: ../src/print-info.c:907
+#: ../src/print-info.c:963
 #, fuzzy
 msgid "PDF export"
 msgstr "_Moda ekspor:"
@@ -12672,7 +12645,7 @@ msgstr "Atur Le_mbaran..."
 #: ../src/print.c:1500
 #, fuzzy
 msgid "Current _selection only"
-msgstr "Ganti bagian terpilih"
+msgstr "Hanya direktori ini"
 
 #: ../src/print.c:1505
 msgid "_Ignore defined print area"
@@ -12693,9 +12666,8 @@ msgid "Failed to create temporary file for printing: %s"
 msgstr "Gagal membuat berkas sementara untuk pengiriman."
 
 #: ../src/print.c:1845
-#, fuzzy
 msgid "Gnumeric Print Range"
-msgstr "Piksel yang mencakup jangkauan Y"
+msgstr "Kisaran Cetak Gnumerik"
 
 #: ../src/print.c:1861
 #, fuzzy
@@ -12719,114 +12691,114 @@ msgstr "Anda harus menyebutkan kisaran yang akan dicari."
 msgid "The search range is invalid."
 msgstr "Kisaran pencarian tidak sah."
 
-#: ../src/search.c:700
+#: ../src/search.c:708
 #, fuzzy
 msgid "Is Number"
-msgstr "1 bukan bilangan prima."
+msgstr "Jumlah Jangkar/Anchor"
 
-#: ../src/search.c:701
+#: ../src/search.c:709
 msgid "Search for Specific Number Regardless of Formatting?"
 msgstr ""
 
-#: ../src/search.c:709
+#: ../src/search.c:717
 msgid "Search Strings"
 msgstr "Cari String"
 
-#: ../src/search.c:710
+#: ../src/search.c:718
 msgid "Should strings be searched?"
 msgstr "Haruskah string dicari?"
 
-#: ../src/search.c:718
+#: ../src/search.c:726
 msgid "Search Other Values"
 msgstr "Cari Nilai Lain"
 
-#: ../src/search.c:719
+#: ../src/search.c:727
 msgid "Should non-strings be searched?"
 msgstr "Haruskah selain-string dicari?"
 
-#: ../src/search.c:727
+#: ../src/search.c:735
 msgid "Search Expressions"
 msgstr "Cari Ekspresi"
 
-#: ../src/search.c:728
+#: ../src/search.c:736
 msgid "Should expressions be searched?"
 msgstr "Haruskah ekspresi dicari?"
 
-#: ../src/search.c:736
+#: ../src/search.c:744
 msgid "Search Expression Results"
 msgstr "Hasil Cari Ekspresi"
 
-#: ../src/search.c:737
+#: ../src/search.c:745
 msgid "Should the results of expressions be searched?"
 msgstr "Haruskah hasil dari ekspresi dicari?"
 
-#: ../src/search.c:745
+#: ../src/search.c:753
 msgid "Search Comments"
 msgstr "Cari Komentar"
 
-#: ../src/search.c:746
+#: ../src/search.c:754
 msgid "Should cell comments be searched?"
 msgstr "Haruskah komentar sel dicari?"
 
-#: ../src/search.c:754
+#: ../src/search.c:762
 #, fuzzy
 msgid "Search Scripts"
 msgstr "Sega_rkan Skrip"
 
-#: ../src/search.c:755
+#: ../src/search.c:763
 #, fuzzy
 msgid "Should scrips (workbook, and worksheet) be searched?"
 msgstr "Haruskah string dicari?"
 
-#: ../src/search.c:763
+#: ../src/search.c:771
 #, fuzzy
 msgid "Invert"
-msgstr "Balik P_ilihan"
+msgstr "Balikkan"
 
-#: ../src/search.c:764
+#: ../src/search.c:772
 #, fuzzy
 msgid "Collect non-matching items"
 msgstr "Tidak bisa menemukan tanda-kutip penutup yang cocok"
 
-#: ../src/search.c:772
+#: ../src/search.c:780
 msgid "By Row"
 msgstr "Menurut Baris"
 
-#: ../src/search.c:773
+#: ../src/search.c:781
 msgid "Is the search order by row?"
 msgstr "Apakah urutan pencarian menurut baris?"
 
-#: ../src/search.c:781
+#: ../src/search.c:789
 msgid "Query"
 msgstr "Query"
 
-#: ../src/search.c:782
+#: ../src/search.c:790
 msgid "Should we query for each replacement?"
 msgstr "Haruskah kami bertanya untuk setiap penggantian?"
 
-#: ../src/search.c:790
+#: ../src/search.c:798
 #, fuzzy
 msgid "Keep Strings"
 msgstr "String asli"
 
-#: ../src/search.c:791
+#: ../src/search.c:799
 msgid "Should replacement keep strings as strings?"
 msgstr ""
 
-#: ../src/search.c:800
+#: ../src/search.c:808
 #, fuzzy
 msgid "The sheet in which to search."
 msgstr "Kisaran ke mana mencari."
 
-#: ../src/search.c:809
+#: ../src/search.c:817
 msgid "Where to search."
 msgstr "Kemana mencari."
 
-#: ../src/search.c:818
+#: ../src/search.c:826
 msgid "Range as Text"
 msgstr "Kisaran sebagai Teks"
 
-#: ../src/search.c:819
+#: ../src/search.c:827
 msgid "The range in which to search."
 msgstr "Kisaran ke mana mencari."
 
@@ -12845,257 +12817,255 @@ msgid "%dQ"
 msgstr "K%d-"
 
 #: ../src/sheet-autofill.c:914
-#, fuzzy
 msgid "(empty)"
 msgstr "(kosong)"
 
-#: ../src/sheet-control-gui.c:2017 ../src/wbc-gtk-actions.c:412
+#: ../src/sheet-control-gui.c:2052 ../src/wbc-gtk-actions.c:412
 #, fuzzy, c-format
 msgid "Remove %d Link"
 msgid_plural "Remove %d Links"
 msgstr[0] "Buang Taut"
 
-#: ../src/sheet-control-gui.c:2104
+#: ../src/sheet-control-gui.c:2139
 msgid "Cu_t"
 msgstr "Po_tong"
 
-#: ../src/sheet-control-gui.c:2108
+#: ../src/sheet-control-gui.c:2143
 msgid "_Paste"
 msgstr "Tem_pel"
 
-#: ../src/sheet-control-gui.c:2110
+#: ../src/sheet-control-gui.c:2145
 msgid "Paste _Special"
 msgstr "Tempel _Spesial"
 
-#: ../src/sheet-control-gui.c:2115
+#: ../src/sheet-control-gui.c:2150
 msgid "_Insert Cells..."
 msgstr "_Sisipkan Sel..."
 
-#: ../src/sheet-control-gui.c:2118
+#: ../src/sheet-control-gui.c:2153
 msgid "_Delete Cells..."
 msgstr "_Hapus Sel..."
 
-#: ../src/sheet-control-gui.c:2121
+#: ../src/sheet-control-gui.c:2156
 msgid "_Insert Column(s)"
 msgstr "_Sisipkan Kolom"
 
-#: ../src/sheet-control-gui.c:2125
+#: ../src/sheet-control-gui.c:2160
 msgid "_Delete Column(s)"
 msgstr "_Hapus Kolom"
 
-#: ../src/sheet-control-gui.c:2129
+#: ../src/sheet-control-gui.c:2164
 msgid "_Insert Row(s)"
 msgstr "_Sisipkan Baris"
 
-#: ../src/sheet-control-gui.c:2133
+#: ../src/sheet-control-gui.c:2168
 msgid "_Delete Row(s)"
 msgstr "_Hapus Baris"
 
-#: ../src/sheet-control-gui.c:2138
+#: ../src/sheet-control-gui.c:2173
 msgid "Clear Co_ntents"
 msgstr "Hapus I_si"
 
-#: ../src/sheet-control-gui.c:2143
-#, fuzzy
+# typo: dual shortcut?
+#: ../src/sheet-control-gui.c:2178
 msgid "Add _Co_mment"
-msgstr "Ubah Ko_mentar..."
+msgstr "Ubah Ko_mentar"
 
-#: ../src/sheet-control-gui.c:2145
+#: ../src/sheet-control-gui.c:2180
 msgid "Edit Co_mment..."
 msgstr "Ubah Ko_mentar..."
 
-#: ../src/sheet-control-gui.c:2147
+#: ../src/sheet-control-gui.c:2182
 #, fuzzy
 msgid "_Remove Comments"
-msgstr "Buang komentar dari gambar terpilih"
+msgstr "Komentar Dokumentasi"
 
-#: ../src/sheet-control-gui.c:2150
-#, fuzzy
+#: ../src/sheet-control-gui.c:2185
 msgid "Add _Hyperlink"
-msgstr "Tambah Hyperlink"
+msgstr "Tambah _Hyperlink"
 
-#: ../src/sheet-control-gui.c:2153
+#: ../src/sheet-control-gui.c:2188
 msgid "Edit _Hyperlink"
 msgstr "Ubah _Hyperlink"
 
-#: ../src/sheet-control-gui.c:2156
+#: ../src/sheet-control-gui.c:2191
 msgid "_Remove Hyperlink"
 msgstr "_Hapus Hyperlink"
 
-#: ../src/sheet-control-gui.c:2162
+#: ../src/sheet-control-gui.c:2197
 #, fuzzy
 msgid "_Edit DataSlicer"
 msgstr "Sunting P_enanda Taut..."
 
-#: ../src/sheet-control-gui.c:2165
+#: ../src/sheet-control-gui.c:2200
 #, fuzzy
 msgid "_Refresh DataSlicer"
 msgstr "Sega_rkan Resgistri"
 
-#: ../src/sheet-control-gui.c:2169
+#: ../src/sheet-control-gui.c:2204
 #, fuzzy
 msgid "DataSlicer Field _Order "
 msgstr "Urutan byte tak didukung"
 
-#: ../src/sheet-control-gui.c:2178
+#: ../src/sheet-control-gui.c:2213
 #, fuzzy
 msgid "Up"
 msgstr "Naik"
 
-#: ../src/sheet-control-gui.c:2181
+#: ../src/sheet-control-gui.c:2216
 #, fuzzy
 msgid "Down"
 msgstr "Turun"
 
 #. end sub menu
-#: ../src/sheet-control-gui.c:2188
+#: ../src/sheet-control-gui.c:2223
 #, fuzzy
 msgid "_Format All Cells..."
 msgstr "Cari dalam semua sel pada workbook"
 
-#: ../src/sheet-control-gui.c:2190
+#: ../src/sheet-control-gui.c:2225
 #, fuzzy
 msgid "C_onditional Formating..."
 msgstr "Pemformatan teks penyunting"
 
-#: ../src/sheet-control-gui.c:2195
+#: ../src/sheet-control-gui.c:2230
 #, fuzzy
 msgid "_Unmerge"
 msgstr "_Gabung"
 
-#: ../src/sheet-control-gui.c:2197 ../src/wbc-gtk-actions.c:2398
+#: ../src/sheet-control-gui.c:2232 ../src/wbc-gtk-actions.c:2398
 #, fuzzy
 msgid "Auto Fit _Width"
 msgstr "Paskan _Lebar"
 
-#: ../src/sheet-control-gui.c:2198 ../src/wbc-gtk-actions.c:2395
+#: ../src/sheet-control-gui.c:2233 ../src/wbc-gtk-actions.c:2395
 #, fuzzy
 msgid "Auto Fit _Height"
 msgstr "P_askan otomatis pilihan"
 
 #. start sub menu
 #. Format -> Col
-#: ../src/sheet-control-gui.c:2204 ../src/wbc-gtk-actions.c:2404
+#: ../src/sheet-control-gui.c:2239 ../src/wbc-gtk-actions.c:2404
 msgid "_Width..."
 msgstr "_Lebar..."
 
-#: ../src/sheet-control-gui.c:2205 ../src/wbc-gtk-actions.c:2407
+#: ../src/sheet-control-gui.c:2240 ../src/wbc-gtk-actions.c:2407
 #, fuzzy
 msgid "_Auto Fit Width"
 msgstr "Paskan _Lebar"
 
-#: ../src/sheet-control-gui.c:2206 ../src/sheet-control-gui.c:2214
+#: ../src/sheet-control-gui.c:2241 ../src/sheet-control-gui.c:2249
 #: ../src/wbc-gtk-actions.c:2410 ../src/wbc-gtk-actions.c:2427
 msgid "_Hide"
 msgstr "_Sembunyikan"
 
-#: ../src/sheet-control-gui.c:2207 ../src/sheet-control-gui.c:2215
+#: ../src/sheet-control-gui.c:2242 ../src/sheet-control-gui.c:2250
 #: ../src/wbc-gtk-actions.c:2413 ../src/wbc-gtk-actions.c:2430
 msgid "_Unhide"
 msgstr "_Perlihatkan"
 
 #. start sub menu
-#: ../src/sheet-control-gui.c:2212
+#: ../src/sheet-control-gui.c:2247
 #, fuzzy
 msgid "Hei_ght..."
 msgstr "Tin_ggi:"
 
-#: ../src/sheet-control-gui.c:2213 ../src/wbc-gtk-actions.c:2424
+#: ../src/sheet-control-gui.c:2248 ../src/wbc-gtk-actions.c:2424
 #, fuzzy
 msgid "_Auto Fit Height"
 msgstr "P_askan otomatis pilihan"
 
 #. xgettext : %d gives the number of links. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2348
+#: ../src/sheet-control-gui.c:2383
 #, fuzzy, c-format
 msgid "_Remove %d Link"
 msgid_plural "_Remove %d Links"
 msgstr[0] "Buang Taut"
 
 #. xgettext : %d gives the number of comments. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2353
+#: ../src/sheet-control-gui.c:2388
 #, fuzzy, c-format
 msgid "_Remove %d Comment"
 msgid_plural "_Remove %d Comments"
 msgstr[0] "Beri/Hapus Komentar"
 
-#: ../src/sheet-control-gui.c:2356
+#: ../src/sheet-control-gui.c:2391
 #, fuzzy, c-format
 msgid "_Insert %d Cell..."
 msgid_plural "_Insert %d Cells..."
 msgstr[0] "Sel yang Dipilih"
 
-#: ../src/sheet-control-gui.c:2358
-#, fuzzy, c-format
+#: ../src/sheet-control-gui.c:2393
+#, c-format
 msgid "_Delete %d Cell..."
 msgid_plural "_Delete %d Cells..."
-msgstr[0] "Sel yang Dipilih"
+msgstr[0] "_Hapus %d Sel..."
 
-#: ../src/sheet-control-gui.c:2364
+#: ../src/sheet-control-gui.c:2399
 #, fuzzy, c-format
 msgid "_Insert %d Column"
 msgid_plural "_Insert %d Columns"
 msgstr[0] "Sisipkan Kolom"
 
-#: ../src/sheet-control-gui.c:2366
-#, fuzzy, c-format
+#: ../src/sheet-control-gui.c:2401
+#, c-format
 msgid "_Delete %d Column"
 msgid_plural "_Delete %d Columns"
-msgstr[0] "Hapus _kolom(s)"
+msgstr[0] "_Hapus %d Kolom"
 
-#: ../src/sheet-control-gui.c:2369
+#: ../src/sheet-control-gui.c:2404
 #, fuzzy, c-format
 msgid "_Format %d Column"
 msgid_plural "_Format %d Columns"
 msgstr[0] "_Format Kolom..."
 
-#: ../src/sheet-control-gui.c:2376
+#: ../src/sheet-control-gui.c:2411
 #, fuzzy, c-format
 msgid "_Insert %d Row"
 msgid_plural "_Insert %d Rows"
 msgstr[0] "Sisipkan Baris"
 
-#: ../src/sheet-control-gui.c:2378
-#, fuzzy, c-format
+#: ../src/sheet-control-gui.c:2413
+#, c-format
 msgid "_Delete %d Row"
 msgid_plural "_Delete %d Rows"
-msgstr[0] "Hapus _baris(s)"
+msgstr[0] "_Hapus %d Baris"
 
-#: ../src/sheet-control-gui.c:2382
+#: ../src/sheet-control-gui.c:2417
 #, fuzzy, c-format
 msgid "_Format %d Row"
 msgid_plural "_Format %d Rows"
 msgstr[0] "Format baris"
 
-#: ../src/sheet-control-gui.c:2389
+#: ../src/sheet-control-gui.c:2424
 #, fuzzy, c-format
 msgid "_Format %d Cell..."
 msgid_plural "_Format %d Cells"
 msgstr[0] "Sel yang Dipilih"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2830
+#: ../src/sheet-control-gui.c:2865
 #, fuzzy, c-format
 msgid "Duplicate %d Object"
 msgid_plural "Duplicate %d Objects"
 msgstr[0] "Duplikat Obyek"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2833
+#: ../src/sheet-control-gui.c:2868
 #, fuzzy, c-format
 msgid "Insert %d Object"
 msgid_plural "Insert %d Objects"
 msgstr[0] "Sisipkan Obyek"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2837
+#: ../src/sheet-control-gui.c:2872
 #, fuzzy, c-format
 msgid "Move %d Object"
 msgid_plural "Move %d Objects"
 msgstr[0] "Pindah Obyek"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2840
+#: ../src/sheet-control-gui.c:2875
 #, fuzzy, c-format
 msgid "Resize %d Object"
 msgid_plural "Resize %d Objects"
@@ -13113,38 +13083,38 @@ msgid ""
 "%s!%s"
 msgstr ""
 
-#: ../src/sheet-object.c:106
+#: ../src/sheet-object.c:128
 #, fuzzy
 msgid "Snap object to grid"
-msgstr "Suatu objek untuk dilewatkan ke penangan"
+msgstr "Jungkitkan lengket-ke-grid."
 
-#: ../src/sheet-object.c:221
+#: ../src/sheet-object.c:243
 #, fuzzy
 msgid "Size _& Position"
 msgstr "Posisi relatif"
 
-#: ../src/sheet-object.c:222
+#: ../src/sheet-object.c:244
 #, fuzzy
 msgid "_Snap to Grid"
-msgstr "Jepret pada Tick"
+msgstr "Lengketkan ke Ki_si"
 
-#: ../src/sheet-object.c:223
+#: ../src/sheet-object.c:245
 msgid "_Order"
 msgstr "_Urutan"
 
-#: ../src/sheet-object.c:224
+#: ../src/sheet-object.c:246
 msgid "Pul_l to Front"
 msgstr "Tarik ke _Depan"
 
-#: ../src/sheet-object.c:225
+#: ../src/sheet-object.c:247
 msgid "Pull _Forward"
 msgstr "Tarik _Maju"
 
-#: ../src/sheet-object.c:226
+#: ../src/sheet-object.c:248
 msgid "Push _Backward"
 msgstr "Dorong M_undur"
 
-#: ../src/sheet-object.c:227
+#: ../src/sheet-object.c:249
 msgid "Pus_h to Back"
 msgstr "Dorong ke _Belakang"
 
@@ -13157,7 +13127,7 @@ msgstr "Kegagalan tidak dikenal saat menyimpan citra"
 #: ../src/sheet-object-component.c:194
 #, fuzzy
 msgid "Save as"
-msgstr "Simp_an Sebagai..."
+msgstr "Simpan sebagai"
 
 #: ../src/sheet-object-component.c:270
 #, fuzzy
@@ -13182,30 +13152,30 @@ msgstr "Buka dalam Je_ndela Baru"
 msgid "Copy to New Graph S_heet"
 msgstr ""
 
-#: ../src/sheet-object-graph.c:744
+#: ../src/sheet-object-graph.c:752
 #, fuzzy
 msgid "Series as:"
 msgstr "Simp_an Sebagai..."
 
 #. Translators: Series as "Columns"
-#: ../src/sheet-object-graph.c:750
+#: ../src/sheet-object-graph.c:758
 #, fuzzy
 msgctxt "graph"
 msgid "Columns"
 msgstr "Kolom"
 
 #. Translators: Series as "Rows"
-#: ../src/sheet-object-graph.c:752
+#: ../src/sheet-object-graph.c:760
 #, fuzzy
 msgctxt "graph"
 msgid "Rows"
 msgstr "Baris"
 
-#: ../src/sheet-object-graph.c:756
+#: ../src/sheet-object-graph.c:764
 msgid "Use first series as shared abscissa"
 msgstr ""
 
-#: ../src/sheet-object-graph.c:759
+#: ../src/sheet-object-graph.c:767
 #, fuzzy
 msgid "New graph sheet"
 msgstr "Sisipkan sebuah lembaran baru"
@@ -13231,77 +13201,76 @@ msgid "Released Button"
 msgstr "tombol tekan"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1186
+#: ../src/sheet-object-widget.c:1195
 #, fuzzy
 msgid "Change widget"
 msgstr "Pemilih widget"
 
-#: ../src/sheet-object-widget.c:1525
-#, fuzzy
+#: ../src/sheet-object-widget.c:1534
 msgid "Adjustment Properties"
-msgstr "Properti breakpoint"
+msgstr "Properti Penyesuaian"
 
-#: ../src/sheet-object-widget.c:1682
+#: ../src/sheet-object-widget.c:1691
 #, fuzzy
 msgid "Configure Scrollbar"
 msgstr "Penggulung Horisontal"
 
-#: ../src/sheet-object-widget.c:1730
+#: ../src/sheet-object-widget.c:1739
 #, fuzzy
 msgid "Configure Spinbutton"
 msgstr "Konfigurasikan Projek"
 
-#: ../src/sheet-object-widget.c:1731
+#: ../src/sheet-object-widget.c:1740
 #, fuzzy
 msgid "Spinbutton Properties"
 msgstr "Properti breakpoint"
 
-#: ../src/sheet-object-widget.c:1779
+#: ../src/sheet-object-widget.c:1788
 #, fuzzy
 msgid "Configure Slider"
 msgstr "Buat sebuah tombol geser"
 
-#: ../src/sheet-object-widget.c:1780
+#: ../src/sheet-object-widget.c:1789
 #, fuzzy
 msgid "Slider Properties"
 msgstr "Properti breakpoint"
 
-#: ../src/sheet-object-widget.c:1922
+#: ../src/sheet-object-widget.c:1931
 #, c-format
 msgid "CheckBox %d"
 msgstr "Kotak-cek %d"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1967
+#: ../src/sheet-object-widget.c:1976
 #, fuzzy
 msgid "Clicking checkbox"
 msgstr "Properti Kotak-cek"
 
-#: ../src/sheet-object-widget.c:2458 ../src/wbc-gtk-actions.c:2747
+#: ../src/sheet-object-widget.c:2467 ../src/wbc-gtk-actions.c:2747
 msgid "RadioButton"
 msgstr "Tombol Radio"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:2504
+#: ../src/sheet-object-widget.c:2513
 #, fuzzy
 msgid "Clicking radiobutton"
 msgstr "Menunjuk dan Mengklik"
 
-#: ../src/sheet-object-widget.c:2947
+#: ../src/sheet-object-widget.c:2956
 #, fuzzy
 msgid "Clicking in list"
 msgstr "Tampilkan dalam daftar"
 
-#: ../src/sheet-view.c:388
+#: ../src/sheet-view.c:400
 msgid "Copy"
 msgstr "Salin"
 
-#: ../src/sheet-view.c:413 ../src/sheet-view.c:416
+#: ../src/sheet-view.c:425 ../src/sheet-view.c:428
 msgid "Cut"
 msgstr "Potong"
 
 #. Oh, yeah?
-#: ../src/sheet.c:826
+#: ../src/sheet.c:847
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
@@ -13309,324 +13278,324 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 
-#: ../src/sheet.c:840
+#: ../src/sheet.c:861
 #, fuzzy
 msgid "Sheet Type"
 msgstr "Jenis server:"
 
-#: ../src/sheet.c:841
+#: ../src/sheet.c:862
 #, fuzzy
 msgid "Which type of sheet this is."
 msgstr "Berkas Psion ini bukan sebuah berkas Sheet."
 
-#: ../src/sheet.c:849
+#: ../src/sheet.c:870
 #, fuzzy
 msgid "Parent workbook"
 msgstr "_Workbook baru"
 
-#: ../src/sheet.c:850
+#: ../src/sheet.c:871
 msgid "The workbook in which this sheet lives"
 msgstr ""
 
-#: ../src/sheet.c:857
+#: ../src/sheet.c:878
 msgid "The name of the sheet."
 msgstr "Nama lembaran."
 
-#: ../src/sheet.c:862
+#: ../src/sheet.c:883
 msgid "text-is-rtl"
 msgstr "teks-adalah-rtl"
 
-#: ../src/sheet.c:863
+#: ../src/sheet.c:884
 msgid "Text goes from right to left."
 msgstr "Teks dari kanan ke kiri."
 
-#: ../src/sheet.c:868
+#: ../src/sheet.c:889
 msgid "Visibility"
 msgstr "Visibilitas"
 
-#: ../src/sheet.c:869
+#: ../src/sheet.c:890
 msgid "How visible the sheet is."
 msgstr "Seberapa terlihat lembaran."
 
-#: ../src/sheet.c:875
+#: ../src/sheet.c:896
 #, fuzzy
 msgid "Display Formulæ"
 msgstr "menampilkan sebagai \"?\""
 
-#: ../src/sheet.c:876
+#: ../src/sheet.c:897
 #, fuzzy
 msgid "Control whether formulæ are shown instead of values."
 msgstr "Kontrol apakah rumus diperlihatkan sebagai ganti nilai."
 
-#: ../src/sheet.c:881
+#: ../src/sheet.c:902
 msgid "Display Zeros"
 msgstr "Tampilkan Nol"
 
-#: ../src/sheet.c:882
+#: ../src/sheet.c:903
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Kontrol apakah nol yang diperlihatkan dikosongkan."
 
-#: ../src/sheet.c:887
+#: ../src/sheet.c:908
 msgid "Display Grid"
 msgstr "Tampilkan Grid"
 
-#: ../src/sheet.c:888
+#: ../src/sheet.c:909
 msgid "Control whether the grid is shown."
 msgstr "Kontrol apakah grid diperlihatkan."
 
-#: ../src/sheet.c:893
+#: ../src/sheet.c:914
 msgid "Display Column Headers"
 msgstr "Tampilkan Header Kolom"
 
-#: ../src/sheet.c:894
+#: ../src/sheet.c:915
 msgid "Control whether column headers are shown."
 msgstr "Kontrol apakah kolom header diperlihatkan."
 
-#: ../src/sheet.c:899
+#: ../src/sheet.c:920
 msgid "Display Row Headers"
 msgstr "Tampilkan Header Baris"
 
-#: ../src/sheet.c:900
+#: ../src/sheet.c:921
 msgid "Control whether row headers are shown."
 msgstr "Kontrol apakah header baris diperlihatkan."
 
-#: ../src/sheet.c:905
+#: ../src/sheet.c:926
 msgid "Display Outlines"
 msgstr "Tampilkan Outline"
 
-#: ../src/sheet.c:906
+#: ../src/sheet.c:927
 msgid "Control whether outlines are shown."
 msgstr "Kontrol apakah outline diperlihatkan."
 
-#: ../src/sheet.c:911
+#: ../src/sheet.c:932
 msgid "Display Outlines Below"
 msgstr "Tampilkan Outline di bawah"
 
-#: ../src/sheet.c:912
+#: ../src/sheet.c:933
 msgid "Control whether outline symbols are shown below."
 msgstr "Kontrol apakah simbol outline diperlihatkan di bawah."
 
-#: ../src/sheet.c:917
+#: ../src/sheet.c:938
 msgid "Display Outlines Right"
 msgstr "Tampilkan Outline di Kanan"
 
-#: ../src/sheet.c:918
+#: ../src/sheet.c:939
 msgid "Control whether outline symbols are shown to the right."
 msgstr "Kontrol apakah simbol outline diperlihatkan di sebelah kanan."
 
-#: ../src/sheet.c:924 ../src/workbook-view.c:944
+#: ../src/sheet.c:945 ../src/workbook-view.c:956
 msgid "Protected"
 msgstr "Terproteksi"
 
-#: ../src/sheet.c:925
+#: ../src/sheet.c:946
 msgid "Sheet is protected."
 msgstr "Lembaran terproteksi."
 
-#: ../src/sheet.c:928
+#: ../src/sheet.c:949
 #, fuzzy
 msgid "Protected Allow Edit objects"
 msgstr "Bolehkan menyunting metadata berkas."
 
-#: ../src/sheet.c:929
+#: ../src/sheet.c:950
 msgid "Allow objects to be edited while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:932
+#: ../src/sheet.c:953
 #, fuzzy
 msgid "Protected allow edit scenarios"
 msgstr "Bolehkan menyunting metadata berkas."
 
-#: ../src/sheet.c:933
+#: ../src/sheet.c:954
 msgid "Allow scenarios to be edited while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:936
+#: ../src/sheet.c:957
 msgid "Protected allow cell formatting"
 msgstr ""
 
-#: ../src/sheet.c:937
+#: ../src/sheet.c:958
 msgid "Allow cell format changes while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:940
+#: ../src/sheet.c:961
 #, fuzzy
 msgid "Protected allow column formatting"
 msgstr "Abaikan semua kolom di sebelah kanan"
 
-#: ../src/sheet.c:941
+#: ../src/sheet.c:962
 msgid "Allow column formatting while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:944
+#: ../src/sheet.c:965
 #, fuzzy
 msgid "Protected allow row formatting"
 msgstr "Model tak mengijinkan penyisipan baris"
 
-#: ../src/sheet.c:945
+#: ../src/sheet.c:966
 msgid "Allow row formatting while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:948
+#: ../src/sheet.c:969
 msgid "Protected allow insert columns"
 msgstr ""
 
-#: ../src/sheet.c:949
+#: ../src/sheet.c:970
 msgid "Allow columns to be inserted while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:952
+#: ../src/sheet.c:973
 #, fuzzy
 msgid "Protected allow insert rows"
 msgstr "Membolehkan penggambaran baris-baris dalam warna yang bergantian"
 
-#: ../src/sheet.c:953
+#: ../src/sheet.c:974
 msgid "Allow rows to be inserted while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:956
+#: ../src/sheet.c:977
 msgid "Protected allow insert hyperlinks"
 msgstr ""
 
-#: ../src/sheet.c:957
+#: ../src/sheet.c:978
 msgid "Allow hyperlinks to be inserted while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:960
+#: ../src/sheet.c:981
 #, fuzzy
 msgid "Protected allow delete columns"
 msgstr "Sembunyikan kolom yang dipilih"
 
-#: ../src/sheet.c:961
+#: ../src/sheet.c:982
 msgid "Allow columns to be deleted while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:964
+#: ../src/sheet.c:985
 #, fuzzy
 msgid "Protected allow delete rows"
 msgstr "Membolehkan penggambaran baris-baris dalam warna yang bergantian"
 
-#: ../src/sheet.c:965
+#: ../src/sheet.c:986
 msgid "Allow rows to be deleted while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:968
+#: ../src/sheet.c:989
 msgid "Protected allow select locked cells"
 msgstr ""
 
-#: ../src/sheet.c:969
+#: ../src/sheet.c:990
 msgid "Allow the user to select locked cells while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:972
+#: ../src/sheet.c:993
 msgid "Protected allow sort ranges"
 msgstr ""
 
-#: ../src/sheet.c:973
+#: ../src/sheet.c:994
 msgid "Allow ranges to be sorted while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:976
+#: ../src/sheet.c:997
 msgid "Protected allow edit auto filters"
 msgstr ""
 
-#: ../src/sheet.c:977
+#: ../src/sheet.c:998
 msgid "Allow auto filters to be edited while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:980
+#: ../src/sheet.c:1001
 #, fuzzy
 msgid "Protected allow edit pivottable"
 msgstr "Bolehkan menyunting metadata berkas."
 
-#: ../src/sheet.c:981
+#: ../src/sheet.c:1002
 msgid "Allow pivottable to be edited while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:984
+#: ../src/sheet.c:1005
 msgid "Protected allow select unlocked cells"
 msgstr ""
 
-#: ../src/sheet.c:985
+#: ../src/sheet.c:1006
 msgid "Allow the user to select unlocked cells while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:989
+#: ../src/sheet.c:1010
 msgid "Display convention for expressions (default Gnumeric A1)"
 msgstr ""
 
-#: ../src/sheet.c:990
+#: ../src/sheet.c:1011
 msgid "How to format displayed expressions, (A1 vs R1C1, function names, ...)"
 msgstr ""
 
 #. convenience wrapper to CONVENTIONS
-#: ../src/sheet.c:994
+#: ../src/sheet.c:1015
 msgid "Display convention for expressions as XLS_R1C1 vs default"
 msgstr ""
 
-#: ../src/sheet.c:995
+#: ../src/sheet.c:1016
 msgid "How to format displayed expressions, (a convenience api)"
 msgstr ""
 
-#: ../src/sheet.c:1001
+#: ../src/sheet.c:1022
 msgid "Tab Foreground"
 msgstr "Tab Foreground"
 
-#: ../src/sheet.c:1002
+#: ../src/sheet.c:1023
 msgid "The foreground color of the tab."
 msgstr "Latar depan tab."
 
-#: ../src/sheet.c:1007
+#: ../src/sheet.c:1028
 msgid "Tab Background"
 msgstr "Latar belakang tab"
 
-#: ../src/sheet.c:1008
+#: ../src/sheet.c:1029
 msgid "The background color of the tab."
 msgstr "Warna latar tab."
 
-#: ../src/sheet.c:1015
+#: ../src/sheet.c:1036
 msgid "Zoom Factor"
 msgstr "faktor Pembesaran"
 
-#: ../src/sheet.c:1016
+#: ../src/sheet.c:1037
 msgid "The level of zoom used for this sheet."
 msgstr "Tingkat pembesaran yang dipakai untuk lembaran ini."
 
-#: ../src/sheet.c:1026
+#: ../src/sheet.c:1047
 #, fuzzy
 msgid "Columns number in the sheet"
 msgstr "Cacah kolom baku dalam lembaran"
 
-#: ../src/sheet.c:1033
+#: ../src/sheet.c:1054
 #, fuzzy
 msgid "Rows number in the sheet"
 msgstr "Cacah baris baku dalam lembaran"
 
-#: ../src/sheet.c:3390
+#: ../src/sheet.c:3459
 msgid "Target region contains merged cells"
 msgstr "Wilayah target berisi sel gabungan"
 
-#: ../src/sheet.c:3451
+#: ../src/sheet.c:3522
 msgid "cannot operate on merged cells"
 msgstr "tidak bisa beroperasi pada sel gabungan"
 
-#: ../src/sheet.c:3461
+#: ../src/sheet.c:3532
 #, fuzzy
 msgid "cannot operate on array formulæ"
 msgstr "tidak bisa beroperasi pada rumus array"
 
-#: ../src/sheet.c:4853
+#: ../src/sheet.c:4962
 msgid "Insert Columns"
 msgstr "Sisipkan kolom"
 
-#: ../src/sheet.c:4944
+#: ../src/sheet.c:5053
 msgid "Delete Columns"
 msgstr "Hapus Kolom"
 
-#: ../src/sheet.c:5025
+#: ../src/sheet.c:5134
 msgid "Insert Rows"
 msgstr "Sisipkan baris"
 
-#: ../src/sheet.c:5116
+#: ../src/sheet.c:5225
 msgid "Delete Rows"
 msgstr "Hapus Baris"
 
@@ -13817,7 +13786,7 @@ msgstr ""
 #: ../src/ssgrep.c:109
 #, fuzzy
 msgid "Print filenames with matches"
-msgstr "Cetak Sel Default Hanya dengan Gaya"
+msgstr "Cocok dengan perangkat yang diberikan UUIDnya"
 
 #: ../src/ssgrep.c:116
 msgid "Print filenames without matches"
@@ -13880,14 +13849,14 @@ msgid ""
 msgstr "Kendali versi git"
 
 #: ../src/ssgrep.c:461
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Cannot read %s: %s\n"
-msgstr "Tak bisa baca %s: %s"
+msgstr "%s: Tak bisa baca %s: %s\n"
 
 #: ../src/ssgrep.c:491
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Missing pattern\n"
-msgstr "_Pola nama berkas"
+msgstr "%s: Kurang pola\n"
 
 #: ../src/ssindex.c:51
 msgid "List MIME types which ssindex is able to read"
@@ -13910,59 +13879,59 @@ msgid ""
 "libdir := '%s'\n"
 msgstr ""
 
-#: ../src/stf-export.c:548
+#: ../src/stf-export.c:555
 msgid "Character set"
 msgstr "Set karakter"
 
-#: ../src/stf-export.c:549
+#: ../src/stf-export.c:556
 msgid "The character encoding of the output."
 msgstr "Pengkodean karakter keluaran."
 
-#: ../src/stf-export.c:557
+#: ../src/stf-export.c:564
 #, fuzzy
 msgid "Locale"
 msgstr "Lokal"
 
-#: ../src/stf-export.c:558
+#: ../src/stf-export.c:565
 msgid "The locale to use for number and date formatting."
 msgstr ""
 
-#: ../src/stf-export.c:566
+#: ../src/stf-export.c:573
 msgid "Transliterate mode"
 msgstr "Moda transliterate"
 
-#: ../src/stf-export.c:567
+#: ../src/stf-export.c:574
 msgid "What to do with unrepresentable characters."
 msgstr "Apa yang dilakukan dengan karakter yang tidak bisa diperlihatkan."
 
-#: ../src/stf-export.c:577
+#: ../src/stf-export.c:584
 msgid "How should cells be formatted?"
 msgstr "Bagaimana harusnya sel diformat?"
 
-#: ../src/stf-export.c:655
+#: ../src/stf-export.c:669
 msgid "Error while trying to export file as text"
 msgstr "Kesalahan saat coba mengekspor berkas sebagai Teks"
 
-#: ../src/stf-export.c:692
+#: ../src/stf-export.c:706
 msgid "eol must be one of unix, mac, and windows"
 msgstr ""
 
-#: ../src/stf-export.c:712
+#: ../src/stf-export.c:726
 #, fuzzy, c-format
 msgid "Invalid value for option %s: \"%s\""
 msgstr "Nilai tak valid bagi ruas"
 
-#: ../src/stf-export.c:714
+#: ../src/stf-export.c:728
 msgid "Invalid option for stf exporter"
 msgstr ""
 
-#: ../src/stf-export.c:739
+#: ../src/stf-export.c:759
 #, fuzzy
 msgid "Text (configurable)"
 msgstr "Impor teks (bisa dikonfigurasi)"
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1269
+#: ../src/stf-parse.c:1311
 #, fuzzy
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
@@ -13972,7 +13941,7 @@ msgstr ""
 "diabaikan."
 
 #. FIXME: What locale?
-#: ../src/stf-parse.c:1291
+#: ../src/stf-parse.c:1333
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -13984,55 +13953,55 @@ msgstr ""
 msgid "Error while trying to read file"
 msgstr "Kesalahan saat coba membaca berkas"
 
-#: ../src/stf.c:319 ../src/stf.c:354
+#: ../src/stf.c:320 ../src/stf.c:355
 msgid "Text to Columns"
 msgstr "Teks ke Kolom"
 
-#: ../src/stf.c:324
+#: ../src/stf.c:325
 #, c-format
 msgid "Only one column of input data can be parsed at a time"
 msgstr ""
 
-#: ../src/stf.c:349
+#: ../src/stf.c:350
 msgid "There is no data to convert"
 msgstr "Tidak ada data yang dikonversi"
 
-#: ../src/stf.c:369
+#: ../src/stf.c:370
 msgid "Error while trying to parse data into sheet"
 msgstr "Kesalahan saat coba mengurai data ke dalam lembaran"
 
-#: ../src/stf.c:396
+#: ../src/stf.c:397
 #, c-format
 msgid "The file contains %d NULL character. It has been changed to a space."
 msgid_plural ""
 "The file contains %d NULL characters. They have been changed to spaces."
 msgstr[0] ""
 
-#: ../src/stf.c:449
+#: ../src/stf.c:450
 msgid "That file is not in the given encoding."
 msgstr "Berkas itu bukan dalam pengkodean yang diberikan."
 
-#: ../src/stf.c:494
+#: ../src/stf.c:495
 msgid "Some data did not fit on the sheet and was dropped."
 msgstr ""
 
-#: ../src/stf.c:506
+#: ../src/stf.c:507
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Kesalahan mengurai saat coba mengurai data ke dalam lembaran"
 
-#: ../src/stf.c:541
+#: ../src/stf.c:542
 msgid "Error while trying to write CSV file"
 msgstr "Kesalahan saat coba menulis berkas CSV"
 
-#: ../src/stf.c:639
+#: ../src/stf.c:640
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Nilai dipisah koma atau tab (CSV/TSV)"
 
-#: ../src/stf.c:647
+#: ../src/stf.c:648
 msgid "Text import (configurable)"
 msgstr "Impor teks (bisa dikonfigurasi)"
 
-#: ../src/stf.c:659
+#: ../src/stf.c:660
 msgid "Comma separated values (CSV)"
 msgstr "Nilai dipisah koma (CSV)"
 
@@ -14067,7 +14036,7 @@ msgstr "/ANOVA/Sumber Variasi/Antar Grup/Dalam Grup/Total"
 #: ../src/tools/analysis-anova.c:250 ../src/tools/analysis-anova.c:609
 #: ../src/tools/analysis-tools.c:4302
 msgid "/SS/df/MS/F/P-value/F critical"
-msgstr "/SS/df/MS/F/nilai-P/Kritical F"
+msgstr "/SS/df/MS/F/nilai-P/F kritis"
 
 #: ../src/tools/analysis-anova.c:387 ../src/tools/analysis-anova.c:793
 msgid "Insufficient space available for ANOVA table."
@@ -14241,9 +14210,8 @@ msgid "Exponential Smoothing (%s)"
 msgstr "Penghalusan Eksponensial (%s)"
 
 #: ../src/tools/analysis-frequency.c:77
-#, fuzzy
 msgid "/Frequency Table/Category"
-msgstr "Buat kategori baru"
+msgstr "/Tabel Frekuensi/Kategori"
 
 #: ../src/tools/analysis-frequency.c:152 ../src/tools/analysis-histogram.c:328
 #: ../src/tools/analysis-tools.c:1225
@@ -14308,15 +14276,17 @@ msgstr "Histogram (%s)"
 
 #: ../src/tools/analysis-kaplan-meier.c:102
 msgid "Kaplan-Meier"
-msgstr ""
+msgstr "Kaplan-Meier"
 
+# censures: the expression of formal disapproval
 #: ../src/tools/analysis-kaplan-meier.c:203
+#, fuzzy
 msgid "/At Risk/Deaths/Censures/Probability"
-msgstr ""
+msgstr "/Berresiko/Kematian/Censures/Probabilitas"
 
 #: ../src/tools/analysis-kaplan-meier.c:209
 msgid "/At Risk/Deaths/Probability"
-msgstr ""
+msgstr "/Berresiko/Kematian/Probabilitas"
 
 #: ../src/tools/analysis-kaplan-meier.c:469 ../src/tools/simulation.c:250
 msgid "Median"
@@ -14329,12 +14299,12 @@ msgstr ""
 #: ../src/tools/analysis-kaplan-meier.c:657
 #, fuzzy, c-format
 msgid "Kaplan-Meier (%s)"
-msgstr "Contoh (%s)"
+msgstr "Kaplan-Meier"
 
 #: ../src/tools/analysis-kaplan-meier.c:679
 #: ../src/tools/analysis-kaplan-meier.c:682
 msgid "Kaplan-Meier Estimates"
-msgstr ""
+msgstr "Estimasi Kaplan-Meier"
 
 #: ../src/tools/analysis-normality.c:64
 msgid ""
@@ -14371,9 +14341,8 @@ msgstr ""
 #. * The items are bundled like this to increase translation context.
 #.
 #: ../src/tools/analysis-normality.c:127
-#, fuzzy
 msgid "/Alpha/p-Value/Statistic/N/Conclusion"
-msgstr "Nilai alfa yang dihitung oleh alfa"
+msgstr "/Alfa/Nilai-p/Statistik/N/Kesimpulan"
 
 #: ../src/tools/analysis-normality.c:167
 #, fuzzy
@@ -14388,12 +14357,11 @@ msgstr "Ukuran _Normal"
 #: ../src/tools/analysis-normality.c:194
 #, fuzzy, c-format
 msgid "Normality Test (%s)"
-msgstr "Hasil Uji"
+msgstr "Uji Kenormalan"
 
 #: ../src/tools/analysis-normality.c:205 ../src/tools/analysis-normality.c:208
-#, fuzzy
 msgid "Normality Test"
-msgstr "Hasil Uji"
+msgstr "Uji Kenormalan"
 
 #: ../src/tools/analysis-one-mean-test.c:69
 msgid ""
@@ -14654,7 +14622,7 @@ msgstr "/df/SS/MS/F/Signifikansi F"
 
 #: ../src/tools/analysis-tools.c:2971
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
-msgstr ""
+msgstr "/Koefisien/Galat Standar/Statistik t/Nilai p"
 
 #: ../src/tools/analysis-tools.c:2976
 #, fuzzy
@@ -14685,7 +14653,6 @@ msgid ""
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:3301
-#, fuzzy
 msgid "Constant"
 msgstr "Konstanta"
 
@@ -14788,9 +14755,8 @@ msgid "Fourier Transform"
 msgstr "Transformasi Ditata"
 
 #: ../src/tools/analysis-tools.c:4569
-#, fuzzy
 msgid "/Real/Imaginary"
-msgstr "Komponen Imajiner"
+msgstr "/Riil/Imajiner"
 
 #: ../src/tools/analysis-tools.c:4617
 #, c-format
@@ -14828,23 +14794,23 @@ msgstr ""
 msgid "Wilcoxon-Mann-Whitney Test (%s)"
 msgstr "Uji Wilcoxon-Mann-Whitney (%s)"
 
-#: ../src/tools/dao.c:172
+#: ../src/tools/dao.c:183
 msgid "New Sheet"
 msgstr "Lembaran Baru"
 
-#: ../src/tools/dao.c:175
+#: ../src/tools/dao.c:186
 msgid "New Workbook"
 msgstr "Workbook Baru"
 
-#: ../src/tools/dao.c:989
+#: ../src/tools/dao.c:1000
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: ../src/tools/dao.c:995
+#: ../src/tools/dao.c:1006
 msgid "Worksheet:"
 msgstr "Worksheet:"
 
-#: ../src/tools/dao.c:1002
+#: ../src/tools/dao.c:1013
 msgid "Report Created: "
 msgstr "Laporan Dibuat: "
 
@@ -15032,7 +14998,7 @@ msgstr ""
 #: ../src/tools/gnm-solver.c:2007
 #, fuzzy, c-format
 msgid "Unable to locate %s"
-msgstr "Tidak menemukan perintah yang akan dieksekusi"
+msgstr "Tidak dapat menemukan program"
 
 #: ../src/tools/gnm-solver.c:2023
 #, fuzzy, c-format
@@ -15065,9 +15031,8 @@ msgid "Correlated Random Numbers"
 msgstr "Fungsi-fungsi untuk membuat angka acak"
 
 #: ../src/tools/random-generator.c:53
-#, fuzzy
 msgid "Generating Random Numbers..."
-msgstr "Fungsi-fungsi untuk membuat angka acak"
+msgstr "Membuat Bilangan Acak..."
 
 #: ../src/tools/random-generator.c:119
 msgid ""
@@ -15142,7 +15107,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Kisaran"
 
-#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4640
+#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4646
 msgid "Count"
 msgstr "Hitung"
 
@@ -15189,24 +15154,23 @@ msgstr "Tabulasi"
 #. meaning is really "%d rows of all %d rows match"
 #. This is input to ngettext.
 #: ../src/undo.c:245
-#, fuzzy, c-format
+#, c-format
 msgid "%d row of %d matches"
 msgid_plural "%d rows of %d match"
-msgstr[0] "Tak ada yang cocok."
+msgstr[0] "%d baris dari %d cocok"
 
 #. xgettext: The %d gives the number of rows that match.
 #. This is input to ngettext.
 #: ../src/undo.c:254
-#, fuzzy, c-format
+#, c-format
 msgid "%d row matches"
 msgid_plural "%d rows match"
-msgstr[0] "Tak ada yang cocok."
+msgstr[0] "%d baris cocok"
 
 #. Note: no entry for GNM_VALIDATION_OP_NONE
 #: ../src/validation.c:73
-#, fuzzy
 msgid "Between"
-msgstr "antara"
+msgstr "Diantara"
 
 #: ../src/validation.c:74
 #, fuzzy
@@ -15226,9 +15190,8 @@ msgid "Not Equal"
 msgstr "Tidak sama dengan %d"
 
 #: ../src/validation.c:77
-#, fuzzy
 msgid "Greater Than"
-msgstr "lebih besar dari"
+msgstr "Lebih Dari"
 
 #: ../src/validation.c:78
 #, fuzzy
@@ -15245,59 +15208,59 @@ msgstr "lebih dari atau sama dengan"
 msgid "Less than or Equal"
 msgstr "kurang dari atau sama dengan"
 
-#: ../src/validation.c:420
+#: ../src/validation.c:439
 #, fuzzy
 msgid "Missing formula for validation"
 msgstr "Kehilangan timbal balik untuk hubungan %s"
 
-#: ../src/validation.c:423
+#: ../src/validation.c:442
 #, fuzzy
 msgid "Extra formula for validation"
 msgstr "Alokasikan ruang ekstra bagi anak"
 
-#: ../src/validation.c:434
+#: ../src/validation.c:453
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric: Validasi"
 
-#: ../src/validation.c:497
+#: ../src/validation.c:516
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Sel %s tidak boleh kosong"
 
-#: ../src/validation.c:505
+#: ../src/validation.c:524
 #, fuzzy, c-format
 msgid "Cell %s is not permitted to contain error values"
 msgstr "Sel %s tidak boleh kosong"
 
-#: ../src/validation.c:516
+#: ../src/validation.c:535
 #, fuzzy, c-format
 msgid "Cell %s is not permitted to contain strings"
 msgstr "Sel %s tidak boleh kosong"
 
-#: ../src/validation.c:532
+#: ../src/validation.c:551
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "'%s' bukan sebuah integer"
 
-#: ../src/validation.c:542
+#: ../src/validation.c:561
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "'%s' bukan tanggal yang sah"
 
-#: ../src/validation.c:566
+#: ../src/validation.c:585
 #, c-format
 msgid "%s does not contain the new value."
 msgstr "%s tidak berisi nilai baru."
 
-#: ../src/validation.c:602
+#: ../src/validation.c:621
 #, c-format
 msgid "%s is not true."
 msgstr "%s tidak benar."
 
-#: ../src/validation.c:641
-#, fuzzy, c-format
+#: ../src/validation.c:660
+#, c-format
 msgid "%s is out of permitted range"
-msgstr "Angka di luar kisaran"
+msgstr "%s berada di luar kisaran yang diijinkan"
 
 #: ../src/value.c:60
 msgid "#NULL!"
@@ -15331,7 +15294,7 @@ msgstr "#N/A"
 msgid "Failed to create temporary file for sending."
 msgstr "Gagal membuat berkas sementara untuk pengiriman."
 
-#: ../src/wbc-gtk-actions.c:217 ../src/workbook-view.c:1166
+#: ../src/wbc-gtk-actions.c:217 ../src/workbook-view.c:1178
 msgid "Default file saver is not available."
 msgstr "Penyimpan berkas default tidak tersedia."
 
@@ -15500,7 +15463,6 @@ msgid "_Delete"
 msgstr "_Hapus"
 
 #: ../src/wbc-gtk-actions.c:1987
-#, fuzzy
 msgid "_Modify"
 msgstr "_Ubah"
 
@@ -15741,9 +15703,8 @@ msgid "Copy the selection"
 msgstr "Salin pilihan"
 
 #: ../src/wbc-gtk-actions.c:2070
-#, fuzzy
 msgid "_Name..."
-msgstr "nama (x,y)"
+msgstr "_Nama..."
 
 #: ../src/wbc-gtk-actions.c:2071
 #, fuzzy
@@ -15882,9 +15843,8 @@ msgstr "Tampilkan properti gambar"
 
 #. File
 #: ../src/wbc-gtk-actions.c:2149
-#, fuzzy
 msgid "Document Proper_ties..."
-msgstr "Dokumen telah dibuka"
+msgstr "Proper_ti Dokumen..."
 
 #: ../src/wbc-gtk-actions.c:2150
 #, fuzzy
@@ -16087,49 +16047,40 @@ msgid "Select the next sheet object"
 msgstr "Ke objek selanjutnya."
 
 #: ../src/wbc-gtk-actions.c:2254 ../src/wbc-gtk.c:2617
-#, fuzzy
 msgid "Go to Top"
-msgstr "Bawah ke Atas"
+msgstr "Ke Puncak"
 
 #: ../src/wbc-gtk-actions.c:2255
-#, fuzzy
 msgid "Go to the top of the data"
-msgstr "Pengarah ke data jauh (%s)"
+msgstr "Ke puncak data"
 
 #: ../src/wbc-gtk-actions.c:2257 ../src/wbc-gtk.c:2618
-#, fuzzy
 msgid "Go to Bottom"
-msgstr "Bawah ke Atas"
+msgstr "Ke Dasar"
 
 #: ../src/wbc-gtk-actions.c:2258
-#, fuzzy
 msgid "Go to the bottom of the data"
-msgstr "Pengarah ke data jauh (%s)"
+msgstr "Ke dasar data"
 
 #: ../src/wbc-gtk-actions.c:2260
-#, fuzzy
 msgid "Go to the First"
-msgstr "Pergi ke komik pertama"
+msgstr "Ke Pertama"
 
 #: ../src/wbc-gtk-actions.c:2261
-#, fuzzy
 msgid "Go to the first data cell"
-msgstr "Lompat ke gambar pertama dari koleksi"
+msgstr "Ke sel data pertama"
 
 #: ../src/wbc-gtk-actions.c:2263
-#, fuzzy
 msgid "Go to the Last"
-msgstr "Pergi ke komik terakhir"
+msgstr "Ke Terakhir"
 
 #: ../src/wbc-gtk-actions.c:2264
-#, fuzzy
 msgid "Go to the last data cell"
-msgstr "Lompat ke gambar terakhir dari koleksi"
+msgstr "Ke sel data terakhir"
 
 #: ../src/wbc-gtk-actions.c:2266
-#, fuzzy
 msgid "_Go to cell..."
-msgstr "Pindah ke sel"
+msgstr "Per_gi ke sel…"
 
 #: ../src/wbc-gtk-actions.c:2267
 msgid "Jump to a specified cell"
@@ -16266,9 +16217,8 @@ msgid "Insert a Chart"
 msgstr "Sisipkan sebuah Bagan"
 
 #: ../src/wbc-gtk-actions.c:2339
-#, fuzzy
 msgid "_New..."
-msgstr "Buat Bar_u..."
+msgstr "Bar_u…"
 
 #: ../src/wbc-gtk-actions.c:2340
 msgid "Insert a new Goffice component object"
@@ -16346,9 +16296,8 @@ msgstr "Sisipkan tanggal dan waktu sekarang ke dalam sel yang dipilih"
 
 #. Insert -> Name
 #: ../src/wbc-gtk-actions.c:2376
-#, fuzzy
 msgid "_Names..."
-msgstr "_Nama"
+msgstr "_Nama..."
 
 #: ../src/wbc-gtk-actions.c:2377
 msgid "Edit defined names for expressions"
@@ -16617,7 +16566,7 @@ msgstr "Analisa Regresi"
 
 #: ../src/wbc-gtk-actions.c:2516
 msgid "_Kaplan-Meier Estimates..."
-msgstr ""
+msgstr "Estimates _Kaplan-Meier…"
 
 #: ../src/wbc-gtk-actions.c:2517
 msgid "Creation of Kaplan-Meier Survival Curves"
@@ -16627,7 +16576,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2522
 #, fuzzy
 msgid "_Normality Tests..."
-msgstr "Uji sendiri:"
+msgstr "Uji Kenormalan"
 
 #: ../src/wbc-gtk-actions.c:2523
 #, fuzzy
@@ -17014,7 +16963,7 @@ msgstr "Berkas tempat asal impor data"
 #: ../src/wbc-gtk-actions.c:2685
 #, fuzzy
 msgid "Add _Data Slicer"
-msgstr "Tambah sumber data baru..."
+msgstr "Tambah sumber data baru…"
 
 #: ../src/wbc-gtk-actions.c:2686
 #, fuzzy
@@ -17041,8 +16990,8 @@ msgid "Adjust a data slicer"
 msgstr "Menyesuaikan direktori data root"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk-actions.c:2696 ../src/wbc-gtk.c:4636
-#: ../src/workbook-view.c:1006
+#: ../src/wbc-gtk-actions.c:2696 ../src/wbc-gtk.c:4642
+#: ../src/workbook-view.c:1018
 msgid "Sum"
 msgstr "Jumlahkan"
 
@@ -17235,9 +17184,8 @@ msgid "AddBorders"
 msgstr "TambahPinggir"
 
 #: ../src/wbc-gtk-actions.c:2784
-#, fuzzy
 msgid "Add a border around the selection"
-msgstr "Hapus pinggiran sekeliling pilihan"
+msgstr "Tambahkan batas di sekeliling pilihan"
 
 #: ../src/wbc-gtk-actions.c:2786
 msgid "ClearBorders"
@@ -17314,7 +17262,6 @@ msgid "Display the value of a formula or the formula itself"
 msgstr "Tampilkan nilai dari sebuah rumus atau rumus itu sendiri"
 
 #: ../src/wbc-gtk-actions.c:2847
-#, fuzzy
 msgid "_Hide Zeros"
 msgstr "Sembunyikan _Nol"
 
@@ -17622,7 +17569,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:1493
 msgid "Add a page break to the left of the current column"
-msgstr ""
+msgstr "Tambahkan pemutus halaman di kiri kolom kini"
 
 #: ../src/wbc-gtk.c:1500
 msgid "Remove the page break above the current row"
@@ -17630,7 +17577,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:1503
 msgid "Add a page break above current row"
-msgstr ""
+msgstr "Tambahkan pemutus halaman di atas baris kini"
 
 #: ../src/wbc-gtk.c:1523
 msgid "Un_freeze Panes"
@@ -17761,19 +17708,16 @@ msgid "END"
 msgstr "Akhir: 0"
 
 #: ../src/wbc-gtk.c:2619
-#, fuzzy
 msgid "Go to First"
-msgstr "Pergi ke komik pertama"
+msgstr "Ke Pertama"
 
 #: ../src/wbc-gtk.c:2620
-#, fuzzy
 msgid "Go to Last"
-msgstr "Pergi ke komik terakhir"
+msgstr "Ke Terakhir"
 
 #: ../src/wbc-gtk.c:2622
-#, fuzzy
 msgid "Go to Cell ..."
-msgstr "Pindah ke sel"
+msgstr "Ke Sel ..."
 
 #: ../src/wbc-gtk.c:2693
 msgid "Accept change in multiple cells"
@@ -17890,7 +17834,7 @@ msgstr "Jumlah Lembaran Default"
 #: ../src/wbc-gtk.c:3985
 #, fuzzy
 msgid "Display to the left of sheets"
-msgstr "Pindahkan Tab ke Kiri"
+msgstr "Geser tampilan braille ini ke kiri."
 
 #: ../src/wbc-gtk.c:3986
 #, fuzzy
@@ -17903,7 +17847,6 @@ msgid "Reattach to main window"
 msgstr "Menerapkan geometri ubahan pada jendela utama"
 
 #: ../src/wbc-gtk.c:4031
-#, fuzzy
 msgid "Hide"
 msgstr "Sembunyikan"
 
@@ -17932,46 +17875,46 @@ msgstr "Toolbar obyek terlihat"
 msgid "Show/Hide toolbar %s"
 msgstr "Tampilkan/Sembunyikan toolbar %s"
 
-#: ../src/wbc-gtk.c:4697
+#: ../src/wbc-gtk.c:4703
 #, fuzzy, c-format
 msgid "Content of %s"
 msgstr "Isi"
 
-#: ../src/wbc-gtk.c:4712
+#: ../src/wbc-gtk.c:4718
 msgid "Use maximum precision"
 msgstr "Gunakan presisi maksimum"
 
-#: ../src/wbc-gtk.c:4724
+#: ../src/wbc-gtk.c:4730
 #, fuzzy
 msgid "Insert formula below."
 msgstr "Teks di bawah ikon"
 
-#: ../src/wbc-gtk.c:4730
+#: ../src/wbc-gtk.c:4736
 #, fuzzy
 msgid "Insert formula to side."
 msgstr "Pilih sebuah fungsi untuk disisipkan:"
 
-#: ../src/wbc-gtk.c:4815
+#: ../src/wbc-gtk.c:4821
 #, c-format
 msgid "Open %s"
 msgstr "Buka %s"
 
-#: ../src/wbc-gtk.c:5529
+#: ../src/wbc-gtk.c:5535
 #, fuzzy
 msgid "Autosave prompt"
 msgstr "Sapaan Akses"
 
-#: ../src/wbc-gtk.c:5530
+#: ../src/wbc-gtk.c:5536
 #, fuzzy
 msgid "Ask about autosave?"
 msgstr "Fungsikan simpan otomatis berkas"
 
-#: ../src/wbc-gtk.c:5536
+#: ../src/wbc-gtk.c:5542
 #, fuzzy
 msgid "Autosave time in seconds"
 msgstr "Waktu tidur awal dalam detik."
 
-#: ../src/wbc-gtk.c:5537
+#: ../src/wbc-gtk.c:5543
 #, fuzzy
 msgid "Seconds before autosave"
 msgstr "Fungsikan simpan otomatis berkas"
@@ -18001,9 +17944,9 @@ msgid "<Blank>"
 msgstr "<Kosong>"
 
 #: ../src/widgets/gnumeric-expr-entry.c:928
-#, fuzzy, c-format
+#, c-format
 msgid "%s takes no arguments"
-msgstr "\"%s\" tidak memerlukan argumen"
+msgstr "%s tidak memerlukan argumen"
 
 #: ../src/widgets/gnumeric-expr-entry.c:932
 #, fuzzy, c-format
@@ -18087,16 +18030,15 @@ msgid "The toplevel GUI container associated with the entry."
 msgstr ""
 
 #: ../src/widgets/gnumeric-expr-entry.c:1766
-#, fuzzy
 msgid "Constant Format"
-msgstr "_Format = Dialirkan"
+msgstr "Format Konstanta"
 
 #: ../src/widgets/gnumeric-expr-entry.c:1767
 #, fuzzy
 msgid "Format for constants"
 msgstr "_Masukkan format sendiri"
 
-#: ../src/widgets/gnumeric-expr-entry.c:2659
+#: ../src/widgets/gnumeric-expr-entry.c:2664
 #, c-format
 msgid "Expecting a single range"
 msgstr "Mengharapkan sebuah kisaran"
@@ -18198,164 +18140,164 @@ msgstr ""
 msgid "The range to be sorted may not contain any merged cells."
 msgstr "Wilayah target berisi sel gabungan"
 
-#: ../src/workbook-control.c:211
+#: ../src/workbook-control.c:250
 msgid "Define Name"
 msgstr "Definisikan Nama"
 
-#: ../src/workbook-control.c:244
+#: ../src/workbook-control.c:283
 msgid "Cannot jump to an invisible sheet"
 msgstr ""
 
-#: ../src/workbook-control.c:322
+#: ../src/workbook-control.c:361
 msgid "Address"
 msgstr "Alamat"
 
-#: ../src/workbook-control.c:461
+#: ../src/workbook-control.c:500
 #, fuzzy
 msgid "The workbook view being controlled."
 msgstr "Buat tampilan baru workbook"
 
 #. Translators: "%dC" is a very short format to indicate the number of full columns
-#: ../src/workbook-view.c:386
+#: ../src/workbook-view.c:398
 #, c-format
 msgid "%dC"
 msgstr "%dC"
 
 #. Translators: "%dR" is a very short format to indicate the number of full rows
-#: ../src/workbook-view.c:389
+#: ../src/workbook-view.c:401
 #, c-format
 msgid "%dR"
 msgstr "%dR"
 
 #. Translators: "%dR x %dC" is a very short format to indicate the number of rows and columns
-#: ../src/workbook-view.c:392
+#: ../src/workbook-view.c:404
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: ../src/workbook-view.c:846
+#: ../src/workbook-view.c:858
 #, fuzzy
 msgid "Auto-expression function"
 msgstr "Nilai ekspresi otomatis"
 
-#: ../src/workbook-view.c:847
+#: ../src/workbook-view.c:859
 #, fuzzy
 msgid "The automatically computed sheet function."
 msgstr "Otomatis mengisi pilihan yang sekarang"
 
-#: ../src/workbook-view.c:854
+#: ../src/workbook-view.c:866
 #, fuzzy
 msgid "Auto-expression description"
 msgstr "Nilai ekspresi otomatis"
 
-#: ../src/workbook-view.c:855
+#: ../src/workbook-view.c:867
 msgid "Description of the automatically computed sheet function."
 msgstr ""
 
-#: ../src/workbook-view.c:863
+#: ../src/workbook-view.c:875
 #, fuzzy
 msgid "Auto-expression maximum precision"
 msgstr "Kelambatan Rekalkulasi Otoekspresi"
 
-#: ../src/workbook-view.c:864
+#: ../src/workbook-view.c:876
 msgid "Use maximum available precision for auto-expressions"
 msgstr ""
 
-#: ../src/workbook-view.c:872
+#: ../src/workbook-view.c:884
 msgid "Auto-expression value"
 msgstr "Nilai ekspresi otomatis"
 
-#: ../src/workbook-view.c:873
+#: ../src/workbook-view.c:885
 msgid "The current value of the auto-expression."
 msgstr "Nilai kini dari ekspresi otomatis."
 
-#: ../src/workbook-view.c:881
+#: ../src/workbook-view.c:893
 msgid "Auto-expression position"
 msgstr "Posisi ekspresi otomatis"
 
-#: ../src/workbook-view.c:882
+#: ../src/workbook-view.c:894
 msgid "The cell position to track."
 msgstr "Posisi sel yang akan dilacak."
 
-#: ../src/workbook-view.c:889
+#: ../src/workbook-view.c:901
 msgid "Show horizontal scrollbar"
 msgstr "Tunjukkan bilah penggulir horisontal"
 
-#: ../src/workbook-view.c:890
+#: ../src/workbook-view.c:902
 msgid "Show the horizontal scrollbar"
 msgstr "Tunjukkan bilah penggulir horisontal"
 
-#: ../src/workbook-view.c:898
+#: ../src/workbook-view.c:910
 msgid "Show vertical scrollbar"
 msgstr "Tunjukkan bilah penggulir vertikal"
 
-#: ../src/workbook-view.c:899
+#: ../src/workbook-view.c:911
 msgid "Show the vertical scrollbar"
 msgstr "Tunjukkan bilah penggulir vertikal"
 
-#: ../src/workbook-view.c:907
+#: ../src/workbook-view.c:919
 msgid "Show notebook tabs"
 msgstr "Tunjukkan tab notebook"
 
-#: ../src/workbook-view.c:908
+#: ../src/workbook-view.c:920
 msgid "Show the notebook tabs for sheets"
 msgstr "Tunjukkan tab notebook bagi lembaran"
 
-#: ../src/workbook-view.c:916
+#: ../src/workbook-view.c:928
 msgid "Show formula cell markers"
 msgstr "Tunjukkan penanda sel rumus"
 
-#: ../src/workbook-view.c:917
+#: ../src/workbook-view.c:929
 msgid "Mark each cell containing a formula"
 msgstr "Tandai setiap sel yang memuat rumus"
 
-#: ../src/workbook-view.c:925
+#: ../src/workbook-view.c:937
 msgid "Show extension markers"
 msgstr "Tunjukkan penanda ekstensi"
 
-#: ../src/workbook-view.c:926
+#: ../src/workbook-view.c:938
 msgid "Mark each cell that fails to show the complete content"
 msgstr "Tandai tiap sel yang gagal menampilkan isi lengkap"
 
-#: ../src/workbook-view.c:935
+#: ../src/workbook-view.c:947
 msgid "Do auto completion"
 msgstr "Lakukan pelengkapan otomatis"
 
-#: ../src/workbook-view.c:936
+#: ../src/workbook-view.c:948
 msgid "Auto-complete text"
 msgstr "Teks lengkapi otomatis"
 
-#: ../src/workbook-view.c:945
+#: ../src/workbook-view.c:957
 msgid "Is view protected?"
 msgstr "Apakah tilikan terproteksi?"
 
-#: ../src/workbook-view.c:953 ../src/workbook-view.c:954
+#: ../src/workbook-view.c:965 ../src/workbook-view.c:966
 msgid "Preferred width"
 msgstr "Lebar yang disukai"
 
-#: ../src/workbook-view.c:962 ../src/workbook-view.c:963
+#: ../src/workbook-view.c:974 ../src/workbook-view.c:975
 msgid "Preferred height"
 msgstr "Tinggi yang disukai"
 
-#: ../src/workbook-view.c:1046
+#: ../src/workbook-view.c:1058
 msgid "An unexplained error happened while saving."
 msgstr "Sebuah kesalahan tak dimengerti terjadi saat menyimpan."
 
-#: ../src/workbook-view.c:1062
+#: ../src/workbook-view.c:1074
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Tidak bisa membuka '%s' untuk menulis: %s"
 
-#: ../src/workbook-view.c:1066
+#: ../src/workbook-view.c:1078
 #, c-format
 msgid "Can't open '%s' for writing"
 msgstr "Tidak bisa membuka '%s' untuk menulis"
 
-#: ../src/workbook-view.c:1269
+#: ../src/workbook-view.c:1294
 msgid "Unsupported file format."
 msgstr "Berkas format tidak didukung."
 
-#: ../src/workbook-view.c:1319
+#: ../src/workbook-view.c:1345
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Sebuah kesalahan tak dimengerti terjadi saat membuka %s"
@@ -18369,17 +18311,17 @@ msgstr "Fungsikan kalkulasi ulang otomatis."
 msgid "Book%d.%s"
 msgstr "Buku%d.%s"
 
-#: ../src/workbook.c:1006
+#: ../src/workbook.c:1039
 msgid "Graph"
 msgstr "Grafik"
 
-#: ../src/workbook.c:1491
+#: ../src/workbook.c:1555
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
 msgstr[0] "Mengubah-nama %d lembaran"
 
-#: ../src/workbook.c:1493
+#: ../src/workbook.c:1557
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -18389,17 +18331,17 @@ msgstr[0] "Menambah %d lembaran"
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1499
+#: ../src/workbook.c:1563
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
 msgstr[0] "Menyisipkan %d lembaran"
 
-#: ../src/workbook.c:1501
+#: ../src/workbook.c:1565
 msgid "Changing sheet tab colors"
 msgstr "Mengubah warna tab lembaran"
 
-#: ../src/workbook.c:1503
+#: ../src/workbook.c:1567
 msgid "Changing sheet properties"
 msgstr "Mengubah properti lembaran"
 
@@ -18407,61 +18349,61 @@ msgstr "Mengubah properti lembaran"
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1510
+#: ../src/workbook.c:1574
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
 msgstr[0] "Menghapus %d lembaran"
 
-#: ../src/workbook.c:1512
+#: ../src/workbook.c:1576
 msgid "Changing sheet order"
 msgstr "Mengubah urutan lembaran"
 
-#: ../src/workbook.c:1514
+#: ../src/workbook.c:1578
 msgid "Reorganizing Sheets"
 msgstr "Menata-ulang Lembaran"
 
-#: ../src/xml-sax-read.c:474
+#: ../src/xml-sax-read.c:487
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Spesifikasi multi versi.  Menganggap %d"
 
-#: ../src/xml-sax-read.c:638
+#: ../src/xml-sax-read.c:651
 msgid "workbook view attribute is incomplete"
 msgstr "atribut tilikan buku kerja tak lengkap"
 
-#: ../src/xml-sax-read.c:787
+#: ../src/xml-sax-read.c:800
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Berkas mempunyai elemen SheetNameIndex yang tidak konsisten."
 
-#: ../src/xml-sax-read.c:2186
+#: ../src/xml-sax-read.c:2199
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Operator tapis \"%s\" tak dikenal"
 
-#: ../src/xml-sax-read.c:2226
+#: ../src/xml-sax-read.c:2239
 msgid "Missing filter type"
 msgstr "Kurang tipe tapis"
 
-#: ../src/xml-sax-read.c:2248
+#: ../src/xml-sax-read.c:2261
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Tipe tapis \"%s\" tak dikenal"
 
-#: ../src/xml-sax-read.c:2269
+#: ../src/xml-sax-read.c:2282
 msgid "Invalid filter, missing Area"
 msgstr "Tapis tak valid, kurang Area"
 
-#: ../src/xml-sax-read.c:2331
+#: ../src/xml-sax-read.c:2344
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Tipe obyek tidak didukung '%s'"
 
-#: ../src/xml-sax-read.c:3595 ../src/xml-sax-write.c:1628
+#: ../src/xml-sax-read.c:3616 ../src/xml-sax-write.c:1627
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
-#: ../src/xml-sax-write.c:1640
+#: ../src/xml-sax-write.c:1639
 msgid "Gnumeric XML uncompressed (*.xml)"
 msgstr "Gnumeric XML tak dimampatkan (*.xml)"
 
