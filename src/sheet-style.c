@@ -2351,6 +2351,7 @@ debug_style_list (void)
 typedef struct {
 	GPtrArray *accum;
 	GHashTable *by_tl, *by_br;
+	size_t area;
 	gboolean (*style_equal) (GnmStyle const *a, GnmStyle const *b);
 	gboolean (*style_filter) (GnmStyle const *style);
 	GnmSheetSize const *sheet_size;
@@ -2425,6 +2426,8 @@ cb_style_list_add_node (GnmStyle *style,
 	range.end.col = MIN (corner_col + width - 1, ss->max_cols - 1);
 	range.end.row = MIN (corner_row + height - 1, ss->max_rows - 1);
 
+	data->area += range_width (&range) * range_height (&range);
+
 	if (apply_to) {
 		range.start.col -= apply_to->start.col;
 		if (range.start.col < 0)
@@ -2467,8 +2470,7 @@ verify_hashes (ISL *data)
 			(size_t)range_width (&sr->range);
 	}
 
-	g_return_if_fail (area ==
-		  (size_t)data->sheet_size->max_cols * data->sheet_size->max_rows);
+	g_return_if_fail (area == data->area);
 }
 
 static void
@@ -2667,6 +2669,7 @@ internal_style_list (Sheet const *sheet, GnmRange const *r,
 	GnmStyleList *res = NULL;
 	unsigned ui, prelen;
 	gboolean paranoid = FALSE;
+	size_t sheet_area;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
@@ -2678,6 +2681,7 @@ internal_style_list (Sheet const *sheet, GnmRange const *r,
 				       (GEqualFunc)gnm_cellpos_equal);
 	data.by_br = g_hash_table_new ((GHashFunc)gnm_cellpos_hash,
 				       (GEqualFunc)gnm_cellpos_equal);
+	data.area = 0;
 	data.style_equal = style_equal;
 	data.style_filter = style_filter;
 	data.sheet_size = gnm_sheet_get_size (sheet);
@@ -2685,6 +2689,10 @@ internal_style_list (Sheet const *sheet, GnmRange const *r,
 	foreach_tile (sheet->style_data->styles,
 		      sheet->tile_top_level, 0, 0, r,
 		      cb_style_list_add_node, &data);
+
+	sheet_area = (size_t)data.sheet_size->max_cols * data.sheet_size->max_rows;
+	if (data.style_filter ? (data.area > sheet_area) : (data.area != sheet_area))
+		g_warning ("Strange size issue in internal_style_list");
 
 	/* Populate hashes.  */
 	for (ui = 0; ui < data.accum->len; ui++) {

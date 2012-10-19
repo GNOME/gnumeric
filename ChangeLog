@@ -1,3 +1,10 @@
+2012-10-19  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c (internal_style_list): Check actual area
+	against expected area.
+	(verify_hashes): Check area against initial area.
+	(cb_style_list_add_node): Keep track of (filtered) area.
+
 2012-10-18  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (internal_style_list): New function uniting
