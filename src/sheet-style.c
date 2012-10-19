@@ -2426,8 +2426,6 @@ cb_style_list_add_node (GnmStyle *style,
 	range.end.col = MIN (corner_col + width - 1, ss->max_cols - 1);
 	range.end.row = MIN (corner_row + height - 1, ss->max_rows - 1);
 
-	data->area += range_width (&range) * range_height (&range);
-
 	if (apply_to) {
 		range.start.col -= apply_to->start.col;
 		if (range.start.col < 0)
@@ -2443,6 +2441,8 @@ cb_style_list_add_node (GnmStyle *style,
 			range.end.row = apply_to->end.row;
 		range.end.row -= apply_to->start.row;
 	}
+
+	data->area += range_width (&range) * range_height (&range);
 
 	sr = gnm_style_region_new (&range, style);
 	g_ptr_array_add (data->accum, sr);
@@ -2690,7 +2690,7 @@ internal_style_list (Sheet const *sheet, GnmRange const *r,
 		      sheet->tile_top_level, 0, 0, r,
 		      cb_style_list_add_node, &data);
 
-	sheet_area = (size_t)data.sheet_size->max_cols * data.sheet_size->max_rows;
+	sheet_area = (size_t)range_height (r) * range_width (r);
 	if (data.style_filter ? (data.area > sheet_area) : (data.area != sheet_area))
 		g_warning ("Strange size issue in internal_style_list");
 
