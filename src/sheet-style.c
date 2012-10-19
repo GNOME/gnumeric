@@ -2192,7 +2192,7 @@ cb_get_nondefault (GnmStyle *style,
 	}
 }
 
-guint8 * 
+guint8 *
 sheet_style_get_nondefault_rows (Sheet const *sheet, GnmStyle **col_defaults)
 {
 	struct cb_get_nondefault user;
@@ -2339,30 +2339,91 @@ gnm_style_region_get_type (void)
 }
 
 
+static gboolean
+debug_style_list (void)
+{
+	static int debug = -1;
+	if (debug < 0)
+		debug = gnm_debug_flag ("style-list");
+	return debug;
+}
+
 typedef struct {
-	GHashTable *cache;
+	GPtrArray *accum;
+	GHashTable *by_tl, *by_br;
 	gboolean (*style_equal) (GnmStyle const *a, GnmStyle const *b);
-	Sheet const *sheet;
-} StyleListMerge;
+	gboolean (*style_filter) (GnmStyle const *style);
+	GnmSheetSize const *sheet_size;
+} ISL;
+
+static gboolean
+merge_ranges (GnmRange *a, GnmRange const *b)
+{
+	if (a->start.row == b->start.row &&
+	    a->end.row == b->end.row &&
+	    a->end.col + 1 == b->start.col) {
+		/* "a" is just left of "b".  */
+		a->end.col = b->end.col;
+		return TRUE;
+	}
+
+	if (a->start.col == b->start.col &&
+	    a->end.col == b->end.col &&
+	    a->end.row + 1 == b->start.row) {
+		/* "a" is just on top of "b".  */
+		a->end.row = b->end.row;
+		return TRUE;
+	}
+
+	/* Punt.  */
+	return FALSE;
+}
+
+static gboolean
+try_merge_pair (ISL *data, unsigned ui1, unsigned ui2)
+{
+	GnmStyleRegion *a;
+	GnmStyleRegion *b;
+
+	if (ui1 >= data->accum->len || ui2 >= data->accum->len)
+		return FALSE;
+
+	a = g_ptr_array_index (data->accum, ui1);
+	b = g_ptr_array_index (data->accum, ui2);
+
+	if (!data->style_equal (a->style, b->style))
+		return FALSE;
+
+	if (!merge_ranges (&a->range, &b->range))
+		return FALSE;
+
+	gnm_style_region_free (b);
+	g_ptr_array_remove_index (data->accum, ui2);
+
+	return TRUE;
+}
 
 static void
 cb_style_list_add_node (GnmStyle *style,
 			int corner_col, int corner_row, int width, int height,
 			GnmRange const *apply_to, gpointer user_)
 {
-	StyleListMerge *mi = user_;
-	GnmStyleRegion *sr = NULL;
-	GnmCellPos key;
+	ISL *data = user_;
+	GnmSheetSize const *ss = data->sheet_size;
+	GnmStyleRegion *sr;
 	GnmRange range;
-	Sheet const *sheet = mi->sheet;
-	GnmSheetSize const *ss = gnm_sheet_get_size (sheet);
+
+	/* Can this even happen? */
+	if (corner_col >= ss->max_cols || corner_row >= ss->max_rows)
+		return;
+
+	if (data->style_filter && !data->style_filter (style))
+		return;
 
 	range.start.col = corner_col;
 	range.start.row = corner_row;
 	range.end.col = MIN (corner_col + width - 1, ss->max_cols - 1);
 	range.end.row = MIN (corner_row + height - 1, ss->max_rows - 1);
-	if (corner_col >= ss->max_cols || corner_row >= ss->max_rows)
-		return;
 
 	if (apply_to) {
 		range.start.col -= apply_to->start.col;
@@ -2380,84 +2441,284 @@ cb_style_list_add_node (GnmStyle *style,
 		range.end.row -= apply_to->start.row;
 	}
 
-	/* Do some simple minded merging vertically */
-	key.col = range.end.col;
-	key.row = range.start.row - 1;
-#ifdef DEBUG_STYLE_LIST
-	range_dump (&range, " Checking\n");
-#endif
-	if (key.row >= 0 &&
-	    (sr = (GnmStyleRegion *)g_hash_table_lookup (mi->cache, &key)) != NULL &&
-	    sr->range.start.col == range.start.col && (mi->style_equal) (sr->style, style)) {
-		g_hash_table_remove (mi->cache, &key);
-		sr->range.end.row = range.end.row;
-#ifdef DEBUG_STYLE_LIST
-		range_dump (&sr->range, " <= merged into\n");
-#endif
-	} else {
-#ifdef DEBUG_STYLE_LIST
-		range_dump (&range, " <= Added\n");
-#endif
-		sr = gnm_style_region_new (&range, style);
-	}
+	sr = gnm_style_region_new (&range, style);
+	g_ptr_array_add (data->accum, sr);
 
-	g_hash_table_insert (mi->cache, &sr->range.end, sr);
+	while (try_merge_pair (data, data->accum->len - 2, data->accum->len - 1))
+		/* Nothing */;
 }
 
-static gboolean
-cb_hash_merge_horiz (G_GNUC_UNUSED gpointer hash_key, gpointer value, gpointer user)
+static void
+verify_hashes (ISL *data)
 {
-	StyleListMerge *mi = user;
-	GnmStyleRegion *sr = value, *srh;
-	GnmCellPos	key;
+	GHashTable *by_tl = data->by_tl;
+	GHashTable *by_br = data->by_br;
+	unsigned ui;
+	size_t area = 0;
 
-	/* Already merged */
-	if (sr->range.start.col < 0) {
-		gnm_style_region_free (sr);
-		return TRUE;
+	g_return_if_fail (g_hash_table_size (by_tl) == data->accum->len);
+	g_return_if_fail (g_hash_table_size (by_br) == data->accum->len);
+
+	for (ui = 0; ui < data->accum->len; ui++) {
+		GnmStyleRegion *sr = g_ptr_array_index (data->accum, ui);
+		g_return_if_fail (g_hash_table_lookup (by_tl, &sr->range.start) == sr);
+		g_return_if_fail (g_hash_table_lookup (by_br, &sr->range.end) == sr);
+		area += range_height (&sr->range) *
+			(size_t)range_width (&sr->range);
 	}
 
-#ifdef DEBUG_STYLE_LIST
-	range_dump (&sr->range, "\n");
-#endif
+	g_return_if_fail (area ==
+		  (size_t)data->sheet_size->max_cols * data->sheet_size->max_rows);
+}
 
-	/* Do some simple minded merging horizontally */
-	key.row = sr->range.end.row;
+static void
+merge_vertical_stripes (ISL *data)
+{
+	unsigned ui;
+	GHashTable *by_tl = data->by_tl;
+	GHashTable *by_br = data->by_br;
+	gboolean debug = debug_style_list ();
+	gboolean paranoid = debug;
+
+	for (ui = 0; ui < data->accum->len; ui++) {
+		GnmStyleRegion *a = g_ptr_array_index (data->accum, ui);
+		GnmStyleRegion *c;
+		GnmCellPos cr;
+		GSList *Bs = NULL, *l;
+		gboolean fail = FALSE;
+
+		/*  We're looking for the setup below and extend Bs down  */
+		/*  taking over part of C which is then extended to       */
+		/*  include all of A.                                     */
+		/*                                                        */
+		/*             +----+                                     */
+		/*             |    +---------+                           */
+		/*   +---------+ B1 |   B2    |                           */
+		/*   |    A    |    |         |                           */
+		/*   +---------+----+---------+                           */
+		/*   |           C            |                           */
+		/*   +------------------------+                           */
+
+		cr.col = a->range.start.col;
+		cr.row = a->range.end.row + 1;
+		c = g_hash_table_lookup (by_tl, &cr);
+		if (!c || !data->style_equal (a->style, c->style))
+			continue;
+
+		cr.col = c->range.end.col;
+		cr.row = a->range.end.row;
+		while (cr.col > a->range.end.col) {
+			GnmStyleRegion *b = g_hash_table_lookup (by_br, &cr);
+			if (!b || !data->style_equal (a->style, b->style)) {
+				fail = TRUE;
+				break;
+			}
+			Bs = g_slist_prepend (Bs, b);
+			cr.col = b->range.start.col - 1;
+		}
+		if (fail || cr.col != a->range.end.col) {
+			g_slist_free (Bs);
+			continue;
+		}
+
+		if (debug) {
+			g_printerr ("Vertical stripe merge:\n");
+			g_printerr ("A: %s\n", range_as_string (&a->range));
+			for (l = Bs; l; l = l-> next) {
+				GnmStyleRegion *b = l->data;
+				g_printerr ("B: %s\n", range_as_string (&b->range));
+			}
+			g_printerr ("C: %s\n", range_as_string (&c->range));
+		}
+
+		g_hash_table_remove (by_tl, &a->range.start);
+		g_hash_table_remove (by_br, &a->range.end);
+		g_ptr_array_remove_index_fast (data->accum, ui);
+		ui--;
+
+		g_hash_table_remove (by_tl, &c->range.start);
+		g_hash_table_remove (by_br, &c->range.end);
+		c->range.start.row = a->range.start.row;
+		c->range.end.col = a->range.end.col;
+		g_hash_table_insert (by_tl, &c->range.start, c);
+		g_hash_table_insert (by_br, &c->range.end, c);
+		if (debug)
+			g_printerr ("New C: %s\n", range_as_string (&c->range));
+
+		for (l = Bs; l; l = l-> next) {
+			GnmStyleRegion *b = l->data;
+			g_hash_table_remove (by_br, &b->range.end);
+			b->range.end.row = c->range.end.row;
+			g_hash_table_insert (by_br, &b->range.end, b);
+			if (debug)
+				g_printerr ("New B: %s\n", range_as_string (&b->range));
+		}
+		if (debug)
+			g_printerr ("\n");
+
+		gnm_style_region_free (a);
+
+		if (paranoid) verify_hashes (data);
+	}
+}
+
+static void
+merge_horizontal_stripes (ISL *data)
+{
+	unsigned ui;
+	GHashTable *by_tl = data->by_tl;
+	GHashTable *by_br = data->by_br;
+	gboolean debug = debug_style_list ();
+	gboolean paranoid = debug;
+
+	for (ui = 0; ui < data->accum->len; ui++) {
+		GnmStyleRegion *a = g_ptr_array_index (data->accum, ui);
+		GnmStyleRegion *c;
+		GnmCellPos cr;
+		GSList *Bs = NULL, *l;
+		gboolean fail = FALSE;
+
+		/*  We're looking for the setup below and extend Bs right */
+		/*  taking over part of C which is then extended to       */
+		/*  include all of A.                                     */
+		/*                                                        */
+		/*                        +-----+-----+                   */
+		/*                        |  A  |     |                   */
+		/*                   +----+-----+     |                   */
+		/*                   |    B1    |     |                   */
+		/*                   +--+-------+     |                   */
+		/*                      |       |  C  |                   */
+		/*                      |       |     |                   */
+		/*                      |  B2   |     |                   */
+		/*                      |       |     |                   */
+		/*                      |       |     |                   */
+		/*                      +-------+-----+                   */
+
+		cr.col = a->range.end.col + 1;
+		cr.row = a->range.start.row;
+		c = g_hash_table_lookup (by_tl, &cr);
+		if (!c || !data->style_equal (a->style, c->style))
+			continue;
+
+		cr.col = a->range.end.col;
+		cr.row = c->range.end.row;
+		while (cr.row > a->range.end.row) {
+			GnmStyleRegion *b = g_hash_table_lookup (by_br, &cr);
+			if (!b || !data->style_equal (a->style, b->style)) {
+				fail = TRUE;
+				break;
+			}
+			Bs = g_slist_prepend (Bs, b);
+			cr.row = b->range.start.row - 1;
+		}
+		if (fail || cr.row != a->range.end.row) {
+			g_slist_free (Bs);
+			continue;
+		}
+
+		if (debug) {
+			g_printerr ("Horizontal stripe merge:\n");
+			g_printerr ("A: %s\n", range_as_string (&a->range));
+			for (l = Bs; l; l = l-> next) {
+				GnmStyleRegion *b = l->data;
+				g_printerr ("B: %s\n", range_as_string (&b->range));
+			}
+			g_printerr ("C: %s\n", range_as_string (&c->range));
+		}
+
+		g_hash_table_remove (by_tl, &a->range.start);
+		g_hash_table_remove (by_br, &a->range.end);
+		g_ptr_array_remove_index_fast (data->accum, ui);
+		ui--;
+
+		g_hash_table_remove (by_tl, &c->range.start);
+		g_hash_table_remove (by_br, &c->range.end);
+		c->range.start.col = a->range.start.col;
+		c->range.end.row = a->range.end.row;
+		g_hash_table_insert (by_tl, &c->range.start, c);
+		g_hash_table_insert (by_br, &c->range.end, c);
+		if (debug)
+			g_printerr ("New C: %s\n", range_as_string (&c->range));
+
+		for (l = Bs; l; l = l-> next) {
+			GnmStyleRegion *b = l->data;
+			g_hash_table_remove (by_br, &b->range.end);
+			b->range.end.col = c->range.end.col;
+			g_hash_table_insert (by_br, &b->range.end, b);
+			if (debug)
+				g_printerr ("New B: %s\n", range_as_string (&b->range));
+		}
+		if (debug)
+			g_printerr ("\n");
+
+		gnm_style_region_free (a);
+
+		if (paranoid) verify_hashes (data);
+	}
+}
+
+static GnmStyleList *
+internal_style_list (Sheet const *sheet, GnmRange const *r,
+		     gboolean (*style_equal) (GnmStyle const *a, GnmStyle const *b),
+		     gboolean (*style_filter) (GnmStyle const *style))
+{
+	GnmRange full_sheet;
+	ISL data;
+	GnmStyleList *res = NULL;
+	unsigned ui, prelen;
+	gboolean paranoid = FALSE;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	if (!r)
+		r = range_init_full_sheet (&full_sheet, sheet);
+
+	data.accum = g_ptr_array_new ();
+	data.by_tl = g_hash_table_new ((GHashFunc)gnm_cellpos_hash,
+				       (GEqualFunc)gnm_cellpos_equal);
+	data.by_br = g_hash_table_new ((GHashFunc)gnm_cellpos_hash,
+				       (GEqualFunc)gnm_cellpos_equal);
+	data.style_equal = style_equal;
+	data.style_filter = style_filter;
+	data.sheet_size = gnm_sheet_get_size (sheet);
+
+	foreach_tile (sheet->style_data->styles,
+		      sheet->tile_top_level, 0, 0, r,
+		      cb_style_list_add_node, &data);
+
+	/* Populate hashes.  */
+	for (ui = 0; ui < data.accum->len; ui++) {
+		GnmStyleRegion *sr = g_ptr_array_index (data.accum, ui);
+		g_hash_table_insert (data.by_tl, &sr->range.start, sr);
+		g_hash_table_insert (data.by_br, &sr->range.end, sr);
+	}
+
+	if (paranoid) verify_hashes (&data);
+
 	do {
-		key.col = sr->range.start.col - 1;
-		if (key.col >= 0 &&
-		    (srh = (GnmStyleRegion *)g_hash_table_lookup (mi->cache, &key)) != NULL &&
-		    srh->range.start.row == sr->range.start.row && (mi->style_equal) (sr->style, srh->style)) {
-			g_return_val_if_fail (srh->range.start.col >= 0, FALSE);
-			sr->range.start.col = srh->range.start.col;
-			srh->range.start.col = -1;
-#ifdef DEBUG_STYLE_LIST
-			range_dump (&sr->range, " <= extended to\n");
-#endif
-		} else
-			return FALSE;
-	} while (1);
-	return FALSE; /* stupid compilers */
-}
+		prelen = data.accum->len;
+		merge_vertical_stripes (&data);
+		merge_horizontal_stripes (&data);
+	} while (prelen > data.accum->len);
 
-static gboolean
-cb_hash_to_list (G_GNUC_UNUSED gpointer key, gpointer	value, gpointer	user_data)
-{
-	GnmStyleList **res = user_data;
-	GnmStyleRegion *sr = value;
+	/* Always verify once.  */
+	verify_hashes (&data);
 
-	/* Already merged */
-	if (sr->range.start.col < 0) {
-		gnm_style_region_free (sr);
-		return TRUE;
+	if (debug_style_list ())
+		g_printerr ("Total of %d ranges:\n", data.accum->len);
+	for (ui = data.accum->len; ui-- > 0; ) {
+		GnmStyleRegion *sr = g_ptr_array_index (data.accum, ui);
+		if (debug_style_list ())
+			g_printerr ("  %s %p\n",
+				    range_as_string (&sr->range),
+				    sr->style);
+		res = g_slist_prepend (res, sr);
 	}
 
-#ifdef DEBUG_STYLE_LIST
-	range_dump (&sr->range, "\n");
-#endif
-
-	*res = g_slist_prepend (*res, value);
-	return FALSE;
+	g_ptr_array_free (data.accum, TRUE);
+	g_hash_table_destroy (data.by_tl);
+	g_hash_table_destroy (data.by_br);
+	return res;
 }
 
 /**
@@ -2473,50 +2734,21 @@ cb_hash_to_list (G_GNUC_UNUSED gpointer key, gpointer	value, gpointer	user_data)
 GnmStyleList *
 sheet_style_get_range (Sheet const *sheet, GnmRange const *r)
 {
-	GnmStyleList *res = NULL;
-	StyleListMerge mi;
-
-	mi.style_equal = gnm_style_eq;
-	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
-				     (GCompareFunc)&gnm_cellpos_equal);
-	mi.sheet = sheet;
-#ifdef DEBUG_STYLE_LIST
-	g_printerr ("====A====\n");
-#endif
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, r,
-		      cb_style_list_add_node, &mi);
-#ifdef DEBUG_STYLE_LIST
-	g_printerr ("====B====\n");
-#endif
-	g_hash_table_foreach_remove (mi.cache, cb_hash_merge_horiz, &mi);
-#ifdef DEBUG_STYLE_LIST
-	g_printerr ("====C====\n");
-#endif
-	g_hash_table_foreach_remove (mi.cache, cb_hash_to_list, &res);
-#ifdef DEBUG_STYLE_LIST
-	g_printerr ("====D====\n");
-#endif
-	g_hash_table_destroy (mi.cache);
-
-	return res;
-}
-
-static void
-cb_style_list_add_conditions (GnmStyle *style,
-			      int corner_col, int corner_row,
-			      int width, int height,
-			      GnmRange const *apply_to, gpointer user)
-{
-	if (NULL != gnm_style_get_conditions (style))
-		cb_style_list_add_node (style,
-			corner_col, corner_row, width, height, apply_to, user);
+	return internal_style_list (sheet, r,
+				    gnm_style_eq,
+				    NULL);
 }
 
 static gboolean
 style_conditions_equal (GnmStyle const *a, GnmStyle const *b)
 {
 	return	gnm_style_get_conditions (a) == gnm_style_get_conditions (b);
+}
+
+static gboolean
+style_conditions_filter (GnmStyle const *style)
+{
+	return gnm_style_get_conditions (style) != NULL;
 }
 
 /**
@@ -2530,44 +2762,22 @@ style_conditions_equal (GnmStyle const *a, GnmStyle const *b)
 GnmStyleList *
 sheet_style_collect_conditions (Sheet const *sheet, GnmRange const *r)
 {
-	GnmStyleList *res = NULL;
-	StyleListMerge mi;
-	mi.style_equal = style_conditions_equal;
-	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
-				     (GCompareFunc)&gnm_cellpos_equal);
-	mi.sheet = sheet;
-
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, r,
-		      cb_style_list_add_conditions, &mi);
-#ifdef DEBUG_STYLE_LIST
-	g_printerr ("=========\n");
-#endif
-	g_hash_table_foreach_remove (mi.cache, cb_hash_merge_horiz, &mi);
-	g_hash_table_foreach_remove (mi.cache, cb_hash_to_list, &res);
-#ifdef DEBUG_STYLE_LIST
-	g_printerr ("=========\n");
-#endif
-	g_hash_table_destroy (mi.cache);
-
-	return res;
+	return internal_style_list (sheet, r,
+				    style_conditions_equal,
+				    style_conditions_filter);
 }
-static void
-cb_style_list_add_hlink (GnmStyle *style,
-			 int corner_col, int corner_row,
-			 int width, int height,
-			 GnmRange const *apply_to, gpointer user)
-{
-	/* collect only the area with validation */
-	if (NULL != gnm_style_get_hlink (style))
-		cb_style_list_add_node (style,
-			corner_col, corner_row, width, height, apply_to, user);
-}
+
 
 static gboolean
 style_hlink_equal (GnmStyle const *a, GnmStyle const *b)
 {
 	return	gnm_style_get_hlink (a) == gnm_style_get_hlink (b);
+}
+
+static gboolean
+style_hlink_filter (GnmStyle const *style)
+{
+	return gnm_style_get_hlink (style) != NULL;
 }
 
 /**
@@ -2581,48 +2791,24 @@ style_hlink_equal (GnmStyle const *a, GnmStyle const *b)
 GnmStyleList *
 sheet_style_collect_hlinks (Sheet const *sheet, GnmRange const *r)
 {
-	GnmStyleList *res = NULL;
-	StyleListMerge mi;
-
-	mi.style_equal = style_hlink_equal;
-	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
-				     (GCompareFunc)&gnm_cellpos_equal);
-	mi.sheet = sheet;
-
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, r,
-		      cb_style_list_add_hlink, &mi);
-#ifdef DEBUG_STYLE_LIST
-	g_printerr ("=========\n");
-#endif
-	g_hash_table_foreach_remove (mi.cache, cb_hash_merge_horiz, &mi);
-	g_hash_table_foreach_remove (mi.cache, cb_hash_to_list, &res);
-#ifdef DEBUG_STYLE_LIST
-	g_printerr ("=========\n");
-#endif
-	g_hash_table_destroy (mi.cache);
-
-	return res;
+	return internal_style_list (sheet, r,
+				    style_hlink_equal,
+				    style_hlink_filter);
 }
 
-static void
-cb_style_list_add_validation (GnmStyle *style,
-			      int corner_col, int corner_row,
-			      int width, int height,
-			      GnmRange const *apply_to, gpointer user)
-{
-	/* collect only the area with validation */
-	if (NULL != gnm_style_get_validation (style) ||
-	    NULL != gnm_style_get_input_msg (style))
-		cb_style_list_add_node (style,
-			corner_col, corner_row, width, height, apply_to, user);
-}
 
 static gboolean
 style_validation_equal (GnmStyle const *a, GnmStyle const *b)
 {
 	return	gnm_style_get_validation (a) == gnm_style_get_validation (b) &&
 		gnm_style_get_input_msg (a) == gnm_style_get_input_msg (b);
+}
+
+static gboolean
+style_validation_filter (GnmStyle const *style)
+{
+	return (gnm_style_get_validation (style) != NULL ||
+		gnm_style_get_input_msg (style) != NULL);
 }
 
 /**
@@ -2636,28 +2822,9 @@ style_validation_equal (GnmStyle const *a, GnmStyle const *b)
 GnmStyleList *
 sheet_style_collect_validations (Sheet const *sheet, GnmRange const *r)
 {
-	GnmStyleList *res = NULL;
-	StyleListMerge mi;
-
-	mi.style_equal = style_validation_equal;
-	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
-				     (GCompareFunc)&gnm_cellpos_equal);
-	mi.sheet = sheet;
-
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, r,
-		      cb_style_list_add_validation, &mi);
-#ifdef DEBUG_STYLE_LIST
-	g_printerr ("=========\n");
-#endif
-	g_hash_table_foreach_remove (mi.cache, cb_hash_merge_horiz, &mi);
-	g_hash_table_foreach_remove (mi.cache, cb_hash_to_list, &res);
-#ifdef DEBUG_STYLE_LIST
-	g_printerr ("=========\n");
-#endif
-	g_hash_table_destroy (mi.cache);
-
-	return res;
+	return internal_style_list (sheet, r,
+				    style_validation_equal,
+				    style_validation_filter);
 }
 
 /**
@@ -2709,11 +2876,7 @@ sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
 void
 style_list_free (GnmStyleList *list)
 {
-	GnmStyleList *l;
-
-	for (l = list; l; l = l->next)
-		gnm_style_region_free (l->data);
-	g_slist_free (list);
+	g_slist_free_full (list, (GDestroyNotify)gnm_style_region_free);
 }
 
 /**
@@ -2793,33 +2956,6 @@ sheet_style_foreach (Sheet const *sheet, GHFunc func, gpointer user_data)
 	sh_foreach (sheet->style_data->style_hash, func, user_data);
 }
 
-typedef struct {
-	gpointer user_data;
-	GHFunc func;
-} sheet_style_range_foreach_t;
-
-static gboolean
-cb_hash_to_cb (G_GNUC_UNUSED gpointer key, gpointer value, gpointer user_data)
-{
-	sheet_style_range_foreach_t *ud = user_data;
-	GnmStyleRegion *sr = value;
-
-	/* Already merged */
-	if (sr->range.start.col < 0) {
-		gnm_style_region_free (sr);
-		return TRUE;
-	}
-
-#ifdef DEBUG_STYLE_LIST
-	range_dump (&sr->range, "\n");
-#endif
-
-	ud->func (NULL, sr, ud->user_data);
-	gnm_style_region_free (sr);
-	return TRUE;
-
-}
-
 /**
  * sheet_style_range_foreach:
  * @sheet: #Sheet
@@ -2829,42 +2965,19 @@ cb_hash_to_cb (G_GNUC_UNUSED gpointer key, gpointer value, gpointer user_data)
  *
  **/
 void
-sheet_style_range_foreach (Sheet const *sheet, GHFunc func, gpointer user_data, gboolean optimize)
+sheet_style_range_foreach (Sheet const *sheet, GHFunc func, gpointer user_data)
 {
-	StyleListMerge mi;
-	GnmRange r;
-	sheet_style_range_foreach_t ud;
+	GnmStyleList *styles, *l;
 
-	g_return_if_fail (IS_SHEET (sheet));
+	styles = sheet_style_get_range (sheet, NULL);
 
-	ud.user_data = user_data;
-	ud.func = func;
-	range_init_full_sheet (&r, sheet);
+	for (l = styles; l; l = l->next) {
+		GnmStyleRegion *sr = l->data;
+		func (NULL, sr, user_data);
+		gnm_style_region_free (sr);
+	}
 
-	mi.style_equal = gnm_style_eq;
-	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
-				     (GCompareFunc)&gnm_cellpos_equal);
-	mi.sheet = sheet;
-
-#ifdef DEBUG_STYLE_LIST
-	g_printerr ("====A====\n");
-#endif
-	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, &r,
-		      cb_style_list_add_node, &mi);
-#ifdef DEBUG_STYLE_LIST
-	g_printerr ("====B====\n");
-#endif
-	if (optimize)
-		g_hash_table_foreach_remove (mi.cache, cb_hash_merge_horiz, &mi);
-#ifdef DEBUG_STYLE_LIST
-	g_printerr ("====C====\n");
-#endif
-	g_hash_table_foreach_remove (mi.cache, cb_hash_to_cb, &ud);
-#ifdef DEBUG_STYLE_LIST
-	g_printerr ("====D====\n");
-#endif
-	g_hash_table_destroy (mi.cache);
+	g_slist_free (styles);
 }
 
 /* ------------------------------------------------------------------------- */

@@ -61,8 +61,7 @@ void	  sheet_style_foreach (Sheet const *sheet,
 			       gpointer    user_data);
 void	  sheet_style_range_foreach (Sheet const *sheet,
 				     GHFunc	  func,
-				     gpointer     user_data,
-				     gboolean     optimize);
+				     gpointer     user_data);
 
 GnmStyle **sheet_style_most_common (Sheet const *sheet, gboolean is_col);
 

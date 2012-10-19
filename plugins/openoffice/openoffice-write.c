@@ -1970,7 +1970,7 @@ odf_write_cell_styles (GnmOOExport *state)
 		state->sheet = workbook_sheet_by_index (state->wb, i);
 		sheet_style_range_foreach (state->sheet,
 					   (GHFunc) odf_save_this_style,
-					   state, FALSE);
+					   state);
 	}
 	state->sheet = NULL;
 }
