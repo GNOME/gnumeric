@@ -1,3 +1,8 @@
+2012-10-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-image.c (gnm_soi_get_target_list): fix trivial crasher,
+	(gnm_soi_copy): really copy the image.
+
 2012-10-19  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (internal_style_list): Check actual area

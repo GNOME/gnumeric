@@ -256,7 +256,7 @@ gnm_soi_get_target_list (SheetObject const *so)
 	GSList *mimes, *ptr;
 	GdkPixbuf *pixbuf = NULL;
 
-	if (soi->type == NULL || soi->image == NULL)
+	if (soi->type == NULL)
 		pixbuf = go_image_get_pixbuf (soi->image);
 	mime_str = go_image_format_to_mime (soi->type);
 	if (mime_str) {
@@ -462,6 +462,7 @@ gnm_soi_copy (SheetObject *dst, SheetObject const *src)
 	new_soi->crop_bottom	= soi->crop_bottom;
 	new_soi->crop_left	= soi->crop_left;
 	new_soi->crop_right	= soi->crop_right;
+	new_soi->image		= g_object_ref (soi->image);
 }
 
 static void
