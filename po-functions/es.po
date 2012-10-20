@@ -11,23 +11,23 @@
 # Francisco Javier F. Serrador <fserrador@gmail.com>, 2006, 2011.
 # Sylvia Sánchez <LailahFSF@gmail.com>, 2011, 2012.
 # Juan Matías Olmos <colonizare@yahoo.com.ar>, 2012.
-# Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
+# Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-10-09 13:08+0000\n"
-"PO-Revision-Date: 2012-10-14 11:48+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2012-10-15 13:46+0000\n"
+"PO-Revision-Date: 2012-10-16 11:05-0500\n"
+"Last-Translator: Milagros Alessandra Infante Montero <maim92@gmail.com>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
@@ -7988,7 +7988,7 @@ msgstr "σ:desviación estándar de la distribución"
 
 #: ../plugins/fn-random/functions.c:327
 msgid "If @{σ} < 0, RANDNORM returns #NUM!"
-msgstr ""
+msgstr "Si @{σ} < 0, RANDNORM devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:349
 msgid "RANDCAUCHY:random variate from a Cauchy or Lorentz distribution"
@@ -7997,11 +7997,11 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:350
 msgid "a:scale parameter of the distribution"
-msgstr "a: parámetro de escala de la distribución"
+msgstr "a:parámetro de escala de la distribución"
 
 #: ../plugins/fn-random/functions.c:351
 msgid "If @{a} < 0 RANDCAUCHY returns #NUM!"
-msgstr ""
+msgstr "Si @{a} < 0 RANDCAUCHY devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:372
 msgid "RANDLOGNORM:random variate from a lognormal distribution"
@@ -8009,48 +8009,50 @@ msgstr "RANDLOGNORM:variable aleatoria desde una distribución log-normal"
 
 #: ../plugins/fn-random/functions.c:373
 msgid "ζ:parameter of the lognormal distribution"
-msgstr "ζ: parámetro de la distribución lognormal"
+msgstr "ζ:parámetro de la distribución log-normal"
 
 #: ../plugins/fn-random/functions.c:375
 msgid "If @{σ} < 0, RANDLOGNORM returns #NUM!"
-msgstr ""
+msgstr "Si @{σ} < 0, RANDLOGNORM devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:394
 msgid "RANDWEIBULL:random variate from a Weibull distribution"
-msgstr "RANDWEIBULL:variable aleatoria desde una distribución de Weibull"
+msgstr "RANDWEIBULL:variable aleatoria de una distribución de Weibull"
 
 #: ../plugins/fn-random/functions.c:395
 msgid "a:parameter of the Weibull distribution"
-msgstr "a: parámetro de distribución Weibull"
+msgstr "a:parámetro de la distribución de Weibull"
 
 #: ../plugins/fn-random/functions.c:396
 msgid "b:parameter of the Weibull distribution"
-msgstr "b: parámetro de la distribución Weibull"
+msgstr "b:parámetro de la distribución Weibull"
 
 #: ../plugins/fn-random/functions.c:415
 msgid "RANDLAPLACE:random variate from a Laplace distribution"
-msgstr ""
+msgstr "RANDLAPLACE:variable aleatoria de una distribución de Laplace"
 
 #: ../plugins/fn-random/functions.c:416
 msgid "a:parameter of the Laplace distribution"
-msgstr "a: parámetro de la distribución de Laplace"
+msgstr "a:parámetro de la distribución de Laplace"
 
 #: ../plugins/fn-random/functions.c:434
 msgid "RANDRAYLEIGH:random variate from a Rayleigh distribution"
-msgstr ""
+msgstr "RANDRAYLEIGH:variable aleatoria de una distribución de Rayleigh"
 
 #: ../plugins/fn-random/functions.c:435 ../plugins/fn-random/functions.c:455
 msgid "σ:scale parameter of the Rayleigh distribution"
-msgstr "σ: parámetro de escala de la distribución de Rayleigh"
+msgstr "σ:parámetro de escala de la distribución de Rayleigh"
 
 #: ../plugins/fn-random/functions.c:453
 msgid ""
 "RANDRAYLEIGHTAIL:random variate from the tail of a Rayleigh distribution"
 msgstr ""
+"RANDRAYLEIGHTAIL:variable aleatoria de la cola de una distribución de "
+"Rayleigh"
 
 #: ../plugins/fn-random/functions.c:454 ../plugins/fn-random/functions.c:793
 msgid "a:lower limit of the tail"
-msgstr ""
+msgstr "a:límite inferior de la cola"
 
 #: ../plugins/fn-random/functions.c:474
 msgid "RANDGAMMA:random variate from a Gamma distribution"
@@ -8058,31 +8060,31 @@ msgstr "RANDGAMMA:variate aleatoria de una distribución Gamma"
 
 #: ../plugins/fn-random/functions.c:475
 msgid "a:parameter of the Gamma distribution"
-msgstr "a: parámetro de la distribución Gamma"
+msgstr "a:parámetro de la distribución Gamma"
 
 #: ../plugins/fn-random/functions.c:476
 msgid "b:parameter of the Gamma distribution"
-msgstr "b: parámetro de la distribución Gamma"
+msgstr "b:parámetro de la distribución Gamma"
 
 #: ../plugins/fn-random/functions.c:477
 msgid "If @{a} ≤ 0, RANDGAMMA returns #NUM!"
-msgstr ""
+msgstr "Si @{a} ≤ 0, RANDGAMMA devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:499
 msgid "RANDPARETO:random variate from a Pareto distribution"
-msgstr ""
+msgstr "RANDPARETO:variable aleatoria de una distribución de Pareto"
 
 #: ../plugins/fn-random/functions.c:500
 msgid "a:parameter of the Pareto distribution"
-msgstr "a: parámetro de distribución de Pareto"
+msgstr "a:parámetro de la distribución de Pareto"
 
 #: ../plugins/fn-random/functions.c:501
 msgid "b:parameter of the Pareto distribution"
-msgstr "b: parámetro de distribución de Pareto"
+msgstr "b:parámetro de la distribución de Pareto"
 
 #: ../plugins/fn-random/functions.c:520
 msgid "RANDFDIST:random variate from an F distribution"
-msgstr ""
+msgstr "RANDFDIST:variable aleatoria de una distribución F"
 
 #: ../plugins/fn-random/functions.c:521
 msgid "df1:numerator degrees of freedom"
@@ -8090,7 +8092,7 @@ msgstr "df1:grados de libertad del numerador"
 
 #: ../plugins/fn-random/functions.c:522
 msgid "df2:denominator degrees of freedom"
-msgstr ""
+msgstr "df2:grados de libertad del denominador"
 
 #: ../plugins/fn-random/functions.c:541
 msgid "RANDBETA:random variate from a Beta distribution"
@@ -8098,113 +8100,116 @@ msgstr "RANDBETA:variable aleatoria de una distribución Beta "
 
 #: ../plugins/fn-random/functions.c:542
 msgid "a:parameter of the Beta distribution"
-msgstr "a: parámetro de la distribución Beta"
+msgstr "a:parámetro de la distribución Beta"
 
 #: ../plugins/fn-random/functions.c:543
 msgid "b:parameter of the Beta distribution"
-msgstr "b: parámetro de la distribución Beta"
+msgstr "b:parámetro de la distribución Beta"
 
 #: ../plugins/fn-random/functions.c:562
 msgid "RANDLOGISTIC:random variate from a logistic distribution"
-msgstr ""
+msgstr "RANDLOGISTIC:variable aleatoria de una distribución logística"
 
 #: ../plugins/fn-random/functions.c:563
 msgid "a:parameter of the logistic distribution"
-msgstr "c: parámetro de la distribución Beta"
+msgstr "a:parámetro de la distribución logística"
 
 #: ../plugins/fn-random/functions.c:581
 msgid "RANDGEOM:random variate from a geometric distribution"
-msgstr "RANDGEOM: variable aleatoria de una distribución geométrica"
+msgstr "RANDGEOM:variable aleatoria de una distribución geométrica"
 
 #: ../plugins/fn-random/functions.c:583
 msgid "If @{p} < 0 or @{p} > 1 RANDGEOM returns #NUM!"
-msgstr ""
+msgstr "Si @{p} < 0 o @{p} > 1 RANDGEOM devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:604
 msgid "RANDHYPERG:random variate from a hypergeometric distribution"
-msgstr "RANDHYPERG: variable aleatoria desde una distribución hipergeométrica"
+msgstr "RANDHYPERG:variable aleatoria de una distribución hipergeométrica"
 
 #: ../plugins/fn-random/functions.c:605
 msgid "n1:number of objects of type 1"
-msgstr ""
+msgstr "n1:número de objetos de tipo 1"
 
 #: ../plugins/fn-random/functions.c:606
 msgid "n2:number of objects of type 2"
-msgstr ""
+msgstr "n2:número de objetos de tipo 2"
 
 #: ../plugins/fn-random/functions.c:607
 msgid "t:total number of objects selected"
-msgstr ""
+msgstr "t:número total de objetos seleccionados"
 
 #: ../plugins/fn-random/functions.c:629
 msgid "RANDLOG:random variate from a logarithmic distribution"
-msgstr ""
+msgstr "RANDLOG:variable aleatoria de una distribución logarítmica"
 
 #: ../plugins/fn-random/functions.c:631
 msgid "If @{p} < 0 or @{p} > 1 RANDLOG returns #NUM!"
-msgstr ""
+msgstr "Si @{p} < 0 o @{p} > 1 RANDLOG devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:652
 msgid "RANDCHISQ:random variate from a Chi-square distribution"
-msgstr "RANDCHISQ:variable aleatoria desde una distribución Chi-cuadrado"
+msgstr "RANDCHISQ:variable aleatoria de una distribución Chi-cuadrado"
 
 #: ../plugins/fn-random/functions.c:653 ../plugins/fn-random/functions.c:672
 #: ../plugins/fn-random/functions.c:942
 msgid "df:degrees of freedom"
-msgstr ""
+msgstr "df:grados de libertad"
 
 #: ../plugins/fn-random/functions.c:671
 msgid "RANDTDIST:random variate from a Student t distribution"
-msgstr "RANDTDIST: variable aleatoria desde una distribución t de Student"
+msgstr "RANDTDIST:variable aleatoria de una distribución t de Student"
 
 #: ../plugins/fn-random/functions.c:690
 msgid "RANDGUMBEL:random variate from a Gumbel distribution"
-msgstr ""
+msgstr "RANDGUMBEL:variable aleatoria de una distribución de Gumbel"
 
 #: ../plugins/fn-random/functions.c:691
 msgid "a:parameter of the Gumbel distribution"
-msgstr "a: parámetro de distribución Gumbel"
+msgstr "a:parámetro de la distribución de Gumbel"
 
 #: ../plugins/fn-random/functions.c:692
 msgid "b:parameter of the Gumbel distribution"
-msgstr "b: parámetro de distribución Gumbel"
+msgstr "b:parámetro de la distribución de Gumbel"
 
 #: ../plugins/fn-random/functions.c:693
 msgid "type:type of the Gumbel distribution, defaults to 1"
-msgstr ""
+msgstr "tipo:tipo de la distribución de Gumbel, el predeterminado es 1"
 
 #: ../plugins/fn-random/functions.c:694
 msgid "If @{type} is neither 1 nor 2, RANDGUMBEL returns #NUM!"
-msgstr ""
+msgstr "Si @{tipo} no es 1 ni 2, RANDGUMBEL devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:719
 msgid "RANDLEVY:random variate from a Lévy distribution"
-msgstr ""
+msgstr "RANDLEVY:variable aleatoria de la distribución de Lévy"
 
 #: ../plugins/fn-random/functions.c:720
 msgid "c:parameter of the Lévy distribution"
-msgstr "c: parámetro de distribución Lévy"
+msgstr "c:parámetro de la distribución de Lévy"
 
 #: ../plugins/fn-random/functions.c:721
 msgid "α:parameter of the Lévy distribution"
-msgstr "α: parámetro de la distribución Lévy"
+msgstr "α:parámetro de la distribución de Lévy"
 
 #: ../plugins/fn-random/functions.c:722
 msgid "β:parameter of the Lévy distribution, defaults to 0"
-msgstr "β: parámetro de la distribución Lévy, el predeterminado es 0"
+msgstr "β:parámetro de la distribución de Lévy, el predeterminado es 0"
 
 #: ../plugins/fn-random/functions.c:723
 msgid ""
 "For @{α} = 1, @{β}=0, the Lévy distribution reduces to the Cauchy (or "
 "Lorentzian) distribution."
 msgstr ""
+"Para @{α} = 1, @{β}=0, la distribución de Lévy reducida a la distribución de "
+"Cauchy (o Lorentzian)."
 
 #: ../plugins/fn-random/functions.c:725
 msgid ""
 "For @{α} = 2, @{β}=0, the Lévy distribution reduces to the normal "
 "distribution."
 msgstr ""
-"Para @{α} = 2, @{β}=0, la distribución Lévy reduce a la distribución normal."
+"Para @{α} = 2, @{β}=0, la distribución de Lévy reduce a la distribución "
+"normal."
 
 #: ../plugins/fn-random/functions.c:727
 msgid "If @{α} ≤ 0 or @{α} > 2, RANDLEVY returns #NUM!"
