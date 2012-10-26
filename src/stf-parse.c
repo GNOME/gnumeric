@@ -86,6 +86,12 @@ my_garray_len (GArray const *a)
 	return (int)a->len;
 }
 
+static char *
+my_utf8_strchr (const char *p, gunichar uc)
+{
+	return uc < 0x7f ? strchr (p, uc) : g_utf8_strchr (p, -1, uc);
+}
+
 static int
 compare_terminator (char const *s, StfParseOptions_t *parseoptions)
 {
@@ -538,8 +544,7 @@ stf_parse_csv_is_separator (char const *character, char const *chr, GSList const
 		}
 	}
 
-	if (chr && g_utf8_strchr (chr, -1,
-				  g_utf8_get_char (character)))
+	if (chr && my_utf8_strchr (chr, g_utf8_get_char (character)))
 		return g_utf8_next_char(character);
 
 	return NULL;
@@ -1661,7 +1666,7 @@ stf_parse_options_guess_csv (char const *data)
 					quoteline = line;
 				break;
 			case 2:
-				if (g_utf8_strchr (line, -1, stringind))
+				if (my_utf8_strchr (line, stringind))
 					quoteline = line;
 				break;
 			}
@@ -1669,7 +1674,7 @@ stf_parse_options_guess_csv (char const *data)
 	}
 
 	if (quoteline) {
-		const char *p0 = g_utf8_strchr (quoteline, -1, stringind);
+		const char *p0 = my_utf8_strchr (quoteline, stringind);
 		const char *p = p0;
 
 		do {

@@ -175,6 +175,19 @@ gnm_usr_dir (gboolean versioned)
 	return versioned ? gnumeric_usr_dir : gnumeric_usr_dir_unversioned;
 }
 
+
+static gboolean
+all_ascii (const char *s)
+{
+	while ((guchar)*s < 0x7f) {
+		if (*s)
+			s++;
+		else
+			return TRUE;
+	}
+	return FALSE;
+}
+
 /*
  * Like strto[ld], but...
  * 1. handles non-ascii characters
@@ -187,13 +200,18 @@ gnm_utf8_strto (const char *s, char **end)
 	const char *p;
 	int sign;
 	char *dummy_end;
-	GString *ascii = g_string_sized_new (100);
+	GString *ascii;
 	GString const *decimal = go_locale_get_decimal ();
 	gboolean seen_decimal = FALSE;
 	gboolean seen_digit = FALSE;
 	size_t spaces = 0;
 	gnm_float res;
 	int save_errno;
+
+	if (all_ascii (s))
+		return gnm_strto (s, end);
+
+	ascii = g_string_sized_new (100);
 
 	if (!end)
 		end = &dummy_end;

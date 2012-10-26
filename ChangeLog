@@ -1,3 +1,11 @@
+2012-10-26  Morten Welinder  <terra@gnome.org>
+
+	* src/gutils.c (gnm_utf8_strto): Handle all-ascii case without
+	copying the string.
+
+	* src/stf-parse.c (my_utf8_strchr): New function wrapping
+	g_utf8_strchr and handling ascii character faster.
+
 2012-10-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-image.c (gnm_soi_get_target_list): fix trivial crasher,
