@@ -12,6 +12,7 @@ Morten:
 	* Fix xlsx save performance problems.  [#662058]  [#685530]
 	* Fix ods save performance problems.  [#662057]
 	* Make .gnumeric use fewer style rectangles for the same style.
+	* Short-circuit column resize for large stf imports.  [#686858]
 
 Weng Xuetian:
         * Fix interaction with ibus & fcitx. [#684511]

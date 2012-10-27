@@ -1,3 +1,8 @@
+2012-10-27  Morten Welinder  <terra@gnome.org>
+
+	* src/stf.c (resize_columns): Only auto-resize columns based on
+	the first 1000 rows.  Fixes #686858.
+
 2012-10-26  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (gnm_utf8_strto): Handle all-ascii case without

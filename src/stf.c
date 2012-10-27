@@ -190,7 +190,13 @@ resize_columns (Sheet *sheet)
 
 	if (gnm_debug_flag ("stf"))
 		g_printerr ("Auto-fitting columns...\n");
+
+	/* If we have lots of rows, auto-fitting will take a very long
+	   time.  It is probably better to look at only, say, 1000 rows
+	   of data.  */
 	range_init_full_sheet (&r, sheet);
+	r.end.row = MIN (r.end.row, 1000);
+
 	colrow_autofit (sheet, &r, TRUE,
 			TRUE, /* Ignore strings */
 			TRUE, /* Don't shrink */
