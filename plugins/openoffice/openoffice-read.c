@@ -6043,7 +6043,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	int	  tmp;
 	gnm_float tmp_f;
 	gboolean  v_alignment_is_fixed = FALSE;
-	int  strike_through_type = 0, strike_through_style = 0;
+	int  strike_through_type = -1, strike_through_style = -1;
 
 	g_return_if_fail (style != NULL);
 
@@ -6150,9 +6150,9 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_font_weight (xin, attrs, &tmp))
 			gnm_style_set_font_bold (style, tmp >= PANGO_WEIGHT_SEMIBOLD);
 		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-line-through-style",
-				       text_line_through_styles, &strike_through_type));
+				       text_line_through_styles, &strike_through_style));
 		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "text-line-through-type",
-				       text_line_through_types, &strike_through_style));
+				       text_line_through_types, &strike_through_type));
 
 #if 0
 		else if (!strcmp (attrs[0], OO_NS_FO, "font-weight")) {
@@ -6165,7 +6165,8 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 #endif
 
-	gnm_style_set_font_strike (style, strike_through_type == 1 && strike_through_style == 1);
+	gnm_style_set_font_strike (style, strike_through_style > 0 || 
+				   (strike_through_type > 0 &&  strike_through_style == -1));
 
 }
 
