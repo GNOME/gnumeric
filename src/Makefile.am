@@ -6,6 +6,7 @@ INTROSPECTION_GIRS =
 INTROSPECTION_SCANNER_ARGS = \
 	-v --warn-all --accept-unprefixed \
 	--identifier-prefix="Gnm"  --identifier-prefix="Gnumeric" \
+	-I$(top_builddir) \
 	-DGOFFICE_NAMESPACE_DISABLE
 INTROSPECTION_COMPILER_ARGS = \
 	--includedir=$(srcdir) \
