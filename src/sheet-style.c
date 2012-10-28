@@ -2559,6 +2559,7 @@ merge_vertical_stripes (ISL *data)
 			g_printerr ("\n");
 
 		gnm_style_region_free (a);
+		g_slist_free (Bs);
 
 		if (paranoid) verify_hashes (data);
 	}
@@ -2654,6 +2655,7 @@ merge_horizontal_stripes (ISL *data)
 			g_printerr ("\n");
 
 		gnm_style_region_free (a);
+		g_slist_free (Bs);
 
 		if (paranoid) verify_hashes (data);
 	}
