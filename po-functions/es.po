@@ -11,23 +11,23 @@
 # Francisco Javier F. Serrador <fserrador@gmail.com>, 2006, 2011.
 # Sylvia Sánchez <LailahFSF@gmail.com>, 2011, 2012.
 # Juan Matías Olmos <colonizare@yahoo.com.ar>, 2012.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
 # Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-10-15 13:46+0000\n"
-"PO-Revision-Date: 2012-10-16 11:05-0500\n"
-"Last-Translator: Milagros Alessandra Infante Montero <maim92@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2012-10-20 16:33+0000\n"
+"PO-Revision-Date: 2012-10-28 12:42+0100\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
@@ -8213,52 +8213,55 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:727
 msgid "If @{α} ≤ 0 or @{α} > 2, RANDLEVY returns #NUM!"
-msgstr ""
+msgstr "Si @{α} ≤ 0 o @{α} > 2, RANDLEVY devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:728
 msgid "If @{β} < -1 or @{β} > 1, RANDLEVY returns #NUM!"
-msgstr ""
+msgstr "Si @{β} < -1 o @{β} > 1, RANDLEVY devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:751
 msgid "RANDEXPPOW:random variate from an exponential power distribution"
-msgstr ""
-"RANDEXPPOW: variable aleatoria desde una distribución exponencial de potencia"
+msgstr "RANDEXPPOW:variable aleatoria de una distribución exponencial"
 
 #: ../plugins/fn-random/functions.c:752
 msgid "a:scale parameter of the exponential power distribution"
-msgstr "a: parámetro de escala de la distribución exponencial de potencia"
+msgstr "a:parámetro de escala de la distribución exponencial"
 
 #: ../plugins/fn-random/functions.c:753
 msgid "b:exponent of the exponential power distribution"
-msgstr "b: exponente de la distribución exponencial de potencia"
+msgstr "b:exponente de la distribución exponencial"
 
 #: ../plugins/fn-random/functions.c:754
 msgid ""
 "For @{b} = 1 the exponential power distribution reduces to the Laplace "
 "distribution."
 msgstr ""
+"Para @{b} = 1 la distribución exponencial reducida a la distribución de "
+"Laplace."
 
 #: ../plugins/fn-random/functions.c:756
 msgid ""
 "For @{b} = 2 the exponential power distribution reduces to the normal "
 "distribution with σ = a/sqrt(2)"
 msgstr ""
+"Para @{b} = 2 la distribución exponencial reducida a la distribución normal "
+"con σ = a/sqrt(2)"
 
 #: ../plugins/fn-random/functions.c:776
 msgid "RANDLANDAU:random variate from the Landau distribution"
-msgstr ""
+msgstr "RANDLANDAU:variable aleatoria de la distribución de Landau"
 
 #: ../plugins/fn-random/functions.c:792
 msgid ""
 "RANDNORMTAIL:random variate from the upper tail of a normal distribution "
 "with mean 0"
 msgstr ""
-"RANDNORMTAIL: variate aleatoria de la cola superior de una distribución "
+"RANDNORMTAIL:variate aleatoria de la cola superior de una distribución "
 "normal con media 0"
 
 #: ../plugins/fn-random/functions.c:794
 msgid "σ:standard deviation of the normal distribution"
-msgstr "σ: desviación estándar de la distribución normal"
+msgstr "σ:desviación estándar de la distribución normal"
 
 #: ../plugins/fn-random/functions.c:795
 msgid ""
@@ -8266,20 +8269,25 @@ msgid ""
 "(Ann Math Stat 32, 894-899 (1961)), with this aspect explained in Knuth, v2, "
 "3rd ed, p139, 586 (exercise 11)."
 msgstr ""
+"El método se basa en el famoso algoritmo del rectángulo de cuña de cola de  "
+"Marsaglia (Ann Math Stat 32, 894-899 (1961)), con este aspecto se explica en "
+"Knuth, v2, 3ra ed, P139, 586 (ejercicio 11)."
 
 #: ../plugins/fn-random/functions.c:816
 msgid ""
 "SIMTABLE:one of the values in the given argument list depending on the round "
 "number of the simulation tool"
 msgstr ""
+"SIMTABLE:uno de los valores en la lista de argumentos dada depende del "
+"número redondeado de la herramienta de simulación"
 
 #: ../plugins/fn-random/functions.c:818
 msgid "d1:first value"
-msgstr ""
+msgstr "d1:primer valor"
 
 #: ../plugins/fn-random/functions.c:819
 msgid "d2:second value"
-msgstr ""
+msgstr "d2:segundo valor"
 
 #: ../plugins/fn-random/functions.c:820
 msgid ""
@@ -8302,48 +8310,46 @@ msgid ""
 "is created according to the values."
 msgstr ""
 "SIMTABLE devuelve uno de los valores en la lista de argumentos dada "
-"dependiendo del redondeo de la herramienta de simulación. Cuando la "
-"herramienta de simulación no es activada, SIMTABLE devuelve @{d1}.\n"
+"dependiendo del número redondeado de la herramienta de simulación. Cuando la "
+"herramienta de simulación no está activada, SIMTABLE devuelve @{d1}.\n"
 "Con la herramienta de simulación y la función SIMTABLE puede probar "
 "variables de decisión dadas. Cada función SIMTABLE contiene los posibles "
 "valores de una variable de simulación. En la mayoría de los modelos de "
-"simulación debería haber el mismo número de valores @dN para todas las "
-"variables de decisión. Si la simulación se ejecuta más veces que los valores "
-"que están definidos, SIMTABLE devuelve un error #N/A! (ej: si A1 contiene "
-"`=SIMTABLE(1)' y A2 `=SIMTABLE(1,2)', A1 da un error #N/A! la segunda "
-"ronda).\n"
+"simulación válidos debería tener el mismo número de valores @{dN} para todas "
+"las variables de decisión. Si la simulación se ejecuta más veces que los "
+"valores que están definidos, SIMTABLE devuelve un error #N/A! (ej: si A1 "
+"contiene «=SIMTABLE(1)» y A2 «=SIMTABLE(1,2)», A1 da un error #N/A! en la "
+"segunda ronda).\n"
 "El uso sucesivo de la herramienta de simulación también requiere que le dé a "
 "la herramienta al menos una variable de entrada teniendo RAND() o cualquier "
-"otra función RAND<nombre de distribución>() en ella. En cada ronda, la "
-"herramienta de simulación itera el número dado de veces por las variables de "
-"entrada para reevaluarlas. En cada iteración, los valores de las variables "
-"de salida se almacenasen, y cuando la ronda termina, se crea información "
-"estadística descriptiva de acuerdo con los valores."
+"otra función RAND<distribution name>() en ella. En cada ronda, la "
+"herramienta de simulación itera por el número dado de rondas sobre todas las "
+"variables de entrada para reevaluarlas. En cada iteración, los valores de "
+"las variables de salida se almacenan, y cuando la ronda está completa, se "
+"crea información estadística descriptiva de acuerdo con los valores."
 
 # skew==asimétrica
 #: ../plugins/fn-random/functions.c:884
-#, fuzzy
-#| msgid "RANDSNORM:random variate from a skew normal distribution"
 msgid "RANDSNORM:random variate from a skew-normal distribution"
-msgstr "RANDSNORM:variación aleatoria desde una distribución normal asimétrica"
+msgstr "RANDSNORM:variable aleatoria desde una distribución normal sesgada"
 
 #: ../plugins/fn-random/functions.c:885
-#, fuzzy
-#| msgid "β:parameter of the Lévy distribution, defaults to 0"
 msgid "𝛼:shape parameter of the skew-normal distribution, defaults to 0"
-msgstr "β: parámetro de la distribución Lévy, el predeterminado es 0"
+msgstr ""
+"𝛼:parámetro de forma de la distribución normal sesgada, el predeterminado es "
+"0"
 
 #: ../plugins/fn-random/functions.c:887
-#, fuzzy
-#| msgid "β:parameter of the Lévy distribution, defaults to 0"
 msgid "𝜉:location parameter of the skew-normal distribution, defaults to 0"
-msgstr "β: parámetro de la distribución Lévy, el predeterminado es 0"
+msgstr ""
+"𝜉:parámetro de ubicación de la distribución normal sesgada, el "
+"predeterminado es 0"
 
 #: ../plugins/fn-random/functions.c:889
-#, fuzzy
-#| msgid "β:parameter of the Lévy distribution, defaults to 0"
 msgid "𝜔:scale parameter of the skew-normal distribution, defaults to 1"
-msgstr "β: parámetro de la distribución Lévy, el predeterminado es 0"
+msgstr ""
+"𝜔:parámetro de escala de la distribución normal sesgada, el predeterminado "
+"es 1"
 
 #: ../plugins/fn-random/functions.c:891
 msgid ""
@@ -8355,122 +8361,120 @@ msgid ""
 "if the sign of @{𝛼} changes, the density is reflected on the opposite side "
 "of the vertical axis."
 msgstr ""
+"Las variables aleatorias se dibujan de una distribución normal sesgada con "
+"parámetro de forma @{𝛼}. Cuando @{𝛼}=0, la asimetría se desvanece, y "
+"obtenemos la densidad normal estándar; como 𝛼 aumenta (en valor absoluto), "
+"la asimetría de la distribución se incrementa, cuando @{𝛼} se aproxima a "
+"infinito la densidad converge a la función de densidad llamada medio-normal "
+"(o normal plegada), si el signo de @{𝛼} cambia, la densidad se refleja en el "
+"lado opuesto de los ejes verticales."
 
 #: ../plugins/fn-random/functions.c:901
 msgid ""
 "The mean of a skew-normal distribution with location parameter @{𝜉}=0 is not "
 "0."
 msgstr ""
+"La media de una distribución normal sesgada con parámetro de ubicación @ @{𝜉}"
+"=0 no es 0."
 
 #: ../plugins/fn-random/functions.c:903
-#, fuzzy
-#| msgid ""
-#| "σ:standard deviation of the underlying normal distribution, defaults to 1"
 msgid ""
 "The standard deviation of a skew-normal distribution with scale parameter @"
 "{𝜔}=1 is not 1."
 msgstr ""
-"σ: desviación estándar de la distribución normal subyacente, la "
-"predeterminada es 1."
+"La desviación estándar de la distribución normal sesgada con parámetro de "
+"escala @{𝜔}=1 no es 1."
 
 #: ../plugins/fn-random/functions.c:905
 msgid "The skewness of a skew-normal distribution is in general not @{𝛼}."
-msgstr ""
+msgstr "La asimetría de una distribución normal sesgada no es en general @{𝛼}."
 
 #: ../plugins/fn-random/functions.c:906
 msgid "If @{𝜔} < 0, RANDSNORM returns #NUM!"
-msgstr ""
+msgstr "Si @{𝜔} < 0, RANDSNORM devuelve #NUM!"
 
 #: ../plugins/fn-random/functions.c:941
-#, fuzzy
 msgid "RANDSTDIST:random variate from a skew-t distribution"
-msgstr ""
-"RANDSTDIST: función de densidad de probabilidad de la distribución de T "
-"Student."
+msgstr "RANDSTDIST:variable aleatoria de una distribución sesgada t"
 
 #: ../plugins/fn-random/functions.c:943
-#, fuzzy
-#| msgid "β:parameter of the Lévy distribution, defaults to 0"
 msgid "𝛼:shape parameter of the skew-t distribution, defaults to 0"
-msgstr "β: parámetro de la distribución Lévy, el predeterminado es 0"
+msgstr ""
+"𝛼:parámetro de forma de la distribución sesgada t, el predeterminado es 0"
 
 #: ../plugins/fn-random/functions.c:944
-#, fuzzy
-#| msgid "lambda:the mean of the distribution"
 msgid "The mean of a skew-t distribution is not 0."
-msgstr "lambda:la media de la distribución"
+msgstr "La media de la distribución sesgada t no es 0."
 
 #: ../plugins/fn-random/functions.c:945
-#, fuzzy
-#| msgid "σ:standard deviation of the distribution"
 msgid "The standard deviation of a skew-t distribution is not 1."
-msgstr "σ: desviación estándar de la distribución"
+msgstr "La desviación estándar de la distribución sesgada t no es 1."
 
 #: ../plugins/fn-random/functions.c:946
 msgid "The skewness of a skew-t distribution is in general not @{𝛼}."
-msgstr ""
+msgstr "La asimetría de la distribución sesgada t no es en general @{𝛼}."
 
 #: ../plugins/fn-stat/functions.c:45
-#, fuzzy
 msgid ""
 "Numbers, text and logical values are included in the calculation too. If the "
 "cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0). If the argument evaluates to TRUE, it is counted as one (1). "
 "Note that empty cells are not counted."
 msgstr ""
-"Calcula la suma de todos los valores y celdas referenciados en la lista de "
-"argumentos. Se incluye en el cálculo los números y también los textos y "
-"expresiones lógicas. Si la celda contiene texto o la expresión lógica FALSO, "
-"se contará como un cero (0). Si contiene un valor lógico VERDADERO, se "
-"contará como un uno (1)."
+"Números, texto y valores lógicos están incluidos en el cálculo también. Si "
+"la celda contiene texto o el argumento se evalúa como FALSO, se contará como "
+"valor cero (0). Si el argumento se evalúa a VERDADERO, se contará como uno "
+"(1). Notar que las celdas vacías no son contadas."
 
 #: ../plugins/fn-stat/functions.c:50
 msgid "VARP:variance of an entire population"
-msgstr ""
+msgstr "VARP:varianza de una población entera"
 
 #: ../plugins/fn-stat/functions.c:51 ../plugins/fn-stat/functions.c:77
 #: ../plugins/fn-stat/functions.c:107 ../plugins/fn-stat/functions.c:135
 #: ../plugins/fn-stat/functions.c:2557 ../plugins/fn-stat/functions.c:2588
 #: ../plugins/fn-stat/functions.c:2616 ../plugins/fn-stat/functions.c:2645
 msgid "area1:first cell area"
-msgstr ""
+msgstr "área1:primera área de celda"
 
 #: ../plugins/fn-stat/functions.c:52 ../plugins/fn-stat/functions.c:78
 #: ../plugins/fn-stat/functions.c:108 ../plugins/fn-stat/functions.c:136
 #: ../plugins/fn-stat/functions.c:2558 ../plugins/fn-stat/functions.c:2589
 #: ../plugins/fn-stat/functions.c:2617 ../plugins/fn-stat/functions.c:2646
 msgid "area2:second cell area"
-msgstr ""
+msgstr "área2:segunda área de celda"
 
 #: ../plugins/fn-stat/functions.c:53
 msgid "VARP is also known as the N-variance."
-msgstr ""
+msgstr "VARP también es conocida como la varianza N."
 
 #: ../plugins/fn-stat/functions.c:54
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain number 11.4, 17.3, "
 "21.3, 25.9, and 40.1."
 msgstr ""
+"Supongamos que las celdas A1, A2, …, A5 contienen número 11.4, 17.3, 21.3, "
+"25.9 y 40.1."
 
 #: ../plugins/fn-stat/functions.c:55
 msgid "Then VARP(A1:A5) equals 94.112"
-msgstr ""
+msgstr "Luego VARP(A1:A5) igual a 94.112"
 
 #: ../plugins/fn-stat/functions.c:57 ../plugins/fn-stat/functions.c:87
 msgid "wiki:en:Variance"
-msgstr ""
+msgstr "wiki:es:varianza"
 
 #: ../plugins/fn-stat/functions.c:58 ../plugins/fn-stat/functions.c:88
 msgid "wolfram:Variance.html"
-msgstr ""
+msgstr "wolfram:Variance.html"
 
 #: ../plugins/fn-stat/functions.c:76
 msgid "VAR:sample variance of the given sample"
-msgstr ""
+msgstr "VAR:varianza de la muestra de la muestra dada"
 
 #: ../plugins/fn-stat/functions.c:79
 msgid "VAR is also known as the N-1-variance."
-msgstr ""
+msgstr "VAR también se conoce como la varianza N-1."
 
 #: ../plugins/fn-stat/functions.c:80 ../plugins/fn-stat/functions.c:2562
 msgid ""
@@ -8479,6 +8483,10 @@ msgid ""
 "variance is an unbiased estimator of the variance of the population from "
 "which the sample is drawn."
 msgstr ""
+"Desde que la varianza N-1 incluye la corrección de Bessel, mientras que la "
+"varianza N calculada por VARPA o VARP no, bajo condiciones razonables la "
+"varianza N-1 es un estimador insesgado de la varianza de la población de la "
+"que se extrae la muestra."
 
 #: ../plugins/fn-stat/functions.c:84 ../plugins/fn-stat/functions.c:112
 #: ../plugins/fn-stat/functions.c:139 ../plugins/fn-stat/functions.c:277
@@ -8495,49 +8503,51 @@ msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1."
 msgstr ""
+"Supongamos que las celdas A1, A2, ..., A5 contienen números 11.4, 17.3, "
+"21.3, 25.9 y 40.1."
 
 #: ../plugins/fn-stat/functions.c:85
 msgid "Then VAR(A1:A5) equals 117.64."
-msgstr ""
+msgstr "Luego VAR(A1:A5) igual a 117.64."
 
 #: ../plugins/fn-stat/functions.c:106
-#, fuzzy
 msgid "STDEV:sample standard deviation of the given sample"
-msgstr "sigma:desviación estándar de la distribución."
+msgstr "STDEV:desviación estándar de la muestra de la muestra dada"
 
 #: ../plugins/fn-stat/functions.c:109
 msgid "STDEV is also known as the N-1-standard deviation."
-msgstr ""
+msgstr "STDEV es también conocido como la desviacióon estándar N-1."
 
 #: ../plugins/fn-stat/functions.c:110
 msgid ""
 "To obtain the population standard deviation of a whole population use STDEVP."
 msgstr ""
+"Para obtener la desviación estándar de la población de una población "
+"completa use STDEVP."
 
 #: ../plugins/fn-stat/functions.c:113
 msgid "Then STDEV(A1:A5) equals 10.84619749."
-msgstr ""
+msgstr "Luego STDEV(A1:A5) igual a 10.84619749."
 
 #: ../plugins/fn-stat/functions.c:115 ../plugins/fn-stat/functions.c:142
 msgid "wiki:en:Standard_deviation"
-msgstr "wiki:es: desviación_Estándard"
+msgstr "wiki:es:desviación_estándar"
 
 #: ../plugins/fn-stat/functions.c:116 ../plugins/fn-stat/functions.c:143
 msgid "wolfram:StandardDeviation.html"
-msgstr ""
+msgstr "wolfram:StandardDeviation.html"
 
 #: ../plugins/fn-stat/functions.c:134
-#, fuzzy
 msgid "STDEVP:population standard deviation of the given population"
-msgstr "sigma:desviación estándar de la distribución."
+msgstr "STDEVP:desviación estándar de la población de la población dada"
 
 #: ../plugins/fn-stat/functions.c:137 ../plugins/fn-stat/functions.c:2647
 msgid "This is also known as the N-standard deviation"
-msgstr ""
+msgstr "También se conoce como la desviación estándar N"
 
 #: ../plugins/fn-stat/functions.c:140
 msgid "Then STDEVP(A1:A5) equals 9.701133954."
-msgstr ""
+msgstr "Luego STDEVP(A1:A5) igual a 9.701133954."
 
 #: ../plugins/fn-stat/functions.c:161
 msgid "RANK:rank of a number in a list of numbers"
@@ -10467,8 +10477,8 @@ msgid ""
 "EXPPOWDIST:the probability density function of the Exponential Power "
 "distribution"
 msgstr ""
-"EXPPOWDIST: función de densidad de probabilidad de la distribución de "
-"potencia exponencial"
+"EXPPOWDIST: función de densidad de probabilidad de la distribución "
+"exponencial"
 
 #: ../plugins/fn-stat/functions.c:4498
 msgid ""
