@@ -446,6 +446,12 @@ cb_free_string_list (GSList *l)
 void
 gnm_conf_init (void)
 {
+	debug_getters = gnm_debug_flag ("conf-get");
+	debug_setters = gnm_debug_flag ("conf-set");
+
+	if (debug_getters || debug_setters)
+		g_printerr ("gnm_conf_init\n");
+
 	string_pool = g_hash_table_new_full
 		(g_str_hash, g_str_equal,
 		 NULL, g_free);
@@ -459,14 +465,14 @@ gnm_conf_init (void)
 
 	root = go_conf_get_node (NULL, GNM_CONF_DIR);
 	g_hash_table_insert (node_pool, (gpointer)"/", root);
-
-	debug_getters = gnm_debug_flag ("conf-get");
-	debug_setters = gnm_debug_flag ("conf-set");
 }
 
 void
 gnm_conf_shutdown (void)
 {
+	if (debug_getters || debug_setters)
+		g_printerr ("gnm_conf_shutdown\n");
+
 	go_conf_sync (root);
 	if (sync_handler) {
 		g_source_remove (sync_handler);
