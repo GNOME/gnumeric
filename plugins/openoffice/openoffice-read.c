@@ -1153,7 +1153,7 @@ oo_parse_angle (GsfXMLIn *xin, xmlChar const *str,
 			} else if (0 == strncmp (end, "grad", 4)) {
 				num = num / 9. * 10.;
 				end += 4;
-			} else if (0 == strncmp (end, "rad", 2)) {
+			} else if (0 == strncmp (end, "rad", 3)) {
 				num = num * 180. / M_PIgnum;
 				end += 3;
 			} else {
