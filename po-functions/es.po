@@ -19,15 +19,15 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-10-20 16:33+0000\n"
-"PO-Revision-Date: 2012-10-28 12:42+0100\n"
+"POT-Creation-Date: 2012-10-28 21:59+0000\n"
+"PO-Revision-Date: 2012-10-30 12:18+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
@@ -145,8 +145,7 @@ msgstr "y:parte imaginaria"
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
-"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es "
-"«i»"
+"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es «i»"
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
@@ -641,10 +640,10 @@ msgstr ""
 "@{criterios} es un rango que contiene condiciones. La primera fila de unos @"
 "{criterios} debería contener etiquetas. Cada etiqueta especifica en qué "
 "campo aplican las condiciones dadas en la columna. Cada celda debajo de la "
-"etiqueta especifica una condición como «>3» o «<9». Se puede dar una "
-"condición de igualdad por simple especificación de un valor, por ejemplo «3» "
-"o «Jody». Para que un registro se considere debe satisfacer todas las "
-"condiciones de al menos una de las filas de los @{criterios}."
+"etiqueta especifica una condición como «>3» o «<9». Se puede dar una condición "
+"de igualdad por simple especificación de un valor, por ejemplo «3» o «Jody». "
+"Para que un registro se considere debe satisfacer todas las condiciones de "
+"al menos una de las filas de los @{criterios}."
 
 #: ../plugins/fn-database/functions.c:73
 msgid ""
@@ -953,8 +952,8 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:80
 msgid ""
-"For spreadsheets created with the Mac version of Excel, serial 1 is 1-"
-"Jan-1904."
+"For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-"
+"1904."
 msgstr ""
 "Para hojas de cálculo creadas con la versión de Excel para Mac, la serie 1 "
 "es 1-Ene-1904."
@@ -1052,8 +1051,8 @@ msgid ""
 "If @{interval} is \"ym\" or \"yd\" then the distance is measured in complete "
 "months or days, respectively, but excluding any difference in years."
 msgstr ""
-"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días "
-"completos, respectivamente, pero excluyendo cualquier diferencia en años."
+"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días completos, "
+"respectivamente, pero excluyendo cualquier diferencia en años."
 
 #: ../plugins/fn-date/functions.c:218
 msgid ""
@@ -1729,8 +1728,8 @@ msgid ""
 "vega of an option is the rate of change of its price with respect to "
 "volatility."
 msgstr ""
-"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una "
-"opción europea producida en @{ejercicio} en un activo con precio al contado @"
+"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una opción "
+"europea producida en @{ejercicio} en un activo con precio al contado @"
 "{contado}. El vega de una opción es la tasa de cambio de su precio con "
 "respecto a la volatilidad."
 
@@ -8551,71 +8550,77 @@ msgstr "Luego STDEVP(A1:A5) igual a 9.701133954."
 
 #: ../plugins/fn-stat/functions.c:161
 msgid "RANK:rank of a number in a list of numbers"
-msgstr ""
+msgstr "RANK:rango de un número en una lista de números"
 
 #: ../plugins/fn-stat/functions.c:162 ../plugins/fn-stat/functions.c:214
 msgid "x:number whose rank you want to find"
-msgstr ""
+msgstr "x:número cuyo rango quiere buscar"
 
 #: ../plugins/fn-stat/functions.c:164 ../plugins/fn-stat/functions.c:216
 msgid "order:0 (descending order) or non-zero (ascending order); defaults to 0"
 msgstr ""
+"orden:0 (orden descendente) o no cero (orden ascendente); el predeterminado "
+"es 0"
 
 #: ../plugins/fn-stat/functions.c:165
 msgid "In case of a tie, RANK returns the largest possible rank."
-msgstr ""
+msgstr "En caso de un empate, RANK devuelve el rango posible más grande."
 
 #: ../plugins/fn-stat/functions.c:167
 msgid ""
 "Let us assume that the cells A1, A2, …, A5 contain numbers 11.4, 17.3, 21.3, "
 "25.9, and 25.9."
 msgstr ""
+"Asumiendo que las celdas A1, A2, …, A5 contienen números 11.4, 17.3, 21.3, "
+"25.9 y 25.9."
 
 #: ../plugins/fn-stat/functions.c:168
 msgid "Then RANK(17.3,A1:A5) equals 4."
-msgstr ""
+msgstr "Luego RANK(17.3,A1:A5) igual a 4."
 
 #: ../plugins/fn-stat/functions.c:169
 msgid "Then RANK(25.9,A1:A5) equals 1."
-msgstr "Cuando RANK(25.9,A1:A5) equivale a 1."
+msgstr "Luego RANK(25.9,A1:A5) igual a 1."
 
 #: ../plugins/fn-stat/functions.c:213
 msgid "RANK.AVG:rank of a number in a list of numbers"
-msgstr ""
+msgstr "RANK.AVG:rango de un número en una lista de números"
 
 #: ../plugins/fn-stat/functions.c:217
 msgid "In case of a tie, RANK returns the average rank."
-msgstr ""
+msgstr "En caso de un empate, RANK devuelve el rango promedio."
 
 #: ../plugins/fn-stat/functions.c:218
 msgid "This function is Excel 2010 compatible."
-msgstr ""
+msgstr "Esta función es compatible con Excel 2010."
 
 #: ../plugins/fn-stat/functions.c:219
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 25.9."
 msgstr ""
+"Asumiendo que las celdas A1, A2, …, A5 contienen números 11.4, 17.3, 21.3, "
+"25.9 y 25.9."
 
 #: ../plugins/fn-stat/functions.c:220
 msgid "Then RANK.AVG(17.3,A1:A5) equals 4."
-msgstr "Entonces RANK.AVG(17.3,A1:A5) equivale a 4."
+msgstr "Luego RANK.AVG(17.3,A1:A5) igual a 4."
 
 #: ../plugins/fn-stat/functions.c:221
 msgid "Then RANK.AVG(25.9,A1:A5) equals 1.5."
-msgstr "Entonces RANK.AVG(25.9,A1:A5) equivale a 1.5."
+msgstr "Luego RANK.AVG(25.9,A1:A5) igual a 1.5."
 
 #: ../plugins/fn-stat/functions.c:271
 msgid "TRIMMEAN:mean of the interior of a data set"
-msgstr ""
+msgstr "TRIMMEAN:media del interior de un conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:272
 msgid "ref:list of numbers whose mean you want to calculate"
-msgstr ""
+msgstr "ref:lista de números cuya media quieres calcular"
 
 #: ../plugins/fn-stat/functions.c:273
 msgid "fraction:fraction of the data set excluded from the mean"
-msgstr ""
+msgstr "fracción:fracción del conjunto de datos excluidos de la media"
 
 #: ../plugins/fn-stat/functions.c:274
 msgid ""
@@ -8624,24 +8629,29 @@ msgid ""
 "avoid a bias, the number of points to be excluded is always rounded down to "
 "the nearest even number."
 msgstr ""
+"Si @{fracción}=0.2 y el conjunto de datos contienen 40 números, 8 números se "
+"recortan del conjunto de datos (40 x 0,2): los 4 más grandes y los 4 más "
+"pequeños. Para evitar un sesgo, el número de puntos que se excluyen siempre "
+"se redondea hacia abajo al número par más cercano."
 
 #: ../plugins/fn-stat/functions.c:278
 msgid ""
 "Then TRIMMEAN(A1:A5,0.2) equals 23.2 and TRIMMEAN(A1:A5,0.4) equals 21.5."
 msgstr ""
+"Luego TRIMMEAN(A1:A5,0.2) igual a 23.2 y TRIMMEAN(A1:A5,0.4) igual a 21.5."
 
 #: ../plugins/fn-stat/functions.c:320
 msgid "COVAR:covariance of two data sets"
-msgstr ""
+msgstr "COVAR:covarianza de dos conjuntos de datos"
 
 #: ../plugins/fn-stat/functions.c:321 ../plugins/fn-stat/functions.c:351
 #: ../plugins/fn-stat/functions.c:381
 msgid "array1:first data set"
-msgstr ""
+msgstr "matriz1:primer conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:322 ../plugins/fn-stat/functions.c:352
 msgid "array2:set data set"
-msgstr ""
+msgstr "matriz2:establecer conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:323 ../plugins/fn-stat/functions.c:353
 #: ../plugins/fn-stat/functions.c:383 ../plugins/fn-stat/functions.c:573
@@ -8650,7 +8660,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:1928 ../plugins/fn-stat/functions.c:2014
 #: ../plugins/fn-stat/functions.c:2033 ../plugins/fn-stat/functions.c:2057
 msgid "Strings and empty cells are simply ignored."
-msgstr ""
+msgstr "Las cadenas y celdas vacía simplemente se ignoran."
 
 #: ../plugins/fn-stat/functions.c:325 ../plugins/fn-stat/functions.c:355
 #: ../plugins/fn-stat/functions.c:385 ../plugins/fn-stat/functions.c:2365
@@ -8662,167 +8672,171 @@ msgid ""
 "21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, "
 "and 42.7."
 msgstr ""
+"Asumiendo que las celdas A1, A2, …, A5 contienen números 11.4, 17.3, 21.3, "
+"25.9 y 40.1, y las celdas B1, B2, … B5 23.2, 25.8, 29.9, 33.5 y 42.7."
 
 #: ../plugins/fn-stat/functions.c:328 ../plugins/fn-stat/functions.c:358
 msgid "Then COVAR(A1:A5,B1:B5) equals 65.858."
-msgstr ""
+msgstr "Luego COVAR(A1:A5,B1:B5) igual a 65.858."
 
 #: ../plugins/fn-stat/functions.c:330 ../plugins/fn-stat/functions.c:360
 msgid "wiki:en:Covariance"
-msgstr ""
+msgstr "wiki:es:Covarianza"
 
 #: ../plugins/fn-stat/functions.c:331 ../plugins/fn-stat/functions.c:361
 #: ../plugins/fn-stat/functions.c:391
 msgid "wolfram:Covariance.html"
-msgstr ""
+msgstr "wolfram:Covariance.html"
 
 #: ../plugins/fn-stat/functions.c:350
 msgid "COVARIANCE.S:sample covariance of two data sets"
-msgstr ""
+msgstr "COVARIANCE.S:covarianza de muestra de dos conjuntos de datos"
 
 #: ../plugins/fn-stat/functions.c:380
 msgid "CORREL:Pearson correlation coefficient of two data sets"
-msgstr ""
+msgstr "CORREL:coeficiente de correlación de Pearson de dos conjuntos de datos"
 
 #: ../plugins/fn-stat/functions.c:382
 msgid "array2:second data set"
-msgstr ""
+msgstr "matriz2:segundo conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:388
 msgid "Then CORREL(A1:A5,B1:B5) equals 0.996124788."
-msgstr ""
+msgstr "Luego CORREL(A1:A5,B1:B5) igual a 0.996124788."
 
 #: ../plugins/fn-stat/functions.c:390
 msgid "wiki:en:CorrelationCoefficient.html"
-msgstr ""
+msgstr "wiki:es:CorrelationCoefficient.html"
 
 #: ../plugins/fn-stat/functions.c:410
 msgid ""
 "NEGBINOMDIST:probability mass function of the negative binomial distribution"
 msgstr ""
-"NEGBINOMDIST: función de densidad de probabilidad de la distribución "
-"binomial negativa"
+"NEGBINOMDIST:función de densidad de probabilidad de la distribución binomial "
+"negativa"
 
 #: ../plugins/fn-stat/functions.c:411
 msgid "f:number of failures"
-msgstr "f: número de fallos"
+msgstr "f:número de fallos"
 
 #: ../plugins/fn-stat/functions.c:412
 msgid "t:threshold number of successes"
-msgstr "t: número de umbral de sucesos"
+msgstr "t:número de umbral de sucesos"
 
 #: ../plugins/fn-stat/functions.c:413
 msgid "p:probability of a success"
-msgstr "p: probabilidad de éxito"
+msgstr "p:probabilidad de éxito"
 
 #: ../plugins/fn-stat/functions.c:414
 msgid "If @{f} or @{t} is a non-integer it is truncated."
-msgstr ""
+msgstr "Si @{f} o @{t} es un no entero truncado."
 
 #: ../plugins/fn-stat/functions.c:415
 msgid "If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "Si (@{f} + @{t} -1) <= 0 esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:416
 msgid "If @{p} < 0 or @{p} > 1 this functions returns a #NUM! error."
-msgstr ""
+msgstr "Si @{p} < 0 o @{p} > 1 estas funciones devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:439
-#, fuzzy
 msgid ""
 "NORMSDIST:cumulative density function of the standard normal distribution"
 msgstr ""
-"R.PNORM: función de distribución acumulativa de la distribución normal."
+"NORMSDIST:función de densidad acumulativa de la distribución normal estándar."
 
 #: ../plugins/fn-stat/functions.c:442
 msgid "NORMSDIST is the OpenFormula function LEGACY.NORMSDIST."
-msgstr ""
+msgstr "NORMSDIST es la función OpenFormula LEGACY.NORMSDIST."
 
 #: ../plugins/fn-stat/functions.c:445 ../plugins/fn-stat/functions.c:470
 msgid "wiki:en:Normal_distribution"
-msgstr ""
+msgstr "wiki:es:Distribución_normal"
 
 #: ../plugins/fn-stat/functions.c:446 ../plugins/fn-stat/functions.c:471
 msgid "wolfram:NormalDistribution.html"
-msgstr ""
+msgstr "wolfram:NormalDistribution.html"
 
 #: ../plugins/fn-stat/functions.c:463
-#, fuzzy
 msgid ""
 "NORMSINV:inverse of the cumulative density function of the standard normal "
 "distribution"
 msgstr ""
-"R.PNORM: función de distribución acumulativa de la distribución normal."
+"NORMSINV:inversa de la función de densidad acumulativa de la distribución "
+"normal estándar."
 
 #: ../plugins/fn-stat/functions.c:464
 msgid "p:given probability"
-msgstr "p: probabilidad dada"
+msgstr "p:probabilidad dada"
 
 #: ../plugins/fn-stat/functions.c:465
 msgid "If @{p} < 0 or @{p} > 1 this function returns #NUM! error."
-msgstr ""
+msgstr "Si @{p} < 0 o @{p} > 1 esta función devuelve error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:467
 msgid "NORMSINV is the OpenFormula function LEGACY.NORMSINV."
-msgstr ""
+msgstr "NORMSINV es la función OpenFormula LEGACY.NORMSINV."
 
 #: ../plugins/fn-stat/functions.c:491
-#, fuzzy
 msgid ""
 "LOGNORMDIST:cumulative distribution function of the lognormal distribution"
 msgstr ""
-"R.PLNORM: función de distribución acumulada de la distribución log-normal."
+"LOGNORMDIST:función de distribución acumulativa de la distribución log-"
+"normal."
 
 #: ../plugins/fn-stat/functions.c:493 ../plugins/fn-stat/functions.c:523
 msgid "mean:mean"
-msgstr ""
+msgstr "media:media"
 
 #: ../plugins/fn-stat/functions.c:494 ../plugins/fn-stat/functions.c:524
 msgid "stddev:standard deviation"
-msgstr ""
+msgstr "stddev:desviación estándar"
 
 #: ../plugins/fn-stat/functions.c:495
 msgid "If @{stddev} = 0 LOGNORMDIST returns a #DIV/0! error."
-msgstr ""
+msgstr "Si @{stddev} = 0 LOGNORMDIST devuelve un error #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:496
 msgid ""
 "If @{x} <= 0, @{mean} < 0 or @{stddev} <= 0 this function returns a #NUM! "
 "error."
 msgstr ""
+"Si @{x} <= 0, @{media} < 0 o @{stddev} <= 0 esta función devuelve un error "
+"#NUM!."
 
 #: ../plugins/fn-stat/functions.c:500 ../plugins/fn-stat/functions.c:529
 msgid "wiki:en:Log-normal_distribution"
-msgstr ""
+msgstr "wiki:es:Distribución_log-normal"
 
 #: ../plugins/fn-stat/functions.c:501 ../plugins/fn-stat/functions.c:530
 msgid "wolfram:LogNormalDistribution.html"
-msgstr ""
+msgstr "wolfram:LogNormalDistribution.html"
 
 #: ../plugins/fn-stat/functions.c:521
-#, fuzzy
 msgid ""
 "LOGINV:inverse of the cumulative distribution function of the lognormal "
 "distribution"
 msgstr ""
-"R.PLNORM: función de distribución acumulada de la distribución log-normal."
+"LOGINV:inversa de función de distribución acumulativa de la distribución log-"
+"normal."
 
 #: ../plugins/fn-stat/functions.c:525
 msgid ""
 "If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns #NUM! error."
 msgstr ""
+"Si @{p} < 0 o @{p} > 1 o @{stddev} <= 0 esta función devuelve error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:552
 msgid "FISHERINV:inverse of the Fisher transformation"
-msgstr ""
+msgstr "FISHERINV:inversa de la transformación de Fisher"
 
 #: ../plugins/fn-stat/functions.c:554
 msgid "If @{x} is a non-number this function returns a #VALUE! error."
-msgstr ""
+msgstr "Si @{x} no es un número esta función devuelve un error #VALUE!."
 
 #: ../plugins/fn-stat/functions.c:570
 msgid "MODE:first most common number in the dataset"
-msgstr ""
+msgstr "MODE:primer número más común en el conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:571 ../plugins/fn-stat/functions.c:599
 #: ../plugins/fn-stat/functions.c:626 ../plugins/fn-stat/functions.c:653
@@ -8834,7 +8848,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2055 ../plugins/fn-stat/functions.c:2478
 #: ../plugins/fn-stat/functions.c:2503 ../plugins/fn-stat/functions.c:2530
 msgid "number1:first value"
-msgstr ""
+msgstr "número1:primer valor"
 
 #: ../plugins/fn-stat/functions.c:572 ../plugins/fn-stat/functions.c:600
 #: ../plugins/fn-stat/functions.c:627 ../plugins/fn-stat/functions.c:654
@@ -8846,7 +8860,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2056 ../plugins/fn-stat/functions.c:2479
 #: ../plugins/fn-stat/functions.c:2504 ../plugins/fn-stat/functions.c:2531
 msgid "number2:second value"
-msgstr ""
+msgstr "número2:segundo valor"
 
 #: ../plugins/fn-stat/functions.c:574
 msgid ""
@@ -10488,9 +10502,9 @@ msgid ""
 "reliability."
 msgstr ""
 "Esta distribución se ha recomendado para el análisis del tiempo de función "
-"cuando se desea una función peligroso de forma «U». Esto corresponde al "
-"fallo rápido una vez que el producto comience a desgastarse después de un "
-"periodo estacionario o incluso mejorando la fiabilidad."
+"cuando se desea una función peligroso de forma «U». Esto corresponde al fallo "
+"rápido una vez que el producto comience a desgastarse después de un periodo "
+"estacionario o incluso mejorando la fiabilidad."
 
 #: ../plugins/fn-stat/functions.c:4526
 msgid "LAPLACE:probability density function of the Laplace distribution"
@@ -11614,9 +11628,9 @@ msgstr ""
 #~ "\n"
 #~ "@liquidación es la fecha de liquidación de la acción. @vencimiento es la "
 #~ "fecha de vencimiento de la acción. @emisión es la fecha de emisión de la "
-#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por "
-#~ "100$ de valor facial de la acción. @base es el tipo de sistema de conteo "
-#~ "de días que quiere usar:\n"
+#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por 100"
+#~ "$ de valor facial de la acción. @base es el tipo de sistema de conteo de "
+#~ "días que quiere usar:\n"
 #~ "\n"
 #~ " 0 US 30/360\n"
 #~ " 1 días actuales/días actuales\n"
