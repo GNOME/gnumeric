@@ -1,3 +1,8 @@
+2012-10-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (gnm_go_data_vector_load_values),
+	(gnm_go_data_vector_get_str): do not use filtered out values. [#687209]
+
 2012-10-27  Morten Welinder  <terra@gnome.org>
 
 	* src/stf.c (resize_columns): Only auto-resize columns based on
