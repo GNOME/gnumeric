@@ -3434,108 +3434,6 @@ row_style_eq (GnmOOExport *state, Sheet const *sheet,
 	}
 }
 
-
-static gint
-finder (gconstpointer a, gconstpointer b)
-{
-	GnmStyleRegion const *region = a;
-	GnmCellPos const *where = b;
-
-	return !range_contains ((&region->range), where->col, where->row);
-}
-
-static int
-write_styled_cells (GnmOOExport *state, G_GNUC_UNUSED Sheet const *sheet,
-		    int row, int row_length,
-		    int max_rows, GnmStyleList *list)
-{
-	int answer = max_rows;
-	GnmCellPos where;
-	where.row = row;
-
-	for (where.col = 0; where.col < row_length; ) {
-		GSList* l = g_slist_find_custom (list, &where, finder);
-
-		if (l == NULL) {
-			answer = 1;
-			odf_write_empty_cell (state, 1, NULL, NULL);
-			where.col++;
-		} else {
-			GnmStyleRegion *region = l->data;
-			int repetition = region->range.end.col - where.col + 1;
-			int rows = region->range.end.row - where.row + 1;
-
-			odf_write_empty_cell (state, repetition, region->style, NULL);
-			where.col += repetition;
-			if (rows < answer)
-				answer = rows;
-		}
-	}
-	return answer;
-}
-
-static void
-odf_write_styled_empty_rows (GnmOOExport *state, Sheet const *sheet,
-			     int from, int to, int row_length,
-			     GnmPageBreaks *pb, G_GNUC_UNUSED GnmStyle **col_styles)
-{
-	int number_rows_rep;
-	ColRowInfo const *last_ci;
-	int i, j, next_to, style_rep;
-	GnmStyleList *list;
-	GnmRange r;
-
-	if (from >= to)
-		return;
-
-	range_init_rows (&r, sheet, from, to - 1);
-	list = sheet_style_get_range (sheet, &r);
-
-	for (i = from; i < to; ) {
-		if (gnm_page_breaks_get_break (pb, i) != GNM_PAGE_BREAK_NONE)
-			gsf_xml_out_simple_element (state->xml,
-						    TEXT "soft-page-break",
-						    NULL);
-		next_to = gnm_page_breaks_get_next_break (pb, i);
-		if (next_to < from || next_to > to)
-			next_to = to;
-
-		gsf_xml_out_start_element (state->xml, TABLE "table-row");
-		last_ci = sheet_row_get (sheet, i);
-		write_row_style (state, last_ci, sheet);
-		style_rep = write_styled_cells (state, sheet, i - from, row_length,
-						next_to - i, list) - 1;
-		gsf_xml_out_end_element (state->xml); /* table-row */
-		i++;
-
-		if (style_rep <= 0)
-			continue;
-
-		if (i + style_rep < next_to)
-			next_to = i + style_rep;
-
-		number_rows_rep = 1;
-		last_ci = sheet_row_get (sheet, i);
-		for (j = i + 1; j < next_to; j++) {
-			ColRowInfo const *this_ci = sheet_row_get (sheet, j);
-
-			if (colrow_equal (last_ci, this_ci))
-				number_rows_rep++;
-		}
-
-		gsf_xml_out_start_element (state->xml, TABLE "table-row");
-		write_row_style (state, last_ci, sheet);
-		if (number_rows_rep > 1)
-			gsf_xml_out_add_int (state->xml, TABLE "number-rows-repeated",
-					     number_rows_rep);
-		write_styled_cells (state, sheet, i - from, row_length, 0, list);
-		gsf_xml_out_end_element (state->xml); /* table-row */
-
-		i += number_rows_rep;
-	}
-	style_list_free (list);
-}
-
 static GSList *
 odf_sheet_objects_get (Sheet const *sheet, GnmCellPos const *pos)
 {
@@ -3718,6 +3616,11 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 static void
 odf_write_sheet (GnmOOExport *state)
 {
+	/* While ODF allows the TABLE "table-columns" wrapper, */
+	/* and TABLE "table-rows" wrapper, */
+	/* MS Excel 2010 stumbles over it */
+	/* So we may not use them! */
+	
 	Sheet const *sheet = state->sheet;
 	int max_cols = gnm_sheet_get_max_cols (sheet);
 	int max_rows = gnm_sheet_get_max_rows (sheet);
@@ -3725,8 +3628,6 @@ odf_write_sheet (GnmOOExport *state)
 	GnmRange extent, cell_extent, r;
 	GSList *sheet_merges = NULL;
 	GnmPageBreaks *pb = sheet->print_info->page_breaks.v;
-	gboolean repeat_top_use, repeat_left_use;
-	int repeat_top_start, repeat_top_end, repeat_left_start, repeat_left_end;
 
 	extent = sheet_get_extent (sheet, FALSE);
 	cell_extent = sheet_get_cells_extent (sheet);
@@ -3734,116 +3635,53 @@ odf_write_sheet (GnmOOExport *state)
 
 	col_styles = sheet_style_most_common (sheet, TRUE);
 
-	repeat_top_use = print_load_repeat_range
-		(sheet->print_info->repeat_top, &r, sheet);
-	repeat_top_start = repeat_top_use ? r.start.row : 0;
-	repeat_top_end = repeat_top_use ? r.end.row : 0;
-	repeat_left_use = print_load_repeat_range
-		(sheet->print_info->repeat_left, &r, sheet);
-	repeat_left_start = repeat_left_use ? r.start.col : 0;
-	repeat_left_end = repeat_left_use ? r.end.col : 0;
-
-
 	/* ODF does not allow us to mark soft page breaks between columns */
-	if (repeat_left_use) {
-		if (repeat_left_start > 0) {
-			/* While ODF allows the TABLE "table-columns" wrapper, */
-			/* MS Excel 2010 stumbles over it */
-			/* gsf_xml_out_start_element */
-			/* 	(state->xml, TABLE "table-columns"); */
+	if (print_load_repeat_range (sheet->print_info->repeat_left, &r, sheet)) {
+		int repeat_left_start, repeat_left_end;
+		repeat_left_start = r.start.col;
+		repeat_left_end   = r.end.col;
+
+		if (repeat_left_start > 0)
 			odf_write_formatted_columns (state, sheet, col_styles,
 						     0, repeat_left_start);
-			/* gsf_xml_out_end_element (state->xml); */
-		}
 		gsf_xml_out_start_element
 			(state->xml, TABLE "table-header-columns");
 		odf_write_formatted_columns (state, sheet, col_styles,
 					     repeat_left_start,
 					     repeat_left_end + 1);
 		gsf_xml_out_end_element (state->xml);
-		if (repeat_left_end < max_cols) {
-			/* While ODF allows the TABLE "table-columns" wrapper, */
-			/* MS Excel 2010 stumbles over it */
-			/* gsf_xml_out_start_element */
-			/* 	(state->xml, TABLE "table-columns"); */
+		if (repeat_left_end < max_cols)
 			odf_write_formatted_columns (state, sheet, col_styles,
 						     repeat_left_end + 1, max_cols);
-			/* gsf_xml_out_end_element (state->xml); */
-		}
-	} else {
-		/* While ODF allows the TABLE "table-columns" wrapper, */
-		/* MS Excel 2010 stumbles over it */
-		/* gsf_xml_out_start_element  */
-		/* 	(state->xml, TABLE "table-columns"); */
+	} else 
 		odf_write_formatted_columns (state, sheet, col_styles, 0, max_cols);
-		/* gsf_xml_out_end_element (state->xml);  */
-	}
 
-	if (repeat_top_use) {
-		gint esr, eer;
-		if (repeat_top_start > 0) {
-			esr = MIN (extent.start.row, repeat_top_start);
-			eer = MIN (extent.end.row, repeat_top_start - 1);
-			/* While ODF allows the TABLE "table-rows" wrapper, */
-			/* MS Excel 2010 stumbles over it */
-			/* gsf_xml_out_start_element  */
-			/* 	(state->xml, TABLE "table-rows"); */
-			odf_write_styled_empty_rows (state, sheet, 0, esr,
-						     max_cols, pb, col_styles);
+	if (print_load_repeat_range (sheet->print_info->repeat_top, &r, sheet)) {
+		int repeat_top_start, repeat_top_end;
+		repeat_top_start = r.start.row;
+		repeat_top_end   = r.end.row;
+		if (repeat_top_start > 0)
 			odf_write_content_rows (state, sheet,
-						esr, eer + 1,
+						0, repeat_top_start,
 						extent.start.col, extent.end.col + 1,
 						max_cols, &sheet_merges, pb, col_styles);
-			odf_write_styled_empty_rows (state, sheet, eer + 1, repeat_top_start,
-						     max_cols, pb, col_styles);
-			/* gsf_xml_out_end_element (state->xml);  */
-		}
-		esr = MAX (extent.start.row, repeat_top_start);
-		eer = MIN (extent.end.row, repeat_top_end);
 		gsf_xml_out_start_element
 			(state->xml, TABLE "table-header-rows");
-		odf_write_styled_empty_rows (state, sheet, repeat_top_start, esr,
-					     max_cols, pb, col_styles);
 		odf_write_content_rows (state, sheet,
-					esr, eer + 1,
+					repeat_top_start, repeat_top_end + 1,
 					extent.start.col, extent.end.col + 1,
 					max_cols, &sheet_merges, pb, col_styles);
-		odf_write_styled_empty_rows (state, sheet, eer + 1, repeat_top_end + 1,
-					     max_cols, pb, col_styles);
 		gsf_xml_out_end_element (state->xml);
-		if (repeat_top_end < max_rows) {
-			esr = MAX (extent.start.row, repeat_top_end + 1);
-			eer = MAX (extent.end.row, repeat_top_end + 1);
-			/* While ODF allows the TABLE "table-rows" wrapper, */
-			/* MS Excel 2010 stumbles over it */
-			/* gsf_xml_out_start_element  */
-			/* 	(state->xml, TABLE "table-rows"); */
-			odf_write_styled_empty_rows (state, sheet, repeat_top_end + 1,
-						     esr,
-						     max_cols, pb, col_styles);
+		if (repeat_top_end < max_rows)
 			odf_write_content_rows (state, sheet,
-						esr, eer + 1,
+						repeat_top_end + 1, max_rows,
 						extent.start.col, extent.end.col + 1,
 						max_cols, &sheet_merges, pb, col_styles);
-			odf_write_styled_empty_rows (state, sheet, eer + 1, max_rows,
-						     max_cols, pb, col_styles);
-			/* gsf_xml_out_end_element (state->xml);  */
-		}
-	} else {
-		/* While ODF allows the TABLE "table-rows" wrapper, */
-		/* MS Excel 2010 stumbles over it */
-		/* gsf_xml_out_start_element  */
-		/* 	(state->xml, TABLE "table-rows"); */
-		odf_write_styled_empty_rows (state, sheet, 0, extent.start.row,
-					     max_cols, pb, col_styles);
+	} else
 		odf_write_content_rows (state, sheet,
-					extent.start.row, extent.end.row + 1,
+					0, max_rows,
 					extent.start.col, extent.end.col + 1,
 					max_cols, &sheet_merges, pb, col_styles);
-		odf_write_styled_empty_rows (state, sheet, extent.end.row + 1, max_rows,
-					     max_cols, pb, col_styles);
-		/* gsf_xml_out_end_element (state->xml);  */
-	}
 
 	g_slist_free_full (sheet_merges, g_free);
 	g_free (col_styles);

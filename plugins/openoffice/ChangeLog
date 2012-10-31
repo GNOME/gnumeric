@@ -1,3 +1,11 @@
+2012-10-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (finder): deleted
+	(write_styled_cells): deleted
+	(odf_write_styled_empty_rows): deleted
+	(odf_write_sheet): trust odf_write_content_rows to be efficient on
+	styled empty rows
+
 2012-10-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_parse_angle): fix typo
