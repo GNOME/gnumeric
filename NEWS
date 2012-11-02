@@ -15,6 +15,7 @@ Morten:
 	* Fix ods save performance problems.  [#662057]
 	* Make .gnumeric use fewer style rectangles for the same style.
 	* Short-circuit column resize for large stf imports.  [#686858]
+	* Enhance POWER to do root of negative numbers.  [#687269]
 
 Weng Xuetian:
         * Fix interaction with ibus & fcitx. [#684511]

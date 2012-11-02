@@ -1213,13 +1213,16 @@ gnumeric_ln1p (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_power[] = {
-        { GNM_FUNC_HELP_NAME, F_("POWER:the value of @{x} raised to the power @{y}")},
+        { GNM_FUNC_HELP_NAME, F_("POWER:the value of @{x} raised to the power @{y} raised to the power of 1/@{z}")},
         { GNM_FUNC_HELP_ARG, F_("x:number")},
         { GNM_FUNC_HELP_ARG, F_("y:number")},
+        { GNM_FUNC_HELP_ARG, F_("z:number")},
 	{ GNM_FUNC_HELP_NOTE, F_("If both @{x} and @{y} equal 0, POWER returns #NUM!") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} = 0 and @{y} < 0, POWER returns #DIV/0!") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!") },
-	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_NOTE, F_("@{z} defaults to 1") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a positive integer, POWER returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0, @{y} is odd, and @{z} is even, POWER returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=POWER(2,7)" },
         { GNM_FUNC_HELP_EXAMPLES, "=POWER(3,3.141)" },
         { GNM_FUNC_HELP_SEEALSO, "EXP"},
@@ -1231,11 +1234,19 @@ gnumeric_power (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float y = value_get_as_float (argv[1]);
+	gnm_float z = argv[2] ? value_get_as_float (argv[2]) : 1;
 
-	if ((x > 0) || (x == 0 && y > 0) || (x < 0 && y == gnm_floor (y)))
-		return value_new_float (gnm_pow (x, y));
+	if ((x > 0) || (x == 0 && y > 0) || (x < 0 && y == gnm_floor (y))) {
+		gnm_float r = gnm_pow (x, y);
+		gboolean z_even = gnm_fmod (z, 2.0) == 0;
+		if (z <= 0 || z != gnm_floor (z) || (r < 0 && z_even))
+			return value_new_error_NUM (ei->pos);
+		if (z != 1)
+			r = (r < 0 ? -1 : +1) * gnm_pow (gnm_abs (r), 1 / z);
+		return value_new_float (r);
+	}
 
-	if (x == 0 && y != 0)
+	if (x != 0 && y != 0)
 		return value_new_error_DIV0 (ei->pos);
 	else
 		return value_new_error_NUM (ei->pos);
@@ -3370,9 +3381,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "odd" ,    "f",     help_odd,
 	  gnumeric_odd, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "power",   "ff",       help_power,
+	{ "power",   "ff|f",       help_power,
 	  gnumeric_power, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_SUPERSET, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "g_product", NULL,     help_g_product,
 	  NULL, gnumeric_g_product, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
