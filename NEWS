@@ -8,6 +8,7 @@ Andreas:
 Jean:
 	* Fixed indentation in cell format dialog. [#683576]
 	* Do not use filtered out values in graphs. [#687209]
+	* Fixed crash on interprocess image copying. [#687414]
 
 Morten:
 	* Fix xlsx save performance problems.  [#662058]  [#685530]

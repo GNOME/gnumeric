@@ -441,7 +441,15 @@ gnm_soi_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 		gsf_xml_out_add_cstr (output, "image-type", soi->type);
 	if (soi->image && go_image_get_name (soi->image)) {
 		gsf_xml_out_add_cstr (output, "name", go_image_get_name (soi->image));
-		go_doc_save_image (GO_DOC (sheet_object_get_sheet (so)->workbook), go_image_get_name (soi->image));
+		if (sheet_object_get_sheet (so))
+			go_doc_save_image (GO_DOC (sheet_object_get_sheet (so)->workbook), go_image_get_name (soi->image));
+		else {
+			/* looks that this may happen when pasting from another process, see #687414 */
+			gsize length;
+			guint8 const *data = go_image_get_data (soi->image, &length);
+			gsf_xml_out_add_uint (output, "size-bytes", length);
+			gsf_xml_out_add_base64 (output, NULL, data, length);
+		}
 	} else {
 		gsf_xml_out_add_uint (output, "size-bytes", soi->bytes.len);
 		gsf_xml_out_add_base64 (output, NULL, soi->bytes.data, soi->bytes.len);
