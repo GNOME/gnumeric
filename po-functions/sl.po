@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-09-07 12:07+0000\n"
-"PO-Revision-Date: 2012-09-07 14:48+0100\n"
+"POT-Creation-Date: 2012-11-02 17:53+0000\n"
+"PO-Revision-Date: 2012-11-02 21:31+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -92,7 +92,7 @@ msgstr "i: pripona kompleksnega števila \"i\" ali \"j\"; privzeto je določena 
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
-msgstr "V kolikor @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VALUE!."
+msgstr "Če @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VALUE!."
 
 #: ../plugins/fn-complex/functions.c:86
 #: ../plugins/fn-complex/functions.c:114
@@ -195,36 +195,35 @@ msgstr "V kolikor @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VA
 #: ../plugins/fn-math/functions.c:1144
 #: ../plugins/fn-math/functions.c:1172
 #: ../plugins/fn-math/functions.c:1196
-#: ../plugins/fn-math/functions.c:1222
-#: ../plugins/fn-math/functions.c:1296
-#: ../plugins/fn-math/functions.c:1339
-#: ../plugins/fn-math/functions.c:1357
-#: ../plugins/fn-math/functions.c:1454
-#: ../plugins/fn-math/functions.c:1472
-#: ../plugins/fn-math/functions.c:1519
-#: ../plugins/fn-math/functions.c:1543
-#: ../plugins/fn-math/functions.c:1589
-#: ../plugins/fn-math/functions.c:1606
-#: ../plugins/fn-math/functions.c:1643
-#: ../plugins/fn-math/functions.c:1678
-#: ../plugins/fn-math/functions.c:1713
-#: ../plugins/fn-math/functions.c:1750
-#: ../plugins/fn-math/functions.c:1829
-#: ../plugins/fn-math/functions.c:1854
-#: ../plugins/fn-math/functions.c:1881
-#: ../plugins/fn-math/functions.c:1907
-#: ../plugins/fn-math/functions.c:1931
-#: ../plugins/fn-math/functions.c:1972
-#: ../plugins/fn-math/functions.c:2017
-#: ../plugins/fn-math/functions.c:2144
-#: ../plugins/fn-math/functions.c:2392
-#: ../plugins/fn-math/functions.c:2436
-#: ../plugins/fn-math/functions.c:2479
-#: ../plugins/fn-math/functions.c:2522
-#: ../plugins/fn-math/functions.c:2579
-#: ../plugins/fn-math/functions.c:2836
-#: ../plugins/fn-math/functions.c:2903
-#: ../plugins/fn-math/functions.c:2952
+#: ../plugins/fn-math/functions.c:1307
+#: ../plugins/fn-math/functions.c:1350
+#: ../plugins/fn-math/functions.c:1368
+#: ../plugins/fn-math/functions.c:1465
+#: ../plugins/fn-math/functions.c:1483
+#: ../plugins/fn-math/functions.c:1530
+#: ../plugins/fn-math/functions.c:1554
+#: ../plugins/fn-math/functions.c:1600
+#: ../plugins/fn-math/functions.c:1617
+#: ../plugins/fn-math/functions.c:1654
+#: ../plugins/fn-math/functions.c:1689
+#: ../plugins/fn-math/functions.c:1724
+#: ../plugins/fn-math/functions.c:1761
+#: ../plugins/fn-math/functions.c:1840
+#: ../plugins/fn-math/functions.c:1865
+#: ../plugins/fn-math/functions.c:1892
+#: ../plugins/fn-math/functions.c:1918
+#: ../plugins/fn-math/functions.c:1942
+#: ../plugins/fn-math/functions.c:1983
+#: ../plugins/fn-math/functions.c:2028
+#: ../plugins/fn-math/functions.c:2155
+#: ../plugins/fn-math/functions.c:2403
+#: ../plugins/fn-math/functions.c:2447
+#: ../plugins/fn-math/functions.c:2490
+#: ../plugins/fn-math/functions.c:2533
+#: ../plugins/fn-math/functions.c:2590
+#: ../plugins/fn-math/functions.c:2847
+#: ../plugins/fn-math/functions.c:2914
+#: ../plugins/fn-math/functions.c:2963
 #: ../plugins/fn-random/functions.c:48
 #: ../plugins/fn-random/functions.c:249
 #: ../plugins/fn-stat/functions.c:83
@@ -406,7 +405,7 @@ msgstr "z: kompleksno število"
 #: ../plugins/fn-complex/functions.c:1052
 #: ../plugins/fn-complex/functions.c:1077
 msgid "If @{z} is not a valid complex number, #VALUE! is returned."
-msgstr "V kolikor @{z} ni veljavno kompleksno število, funkcija vrne napako #VALUE!."
+msgstr "Če @{z} ni veljavno kompleksno število, funkcija vrne napako #VALUE!."
 
 #: ../plugins/fn-complex/functions.c:138
 msgid "IMABS:the absolute value of the complex number @{z}"
@@ -516,7 +515,7 @@ msgstr "z2: kompleksno število"
 #: ../plugins/fn-complex/functions.c:562
 #: ../plugins/fn-complex/functions.c:1104
 msgid "If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned."
-msgstr "V kolikor @{z1} ali @{z2} ni veljavno kompleksno število, funkcija vrne napako #VALUE!."
+msgstr "Če @{z1} ali @{z2} ni veljavno kompleksno število, funkcija vrne napako #VALUE!."
 
 #: ../plugins/fn-complex/functions.c:559
 msgid "IMDIV:the quotient of two complex numbers @{z1}/@{z2}"
@@ -637,7 +636,7 @@ msgstr "IMPRODUCT: zmnožek dveh podatnih kompleksnih števil"
 #: ../plugins/fn-complex/functions.c:1134
 #: ../plugins/fn-complex/functions.c:1203
 msgid "If any of @{z1}, @{z2},... is not a valid complex number, #VALUE! is returned."
-msgstr "V kolikor katerokoli število @{z1}, @{z2},... ni veljavno kompleksno število, sistem vrne napako števila #VALUE!."
+msgstr "Če katerokoli število @{z1}, @{z2},... ni veljavno kompleksno število, sistem vrne napako števila #VALUE!."
 
 #: ../plugins/fn-complex/functions.c:1200
 msgid "IMSUM:the sum of the given complex numbers"
@@ -661,7 +660,7 @@ msgstr "@{podatkovna zbirka} je podatkovna vrsta v kateri so vrstice podatkov za
 
 #: ../plugins/fn-database/functions.c:57
 msgid "@{field} is a string or integer specifying which field is to be used. If @{field} is an integer n then the nth column will be used. If @{field} is a string, then the column with the matching label will be used."
-msgstr "@{polje} je niz ali celo število, ki določa uporabo polja. V kolikor je @{polje} celo število n, to določa n-ti stolpec za uporabo. V kolikor je @{polje} niz, potem bo uporabljen stolpec z s tem naslovom."
+msgstr "@{polje} je niz ali celo število, ki določa uporabo polja. Če je @{polje} celo število n, to določa n-ti stolpec za uporabo. Če je @{polje} niz, potem bo uporabljen stolpec s tem naslovom."
 
 #: ../plugins/fn-database/functions.c:62
 msgid "@{criteria} is a range containing conditions. The first row of a @{criteria} should contain labels. Each label specifies to which field the conditions given in that column apply. Each cell below the label specifies a condition such as \">3\" or \"<9\". An equality condition can be given by simply specifying a value, e. g. \"3\" or \"Jody\". For a record to be considered it must satisfy all conditions in at least one of the rows of @{criteria}."
@@ -757,11 +756,11 @@ msgstr "DGET: vrednost @{polja} v @{podatkovni zbirki}, ki pripada zapisom sklad
 
 #: ../plugins/fn-database/functions.c:434
 msgid "If none of the records match the conditions, DGET returns #VALUE!"
-msgstr "V kolikor ni skladnega zadetka s pogoji kriterija, funkcija vrne vrednost #VALUE!"
+msgstr "Če ni skladnega zadetka s pogoji kriterija, funkcija vrne vrednost #VALUE!"
 
 #: ../plugins/fn-database/functions.c:435
 msgid "If more than one record match the conditions, DGET returns #NUM!"
-msgstr "V kolikor je več kot en zapis skladen s pogoji, funkcija DGET vrne napako #NUM!."
+msgstr "Če je več kot en zapis skladen s pogoji, funkcija DGET vrne napako #NUM!."
 
 #: ../plugins/fn-database/functions.c:436
 msgid "DGET(A1:C7, \"Salary\", A9:A10) equals 34323."
@@ -881,7 +880,7 @@ msgstr "ime polja: ime polja za katerega je zahtevan povzetek podatkov"
 
 #: ../plugins/fn-database/functions.c:739
 msgid "If the summary data is unavailable, GETPIVOTDATA returns #REF!"
-msgstr "V kolikor povzetek podatkov ni na voljo, funkcija GETPIVOTDATA vrne napako #REF!"
+msgstr "Če povzetek podatkov ni na voljo, funkcija GETPIVOTDATA vrne napako #REF!"
 
 #: ../plugins/fn-date/functions.c:74
 msgid "DATE:create a date serial value"
@@ -905,7 +904,7 @@ msgstr "Funkcija DATE ustvari zaporedne vrednosti datuma. Zaporedna vrednost za 
 
 #: ../plugins/fn-date/functions.c:79
 msgid "If @{month} or @{day} is less than 1 or too big, then the year and/or month will be adjusted."
-msgstr "V kolikor je podatek za @{mesec} ali @{dan} manjši kot 1 ali prevelik, potem bo vrednost leta in/ali meseca samodejno prilagojena."
+msgstr "Če je podatek za @{mesec} ali @{dan} manjši kot 1 ali prevelik, potem bo vrednost leta in/ali meseca samodejno prilagojena."
 
 #: ../plugins/fn-date/functions.c:80
 msgid "For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-1904."
@@ -978,15 +977,15 @@ msgstr "Funkcija DATEDIF vrne razliko oziroma razmik med @{začetnim datumom} in
 
 #: ../plugins/fn-date/functions.c:216
 msgid "If @{interval} is \"y\", \"m\", or \"d\" then the distance is measured in complete years, months, or days respectively."
-msgstr "V kolikor je @{interval} določen z \"y\", \"m\" ali \"d\", potem je časovni razmik merjen v polnih letih, mesecih ali dnevih."
+msgstr "Če je @{interval} določen z \"y\", \"m\" ali \"d\", potem je časovni razmik merjen v polnih letih, mesecih ali dnevih."
 
 #: ../plugins/fn-date/functions.c:217
 msgid "If @{interval} is \"ym\" or \"yd\" then the distance is measured in complete months or days, respectively, but excluding any difference in years."
-msgstr "V kolikor je @{interval} določen z \"ym\" ali \"yd\", potem je časovni razmik merjen v polnih mesecih ali dnevih, izpuščena pa je razlika v letih."
+msgstr "Če je @{interval} določen z \"ym\" ali \"yd\", potem je časovni razmik merjen v polnih mesecih ali dnevih, izpuščena pa je razlika v letih."
 
 #: ../plugins/fn-date/functions.c:218
 msgid "If @{interval} is \"md\" then the distance is measured in complete days but excluding any difference in months."
-msgstr "V kolikor je @{interval} določen z \"md\", potem je časovni razmik merjen v polnih dnevih, izpuščena pa je razlika v mesecih."
+msgstr "Če je @{interval} določen z \"md\", potem je časovni razmik merjen v polnih dnevih, izpuščena pa je razlika v mesecih."
 
 #: ../plugins/fn-date/functions.c:350
 msgid "EDATE:adjust a date by a number of months"
@@ -1056,7 +1055,7 @@ msgstr "Čeprav je vrnjena vrednost samodejno oblikovana kot čas med 0:00 in 24
 
 #: ../plugins/fn-date/functions.c:428
 msgid "If any of @{hour}, @{minute}, and @{second} is negative, #NUM! is returned"
-msgstr "V kolikor je katerokoli izmed vrednosti @{ure}, @{minute} ali @{sekunde} negativna vrednost, funkcija TIME vrne napako #NUM!."
+msgstr "Če je katerokoli izmed vrednosti @{ure}, @{minute} ali @{sekunde} negativna vrednost, funkcija TIME vrne napako #NUM!."
 
 #: ../plugins/fn-date/functions.c:458
 msgid "ODF.TIME:create a time serial value"
@@ -1094,11 +1093,11 @@ msgstr "Čeprav je vrnjena vrednost samodejno oblikovana kot čas med 0:00 in 24
 #: ../plugins/fn-math/functions.c:433
 #: ../plugins/fn-math/functions.c:1033
 #: ../plugins/fn-math/functions.c:1060
-#: ../plugins/fn-math/functions.c:1377
-#: ../plugins/fn-math/functions.c:1397
-#: ../plugins/fn-math/functions.c:2065
-#: ../plugins/fn-math/functions.c:2798
-#: ../plugins/fn-math/functions.c:2969
+#: ../plugins/fn-math/functions.c:1388
+#: ../plugins/fn-math/functions.c:1408
+#: ../plugins/fn-math/functions.c:2076
+#: ../plugins/fn-math/functions.c:2809
+#: ../plugins/fn-math/functions.c:2980
 #: ../plugins/fn-stat/functions.c:1545
 #: ../plugins/fn-stat/functions.c:2423
 #: ../plugins/fn-stat/functions.c:4555
@@ -1188,15 +1187,15 @@ msgstr "Funkcija WEEKDAY vrne dan tedna, kot je določen z @{datumom}. Vrednost 
 
 #: ../plugins/fn-date/functions.c:652
 msgid "If @{method} is 1, then Sunday is 1, Monday is 2, etc."
-msgstr "V kolikor je @{način} opredeljen z 1, je nedelja 1 dan tedna, ponedeljek 2, ..."
+msgstr "Če je @{način} opredeljen z 1, je nedelja 1 dan tedna, ponedeljek 2, ..."
 
 #: ../plugins/fn-date/functions.c:653
 msgid "If @{method} is 2, then Monday is 1, Tuesday is 2, etc."
-msgstr "V kolikor je @{način} opredeljen z 2, je ponedeljek 1 dan tedna, torek 2, ..."
+msgstr "Če je @{način} opredeljen z 2, je ponedeljek 1 dan tedna, torek 2, ..."
 
 #: ../plugins/fn-date/functions.c:654
 msgid "If @{method} is 3, then Monday is 0, Tuesday is 1, etc."
-msgstr "V kolikor je @{način} opredeljen s 3, je ponedeljek 0 dan tedna, torek 1, ..."
+msgstr "Če je @{način} opredeljen s 3, je ponedeljek 0 dan tedna, torek 1, ..."
 
 #: ../plugins/fn-date/functions.c:688
 msgid "DAYS360:days between dates"
@@ -1212,15 +1211,15 @@ msgstr "Funkcija DAYS360 vrne število dni od @{začetnega datuma} to @{končneg
 
 #: ../plugins/fn-date/functions.c:693
 msgid "If @{method} is 0, the default, the MS Excel (tm) US method will be used. This is a somewhat complicated industry standard method where the last day of February is considered to be the 30th day of the month, but only for @{start_date}."
-msgstr "V kolikor je uporabljen @{način} določen z 0, je privzeto uporabljen način MS Excel (tm) US. Ta način je zasnovan na določilu, da je zadnji dan meseca februarja 30. dan meseca, vendar le, če je to @{začetni datum}."
+msgstr "Če je uporabljen @{način} določen z 0, je privzeto uporabljen način MS Excel (tm) US. Ta način je zasnovan na določilu, da je zadnji dan meseca februarja 30. dan meseca, vendar le, če je to @{začetni datum}."
 
 #: ../plugins/fn-date/functions.c:694
 msgid "If @{method} is 1, the European method will be used.  In this case, if the day of the month is 31 it will be considered as 30"
-msgstr "V kolikor je uporabljen @{način} določen z 1, je uporabljen evropski način. Ta način je zasnovan na določilu, da je zadnji dan mesecev, ki imajo 31 dni, obravnavan kot 30. dan."
+msgstr "Če je uporabljen @{način} določen z 1, je uporabljen evropski način. Ta način je zasnovan na določilu, da je zadnji dan mesecev, ki imajo 31 dni, obravnavan kot 30. dan."
 
 #: ../plugins/fn-date/functions.c:695
 msgid "If @{method} is 2, a saner version of the US method is used in which both dates get the same February treatment."
-msgstr "V kolikor @{način} določen z 2, je uporabljen način, pri katerem je vsak datum zasnovan na določilu, da je zadnji dan meseca februarja 30. dan meseca."
+msgstr "Če @{način} določen z 2, je uporabljen način, pri katerem je vsak datum zasnovan na določilu, da je zadnji dan meseca februarja 30. dan meseca."
 
 #: ../plugins/fn-date/functions.c:730
 msgid "EOMONTH:end of month"
@@ -1259,12 +1258,12 @@ msgstr "Vrednost @{dni} je lahko negativna."
 #: ../plugins/fn-date/functions.c:778
 #: ../plugins/fn-date/functions.c:1000
 msgid "If an entry of @{weekend} is non-zero, the corresponding weekday is not a work day."
-msgstr "V kolikor vnos @{vikenda} ni enak nič, dan tedna ni delovni dan"
+msgstr "Če vnos @{vikenda} ni enak nič, dan tedna ni delovni dan"
 
 #: ../plugins/fn-date/functions.c:779
 #: ../plugins/fn-date/functions.c:1001
 msgid "This function is Excel compatible if the last argument is omitted."
-msgstr "Funkcija je združljiva s programom MS Excel, v kolikor je izpuščen zadnji argument."
+msgstr "Funkcija je združljiva s programom MS Excel, če je izpuščen zadnji argument."
 
 #: ../plugins/fn-date/functions.c:993
 msgid "NETWORKDAYS:number of workdays in range"
@@ -1305,15 +1304,15 @@ msgstr "Funkcija WEEKNUM izračuna zaporedno številko tedna na @{način}, ki pr
 
 #: ../plugins/fn-date/functions.c:1224
 msgid "If @{method} is 1, then weeks start on Sundays and January 1 is in week 1."
-msgstr "V kolikor je @{način} določen z 1, se teden začne z nedeljo in 1. januar je v prvem tednu leta."
+msgstr "Če je @{način} določen z 1, se teden začne z nedeljo in 1. januar je v prvem tednu leta."
 
 #: ../plugins/fn-date/functions.c:1225
 msgid "If @{method} is 2, then weeks start on Mondays and January 1 is in week 1."
-msgstr "V kolikor je @{način} določen z 2, se teden začne s ponedeljkom in 1. januar je v prvem tednu leta."
+msgstr "Če je @{način} določen z 2, se teden začne s ponedeljkom in 1. januar je v prvem tednu leta."
 
 #: ../plugins/fn-date/functions.c:1226
 msgid "If @{method} is 150, then the ISO 8601 numbering is used."
-msgstr "V kolikor je @{način} določen s 150, bo uporabljeno štetje po standardu 8601."
+msgstr "Če je @{način} določen s 150, bo uporabljeno štetje po standardu 8601."
 
 #: ../plugins/fn-date/functions.c:1259
 msgid "YEARFRAC:fractional number of years between dates"
@@ -1797,11 +1796,11 @@ msgstr "čas1: začetno dospetje opcije v letih"
 
 #: ../plugins/fn-derivatives/options.c:1569
 msgid "time2:extended maturity in years if chosen"
-msgstr "čas2: razširjeno dospetje v letih, v kolikor je možnost izbrana"
+msgstr "čas2: razširjeno dospetje v letih, če je možnost izbrana"
 
 #: ../plugins/fn-derivatives/options.c:1573
 msgid "OPT_EXTENDIBLE_WRITER models the theoretical price of extendible writer options. These are options that have their maturity extended to @{time2} if the option is out of the money at @{time1}."
-msgstr "Funkcija OPT_EXTENDIBLE_WRITER določi teoretično ceno razširjenih izdajateljskih opcij. To so opcije z razširjenim dospetjem na kasnejši @{čas2}, v kolikor je opcija v @{času1} brez notranje vrednosti."
+msgstr "Funkcija OPT_EXTENDIBLE_WRITER določi teoretično ceno razširjenih izdajateljskih opcij. To so opcije z razširjenim dospetjem na kasnejši @{čas2}, če je opcija v @{času1} brez notranje vrednosti."
 
 #: ../plugins/fn-derivatives/options.c:1615
 msgid "OPT_2_ASSET_CORRELATION:theoretical price of options on 2 assets with correlation @{rho}"
@@ -1979,7 +1978,7 @@ msgid "BASE:string of digits representing the number @{n} in base @{b}"
 msgstr "BASE: niz števk, ki predstavljajo število @{n} z osnovo @{b}"
 
 #: ../plugins/fn-eng/functions.c:208
-#: ../plugins/fn-math/functions.c:1293
+#: ../plugins/fn-math/functions.c:1304
 #: ../plugins/fn-numtheory/numtheory.c:578
 #: ../plugins/fn-numtheory/numtheory.c:608
 msgid "n:integer"
@@ -2026,7 +2025,7 @@ msgstr "mesta: število številčnih mest"
 # {places} = {mesta}
 #: ../plugins/fn-eng/functions.c:261
 msgid "If @{places} is given, BIN2OCT pads the result with zeros to achieve exactly @{places} digits. If this is not possible, BIN2OCT returns #NUM!"
-msgstr "V kolikor je podana vrednost @{mest} osmiškega števila, funkcija BIN2OCT pripne rezultatu ničle, da doseže zahtevano število @{mest}. V kolikor to ni mogoče, funkcija BIN2OCT vrne napako #NUM!."
+msgstr "Če je podana vrednost @{mest} osmiškega števila, funkcija BIN2OCT pripne rezultatu ničle, da doseže zahtevano število @{mest}. Če to ni mogoče, funkcija BIN2OCT vrne napako #NUM!."
 
 #: ../plugins/fn-eng/functions.c:282
 msgid "BIN2HEX:hexadecimal representation of the binary number @{x}"
@@ -2034,7 +2033,7 @@ msgstr "BIN2HEX: šestnajstiški prikaz dvojiškega števila @{x}"
 
 #: ../plugins/fn-eng/functions.c:285
 msgid "If @{places} is given, BIN2HEX pads the result with zeros to achieve exactly @{places} digits. If this is not possible, BIN2HEX returns #NUM!"
-msgstr "V kolikor je podana vrednost @{mest} šestnajstiškega števila, funkcija BIN2HEX pripne rezultatu ničle, da doseže zahtevano število @{mest}. V kolikor to ni mogoče, funkcija BIN2HEX vrne napako #NUM!."
+msgstr "Če je podana vrednost @{mest} šestnajstiškega števila, funkcija BIN2HEX pripne rezultatu ničle, da doseže zahtevano število @{mest}. Če to ni mogoče, funkcija BIN2HEX vrne napako #NUM!."
 
 #: ../plugins/fn-eng/functions.c:307
 msgid "DEC2BIN:binary representation of the decimal number @{x}"
@@ -2046,15 +2045,15 @@ msgstr "x: celo število (− 513 < @{x} < 512)"
 
 #: ../plugins/fn-eng/functions.c:310
 msgid "If @{places} is given and @{x} is non-negative, DEC2BIN pads the result with zeros to achieve exactly @{places} digits. If this is not possible, DEC2BIN returns #NUM!"
-msgstr "V kolikor je podana vrednost @{mest} števila in je vrednost @{x} ne-negativna, funkcija DEC2BIN pripne rezultatu ničle, da doseže zahtevano število @{mest}. V kolikor to ni mogoče, funkcija DEC2BIN vrne napako #NUM!."
+msgstr "Če je podana vrednost @{mest} števila in je vrednost @{x} ne-negativna, funkcija DEC2BIN pripne rezultatu ničle, da doseže zahtevano število @{mest}. Če to ni mogoče, funkcija DEC2BIN vrne napako #NUM!."
 
 #: ../plugins/fn-eng/functions.c:314
 msgid "If @{places} is given and @{x} is negative, @{places} is ignored."
-msgstr "V kolikor je podana vrednost @{mest} števila in je vrednost @{x} negativna, funkcija prezre zahtevo @{mest}."
+msgstr "Če je podana vrednost @{mest} števila in je vrednost @{x} negativna, funkcija prezre zahtevo @{mest}."
 
 #: ../plugins/fn-eng/functions.c:315
 msgid "If @{x} < − 512 or @{x} > 511, DEC2BIN returns #NUM!"
-msgstr "V kolikor je @{x} < − 512 ali pa @{x} > 511, funkcija DEC2BIN vrne napako #NUM!."
+msgstr "Če je @{x} < − 512 ali pa @{x} > 511, funkcija DEC2BIN vrne napako #NUM!."
 
 #: ../plugins/fn-eng/functions.c:337
 msgid "DEC2OCT:octal representation of the decimal number @{x}"
@@ -2062,13 +2061,13 @@ msgstr "DEC2OCT: osmiški prikaz desetiškega števila @{x}"
 
 #: ../plugins/fn-eng/functions.c:338
 #: ../plugins/fn-eng/functions.c:361
-#: ../plugins/fn-math/functions.c:1292
+#: ../plugins/fn-math/functions.c:1303
 msgid "x:integer"
 msgstr "x: celo število"
 
 #: ../plugins/fn-eng/functions.c:340
 msgid "If @{places} is given, DEC2OCT pads the result with zeros to achieve exactly @{places} digits. If this is not possible, DEC2OCT returns #NUM!"
-msgstr "V kolikor je podana vrednost @{mest} osmiškega števila, funkcija DEC2OCT pripne rezultatu ničle, da doseže zahtevano število @{mest}. V kolikor to ni mogoče, funkcija DEC2OCT vrne napako #NUM!."
+msgstr "Če je podana vrednost @{mest} osmiškega števila, funkcija DEC2OCT pripne rezultatu ničle, da doseže zahtevano število @{mest}. Če to ni mogoče, funkcija DEC2OCT vrne napako #NUM!."
 
 #: ../plugins/fn-eng/functions.c:360
 msgid "DEC2HEX:hexadecimal representation of the decimal number @{x}"
@@ -2076,7 +2075,7 @@ msgstr "DEC2HEX: šestnajstiški prikaz desetiškega števila @{x}"
 
 #: ../plugins/fn-eng/functions.c:363
 msgid "If @{places} is given, DEC2HEX pads the result with zeros to achieve exactly @{places} digits. If this is not possible, DEC2HEX returns #NUM!"
-msgstr "V kolikor je podana vrednost @{mest} osmiškega števila, funkcija DEC2HEX pripne rezultatu ničle, da doseže zahtevano število @{mest}. V kolikor to ni mogoče, funkcija DEC2HEX vrne napako #NUM!."
+msgstr "Če je podana vrednost @{mest} osmiškega števila, funkcija DEC2HEX pripne rezultatu ničle, da doseže zahtevano število @{mest}. Če to ni mogoče, funkcija DEC2HEX vrne napako #NUM!."
 
 #: ../plugins/fn-eng/functions.c:383
 msgid "DECIMAL:decimal representation of @{x}"
@@ -2106,7 +2105,7 @@ msgstr "OCT2BIN: dvojiški prikaz osmiškega števila @{x}"
 
 #: ../plugins/fn-eng/functions.c:434
 msgid "If @{places} is given, OCT2BIN pads the result with zeros to achieve exactly @{places} digits. If this is not possible, OCT2BIN returns #NUM!"
-msgstr "V kolikor je podana vrednost @{mest} dvojiškega števila, funkcija OCT2BIN pripne rezultatu ničle, da doseže zahtevano število @{mest}. V kolikor to ni mogoče, funkcija OCT2BIN vrne napako #NUM!."
+msgstr "Če je podana vrednost @{mest} dvojiškega števila, funkcija OCT2BIN pripne rezultatu ničle, da doseže zahtevano število @{mest}. Če to ni mogoče, funkcija OCT2BIN vrne napako #NUM!."
 
 #: ../plugins/fn-eng/functions.c:454
 msgid "OCT2HEX:hexadecimal representation of the octal number @{x}"
@@ -2114,7 +2113,7 @@ msgstr "OCT2HEX: šestnajstiški prikaz osmiškega števila @{x}"
 
 #: ../plugins/fn-eng/functions.c:457
 msgid "If @{places} is given, OCT2HEX pads the result with zeros to achieve exactly @{places} digits. If this is not possible, OCT2HEX returns #NUM!"
-msgstr "V kolikor je podana vrednost @{mest} osmiškega števila, funkcija OCT2HEX pripne rezultatu ničle, da doseže zahtevano število @{mest}. V kolikor to ni mogoče, funkcija OCT2HEX vrne napako #NUM!."
+msgstr "Če je podana vrednost @{mest} osmiškega števila, funkcija OCT2HEX pripne rezultatu ničle, da doseže zahtevano število @{mest}. Če to ni mogoče, funkcija OCT2HEX vrne napako #NUM!."
 
 #: ../plugins/fn-eng/functions.c:477
 msgid "HEX2BIN:binary representation of the hexadecimal number @{x}"
@@ -2124,11 +2123,11 @@ msgstr "HEX2BIN: dvojiški prikaz šestnajstiškega števila @{x}"
 #: ../plugins/fn-eng/functions.c:501
 #: ../plugins/fn-eng/functions.c:524
 msgid "x:a hexadecimal number, either as a string or as a number if no A to F are needed"
-msgstr "x: šestnajstiško število kot niz ali število v kolikor vrednosti od A do F niso prisotne."
+msgstr "x: šestnajstiško število kot niz ali število Če vrednosti od A do F niso prisotne."
 
 #: ../plugins/fn-eng/functions.c:480
 msgid "If @{places} is given, HEX2BIN pads the result with zeros to achieve exactly @{places} digits. If this is not possible, HEX2BIN returns #NUM!"
-msgstr "V kolikor je podana vrednost @{mest} dvojiškega števila, funkcija HEX2BIN pripne rezultatu ničle, da doseže zahtevano število @{mest}. V kolikor to ni mogoče, funkcija HEX2BIN vrne napako #NUM!."
+msgstr "Če je podana vrednost @{mest} dvojiškega števila, funkcija HEX2BIN pripne rezultatu ničle, da doseže zahtevano število @{mest}. Če to ni mogoče, funkcija HEX2BIN vrne napako #NUM!."
 
 #: ../plugins/fn-eng/functions.c:500
 msgid "HEX2OCT:octal representation of the hexadecimal number @{x}"
@@ -2136,7 +2135,7 @@ msgstr "HEX2OCT: osmiški prikaz šestnajstiškega števila @{x}"
 
 #: ../plugins/fn-eng/functions.c:503
 msgid "If @{places} is given, HEX2OCT pads the result with zeros to achieve exactly @{places} digits. If this is not possible, HEX2OCT returns #NUM!"
-msgstr "V kolikor je podana vrednost @{mest} osmiškega števila, funkcija HEX2OCT pripne rezultatu ničle, da doseže zahtevano število @{mest}. V kolikor to ni mogoče, funkcija HEX2OCT vrne napako #NUM!."
+msgstr "Če je podana vrednost @{mest} osmiškega števila, funkcija HEX2OCT pripne rezultatu ničle, da doseže zahtevano število @{mest}. Če to ni mogoče, funkcija HEX2OCT vrne napako #NUM!."
 
 #: ../plugins/fn-eng/functions.c:523
 msgid "HEX2DEC:decimal representation of the hexadecimal number @{x}"
@@ -2161,12 +2160,12 @@ msgstr "α: red števil (ne-negativno število)"
 #: ../plugins/fn-eng/functions.c:549
 #: ../plugins/fn-eng/functions.c:587
 msgid "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned."
-msgstr "V kolikor vrednosti @{x} in @{α} nista številski, funkcija vrne napako #VALUE!.V kolikor je @{α} < 0, funkcija vrne napako #NUM!."
+msgstr "Če vrednosti @{x} in @{α} nista številski, funkcija vrne napako #VALUE!.Če je @{α} < 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-eng/functions.c:550
 #: ../plugins/fn-eng/functions.c:588
 msgid "This function is Excel compatible if only integer orders @{α} are used."
-msgstr "Funkcija je združljiva s programom MS Excel, v kolikor so uporabljen le red celih števil @{α}."
+msgstr "Funkcija je združljiva s programom MS Excel, Če so uporabljen le red celih števil @{α}."
 
 #: ../plugins/fn-eng/functions.c:553
 #: ../plugins/fn-eng/functions.c:591
@@ -2190,7 +2189,7 @@ msgstr "α: red (katerokoli ne-negativno celo število)"
 #: ../plugins/fn-eng/functions.c:611
 #: ../plugins/fn-eng/functions.c:640
 msgid "If @{x} or @{α} are not numeric, #VALUE! is returned. If @{α} < 0, #NUM! is returned. If @{α} is not an integer, it is truncated."
-msgstr "V kolikor vrednost @{x} ali @{α} ni številčna, funkcija vrne napako #VALUE!. V kolikor je @{α} številčna vrednost, vendar < 0, funkcija vrne napako #NUM!. Če @{α} ni celo število, je to prirezano."
+msgstr "Če vrednost @{x} ali @{α} ni številčna, funkcija vrne napako #VALUE!. Če je @{α} številčna vrednost, vendar < 0, funkcija vrne napako #NUM!. Če @{α} ni celo število, je to prirezano."
 
 #: ../plugins/fn-eng/functions.c:637
 msgid "BESSELY:Bessel function of the second kind of order @{α} at @{x}"
@@ -2226,18 +2225,18 @@ msgstr "CONVERT: pretvorjena meritev"
 #: ../plugins/fn-math/functions.c:1085
 #: ../plugins/fn-math/functions.c:1121
 #: ../plugins/fn-math/functions.c:1217
-#: ../plugins/fn-math/functions.c:1395
-#: ../plugins/fn-math/functions.c:1435
-#: ../plugins/fn-math/functions.c:1453
-#: ../plugins/fn-math/functions.c:1605
-#: ../plugins/fn-math/functions.c:1640
-#: ../plugins/fn-math/functions.c:1677
-#: ../plugins/fn-math/functions.c:1712
-#: ../plugins/fn-math/functions.c:1852
-#: ../plugins/fn-math/functions.c:1902
-#: ../plugins/fn-math/functions.c:1926
-#: ../plugins/fn-math/functions.c:1967
-#: ../plugins/fn-math/functions.c:2014
+#: ../plugins/fn-math/functions.c:1406
+#: ../plugins/fn-math/functions.c:1446
+#: ../plugins/fn-math/functions.c:1464
+#: ../plugins/fn-math/functions.c:1616
+#: ../plugins/fn-math/functions.c:1651
+#: ../plugins/fn-math/functions.c:1688
+#: ../plugins/fn-math/functions.c:1723
+#: ../plugins/fn-math/functions.c:1863
+#: ../plugins/fn-math/functions.c:1913
+#: ../plugins/fn-math/functions.c:1937
+#: ../plugins/fn-math/functions.c:1978
+#: ../plugins/fn-math/functions.c:2025
 #: ../plugins/fn-stat/functions.c:440
 #: ../plugins/fn-stat/functions.c:492
 #: ../plugins/fn-stat/functions.c:553
@@ -2275,7 +2274,7 @@ msgstr "Funkcija CONVERT pretvori vrednost iz enega merskega sistema v drugega. 
 
 #: ../plugins/fn-eng/functions.c:670
 msgid "If @{from} and @{to} are different types, CONVERT returns #N/A!"
-msgstr "V kolikor sta @{od} in @{do} različne vrste, funkcija CONVERT vrne napako #N/A!"
+msgstr "Če sta @{od} in @{do} različne vrste, funkcija CONVERT vrne napako #N/A!"
 
 #: ../plugins/fn-eng/functions.c:671
 msgid ""
@@ -2520,12 +2519,12 @@ msgstr "x1: število, privzeto vrednosti 0"
 
 #: ../plugins/fn-eng/functions.c:1131
 msgid "DELTA  returns 1 if  @{x1} = @{x0} and 0 otherwise."
-msgstr "V kolikor je @{x1} = @{x0}, funkcija DELTA vrne vrednost 1, sicer vrne 0."
+msgstr "Če je @{x1} = @{x0}, funkcija DELTA vrne vrednost 1, sicer vrne 0."
 
 #: ../plugins/fn-eng/functions.c:1132
 #: ../plugins/fn-eng/functions.c:1155
 msgid "If either argument is non-numeric, #VALUE! is returned."
-msgstr "V kolikor je katerikoli argument ne-številski, funkcija vrne napako #VALUE!."
+msgstr "Če je katerikoli argument ne-številski, funkcija vrne napako #VALUE!."
 
 #: ../plugins/fn-eng/functions.c:1151
 msgid "GESTEP:step function with step at @{x1} evaluated at @{x0}"
@@ -2533,7 +2532,7 @@ msgstr "GESTEP: skočna funkcija s skokom pri @{x1} ocenjeno pri @{x0}"
 
 #: ../plugins/fn-eng/functions.c:1154
 msgid "GESTEP returns 1 if  @{x1} ≤ @{x0} and 0 otherwise."
-msgstr "V kolikor je @{x1} ≤ @{x0}, funkcija GESTEP vrne vrednost 1, sicer vrne 0."
+msgstr "Če je @{x1} ≤ @{x0}, funkcija GESTEP vrne vrednost 1, sicer vrne 0."
 
 #: ../plugins/fn-eng/functions.c:1174
 msgid "HEXREP:hexadecimal representation of numeric value"
@@ -2564,7 +2563,7 @@ msgid ""
 "If any of the arguments is negative, #VALUE! is returned.\n"
 "If any argument is zero, the result is zero."
 msgstr ""
-"V kolikor ima katerikoli izmed argumentov negativno vrednost, funkcija vrne napako #VALUE!.\n"
+"Če ima katerikoli izmed argumentov negativno vrednost, funkcija vrne napako #VALUE!.\n"
 "Če je vrednost kateregakoli argumenta enaka 0, je rezultat prav tako 0."
 
 #: ../plugins/fn-eng/functions.c:1210
@@ -2635,7 +2634,7 @@ msgstr "@{frekvenca} je lahko 1 (letna), 2 (polletna) oziroma 4 (četrtletna)."
 
 #: ../plugins/fn-financial/functions.c:56
 msgid "If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period."
-msgstr "V kolikor je @{vrsta} določena kot 0 (privzeto) se izplačilo izvede ob koncu obdobja, sicer (določeno kot 1) je plačilo na začetku določenega obdobja."
+msgstr "Če je @{vrsta} določena kot 0 (privzeto) se izplačilo izvede ob koncu obdobja, sicer (določeno kot 1) je plačilo na začetku določenega obdobja."
 
 #: ../plugins/fn-financial/functions.c:362
 msgid "ACCRINT:accrued interest"
@@ -2730,11 +2729,11 @@ msgstr "način izračuna: način izračuna, ki je privzeto določen"
 # coupon periods = kuponsko obdobje
 #: ../plugins/fn-financial/functions.c:372
 msgid "If @{first_interest} < @{settlement} and @{calc_method} is TRUE, then ACCRINT returns the sum of the interest accrued in all coupon periods from @{issue}  date until @{settlement} date."
-msgstr "V kolikor so @{prve obresti} < @{plačila} in je izbrana možnost @{načina izračuna}, funkcija ACCRINT vrne vsoto (nezapadlih) obresti, obračunanih v vseh kuponskih obdobjih od datuma @{izdaje} do datuma @{plačila}."
+msgstr "Če so @{prve obresti} < @{plačila} in je izbrana možnost @{načina izračuna}, funkcija ACCRINT vrne vsoto (nezapadlih) obresti, obračunanih v vseh kuponskih obdobjih od datuma @{izdaje} do datuma @{plačila}."
 
 #: ../plugins/fn-financial/functions.c:377
 msgid "If @{first_interest} < @{settlement} and @{calc_method} is FALSE, then ACCRINT returns the sum of the interest accrued in all coupon periods from @{first_interest}  date until @{settlement} date."
-msgstr "V kolikor so @{prve obresti} < @{plačila} in možnost @{načina izračuna} ni izbrana, funkcija ACCRINT vrne vsoto (nezapadlih) obresti, obračunanih v vseh kuponskih obdobjih datuma @{prve obresti} do datuma @{plačila}."
+msgstr "Če so @{prve obresti} < @{plačila} in možnost @{načina izračuna} ni izbrana, funkcija ACCRINT vrne vsoto (nezapadlih) obresti, obračunanih v vseh kuponskih obdobjih datuma @{prve obresti} do datuma @{plačila}."
 
 #: ../plugins/fn-financial/functions.c:382
 msgid "Otherwise ACCRINT returns the sum of the interest accrued in all coupon periods from @{issue}  date until @{settlement} date."
@@ -3769,7 +3768,7 @@ msgstr "celica: sklic celice"
 
 #: ../plugins/fn-info/functions.c:1175
 msgid "If @{cell} contains no expression, EXPRESSION returns empty."
-msgstr "V kolikor @{celica} ne vsebuje izraza, funkcija EXPRESSION vrne prazno vrednost."
+msgstr "Če @{celica} ne vsebuje izraza, funkcija EXPRESSION vrne prazno vrednost."
 
 #: ../plugins/fn-info/functions.c:1210
 msgid "GET.FORMULA:the formula in @{cell} as a string"
@@ -3791,13 +3790,13 @@ msgid ""
 "GET.FORMULA(A2) yields '=B1+B2' and\n"
 "GET.FORMULA(A1) yields ''."
 msgstr ""
-"V kolikor je celica A1 prazna, celica A2 pa vsebuje formulo =B1+B2, potem\n"
+"Če je celica A1 prazna, celica A2 pa vsebuje formulo =B1+B2, potem\n"
 "funkcija GET.FORMULA(A2) vrne '=B1+B2' in\n"
 "funkcija GET.FORMULA(A1) vrne ''."
 
 #: ../plugins/fn-info/functions.c:1252
 msgid "ISFORMULA:TRUE if @{cell} contains a formula"
-msgstr "ISFORMULA: funkcija vrne PRAV, v kolikor @{celica} vsebuje formulo"
+msgstr "ISFORMULA: funkcija vrne PRAV, če @{celica} vsebuje formulo"
 
 #: ../plugins/fn-info/functions.c:1254
 msgid "ISFORMULA is OpenFormula compatible."
@@ -3847,7 +3846,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:1438
 msgid "ISERROR:TRUE if @{value} is any error value"
-msgstr "ISERROR: funkcija vrne PRAV, v kolikor je @{vrednost} katerakoli vrsta napake"
+msgstr "ISERROR: funkcija vrne PRAV, če je @{vrednost} katerakoli vrsta napake"
 
 #: ../plugins/fn-info/functions.c:1439
 #: ../plugins/fn-info/functions.c:1457
@@ -3864,11 +3863,11 @@ msgstr "vrednost: vrednost"
 
 #: ../plugins/fn-info/functions.c:1456
 msgid "ISNA:TRUE if @{value} is the #N/A error value"
-msgstr "ISNA: funkcija vrne PRAV, v kolikor je @{vrednost} napaka #N/A"
+msgstr "ISNA: funkcija vrne PRAV, če je @{vrednost} napaka #N/A"
 
 #: ../plugins/fn-info/functions.c:1478
 msgid "ISERR:TRUE if @{value} is any error value except #N/A"
-msgstr "ISERR: funkcija vrne PRAV, v kolikor je @{vrednost} katerakoli vrsta napake, razen #N/A"
+msgstr "ISERR: funkcija vrne PRAV, če je @{vrednost} katerakoli vrsta napake, razen #N/A"
 
 #: ../plugins/fn-info/functions.c:1497
 msgid "ERROR.TYPE:the type of @{error}"
@@ -3912,7 +3911,7 @@ msgstr "ime: niz"
 
 #: ../plugins/fn-info/functions.c:1568
 msgid "ISBLANK:TRUE if @{value} is blank"
-msgstr "ISBLANK: funkcija vrne PRAV, v kolikor je @{vrednost} prazno polje"
+msgstr "ISBLANK: funkcija vrne PRAV, če je @{vrednost} prazno polje"
 
 #: ../plugins/fn-info/functions.c:1570
 msgid "This function checks if a value is blank.  Empty cells are blank, but empty strings are not."
@@ -3920,7 +3919,7 @@ msgstr "Funkcija preveri ali je vrednost prazna. Sem sodijo prazne celice, ne pa
 
 #: ../plugins/fn-info/functions.c:1585
 msgid "ISEVEN:TRUE if @{n} is even"
-msgstr "ISEVEN: funkcija vrne PRAV, v kolikor je @{n} sodo število"
+msgstr "ISEVEN: funkcija vrne PRAV, če je @{n} sodo število"
 
 #: ../plugins/fn-info/functions.c:1586
 #: ../plugins/fn-info/functions.c:1660
@@ -3929,7 +3928,7 @@ msgstr "n: število"
 
 #: ../plugins/fn-info/functions.c:1606
 msgid "ISLOGICAL:TRUE if @{value} is a logical value"
-msgstr "ISLOGICAL: funkcija vrne PRAV, v kolikor je @{vrednost} logična vrednost"
+msgstr "ISLOGICAL: funkcija vrne PRAV, če je @{vrednost} logična vrednost"
 
 #: ../plugins/fn-info/functions.c:1608
 msgid "This function checks if a value is either TRUE or FALSE."
@@ -3937,11 +3936,11 @@ msgstr "Funkcija preveri ali je vrednost ali PRAV ali NAPAK."
 
 #: ../plugins/fn-info/functions.c:1624
 msgid "ISNONTEXT:TRUE if @{value} is not text"
-msgstr "ISNONTEXT: funkcija vrne PRAV, v kolikor @{vrednost} ni besedilo"
+msgstr "ISNONTEXT: funkcija vrne PRAV, če @{vrednost} ni besedilo"
 
 #: ../plugins/fn-info/functions.c:1641
 msgid "ISNUMBER:TRUE if @{value} is a number"
-msgstr "ISNUMBER: funkcija vrne PRAV, v kolikor je @{vrednost} število"
+msgstr "ISNUMBER: funkcija vrne PRAV, če je @{vrednost} število"
 
 #: ../plugins/fn-info/functions.c:1643
 msgid "This function checks if a value is a number.  Neither TRUE nor FALSE are numbers for this purpose."
@@ -3949,11 +3948,11 @@ msgstr "Funkcija preveri ali je vrednost število. Pri tem vrednosti PRAV in NAP
 
 #: ../plugins/fn-info/functions.c:1659
 msgid "ISODD:TRUE if @{n} is odd"
-msgstr "ISODD: funkcija vrne PRAV, v kolikor je @{n} liho število"
+msgstr "ISODD: funkcija vrne PRAV, če je @{n} liho število"
 
 #: ../plugins/fn-info/functions.c:1680
 msgid "ISREF:TRUE if @{value} is a reference"
-msgstr "ISREF: funkcija vrne PRAV, v kolikor je @{vrednost} sklic"
+msgstr "ISREF: funkcija vrne PRAV, če je @{vrednost} sklic"
 
 #: ../plugins/fn-info/functions.c:1682
 msgid "This function checks if a value is a cell reference."
@@ -3961,7 +3960,7 @@ msgstr "Funkcija preveri ali je vrednost sklic celice."
 
 #: ../plugins/fn-info/functions.c:1701
 msgid "ISTEXT:TRUE if @{value} is text"
-msgstr "ISTEXT: funkcija vrne PRAV, v kolikor je @{vrednost} besedilo"
+msgstr "ISTEXT: funkcija vrne PRAV, če je @{vrednost} besedilo"
 
 #: ../plugins/fn-info/functions.c:1719
 msgid "N:@{text} converted to a number"
@@ -3982,7 +3981,7 @@ msgstr "besedilo: niz"
 
 #: ../plugins/fn-info/functions.c:1721
 msgid "If @{text} contains non-numerical text, 0 is returned."
-msgstr "V kolikor vsebuje @{besedilo} ne-številske znake, funkcija vrne vrednost 0."
+msgstr "Če vsebuje @{besedilo} ne-številske znake, funkcija vrne vrednost 0."
 
 #: ../plugins/fn-info/functions.c:1724
 msgid "=N(\"eleven\")"
@@ -4018,7 +4017,7 @@ msgstr "X: ime okoljske spremenljivke"
 
 #: ../plugins/fn-info/functions.c:1794
 msgid "If a variable called @{name} does not exist, #N/A! will be returned."
-msgstr "V kolikor spremenljivka @{X} ne obstaja, funkcija vrne napako #N/A!"
+msgstr "Če spremenljivka @{X} ne obstaja, funkcija vrne napako #N/A!"
 
 #: ../plugins/fn-info/functions.c:1795
 msgid "Variable names are case sensitive."
@@ -4056,7 +4055,7 @@ msgstr "Funkcija AND izračuna logično konjunkcijo argumentov @{b0}, @{b1}, ...
 #: ../plugins/fn-logical/functions.c:127
 #: ../plugins/fn-logical/functions.c:181
 msgid "If an argument is numerical, zero is considered FALSE and anything else TRUE."
-msgstr "V kolikor je argument številski, je vrednost 0 opredeljena kot NAPAK, druge vrednosti pa kot PRAV."
+msgstr "Če je argument številski, je vrednost 0 opredeljena kot NAPAK, druge vrednosti pa kot PRAV."
 
 #: ../plugins/fn-logical/functions.c:49
 #: ../plugins/fn-logical/functions.c:102
@@ -4069,13 +4068,13 @@ msgstr "Nizi in prazne vrednosti so prezrti."
 #: ../plugins/fn-logical/functions.c:129
 #: ../plugins/fn-logical/functions.c:183
 msgid "If no logical values are provided, then the error #VALUE! is returned."
-msgstr "V kolikor ni podanih logičnih vrednosti, funkcija vrne napako #VALUE!."
+msgstr "Če ni podanih logičnih vrednosti, funkcija vrne napako #VALUE!."
 
 #: ../plugins/fn-logical/functions.c:51
 #: ../plugins/fn-logical/functions.c:130
 #: ../plugins/fn-logical/functions.c:184
 msgid "This function is strict: if any argument is an error, the result will be the first such error."
-msgstr "Določilo funkcije je strogo. V kolikor katerikoli argument vrne napako, je rezultat napaka, ki jo vrne prvi argument z napako."
+msgstr "Določilo funkcije je strogo. Če katerikoli argument vrne napako, je rezultat napaka, ki jo vrne prvi argument z napako."
 
 #: ../plugins/fn-logical/functions.c:57
 msgid "wiki:en:Logical_conjunction"
@@ -4095,7 +4094,7 @@ msgstr "Funkcija NOT izračuna logično negacijo argumentov."
 
 #: ../plugins/fn-logical/functions.c:101
 msgid "If the argument is numerical, zero is considered FALSE and anything else TRUE."
-msgstr "V kolikor je argument številski, se vrednost 0 tolmači kot NAPAK, vse ostale vrednosti pa PRAV."
+msgstr "Če je argument številski, se vrednost 0 tolmači kot NAPAK, vse ostale vrednosti pa PRAV."
 
 #: ../plugins/fn-logical/functions.c:107
 msgid "wiki:en:Negation"
@@ -4201,11 +4200,11 @@ msgstr "besedilo: ime delovnega lista, privzeto določeno kot brez imena"
 
 #: ../plugins/fn-lookup/functions.c:738
 msgid "If @{row_num} or @{col_num} is less than one, ADDRESS returns #VALUE!"
-msgstr "V kolikor je @{številka vrstice} ali pa @{številka stolpca} manj kot ena, funkcija ADDRESS vrne napako #VALUE!."
+msgstr "Če je @{številka vrstice} ali pa @{številka stolpca} manj kot ena, funkcija ADDRESS vrne napako #VALUE!."
 
 #: ../plugins/fn-lookup/functions.c:740
 msgid "If @{abs_num} is greater than 4 ADDRESS returns #VALUE!"
-msgstr "V kolikor je @{absolutno število} večje od 4, funkcija ADDRESS vrne napako #VALUE!."
+msgstr "Če je @{absolutno število} večje od 4, funkcija ADDRESS vrne napako #VALUE!."
 
 #: ../plugins/fn-lookup/functions.c:827
 msgid "AREAS:number of areas in @{reference}"
@@ -4277,7 +4276,7 @@ msgstr "Pri uporabi možnosti @{približnosti} morajo biti vrednosti razvrščen
 
 #: ../plugins/fn-lookup/functions.c:959
 msgid "VLOOKUP returns #REF! if @{column} falls outside @{range}."
-msgstr "V kolikor je @{stolpec} izven @{obsega}, funkcija VLOOKUP vrne napako #REF!."
+msgstr "Če je @{stolpec} izven @{obsega}, funkcija VLOOKUP vrne napako #REF!."
 
 #: ../plugins/fn-lookup/functions.c:1010
 msgid "HLOOKUP:search the first row of @{range} for @{value}"
@@ -4297,7 +4296,7 @@ msgstr "Funkcija HLOOKUP poišče stolpec v podanem @{obsegu} vrednosti, ki ima 
 
 #: ../plugins/fn-lookup/functions.c:1027
 msgid "HLOOKUP returns #REF! if @{row} falls outside @{range}."
-msgstr "V kolikor je @{vrstica} izven @{obsega}, funkcija HLOOKUP vrne napako #REF!."
+msgstr "Če je @{vrstica} izven @{obsega}, funkcija HLOOKUP vrne napako #REF!."
 
 #: ../plugins/fn-lookup/functions.c:1078
 msgid "LOOKUP:contents of @{vector2} at the corresponding location to @{value} in @{vector1}"
@@ -4317,11 +4316,11 @@ msgstr "vektor2: obseg vrnjenih vrednosti"
 
 #: ../plugins/fn-lookup/functions.c:1083
 msgid "If  @{vector1} has more rows than columns, LOOKUP searches the first row of @{vector1}, otherwise the first column. If @{vector2} is omitted the return value is taken from the last row or column of @{vector1}."
-msgstr "V kolikor ima @{vektor1} več vrstic kot stolpcev, funkcija LOOKUP preišče prvo vrstico @{vektorja1}, sicer pa preišče prvi stolpec. Če @{vektor2} ni določen, je prevzeta vrednost zanje vrstice ali stolpca v @{vektorju1}."
+msgstr "Če ima @{vektor1} več vrstic kot stolpcev, funkcija LOOKUP preišče prvo vrstico @{vektorja1}, sicer pa preišče prvi stolpec. Če @{vektor2} ni določen, je prevzeta vrednost zanje vrstice ali stolpca v @{vektorju1}."
 
 #: ../plugins/fn-lookup/functions.c:1087
 msgid "If LOOKUP can't find @{value} it uses the largest value less than @{value}."
-msgstr "V kolikor @{vrednosti} ni mogoče najti, funkcija LOOKUP prevzame največjo vrednost, ki je manjša od @{vrednosti}."
+msgstr "Če @{vrednosti} ni mogoče najti, funkcija LOOKUP prevzame največjo vrednost, ki je manjša od @{vrednosti}."
 
 #: ../plugins/fn-lookup/functions.c:1089
 msgid "The data must be sorted."
@@ -4329,11 +4328,11 @@ msgstr "Podatki morajo biti urejeno razvrščeni."
 
 #: ../plugins/fn-lookup/functions.c:1090
 msgid "If @{value} is smaller than the first value it returns #N/A."
-msgstr "V kolikor je @{vrednost} manjša od prve vrednosti, funkcija vrne napako #N/A."
+msgstr "Če je @{vrednost} manjša od prve vrednosti, funkcija vrne napako #N/A."
 
 #: ../plugins/fn-lookup/functions.c:1091
 msgid "If the corresponding location does not exist in @{vector2}, it returns #N/A."
-msgstr "V kolikor ustrezno mesto v @{vektorju2} ne obstaja, funkcija vrne napako #N/A!."
+msgstr "Če ustrezno mesto v @{vektorju2} ne obstaja, funkcija vrne napako #N/A!."
 
 #: ../plugins/fn-lookup/functions.c:1178
 msgid "MATCH:the index of @{seek} in @{vector}"
@@ -4361,11 +4360,11 @@ msgstr "Za vrednost @{vrsta} = -1 morajo biti podatki razvrščeni padajoče; za
 
 #: ../plugins/fn-lookup/functions.c:1187
 msgid "If @{seek} could not be found, #N/A is returned."
-msgstr "V kolikor @{iskalnega niza} ni mogoče najti, funkcija vrne napako #N/A."
+msgstr "Če @{iskalnega niza} ni mogoče najti, funkcija vrne napako #N/A."
 
 #: ../plugins/fn-lookup/functions.c:1188
 msgid "If @{vector} is neither n by 1 nor 1 by n, #N/A is returned."
-msgstr "V kolikor @{vektor} ni niti n krat 1 niti 1 krat n, funkcija vrne napako#N/A."
+msgstr "Če @{vektor} ni niti n krat 1 niti 1 krat n, funkcija vrne napako#N/A."
 
 #: ../plugins/fn-lookup/functions.c:1232
 msgid "INDIRECT:contents of the cell pointed to by the @{ref_text} string"
@@ -4381,7 +4380,7 @@ msgstr "oblika: vrednost PRAV določa @{sklic} v zapisu A1, sicer pa je podan sl
 
 #: ../plugins/fn-lookup/functions.c:1236
 msgid "If @{ref_text} is not a valid reference in the style determined by @{format}, INDIRECT returns #REF!"
-msgstr "V kolikor @{sklic} ni veljaven sklic določen z @{obliko}, funkcija INDIRECT vrne napako #REF!"
+msgstr "Če @{sklic} ni veljaven sklic določen z @{obliko}, funkcija INDIRECT vrne napako #REF!"
 
 #: ../plugins/fn-lookup/functions.c:1270
 msgid "INDEX:reference to a cell in the given @{array}"
@@ -4409,7 +4408,7 @@ msgstr "Funkcija INDEX določi sklic do celice v podanem @{podatkovnem polju}. C
 
 #: ../plugins/fn-lookup/functions.c:1280
 msgid "If the reference falls outside the range of @{array}, INDEX returns #REF!"
-msgstr "V kolikor je sklic izven obsega @{podatkovnega polja}, funkcija INDEX vrne napako #REF!."
+msgstr "Če je sklic izven obsega @{podatkovnega polja}, funkcija INDEX vrne napako #REF!."
 
 #: ../plugins/fn-lookup/functions.c:1282
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9"
@@ -4431,7 +4430,7 @@ msgstr "Funkcija COLUMN vrne podatkovno polje Nx1 z zaporednimi števili od prve
 #: ../plugins/fn-lookup/functions.c:1376
 #: ../plugins/fn-lookup/functions.c:1528
 msgid "If @{x} is neither an array nor a reference nor a range, returns #VALUE!"
-msgstr "V kolikor @{x} ni niti polje niti sklic in ne obseg, funkcija vrne napako #VALUE!"
+msgstr "Če @{x} ni niti polje niti sklic in ne obseg, funkcija vrne napako #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:1380
 msgid "column() in G13 equals 7."
@@ -4447,7 +4446,7 @@ msgstr "ime: ime stolpca kot je \"IV\""
 
 #: ../plugins/fn-lookup/functions.c:1422
 msgid "If @{name} is invalid, COLUMNNUMBER returns #VALUE!"
-msgstr "V kolikor je @{ime} neveljavno, funkcija vrne vrednost #VALUE!"
+msgstr "Če je @{ime} neveljavno, funkcija vrne vrednost #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:1447
 msgid "COLUMNS:number of columns in @{reference}"
@@ -4491,7 +4490,7 @@ msgstr "Funkcija OFFSET vrne obseg celic, ki se začne z odmikom (@{vrstice},@{s
 
 #: ../plugins/fn-lookup/functions.c:1474
 msgid "If @{range} is neither a reference nor a range, OFFSET returns #VALUE!"
-msgstr "V kolikor @{obseg} ni ne sklic in ne obseg, funkcija OFFSET vrne napako #VALUE!"
+msgstr "Če @{obseg} ni ne sklic in ne obseg, funkcija OFFSET vrne napako #VALUE!"
 
 #: ../plugins/fn-lookup/functions.c:1523
 msgid "ROW:vector of row numbers"
@@ -4568,7 +4567,7 @@ msgstr "FLIP: obrat @{matrike}"
 
 #: ../plugins/fn-lookup/functions.c:1737
 msgid "vertical:if true, @{matrix} is flipped vertically, otherwise horizontally; defaults to TRUE"
-msgstr "smer obrata: v kolikor je možnost izbrana, je @{matrika} obrnjena navpično, sicer pa je vodoravno. Privzeto je možnost izbrana."
+msgstr "smer obrata: če je možnost izbrana, je @{matrika} obrnjena navpično, sicer pa je vodoravno. Privzeto je možnost izbrana."
 
 #: ../plugins/fn-lookup/functions.c:1782
 msgid "ARRAY:vertical array of the arguments"
@@ -4625,7 +4624,7 @@ msgstr "Funkcija GDC izračuna največji skupni delitelj podanih števil @{n0},@
 #: ../plugins/fn-math/functions.c:63
 #: ../plugins/fn-math/functions.c:126
 msgid "If any of the arguments is not an integer, it is truncated."
-msgstr "V kolikor katerikoli izmed argumentov ni celo število, so ta prirezana."
+msgstr "Če katerikoli izmed argumentov ni celo število, so ta prirezana."
 
 #: ../plugins/fn-math/functions.c:122
 msgid "LCM:the least common multiple"
@@ -4692,9 +4691,9 @@ msgstr "wolfram:InverseCotangent.html"
 #: ../plugins/fn-math/functions.c:294
 #: ../plugins/fn-math/functions.c:768
 #: ../plugins/fn-math/functions.c:807
-#: ../plugins/fn-math/functions.c:1361
-#: ../plugins/fn-math/functions.c:1381
-#: ../plugins/fn-math/functions.c:1421
+#: ../plugins/fn-math/functions.c:1372
+#: ../plugins/fn-math/functions.c:1392
+#: ../plugins/fn-math/functions.c:1432
 msgid "wiki:en:Trigonometric_functions"
 msgstr "wiki:en:Trigonometric_functions"
 
@@ -4720,7 +4719,7 @@ msgstr "Funkcija ASIN izračuna arkus sinus vrednosti @{x} oziroma vrednost, kat
 
 #: ../plugins/fn-math/functions.c:329
 msgid "If @{x} falls outside the range -1 to 1, ASIN returns #NUM!"
-msgstr "V kolikor je vrednost @{x} izven podatkovne vrste od -1 do 1, funkcija vrne napako #NUM!."
+msgstr "Če je vrednost @{x} izven podatkovne vrste od -1 do 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-math/functions.c:351
 msgid "ASINH:the inverse hyperbolic sine of @{x}"
@@ -4752,7 +4751,7 @@ msgstr "Funkcija ATANH izračuna inverzni hiperbolični tangens vrednosti @{x} o
 
 #: ../plugins/fn-math/functions.c:398
 msgid "If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!"
-msgstr "V kolikor je absolutna vrednost @{x} večja od 1.0, funkcija vrne napako #NUM!."
+msgstr "Če je absolutna vrednost @{x} večja od 1.0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-math/functions.c:419
 msgid "ATAN2:the arc tangent of the ratio @{y}/@{x}"
@@ -4844,11 +4843,11 @@ msgstr "Funkcija CEILING(@{x},@{značilno število}) je najbližji večkratnik @
 
 #: ../plugins/fn-math/functions.c:735
 msgid "If @{x} or @{significance} is non-numeric, CEILING returns a #VALUE! error."
-msgstr "V kolikor sta @{x} ali @{značilno število} ne-številčni vrednosti, funkcija CEILING vrne napako #VALUE!."
+msgstr "Če sta @{x} ali @{značilno število} ne-številčni vrednosti, funkcija CEILING vrne napako #VALUE!."
 
 #: ../plugins/fn-math/functions.c:736
 msgid "If @{x} and @{significance} have different signs, CEILING returns a #NUM! error."
-msgstr "V kolikor sta @{x} in @{značilno število} različno predznačena, funkcija CEILING vrne napako #NUM!."
+msgstr "Če sta @{x} in @{značilno število} različno predznačena, funkcija CEILING vrne napako #NUM!."
 
 #: ../plugins/fn-math/functions.c:738
 msgid "CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). CEILING(@{x},@{significance}) is the OpenFormula function CEILING(@{x},@{significance},1)."
@@ -4860,10 +4859,10 @@ msgstr "COS: kosinus vrednosti @{x}"
 
 #: ../plugins/fn-math/functions.c:765
 #: ../plugins/fn-math/functions.c:839
-#: ../plugins/fn-math/functions.c:1356
-#: ../plugins/fn-math/functions.c:1375
-#: ../plugins/fn-math/functions.c:1415
-#: ../plugins/fn-math/functions.c:1588
+#: ../plugins/fn-math/functions.c:1367
+#: ../plugins/fn-math/functions.c:1386
+#: ../plugins/fn-math/functions.c:1426
+#: ../plugins/fn-math/functions.c:1599
 msgid "x:angle in radians"
 msgstr "x: kot v radianih"
 
@@ -4892,8 +4891,8 @@ msgid "wolfram:HyperbolicCotangent.html"
 msgstr "wolfram:HyperbolicCotangent.html"
 
 #: ../plugins/fn-math/functions.c:825
-#: ../plugins/fn-math/functions.c:1401
-#: ../plugins/fn-math/functions.c:1441
+#: ../plugins/fn-math/functions.c:1412
+#: ../plugins/fn-math/functions.c:1452
 msgid "wiki:en:Hyperbolic_function"
 msgstr "wiki:en:Hyperbolic_function"
 
@@ -4949,7 +4948,7 @@ msgstr "Funkcija BETA vrne vrednost Eulerjeve funkcije beta, ki je razširjena n
 
 #: ../plugins/fn-math/functions.c:980
 msgid "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETA returns #NUM!"
-msgstr "V kolikor je @{x}, @{y}, ali (@{x} + @{y}) ne-pozitivno celo število, funkcija BETA vrne napako #NUM!."
+msgstr "Če je @{x}, @{y}, ali (@{x} + @{y}) ne-pozitivno celo število, funkcija BETA vrne napako #NUM!."
 
 #: ../plugins/fn-math/functions.c:984
 #: ../plugins/fn-math/functions.c:1008
@@ -4966,7 +4965,7 @@ msgstr "Funkcija BETALN vrne naravni logaritem absolutne vrednosti Eulerjeve fun
 
 #: ../plugins/fn-math/functions.c:1004
 msgid "If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETALN returns #NUM!"
-msgstr "V kolikor je @{x}, @{y}, ali (@{x} + @{y}) ne-pozitivno celo število, funkcija BETALN vrne napako #NUM!."
+msgstr "Če je @{x}, @{y}, ali (@{x} + @{y}) ne-pozitivno celo število, funkcija BETALN vrne napako #NUM!."
 
 #: ../plugins/fn-math/functions.c:1025
 msgid "COMBIN:binomial coefficient"
@@ -4974,7 +4973,7 @@ msgstr "COMBIN:binominalni koeficient"
 
 #: ../plugins/fn-math/functions.c:1026
 #: ../plugins/fn-math/functions.c:1058
-#: ../plugins/fn-math/functions.c:2138
+#: ../plugins/fn-math/functions.c:2149
 msgid "n:non-negative integer"
 msgstr "n: ne-negativno celo število"
 
@@ -4989,7 +4988,7 @@ msgstr "Funkcija COMBIN vrne binomski koeficient \"@{n} nad @{k}\" ali @{k}-komb
 
 #: ../plugins/fn-math/functions.c:1031
 msgid "If @{n} is less than @{k} COMBIN returns #NUM!"
-msgstr "V kolikor je vrednost @{n} manjša od @{k}, funkcija COMBIN vrne napako #NUM!."
+msgstr "Če je vrednost @{n} manjša od @{k}, funkcija COMBIN vrne napako #NUM!."
 
 #: ../plugins/fn-math/functions.c:1036
 msgid "wiki:en:Binomial_coefficient"
@@ -5027,8 +5026,8 @@ msgstr "LOG: logaritem vrednosti @{x} z osnovo @{osnova}"
 #: ../plugins/fn-math/functions.c:1140
 #: ../plugins/fn-math/functions.c:1170
 #: ../plugins/fn-math/functions.c:1193
-#: ../plugins/fn-math/functions.c:1248
-#: ../plugins/fn-math/functions.c:1270
+#: ../plugins/fn-math/functions.c:1259
+#: ../plugins/fn-math/functions.c:1281
 msgid "x:positive number"
 msgstr "x: pozitivno število"
 
@@ -5042,7 +5041,7 @@ msgstr "@{osnova} mora biti pozitivna vrednost in ne sme biti enaka 1."
 
 #: ../plugins/fn-math/functions.c:1143
 msgid "If @{x} ≤ 0, LOG returns #NUM! error."
-msgstr "V kolikor je @{x} ≤ 0, funkcija LOG vrne napako #NUM!."
+msgstr "Če je @{x} ≤ 0, funkcija LOG vrne napako #NUM!."
 
 #: ../plugins/fn-math/functions.c:1169
 msgid "LN:the natural logarithm of @{x}"
@@ -5050,7 +5049,7 @@ msgstr "LN: naravni logaritem vrednosti @{x}"
 
 #: ../plugins/fn-math/functions.c:1171
 msgid "If @{x} ≤ 0, LN returns #NUM! error."
-msgstr "V kolikor je @{x} ≤ 0, funkcija LN vrne napako #NUM!."
+msgstr "Če je @{x} ≤ 0, funkcija LN vrne napako #NUM!."
 
 #: ../plugins/fn-math/functions.c:1192
 msgid "LN1P:LN(1+@{x})"
@@ -5062,243 +5061,259 @@ msgstr "Funkcija LN1P izračuna vrednost LN(1+@{x}), vendar je izračun bolj nat
 
 #: ../plugins/fn-math/functions.c:1195
 msgid "If @{x} ≤ -1, LN returns #NUM! error."
-msgstr "V kolikor je @{x} ≤ -1, funkcija LN vrne napako #NUM!."
+msgstr "Če je @{x} ≤ -1, funkcija LN vrne napako #NUM!."
 
 #: ../plugins/fn-math/functions.c:1216
-msgid "POWER:the value of @{x} raised to the power @{y}"
-msgstr "POWER: vrednost @{x} na potenco @{y}"
+msgid "POWER:the value of @{x} raised to the power @{y} raised to the power of 1/@{z}"
+msgstr "POWER: vrednost @{x} na potenco @{y} na potenco1/@{z}"
 
 #: ../plugins/fn-math/functions.c:1219
-msgid "If both @{x} and @{y} equal 0, POWER returns #NUM!"
-msgstr "V kolikor sta vrednosti @{x} in @{y} enaki 0, funkcija POWER vrne napako #NUM!."
+msgid "z:number"
+msgstr "z: število"
 
 #: ../plugins/fn-math/functions.c:1220
-msgid "If @{x} = 0 and @{y} < 0, POWER returns #DIV/0!"
-msgstr "V kolikor je vrednost @{x} = 0 in je @{y} < 0, funkcija vrne napako #DIV/0!"
+msgid "If both @{x} and @{y} equal 0, POWER returns #NUM!"
+msgstr "Če sta vrednosti @{x} in @{y} enaki 0, funkcija POWER vrne napako #NUM!."
 
 #: ../plugins/fn-math/functions.c:1221
-msgid "If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!"
-msgstr "V kolikor @{x} < 0 in @{y} nista celi števili, funkcija POWER vrne napako #NUM!."
+msgid "If @{x} = 0 and @{y} < 0, POWER returns #DIV/0!"
+msgstr "Če je vrednost @{x} = 0 in je @{y} < 0, funkcija vrne napako #DIV/0!"
 
-#: ../plugins/fn-math/functions.c:1247
+#: ../plugins/fn-math/functions.c:1222
+msgid "If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!"
+msgstr "Če @{x} < 0 in @{y} nista celi števili, funkcija POWER vrne napako #NUM!."
+
+#: ../plugins/fn-math/functions.c:1223
+msgid "@{z} defaults to 1"
+msgstr "Vrednost @{z} je privzeto 1"
+
+#: ../plugins/fn-math/functions.c:1224
+msgid "If @{z} is not a positive integer, POWER returns #NUM!"
+msgstr "Če @{z ni celi pozitivno število, funkcija POWER vrne napako #NUM!"
+
+#: ../plugins/fn-math/functions.c:1225
+msgid "If @{x} < 0, @{y} is odd, and @{z} is even, POWER returns #NUM!"
+msgstr "Če je @{x} < 0 in je @{y} liho, @{z} pa sodo število, funkcija POWER vrne napako #NUM!"
+
+#: ../plugins/fn-math/functions.c:1258
 msgid "LOG2:the base-2 logarithm of @{x}"
 msgstr "LOG2: dvojiški logaritem vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1249
+#: ../plugins/fn-math/functions.c:1260
 msgid "If @{x} ≤ 0, LOG2 returns #NUM!"
-msgstr "V kolikor je vrednost @{x} ≤ 0, funkcija vrne napako #NUM!."
+msgstr "Če je vrednost @{x} ≤ 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:1269
+#: ../plugins/fn-math/functions.c:1280
 msgid "LOG10:the base-10 logarithm of @{x}"
 msgstr "LOG10: desetiški logaritem vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1271
+#: ../plugins/fn-math/functions.c:1282
 msgid "If @{x} ≤ 0, LOG10 returns #NUM!"
-msgstr "V kolikor je vrednost @{x} ≤ 0, funkcija vrne napako #NUM!."
+msgstr "Če je vrednost @{x} ≤ 0, funkcija vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:1291
+#: ../plugins/fn-math/functions.c:1302
 msgid "MOD:the remainder of @{x} under division by @{n}"
 msgstr "MOD: ostanek vrednosti @{x} pri deljenju s številom @{n}"
 
-#: ../plugins/fn-math/functions.c:1294
+#: ../plugins/fn-math/functions.c:1305
 msgid "MOD function returns the remainder when @{x} is divided by @{n}."
 msgstr "Funkcija MOD vrne preostanek pri deljenju števila @{x} s številom @{n}."
 
-#: ../plugins/fn-math/functions.c:1295
+#: ../plugins/fn-math/functions.c:1306
 msgid "If @{n} is 0, MOD returns #DIV/0!"
-msgstr "V kolikor je vrednost @{n} enaka 0, funkcija vrne napako #DIV/0!"
+msgstr "Če je vrednost @{n} enaka 0, funkcija vrne napako #DIV/0!"
 
-#: ../plugins/fn-math/functions.c:1337
+#: ../plugins/fn-math/functions.c:1348
 msgid "RADIANS:the number of radians equivalent to @{x} degrees"
 msgstr "RADIANS: število radianov, ki sovpadajo z @{x} kotnimi stopinjami"
 
-#: ../plugins/fn-math/functions.c:1338
+#: ../plugins/fn-math/functions.c:1349
 msgid "x:angle in degrees"
 msgstr "x: kot v stopinjah"
 
-#: ../plugins/fn-math/functions.c:1355
+#: ../plugins/fn-math/functions.c:1366
 msgid "SIN:the sine of @{x}"
 msgstr "SIN: sinus vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1360
+#: ../plugins/fn-math/functions.c:1371
 msgid "wolfram:Sine.html"
 msgstr "wolfram:Sine.html"
 
-#: ../plugins/fn-math/functions.c:1374
+#: ../plugins/fn-math/functions.c:1385
 msgid "CSC:the cosecant of @{x}"
 msgstr "CSC: kosekans vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1376
-#: ../plugins/fn-math/functions.c:1396
-#: ../plugins/fn-math/functions.c:1416
-#: ../plugins/fn-math/functions.c:1436
+#: ../plugins/fn-math/functions.c:1387
+#: ../plugins/fn-math/functions.c:1407
+#: ../plugins/fn-math/functions.c:1427
+#: ../plugins/fn-math/functions.c:1447
 msgid "This function is not Excel compatible."
 msgstr "Ta funkcija ni združljiva s funkcijami programa MS Excel."
 
-#: ../plugins/fn-math/functions.c:1380
+#: ../plugins/fn-math/functions.c:1391
 msgid "wolfram:Cosecant.html"
 msgstr "wolfram:Cosecant.html"
 
-#: ../plugins/fn-math/functions.c:1394
+#: ../plugins/fn-math/functions.c:1405
 msgid "CSCH:the hyperbolic cosecant of @{x}"
 msgstr "CSCH:hiperbolični kosekans vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1400
+#: ../plugins/fn-math/functions.c:1411
 msgid "wolfram:HyperbolicCosecant.html"
 msgstr "wolfram:HyperbolicCosecant.html"
 
-#: ../plugins/fn-math/functions.c:1414
+#: ../plugins/fn-math/functions.c:1425
 msgid "SEC:Secant"
 msgstr "SEC: sekans"
 
-#: ../plugins/fn-math/functions.c:1417
+#: ../plugins/fn-math/functions.c:1428
 msgid "SEC(@{x}) is exported to OpenFormula as 1/COS(@{x})."
 msgstr "Funkcija SEC(@{x}) se izvozi v program OpenFormula kot 1/COS(@{x})."
 
-#: ../plugins/fn-math/functions.c:1420
+#: ../plugins/fn-math/functions.c:1431
 msgid "wolfram:Secant.html"
 msgstr "wolfram:Secant.html"
 
-#: ../plugins/fn-math/functions.c:1434
+#: ../plugins/fn-math/functions.c:1445
 msgid "SECH:the hyperbolic secant of @{x}"
 msgstr "SECH: hiperbolični sekans vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1437
+#: ../plugins/fn-math/functions.c:1448
 msgid "SECH(@{x}) is exported to OpenFormula as 1/COSH(@{x})."
 msgstr "Funkcija SECH(@{x}) se izvozi v program OpenFormula kot 1/COSH(@{x})."
 
-#: ../plugins/fn-math/functions.c:1440
+#: ../plugins/fn-math/functions.c:1451
 msgid "wolfram:HyperbolicSecant.html"
 msgstr "wolfram:HyperbolicSecant.html"
 
-#: ../plugins/fn-math/functions.c:1452
+#: ../plugins/fn-math/functions.c:1463
 msgid "SINH:the hyperbolic sine of @{x}"
 msgstr "SINH: hiperbolični sinus vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1470
+#: ../plugins/fn-math/functions.c:1481
 msgid "SQRT:square root of @{x}"
 msgstr "SQRT: kvadratni koren vrednost @{x}"
 
-#: ../plugins/fn-math/functions.c:1471
-#: ../plugins/fn-math/functions.c:1880
+#: ../plugins/fn-math/functions.c:1482
+#: ../plugins/fn-math/functions.c:1891
 msgid "x:non-negative number"
 msgstr "x: ne-negativno število"
 
-#: ../plugins/fn-math/functions.c:1473
+#: ../plugins/fn-math/functions.c:1484
 msgid "If @{x} is negative, SQRT returns #NUM!"
-msgstr "V kolikor je @{x} negativen, funkcija SQRT vrne napako #NUM!."
+msgstr "Če je @{x} negativen, funkcija SQRT vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:1492
+#: ../plugins/fn-math/functions.c:1503
 msgid "SUMA:sum of all values and cells referenced"
 msgstr "SUMA: vsota vseh vrednosti v sklicanih celicah"
 
-#: ../plugins/fn-math/functions.c:1493
-#: ../plugins/fn-math/functions.c:1517
+#: ../plugins/fn-math/functions.c:1504
+#: ../plugins/fn-math/functions.c:1528
 msgid "area0:first cell area"
 msgstr "obseg0: prvi obseg celic"
 
-#: ../plugins/fn-math/functions.c:1494
-#: ../plugins/fn-math/functions.c:1518
+#: ../plugins/fn-math/functions.c:1505
+#: ../plugins/fn-math/functions.c:1529
 msgid "area1:second cell area"
 msgstr "obseg1: drugi obseg celic"
 
-#: ../plugins/fn-math/functions.c:1516
+#: ../plugins/fn-math/functions.c:1527
 msgid "SUMSQ:sum of the squares of all values and cells referenced"
 msgstr "SUMSQ: vsota kvadratov vseh vrednosti v sklicanih celicah"
 
-#: ../plugins/fn-math/functions.c:1539
+#: ../plugins/fn-math/functions.c:1550
 msgid "MULTINOMIAL:multinomial coefficient (@{x1}+⋯+@{xn}) choose (@{x1},…,@{xn})"
 msgstr "MULTINOMIAL: vrne mnogočlenski niz števil (@{x1}+⋯+@{xn}) z izborom (@{x1},…,@{xn})"
 
-#: ../plugins/fn-math/functions.c:1540
+#: ../plugins/fn-math/functions.c:1551
 msgid "x1:first number"
 msgstr "x1: prvo število"
 
-#: ../plugins/fn-math/functions.c:1541
+#: ../plugins/fn-math/functions.c:1552
 msgid "x2:second number"
 msgstr "x2: drugo število"
 
-#: ../plugins/fn-math/functions.c:1542
+#: ../plugins/fn-math/functions.c:1553
 msgid "xn:nth number"
 msgstr "xn: n-to število"
 
-#: ../plugins/fn-math/functions.c:1546
+#: ../plugins/fn-math/functions.c:1557
 msgid "wiki:en:Multinomial_theorem"
 msgstr "wiki:en:Multinomial_theorem"
 
-#: ../plugins/fn-math/functions.c:1564
+#: ../plugins/fn-math/functions.c:1575
 msgid "G_PRODUCT:product of all the values and cells referenced"
 msgstr "G_PRODUCT: zmnožek vseh vrednosti sklicnih celic"
 
-#: ../plugins/fn-math/functions.c:1565
+#: ../plugins/fn-math/functions.c:1576
 msgid "x1:number"
 msgstr "x1: število"
 
-#: ../plugins/fn-math/functions.c:1566
+#: ../plugins/fn-math/functions.c:1577
 msgid "x2:number"
 msgstr "x2: število"
 
-#: ../plugins/fn-math/functions.c:1567
+#: ../plugins/fn-math/functions.c:1578
 msgid "Empty cells are ignored and the empty product is 1."
 msgstr "Prazne celice so prezrte, njihov zmnožek pa je 1."
 
-#: ../plugins/fn-math/functions.c:1587
+#: ../plugins/fn-math/functions.c:1598
 msgid "TAN:the tangent of @{x}"
 msgstr "TAN: tangenta vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1604
+#: ../plugins/fn-math/functions.c:1615
 msgid "TANH:the hyperbolic tangent of @{x}"
 msgstr "TANH: hiperbolični tangens vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1621
+#: ../plugins/fn-math/functions.c:1632
 msgid "PI:the constant 𝜋"
 msgstr "PI: konstanta 𝜋"
 
-#: ../plugins/fn-math/functions.c:1622
+#: ../plugins/fn-math/functions.c:1633
 msgid "This function is Excel compatible, but it returns 𝜋 with a better precision."
 msgstr "Funkcija je združljiva s programom MS Excel, vendar vrne natančnejšo vrednost števila 𝜋."
 
-#: ../plugins/fn-math/functions.c:1639
+#: ../plugins/fn-math/functions.c:1650
 msgid "TRUNC:@{x} truncated to @{d} digits"
 msgstr "TRUNC: vrednost @{x} prirezana na @{d} števk"
 
-#: ../plugins/fn-math/functions.c:1641
+#: ../plugins/fn-math/functions.c:1652
 msgid "d:non-negative integer, defaults to 0"
 msgstr "d: ne-negativno celo število, privzeto je določena vrednosti 0"
 
-#: ../plugins/fn-math/functions.c:1642
+#: ../plugins/fn-math/functions.c:1653
 msgid "If @{d} is omitted or negative then it defaults to zero. If it is not an integer then it is truncated to an integer."
-msgstr "V kolikor je vrednost @{d} izpuščena ali negativna, funkcija vrne vrednost nič. V kolikor vrednost ni celo število, je število prirezano."
+msgstr "Če je vrednost @{d} izpuščena ali negativna, funkcija vrne vrednost nič. Če vrednost ni celo število, je število prirezano."
 
-#: ../plugins/fn-math/functions.c:1676
+#: ../plugins/fn-math/functions.c:1687
 msgid "EVEN:@{x} rounded away from 0 to the next even integer"
 msgstr "EVEN: @{x} zaokroži število na naslednje sodo celo število"
 
-#: ../plugins/fn-math/functions.c:1711
+#: ../plugins/fn-math/functions.c:1722
 msgid "ODD:@{x} rounded away from 0 to the next odd integer"
 msgstr "ODD: @{x} zaokroži število na naslednje liho celo število"
 
-#: ../plugins/fn-math/functions.c:1746
+#: ../plugins/fn-math/functions.c:1757
 msgid "FACTDOUBLE:double factorial"
 msgstr "FACTDOUBLE: dvojna fakulteta"
 
-#: ../plugins/fn-math/functions.c:1747
+#: ../plugins/fn-math/functions.c:1758
 msgid "x:non-negative integer"
 msgstr "x: ne-negativno celo število"
 
-#: ../plugins/fn-math/functions.c:1748
+#: ../plugins/fn-math/functions.c:1759
 msgid "FACTDOUBLE function returns the double factorial @{x}!!"
 msgstr "Funkcija FACTDOUBLE vrne dvojno fakulteto @{x}!!"
 
-#: ../plugins/fn-math/functions.c:1749
+#: ../plugins/fn-math/functions.c:1760
 msgid "If @{x} is not an integer, it is truncated. If @{x} is negative, FACTDOUBLE returns #NUM!"
-msgstr "V kolikor @{x} ni celo število, je vrednost prirezana, če pa je @{x} negativno število, funkcija FACTDOUBLE vrne napako #NUM!."
+msgstr "Če @{x} ni celo število, je vrednost prirezana, če pa je @{x} negativno število, funkcija FACTDOUBLE vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:1783
+#: ../plugins/fn-math/functions.c:1794
 msgid "FIB:Fibonacci numbers"
 msgstr "FIB: Fibonaccijeva števila"
 
-#: ../plugins/fn-math/functions.c:1784
+#: ../plugins/fn-math/functions.c:1795
 #: ../plugins/fn-numtheory/numtheory.c:219
 #: ../plugins/fn-numtheory/numtheory.c:253
 #: ../plugins/fn-numtheory/numtheory.c:294
@@ -5309,27 +5324,27 @@ msgstr "FIB: Fibonaccijeva števila"
 msgid "n:positive integer"
 msgstr "n: pozitivno celo število"
 
-#: ../plugins/fn-math/functions.c:1785
+#: ../plugins/fn-math/functions.c:1796
 msgid "FIB(@{n}) is the @{n}th Fibonacci number."
 msgstr "Funkcija FIB (@{n}) vrne naslednje @{n}-to Fibonaccijevo število."
 
-#: ../plugins/fn-math/functions.c:1786
+#: ../plugins/fn-math/functions.c:1797
 msgid "If @{n} is not an integer, it is truncated. If it is negative or zero FIB returns #NUM!"
-msgstr "V kolikor @{n} ni celo število, je vrednost prirezana, če pa je število negativno ali nič, pa funkcija FIB vrne napako #NUM!."
+msgstr "Če @{n} ni celo število, je vrednost prirezana, če pa je število negativno ali nič, pa funkcija FIB vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:1824
+#: ../plugins/fn-math/functions.c:1835
 msgid "QUOTIENT:integer portion of a division"
 msgstr "QUOTIENT: celoštevilski del deljenja"
 
-#: ../plugins/fn-math/functions.c:1825
+#: ../plugins/fn-math/functions.c:1836
 msgid "numerator:integer"
 msgstr "numerator:celo število"
 
-#: ../plugins/fn-math/functions.c:1826
+#: ../plugins/fn-math/functions.c:1837
 msgid "denominator:non-zero integer"
 msgstr "števec: celo števil, različno od 0"
 
-#: ../plugins/fn-math/functions.c:1827
+#: ../plugins/fn-math/functions.c:1838
 msgid ""
 "QUOTIENT yields the integer portion of the division @{numerator}/@{denominator}.\n"
 "QUOTIENT (@{numerator},@{denominator})⨉@{denominator}+MOD(@{numerator},@{denominator})=@{numerator}"
@@ -5337,99 +5352,99 @@ msgstr ""
 "Funkcija QUOTIENT vrne celoštevilski del deljenja @{števca}/@{imenovalca}.\n"
 "QUOTIENT (@{števec},@{imenovalec})⨉@{imenovalec}+MOD(@{števec},@{imenovalec})=@{števec}"
 
-#: ../plugins/fn-math/functions.c:1851
+#: ../plugins/fn-math/functions.c:1862
 msgid "SIGN:sign of @{x}"
 msgstr "SIGN: predznak vrednosti @{x}"
 
-#: ../plugins/fn-math/functions.c:1853
+#: ../plugins/fn-math/functions.c:1864
 msgid "SIGN returns 1 if the @{x} is positive and it returns -1 if @{x} is negative."
 msgstr "Funkcija SIGN vrne vrednost 1, če je @{x} pozitivno in -1, če je @{x} negativno število."
 
-#: ../plugins/fn-math/functions.c:1878
+#: ../plugins/fn-math/functions.c:1889
 msgid "SQRTPI:the square root of @{x} times 𝜋"
 msgstr "SQRTPI: kvadratni koren števila @{x} pomnoženo z 𝜋"
 
-#: ../plugins/fn-math/functions.c:1901
+#: ../plugins/fn-math/functions.c:1912
 msgid "ROUNDDOWN:@{x} rounded towards 0"
 msgstr "ROUNDDOWN: vrednost @{x} zaokrožena proti 0"
 
-#: ../plugins/fn-math/functions.c:1903
-#: ../plugins/fn-math/functions.c:1927
-#: ../plugins/fn-math/functions.c:1968
+#: ../plugins/fn-math/functions.c:1914
+#: ../plugins/fn-math/functions.c:1938
+#: ../plugins/fn-math/functions.c:1979
 msgid "d:integer, defaults to 0"
 msgstr "d: celo število, privzeto je določena vrednost 0"
 
-#: ../plugins/fn-math/functions.c:1904
+#: ../plugins/fn-math/functions.c:1915
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded toward 0 to the given number of digits.\n"
 "If @{d} is zero, @{x} is rounded toward 0 to the next integer.\n"
 "If @{d} is less than zero, @{x} is rounded toward 0 to the left of the decimal point"
 msgstr ""
-"V kolikor je @{d} večji od 0, je vrednost @{x} zaokrožena proti 0 na podano število števk.\n"
+"Če je @{d} večji od 0, je vrednost @{x} zaokrožena proti 0 na podano število števk.\n"
 "Če je @{d} = 0, je @{x} zaokrožen proti 0 na naslednje celo število.\n"
 "V primeru, da je @{d} manj kot 0, je @{x} zaokrožen proti 0 na levo stran decimalne vrednosti."
 
-#: ../plugins/fn-math/functions.c:1925
+#: ../plugins/fn-math/functions.c:1936
 msgid "ROUND:rounded @{x}"
 msgstr "ROUND: zaokrožena vrednost @{x}"
 
-#: ../plugins/fn-math/functions.c:1928
+#: ../plugins/fn-math/functions.c:1939
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded to the given number of digits.\n"
 "If @{d} is zero, @{x} is rounded to the next integer.\n"
 "If @{d} is less than zero, @{x} is rounded to the left of the decimal point"
 msgstr ""
-"V kolikor je @{d} večji od 0, je vrednost @{x} zaokrožena na podano število števk.\n"
+"Če je @{d} večji od 0, je vrednost @{x} zaokrožena na podano število števk.\n"
 "Če je @{d} = 0, je @{x} zaokrožen na naslednje celo število.\n"
 "V primeru, da je @{d} manj kot 0, je @{x} zaokrožen na levo stran decimalne vrednosti."
 
-#: ../plugins/fn-math/functions.c:1966
+#: ../plugins/fn-math/functions.c:1977
 msgid "ROUNDUP:@{x} rounded away from 0"
 msgstr "ROUNDUP: @{x} zaokrožen na število večje od 0"
 
-#: ../plugins/fn-math/functions.c:1969
+#: ../plugins/fn-math/functions.c:1980
 msgid ""
 "If @{d} is greater than zero, @{x} is rounded away from 0 to the given number of digits.\n"
 "If @{d} is zero, @{x} is rounded away from 0 to the next integer.\n"
 "If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decimal point"
 msgstr ""
-"V kolikor je @{d} večji od 0, je vrednost @{x} zaokrožena stran od 0 na podano število števk.\n"
+"Če je @{d} večji od 0, je vrednost @{x} zaokrožena stran od 0 na podano število števk.\n"
 "Če je @{d} = 0, je @{x} zaokrožen stran od 0 na naslednje celo število.\n"
 "V primeru, da je @{d} manj kot 0, je @{x} zaokrožen stran od 0 na levo stran decimalne vrednosti."
 
-#: ../plugins/fn-math/functions.c:2013
+#: ../plugins/fn-math/functions.c:2024
 msgid "MROUND:@{x} rounded to a multiple of @{m}"
 msgstr "MROUND: vrednost @{x} zaokrožena na večkratnik vrednosti @{m}"
 
-#: ../plugins/fn-math/functions.c:2015
+#: ../plugins/fn-math/functions.c:2026
 msgid "m:number"
 msgstr "m: število"
 
-#: ../plugins/fn-math/functions.c:2016
+#: ../plugins/fn-math/functions.c:2027
 msgid "If @{x} and @{m} have different sign, MROUND returns #NUM!"
-msgstr "V kolikor imata @{x} in @{m} različni predznak, funkcija MROUND vrne napako #NUM!."
+msgstr "Če imata @{x} in @{m} različni predznak, funkcija MROUND vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:2059
+#: ../plugins/fn-math/functions.c:2070
 msgid "ARABIC:the Roman numeral @{roman} as number"
 msgstr "ARABIC: @{rimska} številka podana kot število"
 
-#: ../plugins/fn-math/functions.c:2060
+#: ../plugins/fn-math/functions.c:2071
 msgid "roman:Roman numeral"
 msgstr "rimsko: rimska številka"
 
-#: ../plugins/fn-math/functions.c:2061
+#: ../plugins/fn-math/functions.c:2072
 msgid "Any Roman symbol to the left of a larger symbol (directly or indirectly) reduces the final value by the symbol amount, otherwise, it increases the final amount by the symbol's amount."
 msgstr "Vsak rimski simbol zapisan na levi, večjega simbola (posredno ali neposredno), zmanjša končno vrednost za vrednost simbola, sicer ga poveča."
 
-#: ../plugins/fn-math/functions.c:2137
+#: ../plugins/fn-math/functions.c:2148
 msgid "ROMAN:@{n} as a roman numeral text"
 msgstr "ROMAN: število @{n} zapisano kot rimska številka"
 
-#: ../plugins/fn-math/functions.c:2139
+#: ../plugins/fn-math/functions.c:2150
 msgid "type:0,1,2,3,or 4, defaults to 0"
 msgstr "vrsta: 0,1,2,3,ali 4, privzeto je določena vrsta 0"
 
-#: ../plugins/fn-math/functions.c:2140
+#: ../plugins/fn-math/functions.c:2151
 msgid ""
 "ROMAN returns the arabic number @{n} as a roman numeral text.\n"
 "If @{type} is 0 or it is omitted, ROMAN returns classic roman numbers.\n"
@@ -5438,192 +5453,192 @@ msgstr ""
 "Funkcija ROMAN pretvori število, zapisano z arabskimi številkami @{n}, v rimski zapis števil. V primeru, da je @{vrsta} določena kot 0 ali pa je ta argument izpuščen, funkcija ROMAN vrne rimska števila kot besedilni niz.\n"
 "Vrsta 1 je bolj natančna kot običajna vrsta, vrsta 2 bolj kot 1 in vrsta 3 bolj kot 2. Vrsta 4 je poenostavljen zapis."
 
-#: ../plugins/fn-math/functions.c:2387
+#: ../plugins/fn-math/functions.c:2398
 msgid "SUMX2MY2:sum of the difference of squares"
 msgstr "SUMX2MY2: vsota razlike kvadratov"
 
-#: ../plugins/fn-math/functions.c:2388
-#: ../plugins/fn-math/functions.c:2430
-#: ../plugins/fn-math/functions.c:2473
+#: ../plugins/fn-math/functions.c:2399
+#: ../plugins/fn-math/functions.c:2441
+#: ../plugins/fn-math/functions.c:2484
 msgid "array0:first cell area"
 msgstr "polje1: prvi obseg celic"
 
-#: ../plugins/fn-math/functions.c:2389
-#: ../plugins/fn-math/functions.c:2431
-#: ../plugins/fn-math/functions.c:2474
+#: ../plugins/fn-math/functions.c:2400
+#: ../plugins/fn-math/functions.c:2442
+#: ../plugins/fn-math/functions.c:2485
 msgid "array1:second cell area"
 msgstr "polje2: drugi obseg celic"
 
-#: ../plugins/fn-math/functions.c:2390
+#: ../plugins/fn-math/functions.c:2401
 msgid "SUMX2MY2 function returns the sum of the difference of squares of corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2)."
 msgstr "Funkcija SUMX2MY2 vrne vsoto razlik kvadratov ustreznih vrednosti dveh podatkovnih polj. Enačba funkcije SUMX2MY2 je SUM(x^2-y^2)."
 
-#: ../plugins/fn-math/functions.c:2429
+#: ../plugins/fn-math/functions.c:2440
 msgid "SUMX2PY2:sum of the sum of squares"
 msgstr "SUMX2PY2: vsota vsot kvadratov"
 
-#: ../plugins/fn-math/functions.c:2432
+#: ../plugins/fn-math/functions.c:2443
 msgid "SUMX2PY2 function returns the sum of the sum of squares of corresponding values in two arrays. The equation of SUMX2PY2 is SUM(x^2+y^2)."
 msgstr "Funkcija SUMX2PY2 vrne vsoto vsot kvadratov ustreznih vrednosti dveh podatkovnih polj. Enačba funkcije SUMX2PY2 je SUM(x^2+y^2)."
 
-#: ../plugins/fn-math/functions.c:2434
+#: ../plugins/fn-math/functions.c:2445
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMX2PY2 returns #N/A.\n"
 "Strings and empty cells are simply ignored."
 msgstr ""
-"V kolikor imata @{polje0} in @{polje1} različno število podatkovnih točk, funkcija SUMX2PY2 vrne napako #N/A!.\n"
+"Če imata @{polje0} in @{polje1} različno število podatkovnih točk, funkcija SUMX2PY2 vrne napako #N/A!.\n"
 "Nizi in prazne celice so prezirti."
 
-#: ../plugins/fn-math/functions.c:2472
+#: ../plugins/fn-math/functions.c:2483
 msgid "SUMXMY2:sum of the squares of differences"
 msgstr "SUMXMY2:vsota kvadratov razlike"
 
-#: ../plugins/fn-math/functions.c:2475
+#: ../plugins/fn-math/functions.c:2486
 msgid "SUMXMY2 function returns the sum of the squares of the differences of corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2)."
 msgstr "Funkcija SUMXMY2 vrne vsoto kvadratov razlik ustreznih vrednosti dveh podatkovnih polj. Enačba funkcije SUMXMY2 je SUM((x-y)^2)."
 
-#: ../plugins/fn-math/functions.c:2477
+#: ../plugins/fn-math/functions.c:2488
 msgid ""
 "If @{array0} and @{array1} have different number of data points, SUMXMY2 returns #N/A.\n"
 "Strings and empty cells are simply ignored."
 msgstr ""
-"V kolikor imata @{polje0} in @{polje1} različno število podatkovnih točk, funkcija SUMXMY2 vrne napako #N/A!.\n"
+"Če imata @{polje0} in @{polje1} različno število podatkovnih točk, funkcija SUMXMY2 vrne napako #N/A!.\n"
 "Nizi in prazne celice so prezrti."
 
-#: ../plugins/fn-math/functions.c:2517
+#: ../plugins/fn-math/functions.c:2528
 msgid "SERIESSUM:sum of a power series at @{x}"
 msgstr "SERIESSUM: vsota potenčne vrste pri @{x}"
 
-#: ../plugins/fn-math/functions.c:2518
+#: ../plugins/fn-math/functions.c:2529
 msgid "x:number where to evaluate the power series"
 msgstr "x: število za oceno potenčne vrste"
 
-#: ../plugins/fn-math/functions.c:2519
+#: ../plugins/fn-math/functions.c:2530
 msgid "n:non-negative integer, exponent of the lowest term of the series"
 msgstr "n: ne-negativno celo število, potenca okrajšanega ulomka vrste"
 
-#: ../plugins/fn-math/functions.c:2520
+#: ../plugins/fn-math/functions.c:2531
 msgid "m:increment to each exponent"
 msgstr "m: povečanje vsake potence"
 
-#: ../plugins/fn-math/functions.c:2521
+#: ../plugins/fn-math/functions.c:2532
 msgid "coeff:coefficients of the power series"
 msgstr "coeff: koeficienti potenčne vrste"
 
-#: ../plugins/fn-math/functions.c:2575
+#: ../plugins/fn-math/functions.c:2586
 msgid "MINVERSE:the inverse matrix of @{matrix}"
 msgstr "MINVERSE: inverzna matrika @{matrike}"
 
-#: ../plugins/fn-math/functions.c:2576
-#: ../plugins/fn-math/functions.c:2901
+#: ../plugins/fn-math/functions.c:2587
+#: ../plugins/fn-math/functions.c:2912
 msgid "matrix:a square matrix"
 msgstr "matrika: kvadratna matrika"
 
-#: ../plugins/fn-math/functions.c:2577
+#: ../plugins/fn-math/functions.c:2588
 msgid "If @{matrix} is not invertible, MINVERSE returns #NUM!"
-msgstr "V kolikor @{matrika} ni inverzna, funkcija MINVERSE vrne napako #NUM!."
+msgstr "Če @{matrika} ni inverzna, funkcija MINVERSE vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:2578
+#: ../plugins/fn-math/functions.c:2589
 msgid "If @{matrix} does not contain an equal number of columns and rows, MINVERSE returns #VALUE!"
-msgstr "V kolikor @{matrika} nima enakega števila stolpcev in vrstic, funkcija MINVERSE vrne napako #VALUE!"
+msgstr "Če @{matrika} nima enakega števila stolpcev in vrstic, funkcija MINVERSE vrne napako #VALUE!"
 
-#: ../plugins/fn-math/functions.c:2709
+#: ../plugins/fn-math/functions.c:2720
 msgid "CHOLESKY:the Cholesky decomposition of the symmetric positive-definite @{matrix}"
 msgstr "CHOLESKY: razcep Choleskega simetrične pozitivne definitne @{matrike}"
 
-#: ../plugins/fn-math/functions.c:2710
+#: ../plugins/fn-math/functions.c:2721
 msgid "matrix:a symmetric positive definite matrix"
 msgstr "matrika: simetrična pozitivna definitna matrika"
 
-#: ../plugins/fn-math/functions.c:2711
+#: ../plugins/fn-math/functions.c:2722
 msgid "If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky returns #NUM!"
-msgstr "V kolikor algoritem razcepa Choleskega uveljavljen na @{matriki} spodleti, funkcija CHOLESKY vrne napako #NUM!."
+msgstr "Če algoritem razcepa Choleskega uveljavljen na @{matriki} spodleti, funkcija CHOLESKY vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:2712
+#: ../plugins/fn-math/functions.c:2723
 msgid "If @{matrix} does not contain an equal number of columns and rows, CHOLESKY returns #VALUE!"
-msgstr "V kolikor @{matrika} nima enakega števila stolpcev in vrstic, funkcija CHOLESKY vrne napako #VALUE!"
+msgstr "Če @{matrika} nima enakega števila stolpcev in vrstic, funkcija CHOLESKY vrne napako #VALUE!"
 
-#: ../plugins/fn-math/functions.c:2796
+#: ../plugins/fn-math/functions.c:2807
 msgid "MUNIT:the @{n} by @{n} identity matrix"
 msgstr "MUNIT: enotska matrika @{n} krat @{n}"
 
-#: ../plugins/fn-math/functions.c:2797
+#: ../plugins/fn-math/functions.c:2808
 msgid "n:size of the matrix"
 msgstr "n: razsežnost matrike"
 
-#: ../plugins/fn-math/functions.c:2833
+#: ../plugins/fn-math/functions.c:2844
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
 msgstr "MMULT:množenje matrik @{mat1} in @{mat2}"
 
-#: ../plugins/fn-math/functions.c:2834
+#: ../plugins/fn-math/functions.c:2845
 msgid "mat1:a matrix"
 msgstr "mat1: matrika 1"
 
-#: ../plugins/fn-math/functions.c:2835
+#: ../plugins/fn-math/functions.c:2846
 msgid "mat2:a matrix"
 msgstr "mat2: matrika 2"
 
-#: ../plugins/fn-math/functions.c:2900
+#: ../plugins/fn-math/functions.c:2911
 msgid "MDETERM:the determinant of the matrix @{matrix}"
 msgstr "MDETERM:determinanta @{matrike}"
 
-#: ../plugins/fn-math/functions.c:2936
+#: ../plugins/fn-math/functions.c:2947
 msgid "SUMPRODUCT:multiplies components and adds the results"
 msgstr "SUMPRODUCT: vsota zmnožkov ustreznih delov matrike."
 
-#: ../plugins/fn-math/functions.c:2938
-#: ../plugins/fn-math/functions.c:2961
+#: ../plugins/fn-math/functions.c:2949
+#: ../plugins/fn-math/functions.c:2972
 msgid "Multiplies corresponding data entries in the given arrays or ranges, and then returns the sum of those products."
 msgstr "Zmnoži pripadajoče podatkovne vnose v podanem podatkovnem polju ali obsegu in vrne vsoto zmnožkov."
 
-#: ../plugins/fn-math/functions.c:2941
+#: ../plugins/fn-math/functions.c:2952
 msgid "If an entry is not numeric, the value zero is used instead."
-msgstr "V kolikor vnos ni številčna vrednost, je uporabljena vrednost 0."
+msgstr "Če vnos ni številčna vrednost, je uporabljena vrednost 0."
 
-#: ../plugins/fn-math/functions.c:2942
-#: ../plugins/fn-math/functions.c:2965
+#: ../plugins/fn-math/functions.c:2953
+#: ../plugins/fn-math/functions.c:2976
 msgid "If arrays or range arguments do not have the same dimensions, return #VALUE! error."
-msgstr "V kolikor polja ali obsegi vrednosti nimajo enakih razsežnosti, funkcija vrne napako #VALUE!."
+msgstr "Če polja ali obsegi vrednosti nimajo enakih razsežnosti, funkcija vrne napako #VALUE!."
 
-#: ../plugins/fn-math/functions.c:2944
+#: ../plugins/fn-math/functions.c:2955
 msgid "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  Instead use SUMPRODUCT(--(A1:A5>0))"
 msgstr "Funkcija ne upošteva logičnih parametrov, zato formula SUMPRODUCT(A1:A5>0) ne deluje. Uporabiti je treba formulo SUMPRODUCT(--(A1:A5>0))"
 
-#: ../plugins/fn-math/functions.c:2953
+#: ../plugins/fn-math/functions.c:2964
 msgid "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
 msgstr "Ta funkcija ni združljiva s funkcijami programa OpenFormula. Za združljivost je treba uporabiti funkcijo ODF.SUMPRODUCT."
 
-#: ../plugins/fn-math/functions.c:2959
+#: ../plugins/fn-math/functions.c:2970
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
 msgstr "ODF.SUMPRODUCT: vsota zmnožkov ustreznih delov matrike."
 
-#: ../plugins/fn-math/functions.c:2964
+#: ../plugins/fn-math/functions.c:2975
 msgid "If an entry is not numeric or logical, the value zero is used instead."
-msgstr "V kolikor vnos ni številski ali logični, je uporabljena vrednost 0."
+msgstr "Če vnos ni številski ali logični, je uporabljena vrednost 0."
 
-#: ../plugins/fn-math/functions.c:2967
+#: ../plugins/fn-math/functions.c:2978
 msgid "This function differs from SUMPRODUCT by considering booleans."
 msgstr "Funkcija se loči od funkcije SUMPRODUCT po tem, da upošteva tudi logične vrednosti."
 
-#: ../plugins/fn-math/functions.c:2968
+#: ../plugins/fn-math/functions.c:2979
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
 msgstr "Ta funkcija ni združljiva s funkcijami programa MS Excel. Za združljivost je treba uporabiti funkcijo SUMPRODUCT."
 
-#: ../plugins/fn-math/functions.c:3103
+#: ../plugins/fn-math/functions.c:3114
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN: lastna vrednost in lastni vektor simetrične @{matrike}"
 
-#: ../plugins/fn-math/functions.c:3104
+#: ../plugins/fn-math/functions.c:3115
 msgid "matrix:a symmetric matrix"
 msgstr "matrika: simetrična matrika"
 
-#: ../plugins/fn-math/functions.c:3105
+#: ../plugins/fn-math/functions.c:3116
 msgid "If @{matrix} is not symmetric, EIGEN returns #NUM!"
-msgstr "V kolikor @{matrika} ni simetrična, funkcija EIGEN vrne napako #NUM!."
+msgstr "Če @{matrika} ni simetrična, funkcija EIGEN vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:3106
+#: ../plugins/fn-math/functions.c:3117
 msgid "If @{matrix} does not contain an equal number of columns and rows, EIGEN returns #VALUE!"
-msgstr "V kolikor @{matrika} nima enakega števila stolpcev in vrstic, funkcija EIGEN vrne napako #VALUE!"
+msgstr "Če @{matrika} nima enakega števila stolpcev in vrstic, funkcija EIGEN vrne napako #VALUE!"
 
 #: ../plugins/fn-numtheory/numtheory.c:218
 msgid "NT_PHI:Euler's totient function"
@@ -5691,7 +5706,7 @@ msgstr "ISPRIME: ali je vrednost @{n} praštevilo"
 
 #: ../plugins/fn-numtheory/numtheory.c:387
 msgid "ISPRIME returns TRUE if @{n} is prime and FALSE otherwise."
-msgstr "Funkcija ISPRIME vrne vrednost PRAV, v kolikor je @{n} prafaktor števila in NAPAK, če ni."
+msgstr "Funkcija ISPRIME vrne vrednost PRAV, če je @{n} prafaktor števila in NAPAK, če ni."
 
 #: ../plugins/fn-numtheory/numtheory.c:390
 msgid "wolfram:PrimeNumber.html"
@@ -5769,7 +5784,7 @@ msgstr "Funkcija BITLSHIFT vrne dvojiško predstavitev @{a} zamaknjen za @{n} me
 
 #: ../plugins/fn-numtheory/numtheory.c:580
 msgid "If @{n} is negative, BITLSHIFT shifts the bits to the right by ABS(@{n}) positions."
-msgstr "V kolikor je @{n} negativno število, funkcija BITLSHIFT zamakne število za ABS(@{n}) mest v desno."
+msgstr "Če je @{n} negativno število, funkcija BITLSHIFT zamakne število za ABS(@{n}) mest v desno."
 
 #: ../plugins/fn-numtheory/numtheory.c:606
 msgid "BITRSHIFT:bit-shift to the right"
@@ -5781,7 +5796,7 @@ msgstr "Funkcija BITRSHIFT vrne dvojiško predstavitev @{a} zamaknjen za @{n} me
 
 #: ../plugins/fn-numtheory/numtheory.c:610
 msgid "If @{n} is negative, BITRSHIFT shifts the bits to the left by ABS(@{n}) positions."
-msgstr "V kolikor je @{n} negativno število, funkcija BITRSHIFT zamakne število za ABS(@{n}) mest v levo."
+msgstr "Če je @{n} negativno število, funkcija BITRSHIFT zamakne število za ABS(@{n}) mest v levo."
 
 #: ../plugins/fn-r/functions.c:19
 msgid "R.DNORM:probability density function of the normal distribution"
@@ -6493,7 +6508,7 @@ msgstr "b: zgornja limita enakomerne porazdelitve"
 
 #: ../plugins/fn-random/functions.c:67
 msgid "If @{a} > @{b} RANDUNIFORM returns #NUM!"
-msgstr "V kolikor je vrednost @{a} > @{b}, funkcija RANDUNIFORM vrne napako #NUM!."
+msgstr "Če je vrednost @{a} > @{b}, funkcija RANDUNIFORM vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:89
 msgid "RANDDISCRETE:random variate from a finite discrete distribution"
@@ -6541,7 +6556,7 @@ msgstr "λ: parameter Poissonove porazdelitve"
 
 #: ../plugins/fn-random/functions.c:196
 msgid "If @{λ} < 0 RANDPOISSON returns #NUM!"
-msgstr "V kolikor je vrednost @{λ} < 0, funkcija RANDPOISSON vrne napako #NUM!."
+msgstr "Če je vrednost @{λ} < 0, funkcija RANDPOISSON vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:218
 msgid "RANDBINOM:random variate from a binomial distribution"
@@ -6559,11 +6574,11 @@ msgstr "n: število poskusov"
 
 #: ../plugins/fn-random/functions.c:221
 msgid "If @{p} < 0 or @{p} > 1 RANDBINOM returns #NUM!"
-msgstr "V kolikor je vrednost @{p} < 0 ali @{p} > 1, funkcija RANDBINOM vrne napako #NUM!."
+msgstr "Če je vrednost @{p} < 0 ali @{p} > 1, funkcija RANDBINOM vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:222
 msgid "If @{n} < 0 RANDBINOM returns #NUM!"
-msgstr "V kolikor je vrednost @{n} < 0, funkcija RANDBINOM vrne napako #NUM!."
+msgstr "Če je vrednost @{n} < 0, funkcija RANDBINOM vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:244
 msgid "RANDBETWEEN:a random integer number between and including @{bottom} and @{top}"
@@ -6579,7 +6594,7 @@ msgstr "zgoraj: zgornja limita"
 
 #: ../plugins/fn-random/functions.c:248
 msgid "If @{bottom} > @{top}, RANDBETWEEN returns #NUM!"
-msgstr "V kolikor je vrednost @{spodaj} > @{zgoraj}, funkcija RANDBETWEEN vrne napako #NUM!."
+msgstr "Če je vrednost @{spodaj} > @{zgoraj}, funkcija RANDBETWEEN vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:275
 msgid "RANDNEGBINOM:random variate from a negative binomial distribution"
@@ -6591,11 +6606,11 @@ msgstr "n: število neuspešnih poskusov"
 
 #: ../plugins/fn-random/functions.c:278
 msgid "If @{p} < 0 or @{p} > 1 RANDNEGBINOM returns #NUM!"
-msgstr "V kolikor je vrednost @{p} < 0 ali @{p} > 1, funkcija RANDNEGBINOM vrne napako #NUM!."
+msgstr "Če je vrednost @{p} < 0 ali @{p} > 1, funkcija RANDNEGBINOM vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:279
 msgid "If @{n} < 1 RANDNEGBINOM returns #NUM!"
-msgstr "V kolikor je @{n} < 1, funkcija RANDNEGBINOM vrne napako #NUM!."
+msgstr "Če je @{n} < 1, funkcija RANDNEGBINOM vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:300
 msgid "RANDBERNOULLI:random variate from a Bernoulli distribution"
@@ -6608,7 +6623,7 @@ msgstr "p: verjetnost uspeha"
 
 #: ../plugins/fn-random/functions.c:302
 msgid "If @{p} < 0 or @{p} > 1 RANDBERNOULLI returns #NUM!"
-msgstr "V kolikor je vrednost @{p} < 0 ali @{p} > 1, funkcija RANDBERNOULLI vrne napako #NUM!."
+msgstr "Če je vrednost @{p} < 0 ali @{p} > 1, funkcija RANDBERNOULLI vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:324
 msgid "RANDNORM:random variate from a normal distribution"
@@ -6625,7 +6640,7 @@ msgstr "σ: standardni odklon (deviacija) porazdelitve"
 
 #: ../plugins/fn-random/functions.c:327
 msgid "If @{σ} < 0, RANDNORM returns #NUM!"
-msgstr "V kolikor je vrednost @{σ} < 0, funkcija RANDNORM vrne napako #NUM!."
+msgstr "Če je vrednost @{σ} < 0, funkcija RANDNORM vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:349
 msgid "RANDCAUCHY:random variate from a Cauchy or Lorentz distribution"
@@ -6637,7 +6652,7 @@ msgstr "a: parameter merila porazdelitve"
 
 #: ../plugins/fn-random/functions.c:351
 msgid "If @{a} < 0 RANDCAUCHY returns #NUM!"
-msgstr "V kolikor je vrednost @{a} < 0, funkcija RANDCAUCHY vrne napako #NUM!."
+msgstr "Če je vrednost @{a} < 0, funkcija RANDCAUCHY vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:372
 msgid "RANDLOGNORM:random variate from a lognormal distribution"
@@ -6649,7 +6664,7 @@ msgstr "ζ: parameter logaritemsko normalne porazdelitve"
 
 #: ../plugins/fn-random/functions.c:375
 msgid "If @{σ} < 0, RANDLOGNORM returns #NUM!"
-msgstr "V kolikor je vrednost @{σ} < 0, funkcija RANDLOGNORM vrne napako #NUM!."
+msgstr "Če je vrednost @{σ} < 0, funkcija RANDLOGNORM vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:394
 msgid "RANDWEIBULL:random variate from a Weibull distribution"
@@ -6703,7 +6718,7 @@ msgstr "b: parameter Gamma porazdelitve"
 
 #: ../plugins/fn-random/functions.c:477
 msgid "If @{a} ≤ 0, RANDGAMMA returns #NUM!"
-msgstr "V kolikor je @{a} ≤ 0, funkcija RANDGAMMA vrne napako #NUM!."
+msgstr "Če je @{a} ≤ 0, funkcija RANDGAMMA vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:499
 msgid "RANDPARETO:random variate from a Pareto distribution"
@@ -6755,7 +6770,7 @@ msgstr "RANDGEOM: naključna spremenljivka geometrične porazdelitve"
 
 #: ../plugins/fn-random/functions.c:583
 msgid "If @{p} < 0 or @{p} > 1 RANDGEOM returns #NUM!"
-msgstr "V kolikor je @{p} < 0 ali pa @{p} > 1, funkcija RANDGEOM vrne napako #NUM!."
+msgstr "Če je @{p} < 0 ali pa @{p} > 1, funkcija RANDGEOM vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:604
 msgid "RANDHYPERG:random variate from a hypergeometric distribution"
@@ -6779,7 +6794,7 @@ msgstr "RANDLOG: naključna spremenljivka logaritemske porazdelitve"
 
 #: ../plugins/fn-random/functions.c:631
 msgid "If @{p} < 0 or @{p} > 1 RANDLOG returns #NUM!"
-msgstr "V kolikor je vrednost @{p} < 0 ali @{p} > 1, funkcija RANDLOG vrne napako #NUM!."
+msgstr "Če je vrednost @{p} < 0 ali @{p} > 1, funkcija RANDLOG vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:652
 msgid "RANDCHISQ:random variate from a Chi-square distribution"
@@ -6813,7 +6828,7 @@ msgstr "vrsta: vrsta Gumbelove porazdelitve, ki je privzeto je določena na vred
 
 #: ../plugins/fn-random/functions.c:694
 msgid "If @{type} is neither 1 nor 2, RANDGUMBEL returns #NUM!"
-msgstr "V kolikor @{vrsta} ni niti 1 niti 2, funkcija RANDGUMBEL vrne napako #NUM!."
+msgstr "Če @{vrsta} ni niti 1 niti 2, funkcija RANDGUMBEL vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:719
 msgid "RANDLEVY:random variate from a Lévy distribution"
@@ -6841,11 +6856,11 @@ msgstr "Pri vrednostih @{α} = 2, @{β}=0 se Lévyjeva porazdelitev preoblikuje 
 
 #: ../plugins/fn-random/functions.c:727
 msgid "If @{α} ≤ 0 or @{α} > 2, RANDLEVY returns #NUM!"
-msgstr "V kolikor je vrednost @{α} ≤ 0 or @{α} > 2, funkcija RANDLEVY vrne napako #NUM!."
+msgstr "Če je vrednost @{α} ≤ 0 or @{α} > 2, funkcija RANDLEVY vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:728
 msgid "If @{β} < -1 or @{β} > 1, RANDLEVY returns #NUM!"
-msgstr "V kolikor je vrednost @{β} < -1 ali @{β} >1, funkcija RANDLEVY vrne napako #NUM!."
+msgstr "Če je vrednost @{β} < -1 ali @{β} >1, funkcija RANDLEVY vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:751
 msgid "RANDEXPPOW:random variate from an exponential power distribution"
@@ -6939,7 +6954,7 @@ msgstr "Nesimetričnost nesimetrične normalne porazdelitve običajno ni @{𝛼}
 
 #: ../plugins/fn-random/functions.c:906
 msgid "If @{𝜔} < 0, RANDSNORM returns #NUM!"
-msgstr "V kolikor je vrednost @{𝜔} < 0, funkcija RANDSNORM vrne napako #NUM!."
+msgstr "Če je vrednost @{𝜔} < 0, funkcija RANDSNORM vrne napako #NUM!."
 
 #: ../plugins/fn-random/functions.c:941
 msgid "RANDSTDIST:random variate from a skew-t distribution"
@@ -7162,7 +7177,7 @@ msgstr "del: del podatkovne množice, ki je izločen iz podatkov za izračun pov
 
 #: ../plugins/fn-stat/functions.c:274
 msgid "If @{fraction}=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2): the 4 largest and the 4 smallest. To avoid a bias, the number of points to be excluded is always rounded down to the nearest even number."
-msgstr "V kolikor je @{del}=0.2 in podatkovna množica vključuje 40 števil, je skupno 8 števil (4 najvišje vrednosti in 4 najnižje) izločenih (40 x 0.2). V izogib pristranskosti je število točk za izločitev vedno zaokroženo navzdol na najbližje sodo število."
+msgstr "Če je @{del}=0.2 in podatkovna množica vključuje 40 števil, je skupno 8 števil (4 najvišje vrednosti in 4 najnižje) izločenih (40 x 0.2). V izogib pristranskosti je število točk za izločitev vedno zaokroženo navzdol na najbližje sodo število."
 
 #: ../plugins/fn-stat/functions.c:278
 msgid "Then TRIMMEAN(A1:A5,0.2) equals 23.2 and TRIMMEAN(A1:A5,0.4) equals 21.5."
@@ -7264,15 +7279,15 @@ msgstr "p: verjetnost uspeha"
 
 #: ../plugins/fn-stat/functions.c:414
 msgid "If @{f} or @{t} is a non-integer it is truncated."
-msgstr "V kolikor @{f} ali @{t} nista celi števili, sta ti prirezani"
+msgstr "Če @{f} ali @{t} nista celi števili, sta ti prirezani"
 
 #: ../plugins/fn-stat/functions.c:415
 msgid "If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error."
-msgstr "V kolikor je (@{f} + @{t} -1) <= 0, funkcija vrne napako #NUM!."
+msgstr "Če je (@{f} + @{t} -1) <= 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:416
 msgid "If @{p} < 0 or @{p} > 1 this functions returns a #NUM! error."
-msgstr "V kolikor je @{p} < 0 or @{p} > 1, funkcija vrne napako #NUM!."
+msgstr "Če je @{p} < 0 or @{p} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:439
 msgid "NORMSDIST:cumulative density function of the standard normal distribution"
@@ -7302,7 +7317,7 @@ msgstr "p: podana verjetnost"
 
 #: ../plugins/fn-stat/functions.c:465
 msgid "If @{p} < 0 or @{p} > 1 this function returns #NUM! error."
-msgstr "V kolikor je @{p} < 0 or @{p} > 1, funkcija vrne napako #NUM!."
+msgstr "Če je @{p} < 0 or @{p} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:467
 msgid "NORMSINV is the OpenFormula function LEGACY.NORMSINV."
@@ -7324,12 +7339,12 @@ msgstr "stddev: standardni odklon"
 
 #: ../plugins/fn-stat/functions.c:495
 msgid "If @{stddev} = 0 LOGNORMDIST returns a #DIV/0! error."
-msgstr "V kolikor je @{stod} = 0, funkcija LOGNORMDIST vrne napako #DIV/0!."
+msgstr "Če je @{stod} = 0, funkcija LOGNORMDIST vrne napako #DIV/0!."
 
 # stddev = stod
 #: ../plugins/fn-stat/functions.c:496
 msgid "If @{x} <= 0, @{mean} < 0 or @{stddev} <= 0 this function returns a #NUM! error."
-msgstr "V kolikor je @{x} <= 0, @{povprečje} < 0 ali pa @{stod} <= 0, funkcija vrne napako #NUM!."
+msgstr "Če je @{x} <= 0, @{povprečje} < 0 ali pa @{stod} <= 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:500
 #: ../plugins/fn-stat/functions.c:529
@@ -7347,7 +7362,7 @@ msgstr "LOGINV: inverzna funkcija kumulativne funkcije logaritemsko normalne por
 
 #: ../plugins/fn-stat/functions.c:525
 msgid "If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns #NUM! error."
-msgstr "V kolikor je @{p} < 0, je @{p} > 1, ali pa je @{stod} <= 0, funkcija vrne napako #NUM!."
+msgstr "Če je @{p} < 0, je @{p} > 1, ali pa je @{stod} <= 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:552
 msgid "FISHERINV:inverse of the Fisher transformation"
@@ -7355,7 +7370,7 @@ msgstr "FISHERINV: inverzna funkcija Fisherjeve transformacije"
 
 #: ../plugins/fn-stat/functions.c:554
 msgid "If @{x} is a non-number this function returns a #VALUE! error."
-msgstr "V kolikor je @{x} neštevilčna vrednost, funkcija vrne napako #VALUE!."
+msgstr "Če je @{x} neštevilčna vrednost, funkcija vrne napako #VALUE!."
 
 #: ../plugins/fn-stat/functions.c:570
 msgid "MODE:first most common number in the dataset"
@@ -7405,7 +7420,7 @@ msgstr "število2: druga vrednost"
 
 #: ../plugins/fn-stat/functions.c:574
 msgid "If the data set does not contain any duplicates this function returns a #N/A error."
-msgstr "V kolikor podatkovna množica ne vsebuje podvojenih nizov, funkcija vrne napako #N/A."
+msgstr "Če podatkovna množica ne vsebuje podvojenih nizov, funkcija vrne napako #N/A."
 
 #: ../plugins/fn-stat/functions.c:576
 msgid "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 11.4, 25.9, and 40.1."
@@ -7525,7 +7540,7 @@ msgstr "To ima pomen le, če ima osnovna porazdelitev moment tretjega reda. Nesi
 
 #: ../plugins/fn-stat/functions.c:825
 msgid "If less than three numbers are given, this function returns a #DIV/0! error."
-msgstr "V kolikor so podane manj kot tri številke, funkcija vrne napako #DIV/0!"
+msgstr "Če so podane manj kot tri številke, funkcija vrne napako #DIV/0!"
 
 #: ../plugins/fn-stat/functions.c:828
 msgid "Then SKEW(A1:A5) equals 0.976798268."
@@ -7537,7 +7552,7 @@ msgstr "SKEWP: nesimetričnost podatkovne množice populacije"
 
 #: ../plugins/fn-stat/functions.c:851
 msgid "If less than two numbers are given, SKEWP returns a #DIV/0! error."
-msgstr "V kolikor sta podani manj kot dve številki, funkcija SKEWP vrne napako #DIV/0!"
+msgstr "Če sta podani manj kot dve številki, funkcija SKEWP vrne napako #DIV/0!"
 
 #: ../plugins/fn-stat/functions.c:853
 msgid "Then SKEWP(A1:A5) equals 0.655256198."
@@ -7565,7 +7580,7 @@ msgstr "V primeru, da je možnost @{vrsta} logični NAPAK, funkcija vrne:\t@{y} 
 
 #: ../plugins/fn-stat/functions.c:879
 msgid "If @{x} < 0 or @{y} <= 0 this will return an error."
-msgstr "V kolikor je @{x} < 0 ali pa je @{y} <= 0, funkcija vrne napako."
+msgstr "Če je @{x} < 0 ali pa je @{y} <= 0, funkcija vrne napako."
 
 #: ../plugins/fn-stat/functions.c:905
 msgid "BERNOULLI:probability mass function of a Bernoulli distribution"
@@ -7577,7 +7592,7 @@ msgstr "k: celo število"
 
 #: ../plugins/fn-stat/functions.c:908
 msgid "If @{k} != 0 and @{k} != 1 this function returns a #NUM! error."
-msgstr "V kolikor je @{k} != 0 in @{k} != 1, funkcija vrne napako #NUM!."
+msgstr "Če je @{k} != 0 in @{k} != 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:909
 #: ../plugins/fn-stat/functions.c:978
@@ -7588,7 +7603,7 @@ msgstr "V kolikor je @{k} != 0 in @{k} != 1, funkcija vrne napako #NUM!."
 #: ../plugins/fn-stat/functions.c:1604
 #: ../plugins/fn-stat/functions.c:4328
 msgid "If @{p} < 0 or @{p} > 1 this function returns a #NUM! error."
-msgstr "V kolikor je @{p} < 0 ali pa @{p} > 1, funkcija vrne napako #NUM!."
+msgstr "Če je @{p} < 0 ali pa @{p} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:941
 msgid "GAMMADIST:probability density or cumulative distribution function of the gamma distribution"
@@ -7615,13 +7630,13 @@ msgstr "beta: parameter merila"
 #: ../plugins/fn-stat/functions.c:1755
 #: ../plugins/fn-stat/functions.c:1984
 msgid "If @{x} < 0 this function returns a #NUM! error."
-msgstr "V kolikor je @{x} < 0, funkcija vrne napako #NUM!."
+msgstr "Če je @{x} < 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:947
 #: ../plugins/fn-stat/functions.c:1153
 #: ../plugins/fn-stat/functions.c:1190
 msgid "If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error."
-msgstr "V kolikor je @{alfa} <= 0 ali pa je @{beta} <= 0, funkcija vrne napako #NUM!."
+msgstr "Če je @{alfa} <= 0 ali pa je @{beta} <= 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:974
 msgid "GAMMAINV:inverse of the cumulative gamma distribution"
@@ -7630,7 +7645,7 @@ msgstr "GAMMAINV: inverzna funkcija kumulativne gama porazdelitve"
 #: ../plugins/fn-stat/functions.c:979
 #: ../plugins/fn-stat/functions.c:1756
 msgid "If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error."
-msgstr "V kolikor je @{alfa} <= 0 ali pa je @{beta} <= 0, funkcija vrne napako #NUM!."
+msgstr "Če je @{alfa} <= 0 ali pa je @{beta} <= 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1004
 msgid "CHIDIST:survival function of the chi-squared distribution"
@@ -7654,12 +7669,12 @@ msgstr "Funkcija preživetja je 1 minus zbirna funkcija porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:1008
 msgid "If @{dof} is non-integer it is truncated."
-msgstr "V kolikor vrednost @{df} ni celoštevilska vrednost, je ta prirezana."
+msgstr "Če vrednost @{df} ni celoštevilska vrednost, je ta prirezana."
 
 #: ../plugins/fn-stat/functions.c:1009
 #: ../plugins/fn-stat/functions.c:1223
 msgid "If @{dof} < 1 this function returns a #NUM! error."
-msgstr "V kolikor je @{df} < 1, funkcija vrne napako #NUM!."
+msgstr "Če je @{df} < 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1011
 msgid "CHIDIST(@{x},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{x},@{dof})."
@@ -7672,7 +7687,7 @@ msgstr "CHIINV: inverzna funkcija funkcije preživetja porazdelitve hi-kvadrat"
 #: ../plugins/fn-stat/functions.c:1036
 #: ../plugins/fn-stat/functions.c:1274
 msgid "If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error."
-msgstr "V kolikor je @{p} < 0, je @{p} > 1 ali pa je @{df} < 1, funkcija vrne napako #NUM!."
+msgstr "Če je @{p} < 0, je @{p} > 1 ali pa je @{df} < 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1038
 msgid "CHIINV(@{p},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{p},@{dof})."
@@ -7714,12 +7729,12 @@ msgstr "b: izbirna zgornja meja, privzeto določena kot 1"
 
 #: ../plugins/fn-stat/functions.c:1152
 msgid "If @{x} < @{a} or @{x} > @{b} this function returns a #NUM! error."
-msgstr "V kolikor je @{x} < @{a} ali pa @{x} > @{b}, funkcija vrne napako #NUM!."
+msgstr "Če je @{x} < @{a} ali pa @{x} > @{b}, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1154
 #: ../plugins/fn-stat/functions.c:1191
 msgid "If @{a} >= @{b} this function returns a #NUM! error."
-msgstr "V kolikor je @{a} >= @{b}, funkcija vrne napako #NUM!."
+msgstr "Če je @{a} >= @{b}, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1183
 msgid "BETAINV:inverse of the cumulative distribution function of the beta distribution"
@@ -7735,7 +7750,7 @@ msgstr "repi: 1 ali 2"
 
 #: ../plugins/fn-stat/functions.c:1224
 msgid "If @{tails} is neither 1 or 2 this function returns a #NUM! error."
-msgstr "V kolikor število @{repov} ni ne 1 in ne 2, funkcija vrne napako #NUM!."
+msgstr "Če število @{repov} ni ne 1 in ne 2, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1225
 msgid "The parameterization of this function is different from what is used for, e.g., NORMSDIST.  This is a common source of mistakes, but necessary for compatibility."
@@ -7769,7 +7784,7 @@ msgstr "df imenovalca: imenovalec prostostnih stopenj"
 
 #: ../plugins/fn-stat/functions.c:1311
 msgid "If @{dof_of_num} < 1 or @{dof_of_denom} < 1, this function returns a #NUM! error."
-msgstr "V kolikor je @{df števca} < 1 ali pa je @{df imenovalca} < 1, funkcija vrne napako #NUM!."
+msgstr "Če je @{df števca} < 1 ali pa je @{df imenovalca} < 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1313
 msgid "FDIST is the OpenFormula function LEGACY.FDIST."
@@ -7785,7 +7800,7 @@ msgstr "FINV: inverzna funkcija funkcije preživetja F porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:1477
 msgid "If @{dof_of_num} < 1 or @{dof_of_denom} < 1 this function returns a #NUM! error."
-msgstr "V kolikor je @{df števca} < 1 ali pa je @{df imenovalca} < 1, funkcija vrne napako #NUM!."
+msgstr "Če je @{df števca} < 1 ali pa je @{df imenovalca} < 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1479
 msgid "FINV is the OpenFormula function LEGACY.FINV."
@@ -7820,15 +7835,15 @@ msgstr "vrsta: ali naj bo ocenjena verjetnostna funkcija ali zbirna funkcija por
 
 #: ../plugins/fn-stat/functions.c:1506
 msgid "If @{n} or @{trials} are non-integer they are truncated."
-msgstr "V kolikor @{n} ali pa število @{poskusov} nista celoštevilski vrednosti, so ta prirezana."
+msgstr "Če @{n} ali pa število @{poskusov} nista celoštevilski vrednosti, so ta prirezana."
 
 #: ../plugins/fn-stat/functions.c:1507
 msgid "If @{n} < 0 or @{trials} < 0 this function returns a #NUM! error."
-msgstr "V kolikor je @{n} < 0 ali pa je število @{poskusov} < 0, funkcija vrne napako #NUM!."
+msgstr "Če je @{n} < 0 ali pa je število @{poskusov} < 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1508
 msgid "If @{n} > @{trials} this function returns a #NUM! error."
-msgstr "V kolikor je @{n} < od števila @{poskusovk}, funkcija vrne napako #NUM!."
+msgstr "Če je @{n} < od števila @{poskusovk}, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1536
 msgid "BINOM.DIST.RANGE:probability of the binomial distribution over an interval"
@@ -7844,16 +7859,16 @@ msgstr "konec: konec intervala, privzeto je enak @{začetku}"
 
 #: ../plugins/fn-stat/functions.c:1541
 msgid "If @{start}, @{end} or @{trials} are non-integer they are truncated."
-msgstr "V kolikor @{začetek}, @{konec} ali @{poskusi} niso celoštevilske vrednosti, so te prirezane."
+msgstr "Če @{začetek}, @{konec} ali @{poskusi} niso celoštevilske vrednosti, so te prirezane."
 
 #: ../plugins/fn-stat/functions.c:1542
 #: ../plugins/fn-stat/functions.c:1603
 msgid "If @{trials} < 0 this function returns a #NUM! error."
-msgstr "V kolikor je število @{poskusov} < 0, funkcija vrne napako #NUM!."
+msgstr "Če je število @{poskusov} < 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1544
 msgid "If @{start} > @{end} this function returns 0."
-msgstr "V kolikor je @{začetek} > @{konca} funkcija vrne vrednost 0."
+msgstr "Če je @{začetek} > @{konca} funkcija vrne vrednost 0."
 
 #: ../plugins/fn-stat/functions.c:1567
 msgid "CAUCHY:probability density or cumulative distribution function of the Cauchy, Lorentz or Breit-Wigner distribution"
@@ -7867,7 +7882,7 @@ msgstr "a:parameter merila"
 
 #: ../plugins/fn-stat/functions.c:1572
 msgid "If @{a} < 0 this function returns a #NUM! error."
-msgstr "V kolikor je @{a} < 0, funkcija vrne napako #NUM!."
+msgstr "Če je @{a} < 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1573
 #: ../plugins/fn-stat/functions.c:4329
@@ -7884,11 +7899,11 @@ msgstr "alfa: raven statistične značilnosti (območje repa)"
 
 #: ../plugins/fn-stat/functions.c:1602
 msgid "If @{trials} is a non-integer it is truncated."
-msgstr "V kolikor število @{poskusov} ni celo število, je to prirezano"
+msgstr "Če število @{poskusov} ni celo število, je to prirezano"
 
 #: ../plugins/fn-stat/functions.c:1605
 msgid "If @{alpha} < 0 or @{alpha} > 1 this function returns a #NUM! error."
-msgstr "V kolikor je @{alfa} < 0 ali pa je @{alfa} > 1, funkcija vrne napako #NUM!."
+msgstr "Če je @{alfa} < 0 ali pa je @{alfa} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1628
 msgid "PERMUT:number of @{k}-permutations of a @{n}-set"
@@ -7904,11 +7919,11 @@ msgstr "k: število predmetov v vsaki permutaciji"
 
 #: ../plugins/fn-stat/functions.c:1631
 msgid "If @{n} = 0 this function returns a #NUM! error."
-msgstr "V kolikor je @{n} = 0, funkcija vrne napako #NUM!."
+msgstr "Če je @{n} = 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1632
 msgid "If @{n} < @{k} this function returns a #NUM! error."
-msgstr "V kolikor je @{n} < @{k}, funkcija vrne napako #NUM!."
+msgstr "Če je @{n} < @{k}, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1654
 msgid "HYPGEOMDIST:probability mass or cumulative distribution function of the hypergeometric distribution"
@@ -7932,15 +7947,15 @@ msgstr "N: velikost populacije"
 
 #: ../plugins/fn-stat/functions.c:1660
 msgid "If @{x},@{n},@{M} or @{N} is a non-integer it is truncated."
-msgstr "V kolikor @{x}, @{n}, @{M} ali @{t} niso cela števili, so ta prirezana."
+msgstr "Če @{x}, @{n}, @{M} ali @{t} niso cela števili, so ta prirezana."
 
 #: ../plugins/fn-stat/functions.c:1661
 msgid "If @{x},@{n},@{M} or @{N} < 0 this function returns a #NUM! error."
-msgstr "V kolikor so @{x},@{n},@{M} ali @{N} < 0, funkcija vrne napako #NUM!."
+msgstr "Če so @{x},@{n},@{M} ali @{N} < 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1662
 msgid "If @{x} > @{M} or @{n} > @{N} this function returns a #NUM! error."
-msgstr "V kolikor je @{x} > @{M} ali pa je @{n} > @{N}, funkcija vrne napako #NUM!."
+msgstr "Če je @{x} > @{M} ali pa je @{n} > @{N}, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1690
 msgid "CONFIDENCE:margin of error of a confidence interval for the population mean"
@@ -7964,15 +7979,15 @@ msgstr "Ta funkcija zahteva sicer neznan standardni odklon populacije."
 
 #: ../plugins/fn-stat/functions.c:1695
 msgid "If @{size} is non-integer it is truncated."
-msgstr "V kolikor @{velikost} ni celo število, je ta prirezana."
+msgstr "Če @{velikost} ni celo število, je ta prirezana."
 
 #: ../plugins/fn-stat/functions.c:1696
 msgid "If @{size} < 0 this function returns a #NUM! error."
-msgstr "V kolikor je @{size} < 0, funkcija vrne napako #NUM!."
+msgstr "Če je @{size} < 0, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1697
 msgid "If @{size} is 0 this function returns a #DIV/0! error."
-msgstr "V kolikor je @{velikost} enaka 0, funkcija vrne napako #DIV/0!."
+msgstr "Če je @{velikost} enaka 0, funkcija vrne napako #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:1720
 msgid "STANDARDIZE:z-score of a value"
@@ -7989,7 +8004,7 @@ msgstr "stod: standardni odklon izvorne porazdelitve"
 #: ../plugins/fn-stat/functions.c:1724
 #: ../plugins/fn-stat/functions.c:1788
 msgid "If @{stddev} is 0 this function returns a #DIV/0! error."
-msgstr "V kolikor je @{stod} enaka 0, funkcija vrne napako #DIV/0!."
+msgstr "Če je @{stod} enaka 0, funkcija vrne napako #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:1747
 msgid "WEIBULL:probability density or cumulative distribution function of the Weibull distribution"
@@ -8020,7 +8035,7 @@ msgstr "NORMINV: inverzna funkcija zbirne funkcije normalne porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:1820
 msgid "If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns a #NUM! error."
-msgstr "V kolikor je @{p} < 0, je @{p} > 1 ali pa je @{stod} <= 0, funkcija vrne napako #NUM!."
+msgstr "Če je @{p} < 0, je @{p} > 1 ali pa je @{stod} <= 0, funkcija vrne napako #NUM!."
 
 # kurtosis = sploščenost
 #: ../plugins/fn-stat/functions.c:1844
@@ -8033,7 +8048,7 @@ msgstr "To je pomensko le v primeru, da ima osnovna porazdelitev moment četrteg
 
 #: ../plugins/fn-stat/functions.c:1852
 msgid "If fewer than four numbers are given or all of them are equal this function returns a #DIV/0! error."
-msgstr "V kolikor so podane manj kot štiri številke ali pa so vse enake, funkcija vrne napako #DIV/0!"
+msgstr "Če so podane manj kot štiri številke ali pa so vse enake, funkcija vrne napako #DIV/0!"
 
 #: ../plugins/fn-stat/functions.c:1856
 msgid "Then KURT(A1:A5) equals 1.234546305."
@@ -8045,7 +8060,7 @@ msgstr "KURTP: sploščenost populacije podatkovne množice"
 
 #: ../plugins/fn-stat/functions.c:1879
 msgid "If fewer than two numbers are given or all of them are equal this function returns a #DIV/0! error."
-msgstr "V kolikor sta podani manj kot dve številki ali pa sta enaki, funkcija vrne napako #DIV/0!"
+msgstr "Če sta podani manj kot dve številki ali pa sta enaki, funkcija vrne napako #DIV/0!"
 
 #: ../plugins/fn-stat/functions.c:1882
 msgid "Then KURTP(A1:A5) equals -0.691363424."
@@ -8073,11 +8088,11 @@ msgstr "FISHER: Fisherjeva transformacija"
 
 #: ../plugins/fn-stat/functions.c:1952
 msgid "If @{x} is not a number, this function returns a #VALUE! error."
-msgstr "V kolikor @{x} ni število, funkcija vrne napako #VALUE!."
+msgstr "Če @{x} ni število, funkcija vrne napako #VALUE!."
 
 #: ../plugins/fn-stat/functions.c:1953
 msgid "If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error."
-msgstr "V kolikor je @{x} <= -1 or @{x} >= 1, funkcija vrne napako #NUM!."
+msgstr "Če je @{x} <= -1 or @{x} >= 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1979
 msgid "POISSON:probability mass or cumulative distribution function of the Poisson distribution"
@@ -8089,11 +8104,11 @@ msgstr "x: število dogodkov"
 
 #: ../plugins/fn-stat/functions.c:1983
 msgid "If @{x} is a non-integer it is truncated."
-msgstr "V kolikor @{x} ni celo število, je to prirezano"
+msgstr "Če @{x} ni celo število, je to prirezano"
 
 #: ../plugins/fn-stat/functions.c:1985
 msgid "If @{mean} <= 0 POISSON returns the #NUM! error."
-msgstr "V kolikor je @{povprečje} <= 0, funkcija POISSON vrne napako #NUM!."
+msgstr "Če je @{povprečje} <= 0, funkcija POISSON vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2011
 msgid "PEARSON:Pearson correlation coefficient of the paired set of data"
@@ -8119,7 +8134,7 @@ msgstr "MEDIAN: mediana srednja vrednost podatkovne množice"
 
 #: ../plugins/fn-stat/functions.c:2058
 msgid "If even numbers are given MEDIAN returns the average of the two numbers in the center."
-msgstr "V kolikor je podano sodo število števil, funkcija MEDIAN vrne povprečno vrednost dveh števil na sredini."
+msgstr "Če je podano sodo število števil, funkcija MEDIAN vrne povprečno vrednost dveh števil na sredini."
 
 #: ../plugins/fn-stat/functions.c:2062
 msgid "Then MEDIAN(A1:A5) equals 21.3."
@@ -8167,11 +8182,11 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:2771
 #: ../plugins/fn-stat/functions.c:2813
 msgid "If @{array} is empty, this function returns a #NUM! error."
-msgstr "V kolikor je podatkovno @{polje} prazno, funkcija vrne napako #NUM!."
+msgstr "Če je podatkovno @{polje} prazno, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2099
 msgid "If @{interval} <= 0, this function returns a #NUM! error. SSMEDIAN does not check whether the data points are at least @{interval} apart."
-msgstr "V kolikor je @{interval} <= 0, funkcija vrne napako #NUM!. Funkcija SSMEDIAN tudi ne preveri ali so podatkovne točke vsaj za vrednost @{intervala} narazen."
+msgstr "Če je @{interval} <= 0, funkcija vrne napako #NUM!. Funkcija SSMEDIAN tudi ne preveri ali so podatkovne točke vsaj za vrednost @{intervala} narazen."
 
 #: ../plugins/fn-stat/functions.c:2186
 msgid "LARGE:@{k}-th largest value in a data set"
@@ -8190,12 +8205,12 @@ msgstr "k: vrednost za iskanje"
 #: ../plugins/fn-stat/functions.c:2189
 #: ../plugins/fn-stat/functions.c:2232
 msgid "If data set is empty this function returns a #NUM! error."
-msgstr "V kolikor je podatkovna množica prazna, funkcija vrne napako #NUM!."
+msgstr "Če je podatkovna množica prazna, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2190
 #: ../plugins/fn-stat/functions.c:2233
 msgid "If @{k} <= 0 or @{k} is greater than the number of data items given this function returns a #NUM! error."
-msgstr "V kolikor je @{k} <= 0 ali pa je @{k} večji od števila predmetov podatkovne množice, funkcija vrne napako #NUM!."
+msgstr "Če je @{k} <= 0 ali pa je @{k} večji od števila predmetov podatkovne množice, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2195
 msgid "Then LARGE(A1:A5,2) equals 25.9.LARGE(A1:A5,4) equals 17.3."
@@ -8266,7 +8281,7 @@ msgstr "znane vrednosti x: znane vrednosti spremenljivke x"
 
 #: ../plugins/fn-stat/functions.c:2362
 msgid "If @{known_ys} and @{known_xs} are empty or have a different number of arguments then this function returns a #N/A error."
-msgstr "V kolikor so @{znane vrednosti x} in @{znane vrednosti y} prazne ali pa imajo različno število argumentov, funkcija vrne napako #N/A!."
+msgstr "Če so @{znane vrednosti x} in @{znane vrednosti y} prazne ali pa imajo različno število argumentov, funkcija vrne napako #N/A!."
 
 #: ../plugins/fn-stat/functions.c:2368
 msgid "Then STEYX(A1:A5,B1:B5) equals 1.101509979."
@@ -8294,7 +8309,7 @@ msgstr "Funkcija ZTEST izračuna verjetnost opazovanja povprečne vrednosti vzor
 
 #: ../plugins/fn-stat/functions.c:2420
 msgid "If @{ref} contains less than two data items ZTEST returns #DIV/0! error."
-msgstr "V kolikor vsebuje @{sklic} manj kot dva podatka, funkcija ZTEST vrne napako #DIV/0!."
+msgstr "Če vsebuje @{sklic} manj kot dva podatka, funkcija ZTEST vrne napako #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:2426
 msgid "Then ZTEST(A1:A5,20) equals 0.254717826."
@@ -8404,19 +8419,19 @@ msgstr "značilno število: število značilnih števk, privzeto določeno na 3"
 
 #: ../plugins/fn-stat/functions.c:2675
 msgid "If @{array} contains no data points, this function returns a #NUM! error."
-msgstr "V kolikor podatkovno @{polje} ne vsebuje podatkovnih točk, funkcija vrne napako #NUM!."
+msgstr "Če podatkovno @{polje} ne vsebuje podatkovnih točk, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2677
 msgid "If @{significance} is less than one, this function returns a #NUM! error."
-msgstr "V kolikor je statistična @{značilnost} manjša kot ena, funkcija vrne napako #NUM!."
+msgstr "Če je statistična @{značilnost} manjša kot ena, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2679
 msgid "If @{x} exceeds the largest value or is less than the smallest value in @{array}, this function returns a #NUM! error."
-msgstr "V kolikor @{x} preseže največjo vrednost ali pa je manjši od najmanjše vrednosti v podatkovnem @{polju}, funkcija vrne napako #NUM!."
+msgstr "Če @{x} preseže največjo vrednost ali pa je manjši od najmanjše vrednosti v podatkovnem @{polju}, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2681
 msgid "If @{x} does not match any of the values in @{array} or @{x} matches more than once, this function interpolates the returned value."
-msgstr "V kolikor vrednost @{x} ni skladna z nobeno vrednostjo @{polja} ali pa se @{x} sklada več kot enkrat, funkcija vrne interpolirano vrednost."
+msgstr "Če vrednost @{x} ni skladna z nobeno vrednostjo @{polja} ali pa se @{x} sklada več kot enkrat, funkcija vrne interpolirano vrednost."
 
 #: ../plugins/fn-stat/functions.c:2768
 msgid "PERCENTILE:determines the  100*@{k}-th percentile of the given data points"
@@ -8433,7 +8448,7 @@ msgstr "k: kateri percentil naj bo izračunan"
 
 #: ../plugins/fn-stat/functions.c:2772
 msgid "If @{k} < 0 or @{k} > 1, this function returns a #NUM! error."
-msgstr "V kolikor je @{k} < 0 ali @{k} > 1, funkcija vrne napako #NUM!."
+msgstr "Če je @{k} < 0 ali @{k} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2775
 msgid "Then PERCENTILE(A1:A5,0.42) equals 20.02."
@@ -8453,7 +8468,7 @@ msgstr "V koliko je @{kvartil} < 0 ali pa je @{kvartil} > 4, funkcija vrne napak
 
 #: ../plugins/fn-stat/functions.c:2815
 msgid "If @{quart} is not an integer, it is truncated."
-msgstr "V kolikor @{kvartil} ni celo število, je vrednost prirezana"
+msgstr "Če @{kvartil} ni celo število, je vrednost prirezana"
 
 #: ../plugins/fn-stat/functions.c:2818
 msgid "Then QUARTILE(A1:A5,1) equals 17.3."
@@ -8491,7 +8506,7 @@ msgstr "vrsta: vrsta testa. Vrednost 1 določa spremenljivke dveh odvisnih vzorc
 
 #: ../plugins/fn-stat/functions.c:2918
 msgid "If the data sets contain a different number of data points and the test is paired (@{type} one), TTEST returns the #N/A error."
-msgstr "V kolikor vsebujeta podatkovni množici različno število podatkovnih točk in je test opredeljen od test dveh odvisnih vzorcev (@{vrsta} ena), funkcija TTEST vrne napako #N/A!."
+msgstr "Če vsebujeta podatkovni množici različno število podatkovnih točk in je test opredeljen od test dveh odvisnih vzorcev (@{vrsta} ena), funkcija TTEST vrne napako #N/A!."
 
 #: ../plugins/fn-stat/functions.c:2920
 msgid "@{tails} and @{type} are truncated to integers."
@@ -8499,11 +8514,11 @@ msgstr "Vrednosti @{repov} in @{vrste} so prirezane na celoštevilske vrednosti.
 
 #: ../plugins/fn-stat/functions.c:2921
 msgid "If @{tails} is not one or two, this function returns a #NUM! error."
-msgstr "V kolikor vrednost @{repov} ni ne 1 in ne 2, funkcija vrne napako #NUM!."
+msgstr "Če vrednost @{repov} ni ne 1 in ne 2, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2922
 msgid "If @{type} is any other than one, two, or three, this function returns a #NUM! error."
-msgstr "V kolikor @{vrsta} ni ne 1, 2, ali 3, funkcija vrne napako #NUM!."
+msgstr "Če @{vrsta} ni ne 1, 2, ali 3, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2927
 msgid "Then TTEST(A1:A5,B1:B5,1,1) equals 0.003127619.TTEST(A1:A5,B1:B5,2,1) equals 0.006255239.TTEST(A1:A5,B1:B5,1,2) equals 0.111804322.TTEST(A1:A5,B1:B5,1,3) equals 0.113821797."
@@ -8570,7 +8585,7 @@ msgstr "Če je @{afino} logično NAPAK, je R^2 nesredinjena različica koeficien
 #: ../plugins/fn-stat/functions.c:3325
 #: ../plugins/fn-stat/functions.c:3620
 msgid "If the length of @{known_ys} does not match the corresponding length of @{known_xs}, this function returns a #NUM! error."
-msgstr "V kolikor dolžina @{znanih vrednosti y} ni skladna z ustrezno dolžino @{znanih vrednosti x}, funkcija vrne napako #NUM!."
+msgstr "Če dolžina @{znanih vrednosti y} ni skladna z ustrezno dolžino @{znanih vrednosti x}, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:3404
 msgid "LOGREG:the logarithmic regression"
@@ -8598,7 +8613,7 @@ msgstr "Dodatne statistične podrobnosti so izpisane pod vrednostmi m in b v pod
 #: ../plugins/fn-stat/functions.c:3781
 #: ../plugins/fn-stat/functions.c:3872
 msgid "If @{known_ys} and @{known_xs} have unequal number of data points, this function returns a #NUM! error."
-msgstr "V kolikor imajo @{znane vrednosti x} in @{znane vrednosti y} neenako število podatkovnih točk, funkcija vrne napako #NUM!."
+msgstr "Če imajo @{znane vrednosti x} in @{znane vrednosti y} neenako število podatkovnih točk, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:3520
 msgid "LOGFIT:logarithmic least square fit (using a trial and error method)"
@@ -8692,11 +8707,11 @@ msgstr "Funkcija oceni bodočo vrednost glede na obstoječe vrednosti z uporabo 
 #: ../plugins/fn-stat/functions.c:4012
 #: ../plugins/fn-stat/functions.c:4065
 msgid "If @{known_xs} or @{known_ys} contains no data entries or different number of data entries, this function returns a #N/A error."
-msgstr "V kolikor @{znane vrednosti x} ali @{znane vrednosti y} ne vsebujejo podatkovnih vnosov ali pa imajo različno število teh vnosov, funkcija vrne napako #N/A!."
+msgstr "Če @{znane vrednosti x} ali @{znane vrednosti y} ne vsebujejo podatkovnih vnosov ali pa imajo različno število teh vnosov, funkcija vrne napako #N/A!."
 
 #: ../plugins/fn-stat/functions.c:3957
 msgid "If the variance of the @{known_xs} is zero, this function returns a #DIV/0 error."
-msgstr "V kolikor je varianca @{znanih vrednosti x} enaka 0, funkcija vrne napako #DIV/0!."
+msgstr "Če je varianca @{znanih vrednosti x} enaka 0, funkcija vrne napako #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:3963
 msgid "Then FORECAST(7,A1:A5,B1:B5) equals -10.859397661."
@@ -8709,7 +8724,7 @@ msgstr "INTERCEPT: presečišče linearne regresijske premice"
 #: ../plugins/fn-stat/functions.c:4014
 #: ../plugins/fn-stat/functions.c:4067
 msgid "If the variance of the @{known_xs} is zero, this function returns #DIV/0 error."
-msgstr "V kolikor je varianca @{znanih vrednosti x} enaka 0, funkcija vrne napako #DIV/0!."
+msgstr "Če je varianca @{znanih vrednosti x} enaka 0, funkcija vrne napako #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:4020
 msgid "Then INTERCEPT(A1:A5,B1:B5) equals -20.785117212."
@@ -8798,7 +8813,7 @@ msgstr "p: verjetnost uspeha v kateremkoli poskusu"
 
 #: ../plugins/fn-stat/functions.c:4327
 msgid "If @{k} < 0 this function returns a #NUM! error."
-msgstr "V kolikor je @{k} < 0 funkcija vrne napako #NUM!."
+msgstr "Če je @{k} < 0 funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:4354
 msgid "LOGISTIC:probability density function of the logistic distribution"
@@ -8864,15 +8879,15 @@ msgstr "y: število izbranih predmetov"
 
 #: ../plugins/fn-stat/functions.c:4552
 msgid "If both @{x} and @{y} equal 0, PERMUTATIONA returns 1."
-msgstr "V kolikor sta vrednosti @{x} in @{y} enaki 0, funkcija PERMUTATIONA vrne vrednost 1."
+msgstr "Če sta vrednosti @{x} in @{y} enaki 0, funkcija PERMUTATIONA vrne vrednost 1."
 
 #: ../plugins/fn-stat/functions.c:4553
 msgid "If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!"
-msgstr "V kolikor je vrednost @{x} < @{y} < 0, funkcija PERMUTATIONA vrne napako #NUM!."
+msgstr "Če je vrednost @{x} < @{y} < 0, funkcija PERMUTATIONA vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:4554
 msgid "If @{x} or @{y} are not integers, they are truncated"
-msgstr "V kolikor @{x} ali @{y} nista celi števili, sta ti prirezani."
+msgstr "Če @{x} ali @{y} nista celi števili, sta ti prirezani."
 
 #: ../plugins/fn-stat/functions.c:4582
 msgid "LKSTEST:Lilliefors (Kolmogorov-Smirnov) Test of Normality"
@@ -8891,7 +8906,7 @@ msgstr "Funkcija vrne podatkovno polje, kjer je prva vrstica vrednost-p Lilliefo
 
 #: ../plugins/fn-stat/functions.c:4586
 msgid "If there are less than 5 sample values, LKSTEST returns #VALUE!"
-msgstr "V kolikor je manj kot 5 vrednosti vzorca, funkcija LKTEST vrne napako #VALUE!"
+msgstr "Če je manj kot 5 vrednosti vzorca, funkcija LKTEST vrne napako #VALUE!"
 
 #: ../plugins/fn-stat/functions.c:4588
 msgid "wiki:en:Lilliefors_test"
@@ -8907,7 +8922,7 @@ msgstr "Funkcija vrne podatkovno polje, kjer je prva vrstica vrednost-p Shapiro-
 
 #: ../plugins/fn-stat/functions.c:4703
 msgid "If there are less than 5 or more than 5000 sample values, SFTEST returns #VALUE!"
-msgstr "V kolikor je manj kot 8 ali več kot 5000 vrednosti vzorca, funkcija SFTEST vrne napako #VALUE!"
+msgstr "Če je manj kot 8 ali več kot 5000 vrednosti vzorca, funkcija SFTEST vrne napako #VALUE!"
 
 #: ../plugins/fn-stat/functions.c:4783
 msgid "CVMTEST:Cramér-von Mises Test of Normality"
@@ -8919,7 +8934,7 @@ msgstr "Funkcija vrne podatkovno polje, kjer je prva vrstica vrednost-p Cramér-
 
 #: ../plugins/fn-stat/functions.c:4787
 msgid "If there are less than 8 sample values, CVMTEST returns #VALUE!"
-msgstr "V kolikor je manj kot 8 vrednosti vzorca, funkcija CMVTEST vrne napako #VALUE!"
+msgstr "Če je manj kot 8 vrednosti vzorca, funkcija CMVTEST vrne napako #VALUE!"
 
 #: ../plugins/fn-stat/functions.c:4789
 msgid "wiki:en:Cramér–von-Mises_criterion"
@@ -8935,7 +8950,7 @@ msgstr "Funkcija vrne podatkovno polje, kjer je prva vrstica vrednost-p Anderson
 
 #: ../plugins/fn-stat/functions.c:4872
 msgid "If there are less than 8 sample values, ADTEST returns #VALUE!"
-msgstr "V kolikor je manj kot 8 vrednosti vzorca, funkcija ADTEST vrne napako #VALUE!"
+msgstr "Če je manj kot 8 vrednosti vzorca, funkcija ADTEST vrne napako #VALUE!"
 
 #: ../plugins/fn-stat/functions.c:4874
 msgid "wiki:en:Anderson–Darling_test"
@@ -9007,7 +9022,7 @@ msgstr "UNICODE: kodna točka nabora Unikod za znak @{c}"
 
 #: ../plugins/fn-string/functions.c:244
 msgid "EXACT:TRUE if @{string1} is exactly equal to @{string2}"
-msgstr "EXACT: funkcija vrne PRAV, v kolikor je @{niz1} natanko enak @{nizu2}"
+msgstr "EXACT: funkcija vrne PRAV, če je @{niz1} natanko enak @{nizu2}"
 
 #: ../plugins/fn-string/functions.c:245
 msgid "string1:first string"
@@ -9047,7 +9062,7 @@ msgstr "število znakov: število prikazanih znakov (privzeto določeno na 1)"
 
 #: ../plugins/fn-string/functions.c:302
 msgid "If the string @{s} is in a right-to-left script, the returned first characters are from the right of the string."
-msgstr "V kolikor je niz @{s} zapisan od desne-proti-levi, so vrnjeni znaki z desne strani."
+msgstr "Če je niz @{s} zapisan od desne-proti-levi, so vrnjeni znaki z desne strani."
 
 #: ../plugins/fn-string/functions.c:331
 msgid "LEFTB:the first characters  of the string @{s} comprising at most @{num_bytes} bytes"
@@ -9069,7 +9084,7 @@ msgstr "Skladnja te funkcije bo verjetno spremenjena, saj je vgrajena v različn
 
 #: ../plugins/fn-string/functions.c:335
 msgid "If the string is in a right-to-left script, the returned first characters are from the right of the string."
-msgstr "V kolikor je niz zapisan od desne-proti-levi, so vrnjeni znaki z desne strani niza."
+msgstr "Če je niz zapisan od desne-proti-levi, so vrnjeni znaki z desne strani niza."
 
 #: ../plugins/fn-string/functions.c:336
 #: ../plugins/fn-string/functions.c:428
@@ -9144,7 +9159,7 @@ msgstr "RIGHT: določeno @{število znakov}, ki se pojavljajo na koncu niza @{s}
 #: ../plugins/fn-string/functions.c:513
 #: ../plugins/fn-string/functions.c:550
 msgid "If the string @{s} is in a right-to-left script, the returned last characters are from the left of the string."
-msgstr "V kolikor je niz @{s} zapisan od desne-proti-levi, je vrnjeno število znakov z leve strani niza."
+msgstr "Če je niz @{s} zapisan od desne-proti-levi, je vrnjeno število znakov z leve strani niza."
 
 #: ../plugins/fn-string/functions.c:546
 msgid "RIGHTB:the last characters of the string @{s} comprising at most @{num_bytes} bytes"
@@ -9206,7 +9221,7 @@ msgstr "decimalke: število decimalnih mest"
 
 #: ../plugins/fn-string/functions.c:736
 msgid "no_commas:TRUE if no thousand separators should be used, defaults to FALSE"
-msgstr "brez ločilnika: funkcija vrne PRAV, v kolikor ločilnik tisočic ni uporabljen; privzeto je izbrano NAPAK"
+msgstr "brez ločilnika: funkcija vrne PRAV, če ločilnik tisočic ni uporabljen; privzeto je izbrano NAPAK"
 
 #: ../plugins/fn-string/functions.c:793
 msgid "PROPER:@{text} with initial of each word capitalised"
@@ -9289,7 +9304,7 @@ msgstr "ločilnik: ločilnik decimalnih mest"
 
 #: ../plugins/fn-string/functions.c:1100
 msgid "If @{text} does not look like a decimal number, NUMBERVALUE returns the value VALUE would return (ignoring the given @{separator})."
-msgstr "V kolikor @{besedilo} ni decimalno število, funkcija NUMBERVALUE vrne vrednost VREDNOST (in prezre podan @{ločilnik})."
+msgstr "Če @{besedilo} ni decimalno število, funkcija NUMBERVALUE vrne vrednost VREDNOST (in prezre podan @{ločilnik})."
 
 #: ../plugins/fn-string/functions.c:1156
 msgid "SUBSTITUTE:@{text} with all occurrences of @{old} replaced by @{new}"
@@ -9306,7 +9321,7 @@ msgstr "staro: niz, ki bo zamenjan"
 
 #: ../plugins/fn-string/functions.c:1160
 msgid "num:if @{num} is specified and a number only the @{num}th occurrence of @{old} is replaced"
-msgstr "število: v kolikor je @{število} določeno in je številka, je zamenjana le @{števila}-ta pojavitev @{starega} niza."
+msgstr "število: če je @{število} določeno in je številka, je zamenjana le @{števila}-ta pojavitev @{starega} niza."
 
 #: ../plugins/fn-string/functions.c:1230
 msgid "DOLLAR:@{num} formatted as currency"
@@ -9343,11 +9358,11 @@ msgstr "To iskanje ne upošteva velikosti črk."
 
 #: ../plugins/fn-string/functions.c:1313
 msgid "If @{search} is not found, SEARCH returns #VALUE!"
-msgstr "V kolikor @{iskalnega niza} ni mogoče najti, funkcija SEARCH vrne napako #VALUE!."
+msgstr "Če @{iskalnega niza} ni mogoče najti, funkcija SEARCH vrne napako #VALUE!."
 
 #: ../plugins/fn-string/functions.c:1314
 msgid "If @{start} is less than one or it is greater than the length of @{text}, SEARCH returns #VALUE!"
-msgstr "V kolikor je @{začetni} niz manjši od ena ali pa večji od dolžine @{besedila}, funkcija SEARCH vrne napako #VALUE!."
+msgstr "Če je @{začetni} niz manjši od ena ali pa večji od dolžine @{besedila}, funkcija SEARCH vrne napako #VALUE!."
 
 #: ../plugins/fn-string/functions.c:1371
 msgid "SEARCHB:the location of the @{search} string within @{text} after byte position @{start}"
@@ -9355,11 +9370,11 @@ msgstr "SEARCHB: vrne mesto @{iskalnega niza} znotraj @{besedila} po @{začetnem
 
 #: ../plugins/fn-string/functions.c:1382
 msgid "If @{search} is not found, SEARCHB returns #VALUE!"
-msgstr "V kolikor @{iskalnega niza} ni mogoče najti, funkcija SEARCHB vrne napako #VALUE!."
+msgstr "Če @{iskalnega niza} ni mogoče najti, funkcija SEARCHB vrne napako #VALUE!."
 
 #: ../plugins/fn-string/functions.c:1383
 msgid "If @{start} is less than one or it is greater than the byte length of @{text}, SEARCHB returns #VALUE!"
-msgstr "V kolikor je @{začetni} niz manjši od ena ali pa večji od bajtne dolžine @{besedila}, funkcija SEARCHB vrne napako #VALUE!."
+msgstr "Če je @{začetni} niz manjši od ena ali pa večji od bajtne dolžine @{besedila}, funkcija SEARCHB vrne napako #VALUE!."
 
 #: ../plugins/fn-string/functions.c:1439
 msgid "ASC:text with full-width katakana and ASCII characters converted to half-width"
@@ -9440,15 +9455,15 @@ msgstr "Odvod je vedno izpisan v enem stolpcu števil."
 
 #: ../plugins/fn-tsa/functions.c:388
 msgid "The @{abscissae} should be given in increasing order. If the @{abscissae} is not in increasing order the INTERPOLATION function is significantly slower."
-msgstr "Vrednosti @{abscis} morajo biti podane v naraščajočem redu. V kolikor vrednosti @{abscis} niso ustrezno urejene, deluje funkcija INTERPOLATION opazno počasneje."
+msgstr "Vrednosti @{abscis} morajo biti podane v naraščajočem redu. Če vrednosti @{abscis} niso ustrezno urejene, deluje funkcija INTERPOLATION opazno počasneje."
 
 #: ../plugins/fn-tsa/functions.c:390
 msgid "If any two @{abscissae} values are equal an error is returned."
-msgstr "V kolikor sta katerikoli dve vrednosti @{abscis} enaki, funkcija vrne napako."
+msgstr "Če sta katerikoli dve vrednosti @{abscis} enaki, funkcija vrne napako."
 
 #: ../plugins/fn-tsa/functions.c:391
 msgid "If any of interpolation methods 1 ('linear with averaging'), 3 ('staircase with averaging'), and 5 ('natural cubic spline with averaging') is used, the number of returned values is one less than the number of targets and the target values must be given in increasing order. The values returned are the average heights of the interpolation function on the intervals determined by consecutive target values."
-msgstr "V kolikor je uporabljena ena izmed metod interpolacije; 1 ('linearna s povprečenjem'), 3 ('stopničasta s povprečenjem') oziroma 5 ('interpolacija z naravnimi kubičnimi zlepki s povprečenjem'), je število vrnjenih vrednosti manjše od števila ciljev, vrednosti ciljev pa morajo biti razvrščeni v naraščajočem vrstnem redu. Vrnjene vrednosti so povprečne višine interpolirane funkcije na intervalih, določenih v zaporedju ciljnih vrednosti."
+msgstr "Če je uporabljena ena izmed metod interpolacije; 1 ('linearna s povprečenjem'), 3 ('stopničasta s povprečenjem') oziroma 5 ('interpolacija z naravnimi kubičnimi zlepki s povprečenjem'), je število vrnjenih vrednosti manjše od števila ciljev, vrednosti ciljev pa morajo biti razvrščeni v naraščajočem vrstnem redu. Vrnjene vrednosti so povprečne višine interpolirane funkcije na intervalih, določenih v zaporedju ciljnih vrednosti."
 
 #: ../plugins/fn-tsa/functions.c:398
 #: ../plugins/fn-tsa/functions.c:582
@@ -9458,7 +9473,7 @@ msgstr "Celica z nizi in prazne celice @{abscise} in @{ordinate} so prezrte."
 #: ../plugins/fn-tsa/functions.c:399
 #: ../plugins/fn-tsa/functions.c:583
 msgid "If several target data are provided they must be in the same column in consecutive cells."
-msgstr "V kolikor je podanih več ciljnih podatkov, morajo biti ti v istem stolpcu v zaporednih navpičnih celicah."
+msgstr "Če je podanih več ciljnih podatkov, morajo biti ti v istem stolpcu v zaporednih navpičnih celicah."
 
 #: ../plugins/fn-tsa/functions.c:568
 msgid "PERIODOGRAM:periodogram of the given data"
@@ -9529,12 +9544,12 @@ msgstr "V primeru, da je argument @{ločenosti} določen, je odvod sestavljen iz
 
 #: ../plugins/fn-tsa/functions.c:833
 msgid "If @{Separate} is true the first output column contains the real parts and the second column the imaginary parts."
-msgstr "V kolikor je argument @{ločenosti} določen, pomeni, da prvi stolpec določa realne, drugi stolpec pa imaginarne vrednosti."
+msgstr "Če je argument @{ločenosti} določen, pomeni, da prvi stolpec določa realne, drugi stolpec pa imaginarne vrednosti."
 
 #: ../plugins/fn-tsa/functions.c:834
 #: ../plugins/fn-tsa/functions.c:931
 msgid "If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #VALUE!"
-msgstr "V kolikor @{zaporedje} ni niti polje n x 1 niti 1 x n, funkcija vrne napako #VALUE!"
+msgstr "Če @{zaporedje} ni niti polje n x 1 niti 1 x n, funkcija vrne napako #VALUE!"
 
 #: ../plugins/fn-tsa/functions.c:926
 msgid "HPFILTER:Hodrick Prescott Filter"
@@ -9554,7 +9569,7 @@ msgstr "Izhod sestavljata dva stolpca števil, prvi vsebuje komponento trenda, d
 
 #: ../plugins/fn-tsa/functions.c:932
 msgid "If @{Sequence} contians less than 6 numerical values, this function returns #VALUE!"
-msgstr "V kolikor vsebuje @{zaporedje} le 6 številčnih vrednosti, funkcija vrne napako #VALUE!"
+msgstr "Če vsebuje @{zaporedje} le 6 številčnih vrednosti, funkcija vrne napako #VALUE!"
 
 #: ../plugins/gda/plugin-gda.c:306
 msgid "EXECSQL:result of executing @{sql} in the libgda data source @{dsn}"
