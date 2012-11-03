@@ -1,3 +1,11 @@
+2012-11-03  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (row_info_equal): Rename from row_style_eq.
+	(compare_row_styles): New function.
+	(odf_write_content_rows): Handle repeated rows that have
+	non-default style too.  Avoid single-cell style lookups in favour
+	of getting the whole row in one go.  Fixes #687243.
+
 2012-10-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (finder): deleted

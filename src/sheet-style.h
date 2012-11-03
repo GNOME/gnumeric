@@ -25,6 +25,7 @@ GnmStyle *sheet_style_default		(Sheet const *sheet);
 GnmStyle const *sheet_style_get		(Sheet const *sheet, int col, int row);
 GnmStyle *sheet_style_find  		(Sheet const *sheet, GnmStyle *st);
 void	 sheet_style_get_row		(Sheet const *sheet, GnmStyleRow *sr);
+GnmStyle **sheet_style_get_row2		(Sheet const *sheet, int row);
 void	 sheet_style_apply_border	(Sheet *sheet, GnmRange const *r,
 					 GnmBorder **borders);
 void	 sheet_style_apply_range	(Sheet *sheet, GnmRange const *r,

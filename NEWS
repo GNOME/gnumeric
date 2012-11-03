@@ -12,7 +12,7 @@ Jean:
 
 Morten:
 	* Fix xlsx save performance problems.  [#662058]  [#685530]
-	* Fix ods save performance problems.  [#662057]
+	* Fix ods save performance problems.  [#662057, #687243]
 	* Make .gnumeric use fewer style rectangles for the same style.
 	* Short-circuit column resize for large stf imports.  [#686858]
 	* Enhance POWER to do root of negative numbers.  [#687269]

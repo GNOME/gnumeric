@@ -1552,6 +1552,38 @@ sheet_style_get_row (Sheet const *sheet, GnmStyleRow *sr)
 	get_style_row (sheet->style_data->styles, sheet->tile_top_level, 0, 0, sr);
 }
 
+static void
+cb_get_row (GnmStyle *style,
+	    int corner_col, G_GNUC_UNUSED int corner_row,
+	    int width, G_GNUC_UNUSED int height,
+	    GnmRange const *apply_to, gpointer user_)
+{
+	GnmStyle **res = user_;
+	int i;
+
+	/* The given dimensions refer to the tile, not the area. */
+	width = MIN (width, apply_to->end.col - corner_col + 1);
+
+	for (i = 0; i < width; i++)
+		res[corner_col + i] = style;
+}
+
+GnmStyle **
+sheet_style_get_row2 (Sheet const *sheet, int row)
+{
+	GnmRange r;
+	GnmStyle **res = g_new (GnmStyle *, gnm_sheet_get_max_cols (sheet));
+
+	range_init_rows (&r, sheet, row, row);
+
+	foreach_tile (sheet->style_data->styles,
+		      sheet->tile_top_level, 0, 0, &r,
+		      cb_get_row, res);
+
+	return res;
+}
+
+
 /**
  * style_row_init :
  *

@@ -3416,8 +3416,8 @@ write_row_style (GnmOOExport *state, ColRowInfo const *ci,
 }
 
 static gboolean
-row_style_eq (GnmOOExport *state, Sheet const *sheet,
-	      ColRowInfo const *ci1, ColRowInfo const *ci2)
+row_info_equal (GnmOOExport *state, Sheet const *sheet,
+		ColRowInfo const *ci1, ColRowInfo const *ci2)
 {
 	if (ci1 == ci2)
 		return TRUE;
@@ -3432,6 +3432,20 @@ row_style_eq (GnmOOExport *state, Sheet const *sheet,
 					    FALSE);
 		return g_str_equal (n1, n2);
 	}
+}
+
+static gboolean
+compare_row_styles (const Sheet *sheet, GnmStyle **styles, int orow)
+{
+	GnmStyle **ostyles = sheet_style_get_row2 (sheet, orow);
+	gboolean res;
+
+	res = !memcmp (styles, ostyles,
+		       gnm_sheet_get_max_cols (sheet) * sizeof (GnmStyle *));
+
+	g_free (ostyles);
+
+	return res;
 }
 
 static GSList *
@@ -3512,16 +3526,21 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 		g_free (non_defaults_rows);
 	}
 
-	for (row = from; row < to; row++) {
+	for (row = from; row < to; /* nothing here */) {
 		ColRowInfo const *ci = sheet_row_get (sheet, row);
 		GnmStyle const *null_style = NULL;
 		int null_cell = 0;
 		int covered_cell = 0;
 		GnmCellPos pos;
+		int repeat_count = 1;
+		guint8 rf = row_flags[row];
+		GnmStyle **row_styles =	(rf & RF_STYLE)
+			? sheet_style_get_row2 (sheet, row)
+			: NULL;
 
 		pos.row = row;
 
-		if (row_flags[row] & RF_PAGEBREAK)
+		if (rf & RF_PAGEBREAK)
 			gsf_xml_out_simple_element (state->xml,
 						    TEXT "soft-page-break",
 						    NULL);
@@ -3529,26 +3548,34 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 		gsf_xml_out_start_element (state->xml, TABLE "table-row");
 		write_row_style (state, ci, sheet);
 
-		if (row_flags[row] == 0) {
-			int count = 1;
-			while (row + count < to &&
-			       row_flags[row + count] == 0 &&
-			       row_style_eq (state, sheet, ci, sheet_row_get (sheet, row + count)))
-				count++;
-			if (count > 1) {
-				gsf_xml_out_add_int (state->xml, TABLE "number-rows-repeated",
-						     count);
-				row += (count - 1);
-			}
+		if ((rf & ~RF_STYLE) == 0) {
+			/*
+			 * We have nothing but style (possibly default) in this
+			 * row, so see if some rows following this one are
+			 * identical.
+			 */
+			int row2;
+			while ((row2 = row + repeat_count) < to &&
+			       row_flags[row2] == rf &&
+			       row_info_equal (state, sheet, ci, sheet_row_get (sheet, row2)) &&
+			       (rf == 0 || compare_row_styles (sheet, row_styles, row2)))
+				repeat_count++;
 
-		} else {
+			if (repeat_count > 1)
+				gsf_xml_out_add_int (state->xml, TABLE "number-rows-repeated",
+						     repeat_count);
+		}
+
+		if (rf) {
 			int col;
 
 			for (col = 0; col < row_length; col++) {
 				GnmCell *current_cell;
 				GnmRange const	*merge_range;
 				GSList *objects;
-				GnmStyle const *this_style;
+				GnmStyle const *this_style = row_styles
+					? row_styles[col]
+					: col_styles[col];
 
 				current_cell = g_ptr_array_index (all_cells, cno);
 				if (current_cell &&
@@ -3559,6 +3586,7 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 					current_cell = NULL;
 
 				pos.col = col;
+
 				merge_range = gnm_sheet_merge_is_corner (sheet, &pos);
 
 				if (odf_cell_is_covered (sheet, current_cell, col, row,
@@ -3569,15 +3597,14 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 					continue;
 				}
 
-				objects = (row_flags[row] & RF_OBJECT)
+				objects = (rf & RF_OBJECT)
 					? odf_sheet_objects_get (sheet, &pos)
 					: NULL;
 
 				if ((!(current_cell && gnm_cell_has_expr(current_cell))) &&
 				    (merge_range == NULL) && (objects == NULL) &&
 				    gnm_cell_is_empty (current_cell) &&
-				    NULL == gnm_style_get_hlink
-				    ((this_style = sheet_style_get (sheet, pos.col, pos.row)))) {
+				    !gnm_style_get_hlink (this_style)) {
 					if ((null_cell == 0) || (null_style == this_style)) {
 						null_style = this_style;
 						if (covered_cell > 0)
@@ -3607,6 +3634,9 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 			odf_write_covered_cell (state, &covered_cell);
 
 		gsf_xml_out_end_element (state->xml);   /* table-row */
+
+		row += repeat_count;
+		g_free (row_styles);
 	}
 
 	g_ptr_array_free (all_cells, TRUE);
