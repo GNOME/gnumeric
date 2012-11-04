@@ -1,3 +1,8 @@
+2012-11-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-sheet-resize.c (cb_ok_clicked): fix sheet focus after resizing.
+	[#687188]
+
 2012-09-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-cell-format.c (fmt_dialog_init_align_page): fixed indentation.

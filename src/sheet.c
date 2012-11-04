@@ -3736,6 +3736,14 @@ cell_ordering (gconstpointer a_, gconstpointer b_)
 	return a->pos.col - b->pos.col;
 }
 
+/**
+ * sheet_cells:
+ * @sheet: a #Sheet
+ * @r: a #GnmRange
+ *
+ * Retrieves an array of all cells inside @r.
+ * Returns: (transfer container): the cells array.
+ **/
 GPtrArray *
 sheet_cells (Sheet *sheet, const GnmRange *r)
 {

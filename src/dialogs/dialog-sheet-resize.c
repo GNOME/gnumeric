@@ -111,6 +111,7 @@ cb_ok_clicked (ResizeState *state)
 	Workbook *wb;
 	gboolean all_sheets;
 	int cols, rows;
+	Sheet *cur_sheet;
 
 	get_sizes (state, &cols, &rows);
 	all_sheets = gtk_toggle_button_get_active
@@ -118,6 +119,7 @@ cb_ok_clicked (ResizeState *state)
 
 	wbc = WORKBOOK_CONTROL (state->wbcg);
 	wb = wb_control_get_workbook (wbc);
+	cur_sheet = wb_control_cur_sheet (wbc);
 	sheets = workbook_sheets (wb);
 	for (l = sheets; l; l = l->next) {
 		Sheet *this_sheet = l->data;
@@ -137,6 +139,7 @@ cb_ok_clicked (ResizeState *state)
 		cmd_resize_sheets (wbc, g_slist_reverse (changed_sheets),
 				   cols, rows);
 
+	wb_control_sheet_focus (wbc, cur_sheet);
 	gtk_widget_destroy (state->dialog);
 }
 
