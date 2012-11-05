@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-sheet-resize.c: Dialog to resize current or all sheets.
  *
@@ -111,34 +112,43 @@ cb_ok_clicked (ResizeState *state)
 	Workbook *wb;
 	gboolean all_sheets;
 	int cols, rows;
-	Sheet *cur_sheet;
 
 	get_sizes (state, &cols, &rows);
 	all_sheets = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->all_sheets_button));
 
 	wbc = WORKBOOK_CONTROL (state->wbcg);
-	wb = wb_control_get_workbook (wbc);
-	cur_sheet = wb_control_cur_sheet (wbc);
-	sheets = workbook_sheets (wb);
-	for (l = sheets; l; l = l->next) {
-		Sheet *this_sheet = l->data;
 
-		if (!all_sheets && this_sheet != state->sheet)
-			continue;
-
-		if (cols == gnm_sheet_get_max_cols (this_sheet) &&
-		    rows == gnm_sheet_get_max_rows (this_sheet))
-			continue;
-
-		changed_sheets = (this_sheet == cur_sheet)?
-							g_slist_append (changed_sheets, this_sheet):
-							g_slist_prepend (changed_sheets, this_sheet);
+	if (all_sheets) {
+		wb = wb_control_get_workbook (wbc);
+		sheets = workbook_sheets (wb);
+		for (l = sheets; l; l = l->next) {
+			Sheet *this_sheet = l->data;
+			
+			if (this_sheet == state->sheet)
+				continue;
+			
+			if (cols == gnm_sheet_get_max_cols (this_sheet) &&
+			    rows == gnm_sheet_get_max_rows (this_sheet))
+				continue;
+			
+			changed_sheets = g_slist_prepend (changed_sheets, this_sheet);
+		}
+		g_slist_free (sheets);
 	}
-	g_slist_free (sheets);
+
+	if (changed_sheets ||
+	    cols != gnm_sheet_get_max_cols (state->sheet) ||
+	    rows != gnm_sheet_get_max_rows (state->sheet)) {
+		/* We also append the sheet if it isn't changed in size */
+		/* to ensure that the focus stays on the current sheet. */
+		changed_sheets = g_slist_prepend (changed_sheets, state->sheet);
+	}
+
+	
 
 	if (changed_sheets)
-		cmd_resize_sheets (wbc, g_slist_reverse (changed_sheets),
+		cmd_resize_sheets (wbc, changed_sheets,
 				   cols, rows);
 
 	gtk_widget_destroy (state->dialog);
