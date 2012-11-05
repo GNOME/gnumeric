@@ -3474,7 +3474,7 @@ enum {
 
 static void
 odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to,
-			G_GNUC_UNUSED int col_from, G_GNUC_UNUSED int col_to, int row_length,
+			int row_length,
 			GSList **sheet_merges, GnmPageBreaks *pb, GnmStyle **col_styles)
 {
 	int row;
@@ -3655,13 +3655,9 @@ odf_write_sheet (GnmOOExport *state)
 	int max_cols = gnm_sheet_get_max_cols (sheet);
 	int max_rows = gnm_sheet_get_max_rows (sheet);
 	GnmStyle **col_styles = g_new0 (GnmStyle *, max_cols);
-	GnmRange extent, cell_extent, r;
+	GnmRange r;
 	GSList *sheet_merges = NULL;
 	GnmPageBreaks *pb = sheet->print_info->page_breaks.v;
-
-	extent = sheet_get_extent (sheet, FALSE);
-	cell_extent = sheet_get_cells_extent (sheet);
-	extent = range_union (&extent, &cell_extent);
 
 	col_styles = sheet_style_most_common (sheet, TRUE);
 
@@ -3693,24 +3689,20 @@ odf_write_sheet (GnmOOExport *state)
 		if (repeat_top_start > 0)
 			odf_write_content_rows (state, sheet,
 						0, repeat_top_start,
-						extent.start.col, extent.end.col + 1,
 						max_cols, &sheet_merges, pb, col_styles);
 		gsf_xml_out_start_element
 			(state->xml, TABLE "table-header-rows");
 		odf_write_content_rows (state, sheet,
 					repeat_top_start, repeat_top_end + 1,
-					extent.start.col, extent.end.col + 1,
 					max_cols, &sheet_merges, pb, col_styles);
 		gsf_xml_out_end_element (state->xml);
 		if (repeat_top_end < max_rows)
 			odf_write_content_rows (state, sheet,
 						repeat_top_end + 1, max_rows,
-						extent.start.col, extent.end.col + 1,
 						max_cols, &sheet_merges, pb, col_styles);
 	} else
 		odf_write_content_rows (state, sheet,
 					0, max_rows,
-					extent.start.col, extent.end.col + 1,
 					max_cols, &sheet_merges, pb, col_styles);
 
 	g_slist_free_full (sheet_merges, g_free);
