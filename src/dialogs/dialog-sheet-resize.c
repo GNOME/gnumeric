@@ -131,7 +131,9 @@ cb_ok_clicked (ResizeState *state)
 		    rows == gnm_sheet_get_max_rows (this_sheet))
 			continue;
 
-		changed_sheets = g_slist_prepend (changed_sheets, this_sheet);
+		changed_sheets = (this_sheet == cur_sheet)?
+							g_slist_append (changed_sheets, this_sheet):
+							g_slist_prepend (changed_sheets, this_sheet);
 	}
 	g_slist_free (sheets);
 
@@ -139,7 +141,6 @@ cb_ok_clicked (ResizeState *state)
 		cmd_resize_sheets (wbc, g_slist_reverse (changed_sheets),
 				   cols, rows);
 
-	wb_control_sheet_focus (wbc, cur_sheet);
 	gtk_widget_destroy (state->dialog);
 }
 
