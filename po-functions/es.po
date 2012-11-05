@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-02 17:53+0000\n"
-"PO-Revision-Date: 2012-11-03 10:58+0100\n"
+"POT-Creation-Date: 2012-11-05 03:49+0000\n"
+"PO-Revision-Date: 2012-11-05 17:38+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -6112,18 +6112,16 @@ msgid "If @{x} ≤ -1, LN returns #NUM! error."
 msgstr "Si @{x} ≤ -1, LN devuelve un error #NUM!."
 
 #: ../plugins/fn-math/functions.c:1216
-#, fuzzy
-#| msgid "POWER:the value of @{x} raised to the power @{y}"
 msgid ""
 "POWER:the value of @{x} raised to the power @{y} raised to the power of 1/@"
 "{z}"
-msgstr "POWER:el valor de @{x} elevado a la potencia @{y}"
+msgstr ""
+"POWER:el valor de @{x} elevado a la potencia @{y} elevado a la potencia de 1/"
+"@{z}"
 
 #: ../plugins/fn-math/functions.c:1219
-#, fuzzy
-#| msgid "X:number"
 msgid "z:number"
-msgstr "X:número"
+msgstr "z:número"
 
 #: ../plugins/fn-math/functions.c:1220
 msgid "If both @{x} and @{y} equal 0, POWER returns #NUM!"
@@ -6138,22 +6136,16 @@ msgid "If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!"
 msgstr "Si @{x} < 0 e @{y} no es un entero, POWER devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:1223
-#, fuzzy
-#| msgid "@{par} defaults to $1000."
 msgid "@{z} defaults to 1"
-msgstr "@{par} predeterminado es $1000"
+msgstr "@{z} predeterminado es 1"
 
 #: ../plugins/fn-math/functions.c:1224
-#, fuzzy
-#| msgid "If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!"
 msgid "If @{z} is not a positive integer, POWER returns #NUM!"
-msgstr "Si @{x} < 0 e @{y} no es un entero, POWER devuelve #NUM!"
+msgstr "Si @{z} no es un entero positivo, POWER devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:1225
-#, fuzzy
-#| msgid "If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!"
 msgid "If @{x} < 0, @{y} is odd, and @{z} is even, POWER returns #NUM!"
-msgstr "Si @{x} < 0 e @{y} no es un entero, POWER devuelve #NUM!"
+msgstr "Si @{x} < 0, @{y} es impar y @{z} es par, POWER devuelve #NUM!"
 
 #: ../plugins/fn-math/functions.c:1258
 msgid "LOG2:the base-2 logarithm of @{x}"
@@ -9149,71 +9141,72 @@ msgstr "Si @{alfa} <= 0 o @{beta} <= 0, esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:974
 msgid "GAMMAINV:inverse of the cumulative gamma distribution"
-msgstr ""
+msgstr "GAMMAINV:inverso de la distribución gama acumulativa"
 
 #: ../plugins/fn-stat/functions.c:979 ../plugins/fn-stat/functions.c:1756
 msgid "If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{alfa} <= 0 o @{beta} <= 0 esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1004
-#, fuzzy
 msgid "CHIDIST:survival function of the chi-squared distribution"
-msgstr ""
-"R.QCHISQ: función del cuantil de probabilidad de la distribución chi "
-"cuadarado."
+msgstr "CHIDIST:función de supervivencia de la distribución chi-cuadrado"
 
 #: ../plugins/fn-stat/functions.c:1006 ../plugins/fn-stat/functions.c:1034
 #: ../plugins/fn-stat/functions.c:1220 ../plugins/fn-stat/functions.c:1272
 msgid "dof:number of degrees of freedom"
-msgstr "dof: número de grados de libertad"
+msgstr "dof:número de grados de libertad"
 
 #: ../plugins/fn-stat/functions.c:1007 ../plugins/fn-stat/functions.c:1035
 #: ../plugins/fn-stat/functions.c:1222 ../plugins/fn-stat/functions.c:1273
 #: ../plugins/fn-stat/functions.c:1309 ../plugins/fn-stat/functions.c:1475
 msgid "The survival function is 1 minus the cumulative distribution function."
 msgstr ""
-"Esta función supervivencia es 1 menos la función de distribución acumulativa."
+"La función de supervivencia es 1 menos la función de distribución "
+"acumulativa."
 
 #: ../plugins/fn-stat/functions.c:1008
 msgid "If @{dof} is non-integer it is truncated."
-msgstr ""
+msgstr "Si @{dof} es un no entero truncado."
 
 #: ../plugins/fn-stat/functions.c:1009 ../plugins/fn-stat/functions.c:1223
 msgid "If @{dof} < 1 this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{dof} < 1 esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1011
 msgid ""
 "CHIDIST(@{x},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{x},@{dof})."
 msgstr ""
+"CHIDIST(@{x},@{dof}) es la función OpenFormula LEGACY.CHIDIST(@{x},@{dof})."
 
 #: ../plugins/fn-stat/functions.c:1032
 msgid "CHIINV:inverse of the survival function of the chi-squared distribution"
 msgstr ""
-"CHIINV: inversa de la función cuantil de probabilidad de la distribución chi-"
+"CHIINV:inversa de la función de supervivencia de la distribución chi-"
 "cuadrado."
 
 #: ../plugins/fn-stat/functions.c:1036 ../plugins/fn-stat/functions.c:1274
 msgid ""
 "If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error."
 msgstr ""
+"Si @{p} < 0 o @{p} > 1 oo @{dof} < 1 está función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1038
 msgid ""
 "CHIINV(@{p},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{p},@{dof})."
 msgstr ""
+"CHIINV(@{p},@{dof}) es la función OpenFormula LEGACY.CHIDIST(@{p},@{dof})."
 
 #: ../plugins/fn-stat/functions.c:1059
 msgid "CHITEST:p value of the Goodness of Fit Test"
-msgstr ""
+msgstr "CHITEST:valor p de buena calidad de prueba de ajuste"
 
 #: ../plugins/fn-stat/functions.c:1060
 msgid "actual_range:observed data"
-msgstr ""
+msgstr "rango_actual:datos observados"
 
 #: ../plugins/fn-stat/functions.c:1061
 msgid "theoretical_range:expected values"
-msgstr ""
+msgstr "rango_teórico:valores esperados"
 
 #: ../plugins/fn-stat/functions.c:1062
 msgid ""
@@ -9222,51 +9215,54 @@ msgid ""
 "the expected values were calculated from the observed value in a test of "
 "independence or test of homogeneity."
 msgstr ""
+"Si el rango actual no es un n por 1 o 1 por rango n, pero un n por rango m, "
+"entonces CHITEST usa (n-1) veces (m-1) como grados de libertad. Esto es útil "
+"si los valores esperados se calculan a partir del valor observado en una "
+"prueba de independencia o prueba de homogeneidad."
 
 #: ../plugins/fn-stat/functions.c:1068
 msgid "CHITEST is the OpenFormula function LEGACY.CHITEST."
-msgstr ""
+msgstr "CHITEST es la función OpenFormula LEGACY.CHITEST."
 
 #: ../plugins/fn-stat/functions.c:1146
-#, fuzzy
 msgid "BETADIST:cumulative distribution function of the beta distribution"
-msgstr "R.PBETA: función de distribución acumulada de la distribución beta."
+msgstr "BETADIST:función de distribución acumulativa de la distribución beta."
 
 #: ../plugins/fn-stat/functions.c:1150 ../plugins/fn-stat/functions.c:1187
 msgid "a:optional lower bound, defaults to 0"
-msgstr ""
+msgstr "a:límite inferior opcional, el predeterminado es 0"
 
 #: ../plugins/fn-stat/functions.c:1151 ../plugins/fn-stat/functions.c:1188
 msgid "b:optional upper bound, defaults to 1"
-msgstr ""
+msgstr "b:límite superior opcional, el predeterminado es 1"
 
 #: ../plugins/fn-stat/functions.c:1152
 msgid "If @{x} < @{a} or @{x} > @{b} this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{x} < @{a} o @{x} > @{b} esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1154 ../plugins/fn-stat/functions.c:1191
 msgid "If @{a} >= @{b} this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{a} >= @{b} esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1183
-#, fuzzy
 msgid ""
 "BETAINV:inverse of the cumulative distribution function of the beta "
 "distribution"
-msgstr "R.PBETA: función de distribución acumulada de la distribución beta."
+msgstr ""
+"BETAINV:inversa de la función de distribución acumulativa de la distribución "
+"beta."
 
 #: ../plugins/fn-stat/functions.c:1218
 msgid "TDIST:survival function of the Student t-distribution"
-msgstr ""
-"TDIST: función de supervivencia de probabilidad de la distribución Student-T"
+msgstr "TDIST:función de supervivencia de la distribución t de Student"
 
 #: ../plugins/fn-stat/functions.c:1221
 msgid "tails:1 or 2"
-msgstr ""
+msgstr "colas:1 o 2"
 
 #: ../plugins/fn-stat/functions.c:1224
 msgid "If @{tails} is neither 1 or 2 this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{colas} no es 1 ni 2 esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1225
 msgid ""
@@ -9274,16 +9270,18 @@ msgid ""
 "g., NORMSDIST.  This is a common source of mistakes, but necessary for "
 "compatibility."
 msgstr ""
+"La parametrización de esta función es diferente de lo que se utiliza, por "
+"ejemplo NORMSDIST. Esta es una fuente común de errores, pero necesaria para "
+"compatibilidad."
 
 #: ../plugins/fn-stat/functions.c:1228
 msgid "This function is Excel compatible for non-negative @{x}."
 msgstr "Esta función es compatible con Excel para no negativos @{x}."
 
 #: ../plugins/fn-stat/functions.c:1270
-#, fuzzy
 msgid "TINV:inverse of the survival function of the Student t-distribution"
 msgstr ""
-"R.QT: función del cuantil de probabilidad de la distribución de Studen t."
+"TINV:inverso de la función de supervivencia de la distribución t de Student"
 
 #: ../plugins/fn-stat/functions.c:1276
 msgid ""
@@ -9291,71 +9289,78 @@ msgid ""
 "g., NORMSINV.  This is a common source of mistakes, but necessary for "
 "compatibility."
 msgstr ""
+"La parametrización de esta función es diferente de lo que se utiliza, por "
+"ejemplo NORMSINV. Esta es una fuente común de errores, pero necesario para "
+"compatibilidad."
 
 #: ../plugins/fn-stat/functions.c:1305
 msgid "FDIST:survival function of the F distribution"
-msgstr "FDIST: función de supervivencia de la distribución F"
+msgstr "FDIST:función de supervivencia de la distribución F"
 
 #: ../plugins/fn-stat/functions.c:1307 ../plugins/fn-stat/functions.c:1473
 msgid "dof_of_num:numerator degrees of freedom"
-msgstr ""
+msgstr "gdl_de_num:grados de libertad del numerador"
 
 #: ../plugins/fn-stat/functions.c:1308 ../plugins/fn-stat/functions.c:1474
 msgid "dof_of_denom:denominator degrees of freedom"
-msgstr ""
+msgstr "gdl_de_denom:grados de libertad del denominador"
 
 #: ../plugins/fn-stat/functions.c:1311
 msgid ""
 "If @{dof_of_num} < 1 or @{dof_of_denom} < 1, this function returns a #NUM! "
 "error."
 msgstr ""
+"Si @{gdl_de_num} < 1 o @{gdl_de_denom} < 1, esta función devuelve un error "
+"#NUM!."
 
 #: ../plugins/fn-stat/functions.c:1313
 msgid "FDIST is the OpenFormula function LEGACY.FDIST."
-msgstr ""
+msgstr "FDIST es la función OpenFormula LEGACY.FDIST."
 
 #: ../plugins/fn-stat/functions.c:1335
-#, fuzzy
 msgid ""
 "LANDAU:approximate probability density function of the Landau distribution"
 msgstr ""
-"R.DCAUCHY: función de densidad de probabilidad de la distribución de Cauchy."
+"LANDAU:función de densidad de probabilidad aproximada de la distribución de "
+"Landau."
 
 #: ../plugins/fn-stat/functions.c:1471
 msgid "FINV:inverse of the survival function of the F distribution"
-msgstr "R.QF: función de cuantil de probabilidad de la distribución F."
+msgstr "FINV:inverso de la función de supervivencia de la distribución F"
 
 #: ../plugins/fn-stat/functions.c:1477
 msgid ""
 "If @{dof_of_num} < 1 or @{dof_of_denom} < 1 this function returns a #NUM! "
 "error."
 msgstr ""
+"Si @{gdl_de_num} < 1 o @{gdl_de_denom} < 1 esta función devuelve un error "
+"#NUM!."
 
 #: ../plugins/fn-stat/functions.c:1479
 msgid "FINV is the OpenFormula function LEGACY.FINV."
-msgstr ""
+msgstr "FINV es la función OpenFormula LEGACY.FINV."
 
 #: ../plugins/fn-stat/functions.c:1501
-#, fuzzy
 msgid ""
 "BINOMDIST:probability mass or cumulative distribution function of the "
 "binomial distribution"
 msgstr ""
-"R.PBINOM: función de distribución acumulada de la distribución binomial."
+"BINOMDIST:función de densidad de probabilidad o de distribución acumulativa "
+"de la distribución binomial."
 
 #: ../plugins/fn-stat/functions.c:1502
 msgid "n:number of successes"
-msgstr "n: número de éxitos"
+msgstr "n:número de éxitos"
 
 #: ../plugins/fn-stat/functions.c:1503 ../plugins/fn-stat/functions.c:1537
 #: ../plugins/fn-stat/functions.c:1599
 msgid "trials:number of trials"
-msgstr "trials: el número de intentos"
+msgstr "intentos:número de intentos"
 
 #: ../plugins/fn-stat/functions.c:1504 ../plugins/fn-stat/functions.c:1538
 #: ../plugins/fn-stat/functions.c:1600
 msgid "p:probability of success in each trial"
-msgstr "p: probabilidad de éxito en cada intento"
+msgstr "p:probabilidad de éxitos en cada intento"
 
 #: ../plugins/fn-stat/functions.c:1505 ../plugins/fn-stat/functions.c:1659
 #: ../plugins/fn-stat/functions.c:1982 ../plugins/fn-stat/functions.c:4326
@@ -9363,188 +9368,189 @@ msgid ""
 "cumulative:whether to evaluate the mass function or the cumulative "
 "distribution function"
 msgstr ""
+"acumulativo:si para evaluar la función de masa o la función de distribución "
+"acumulativa"
 
 #: ../plugins/fn-stat/functions.c:1506
 msgid "If @{n} or @{trials} are non-integer they are truncated."
-msgstr ""
+msgstr "Si @{n} o @{intentos} son no enteros truncados."
 
 #: ../plugins/fn-stat/functions.c:1507
 msgid "If @{n} < 0 or @{trials} < 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{n} < 0 o @{intentos} < 0 esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1508
 msgid "If @{n} > @{trials} this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{n} > @{intentos} esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1536
-#, fuzzy
 msgid ""
 "BINOM.DIST.RANGE:probability of the binomial distribution over an interval"
 msgstr ""
-"R.DNBINOM: función de densidad de probabilidad de la distribución binomial "
-"negativa."
+"BINOM.DIST.RANGE:probabilidad de la distribución binomial bajo un intervalo"
 
 #: ../plugins/fn-stat/functions.c:1539
 msgid "start:start of the interval"
-msgstr ""
+msgstr "inicio:inicio del intervalo"
 
 #: ../plugins/fn-stat/functions.c:1540
 msgid "end:end of the interval, defaults to @{start}"
-msgstr ""
+msgstr "fin:fin del intervalo, el predeterminado es @{inicio}"
 
 #: ../plugins/fn-stat/functions.c:1541
 msgid "If @{start}, @{end} or @{trials} are non-integer they are truncated."
-msgstr ""
+msgstr "Si @{inicio}, @{final} o @{intentos} son no enteros truncados."
 
 #: ../plugins/fn-stat/functions.c:1542 ../plugins/fn-stat/functions.c:1603
 msgid "If @{trials} < 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{intentos} < 0 esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1544
 msgid "If @{start} > @{end} this function returns 0."
-msgstr "Si @{start} > @{end} esta función devuelve 0."
+msgstr "Si @{inicio} > @{fin} esta función devuelve 0."
 
 #: ../plugins/fn-stat/functions.c:1567
-#, fuzzy
 msgid ""
 "CAUCHY:probability density or cumulative distribution function of the "
 "Cauchy, Lorentz or Breit-Wigner distribution"
 msgstr ""
-"R.DCAUCHY: función de densidad de probabilidad de la distribución de Cauchy."
+"CAUCHY:función de densidad de probabilidad o distribución acumulativa de la "
+"distribución de Cauchy, Lorentz o Breit-Wigner"
 
 #: ../plugins/fn-stat/functions.c:1570 ../plugins/fn-stat/functions.c:4356
 #: ../plugins/fn-stat/functions.c:4495
 msgid "a:scale parameter"
-msgstr ""
+msgstr "a:parámetro de escala"
 
 #: ../plugins/fn-stat/functions.c:1572
 msgid "If @{a} < 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{a} < 0 esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1573 ../plugins/fn-stat/functions.c:4329
 msgid ""
 "If @{cumulative} is neither TRUE nor FALSE this function returns a #VALUE! "
 "error."
 msgstr ""
+"si @{acumulativo} no es VERDADERO ni FALSO esta función devuelve un error "
+"#VALUE!."
 
 #: ../plugins/fn-stat/functions.c:1598
-#, fuzzy
 msgid "CRITBINOM:right-tailed critical value of the binomial distribution"
-msgstr ""
-"R.QBINOM: función del cuantil de probabilidad de la distribución binomial."
+msgstr "CRITBINOM:valor crítico de cola derecha de la distribución binomial"
 
 #: ../plugins/fn-stat/functions.c:1601
 msgid "alpha:significance level (area of the tail)"
-msgstr ""
+msgstr "alfa:nivel de significancia (área de la cola)"
 
 #: ../plugins/fn-stat/functions.c:1602
 msgid "If @{trials} is a non-integer it is truncated."
-msgstr ""
+msgstr "Si @{intentos} es un no entero truncado."
 
 #: ../plugins/fn-stat/functions.c:1605
 msgid "If @{alpha} < 0 or @{alpha} > 1 this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{alfa} < 0 o @{alfa} > 1 esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1628
 msgid "PERMUT:number of @{k}-permutations of a @{n}-set"
-msgstr ""
+msgstr "PERMUT:número de @{k}-permutaciones de un conjunto @{n}"
 
 #: ../plugins/fn-stat/functions.c:1629
 msgid "n:size of the base set"
-msgstr ""
+msgstr "n:tamaño del conjunto base"
 
 #: ../plugins/fn-stat/functions.c:1630
 msgid "k:number of elements in each permutation"
-msgstr ""
+msgstr "k:número de elementos en cada permutación"
 
 #: ../plugins/fn-stat/functions.c:1631
 msgid "If @{n} = 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{n} = 0 esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1632
 msgid "If @{n} < @{k} this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{n} < @{k} esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1654
-#, fuzzy
 msgid ""
 "HYPGEOMDIST:probability mass or cumulative distribution function of the "
 "hypergeometric distribution"
 msgstr ""
-"R.PHYPER: función de distribución acumulada de la distribución "
-"hipergeométrica."
+"HYPGEOMDIST:función de densidad de probabilidad o de distribución "
+"acumulativa de la distribución hipergeométrica."
 
 #: ../plugins/fn-stat/functions.c:1655
 msgid "x:number of successes"
-msgstr ""
+msgstr "x:número de éxitos"
 
 #: ../plugins/fn-stat/functions.c:1656
 msgid "n:sample size"
-msgstr ""
+msgstr "n:tamaño de muestra"
 
 #: ../plugins/fn-stat/functions.c:1657
 msgid "M:number of possible successes in the population"
-msgstr ""
+msgstr "M:número de éxitos posibles en la población"
 
 #: ../plugins/fn-stat/functions.c:1658
 msgid "N:population size"
-msgstr ""
+msgstr "N:tamaño de población"
 
 #: ../plugins/fn-stat/functions.c:1660
 msgid "If @{x},@{n},@{M} or @{N} is a non-integer it is truncated."
-msgstr ""
+msgstr "Si @{x},@{n},@{M} o @{N} es un no entero truncado."
 
 #: ../plugins/fn-stat/functions.c:1661
 msgid "If @{x},@{n},@{M} or @{N} < 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{x},@{n},@{M} o @{N} < 0 esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1662
 msgid "If @{x} > @{M} or @{n} > @{N} this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{x} > @{M} o @{n} > @{N} esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1690
 msgid ""
 "CONFIDENCE:margin of error of a confidence interval for the population mean"
 msgstr ""
+"CONFIDENCE:margen de error de un intervalo de confidencia para la media de "
+"la población"
 
 #: ../plugins/fn-stat/functions.c:1691
 msgid "alpha:significance level"
-msgstr ""
+msgstr "alfa:nivel de significancia"
 
 #: ../plugins/fn-stat/functions.c:1692
 msgid "stddev:population standard deviation"
-msgstr ""
+msgstr "stddev:desviación estándar de la población"
 
 #: ../plugins/fn-stat/functions.c:1693
 msgid "size:sample size"
-msgstr ""
+msgstr "tamaño:tamaño de la muestra"
 
 #: ../plugins/fn-stat/functions.c:1694
 msgid ""
 "This function requires the usually unknown population standard deviation."
 msgstr ""
-"Esta función requiere el uso desconocido de la desviación estándar de "
+"Esta función requiere el uso desconocido de la desviación estándar de la "
 "población."
 
 #: ../plugins/fn-stat/functions.c:1695
 msgid "If @{size} is non-integer it is truncated."
-msgstr ""
+msgstr "Si @{tamaño} es no entero truncado."
 
 #: ../plugins/fn-stat/functions.c:1696
 msgid "If @{size} < 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{tamaño} < 0 esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1697
 msgid "If @{size} is 0 this function returns a #DIV/0! error."
-msgstr ""
+msgstr "Si @{tamaño} es 0 esta función devuelve un error #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:1720
 msgid "STANDARDIZE:z-score of a value"
-msgstr ""
+msgstr "STANDARDIZE:nota z de un valor"
 
 #: ../plugins/fn-stat/functions.c:1722
 msgid "mean:mean of the original distribution"
-msgstr "mean: media de la distribución original"
+msgstr "media:media de la distribución original"
 
 #: ../plugins/fn-stat/functions.c:1723
 #, fuzzy
