@@ -2263,14 +2263,16 @@ xlsx_cond_fmt_formula_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmParsePos pp;
+	GnmExprTop const *texpr;
+
 	if (!state->cond || state->count > 1)
 		return;
 
 	parse_pos_init_sheet (&pp, state->sheet);
+	texpr = xlsx_parse_expr (xin, xin->content->str, &pp);
+	gnm_style_cond_set_expr (state->cond, texpr, state->count);
+	gnm_expr_top_unref (texpr);
 
-	gnm_style_cond_set_expr (state->cond,
-				 xlsx_parse_expr (xin, xin->content->str, &pp),
-				 state->count);
 	state->count++;
 }
 

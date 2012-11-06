@@ -1,3 +1,7 @@
+2012-11-06  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_cond_fmt_formula_end): Plug leak.
+
 2012-10-17  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write.c (count_default_rows): Delete.
