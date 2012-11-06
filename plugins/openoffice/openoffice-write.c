@@ -3146,7 +3146,7 @@ odf_write_covered_cell (GnmOOExport *state, int *num)
 
 static void
 odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
-		GSList *objects)
+		GnmStyle const *style, GSList *objects)
 {
 	int rows_spanned = 0, cols_spanned = 0;
 	gboolean pp = TRUE;
@@ -3167,24 +3167,22 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 	if (rows_spanned > 1)
 		gsf_xml_out_add_int (state->xml,
 				     TABLE "number-rows-spanned", rows_spanned);
-	if (cell != NULL) {
-		GnmStyle const *style = gnm_cell_get_style (cell);
-
-		if (style) {
-			char const * name = odf_find_style (state, style);
-			GnmValidation const *val = gnm_style_get_validation (style);
-			if (name != NULL)
-				gsf_xml_out_add_cstr (state->xml,
-						      TABLE "style-name", name);
-			if (val != NULL) {
-				char *vname = g_strdup_printf ("VAL-%p", val);
-				gsf_xml_out_add_cstr (state->xml,
-						      TABLE "content-validation-name", vname);
-				g_free (vname);
-			}
-			link = gnm_style_get_hlink (style);
+	if (style) {
+		char const * name = odf_find_style (state, style);
+		GnmValidation const *val = gnm_style_get_validation (style);
+		if (name != NULL)
+			gsf_xml_out_add_cstr (state->xml,
+					      TABLE "style-name", name);
+		if (val != NULL) {
+			char *vname = g_strdup_printf ("VAL-%p", val);
+			gsf_xml_out_add_cstr (state->xml,
+					      TABLE "content-validation-name", vname);
+			g_free (vname);
 		}
+		link = gnm_style_get_hlink (style);
+	}
 
+	if (cell != NULL) {
 		if ((NULL != cell->base.texpr) &&
 		    !gnm_expr_top_is_array_elem (cell->base.texpr, NULL, NULL)) {
 			char *formula, *eq_formula;
@@ -3622,7 +3620,7 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 				null_cell = 0;
 				if (covered_cell > 0)
 					odf_write_covered_cell (state, &covered_cell);
-				odf_write_cell (state, current_cell, merge_range, objects);
+				odf_write_cell (state, current_cell, merge_range, this_style, objects);
 
 				g_slist_free (objects);
 

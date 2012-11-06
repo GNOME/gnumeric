@@ -4,6 +4,7 @@ Andreas:
 	* Fix ODF export of conditional styles including data styles. [#683739]
 	* Fix encounter with macro sheets on xls import. [#684646]
 	* Make ODF import handling of strike-through match LO. [#686789]
+	* Fix style handling in ODF export for empty cells with objects. [#687693] 
 
 Jean:
 	* Fixed indentation in cell format dialog. [#683576]

@@ -1,5 +1,10 @@
 2012-11-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_cell): add argument, change caller
+	and use style even for NULL cells.
+
+2012-11-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_content_rows): remove unused arguments
 	and change all callers
 	(odf_write_sheet): don't worry about the extent here.
