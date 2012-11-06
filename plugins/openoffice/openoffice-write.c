@@ -3149,10 +3149,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		GnmStyle const *style, GSList *objects)
 {
 	int rows_spanned = 0, cols_spanned = 0;
-	gboolean pp = TRUE;
 	GnmHLink *link = NULL;
-
-	g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
 
 	if (merge_range != NULL) {
 		rows_spanned = merge_range->end.row - merge_range->start.row + 1;
@@ -3225,7 +3222,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 				value_get_as_bool (cell->value, NULL));
 			break;
 		case VALUE_FLOAT: {
-			GOFormat const *fmt = gnm_cell_get_format (cell);
+			GOFormat const *fmt = style ? gnm_style_get_format (style) : gnm_cell_get_format (cell);
 			if (go_format_is_date (fmt)) {
 				char *str;
 				gnm_float f = value_get_as_float (cell->value);
@@ -3298,7 +3295,10 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 	odf_write_objects (state, objects);
 
 	if (cell != NULL && cell->value != NULL) {
+		gboolean pp = TRUE;
+		g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
 		g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
+
 		if ((VALUE_FMT (cell->value) == NULL)
 		    || (!VALUE_IS_STRING (cell->value))
 		    || (!go_format_is_markup (VALUE_FMT (cell->value)))) {
