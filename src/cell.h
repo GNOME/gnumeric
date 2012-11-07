@@ -77,6 +77,7 @@ void gnm_cell_convert_expr_to_value	(GnmCell *cell);
  */
 GnmStyle const *gnm_cell_get_style	(GnmCell const *cell);
 GOFormat const *gnm_cell_get_format	(GnmCell const *cell);
+GOFormat const *gnm_cell_get_format_given_style (GnmCell const *cell, GnmStyle const *style);
 void	gnm_cell_set_format		(GnmCell *cell, char const *format);
 
 GnmRenderedValue *gnm_cell_get_rendered_value (GnmCell const *cell);

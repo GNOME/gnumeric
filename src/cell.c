@@ -917,6 +917,35 @@ gnm_cell_get_style (GnmCell const *cell)
 }
 
 /**
+ * gnm_cell_get_format_given_style:
+ * @cell:
+ * @style:
+ *
+ * Get the display format.  If the assigned format is General,
+ * the format of the value will be used.
+ **/
+GOFormat const *
+gnm_cell_get_format_given_style (GnmCell const *cell, GnmStyle const *style)
+{
+	GOFormat const *fmt;
+
+	g_return_val_if_fail (cell != NULL, go_format_general ());
+
+	if (style == NULL)
+		style = gnm_cell_get_style (cell);
+
+	fmt = gnm_style_get_format (style);
+
+	g_return_val_if_fail (fmt != NULL, go_format_general ());
+
+	if (go_format_is_general (fmt) &&
+	    cell->value != NULL && VALUE_FMT (cell->value))
+		fmt = VALUE_FMT (cell->value);
+
+	return fmt;
+}
+
+/**
  * gnm_cell_get_format:
  * @cell:
  *
@@ -926,19 +955,7 @@ gnm_cell_get_style (GnmCell const *cell)
 GOFormat const *
 gnm_cell_get_format (GnmCell const *cell)
 {
-	GOFormat const *fmt;
-
-	g_return_val_if_fail (cell != NULL, go_format_general ());
-
-	fmt = gnm_style_get_format (gnm_cell_get_style (cell));
-
-	g_return_val_if_fail (fmt != NULL, go_format_general ());
-
-	if (go_format_is_general (fmt) &&
-	    cell->value != NULL && VALUE_FMT (cell->value))
-		fmt = VALUE_FMT (cell->value);
-
-	return fmt;
+	gnm_cell_get_format_given_style (cell, NULL);	
 }
 
 /*

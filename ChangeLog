@@ -1,3 +1,8 @@
+2012-11-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/cell.c (gnm_cell_get_format_given_style): new
+	(gnm_cell_get_format): use gnm_cell_get_format_given_style
+
 2012-11-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet.c: add API doc for sheet_cells to fix an introspection warning.

@@ -1,3 +1,9 @@
+2012-11-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_cell): use
+	gnm_cell_get_format_given_style
+	instead of gnm_style_get_format instead
+
 2012-11-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_cell): use gnm_style_get_format instead of
