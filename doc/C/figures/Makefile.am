@@ -3,6 +3,20 @@ SUBDIRS = icons
 EXTRA_DIST = \
      advanced-filter-1.png \
      advanced-filter-2.png \
+     analysis-simulation-confidence-interval-equation.png \
+     analysis-simulation-demand-ex1.png \
+     analysis-simulation-demand-ex2.png \
+     analysis-simulation-interations-equation1.png \
+     analysis-simulation-interations-equation2.png \
+     analysis-simulation-maximumtime-dialog.png \
+     analysis-simulation-options-dialog.png \
+     analysis-simulation-output-dialog.png \
+     analysis-simulation-profit-ex1.png \
+     analysis-simulation-profit-ex2.png \
+     analysis-simulation-report-screen.png \
+     analysis-simulation-simtable-screen.png \
+     analysis-simulation-summary-dialog.png \
+     analysis-simulation-variables-dialog.png \
      analysistools-ANOVA1-ex1.png \
      analysistools-ANOVA1-ex2.png \
      analysistools-ANOVA2w-ex1.png \
