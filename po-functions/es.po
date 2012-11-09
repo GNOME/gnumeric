@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-05 03:49+0000\n"
-"PO-Revision-Date: 2012-11-05 17:38+0100\n"
+"POT-Creation-Date: 2012-11-08 03:30+0000\n"
+"PO-Revision-Date: 2012-11-09 13:49+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -9553,21 +9553,20 @@ msgid "mean:mean of the original distribution"
 msgstr "media:media de la distribución original"
 
 #: ../plugins/fn-stat/functions.c:1723
-#, fuzzy
 msgid "stddev:standard deviation of the original distribution"
-msgstr "logsd:desciación estándar de la distribución normal subyacente."
+msgstr "stddev:desviación estándar de la distribución original"
 
 #: ../plugins/fn-stat/functions.c:1724 ../plugins/fn-stat/functions.c:1788
 msgid "If @{stddev} is 0 this function returns a #DIV/0! error."
-msgstr ""
+msgstr "Si @{stddev} es 0 esta función devuelve un error #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:1747
 msgid ""
 "WEIBULL:probability density or cumulative distribution function of the "
 "Weibull distribution"
 msgstr ""
-"WEIBULL:densidad de probabilidad o función de distribución acumulada de la "
-"distribución de Weibull"
+"WEIBULL:función de densidad de probabilidad o de distribución acumulativa de "
+"la distribución de Weibull"
 
 #: ../plugins/fn-stat/functions.c:1752
 msgid ""
@@ -9575,42 +9574,45 @@ msgid ""
 "^@{alpha}),otherwise it will return (@{alpha}/@{beta}^@{alpha}) * @{x}^(@"
 "{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha}))."
 msgstr ""
+"Si el booleano @{acumulativo} es verdadero devolverá: 1 - exp (-(@{x}/@"
+"{beta})^@{alfa}), de caso contrario devolverá (@{alfa}/@{beta}^@{alfa}) * @"
+"{x}^(@{alfa}-1) * exp(-(@{x}/@{beta}^@{alfa}))."
 
 #: ../plugins/fn-stat/functions.c:1783
-#, fuzzy
 msgid ""
 "NORMDIST:probability density or cumulative distribution function of a normal "
 "distribution"
 msgstr ""
-"R.PNORM: función de distribución acumulativa de la distribución normal."
+"NORMDIST:función de densidad de probabilidad o distribución acumulativa de "
+"una distribución normal"
 
 #: ../plugins/fn-stat/functions.c:1785 ../plugins/fn-stat/functions.c:1818
 #: ../plugins/fn-stat/functions.c:1981
 msgid "mean:mean of the distribution"
-msgstr "mean: media de la distribución."
+msgstr "media:media de la distribución."
 
 #: ../plugins/fn-stat/functions.c:1786 ../plugins/fn-stat/functions.c:1819
-#, fuzzy
 msgid "stddev:standard deviation of the distribution"
-msgstr "sigma:desviación estándar de la distribución."
+msgstr "stddev:desviación estándar de la distribución."
 
 #: ../plugins/fn-stat/functions.c:1816
-#, fuzzy
 msgid ""
 "NORMINV:inverse of the cumulative distribution function of a normal "
 "distribution"
 msgstr ""
-"R.PNORM: función de distribución acumulativa de la distribución normal."
+"NORMINV:inverso de la función de distribución acumulativa de la distribución "
+"normal"
 
 #: ../plugins/fn-stat/functions.c:1820
 msgid ""
 "If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns a #NUM! "
 "error."
 msgstr ""
+"Si @{p} < 0 o @{p} > 1 o @{stddev} <= 0 esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1844
 msgid "KURT:unbiased estimate of the kurtosis of a data set"
-msgstr ""
+msgstr "KURT:estimación no sesgada de la curtosis de un conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:1848
 msgid ""
@@ -9618,129 +9620,142 @@ msgid ""
 "moment.  The kurtosis is offset by three such that a normal distribution "
 "will have zero kurtosis."
 msgstr ""
+"Esto sólo tiene sentido si la distribución subyacente realmente tiene un "
+"cuarto momento. La curtosis se desplaza en tres tal que una distribución "
+"normal tendrá curtosis cero."
 
 #: ../plugins/fn-stat/functions.c:1852
 msgid ""
 "If fewer than four numbers are given or all of them are equal this function "
 "returns a #DIV/0! error."
 msgstr ""
+"Si se dan menos de cuatro números o todos ellos son iguales esta función "
+"devuelve un error #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:1856
 msgid "Then KURT(A1:A5) equals 1.234546305."
-msgstr ""
+msgstr "Luego KURT(A1:A5) igual a 1.234546305."
 
 #: ../plugins/fn-stat/functions.c:1875
 msgid "KURTP:population kurtosis of a data set"
-msgstr ""
+msgstr "KURTP:curtosis de población de un conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:1879
 msgid ""
 "If fewer than two numbers are given or all of them are equal this function "
 "returns a #DIV/0! error."
 msgstr ""
+"Si se dan menos de dos números o todos ellos son iguales esta función "
+"devuelve un error #DIV/0!."
 
 #: ../plugins/fn-stat/functions.c:1882
 msgid "Then KURTP(A1:A5) equals -0.691363424."
-msgstr ""
+msgstr "Luego KURTP(A1:A5) igual a -0.691363424."
 
 #: ../plugins/fn-stat/functions.c:1901
 msgid "AVEDEV:average of the absolute deviations of a data set"
-msgstr ""
+msgstr "AVEDEV:promedio de las desviaciones absolutas de un conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:1906
 msgid "Then AVEDEV(A1:A5) equals 7.84."
-msgstr ""
+msgstr "Luego AVEDEV(A1:A5) igual a 7.84."
 
 #: ../plugins/fn-stat/functions.c:1925
 msgid "DEVSQ:sum of squares of deviations of a data set"
-msgstr ""
+msgstr "DEVSQ:suma de cuadrados de desviaciones de un conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:1931
 msgid "Then DEVSQ(A1:A5) equals 470.56."
-msgstr ""
+msgstr "Luego DEVSQ(A1:A5) igual a 470.56."
 
 #: ../plugins/fn-stat/functions.c:1950
 msgid "FISHER:Fisher transformation"
-msgstr ""
+msgstr "FISHER:transformación de Fisher"
 
 #: ../plugins/fn-stat/functions.c:1952
 msgid "If @{x} is not a number, this function returns a #VALUE! error."
-msgstr ""
+msgstr "Si @{x} no es un número, esta función devuelve un error #VALUE!."
 
 #: ../plugins/fn-stat/functions.c:1953
 msgid "If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{x} <= -1 o @{x} >= 1, esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:1979
 msgid ""
 "POISSON:probability mass or cumulative distribution function of the Poisson "
 "distribution"
 msgstr ""
-"POISSON: masa de probabilidad o función de distribución acumulativa de la "
+"POISSON:función de masa de probabilidad o de distribución acumulativa de la "
 "distribución de Poisson"
 
 #: ../plugins/fn-stat/functions.c:1980
 msgid "x:number of events"
-msgstr "x: número de eventos"
+msgstr "x:número de eventos"
 
 #: ../plugins/fn-stat/functions.c:1983
 msgid "If @{x} is a non-integer it is truncated."
-msgstr ""
+msgstr "Si @{x} no es un entero truncado."
 
 #: ../plugins/fn-stat/functions.c:1985
 msgid "If @{mean} <= 0 POISSON returns the #NUM! error."
-msgstr ""
+msgstr "Si @{media} <= 0 POISSON devuelve el error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2011
 msgid "PEARSON:Pearson correlation coefficient of the paired set of data"
 msgstr ""
+"PEARSON:coeficiente de correlación de Pearson del conjunto de pares de datos"
 
 #: ../plugins/fn-stat/functions.c:2012 ../plugins/fn-stat/functions.c:2031
 msgid "array1:first component values"
-msgstr ""
+msgstr "matriz1:valores del primer componente"
 
 #: ../plugins/fn-stat/functions.c:2013 ../plugins/fn-stat/functions.c:2032
 msgid "array2:second component values"
-msgstr ""
+msgstr "matriz2:valores del segundo componente"
 
 #: ../plugins/fn-stat/functions.c:2030
 msgid ""
 "RSQ:square of the Pearson correlation coefficient of the paired set of data"
 msgstr ""
+"RSQ:cuadrado del coeficiente de correlación de Pearson del conjunto de pares "
+"de datos"
 
 #: ../plugins/fn-stat/functions.c:2054
 msgid "MEDIAN:median of a data set"
-msgstr ""
+msgstr "MEDIAN:mediana de un conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:2058
 msgid ""
 "If even numbers are given MEDIAN returns the average of the two numbers in "
 "the center."
 msgstr ""
+"Si números pares son dados MEDIAN devuelve el promedio de los dos números en "
+"el centro."
 
 #: ../plugins/fn-stat/functions.c:2062
 msgid "Then MEDIAN(A1:A5) equals 21.3."
-msgstr ""
+msgstr "Luego MEDIAN(A1:A5) igual a 21.3."
 
 #: ../plugins/fn-stat/functions.c:2064
 msgid "wiki:en:Median"
-msgstr ""
+msgstr "wiki:es:mediana"
 
 #: ../plugins/fn-stat/functions.c:2065
 msgid "wolfram:StatisticalMedian.html"
-msgstr ""
+msgstr "wolfram:StatisticalMedian.html"
 
 #: ../plugins/fn-stat/functions.c:2084
 msgid "SSMEDIAN:median for grouped data"
-msgstr ""
+msgstr "SSMEDIAN:mediana para datos agrupados"
 
 #: ../plugins/fn-stat/functions.c:2085
 msgid "array:data set"
-msgstr ""
+msgstr "matriz:conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:2086
 msgid "interval:length of each grouping interval, defaults to 1"
 msgstr ""
+"intervalo:longitud de cada intervalo de agrupamiento, el predeterminado es 1"
 
 #: ../plugins/fn-stat/functions.c:2087
 msgid ""
@@ -9756,62 +9771,80 @@ msgid ""
 "CF = the number of data points below the median interval\n"
 "F = the number of data points in the median interval"
 msgstr ""
+"Los datos se asume que se agrupan en intervalos de anchura @{intervalo}. "
+"Cada punto de datos en @{matriz} es el punto medio del intervalo que "
+"contiene el valor verdadero. La mediana se calcula por interpolación dentro "
+"del intervalo de la mediana (el intervalo contiene el valor de la mediana), "
+"asumiendo que los valores verdaderos dentro de este intervalo se distribuyen "
+"uniformemente:\n"
+"mediana = L + @{intervalo}*(N/2 - CF)/F\n"
+"donde:\n"
+"L = el límite inferior del intervalo de la mediana\n"
+"N = el número total de puntos de datos\n"
+"CF = el número de puntos de datos por debajo del intervalo de la mediana\n"
+"F = el número de puntos de datos en el intervalo de la mediana"
 
 #: ../plugins/fn-stat/functions.c:2098 ../plugins/fn-stat/functions.c:2771
 #: ../plugins/fn-stat/functions.c:2813
 msgid "If @{array} is empty, this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{matriz} está vacío, esta función devolverá un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2099
 msgid ""
 "If @{interval} <= 0, this function returns a #NUM! error. SSMEDIAN does not "
 "check whether the data points are at least @{interval} apart."
 msgstr ""
+"Si @{intervalo} <= 0, esta función devuelve un error #NUM!. SSMEDIAN no "
+"verifica si los puntos de datos son al menos @{intervalo} aparte."
 
 #: ../plugins/fn-stat/functions.c:2186
 msgid "LARGE:@{k}-th largest value in a data set"
-msgstr ""
+msgstr "LARGE:@{k}avo valor más largo en un conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:2187 ../plugins/fn-stat/functions.c:2230
 msgid "data:data set"
-msgstr ""
+msgstr "datos:conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:2188 ../plugins/fn-stat/functions.c:2231
 msgid "k:which value to find"
-msgstr ""
+msgstr "k:que valor se encuentra"
 
 #: ../plugins/fn-stat/functions.c:2189 ../plugins/fn-stat/functions.c:2232
 msgid "If data set is empty this function returns a #NUM! error."
 msgstr ""
+"Si el conjunto de datos está vacío esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2190 ../plugins/fn-stat/functions.c:2233
 msgid ""
 "If @{k} <= 0 or @{k} is greater than the number of data items given this "
 "function returns a #NUM! error."
 msgstr ""
+"Si @{k} <= 0 o @{k} es mayor que el número de elementos de datos dados esta "
+"función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2195
 msgid "Then LARGE(A1:A5,2) equals 25.9.LARGE(A1:A5,4) equals 17.3."
-msgstr ""
+msgstr "Luego LARGE(A1:A5,2) igual a 25.9.LARGE(A1:A5,4) igual a 17.3."
 
 #: ../plugins/fn-stat/functions.c:2229
 msgid "SMALL:@{k}-th smallest value in a data set"
-msgstr ""
+msgstr "SMALL:@{k}º valor más pequeño en un conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:2238
 msgid "Then SMALL(A1:A5,2) equals 17.3.SMALL(A1:A5,4) equals 25.9."
-msgstr ""
+msgstr "Luego SMALL(A1:A5,2) igual a 17.3.SMALL(A1:A5,4) igual a 25.9."
 
 #: ../plugins/fn-stat/functions.c:2273
-#, fuzzy
 msgid ""
 "PROB:probability of an interval for a discrete (and finite) probability "
 "distribution"
-msgstr "R.QNORM:probabilidad de la función cuantil de la distribución normal."
+msgstr ""
+"PROB:probabilidad de un intervalo para una distribución de probabilidad "
+"discreta (y finita)"
 
 #: ../plugins/fn-stat/functions.c:2274
 msgid "x_range:possible values"
-msgstr ""
+msgstr "rango_x:valores posibles"
 
 #: ../plugins/fn-stat/functions.c:2275
 msgid "prob_range:probabilities of the corresponding values"
