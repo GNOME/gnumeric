@@ -1,3 +1,9 @@
+2012-11-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/cell-draw.c (cell_draw_simplify_cb): new
+	(cell_draw_simplify_attributes): new
+	(cell_calc_layout): use the above after setting hashes
+
 2012-11-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/cell.c (gnm_cell_get_format_given_style): new
