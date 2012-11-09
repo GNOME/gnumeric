@@ -1,5 +1,13 @@
 2012-11-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/cell-draw.c (cell_draw_simplify_cb): change argument type and flag
+	possible change in layout height
+	(cell_draw_simplify_attributes): change argument type and recalc natural
+	height if necessary
+	(cell_calc_layout): adjust call of cell_draw_simplify_attributes
+
+2012-11-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/cell-draw.c (cell_draw_simplify_cb): new
 	(cell_draw_simplify_attributes): new
 	(cell_calc_layout): use the above after setting hashes

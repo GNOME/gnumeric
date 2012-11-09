@@ -29,21 +29,28 @@ static char const hashes[] =
 
 static gboolean 
 cell_draw_simplify_cb (PangoAttribute *attribute,
-		       G_GNUC_UNUSED gpointer data)
+		       gboolean *recalc_height)
 {
-	return ((attribute->klass->type == PANGO_ATTR_RISE) ||
-		(attribute->klass->type == PANGO_ATTR_SCALE) ||
-		(attribute->klass->type == PANGO_ATTR_SHAPE));
+	if ((attribute->klass->type == PANGO_ATTR_RISE) ||
+	    (attribute->klass->type == PANGO_ATTR_SCALE)) {
+		*recalc_height = TRUE;
+		return TRUE;
+	} 
+	return (attribute->klass->type == PANGO_ATTR_SHAPE);
 }
 
 static void
-cell_draw_simplify_attributes (PangoLayout *layout)
+cell_draw_simplify_attributes (GnmRenderedValue *rv)
 {
 	PangoAttrList *pal = pango_attr_list_ref 
-		(pango_layout_get_attributes (layout));
+		(pango_layout_get_attributes (rv->layout));
+	gboolean recalc_height = FALSE;
 	pango_attr_list_unref 
 		(pango_attr_list_filter 
-		 (pal, (PangoAttrFilterFunc) cell_draw_simplify_cb, NULL));
+		 (pal, (PangoAttrFilterFunc) cell_draw_simplify_cb, &recalc_height));
+	if (recalc_height)
+		pango_layout_get_size (rv->layout, NULL,
+				       &rv->layout_natural_height);
 }
 
 /*
@@ -112,7 +119,7 @@ cell_calc_layout (G_GNUC_UNUSED GnmCell const *cell, GnmRenderedValue *rv, int y
 		   the characters in the number.  Probably ok.  */
 		pango_layout_set_text (layout, hashes,
 				       MIN (sizeof (hashes) - 1, 2 * textlen));
-		cell_draw_simplify_attributes (layout);
+		cell_draw_simplify_attributes (rv);
 		rv->numeric_overflow = TRUE;
 		rv->variable_width = TRUE;
 		rv->hfilled = TRUE;
@@ -121,7 +128,7 @@ cell_calc_layout (G_GNUC_UNUSED GnmCell const *cell, GnmRenderedValue *rv, int y
 	/* Special handling of error dates.  */
 	if (!was_drawn && rv->numeric_overflow) {
 		pango_layout_set_text (layout, hashes, -1);
-		cell_draw_simplify_attributes (layout);
+		cell_draw_simplify_attributes (rv);
 		rv->variable_width = TRUE;
 		rv->hfilled = TRUE;
 	}
