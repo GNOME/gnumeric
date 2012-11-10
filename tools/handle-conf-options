@@ -360,6 +360,16 @@ my %extra_attributes =
 	 'max' => 2,
      },
 
+     '/org/gnome/gnumeric/stf/export/format' => {
+	 'min' => 0,
+	 'max' => 2,
+     },
+
+     '/org/gnome/gnumeric/stf/export/quoting' => {
+	 'min' => 0,
+	 'max' => 2,
+     },
+
     );
 foreach my $key (keys %extra_attributes) {
     my $newkey = $key;

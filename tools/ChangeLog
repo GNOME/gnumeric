@@ -1,5 +1,9 @@
 2012-11-10  Andreas J Guelzow <aguelzow@pyrshep.ca>
 
+	* handle-conf-options: add min/max for new preference setttings
+
+2012-11-10  Andreas J Guelzow <aguelzow@pyrshep.ca>
+
 	* handle-conf-options: fix paths
 
 2012-09-06  Morten Welinder <terra@gnome.org>

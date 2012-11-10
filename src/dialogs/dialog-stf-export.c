@@ -270,7 +270,7 @@ stf_export_dialog_format_page_init (TextExportState *state)
 }
 
 static gboolean
-cb_collect_exported_sheets (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
+cb_collect_exported_sheets (GtkTreeModel *model, G_GNUC_UNUSED GtkTreePath *path, GtkTreeIter *iter,
 			    TextExportState *state)
 {
 	gboolean exported;
@@ -364,6 +364,11 @@ stf_export_dialog_finish (TextExportState *state)
 		gnm_conf_set_stf_export_separator (separator);
 		gnm_conf_set_stf_export_stringindicator (quote);
 		gnm_conf_set_stf_export_terminator (eol);
+		gnm_conf_set_stf_export_quoting (quotingmode);
+		gnm_conf_set_stf_export_format (format);
+		gnm_conf_set_stf_export_transliteration (transliteratemode == GNM_STF_TRANSLITERATE_MODE_TRANS);
+		gnm_conf_set_stf_export_locale (locale);
+		gnm_conf_set_stf_export_encoding (charset);
 	}
 
 	/* Which sheets?  */
@@ -391,7 +396,7 @@ set_sheet_selection_count (TextExportState *state, int n)
 }
 
 static gboolean
-cb_set_sheet (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
+cb_set_sheet (GtkTreeModel *model, G_GNUC_UNUSED GtkTreePath *path, GtkTreeIter *iter,
 	      gpointer data)
 {
 	gboolean value;
@@ -524,7 +529,7 @@ cb_sheet_bottom (TextExportState *state)
 }
 
 static void
-cb_sheet_export_toggled (GtkCellRendererToggle *cell,
+cb_sheet_export_toggled (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 			 const gchar *path_string,
 			 TextExportState *state)
 {

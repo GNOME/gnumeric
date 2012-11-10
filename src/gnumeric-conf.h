@@ -461,6 +461,22 @@ GOConfNode *gnm_conf_get_searchreplace_whole_words_only_node (void);
 gboolean gnm_conf_get_searchreplace_whole_words_only (void);
 void gnm_conf_set_searchreplace_whole_words_only (gboolean);
 
+GOConfNode *gnm_conf_get_stf_export_encoding_node (void);
+const char *gnm_conf_get_stf_export_encoding (void);
+void gnm_conf_set_stf_export_encoding (const char *);
+
+GOConfNode *gnm_conf_get_stf_export_format_node (void);
+int gnm_conf_get_stf_export_format (void);
+void gnm_conf_set_stf_export_format (int);
+
+GOConfNode *gnm_conf_get_stf_export_locale_node (void);
+const char *gnm_conf_get_stf_export_locale (void);
+void gnm_conf_set_stf_export_locale (const char *);
+
+GOConfNode *gnm_conf_get_stf_export_quoting_node (void);
+int gnm_conf_get_stf_export_quoting (void);
+void gnm_conf_set_stf_export_quoting (int);
+
 GOConfNode *gnm_conf_get_stf_export_separator_node (void);
 const char *gnm_conf_get_stf_export_separator (void);
 void gnm_conf_set_stf_export_separator (const char *);
@@ -472,6 +488,10 @@ void gnm_conf_set_stf_export_stringindicator (const char *);
 GOConfNode *gnm_conf_get_stf_export_terminator_node (void);
 const char *gnm_conf_get_stf_export_terminator (void);
 void gnm_conf_set_stf_export_terminator (const char *);
+
+GOConfNode *gnm_conf_get_stf_export_transliteration_node (void);
+gboolean gnm_conf_get_stf_export_transliteration (void);
+void gnm_conf_set_stf_export_transliteration (gboolean);
 
 GtkToolbarStyle gnm_conf_get_toolbar_style (void);
 void gnm_conf_set_toolbar_style (GtkToolbarStyle);

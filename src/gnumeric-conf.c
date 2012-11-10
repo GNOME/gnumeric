@@ -3793,6 +3793,124 @@ gnm_conf_get_searchreplace_whole_words_only_node (void)
 	return get_watch_node (&watch_searchreplace_whole_words_only);
 }
 
+static struct cb_watch_string watch_stf_export_encoding = {
+	0, "stf/export/encoding",
+	"Text Export Encoding",
+	"Please use the Text Export dialog to edit this value.",
+	"",
+};
+
+const char *
+gnm_conf_get_stf_export_encoding (void)
+{
+	if (!watch_stf_export_encoding.handler)
+		watch_string (&watch_stf_export_encoding);
+	return watch_stf_export_encoding.var;
+}
+
+void
+gnm_conf_set_stf_export_encoding (const char *x)
+{
+	g_return_if_fail (x != NULL);
+	if (!watch_stf_export_encoding.handler)
+		watch_string (&watch_stf_export_encoding);
+	set_string (&watch_stf_export_encoding, x);
+}
+
+GOConfNode *
+gnm_conf_get_stf_export_encoding_node (void)
+{
+	return get_watch_node (&watch_stf_export_encoding);
+}
+
+static struct cb_watch_int watch_stf_export_format = {
+	0, "stf/export/format",
+	"Text Export Formating Rule",
+	"Please use the Text Export dialog to edit this value.",
+	0, 2, 0,
+};
+
+int
+gnm_conf_get_stf_export_format (void)
+{
+	if (!watch_stf_export_format.handler)
+		watch_int (&watch_stf_export_format);
+	return watch_stf_export_format.var;
+}
+
+void
+gnm_conf_set_stf_export_format (int x)
+{
+	if (!watch_stf_export_format.handler)
+		watch_int (&watch_stf_export_format);
+	set_int (&watch_stf_export_format, x);
+}
+
+GOConfNode *
+gnm_conf_get_stf_export_format_node (void)
+{
+	return get_watch_node (&watch_stf_export_format);
+}
+
+static struct cb_watch_string watch_stf_export_locale = {
+	0, "stf/export/locale",
+	"Text Export Locale",
+	"Please use the Text Export dialog to edit this value.",
+	"",
+};
+
+const char *
+gnm_conf_get_stf_export_locale (void)
+{
+	if (!watch_stf_export_locale.handler)
+		watch_string (&watch_stf_export_locale);
+	return watch_stf_export_locale.var;
+}
+
+void
+gnm_conf_set_stf_export_locale (const char *x)
+{
+	g_return_if_fail (x != NULL);
+	if (!watch_stf_export_locale.handler)
+		watch_string (&watch_stf_export_locale);
+	set_string (&watch_stf_export_locale, x);
+}
+
+GOConfNode *
+gnm_conf_get_stf_export_locale_node (void)
+{
+	return get_watch_node (&watch_stf_export_locale);
+}
+
+static struct cb_watch_int watch_stf_export_quoting = {
+	0, "stf/export/quoting",
+	"Text Export String Quoting Rule",
+	"Please use the Text Export dialog to edit this value.",
+	0, 2, 1,
+};
+
+int
+gnm_conf_get_stf_export_quoting (void)
+{
+	if (!watch_stf_export_quoting.handler)
+		watch_int (&watch_stf_export_quoting);
+	return watch_stf_export_quoting.var;
+}
+
+void
+gnm_conf_set_stf_export_quoting (int x)
+{
+	if (!watch_stf_export_quoting.handler)
+		watch_int (&watch_stf_export_quoting);
+	set_int (&watch_stf_export_quoting, x);
+}
+
+GOConfNode *
+gnm_conf_get_stf_export_quoting_node (void)
+{
+	return get_watch_node (&watch_stf_export_quoting);
+}
+
 static struct cb_watch_string watch_stf_export_separator = {
 	0, "stf/export/separator",
 	"Text Export Field Separator",
@@ -3881,6 +3999,35 @@ GOConfNode *
 gnm_conf_get_stf_export_terminator_node (void)
 {
 	return get_watch_node (&watch_stf_export_terminator);
+}
+
+static struct cb_watch_bool watch_stf_export_transliteration = {
+	0, "stf/export/transliteration",
+	"Text Export Unknown Character Transliteration",
+	"Please use the Text Export dialog to edit this value.",
+	TRUE,
+};
+
+gboolean
+gnm_conf_get_stf_export_transliteration (void)
+{
+	if (!watch_stf_export_transliteration.handler)
+		watch_bool (&watch_stf_export_transliteration);
+	return watch_stf_export_transliteration.var;
+}
+
+void
+gnm_conf_set_stf_export_transliteration (gboolean x)
+{
+	if (!watch_stf_export_transliteration.handler)
+		watch_bool (&watch_stf_export_transliteration);
+	set_bool (&watch_stf_export_transliteration, x);
+}
+
+GOConfNode *
+gnm_conf_get_stf_export_transliteration_node (void)
+{
+	return get_watch_node (&watch_stf_export_transliteration);
 }
 
 static struct cb_watch_enum watch_toolbar_style = {

@@ -456,7 +456,7 @@ gnm_stf_format_mode_get_type (void)
 /* ------------------------------------------------------------------------- */
 
 static void
-gnm_stf_export_init (GObject *obj)
+gnm_stf_export_init (G_GNUC_UNUSED GObject *obj)
 {
 }
 
@@ -616,22 +616,40 @@ gnm_stf_get_stfe (GObject *obj)
 		const char * sep = gnm_conf_get_stf_export_separator ();
 		const char * string_indicator = gnm_conf_get_stf_export_stringindicator ();
 		const char * terminator = gnm_conf_get_stf_export_terminator ();
+		const char * locale = gnm_conf_get_stf_export_locale ();
+		const char * encoding = gnm_conf_get_stf_export_encoding ();
+		int quotingmode = gnm_conf_get_stf_export_quoting ();
+		int format = gnm_conf_get_stf_export_format ();
+		int transliteratemode = gnm_conf_get_stf_export_transliteration () ?
+			GNM_STF_TRANSLITERATE_MODE_TRANS : GNM_STF_TRANSLITERATE_MODE_ESCAPE;
 		GString *triggers = g_string_new (NULL);
+
+		if (strlen (locale) == 0)
+			locale = NULL;
+		if (strlen (encoding) == 0)
+			encoding = NULL;
 
 		/* Workaround GConf bug #641807. */
 		if (terminator == NULL || strlen (terminator) == 0)
 			terminator = "\n";
 
-		g_string_append (triggers, " \t");
-		g_string_append (triggers, terminator);
-		g_string_append (triggers, string_indicator);
-		g_string_append (triggers, sep);
+		if (quotingmode == GSF_OUTPUT_CSV_QUOTING_MODE_AUTO) {
+			g_string_append (triggers, " \t");
+			g_string_append (triggers, terminator);
+			g_string_append (triggers, string_indicator);
+			g_string_append (triggers, sep);
+		}
 
 		stfe = g_object_new (GNM_STF_EXPORT_TYPE,
 				     "quoting-triggers", triggers->str,
 				     "separator", sep,
 				     "quote", string_indicator,
 				     "eol", terminator,
+				     "charset", encoding,
+				     "locale", locale,
+		      "quoting-mode", quotingmode,
+		      "transliterate-mode", transliteratemode,
+		      "format", format,
 				     NULL);
 		g_object_set_data_full (obj, "stfe", stfe, g_object_unref);
 		g_string_free (triggers, TRUE);
@@ -640,7 +658,7 @@ gnm_stf_get_stfe (GObject *obj)
 }
 
 static void
-gnm_stf_file_saver_save (GOFileSaver const *fs, GOIOContext *context,
+gnm_stf_file_saver_save (G_GNUC_UNUSED GOFileSaver const *fs, GOIOContext *context,
 			 GoView const *view, GsfOutput *output)
 {
 	WorkbookView *wbv = WORKBOOK_VIEW (view);
@@ -734,11 +752,11 @@ error:
 }
 
 static gboolean
-gnm_stf_fs_set_export_options (GOFileSaver *fs,
+gnm_stf_fs_set_export_options (G_GNUC_UNUSED GOFileSaver *fs,
 			       GODoc *doc,
 			       const char *options,
 			       GError **err,
-			       gpointer user)
+			       G_GNUC_UNUSED gpointer user)
 {
 	GnmStfExport *stfe = gnm_stf_get_stfe (G_OBJECT (doc));
 	gnm_stf_export_options_sheet_list_clear (stfe);

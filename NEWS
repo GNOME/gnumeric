@@ -6,6 +6,7 @@ Andreas:
 	* Make ODF import handling of strike-through match LO. [#686789]
 	* Fix style handling in ODF export for empty cells with objects. [#687693]
 	* Fix cell overflow in case of marked up scientific format. [#686540]
+	* Save all settings in stf export. [#685077]
 
 Jean:
 	* Fixed indentation in cell format dialog. [#683576]

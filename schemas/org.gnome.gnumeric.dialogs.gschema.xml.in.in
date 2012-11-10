@@ -282,6 +282,31 @@
       <_summary>Text Export Record Terminator</_summary>
       <_description>Please use the Text Export dialog to edit this value.</_description>
     </key>
+    <key name="locale" type="s">
+      <default>''</default>
+      <_summary>Text Export Locale</_summary>
+      <_description>Please use the Text Export dialog to edit this value.</_description>
+    </key>
+    <key name="encoding" type="s">
+      <default>''</default>
+      <_summary>Text Export Encoding</_summary>
+      <_description>Please use the Text Export dialog to edit this value.</_description>
+    </key>
+    <key name="quoting" type="i">
+      <default>1</default>
+      <_summary>Text Export String Quoting Rule</_summary>
+      <_description>Please use the Text Export dialog to edit this value.</_description>
+    </key>
+    <key name="format" type="i">
+      <default>0</default>
+      <_summary>Text Export Formating Rule</_summary>
+      <_description>Please use the Text Export dialog to edit this value.</_description>
+    </key>
+    <key name="transliteration" type="b">
+      <default>true</default>
+      <_summary>Text Export Unknown Character Transliteration</_summary>
+      <_description>Please use the Text Export dialog to edit this value.</_description>
+    </key>
   </schema>
   <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.searchreplace" path="/org/gnome/gnumeric/searchreplace/">
     <key name="ignore-case" type="b">
