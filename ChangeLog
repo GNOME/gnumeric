@@ -1,3 +1,8 @@
+2012-11-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-image.c (gnm_soi_get_target_list): don't crash when
+	draging an unkown image.
+
 2012-11-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/cell-draw.c (cell_draw_simplify_cb): change argument type and flag

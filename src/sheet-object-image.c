@@ -256,7 +256,7 @@ gnm_soi_get_target_list (SheetObject const *so)
 	GSList *mimes, *ptr;
 	GdkPixbuf *pixbuf = NULL;
 
-	if (soi->type == NULL)
+	if (soi->type == NULL && soi->image != NULL)
 		pixbuf = go_image_get_pixbuf (soi->image);
 	mime_str = go_image_format_to_mime (soi->type);
 	if (mime_str) {
