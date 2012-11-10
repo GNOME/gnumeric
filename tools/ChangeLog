@@ -1,5 +1,9 @@
 2012-11-10  Andreas J Guelzow <aguelzow@pyrshep.ca>
 
+	* handle-conf-options: add introspection markup
+
+2012-11-10  Andreas J Guelzow <aguelzow@pyrshep.ca>
+
 	* handle-conf-options: add min/max for new preference setttings
 
 2012-11-10  Andreas J Guelzow <aguelzow@pyrshep.ca>

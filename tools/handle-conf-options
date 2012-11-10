@@ -481,7 +481,7 @@ sub create_hcfile {
 	    $get_conf_code .= "}\n\n";
 	}
 	$hfile .= "${ctypes}gnm_conf_get_$var (void);\n";
-	$hfile .= "void gnm_conf_set_$var ($ctype);\n\n";
+	$hfile .= "void gnm_conf_set_$var (${ctypes}x);\n\n";
 
 	my $get_head = "$ctype\ngnm_conf_get_$var (void)";
 	my $set_head = "void\ngnm_conf_set_$var (${ctypes}x)";
@@ -589,6 +589,8 @@ sub create_hcfile {
 	    $cfile .= "\t" . &quote_c_string ($long_desc) . ",\n";
 	    $cfile .= "};\n\n";
 
+	    $cfile .= "/**\n * gnm_conf_get_$var:\n *\n";
+	    $cfile .= " * Returns: (element-type char) (transfer none):\n **/\n";
 	    $cfile .= "$get_head\n";
 	    $cfile .= "{\n";
 	    $cfile .= "\tif (!$watch_name.handler)\n";
@@ -596,6 +598,8 @@ sub create_hcfile {
 	    $cfile .= "\treturn $watch_name.var;\n";
 	    $cfile .= "}\n\n";
 
+	    $cfile .= "/**\n * gnm_conf_set_$var:\n";
+	    $cfile .= " * \@x: (element-type char): list of strings\n *\n **/\n";
 	    $cfile .= "$set_head\n";
 	    $cfile .= "{\n";
 	    $cfile .= "\tif (!$watch_name.handler)\n";

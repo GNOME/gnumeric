@@ -1,5 +1,10 @@
 2012-11-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/gnumeric-conf.h: updated using adjusted tools/handle-conf-options
+	* src/gnumeric-conf.c: updated using adjusted tools/handle-conf-options
+
+2012-11-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in: add new
 	stf export items
 	* src/gnumeric-conf.h: updated
