@@ -731,12 +731,6 @@ static struct cb_watch_string_list watch_autocorrect_first_letter_list = {
 	"The autocorrect engine does not capitalize the first letter of words following strings in this list.",
 };
 
-
-/**
- * gnm_conf_get_autocorrect_first_letter_list:
- *
- * Returns: (element-type char) (transfer none): the default #GtkPageSetup.
- **/
 GSList *
 gnm_conf_get_autocorrect_first_letter_list (void)
 {
@@ -745,11 +739,6 @@ gnm_conf_get_autocorrect_first_letter_list (void)
 	return watch_autocorrect_first_letter_list.var;
 }
 
-/**
- * gnm_conf_set_autocorrect_first_letter_list:
- * @l: (element-type char): list of strings.
- *
- **/
 void
 gnm_conf_set_autocorrect_first_letter_list (GSList *x)
 {
@@ -799,11 +788,6 @@ static struct cb_watch_string_list watch_autocorrect_init_caps_list = {
 	"The autocorrect engine does not correct the initial caps for words in this list.",
 };
 
-/**
- * gnm_conf_get_autocorrect_init_caps_list:
- *
- * Returns: (element-type char) (transfer none):
- **/
 GSList *
 gnm_conf_get_autocorrect_init_caps_list (void)
 {
@@ -812,11 +796,6 @@ gnm_conf_get_autocorrect_init_caps_list (void)
 	return watch_autocorrect_init_caps_list.var;
 }
 
-/**
- * gnm_conf_set_autocorrect_init_caps_list:
- * @l: (element-type char): list of strings.
- *
- **/
 void
 gnm_conf_set_autocorrect_init_caps_list (GSList *x)
 {
@@ -895,12 +874,6 @@ static struct cb_watch_string_list watch_autoformat_extra_dirs = {
 	"This list contains all extra directories containing autoformat templates.",
 };
 
-
-/**
- * gnm_conf_get_autoformat_extra_dirs:
- *
- * Returns: (element-type char) (transfer none):
- **/
 GSList *
 gnm_conf_get_autoformat_extra_dirs (void)
 {
@@ -909,11 +882,6 @@ gnm_conf_get_autoformat_extra_dirs (void)
 	return watch_autoformat_extra_dirs.var;
 }
 
-/**
- * gnm_conf_set_autoformat_extra_dirs:
- * @l: (element-type char): list of strings.
- *
- **/
 void
 gnm_conf_set_autoformat_extra_dirs (GSList *x)
 {
@@ -1140,12 +1108,6 @@ static struct cb_watch_string_list watch_core_file_save_extension_check_disabled
 	"This list contains the ids of the file savers for which the extension check is disabled.",
 };
 
-
-/**
- * gnm_conf_get_core_file_save_extension_check_disabled:
- *
- * Returns: (element-type char) (transfer none):
- **/
 GSList *
 gnm_conf_get_core_file_save_extension_check_disabled (void)
 {
@@ -1154,11 +1116,6 @@ gnm_conf_get_core_file_save_extension_check_disabled (void)
 	return watch_core_file_save_extension_check_disabled.var;
 }
 
-/**
- * gnm_conf_set_core_file_save_extension_check_disabled:
- * @l: (element-type char): list of strings.
- *
- **/
 void
 gnm_conf_set_core_file_save_extension_check_disabled (GSList *x)
 {
@@ -1270,9 +1227,7 @@ static struct cb_watch_bool watch_core_gui_editing_autocomplete = {
 gboolean
 gnm_conf_get_core_gui_editing_autocomplete (void)
 {
-	/* testing for node_pool since this is called from
-	 workbook_view_class_init(), fixes criticals during intospêction build */
-	if (node_pool && !watch_core_gui_editing_autocomplete.handler)
+	if (!watch_core_gui_editing_autocomplete.handler)
 		watch_bool (&watch_core_gui_editing_autocomplete);
 	return watch_core_gui_editing_autocomplete.var;
 }
@@ -2225,12 +2180,6 @@ static struct cb_watch_string_list watch_functionselector_recentfunctions = {
 	"The function selector keeps a list of recently used functions. This is that list.",
 };
 
-
-/**
- * gnm_conf_get_functionselector_recentfunctions:
- *
- * Returns: (element-type char) (transfer none):
- **/
 GSList *
 gnm_conf_get_functionselector_recentfunctions (void)
 {
@@ -2239,11 +2188,6 @@ gnm_conf_get_functionselector_recentfunctions (void)
 	return watch_functionselector_recentfunctions.var;
 }
 
-/**
- * gnm_conf_set_functionselector_recentfunctions:
- * @l: (element-type char): list of strings.
- *
- **/
 void
 gnm_conf_set_functionselector_recentfunctions (GSList *x)
 {
@@ -2371,7 +2315,7 @@ gnm_conf_set_plugins_activate_new (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_plugins_activate_nEw_node (void)
+gnm_conf_get_plugins_activate_new_node (void)
 {
 	return get_watch_node (&watch_plugins_activate_new);
 }
@@ -2382,12 +2326,6 @@ static struct cb_watch_string_list watch_plugins_active = {
 	"This list contains all plugins that are supposed to be automatically activated.",
 };
 
-
-/**
- * gnm_conf_get_plugins_active:
- *
- * Returns: (element-type char) (transfer none):
- **/
 GSList *
 gnm_conf_get_plugins_active (void)
 {
@@ -2396,11 +2334,6 @@ gnm_conf_get_plugins_active (void)
 	return watch_plugins_active.var;
 }
 
-/**
- * gnm_conf_set_plugins_active:
- * @l: (element-type char): list of strings.
- *
- **/
 void
 gnm_conf_set_plugins_active (GSList *x)
 {
@@ -2421,12 +2354,6 @@ static struct cb_watch_string_list watch_plugins_extra_dirs = {
 	"This list contains all extra directories containing plugins.",
 };
 
-
-/**
- * gnm_conf_get_plugins_extra_dirs:
- *
- * Returns: (element-type char) (transfer none):
- **/
 GSList *
 gnm_conf_get_plugins_extra_dirs (void)
 {
@@ -2435,11 +2362,6 @@ gnm_conf_get_plugins_extra_dirs (void)
 	return watch_plugins_extra_dirs.var;
 }
 
-/**
- * gnm_conf_set_plugins_extra_dirs:
- * @l: (element-type char): list of strings.
- *
- **/
 void
 gnm_conf_set_plugins_extra_dirs (GSList *x)
 {
@@ -2460,12 +2382,6 @@ static struct cb_watch_string_list watch_plugins_file_states = {
 	"This list contains all plugin file states.",
 };
 
-
-/**
- * gnm_conf_get_plugins_file_states:
- *
- * Returns: (element-type char) (transfer none):
- **/
 GSList *
 gnm_conf_get_plugins_file_states (void)
 {
@@ -2474,11 +2390,6 @@ gnm_conf_get_plugins_file_states (void)
 	return watch_plugins_file_states.var;
 }
 
-/**
- * gnm_conf_set_plugins_file_states:
- * @l: (element-type char): list of strings.
- *
- **/
 void
 gnm_conf_set_plugins_file_states (GSList *x)
 {
@@ -2499,12 +2410,6 @@ static struct cb_watch_string_list watch_plugins_known = {
 	"This list contains all known plugins.",
 };
 
-
-/**
- * gnm_conf_get_plugins_known:
- *
- * Returns: (element-type char) (transfer none):
- **/
 GSList *
 gnm_conf_get_plugins_known (void)
 {
@@ -2513,11 +2418,6 @@ gnm_conf_get_plugins_known (void)
 	return watch_plugins_known.var;
 }
 
-/**
- * gnm_conf_set_plugins_known:
- * @l: (element-type char): list of strings.
- *
- **/
 void
 gnm_conf_set_plugins_known (GSList *x)
 {
@@ -2654,12 +2554,6 @@ static struct cb_watch_string_list watch_printsetup_footer = {
 	"The default page footer for new documents that can be modified using the\n	page setup dialog.",
 };
 
-
-/**
- * gnm_conf_get_printsetup_footer:
- *
- * Returns: (element-type char) (transfer none):
- **/
 GSList *
 gnm_conf_get_printsetup_footer (void)
 {
@@ -2668,11 +2562,6 @@ gnm_conf_get_printsetup_footer (void)
 	return watch_printsetup_footer.var;
 }
 
-/**
- * gnm_conf_set_printsetup_footer:
- * @l: (element-type char): list of strings.
- *
- **/
 void
 gnm_conf_set_printsetup_footer (GSList *x)
 {
@@ -2693,12 +2582,6 @@ static struct cb_watch_string_list watch_printsetup_gtk_setting = {
 	"The configuration of GTKPrintSetting. Do not edit this variable.",
 };
 
-
-/**
- * gnm_conf_get_printsetup_gtk_setting:
- *
- * Returns: (element-type char) (transfer none):
- **/
 GSList *
 gnm_conf_get_printsetup_gtk_setting (void)
 {
@@ -2707,11 +2590,6 @@ gnm_conf_get_printsetup_gtk_setting (void)
 	return watch_printsetup_gtk_setting.var;
 }
 
-/**
- * gnm_conf_set_printsetup_gtk_setting:
- * @l: (element-type char): list of strings.
- *
- **/
 void
 gnm_conf_set_printsetup_gtk_setting (GSList *x)
 {
@@ -2732,12 +2610,6 @@ static struct cb_watch_string_list watch_printsetup_header = {
 	"The default page header for new documents that can be modified using the\n	page setup dialog.",
 };
 
-
-/**
- * gnm_conf_get_printsetup_header:
- *
- * Returns: (element-type char) (transfer none):
- **/
 GSList *
 gnm_conf_get_printsetup_header (void)
 {
@@ -2746,11 +2618,6 @@ gnm_conf_get_printsetup_header (void)
 	return watch_printsetup_header.var;
 }
 
-/**
- * gnm_conf_set_printsetup_header:
- * @l: (element-type char): list of strings.
- *
- **/
 void
 gnm_conf_set_printsetup_header (GSList *x)
 {
@@ -2888,12 +2755,6 @@ static struct cb_watch_string_list watch_printsetup_hf_left = {
 	"Please use the Print Setup dialog to edit this value.",
 };
 
-
-/**
- * gnm_conf_get_printsetup_hf_left:
- *
- * Returns: (element-type char) (transfer none):
- **/
 GSList *
 gnm_conf_get_printsetup_hf_left (void)
 {
@@ -2902,11 +2763,6 @@ gnm_conf_get_printsetup_hf_left (void)
 	return watch_printsetup_hf_left.var;
 }
 
-/**
- * gnm_conf_set_printsetup_hf_left:
- * @l: (element-type char): list of strings.
- *
- **/
 void
 gnm_conf_set_printsetup_hf_left (GSList *x)
 {
@@ -2927,12 +2783,6 @@ static struct cb_watch_string_list watch_printsetup_hf_middle = {
 	"Please use the Print Setup dialog to edit this value.",
 };
 
-
-/**
- * gnm_conf_get_printsetup_hf_middle:
- *
- * Returns: (element-type char) (transfer none):
- **/
 GSList *
 gnm_conf_get_printsetup_hf_middle (void)
 {
@@ -2941,11 +2791,6 @@ gnm_conf_get_printsetup_hf_middle (void)
 	return watch_printsetup_hf_middle.var;
 }
 
-/**
- * gnm_conf_set_printsetup_hf_middle:
- * @l: (element-type char): list of strings.
- *
- **/
 void
 gnm_conf_set_printsetup_hf_middle (GSList *x)
 {
@@ -2966,12 +2811,6 @@ static struct cb_watch_string_list watch_printsetup_hf_right = {
 	"Please use the Print Setup dialog to edit this value.",
 };
 
-
-/**
- * gnm_conf_get_printsetup_hf_right:
- *
- * Returns: (element-type char) (transfer none):
- **/
 GSList *
 gnm_conf_get_printsetup_hf_right (void)
 {
@@ -2980,11 +2819,6 @@ gnm_conf_get_printsetup_hf_right (void)
 	return watch_printsetup_hf_right.var;
 }
 
-/**
- * gnm_conf_set_printsetup_hf_right:
- * @l: (element-type char): list of strings.
- *
- **/
 void
 gnm_conf_set_printsetup_hf_right (GSList *x)
 {

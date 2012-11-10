@@ -160,12 +160,12 @@ sub walk_gsetting_tree {
 # -----------------------------------------------------------------------------
 
 my %extra_attributes =
-    ('/apps/gnumeric/core/gui/editing/enter_moves_dir' => {
+    ('/org/gnome/gnumeric/core/gui/editing/enter_moves_dir' => {
 	'gtype' => 'GO_TYPE_DIRECTION',
 	'default' => 'GO_DIRECTION_DOWN',  # Should match schema
      },
 
-     '/apps/gnumeric/printsetup/preferred-unit' => {
+     '/org/gnome/gnumeric/printsetup/preferred-unit' => {
 	 'gtype' => 'GTK_TYPE_UNIT',
 	 'default' => 'GTK_UNIT_MM',  # Should match schema
      },
@@ -176,186 +176,186 @@ my %extra_attributes =
 	 'default' => 'GTK_TOOLBAR_ICONS',  # Should match schema
      },
 
-     '/apps/gnumeric/core/gui/editing/recalclag' => {
+     '/org/gnome/gnumeric/core/gui/editing/recalclag' => {
 	 'min' => -5000,
 	 'max' => 5000
      },
 
-     '/apps/gnumeric/core/gui/editing/autocomplete-min-chars' => {
+     '/org/gnome/gnumeric/core/gui/editing/autocomplete-min-chars' => {
 	 'min' => 1,
 	 'max' => 10
      },
 
-     '/apps/gnumeric/core/gui/toolbars/format-position' => {
+     '/org/gnome/gnumeric/core/gui/toolbars/format-position' => {
 	 'gtype' => 'GTK_TYPE_POSITION',
 	 'min' => 0,
 	 'max' => 3,
      },
 
-     '/apps/gnumeric/core/gui/toolbars/longformat-position' => {
+     '/org/gnome/gnumeric/core/gui/toolbars/longformat-position' => {
 	 'gtype' => 'GTK_TYPE_POSITION',
 	 'min' => 0,
 	 'max' => 3,
      },
 
-     '/apps/gnumeric/core/gui/toolbars/object-position' => {
+     '/org/gnome/gnumeric/core/gui/toolbars/object-position' => {
 	 'gtype' => 'GTK_TYPE_POSITION',
 	 'min' => 0,
 	 'max' => 3,
      },
 
-     '/apps/gnumeric/core/gui/toolbars/standard-position' => {
+     '/org/gnome/gnumeric/core/gui/toolbars/standard-position' => {
 	 'gtype' => 'GTK_TYPE_POSITION',
 	 'min' => 0,
 	 'max' => 3,
      },
 
-     '/apps/gnumeric/core/sort/dialog/max-initial-clauses' => {
+     '/org/gnome/gnumeric/core/sort/dialog/max-initial-clauses' => {
 	 'min' => 0,
 	 'max' => 256,
      },
 
-     '/apps/gnumeric/core/workbook/n-cols' => {
+     '/org/gnome/gnumeric/core/workbook/n-cols' => {
 	 'min' => 'GNM_MIN_COLS',
 	 'max' => 'GNM_MAX_COLS',
      },
 
-     '/apps/gnumeric/core/workbook/n-rows' => {
+     '/org/gnome/gnumeric/core/workbook/n-rows' => {
 	 'min' => 'GNM_MIN_ROWS',
 	 'max' => 'GNM_MAX_ROWS',
      },
 
-     '/apps/gnumeric/core/workbook/n-sheet' => {
+     '/org/gnome/gnumeric/core/workbook/n-sheet' => {
 	 'min' => 1,
 	 'max' => 64,
      },
 
-     '/apps/gnumeric/core/workbook/autosave_time' => {
+     '/org/gnome/gnumeric/core/workbook/autosave_time' => {
 	 'min' => 0,
 	 'max' => '365 * 24 * 60 * 60',
      },
 
-     '/apps/gnumeric/core/xml/compression-level' => {
+     '/org/gnome/gnumeric/core/xml/compression-level' => {
 	 'min' => 0,
 	 'max' => 9,
      },
 
-     '/apps/gnumeric/functionselector/num-of-recent' => {
+     '/org/gnome/gnumeric/functionselector/num-of-recent' => {
 	 'min' => 0,
 	 'max' => 40,
      },
 
-     '/apps/gnumeric/printsetup/paper-orientation' => {
+     '/org/gnome/gnumeric/printsetup/paper-orientation' => {
 	 'min' => 'GTK_PAGE_ORIENTATION_PORTRAIT',
 	 'max' => 'GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE',
      },
 
-     '/apps/gnumeric/printsetup/scale-height' => {
+     '/org/gnome/gnumeric/printsetup/scale-height' => {
 	 'min' => 0,
 	 'max' => 100,
      },
 
-     '/apps/gnumeric/printsetup/scale-width' => {
+     '/org/gnome/gnumeric/printsetup/scale-width' => {
 	 'min' => 0,
 	 'max' => 100,
      },
 
-     '/apps/gnumeric/undo/max_descriptor_width' => {
+     '/org/gnome/gnumeric/undo/max_descriptor_width' => {
 	 'min' => 5,
 	 'max' => 256,
      },
 
-     '/apps/gnumeric/undo/maxnum' => {
+     '/org/gnome/gnumeric/undo/maxnum' => {
 	 'min' => 0,
 	 'max' => 10000,
      },
 
-     '/apps/gnumeric/undo/size' => {
+     '/org/gnome/gnumeric/undo/size' => {
 	'min' => 1,
 	'max' => 1000000
      },
 
-     '/apps/gnumeric/core/defaultfont/size' => {
+     '/org/gnome/gnumeric/core/defaultfont/size' => {
 	 'min' => 1,
 	 'max' => 100,
      },
 
-     '/apps/gnumeric/core/gui/screen/horizontaldpi' => {
+     '/org/gnome/gnumeric/core/gui/screen/horizontaldpi' => {
 	 'min' => 10,
 	 'max' => 1000,
      },
 
-     '/apps/gnumeric/core/gui/screen/verticaldpi' => {
+     '/org/gnome/gnumeric/core/gui/screen/verticaldpi' => {
 	 'min' => 10,
 	 'max' => 1000,
      },
 
-     '/apps/gnumeric/core/gui/window/x' => {
+     '/org/gnome/gnumeric/core/gui/window/x' => {
 	 'min' => 0.1,
 	 'max' => 1,
      },
 
-     '/apps/gnumeric/core/gui/window/y' => {
+     '/org/gnome/gnumeric/core/gui/window/y' => {
 	 'min' => 0.1,
 	 'max' => 1,
      },
 
-     '/apps/gnumeric/core/gui/window/zoom' => {
+     '/org/gnome/gnumeric/core/gui/window/zoom' => {
 	 'min' => 0.1,
 	 'max' => 5,
      },
 
-     '/apps/gnumeric/printsetup/hf-font-size' => {
+     '/org/gnome/gnumeric/printsetup/hf-font-size' => {
 	 'min' => 1,
 	 'max' => 100,
      },
 
-     '/apps/gnumeric/printsetup/margin-bottom' => {
+     '/org/gnome/gnumeric/printsetup/margin-bottom' => {
 	 'min' => 0,
 	 'max' => 10000,
      },
 
-     '/apps/gnumeric/printsetup/margin-gtk-bottom' => {
+     '/org/gnome/gnumeric/printsetup/margin-gtk-bottom' => {
 	 'min' => 0,
 	 'max' => 720,
      },
 
-     '/apps/gnumeric/printsetup/margin-gtk-left' => {
+     '/org/gnome/gnumeric/printsetup/margin-gtk-left' => {
 	 'min' => 0,
 	 'max' => 720,
      },
 
-     '/apps/gnumeric/printsetup/margin-gtk-right' => {
+     '/org/gnome/gnumeric/printsetup/margin-gtk-right' => {
 	 'min' => 0,
 	 'max' => 720,
      },
 
-     '/apps/gnumeric/printsetup/margin-gtk-top' => {
+     '/org/gnome/gnumeric/printsetup/margin-gtk-top' => {
 	 'min' => 0,
 	 'max' => 720,
      },
 
-     '/apps/gnumeric/printsetup/margin-top' => {
+     '/org/gnome/gnumeric/printsetup/margin-top' => {
 	 'min' => 0,
 	 'max' => 10000,
      },
 
-     '/apps/gnumeric/printsetup/scale-percentage-value' => {
+     '/org/gnome/gnumeric/printsetup/scale-percentage-value' => {
 	 'min' => 1,
 	 'max' => 500,
      },
 
-     '/apps/gnumeric/searchreplace/scope' => {
+     '/org/gnome/gnumeric/searchreplace/scope' => {
 	 'min' => 0,
 	 'max' => 2,
      },
 
-     '/apps/gnumeric/searchreplace/error-behaviour' => {
+     '/org/gnome/gnumeric/searchreplace/error-behaviour' => {
 	 'min' => 0,
 	 'max' => 4,
      },
 
-     '/apps/gnumeric/searchreplace/regex' => {
+     '/org/gnome/gnumeric/searchreplace/regex' => {
 	 'min' => 0,
 	 'max' => 2,
      },
@@ -364,7 +364,7 @@ my %extra_attributes =
 foreach my $key (keys %extra_attributes) {
     my $newkey = $key;
     if ($newkey eq '/apps/gnome-settings/gnumeric/toolbar_style') {
-	$newkey = '/apps/gnumeric/toolbar-style';
+	$newkey = '/org/gnome/gnumeric/toolbar-style';
     } else {
 	$newkey = lc $newkey;
 	$newkey =~ s/_/-/g;
@@ -444,14 +444,14 @@ sub create_hcfile {
 	my $ctypes = "$ctype "; $ctypes =~ s/\*\s/\*/;
 
 	my $var = $key;
-	$var =~ s{^/apps/gnumeric/}{};
+	$var =~ s{^/org/gnome/gnumeric/}{};
 	$var =~ s{^/apps/gnome-settings/gnumeric/}{};
 	$var =~ s{[^a-zA-Z0-9_]}{_}g;
 
 	my $watch_name = "watch_$var";
 
 	my $needs_conf = 0;
-	if ($key =~ s{/apps/gnumeric/}{}) {
+	if ($key =~ s{/org/gnome/gnumeric/}{}) {
 	    my $dir = $key; $dir =~ s{/[^/]+$}{};
 	    $dirs{$dir} = 1;
 	    $needs_conf = 1;

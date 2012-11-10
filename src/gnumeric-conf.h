@@ -39,7 +39,7 @@ void gnm_conf_set_autocorrect_first_letter (gboolean);
 
 GOConfNode *gnm_conf_get_autocorrect_first_letter_list_node (void);
 GSList *gnm_conf_get_autocorrect_first_letter_list (void);
-void gnm_conf_set_autocorrect_first_letter_list (GSList *l);
+void gnm_conf_set_autocorrect_first_letter_list (GSList *);
 
 GOConfNode *gnm_conf_get_autocorrect_init_caps_node (void);
 gboolean gnm_conf_get_autocorrect_init_caps (void);
@@ -47,7 +47,7 @@ void gnm_conf_set_autocorrect_init_caps (gboolean);
 
 GOConfNode *gnm_conf_get_autocorrect_init_caps_list_node (void);
 GSList *gnm_conf_get_autocorrect_init_caps_list (void);
-void gnm_conf_set_autocorrect_init_caps_list (GSList *l);
+void gnm_conf_set_autocorrect_init_caps_list (GSList *);
 
 GOConfNode *gnm_conf_get_autocorrect_names_of_days_node (void);
 gboolean gnm_conf_get_autocorrect_names_of_days (void);
@@ -59,7 +59,7 @@ void gnm_conf_set_autocorrect_replace (gboolean);
 
 GOConfNode *gnm_conf_get_autoformat_extra_dirs_node (void);
 GSList *gnm_conf_get_autoformat_extra_dirs (void);
-void gnm_conf_set_autoformat_extra_dirs (GSList *l);
+void gnm_conf_set_autoformat_extra_dirs (GSList *);
 
 GOConfNode *gnm_conf_get_autoformat_sys_dir_node (void);
 const char *gnm_conf_get_autoformat_sys_dir (void);
@@ -91,7 +91,7 @@ void gnm_conf_set_core_file_save_def_overwrite (gboolean);
 
 GOConfNode *gnm_conf_get_core_file_save_extension_check_disabled_node (void);
 GSList *gnm_conf_get_core_file_save_extension_check_disabled (void);
-void gnm_conf_set_core_file_save_extension_check_disabled (GSList *l);
+void gnm_conf_set_core_file_save_extension_check_disabled (GSList *);
 
 GOConfNode *gnm_conf_get_core_file_save_single_sheet_node (void);
 gboolean gnm_conf_get_core_file_save_single_sheet (void);
@@ -239,7 +239,7 @@ void gnm_conf_set_functionselector_num_of_recent (int);
 
 GOConfNode *gnm_conf_get_functionselector_recentfunctions_node (void);
 GSList *gnm_conf_get_functionselector_recentfunctions (void);
-void gnm_conf_set_functionselector_recentfunctions (GSList *l);
+void gnm_conf_set_functionselector_recentfunctions (GSList *);
 
 GOConfNode *gnm_conf_get_plugin_glpk_glpsol_path_node (void);
 const char *gnm_conf_get_plugin_glpk_glpsol_path (void);
@@ -253,26 +253,25 @@ GOConfNode *gnm_conf_get_plugin_lpsolve_lpsolve_path_node (void);
 const char *gnm_conf_get_plugin_lpsolve_lpsolve_path (void);
 void gnm_conf_set_plugin_lpsolve_lpsolve_path (const char *);
 
-/* capitalized E to make introspection happy */
-GOConfNode *gnm_conf_get_plugins_activate_nEw_node (void);
+GOConfNode *gnm_conf_get_plugins_activate_new_node (void);
 gboolean gnm_conf_get_plugins_activate_new (void);
 void gnm_conf_set_plugins_activate_new (gboolean);
 
 GOConfNode *gnm_conf_get_plugins_active_node (void);
 GSList *gnm_conf_get_plugins_active (void);
-void gnm_conf_set_plugins_active (GSList *l);
+void gnm_conf_set_plugins_active (GSList *);
 
 GOConfNode *gnm_conf_get_plugins_extra_dirs_node (void);
 GSList *gnm_conf_get_plugins_extra_dirs (void);
-void gnm_conf_set_plugins_extra_dirs (GSList *l);
+void gnm_conf_set_plugins_extra_dirs (GSList *);
 
 GOConfNode *gnm_conf_get_plugins_file_states_node (void);
 GSList *gnm_conf_get_plugins_file_states (void);
-void gnm_conf_set_plugins_file_states (GSList *l);
+void gnm_conf_set_plugins_file_states (GSList *);
 
 GOConfNode *gnm_conf_get_plugins_known_node (void);
 GSList *gnm_conf_get_plugins_known (void);
-void gnm_conf_set_plugins_known (GSList *l);
+void gnm_conf_set_plugins_known (GSList *);
 
 GOConfNode *gnm_conf_get_printsetup_across_then_down_node (void);
 gboolean gnm_conf_get_printsetup_across_then_down (void);
@@ -292,15 +291,15 @@ void gnm_conf_set_printsetup_center_vertically (gboolean);
 
 GOConfNode *gnm_conf_get_printsetup_footer_node (void);
 GSList *gnm_conf_get_printsetup_footer (void);
-void gnm_conf_set_printsetup_footer (GSList *l);
+void gnm_conf_set_printsetup_footer (GSList *);
 
 GOConfNode *gnm_conf_get_printsetup_gtk_setting_node (void);
 GSList *gnm_conf_get_printsetup_gtk_setting (void);
-void gnm_conf_set_printsetup_gtk_setting (GSList *l);
+void gnm_conf_set_printsetup_gtk_setting (GSList *);
 
 GOConfNode *gnm_conf_get_printsetup_header_node (void);
 GSList *gnm_conf_get_printsetup_header (void);
-void gnm_conf_set_printsetup_header (GSList *l);
+void gnm_conf_set_printsetup_header (GSList *);
 
 GOConfNode *gnm_conf_get_printsetup_hf_font_bold_node (void);
 gboolean gnm_conf_get_printsetup_hf_font_bold (void);
@@ -320,15 +319,15 @@ void gnm_conf_set_printsetup_hf_font_size (double);
 
 GOConfNode *gnm_conf_get_printsetup_hf_left_node (void);
 GSList *gnm_conf_get_printsetup_hf_left (void);
-void gnm_conf_set_printsetup_hf_left (GSList *l);
+void gnm_conf_set_printsetup_hf_left (GSList *);
 
 GOConfNode *gnm_conf_get_printsetup_hf_middle_node (void);
 GSList *gnm_conf_get_printsetup_hf_middle (void);
-void gnm_conf_set_printsetup_hf_middle (GSList *l);
+void gnm_conf_set_printsetup_hf_middle (GSList *);
 
 GOConfNode *gnm_conf_get_printsetup_hf_right_node (void);
 GSList *gnm_conf_get_printsetup_hf_right (void);
-void gnm_conf_set_printsetup_hf_right (GSList *l);
+void gnm_conf_set_printsetup_hf_right (GSList *);
 
 GOConfNode *gnm_conf_get_printsetup_margin_bottom_node (void);
 double gnm_conf_get_printsetup_margin_bottom (void);
