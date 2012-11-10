@@ -1,3 +1,8 @@
+2012-11-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_scientific): read forced-exponent-sign foreign
+	element
+
 2012-11-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_cell): use

@@ -5034,13 +5034,16 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_int_range (xin, attrs, OO_NS_NUMBER, "min-exponent-digits",
 					      &details->exponent_digits, 0, 30))
 			;
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "forced-exponent-sign",
+				       &(details->exponent_sign_forced)))
+			;
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "engineering",
 				       &engineering))
 			;
 		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "literal-E",
 				       &use_literal_E));
 	if (engineering)
-		details->exponent_step = 3;
+		details->exponent_step = 3;	
 	details->use_markup = !use_literal_E;
 	go_format_generate_str (state->cur_format.accum, details);
 
