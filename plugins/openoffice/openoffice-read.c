@@ -5045,6 +5045,7 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 	if (engineering)
 		details->exponent_step = 3;	
 	details->use_markup = !use_literal_E;
+	details->simplify_mantissa = (details->min_digits == 0) && !use_literal_E;
 	go_format_generate_str (state->cur_format.accum, details);
 
 	go_format_details_free (details);

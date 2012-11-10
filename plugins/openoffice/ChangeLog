@@ -1,5 +1,9 @@
 2012-11-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_scientific): set simplify_mantissa
+
+2012-11-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_scientific): read forced-exponent-sign foreign
 	element
 
