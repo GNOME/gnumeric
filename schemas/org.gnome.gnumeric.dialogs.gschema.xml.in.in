@@ -292,13 +292,13 @@
       <_summary>Text Export Encoding</_summary>
       <_description>Please use the Text Export dialog to edit this value.</_description>
     </key>
-    <key name="quoting" type="i">
-      <default>1</default>
+    <key name="quoting" type="s">
+      <default>'auto'</default>
       <_summary>Text Export String Quoting Rule</_summary>
       <_description>Please use the Text Export dialog to edit this value.</_description>
     </key>
-    <key name="format" type="i">
-      <default>0</default>
+    <key name="format" type="s">
+      <default>'auto'</default>
       <_summary>Text Export Formating Rule</_summary>
       <_description>Please use the Text Export dialog to edit this value.</_description>
     </key>

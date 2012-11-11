@@ -3,6 +3,8 @@
 # define _GNM_GCONF_H_
 
 #include "gnumeric.h"
+#include <gsf/gsf-output-csv.h>
+#include "stf-export.h"
 
 G_BEGIN_DECLS
 
@@ -466,16 +468,16 @@ const char *gnm_conf_get_stf_export_encoding (void);
 void gnm_conf_set_stf_export_encoding (const char *x);
 
 GOConfNode *gnm_conf_get_stf_export_format_node (void);
-int gnm_conf_get_stf_export_format (void);
-void gnm_conf_set_stf_export_format (int x);
+GnmStfFormatMode gnm_conf_get_stf_export_format (void);
+void gnm_conf_set_stf_export_format (GnmStfFormatMode x);
 
 GOConfNode *gnm_conf_get_stf_export_locale_node (void);
 const char *gnm_conf_get_stf_export_locale (void);
 void gnm_conf_set_stf_export_locale (const char *x);
 
 GOConfNode *gnm_conf_get_stf_export_quoting_node (void);
-int gnm_conf_get_stf_export_quoting (void);
-void gnm_conf_set_stf_export_quoting (int x);
+GsfOutputCsvQuotingMode gnm_conf_get_stf_export_quoting (void);
+void gnm_conf_set_stf_export_quoting (GsfOutputCsvQuotingMode x);
 
 GOConfNode *gnm_conf_get_stf_export_separator_node (void);
 const char *gnm_conf_get_stf_export_separator (void);

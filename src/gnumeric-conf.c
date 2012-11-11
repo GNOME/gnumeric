@@ -1267,7 +1267,7 @@ static struct cb_watch_bool watch_core_gui_editing_autocomplete = {
 gboolean
 gnm_conf_get_core_gui_editing_autocomplete (void)
 {
-	if (!watch_core_gui_editing_autocomplete.handler)
+	if (node_pool && !watch_core_gui_editing_autocomplete.handler)
 		watch_bool (&watch_core_gui_editing_autocomplete);
 	return watch_core_gui_editing_autocomplete.var;
 }
@@ -3973,27 +3973,27 @@ gnm_conf_get_stf_export_encoding_node (void)
 	return get_watch_node (&watch_stf_export_encoding);
 }
 
-static struct cb_watch_int watch_stf_export_format = {
+static struct cb_watch_enum watch_stf_export_format = {
 	0, "stf/export/format",
 	"Text Export Formating Rule",
 	"Please use the Text Export dialog to edit this value.",
-	0, 2, 0,
+	GNM_STF_FORMAT_AUTO,
 };
 
-int
+GnmStfFormatMode
 gnm_conf_get_stf_export_format (void)
 {
 	if (!watch_stf_export_format.handler)
-		watch_int (&watch_stf_export_format);
+		watch_enum (&watch_stf_export_format, GNM_STF_FORMAT_MODE_TYPE);
 	return watch_stf_export_format.var;
 }
 
 void
-gnm_conf_set_stf_export_format (int x)
+gnm_conf_set_stf_export_format (GnmStfFormatMode x)
 {
 	if (!watch_stf_export_format.handler)
-		watch_int (&watch_stf_export_format);
-	set_int (&watch_stf_export_format, x);
+		watch_enum (&watch_stf_export_format, GNM_STF_FORMAT_MODE_TYPE);
+	set_enum (&watch_stf_export_format, x);
 }
 
 GOConfNode *
@@ -4032,27 +4032,27 @@ gnm_conf_get_stf_export_locale_node (void)
 	return get_watch_node (&watch_stf_export_locale);
 }
 
-static struct cb_watch_int watch_stf_export_quoting = {
+static struct cb_watch_enum watch_stf_export_quoting = {
 	0, "stf/export/quoting",
 	"Text Export String Quoting Rule",
 	"Please use the Text Export dialog to edit this value.",
-	0, 2, 1,
+	GSF_OUTPUT_CSV_QUOTING_MODE_AUTO,
 };
 
-int
+GsfOutputCsvQuotingMode
 gnm_conf_get_stf_export_quoting (void)
 {
 	if (!watch_stf_export_quoting.handler)
-		watch_int (&watch_stf_export_quoting);
+		watch_enum (&watch_stf_export_quoting, GSF_OUTPUT_CSV_QUOTING_MODE_TYPE);
 	return watch_stf_export_quoting.var;
 }
 
 void
-gnm_conf_set_stf_export_quoting (int x)
+gnm_conf_set_stf_export_quoting (GsfOutputCsvQuotingMode x)
 {
 	if (!watch_stf_export_quoting.handler)
-		watch_int (&watch_stf_export_quoting);
-	set_int (&watch_stf_export_quoting, x);
+		watch_enum (&watch_stf_export_quoting, GSF_OUTPUT_CSV_QUOTING_MODE_TYPE);
+	set_enum (&watch_stf_export_quoting, x);
 }
 
 GOConfNode *

@@ -2,6 +2,13 @@
 
 	* src/gnumeric-conf.h: updated
 	* src/gnumeric-conf.c: updated
+	* schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in: use enums for
+	"format" and "quoting"
+
+2012-11-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gnumeric-conf.h: updated
+	* src/gnumeric-conf.c: updated
 	* schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in: change path
 	to avoid introspection bug
 	* component/gnumeric.c (go_plugin_init): adjust for changed
