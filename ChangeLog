@@ -7,6 +7,10 @@
 
 2012-11-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* configure.in: we need goffice 0.9.7
+
+2012-11-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/gnumeric-conf.h: updated
 	* src/gnumeric-conf.c: updated
 	* schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in: use enums for
