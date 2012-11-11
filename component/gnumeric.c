@@ -328,7 +328,7 @@ go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 			gnm_conf_get_plugins_file_states (),
 			gnm_conf_get_plugins_active (),
 			dir_list,
-			gnm_conf_get_plugins_activate_new (),
+			gnm_conf_get_plugins_activate_newplugins (),
 			gnm_plugin_loader_module_get_type ());
 }
 

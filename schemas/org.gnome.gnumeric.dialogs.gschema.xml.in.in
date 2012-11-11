@@ -44,7 +44,7 @@
     </key>
   </schema>
   <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gnumeric.plugins" path="/org/gnome/gnumeric/plugins/">
-    <key name="activate-new" type="b">
+    <key name="activate-newplugins" type="b">
       <default>true</default>
       <_summary>Activate New Plugins</_summary>
       <_description>This variable determines whether to activate every new encountered plugin.</_description>

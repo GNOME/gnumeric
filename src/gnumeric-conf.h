@@ -253,9 +253,9 @@ GOConfNode *gnm_conf_get_plugin_lpsolve_lpsolve_path_node (void);
 const char *gnm_conf_get_plugin_lpsolve_lpsolve_path (void);
 void gnm_conf_set_plugin_lpsolve_lpsolve_path (const char *x);
 
-GOConfNode *gnm_conf_get_plugins_activate_new_node (void);
-gboolean gnm_conf_get_plugins_activate_new (void);
-void gnm_conf_set_plugins_activate_new (gboolean x);
+GOConfNode *gnm_conf_get_plugins_activate_newplugins_node (void);
+gboolean gnm_conf_get_plugins_activate_newplugins (void);
+void gnm_conf_set_plugins_activate_newplugins (gboolean x);
 
 GOConfNode *gnm_conf_get_plugins_active_node (void);
 GSList *gnm_conf_get_plugins_active (void);

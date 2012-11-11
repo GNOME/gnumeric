@@ -2341,33 +2341,33 @@ gnm_conf_get_plugin_lpsolve_lpsolve_path_node (void)
 	return get_watch_node (&watch_plugin_lpsolve_lpsolve_path);
 }
 
-static struct cb_watch_bool watch_plugins_activate_new = {
-	0, "plugins/activate-new",
+static struct cb_watch_bool watch_plugins_activate_newplugins = {
+	0, "plugins/activate-newplugins",
 	"Activate New Plugins",
 	"This variable determines whether to activate every new encountered plugin.",
 	TRUE,
 };
 
 gboolean
-gnm_conf_get_plugins_activate_new (void)
+gnm_conf_get_plugins_activate_newplugins (void)
 {
-	if (!watch_plugins_activate_new.handler)
-		watch_bool (&watch_plugins_activate_new);
-	return watch_plugins_activate_new.var;
+	if (!watch_plugins_activate_newplugins.handler)
+		watch_bool (&watch_plugins_activate_newplugins);
+	return watch_plugins_activate_newplugins.var;
 }
 
 void
-gnm_conf_set_plugins_activate_new (gboolean x)
+gnm_conf_set_plugins_activate_newplugins (gboolean x)
 {
-	if (!watch_plugins_activate_new.handler)
-		watch_bool (&watch_plugins_activate_new);
-	set_bool (&watch_plugins_activate_new, x);
+	if (!watch_plugins_activate_newplugins.handler)
+		watch_bool (&watch_plugins_activate_newplugins);
+	set_bool (&watch_plugins_activate_newplugins, x);
 }
 
 GOConfNode *
-gnm_conf_get_plugins_activate_new_node (void)
+gnm_conf_get_plugins_activate_newplugins_node (void)
 {
-	return get_watch_node (&watch_plugins_activate_new);
+	return get_watch_node (&watch_plugins_activate_newplugins);
 }
 
 static struct cb_watch_string_list watch_plugins_active = {

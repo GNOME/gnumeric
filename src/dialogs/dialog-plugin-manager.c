@@ -9,7 +9,7 @@
  *   Tom Dyas (tdyas@romulus.rutgers.edu)
  *  New plugin manager:
  *   Zbigniew Chyla (cyba@gnome.pl)
- *   Andreas J. Guelzow (aguelzow@taliesin.ca)
+ *   Andreas J. Guelzow (aguelzow@pyrshep.ca)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -200,7 +200,7 @@ static void
 cb_pm_checkbutton_install_new_toggled (GtkCheckButton *checkbutton,
 				       G_GNUC_UNUSED PluginManagerGUI *pm_gui)
 {
-	gnm_conf_set_plugins_activate_new (
+	gnm_conf_set_plugins_activate_newplugins (
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)));
 }
 
@@ -516,7 +516,7 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 		G_CALLBACK (cb_pm_checkbutton_install_new_toggled), pm_gui);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pm_gui->checkbutton_install_new),
-				      gnm_conf_get_plugins_activate_new ());
+				      gnm_conf_get_plugins_activate_newplugins ());
 
 	/* initialize plugin list */
 	gtk_list_store_clear (pm_gui->model_plugins);
