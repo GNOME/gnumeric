@@ -13,6 +13,7 @@ Jean:
 	* Do not use filtered out values in graphs. [#687209]
 	* Fixed crash on interprocess image copying. [#687414]
 	* Fix sheet focus after resizing. [#687188]
+	* Unselect sheet objects on closing to avoid leaks. [#688094]
 
 Morten:
 	* Fix xlsx save performance problems.  [#662058]  [#685530]

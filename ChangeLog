@@ -1,3 +1,10 @@
+2012-11-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/item-cursor.c (item_cursor_draw): always draw the double line of
+	the selection rectangle, even if top and bottom are out of sight.
+	* src/sheet-control-gui.c (scg_finalize): unselect objects so that they
+	are correctly unrefed. [#688094]
+
 2012-11-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gnumeric-conf.h: updated

@@ -1766,6 +1766,7 @@ scg_finalize (GObject *object)
 	GSList *ptr;
 
 	/* remove the object view before we disappear */
+	scg_object_unselect (scg, NULL);
 	if (*scg->pane)
 		for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next )
 			SCG_FOREACH_PANE (scg, pane,
