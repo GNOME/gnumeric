@@ -11,23 +11,23 @@
 # Francisco Javier F. Serrador <fserrador@gmail.com>, 2006, 2011.
 # Sylvia Sánchez <LailahFSF@gmail.com>, 2011, 2012.
 # Juan Matías Olmos <colonizare@yahoo.com.ar>, 2012.
-# Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
+# Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-08 03:30+0000\n"
-"PO-Revision-Date: 2012-11-09 13:49+0100\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2012-11-11 17:15+0000\n"
+"PO-Revision-Date: 2012-11-11 13:21-0500\n"
+"Last-Translator: Milagros Alessandra Infante Montero <maim92@gmail.com>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
@@ -9848,81 +9848,94 @@ msgstr "rango_x:valores posibles"
 
 #: ../plugins/fn-stat/functions.c:2275
 msgid "prob_range:probabilities of the corresponding values"
-msgstr ""
+msgstr "rango_prob:probabilidades de los valores correspondientes"
 
 #: ../plugins/fn-stat/functions.c:2276
 msgid "lower_limit:lower interval limit"
-msgstr ""
+msgstr "límite_inferior:límite del intervalo inferior"
 
 #: ../plugins/fn-stat/functions.c:2277
 msgid "upper_limit:upper interval limit, defaults to @{lower_limit}"
 msgstr ""
+"límite_superior:límite de intervalo superior, el predeterminado es @"
+"{límite_inferior}"
 
 #: ../plugins/fn-stat/functions.c:2278
 msgid ""
 "If the sum of the probabilities in @{prob_range} is not equal to 1 this "
 "function returns a #NUM! error."
 msgstr ""
+"Si la suma de las probabilidades en @{rango_prob} no es igual a 1 esta "
+"función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2280
 msgid ""
 "If any value in @{prob_range} is <=0 or > 1, this function returns a #NUM! "
 "error."
 msgstr ""
+"Si cualquier valor en @{rango_prob} es <=0 o > 1, esta función devuelve un "
+"error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2282
 msgid ""
 "If @{x_range} and @{prob_range} contain a different number of data entries, "
 "this function returns a #N/A error."
 msgstr ""
+"Si @{rango_x} y @{rango_prob} contiene un número diferente de entradas de "
+"datos, esta función devuelve u error #N/A."
 
 #: ../plugins/fn-stat/functions.c:2359
 msgid "STEYX:standard error of the predicted y-value in the regression"
-msgstr ""
+msgstr "STEYX:error estándar del valor previsto de y en la regresión"
 
 #: ../plugins/fn-stat/functions.c:2360 ../plugins/fn-stat/functions.c:3405
 #: ../plugins/fn-stat/functions.c:3521 ../plugins/fn-stat/functions.c:3763
 #: ../plugins/fn-stat/functions.c:3861 ../plugins/fn-stat/functions.c:3951
 #: ../plugins/fn-stat/functions.c:4010 ../plugins/fn-stat/functions.c:4062
 msgid "known_ys:known y-values"
-msgstr ""
+msgstr "ys_conocidos:valores y conocidos"
 
 #: ../plugins/fn-stat/functions.c:2361 ../plugins/fn-stat/functions.c:3522
 #: ../plugins/fn-stat/functions.c:3952 ../plugins/fn-stat/functions.c:4011
 #: ../plugins/fn-stat/functions.c:4063
 msgid "known_xs:known x-values"
-msgstr ""
+msgstr "xs_conocidos:valores x conocidos"
 
 #: ../plugins/fn-stat/functions.c:2362
 msgid ""
 "If @{known_ys} and @{known_xs} are empty or have a different number of "
 "arguments then this function returns a #N/A error."
 msgstr ""
+"Si @{ys_conocidos} y @{xs_conocidos} están vacíos o tienen un número "
+"diferente de argumentos luego esta función devuelve un error #N/A."
 
 #: ../plugins/fn-stat/functions.c:2368
 msgid "Then STEYX(A1:A5,B1:B5) equals 1.101509979."
-msgstr ""
+msgstr "Luego STEYX(A1:A5,B1:B5) igual a 1.101509979."
 
 #: ../plugins/fn-stat/functions.c:2412
 msgid ""
 "ZTEST:the probability of observing a sample mean as large as or larger than "
 "the mean of the given sample"
 msgstr ""
+"ZTEST:la probabilidad de observar una media de muestra tan grande o más "
+"grande que la media de la muestra dada"
 
 #: ../plugins/fn-stat/functions.c:2414
 msgid "ref:data set (sample)"
-msgstr ""
+msgstr "ref:conjunto de datos (muestra)"
 
 #: ../plugins/fn-stat/functions.c:2415
 msgid "x:population mean"
 msgstr "x:media de población"
 
 #: ../plugins/fn-stat/functions.c:2416
-#, fuzzy
 msgid ""
 "stddev:population standard deviation, defaults to the sample standard "
 "deviation"
-msgstr "sigma:desviación estándar de la distribución."
+msgstr ""
+"stddev:desviación estándar de la población, el predeterminado es la "
+"desviación estándar de la muestra."
 
 #: ../plugins/fn-stat/functions.c:2417
 msgid ""
@@ -9930,19 +9943,24 @@ msgid ""
 "larger than the mean of the given sample for samples drawn from a normal "
 "distribution with mean @{x} and standard deviation @{stddev}."
 msgstr ""
+"ZTEST calula la probabilidad de observar una media de muestra tan grande o "
+"más grande que la media de la muestra dada para medias dibujadas de una "
+"distribución normal con media @{x} y desviación estándar @{stddev}."
 
 #: ../plugins/fn-stat/functions.c:2420
 msgid ""
 "If @{ref} contains less than two data items ZTEST returns #DIV/0! error."
 msgstr ""
+"Si @{ref} contiene menos que dos elementos de datos ZTEST devuelve #DIV/0! "
+"error."
 
 #: ../plugins/fn-stat/functions.c:2426
 msgid "Then ZTEST(A1:A5,20) equals 0.254717826."
-msgstr ""
+msgstr "Luego ZTEST(A1:A5,20) igual a 0.254717826."
 
 #: ../plugins/fn-stat/functions.c:2477
 msgid "AVERAGEA:average of all the values and cells"
-msgstr ""
+msgstr "AVERAGEA:promedio de todos los valores y celdas"
 
 #: ../plugins/fn-stat/functions.c:2482 ../plugins/fn-stat/functions.c:2507
 #: ../plugins/fn-stat/functions.c:2534 ../plugins/fn-stat/functions.c:2566
@@ -9952,172 +9970,193 @@ msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 "11.4, 17.3, \"missing\", 25.9, and 40.1."
 msgstr ""
+"Asumiendo que las celdas A1, A2, …, A5 contiene números y cadenas 11.4, "
+"17.3, «faltante», 25.9 y 40.1."
 
 #: ../plugins/fn-stat/functions.c:2483
 msgid "Then AVERAGEA(A1:A5) equals 18.94."
-msgstr ""
+msgstr "Luego AVERAGEA(A1:A5) igual a 18.94."
 
 #: ../plugins/fn-stat/functions.c:2502
 msgid ""
 "MAXA:largest value, with negative numbers considered smaller than positive "
 "numbers"
 msgstr ""
+"MAXA:valor más grande, con números negativos considerados más pequeños que "
+"números positivos"
 
 #: ../plugins/fn-stat/functions.c:2509
 msgid "Then MAXA(A1:A5) equals 40.1."
-msgstr ""
+msgstr "Luego MAXA(A1:A5) igual a 40.1."
 
 #: ../plugins/fn-stat/functions.c:2529
 msgid ""
 "MINA:smallest value, with negative numbers considered smaller than positive "
 "numbers"
 msgstr ""
+"MINA:valor más pequeño, con números negativos considerados más pequeños que "
+"números positivos"
 
 #: ../plugins/fn-stat/functions.c:2536
 msgid "Then MINA(A1:A5) equals 0."
-msgstr ""
+msgstr "Luego MINA(A1:A5) igual a 0."
 
 #: ../plugins/fn-stat/functions.c:2556
 msgid "VARA:sample variance of the given sample"
-msgstr ""
+msgstr "VARA:varianza de muestra de la muestra dada"
 
 #: ../plugins/fn-stat/functions.c:2559
 msgid "VARA is also known as the N-1-variance."
-msgstr ""
+msgstr "VARA también es conocido como la varianza N-1."
 
 #: ../plugins/fn-stat/functions.c:2560
 msgid "To get the true variance of a complete population use VARPA."
 msgstr ""
+"Para obtener la varianza verdadera de una población completa use VARPA."
 
 #: ../plugins/fn-stat/functions.c:2568
 msgid "Then VARA(A1:A5) equals 228.613."
-msgstr ""
+msgstr "Luego VARA(A1:A5) iguala a 228.613."
 
 #: ../plugins/fn-stat/functions.c:2587
 msgid "VARPA:variance of an entire population"
-msgstr ""
+msgstr "VARPA:varianza de una población entera"
 
 #: ../plugins/fn-stat/functions.c:2590
 msgid "VARPA is also known as the N-variance."
-msgstr ""
+msgstr "VARPA también es conocido como la varianza N."
 
 #: ../plugins/fn-stat/functions.c:2595
 msgid "Then VARPA(A1:A5) equals 182.8904."
-msgstr ""
+msgstr "Luego VARPA(A1:A5) igual a 182.8904."
 
 #: ../plugins/fn-stat/functions.c:2614
 msgid "STDEVA:sample standard deviation of the given sample"
-msgstr "STDEVA:desviación estándar de la distribución del ejemplo dado"
+msgstr "STDEVA:desviación estándar de la muestra de la muestra dada"
 
 #: ../plugins/fn-stat/functions.c:2618
 msgid "STDEVA is also known as the N-1-standard deviation."
-msgstr ""
+msgstr "STDEVA también es conocido como la desviación estándar N-1."
 
 #: ../plugins/fn-stat/functions.c:2619
 msgid ""
 "To obtain the population standard deviation of a whole population use "
 "STDEVPA."
 msgstr ""
+"Para obtener la desviación estándar de la población de una población entera "
+"use STDEVPA."
 
 #: ../plugins/fn-stat/functions.c:2625
 msgid "Then STDEVA(A1:A5) equals 15.119953704."
-msgstr ""
+msgstr "Luego STDEVA(A1:A5) igual a 15.119953704."
 
 #: ../plugins/fn-stat/functions.c:2644
-#, fuzzy
 msgid "STDEVPA:population standard deviation of an entire population"
-msgstr "sigma:desviación estándar de la distribución."
+msgstr "STDEVPA:desviación estándar de la población de una población entera."
 
 #: ../plugins/fn-stat/functions.c:2652
 msgid "Then STDEVPA(A1:A5) equals 13.523697719."
-msgstr ""
+msgstr "Luego STDEVPA(A1:A5) igual a 13.523697719."
 
 #: ../plugins/fn-stat/functions.c:2671
 msgid "PERCENTRANK:rank of a data point in a data set"
-msgstr ""
+msgstr "PERCENTRANK:rango de un punto de datos en un conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:2672
 msgid "array:range of numeric values"
-msgstr ""
+msgstr "matriz:rango de valores numéricos"
 
 #: ../plugins/fn-stat/functions.c:2673
 msgid "x:data point to be ranked"
-msgstr ""
+msgstr "x:clasificar punto de datos"
 
 #: ../plugins/fn-stat/functions.c:2674
 msgid "significance:number of significant digits, defaults to 3"
 msgstr ""
+"significancia:número de dígitos de significancia, el predeterminado es 3"
 
 #: ../plugins/fn-stat/functions.c:2675
 msgid ""
 "If @{array} contains no data points, this function returns a #NUM! error."
 msgstr ""
+"Si @{matriz} no contiene puntos de datos, esta función devuelve un error "
+"#NUM!."
 
 #: ../plugins/fn-stat/functions.c:2677
 msgid ""
 "If @{significance} is less than one, this function returns a #NUM! error."
 msgstr ""
+"Si @{significancia} es menor que uno, esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2679
 msgid ""
 "If @{x} exceeds the largest value or is less than the smallest value in @"
 "{array}, this function returns a #NUM! error."
 msgstr ""
+"Si @{x} excede el valor más grande o es menor que el valor más pequeño en @"
+"{matriz}, esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2681
 msgid ""
 "If @{x} does not match any of the values in @{array} or @{x} matches more "
 "than once, this function interpolates the returned value."
 msgstr ""
+"Si @{x} no coincide con cualquiera de los valores en @{matriz} o @{x} "
+"coincide más de una vez, esta función interpola el valor devuelto."
 
 #: ../plugins/fn-stat/functions.c:2768
 msgid ""
 "PERCENTILE:determines the  100*@{k}-th percentile of the given data points"
 msgstr ""
+"PERCENTILE:determina el 100*@{k}-ésimo percentil de los puntos de datos dados"
 
 #: ../plugins/fn-stat/functions.c:2769 ../plugins/fn-stat/functions.c:2811
 msgid "array:data points"
-msgstr ""
+msgstr "matriz:puntos de datos"
 
 #: ../plugins/fn-stat/functions.c:2770
 msgid "k:which percentile to calculate"
-msgstr ""
+msgstr "k:que percentil para calcular"
 
 #: ../plugins/fn-stat/functions.c:2772
 msgid "If @{k} < 0 or @{k} > 1, this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{k} < 0 o @{k} > 1, esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2775
 msgid "Then PERCENTILE(A1:A5,0.42) equals 20.02."
-msgstr ""
+msgstr "Luego PERCENTILE(A1:A5,0.42) igual a 20.02."
 
 #: ../plugins/fn-stat/functions.c:2810
 msgid "QUARTILE:the @{k}-th quartile of the data points"
-msgstr ""
+msgstr "QUARTILE:el @{k}-avo cuartil de los puntos de datos"
 
 #: ../plugins/fn-stat/functions.c:2812
 msgid "quart:a number from 0 to 4, indicating which quartile to calculate"
-msgstr ""
+msgstr "cuarto:un número de 0 a 4, indicando que cuartil se va a calcular"
 
 #: ../plugins/fn-stat/functions.c:2814
 msgid ""
 "If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error. If @"
 "{quart} = 0, the smallest value of @{array} to be returned."
 msgstr ""
+"Si @{cuarto} < 0 o @{cuarto} > 4, esta función devuelve un error #NUM!. Si @"
+"{cuarto} = 0, el valor más pequeño de @{matriz} que se devolverá."
 
 #: ../plugins/fn-stat/functions.c:2815
 msgid "If @{quart} is not an integer, it is truncated."
-msgstr ""
+msgstr "Si @{cuarto} no es un entero, está truncado."
 
 #: ../plugins/fn-stat/functions.c:2818
 msgid "Then QUARTILE(A1:A5,1) equals 17.3."
-msgstr ""
+msgstr "Luego QUARTILE(A1:A5,1) igual a 17.3."
 
 #: ../plugins/fn-stat/functions.c:2853
 msgid ""
 "FTEST:p-value for the two-tailed hypothesis test comparing the variances of "
 "two populations"
 msgstr ""
+"FTEST:valor p para la prueba de hipótesis de dos colas comparando las "
+"varianzas de dos poblaciones"
 
 #: ../plugins/fn-stat/functions.c:2855 ../plugins/fn-stat/functions.c:2912
 msgid "array1:sample from the first population"
