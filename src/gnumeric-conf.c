@@ -1267,7 +1267,7 @@ static struct cb_watch_bool watch_core_gui_editing_autocomplete = {
 gboolean
 gnm_conf_get_core_gui_editing_autocomplete (void)
 {
-	if (node_pool && !watch_core_gui_editing_autocomplete.handler)
+	if (!watch_core_gui_editing_autocomplete.handler)
 		watch_bool (&watch_core_gui_editing_autocomplete);
 	return watch_core_gui_editing_autocomplete.var;
 }

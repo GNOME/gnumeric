@@ -1,3 +1,8 @@
+2012-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gnumeric-conf.h: updated
+	* src/gnumeric-conf.c: updated
+
 2012-11-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/position.c: fixed introspection annotations. [#682514]

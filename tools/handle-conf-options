@@ -370,10 +370,6 @@ my %extra_attributes =
 	'default' => 'GSF_OUTPUT_CSV_QUOTING_MODE_AUTO',  # Should match schema
      },
 
-     '/org/gnome/gnumeric/core/gui/editing/autocomplete' => {
-	 'extrabooltest' => 'node_pool && ',
-     },
-
     );
 
 foreach my $key (keys %extra_attributes) {
@@ -455,8 +451,6 @@ sub create_hcfile {
 	my $default = $schema->{'default'};
 	my $min = $schema->{'min'};
 	my $max = $schema->{'max'};
-	my $extrabooltest = $schema->{'extrabooltest'};
-	$extrabooltest = '' unless defined $extrabooltest;
 	my $gtype = ($schema->{'gtype'} || '0');
 
 	my $ctype = $type_to_ctype{$gtype || $type};
@@ -510,7 +504,7 @@ sub create_hcfile {
 
 	    $cfile .= "$get_head\n";
 	    $cfile .= "{\n";
-	    $cfile .= "\tif ($extrabooltest!$watch_name.handler)\n";
+	    $cfile .= "\tif (!$watch_name.handler)\n";
 	    $cfile .= "\t\twatch_bool (&$watch_name);\n";
 	    $cfile .= "\treturn $watch_name.var;\n";
 	    $cfile .= "}\n\n";
