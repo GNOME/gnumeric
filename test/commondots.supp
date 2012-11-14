@@ -284,3 +284,18 @@
    ...
    fun:g_file_monitor_file
 }
+
+{
+   GLIBC/thread1/MLK
+   Memcheck:Leak
+   ...
+   fun:g_system_thread_new
+}
+
+{
+   GLIB/closure1/MLK
+   Memcheck:Leak
+   ...
+   fun:g_signal_connect_object
+   fun:gnm_app_init
+}
