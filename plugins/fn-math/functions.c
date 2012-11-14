@@ -1246,7 +1246,7 @@ gnumeric_power (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_float (r);
 	}
 
-	if (x != 0 && y != 0)
+	if (x == 0 && y != 0)
 		return value_new_error_DIV0 (ei->pos);
 	else
 		return value_new_error_NUM (ei->pos);
