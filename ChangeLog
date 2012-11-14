@@ -1,3 +1,7 @@
+2012-11-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/position.c: fixed introspection annotations. [#682514]
+
 2012-11-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-cursor.c (item_cursor_draw): always draw the double line of

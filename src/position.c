@@ -80,12 +80,12 @@ gnm_eval_pos_get_type (void)
 
 /**
  * eval_pos_init:
- * @ep: (transfer full): The position to init.
+ * @ep: The position to init.
  * @s: #Sheet
  * @col: column.
  * @row: row
  *
- * Returns: (transfer full): the initialized #GnmEvalPos (@ep).
+ * Returns: (transfer none): the initialized #GnmEvalPos (@ep).
  **/
 GnmEvalPos *
 eval_pos_init (GnmEvalPos *ep, Sheet *sheet, int col, int row)
@@ -104,11 +104,11 @@ eval_pos_init (GnmEvalPos *ep, Sheet *sheet, int col, int row)
 
 /**
  * eval_pos_init_pos:
- * @ep: (transfer full): The position to init.
+ * @ep: The position to init.
  * @s: #Sheet
  * @pos: #GnmCellPos
  *
- * Returns: (transfer full): the initialized #GnmEvalPos (@ep).
+ * Returns: (transfer none): the initialized #GnmEvalPos (@ep).
  **/
 GnmEvalPos *
 eval_pos_init_pos (GnmEvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
@@ -127,10 +127,10 @@ eval_pos_init_pos (GnmEvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
 
 /**
  * eval_pos_init_dep:
- * @ep: (transfer full): The position to init.
+ * @ep: The position to init.
  * @dep:
  *
- * Returns: (transfer full): the initialized #GnmEvalPos (@ep).
+ * Returns: (transfer none): the initialized #GnmEvalPos (@ep).
  **/
 GnmEvalPos *
 eval_pos_init_dep (GnmEvalPos *ep, GnmDependent const *dep)
@@ -151,12 +151,12 @@ eval_pos_init_dep (GnmEvalPos *ep, GnmDependent const *dep)
 
 /**
  * eval_pos_init_editpos:
- * @ep: (transfer full): The position to init.
+ * @ep: The position to init.
  * @sv: @Sheetview
  *
  * The function initializes an evalpos with the edit position from the
  * given sheetview.
- * Returns: (transfer full): the initialized #GnmEvalPos (@ep).
+ * Returns: (transfer none): the initialized #GnmEvalPos (@ep).
  **/
 GnmEvalPos *
 eval_pos_init_editpos (GnmEvalPos *ep, SheetView const *sv)
@@ -170,12 +170,12 @@ eval_pos_init_editpos (GnmEvalPos *ep, SheetView const *sv)
 
 /**
  * eval_pos_init_cell:
- * @ep: (transfer full): The position to init.
+ * @ep: The position to init.
  * @cell: A cell
  *
  * The function initializes an evalpos with the given cell
  *
- * Returns: (transfer full): the initialized #GnmEvalPos (@ep).
+ * Returns: (transfer none): the initialized #GnmEvalPos (@ep).
  */
 GnmEvalPos *
 eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
@@ -193,12 +193,12 @@ eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
 
 /**
  * eval_pos_init_cell:
- * @ep: (transfer full): The position to init.
+ * @ep: The position to init.
  * @cell: A cell
  *
  * The function initializes an evalpos with the given sheet.
  *
- * Returns: (transfer full): the initialized #GnmEvalPos (@ep).
+ * Returns: (transfer none): the initialized #GnmEvalPos (@ep).
  */
 GnmEvalPos *
 eval_pos_init_sheet (GnmEvalPos *ep, Sheet const *sheet)
@@ -239,7 +239,7 @@ gnm_parse_pos_get_type (void)
 /*
  * parse_pos_init:
  *
- * @pp: (transfer full): The position to init.
+ * @pp: The position to init.
  * @sheet: The sheet being selected
  * @wb: The workbook being selected.
  * @row:
@@ -247,7 +247,7 @@ gnm_parse_pos_get_type (void)
  *
  * Use either a sheet (preferred) or a workbook to initialize the supplied
  * ParsePosition.
- * Returns: (transfer full): the initialized #GnmParsePos (@pp).
+ * Returns: (transfer none): the initialized #GnmParsePos (@pp).
  */
 GnmParsePos *
 parse_pos_init (GnmParsePos *pp, Workbook *wb, Sheet const *sheet,
@@ -269,10 +269,10 @@ parse_pos_init (GnmParsePos *pp, Workbook *wb, Sheet const *sheet,
 
 /*
  * parse_pos_init_dep:
- * @pp: (transfer full): The position to init.
+ * @pp: The position to init.
  * @dep: The dependent
  *
- * Returns: (transfer full): the initialized #GnmParsePos (@pp).
+ * Returns: (transfer none): the initialized #GnmParsePos (@pp).
  */
 GnmParsePos *
 parse_pos_init_dep (GnmParsePos *pp, GnmDependent const *dep)
@@ -291,10 +291,10 @@ parse_pos_init_dep (GnmParsePos *pp, GnmDependent const *dep)
 
 /*
  * parse_pos_init_cell:
- * @pp: (transfer full): The position to init.
+ * @pp: The position to init.
  * @cell: The cell
  *
- * Returns: (transfer full): the initialized #GnmParsePos (@pp).
+ * Returns: (transfer none): the initialized #GnmParsePos (@pp).
  */
 GnmParsePos *
 parse_pos_init_cell (GnmParsePos *pp, GnmCell const *cell)
@@ -309,10 +309,10 @@ parse_pos_init_cell (GnmParsePos *pp, GnmCell const *cell)
 
 /*
  * parse_pos_init_evalpos:
- * @pp: (transfer full): The position to init.
+ * @pp: The position to init.
  * @ep: #GnmEvalPos
  *
- * Returns: (transfer full): the initialized #GnmParsePos (@pp).
+ * Returns: (transfer none): the initialized #GnmParsePos (@pp).
  */
 GnmParsePos *
 parse_pos_init_evalpos (GnmParsePos *pp, GnmEvalPos const *ep)
@@ -324,10 +324,10 @@ parse_pos_init_evalpos (GnmParsePos *pp, GnmEvalPos const *ep)
 
 /*
  * parse_pos_init_editpos:
- * @pp: (transfer full): The position to init.
+ * @pp: The position to init.
  * @sv: sheet view
  *
- * Returns: (transfer full): the initialized #GnmParsePos (@pp).
+ * Returns: (transfer none): the initialized #GnmParsePos (@pp).
  */
 GnmParsePos *
 parse_pos_init_editpos (GnmParsePos *pp, SheetView const *sv)
@@ -340,10 +340,10 @@ parse_pos_init_editpos (GnmParsePos *pp, SheetView const *sv)
 
 /*
  * parse_pos_init_sheet:
- * @pp: (transfer full): The position to init.
+ * @pp: The position to init.
  * @sheet: The sheet
  *
- * Returns: (transfer full): the initialized #GnmParsePos (@pp).
+ * Returns: (transfer none): the initialized #GnmParsePos (@pp).
  */
 GnmParsePos *
 parse_pos_init_sheet (GnmParsePos *pp, Sheet const *sheet)
