@@ -11,17 +11,17 @@
 # Francisco Javier F. Serrador <fserrador@gmail.com>, 2006, 2011.
 # Sylvia Sánchez <LailahFSF@gmail.com>, 2011, 2012.
 # Juan Matías Olmos <colonizare@yahoo.com.ar>, 2012.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
 # Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-11 17:15+0000\n"
-"PO-Revision-Date: 2012-11-11 13:21-0500\n"
-"Last-Translator: Milagros Alessandra Infante Montero <maim92@gmail.com>\n"
+"POT-Creation-Date: 2012-11-13 12:54+0000\n"
+"PO-Revision-Date: 2012-11-15 16:23+0100\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -145,8 +145,7 @@ msgstr "y:parte imaginaria"
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
-"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es "
-"«i»"
+"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es «i»"
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
@@ -640,10 +639,10 @@ msgstr ""
 "@{criterios} es un rango que contiene condiciones. La primera fila de unos @"
 "{criterios} debería contener etiquetas. Cada etiqueta especifica en qué "
 "campo aplican las condiciones dadas en la columna. Cada celda debajo de la "
-"etiqueta especifica una condición como «>3» o «<9». Se puede dar una "
-"condición de igualdad por simple especificación de un valor, por ejemplo «3» "
-"o «Jody». Para que un registro se considere debe satisfacer todas las "
-"condiciones de al menos una de las filas de los @{criterios}."
+"etiqueta especifica una condición como «>3» o «<9». Se puede dar una condición "
+"de igualdad por simple especificación de un valor, por ejemplo «3» o «Jody». "
+"Para que un registro se considere debe satisfacer todas las condiciones de "
+"al menos una de las filas de los @{criterios}."
 
 #: ../plugins/fn-database/functions.c:73
 msgid ""
@@ -952,8 +951,8 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:80
 msgid ""
-"For spreadsheets created with the Mac version of Excel, serial 1 is 1-"
-"Jan-1904."
+"For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-"
+"1904."
 msgstr ""
 "Para hojas de cálculo creadas con la versión de Excel para Mac, la serie 1 "
 "es 1-Ene-1904."
@@ -1051,8 +1050,8 @@ msgid ""
 "If @{interval} is \"ym\" or \"yd\" then the distance is measured in complete "
 "months or days, respectively, but excluding any difference in years."
 msgstr ""
-"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días "
-"completos, respectivamente, pero excluyendo cualquier diferencia en años."
+"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días completos, "
+"respectivamente, pero excluyendo cualquier diferencia en años."
 
 #: ../plugins/fn-date/functions.c:218
 msgid ""
@@ -1728,8 +1727,8 @@ msgid ""
 "vega of an option is the rate of change of its price with respect to "
 "volatility."
 msgstr ""
-"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una "
-"opción europea producida en @{ejercicio} en un activo con precio al contado @"
+"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una opción "
+"europea producida en @{ejercicio} en un activo con precio al contado @"
 "{contado}. El vega de una opción es la tasa de cambio de su precio con "
 "respecto a la volatilidad."
 
@@ -10160,25 +10159,27 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:2855 ../plugins/fn-stat/functions.c:2912
 msgid "array1:sample from the first population"
-msgstr ""
+msgstr "matriz1:muestra de la primera población"
 
 #: ../plugins/fn-stat/functions.c:2856 ../plugins/fn-stat/functions.c:2913
 msgid "array2:sample from the second population"
-msgstr ""
+msgstr "matriz2:muestra de la segunda población"
 
 #: ../plugins/fn-stat/functions.c:2861
 msgid "Then FTEST(A1:A5,B1:B5) equals 0.510815017."
-msgstr ""
+msgstr "Luego FTEST(A1:A5,B1:B5) igual a 0.510815017."
 
 #: ../plugins/fn-stat/functions.c:2910
 msgid ""
 "TTEST:p-value for a hypothesis test comparing the means of two populations "
 "using the Student t-distribution"
 msgstr ""
+"TTEST:valor p para una prueba de hipótesis comparando las medias de dos "
+"poblaciones usando la distribución t de Student"
 
 #: ../plugins/fn-stat/functions.c:2914
 msgid "tails:number of tails to consider"
-msgstr ""
+msgstr "colas:número de colas que considerar"
 
 #: ../plugins/fn-stat/functions.c:2915
 msgid ""
@@ -10186,26 +10187,33 @@ msgid ""
 "test of unpaired variables with equal variances, and 3 a test of unpaired "
 "variables with unequal variances"
 msgstr ""
+"tipo:tipo de prueba a realizar. 1 indica una prueba para variables "
+"apareadas, 2 una prueba de variables no apareadas con varianzas iguales y 3 "
+"una prueba de variables no apareadas con varianzas desiguales"
 
 #: ../plugins/fn-stat/functions.c:2918
 msgid ""
 "If the data sets contain a different number of data points and the test is "
 "paired (@{type} one), TTEST returns the #N/A error."
 msgstr ""
+"Si los conjuntos de datos contienen un número diferente de puntos de datos y "
+"la prueba es par (@{tipo} uno), TTEST devuelve el error #N/A."
 
 #: ../plugins/fn-stat/functions.c:2920
 msgid "@{tails} and @{type} are truncated to integers."
-msgstr ""
+msgstr "@{colas} y @{tipos} son truncados a enteros."
 
 #: ../plugins/fn-stat/functions.c:2921
 msgid "If @{tails} is not one or two, this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{colas} no es uno ni dos, esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2922
 msgid ""
 "If @{type} is any other than one, two, or three, this function returns a "
 "#NUM! error."
 msgstr ""
+"Si @{tipo} es cualquier otro que uno, dos, o tres, esta función devuelve un "
+"error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:2927
 msgid ""
@@ -10213,53 +10221,64 @@ msgid ""
 "0.006255239.TTEST(A1:A5,B1:B5,1,2) equals 0.111804322.TTEST(A1:A5,B1:B5,1,3) "
 "equals 0.113821797."
 msgstr ""
+"Luego TTEST(A1:A5,B1:B5,1,1) igual a 0.003127619.TTEST(A1:A5,B1:B5,2,1) "
+"igual a 0.006255239.TTEST(A1:A5,B1:B5,1,2) igual a 0.111804322.TTEST(A1:A5,"
+"B1:B5,1,3) igual a 0.113821797."
 
 #: ../plugins/fn-stat/functions.c:3085
 msgid "FREQUENCY:frequency table"
-msgstr ""
+msgstr "FREQUENCY:tabla de frecuencia"
 
 #: ../plugins/fn-stat/functions.c:3086
 msgid "data_array:data values"
-msgstr ""
+msgstr "matriz_datos:valores de datos"
 
 #: ../plugins/fn-stat/functions.c:3087
 msgid "bins_array:array of cutoff values"
-msgstr ""
+msgstr "matriz_bins:matriz de valores de corte"
 
 #: ../plugins/fn-stat/functions.c:3088
 msgid "The results are given as an array."
-msgstr ""
+msgstr "Los resultados son dados como una matriz."
 
 #: ../plugins/fn-stat/functions.c:3089
 msgid ""
 "If the @{bins_array} is empty, this function returns the number of data "
 "points in @{data_array}."
 msgstr ""
+"Si la @{matriz_bins} está vacía, esta función devuelve el número de puntos "
+"de datos en @{matriz_datos}."
 
 #: ../plugins/fn-stat/functions.c:3307
 msgid "LINEST:multiple linear regression coefficients and statistics"
-msgstr ""
+msgstr "LINEST:coeficientes de regresión linear múltiple y estadísticas"
 
 #: ../plugins/fn-stat/functions.c:3308 ../plugins/fn-stat/functions.c:3616
 msgid "known_ys:vector of values of dependent variable"
-msgstr ""
+msgstr "ys_conocidos:vector de valores de variable dependiente"
 
 #: ../plugins/fn-stat/functions.c:3309 ../plugins/fn-stat/functions.c:3617
 msgid ""
 "known_xs:array of values of independent variables, defaults to a single "
 "vector {1,…,n}"
 msgstr ""
+"xs_conocidos:matriz de valores de variables independientes, el "
+"predeterminado es un vector simple {1,…,n}"
 
 #: ../plugins/fn-stat/functions.c:3310 ../plugins/fn-stat/functions.c:3407
 #: ../plugins/fn-stat/functions.c:3619 ../plugins/fn-stat/functions.c:3765
 #: ../plugins/fn-stat/functions.c:3864
 msgid "affine:if true, the model contains a constant term, defaults to true"
 msgstr ""
+"affine:si es verdadero, el modelo contiene un término constante, el "
+"predeterminado es verdadero"
 
 #: ../plugins/fn-stat/functions.c:3311
 msgid ""
 "stats:if true, some additional statistics are provided, defaults to false"
 msgstr ""
+"estado:si es verdadero, se proporcionan algunas estadísticas adicionales, el "
+"predeterminado es falso"
 
 #: ../plugins/fn-stat/functions.c:3312
 msgid ""
@@ -10267,6 +10286,9 @@ msgid ""
 "coefficients for the independent variables x_m, x_(m-1),…,x_2, x_1 followed "
 "by the y-intercept if @{affine} is true."
 msgstr ""
+"Esta función devuelve una matriz con la primera fila dando los coeficientes "
+"de regresión para las variables independientes x_m, x_(m-1),…,x_2, x_1 "
+"seguidas por el intercepto y si @{affine} es verdadero."
 
 #: ../plugins/fn-stat/functions.c:3315
 msgid ""
@@ -10276,6 +10298,12 @@ msgid ""
 "contains the observed F value and its degrees of freedom. Finally, the fifth "
 "row contains the regression sum of squares and the residual sum of squares."
 msgstr ""
+"Si @{estad} es verdadera, la segunda fila contiene los correspondientes "
+"errores estándar de los coeficientes de regresión. En este caso, la tercera "
+"fila contiene el valor R^2 y el error estándar para el valor previsto. La "
+"cuarta fila contiene el valor F observado y sus grados de libertad. "
+"Finalmente, la quinta fila contiene la suma de regresión de cuadrados y la "
+"suma residual de cuadrados."
 
 #: ../plugins/fn-stat/functions.c:3322
 msgid ""
@@ -10283,26 +10311,34 @@ msgid ""
 "determination; that is the proportion of the sum of squares explained by the "
 "model."
 msgstr ""
+"Si @{affine} es falsa, R^2 es la versión no centrada del coeficiente de "
+"determinación; que es la proporción de la suma de cuadrados explicados por "
+"el modelo."
 
 #: ../plugins/fn-stat/functions.c:3325 ../plugins/fn-stat/functions.c:3620
 msgid ""
 "If the length of @{known_ys} does not match the corresponding length of @"
 "{known_xs}, this function returns a #NUM! error."
 msgstr ""
+"Si la longitud de @{ys_conocidos} no coincide con la longitud "
+"correspondiente de @{xs_conocidos}, esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:3404
 msgid "LOGREG:the logarithmic regression"
-msgstr ""
+msgstr "LOGREG:la regresión logarítmica"
 
 #: ../plugins/fn-stat/functions.c:3406 ../plugins/fn-stat/functions.c:3862
 msgid "known_xs:known x-values; defaults to the array {1, 2, 3, …}"
 msgstr ""
+"xs_conocidos:valores x conocidos; predeterminado a la matriz {1, 2, 3, …}"
 
 #: ../plugins/fn-stat/functions.c:3408 ../plugins/fn-stat/functions.c:3766
 msgid ""
 "stat:if true, extra statistical information will be returned; defaults to "
 "FALSE"
 msgstr ""
+"estad:si es verdadero, información estadística adicional será devuelta; el "
+"predeterminado es FALSO"
 
 #: ../plugins/fn-stat/functions.c:3409
 msgid ""
@@ -10312,6 +10348,11 @@ msgid ""
 "LOGREG returns an array having two columns and one row. m is given in the "
 "first column and b in the second. "
 msgstr ""
+"Función LOGREG transforma su x a z=ln(x) y aplica el método «mínimos "
+"cuadrados» para ajustar la ecuación linear y = m * z + b a su y y z --- "
+"equivalente para ajustar la ecuación y = m * ln(x) + b a y y x. LOGREG "
+"devuelve una matriz con dos columnas y una fila. Se da m en la primera "
+"columna y b en la segunda."
 
 #: ../plugins/fn-stat/functions.c:3417
 msgid ""
@@ -10323,6 +10364,14 @@ msgid ""
 "of freedom.  The last row contains the regression sum of squares and the "
 "residual sum of squares.The default of @{stat} is FALSE."
 msgstr ""
+"Cualquier información estadística adicional se escribe a continuación m y b "
+"en la matriz de resultado. Esta información estadística adicional consiste "
+"de cuatro filas de datos: En la primera fila los valores de error estándar "
+"para los coeficientes m, b son dados. La segunda fila contiene el cuadrado "
+"de R y el error estándar para la estimación y. La tercera fila contiene el "
+"valor observado F y los grados de libertad. La última fila contiene la suma "
+"de regresión de cuadrados y la suma residual de cuadrados. El predeterminado "
+"de @{estad} es FALSO."
 
 #: ../plugins/fn-stat/functions.c:3426 ../plugins/fn-stat/functions.c:3781
 #: ../plugins/fn-stat/functions.c:3872
@@ -10330,10 +10379,14 @@ msgid ""
 "If @{known_ys} and @{known_xs} have unequal number of data points, this "
 "function returns a #NUM! error."
 msgstr ""
+"Si @{ys_conocidos} y @{xs_conocidos} tienen número no igual de puntos de "
+"datos, esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:3520
 msgid "LOGFIT:logarithmic least square fit (using a trial and error method)"
 msgstr ""
+"LOGFIT:ajuste de último cuadrado logarítmico (usando un método de ensayo y "
+"error)"
 
 #: ../plugins/fn-stat/functions.c:3524
 msgid ""
@@ -10342,6 +10395,11 @@ msgid ""
 "The graph of the equation is a logarithmic curve moved horizontally by c and "
 "possibly mirrored across the y-axis (if sign = -1)."
 msgstr ""
+"Función LOGFIT aplica al método de «mínimos cuadrados» para ajustar la "
+"ecuación logarítmica y = a + b * ln (signo * (x - c)), signo = +1 o -1 a sus "
+"datos. La gráfica de la ecuación es una curva logarítmica movida "
+"horizontalmente por c y posiblemente reflejada a través del eje (si signo = -"
+"1)."
 
 #: ../plugins/fn-stat/functions.c:3530
 msgid ""
@@ -10349,6 +10407,9 @@ msgid ""
 "the first column, `a', `b', and `c' are given in columns 2 to 4. Column 5 "
 "holds the sum of squared residuals."
 msgstr ""
+"LOGFIT devuelve una matriz con cinco columnas y una fila. «Signo» se da en la "
+"primera columna, «a», «b» y «c» son dados en las columnas 2 a la 4. La columna "
+"5 contiene la suma de residuos al cuadrado."
 
 #: ../plugins/fn-stat/functions.c:3534
 msgid ""
@@ -10356,6 +10417,8 @@ msgid ""
 "when the shape of the point cloud is too different from a ``logarithmic'' "
 "one."
 msgstr ""
+"Se devuelve un error cuando hay menos de 3 diferentes x o y, o cuando la "
+"forma de la nube de punto es muy diferente de un uno ««logarítmico»»."
 
 #: ../plugins/fn-stat/functions.c:3537
 msgid ""
@@ -10363,6 +10426,9 @@ msgid ""
 "to = (exp((y - a) / b)) / sign + c to compute unknown y's or x's, "
 "respectively. "
 msgstr ""
+"Puede utilizar la siguiente fórmula = a + b * ln(signo * (x - c)) o cambie a "
+"= (exp((y - a) / b)) / signo + c para calcular y o x desconocido, "
+"respectivamente."
 
 #: ../plugins/fn-stat/functions.c:3542
 msgid ""
@@ -10370,18 +10436,26 @@ msgid ""
 "of x-range -> rounded to the next smaller (10^integer), times 0.000001. "
 "There might be cases in which the returned fit is not the best possible."
 msgstr ""
+"Esto no es ajuste lineal por ensayo y error. La precisión de «c» es: anchura "
+"de rango x -> redondeado al siguiente más pequeño (10^entero), 0,000001 "
+"veces. Puede haber casos en los que el ajuste de retorno no es el mejor "
+"posible."
 
 #: ../plugins/fn-stat/functions.c:3615
 msgid ""
 "TREND:estimates future values of a given data set using a least squares "
 "approximation"
 msgstr ""
+"TREND:valores futuros estimados de un conjunto de datos dados usando al "
+"menos una aproximación de cuadrados"
 
 #: ../plugins/fn-stat/functions.c:3618
 msgid ""
 "new_xs:array of x-values for which to estimate the y-values; defaults to @"
 "{known_xs}"
 msgstr ""
+"xs_nuevos:matriz de valores x para el que se estiman los valores de y; el "
+"predeterminado es @{xs_conocidos}"
 
 #: ../plugins/fn-stat/functions.c:3622
 msgid ""
@@ -10389,28 +10463,33 @@ msgid ""
 "25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and "
 "42.7."
 msgstr ""
+"Asumiendo que las celdas A1, A2, …, A5 contienen números 11.4, 17.3, 21.3, "
+"25.9 y 40.1 y las celdas B1, B2, … B5 23.2, 25.8, 29.9, 33.5 y 42.7."
 
 #: ../plugins/fn-stat/functions.c:3625
 msgid "Then TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}."
-msgstr ""
+msgstr "Luego TREND(A1:A5,B1:B5) igual a {12.1, 15.7, 21.6, 26.7, 39.7}."
 
 #: ../plugins/fn-stat/functions.c:3762
 msgid "LOGEST:exponential least square fit"
-msgstr ""
+msgstr "LOGEST:ajuste de cuadrados exponencial al menos"
 
 #: ../plugins/fn-stat/functions.c:3764
 msgid "known_xs:known x-values; default to an array {1, 2, 3, …}"
 msgstr ""
+"xs_conocidos:valores x conocidos; el predeterminado a una matriz {1, 2, 3, …}"
 
 #: ../plugins/fn-stat/functions.c:3767
 msgid ""
 "LOGEST function applies the “least squares” method to fit an exponential "
 "curve of the form\ty = b * m{1}^x{1} * m{2}^x{2}... to your data."
 msgstr ""
+"Función LOGEST aplica al método «últimos cuadrados» para ajustar una curva "
+"exponencial de la forma \ty = b * m{1}^x{1} * m{2}^x{2}… a sus datos."
 
 #: ../plugins/fn-stat/functions.c:3771
 msgid "LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }."
-msgstr ""
+msgstr "LOGEST devuelve una matriz { m{n},m{n-1}, …,m{1},b }."
 
 #: ../plugins/fn-stat/functions.c:3772
 msgid ""
@@ -10422,27 +10501,42 @@ msgid ""
 "contains the F-observed value and the degrees of freedom.  The last row "
 "contains the regression sum of squares and the residual sum of squares."
 msgstr ""
+"Hay información estadística adicional escrita debajo de los coeficientes de "
+"línea de regresión en la matriz de resultado. La información estadística "
+"adicional consta de cuatro filas de datos. En la primera fila los valores de "
+"error estándar para los coeficientes m1, (m2, …), b están representados. La "
+"segunda fila contiene el cuadrado de R y el error estándar de la estimación "
+"y. La tercera fila contiene el valor observado de F y los grados de "
+"libertad. La última fila contiene la suma de regresión de cuadrados y la "
+"suma residual de cuadrados."
 
 #: ../plugins/fn-stat/functions.c:3860
 msgid "GROWTH:exponential growth prediction"
-msgstr ""
+msgstr "GROWTH:predicción de crecimiento exponencial"
 
 #: ../plugins/fn-stat/functions.c:3863
 msgid ""
 "new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}"
 msgstr ""
+"xs_nuevos:valores x para los cuales se calculan los valores y, el "
+"predeterminado es @{xs_conocidos}"
 
 #: ../plugins/fn-stat/functions.c:3865
 msgid ""
 "GROWTH function applies the “least squares” method to fit an exponential "
 "curve to your data and predicts the exponential growth by using this curve."
 msgstr ""
+"Función GROWTH aplica al método «mínimos cuadrados» para para ajustar una "
+"curva exponencial a sus datos y predecir el crecimiento exponencial usando "
+"esta curva."
 
 #: ../plugins/fn-stat/functions.c:3870
 msgid ""
 "GROWTH returns an array having one column and a row for each data point in @"
 "{new_xs}."
 msgstr ""
+"GROWTH devuelve una matriz con una columna y una fila para cada punto de "
+"datos en @{xs_nuevos}."
 
 #: ../plugins/fn-stat/functions.c:3948
 msgid ""
@@ -10627,9 +10721,9 @@ msgid ""
 "reliability."
 msgstr ""
 "Esta distribución se ha recomendado para el análisis del tiempo de función "
-"cuando se desea una función peligroso de forma «U». Esto corresponde al "
-"fallo rápido una vez que el producto comience a desgastarse después de un "
-"periodo estacionario o incluso mejorando la fiabilidad."
+"cuando se desea una función peligroso de forma «U». Esto corresponde al fallo "
+"rápido una vez que el producto comience a desgastarse después de un periodo "
+"estacionario o incluso mejorando la fiabilidad."
 
 #: ../plugins/fn-stat/functions.c:4526
 msgid "LAPLACE:probability density function of the Laplace distribution"
@@ -11753,9 +11847,9 @@ msgstr ""
 #~ "\n"
 #~ "@liquidación es la fecha de liquidación de la acción. @vencimiento es la "
 #~ "fecha de vencimiento de la acción. @emisión es la fecha de emisión de la "
-#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por "
-#~ "100$ de valor facial de la acción. @base es el tipo de sistema de conteo "
-#~ "de días que quiere usar:\n"
+#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por 100"
+#~ "$ de valor facial de la acción. @base es el tipo de sistema de conteo de "
+#~ "días que quiere usar:\n"
 #~ "\n"
 #~ " 0 US 30/360\n"
 #~ " 1 días actuales/días actuales\n"
