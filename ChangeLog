@@ -1,5 +1,11 @@
 2012-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/workbook-view.c (workbook_view_class_init): do not use the
+	preference settings here. THey are used in workbook_view_new
+	(workbook_view_new): use g_object properties
+
+2012-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/gnumeric-conf.h: updated
 	* src/gnumeric-conf.c: updated
 

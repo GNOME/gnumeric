@@ -946,7 +946,7 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		 g_param_spec_boolean ("do-auto-completion",
 				       _("Do auto completion"),
 				       _("Auto-complete text"),
-				       gnm_conf_get_core_gui_editing_autocomplete (),
+				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
         g_object_class_install_property
@@ -986,7 +986,7 @@ GSF_CLASS (WorkbookView, workbook_view,
 WorkbookView *
 workbook_view_new (Workbook *wb)
 {
-	WorkbookView *wbv = g_object_new (WORKBOOK_VIEW_TYPE, NULL);
+	WorkbookView *wbv;
 	int i;
 
 	if (wb == NULL)
@@ -994,16 +994,21 @@ workbook_view_new (Workbook *wb)
 
 	g_return_val_if_fail (wb != NULL, NULL);
 
+	wbv = g_object_new 
+		(WORKBOOK_VIEW_TYPE, 
+		 "show-horizontal-scrollbar", TRUE,
+		 "show-vertical-scrollbar", TRUE,
+		 "show-notebook-tabs", TRUE,
+		 "show-function-cell-markers", gnm_conf_get_core_gui_cells_function_markers (),
+		 "show-extension-markers", gnm_conf_get_core_gui_cells_extension_markers (),
+		 "do-auto-completion", gnm_conf_get_core_gui_editing_autocomplete (),
+		 "protected", FALSE,
+		 "auto-expr-value", NULL,
+		 "auto-expr-max-precision", FALSE,
+		 NULL);
+
 	wbv->wb = wb;
 	workbook_attach_view (wbv);
-
-	wbv->show_horizontal_scrollbar = TRUE;
-	wbv->show_vertical_scrollbar = TRUE;
-	wbv->show_notebook_tabs = TRUE;
-	wbv->show_function_cell_markers = gnm_conf_get_core_gui_cells_function_markers ();
-	wbv->show_extension_markers = gnm_conf_get_core_gui_cells_extension_markers ();
-	wbv->do_auto_completion = gnm_conf_get_core_gui_editing_autocomplete ();
-	wbv->is_protected = FALSE;
 
 	wbv->current_style      = NULL;
 	wbv->in_cell_combo      = NULL;
@@ -1011,17 +1016,15 @@ workbook_view_new (Workbook *wb)
 	wbv->current_sheet      = NULL;
 	wbv->current_sheet_view = NULL;
 
-	/* Set the default operation to be performed over selections */
-	wbv->auto_expr.func = gnm_func_lookup ("sum", NULL);
-	if (wbv->auto_expr.func)
-		gnm_func_ref (wbv->auto_expr.func);
-	wbv->auto_expr.descr = g_strdup (_("Sum"));
-	wbv->auto_expr.value = NULL;
-	wbv->auto_expr.use_max_precision = FALSE;
 	dependent_managed_init (&wbv->auto_expr.dep, NULL);
 
 	for (i = 0 ; i < workbook_sheet_count (wb); i++)
 		wb_view_sheet_add (wbv, workbook_sheet_by_index (wb, i));
+
+	g_object_set (G_OBJECT (wbv),
+		      "auto-expr-func", gnm_func_lookup ("sum", NULL),
+		      "auto-expr-descr", _("Sum"),
+		      NULL);
 
 	return wbv;
 }
