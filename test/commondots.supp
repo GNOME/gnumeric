@@ -299,3 +299,18 @@
    fun:g_signal_connect_object
    fun:gnm_app_init
 }
+
+{
+   Leak/gtk_recent_manager_get_default
+   Memcheck:Leak
+   ...
+   fun:g_object_new
+   fun:gtk_recent_manager_get_default
+}
+
+{
+   GLIBC/ABR/over-eager-memcpy
+   Memcheck:Addr4
+   fun:find_name
+   fun:_cairo_truetype_read_font_name
+}
