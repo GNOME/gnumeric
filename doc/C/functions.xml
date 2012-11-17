@@ -12063,24 +12063,21 @@
           <function>POWER</function>
         </refname>
         <refpurpose>
-        the value of <parameter>x</parameter> raised to the power <parameter>y</parameter>
+        the value of <parameter>x</parameter> raised to the power <parameter>y</parameter> raised to the power of 1/<parameter>z</parameter>
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>POWER</function>(<parameter>x</parameter>,<parameter>y</parameter>)</synopsis>
+        <synopsis><function>POWER</function>(<parameter>x</parameter>,<parameter>y</parameter>,<parameter>z</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
         <para><parameter>x</parameter>: number</para>
         <para><parameter>y</parameter>: number</para>
+        <para><parameter>z</parameter>: number</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If both <parameter>x</parameter> and <parameter>y</parameter> equal 0, <function>POWER</function> returns #NUM! If <parameter>x</parameter> = 0 and <parameter>y</parameter> &lt; 0, <function>POWER</function> returns #DIV/0! If <parameter>x</parameter> &lt; 0 and <parameter>y</parameter> is not an integer, <function>POWER</function> returns #NUM!</para>
-      </refsect1>
-      <refsect1>
-        <title>Microsoft Excel Compatibility</title>
-        <para>This function is Excel compatible.</para>
+        <para>If both <parameter>x</parameter> and <parameter>y</parameter> equal 0, <function>POWER</function> returns #NUM! If <parameter>x</parameter> = 0 and <parameter>y</parameter> &lt; 0, <function>POWER</function> returns #DIV/0! If <parameter>x</parameter> &lt; 0 and <parameter>y</parameter> is not an integer, <function>POWER</function> returns #NUM! <parameter>z</parameter> defaults to 1 If <parameter>z</parameter> is not a positive integer, <function>POWER</function> returns #NUM! If <parameter>x</parameter> &lt; 0, <parameter>y</parameter> is odd, and <parameter>z</parameter> is even, <function>POWER</function> returns #NUM!</para>
       </refsect1>
       <refsect1>
         <title>See also</title>

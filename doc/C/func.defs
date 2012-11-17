@@ -3555,12 +3555,12 @@ The depreciation coefficient used is:
 
 @CATEGORY=Mathematics
 @FUNCTION=POWER
-@SHORTDESC=the value of @{x} raised to the power @{y}
-@SYNTAX=POWER(x,y)
+@SHORTDESC=the value of @{x} raised to the power @{y} raised to the power of 1/@{z}
+@SYNTAX=POWER(x,y,z)
 @ARGUMENTDESCRIPTION=@{x}: number
 @{y}: number
-@NOTE=If both @{x} and @{y} equal 0, POWER returns #NUM! If @{x} = 0 and @{y} < 0, POWER returns #DIV/0! If @{x} < 0 and @{y} is not an integer, POWER returns #NUM!
-@EXCEL=This function is Excel compatible.
+@{z}: number
+@NOTE=If both @{x} and @{y} equal 0, POWER returns #NUM! If @{x} = 0 and @{y} < 0, POWER returns #DIV/0! If @{x} < 0 and @{y} is not an integer, POWER returns #NUM! @{z} defaults to 1 If @{z} is not a positive integer, POWER returns #NUM! If @{x} < 0, @{y} is odd, and @{z} is even, POWER returns #NUM!
 @SEEALSO=EXP
 
 @CATEGORY=Mathematics

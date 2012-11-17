@@ -1,3 +1,7 @@
+2012-11-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.90
+
 2012-11-06  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_cond_fmt_formula_end): Plug leak.
