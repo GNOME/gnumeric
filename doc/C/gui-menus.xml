@@ -2588,15 +2588,18 @@
 	    </figure>
 	<para>The grid context menu merely provides an extra way to access &gnum;
 	commands. The <guimenuitem>Cut</guimenuitem>, <guimenuitem>Copy</guimenuitem>, 
-	<guimenuitem>Paste</guimenuitem>, <guimenuitem>Paste Special...</guimenuitem>,
-	<guimenuitem>Delete...</guimenuitem>, and <guimenuitem>Clear Contents...</guimenuitem> 
-	commands are taken from the Edit menu and are explained in
+	<guimenuitem>Paste</guimenuitem>, <guimenuitem>Paste Special</guimenuitem>,
+	<guimenuitem>Delete Cells...</guimenuitem>, <guimenuitem>Clear Contents</guimenuitem>,
+	<guimenuitem>Remove Comment</guimenuitem>, <guimenuitem>Edit Hyperlink</guimenuitem>,
+	and <guimenuitem>Remove Link</guimenuitem>
+	commands are taken from the Edit menu and its submenus and are explained in
 	<xref linkend="Edit-Menu" />.
-	The <guimenuitem>Insert...</guimenuitem> menu item is explained in the section
-	on the <guimenu>Insert</guimenu> menu in <xref
-	linkend="Insert-Menu" />. The 
-	<guimenuitem>Format Cells...</guimenuitem> is explained in the manual section
-	on the <guimenu>Format</guimenu> menu in <xref
+	The <guimenuitem>Insert Cells...</guimenuitem> and <guimenuitem>Add Comment</guimenuitem>
+	menu items are explained in the section on the <guimenu>Insert</guimenu> menu in <xref
+	linkend="Insert-Menu" />. The <guimenuitem>Format Cells...</guimenuitem>, 
+	<guimenuitem>Conditional Formatting...</guimenuitem> items as well as the items on the
+	<guimenu>Cell</guimenu>, <guimenu>Column</guimenu>, and <guimenu>Row</guimenu> submenus are
+	explained in the manual section on the <guimenu>Format</guimenu> menu in <xref
 	linkend="Format-Menu" />.
 	</para>
 </sect2>
@@ -2620,10 +2623,7 @@
 	    </figure>
 	<para>The context menu which relates to column or row headers is similar to
 	the context menu for the grid area. Both insert and delete operations are
-	modified to operate explicitly on rows or on columns. An option is added
-	which changes the height of rows or the width of columns. This context menu
-	also provides a way to hide rows or columns and a way to reveal missing
-	columns or rows.
+	modified to operate explicitly on rows or on columns.
 	</para>
 
 
@@ -2729,7 +2729,7 @@
 
 
     <para>
-      The remaining menu entries, labeled <guimenuitem>Cut</guimenuitem>,
+      The menu entries labeled <guimenuitem>Cut</guimenuitem>,
       <guimenuitem>Copy</guimenuitem>, and
       <guimenuitem>Delete</guimenuitem>, allow the user to operate on
       the whole object at once. The <guimenuitem>Cut</guimenuitem>
@@ -2744,8 +2744,13 @@
     </para>
 
     <para>
-      For certain types of objects, menu entry labeled <guimenuitem>Save
-      As...</guimenuitem> 
+      The remaining menu item, <guimenuitem>Print</guimenuitem>, allows just the
+      selected object to be printed. 
+    </para>
+
+    <para>
+      For certain types of objects, a menu entry labeled <guimenuitem>Save
+      As Image...</guimenuitem> 
       allows the object to be saved as an image file. This menu item
       is not present in <xref linkend="menu-context-object.png"/> but is shown in 
         <xref linkend="menu-context-graph.png"/> .
@@ -2766,8 +2771,11 @@
     </figure>
 
     <para>
-        Graphs also have a context menu with a menu entry labeled <guimenuitem>Open in
-        New Window</guimenuitem>. That menu item shows the graph by itself in a window.
+        Graphs have a context menu that also contains menu entries labeled <guimenuitem>Open in
+        New Window</guimenuitem> and <guimenuitem>Copy to New Graph Sheet</guimenuitem>.
+	The <guimenuitem>Open in New Window</guimenuitem> menu item shows the graph by
+	itself in a window. The <guimenuitem>Copy to New Graph Sheet</guimenuitem> copies
+	the graph to a special sheet in the current workbook that contains only a single graph. 
     </para>
 
 

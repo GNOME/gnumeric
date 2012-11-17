@@ -1,5 +1,10 @@
 2012-11-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* figures/menu-context-object-order.png: updated
+	* gui-menus.xml: updated
+
+2012-11-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* figures/menu-context-col-row-header.png: updated
 	* figures/menu-context-graph-order.png: updated
 	* figures/menu-context-graph.png: updated
