@@ -2378,7 +2378,11 @@
 	      </figure>
 	      <para>
 		The items in this submenu allows users to export the current
-		file or sheet to a non-spreadsheet format.
+		file or sheet to a non-spreadsheet format. The 
+		<guimenuitem>Repeat Export</guimenuitem> menu item repeats
+		the last
+		export in the current session or, if the file was recently
+		imported, exports the file to the original source. 
 		To save data from &gnum; in a spreadsheet format,
 		use the <guimenuitem>Save As...</guimenuitem> menu described in
 		<xref linkend="File-Menu"/>.

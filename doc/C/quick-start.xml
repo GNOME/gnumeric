@@ -1,5 +1,5 @@
 <sect1 id="sect-quick-start-top">
-  <title>Working with Gnumeric</title>
+  <title>Working with &gnum;</title>
 
   <para>
     Using a spreadsheet generally involves several steps. First the
@@ -836,6 +836,20 @@ c:\Program Files\Gnome-Office\gnumeric
         would give the value of e (the base of the natural logarithm)
         raised to the 24th power. The cell would then display
         "2.6489e+10".
+      </para>
+
+      <para>
+	Certain functions return not just a single value but an array of
+	values. To enter those functions one need to first select a range
+	of cells and then type the key combination
+	<keycombo>
+          <keycap>Ctrl</keycap>
+          <keycap>Shift</keycap>
+          <keycap>Enter</keycap>
+        </keycombo>
+	rather than just the <keycap>Enter</keycap> key by itself. More
+	detail on this can be found in <xref 
+	linkend="sect-data-formulas-array" />.
       </para>
 
       <para>
