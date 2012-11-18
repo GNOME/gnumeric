@@ -134,6 +134,7 @@ EXTRA_DIST = \
      button-arrow.png \
      button-bold.png \
      button-borders.png \
+     button-button.png \
      button-center-across-selection.png \
      button-checkbox.png \
      button-combo.png \
@@ -167,6 +168,7 @@ EXTRA_DIST = \
      button-percent.png \
      button-preview.png \
      button-print.png \
+     button-radio.png \
      button-rectangle.png \
      button-redo-and-history.png \
      button-save.png \
@@ -176,7 +178,9 @@ EXTRA_DIST = \
      button-sort-za.png \
      button-spin.png \
      button-split.png \
+     button-subscript.png \
      button-sum.png \
+     button-superscript.png \
      button-text-colour.png \
      button-thousands.png \
      button-underline.png \
@@ -302,6 +306,7 @@ EXTRA_DIST = \
      menu-context-grid.png \
      menu-context-object.png \
      menu-context-object-order.png \
+     menu-context-sheet-tabs.png \
      menu-context-tabs.png \
      menu-context-toolbars.png \
      menu-edit-delete-cells.png \
@@ -394,7 +399,10 @@ EXTRA_DIST = \
      textguru-import-panel2a-withTags.png \
      textguru-import-panel2b-withTags.png \
      textguru-import-panel3-withTags.png \
+     toolbar-extension-menu.png \
      toolbar-object.png \
+     toolbar-standard.png \
+     toolbars.png \
      widget-label.png \
      widget-frame.png \
      widget-checkbox.png \

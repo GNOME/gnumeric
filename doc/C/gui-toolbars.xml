@@ -13,17 +13,18 @@
     system. The specific actions required to use each button vary.
   </para>
   
-  <para>&gnum; has three toolbars, the
-  standard toolbar, the format toolbar and the object toolbar. The
-  three toolbars are shown in <xref linkend="fig-toolbars" />.
+  <para>
+    &gnum; has four toolbars, the
+    standard toolbar, the format toolbar, the long format toolbar, and the 
+    object toolbar. The
+    three toolbars are shown in <xref linkend="fig-toolbars" />.
   </para>
   
   <figure id="fig-toolbars">
-    <title>The Three Gnumeric Toolbars</title>
+    <title>The Four Gnumeric Toolbars</title>
     <mediaobject>
       <imageobject>
-	<imagedata fileref="figures/toolbars.png" 
-	           format="PNG" scale="100"/>
+	<imagedata fileref="figures/toolbars.png" format="PNG"/>
       </imageobject>
     </mediaobject>
   </figure>
@@ -33,28 +34,44 @@
     sections of this manual. User interaction with each toolbar
     happens in essentially the same way. Similarly, the toolbars can
     be configured in the same way. The next section explains the
-    standard behavior of &gnum;
-    toolbars.
+    standard behavior of &gnum; toolbars.
   </para>
-  
-  
+
+  <para>
+    The long format toolbar contains all of the buttons of the format
+    toolbar plus a few extra buttons, but in a differnet order. Users
+    will usually choose only one of these toolbars to be displayed.
+  </para>
   
   <sect2 id="toolbar-use">
     <title>General Toolbar Behavior</title>
     
-    <para>In the same way that menus can be moved around, as was
-    explained <xref linkend="menu-bars" />, toolbars can be moved
-    around the &gnum; window by dragging
-    the little tag on the leftmost portion of the toolbar.
+    <para>
+      The toolbar context menu described in <xref linkend="menu-context-sheet-tabs" />
+      can be used to determine where each toolbar (above the sheets, to the left of the
+      sheets, or to the right of ths sheets) is being displayed. The
+      <guimenuitem>Toolbars</guimenuitem> submenu of the <guimenu>View</guimenu>
+      menu (see <xref linkend="View-Menu"/>) can be used to determine which toolbars are
+      visible.
     </para>
 
     <para>
       If the &gnum; window is too small
-      to fit all of the toolbar buttons, gnumeric may display a little
-      right pointing black arrow to indicate that there are more
+      to fit all of the toolbar buttons, gnumeric displays an
+      arrow to indicate that there are more
       options. If the user clicks on this arrow, a window will open
-      with the remaining buttons.
+      with the remaining buttons as shown in <xref linkend="fig-toolbar-extension-menu"/>.
     </para>
+
+    <figure id="fig-toolbar-extension-menu">
+      <title>The Toolbar Extension Menu</title>
+      <mediaobject>
+	<imageobject>
+	  <imagedata fileref="figures/toolbar-extension-menu.png" format="PNG"/>
+	</imageobject>
+      </mediaobject>
+    </figure>
+
 
     <para>
       Certain toolbar options, such as the zoom box, are combinations
@@ -80,7 +97,7 @@
   </para>
   
   <figure id="fig-toolbar-standard">
-    <title>The <interface>Standard Toolbar</interface>.</title>
+    <title>The <interface>Standard Toolbar</interface></title>
     <mediaobject>
       <imageobject>
 	<imagedata fileref="figures/toolbar-standard.png" format="PNG" />
@@ -432,6 +449,7 @@
 	</listitem>
       </varlistentry>
 
+<!--
       <varlistentry>
 	<term>
 	  <guiicon><inlinemediaobject>
@@ -482,6 +500,7 @@
           </para>
 	</listitem>
       </varlistentry>
+-->
 
       <varlistentry>
 	<term>
@@ -518,7 +537,7 @@
 <sect2 id="fmt-toolbar">
   <title>The Format Toolbar</title>
 
-  <para> The <interface>Format Toolbar</interface> ...</para>
+  <para> The <interface>Format Toolbar</interface></para>
   
   <figure id="toolbar-format.png">
      <title>The <interface>Format Toolbar</interface></title>
@@ -528,10 +547,6 @@
       </imageobject>
     </mediaobject>
   </figure>
-
- 	<para> The <interface>Format Toolbar</interface>. </para>
-
-
 
     <variablelist>
 
@@ -598,7 +613,7 @@
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Change the style of the current cell to be bold, or un
+	  <para>Change the style of the current cell or the currently selected text to be bold, or un
 	  bold it if it is already bold.</para>
 	</listitem>
       </varlistentry>
@@ -619,7 +634,7 @@
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Change the style of the current cell to be italicized.</para>
+	  <para>Change the style of the current cell or the currently selected text to be italicized.</para>
 	</listitem>
       </varlistentry>
 
@@ -638,7 +653,7 @@
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Change the style of the current cell to be underlined.</para>
+	  <para>Change the style of the current cell or the currently selected text to be underlined.</para>
 	</listitem>
       </varlistentry>
 
@@ -983,7 +998,78 @@ colour.</para>
 
 
 
+<!-- ************************* THE LONG FORMAT TOOLBAR ************** -->
+<sect2 id="fmt-long-toolbar">
+	<title>The Long Format Toolbar</title>
 
+  <para> The <interface>Long Format Toolbar</interface></para>
+  
+  <figure id="toolbar-format-long.png">
+     <title>The <interface>Long Format Toolbar</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="figures/toolbar-format-long.png" format="PNG" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    The <interface>Long Format Toolbar</interface> contains all buttons that the 
+    <interface>Format Toolbar</interface> (described in <xref linkend="fmt-toolbar" />)
+    contains, except in a differnet order.
+  </para>
+  <para>
+    In addition, the <interface>Long Format Toolbar</interface> also contains the following buttons:
+  </para>
+
+	<!-- The list of long format toolbar objects. -->
+    <variablelist>
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-subscript.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the long format toolbar's "Subscript"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Subscript
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>
+	    Change the style of the current cell or the currently
+	    selected text to be subscripted.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-superscript.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the long format toolbar's "Superscript"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Superscript
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>
+	    Change the style of the current cell or the currently
+	    selected text to be superscripted.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+   </variablelist>
+</sect2>
 
 
 
@@ -1005,34 +1091,46 @@ colour.</para>
     </figure>
  	<para> The <interface>Object Toolbar</interface>. </para>
 
-
-
-
-
-
-
    <variablelist>
 
+       <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-rectangle.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Create a rectangle object"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Box
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Insert a rectangular box containing optionally some text into the worksheet.</para>
+	</listitem>
+      </varlistentry>
 
       <varlistentry>
 	<term>
 	  <guiicon><inlinemediaobject>
             <imageobject>
-              <imagedata fileref="figures/button-label.png" />
+              <imagedata fileref="figures/button-oval.png" />
             </imageobject>
             <textobject>
-              <phrase>An image of the object toolbar's "Insert a Label"
+              <phrase>An image of the object toolbar's "Insert an Ellipse"
               button.</phrase>
             </textobject>
            </inlinemediaobject>
-          Insert a label.
+	    Ellipse
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>This button allows the user to insert a text label
-	  into a worksheet.</para>
+	  <para>Insert an ellipse or a circle into the worksheet.</para>
 	</listitem>
       </varlistentry>
+
 
       <varlistentry>
 	<term>
@@ -1053,6 +1151,46 @@ colour.</para>
 	</listitem>
       </varlistentry>
 
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-line.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a Line"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Line
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Draw a line on the worksheet.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-arrow.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert an Arrow"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Arrow
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Draw a line with an arrow head at one end.</para>
+	</listitem>
+      </varlistentry>
+
+
       <varlistentry>
 	<term>
 	  <guiicon><inlinemediaobject>
@@ -1072,7 +1210,43 @@ colour.</para>
 	</listitem>
       </varlistentry>
 
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-radio.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a Radio Button"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Insert a radio button.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows a user to insert a radio button.</para>
+	</listitem>
+      </varlistentry>
 
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-button.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a Button"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Insert a button.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows a user to insert a button.</para>
+	</listitem>
+      </varlistentry>
       
       <varlistentry>
 	<term>
@@ -1176,81 +1350,6 @@ colour.</para>
       </varlistentry>
 
 
-      <varlistentry>
-	<term>
-	  <guiicon><inlinemediaobject>
-            <imageobject>
-              <imagedata fileref="figures/button-line.png" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the object toolbar's "Insert a Line"
-              button.</phrase>
-            </textobject>
-           </inlinemediaobject>
-	    Line
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Draw a line on the worksheet.</para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>
-	  <guiicon><inlinemediaobject>
-            <imageobject>
-              <imagedata fileref="figures/button-arrow.png" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the object toolbar's "Insert an Arrow"
-              button.</phrase>
-            </textobject>
-           </inlinemediaobject>
-	    Arrow
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Draw a line with a arrow at one end. A pointer.</para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>
-	  <guiicon><inlinemediaobject>
-            <imageobject>
-              <imagedata fileref="figures/button-rectangle.png" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the object toolbar's "Insert a Box"
-              button.</phrase>
-            </textobject>
-           </inlinemediaobject>
-	    Box
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Draw a box onto the worksheet.</para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>
-	  <guiicon><inlinemediaobject>
-            <imageobject>
-              <imagedata fileref="figures/button-oval.png" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the object toolbar's "Insert an Ellipse"
-              button.</phrase>
-            </textobject>
-           </inlinemediaobject>
-	    Ellipse
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Draw an ellipse or a circle on the worksheet.</para>
-	</listitem>
-      </varlistentry>
     </variablelist>
 </sect2>
 <!-- end of button bar docs -->

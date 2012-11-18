@@ -1,3 +1,20 @@
+2012-11-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* figures/button-button.png: new
+	* figures/button-radio.png: new
+	* figures/button-subscript.png: new
+	* figures/button-superscript.png: new
+	* figures/menu-context-sheet-tabs.png: new
+	* figures/toolbar-extension-menu.png: new
+	* figures/toolbar-format-long.png: new
+	* figures/Makefile.am: include the above
+	* figures/button-rectangle.png: updated
+	* figures/menu-context-toolbars.png: updated
+	* figures/toolbar-object.png: updated
+	* figures/toolbars.png: updated
+	* gui-menus.xml: updated
+	* gui-toolbars.xml: updated
+
 2012-11-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* figures/menu-context-object-order.png: updated

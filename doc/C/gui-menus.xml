@@ -2586,21 +2586,24 @@
            </mediaobject>
 		    </screenshot>
 	    </figure>
-	<para>The grid context menu merely provides an extra way to access &gnum;
-	commands. The <guimenuitem>Cut</guimenuitem>, <guimenuitem>Copy</guimenuitem>, 
-	<guimenuitem>Paste</guimenuitem>, <guimenuitem>Paste Special</guimenuitem>,
-	<guimenuitem>Delete Cells...</guimenuitem>, <guimenuitem>Clear Contents</guimenuitem>,
-	<guimenuitem>Remove Comment</guimenuitem>, <guimenuitem>Edit Hyperlink</guimenuitem>,
-	and <guimenuitem>Remove Link</guimenuitem>
-	commands are taken from the Edit menu and its submenus and are explained in
-	<xref linkend="Edit-Menu" />.
-	The <guimenuitem>Insert Cells...</guimenuitem> and <guimenuitem>Add Comment</guimenuitem>
-	menu items are explained in the section on the <guimenu>Insert</guimenu> menu in <xref
-	linkend="Insert-Menu" />. The <guimenuitem>Format Cells...</guimenuitem>, 
-	<guimenuitem>Conditional Formatting...</guimenuitem> items as well as the items on the
-	<guimenu>Cell</guimenu>, <guimenu>Column</guimenu>, and <guimenu>Row</guimenu> submenus are
-	explained in the manual section on the <guimenu>Format</guimenu> menu in <xref
-	linkend="Format-Menu" />.
+	<para>
+	  The grid context menu merely provides an extra way to access &gnum;
+	  commands. The <guimenuitem>Cut</guimenuitem>, <guimenuitem>Copy</guimenuitem>, 
+	  <guimenuitem>Paste</guimenuitem>, <guimenuitem>Paste Special</guimenuitem>,
+	  <guimenuitem>Delete Cells...</guimenuitem>,
+	  <guimenuitem>Clear Contents</guimenuitem>,
+	  <guimenuitem>Remove Comment</guimenuitem>, <guimenuitem>Edit Hyperlink</guimenuitem>,
+	  and <guimenuitem>Remove Link</guimenuitem>
+	  commands are taken from the  <guimenu>Edit</guimenu> menu and its submenus and are 
+	  explained in <xref linkend="Edit-Menu" />. The
+	  <guimenuitem>Insert Cells...</guimenuitem> and <guimenuitem>Add Comment</guimenuitem>
+	  menu items are explained in the section on the <guimenu>Insert</guimenu> menu
+	  in <xref linkend="Insert-Menu" />. The <guimenuitem>Format Cells...</guimenuitem>, 
+	  <guimenuitem>Conditional Formatting...</guimenuitem> items as well as the items
+	  on the
+	  <guimenu>Cell</guimenu>, <guimenu>Column</guimenu>, and <guimenu>Row</guimenu>
+	  submenus are explained in the manual section on the <guimenu>Format</guimenu> menu
+	  in <xref linkend="Format-Menu" />.
 	</para>
 </sect2>
 
@@ -2782,13 +2785,11 @@
 
 </sect2>
 
-<!-- No longer relevant in version 1.4+
-
 <sect2 id="menu-context-toolbars">
 	<title>The Context Menu for Toolbars</title>
 		<para>The Context Menu for Toolbars</para>
 		<figure id="menu-context-toolbars.png">
-		    <title>The Context Menu.</title>
+		    <title>The Context Menu for Toolbars.</title>
 		    <screenshot>
 		      <mediaobject>
             <imageobject>
@@ -2800,183 +2801,51 @@
            </mediaobject>
 		    </screenshot>
 	    </figure>
-	<para>The context menu for toolbars allows the user to configure toolbars.
-	Each toolbar entry can have text associated with it or simply be an icon. The
-	text only does not currently work in &gnum;. The tooltips which are
-	displayed by default can be turned off for this toolbar. The toolbar itself
-	can be removed to save space. Finally the customize dialog can be launched
-	which allows the user to configure these options for all the toolbars at
-	once.
+	<para>
+	  The context menu for toolbars allows the user to configure toolbars.
+	  Each toolbar can be displayed above the sheets, to the left of the sheets,
+	  or to the right of the sheets. The context menu can also be used to hide a
+	  toolbar. The toolbar can be made visible again via the
+	  <guimenuitem>Toolbars</guimenuitem> submenu of the <guimenu>View</guimenu>
+	  menu. See <xref linkend="View-Menu"/>.
 	</para>
 
+</sect2>
+<sect2 id="menu-context-sheet-tabs">
+	<title>The Context Menu for Sheet Tabs</title>
+		<para>The Context Menu for Sheet Tabs</para>
+		<figure id="menu-context-sheet-tabs.png">
+		    <title>The Context Menu for Sheet Tabs.</title>
+		    <screenshot>
+		      <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/menu-context-sheet-tabs.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the context menu of the sheet tabs.</phrase>
+            </textobject>
+           </mediaobject>
+		    </screenshot>
+	    </figure>
 
+	    <para>
+	      The sheet tab context menu merely provides an extra way to access &gnum;
+	      commands related to sheets and to select the desired sheet.
+	      The <guimenuitem>Manage Sheets...</guimenuitem>, <guimenuitem>Insert</guimenuitem>, 
+	      <guimenuitem>Append</guimenuitem>, <guimenuitem>Duplicate</guimenuitem>,
+	      <guimenuitem>Remove</guimenuitem>, <guimenuitem>Rename</guimenuitem>, and
+	      <guimenuitem>Resize...</guimenuitem>
+	      commands are taken from the <guimenu>Sheet</guimenu> submenu of the
+	      <guimenu>Edit</guimenu> menu and are explained in
+	      <xref linkend="Edit-Menu" />.
+	      The <guimenuitem>Select</guimenuitem> and <guimenuitem>Select (sorted)</guimenuitem>
+	      submenus provided for an easy way of selecting an existing sheet. The
+	      <guimenuitem>Select</guimenuitem> submenu lists the sheets in the order they appear
+	      in the workbook while the <guimenuitem>Select (sorted)</guimenuitem> submenu lists
+	      them in alphabetic order.
+	    </para>
+	    
 </sect2>
 
--->
-
 </sect1>
-
-
-
-
-
-
-
-      <!-- IF someone knows a more approriate way to document menu
-      options, let me know. This seems a bit excessive, and the output
-      from db2html is kind of lame -->
-      
-     <!-- <title><guimenu><accel>F</accel>ile</guimenu></title>
-      <variablelist>
-	<varlistentry>
-	  <term><guimenuitem><accel>N</accel>ew</guimenuitem></term>
-	  <listitem><para>Create a new worksheet. This opens a new
-	  worksheet in a window.</para></listitem>
-	</varlistentry>
-	
-	<varlistentry>
-	  <term><guimenuitem><accel>O</accel>pen</guimenuitem></term>
-	  <listitem><para>Open an existing worksheet. A new window is
-	  created with the file selected in it.</para></listitem>
-	</varlistentry>
-	
-	<varlistentry>
-	  <term><guimenuitem><accel>S</accel>ave</guimenuitem></term>
-	  <listitem><para>Save the current worksheet. If the file has been
-	  named and saved before, this will silently save the file to the
-	  current filename. If it has not been saved before, this will
-	  prompt for a filename and path.</para></listitem>
-	</varlistentry>
-	
-	<varlistentry>
-	  <term><guimenuitem>S<accel>a</accel>ve
-	  as..</guimenuitem></term>
-
-	  <listitem><para>Save a file with a new name. Save a newly created
-	  file or save a file with a different name. </para></listitem>
-
-	</varlistentry>
-	
-	<varlistentry>
-	  <term><guimenuitem><accel>P</accel>lugins</guimenuitem></term>
-	  <listitem><para>Open the plugins dialog. For loading, saving of
-	  plugins. This shows the listing of pre loaded plugins and allows
-	  the user the user to add more.</para></listitem>
-	</varlistentry>
-	
-	<varlistentry>
-	  <term><guimenuitem><accel>C</accel>lose</guimenuitem></term>
-	  <listitem><para>Close the current worksheet.</para></listitem>
-	</varlistentry>
-	
-	<varlistentry>
-	  <term><guimenuitem><accel>Q</accel>uit</guimenuitem></term>
-	  <listitem><para>Close the open worksheets and quit
-	  &gnum;</para></listitem>
-	</varlistentry>
-	
-      </variablelist>  
-      
-      
-    </sect3> 
-    
-    <sect3>
-      <title><guimenu><accel>E</accel>dit</guimenu></title>
-      <variablelist>
-	
-	<varlistentry>
-	  <term><guimenuitem><accel>C</accel>ut</guimenuitem></term>
-	  <listitem><para>Remove the content in the currently selected cells
-	  and save it.</para></listitem>
-        </varlistentry>
-	<varlistentry>
-	  <term><guimenuitem>C<accel>o</accel>py</guimenuitem></term>
-	  <listitem><para>Make a copy of the current selection to be pasted
-	  later.</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guimenuitem><accel>P</accel>aste</guimenuitem></term>
-	  <listitem><para>Paste whatever is in the cut buffer at the
-	  cursor.</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guimenuitem>P<accel>a</accel>ste
-	  Special</guimenuitem></term> <listitem><para>Paste from the cut
-	  buffer, but with more options as to what to paste.  Useful for
-	  pasting just format, or just values, etc.</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guimenuitem><accel>S</accel>elect All</guimenuitem></term>
-	  <listitem><para>Select every cell in the worksheet.</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guisubmenu>Clear -&gt;</guisubmenu></term>
-	  <listitem>
-	    <para>
-	      <variablelist>
-		<varlistentry>
-		  <term><guimenuitem><accel>A</accel>ll</guimenuitem></term>
-		  <listitem><para>Clear every cell.</para></listitem>
-		</varlistentry>
-		<varlistentry>
-		  <term><guimenuitem><accel>F</accel>ormats</guimenuitem></term>
-		  <listitem><para>Clear the format from selected
-		  cells.</para></listitem>
-		</varlistentry>
-	      </variablelist>
-	    </para>
-	  </listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guimenuitem><accel>G</accel>oto Cell</guimenuitem></term>
-	  <listitem><para>Let the user specify a cell to "jump" to.</para></listitem>
-	</varlistentry>
-      </variablelist>
-    </sect3>
-    
-    <sect3>
-      <title><guimenu><accel>V</accel>iew</guimenu></title>
-      <variablelist>
-	<varlistentry><term><guimenuitem><accel>Z</accel>oom</guimenuitem></term>
-	<listitem><para>Zoom in. To show a area of the spreadsheet in more
-	detail.</para></listitem>
-	</varlistentry>
-      </variablelist>
-    </sect3>
-    
-    <sect3>
-      <title><guimenu><accel>I</accel>nsert</guimenu></title>
-      <variablelist>
-	<varlistentry><term><guimenuitem><accel>C</accel>ells</guimenuitem></term>
-	  <listitem><para>Insert a new cell.</para></listitem>
-	</varlistentry>
-	<varlistentry><term><guimenuitem><accel>R</accel>ows</guimenuitem></term>
-	  <listitem><para>Insert a Row of cells.</para></listitem>
-	</varlistentry>
-	<varlistentry><term><guimenuitem>C<accel>o</accel>lumns</guimenuitem></term>
-	  <listitem><para>Insert a Column of cells.</para></listitem>
-	</varlistentry>
-      </variablelist>
-    </sect3>
-    
-    <sect3>
-      <title><guimenu>F<accel>o</accel>rmat</guimenu></title>
-      <variablelist>
-	<varlistentry><term><guimenuitem><accel>C</accel>ells</guimenuitem></term>
-	<listitem><para>Open the cell format dialog. Used to change
-	formatting, color, etc</para></listitem>
-	</varlistentry>
-      </variablelist>
-    </sect3>
-    
-    <sect3>
-      <title><guimenu><accel>H</accel>elp</guimenu></title>
-      <variablelist>
-	<varlistentry><term><guimenuitem>Cells</guimenuitem></term>
-	  <listitem><para>View the online help for &gnum;</para></listitem>
-	</varlistentry>
-      </variablelist>
-    </sect3>-->
-  <!-- end of menubar description -->
-  
 
