@@ -955,7 +955,7 @@ gnm_cell_get_format_given_style (GnmCell const *cell, GnmStyle const *style)
 GOFormat const *
 gnm_cell_get_format (GnmCell const *cell)
 {
-	gnm_cell_get_format_given_style (cell, NULL);	
+	return gnm_cell_get_format_given_style (cell, NULL);	
 }
 
 /*
