@@ -11,17 +11,17 @@
 # Francisco Javier F. Serrador <fserrador@gmail.com>, 2006, 2011.
 # Sylvia Sánchez <LailahFSF@gmail.com>, 2011, 2012.
 # Juan Matías Olmos <colonizare@yahoo.com.ar>, 2012.
-# Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
+# Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-13 12:54+0000\n"
-"PO-Revision-Date: 2012-11-15 16:23+0100\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"POT-Creation-Date: 2012-11-18 23:09+0000\n"
+"PO-Revision-Date: 2012-11-19 14:40-0500\n"
+"Last-Translator: Milagros Alessandra Infante Montero <maim92@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -145,7 +145,8 @@ msgstr "y:parte imaginaria"
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
-"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es «i»"
+"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es "
+"«i»"
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
@@ -639,10 +640,10 @@ msgstr ""
 "@{criterios} es un rango que contiene condiciones. La primera fila de unos @"
 "{criterios} debería contener etiquetas. Cada etiqueta especifica en qué "
 "campo aplican las condiciones dadas en la columna. Cada celda debajo de la "
-"etiqueta especifica una condición como «>3» o «<9». Se puede dar una condición "
-"de igualdad por simple especificación de un valor, por ejemplo «3» o «Jody». "
-"Para que un registro se considere debe satisfacer todas las condiciones de "
-"al menos una de las filas de los @{criterios}."
+"etiqueta especifica una condición como «>3» o «<9». Se puede dar una "
+"condición de igualdad por simple especificación de un valor, por ejemplo «3» "
+"o «Jody». Para que un registro se considere debe satisfacer todas las "
+"condiciones de al menos una de las filas de los @{criterios}."
 
 #: ../plugins/fn-database/functions.c:73
 msgid ""
@@ -951,8 +952,8 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:80
 msgid ""
-"For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-"
-"1904."
+"For spreadsheets created with the Mac version of Excel, serial 1 is 1-"
+"Jan-1904."
 msgstr ""
 "Para hojas de cálculo creadas con la versión de Excel para Mac, la serie 1 "
 "es 1-Ene-1904."
@@ -1050,8 +1051,8 @@ msgid ""
 "If @{interval} is \"ym\" or \"yd\" then the distance is measured in complete "
 "months or days, respectively, but excluding any difference in years."
 msgstr ""
-"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días completos, "
-"respectivamente, pero excluyendo cualquier diferencia en años."
+"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días "
+"completos, respectivamente, pero excluyendo cualquier diferencia en años."
 
 #: ../plugins/fn-date/functions.c:218
 msgid ""
@@ -1727,8 +1728,8 @@ msgid ""
 "vega of an option is the rate of change of its price with respect to "
 "volatility."
 msgstr ""
-"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una opción "
-"europea producida en @{ejercicio} en un activo con precio al contado @"
+"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una "
+"opción europea producida en @{ejercicio} en un activo con precio al contado @"
 "{contado}. El vega de una opción es la tasa de cambio de su precio con "
 "respecto a la volatilidad."
 
@@ -10398,8 +10399,8 @@ msgstr ""
 "Función LOGFIT aplica al método de «mínimos cuadrados» para ajustar la "
 "ecuación logarítmica y = a + b * ln (signo * (x - c)), signo = +1 o -1 a sus "
 "datos. La gráfica de la ecuación es una curva logarítmica movida "
-"horizontalmente por c y posiblemente reflejada a través del eje (si signo = -"
-"1)."
+"horizontalmente por c y posiblemente reflejada a través del eje (si signo = "
+"-1)."
 
 #: ../plugins/fn-stat/functions.c:3530
 msgid ""
@@ -10407,9 +10408,9 @@ msgid ""
 "the first column, `a', `b', and `c' are given in columns 2 to 4. Column 5 "
 "holds the sum of squared residuals."
 msgstr ""
-"LOGFIT devuelve una matriz con cinco columnas y una fila. «Signo» se da en la "
-"primera columna, «a», «b» y «c» son dados en las columnas 2 a la 4. La columna "
-"5 contiene la suma de residuos al cuadrado."
+"LOGFIT devuelve una matriz con cinco columnas y una fila. «Signo» se da en "
+"la primera columna, «a», «b» y «c» son dados en las columnas 2 a la 4. La "
+"columna 5 contiene la suma de residuos al cuadrado."
 
 #: ../plugins/fn-stat/functions.c:3534
 msgid ""
@@ -10543,16 +10544,20 @@ msgid ""
 "FORECAST:estimates a future value according to existing values using simple "
 "linear regression"
 msgstr ""
+"FORECAST:estima un valor futuro de acuerdo a los valores existentes usando "
+"regresión linear simple"
 
 #: ../plugins/fn-stat/functions.c:3950
 msgid "x:x-value whose matching y-value should be forecast"
-msgstr ""
+msgstr "x:valor x cuyo valor y coincidente debe preverse"
 
 #: ../plugins/fn-stat/functions.c:3953
 msgid ""
 "This function estimates a future value according to existing values using "
 "simple linear regression."
 msgstr ""
+"Esta función estima un valor futuro de acuerdo a los valores existentes "
+"usando regresión linear simple."
 
 #: ../plugins/fn-stat/functions.c:3955 ../plugins/fn-stat/functions.c:4012
 #: ../plugins/fn-stat/functions.c:4065
@@ -10560,42 +10565,48 @@ msgid ""
 "If @{known_xs} or @{known_ys} contains no data entries or different number "
 "of data entries, this function returns a #N/A error."
 msgstr ""
+"Si @{xs_conocidos} o @{ys_conocidos} no contienen entradas de datos o número "
+"diferente de entradas de datos, esta función devuelve un error #N/A."
 
 #: ../plugins/fn-stat/functions.c:3957
 msgid ""
 "If the variance of the @{known_xs} is zero, this function returns a #DIV/0 "
 "error."
 msgstr ""
+"Si la varianza del @xs_conocidos} es cero, esta función devuelve un error "
+"#DIV/0."
 
 #: ../plugins/fn-stat/functions.c:3963
 msgid "Then FORECAST(7,A1:A5,B1:B5) equals -10.859397661."
-msgstr ""
+msgstr "Luego FORECAST(7,A1:A5,B1:B5) igual a -10.859397661."
 
 #: ../plugins/fn-stat/functions.c:4009
 msgid "INTERCEPT:the intercept of a linear regression line"
-msgstr ""
+msgstr "INTERCEPT:el intercepto de una línea de regresión linear"
 
 #: ../plugins/fn-stat/functions.c:4014 ../plugins/fn-stat/functions.c:4067
 msgid ""
 "If the variance of the @{known_xs} is zero, this function returns #DIV/0 "
 "error."
 msgstr ""
+"Si la varianza del @{xs_conocidos} es cero, esta función devuelve error "
+"#DIV/0."
 
 #: ../plugins/fn-stat/functions.c:4020
 msgid "Then INTERCEPT(A1:A5,B1:B5) equals -20.785117212."
-msgstr ""
+msgstr "Luego INTERCEPT(A1:A5,B1:B5) igual a -20.785117212."
 
 #: ../plugins/fn-stat/functions.c:4061
 msgid "SLOPE:the slope of a linear regression line"
-msgstr ""
+msgstr "SLOPE:la pendiente de una línea de regresión linear"
 
 #: ../plugins/fn-stat/functions.c:4072
 msgid "Then SLOPE(A1:A5,B1:B5) equals 1.417959936."
-msgstr ""
+msgstr "Luego SLOPE(A1:A5,B1:B5) igual a 1.417959936."
 
 #: ../plugins/fn-stat/functions.c:4113
 msgid "SUBTOTAL:the subtotal of the given list of arguments"
-msgstr ""
+msgstr "SUBTOTAL:el subtotal de la lista dada de argumentos"
 
 #: ../plugins/fn-stat/functions.c:4114
 msgid ""
@@ -10613,20 +10624,33 @@ msgid ""
 "\t10   VAR\n"
 "\t11   VARP"
 msgstr ""
+"función_nbr:determine que función usar de acuerdo a la siguiente tabla:\n"
+"\t1   AVERAGE\n"
+"\t2   COUNT\n"
+"\t3   COUNTA\n"
+"\t4   MAX\n"
+"\t5   MIN\n"
+"\t6   PRODUCT\n"
+"\t7   STDEV\n"
+"\t8   STDEVP\n"
+"\t9   SUM\n"
+"\t10   VAR\n"
+"\t11   VARP"
 
 #: ../plugins/fn-stat/functions.c:4127
 msgid "ref1:first value"
-msgstr ""
+msgstr "ref1:primer valor"
 
 #: ../plugins/fn-stat/functions.c:4128
 msgid "ref2:second value"
-msgstr ""
+msgstr "ref2:segundo valor"
 
 #: ../plugins/fn-stat/functions.c:4130
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, "
 "and 39."
 msgstr ""
+"Asumiendo que las celdas A1, A2, …, A5 contienen números 23, 27, 28, 33 y 39."
 
 #: ../plugins/fn-stat/functions.c:4131
 msgid ""
@@ -10634,83 +10658,86 @@ msgid ""
 "(7,A1:A5) equals 6.164414003.SUBTOTAL(9,A1:A5) equals 150.SUBTOTAL(11,A1:A5) "
 "equals 30.4."
 msgstr ""
+"Luego SUBTOTAL(1,A1:A5) igual a 30.SUBTOTAL(6,A1:A5) igual a 22378356."
+"SUBTOTAL(7,A1:A5) igual a 6.164414003.SUBTOTAL(9,A1:A5) igual a 150.SUBTOTAL"
+"(11,A1:A5) igual a 30.4."
 
 #: ../plugins/fn-stat/functions.c:4210
 msgid "CRONBACH:Cronbach's alpha"
-msgstr ""
+msgstr "CRONBACH:alfa de Cronbach"
 
 #: ../plugins/fn-stat/functions.c:4211
 msgid "ref1:first data set"
-msgstr ""
+msgstr "ref1:primer conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:4212
 msgid "ref2:second data set"
-msgstr ""
+msgstr "ref2:segundo conjunto de datos"
 
 #: ../plugins/fn-stat/functions.c:4323
-#, fuzzy
 msgid ""
 "GEOMDIST:probability mass or cumulative distribution function of the "
 "geometric distribution"
 msgstr ""
-"GEOMDIST: función de distribución acumulativa de la distribución geométrica."
+"GEOMDIST:función de masa de probabilidad o de distribución acumulativa  de "
+"la distribución geométrica."
 
 #: ../plugins/fn-stat/functions.c:4324
 msgid "k:number of trials"
-msgstr "k: número de intentos"
+msgstr "k:número de intentos"
 
 #: ../plugins/fn-stat/functions.c:4325
 msgid "p:probability of success in any trial"
-msgstr "p: probabilidad de éxito en cualquier intento"
+msgstr "p:probabilidad de éxito en cualquier intento"
 
 #: ../plugins/fn-stat/functions.c:4327
 msgid "If @{k} < 0 this function returns a #NUM! error."
-msgstr ""
+msgstr "Si @{k} < 0 esta función devuelve un error #NUM!."
 
 #: ../plugins/fn-stat/functions.c:4354
 msgid "LOGISTIC:probability density function of the logistic distribution"
 msgstr ""
-"LOGISTIC: función de densidad de probabilidad de la distribución logística"
+"LOGISTIC:función de densidad de probabilidad de la distribución logística"
 
 #: ../plugins/fn-stat/functions.c:4385
 msgid "PARETO:probability density function of the Pareto distribution"
 msgstr ""
-"PARETO: función de densidad de probabilidad de la distribución de Pareto"
+"PARETO:función de densidad de probabilidad de la distribución de Pareto"
 
 #: ../plugins/fn-stat/functions.c:4387
 msgid "a:exponent"
-msgstr ""
+msgstr "a:exponente"
 
 #: ../plugins/fn-stat/functions.c:4388 ../plugins/fn-stat/functions.c:4496
 msgid "b:scale parameter"
-msgstr ""
+msgstr "b:parámetro de escala"
 
 #: ../plugins/fn-stat/functions.c:4419
 msgid "RAYLEIGH:probability density function of the Rayleigh distribution"
 msgstr ""
-"RAYLEIGH: función de densidad de probabilidad de la distribución de Rayleigh"
+"RAYLEIGH:función de densidad de probabilidad de la distribución de Rayleigh"
 
 #: ../plugins/fn-stat/functions.c:4421 ../plugins/fn-stat/functions.c:4457
 msgid "sigma:scale parameter"
-msgstr ""
+msgstr "sigma:parámetro de escala"
 
 #: ../plugins/fn-stat/functions.c:4454
 msgid ""
 "RAYLEIGHTAIL:probability density function of the Rayleigh tail distribution"
 msgstr ""
-"RAYLEIGHTAIL: función de densidad de probabilidad de la cola de distribución "
-"Rayleigh"
+"RAYLEIGHTAIL:función de densidad de probabilidad de la distribución de cola "
+"de Rayleigh"
 
 #: ../plugins/fn-stat/functions.c:4456
 msgid "a:lower limit"
-msgstr ""
+msgstr "a:límite inferior"
 
 #: ../plugins/fn-stat/functions.c:4492
 msgid ""
 "EXPPOWDIST:the probability density function of the Exponential Power "
 "distribution"
 msgstr ""
-"EXPPOWDIST: función de densidad de probabilidad de la distribución "
+"EXPPOWDIST:la función de densidad de probabilidad de la distribución "
 "exponencial"
 
 #: ../plugins/fn-stat/functions.c:4498
@@ -10720,54 +10747,55 @@ msgid ""
 "product starts to wear out after a period of steady or even improving "
 "reliability."
 msgstr ""
-"Esta distribución se ha recomendado para el análisis del tiempo de función "
-"cuando se desea una función peligroso de forma «U». Esto corresponde al fallo "
-"rápido una vez que el producto comience a desgastarse después de un periodo "
-"estacionario o incluso mejorando la fiabilidad."
+"Esta distribución se ha recomendado para el análisis del tiempo de vida "
+"cuando se desea una función peligroso de forma «U». Esto corresponde al "
+"fallo rápido una vez que el producto comienza a desgastarse después de un "
+"periodo estable o incluso mejorando la fiabilidad."
 
 #: ../plugins/fn-stat/functions.c:4526
 msgid "LAPLACE:probability density function of the Laplace distribution"
-msgstr ""
-"LAPLACE: función de densidad de probabilidad de la distribución Laplace"
+msgstr "LAPLACE:función de densidad de probabilidad de la distribución Laplace"
 
 #: ../plugins/fn-stat/functions.c:4528
 msgid "a:mean"
-msgstr ""
+msgstr "a:media"
 
 #: ../plugins/fn-stat/functions.c:4549
 msgid ""
 "PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} "
 "objects with repetition allowed"
 msgstr ""
+"PERMUTATIONA:el número de permutaciones de @{y} objetos elegidos de @{x} "
+"objetos con repetición permitida"
 
 #: ../plugins/fn-stat/functions.c:4550
 msgid "x:total number of objects"
-msgstr "x: número total de objetos"
+msgstr "x:número total de objetos"
 
 #: ../plugins/fn-stat/functions.c:4551
 msgid "y:number of selected objects"
-msgstr "y: número de objetos seleccionados"
+msgstr "y:número de objetos seleccionados"
 
 #: ../plugins/fn-stat/functions.c:4552
 msgid "If both @{x} and @{y} equal 0, PERMUTATIONA returns 1."
-msgstr ""
+msgstr "Si @{x} e @{y} son iguales a 0, PERMUTATIONA devuelve 1."
 
 #: ../plugins/fn-stat/functions.c:4553
 msgid "If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!"
-msgstr ""
+msgstr "Si @{x} < 0 o @{y} < 0, PERMUTATIONA devuelve #NUM!"
 
 #: ../plugins/fn-stat/functions.c:4554
 msgid "If @{x} or @{y} are not integers, they are truncated"
-msgstr ""
+msgstr "Si @{x} o @{y} no son enteros truncados"
 
 #: ../plugins/fn-stat/functions.c:4582
 msgid "LKSTEST:Lilliefors (Kolmogorov-Smirnov) Test of Normality"
-msgstr ""
+msgstr "LKSTEST:Prueba de normalidad de Lilliefors (Kolmogorov-Smirnov)"
 
 #: ../plugins/fn-stat/functions.c:4583 ../plugins/fn-stat/functions.c:4700
 #: ../plugins/fn-stat/functions.c:4784 ../plugins/fn-stat/functions.c:4869
 msgid "x:array of sample values"
-msgstr ""
+msgstr "x:matriz de valores de muestra"
 
 #: ../plugins/fn-stat/functions.c:4584
 msgid ""
@@ -10775,18 +10803,22 @@ msgid ""
 "Lilliefors (Kolmogorov-Smirnov) Test, the second row the test statistic of "
 "the test, and the third the number of observations in the sample."
 msgstr ""
+"Esta función devuelve una matriz con la primera fila dando el valor p de la "
+"prueba de Lilliefors (Kolmogorov-Smirnov), la segunda fila de la prueba "
+"estadística de la prueba y la tercera el número de observaciones en la "
+"muestra."
 
 #: ../plugins/fn-stat/functions.c:4586
 msgid "If there are less than 5 sample values, LKSTEST returns #VALUE!"
-msgstr ""
+msgstr "Si hay menos de 5 valores de muestra, LKSTEST devuelve #VALUE!"
 
 #: ../plugins/fn-stat/functions.c:4588
 msgid "wiki:en:Lilliefors_test"
-msgstr ""
+msgstr "wiki:es:prueba_Lilliefors"
 
 #: ../plugins/fn-stat/functions.c:4699
 msgid "SFTEST:Shapiro-Francia Test of Normality"
-msgstr ""
+msgstr "SFTEST:Prueba de normalidad de Shapiro-Francia"
 
 #: ../plugins/fn-stat/functions.c:4701
 msgid ""
@@ -10794,16 +10826,20 @@ msgid ""
 "Shapiro-Francia Test, the second row the test statistic of the test, and the "
 "third the number of observations in the sample."
 msgstr ""
+"Esta función devuelve una matriz con la primera fila dando el valor p de la "
+"prueba de Shapiro-Francia, la segunda fila de la prueba estadística de la "
+"prueba y la tercera el número de observaciones en la muestra."
 
 #: ../plugins/fn-stat/functions.c:4703
 msgid ""
 "If there are less than 5 or more than 5000 sample values, SFTEST returns "
 "#VALUE!"
 msgstr ""
+"Si hay menos de 5 o más de 5000 valores de muestra, SFTEST devuelve #VALUE!"
 
 #: ../plugins/fn-stat/functions.c:4783
 msgid "CVMTEST:Cramér-von Mises Test of Normality"
-msgstr ""
+msgstr "CVMTEST:Prueba de normalidad de Cramér-von Mises"
 
 #: ../plugins/fn-stat/functions.c:4785
 msgid ""
@@ -10811,18 +10847,21 @@ msgid ""
 "Cramér-von Mises Test, the second row the test statistic of the test, and "
 "the third the number of observations in the sample."
 msgstr ""
+"Esta función devuelve una matriz con la primera fila dando el valor p de la "
+"prueba de Cramér-von Mises, la segunda fila de la prueba estadística de la "
+"prueba y la tercera el número de observaciones en la muestra."
 
 #: ../plugins/fn-stat/functions.c:4787
 msgid "If there are less than 8 sample values, CVMTEST returns #VALUE!"
-msgstr ""
+msgstr "Si hay menos de 8 valores de muestra, CVMTEST devuelve #VALUE!"
 
 #: ../plugins/fn-stat/functions.c:4789
 msgid "wiki:en:Cramér–von-Mises_criterion"
-msgstr ""
+msgstr "wiki:es:criterio_Cramér–von-Mises"
 
 #: ../plugins/fn-stat/functions.c:4868
 msgid "ADTEST:Anderson-Darling Test of Normality"
-msgstr ""
+msgstr "ADTEST:Prueba de normalidad de Anderson-Darling"
 
 #: ../plugins/fn-stat/functions.c:4870
 msgid ""
@@ -10830,22 +10869,25 @@ msgid ""
 "Anderson-Darling Test, the second row the test statistic of the test, and "
 "the third the number of observations in the sample."
 msgstr ""
+"Esta función devuelve una matriz con la primera fila dando el valor p de la "
+"prueba de Anderson-Darling, la segunda fila de la prueba estadística de la "
+"prueba y la tercera el número de observaciones en la muestra."
 
 #: ../plugins/fn-stat/functions.c:4872
 msgid "If there are less than 8 sample values, ADTEST returns #VALUE!"
-msgstr ""
+msgstr "Si hay menos de 8 valores de muestra, ADTEST devuelve #VALUE!"
 
 #: ../plugins/fn-stat/functions.c:4874
 msgid "wiki:en:Anderson–Darling_test"
-msgstr ""
+msgstr "wiki:es:prueba_Anderson–Darling"
 
 #: ../plugins/fn-string/functions.c:56
 msgid "CHAR:the CP1252 (Windows-1252) character for the code point @{x}"
-msgstr ""
+msgstr "CHAR:el caracter CP1252 (Windows-1252) para el punto de código @{x}"
 
 #: ../plugins/fn-string/functions.c:57
 msgid "x:code point"
-msgstr "x: punto de código"
+msgstr "x:punto de código"
 
 #: ../plugins/fn-string/functions.c:58
 msgid "CHAR(@{x}) returns the CP1252 (Windows-1252) character with code @{x}."
@@ -11847,9 +11889,9 @@ msgstr ""
 #~ "\n"
 #~ "@liquidación es la fecha de liquidación de la acción. @vencimiento es la "
 #~ "fecha de vencimiento de la acción. @emisión es la fecha de emisión de la "
-#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por 100"
-#~ "$ de valor facial de la acción. @base es el tipo de sistema de conteo de "
-#~ "días que quiere usar:\n"
+#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por "
+#~ "100$ de valor facial de la acción. @base es el tipo de sistema de conteo "
+#~ "de días que quiere usar:\n"
 #~ "\n"
 #~ " 0 US 30/360\n"
 #~ " 1 días actuales/días actuales\n"
