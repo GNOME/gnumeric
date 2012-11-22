@@ -11,17 +11,17 @@
 # Francisco Javier F. Serrador <fserrador@gmail.com>, 2006, 2011.
 # Sylvia Sánchez <LailahFSF@gmail.com>, 2011, 2012.
 # Juan Matías Olmos <colonizare@yahoo.com.ar>, 2012.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
 # Milagros Alessandra Infante Montero <maim92@gmail.com>, 2012.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-18 23:09+0000\n"
-"PO-Revision-Date: 2012-11-19 14:40-0500\n"
-"Last-Translator: Milagros Alessandra Infante Montero <maim92@gmail.com>\n"
+"POT-Creation-Date: 2012-11-20 10:08+0000\n"
+"PO-Revision-Date: 2012-11-22 15:54+0100\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -145,8 +145,7 @@ msgstr "y:parte imaginaria"
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
-"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es "
-"«i»"
+"i:el sufijo para el número complejo, ya sea «i» o «j»; el predeterminado es «i»"
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
@@ -640,10 +639,10 @@ msgstr ""
 "@{criterios} es un rango que contiene condiciones. La primera fila de unos @"
 "{criterios} debería contener etiquetas. Cada etiqueta especifica en qué "
 "campo aplican las condiciones dadas en la columna. Cada celda debajo de la "
-"etiqueta especifica una condición como «>3» o «<9». Se puede dar una "
-"condición de igualdad por simple especificación de un valor, por ejemplo «3» "
-"o «Jody». Para que un registro se considere debe satisfacer todas las "
-"condiciones de al menos una de las filas de los @{criterios}."
+"etiqueta especifica una condición como «>3» o «<9». Se puede dar una condición "
+"de igualdad por simple especificación de un valor, por ejemplo «3» o «Jody». "
+"Para que un registro se considere debe satisfacer todas las condiciones de "
+"al menos una de las filas de los @{criterios}."
 
 #: ../plugins/fn-database/functions.c:73
 msgid ""
@@ -952,8 +951,8 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:80
 msgid ""
-"For spreadsheets created with the Mac version of Excel, serial 1 is 1-"
-"Jan-1904."
+"For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-"
+"1904."
 msgstr ""
 "Para hojas de cálculo creadas con la versión de Excel para Mac, la serie 1 "
 "es 1-Ene-1904."
@@ -1051,8 +1050,8 @@ msgid ""
 "If @{interval} is \"ym\" or \"yd\" then the distance is measured in complete "
 "months or days, respectively, but excluding any difference in years."
 msgstr ""
-"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días "
-"completos, respectivamente, pero excluyendo cualquier diferencia en años."
+"Si @{intervalo} es «ym» o «yd» la distancia se mide en meses o días completos, "
+"respectivamente, pero excluyendo cualquier diferencia en años."
 
 #: ../plugins/fn-date/functions.c:218
 msgid ""
@@ -1728,8 +1727,8 @@ msgid ""
 "vega of an option is the rate of change of its price with respect to "
 "volatility."
 msgstr ""
-"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una "
-"opción europea producida en @{ejercicio} en un activo con precio al contado @"
+"OPT_BS_VEGA usa el modelo Black-Scholes para calcular el «vega» de una opción "
+"europea producida en @{ejercicio} en un activo con precio al contado @"
 "{contado}. El vega de una opción es la tasa de cambio de su precio con "
 "respecto a la volatilidad."
 
@@ -10399,8 +10398,8 @@ msgstr ""
 "Función LOGFIT aplica al método de «mínimos cuadrados» para ajustar la "
 "ecuación logarítmica y = a + b * ln (signo * (x - c)), signo = +1 o -1 a sus "
 "datos. La gráfica de la ecuación es una curva logarítmica movida "
-"horizontalmente por c y posiblemente reflejada a través del eje (si signo = "
-"-1)."
+"horizontalmente por c y posiblemente reflejada a través del eje (si signo = -"
+"1)."
 
 #: ../plugins/fn-stat/functions.c:3530
 msgid ""
@@ -10408,9 +10407,9 @@ msgid ""
 "the first column, `a', `b', and `c' are given in columns 2 to 4. Column 5 "
 "holds the sum of squared residuals."
 msgstr ""
-"LOGFIT devuelve una matriz con cinco columnas y una fila. «Signo» se da en "
-"la primera columna, «a», «b» y «c» son dados en las columnas 2 a la 4. La "
-"columna 5 contiene la suma de residuos al cuadrado."
+"LOGFIT devuelve una matriz con cinco columnas y una fila. «Signo» se da en la "
+"primera columna, «a», «b» y «c» son dados en las columnas 2 a la 4. La columna "
+"5 contiene la suma de residuos al cuadrado."
 
 #: ../plugins/fn-stat/functions.c:3534
 msgid ""
@@ -10748,9 +10747,9 @@ msgid ""
 "reliability."
 msgstr ""
 "Esta distribución se ha recomendado para el análisis del tiempo de vida "
-"cuando se desea una función peligroso de forma «U». Esto corresponde al "
-"fallo rápido una vez que el producto comienza a desgastarse después de un "
-"periodo estable o incluso mejorando la fiabilidad."
+"cuando se desea una función peligroso de forma «U». Esto corresponde al fallo "
+"rápido una vez que el producto comienza a desgastarse después de un periodo "
+"estable o incluso mejorando la fiabilidad."
 
 #: ../plugins/fn-stat/functions.c:4526
 msgid "LAPLACE:probability density function of the Laplace distribution"
@@ -10891,17 +10890,19 @@ msgstr "x:punto de código"
 
 #: ../plugins/fn-string/functions.c:58
 msgid "CHAR(@{x}) returns the CP1252 (Windows-1252) character with code @{x}."
-msgstr ""
+msgstr "CHAR(@{x}) devuelve el caracter CP1252 (Windows-1252) con código @{x}."
 
 #: ../plugins/fn-string/functions.c:59
 msgid "@{x} must be in the range 1 to 255."
-msgstr ""
+msgstr "@{x} debe estar en el rango de 1 a 255."
 
 #: ../plugins/fn-string/functions.c:60 ../plugins/fn-string/functions.c:136
 msgid ""
 "CP1252 (Windows-1252) is also known as the \"ANSI code page\", but it is not "
 "an ANSI standard."
 msgstr ""
+"CP1252 (Windows-1252) también es conocido como la \"página de código ANSI\", "
+"pero no es un estándar ANSI."
 
 #: ../plugins/fn-string/functions.c:62
 msgid ""
@@ -10909,101 +10910,119 @@ msgid ""
 "all of its printable characters. It also contains all of ISO-8859-15's "
 "printable characters (but partially at different positions.)"
 msgstr ""
+"CP1252 (Windows-1252) está basado en un primer borrador de la ISO-8859-1 y "
+"contiene todos los caracteres imprimibles. También contiene todos los "
+"caracteres imprimibles del ISO-8859-15 (pero parcialmente en diferentes "
+"posiciones.)"
 
 #: ../plugins/fn-string/functions.c:66 ../plugins/fn-string/functions.c:138
 msgid ""
 "In CP1252 (Windows-1252), 129, 141, 143, 144, and 157 do not have matching "
 "characters."
 msgstr ""
+"En CP1252 (Windows-1252), 129, 141, 143, 144 y 157 no tiene caracteres "
+"coincidentes."
 
 #: ../plugins/fn-string/functions.c:67 ../plugins/fn-string/functions.c:139
 msgid ""
 "For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have CODE(CHAR(@"
 "{x}))=@{x}."
 msgstr ""
+"Para @{x} de 1 a 255 excepto 129, 141, 143, 144 y 157 tenemos CODE(CHAR(@"
+"{x}))=@{x}."
 
 #: ../plugins/fn-string/functions.c:105
 msgid ""
 "UNICHAR:the Unicode character represented by the Unicode code point @{x}"
 msgstr ""
+"UNICHAR:el caracter Unicode representado por el punto de código Unicode @{x}"
 
 #: ../plugins/fn-string/functions.c:106
 msgid "x:Unicode code point"
-msgstr "x: punto de código Unicode"
+msgstr "x:punto de código Unicode"
 
 #: ../plugins/fn-string/functions.c:133
 msgid "CODE:the CP1252 (Windows-1252) code point for the character @{c}"
-msgstr ""
+msgstr "CODE:el punto de código CP1252 (Windows-1252) para el caracter @{c}"
 
 #: ../plugins/fn-string/functions.c:134 ../plugins/fn-string/functions.c:179
 msgid "c:character"
-msgstr "c: caracter"
+msgstr "c:caracter"
 
 #: ../plugins/fn-string/functions.c:135
 msgid "@{c} must be a valid CP1252 (Windows-1252) character."
-msgstr ""
+msgstr "@{c} debe ser un caracter válido CP1252 (Windows-1252)."
 
 #: ../plugins/fn-string/functions.c:137
 msgid ""
 "CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains "
 "all of its printable characters (but partially at different positions.)"
 msgstr ""
+"CP1252 (Windows-1252) está basado en un primer borrador de la ISO-8859-1 y "
+"contiene todos los caracteres imprimibles (pero parcialmente en diferentes "
+"posiciones.)"
 
 #: ../plugins/fn-string/functions.c:178
 msgid "UNICODE:the Unicode code point for the character @{c}"
-msgstr ""
+msgstr "UNICODE:el punto de código Unicode para el caracter @{c}"
 
 #: ../plugins/fn-string/functions.c:244
 msgid "EXACT:TRUE if @{string1} is exactly equal to @{string2}"
-msgstr ""
+msgstr "EXACT:VERDADERO si @{cadena1} es exactamente igual a @{cadena2}"
 
 #: ../plugins/fn-string/functions.c:245
 msgid "string1:first string"
-msgstr ""
+msgstr "cadena1:primera cadena"
 
 #: ../plugins/fn-string/functions.c:246
 msgid "string2:second string"
-msgstr ""
+msgstr "cadena2:segunda cadena"
 
 #: ../plugins/fn-string/functions.c:264
 msgid "LEN:the number of characters of the string @{s}"
-msgstr "LEN: el número de caracteres de la cadena @{s}"
+msgstr "LEN:el número de caracteres de la cadena @{s}"
 
 #: ../plugins/fn-string/functions.c:265 ../plugins/fn-string/functions.c:282
 #: ../plugins/fn-string/functions.c:300 ../plugins/fn-string/functions.c:332
 #: ../plugins/fn-string/functions.c:384 ../plugins/fn-string/functions.c:424
 #: ../plugins/fn-string/functions.c:511 ../plugins/fn-string/functions.c:547
 msgid "s:the string"
-msgstr ""
+msgstr "s:la cadena"
 
 #: ../plugins/fn-string/functions.c:281
 msgid "LENB:the number of bytes in the string @{s}"
-msgstr "LENB: el número de bytes en la cadena @{s}"
+msgstr "LENB:el número de bytes en la cadena @{s}"
 
 #: ../plugins/fn-string/functions.c:299
 msgid "LEFT:the first @{num_chars} characters of the string @{s}"
-msgstr "LEFT: los primeros @{num_chard} caracteres de la cadena @{s}"
+msgstr "LEFT:los primeros @{num_carac} caracteres de la cadena @{s}"
 
 #: ../plugins/fn-string/functions.c:301 ../plugins/fn-string/functions.c:512
 msgid "num_chars:the number of characters to return (defaults to 1)"
 msgstr ""
+"num_carac:el número de caracteres que devolver (el predeterminado es 1)"
 
 #: ../plugins/fn-string/functions.c:302
 msgid ""
 "If the string @{s} is in a right-to-left script, the returned first "
 "characters are from the right of the string."
 msgstr ""
+"Si la cadena @{s} está en una secuencia de comandos de derecha a izquierda, "
+"los primeros caracteres devueltos son de la derecha de la cadena."
 
 #: ../plugins/fn-string/functions.c:331
 msgid ""
 "LEFTB:the first characters  of the string @{s} comprising at most @"
 "{num_bytes} bytes"
 msgstr ""
+"LEFTB:los primeros caracteres de la cadena @{s} comprenden a lo mucho @"
+"{num_bytes} bytes"
 
 #: ../plugins/fn-string/functions.c:333 ../plugins/fn-string/functions.c:426
 #: ../plugins/fn-string/functions.c:548
 msgid "num_bytes:the maximum number of bytes to return (defaults to 1)"
 msgstr ""
+"num_bytes:el máximo número de bytes que devolver (el predeterminado es 1)"
 
 #: ../plugins/fn-string/functions.c:334 ../plugins/fn-string/functions.c:427
 #: ../plugins/fn-string/functions.c:549 ../plugins/fn-string/functions.c:894
@@ -11012,12 +11031,16 @@ msgid ""
 "The semantics of this function is subject to change as various applications "
 "implement it."
 msgstr ""
+"La semántica de esta función es sujeto de cambios como diversas aplicaciones "
+"que la implementan."
 
 #: ../plugins/fn-string/functions.c:335
 msgid ""
 "If the string is in a right-to-left script, the returned first characters "
 "are from the right of the string."
 msgstr ""
+"Si la cadena está en una secuencia de comandos de derecha a izquierda, los "
+"primeros caracteres devueltos son de la derecha de la cadena."
 
 #: ../plugins/fn-string/functions.c:336 ../plugins/fn-string/functions.c:428
 #: ../plugins/fn-string/functions.c:472 ../plugins/fn-string/functions.c:551
@@ -11026,6 +11049,9 @@ msgid ""
 "While this function is syntactically Excel compatible, the differences in "
 "the underlying text encoding will usually yield different results."
 msgstr ""
+"Mientras esta función es compatible sintácticamente con Excel, las "
+"diferencias en la codificación de texto subyacente suele dar resultados "
+"diferentes."
 
 #: ../plugins/fn-string/functions.c:337 ../plugins/fn-string/functions.c:430
 #: ../plugins/fn-string/functions.c:474 ../plugins/fn-string/functions.c:552
@@ -11034,106 +11060,121 @@ msgid ""
 "While this function is OpenFormula compatible, most of its behavior is, at "
 "this time, implementation specific."
 msgstr ""
+"Mientras esta función es compatible con OpenFormula, mucho de su "
+"comportamiento, en este momento, implementación específica."
 
 #: ../plugins/fn-string/functions.c:365
 msgid "LOWER:a lower-case version of the string @{text}"
-msgstr "LOWER: una versión en minúsculas de la cadena @{text}"
+msgstr "LOWER:una versión en minúsculas de la cadena @{texto}"
 
 #: ../plugins/fn-string/functions.c:383
 msgid ""
 "MID:the substring of the string @{s} starting at position @{position} "
 "consisting of @{length} characters"
 msgstr ""
+"MID:la subcadena de la cadena @{s} comienza en la posición @{posición} "
+"consistiendo de @{longitud} caracteres"
 
 #: ../plugins/fn-string/functions.c:385
 msgid "position:the starting position"
-msgstr ""
+msgstr "posición:la posición del comienzo"
 
 #: ../plugins/fn-string/functions.c:386
 msgid "length:the number of characters to return"
-msgstr "length: el número de caracteres que devolver"
+msgstr "longitud:el número de caracteres que devolver"
 
 #: ../plugins/fn-string/functions.c:423
 msgid ""
 "MIDB:the characters following the first @{start_pos} bytes comprising at "
 "most @{num_bytes} bytes"
 msgstr ""
+"MIDB:los caracteres que siguen los primeros @{pos_comienzo} bytes comprenden "
+"a lo mucho @{num_bytes} bytes"
 
 #: ../plugins/fn-string/functions.c:425
 msgid "start_pos:the number of the byte with which to start (defaults to 1)"
 msgstr ""
+"pos_comienzo:el número del byte con el cual comenzar (el predeterminado es 1)"
 
 #: ../plugins/fn-string/functions.c:467
 msgid ""
 "FINDB:first byte position of @{string1} in @{string2} following byte "
 "position @{start}"
 msgstr ""
+"FINDB:primera posición del byte de @{cadena1} en @{cadena2} siguiendo a la "
+"posición de byte @{comienzo}"
 
 #: ../plugins/fn-string/functions.c:468 ../plugins/fn-string/functions.c:696
 msgid "string1:search string"
-msgstr ""
+msgstr "cadena1:cadena de búsqueda"
 
 #: ../plugins/fn-string/functions.c:469 ../plugins/fn-string/functions.c:697
 msgid "string2:search field"
-msgstr ""
+msgstr "cadena2:campo de búsqueda"
 
 #: ../plugins/fn-string/functions.c:470 ../plugins/fn-string/functions.c:1375
 msgid "start:starting byte position, defaults to 1"
-msgstr ""
+msgstr "comienzo:posición de byte empezando, el predeterminado es 1"
 
 #: ../plugins/fn-string/functions.c:471 ../plugins/fn-string/functions.c:699
 msgid "This search is case-sensitive."
-msgstr ""
+msgstr "Esta búsqueda es sensible a capitalización."
 
 #: ../plugins/fn-string/functions.c:510
 msgid "RIGHT:the last @{num_chars} characters of the string @{s}"
-msgstr "RIGHT: los últimos @{num_chars} caracteres de la cadena @{s}"
+msgstr "RIGHT:los últimos @{num_carac} caracteres de la cadena @{s}"
 
 #: ../plugins/fn-string/functions.c:513 ../plugins/fn-string/functions.c:550
 msgid ""
 "If the string @{s} is in a right-to-left script, the returned last "
 "characters are from the left of the string."
 msgstr ""
+"Si la cadena @{s} está en una secuencia de comandos de derecha a izquierda, "
+"los primeros caracteres devueltos son de la izquierda de la cadena."
 
 #: ../plugins/fn-string/functions.c:546
 msgid ""
 "RIGHTB:the last characters of the string @{s} comprising at most @"
 "{num_bytes} bytes"
 msgstr ""
+"RIGHTB:los últimos caracteres de la cadena @{s} comprenden a lo mucho @"
+"{num_bytes} bytes"
 
 #: ../plugins/fn-string/functions.c:581
 msgid "UPPER:an upper-case version of the string @{text}"
-msgstr "UPPER :una versión en mayúscula de la cadena @{text}"
+msgstr "UPPER:una versión en mayúscula de la cadena @{texto}"
 
 #: ../plugins/fn-string/functions.c:600
 msgid "CONCATENATE:the concatenation of the strings @{s1}, @{s2},…"
-msgstr ""
+msgstr "CONCATENATE:la concatenación de las cadenas @{s1}, @{s2},…"
 
 #: ../plugins/fn-string/functions.c:601
 msgid "s1:first string"
-msgstr ""
+msgstr "s1:primera cadena"
 
 #: ../plugins/fn-string/functions.c:602
 msgid "s2:second string"
-msgstr ""
+msgstr "s2:segunda cadena"
 
 #: ../plugins/fn-string/functions.c:622
 msgid "REPT:@{num} repetitions of string @{text}"
-msgstr ""
+msgstr "REPT:@{num} repeticiones de cadena @{texto}"
 
 #: ../plugins/fn-string/functions.c:624
 msgid "num:non-negative integer"
-msgstr ""
+msgstr "num:entero no negativo"
 
 #: ../plugins/fn-string/functions.c:666
 msgid "CLEAN:@{text} with any non-printable characters removed"
-msgstr ""
+msgstr "CLEAN:@{texto} con cualquier caracter no imprimible eliminado"
 
 #: ../plugins/fn-string/functions.c:668
 msgid ""
 "CLEAN removes non-printable characters from its argument leaving only "
 "regular characters and white-space."
 msgstr ""
+"CLEAN elimina caracteres no imprimibles de sus argumentos dejando solo "
+"caracteres regulares y espacios en blanco."
 
 #: ../plugins/fn-string/functions.c:695
 msgid ""
@@ -11889,9 +11930,9 @@ msgstr ""
 #~ "\n"
 #~ "@liquidación es la fecha de liquidación de la acción. @vencimiento es la "
 #~ "fecha de vencimiento de la acción. @emisión es la fecha de emisión de la "
-#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por "
-#~ "100$ de valor facial de la acción. @base es el tipo de sistema de conteo "
-#~ "de días que quiere usar:\n"
+#~ "acción.@tasa es la tasa de interés de la acción. @pr es el precio por 100"
+#~ "$ de valor facial de la acción. @base es el tipo de sistema de conteo de "
+#~ "días que quiere usar:\n"
 #~ "\n"
 #~ " 0 US 30/360\n"
 #~ " 1 días actuales/días actuales\n"
