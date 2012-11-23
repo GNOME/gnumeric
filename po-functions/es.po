@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-20 10:08+0000\n"
-"PO-Revision-Date: 2012-11-22 15:54+0100\n"
+"POT-Creation-Date: 2012-11-22 14:56+0000\n"
+"PO-Revision-Date: 2012-11-23 13:34+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -4532,26 +4532,26 @@ msgstr ""
 "  color          \t\tDevuelve 0.\n"
 "  contenidos       \t\tDevuelve los contenidos de la celda en @{celda}.\n"
 "  columna         \t\tDevuelve el número de la columna en @{celda}.\n"
-"  ancho de columna    \tDevuelve el ancho de columna.\n"
+"  anchura de columna    \tDevuelve la anchura de columna.\n"
 "  coord          \t\tDevuelve la dirección absoluta de @{celda}.\n"
 "  tipo de dato       \tsimilar a tipo\n"
 "  nombre de archivo       \t\tDevuelve el nombre del archivo de @{celda}.\n"
 "  formato         \t\tDevuelve el código del formato de la celda.\n"
-"  tipo de formula    \tsimilar a tipo\n"
+"  tipo de fórmula    \tsimilar a tipo\n"
 "  bloqueado         \t\tDevuelve 1 si @{celda} esta bloqueado.\n"
-"  parentesis    \tDevuelve 1 si @{celda} contiene un valor negativo\n"
+"  paréntesis    \tDevuelve 1 si @{celda} contiene un valor negativo\n"
 "                 \t\ty su formato lo muestra con paréntesis.\n"
-"  prefijo         \t\tDevuelve un caracter indicando el horizontal\n"
+"  prefijo         \t\tDevuelve un carácter indicando el horizontal\n"
 "                 \t\talineación de @{celda}.\n"
-"  prefijo de caracter  \tsimilar a prefijo\n"
-"  protejer        \t\tDevuelve 1 si @{celda} está bloqueado.\n"
+"  prefijo de carácter  \tsimilar a prefijo\n"
+"  proteger        \t\tDevuelve 1 si @{celda} está bloqueado.\n"
 "  fila            \t\tDevuelve el número de la fila en @{celda}.\n"
 "  nombre de hoja      \tDevuelve el nombre de la hoja de @{celda}.\n"
 "  tipo           \t\tDevuelve \"l\" si @{celda} contiene una cadena, \n"
 "                 \t\t\"v\" si contiene algún otro valor, y \n"
 "                 \t\t\"b\" si @{celda} está en blanco.\n"
 "  valor          \t\tDevuelve los contenidos de la celda en @{celda}.\n"
-"  ancho          \t\tDevuelve el ancho de columna."
+"  anchura          \t\tDevuelve la anchura de columna."
 
 #: ../plugins/fn-info/functions.c:1173
 msgid "EXPRESSION:expression in @{cell} as a string"
@@ -11114,7 +11114,7 @@ msgstr "cadena2:campo de búsqueda"
 
 #: ../plugins/fn-string/functions.c:470 ../plugins/fn-string/functions.c:1375
 msgid "start:starting byte position, defaults to 1"
-msgstr "comienzo:posición de byte empezando, el predeterminado es 1"
+msgstr "comienzo:posición inicial del byte, el predeterminado es 1"
 
 #: ../plugins/fn-string/functions.c:471 ../plugins/fn-string/functions.c:699
 msgid "This search is case-sensitive."
@@ -11180,86 +11180,96 @@ msgstr ""
 msgid ""
 "FIND:first position of @{string1} in @{string2} following position @{start}"
 msgstr ""
+"FIND:primera posición de @{cadena1} en @{cadena2} que sigue la posición @"
+"{inicio}"
 
 #: ../plugins/fn-string/functions.c:698 ../plugins/fn-string/functions.c:1306
 msgid "start:starting position, defaults to 1"
-msgstr ""
+msgstr "inicio:posición del comienzo, el predeterminado es 1"
 
 #: ../plugins/fn-string/functions.c:733
 msgid "FIXED:formatted string representation of @{num}"
-msgstr ""
+msgstr "FIXED:representación de cadena con formato de @{num}"
 
 #: ../plugins/fn-string/functions.c:734 ../plugins/fn-string/functions.c:1231
 msgid "num:number"
-msgstr ""
+msgstr "num:número"
 
 #: ../plugins/fn-string/functions.c:735
 msgid "decimals:number of decimals"
-msgstr "decimales: número de decimales"
+msgstr "decimales:número de decimales"
 
 #: ../plugins/fn-string/functions.c:736
 msgid ""
 "no_commas:TRUE if no thousand separators should be used, defaults to FALSE"
 msgstr ""
+"no_comas:VERDADERO si no se usan separadores de miles, el predeterminado es "
+"FALSO"
 
 #: ../plugins/fn-string/functions.c:793
 msgid "PROPER:@{text} with initial of each word capitalised"
-msgstr ""
+msgstr "PROPER:@{texto} con inicial de cada palabra capitalizada"
 
 #: ../plugins/fn-string/functions.c:835
 msgid ""
 "REPLACE:string @{old} with @{num} characters starting at @{start} replaced "
 "by @{new}"
 msgstr ""
+"REPLACE:cadena @{antigua} con @{num} caracteres iniciando en @{inicio} "
+"reemplazado por @{nuevo}"
 
 #: ../plugins/fn-string/functions.c:837 ../plugins/fn-string/functions.c:888
 msgid "old:original text"
-msgstr ""
+msgstr "antiguo:texto original"
 
 #: ../plugins/fn-string/functions.c:838
 msgid "start:starting position"
-msgstr ""
+msgstr "inicio:posición del comienzo"
 
 #: ../plugins/fn-string/functions.c:839
 msgid "num:number of characters to be replaced"
-msgstr ""
+msgstr "num:número de caracteres que reemplazar"
 
 #: ../plugins/fn-string/functions.c:840 ../plugins/fn-string/functions.c:891
 #: ../plugins/fn-string/functions.c:1159
 msgid "new:replacement string"
-msgstr ""
+msgstr "nuevo:cadena de reemplazo"
 
 #: ../plugins/fn-string/functions.c:886
 msgid ""
 "REPLACEB:string @{old} with up to @{num} bytes starting at @{start} replaced "
 "by @{new}"
 msgstr ""
+"REPLACEB:cadena @{antigui} con un máximo de @{num} bytes comienza en @"
+"{inicio} reemplazado por @{nuevo}"
 
 #: ../plugins/fn-string/functions.c:889
 msgid "start:starting byte position"
-msgstr ""
+msgstr "inicio:posición inicial del byte"
 
 #: ../plugins/fn-string/functions.c:890
 msgid "num:number of bytes to be replaced"
-msgstr "num: número de bytes que reemplazar"
+msgstr "num:número de bytes que reemplazar"
 
 #: ../plugins/fn-string/functions.c:892
 msgid ""
 "REPLACEB replaces the string of valid unicode characters starting at the "
 "byte @{start} and ending at @{start}+@{num}-1 with the string @{new}."
 msgstr ""
+"REPLACEB reemplaza la cadena de caracteres unicode válidos comenzando en el "
+"byte @{inicio} y terminando en @{inicio}+@{num}-1 con la cadena @{nuevo}."
 
 #: ../plugins/fn-string/functions.c:940
 msgid "T:@{value} if and only if @{value} is text, otherwise empty"
-msgstr ""
+msgstr "T:@{valor} si y solo si @{valor} es texto, de caso contrario vacío"
 
 #: ../plugins/fn-string/functions.c:941
 msgid "value:original value"
-msgstr "value: valor original"
+msgstr "valor:valor original"
 
 #: ../plugins/fn-string/functions.c:963
 msgid "TEXT:@{value} as a string formatted as @{format}"
-msgstr ""
+msgstr "TEXT:@{valor} como una cadena con formato como @{formato}"
 
 #: ../plugins/fn-string/functions.c:964
 msgid "value:value to be formatted"
@@ -11267,69 +11277,77 @@ msgstr "value:valor para ser formateado"
 
 #: ../plugins/fn-string/functions.c:965
 msgid "format:desired format"
-msgstr ""
+msgstr "formato:formato elegido"
 
 #: ../plugins/fn-string/functions.c:1017
 msgid "TRIM:@{text} with only single spaces between words"
-msgstr ""
+msgstr "TRIM:@{texto} con solo espacios simples entre palabras"
 
 #: ../plugins/fn-string/functions.c:1064
 msgid "VALUE:numeric value of @{text}"
-msgstr ""
+msgstr "VALUE:valor numérico de @{texto}"
 
 #: ../plugins/fn-string/functions.c:1097
 msgid "NUMBERVALUE:numeric value of @{text}"
-msgstr ""
+msgstr "NUMBERVALUE:valor numérico de @{texto}"
 
 #: ../plugins/fn-string/functions.c:1099
 msgid "separator:decimal separator"
-msgstr ""
+msgstr "separador:separador decimal"
 
 #: ../plugins/fn-string/functions.c:1100
 msgid ""
 "If @{text} does not look like a decimal number, NUMBERVALUE returns the "
 "value VALUE would return (ignoring the given @{separator})."
 msgstr ""
+"Si @{texto} no se ve como un número decimal, NUMBERVALUE devuelve el valor "
+"VALUE puede devolver (ignorando el @{separador} dado)."
 
 #: ../plugins/fn-string/functions.c:1156
 msgid "SUBSTITUTE:@{text} with all occurrences of @{old} replaced by @{new}"
 msgstr ""
+"SUBSTITUTE:@{texto} con todas las ocurrencias de @{antiguo} reemplazado por @"
+"{nuevo}"
 
 #: ../plugins/fn-string/functions.c:1157 ../plugins/fn-string/functions.c:1567
 msgid "text:original text"
-msgstr ""
+msgstr "texto:texto original"
 
 #: ../plugins/fn-string/functions.c:1158
 msgid "old:string to be replaced"
-msgstr ""
+msgstr "antiguo:cadena que reemplazar"
 
 #: ../plugins/fn-string/functions.c:1160
 msgid ""
 "num:if @{num} is specified and a number only the @{num}th occurrence of @"
 "{old} is replaced"
 msgstr ""
+"num:si @{num} se especifica y un número solo la @{num}-ésima ocurrencia de @"
+"{antiguo} se reemplaza"
 
 #: ../plugins/fn-string/functions.c:1230
 msgid "DOLLAR:@{num} formatted as currency"
-msgstr ""
+msgstr "DOLLAR:@{num} formateado como divisa"
 
 #: ../plugins/fn-string/functions.c:1232
 msgid "decimals:decimals"
-msgstr ""
+msgstr "decimales:decimales"
 
 #: ../plugins/fn-string/functions.c:1302
 msgid ""
 "SEARCH:the location of the @{search} string within @{text} after position @"
 "{start}"
 msgstr ""
+"SEARCH:la ubicación de la cadena @{buscar} con @{texto} después de la "
+"posición @{inicio}"
 
 #: ../plugins/fn-string/functions.c:1304 ../plugins/fn-string/functions.c:1373
 msgid "search:search string"
-msgstr ""
+msgstr "búsqueda:cadena de búsqueda"
 
 #: ../plugins/fn-string/functions.c:1305 ../plugins/fn-string/functions.c:1374
 msgid "text:search field"
-msgstr ""
+msgstr "texto:campo de búsqueda"
 
 #: ../plugins/fn-string/functions.c:1307 ../plugins/fn-string/functions.c:1376
 msgid ""
@@ -11338,58 +11356,76 @@ msgid ""
 "string including the empty string. To search for * or ?, precede the symbol "
 "with ~."
 msgstr ""
+"@{búsqueda} puede contener caracteres comodín (*) y signos de interrogación "
+"(?). Un signo de interrogación coincide con cualquier carácter simple y un "
+"comodín coincide con cualquier cadena incluyendo la cadena vacía. Para "
+"buscar * o ?, preceder el símbolo con ~."
 
 #: ../plugins/fn-string/functions.c:1312 ../plugins/fn-string/functions.c:1381
 msgid "This search is not case sensitive."
-msgstr ""
+msgstr "Esta búsqueda no es sensible a capitalización."
 
 #: ../plugins/fn-string/functions.c:1313
 msgid "If @{search} is not found, SEARCH returns #VALUE!"
-msgstr ""
+msgstr "Si @{búsqueda} no se encuentra, SEARCH devuelve #VALUE!"
 
 #: ../plugins/fn-string/functions.c:1314
 msgid ""
 "If @{start} is less than one or it is greater than the length of @{text}, "
 "SEARCH returns #VALUE!"
 msgstr ""
+"Si @{inicio} es menos que uno o es mayor que la longitud de @{texto}, SEARCH "
+"devuelve #VALUE!"
 
 #: ../plugins/fn-string/functions.c:1371
 msgid ""
 "SEARCHB:the location of the @{search} string within @{text} after byte "
 "position @{start}"
 msgstr ""
+"SEARCHB:la ubicación de la cadena @{búsqueda} con @{texto} después de la "
+"posición del byte @{inicio}"
 
 #: ../plugins/fn-string/functions.c:1382
 msgid "If @{search} is not found, SEARCHB returns #VALUE!"
-msgstr ""
+msgstr "Si @{búsqueda} no se encuentra, SEARCHB devuelve #VALUE!"
 
 #: ../plugins/fn-string/functions.c:1383
 msgid ""
 "If @{start} is less than one or it is greater than the byte length of @"
 "{text}, SEARCHB returns #VALUE!"
 msgstr ""
+"Si @{inicio} es menor que uno o es mayor que la longitud del byte de @"
+"{texto}, SEARCHB devuelve #VALUE!"
 
 #: ../plugins/fn-string/functions.c:1439
 msgid ""
 "ASC:text with full-width katakana and ASCII characters converted to half-"
 "width"
 msgstr ""
+"ASC:texto con anchura completa katakana y caracteres ASCII convertidos a la "
+"mitad de la anchura"
 
 #: ../plugins/fn-string/functions.c:1441
 msgid ""
 "ASC converts full-width katakana and ASCII characters to half-width "
 "equivalent characters, copying all others. "
 msgstr ""
+"ASC convierte a anchura completa katakana y caracteres ASCII para caracteres "
+"de anchura media equivalente, copiando todos los demás."
 
 #: ../plugins/fn-string/functions.c:1442 ../plugins/fn-string/functions.c:1570
 msgid ""
 "The distinction between half-width and full-width characters is described in "
 "http://www.unicode.org/reports/tr11/."
 msgstr ""
+"La distinción entre caracteres de anchura media y anchura completa se "
+"describe en http://www.unicode.org/reports/tr11/."
 
 #: ../plugins/fn-string/functions.c:1443 ../plugins/fn-string/functions.c:1572
 msgid "For most strings, this function has the same effect as in Excel."
 msgstr ""
+"Para la mayoría de las cadenas, esta función tiene el mismo efecto como en "
+"Excel."
 
 #: ../plugins/fn-string/functions.c:1444
 msgid ""
