@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-22 14:56+0000\n"
-"PO-Revision-Date: 2012-11-23 13:34+0100\n"
+"POT-Creation-Date: 2012-11-23 12:41+0000\n"
+"PO-Revision-Date: 2012-11-27 14:43+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -11432,24 +11432,32 @@ msgid ""
 "While in obsolete encodings ASC used to translate between 2-byte and 1-byte "
 "characters, this is not the case in UTF-8."
 msgstr ""
+"Aunque las codificaciones ASC obsoletas se usaban para traducir caracteres "
+"de entre 2-byte y 1-byte, este no es el caso en UTF-8."
 
 #: ../plugins/fn-string/functions.c:1566
 msgid ""
 "JIS:text with half-width katakana and ASCII characters converted to full-"
 "width"
 msgstr ""
+"JIS:texto con anchura media katakana y caracteres ASCII convertidos a "
+"anchura completa"
 
 #: ../plugins/fn-string/functions.c:1568
 msgid ""
 "JIS converts half-width katakana and ASCII characters to full-width "
 "equivalent characters, copying all others. "
 msgstr ""
+"JIS convierte anchura media katakana y caracteres ASCII a caracteres "
+"equivalentes de anchura completa, copiando todos los demás."
 
 #: ../plugins/fn-string/functions.c:1573
 msgid ""
 "While in obsolete encodings JIS used to translate between 1-byte and 2-byte "
 "characters, this is not the case in UTF-8."
 msgstr ""
+"Aunque las codificaciones JIS obsoletas se usaban para traducir caracteres "
+"de entre 1-byte y 2-byte, este no es el caso en UTF-8."
 
 #: ../plugins/fn-tsa/functions.c:94
 msgid ""
@@ -11462,47 +11470,55 @@ msgid ""
 "5: natural cubic spline with averaging."
 msgstr ""
 "Los posibles métodos de interpolación son:\n"
-"0: lineal;\n"
-"1: lineal con un promedio;\n"
+"0: linear;\n"
+"1: linear con promedio;\n"
 "2: escalera;\n"
 "3: escalera con promedio;\n"
-"4: estría cúbica natural;\n"
-"5: estrías cúbicos naturales con promedio."
+"4: ranura cúbica natural;\n"
+"5: ranura cúbica natural con promedio."
 
 #: ../plugins/fn-tsa/functions.c:381
 msgid ""
 "INTERPOLATION:interpolated values corresponding to the given abscissa targets"
 msgstr ""
+"INTERPOLATION:valores interpolados correspondientes a los objetivos abscisos "
+"dados."
 
 #: ../plugins/fn-tsa/functions.c:382
 msgid "abscissae:abscissae of the given data points"
-msgstr ""
+msgstr "abscisas:abscisas de los puntos de datos dados"
 
 #: ../plugins/fn-tsa/functions.c:383
 msgid "ordinates:ordinates of the given data points"
-msgstr ""
+msgstr "ordenadas:ordenadas de los puntos de datos dados"
 
 #: ../plugins/fn-tsa/functions.c:384
 msgid "targets:abscissae of the interpolated data"
-msgstr ""
+msgstr "objetivos:abscisas de los datos interpolados"
 
 #: ../plugins/fn-tsa/functions.c:385
 msgid "interpolation:method of interpolation, defaults to 0 ('linear')"
 msgstr ""
+"interpolación:método de interpolación, el predeterminado es 0 («linear»)"
 
 #: ../plugins/fn-tsa/functions.c:386 ../plugins/fn-tsa/functions.c:575
 msgid "The output consists always of one column of numbers."
-msgstr ""
+msgstr "La salida consiste siempre de una columna de números."
 
 #: ../plugins/fn-tsa/functions.c:388
 msgid ""
 "The @{abscissae} should be given in increasing order. If the @{abscissae} is "
 "not in increasing order the INTERPOLATION function is significantly slower."
 msgstr ""
+"Las @{abscisas} deben ser dadas en orden creciente. Si las @{abscisas} no "
+"están en orden creciente la función de INTERPOLATION es significativamente "
+"más lento."
 
 #: ../plugins/fn-tsa/functions.c:390
 msgid "If any two @{abscissae} values are equal an error is returned."
 msgstr ""
+"Si cualquiera de los dos valores de @{abscisas} son iguales se devuelve un "
+"error."
 
 #: ../plugins/fn-tsa/functions.c:391
 msgid ""
@@ -11513,41 +11529,51 @@ msgid ""
 "average heights of the interpolation function on the intervals determined by "
 "consecutive target values."
 msgstr ""
+"Si cualquiera de los métodos de interpolación 1 («linear con promedio»), 3 "
+"(«escalera con un promedio») y 5 («ranura cúbica natural con promedio») se "
+"usan, el número de valores devueltos es uno menor que el número de objetivos "
+"y los valores objetivo deben darse en orden creciente. Los valores devueltos "
+"son las alturas promedio de la función de interpolación en los intervalos "
+"determinados por los valores objetivo consecutivos."
 
 #: ../plugins/fn-tsa/functions.c:398 ../plugins/fn-tsa/functions.c:582
 msgid "Strings and empty cells in @{abscissae} and @{ordinates} are ignored."
-msgstr ""
+msgstr "Cadenas y celdas vacías en @{abscisas} y @{ordenadas} se ignoran."
 
 #: ../plugins/fn-tsa/functions.c:399 ../plugins/fn-tsa/functions.c:583
 msgid ""
 "If several target data are provided they must be in the same column in "
 "consecutive cells."
 msgstr ""
+"Si se proporcionan varios datos objetivo deben estar en la misma columna en "
+"celdas consecutivas."
 
 #: ../plugins/fn-tsa/functions.c:568
 msgid "PERIODOGRAM:periodogram of the given data"
-msgstr ""
+msgstr "PERIODOGRAM:periodograma de los datos dados"
 
 #: ../plugins/fn-tsa/functions.c:569
 msgid "ordinates:ordinates of the given data"
-msgstr ""
+msgstr "ordenadas:ordenadas de los datos dados"
 
 #: ../plugins/fn-tsa/functions.c:570
 msgid "filter:windowing function to  be used, defaults to no filter"
-msgstr ""
+msgstr "filtro:función de ventanas que usar, lo predeterminado es sin filtro"
 
 #: ../plugins/fn-tsa/functions.c:571
 msgid ""
 "abscissae:abscissae of the given data, defaults to regularly spaced abscissae"
 msgstr ""
+"abscisas:abscisas de los datos dados, lo predeterminado son abscisas "
+"espaciadas regularmente"
 
 #: ../plugins/fn-tsa/functions.c:572
 msgid "interpolation:method of interpolation, defaults to none"
-msgstr ""
+msgstr "interpolación:método de interpolación, el predeterminado es ninguno"
 
 #: ../plugins/fn-tsa/functions.c:573
 msgid "number:number of interpolated data points"
-msgstr "number: número de puntos de datos interpolados"
+msgstr "número:número de puntos de datos interpolados"
 
 #: ../plugins/fn-tsa/functions.c:574
 msgid ""
@@ -11555,6 +11581,9 @@ msgid ""
 "less than the number of targets and the targets values must be given in "
 "increasing order."
 msgstr ""
+"Si se usa un método de interpolación, el número de valores devueltos es uno "
+"menor que el número de objetivos y los valores objetivo deben darse en orden "
+"creciente."
 
 #: ../plugins/fn-tsa/functions.c:577
 msgid ""
@@ -11564,26 +11593,35 @@ msgid ""
 "2: Hahn (cosine window)\n"
 "3: Welch (parabolic window)"
 msgstr ""
+"Posibles funciones de ventana son:\n"
+"0: sin filtro (ventana rectangular)\n"
+"1: Bartlett (ventana triangular)\n"
+"2: Hahn (ventana coseno)\n"
+"3: Welch (ventana parabólica)"
 
 #: ../plugins/fn-tsa/functions.c:827
 msgid "FOURIER:Fourier or inverse Fourier transform"
-msgstr ""
+msgstr "FOURIER:Fourier o transformada inversa de Fourier"
 
 #: ../plugins/fn-tsa/functions.c:828 ../plugins/fn-tsa/functions.c:927
 msgid "Sequence:the data sequence to be transformed"
-msgstr ""
+msgstr "Secuencia:la secuencia de datos que transformar"
 
 #: ../plugins/fn-tsa/functions.c:829
 msgid ""
 "Inverse:if true, the inverse Fourier transform is calculated, defaults to "
 "false"
 msgstr ""
+"Inverso:si es verdadero, se calcula la transformada inversa de Fourier, el "
+"predeterminado es falso"
 
 #: ../plugins/fn-tsa/functions.c:830
 msgid ""
 "Separate:if true, the real and imaginary parts are given separately, "
 "defaults to false"
 msgstr ""
+"Separado:si es verdadero, las partes reales e imaginarias son dadas "
+"separadamente, el predeterminado es falso"
 
 # qué tradución de array cojo?
 #: ../plugins/fn-tsa/functions.c:831
@@ -11591,100 +11629,108 @@ msgid ""
 "This array function returns the Fourier or inverse Fourier transform of the "
 "given data sequence."
 msgstr ""
-"Esta función de serie devuelve el Fourier o la transformación inversa de "
-"Fourier de los datos dados en secuencia."
+"Esta función de matriz devuelve el Fourier o la transformada inversa de "
+"Fourier de la secuencia de datos dada."
 
 #: ../plugins/fn-tsa/functions.c:832
 msgid ""
 "The output consists of one column of complex numbers if @{Separate} is false "
 "and of two columns of real numbers if @{Separate} is true."
 msgstr ""
+"La salida consta de una columna de números complejos si @{separado} es falso "
+"y de dos columnas de números reales si @{separado} es verdadero."
 
 #: ../plugins/fn-tsa/functions.c:833
 msgid ""
 "If @{Separate} is true the first output column contains the real parts and "
 "the second column the imaginary parts."
 msgstr ""
+"Si @{separado} es verdadero la primera columna de salida contiene las partes "
+"reales y la segunda columna las partes imaginarias."
 
 #: ../plugins/fn-tsa/functions.c:834 ../plugins/fn-tsa/functions.c:931
 msgid ""
 "If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns "
 "#VALUE!"
 msgstr ""
+"Si @{secuencia} no es un n por 1 ni 1 por matriz n, esta función devuelve "
+"#VALUE!"
 
 #: ../plugins/fn-tsa/functions.c:926
 msgid "HPFILTER:Hodrick Prescott Filter"
-msgstr ""
+msgstr "HPFILTER:filtro de Hodrick Prescott"
 
 #: ../plugins/fn-tsa/functions.c:928
 msgid "λ:filter parameter λ, defaults to 1600"
-msgstr ""
+msgstr "λ:parámetro de filtro λ, el predeterminado es 1600"
 
 # qué tradución de array cojo?
 #: ../plugins/fn-tsa/functions.c:929
-#, fuzzy
-#| msgid ""
-#| "This array function returns the Fourier or inverse Fourier transform of "
-#| "the given data sequence."
 msgid ""
 "This array function returns the trend and cyclical components obtained by "
 "applying the Hodrick Prescott Filter with parameter @{λ} to the given data "
 "sequence."
 msgstr ""
-"Esta función de serie devuelve el Fourier o la transformación inversa de "
-"Fourier de los datos dados en secuencia."
+"Esta función de matriz devuelve los componentes de tendencia y cíclicos "
+"obtenidos al aplicar el filtro de Hodrick Prescott con parámetro @{λ} a la "
+"secuencia de datos dados."
 
 #: ../plugins/fn-tsa/functions.c:930
 msgid ""
 "The output consists of two columns of numbers, the first containing the "
 "trend component, the second the cyclical component."
 msgstr ""
+"La salida consta de dos columnas de números, la primera contiene el "
+"componente de tendencia, la segunda el componente cíclico."
 
 #: ../plugins/fn-tsa/functions.c:932
 msgid ""
 "If @{Sequence} contians less than 6 numerical values, this function returns "
 "#VALUE!"
 msgstr ""
+"Si @{secuencia} contiene menor que 6 valores numéricos, esta función "
+"devuelve #VALUE!"
 
 #: ../plugins/gda/plugin-gda.c:306
 msgid "EXECSQL:result of executing @{sql} in the libgda data source @{dsn}"
 msgstr ""
+"EXECSQL:resultado de ejecutar @{sql} en la fuente de datos libgda @{dsn}"
 
 #: ../plugins/gda/plugin-gda.c:308 ../plugins/gda/plugin-gda.c:385
 msgid "dsn:libgda data source"
-msgstr ""
+msgstr "dsn:fuente de datos libgda"
 
 #: ../plugins/gda/plugin-gda.c:309 ../plugins/gda/plugin-gda.c:386
 msgid "username:user name to access @{dsn}"
-msgstr ""
+msgstr "nombreusuario:nombre de usuario para acceder @{dsn}"
 
 #: ../plugins/gda/plugin-gda.c:310 ../plugins/gda/plugin-gda.c:387
 msgid "password:password to access @{dsn} as @{username}"
-msgstr ""
+msgstr "contraseña:contraseña para acceder @{dsn} como @{nombreusuario}"
 
 #: ../plugins/gda/plugin-gda.c:311
 msgid "sql:SQL command"
-msgstr "sql: comando SQL"
+msgstr "sql:comando SQL"
 
 #: ../plugins/gda/plugin-gda.c:312 ../plugins/gda/plugin-gda.c:389
 msgid "Before using EXECSQL, you need to set up a libgda data source."
-msgstr ""
+msgstr "Antes de usar EXECSQL, necesita establecer una fuente de datos libgda."
 
 #: ../plugins/gda/plugin-gda.c:384
 msgid "READDBTABLE:all rows of the table @{table} in @{dsn}"
-msgstr ""
+msgstr "READDBTABLE:todas las filas de la tabla @{tabla} en @{dsn}"
 
 #: ../plugins/gda/plugin-gda.c:388
 msgid "table:SQL table to retrieve"
-msgstr ""
+msgstr "tabla:tabla SQL que recuperar"
 
 #: ../plugins/sample_datasource/sample_datasource.c:276
 msgid "ATL_LAST:sample real-time data source"
-msgstr ""
+msgstr "ATL_LAST:fuente de datos en tiempo real de la muestra"
 
 #: ../plugins/sample_datasource/sample_datasource.c:277
 msgid "tag:tag to watch"
-msgstr ""
+msgstr "etiqueta:etiqueta que ver"
 
 #: ../plugins/sample_datasource/sample_datasource.c:278
 msgid ""
@@ -11692,15 +11738,15 @@ msgid ""
 "string tag and monitors the named pipe ~/atl for changes to the value of "
 "that tag."
 msgstr ""
-"ATL_LAST es una implementación simple de una fuente de datos en tiempo real. "
-"Toma una cadena etiquetada y monitoriza el pipe ~/atl esperando cambios en "
-"el valor de esa etiqueta."
+"ATL_LAST es una implementación de muestra de una fuente de datos en tiempo "
+"real. Toma una cadena etiquetada y monitoriza el conducto ~/atl para cambios "
+"al valor de esa etiqueta."
 
 #: ../plugins/sample_datasource/sample_datasource.c:279
 msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr ""
-"El objetivo de esto no es estar generalmente activado y está apagado (OFF) "
-"de manera predeterminada."
+"Esto no está destinado a ser activado generalmente y está desactivado "
+"predeterminadamente."
 
 #~ msgid "μ:mean of the underlying normal distribution, defaults to 0"
 #~ msgstr ""
