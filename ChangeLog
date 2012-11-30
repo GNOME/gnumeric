@@ -1,3 +1,7 @@
+2012-11-29  Morten Welinder <terra@gnome.org>
+
+	* Release 1.11.91
+
 2012-11-19  Morten Welinder  <terra@gnome.org>
 
 	* src/cell.c (gnm_cell_get_format): Actually return the result.
