@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-12-01 12:09+0100\n"
-"PO-Revision-Date: 2012-12-01 12:54+0100\n"
+"PO-Revision-Date: 2012-12-01 14:40+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -263,8 +263,8 @@ msgid ""
 msgid_plural ""
 "Some content will be lost when saving.  This format only supports %u "
 "columns, and this workbook has %d"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Noe innhold vil gå tapt ved lagring. Dette formatet støtter kun %u kolonne, og arbeidsboken har %d"
+msgstr[1] "Noe innhold vil gå tapt ved lagring. Dette formatet støtter kun %u kolonner, og arbeidsboken har %d"
 
 #: ../plugins/excel/ms-excel-write.c:238
 #, c-format
@@ -274,8 +274,8 @@ msgid ""
 msgid_plural ""
 "Some content will be lost when saving.  This format only supports %u rows, "
 "and this workbook has %d"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Noe innhold vil gå tapt ved lagring. Dette formatet støtter kun %u rad, og arbeidsboken har %d"
+msgstr[1] "Noe innhold vil gå tapt ved lagring. Dette formatet støtter kun %u rader, og arbeidsboken har %d"
 
 #: ../plugins/excel/ms-excel-write.c:359
 msgid ""
@@ -283,6 +283,8 @@ msgid ""
 "We already wrote a length for a string that is being truncated due to "
 "encoding problems."
 msgstr ""
+"Denne er delvis korrupt.\n"
+"Vi har allerede skrevet en lengde for en streng som blir avkortet pga problemer med koding."
 
 #: ../plugins/excel/ms-excel-write.c:6300
 msgid "Couldn't open stream 'Book' for writing\n"
@@ -388,12 +390,12 @@ msgstr "Utelater objekt med ufullstendig anker %2x"
 msgid ""
 "Encountered both the  \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
-msgstr ""
+msgstr "Fant både «refreshedDate» og «refreshedDateIso» attributtene!"
 
 #: ../plugins/excel/xlsx-read-pivot.c:1198
 #, c-format
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
-msgstr ""
+msgstr "Hopper over ugyldig pivot-feltgruppe for felt «%s» pga: %s"
 
 #: ../plugins/excel/xlsx-read.c:339
 #, c-format
@@ -1651,12 +1653,12 @@ msgstr "Ukjent betingelse «%s» funnet. Ignorerer."
 #: ../plugins/openoffice/openoffice-read.c:7089
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
-msgstr ""
+msgstr "uttrykk «%s» @ «%s» er ikke enn cellereferanse"
 
 #: ../plugins/openoffice/openoffice-read.c:7106
 #, c-format
 msgid "Expression '%s' has unknown namespace"
-msgstr ""
+msgstr "Uttrykk «%s» har ukjent navneområde"
 
 #: ../plugins/openoffice/openoffice-read.c:7158
 #, c-format
@@ -1668,13 +1670,13 @@ msgstr "Ugyldig DB-område «%s»"
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
 "has been dropped."
-msgstr ""
+msgstr "Gnumeric støtter ikke vedlagt tekst i objektlinjer for ark. Teksten «%s» ble ikke tatt med."
 
 #: ../plugins/openoffice/openoffice-read.c:7460
 #: ../plugins/openoffice/openoffice-read.c:7499
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr ""
+msgstr "Ugyldig attributt «skjema:verdi», forventet tall, fikk «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:7465
 #, c-format
@@ -1743,7 +1745,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:9755
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
-msgstr ""
+msgstr "Attributt «%s» har verdi «%s» som ikke er støttet."
 
 #: ../plugins/openoffice/openoffice-read.c:11705
 msgid "Unknown mimetype for openoffice file."
@@ -1764,7 +1766,7 @@ msgstr "Ugyldig metadatafil «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:11927
 msgid "settings.xml stream is malformed!"
-msgstr ""
+msgstr "settings.xml strøm er feilutformet!"
 
 #: ../plugins/openoffice/openoffice-write.c:8092
 msgid "Writing Sheets..."
@@ -1788,11 +1790,11 @@ msgstr "Open Document-format (*.sxc, *.ods)"
 
 #: ../plugins/openoffice/plugin.xml.in.h:4
 msgid "ODF 1.2 strict conformance (*.ods)"
-msgstr ""
+msgstr "ODF 1.2 streng etterfølgelse (*.ods)"
 
 #: ../plugins/openoffice/plugin.xml.in.h:5
 msgid "ODF 1.2 extended conformance (*.ods)"
-msgstr ""
+msgstr "ODF 1.2 utvidet etterfølgelse (*.ods)"
 
 #: ../plugins/paradox/paradox.c:67 ../plugins/paradox/paradox.c:117
 msgid "Error while opening Paradox file."
@@ -1812,7 +1814,7 @@ msgstr "Felttype %d er ikke støttet."
 #. * the memory for the field name.
 #: ../plugins/paradox/paradox.c:326
 msgid "Allocate memory for field definitions."
-msgstr ""
+msgstr "Tilegne minne til feltdefinisjoner."
 
 #: ../plugins/paradox/paradox.c:327
 msgid "Cannot allocate memory for field definitions."
@@ -1820,12 +1822,12 @@ msgstr "Kunne ikke allokere minne for feltdefinisjoner."
 
 #: ../plugins/paradox/paradox.c:335
 msgid "First line of sheet must contain database specification."
-msgstr ""
+msgstr "Første linje i arket må inneholde databasespesifikasjon."
 
 #: ../plugins/paradox/paradox.c:350
 msgid ""
 "Field specification must be a comma separated value (Name,Type,Size,Prec)."
-msgstr ""
+msgstr "Feltspesifikasjon må være en kommaseparert verdi (Navn,Type,Størrelse,Presisjon)."
 
 #: ../plugins/paradox/paradox.c:355
 msgid "Allocate memory for column name."
@@ -1839,21 +1841,21 @@ msgstr "Kunne ikke allokere minne for %d. feltnavn."
 #: ../plugins/paradox/paradox.c:366
 #, c-format
 msgid "%d. field specification ended unexpectetly."
-msgstr ""
+msgstr "%d. Uventet slutt på feltspesifikasjon."
 
 #: ../plugins/paradox/paradox.c:371
 #, c-format
 msgid "%d. field specification misses type."
-msgstr ""
+msgstr "%d. Feltspesifikasjon mangler type."
 
 #: ../plugins/paradox/paradox.c:439
 #, c-format
 msgid "%d. field type '%c' is unknown."
-msgstr ""
+msgstr "%d Felttype «%c» er ukjent."
 
 #: ../plugins/paradox/paradox.c:450 ../plugins/paradox/paradox.c:460
 msgid "Field specification misses the column size."
-msgstr ""
+msgstr "Feltspesifikasjon mangler kolonnestørrelse."
 
 #: ../plugins/paradox/paradox.c:467
 #, c-format
@@ -1878,8 +1880,8 @@ msgstr "Kunne ikke allokere minne for postdata."
 msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
 "Field %d in line %d has possibly been cut off. Data has %d characters."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Felt %d i linje %d har muligvis blitt kuttet av. Data har %d tegn."
+msgstr[1] "Felt %d i linje %d har muligvis blitt kuttet av. Data har %d tegn."
 
 #: ../plugins/paradox/paradox.c:550
 #, c-format
@@ -3252,7 +3254,7 @@ msgstr "Denne variabelen bestemmer om automatisk fullføring er aktivert."
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:53
 #: ../src/dialogs/dialog-preferences.c:1039
 msgid "Minimum Number of Characters for Autocompletion"
-msgstr ""
+msgstr "Minste antall tegn for autmatisk fullføring"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:54
 #, fuzzy
@@ -3318,7 +3320,7 @@ msgstr ""
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:65
 #: ../src/dialogs/dialog-preferences.c:1029
 msgid "Transition Keys"
-msgstr ""
+msgstr "Transisjonstaster"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:66
 msgid ""
@@ -3579,7 +3581,7 @@ msgstr "Lim inn"
 msgid ""
 "Inserting these cells would push data off the sheet. Please enlarge the "
 "sheet first."
-msgstr ""
+msgstr "Hvis du setter inn disse cellene vil data bli dyttet utenfor arket. Vennligst gjør arket større først."
 
 #: ../src/cmd-edit.c:425
 #, c-format
@@ -4261,19 +4263,19 @@ msgstr "Fjern alle sideskift"
 
 #: ../src/commands.c:8157 ../src/wbc-gtk.c:1489
 msgid "Remove Column Page Break"
-msgstr ""
+msgstr "Fjern sideskift for kolonne"
 
 #: ../src/commands.c:8157 ../src/wbc-gtk.c:1499
 msgid "Remove Row Page Break"
-msgstr ""
+msgstr "Fjern sideskift for rad"
 
 #: ../src/commands.c:8160 ../src/wbc-gtk.c:1492
 msgid "Add Column Page Break"
-msgstr ""
+msgstr "Legg til sideskift for kolonne"
 
 #: ../src/commands.c:8160 ../src/wbc-gtk.c:1502
 msgid "Add Row Page Break"
-msgstr ""
+msgstr "Legg til sideskift for rad"
 
 #: ../src/consolidate.c:786
 #, c-format
@@ -6131,7 +6133,7 @@ msgstr "Hjelpleser for funksjoner i Gnumeric"
 
 #: ../src/dialogs/dialog-function-select.c:1360
 msgid "Paste Function Name dialog"
-msgstr ""
+msgstr "Dialog for å lime inn funksjonsnavn"
 
 #: ../src/dialogs/dialog-goal-seek.c:331
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
@@ -6785,7 +6787,7 @@ msgstr "Laplace"
 
 #: ../src/dialogs/dialog-random-generator.c:148
 msgid "Levy alpha-Stable"
-msgstr ""
+msgstr "Levy alpha-Stable"
 
 #: ../src/dialogs/dialog-random-generator.c:148
 msgid "_c Value:"
@@ -6842,7 +6844,7 @@ msgstr "_Sigma:"
 
 #: ../src/dialogs/dialog-random-generator.c:165
 msgid "Rayleigh Tail"
-msgstr ""
+msgstr "Rayleigh Tail"
 
 #: ../src/dialogs/dialog-random-generator.c:167
 msgid "Student t"
@@ -6922,7 +6924,7 @@ msgstr "Opprettet "
 
 #: ../src/dialogs/dialog-scenarios.c:712
 msgid "Results entry did not contain valid cell names."
-msgstr ""
+msgstr "Resultatoppføringen inneholdt ikke gyldige cellenavn."
 
 #: ../src/dialogs/dialog-scenarios.c:778
 msgid "Could not create the Scenarios dialog."
@@ -7329,7 +7331,7 @@ msgstr[1] "%d av %d linjer å importere"
 #: ../src/dialogs/dialog-stf-main-page.c:184
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
-msgstr ""
+msgstr "Data er ikke gyldig i koding %s. Vennligst velg en annen koding."
 
 #: ../src/dialogs/dialog-stf-main-page.c:386 ../src/wbc-gtk-actions.c:2732
 msgid "Line"
@@ -8369,11 +8371,11 @@ msgstr "MAKS"
 
 #: ../src/dialogs/consolidate.ui.h:17
 msgid "AVERAGE"
-msgstr ""
+msgstr "GJENNOMSNITT"
 
 #: ../src/dialogs/consolidate.ui.h:18
 msgid "COUNT"
-msgstr ""
+msgstr "ANTALL"
 
 #: ../src/dialogs/consolidate.ui.h:19
 msgid "PRODUCT"
@@ -8385,15 +8387,15 @@ msgstr "STDAV"
 
 #: ../src/dialogs/consolidate.ui.h:21
 msgid "STDEVP"
-msgstr ""
+msgstr "STDEVP"
 
 #: ../src/dialogs/consolidate.ui.h:22
 msgid "VAR"
-msgstr ""
+msgstr "VAR"
 
 #: ../src/dialogs/consolidate.ui.h:23
 msgid "VARP"
-msgstr ""
+msgstr "VARP"
 
 #: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:697
 #: ../src/tools/analysis-tools.c:700
@@ -8455,7 +8457,7 @@ msgstr "S_ett inn i celler:"
 
 #: ../src/dialogs/data-slicer.ui.h:1
 msgid "DataSlicer Guru : Gnumeric"
-msgstr ""
+msgstr "Veiviser for datakutting : Gnumeric"
 
 #: ../src/dialogs/data-slicer.ui.h:3 ../src/dialogs/dialog-stf.ui.h:59
 #: ../src/stf-export.c:583
@@ -8543,7 +8545,7 @@ msgstr "Unix (ny linje)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:2
 msgid "Macintosh (carriage return)"
-msgstr ""
+msgstr "Macintosh (retur)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:3
 msgid "Windows (carriage return + linefeed)"
@@ -8587,7 +8589,7 @@ msgstr "Bindestrek (-)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:13
 msgid "Pipe (|)"
-msgstr ""
+msgstr "Rør (|)"
 
 #: ../src/dialogs/dialog-stf-export.ui.h:14
 msgid "Semicolon (;)"
@@ -9990,7 +9992,7 @@ msgstr "Ho_pp over tomme"
 
 #: ../src/dialogs/paste-special.ui.h:23
 msgid "D_o not change formulæ"
-msgstr ""
+msgstr "Ikke endre f_ormel"
 
 #: ../src/dialogs/plugin-manager.ui.h:1
 msgid "Plugin Manager"
@@ -10091,7 +10093,7 @@ msgstr "Endre papirtype"
 
 #: ../src/dialogs/print.ui.h:12
 msgid "8.5 in wide by 11.0 in high"
-msgstr ""
+msgstr "8.5 \" bred ganger 11.0 \" høy"
 
 #: ../src/dialogs/print.ui.h:13
 msgid "_Vertically"
@@ -10846,7 +10848,7 @@ msgstr "Lagre innstillinger som _forvalg"
 
 #: ../src/dialogs/search.ui.h:40
 msgid "These settings are shared with the Search & Replace dialog."
-msgstr ""
+msgstr "Disse innstillingene deles med Søk og erstatt dialogen."
 
 #: ../src/dialogs/search.ui.h:41
 msgid "Miscellaneous"
@@ -10964,7 +10966,7 @@ msgstr "Kryss av her for å bruke den nye størrelsen på alle ark i arbeidsboke
 
 #: ../src/dialogs/shuffle.ui.h:1
 msgid "Data Shuffling"
-msgstr ""
+msgstr "Dataskyfling"
 
 #: ../src/dialogs/shuffle.ui.h:2
 msgid "Input Range: "
@@ -10972,7 +10974,7 @@ msgstr "Inndataområde: "
 
 #: ../src/dialogs/shuffle.ui.h:3
 msgid "Shuffle Method: "
-msgstr ""
+msgstr "Metode for skyfling: "
 
 #. Shuffle metod: Columns
 #: ../src/dialogs/shuffle.ui.h:5
@@ -11251,15 +11253,15 @@ msgstr "Scenario"
 
 #: ../src/dialogs/solver.ui.h:31
 msgid "≤"
-msgstr ""
+msgstr "≤"
 
 #: ../src/dialogs/solver.ui.h:32
 msgid "≥"
-msgstr ""
+msgstr "≥"
 
 #: ../src/dialogs/solver.ui.h:33
 msgid "="
-msgstr ""
+msgstr "="
 
 #: ../src/dialogs/solver.ui.h:34 ../src/tools/gnm-solver.c:382
 msgid "Int"
@@ -11570,7 +11572,7 @@ msgstr "OM:betinget uttrykk"
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:275
 msgid "cond:condition"
-msgstr ""
+msgstr "bet:betingelse"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:277
@@ -11687,7 +11689,7 @@ msgstr "Funksjonsgruppen er tom."
 
 #: ../src/gnm-plugin.c:164
 msgid "No func_desc_load method.\n"
-msgstr ""
+msgstr "Metoden func_desc_load mangler.\n"
 
 #: ../src/gnm-plugin.c:234
 #, c-format
@@ -11755,7 +11757,7 @@ msgstr "utklippstavle"
 #: ../src/gui-clipboard.c:962
 #, c-format
 msgid "Cut of %s"
-msgstr ""
+msgstr "Utklipp av %s"
 
 #: ../src/gui-file.c:71
 msgid "Automatically detected"
@@ -12233,7 +12235,7 @@ msgstr "Skriv ut utvalg"
 msgid ""
 "You have chosen more than 1000 pages to preview. This may take a long time. "
 "Do you really want to proceed?"
-msgstr ""
+msgstr "Du har valgt å forhåndsvise mer enn tusen sider. Dette kan ta veldig lang tid. Vil du virkelig fortsette?"
 
 #: ../src/print.c:1316
 msgid "Preparing to preview"
@@ -12257,15 +12259,15 @@ msgstr "Skriver ut side %3d"
 #, c-format
 msgid "Creating preview of page %3d of %3d page"
 msgid_plural "Creating preview of page %3d of %3d pages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Lager forhåndsvisning av side %3d av %3d side"
+msgstr[1] "Lager forhåndsvisning av side %3d av %3d sider"
 
 #: ../src/print.c:1415
 #, c-format
 msgid "Printing page %3d of %3d page"
 msgid_plural "Printing page %3d of %3d pages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Skriver ut side %3d av %3d side"
+msgstr[1] "Skriver ut side %3d av %3d sider"
 
 #: ../src/print.c:1480
 msgid "_All workbook sheets"
@@ -12314,7 +12316,7 @@ msgstr "Skriv ut til fil"
 
 #: ../src/search.c:127
 msgid "Searching for regular expressions and numbers are mutually exclusive."
-msgstr ""
+msgstr "Søk etter regulære uttrykk og tall kan ikke kombineres."
 
 #: ../src/search.c:131
 msgid "The search text must be a number."
@@ -12334,7 +12336,7 @@ msgstr "Er Tall"
 
 #: ../src/search.c:709
 msgid "Search for Specific Number Regardless of Formatting?"
-msgstr ""
+msgstr "Søk etter spesifikt tall uavhengig av formattering?"
 
 #: ../src/search.c:717
 msgid "Search Strings"
@@ -12358,11 +12360,11 @@ msgstr "Søk i uttrykk"
 
 #: ../src/search.c:736
 msgid "Should expressions be searched?"
-msgstr ""
+msgstr "Søk i uttrykk?"
 
 #: ../src/search.c:744
 msgid "Search Expression Results"
-msgstr ""
+msgstr "Søk i resultater av uttrykk"
 
 #: ../src/search.c:745
 msgid "Should the results of expressions be searched?"
@@ -12904,7 +12906,7 @@ msgstr "Opphavsarbeidsbok"
 
 #: ../src/sheet.c:871
 msgid "The workbook in which this sheet lives"
-msgstr ""
+msgstr "Arbeidsbok hvor dette arket lever"
 
 #: ../src/sheet.c:878
 msgid "The name of the sheet."
