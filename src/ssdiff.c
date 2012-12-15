@@ -37,29 +37,96 @@ static const GOptionEntry ssdiff_options [] = {
 	{ NULL }
 };
 
-typedef struct GnmDiffHandler_ {
+/* -------------------------------------------------------------------------- */
+
+typedef struct GnmDiffState_ GnmDiffState;
+
+typedef struct {
+	/* A sheet was removed.  */
+	void (*sheet_removed) (GnmDiffState *state, Sheet const *os);
+
+	/* A sheet was added.  */
+	void (*sheet_added) (GnmDiffState *state, Sheet const *ns);
+
+	/* A cell was removed.  */
+	void (*cell_removed) (GnmDiffState *state, GnmCell const *oc);
+
+	/* A cell was added.  */
+	void (*cell_added) (GnmDiffState *state, GnmCell const *nc);
+
+	/* A cell's contents was changed.  */
+	void (*cell_changed) (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc);
+} GnmDiffActions;
+
+struct GnmDiffState_ {
 	GOIOContext *ioc;
 	struct {
 		char *url;
 		Workbook *wb;
 		WorkbookView *wbv;
 	} old, new;
-} GnmDiffHandler;
 
-static gint
-cell_ordering (gconstpointer a_, gconstpointer b_)
+	const GnmDiffActions *actions;
+};
+
+/* -------------------------------------------------------------------------- */
+
+static const char *
+def_cell_name (GnmCell const *oc)
 {
-	GnmCell const *a = *(GnmCell **)a_;
-	GnmCell const *b = *(GnmCell **)b_;
-
-	if (a->pos.row != b->pos.row)
-		return a->pos.row - b->pos.row;
-
-	return a->pos.col - b->pos.col;
+	static char *res;
+	g_free (res);
+	res = oc
+		? g_strconcat (oc->base.sheet->name_quoted,
+			       "!",
+			       cell_name (oc),
+			       NULL)
+		: NULL;
+	return res;
 }
 
+static void
+def_sheet_removed (GnmDiffState *state, Sheet const *os)
+{
+	g_printerr ("Sheet %s removed.\n", os->name_quoted);
+}
+
+static void
+def_sheet_added (GnmDiffState *state, Sheet const *ns)
+{
+	g_printerr ("Sheet %s added.\n", ns->name_quoted);
+}
+
+static void
+def_cell_removed (GnmDiffState *state, GnmCell const *oc)
+{
+	g_printerr ("Cell %s removed.\n", def_cell_name (oc));
+}
+
+static void
+def_cell_added (GnmDiffState *state, GnmCell const *nc)
+{
+	g_printerr ("Cell %s added.\n", def_cell_name (nc));
+}
+
+static void 
+def_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
+{
+	g_printerr ("Cell %s changed.\n", def_cell_name (oc));
+}
+
+static const GnmDiffActions default_actions = {
+	def_sheet_removed,
+	def_sheet_added,
+	def_cell_removed,
+	def_cell_added,
+	def_cell_changed
+};
+
+/* -------------------------------------------------------------------------- */
+
 static gboolean
-compare_cells (GnmCell const *co, GnmCell const *cn)
+compare_corresponding_cells (GnmCell const *co, GnmCell const *cn)
 {
 	gboolean has_expr = gnm_cell_has_expr (co);
 	gboolean has_value = co->value != NULL;
@@ -85,7 +152,7 @@ compare_cells (GnmCell const *co, GnmCell const *cn)
       
 
 static void
-diff_sheets_cells (GnmDiffHandler *state, Sheet *old_sheet, Sheet *new_sheet)
+diff_sheets_cells (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 {
 	GPtrArray *old_cells = sheet_cells (old_sheet, NULL);
 	GPtrArray *new_cells = sheet_cells (new_sheet, NULL);
@@ -100,30 +167,26 @@ diff_sheets_cells (GnmDiffHandler *state, Sheet *old_sheet, Sheet *new_sheet)
 		GnmCell const *cn = g_ptr_array_index (new_cells, in);
 
 		if (co && cn) {
-			int order = cell_ordering (&co, &cn);
+			int order = co->pos.row == cn->pos.row
+				? co->pos.col - cn->pos.col
+				: co->pos.row - cn->pos.row;
 			if (order < 0)
 				cn = NULL;
 			else if (order > 0)
 				co = NULL;
 			else {
-				if (compare_cells (co, cn)) {
-					g_printerr ("Contents of %s!%s has changed.\n",
-						    old_sheet->name_quoted,
-						    cell_name (co));
-				}
-
+				if (compare_corresponding_cells (co, cn))
+					state->actions->cell_changed (state, co, cn);
 				io++, in++;
 				continue;
 			}			
 		}
 
 		if (co) {
-			g_printerr ("Cell %s!%s removed.\n",
-				    old_sheet->name_quoted, cell_name (co));
+			state->actions->cell_removed (state, co);
 			io++;
 		} else if (cn) {
-			g_printerr ("Cell %s!%s added.\n",
-				    new_sheet->name_quoted, cell_name (cn));
+			state->actions->cell_added (state, cn);
 			in++;
 		} else
 			break;
@@ -134,9 +197,11 @@ diff_sheets_cells (GnmDiffHandler *state, Sheet *old_sheet, Sheet *new_sheet)
 }
 
 static void
-diff_sheets (GnmDiffHandler *state, Sheet *old_sheet, Sheet *new_sheet)
+diff_sheets (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 {
 	/* Compare sheet attributes and sizes */
+
+	/* Compare row/column attributes.  */
 
 	diff_sheets_cells (state, old_sheet, new_sheet);
 
@@ -146,11 +211,12 @@ diff_sheets (GnmDiffHandler *state, Sheet *old_sheet, Sheet *new_sheet)
 static int
 diff (char const *oldfilename, char const *newfilename, GOIOContext *ioc)
 {
-	GnmDiffHandler state;
+	GnmDiffState state;
 	int res = 0;
 	int i, count;
 
 	memset (&state, 0, sizeof (state));
+	state.actions = &default_actions;
 	state.ioc = ioc;
 
 	state.old.url = go_shell_arg_to_uri (oldfilename);
@@ -175,10 +241,8 @@ diff (char const *oldfilename, char const *newfilename, GOIOContext *ioc)
 							   old_sheet->name_unquoted);
 		if (new_sheet)
 			diff_sheets (&state, old_sheet, new_sheet);
-		else {
-			g_printerr ("Sheet %s removed.\n",
-				    old_sheet->name_quoted);
-		}
+		else
+			state.actions->sheet_removed (&state, old_sheet);
 	}
 
 	count = workbook_sheet_count (state.new.wb);
@@ -187,11 +251,9 @@ diff (char const *oldfilename, char const *newfilename, GOIOContext *ioc)
 		Sheet *old_sheet = workbook_sheet_by_name (state.old.wb,
 							   new_sheet->name_unquoted);
 		if (old_sheet)
-			; /* Nothing */
-		else {
-			g_printerr ("Sheet %s added.\n",
-				    new_sheet->name_quoted);
-		}
+			; /* Nothing -- already done above. */
+		else
+			state.actions->sheet_added (&state, new_sheet);
 	}
 
 out:
@@ -261,6 +323,9 @@ main (int argc, char const **argv)
 			    _("OLDFILE NEWFILE"));
 		res = 1;
 	}
+
+	/* Release cached string. */
+	def_cell_name (NULL);
 
 	go_component_set_default_command_context (NULL);
 	g_object_unref (cc);
