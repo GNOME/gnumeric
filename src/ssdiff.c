@@ -93,37 +93,37 @@ def_cell_name (GnmCell const *oc)
 static void
 def_sheet_removed (GnmDiffState *state, Sheet const *os)
 {
-	g_printerr ("Sheet %s removed.\n", os->name_quoted);
+	g_printerr (_("Sheet %s removed.\n"), os->name_quoted);
 }
 
 static void
 def_sheet_added (GnmDiffState *state, Sheet const *ns)
 {
-	g_printerr ("Sheet %s added.\n", ns->name_quoted);
+	g_printerr (_("Sheet %s added.\n"), ns->name_quoted);
 }
 
 static void
 def_sheet_order_changed (GnmDiffState *state)
 {
-	g_printerr ("Sheet order changed.\n");
+	g_printerr (_("Sheet order changed.\n"));
 }
 
 static void
 def_cell_removed (GnmDiffState *state, GnmCell const *oc)
 {
-	g_printerr ("Cell %s removed.\n", def_cell_name (oc));
+	g_printerr (_("Cell %s removed.\n"), def_cell_name (oc));
 }
 
 static void
 def_cell_added (GnmDiffState *state, GnmCell const *nc)
 {
-	g_printerr ("Cell %s added.\n", def_cell_name (nc));
+	g_printerr (_("Cell %s added.\n"), def_cell_name (nc));
 }
 
 static void 
 def_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 {
-	g_printerr ("Cell %s changed.\n", def_cell_name (oc));
+	g_printerr (_("Cell %s changed.\n"), def_cell_name (oc));
 }
 
 static const GnmDiffActions default_actions = {
