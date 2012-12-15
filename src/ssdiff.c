@@ -221,7 +221,9 @@ diff_sheets (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 }
 
 static int
-diff (char const *oldfilename, char const *newfilename, GOIOContext *ioc)
+diff (char const *oldfilename, char const *newfilename,
+      GOIOContext *ioc,
+      GnmDiffActions const *actions)
 {
 	GnmDiffState state;
 	int res = 0;
@@ -230,7 +232,7 @@ diff (char const *oldfilename, char const *newfilename, GOIOContext *ioc)
 	int last_index = -1;
 
 	memset (&state, 0, sizeof (state));
-	state.actions = &default_actions;
+	state.actions = actions;
 	state.ioc = ioc;
 
 	state.old.url = go_shell_arg_to_uri (oldfilename);
@@ -341,7 +343,7 @@ main (int argc, char const **argv)
 
 	if (argc == 3) {
 		GOIOContext *ioc = go_io_context_new (cc);
-		res = diff (argv[1], argv[2], ioc);
+		res = diff (argv[1], argv[2], ioc, &default_actions);
 		g_object_unref (ioc);
 	} else {
 		g_printerr (_("Usage: %s [OPTION...] %s\n"),
