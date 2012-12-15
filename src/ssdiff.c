@@ -48,6 +48,11 @@ typedef struct {
 	/* A sheet was added.  */
 	void (*sheet_added) (GnmDiffState *state, Sheet const *ns);
 
+	/* The order of sheets has changed.  */
+	void (*sheet_order_changed) (GnmDiffState *state);
+
+	/* ------------------------------ */
+
 	/* A cell was removed.  */
 	void (*cell_removed) (GnmDiffState *state, GnmCell const *oc);
 
@@ -98,6 +103,12 @@ def_sheet_added (GnmDiffState *state, Sheet const *ns)
 }
 
 static void
+def_sheet_order_changed (GnmDiffState *state)
+{
+	g_printerr ("Sheet order changed.\n");
+}
+
+static void
 def_cell_removed (GnmDiffState *state, GnmCell const *oc)
 {
 	g_printerr ("Cell %s removed.\n", def_cell_name (oc));
@@ -118,6 +129,7 @@ def_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 static const GnmDiffActions default_actions = {
 	def_sheet_removed,
 	def_sheet_added,
+	def_sheet_order_changed,
 	def_cell_removed,
 	def_cell_added,
 	def_cell_changed
@@ -214,6 +226,8 @@ diff (char const *oldfilename, char const *newfilename, GOIOContext *ioc)
 	GnmDiffState state;
 	int res = 0;
 	int i, count;
+	gboolean sheet_order_changed = FALSE;
+	int last_index = -1;
 
 	memset (&state, 0, sizeof (state));
 	state.actions = &default_actions;
@@ -234,14 +248,23 @@ diff (char const *oldfilename, char const *newfilename, GOIOContext *ioc)
 		goto error;
 	state.new.wb = wb_view_get_workbook (state.new.wbv);
 
+	/*
+	 * This doesn't handle sheet renames very well, but simply considers
+	 * that a sheet deletion and a sheet insert.
+	 */
+
 	count = workbook_sheet_count (state.old.wb);
 	for (i = 0; i < count; i++) {
 		Sheet *old_sheet = workbook_sheet_by_index (state.old.wb, i);
 		Sheet *new_sheet = workbook_sheet_by_name (state.new.wb,
 							   old_sheet->name_unquoted);
-		if (new_sheet)
+		if (new_sheet) {
+			if (new_sheet->index_in_wb < last_index)
+				sheet_order_changed = TRUE;
+			last_index = new_sheet->index_in_wb;
+
 			diff_sheets (&state, old_sheet, new_sheet);
-		else
+		} else
 			state.actions->sheet_removed (&state, old_sheet);
 	}
 
@@ -255,6 +278,9 @@ diff (char const *oldfilename, char const *newfilename, GOIOContext *ioc)
 		else
 			state.actions->sheet_added (&state, new_sheet);
 	}
+
+	if (sheet_order_changed)
+		state.actions->sheet_order_changed (&state);
 
 out:
 	g_free (state.old.url);
