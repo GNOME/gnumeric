@@ -181,47 +181,22 @@ xlsx_write_go_style (GsfXMLOut *xml, GOStyle *style)
 }
 
 static void
-xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
+xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart, GogObject const *plot)
 {
-	GogGraph const	*graph;
-	GogObject const	*chart;
-	GogObject const *plot;
 	char const *plot_type;
 	GogObject const *obj;
-	GsfXMLOut *xml;
 	gboolean failed = FALSE;
 	gboolean use_xy = FALSE;
-	GogAxisType axis_type[3] = {GOG_AXIS_X, GOG_AXIS_Y, GOG_AXIS_UNKNOWN};
-	unsigned i;
 	double explosion = 0.;
 	gboolean vary_by_element;
+	GogAxisType axis_type[3] = {GOG_AXIS_X, GOG_AXIS_Y, GOG_AXIS_UNKNOWN};
+	unsigned i;
 
-	graph = sheet_object_graph_get_gog (so);
-	if (NULL == graph)
-		return;
-	chart = gog_object_get_child_by_name (GOG_OBJECT (graph), "Chart");
-	if (NULL == chart)
-		return;
-	plot = gog_object_get_child_by_name (GOG_OBJECT (chart), "Plot");
-	if (NULL == plot)
-		return;
 	g_object_get (G_OBJECT (plot),
 		      "vary-style-by-element", &vary_by_element,
 		      NULL);
 	plot_type = G_OBJECT_TYPE_NAME (plot);
-	xml = gsf_xml_out_new (chart_part);
-	gsf_xml_out_start_element (xml, "c:chartSpace");
-	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:c", ns_chart);
-	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:a", ns_drawing);
-	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
-	xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (chart)));
 
-	gsf_xml_out_start_element (xml, "c:chart");
-	gsf_xml_out_start_element (xml, "c:plotArea");
-	/* save grid style here */
-	obj = gog_object_get_child_by_name (GOG_OBJECT (chart), "Backplane");
-	if (obj)
-		xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (obj)));
 	if (0 == strcmp (plot_type, "GogAreaPlot")) {
 		gsf_xml_out_start_element (xml, "c:areaChart");
 		xlsx_write_plot_1_5_type (xml, plot, FALSE);
@@ -417,6 +392,43 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 				gsf_xml_out_end_element (xml);
 			}
 		}
+}
+
+static void
+xlsx_write_plots (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart)
+{
+	GSList *plots;
+	GogObject const *plot;
+
+	plots = gog_object_get_children
+		(GOG_OBJECT (chart),
+		 gog_object_find_role_by_name (GOG_OBJECT (chart), "Plot"));
+	if (plots != NULL && plots->data != NULL) {
+		plot = plots->data;
+		if (plots->next != NULL) {
+			int n = g_slist_length (plots) - 1;
+			g_warning ("Dropping %d plots from a chart.", n);
+		}
+		xlsx_write_one_plot (state, xml, chart, plot);
+	}
+	g_slist_free (plots);
+}
+
+static void
+xlsx_write_one_chart (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart)
+{
+	GogObject const *obj;
+
+	xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (chart)));
+
+	gsf_xml_out_start_element (xml, "c:chart");
+	gsf_xml_out_start_element (xml, "c:plotArea");
+	/* save grid style here */
+	obj = gog_object_get_child_by_name (GOG_OBJECT (chart), "Backplane");
+	if (obj)
+		xlsx_write_go_style (xml, go_styled_object_get_style (GO_STYLED_OBJECT (obj)));
+
+	xlsx_write_plots (state, xml, chart);
 
 	gsf_xml_out_end_element (xml); /* </c:plotArea> */
 
@@ -425,7 +437,27 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 		gsf_xml_out_end_element (xml); /* </c:legend> */
 	}
 	gsf_xml_out_end_element (xml); /* </c:chart> */
+}
 
+static void
+xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
+{
+	GogGraph const	*graph;
+	GogObject const	*chart;
+	GsfXMLOut *xml;
+
+	xml = gsf_xml_out_new (chart_part);
+	gsf_xml_out_start_element (xml, "c:chartSpace");
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:c", ns_chart);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:a", ns_drawing);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
+
+	graph = sheet_object_graph_get_gog (so);
+	if (graph != NULL) {
+		chart = gog_object_get_child_by_name (GOG_OBJECT (graph), "Chart");
+		if (chart != NULL)
+			xlsx_write_one_chart (state, xml, chart);
+	}
 	gsf_xml_out_end_element (xml); /* </c:chartSpace> */
 	g_object_unref (xml);
 }
