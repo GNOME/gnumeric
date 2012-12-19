@@ -21,10 +21,10 @@
   </para>
   
   <figure id="fig-toolbars">
-    <title>The Four Gnumeric Toolbars</title>
+    <title>The Four &gnum; Toolbars</title>
     <mediaobject>
       <imageobject>
-	<imagedata fileref="figures/toolbars.png" format="PNG"/>
+	<imagedata fileref="figures/toolbars.png" format="PNG" width="750px"/>
       </imageobject>
     </mediaobject>
   </figure>
@@ -39,7 +39,7 @@
 
   <para>
     The long format toolbar contains all of the buttons of the format
-    toolbar plus a few extra buttons, but in a differnet order. Users
+    toolbar plus a few extra buttons, but in a different order. Users
     will usually choose only one of these toolbars to be displayed.
   </para>
   
@@ -49,7 +49,7 @@
     <para>
       The toolbar context menu described in <xref linkend="menu-context-sheet-tabs" />
       can be used to determine where each toolbar (above the sheets, to the left of the
-      sheets, or to the right of ths sheets) is being displayed. The
+      sheets, or to the right of the sheets) is being displayed. The
       <guimenuitem>Toolbars</guimenuitem> submenu of the <guimenu>View</guimenu>
       menu (see <xref linkend="View-Menu"/>) can be used to determine which toolbars are
       visible.
@@ -57,7 +57,7 @@
 
     <para>
       If the &gnum; window is too small
-      to fit all of the toolbar buttons, gnumeric displays an
+      to fit all of the toolbar buttons, &gnum; displays an
       arrow to indicate that there are more
       options. If the user clicks on this arrow, a window will open
       with the remaining buttons as shown in <xref linkend="fig-toolbar-extension-menu"/>.
@@ -596,8 +596,6 @@
 	</listitem>
       </varlistentry>
 
-
-
       <varlistentry>
 	<term>
 	  <guiicon><inlinemediaobject>
@@ -613,11 +611,10 @@
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Change the style of the current cell or the currently selected text to be bold, or un
-	  bold it if it is already bold.</para>
+	  <para>Change the style of the current cell or the currently selected 
+	  text to be bold, or unbold it if it is already bold.</para>
 	</listitem>
       </varlistentry>
-
 
       <varlistentry>
 	<term>
@@ -1008,7 +1005,7 @@ colour.</para>
      <title>The <interface>Long Format Toolbar</interface></title>
     <mediaobject>
       <imageobject>
-	<imagedata fileref="figures/toolbar-format-long.png" format="PNG" />
+	<imagedata fileref="figures/toolbar-format-long.png" format="PNG" width="750px"/>
       </imageobject>
     </mediaobject>
   </figure>
@@ -1016,7 +1013,7 @@ colour.</para>
   <para>
     The <interface>Long Format Toolbar</interface> contains all buttons that the 
     <interface>Format Toolbar</interface> (described in <xref linkend="fmt-toolbar" />)
-    contains, except in a differnet order.
+    contains, except in a different order.
   </para>
   <para>
     In addition, the <interface>Long Format Toolbar</interface> also contains the following buttons:
