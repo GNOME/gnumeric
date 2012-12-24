@@ -53,13 +53,7 @@ typedef struct {
 
 	/* ------------------------------ */
 
-	/* A cell was removed.  */
-	void (*cell_removed) (GnmDiffState *state, GnmCell const *oc);
-
-	/* A cell was added.  */
-	void (*cell_added) (GnmDiffState *state, GnmCell const *nc);
-
-	/* A cell's contents was changed.  */
+	/* A cell was changed/added/removed.  */
 	void (*cell_changed) (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc);
 } GnmDiffActions;
 
@@ -108,30 +102,23 @@ def_sheet_order_changed (GnmDiffState *state)
 	g_printerr (_("Sheet order changed.\n"));
 }
 
-static void
-def_cell_removed (GnmDiffState *state, GnmCell const *oc)
-{
-	g_printerr (_("Cell %s removed.\n"), def_cell_name (oc));
-}
-
-static void
-def_cell_added (GnmDiffState *state, GnmCell const *nc)
-{
-	g_printerr (_("Cell %s added.\n"), def_cell_name (nc));
-}
-
 static void 
 def_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 {
-	g_printerr (_("Cell %s changed.\n"), def_cell_name (oc));
+	if (oc && nc)
+		g_printerr (_("Cell %s changed.\n"), def_cell_name (oc));
+	else if (oc)
+		g_printerr (_("Cell %s removed.\n"), def_cell_name (oc));
+	else if (nc)
+		g_printerr (_("Cell %s added.\n"), def_cell_name (nc));
+	else
+		g_assert_not_reached ();
 }
 
 static const GnmDiffActions default_actions = {
 	def_sheet_removed,
 	def_sheet_added,
 	def_sheet_order_changed,
-	def_cell_removed,
-	def_cell_added,
 	def_cell_changed
 };
 
@@ -195,10 +182,10 @@ diff_sheets_cells (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 		}
 
 		if (co) {
-			state->actions->cell_removed (state, co);
+			state->actions->cell_changed (state, co, NULL);
 			io++;
 		} else if (cn) {
-			state->actions->cell_added (state, cn);
+			state->actions->cell_changed (state, NULL, cn);
 			in++;
 		} else
 			break;
