@@ -37,6 +37,7 @@ endif
 if ENABLE_SSGREP
   bin_PROGRAMS += ssgrep
 endif
+bin_PROGRAMS += ssdiff
 
 AM_CPPFLAGS = 								\
 	-I$(top_srcdir)							\
@@ -363,6 +364,10 @@ sstest_LDADD   = $(gnumeric_LDADD)
 sstest_LDFLAGS = -export-dynamic
 sstest_SOURCES =				\
 	sstest.c
+ssdiff_LDADD   = $(gnumeric_LDADD)
+ssdiff_LDFLAGS = -export-dynamic
+ssdiff_SOURCES =				\
+	ssdiff.c
 
 test_pango_LDADD   = $(gnumeric_LDADD)
 test_pango_LDFLAGS = -export-dynamic

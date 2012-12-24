@@ -22,6 +22,8 @@ ssgrep
 ssgrep.exe
 sstest
 sstest.exe
+ssdiff
+ssdiff.exe
 test-pango
 test-pango.exe
 GNOME_Gnumeric-gtk.xml
