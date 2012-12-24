@@ -2,6 +2,7 @@
 
 	* src/ssdiff.c (def_cell_changed): Merge cell_added and
 	cell_removed handlers into the cell_changed handler.
+	(main): Add --xml option.
 
 	* configure.in: ssconvert, ssindex, and ssgrep are no longer
 	configurable.  We need ssconvert for the test and it's silly

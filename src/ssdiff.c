@@ -21,14 +21,27 @@
 #include "sheet.h"
 #include "cell.h"
 #include "value.h"
+#include <gsf/gsf-libxml.h>
+#include <gsf/gsf-output-stdio.h>
+
+/* FIXME: Namespace?  */
+#define DIFF "ssdiff:"
 
 static gboolean ssdiff_show_version = FALSE;
+static gboolean ssdiff_xml = FALSE;
 
 static const GOptionEntry ssdiff_options [] = {
 	{
 		"version", 'v',
 		0, G_OPTION_ARG_NONE, &ssdiff_show_version,
 		N_("Display program version"),
+		NULL
+	},
+
+	{
+		"xml", 'x',
+		0, G_OPTION_ARG_NONE, &ssdiff_xml,
+		N_("Output in xml format"),
 		NULL
 	},
 
@@ -42,11 +55,12 @@ static const GOptionEntry ssdiff_options [] = {
 typedef struct GnmDiffState_ GnmDiffState;
 
 typedef struct {
-	/* A sheet was removed.  */
-	void (*sheet_removed) (GnmDiffState *state, Sheet const *os);
+	/* Start looking at a sheet.  Either sheet might be NULL.  */
+	void (*sheet_start) (GnmDiffState *state,
+			     Sheet const *os, Sheet const *ns);
 
-	/* A sheet was added.  */
-	void (*sheet_added) (GnmDiffState *state, Sheet const *ns);
+	/* Finish sheet started with above.  */
+	void (*sheet_end) (GnmDiffState *state);
 
 	/* The order of sheets has changed.  */
 	void (*sheet_order_changed) (GnmDiffState *state);
@@ -66,6 +80,11 @@ struct GnmDiffState_ {
 	} old, new;
 
 	const GnmDiffActions *actions;
+
+	GsfOutput *output;
+	GsfXMLOut *xml;
+
+	Sheet const *pending_sheet;
 };
 
 /* -------------------------------------------------------------------------- */
@@ -85,41 +104,116 @@ def_cell_name (GnmCell const *oc)
 }
 
 static void
-def_sheet_removed (GnmDiffState *state, Sheet const *os)
+def_sheet_start (GnmDiffState *state, Sheet const *os, Sheet const *ns)
 {
-	g_printerr (_("Sheet %s removed.\n"), os->name_quoted);
+	if (os && !ns)
+		gsf_output_printf (state->output, _("Sheet %s removed.\n"), os->name_quoted);
+	else if (!os && ns)
+		gsf_output_printf (state->output, _("Sheet %s added.\n"), ns->name_quoted);
 }
 
 static void
-def_sheet_added (GnmDiffState *state, Sheet const *ns)
+def_sheet_end (GnmDiffState *state)
 {
-	g_printerr (_("Sheet %s added.\n"), ns->name_quoted);
+	(void)state;
 }
 
 static void
 def_sheet_order_changed (GnmDiffState *state)
 {
-	g_printerr (_("Sheet order changed.\n"));
+	gsf_output_printf (state->output, _("Sheet order changed.\n"));
 }
 
 static void 
 def_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 {
 	if (oc && nc)
-		g_printerr (_("Cell %s changed.\n"), def_cell_name (oc));
+		gsf_output_printf (state->output, _("Cell %s changed.\n"), def_cell_name (oc));
 	else if (oc)
-		g_printerr (_("Cell %s removed.\n"), def_cell_name (oc));
+		gsf_output_printf (state->output, _("Cell %s removed.\n"), def_cell_name (oc));
 	else if (nc)
-		g_printerr (_("Cell %s added.\n"), def_cell_name (nc));
+		gsf_output_printf (state->output, _("Cell %s added.\n"), def_cell_name (nc));
 	else
 		g_assert_not_reached ();
 }
 
 static const GnmDiffActions default_actions = {
-	def_sheet_removed,
-	def_sheet_added,
+	def_sheet_start,
+	def_sheet_end,
 	def_sheet_order_changed,
 	def_cell_changed
+};
+
+/* -------------------------------------------------------------------------- */
+
+static void
+xml_delayed_sheet_start (GnmDiffState *state)
+{
+	gsf_xml_out_start_element (state->xml, DIFF "Sheet");
+	gsf_xml_out_add_cstr (state->xml, "Name", state->pending_sheet->name_unquoted);
+	state->pending_sheet = NULL;
+}
+ 
+static void
+xml_sheet_start (GnmDiffState *state, Sheet const *os, Sheet const *ns)
+{
+	state->pending_sheet = os ? os : ns;
+	if (!(os && ns)) {
+		xml_delayed_sheet_start (state);
+		gsf_xml_out_add_int (state->xml, "Old", os != NULL);
+		gsf_xml_out_add_int (state->xml, "New", ns != NULL);
+	}
+}
+
+static void
+xml_sheet_end (GnmDiffState *state)
+{
+	if (state->pending_sheet == NULL)
+		gsf_xml_out_end_element (state->xml); /* </Sheet> */
+}
+
+static void
+xml_sheet_order_changed (GnmDiffState *state)
+{
+	gsf_xml_out_start_element (state->xml, DIFF "SheetOrder");
+	/* What signals that there was a change?  */
+	gsf_xml_out_end_element (state->xml); /* </SheetOrder> */
+}
+
+static void 
+xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
+{
+	const GnmCellPos *pos;
+
+	if (state->pending_sheet)
+		xml_delayed_sheet_start (state);
+
+	gsf_xml_out_start_element (state->xml, DIFF "Cell");
+
+	pos = oc ? &oc->pos : &nc->pos;
+	gsf_xml_out_add_int (state->xml, "Row", pos->row);
+	gsf_xml_out_add_int (state->xml, "Col", pos->col);
+
+	if (oc) {
+		char *txt = gnm_cell_get_entered_text (oc);
+		gsf_xml_out_add_cstr (state->xml, "old", txt);
+		g_free (txt);
+	}
+
+	if (nc) {
+		char *txt = gnm_cell_get_entered_text (nc);
+		gsf_xml_out_add_cstr (state->xml, "new", txt);
+		g_free (txt);
+	}
+
+	gsf_xml_out_end_element (state->xml); /* </Cell> */
+}
+
+static const GnmDiffActions xml_actions = {
+	xml_sheet_start,
+	xml_sheet_end,
+	xml_sheet_order_changed,
+	xml_cell_changed
 };
 
 /* -------------------------------------------------------------------------- */
@@ -210,7 +304,7 @@ diff_sheets (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 static int
 diff (char const *oldfilename, char const *newfilename,
       GOIOContext *ioc,
-      GnmDiffActions const *actions)
+      GnmDiffActions const *actions, GsfOutput *output)
 {
 	GnmDiffState state;
 	int res = 0;
@@ -221,6 +315,10 @@ diff (char const *oldfilename, char const *newfilename,
 	memset (&state, 0, sizeof (state));
 	state.actions = actions;
 	state.ioc = ioc;
+
+	state.output = output;
+	if (ssdiff_xml)
+		state.xml = gsf_xml_out_new (output);
 
 	state.old.url = go_shell_arg_to_uri (oldfilename);
 	state.new.url = go_shell_arg_to_uri (newfilename);
@@ -247,14 +345,17 @@ diff (char const *oldfilename, char const *newfilename,
 		Sheet *old_sheet = workbook_sheet_by_index (state.old.wb, i);
 		Sheet *new_sheet = workbook_sheet_by_name (state.new.wb,
 							   old_sheet->name_unquoted);
+		state.actions->sheet_start (&state, old_sheet, new_sheet);
+		
 		if (new_sheet) {
 			if (new_sheet->index_in_wb < last_index)
 				sheet_order_changed = TRUE;
 			last_index = new_sheet->index_in_wb;
 
 			diff_sheets (&state, old_sheet, new_sheet);
-		} else
-			state.actions->sheet_removed (&state, old_sheet);
+		}
+
+		state.actions->sheet_end (&state);
 	}
 
 	count = workbook_sheet_count (state.new.wb);
@@ -264,8 +365,10 @@ diff (char const *oldfilename, char const *newfilename,
 							   new_sheet->name_unquoted);
 		if (old_sheet)
 			; /* Nothing -- already done above. */
-		else
-			state.actions->sheet_added (&state, new_sheet);
+		else {
+			state.actions->sheet_start (&state, NULL, new_sheet);
+			state.actions->sheet_end (&state);
+		}
 	}
 
 	if (sheet_order_changed)
@@ -278,6 +381,8 @@ out:
 		g_object_unref (state.old.wb);
 	if (state.new.wb)
 		g_object_unref (state.new.wb);
+	if (state.xml)
+		g_object_unref (state.xml);
 	return res;
 
 error:
@@ -293,6 +398,8 @@ main (int argc, char const **argv)
 	GOCmdContext	*cc;
 	GOptionContext *ocontext;
 	GError *error = NULL;
+	const GnmDiffActions *actions;
+	GsfOutput *output;
 
 	/* No code before here, we need to init threads */
 	argv = gnm_pre_parse_init (argc, argv);
@@ -316,6 +423,20 @@ main (int argc, char const **argv)
 		return 0;
 	}
 
+	output = gsf_output_stdio_new_FILE ("<stdout>", stdout, TRUE);
+	if (!output) {
+		/* Unlikely. */
+		g_printerr (_("%s: Failed to write to stdout.\n"),
+			    g_get_prgname ());
+		return 1;
+	}
+
+	if (ssdiff_xml) {
+		actions = &xml_actions;
+	} else {
+		actions = &default_actions;
+	}
+
 	gnm_init ();
 
 	cc = cmd_context_stderr_new ();
@@ -330,7 +451,7 @@ main (int argc, char const **argv)
 
 	if (argc == 3) {
 		GOIOContext *ioc = go_io_context_new (cc);
-		res = diff (argv[1], argv[2], ioc, &default_actions);
+		res = diff (argv[1], argv[2], ioc, actions, output);
 		g_object_unref (ioc);
 	} else {
 		g_printerr (_("Usage: %s [OPTION...] %s\n"),
@@ -341,6 +462,7 @@ main (int argc, char const **argv)
 
 	/* Release cached string. */
 	def_cell_name (NULL);
+	g_object_unref (output);
 
 	go_component_set_default_command_context (NULL);
 	g_object_unref (cc);
