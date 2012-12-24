@@ -5,6 +5,7 @@ Andreas:
 
 Morten:
 	* Fix a few compiler warnings.
+	* New utility: ssdiff.
   
 --------------------------------------------------------------------------
 Gnumeric 1.12.0
