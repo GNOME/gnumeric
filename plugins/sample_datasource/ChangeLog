@@ -1,3 +1,7 @@
+2012-12-24  Morten Welinder  <terra@gnome.org>
+
+	* sample_datasource.c (cb_watcher_queue_recalc): Silence warning.
+
 2012-12-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.0

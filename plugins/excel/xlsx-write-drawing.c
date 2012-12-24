@@ -184,7 +184,6 @@ static void
 xlsx_write_one_plot (XLSXWriteState *state, GsfXMLOut *xml, GogObject const *chart, GogObject const *plot)
 {
 	char const *plot_type;
-	GogObject const *obj;
 	gboolean failed = FALSE;
 	gboolean use_xy = FALSE;
 	double explosion = 0.;

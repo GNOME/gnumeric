@@ -2,6 +2,9 @@ Gnumeric 1.12.1
 
 Andreas:
 	 * Some documentation fixes.
+
+Morten:
+	* Fix a few compiler warnings.
   
 --------------------------------------------------------------------------
 Gnumeric 1.12.0

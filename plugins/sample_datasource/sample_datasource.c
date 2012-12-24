@@ -101,9 +101,7 @@ static void
 cb_watcher_queue_recalc (gpointer key, gpointer value, gpointer closure)
 {
 	Watcher const *w = key;
-	Sheet *sheet = w->dep->sheet;
 	dependent_queue_recalc (w->dep);
-
 	gnm_app_recalc ();
 }
 
