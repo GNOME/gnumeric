@@ -28,16 +28,7 @@ if WITH_GTK
   check_PROGRAMS += test-pango
 endif
 
-if ENABLE_SSCONVERT
-  bin_PROGRAMS += ssconvert
-endif
-if ENABLE_SSINDEX
-  bin_PROGRAMS += ssindex
-endif
-if ENABLE_SSGREP
-  bin_PROGRAMS += ssgrep
-endif
-bin_PROGRAMS += ssdiff
+bin_PROGRAMS += ssconvert ssindex ssgrep ssdiff
 
 AM_CPPFLAGS = 								\
 	-I$(top_srcdir)							\
