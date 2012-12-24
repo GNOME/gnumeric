@@ -76,7 +76,7 @@ figdir = figures
 include $(top_srcdir)/doc/gnumeric-doc.make
 
 manpagedir   = $(mandir)/man1
-manpage_DATA = gnumeric.1 ssconvert.1 ssindex.1 ssgrep.1
+manpage_DATA = gnumeric.1 ssconvert.1 ssindex.1 ssgrep.1 ssdiff.1
 
 winhelp_DATA =
 winhelpdir=$(gnumeric_datadir)/$(subdir)

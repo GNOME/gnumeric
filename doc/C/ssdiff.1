@@ -1,0 +1,73 @@
+.de URL
+\\$2 \(laURL: \\$1 \(ra\\$3
+..
+.if \n[.g] .mso www.tmac
+.TH SSDIFF 1 "2012-12-24" gnumeric "GNOME"
+.SH NAME
+ssdiff \- compare two spreadsheets
+
+.SH SYNOPSIS
+\fBssdiff \fR [\fIOPTIONS\fR] \fIOLDFILE\fR \fINEWFILE\fR
+
+.SH DESCRIPTION
+This manual page briefly documents the \fBssdiff\fR command.
+
+\fBssdiff\fR is a command line utility to compare two spreadsheets and list their differences
+
+.\".SH "RETURN VALUE"
+.\".SH "EXIT STATUS"
+.\".SH ERRORS
+.SH OPTIONS
+This program follows the usual GNU command line syntax, with single
+letter options starting with a single dash (`-') and longer options
+starting with two dashes (`--').
+
+.SS "Help options"
+.TP
+.B \-V, \-\-version
+Display ssdiff's version
+.TP
+.B \-?, \-\-help
+Display the supported options
+
+.\".SH USAGE
+.SH EXAMPLE
+To compare an old version of a file with a newer file, run:
+.PP
+\fBssdiff\fR \fIold.gnumeric\fR \fInew.gnumeric\fR
+.PP
+
+.\".SH FILES
+.\".SH ENVIRONMENT
+.\".SH DIAGNOSTICS
+.\".SH SECURITY
+.\".SH CONFORMING TO
+.\".SH NOTES
+.\".SH BUGS
+
+.SH LICENSE
+
+\fBssdiff\fR is licensed under the terms of the General Public
+License (GPL), version 2 or 3. For information on this license look at the
+source code that came with the software or see the 
+.URL "http://www.gnu.org" "GNU project page" .
+
+.SH COPYRIGHT
+
+The copyright on \fBssdiff\fR and the \fBgnumeric\fR software and source
+code is held by the individual authors as is documented in the source code.
+
+.SH AUTHOR
+
+\fBssdiff\fR's primary author is Morten Welinder <terra@gnome.org>; 
+\fBssdiff\fR builds on the \fBgnumeric\fR codebase.
+
+.SH SEE ALSO
+\fBgnumeric\fR(1),
+\fBssconvert\fR(1),
+\fBssindex\fR(1)
+\fBssgrep\fR(1)
+
+.URL "http://www.gnome.org/projects/gnumeric/" "The Gnumeric Homepage" .
+
+.URL "http://www.gnome.org/" "The GNOME project page" .
