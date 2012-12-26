@@ -34,15 +34,11 @@ def func_capwords(str):
 
 # Here is a function which calls a spreadsheet function
 def func_bitand(num1, num2):
-	'@FUNCTION=PY_BITAND\n'\
-	'@SYNTAX=PY_BITAND (num)\n'\
-	'@DESCRIPTION=The BITAND function returns bitwise and-ing '\
-	'of its arguments.'\
-	'\n'\
-	'@EXAMPLES=\n'\
-	'PY_BITAND(6, 2) equals 2)'\
-	'\n'\
-	'@SEEALSO=BITAND'
+	'@GNM_FUNC_HELP_NAME@BITAND:bitwise AND of its two arguments.\n'\
+	'@GNM_FUNC_HELP_ARG@number1:first value\n'\
+	'@GNM_FUNC_HELP_ARG@number2:second value\n'\
+	'@GNM_FUNC_HELP_EXAMPLES@=PY_BITAND(12, 6)\n'\
+	'@GNM_FUNC_HELP_SEEALSO@BITAND'
 	gnm_bitand=functions['bitand']
 	return gnm_bitand(num1, num2)
 

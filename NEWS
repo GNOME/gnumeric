@@ -2,6 +2,7 @@ Gnumeric 1.12.1
 
 Andreas:
 	 * Some documentation fixes.
+	 * Show argument names for python functions. [#690681]
 
 Morten:
 	* Fix a few compiler warnings.

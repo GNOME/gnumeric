@@ -211,8 +211,8 @@ gplp_loader_data_opener_free (ServiceLoaderDataFileOpener *loader_data)
 }
 
 static gboolean
-gplp_func_file_probe (GOFileOpener const *fo, GOPluginService *service,
-		      GsfInput *input, GOFileProbeLevel pl)
+gplp_func_file_probe (G_GNUC_UNUSED GOFileOpener const *fo, GOPluginService *service,
+		      GsfInput *input, G_GNUC_UNUSED GOFileProbeLevel pl)
 {
 	ServiceLoaderDataFileOpener *loader_data;
 	PyObject *probe_result = NULL;
@@ -251,11 +251,11 @@ gplp_func_file_probe (GOFileOpener const *fo, GOPluginService *service,
 }
 
 static void
-gplp_func_file_open (GOFileOpener const *fo,
+gplp_func_file_open (G_GNUC_UNUSED GOFileOpener const *fo,
 		     GOPluginService *service,
 		     GOIOContext *io_context,
 		     gpointer wb_view,
-		     GsfInput *input, char const *enc)
+		     GsfInput *input, G_GNUC_UNUSED char const *enc)
 {
 	ServiceLoaderDataFileOpener *loader_data;
 	Sheet *sheet, *old_sheet;
@@ -322,7 +322,7 @@ gplp_load_service_file_opener (GOPluginLoader *loader,
 
 		cbs = go_plugin_service_get_cbs (service);
 		cbs->plugin_func_file_probe = gplp_func_file_probe;
-		cbs->plugin_func_file_open = gplp_func_file_open;
+		cbs->plugin_func_file_open = (gpointer) gplp_func_file_open;
 
 		loader_data = g_new (ServiceLoaderDataFileOpener, 1);
 		loader_data->python_func_file_probe = python_func_file_probe;
@@ -362,7 +362,7 @@ gplp_loader_data_saver_free (ServiceLoaderDataFileSaver *loader_data)
 }
 
 static void
-gplp_func_file_save (GOFileSaver const *fs, GOPluginService *service,
+gplp_func_file_save (G_GNUC_UNUSED GOFileSaver const *fs, GOPluginService *service,
 		     GOIOContext *io_context, gconstpointer wb_view,
 		     GsfOutput *output)
 {
@@ -418,7 +418,7 @@ gplp_load_service_file_saver (GOPluginLoader *loader,
 		ServiceLoaderDataFileSaver *saver_data;
 
 		cbs = go_plugin_service_get_cbs (service);
-		cbs->plugin_func_file_save = gplp_func_file_save;
+		cbs->plugin_func_file_save = (gpointer)gplp_func_file_save;
 
 		saver_data = g_new (ServiceLoaderDataFileSaver, 1);
 		saver_data->python_func_file_save = python_func_file_save;
@@ -528,25 +528,107 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 {
 	gchar *help_attr_name;
 	PyObject *cobject_help_value;
+	PyObject *python_arg_names;
+	PyObject *fn_info_obj;
+
+	fn_info_obj = PyDict_GetItemString (python_fn_info_dict, (gchar *) fn_name);
+	python_arg_names = PyTuple_GetItem (fn_info_obj, 1);
 
 	help_attr_name = g_strdup_printf ("_CGnumericHelp_%s", fn_name);
 	cobject_help_value = PyDict_GetItemString (python_fn_info_dict, help_attr_name);
-
 	if (cobject_help_value == NULL) {
 		PyObject *python_fn_help = ((PyFunctionObject *) python_fn)->func_doc;
 		if (python_fn_help != NULL && PyString_Check (python_fn_help)) {
-			GnmFuncHelp *new_help = g_new (GnmFuncHelp, 2);
-			int i = 0;
+			guint n = 0;
+			GnmFuncHelp *new_help = NULL;
+			gboolean arg_names_written = FALSE;
+			char const *help_text = PyString_AsString (python_fn_help);
 
-#if 0
-			new_help[i].type = GNM_FUNC_HELP_OLD;
-			new_help[i].text = PyString_AsString (python_fn_help);
-			i++;
-#endif
+			if (g_str_has_prefix (help_text, "@GNM_FUNC_HELP_NAME@")) {
+				/* New-style documentation */
+				gchar **items = g_strsplit (help_text, "\n", 0), **fitems = items;
+				while (*items) {
+					if (g_str_has_prefix (*items, "@GNM_FUNC_HELP_NAME@")) {
+						guint it = n;
+						new_help = g_renew (GnmFuncHelp, new_help, ++n);
+						new_help[it].type = GNM_FUNC_HELP_NAME;
+						new_help[it].text = g_strdup ((*items) + strlen ("@GNM_FUNC_HELP_NAME@"));
+					} else if (g_str_has_prefix (*items, "@GNM_FUNC_HELP_ARG@")) {
+						guint it = n;
+						new_help = g_renew (GnmFuncHelp, new_help, ++n);
+						new_help[it].type = GNM_FUNC_HELP_ARG;
+						new_help[it].text = g_strdup ((*items) + strlen ("@GNM_FUNC_HELP_ARG@"));
+						arg_names_written = TRUE;
+					} else if (g_str_has_prefix (*items, "@GNM_FUNC_HELP_DESCRIPTION@")) {
+						guint it = n;
+						new_help = g_renew (GnmFuncHelp, new_help, ++n);
+						new_help[it].type = GNM_FUNC_HELP_DESCRIPTION;
+						new_help[it].text = g_strdup ((*items) + strlen ("@GNM_FUNC_HELP_DESCRIPTION@"));
+					} else if (g_str_has_prefix (*items, "@GNM_FUNC_HELP_EXAMPLES@")) {
+						guint it = n;
+						new_help = g_renew (GnmFuncHelp, new_help, ++n);
+						new_help[it].type = GNM_FUNC_HELP_EXAMPLES;
+						new_help[it].text = g_strdup ((*items) + strlen ("@GNM_FUNC_HELP_EXAMPLES@"));
+					} else if (g_str_has_prefix (*items, "@GNM_FUNC_HELP_SEEALSO@")) {
+						guint it = n;
+						new_help = g_renew (GnmFuncHelp, new_help, ++n);
+						new_help[it].type = GNM_FUNC_HELP_SEEALSO;
+						new_help[it].text = g_strdup ((*items) + strlen ("@GNM_FUNC_HELP_SEEALSO@"));
+					} else if (g_str_has_prefix (*items, "@GNM_FUNC_HELP_EXTREF@")) {
+						guint it = n;
+						new_help = g_renew (GnmFuncHelp, new_help, ++n);
+						new_help[it].type = GNM_FUNC_HELP_EXTREF;
+						new_help[it].text = g_strdup ((*items) + strlen ("@GNM_FUNC_HELP_EXTREF@"));
+					} else if (g_str_has_prefix (*items, "@GNM_FUNC_HELP_NOTE@")) {
+						guint it = n;
+						new_help = g_renew (GnmFuncHelp, new_help, ++n);
+						new_help[it].type = GNM_FUNC_HELP_NOTE;
+						new_help[it].text = g_strdup ((*items) + strlen ("@GNM_FUNC_HELP_NOTE@"));
+					} else if (g_str_has_prefix (*items, "@GNM_FUNC_HELP_END@")) {
+						/* ignore */
+					} else if (g_str_has_prefix (*items, "@GNM_FUNC_HELP_EXCEL@")) {
+						guint it = n;
+						new_help = g_renew (GnmFuncHelp, new_help, ++n);
+						new_help[it].type = GNM_FUNC_HELP_EXCEL;
+						new_help[it].text = g_strdup ((*items) + strlen ("@GNM_FUNC_HELP_EXCEL@"));
+					} else if (g_str_has_prefix (*items, "@GNM_FUNC_HELP_ODF@")) {
+						guint it = n;
+						new_help = g_renew (GnmFuncHelp, new_help, ++n);
+						new_help[it].type = GNM_FUNC_HELP_ODF;
+						new_help[it].text = g_strdup ((*items) + strlen ("@GNM_FUNC_HELP_ODF@"));
+					} else if (n > 0) {
+						gchar *old_text = (gchar *) new_help[n].text;
+						new_help[n].text = g_strconcat (old_text, "\n", *items, NULL);
+						g_free (old_text);
+					}
+					items++;
+				}
+				g_strfreev (fitems);
+			}
 
-			new_help[i].type = GNM_FUNC_HELP_END;
-			new_help[i].text = NULL;
-			i++;
+			if (python_arg_names != NULL && !arg_names_written) {
+				/* We only try this if we did not get argument  */
+				/* descriptions via the new style documentation */
+				char const *arg_names = PyString_AsString (python_arg_names);
+				if (arg_names != NULL && arg_names[0] != '\0') {
+					gchar **args = g_strsplit (arg_names, ",", 0);
+					guint nitems = g_strv_length (args), nstart = n, i;
+					n += nitems;
+					new_help = g_renew (GnmFuncHelp, new_help, n);
+					for (i = 0; i < nitems; i++, nstart++) {
+						char const *arg_name = args[i];
+						while (*arg_name == ' ') arg_name++;
+						new_help[nstart].type = GNM_FUNC_HELP_ARG;
+						new_help[nstart].text = g_strdup_printf ("%s:", arg_name);
+					}
+					g_strfreev (args);
+				}
+			}
+
+			n++;
+			new_help = g_renew (GnmFuncHelp, new_help, n);
+			new_help[n-1].type = GNM_FUNC_HELP_END;
+			new_help[n-1].text = NULL;
 
 			cobject_help_value = PyCObject_FromVoidPtr (new_help, &g_free);
 			PyDict_SetItemString (python_fn_info_dict, help_attr_name, cobject_help_value);
@@ -580,20 +662,15 @@ gplp_func_desc_load (GOPluginService *service,
 	}
 
 	if (PyTuple_Check (fn_info_obj)) {
-		PyObject *python_args, *python_arg_names;
+		PyObject *python_args;
 		PyObject *python_fn;
 
 		if (PyTuple_Size (fn_info_obj) == 3 &&
 		    (python_args = PyTuple_GetItem (fn_info_obj, 0)) != NULL &&
 			PyString_Check (python_args) &&
-		    (python_arg_names = PyTuple_GetItem (fn_info_obj, 1)) != NULL &&
-		    PyString_Check (python_arg_names) &&
 		    (python_fn = PyTuple_GetItem (fn_info_obj, 2)) != NULL &&
 		    PyFunction_Check (python_fn)) {
 			res->arg_spec	= PyString_AsString (python_args);
-#if 0
-			res->arg_names  = PyString_AsString (python_arg_names);
-#endif
 			res->help	= python_function_get_gnumeric_help (
 				loader_data->python_fn_info_dict, python_fn, name);
 			res->fn_args	= &call_python_function_args;

@@ -1,3 +1,9 @@
+2012-12-26  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* python-loader.c (python_function_get_gnumeric_help):
+	handle new-style documentation and extract argument names
+	for old-style docs
+
 2012-12-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.0
