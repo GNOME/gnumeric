@@ -1074,6 +1074,7 @@ cb_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
 		/* same scg */
 		GocCanvas *canvas = GOC_CANVAS (widget);
 		GdkModifierType mask;
+		GdkWindow *window = gtk_widget_get_parent_window (source_widget);
 		double wx, wy;
 
 		g_object_set_data (G_OBJECT (context),
@@ -1082,7 +1083,8 @@ cb_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
 		wx *= goc_canvas_get_pixels_per_unit (canvas);
 		wy *= goc_canvas_get_pixels_per_unit (canvas);
 
-		gdk_window_get_pointer (gtk_widget_get_parent_window (source_widget),
+		gdk_window_get_device_position (window,
+			gdk_device_manager_get_client_pointer (gdk_display_get_device_manager (gdk_window_get_display (window))),
 			NULL, NULL, &mask);
 		gnm_pane_objects_drag (GNM_PANE (source_widget), NULL,
 			wx, wy, 8, FALSE, (mask & GDK_SHIFT_MASK) != 0);
@@ -1842,6 +1844,7 @@ cb_obj_autoscroll (GnmPane *pane, GnmPaneSlideInfo const *info)
 {
 	SheetControlGUI *scg = pane->simple.scg;
 	GdkModifierType mask;
+	GdkWindow *window = gtk_widget_get_parent_window (GTK_WIDGET (pane));
 
 	/* Cheesy hack calculate distance we move the screen, this loses the
 	 * mouse position */
@@ -1856,8 +1859,9 @@ cb_obj_autoscroll (GnmPane *pane, GnmPaneSlideInfo const *info)
 #endif
 
 	pane->drag.had_motion = TRUE;
-	gdk_window_get_pointer (gtk_widget_get_parent_window (GTK_WIDGET (pane)),
-				NULL, NULL, &mask);
+	gdk_window_get_device_position (window,
+		gdk_device_manager_get_client_pointer (gdk_display_get_device_manager (gdk_window_get_display (window))),
+		NULL, NULL, &mask);
 	scg_objects_drag (pane->simple.scg, pane,
 			  NULL, &dx, &dy, 8, FALSE, (mask & GDK_SHIFT_MASK) != 0, TRUE);
 
