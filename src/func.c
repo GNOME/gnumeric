@@ -237,7 +237,7 @@ function_dump_defs (char const *filename, int dump_type)
 	g_return_if_fail (filename != NULL);
 
 	if ((output_file = g_fopen (filename, "w")) == NULL){
-		printf (_("Cannot create file %s\n"), filename);
+		g_printerr (_("Cannot create file %s\n"), filename);
 		exit (1);
 	}
 

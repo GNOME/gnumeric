@@ -665,7 +665,7 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 			gsf_xml_out_start_element (state->output,
 				border_names [i - MSTYLE_BORDER_TOP]);
 			gsf_xml_out_add_int (state->output, "Style", t);
-				gnm_xml_out_add_color (state->output, "Color", col);
+			gnm_xml_out_add_color (state->output, "Color", col);
 			gsf_xml_out_end_element (state->output);
 		}
 	}

@@ -8,6 +8,7 @@ Morten:
 	* Fix a few compiler warnings.
 	* Always compile ssconvert, ssindex, and ssgrep.
 	* New utility: ssdiff.
+	* Remove disabled corba plugin.
   
 --------------------------------------------------------------------------
 Gnumeric 1.12.0

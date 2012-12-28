@@ -131,7 +131,7 @@ gnm_style_element_name[MSTYLE_ELEMENT_MAX] = {
 
 /* Some ref/link count debugging */
 #if 0
-#define d(arg)	printf arg
+#define d(arg)	g_printerr arg
 #else
 #define d(arg)	do { } while (0)
 #endif

@@ -2582,7 +2582,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	} else {
 		GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 		if (wbcg_is_local_drag (wbcg, source_widget))
-			printf ("autoscroll complete - stop it\n");
+			g_printerr ("autoscroll complete - stop it\n");
 		else
 			scg_drag_data_received (wbcg_cur_scg (wbcg),
 				source_widget, 0, 0, selection_data);

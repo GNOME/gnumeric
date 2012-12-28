@@ -556,10 +556,10 @@ get_cellref (GnmCellRef *ref, guint8 const *dataa, guint8 const *datab,
 	}
 
 #if FORMULA_DEBUG > 0
-	printf ("0x%x 0x%x -> (%d, %d)\n",
-		GSF_LE_GET_GUINT16 (dataa),
-		GSF_LE_GET_GUINT16 (datab),
-		ref->col, ref->row);
+	g_printerr ("0x%x 0x%x -> (%d, %d)\n",
+		    GSF_LE_GET_GUINT16 (dataa),
+		    GSF_LE_GET_GUINT16 (datab),
+		    ref->col, ref->row);
 #endif
 }
 
@@ -905,10 +905,10 @@ lotus_parse_formula (LotusState *state, GnmParsePos *pos,
 #if FORMULA_DEBUG > 0
 	{
 		char *txt = gnm_expr_top_as_string (result, pos, gnm_conventions_default);
-		g_print ("Lotus: %s!%s: %s\n",
-			 pos->sheet->name_unquoted,
-			 cell_coord_name (pos->eval.col, pos->eval.row),
-			 txt);
+		g_printerr ("Lotus: %s!%s: %s\n",
+			    pos->sheet->name_unquoted,
+			    cell_coord_name (pos->eval.col, pos->eval.row),
+			    txt);
 		g_free (txt);
 	}
 #endif
@@ -930,9 +930,9 @@ lotus_formula_init (void)
 		g_assert (f->ordinal < G_N_ELEMENTS (lotus_ordinal_to_info));
 		if (f->gnumeric_name &&
 		    !gnm_func_lookup (f->gnumeric_name, NULL)) {
-			g_print ("Lotus function @%s maps to unknown function %s.\n",
-				 f->lotus_name,
-				 f->gnumeric_name);
+			g_printerr ("Lotus function @%s maps to unknown function %s.\n",
+				    f->lotus_name,
+				    f->gnumeric_name);
 		}
 #endif
 		if (f->ordinal <= LOTUS_MAX_ORDINAL)
@@ -950,9 +950,9 @@ lotus_formula_init (void)
 		g_assert (f->ordinal < G_N_ELEMENTS (lotus_ordinal_to_info));
 		if (f->gnumeric_name &&
 		    !gnm_func_lookup (f->gnumeric_name, NULL)) {
-			g_print ("Works function @%s maps to unknown function %s.\n",
-				 f->lotus_name,
-				 f->gnumeric_name);
+			g_printerr ("Works function @%s maps to unknown function %s.\n",
+				    f->lotus_name,
+				    f->gnumeric_name);
 		}
 #endif
 
