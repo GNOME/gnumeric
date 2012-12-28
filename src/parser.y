@@ -1496,7 +1496,7 @@ int
 yyerror (char const *s)
 {
 #if 0
-	printf ("Error: %s\n", s);
+	g_printerr ("Error: %s\n", s);
 #endif
 	return 0;
 }

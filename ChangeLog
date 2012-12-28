@@ -1,5 +1,7 @@
 2012-12-28  Morten Welinder  <terra@gnome.org>
 
+	* src/*.c: Eliminate use of printf.
+
 	* src/sheet-style.c (sheet_style_range_foreach): Move handling of
 	range offset here.  This may need to move further.
 	* src/ssdiff.c (cb_diff_sheets_styles_2): From here.

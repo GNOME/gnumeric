@@ -1937,7 +1937,7 @@ opt_binomial(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	for (j = n - 1; j > -1; --j) {
 		for (i = 0; i <= j; ++i) {
-			/*if (0==i)printf("secondloop %d\n",j);*/
+			/*if (0==i)g_printerr("secondloop %d\n",j);*/
 			if (OT_Euro == amer_euro_flag)
 				value_array[i] = (p * value_array[i + 1] + (1.0 - p) * value_array[i]) * Df;
 			else if (OT_Amer == amer_euro_flag) {

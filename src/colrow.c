@@ -971,7 +971,7 @@ colrow_visibility (Sheet const *sheet, ColRowVisiblity * const dat,
 		res->first = (j >= first) ? j+1 : first;
 		res->last = i;
 #if 0
-		printf ("%d %d\n", res->index, res->count);
+		g_printerr ("%d %d\n", res->index, res->count);
 #endif
 		dat->elements = g_slist_insert_sorted (dat->elements, res,
 					(GCompareFunc)colrow_index_cmp);

@@ -1262,7 +1262,7 @@ gnumeric_rate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_VALUE (ei->pos);
 
 #if 0
-	printf ("Guess = %.15g\n", rate0);
+	g_printerr ("Guess = %.15g\n", rate0);
 #endif
 	goal_seek_initialize (&data);
 
@@ -1292,7 +1292,7 @@ gnumeric_rate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (status == GOAL_SEEK_OK) {
 #if 0
-		printf ("Root = %.15g\n\n", data.root);
+		g_printerr ("Root = %.15g\n\n", data.root);
 #endif
 		return value_new_float (data.root);
 	} else
