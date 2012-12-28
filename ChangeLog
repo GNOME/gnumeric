@@ -4,6 +4,8 @@
 	range offset here.  This may need to move further.
 	* src/ssdiff.c (cb_diff_sheets_styles_2): From here.
 	(diff_sheets_cells): Ignore completely empty cells.
+	(xml_sheet_start): Change meaning of Old and New attributes to be
+	index_in_wb and absent when workbook doesn't have the sheet.
 
 2012-12-27  Morten Welinder  <terra@gnome.org>
 

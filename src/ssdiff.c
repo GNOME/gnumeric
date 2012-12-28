@@ -226,8 +226,10 @@ xml_sheet_start (GnmDiffState *state, Sheet const *os, Sheet const *ns)
 
 	gsf_xml_out_start_element (state->xml, DIFF "Sheet");
 	gsf_xml_out_add_cstr (state->xml, "Name", sheet->name_unquoted);
-	gsf_xml_out_add_int (state->xml, "Old", os != NULL);
-	gsf_xml_out_add_int (state->xml, "New", ns != NULL);
+	if (os)
+		gsf_xml_out_add_int (state->xml, "Old", os->index_in_wb);
+	if (ns)
+		gsf_xml_out_add_int (state->xml, "New", ns->index_in_wb);
 }
 
 static void
