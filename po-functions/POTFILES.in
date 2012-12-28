@@ -275,6 +275,7 @@ src/sheet-utils.c
 src/sheet-view.c
 src/sheet.c
 src/ssconvert.c
+src/ssdiff.c
 src/ssgrep.c
 src/ssindex.c
 src/stf-export.c
