@@ -264,9 +264,7 @@ xml_sheet_end (GnmDiffState *state)
 static void
 xml_sheet_order_changed (GnmDiffState *state)
 {
-	gsf_xml_out_start_element (state->xml, DIFF "SheetOrder");
-	/* What signals that there was a change?  */
-	gsf_xml_out_end_element (state->xml); /* </SheetOrder> */
+	/* We signal this in the Sheet headers.  */
 }
 
 static void 
