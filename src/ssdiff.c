@@ -20,10 +20,13 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "sheet-style.h"
+#include "style-border.h"
+#include "style-color.h"
 #include "cell.h"
 #include "value.h"
 #include "ranges.h"
 #include "mstyle.h"
+#include "xml-sax.h"
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-stdio.h>
 
@@ -311,10 +314,23 @@ xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 	gsf_xml_out_end_element (state->xml); /* </Cell> */
 }
 
+#define DO_INT(what,fun)					\
+  do {								\
+	  gsf_xml_out_start_element (state->xml, (what));	\
+	  gsf_xml_out_add_int (state->xml, "Old", (fun) (os));	\
+	  gsf_xml_out_add_int (state->xml, "New", (fun) (ns));	\
+	  gsf_xml_out_end_element (state->xml);			\
+  } while (0)
+	  
+
 static void 
 xml_style_changed (GnmDiffState *state, GnmRange const *r,
 		   GnmStyle const *os, GnmStyle const *ns)
 {
+	unsigned int conflicts;
+	GnmStyleElement e;
+	GnmStyle *os_copy;
+
 	xml_close_cells (state);
 
 	if (!state->styles_open) {
@@ -327,7 +343,160 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 	gsf_xml_out_add_uint (state->xml, "startRow", r->start.row);
 	gsf_xml_out_add_uint (state->xml, "endCol", r->end.col);
 	gsf_xml_out_add_uint (state->xml, "endRow", r->end.row);
+
 	/* FIXME: Add how they differ.  */
+	os_copy = gnm_style_dup (os);
+	conflicts = gnm_style_find_conflicts (os_copy, ns, 0);
+	gnm_style_unref (os_copy);
+	for (e = 0; e < MSTYLE_ELEMENT_MAX; e++) {
+		if ((conflicts & (1u << e)) == 0)
+			continue;
+		switch (e) {
+		case MSTYLE_COLOR_BACK:
+			gsf_xml_out_start_element (state->xml, "BackColor");
+			gnm_xml_out_add_gocolor (state->xml, "Old", gnm_style_get_back_color (os)->go_color);
+			gnm_xml_out_add_gocolor (state->xml, "New", gnm_style_get_back_color (ns)->go_color);
+			gsf_xml_out_end_element (state->xml);
+			break;
+
+		case MSTYLE_COLOR_PATTERN:
+			gsf_xml_out_start_element (state->xml, "PatternColor");
+			gnm_xml_out_add_gocolor (state->xml, "Old", gnm_style_get_pattern_color (os)->go_color);
+			gnm_xml_out_add_gocolor (state->xml, "New", gnm_style_get_pattern_color (ns)->go_color);
+			gsf_xml_out_end_element (state->xml);
+			break;
+
+		case MSTYLE_BORDER_TOP:
+		case MSTYLE_BORDER_BOTTOM:
+		case MSTYLE_BORDER_LEFT:
+		case MSTYLE_BORDER_RIGHT:
+		case MSTYLE_BORDER_REV_DIAGONAL:
+		case MSTYLE_BORDER_DIAGONAL: {
+			static char const *border_names[] = {
+				"Top",
+				"Bottom",
+				"Left",
+				"Right",
+				"Rev-Diagonal",
+				"Diagonal"
+			};
+		
+			char *tag = g_strconcat ("Border",
+						 border_names[e - MSTYLE_BORDER_TOP],
+						 NULL);
+			GnmBorder const *ob = gnm_style_get_border (os, e);
+			GnmBorder const *nb = gnm_style_get_border (ns, e);
+			gsf_xml_out_start_element (state->xml, tag);
+			gsf_xml_out_add_int (state->xml, "OldType", ob->line_type);
+			gsf_xml_out_add_int (state->xml, "NewType", nb->line_type);
+			if (ob->line_type != GNM_STYLE_BORDER_NONE)
+				gnm_xml_out_add_gocolor (state->xml, "OldColor", ob->color->go_color);
+			if (nb->line_type != GNM_STYLE_BORDER_NONE)
+				gnm_xml_out_add_gocolor (state->xml, "NewColor", nb->color->go_color);
+			gsf_xml_out_end_element (state->xml);
+			g_free (tag);
+			break;
+		}
+
+		case MSTYLE_PATTERN:
+			DO_INT ("Pattern", gnm_style_get_pattern);
+			break;
+
+		case MSTYLE_FONT_COLOR:
+			gsf_xml_out_start_element (state->xml, "FontColor");
+			gnm_xml_out_add_gocolor (state->xml, "Old", gnm_style_get_font_color (os)->go_color);
+			gnm_xml_out_add_gocolor (state->xml, "New", gnm_style_get_font_color (ns)->go_color);
+			gsf_xml_out_end_element (state->xml);
+			break;
+
+		case MSTYLE_FONT_NAME:
+			gsf_xml_out_start_element (state->xml, "FontName");
+			gsf_xml_out_add_cstr (state->xml, "Old", gnm_style_get_font_name (os));
+			gsf_xml_out_add_cstr (state->xml, "New", gnm_style_get_font_name (ns));
+			gsf_xml_out_end_element (state->xml);
+			break;
+
+		case MSTYLE_FONT_BOLD:
+			DO_INT ("Bold", gnm_style_get_font_bold);
+			break;
+
+		case MSTYLE_FONT_ITALIC:
+			DO_INT ("Italic", gnm_style_get_font_italic);
+			break;
+
+		case MSTYLE_FONT_UNDERLINE:
+			DO_INT ("Underline", gnm_style_get_font_uline);
+			break;
+
+		case MSTYLE_FONT_STRIKETHROUGH:
+			DO_INT ("Strike", gnm_style_get_font_strike);
+			break;
+
+		case MSTYLE_FONT_SCRIPT:
+			DO_INT ("Script", gnm_style_get_font_script);
+			break;
+
+		case MSTYLE_FONT_SIZE:
+			gsf_xml_out_start_element (state->xml, "FontSize");
+			gsf_xml_out_add_float (state->xml, "Old", gnm_style_get_font_size (os), 4);
+			gsf_xml_out_add_float (state->xml, "New", gnm_style_get_font_size (ns), 4);
+			gsf_xml_out_end_element (state->xml);
+			break;
+
+		case MSTYLE_FORMAT:
+			gsf_xml_out_start_element (state->xml, "Format");
+			gsf_xml_out_add_cstr (state->xml, "Old", go_format_as_XL (gnm_style_get_format (os)));
+			gsf_xml_out_add_cstr (state->xml, "New", go_format_as_XL (gnm_style_get_format (ns)));
+			gsf_xml_out_end_element (state->xml);
+			break;
+
+		case MSTYLE_ALIGN_V:
+			DO_INT ("VALign", gnm_style_get_align_v);
+			break;
+
+		case MSTYLE_ALIGN_H:
+			DO_INT ("HALign", gnm_style_get_align_h);
+			break;
+
+		case MSTYLE_INDENT:
+			DO_INT ("Indent", gnm_style_get_indent);
+			break;
+
+		case MSTYLE_ROTATION:
+			DO_INT ("Rotation", gnm_style_get_rotation);
+			break;
+
+		case MSTYLE_TEXT_DIR:
+			DO_INT ("TextDirection", gnm_style_get_text_dir);
+			break;
+
+		case MSTYLE_WRAP_TEXT:
+			DO_INT ("WrapText", gnm_style_get_wrap_text);
+			break;
+
+		case MSTYLE_SHRINK_TO_FIT:
+			DO_INT ("ShrinkToFit", gnm_style_get_shrink_to_fit);
+			break;
+
+		case MSTYLE_CONTENTS_LOCKED:
+			DO_INT ("Locked", gnm_style_get_contents_locked);
+			break;
+
+		case MSTYLE_CONTENTS_HIDDEN:
+			DO_INT ("Hidden", gnm_style_get_contents_hidden);
+			break;
+
+		case MSTYLE_VALIDATION:
+		case MSTYLE_HLINK:
+		case MSTYLE_INPUT_MSG:
+		case MSTYLE_CONDITIONS:
+		default:
+			gsf_xml_out_start_element (state->xml, "Other");
+			gsf_xml_out_end_element (state->xml); /* </Other> */
+			break;
+		}
+	}
+
 	gsf_xml_out_end_element (state->xml); /* </StyleRegion> */
 }
 
