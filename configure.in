@@ -242,9 +242,6 @@ if test $gnumeric_devel = yes; then
     fi
 fi
 
-with_corba=false
-AM_CONDITIONAL(WITH_CORBA, $with_corba)
-
 
 dnl ****************************
 dnl prep the pixmap generator
@@ -1074,7 +1071,6 @@ plugins/fn-string/Makefile
 plugins/fn-random/Makefile
 plugins/fn-tsa/Makefile
 plugins/applix/Makefile
-plugins/corba/Makefile
 plugins/dif/Makefile
 plugins/excel/Makefile
 plugins/excelplugins/Makefile

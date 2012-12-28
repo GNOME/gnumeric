@@ -39,10 +39,6 @@ if WITH_PERL
   SUBDIRS_EXAMPLES += perl-func
 endif
 
-if WITH_CORBA
-  SUBDIRS_LOADERS += corba
-endif
-
 if PLUGIN_LIST_GIVEN
   SUBDIRS = @PLUGIN_LIST@
 else

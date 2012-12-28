@@ -16,7 +16,6 @@ schemas/org.gnome.gnumeric.gschema.xml.in
 schemas/org.gnome.gnumeric.plugin.gschema.xml.in
 gnumeric.desktop.in
 plugins/applix/plugin.xml.in
-plugins/corba/plugin.xml.in
 plugins/dif/plugin.xml.in
 plugins/excel/plugin.xml.in
 plugins/excelplugins/plugin.xml.in
