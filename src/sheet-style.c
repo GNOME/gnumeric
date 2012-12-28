@@ -3001,17 +3001,19 @@ sheet_style_foreach (Sheet const *sheet, GHFunc func, gpointer user_data)
 /**
  * sheet_style_range_foreach:
  * @sheet: #Sheet
+ * @r: optional range
  * @func: (scope call): callback.
  * @user_data: user data
  * @optimize:
  *
  **/
 void
-sheet_style_range_foreach (Sheet const *sheet, GHFunc func, gpointer user_data)
+sheet_style_range_foreach (Sheet const *sheet, GnmRange const *r,
+			   GHFunc func, gpointer user_data)
 {
 	GnmStyleList *styles, *l;
 
-	styles = sheet_style_get_range (sheet, NULL);
+	styles = sheet_style_get_range (sheet, r);
 
 	for (l = styles; l; l = l->next) {
 		GnmStyleRegion *sr = l->data;

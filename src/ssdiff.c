@@ -19,8 +19,11 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "sheet-style.h"
 #include "cell.h"
 #include "value.h"
+#include "ranges.h"
+#include "mstyle.h"
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-stdio.h>
 
@@ -55,6 +58,14 @@ static const GOptionEntry ssdiff_options [] = {
 typedef struct GnmDiffState_ GnmDiffState;
 
 typedef struct {
+	/* Start comparison of two workbooks.  */
+	void (*diff_start) (GnmDiffState *state);
+
+	/* Finish comparison started with above.  */
+	void (*diff_end) (GnmDiffState *state);
+
+	/* ------------------------------ */
+
 	/* Start looking at a sheet.  Either sheet might be NULL.  */
 	void (*sheet_start) (GnmDiffState *state,
 			     Sheet const *os, Sheet const *ns);
@@ -65,10 +76,21 @@ typedef struct {
 	/* The order of sheets has changed.  */
 	void (*sheet_order_changed) (GnmDiffState *state);
 
+	/* An integer attribute of the sheet has changed.  */
+	void (*sheet_attr_int_changed) (GnmDiffState *state, const char *name,
+					int o, int n);
+
 	/* ------------------------------ */
 
 	/* A cell was changed/added/removed.  */
-	void (*cell_changed) (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc);
+	void (*cell_changed) (GnmDiffState *state,
+			      GnmCell const *oc, GnmCell const *nc);
+
+	/* ------------------------------ */
+
+	/* The style of an area was changed.  */
+	void (*style_changed) (GnmDiffState *state, GnmRange const *r,
+			       GnmStyle const *os, GnmStyle const *ns);
 } GnmDiffActions;
 
 struct GnmDiffState_ {
@@ -82,12 +104,26 @@ struct GnmDiffState_ {
 	const GnmDiffActions *actions;
 
 	GsfOutput *output;
-	GsfXMLOut *xml;
 
-	Sheet const *pending_sheet;
+	/* The following for xml mode.  */
+	GsfXMLOut *xml;
+	gboolean cells_open;
+	gboolean styles_open;
 };
 
 /* -------------------------------------------------------------------------- */
+
+static void
+def_diff_start (GnmDiffState *state)
+{
+	(void)state;
+}
+
+static void
+def_diff_end (GnmDiffState *state)
+{
+	(void)state;
+}
 
 static const char *
 def_cell_name (GnmCell const *oc)
@@ -106,10 +142,14 @@ def_cell_name (GnmCell const *oc)
 static void
 def_sheet_start (GnmDiffState *state, Sheet const *os, Sheet const *ns)
 {
-	if (os && !ns)
+	if (os && ns)
+		gsf_output_printf (state->output, _("Differences for sheet %s:\n"), os->name_quoted);
+	else if (os)
 		gsf_output_printf (state->output, _("Sheet %s removed.\n"), os->name_quoted);
-	else if (!os && ns)
+	else if (ns)
 		gsf_output_printf (state->output, _("Sheet %s added.\n"), ns->name_quoted);
+	else
+		g_assert_not_reached ();
 }
 
 static void
@@ -125,6 +165,14 @@ def_sheet_order_changed (GnmDiffState *state)
 }
 
 static void 
+def_sheet_attr_int_changed (GnmDiffState *state, const char *name,
+			    G_GNUC_UNUSED int o, G_GNUC_UNUSED int n)
+{
+	gsf_output_printf (state->output, _("Sheet attribute %s changed.\n"),
+			   name);
+}
+
+static void 
 def_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 {
 	if (oc && nc)
@@ -137,39 +185,75 @@ def_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 		g_assert_not_reached ();
 }
 
+static void 
+def_style_changed (GnmDiffState *state, GnmRange const *r,
+		   G_GNUC_UNUSED GnmStyle const *os,
+		   G_GNUC_UNUSED GnmStyle const *ns)
+{
+	gsf_output_printf (state->output, _("Style of %s was changed.\n"),
+			   range_as_string (r));
+}
+
 static const GnmDiffActions default_actions = {
+	def_diff_start,
+	def_diff_end,
 	def_sheet_start,
 	def_sheet_end,
 	def_sheet_order_changed,
-	def_cell_changed
+	def_sheet_attr_int_changed,
+	def_cell_changed,
+	def_style_changed,
 };
 
 /* -------------------------------------------------------------------------- */
 
 static void
-xml_delayed_sheet_start (GnmDiffState *state)
+xml_diff_start (GnmDiffState *state)
 {
-	gsf_xml_out_start_element (state->xml, DIFF "Sheet");
-	gsf_xml_out_add_cstr (state->xml, "Name", state->pending_sheet->name_unquoted);
-	state->pending_sheet = NULL;
+	gsf_xml_out_start_element (state->xml, DIFF "Diff");
 }
- 
+
+static void
+xml_diff_end (GnmDiffState *state)
+{
+	gsf_xml_out_end_element (state->xml); /* </Diff> */
+}
+
 static void
 xml_sheet_start (GnmDiffState *state, Sheet const *os, Sheet const *ns)
 {
-	state->pending_sheet = os ? os : ns;
-	if (!(os && ns)) {
-		xml_delayed_sheet_start (state);
-		gsf_xml_out_add_int (state->xml, "Old", os != NULL);
-		gsf_xml_out_add_int (state->xml, "New", ns != NULL);
+	Sheet const *sheet = os ? os : ns;
+
+	gsf_xml_out_start_element (state->xml, DIFF "Sheet");
+	gsf_xml_out_add_cstr (state->xml, "Name", sheet->name_unquoted);
+	gsf_xml_out_add_int (state->xml, "Old", os != NULL);
+	gsf_xml_out_add_int (state->xml, "New", ns != NULL);
+}
+
+static void
+xml_close_cells (GnmDiffState *state)
+{
+	if (state->cells_open) {
+		gsf_xml_out_end_element (state->xml); /* </Cells> */
+		state->cells_open = FALSE;
+	}
+}
+
+static void
+xml_close_styles (GnmDiffState *state)
+{
+	if (state->styles_open) {
+		gsf_xml_out_end_element (state->xml); /* </Styles> */
+		state->styles_open = FALSE;
 	}
 }
 
 static void
 xml_sheet_end (GnmDiffState *state)
 {
-	if (state->pending_sheet == NULL)
-		gsf_xml_out_end_element (state->xml); /* </Sheet> */
+	xml_close_cells (state);
+	xml_close_styles (state);
+	gsf_xml_out_end_element (state->xml); /* </Sheet> */
 }
 
 static void
@@ -181,12 +265,28 @@ xml_sheet_order_changed (GnmDiffState *state)
 }
 
 static void 
+xml_sheet_attr_int_changed (GnmDiffState *state, const char *name,
+			    int o, int n)
+{
+	char *elem;
+
+	elem = g_strconcat (DIFF, name, NULL);
+	gsf_xml_out_start_element (state->xml, elem);
+	gsf_xml_out_add_int (state->xml, "Old", o);
+	gsf_xml_out_add_int (state->xml, "New", n);
+	gsf_xml_out_end_element (state->xml); /* elem */
+	g_free (elem);
+}
+
+static void 
 xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 {
 	const GnmCellPos *pos;
 
-	if (state->pending_sheet)
-		xml_delayed_sheet_start (state);
+	if (!state->cells_open) {
+		gsf_xml_out_start_element (state->xml, DIFF "Cells");
+		state->cells_open = TRUE;
+	}
 
 	gsf_xml_out_start_element (state->xml, DIFF "Cell");
 
@@ -196,24 +296,48 @@ xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 
 	if (oc) {
 		char *txt = gnm_cell_get_entered_text (oc);
-		gsf_xml_out_add_cstr (state->xml, "old", txt);
+		gsf_xml_out_add_cstr (state->xml, "Old", txt);
 		g_free (txt);
 	}
 
 	if (nc) {
 		char *txt = gnm_cell_get_entered_text (nc);
-		gsf_xml_out_add_cstr (state->xml, "new", txt);
+		gsf_xml_out_add_cstr (state->xml, "New", txt);
 		g_free (txt);
 	}
 
 	gsf_xml_out_end_element (state->xml); /* </Cell> */
 }
 
+static void 
+xml_style_changed (GnmDiffState *state, GnmRange const *r,
+		   GnmStyle const *os, GnmStyle const *ns)
+{
+	xml_close_cells (state);
+
+	if (!state->styles_open) {
+		gsf_xml_out_start_element (state->xml, DIFF "Styles");
+		state->styles_open = TRUE;
+	}
+
+	gsf_xml_out_start_element (state->xml, DIFF "StyleRegion");
+	gsf_xml_out_add_uint (state->xml, "startCol", r->start.col);
+	gsf_xml_out_add_uint (state->xml, "startRow", r->start.row);
+	gsf_xml_out_add_uint (state->xml, "endCol", r->end.col);
+	gsf_xml_out_add_uint (state->xml, "endRow", r->end.row);
+	/* FIXME: Add how they differ.  */
+	gsf_xml_out_end_element (state->xml); /* </StyleRegion> */
+}
+
 static const GnmDiffActions xml_actions = {
+	xml_diff_start,
+	xml_diff_end,
 	xml_sheet_start,
 	xml_sheet_end,
 	xml_sheet_order_changed,
-	xml_cell_changed
+	xml_sheet_attr_int_changed,
+	xml_cell_changed,
+	xml_style_changed,
 };
 
 /* -------------------------------------------------------------------------- */
@@ -290,15 +414,89 @@ diff_sheets_cells (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 }
 
 static void
+diff_sheets_attrs (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
+{
+	GnmSheetSize const *os = gnm_sheet_get_size (old_sheet);
+	GnmSheetSize const *ns = gnm_sheet_get_size (new_sheet);
+
+	if (os->max_cols != ns->max_cols)
+		state->actions->sheet_attr_int_changed
+			(state, "Cols", os->max_cols, ns->max_cols);
+	if (os->max_rows != ns->max_rows)
+		state->actions->sheet_attr_int_changed
+			(state, "Rows", os->max_rows, ns->max_rows);
+}
+
+struct cb_diff_sheets_styles {
+	GnmDiffState *state;
+	Sheet const *old_sheet;
+	Sheet const *new_sheet;
+	GnmStyle *old_style;
+	GnmCellPos old_offset;
+};
+
+static void
+cb_diff_sheets_styles_2 (G_GNUC_UNUSED gpointer key,
+			 gpointer sr_, gpointer user_data)
+{
+	GnmStyleRegion *sr = sr_;
+	struct cb_diff_sheets_styles *data = user_data;
+	GnmRange r = sr->range;
+
+	if (gnm_style_equal (data->old_style, sr->style))
+		return;
+
+	/* sheet_style_range_foreach calls us with ranges that are relative
+	   to its input range.  Weird.  */
+	r.start.col += data->old_offset.col;
+	r.start.row += data->old_offset.row;
+
+	data->state->actions->style_changed (data->state, &r,
+					     data->old_style, sr->style);
+}
+
+static void
+cb_diff_sheets_styles_1 (G_GNUC_UNUSED gpointer key,
+			 gpointer sr_, gpointer user_data)
+{
+	GnmStyleRegion *sr = sr_;
+	struct cb_diff_sheets_styles *data = user_data;
+
+	data->old_style = sr->style;
+	data->old_offset = sr->range.start;
+	sheet_style_range_foreach (data->new_sheet, &sr->range,
+				   cb_diff_sheets_styles_2,
+				   data);
+}
+
+static void
+diff_sheets_styles (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
+{
+	GnmSheetSize const *os = gnm_sheet_get_size (old_sheet);
+	GnmSheetSize const *ns = gnm_sheet_get_size (new_sheet);
+	GnmRange r;
+	struct cb_diff_sheets_styles data;
+
+	/* Compare largest common area only.  */
+	range_init (&r, 0, 0,
+		    MIN (os->max_cols, ns->max_cols) - 1,
+		    MIN (os->max_rows, ns->max_rows) - 1);
+
+	data.state = state;
+	data.old_sheet = old_sheet;
+	data.new_sheet = new_sheet;
+	sheet_style_range_foreach (old_sheet, &r,
+				   cb_diff_sheets_styles_1,
+				   &data);
+}
+
+static void
 diff_sheets (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 {
-	/* Compare sheet attributes and sizes */
-
+	diff_sheets_attrs (state, old_sheet, new_sheet);
 	/* Compare row/column attributes.  */
-
 	diff_sheets_cells (state, old_sheet, new_sheet);
-
-	/* Compare style */
+	diff_sheets_styles (state, old_sheet, new_sheet);
 }
 
 static int
@@ -334,6 +532,10 @@ diff (char const *oldfilename, char const *newfilename,
 	if (!state.new.wbv)
 		goto error;
 	state.new.wb = wb_view_get_workbook (state.new.wbv);
+
+	/* ---------------------------------------- */
+	
+	state.actions->diff_start (&state);
 
 	/*
 	 * This doesn't handle sheet renames very well, but simply considers
@@ -373,6 +575,8 @@ diff (char const *oldfilename, char const *newfilename,
 
 	if (sheet_order_changed)
 		state.actions->sheet_order_changed (&state);
+
+	state.actions->diff_end (&state);
 
 out:
 	g_free (state.old.url);
