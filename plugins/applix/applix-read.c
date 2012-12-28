@@ -399,8 +399,8 @@ applix_read_colormap (ApplixReadState *state)
 			g_ptr_array_add	(state->colors,
 					 gnm_color_new_rgb8 (r, g, b));
 #if 0
-			printf ("'%s' %ld %ld %ld %ld\n", buffer, numbers[1],
-				numbers[2], numbers[3], numbers[4]);
+			g_printerr ("'%s' %ld %ld %ld %ld\n", buffer, numbers[1],
+				    numbers[2], numbers[3], numbers[4]);
 #endif
 		}
 	}
@@ -1155,7 +1155,7 @@ applix_read_cells (ApplixReadState *state)
 				val = value_new_string (ptr);
 
 #if 0
-			printf ("\'%s\'\n\'%s\'\n", ptr, expr_string);
+			g_printerr ("\'%s\'\n\'%s\'\n", ptr, expr_string);
 #endif
 
 			if (content_type == ';') {
@@ -1245,7 +1245,7 @@ applix_read_cells (ApplixReadState *state)
 				while (key > expr_string && !g_ascii_isspace (key[-1]))
 					key--;
 #if 0
-				printf ("Shared '%s'\n", expr_string);
+				g_printerr ("Shared '%s'\n", expr_string);
 #endif
 				texpr = g_hash_table_lookup (state->exprs, key);
 				gnm_cell_set_expr_and_value (cell, texpr, val, TRUE);
@@ -1258,7 +1258,7 @@ applix_read_cells (ApplixReadState *state)
 
 			ptr += 2;
 #if 0
-			printf ("\"%s\" %d\n", ptr, val_is_string);
+			g_printerr ("\"%s\" %d\n", ptr, val_is_string);
 #endif
 			/* Does it match any formats (use default date convention) */
 			if (!val_is_string)
@@ -1481,8 +1481,8 @@ applix_read_impl (ApplixReadState *state)
 				return applix_parse_error (state, "Invalid line length");
 			state->line_len = len;
 
-			d (0, printf ("Applix load : Saved with revision %d.%d",
-				      major_rev, minor_rev););
+			d (0, g_printerr ("Applix load : Saved with revision %d.%d",
+					  major_rev, minor_rev););
 		} else if (!a_strncmp (buffer, "Current Doc Real Name:")) {
 			g_free (real_name);
 			real_name = NULL;  /* FIXME? g_strdup (buffer + 22); */

@@ -746,7 +746,7 @@ cell_set_format_from_lotus_format (GnmCell *cell, guint fmt)
 	if (fmt_string[0])
 		gnm_cell_set_format (cell, fmt_string);
 #ifdef DEBUG_FORMAT
-	g_print ("Format: %s\n", fmt_string);
+	g_printerr ("Format: %s\n", fmt_string);
 #endif
 	g_free (fmt_string);
 }
@@ -843,7 +843,7 @@ record_next (record_t *r)
 		r->data = NULL;
 
 #if LOTUS_DEBUG > 0
-	g_print ("Record 0x%x length 0x%x\n", r->type, r->len);
+	g_printerr ("Record 0x%x length 0x%x\n", r->type, r->len);
 	if (r->data)
 		gsf_mem_dump (r->data, r->len);
 #endif
@@ -984,10 +984,10 @@ lotus_rldb_new (int ndims, const int *dims, LotusRLDB *top)
 	if (!top) {
 #ifdef DEBUG_RLDB
 		int i;
-		g_print ("New %dd (", ndims);
+		g_printerr ("New %dd (", ndims);
 		for (i = 0; i < ndims; i++)
-			g_print ("%s%d", (i ? " x " : ""), dims[i]);
-		g_print (") rldb.\n");
+			g_printerr ("%s%d", (i ? " x " : ""), dims[i]);
+		g_printerr (") rldb.\n");
 #endif
 		top = res;
 		res->dims = g_memdup (dims, ndims * sizeof (*dims));
@@ -1040,7 +1040,7 @@ lotus_rldb_repeat (LotusRLDB *rldb, int rll)
 		lotus_rldb_repeat (child, rll);
 	} else {
 #ifdef DEBUG_RLDB
-		g_print ("%*sRepeat %d.\n", rldb->top->ndims - rldb->ndims, "", rll);
+		g_printerr ("%*sRepeat %d.\n", rldb->top->ndims - rldb->ndims, "", rll);
 #endif
 		if (rll > rldb->rest) {
 			g_warning ("Got rll of %d when only %d left.",
@@ -1054,7 +1054,7 @@ lotus_rldb_repeat (LotusRLDB *rldb, int rll)
 		g_ptr_array_add (rldb->lower, child);
 		if (rldb->top->pending_id) {
 #ifdef DEBUG_RLDB
-			g_print ("%*sMapped id %d to child with rll %d.\n",
+			g_printerr ("%*sMapped id %d to child with rll %d.\n",
 				 rldb->top->ndims - rldb->ndims, "",
 				 rldb->top->pending_id, rll);
 #endif
@@ -1069,7 +1069,7 @@ lotus_rldb_repeat (LotusRLDB *rldb, int rll)
 	if (lotus_rldb_full (child)) {
 		rldb->rest -= child->rll;
 #ifdef DEBUG_RLDB
-		g_print ("%*sNow %d left.\n", 3 - rldb->ndims, "",
+		g_printerr ("%*sNow %d left.\n", 3 - rldb->ndims, "",
 			 rldb->rest);
 #endif
 	}
@@ -1097,7 +1097,7 @@ lotus_rldb_register_id (LotusRLDB *rldb, guint16 id)
 	g_return_if_fail (rldb->pending_id == 0);
 
 #ifdef DEBUG_RLDB
-	g_print ("Defining id %d.\n", id);
+	g_printerr ("Defining id %d.\n", id);
 #endif
 	rldb->pending_id = id;
 }
@@ -1116,7 +1116,7 @@ lotus_rldb_use_id (LotusRLDB *rldb, guint16 id)
 		g_return_if_fail (child != NULL);
 		g_return_if_fail (lotus_rldb_full (child));
 #ifdef DEBUG_RLDB
-		g_print ("%*sUsing id %d.\n", rldb->top->ndims - rldb->ndims, "",
+		g_printerr ("%*sUsing id %d.\n", rldb->top->ndims - rldb->ndims, "",
 			 id);
 #endif
 		lotus_rldb_ref (child);
@@ -1126,7 +1126,7 @@ lotus_rldb_use_id (LotusRLDB *rldb, guint16 id)
 	if (lotus_rldb_full (child)) {
 		rldb->rest -= child->rll;
 #ifdef DEBUG_RLDB
-		g_print ("%*sNow %d left.\n", rldb->top->ndims - rldb->ndims, "",
+		g_printerr ("%*sNow %d left.\n", rldb->top->ndims - rldb->ndims, "",
 			 rldb->rest);
 #endif
 	}
@@ -1265,11 +1265,11 @@ lotus_set_style_cb (LotusState *state, const GnmSheetRange *r,
 
 	sid = GSF_LE_GET_GUINT16 (data);
 #ifdef DEBUG_STYLE
-	g_print ("Got style %d for %s!%s",
+	g_printerr ("Got style %d for %s!%s",
 		 sid,
 		 r->sheet->name_unquoted,
 		 cellpos_as_string (&r->range.start));
-	g_print (":%s\n",
+	g_printerr (":%s\n",
 		 cellpos_as_string (&r->range.end));
 #endif
 
@@ -1298,10 +1298,10 @@ lotus_set_formats_cb (LotusState *state, const GnmSheetRange *r,
 		return;
 
 #ifdef DEBUG_FORMAT
-	g_print ("Got format for %s!%s",
+	g_printerr ("Got format for %s!%s",
 		 r->sheet->name_unquoted,
 		 cellpos_as_string (&r->range.start));
-	g_print (":%s\n",
+	g_printerr (":%s\n",
 		 cellpos_as_string (&r->range.end));
 #endif
 
@@ -1326,7 +1326,7 @@ lotus_set_formats_cb (LotusState *state, const GnmSheetRange *r,
 
 	fmt_string = lotus_format_string (fmt);
 #ifdef DEBUG_FORMAT
-	g_print ("Format 0x%x: %s\n", fmt, fmt_string);
+	g_printerr ("Format 0x%x: %s\n", fmt, fmt_string);
 #endif
 	gnm_style_set_format_text (style, fmt_string);
 	g_free (fmt_string);
@@ -1354,10 +1354,10 @@ lotus_set_colwidth_cb (LotusState *state,
 		return;
 
 #ifdef DEBUG_COLROW
-	g_print ("Got width for %s!%s",
+	g_printerr ("Got width for %s!%s",
 		 sheet->name_unquoted,
 		 col_name (start));
-	g_print ("-%s\n", col_name (end));
+	g_printerr ("-%s\n", col_name (end));
 #endif
 
 	outlinelevel = GSF_LE_GET_GUINT16 (data);
@@ -1400,7 +1400,7 @@ lotus_set_rowheight_cb (LotusState *state,
 		return;
 
 #ifdef DEBUG_COLROW
-	g_print ("Got height for %s!%d-%d\n",
+	g_printerr ("Got height for %s!%d-%d\n",
 		 sheet->name_unquoted,
 		 start, end);
 #endif
@@ -1496,8 +1496,7 @@ insert_value (LotusState *state, Sheet *sheet, guint32 col, guint32 row, GnmValu
 	if (cell) {
 		gnm_cell_set_value (cell, val);
 #if LOTUS_DEBUG > 0
-		printf ("Inserting value at %s:\n",
-			cell_name (cell));
+		g_printerr ("Inserting value at %s:\n", cell_name (cell));
 		value_dump (val);
 #endif
 	} else
@@ -1981,7 +1980,7 @@ lotus_read_new (LotusState *state, record_t *r)
 #endif
 
 #if 0
-				g_print ("Saw text style %d with fontid %d.\n", styleid, fontid);
+				g_printerr ("Saw text style %d with fontid %d.\n", styleid, fontid);
 #endif
 				break;
 			}
@@ -2048,7 +2047,7 @@ lotus_read_new (LotusState *state, record_t *r)
 #undef FACEBIT
 
 #ifdef DEBUG_STYLE
-				g_print ("Defining style 0x%04x:\n", styleid);
+				g_printerr ("Defining style 0x%04x:\n", styleid);
 				gnm_style_dump (style);
 #endif
 				g_hash_table_insert (state->style_pool,
@@ -2075,7 +2074,7 @@ lotus_read_new (LotusState *state, record_t *r)
 				gnm_style_set_font_name (style, fontname);
 
 #ifdef DEBUG_STYLE
-				g_print ("Defining style 0x%04x:\n", styleid);
+				g_printerr ("Defining style 0x%04x:\n", styleid);
 				gnm_style_dump (style);
 #endif
 				g_hash_table_insert (state->style_pool,
@@ -2087,7 +2086,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			}
 
 			default:
-				g_print ("Unknown style record 0x%x/%04x of length %d.\n",
+				g_printerr ("Unknown style record 0x%x/%04x of length %d.\n",
 					 r->type, subtype,
 					 r->len);
 
@@ -2390,7 +2389,7 @@ lotus_read (LotusState *state)
 	if (r.type == LOTUS_BOF) {
 		state->is_works = FALSE;
 #if LOTUS_DEBUG > 0
-		g_print ("Version=%x, Lotus\n", state->version);
+		g_printerr ("Version=%x, Lotus\n", state->version);
 #endif
 		switch (state->version) {
 		case LOTUS_VERSION_ORIG_123:
@@ -2410,7 +2409,7 @@ lotus_read (LotusState *state)
 	} else if (r.type == WORKS_BOF) {
 		state->is_works = TRUE;
 #if LOTUS_DEBUG > 0
-		g_print ("Version=%x, MS Works\n", state->version);
+		g_printerr ("Version=%x, MS Works\n", state->version);
 #endif
 		if (state->version == WORKS_VERSION_3)
 			return lotus_read_works (state, &r);
@@ -2899,7 +2898,7 @@ lotus_read_works (LotusState *state, record_t *r)
 			}
 
 #ifdef DEBUG_STYLE
-			g_print ("Defining style 0x%04x:\n", styleid);
+			g_printerr ("Defining style 0x%04x:\n", styleid);
 			gnm_style_dump (style);
 #endif
 			g_hash_table_insert (state->style_pool,

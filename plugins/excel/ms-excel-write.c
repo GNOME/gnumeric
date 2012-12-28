@@ -2260,7 +2260,7 @@ excel_write_FONTs (BiffPut *bp, ExcelWriteState *ewb)
  * @format     format
  * @was_added  true if format was added
  * @index      index of format
- * @tmpl       printf template
+ * @tmpl       g_printerr template
  *
  * Callback called when putting format to table. Print to debug log when
  * format is added. Free resources when it was already there.
