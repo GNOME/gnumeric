@@ -366,7 +366,14 @@ compare_corresponding_cells (GnmCell const *co, GnmCell const *cn)
 
 	return FALSE;
 }
-      
+
+static gboolean
+ignore_cell (GnmCell const *cell)
+{
+	return cell &&
+		!gnm_cell_has_expr (cell) &&
+		VALUE_IS_EMPTY (cell->value);
+}             
 
 static void
 diff_sheets_cells (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
@@ -380,8 +387,13 @@ diff_sheets_cells (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
 	g_ptr_array_add (new_cells, NULL);
 
 	while (TRUE) {
-		GnmCell const *co = g_ptr_array_index (old_cells, io);
-		GnmCell const *cn = g_ptr_array_index (new_cells, in);
+		GnmCell const *co, *cn;
+
+		while (ignore_cell ((co = g_ptr_array_index (old_cells, io))))
+			io++;
+
+		while (ignore_cell ((cn = g_ptr_array_index (new_cells, in))))
+			in++;
 
 		if (co && cn) {
 			int order = co->pos.row == cn->pos.row
