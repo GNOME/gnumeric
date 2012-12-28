@@ -3017,6 +3017,12 @@ sheet_style_range_foreach (Sheet const *sheet, GnmRange const *r,
 
 	for (l = styles; l; l = l->next) {
 		GnmStyleRegion *sr = l->data;
+		if (r) {
+			sr->range.start.col += r->start.col;
+			sr->range.start.row += r->start.row;
+			sr->range.end.col += r->start.col;
+			sr->range.end.row += r->start.row;
+		}
 		func (NULL, sr, user_data);
 		gnm_style_region_free (sr);
 	}

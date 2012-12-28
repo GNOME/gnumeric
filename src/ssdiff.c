@@ -446,11 +446,6 @@ cb_diff_sheets_styles_2 (G_GNUC_UNUSED gpointer key,
 	if (gnm_style_equal (data->old_style, sr->style))
 		return;
 
-	/* sheet_style_range_foreach calls us with ranges that are relative
-	   to its input range.  Weird.  */
-	r.start.col += data->old_offset.col;
-	r.start.row += data->old_offset.row;
-
 	data->state->actions->style_changed (data->state, &r,
 					     data->old_style, sr->style);
 }
