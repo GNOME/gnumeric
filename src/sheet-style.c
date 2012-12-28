@@ -2765,11 +2765,12 @@ internal_style_list (Sheet const *sheet, GnmRange const *r,
 
 /**
  * sheet_style_get_range:
- * @sheet:
- * @range:
+ * @sheet: the sheet in which to find styles
+ * @range: optional range to scan
  *
- * Get a list of rectangles and their associated styles
- * Caller is responsible for freeing.
+ * Get a list of rectangles and their associated styles.
+ * Caller is responsible for freeing.  Note that when a range is given,
+ * the resulting ranges are relative to the input range.
  *
  * Returns: (transfer full):
  */
