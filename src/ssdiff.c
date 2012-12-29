@@ -286,7 +286,7 @@ xml_sheet_attr_int_changed (GnmDiffState *state, const char *name,
 
 static void
 output_cell (GnmDiffState *state, GnmCell const *cell,
-	     const char *tag, const char *valtag)
+	     const char *tag, const char *valtag, const char *fmttag)
 {
 	GString *str;
 
@@ -305,8 +305,11 @@ output_cell (GnmDiffState *state, GnmCell const *cell,
 		g_string_append_c (str, '=');
 		gnm_expr_top_as_gstring (cell->base.texpr, &out);
 	} else {
-		gsf_xml_out_add_int (state->xml, valtag, cell->value->type);
-		value_get_as_gstring (cell->value, str, state->convs);
+		GnmValue const *v = cell->value;
+		value_get_as_gstring (v, str, state->convs);
+		gsf_xml_out_add_int (state->xml, valtag, v->type);
+		if (VALUE_FMT (v))
+			gsf_xml_out_add_cstr (state->xml, fmttag, go_format_as_XL (VALUE_FMT (v)));
 	}
 
 	gsf_xml_out_add_cstr (state->xml, tag, str->str);
@@ -329,8 +332,8 @@ xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 	gsf_xml_out_add_int (state->xml, "Row", pos->row);
 	gsf_xml_out_add_int (state->xml, "Col", pos->col);
 
-	output_cell (state, oc, "Old", "OldValueType");
-	output_cell (state, nc, "New", "NewValueType");
+	output_cell (state, oc, "Old", "OldValueType", "OldValueFormat");
+	output_cell (state, nc, "New", "NewValueType", "NewValueFormat");
 
 	gsf_xml_out_end_element (state->xml); /* </Cell> */
 }
@@ -550,7 +553,10 @@ compare_corresponding_cells (GnmCell const *co, GnmCell const *cn)
 	if (has_value != (cn->value != NULL))
 		return TRUE;
 	if (has_value)
-		return !value_equal (co->value, cn->value);
+		return !(value_equal (co->value, cn->value) &&
+			 go_format_eq (VALUE_FMT (co->value),
+				       VALUE_FMT (cn->value)));
+			
 
 	return FALSE;
 }

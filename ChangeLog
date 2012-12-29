@@ -7,6 +7,8 @@
 	(xml_cell_changed): Use output_cell.
 	(compare_corresponding_cells): Don't use entered_text here either,
 	although it's harmless.
+	(output_cell, compare_corresponding_cells): Handle value formats
+	too.
 
 2012-12-28  Valek Filippov  <frob@df.ru>
 
