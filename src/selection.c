@@ -153,7 +153,6 @@ sv_is_range_selected (SheetView const *sv, GnmRange const *r)
 
 /**
  * sv_is_full_range_selected:
- *
  * @sv:
  * @r:
  *
@@ -215,7 +214,7 @@ sv_is_colrow_selected (SheetView const *sv, int colrow, gboolean is_col)
 }
 
 /**
- * sv_is_full_colrow_selected
+ * sv_is_full_colrow_selected:
  * @sv:
  * @is_cols:
  * @index:
@@ -390,7 +389,7 @@ sv_menu_enable_insert (SheetView *sv, gboolean col, gboolean row)
 }
 
 /**
- * selection_first_range
+ * selection_first_range:
  * @sv: The #SheetView whose selection we are testing.
  * @cc: The command context to report errors to
  * @cmd_name: A string naming the operation requiring a single range.
@@ -425,7 +424,6 @@ selection_first_range (SheetView const *sv,
 
 /**
  * sv_selection_extend_to:
- *
  * @sv: the sheet
  * @col:   column that gets covered (negative indicates all cols)
  * @row:   row that gets covered (negative indicates all rows)
@@ -719,7 +717,7 @@ sv_selection_add_pos (SheetView *sv, int col, int row, GnmSelectionMode mode)
 }
 
 /**
- * sv_selection_free
+ * sv_selection_free:
  * @sv: #SheetView
  *
  * Releases the selection associated with @sv
@@ -736,7 +734,7 @@ sv_selection_free (SheetView *sv)
 }
 
 /**
- * sv_selection_simplified_free
+ * sv_selection_simplified_free:
  * @sv: #SheetView
  *
  * Releases the simplified selection associated with @sv
@@ -1231,7 +1229,7 @@ sheet_selection_is_allowed (Sheet const *sheet, GnmCellPos const *pos)
 		return sheet->protected_allow.select_unlocked_cells;
 }
 
-/**
+/*
  * walk_boundaries: Iterates through a region by row then column.
  * @sv: The sheet being iterated in
  * @bound: The bounding range
@@ -1241,7 +1239,7 @@ sheet_selection_is_allowed (Sheet const *sheet, GnmCellPos const *pos)
  * @res: The result.
  *
  * Returns: TRUE if the cursor leaves the boundary region.
- **/
+ */
 static gboolean
 walk_boundaries (SheetView const *sv, GnmRange const * const bound,
 		 gboolean const forward, gboolean const horizontal,

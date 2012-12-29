@@ -82,8 +82,8 @@ stf_warning (GOIOContext *context, char const *msg)
 }
 
 
-/**
- * stf_open_and_read
+/*
+ * stf_open_and_read:
  * @filename : name of the file to open&read
  *
  * Will open filename, read the file into a g_alloced memory buffer
@@ -91,7 +91,7 @@ stf_warning (GOIOContext *context, char const *msg)
  * NOTE : The returned buffer has to be g_freed by the calling routine.
  *
  * returns : a buffer containing the file contents
- **/
+ */
 static char *
 stf_open_and_read (G_GNUC_UNUSED GOIOContext *context, GsfInput *input, size_t *readsize)
 {
@@ -209,8 +209,8 @@ resize_columns (Sheet *sheet)
 }
 
 
-/**
- * stf_read_workbook
+/*
+ * stf_read_workbook:
  * @fo       : file opener
  * @enc      : encoding of file
  * @context  : command context
@@ -218,7 +218,7 @@ resize_columns (Sheet *sheet)
  * @input    : file to read from+convert
  *
  * Main routine, handles importing a file including all dialog mumbo-jumbo
- **/
+ */
 static void
 stf_read_workbook (G_GNUC_UNUSED GOFileOpener const *fo,  gchar const *enc,
 		   GOIOContext *context, GoView *view, GsfInput *input)
@@ -411,8 +411,8 @@ clear_stray_NULs (GOIOContext *context, GString *utf8data)
 	}
 }
 
-/**
- * stf_read_workbook_auto_csvtab
+/*
+ * stf_read_workbook_auto_csvtab:
  * @fo       : file opener
  * @enc      : optional encoding
  * @context  : command context
@@ -420,7 +420,7 @@ clear_stray_NULs (GOIOContext *context, GString *utf8data)
  * @input    : file to read from+convert
  *
  * Attempt to auto-detect CSV or tab-delimited file
- **/
+ */
 static void
 stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const *enc,
 			       GOIOContext *context,

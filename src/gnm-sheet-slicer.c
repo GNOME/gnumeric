@@ -238,10 +238,10 @@ gnm_sheet_slicer_set_range (GnmSheetSlicer *gss, GnmRange const *r)
 
 /**
  * gnm_sheet_slicer_overlaps_range :
- * @filter : #GnmFilter
+ * @gss : #GnmSheetSlicer
  * @r : #GnmRange
  *
- * Returns: %TRUE if @filter overlaps @r.
+ * Returns: %TRUE if @gss overlaps @r.
  **/
 gboolean
 gnm_sheet_slicer_overlaps_range (GnmSheetSlicer const *gss, GnmRange const *r)

@@ -1896,7 +1896,7 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	state->value_fmt = value_fmt;
 }
 
-/**
+/*
  * xml_cell_set_array_expr : Utility routine to parse an expression
  *     and store it as an array.
  *
@@ -1937,7 +1937,7 @@ xml_cell_set_array_expr (XMLSaxParseState *state,
 	gnm_expr_top_unref (texpr);
 }
 
-/**
+/*
  * xml_not_used_old_array_spec : See if the string corresponds to
  *     a pre-0.53 style array expression.
  *     If it is the upper left corner	 - assign it.

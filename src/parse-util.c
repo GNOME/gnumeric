@@ -255,7 +255,7 @@ wb_rel_uri (Workbook *wb, Workbook *ref_wb)
 /**
  * cellref_as_string :
  * @out : #GnmConventionsOut
- * @ref :
+ * @cell_ref :
  * @no_sheetname :
  *
  * Returns a string that the caller needs to free containing the A1 format
@@ -740,13 +740,13 @@ gnm_expr_char_start_p (char const * c)
 }
 
 /**
- * parse_text_value_or_expr : Utility routine to parse a string and convert it
- *     into an expression or value.
- *
+ * parse_text_value_or_expr:
  * @pos: If the string looks like an expression parse it at this location.
  * @text: The text to be parsed.
  * @val: Returns a GnmValue* if the text was a value, otherwise NULL.
  * @texpr: Returns a GnmExprTop* if the text was an expression, otherwise NULL.
+ *
+ * Utility routine to parse a string and convert it into an expression or value.
  *
  * If there is a parse failure for an expression an error GnmValue with the syntax
  * error is returned.
@@ -1099,7 +1099,7 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
  * rangeref_parse :
  * @res : where to store the result
  * @start : the start of the string to parse
- * @pos : the location to parse relative to
+ * @pp : the location to parse relative to
  *
  * Returns a pointer to the first invalid character.
  * If the result != @start then @res is valid.

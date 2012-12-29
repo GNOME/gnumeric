@@ -1926,7 +1926,7 @@ gee_find_lexer_token (GnmLexerItem const *gli, guint token_pos,
 }
 
 /**
- * gnm_expr_entry_find_range
+ * gnm_expr_entry_find_range:
  * @gee:   a #GnmExprEntry
  *
  * Look at the current selection to see how much of it needs to be changed when
@@ -2130,7 +2130,7 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 }
 
 /**
- * gnm_expr_entry_rangesel_stop
+ * gnm_expr_entry_rangesel_stop:
  * @gee:   a #GnmExprEntry
  * @clear_string: clear string flag
  *
@@ -2336,7 +2336,7 @@ gnm_expr_entry_set_flags (GnmExprEntry *gee,
 }
 
 /**
- * gnm_expr_entry_set_scg
+ * gnm_expr_entry_set_scg:
  * @gee: a #GnmExprEntry
  * @scg: a #SheetControlGUI
  *
@@ -2403,7 +2403,7 @@ gnm_expr_entry_load_from_text (GnmExprEntry *gee, char const *txt)
 }
 
 /**
- * gnm_expr_entry_load_from_dep
+ * gnm_expr_entry_load_from_dep:
  * @gee: a #GnmExprEntry
  * @dep: A dependent
  *
@@ -2437,7 +2437,7 @@ gnm_expr_entry_load_from_dep (GnmExprEntry *gee, GnmDependent const *dep)
 }
 
 /**
- * gnm_expr_entry_load_from_expr
+ * gnm_expr_entry_load_from_expr:
  * @gee: a #GnmExprEntry
  * @texpr: An expression
  * @pp: The parse position
@@ -2469,7 +2469,7 @@ gnm_expr_entry_load_from_expr (GnmExprEntry *gee,
 }
 
 /**
- * gnm_expr_entry_load_from_range
+ * gnm_expr_entry_load_from_range:
  * @gee: a #GnmExprEntry
  * @r:          a #GnmRange
  * @sheet:      a #sheet
@@ -2530,7 +2530,7 @@ gnm_expr_entry_load_from_range (GnmExprEntry *gee,
 }
 
 /**
- * gnm_expr_entry_get_rangesel
+ * gnm_expr_entry_get_rangesel:
  * @gee: a #GnmExprEntry
  * @r:          address to receive #GnmRange
  * @sheet:      address to receive #sheet
@@ -2571,7 +2571,7 @@ gnm_expr_entry_get_rangesel (GnmExprEntry const *gee,
 }
 
 /**
- * gnm_expr_entry_can_rangesel
+ * gnm_expr_entry_can_rangesel:
  * @gee:   a #GnmExprEntry
  *
  * Returns TRUE if a range selection is meaningful at current position.
@@ -2692,7 +2692,7 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 }
 
 /**
- * gnm_expr_entry_get_text
+ * gnm_expr_entry_get_text:
  * @gee:
  *
  * A small convenience routine.  Think long and hard before using this.
@@ -2709,7 +2709,6 @@ gnm_expr_entry_get_text	(GnmExprEntry const *gee)
 
 /**
  * gnm_expr_entry_parse_as_value:
- *
  * @gee: GnmExprEntry
  * @sheet: the sheet where the cell range is evaluated.
  *
@@ -2749,7 +2748,6 @@ gnm_expr_entry_parse_as_value (GnmExprEntry *gee, Sheet *sheet)
 
 /**
  * gnm_expr_entry_parse_as_list:
- *
  * @gee: GnmExprEntry
  * @sheet: the sheet where the cell range is evaluated. This really only needed if
  *         the range given does not include a sheet specification.

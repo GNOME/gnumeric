@@ -508,7 +508,6 @@ workbook_set_last_export_uri (Workbook *wb, gchar *uri)
 
 /**
  * workbook_foreach_cell_in_range:
- *
  * @pos: The position the range is relative to.
  * @cell_range: A value containing a range;
  * @flags: if TRUE only existing cells are sent to the handler.
@@ -570,7 +569,6 @@ workbook_foreach_cell_in_range (GnmEvalPos const *pos,
 
 /**
  * workbook_cells:
- *
  * @wb: The workbook to find cells in.
  * @comments: If true, include cells with only comments also.
  * @vis: How visible a sheet needs to be in order to be considered.
@@ -643,7 +641,6 @@ workbook_optimize_style (Workbook *wb)
 
 /**
  * workbook_foreach_name:
- *
  * @wb: #Workbook
  * @globals_only: whether to apply only to global names.
  * @func: (scope call): The operator to apply to each cell.
@@ -1104,6 +1101,8 @@ workbook_sheet_delete (Sheet *sheet)
 }
 
 /**
+ * workbook_sheet_move:
+ *
  * Moves the sheet up or down @direction spots in the sheet list
  * If @direction is negative, move left. If positive, move right.
  */

@@ -273,7 +273,7 @@ utf8_content_received (GtkClipboard *clipboard,  const gchar *text,
 	g_free (ctxt);
 }
 
-/**
+/*
  * Use the file_opener plugin service to read into a temporary workbook, in
  * order to copy from it to the paste target. A temporary sheet would do just
  * as well, but the file_opener service makes workbooks, not sheets.
@@ -824,7 +824,7 @@ object_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 	return ret;
 }
 
-/**
+/*
  * x_clipboard_get_cb
  *
  * Callback invoked when another application requests we render the selection.

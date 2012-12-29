@@ -48,7 +48,6 @@ range_row_cmp (GnmRange const *a, GnmRange const *b)
 
 /**
  * gnm_sheet_merge_add:
- *
  * @sheet: the sheet which will contain the region
  * @r: The region to merge
  * @clear: should the non-corner content of the region be cleared and the
@@ -152,7 +151,6 @@ gnm_sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 
 /**
  * gnm_sheet_merge_remove:
- *
  * @sheet: the sheet which will contain the region
  * @r: The region
  * @cc: the calling context
@@ -282,7 +280,6 @@ gnm_sheet_merge_get_adjacent (Sheet const *sheet, GnmCellPos const *pos,
 
 /**
  * gnm_sheet_merge_is_corner:
- *
  * @sheet:
  * @pos: cellpos if top left corner
  *
@@ -357,7 +354,7 @@ gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri)
 }
 
 /**
- * gnm_sheet_merge_find_container
+ * gnm_sheet_merge_find_container:
  * @sheet: sheet
  * @r: the range to test
  */

@@ -568,13 +568,12 @@ sv_flag_status_update_pos (SheetView *sv, GnmCellPos const *pos)
 }
 
 /**
- * sheet_flag_status_update_range:
- *    flag the sheet as requiring an update to the status display
- *    if the supplied cell location contains the edit cursor, or intersects of
- *    the selected region.
- *
- * @sheet:
+ * sv_flag_status_update_range:
+ * @sv:
  * @range: If NULL then force an update.
+ *
+ * flag the sheet as requiring an update to the status display if the supplied
+ * cell location contains the edit cursor, or intersects of the selected region.
  *
  * Will cause the format toolbar, the edit area, and the auto expressions to be
  * updated if appropriate.
@@ -608,7 +607,7 @@ sv_flag_status_update_range (SheetView *sv, GnmRange const *range)
 
 /**
  * sv_flag_style_update_range :
- * @sheet : The sheet being changed
+ * @sv : The sheet being changed
  * @range : the range that is changing.
  *
  * Flag style  changes that will require updating the style  indicators.
@@ -624,9 +623,9 @@ sv_flag_style_update_range (SheetView *sv, GnmRange const *range)
 
 /**
  * sv_flag_selection_change :
- *    flag the sheet as requiring an update to the status display
+ * @sv :
  *
- * @sheet :
+ * flag the sheet as requiring an update to the status display
  *
  * Will cause auto expressions to be updated
  */
@@ -752,7 +751,7 @@ sv_editpos_in_slicer (SheetView const *sv)
 
 /**
  * sv_freeze_panes :
- * @sheet    : the sheet
+ * @sv       : the sheet
  * @frozen   : top left corner of the frozen region
  * @unfrozen : top left corner of the unfrozen region
  *
@@ -880,7 +879,7 @@ sv_is_frozen (SheetView const *sv)
 }
 
 /**
- * sv_set_initial_top_left
+  sv_set_initial_top_left:
  * @sv: the sheet view.
  * @col:
  * @row:

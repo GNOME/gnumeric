@@ -414,10 +414,11 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 }
 
 /**
- * Load the edit line with the value of the cell in @sheet's edit_pos.
- *
+ * wb_view_edit_line_set:
  * @wbv : The view
- * @wbc : An Optional control
+ * @optional_wbc : An Optional control
+ *
+ * Load the edit line with the value of the cell in @sheet's edit_pos.
  *
  * Calculate what to display on the edit line then display it either in the
  * control @wbc,  or if that is NULL, in all controls.
@@ -1095,7 +1096,7 @@ wb_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
  * wb_view_save_as:
  * @wbv: Workbook View
  * @fs: GOFileSaver object
- * @file_name: URI to save as.
+ * @uri: URI to save as.
  * @context:
  *
  * Saves @wbv and workbook it's attached to into @uri file using
@@ -1198,7 +1199,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 }
 
 /**
- * workbook_view_new_from_uri:
+ * workbook_view_new_from_input:
  * @input: #GsfInput to read data from.
  * @optional_format: Optional GOFileOpener
  * @io_context: Optional context to display errors.

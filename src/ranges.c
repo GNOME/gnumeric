@@ -889,7 +889,7 @@ undo_cell_pos_name (Sheet const *sheet, GnmCellPos const *pos)
 }
 
 /**
- * char *undo_range_name
+ * undo_range_name:
  * @sheet:
  * @r:
  *

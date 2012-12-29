@@ -455,7 +455,6 @@ sheet_object_get_view (SheetObject const *so, SheetObjectViewContainer *containe
 
 /**
  * sheet_object_update_bounds:
- *
  * @so: The sheet object
  * @p: An optional position marking the top left of the region
  *        needing relocation (default == A1)
@@ -675,10 +674,9 @@ sheet_object_foreach_dep (SheetObject *so,
 /**
  * sheet_object_new_view:
  * @so:
- * @sc:
- * @key:
+ * @container:
  *
- * Asks @so to create a view for the (@sc,@key) pair.
+ * Asks @so to create a view for @container.
  * Returns: (transfer none): the new #SheetObjectView.
  **/
 SheetObjectView *
@@ -841,7 +839,6 @@ sheet_object_default_size (SheetObject *so, double *w, double *h)
 
 /**
  * sheet_object_position_pts_get:
- *
  * @so: The sheet object
  * @coords: array of 4 doubles
  *
@@ -923,7 +920,6 @@ clear_sheet (SheetObject *so, GOUndo **pundo)
 
 /**
  * sheet_objects_relocate:
- *
  * @rinfo: details on what should be moved.
  * @update: Should we do the bound_update now, or leave it for later.
  *		if FALSE honour the move_with_cells flag.
@@ -1001,7 +997,6 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 
 /**
  * sheet_objects_get:
- *
  * @sheet: the sheet.
  * @r: an optional range to look in
  * @t: The type of object to lookup
@@ -1033,7 +1028,6 @@ sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
 
 /**
  * sheet_objects_clear:
- *
  * @sheet: the sheet.
  * @r: an optional range to look in
  *

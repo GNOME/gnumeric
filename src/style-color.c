@@ -130,11 +130,13 @@ style_color_grid (void)
 	return style_color_ref (sc_grid);
 }
 
-/**
+/*
  * Support for Excel auto-colors.
  */
 
 /**
+ * style_color_auto_font:
+ *
  * Always black, as far as we know.
  */
 GnmColor *
@@ -148,6 +150,8 @@ style_color_auto_font (void)
 }
 
 /**
+ * style_color_auto_back:
+ *
  * Always white, as far as we know.
  */
 GnmColor *
@@ -161,6 +165,8 @@ style_color_auto_back (void)
 }
 
 /**
+ * style_color_auto_pattern:
+ *
  * Normally black, but follows grid color if so told.
  */
 GnmColor *

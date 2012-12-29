@@ -787,6 +787,7 @@ sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 }
 
 /**
+ * sheet_object_graph_ensure_size:
  * @so: #SheetObject
  *
  * Updates the size of the graph item in the canvas for graph sheets objects.

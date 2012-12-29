@@ -1285,7 +1285,6 @@ format_match (char const *text, GOFormat const *cur_fmt,
 
 /**
  * format_match_number :
- *
  * @text    : The text to parse
  * @cur_fmt : The current format for the value (potentially NULL)
  * @date_conv: optional date convention

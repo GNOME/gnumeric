@@ -286,10 +286,10 @@ gnm_init (void)
 	                          gnm_app_display_dpi_get (FALSE));
 }
 
-/**
+/*
  * TODO : do we really want this here ?
  * seems like a better fit in main-application.c
- **/
+ */
 int
 gnm_dump_func_defs (char const* filename, int dump_type)
 {

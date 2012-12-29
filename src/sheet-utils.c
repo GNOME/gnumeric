@@ -36,7 +36,7 @@ sheet_cell_or_one_below_is_not_empty (Sheet *sheet, int col, int row)
 /**
  * gnm_sheet_guess_region :
  * @sheet : #Sheet
- * @range : #GnmRange
+ * @region: #GnmRange
  *
  * Makes a guess at the logical containing @region and returns the possibly
  * expanded result in @region.

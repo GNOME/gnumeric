@@ -360,7 +360,7 @@ stf_parse_options_csv_set_indicator_2x_is_single (StfParseOptions_t *parseoption
 
 /**
  * stf_parse_options_csv_set_duplicates:
- * @pareseoptions:
+ * @parseoptions:
  * @duplicates: a boolean value indicating whether we want to see two
  *               separators right behind each other as one
  **/

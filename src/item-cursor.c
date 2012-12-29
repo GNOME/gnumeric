@@ -473,7 +473,9 @@ item_cursor_bound_set (ItemCursor *ic, GnmRange const *new_bound)
 }
 
 /**
- * item_cursor_reposition : Re-compute the pixel position of the cursor.
+ * item_cursor_reposition:
+ *
+ * Re-compute the pixel position of the cursor.
  *
  * When a sheet is zoomed.  The pixel coords shift slightly.  The item cursor
  * must regenerate to stay in sync.

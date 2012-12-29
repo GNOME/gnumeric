@@ -1017,7 +1017,7 @@ gnm_pane_make_cell_visible (GnmPane *pane, int col, int row,
 }
 
 /**
- * scg_make_cell_visible
+ * scg_make_cell_visible:
  * @scg: The gui control
  * @col:
  * @row:
@@ -2530,7 +2530,7 @@ calc_obj_place (GnmPane *pane, gint64 canvas_coord, gboolean is_col,
 #define SO_CLASS(so) SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so))
 
 /**
- * scg_object_select
+ * scg_object_select:
  * @scg: The #SheetControl to edit in.
  * @so: The #SheetObject to select.
  *
@@ -3474,7 +3474,6 @@ scg_rangesel_extend (SheetControlGUI *scg, int n,
 
 /**
  * scg_cursor_move:
- *
  * @scg: The scg
  * @dir: Number of units to move the cursor
  * @jump_to_bound: skip from the start to the end of ranges
@@ -3514,11 +3513,11 @@ scg_cursor_move (SheetControlGUI *scg, int n,
 
 /**
  * scg_cursor_extend :
- * @sheet              : Sheet to operate in.
+ * @scg                : The scg
  * @n                  : Units to extend the selection
- * @jump_to_boundaries : Move to transitions between cells and blanks,
+ * @jump_to_bound      : Move to transitions between cells and blanks,
  *                       or move in single steps.
- * @horizontal         : extend vertically or horizontally.
+ * @horiz              : extend vertically or horizontally.
  */
 void
 scg_cursor_extend (SheetControlGUI *scg, int n,

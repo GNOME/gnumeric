@@ -3991,7 +3991,6 @@ cb_sheet_cells_collect (G_GNUC_UNUSED gpointer unused,
 
 /**
  * sheet_cell_positions:
- *
  * @sheet: The sheet to find cells in.
  * @comments: If true, include cells with only comments also.
  *
@@ -5545,7 +5544,7 @@ sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
  * sheet_col_set_size_pts:
  * @sheet:	 The sheet
  * @col:	 The col
- * @widtht_pts:	 The desired widtht in pts
+ * @width_pts:	 The desired widtht in pts
  * @set_by_user: TRUE if this was done by a user (ie, user manually
  *               set the width)
  *
@@ -5735,7 +5734,7 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
  * sheet_row_set_size_pixels:
  * @sheet:	 The sheet
  * @row:	 The row
- * @height:	 The desired height
+ * @height_pixels: The desired height
  * @set_by_user: TRUE if this was done by a user (ie, user manually
  *                      set the width)
  *
@@ -6110,7 +6109,7 @@ cb_queue_respan (GnmColRowIter const *iter, void *user_data)
 }
 
 /**
- * sheet_queue_respan *
+ * sheet_queue_respan:
  * @sheet:
  * @start_row:
  * @end_row:

@@ -201,7 +201,7 @@ gnm_format_layout (PangoLayout *layout,
  * @str : append the result here.
  * @format : #GOFormat.
  * @value : #GnmValue to convert
- * col_width : optional
+ * @col_width : optional
  * @date_conv : #GODateConventions.
  *
  **/
@@ -233,7 +233,7 @@ format_value_gstring (GString *str,
 
 /**
  * format_value_layout :
- * @layout
+ * @layout :
  * @format : #GOFormat.
  * @value : #GnmValue to convert
  * col_width : optional

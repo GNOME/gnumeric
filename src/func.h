@@ -46,7 +46,7 @@ GnmFuncGroup *gnm_func_group_fetch (char const *name,
  * processing.
  */
 
-/**
+/*
  *  Argument tokens passed in 'args'
  *
  * With intersection and iteration support
@@ -63,7 +63,7 @@ GnmFuncGroup *gnm_func_group_fetch (char const *name,
  *
  *  For optional arguments do:
  * "ff|ss" where the strings are optional
- **/
+ */
 
 typedef enum {
 	GNM_FUNC_TYPE_ARGS,	/* Arguments get marshalled by type */

@@ -192,9 +192,9 @@ eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
 }
 
 /**
- * eval_pos_init_cell:
+ * eval_pos_init_sheet:
  * @ep: The position to init.
- * @cell: A cell
+ * @sheet: A sheet
  *
  * The function initializes an evalpos with the given sheet.
  *
@@ -563,8 +563,10 @@ gnm_rangeref_get_type (void)
 }
 
 /**
- * gnm_rangeref_normalize :  Take a range_ref and normalize it
- *     by converting to absolute coords and handling inversions.
+ * gnm_rangeref_normalize:
+ *
+ * Take a range_ref and normalize it by converting to absolute coords and handling
+ * inversions.
  */
 void
 gnm_rangeref_normalize_pp (GnmRangeRef const *ref, GnmParsePos const *pp,

@@ -53,7 +53,7 @@ static void cb_pane_popup_menu (GnmPane *pane);
 static void gnm_pane_clear_obj_size_tip (GnmPane *pane);
 static void gnm_pane_display_obj_size_tip (GnmPane *pane, GocItem *ctrl_pt);
 
-/**
+/*
  * For now, application/x-gnumeric is disabled. It handles neither
  * images nor graphs correctly.
  */
@@ -1112,7 +1112,7 @@ cb_pane_drag_end (GtkWidget *widget, GdkDragContext *context,
 	source_pane->drag.button = 0;
 }
 
-/**
+/*
  * Move the rubber bands back to original position when curser leaves
  * the scg, but not when it moves to another pane. We use object data,
  * and rely on gtk sending drag_move to the new widget before sending
@@ -2097,7 +2097,7 @@ gnm_pane_size_guide_stop (GnmPane *pane)
 }
 
 /**
- * gnm_pane_size_guide_motion
+ * gnm_pane_size_guide_motion:
  * @p: #GnmPane
  * @vert: TRUE for a vertical guide, FALSE for horizontal
  * @guide_pos: in unscaled sheet pixel coords
@@ -2496,7 +2496,7 @@ target_list_add_list (GtkTargetList *targets, GtkTargetList *added_targets)
 	gtk_target_table_free (gte, n);
 }
 
-/**
+/*
  * Drag one or more sheet objects using GTK drag and drop, to the same
  * sheet, another workbook, another gnumeric or a different application.
  */
@@ -2813,7 +2813,7 @@ static GSF_CLASS (ItemAcetate, item_acetate,
 		  GOC_TYPE_RECTANGLE)
 
 /**
- * new_control_point
+ * new_control_point:
  * @pane: #GnmPane
  * @idx:    control point index to be created
  * @x:      x coordinate of control point
@@ -3049,7 +3049,6 @@ gnm_pane_object_register (SheetObject *so, GocItem *view, gboolean selectable)
 
 /**
  * gnm_pane_object_widget_register:
- *
  * @so: A sheet object
  * @widget: The widget for the sheet object view
  * @view: A canvas item acting as a view for @so

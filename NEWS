@@ -1,5 +1,8 @@
 Gnumeric 1.12.1
 
+Alexandre Rostovtsev:
+	 * Introspection fixes.
+
 Andreas:
 	 * Some documentation fixes.
 	 * Show argument names for python functions. [#690681]

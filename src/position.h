@@ -21,7 +21,7 @@ struct _GnmParsePos {
 	Workbook   *wb;
 };
 
-/**
+/*
  * Used for getting a valid Sheet *from a GnmCellRef
  * Syntax is GnmCellRef, valid Sheet *
  */

@@ -109,7 +109,7 @@ colrow_is_default (ColRowInfo const *cri)
 
 /**
  * colrow_is_empty :
- * @colrow : #ColRowInfo
+ * @cri : #ColRowInfo
  *
  * TRUE if there is no information in col/row @cri.
  **/
@@ -178,10 +178,9 @@ colrow_free (ColRowInfo *cri)
 
 /**
  * colrow_foreach:
- * @sheet:	the sheet
  * @infos:	The Row or Column collection.
- * @start:	start position (inclusive)
- * @end	:	stop column (inclusive)
+ * @first:	start position (inclusive)
+ * @last:	stop column (inclusive)
  * @callback: (scope call): A callback function which should return TRUE to stop
  *              the iteration.
  * @user_data:	A bagage pointer.

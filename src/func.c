@@ -1039,8 +1039,6 @@ gnm_func_get_type (void)
 	return t;
 }
 
-/**
- */
 GnmFunc *
 gnm_func_lookup (char const *name, Workbook *scope)
 {
@@ -1982,8 +1980,7 @@ function_iterate_do_value (GnmEvalPos const  *ep,
 }
 
 /**
- * function_iterate_argument_values
- *
+ * function_iterate_argument_values:
  * @ep:               The position in a workbook at which to evaluate
  * @callback: (scope call): The routine to be invoked for every value computed
  * @callback_closure: Closure for the callback.

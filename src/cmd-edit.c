@@ -279,9 +279,6 @@ sv_select_cur_inputs (SheetView *sv)
 
 /**
  * cmd_paste :
- * @sheet: The destination sheet
- * @range : The range to paste to within the destination sheet.
- * @flags: Any paste special flags.
  *
  * Pastes the current cut buffer, copy buffer, or X selection to
  * the destination sheet range.
@@ -356,7 +353,7 @@ cmd_paste (WorkbookControl *wbc, GnmPasteTarget const *pt)
 /**
  * cmd_paste_to_selection :
  * @dest_sv: The sheet into which things should be pasted
- * @flags: special paste flags (eg transpose)
+ * @paste_flags: special paste flags (eg transpose)
  *
  * Using the current selection as a target
  * Full undo support.

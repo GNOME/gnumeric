@@ -805,7 +805,6 @@ cb_warn_toggled (GtkToggleButton *button, gboolean *b)
 
 /**
  * wbcg_edit_start:
- *
  * @wbcg:       The workbook to be edited.
  * @blankp:   If true, erase current cell contents first.  If false, leave the
  *            contents alone.

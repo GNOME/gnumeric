@@ -72,7 +72,6 @@ symbol_names (SymbolTable *st, GSList *list, char const *prefix)
 
 /**
  * symbol_install:
- *
  * @st: The symbol table
  * @str: the string name
  * @type: in which hash table we perform the lookup

@@ -183,7 +183,6 @@ gnm_style_border_none_set_color (GnmColor *color)
 
 /**
  * gnm_style_border_fetch :
- *
  * @line_type : dash style
  * @color : colour
  * @orientation : Not currently used.

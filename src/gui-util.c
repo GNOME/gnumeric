@@ -164,7 +164,7 @@ gnumeric_go_error_info_dialog_create (GOErrorInfo *error)
 }
 
 /**
- * gnumeric_go_error_info_dialog_show
+ * gnumeric_go_error_info_dialog_show:
  *
  */
 void
@@ -295,11 +295,10 @@ gnumeric_restore_window_geometry (GtkWindow *dialog, const char *key)
 }
 
 /**
- * gnumeric_keyed_dialog
- *
- * @wbcg    A WBCGtk
- * @dialog  A transient window
- * @key     A key to identify the dialog
+ * gnumeric_keyed_dialog:
+ * @wbcg:    A WBCGtk
+ * @dialog:  A transient window
+ * @key:     A key to identify the dialog
  *
  * Make dialog a transient child of wbcg, attaching to wbcg object data to
  * identify the dialog. The object data makes it possible to ensure that
@@ -338,7 +337,6 @@ gnumeric_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 
 /**
  * gnumeric_dialog_raise_if_exists:
- *
  * @wbcg:    A WBCGtk
  * @key:     A key to identify the dialog
  *
@@ -376,10 +374,11 @@ cb_activate_default (GtkWindow *window)
 
 
 /**
- * gnumeric_editable_enters: Make the "activate" signal of an editable click
- * the default dialog button.
+ * gnumeric_editable_enters:
  * @window: dialog to affect.
  * @editable: Editable to affect.
+ *
+ * Make the "activate" signal of an editable click the default dialog button.
  *
  * This is a literal copy of gnome_dialog_editable_enters, but not restricted
  * to GnomeDialogs.
@@ -975,7 +974,7 @@ float_to_entry (GtkEntry *entry, gnm_float the_float)
 /**
  * int_to_entry:
  * @entry:
- * @the_float:
+ * @the_int:
  *
  *
   **/

@@ -245,7 +245,7 @@ gnm_cell_set_expr_unsafe (GnmCell *cell, GnmExprTop const *texpr)
 	cell_set_expr_internal (cell, texpr);
 }
 
-/**
+/*
  * gnm_cell_set_expr:  Stores and references the supplied expression
  *         marks the sheet as dirty.  Intented for use by import routines that
  *         do bulk assignment.  The resulting cell _is_ linked into the

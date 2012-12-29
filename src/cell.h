@@ -31,7 +31,7 @@ struct _GnmCell {
 
 GType	    gnm_cell_get_type (void);
 
-/**
+/*
  * GnmCell state checking
  */
 #define	    gnm_cell_needs_recalc(cell)	((cell)->base.flags & DEPENDENT_NEEDS_RECALC)
@@ -50,7 +50,7 @@ GnmExprArrayCorner const *
 	    gnm_cell_is_array_corner  (GnmCell const *cell);
 gboolean    gnm_cell_array_bound	  (GnmCell const *cell, GnmRange *res);
 
-/**
+/*
  * Utilities to assign the contents of a cell
  */
 void gnm_cell_set_text		(GnmCell *c, char const *text);
@@ -72,7 +72,7 @@ gboolean gnm_cell_set_array     (Sheet *sheet,
 void gnm_cell_cleanout		(GnmCell *cell);
 void gnm_cell_convert_expr_to_value	(GnmCell *cell);
 
-/**
+/*
  * Manipulate GnmCell attributes
  */
 GnmStyle const *gnm_cell_get_style	(GnmCell const *cell);

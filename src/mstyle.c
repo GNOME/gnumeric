@@ -750,7 +750,7 @@ gnm_style_get_type (void)
 	return t;
 }
 
-/**
+/*
  * Replace auto pattern color in style with sheet's auto pattern color.
  * make_copy tells if we are allowed to modify the style in place or we must
  * make a copy first.
@@ -772,7 +772,7 @@ link_pattern_color (GnmStyle *style, GnmColor *auto_color, gboolean make_copy)
 	return style;
 }
 
-/**
+/*
  * Replace auto border colors in style with sheet's auto pattern
  * color. (pattern is *not* a typo.)
  * make_copy tells if we are allowed to modify the style in place or we must

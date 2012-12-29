@@ -1741,7 +1741,7 @@ wbcg_show_save_dialog (WBCGtk *wbcg,
 	return ret;
 }
 
-/**
+/*
  * wbcg_close_if_user_permits : If the workbook is dirty the user is
  *		prompted to see if they should exit.
  *

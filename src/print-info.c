@@ -1654,7 +1654,7 @@ gnm_page_breaks_set_break (GnmPageBreaks *breaks,
 }
 
 /**
- * gnm_page_break_type_from_str
+ * gnm_page_break_type_from_str:
  * @str :
  *
  **/
@@ -1674,11 +1674,11 @@ gnm_page_break_type_from_str (char const *str)
 
 
 /**
+ * gnm_page_breaks_clean:
  *
  * Remove all auto page breaks
  *
  **/
-
 void
 gnm_page_breaks_clean (GnmPageBreaks *breaks)
 {

@@ -102,8 +102,8 @@ gnm_font_override_codepage (gchar const *font_name)
 }
 
 
-/**
- * get_substitute_font
+/*
+ * get_substitute_font:
  * @font_name    The font name
  *
  * Tries to find a gnome font which matches the Excel font.
@@ -528,7 +528,7 @@ gnm_font_shutdown (void)
 }
 
 /**
- * gnm_style_required_spanflags
+ * gnm_style_required_spanflags:
  * @style: the style
  *
  * What changes are required after applying the supplied style.
@@ -572,8 +572,8 @@ gnm_style_required_spanflags (GnmStyle const *style)
 
 /**
  * gnm_style_default_halign :
- * @style :
- * @cell  :
+ * @mstyle :
+ * @c  :
  *
  * Select the appropriate horizontal alignment depending on the style and cell
  * value.

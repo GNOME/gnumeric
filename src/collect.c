@@ -596,7 +596,7 @@ collect_floats_value_with_info (GnmValue const *val, GnmEvalPos const *ep,
 
 /**
  * float_range_function:
- * @arcg:
+ * @argc:
  * @argv:
  * @ei:
  * @func: (scope call):
@@ -860,8 +860,8 @@ collect_float_pairs (GnmValue const *vx, GnmValue const *vy,
 
 /**
  * float_range_function2d:
- * @arcg:
- * @argv:
+ * @val0:
+ * @val1:
  * @ei:
  * @func: (scope call):
  * @flags:
@@ -905,8 +905,8 @@ float_range_function2d (GnmValue const *val0, GnmValue const *val1,
 
 /**
  * float_range_function2:
- * @arcg:
- * @argv:
+ * @val0:
+ * @val1:
  * @ei:
  * @func: (scope call):
  * @flags:

@@ -1215,7 +1215,7 @@ gnm_expr_range_op (GnmExpr const *expr, GnmEvalPos const *ep,
 /**
  * gnm_expr_eval :
  * @expr :
- * @ep   :
+ * @pos  :
  * @flags:
  *
  * if GNM_EXPR_EVAL_PERMIT_EMPTY is not set then return int(0) if the
@@ -3200,7 +3200,7 @@ gnm_expr_top_is_err (GnmExprTop const *texpr, GnmStdError err)
 
 /**
  * gnm_expr_top_get_constant:
- * @expr :
+ * @texpr :
  *
  * If this expression consists of just a constant, return it.
  */

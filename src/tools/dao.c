@@ -115,7 +115,7 @@ void dao_free (data_analysis_output_t *dao)
 /**
  * dao_load_from_value: (skip)
  * @dao:
- * @value:
+ * @output_range:
  *
  **/
 data_analysis_output_t *
@@ -979,13 +979,13 @@ dao_append_date (GString *buf)
 }
 
 /**
- * dao_write_header: Writes the titles of a report.
+ * dao_write_header:
  * @dao:
  * @toolname: name of the tool, like Solver or Risk simulation
  * @title:
  * @sheet:
  *
- *
+ * Writes the titles of a report.
  *
  **/
 void

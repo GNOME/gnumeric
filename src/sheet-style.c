@@ -169,7 +169,7 @@ cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 		    int ccol, int crow);
 
 
-/**
+/*
  * sheet_style_unlink
  * For internal use only
  */
@@ -182,7 +182,6 @@ sheet_style_unlink (Sheet *sheet, GnmStyle *st)
 
 /**
  * sheet_style_find :
- *
  * @sheet: (transfer full): the sheet
  * @s: a style
  *
@@ -285,7 +284,7 @@ rstyle_dtor (ReplacementStyle *rs)
 	}
 }
 
-/**
+/*
  * rstyle_apply :  Utility routine that is at the core of applying partial
  * styles or storing complete styles.  It will eventually be smarter
  * and will maintain the cache of styles associated with each sheet
@@ -837,6 +836,8 @@ sheet_style_get_auto_pattern_color (Sheet const *sheet)
 }
 
 /**
+ * sheet_style_update_grid_color:
+ *
  * This function updates the color of gnm_style_border_none when the sheet to be
  * rendered is known. gnm_style_border_none tells how to render the
  * grid. Because the grid color may be different for different sheets, the
@@ -929,7 +930,7 @@ row_indicies (int corner_row, int h, GnmRange const *apply_to,
 	return TRUE;
 }
 
-/**
+/*
  * cell_tile_apply : This is the primary logic for making changing areas in the
  * tree.  It could be further optimised if it becomes a bottle neck.
  */
@@ -1187,7 +1188,7 @@ foreach_tile (CellTile *tile, int level,
 	}
 }
 
-/**
+/*
  * cell_tile_apply_pos : This is an simplified version of cell_tile_apply.  It
  * does not need all the bells and whistles because it operates on single cells.
  */
@@ -1661,7 +1662,6 @@ apply_border (Sheet *sheet, GnmRange const *r,
 
 /**
  * sheet_style_apply_border :
- *
  * @sheet   :
  * @range   :
  * @borders :
@@ -1862,7 +1862,6 @@ border_mask_vec (gboolean *known, GnmBorder **borders,
 
 /**
  * sheet_style_get_uniform :
- *
  * @sheet   :
  * @range   :
  * @borders :
@@ -1987,8 +1986,7 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 }
 
 /**
- * sheet_style_relocate
- *
+ * sheet_style_relocate:
  * @rinfo :
  *
  * Slide the styles from the origin region to the new position.
@@ -2012,8 +2010,7 @@ sheet_style_relocate (GnmExprRelocateInfo const *rinfo)
 }
 
 /**
- * sheet_style_insert_colrow
- *
+ * sheet_style_insert_colrow:
  * @rinfo :
  *
  * A utility routine to give the effect of stretching the styles when a col/row
@@ -2096,7 +2093,6 @@ cb_style_extent (GnmStyle *style,
 
 /**
  * sheet_style_get_extent:
- *
  * @sheet: sheet to measure
  * @r: starting range and resulting range
  *
@@ -2766,7 +2762,7 @@ internal_style_list (Sheet const *sheet, GnmRange const *r,
 /**
  * sheet_style_get_range:
  * @sheet: the sheet in which to find styles
- * @range: optional range to scan
+ * @r:     optional range to scan
  *
  * Get a list of rectangles and their associated styles.
  * Caller is responsible for freeing.  Note that when a range is given,
@@ -2797,7 +2793,7 @@ style_conditions_filter (GnmStyle const *style)
 /**
  * sheet_style_collect_conditions:
  * @sheet:
- * @range:
+ * @r:
  *
  * Returns: (transfer full): a list of areas with conditionals, Caller is
  * responsible for freeing.
@@ -2826,7 +2822,7 @@ style_hlink_filter (GnmStyle const *style)
 /**
  * sheet_style_collect_hlinks:
  * @sheet:
- * @range:
+ * @r:
  *
  * Returns: (transfer full): a list of areas with hyperlinks, Caller is
  * responsible for freeing.
@@ -2857,7 +2853,7 @@ style_validation_filter (GnmStyle const *style)
 /**
  * sheet_style_collect_validations:
  * @sheet:
- * @range:
+ * @r:
  *
  * Returns: (transfer full): a list of areas with validation, Caller is
  * responsible for freeing.
@@ -2910,7 +2906,6 @@ sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
 
 /**
  * style_list_free :
- *
  * @list : the list to free
  *
  * Free up the ressources in the style list.  Including unreferencing the
@@ -2924,7 +2919,6 @@ style_list_free (GnmStyleList *list)
 
 /**
  * style_list_get_style :
- *
  * @list : A style list.
  * @col  :
  * @row  :
@@ -3005,7 +2999,6 @@ sheet_style_foreach (Sheet const *sheet, GHFunc func, gpointer user_data)
  * @r: optional range
  * @func: (scope call): callback.
  * @user_data: user data
- * @optimize:
  *
  **/
 void

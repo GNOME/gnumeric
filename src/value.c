@@ -263,7 +263,9 @@ value_new_cellrange_unsafe (GnmCellRef const *a, GnmCellRef const *b)
 }
 
 /**
- * value_new_cellrange: Create a new range reference.
+ * value_new_cellrange:
+ *
+ * Create a new range reference.
  *
  * Attempt to do a sanity check for inverted ranges.
  * NOTE : This is no longer necessary and will be removed.
@@ -1163,7 +1165,6 @@ compare_float_float (GnmValue const *va, GnmValue const *vb)
 
 /**
  * value_diff:
- *
  * @a: value a
  * @b: value b
  *
@@ -1269,7 +1270,7 @@ gnm_string_cmp_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
 }
 
 
-/**
+/*
  * value_compare:
  *
  * @a: value a
