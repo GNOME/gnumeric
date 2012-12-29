@@ -24,6 +24,7 @@
 #include "style-color.h"
 #include "cell.h"
 #include "value.h"
+#include "expr.h"
 #include "ranges.h"
 #include "mstyle.h"
 #include "xml-sax.h"
@@ -105,6 +106,8 @@ struct GnmDiffState_ {
 	} old, new;
 
 	const GnmDiffActions *actions;
+
+	GnmConventions *convs;
 
 	GsfOutput *output;
 
@@ -281,6 +284,35 @@ xml_sheet_attr_int_changed (GnmDiffState *state, const char *name,
 	g_free (elem);
 }
 
+static void
+output_cell (GnmDiffState *state, GnmCell const *cell,
+	     const char *tag, const char *valtag)
+{
+	GString *str;
+
+	if (!cell)
+		return;
+
+	str = g_string_sized_new (100);
+	if (gnm_cell_has_expr (cell)) {
+		GnmConventionsOut out;
+		GnmParsePos pp;
+
+		out.accum = str;
+		out.pp    = parse_pos_init_cell (&pp, cell);
+		out.convs = state->convs;
+
+		g_string_append_c (str, '=');
+		gnm_expr_top_as_gstring (cell->base.texpr, &out);
+	} else {
+		gsf_xml_out_add_int (state->xml, valtag, cell->value->type);
+		value_get_as_gstring (cell->value, str, state->convs);
+	}
+
+	gsf_xml_out_add_cstr (state->xml, tag, str->str);
+	g_string_free (str, TRUE);
+}
+
 static void 
 xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 {
@@ -297,17 +329,8 @@ xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 	gsf_xml_out_add_int (state->xml, "Row", pos->row);
 	gsf_xml_out_add_int (state->xml, "Col", pos->col);
 
-	if (oc) {
-		char *txt = gnm_cell_get_entered_text (oc);
-		gsf_xml_out_add_cstr (state->xml, "Old", txt);
-		g_free (txt);
-	}
-
-	if (nc) {
-		char *txt = gnm_cell_get_entered_text (nc);
-		gsf_xml_out_add_cstr (state->xml, "New", txt);
-		g_free (txt);
-	}
+	output_cell (state, oc, "Old", "OldValueType");
+	output_cell (state, nc, "New", "NewValueType");
 
 	gsf_xml_out_end_element (state->xml); /* </Cell> */
 }
@@ -498,6 +521,8 @@ xml_style_changed (GnmDiffState *state, GnmRange const *r,
 	gsf_xml_out_end_element (state->xml); /* </StyleRegion> */
 }
 
+#undef DO_INT
+
 static const GnmDiffActions xml_actions = {
 	xml_diff_start,
 	xml_diff_end,
@@ -539,10 +564,16 @@ compare_corresponding_cells (GnmCell const *co, GnmCell const *cn)
 static gboolean
 ignore_cell (GnmCell const *cell)
 {
-	return cell &&
-		!gnm_cell_has_expr (cell) &&
-		VALUE_IS_EMPTY (cell->value);
-}             
+	if (cell) {
+		if (gnm_cell_has_expr (cell)) {
+			return gnm_expr_top_is_array_elem (cell->base.texpr,
+							   NULL, NULL);
+		} else {
+			return VALUE_IS_EMPTY (cell->value);
+		}
+	}
+	return FALSE;
+}
 
 static void
 diff_sheets_cells (GnmDiffState *state, Sheet *old_sheet, Sheet *new_sheet)
@@ -683,6 +714,9 @@ diff (char const *oldfilename, char const *newfilename,
 	int i, count;
 	gboolean sheet_order_changed = FALSE;
 	int last_index = -1;
+	GnmLocale *locale;
+
+	locale = gnm_push_C_locale ();
 
 	memset (&state, 0, sizeof (state));
 	state.actions = actions;
@@ -706,6 +740,8 @@ diff (char const *oldfilename, char const *newfilename,
 	if (!state.new.wbv)
 		goto error;
 	state.new.wb = wb_view_get_workbook (state.new.wbv);
+
+	state.convs = gnm_xml_io_conventions ();
 
 	/* ---------------------------------------- */
 	
@@ -761,6 +797,11 @@ out:
 		g_object_unref (state.new.wb);
 	if (state.xml)
 		g_object_unref (state.xml);
+	if (state.convs)
+		gnm_conventions_unref (state.convs);
+
+	gnm_pop_C_locale (locale);
+
 	return res;
 
 error:
