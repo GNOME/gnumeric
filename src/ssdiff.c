@@ -613,7 +613,6 @@ struct cb_diff_sheets_styles {
 	Sheet const *old_sheet;
 	Sheet const *new_sheet;
 	GnmStyle *old_style;
-	GnmCellPos old_offset;
 };
 
 static void
@@ -639,7 +638,6 @@ cb_diff_sheets_styles_1 (G_GNUC_UNUSED gpointer key,
 	struct cb_diff_sheets_styles *data = user_data;
 
 	data->old_style = sr->style;
-	data->old_offset = sr->range.start;
 	sheet_style_range_foreach (data->new_sheet, &sr->range,
 				   cb_diff_sheets_styles_2,
 				   data);
