@@ -544,14 +544,8 @@ compare_corresponding_cells (GnmCell const *co, GnmCell const *cn)
 
 	if (has_expr != gnm_cell_has_expr (cn))
 		return TRUE;
-	if (has_expr) {
-		char *eo = gnm_cell_get_entered_text (co);
-		char *en = gnm_cell_get_entered_text (cn);
-		gboolean changed = !g_str_equal (co, cn);
-		g_free (eo);
-		g_free (en);
-		return changed;
-	}
+	if (has_expr)
+		return !gnm_expr_top_equal (co->base.texpr, cn->base.texpr);
 
 	if (has_value != (cn->value != NULL))
 		return TRUE;
