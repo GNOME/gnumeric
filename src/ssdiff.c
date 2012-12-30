@@ -36,6 +36,7 @@
 
 static gboolean ssdiff_show_version = FALSE;
 static gboolean ssdiff_xml = FALSE;
+static char *ssdiff_output = NULL;
 
 static const GOptionEntry ssdiff_options [] = {
 	{
@@ -43,6 +44,13 @@ static const GOptionEntry ssdiff_options [] = {
 		0, G_OPTION_ARG_NONE, &ssdiff_show_version,
 		N_("Display program version"),
 		NULL
+	},
+
+	{
+		"output", 'o',
+		0, G_OPTION_ARG_STRING, &ssdiff_output,
+		N_("Send output to file"),
+		N_("file")
 	},
 
 	{
@@ -818,6 +826,7 @@ main (int argc, char const **argv)
 	GOptionContext *ocontext;
 	GError *error = NULL;
 	const GnmDiffActions *actions;
+	char *output_uri;
 	GsfOutput *output;
 
 	/* No code before here, we need to init threads */
@@ -842,11 +851,17 @@ main (int argc, char const **argv)
 		return 0;
 	}
 
-	output = gsf_output_stdio_new_FILE ("<stdout>", stdout, TRUE);
+	if (!ssdiff_output)
+		ssdiff_output = g_strdup ("fd://1");
+	output_uri = go_shell_arg_to_uri (ssdiff_output);
+	output = go_file_create (output_uri, &error);
+	g_free (output_uri);
 	if (!output) {
-		/* Unlikely. */
-		g_printerr (_("%s: Failed to write to stdout.\n"),
-			    g_get_prgname ());
+		g_printerr (_("%s: Failed to create output file: %s\n"),
+			    g_get_prgname (),
+			    error ? error->message : "?");
+		if (error)
+			g_error_free (error);
 		return 1;
 	}
 
