@@ -1747,6 +1747,8 @@ typedef struct {
 	GHashTable *orig2fixed;
 	GHashTable *fixed2orig;
 	OOParseState *state;
+	GnmNamedExpr *nexpr;
+	char const *nexpr_name;
 } odf_fix_expr_names_t;
 
 static odf_fix_expr_names_t *
@@ -1757,6 +1759,8 @@ odf_fix_expr_names_t_new (OOParseState *state)
 	fen->fixed2orig = g_hash_table_new (g_str_hash, g_str_equal);
 	fen->orig2fixed = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	fen->state = state;
+	fen->nexpr = NULL;
+	fen->nexpr_name = NULL;
 
 	return fen;
 }
@@ -1823,12 +1827,36 @@ odf_fix_en_collect (gchar const *key, G_GNUC_UNUSED GnmNamedExpr *nexpr, odf_fix
 }
 
 static void
-odf_fix_en_apply (const char *orig, GnmNamedExpr *nexpr, GHashTable *orig2fixed)
+odf_fix_en_find (gchar const *key, GnmNamedExpr *nexpr, odf_fix_expr_names_t *fen)
 {
-	const char *fixed = g_hash_table_lookup (orig2fixed, orig);
-	if (fixed)
-		expr_name_set_name (nexpr, fixed);
+	if (strcmp (key, fen->nexpr_name) == 0)
+		fen->nexpr = nexpr;
 }
+
+static void
+odf_fix_en_apply (const char *orig, const char *fixed, odf_fix_expr_names_t *fen)
+{
+	int i = 0;
+
+	g_return_if_fail (orig != NULL);
+	g_return_if_fail (fixed != NULL);
+	g_return_if_fail (fen != NULL);
+
+	fen->nexpr_name = orig;
+
+	while (i++ < 1000) {
+		fen->nexpr = NULL;
+		workbook_foreach_name (fen->state->pos.wb, FALSE,
+				       (GHFunc)odf_fix_en_find, fen);
+		
+		if (fen->nexpr == NULL) 
+			return;
+
+		expr_name_set_name (fen->nexpr, fixed);
+	}
+}
+
+
 
 /**
  * When we initialy validate names we have to accept every ODF name
@@ -1843,9 +1871,8 @@ odf_fix_expr_names (OOParseState *state)
 	odf_fix_expr_names_t *fen = odf_fix_expr_names_t_new (state);
 
 	workbook_foreach_name (state->pos.wb, FALSE,
-			       (GHFunc)odf_fix_en_collect, fen);
-	workbook_foreach_name (state->pos.wb, FALSE,
-			       (GHFunc)odf_fix_en_apply, fen->orig2fixed);
+			       (GHFunc)odf_fix_en_collect, fen);	
+	g_hash_table_foreach (fen->orig2fixed, (GHFunc)odf_fix_en_apply, fen);
 
 	odf_fix_expr_names_t_free (fen);
 }

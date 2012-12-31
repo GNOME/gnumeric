@@ -1,5 +1,14 @@
 2012-12-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_fix_expr_names_t): new fields
+	(odf_fix_expr_names_t_new): initialize new fields
+	(odf_fix_en_find): new
+	(odf_fix_en_apply): invoked per per translated name
+	(odf_fix_expr_names): do not cause hashes to be modified while we
+	traverse them.
+
+2012-12-31  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_fix_en_collect): we have to remove all
 	non-alphanumerics to get expression names acceptable to Gnumeric
 
