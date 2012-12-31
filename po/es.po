@@ -23,8 +23,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-12-29 21:09+0000\n"
-"PO-Revision-Date: 2012-12-30 19:42+0100\n"
+"POT-Creation-Date: 2012-12-30 23:04+0000\n"
+"PO-Revision-Date: 2012-12-31 11:46+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -1661,7 +1661,7 @@ msgstr "ruta"
 #: ../plugins/openoffice/openoffice-read.c:5847
 #: ../plugins/openoffice/openoffice-write.c:4914
 #: ../plugins/openoffice/openoffice-write.c:4926 ../src/print-info.c:657
-#: ../src/ssconvert.c:91
+#: ../src/ssconvert.c:91 ../src/ssdiff.c:53
 msgid "file"
 msgstr "archivo"
 
@@ -3557,7 +3557,7 @@ msgstr ""
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:77
 #: ../src/dialogs/dialog-preferences.c:956
 msgid "Default To Overwriting Files"
-msgstr "Sobreescribir archivos de manera predeterminada"
+msgstr "Sobrescribir archivos de manera predeterminada"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:78
 msgid ""
@@ -3565,8 +3565,8 @@ msgid ""
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
 msgstr ""
-"Antes de que un archivo existente sea sobreescrito, gnumeric mostrará un "
-"diálogo de advertencia. Al poner esta opción hará que el botón sobreescribir "
+"Antes de que un archivo existente se sobrescriba, gnumeric mostrará un "
+"diálogo de advertencia. Al poner esta opción hará que el botón sobrescribir "
 "de ese diálogo sea el botón predeterminado."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:79
@@ -6173,7 +6173,7 @@ msgstr "contenido"
 #: ../src/dialogs/dialog-define-names.c:1223
 #: ../src/dialogs/dialog-function-select.c:1269
 msgid "Erase the search entry."
-msgstr "Borrar la entrada de búsqueda."
+msgstr "Eliminar la entrada de búsqueda."
 
 #: ../src/dialogs/dialog-define-names.c:1261
 msgid "Paste Defined Names"
@@ -6614,7 +6614,7 @@ msgstr "ID"
 
 #: ../src/dialogs/dialog-plugin-manager.c:745
 msgid "Directory"
-msgstr "Directorio"
+msgstr "Carpeta"
 
 #: ../src/dialogs/dialog-preferences.c:741
 msgid "Length of Undo Descriptors"
@@ -10319,7 +10319,7 @@ msgstr "Detalles del complemento"
 
 #: ../src/dialogs/plugin-manager.ui.h:9
 msgid "Directories"
-msgstr "Directorios"
+msgstr "Carpetas"
 
 #: ../src/dialogs/preferences.ui.h:1
 msgid "Gnumeric Preferences"
@@ -12350,7 +12350,7 @@ msgstr "Salir inmediatamente después de cargar los libros seleccionados"
 msgid "[FILE ...]"
 msgstr "[ARCHIVO  …]"
 
-#: ../src/main-application.c:163 ../src/ssconvert.c:711 ../src/ssdiff.c:827
+#: ../src/main-application.c:163 ../src/ssconvert.c:711 ../src/ssdiff.c:842
 #: ../src/ssgrep.c:434 ../src/ssindex.c:255
 #, c-format
 msgid ""
@@ -13530,7 +13530,7 @@ msgstr "Insertar filas"
 msgid "Delete Rows"
 msgstr "Eliminar filas"
 
-#: ../src/ssconvert.c:58 ../src/ssdiff.c:44 ../src/ssgrep.c:158
+#: ../src/ssconvert.c:58 ../src/ssdiff.c:45 ../src/ssgrep.c:158
 #: ../src/ssindex.c:44
 msgid "Display program version"
 msgstr "Mostrar versión del programa"
@@ -13693,64 +13693,68 @@ msgstr ""
 "datadir := «%s»\n"
 "libdir := «%s»\n"
 
-#: ../src/ssconvert.c:748 ../src/ssdiff.c:870 ../src/ssindex.c:266
+#: ../src/ssconvert.c:748 ../src/ssdiff.c:891 ../src/ssindex.c:266
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Uso: %s [OPCIÓN…] %s\n"
 
-#: ../src/ssdiff.c:51
+#: ../src/ssdiff.c:52
+msgid "Send output to file"
+msgstr ""
+
+#: ../src/ssdiff.c:59
 msgid "Output in xml format"
 msgstr "Salida en formato xml"
 
-#: ../src/ssdiff.c:152
+#: ../src/ssdiff.c:160
 #, c-format
 msgid "Differences for sheet %s:\n"
 msgstr "Diferencias para hoja %s:\n"
 
-#: ../src/ssdiff.c:154
+#: ../src/ssdiff.c:162
 #, c-format
 msgid "Sheet %s removed.\n"
 msgstr "Hoja %s quitada.\n"
 
-#: ../src/ssdiff.c:156
+#: ../src/ssdiff.c:164
 #, c-format
 msgid "Sheet %s added.\n"
 msgstr "Hoja %s añadida.\n"
 
-#: ../src/ssdiff.c:170
+#: ../src/ssdiff.c:178
 msgid "Sheet order changed.\n"
 msgstr "Orden de la hoja cambiado.\n"
 
-#: ../src/ssdiff.c:177
+#: ../src/ssdiff.c:185
 #, c-format
 msgid "Sheet attribute %s changed.\n"
 msgstr "Atributo de la hoja %s cambiado.\n"
 
-#: ../src/ssdiff.c:185
+#: ../src/ssdiff.c:193
 #, c-format
 msgid "Cell %s changed.\n"
 msgstr "Celda %s cambiada.\n"
 
-#: ../src/ssdiff.c:187
+#: ../src/ssdiff.c:195
 #, c-format
 msgid "Cell %s removed.\n"
 msgstr "Celda %s quitada.\n"
 
-#: ../src/ssdiff.c:189
+#: ../src/ssdiff.c:197
 #, c-format
 msgid "Cell %s added.\n"
 msgstr "Celda %s añadida.\n"
 
-#: ../src/ssdiff.c:199
+#: ../src/ssdiff.c:207
 #, c-format
 msgid "Style of %s was changed.\n"
 msgstr "Se cambió el estilo de %s.\n"
 
-#: ../src/ssdiff.c:820 ../src/ssdiff.c:872
+#: ../src/ssdiff.c:835 ../src/ssdiff.c:893
 msgid "OLDFILE NEWFILE"
 msgstr "ARCHIVOANTIGUO ARCHIVONUEVO"
 
-#: ../src/ssdiff.c:834
+#: ../src/ssdiff.c:849
 #, c-format
 msgid ""
 "ssdiff version '%s'\n"
@@ -13761,11 +13765,11 @@ msgstr ""
 "datadir := «%s»\n"
 "libdir := «%s»\n"
 
-#. Unlikely.
-#: ../src/ssdiff.c:842
-#, c-format
-msgid "%s: Failed to write to stdout.\n"
-msgstr "%s: falló al escribir en la salida estándar.\n"
+#: ../src/ssdiff.c:860
+#, fuzzy, c-format
+#| msgid "Could not create output file."
+msgid "%s: Failed to create output file: %s\n"
+msgstr "No se pudo crear el archivo de salida."
 
 #: ../src/ssgrep.c:61
 msgid "Only print a count of matches per file"
@@ -18511,6 +18515,9 @@ msgstr "Plantilla de lista lila"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:2
 msgid "A simple list template"
 msgstr "Una plantilla de lista simple"
+
+#~ msgid "%s: Failed to write to stdout.\n"
+#~ msgstr "%s: falló al escribir en la salida estándar.\n"
 
 #~ msgid "CORBA Interface"
 #~ msgstr "Interfaz CORBA"
