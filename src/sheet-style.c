@@ -691,7 +691,7 @@ sheet_style_resize (Sheet *sheet, int cols, int rows)
 
 	/* Save the style for the surviving area.  */
 	range_init (&save_range, 0, 0,
-		    MIN (cols, old_cols), MIN (rows, old_rows));
+		    MIN (cols, old_cols) - 1, MIN (rows, old_rows) - 1);
 	styles = sheet_style_get_range (sheet, &save_range);
 
 	/* Build new empty structures.  */

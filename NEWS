@@ -13,6 +13,7 @@ Morten:
 	* Always compile ssconvert, ssindex, and ssgrep.
 	* New utility: ssdiff.
 	* Remove disabled corba plugin.
+	* Fix off-by-ones in sheet resize.  [#690929]
   
 --------------------------------------------------------------------------
 Gnumeric 1.12.0
