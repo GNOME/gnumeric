@@ -6,6 +6,7 @@ Alexandre Rostovtsev:
 Andreas:
 	* Some documentation fixes.
 	* Show argument names for python functions. [#690681]
+	* Fix loading of ODF files with named expressions. [#690925]
 
 Morten:
 	* Fix a few compiler warnings.

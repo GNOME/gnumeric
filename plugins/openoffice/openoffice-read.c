@@ -1808,8 +1808,15 @@ odf_fix_en_collect (gchar const *key, G_GNUC_UNUSED GnmNamedExpr *nexpr, odf_fix
 	if (NULL != g_hash_table_lookup (fen->orig2fixed, key))
 		return;
 	str = g_string_new (key);
-	while ((here = strchr (str->str, '.')) != NULL)
-		*here = '_';
+
+	for (here = str->str; *here; here = g_utf8_next_char (here)) {
+		if (!g_unichar_isalnum (g_utf8_get_char (here)) &&
+		    here[0] != '_') {
+			int i, limit = g_utf8_next_char (here) - here;
+			for (i = 0; i<limit;i++)
+				here[i] = '_';
+		}	
+	}
 	while (!odf_fix_en_validate (str->str, fen))
 		g_string_append_c (str, '_');
 	odf_fix_expr_names_t_add (fen, key, g_string_free (str, FALSE));
