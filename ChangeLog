@@ -1,3 +1,7 @@
+2012-12-31  Morten Welinder  <terra@gnome.org>
+
+	* src/ssdiff.c: Introduce --highlight mode.
+
 2012-12-30  Morten Welinder  <terra@gnome.org>
 
 	* src/ssdiff.c (main): Add option to send output to a file.

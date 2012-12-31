@@ -30,11 +30,13 @@
 #include "xml-sax.h"
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-stdio.h>
+#include <gsf/gsf-input.h>
 
 /* FIXME: Namespace?  */
 #define DIFF "ssdiff:"
 
 static gboolean ssdiff_show_version = FALSE;
+static gboolean ssdiff_highlight = FALSE;
 static gboolean ssdiff_xml = FALSE;
 static char *ssdiff_output = NULL;
 
@@ -51,6 +53,13 @@ static const GOptionEntry ssdiff_options [] = {
 		0, G_OPTION_ARG_STRING, &ssdiff_output,
 		N_("Send output to file"),
 		N_("file")
+	},
+
+	{
+		"highlight", 'h',
+		0, G_OPTION_ARG_NONE, &ssdiff_highlight,
+		N_("Output copy highlighting differences"),
+		NULL
 	},
 
 	{
@@ -71,7 +80,7 @@ typedef struct GnmDiffState_ GnmDiffState;
 
 typedef struct {
 	/* Start comparison of two workbooks.  */
-	void (*diff_start) (GnmDiffState *state);
+	gboolean (*diff_start) (GnmDiffState *state);
 
 	/* Finish comparison started with above.  */
 	void (*diff_end) (GnmDiffState *state);
@@ -102,20 +111,20 @@ typedef struct {
 
 	/* The style of an area was changed.  */
 	void (*style_changed) (GnmDiffState *state, GnmRange const *r,
+			       Sheet const *osh, Sheet const *nsh,
 			       GnmStyle const *os, GnmStyle const *ns);
 } GnmDiffActions;
 
 struct GnmDiffState_ {
 	GOIOContext *ioc;
-	struct {
+	struct GnmDiffStateFile_ {
 		char *url;
+		GsfInput *input;
 		Workbook *wb;
 		WorkbookView *wbv;
 	} old, new;
 
 	const GnmDiffActions *actions;
-
-	GnmConventions *convs;
 
 	GsfOutput *output;
 
@@ -123,21 +132,92 @@ struct GnmDiffState_ {
 	GsfXMLOut *xml;
 	gboolean cells_open;
 	gboolean styles_open;
+	GnmConventions *convs;
+
+	/* The following for highlight mode.  */
+	struct GnmDiffStateFile_ highlight;
+	GOFileSaver const *highlight_fs;
+	GnmStyle *highlight_style;
 };
+
+static gboolean
+null_diff_start (G_GNUC_UNUSED GnmDiffState *state)
+{
+	return FALSE;
+}
+
+static void
+null_diff_end (G_GNUC_UNUSED GnmDiffState *state)
+{
+}
+
+static void
+null_sheet_start (G_GNUC_UNUSED GnmDiffState *state,
+		  G_GNUC_UNUSED Sheet const *os,
+		  G_GNUC_UNUSED Sheet const *ns)
+{
+}
+
+static void
+null_sheet_end (G_GNUC_UNUSED GnmDiffState *state)
+{
+}
+
+static void
+null_sheet_order_changed (G_GNUC_UNUSED GnmDiffState *state)
+{
+}
+
+static void 
+null_sheet_attr_int_changed (G_GNUC_UNUSED GnmDiffState *state,
+			     G_GNUC_UNUSED const char *name,
+			     G_GNUC_UNUSED int o,
+			     G_GNUC_UNUSED int n)
+{
+}
 
 /* -------------------------------------------------------------------------- */
 
-static void
-def_diff_start (GnmDiffState *state)
+static gboolean
+read_file (struct GnmDiffStateFile_ *dsf, const char *filename,
+	   GOIOContext *ioc)
 {
-	(void)state;
+	GError *err = NULL;
+
+	dsf->url = go_shell_arg_to_uri (filename);
+
+	if (!dsf->input)
+		dsf->input = go_file_open (dsf->url, &err);
+
+	if (!dsf->input) {
+		g_printerr (_("%s: Failed to read %s: %s\n"),
+			    g_get_prgname (),
+			    filename,
+			    err ? err->message : "?");
+		if (err)
+			g_error_free (err);
+		return TRUE;
+	}
+
+	dsf->wbv = workbook_view_new_from_input (dsf->input,
+						 dsf->url, NULL,
+						 ioc, NULL);
+	if (!dsf->wbv)
+		return TRUE;
+	dsf->wb = wb_view_get_workbook (dsf->wbv);
+
+	return FALSE;
 }
 
 static void
-def_diff_end (GnmDiffState *state)
+clear_file_state (struct GnmDiffStateFile_ *dsf)
 {
-	(void)state;
+	g_free (dsf->url);
+	g_clear_object (&dsf->wb);
+	g_clear_object (&dsf->input);
 }
+
+/* -------------------------------------------------------------------------- */
 
 static const char *
 def_cell_name (GnmCell const *oc)
@@ -164,12 +244,6 @@ def_sheet_start (GnmDiffState *state, Sheet const *os, Sheet const *ns)
 		gsf_output_printf (state->output, _("Sheet %s added.\n"), ns->name_quoted);
 	else
 		g_assert_not_reached ();
-}
-
-static void
-def_sheet_end (GnmDiffState *state)
-{
-	(void)state;
 }
 
 static void
@@ -201,6 +275,8 @@ def_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 
 static void 
 def_style_changed (GnmDiffState *state, GnmRange const *r,
+		   G_GNUC_UNUSED Sheet const *osh,
+		   G_GNUC_UNUSED Sheet const *nsh,
 		   G_GNUC_UNUSED GnmStyle const *os,
 		   G_GNUC_UNUSED GnmStyle const *ns)
 {
@@ -209,10 +285,10 @@ def_style_changed (GnmDiffState *state, GnmRange const *r,
 }
 
 static const GnmDiffActions default_actions = {
-	def_diff_start,
-	def_diff_end,
+	null_diff_start,
+	null_diff_end,
 	def_sheet_start,
-	def_sheet_end,
+	null_sheet_end,
 	def_sheet_order_changed,
 	def_sheet_attr_int_changed,
 	def_cell_changed,
@@ -221,10 +297,15 @@ static const GnmDiffActions default_actions = {
 
 /* -------------------------------------------------------------------------- */
 
-static void
+static gboolean
 xml_diff_start (GnmDiffState *state)
 {
+	state->xml = gsf_xml_out_new (state->output);
+	state->convs = gnm_xml_io_conventions ();
+
 	gsf_xml_out_start_element (state->xml, DIFF "Diff");
+
+	return FALSE;
 }
 
 static void
@@ -270,12 +351,6 @@ xml_sheet_end (GnmDiffState *state)
 	xml_close_cells (state);
 	xml_close_styles (state);
 	gsf_xml_out_end_element (state->xml); /* </Sheet> */
-}
-
-static void
-xml_sheet_order_changed (GnmDiffState *state)
-{
-	/* We signal this in the Sheet headers.  */
 }
 
 static void 
@@ -357,6 +432,8 @@ xml_cell_changed (GnmDiffState *state, GnmCell const *oc, GnmCell const *nc)
 
 static void 
 xml_style_changed (GnmDiffState *state, GnmRange const *r,
+		   G_GNUC_UNUSED Sheet const *osh,
+		   G_GNUC_UNUSED Sheet const *nsh,
 		   GnmStyle const *os, GnmStyle const *ns)
 {
 	unsigned int conflicts;
@@ -539,10 +616,93 @@ static const GnmDiffActions xml_actions = {
 	xml_diff_end,
 	xml_sheet_start,
 	xml_sheet_end,
-	xml_sheet_order_changed,
+	null_sheet_order_changed,
 	xml_sheet_attr_int_changed,
 	xml_cell_changed,
 	xml_style_changed,
+};
+
+/* -------------------------------------------------------------------------- */
+
+static gboolean
+highlight_diff_start (GnmDiffState *state)
+{
+	const char *dst = state->new.url;
+
+	state->highlight_fs = go_file_saver_for_file_name (dst);
+	if (!state->highlight_fs) {
+		g_printerr (_("%s: Unable to guess exporter to use for %s.\n"),
+			    g_get_prgname (),
+			    dst);
+
+		return TRUE;
+	}
+
+	/* We need a copy of one of the files.  Rereading is easy.  */
+	g_object_ref ((state->highlight.input = state->new.input));
+	gsf_input_seek (state->highlight.input, 0, G_SEEK_SET);
+	if (read_file (&state->highlight, dst, state->ioc))
+		return TRUE;
+
+	/* We apply a solid #F3F315 to changed cells.  */
+	state->highlight_style = gnm_style_new ();
+	gnm_style_set_back_color (state->highlight_style,
+				  gnm_color_new_rgb8 (0xf3, 0xf3, 0x15));
+	gnm_style_set_pattern (state->highlight_style, 1);
+
+	return FALSE;
+}
+
+static void
+highlight_diff_end (GnmDiffState *state)
+{
+	wbv_save_to_output (state->highlight.wbv, state->highlight_fs,
+			    state->output, state->ioc);
+}
+
+static void
+highlight_apply (GnmDiffState *state, const char *sheetname,
+		 const GnmRange *r)
+{
+	Sheet *sheet = workbook_sheet_by_name (state->highlight.wb,
+					       sheetname);
+	if (!sheet)
+		return;
+
+	gnm_style_ref (state->highlight_style);
+	sheet_style_apply_range (sheet, r, state->highlight_style);
+}
+
+static void 
+highlight_cell_changed (GnmDiffState *state,
+			GnmCell const *oc, GnmCell const *nc)
+{
+	GnmRange r;
+	r.start = nc->pos;
+	r.end = nc->pos;
+	highlight_apply (state, nc->base.sheet->name_unquoted, &r);
+}
+
+static void 
+highlight_style_changed (GnmDiffState *state, GnmRange const *r,
+			 G_GNUC_UNUSED Sheet const *osh,
+			 Sheet const *nsh,
+			 G_GNUC_UNUSED GnmStyle const *os,
+			 G_GNUC_UNUSED GnmStyle const *ns)
+{
+	highlight_apply (state, nsh->name_unquoted, r);
+}
+
+
+static const GnmDiffActions highlight_actions = {
+	highlight_diff_start,
+	highlight_diff_end,
+	null_sheet_start,
+	null_sheet_end,
+	null_sheet_order_changed,
+	null_sheet_attr_int_changed,
+	highlight_cell_changed,
+	highlight_style_changed,
 };
 
 /* -------------------------------------------------------------------------- */
@@ -666,6 +826,7 @@ cb_diff_sheets_styles_2 (G_GNUC_UNUSED gpointer key,
 		return;
 
 	data->state->actions->style_changed (data->state, &r,
+					     data->old_sheet, data->new_sheet,
 					     data->old_style, sr->style);
 }
 
@@ -729,31 +890,17 @@ diff (char const *oldfilename, char const *newfilename,
 	memset (&state, 0, sizeof (state));
 	state.actions = actions;
 	state.ioc = ioc;
-
 	state.output = output;
-	if (ssdiff_xml)
-		state.xml = gsf_xml_out_new (output);
 
-	state.old.url = go_shell_arg_to_uri (oldfilename);
-	state.new.url = go_shell_arg_to_uri (newfilename);
-
-	state.old.wbv = workbook_view_new_from_uri (state.old.url, NULL,
-						    ioc, NULL);
-	if (!state.old.wbv)
+	if (read_file (&state.old, oldfilename, ioc))
 		goto error;
-	state.old.wb = wb_view_get_workbook (state.old.wbv);
-
-	state.new.wbv = workbook_view_new_from_uri (state.new.url, NULL,
-						    ioc, NULL);
-	if (!state.new.wbv)
+	if (read_file (&state.new, newfilename, ioc))
 		goto error;
-	state.new.wb = wb_view_get_workbook (state.new.wbv);
-
-	state.convs = gnm_xml_io_conventions ();
 
 	/* ---------------------------------------- */
-	
-	state.actions->diff_start (&state);
+
+	if (state.actions->diff_start (&state))
+		goto error;
 
 	/*
 	 * This doesn't handle sheet renames very well, but simply considers
@@ -797,16 +944,14 @@ diff (char const *oldfilename, char const *newfilename,
 	state.actions->diff_end (&state);
 
 out:
-	g_free (state.old.url);
-	g_free (state.new.url);
-	if (state.old.wb)
-		g_object_unref (state.old.wb);
-	if (state.new.wb)
-		g_object_unref (state.new.wb);
-	if (state.xml)
-		g_object_unref (state.xml);
+	clear_file_state (&state.old);
+	clear_file_state (&state.new);
+	clear_file_state (&state.highlight);
+	g_clear_object (&state.xml);
 	if (state.convs)
 		gnm_conventions_unref (state.convs);
+	if (state.highlight_style)
+		gnm_style_unref (state.highlight_style);
 
 	gnm_pop_C_locale (locale);
 
@@ -851,6 +996,20 @@ main (int argc, char const **argv)
 		return 0;
 	}
 
+	if (ssdiff_xml + ssdiff_highlight > 1) {
+		g_printerr (_("%s: Only one output format output may be specified.\n"),
+			    g_get_prgname ());
+		return 1;
+	}			    
+
+	if (ssdiff_highlight) {
+		actions = &highlight_actions;
+	} else if (ssdiff_xml) {
+		actions = &xml_actions;
+	} else {
+		actions = &default_actions;
+	}
+
 	if (!ssdiff_output)
 		ssdiff_output = g_strdup ("fd://1");
 	output_uri = go_shell_arg_to_uri (ssdiff_output);
@@ -863,12 +1022,6 @@ main (int argc, char const **argv)
 		if (error)
 			g_error_free (error);
 		return 1;
-	}
-
-	if (ssdiff_xml) {
-		actions = &xml_actions;
-	} else {
-		actions = &default_actions;
 	}
 
 	gnm_init ();
