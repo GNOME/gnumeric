@@ -1,7 +1,7 @@
 Gnumeric 1.12.1
 
 Alexandre Rostovtsev:
-	* Introspection fixes.
+	* Introspection fixes.  [#684159]
 
 Andreas:
 	* Some documentation fixes.
