@@ -639,14 +639,9 @@ static void
 plugin_service_solver_activate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	PluginServiceSolver *ssol = GNM_PLUGIN_SERVICE_SOLVER (service);
-	char const *textdomain;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-
-	textdomain = go_plugin_get_textdomain (service->plugin);
-
 	gnm_solver_db_register (ssol->factory);
-
 	service->is_active = TRUE;
 }
 

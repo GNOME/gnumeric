@@ -2660,13 +2660,11 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 	GtkToolItem *item;
 	GtkEntry *entry;
 	int len;
-	GtkToolbar *tb;
 	GtkWidget *debug_button;
 
 	wbc_gtk_init_editline (wbcg);
 	entry = wbcg_get_entry (wbcg);
 
-	tb = GET_GUI_ITEM ("toolbar");
 	/* Set a reasonable width for the selection box. */
 	len = go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg))),

@@ -2744,11 +2744,9 @@ control_point_leave_notify (GocItem *item, G_GNUC_UNUSED double x, G_GNUC_UNUSED
 	GnmPane *pane = GNM_PANE (item->canvas);
 	SheetControlGUI *scg = pane->simple.scg;
 	int idx;
-	SheetObject *so;
 
 	control_point_set_cursor (scg, item);
 
-	so  = g_object_get_data (G_OBJECT (item), "so");
 	idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "index"));
 	if (idx != 8) {
 		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));

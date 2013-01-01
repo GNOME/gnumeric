@@ -238,7 +238,6 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 		GnmSolverConstraint *c = l->data;
 		const char *op = NULL;
 		const char *type = NULL;
-		gboolean right_small = TRUE;
 		int i;
 		gnm_float cl, cr;
 		GnmCell *lhs, *rhs;
@@ -246,7 +245,6 @@ lpsolve_create_program (Sheet *sheet, GOIOContext *io_context,
 		switch (c->type) {
 		case GNM_SOLVER_LE:
 			op = "<=";
-			right_small = FALSE;
 			break;
 		case GNM_SOLVER_GE:
 			op = ">=";

@@ -1,3 +1,13 @@
+2013-01-01  Morten Welinder  <terra@gnome.org>
+
+	* src/cellspan.c (cell_register_span, cell_calc_span): Remove
+	unused variable.
+	* src/gnm-pane.c (control_point_leave_notify): Ditto.
+	* src/gnm-plugin.c (plugin_service_solver_activate): Ditto.
+	* src/wbc-gtk.c (wbc_gtk_create_edit_area): Ditto.
+
+	* src/application.c (gnm_app_history_add): Kill warning.
+
 2012-12-31  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (sheet_style_resize): Double off-by-one.

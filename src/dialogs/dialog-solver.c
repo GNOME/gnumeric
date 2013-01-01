@@ -6,7 +6,7 @@
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
  *
  * (C) Copyright 2000, 2002 by Jukka-Pekka Iivonen <iivonen@iki.fi>
- * (C) Copyright 2009 Morten Welinder (terra@gnome.org)
+ * (C) Copyright 2009-2013 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -386,7 +386,6 @@ extract_settings (SolverState *state)
 {
 	GnmSolverParameters *param = state->sheet->solver_parameters;
 	GtkTreeIter iter;
-	GnmCell *target_cell;
 	GnmValue *target_range;
 	GnmValue *input_range;
 	GnmSolverFactory *factory = NULL;
@@ -402,7 +401,6 @@ extract_settings (SolverState *state)
 				     target_range
 				     ? &target_range->v_range.cell.a
 				     : NULL);
-	target_cell = gnm_solver_param_get_target_cell (param);
 
 	param->problem_type =
 		gnm_gui_group_value (state->gui, problem_type_group);

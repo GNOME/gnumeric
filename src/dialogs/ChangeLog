@@ -1,3 +1,13 @@
+2013-01-01  Morten Welinder  <terra@gnome.org>
+
+	* dialog-about.c (dialog_about): Update copyright year.
+
+	* dialog-plugin-manager.c (dialog_plugin_manager): Remove unused
+	variable.
+	* dialog-scenarios.c (scenarios_show_clicked_cb): Ditto.
+	* dialog-so-list.c (so_list_init): Ditto.
+	* dialog-solver.c (extract_settings): Ditto.
+
 2012-12-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.0

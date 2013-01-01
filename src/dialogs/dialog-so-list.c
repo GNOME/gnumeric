@@ -100,7 +100,6 @@ cb_so_list_response (GtkWidget *dialog, gint response_id, GnmDialogSOList *state
 static gboolean
 so_list_init (GnmDialogSOList *state, WBCGtk *wbcg, SheetObject *so)
 {
-	GtkTable *table;
 	GnmExprTop const *texpr;
 	GtkBuilder *gui;
 
@@ -111,7 +110,6 @@ so_list_init (GnmDialogSOList *state, WBCGtk *wbcg, SheetObject *so)
 	state->wbcg   = wbcg;
 	state->so     = so;
 	state->dialog = go_gtk_builder_get_widget (gui, "SOList");
-	table = GTK_TABLE (go_gtk_builder_get_widget (gui, "table"));
 
 	texpr = sheet_widget_list_base_get_content_link (so);
 	state->content_entry = init_entry (state, gui, 1, 4, texpr);

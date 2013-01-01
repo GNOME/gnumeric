@@ -626,7 +626,6 @@ static void
 scenarios_show_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			   ScenariosState *state)
 {
-	WorkbookControl         *wbc;
 	GtkTreeSelection        *selection;
 	GtkTreeIter             iter;
 	GtkTreeModel            *model;
@@ -643,7 +642,6 @@ scenarios_show_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	restore_old_values (state);
 
-	wbc = WORKBOOK_CONTROL (state->base.wbcg);
 	state->current = gnm_sheet_scenario_find (state->base.sheet, value);
 	state->undo = gnm_scenario_apply (state->current);
 }

@@ -644,7 +644,6 @@ dialog_plugin_manager (WBCGtk *wbcg)
 	GtkBuilder *gui;
 	GtkWidget *scrolled;
 	GtkWidget *scrolled_directories;
-	GtkWidget *hbox;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *rend;
 	GtkWidget *image = NULL;
@@ -735,7 +734,6 @@ dialog_plugin_manager (WBCGtk *wbcg)
 
 	/* Set-up directories page */
 
-	hbox = go_gtk_builder_get_widget (gui, "directory-box");
 	pm_gui->model_directories = gtk_list_store_new (DIR_NUM_COLMNS, G_TYPE_STRING,
 							G_TYPE_BOOLEAN);
 	pm_gui->list_directories = GTK_TREE_VIEW (

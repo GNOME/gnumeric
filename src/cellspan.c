@@ -73,12 +73,11 @@ void
 cell_register_span (GnmCell const *cell, int left, int right)
 {
 	ColRowInfo *ri;
-	int col, row, i;
+	int row, i;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (left <= right);
 
-	col = cell->pos.col;
 	row = cell->pos.row;
 	ri = sheet_row_get (cell->base.sheet, row);
 
@@ -228,7 +227,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 {
 	Sheet *sheet;
 	int h_align, v_align, left, max_col, min_col;
-	int row, pos;
+	int pos;
 	int cell_width_pixel, indented_w;
 	GnmStyle const *style;
 	ColRowInfo const *ci;
@@ -258,7 +257,6 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	}
 
 	v_align = gnm_style_get_align_v (style);
-	row   = cell->pos.row;
 	indented_w = cell_width_pixel = gnm_cell_rendered_width (cell);
 	if (h_align == GNM_HALIGN_LEFT || h_align == GNM_HALIGN_RIGHT) {
 		GnmRenderedValue *rv = gnm_cell_get_rendered_value (cell);

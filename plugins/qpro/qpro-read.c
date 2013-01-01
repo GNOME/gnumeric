@@ -669,18 +669,20 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 error:
 	{
 		GSList *tmp;
-		GnmParsePos pp;
-
-		pp.wb = state->wb;
-		pp.sheet = state->cur_sheet;
-		pp.eval.col = col;
-		pp.eval.row = row;
 
 		for (tmp = stack; tmp; tmp = tmp->next) {
 			GnmExpr *expr = tmp->data;
 #ifdef DEBUG_EXPR_STACK
-			char *p = gnm_expr_as_string (expr, &pp,
-						      gnm_conventions_default);
+			GnmParsePos pp;
+			char *p;
+
+			pp.wb = state->wb;
+			pp.sheet = state->cur_sheet;
+			pp.eval.col = col;
+			pp.eval.row = row;
+
+			p = gnm_expr_as_string (expr, &pp,
+						gnm_conventions_default);
 			g_printerr ("Expr: %s\n", p);
 			g_free (p);
 #endif

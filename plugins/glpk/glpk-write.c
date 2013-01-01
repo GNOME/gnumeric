@@ -247,7 +247,6 @@ glpk_create_program (Sheet *sheet, GOIOContext *io_context,
  	for (l = sp->constraints; l; l = l->next) {
 		GnmSolverConstraint *c = l->data;
 		const char *op = NULL;
-		gboolean right_small = TRUE;
 		int i;
 		gnm_float cl, cr;
 		GnmCell *lhs, *rhs;
@@ -256,7 +255,6 @@ glpk_create_program (Sheet *sheet, GOIOContext *io_context,
 		switch (c->type) {
 		case GNM_SOLVER_LE:
 			op = "<=";
-			right_small = FALSE;
 			break;
 		case GNM_SOLVER_GE:
 			op = ">=";

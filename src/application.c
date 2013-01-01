@@ -660,7 +660,6 @@ void
 gnm_app_history_add (char const *uri, const char *mimetype)
 {
 	GtkRecentData rd;
-	gboolean retval;
 
 	memset (&rd, 0, sizeof (rd));
 
@@ -676,7 +675,10 @@ gnm_app_history_add (char const *uri, const char *mimetype)
 	rd.groups = NULL;
 	rd.is_private = FALSE;
 
-	retval = gtk_recent_manager_add_full (app->recent, uri, &rd);
+	if (!gtk_recent_manager_add_full (app->recent, uri, &rd)) {
+		/* Now what?  */
+		g_printerr ("Warning: failed to update recent document.\n");
+	}
 
 	g_free (rd.mime_type);
 	g_free (rd.app_name);
