@@ -261,7 +261,7 @@ cb_icon_clicked (GtkButton *icon,
 		GtkWidget *old_entry_parent;
 		GtkWidget *old_toplevel_child;
 		GParamSpec **container_props_pspec;
-		GValueArray *container_props;
+		GArray *container_props;
 
 		g_assert (GTK_IS_WINDOW (toplevel));
 
@@ -301,7 +301,7 @@ cb_icon_clicked (GtkButton *icon,
 			if (container_props_pspec[0] != NULL) {
 				guint ui;
 
-				container_props = g_value_array_new (n);
+				container_props = g_array_sized_new (FALSE, TRUE, sizeof (GValue), n);
 
 				for (ui = 0; ui < n; ui++) {
 					GValue value = G_VALUE_INIT;
@@ -310,13 +310,13 @@ cb_icon_clicked (GtkButton *icon,
 					gtk_container_child_get_property (GTK_CONTAINER (old_entry_parent), GTK_WIDGET (entry),
 									  g_param_spec_get_name (container_props_pspec[ui]),
 									  &value);
-					g_value_array_append (container_props, &value);
+					g_array_append_val (container_props, value);
 				}
 			}
 
 			g_object_set_data_full (G_OBJECT (entry), "container_props",
 						container_props,
-						(GDestroyNotify) g_value_array_free);
+						(GDestroyNotify) g_array_unref);
 			g_object_set_data_full (G_OBJECT (entry), "container_props_pspec",
 						container_props_pspec,
 						(GDestroyNotify) g_free);
@@ -354,7 +354,7 @@ cb_icon_clicked (GtkButton *icon,
 			for (i = 0; container_props_pspec[i] != NULL; i++) {
 				gtk_container_child_set_property (GTK_CONTAINER (old_entry_parent), GTK_WIDGET (entry),
 								  g_param_spec_get_name (container_props_pspec[i]),
-								  g_value_array_get_nth (container_props, i));
+								  &g_array_index (container_props, GValue, i));
 			}
 
 			gtk_window_resize (GTK_WINDOW (toplevel),

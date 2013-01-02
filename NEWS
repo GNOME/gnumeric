@@ -15,6 +15,7 @@ Morten:
 	* Remove disabled corba plugin.
 	* Fix off-by-ones in sheet resize.  [#690929]
 	* Start working on warnings from newer gcc.
+	* Avoid using some deprecated symbols.
   
 --------------------------------------------------------------------------
 Gnumeric 1.12.0

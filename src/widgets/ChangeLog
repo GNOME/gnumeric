@@ -1,3 +1,7 @@
+2013-01-01  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c (cb_icon_clicked): Avoid deprecated GValueArray.
+
 2012-12-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.0
