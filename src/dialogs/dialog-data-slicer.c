@@ -208,10 +208,12 @@ cb_source_expr_changed (DialogDataSlicer *state)
         GnmValue *range;
        	range = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->source_expr), sv_sheet (state->sv));
+#warning "FIXME: Now what?"
+	value_release (range);
 }
 
 /*      Menus   */
-static GtkActionEntry entries[] = {
+static const GtkActionEntry entries[] = {
 	{ "format", NULL, N_("_Format"), NULL, NULL, NULL },
 		{ "style", NULL, N_("_Style"), NULL, NULL, NULL },
 		{ "aggregation", NULL, N_("_Aggregation"), NULL, NULL, NULL },

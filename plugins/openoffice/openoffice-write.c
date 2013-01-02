@@ -456,14 +456,14 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 		break;
 	default :
 		if (a->klass->type ==
-		    go_pango_attr_subscript_get_type ()) {
+		    go_pango_attr_subscript_get_attr_type ()) {
 			gsf_xml_out_start_element (state->xml, TEXT "span");
 			gsf_xml_out_add_cstr (state->xml, TEXT "style-name",
 					      ((GOPangoAttrSubscript *)a)->val ?
 					      "AC-subscript" : "AC-script");
 			spans += 1;
 		} else if (a->klass->type ==
-			   go_pango_attr_superscript_get_type ()) {
+			   go_pango_attr_superscript_get_attr_type ()) {
 			gsf_xml_out_start_element (state->xml, TEXT "span");
 			gsf_xml_out_add_cstr (state->xml, TEXT "style-name",
 					      ((GOPangoAttrSuperscript *)a)->val ?

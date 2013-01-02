@@ -1,5 +1,7 @@
 2013-01-01  Morten Welinder  <terra@gnome.org>
 
+	* dialog-data-slicer.c (cb_source_expr_changed): Kill warning.
+
 	* dialog-about.c (dialog_about): Update copyright year.
 
 	* dialog-plugin-manager.c (dialog_plugin_manager): Remove unused

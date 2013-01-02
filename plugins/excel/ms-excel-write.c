@@ -8,7 +8,7 @@
  *    Jody Goldberg  (jody@gnome.org)
  *    Morten Welinder (terra@gnome.org)
  *
- * (C) 1998-2008 Michael Meeks, Jon K Hellan, Jody Goldberg, Morten Welinder
+ * (C) 1998-2013 Michael Meeks, Jon K Hellan, Jody Goldberg, Morten Welinder
  **/
 
 /*
@@ -2042,11 +2042,11 @@ excel_font_overlay_pango (ExcelWriteFont *efont, GSList *pango)
 			break;
 		default :
 			if (attr->klass->type ==
-			    go_pango_attr_subscript_get_type ())
+			    go_pango_attr_subscript_get_attr_type ())
 				efont->script = ((GOPangoAttrSubscript *)attr)->val
 					? 2 : 0;
 			else if (attr->klass->type ==
-				 go_pango_attr_superscript_get_type ())
+				 go_pango_attr_superscript_get_attr_type ())
 				efont->script = ((GOPangoAttrSuperscript *)attr)->val
 					? 1 : 0;
 			break; /* ignored */

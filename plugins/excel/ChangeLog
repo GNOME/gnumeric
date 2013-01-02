@@ -1,3 +1,8 @@
+2013-01-01  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_font_overlay_pango): Don't use
+	deprecated goffice stuff.
+
 2012-12-24  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write-drawing.c (xlsx_write_one_plot): Silence warning.

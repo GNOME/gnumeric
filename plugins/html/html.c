@@ -6,6 +6,7 @@
  * EMail: thron@gmx.de
  * Copyright (c) 2001 Andreas J. Guelzow
  * EMail: aguelzow@taliesin.ca
+ * Copyright 2013 Morten Welinder <terra@gnone.org>
  *
  * Contributors :
  *   Almer. S. Tigelaar <almer1@dds.nl>
@@ -212,13 +213,13 @@ cb_html_attrs_as_string (GsfOutput *output, PangoAttribute *a, html_version_t ve
 		break;/* ignored */
 	default :
 		if (a->klass->type ==
-		    go_pango_attr_subscript_get_type ()) {
+		    go_pango_attr_subscript_get_attr_type ()) {
 			if (((GOPangoAttrSubscript *)a)->val) {
 				gsf_output_puts (output, "<sub>");
 				closure = "</sub>";
 			}
 		} else if (a->klass->type ==
-			   go_pango_attr_superscript_get_type ()) {
+			   go_pango_attr_superscript_get_attr_type ()) {
 			if (((GOPangoAttrSuperscript *)a)->val) {
 				gsf_output_puts (output, "<sup>");
 				closure = "</sup>";

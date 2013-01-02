@@ -1,3 +1,8 @@
+2013-01-01  Morten Welinder  <terra@gnome.org>
+
+	* html.c (cb_html_attrs_as_string): Don't use deprecated goffice
+	stuff.
+
 2012-12-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.0

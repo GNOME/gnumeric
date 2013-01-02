@@ -1,5 +1,8 @@
 2013-01-01  Morten Welinder  <terra@gnome.org>
 
+	* src/mstyle.c (gnm_style_set_from_pango_attribute): Don't use
+	deprecated goffice stuff.
+
 	* src/cellspan.c (cell_register_span, cell_calc_span): Remove
 	unused variable.
 	* src/gnm-pane.c (control_point_leave_notify): Ditto.
