@@ -25,6 +25,10 @@ typedef struct {
 	Sheet	  *first, *last;
 	unsigned   supbook;
 } ExcelExternSheetV8;
+
+#define XL_EXTERNSHEET_MAGIC_SELFREF ((Sheet *)1)
+#define XL_EXTERNSHEET_MAGIC_DELETED ((Sheet *)2)
+
 typedef enum {
 	EXCEL_SUP_BOOK_STD,
 	EXCEL_SUP_BOOK_SELFREF,

@@ -769,7 +769,8 @@ excel_formula_parses_ref_sheets (MSContainer const *container, guint8 const *dat
 			excel_externsheet_v8 (container->importer, GSF_LE_GET_GUINT16 (data));
 
 		if (es != NULL) {
-			if (es->first == (Sheet *)2 || es->last == (Sheet *)2) /* deleted sheets */
+			if (es->first == XL_EXTERNSHEET_MAGIC_DELETED ||
+			    es->last == XL_EXTERNSHEET_MAGIC_DELETED)
 				return TRUE;
 			*first = es->first;
 			*last = es->last;
@@ -811,10 +812,10 @@ excel_formula_parses_ref_sheets (MSContainer const *container, guint8 const *dat
 		}
 	}
 
-	if (*first == (Sheet *)1) {
+	if (*first == XL_EXTERNSHEET_MAGIC_SELFREF) {
 		*first = *last = NULL;
 		g_warning ("So much for that theory.  Please send us a copy of this workbook");
-	} else if (*last == (Sheet *)1) {
+	} else if (*last == XL_EXTERNSHEET_MAGIC_SELFREF) {
 		*last = *first;
 		g_warning ("so much for that theory.  Please send us a copy of this workbook");
 	} else if (*first != NULL && *last == NULL)
@@ -1606,7 +1607,7 @@ excel_parse_formula1 (MSContainer const *container,
 					value_new_error_REF (NULL));
 			} else {
 				/* See supbook_get_sheet for details */
-				if (sheet == (Sheet *)1) {
+				if (sheet == XL_EXTERNSHEET_MAGIC_SELFREF) {
 					sheet = nexpr->pos.sheet;
 					if (sheet == NULL)
 						sheet = ms_container_sheet (container);

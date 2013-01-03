@@ -1,3 +1,9 @@
+2013-01-03  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.h (XL_EXTERNSHEET_MAGIC_SELFREF)
+	(XL_EXTERNSHEET_MAGIC_DELETED): Intorduce symbolic names for magic
+	constants.  All users changed.
+
 2013-01-01  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_font_overlay_pango): Don't use

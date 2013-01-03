@@ -5965,11 +5965,11 @@ excel_read_SCL (BiffQuery *q, Sheet *sheet)
  * WARNING WARNING WARNING
  *
  * This function can and will return intentionally INVALID pointers in some
- * cases.  You need to check for (Sheet *)1
+ * cases.  You need to check for XL_EXTERNSHEET_MAGIC_SELFREF
  * It should only happen for external names to deal with 'reference self'
  * supbook entries.  However, you never know.
  *
- * you also need to check for (Sheet *)2 which indicates deleted
+ * you also need to check for XL_EXTERNSHEET_MAGIC_DELETED which indicates deleted
  *
  * WARNING WARNING WARNING
  **/
@@ -5998,11 +5998,11 @@ supbook_get_sheet (GnmXLImporter *importer, gint16 sup_index, unsigned i)
 
 	/* 0xffff == deleted */
 	if (i >= 0xffff)
-		return (Sheet *)2; /* magic value */
+		return XL_EXTERNSHEET_MAGIC_DELETED; /* magic value */
 
 	/* WARNING : 0xfffe record for local names kludge a solution */
 	if (i == 0xfffe)
-		return (Sheet *)1; /* magic value */
+		return XL_EXTERNSHEET_MAGIC_SELFREF; /* magic value */
 
 	g_return_val_if_fail ((unsigned)sup_index < importer->v8.supbook->len, NULL);
 
@@ -6022,7 +6022,7 @@ supbook_get_sheet (GnmXLImporter *importer, gint16 sup_index, unsigned i)
 		break;
 	}
 
-	return (Sheet *)2; /* pretend "deleted" */
+	return XL_EXTERNSHEET_MAGIC_DELETED; /* pretend "deleted" */
 }
 
 static void
@@ -6142,7 +6142,7 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 		break;
 	}
 	case 4: /* undocumented.  Seems to be used as a placeholder for names */
-		sheet = (Sheet *)1;
+		sheet = XL_EXTERNSHEET_MAGIC_SELFREF;
 		break;
 
 	case 0x3a : /* undocumented magic.  seems to indicate the sheet for an
