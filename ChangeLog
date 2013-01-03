@@ -1,3 +1,10 @@
+2013-01-03  Morten Welinder  <terra@gnome.org>
+
+	* src/collect.c (collect_floats): Fix handling of
+	COLLECT_IGNORE_ERRORS.
+	(collect_strings): Ditto.
+	(callback_function_collect): Handle new flag COLLECT_ZERO_ERRORS.
+
 2013-01-01  Morten Welinder  <terra@gnome.org>
 
 	* src/mstyle.c (gnm_style_set_from_pango_attribute): Don't use

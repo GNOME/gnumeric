@@ -1,3 +1,12 @@
+2013-01-03  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_count, gnumeric_counta): Make this regular
+	float_range_function users.
+	(callback_function_count, callback_function_counta): Now unused.
+	Remove.
+	(gnumeric_subtotal): Regularize handling of 2 (COUNT) and 3
+	(COUNTA).
+
 2012-12-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.0

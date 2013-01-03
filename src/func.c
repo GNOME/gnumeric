@@ -1969,7 +1969,7 @@ function_iterate_do_value (GnmEvalPos const  *ep,
 		data.callback = callback;
 		data.closure  = closure;
 		data.strict   = strict;
-		data.ignore_subtotal = (iter_flags & CELL_ITER_IGNORE_SUBTOTAL);
+		data.ignore_subtotal = (iter_flags & CELL_ITER_IGNORE_SUBTOTAL) != 0;
 
 		res = workbook_foreach_cell_in_range (ep, value, iter_flags,
 						      cb_iterate_cellrange,

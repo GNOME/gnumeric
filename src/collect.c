@@ -347,6 +347,8 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 	case VALUE_ERROR:
 		if (cl->flags & COLLECT_IGNORE_ERRORS)
 			ignore = TRUE;
+		else if (cl->flags & COLLECT_ZERO_ERRORS)
+			x = 0;
 		else
 			return value_new_error_VALUE (ep);
 		break;
@@ -435,6 +437,7 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 	CellIterFlags iter_flags = CELL_ITER_ALL;
 	GnmValue *key = NULL;
 	CollectFlags keyflags = flags & ~COLLECT_ORDER_IRRELEVANT;
+	gboolean strict;
 
 	if (constp)
 		*constp = FALSE;
@@ -479,6 +482,8 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 	if (flags & COLLECT_IGNORE_SUBTOTAL)
 		iter_flags |= CELL_ITER_IGNORE_SUBTOTAL;
 
+	strict = (flags & (COLLECT_IGNORE_ERRORS | COLLECT_ZERO_ERRORS)) == 0;
+
 	cl.alloc_count = 0;
 	cl.data = NULL;
 	cl.count = 0;
@@ -489,7 +494,7 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 	*error = function_iterate_argument_values
 		(ep, &callback_function_collect, &cl,
 		 argc, argv,
-		 TRUE, iter_flags);
+		 strict, iter_flags);
 	if (*error) {
 		g_assert (VALUE_IS_ERROR (*error));
 		g_free (cl.data);
@@ -986,9 +991,18 @@ collect_strings (int argc, GnmExprConstPtr const *argv,
 {
 	collect_strings_t cl;
 	CellIterFlags iter_flags = CELL_ITER_ALL;
+	gboolean strict;
+
+	/* We don't handle these flags */
+	g_return_val_if_fail (!(flags & COLLECT_ZERO_ERRORS), NULL);
+	g_return_val_if_fail (!(flags & COLLECT_ZERO_STRINGS), NULL);
+	g_return_val_if_fail (!(flags & COLLECT_ZEROONE_BOOLS), NULL);
+	g_return_val_if_fail (!(flags & COLLECT_ZERO_BLANKS), NULL);
 
 	if (flags & COLLECT_IGNORE_BLANKS)
 		iter_flags = CELL_ITER_IGNORE_BLANK;
+
+	strict = (flags & (COLLECT_IGNORE_ERRORS | COLLECT_ZERO_ERRORS)) == 0;
 
 	cl.data = g_ptr_array_new ();
 	cl.flags = flags;
@@ -996,7 +1010,7 @@ collect_strings (int argc, GnmExprConstPtr const *argv,
 	*error = function_iterate_argument_values
 		(ep, &callback_function_collect_strings, &cl,
 		 argc, argv,
-		 TRUE, iter_flags);
+		 strict, iter_flags);
 	if (*error) {
 		g_assert (VALUE_IS_ERROR (*error));
 		collect_strings_free (cl.data);

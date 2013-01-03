@@ -660,26 +660,15 @@ static GnmFuncHelp const help_count[] = {
 };
 
 static GnmValue *
-callback_function_count (GnmEvalPos const *ep, GnmValue const *value, void *closure)
-{
-	int *result = closure;
-
-	if (value && VALUE_IS_FLOAT (value))
-		(*result)++;
-	return NULL;
-}
-
-static GnmValue *
 gnumeric_count (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
-	int i = 0;
-
-	/* no need to check for error, this is not strict */
-	function_iterate_argument_values
-		(ei->pos, callback_function_count, &i,
-		 argc, argv, FALSE, CELL_ITER_IGNORE_BLANK);
-
-	return value_new_int (i);
+	return float_range_function (argc, argv, ei,
+				     gnm_range_count,
+				     COLLECT_IGNORE_ERRORS |
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
@@ -696,24 +685,15 @@ static GnmFuncHelp const help_counta[] = {
 };
 
 static GnmValue *
-callback_function_counta (GnmEvalPos const *ep, GnmValue const *value, void *closure)
-{
-        int *result = closure;
-	(*result)++;
-	return NULL;
-}
-
-static GnmValue *
 gnumeric_counta (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
-	int i = 0;
-
-	/* no need to check for error, this is not strict */
-        function_iterate_argument_values
-		(ei->pos, callback_function_counta, &i,
-		 argc, argv, FALSE, CELL_ITER_IGNORE_BLANK);
-
-        return value_new_int (i);
+	return float_range_function (argc, argv, ei,
+				     gnm_range_count,
+				     COLLECT_ZERO_ERRORS |
+				     COLLECT_ZERO_STRINGS |
+				     COLLECT_ZEROONE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
@@ -4142,9 +4122,13 @@ gnumeric_subtotal (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
         GnmExpr const *expr;
 	GnmValue *val;
-	int   fun_nbr, res;
+	int   fun_nbr;
 	float_range_function_t func;
 	GnmStdError err = GNM_ERROR_DIV0;
+	CollectFlags flags_errors = 0;
+	CollectFlags flags_strings = COLLECT_IGNORE_STRINGS;
+	CollectFlags flags_bools = COLLECT_IGNORE_BOOLS;
+	CollectFlags flags_other = COLLECT_IGNORE_BLANKS | COLLECT_IGNORE_SUBTOTAL;
 
 	if (argc == 0)
 		return value_new_error_NUM (ei->pos);
@@ -4164,23 +4148,13 @@ gnumeric_subtotal (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	argv++;
 
 	switch (fun_nbr) {
-	case 2: res = 0;
-		/* no need to check for error, this is not strict */
-		function_iterate_argument_values
-			(ei->pos, callback_function_count, &res,
-			 argc, argv, FALSE,
-			 CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_SUBTOTAL);
-		return value_new_int (res);
-
-	case 3: res = 0;
-		/* no need to check for error, this is not strict */
-		function_iterate_argument_values
-			(ei->pos, callback_function_counta, &res,
-			 argc, argv, FALSE,
-			 CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_SUBTOTAL);
-		return value_new_int (res);
-
 	case  1: func = gnm_range_average;	break;
+	case  2: flags_errors = COLLECT_IGNORE_ERRORS;		
+		 func = gnm_range_count;        break;
+	case  3: flags_errors = COLLECT_ZERO_ERRORS;
+		 flags_strings = COLLECT_ZERO_STRINGS;
+		 flags_bools = COLLECT_ZEROONE_BOOLS;
+		 func = gnm_range_count;        break;
 	case  4: err = GNM_ERROR_VALUE;
 		 func = range_max0;		break;
 	case  5: err = GNM_ERROR_VALUE;
@@ -4199,9 +4173,8 @@ gnumeric_subtotal (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	}
 
 	return float_range_function (argc, argv, ei, func,
-		COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS |
-		COLLECT_IGNORE_BLANKS | COLLECT_IGNORE_SUBTOTAL,
-		err);
+				     flags_errors | flags_strings | flags_bools | flags_other,
+				     err);
 }
 
 /***************************************************************************/
