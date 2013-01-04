@@ -293,6 +293,13 @@
 }
 
 {
+   GLIBC/thread2/MLK
+   Memcheck:Leak
+   ...
+   fun:g_thread_new
+}
+
+{
    GLIB/closure1/MLK
    Memcheck:Leak
    ...
@@ -313,4 +320,26 @@
    Memcheck:Addr4
    fun:find_name
    fun:_cairo_truetype_read_font_name
+}
+
+{
+   GLIBC/COND/wcslen
+   Memcheck:Addr8
+   fun:wcslen
+   ...
+   fun:g_utf8_collate_key
+}
+
+{
+   GLIBC/MLK/nss_parse_service_list
+   Memcheck:Leak
+   fun:malloc
+   fun:nss_parse_service_list
+}
+
+{
+   GLIBC/COND/strtod
+   Memcheck:Addr8
+   fun:__GI___strncasecmp_l
+   fun:____strtod_l_internal
 }
