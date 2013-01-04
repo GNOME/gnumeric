@@ -47,6 +47,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#define APP_CLIP_DISP_KEY "clipboard-displays"
+
 static gboolean
 debug_clipboard (void)
 {
@@ -831,7 +833,7 @@ object_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
  */
 static void
 x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
-		    guint info, GObject *obj)
+		    guint info, GObject *app)
 {
 	gboolean to_gnumeric = FALSE, content_needs_free = FALSE;
 	GnmCellRegion *clipboard = gnm_app_clipboard_contents_get ();
@@ -1061,14 +1063,14 @@ set_clipman_targets (GdkDisplay *disp, GtkTargetEntry *targets, guint n_targets)
 }
 
 gboolean
-gnm_x_claim_clipboard (WBCGtk *wbcg)
+gnm_x_claim_clipboard (GdkDisplay *display)
 {
-	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
 	GnmCellRegion *content = gnm_app_clipboard_contents_get ();
 	SheetObject *imageable = NULL, *exportable = NULL;
 	GtkTargetEntry *targets = NULL;
 	int n_targets;
 	gboolean ret;
+	GObject *app = gnm_app_get_app ();
 
 	static GtkTargetEntry const table_targets[] = {
 		{ (char *) GNUMERIC_ATOM_NAME, 0, GNUMERIC_ATOM_INFO },
@@ -1117,18 +1119,25 @@ gnm_x_claim_clipboard (WBCGtk *wbcg)
 		targets, n_targets,
 		(GtkClipboardGetFunc) x_clipboard_get_cb,
 		(GtkClipboardClearFunc) x_clipboard_clear_cb,
-		gnm_app_get_app ());
+		app);
 	if (ret) {
 		if (debug_clipboard ())
 			g_printerr ("Clipboard successfully claimed.\n");
+
+		g_object_set_data_full (app, APP_CLIP_DISP_KEY,
+					g_slist_prepend (g_object_steal_data (app, APP_CLIP_DISP_KEY),
+							 display),
+					(GDestroyNotify)g_slist_free);
+
+
 		set_clipman_targets (display, targets, n_targets);
-		ret = gtk_clipboard_set_with_owner (
+		(void)gtk_clipboard_set_with_owner (
 			gtk_clipboard_get_for_display (display,
 						       GDK_SELECTION_PRIMARY),
 			targets, n_targets,
 			(GtkClipboardGetFunc) x_clipboard_get_cb,
 			NULL,
-			gnm_app_get_app ());
+			app);
 	} else {
 		if (debug_clipboard ())
 			g_printerr ("Failed to claim clipboard.\n");
@@ -1137,6 +1146,25 @@ gnm_x_claim_clipboard (WBCGtk *wbcg)
 		gtk_target_table_free (targets, n_targets);
 
 	return ret;
+}
+
+void
+gnm_x_disown_clipboard (void)
+{
+	GObject *app = gnm_app_get_app ();
+	GSList *displays = g_object_steal_data (app, APP_CLIP_DISP_KEY);
+	GSList *l;
+
+	for (l = displays; l; l = l->next) {
+		GdkDisplay *display = l->data;
+		gtk_selection_owner_set_for_display (display, NULL,
+						     GDK_SELECTION_PRIMARY,
+						     GDK_CURRENT_TIME);
+		gtk_selection_owner_set_for_display (display, NULL,
+						     GDK_SELECTION_CLIPBOARD,
+						     GDK_CURRENT_TIME);
+	}
+	g_slist_free (displays);
 }
 
 /* Hand clipboard off to clipboard manager. To be called before workbook

@@ -7,8 +7,10 @@
 G_BEGIN_DECLS
 
 void gnm_x_request_clipboard (WBCGtk *wbcg, GnmPasteTarget const *pt);
-gboolean gnm_x_claim_clipboard (WBCGtk *wbcg);
 void gnm_x_store_clipboard_if_needed (Workbook *wb);
+
+gboolean gnm_x_claim_clipboard (GdkDisplay *display);
+void gnm_x_disown_clipboard (void);
 
 G_END_DECLS
 

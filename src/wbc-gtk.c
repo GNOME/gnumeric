@@ -1678,7 +1678,9 @@ wbcg_paste_from_selection (WorkbookControl *wbc, GnmPasteTarget const *pt)
 static gboolean
 wbcg_claim_selection (WorkbookControl *wbc)
 {
-	return gnm_x_claim_clipboard ((WBCGtk *)wbc);
+	WBCGtk *wbcg = (WBCGtk *)wbc;
+	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
+	return gnm_x_claim_clipboard (display);
 }
 
 static int

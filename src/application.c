@@ -25,6 +25,7 @@
 #include "sheet-object.h"
 #include "pixmaps/gnumeric-stock-pixbufs.h"
 #include "commands.h"
+#include "gui-clipboard.h"
 
 #include <gnumeric-conf.h>
 #include <goffice/goffice.h>
@@ -177,15 +178,8 @@ gnm_app_clipboard_clear (gboolean drop_selection)
 		sv_weak_unref (&(app->clipboard_sheet_view));
 
 		/* Release the selection */
-		if (drop_selection) {
-#warning "FIXME: 1: this doesn't belong here.  2: it is not multihead safe."
-			gtk_selection_owner_set (NULL,
-						 GDK_SELECTION_PRIMARY,
-						 GDK_CURRENT_TIME);
-			gtk_selection_owner_set (NULL,
-						 GDK_SELECTION_CLIPBOARD,
-						 GDK_CURRENT_TIME);
-		}
+		if (drop_selection)
+			gnm_x_disown_clipboard ();
 	}
 }
 
