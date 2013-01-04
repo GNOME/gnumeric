@@ -480,7 +480,8 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 	/* ---------------------------------------- */
 
 	if (flags & COLLECT_IGNORE_SUBTOTAL)
-		iter_flags |= CELL_ITER_IGNORE_SUBTOTAL;
+		iter_flags |= (CELL_ITER_IGNORE_SUBTOTAL |
+			       CELL_ITER_IGNORE_FILTERED);
 
 	strict = (flags & (COLLECT_IGNORE_ERRORS | COLLECT_ZERO_ERRORS)) == 0;
 

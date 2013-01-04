@@ -2376,7 +2376,9 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col, int srow, int erow,
 	data.max = -1;
 	data.ignore_strings = ignore_strings;
 	sheet_foreach_cell_in_range (sheet,
-		CELL_ITER_IGNORE_NONEXISTENT | CELL_ITER_IGNORE_HIDDEN,
+		CELL_ITER_IGNORE_NONEXISTENT |
+		CELL_ITER_IGNORE_HIDDEN |
+		CELL_ITER_IGNORE_FILTERED,
 		col, srow, col, erow,
 		(CellIterFunc)&cb_max_cell_width, &data);
 
@@ -2460,7 +2462,9 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row, int scol, int ecol,
 	data.max = -1;
 	data.ignore_strings = FALSE;
 	sheet_foreach_cell_in_range (sheet,
-		CELL_ITER_IGNORE_NONEXISTENT | CELL_ITER_IGNORE_HIDDEN,
+		CELL_ITER_IGNORE_NONEXISTENT |
+		CELL_ITER_IGNORE_HIDDEN |
+		CELL_ITER_IGNORE_FILTERED,
 		scol, row,
 		ecol, row,
 		(CellIterFunc)&cb_max_cell_height, &data);
@@ -3781,6 +3785,8 @@ sheet_cells (Sheet *sheet, const GnmRange *r)
  * callback routine.  If the only_existing flag is passed, then
  * callbacks are only invoked for existing cells.
  *
+ * Note: this function does not honour the CELL_ITER_IGNORE_SUBTOTAL flag.
+ *
  * Returns: (transfer none): the value returned by the callback, which can be :
  *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
  *    to stop (by returning non-NULL).
@@ -3804,7 +3810,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 	GnmValue *cont;
 	GnmCellIter iter;
 	gboolean const visiblity_matters = (flags & CELL_ITER_IGNORE_HIDDEN) != 0;
-	gboolean const subtotal_magic = (flags & CELL_ITER_IGNORE_SUBTOTAL) != 0;
+	gboolean const ignore_filtered = (flags & CELL_ITER_IGNORE_FILTERED) != 0;
 	gboolean const only_existing = (flags & CELL_ITER_IGNORE_NONEXISTENT) != 0;
 	gboolean const ignore_empty = (flags & CELL_ITER_IGNORE_EMPTY) != 0;
 	gboolean ignore;
@@ -3862,7 +3868,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 			}
 			if (visiblity_matters && !iter.ri->visible)
 				continue;
-			if (subtotal_magic && iter.ri->in_filter && !iter.ri->visible)
+			if (ignore_filtered && iter.ri->in_filter && !iter.ri->visible)
 				continue;
 
 			if (iter.pp.eval.col != last_col) {
@@ -3916,7 +3922,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 
 		if (visiblity_matters && !iter.ri->visible)
 			continue;
-		if (subtotal_magic && iter.ri->in_filter && !iter.ri->visible)
+		if (ignore_filtered && iter.ri->in_filter && !iter.ri->visible)
 			continue;
 
 		for (iter.pp.eval.col = start_col; iter.pp.eval.col <= end_col; ++iter.pp.eval.col) {

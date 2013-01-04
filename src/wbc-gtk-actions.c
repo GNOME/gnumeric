@@ -1901,6 +1901,8 @@ static GNM_ACTION_DEF (cb_copydown)
 static GNM_ACTION_DEF (cb_copyright)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	/* xgettext: copy from the cell to the left into current cell --
+	   this has nothing whatsoever to do with copyright.  */
 	cmd_copyrel (wbc, -1, 0, _("Copy right"));
 }
 

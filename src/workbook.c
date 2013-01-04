@@ -521,6 +521,8 @@ workbook_set_last_export_uri (Workbook *wb, gchar *uri)
  * callback routine.  If the only_existing flag is TRUE, then
  * callbacks are only invoked for existing cells.
  *
+ * Note: this function does not honour the CELL_ITER_IGNORE_SUBTOTAL flag.
+ *
  * Return value:
  *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
  *    to stop (by returning non-NULL).

@@ -699,7 +699,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 			closure.vals = dat->values;
 			closure.last = -1;
 			closure.i = 0;
-			sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_SUBTOTAL,
+			sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_FILTERED,
 				r.start.col, r.start.row, r.end.col, r.end.row,
 				(CellIterFunc)cb_assign_val, &closure);
 			dat->len = closure.last + 1; /* clip */
@@ -737,7 +737,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 					closure.vals = dat->values;
 					closure.last = last - 1;
 					closure.i = last;
-					sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_SUBTOTAL,
+					sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_FILTERED,
 						r.start.col, r.start.row, r.end.col, r.end.row,
 						(CellIterFunc)cb_assign_val, &closure);
 					last = dat->len = closure.last + 1; /* clip */
@@ -886,7 +886,7 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 					r.end.col = start_sheet->cols.max_used;
 
 				if (r.start.col <= r.end.col && r.start.row <= r.end.row)
-					sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_SUBTOTAL,
+					sheet_foreach_cell_in_range (start_sheet, CELL_ITER_IGNORE_FILTERED,
 						r.start.col, r.start.row, r.end.col, r.end.row,
 						(CellIterFunc)cb_assign_string, vec->strs);
 			}

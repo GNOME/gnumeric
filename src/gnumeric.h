@@ -155,8 +155,10 @@ typedef enum {
 	CELL_ITER_IGNORE_BLANK		= (CELL_ITER_IGNORE_NONEXISTENT | CELL_ITER_IGNORE_EMPTY),
 	CELL_ITER_IGNORE_HIDDEN		= 1 << 2, /* hidden manually */
 
-	/* contains SUBTOTAL, or hidden row in a filter */
-	CELL_ITER_IGNORE_SUBTOTAL	= 1 << 3
+	/* contains SUBTOTAL */
+	CELL_ITER_IGNORE_SUBTOTAL	= 1 << 3,
+	/* hidden row in a filter */
+	CELL_ITER_IGNORE_FILTERED	= 1 << 4
 } CellIterFlags;
 typedef struct _GnmCellIter GnmCellIter;
 typedef GnmValue *(*CellIterFunc) (GnmCellIter const *iter, gpointer user);
