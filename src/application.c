@@ -54,7 +54,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint signals [LAST_SIGNAL] = { 0 };
+static guint signals[LAST_SIGNAL] = { 0 };
 
 struct _GnmApp {
 	GObject  base;
@@ -119,7 +119,7 @@ gnm_app_workbook_list_add (Workbook *wb)
 		"notify::uri",
 		G_CALLBACK (_gnm_app_flag_windows_changed), NULL);
 	_gnm_app_flag_windows_changed ();
-	g_signal_emit (G_OBJECT (app), signals [WORKBOOK_ADDED], 0, wb);
+	g_signal_emit (G_OBJECT (app), signals[WORKBOOK_ADDED], 0, wb);
 }
 
 /**
@@ -138,7 +138,7 @@ gnm_app_workbook_list_remove (Workbook *wb)
 	g_signal_handlers_disconnect_by_func (G_OBJECT (wb),
 		G_CALLBACK (_gnm_app_flag_windows_changed), NULL);
 	_gnm_app_flag_windows_changed ();
-	g_signal_emit (G_OBJECT (app), signals [WORKBOOK_REMOVED], 0, wb);
+	g_signal_emit (G_OBJECT (app), signals[WORKBOOK_REMOVED], 0, wb);
 }
 
 /**
@@ -172,7 +172,7 @@ gnm_app_clipboard_clear (gboolean drop_selection)
 	if (app->clipboard_sheet_view != NULL) {
 		sv_unant (app->clipboard_sheet_view);
 
-		g_signal_emit (G_OBJECT (app), signals [CLIPBOARD_MODIFIED], 0);
+		g_signal_emit (G_OBJECT (app), signals[CLIPBOARD_MODIFIED], 0);
 
 		sv_weak_unref (&(app->clipboard_sheet_view));
 
@@ -255,7 +255,7 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 	}
 
 	if (wb_control_claim_selection (wbc)) {
-		g_signal_emit (G_OBJECT (app), signals [CLIPBOARD_MODIFIED], 0);
+		g_signal_emit (G_OBJECT (app), signals[CLIPBOARD_MODIFIED], 0);
 	} else {
 		gnm_app_clipboard_clear (FALSE);
 		g_warning ("Unable to set selection ?");
@@ -290,7 +290,7 @@ gnm_app_clipboard_cut_copy_obj (WorkbookControl *wbc, gboolean is_cut,
 		objects = NULL;
 	}
 	if (wb_control_claim_selection (wbc)) {
-		g_signal_emit (G_OBJECT (app), signals [CLIPBOARD_MODIFIED], 0);
+		g_signal_emit (G_OBJECT (app), signals[CLIPBOARD_MODIFIED], 0);
 	} else {
 		gnm_app_clipboard_clear (FALSE);
 		g_warning ("Unable to set selection ?");
@@ -815,56 +815,56 @@ gnm_app_class_init (GObjectClass *gobject_klass)
 				      _("A list of filenames that have been read recently"),
 				      GSF_PARAM_STATIC | G_PARAM_READABLE));
 
-	signals [WORKBOOK_ADDED] = g_signal_new ("workbook_added",
+	signals[WORKBOOK_ADDED] = g_signal_new ("workbook_added",
 		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmAppClass, workbook_added),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1, WORKBOOK_TYPE);
-	signals [WORKBOOK_REMOVED] = g_signal_new ("workbook_removed",
+	signals[WORKBOOK_REMOVED] = g_signal_new ("workbook_removed",
 		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmAppClass, workbook_removed),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__POINTER,
 		G_TYPE_NONE, 1, G_TYPE_POINTER);
-	signals [WINDOW_LIST_CHANGED] = g_signal_new ("window-list-changed",
+	signals[WINDOW_LIST_CHANGED] = g_signal_new ("window-list-changed",
 		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmAppClass, window_list_changed),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-	signals [CUSTOM_UI_ADDED] = g_signal_new ("custom-ui-added",
+	signals[CUSTOM_UI_ADDED] = g_signal_new ("custom-ui-added",
 		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmAppClass, custom_ui_added),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__POINTER,
 		G_TYPE_NONE, 1, G_TYPE_POINTER);
-	signals [CUSTOM_UI_REMOVED] = g_signal_new ("custom-ui-removed",
+	signals[CUSTOM_UI_REMOVED] = g_signal_new ("custom-ui-removed",
 		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmAppClass, custom_ui_removed),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__POINTER,
 		G_TYPE_NONE, 1, G_TYPE_POINTER);
-	signals [CLIPBOARD_MODIFIED] = g_signal_new ("clipboard_modified",
+	signals[CLIPBOARD_MODIFIED] = g_signal_new ("clipboard_modified",
 		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmAppClass, clipboard_modified),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-	signals [RECALC_FINISHED] = g_signal_new ("recalc_finished",
+	signals[RECALC_FINISHED] = g_signal_new ("recalc_finished",
 		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmAppClass, recalc_finished),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-	signals [RECALC_FINISHED] = g_signal_new ("recalc_clear_caches",
+	signals[RECALC_FINISHED] = g_signal_new ("recalc_clear_caches",
 		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmAppClass, recalc_clear_caches),
@@ -1001,14 +1001,14 @@ gnm_app_add_extra_ui (char const *group_name,
 	extra_ui->actions = actions;
 	extra_ui->layout = g_strdup (layout);
 	extra_ui->user_data = user_data;
-	g_signal_emit (G_OBJECT (app), signals [CUSTOM_UI_ADDED], 0, extra_ui);
+	g_signal_emit (G_OBJECT (app), signals[CUSTOM_UI_ADDED], 0, extra_ui);
 	return extra_ui;
 }
 
 void
 gnm_app_remove_extra_ui (GnmAppExtraUI *extra_ui)
 {
-	g_signal_emit (G_OBJECT (app), signals [CUSTOM_UI_REMOVED], 0, extra_ui);
+	g_signal_emit (G_OBJECT (app), signals[CUSTOM_UI_REMOVED], 0, extra_ui);
 	g_free (extra_ui->group_name);
 	g_free (extra_ui->layout);
 	g_free (extra_ui);
