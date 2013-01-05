@@ -17,7 +17,7 @@ Morten:
 	* Start working on warnings from newer gcc.
 	* Avoid using some deprecated symbols.
 	* Fix multihead issue with clipboard.
-  
+
 --------------------------------------------------------------------------
 Gnumeric 1.12.0
 
@@ -73,7 +73,7 @@ Andreas:
 	* Fix INTERPOLATION crash. [#680711]
 	* Suppress range markers that should be in an external workbook.
 	[Part of #680718]
-	* Fix layering of sheet objects in ODF export and import. 
+	* Fix layering of sheet objects in ODF export and import.
 	[Part of #681009]
 	* Export/import opacity of fill-colours to/from ODF. [Part of #681009]
 	* Some basic custom-shape support in ODF import.
@@ -167,7 +167,7 @@ Andreas:
 	interpolation. [#671508]
 	* Handle unusual styles created in xls import. [#671745]
 	* Do not show an icon for the range entry in the search dialog. [#671494]
-	* Import/Export style information attached to grids from/to ODF. 
+	* Import/Export style information attached to grids from/to ODF.
 	Part of [#671461]
 	* Improve annotation import from ODF.
 	* Fix conditional number format import from ODF. [#672489]
@@ -278,8 +278,8 @@ Adrian Bunk:
        * Remove obsolete Hildon port.  [#662412]
        * Get rid of dolt.  [#662413]
 
-Andreas: 
-	* Use formatting attributes whenever we format numbers. 
+Andreas:
+	* Use formatting attributes whenever we format numbers.
 	[#584380][#651561]
 	* Clarify the distinction beween open/save and import/export.
 	* Fix enabling of modify comment or hyperlink. [#655877]
@@ -291,7 +291,7 @@ Andreas:
 	* Add HPFILTER function calculating the Hodrick Prescott Filter.
 	* Fix saving of newlines to xls. [#356711]
 	* Enable markup selection in scientific format selector.
-	* Be compatible with the changed LibreOffice ODF documents with tab 
+	* Be compatible with the changed LibreOffice ODF documents with tab
 	colours.
 	* Persist selection and edit positions through ODF files. [#657506]
 	* Some more number formatting improvements to ODF import/export.
@@ -344,7 +344,7 @@ Jean:
 	* Add support for SVG images using librsvg.
 	* Fixed SVG images size. [#628472]
 	* Fix crash in graphs using markups. [#663216]
-	* Add preference setting determining the minimum number of chars for 
+	* Add preference setting determining the minimum number of chars for
 	autocompletion. [#663671]
 	* Fixed rendering of outline levels. [#663663, #663802]
 	* Fixed schemas paths. [#664243]
@@ -367,7 +367,7 @@ Morten:
 	* Add HEXREP function for debugging.  [#663712]
 
 Valek:
-	* In xls import, set LABEL encoding based on FONT charset converted to 
+	* In xls import, set LABEL encoding based on FONT charset converted to
 	codepage. [#304007, ubuntu #262777]
 
 --------------------------------------------------------------------------
@@ -381,14 +381,14 @@ Andreas:
 	* Fix keyword handling in properties dialog. [#653378]
 	* Allow document properties to be edited and added.
 	* Add an interface for conditional styles.
-	* Fix ODF import of styles with inherited conditional styles. [#654214] 
+	* Fix ODF import of styles with inherited conditional styles. [#654214]
 	* Provide undo for cut between 2 gnumeric processes. [#640922]
 	* Fix bar and column chart import/export to ODF.
-	* Speed up frequent calls to INTERPOLATION with the same 
+	* Speed up frequent calls to INTERPOLATION with the same
 	abscissae/ordinates. [#654538]
 	* Export defined names to xlsx. [#655010]
 	* Implement printing of errors as blanks, dashes or NAs.
-	* Fix printing of column headers and borders when formulae are shown. 
+	* Fix printing of column headers and borders when formulae are shown.
 	[#655389]
 	* Fix import of Excel 2003 xml files in non-C locale. [#655554]
 
@@ -408,7 +408,7 @@ Andreas:
 	* Extend the goto dialog.
 	* Extend the address box to handle both A1 and R1C1 style addresses.
 	  [#650941]
-	* Change the default widget when rolling up or down the default widget. 
+	* Change the default widget when rolling up or down the default widget.
 	  [#651173][#646612]
 	* Import external references from ODF. [#645580]
 	* Some documentation improvements.
