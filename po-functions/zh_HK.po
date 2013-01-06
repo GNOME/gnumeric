@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.1.19\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-01-06 12:24+0800\n"
-"PO-Revision-Date: 2012-12-23 09:47+0800\n"
+"PO-Revision-Date: 2013-01-06 12:24+0800\n"
 "Last-Translator: Walter Cheuk <wwycheuk@gmail.com>\n"
-"Language-Team: Chinese (traditional) <community@linuxhall.org>\n"
+"Language-Team: Chinese (Hong Kong) <community@linuxhall.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -107,7 +107,7 @@ msgstr "y:虛數部份"
 #: ../plugins/fn-complex/functions.c:84
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
-msgstr "i:為複數的後置字元，可以是 \"i\" 或 \"j\"；預設是 \"i\""
+msgstr "i:為複數的後置字符，可以是 \"i\" 或 \"j\"；預設是 \"i\""
 
 #: ../plugins/fn-complex/functions.c:85
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
@@ -230,7 +230,7 @@ msgstr "如 @{i} 不是 \"i\" 或 \"j\"，COMPLEX 會傳回 #數值有誤!"
 #: ../plugins/fn-string/functions.c:1066 ../plugins/fn-string/functions.c:1162
 #: ../plugins/fn-string/functions.c:1233 ../plugins/fn-string/functions.c:1316
 msgid "This function is Excel compatible."
-msgstr "此函式相容於 Excel"
+msgstr "此函數兼容於 Excel"
 
 #: ../plugins/fn-complex/functions.c:111
 msgid "IMAGINARY:the imaginary part of the complex number @{z}"
@@ -346,8 +346,7 @@ msgstr "IMARGUMENT:複數 @{z} 的幅角(argument theta)"
 msgid ""
 "The argument theta of a complex number is its angle in radians from the real "
 "axis."
-msgstr ""
-"幅角(argument theta)是複數與實軸(real axis)之間的夾角 [以弧度(radian)計算]"
+msgstr "幅角(argument theta)是複數與實軸(real axis)之間的夾角 [以弧度(radian)計算]"
 
 #: ../plugins/fn-complex/functions.c:443
 msgid "IMLN:the natural logarithm of the complex number @{z}"
@@ -816,10 +815,7 @@ msgid ""
 "The DATE function creates date serial values.  1-Jan-1900 is serial value 1, "
 "2-Jan-1900 is serial value 2, and so on.  For compatibility reasons, a "
 "serial value is reserved for the non-existing date 29-Feb-1900."
-msgstr ""
-"DATE 函式會建立日期流水號。1900年1月1日 是流水號「1」、1900年1月2日 是流水號"
-"「2」，餘此類推。為了相容性的原因，1900年2月29日 這天雖然不存在，但也保留了一"
-"個流水號。"
+msgstr "DATE 函數會建立日期流水號。1900年1月1日 是流水號「1」、1900年1月2日 是流水號「2」，餘此類推。為了兼容性的原因，1900年2月29日 這天雖然不存在，但也保留了一個流水號。"
 
 #: ../plugins/fn-date/functions.c:79
 msgid ""
@@ -846,9 +842,7 @@ msgid ""
 "The UNIX2DATE function translates Unix timestamps into the corresponding "
 "date.  A Unix timestamp is the number of seconds since midnight (0:00) of "
 "January 1st, 1970 GMT."
-msgstr ""
-"UNIX2DATE 函式會將 Unix 日期戳記轉換為對應的日期。Unix 日期戳記是由 1970年1月"
-"1日午夜 (0:00) 開始計起的秒數。"
+msgstr "UNIX2DATE 函數會將 Unix 日期戳記轉換為對應的日期。Unix 日期戳記是由 1970年1月1日午夜 (0:00) 開始計起的秒數。"
 
 #: ../plugins/fn-date/functions.c:167
 msgid "DATE2UNIX:the Unix timestamp corresponding to a date @{d}"
@@ -863,9 +857,7 @@ msgid ""
 "The DATE2UNIX function translates a date into a Unix timestamp. A Unix "
 "timestamp is the number of seconds since midnight (0:00) of January 1st, "
 "1970 GMT."
-msgstr ""
-"DATE2UNIX 函式會將日期轉換為對應的 Unix 日期戳記。Unix 日期戳記是由 1970年1月"
-"1日午夜 (0:00) 開始計起的秒數。"
+msgstr "DATE2UNIX 函數會將日期轉換為對應的 Unix 日期戳記。Unix 日期戳記是由 1970年1月1日午夜 (0:00) 開始計起的秒數。"
 
 #: ../plugins/fn-date/functions.c:193
 msgid "DATEVALUE:the date part of a date and time serial value"
@@ -904,25 +896,19 @@ msgstr "interval:計算單位"
 msgid ""
 "DATEDIF returns the distance from @{start_date} to @{end_date} according to "
 "the unit specified by @{interval}."
-msgstr ""
-"DATEDIF 會根據 @{interval} 單位，傳回由 @{start_date} 至 @{end_date} 之間的距"
-"離"
+msgstr "DATEDIF 會根據 @{interval} 單位，傳回由 @{start_date} 至 @{end_date} 之間的距離"
 
 #: ../plugins/fn-date/functions.c:216
 msgid ""
 "If @{interval} is \"y\", \"m\", or \"d\" then the distance is measured in "
 "complete years, months, or days respectively."
-msgstr ""
-"如 @{interval} 是 \"y\", \"m\", 或 \"d\"，距離會分別以完整的年份、月份、或日"
-"子計算"
+msgstr "如 @{interval} 是 \"y\", \"m\", 或 \"d\"，距離會分別以完整的年份、月份、或日子計算"
 
 #: ../plugins/fn-date/functions.c:217
 msgid ""
 "If @{interval} is \"ym\" or \"yd\" then the distance is measured in complete "
 "months or days, respectively, but excluding any difference in years."
-msgstr ""
-"如 @{interval} 是 \"ym\" 或 \"yd\"，距離會分別以完整的月份或日子計算，但會忽"
-"略年份的分別"
+msgstr "如 @{interval} 是 \"ym\" 或 \"yd\"，距離會分別以完整的月份或日子計算，但會忽略年份的分別"
 
 #: ../plugins/fn-date/functions.c:218
 msgid ""
@@ -960,8 +946,7 @@ msgstr "TODAY:今天的日期流水號"
 msgid ""
 "The TODAY function returns the date serial value of the day it is computed.  "
 "Recomputing on a later date will produce a different value."
-msgstr ""
-"TODAY 函式會傳回進行運算當天的日期流水號。如在另一天進行運算，結果就會不同。"
+msgstr "TODAY 函數會傳回進行運算當天的日期流水號。如在另一天進行運算，結果就會不同。"
 
 #: ../plugins/fn-date/functions.c:404
 msgid "NOW:the date and time serial value of the current time"
@@ -971,9 +956,7 @@ msgstr "NOW:當前時間的日期及時間流水號"
 msgid ""
 "The NOW function returns the date and time serial value of the moment it is "
 "computed.  Recomputing later will produce a different value."
-msgstr ""
-"NOW 函式會傳回進行運算時的日期及時間流水號。如在另一個時間進行運算，結果就會"
-"不同。"
+msgstr "NOW 函數會傳回進行運算時的日期及時間流水號。如在另一個時間進行運算，結果就會不同。"
 
 #: ../plugins/fn-date/functions.c:421
 msgid "TIME:create a time serial value"
@@ -995,18 +978,14 @@ msgstr "second:該分鐘的秒數"
 msgid ""
 "The TIME function computes the fractional day after midnight at the time "
 "given by @{hour}, @{minute}, and @{second}."
-msgstr ""
-"TIME 函式會根據給定的 @{hour}、@{minute} 及 @{second} 值計算由午夜開始算起的"
-"小數時間值"
+msgstr "TIME 函數會根據指定的 @{hour}、@{minute} 及 @{second} 值計算由午夜開始算起的小數時間值"
 
 #: ../plugins/fn-date/functions.c:426
 msgid ""
 "While the return value is automatically formatted to look like a time "
 "between 0:00 and 24:00, the underlying serial time value is a number between "
 "0 and 1."
-msgstr ""
-"雖然傳回的值會自動格式化為 0:00 至 24:00 之間的時間，其背後實為介乎 0 至 1 之"
-"間的流水時間號"
+msgstr "雖然傳回的值會自動格式化為 0:00 至 24:00 之間的時間，其背後實為介乎 0 至 1 之間的流水時間號"
 
 #: ../plugins/fn-date/functions.c:428
 msgid ""
@@ -1033,17 +1012,13 @@ msgstr "second:秒數"
 msgid ""
 "The ODF.TIME function computes the time given by @{hour}, @{minute}, and @"
 "{second} as a fraction of a day."
-msgstr ""
-"ODF.TIME 函式會根據給定的 @{hour}、@{minute} 及 @{second} 值計算由午夜開始算"
-"起的小數時間值"
+msgstr "ODF.TIME 函數會根據指定的 @{hour}、@{minute} 及 @{second} 值計算由午夜開始算起的小數時間值"
 
 #: ../plugins/fn-date/functions.c:463
 msgid ""
 "While the return value is automatically formatted to look like a time "
 "between 0:00 and 24:00, the underlying serial time value can be any number."
-msgstr ""
-"雖然傳回的值會自動格式化為 0:00 至 24:00 之間的時間，其背後實為可以是任何數字"
-"的流水時間號"
+msgstr "雖然傳回的值會自動格式化為 0:00 至 24:00 之間的時間，其背後實為可以是任何數字的流水時間號"
 
 #: ../plugins/fn-date/functions.c:467 ../plugins/fn-date/functions.c:780
 #: ../plugins/fn-date/functions.c:1002 ../plugins/fn-date/functions.c:1292
@@ -1059,7 +1034,7 @@ msgstr ""
 #: ../plugins/fn-string/functions.c:515 ../plugins/fn-string/functions.c:1103
 #: ../plugins/fn-string/functions.c:1445 ../plugins/fn-string/functions.c:1575
 msgid "This function is OpenFormula compatible."
-msgstr "此函式相容於 OpenFormula"
+msgstr "此函數兼容於 OpenFormula"
 
 #: ../plugins/fn-date/functions.c:488
 msgid "TIMEVALUE:the time part of a date and time serial value"
@@ -1082,7 +1057,7 @@ msgstr "time:以「小數時間值」表示的當天時間"
 msgid ""
 "The HOUR function computes the hour part of the fractional day given by @"
 "{time}."
-msgstr ":HOUR 函式會計算以 @{time} 給定的「小數時間值」的小時部份"
+msgstr ":HOUR 函數會計算以 @{time} 指定的「小數時間值」的小時部份"
 
 #: ../plugins/fn-date/functions.c:530
 msgid "MINUTE:compute minute part of fractional day"
@@ -1092,7 +1067,7 @@ msgstr "MINUTE:計算「小數時間值」的分鐘部份"
 msgid ""
 "The MINUTE function computes the minute part of the fractional day given by @"
 "{time}."
-msgstr "MINUTE 函式會計算以 @{time} 給定的「小數時間值」的分鐘部份"
+msgstr "MINUTE 函數會計算以 @{time} 指定的「小數時間值」的分鐘部份"
 
 #: ../plugins/fn-date/functions.c:553
 msgid "SECOND:compute seconds part of fractional day"
@@ -1102,7 +1077,7 @@ msgstr "SECOND:計算「小數時間值」的秒數部份"
 msgid ""
 "The SECOND function computes the seconds part of the fractional day given by "
 "@{time}."
-msgstr "SECOND 函式會計算以 @{time} 給定的「小數時間值」的秒數部份"
+msgstr "SECOND 函數會計算以 @{time} 指定的「小數時間值」的秒數部份"
 
 #: ../plugins/fn-date/functions.c:576
 msgid "YEAR:the year part of a date serial value"
@@ -1110,7 +1085,7 @@ msgstr "YEAR:日期流水號的年份部份"
 
 #: ../plugins/fn-date/functions.c:578
 msgid "The YEAR function returns the year part of @{date}."
-msgstr "YEAR 函式會傳回 @{date} 的年份部份"
+msgstr "YEAR 函數會傳回 @{date} 的年份部份"
 
 #: ../plugins/fn-date/functions.c:600
 msgid "MONTH:the month part of a date serial value"
@@ -1118,7 +1093,7 @@ msgstr "MONTH:時間流水號的月份部份"
 
 #: ../plugins/fn-date/functions.c:602
 msgid "The MONTH function returns the month part of @{date}."
-msgstr "MONTH 函式會傳回 @{date} 的月份部份"
+msgstr "MONTH 函數會傳回 @{date} 的月份部份"
 
 #: ../plugins/fn-date/functions.c:624
 msgid "DAY:the day-of-month part of a date serial value"
@@ -1126,7 +1101,7 @@ msgstr "DAY:時間流水號的日子部份"
 
 #: ../plugins/fn-date/functions.c:626
 msgid "The DAY function returns the day-of-month part of @{date}."
-msgstr "DAY 函式會傳回 @{date} 的日子部份"
+msgstr "DAY 函數會傳回 @{date} 的日子部份"
 
 #: ../plugins/fn-date/functions.c:648
 msgid "WEEKDAY:day-of-week"
@@ -1140,8 +1115,7 @@ msgstr "method:計算方法，預設是 1"
 msgid ""
 "The WEEKDAY function returns the day-of-week of @{date}.  The value of @"
 "{method} determines how days are numbered; it defaults to 1. "
-msgstr ""
-"WEEKDAY 函式會傳回 @{date} 是星期幾。@{method} 的值決定計算方法；預設是 1 "
+msgstr "WEEKDAY 函數會傳回 @{date} 是星期幾。@{method} 的值決定計算方法；預設是 1 "
 
 #: ../plugins/fn-date/functions.c:652
 msgid "If @{method} is 1, then Sunday is 1, Monday is 2, etc."
@@ -1173,9 +1147,7 @@ msgid ""
 "This is a somewhat complicated industry standard method where the last day "
 "of February is considered to be the 30th day of the month, but only for @"
 "{start_date}."
-msgstr ""
-"如 @{method} 是 0 (預設值)，就會使用 MS Excel (tm) 的美國計算方法。這個方法有"
-"點複雜：二月的最後一天會視為30號，但只對 @{start_date} 有效"
+msgstr "如 @{method} 是 0 (預設值)，就會使用 MS Excel (tm) 的美國計算方法。這個方法有點複雜：二月的最後一天會視為30號，但只對 @{start_date} 有效"
 
 #: ../plugins/fn-date/functions.c:694
 msgid ""
@@ -1187,9 +1159,7 @@ msgstr "如 @{method} 是 1，就會使用歐洲計算方法：如是31號，就
 msgid ""
 "If @{method} is 2, a saner version of the US method is used in which both "
 "dates get the same February treatment."
-msgstr ""
-"如 @{method} 是 2，就會使用美國計算方法的較好版本，就是「二月的最後一天會視為"
-"30號」會對開始和結束日期都有效"
+msgstr "如 @{method} 是 2，就會使用美國計算方法的較好版本，就是「二月的最後一天會視為30號」會對開始和結束日期都有效"
 
 #: ../plugins/fn-date/functions.c:730
 msgid "EOMONTH:end of month"
@@ -1200,9 +1170,7 @@ msgid ""
 "EOMONTH returns the date serial value of the end of the month specified by @"
 "{date} adjusted forward or backward the number of months specified by @"
 "{months}."
-msgstr ""
-"EOMONTH 會傳回以 @{date} 指定的月尾的時間流水號，並根據以 @{months} 給定 的用"
-"份數目移前或移後"
+msgstr "EOMONTH 會傳回以 @{date} 指定的月尾的時間流水號，並根據以 @{months} 給定 的用份數目移前或移後"
 
 #: ../plugins/fn-date/functions.c:770
 msgid "WORKDAY:add working days"
@@ -1220,9 +1188,7 @@ msgstr "holidays:假日的陣列"
 msgid ""
 "weekend:array of 0s and 1s, indicating whether a weekday (S, M, T, W, T, F, "
 "S) is on the weekend, defaults to {1,0,0,0,0,0,1}"
-msgstr ""
-"weekend:0 和 1 的陣列，決定哪些日子 (日, 一, 二, 三, 四, 五, 六) 會視為「週"
-"末」，預設是 {1,0,0,0,0,0,1}"
+msgstr "weekend:0 和 1 的陣列，決定哪些日子 (日, 一, 二, 三, 四, 五, 六) 會視為「週末」，預設是 {1,0,0,0,0,0,1}"
 
 #: ../plugins/fn-date/functions.c:776
 msgid ""
@@ -1242,7 +1208,7 @@ msgstr "@{weekend} 當中哪一項為非零值，對應的日子就不視為工�
 
 #: ../plugins/fn-date/functions.c:779 ../plugins/fn-date/functions.c:1001
 msgid "This function is Excel compatible if the last argument is omitted."
-msgstr "如不使用最後一項引數，此函式就會相容於 Excel"
+msgstr "如不使用最後一項引數，此函數就會兼容於 Excel"
 
 #: ../plugins/fn-date/functions.c:993
 msgid "NETWORKDAYS:number of workdays in range"
@@ -1252,9 +1218,7 @@ msgstr "NETWORKDAYS:範圍內的工作日數"
 msgid ""
 "NETWORKDAYS calculates the number of days from @{start_date} to @{end_date} "
 "skipping weekends and @{holidays} in the process."
-msgstr ""
-"NETWORKDAYS 會計算由 @{start_date} 至 @{end_date} 的日數，當中會跳過週末及 @"
-"{holidays}"
+msgstr "NETWORKDAYS 會計算由 @{start_date} 至 @{end_date} 的日數，當中會跳過週末及 @{holidays}"
 
 #: ../plugins/fn-date/functions.c:1160
 msgid "ISOWEEKNUM:ISO week number"
@@ -1264,16 +1228,13 @@ msgstr "ISOWEEKNUM:ISO 週數"
 msgid ""
 "ISOWEEKNUM calculates the week number according to the ISO 8601 standard.  "
 "Weeks start on Mondays and week 1 contains the first Thursday of the year."
-msgstr ""
-"ISOWEEKNUM 會按 ISO 8601 標準計算週數。一週由星期一開始，並且每年包含第一個星"
-"期四的為第一週"
+msgstr "ISOWEEKNUM 會按 ISO 8601 標準計算週數。一週由星期一開始，並且每年包含第一個星期四的為第一週"
 
 #: ../plugins/fn-date/functions.c:1163 ../plugins/fn-date/functions.c:1187
 msgid ""
 "January 1 of a year is sometimes in week 52 or 53 of the previous year.  "
 "Similarly, December 31 is sometimes in week 1 of the following year."
-msgstr ""
-"每年的1月1日有時屬於上年的第52或53週。同樣，12月31日有時屬於下年的第1週"
+msgstr "每年的1月1日有時屬於上年的第52或53週。同樣，12月31日有時屬於下年的第1週"
 
 #: ../plugins/fn-date/functions.c:1184
 msgid "ISOYEAR:year corresponding to the ISO week number"
@@ -1345,9 +1306,7 @@ msgid ""
 "YEARFRAC calculates the number of days from @{start_date} to @{end_date} "
 "according to the calendar specified by @{basis}, which defaults to 0, and "
 "expresses the result as a fractional number of years."
-msgstr ""
-"YEARFRAC 會根據以 @{basis} 指定的日曆基準 (預設為 0)計算由 @{start_date} 至 @"
-"{end_date} 之間的日數，並將結果以年份小數值表示"
+msgstr "YEARFRAC 會根據以 @{basis} 指定的日曆基準 (預設為 0)計算由 @{start_date} 至 @{end_date} 之間的日數，並將結果以年份小數值表示"
 
 #: ../plugins/fn-date/functions.c:1288
 msgid "DAYS:difference between dates in days"
@@ -2125,9 +2084,7 @@ msgstr "length:結果字串的最小長度"
 msgid ""
 "BASE converts @{n} to its string representation in base @{b}. Leading zeroes "
 "will be added to reach the minimum length given by @{length}."
-msgstr ""
-"BASE 會將 @{n} 轉換為 @{b} 進位的數字字串。如結果字串不足 @{length} 指定的長"
-"度的話，會在前面加上「0」字"
+msgstr "BASE 會將 @{n} 轉換為 @{b} 進位的數字字串。如結果字串不足 @{length} 指定的長度的話，會在前面加上「0」字"
 
 #: ../plugins/fn-eng/functions.c:236
 msgid "BIN2DEC:decimal representation of the binary number @{x}"
@@ -2156,9 +2113,7 @@ msgstr "places:數字位數"
 msgid ""
 "If @{places} is given, BIN2OCT pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, BIN2OCT returns #NUM!"
-msgstr ""
-"如有提供 @{places}，BIN2OCT 會在結果加上「0」以符合 @{places} 個位的長度要"
-"求；如做不到，BIN2OCT 會傳回 #數目有誤!"
+msgstr "如有提供 @{places}，BIN2OCT 會在結果加上「0」以符合 @{places} 個位的長度要求；如做不到，BIN2OCT 會傳回 #數目有誤!"
 
 #: ../plugins/fn-eng/functions.c:282
 msgid "BIN2HEX:hexadecimal representation of the binary number @{x}"
@@ -2168,9 +2123,7 @@ msgstr "BIN2HEX:將二進位數 @{x} 以十六進位數表示"
 msgid ""
 "If @{places} is given, BIN2HEX pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, BIN2HEX returns #NUM!"
-msgstr ""
-"如有提供 @{places}，BIN2HEX 會在結果加上「0」以符合 @{places} 個位的長度要"
-"求；如做不到，BIN2HEX 會傳回 #數目有誤!"
+msgstr "如有提供 @{places}，BIN2HEX 會在結果加上「0」以符合 @{places} 個位的長度要求；如做不到，BIN2HEX 會傳回 #數目有誤!"
 
 #: ../plugins/fn-eng/functions.c:307
 msgid "DEC2BIN:binary representation of the decimal number @{x}"
@@ -2185,9 +2138,7 @@ msgid ""
 "If @{places} is given and @{x} is non-negative, DEC2BIN pads the result with "
 "zeros to achieve exactly @{places} digits. If this is not possible, DEC2BIN "
 "returns #NUM!"
-msgstr ""
-"如有提供 @{places}，DEC2BIN 會在結果加上「0」以符合 @{places} 個位的長度要"
-"求；如做不到，DEC2BIN 會傳回 #數目有誤!"
+msgstr "如有提供 @{places}，DEC2BIN 會在結果加上「0」以符合 @{places} 個位的長度要求；如做不到，DEC2BIN 會傳回 #數目有誤!"
 
 #: ../plugins/fn-eng/functions.c:314
 msgid "If @{places} is given and @{x} is negative, @{places} is ignored."
@@ -2210,9 +2161,7 @@ msgstr "x:整數"
 msgid ""
 "If @{places} is given, DEC2OCT pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, DEC2OCT returns #NUM!"
-msgstr ""
-"如有提供 @{places}，DEC2OCT 會在結果加上「0」以符合 @{places} 個位的長度要"
-"求；如做不到，DEC2OCT 會傳回 #數目有誤!"
+msgstr "如有提供 @{places}，DEC2OCT 會在結果加上「0」以符合 @{places} 個位的長度要求；如做不到，DEC2OCT 會傳回 #數目有誤!"
 
 #: ../plugins/fn-eng/functions.c:360
 msgid "DEC2HEX:hexadecimal representation of the decimal number @{x}"
@@ -2222,9 +2171,7 @@ msgstr "DEC2HEX:將十進位數 @{x} 以十六進位數表示"
 msgid ""
 "If @{places} is given, DEC2HEX pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, DEC2HEX returns #NUM!"
-msgstr ""
-"如有提供 @{places}，DEC2HEX 會在結果加上「0」以符合 @{places} 個位的長度要"
-"求；如做不到，DEC2HEX 會傳回 #數目有誤!"
+msgstr "如有提供 @{places}，DEC2HEX 會在結果加上「0」以符合 @{places} 個位的長度要求；如做不到，DEC2HEX 會傳回 #數目有誤!"
 
 #: ../plugins/fn-eng/functions.c:383
 msgid "DECIMAL:decimal representation of @{x}"
@@ -2255,9 +2202,7 @@ msgstr "OCT2BIN:將八進位數 @{x} 以二進位數表示"
 msgid ""
 "If @{places} is given, OCT2BIN pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, OCT2BIN returns #NUM!"
-msgstr ""
-"如有提供 @{places}，OCT2BIN 會在結果加上「0」以符合 @{places} 個位的長度要"
-"求；如做不到，OCT2BIN 會傳回 #數目有誤!"
+msgstr "如有提供 @{places}，OCT2BIN 會在結果加上「0」以符合 @{places} 個位的長度要求；如做不到，OCT2BIN 會傳回 #數目有誤!"
 
 #: ../plugins/fn-eng/functions.c:454
 msgid "OCT2HEX:hexadecimal representation of the octal number @{x}"
@@ -2267,9 +2212,7 @@ msgstr "OCT2HEX:將八進位數 @{x} 以十六進位數表示"
 msgid ""
 "If @{places} is given, OCT2HEX pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, OCT2HEX returns #NUM!"
-msgstr ""
-"如有提供 @{places}，OCT2HEX 會在結果加上「0」以符合 @{places} 個位的長度要"
-"求；如做不到，OCT2HEX 會傳回 #數目有誤!"
+msgstr "如有提供 @{places}，OCT2HEX 會在結果加上「0」以符合 @{places} 個位的長度要求；如做不到，OCT2HEX 會傳回 #數目有誤!"
 
 #: ../plugins/fn-eng/functions.c:477
 msgid "HEX2BIN:binary representation of the hexadecimal number @{x}"
@@ -2286,9 +2229,7 @@ msgstr "x:十六進位數；可以字串方式輸入，如毋須使用A至F的�
 msgid ""
 "If @{places} is given, HEX2BIN pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, HEX2BIN returns #NUM!"
-msgstr ""
-"如有提供 @{places}，HEX2BIN 會在結果加上「0」以符合 @{places} 個位的長度要"
-"求；如做不到，HEX2BIN 會傳回 #數目有誤!"
+msgstr "如有提供 @{places}，HEX2BIN 會在結果加上「0」以符合 @{places} 個位的長度要求；如做不到，HEX2BIN 會傳回 #數目有誤!"
 
 #: ../plugins/fn-eng/functions.c:500
 msgid "HEX2OCT:octal representation of the hexadecimal number @{x}"
@@ -2298,9 +2239,7 @@ msgstr "HEX2OCT:將十六進位數 @{x} 以八進位數表示"
 msgid ""
 "If @{places} is given, HEX2OCT pads the result with zeros to achieve exactly "
 "@{places} digits. If this is not possible, HEX2OCT returns #NUM!"
-msgstr ""
-"如有提供 @{places}，HEX2OCT 會在結果加上「0」以符合 @{places} 個位的長度要"
-"求；如做不到，HEX2OCT 會傳回 #數目有誤!"
+msgstr "如有提供 @{places}，HEX2OCT 會在結果加上「0」以符合 @{places} 個位的長度要求；如做不到，HEX2OCT 會傳回 #數目有誤!"
 
 #: ../plugins/fn-eng/functions.c:523
 msgid "HEX2DEC:decimal representation of the hexadecimal number @{x}"
@@ -2406,9 +2345,7 @@ msgstr "to:單位 (字串)"
 msgid ""
 "CONVERT returns a conversion from one measurement system to another. @{x} is "
 "a value in @{from} units that is to be converted into @{to} units."
-msgstr ""
-"CONVERT 會轉換不同的量度單位。@{x} 是使用 @{from} 單位的值，要轉換為使用 @"
-"{to} 單位"
+msgstr "CONVERT 會轉換不同的量度單位。@{x} 是使用 @{from} 單位的值，要轉換為使用 @{to} 單位"
 
 #: ../plugins/fn-eng/functions.c:670
 msgid "If @{from} and @{to} are different types, CONVERT returns #N/A!"
@@ -2520,7 +2457,7 @@ msgstr ""
 "\t'ozm'\t\t盎司/安士(Ounce)\n"
 "\n"
 "距離：\n"
-"\t'm'   \t\t公尺/米(Meter)\n"
+"\t'm'   \t\t米/米(Meter)\n"
 "\t'mi'  \t\t英哩(Statute mile)\n"
 "\t'Nmi' \t\t海里/浬(Nautical mile)\n"
 "\t'in'  \t\t英吋(Inch)\n"
@@ -2606,11 +2543,11 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:753
 msgid "This function is Excel compatible (except \"picapt\")."
-msgstr "此函式相容於 Excel (\"picapt\" 除外)"
+msgstr "此函數兼容於 Excel (\"picapt\" 除外)"
 
 #: ../plugins/fn-eng/functions.c:1076
 msgid "ERF:Gauss error function"
-msgstr "ERF:高斯誤差函式"
+msgstr "ERF:高斯誤差函數"
 
 #: ../plugins/fn-eng/functions.c:1077
 msgid "lower:lower limit of the integral, defaults to 0"
@@ -2683,7 +2620,7 @@ msgstr "HEXREP 會將數字 @{x} 以十六進位數表示"
 msgid ""
 "This is a function meant for debugging.  The layout of the result may change "
 "and even depend on how Gnumeric was compiled."
-msgstr "這是用來除錯的函式。結果的配置會變，甚至可能和 Gnumeric 如何編譯有關"
+msgstr "這是用來除錯的函數。結果的配置會變，甚至可能和 Gnumeric 如何編譯有關"
 
 #: ../plugins/fn-eng/functions.c:1205
 msgid "INVSUMINV:the reciprocal of the sum of reciprocals of the arguments"
@@ -3991,7 +3928,7 @@ msgstr ""
 "  color          \t\t傳回 0\n"
 "  contents       \t\t傳回 @{cell} 的內容\n"
 "  column         \t\t傳回 @{cell} 的欄數\n"
-"  columnwidth    \t傳回欄位寬度\n"
+"  columnwidth    \t傳回欄位闊度\n"
 "  coord          \t\t傳回 @{cell} 的絕對位址\n"
 "  datatype       \t\t和「type」相同\n"
 "  filename       \t\t傳回 @{cell} 的檔案名稱\n"
@@ -4001,7 +3938,7 @@ msgstr ""
 "  parentheses    \t如 @{cell} 為負數\n"
 "                 \t\t\t並且其顯示格式包含括弧，傳回 1\n"
 "  prefix         \t\t傳回代表 @{cell} 的\n"
-"                 \t\t\t水平對齊方式的字元\n"
+"                 \t\t\t水平對齊方式的字符\n"
 "  prefixcharacter  \t和「prefix」相同\n"
 "  protect        \t\t如 @{cell} 已鎖定，傳回 1\n"
 "  row            \t\t\t傳回 @{cell} 的列數\n"
@@ -4010,7 +3947,7 @@ msgstr ""
 "                 \t\t\t如包含其他值，傳回 \"v\"\n"
 "                 \t\t\t如 @{cell} 是空白，傳回 \"b\"\n"
 "  value          \t\t傳回 @{cell} 的內容\n"
-"  width          \t\t傳回欄位寬度"
+"  width          \t\t傳回欄位闊度"
 
 #: ../plugins/fn-info/functions.c:1173
 msgid "EXPRESSION:expression in @{cell} as a string"
@@ -4035,7 +3972,7 @@ msgstr "cell:參照的儲存格"
 
 #: ../plugins/fn-info/functions.c:1212
 msgid "GET.FORMULA is the OpenFormula function FORMULA."
-msgstr "GET.FORMULA 相當於 OpenFormula 函式 FORMULA"
+msgstr "GET.FORMULA 相當於 OpenFormula 函數 FORMULA"
 
 #: ../plugins/fn-info/functions.c:1213
 msgid ""
@@ -4053,7 +3990,7 @@ msgstr "ISFORMULA:如 @{cell} 包含公式則傳回 TRUE"
 
 #: ../plugins/fn-info/functions.c:1254
 msgid "ISFORMULA is OpenFormula compatible."
-msgstr "ISFORMULA 相容於 OpenFormula"
+msgstr "ISFORMULA 兼容於 OpenFormula"
 
 #: ../plugins/fn-info/functions.c:1283
 msgid "COUNTBLANK:the number of blank cells in @{range}"
@@ -4168,7 +4105,7 @@ msgstr "ISBLANK:如 @{value} 是空白則為 TRUE"
 msgid ""
 "This function checks if a value is blank.  Empty cells are blank, but empty "
 "strings are not."
-msgstr "此函式檢查某個值是否空白。空白儲存格是空白，但空的字串則不是"
+msgstr "此函數檢查某個值是否空白。空白儲存格是空白，但空的字串則不是"
 
 #: ../plugins/fn-info/functions.c:1585
 msgid "ISEVEN:TRUE if @{n} is even"
@@ -4184,7 +4121,7 @@ msgstr "ISLOGICAL:如 @{value} 是邏輯值則為 TRUE"
 
 #: ../plugins/fn-info/functions.c:1608
 msgid "This function checks if a value is either TRUE or FALSE."
-msgstr "此函式檢查某個值是否 TRUE 或 FALSE"
+msgstr "此函數檢查某個值是否 TRUE 或 FALSE"
 
 #: ../plugins/fn-info/functions.c:1624
 msgid "ISNONTEXT:TRUE if @{value} is not text"
@@ -4198,7 +4135,7 @@ msgstr "ISNUMBER:如 @{value} 是數字則為 TRUE"
 msgid ""
 "This function checks if a value is a number.  Neither TRUE nor FALSE are "
 "numbers for this purpose."
-msgstr "此函式檢查某個值是否數字。TRUE 或 FALSE 皆不是數字"
+msgstr "此函數檢查某個值是否數字。TRUE 或 FALSE 皆不是數字"
 
 #: ../plugins/fn-info/functions.c:1659
 msgid "ISODD:TRUE if @{n} is odd"
@@ -4210,7 +4147,7 @@ msgstr "ISREF:如 @{value} 是參照則為 TRUE"
 
 #: ../plugins/fn-info/functions.c:1682
 msgid "This function checks if a value is a cell reference."
-msgstr "此函式檢查某個值是否儲存格參照"
+msgstr "此函數檢查某個值是否儲存格參照"
 
 #: ../plugins/fn-info/functions.c:1701
 msgid "ISTEXT:TRUE if @{value} is text"
@@ -4252,7 +4189,7 @@ msgstr ""
 "TYPE 會傳回代表 @{value} 的資料類型的數字：\n"
 "1  \t= 數字\n"
 "2  \t= 文字\n"
-"4  \t= 布林值\n"
+"4  \t= 邏輯值\n"
 "16 \t= 錯誤\n"
 "64 \t= 陣列"
 
@@ -4321,7 +4258,7 @@ msgstr "如沒有提供邏輯值，會傳回 #數值有誤!"
 msgid ""
 "This function is strict: if any argument is an error, the result will be the "
 "first such error."
-msgstr "此函式很嚴格：如任何一個引數是錯誤，那麼結果就會是第一個這種錯誤"
+msgstr "此函數很嚴格：如任何一個引數是錯誤，那麼結果就會是第一個這種錯誤"
 
 #: ../plugins/fn-logical/functions.c:57
 msgid "wiki:en:Logical_conjunction"
@@ -4444,9 +4381,7 @@ msgid ""
 "abs_num:1 for an absolute, 2 for a row absolute and column relative, 3 for a "
 "row relative and column absolute, and 4 for a relative reference; defaults "
 "to 1"
-msgstr ""
-"abs_num:1 代表絕對位址、2 代表列是絕對位址，欄是相對位址、3 代表列是相對位"
-"址，列是絕對位址、4 代表兩個都是相對位址；預設是 1"
+msgstr "abs_num:1 代表絕對位址、2 代表列是絕對位址，欄是相對位址、3 代表列是相對位址，列是絕對位址、4 代表兩個都是相對位址；預設是 1"
 
 #: ../plugins/fn-lookup/functions.c:735
 msgid ""
@@ -4498,9 +4433,7 @@ msgstr "CHOOSE 會傳回第 (@{index}+1) 個引數"
 msgid ""
 "@{index} is truncated to an integer. If @{index} < 1 or the truncated @"
 "{index} > number of values, CHOOSE returns #VALUE!"
-msgstr ""
-"@{index} 會縮減為整數。如 @{index} < 1 或[縮減了的 @{index}] > [值的數目]，"
-"CHOOSE 會傳回 #數值有誤!"
+msgstr "@{index} 會縮減為整數。如 @{index} < 1 或[縮減了的 @{index}] > [值的數目]，CHOOSE 會傳回 #數值有誤!"
 
 #: ../plugins/fn-lookup/functions.c:942
 msgid "VLOOKUP:search the first column of @{range} for @{value}"
@@ -4707,9 +4640,7 @@ msgstr ""
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9"
-msgstr ""
-"假設儲存格 A1、A2、...、A5 包含數字 11.4、17.3、21.3、25.9 及 40.1；那麼 "
-"INDEX(A1:A5,4,1,1) 等於 25.9"
+msgstr "假設儲存格 A1、A2、...、A5 包含數字 11.4、17.3、21.3、25.9 及 40.1；那麼 INDEX(A1:A5,4,1,1) 等於 25.9"
 
 #: ../plugins/fn-lookup/functions.c:1371
 msgid "COLUMN:vector of column numbers"
@@ -5045,9 +4976,7 @@ msgstr "ASINH:@{x} 的反雙曲正弦(inverse hyperbolic sine)"
 msgid ""
 "ASINH calculates the inverse hyperbolic sine of @{x}; that is the value "
 "whose hyperbolic sine is @{x}."
-msgstr ""
-"ASINH 會計算 @{x} 的反雙曲正弦(inverse hyperbolic sine)；也即是說此值的雙曲正"
-"弦(hyperbolic sine)就是 @{x}"
+msgstr "ASINH 會計算 @{x} 的反雙曲正弦(inverse hyperbolic sine)；也即是說此值的雙曲正弦(hyperbolic sine)就是 @{x}"
 
 #: ../plugins/fn-math/functions.c:370
 msgid "ATAN:the arc tangent of @{x}"
@@ -5057,8 +4986,7 @@ msgstr "ATAN:@{x} 的反正切(arc tangent)"
 msgid ""
 "ATAN calculates the arc tangent of @{x}; that is the value whose tangent is @"
 "{x}."
-msgstr ""
-"ATAN 會計算 @{x} 的反正切(arc tangent)；也即是說此值的正切(tangent)就是 @{x}"
+msgstr "ATAN 會計算 @{x} 的反正切(arc tangent)；也即是說此值的正切(tangent)就是 @{x}"
 
 #: ../plugins/fn-math/functions.c:375
 msgid "The result will be between −π/2 and +π/2."
@@ -5072,9 +5000,7 @@ msgstr "ATANH:@{x} 的反雙曲正切(inverse hyperbolic tangent)"
 msgid ""
 "ATANH calculates the inverse hyperbolic tangent of @{x}; that is the value "
 "whose hyperbolic tangent is @{x}."
-msgstr ""
-"ATANH 會計算 @{x} 的反雙曲正切(inverse hyperbolic tangent)；也即是說此值的雙"
-"曲正切(hyperbolic tangent)就是 @{x}"
+msgstr "ATANH 會計算 @{x} 的反雙曲正切(inverse hyperbolic tangent)；也即是說此值的雙曲正切(hyperbolic tangent)就是 @{x}"
 
 #: ../plugins/fn-math/functions.c:398
 msgid "If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!"
@@ -5254,7 +5180,7 @@ msgstr "EXPM1:EXP(@{x})-1"
 #: ../plugins/fn-math/functions.c:876
 msgid ""
 "This function has a higher resulting precision than evaluating EXP(@{x})-1."
-msgstr "此函式比起直接計算 EXP(@{x})-1 有較高精確度"
+msgstr "此函數比起直接計算 EXP(@{x})-1 有較高精確度"
 
 #: ../plugins/fn-math/functions.c:891
 msgid "FACT:the factorial of @{x}, i.e. @{x}!"
@@ -5505,7 +5431,7 @@ msgstr "CSC:@{x} 的餘割(cosecant)"
 #: ../plugins/fn-math/functions.c:1387 ../plugins/fn-math/functions.c:1407
 #: ../plugins/fn-math/functions.c:1427 ../plugins/fn-math/functions.c:1447
 msgid "This function is not Excel compatible."
-msgstr "此函式不相容於 Excel"
+msgstr "此函數不兼容於 Excel"
 
 #: ../plugins/fn-math/functions.c:1391
 msgid "wolfram:Cosecant.html"
@@ -5627,7 +5553,7 @@ msgstr "PI:𝜋 (圓周率) 常數"
 #: ../plugins/fn-math/functions.c:1633
 msgid ""
 "This function is Excel compatible, but it returns 𝜋 with a better precision."
-msgstr "此函式相容於 Excel，但其提供的 𝜋 值較為精確"
+msgstr "此函數兼容於 Excel，但其提供的 𝜋 值較為精確"
 
 #: ../plugins/fn-math/functions.c:1650
 msgid "TRUNC:@{x} truncated to @{d} digits"
@@ -5990,7 +5916,7 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:2964
 msgid ""
 "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
-msgstr "此函式不相容於 OpenFormula。請改用 ODF.SUMPRODUCT"
+msgstr "此函數不兼容於 OpenFormula。請改用 ODF.SUMPRODUCT"
 
 #: ../plugins/fn-math/functions.c:2970
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
@@ -6006,7 +5932,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:2979
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
-msgstr "此函式不相容於 Excel。請改用 SUMPRODUCT"
+msgstr "此函數不兼容於 Excel。請改用 SUMPRODUCT"
 
 #: ../plugins/fn-math/functions.c:3114
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
@@ -7452,9 +7378,7 @@ msgid ""
 "cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0). If the argument evaluates to TRUE, it is counted as one (1). "
 "Note that empty cells are not counted."
-msgstr ""
-"數字、文字及邏輯值都計算在內。如果儲存格中含有文字或者其邏輯值是 FALSE，會以"
-"數值 0 計算。若邏輯值為 TRUE，則以 1 計算。要注意空白的儲存格不會計算在內。"
+msgstr "數字、文字及邏輯值都計算在內。如果儲存格中含有文字或者其邏輯值是 FALSE，會以數值 0 計算。若邏輯值為 TRUE，則以 1 計算。要注意空白的儲存格不會計算在內。"
 
 #: ../plugins/fn-stat/functions.c:50
 msgid "VARP:variance of an entire population"
@@ -7681,9 +7605,7 @@ msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, "
 "and 42.7."
-msgstr ""
-"假設儲存格 A1、A2、...、A5 包含數字 11.4、17.3、21.3、25.9 及 40.1；而儲存格 "
-"B1、B2、... B5 包含 23.2、25.8、29.9、33.5、及 42.7"
+msgstr "假設儲存格 A1、A2、...、A5 包含數字 11.4、17.3、21.3、25.9 及 40.1；而儲存格 B1、B2、... B5 包含 23.2、25.8、29.9、33.5、及 42.7"
 
 #: ../plugins/fn-stat/functions.c:328 ../plugins/fn-stat/functions.c:358
 msgid "Then COVAR(A1:A5,B1:B5) equals 65.858."
@@ -7864,7 +7786,7 @@ msgstr "number2:第二個值"
 msgid ""
 "If the data set does not contain any duplicates this function returns a #N/A "
 "error."
-msgstr "如資料集內沒有重覆的數字，此函式會傳回 #不適用"
+msgstr "如資料集內沒有重覆的數字，此函數會傳回 #不適用"
 
 #: ../plugins/fn-stat/functions.c:576
 msgid ""
@@ -7943,9 +7865,7 @@ msgstr "COUNTA:引數內整數或小數的總數 (不包括空的儲存格)"
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 "11.4, \"missing\", \"missing\", 25.9, and 40.1."
-msgstr ""
-"假設儲存格 A1、A2、...、A5 包含數字及字串 11.4、\"missing\"、\"missing\"、"
-"25.9 及 40.1"
+msgstr "假設儲存格 A1、A2、...、A5 包含數字及字串 11.4、\"missing\"、\"missing\"、25.9 及 40.1"
 
 #: ../plugins/fn-stat/functions.c:682
 msgid "Then COUNTA(A1:A5) equals 5."
@@ -8000,7 +7920,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:805
 msgid ""
 "If less than three numbers are given, this function returns a #DIV/0! error."
-msgstr "如提供少於三個數字，此函式會傳回 #除零錯誤!"
+msgstr "如提供少於三個數字，此函數會傳回 #除零錯誤!"
 
 #: ../plugins/fn-stat/functions.c:808
 msgid "Then SKEW(A1:A5) equals 0.976798268."
@@ -8012,7 +7932,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:831
 msgid "If less than two numbers are given, SKEWP returns a #DIV/0! error."
-msgstr "如提供少於兩個數字，SKEWP 函式會傳回 #除零錯誤!"
+msgstr "如提供少於兩個數字，SKEWP 函數會傳回 #除零錯誤!"
 
 #: ../plugins/fn-stat/functions.c:833
 msgid "Then SKEWP(A1:A5) equals 0.655256198."
@@ -8127,8 +8047,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:991
 msgid ""
 "CHIDIST(@{x},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{x},@{dof})."
-msgstr ""
-"CHIDIST(@{x},@{dof}) 相當於 OpenFormula 函式 LEGACY.CHIDIST(@{x},@{dof})"
+msgstr "CHIDIST(@{x},@{dof}) 相當於 OpenFormula 函數 LEGACY.CHIDIST(@{x},@{dof})"
 
 #: ../plugins/fn-stat/functions.c:1012
 msgid "CHIINV:inverse of the survival function of the chi-squared distribution"
@@ -8142,8 +8061,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:1018
 msgid ""
 "CHIINV(@{p},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{p},@{dof})."
-msgstr ""
-"CHIINV(@{p},@{dof}) 相當於 OpenFormula 函式 LEGACY.CHIDIST(@{p},@{dof})"
+msgstr "CHIINV(@{p},@{dof}) 相當於 OpenFormula 函數 LEGACY.CHIDIST(@{p},@{dof})"
 
 #: ../plugins/fn-stat/functions.c:1039
 msgid "CHITEST:p value of the Goodness of Fit Test"
@@ -8216,7 +8134,7 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1208
 msgid "This function is Excel compatible for non-negative @{x}."
-msgstr "此函式相容於 Excel (如 @{x} 為非負數)"
+msgstr "此函數兼容於 Excel (如 @{x} 為非負數)"
 
 #: ../plugins/fn-stat/functions.c:1250
 msgid "TINV:inverse of the survival function of the Student t-distribution"
@@ -8821,9 +8739,7 @@ msgstr "AVERAGEA:所有數值及儲存格的平均數"
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 "11.4, 17.3, \"missing\", 25.9, and 40.1."
-msgstr ""
-"假設儲存格 A1、A2、...、A5 包含數字及字串 11.4、17.3、\"missing\"、25.9 及 "
-"40.1"
+msgstr "假設儲存格 A1、A2、...、A5 包含數字及字串 11.4、17.3、\"missing\"、25.9 及 40.1"
 
 #: ../plugins/fn-stat/functions.c:2463
 msgid "Then AVERAGEA(A1:A5) equals 18.94."
@@ -8922,20 +8838,18 @@ msgstr "significance:有效位數，預設為 3"
 #: ../plugins/fn-stat/functions.c:2655
 msgid ""
 "If @{array} contains no data points, this function returns a #NUM! error."
-msgstr "如 @{array} 沒有包含資料點，此函式會傳回 #數目有誤!"
+msgstr "如 @{array} 沒有包含資料點，此函數會傳回 #數目有誤!"
 
 #: ../plugins/fn-stat/functions.c:2657
 msgid ""
 "If @{significance} is less than one, this function returns a #NUM! error."
-msgstr "如 @{significance} 小於 1，此函式會傳回 #數目有誤!"
+msgstr "如 @{significance} 小於 1，此函數會傳回 #數目有誤!"
 
 #: ../plugins/fn-stat/functions.c:2659
 msgid ""
 "If @{x} exceeds the largest value or is less than the smallest value in @"
 "{array}, this function returns a #NUM! error."
-msgstr ""
-"如 @{x} 超過 @{array} 內的最大值或少於 @{array} 內的最小值，此函式會傳回 #數"
-"目有誤!"
+msgstr "如 @{x} 超過 @{array} 內的最大值或少於 @{array} 內的最小值，此函數會傳回 #數目有誤!"
 
 #: ../plugins/fn-stat/functions.c:2661
 msgid ""
@@ -9222,9 +9136,7 @@ msgid ""
 "Let us assume that the cells A1, A2, …, A5 contain numbers 11.4, 17.3, 21.3, "
 "25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and "
 "42.7."
-msgstr ""
-"假設儲存格 A1、A2、...、A5 包含數字 11.4、17.3、21.3、25.9 及 40.1；而儲存格 "
-"B1、B2、... B5 包含 23.2、25.8、29.9、33.5、及 42.7"
+msgstr "假設儲存格 A1、A2、...、A5 包含數字 11.4、17.3、21.3、25.9 及 40.1；而儲存格 B1、B2、... B5 包含 23.2、25.8、29.9、33.5、及 42.7"
 
 #: ../plugins/fn-stat/functions.c:3605
 msgid "Then TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}."
@@ -9355,7 +9267,7 @@ msgid ""
 "\t10   VAR\n"
 "\t11   VARP"
 msgstr ""
-"function_nbr:根據下表決定要用哪個函式：\n"
+"function_nbr:根據下表決定要用哪個函數：\n"
 "\t1   AVERAGE\n"
 "\t2   COUNT\n"
 "\t3   COUNTA\n"
@@ -9581,7 +9493,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:56
 msgid "CHAR:the CP1252 (Windows-1252) character for the code point @{x}"
-msgstr "CHAR:@{x} 碼點的 CP1252 (Windows-1252) 字元"
+msgstr "CHAR:@{x} 碼點的 CP1252 (Windows-1252) 字符"
 
 #: ../plugins/fn-string/functions.c:57
 msgid "x:code point"
@@ -9589,7 +9501,7 @@ msgstr "x:碼點"
 
 #: ../plugins/fn-string/functions.c:58
 msgid "CHAR(@{x}) returns the CP1252 (Windows-1252) character with code @{x}."
-msgstr "CHAR(@{x}) 會傳回 @{x} 碼點的 CP1252 (Windows-1252) 字元"
+msgstr "CHAR(@{x}) 會傳回 @{x} 碼點的 CP1252 (Windows-1252) 字符"
 
 #: ../plugins/fn-string/functions.c:59
 msgid "@{x} must be in the range 1 to 255."
@@ -9599,37 +9511,31 @@ msgstr "@{x} 必須介乎 1 至 255 之間"
 msgid ""
 "CP1252 (Windows-1252) is also known as the \"ANSI code page\", but it is not "
 "an ANSI standard."
-msgstr ""
-"CP1252 (Windows-1252) 又名「ANSI code page」，但其並非 ANSI (美國國家標準協"
-"會) 標準"
+msgstr "CP1252 (Windows-1252) 又名「ANSI code page」，但其並非 ANSI (美國國家標準協會) 標準"
 
 #: ../plugins/fn-string/functions.c:62
 msgid ""
 "CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains "
 "all of its printable characters. It also contains all of ISO-8859-15's "
 "printable characters (but partially at different positions.)"
-msgstr ""
-"CP1252 (Windows-1252) 建基於 ISO-8859-1 的早期稿本，並且包含其所有的可列印字"
-"元。其亦包含 ISO-8859-15 所有的可列印字元 (但部份位於不同碼位)"
+msgstr "CP1252 (Windows-1252) 建基於 ISO-8859-1 的早期稿本，並且包含其所有的可列印字符。其亦包含 ISO-8859-15 所有的可列印字符 (但部份位於不同碼位)"
 
 #: ../plugins/fn-string/functions.c:66 ../plugins/fn-string/functions.c:138
 msgid ""
 "In CP1252 (Windows-1252), 129, 141, 143, 144, and 157 do not have matching "
 "characters."
-msgstr "在 CP1252 (Windows-1252)，129、141、143、144 及 157 碼點沒有對應字元"
+msgstr "在 CP1252 (Windows-1252)，129、141、143、144 及 157 碼點沒有對應字符"
 
 #: ../plugins/fn-string/functions.c:67 ../plugins/fn-string/functions.c:139
 msgid ""
 "For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have CODE(CHAR(@"
 "{x}))=@{x}."
-msgstr ""
-"對於 1 至 255 的 @{x} 來說 (除了 129、141、143、144 及 157 碼點)，CODE(CHAR(@"
-"{x}))=@{x}"
+msgstr "對於 1 至 255 的 @{x} 來說 (除了 129、141、143、144 及 157 碼點)，CODE(CHAR(@{x}))=@{x}"
 
 #: ../plugins/fn-string/functions.c:105
 msgid ""
 "UNICHAR:the Unicode character represented by the Unicode code point @{x}"
-msgstr "UNICHAR:@{x} 碼點的 Unicode 字元"
+msgstr "UNICHAR:@{x} 碼點的 Unicode 字符"
 
 #: ../plugins/fn-string/functions.c:106
 msgid "x:Unicode code point"
@@ -9637,27 +9543,25 @@ msgstr "x:Unicode 碼點"
 
 #: ../plugins/fn-string/functions.c:133
 msgid "CODE:the CP1252 (Windows-1252) code point for the character @{c}"
-msgstr "CODE:@{c} 字元的 CP1252 (Windows-1252) 碼點"
+msgstr "CODE:@{c} 字符的 CP1252 (Windows-1252) 碼點"
 
 #: ../plugins/fn-string/functions.c:134 ../plugins/fn-string/functions.c:179
 msgid "c:character"
-msgstr "c:字元"
+msgstr "c:字符"
 
 #: ../plugins/fn-string/functions.c:135
 msgid "@{c} must be a valid CP1252 (Windows-1252) character."
-msgstr "@{c} 必須為有效的 CP1252 (Windows-1252) 字元"
+msgstr "@{c} 必須為有效的 CP1252 (Windows-1252) 字符"
 
 #: ../plugins/fn-string/functions.c:137
 msgid ""
 "CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains "
 "all of its printable characters (but partially at different positions.)"
-msgstr ""
-"CP1252 (Windows-1252) 建基於 ISO-8859-1 的早期稿本，並且包含其所有的可列印字"
-"元 (但部份位於不同碼位)"
+msgstr "CP1252 (Windows-1252) 建基於 ISO-8859-1 的早期稿本，並且包含其所有的可列印字符 (但部份位於不同碼位)"
 
 #: ../plugins/fn-string/functions.c:178
 msgid "UNICODE:the Unicode code point for the character @{c}"
-msgstr "UNICODE:@{c} 字元的 Unicode 碼點"
+msgstr "UNICODE:@{c} 字符的 Unicode 碼點"
 
 #: ../plugins/fn-string/functions.c:244
 msgid "EXACT:TRUE if @{string1} is exactly equal to @{string2}"
@@ -9673,7 +9577,7 @@ msgstr "string2:第二個字串"
 
 #: ../plugins/fn-string/functions.c:264
 msgid "LEN:the number of characters of the string @{s}"
-msgstr "LEN:@{s} 字串的字元數"
+msgstr "LEN:@{s} 字串的字符數"
 
 #: ../plugins/fn-string/functions.c:265 ../plugins/fn-string/functions.c:282
 #: ../plugins/fn-string/functions.c:300 ../plugins/fn-string/functions.c:332
@@ -9688,24 +9592,23 @@ msgstr "LENB:@{s} 字串使用的位元組數"
 
 #: ../plugins/fn-string/functions.c:299
 msgid "LEFT:the first @{num_chars} characters of the string @{s}"
-msgstr "LEFT:@{s} 字串的首 @{num_chars} 個字元"
+msgstr "LEFT:@{s} 字串的首 @{num_chars} 個字符"
 
 #: ../plugins/fn-string/functions.c:301 ../plugins/fn-string/functions.c:512
 msgid "num_chars:the number of characters to return (defaults to 1)"
-msgstr "num_chars:要傳回的字元數目 (預設為 1)"
+msgstr "num_chars:要傳回的字符數目 (預設為 1)"
 
 #: ../plugins/fn-string/functions.c:302
 msgid ""
 "If the string @{s} is in a right-to-left script, the returned first "
 "characters are from the right of the string."
-msgstr ""
-"如 @{s} 字串屬於「右至左」文字，傳回的首一個或幾個字元就會來自字串的右方"
+msgstr "如 @{s} 字串屬於「右至左」文字，傳回的首一個或幾個字符就會來自字串的右方"
 
 #: ../plugins/fn-string/functions.c:331
 msgid ""
 "LEFTB:the first characters  of the string @{s} comprising at most @"
 "{num_bytes} bytes"
-msgstr "LEFTB:@{s} 字串由 @{num_bytes} 個位元組組成的頭一個/幾個字元"
+msgstr "LEFTB:@{s} 字串由 @{num_bytes} 個位元組組成的頭一個/幾個字符"
 
 #: ../plugins/fn-string/functions.c:333 ../plugins/fn-string/functions.c:426
 #: ../plugins/fn-string/functions.c:548
@@ -9724,7 +9627,7 @@ msgstr ""
 msgid ""
 "If the string is in a right-to-left script, the returned first characters "
 "are from the right of the string."
-msgstr "如字串屬於「右至左」文字，傳回的首一個或幾個字元就會來自字串的右方"
+msgstr "如字串屬於「右至左」文字，傳回的首一個或幾個字符就會來自字串的右方"
 
 #: ../plugins/fn-string/functions.c:336 ../plugins/fn-string/functions.c:428
 #: ../plugins/fn-string/functions.c:472 ../plugins/fn-string/functions.c:551
@@ -9732,8 +9635,7 @@ msgstr "如字串屬於「右至左」文字，傳回的首一個或幾個字元
 msgid ""
 "While this function is syntactically Excel compatible, the differences in "
 "the underlying text encoding will usually yield different results."
-msgstr ""
-"雖然此函式在語法上相容於 Excel，但由於背後使用的編碼不同，會導致有不同的結果"
+msgstr "雖然此函數在語法上兼容於 Excel，但由於背後使用的編碼不同，會導致有不同的結果"
 
 #: ../plugins/fn-string/functions.c:337 ../plugins/fn-string/functions.c:430
 #: ../plugins/fn-string/functions.c:474 ../plugins/fn-string/functions.c:552
@@ -9751,7 +9653,7 @@ msgstr "LOWER:@{text} 字串的小寫版本"
 msgid ""
 "MID:the substring of the string @{s} starting at position @{position} "
 "consisting of @{length} characters"
-msgstr "MID:@{s} 字串的一部份 (於 @{position} 開始，由 @{length} 個字元組成)"
+msgstr "MID:@{s} 字串的一部份 (於 @{position} 開始，由 @{length} 個字符組成)"
 
 #: ../plugins/fn-string/functions.c:385
 msgid "position:the starting position"
@@ -9759,14 +9661,13 @@ msgstr "position:開始位置"
 
 #: ../plugins/fn-string/functions.c:386
 msgid "length:the number of characters to return"
-msgstr "length:要傳回的字元數目"
+msgstr "length:要傳回的字符數目"
 
 #: ../plugins/fn-string/functions.c:423
 msgid ""
 "MIDB:the characters following the first @{start_pos} bytes comprising at "
 "most @{num_bytes} bytes"
-msgstr ""
-"MIDB:@{s} 字串的一部份 (於 @{start_pos} 開始，由 @{num_bytes} 個位元組組成)"
+msgstr "MIDB:@{s} 字串的一部份 (於 @{start_pos} 開始，由 @{num_bytes} 個位元組組成)"
 
 #: ../plugins/fn-string/functions.c:425
 msgid "start_pos:the number of the byte with which to start (defaults to 1)"
@@ -9796,14 +9697,13 @@ msgstr "搜尋會區分大小寫"
 
 #: ../plugins/fn-string/functions.c:510
 msgid "RIGHT:the last @{num_chars} characters of the string @{s}"
-msgstr "RIGHT:@{s} 字串最後 @{num_chars} 個字元"
+msgstr "RIGHT:@{s} 字串最後 @{num_chars} 個字符"
 
 #: ../plugins/fn-string/functions.c:513 ../plugins/fn-string/functions.c:550
 msgid ""
 "If the string @{s} is in a right-to-left script, the returned last "
 "characters are from the left of the string."
-msgstr ""
-"如 @{s} 字串屬於「右至左」文字，傳回的末一個或幾個字元就會來自字串的左方"
+msgstr "如 @{s} 字串屬於「右至左」文字，傳回的末一個或幾個字符就會來自字串的左方"
 
 #: ../plugins/fn-string/functions.c:546
 msgid ""
@@ -9837,13 +9737,13 @@ msgstr "num:非負整數"
 
 #: ../plugins/fn-string/functions.c:666
 msgid "CLEAN:@{text} with any non-printable characters removed"
-msgstr "CLEAN:移除了任何非列印字元的 @{text}"
+msgstr "CLEAN:移除了任何非列印字符的 @{text}"
 
 #: ../plugins/fn-string/functions.c:668
 msgid ""
 "CLEAN removes non-printable characters from its argument leaving only "
 "regular characters and white-space."
-msgstr "CLEAN 會將引數字串的非列印字元移除，只留下普通字元和空白字元"
+msgstr "CLEAN 會將引數字串的非列印字符移除，只留下普通字符和空白字符"
 
 #: ../plugins/fn-string/functions.c:695
 msgid ""
@@ -9891,7 +9791,7 @@ msgstr "start:開始位置"
 
 #: ../plugins/fn-string/functions.c:839
 msgid "num:number of characters to be replaced"
-msgstr "num:要取代的字元數目"
+msgstr "num:要取代的字符數目"
 
 #: ../plugins/fn-string/functions.c:840 ../plugins/fn-string/functions.c:891
 #: ../plugins/fn-string/functions.c:1159
@@ -9958,9 +9858,7 @@ msgstr "separator:小數分隔符號"
 msgid ""
 "If @{text} does not look like a decimal number, NUMBERVALUE returns the "
 "value VALUE would return (ignoring the given @{separator})."
-msgstr ""
-"如 @{text} 看來不像小數，NUMBERVALUE 會傳回 VALUE 會傳回的值 (忽略提供的 @"
-"{separator})"
+msgstr "如 @{text} 看來不像小數，NUMBERVALUE 會傳回 VALUE 會傳回的值 (忽略提供的 @{separator})"
 
 #: ../plugins/fn-string/functions.c:1156
 msgid "SUBSTITUTE:@{text} with all occurrences of @{old} replaced by @{new}"
@@ -10044,23 +9942,23 @@ msgstr ""
 msgid ""
 "ASC:text with full-width katakana and ASCII characters converted to half-"
 "width"
-msgstr "ASC:將全形片假名和 ASCII 字元轉換為半形版本"
+msgstr "ASC:將全形片假名和 ASCII 字符轉換為半形版本"
 
 #: ../plugins/fn-string/functions.c:1441
 msgid ""
 "ASC converts full-width katakana and ASCII characters to half-width "
 "equivalent characters, copying all others. "
-msgstr "ASC 會將全形片假名和 ASCII 字元轉換為半形版本的相等字元；其他字元不變"
+msgstr "ASC 會將全形片假名和 ASCII 字符轉換為半形版本的相等字符；其他字符不變"
 
 #: ../plugins/fn-string/functions.c:1442 ../plugins/fn-string/functions.c:1570
 msgid ""
 "The distinction between half-width and full-width characters is described in "
 "http://www.unicode.org/reports/tr11/."
-msgstr "半形和全形字元的分別見 http://www.unicode.org/reports/tr11/"
+msgstr "半形和全形字符的分別見 http://www.unicode.org/reports/tr11/"
 
 #: ../plugins/fn-string/functions.c:1443 ../plugins/fn-string/functions.c:1572
 msgid "For most strings, this function has the same effect as in Excel."
-msgstr "在絕大部份情況此函式和 Excel 的一樣"
+msgstr "在絕大部份情況此函數和 Excel 的一樣"
 
 #: ../plugins/fn-string/functions.c:1444
 msgid ""
@@ -10072,13 +9970,13 @@ msgstr ""
 msgid ""
 "JIS:text with half-width katakana and ASCII characters converted to full-"
 "width"
-msgstr "JIS:將半形片假名和 ASCII 字元轉換為全形版本"
+msgstr "JIS:將半形片假名和 ASCII 字符轉換為全形版本"
 
 #: ../plugins/fn-string/functions.c:1568
 msgid ""
 "JIS converts half-width katakana and ASCII characters to full-width "
 "equivalent characters, copying all others. "
-msgstr "JIS 會將半形片假名和 ASCII 字元轉換為全形版本的相等字元；其他字元不變"
+msgstr "JIS 會將半形片假名和 ASCII 字符轉換為全形版本的相等字符；其他字符不變"
 
 #: ../plugins/fn-string/functions.c:1573
 msgid ""
