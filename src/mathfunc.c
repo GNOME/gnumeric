@@ -6528,11 +6528,13 @@ static void
 gnm_matrix_eigen_update (guint k, gnm_float t, gnm_float *eigenvalues, gboolean *changed, guint *state)
 {
 	gnm_float y = eigenvalues[k];
+	gboolean unchanged;
 	eigenvalues[k] += t;
-	if (changed[k] && y == eigenvalues[k]) {
+	unchanged = (y == eigenvalues[k]);
+	if (changed[k] && unchanged) {
 		changed[k] = FALSE;
 		(*state)--;
-	} else if ((!changed[k]) && (y != eigenvalues[k])) {
+	} else if (!changed[k] && !unchanged) {
 		changed[k] = TRUE;
 		(*state)++;
 	}
@@ -6577,19 +6579,23 @@ gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigen
 			g_print ("gnm_matrix_eigen exceeded iterations\n");
 			return FALSE;
 		}
-		for (k = 1; k < (usize-1); k++)
+		for (k = 1; k < usize - 1; k++)
 			if (gnm_abs (matrix[k][ind[k]]) > gnm_abs (matrix[m][ind[m]]))
 				m = k;
 		l = ind[m];
 		pivot = matrix[m][l];
 		/* pivot is (m,l) */
+		if (pivot == 0) {
+			g_printerr ("gnm_matrix_eigen underflow in pivot.\n");
+			break;
+		}
 
-		y = (eigenvalues[l] - eigenvalues[m])/2;
-		t = gnm_abs (y) + gnm_sqrt (pivot*pivot+y*y);
-		s = gnm_sqrt (pivot*pivot+t*t);
-		c = t/s;
-		s = pivot/s;
-		t = pivot * pivot /t;
+		y = (eigenvalues[l] - eigenvalues[m]) / 2;
+		t = gnm_abs (y) + gnm_hypot (pivot, y);
+		s = gnm_hypot (pivot, t);
+		c = t / s;
+		s = pivot / s;
+		t = pivot * pivot / t;
 		if (y < 0) {
 			s = -s;
 			t = -t;

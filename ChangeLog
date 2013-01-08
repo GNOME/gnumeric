@@ -1,3 +1,8 @@
+2013-01-07  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (gnm_matrix_eigen): Detect underflow of the
+	pivot.  Use gnm_hypot where possible.
+
 2013-01-04  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-clipboard.c (gnm_x_claim_clipboard): Take a GdkDisplay
