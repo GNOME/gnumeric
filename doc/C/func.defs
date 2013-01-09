@@ -3565,7 +3565,7 @@ The depreciation coefficient used is:
 
 @CATEGORY=Mathematics
 @FUNCTION=PRODUCT
-@SHORTDESC=product  of the given values
+@SHORTDESC=product of the given values
 @SYNTAX=PRODUCT(values,…)
 @ARGUMENTDESCRIPTION=@{values}: a list of values to multiply
 @DESCRIPTION=PRODUCT computes the product of all the values and cells referenced in the argument list.

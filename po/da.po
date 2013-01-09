@@ -11262,7 +11262,7 @@ msgstr "Denne funktion er OpenFormula-kompatibel."
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:70
-msgid "PRODUCT:product  of the given values"
+msgid "PRODUCT:product of the given values"
 msgstr "PRODUKT:produktet af de givne værdier"
 
 #. xgettext : see po-functions/README.translators

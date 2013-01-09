@@ -11804,7 +11804,7 @@ msgstr "Ова функција је сагласна са Отвореном ф
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:70
-msgid "PRODUCT:product  of the given values"
+msgid "PRODUCT:product of the given values"
 msgstr "ПРОИЗВОД:производ  датих вредности"
 
 #. xgettext : see po-functions/README.translators

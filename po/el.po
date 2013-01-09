@@ -12135,7 +12135,7 @@ msgstr "Η συνάρτηση αυτή είναι συμβατή με την Ope
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:70
-msgid "PRODUCT:product  of the given values"
+msgid "PRODUCT:product of the given values"
 msgstr "PRODUCT:γινόμενο των δεδομένων τιμών"
 
 #. xgettext : see po-functions/README.translators

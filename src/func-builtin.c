@@ -67,7 +67,7 @@ gnumeric_sum (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_product[] = {
 	/* xgettext : see po-functions/README.translators */
-	{ GNM_FUNC_HELP_NAME, N_("PRODUCT:product  of the given values")},
+	{ GNM_FUNC_HELP_NAME, N_("PRODUCT:product of the given values")},
 	/* xgettext : see po-functions/README.translators */
 	{ GNM_FUNC_HELP_ARG, N_("values:a list of values to multiply")},
 	{ GNM_FUNC_HELP_DESCRIPTION, N_("PRODUCT computes the product of all the values and cells referenced in the argument list.")},

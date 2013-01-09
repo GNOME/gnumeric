@@ -11375,7 +11375,7 @@ msgstr "此函數兼容於 OpenFormula"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:70
-msgid "PRODUCT:product  of the given values"
+msgid "PRODUCT:product of the given values"
 msgstr "PRODUCT:給定值的積"
 
 #. xgettext : see po-functions/README.translators
