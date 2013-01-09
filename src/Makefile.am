@@ -177,7 +177,6 @@ libspreadsheet_la_SOURCES =			\
 	style-border.c				\
 	style-color.c				\
 	style-conditions.c			\
-	symbol.c				\
 	undo.c					\
 	validation.c				\
 	value.c					\
@@ -309,7 +308,6 @@ libspreadsheet_include_HEADERS = 	\
 	style-color.h				\
 	style-conditions.h			\
 	style-font.h				\
-	symbol.h				\
 	undo.h					\
 	validation.h				\
 	validation-combo.h			\

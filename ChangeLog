@@ -1,5 +1,17 @@
 2013-01-09  Morten Welinder  <terra@gnome.org>
 
+	* src/symbol.c: delete.
+
+	* src/func.c: rewrite to use GHashTable instead of symbol.c
+	(gnm_func_lookup_prefix): Take extra argument indicating whether
+	to search translated names.  Caller changed.
+
+	* src/parse-util.c (std_func_map): Lookup translated name as
+	needed.
+	(parse_util_init): Add enviroment magic to turn on translated
+	functions names.  This is not ready for prime time and should be
+	controlled by a user preference eventually.
+
 	* src/mathfunc.c (gnm_matrix_eigen): Silence warning.  Document a
 	bit.
 

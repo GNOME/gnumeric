@@ -21,7 +21,6 @@
 #include "expr-impl.h"
 #include "expr-name.h"
 #include "cell.h"
-#include "symbol.h"
 #include "workbook-priv.h"
 #include "sheet.h"
 #include "value.h"
@@ -39,13 +38,16 @@
 #define F2(func,s) dgettext ((func)->textdomain->str, (s))
 
 static GList	    *categories;
-static SymbolTable  *global_symbol_table;
 static GnmFuncGroup *unknown_cat;
+
+static GHashTable *functions_by_name;
+static GHashTable *functions_by_localized_name;
 
 void
 functions_init (void)
 {
-	global_symbol_table = symbol_table_new ();
+	functions_by_name = g_hash_table_new (g_str_hash, g_str_equal);
+	functions_by_localized_name = g_hash_table_new (g_str_hash, g_str_equal);
 	func_builtin_init ();
 }
 
@@ -64,8 +66,11 @@ functions_shutdown (void)
 	}
 	func_builtin_shutdown ();
 
-	symbol_table_destroy (global_symbol_table);
-	global_symbol_table = NULL;
+	g_hash_table_destroy (functions_by_name);
+	functions_by_name = NULL;
+
+	g_hash_table_destroy (functions_by_localized_name);
+	functions_by_localized_name = NULL;
 }
 
 inline void
@@ -78,11 +83,7 @@ gnm_func_load_if_stub (GnmFunc *func)
 static void
 copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer array)
 {
-	Symbol *sym = value;
-	GnmFunc *fd = sym->data;
-
-	if (sym->type != SYMBOL_FUNCTION)
-		return;
+	GnmFunc *fd = value;
 
 	if (fd->name == NULL ||
 	    strcmp (fd->name, "perl_adder") == 0 ||
@@ -93,7 +94,7 @@ copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer array)
 	    strcmp (fd->name, "py_bitand") == 0)
 		return;
 
-	gnm_func_load_if_stub ((GnmFunc *) fd);
+	gnm_func_load_if_stub (fd);
 	if (fd->help != NULL)
 		g_ptr_array_add (array, fd);
 }
@@ -118,13 +119,10 @@ func_def_cmp (gconstpointer a, gconstpointer b)
 }
 
 static void
-cb_dump_usage (gpointer key, Symbol *sym, FILE *out)
+cb_dump_usage (gpointer key, GnmFunc const *fd, FILE *out)
 {
-	if (sym != NULL) {
-		GnmFunc const *fd = sym->data;
-		if (fd != NULL && fd->usage_count > 0)
-			fprintf (out, "%d,%s\n", fd->usage_count, fd->name);
-	}
+	if (fd->usage_count > 0)
+		fprintf (out, "%d,%s\n", fd->usage_count, fd->name);
 }
 
 static char *
@@ -242,16 +240,17 @@ function_dump_defs (char const *filename, int dump_type)
 	}
 
 	if (dump_type == 3) {
-		g_hash_table_foreach (global_symbol_table->hash,
-			(GHFunc) cb_dump_usage, output_file);
+		g_hash_table_foreach (functions_by_name,
+				      (GHFunc) cb_dump_usage,
+				      output_file);
 		fclose (output_file);
 		return;
 	}
 
 	/* TODO : Use the translated names and split by fn_group. */
 	ordered = g_ptr_array_new ();
-	g_hash_table_foreach (global_symbol_table->hash,
-		copy_hash_table_to_ptr_array, ordered);
+	g_hash_table_foreach (functions_by_name,
+			      copy_hash_table_to_ptr_array, ordered);
 
 	if (ordered->len > 0)
 		qsort (&g_ptr_array_index (ordered, 0),
@@ -750,7 +749,7 @@ gnm_func_sanity_check (void)
 	unsigned ui;
 
 	ordered = g_ptr_array_new ();
-	g_hash_table_foreach (global_symbol_table->hash,
+	g_hash_table_foreach (functions_by_name,
 			      copy_hash_table_to_ptr_array, ordered);
 	if (ordered->len > 0)
 		qsort (&g_ptr_array_index (ordered, 0),
@@ -965,7 +964,6 @@ gnm_func_load_stub (GnmFunc *func)
 void
 gnm_func_free (GnmFunc *func)
 {
-	Symbol *sym;
 	GnmFuncGroup *group;
 
 	g_return_if_fail (func != NULL);
@@ -983,8 +981,10 @@ gnm_func_free (GnmFunc *func)
 	}
 
 	if (!(func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL)) {
-		sym = symbol_lookup (global_symbol_table, func->name);
-		symbol_unref (sym);
+		g_hash_table_remove (functions_by_name, func->name);
+		if (func->localized_name)
+			g_hash_table_remove (functions_by_localized_name,
+					     func->localized_name);
 	}
 
 	if (func->fn_type == GNM_FUNC_TYPE_ARGS)
@@ -1042,9 +1042,31 @@ gnm_func_get_type (void)
 GnmFunc *
 gnm_func_lookup (char const *name, Workbook *scope)
 {
-	Symbol *sym = symbol_lookup (global_symbol_table, name);
-	if (sym != NULL)
-		return sym->data;
+	GnmFunc *fd = g_hash_table_lookup (functions_by_name, name);
+	if (fd != NULL)
+		return fd;
+	if (scope == NULL || scope->sheet_local_functions == NULL)
+		return NULL;
+	return g_hash_table_lookup (scope->sheet_local_functions, (gpointer)name);
+}
+
+GnmFunc *
+gnm_func_lookup_localized (char const *name, Workbook *scope)
+{
+	GnmFunc *fd;
+	GHashTableIter hiter;	
+	gpointer value;
+
+	/* Must localize all function name.  */
+	g_hash_table_iter_init (&hiter, functions_by_name);
+	while (g_hash_table_iter_next (&hiter, NULL, &value)) {
+		GnmFunc *fd = value;
+		(void)gnm_func_get_name (fd, TRUE);
+	}
+
+	fd = g_hash_table_lookup (functions_by_localized_name, name);
+	if (fd != NULL)
+		return fd;
 	if (scope == NULL || scope->sheet_local_functions == NULL)
 		return NULL;
 	return g_hash_table_lookup (scope->sheet_local_functions, (gpointer)name);
@@ -1052,17 +1074,34 @@ gnm_func_lookup (char const *name, Workbook *scope)
 
 /**
  * gnm_func_lookup_prefix:
- * @prefix:
+ * @prefix: prefix to search for
  * @scope:
+ * @trans: whether to search translated function names
  *
  * Returns: (element-type GnmFunc*) (transfer full):
  **/
 GSList *
-gnm_func_lookup_prefix   (char const *prefix, Workbook *scope)
+gnm_func_lookup_prefix (char const *prefix, Workbook *scope, gboolean trans)
 {
-	GSList *list = symbol_names (global_symbol_table, NULL, prefix);
+	GSList *res = NULL;
+	GHashTableIter hiter;	
+	gpointer value;
 
-	return list;
+	/*
+	 * Always iterate over functions_by_name as the localized name
+	 * might not be set yet.
+	 */
+	g_hash_table_iter_init (&hiter, functions_by_name);
+	while (g_hash_table_iter_next (&hiter, NULL, &value)) {
+		GnmFunc *fd = value;
+		const char *name = gnm_func_get_name (fd, trans);
+		if (g_str_has_prefix (name, prefix)) {
+			gnm_func_ref (fd);
+			res = g_slist_prepend (res, fd);
+		}
+	}
+
+	return res;
 }
 
 GnmFunc *
@@ -1123,7 +1162,8 @@ gnm_func_add (GnmFuncGroup *fn_group,
 	if (fn_group != NULL)
 		gnm_func_group_add_func (fn_group, func);
 	if (!(func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL))
-		symbol_install (global_symbol_table, func->name, SYMBOL_FUNCTION, func);
+		g_hash_table_insert (functions_by_name,
+				     (gpointer)(func->name), func);
 
 	func->arg_names_p = function_def_create_arg_names (func);
 
@@ -1168,7 +1208,9 @@ gnm_func_add_stub (GnmFuncGroup *fn_group,
 	func->fn_group = fn_group;
 	if (fn_group != NULL)
 		gnm_func_group_add_func (fn_group, func);
-	symbol_install (global_symbol_table, func->name, SYMBOL_FUNCTION, func);
+
+	g_hash_table_insert (functions_by_name,
+			     (gpointer)(func->name), func);
 
 	return func;
 }
@@ -1264,13 +1306,17 @@ char const *
 gnm_func_get_name (GnmFunc const *func, gboolean localized_function_names)
 {
 	int i;
+	GnmFunc *fd = (GnmFunc *)func;
 
 	g_return_val_if_fail (func != NULL, NULL);
 
 	if (!localized_function_names)
 		return func->name;
 
-	gnm_func_load_if_stub ((GnmFunc *)func);
+	if (func->localized_name)
+		return func->localized_name;
+
+	gnm_func_load_if_stub (fd);
 
 	for (i = 0;
 	     (func->localized_name == NULL &&
@@ -1288,12 +1334,15 @@ gnm_func_get_name (GnmFunc const *func, gboolean localized_function_names)
 			continue;
 
 		U = split_at_colon (F2 (func, s), NULL);
-		((GnmFunc *)func)->localized_name = U ? g_utf8_strdown (U, -1) : NULL;
+		fd->localized_name = U ? g_utf8_strdown (U, -1) : NULL;
 		g_free (U);
 	}
 
 	if (!func->localized_name)
-		((GnmFunc *)func)->localized_name = g_strdup (func->name);
+		fd->localized_name = g_strdup (func->name);
+
+	g_hash_table_insert (functions_by_localized_name,
+			     fd->localized_name, fd);
 
 	return func->localized_name;
 }

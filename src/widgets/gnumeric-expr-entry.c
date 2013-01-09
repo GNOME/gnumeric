@@ -1161,7 +1161,8 @@ gee_check_tooltip (GnmExprEntry *gee)
 		end_t = gli->end;
 		prefix = g_strndup (str + start_t, end_t - start_t);
 		list = gnm_func_lookup_prefix
-			(prefix, gee->sheet->workbook);
+			(prefix, gee->sheet->workbook,
+			 gee_convs (gee)->localized_function_names);
 		g_free (prefix);
 		if (list != NULL) {
 			list = g_slist_sort_with_data

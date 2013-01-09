@@ -1389,10 +1389,16 @@ static GnmExpr const *
 std_func_map (GnmConventions const *convs, Workbook *scope,
 	      char const *name, GnmExprList *args)
 {
-	GnmFunc *f;
+	GnmFunc *f = convs->localized_function_names
+		? gnm_func_lookup_localized (name, scope)
+		: gnm_func_lookup (name, scope);
 
-	if (NULL == (f = gnm_func_lookup (name, scope)))
+	if (!f) {
+		/* Ok, great.  What do we do if we are supposed to be using
+		   localized function names?  */
 		f = gnm_func_add_placeholder (scope, name, "", TRUE);
+	}
+
 	return gnm_expr_new_funcall (f, args);
 }
 
@@ -1527,11 +1533,14 @@ parse_util_init (void)
 	convs = gnm_conventions_new ();
 	convs->range_sep_colon		 = TRUE;
 	convs->r1c1_addresses		 = FALSE;
+	/* Not ready for general use yet.  */
+	convs->localized_function_names = g_getenv ("GNM_LOCAL_FUNCS") != NULL;
 	gnm_conventions_default	 = convs;
 
 	convs = gnm_conventions_new ();
 	convs->range_sep_colon		 = TRUE;
 	convs->r1c1_addresses		 = TRUE;
+	convs->localized_function_names = gnm_conventions_default->localized_function_names;
 	gnm_conventions_xls_r1c1	 = convs;
 }
 
