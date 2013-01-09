@@ -279,7 +279,7 @@ msgstr "Hvis @{i} er hverken \"i\" eller \"j\", returnerer COMPLEX #VÆRDI!"
 #: ../plugins/fn-string/functions.c:1117 ../plugins/fn-string/functions.c:1188
 #: ../plugins/fn-string/functions.c:1271
 msgid "This function is Excel compatible."
-msgstr ""
+msgstr "Denne funktion virker på samme måde som Excels."
 
 #: ../plugins/fn-complex/functions.c:111
 msgid "IMAGINARY:the imaginary part of the complex number @{z}"
@@ -306,7 +306,7 @@ msgstr ""
 #: ../plugins/fn-complex/functions.c:1049
 #: ../plugins/fn-complex/functions.c:1074
 msgid "z:a complex number"
-msgstr ""
+msgstr "z:et komplekst tal"
 
 #: ../plugins/fn-complex/functions.c:113 ../plugins/fn-complex/functions.c:140
 #: ../plugins/fn-complex/functions.c:164 ../plugins/fn-complex/functions.c:191
@@ -357,7 +357,7 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:286
 msgid "IMTAN:the tangent of the complex number @{z}"
-msgstr ""
+msgstr "IMTAN:tangens af et komplekst tal @{z}"
 
 #: ../plugins/fn-complex/functions.c:312
 msgid "IMSEC:the secant of the complex number @{z}"
@@ -4899,7 +4899,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:222
 msgid "ABS:absolute value"
-msgstr ""
+msgstr "ABS:absolut værdi"
 
 #: ../plugins/fn-math/functions.c:224
 msgid ""
@@ -5101,13 +5101,13 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:750
 msgid "COS:the cosine of @{x}"
-msgstr ""
+msgstr "COS:kosinus af @{x}"
 
 #: ../plugins/fn-math/functions.c:751 ../plugins/fn-math/functions.c:825
 #: ../plugins/fn-math/functions.c:1342 ../plugins/fn-math/functions.c:1361
 #: ../plugins/fn-math/functions.c:1401 ../plugins/fn-math/functions.c:1574
 msgid "x:angle in radians"
-msgstr ""
+msgstr "x:vinkel i radianer"
 
 #: ../plugins/fn-math/functions.c:753
 msgid "wolfram:Cosine.html"
@@ -5119,7 +5119,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:788
 msgid "COT:the cotangent of @{x}"
-msgstr ""
+msgstr "COT:kotangens af @{x}"
 
 #: ../plugins/fn-math/functions.c:792
 msgid "wolfram:Cotangent.html"
@@ -5144,15 +5144,15 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:842
 msgid "EXP:e raised to the power of @{x}"
-msgstr ""
+msgstr "EXP:exponentialfunktionen af @{x}"
 
 #: ../plugins/fn-math/functions.c:844
 msgid "e is the base of the natural logarithm."
-msgstr ""
+msgstr "e er den naturlige logaritmes basis."
 
 #: ../plugins/fn-math/functions.c:860
 msgid "EXPM1:EXP(@{x})-1"
-msgstr ""
+msgstr "EXPM1:EXP(@{x})-1"
 
 #: ../plugins/fn-math/functions.c:862
 msgid ""
@@ -5169,7 +5169,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:908
 msgid "GAMMA:the Gamma function"
-msgstr ""
+msgstr "GAMMA:gammafunktionen"
 
 #: ../plugins/fn-math/functions.c:938
 msgid "GAMMALN:natural logarithm of the Gamma function"
@@ -5300,7 +5300,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1155
 msgid "LN:the natural logarithm of @{x}"
-msgstr ""
+msgstr "LN:den naturlige logaritme af @{x}"
 
 #: ../plugins/fn-math/functions.c:1157
 msgid "If @{x} ≤ 0, LN returns #NUM! error."
@@ -5308,7 +5308,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1178
 msgid "LN1P:LN(1+@{x})"
-msgstr ""
+msgstr "LN1P:LN(1+@{x})"
 
 #: ../plugins/fn-math/functions.c:1180
 msgid ""
@@ -5370,11 +5370,11 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1324
 msgid "x:angle in degrees"
-msgstr ""
+msgstr "x:vinkel i grader"
 
 #: ../plugins/fn-math/functions.c:1341
 msgid "SIN:the sine of @{x}"
-msgstr ""
+msgstr "SIN:sinus af @{x}"
 
 #: ../plugins/fn-math/functions.c:1346
 msgid "wolfram:Sine.html"
@@ -5431,11 +5431,11 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1456
 msgid "SQRT:square root of @{x}"
-msgstr ""
+msgstr "SQRT:kvadratroden af @{x}"
 
 #: ../plugins/fn-math/functions.c:1457 ../plugins/fn-math/functions.c:1863
 msgid "x:non-negative number"
-msgstr ""
+msgstr "x:ikke-negativt tal"
 
 #: ../plugins/fn-math/functions.c:1459
 msgid "If @{x} is negative, SQRT returns #NUM!"
@@ -5496,7 +5496,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1573
 msgid "TAN:the tangent of @{x}"
-msgstr ""
+msgstr "TAN:tangens af @{x}"
 
 #: ../plugins/fn-math/functions.c:1590
 msgid "TANH:the hyperbolic tangent of @{x}"
@@ -5504,7 +5504,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1607
 msgid "PI:the constant π"
-msgstr ""
+msgstr "PI:konstanten π"
 
 #: ../plugins/fn-math/functions.c:1608
 msgid ""
@@ -5539,7 +5539,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1731
 msgid "x:non-negative integer"
-msgstr ""
+msgstr "x:ikke-negativt heltal"
 
 #: ../plugins/fn-math/functions.c:1732
 msgid "FACTDOUBLE function returns the double factorial @{x}!!"
@@ -5597,7 +5597,7 @@ msgstr ""
 
 #: ../plugins/fn-math/functions.c:1835
 msgid "SIGN:sign of @{x}"
-msgstr ""
+msgstr "SIGN:fortegn af @{x}"
 
 #: ../plugins/fn-math/functions.c:1837
 msgid ""
@@ -6009,13 +6009,13 @@ msgstr ""
 #: ../plugins/fn-numtheory/numtheory.c:577
 #: ../plugins/fn-numtheory/numtheory.c:607
 msgid "a:non-negative integer"
-msgstr ""
+msgstr "a:ikke-negativt heltal"
 
 #: ../plugins/fn-numtheory/numtheory.c:505
 #: ../plugins/fn-numtheory/numtheory.c:529
 #: ../plugins/fn-numtheory/numtheory.c:553
 msgid "b:non-negative integer"
-msgstr ""
+msgstr "b:ikke-negativt heltal"
 
 #: ../plugins/fn-numtheory/numtheory.c:506
 msgid ""
@@ -6097,19 +6097,17 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:1130 ../plugins/fn-r/functions.c:1184
 #: ../plugins/fn-r/functions.c:1211 ../plugins/fn-r/functions.c:1240
 msgid "x:observation"
-msgstr ""
+msgstr "x:observation"
 
 #: ../plugins/fn-r/functions.c:21 ../plugins/fn-r/functions.c:46
 #: ../plugins/fn-r/functions.c:73
-#, fuzzy
 msgid "mu:mean of the distribution"
-msgstr "form:distributionens formparameter"
+msgstr "mu:distributionens middel"
 
 #: ../plugins/fn-r/functions.c:22 ../plugins/fn-r/functions.c:47
 #: ../plugins/fn-r/functions.c:74
-#, fuzzy
 msgid "sigma:standard deviation of the distribution"
-msgstr "form:distributionens formparameter"
+msgstr "sigma:distributionens standardafvigelse"
 
 #: ../plugins/fn-r/functions.c:23 ../plugins/fn-r/functions.c:102
 #: ../plugins/fn-r/functions.c:181 ../plugins/fn-r/functions.c:260
@@ -6194,7 +6192,7 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:1154 ../plugins/fn-stat/functions.c:1241
 #: ../plugins/fn-stat/functions.c:1442 ../plugins/fn-stat/functions.c:1787
 msgid "p:probability"
-msgstr ""
+msgstr "p:sandsynlighed"
 
 #: ../plugins/fn-r/functions.c:77
 msgid ""
