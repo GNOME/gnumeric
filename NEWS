@@ -17,7 +17,7 @@ Morten:
 	* Start working on warnings from newer gcc.
 	* Avoid using some deprecated symbols.
 	* Fix multihead issue with clipboard.
-	* Improve EIGEN.   [#691378]
+	* Improve EIGEN.   [#687926]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.0
