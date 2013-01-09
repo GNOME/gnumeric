@@ -6540,7 +6540,12 @@ gnm_matrix_eigen_update (guint k, gnm_float t, gnm_float *eigenvalues, gboolean 
 	}
 }
 
-/* Calculates the eigenvalues and eigenvectors of a real symmetric matrix.
+/*
+ * Calculates the eigenvalues and eigenvectors of a real symmetric matrix.
+ *
+ * This is the Jacobi iterative process in which we use a sequence of
+ * Jacobi rotations (two-sided Givens rotations) in order to reduce the
+ * magnitude of off-diagonal elements while preserving eigenvalues.
  */
 gboolean
 gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigenvalues, int size)
@@ -6586,7 +6591,7 @@ gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigen
 		pivot = matrix[m][l];
 		/* pivot is (m,l) */
 		if (pivot == 0) {
-			g_printerr ("gnm_matrix_eigen underflow in pivot.\n");
+			/* All remaining off-diagonal elements are zero.  We're done.  */
 			break;
 		}
 
