@@ -1,3 +1,8 @@
+2013-01-10  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (gnm_func_group_remove_func): Factor this out from...
+	(gnm_func_free): ...here.
+
 2013-01-09  Morten Welinder  <terra@gnome.org>
 
 	* src/symbol.c: delete.

@@ -870,6 +870,21 @@ gnm_func_group_add_func (GnmFuncGroup *fn_group, GnmFunc *fn_def)
 	fn_group->functions = g_slist_prepend (fn_group->functions, fn_def);
 }
 
+static void
+gnm_func_group_remove_func (GnmFuncGroup *fn_group, GnmFunc *fn_def)
+{
+	g_return_if_fail (fn_group != NULL);
+	g_return_if_fail (fn_def != NULL);
+
+	fn_group->functions = g_slist_remove (fn_group->functions, fn_def);
+	if (fn_group->functions == NULL) {
+		categories = g_list_remove (categories, fn_group);
+		gnm_func_group_free (fn_group);
+		if (unknown_cat == fn_group)
+			unknown_cat = NULL;
+	}
+}
+
 /******************************************************************************/
 
 static void
@@ -970,15 +985,8 @@ gnm_func_free (GnmFunc *func)
 	g_return_if_fail (func->usage_count == 0);
 
 	group = func->fn_group;
-	if (group != NULL) {
-		group->functions = g_slist_remove (group->functions, func);
-		if (group->functions == NULL) {
-			categories = g_list_remove (categories, group);
-			gnm_func_group_free (group);
-			if (unknown_cat == group)
-				unknown_cat = NULL;
-		}
-	}
+	if (group != NULL)
+		gnm_func_group_remove_func (group, func);
 
 	if (!(func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL)) {
 		g_hash_table_remove (functions_by_name, func->name);
