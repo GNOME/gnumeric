@@ -231,7 +231,7 @@ char const *gnm_func_get_name	     (GnmFunc const *fn_def,
 				      gboolean localized);
 gpointer    gnm_func_get_user_data   (GnmFunc const *func);
 void        gnm_func_set_user_data   (GnmFunc *func, gpointer user_data);
-GnmFunc	   *gnm_func_lookup	     (char const *name, Workbook *scope);	/* change scope one day */
+GnmFunc	   *gnm_func_lookup	     (char const *name, Workbook *scope);
 GnmFunc    *gnm_func_lookup_localized (char const *name, Workbook *scope);
 GSList	   *gnm_func_lookup_prefix   (char const *prefix, Workbook *scope,
 				      gboolean trans);
@@ -243,12 +243,12 @@ GnmFunc    *gnm_func_add_stub	     (GnmFuncGroup *group,
 				      const char *textdomain,
 				      GnmFuncLoadDesc load_desc,
 				      GnmFuncUsageNotify opt_usage_notify);
-GnmFunc    *gnm_func_add_placeholder (Workbook *optional_scope,			/* change scope one day */
+GnmFunc    *gnm_func_add_placeholder (Workbook *optional_scope,
 				      char const *name,
 				      char const *type,
 				      gboolean copy_name);
 GnmFunc	   *gnm_func_lookup_or_add_placeholder
-                                      (char const *name, Workbook *scope,	/* change scope one day */
+                                      (char const *name, Workbook *scope,
 				       gboolean copy_name);
 
 /* TODO */
