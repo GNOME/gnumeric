@@ -879,9 +879,9 @@ gnm_func_group_remove_func (GnmFuncGroup *fn_group, GnmFunc *fn_def)
 	fn_group->functions = g_slist_remove (fn_group->functions, fn_def);
 	if (fn_group->functions == NULL) {
 		categories = g_list_remove (categories, fn_group);
-		gnm_func_group_free (fn_group);
 		if (unknown_cat == fn_group)
 			unknown_cat = NULL;
+		gnm_func_group_free (fn_group);
 	}
 }
 
