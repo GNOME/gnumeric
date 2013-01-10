@@ -1,3 +1,8 @@
+2013-01-10  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c (gee_check_tooltip): Look up translated
+	function name for help texts when appropriate.
+
 2013-01-01  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (cb_icon_clicked): Avoid deprecated GValueArray.

@@ -1207,7 +1207,9 @@ gee_check_tooltip (GnmExprEntry *gee)
 				gint end_t = (gli - 1)->end;
 				char *name = g_strndup (str + start_t,
 							end_t - start_t);
-				GnmFunc	*fd = gnm_func_lookup (name, NULL);
+				GnmFunc	*fd = gee_convs (gee)->localized_function_names
+					? gnm_func_lookup_localized (name, NULL)
+					: gnm_func_lookup (name, NULL);
 				g_free (name);
 				if (fd != NULL) {
 					gee_set_tooltip (gee, fd, args, stuff);
