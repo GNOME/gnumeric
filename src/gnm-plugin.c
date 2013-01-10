@@ -172,7 +172,7 @@ plugin_service_function_group_func_desc_load (GnmFunc const *fn_def,
 }
 
 static void
-plugin_service_function_group_func_ref_notify  (GnmFunc *fn_def, int refcount)
+plugin_service_function_group_func_ref_notify (GnmFunc *fn_def, int refcount)
 {
 	GOPluginService *service;
 
