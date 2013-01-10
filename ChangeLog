@@ -1,5 +1,15 @@
 2013-01-10  Morten Welinder  <terra@gnome.org>
 
+	* src/func.c (gnm_func_add_placeholder_localized): New function.
+	(gnm_func_add_placeholder_full): Extract from
+	gnm_func_add_placeholder.  Handle localization better.
+	(gnm_func_set_localized_name): New function.
+	(gnm_func_free, gnm_func_get_name): Use
+	gnm_func_set_localized_name.
+
+	* src/parse-util.c (std_func_map): Improve handling of unknown
+	function names.
+
 	* src/func.c (gnm_func_group_remove_func): Factor this out from...
 	(gnm_func_free): ...here.
 

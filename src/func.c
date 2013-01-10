@@ -46,8 +46,13 @@ static GHashTable *functions_by_localized_name;
 void
 functions_init (void)
 {
-	functions_by_name = g_hash_table_new (g_str_hash, g_str_equal);
-	functions_by_localized_name = g_hash_table_new (g_str_hash, g_str_equal);
+	functions_by_name =
+		g_hash_table_new (go_ascii_strcase_hash, go_ascii_strcase_equal);
+
+	/* FIXME: ascii???  */
+	functions_by_localized_name =
+		g_hash_table_new (go_ascii_strcase_hash, go_ascii_strcase_equal);
+
 	func_builtin_init ();
 }
 
@@ -976,6 +981,21 @@ gnm_func_load_stub (GnmFunc *func)
 	}
 }
 
+static void
+gnm_func_set_localized_name (GnmFunc *fd, const char *lname)
+{
+	gboolean in_hashes = !(fd->flags & GNM_FUNC_IS_WORKBOOK_LOCAL);
+
+	if (in_hashes && fd->localized_name)
+		g_hash_table_remove (functions_by_localized_name, fd->localized_name);
+	g_free (fd->localized_name);
+
+	fd->localized_name = g_strdup (lname);
+	if (in_hashes && lname)
+		g_hash_table_insert (functions_by_localized_name,
+				     fd->localized_name, fd);
+}
+
 void
 gnm_func_free (GnmFunc *func)
 {
@@ -988,11 +1008,10 @@ gnm_func_free (GnmFunc *func)
 	if (group != NULL)
 		gnm_func_group_remove_func (group, func);
 
+	gnm_func_set_localized_name (func, NULL);
+
 	if (!(func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL)) {
 		g_hash_table_remove (functions_by_name, func->name);
-		if (func->localized_name)
-			g_hash_table_remove (functions_by_localized_name,
-					     func->localized_name);
 	}
 
 	if (func->fn_type == GNM_FUNC_TYPE_ARGS)
@@ -1002,7 +1021,6 @@ gnm_func_free (GnmFunc *func)
 
 	if (func->textdomain)
 		go_string_unref (func->textdomain);
-	g_free (func->localized_name);
 
 	if (func->arg_names_p) {
 		g_ptr_array_foreach (func->arg_names_p, (GFunc) g_free, NULL);
@@ -1223,6 +1241,98 @@ gnm_func_add_stub (GnmFuncGroup *fn_group,
 	return func;
 }
 
+static char *
+invent_name (const char *pref, GHashTable *h, const char *template)
+{
+	static int count = 0;
+	char *name = NULL;
+
+	if (g_hash_table_lookup (h, pref) == NULL)
+		return g_strdup (pref);
+
+	do {
+		count++;
+		g_free (name);
+		name = g_strdup_printf (template, count);
+	} while (g_hash_table_lookup (h, name));
+
+	return name;
+}
+
+static GnmFunc *
+gnm_func_add_placeholder_full (Workbook *scope,
+			       char const *gname, char const *lname,
+			       char const *type, gboolean copy_gname)
+{
+	GnmFuncDescriptor desc;
+	GnmFunc *func;
+	char const *unknown_cat_name = N_("Unknown Function");
+	gboolean copy_lname = TRUE;
+
+	g_return_val_if_fail (gname || lname, NULL);
+	g_return_val_if_fail (gname == NULL || gnm_func_lookup (gname, scope) == NULL, NULL);
+	g_return_val_if_fail (lname == NULL || gnm_func_lookup_localized (lname, scope) == NULL, NULL);
+
+	if (!unknown_cat)
+		unknown_cat = gnm_func_group_fetch
+			(unknown_cat_name, _(unknown_cat_name));
+
+	if (!gname) {
+		/*
+		 * This is actually a bit of a problem if we don't end up
+		 * with a copy of lname (because there already is a function
+		 * with that name).  We're likely to save a template name,
+		 * but I don't see what else to do.
+		 */
+		gname = invent_name (lname, functions_by_name, "unknown%d");
+		copy_gname = FALSE;
+	}
+	if (!lname) {
+		/* xgettext: This represents a made-up translated function name.  */
+		lname = invent_name (gname, functions_by_localized_name, _("unknown%d"));
+		copy_lname = FALSE;
+	}
+
+	g_printerr ("Adding placeholder for %s (aka %s)\n", gname, lname);
+
+	memset (&desc, 0, sizeof (GnmFuncDescriptor));
+	desc.name	  = copy_gname ? g_strdup (gname) : gname;
+	desc.arg_spec	  = NULL;
+	desc.help	  = NULL;
+	desc.fn_args	  = NULL;
+	desc.fn_nodes	  = &unknownFunctionHandler;
+	desc.linker	  = NULL;
+	desc.usage_notify = NULL;
+	desc.flags	  = GNM_FUNC_IS_PLACEHOLDER | (copy_gname ? GNM_FUNC_FREE_NAME : 0);
+	desc.impl_status  = GNM_FUNC_IMPL_STATUS_EXISTS;
+	desc.test_status  = GNM_FUNC_TEST_STATUS_UNKNOWN;
+
+	if (scope != NULL)
+		desc.flags |= GNM_FUNC_IS_WORKBOOK_LOCAL;
+	else
+		/* WISHLIST : it would be nice to have a log if these. */
+		g_warning ("Unknown %s function : %s", type, gname);
+
+	func = gnm_func_add (unknown_cat, &desc, NULL);
+
+	if (lname) {
+		gnm_func_set_localized_name (func, lname);
+		if (!copy_lname)
+			g_free ((char *)lname);
+	}
+
+	if (scope != NULL) {
+		if (scope->sheet_local_functions == NULL)
+			scope->sheet_local_functions = g_hash_table_new_full (
+				g_str_hash, g_str_equal,
+				NULL, (GDestroyNotify) gnm_func_free);
+		g_hash_table_insert (scope->sheet_local_functions,
+			(gpointer)func->name, func);
+	}
+
+	return func;
+}
+
 /*
  * When importing it is useful to keep track of unknown function names.
  * We may be missing a plugin or something similar.
@@ -1236,46 +1346,13 @@ gnm_func_add_placeholder (Workbook *scope,
 			  char const *name, char const *type,
 			  gboolean copy_name)
 {
-	GnmFuncDescriptor desc;
-	GnmFunc *func = gnm_func_lookup (name, scope);
-	char const *unknown_cat_name = N_("Unknown Function");
+	return gnm_func_add_placeholder_full (scope, name, NULL, type, copy_name);
+}
 
-	g_return_val_if_fail (func == NULL, NULL);
-
-	if (!unknown_cat)
-		unknown_cat = gnm_func_group_fetch
-			(unknown_cat_name, _(unknown_cat_name));
-
-	memset (&desc, 0, sizeof (GnmFuncDescriptor));
-	desc.name	  = copy_name ? g_strdup (name) : name;
-	desc.arg_spec	  = NULL;
-	desc.help	  = NULL;
-	desc.fn_args	  = NULL;
-	desc.fn_nodes	  = &unknownFunctionHandler;
-	desc.linker	  = NULL;
-	desc.usage_notify = NULL;
-	desc.flags	  = GNM_FUNC_IS_PLACEHOLDER | (copy_name ? GNM_FUNC_FREE_NAME : 0);
-	desc.impl_status  = GNM_FUNC_IMPL_STATUS_EXISTS;
-	desc.test_status  = GNM_FUNC_TEST_STATUS_UNKNOWN;
-
-	if (scope != NULL)
-		desc.flags |= GNM_FUNC_IS_WORKBOOK_LOCAL;
-	else
-		/* WISHLIST : it would be nice to have a log if these. */
-		g_warning ("Unknown %sfunction : %s", type, name);
-
-	func = gnm_func_add (unknown_cat, &desc, NULL);
-
-	if (scope != NULL) {
-		if (scope->sheet_local_functions == NULL)
-			scope->sheet_local_functions = g_hash_table_new_full (
-				g_str_hash, g_str_equal,
-				NULL, (GDestroyNotify) gnm_func_free);
-		g_hash_table_insert (scope->sheet_local_functions,
-			(gpointer)func->name, func);
-	}
-
-	return func;
+GnmFunc *
+gnm_func_add_placeholder_localized (char const *gname, char const *lname)
+{
+	return gnm_func_add_placeholder_full (NULL, gname, lname, "?", TRUE);
 }
 
 /* Utility routine to be used for import and analysis tools */
@@ -1324,6 +1401,12 @@ gnm_func_get_name (GnmFunc const *func, gboolean localized_function_names)
 	if (func->localized_name)
 		return func->localized_name;
 
+	/*
+	 * Deduce the translated names from the help texts.  This
+	 * code doesn't currently check for clashes in translated
+	 * names.
+	 */
+
 	gnm_func_load_if_stub (fd);
 
 	for (i = 0;
@@ -1342,15 +1425,16 @@ gnm_func_get_name (GnmFunc const *func, gboolean localized_function_names)
 			continue;
 
 		U = split_at_colon (F2 (func, s), NULL);
-		fd->localized_name = U ? g_utf8_strdown (U, -1) : NULL;
+		if (U) {
+			char *lname = g_utf8_strdown (U, -1);
+			gnm_func_set_localized_name (fd, lname);
+			g_free (lname);
+		}
 		g_free (U);
 	}
 
 	if (!func->localized_name)
-		fd->localized_name = g_strdup (func->name);
-
-	g_hash_table_insert (functions_by_localized_name,
-			     fd->localized_name, fd);
+		gnm_func_set_localized_name (fd, fd->name);
 
 	return func->localized_name;
 }

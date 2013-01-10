@@ -1394,9 +1394,9 @@ std_func_map (GnmConventions const *convs, Workbook *scope,
 		: gnm_func_lookup (name, scope);
 
 	if (!f) {
-		/* Ok, great.  What do we do if we are supposed to be using
-		   localized function names?  */
-		f = gnm_func_add_placeholder (scope, name, "", TRUE);
+		f = convs->localized_function_names
+			? gnm_func_add_placeholder_localized (NULL, name)
+			: gnm_func_add_placeholder_localized (name, NULL);
 	}
 
 	return gnm_expr_new_funcall (f, args);
