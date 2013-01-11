@@ -69,35 +69,25 @@ analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
 		return 0;
 	}
 
-	fd_mean = gnm_func_lookup_or_add_placeholder
-		("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
 	gnm_func_ref (fd_mean);
-	fd_var = gnm_func_lookup_or_add_placeholder
-		("VAR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
 	gnm_func_ref (fd_var);
-	fd_eigen = gnm_func_lookup_or_add_placeholder
-		("EIGEN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_eigen = gnm_func_lookup_or_add_placeholder ("EIGEN");
 	gnm_func_ref (fd_eigen);
-	fd_mmult = gnm_func_lookup_or_add_placeholder
-		("MMULT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_mmult = gnm_func_lookup_or_add_placeholder ("MMULT");
 	gnm_func_ref (fd_mmult);
-	fd_munit = gnm_func_lookup_or_add_placeholder
-		("MUNIT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_munit = gnm_func_lookup_or_add_placeholder ("MUNIT");
 	gnm_func_ref (fd_munit);
-	fd_sqrt = gnm_func_lookup_or_add_placeholder
-		("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
 	gnm_func_ref (fd_sqrt);
-	fd_count = gnm_func_lookup_or_add_placeholder
-		("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
 	gnm_func_ref (fd_count);
-	fd_sum = gnm_func_lookup_or_add_placeholder
-		("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
 	gnm_func_ref (fd_sum);
-	fd_and = gnm_func_lookup_or_add_placeholder
-		("AND", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_and = gnm_func_lookup_or_add_placeholder ("AND");
 	gnm_func_ref (fd_and);
-	fd_if = gnm_func_lookup_or_add_placeholder
-		("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
 	gnm_func_ref (fd_if);
 
 	dao_set_bold (dao, 0, 0, 0, 0);

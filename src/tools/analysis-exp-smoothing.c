@@ -95,15 +95,15 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *da
 	GnmExpr const *expr_alpha = NULL;
 
 	if (info->std_error_flag) {
-		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
 		gnm_func_ref (fd_sqrt);
-		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2");
 		gnm_func_ref (fd_sumxmy2);
 	}
 
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
 	gnm_func_ref (fd_index);
-	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET");
 	gnm_func_ref (fd_offset);
 
 	if (info->show_graph)
@@ -270,16 +270,16 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 	GnmExpr const *expr_alpha = NULL;
 
 	if (info->std_error_flag) {
-		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
 		gnm_func_ref (fd_sqrt);
-		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2");
 		gnm_func_ref (fd_sumxmy2);
 	}
-	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE");
 	gnm_func_ref (fd_average);
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
 	gnm_func_ref (fd_index);
-	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET");
 	gnm_func_ref (fd_offset);
 
 	if (info->show_graph)
@@ -452,17 +452,17 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_gamma = NULL;
 
 	if (info->std_error_flag) {
-		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
 		gnm_func_ref (fd_sqrt);
-		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2");
 		gnm_func_ref (fd_sumxmy2);
 	}
 
-	fd_linest = gnm_func_lookup_or_add_placeholder ("LINEST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_linest = gnm_func_lookup_or_add_placeholder ("LINEST");
 	gnm_func_ref (fd_linest);
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
 	gnm_func_ref (fd_index);
-	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET");
 	gnm_func_ref (fd_offset);
 
 	if (info->show_graph)
@@ -687,23 +687,23 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 	GnmExpr const *expr_delta = NULL;
 
 	if (info->std_error_flag) {
-		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
 		gnm_func_ref (fd_sqrt);
-		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2");
 		gnm_func_ref (fd_sumxmy2);
 	}
 
-	fd_linest = gnm_func_lookup_or_add_placeholder ("LINEST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_linest = gnm_func_lookup_or_add_placeholder ("LINEST");
 	gnm_func_ref (fd_linest);
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
 	gnm_func_ref (fd_index);
-	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE");
 	gnm_func_ref (fd_average);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
 	gnm_func_ref (fd_if);
-	fd_mod = gnm_func_lookup_or_add_placeholder ("mod", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_mod = gnm_func_lookup_or_add_placeholder ("mod");
 	gnm_func_ref (fd_mod);
-	fd_row = gnm_func_lookup_or_add_placeholder ("row", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_row = gnm_func_lookup_or_add_placeholder ("row");
 	gnm_func_ref (fd_row);
 
 	if (info->show_graph)
@@ -1005,25 +1005,25 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 	GnmExpr const *expr_delta = NULL;
 
 	if (info->std_error_flag) {
-		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
 		gnm_func_ref (fd_sqrt);
-		fd_sumsq = gnm_func_lookup_or_add_placeholder ("SUMSQ", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_sumsq = gnm_func_lookup_or_add_placeholder ("SUMSQ");
 		gnm_func_ref (fd_sumsq);
 	}
 
-	fd_linest = gnm_func_lookup_or_add_placeholder ("LINEST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_linest = gnm_func_lookup_or_add_placeholder ("LINEST");
 	gnm_func_ref (fd_linest);
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
 	gnm_func_ref (fd_index);
-	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET");
 	gnm_func_ref (fd_offset);
-	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE");
 	gnm_func_ref (fd_average);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
 	gnm_func_ref (fd_if);
-	fd_mod = gnm_func_lookup_or_add_placeholder ("mod", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_mod = gnm_func_lookup_or_add_placeholder ("mod");
 	gnm_func_ref (fd_mod);
-	fd_row = gnm_func_lookup_or_add_placeholder ("row", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_row = gnm_func_lookup_or_add_placeholder ("row");
 	gnm_func_ref (fd_row);
 
 	if (info->show_graph)

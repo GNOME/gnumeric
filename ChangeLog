@@ -1,5 +1,9 @@
 2013-01-10  Morten Welinder  <terra@gnome.org>
 
+	* src/func.c (gnm_func_lookup_or_add_placeholder): Drop copy_name
+	argument and assume TRUE.  Drop scope name and assume NULL (which
+	is what all callers should have used).  All callers changed.
+
 	* src/gnm-plugin.c (plugin_service_function_group_activate):
 	Upgrade existing placeholder functions as needed.
 

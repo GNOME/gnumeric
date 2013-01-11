@@ -52,23 +52,23 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_columns = NULL;
 	GnmFunc *fd_exact = NULL;
 
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
 	gnm_func_ref (fd_sum);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
 	gnm_func_ref (fd_if);
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
 	gnm_func_ref (fd_index);
-	fd_isblank = gnm_func_lookup_or_add_placeholder ("ISBLANK", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_isblank = gnm_func_lookup_or_add_placeholder ("ISBLANK");
 	gnm_func_ref (fd_isblank);
 
 	if (info->exact) {
-		fd_exact = gnm_func_lookup_or_add_placeholder ("EXACT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_exact = gnm_func_lookup_or_add_placeholder ("EXACT");
 		gnm_func_ref (fd_exact);
 	}
 	if (info->percentage) {
-		fd_rows = gnm_func_lookup_or_add_placeholder ("ROWS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_rows = gnm_func_lookup_or_add_placeholder ("ROWS");
 		gnm_func_ref (fd_rows);
-		fd_columns = gnm_func_lookup_or_add_placeholder ("COLUMNS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_columns = gnm_func_lookup_or_add_placeholder ("COLUMNS");
 		gnm_func_ref (fd_columns);
 	}
 	/* General Info */

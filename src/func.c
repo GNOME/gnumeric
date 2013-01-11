@@ -1367,11 +1367,11 @@ gnm_func_add_placeholder_localized (char const *gname, char const *lname)
 
 /* Utility routine to be used for import and analysis tools */
 GnmFunc	*
-gnm_func_lookup_or_add_placeholder (char const *name, Workbook *scope, gboolean copy_name)
+gnm_func_lookup_or_add_placeholder (char const *name)
 {
-	GnmFunc	* f = gnm_func_lookup (name, scope);
+	GnmFunc	* f = gnm_func_lookup (name, NULL);
 	if (f == NULL)
-		f = gnm_func_add_placeholder (scope, name, "", copy_name);
+		f = gnm_func_add_placeholder (NULL, name, "", TRUE);
 	return f;
 }
 

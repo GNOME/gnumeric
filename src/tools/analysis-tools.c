@@ -226,9 +226,9 @@ analysis_tools_write_a_label (GnmValue *val, data_analysis_output_t *dao,
 		GnmFunc *fd_concatenate;
 		GnmFunc *fd_cell;
 
-		fd_concatenate = gnm_func_lookup_or_add_placeholder ("CONCATENATE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_concatenate = gnm_func_lookup_or_add_placeholder ("CONCATENATE");
 		gnm_func_ref (fd_concatenate);
-		fd_cell = gnm_func_lookup_or_add_placeholder ("CELL", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_cell = gnm_func_lookup_or_add_placeholder ("CELL");
 		gnm_func_ref (fd_cell);
 
 		dao_set_cell_expr (dao, x, y, gnm_expr_new_funcall3
@@ -577,8 +577,7 @@ analysis_tool_get_function (char const *name,
 {
 	GnmFunc *fd;
 
-	fd = gnm_func_lookup_or_add_placeholder
-		(name, dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd = gnm_func_lookup_or_add_placeholder (name);
 	gnm_func_ref (fd);
 	return fd;
 }
@@ -608,7 +607,7 @@ analysis_tool_table (data_analysis_output_t *dao,
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell_printf (dao, 0, 0, "%s", title);
 
-	fd = gnm_func_lookup_or_add_placeholder (functionname, dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd = gnm_func_lookup_or_add_placeholder (functionname);
 	gnm_func_ref (fd);
 
 	for (col = 1, inputdata = info->input; inputdata != NULL;
@@ -800,29 +799,29 @@ summary_statistics (data_analysis_output_t *dao,
 	GnmFunc *fd_count;
 	GnmFunc *fd_sqrt;
 
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
 	gnm_func_ref (fd_mean);
-	fd_median = gnm_func_lookup_or_add_placeholder (info->use_ssmedian ? "SSMEDIAN" : "MEDIAN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_median = gnm_func_lookup_or_add_placeholder (info->use_ssmedian ? "SSMEDIAN" : "MEDIAN");
 	gnm_func_ref (fd_median);
-	fd_mode = gnm_func_lookup_or_add_placeholder ("MODE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_mode = gnm_func_lookup_or_add_placeholder ("MODE");
 	gnm_func_ref (fd_mode);
-	fd_stdev = gnm_func_lookup_or_add_placeholder ("STDEV", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_stdev = gnm_func_lookup_or_add_placeholder ("STDEV");
 	gnm_func_ref (fd_stdev);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
 	gnm_func_ref (fd_var);
-	fd_kurt = gnm_func_lookup_or_add_placeholder ("KURT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_kurt = gnm_func_lookup_or_add_placeholder ("KURT");
 	gnm_func_ref (fd_kurt);
-	fd_skew = gnm_func_lookup_or_add_placeholder ("SKEW", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_skew = gnm_func_lookup_or_add_placeholder ("SKEW");
 	gnm_func_ref (fd_skew);
-	fd_min = gnm_func_lookup_or_add_placeholder ("MIN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
 	gnm_func_ref (fd_min);
-	fd_max = gnm_func_lookup_or_add_placeholder ("MAX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_max = gnm_func_lookup_or_add_placeholder ("MAX");
 	gnm_func_ref (fd_max);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
 	gnm_func_ref (fd_sum);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
 	gnm_func_ref (fd_count);
-	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
 	gnm_func_ref (fd_sqrt);
 
         dao_set_cell (dao, 0, 0, NULL);
@@ -979,15 +978,15 @@ confidence_level (data_analysis_output_t *dao,
 
         dao_set_cell (dao, 0, 0, NULL);
 
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
 	gnm_func_ref (fd_mean);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
 	gnm_func_ref (fd_var);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
 	gnm_func_ref (fd_count);
-	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV");
 	gnm_func_ref (fd_tinv);
-	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
 	gnm_func_ref (fd_sqrt);
 
 
@@ -1054,7 +1053,7 @@ kth_smallest_largest (data_analysis_output_t *dao,
 {
         guint col;
 	GSList *data = info->base.input;
-	GnmFunc *fd = gnm_func_lookup_or_add_placeholder (func, dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	GnmFunc *fd = gnm_func_lookup_or_add_placeholder (func);
 	gnm_func_ref (fd);
 
 	dao_set_italic (dao, 0, 1, 0, 1);
@@ -1177,11 +1176,11 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 	gint source;
 
 	if (info->base.labels || info->periodic) {
-		fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
 		gnm_func_ref (fd_index);
 	}
 	if (!info->periodic) {
-		fd_randdiscrete = gnm_func_lookup_or_add_placeholder ("RANDDISCRETE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_randdiscrete = gnm_func_lookup_or_add_placeholder ("RANDDISCRETE");
 		gnm_func_ref (fd_randdiscrete);
 	}
 
@@ -1408,17 +1407,17 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 					"/P (Z<=z) two-tail"
 					"/z Critical two-tail"));
 
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
 	gnm_func_ref (fd_mean);
-	fd_normsdist = gnm_func_lookup_or_add_placeholder ("NORMSDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_normsdist = gnm_func_lookup_or_add_placeholder ("NORMSDIST");
 	gnm_func_ref (fd_normsdist);
-	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS");
 	gnm_func_ref (fd_abs);
-	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
 	gnm_func_ref (fd_sqrt);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
 	gnm_func_ref (fd_count);
-	fd_normsinv = gnm_func_lookup_or_add_placeholder ("NORMSINV", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_normsinv = gnm_func_lookup_or_add_placeholder ("NORMSINV");
 	gnm_func_ref (fd_normsinv);
 
 	val_1 = value_dup (info->base.range_1);
@@ -1662,27 +1661,27 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 					"/P (T<=t) two-tail"
 					"/t Critical two-tail"));
 
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
 	gnm_func_ref (fd_mean);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
 	gnm_func_ref (fd_var);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
 	gnm_func_ref (fd_count);
-	fd_correl = gnm_func_lookup_or_add_placeholder ("CORREL", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_correl = gnm_func_lookup_or_add_placeholder ("CORREL");
 	gnm_func_ref (fd_correl);
-	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV");
 	gnm_func_ref (fd_tinv);
-	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST");
 	gnm_func_ref (fd_tdist);
-	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS");
 	gnm_func_ref (fd_abs);
-	fd_isodd = gnm_func_lookup_or_add_placeholder ("ISODD", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_isodd = gnm_func_lookup_or_add_placeholder ("ISODD");
 	gnm_func_ref (fd_isodd);
-	fd_isnumber = gnm_func_lookup_or_add_placeholder ("ISNUMBER", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_isnumber = gnm_func_lookup_or_add_placeholder ("ISNUMBER");
 	gnm_func_ref (fd_isnumber);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
 	gnm_func_ref (fd_if);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
 	gnm_func_ref (fd_sum);
 
 	val_1 = value_dup (info->base.range_1);
@@ -1944,17 +1943,17 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	val_1 = value_dup (info->base.range_1);
 	val_2 = value_dup (info->base.range_2);
 
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
 	gnm_func_ref (fd_mean);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
 	gnm_func_ref (fd_count);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
 	gnm_func_ref (fd_var);
-	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST");
 	gnm_func_ref (fd_tdist);
-	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS");
 	gnm_func_ref (fd_abs);
-	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV");
 	gnm_func_ref (fd_tinv);
 
 	/* Labels */
@@ -2240,17 +2239,17 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 	val_1 = value_dup (info->base.range_1);
 	val_2 = value_dup (info->base.range_2);
 
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
 	gnm_func_ref (fd_mean);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
 	gnm_func_ref (fd_var);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
 	gnm_func_ref (fd_count);
-	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST");
 	gnm_func_ref (fd_tdist);
-	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS");
 	gnm_func_ref (fd_abs);
-	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_tinv = gnm_func_lookup_or_add_placeholder ("TINV");
 	gnm_func_ref (fd_tinv);
 
 	/* Labels */
@@ -2514,7 +2513,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
 	GnmFunc *fd_finv;
 
-	fd_finv = gnm_func_lookup_or_add_placeholder ("FINV", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_finv = gnm_func_lookup_or_add_placeholder ("FINV");
 	gnm_func_ref (fd_finv);
 
 	dao_set_italic (dao, 0, 0, 0, 11);
@@ -2538,7 +2537,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
 	/* Mean */
 	{
-		GnmFunc *fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		GnmFunc *fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
 		gnm_func_ref (fd_mean);
 
 		dao_set_cell_expr
@@ -2558,7 +2557,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
 	/* Variance */
 	{
-		GnmFunc *fd_var = gnm_func_lookup_or_add_placeholder ("VAR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		GnmFunc *fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
 		gnm_func_ref (fd_var);
 
 		dao_set_cell_expr
@@ -2577,7 +2576,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
         /* Count */
 	{
-		GnmFunc *fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		GnmFunc *fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
 		gnm_func_ref (fd_count);
 
 		dao_set_cell_expr
@@ -2621,7 +2620,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
 	/* P right-tail */
 	{
-		GnmFunc *fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		GnmFunc *fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST");
 		const GnmExpr *arg3;
 
 		gnm_func_ref (fd_fdist);
@@ -2696,7 +2695,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
 	/* P two-tail */
 	{
-		GnmFunc *fd_min = gnm_func_lookup_or_add_placeholder ("MIN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);;
+		GnmFunc *fd_min = gnm_func_lookup_or_add_placeholder ("MIN");;
 
 		gnm_func_ref (fd_min);
 
@@ -3711,22 +3710,22 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 
 	if (info->base.labels || info->ma_type == moving_average_type_wma
 	    || info->ma_type== moving_average_type_spencer_ma) {
-		fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
 		gnm_func_ref (fd_index);
 	}
 	if (info->std_error_flag) {
-		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
 		gnm_func_ref (fd_sqrt);
-		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_sumxmy2 = gnm_func_lookup_or_add_placeholder ("SUMXMY2");
 		gnm_func_ref (fd_sumxmy2);
 	}
 	if (moving_average_type_wma == info->ma_type || moving_average_type_spencer_ma == info->ma_type) {
-		fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
 		gnm_func_ref (fd_sum);
 	}
-	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE");
 	gnm_func_ref (fd_average);
-	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET");
 	gnm_func_ref (fd_offset);
 
 	if (info->show_graph) {
@@ -4056,15 +4055,15 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_match;
 	GnmFunc *fd_percentrank;
 
-	fd_large = gnm_func_lookup_or_add_placeholder ("LARGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_large = gnm_func_lookup_or_add_placeholder ("LARGE");
 	gnm_func_ref (fd_large);
-	fd_row = gnm_func_lookup_or_add_placeholder ("ROW", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_row = gnm_func_lookup_or_add_placeholder ("ROW");
 	gnm_func_ref (fd_row);
-	fd_rank = gnm_func_lookup_or_add_placeholder ("RANK", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_rank = gnm_func_lookup_or_add_placeholder ("RANK");
 	gnm_func_ref (fd_rank);
-	fd_match = gnm_func_lookup_or_add_placeholder ("MATCH", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_match = gnm_func_lookup_or_add_placeholder ("MATCH");
 	gnm_func_ref (fd_match);
-	fd_percentrank = gnm_func_lookup_or_add_placeholder ("PERCENTRANK", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_percentrank = gnm_func_lookup_or_add_placeholder ("PERCENTRANK");
 	gnm_func_ref (fd_percentrank);
 
 	dao_set_merge (dao, 0, 0, 1, 0);
@@ -4114,7 +4113,7 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 			GnmExpr const *expr_rows_p_one;
 			GnmExpr const *expr_rows;
 			GnmFunc *fd_count;
-			fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+			fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
 			gnm_func_ref (fd_count);
 
 			expr_rows = gnm_expr_new_funcall1
@@ -4231,15 +4230,15 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 					"/Average"
 					"/Variance"));
 
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
 	gnm_func_ref (fd_mean);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
 	gnm_func_ref (fd_var);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
 	gnm_func_ref (fd_sum);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
 	gnm_func_ref (fd_count);
-	fd_devsq = gnm_func_lookup_or_add_placeholder ("DEVSQ", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_devsq = gnm_func_lookup_or_add_placeholder ("DEVSQ");
 	gnm_func_ref (fd_devsq);
 
 	dao->offset_row += 4;
@@ -4449,7 +4448,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 				arg3 = gnm_expr_copy (expr_wdof);
 			}
 
-			fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+			fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST");
 			gnm_func_ref (fd_fdist);
 
 			dao_set_cell_expr
@@ -4471,7 +4470,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 			} else
 				arg3 = expr_wdof;
 
-			fd_finv = gnm_func_lookup_or_add_placeholder ("FINV", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+			fd_finv = gnm_func_lookup_or_add_placeholder ("FINV");
 			gnm_func_ref (fd_finv);
 
 			dao_set_cell_expr
@@ -4552,7 +4551,7 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 
 	GnmFunc *fd_fourier;
 
-	fd_fourier = gnm_func_lookup_or_add_placeholder ("FOURIER", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_fourier = gnm_func_lookup_or_add_placeholder ("FOURIER");
 	gnm_func_ref (fd_fourier);
 
 	dao_set_merge (dao, 0, 0, 1, 0);

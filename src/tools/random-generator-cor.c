@@ -53,8 +53,7 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 		GnmFunc *fd_cholesky;
 		GnmExpr const *expr_cholesky;
 
-		fd_cholesky = gnm_func_lookup_or_add_placeholder
-			("CHOLESKY", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_cholesky = gnm_func_lookup_or_add_placeholder ("CHOLESKY");
 		gnm_func_ref (fd_cholesky);
 		expr_cholesky = gnm_expr_new_funcall1
 			(fd_cholesky, expr_matrix);
@@ -75,8 +74,7 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell (dao, 0, 0, _("Uncorrelated Random Variables"));
 
-	fd_rand = gnm_func_lookup_or_add_placeholder
-			("RANDNORM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_rand = gnm_func_lookup_or_add_placeholder ("RANDNORM");
 	gnm_func_ref (fd_rand);
 	expr_rand = gnm_expr_new_funcall2 (fd_rand,
 					   gnm_expr_new_constant (value_new_int (0)),
@@ -89,11 +87,9 @@ tool_random_cor_engine_run (data_analysis_output_t *dao,
 
 	dao->offset_col += info->variables + 1;
 
-	fd_mmult = gnm_func_lookup_or_add_placeholder
-		("MMULT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_mmult = gnm_func_lookup_or_add_placeholder ("MMULT");
 	gnm_func_ref (fd_mmult);
-	fd_transpose = gnm_func_lookup_or_add_placeholder
-		("TRANSPOSE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_transpose = gnm_func_lookup_or_add_placeholder ("TRANSPOSE");
 	gnm_func_ref (fd_transpose);
 
 	dao_set_merge (dao, 0, 0, info->variables - 1, 0);

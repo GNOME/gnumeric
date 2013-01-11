@@ -243,9 +243,7 @@ GnmFunc    *gnm_func_add_placeholder (Workbook *optional_scope,
 				      char const *type,
 				      gboolean copy_name);
 GnmFunc    *gnm_func_add_placeholder_localized (char const *gname, char const *lname);
-GnmFunc	   *gnm_func_lookup_or_add_placeholder
-                                      (char const *name, Workbook *scope,
-				       gboolean copy_name);
+GnmFunc	   *gnm_func_lookup_or_add_placeholder (char const *name);
 void        gnm_func_upgrade_placeholder
 				      (GnmFunc *fd,
 				       GnmFuncGroup *fn_group,

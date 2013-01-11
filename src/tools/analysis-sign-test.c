@@ -55,19 +55,19 @@ analysis_tool_sign_test_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_isnumber;
 	GnmFunc *fd_iferror;
 
-	fd_median = gnm_func_lookup_or_add_placeholder ("MEDIAN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_median = gnm_func_lookup_or_add_placeholder ("MEDIAN");
 	gnm_func_ref (fd_median);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
 	gnm_func_ref (fd_if);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
 	gnm_func_ref (fd_sum);
-	fd_min = gnm_func_lookup_or_add_placeholder ("MIN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
 	gnm_func_ref (fd_min);
-	fd_binomdist = gnm_func_lookup_or_add_placeholder ("BINOMDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_binomdist = gnm_func_lookup_or_add_placeholder ("BINOMDIST");
 	gnm_func_ref (fd_binomdist);
-	fd_isnumber = gnm_func_lookup_or_add_placeholder ("ISNUMBER", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_isnumber = gnm_func_lookup_or_add_placeholder ("ISNUMBER");
 	gnm_func_ref (fd_isnumber);
-	fd_iferror = gnm_func_lookup_or_add_placeholder ("IFERROR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_iferror = gnm_func_lookup_or_add_placeholder ("IFERROR");
 	gnm_func_ref (fd_iferror);
 
 	dao_set_italic (dao, 0, 0, 0, 9);
@@ -197,19 +197,19 @@ analysis_tool_sign_test_two_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_isnumber;
 	GnmFunc *fd_iferror;
 
-	fd_median = gnm_func_lookup_or_add_placeholder ("MEDIAN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_median = gnm_func_lookup_or_add_placeholder ("MEDIAN");
 	gnm_func_ref (fd_median);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
 	gnm_func_ref (fd_if);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
 	gnm_func_ref (fd_sum);
-	fd_min = gnm_func_lookup_or_add_placeholder ("MIN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
 	gnm_func_ref (fd_min);
-	fd_binomdist = gnm_func_lookup_or_add_placeholder ("BINOMDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_binomdist = gnm_func_lookup_or_add_placeholder ("BINOMDIST");
 	gnm_func_ref (fd_binomdist);
-	fd_isnumber = gnm_func_lookup_or_add_placeholder ("ISNUMBER", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_isnumber = gnm_func_lookup_or_add_placeholder ("ISNUMBER");
 	gnm_func_ref (fd_isnumber);
-	fd_iferror = gnm_func_lookup_or_add_placeholder ("IFERROR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_iferror = gnm_func_lookup_or_add_placeholder ("IFERROR");
 	gnm_func_ref (fd_iferror);
 
 	dao_set_italic (dao, 0, 0, 0, 9);

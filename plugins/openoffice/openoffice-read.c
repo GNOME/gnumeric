@@ -10880,7 +10880,7 @@ odf_func_address_handler (GnmConventions const *convs, Workbook *scope, GnmExprL
 	if (argc == 4 && convs->sheet_name_sep == '!') {
 		/* Openoffice was missing the A1 parameter */
 		GnmExprList *new_args;
-		GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("ADDRESS", scope, FALSE);
+		GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("ADDRESS");
 
 		new_args = g_slist_insert ((GSList *) args,
 					   (gpointer) gnm_expr_new_constant (value_new_int (1)),
@@ -10893,7 +10893,7 @@ odf_func_address_handler (GnmConventions const *convs, Workbook *scope, GnmExprL
 static GnmExpr const *
 odf_func_phi_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *scope, GnmExprList *args)
 {
-	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("NORMDIST", scope, FALSE);
+	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("NORMDIST");
 
 	args = g_slist_append (args,
 			       (gpointer) gnm_expr_new_constant (value_new_int (0)));
@@ -10902,7 +10902,7 @@ odf_func_phi_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *scope
 
 	args = g_slist_append (args,
 			       (gpointer) gnm_expr_new_funcall
-			       (gnm_func_lookup_or_add_placeholder ("FALSE", scope, FALSE), NULL));
+			       (gnm_func_lookup_or_add_placeholder ("FALSE"), NULL));
 
 	return gnm_expr_new_funcall (f, args);
 }
@@ -10911,8 +10911,8 @@ static GnmExpr const *
 odf_func_gauss_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *scope, GnmExprList *args)
 {
 	guint argc = gnm_expr_list_length (args);
-	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("ERF", scope, FALSE);
-	GnmFunc  *fs = gnm_func_lookup_or_add_placeholder ("SQRT", scope, FALSE);
+	GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("ERF");
+	GnmFunc  *fs = gnm_func_lookup_or_add_placeholder ("SQRT");
 	GnmExpr const * expr;
 
 	if (argc != 1)
@@ -10947,15 +10947,15 @@ odf_func_floor_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *sco
 	if (argc == 0 || argc > 3)
 		return NULL;
 
-	fd_ceiling = gnm_func_lookup_or_add_placeholder ("CEILING", scope, FALSE);
-	fd_floor = gnm_func_lookup_or_add_placeholder ("FLOOR", scope, FALSE);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF", scope, FALSE);
+	fd_ceiling = gnm_func_lookup_or_add_placeholder ("CEILING");
+	fd_floor = gnm_func_lookup_or_add_placeholder ("FLOOR");
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
 
 	expr_x = g_slist_nth_data ((GSList *) args, 0);
 	if (argc > 1)
 		expr_sig = gnm_expr_copy (g_slist_nth_data ((GSList *) args, 1));
 	else {
-		GnmFunc  *fd_sign = gnm_func_lookup_or_add_placeholder ("SIGN", scope, FALSE);
+		GnmFunc  *fd_sign = gnm_func_lookup_or_add_placeholder ("SIGN");
 		expr_sig = gnm_expr_new_funcall1 (fd_sign, gnm_expr_copy (expr_x));
 	}
 
@@ -11023,7 +11023,7 @@ odf_func_ceiling_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *s
 	guint argc = gnm_expr_list_length (args);
 	switch (argc) {
 	case 1: {
-		GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("CEIL", scope, FALSE);
+		GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("CEIL");
 		return gnm_expr_new_funcall (f, args);
 	}
 	case 2: case 3: {
@@ -11034,9 +11034,9 @@ odf_func_ceiling_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook *s
 		GnmExpr const *expr_x = g_slist_nth_data ((GSList *) args, 0);
 		GnmExpr const *expr_sig = g_slist_nth_data ((GSList *) args, 1);
 
-		GnmFunc  *fd_ceiling = gnm_func_lookup_or_add_placeholder ("CEILING", scope, FALSE);
-		GnmFunc  *fd_floor = gnm_func_lookup_or_add_placeholder ("FLOOR", scope, FALSE);
-		GnmFunc  *fd_if = gnm_func_lookup_or_add_placeholder ("IF", scope, FALSE);
+		GnmFunc  *fd_ceiling = gnm_func_lookup_or_add_placeholder ("CEILING");
+		GnmFunc  *fd_floor = gnm_func_lookup_or_add_placeholder ("FLOOR");
+		GnmFunc  *fd_if = gnm_func_lookup_or_add_placeholder ("IF");
 
 		expr_mode_zero = gnm_expr_new_funcall3
 			(fd_if,
@@ -11101,7 +11101,7 @@ odf_func_chisqdist_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook 
 {
 	switch (gnm_expr_list_length (args)) {
 	case 2: {
-		GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("R.PCHISQ", scope, FALSE);
+		GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("R.PCHISQ");
 		return gnm_expr_new_funcall (f, args);
 	}
 	case 3: {
@@ -11115,9 +11115,9 @@ odf_func_chisqdist_handler (G_GNUC_UNUSED GnmConventions const *convs, Workbook 
 		GnmExpr const *expr_dchisq;
 		GnmExpr const *res, *simp;
 
-		fd_if = gnm_func_lookup_or_add_placeholder ("IF", scope, FALSE);
-		fd_pchisq = gnm_func_lookup_or_add_placeholder ("R.PCHISQ", scope, FALSE);
-		fd_dchisq = gnm_func_lookup_or_add_placeholder ("R.DCHISQ", scope, FALSE);
+		fd_if = gnm_func_lookup_or_add_placeholder ("IF");
+		fd_pchisq = gnm_func_lookup_or_add_placeholder ("R.PCHISQ");
+		fd_dchisq = gnm_func_lookup_or_add_placeholder ("R.DCHISQ");
 		expr_pchisq = gnm_expr_new_funcall2
 			(fd_pchisq,
 			 gnm_expr_copy (arg0),
@@ -11635,14 +11635,14 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 	}
 
 	if (0 == g_ascii_strncasecmp (name, GnumericPrefix, sizeof (GnumericPrefix)-1)) {
-		f = gnm_func_lookup_or_add_placeholder (name+sizeof (GnumericPrefix)-1, scope, TRUE);
+		f = gnm_func_lookup_or_add_placeholder (name+sizeof (GnumericPrefix)-1);
 	} else if (0 != g_ascii_strncasecmp (name, OOoAnalysisPrefix, sizeof (OOoAnalysisPrefix)-1)) {
 		if (NULL != namemap &&
 		    NULL != (new_name = g_hash_table_lookup (namemap, name)))
 			name = new_name;
-		f = gnm_func_lookup_or_add_placeholder (name, scope, TRUE);
+		f = gnm_func_lookup_or_add_placeholder (name);
 	} else
-		f = gnm_func_lookup_or_add_placeholder (name+sizeof (OOoAnalysisPrefix)-1, scope, TRUE);
+		f = gnm_func_lookup_or_add_placeholder (name+sizeof (OOoAnalysisPrefix)-1);
 
 	return gnm_expr_new_funcall (f, args);
 }

@@ -74,8 +74,7 @@ GnmExpr const *analysis_tool_combine_area (GnmValue *val_1, GnmValue *val_2, Wor
 		}
 	}
 
-	fd_array = gnm_func_lookup_or_add_placeholder
-		("ARRAY", wb, FALSE);
+	fd_array = gnm_func_lookup_or_add_placeholder ("ARRAY");
 	gnm_func_ref (fd_array);
 
 	expr = gnm_expr_new_funcall2 (fd_array,
@@ -112,25 +111,25 @@ analysis_tool_wilcoxon_mann_whitney_engine_run (data_analysis_output_t *dao,
 	GnmValue *val_2 = value_dup (info->range_2);
 	Workbook *wb = dao->sheet ? dao->sheet->workbook : NULL;
 
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", wb, FALSE);
+	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
 	gnm_func_ref (fd_count);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", wb, FALSE);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
 	gnm_func_ref (fd_sum);
-	fd_rows = gnm_func_lookup_or_add_placeholder ("ROWS", wb, FALSE);
+	fd_rows = gnm_func_lookup_or_add_placeholder ("ROWS");
 	gnm_func_ref (fd_rows);
-	fd_rank_avg = gnm_func_lookup_or_add_placeholder ("RANK.AVG", wb, FALSE);
+	fd_rank_avg = gnm_func_lookup_or_add_placeholder ("RANK.AVG");
 	gnm_func_ref (fd_rank_avg);
-	fd_rank = gnm_func_lookup_or_add_placeholder ("RANK", wb, FALSE);
+	fd_rank = gnm_func_lookup_or_add_placeholder ("RANK");
 	gnm_func_ref (fd_rank);
-	fd_min = gnm_func_lookup_or_add_placeholder ("MIN", wb, FALSE);
+	fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
 	gnm_func_ref (fd_min);
-	fd_normdist = gnm_func_lookup_or_add_placeholder ("NORMDIST", wb, FALSE);
+	fd_normdist = gnm_func_lookup_or_add_placeholder ("NORMDIST");
 	gnm_func_ref (fd_normdist);
-	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", wb, FALSE);
+	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
 	gnm_func_ref (fd_sqrt);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF", wb, FALSE);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
 	gnm_func_ref (fd_if);
-	fd_isblank = gnm_func_lookup_or_add_placeholder ("ISBLANK", wb, FALSE);
+	fd_isblank = gnm_func_lookup_or_add_placeholder ("ISBLANK");
 	gnm_func_ref (fd_isblank);
 
 	dao_set_italic (dao, 0, 0, 0, 8);

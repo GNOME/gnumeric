@@ -89,11 +89,9 @@ analysis_tool_normality_engine_run (data_analysis_output_t *dao,
 		g_assert_not_reached();
 	}
 
-	fd = gnm_func_lookup_or_add_placeholder
-		(fdname, dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd = gnm_func_lookup_or_add_placeholder	(fdname);
 	gnm_func_ref (fd);
-	fd_if = gnm_func_lookup_or_add_placeholder
-		("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF");
 	gnm_func_ref (fd_if);
 
 	dao_set_italic (dao, 0, 0, 0, 5);

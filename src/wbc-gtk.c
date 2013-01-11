@@ -4596,8 +4596,7 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 	g_object_get (G_OBJECT (wb_control_view (WORKBOOK_CONTROL (wbcg))),
 		      "auto-expr-func", &(specs->func), NULL);
 	if (specs->func == NULL)
-		specs->func =  gnm_func_lookup_or_add_placeholder
-			("sum", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		specs->func =  gnm_func_lookup_or_add_placeholder ("sum");
 	gnm_func_ref (specs->func);
 
 	cmd_analysis_tool (WORKBOOK_CONTROL (wbcg), scg_sheet (scg),

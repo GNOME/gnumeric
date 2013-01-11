@@ -49,13 +49,11 @@ make_hist_expr (analysis_tools_data_histogram_t *info,
 	GnmExpr const *expr_data;
 	GnmExpr const *expr_if_to, *expr_if_from;
 	GnmExprOp from, to;
-	GnmFunc *fd_if = gnm_func_lookup_or_add_placeholder ("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
-	GnmFunc *fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	GnmFunc *fd_if = gnm_func_lookup_or_add_placeholder ("IF");
+	GnmFunc *fd_sum = gnm_func_lookup_or_add_placeholder ("SUM");
 	GnmFunc *fd_count = info->percentage ?
-		gnm_func_lookup_or_add_placeholder (info->only_numbers ? "COUNT" : "COUNTA",
-						    dao->sheet ? dao->sheet->workbook : NULL, FALSE) : NULL;
-	GnmFunc *fd_isnumber = gnm_func_lookup_or_add_placeholder (info->only_numbers ? "ISNUMBER" : "ISBLANK",
-								   dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		gnm_func_lookup_or_add_placeholder (info->only_numbers ? "COUNT" : "COUNTA") : NULL;
+	GnmFunc *fd_isnumber = gnm_func_lookup_or_add_placeholder (info->only_numbers ? "ISNUMBER" : "ISBLANK");
 	gint to_col = (info->cumulative) ? 0 : 1;
 
 	if (info->bin_type & bintype_no_inf_upper) {
@@ -145,11 +143,11 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 
 	char const *format;
 
-	fd_small = gnm_func_lookup_or_add_placeholder ("SMALL", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_small = gnm_func_lookup_or_add_placeholder ("SMALL");
 	gnm_func_ref (fd_small);
 
 	if (info->base.labels) {
-		fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+		fd_index = gnm_func_lookup_or_add_placeholder ("INDEX");
 		gnm_func_ref (fd_index);
 	}
 
@@ -214,7 +212,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		else {
 			GnmFunc *fd_min;
 
-			fd_min = gnm_func_lookup_or_add_placeholder ("MIN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+			fd_min = gnm_func_lookup_or_add_placeholder ("MIN");
 			gnm_func_ref (fd_min);
 			dao_set_cell_expr (dao, to_col, i_start,
 					   gnm_expr_new_funcall1
@@ -228,7 +226,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		else {
 			GnmFunc *fd_max;
 
-			fd_max = gnm_func_lookup_or_add_placeholder ("MAX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+			fd_max = gnm_func_lookup_or_add_placeholder ("MAX");
 			gnm_func_ref (fd_max);
 			dao_set_cell_expr (dao, to_col, i_start + i_limit - 1,
 					   gnm_expr_new_funcall1

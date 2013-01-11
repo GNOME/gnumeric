@@ -195,8 +195,8 @@ workbook_cmd_wrap_sort (WorkbookControl *wbc, int type)
 			 _("The range to be sorted may not contain any merged cells."));
 		return;
 	}
-	fd_sort = gnm_func_lookup_or_add_placeholder ("sort", cl.wb, TRUE);
-	fd_array = gnm_func_lookup_or_add_placeholder ("array", cl.wb, TRUE);
+	fd_sort = gnm_func_lookup_or_add_placeholder ("sort");
+	fd_array = gnm_func_lookup_or_add_placeholder ("array");
 
 	sheet_foreach_cell_in_range
 		(sv->sheet, CELL_ITER_ALL,

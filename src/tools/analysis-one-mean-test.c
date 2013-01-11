@@ -50,19 +50,19 @@ analysis_tool_one_mean_test_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_iferror;
 	GnmFunc *fd_count;
 
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT");
 	gnm_func_ref (fd_count);
-	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_mean = gnm_func_lookup_or_add_placeholder ("AVERAGE");
 	gnm_func_ref (fd_mean);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_var = gnm_func_lookup_or_add_placeholder ("VAR");
 	gnm_func_ref (fd_var);
-	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT");
 	gnm_func_ref (fd_sqrt);
-	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_abs = gnm_func_lookup_or_add_placeholder ("ABS");
 	gnm_func_ref (fd_abs);
-	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_tdist = gnm_func_lookup_or_add_placeholder ("TDIST");
 	gnm_func_ref (fd_tdist);
-	fd_iferror = gnm_func_lookup_or_add_placeholder ("IFERROR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
+	fd_iferror = gnm_func_lookup_or_add_placeholder ("IFERROR");
 	gnm_func_ref (fd_iferror);
 
 	dao_set_italic (dao, 0, 0, 0, 9);
