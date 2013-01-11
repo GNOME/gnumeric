@@ -1086,7 +1086,7 @@ gnm_func_lookup_localized (char const *name, Workbook *scope)
 	GHashTableIter hiter;	
 	gpointer value;
 
-	/* Must localize all function name.  */
+	/* Must localize all function names.  */
 	g_hash_table_iter_init (&hiter, functions_by_name);
 	while (g_hash_table_iter_next (&hiter, NULL, &value)) {
 		GnmFunc *fd = value;
@@ -1159,6 +1159,7 @@ gnm_func_add (GnmFuncGroup *fn_group,
 	func->impl_status	= desc->impl_status;
 	func->test_status	= desc->test_status;
 	func->localized_name    = NULL;
+	func->arg_names_p       = NULL;
 
 	func->user_data		= NULL;
 	func->usage_count	= 0;
@@ -1202,8 +1203,8 @@ gnm_func_add (GnmFuncGroup *fn_group,
 /* Handle unknown functions on import without losing their names */
 static GnmValue *
 unknownFunctionHandler (GnmFuncEvalInfo *ei,
-			int argc,
-			GnmExprConstPtr const *argv)
+			G_GNUC_UNUSED int argc,
+			G_GNUC_UNUSED GnmExprConstPtr const *argv)
 {
 	return value_new_error_NAME (ei->pos);
 }
@@ -1255,14 +1256,11 @@ invent_name (const char *pref, GHashTable *h, const char *template)
 	static int count = 0;
 	char *name = g_utf8_strdown (pref, -1);
 
-	if (g_hash_table_lookup (h, name) == NULL)
-		return name;
-
-	do {
+	while (g_hash_table_lookup (h, name)) {
 		count++;
 		g_free (name);
 		name = g_strdup_printf (template, count);
-	} while (g_hash_table_lookup (h, name));
+	}
 
 	return name;
 }
