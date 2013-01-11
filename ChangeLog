@@ -1,5 +1,13 @@
 2013-01-10  Morten Welinder  <terra@gnome.org>
 
+	* src/gnm-plugin.c (plugin_service_function_group_activate):
+	Upgrade existing placeholder functions as needed.
+
+	* src/func.c (gnm_func_upgrade_placeholder): Rename from
+	gnm_func_upgrade_placeholder.  Take GnmFunc argument, not name.
+
+2013-01-10  Morten Welinder  <terra@gnome.org>
+
 	* src/func.c (gnm_func_add_placeholder_localized): New function.
 	(gnm_func_add_placeholder_full): Extract from
 	gnm_func_add_placeholder.  Handle localization better.

@@ -28,6 +28,7 @@
 #include "func-builtin.h"
 #include "command-context-stderr.h"
 #include "gnm-plugin.h"
+#include "gutils.h"
 
 #include <goffice/goffice.h>
 #include <glib.h>
@@ -1206,39 +1207,44 @@ unknownFunctionHandler (GnmFuncEvalInfo *ei,
 }
 
 /**
- * gnm_func_add_stub:
+ * gnm_func_upgrade_placeholder:
+ * @fd:
  * @fn_group:
- * @name:
  * @textdomain:
  * @load_desc: (scope async):
  * @opt_usage_notify: (scope async):
  **/
-GnmFunc *
-gnm_func_add_stub (GnmFuncGroup *fn_group,
-		   const char *name,
-		   const char *textdomain,
-		   GnmFuncLoadDesc   load_desc,
-		   GnmFuncUsageNotify opt_usage_notify)
+void
+gnm_func_upgrade_placeholder (GnmFunc *fd,
+			      GnmFuncGroup *fn_group,
+			      const char *textdomain,
+			      GnmFuncLoadDesc load_desc,
+			      GnmFuncUsageNotify opt_usage_notify)
 {
-	GnmFunc *func = g_new0 (GnmFunc, 1);
+	g_return_if_fail (fd != NULL);
+	g_return_if_fail (fd->flags & GNM_FUNC_IS_PLACEHOLDER);
+	g_return_if_fail (fn_group != NULL);
 
 	if (!textdomain)
 		textdomain = GETTEXT_PACKAGE;
 
-	func->name		= name;
-	func->usage_notify	= opt_usage_notify;
-	func->fn_type		= GNM_FUNC_TYPE_STUB;
-	func->fn.load_desc	= load_desc;
-	func->textdomain        = go_string_new (textdomain);
+	/* Remove from unknown_cat */
+	gnm_func_group_remove_func (fd->fn_group, fd);
 
-	func->fn_group = fn_group;
-	if (fn_group != NULL)
-		gnm_func_group_add_func (fn_group, func);
+	fd->fn_type = GNM_FUNC_TYPE_STUB;
+	fd->fn.load_desc = load_desc;
+	fd->usage_notify = opt_usage_notify;
 
-	g_hash_table_insert (functions_by_name,
-			     (gpointer)(func->name), func);
+	go_string_unref (fd->textdomain);
+	fd->textdomain = go_string_new (textdomain);
 
-	return func;
+	/* Clear localized_name so we can deduce the proper name.  */
+	gnm_func_set_localized_name (fd, NULL);
+
+	fd->flags &= ~GNM_FUNC_IS_PLACEHOLDER;
+
+	fd->fn_group = fn_group;
+	gnm_func_group_add_func (fn_group, fd);
 }
 
 static char *
@@ -1293,7 +1299,8 @@ gnm_func_add_placeholder_full (Workbook *scope,
 		copy_lname = FALSE;
 	}
 
-	g_printerr ("Adding placeholder for %s (aka %s)\n", gname, lname);
+	if (gnm_debug_flag ("func"))
+		g_printerr ("Adding placeholder for %s (aka %s)\n", gname, lname);
 
 	memset (&desc, 0, sizeof (GnmFuncDescriptor));
 	desc.name	  = copy_gname ? g_strdup (gname) : gname;
@@ -1309,9 +1316,12 @@ gnm_func_add_placeholder_full (Workbook *scope,
 
 	if (scope != NULL)
 		desc.flags |= GNM_FUNC_IS_WORKBOOK_LOCAL;
-	else
+	else {
+#if 0
 		/* WISHLIST : it would be nice to have a log if these. */
 		g_warning ("Unknown %s function : %s", type, gname);
+#endif
+	}
 
 	func = gnm_func_add (unknown_cat, &desc, NULL);
 

@@ -18,6 +18,7 @@ Morten:
 	* Avoid using some deprecated symbols.
 	* Fix multihead issue with clipboard.
 	* Improve EIGEN.   [#687926]
+	* Improve handling of unknown functions.  [#109442]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.0

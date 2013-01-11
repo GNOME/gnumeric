@@ -238,11 +238,6 @@ GSList	   *gnm_func_lookup_prefix   (char const *prefix, Workbook *scope,
 GnmFunc    *gnm_func_add	     (GnmFuncGroup *group,
 				      GnmFuncDescriptor const *descriptor,
 				      const char *textdomain);
-GnmFunc    *gnm_func_add_stub	     (GnmFuncGroup *group,
-				      const char *name,
-				      const char *textdomain,
-				      GnmFuncLoadDesc load_desc,
-				      GnmFuncUsageNotify opt_usage_notify);
 GnmFunc    *gnm_func_add_placeholder (Workbook *optional_scope,
 				      char const *name,
 				      char const *type,
@@ -251,6 +246,12 @@ GnmFunc    *gnm_func_add_placeholder_localized (char const *gname, char const *l
 GnmFunc	   *gnm_func_lookup_or_add_placeholder
                                       (char const *name, Workbook *scope,
 				       gboolean copy_name);
+void        gnm_func_upgrade_placeholder
+				      (GnmFunc *fd,
+				       GnmFuncGroup *fn_group,
+				       const char *textdomain,
+				       GnmFuncLoadDesc load_desc,
+				       GnmFuncUsageNotify opt_usage_notify);
 
 /* TODO */
 char const *gnm_func_get_description (GnmFunc const *fn_def);
