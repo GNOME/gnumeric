@@ -981,7 +981,7 @@ sc_func_map_in (GnmConventions const *conv, Workbook *scope,
 	    NULL != (new_name = g_hash_table_lookup (namemap, name)))
 		name = new_name;
 	if (NULL == (f = gnm_func_lookup (name, scope)))
-		f = gnm_func_add_placeholder (scope, name, "", TRUE);
+		f = gnm_func_add_placeholder (scope, name, "");
 	return gnm_expr_new_funcall (f, args);
 }
 

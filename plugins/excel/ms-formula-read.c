@@ -662,7 +662,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 			       f_name, numargs););
 
 		if (name == NULL)
-			name = gnm_func_add_placeholder (wb, f_name, "UNKNOWN", TRUE);
+			name = gnm_func_add_placeholder (wb, f_name, "UNKNOWN");
 
 		gnm_expr_free (tmp);
 		parse_list_push (stack, gnm_expr_new_funcall (name, args));
@@ -695,7 +695,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 		if (fd->name) {
 			name = gnm_func_lookup (fd->name, wb);
 			if (name == NULL)
-				name = gnm_func_add_placeholder (wb, fd->name, "UNKNOWN", TRUE);
+				name = gnm_func_add_placeholder (wb, fd->name, "UNKNOWN");
 		}
 		/* This should not happen */
 		if (!name) {

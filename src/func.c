@@ -1268,11 +1268,12 @@ invent_name (const char *pref, GHashTable *h, const char *template)
 static GnmFunc *
 gnm_func_add_placeholder_full (Workbook *scope,
 			       char const *gname, char const *lname,
-			       char const *type, gboolean copy_gname)
+			       char const *type)
 {
 	GnmFuncDescriptor desc;
 	GnmFunc *func;
 	char const *unknown_cat_name = N_("Unknown Function");
+	gboolean copy_gname = TRUE;
 	gboolean copy_lname = TRUE;
 
 	g_return_val_if_fail (gname || lname, NULL);
@@ -1353,16 +1354,15 @@ gnm_func_add_placeholder_full (Workbook *scope,
  */
 GnmFunc *
 gnm_func_add_placeholder (Workbook *scope,
-			  char const *name, char const *type,
-			  gboolean copy_name)
+			  char const *name, char const *type)
 {
-	return gnm_func_add_placeholder_full (scope, name, NULL, type, copy_name);
+	return gnm_func_add_placeholder_full (scope, name, NULL, type);
 }
 
 GnmFunc *
 gnm_func_add_placeholder_localized (char const *gname, char const *lname)
 {
-	return gnm_func_add_placeholder_full (NULL, gname, lname, "?", TRUE);
+	return gnm_func_add_placeholder_full (NULL, gname, lname, "?");
 }
 
 /* Utility routine to be used for import and analysis tools */
@@ -1371,7 +1371,7 @@ gnm_func_lookup_or_add_placeholder (char const *name)
 {
 	GnmFunc	* f = gnm_func_lookup (name, NULL);
 	if (f == NULL)
-		f = gnm_func_add_placeholder (NULL, name, "", TRUE);
+		f = gnm_func_add_placeholder (NULL, name, "");
 	return f;
 }
 

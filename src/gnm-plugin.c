@@ -217,8 +217,7 @@ plugin_service_function_group_activate (GOPluginService *service, GOErrorInfo **
 			 g_printerr ("Reusing placeholder for %s\n", fname);
 #endif
 		 } else {
-			 fd = gnm_func_add_placeholder
-				 (NULL, fname, "?", TRUE);
+			 fd = gnm_func_add_placeholder (NULL, fname, "?");
 		 }
 		 if (fd->flags & GNM_FUNC_IS_PLACEHOLDER) {
 			 gnm_func_set_user_data (fd, service);

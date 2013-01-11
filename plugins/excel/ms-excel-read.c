@@ -3997,7 +3997,7 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 
 			else if ((flags & 0xE) == 0xE) /* Function & VB-Proc & Proc */
 				gnm_func_add_placeholder (importer->wb,
-							  expr_name_name (nexpr), "VBA", TRUE);
+							  expr_name_name (nexpr), "VBA");
 		}
 	}
 

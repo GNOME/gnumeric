@@ -384,7 +384,7 @@ lotus_placeholder (char const *lname)
 	char *gname = g_strconcat ("LOTUS_", lname, NULL);
 	GnmFunc *func = gnm_func_lookup (gname, NULL);
 	if (!func)
-		func = gnm_func_add_placeholder (NULL, gname, "Lotus ", TRUE);
+		func = gnm_func_add_placeholder (NULL, gname, "Lotus");
 	g_free (gname);
 	return func;
 }
