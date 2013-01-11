@@ -915,19 +915,23 @@ error_function_no_full_info (GnmFuncEvalInfo *ei,
 	return value_new_error (ei->pos, _("Function implementation not available."));
 }
 
-/**
- * function_def_create_arg_names:
- * @fn_def: the fn defintion
- *
- * Return value: a ptrarray of argument names (that must be freed)
- **/
-static GPtrArray *
-function_def_create_arg_names (GnmFunc const *fn_def)
+static void
+gnm_func_clear_arg_names (GnmFunc *fd)
+{
+	if (fd->arg_names_p) {
+		g_ptr_array_foreach (fd->arg_names_p, (GFunc) g_free, NULL);
+		g_ptr_array_free (fd->arg_names_p, TRUE);
+		fd->arg_names_p = NULL;
+	}
+}
+
+static void
+gnm_func_create_arg_names (GnmFunc *fn_def)
 {
 	int i;
 	GPtrArray *ptr;
 
-	g_return_val_if_fail (fn_def != NULL, NULL);
+	g_return_if_fail (fn_def != NULL);
 
 	ptr = g_ptr_array_new ();
 	for (i = 0;
@@ -940,7 +944,9 @@ function_def_create_arg_names (GnmFunc const *fn_def)
 			(ptr, split_at_colon
 			 (F2(fn_def, fn_def->help[i].text), NULL));
 	}
-	return ptr;
+
+	gnm_func_clear_arg_names (fn_def);
+	fn_def->arg_names_p = ptr;
 }
 
 
@@ -973,9 +979,8 @@ gnm_func_load_stub (GnmFunc *func)
 		func->impl_status = desc.impl_status;
 		func->test_status = desc.test_status;
 		func->flags	  = desc.flags;
-		func->arg_names_p = function_def_create_arg_names (func);
+		gnm_func_create_arg_names (func);
 	} else {
-		func->arg_names_p = NULL;
 		func->fn_type = GNM_FUNC_TYPE_NODES;
 		func->fn.nodes = &error_function_no_full_info;
 		func->linker   = NULL;
@@ -1023,10 +1028,7 @@ gnm_func_free (GnmFunc *func)
 	if (func->textdomain)
 		go_string_unref (func->textdomain);
 
-	if (func->arg_names_p) {
-		g_ptr_array_foreach (func->arg_names_p, (GFunc) g_free, NULL);
-		g_ptr_array_free (func->arg_names_p, TRUE);
-	}
+	gnm_func_clear_arg_names (func);
 
 	g_free (func);
 }
@@ -1192,7 +1194,7 @@ gnm_func_add (GnmFuncGroup *fn_group,
 		g_hash_table_insert (functions_by_name,
 				     (gpointer)(func->name), func);
 
-	func->arg_names_p = function_def_create_arg_names (func);
+	gnm_func_create_arg_names (func);
 
 	return func;
 }
@@ -1304,7 +1306,7 @@ gnm_func_add_placeholder_full (Workbook *scope,
 		g_printerr ("Adding placeholder for %s (aka %s)\n", gname, lname);
 
 	memset (&desc, 0, sizeof (GnmFuncDescriptor));
-	desc.name	  = copy_gname ? g_strdup (gname) : gname;
+	desc.name	  = gname;
 	desc.arg_spec	  = NULL;
 	desc.help	  = NULL;
 	desc.fn_args	  = NULL;
@@ -1331,6 +1333,9 @@ gnm_func_add_placeholder_full (Workbook *scope,
 		if (!copy_lname)
 			g_free ((char *)lname);
 	}
+
+	if (!copy_gname)
+		g_free ((char *)gname);
 
 	if (scope != NULL) {
 		if (scope->sheet_local_functions == NULL)
