@@ -87,7 +87,6 @@ typedef enum {
 
 	/* an unknown function that will hopefully be defined later */
 	GNM_FUNC_IS_PLACEHOLDER		= 1 << 3,
-	GNM_FUNC_FREE_NAME		= 1 << 4,
 	GNM_FUNC_IS_WORKBOOK_LOCAL	= 1 << 5,
 	GNM_FUNC_INTERNAL		= 1 << 6,
 

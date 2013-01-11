@@ -5,6 +5,7 @@
 	is what all callers should have used).  All callers changed.
 	(gnm_func_add_placeholder): Ditto.
 	(invent_name): Downcase the preferred name.
+	(gnm_func_add_placeholder_full): Eliminate GNM_FUNC_FREE_NAME.
 
 	* src/gnm-plugin.c (plugin_service_function_group_activate):
 	Upgrade existing placeholder functions as needed.

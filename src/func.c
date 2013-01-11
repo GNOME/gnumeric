@@ -1017,8 +1017,8 @@ gnm_func_free (GnmFunc *func)
 
 	if (func->fn_type == GNM_FUNC_TYPE_ARGS)
 		g_free (func->fn.args.arg_types);
-	if (func->flags & GNM_FUNC_FREE_NAME)
-		g_free ((char *)func->name);
+
+	g_free ((char *)func->name);
 
 	if (func->textdomain)
 		go_string_unref (func->textdomain);
@@ -1148,7 +1148,7 @@ gnm_func_add (GnmFuncGroup *fn_group,
 	if (!textdomain)
 		textdomain = GETTEXT_PACKAGE;
 
-	func->name		= desc->name;
+	func->name		= g_strdup (desc->name);
 	func->help		= desc->help ? desc->help : NULL;
 	func->textdomain        = go_string_new (textdomain);
 	func->linker		= desc->linker;
@@ -1311,7 +1311,7 @@ gnm_func_add_placeholder_full (Workbook *scope,
 	desc.fn_nodes	  = &unknownFunctionHandler;
 	desc.linker	  = NULL;
 	desc.usage_notify = NULL;
-	desc.flags	  = GNM_FUNC_IS_PLACEHOLDER | (copy_gname ? GNM_FUNC_FREE_NAME : 0);
+	desc.flags	  = GNM_FUNC_IS_PLACEHOLDER;
 	desc.impl_status  = GNM_FUNC_IMPL_STATUS_EXISTS;
 	desc.test_status  = GNM_FUNC_TEST_STATUS_UNKNOWN;
 
@@ -1320,7 +1320,7 @@ gnm_func_add_placeholder_full (Workbook *scope,
 	else {
 #if 0
 		/* WISHLIST : it would be nice to have a log if these. */
-		g_warning ("Unknown %s function : %s", type, gname);
+		g_warning ("Unknown %s function : %s", type, desc.name);
 #endif
 	}
 
