@@ -375,17 +375,13 @@ sub test_valgrind {
     die "Problem running valgrind.\n"
 	unless $valvers =~ /^valgrind-(\d+)\.(\d+)\.(\d+)$/;
     $valvers = $1 * 10000 + $2 * 100 + $3;
+    &report_skip ("Valgrind is too old") unless $valvers >= 30500;
 
     $cmd = "--gen-suppressions=all $cmd";
 
     {
 	my $suppfile = "$topsrc/test/common.supp";
 	&report_skip ("file $suppfile does not exist") unless -r $suppfile;
-	$cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;
-    }
-
-    if ($valvers >= 30500) {
-	my $suppfile = "$topsrc/test/commondots.supp";
 	$cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;
     }
 

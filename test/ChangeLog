@@ -1,3 +1,10 @@
+2013-01-10  Morten Welinder  <terra@gnome.org>
+
+	* GnumericTest.pm (test_valgrind): Skip unless we have Valgrind
+	new enough to understand "..." suppressions.  Not new at all.
+
+	* commondots.supp: Merge into common.supp
+
 2012-12-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.0
