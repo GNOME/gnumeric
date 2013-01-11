@@ -1251,10 +1251,10 @@ static char *
 invent_name (const char *pref, GHashTable *h, const char *template)
 {
 	static int count = 0;
-	char *name = NULL;
+	char *name = g_utf8_strdown (pref, -1);
 
-	if (g_hash_table_lookup (h, pref) == NULL)
-		return g_strdup (pref);
+	if (g_hash_table_lookup (h, name) == NULL)
+		return name;
 
 	do {
 		count++;

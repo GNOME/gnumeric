@@ -4,6 +4,7 @@
 	argument and assume TRUE.  Drop scope name and assume NULL (which
 	is what all callers should have used).  All callers changed.
 	(gnm_func_add_placeholder): Ditto.
+	(invent_name): Downcase the preferred name.
 
 	* src/gnm-plugin.c (plugin_service_function_group_activate):
 	Upgrade existing placeholder functions as needed.
