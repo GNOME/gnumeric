@@ -2588,7 +2588,7 @@ static GnmFuncHelp const help_minverse[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} is not invertible, MINVERSE returns #NUM!") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} does not contain an equal number of columns and rows, MINVERSE returns #VALUE!") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_SEEALSO, "MMULT,MDETERM"},
+	{ GNM_FUNC_HELP_SEEALSO, "MMULT,MDETERM,LINSOLVE"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -2658,6 +2658,22 @@ value_to_matrix (GnmValue const *v, int cols, int rows, GnmEvalPos const *ep)
 		res[r] = g_new (gnm_float, cols);
 		for (c = 0; c < cols; c++)
 		        res[r][c] =
+				value_get_as_float (value_area_get_x_y (v, c, r, ep));
+	}
+
+	return res;
+}
+
+static gnm_float **
+value_to_tmatrix (GnmValue const *v, int cols, int rows, GnmEvalPos const *ep)
+{
+	gnm_float **res = g_new (gnm_float *, cols);
+	int r, c;
+
+	for (c = 0; c < cols; c++) {
+		res[c] = g_new (gnm_float, rows);
+		for (r = 0; r < rows; r++)
+		        res[c][r] =
 				value_get_as_float (value_area_get_x_y (v, c, r, ep));
 	}
 
@@ -2901,6 +2917,70 @@ gnumeric_mmult (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	g_free (A);
 	g_free (B);
 	g_free (product);
+
+	return res;
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_linsolve[] = {
+        { GNM_FUNC_HELP_NAME, F_("LINSOLVE:solve linear equation")},
+        { GNM_FUNC_HELP_ARG, F_("mat:a matrix")},
+        { GNM_FUNC_HELP_ARG, F_("col:a column")},
+	{ GNM_FUNC_HELP_DESCRIPTION,
+	  F_("Solves the equation @{mat}*x=@{col} and returns x.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If the matrix is singular, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_SEEALSO, "MINVERSE"},
+        { GNM_FUNC_HELP_END}
+};
+
+
+static GnmValue *
+gnumeric_linsolve (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	GnmEvalPos const * const ep = ei->pos;
+	int mrows, mcols, crows, ccols;
+	GORegressionResult regres;
+	gnm_float **A;
+	gnm_float **b;
+	GnmStdError err;
+	GnmValue const *mat = argv[0];
+	GnmValue const *col = argv[1];
+	gnm_float *x;
+	GnmValue *res;
+
+	if (validate_range_numeric_matrix (ep, mat, &mrows, &mcols, &err))
+		return value_new_error_std (ei->pos, err);
+
+	if (validate_range_numeric_matrix (ep, col, &crows, &ccols, &err))
+		return value_new_error_std (ei->pos, err);
+
+	/* Guarantee shape and non-zero size */
+	if (mrows != mcols || mrows != crows || ccols != 1 || !mcols)
+		return value_new_error_VALUE (ei->pos);
+
+	A = value_to_matrix (mat, mcols, mrows, ep);
+	b = value_to_tmatrix (col, ccols, crows, ep);
+	x = g_new (gnm_float, crows);
+	regres = gnm_linear_solve (A, b[0], crows, x);
+	free_matrix (A, mcols, mrows);
+	free_matrix (b, crows, ccols); /* tmatrix */
+
+	if (regres != GO_REG_ok && regres != GO_REG_near_singular_good) {
+		res = value_new_error_VALUE (ei->pos);
+	} else {
+		int c, r;
+
+		res = value_new_array_non_init (ccols, crows);
+		for (c = 0; c < ccols; c++) {
+			res->v_array.vals[c] = g_new (GnmValue *, crows);
+			for (r = 0; r < crows; r++)
+				res->v_array.vals[c][r] =
+					value_new_float (x[r]);
+		}
+	}
+
+	g_free (x);
 
 	return res;
 }
@@ -3479,6 +3559,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "minverse","A",      help_minverse,
 	  gnumeric_minverse, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "linsolve", "AA",  help_linsolve,
+	  gnumeric_linsolve, NULL, NULL, NULL,
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "mdeterm", "A",  help_mdeterm,
 	  gnumeric_mdeterm, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

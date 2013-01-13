@@ -11521,6 +11521,42 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-LINSOLVE">
+      <refmeta>
+        <refentrytitle>
+          <function>LINSOLVE</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>LINSOLVE</function>
+        </refname>
+        <refpurpose>
+        solve linear equation
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>LINSOLVE</function>(<parameter>mat</parameter>,<parameter>col</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>mat</parameter>: a matrix</para>
+        <para><parameter>col</parameter>: a column</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>Solves the equation <parameter>mat</parameter>*x=<parameter>col</parameter> and returns x.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If the matrix is singular, #VALUE! is returned.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-function-MINVERSE"><function>MINVERSE</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-LN">
       <refmeta>
         <refentrytitle>
@@ -11767,7 +11803,8 @@
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-function-MMULT"><function>MMULT</function></link>,
-        <link linkend="gnumeric-function-MDETERM"><function>MDETERM</function></link>.
+        <link linkend="gnumeric-function-MDETERM"><function>MDETERM</function></link>,
+        <link linkend="gnumeric-function-LINSOLVE"><function>LINSOLVE</function></link>.
       </para>
       </refsect1>
     </refentry>

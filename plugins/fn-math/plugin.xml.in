@@ -54,6 +54,7 @@
 				<function name="hypot"/>
 				<function name="int"/>
 				<function name="lcm"/>
+				<function name="linsolve"/>
 				<function name="ln"/>
 				<function name="ln1p"/>
 				<function name="log"/>

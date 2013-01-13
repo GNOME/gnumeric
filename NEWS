@@ -19,6 +19,7 @@ Morten:
 	* Fix multihead issue with clipboard.
 	* Improve EIGEN.   [#687926]
 	* Improve handling of unknown functions.  [#109442]
+	* Add LINSOLVE function.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.0

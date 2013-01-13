@@ -3419,6 +3419,16 @@ The depreciation coefficient used is:
 @SEEALSO=GCD
 
 @CATEGORY=Mathematics
+@FUNCTION=LINSOLVE
+@SHORTDESC=solve linear equation
+@SYNTAX=LINSOLVE(mat,col)
+@ARGUMENTDESCRIPTION=@{mat}: a matrix
+@{col}: a column
+@DESCRIPTION=Solves the equation @{mat}*x=@{col} and returns x.
+@NOTE=If the matrix is singular, #VALUE! is returned.
+@SEEALSO=MINVERSE
+
+@CATEGORY=Mathematics
 @FUNCTION=LN
 @SHORTDESC=the natural logarithm of @{x}
 @SYNTAX=LN(x)
@@ -3478,7 +3488,7 @@ The depreciation coefficient used is:
 @ARGUMENTDESCRIPTION=@{matrix}: a square matrix
 @NOTE=If @{matrix} is not invertible, MINVERSE returns #NUM! If @{matrix} does not contain an equal number of columns and rows, MINVERSE returns #VALUE!
 @EXCEL=This function is Excel compatible.
-@SEEALSO=MMULT,MDETERM
+@SEEALSO=MMULT,MDETERM,LINSOLVE
 
 @CATEGORY=Mathematics
 @FUNCTION=MMULT
