@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-01-08 02:07+0000\n"
-"PO-Revision-Date: 2013-01-09 15:24+0100\n"
+"POT-Creation-Date: 2013-01-11 01:59+0000\n"
+"PO-Revision-Date: 2013-01-13 09:47+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -421,7 +421,7 @@ msgstr "Zaznana sta oba argumenta \"refreshedDate\" in \"refreshedDateIso\"!"
 #: ../plugins/excel/xlsx-read-pivot.c:1198
 #, c-format
 msgid "Skipping invalid pivot field group for field '%s' because : %s"
-msgstr "Neveljavno vrtilno polje za skupino polja '%s' bo izpuščeno : %s"
+msgstr "Neveljavno vrtilno polje za skupino polja '%s' bo izpuščeno: %s"
 
 #: ../plugins/excel/xlsx-read.c:339
 #, c-format
@@ -974,7 +974,7 @@ msgstr "Funkcije za upravljanje nizov"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 #: ../src/dialogs/dialog-doc-metadata.c:1863
-#: ../src/dialogs/dialog-search.c:151 ../src/func.c:1437
+#: ../src/dialogs/dialog-search.c:151 ../src/func.c:1591
 msgid "String"
 msgstr "Niz"
 
@@ -2192,7 +2192,7 @@ msgstr "Datoteka ne vsebuje slovarja \"%s\""
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Predmet \"%s\" ni slovar."
 
-#: ../plugins/python-loader/python-loader.c:797 ../src/gnm-plugin.c:804
+#: ../plugins/python-loader/python-loader.c:797 ../src/gnm-plugin.c:839
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Neznano dejanje: %s"
@@ -5484,7 +5484,7 @@ msgstr "Mar"
 
 #: ../src/dialogs/dialog-autoformat.c:71 ../src/dialogs/dialog-autoformat.c:75
 #: ../src/tools/analysis-anova.c:560
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:147
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:146
 msgid "Total"
 msgstr "Skupno"
 
@@ -5665,7 +5665,7 @@ msgid "Double Low"
 msgstr "Dvojno podčrtano"
 
 #: ../src/dialogs/dialog-cell-format.c:488 ../src/dialogs/dialog-search.c:153
-#: ../src/func.c:1435 ../src/wbc-gtk-actions.c:2764
+#: ../src/func.c:1589 ../src/wbc-gtk-actions.c:2764
 msgid "Number"
 msgstr "Številka"
 
@@ -6043,14 +6043,14 @@ msgstr "Filter"
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
 #: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2250
-#: ../src/tools/analysis-tools.c:224 ../src/tools/analysis-tools.c:2890
+#: ../src/tools/analysis-tools.c:224 ../src/tools/analysis-tools.c:2889
 msgid "Row"
 msgstr "Vrstica"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
 #: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2242
-#: ../src/tools/analysis-tools.c:224 ../src/tools/analysis-tools.c:2891
+#: ../src/tools/analysis-tools.c:224 ../src/tools/analysis-tools.c:2890
 msgid "Column"
 msgstr "Stolpec"
 
@@ -7305,16 +7305,16 @@ msgid "Run on"
 msgstr "Zaženi na"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:4643
+#: ../src/wbc-gtk.c:4642
 msgid "Min"
 msgstr "Najmanj"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4645
+#: ../src/dialogs/dialog-simulation.c:237 ../src/wbc-gtk.c:4644
 msgid "Average"
 msgstr "Povprečje"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:4644
+#: ../src/wbc-gtk.c:4643
 msgid "Max"
 msgstr "Največ"
 
@@ -7555,8 +7555,8 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:517
 #: ../src/tools/analysis-exp-smoothing.c:781
 #: ../src/tools/analysis-exp-smoothing.c:1103
-#: ../src/tools/analysis-frequency.c:149 ../src/tools/analysis-histogram.c:325
-#: ../src/tools/analysis-tools.c:1222 ../src/tools/analysis-tools.c:3781
+#: ../src/tools/analysis-frequency.c:149 ../src/tools/analysis-histogram.c:323
+#: ../src/tools/analysis-tools.c:1221 ../src/tools/analysis-tools.c:3780
 #, c-format
 msgid "Column %d"
 msgstr "Stolpec %d"
@@ -7581,7 +7581,7 @@ msgid "Line"
 msgstr "Črta"
 
 #: ../src/dialogs/dialog-stf-main-page.c:398
-#: ../src/widgets/gnumeric-expr-entry.c:1736
+#: ../src/widgets/gnumeric-expr-entry.c:1739
 msgid "Text"
 msgstr "Besedilo"
 
@@ -8647,13 +8647,13 @@ msgstr "VAR"
 msgid "VARP"
 msgstr "VARP"
 
-#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:697
-#: ../src/tools/analysis-tools.c:700
+#: ../src/dialogs/correlation.ui.h:1 ../src/tools/analysis-tools.c:696
+#: ../src/tools/analysis-tools.c:699
 msgid "Correlation"
 msgstr "Korelacija"
 
-#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:752
-#: ../src/tools/analysis-tools.c:755 ../src/wbc-gtk-actions.c:2480
+#: ../src/dialogs/covariance.ui.h:1 ../src/tools/analysis-tools.c:751
+#: ../src/tools/analysis-tools.c:754 ../src/wbc-gtk-actions.c:2480
 msgid "Covariance"
 msgstr "Kovarianca"
 
@@ -8750,8 +8750,8 @@ msgstr "Izbriši _vrstice"
 msgid "Delete _column(s)"
 msgstr "Izbriši _stolpce"
 
-#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1142
-#: ../src/tools/analysis-tools.c:1145
+#: ../src/dialogs/descriptive-stats.ui.h:1 ../src/tools/analysis-tools.c:1141
+#: ../src/tools/analysis-tools.c:1144
 msgid "Descriptive Statistics"
 msgstr "Opisna statistika"
 
@@ -9766,8 +9766,8 @@ msgstr "Vstavi celico preglednice"
 msgid "<b>Select a date format:</b>"
 msgstr "<b>Izbor zapisa časa:</b>"
 
-#: ../src/dialogs/histogram.ui.h:1 ../src/tools/analysis-histogram.c:160
-#: ../src/tools/analysis-histogram.c:471 ../src/tools/analysis-histogram.c:474
+#: ../src/dialogs/histogram.ui.h:1 ../src/tools/analysis-histogram.c:158
+#: ../src/tools/analysis-histogram.c:469 ../src/tools/analysis-histogram.c:472
 msgid "Histogram"
 msgstr "Histogram"
 
@@ -10058,8 +10058,8 @@ msgstr "_Združi"
 msgid "Merge _Range:"
 msgstr "Združi _obseg"
 
-#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:4027
-#: ../src/tools/analysis-tools.c:4030
+#: ../src/dialogs/moving-averages.ui.h:1 ../src/tools/analysis-tools.c:4026
+#: ../src/tools/analysis-tools.c:4029
 msgid "Moving Average"
 msgstr "Drseče povprečje"
 
@@ -10284,8 +10284,8 @@ msgid "Gnumeric Preferences"
 msgstr "Možnosti programa"
 
 #: ../src/dialogs/principal-components.ui.h:1
-#: ../src/tools/analysis-principal-components.c:233
-#: ../src/tools/analysis-principal-components.c:236
+#: ../src/tools/analysis-principal-components.c:223
+#: ../src/tools/analysis-principal-components.c:226
 #: ../src/wbc-gtk-actions.c:2505
 msgid "Principal Components Analysis"
 msgstr "Analiza glavnih komponent"
@@ -10615,8 +10615,8 @@ msgstr "_Povprečni rang"
 msgid "_Top rank"
 msgstr "Vrhnji _rang"
 
-#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3637
-#: ../src/tools/analysis-tools.c:3640
+#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-tools.c:3636
+#: ../src/tools/analysis-tools.c:3639
 msgid "Regression"
 msgstr "Regresije"
 
@@ -11636,9 +11636,9 @@ msgid "label"
 msgstr "oznaka"
 
 #: ../src/dialogs/wilcoxon-mann-whitney.ui.h:1
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:139
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:363
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:366
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:138
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:362
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:365
 msgid "Wilcoxon-Mann-Whitney Test"
 msgstr "Wilcoxon-Mann-Whitneyjev test"
 
@@ -11802,7 +11802,7 @@ msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:70
 msgid "PRODUCT:product of the given values"
-msgstr "PRODUCT:zmnožek podanih vrednosti"
+msgstr "PRODUCT: zmnožek podanih vrednosti"
 
 #. xgettext : see po-functions/README.translators
 #: ../src/func-builtin.c:72
@@ -11860,41 +11860,47 @@ msgstr ""
 "Funkcija oceni podan pogoj. V kolikor je rezultat PRAV, oceni in vrne drugi "
 "argument, sicer oceni in vrne zadnjega."
 
-#: ../src/func.c:240
+#: ../src/func.c:244
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Ni mogoče ustvariti datoteke %s\n"
 
-#: ../src/func.c:895
+#: ../src/func.c:915
 msgid "Function implementation not available."
 msgstr "Podpora funkciji ni na voljo."
 
-#: ../src/func.c:1191
+#: ../src/func.c:1275
 msgid "Unknown Function"
 msgstr "Neznana funkcija"
 
-#: ../src/func.c:1439
+#. xgettext: This represents a made-up translated function name.
+#: ../src/func.c:1299
+#, c-format
+msgid "unknown%d"
+msgstr "funkcija%d"
+
+#: ../src/func.c:1593
 msgid "Boolean"
 msgstr "Logična vrednost"
 
-#: ../src/func.c:1441
+#: ../src/func.c:1595
 msgid "Cell Range"
 msgstr "Obseg celic"
 
-#: ../src/func.c:1443
+#: ../src/func.c:1597
 msgid "Area"
 msgstr "Obseg"
 
-#: ../src/func.c:1445
+#: ../src/func.c:1599
 msgid "Scalar, Blank, or Error"
 msgstr "Skalar, prazno polje ali napaka"
 
-#: ../src/func.c:1447
+#: ../src/func.c:1601
 msgid "Scalar"
 msgstr "Skalar"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1450
+#: ../src/func.c:1604
 msgid "Any"
 msgstr "Katerikoli"
 
@@ -11960,7 +11966,7 @@ msgstr "Skupina funkcije je prazna."
 msgid "No func_desc_load method.\n"
 msgstr "Ni metode func_desc_load.\n"
 
-#: ../src/gnm-plugin.c:234
+#: ../src/gnm-plugin.c:269
 #, c-format
 msgid "%d function in category \"%s\""
 msgid_plural "Group of %d functions in category \"%s\""
@@ -11969,17 +11975,17 @@ msgstr[1] "Skupina %d funkcije v kategoriji \"%s\""
 msgstr[2] "Skupina %d funkcij v kategoriji \"%s\""
 msgstr[3] "Skupina %d funkcij v kategoriji \"%s\""
 
-#: ../src/gnm-plugin.c:343
+#: ../src/gnm-plugin.c:378
 msgid "Missing file name."
 msgstr "Manjka ime datoteke."
 
-#: ../src/gnm-plugin.c:449
+#: ../src/gnm-plugin.c:484
 #, c-format
 msgid "Cannot read UI description from %s: %s"
 msgstr "Ni mogoče prebrati opisa uporabniškega vmesnika iz %s: %s"
 
 #. xgettext : %d gives the number of actions. This is input to ngettext.
-#: ../src/gnm-plugin.c:478
+#: ../src/gnm-plugin.c:513
 #, c-format
 msgid "User interface with %d action"
 msgid_plural "User interface with %d actions"
@@ -11988,25 +11994,25 @@ msgstr[1] "Uporabniški vmesnik ima %d opravilo"
 msgstr[2] "Uporabniški vmesnik ima %d opravili"
 msgstr[3] "Uporabniški vmesnik ima %d opravila"
 
-#: ../src/gnm-plugin.c:602
+#: ../src/gnm-plugin.c:637
 msgid "Invalid solver model type."
 msgstr "Neveljavna vrsta reševalnika."
 
-#: ../src/gnm-plugin.c:621
+#: ../src/gnm-plugin.c:656
 msgid "Missing fields in plugin file"
 msgstr "Manjkajo polja v datoteki vstavka"
 
-#: ../src/gnm-plugin.c:662
+#: ../src/gnm-plugin.c:697
 #, c-format
 msgid "Solver Algorithm %s"
 msgstr "Algoritem reševalnika %s"
 
-#: ../src/gnm-plugin.c:760 ../src/gnm-plugin.c:832 ../src/gnm-plugin.c:878
+#: ../src/gnm-plugin.c:795 ../src/gnm-plugin.c:867 ../src/gnm-plugin.c:913
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "Datoteka modula \"%s\" je neveljavno zapisana."
 
-#: ../src/gnm-plugin.c:764 ../src/gnm-plugin.c:835
+#: ../src/gnm-plugin.c:799 ../src/gnm-plugin.c:870
 #, c-format
 msgid "File doesn't contain \"%s\" array."
 msgstr "Datoteka ne vsebuje podatkovnega polja \"%s\"."
@@ -12343,7 +12349,7 @@ msgstr "napaka dodeljevanja Besselove _k funkcije"
 msgid "bessel_k(%"
 msgstr "bessel_k(%"
 
-#: ../src/mathfunc.c:6672
+#: ../src/mathfunc.c:6677
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
@@ -14056,7 +14062,7 @@ msgid "/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/Vir variacij/Vrstice/Stolpci/Napaka/Skupno"
 
 #: ../src/tools/analysis-anova.c:250 ../src/tools/analysis-anova.c:609
-#: ../src/tools/analysis-tools.c:4302
+#: ../src/tools/analysis-tools.c:4301
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 "/Vsota kvadratov/Prostostne stopnje/Srednji kvadrat - varianca/F/Vrednost p/"
@@ -14169,8 +14175,8 @@ msgstr "\"α =\" * 0.000"
 #: ../src/tools/analysis-exp-smoothing.c:517
 #: ../src/tools/analysis-exp-smoothing.c:781
 #: ../src/tools/analysis-exp-smoothing.c:1103
-#: ../src/tools/analysis-frequency.c:146 ../src/tools/analysis-histogram.c:322
-#: ../src/tools/analysis-tools.c:1219 ../src/tools/analysis-tools.c:3778
+#: ../src/tools/analysis-frequency.c:146 ../src/tools/analysis-histogram.c:320
+#: ../src/tools/analysis-tools.c:1218 ../src/tools/analysis-tools.c:3777
 #, c-format
 msgid "Row %d"
 msgstr "Vrstica %d"
@@ -14180,7 +14186,7 @@ msgstr "Vrstica %d"
 #: ../src/tools/analysis-exp-smoothing.c:603
 #: ../src/tools/analysis-exp-smoothing.c:922
 #: ../src/tools/analysis-exp-smoothing.c:1286
-#: ../src/tools/analysis-kaplan-meier.c:214 ../src/tools/analysis-tools.c:3953
+#: ../src/tools/analysis-kaplan-meier.c:214 ../src/tools/analysis-tools.c:3952
 msgid "Standard Error"
 msgstr "Standardna napaka"
 
@@ -14242,8 +14248,8 @@ msgstr "Potenčno glajenje (%s)"
 msgid "/Frequency Table/Category"
 msgstr "/Frekvenčna razpredelnica/Kategorija"
 
-#: ../src/tools/analysis-frequency.c:152 ../src/tools/analysis-histogram.c:328
-#: ../src/tools/analysis-tools.c:1225
+#: ../src/tools/analysis-frequency.c:152 ../src/tools/analysis-histogram.c:326
+#: ../src/tools/analysis-tools.c:1224
 #, c-format
 msgid "Area %d"
 msgstr "Obseg %d"
@@ -14260,40 +14266,40 @@ msgstr "Frekvenčna razpredelnica"
 #. translator note: only translate the
 #. "to below" and "up to" exclusive of
 #. the quotation marks:
-#: ../src/tools/analysis-histogram.c:181
+#: ../src/tools/analysis-histogram.c:179
 msgid "\"to below\" * General"
 msgstr "\"do najmanj\" * General"
 
-#: ../src/tools/analysis-histogram.c:181
+#: ../src/tools/analysis-histogram.c:179
 msgid "\"up to\" * General"
 msgstr "\"vse do\" * General"
 
 #. translator note: only translate the
 #. "to" and "\xe2\x88\x9e" exclusive of
 #. the quotation marks:
-#: ../src/tools/analysis-histogram.c:269
+#: ../src/tools/analysis-histogram.c:267
 msgid "\"to\" * \"∞\""
 msgstr "\"do\" * \"∞\""
 
 #. translator note: only translate the
 #. "from" and "above" exclusive of
 #. the quotation marks:
-#: ../src/tools/analysis-histogram.c:282
+#: ../src/tools/analysis-histogram.c:280
 msgid "\"from\" * General"
 msgstr "\"od\" * General"
 
-#: ../src/tools/analysis-histogram.c:282
+#: ../src/tools/analysis-histogram.c:280
 msgid "\"above\" * General"
 msgstr "\"nad\" * General"
 
 #. translator note: only translate the
 #. "from" and "\xe2\x88\x92\xe2\x88\x9e" exclusive of
 #. the quotation marks:
-#: ../src/tools/analysis-histogram.c:289
+#: ../src/tools/analysis-histogram.c:287
 msgid "\"from\" * \"−∞\";\"from\" * \"−∞\""
 msgstr "\"od\" * \"−∞\";\"od\" * \"−∞\""
 
-#: ../src/tools/analysis-histogram.c:446
+#: ../src/tools/analysis-histogram.c:444
 #, c-format
 msgid "Histogram (%s)"
 msgstr "Histogram (%s)"
@@ -14372,24 +14378,24 @@ msgstr ""
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-normality.c:127
+#: ../src/tools/analysis-normality.c:125
 msgid "/Alpha/p-Value/Statistic/N/Conclusion"
 msgstr "/Alfa/Vrednost p/Statistika/N/Zaključek"
 
-#: ../src/tools/analysis-normality.c:167
+#: ../src/tools/analysis-normality.c:165
 msgid "Not normal"
 msgstr "Porazdelitev ni normalna"
 
-#: ../src/tools/analysis-normality.c:168
+#: ../src/tools/analysis-normality.c:166
 msgid "Possibly normal"
 msgstr "Verjetno je porazdelitev normalna"
 
-#: ../src/tools/analysis-normality.c:194
+#: ../src/tools/analysis-normality.c:192
 #, c-format
 msgid "Normality Test (%s)"
 msgstr "Test normalnosti (%s)"
 
-#: ../src/tools/analysis-normality.c:205 ../src/tools/analysis-normality.c:208
+#: ../src/tools/analysis-normality.c:203 ../src/tools/analysis-normality.c:206
 msgid "Normality Test"
 msgstr "Test normalnosti"
 
@@ -14413,27 +14419,27 @@ msgstr "Za analizo glavnih komponent primanjkuje prostora."
 
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
-#: ../src/tools/analysis-principal-components.c:108
+#: ../src/tools/analysis-principal-components.c:98
 msgid ""
 "\"Principal Components Analysis\";[Red]\"Principal Components Analysis is "
 "invalid.\""
 msgstr ""
 "\"Analiza glavnih komponent\";[Red]\"Analiza glavnih element ni veljavna.\""
 
-#: ../src/tools/analysis-principal-components.c:114
-#: ../src/tools/analysis-tools.c:724
+#: ../src/tools/analysis-principal-components.c:104
+#: ../src/tools/analysis-tools.c:723
 msgid "Covariances"
 msgstr "Kovariance"
 
-#: ../src/tools/analysis-principal-components.c:138
+#: ../src/tools/analysis-principal-components.c:128
 msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
 msgstr "/Števec/Povprečje/Varianca//Lastna vrednost/Lastni vektor"
 
-#: ../src/tools/analysis-principal-components.c:143
+#: ../src/tools/analysis-principal-components.c:133
 msgid "Percent of Trace"
 msgstr "Odstotek zaznave"
 
-#: ../src/tools/analysis-principal-components.c:221
+#: ../src/tools/analysis-principal-components.c:211
 #, c-format
 msgid "Principal Components Analysis (%s)"
 msgstr "Analiza glavnih komponent (%s)"
@@ -14508,16 +14514,16 @@ msgstr "Obseg %i"
 msgid "Variable %i"
 msgstr "Spremenljivka %i"
 
-#: ../src/tools/analysis-tools.c:669
+#: ../src/tools/analysis-tools.c:668
 msgid "Correlations"
 msgstr "Korelacije"
 
-#: ../src/tools/analysis-tools.c:681
+#: ../src/tools/analysis-tools.c:680
 #, c-format
 msgid "Correlation (%s)"
 msgstr "Korelacija (%s)"
 
-#: ../src/tools/analysis-tools.c:736
+#: ../src/tools/analysis-tools.c:735
 #, c-format
 msgid "Covariance (%s)"
 msgstr "Kovarianca (%s)"
@@ -14529,7 +14535,7 @@ msgstr "Kovarianca (%s)"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:838
+#: ../src/tools/analysis-tools.c:837
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -14538,36 +14544,36 @@ msgstr ""
 "Koeficient sploščenosti/Koeficient asimetričnosti/Obseg/Najmanjša vrednost/"
 "Največja vrednost/Vsota/Števec"
 
-#: ../src/tools/analysis-tools.c:972
+#: ../src/tools/analysis-tools.c:971
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%s%%%% CI za srednjo vrednost od/do"
 
-#: ../src/tools/analysis-tools.c:1103
+#: ../src/tools/analysis-tools.c:1102
 #, c-format
 msgid "Largest (%d)"
 msgstr "Največje (%d)"
 
-#: ../src/tools/analysis-tools.c:1110
+#: ../src/tools/analysis-tools.c:1109
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Najmanjša (%d)"
 
-#: ../src/tools/analysis-tools.c:1127
+#: ../src/tools/analysis-tools.c:1126
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "Opisna statistika (%s)"
 
-#: ../src/tools/analysis-tools.c:1322
+#: ../src/tools/analysis-tools.c:1321
 #, c-format
 msgid "Sampling (%s)"
 msgstr "Vzorčenje (%s)"
 
-#: ../src/tools/analysis-tools.c:1356 ../src/tools/analysis-tools.c:1359
+#: ../src/tools/analysis-tools.c:1355 ../src/tools/analysis-tools.c:1358
 msgid "Sample"
 msgstr "Vzorec"
 
-#: ../src/tools/analysis-tools.c:1400
+#: ../src/tools/analysis-tools.c:1399
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -14577,16 +14583,16 @@ msgstr ""
 "razlika povprečja/z/P (Z<=z) enostranska porazdelitev/kritični enostrani z/"
 "dvostrani P (Z<=z)/kritični dvostrani z"
 
-#: ../src/tools/analysis-tools.c:1587
+#: ../src/tools/analysis-tools.c:1586
 #, c-format
 msgid "z-Test (%s)"
 msgstr "Z-Test (%s)"
 
-#: ../src/tools/analysis-tools.c:1597 ../src/tools/analysis-tools.c:1600
+#: ../src/tools/analysis-tools.c:1596 ../src/tools/analysis-tools.c:1599
 msgid "z-Test"
 msgstr "Z-Test"
 
-#: ../src/tools/analysis-tools.c:1651
+#: ../src/tools/analysis-tools.c:1650
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
@@ -14597,18 +14603,18 @@ msgstr ""
 "Stat/P (T<=t) enostrani/kritični enostrani t/dvostrani P (T<=t)/Kritični "
 "dvostrani t"
 
-#: ../src/tools/analysis-tools.c:1879
+#: ../src/tools/analysis-tools.c:1878
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr "T-Test, odvisna vzorca (%s)"
 
-#: ../src/tools/analysis-tools.c:1889 ../src/tools/analysis-tools.c:1892
-#: ../src/tools/analysis-tools.c:2189 ../src/tools/analysis-tools.c:2192
-#: ../src/tools/analysis-tools.c:2482 ../src/tools/analysis-tools.c:2485
+#: ../src/tools/analysis-tools.c:1888 ../src/tools/analysis-tools.c:1891
+#: ../src/tools/analysis-tools.c:2188 ../src/tools/analysis-tools.c:2191
+#: ../src/tools/analysis-tools.c:2481 ../src/tools/analysis-tools.c:2484
 msgid "t-Test"
 msgstr "T-Test"
 
-#: ../src/tools/analysis-tools.c:1930
+#: ../src/tools/analysis-tools.c:1929
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -14619,12 +14625,12 @@ msgstr ""
 "enostrani P (T<=t)/kritični enostrani t/dvostrani P (T<=t)/Kritični "
 "dvostrani t"
 
-#: ../src/tools/analysis-tools.c:2179 ../src/tools/analysis-tools.c:2472
+#: ../src/tools/analysis-tools.c:2178 ../src/tools/analysis-tools.c:2471
 #, c-format
 msgid "t-Test (%s)"
 msgstr "T-Test (%s)"
 
-#: ../src/tools/analysis-tools.c:2227
+#: ../src/tools/analysis-tools.c:2226
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -14634,12 +14640,12 @@ msgstr ""
 "razlika povprečja/Prostostne stopnje/Statistika t/enostrani P (T<=t)/"
 "kritični enostrani t/dvostrani P (T<=t)/Kritični dvostrani t"
 
-#: ../src/tools/analysis-tools.c:2521 ../src/tools/analysis-tools.c:2770
-#: ../src/tools/analysis-tools.c:2773
+#: ../src/tools/analysis-tools.c:2520 ../src/tools/analysis-tools.c:2769
+#: ../src/tools/analysis-tools.c:2772
 msgid "F-Test"
 msgstr "F-Test"
 
-#: ../src/tools/analysis-tools.c:2522
+#: ../src/tools/analysis-tools.c:2521
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -14648,12 +14654,12 @@ msgstr ""
 "Kritični desnostrani F/Levostrani P (f<=F)/Kritični levostrani F/Dvostrani P/"
 "Kritični dvostrani F"
 
-#: ../src/tools/analysis-tools.c:2760
+#: ../src/tools/analysis-tools.c:2759
 #, c-format
 msgid "F-Test (%s)"
 msgstr "F-Test (%s)"
 
-#: ../src/tools/analysis-tools.c:2911
+#: ../src/tools/analysis-tools.c:2910
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -14661,29 +14667,29 @@ msgstr ""
 "/IZPIS POVZETKA//Regresijska statistika/Večkratni R/R^2/Standardna napaka/"
 "Prilagojen R^2/Opazovanja//ANOVA//Regresija/Ostanek/Skupno///Izhodišče"
 
-#: ../src/tools/analysis-tools.c:2930
+#: ../src/tools/analysis-tools.c:2929
 msgid "Response Variable"
 msgstr "Odzivna spremenljivka"
 
-#: ../src/tools/analysis-tools.c:2964
+#: ../src/tools/analysis-tools.c:2963
 msgid "/df/SS/MS/F/Significance of F"
 msgstr ""
 "/Prostostne stopnje/Vsota kvadratov/Srednji kvadrat - varianca/F/Statistična "
 "značilnost F"
 
-#: ../src/tools/analysis-tools.c:2971
+#: ../src/tools/analysis-tools.c:2970
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
 msgstr "/Koeficienti/Standardna napaka/t-statistika/vrednost p"
 
-#: ../src/tools/analysis-tools.c:2976
+#: ../src/tools/analysis-tools.c:2975
 msgid "\"Lower\" 0%"
 msgstr "\"Spodnjih\" 0%"
 
-#: ../src/tools/analysis-tools.c:2977
+#: ../src/tools/analysis-tools.c:2976
 msgid "\"Upper\" 0%"
 msgstr "\"Zgornjih\" 0%"
 
-#: ../src/tools/analysis-tools.c:2986
+#: ../src/tools/analysis-tools.c:2985
 msgid ""
 "Probability of observing a t-statistic\n"
 "whose absolute value is at least as large\n"
@@ -14697,7 +14703,7 @@ msgstr ""
 "in sicer ob predpostavki, da je ničelna domneva\n"
 "dejansko resnična."
 
-#: ../src/tools/analysis-tools.c:2993
+#: ../src/tools/analysis-tools.c:2992
 msgid ""
 "This value is not the square of R\n"
 "but the uncentered version of the\n"
@@ -14710,11 +14716,11 @@ msgstr ""
 "determinacije, to je, sorazmerje vsot\n"
 "kvadratov, razloženo z modelom."
 
-#: ../src/tools/analysis-tools.c:3301
+#: ../src/tools/analysis-tools.c:3300
 msgid "Constant"
 msgstr "Konstanta"
 
-#: ../src/tools/analysis-tools.c:3306
+#: ../src/tools/analysis-tools.c:3305
 msgid ""
 "/Prediction//Residual/Leverages/Internally studentized/Externally "
 "studentized/p-Value"
@@ -14722,114 +14728,114 @@ msgstr ""
 "/Napoved//Ostanek/Točke vzvoda/Notranje studentizirano/Zunanje "
 "studentizirano/Vrednost p"
 
-#: ../src/tools/analysis-tools.c:3501
+#: ../src/tools/analysis-tools.c:3500
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
 msgstr "/IZPIS POVZETKA//Neodvisna spremenljivka//Opazovanja"
 
-#: ../src/tools/analysis-tools.c:3506
+#: ../src/tools/analysis-tools.c:3505
 msgid "/SUMMARY OUTPUT//Response Variable//Observations"
 msgstr "/IZPIS POVZETKA//Odzivna spremenljivka//Opazovanja"
 
-#: ../src/tools/analysis-tools.c:3512
+#: ../src/tools/analysis-tools.c:3511
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr "/Odzivna spremenljivka/R^2/Naklon/Izhodišče/F/Statistična značilnost F"
 
-#: ../src/tools/analysis-tools.c:3518
+#: ../src/tools/analysis-tools.c:3517
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr ""
 "/Neodvisna spremenljivka/R^2/Naklon/Izhodišče/F/Statistična značilnost F"
 
-#: ../src/tools/analysis-tools.c:3599
+#: ../src/tools/analysis-tools.c:3598
 #, c-format
 msgid "Regression (%s)"
 msgstr "Regresija (%s)"
 
-#: ../src/tools/analysis-tools.c:4014
+#: ../src/tools/analysis-tools.c:4013
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Drseče povprečje (%s)"
 
-#: ../src/tools/analysis-tools.c:4072
+#: ../src/tools/analysis-tools.c:4071
 msgid "Ranks & Percentiles"
 msgstr "Rangi in percentili"
 
-#: ../src/tools/analysis-tools.c:4083
+#: ../src/tools/analysis-tools.c:4082
 msgid "Point"
 msgstr "Točka"
 
-#: ../src/tools/analysis-tools.c:4084
+#: ../src/tools/analysis-tools.c:4083
 msgid "Rank"
 msgstr "Rang"
 
-#: ../src/tools/analysis-tools.c:4085
+#: ../src/tools/analysis-tools.c:4084
 msgid "Percentile Rank"
 msgstr "Precentilni rang"
 
-#: ../src/tools/analysis-tools.c:4177
+#: ../src/tools/analysis-tools.c:4176
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Rangi (%s)"
 
-#: ../src/tools/analysis-tools.c:4189 ../src/tools/analysis-tools.c:4192
+#: ../src/tools/analysis-tools.c:4188 ../src/tools/analysis-tools.c:4191
 msgid "Ranks"
 msgstr "Rangi"
 
-#: ../src/tools/analysis-tools.c:4224
+#: ../src/tools/analysis-tools.c:4223
 msgid "Anova: Single Factor"
 msgstr "ANOVA: En faktor"
 
-#: ../src/tools/analysis-tools.c:4225 ../src/tools/simulation.c:336
+#: ../src/tools/analysis-tools.c:4224 ../src/tools/simulation.c:336
 msgid "SUMMARY"
 msgstr "POVZETEK"
 
-#: ../src/tools/analysis-tools.c:4228
+#: ../src/tools/analysis-tools.c:4227
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Skupine/Števec/Vsota/Povprečje/Varianca"
 
-#: ../src/tools/analysis-tools.c:4296
+#: ../src/tools/analysis-tools.c:4295
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Vir variacij/Med skupinami/Znotraj skupin/Skupno"
 
-#: ../src/tools/analysis-tools.c:4514
+#: ../src/tools/analysis-tools.c:4513
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "ANOVA enega faktorja (%s)"
 
-#: ../src/tools/analysis-tools.c:4525
+#: ../src/tools/analysis-tools.c:4524
 msgid "Anova"
 msgstr "Anova"
 
-#: ../src/tools/analysis-tools.c:4528
+#: ../src/tools/analysis-tools.c:4527
 msgid "Single Factor ANOVA"
 msgstr "ANOVA enega faktorja"
 
-#: ../src/tools/analysis-tools.c:4560
+#: ../src/tools/analysis-tools.c:4559
 msgid "Inverse Fourier Transform"
 msgstr "Inverzna Fourierjeva transformacija"
 
-#: ../src/tools/analysis-tools.c:4561
+#: ../src/tools/analysis-tools.c:4560
 msgid "Fourier Transform"
 msgstr "Fourierjeva transformacija"
 
-#: ../src/tools/analysis-tools.c:4569
+#: ../src/tools/analysis-tools.c:4568
 msgid "/Real/Imaginary"
 msgstr "/Realno/Imaginarno"
 
-#: ../src/tools/analysis-tools.c:4617
+#: ../src/tools/analysis-tools.c:4616
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Fourierjeva vrsta (%s)"
 
-#: ../src/tools/analysis-tools.c:4629 ../src/tools/analysis-tools.c:4632
+#: ../src/tools/analysis-tools.c:4628 ../src/tools/analysis-tools.c:4631
 msgid "Fourier Series"
 msgstr "Fourierjeva vrsta"
 
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:140
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:139
 msgid "/Rank-Sum/N/U/Ties/Statistic/U-Statistic/p-Value"
 msgstr "/Vsota rangov/N/U/Vezi/Statistika/U-Statistika/Vrednost p"
 
 # ??
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:301
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:300
 msgid ""
 "This p-value is calculated using a\n"
 "normal approximation, so it is\n"
@@ -14843,9 +14849,9 @@ msgstr ""
 "opazovanji v vsaki merjeni populaciji\n"
 "in le nekaj, če sploh kakšna vez med opazovanji."
 
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:309
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:314
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:319
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:308
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:313
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:318
 msgid ""
 "Since there is insufficient space\n"
 "for the third column of output,\n"
@@ -14855,7 +14861,7 @@ msgstr ""
 "za tretji stolpec odvoda,\n"
 "ta vrednost ne bo izračunana."
 
-#: ../src/tools/analysis-wilcoxon-mann-whitney.c:353
+#: ../src/tools/analysis-wilcoxon-mann-whitney.c:352
 #, c-format
 msgid "Wilcoxon-Mann-Whitney Test (%s)"
 msgstr "Wilcoxon-Mann-Whitney Test (%s)"
@@ -15057,25 +15063,25 @@ msgstr "Ni mogoče najti %s"
 msgid "Locate the %s program"
 msgstr "Najdi program %s"
 
-#: ../src/tools/random-generator-cor.c:64
+#: ../src/tools/random-generator-cor.c:63
 msgid "Cholesky Decomposition of the Covariance Matrix"
 msgstr "Razcep Choleskega kovariančne matrike"
 
-#: ../src/tools/random-generator-cor.c:76
+#: ../src/tools/random-generator-cor.c:75
 msgid "Uncorrelated Random Variables"
 msgstr "Nepovezane naključne spremenljivke."
 
-#: ../src/tools/random-generator-cor.c:101
+#: ../src/tools/random-generator-cor.c:97
 msgid "Correlated Random Variables"
 msgstr "Soodnosne naključne spremenljivke"
 
-#: ../src/tools/random-generator-cor.c:143
+#: ../src/tools/random-generator-cor.c:139
 #, c-format
 msgid "Correlated Random Numbers (%s)"
 msgstr "Soodnosna naključna števila (%s)"
 
-#: ../src/tools/random-generator-cor.c:154
-#: ../src/tools/random-generator-cor.c:157
+#: ../src/tools/random-generator-cor.c:150
+#: ../src/tools/random-generator-cor.c:153
 msgid "Correlated Random Numbers"
 msgstr "Soodnosna naključna števila"
 
@@ -15160,7 +15166,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Obseg"
 
-#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4646
+#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:4645
 msgid "Count"
 msgstr "Števec"
 
@@ -16954,7 +16960,7 @@ msgid "Adjust a data slicer"
 msgstr "Prilagodi vrtilno razpredelnico"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk-actions.c:2698 ../src/wbc-gtk.c:4642
+#: ../src/wbc-gtk-actions.c:2698 ../src/wbc-gtk.c:4641
 #: ../src/workbook-view.c:1027
 msgid "Sum"
 msgstr "Vsota"
@@ -17803,41 +17809,41 @@ msgstr "Orodna vrstica predmetov"
 msgid "Show/Hide toolbar %s"
 msgstr "Pokaži ali skrij orodno vrstico %s"
 
-#: ../src/wbc-gtk.c:4703
+#: ../src/wbc-gtk.c:4702
 #, c-format
 msgid "Content of %s"
 msgstr "Vsebina %s"
 
-#: ../src/wbc-gtk.c:4718
+#: ../src/wbc-gtk.c:4717
 msgid "Use maximum precision"
 msgstr "Uporabi največjo natančnost"
 
-#: ../src/wbc-gtk.c:4730
+#: ../src/wbc-gtk.c:4729
 msgid "Insert formula below."
 msgstr "Vstavi formulo spodaj."
 
-#: ../src/wbc-gtk.c:4736
+#: ../src/wbc-gtk.c:4735
 msgid "Insert formula to side."
 msgstr "Vstavi formulo na stransko celico."
 
-#: ../src/wbc-gtk.c:4821
+#: ../src/wbc-gtk.c:4820
 #, c-format
 msgid "Open %s"
 msgstr "Odpri %s"
 
-#: ../src/wbc-gtk.c:5535
+#: ../src/wbc-gtk.c:5534
 msgid "Autosave prompt"
 msgstr "Vprašalno sporočilo shranjevanja"
 
-#: ../src/wbc-gtk.c:5536
+#: ../src/wbc-gtk.c:5535
 msgid "Ask about autosave?"
 msgstr "Ali naj sistem zahteva potrditev pred samodejnim shranjevanjem?"
 
-#: ../src/wbc-gtk.c:5542
+#: ../src/wbc-gtk.c:5541
 msgid "Autosave time in seconds"
 msgstr "Razmik samodejnega shranjevanje v sekundah."
 
-#: ../src/wbc-gtk.c:5543
+#: ../src/wbc-gtk.c:5542
 msgid "Seconds before autosave"
 msgstr "Sekunde pred samodejnim shranjevanjem"
 
@@ -17916,51 +17922,51 @@ msgstr ""
 "\n"
 "\t<i>⇧F4 za izbiranje</i>"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1720
+#: ../src/widgets/gnumeric-expr-entry.c:1723
 msgid "Update policy"
 msgstr "Pravila posodabljanja"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1721
+#: ../src/widgets/gnumeric-expr-entry.c:1724
 msgid "How frequently changes to the entry should be applied"
 msgstr "Kako pogosto naj se uveljavijo spremembe vnosa"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1728
+#: ../src/widgets/gnumeric-expr-entry.c:1731
 msgid "With icon"
 msgstr "Z ikono"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1729
+#: ../src/widgets/gnumeric-expr-entry.c:1732
 msgid "Should there be an icon to the right of the entry?"
 msgstr "Ali bi morala biti izrisana ikona ob vnosu?"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1737
+#: ../src/widgets/gnumeric-expr-entry.c:1740
 msgid "The contents of the entry"
 msgstr "Vsebina vnosa"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1750
+#: ../src/widgets/gnumeric-expr-entry.c:1753
 msgid "SheetControlGUI"
 msgstr "Vmesnik nadzora delovnega lista"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1751
+#: ../src/widgets/gnumeric-expr-entry.c:1754
 msgid "The GUI container associated with the entry."
 msgstr "Grafični vmesnik povezan z vrsto vnosa."
 
-#: ../src/widgets/gnumeric-expr-entry.c:1758
+#: ../src/widgets/gnumeric-expr-entry.c:1761
 msgid "WBCGtk"
 msgstr "WBCGtk"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1759
+#: ../src/widgets/gnumeric-expr-entry.c:1762
 msgid "The toplevel GUI container associated with the entry."
 msgstr "Vrhnji vsebnik grafičnega vmesnika, ki je povezan z vnosom."
 
-#: ../src/widgets/gnumeric-expr-entry.c:1766
+#: ../src/widgets/gnumeric-expr-entry.c:1769
 msgid "Constant Format"
 msgstr "Zapis konstante"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1767
+#: ../src/widgets/gnumeric-expr-entry.c:1770
 msgid "Format for constants"
 msgstr "Zapis za konstante"
 
-#: ../src/widgets/gnumeric-expr-entry.c:2664
+#: ../src/widgets/gnumeric-expr-entry.c:2667
 #, c-format
 msgid "Expecting a single range"
 msgstr "Pričakovana je enojna podatkovna vrsta"
