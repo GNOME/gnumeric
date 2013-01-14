@@ -817,19 +817,26 @@ if test "x$python_msg" = xyes; then
     fi
     if test "x$PY_INCLUDE_DIR" = x; then
 	if test "x$with_native_win32" = xyes ; then
-	    PY_INCLUDE_DIR="$PY_PREFIX/include"
+	    PY_INCLUDES="-I$PY_PREFIX/include"
 	else
-	    PY_INCLUDE_DIR=`$PYTHON -c 'import sys ; import distutils.sysconfig ; sys.stdout.write(distutils.sysconfig.get_python_inc())'`
+	    PY_INCLUDES=`$PYTHON -c 'import sys ; import distutils.sysconfig ; sys.stdout.write("-I" + distutils.sysconfig.get_python_inc()) ; sys.stdout.write(" -I" + distutils.sysconfig.get_python_inc(plat_specific=True))'`
 	fi
+    else
+	PY_INCLUDES="-I$PY_INCLUDE_DIR"
     fi
 
-    BIG_CHECKING(Look for $PY_INCLUDE_DIR/Python.h)
-    if test -f $PY_INCLUDE_DIR/Python.h; then
-	AC_MSG_RESULT(yes)
-    else
-	AC_MSG_RESULT(no)
-	python_msg="unable to find Python.h"
-    fi
+    python_msg="unable to find Python.h"
+    for py_include in $PY_INCLUDES; do
+	py_include_dir="${py_include#-I}"
+	BIG_CHECKING(Look for $py_include_dir/Python.h)
+	if test -f $py_include_dir/Python.h; then
+	    AC_MSG_RESULT(yes)
+	    python_msg="yes"
+	    break
+	else
+	    AC_MSG_RESULT(no)
+	fi
+    done
 fi
 
 if test "x$python_msg" = xyes; then
@@ -848,7 +855,7 @@ if test "x$python_msg" = xyes; then
 	fi
     fi
 
-    GNM_PY_CFLAGS="-I$PY_INCLUDE_DIR $PYGOBJECT_CFLAGS"
+    GNM_PY_CFLAGS="$PY_INCLUDES $PYGOBJECT_CFLAGS"
     GNM_PY_LDFLAGS="-L$PY_LIB_DIR -lpython$PY_VERSION $PYGOBJECT_LIBS"
     python_msg="yes (using $PYTHON)"
 fi
