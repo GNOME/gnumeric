@@ -8,6 +8,9 @@ Andreas:
 	* Show argument names for python functions. [#690681]
 	* Fix loading of ODF files with named expressions. [#690925]
 
+Jean:
+	* Fixed aspect ratio for graph sheets. [#691472]
+
 Morten:
 	* Fix a few compiler warnings.
 	* Always compile ssconvert, ssindex, and ssgrep.

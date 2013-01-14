@@ -1727,7 +1727,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 			gtk_widget_override_background_color (scg->vs, GTK_STATE_NORMAL, &gs_white);
 			g_object_set_data (G_OBJECT (scg->vs), "sheet-control", scg);
 			if (sheet->sheet_objects) {
-				/* we need an idle function because not every thing is intialized at this point */
+				/* we need an idle function because not every thing is initialized at this point */
 				sheet_object_new_view ((SheetObject *) sheet->sheet_objects->data, 
 						       (SheetObjectViewContainer*) scg->vs);
 				g_idle_add ((GSourceFunc) post_create_cb, scg);

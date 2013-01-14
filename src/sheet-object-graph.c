@@ -167,7 +167,7 @@ cb_graph_size_changed (GocItem *item, GtkAllocation *allocation)
 	h = print_info_get_paper_height (pi, GTK_UNIT_POINTS);
 	print_info_get_margins (pi, &top, &bottom, &left, &right, &edge_to_below_header, &edge_to_above_footer);
 	w -= left + right;
-	h -= top + bottom + edge_to_above_footer + edge_to_below_header;
+	h -= edge_to_above_footer + edge_to_below_header;
 	g_object_get (item, "renderer", &rend, NULL);
 	g_object_get (rend, "model", &graph, NULL);
 	gog_graph_set_size (graph, w, h);
