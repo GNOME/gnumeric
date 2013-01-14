@@ -192,6 +192,7 @@ database_find_values (Sheet *sheet, GnmValue const *database,
 
 	*pcount = count;
 	g_slist_free (cells);
+	*error = NULL;
 	return res;
 }
 
