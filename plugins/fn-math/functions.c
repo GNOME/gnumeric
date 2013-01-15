@@ -2842,8 +2842,7 @@ gnumeric_munit (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	 * running out of memory.
 	 */
 	if (n * n >= G_MAXINT ||
-	    n > gnm_sheet_get_max_cols (ei->pos->sheet) ||
-	    n > gnm_sheet_get_max_rows (ei->pos->sheet)) /* Arbitrary */
+	    n > 1000) /* Arbitrary */
 		return value_new_error_NUM (ei->pos);
 
 	ni = (int)n;
