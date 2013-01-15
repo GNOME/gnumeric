@@ -2841,7 +2841,9 @@ gnumeric_munit (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	 * This provides some protection against bogus sizes and
 	 * running out of memory.
 	 */
-	if (n * n >= G_MAXINT)
+	if (n * n >= G_MAXINT ||
+	    n > gnm_sheet_get_max_cols (ei->pos->sheet) ||
+	    n > gnm_sheet_get_max_rows (ei->pos->sheet)) /* Arbitrary */
 		return value_new_error_NUM (ei->pos);
 
 	ni = (int)n;
