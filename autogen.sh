@@ -19,7 +19,7 @@ USE_COMMON_DOC_BUILD=yes
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
-(test -f $srcdir/configure.in \
+(test -f $srcdir/configure.ac \
   && test -d $srcdir/src \
   && test -f $srcdir/src/gnumeric.h) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"

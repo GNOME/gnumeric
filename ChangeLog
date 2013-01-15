@@ -1,3 +1,8 @@
+2013-01-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.ac: renamed configure.in and update obsolete macros.
+	* configure.in: ditto.
+
 2013-01-14  Colin Watson  <cjwatson@ubuntu.com>
 
 	* configure.in: Add

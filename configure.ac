@@ -56,9 +56,6 @@ AM_MAINTAINER_MODE([enable])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
-# Make --disable-static the default
-AC_DISABLE_STATIC
-
 dnl We use a LINGUAS file, so we need intltool >= 0.35:
 IT_PROG_INTLTOOL([0.35.0])
 IT_PO_SUBDIR(po-functions)
@@ -78,8 +75,11 @@ AC_PROG_CC
 AC_PROG_YACC
 AM_PROG_LEX
 AC_PROG_LN_S
-AM_PROG_LIBTOOL
 AC_HEADER_STDC
+
+LT_PREREQ([2.2.6])
+# Make --disable-static the default
+LT_INIT([disable-static])
 
 dnl Propagate Gnome-specific variable ACLOCAL_FLAGS to Makefile.
 AC_SUBST(ACLOCAL_AMFLAGS, $ACLOCAL_FLAGS)
@@ -276,9 +276,10 @@ if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
 		AC_MSG_CHECKING([whether gcc understands $option])
-		AC_TRY_COMPILE([], [],
-			has_option=yes,
-			has_option=no,)
+		AC_COMPILE_IFELSE(
+			[AC_LANG_PROGRAM([], [])],
+			[has_option=yes],
+			[has_option=no])
 		if test $has_option = no; then
 		  CFLAGS="$SAVE_CFLAGS"
 		fi
@@ -354,13 +355,19 @@ fi
 
 # Unfortunately, -D_POSIX_SOURCE turns off struct timeval on Solaris
 AC_MSG_CHECKING([whether struct timeval is available])
-AC_TRY_COMPILE([#include <sys/time.h>], [struct timeval tv;], struct_timeval_works=yes, struct_timeval_works=no)
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM([[#include <sys/time.h>]], [[struct timeval tv;]])],
+	[struct_timeval_works=yes],
+	[struct_timeval_works=no])
 AC_MSG_RESULT($struct_timeval_works)
 
 if test $struct_timeval_works = no ; then
 	CFLAGS="$CFLAGS -D__EXTENSIONS__"
 	AC_MSG_CHECKING([whether struct timeval is available with -D__EXTENSIONS__])
-	AC_TRY_COMPILE([#include <sys/time.h>], [struct timeval tv;], struct_timeval_works=yes, struct_timeval_works=no)
+	AC_COMPILE_IFELSE(
+		[AC_LANG_PROGRAM([[#include <sys/time.h>]], [[struct timeval tv;]])],
+		[struct_timeval_works=yes],
+		[struct_timeval_works=no])
 	AC_MSG_RESULT($struct_timeval_works)
 	if test $struct_timeval_works = no ; then
 		AC_MSG_ERROR([struct timeval is not available])
@@ -375,13 +382,19 @@ AC_CHECK_FUNC(gettimeofday,
 dnl src/functions/fn-math.c uses M_PI
 
 AC_MSG_CHECKING([whether M_PI is available])
-AC_TRY_COMPILE([#include <math.h>], [double f = M_PI], works_without_bsd_source=yes, works_without_bsd_source=no)
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM([[#include <math.h>]], [[double f = M_PI]])],
+	[works_without_bsd_source=yes],
+	[works_without_bsd_source=no])
 AC_MSG_RESULT($works_without_bsd_source)
 
 if test $works_without_bsd_source = no ; then
 	CFLAGS="$CFLAGS -D_BSD_SOURCE"
 	AC_MSG_CHECKING([whether M_PI is available with -D_BSD_SOURCE])
-	AC_TRY_COMPILE([#include <math.h>], [double f = M_PI], m_pi_works=yes, m_pi_works=no)
+	AC_COMPILE_IFELSE(
+		[AC_LANG_PROGRAM([[#include <math.h>]], [[double f = M_PI]])],
+		[m_pi_works=yes],
+		[m_pi_works=no])
 	AC_MSG_RESULT($m_pi_works)
 	if test $m_pi_works = no ; then
 		AC_MSG_ERROR([M_PI is not available])
@@ -609,7 +622,6 @@ if test $ac_cv_func_lgamma_r = no; then
 fi
 AC_CHECK_FUNCS(lgamma)
 
-AC_C_LONG_DOUBLE
 float_msg=double
 AC_ARG_WITH(long_double,
 	AS_HELP_STRING([--with-long-double], [Use long double for floating point]),
@@ -633,34 +645,34 @@ AC_ARG_WITH(long_double,
 				AC_MSG_ERROR([Long doubles require the $ldfunc function.]))
 
 		AC_MSG_CHECKING([checking for working ynl])
-		AC_TRY_RUN([
-			#include <math.h>
-			#ifdef HAVE_SUNMATH_H
-			#include <sunmath.h>
-			#endif
-			int main ()
-			{
-				long double l = ynl (2, 4.0L);
-				return !(l >= 0.21 && l <= 0.22);
-			}],
+		AC_RUN_IFELSE(
+			[AC_LANG_PROGRAM([[
+				#include <math.h>
+				#ifdef HAVE_SUNMATH_H
+				#include <sunmath.h>
+				#endif]],
+				[[
+					long double l = ynl (2, 4.0L);
+					return !(l >= 0.21 && l <= 0.22);
+				]])],
 			[AC_DEFINE(HAVE_YNL)
 			AC_MSG_RESULT(yes)],
 			AC_MSG_RESULT(no),
 			[AC_CHECK_FUNCS(ynl)])
 
 		AC_MSG_CHECKING([checking for working erfl and erfcl])
-		AC_TRY_RUN([
-			#include <math.h>
-			#ifdef HAVE_SUNMATH_H
-			#include <sunmath.h>
-			#endif
-			int main ()
-			{
-				long double l1 = erfl (1.2L);
-				long double l2 = erfcl (1.2L);
-				return !(l1 >= 0.91 && l1 <= 0.92 &&
-					 l2 >= 0.08 && l2 <= 0.09);
-			}],
+		AC_RUN_IFELSE(
+			[AC_LANG_PROGRAM([[
+				#include <math.h>
+				#ifdef HAVE_SUNMATH_H
+				#include <sunmath.h>
+				#endif]],
+				[[
+					long double l1 = erfl (1.2L);
+					long double l2 = erfcl (1.2L);
+					return !(l1 >= 0.91 && l1 <= 0.92 &&
+						 l2 >= 0.08 && l2 <= 0.09);
+				]])],
 			[AC_DEFINE(HAVE_ERFL)
 			 AC_DEFINE(HAVE_ERFCL)
 			AC_MSG_RESULT(yes)],
