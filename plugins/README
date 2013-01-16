@@ -5,7 +5,7 @@ have turned out so far.
 When you add or delete files, don't forget...
 
 * Edit po/POTFILES.in
-* Edit configure.in
+* Edit configure.ac
 * Edit plugins/Makefile.am
 
 

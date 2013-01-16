@@ -3,7 +3,7 @@
 use strict;
 
 die "$0: must be run from top-level directory.\n"
-    unless -r "configure.in" && -r 'ChangeLog';
+    unless -r "configure.ac" && -r 'ChangeLog';
 
 my $email = $ENV{'EMAIL'};
 die "$0: you must define \$EMAIL.\n"
@@ -21,7 +21,7 @@ my $date = sprintf ("%04d-%02d-%02d", $y, $m, $d);
 # -----------------------------------------------------------------------------
 
 {
-    my $filename = 'configure.in';
+    my $filename = 'configure.ac';
 
     local (*SRC);
     local (*DST);
@@ -79,7 +79,7 @@ my $date = sprintf ("%04d-%02d-%02d", $y, $m, $d);
 {
     my $filename = 'ChangeLog';
 
-    my $entry = "$date  $name <$email>\n\n\t* configure.in: Post-release bump.\n\n";
+    my $entry = "$date  $name <$email>\n\n\t* configure.ac: Post-release bump.\n\n";
     local (*SRC);
     local (*DST);
 

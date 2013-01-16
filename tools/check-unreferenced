@@ -32,7 +32,7 @@ use strict;
 my $exitcode = 0;
 
 die "$0: must be run from top-level directory.\n"
-    unless (-r "configure.in" &&
+    unless (-r "configure.ac" &&
 	    -r 'ChangeLog' &&
 	    -d 'src');
 

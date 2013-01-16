@@ -4,7 +4,7 @@
 use strict;
 
 die "$0: must be run from top-level directory.\n"
-    unless (-r "configure.in" &&
+    unless (-r "configure.ac" &&
 	    -r 'ChangeLog' &&
 	    -r 'po/POTFILES.in');
 

@@ -27,7 +27,7 @@ my $verbose = 0;
 my $strict = 0;
 
 warn "$0: should be run from top-level directory.\n"
-    unless -r "configure.in" && -r 'ChangeLog';
+    unless -r "configure.ac" && -r 'ChangeLog';
 
 my %base_exceptions =
     ();

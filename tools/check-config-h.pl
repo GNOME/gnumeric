@@ -95,7 +95,7 @@ exit $exitcode;
 sub guess_config_file {
     local (*FIL);
     $configfile = "config.h";
-    open (*FIL, "<configure.in") || return $configfile;
+    open (*FIL, "<configure.ac") || return $configfile;
     while (<FIL>) {
         if (/^AM_CONFIG_HEADER\((.*)\)/) {
             $configfile = $1;
