@@ -24,6 +24,7 @@ Morten:
 	* Improve handling of unknown functions.  [#109442]
 	* Add LINSOLVE function.
 	* Restrict size of MUNIT to avoid thrashing the system.  [#625544]
+	* Fix text import crash.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.0

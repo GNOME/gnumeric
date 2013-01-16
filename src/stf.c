@@ -501,7 +501,7 @@ stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const
 				     _("Some data did not fit on the "
 				       "sheet and was dropped."));
 		}
-		is_csv = po->sep.chr[0] == ',';
+		is_csv = po->sep.chr && po->sep.chr[0] == ',';
 		workbook_set_saveinfo
 			(book,
 			 GO_FILE_FL_WRITE_ONLY,

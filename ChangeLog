@@ -1,3 +1,8 @@
+2013-01-15  Morten Welinder  <terra@gnome.org>
+
+	* src/stf.c (stf_read_workbook_auto_csvtab): Fix crash for text
+	import from command line.
+
 2013-01-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.ac: renamed configure.in and update obsolete macros.
@@ -12,8 +17,9 @@
 2013-01-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-control-gui.c (sheet_control_gui_new): typo.
-	* src/sheet-object-graph.c (cb_graph_size_changed): do not remoe twice the
-	top and bottom margins when displaying a graph sheet. [#691472] 
+	* src/sheet-object-graph.c (cb_graph_size_changed): do not remoe
+	twice the top and bottom margins when displaying a graph
+	sheet. [#691472]
 
 2013-01-10  Morten Welinder  <terra@gnome.org>
 
