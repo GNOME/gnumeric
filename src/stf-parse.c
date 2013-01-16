@@ -1505,7 +1505,8 @@ dump_guessed_options (const StfParseOptions_t *res)
 	switch (res->parsetype) {
 	case PARSE_TYPE_CSV:
 		g_printerr ("  type = sep\n");
-		g_printerr ("  separator = %s\n", res->sep.chr);
+		g_printerr ("  separator = %s\n",
+			    res->sep.chr ? res->sep.chr : "(none)");
 		g_printerr ("    see two as one = %s\n",
 			    res->sep.duplicates ? "yes" : "no");
 		break;
