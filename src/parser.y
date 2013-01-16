@@ -40,15 +40,6 @@
 /* Allocation with disposal-on-error */
 
 /*
- * Defined: the stack itself will be kept in use.  This isn't much, btw.
- *   This setting is good for speed.
- *
- * Not defined: memory will be freed.  The is good for finding leaks in the
- * program.  (Here and elsewhere.)
- */
-#define KEEP_DEALLOCATION_STACK_BETWEEN_CALLS
-
-/*
  * If some dork enters "=1+2+2*(1+" we have already allocated space for
  * "1+2", "2", and "1" before the parser sees the syntax error and warps
  * us to the error production in the "line" non-terminal.
@@ -82,10 +73,8 @@ deallocate_init (void)
 static void
 deallocate_uninit (void)
 {
-#ifndef KEEP_DEALLOCATION_STACK_BETWEEN_CALLS
 	g_ptr_array_free (deallocate_stack, TRUE);
 	deallocate_stack = NULL;
-#endif
 }
 
 static void
