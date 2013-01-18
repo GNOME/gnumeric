@@ -2594,89 +2594,6 @@ static GnmFuncHelp const help_minverse[] = {
 
 
 static GnmValue *
-cb_function_mmult_validate (GnmCellIter const *iter, gpointer user)
-{
-	GnmCell *cell = iter->cell;
-        int *item_count = user;
-
-	gnm_cell_eval (cell);
-	if (!VALUE_IS_NUMBER (cell->value))
-	        return VALUE_TERMINATE;
-
-	++(*item_count);
-	return NULL;
-}
-
-/* Returns TRUE on error */
-static gboolean
-validate_range_numeric_matrix (GnmEvalPos const *ep, GnmValue const *matrix,
-			       int *rows, int *cols,
-			       GnmStdError *err)
-{
-	GnmValue *res;
-	int cell_count = 0;
-
-	*cols = value_area_get_width (matrix, ep);
-	*rows = value_area_get_height (matrix, ep);
-
-	if (matrix->type == VALUE_ARRAY || matrix->type <= VALUE_FLOAT)
-		return FALSE;
-	if (matrix->type != VALUE_CELLRANGE ||
-	    (matrix->v_range.cell.a.sheet != matrix->v_range.cell.b.sheet &&
-	     matrix->v_range.cell.a.sheet != NULL &&
-	     matrix->v_range.cell.b.sheet != NULL)) {
-		*err = GNM_ERROR_VALUE;
-		return TRUE;
-	}
-
-	res = sheet_foreach_cell_in_range (
-		eval_sheet (matrix->v_range.cell.a.sheet, ep->sheet),
-		CELL_ITER_IGNORE_BLANK,
-		matrix->v_range.cell.a.col,
-		matrix->v_range.cell.a.row,
-		matrix->v_range.cell.b.col,
-		matrix->v_range.cell.b.row,
-		cb_function_mmult_validate,
-		&cell_count);
-
-	if (res != NULL || cell_count != (*rows * *cols)) {
-		/* As specified in the Excel Docs */
-		*err = GNM_ERROR_VALUE;
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-static gnm_float **
-value_to_matrix (GnmValue const *v, int cols, int rows, GnmEvalPos const *ep)
-{
-	gnm_float **res = g_new (gnm_float *, rows);
-	int r, c;
-
-	for (r = 0; r < rows; r++) {
-		res[r] = g_new (gnm_float, cols);
-		for (c = 0; c < cols; c++)
-		        res[r][c] =
-				value_get_as_float (value_area_get_x_y (v, c, r, ep));
-	}
-
-	return res;
-}
-
-static void
-free_matrix (gnm_float **mat, G_GNUC_UNUSED int cols, int rows)
-{
-	int r;
-
-	for (r = 0; r < rows; r++)
-		g_free (mat[r]);
-
-	g_free (mat);
-}
-
-
-static GnmValue *
 gnumeric_minverse (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmMatrix *A = NULL;
@@ -2711,79 +2628,70 @@ static GnmFuncHelp const help_cholesky[] = {
         { GNM_FUNC_HELP_END}
 };
 
-#define ALLOC_MATRIX(var,dim1,dim2)			\
-  do { int _i, _d1, _d2;				\
-       _d1 = (dim1);					\
-       _d2 = (dim2);					\
-       (var) = g_new (gnm_float *, _d1);		\
-       for (_i = 0; _i < _d1; _i++)			\
-	       (var)[_i] = g_new (gnm_float, _d2);	\
-  } while (0)
-
 static gboolean
-gnm_matrix_cholesky  (gnm_float **A, gnm_float ***B, int n)
+gnm_matrix_cholesky  (GnmMatrix const *A, GnmMatrix *B)
 {
-	int i, j, k;
+	int r, c, k;
 	gnm_float sum;
+	int n = A->cols;
 
-	ALLOC_MATRIX (*B, n, n);
-
-	for (i = 0; i < n; i++) {       /* row    number */
-		for (j = 0; j < i; j++) { /* column number */
+	for (r = 0; r < n; r++) {
+		for (c = 0; c < r; c++) {
 			sum = 0.;
-			for (k = 0; k < j; k++)
-				sum += (*B)[i][k]*(*B)[j][k];
-			(*B)[j][i] = 0;
-			(*B)[i][j] = (A[i][j] - sum )/(*B)[j][j];
+			for (k = 0; k < c; k++)
+				sum += B->data[r][k] * B->data[c][k];
+			B->data[c][r] = 0;
+			B->data[r][c] = (A->data[r][c] - sum) / B->data[c][c];
 		}
 		sum = 0;
-		for (k = 0; k < i; k++)
-			sum += (*B)[i][k]*(*B)[i][k];
-		(*B)[i][i] = gnm_sqrt (A[i][i] - sum);
+		for (k = 0; k < r; k++)
+			sum += B->data[r][k] * B->data[r][k];
+		B->data[r][r] = gnm_sqrt (A->data[r][r] - sum);
 	}
 	return TRUE;
 }
 
-#undef ALLOC_MATRIX
+static gboolean
+symmetric (GnmMatrix const *m)
+{
+	int c, r;
+
+	if (m->cols != m->rows)
+		return FALSE;
+
+	for (c = 0; c < m->cols; ++c)
+		for (r = c + 1; r < m->rows; ++r)
+			if (m->data[r][c] != m->data[c][r])
+				return FALSE;
+
+	return TRUE;
+}
 
 static GnmValue *
 gnumeric_cholesky (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	GnmEvalPos const * const ep = ei->pos;
+	GnmMatrix *A = NULL;
+	GnmMatrix *B = NULL;
+	GnmValue *res = NULL;
 
-	int	r, rows;
-	int	c, cols;
-	GnmValue *res;
-        GnmValue const *values = argv[0];
-	gnm_float **matrix;
-	gnm_float **cholesky = NULL;
-	GnmStdError err;
+	A = gnm_matrix_from_value (argv[0], &res, ei->pos);
+	if (!A) goto out;
 
-	if (validate_range_numeric_matrix (ep, values, &rows, &cols, &err))
-		return value_new_error_std (ei->pos, err);
-
-	/* Guarantee shape and non-zero size */
-	if (cols != rows || !rows || !cols)
-		return value_new_error_VALUE (ei->pos);
-
-	matrix = value_to_matrix (values, cols, rows, ep);
-	if (!gnm_matrix_cholesky (matrix, &cholesky, rows)) {
-		free_matrix (matrix, cols, rows);
-		free_matrix (cholesky, cols, rows);
-		return value_new_error_NUM (ei->pos);
+	if (A->cols != A->rows || gnm_matrix_is_empty (A) || !symmetric (A)) {
+		res = value_new_error_VALUE (ei->pos);
+		goto out;
 	}
 
-	res = value_new_array_non_init (cols, rows);
-	for (c = 0; c < cols; ++c) {
-		res->v_array.vals[c] = g_new (GnmValue *, rows);
-		for (r = 0; r < rows; ++r) {
-			gnm_float tmp = cholesky[r][c];
-			res->v_array.vals[c][r] = value_new_float (tmp);
-		}
-	}
-	free_matrix (matrix, cols, rows);
-	free_matrix (cholesky, cols, rows);
+	B = gnm_matrix_new (A->rows, A->cols);
 
+	if (gnm_matrix_cholesky (A, B))
+		res = gnm_matrix_to_value (B);
+	else
+		res = value_new_error_NUM (ei->pos);
+
+out:
+	if (A) gnm_matrix_free (A);
+	if (B) gnm_matrix_free (B);
 	return res;
 }
 
@@ -3167,22 +3075,6 @@ compare_gnumeric_eigen_ev (const void *a, const void *b)
 		return +1;
 	else
 		return 0;
-}
-
-static gboolean
-symmetric (GnmMatrix const *m)
-{
-	int c, r;
-
-	if (m->cols != m->rows)
-		return FALSE;
-
-	for (c = 0; c < m->cols; ++c)
-		for (r = c + 1; r < m->rows; ++r)
-			if (m->data[r][c] != m->data[c][r])
-				return FALSE;
-
-	return TRUE;
 }
 
 static GnmValue *

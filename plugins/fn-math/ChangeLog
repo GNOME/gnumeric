@@ -1,8 +1,8 @@
 2013-01-18  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_minverse, gnumeric_mmult)
-	(gnumeric_leverage, gnumeric_linsolve, gnumeric_mdeterm): Simplify
-	using new matrix support.
+	(gnumeric_leverage, gnumeric_linsolve, gnumeric_mdeterm)
+	(gnumeric_cholesky): Simplify using new matrix support.
 	(compare_gnumeric_eigen_ev): Sort first by absolute value.
 
 2013-01-17  Morten Welinder  <terra@gnome.org>
