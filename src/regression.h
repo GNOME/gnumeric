@@ -12,6 +12,7 @@ G_BEGIN_DECLS
 #	define gnm_regression_stat_new go_regression_stat_newl
 #	define gnm_regression_stat_destroy go_regression_stat_destroyl
 #	define gnm_linear_regression go_linear_regressionl
+#	define gnm_linear_regression_leverage go_linear_regression_leveragel
 #	define gnm_exponential_regression go_exponential_regressionl
 #	define gnm_logarithmic_regression go_logarithmic_regressionl
 #	define gnm_logarithmic_fit go_logarithmic_fitl
@@ -25,6 +26,7 @@ G_BEGIN_DECLS
 #	define gnm_regression_stat_new go_regression_stat_new
 #	define gnm_regression_stat_destroy go_regression_stat_destroy
 #	define gnm_linear_regression go_linear_regression
+#	define gnm_linear_regression_leverage go_linear_regression_leverage
 #	define gnm_exponential_regression go_exponential_regression
 #	define gnm_logarithmic_regression go_logarithmic_regression
 #	define gnm_logarithmic_fit go_logarithmic_fit

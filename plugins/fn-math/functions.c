@@ -2924,6 +2924,61 @@ gnumeric_mmult (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_leverage[] = {
+        { GNM_FUNC_HELP_NAME, F_("LEVERAGE:calculate leverate")},
+        { GNM_FUNC_HELP_ARG, F_("A:a matrix")},
+	{ GNM_FUNC_HELP_DESCRIPTION,
+	  F_("Returns the diagonal of @{A} (@{A}^T @{A})^-1 @{A}T as a column vector.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If the matrix is singular, #VALUE! is returned.") },
+        { GNM_FUNC_HELP_END}
+};
+
+
+static GnmValue *
+gnumeric_leverage (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	GnmEvalPos const * const ep = ei->pos;
+	int rows, cols;
+	GORegressionResult regres;
+	gnm_float **A;
+	GnmStdError err;
+	GnmValue const *mat = argv[0];
+	gnm_float *x;
+	GnmValue *res;
+
+	if (validate_range_numeric_matrix (ep, mat, &rows, &cols, &err))
+		return value_new_error_std (ei->pos, err);
+
+	/* Guarantee shape and non-zero size */
+	if (!cols || !rows)
+		return value_new_error_VALUE (ei->pos);
+
+	A = value_to_matrix (mat, cols, rows, ep);
+	x = g_new (gnm_float, rows);
+	regres = gnm_linear_regression_leverage (A, x, rows, cols);
+	free_matrix (A, cols, rows);
+
+	if (regres != GO_REG_ok && regres != GO_REG_near_singular_good) {
+		res = value_new_error_VALUE (ei->pos);
+	} else {
+		int c, r;
+
+		res = value_new_array_non_init (1, rows);
+		for (c = 0; c < 1; c++) {
+			res->v_array.vals[c] = g_new (GnmValue *, rows);
+			for (r = 0; r < rows; r++)
+				res->v_array.vals[c][r] =
+					value_new_float (x[r]);
+		}
+	}
+
+	g_free (x);
+
+	return res;
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_linsolve[] = {
         { GNM_FUNC_HELP_NAME, F_("LINSOLVE:solve linear equation")},
         { GNM_FUNC_HELP_ARG, F_("mat:a matrix")},
@@ -3560,6 +3615,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "minverse","A",      help_minverse,
 	  gnumeric_minverse, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "leverage", "A",  help_leverage,
+	  gnumeric_leverage, NULL, NULL, NULL,
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "linsolve", "AA",  help_linsolve,
 	  gnumeric_linsolve, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },

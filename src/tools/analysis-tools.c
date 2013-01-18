@@ -2881,8 +2881,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_offset = NULL;
 	GnmFunc *fd_sumproduct = NULL;
 	GnmFunc *fd_mmult = NULL;
-	GnmFunc *fd_minverse = NULL;
-	GnmFunc *fd_munit = NULL;
+	GnmFunc *fd_leverage = NULL;
 	GnmFunc *fd_sumsq = NULL;
 
 	char const *str = ((info->group_by == GROUPED_BY_ROW) ? "row" : "col");
@@ -2898,8 +2897,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	if (info->residual) {
 		fd_sumproduct  = analysis_tool_get_function ("SUMPRODUCT", dao);
 		fd_mmult  = analysis_tool_get_function ("MMULT", dao);
-		fd_minverse  = analysis_tool_get_function ("MINVERSE", dao);
-		fd_munit  = analysis_tool_get_function ("MUNIT", dao);
+		fd_leverage = analysis_tool_get_function ("LEVERAGE", dao);
 		fd_sumsq  = analysis_tool_get_function ("SUMSQ", dao);
 	}
 
@@ -3343,31 +3341,9 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 
 		if (dao_cell_is_visible (dao, xdim + 4, n_obs)) {
 			GnmExpr const *expr_X = dao_get_rangeref (dao, info->intercept ? 0 : 1, 1, xdim, n_obs);
-			GnmExpr const *expr_X_t =
-				gnm_expr_new_funcall1 (fd_transpose, gnm_expr_copy (expr_X));
-			GnmExpr const *expr_X_hat =
-				gnm_expr_new_funcall2
-				(fd_mmult,
-				 gnm_expr_new_funcall2
-				 (fd_mmult,
-				  expr_X,
-				  gnm_expr_new_funcall1
-				  (fd_minverse,
-				   gnm_expr_new_funcall2
-				   (fd_mmult,
-				    gnm_expr_copy (expr_X_t),
-				    gnm_expr_copy (expr_X)))),
-				 expr_X_t);
 			GnmExpr const *expr_diagonal =
-				gnm_expr_new_funcall2
-				(fd_mmult,
-				 gnm_expr_new_binary
-				 (expr_X_hat, GNM_EXPR_OP_MULT,
-				  gnm_expr_new_funcall1
-				  (fd_munit, gnm_expr_new_binary
-				   (dao_get_cellref (dao, 1, - 11 - xdim),
-				    GNM_EXPR_OP_ADD, gnm_expr_new_constant (value_new_int (1))))),
-				 dao_get_rangeref (dao, 0, 1, 0, n_obs));
+				gnm_expr_new_funcall1
+				(fd_leverage, expr_X);
 			GnmExpr const *expr_var =
 				gnm_expr_new_binary
 				(gnm_expr_new_funcall1
@@ -3463,10 +3439,8 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		gnm_func_unref (fd_sumproduct);
 	if (fd_mmult != NULL)
 		gnm_func_unref (fd_mmult);
-	if (fd_minverse != NULL)
-		gnm_func_unref (fd_minverse);
-	if (fd_munit != NULL)
-		gnm_func_unref (fd_munit);
+	if (fd_leverage != NULL)
+		gnm_func_unref (fd_leverage);
 	if (fd_sumsq != NULL)
 		gnm_func_unref (fd_sumsq);
 

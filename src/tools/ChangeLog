@@ -1,3 +1,8 @@
+2013-01-17  Morten Welinder  <terra@gnome.org>
+
+	* analysis-tools.c (analysis_tool_regression_engine_run): Simplify
+	using new LEVERAGE function.
+
 2012-12-18  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.0
