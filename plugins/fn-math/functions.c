@@ -2869,60 +2869,6 @@ out:
 
 /***************************************************************************/
 
-static GnmFuncHelp const help_leverage[] = {
-        { GNM_FUNC_HELP_NAME, F_("LEVERAGE:calculate regression leverage")},
-        { GNM_FUNC_HELP_ARG, F_("A:a matrix")},
-	{ GNM_FUNC_HELP_DESCRIPTION,
-	  F_("Returns the diagonal of @{A} (@{A}^T @{A})^-1 @{A}T as a column vector.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If the matrix is singular, #VALUE! is returned.") },
-        { GNM_FUNC_HELP_END}
-};
-
-
-static GnmValue *
-gnumeric_leverage (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
-{
-	GnmMatrix *A = NULL;
-	GnmValue *res = NULL;
-	GORegressionResult regres;
-	gnm_float *x;
-
-	A = gnm_matrix_from_value (argv[0], &res, ei->pos);
-	if (!A) goto out;
-
-	if (gnm_matrix_is_empty (A)) {
-		res = value_new_error_VALUE (ei->pos);
-		goto out;
-	}
-
-	x = g_new (gnm_float, A->rows);
-
-	regres = gnm_linear_regression_leverage (A->data, x, A->rows, A->cols);
-
-	if (regres != GO_REG_ok && regres != GO_REG_near_singular_good) {
-		res = value_new_error_NUM (ei->pos);
-	} else {
-		int x_rows = A->rows, x_cols = 1;
-		int c, r;
-
-		res = value_new_array_non_init (x_cols, x_rows);
-		for (c = 0; c < x_cols; c++) {
-			res->v_array.vals[c] = g_new (GnmValue *, x_rows);
-			for (r = 0; r < x_rows; r++)
-				res->v_array.vals[c][r] =
-					value_new_float (x[r]);
-		}
-	}
-
-	g_free (x);
-
-out:
-	if (A) gnm_matrix_free (A);
-	return res;
-}
-
-/***************************************************************************/
-
 static GnmFuncHelp const help_linsolve[] = {
         { GNM_FUNC_HELP_NAME, F_("LINSOLVE:solve linear equation")},
         { GNM_FUNC_HELP_ARG, F_("mat:a matrix")},
@@ -3555,9 +3501,6 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "minverse","A",      help_minverse,
 	  gnumeric_minverse, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "leverage", "A",  help_leverage,
-	  gnumeric_leverage, NULL, NULL, NULL,
-	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "linsolve", "AA",  help_linsolve,
 	  gnumeric_linsolve, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },

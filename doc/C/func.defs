@@ -4655,6 +4655,14 @@ GROWTH returns an array having one column and a row for each data point in @{new
 @SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL
 
 @CATEGORY=Statistics
+@FUNCTION=LEVERAGE
+@SHORTDESC=calculate regression leverage
+@SYNTAX=LEVERAGE(A)
+@ARGUMENTDESCRIPTION=@{A}: a matrix
+@DESCRIPTION=Returns the diagonal of @{A} (@{A}^T @{A})^-1 @{A}T as a column vector.
+@NOTE=If the matrix is singular, #VALUE! is returned.
+
+@CATEGORY=Statistics
 @FUNCTION=LINEST
 @SHORTDESC=multiple linear regression coefficients and statistics
 @SYNTAX=LINEST(known_ys,known_xs,affine,stats)

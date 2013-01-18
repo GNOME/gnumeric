@@ -16087,6 +16087,36 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-function-LEVERAGE">
+      <refmeta>
+        <refentrytitle>
+          <function>LEVERAGE</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>LEVERAGE</function>
+        </refname>
+        <refpurpose>
+        calculate regression leverage
+      </refpurpose>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>LEVERAGE</function>(<parameter>A</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Arguments</title>
+        <para><parameter>A</parameter>: a matrix</para>
+      </refsect1>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the diagonal of <parameter>A</parameter> (<parameter>A</parameter>^T <parameter>A</parameter>)^-1 <parameter>A</parameter>T as a column vector.</para>
+      </refsect1>
+      <refsect1>
+        <title>Note</title>
+        <para>If the matrix is singular, #VALUE! is returned.</para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-function-LINEST">
       <refmeta>
         <refentrytitle>
