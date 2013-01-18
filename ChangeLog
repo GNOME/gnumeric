@@ -4,6 +4,7 @@
 	(gnm_matrix_is_empty, gnm_matrix_from_value, gnm_matrix_to_value):
 	New matrix support.
 	(gnm_matrix_multiply): Renamed from mmult and changed to use above.
+	(gnm_matrix_eigen): Change to take GnmMatrix arguments.
 
 2013-01-15  Morten Welinder  <terra@gnome.org>
 

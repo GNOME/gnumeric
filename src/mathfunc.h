@@ -161,8 +161,7 @@ gboolean gnm_matrix_is_empty (GnmMatrix const *m);
 
 void gnm_matrix_multiply (GnmMatrix *C, const GnmMatrix *A, const GnmMatrix *B);
 
-gboolean gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors,
-			   gnm_float *eigenvalues, int size);
+gboolean gnm_matrix_eigen (GnmMatrix const *m, GnmMatrix *EIG, gnm_float *eigenvalues);
 /* ------------------------------------------------------------------------- */
 
 gnm_float combin (gnm_float n, gnm_float k);

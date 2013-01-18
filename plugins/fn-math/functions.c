@@ -3141,18 +3141,6 @@ static GnmFuncHelp const help_eigen[] = {
 };
 
 
-static gnm_float **
-new_matrix (int cols, int rows)
-{
-	gnm_float **res = g_new (gnm_float *, rows);
-	int r;
-
-	for (r = 0; r < rows; r++)
-		res[r] = g_new0 (gnm_float, cols);
-
-	return res;
-}
-
 typedef struct {
 	gnm_float val;
 	int index;
@@ -3161,81 +3149,92 @@ typedef struct {
 static int
 compare_gnumeric_eigen_ev (const void *a, const void *b)
 {
-  const gnumeric_eigen_ev_t *da = a;
-  const gnumeric_eigen_ev_t *db = b;
+	const gnumeric_eigen_ev_t *da = a;
+	const gnumeric_eigen_ev_t *db = b;
+	gnm_float ea = da->val;
+	gnm_float eb = db->val;
 
-  if (da->val > db->val)
-	  return -1;
-  else if (da->val == db->val)
-	  return 0;
-  else
-	  return 1;
+	/* Compare first by magnitude (descending).  */
+	if (gnm_abs (ea) > gnm_abs (eb))
+		return -1;
+	else if (gnm_abs (ea) < gnm_abs (eb))
+		return +1;
+
+	/* Then by value (still descending.  */
+	if (ea > eb)
+		return -1;
+	else if (ea < eb)
+		return +1;
+	else
+		return 0;
+}
+
+static gboolean
+symmetric (GnmMatrix const *m)
+{
+	int c, r;
+
+	if (m->cols != m->rows)
+		return FALSE;
+
+	for (c = 0; c < m->cols; ++c)
+		for (r = c + 1; r < m->rows; ++r)
+			if (m->data[r][c] != m->data[c][r])
+				return FALSE;
+
+	return TRUE;
 }
 
 static GnmValue *
 gnumeric_eigen (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	GnmEvalPos const * const ep = ei->pos;
-
-	int	r, rows;
-	int	c, cols;
-	GnmValue *res;
-        GnmValue const *values = argv[0];
-	gnm_float **matrix;
-	gnm_float **eigenvectors;
-	gnm_float *eigenvalues;
-	GnmStdError err;
+	GnmMatrix *A = NULL;
+	GnmMatrix *EIG = NULL;
+	gnm_float *eigenvalues = NULL;
+	GnmValue *res = NULL;
+	int i, c, r;
 	gnumeric_eigen_ev_t *ev_sort;
 
-	if (validate_range_numeric_matrix (ep, values, &rows, &cols, &err))
-		return value_new_error_std (ei->pos, err);
+	A = gnm_matrix_from_value (argv[0], &res, ei->pos);
+	if (!A) goto out;
 
-	/* Guarantee shape and non-zero size */
-	if (cols != rows || !rows || !cols)
-		return value_new_error_VALUE (ei->pos);
+	if (A->cols != A->rows || gnm_matrix_is_empty (A) || !symmetric (A)) {
+		res = value_new_error_VALUE (ei->pos);
+		goto out;
+	}
 
-	matrix = value_to_matrix (values, cols, rows, ep);
+	EIG = gnm_matrix_new (A->rows, A->cols);
+	eigenvalues = g_new0 (gnm_float, A->cols);
 
-	/* Check for symmetry */
-	for (c = 0; c < cols; ++c)
-		for (r = c + 1; r < rows; ++r)
-			if (matrix[r][c] !=  matrix[c][r]) {
-				free_matrix (matrix, cols, rows);
-				return value_new_error_NUM (ei->pos);
-			}
-
-	eigenvectors = new_matrix (rows, cols);
-	eigenvalues = g_new0 (gnm_float, cols);
-
-	if (!gnm_matrix_eigen (matrix, eigenvectors, eigenvalues, cols)) {
-		free_matrix (matrix, cols, rows);
-		free_matrix (eigenvectors, cols, rows);
-		g_free (eigenvalues);
-		return value_new_error_NUM (ei->pos);
+	if (!gnm_matrix_eigen (A, EIG, eigenvalues)) {
+		res = value_new_error_NUM (ei->pos);
+		goto out;
 	}
 
 	/* Sorting eigenvalues */
-	ev_sort = g_new (gnumeric_eigen_ev_t, cols);
-	for (c = 0; c < cols; ++c) {
-		ev_sort[c].val = eigenvalues[c];
-		ev_sort[c].index = c;
+	ev_sort = g_new (gnumeric_eigen_ev_t, A->cols);
+	for (i = 0; i < A->cols; i++) {
+		ev_sort[i].val = eigenvalues[i];
+		ev_sort[i].index = i;
 	}
-	qsort (ev_sort, cols, sizeof (gnumeric_eigen_ev_t), compare_gnumeric_eigen_ev);
+	qsort (ev_sort, A->cols, sizeof (gnumeric_eigen_ev_t), compare_gnumeric_eigen_ev);
 
-	res = value_new_array_non_init (cols, rows + 1);
-	for (c = 0; c < cols; ++c) {
-		res->v_array.vals[c] = g_new (GnmValue *, rows + 1);
+	res = value_new_array_non_init (A->cols, A->rows + 1);
+	for (c = 0; c < A->cols; ++c) {
+		res->v_array.vals[c] = g_new (GnmValue *, A->rows + 1);
 		res->v_array.vals[c][0] = value_new_float (eigenvalues[ev_sort[c].index]);
-		for (r = 0; r < rows; ++r) {
-			gnm_float tmp = eigenvectors[r][ev_sort[c].index];
-			res->v_array.vals[c][r+1] = value_new_float (tmp);
+		for (r = 0; r < A->rows; ++r) {
+			gnm_float tmp = EIG->data[r][ev_sort[c].index];
+			res->v_array.vals[c][r + 1] = value_new_float (tmp);
 		}
 	}
-	free_matrix (matrix, cols, rows);
-	free_matrix (eigenvectors, cols, rows);
-	g_free (eigenvalues);
+
 	g_free (ev_sort);
 
+out:
+	if (A) gnm_matrix_free (A);
+	if (EIG) gnm_matrix_free (EIG);
+	g_free (eigenvalues);
 	return res;
 }
 

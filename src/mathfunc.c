@@ -6631,16 +6631,24 @@ gnm_matrix_eigen_update (guint k, gnm_float t, gnm_float *eigenvalues, gboolean 
  * magnitude of off-diagonal elements while preserving eigenvalues.
  */
 gboolean
-gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors, gnm_float *eigenvalues, int size)
+gnm_matrix_eigen (GnmMatrix const *m, GnmMatrix *EIG, gnm_float *eigenvalues)
 {
 	guint i, state, usize, *ind;
 	gboolean *changed;
 	guint counter = 0;
+	gnm_float **matrix;
+	gnm_float **eigenvectors;
 
-	if (size < 1)
-		return FALSE;
+	g_return_val_if_fail (m != NULL, FALSE);
+	g_return_val_if_fail (m->rows == m->cols, FALSE);
+	g_return_val_if_fail (EIG != NULL, FALSE);
+	g_return_val_if_fail (EIG->rows == EIG->cols, FALSE);
+	g_return_val_if_fail (EIG->rows == m->rows, FALSE);
 
-	usize = (guint) size;
+	matrix = m->data;
+	eigenvectors = EIG->data;
+	usize = m->rows;
+
 	state = usize;
 
 	ind = g_new (guint, usize);
