@@ -2925,7 +2925,7 @@ gnumeric_mmult (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_leverage[] = {
-        { GNM_FUNC_HELP_NAME, F_("LEVERAGE:calculate leverate")},
+        { GNM_FUNC_HELP_NAME, F_("LEVERAGE:calculate regression leverage")},
         { GNM_FUNC_HELP_ARG, F_("A:a matrix")},
 	{ GNM_FUNC_HELP_DESCRIPTION,
 	  F_("Returns the diagonal of @{A} (@{A}^T @{A})^-1 @{A}T as a column vector.") },
