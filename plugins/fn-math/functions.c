@@ -2664,22 +2664,6 @@ value_to_matrix (GnmValue const *v, int cols, int rows, GnmEvalPos const *ep)
 	return res;
 }
 
-static gnm_float **
-value_to_tmatrix (GnmValue const *v, int cols, int rows, GnmEvalPos const *ep)
-{
-	gnm_float **res = g_new (gnm_float *, cols);
-	int r, c;
-
-	for (c = 0; c < cols; c++) {
-		res[c] = g_new (gnm_float, rows);
-		for (r = 0; r < rows; r++)
-		        res[c][r] =
-				value_get_as_float (value_area_get_x_y (v, c, r, ep));
-	}
-
-	return res;
-}
-
 static void
 free_matrix (gnm_float **mat, G_GNUC_UNUSED int cols, int rows)
 {
@@ -2695,38 +2679,24 @@ free_matrix (gnm_float **mat, G_GNUC_UNUSED int cols, int rows)
 static GnmValue *
 gnumeric_minverse (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	GnmEvalPos const * const ep = ei->pos;
+	GnmMatrix *A = NULL;
+	GnmValue *res = NULL;
 
-	int	r, rows;
-	int	c, cols;
-	GnmValue *res;
-        GnmValue const *values = argv[0];
-	gnm_float **matrix;
-	GnmStdError err;
+	A = gnm_matrix_from_value (argv[0], &res, ei->pos);
+	if (!A) goto out;
 
-	if (validate_range_numeric_matrix (ep, values, &rows, &cols, &err))
-		return value_new_error_std (ei->pos, err);
-
-	/* Guarantee shape and non-zero size */
-	if (cols != rows || !rows || !cols)
-		return value_new_error_VALUE (ei->pos);
-
-	matrix = value_to_matrix (values, cols, rows, ep);
-	if (!gnm_matrix_invert (matrix, rows)) {
-		free_matrix (matrix, cols, rows);
-		return value_new_error_NUM (ei->pos);
+	if (A->cols != A->rows || gnm_matrix_is_empty (A)) {
+		res = value_new_error_VALUE (ei->pos);
+		goto out;
 	}
 
-	res = value_new_array_non_init (cols, rows);
-	for (c = 0; c < cols; ++c) {
-		res->v_array.vals[c] = g_new (GnmValue *, rows);
-		for (r = 0; r < rows; ++r) {
-			gnm_float tmp = matrix[r][c];
-			res->v_array.vals[c][r] = value_new_float (tmp);
-		}
-	}
-	free_matrix (matrix, cols, rows);
+	if (gnm_matrix_invert (A->data, A->rows))
+		res = gnm_matrix_to_value (A);
+	else
+		res = value_new_error_NUM (ei->pos);
 
+out:
+	if (A) gnm_matrix_free (A);
 	return res;
 }
 
@@ -2870,55 +2840,30 @@ static GnmFuncHelp const help_mmult[] = {
 static GnmValue *
 gnumeric_mmult (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	GnmEvalPos const * const ep = ei->pos;
-	int	r, rows_a, rows_b;
-	int	c, cols_a, cols_b;
-        GnmValue *res;
-        GnmValue const *values_a = argv[0];
-        GnmValue const *values_b = argv[1];
-	gnm_float *A, *B, *product;
-	GnmStdError err;
+	GnmMatrix *A = NULL;
+	GnmMatrix *B = NULL;
+	GnmMatrix *C = NULL;
+	GnmValue *res = NULL;
 
-	if (validate_range_numeric_matrix (ep, values_a, &rows_a, &cols_a, &err) ||
-	    validate_range_numeric_matrix (ep, values_b, &rows_b, &cols_b, &err))
-		return value_new_error_std (ei->pos, err);
+	A = gnm_matrix_from_value (argv[0], &res, ei->pos);
+	if (!A) goto out;
 
-	/* Guarantee shape and non-zero size */
-	if (cols_a != rows_b || !rows_a || !rows_b || !cols_a || !cols_b)
-		return value_new_error_VALUE (ei->pos);
+	B = gnm_matrix_from_value (argv[1], &res, ei->pos);
+	if (!B) goto out;
 
-	res = value_new_array_non_init (cols_b, rows_a);
-
-	A = g_new (gnm_float, cols_a * rows_a);
-	B = g_new (gnm_float, cols_b * rows_b);
-	product = g_new (gnm_float, rows_a * cols_b);
-
-	for (c = 0; c < cols_a; c++)
-	        for (r = 0; r < rows_a; r++) {
-		        GnmValue const * a =
-				value_area_get_x_y (values_a, c, r, ep);
-		        A[r + c * rows_a] = value_get_as_float (a);
-		}
-
-	for (c = 0; c < cols_b; c++)
-	        for (r = 0; r < rows_b; r++) {
-		        GnmValue const * b =
-				value_area_get_x_y (values_b, c, r, ep);
-		        B[r + c * rows_b] = value_get_as_float (b);
-		}
-
-	mmult (A, B, cols_a, rows_a, cols_b, product);
-
-	for (c = 0; c < cols_b; c++) {
-	        res->v_array.vals[c] = g_new (GnmValue *, rows_a);
-	        for (r = 0; r < rows_a; r++)
-		        res->v_array.vals[c][r] =
-				value_new_float (product[r + c * rows_a]);
+	if (A->cols != B->rows || gnm_matrix_is_empty (A) || gnm_matrix_is_empty (B)) {
+		res = value_new_error_VALUE (ei->pos);
+		goto out;
 	}
-	g_free (A);
-	g_free (B);
-	g_free (product);
 
+	C = gnm_matrix_new (A->rows, B->cols);
+	gnm_matrix_multiply (C, A, B);
+	res = gnm_matrix_to_value (C);
+
+out:
+	if (A) gnm_matrix_free (A);
+	if (B) gnm_matrix_free (B);
+	if (C) gnm_matrix_free (C);
 	return res;
 }
 
@@ -2937,36 +2882,33 @@ static GnmFuncHelp const help_leverage[] = {
 static GnmValue *
 gnumeric_leverage (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	GnmEvalPos const * const ep = ei->pos;
-	int rows, cols;
+	GnmMatrix *A = NULL;
+	GnmValue *res = NULL;
 	GORegressionResult regres;
-	gnm_float **A;
-	GnmStdError err;
-	GnmValue const *mat = argv[0];
 	gnm_float *x;
-	GnmValue *res;
 
-	if (validate_range_numeric_matrix (ep, mat, &rows, &cols, &err))
-		return value_new_error_std (ei->pos, err);
+	A = gnm_matrix_from_value (argv[0], &res, ei->pos);
+	if (!A) goto out;
 
-	/* Guarantee shape and non-zero size */
-	if (!cols || !rows)
-		return value_new_error_VALUE (ei->pos);
+	if (gnm_matrix_is_empty (A)) {
+		res = value_new_error_VALUE (ei->pos);
+		goto out;
+	}
 
-	A = value_to_matrix (mat, cols, rows, ep);
-	x = g_new (gnm_float, rows);
-	regres = gnm_linear_regression_leverage (A, x, rows, cols);
-	free_matrix (A, cols, rows);
+	x = g_new (gnm_float, A->rows);
+
+	regres = gnm_linear_regression_leverage (A->data, x, A->rows, A->cols);
 
 	if (regres != GO_REG_ok && regres != GO_REG_near_singular_good) {
-		res = value_new_error_VALUE (ei->pos);
+		res = value_new_error_NUM (ei->pos);
 	} else {
+		int x_rows = A->rows, x_cols = 1;
 		int c, r;
 
-		res = value_new_array_non_init (1, rows);
-		for (c = 0; c < 1; c++) {
-			res->v_array.vals[c] = g_new (GnmValue *, rows);
-			for (r = 0; r < rows; r++)
+		res = value_new_array_non_init (x_cols, x_rows);
+		for (c = 0; c < x_cols; c++) {
+			res->v_array.vals[c] = g_new (GnmValue *, x_rows);
+			for (r = 0; r < x_rows; r++)
 				res->v_array.vals[c][r] =
 					value_new_float (x[r]);
 		}
@@ -2974,6 +2916,8 @@ gnumeric_leverage (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	g_free (x);
 
+out:
+	if (A) gnm_matrix_free (A);
 	return res;
 }
 
@@ -2994,43 +2938,40 @@ static GnmFuncHelp const help_linsolve[] = {
 static GnmValue *
 gnumeric_linsolve (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	GnmEvalPos const * const ep = ei->pos;
-	int mrows, mcols, crows, ccols;
-	GORegressionResult regres;
-	gnm_float **A;
-	gnm_float **b;
-	GnmStdError err;
-	GnmValue const *mat = argv[0];
-	GnmValue const *col = argv[1];
+	GnmMatrix *A = NULL;
+	GnmMatrix *B = NULL;
 	gnm_float *x;
-	GnmValue *res;
+	GnmValue *res = NULL;
+	int i;
+	GORegressionResult regres;
 
-	if (validate_range_numeric_matrix (ep, mat, &mrows, &mcols, &err))
-		return value_new_error_std (ei->pos, err);
+	A = gnm_matrix_from_value (argv[0], &res, ei->pos);
+	if (!A) goto out;
 
-	if (validate_range_numeric_matrix (ep, col, &crows, &ccols, &err))
-		return value_new_error_std (ei->pos, err);
+	B = gnm_matrix_from_value (argv[1], &res, ei->pos);
+	if (!B) goto out;
 
-	/* Guarantee shape and non-zero size */
-	if (mrows != mcols || mrows != crows || ccols != 1 || !mcols)
-		return value_new_error_VALUE (ei->pos);
+	if (A->cols != A->rows || gnm_matrix_is_empty (A) ||
+	    B->cols != 1 || B->rows != A->rows || gnm_matrix_is_empty (B)) {
+		res = value_new_error_VALUE (ei->pos);
+		goto out;
+	}
 
-	A = value_to_matrix (mat, mcols, mrows, ep);
-	b = value_to_tmatrix (col, ccols, crows, ep);
-	x = g_new (gnm_float, crows);
-	regres = gnm_linear_solve (A, b[0], crows, x);
-	free_matrix (A, mcols, mrows);
-	free_matrix (b, crows, ccols); /* tmatrix */
+	x = g_new (gnm_float, B->rows);
+	for (i = 0; i < B->rows; i++)
+		x[i] = B->data[i][0];
+
+	regres = gnm_linear_solve (A->data, x, A->rows, x);
 
 	if (regres != GO_REG_ok && regres != GO_REG_near_singular_good) {
-		res = value_new_error_VALUE (ei->pos);
+		res = value_new_error_NUM (ei->pos);
 	} else {
 		int c, r;
 
-		res = value_new_array_non_init (ccols, crows);
-		for (c = 0; c < ccols; c++) {
-			res->v_array.vals[c] = g_new (GnmValue *, crows);
-			for (r = 0; r < crows; r++)
+		res = value_new_array_non_init (B->cols, B->rows);
+		for (c = 0; c < B->cols; c++) {
+			res->v_array.vals[c] = g_new (GnmValue *, B->rows);
+			for (r = 0; r < B->rows; r++)
 				res->v_array.vals[c][r] =
 					value_new_float (x[r]);
 		}
@@ -3038,6 +2979,9 @@ gnumeric_linsolve (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	g_free (x);
 
+out:
+	if (A) gnm_matrix_free (A);
+	if (B) gnm_matrix_free (B);
 	return res;
 }
 
@@ -3055,26 +2999,22 @@ static GnmFuncHelp const help_mdeterm[] = {
 static GnmValue *
 gnumeric_mdeterm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	GnmEvalPos const * const ep = ei->pos;
+	GnmMatrix *A = NULL;
+	GnmValue *res = NULL;
 
-	int	rows, cols;
-        gnm_float res;
-	gnm_float **matrix;
-	GnmStdError err;
-        GnmValue  const *values = argv[0];
+	A = gnm_matrix_from_value (argv[0], &res, ei->pos);
+	if (!A) goto out;
 
-	if (validate_range_numeric_matrix (ep, values, &rows, &cols, &err))
-		return value_new_error_std (ei->pos, err);
+	if (A->cols != A->rows || gnm_matrix_is_empty (A)) {
+		res = value_new_error_VALUE (ei->pos);
+		goto out;
+	}
 
-	/* Guarantee shape and non-zero size */
-	if (cols != rows || !rows || !cols)
-		return value_new_error_VALUE (ei->pos);
+	res = value_new_float (gnm_matrix_determinant (A->data, A->rows));
 
-	matrix = value_to_matrix (values, cols, rows, ep);
-	res = gnm_matrix_determinant (matrix, rows);
-	free_matrix (matrix, cols, rows);
-
-	return value_new_float (res);
+out:
+	if (A) gnm_matrix_free (A);
+	return res;
 }
 
 /***************************************************************************/

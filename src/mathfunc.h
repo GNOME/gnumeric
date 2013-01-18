@@ -146,10 +146,20 @@ gnm_float discpfuncinverter (gnm_float p, const gnm_float shape[],
 			     GnmPFunc pfunc);
 
 /* ------------------------------------------------------------------------- */
-
 /* Matrix functions. */
-void    mmult (gnm_float *A, gnm_float *B, int cols_a, int rows_a, int cols_b,
-	       gnm_float *product);
+
+typedef struct {
+	gnm_float **data;   /* [y][x] */
+	int cols, rows;
+} GnmMatrix;
+
+GnmMatrix *gnm_matrix_new (int rows, int cols); /* Note the order: y then x. */
+void gnm_matrix_free (GnmMatrix *m);
+GnmMatrix *gnm_matrix_from_value (GnmValue const *v, GnmValue **perr, GnmEvalPos const *ep);
+GnmValue *gnm_matrix_to_value (GnmMatrix const *m);
+gboolean gnm_matrix_is_empty (GnmMatrix const *m);
+
+void gnm_matrix_multiply (GnmMatrix *C, const GnmMatrix *A, const GnmMatrix *B);
 
 gboolean gnm_matrix_eigen (gnm_float **matrix, gnm_float **eigenvectors,
 			   gnm_float *eigenvalues, int size);

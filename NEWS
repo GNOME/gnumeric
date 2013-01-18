@@ -26,6 +26,7 @@ Morten:
 	* Restrict size of MUNIT to avoid thrashing the system.  [#625544]
 	* Fix text import crash.
 	* Add LEVERAGE function for regression tool.  [#691913]
+	* Clean up matrix code.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.0

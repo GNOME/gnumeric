@@ -1,3 +1,10 @@
+2013-01-18  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (gnm_matrix_new, gnm_matrix_free)
+	(gnm_matrix_is_empty, gnm_matrix_from_value, gnm_matrix_to_value):
+	New matrix support.
+	(gnm_matrix_multiply): Renamed from mmult and changed to use above.
+
 2013-01-15  Morten Welinder  <terra@gnome.org>
 
 	* src/stf.c (stf_read_workbook_auto_csvtab): Fix crash for text

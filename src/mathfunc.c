@@ -47,6 +47,7 @@
 #include <string.h>
 #include <goffice/goffice.h>
 #include <glib/gstdio.h>
+#include <value.h>
 
 #if defined (HAVE_IEEEFP_H) || defined (HAVE_IEEE754_H)
 /* Make sure we have this symbol defined, since the existance of either
@@ -6466,29 +6467,111 @@ pow1pm1 (gnm_float x, gnm_float y)
  ---------------------------------------------------------------------
  */
 
-/* Calculates the product of two matrixes.
- */
-void
-mmult (gnm_float *A, gnm_float *B, int cols_a, int rows_a, int cols_b,
-       gnm_float *product)
+/* Note the order: y then x. */
+GnmMatrix *
+gnm_matrix_new (int rows, int cols)
 {
-	int	c, r, i;
-	void *state = gnm_accumulator_start ();
-	GnmAccumulator *acc = gnm_accumulator_new ();
+	GnmMatrix *m = g_new (GnmMatrix, 1);
+	int r;
 
-	for (c = 0; c < cols_b; ++c) {
-		for (r = 0; r < rows_a; ++r) {
-			go_accumulator_clear (acc);
-			for (i = 0; i < cols_a; ++i) {
-				GnmQuad p;
-				gnm_quad_mul12 (&p,
-						A[r + i * rows_a],
-						B[i + c * cols_a]);
-				gnm_accumulator_add_quad (acc, &p);
+	m->rows = rows;
+	m->cols = cols;
+	m->data = g_new (gnm_float *, rows);
+	for (r = 0; r < rows; r++)
+		m->data[r] = g_new (gnm_float, cols);
+
+	return m;
+}
+
+void
+gnm_matrix_free (GnmMatrix *m)
+{
+	int r;
+
+	for (r = 0; r < m->rows; r++)
+		g_free (m->data[r]);
+	g_free (m->data);
+	g_free (m);
+}
+
+gboolean
+gnm_matrix_is_empty (GnmMatrix const *m)
+{
+	return m == NULL || m->rows <= 0 || m->cols <= 0;
+}
+
+GnmMatrix *
+gnm_matrix_from_value (GnmValue const *v, GnmValue **perr, GnmEvalPos const *ep)
+{
+	int cols, rows;
+	int c, r;
+	GnmMatrix *m = NULL;
+
+	*perr = NULL;
+	cols = value_area_get_width (v, ep);
+	rows = value_area_get_height (v, ep);
+	m = gnm_matrix_new (rows, cols);
+	for (r = 0; r < rows; r++) {
+		for (c = 0; c < cols; c++) {
+			GnmValue const *v1 = value_area_fetch_x_y (v, c, r, ep);
+			if (VALUE_IS_ERROR (v1)) {
+				*perr = value_dup (v1);
+				gnm_matrix_free (m);
+				return NULL;
 			}
-			product[r + c * rows_a] = gnm_accumulator_value (acc);
+
+			m->data[r][c] = value_get_as_float (v1);
 		}
 	}
+	return m;
+}
+
+GnmValue *
+gnm_matrix_to_value (GnmMatrix const *m)
+{
+	GnmValue *res = value_new_array_non_init (m->cols, m->rows);
+	int c, r;
+
+	for (c = 0; c < m->cols; c++) {
+	        res->v_array.vals[c] = g_new (GnmValue *, m->rows);
+	        for (r = 0; r < m->rows; r++)
+		        res->v_array.vals[c][r] = value_new_float (m->data[r][c]);
+	}
+	return res;
+}
+
+/* C = A * B */
+void
+gnm_matrix_multiply (GnmMatrix *C, const GnmMatrix *A, const GnmMatrix *B)
+{
+	void *state;
+	GnmAccumulator *acc;
+	int c, r, i;
+
+	g_return_if_fail (C != NULL);
+	g_return_if_fail (A != NULL);
+	g_return_if_fail (B != NULL);
+	g_return_if_fail (C->rows == A->rows);
+	g_return_if_fail (C->cols == B->cols);
+	g_return_if_fail (A->cols == B->rows);
+
+	state = gnm_accumulator_start ();
+	acc = gnm_accumulator_new ();
+
+	for (r = 0; r < C->rows; r++) {
+		for (c = 0; c < C->cols; c++) {
+			go_accumulator_clear (acc);
+			for (i = 0; i < A->cols; ++i) {
+				GnmQuad p;
+				gnm_quad_mul12 (&p,
+						A->data[r][i],
+						B->data[i][c]);
+				gnm_accumulator_add_quad (acc, &p);
+			}
+			C->data[r][c] = gnm_accumulator_value (acc);
+		}
+	}
+
 	gnm_accumulator_free (acc);
 	gnm_accumulator_end (state);
 }
