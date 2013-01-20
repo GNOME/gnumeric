@@ -27,6 +27,7 @@ Morten:
 	* Fix text import crash.
 	* Add LEVERAGE function for regression tool.  [#691913]
 	* Clean up matrix code.
+	* Speed up regressions.  [#691984]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.0

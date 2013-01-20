@@ -2880,9 +2880,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_cell = NULL;
 	GnmFunc *fd_offset = NULL;
 	GnmFunc *fd_sumproduct = NULL;
-	GnmFunc *fd_mmult = NULL;
 	GnmFunc *fd_leverage = NULL;
-	GnmFunc *fd_sumsq = NULL;
 
 	char const *str = ((info->group_by == GROUPED_BY_ROW) ? "row" : "col");
 	char const *label = ((info->group_by == GROUPED_BY_ROW) ? _("Row")
@@ -2896,9 +2894,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	}
 	if (info->residual) {
 		fd_sumproduct  = analysis_tool_get_function ("SUMPRODUCT", dao);
-		fd_mmult  = analysis_tool_get_function ("MMULT", dao);
 		fd_leverage = analysis_tool_get_function ("LEVERAGE", dao);
-		fd_sumsq  = analysis_tool_get_function ("SUMSQ", dao);
 	}
 
 	cb_adjust_areas (val_1, NULL);
@@ -3345,11 +3341,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 				gnm_expr_new_funcall1
 				(fd_leverage, expr_X);
 			GnmExpr const *expr_var =
-				gnm_expr_new_binary
-				(gnm_expr_new_funcall1
-				 (fd_sumsq, dao_get_rangeref (dao, xdim + 3, 1, xdim + 3, n_obs)),
-				 GNM_EXPR_OP_DIV,
-				 dao_get_cellref (dao, 1, - 6 - xdim));
+				dao_get_cellref (dao, 3, - 6 - xdim);
 			GnmExpr const *expr_int_stud =
 				gnm_expr_new_binary
 				(make_cellref (-2, 0),
@@ -3368,8 +3360,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 
 			expr_var = gnm_expr_new_binary
 				(gnm_expr_new_binary
-				 (gnm_expr_new_funcall1
-				  (fd_sumsq, dao_get_rangeref (dao, xdim + 3, 1, xdim + 3, n_obs)),
+				 (dao_get_cellref (dao, 2, - 6 - xdim),
 				  GNM_EXPR_OP_SUB,
 				  gnm_expr_new_binary
 				  (make_cellref (-3, 0),
@@ -3437,12 +3428,8 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		gnm_func_unref (fd_offset);
 	if (fd_sumproduct != NULL)
 		gnm_func_unref (fd_sumproduct);
-	if (fd_mmult != NULL)
-		gnm_func_unref (fd_mmult);
 	if (fd_leverage != NULL)
 		gnm_func_unref (fd_leverage);
-	if (fd_sumsq != NULL)
-		gnm_func_unref (fd_sumsq);
 
 	dao_redraw_respan (dao);
 
