@@ -2779,11 +2779,11 @@ out:
 
 static GnmFuncHelp const help_linsolve[] = {
         { GNM_FUNC_HELP_NAME, F_("LINSOLVE:solve linear equation")},
-        { GNM_FUNC_HELP_ARG, F_("mat:a matrix")},
-        { GNM_FUNC_HELP_ARG, F_("col:a column")},
+        { GNM_FUNC_HELP_ARG, F_("A:a matrix")},
+        { GNM_FUNC_HELP_ARG, F_("B:a matrix")},
 	{ GNM_FUNC_HELP_DESCRIPTION,
-	  F_("Solves the equation @{mat}*x=@{col} and returns x.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If the matrix is singular, #VALUE! is returned.") },
+	  F_("Solves the equation @{A}*X=@{B} and returns X.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If the matrix @{A} is singular, #VALUE! is returned.") },
 	{ GNM_FUNC_HELP_SEEALSO, "MINVERSE"},
         { GNM_FUNC_HELP_END}
 };
@@ -2794,9 +2794,7 @@ gnumeric_linsolve (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmMatrix *A = NULL;
 	GnmMatrix *B = NULL;
-	gnm_float *x;
 	GnmValue *res = NULL;
-	int i;
 	GORegressionResult regres;
 
 	A = gnm_matrix_from_value (argv[0], &res, ei->pos);
@@ -2806,16 +2804,12 @@ gnumeric_linsolve (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (!B) goto out;
 
 	if (A->cols != A->rows || gnm_matrix_is_empty (A) ||
-	    B->cols != 1 || B->rows != A->rows || gnm_matrix_is_empty (B)) {
+	    B->rows != A->rows || gnm_matrix_is_empty (B)) {
 		res = value_new_error_VALUE (ei->pos);
 		goto out;
 	}
 
-	x = g_new (gnm_float, B->rows);
-	for (i = 0; i < B->rows; i++)
-		x[i] = B->data[i][0];
-
-	regres = gnm_linear_solve (A->data, x, A->rows, x);
+	regres = gnm_linear_solve_multiple (A->data, B->data, A->rows, B->cols);
 
 	if (regres != GO_REG_ok && regres != GO_REG_near_singular_good) {
 		res = value_new_error_NUM (ei->pos);
@@ -2827,11 +2821,9 @@ gnumeric_linsolve (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			res->v_array.vals[c] = g_new (GnmValue *, B->rows);
 			for (r = 0; r < B->rows; r++)
 				res->v_array.vals[c][r] =
-					value_new_float (x[r]);
+					value_new_float (B->data[r][c]);
 		}
 	}
-
-	g_free (x);
 
 out:
 	if (A) gnm_matrix_free (A);

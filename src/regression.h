@@ -21,6 +21,7 @@ G_BEGIN_DECLS
 #	define gnm_matrix_invert go_matrix_invertl
 #	define gnm_matrix_determinant go_matrix_determinantl
 #	define gnm_linear_solve go_linear_solvel
+#	define gnm_linear_solve_multiple go_linear_solve_multiplel
 #else
 #	define gnm_regression_stat_t go_regression_stat_t
 #	define gnm_regression_stat_new go_regression_stat_new
@@ -35,6 +36,7 @@ G_BEGIN_DECLS
 #	define gnm_matrix_invert go_matrix_invert
 #	define gnm_matrix_determinant go_matrix_determinant
 #	define gnm_linear_solve go_linear_solve
+#	define gnm_linear_solve_multiple go_linear_solve_multiple
 #endif
 
 G_END_DECLS
