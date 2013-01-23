@@ -997,7 +997,7 @@ main (int argc, char const **argv)
 	}
 
 	if (ssdiff_xml + ssdiff_highlight > 1) {
-		g_printerr (_("%s: Only one output format output may be specified.\n"),
+		g_printerr (_("%s: Only one output format may be specified.\n"),
 			    g_get_prgname ());
 		return 1;
 	}			    
