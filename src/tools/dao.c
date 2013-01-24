@@ -1114,11 +1114,11 @@ dao_redraw_respan (data_analysis_output_t *dao)
 }
 
 
-GnmExpr const  *
-dao_get_cellref (data_analysis_output_t *dao, int x, int y)
+static GnmExpr const  *
+dao_get_cellref_full (data_analysis_output_t *dao, int x, int y, Sheet *sheet)
 {
 	GnmCellRef r;
-	r.sheet = dao->sheet;
+	r.sheet = sheet;
 	r.col = x + dao->start_col + dao->offset_col;
 	r.col_relative = FALSE;
 	r.row = y + dao->start_row + dao->offset_row;
@@ -1127,19 +1127,25 @@ dao_get_cellref (data_analysis_output_t *dao, int x, int y)
 }
 
 GnmExpr const  *
-dao_get_rangeref (data_analysis_output_t *dao, int ax, int ay,  int bx, int by)
+dao_get_cellref (data_analysis_output_t *dao, int x, int y)
+{
+	return dao_get_cellref_full (dao, x, y, NULL);
+}
+
+static GnmExpr const  *
+dao_get_rangeref_full (data_analysis_output_t *dao, int ax, int ay,  int bx, int by, Sheet *sheet)
 {
 	GnmValue *v;
 	GnmCellRef ar;
 	GnmCellRef br;
 
-	ar.sheet = dao->sheet;
+	ar.sheet = sheet;
 	ar.col = ax + dao->start_col + dao->offset_col;
 	ar.col_relative = FALSE;
 	ar.row = ay + dao->start_row + dao->offset_row;
 	ar.row_relative = FALSE;
 
-	br.sheet = dao->sheet;
+	br.sheet = sheet;
 	br.col = bx + dao->start_col + dao->offset_col;
 	br.col_relative = FALSE;
 	br.row = by + dao->start_row + dao->offset_row;
@@ -1149,6 +1155,11 @@ dao_get_rangeref (data_analysis_output_t *dao, int ax, int ay,  int bx, int by)
 	return gnm_expr_new_constant (v);
 }
 
+GnmExpr const  *
+dao_get_rangeref (data_analysis_output_t *dao, int ax, int ay,  int bx, int by)
+{
+	return dao_get_rangeref_full (dao, ax, ay, bx, by, NULL);
+}
 
 void
 dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetObject* so)
@@ -1187,7 +1198,7 @@ dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetObject
 GOData	*
 dao_go_data_vector (data_analysis_output_t *dao, int ax, int ay,  int bx, int by)
 {
-	return gnm_go_data_vector_new_expr (dao->sheet, gnm_expr_top_new (dao_get_rangeref (dao, ax, ay, bx, by)));
+	return gnm_go_data_vector_new_expr (dao->sheet, gnm_expr_top_new (dao_get_rangeref_full (dao, ax, ay, bx, by, dao->sheet)));
 }
 
 /**

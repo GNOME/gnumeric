@@ -1,3 +1,8 @@
+2013-01-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_normsdist): use correct technical term
+	(help_normsinv): use correct technical term
+
 2013-01-03  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_count, gnumeric_counta): Make this regular

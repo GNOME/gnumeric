@@ -436,7 +436,7 @@ gnumeric_negbinomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_normsdist[] = {
-	{ GNM_FUNC_HELP_NAME, F_("NORMSDIST:cumulative density function of the standard normal distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("NORMSDIST:cumulative distribution function of the standard normal distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("NORMSDIST is the OpenFormula function LEGACY.NORMSDIST.") },
@@ -460,7 +460,7 @@ gnumeric_normsdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_normsinv[] = {
-	{ GNM_FUNC_HELP_NAME, F_("NORMSINV:inverse of the cumulative density function of the standard normal distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("NORMSINV:inverse of the cumulative distribution function of the standard normal distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("p:given probability")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },

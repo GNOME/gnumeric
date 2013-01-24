@@ -1,3 +1,10 @@
+2013-01-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dao.c (dao_get_cellref_full): new
+	(dao_get_cellref): use dao_get_cellref_full
+	(dao_get_rangeref_full): new
+	(dao_get_rangeref): use dao_get_cellref_full
+
 2013-01-17  Morten Welinder  <terra@gnome.org>
 
 	* analysis-tools.c (analysis_tool_regression_engine_run): Simplify
