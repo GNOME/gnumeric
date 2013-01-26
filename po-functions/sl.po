@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-01-18 20:35+0000\n"
-"PO-Revision-Date: 2013-01-19 22:54+0100\n"
+"POT-Creation-Date: 2013-01-24 21:45+0000\n"
+"PO-Revision-Date: 2013-01-26 20:05+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -218,7 +218,7 @@ msgstr "Če @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VALUE!."
 #: ../plugins/fn-math/functions.c:2403 ../plugins/fn-math/functions.c:2447
 #: ../plugins/fn-math/functions.c:2490 ../plugins/fn-math/functions.c:2533
 #: ../plugins/fn-math/functions.c:2590 ../plugins/fn-math/functions.c:2742
-#: ../plugins/fn-math/functions.c:2848 ../plugins/fn-math/functions.c:2893
+#: ../plugins/fn-math/functions.c:2840 ../plugins/fn-math/functions.c:2885
 #: ../plugins/fn-random/functions.c:48 ../plugins/fn-random/functions.c:249
 #: ../plugins/fn-stat/functions.c:83 ../plugins/fn-stat/functions.c:111
 #: ../plugins/fn-stat/functions.c:138 ../plugins/fn-stat/functions.c:166
@@ -1193,7 +1193,7 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:1033 ../plugins/fn-math/functions.c:1060
 #: ../plugins/fn-math/functions.c:1388 ../plugins/fn-math/functions.c:1408
 #: ../plugins/fn-math/functions.c:2076 ../plugins/fn-math/functions.c:2703
-#: ../plugins/fn-math/functions.c:2910 ../plugins/fn-stat/functions.c:1525
+#: ../plugins/fn-math/functions.c:2902 ../plugins/fn-stat/functions.c:1525
 #: ../plugins/fn-stat/functions.c:2403 ../plugins/fn-stat/functions.c:4582
 #: ../plugins/fn-string/functions.c:304 ../plugins/fn-string/functions.c:388
 #: ../plugins/fn-string/functions.c:515 ../plugins/fn-string/functions.c:1103
@@ -6647,7 +6647,7 @@ msgstr "coeff: koeficienti potenčne vrste"
 msgid "MINVERSE:the inverse matrix of @{matrix}"
 msgstr "MINVERSE: inverzna matrika @{matrike}"
 
-#: ../plugins/fn-math/functions.c:2587 ../plugins/fn-math/functions.c:2846
+#: ../plugins/fn-math/functions.c:2587 ../plugins/fn-math/functions.c:2838
 msgid "matrix:a square matrix"
 msgstr "matrika: kvadratna matrika"
 
@@ -6713,31 +6713,31 @@ msgstr "mat2: matrika 2"
 msgid "LINSOLVE:solve linear equation"
 msgstr "LINSOLVE: razreši linearni izraz"
 
-#: ../plugins/fn-math/functions.c:2782
-msgid "mat:a matrix"
-msgstr "matrika: matrika"
+#: ../plugins/fn-math/functions.c:2782 ../plugins/fn-stat/functions.c:3134
+msgid "A:a matrix"
+msgstr "A: matrika"
 
 #: ../plugins/fn-math/functions.c:2783
-msgid "col:a column"
-msgstr "stolpec: stolpec"
+msgid "B:a matrix"
+msgstr "B: matrika"
 
 #: ../plugins/fn-math/functions.c:2785
-msgid "Solves the equation @{mat}*x=@{col} and returns x."
-msgstr "Razreši izraz @{matrika}*x=@{stolpec} in vrne vrednost x."
+msgid "Solves the equation @{A}*X=@{B} and returns X."
+msgstr "Razreši izraz @{A}*x=@{B} in vrne vrednost x."
 
-#: ../plugins/fn-math/functions.c:2786 ../plugins/fn-stat/functions.c:3137
-msgid "If the matrix is singular, #VALUE! is returned."
-msgstr "Če je matrika singularna, funkcija vrne napako #VALUE!."
+#: ../plugins/fn-math/functions.c:2786
+msgid "If the matrix @{A} is singular, #VALUE! is returned."
+msgstr "Če je matrika @{A} singularna, funkcija vrne napako #VALUE!."
 
-#: ../plugins/fn-math/functions.c:2845
+#: ../plugins/fn-math/functions.c:2837
 msgid "MDETERM:the determinant of the matrix @{matrix}"
 msgstr "MDETERM:determinanta @{matrike}"
 
-#: ../plugins/fn-math/functions.c:2877
+#: ../plugins/fn-math/functions.c:2869
 msgid "SUMPRODUCT:multiplies components and adds the results"
 msgstr "SUMPRODUCT: vsota zmnožkov ustreznih delov matrike."
 
-#: ../plugins/fn-math/functions.c:2879 ../plugins/fn-math/functions.c:2902
+#: ../plugins/fn-math/functions.c:2871 ../plugins/fn-math/functions.c:2894
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
@@ -6745,11 +6745,11 @@ msgstr ""
 "Zmnoži pripadajoče podatkovne vnose v podanem podatkovnem polju ali obsegu "
 "in vrne vsoto zmnožkov."
 
-#: ../plugins/fn-math/functions.c:2882
+#: ../plugins/fn-math/functions.c:2874
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr "Če vnos ni številčna vrednost, je uporabljena vrednost 0."
 
-#: ../plugins/fn-math/functions.c:2883 ../plugins/fn-math/functions.c:2906
+#: ../plugins/fn-math/functions.c:2875 ../plugins/fn-math/functions.c:2898
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
@@ -6757,7 +6757,7 @@ msgstr ""
 "Če polja ali obsegi vrednosti nimajo enakih razsežnosti, funkcija vrne "
 "napako #VALUE!."
 
-#: ../plugins/fn-math/functions.c:2885
+#: ../plugins/fn-math/functions.c:2877
 msgid ""
 "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  "
 "Instead use SUMPRODUCT(--(A1:A5>0))"
@@ -6765,46 +6765,46 @@ msgstr ""
 "Funkcija ne upošteva logičnih parametrov, zato formula SUMPRODUCT(A1:A5>0) "
 "ne deluje. Uporabiti je treba formulo SUMPRODUCT(--(A1:A5>0))"
 
-#: ../plugins/fn-math/functions.c:2894
+#: ../plugins/fn-math/functions.c:2886
 msgid ""
 "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
 msgstr ""
 "Ta funkcija ni združljiva s funkcijami programa OpenFormula. Za združljivost "
 "je treba uporabiti funkcijo ODF.SUMPRODUCT."
 
-#: ../plugins/fn-math/functions.c:2900
+#: ../plugins/fn-math/functions.c:2892
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
 msgstr "ODF.SUMPRODUCT: vsota zmnožkov ustreznih delov matrike."
 
-#: ../plugins/fn-math/functions.c:2905
+#: ../plugins/fn-math/functions.c:2897
 msgid "If an entry is not numeric or logical, the value zero is used instead."
 msgstr "Če vnos ni številski ali logični, je uporabljena vrednost 0."
 
-#: ../plugins/fn-math/functions.c:2908
+#: ../plugins/fn-math/functions.c:2900
 msgid "This function differs from SUMPRODUCT by considering booleans."
 msgstr ""
 "Funkcija se loči od funkcije SUMPRODUCT po tem, da upošteva tudi logične "
 "vrednosti."
 
-#: ../plugins/fn-math/functions.c:2909
+#: ../plugins/fn-math/functions.c:2901
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
 msgstr ""
 "Ta funkcija ni združljiva s funkcijami programa MS Excel. Za združljivost je "
 "treba uporabiti funkcijo SUMPRODUCT."
 
-#: ../plugins/fn-math/functions.c:3044
+#: ../plugins/fn-math/functions.c:3036
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN: lastna vrednost in lastni vektor simetrične @{matrike}"
 
-#: ../plugins/fn-math/functions.c:3045
+#: ../plugins/fn-math/functions.c:3037
 msgid "matrix:a symmetric matrix"
 msgstr "matrika: simetrična matrika"
 
-#: ../plugins/fn-math/functions.c:3046
+#: ../plugins/fn-math/functions.c:3038
 msgid "If @{matrix} is not symmetric, EIGEN returns #NUM!"
 msgstr "Če @{matrika} ni simetrična, funkcija EIGEN vrne napako #NUM!."
 
-#: ../plugins/fn-math/functions.c:3047
+#: ../plugins/fn-math/functions.c:3039
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
@@ -8708,8 +8708,9 @@ msgstr "Če je @{p} < 0 or @{p} > 1, funkcija vrne napako #NUM!."
 
 #: ../plugins/fn-stat/functions.c:439
 msgid ""
-"NORMSDIST:cumulative density function of the standard normal distribution"
-msgstr "NORMSDIST: zbirna funkcija gostote standardne normalne porazdelitve"
+"NORMSDIST:cumulative distribution function of the standard normal "
+"distribution"
+msgstr "NORMSDIST: zbirna funkcija normalne porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:442
 msgid "NORMSDIST is the OpenFormula function LEGACY.NORMSDIST."
@@ -8727,11 +8728,9 @@ msgstr "wolfram:NormalDistribution.html"
 
 #: ../plugins/fn-stat/functions.c:463
 msgid ""
-"NORMSINV:inverse of the cumulative density function of the standard normal "
-"distribution"
-msgstr ""
-"NORMSINV: inverzno funkcijo zbirne funkcije gostote standardne normalne "
-"porazdelitve"
+"NORMSINV:inverse of the cumulative distribution function of the standard "
+"normal distribution"
+msgstr "NORMSINV: inverzna zbirna funkcija normalne porazdelitve"
 
 #: ../plugins/fn-stat/functions.c:464
 msgid "p:given probability"
@@ -10200,13 +10199,13 @@ msgstr ""
 msgid "LEVERAGE:calculate regression leverage"
 msgstr "LEVERAGE: izračuna regresijo moči vpliva"
 
-#: ../plugins/fn-stat/functions.c:3134
-msgid "A:a matrix"
-msgstr "A: matrika"
-
 #: ../plugins/fn-stat/functions.c:3136
 msgid "Returns the diagonal of @{A} (@{A}^T @{A})^-1 @{A}T as a column vector."
 msgstr "Vrne diagonalo @{A} (@{A}^T @{A})^-1 @{A}T kot vektor stolpca."
+
+#: ../plugins/fn-stat/functions.c:3137
+msgid "If the matrix is singular, #VALUE! is returned."
+msgstr "Če je matrika singularna, funkcija vrne napako #VALUE!."
 
 #: ../plugins/fn-stat/functions.c:3341
 msgid "LINEST:multiple linear regression coefficients and statistics"
@@ -11691,6 +11690,12 @@ msgstr ""
 #: ../plugins/sample_datasource/sample_datasource.c:277
 msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr "Možnost je privzeto onemogočena."
+
+#~ msgid "mat:a matrix"
+#~ msgstr "matrika: matrika"
+
+#~ msgid "col:a column"
+#~ msgstr "stolpec: stolpec"
 
 #~ msgid "The @{abscissae} must be given in increasing order."
 #~ msgstr "Vrednosti podatkov @{abscise} morajo biti razvrščeni naraščajoče."
