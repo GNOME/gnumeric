@@ -6467,6 +6467,9 @@ pow1pm1 (gnm_float x, gnm_float y)
  ---------------------------------------------------------------------
  */
 
+/**
+ * gnm_matrix_new: (skip)
+ **/
 /* Note the order: y then x. */
 GnmMatrix *
 gnm_matrix_new (int rows, int cols)
@@ -6500,6 +6503,9 @@ gnm_matrix_is_empty (GnmMatrix const *m)
 	return m == NULL || m->rows <= 0 || m->cols <= 0;
 }
 
+/**
+ * gnm_matrix_from_value: (skip)
+ **/
 GnmMatrix *
 gnm_matrix_from_value (GnmValue const *v, GnmValue **perr, GnmEvalPos const *ep)
 {

@@ -415,8 +415,8 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 
 /**
  * wb_view_edit_line_set:
- * @wbv : The view
- * @optional_wbc : An Optional control
+ * @wbv: The view
+ * @optional_wbc: An Optional control
  *
  * Load the edit line with the value of the cell in @sheet's edit_pos.
  *

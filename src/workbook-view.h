@@ -90,7 +90,7 @@ void		 wb_view_auto_expr_recalc (WorkbookView *wbv);
 
 /* I/O routines */
 gboolean wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs,
-			  char const *file_name, GOCmdContext *cc);
+			  char const *uri, GOCmdContext *cc);
 gboolean wb_view_save	 (WorkbookView *wbv, GOCmdContext *cc);
 void	 wbv_save_to_output (WorkbookView *wbv, GOFileSaver const *fs,
 			     GsfOutput *output, GOIOContext *io_context);

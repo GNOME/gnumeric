@@ -94,7 +94,7 @@ GnmSheetSlicer *sv_editpos_in_slicer (SheetView const *sv);
 
 /* Manipulation */
 void	 sv_flag_status_update_pos   (SheetView *sv, GnmCellPos const *pos);
-void	 sv_flag_status_update_range (SheetView *sv, GnmRange const *r);
+void	 sv_flag_status_update_range (SheetView *sv, GnmRange const *range);
 void	 sv_flag_style_update_range  (SheetView *sv, GnmRange const *r);
 void	 sv_flag_selection_change    (SheetView *sv);
 

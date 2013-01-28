@@ -788,14 +788,14 @@ sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 
 /**
  * sheet_object_graph_ensure_size:
- * @so: #SheetObject
+ * @sog: #SheetObject
  *
  * Updates the size of the graph item in the canvas for graph sheets objects.
  */
 void
-sheet_object_graph_ensure_size (SheetObject *so)
+sheet_object_graph_ensure_size (SheetObject *sog)
 {
-	GList *ptr = so->realized_list;
+	GList *ptr = sog->realized_list;
 	while (ptr) {
 		cb_post_new_view (GOC_ITEM (GOC_GROUP (ptr->data)->children->data));
 		ptr = ptr->next;
@@ -950,7 +950,6 @@ dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (desc->series.dim[i].ms_type == type) {
 			GOData *data = g_object_ref (g_ptr_array_index (state->data, id));
 			gog_dataset_set_dim (GOG_DATASET (state->cur), i,data,
-			                     //g_object_ref (g_ptr_array_index (state->data, id)),
 			                     &err);
 			break;
 		}
