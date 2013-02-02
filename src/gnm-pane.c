@@ -2503,7 +2503,6 @@ target_list_add_list (GtkTargetList *targets, GtkTargetList *added_targets)
 static void
 gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 {
-	GdkDragContext *context;
 	GtkTargetList *targets, *im_targets;
 	GocCanvas *canvas    = GOC_CANVAS (pane);
 	SheetControlGUI *scg = pane->simple.scg;
@@ -2551,9 +2550,9 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 		gtk_target_table_free (gte, n);
 	}
 
-	context = gtk_drag_begin (GTK_WIDGET (canvas), targets,
-				  GDK_ACTION_COPY | GDK_ACTION_MOVE,
-				  pane->drag.button, event);
+	gtk_drag_begin (GTK_WIDGET (canvas), targets,
+			GDK_ACTION_COPY | GDK_ACTION_MOVE,
+			pane->drag.button, event);
 	gtk_target_list_unref (targets);
 	g_slist_free (objects);
 }
