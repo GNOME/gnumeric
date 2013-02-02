@@ -237,26 +237,28 @@ pstyle_set_border (GnmStyle *st, GnmBorder *border,
  * by caching and rereferencing the merged result for repeated styles.
  */
 typedef struct {
-	GnmStyle	   *new_style;
-	GnmStyle	   *pstyle;
+	GnmStyle   *new_style;
+	GnmStyle   *pstyle;
 	GHashTable *cache;
 	Sheet	   *sheet;
 } ReplacementStyle;
 
-static ReplacementStyle *
-rstyle_ctor (ReplacementStyle *res, GnmStyle *new_style, GnmStyle *pstyle, Sheet *sheet)
+static void
+rstyle_ctor_style (ReplacementStyle *res, GnmStyle *new_style, Sheet *sheet)
 {
 	res->sheet = sheet;
-	if (new_style != NULL) {
-		res->new_style = sheet_style_find (sheet, new_style);
-		res->pstyle = NULL;
-		res->cache = NULL;
-	} else {
-		res->new_style = NULL;
-		res->pstyle = pstyle;
-		res->cache = g_hash_table_new (g_direct_hash, g_direct_equal);
-	}
-	return res;
+	res->new_style = sheet_style_find (sheet, new_style);
+	res->pstyle = NULL;
+	res->cache = NULL;
+}
+
+static void
+rstyle_ctor_pstyle (ReplacementStyle *res, GnmStyle *pstyle, Sheet *sheet)
+{
+	res->sheet = sheet;
+	res->new_style = NULL;
+	res->pstyle = pstyle;
+	res->cache = g_hash_table_new (g_direct_hash, g_direct_equal);
 }
 
 static void
@@ -1260,9 +1262,10 @@ sheet_style_set_range (Sheet *sheet, GnmRange const *range,
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (range != NULL);
 
+	rstyle_ctor_style (&rs, style, sheet);
 	cell_tile_apply (&sheet->style_data->styles,
 			 sheet->tile_top_level, 0, 0,
-			 range, rstyle_ctor (&rs, style, NULL, sheet));
+			 range, &rs);
 	rstyle_dtor (&rs);
 }
 
@@ -1324,9 +1327,10 @@ sheet_style_apply_pos (Sheet *sheet, int col, int row,
 
 	g_return_if_fail (IS_SHEET (sheet));
 
+	rstyle_ctor_pstyle (&rs, pstyle, sheet);
 	cell_tile_apply_pos (&sheet->style_data->styles,
 			     sheet->tile_top_level, col, row,
-			     rstyle_ctor (&rs, NULL, pstyle, sheet));
+			     &rs);
 	rstyle_dtor (&rs);
 }
 /**
@@ -1347,9 +1351,10 @@ sheet_style_set_pos (Sheet *sheet, int col, int row,
 
 	g_return_if_fail (IS_SHEET (sheet));
 
+	rstyle_ctor_style (&rs, style, sheet);
 	cell_tile_apply_pos (&sheet->style_data->styles,
 			     sheet->tile_top_level, col, row,
-			     rstyle_ctor (&rs, style, NULL, sheet));
+			     &rs);
 	rstyle_dtor (&rs);
 }
 
@@ -1644,9 +1649,10 @@ sheet_style_apply_range (Sheet *sheet, GnmRange const *range, GnmStyle *pstyle)
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (range != NULL);
 
+	rstyle_ctor_pstyle (&rs, pstyle, sheet);
 	cell_tile_apply (&sheet->style_data->styles,
 			 sheet->tile_top_level, 0, 0,
-			 range, rstyle_ctor (&rs, NULL, pstyle, sheet));
+			 range, &rs);
 	rstyle_dtor (&rs);
 }
 
