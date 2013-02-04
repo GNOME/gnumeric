@@ -24,11 +24,14 @@
 #include "expr-name.h"
 #include "libgnumeric.h"
 #include "gutils.h"
+#include "value.h"
+#include "commands.h"
 #include "gnumeric-paths.h"
 #include "gnm-plugin.h"
 #include "command-context.h"
 #include "command-context-stderr.h"
 #include "workbook-view.h"
+#include "tools/analysis-tools.h"
 #include <dialogs/dialogs.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-utils.h>
@@ -50,6 +53,7 @@ static char *ssconvert_export_id = NULL;
 static char *ssconvert_export_options = NULL;
 static char *ssconvert_merge_target = NULL;
 static char **ssconvert_goal_seek = NULL;
+static char **ssconvert_tool_test = NULL;
 
 static const GOptionEntry ssconvert_options [] = {
 	{
@@ -148,6 +152,13 @@ static const GOptionEntry ssconvert_options [] = {
 		"solve", 0,
 		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &ssconvert_solve,
 		N_("Run the solver"),
+		NULL
+	},
+
+	{
+		"tool-test", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING_ARRAY, &ssconvert_tool_test,
+		N_("Tool test specs"),
 		NULL
 	},
 
@@ -524,6 +535,79 @@ run_solver (Sheet *sheet, WorkbookView *wbv)
 	}
 }
 
+#define GET_ARG(conv_,name_,def_) (g_hash_table_lookup_extended(args,(name_),NULL,&arg) ? conv_((const char *)arg) : (def_))
+#define RANGE_ARG(s_) value_new_cellrange_str(sheet,(s_))
+#define SHEET_ARG(s_) workbook_sheet_by_name(wb,(s_))
+
+static void
+run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
+{
+	int i;
+	WorkbookControl *wbc;
+	gpointer specs;
+	data_analysis_output_t *dao;
+	analysis_tool_engine engine;
+	Workbook *wb;
+	Sheet *sheet;
+	GHashTable *args;
+	gpointer arg;
+
+	/*
+	 * Arguments in argv are of the form key:value.
+	 * Make a hash for those.
+	 */
+	args = g_hash_table_new_full (g_str_hash, g_str_equal,
+				      (GDestroyNotify)g_free,
+				      (GDestroyNotify)g_free);
+	for (i = 0; argv[i]; i++) {
+		const char *s = argv[i];
+		const char *colon = strchr (s, ':');
+		if (!colon) {
+			g_printerr ("Ignoring tool test argument \"%s\"\n", s);
+			continue;
+		}
+		g_hash_table_replace (args, g_strndup (s, colon - s),
+				      g_strdup (colon + 1));
+	}
+
+	wb = wb_view_get_workbook (wbv);
+	wbc = g_object_new (WORKBOOK_CONTROL_TYPE, NULL);
+	wb_control_set_view (wbc, wbv, NULL);
+
+	sheet = GET_ARG (SHEET_ARG, "sheet", wb_view_cur_sheet (wbv));
+
+	if (g_str_equal (tool, "regression")) {
+		analysis_tools_data_regression_t *data =
+			g_new0 (analysis_tools_data_regression_t, 1);
+
+		data->base.wbc = wbc;
+		data->base.range_1 = GET_ARG (RANGE_ARG, "x", value_new_error_REF (NULL));
+		data->base.range_2 = GET_ARG (RANGE_ARG, "y", value_new_error_REF (NULL));
+		data->base.labels = GET_ARG (atoi, "labels", FALSE);
+		data->base.alpha = GET_ARG (atof, "alpha", 0.05);
+		data->group_by = GET_ARG ((group_by_t), "grouped-by", GROUPED_BY_COL);
+		data->intercept = GET_ARG (atoi, "intercept", TRUE);
+		data->multiple_regression = GET_ARG (atoi, "multiple", TRUE);
+		data->multiple_y = GET_ARG (atoi, "multiple-y", FALSE);
+		data->residual = GET_ARG (atoi, "residual", TRUE);
+
+		engine = analysis_tool_regression_engine;
+		specs = data;
+	} else {
+		g_printerr ("no test for tool \"%s\"\n", tool);
+		return;
+	}
+
+	dao = dao_init_new_sheet (NULL);
+	dao->put_formulas = TRUE;
+	cmd_analysis_tool (wbc, sheet, dao, specs, engine, TRUE);
+
+	g_hash_table_destroy (args);
+}
+
+#undef GET_ARG
+#undef RANGE_ARG
+#undef SHEET_ARG
 
 static int
 convert (char const *inarg, char const *outarg, char const *mergeargs[],
@@ -634,6 +718,12 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	if (ssconvert_solve) {
 		Sheet *sheet = wb_view_cur_sheet (wbv);
 		run_solver (sheet, wbv);
+	}
+
+	if (ssconvert_tool_test && ssconvert_tool_test[0]) {
+		run_tool_test (ssconvert_tool_test[0],
+			       ssconvert_tool_test + 1,
+			       wbv);
 	}
 
 	if (ssconvert_recalc)

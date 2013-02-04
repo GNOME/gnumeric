@@ -1,3 +1,9 @@
+2013-02-04  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (run_tool_test): Add code for running the
+	regression tool.
+	(convert): Run an analysis tool if requested.  (For testing.)
+
 2013-02-02  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (rstyle_ctor): Split into rstyle_ctor_style
