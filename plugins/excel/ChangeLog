@@ -1,3 +1,7 @@
+2013-02-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (ms_excel_chart_read): don't use deprecated gog_style_new().
+
 2013-01-03  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.h (XL_EXTERNSHEET_MAGIC_SELFREF)
