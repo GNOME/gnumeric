@@ -113,7 +113,7 @@ struct _Sheet {
 	GnmSheetSize size;
 
 	/* tile related data */
-	int tile_top_level, max_width, max_height;
+	int tile_top_level;
 };
 
 #define GNM_SHEET_TYPE	(gnm_sheet_get_type ())

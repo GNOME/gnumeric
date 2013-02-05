@@ -1,5 +1,12 @@
 2013-02-05  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-style.c (sheet_style_get): Simplify with "while"
+	instead of crazy "goto".
+	(cell_tile_apply): Simplify the covers-whole-tile case.
+
+	* src/sheet.h (Sheet): Remove max_width and max_height members.
+	All users fixed.
+
 	* src/dependent.h (GnmDependentClass): Add pos handler.
 
 	* src/dependent.c (dependent_pos): Use pos handler.

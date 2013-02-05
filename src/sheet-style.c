@@ -181,7 +181,7 @@ sheet_style_unlink (Sheet *sheet, GnmStyle *st)
 }
 
 /**
- * sheet_style_find :
+ * sheet_style_find:
  * @sheet: (transfer full): the sheet
  * @s: a style
  *
@@ -287,7 +287,7 @@ rstyle_dtor (ReplacementStyle *rs)
 }
 
 /*
- * rstyle_apply :  Utility routine that is at the core of applying partial
+ * rstyle_apply:  Utility routine that is at the core of applying partial
  * styles or storing complete styles.  It will eventually be smarter
  * and will maintain the cache of styles associated with each sheet
  */
@@ -313,9 +313,12 @@ rstyle_apply (GnmStyle **old, ReplacementStyle *rs)
 		s = rs->new_style;
 
 	if (*old != s) {
-		gnm_style_link (s);
-		if (*old)
+		if (*old) {
 			gnm_style_unlink (*old);
+		}
+
+		gnm_style_link (s);
+
 		*old = s;
 	}
 }
@@ -478,20 +481,20 @@ cell_tile_ptr_matrix_new (CellTile *t)
 	res = CHUNK_ALLOC (CellTilePtrMatrix, TILE_PTR_MATRIX);
 	*((CellTileType *)&(res->type)) = TILE_PTR_MATRIX;
 
-	/* TODO :
+	/* TODO:
 	 * If we wanted to get fancy we could use self similarity to decrease
 	 * the number of subtiles.  However, this would increase the cost of
 	 * applying changes later so I'm not sure it is worth the effort.
 	 */
 	switch (t->type) {
-	case TILE_SIMPLE : {
+	case TILE_SIMPLE: {
 		int i = TILE_SIZE_COL * TILE_SIZE_ROW;
 		while (--i >= 0)
 			res->ptr[i] = cell_tile_style_new (
 				t->style_simple.style[0], TILE_SIMPLE);
 		break;
 	}
-	case TILE_COL : {
+	case TILE_COL: {
 		int i, r, c;
 		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r)
 			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
@@ -499,7 +502,7 @@ cell_tile_ptr_matrix_new (CellTile *t)
 					t->style_col.style[c], TILE_SIMPLE);
 		break;
 	}
-	case TILE_ROW : {
+	case TILE_ROW: {
 		int i, r, c;
 		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r)
 			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
@@ -507,14 +510,14 @@ cell_tile_ptr_matrix_new (CellTile *t)
 					t->style_row.style[r], TILE_SIMPLE);
 		break;
 	}
-	case TILE_MATRIX : {
+	case TILE_MATRIX: {
 		int i = TILE_SIZE_COL * TILE_SIZE_ROW;
 		while (--i >= 0)
 			res->ptr[i] = cell_tile_style_new (
 				t->style_matrix.style[i], TILE_SIMPLE);
 		break;
 	}
-	default : ;
+	default: ;
 	}
 
 	return (CellTile *)res;
@@ -523,9 +526,8 @@ cell_tile_ptr_matrix_new (CellTile *t)
 static CellTile *
 cell_tile_matrix_set (CellTile *t, GnmRange const *indic, ReplacementStyle *rs)
 {
-	int i, r, c;
+	int r, c;
 	CellTileStyleMatrix *res;
-	GnmStyle *tmp;
 
 	g_return_val_if_fail (t != NULL, NULL);
 	g_return_val_if_fail (TILE_SIMPLE <= t->type &&
@@ -535,29 +537,37 @@ cell_tile_matrix_set (CellTile *t, GnmRange const *indic, ReplacementStyle *rs)
 		? cell_tile_style_new (NULL, TILE_MATRIX) : t);
 
 	switch (t->type) {
-	case TILE_SIMPLE :
-		i = TILE_SIZE_COL * TILE_SIZE_ROW;
-		gnm_style_link_multiple (tmp = t->style_simple.style[0], i);
+	case TILE_SIMPLE: {
+		GnmStyle *tmp = t->style_simple.style[0];
+		int i = TILE_SIZE_COL * TILE_SIZE_ROW;
+		gnm_style_link_multiple (tmp, i);
 		while (--i >= 0)
 			res->style[i] = tmp;
 		break;
+	}
 
-	case TILE_COL :
-		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r)
-			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
+	case TILE_COL: {
+		int i = 0;
+		for (r = 0; r < TILE_SIZE_ROW; ++r)
+			for (c = 0; c < TILE_SIZE_COL; ++c)
 				gnm_style_link (res->style[i++] =
 						t->style_col.style[c]);
 		break;
-	case TILE_ROW :
-		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r) {
-			gnm_style_link_multiple (tmp = t->style_row.style[r],
-						 TILE_SIZE_COL);
-			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
+	}
+
+	case TILE_ROW: {
+		int i = 0;
+		for (r = 0; r < TILE_SIZE_ROW; ++r) {
+			GnmStyle *tmp = t->style_row.style[r];
+			gnm_style_link_multiple (tmp, TILE_SIZE_COL);
+			for (c = 0; c < TILE_SIZE_COL; ++c)
 				res->style[i++] = tmp;
 		}
 		break;
-	case TILE_MATRIX :
-	default :
+	}
+
+	case TILE_MATRIX:
+	default:
 		break;
 	}
 
@@ -567,8 +577,8 @@ cell_tile_matrix_set (CellTile *t, GnmRange const *indic, ReplacementStyle *rs)
 	if (indic != NULL) {
 		GnmStyle **style = res->style;
 		r = indic->start.row;
-		style += r*TILE_SIZE_COL;
-		for ( ;r <= indic->end.row ; ++r, style += TILE_SIZE_COL)
+		style += r * TILE_SIZE_COL;
+		for ( ; r <= indic->end.row; ++r, style += TILE_SIZE_COL)
 			for (c = indic->start.col ; c <= indic->end.col ; ++c)
 				rstyle_apply (style + c, rs);
 	}
@@ -616,9 +626,6 @@ sheet_style_init_size (Sheet *sheet, int cols, int rows)
 		lr++;
 	}
 	sheet->tile_top_level = MAX (lc, lr);
-
-	sheet->max_height = tile_heights[sheet->tile_top_level];
-	sheet->max_width = tile_widths[sheet->tile_top_level];
 
 	if (active_sheet_count++ == 0) {
 #if USE_TILE_POOLS
@@ -791,7 +798,7 @@ sheet_style_shutdown (Sheet *sheet)
 }
 
 /**
- * sheet_style_set_auto_pattern_color :
+ * sheet_style_set_auto_pattern_color:
  * @sheet:         The sheet
  * @pattern_color: The color
  *
@@ -876,18 +883,15 @@ static GnmStyle *
 vector_apply_pstyle (GnmStyle **styles, int n, ReplacementStyle *rs)
 {
 	gboolean is_uniform = TRUE;
-	GnmStyle *prev = NULL;
+	int i;
 
-	while (--n >= 0) {
-		rstyle_apply (styles + n, rs);
-		if (is_uniform) {
-			if (prev == NULL)
-				prev = styles[n];
-			else if (prev != styles[n])
-				is_uniform = FALSE;
-		}
+	for (i = 0; i < n; i++) {
+		rstyle_apply (styles + i, rs);
+		if (styles[i] != styles[0])
+			is_uniform = FALSE;
 	}
-	return is_uniform ? prev : NULL;
+
+	return is_uniform ? styles[0] : NULL;
 }
 
 static gboolean
@@ -933,7 +937,7 @@ row_indicies (int corner_row, int h, GnmRange const *apply_to,
 }
 
 /*
- * cell_tile_apply : This is the primary logic for making changing areas in the
+ * cell_tile_apply: This is the primary logic for making changing areas in the
  * tree.  It could be further optimised if it becomes a bottle neck.
  */
 static void
@@ -969,34 +973,24 @@ cell_tile_apply (CellTile **tile, int level,
 
 	/* Apply new style over top of the entire tile */
 	if (full_width && full_height) {
-		if (type == TILE_SIMPLE) {
-			rstyle_apply ((*tile)->style_simple.style, rs);
-			return;
-		}
-		if (rs->new_style != NULL) {
-			res = cell_tile_style_new (rs->new_style,
-						   (type = TILE_SIMPLE));
-			cell_tile_dtor (*tile);
-			*tile = res;
-		}
 		if (TILE_SIMPLE <= type && type <= TILE_MATRIX) {
 			GnmStyle *uniform = vector_apply_pstyle (
 				(*tile)->style_any.style, tile_size[type], rs);
-			if (uniform == NULL)
-				return;
-
-			res = cell_tile_style_new (uniform, TILE_SIMPLE);
-			cell_tile_dtor (*tile);
-			*tile = res;
+			if (uniform && type != TILE_SIMPLE) {
+				res = cell_tile_style_new (uniform, TILE_SIMPLE);
+				cell_tile_dtor (*tile);
+				*tile = res;
+			}
 			return;
 		}
 	} else if (full_height) {
 		if (col_indicies (corner_col, w, apply_to,
 				  &indic.start.col, &indic.end.col)) {
 			if (type == TILE_SIMPLE) {
+				type = TILE_COL;
 				res = cell_tile_style_new (
 					(*tile)->style_simple.style[0],
-					(type = TILE_COL));
+					type);
 				cell_tile_dtor (*tile);
 				*tile = res;
 			}
@@ -1017,9 +1011,10 @@ cell_tile_apply (CellTile **tile, int level,
 		if (row_indicies (corner_row, h, apply_to,
 				  &indic.start.row, &indic.end.row)) {
 			if (type == TILE_SIMPLE) {
+				type = TILE_ROW;
 				res = cell_tile_style_new (
 					(*tile)->style_simple.style[0],
-					(type = TILE_ROW));
+					type);
 				cell_tile_dtor (*tile);
 				*tile = res;
 			}
@@ -1191,7 +1186,7 @@ foreach_tile (CellTile *tile, int level,
 }
 
 /*
- * cell_tile_apply_pos : This is an simplified version of cell_tile_apply.  It
+ * cell_tile_apply_pos: This is an simplified version of cell_tile_apply.  It
  * does not need all the bells and whistles because it operates on single cells.
  */
 static void
@@ -1207,7 +1202,7 @@ cell_tile_apply_pos (CellTile **tile, int level,
 	g_return_if_fail (row >= 0);
 	g_return_if_fail (row < gnm_sheet_get_max_rows (rs->sheet));
 
-tail_recursion :
+tail_recursion:
 	g_return_if_fail (TILE_TOP_LEVEL >= level && level >= 0);
 	g_return_if_fail (tile != NULL);
 	g_return_if_fail (*tile != NULL);
@@ -1275,7 +1270,7 @@ sheet_style_set_range (Sheet *sheet, GnmRange const *range,
  * @col:
  * @style: #GnmStyle
  *
- * NOTE : This is a simple wrapper for now.  When we support col/row styles it
+ * NOTE: This is a simple wrapper for now.  When we support col/row styles it
  *	will make life easier.
  *
  * Apply a partial style to a full col.
@@ -1295,7 +1290,7 @@ sheet_style_apply_col (Sheet *sheet, int col, GnmStyle *pstyle)
  * @row:
  * @style: #GnmStyle
  *
- * NOTE : This is a simple wrapper for now.  When we support col/row styles it
+ * NOTE: This is a simple wrapper for now.  When we support col/row styles it
  *	will make life easier.
  *
  * Apply a partial style to a full col.
@@ -1310,7 +1305,7 @@ sheet_style_apply_row (Sheet  *sheet, int row, GnmStyle *pstyle)
 }
 
 /**
- * sheet_style_apply_pos :
+ * sheet_style_apply_pos:
  * @sheet :
  * @col   :
  * @row   :
@@ -1334,7 +1329,7 @@ sheet_style_apply_pos (Sheet *sheet, int col, int row,
 	rstyle_dtor (&rs);
 }
 /**
- * sheet_style_set_pos :
+ * sheet_style_set_pos:
  * @sheet :
  * @col   :
  * @row   :
@@ -1359,7 +1354,7 @@ sheet_style_set_pos (Sheet *sheet, int col, int row,
 }
 
 /**
- * sheet_style_default :
+ * sheet_style_default:
  * @sheet :
  *
  * Returns a reference to default style for a sheet.
@@ -1375,7 +1370,7 @@ sheet_style_default (Sheet const *sheet)
 }
 
 /**
- * sheet_style_get :
+ * sheet_style_get:
  * @sheet : #Sheet
  * @col   :
  * @row   :
@@ -1386,42 +1381,43 @@ sheet_style_default (Sheet const *sheet)
 GnmStyle const *
 sheet_style_get (Sheet const *sheet, int col, int row)
 {
-	int width = sheet->max_width;
-	int height = sheet->max_height;
-	int c, r, level = sheet->tile_top_level;
+	int level = sheet->tile_top_level;
 	CellTile *tile = sheet->style_data->styles;
 
-tail_recursion :
-	c = col / width;
-	r = row / height;
+	while (1) {
+		int width = tile_widths[level];
+		int height = tile_heights[level];
+		int c = col / width;
+		int r = row / height;
 
-	g_return_val_if_fail (tile != NULL, NULL);
-	g_return_val_if_fail (0 <= c && c < TILE_SIZE_COL, NULL);
-	g_return_val_if_fail (0 <= r && r < TILE_SIZE_ROW, NULL);
+		g_return_val_if_fail (tile != NULL, NULL);
+		g_return_val_if_fail (0 <= c && c < TILE_SIZE_COL, NULL);
+		g_return_val_if_fail (0 <= r && r < TILE_SIZE_ROW, NULL);
 
-	switch (tile->type) {
-	case TILE_SIMPLE : return tile->style_simple.style[0];
-	case TILE_COL :	   return tile->style_col.style[c];
-	case TILE_ROW :	   return tile->style_row.style[r];
-	case TILE_MATRIX : return tile->style_matrix.style[r*TILE_SIZE_COL+c];
+		switch (tile->type) {
+		case TILE_SIMPLE:
+			return tile->style_simple.style[0];
+		case TILE_COL:
+			return tile->style_col.style[c];
+		case TILE_ROW:
+			return tile->style_row.style[r];
+		case TILE_MATRIX:
+			return tile->style_matrix.style[r * TILE_SIZE_COL + c];
 
-	case TILE_PTR_MATRIX :
-		g_return_val_if_fail (level > 0, NULL);
+		case TILE_PTR_MATRIX:
+			g_return_val_if_fail (level > 0, NULL);
 
-		level--;
-		tile = tile->ptr_matrix.ptr[r*TILE_SIZE_COL + c];
-		col -= c * width;
-		row -= r * height;
-		width /= TILE_SIZE_COL;
-		height /= TILE_SIZE_ROW;
-		goto tail_recursion;
+			level--;
+			tile = tile->ptr_matrix.ptr[r * TILE_SIZE_COL + c];
+			col -= c * width;
+			row -= r * height;
+			continue;
 
-	default :
-		break;
+		default:
+			g_warning ("Adaptive Quad Tree corruption !");
+			return NULL;
+		}
 	}
-
-	g_warning ("Adaptive Quad Tree corruption !");
-	return NULL;
 }
 
 #define border_null(b)	((b) == none || (b) == NULL)
@@ -1535,7 +1531,7 @@ get_style_row (CellTile const *tile, int level,
 }
 
 /**
- * sheet_style_get_row :
+ * sheet_style_get_row:
  * @sheet : #Sheet
  * @sr    : #GnmStyleRow
  *
@@ -1591,7 +1587,7 @@ sheet_style_get_row2 (Sheet const *sheet, int row)
 
 
 /**
- * style_row_init :
+ * style_row_init:
  *
  * A small utility routine to initialize the grid drawing GnmStyleRow data
  * structure.
@@ -1633,7 +1629,7 @@ style_row_init (GnmBorder const * * *prev_vert,
 }
 
 /**
- * sheet_style_apply_range :
+ * sheet_style_apply_range:
  * @sheet :
  * @range :
  * @pstyle:
@@ -1667,7 +1663,7 @@ apply_border (Sheet *sheet, GnmRange const *r,
 }
 
 /**
- * sheet_style_apply_border :
+ * sheet_style_apply_border:
  * @sheet   :
  * @range   :
  * @borders :
@@ -1770,7 +1766,7 @@ sheet_style_apply_border (Sheet       *sheet,
 		}
 	}
 
-	/* Interiors vertical : prefer left */
+	/* Interiors vertical: prefer left */
 	if (borders[GNM_STYLE_BORDER_VERT] != NULL) {
 		/* 6.1 vertical interior left */
 		if (range->start.col != range->end.col) {
@@ -1867,7 +1863,7 @@ border_mask_vec (gboolean *known, GnmBorder **borders,
 }
 
 /**
- * sheet_style_get_uniform :
+ * sheet_style_get_uniform:
  * @sheet   :
  * @range   :
  * @borders :
@@ -1953,7 +1949,7 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 	}
 
 	/*
-	 * TODO : The border handling is tricky and currently VERY slow for
+	 * TODO: The border handling is tricky and currently VERY slow for
 	 * large ranges.  We could easily optimize this.  There is no need to
 	 * retrieve the style in every cell just to do a filter for uniformity
 	 * by row.  One day we should do a special case version of
@@ -2911,7 +2907,7 @@ sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
 }
 
 /**
- * style_list_free :
+ * style_list_free:
  * @list : the list to free
  *
  * Free up the ressources in the style list.  Including unreferencing the
@@ -2924,7 +2920,7 @@ style_list_free (GnmStyleList *list)
 }
 
 /**
- * style_list_get_style :
+ * style_list_get_style:
  * @list : A style list.
  * @col  :
  * @row  :
