@@ -54,7 +54,7 @@ static void dependent_clear_dynamic_deps (GnmDependent *dep);
  * since we need the ability to free en masse.
  */
 
-#ifndef USE_STRING_POOLS
+#ifndef USE_POOLS
 #define USE_POOLS 0
 #endif
 
@@ -398,7 +398,7 @@ dependent_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr)
 	}
 }
 
-static inline GnmCellPos const *
+GnmCellPos const *
 dependent_pos (GnmDependent const *dep)
 {
 	static GnmCellPos const dummy = { 0, 0 };

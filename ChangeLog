@@ -1,5 +1,10 @@
 2013-02-04  Morten Welinder  <terra@gnome.org>
 
+	* src/dependent.c (dependent_pos): Make global.
+
+	* src/position.c (eval_pos_init_dep, parse_pos_init_dep): Use
+	dependent_pos.
+
 	* src/ssconvert.c (run_tool_test): Add code for running the
 	regression tool.
 	(convert): Run an analysis tool if requested.  (For testing.)

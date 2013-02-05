@@ -94,6 +94,8 @@ void	 dependent_unlink	   (GnmDependent *dep);
 void	 dependent_queue_recalc	   (GnmDependent *dep);
 void	 dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr);
 
+GnmCellPos const *dependent_pos (GnmDependent const *dep);
+
 GOUndo  *dependents_relocate	    (GnmExprRelocateInfo const *info);
 void	 dependents_link	    (GSList *deps);
 
