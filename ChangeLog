@@ -1,3 +1,10 @@
+2013-02-05  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.h (GnmDependentClass): Add pos handler.
+
+	* src/dependent.c (dependent_pos): Use pos handler.
+	(dummy_dep_eval): New null handler for GnmDependentClass::eval.
+
 2013-02-04  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (dependent_pos): Make global.

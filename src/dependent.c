@@ -231,62 +231,72 @@ gnm_dep_unlink_undo_new (GSList *deps)
 
 #undef DEBUG_EVALUATION
 
-static void cell_dep_eval	   (GnmDependent *dep);
-static void cell_dep_set_expr	   (GnmDependent *dep, GnmExprTop const *new_texpr);
-static GSList *cell_dep_changed	   (GnmDependent *dep);
-static void cell_dep_debug_name    (GnmDependent const *dep, GString *target);
-static void dynamic_dep_eval	   (GnmDependent *dep);
-static GSList *dynamic_dep_changed (GnmDependent *dep);
-static void dynamic_dep_debug_name (GnmDependent const *dep, GString *target);
-static void name_dep_eval	   (GnmDependent *dep);
-static void name_dep_debug_name	   (GnmDependent const *dep, GString *target);
-static void managed_dep_eval	   (GnmDependent *dep);
-static void managed_dep_debug_name (GnmDependent const *dep, GString *target);
+static void
+dummy_dep_eval (G_GNUC_UNUSED GnmDependent *dep)
+{
+}
 
-static GPtrArray *dep_classes = NULL;
-static GnmDependentClass cell_dep_class = {
+static void cell_dep_eval (GnmDependent *dep);
+static void cell_dep_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr);
+static GSList *cell_dep_changed (GnmDependent *dep);
+static GnmCellPos const *cell_dep_pos (GnmDependent const *dep);
+static void cell_dep_debug_name (GnmDependent const *dep, GString *target);
+static const GnmDependentClass cell_dep_class = {
 	cell_dep_eval,
 	cell_dep_set_expr,
 	cell_dep_changed,
+	cell_dep_pos,
 	cell_dep_debug_name,
 };
-static GnmDependentClass dynamic_dep_class = {
-	dynamic_dep_eval,
+
+static GSList *dynamic_dep_changed (GnmDependent *dep);
+static void dynamic_dep_debug_name (GnmDependent const *dep, GString *target);
+static const GnmDependentClass dynamic_dep_class = {
+	dummy_dep_eval,
 	NULL,
 	dynamic_dep_changed,
+	NULL,
 	dynamic_dep_debug_name,
 };
-static GnmDependentClass name_dep_class = {
-	name_dep_eval,
+typedef struct {
+	GnmDependent base;
+	GnmDependent *container;
+	GSList *ranges;
+	GSList *singles;
+} DynamicDep;
+
+static void name_dep_debug_name (GnmDependent const *dep, GString *target);
+static const GnmDependentClass name_dep_class = {
+	dummy_dep_eval,
+	NULL,
 	NULL,
 	NULL,
 	name_dep_debug_name,
 };
-static GnmDependentClass managed_dep_class = {
-	managed_dep_eval,
+
+static void managed_dep_debug_name (GnmDependent const *dep, GString *target);
+static const GnmDependentClass managed_dep_class = {
+	dummy_dep_eval,
+	NULL,
 	NULL,
 	NULL,
 	managed_dep_debug_name,
 };
-typedef struct {
-	GnmDependent  base;
-	GnmDependent *container;
-	GSList    *ranges;
-	GSList    *singles;
-} DynamicDep;
+
+static GPtrArray *dep_classes = NULL;
 
 void
 dependent_types_init (void)
 {
 	g_return_if_fail (dep_classes == NULL);
 
-	/* Init with a trio of NULL classes so we can access directly */
+	/* Init with a NULL class so we can access directly */
 	dep_classes = g_ptr_array_new ();
 	g_ptr_array_add	(dep_classes, NULL); /* bogus filler */
-	g_ptr_array_add	(dep_classes, &cell_dep_class);
-	g_ptr_array_add	(dep_classes, &dynamic_dep_class);
-	g_ptr_array_add	(dep_classes, &name_dep_class);
-	g_ptr_array_add	(dep_classes, &managed_dep_class);
+	g_ptr_array_add	(dep_classes, (gpointer)&cell_dep_class);
+	g_ptr_array_add	(dep_classes, (gpointer)&dynamic_dep_class);
+	g_ptr_array_add	(dep_classes, (gpointer)&name_dep_class);
+	g_ptr_array_add	(dep_classes, (gpointer)&managed_dep_class);
 
 #if USE_POOLS
 	micro_few_pool =
@@ -402,7 +412,10 @@ GnmCellPos const *
 dependent_pos (GnmDependent const *dep)
 {
 	static GnmCellPos const dummy = { 0, 0 };
-	return dependent_is_cell (dep) ? &GNM_DEP_TO_CELL (dep)->pos : &dummy;
+	int const t = dependent_type (dep);
+	GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
+
+	return klass->pos ? klass->pos (dep) : &dummy;
 }
 
 
@@ -1183,6 +1196,12 @@ cell_dep_changed (GnmDependent *dep)
 	return work;
 }
 
+static GnmCellPos const *
+cell_dep_pos (GnmDependent const *dep)
+{
+	return &GNM_DEP_TO_CELL (dep)->pos;
+}
+
 static void
 cell_dep_debug_name (GnmDependent const *dep, GString *target)
 {
@@ -1246,11 +1265,6 @@ dependent_managed_set_sheet (GnmDependent *dep, Sheet *sheet)
 }
 
 static void
-managed_dep_eval (G_GNUC_UNUSED GnmDependent *dep)
-{
-}
-
-static void
 managed_dep_debug_name (GnmDependent const *dep, GString *target)
 {
 	g_string_append_printf (target, "Managed%p", (void *)dep);
@@ -1259,22 +1273,12 @@ managed_dep_debug_name (GnmDependent const *dep, GString *target)
 /*****************************************************************************/
 
 static void
-name_dep_eval (G_GNUC_UNUSED GnmDependent *dep)
-{
-}
-
-static void
 name_dep_debug_name (GnmDependent const *dep, GString *target)
 {
 	g_string_append_printf (target, "Name%p", (void *)dep);
 }
 
 /*****************************************************************************/
-
-static void
-dynamic_dep_eval (G_GNUC_UNUSED GnmDependent *dep)
-{
-}
 
 static GSList *
 dynamic_dep_changed (GnmDependent *dep)

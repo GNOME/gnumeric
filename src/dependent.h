@@ -20,6 +20,7 @@ typedef struct {
 	void (*eval)	   (GnmDependent *dep);
 	void (*set_expr)   (GnmDependent *dep, GnmExprTop const *new_texpr);
 	GSList* (*changed) (GnmDependent *dep);
+	GnmCellPos const* (*pos) (GnmDependent const *dep);
 	void (*debug_name) (GnmDependent const *dep, GString *target);
 } GnmDependentClass;
 
@@ -139,6 +140,8 @@ t ## _get_dep_type (void)					\
 		static GnmDependentClass klass;			\
 		klass.eval	 = &t ## _eval;			\
 		klass.set_expr	 = set_expr_handler;		\
+		klass.changed	 = NULL;			\
+		klass.pos	 = NULL;			\
 		klass.debug_name = &t ## _debug_name;		\
 		type = dependent_type_register (&klass);	\
 	}							\

@@ -536,8 +536,8 @@ cell_tile_matrix_set (CellTile *t, GnmRange const *indic, ReplacementStyle *rs)
 
 	switch (t->type) {
 	case TILE_SIMPLE :
-		gnm_style_link_multiple (tmp = t->style_simple.style[0],
-				     i = TILE_SIZE_COL * TILE_SIZE_ROW);
+		i = TILE_SIZE_COL * TILE_SIZE_ROW;
+		gnm_style_link_multiple (tmp = t->style_simple.style[0], i);
 		while (--i >= 0)
 			res->style[i] = tmp;
 		break;
@@ -546,12 +546,12 @@ cell_tile_matrix_set (CellTile *t, GnmRange const *indic, ReplacementStyle *rs)
 		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r)
 			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
 				gnm_style_link (res->style[i++] =
-					     t->style_col.style[c]);
+						t->style_col.style[c]);
 		break;
 	case TILE_ROW :
 		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r) {
 			gnm_style_link_multiple (tmp = t->style_row.style[r],
-					      TILE_SIZE_COL);
+						 TILE_SIZE_COL);
 			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
 				res->style[i++] = tmp;
 		}
