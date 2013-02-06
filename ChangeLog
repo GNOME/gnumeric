@@ -1,5 +1,10 @@
 2013-02-06  Morten Welinder  <terra@gnome.org>
 
+	(col_indicies, row_indicies): Alignment of the corners of apply_to
+	is only relevant if we are within the tile.
+
+2013-02-06  Morten Welinder  <terra@gnome.org>
+
 	* src/sheet-style.c (tile_is_uniform): Extract from
 	cell_tile_optimize.
 	(vector_apply_pstyle): Don't return a value.

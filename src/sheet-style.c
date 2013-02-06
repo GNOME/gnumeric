@@ -908,16 +908,24 @@ col_indicies (int corner_col, int w, GnmRange const *apply_to,
 	int i, tmp;
 
 	i = apply_to->start.col - corner_col;
-	tmp = i / w;
-	if (i != (tmp * w))
-		return FALSE;
-	*first_index = (i >= 0) ? tmp : 0;
+	if (i <= 0)
+		*first_index = 0;
+	else {
+		tmp = i / w;
+		if (i != tmp * w)
+			return FALSE;
+		*first_index = tmp;
+	}
 
 	i = 1 + apply_to->end.col - corner_col;
 	tmp = i / w;
-	if (i != (tmp * w))
-		return FALSE;
-	*last_index = (tmp <= TILE_SIZE_COL) ? (tmp-1) : TILE_SIZE_COL -1;
+	if (tmp >= TILE_SIZE_COL)
+		*last_index = TILE_SIZE_COL - 1;
+	else {
+		if (i != tmp * w)
+			return FALSE;
+		*last_index = tmp - 1;
+	}
 
 	return TRUE;
 }
@@ -929,16 +937,24 @@ row_indicies (int corner_row, int h, GnmRange const *apply_to,
 	int i, tmp;
 
 	i = apply_to->start.row - corner_row;
-	tmp = i / h;
-	if (i != (tmp * h))
-		return FALSE;
-	*first_index = (i >= 0) ? tmp : 0;
+	if (i <= 0)
+		*first_index = 0;
+	else {
+		int tmp = i / h;
+		if (i != tmp * h)
+			return FALSE;
+		*first_index = tmp;
+	}
 
 	i = 1 + apply_to->end.row - corner_row;
 	tmp = i / h;
-	if (i != (tmp * h))
-		return FALSE;
-	*last_index = (tmp <= TILE_SIZE_ROW) ? (tmp-1) : TILE_SIZE_ROW -1;
+	if (tmp >= TILE_SIZE_ROW)
+		*last_index = TILE_SIZE_ROW - 1;
+	else {
+		if (i != tmp * h)
+			return FALSE;
+		*last_index = tmp - 1;
+	}
 
 	return TRUE;
 }
