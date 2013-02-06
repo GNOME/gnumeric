@@ -1,3 +1,10 @@
+2013-02-06  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c (tile_is_uniform): Extract from
+	cell_tile_optimize.
+	(vector_apply_pstyle): Don't return a value.
+	(cell_tile_apply): Use tile_is_uniform.
+
 2013-02-05  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (sheet_style_get): Simplify with "while"

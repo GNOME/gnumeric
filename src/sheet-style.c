@@ -879,19 +879,26 @@ sheet_style_update_grid_color (Sheet const *sheet)
 
 /****************************************************************************/
 
-static GnmStyle *
-vector_apply_pstyle (GnmStyle **styles, int n, ReplacementStyle *rs)
+static gboolean
+tile_is_uniform (CellTile const *tile)
 {
-	gboolean is_uniform = TRUE;
+	const int s = tile_size[tile->type];
+	GnmStyle const *st = tile->style_any.style[0];
 	int i;
 
-	for (i = 0; i < n; i++) {
-		rstyle_apply (styles + i, rs);
-		if (styles[i] != styles[0])
-			is_uniform = FALSE;
-	}
+	for (i = 1; i < s; i++)
+		if (tile->style_any.style[i] != st)
+			return FALSE;
 
-	return is_uniform ? styles[0] : NULL;
+	return TRUE;
+}
+
+static void
+vector_apply_pstyle (GnmStyle **styles, int n, ReplacementStyle *rs)
+{
+	int i;
+	for (i = 0; i < n; i++)
+		rstyle_apply (styles + i, rs);
 }
 
 static gboolean
@@ -974,10 +981,11 @@ cell_tile_apply (CellTile **tile, int level,
 	/* Apply new style over top of the entire tile */
 	if (full_width && full_height) {
 		if (TILE_SIMPLE <= type && type <= TILE_MATRIX) {
-			GnmStyle *uniform = vector_apply_pstyle (
+			vector_apply_pstyle (
 				(*tile)->style_any.style, tile_size[type], rs);
-			if (uniform && type != TILE_SIMPLE) {
-				res = cell_tile_style_new (uniform, TILE_SIMPLE);
+			if (type != TILE_SIMPLE && tile_is_uniform (*tile)) {
+				res = cell_tile_style_new ((*tile)->style_any.style[0],
+							   TILE_SIMPLE);
 				cell_tile_dtor (*tile);
 				*tile = res;
 			}
@@ -3052,25 +3060,12 @@ cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 
 	switch (type) {
 	case TILE_COL:
-	case TILE_ROW: {
-		int s = tile_size[type];
-		int i;
-		gboolean same = TRUE;
-
-		for (i = 1; i < s; i++) {
-			if (!gnm_style_eq ((*tile)->style_any.style[0],
-					   (*tile)->style_any.style[i])) {
-				same = FALSE;
-				break;
-			}
-		}
-
-		if (!same)
+	case TILE_ROW:
+		if (!tile_is_uniform (*tile))
 			return;
 
 		type = TILE_SIMPLE;
 		break;
-	}
 
 	case TILE_MATRIX: {
 		gboolean csame = TRUE;
