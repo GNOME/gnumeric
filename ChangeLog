@@ -1,5 +1,8 @@
 2013-02-06  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-style.c (vector_apply_pstyle): Turn loop structure
+	inside-out in anticipation of future changes.
+
 	(col_indicies, row_indicies): Alignment of the corners of apply_to
 	is only relevant if we are within the tile.
 

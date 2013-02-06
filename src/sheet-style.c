@@ -340,16 +340,30 @@ typedef enum {
 	TILE_MATRIX	=  3,
 	TILE_PTR_MATRIX	=  4
 } CellTileType;
-static int const tile_size[] = {
+static int const tile_size[/*type*/] = {
 	1,				/* TILE_SIMPLE */
 	TILE_SIZE_COL,			/* TILE_COL */
 	TILE_SIZE_ROW,			/* TILE_ROW */
 	TILE_SIZE_COL * TILE_SIZE_ROW	/* TILE_MATRIX */
 };
-static const char * const tile_type_str[] = {
+static int const tile_col_count[/*type*/] = {
+	1,				/* TILE_SIMPLE */
+	TILE_SIZE_COL,			/* TILE_COL */
+	1,				/* TILE_ROW */
+	TILE_SIZE_COL,			/* TILE_MATRIX */
+	TILE_SIZE_COL			/* TILE_PTR_MATRIX */
+};
+static int const tile_row_count[/*type*/] = {
+	1,				/* TILE_SIMPLE */
+	1,				/* TILE_COL */
+	TILE_SIZE_ROW,			/* TILE_ROW */
+	TILE_SIZE_ROW,			/* TILE_MATRIX */
+	TILE_SIZE_ROW			/* TILE_PTR_MATRIX */
+};
+static const char * const tile_type_str[/*type*/] = {
 	"simple", "col", "row", "matrix", "ptr-matrix"
 };
-static int const tile_widths[] = {
+static int const tile_widths[/*level*/] = {
 	1,
 	TILE_SIZE_COL,
 	TILE_SIZE_COL * TILE_SIZE_COL,
@@ -359,7 +373,7 @@ static int const tile_widths[] = {
 	TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL,
 	TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL
 };
-static int const tile_heights[] = {
+static int const tile_heights[/*level*/] = {
 	1,
 	TILE_SIZE_ROW,
 	TILE_SIZE_ROW * TILE_SIZE_ROW,
@@ -894,11 +908,20 @@ tile_is_uniform (CellTile const *tile)
 }
 
 static void
-vector_apply_pstyle (GnmStyle **styles, int n, ReplacementStyle *rs)
+vector_apply_pstyle (CellTile *tile, ReplacementStyle *rs)
 {
-	int i;
-	for (i = 0; i < n; i++)
-		rstyle_apply (styles + i, rs);
+	const CellTileType type = tile->type;
+	const int ncols = tile_col_count[type];
+	const int nrows = tile_row_count[type];
+	GnmStyle **st = tile->style_any.style;
+	int r, c;
+
+	for (r = 0; r < nrows; r++) {
+		for (c = 0; c < ncols; c++) {
+			rstyle_apply (st + c, rs);
+		}
+		st += ncols;
+	}
 }
 
 static gboolean
@@ -997,8 +1020,7 @@ cell_tile_apply (CellTile **tile, int level,
 	/* Apply new style over top of the entire tile */
 	if (full_width && full_height) {
 		if (TILE_SIMPLE <= type && type <= TILE_MATRIX) {
-			vector_apply_pstyle (
-				(*tile)->style_any.style, tile_size[type], rs);
+			vector_apply_pstyle (*tile, rs);
 			if (type != TILE_SIMPLE && tile_is_uniform (*tile)) {
 				res = cell_tile_style_new ((*tile)->style_any.style[0],
 							   TILE_SIMPLE);
