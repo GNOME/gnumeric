@@ -1,4 +1,4 @@
-# Slovenian translation for gnumeric.
+# Slovenian translation for gnumeric-ui.
 # Copyright (C) 2009 gnumeric's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnumeric package.
 #
@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-01-26 19:11+0000\n"
-"PO-Revision-Date: 2013-01-26 20:14+0100\n"
+"POT-Creation-Date: 2013-02-07 16:38+0000\n"
+"PO-Revision-Date: 2013-02-07 19:49+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -1660,7 +1660,7 @@ msgstr "pot"
 #: ../plugins/openoffice/openoffice-read.c:5881
 #: ../plugins/openoffice/openoffice-write.c:4914
 #: ../plugins/openoffice/openoffice-write.c:4926 ../src/print-info.c:657
-#: ../src/ssconvert.c:91 ../src/ssdiff.c:55
+#: ../src/ssconvert.c:95 ../src/ssdiff.c:55
 msgid "file"
 msgstr "datoteka"
 
@@ -6580,8 +6580,8 @@ msgstr "Dejavno"
 msgid "Plugin name"
 msgstr "Ime vstavka"
 
-#: ../src/dialogs/dialog-plugin-manager.c:724 ../src/ssconvert.c:75
-#: ../src/ssconvert.c:98
+#: ../src/dialogs/dialog-plugin-manager.c:724 ../src/ssconvert.c:79
+#: ../src/ssconvert.c:102
 msgid "ID"
 msgstr "ID"
 
@@ -12322,7 +12322,7 @@ msgstr "Končaj takoj po nalaganju izbranih knjig."
 msgid "[FILE ...]"
 msgstr "[DATOTEKA ...]"
 
-#: ../src/main-application.c:163 ../src/ssconvert.c:711 ../src/ssdiff.c:987
+#: ../src/main-application.c:163 ../src/ssconvert.c:801 ../src/ssdiff.c:987
 #: ../src/ssgrep.c:434 ../src/ssindex.c:255
 #, c-format
 msgid ""
@@ -12349,7 +12349,7 @@ msgstr "napaka dodeljevanja Besselove _k funkcije"
 msgid "bessel_k(%"
 msgstr "bessel_k(%"
 
-#: ../src/mathfunc.c:6768
+#: ../src/mathfunc.c:6774
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
@@ -13528,48 +13528,48 @@ msgstr "Vstavi vrstice"
 msgid "Delete Rows"
 msgstr "Izbriši vrstice"
 
-#: ../src/ssconvert.c:58 ../src/ssdiff.c:47 ../src/ssgrep.c:158
+#: ../src/ssconvert.c:62 ../src/ssdiff.c:47 ../src/ssgrep.c:158
 #: ../src/ssindex.c:44
 msgid "Display program version"
 msgstr "Pokaži različico programa"
 
-#: ../src/ssconvert.c:67 ../src/ssindex.c:65
+#: ../src/ssconvert.c:71 ../src/ssindex.c:65
 msgid "Optionally specify an encoding for imported content"
 msgstr "Izbirno določilo kodnega nabora za uvoz vsebine"
 
-#: ../src/ssconvert.c:68 ../src/ssindex.c:66
+#: ../src/ssconvert.c:72 ../src/ssindex.c:66
 msgid "ENCODING"
 msgstr "KODIRANJE"
 
-#: ../src/ssconvert.c:74
+#: ../src/ssconvert.c:78
 msgid "Optionally specify which importer to use"
 msgstr "Izbirno določilo programnika uvoza za uporabo"
 
-#: ../src/ssconvert.c:81
+#: ../src/ssconvert.c:85
 msgid "List the available importers"
 msgstr "Seznam nameščenih programnikov uvoza"
 
-#: ../src/ssconvert.c:90
+#: ../src/ssconvert.c:94
 msgid "Merge listed files (all same format) to make this file"
 msgstr "Združi datoteke na seznamu (v enakem zapisu) za izpis te datoteke."
 
-#: ../src/ssconvert.c:97
+#: ../src/ssconvert.c:101
 msgid "Optionally specify which exporter to use"
 msgstr "Izbirno določilo programnika izvoza za uporabo"
 
-#: ../src/ssconvert.c:104
+#: ../src/ssconvert.c:108
 msgid "Detailed instructions for the chosen exporter"
 msgstr "Podrobna navodila za izbran programnik izvoza"
 
-#: ../src/ssconvert.c:105
+#: ../src/ssconvert.c:109
 msgid "string"
 msgstr "niz"
 
-#: ../src/ssconvert.c:111
+#: ../src/ssconvert.c:115
 msgid "List the available exporters"
 msgstr "Seznam razpoložljivih programnikov izvoza"
 
-#: ../src/ssconvert.c:118
+#: ../src/ssconvert.c:122
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time"
@@ -13577,55 +13577,59 @@ msgstr ""
 "Izvozi datoteko za vsak delovni list posebej, če programnik izvoza podpira "
 "le en delovni list na datoteko."
 
-#: ../src/ssconvert.c:125
+#: ../src/ssconvert.c:129
 msgid "Recalculate all cells before writing the result"
 msgstr "Preračunaj vse celice pred zapisovanjem vrednosti"
 
-#: ../src/ssconvert.c:136
+#: ../src/ssconvert.c:140
 msgid "The range to export"
 msgstr "Obseg za izvoz"
 
-#: ../src/ssconvert.c:143
+#: ../src/ssconvert.c:147
 msgid "Goal seek areas"
 msgstr "Obsegi iskanja cilja"
 
-#: ../src/ssconvert.c:150
+#: ../src/ssconvert.c:154
 msgid "Run the solver"
 msgstr "Zaženi reševalnik"
 
-#: ../src/ssconvert.c:203
+#: ../src/ssconvert.c:161
+msgid "Tool test specs"
+msgstr "Značilnosti preizkusa orodja"
+
+#: ../src/ssconvert.c:214
 msgid "Cannot parse export options."
 msgstr "Ni mogoče razčleniti možnosti izvoza"
 
-#: ../src/ssconvert.c:209
+#: ../src/ssconvert.c:220
 #, c-format
 msgid "The file saver does not take options"
 msgstr "Shranjevalnih datotek ne dovoli navajanja možnosti"
 
 #. FIXME: && nexpr2-is-not-the-same-as-nexpr
-#: ../src/ssconvert.c:350
+#: ../src/ssconvert.c:361
 #, c-format
 msgid "Name conflict during merge: '%s' appears twice at workbook scope.\n"
 msgstr ""
 "Spor v poimenovanju med združevanjem: '%s' se ponovi dvakrat v obsegu "
 "delovnega zvezkaControl.\n"
 
-#: ../src/ssconvert.c:499
+#: ../src/ssconvert.c:510
 #, c-format
 msgid "Failed to create solver"
 msgstr "Napaka med ustvarjanjem reševalnika"
 
-#: ../src/ssconvert.c:512
+#: ../src/ssconvert.c:523
 #, c-format
 msgid "Solver ran, but failed"
 msgstr "Reševalnik se je zagnal, vendar je opravilo spodletelo."
 
-#: ../src/ssconvert.c:522
+#: ../src/ssconvert.c:533
 #, c-format
 msgid "Solver: %s\n"
 msgstr "Reševalnik: %s\n"
 
-#: ../src/ssconvert.c:545
+#: ../src/ssconvert.c:629
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -13634,7 +13638,7 @@ msgstr ""
 "Neznan programnik izvoza '%s'.\n"
 "Argument --list-exporters izpiše seznam nameščenih programnikov izvoza.\n"
 
-#: ../src/ssconvert.c:564
+#: ../src/ssconvert.c:648
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -13643,7 +13647,7 @@ msgstr ""
 "Ni mogoče ugotoviti pravega programnika izvoza za vrsto '%s'.\n"
 "Argument --list-exporters izpiše seznam nameščenih programnikov izvoza.\n"
 
-#: ../src/ssconvert.c:575
+#: ../src/ssconvert.c:659
 #, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
@@ -13652,7 +13656,7 @@ msgstr ""
 "Zahtevana je izhodna datoteka ali pa izrecna vrsta izvoza.\n"
 "Argument --list-exporters izpiše seznam nameščenih programnikov izvoza.\n"
 
-#: ../src/ssconvert.c:585
+#: ../src/ssconvert.c:669
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -13661,7 +13665,7 @@ msgstr ""
 "Neznan programnik uvoza '%s'.\n"
 "Argument --list-importers izpiše seznam nameščenih programnikov uvoza.\n"
 
-#: ../src/ssconvert.c:675
+#: ../src/ssconvert.c:765
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -13673,11 +13677,11 @@ msgstr ""
 "Shranjeni bodo le podatki trenutnega delovnega lista. Za razširitev omejitve "
 "uporabite argument -S.\n"
 
-#: ../src/ssconvert.c:704 ../src/ssconvert.c:750
+#: ../src/ssconvert.c:794 ../src/ssconvert.c:840
 msgid "INFILE [OUTFILE]"
 msgstr "DOVODNA_DATOTEKA [ODVODNA_DATOTEKA]"
 
-#: ../src/ssconvert.c:718
+#: ../src/ssconvert.c:808
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -13688,7 +13692,7 @@ msgstr ""
 "podatkovna mapa := '%s'\n"
 "mapa knjižnic := '%s'\n"
 
-#: ../src/ssconvert.c:748 ../src/ssdiff.c:1044 ../src/ssindex.c:266
+#: ../src/ssconvert.c:838 ../src/ssdiff.c:1044 ../src/ssindex.c:266
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Uporaba: %s [MOŽNOST ...] %s\n"
