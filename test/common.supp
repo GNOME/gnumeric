@@ -684,3 +684,11 @@
    fun:getdelim
    obj:/lib64/libselinux.so.1
 }
+
+# Newer valgrinds have a workaround for this.  Delete eventually.
+# https://bugs.kde.org/show_bug.cgi?id=307828
+{
+   GLIBC/WCSCMP/SSE
+   Memcheck:Addr8
+   fun:wcscmp
+}
