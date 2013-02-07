@@ -283,6 +283,22 @@ static const GnmDependentClass managed_dep_class = {
 	managed_dep_debug_name,
 };
 
+static GSList *style_dep_changed (GnmDependent *dep);
+static GnmCellPos const *style_dep_pos (GnmDependent const *dep);
+static void style_dep_debug_name (GnmDependent const *dep, GString *target);
+static const GnmDependentClass style_dep_class = {
+	dummy_dep_eval,
+	NULL,
+	style_dep_changed,
+	style_dep_pos,
+	style_dep_debug_name,
+};
+typedef struct {
+	GnmDependent base;
+	GnmCellPos pos;
+} GnmStyleDependent;
+
+
 static GPtrArray *dep_classes = NULL;
 
 void
@@ -297,6 +313,7 @@ dependent_types_init (void)
 	g_ptr_array_add	(dep_classes, (gpointer)&dynamic_dep_class);
 	g_ptr_array_add	(dep_classes, (gpointer)&name_dep_class);
 	g_ptr_array_add	(dep_classes, (gpointer)&managed_dep_class);
+	g_ptr_array_add	(dep_classes, (gpointer)&style_dep_class);
 
 #if USE_POOLS
 	micro_few_pool =
@@ -1152,6 +1169,39 @@ workbook_unlink_3d_dep (GnmDependent *dep)
 	g_hash_table_remove (wb->sheet_order_dependents, dep);
 }
 
+GSList *
+gnm_dep_style_dependency (Sheet *sheet,
+			  GnmExprTop const *texpr,
+			  GnmRange const *r)
+{
+	int row, col;
+	GSList *res = NULL;
+
+	/*
+	 * FIXME: Maybe do better for an expression that is just an
+	 * absolute ref.
+	 */
+
+	for (row = r->start.row; row <= r->end.row; row++) {
+		for (col = r->start.col; col <= r->end.col; col++) {
+			GnmStyleDependent *sd = g_new0 (GnmStyleDependent, 1);
+			GnmDependent *dep = &sd->base;
+
+			dep->sheet = sheet;
+			dep->flags = DEPENDENT_STYLE;
+			dep->texpr = NULL;
+			sd->pos.col = col;
+			sd->pos.row = row;
+
+			dependent_set_expr (dep, texpr);
+			dependent_link (dep);
+			res = g_slist_prepend (res, dep);
+		}
+	}
+
+	return res;
+}
+
 /*****************************************************************************/
 
 static void
@@ -1268,6 +1318,55 @@ static void
 managed_dep_debug_name (GnmDependent const *dep, GString *target)
 {
 	g_string_append_printf (target, "Managed%p", (void *)dep);
+}
+
+/*****************************************************************************/
+
+static gboolean
+debug_style_deps (void)
+{
+	static int debug = -1;
+	if (debug < 0)
+		debug = gnm_debug_flag ("style-deps");
+	return debug;
+}
+
+static GSList *
+style_dep_changed (GnmDependent *dep)
+{
+	GnmCellPos const *pos = dependent_pos (dep);
+	GnmCell *cell;
+	Sheet *sheet = dep->sheet;
+
+	if (debug_style_deps ())
+		g_printerr ("StyleDep %p at %s changed\n",
+			    dep, cellpos_as_string (pos));
+
+	/*
+	 * If the cell exists, unrender it so format changes can take
+	 * effect.
+	 */
+	cell = sheet_cell_get (sheet, pos->col, pos->row);
+	if (cell)
+		gnm_cell_unrender (cell);
+
+	sheet_redraw_region (sheet,
+			     pos->col, pos->row,
+			     pos->col, pos->row);
+
+	return NULL;
+}
+
+static GnmCellPos const *
+style_dep_pos (GnmDependent const *dep)
+{
+	return &((GnmStyleDependent*)dep)->pos;
+}
+
+static void
+style_dep_debug_name (GnmDependent const *dep, GString *target)
+{
+	g_string_append_printf (target, "StyleDep%p", (void *)dep);
 }
 
 /*****************************************************************************/

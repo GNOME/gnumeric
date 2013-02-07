@@ -1,3 +1,13 @@
+2013-02-07  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (GnmStyleDependent): New type of dependent.
+	When triggered, the cells in which it resised will be rerendered
+	and redrawn.
+
+	* src/mstyle.c (gnm_style_link_dependents)
+	(gnm_style_unlink_dependents): New functions to manage style
+	dependents due to conditional formatting.
+
 2013-02-06  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (vector_apply_pstyle): Turn loop structure

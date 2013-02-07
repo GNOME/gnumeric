@@ -64,6 +64,8 @@ struct _GnmStyle {
 	GnmInputMsg		*input_msg;
 	GnmStyleConditions	*conditions;
 	GPtrArray		*cond_styles;
+
+	GSList *deps;
 };
 
 #define elem_changed(style, elem) do { (style)->changed |= (1u << (elem)); } while(0)

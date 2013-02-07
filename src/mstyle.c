@@ -16,7 +16,10 @@
 #include "sheet-style.h"
 #include "style-conditions.h"
 #include "application.h"
+#include "parse-util.h"
+#include "expr.h"
 #include "gutils.h"
+#include "ranges.h"
 #include "gnumeric-conf.h"
 #include <goffice/goffice.h>
 
@@ -732,6 +735,9 @@ gnm_style_unref (GnmStyle const *style)
 		clear_conditional_merges (unconst);
 		gnm_style_clear_pango (unconst);
 		gnm_style_clear_font (unconst);
+
+		if (style->deps)
+			g_warning ("Leftover style deps!");
 
 		CHUNK_FREE (gnm_style_pool, unconst);
 	}
@@ -1747,6 +1753,102 @@ gnm_style_get_conditions (GnmStyle const *style)
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_CONDITIONS), NULL);
 	return style->conditions;
 }
+
+static gboolean
+debug_style_deps (void)
+{
+	static int debug = -1;
+	if (debug < 0)
+		debug = gnm_debug_flag ("style-deps");
+	return debug;
+}
+
+void
+gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
+{
+	GnmStyleConditions *sc;
+	Sheet *sheet;
+	GSList *deps;
+
+	g_return_if_fail (style != NULL);
+	g_return_if_fail (r != NULL);
+
+	sheet = style->linked_sheet;
+	deps = style->deps;
+
+	/*
+	 * Conditional formatting.
+	 *
+	 * We need to trigger a reformatting of the cell if a cell referenced
+	 * by the condition changes.
+	 */
+	sc = elem_is_set (style, MSTYLE_CONDITIONS)
+		? gnm_style_get_conditions (style)
+		: NULL;
+	if (sc) {
+		GPtrArray const *conds = gnm_style_conditions_details (sc);
+		guint ui;
+		if (debug_style_deps ())
+			g_printerr ("Linking %s for %p\n",
+				    range_as_string (r), style);
+		for (ui = 0; ui < conds->len; ui++) {
+			GnmStyleCond const *c = g_ptr_array_index (conds, ui);
+			guint ei;
+
+			for (ei = 0; ei < 2; ei++) {
+				GnmExprTop const *texpr =
+					gnm_style_cond_get_expr (c, ei);
+				if (!texpr)
+					continue;
+				deps = g_slist_concat
+					(deps,
+					 gnm_dep_style_dependency
+					 (sheet, texpr, r));
+			}
+		}
+	}
+
+	/*
+	 * Validations.
+	 *
+	 * We can probably ignore those.  If a dependent cell changes such
+	 * that a validation condition is no longer satisfied, it is
+	 * grandfathered in a valid.
+	 */
+
+	/* The style owns the deps.  */
+	style->deps = deps;
+}
+
+void
+gnm_style_unlink_dependents (GnmStyle *style, GnmRange const *r)
+{
+	GSList *keep = NULL, *l, *next;
+
+	g_return_if_fail (style != NULL);
+	g_return_if_fail (r != NULL);
+
+	for (l = style->deps; l; l = next) {
+		GnmDependent *dep = l->data;
+		GnmCellPos const *pos = dependent_pos (dep);
+		next = l->next;
+
+		if (range_contains (r, pos->col, pos->row)) {
+			if (debug_style_deps ())
+				g_printerr ("Unlinking %s for %p\n",
+					    cellpos_as_string (pos), style);
+			dependent_set_expr (dep, NULL);
+			g_free (dep);
+			g_slist_free_1 (l);
+		} else {
+			l->next = keep;
+			keep = l;
+		}
+	}
+
+	style->deps = keep;
+}
+
 
 gboolean
 gnm_style_visible_in_blank (GnmStyle const *style)

@@ -158,6 +158,11 @@ GnmInputMsg	*gnm_style_get_input_msg	(GnmStyle const *style);
 void		 gnm_style_set_conditions	(GnmStyle *style, GnmStyleConditions *sc);
 GnmStyleConditions *gnm_style_get_conditions	(GnmStyle const *style);
 
+void             gnm_style_link_dependents      (GnmStyle *style,
+						 GnmRange const *r);
+void             gnm_style_unlink_dependents    (GnmStyle *style,
+						 GnmRange const *r);
+
 gboolean	 gnm_style_visible_in_blank (GnmStyle const *style);
 
 PangoAttrList	*gnm_style_generate_attrs_full (GnmStyle const *style);

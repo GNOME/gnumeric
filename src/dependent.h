@@ -32,6 +32,7 @@ typedef enum {
 	DEPENDENT_DYNAMIC_DEP	   = 0x00000002,	/* builtin type */
 	DEPENDENT_NAME		   = 0x00000003,	/* builtin pseudo type */
 	DEPENDENT_MANAGED	   = 0x00000004,	/* builtin type */
+	DEPENDENT_STYLE		   = 0x00000005,	/* builtin type */
 	DEPENDENT_TYPE_MASK	   = 0x00000fff,
 
 	/* Linked into the workbook wide expression list */
@@ -109,6 +110,10 @@ void dependents_invalidate_sheet  (Sheet *sheet, gboolean destroy);
 void dependents_workbook_destroy  (Workbook *wb);
 void dependents_revive_sheet      (Sheet *sheet);
 void workbook_queue_all_recalc	  (Workbook *wb);
+
+GSList *gnm_dep_style_dependency (Sheet *sheet,
+				  GnmExprTop const *texpr,
+				  GnmRange const *r);
 
 GnmDepContainer *gnm_dep_container_new  (Sheet *sheet);
 void		 gnm_dep_container_dump	(GnmDepContainer const *deps,
