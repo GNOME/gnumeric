@@ -676,3 +676,11 @@
    fun:__GI___strncasecmp_l
    fun:____strtod_l_internal
 }
+
+{
+   SELINUX_OPENSUSE122
+   Memcheck:Leak
+   fun:malloc
+   fun:getdelim
+   obj:/lib64/libselinux.so.1
+}
