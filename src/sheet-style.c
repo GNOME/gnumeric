@@ -3143,6 +3143,45 @@ cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 		type = TILE_SIMPLE;
 		break;
 
+	case TILE_PTR_MATRIX: {
+		gboolean all_simple = TRUE;
+		int i;
+
+		for (i = 0; i < TILE_SIZE_COL * TILE_SIZE_ROW; i++) {
+			CellTile **subtile = (*tile)->ptr_matrix.ptr + i;
+			if (data->recursion) {
+				int c = i % TILE_SIZE_COL;
+				int r = i / TILE_SIZE_COL;
+				cell_tile_optimize (subtile, level - 1, data,
+						    ccol + w * c,
+						    crow + h * r);
+			}
+			if ((*subtile)->type != TILE_SIMPLE)
+				all_simple = FALSE;
+		}
+		if (!all_simple)
+			return;
+
+		res = cell_tile_style_new (NULL, TILE_MATRIX);
+		for (i = 0; i < TILE_SIZE_COL * TILE_SIZE_ROW; i++) {
+			CellTile *subtile = (*tile)->ptr_matrix.ptr[i];
+			GnmStyle *st = subtile->style_simple.style[0];
+			gnm_style_link (st);
+			res->style_matrix.style[i] = st;
+		}
+
+		if (debug_style_optimize)
+			g_printerr ("Turning %s (%dx%d) from a %s into a %s\n",
+				    range_as_string (&rng),
+				    range_width (&rng), range_height (&rng),
+				    tile_type_str[(*tile)->type],
+				    tile_type_str[res->type]);
+		cell_tile_dtor (*tile);
+		*tile = res;
+
+		/* Fall through */
+	}
+
 	case TILE_MATRIX: {
 		gboolean csame = TRUE;
 		gboolean rsame = TRUE;
@@ -3175,76 +3214,6 @@ cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 			type = TILE_ROW;
 		}
 		break;
-	}
-
-	case TILE_PTR_MATRIX: {
-		int c, r, i;
-		gboolean csame = TRUE;
-		gboolean rsame = TRUE;
-		gboolean all_simple = TRUE;
-
-		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r, i += TILE_SIZE_COL) {
-			int const cr = crow + h*r;
-			for (c = 0 ; c < TILE_SIZE_COL ; ++c) {
-				int const cc = ccol + w*c;
-				CellTile const *tcr, *tc0, *t0r;
-				if (data->recursion)
-					cell_tile_optimize ((*tile)->ptr_matrix.ptr + i + c,
-							    level - 1, data, cc, cr);
-				tcr = (*tile)->ptr_matrix.ptr[i + c];
-				t0r = (*tile)->ptr_matrix.ptr[i];
-				tc0 = (*tile)->ptr_matrix.ptr[c];
-
-				if (tcr->type != TILE_SIMPLE) {
-					all_simple = FALSE;
-					csame = FALSE;
-					rsame = FALSE;
-				}
-
-				if (rsame && c)
-					rsame = gnm_style_eq (tcr->style_simple.style[0],
-							      t0r->style_simple.style[0]);
-
-				if (csame && r)
-					csame = gnm_style_eq (tcr->style_simple.style[0],
-							      tc0->style_simple.style[0]);
-			}
-		}
-		if (csame && rsame) {
-			res = cell_tile_style_new ((*tile)->ptr_matrix.ptr[0]->style_simple.style[0], TILE_SIMPLE);
-		} else if (csame) {
-			res = cell_tile_style_new (NULL, TILE_COL);
-			for (i = 0; i < TILE_SIZE_COL; i++) {
-				GnmStyle *mstyle = (*tile)->ptr_matrix.ptr[i]
-					->style_simple.style[0];
-				res->style_col.style[i] = mstyle;
-				gnm_style_link (mstyle);
-			}
-		} else if (rsame) {
-			res = cell_tile_style_new (NULL, TILE_ROW);
-			for (i = 0; i < TILE_SIZE_ROW; i++) {
-				GnmStyle *mstyle = (*tile)->ptr_matrix.ptr[i * TILE_SIZE_COL]
-					->style_simple.style[0];
-				res->style_row.style[i] = mstyle;
-				gnm_style_link (mstyle);
-			}
-		} else if (all_simple) {
-			if (debug_style_optimize)
-				g_printerr ("Could turn %s into a matrix\n",
-					    range_as_string (&rng));
-			return;
-		} else
-			return;
-
-		if (debug_style_optimize)
-			g_printerr ("Turning %s (%dx%d) from a %s into a %s\n",
-				    range_as_string (&rng),
-				    range_width (&rng), range_height (&rng),
-				    tile_type_str[(*tile)->type],
-				    tile_type_str[res->type]);
-		cell_tile_dtor (*tile);
-		*tile = res;
-		return;
 	}
 
 	default:
@@ -3383,6 +3352,9 @@ sheet_style_optimize (Sheet *sheet)
 	cell_tile_optimize (&sheet->style_data->styles,
 			    sheet->tile_top_level, &data,
 			    0, 0);
+
+	if (debug_style_optimize)
+		g_printerr ("Optimizing %s...done\n", sheet->name_unquoted);
 
 	if (verify) {
 		GSList *post = sample_styles (sheet);

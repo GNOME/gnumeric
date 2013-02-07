@@ -1,5 +1,8 @@
 2013-02-07  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-style.c (cell_tile_optimize): Implement
+	ptr-matrix-to-matrix optimization and use it to simplify things.
+
 	* src/dependent.c (GnmStyleDependent): New type of dependent.
 	When triggered, the cells in which it resised will be rerendered
 	and redrawn.
