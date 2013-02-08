@@ -1,3 +1,10 @@
+2013-02-08  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c (rstyle_apply): Take extra range argument and
+	link/unlink style dependents.  All callers changed.
+	(sheet_style_shutdown): Set default style for whole sheet to
+	ensure style dependents get cleared.
+
 2013-02-07  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (cell_tile_optimize): Implement

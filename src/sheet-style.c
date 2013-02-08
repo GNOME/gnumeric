@@ -292,7 +292,7 @@ rstyle_dtor (ReplacementStyle *rs)
  * and will maintain the cache of styles associated with each sheet
  */
 static void
-rstyle_apply (GnmStyle **old, ReplacementStyle *rs)
+rstyle_apply (GnmStyle **old, ReplacementStyle *rs, GnmRange const *r)
 {
 	GnmStyle *s;
 	g_return_if_fail (old != NULL);
@@ -314,9 +314,11 @@ rstyle_apply (GnmStyle **old, ReplacementStyle *rs)
 
 	if (*old != s) {
 		if (*old) {
+			gnm_style_unlink_dependents (*old, r);
 			gnm_style_unlink (*old);
 		}
 
+		gnm_style_link_dependents (s, r);
 		gnm_style_link (s);
 
 		*old = s;
@@ -583,7 +585,6 @@ cell_tile_matrix_set (CellTile *t)
 	}
 
 	case TILE_MATRIX:
-	case TILE_PTR_MATRIX:
 	default:
 		g_assert_not_reached();
 	}
@@ -914,21 +915,31 @@ tile_is_uniform (CellTile const *tile)
 
 static void
 vector_apply_pstyle (CellTile *tile, ReplacementStyle *rs,
-		     GnmRange const *indic)
+		     int cc, int cr, int level, GnmRange const *indic)
 {
 	const CellTileType type = tile->type;
 	const int ncols = tile_col_count[type];
 	const int nrows = tile_row_count[type];
+	const int w1 = tile_widths[level + 1] / ncols;
+	const int h1 = tile_heights[level + 1] / nrows;
 	const int fcol = indic->start.col;
 	const int frow = indic->start.row;
 	const int lcol = MIN (ncols - 1, indic->end.col);
 	const int lrow = MIN (nrows - 1, indic->end.row);
+	GnmSheetSize const *ss = gnm_sheet_get_size (rs->sheet);
 	int r, c;
+	GnmRange rng;
 
 	for (r = frow; r <= lrow; r++) {
 		GnmStyle **st = tile->style_any.style + ncols * r;
+		rng.start.row = cr + h1 * r;
+		rng.end.row = MIN (rng.start.row + (h1 - 1),
+				   ss->max_rows - 1);
 		for (c = fcol; c <= lcol; c++) {
-			rstyle_apply (st + c, rs);
+			rng.start.col = cc + w1 * c;
+			rng.end.col = MIN (rng.start.col + (w1 - 1),
+					   ss->max_cols - 1);
+			rstyle_apply (st + c, rs, &rng);
 		}
 	}
 }
@@ -1115,7 +1126,7 @@ split_to_matrix:
 	*tile = cell_tile_matrix_set (*tile);
 
 apply:
-	vector_apply_pstyle (*tile, rs, &indic);
+	vector_apply_pstyle (*tile, rs, corner_col, corner_row, level, &indic);
 
 try_optimize:
 	{
@@ -1279,11 +1290,14 @@ cell_tile_apply_pos (CellTile **tile, int level,
 {
 	CellTile *tmp;
 	CellTileType type;
+	GnmRange rng;
 
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (col < gnm_sheet_get_max_cols (rs->sheet));
 	g_return_if_fail (row >= 0);
 	g_return_if_fail (row < gnm_sheet_get_max_rows (rs->sheet));
+
+	range_init (&rng, col, row, col, row);
 
 tail_recursion:
 	g_return_if_fail (TILE_TOP_LEVEL >= level && level >= 0);
@@ -1320,7 +1334,8 @@ tail_recursion:
 
 	g_return_if_fail (tmp->type == TILE_MATRIX);
 	rstyle_apply (tmp->style_matrix.style + row * TILE_SIZE_COL + col,
-		      rs);
+		      rs,
+		      &rng);
 }
 
 /**
