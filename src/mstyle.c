@@ -1813,7 +1813,7 @@ gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
 	 *
 	 * We can probably ignore those.  If a dependent cell changes such
 	 * that a validation condition is no longer satisfied, it is
-	 * grandfathered in a valid.
+	 * grandfathered in as valid.
 	 */
 
 	/* The style owns the deps.  */
