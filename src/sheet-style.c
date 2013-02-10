@@ -441,6 +441,11 @@ static int tile_allocations = 0;
 #endif
 
 
+/*
+ * Destroy a CellTile (recursively if needed).  This will unlink all the
+ * styles in it.  We do _not_ unlink style dependents here.  That is done
+ * only in rstyle_apply.
+ */
 static void
 cell_tile_dtor (CellTile *tile)
 {
@@ -735,9 +740,6 @@ static void
 cb_unlink (void *key, G_GNUC_UNUSED void *value, G_GNUC_UNUSED void *user)
 {
 	GnmStyle *style = key;
-	GnmRange r;
-	range_init_full_sheet (&r, style->linked_sheet);
-	gnm_style_unlink_dependents (style, &r);
 	gnm_style_unlink (style);
 }
 
