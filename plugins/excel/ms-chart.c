@@ -182,7 +182,7 @@ static void
 BC_R(get_style) (XLChartReadState *s)
 {
 	if (s->style == NULL)
-		s->style = gog_style_new ();
+		s->style = go_style_new ();
 }
 
 static int

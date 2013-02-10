@@ -1,5 +1,12 @@
 2013-02-10  Jean Brefort  <jean.brefort@normalesup.org>
 
+	reviewed by: <delete if not using a buddy>
+
+	* ms-chart.c (get_style):
+	* xlsx-read-drawing.c (xlsx_style_line_start):
+
+2013-02-10  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* xlsx-read-drawing.c (xlsx_drawing_preset_geom): fix uninitialized an 
 	variable issue. [#693492]
 
