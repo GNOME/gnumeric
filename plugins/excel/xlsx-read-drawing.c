@@ -2157,7 +2157,7 @@ xlsx_drawing_preset_geom (GsfXMLIn *xin, xmlChar const **attrs)
 				state->so = g_object_new (GNM_SO_LINE_TYPE, NULL);
 		}
 	if (state->so) {
-		GOStyle *style;
+		GOStyle *style = NULL;
 		if (g_object_class_find_property (G_OBJECT_GET_CLASS (state->so), "style"))
 			g_object_get (state->so, "style", &style, NULL);
 		if (style) {
