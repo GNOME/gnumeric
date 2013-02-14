@@ -1,9 +1,12 @@
+2013-02-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (get_style): reversed previous change.
+	* xlsx-read-drawing.c (xlsx_style_line_start): ditto.
+
 2013-02-10  Jean Brefort  <jean.brefort@normalesup.org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* ms-chart.c (get_style):
-	* xlsx-read-drawing.c (xlsx_style_line_start):
+	* ms-chart.c (get_style): use go_style_new() instead of gog_style_new().
+	* xlsx-read-drawing.c (xlsx_style_line_start): ditto.
 
 2013-02-10  Jean Brefort  <jean.brefort@normalesup.org>
 
