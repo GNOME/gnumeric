@@ -105,8 +105,8 @@ so_path_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 			else {
 				unsigned i;
 				double mx, my, Mx, My;
-				x0 = y0 = MAXDOUBLE;
-				x1 = y1 = -MAXDOUBLE;
+				x0 = y0 = G_MAXDOUBLE;
+				x1 = y1 = -G_MAXDOUBLE;
 				for (i = 0; i < spv->paths->len; i++) {
 					goc_item_get_bounds (GOC_ITEM (g_ptr_array_index (spv->paths, i)), &mx, &my, &Mx, &My);
 					if (mx < x0)
