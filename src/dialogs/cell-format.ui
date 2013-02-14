@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="upper">20</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkDialog" id="CellFormat">
     <property name="can_focus">False</property>
     <property name="border_width">6</property>
@@ -20,6 +25,7 @@
             <child>
               <object class="GtkButton" id="helpbutton">
                 <property name="label">gtk-help</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -36,6 +42,7 @@
             <child>
               <object class="GtkButton" id="applybutton">
                 <property name="label">gtk-apply</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -52,6 +59,7 @@
             <child>
               <object class="GtkButton" id="cancelbutton">
                 <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -68,6 +76,7 @@
             <child>
               <object class="GtkButton" id="okbutton">
                 <property name="label">gtk-ok</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -100,6 +109,7 @@
               <object class="GtkGrid" id="alignment-grid">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="border_width">12</property>
                 <property name="row_spacing">6</property>
                 <property name="column_spacing">12</property>
                 <child>
@@ -120,6 +130,7 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_left">
                     <property name="label" translatable="yes">_Left</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -141,6 +152,7 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_general">
                     <property name="label" translatable="yes">_General</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -161,6 +173,7 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_center_across_selection">
                     <property name="label" translatable="yes">Center across _selection</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -214,6 +227,7 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_center">
                     <property name="label" translatable="yes">Ce_nter</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -233,6 +247,7 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_right">
                     <property name="label" translatable="yes">_Right</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -252,6 +267,7 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_fill">
                     <property name="label" translatable="yes">_Fill</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -271,6 +287,7 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_justify">
                     <property name="label" translatable="yes">_Justify</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -290,6 +307,7 @@
                 <child>
                   <object class="GtkRadioButton" id="halign_distributed">
                     <property name="label" translatable="yes">D_istributed</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -329,6 +347,7 @@
                 <child>
                   <object class="GtkRadioButton" id="valign_top">
                     <property name="label" translatable="yes">_Top</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -350,6 +369,7 @@
                 <child>
                   <object class="GtkRadioButton" id="valign_center">
                     <property name="label" translatable="yes">C_enter</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -370,6 +390,7 @@
                 <child>
                   <object class="GtkRadioButton" id="valign_bottom">
                     <property name="label" translatable="yes">_Bottom</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -390,6 +411,7 @@
                 <child>
                   <object class="GtkRadioButton" id="valign_justify">
                     <property name="label" translatable="yes">J_ustify</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -409,6 +431,7 @@
                 <child>
                   <object class="GtkRadioButton" id="valign_distributed">
                     <property name="label" translatable="yes">_Distributed</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -444,6 +467,7 @@
                 <child>
                   <object class="GtkCheckButton" id="align_wrap">
                     <property name="label" translatable="yes">_Wrap text</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -464,6 +488,7 @@
                 <child>
                   <object class="GtkCheckButton" id="align_shrink">
                     <property name="label" translatable="yes">Shrin_k to fit</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
@@ -498,6 +523,7 @@
               <object class="GtkGrid" id="font-grid">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="border_width">12</property>
                 <property name="row_spacing">6</property>
                 <property name="column_spacing">12</property>
                 <child>
@@ -550,6 +576,7 @@
                 <child>
                   <object class="GtkCheckButton" id="strikethrough_button">
                     <property name="label" translatable="yes">Stri_kethrough</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -568,6 +595,7 @@
                 <child>
                   <object class="GtkCheckButton" id="superscript_button">
                     <property name="label" translatable="yes">Sup_erscript</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -587,6 +615,7 @@
                 <child>
                   <object class="GtkCheckButton" id="subscript_button">
                     <property name="label" translatable="yes">Su_bscript</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -602,18 +631,6 @@
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -652,6 +669,7 @@
                     <property name="column_homogeneous">True</property>
                     <child>
                       <object class="GtkToggleButton" id="rev_diag_border">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -671,6 +689,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="top_border">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -690,6 +709,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="diag_border">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -709,6 +729,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="left_border">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -728,6 +749,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="right_border">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -747,6 +769,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="bottom_border">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -766,6 +789,7 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="no_border">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -786,6 +810,7 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="outline_border">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -806,6 +831,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="inside_vert_border">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -826,6 +852,7 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="inside_border">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -846,6 +873,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="inside_horiz_border">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -863,24 +891,6 @@
                         <property name="width">1</property>
                         <property name="height">1</property>
                       </packing>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
                     </child>
                   </object>
                   <packing>
@@ -932,6 +942,7 @@
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_none">
                         <property name="label" translatable="yes" context="line" comments="Cell border line">None</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -947,6 +958,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_medium_dash_dot_dot">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -961,6 +973,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_hair">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -975,6 +988,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_slant">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -989,6 +1003,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_dotted">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1003,6 +1018,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_medium_dash_dot">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1017,6 +1033,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_dash_dot_dot">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1031,6 +1048,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_medium_dash">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1045,6 +1063,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_dash_dot">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1059,6 +1078,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_medium">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1073,6 +1093,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_dashed">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1087,6 +1108,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_thick">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1101,6 +1123,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_thin">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1115,6 +1138,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="line_pattern_double">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1126,15 +1150,6 @@
                         <property name="width">1</property>
                         <property name="height">1</property>
                       </packing>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
                     </child>
                   </object>
                   <packing>
@@ -1225,9 +1240,6 @@
                     <property name="label_xalign">0</property>
                     <property name="label_yalign">0</property>
                     <property name="shadow_type">in</property>
-                    <child>
-                      <placeholder/>
-                    </child>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
@@ -1318,6 +1330,7 @@
                         <property name="column_spacing">6</property>
                         <child>
                           <object class="GtkToggleButton" id="gp_solid">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1336,6 +1349,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_75grey">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1354,6 +1368,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_50grey">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1372,6 +1387,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_25grey">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1390,6 +1406,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_125grey">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1408,6 +1425,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_625grey">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1426,6 +1444,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_horiz">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1444,6 +1463,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_vert">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1462,6 +1482,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_rev_diag">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1480,6 +1501,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_diag">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1498,6 +1520,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_diag_cross">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1516,6 +1539,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thick_diag_cross">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1534,6 +1558,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thin_horiz">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1552,6 +1577,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thin_vert">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1570,6 +1596,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thin_rev_diag">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1588,6 +1615,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thin_diag">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1606,6 +1634,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thin_horiz_cross">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1624,6 +1653,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thin_diag_cross">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1642,6 +1672,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_foreground_solid">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1660,6 +1691,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_small_circle">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1678,6 +1710,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_semi_circle">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1696,6 +1729,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_thatch">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1714,6 +1748,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_large_circles">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1732,6 +1767,7 @@
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="gp_bricks">
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1761,9 +1797,6 @@
                     <property name="height">1</property>
                   </packing>
                 </child>
-                <child>
-                  <placeholder/>
-                </child>
               </object>
               <packing>
                 <property name="position">3</property>
@@ -1791,6 +1824,7 @@
                 <child>
                   <object class="GtkCheckButton" id="protection_locked">
                     <property name="label" translatable="yes">_Lock</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1809,6 +1843,7 @@
                 <child>
                   <object class="GtkCheckButton" id="protection_hidden">
                     <property name="label" translatable="yes">Hi_de</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1844,6 +1879,7 @@
                 <child>
                   <object class="GtkCheckButton" id="protection_sheet_protected">
                     <property name="label" translatable="yes">_Protect worksheet</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1858,24 +1894,6 @@
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -1995,6 +2013,7 @@
                 <child>
                   <object class="GtkCheckButton" id="validation_ignore_blank">
                     <property name="label" translatable="yes">Ignore _blank cells</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -2014,6 +2033,7 @@
                 <child>
                   <object class="GtkCheckButton" id="validation_in_dropdown">
                     <property name="label" translatable="yes">I_n-cell dropdown</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -2215,6 +2235,7 @@
                 <child>
                   <object class="GtkCheckButton" id="input_msg_flag">
                     <property name="label" translatable="yes">_Show input message when cell is selected</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -2301,15 +2322,6 @@
                     <property name="height">1</property>
                   </packing>
                 </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
               </object>
               <packing>
                 <property name="position">6</property>
@@ -2341,11 +2353,6 @@
       <action-widget response="0">cancelbutton</action-widget>
       <action-widget response="0">okbutton</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkAdjustment" id="adjustment1">
-    <property name="upper">20</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
   </object>
   <object class="GtkListStore" id="model1">
     <columns>

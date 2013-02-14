@@ -1,3 +1,7 @@
+2013-02-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* cell-format.ui: fixed borders. [#693733]
+
 2013-01-01  Morten Welinder  <terra@gnome.org>
 
 	* dialog-data-slicer.c (cb_source_expr_changed): Kill warning.
