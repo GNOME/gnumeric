@@ -804,25 +804,15 @@ gnm_store_text_tag_attr_in_pango (PangoAttrList *list, GtkTextTag *tag, GtkTextI
 	y = g_utf8_offset_to_pointer (text, gtk_text_iter_get_offset (&end)) - text;
 
 	if (gnm_object_get_bool (tag, "foreground-set")) {
-#if GTK_MAJOR_VERSION > 3 || GTK_MINOR_VERSION >= 2
 		GdkRGBA *color = NULL;
 		g_object_get (G_OBJECT (tag), "foreground-rgba", &color, NULL);
-#else
-		GdkColor *color = NULL;
-		g_object_get (G_OBJECT (tag), "foreground-gdk", &color, NULL);
-#endif
 		if (color) {
-#if GTK_MAJOR_VERSION > 3 || GTK_MINOR_VERSION >= 2
 			/* dividing 0 to 1 into 65536 equal length intervals */
 			attr =  pango_attr_foreground_new
 				((int)(CLAMP (color->red * 65536, 0., 65535.)),
 				 (int)(CLAMP (color->green * 65536, 0., 65535.)),
 				 (int)(CLAMP (color->blue * 65536, 0., 65535.)));
 			gdk_rgba_free (color);
-#else
-			attr =  pango_attr_foreground_new (color->red, color->green, color->blue);
-			gdk_color_free (color);
-#endif
 			attr->start_index = x;
 			attr->end_index = y;
 			pango_attr_list_change (list, attr);

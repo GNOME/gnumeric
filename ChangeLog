@@ -1,3 +1,11 @@
+2013-02-15  Morten Welinder  <terra@gnome.org>
+
+	* configure.ac (libspreadsheet_gtk_reqs): Explicitly require gtk
+	3.2.0 just like goffice.
+
+	* src/gui-util.c (gnm_store_text_tag_attr_in_pango): Adjust to
+	requiring gtk 3.2
+
 2013-02-14  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-so-path.c (so_path_view_set_bounds): Use G_MAXDOUBLE,
