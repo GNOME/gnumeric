@@ -31,6 +31,7 @@ Morten:
 	* Speed up regressions.  [#691984]
 	* Clean up sheet style code somewhat.
 	* Track dependents of conditional formats.  [#654495] [#674954]
+	* FreeBSD portability fix.  [#693761]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.0
