@@ -3421,11 +3421,11 @@ The depreciation coefficient used is:
 @CATEGORY=Mathematics
 @FUNCTION=LINSOLVE
 @SHORTDESC=solve linear equation
-@SYNTAX=LINSOLVE(mat,col)
-@ARGUMENTDESCRIPTION=@{mat}: a matrix
-@{col}: a column
-@DESCRIPTION=Solves the equation @{mat}*x=@{col} and returns x.
-@NOTE=If the matrix is singular, #VALUE! is returned.
+@SYNTAX=LINSOLVE(A,B)
+@ARGUMENTDESCRIPTION=@{A}: a matrix
+@{B}: a matrix
+@DESCRIPTION=Solves the equation @{A}*X=@{B} and returns X.
+@NOTE=If the matrix @{A} is singular, #VALUE! is returned.
 @SEEALSO=MINVERSE
 
 @CATEGORY=Mathematics
@@ -4848,7 +4848,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 
 @CATEGORY=Statistics
 @FUNCTION=NORMSDIST
-@SHORTDESC=cumulative density function of the standard normal distribution
+@SHORTDESC=cumulative distribution function of the standard normal distribution
 @SYNTAX=NORMSDIST(x)
 @ARGUMENTDESCRIPTION=@{x}: number
 @EXCEL=This function is Excel compatible.
@@ -4857,7 +4857,7 @@ If the data set does not contain any duplicates this function returns a #N/A err
 
 @CATEGORY=Statistics
 @FUNCTION=NORMSINV
-@SHORTDESC=inverse of the cumulative density function of the standard normal distribution
+@SHORTDESC=inverse of the cumulative distribution function of the standard normal distribution
 @SYNTAX=NORMSINV(p)
 @ARGUMENTDESCRIPTION=@{p}: given probability
 @NOTE=If @{p} < 0 or @{p} > 1 this function returns #NUM! error.

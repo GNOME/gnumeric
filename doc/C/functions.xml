@@ -11536,20 +11536,20 @@
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>LINSOLVE</function>(<parameter>mat</parameter>,<parameter>col</parameter>)</synopsis>
+        <synopsis><function>LINSOLVE</function>(<parameter>A</parameter>,<parameter>B</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Arguments</title>
-        <para><parameter>mat</parameter>: a matrix</para>
-        <para><parameter>col</parameter>: a column</para>
+        <para><parameter>A</parameter>: a matrix</para>
+        <para><parameter>B</parameter>: a matrix</para>
       </refsect1>
       <refsect1>
         <title>Description</title>
-        <para>Solves the equation <parameter>mat</parameter>*x=<parameter>col</parameter> and returns x.</para>
+        <para>Solves the equation <parameter>A</parameter>*X=<parameter>B</parameter> and returns X.</para>
       </refsect1>
       <refsect1>
         <title>Note</title>
-        <para>If the matrix is singular, #VALUE! is returned.</para>
+        <para>If the matrix <parameter>A</parameter> is singular, #VALUE! is returned.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -16777,7 +16777,7 @@
           <function>NORMSDIST</function>
         </refname>
         <refpurpose>
-        cumulative density function of the standard normal distribution
+        cumulative distribution function of the standard normal distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
@@ -16812,7 +16812,7 @@
           <function>NORMSINV</function>
         </refname>
         <refpurpose>
-        inverse of the cumulative density function of the standard normal distribution
+        inverse of the cumulative distribution function of the standard normal distribution
       </refpurpose>
       </refnamediv>
       <refsynopsisdiv>
