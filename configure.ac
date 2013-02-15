@@ -264,6 +264,8 @@ if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 			 -Wchar-subscripts -Wwrite-strings \
 			 -Wdeclaration-after-statement -Wnested-externs \
 			 -Wmissing-noreturn -Wmissing-prototypes \
+			 -Werror=missing-prototypes -Werror=nested-externs \
+			 -Werror=implicit-function-declaration \
 			 -Wmissing-declarations -Wno-pointer-sign \
 			 -Werror=format-security -Wbitwise -Wcast-to-as \
 			 -Wdefault-bitfield-sign -Wdo-while -Wparen-string \
