@@ -1312,6 +1312,7 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 						       GTK_DIALOG_DESTROY_WITH_PARENT,
 						       GTK_MESSAGE_INFO,
 						       GTK_BUTTONS_CANCEL,
+						       "%s", /* please clang */
 						       pi->preview ?
 						       _("Preparing to preview"):
 						       _("Preparing to print"));
