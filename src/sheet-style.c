@@ -184,7 +184,7 @@ sheet_style_unlink (Sheet *sheet, GnmStyle *st)
 /**
  * sheet_style_find:
  * @sheet: (transfer full): the sheet
- * @s: a style
+ * @st: a style
  *
  * Looks up a style from the sheets collection.  Linking if necessary.
  * ABSORBS the reference and adds a link.
@@ -823,7 +823,7 @@ sheet_style_shutdown (Sheet *sheet)
 /**
  * sheet_style_set_auto_pattern_color:
  * @sheet:         The sheet
- * @pattern_color: The color
+ * @grid_color: The color
  *
  * Set the color for rendering auto colored patterns in this sheet.
  * Absorbs a reference to @pattern_color;
@@ -1408,10 +1408,10 @@ sheet_style_apply_row (Sheet  *sheet, int row, GnmStyle *pstyle)
 
 /**
  * sheet_style_apply_pos:
- * @sheet :
- * @col   :
- * @row   :
- * @pstyle : #GnmStyle
+ * @sheet:
+ * @col:
+ * @row:
+ * @style: #GnmStyle
  *
  * Apply a partial style to a single cell
  * This function absorbs a reference to the new @style.
@@ -1432,10 +1432,10 @@ sheet_style_apply_pos (Sheet *sheet, int col, int row,
 }
 /**
  * sheet_style_set_pos:
- * @sheet :
- * @col   :
- * @row   :
- * @style :
+ * @sheet:
+ * @col:
+ * @row:
+ * @style:
  *
  * Change the complete style for a single cell.
  * This function absorbs a reference to the new @style.
@@ -1457,7 +1457,7 @@ sheet_style_set_pos (Sheet *sheet, int col, int row,
 
 /**
  * sheet_style_default:
- * @sheet :
+ * @sheet:
  *
  * Returns a reference to default style for a sheet.
  **/
@@ -1473,9 +1473,9 @@ sheet_style_default (Sheet const *sheet)
 
 /**
  * sheet_style_get:
- * @sheet : #Sheet
- * @col   :
- * @row   :
+ * @sheet: #Sheet
+ * @col:
+ * @row:
  *
  * Find the fully qualified style applicable to the specified cellpos.
  * Does _not_ add a reference.
@@ -1634,8 +1634,8 @@ get_style_row (CellTile const *tile, int level,
 
 /**
  * sheet_style_get_row:
- * @sheet : #Sheet
- * @sr    : #GnmStyleRow
+ * @sheet: #Sheet
+ * @sr: #GnmStyleRow
  *
  * A utility routine which efficiently retrieves a range of styles within a row.
  * It also merges adjacent borders as necessary.
@@ -1732,8 +1732,8 @@ style_row_init (GnmBorder const * * *prev_vert,
 
 /**
  * sheet_style_apply_range:
- * @sheet :
- * @range :
+ * @sheet:
+ * @range:
  * @pstyle:
  *
  * Apply a partial style to a region.
@@ -1766,9 +1766,9 @@ apply_border (Sheet *sheet, GnmRange const *r,
 
 /**
  * sheet_style_apply_border:
- * @sheet   :
- * @range   :
- * @borders :
+ * @sheet:
+ * @range:
+ * @borders:
  *
  * When a user applies a border to a region we attempt to remove the border
  * from the opposing side to avoid overlapping border specifications.
@@ -1966,9 +1966,9 @@ border_mask_vec (gboolean *known, GnmBorder **borders,
 
 /**
  * sheet_style_get_uniform:
- * @sheet   :
- * @range   :
- * @borders :
+ * @sheet:
+ * @range:
+ * @borders:
  *
  * Find out what style elements are common to every cell in a range
  * Returns a flag of TRUE if there was a conflict a given style element
@@ -2091,7 +2091,7 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 
 /**
  * sheet_style_relocate:
- * @rinfo :
+ * @rinfo:
  *
  * Slide the styles from the origin region to the new position.
  */
@@ -2115,7 +2115,7 @@ sheet_style_relocate (GnmExprRelocateInfo const *rinfo)
 
 /**
  * sheet_style_insert_colrow:
- * @rinfo :
+ * @rinfo:
  *
  * A utility routine to give the effect of stretching the styles when a col/row
  * is inserted.  This is done by applying the styles from the left/top col/row
@@ -3010,7 +3010,7 @@ sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
 
 /**
  * style_list_free:
- * @list : the list to free
+ * @l: the list to free
  *
  * Free up the ressources in the style list.  Including unreferencing the
  * styles.
@@ -3023,9 +3023,9 @@ style_list_free (GnmStyleList *list)
 
 /**
  * style_list_get_style:
- * @list : A style list.
- * @col  :
- * @row  :
+ * @l: A style list.
+ * @col:
+ * @row:
  *
  * Attempts to find the style associated with the @pos offset within the 0,0
  * based style list.

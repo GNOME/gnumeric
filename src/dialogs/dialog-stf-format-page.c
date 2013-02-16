@@ -766,10 +766,10 @@ stf_dialog_format_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 		g_free (pagedata->locale);
 		pagedata->locale = go_locale_sel_get_locale (pagedata->format.locale_selector);
 	}
-	gtk_table_attach (
-		GTK_TABLE (go_gtk_builder_get_widget (gui, "locale_table")),
+	gtk_grid_attach (
+		GTK_GRID (go_gtk_builder_get_widget (gui, "locale-grid")),
 		GTK_WIDGET (pagedata->format.locale_selector),
-		3, 4, 0, 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		3, 0, 1, 1);
 	gtk_widget_show_all (GTK_WIDGET (pagedata->format.locale_selector));
 	gtk_widget_set_sensitive
 		(GTK_WIDGET (pagedata->format.locale_selector),

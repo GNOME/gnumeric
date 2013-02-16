@@ -1,3 +1,10 @@
+2013-02-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-stf-format-page.c (stf_dialog_format_page_init): replaced GtkTable
+	with GtkGrid.
+	* dialog-stf-main-page.c (stf_dialog_main_page_init): ditto.
+	* dialog-stf.ui: ditto.
+
 2013-02-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* cell-format.ui: fixed borders. [#693733]

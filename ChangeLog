@@ -1,3 +1,10 @@
+2013-02-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in: fixed default value
+	for stf export format.
+	* src/dependent.c: fix introspection warnings.
+	* src/sheet-style.c: ditto.
+
 2013-02-15  Morten Welinder  <terra@gnome.org>
 
 	* configure.ac (libspreadsheet_gtk_reqs): Explicitly require gtk

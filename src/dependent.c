@@ -1169,6 +1169,14 @@ workbook_unlink_3d_dep (GnmDependent *dep)
 	g_hash_table_remove (wb->sheet_order_dependents, dep);
 }
 
+/**
+ * gnm_dep_style_dependency:
+ * @sheet:
+ * @texpr:
+ * @r:
+ *
+ * Returns: (element-type GnmDependent):
+ **/
 GSList *
 gnm_dep_style_dependency (Sheet *sheet,
 			  GnmExprTop const *texpr,

@@ -363,8 +363,8 @@ stf_dialog_main_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 		pagedata->raw_data_len = 0;
 		main_page_set_encoding (pagedata, "ASCII");
 	}
-	gtk_container_add (GTK_CONTAINER (go_gtk_builder_get_widget (gui, "encoding_hbox")),
-			   GTK_WIDGET (pagedata->main.charmap_selector));
+	gtk_grid_attach (GTK_GRID (go_gtk_builder_get_widget (gui, "format-grid")),
+			   GTK_WIDGET (pagedata->main.charmap_selector), 1, 0, 1, 1);
 	gtk_widget_show_all (GTK_WIDGET (pagedata->main.charmap_selector));
 	gtk_widget_set_sensitive (GTK_WIDGET (pagedata->main.charmap_selector),
 				  !pagedata->fixed_encoding);
@@ -407,9 +407,9 @@ stf_dialog_main_page_init (GtkBuilder *gui, StfDialogData *pagedata)
 	gtk_spin_button_set_value (pagedata->main.main_stoprow, renderdata->lines->len);
 
 	{
-		GtkFrame *main_frame = GTK_FRAME (go_gtk_builder_get_widget (gui, "main_frame"));
+		GtkLabel *data_label = GTK_LABEL (gtk_builder_get_object (gui, "data-lbl"));
 		char *label = g_strdup_printf (_("Data (from %s)"), pagedata->source);
-		gtk_frame_set_label (main_frame, label);
+		gtk_label_set_label (data_label, label);
 		g_free (label);
 	}
 
