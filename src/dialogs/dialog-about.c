@@ -214,8 +214,8 @@ set_fade (AboutRenderer *r, AboutState *state, double f)
 	GdkRGBA col, bg, fg;
 	PangoAttribute *attr;
 
-	gtk_style_context_get_color (ctxt, GTK_STATE_NORMAL, &fg);
-	gtk_style_context_get_background_color (ctxt, GTK_STATE_NORMAL, &bg);
+	gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL, &fg);
+	gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_NORMAL, &bg);
 	col = blend_colors (&bg, &fg, f);
 	attr = pango_attr_foreground_new
 		(col.red * 65535., col.green * 65535., col.blue * 65535.);
@@ -293,7 +293,7 @@ text_item_renderer (AboutRenderer *r, AboutState *state)
 	y -= height / 2;
 
 	cr = r->cr;
-	gtk_style_context_get_color (ctxt, GTK_STATE_NORMAL, &color);
+	gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL, &color);
 	gdk_cairo_set_source_rgba (cr, &color);
 	cairo_move_to (cr, x / (double)PANGO_SCALE, y / (double)PANGO_SCALE);
 	pango_cairo_show_layout (cr, layout);

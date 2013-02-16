@@ -1,3 +1,8 @@
+2013-02-16  Morten Welinder  <terra@gnome.org>
+
+	* *.c: Clear up confusion between GtkStateType and GtkStateFlags.
+	(Most cases a matter of 0 vs. 0.)
+
 2013-02-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in: fixed default value

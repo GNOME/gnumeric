@@ -302,7 +302,7 @@ fcombo_arrow_format (GnmFilterCombo *fcombo, GtkWidget *arrow)
 	gtk_arrow_set (GTK_ARROW (arrow),
 		fcombo->cond != NULL ? GTK_ARROW_RIGHT : GTK_ARROW_DOWN,
 		GTK_SHADOW_IN);
-	gtk_widget_override_color (arrow, GTK_STATE_NORMAL,
+	gtk_widget_override_color (arrow, GTK_STATE_FLAG_NORMAL,
 		fcombo->cond != NULL ? &gs_yellow : &gs_black);
 }
 

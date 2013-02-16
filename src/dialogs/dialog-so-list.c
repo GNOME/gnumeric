@@ -86,9 +86,9 @@ cb_so_list_response (GtkWidget *dialog, gint response_id, GnmDialogSOList *state
 
 		parse_pos_init (&pp, sheet->workbook, sheet, 0, 0);
 		output = gnm_expr_entry_parse (state->link_entry,
-					       &pp, NULL, FALSE, GNM_EE_FORCE_ABS_REF);
+					       &pp, NULL, FALSE, GNM_EXPR_PARSE_FORCE_ABSOLUTE_REFERENCES);
 		content = gnm_expr_entry_parse (state->content_entry,
-						&pp, NULL, FALSE, GNM_EE_FORCE_ABS_REF);
+						&pp, NULL, FALSE, GNM_EXPR_PARSE_FORCE_ABSOLUTE_REFERENCES);
 		cmd_so_set_links (WORKBOOK_CONTROL (state->wbcg), state->so, output, content,
 				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
 								(state->as_index_radio)));

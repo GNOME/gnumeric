@@ -718,7 +718,7 @@ run_solver (SolverState *state, GnmSolverParameters *param)
 			(w,
 			 go_pango_measure_string
 			 (context,
-			  gtk_style_context_get_font (ctxt, GTK_STATE_NORMAL),
+			  gtk_style_context_get_font (ctxt, GTK_STATE_FLAG_NORMAL),
 			  "0") * (5 + GNM_DIG),
 			 -1);
 		gtk_table_attach_defaults (GTK_TABLE (table),

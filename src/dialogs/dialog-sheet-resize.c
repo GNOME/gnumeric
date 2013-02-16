@@ -179,7 +179,7 @@ dialog_sheet_resize (WBCGtk *wbcg)
 				    GNM_MAX_COLS / GNM_MIN_COLS)) *
 		go_pango_measure_string
 		(gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg))),
-		 gtk_style_context_get_font (ctxt, GTK_STATE_NORMAL), "00");
+		 gtk_style_context_get_font (ctxt, GTK_STATE_FLAG_NORMAL), "00");
 
 	state->columns_scale = go_gtk_builder_get_widget (gui, "columns_scale");
 	gtk_widget_set_size_request (state->columns_scale, slider_width, -1);

@@ -2229,7 +2229,8 @@ xlsx_cond_fmt_rule_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	case XLSX_CF_TYPE_NOT_CONTAINS_BLANKS :
 	case XLSX_CF_TYPE_CONTAINS_ERRORS :
 	case XLSX_CF_TYPE_NOT_CONTAINS_ERRORS :
-		op = type;
+		/* GnmStyleCondOp and XlsxCFTypes share these. */
+		op = (GnmStyleCondOp)type;
 		break;
 
 	default :

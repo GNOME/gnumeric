@@ -393,7 +393,7 @@ fs_init (FontSelector *fs)
 	w = g_object_new (GOC_TYPE_CANVAS, NULL);
 	fs->font_preview_canvas = GOC_CANVAS (w);
 	goc_canvas_scroll_to (fs->font_preview_canvas, 0, 0);
-	gtk_widget_override_background_color (w, GTK_STATE_NORMAL, &gs_white);
+	gtk_widget_override_background_color (w, GTK_STATE_FLAG_NORMAL, &gs_white);
 	gtk_widget_show_all (w);
 	w = go_gtk_builder_get_widget (fs->gui, "font-preview-frame");
 	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (fs->font_preview_canvas));

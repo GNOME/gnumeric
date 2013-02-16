@@ -264,7 +264,7 @@ ib_draw_cell (ItemBar const * const ib, cairo_t *cr,
 	case COL_ROW_NO_SELECTION:
 		font   = ib->normal_font;
 		gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_NORMAL);
-		gtk_style_context_get_background_color (ctxt, GTK_STATE_NORMAL, &rgba);
+		gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_NORMAL, &rgba);
 		color = GO_COLOR_FROM_GDK_RGBA (rgba);
 		gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL, &rgba);
 		font_color = GO_COLOR_FROM_GDK_RGBA (rgba);
@@ -361,7 +361,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 
 	gtk_style_context_save (ctxt);
 	gtk_style_context_add_class (ctxt, GTK_STYLE_CLASS_BUTTON);
-	gtk_style_context_get_color (ctxt, GTK_STATE_NORMAL, &rgba);
+	gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL, &rgba);
 	color = GO_COLOR_FROM_GDK_RGBA (rgba);
 	goc_canvas_c2w (item->canvas, x_0, y_0, &x0, &y0);
 	goc_canvas_c2w (item->canvas, x_1, y_1, &x1, &y1);
@@ -472,7 +472,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 								safety = 6 - size;
 
 							gtk_style_context_set_state (ctxt, prev_visible ?
-							                             GTK_STATE_NORMAL: GTK_STATE_SELECTED);
+							                             GTK_STATE_FLAG_NORMAL: GTK_STATE_FLAG_SELECTED);
 							gtk_render_frame (ctxt, cr,
 								 left, top+safety, size, size);
 							if (size > 9) {
@@ -504,7 +504,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 
 							right = (rtl ? (total + pixels) : total) - size;
 							gtk_style_context_set_state (ctxt, prev_visible ?
-							                             GTK_STATE_NORMAL: GTK_STATE_SELECTED);
+							                             GTK_STATE_FLAG_NORMAL: GTK_STATE_FLAG_SELECTED);
 							gtk_render_frame (ctxt, cr,
 								 right, top+safety, size, size);
 							if (size > 9) {
@@ -633,7 +633,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 							if (rtl)
 								left -= size;
 							gtk_style_context_set_state (ctxt, prev_visible ?
-							                             GTK_STATE_NORMAL: GTK_STATE_SELECTED);
+							                             GTK_STATE_FLAG_NORMAL: GTK_STATE_FLAG_SELECTED);
 							gtk_render_frame (ctxt, cr,
 								left+safety, top, size, size);
 							if (size > 9) {
@@ -668,7 +668,7 @@ item_bar_draw_region (GocItem const *item, cairo_t *cr, double x_0, double y_0, 
 								left -= size;
 							bottom = total - size;
 							gtk_style_context_set_state (ctxt, prev_visible ?
-							                             GTK_STATE_NORMAL: GTK_STATE_SELECTED);
+							                             GTK_STATE_FLAG_NORMAL: GTK_STATE_FLAG_SELECTED);
 							gtk_render_frame (ctxt,cr,
 								 left+safety*dir, bottom, size, size);
 							if (size > 9) {

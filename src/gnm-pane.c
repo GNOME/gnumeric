@@ -665,9 +665,9 @@ gnm_pane_realize (GtkWidget *w)
 	/* Set the default background color of the canvas itself to white.
 	 * This makes the redraws when the canvas scrolls flicker less. */
 	ctxt = gtk_widget_get_style_context (w);
-	gtk_style_context_get_background_color (ctxt, GTK_STATE_SELECTED, &rgba);
-	gtk_widget_override_background_color (w, GTK_STATE_NORMAL, &gs_white);
-	gtk_widget_override_background_color (w, GTK_STATE_SELECTED, &rgba);
+	gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_SELECTED, &rgba);
+	gtk_widget_override_background_color (w, GTK_STATE_FLAG_NORMAL, &gs_white);
+	gtk_widget_override_background_color (w, GTK_STATE_FLAG_SELECTED, &rgba);
 
 	gtk_im_context_set_client_window
 		(GNM_PANE (w)->im_context,

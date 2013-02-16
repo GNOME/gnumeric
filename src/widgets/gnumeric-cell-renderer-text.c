@@ -62,16 +62,17 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
 
 {
 	GtkCellRendererText *celltext = (GtkCellRendererText *) cell;
-	GtkStateType state, frame_state;
+	GtkStateType state;
+	GtkStateFlags frame_state;
 
 	if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)	{
-		frame_state = GTK_STATE_ACTIVE;
+		frame_state = GTK_STATE_FLAG_ACTIVE;
 		if (gtk_widget_has_focus (widget))
 			state = GTK_STATE_SELECTED;
 		else
 			state = GTK_STATE_ACTIVE;
 	} else {
-		frame_state = GTK_STATE_INSENSITIVE;
+		frame_state = GTK_STATE_FLAG_INSENSITIVE;
 		if (gtk_widget_get_state (widget) == GTK_STATE_INSENSITIVE)
 			state = GTK_STATE_INSENSITIVE;
 		else

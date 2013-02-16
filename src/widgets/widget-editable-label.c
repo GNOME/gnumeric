@@ -385,8 +385,8 @@ editable_label_new (char const *text, GdkRGBA *base_color,
 	GtkStyleContext *ctxt = gtk_widget_get_style_context (GTK_WIDGET (el));
 	gtk_style_context_save (ctxt);
 	gtk_style_context_add_class (ctxt, GTK_STYLE_CLASS_BUTTON);
-	gtk_style_context_get_background_color (ctxt, GTK_STATE_NORMAL, &el->base);
-	gtk_style_context_get_color (ctxt, GTK_STATE_NORMAL, &el->text);
+	gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_NORMAL, &el->base);
+	gtk_style_context_get_color (ctxt, GTK_STATE_FLAG_NORMAL, &el->text);
 	gtk_style_context_restore (ctxt);
 
 	editable_label_set_color (el, base_color, text_color);

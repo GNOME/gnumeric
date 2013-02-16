@@ -2670,7 +2670,7 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 	/* Set a reasonable width for the selection box. */
 	len = go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg))),
-		gtk_style_context_get_font (gtk_widget_get_style_context (GTK_WIDGET (entry)), GTK_STATE_NORMAL),
+		gtk_style_context_get_font (gtk_widget_get_style_context (GTK_WIDGET (entry)), GTK_STATE_FLAG_NORMAL),
 		cell_coord_name (GNM_MAX_COLS - 1, GNM_MAX_ROWS - 1));
 	/*
 	 * Add a little extra since font might be proportional and since
@@ -4754,13 +4754,13 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	gtk_widget_set_size_request (wbcg->auto_expr_label,
 		go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
-		gtk_style_context_get_font (gtk_widget_get_style_context (wbcg->auto_expr_label), GTK_STATE_NORMAL),
+		gtk_style_context_get_font (gtk_widget_get_style_context (wbcg->auto_expr_label), GTK_STATE_FLAG_NORMAL),
 		AUTO_EXPR_SAMPLE), -1);
 
 	gtk_widget_set_size_request (wbcg->status_text,
 		go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
-		gtk_style_context_get_font (gtk_widget_get_style_context (wbcg->status_text), GTK_STATE_NORMAL),
+		gtk_style_context_get_font (gtk_widget_get_style_context (wbcg->status_text), GTK_STATE_FLAG_NORMAL),
 	        "W") * 5, -1);
 	ebox = GET_GUI_ITEM ("auto_expr_event_box");
 	gtk_widget_override_background_color (GTK_WIDGET (ebox),

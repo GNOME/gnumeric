@@ -2244,7 +2244,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	fmt_dialog_init_input_msg_page (state);
 
 	ctxt = gtk_widget_get_style_context (GTK_WIDGET (state->dialog));
-	gtk_style_context_get_border_color (ctxt, GTK_STATE_NORMAL, &bc);
+	gtk_style_context_get_border_color (ctxt, GTK_STATE_FLAG_NORMAL, &bc);
 	default_border_color = GO_COLOR_FROM_GDK_RGBA (bc);
 
 	if (pageno == FD_CURRENT)

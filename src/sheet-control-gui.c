@@ -618,7 +618,7 @@ cb_select_all_btn_draw (GtkWidget *widget, cairo_t *cr, SheetControlGUI *scg)
 
 	/* This should be keep in sync with item_bar_cell code (item-bar.c) */
 
-	gtk_style_context_get_background_color (ctxt, GTK_STATE_ACTIVE, &rgba);
+	gtk_style_context_get_background_color (ctxt, GTK_STATE_FLAG_ACTIVE, &rgba);
 	gdk_cairo_set_source_rgba (cr, &rgba);
 	cairo_rectangle (cr, offset + 1, 1, a.width - 1, a.height - 1);
 	cairo_fill (cr);
@@ -1724,7 +1724,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		sv_attach_control (sv, SHEET_CONTROL (scg));
 		if (scg->vs) {
 #warning GTK3: we used GtkStyle::white there */
-			gtk_widget_override_background_color (scg->vs, GTK_STATE_NORMAL, &gs_white);
+			gtk_widget_override_background_color (scg->vs, GTK_STATE_FLAG_NORMAL, &gs_white);
 			g_object_set_data (G_OBJECT (scg->vs), "sheet-control", scg);
 			if (sheet->sheet_objects) {
 				/* we need an idle function because not every thing is initialized at this point */
