@@ -260,30 +260,41 @@ ifdef([GNOME_COMPILE_WARNINGS],
 )
 set_more_warnings=yes
 if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
-	warning_options="-Wsign-compare -Wpointer-arith -Wnested-externs \
+   	dnl Clang needs to option, or else it will appear to support any
+	dnl warning option
+   	uwoption="-Werror=unknown-warning-option"
+	SAVE_CFLAGS="$CFLAGS"
+	CFLAGS="$CFLAGS $uwoption"
+	AC_MSG_CHECKING([whether gcc understands $uwoption])
+	AC_COMPILE_IFELSE(
+		[AC_LANG_PROGRAM([], [])],
+		[has_unknown_warning_option=yes],
+		[has_unknown_warning_option=no; uwoption=""])
+	AC_MSG_RESULT($has_unknown_warning_option)
+	CFLAGS="$SAVE_CFLAGS"
+
+	warning_options="-Wsign-compare -Wpointer-arith \
 			 -Wchar-subscripts -Wwrite-strings \
 			 -Wdeclaration-after-statement -Wnested-externs \
-			 -Wmissing-noreturn -Wmissing-prototypes \
+			 -Wmissing-noreturn \
 			 -Werror=missing-prototypes -Werror=nested-externs \
 			 -Werror=implicit-function-declaration \
 			 -Wmissing-declarations -Wno-pointer-sign \
 			 -Werror=format-security -Wbitwise -Wcast-to-as \
 			 -Wdefault-bitfield-sign -Wdo-while -Wparen-string \
-			 -Wptr-subtraction-blows -Wreturn-void -Wtypesign"
-	if test $gnumeric_devel = yes; then
-		dnl Avoid triggering a warning in gtk+ headers for stable.
-		warning_options="$warning_options -Wstrict-prototypes"
-	fi
+			 -Wptr-subtraction-blows -Wreturn-void -Wtypesign \
+			 -Wstrict-prototypes"
 	for option in $warning_options ; do
 		SAVE_CFLAGS="$CFLAGS"
-		CFLAGS="$CFLAGS $option"
+		CFLAGS="$CFLAGS $uwoption $option"
 		AC_MSG_CHECKING([whether gcc understands $option])
 		AC_COMPILE_IFELSE(
 			[AC_LANG_PROGRAM([], [])],
 			[has_option=yes],
 			[has_option=no])
-		if test $has_option = no; then
-		  CFLAGS="$SAVE_CFLAGS"
+		CFLAGS="$SAVE_CFLAGS"
+		if test $has_option = yes; then
+			CFLAGS="$CFLAGS $option"
 		fi
 		AC_MSG_RESULT($has_option)
 		unset has_option

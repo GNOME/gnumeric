@@ -1,3 +1,7 @@
+2013-02-17  Morten Welinder  <terra@gnome.org>
+
+	* configure.ac (set_more_warnings): Improve support for clang.
+
 2013-02-16  Morten Welinder  <terra@gnome.org>
 
 	* *.c: Clear up confusion between GtkStateType and GtkStateFlags.
