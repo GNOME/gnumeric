@@ -260,9 +260,9 @@ ifdef([GNOME_COMPILE_WARNINGS],
 )
 set_more_warnings=yes
 if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
-   	dnl Clang needs to option, or else it will appear to support any
+	dnl Clang needs to option, or else it will appear to support any
 	dnl warning option
-   	uwoption="-Werror=unknown-warning-option"
+	uwoption="-Werror=unknown-warning-option"
 	SAVE_CFLAGS="$CFLAGS"
 	CFLAGS="$CFLAGS $uwoption"
 	AC_MSG_CHECKING([whether gcc understands $uwoption])
