@@ -30,7 +30,6 @@
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
-#include <values.h>
 
 #define CXML2C(s) ((char const *)(s))
 
