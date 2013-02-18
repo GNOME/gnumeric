@@ -23,9 +23,9 @@ msgstr ""
 "Project-Id-Version: gnumeric.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-02-04 21:50+0000\n"
-"PO-Revision-Date: 2013-02-05 16:41+0100\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"POT-Creation-Date: 2013-02-18 04:34+0000\n"
+"PO-Revision-Date: 2013-02-17 14:48-0300\n"
+"Last-Translator: Nicolás Satragno <nsatragno@gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -193,8 +193,8 @@ msgstr "Atributo inesperado %s::%s == «%s»."
 #, c-format
 msgid "Invalid content of ss:data element, expected number, received '%s'"
 msgstr ""
-"Contenido no válido del elemento «ss:data», se esperaba un número, se recibió "
-"«%s»"
+"Contenido no válido del elemento «ss:data», se esperaba un número, se "
+"recibió «%s»"
 
 #: ../plugins/excel/excel-xml-read.c:510
 #, c-format
@@ -324,8 +324,8 @@ msgstr "Función rota"
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
-"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d no "
-"%d"
+"Demasiados argumentos para la función «%s», MS Excel sólo puede manejar %d "
+"no %d"
 
 #: ../plugins/excel/plugin.xml.in.h:1
 msgid "MS Excel (tm)"
@@ -472,7 +472,7 @@ msgstr "Tema de color %d desconocido"
 msgid "Undefined number format id '%s'"
 msgstr "Id de formato de número «%s» no definido"
 
-#: ../plugins/excel/xlsx-read.c:1132 ../plugins/excel/xlsx-read.c:3159
+#: ../plugins/excel/xlsx-read.c:1132 ../plugins/excel/xlsx-read.c:3160
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Color «%s» no válido para el atributo rgb"
@@ -512,55 +512,55 @@ msgstr "Ignorando datos de validación no válidos porque: %s"
 msgid "Undefined"
 msgstr "No definido"
 
-#: ../plugins/excel/xlsx-read.c:2236
+#: ../plugins/excel/xlsx-read.c:2237
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignorando formato condicional no controlado de tipo «%s»"
 
-#: ../plugins/excel/xlsx-read.c:2623
+#: ../plugins/excel/xlsx-read.c:2624
 msgid "Unknown type of hyperlink"
 msgstr "Tipo de hiperenlace desconocido"
 
-#: ../plugins/excel/xlsx-read.c:2885
+#: ../plugins/excel/xlsx-read.c:2886
 msgid "Ignoring a sheet without a name"
 msgstr "Ignorando una hoja sin un nombre"
 
-#: ../plugins/excel/xlsx-read.c:2955
+#: ../plugins/excel/xlsx-read.c:2956
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Falló al definir el nombre: %s"
 
-#: ../plugins/excel/xlsx-read.c:3349
+#: ../plugins/excel/xlsx-read.c:3350
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Falta el ID de la parte para la hoja «%s»"
 
-#: ../plugins/excel/xlsx-read.c:3374
+#: ../plugins/excel/xlsx-read.c:3375
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Leyendo la hoja «%s»..."
 
-#: ../plugins/excel/xlsx-read.c:3382
+#: ../plugins/excel/xlsx-read.c:3383
 msgid "Reading comments..."
 msgstr "Leyendo comentarios…"
 
-#: ../plugins/excel/xlsx-read.c:4400
+#: ../plugins/excel/xlsx-read.c:4401
 msgid "Reading shared strings..."
 msgstr "Leyendo cadenas compartidas…"
 
-#: ../plugins/excel/xlsx-read.c:4408
+#: ../plugins/excel/xlsx-read.c:4409
 msgid "Reading theme..."
 msgstr "Leyendo tema…"
 
-#: ../plugins/excel/xlsx-read.c:4416
+#: ../plugins/excel/xlsx-read.c:4417
 msgid "Reading styles..."
 msgstr "Leyendo estilos…"
 
-#: ../plugins/excel/xlsx-read.c:4421
+#: ../plugins/excel/xlsx-read.c:4422
 msgid "Reading workbook..."
 msgstr "Leyendo libro de trabajo…"
 
-#: ../plugins/excel/xlsx-read.c:4431
+#: ../plugins/excel/xlsx-read.c:4432
 msgid "No workbook stream found."
 msgstr "No se ha encontrado ningún flujo de libro de trabajo."
 
@@ -599,8 +599,8 @@ msgstr "Falló al encontrar la función «%s» en XLL/DLL/SO %s .\n"
 msgid ""
 "Excel plugin loader / xlfRegister: at least three XLOPER arguments must be "
 "provided (DLL name[ignored],exported name[mandatory],types string"
-"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file %"
-"s."
+"[mandatory]). You supplied %d in some function loaded from XLL/DLL/SO file "
+"%s."
 msgstr ""
 "Cargador del complemento para Excel / xlfRegister: se deben proporcionar al "
 "menos tres argumentos XLOPER (nombre DLL [ignorado],nombre exportado "
@@ -1345,7 +1345,8 @@ msgstr "Atributo «%s» no válido, se esperaba un número, se ha recibido «%s
 #: ../plugins/openoffice/openoffice-read.c:693
 #, c-format
 msgid "Invalid attribute '%s', expected percentage, received '%s'"
-msgstr "Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
+msgstr ""
+"Atributo «%s» no válido, se esperaba un porcentaje, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:715
 #, c-format
@@ -1404,7 +1405,8 @@ msgstr "Atributo «%s» no válido, unidad «%s» desconocida"
 #: ../plugins/openoffice/openoffice-read.c:1089
 #, c-format
 msgid "Invalid attribute '%s', expected distance, received '%s'"
-msgstr "Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
+msgstr ""
+"Atributo «%s» no válido, se esperaba una distancia, se ha recibido «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:1166
 #, c-format
@@ -1458,8 +1460,8 @@ msgstr "%s_EN_ARCHIVO_CORRUPTO"
 #: ../plugins/openoffice/openoffice-read.c:2219
 #, c-format
 msgid ""
-"This file is corrupted with a duplicate sheet name \"%s\", now renamed to \"%"
-"s\"."
+"This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
+"\"%s\"."
 msgstr ""
 "Este archivo está corrupto con un nombre de hoja duplicado «%s», se renombró "
 "a «%s»."
@@ -1729,7 +1731,8 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:7533
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr "Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
+msgstr ""
+"Atributo «form:value» no válido, se esperaba un número, se recibió «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:7499
 #, c-format
@@ -1952,11 +1955,11 @@ msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
 "Field %d in line %d has possibly been cut off. Data has %d characters."
 msgstr[0] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
-"d' caracter."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
+"'%d' caracter."
 msgstr[1] ""
-"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen '%"
-"d' caracteres."
+"Probablemente se haya cortado el campo %d en la línea %d. Los datos tienen "
+"'%d' caracteres."
 
 #: ../plugins/paradox/paradox.c:550
 #, c-format
@@ -4949,10 +4952,10 @@ msgid "No matching records were found."
 msgstr "No se encontraron registros coincidentes."
 
 #: ../src/dialogs/dialog-advanced-filter.c:173
-#: ../src/dialogs/dialog-analysis-tools.c:666
-#: ../src/dialogs/dialog-analysis-tools.c:786
-#: ../src/dialogs/dialog-analysis-tools.c:2198
-#: ../src/dialogs/dialog-analysis-tools.c:3644 ../src/tools/filter.c:252
+#: ../src/dialogs/dialog-analysis-tools.c:670
+#: ../src/dialogs/dialog-analysis-tools.c:790
+#: ../src/dialogs/dialog-analysis-tools.c:2202
+#: ../src/dialogs/dialog-analysis-tools.c:3652 ../src/tools/filter.c:252
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Ha ocurrido un error inesperado: %d."
@@ -4972,14 +4975,14 @@ msgstr "Filtro _en-lugar"
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:76
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:142
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:361
-#: ../src/dialogs/dialog-analysis-tools.c:587
-#: ../src/dialogs/dialog-analysis-tools.c:1134
-#: ../src/dialogs/dialog-analysis-tools.c:1847
-#: ../src/dialogs/dialog-analysis-tools.c:2544
-#: ../src/dialogs/dialog-analysis-tools.c:2902
-#: ../src/dialogs/dialog-analysis-tools.c:3190
-#: ../src/dialogs/dialog-analysis-tools.c:3471
-#: ../src/dialogs/dialog-analysis-tools.c:3684
+#: ../src/dialogs/dialog-analysis-tools.c:591
+#: ../src/dialogs/dialog-analysis-tools.c:1138
+#: ../src/dialogs/dialog-analysis-tools.c:1851
+#: ../src/dialogs/dialog-analysis-tools.c:2548
+#: ../src/dialogs/dialog-analysis-tools.c:2906
+#: ../src/dialogs/dialog-analysis-tools.c:3198
+#: ../src/dialogs/dialog-analysis-tools.c:3479
+#: ../src/dialogs/dialog-analysis-tools.c:3692
 #: ../src/dialogs/dialog-shuffle.c:74
 msgid "The input range is invalid."
 msgstr "El rango de entrada no es válido."
@@ -4992,8 +4995,8 @@ msgstr "El rango de entrada es demasiado pequeño."
 #: ../src/dialogs/dialog-analysis-tool-normality.c:109
 #: ../src/dialogs/dialog-analysis-tool-one-mean.c:100
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:102
-#: ../src/dialogs/dialog-analysis-tools.c:3482
-#: ../src/dialogs/dialog-analysis-tools.c:3695
+#: ../src/dialogs/dialog-analysis-tools.c:3490
+#: ../src/dialogs/dialog-analysis-tools.c:3703
 msgid "The alpha value should be a number between 0 and 1."
 msgstr "El valor alfa debería ser un número entre 0 y 1."
 
@@ -5005,15 +5008,15 @@ msgstr "El valor alfa debería ser un número entre 0 y 1."
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:85
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:111
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:100
-#: ../src/dialogs/dialog-analysis-tools.c:596
-#: ../src/dialogs/dialog-analysis-tools.c:1185
-#: ../src/dialogs/dialog-analysis-tools.c:1895
-#: ../src/dialogs/dialog-analysis-tools.c:2321
-#: ../src/dialogs/dialog-analysis-tools.c:2598
-#: ../src/dialogs/dialog-analysis-tools.c:2933
-#: ../src/dialogs/dialog-analysis-tools.c:3218
-#: ../src/dialogs/dialog-analysis-tools.c:3491
-#: ../src/dialogs/dialog-analysis-tools.c:3716
+#: ../src/dialogs/dialog-analysis-tools.c:600
+#: ../src/dialogs/dialog-analysis-tools.c:1189
+#: ../src/dialogs/dialog-analysis-tools.c:1899
+#: ../src/dialogs/dialog-analysis-tools.c:2325
+#: ../src/dialogs/dialog-analysis-tools.c:2602
+#: ../src/dialogs/dialog-analysis-tools.c:2937
+#: ../src/dialogs/dialog-analysis-tools.c:3226
+#: ../src/dialogs/dialog-analysis-tools.c:3499
+#: ../src/dialogs/dialog-analysis-tools.c:3724
 #: ../src/dialogs/dialog-random-generator-cor.c:116
 msgid "The output specification is invalid."
 msgstr "La especificación de salida no es válida."
@@ -5150,56 +5153,56 @@ msgstr ""
 "No se pudo crear el diálogo de la herramienta de análisis de Wilcoxon-Mann-"
 "Whitney."
 
-#: ../src/dialogs/dialog-analysis-tools.c:652
-#: ../src/dialogs/dialog-analysis-tools.c:772
+#: ../src/dialogs/dialog-analysis-tools.c:656
+#: ../src/dialogs/dialog-analysis-tools.c:776
 msgid "The selected input rows must have equal size!"
 msgstr "Las filas de entrada seleccionadas deben tener el mismo tamaño."
 
-#: ../src/dialogs/dialog-analysis-tools.c:657
-#: ../src/dialogs/dialog-analysis-tools.c:777
+#: ../src/dialogs/dialog-analysis-tools.c:661
+#: ../src/dialogs/dialog-analysis-tools.c:781
 msgid "The selected input columns must have equal size!"
 msgstr "Las columnas de entrada seleccionadas deben tener el mismo tamaño."
 
-#: ../src/dialogs/dialog-analysis-tools.c:662
-#: ../src/dialogs/dialog-analysis-tools.c:782
+#: ../src/dialogs/dialog-analysis-tools.c:666
+#: ../src/dialogs/dialog-analysis-tools.c:786
 msgid "The selected input areas must have equal size!"
 msgstr "Las áreas de entrada seleccionadas deben tener el mismo tamaño."
 
-#: ../src/dialogs/dialog-analysis-tools.c:710
+#: ../src/dialogs/dialog-analysis-tools.c:714
 msgid "Could not create the Correlation Tool dialog."
 msgstr "No se pudo crear el diálogo de la herramienta de correlación."
 
-#: ../src/dialogs/dialog-analysis-tools.c:830
+#: ../src/dialogs/dialog-analysis-tools.c:834
 msgid "Could not create the Covariance Tool dialog."
 msgstr "No se pudo crear el diálogo de la herramienta de covarianza."
 
-#: ../src/dialogs/dialog-analysis-tools.c:922
+#: ../src/dialogs/dialog-analysis-tools.c:926
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "No se pudo crear el diálogo de las herramientas de rango y percentil."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1015
+#: ../src/dialogs/dialog-analysis-tools.c:1019
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "No se pudo crear el diálogo de la herramienta de análisis de Fourier."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1143
+#: ../src/dialogs/dialog-analysis-tools.c:1147
 msgid "No statistics are selected."
 msgstr "No se ha seleccionado ninguna estadística."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1153
+#: ../src/dialogs/dialog-analysis-tools.c:1157
 msgid "The confidence level should be between 0 and 1."
 msgstr "El nivel de confianza debe estar entre 0 y 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1165
-#: ../src/dialogs/dialog-analysis-tools.c:1176
+#: ../src/dialogs/dialog-analysis-tools.c:1169
+#: ../src/dialogs/dialog-analysis-tools.c:1180
 msgid "K must be a positive integer."
 msgstr "K debe ser un entero positivo."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1227
+#: ../src/dialogs/dialog-analysis-tools.c:1231
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr ""
 "No se pudo crear el diálogo de la herramienta de estadística descriptiva."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1374
+#: ../src/dialogs/dialog-analysis-tools.c:1378
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -5207,7 +5210,7 @@ msgstr ""
 "Introduzca una varianza\n"
 "de población válida para la variable 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1383
+#: ../src/dialogs/dialog-analysis-tools.c:1387
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -5215,159 +5218,159 @@ msgstr ""
 "Introducir una varianza\n"
 "de población válida para la variable 2."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1610
+#: ../src/dialogs/dialog-analysis-tools.c:1614
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "No se pudo crear el diálogo de la herramienta de pruebas de media."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1797
+#: ../src/dialogs/dialog-analysis-tools.c:1801
 msgid "Could not create the FTest Tool dialog."
 msgstr "No se pudo crear el diálogo de la herramienta de pruebaF."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1857
+#: ../src/dialogs/dialog-analysis-tools.c:1861
 msgid "The requested number of samples is invalid."
 msgstr "El número solicitado de muestras no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1870
+#: ../src/dialogs/dialog-analysis-tools.c:1874
 msgid "The requested period is invalid."
 msgstr "El periodo solicitado no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1878
+#: ../src/dialogs/dialog-analysis-tools.c:1882
 msgid "The requested offset is invalid."
 msgstr "El desplazamiento solicitado no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1887
+#: ../src/dialogs/dialog-analysis-tools.c:1891
 msgid "The requested sample size is invalid."
 msgstr "El tamaño de la muestra solicitado no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2052
+#: ../src/dialogs/dialog-analysis-tools.c:2056
 msgid "Could not create the Sampling Tool dialog."
 msgstr "No se pudo crear el diálogo de la herramienta de muestreo."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2242
-#: ../src/dialogs/dialog-analysis-tools.c:2255
+#: ../src/dialogs/dialog-analysis-tools.c:2246
+#: ../src/dialogs/dialog-analysis-tools.c:2259
 msgid "The x variable range is invalid."
 msgstr "El rango de la variable x no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2243
-#: ../src/dialogs/dialog-analysis-tools.c:2256
+#: ../src/dialogs/dialog-analysis-tools.c:2247
+#: ../src/dialogs/dialog-analysis-tools.c:2260
 msgid "The y variable range is invalid."
 msgstr "El rango de la variable y no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2263
+#: ../src/dialogs/dialog-analysis-tools.c:2267
 msgid "The x variable range must be a vector (n by 1 or 1 by n)."
 msgstr "El rango de la variable x debe ser un vector (n por 1 o 1 por n)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2264
+#: ../src/dialogs/dialog-analysis-tools.c:2268
 msgid "The y variable range must be a vector (n by 1 or 1 by n)."
 msgstr "El rango de la variable y debe ser un vector (n por 1 o 1 por n)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2271
+#: ../src/dialogs/dialog-analysis-tools.c:2275
 msgid "The x variable range is too small"
 msgstr "El rango de la variable x es muy pequeño"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2272
+#: ../src/dialogs/dialog-analysis-tools.c:2276
 msgid "The y variable range is too small"
 msgstr "El rango de la variable y es muy pequeño"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2282
-#: ../src/dialogs/dialog-analysis-tools.c:2295
+#: ../src/dialogs/dialog-analysis-tools.c:2286
+#: ../src/dialogs/dialog-analysis-tools.c:2299
 msgid "The y variables range is invalid."
 msgstr "El rango de las variables y no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2283
-#: ../src/dialogs/dialog-analysis-tools.c:2296
+#: ../src/dialogs/dialog-analysis-tools.c:2287
+#: ../src/dialogs/dialog-analysis-tools.c:2300
 msgid "The x variables range is invalid."
 msgstr "El rango de las variables x no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2304
+#: ../src/dialogs/dialog-analysis-tools.c:2308
 msgid "The sizes of the y variable and x variables ranges do not match."
 msgstr ""
 "Los tamaños de la variable y y los rangos de las variables x no coinciden."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2305
+#: ../src/dialogs/dialog-analysis-tools.c:2309
 msgid "The sizes of the x variable and y variables ranges do not match."
 msgstr ""
 "Los tamaños de la variable x y los rangos de las variables y no coinciden."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2314
+#: ../src/dialogs/dialog-analysis-tools.c:2318
 msgid "The confidence level is invalid."
 msgstr "El nivel de confianza no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2366
+#: ../src/dialogs/dialog-analysis-tools.c:2370
 msgid "_Y variables:"
 msgstr "Variables _Y:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2368
+#: ../src/dialogs/dialog-analysis-tools.c:2372
 msgid "_X variable:"
 msgstr "Variable _X:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2371
+#: ../src/dialogs/dialog-analysis-tools.c:2375
 #: ../src/dialogs/regression.ui.h:5
 msgid "_X variables:"
 msgstr "Variables _X:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2373
+#: ../src/dialogs/dialog-analysis-tools.c:2377
 #: ../src/dialogs/regression.ui.h:6
 msgid "_Y variable:"
 msgstr "Variable _Y:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2411
+#: ../src/dialogs/dialog-analysis-tools.c:2415
 msgid "Could not create the Regression Tool dialog."
 msgstr "No se pudo crear el diálogo de la herramienta de regresión."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2557
+#: ../src/dialogs/dialog-analysis-tools.c:2561
 msgid "The given seasonal damping factor is invalid."
 msgstr "El factor de amortiguación temporal dado no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2566
+#: ../src/dialogs/dialog-analysis-tools.c:2570
 msgid "The given seasonal period is invalid."
 msgstr "El periodo temporal dado no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2577
+#: ../src/dialogs/dialog-analysis-tools.c:2581
 msgid "The given growth damping factor is invalid."
 msgstr "El factor de amortiguación de crecimiento dado no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2589
+#: ../src/dialogs/dialog-analysis-tools.c:2593
 msgid "The given damping factor is invalid."
 msgstr "El factor de amortiguación dado no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2719
+#: ../src/dialogs/dialog-analysis-tools.c:2723
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr ""
 "No se pudo crear el diálogo de la herramienta de suavizado exponencial."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2915
+#: ../src/dialogs/dialog-analysis-tools.c:2919
 msgid "The given interval is invalid."
 msgstr "El intervalo dado no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2925
+#: ../src/dialogs/dialog-analysis-tools.c:2929
 msgid "The given offset is invalid."
 msgstr "El desplazamiento dado no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3086
+#: ../src/dialogs/dialog-analysis-tools.c:3094
 msgid "Could not create the Moving Average Tool dialog."
 msgstr ""
 "No se pudo crear el diálogo de la herramienta de desplazamiento promediado."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3204
+#: ../src/dialogs/dialog-analysis-tools.c:3212
 msgid "The cutoff range is not valid."
 msgstr "El rango de corte no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3211
+#: ../src/dialogs/dialog-analysis-tools.c:3219
 msgid "The number of to be calculated cutoffs is invalid."
 msgstr "El numero de cortes que calcular no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3354
+#: ../src/dialogs/dialog-analysis-tools.c:3362
 msgid "Could not create the Histogram Tool dialog."
 msgstr "No se pudo crear el diálogo de la herramienta de histograma."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3531
+#: ../src/dialogs/dialog-analysis-tools.c:3539
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr ""
 "No se pudo crear el diálogo de la herramienta de análisis de varianza (un "
 "factor)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3610
+#: ../src/dialogs/dialog-analysis-tools.c:3618
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -5375,7 +5378,7 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos columnas y dos filas de "
 "datos y las etiquetas."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3613
+#: ../src/dialogs/dialog-analysis-tools.c:3621
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -5383,7 +5386,7 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos columnas y dos filas de "
 "datos."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3619
+#: ../src/dialogs/dialog-analysis-tools.c:3627
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -5391,11 +5394,11 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos columnas de datos y las "
 "etiquetas."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3622
+#: ../src/dialogs/dialog-analysis-tools.c:3630
 msgid "The given input range should contain at least two columns of data."
 msgstr "El rango de entrada dado debe contener al menos dos columnas de datos."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3628
+#: ../src/dialogs/dialog-analysis-tools.c:3636
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
@@ -5403,20 +5406,20 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos filas de datos y las "
 "etiquetas."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3631
+#: ../src/dialogs/dialog-analysis-tools.c:3639
 msgid "The given input range should contain at least two rows of data."
 msgstr "El rango de entrada dado debe contener al menos dos filas de datos."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3638
+#: ../src/dialogs/dialog-analysis-tools.c:3646
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 "El número de filas de datos debe ser un múltiplo del número de replicación."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3707
+#: ../src/dialogs/dialog-analysis-tools.c:3715
 msgid "The number of rows per sample should be a positive integer."
 msgstr "El número de filas por muestra debe ser un entero positivo."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3760
+#: ../src/dialogs/dialog-analysis-tools.c:3768
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr ""
 "No se pudo crear el diálogo de la herramienta de análisis de varianza (dos "
@@ -6085,7 +6088,7 @@ msgstr "Fila"
 msgid "Column"
 msgstr "Columna"
 
-#: ../src/dialogs/dialog-data-slicer.c:143 ../src/dialogs/dialog-stf.ui.h:30
+#: ../src/dialogs/dialog-data-slicer.c:143 ../src/dialogs/dialog-stf.ui.h:31
 msgid "Data"
 msgstr "Datos"
 
@@ -8732,7 +8735,7 @@ msgstr "_Insertar en las celdas:"
 msgid "DataSlicer Guru : Gnumeric"
 msgstr "DataSlicer Guru : Gnumeric"
 
-#: ../src/dialogs/data-slicer.ui.h:3 ../src/dialogs/dialog-stf.ui.h:59
+#: ../src/dialogs/data-slicer.ui.h:3 ../src/dialogs/dialog-stf.ui.h:60
 #: ../src/stf-export.c:583
 msgid "Format"
 msgstr "Formato"
@@ -9029,28 +9032,36 @@ msgid "F_inish"
 msgstr "Term_inar"
 
 #: ../src/dialogs/dialog-stf.ui.h:10
+msgid "Source Format"
+msgstr "Formato de origen"
+
+#: ../src/dialogs/dialog-stf.ui.h:11
 msgid "Encoding:"
 msgstr "Codificación:"
 
-#: ../src/dialogs/dialog-stf.ui.h:11
+#: ../src/dialogs/dialog-stf.ui.h:12
 msgid "Line breaks:"
 msgstr "Saltos de línea:"
 
-#: ../src/dialogs/dialog-stf.ui.h:12
+#: ../src/dialogs/dialog-stf.ui.h:13
+msgid "Original data type:"
+msgstr "Tipo de dato original:"
+
+#: ../src/dialogs/dialog-stf.ui.h:14
 msgid "_Unix (LF)"
 msgstr "_Unix (LF)"
 
-#: ../src/dialogs/dialog-stf.ui.h:13
+#: ../src/dialogs/dialog-stf.ui.h:15
 msgid "The line feed character (ASCII code 10) breaks lines"
 msgstr ""
 "El carácter de alimentación de línea (código ASCII 10) salta a la línea "
 "siguiente"
 
-#: ../src/dialogs/dialog-stf.ui.h:14
+#: ../src/dialogs/dialog-stf.ui.h:16
 msgid "_Windows (CR+LF)"
 msgstr "_Windows (CR+LF)"
 
-#: ../src/dialogs/dialog-stf.ui.h:15
+#: ../src/dialogs/dialog-stf.ui.h:17
 msgid ""
 "The sequence of carriage return and line feed (ASCII codes 13 and 10) breaks "
 "lines"
@@ -9058,48 +9069,60 @@ msgstr ""
 "La secuencia de retorno de carro y alimentación de línea (códigos ASCII 13 y "
 "10) saltan a la siguiente línea"
 
-#: ../src/dialogs/dialog-stf.ui.h:16
+#: ../src/dialogs/dialog-stf.ui.h:18
 msgid "_Macintosh (CR)"
 msgstr "_Macintosh (CR)"
 
-#: ../src/dialogs/dialog-stf.ui.h:17
+#: ../src/dialogs/dialog-stf.ui.h:19
 msgid "The carriage return character (ASCII code 13) breaks lines"
 msgstr ""
 "El carácter de retorno de carro (código 13 ASCII) salta a la línea siguiente"
 
-#: ../src/dialogs/dialog-stf.ui.h:18
-msgid "Original data type:"
-msgstr "Tipo de dato original:"
-
-#: ../src/dialogs/dialog-stf.ui.h:19
+#: ../src/dialogs/dialog-stf.ui.h:20
 msgid "_Separated"
 msgstr "_Delimitado"
 
-#: ../src/dialogs/dialog-stf.ui.h:20
+#: ../src/dialogs/dialog-stf.ui.h:21
+msgid ""
+"Each column in the text is separated by a &apos;separation&apos; character, "
+"e.g. a semicolon."
+msgstr ""
+"Cada columna en el texto está separada por un carácter de &apos;"
+"separación&apos;, por ejemplo un punto y coma."
+
+#: ../src/dialogs/dialog-stf.ui.h:22
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
-"Cada columna en el texto está delimitada por un carácter de «separación», ej. "
-"punto y coma."
+"Cada columna en el texto está delimitada por un carácter de «separación», "
+"ej. punto y coma."
 
-#: ../src/dialogs/dialog-stf.ui.h:21
+#: ../src/dialogs/dialog-stf.ui.h:23
 msgid "Fi_xed width"
 msgstr "Anchura _fija"
 
-#: ../src/dialogs/dialog-stf.ui.h:22
+#: ../src/dialogs/dialog-stf.ui.h:24
 msgid "Define the width of each column manually."
 msgstr "Definir la anchura de cada columna manualmente."
 
-#: ../src/dialogs/dialog-stf.ui.h:23
-msgid "Source Format"
-msgstr "Formato de origen"
+#: ../src/dialogs/dialog-stf.ui.h:25
+msgid "Lines to import"
+msgstr "Líneas que importar"
 
-#: ../src/dialogs/dialog-stf.ui.h:24
+#: ../src/dialogs/dialog-stf.ui.h:26
 msgid "Fr_om line:"
 msgstr "D_esde línea:"
 
-#: ../src/dialogs/dialog-stf.ui.h:25
+#: ../src/dialogs/dialog-stf.ui.h:27
+msgid "_To line: "
+msgstr "_A línea: "
+
+#: ../src/dialogs/dialog-stf.ui.h:28
+msgid "Number of lines to import"
+msgstr "Número de líneas que importar"
+
+#: ../src/dialogs/dialog-stf.ui.h:29
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
@@ -9107,135 +9130,123 @@ msgstr ""
 "El procesamiento actual comenzará en esta línea, las líneas previas se "
 "ignorarán."
 
-#: ../src/dialogs/dialog-stf.ui.h:26
-msgid "_To line: "
-msgstr "_A línea: "
-
-#: ../src/dialogs/dialog-stf.ui.h:27
+#: ../src/dialogs/dialog-stf.ui.h:30
 msgid "Processing ends at this line, any subsequent lines will be ignored."
 msgstr ""
 "El procesamiento termina en esta línea y se ignorarán las siguientes líneas."
 
-#: ../src/dialogs/dialog-stf.ui.h:28
-msgid "Number of lines to import"
-msgstr "Número de líneas que importar"
-
-#: ../src/dialogs/dialog-stf.ui.h:29
-msgid "Lines to import"
-msgstr "Líneas que importar"
-
-#: ../src/dialogs/dialog-stf.ui.h:31
+#: ../src/dialogs/dialog-stf.ui.h:32
 msgid "Main"
 msgstr "Principal"
 
-#: ../src/dialogs/dialog-stf.ui.h:32
-msgid "C_ustom"
-msgstr "P_ersonalizado"
-
 #: ../src/dialogs/dialog-stf.ui.h:33
-msgid "_Hyphen (-)"
-msgstr "_Guión (-)"
-
-#: ../src/dialogs/dialog-stf.ui.h:34
-msgid "_Space"
-msgstr "_Espacio"
-
-#: ../src/dialogs/dialog-stf.ui.h:35
-msgid "_Tab"
-msgstr "_Tabulador"
-
-#: ../src/dialogs/dialog-stf.ui.h:36
-msgid "C_olon (:)"
-msgstr "D_os puntos (:)"
-
-#: ../src/dialogs/dialog-stf.ui.h:37
-msgid "Custom separator, this can be any character."
-msgstr "Separador personalizado, puede ser cualquier carácter."
-
-#: ../src/dialogs/dialog-stf.ui.h:38
-msgid "S_ee two separators as one"
-msgstr "C_onsiderar dos separadores como uno"
-
-#: ../src/dialogs/dialog-stf.ui.h:39
-msgid "See two successive separators as one."
-msgstr "Considerar dos separadores consecutivos como uno."
-
-#: ../src/dialogs/dialog-stf.ui.h:40
-msgid "_Comma (,)"
-msgstr "_Coma (,)"
-
-#: ../src/dialogs/dialog-stf.ui.h:41
-msgid "Semicolo_n (;)"
-msgstr "_Punto y coma (;)"
-
-#: ../src/dialogs/dialog-stf.ui.h:42
-msgid "_Ignore initial separators"
-msgstr "_Ignorar separadores iniciales"
-
-#: ../src/dialogs/dialog-stf.ui.h:43
-msgid "Ignore any separators at the beginning of lines"
-msgstr "Ignorar cualquier separador al principio de las líneas"
-
-#: ../src/dialogs/dialog-stf.ui.h:44
 msgid "Separators"
 msgstr "Separadores"
 
+#: ../src/dialogs/dialog-stf.ui.h:34
+msgid "Text indicator"
+msgstr "Indicador de texto"
+
+#: ../src/dialogs/dialog-stf.ui.h:35
+msgid "_Space"
+msgstr "_Espacio"
+
+#: ../src/dialogs/dialog-stf.ui.h:36
+msgid "_Tab"
+msgstr "_Tabulador"
+
+#: ../src/dialogs/dialog-stf.ui.h:37
+msgid "_Comma (,)"
+msgstr "_Coma (,)"
+
+#: ../src/dialogs/dialog-stf.ui.h:38
+msgid "C_olon (:)"
+msgstr "D_os puntos (:)"
+
+#: ../src/dialogs/dialog-stf.ui.h:39
+msgid "Semicolo_n (;)"
+msgstr "_Punto y coma (;)"
+
+#: ../src/dialogs/dialog-stf.ui.h:40
+msgid "_Hyphen (-)"
+msgstr "_Guión (-)"
+
+#: ../src/dialogs/dialog-stf.ui.h:41
+msgid "C_ustom"
+msgstr "P_ersonalizado"
+
+#: ../src/dialogs/dialog-stf.ui.h:42
+msgid "Custom separator, this can be any character."
+msgstr "Separador personalizado, puede ser cualquier carácter."
+
+#: ../src/dialogs/dialog-stf.ui.h:43
+msgid "S_ee two separators as one"
+msgstr "C_onsiderar dos separadores como uno"
+
+#: ../src/dialogs/dialog-stf.ui.h:44
+msgid "See two successive separators as one."
+msgstr "Considerar dos separadores consecutivos como uno."
+
 #: ../src/dialogs/dialog-stf.ui.h:45
+msgid "_Ignore initial separators"
+msgstr "_Ignorar separadores iniciales"
+
+#: ../src/dialogs/dialog-stf.ui.h:46
+msgid "Ignore any separators at the beginning of lines"
+msgstr "Ignorar cualquier separador al principio de las líneas"
+
+#: ../src/dialogs/dialog-stf.ui.h:47
 msgid "Te_xt indicator: "
 msgstr "Indicador de te_xto: "
 
-#: ../src/dialogs/dialog-stf.ui.h:46
+#: ../src/dialogs/dialog-stf.ui.h:48
 msgid "_Adjacent text indicators escaped"
 msgstr "Indicadores de texto _adyacentes escapados"
 
-#: ../src/dialogs/dialog-stf.ui.h:47
+#: ../src/dialogs/dialog-stf.ui.h:49
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
 "Considerar dos indicadores de texto sucesivos como uno que no termina la "
 "celda."
 
-#: ../src/dialogs/dialog-stf.ui.h:48
-msgid "Text indicator"
-msgstr "Indicador de texto"
-
-#: ../src/dialogs/dialog-stf.ui.h:49
+#: ../src/dialogs/dialog-stf.ui.h:50
 msgid "CSV"
 msgstr "CSV"
 
-#: ../src/dialogs/dialog-stf.ui.h:50
+#: ../src/dialogs/dialog-stf.ui.h:51
 msgid "_Auto Column Discovery"
 msgstr "Descubrimiento de columna _automático"
 
-#: ../src/dialogs/dialog-stf.ui.h:51
+#: ../src/dialogs/dialog-stf.ui.h:52
 msgid "Attempt to recognize columns in the text automatically."
 msgstr "Intentar reconocer columnas en el texto automáticamente."
 
-#: ../src/dialogs/dialog-stf.ui.h:52
+#: ../src/dialogs/dialog-stf.ui.h:53
 msgid "_Clear"
 msgstr "_Limpiar"
 
-#: ../src/dialogs/dialog-stf.ui.h:53
+#: ../src/dialogs/dialog-stf.ui.h:54
 msgid "Clear list of columns"
 msgstr "Limpiar la lista de columnas"
 
 #. Columns in imported text
-#: ../src/dialogs/dialog-stf.ui.h:55
+#: ../src/dialogs/dialog-stf.ui.h:56
 msgctxt "import"
 msgid "Columns"
 msgstr "Columnas"
 
-#: ../src/dialogs/dialog-stf.ui.h:56
+#: ../src/dialogs/dialog-stf.ui.h:57
 msgid "Fixed"
 msgstr "Fijado"
-
-#: ../src/dialogs/dialog-stf.ui.h:57
-msgid "Source Locale:"
-msgstr "Localización de origen:"
 
 #: ../src/dialogs/dialog-stf.ui.h:58
 msgid "Trim:"
 msgstr "Recortar:"
+
+#: ../src/dialogs/dialog-stf.ui.h:59
+msgid "Source Locale:"
+msgstr "Localización de origen:"
 
 #. ----- vertical -----
 #: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk.c:2975
@@ -9968,7 +9979,7 @@ msgstr "Censurar co_lumna:"
 msgid "Censored record labels from:"
 msgstr "Etiquetas de registro censuradas desde:"
 
-#: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1517
+#: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1518
 msgid "to:"
 msgstr "a:"
 
@@ -12050,7 +12061,7 @@ msgstr "El archivo del módulo «%s» no tiene un formato válido."
 msgid "File doesn't contain \"%s\" array."
 msgstr "El archivo no contiene matriz la «%s»."
 
-#: ../src/gnm-so-filled.c:176 ../src/gnm-so-path.c:196
+#: ../src/gnm-so-filled.c:176 ../src/gnm-so-path.c:195
 msgid "Filled Object Properties"
 msgstr "Propiedades del objeto rellenado"
 
@@ -12172,12 +12183,12 @@ msgstr ""
 msgid "Multiple errors\n"
 msgstr "Errores múltiples\n"
 
-#: ../src/gui-util.c:1331
+#: ../src/gui-util.c:1321
 #, c-format
 msgid "The plugin with id %s is required but cannot be found."
 msgstr "Se requiere el complemento con ID %s pero no se puede encontrar."
 
-#: ../src/gui-util.c:1339
+#: ../src/gui-util.c:1329
 #, c-format
 msgid "The %s plugin is required but is not loaded."
 msgstr "Se requiere el complemento %s pero no está cargado."
@@ -12559,80 +12570,80 @@ msgstr ""
 "Ha seleccionado más de 1000 páginas de vista previa. Esto puede llevar mucho "
 "tiempo. ¿Realmente quiere continuar?"
 
-#: ../src/print.c:1316
+#: ../src/print.c:1317
 msgid "Preparing to preview"
 msgstr "Preparando para vista previa"
 
-#: ../src/print.c:1317
+#: ../src/print.c:1318
 msgid "Preparing to print"
 msgstr "Preparando para imprimir"
 
-#: ../src/print.c:1407
+#: ../src/print.c:1408
 #, c-format
 msgid "Creating preview of page %3d"
 msgstr "Creando vista previa de página %3d"
 
-#: ../src/print.c:1408
+#: ../src/print.c:1409
 #, c-format
 msgid "Printing page %3d"
 msgstr "Imprimiendo página %3d"
 
-#: ../src/print.c:1412
+#: ../src/print.c:1413
 #, c-format
 msgid "Creating preview of page %3d of %3d page"
 msgid_plural "Creating preview of page %3d of %3d pages"
 msgstr[0] "Creando vista previa de página %3d de %3d página"
 msgstr[1] "Creando vista previa de página %3d de %3d páginas"
 
-#: ../src/print.c:1415
+#: ../src/print.c:1416
 #, c-format
 msgid "Printing page %3d of %3d page"
 msgid_plural "Printing page %3d of %3d pages"
 msgstr[0] "Imprimiendo página %3d de %3d página"
 msgstr[1] "Imprimiendo página %3d de %3d páginas"
 
-#: ../src/print.c:1480
+#: ../src/print.c:1481
 msgid "_All workbook sheets"
 msgstr "_Todas las hojas del libro de trabajo"
 
-#: ../src/print.c:1485
+#: ../src/print.c:1486
 msgid "Also print _hidden sheets"
 msgstr "Imprimir también las hojas _ocultas"
 
-#: ../src/print.c:1490
+#: ../src/print.c:1491
 msgid "A_ctive workbook sheet"
 msgstr "Hoja del libro de trabajo a_ctiva"
 
-#: ../src/print.c:1495
+#: ../src/print.c:1496
 msgid "_Workbook sheets:"
 msgstr "Hojas del _libro de trabajo:"
 
-#: ../src/print.c:1500
+#: ../src/print.c:1501
 msgid "Current _selection only"
 msgstr "Sólo _selección actual"
 
-#: ../src/print.c:1505
+#: ../src/print.c:1506
 msgid "_Ignore defined print area"
 msgstr "_Ignorar el área de impresión definida"
 
-#: ../src/print.c:1509
+#: ../src/print.c:1510
 msgid "from:"
 msgstr "de:"
 
-#: ../src/print.c:1530
+#: ../src/print.c:1531
 msgid "Ignore all _manual page breaks"
 msgstr "Ignorar todos los saltos de página _manuales"
 
-#: ../src/print.c:1827
+#: ../src/print.c:1828
 #, c-format
 msgid "Failed to create temporary file for printing: %s"
 msgstr "Falló al crear archivo temporal para impresión: %s"
 
-#: ../src/print.c:1845
+#: ../src/print.c:1846
 msgid "Gnumeric Print Range"
 msgstr "Rango de impresión de Gnumeric"
 
-#: ../src/print.c:1861
+#: ../src/print.c:1862
 msgid "Print to File"
 msgstr "Imprimir a un archivo"
 
@@ -18623,8 +18634,9 @@ msgstr "Una plantilla de lista simple"
 #~ "value."
 #~ msgstr ""
 #~ ">Este valor determina el ajuste predeterminado en el diálogo "
-#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. Por "
-#~ "favor use el diálogo «Configuración de impresión» para editar este valor."
+#~ "«Configuración de impresión» indicando si se debe imprimir la rejilla. "
+#~ "Por favor use el diálogo «Configuración de impresión» para editar este "
+#~ "valor."
 
 #~ msgid ""
 #~ ">This value determines whether the default setting in the Print Setup "
