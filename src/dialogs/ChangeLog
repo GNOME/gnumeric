@@ -1,3 +1,8 @@
+2013-02-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-analysis-tools.c (average_tool_update_sensitivity_cb): fix test
+	(average_tool_*_cb): call average_tool_update_sensitivity_cb
+
 2013-02-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-stf-format-page.c (stf_dialog_format_page_init): replaced GtkTable

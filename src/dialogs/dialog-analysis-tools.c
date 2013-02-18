@@ -122,6 +122,10 @@ static char const * const n_group[] = {
 	NULL
 };
 
+/* Note: the items in this group need to match */
+/*       moving_average_type_t except that     */
+/*       moving_average_type_central_sma is a  */
+/*       subtype of moving_average_type_sma.   */
 static char const * const moving_average_group[] = {
 	"sma-button",
 	"cma-button",
@@ -2907,7 +2911,7 @@ average_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 
 	type = gnm_gui_group_value (state->base.gui, moving_average_group);
 
-	if (type == moving_average_type_sma || moving_average_type_wma) {
+	if ((type == moving_average_type_sma) || (type == moving_average_type_wma)) {
 		err = entry_to_int (GTK_ENTRY (state->interval_entry),
 				    &interval, FALSE);
 		if (err!= 0 || interval <= 0)  {
@@ -3006,6 +3010,7 @@ average_tool_sma_cb (GtkToggleButton *togglebutton, gpointer user_data)
 	gtk_widget_set_sensitive (state->offset_button, TRUE);
 	gtk_widget_set_sensitive (state->interval_entry, TRUE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->prior_button), TRUE);
+	average_tool_update_sensitivity_cb (NULL, state);
 }
 
 static void
@@ -3021,6 +3026,7 @@ average_tool_cma_cb (GtkToggleButton *togglebutton, gpointer user_data)
 	gtk_widget_set_sensitive (state->central_button, FALSE);
 	gtk_widget_set_sensitive (state->offset_button, FALSE);
 	gtk_widget_set_sensitive (state->interval_entry, FALSE);
+	average_tool_update_sensitivity_cb (NULL, state);
 }
 
 static void
@@ -3035,6 +3041,7 @@ average_tool_wma_cb (GtkToggleButton *togglebutton, gpointer user_data)
 	gtk_widget_set_sensitive (state->central_button, FALSE);
 	gtk_widget_set_sensitive (state->offset_button, FALSE);
 	gtk_widget_set_sensitive (state->interval_entry, TRUE);
+	average_tool_update_sensitivity_cb (NULL, state);
 }
 
 static void
@@ -3050,6 +3057,7 @@ average_tool_spencer_cb (GtkToggleButton *togglebutton, gpointer user_data)
 	gtk_widget_set_sensitive (state->central_button, FALSE);
 	gtk_widget_set_sensitive (state->offset_button, FALSE);
 	gtk_widget_set_sensitive (state->interval_entry, FALSE);
+	average_tool_update_sensitivity_cb (NULL, state);
 }
 
 /**

@@ -8,6 +8,7 @@ Andreas:
 	* Show argument names for python functions. [#690681]
 	* Fix loading of ODF files with named expressions. [#690925]
 	* Avoid unncessary sheet specification in analysis tools. [#691892]
+	* Fix sensitivity tests for 2-factor anova dialog. [#693980]
 
 Jean:
 	* Fixed aspect ratio for graph sheets. [#691472]
