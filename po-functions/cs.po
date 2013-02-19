@@ -1,15 +1,14 @@
 # Gnumeric Czech translation
 # Copyright (c) 1999, 2000, 2001, 2002 The Free Software Foundation
-#
-# Marek Černocký <marek@manet.cz>, 2010, 2011, 2012.
+# Marek Černocký <marek@manet.cz>, 2010, 2011, 2012, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-02 17:53+0000\n"
-"PO-Revision-Date: 2012-11-16 06:08+0200\n"
+"POT-Creation-Date: 2013-01-24 21:45+0000\n"
+"PO-Revision-Date: 2013-02-18 21:45+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -17,6 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../plugins/fn-christian-date/functions.c:140
 msgid ""
@@ -203,8 +203,8 @@ msgstr "Pokud @{i} není ani „i“ ani „j“, COMPLEX vrátí #HODNOTA!."
 #: ../plugins/fn-math/functions.c:2028 ../plugins/fn-math/functions.c:2155
 #: ../plugins/fn-math/functions.c:2403 ../plugins/fn-math/functions.c:2447
 #: ../plugins/fn-math/functions.c:2490 ../plugins/fn-math/functions.c:2533
-#: ../plugins/fn-math/functions.c:2590 ../plugins/fn-math/functions.c:2847
-#: ../plugins/fn-math/functions.c:2914 ../plugins/fn-math/functions.c:2963
+#: ../plugins/fn-math/functions.c:2590 ../plugins/fn-math/functions.c:2742
+#: ../plugins/fn-math/functions.c:2840 ../plugins/fn-math/functions.c:2885
 #: ../plugins/fn-random/functions.c:48 ../plugins/fn-random/functions.c:249
 #: ../plugins/fn-stat/functions.c:83 ../plugins/fn-stat/functions.c:111
 #: ../plugins/fn-stat/functions.c:138 ../plugins/fn-stat/functions.c:166
@@ -215,33 +215,33 @@ msgstr "Pokud @{i} není ani „i“ ani „j“, COMPLEX vrátí #HODNOTA!."
 #: ../plugins/fn-stat/functions.c:526 ../plugins/fn-stat/functions.c:555
 #: ../plugins/fn-stat/functions.c:575 ../plugins/fn-stat/functions.c:602
 #: ../plugins/fn-stat/functions.c:629 ../plugins/fn-stat/functions.c:655
-#: ../plugins/fn-stat/functions.c:691 ../plugins/fn-stat/functions.c:725
-#: ../plugins/fn-stat/functions.c:751 ../plugins/fn-stat/functions.c:786
-#: ../plugins/fn-stat/functions.c:826 ../plugins/fn-stat/functions.c:880
-#: ../plugins/fn-stat/functions.c:948 ../plugins/fn-stat/functions.c:980
-#: ../plugins/fn-stat/functions.c:1010 ../plugins/fn-stat/functions.c:1037
-#: ../plugins/fn-stat/functions.c:1067 ../plugins/fn-stat/functions.c:1155
-#: ../plugins/fn-stat/functions.c:1192 ../plugins/fn-stat/functions.c:1275
-#: ../plugins/fn-stat/functions.c:1312 ../plugins/fn-stat/functions.c:1478
-#: ../plugins/fn-stat/functions.c:1510 ../plugins/fn-stat/functions.c:1606
-#: ../plugins/fn-stat/functions.c:1633 ../plugins/fn-stat/functions.c:1663
-#: ../plugins/fn-stat/functions.c:1698 ../plugins/fn-stat/functions.c:1725
-#: ../plugins/fn-stat/functions.c:1757 ../plugins/fn-stat/functions.c:1789
-#: ../plugins/fn-stat/functions.c:1821 ../plugins/fn-stat/functions.c:1854
-#: ../plugins/fn-stat/functions.c:1904 ../plugins/fn-stat/functions.c:1929
-#: ../plugins/fn-stat/functions.c:1954 ../plugins/fn-stat/functions.c:1986
-#: ../plugins/fn-stat/functions.c:2015 ../plugins/fn-stat/functions.c:2034
-#: ../plugins/fn-stat/functions.c:2060 ../plugins/fn-stat/functions.c:2192
-#: ../plugins/fn-stat/functions.c:2235 ../plugins/fn-stat/functions.c:2284
-#: ../plugins/fn-stat/functions.c:2364 ../plugins/fn-stat/functions.c:2422
-#: ../plugins/fn-stat/functions.c:2481 ../plugins/fn-stat/functions.c:2506
-#: ../plugins/fn-stat/functions.c:2533 ../plugins/fn-stat/functions.c:2565
-#: ../plugins/fn-stat/functions.c:2592 ../plugins/fn-stat/functions.c:2622
-#: ../plugins/fn-stat/functions.c:2649 ../plugins/fn-stat/functions.c:2773
-#: ../plugins/fn-stat/functions.c:2816 ../plugins/fn-stat/functions.c:2857
-#: ../plugins/fn-stat/functions.c:2923 ../plugins/fn-stat/functions.c:3092
-#: ../plugins/fn-stat/functions.c:3959 ../plugins/fn-stat/functions.c:4016
-#: ../plugins/fn-stat/functions.c:4064 ../plugins/fn-stat/functions.c:4129
+#: ../plugins/fn-stat/functions.c:680 ../plugins/fn-stat/functions.c:705
+#: ../plugins/fn-stat/functions.c:731 ../plugins/fn-stat/functions.c:766
+#: ../plugins/fn-stat/functions.c:806 ../plugins/fn-stat/functions.c:860
+#: ../plugins/fn-stat/functions.c:928 ../plugins/fn-stat/functions.c:960
+#: ../plugins/fn-stat/functions.c:990 ../plugins/fn-stat/functions.c:1017
+#: ../plugins/fn-stat/functions.c:1047 ../plugins/fn-stat/functions.c:1135
+#: ../plugins/fn-stat/functions.c:1172 ../plugins/fn-stat/functions.c:1255
+#: ../plugins/fn-stat/functions.c:1292 ../plugins/fn-stat/functions.c:1458
+#: ../plugins/fn-stat/functions.c:1490 ../plugins/fn-stat/functions.c:1586
+#: ../plugins/fn-stat/functions.c:1613 ../plugins/fn-stat/functions.c:1643
+#: ../plugins/fn-stat/functions.c:1678 ../plugins/fn-stat/functions.c:1705
+#: ../plugins/fn-stat/functions.c:1737 ../plugins/fn-stat/functions.c:1769
+#: ../plugins/fn-stat/functions.c:1801 ../plugins/fn-stat/functions.c:1834
+#: ../plugins/fn-stat/functions.c:1884 ../plugins/fn-stat/functions.c:1909
+#: ../plugins/fn-stat/functions.c:1934 ../plugins/fn-stat/functions.c:1966
+#: ../plugins/fn-stat/functions.c:1995 ../plugins/fn-stat/functions.c:2014
+#: ../plugins/fn-stat/functions.c:2040 ../plugins/fn-stat/functions.c:2172
+#: ../plugins/fn-stat/functions.c:2215 ../plugins/fn-stat/functions.c:2264
+#: ../plugins/fn-stat/functions.c:2344 ../plugins/fn-stat/functions.c:2402
+#: ../plugins/fn-stat/functions.c:2461 ../plugins/fn-stat/functions.c:2486
+#: ../plugins/fn-stat/functions.c:2513 ../plugins/fn-stat/functions.c:2545
+#: ../plugins/fn-stat/functions.c:2572 ../plugins/fn-stat/functions.c:2602
+#: ../plugins/fn-stat/functions.c:2629 ../plugins/fn-stat/functions.c:2753
+#: ../plugins/fn-stat/functions.c:2796 ../plugins/fn-stat/functions.c:2837
+#: ../plugins/fn-stat/functions.c:2903 ../plugins/fn-stat/functions.c:3072
+#: ../plugins/fn-stat/functions.c:3993 ../plugins/fn-stat/functions.c:4050
+#: ../plugins/fn-stat/functions.c:4098 ../plugins/fn-stat/functions.c:4163
 #: ../plugins/fn-string/functions.c:68 ../plugins/fn-string/functions.c:140
 #: ../plugins/fn-string/functions.c:247 ../plugins/fn-string/functions.c:266
 #: ../plugins/fn-string/functions.c:283 ../plugins/fn-string/functions.c:303
@@ -661,7 +661,7 @@ msgstr ""
 "<30\n"
 ">40     \t>46000\n"
 
-#: ../plugins/fn-database/functions.c:322
+#: ../plugins/fn-database/functions.c:323
 msgid ""
 "DAVERAGE:average of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
@@ -669,23 +669,23 @@ msgstr ""
 "DAVERAGE:průměr z hodnot v poli @{field} v databázi @{database} náležejících "
 "záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:331
+#: ../plugins/fn-database/functions.c:332
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333."
 msgstr "DAVERAGE(A1:C7; \"Plat\"; A9:A11) rovná se 42296,3333."
 
-#: ../plugins/fn-database/functions.c:332
+#: ../plugins/fn-database/functions.c:333
 msgid "DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39."
 msgstr "DAVERAGE(A1:C7; \"Věk\"; A9:A11) rovná se 39."
 
-#: ../plugins/fn-database/functions.c:333
+#: ../plugins/fn-database/functions.c:334
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5."
 msgstr "DAVERAGE(A1:C7; \"Plat\"; A9:B11) rovná se 40782,5."
 
-#: ../plugins/fn-database/functions.c:334
+#: ../plugins/fn-database/functions.c:335
 msgid "DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36."
 msgstr "DAVERAGE(A1:C7; \"Věk\"; A9:B11) rovná se 36."
 
-#: ../plugins/fn-database/functions.c:358
+#: ../plugins/fn-database/functions.c:359
 msgid ""
 "DCOUNT:count of numbers in @{field} in @{database} belonging to records that "
 "match @{criteria}"
@@ -693,19 +693,19 @@ msgstr ""
 "DCOUNT:počet čísel v poli @{field} v databázi @{database} náležejících "
 "záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:367
+#: ../plugins/fn-database/functions.c:368
 msgid "DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3."
 msgstr "DCOUNT(A1:C7; \"Plat\"; A9:A11) rovná se 3."
 
-#: ../plugins/fn-database/functions.c:368
+#: ../plugins/fn-database/functions.c:369
 msgid "DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2."
 msgstr "DCOUNT(A1:C7; \"Plat\"; A9:B11) rovná se 2."
 
-#: ../plugins/fn-database/functions.c:369
+#: ../plugins/fn-database/functions.c:370
 msgid "DCOUNT(A1:C7, \"Name\", A9:B11) equals 0."
 msgstr "DCOUNT(A1:C7; \"Jméno\"; A9:B11) rovná se 0."
 
-#: ../plugins/fn-database/functions.c:393
+#: ../plugins/fn-database/functions.c:394
 msgid ""
 "DCOUNTA:count of cells with data in @{field} in @{database} belonging to "
 "records that match @{criteria}"
@@ -713,19 +713,19 @@ msgstr ""
 "DCOUNT:počet buněk s daty v poli @{field} v databázi @{database} "
 "náležejících záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:402
+#: ../plugins/fn-database/functions.c:403
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3."
 msgstr "DCOUNTA(A1:C7; \"Plat\"; A9:A11) rovná se 3."
 
-#: ../plugins/fn-database/functions.c:403
+#: ../plugins/fn-database/functions.c:404
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2."
 msgstr "DCOUNTA(A1:C7; \"Plat\"; A9:B11) rovná se 2."
 
-#: ../plugins/fn-database/functions.c:404
+#: ../plugins/fn-database/functions.c:405
 msgid "DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2."
 msgstr "DCOUNTA(A1:C7; \"Jméno\"; A9:B11) rovná se 2."
 
-#: ../plugins/fn-database/functions.c:425
+#: ../plugins/fn-database/functions.c:426
 msgid ""
 "DGET:a value from @{field} in @{database} belonging to records that match @"
 "{criteria}"
@@ -733,24 +733,24 @@ msgstr ""
 "DGET:hodnota z pole @{field} v databázi @{database} náležejících záznamům, "
 "které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:434
+#: ../plugins/fn-database/functions.c:435
 msgid "If none of the records match the conditions, DGET returns #VALUE!"
 msgstr ""
 "Pokud žádný ze záznamů nevyhovuje podmínkám, funkce DGET vrací #HODNOTA!."
 
-#: ../plugins/fn-database/functions.c:435
+#: ../plugins/fn-database/functions.c:436
 msgid "If more than one record match the conditions, DGET returns #NUM!"
 msgstr "Pokud podmínkám vyhovuje více záznamů, funkce DGET vrací #ČÍSLO!."
 
-#: ../plugins/fn-database/functions.c:436
+#: ../plugins/fn-database/functions.c:437
 msgid "DGET(A1:C7, \"Salary\", A9:A10) equals 34323."
 msgstr "DGET(A1:C7; \"Plat\"; A9:A10) rovná se 34323."
 
-#: ../plugins/fn-database/functions.c:437
+#: ../plugins/fn-database/functions.c:438
 msgid "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\"."
 msgstr "DGET(A1:C7; \"Jméno\"; A9:A10) rovná se \"Karel\"."
 
-#: ../plugins/fn-database/functions.c:466
+#: ../plugins/fn-database/functions.c:467
 msgid ""
 "DMAX:largest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
@@ -758,19 +758,19 @@ msgstr ""
 "DMAX:největší číslo v poli @{field} v databázi @{database} náležejících "
 "záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:475
+#: ../plugins/fn-database/functions.c:476
 msgid "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242."
 msgstr "DMAX(A1:C7; \"Plat\"; A9:A11) rovná se 47242."
 
-#: ../plugins/fn-database/functions.c:476
+#: ../plugins/fn-database/functions.c:477
 msgid "DMAX(A1:C7, \"Age\", A9:A11) equals 45."
 msgstr "DMAX(A1:C7; \"Věk\"; A9:A11) rovná se 45."
 
-#: ../plugins/fn-database/functions.c:477
+#: ../plugins/fn-database/functions.c:478
 msgid "DMAX(A1:C7, \"Age\", A9:B11) equals 43."
 msgstr "DMAX(A1:C7; \"Věk\"; A9:B11) rovná se 43."
 
-#: ../plugins/fn-database/functions.c:502
+#: ../plugins/fn-database/functions.c:503
 msgid ""
 "DMIN:smallest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
@@ -778,15 +778,15 @@ msgstr ""
 "DMIN:nejmenší číslo v poli @{field} v databázi @{database} náležejících "
 "záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:511
+#: ../plugins/fn-database/functions.c:512
 msgid "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323."
 msgstr "DMIN(A1:C7; \"Plat\"; A9:B11) rovná se 34323."
 
-#: ../plugins/fn-database/functions.c:512
+#: ../plugins/fn-database/functions.c:513
 msgid "DMIN(A1:C7, \"Age\", A9:B11) equals 29."
 msgstr "DMIN(A1:C7; \"Věk\"; A9:B11) rovná se 29."
 
-#: ../plugins/fn-database/functions.c:535
+#: ../plugins/fn-database/functions.c:536
 msgid ""
 "DPRODUCT:product of all values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
@@ -794,11 +794,11 @@ msgstr ""
 "DPRODUCT:součin všech hodnot v poli @{field} v databázi @{database} "
 "náležejících záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:544
+#: ../plugins/fn-database/functions.c:545
 msgid "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247."
 msgstr "DPRODUCT(A1:C7; \"Věk\"; A9:B11) rovná se 1247."
 
-#: ../plugins/fn-database/functions.c:568
+#: ../plugins/fn-database/functions.c:569
 msgid ""
 "DSTDEV:sample standard deviation of the values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
@@ -806,15 +806,15 @@ msgstr ""
 "DSTDEV:výběrová směrodatná odchylka hodnot v poli @{field} v databázi @"
 "{database} náležejících záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:577
+#: ../plugins/fn-database/functions.c:578
 msgid "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949."
 msgstr "DSTDEV(A1:C7; \"Věk\"; A9:B11) rovná se 9,89949."
 
-#: ../plugins/fn-database/functions.c:578
+#: ../plugins/fn-database/functions.c:579
 msgid "DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506."
 msgstr "DSTDEV(A1:C7; \"Plat\"; A9:B11) rovná se 9135,112506."
 
-#: ../plugins/fn-database/functions.c:601
+#: ../plugins/fn-database/functions.c:602
 msgid ""
 "DSTDEVP:standard deviation of the population of values in @{field} in @"
 "{database} belonging to records that match @{criteria}"
@@ -822,15 +822,15 @@ msgstr ""
 "DSTDEVP:směrodatná odchylka souboru hodnot v poli @{field} v databázi @"
 "{database} náležejících záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:611
+#: ../plugins/fn-database/functions.c:612
 msgid "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7."
 msgstr "DSTDEVP(A1:C7; \"Věk\"; A9:B11) rovná se 7."
 
-#: ../plugins/fn-database/functions.c:612
+#: ../plugins/fn-database/functions.c:613
 msgid "DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5."
 msgstr "DSTDEVP(A1:C7; \"Plat\"; A9:B11) rovná se 6459,5."
 
-#: ../plugins/fn-database/functions.c:635
+#: ../plugins/fn-database/functions.c:636
 msgid ""
 "DSUM:sum of the values in @{field} in @{database} belonging to records that "
 "match @{criteria}"
@@ -838,15 +838,15 @@ msgstr ""
 "DSUM:součet hodnot v poli @{field} v databázi @{database} náležejících "
 "záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:644
+#: ../plugins/fn-database/functions.c:645
 msgid "DSUM(A1:C7, \"Age\", A9:B11) equals 72."
 msgstr "DSUM(A1:C7; \"Věk\"; A9:B11) rovná se 72."
 
-#: ../plugins/fn-database/functions.c:645
+#: ../plugins/fn-database/functions.c:646
 msgid "DSUM(A1:C7, \"Salary\", A9:B11) equals 81565."
 msgstr "DSUM(A1:C7; \"Plat\"; A9:B11) rovná se 81565."
 
-#: ../plugins/fn-database/functions.c:669
+#: ../plugins/fn-database/functions.c:670
 msgid ""
 "DVAR:sample variance of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
@@ -854,15 +854,15 @@ msgstr ""
 "DVAR:výběrový rozptyl hodnot v poli @{field} v databázi @{database} "
 "náležejících záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:678
+#: ../plugins/fn-database/functions.c:679
 msgid "DVAR(A1:C7, \"Age\", A9:B11) equals 98."
 msgstr "DVAR(A1:C7; \"Věk\"; A9:B11) rovná se 98."
 
-#: ../plugins/fn-database/functions.c:679
+#: ../plugins/fn-database/functions.c:680
 msgid "DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5."
 msgstr "DVAR(A1:C7; \"Plat\"; A9:B11) rovná se 83450280,5."
 
-#: ../plugins/fn-database/functions.c:702
+#: ../plugins/fn-database/functions.c:703
 msgid ""
 "DVARP:variance of the population of values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
@@ -870,27 +870,27 @@ msgstr ""
 "DVARP:rozptyl souboru hodnot v poli @{field} v databázi @{database} "
 "náležejících záznamům, které odpovídají kritériu @{criteria}"
 
-#: ../plugins/fn-database/functions.c:712
+#: ../plugins/fn-database/functions.c:713
 msgid "DVARP(A1:C7, \"Age\", A9:B11) equals 49."
 msgstr "DVARP(A1:C7; \"Věk\"; A9:B11) rovná se 49."
 
-#: ../plugins/fn-database/functions.c:713
+#: ../plugins/fn-database/functions.c:714
 msgid "DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25."
 msgstr "DVARP(A1:C7; \"Plat\"; A9:B11) rovná se 41725140.25."
 
-#: ../plugins/fn-database/functions.c:736
+#: ../plugins/fn-database/functions.c:737
 msgid "GETPIVOTDATA:summary data from a pivot table"
 msgstr "GETPIVOTDATA:souhrnná data z kontingenční tabulky"
 
-#: ../plugins/fn-database/functions.c:737
+#: ../plugins/fn-database/functions.c:738
 msgid "pivot_table:cell range containing the pivot table"
 msgstr "pivot_table:rozsah buněk obsahující kontingenční tabulku"
 
-#: ../plugins/fn-database/functions.c:738
+#: ../plugins/fn-database/functions.c:739
 msgid "field_name:name of the field for which the summary data is requested"
 msgstr "field_name:název pole, pro které jsou požadována souhrnná data"
 
-#: ../plugins/fn-database/functions.c:739
+#: ../plugins/fn-database/functions.c:740
 msgid "If the summary data is unavailable, GETPIVOTDATA returns #REF!"
 msgstr ""
 "Pokud nejsou souhrnná data k dispozici, funkce GETPIVOTDATA vrací #ODKAZ!."
@@ -1116,15 +1116,16 @@ msgid ""
 "between 0:00 and 24:00, the underlying serial time value is a number between "
 "0 and 1."
 msgstr ""
-"Zatímco vrácená hodnota je automaticky naformátována do podoby času v rozmezí "
-"0:00 a 24:00, základní hodnota sériového času je číslo v rozmezí 0 a 1."
+"Zatímco vrácená hodnota je automaticky naformátována do podoby času v "
+"rozmezí 0:00 a 24:00, základní hodnota sériového času je číslo v rozmezí 0 a "
+"1."
 
 #: ../plugins/fn-date/functions.c:428
 msgid ""
 "If any of @{hour}, @{minute}, and @{second} is negative, #NUM! is returned"
 msgstr ""
-"Pokud je některá z hodnot  @{hour}, @{minute} a @{second} záporná, je vráceno "
-"#ČÍSLO!."
+"Pokud je některá z hodnot  @{hour}, @{minute} a @{second} záporná, je "
+"vráceno #ČÍSLO!."
 
 #: ../plugins/fn-date/functions.c:458
 msgid "ODF.TIME:create a time serial value"
@@ -1155,8 +1156,9 @@ msgid ""
 "While the return value is automatically formatted to look like a time "
 "between 0:00 and 24:00, the underlying serial time value can be any number."
 msgstr ""
-"Zatímco vrácená hodnota je automaticky naformátována do podoby času v rozmezí "
-"0:00 a 24:00, základní hodnota sériového času může být libovolné číslo."
+"Zatímco vrácená hodnota je automaticky naformátována do podoby času v "
+"rozmezí 0:00 a 24:00, základní hodnota sériového času může být libovolné "
+"číslo."
 
 #: ../plugins/fn-date/functions.c:467 ../plugins/fn-date/functions.c:780
 #: ../plugins/fn-date/functions.c:1002 ../plugins/fn-date/functions.c:1292
@@ -1165,9 +1167,9 @@ msgstr ""
 #: ../plugins/fn-financial/functions.c:1312 ../plugins/fn-math/functions.c:433
 #: ../plugins/fn-math/functions.c:1033 ../plugins/fn-math/functions.c:1060
 #: ../plugins/fn-math/functions.c:1388 ../plugins/fn-math/functions.c:1408
-#: ../plugins/fn-math/functions.c:2076 ../plugins/fn-math/functions.c:2809
-#: ../plugins/fn-math/functions.c:2980 ../plugins/fn-stat/functions.c:1545
-#: ../plugins/fn-stat/functions.c:2423 ../plugins/fn-stat/functions.c:4555
+#: ../plugins/fn-math/functions.c:2076 ../plugins/fn-math/functions.c:2703
+#: ../plugins/fn-math/functions.c:2902 ../plugins/fn-stat/functions.c:1525
+#: ../plugins/fn-stat/functions.c:2403 ../plugins/fn-stat/functions.c:4582
 #: ../plugins/fn-string/functions.c:304 ../plugins/fn-string/functions.c:388
 #: ../plugins/fn-string/functions.c:515 ../plugins/fn-string/functions.c:1103
 #: ../plugins/fn-string/functions.c:1445 ../plugins/fn-string/functions.c:1575
@@ -2669,15 +2671,15 @@ msgstr "CONVERT:převedená míra"
 #: ../plugins/fn-math/functions.c:1913 ../plugins/fn-math/functions.c:1937
 #: ../plugins/fn-math/functions.c:1978 ../plugins/fn-math/functions.c:2025
 #: ../plugins/fn-stat/functions.c:440 ../plugins/fn-stat/functions.c:492
-#: ../plugins/fn-stat/functions.c:553 ../plugins/fn-stat/functions.c:873
-#: ../plugins/fn-stat/functions.c:942 ../plugins/fn-stat/functions.c:1005
-#: ../plugins/fn-stat/functions.c:1147 ../plugins/fn-stat/functions.c:1219
-#: ../plugins/fn-stat/functions.c:1306 ../plugins/fn-stat/functions.c:1336
-#: ../plugins/fn-stat/functions.c:1569 ../plugins/fn-stat/functions.c:1748
-#: ../plugins/fn-stat/functions.c:1784 ../plugins/fn-stat/functions.c:1951
-#: ../plugins/fn-stat/functions.c:4355 ../plugins/fn-stat/functions.c:4386
-#: ../plugins/fn-stat/functions.c:4420 ../plugins/fn-stat/functions.c:4455
-#: ../plugins/fn-stat/functions.c:4494 ../plugins/fn-stat/functions.c:4527
+#: ../plugins/fn-stat/functions.c:553 ../plugins/fn-stat/functions.c:853
+#: ../plugins/fn-stat/functions.c:922 ../plugins/fn-stat/functions.c:985
+#: ../plugins/fn-stat/functions.c:1127 ../plugins/fn-stat/functions.c:1199
+#: ../plugins/fn-stat/functions.c:1286 ../plugins/fn-stat/functions.c:1316
+#: ../plugins/fn-stat/functions.c:1549 ../plugins/fn-stat/functions.c:1728
+#: ../plugins/fn-stat/functions.c:1764 ../plugins/fn-stat/functions.c:1931
+#: ../plugins/fn-stat/functions.c:4382 ../plugins/fn-stat/functions.c:4413
+#: ../plugins/fn-stat/functions.c:4447 ../plugins/fn-stat/functions.c:4482
+#: ../plugins/fn-stat/functions.c:4521 ../plugins/fn-stat/functions.c:4554
 msgid "x:number"
 msgstr "x:číslo"
 
@@ -5487,7 +5489,7 @@ msgid "GD:Gudermannian function"
 msgstr "GD:Gudermannianova funkce"
 
 #: ../plugins/fn-math/functions.c:179 ../plugins/fn-math/functions.c:290
-#: ../plugins/fn-stat/functions.c:1721
+#: ../plugins/fn-stat/functions.c:1701
 msgid "x:value"
 msgstr "x:hodnota"
 
@@ -6026,7 +6028,8 @@ msgstr "Pokud @{z} není celé kladné číslo, funkce POWER vrací #ČÍSLO!."
 
 #: ../plugins/fn-math/functions.c:1225
 msgid "If @{x} < 0, @{y} is odd, and @{z} is even, POWER returns #NUM!"
-msgstr "Pokud @{x} < 0, @{y} je liché a @{z} je sudé, funkce POWER vrací #ČÍSLO!."
+msgstr ""
+"Pokud @{x} < 0, @{y} je liché a @{z} je sudé, funkce POWER vrací #ČÍSLO!."
 
 #: ../plugins/fn-math/functions.c:1258
 msgid "LOG2:the base-2 logarithm of @{x}"
@@ -6512,7 +6515,7 @@ msgstr "coeff:koeficienty mocninné řady"
 msgid "MINVERSE:the inverse matrix of @{matrix}"
 msgstr "MINVERSE:inverzní matice k matici @{matrix}"
 
-#: ../plugins/fn-math/functions.c:2587 ../plugins/fn-math/functions.c:2912
+#: ../plugins/fn-math/functions.c:2587 ../plugins/fn-math/functions.c:2838
 msgid "matrix:a square matrix"
 msgstr "matrix:čtvercová matice"
 
@@ -6528,7 +6531,7 @@ msgstr ""
 "Pokud matice @{matrix} neobsahuje stejný počet sloupců a řádků, funkce "
 "MINVERSE vrací #HODNOTA!."
 
-#: ../plugins/fn-math/functions.c:2720
+#: ../plugins/fn-math/functions.c:2623
 msgid ""
 "CHOLESKY:the Cholesky decomposition of the symmetric positive-definite @"
 "{matrix}"
@@ -6536,11 +6539,11 @@ msgstr ""
 "CHOLESKY:Choleského dekompozice symetrické pozitivně definitní matice @"
 "{matrix}"
 
-#: ../plugins/fn-math/functions.c:2721
+#: ../plugins/fn-math/functions.c:2624
 msgid "matrix:a symmetric positive definite matrix"
 msgstr "matrix:symetricky pozitivně definitní matice"
 
-#: ../plugins/fn-math/functions.c:2722
+#: ../plugins/fn-math/functions.c:2625
 msgid ""
 "If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky "
 "returns #NUM!"
@@ -6548,7 +6551,7 @@ msgstr ""
 "Pokud Choleského-Banachiewiczův algoritmus při použití na matici @{matrix} "
 "selže, funkce CHOLESKY vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:2723
+#: ../plugins/fn-math/functions.c:2626
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, CHOLESKY "
 "returns #VALUE!"
@@ -6556,35 +6559,55 @@ msgstr ""
 "Pokud matice @{matrix} neobsahuje stejný počet sloupců a řádků, funkce "
 "CHOLESKY vrací #HODNOTA!."
 
-#: ../plugins/fn-math/functions.c:2807
+#: ../plugins/fn-math/functions.c:2701
 msgid "MUNIT:the @{n} by @{n} identity matrix"
 msgstr "MUNIT:jednotková matice @{n} krát @{n}"
 
-#: ../plugins/fn-math/functions.c:2808
+#: ../plugins/fn-math/functions.c:2702
 msgid "n:size of the matrix"
 msgstr "n:rozměr matice"
 
-#: ../plugins/fn-math/functions.c:2844
+#: ../plugins/fn-math/functions.c:2739
 msgid "MMULT:the matrix product of @{mat1} and @{mat2}"
 msgstr "MMULT:součin matic @{mat1} a @{mat2}"
 
-#: ../plugins/fn-math/functions.c:2845
+#: ../plugins/fn-math/functions.c:2740
 msgid "mat1:a matrix"
 msgstr "mat1:matice"
 
-#: ../plugins/fn-math/functions.c:2846
+#: ../plugins/fn-math/functions.c:2741
 msgid "mat2:a matrix"
 msgstr "mat2:matice"
 
-#: ../plugins/fn-math/functions.c:2911
+#: ../plugins/fn-math/functions.c:2781
+msgid "LINSOLVE:solve linear equation"
+msgstr "LINSOLVE:řeší lineární rovnici"
+
+#: ../plugins/fn-math/functions.c:2782 ../plugins/fn-stat/functions.c:3134
+msgid "A:a matrix"
+msgstr "A:matice a"
+
+#: ../plugins/fn-math/functions.c:2783
+msgid "B:a matrix"
+msgstr "B:matice b"
+
+#: ../plugins/fn-math/functions.c:2785
+msgid "Solves the equation @{A}*X=@{B} and returns X."
+msgstr "Vyřeší rovnici @{A}*X=@{B} a vrátí X."
+
+#: ../plugins/fn-math/functions.c:2786
+msgid "If the matrix @{A} is singular, #VALUE! is returned."
+msgstr "Pokud je matice @{A} singulární, je vráceno #HODNOTA!."
+
+#: ../plugins/fn-math/functions.c:2837
 msgid "MDETERM:the determinant of the matrix @{matrix}"
 msgstr "MDETERM:determinant matice @{matrix}"
 
-#: ../plugins/fn-math/functions.c:2947
+#: ../plugins/fn-math/functions.c:2869
 msgid "SUMPRODUCT:multiplies components and adds the results"
 msgstr "SUMPRODUCT:vynásobí jednotlivé prvky a vrátí jejich součet"
 
-#: ../plugins/fn-math/functions.c:2949 ../plugins/fn-math/functions.c:2972
+#: ../plugins/fn-math/functions.c:2871 ../plugins/fn-math/functions.c:2894
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
@@ -6592,11 +6615,11 @@ msgstr ""
 "Vynásobí odpovídající datové položky v zadaném poli nebo rozsahu a vrátí "
 "součet těchto násobků."
 
-#: ../plugins/fn-math/functions.c:2952
+#: ../plugins/fn-math/functions.c:2874
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr "Pokud některé zadání není číselné, použije se místo něj nula."
 
-#: ../plugins/fn-math/functions.c:2953 ../plugins/fn-math/functions.c:2976
+#: ../plugins/fn-math/functions.c:2875 ../plugins/fn-math/functions.c:2898
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
@@ -6604,7 +6627,7 @@ msgstr ""
 "Pokud argumenty v podobě pole nebo rozsahu nemají stejné rozměry, je vrácena "
 "chyba #HODNOTA!."
 
-#: ../plugins/fn-math/functions.c:2955
+#: ../plugins/fn-math/functions.c:2877
 msgid ""
 "This function ignores logicals, so using SUMPRODUCT(A1:A5>0) will not work.  "
 "Instead use SUMPRODUCT(--(A1:A5>0))"
@@ -6612,47 +6635,47 @@ msgstr ""
 "Tato funkce ignoruje pravdivostní výrazy, takže SUMPRODUCT(A1:A5>0) nebude "
 "pracovat. Namísto toho použijte SUMPRODUCT(--(A1:A5>0))"
 
-#: ../plugins/fn-math/functions.c:2964
+#: ../plugins/fn-math/functions.c:2886
 msgid ""
 "This function is not OpenFormula compatible. Use ODF.SUMPRODUCT instead."
 msgstr ""
 "Tato funkce není kompatibilní s OpenFormula. Použijte místo ní ODF."
 "SUMPRODUCT."
 
-#: ../plugins/fn-math/functions.c:2970
+#: ../plugins/fn-math/functions.c:2892
 msgid "ODF.SUMPRODUCT:multiplies components and adds the results"
 msgstr "ODF.SUMPRODUCT:vynásobí jednotlivé prvky a vrátí jejich součet"
 
-#: ../plugins/fn-math/functions.c:2975
+#: ../plugins/fn-math/functions.c:2897
 msgid "If an entry is not numeric or logical, the value zero is used instead."
 msgstr ""
 "Pokud některé zadání není číselné nebo pravdivostní, použije se místo něj "
 "nula."
 
-#: ../plugins/fn-math/functions.c:2978
+#: ../plugins/fn-math/functions.c:2900
 msgid "This function differs from SUMPRODUCT by considering booleans."
 msgstr ""
 "Tato funkce se liší od funkce SUMPRODUCT braním v úvahu pravdivostních "
 "hodnot."
 
-#: ../plugins/fn-math/functions.c:2979
+#: ../plugins/fn-math/functions.c:2901
 msgid "This function is not Excel compatible. Use SUMPRODUCT instead."
 msgstr ""
 "Tato funkce není kompatibilní s aplikací Excel. Použijte místo ní SUMPRODUCT."
 
-#: ../plugins/fn-math/functions.c:3114
+#: ../plugins/fn-math/functions.c:3036
 msgid "EIGEN:eigenvalues and eigenvectors of the symmetric @{matrix}"
 msgstr "EIGEN:vlastní čísla a vlastní vektory symetrické matice @{matrix}"
 
-#: ../plugins/fn-math/functions.c:3115
+#: ../plugins/fn-math/functions.c:3037
 msgid "matrix:a symmetric matrix"
 msgstr "matrix:symetrická matice"
 
-#: ../plugins/fn-math/functions.c:3116
+#: ../plugins/fn-math/functions.c:3038
 msgid "If @{matrix} is not symmetric, EIGEN returns #NUM!"
 msgstr "Pokud není matice @{matrix} symetrická, funkce EIGEN vrací #ČÍSLO!."
 
-#: ../plugins/fn-math/functions.c:3117
+#: ../plugins/fn-math/functions.c:3039
 msgid ""
 "If @{matrix} does not contain an equal number of columns and rows, EIGEN "
 "returns #VALUE!"
@@ -6969,9 +6992,9 @@ msgstr "R.QNORM:inverzní distribuční funkce normálního rozdělení"
 #: ../plugins/fn-r/functions.c:920 ../plugins/fn-r/functions.c:1003
 #: ../plugins/fn-r/functions.c:1080 ../plugins/fn-r/functions.c:1157
 #: ../plugins/fn-random/functions.c:630 ../plugins/fn-stat/functions.c:522
-#: ../plugins/fn-stat/functions.c:975 ../plugins/fn-stat/functions.c:1033
-#: ../plugins/fn-stat/functions.c:1184 ../plugins/fn-stat/functions.c:1271
-#: ../plugins/fn-stat/functions.c:1472 ../plugins/fn-stat/functions.c:1817
+#: ../plugins/fn-stat/functions.c:955 ../plugins/fn-stat/functions.c:1013
+#: ../plugins/fn-stat/functions.c:1164 ../plugins/fn-stat/functions.c:1251
+#: ../plugins/fn-stat/functions.c:1452 ../plugins/fn-stat/functions.c:1797
 msgid "p:probability"
 msgstr "p:pravděpodobnost"
 
@@ -7774,7 +7797,7 @@ msgstr "Pokud @{n} < 1, funkce RANDNEGBINOM vrací #ČÍSLO!."
 msgid "RANDBERNOULLI:random variate from a Bernoulli distribution"
 msgstr "RANDBERNOULLI:náhodná veličina z Bernoulliho rozdělení"
 
-#: ../plugins/fn-random/functions.c:301 ../plugins/fn-stat/functions.c:907
+#: ../plugins/fn-random/functions.c:301 ../plugins/fn-stat/functions.c:887
 msgid "p:probability of success"
 msgstr "p:pravděpodobnost úspěchu"
 
@@ -8226,15 +8249,15 @@ msgstr "VARP:rozptyl z celého základního souboru"
 
 #: ../plugins/fn-stat/functions.c:51 ../plugins/fn-stat/functions.c:77
 #: ../plugins/fn-stat/functions.c:107 ../plugins/fn-stat/functions.c:135
-#: ../plugins/fn-stat/functions.c:2557 ../plugins/fn-stat/functions.c:2588
-#: ../plugins/fn-stat/functions.c:2616 ../plugins/fn-stat/functions.c:2645
+#: ../plugins/fn-stat/functions.c:2537 ../plugins/fn-stat/functions.c:2568
+#: ../plugins/fn-stat/functions.c:2596 ../plugins/fn-stat/functions.c:2625
 msgid "area1:first cell area"
 msgstr "area1:první oblast buněk"
 
 #: ../plugins/fn-stat/functions.c:52 ../plugins/fn-stat/functions.c:78
 #: ../plugins/fn-stat/functions.c:108 ../plugins/fn-stat/functions.c:136
-#: ../plugins/fn-stat/functions.c:2558 ../plugins/fn-stat/functions.c:2589
-#: ../plugins/fn-stat/functions.c:2617 ../plugins/fn-stat/functions.c:2646
+#: ../plugins/fn-stat/functions.c:2538 ../plugins/fn-stat/functions.c:2569
+#: ../plugins/fn-stat/functions.c:2597 ../plugins/fn-stat/functions.c:2626
 msgid "area2:second cell area"
 msgstr "area2:druhá oblast buněk"
 
@@ -8270,7 +8293,7 @@ msgstr "VAR:výběrový rozptyl ze zadaného výběru"
 msgid "VAR is also known as the N-1-variance."
 msgstr "Funkce VAR je známá také jako N-1-rozptyl."
 
-#: ../plugins/fn-stat/functions.c:80 ../plugins/fn-stat/functions.c:2562
+#: ../plugins/fn-stat/functions.c:80 ../plugins/fn-stat/functions.c:2542
 msgid ""
 "Since the N-1-variance includes Bessel's correction, whereas the N-variance "
 "calculated by VARPA or VARP does not, under reasonable conditions the N-1-"
@@ -8284,14 +8307,14 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:84 ../plugins/fn-stat/functions.c:112
 #: ../plugins/fn-stat/functions.c:139 ../plugins/fn-stat/functions.c:277
 #: ../plugins/fn-stat/functions.c:603 ../plugins/fn-stat/functions.c:630
-#: ../plugins/fn-stat/functions.c:656 ../plugins/fn-stat/functions.c:726
-#: ../plugins/fn-stat/functions.c:752 ../plugins/fn-stat/functions.c:787
-#: ../plugins/fn-stat/functions.c:827 ../plugins/fn-stat/functions.c:852
-#: ../plugins/fn-stat/functions.c:1855 ../plugins/fn-stat/functions.c:1881
-#: ../plugins/fn-stat/functions.c:1905 ../plugins/fn-stat/functions.c:1930
-#: ../plugins/fn-stat/functions.c:2061 ../plugins/fn-stat/functions.c:2193
-#: ../plugins/fn-stat/functions.c:2236 ../plugins/fn-stat/functions.c:2424
-#: ../plugins/fn-stat/functions.c:2774 ../plugins/fn-stat/functions.c:2817
+#: ../plugins/fn-stat/functions.c:656 ../plugins/fn-stat/functions.c:706
+#: ../plugins/fn-stat/functions.c:732 ../plugins/fn-stat/functions.c:767
+#: ../plugins/fn-stat/functions.c:807 ../plugins/fn-stat/functions.c:832
+#: ../plugins/fn-stat/functions.c:1835 ../plugins/fn-stat/functions.c:1861
+#: ../plugins/fn-stat/functions.c:1885 ../plugins/fn-stat/functions.c:1910
+#: ../plugins/fn-stat/functions.c:2041 ../plugins/fn-stat/functions.c:2173
+#: ../plugins/fn-stat/functions.c:2216 ../plugins/fn-stat/functions.c:2404
+#: ../plugins/fn-stat/functions.c:2754 ../plugins/fn-stat/functions.c:2797
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1."
@@ -8332,7 +8355,7 @@ msgstr "wolfram:StandardDeviation.html"
 msgid "STDEVP:population standard deviation of the given population"
 msgstr "STDEVP:směrodatná odchylka z daného základního souboru"
 
-#: ../plugins/fn-stat/functions.c:137 ../plugins/fn-stat/functions.c:2647
+#: ../plugins/fn-stat/functions.c:137 ../plugins/fn-stat/functions.c:2627
 msgid "This is also known as the N-standard deviation"
 msgstr "Funkce je známá také jako N-směrodatná odchylka."
 
@@ -8448,18 +8471,18 @@ msgstr "array2:druhá množina dat"
 
 #: ../plugins/fn-stat/functions.c:323 ../plugins/fn-stat/functions.c:353
 #: ../plugins/fn-stat/functions.c:383 ../plugins/fn-stat/functions.c:573
-#: ../plugins/fn-stat/functions.c:821 ../plugins/fn-stat/functions.c:850
-#: ../plugins/fn-stat/functions.c:1847 ../plugins/fn-stat/functions.c:1878
-#: ../plugins/fn-stat/functions.c:1928 ../plugins/fn-stat/functions.c:2014
-#: ../plugins/fn-stat/functions.c:2033 ../plugins/fn-stat/functions.c:2057
+#: ../plugins/fn-stat/functions.c:801 ../plugins/fn-stat/functions.c:830
+#: ../plugins/fn-stat/functions.c:1827 ../plugins/fn-stat/functions.c:1858
+#: ../plugins/fn-stat/functions.c:1908 ../plugins/fn-stat/functions.c:1994
+#: ../plugins/fn-stat/functions.c:2013 ../plugins/fn-stat/functions.c:2037
 msgid "Strings and empty cells are simply ignored."
 msgstr "Řetězce a prázdné buňky jsou jednoduše ignorovány."
 
 #: ../plugins/fn-stat/functions.c:325 ../plugins/fn-stat/functions.c:355
-#: ../plugins/fn-stat/functions.c:385 ../plugins/fn-stat/functions.c:2365
-#: ../plugins/fn-stat/functions.c:2858 ../plugins/fn-stat/functions.c:2924
-#: ../plugins/fn-stat/functions.c:3960 ../plugins/fn-stat/functions.c:4017
-#: ../plugins/fn-stat/functions.c:4069
+#: ../plugins/fn-stat/functions.c:385 ../plugins/fn-stat/functions.c:2345
+#: ../plugins/fn-stat/functions.c:2838 ../plugins/fn-stat/functions.c:2904
+#: ../plugins/fn-stat/functions.c:3994 ../plugins/fn-stat/functions.c:4051
+#: ../plugins/fn-stat/functions.c:4103
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, "
@@ -8532,10 +8555,13 @@ msgid "If @{p} < 0 or @{p} > 1 this functions returns a #NUM! error."
 msgstr "Pokud je @{p} < 0 nebo @{p} > 1, tak tato funkce vrací chybu #ČÍSLO!."
 
 #: ../plugins/fn-stat/functions.c:439
+#| msgid ""
+#| "NORMSDIST:cumulative density function of the standard normal distribution"
 msgid ""
-"NORMSDIST:cumulative density function of the standard normal distribution"
+"NORMSDIST:cumulative distribution function of the standard normal "
+"distribution"
 msgstr ""
-"NORMSDIST:hromadná pravděpodobnostní funkce standardního normálního rozdělení"
+"NORMSDIST:hromadná distribuční funkce standardního normálního rozdělení"
 
 #: ../plugins/fn-stat/functions.c:442
 msgid "NORMSDIST is the OpenFormula function LEGACY.NORMSDIST."
@@ -8550,11 +8576,14 @@ msgid "wolfram:NormalDistribution.html"
 msgstr "wolfram:NormalDistribution.html"
 
 #: ../plugins/fn-stat/functions.c:463
+#| msgid ""
+#| "NORMSINV:inverse of the cumulative density function of the standard "
+#| "normal distribution"
 msgid ""
-"NORMSINV:inverse of the cumulative density function of the standard normal "
-"distribution"
+"NORMSINV:inverse of the cumulative distribution function of the standard "
+"normal distribution"
 msgstr ""
-"NORMSINV:inverzní funkce k hromadné pravděpodobnostní funkci standardního "
+"NORMSINV:inverzní funkce k hromadné distribuční funkci standardního "
 "normálního rozdělení"
 
 #: ../plugins/fn-stat/functions.c:464
@@ -8632,25 +8661,25 @@ msgstr "MODE:první nejběžnější číslo v množině dat"
 
 #: ../plugins/fn-stat/functions.c:571 ../plugins/fn-stat/functions.c:599
 #: ../plugins/fn-stat/functions.c:626 ../plugins/fn-stat/functions.c:653
-#: ../plugins/fn-stat/functions.c:689 ../plugins/fn-stat/functions.c:723
-#: ../plugins/fn-stat/functions.c:749 ../plugins/fn-stat/functions.c:784
-#: ../plugins/fn-stat/functions.c:819 ../plugins/fn-stat/functions.c:848
-#: ../plugins/fn-stat/functions.c:1845 ../plugins/fn-stat/functions.c:1876
-#: ../plugins/fn-stat/functions.c:1902 ../plugins/fn-stat/functions.c:1926
-#: ../plugins/fn-stat/functions.c:2055 ../plugins/fn-stat/functions.c:2478
-#: ../plugins/fn-stat/functions.c:2503 ../plugins/fn-stat/functions.c:2530
+#: ../plugins/fn-stat/functions.c:678 ../plugins/fn-stat/functions.c:703
+#: ../plugins/fn-stat/functions.c:729 ../plugins/fn-stat/functions.c:764
+#: ../plugins/fn-stat/functions.c:799 ../plugins/fn-stat/functions.c:828
+#: ../plugins/fn-stat/functions.c:1825 ../plugins/fn-stat/functions.c:1856
+#: ../plugins/fn-stat/functions.c:1882 ../plugins/fn-stat/functions.c:1906
+#: ../plugins/fn-stat/functions.c:2035 ../plugins/fn-stat/functions.c:2458
+#: ../plugins/fn-stat/functions.c:2483 ../plugins/fn-stat/functions.c:2510
 msgid "number1:first value"
 msgstr "number1:první hodnota"
 
 #: ../plugins/fn-stat/functions.c:572 ../plugins/fn-stat/functions.c:600
 #: ../plugins/fn-stat/functions.c:627 ../plugins/fn-stat/functions.c:654
-#: ../plugins/fn-stat/functions.c:690 ../plugins/fn-stat/functions.c:724
-#: ../plugins/fn-stat/functions.c:750 ../plugins/fn-stat/functions.c:785
-#: ../plugins/fn-stat/functions.c:820 ../plugins/fn-stat/functions.c:849
-#: ../plugins/fn-stat/functions.c:1846 ../plugins/fn-stat/functions.c:1877
-#: ../plugins/fn-stat/functions.c:1903 ../plugins/fn-stat/functions.c:1927
-#: ../plugins/fn-stat/functions.c:2056 ../plugins/fn-stat/functions.c:2479
-#: ../plugins/fn-stat/functions.c:2504 ../plugins/fn-stat/functions.c:2531
+#: ../plugins/fn-stat/functions.c:679 ../plugins/fn-stat/functions.c:704
+#: ../plugins/fn-stat/functions.c:730 ../plugins/fn-stat/functions.c:765
+#: ../plugins/fn-stat/functions.c:800 ../plugins/fn-stat/functions.c:829
+#: ../plugins/fn-stat/functions.c:1826 ../plugins/fn-stat/functions.c:1857
+#: ../plugins/fn-stat/functions.c:1883 ../plugins/fn-stat/functions.c:1907
+#: ../plugins/fn-stat/functions.c:2036 ../plugins/fn-stat/functions.c:2459
+#: ../plugins/fn-stat/functions.c:2484 ../plugins/fn-stat/functions.c:2511
 msgid "number2:second value"
 msgstr "number2:druhá hodnota"
 
@@ -8737,11 +8766,11 @@ msgstr ""
 msgid "Then COUNT(A1:A5) equals 5."
 msgstr "Potom se COUNT(A1:A5) rovná 5."
 
-#: ../plugins/fn-stat/functions.c:688
+#: ../plugins/fn-stat/functions.c:677
 msgid "COUNTA:number of arguments passed not including empty cells"
 msgstr "COUNTA:počet předaných argumentů a to včetně prázdných buňek"
 
-#: ../plugins/fn-stat/functions.c:692
+#: ../plugins/fn-stat/functions.c:681
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 "11.4, \"missing\", \"missing\", 25.9, and 40.1."
@@ -8749,51 +8778,51 @@ msgstr ""
 "Předpokládejme, že buňky A1, A2, …, A5 obsahují čísla a řetězce 11,4; "
 "„schází“; „schází“; 25,9 a 40,1."
 
-#: ../plugins/fn-stat/functions.c:693
+#: ../plugins/fn-stat/functions.c:682
 msgid "Then COUNTA(A1:A5) equals 5."
 msgstr "Potom se COUNTA(A1:A5) rovná 5."
 
-#: ../plugins/fn-stat/functions.c:722
+#: ../plugins/fn-stat/functions.c:702
 msgid "AVERAGE:average of all the numeric values and cells"
 msgstr "AVERAGE:průměr všech číselných hodnot a buňek"
 
-#: ../plugins/fn-stat/functions.c:727
+#: ../plugins/fn-stat/functions.c:707
 msgid "Then AVERAGE(A1:A5) equals 23.2."
 msgstr "Potom se AVERAGE(A1:A5) rovná 23,2."
 
-#: ../plugins/fn-stat/functions.c:729
+#: ../plugins/fn-stat/functions.c:709
 msgid "wiki:en:Arithmetic_mean"
 msgstr "wiki:cs:Aritmetický_průměr"
 
-#: ../plugins/fn-stat/functions.c:730
+#: ../plugins/fn-stat/functions.c:710
 msgid "wolfram:ArithmeticMean.html"
 msgstr "wolfram:ArithmeticMean.html"
 
-#: ../plugins/fn-stat/functions.c:748
+#: ../plugins/fn-stat/functions.c:728
 msgid ""
 "MIN:smallest value, with negative numbers considered smaller than positive "
 "numbers"
 msgstr "MIN:nejmenší hodnota, záporná čísla jsou pokládána za menší než kladná"
 
-#: ../plugins/fn-stat/functions.c:753
+#: ../plugins/fn-stat/functions.c:733
 msgid "Then MIN(A1:A5) equals 11.4."
 msgstr "Potom se MIN(A1:A5) rovná 11,4."
 
-#: ../plugins/fn-stat/functions.c:783
+#: ../plugins/fn-stat/functions.c:763
 msgid ""
 "MAX:largest value, with negative numbers considered smaller than positive "
 "numbers"
 msgstr "MAX:největší hodnota, záporná čísla jsou pokládána za menší než kladná"
 
-#: ../plugins/fn-stat/functions.c:788
+#: ../plugins/fn-stat/functions.c:768
 msgid "Then MAX(A1:A5) equals 40.1."
 msgstr "Potom se MAX(A1:A5) rovná 40,1."
 
-#: ../plugins/fn-stat/functions.c:818
+#: ../plugins/fn-stat/functions.c:798
 msgid "SKEW:unbiased estimate for skewness of a distribution"
 msgstr "SKEW:objektivní odhad koeficientu šikmosti rozdělení"
 
-#: ../plugins/fn-stat/functions.c:822
+#: ../plugins/fn-stat/functions.c:802
 msgid ""
 "This is only meaningful if the underlying distribution really has a third "
 "moment.  The skewness of a symmetric (e.g., normal) distribution is zero."
@@ -8801,31 +8830,31 @@ msgstr ""
 "Toto má smysl jen pokud má základní rozdělení skutečně třetí moment. Šikmost "
 "symetrického (např. normálního) rozdělení je nula."
 
-#: ../plugins/fn-stat/functions.c:825
+#: ../plugins/fn-stat/functions.c:805
 msgid ""
 "If less than three numbers are given, this function returns a #DIV/0! error."
 msgstr ""
 "Pokud jsou zadána méně než tři čísla, tak tato funkce vrací chybu #DĚLENÍ/0!."
 
-#: ../plugins/fn-stat/functions.c:828
+#: ../plugins/fn-stat/functions.c:808
 msgid "Then SKEW(A1:A5) equals 0.976798268."
 msgstr "Potom se SKEW(A1:A5) rovná 0,976798268."
 
-#: ../plugins/fn-stat/functions.c:847
+#: ../plugins/fn-stat/functions.c:827
 msgid "SKEWP:population skewness of a data set"
 msgstr "SKEWP:populační koeficient šikmosti množiny dat"
 
-#: ../plugins/fn-stat/functions.c:851
+#: ../plugins/fn-stat/functions.c:831
 msgid "If less than two numbers are given, SKEWP returns a #DIV/0! error."
 msgstr ""
 "Pokud jsou zadána méně než dvě čísla, tak funkce SKEWP vrací chybu "
 "#DĚLENÍ/0!."
 
-#: ../plugins/fn-stat/functions.c:853
+#: ../plugins/fn-stat/functions.c:833
 msgid "Then SKEWP(A1:A5) equals 0.655256198."
 msgstr "Potom se SKEWP(A1:A5) rovná 0,655256198."
 
-#: ../plugins/fn-stat/functions.c:872
+#: ../plugins/fn-stat/functions.c:852
 msgid ""
 "EXPONDIST:probability density or cumulative distribution function of the "
 "exponential distribution"
@@ -8833,13 +8862,13 @@ msgstr ""
 "EXPONDIST:hustota pravděpodobnosti nebo hromadná distribuční funkce "
 "exponenciálního rozdělení"
 
-#: ../plugins/fn-stat/functions.c:874
+#: ../plugins/fn-stat/functions.c:854
 msgid "y:scale parameter"
 msgstr "y:koeficient měřítka"
 
-#: ../plugins/fn-stat/functions.c:875 ../plugins/fn-stat/functions.c:945
-#: ../plugins/fn-stat/functions.c:1571 ../plugins/fn-stat/functions.c:1751
-#: ../plugins/fn-stat/functions.c:1787
+#: ../plugins/fn-stat/functions.c:855 ../plugins/fn-stat/functions.c:925
+#: ../plugins/fn-stat/functions.c:1551 ../plugins/fn-stat/functions.c:1731
+#: ../plugins/fn-stat/functions.c:1767
 msgid ""
 "cumulative:whether to evaluate the density function or the cumulative "
 "distribution function"
@@ -8847,7 +8876,7 @@ msgstr ""
 "cumulative:zda vyhodnotit funkci hustoty pravděpodobnosti nebo hromadnou "
 "distribuční funkci"
 
-#: ../plugins/fn-stat/functions.c:876
+#: ../plugins/fn-stat/functions.c:856
 msgid ""
 "If @{cumulative} is false it will return:\t@{y} * exp (-@{y}*@{x}),otherwise "
 "it will return\t1 - exp (-@{y}*@{x})."
@@ -8855,30 +8884,30 @@ msgstr ""
 "Pokud je @{cumulative} PRAVDA, vrací:\t@{y}.exp (-@{y}.@{x}), jinak vrací:"
 "\t1 - exp (-@{y}.@{x})."
 
-#: ../plugins/fn-stat/functions.c:879
+#: ../plugins/fn-stat/functions.c:859
 msgid "If @{x} < 0 or @{y} <= 0 this will return an error."
 msgstr "Pokud je @{x} < 0 nebo @{y} <= 0, tak tato funkce vrací chybu."
 
-#: ../plugins/fn-stat/functions.c:905
+#: ../plugins/fn-stat/functions.c:885
 msgid "BERNOULLI:probability mass function of a Bernoulli distribution"
 msgstr "BERNOULLI:funkce pravděpodobnostní míry Bernoulliho rozdělení"
 
-#: ../plugins/fn-stat/functions.c:906
+#: ../plugins/fn-stat/functions.c:886
 msgid "k:integer"
 msgstr "k:celé číslo"
 
-#: ../plugins/fn-stat/functions.c:908
+#: ../plugins/fn-stat/functions.c:888
 msgid "If @{k} != 0 and @{k} != 1 this function returns a #NUM! error."
 msgstr "Pokud je @{k} != 0 a @{k} != 1, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:909 ../plugins/fn-stat/functions.c:978
-#: ../plugins/fn-stat/functions.c:1189 ../plugins/fn-stat/functions.c:1476
-#: ../plugins/fn-stat/functions.c:1509 ../plugins/fn-stat/functions.c:1543
-#: ../plugins/fn-stat/functions.c:1604 ../plugins/fn-stat/functions.c:4328
+#: ../plugins/fn-stat/functions.c:889 ../plugins/fn-stat/functions.c:958
+#: ../plugins/fn-stat/functions.c:1169 ../plugins/fn-stat/functions.c:1456
+#: ../plugins/fn-stat/functions.c:1489 ../plugins/fn-stat/functions.c:1523
+#: ../plugins/fn-stat/functions.c:1584 ../plugins/fn-stat/functions.c:4355
 msgid "If @{p} < 0 or @{p} > 1 this function returns a #NUM! error."
 msgstr "Pokud je @{p} < 0 nebo @{p} > 1, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:941
+#: ../plugins/fn-stat/functions.c:921
 msgid ""
 "GAMMADIST:probability density or cumulative distribution function of the "
 "gamma distribution"
@@ -8886,98 +8915,98 @@ msgstr ""
 "GAMMADIST:hustota pravděpodobnosti nebo hromadná distribuční funkce "
 "rozdělení gama"
 
-#: ../plugins/fn-stat/functions.c:943 ../plugins/fn-stat/functions.c:976
-#: ../plugins/fn-stat/functions.c:1148 ../plugins/fn-stat/functions.c:1185
-#: ../plugins/fn-stat/functions.c:1749
+#: ../plugins/fn-stat/functions.c:923 ../plugins/fn-stat/functions.c:956
+#: ../plugins/fn-stat/functions.c:1128 ../plugins/fn-stat/functions.c:1165
+#: ../plugins/fn-stat/functions.c:1729
 msgid "alpha:scale parameter"
 msgstr "alpha:koeficient měřítka"
 
-#: ../plugins/fn-stat/functions.c:944 ../plugins/fn-stat/functions.c:977
-#: ../plugins/fn-stat/functions.c:1149 ../plugins/fn-stat/functions.c:1186
-#: ../plugins/fn-stat/functions.c:1750
+#: ../plugins/fn-stat/functions.c:924 ../plugins/fn-stat/functions.c:957
+#: ../plugins/fn-stat/functions.c:1129 ../plugins/fn-stat/functions.c:1166
+#: ../plugins/fn-stat/functions.c:1730
 msgid "beta:scale parameter"
 msgstr "beta:koeficient měřítka"
 
-#: ../plugins/fn-stat/functions.c:946 ../plugins/fn-stat/functions.c:1310
-#: ../plugins/fn-stat/functions.c:1755 ../plugins/fn-stat/functions.c:1984
+#: ../plugins/fn-stat/functions.c:926 ../plugins/fn-stat/functions.c:1290
+#: ../plugins/fn-stat/functions.c:1735 ../plugins/fn-stat/functions.c:1964
 msgid "If @{x} < 0 this function returns a #NUM! error."
 msgstr "Pokud je @{x} < 0, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:947 ../plugins/fn-stat/functions.c:1153
-#: ../plugins/fn-stat/functions.c:1190
+#: ../plugins/fn-stat/functions.c:927 ../plugins/fn-stat/functions.c:1133
+#: ../plugins/fn-stat/functions.c:1170
 msgid "If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error."
 msgstr ""
 "Pokud je @{alpha} <= 0 nebo @{beta} <= 0, tak tato funkce vrací chybu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:974
+#: ../plugins/fn-stat/functions.c:954
 msgid "GAMMAINV:inverse of the cumulative gamma distribution"
 msgstr "GAMMAINV:inverzní funkce k hromadnému rozdělené gama"
 
-#: ../plugins/fn-stat/functions.c:979 ../plugins/fn-stat/functions.c:1756
+#: ../plugins/fn-stat/functions.c:959 ../plugins/fn-stat/functions.c:1736
 msgid "If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error."
 msgstr ""
 "Pokud je @{alpha} <= 0 nebo @{beta} <= 0, tak tato funkce vrací chybu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1004
+#: ../plugins/fn-stat/functions.c:984
 msgid "CHIDIST:survival function of the chi-squared distribution"
 msgstr "CHIDIST:funkce přežití rozdělení chí-kvadrát"
 
-#: ../plugins/fn-stat/functions.c:1006 ../plugins/fn-stat/functions.c:1034
-#: ../plugins/fn-stat/functions.c:1220 ../plugins/fn-stat/functions.c:1272
+#: ../plugins/fn-stat/functions.c:986 ../plugins/fn-stat/functions.c:1014
+#: ../plugins/fn-stat/functions.c:1200 ../plugins/fn-stat/functions.c:1252
 msgid "dof:number of degrees of freedom"
 msgstr "dof:počet stupňů volnosti"
 
-#: ../plugins/fn-stat/functions.c:1007 ../plugins/fn-stat/functions.c:1035
-#: ../plugins/fn-stat/functions.c:1222 ../plugins/fn-stat/functions.c:1273
-#: ../plugins/fn-stat/functions.c:1309 ../plugins/fn-stat/functions.c:1475
+#: ../plugins/fn-stat/functions.c:987 ../plugins/fn-stat/functions.c:1015
+#: ../plugins/fn-stat/functions.c:1202 ../plugins/fn-stat/functions.c:1253
+#: ../plugins/fn-stat/functions.c:1289 ../plugins/fn-stat/functions.c:1455
 msgid "The survival function is 1 minus the cumulative distribution function."
 msgstr "Funkce přežití je 1 mínus hromadná distribuční funkce."
 
-#: ../plugins/fn-stat/functions.c:1008
+#: ../plugins/fn-stat/functions.c:988
 msgid "If @{dof} is non-integer it is truncated."
 msgstr "Pokud je hodnota @{dof} neceločíselná, tak je oříznuta."
 
-#: ../plugins/fn-stat/functions.c:1009 ../plugins/fn-stat/functions.c:1223
+#: ../plugins/fn-stat/functions.c:989 ../plugins/fn-stat/functions.c:1203
 msgid "If @{dof} < 1 this function returns a #NUM! error."
 msgstr "Pokud je @{dof} < 1, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1011
+#: ../plugins/fn-stat/functions.c:991
 msgid ""
 "CHIDIST(@{x},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{x},@{dof})."
 msgstr ""
 "CHIDIST(@{x},@{dof}) je funkce OpenFormula LEGACY.CHIDIST(@{x},@{dof})."
 
-#: ../plugins/fn-stat/functions.c:1032
+#: ../plugins/fn-stat/functions.c:1012
 msgid "CHIINV:inverse of the survival function of the chi-squared distribution"
 msgstr "FINV:inverzní funkce k funkci přežití rozdělení chí-kvadrát"
 
-#: ../plugins/fn-stat/functions.c:1036 ../plugins/fn-stat/functions.c:1274
+#: ../plugins/fn-stat/functions.c:1016 ../plugins/fn-stat/functions.c:1254
 msgid ""
 "If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error."
 msgstr ""
 "Pokud je @{p} < 0 nebo @{p} > 1 nebo @{dof} < 1, tak tato funkce vrací chybu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1038
+#: ../plugins/fn-stat/functions.c:1018
 msgid ""
 "CHIINV(@{p},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{p},@{dof})."
 msgstr "CHIINV(@{p},@{dof}) je funkce OpenFormula LEGACY.CHIDIST(@{p},@{dof})."
 
-#: ../plugins/fn-stat/functions.c:1059
+#: ../plugins/fn-stat/functions.c:1039
 msgid "CHITEST:p value of the Goodness of Fit Test"
 msgstr "CHITEST:p-hodnota testu dobré shody"
 
-#: ../plugins/fn-stat/functions.c:1060
+#: ../plugins/fn-stat/functions.c:1040
 msgid "actual_range:observed data"
 msgstr "actual_range:pozorovaná data"
 
-#: ../plugins/fn-stat/functions.c:1061
+#: ../plugins/fn-stat/functions.c:1041
 msgid "theoretical_range:expected values"
 msgstr "theoretical_range:očekávané hodnoty"
 
-#: ../plugins/fn-stat/functions.c:1062
+#: ../plugins/fn-stat/functions.c:1042
 msgid ""
 "If the actual range is not an n by 1 or 1 by n range, but an n by m range, "
 "then CHITEST uses (n-1) times (m-1) as degrees of freedom. This is useful if "
@@ -8989,50 +9018,50 @@ msgstr ""
 "očekávané hodnoty byly vypočteny z pozorovaných hodnot v testu nezávislosti "
 "nebo testu homogenity."
 
-#: ../plugins/fn-stat/functions.c:1068
+#: ../plugins/fn-stat/functions.c:1048
 msgid "CHITEST is the OpenFormula function LEGACY.CHITEST."
 msgstr "CHITEST je funkce OpenFormula LEGACY.CHITEST."
 
-#: ../plugins/fn-stat/functions.c:1146
+#: ../plugins/fn-stat/functions.c:1126
 msgid "BETADIST:cumulative distribution function of the beta distribution"
 msgstr "BETADIST:hromadná distribuční funkce rozdělení beta"
 
-#: ../plugins/fn-stat/functions.c:1150 ../plugins/fn-stat/functions.c:1187
+#: ../plugins/fn-stat/functions.c:1130 ../plugins/fn-stat/functions.c:1167
 msgid "a:optional lower bound, defaults to 0"
 msgstr "a:volitelná dolní hranice, výchozí je 0"
 
-#: ../plugins/fn-stat/functions.c:1151 ../plugins/fn-stat/functions.c:1188
+#: ../plugins/fn-stat/functions.c:1131 ../plugins/fn-stat/functions.c:1168
 msgid "b:optional upper bound, defaults to 1"
 msgstr "b:volitelná horní hranice, výchozí je 1"
 
-#: ../plugins/fn-stat/functions.c:1152
+#: ../plugins/fn-stat/functions.c:1132
 msgid "If @{x} < @{a} or @{x} > @{b} this function returns a #NUM! error."
 msgstr ""
 "Pokud je @{x} < @{a} nebo @{x} > @{b}, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1154 ../plugins/fn-stat/functions.c:1191
+#: ../plugins/fn-stat/functions.c:1134 ../plugins/fn-stat/functions.c:1171
 msgid "If @{a} >= @{b} this function returns a #NUM! error."
 msgstr "Pokud je @{a} >= @{b}, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1183
+#: ../plugins/fn-stat/functions.c:1163
 msgid ""
 "BETAINV:inverse of the cumulative distribution function of the beta "
 "distribution"
 msgstr "BETAINV:inverzní funkce k hromadné distribuční funkci rozdělení beta"
 
-#: ../plugins/fn-stat/functions.c:1218
+#: ../plugins/fn-stat/functions.c:1198
 msgid "TDIST:survival function of the Student t-distribution"
 msgstr "TDIST:funkce přežití Studentova t-rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1221
+#: ../plugins/fn-stat/functions.c:1201
 msgid "tails:1 or 2"
 msgstr "tails:1 nebo 2"
 
-#: ../plugins/fn-stat/functions.c:1224
+#: ../plugins/fn-stat/functions.c:1204
 msgid "If @{tails} is neither 1 or 2 this function returns a #NUM! error."
 msgstr "Pokud @{tails} není ani 1, ani 2, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1225
+#: ../plugins/fn-stat/functions.c:1205
 msgid ""
 "The parameterization of this function is different from what is used for, e."
 "g., NORMSDIST.  This is a common source of mistakes, but necessary for "
@@ -9041,15 +9070,15 @@ msgstr ""
 "Parametrizace této funkce se liší od toho, co je použito např. pro funkci "
 "NORMSDIST. To je obvyklým zdrojem chyb, ale je to nutné kvůli kompatibilitě."
 
-#: ../plugins/fn-stat/functions.c:1228
+#: ../plugins/fn-stat/functions.c:1208
 msgid "This function is Excel compatible for non-negative @{x}."
 msgstr "Tato funkce je kompatibilní s aplikací Excel pro nezáporná @{x}."
 
-#: ../plugins/fn-stat/functions.c:1270
+#: ../plugins/fn-stat/functions.c:1250
 msgid "TINV:inverse of the survival function of the Student t-distribution"
 msgstr "TINV:inverzní funkce k funkci přežití Studentova t-rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1276
+#: ../plugins/fn-stat/functions.c:1256
 msgid ""
 "The parameterization of this function is different from what is used for, e."
 "g., NORMSINV.  This is a common source of mistakes, but necessary for "
@@ -9058,19 +9087,19 @@ msgstr ""
 "Parametrizace této funkce se liší od toho, co je použito např. pro funkci "
 "NORMSINV. To je obvyklým zdrojem chyb, ale je to nutné kvůli kompatibilitě."
 
-#: ../plugins/fn-stat/functions.c:1305
+#: ../plugins/fn-stat/functions.c:1285
 msgid "FDIST:survival function of the F distribution"
 msgstr "FDIST:funkce přežití F-rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1307 ../plugins/fn-stat/functions.c:1473
+#: ../plugins/fn-stat/functions.c:1287 ../plugins/fn-stat/functions.c:1453
 msgid "dof_of_num:numerator degrees of freedom"
 msgstr "dof_of_num:počet stupňů volnosti v čitateli"
 
-#: ../plugins/fn-stat/functions.c:1308 ../plugins/fn-stat/functions.c:1474
+#: ../plugins/fn-stat/functions.c:1288 ../plugins/fn-stat/functions.c:1454
 msgid "dof_of_denom:denominator degrees of freedom"
 msgstr "dof_of_denom:počet stupňů volnosti ve jmenovateli"
 
-#: ../plugins/fn-stat/functions.c:1311
+#: ../plugins/fn-stat/functions.c:1291
 msgid ""
 "If @{dof_of_num} < 1 or @{dof_of_denom} < 1, this function returns a #NUM! "
 "error."
@@ -9078,21 +9107,21 @@ msgstr ""
 "Pokud je @{dof_of_num} < 1 nebo @{dof_of_denom} < 1, tak tato funkce vrací "
 "chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1313
+#: ../plugins/fn-stat/functions.c:1293
 msgid "FDIST is the OpenFormula function LEGACY.FDIST."
 msgstr "FDIST je funkce OpenFormula LEGACY.FDIST."
 
-#: ../plugins/fn-stat/functions.c:1335
+#: ../plugins/fn-stat/functions.c:1315
 msgid ""
 "LANDAU:approximate probability density function of the Landau distribution"
 msgstr ""
 "LANDAU:funkce přibližné hustoty pravděpodobnosti pro Landauovo rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1471
+#: ../plugins/fn-stat/functions.c:1451
 msgid "FINV:inverse of the survival function of the F distribution"
 msgstr "FINV:inverzní funkce k funkci přežití F-rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1477
+#: ../plugins/fn-stat/functions.c:1457
 msgid ""
 "If @{dof_of_num} < 1 or @{dof_of_denom} < 1 this function returns a #NUM! "
 "error."
@@ -9100,11 +9129,11 @@ msgstr ""
 "Pokud je @{dof_of_num} < 1 nebo @{dof_of_denom} < 1, tak tato funkce vrací "
 "chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1479
+#: ../plugins/fn-stat/functions.c:1459
 msgid "FINV is the OpenFormula function LEGACY.FINV."
 msgstr "FINV je funkcí OpenFormula s názvem LEGACY.FINV."
 
-#: ../plugins/fn-stat/functions.c:1501
+#: ../plugins/fn-stat/functions.c:1481
 msgid ""
 "BINOMDIST:probability mass or cumulative distribution function of the "
 "binomial distribution"
@@ -9112,22 +9141,22 @@ msgstr ""
 "BINOMDIST:pravděpodobnostní míra nebo hromadná distribuční funkce pro "
 "binomické rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1502
+#: ../plugins/fn-stat/functions.c:1482
 msgid "n:number of successes"
 msgstr "n:počet úspěchů"
 
-#: ../plugins/fn-stat/functions.c:1503 ../plugins/fn-stat/functions.c:1537
-#: ../plugins/fn-stat/functions.c:1599
+#: ../plugins/fn-stat/functions.c:1483 ../plugins/fn-stat/functions.c:1517
+#: ../plugins/fn-stat/functions.c:1579
 msgid "trials:number of trials"
 msgstr "trials:počet pokusů"
 
-#: ../plugins/fn-stat/functions.c:1504 ../plugins/fn-stat/functions.c:1538
-#: ../plugins/fn-stat/functions.c:1600
+#: ../plugins/fn-stat/functions.c:1484 ../plugins/fn-stat/functions.c:1518
+#: ../plugins/fn-stat/functions.c:1580
 msgid "p:probability of success in each trial"
 msgstr "p:pravděpodobnost úspěchu v každém pokusu"
 
-#: ../plugins/fn-stat/functions.c:1505 ../plugins/fn-stat/functions.c:1659
-#: ../plugins/fn-stat/functions.c:1982 ../plugins/fn-stat/functions.c:4326
+#: ../plugins/fn-stat/functions.c:1485 ../plugins/fn-stat/functions.c:1639
+#: ../plugins/fn-stat/functions.c:1962 ../plugins/fn-stat/functions.c:4353
 msgid ""
 "cumulative:whether to evaluate the mass function or the cumulative "
 "distribution function"
@@ -9135,48 +9164,48 @@ msgstr ""
 "cumulative:zda vyhodnotit funkci hustoty pravděpodobnosti nebo hromadnou "
 "distribuční funkci"
 
-#: ../plugins/fn-stat/functions.c:1506
+#: ../plugins/fn-stat/functions.c:1486
 msgid "If @{n} or @{trials} are non-integer they are truncated."
 msgstr ""
 "Pokud jsou hodnoty @{n} nebo @{trials} neceločíselné, tak jsou oříznuty."
 
-#: ../plugins/fn-stat/functions.c:1507
+#: ../plugins/fn-stat/functions.c:1487
 msgid "If @{n} < 0 or @{trials} < 0 this function returns a #NUM! error."
 msgstr ""
 "Pokud je @{n} < 0 nebo @{trials} < 0, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1508
+#: ../plugins/fn-stat/functions.c:1488
 msgid "If @{n} > @{trials} this function returns a #NUM! error."
 msgstr "Pokud je @{n} > @{trials}, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1536
+#: ../plugins/fn-stat/functions.c:1516
 msgid ""
 "BINOM.DIST.RANGE:probability of the binomial distribution over an interval"
 msgstr "BINOM.DIST.RANGE:pravděpodobnost binomického rozdělení na intervalu"
 
-#: ../plugins/fn-stat/functions.c:1539
+#: ../plugins/fn-stat/functions.c:1519
 msgid "start:start of the interval"
 msgstr "start:začátek intervalu"
 
-#: ../plugins/fn-stat/functions.c:1540
+#: ../plugins/fn-stat/functions.c:1520
 msgid "end:end of the interval, defaults to @{start}"
 msgstr "end:konec intervalu, výchozí je @{start}"
 
-#: ../plugins/fn-stat/functions.c:1541
+#: ../plugins/fn-stat/functions.c:1521
 msgid "If @{start}, @{end} or @{trials} are non-integer they are truncated."
 msgstr ""
 "Pokud jsou hodnoty @{start}, @{end} nebo @{trials} neceločíselné, tak jsou "
 "oříznuty."
 
-#: ../plugins/fn-stat/functions.c:1542 ../plugins/fn-stat/functions.c:1603
+#: ../plugins/fn-stat/functions.c:1522 ../plugins/fn-stat/functions.c:1583
 msgid "If @{trials} < 0 this function returns a #NUM! error."
 msgstr "Pokud je @{trials} < 0, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1544
+#: ../plugins/fn-stat/functions.c:1524
 msgid "If @{start} > @{end} this function returns 0."
 msgstr "Pokud je @{start} > @{end}, tak tato funkce vrací 0."
 
-#: ../plugins/fn-stat/functions.c:1567
+#: ../plugins/fn-stat/functions.c:1547
 msgid ""
 "CAUCHY:probability density or cumulative distribution function of the "
 "Cauchy, Lorentz or Breit-Wigner distribution"
@@ -9184,16 +9213,16 @@ msgstr ""
 "CAUCHY:pravděpodobnostní míra nebo hromadná distribuční funkce pro Cauchyho, "
 "Lorentzovo nebo Breit-Wignerovo rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1570 ../plugins/fn-stat/functions.c:4356
-#: ../plugins/fn-stat/functions.c:4495
+#: ../plugins/fn-stat/functions.c:1550 ../plugins/fn-stat/functions.c:4383
+#: ../plugins/fn-stat/functions.c:4522
 msgid "a:scale parameter"
 msgstr "a:koeficient měřítka"
 
-#: ../plugins/fn-stat/functions.c:1572
+#: ../plugins/fn-stat/functions.c:1552
 msgid "If @{a} < 0 this function returns a #NUM! error."
 msgstr "Pokud je @{a} < 0, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1573 ../plugins/fn-stat/functions.c:4329
+#: ../plugins/fn-stat/functions.c:1553 ../plugins/fn-stat/functions.c:4356
 msgid ""
 "If @{cumulative} is neither TRUE nor FALSE this function returns a #VALUE! "
 "error."
@@ -9201,48 +9230,48 @@ msgstr ""
 "Pokud není @{cumulative} ani PRAVDA, ani NEPRAVDA, tato funkce vrací chybu "
 "#HODNOTA!."
 
-#: ../plugins/fn-stat/functions.c:1598
+#: ../plugins/fn-stat/functions.c:1578
 msgid "CRITBINOM:right-tailed critical value of the binomial distribution"
 msgstr "CRITBINOM:pravostranná kritická hodnota pro binomické rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1601
+#: ../plugins/fn-stat/functions.c:1581
 msgid "alpha:significance level (area of the tail)"
 msgstr "alpha:hladina významnosti (koncová oblast)"
 
-#: ../plugins/fn-stat/functions.c:1602
+#: ../plugins/fn-stat/functions.c:1582
 msgid "If @{trials} is a non-integer it is truncated."
 msgstr "Pokud je hodnota @{trials} neceločíselná, tak je oříznuta."
 
-#: ../plugins/fn-stat/functions.c:1605
+#: ../plugins/fn-stat/functions.c:1585
 msgid "If @{alpha} < 0 or @{alpha} > 1 this function returns a #NUM! error."
 msgstr ""
 "Pokud je @{alpha} < 0 nebo @{alpha} > 1, tak tato funkce vrací chybu #ČÍSLO!."
 
 # Czech translators: Pozor, v češtině se rozlišují variace a permutace (speciální případ variací pro k=n)
-#: ../plugins/fn-stat/functions.c:1628
+#: ../plugins/fn-stat/functions.c:1608
 msgid "PERMUT:number of @{k}-permutations of a @{n}-set"
 msgstr ""
 "PERMUT:počet variací, nebo permutací (pro @{k}=@{n}), @{k}-té třídy z @{n} "
 "prvků"
 
-#: ../plugins/fn-stat/functions.c:1629
+#: ../plugins/fn-stat/functions.c:1609
 msgid "n:size of the base set"
 msgstr "n:velikost základní množiny"
 
 # Czech translators: Pozor, v češtině se rozlišují variace a permutace (speciální případ variací pro k=n)
-#: ../plugins/fn-stat/functions.c:1630
+#: ../plugins/fn-stat/functions.c:1610
 msgid "k:number of elements in each permutation"
 msgstr "k:počet prvků v každé variaci či permutaci"
 
-#: ../plugins/fn-stat/functions.c:1631
+#: ../plugins/fn-stat/functions.c:1611
 msgid "If @{n} = 0 this function returns a #NUM! error."
 msgstr "Pokud je @{n} = 0, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1632
+#: ../plugins/fn-stat/functions.c:1612
 msgid "If @{n} < @{k} this function returns a #NUM! error."
 msgstr "Pokud je @{n} < @{k}, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1654
+#: ../plugins/fn-stat/functions.c:1634
 msgid ""
 "HYPGEOMDIST:probability mass or cumulative distribution function of the "
 "hypergeometric distribution"
@@ -9250,91 +9279,91 @@ msgstr ""
 "HYPGEOMDIST:hustota pravděpodobnosti nebo hromadná distribuční funkce "
 "hypergeometrického rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1655
+#: ../plugins/fn-stat/functions.c:1635
 msgid "x:number of successes"
 msgstr "x:počet úspěchů"
 
-#: ../plugins/fn-stat/functions.c:1656
+#: ../plugins/fn-stat/functions.c:1636
 msgid "n:sample size"
 msgstr "n:velikost vzorku"
 
-#: ../plugins/fn-stat/functions.c:1657
+#: ../plugins/fn-stat/functions.c:1637
 msgid "M:number of possible successes in the population"
 msgstr "M:počet možných úspěchů v souboru hodnot"
 
-#: ../plugins/fn-stat/functions.c:1658
+#: ../plugins/fn-stat/functions.c:1638
 msgid "N:population size"
 msgstr "N:velikost souboru hodnot"
 
-#: ../plugins/fn-stat/functions.c:1660
+#: ../plugins/fn-stat/functions.c:1640
 msgid "If @{x},@{n},@{M} or @{N} is a non-integer it is truncated."
 msgstr ""
 "Pokud jsou hodnoty @{x}, @{n}, @{M} nebo @{N} neceločíselné, tak jsou "
 "oříznuty."
 
-#: ../plugins/fn-stat/functions.c:1661
+#: ../plugins/fn-stat/functions.c:1641
 msgid "If @{x},@{n},@{M} or @{N} < 0 this function returns a #NUM! error."
 msgstr ""
 "Pokud je @{x}, @{n}, @{M} nebo @{N} < 0, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1662
+#: ../plugins/fn-stat/functions.c:1642
 msgid "If @{x} > @{M} or @{n} > @{N} this function returns a #NUM! error."
 msgstr ""
 "Pokud je @{x} > @{M} nebo @{n} > @{N}, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1690
+#: ../plugins/fn-stat/functions.c:1670
 msgid ""
 "CONFIDENCE:margin of error of a confidence interval for the population mean"
 msgstr ""
 "CONFIDENCE:tolerance chyb intervalu spolehlivosti pro střední hodnotu souboru"
 
-#: ../plugins/fn-stat/functions.c:1691
+#: ../plugins/fn-stat/functions.c:1671
 msgid "alpha:significance level"
 msgstr "alpha:hladina významnosti"
 
-#: ../plugins/fn-stat/functions.c:1692
+#: ../plugins/fn-stat/functions.c:1672
 msgid "stddev:population standard deviation"
 msgstr "stddev:směrodatná odchylka souboru hodnot"
 
-#: ../plugins/fn-stat/functions.c:1693
+#: ../plugins/fn-stat/functions.c:1673
 msgid "size:sample size"
 msgstr "size:velikost vzorku"
 
-#: ../plugins/fn-stat/functions.c:1694
+#: ../plugins/fn-stat/functions.c:1674
 msgid ""
 "This function requires the usually unknown population standard deviation."
 msgstr ""
 "Tato funkce požaduje, obvykle neznámou, směrodatnou odchylku souboru dat."
 
-#: ../plugins/fn-stat/functions.c:1695
+#: ../plugins/fn-stat/functions.c:1675
 msgid "If @{size} is non-integer it is truncated."
 msgstr "Pokud je hodnota @{size} neceločíselná, tak je oříznuta."
 
-#: ../plugins/fn-stat/functions.c:1696
+#: ../plugins/fn-stat/functions.c:1676
 msgid "If @{size} < 0 this function returns a #NUM! error."
 msgstr "Pokud je @{size} < 0, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1697
+#: ../plugins/fn-stat/functions.c:1677
 msgid "If @{size} is 0 this function returns a #DIV/0! error."
 msgstr "Pokud je @{size} rovno 0, tak tato funkce vrací chybu #DĚLENÍ/0!."
 
-#: ../plugins/fn-stat/functions.c:1720
+#: ../plugins/fn-stat/functions.c:1700
 msgid "STANDARDIZE:z-score of a value"
 msgstr "STANDARDIZE:Z-skóre hodnoty"
 
-#: ../plugins/fn-stat/functions.c:1722
+#: ../plugins/fn-stat/functions.c:1702
 msgid "mean:mean of the original distribution"
 msgstr "mean:střední hodnota původního rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1723
+#: ../plugins/fn-stat/functions.c:1703
 msgid "stddev:standard deviation of the original distribution"
 msgstr "stddev:směrodatná odchylka původního rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1724 ../plugins/fn-stat/functions.c:1788
+#: ../plugins/fn-stat/functions.c:1704 ../plugins/fn-stat/functions.c:1768
 msgid "If @{stddev} is 0 this function returns a #DIV/0! error."
 msgstr "Pokud je @{stddev} rovno 0, tak tato funkce vrací chybu #DĚLENÍ/0!."
 
-#: ../plugins/fn-stat/functions.c:1747
+#: ../plugins/fn-stat/functions.c:1727
 msgid ""
 "WEIBULL:probability density or cumulative distribution function of the "
 "Weibull distribution"
@@ -9342,7 +9371,7 @@ msgstr ""
 "WEIBULL:hustota pravděpodobnosti nebo hromadná distribuční funkce Weibullova "
 "rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1752
+#: ../plugins/fn-stat/functions.c:1732
 msgid ""
 "If the @{cumulative} boolean is true it will return: 1 - exp (-(@{x}/@{beta})"
 "^@{alpha}),otherwise it will return (@{alpha}/@{beta}^@{alpha}) * @{x}^(@"
@@ -9352,7 +9381,7 @@ msgstr ""
 "exp (-(@{x}:@{beta})^@{alpha}), v ostatních případech bude vráceno (@{alpha}:"
 "@{beta}^@{alpha}) . @{x}^(@{alpha} - 1) . exp(-(@{x}:@{beta}^@{alpha}))."
 
-#: ../plugins/fn-stat/functions.c:1783
+#: ../plugins/fn-stat/functions.c:1763
 msgid ""
 "NORMDIST:probability density or cumulative distribution function of a normal "
 "distribution"
@@ -9360,23 +9389,23 @@ msgstr ""
 "NORMDIST:hustota pravděpodobnosti nebo hromadná distribuční funkce "
 "normálního rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1785 ../plugins/fn-stat/functions.c:1818
-#: ../plugins/fn-stat/functions.c:1981
+#: ../plugins/fn-stat/functions.c:1765 ../plugins/fn-stat/functions.c:1798
+#: ../plugins/fn-stat/functions.c:1961
 msgid "mean:mean of the distribution"
 msgstr "mean:střední hodnota rozložení"
 
-#: ../plugins/fn-stat/functions.c:1786 ../plugins/fn-stat/functions.c:1819
+#: ../plugins/fn-stat/functions.c:1766 ../plugins/fn-stat/functions.c:1799
 msgid "stddev:standard deviation of the distribution"
 msgstr "stddev:směrodatná odchylka rozložení"
 
-#: ../plugins/fn-stat/functions.c:1816
+#: ../plugins/fn-stat/functions.c:1796
 msgid ""
 "NORMINV:inverse of the cumulative distribution function of a normal "
 "distribution"
 msgstr ""
 "NORMINV:inverzní funkce k hromadné distribuční funkci normálního rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1820
+#: ../plugins/fn-stat/functions.c:1800
 msgid ""
 "If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns a #NUM! "
 "error."
@@ -9384,11 +9413,11 @@ msgstr ""
 "Pokud je @{p} < 0 nebo @{p} > 1 nebo @{stddev} <= 0, tak tato funkce vrací "
 "chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1844
+#: ../plugins/fn-stat/functions.c:1824
 msgid "KURT:unbiased estimate of the kurtosis of a data set"
 msgstr "KURT:objektivní odhad koeficientu špičatosti množiny dat"
 
-#: ../plugins/fn-stat/functions.c:1848
+#: ../plugins/fn-stat/functions.c:1828
 msgid ""
 "This is only meaningful if the underlying distribution really has a fourth "
 "moment.  The kurtosis is offset by three such that a normal distribution "
@@ -9397,7 +9426,7 @@ msgstr ""
 "Toto má smysl jen pokud má základní rozdělení skutečně čtvrtý moment. Třemi "
 "je špičatost vykompenzována, takže normální rozdělení má špičatost nula."
 
-#: ../plugins/fn-stat/functions.c:1852
+#: ../plugins/fn-stat/functions.c:1832
 msgid ""
 "If fewer than four numbers are given or all of them are equal this function "
 "returns a #DIV/0! error."
@@ -9405,15 +9434,15 @@ msgstr ""
 "Pokud jsou zadána měně než čtyři čísla nebo jsou si všechna rovna, tak tato "
 "funkce vrací chybu #DĚLENÍ/0!."
 
-#: ../plugins/fn-stat/functions.c:1856
+#: ../plugins/fn-stat/functions.c:1836
 msgid "Then KURT(A1:A5) equals 1.234546305."
 msgstr "Potom se KURT(A1:A5) rovná 1,234546305."
 
-#: ../plugins/fn-stat/functions.c:1875
+#: ../plugins/fn-stat/functions.c:1855
 msgid "KURTP:population kurtosis of a data set"
 msgstr "KURTP:populační koeficient špičatosti množiny dat"
 
-#: ../plugins/fn-stat/functions.c:1879
+#: ../plugins/fn-stat/functions.c:1859
 msgid ""
 "If fewer than two numbers are given or all of them are equal this function "
 "returns a #DIV/0! error."
@@ -9421,40 +9450,40 @@ msgstr ""
 "Pokud jsou zadána měně než dvě čísla nebo jsou si všechna rovna, tak tato "
 "funkce vrací chybu #DĚLENÍ/0!."
 
-#: ../plugins/fn-stat/functions.c:1882
+#: ../plugins/fn-stat/functions.c:1862
 msgid "Then KURTP(A1:A5) equals -0.691363424."
 msgstr "Potom se KURTP(A1:A5) rovná -0,691363424."
 
-#: ../plugins/fn-stat/functions.c:1901
+#: ../plugins/fn-stat/functions.c:1881
 msgid "AVEDEV:average of the absolute deviations of a data set"
 msgstr "AVEDEV:průměr absolutních odchylek množiny dat"
 
-#: ../plugins/fn-stat/functions.c:1906
+#: ../plugins/fn-stat/functions.c:1886
 msgid "Then AVEDEV(A1:A5) equals 7.84."
 msgstr "Potom se AVEDEV(A1:A5) rovná 7,84."
 
-#: ../plugins/fn-stat/functions.c:1925
+#: ../plugins/fn-stat/functions.c:1905
 msgid "DEVSQ:sum of squares of deviations of a data set"
 msgstr "DEVSQ:součet druhých mocnin odchylek množiny dat"
 
-#: ../plugins/fn-stat/functions.c:1931
+#: ../plugins/fn-stat/functions.c:1911
 msgid "Then DEVSQ(A1:A5) equals 470.56."
 msgstr "Potom se DEVSQ(A1:A5) rovná 470,56."
 
-#: ../plugins/fn-stat/functions.c:1950
+#: ../plugins/fn-stat/functions.c:1930
 msgid "FISHER:Fisher transformation"
 msgstr "FISHER:Fisherova transformace"
 
-#: ../plugins/fn-stat/functions.c:1952
+#: ../plugins/fn-stat/functions.c:1932
 msgid "If @{x} is not a number, this function returns a #VALUE! error."
 msgstr "Pokud @{x} není číslo, tak tato funkce vrací chybu #HODNOTA!."
 
-#: ../plugins/fn-stat/functions.c:1953
+#: ../plugins/fn-stat/functions.c:1933
 msgid "If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error."
 msgstr ""
 "Pokud je @{x} <= -1 nebo @{x} >= 1, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:1979
+#: ../plugins/fn-stat/functions.c:1959
 msgid ""
 "POISSON:probability mass or cumulative distribution function of the Poisson "
 "distribution"
@@ -9462,72 +9491,72 @@ msgstr ""
 "POISSON:funkce pravděpodobnostní míry nebo hromadná distribuční funkce "
 "Poissonova rozdělení"
 
-#: ../plugins/fn-stat/functions.c:1980
+#: ../plugins/fn-stat/functions.c:1960
 msgid "x:number of events"
 msgstr "x:počet událostí"
 
-#: ../plugins/fn-stat/functions.c:1983
+#: ../plugins/fn-stat/functions.c:1963
 msgid "If @{x} is a non-integer it is truncated."
 msgstr "Pokud je hodnota @{x} neceločíselná, tak je oříznuta."
 
-#: ../plugins/fn-stat/functions.c:1985
+#: ../plugins/fn-stat/functions.c:1965
 msgid "If @{mean} <= 0 POISSON returns the #NUM! error."
 msgstr "Pokud je @{mean} <= 0, funkce POISSON vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:2011
+#: ../plugins/fn-stat/functions.c:1991
 msgid "PEARSON:Pearson correlation coefficient of the paired set of data"
 msgstr "PEARSON:Pearsonův korelační koeficient párové množiny dat"
 
-#: ../plugins/fn-stat/functions.c:2012 ../plugins/fn-stat/functions.c:2031
+#: ../plugins/fn-stat/functions.c:1992 ../plugins/fn-stat/functions.c:2011
 msgid "array1:first component values"
 msgstr "array1:hodnoty prvních členů"
 
-#: ../plugins/fn-stat/functions.c:2013 ../plugins/fn-stat/functions.c:2032
+#: ../plugins/fn-stat/functions.c:1993 ../plugins/fn-stat/functions.c:2012
 msgid "array2:second component values"
 msgstr "array2:hodnoty druhých členů"
 
-#: ../plugins/fn-stat/functions.c:2030
+#: ../plugins/fn-stat/functions.c:2010
 msgid ""
 "RSQ:square of the Pearson correlation coefficient of the paired set of data"
 msgstr ""
 "RSQ:druhá mocnina Pearsonova korelačního koeficientu párové množiny dat"
 
-#: ../plugins/fn-stat/functions.c:2054
+#: ../plugins/fn-stat/functions.c:2034
 msgid "MEDIAN:median of a data set"
 msgstr "MEDIAN:medián množiny dat"
 
-#: ../plugins/fn-stat/functions.c:2058
+#: ../plugins/fn-stat/functions.c:2038
 msgid ""
 "If even numbers are given MEDIAN returns the average of the two numbers in "
 "the center."
 msgstr ""
 "Pokud je zadán sudý počet, funkce MEDIAN vrací průměr dvou čísel uprostřed."
 
-#: ../plugins/fn-stat/functions.c:2062
+#: ../plugins/fn-stat/functions.c:2042
 msgid "Then MEDIAN(A1:A5) equals 21.3."
 msgstr "Potom se MEDIAN(A1:A5) rovná 21,3."
 
-#: ../plugins/fn-stat/functions.c:2064
+#: ../plugins/fn-stat/functions.c:2044
 msgid "wiki:en:Median"
 msgstr "wiki:cs:Medián"
 
-#: ../plugins/fn-stat/functions.c:2065
+#: ../plugins/fn-stat/functions.c:2045
 msgid "wolfram:StatisticalMedian.html"
 msgstr "wolfram:StatisticalMedian.html"
 
-#: ../plugins/fn-stat/functions.c:2084
+#: ../plugins/fn-stat/functions.c:2064
 msgid "SSMEDIAN:median for grouped data"
 msgstr "MEDIAN:medián seskupených dat"
 
-#: ../plugins/fn-stat/functions.c:2085
+#: ../plugins/fn-stat/functions.c:2065
 msgid "array:data set"
 msgstr "array:množina dat"
 
-#: ../plugins/fn-stat/functions.c:2086
+#: ../plugins/fn-stat/functions.c:2066
 msgid "interval:length of each grouping interval, defaults to 1"
 msgstr "interval:délka každého ze sdružujících intervalů, výchozí je 1"
 
-#: ../plugins/fn-stat/functions.c:2087
+#: ../plugins/fn-stat/functions.c:2067
 msgid ""
 "The data are assumed to be grouped into intervals of width @{interval}. Each "
 "data point in @{array} is the midpoint of the interval containing the true "
@@ -9553,12 +9582,12 @@ msgstr ""
 "CF = počet referenčních bodů pod intervalem mediánu\n"
 "F = počet referenčních bodů v intervalu mediánu"
 
-#: ../plugins/fn-stat/functions.c:2098 ../plugins/fn-stat/functions.c:2771
-#: ../plugins/fn-stat/functions.c:2813
+#: ../plugins/fn-stat/functions.c:2078 ../plugins/fn-stat/functions.c:2751
+#: ../plugins/fn-stat/functions.c:2793
 msgid "If @{array} is empty, this function returns a #NUM! error."
 msgstr "Pokud je pole @{array} prázdné, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:2099
+#: ../plugins/fn-stat/functions.c:2079
 msgid ""
 "If @{interval} <= 0, this function returns a #NUM! error. SSMEDIAN does not "
 "check whether the data points are at least @{interval} apart."
@@ -9567,23 +9596,23 @@ msgstr ""
 "nekontroluje, zda jsou referenční body od sebe vzdálené nejméně délku @"
 "{interval}."
 
-#: ../plugins/fn-stat/functions.c:2186
+#: ../plugins/fn-stat/functions.c:2166
 msgid "LARGE:@{k}-th largest value in a data set"
 msgstr "LARGE:@{k}-tá největší hodnota v množině dat"
 
-#: ../plugins/fn-stat/functions.c:2187 ../plugins/fn-stat/functions.c:2230
+#: ../plugins/fn-stat/functions.c:2167 ../plugins/fn-stat/functions.c:2210
 msgid "data:data set"
 msgstr "data:množina dat"
 
-#: ../plugins/fn-stat/functions.c:2188 ../plugins/fn-stat/functions.c:2231
+#: ../plugins/fn-stat/functions.c:2168 ../plugins/fn-stat/functions.c:2211
 msgid "k:which value to find"
 msgstr "k:která hodnota se má hledat"
 
-#: ../plugins/fn-stat/functions.c:2189 ../plugins/fn-stat/functions.c:2232
+#: ../plugins/fn-stat/functions.c:2169 ../plugins/fn-stat/functions.c:2212
 msgid "If data set is empty this function returns a #NUM! error."
 msgstr "Pokud je množina dat prázdná, tak tato funkce vrací #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:2190 ../plugins/fn-stat/functions.c:2233
+#: ../plugins/fn-stat/functions.c:2170 ../plugins/fn-stat/functions.c:2213
 msgid ""
 "If @{k} <= 0 or @{k} is greater than the number of data items given this "
 "function returns a #NUM! error."
@@ -9591,19 +9620,19 @@ msgstr ""
 "Pokud je @{k} <= 0 nebo je @{k} větší než počet zadaných datových položek, "
 "tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:2195
+#: ../plugins/fn-stat/functions.c:2175
 msgid "Then LARGE(A1:A5,2) equals 25.9.LARGE(A1:A5,4) equals 17.3."
 msgstr "Potom se LARGE(A1:A5, 2) rovná 25,9. LARGE(A1:A5, 4) se rovná 17,3."
 
-#: ../plugins/fn-stat/functions.c:2229
+#: ../plugins/fn-stat/functions.c:2209
 msgid "SMALL:@{k}-th smallest value in a data set"
 msgstr "SMALL:@{k}-tá nejmenší hodnota v množině dat"
 
-#: ../plugins/fn-stat/functions.c:2238
+#: ../plugins/fn-stat/functions.c:2218
 msgid "Then SMALL(A1:A5,2) equals 17.3.SMALL(A1:A5,4) equals 25.9."
 msgstr "Potom se SMALL(A1:A5, 2) rovná 17,3. SMALL(A1:A5,4) se rovná 25,9."
 
-#: ../plugins/fn-stat/functions.c:2273
+#: ../plugins/fn-stat/functions.c:2253
 msgid ""
 "PROB:probability of an interval for a discrete (and finite) probability "
 "distribution"
@@ -9611,23 +9640,23 @@ msgstr ""
 "PROB:pravděpodobnost intervalu pro diskrétní (a konečné) rozdělení "
 "pravděpodobnosti"
 
-#: ../plugins/fn-stat/functions.c:2274
+#: ../plugins/fn-stat/functions.c:2254
 msgid "x_range:possible values"
 msgstr "x_range:možné hodnoty"
 
-#: ../plugins/fn-stat/functions.c:2275
+#: ../plugins/fn-stat/functions.c:2255
 msgid "prob_range:probabilities of the corresponding values"
 msgstr "prob_range:pravděpodobnosti odpovídajících hodnot"
 
-#: ../plugins/fn-stat/functions.c:2276
+#: ../plugins/fn-stat/functions.c:2256
 msgid "lower_limit:lower interval limit"
 msgstr "lower_limit:dolní omezení intervalu"
 
-#: ../plugins/fn-stat/functions.c:2277
+#: ../plugins/fn-stat/functions.c:2257
 msgid "upper_limit:upper interval limit, defaults to @{lower_limit}"
 msgstr "upper_limit:horní omezení intervalu, výchozí je @{lower_limit}"
 
-#: ../plugins/fn-stat/functions.c:2278
+#: ../plugins/fn-stat/functions.c:2258
 msgid ""
 "If the sum of the probabilities in @{prob_range} is not equal to 1 this "
 "function returns a #NUM! error."
@@ -9635,7 +9664,7 @@ msgstr ""
 "Pokud součet pravděpodobností v rozsahu @{prob_range} není roven 1, tak tato "
 "funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:2280
+#: ../plugins/fn-stat/functions.c:2260
 msgid ""
 "If any value in @{prob_range} is <=0 or > 1, this function returns a #NUM! "
 "error."
@@ -9643,7 +9672,7 @@ msgstr ""
 "Pokud některá z hodnot v @{prob_range} je <= 0 nebo > 1, tak tato funkce "
 "vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:2282
+#: ../plugins/fn-stat/functions.c:2262
 msgid ""
 "If @{x_range} and @{prob_range} contain a different number of data entries, "
 "this function returns a #N/A error."
@@ -9651,24 +9680,24 @@ msgstr ""
 "Pokud @{x_range} a @{prob_range} obsahují různý počet datových záznamů, tak "
 "tato funkce vrací chybu #N/A."
 
-#: ../plugins/fn-stat/functions.c:2359
+#: ../plugins/fn-stat/functions.c:2339
 msgid "STEYX:standard error of the predicted y-value in the regression"
 msgstr "STEYX:standardní chyba při předpovědi hodnoty y regresí"
 
-#: ../plugins/fn-stat/functions.c:2360 ../plugins/fn-stat/functions.c:3405
-#: ../plugins/fn-stat/functions.c:3521 ../plugins/fn-stat/functions.c:3763
-#: ../plugins/fn-stat/functions.c:3861 ../plugins/fn-stat/functions.c:3951
-#: ../plugins/fn-stat/functions.c:4010 ../plugins/fn-stat/functions.c:4062
+#: ../plugins/fn-stat/functions.c:2340 ../plugins/fn-stat/functions.c:3439
+#: ../plugins/fn-stat/functions.c:3555 ../plugins/fn-stat/functions.c:3797
+#: ../plugins/fn-stat/functions.c:3895 ../plugins/fn-stat/functions.c:3985
+#: ../plugins/fn-stat/functions.c:4044 ../plugins/fn-stat/functions.c:4096
 msgid "known_ys:known y-values"
 msgstr "known_ys:známé hodnoty y"
 
-#: ../plugins/fn-stat/functions.c:2361 ../plugins/fn-stat/functions.c:3522
-#: ../plugins/fn-stat/functions.c:3952 ../plugins/fn-stat/functions.c:4011
-#: ../plugins/fn-stat/functions.c:4063
+#: ../plugins/fn-stat/functions.c:2341 ../plugins/fn-stat/functions.c:3556
+#: ../plugins/fn-stat/functions.c:3986 ../plugins/fn-stat/functions.c:4045
+#: ../plugins/fn-stat/functions.c:4097
 msgid "known_xs:known x-values"
 msgstr "known_xs:známé hodnoty x"
 
-#: ../plugins/fn-stat/functions.c:2362
+#: ../plugins/fn-stat/functions.c:2342
 msgid ""
 "If @{known_ys} and @{known_xs} are empty or have a different number of "
 "arguments then this function returns a #N/A error."
@@ -9676,11 +9705,11 @@ msgstr ""
 "Pokud jsou @{known_ys} a @{known_xs} prázdné nebo nebo mají různý počet "
 "argumentů, tak tato funkce vrací chybu #N/A."
 
-#: ../plugins/fn-stat/functions.c:2368
+#: ../plugins/fn-stat/functions.c:2348
 msgid "Then STEYX(A1:A5,B1:B5) equals 1.101509979."
 msgstr "Potom se STEYX(A1:A5, B1:B5) rovná 1,101509979."
 
-#: ../plugins/fn-stat/functions.c:2412
+#: ../plugins/fn-stat/functions.c:2392
 msgid ""
 "ZTEST:the probability of observing a sample mean as large as or larger than "
 "the mean of the given sample"
@@ -9688,15 +9717,15 @@ msgstr ""
 "ZTEST:pravděpodobnost, že střední hodnota pozorovaného vzorku je velká jako, "
 "nebo větší, než střední hodnota daného vzorku"
 
-#: ../plugins/fn-stat/functions.c:2414
+#: ../plugins/fn-stat/functions.c:2394
 msgid "ref:data set (sample)"
 msgstr "ref:množina dat (vzorek)"
 
-#: ../plugins/fn-stat/functions.c:2415
+#: ../plugins/fn-stat/functions.c:2395
 msgid "x:population mean"
 msgstr "x:střední hodnota souboru dat"
 
-#: ../plugins/fn-stat/functions.c:2416
+#: ../plugins/fn-stat/functions.c:2396
 msgid ""
 "stddev:population standard deviation, defaults to the sample standard "
 "deviation"
@@ -9704,7 +9733,7 @@ msgstr ""
 "stddev:směrodatná odchylka souboru hodnot, výchozí je výběrová směrodatná "
 "odchylka"
 
-#: ../plugins/fn-stat/functions.c:2417
+#: ../plugins/fn-stat/functions.c:2397
 msgid ""
 "ZTEST calulates the probability of observing a sample mean as large as or "
 "larger than the mean of the given sample for samples drawn from a normal "
@@ -9715,25 +9744,25 @@ msgstr ""
 "z normálního rozdělení se střední hodnotou @{x} a směrodatnou odchylkou @"
 "{stddev}."
 
-#: ../plugins/fn-stat/functions.c:2420
+#: ../plugins/fn-stat/functions.c:2400
 msgid ""
 "If @{ref} contains less than two data items ZTEST returns #DIV/0! error."
 msgstr ""
 "Pokud @{ref} obsahuje méně než dvě datové položky, funkce ZTEST vrací chybu "
 "#DĚLENÍ/0!."
 
-#: ../plugins/fn-stat/functions.c:2426
+#: ../plugins/fn-stat/functions.c:2406
 msgid "Then ZTEST(A1:A5,20) equals 0.254717826."
 msgstr "Potom se ZTEST(A1:A5, 20) rovná 0,254717826."
 
-#: ../plugins/fn-stat/functions.c:2477
+#: ../plugins/fn-stat/functions.c:2457
 msgid "AVERAGEA:average of all the values and cells"
 msgstr "AVERAGEA:průměr ze všech hodnot a buněk"
 
-#: ../plugins/fn-stat/functions.c:2482 ../plugins/fn-stat/functions.c:2507
-#: ../plugins/fn-stat/functions.c:2534 ../plugins/fn-stat/functions.c:2566
-#: ../plugins/fn-stat/functions.c:2593 ../plugins/fn-stat/functions.c:2623
-#: ../plugins/fn-stat/functions.c:2650
+#: ../plugins/fn-stat/functions.c:2462 ../plugins/fn-stat/functions.c:2487
+#: ../plugins/fn-stat/functions.c:2514 ../plugins/fn-stat/functions.c:2546
+#: ../plugins/fn-stat/functions.c:2573 ../plugins/fn-stat/functions.c:2603
+#: ../plugins/fn-stat/functions.c:2630
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 "11.4, 17.3, \"missing\", 25.9, and 40.1."
@@ -9741,117 +9770,117 @@ msgstr ""
 "Předpokládejme, že buňky A1, A2, …, A5 obsahují čísla a řetězce 11,4; 17,3; "
 "„schází“; 25,9 a 40,1."
 
-#: ../plugins/fn-stat/functions.c:2483
+#: ../plugins/fn-stat/functions.c:2463
 msgid "Then AVERAGEA(A1:A5) equals 18.94."
 msgstr "Potom se AVERAGEA(A1:A5) rovná 18,94."
 
-#: ../plugins/fn-stat/functions.c:2502
+#: ../plugins/fn-stat/functions.c:2482
 msgid ""
 "MAXA:largest value, with negative numbers considered smaller than positive "
 "numbers"
 msgstr ""
 "MAXA:největší hodnota, záporná čísla jsou pokládána za menší než kladná"
 
-#: ../plugins/fn-stat/functions.c:2509
+#: ../plugins/fn-stat/functions.c:2489
 msgid "Then MAXA(A1:A5) equals 40.1."
 msgstr "Potom se MAXA(A1:A5) rovná 40,1."
 
-#: ../plugins/fn-stat/functions.c:2529
+#: ../plugins/fn-stat/functions.c:2509
 msgid ""
 "MINA:smallest value, with negative numbers considered smaller than positive "
 "numbers"
 msgstr ""
 "MINA:nejmenší hodnota, záporná čísla jsou pokládána za menší než kladná"
 
-#: ../plugins/fn-stat/functions.c:2536
+#: ../plugins/fn-stat/functions.c:2516
 msgid "Then MINA(A1:A5) equals 0."
 msgstr "Potom se MINA(A1:A5) rovná 0."
 
-#: ../plugins/fn-stat/functions.c:2556
+#: ../plugins/fn-stat/functions.c:2536
 msgid "VARA:sample variance of the given sample"
 msgstr "VARA:výběrový rozptyl z daného vzorku hodnot"
 
-#: ../plugins/fn-stat/functions.c:2559
+#: ../plugins/fn-stat/functions.c:2539
 msgid "VARA is also known as the N-1-variance."
 msgstr "VARA bývá také označována jako N-1-rozptyl."
 
-#: ../plugins/fn-stat/functions.c:2560
+#: ../plugins/fn-stat/functions.c:2540
 msgid "To get the true variance of a complete population use VARPA."
 msgstr "K získání skutečného rozptylu z celého souboru hodnot použijte VARPA."
 
-#: ../plugins/fn-stat/functions.c:2568
+#: ../plugins/fn-stat/functions.c:2548
 msgid "Then VARA(A1:A5) equals 228.613."
 msgstr "Potom se VARA(A1:A5) rovná 228,613."
 
-#: ../plugins/fn-stat/functions.c:2587
+#: ../plugins/fn-stat/functions.c:2567
 msgid "VARPA:variance of an entire population"
 msgstr "VARPA:rozptyl z celého souboru hodnot"
 
-#: ../plugins/fn-stat/functions.c:2590
+#: ../plugins/fn-stat/functions.c:2570
 msgid "VARPA is also known as the N-variance."
 msgstr "VARPA bývá také označována jako N-rozptyl."
 
-#: ../plugins/fn-stat/functions.c:2595
+#: ../plugins/fn-stat/functions.c:2575
 msgid "Then VARPA(A1:A5) equals 182.8904."
 msgstr "Potom se VARPA(A1:A5) rovná 182,8904."
 
-#: ../plugins/fn-stat/functions.c:2614
+#: ../plugins/fn-stat/functions.c:2594
 msgid "STDEVA:sample standard deviation of the given sample"
 msgstr "STDEV:výběrová směrodatná odchylka z daného vzorku hodnot"
 
-#: ../plugins/fn-stat/functions.c:2618
+#: ../plugins/fn-stat/functions.c:2598
 msgid "STDEVA is also known as the N-1-standard deviation."
 msgstr "STDEVA bývá také označována jako N-1-směrodatná odchylka."
 
-#: ../plugins/fn-stat/functions.c:2619
+#: ../plugins/fn-stat/functions.c:2599
 msgid ""
 "To obtain the population standard deviation of a whole population use "
 "STDEVPA."
 msgstr "K získání směrodatné odchylky z celého souboru použijte STDEVPA."
 
-#: ../plugins/fn-stat/functions.c:2625
+#: ../plugins/fn-stat/functions.c:2605
 msgid "Then STDEVA(A1:A5) equals 15.119953704."
 msgstr "Potom se STDEVA(A1:A5) rovná 15,119953704."
 
-#: ../plugins/fn-stat/functions.c:2644
+#: ../plugins/fn-stat/functions.c:2624
 msgid "STDEVPA:population standard deviation of an entire population"
 msgstr "STDEVPA:směrodatná odchylka z celého souboru"
 
-#: ../plugins/fn-stat/functions.c:2652
+#: ../plugins/fn-stat/functions.c:2632
 msgid "Then STDEVPA(A1:A5) equals 13.523697719."
 msgstr "Potom se STDEVPA(A1:A5) rovná 13,523697719."
 
-#: ../plugins/fn-stat/functions.c:2671
+#: ../plugins/fn-stat/functions.c:2651
 msgid "PERCENTRANK:rank of a data point in a data set"
 msgstr "PERCENTRANK:procentuální poloha referenčního bodu v množině dat"
 
-#: ../plugins/fn-stat/functions.c:2672
+#: ../plugins/fn-stat/functions.c:2652
 msgid "array:range of numeric values"
 msgstr "array:rozsah číselných hodnot"
 
-#: ../plugins/fn-stat/functions.c:2673
+#: ../plugins/fn-stat/functions.c:2653
 msgid "x:data point to be ranked"
 msgstr "x:referenční bod, pro který se má určit procentuální poloha"
 
-#: ../plugins/fn-stat/functions.c:2674
+#: ../plugins/fn-stat/functions.c:2654
 msgid "significance:number of significant digits, defaults to 3"
 msgstr "significance:počet významných číslic, výchozí je 3"
 
-#: ../plugins/fn-stat/functions.c:2675
+#: ../plugins/fn-stat/functions.c:2655
 msgid ""
 "If @{array} contains no data points, this function returns a #NUM! error."
 msgstr ""
 "Pokud pole @{array} neobsahuje žádné referenční body, tak tato funkce vrací "
 "chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:2677
+#: ../plugins/fn-stat/functions.c:2657
 msgid ""
 "If @{significance} is less than one, this function returns a #NUM! error."
 msgstr ""
 "Pokud je @{significance} menší než jedna, tak tato funkce vrací chybu "
 "#ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:2679
+#: ../plugins/fn-stat/functions.c:2659
 msgid ""
 "If @{x} exceeds the largest value or is less than the smallest value in @"
 "{array}, this function returns a #NUM! error."
@@ -9859,7 +9888,7 @@ msgstr ""
 "Pokud @{x} překročí největší hodnotu nebo je menší než nejmenší hodnota v "
 "poli @{array}, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:2681
+#: ../plugins/fn-stat/functions.c:2661
 msgid ""
 "If @{x} does not match any of the values in @{array} or @{x} matches more "
 "than once, this function interpolates the returned value."
@@ -9867,36 +9896,36 @@ msgstr ""
 "Pokud se @{x} neshoduje se žádnou z hodnot v poli @{array} nebo se @{x} "
 "shoduje s více než jednou, tak tato funkce vracenou hodnotu interpoluje."
 
-#: ../plugins/fn-stat/functions.c:2768
+#: ../plugins/fn-stat/functions.c:2748
 msgid ""
 "PERCENTILE:determines the  100*@{k}-th percentile of the given data points"
 msgstr "PERCENTILE:určuje 100.@{k}-tý percentil ze zadaných referenčních bodů"
 
-#: ../plugins/fn-stat/functions.c:2769 ../plugins/fn-stat/functions.c:2811
+#: ../plugins/fn-stat/functions.c:2749 ../plugins/fn-stat/functions.c:2791
 msgid "array:data points"
 msgstr "array:referenční body"
 
-#: ../plugins/fn-stat/functions.c:2770
+#: ../plugins/fn-stat/functions.c:2750
 msgid "k:which percentile to calculate"
 msgstr "k:který percentil se má vypočítat"
 
-#: ../plugins/fn-stat/functions.c:2772
+#: ../plugins/fn-stat/functions.c:2752
 msgid "If @{k} < 0 or @{k} > 1, this function returns a #NUM! error."
 msgstr "Pokud je @{k} < 0 nebo @{k} > 1, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:2775
+#: ../plugins/fn-stat/functions.c:2755
 msgid "Then PERCENTILE(A1:A5,0.42) equals 20.02."
 msgstr "Potom se PERCENTILE(A1:A5, 0,42) rovná 20,02."
 
-#: ../plugins/fn-stat/functions.c:2810
+#: ../plugins/fn-stat/functions.c:2790
 msgid "QUARTILE:the @{k}-th quartile of the data points"
 msgstr "QUARTILE:@{k}-tý kvartil z referenčních bodů"
 
-#: ../plugins/fn-stat/functions.c:2812
+#: ../plugins/fn-stat/functions.c:2792
 msgid "quart:a number from 0 to 4, indicating which quartile to calculate"
 msgstr "quart:číslo od 0 do 4 určující, který kvartil se má vypočítat"
 
-#: ../plugins/fn-stat/functions.c:2814
+#: ../plugins/fn-stat/functions.c:2794
 msgid ""
 "If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error. If @"
 "{quart} = 0, the smallest value of @{array} to be returned."
@@ -9904,15 +9933,15 @@ msgstr ""
 "Pokud je @{quart} < 0 nebo @{quart} > 4, tak tato funkce vrací chybu "
 "#ČÍSLO!. Pokud je @{quart} = 0, je vrácena nejmenší z hodnot pole @{array}."
 
-#: ../plugins/fn-stat/functions.c:2815
+#: ../plugins/fn-stat/functions.c:2795
 msgid "If @{quart} is not an integer, it is truncated."
 msgstr "Pokud je hodnota @{quart} neceločíselná, tak je oříznuta."
 
-#: ../plugins/fn-stat/functions.c:2818
+#: ../plugins/fn-stat/functions.c:2798
 msgid "Then QUARTILE(A1:A5,1) equals 17.3."
 msgstr "Potom se QUARTILE(A1:A5, 1) rovná 17,3."
 
-#: ../plugins/fn-stat/functions.c:2853
+#: ../plugins/fn-stat/functions.c:2833
 msgid ""
 "FTEST:p-value for the two-tailed hypothesis test comparing the variances of "
 "two populations"
@@ -9920,19 +9949,19 @@ msgstr ""
 "FTEST:p-hodnota pro dvovýběrový test hypotéz srovnávající rozptyl dvou "
 "souborů dat"
 
-#: ../plugins/fn-stat/functions.c:2855 ../plugins/fn-stat/functions.c:2912
+#: ../plugins/fn-stat/functions.c:2835 ../plugins/fn-stat/functions.c:2892
 msgid "array1:sample from the first population"
 msgstr "array1:vzorek z prvního souboru dat"
 
-#: ../plugins/fn-stat/functions.c:2856 ../plugins/fn-stat/functions.c:2913
+#: ../plugins/fn-stat/functions.c:2836 ../plugins/fn-stat/functions.c:2893
 msgid "array2:sample from the second population"
 msgstr "array2:vzorek z druhého souboru dat"
 
-#: ../plugins/fn-stat/functions.c:2861
+#: ../plugins/fn-stat/functions.c:2841
 msgid "Then FTEST(A1:A5,B1:B5) equals 0.510815017."
 msgstr "Potom se FTEST(A1:A5, B1:B5) rovná 0,510815017."
 
-#: ../plugins/fn-stat/functions.c:2910
+#: ../plugins/fn-stat/functions.c:2890
 msgid ""
 "TTEST:p-value for a hypothesis test comparing the means of two populations "
 "using the Student t-distribution"
@@ -9940,11 +9969,11 @@ msgstr ""
 "TTEST:p-hodnota pro test hypotéz srovnávající střední hodnotu dvou souborů "
 "dat pomocí Studentova t-rozdělení"
 
-#: ../plugins/fn-stat/functions.c:2914
+#: ../plugins/fn-stat/functions.c:2894
 msgid "tails:number of tails to consider"
 msgstr "tails:počet výběrů, které se mají vzít v úvahu"
 
-#: ../plugins/fn-stat/functions.c:2915
+#: ../plugins/fn-stat/functions.c:2895
 msgid ""
 "type:Type of test to perform. 1 indicates a test for paired variables, 2 a "
 "test of unpaired variables with equal variances, and 3 a test of unpaired "
@@ -9954,7 +9983,7 @@ msgstr ""
 "nepárových proměnných se shodným rozptylem a 3 test nepárových proměnných s "
 "různým rozptylem"
 
-#: ../plugins/fn-stat/functions.c:2918
+#: ../plugins/fn-stat/functions.c:2898
 msgid ""
 "If the data sets contain a different number of data points and the test is "
 "paired (@{type} one), TTEST returns the #N/A error."
@@ -9962,16 +9991,16 @@ msgstr ""
 "Pokud množiny dat obsahují různý počet referenčních bodů a test je párový (@"
 "{type} je 1), pak funkce TTEST vrací chybu #N/A."
 
-#: ../plugins/fn-stat/functions.c:2920
+#: ../plugins/fn-stat/functions.c:2900
 msgid "@{tails} and @{type} are truncated to integers."
 msgstr "Hodnoty @{tails} a @{type} jsou oříznuty na celá čísla."
 
-#: ../plugins/fn-stat/functions.c:2921
+#: ../plugins/fn-stat/functions.c:2901
 msgid "If @{tails} is not one or two, this function returns a #NUM! error."
 msgstr ""
 "Pokud @{tails} není jedna nebo dva, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:2922
+#: ../plugins/fn-stat/functions.c:2902
 msgid ""
 "If @{type} is any other than one, two, or three, this function returns a "
 "#NUM! error."
@@ -9979,7 +10008,7 @@ msgstr ""
 "Pokud je hodnota @{type} jiná než jedna, dva nebo tři, tak tato funkce vrací "
 "chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:2927
+#: ../plugins/fn-stat/functions.c:2907
 msgid ""
 "Then TTEST(A1:A5,B1:B5,1,1) equals 0.003127619.TTEST(A1:A5,B1:B5,2,1) equals "
 "0.006255239.TTEST(A1:A5,B1:B5,1,2) equals 0.111804322.TTEST(A1:A5,B1:B5,1,3) "
@@ -9989,23 +10018,23 @@ msgstr ""
 "1) se rovná 0,006255239. TTEST(A1:A5, B1:B5, 1, 2) se rovná 0,111804322. "
 "TTEST(A1:A5, B1:B5, 1, 3) se rovná 0,113821797."
 
-#: ../plugins/fn-stat/functions.c:3085
+#: ../plugins/fn-stat/functions.c:3065
 msgid "FREQUENCY:frequency table"
 msgstr "FREQUENCY:tabulka četností"
 
-#: ../plugins/fn-stat/functions.c:3086
+#: ../plugins/fn-stat/functions.c:3066
 msgid "data_array:data values"
 msgstr "data_array:hodnoty dat"
 
-#: ../plugins/fn-stat/functions.c:3087
+#: ../plugins/fn-stat/functions.c:3067
 msgid "bins_array:array of cutoff values"
 msgstr "bins_array:pole omezujících hodnot"
 
-#: ../plugins/fn-stat/functions.c:3088
+#: ../plugins/fn-stat/functions.c:3068
 msgid "The results are given as an array."
 msgstr "Výsledky jsou předány jako pole."
 
-#: ../plugins/fn-stat/functions.c:3089
+#: ../plugins/fn-stat/functions.c:3069
 msgid ""
 "If the @{bins_array} is empty, this function returns the number of data "
 "points in @{data_array}."
@@ -10013,15 +10042,27 @@ msgstr ""
 "Pokud je pole @{bins_array} prázdné, tak tato funkce vrací počet "
 "referenčních bodů v poli @{data_array}."
 
-#: ../plugins/fn-stat/functions.c:3307
+#: ../plugins/fn-stat/functions.c:3133
+msgid "LEVERAGE:calculate regression leverage"
+msgstr "LEVERAGE:vypočítá vliv regrese"
+
+#: ../plugins/fn-stat/functions.c:3136
+msgid "Returns the diagonal of @{A} (@{A}^T @{A})^-1 @{A}T as a column vector."
+msgstr "Vrací diagonálu z @{A} (@{A}^T @{A})^-1 @{A}T jako sloupcový vektor."
+
+#: ../plugins/fn-stat/functions.c:3137
+msgid "If the matrix is singular, #VALUE! is returned."
+msgstr "Pokud je matice singulární, je vráceno #HODNOTA!."
+
+#: ../plugins/fn-stat/functions.c:3341
 msgid "LINEST:multiple linear regression coefficients and statistics"
 msgstr "LINEST:koeficienty a statistiky vícenásobné lineární regrese"
 
-#: ../plugins/fn-stat/functions.c:3308 ../plugins/fn-stat/functions.c:3616
+#: ../plugins/fn-stat/functions.c:3342 ../plugins/fn-stat/functions.c:3650
 msgid "known_ys:vector of values of dependent variable"
 msgstr "known_ys:vektor hodnot závislé proměnné"
 
-#: ../plugins/fn-stat/functions.c:3309 ../plugins/fn-stat/functions.c:3617
+#: ../plugins/fn-stat/functions.c:3343 ../plugins/fn-stat/functions.c:3651
 msgid ""
 "known_xs:array of values of independent variables, defaults to a single "
 "vector {1,…,n}"
@@ -10029,21 +10070,21 @@ msgstr ""
 "known_xs:pole hodnot nezávislých proměnných, výchozí je jeden vektor {1, …, "
 "n}"
 
-#: ../plugins/fn-stat/functions.c:3310 ../plugins/fn-stat/functions.c:3407
-#: ../plugins/fn-stat/functions.c:3619 ../plugins/fn-stat/functions.c:3765
-#: ../plugins/fn-stat/functions.c:3864
+#: ../plugins/fn-stat/functions.c:3344 ../plugins/fn-stat/functions.c:3441
+#: ../plugins/fn-stat/functions.c:3653 ../plugins/fn-stat/functions.c:3799
+#: ../plugins/fn-stat/functions.c:3898
 msgid "affine:if true, the model contains a constant term, defaults to true"
 msgstr ""
 "affine:pokud je pravda, model obsahuje konstantní členy; výchozí je pravda"
 
-#: ../plugins/fn-stat/functions.c:3311
+#: ../plugins/fn-stat/functions.c:3345
 msgid ""
 "stats:if true, some additional statistics are provided, defaults to false"
 msgstr ""
 "stats:pokud je pravda, jsou poskytnuty některé doplňující statistiky, "
 "výchozí je nepravda"
 
-#: ../plugins/fn-stat/functions.c:3312
+#: ../plugins/fn-stat/functions.c:3346
 msgid ""
 "This function returns an array with the first row giving the regression "
 "coefficients for the independent variables x_m, x_(m-1),…,x_2, x_1 followed "
@@ -10053,7 +10094,7 @@ msgstr ""
 "nezávislé proměnné x_m, x_(m-1), …, x_2, x_1 následované průsečíky y, pokud "
 "je @{affine} pravda."
 
-#: ../plugins/fn-stat/functions.c:3315
+#: ../plugins/fn-stat/functions.c:3349
 msgid ""
 "If @{stats} is true, the second row contains the corresponding standard "
 "errors of the regression coefficients.In this case, the third row contains "
@@ -10067,7 +10108,7 @@ msgstr ""
 "sledovanou hodnotu F a její stupně volnosti. A nakonec, pátý řádek obsahuje "
 "regresi součtu čtverců a rezidua součtu čtverců."
 
-#: ../plugins/fn-stat/functions.c:3322
+#: ../plugins/fn-stat/functions.c:3356
 msgid ""
 "If @{affine} is false, R^2 is the uncentered version of the coefficient of "
 "determination; that is the proportion of the sum of squares explained by the "
@@ -10077,7 +10118,7 @@ msgstr ""
 "determinace. Ten udává, jakou část součtu čtverců se podařilo daným modelem "
 "vysvětlit."
 
-#: ../plugins/fn-stat/functions.c:3325 ../plugins/fn-stat/functions.c:3620
+#: ../plugins/fn-stat/functions.c:3359 ../plugins/fn-stat/functions.c:3654
 msgid ""
 "If the length of @{known_ys} does not match the corresponding length of @"
 "{known_xs}, this function returns a #NUM! error."
@@ -10085,15 +10126,15 @@ msgstr ""
 "Pokud délka @{known_ys} neodpovídá příslušné délce @{known_xs}, tak tato "
 "funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:3404
+#: ../plugins/fn-stat/functions.c:3438
 msgid "LOGREG:the logarithmic regression"
 msgstr "LOGREG:logaritmická regrese"
 
-#: ../plugins/fn-stat/functions.c:3406 ../plugins/fn-stat/functions.c:3862
+#: ../plugins/fn-stat/functions.c:3440 ../plugins/fn-stat/functions.c:3896
 msgid "known_xs:known x-values; defaults to the array {1, 2, 3, …}"
 msgstr "known_xs:známé hodnoty x; výchozí je pole {1, 2, 3, …}"
 
-#: ../plugins/fn-stat/functions.c:3408 ../plugins/fn-stat/functions.c:3766
+#: ../plugins/fn-stat/functions.c:3442 ../plugins/fn-stat/functions.c:3800
 msgid ""
 "stat:if true, extra statistical information will be returned; defaults to "
 "FALSE"
@@ -10101,7 +10142,7 @@ msgstr ""
 "stat:pokud je pravda, budou vráceny dodatečné statistické informace; výchozí "
 "je NEPRAVDA"
 
-#: ../plugins/fn-stat/functions.c:3409
+#: ../plugins/fn-stat/functions.c:3443
 msgid ""
 "LOGREG function transforms your x's to z=ln(x) and applies the “least "
 "squares” method to fit the linear equation y = m * z + b to your y's and z's "
@@ -10115,7 +10156,7 @@ msgstr ""
 "hodnoty y a x. LOGREG vrací pole se dvěma sloupci a jedním řádkem. m je "
 "uvedeno v prvním sloupci a b ve druhém."
 
-#: ../plugins/fn-stat/functions.c:3417
+#: ../plugins/fn-stat/functions.c:3451
 msgid ""
 "Any extra statistical information is written below m and b in the result "
 "array.  This extra statistical information consists of four rows of data:  "
@@ -10132,8 +10173,8 @@ msgstr ""
 "sledovanou hodnotu F a stupně volnosti. Poslední řádek obsahuje regresi "
 "součtu čtverců a rezidua součtu čtverců. Výchozí hodnota @{stat} je NEPRAVDA."
 
-#: ../plugins/fn-stat/functions.c:3426 ../plugins/fn-stat/functions.c:3781
-#: ../plugins/fn-stat/functions.c:3872
+#: ../plugins/fn-stat/functions.c:3460 ../plugins/fn-stat/functions.c:3815
+#: ../plugins/fn-stat/functions.c:3906
 msgid ""
 "If @{known_ys} and @{known_xs} have unequal number of data points, this "
 "function returns a #NUM! error."
@@ -10141,13 +10182,13 @@ msgstr ""
 "Pokud @{known_ys} a @{known_xs} nemají stejný počet referenčních bodů, vrací "
 "tato funkce chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:3520
+#: ../plugins/fn-stat/functions.c:3554
 msgid "LOGFIT:logarithmic least square fit (using a trial and error method)"
 msgstr ""
 "LOGFIT:logaritmické přizpůsobení metodou nejmenších čtverců (pomocí "
 "postupných aproximací)"
 
-#: ../plugins/fn-stat/functions.c:3524
+#: ../plugins/fn-stat/functions.c:3558
 msgid ""
 "LOGFIT function applies the “least squares” method to fit the logarithmic "
 "equation y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. "
@@ -10159,7 +10200,7 @@ msgstr ""
 "znaménko. Grafem rovnice je logaritmická křivka posunutá svisle o c a "
 "případně zrcadlená podle osy y (pokud znaménko sign = -1)."
 
-#: ../plugins/fn-stat/functions.c:3530
+#: ../plugins/fn-stat/functions.c:3564
 msgid ""
 "LOGFIT returns an array having five columns and one row. `Sign' is given in "
 "the first column, `a', `b', and `c' are given in columns 2 to 4. Column 5 "
@@ -10169,7 +10210,7 @@ msgstr ""
 "uvedeno „sign“. Hodnoty „a“, „b“ a „c“ jsou uvedeny ve sloupcích 2 až 4. "
 "Sloupec 5 obsahuje rezidua součtu čtverců."
 
-#: ../plugins/fn-stat/functions.c:3534
+#: ../plugins/fn-stat/functions.c:3568
 msgid ""
 "An error is returned when there are less than 3 different x's or y's, or "
 "when the shape of the point cloud is too different from a ``logarithmic'' "
@@ -10178,7 +10219,7 @@ msgstr ""
 "Vrací chybu v případě, že jsou méně než 3 různé x-ové nebo y-ové a nebo když "
 "tvar, který tvoří body je příliš odlišný od „logaritmického“."
 
-#: ../plugins/fn-stat/functions.c:3537
+#: ../plugins/fn-stat/functions.c:3571
 msgid ""
 "You can use the above formula = a + b * ln(sign * (x - c)) or rearrange it "
 "to = (exp((y - a) / b)) / sign + c to compute unknown y's or x's, "
@@ -10188,7 +10229,7 @@ msgstr ""
 "uspořádaný = (exp((y - a) : b)) : sign + c, k výpočtu neznámých x-ových "
 "respektive y-ových."
 
-#: ../plugins/fn-stat/functions.c:3542
+#: ../plugins/fn-stat/functions.c:3576
 msgid ""
 "This is non-linear fitting by trial-and-error. The accuracy of `c' is: width "
 "of x-range -> rounded to the next smaller (10^integer), times 0.000001. "
@@ -10199,7 +10240,7 @@ msgstr ""
 "0,000001. Mohou nastat případy, u kterých nebude výsledné přizpůsobení "
 "nejlepší možné."
 
-#: ../plugins/fn-stat/functions.c:3615
+#: ../plugins/fn-stat/functions.c:3649
 msgid ""
 "TREND:estimates future values of a given data set using a least squares "
 "approximation"
@@ -10207,7 +10248,7 @@ msgstr ""
 "TREND:odhadne budoucí hodnotu ze zadané množiny dat pomocí aproximace "
 "nejmenšími čtverci"
 
-#: ../plugins/fn-stat/functions.c:3618
+#: ../plugins/fn-stat/functions.c:3652
 msgid ""
 "new_xs:array of x-values for which to estimate the y-values; defaults to @"
 "{known_xs}"
@@ -10215,7 +10256,7 @@ msgstr ""
 "new_xs:hodnoty x, pro které se mají odhadnout hodnoty y; výchozí jsou @"
 "{known_xs}"
 
-#: ../plugins/fn-stat/functions.c:3622
+#: ../plugins/fn-stat/functions.c:3656
 msgid ""
 "Let us assume that the cells A1, A2, …, A5 contain numbers 11.4, 17.3, 21.3, "
 "25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and "
@@ -10224,19 +10265,19 @@ msgstr ""
 "Předpokládejme, že buňky A1, A2, …, A5 obsahují čísla 11,4; 17,3; 21,3; 25,9 "
 "a 40,1 a buňky B1, B2, … B5 čísla 23,2; 25,8; 29,9; 33,5 a 42,7."
 
-#: ../plugins/fn-stat/functions.c:3625
+#: ../plugins/fn-stat/functions.c:3659
 msgid "Then TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}."
 msgstr "Potom se TREND(A1:A5, B1:B5) rovná {12,1; 15,7; 21,6; 26,7; 39,7}."
 
-#: ../plugins/fn-stat/functions.c:3762
+#: ../plugins/fn-stat/functions.c:3796
 msgid "LOGEST:exponential least square fit"
 msgstr "LOGEST:uzpůsobení exponenciály metodou nejmenších čtverců"
 
-#: ../plugins/fn-stat/functions.c:3764
+#: ../plugins/fn-stat/functions.c:3798
 msgid "known_xs:known x-values; default to an array {1, 2, 3, …}"
 msgstr "known_xs:známé hodnoty x; výchozí je pole {1, 2, 3, …}"
 
-#: ../plugins/fn-stat/functions.c:3767
+#: ../plugins/fn-stat/functions.c:3801
 msgid ""
 "LOGEST function applies the “least squares” method to fit an exponential "
 "curve of the form\ty = b * m{1}^x{1} * m{2}^x{2}... to your data."
@@ -10244,11 +10285,11 @@ msgstr ""
 "Funkce LOGEST používá metodu „nejmenších čtverců“ k napasování exponenciální "
 "křivky ve formě\ty = b * m{1}^x{1} * m{2}^x{2}… na vaše data."
 
-#: ../plugins/fn-stat/functions.c:3771
+#: ../plugins/fn-stat/functions.c:3805
 msgid "LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }."
 msgstr "LOGEST vrací pole {m{n}, m{n-1}, …,m{1}, b}."
 
-#: ../plugins/fn-stat/functions.c:3772
+#: ../plugins/fn-stat/functions.c:3806
 msgid ""
 "Extra statistical information is written below the regression line "
 "coefficients in the result array.  Extra statistical information consists of "
@@ -10265,18 +10306,18 @@ msgstr ""
 "řádek obsahuje sledovanou hodnotu F a stupně volnosti. Poslední řádek "
 "obsahuje regresi součtu čtverců a rezidua součtu čtverců. "
 
-#: ../plugins/fn-stat/functions.c:3860
+#: ../plugins/fn-stat/functions.c:3894
 msgid "GROWTH:exponential growth prediction"
 msgstr "GROWTH:prognóza exponenciálního růstu"
 
-#: ../plugins/fn-stat/functions.c:3863
+#: ../plugins/fn-stat/functions.c:3897
 msgid ""
 "new_xs:x-values for which to estimate the y-values; defaults to @{known_xs}"
 msgstr ""
 "new_xs:hodnoty x, pro které se mají odhadnout hodnoty y; výchozí jsou @"
 "{known_xs}"
 
-#: ../plugins/fn-stat/functions.c:3865
+#: ../plugins/fn-stat/functions.c:3899
 msgid ""
 "GROWTH function applies the “least squares” method to fit an exponential "
 "curve to your data and predicts the exponential growth by using this curve."
@@ -10284,7 +10325,7 @@ msgstr ""
 "Funkce GROWTH používá metodu „nejmenších čtverců“ k napasování exponenciální "
 "křivky na vaše data a prognóze exponenciálního růstu podle této křivky."
 
-#: ../plugins/fn-stat/functions.c:3870
+#: ../plugins/fn-stat/functions.c:3904
 msgid ""
 "GROWTH returns an array having one column and a row for each data point in @"
 "{new_xs}."
@@ -10292,7 +10333,7 @@ msgstr ""
 "Funkce GROWTH vrací pole s jedním sloupcem a řádkem pro každý referenční bod "
 "v @{new_xs}."
 
-#: ../plugins/fn-stat/functions.c:3948
+#: ../plugins/fn-stat/functions.c:3982
 msgid ""
 "FORECAST:estimates a future value according to existing values using simple "
 "linear regression"
@@ -10300,11 +10341,11 @@ msgstr ""
 "FORECAST:odhaduje budoucí hodnotu podle existujících hodnot pomocí "
 "jednoduché lineární regrese"
 
-#: ../plugins/fn-stat/functions.c:3950
+#: ../plugins/fn-stat/functions.c:3984
 msgid "x:x-value whose matching y-value should be forecast"
 msgstr "x:hodnota x, která odpovídá hodnotě y, která má být předpovězena"
 
-#: ../plugins/fn-stat/functions.c:3953
+#: ../plugins/fn-stat/functions.c:3987
 msgid ""
 "This function estimates a future value according to existing values using "
 "simple linear regression."
@@ -10312,8 +10353,8 @@ msgstr ""
 "Tato funkce odhaduje budoucí hodnotu podle existujících hodnot pomocí "
 "jednoduché lineární regrese."
 
-#: ../plugins/fn-stat/functions.c:3955 ../plugins/fn-stat/functions.c:4012
-#: ../plugins/fn-stat/functions.c:4065
+#: ../plugins/fn-stat/functions.c:3989 ../plugins/fn-stat/functions.c:4046
+#: ../plugins/fn-stat/functions.c:4099
 msgid ""
 "If @{known_xs} or @{known_ys} contains no data entries or different number "
 "of data entries, this function returns a #N/A error."
@@ -10321,45 +10362,45 @@ msgstr ""
 "Pokud @{known_xs} nebo @{known_ys} neobsahují žádné datové záznamy nebo "
 "různé počty datových záznamů, tak tato funkce vrací chybu #N/A."
 
-#: ../plugins/fn-stat/functions.c:3957
+#: ../plugins/fn-stat/functions.c:3991
 msgid ""
 "If the variance of the @{known_xs} is zero, this function returns a #DIV/0 "
 "error."
 msgstr ""
 "Pokud je rozptyl @{known_xs} roven nule, tak tato funkce vrací chybu #DIV/0."
 
-#: ../plugins/fn-stat/functions.c:3963
+#: ../plugins/fn-stat/functions.c:3997
 msgid "Then FORECAST(7,A1:A5,B1:B5) equals -10.859397661."
 msgstr "Potom se FORECAST(7, A1:A5, B1:B5) rovná -10,859397661."
 
-#: ../plugins/fn-stat/functions.c:4009
+#: ../plugins/fn-stat/functions.c:4043
 msgid "INTERCEPT:the intercept of a linear regression line"
 msgstr "INTERCEPT:průsečík lineární regresní přímky"
 
-#: ../plugins/fn-stat/functions.c:4014 ../plugins/fn-stat/functions.c:4067
+#: ../plugins/fn-stat/functions.c:4048 ../plugins/fn-stat/functions.c:4101
 msgid ""
 "If the variance of the @{known_xs} is zero, this function returns #DIV/0 "
 "error."
 msgstr ""
 "Pokud je rozptyl @{known_xs} roven nule, tak tato funkce vrací chybu #DIV/0."
 
-#: ../plugins/fn-stat/functions.c:4020
+#: ../plugins/fn-stat/functions.c:4054
 msgid "Then INTERCEPT(A1:A5,B1:B5) equals -20.785117212."
 msgstr "Potom se INTERCEPT(A1:A5, B1:B5) rovná -20,785117212."
 
-#: ../plugins/fn-stat/functions.c:4061
+#: ../plugins/fn-stat/functions.c:4095
 msgid "SLOPE:the slope of a linear regression line"
 msgstr "SLOPE:směrnice lineární regresní přímky"
 
-#: ../plugins/fn-stat/functions.c:4072
+#: ../plugins/fn-stat/functions.c:4106
 msgid "Then SLOPE(A1:A5,B1:B5) equals 1.417959936."
 msgstr "Potom se SLOPE(A1:A5, B1:B5) rovná 1,417959936."
 
-#: ../plugins/fn-stat/functions.c:4113
+#: ../plugins/fn-stat/functions.c:4147
 msgid "SUBTOTAL:the subtotal of the given list of arguments"
 msgstr "SUBTOTAL:mezisoučet zadaného seznamu argumentů"
 
-#: ../plugins/fn-stat/functions.c:4114
+#: ../plugins/fn-stat/functions.c:4148
 msgid ""
 "function_nbr:determines which function to use according to the following "
 "table:\n"
@@ -10389,22 +10430,22 @@ msgstr ""
 "\t10   VAR\n"
 "\t11   VARP"
 
-#: ../plugins/fn-stat/functions.c:4127
+#: ../plugins/fn-stat/functions.c:4161
 msgid "ref1:first value"
 msgstr "ref1:první hodnota"
 
-#: ../plugins/fn-stat/functions.c:4128
+#: ../plugins/fn-stat/functions.c:4162
 msgid "ref2:second value"
 msgstr "ref2:druhá hodnota"
 
-#: ../plugins/fn-stat/functions.c:4130
+#: ../plugins/fn-stat/functions.c:4164
 msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, "
 "and 39."
 msgstr ""
 "Předpokládejme, že buňky A1, A2, …, A5 obsahují čísla 23, 27, 28, 33 a 39."
 
-#: ../plugins/fn-stat/functions.c:4131
+#: ../plugins/fn-stat/functions.c:4165
 msgid ""
 "Then SUBTOTAL(1,A1:A5) equals 30.SUBTOTAL(6,A1:A5) equals 22378356.SUBTOTAL"
 "(7,A1:A5) equals 6.164414003.SUBTOTAL(9,A1:A5) equals 150.SUBTOTAL(11,A1:A5) "
@@ -10414,19 +10455,19 @@ msgstr ""
 "SUBTOTAL(7, A1:A5) se rovná 6,164414003. SUBTOTAL(9, A1:A5) se rovná 150. "
 "SUBTOTAL(11, A1:A5) se rovná 30,4."
 
-#: ../plugins/fn-stat/functions.c:4210
+#: ../plugins/fn-stat/functions.c:4237
 msgid "CRONBACH:Cronbach's alpha"
 msgstr "CRONBACH:Cronbachova alfa"
 
-#: ../plugins/fn-stat/functions.c:4211
+#: ../plugins/fn-stat/functions.c:4238
 msgid "ref1:first data set"
 msgstr "ref1:první množina dat"
 
-#: ../plugins/fn-stat/functions.c:4212
+#: ../plugins/fn-stat/functions.c:4239
 msgid "ref2:second data set"
 msgstr "ref2:druhá množina dat"
 
-#: ../plugins/fn-stat/functions.c:4323
+#: ../plugins/fn-stat/functions.c:4350
 msgid ""
 "GEOMDIST:probability mass or cumulative distribution function of the "
 "geometric distribution"
@@ -10434,60 +10475,60 @@ msgstr ""
 "GEOMDIST:hustota pravděpodobnosti nebo hromadná distribuční funkce "
 "geometrického rozdělení"
 
-#: ../plugins/fn-stat/functions.c:4324
+#: ../plugins/fn-stat/functions.c:4351
 msgid "k:number of trials"
 msgstr "k:počet pokusů"
 
-#: ../plugins/fn-stat/functions.c:4325
+#: ../plugins/fn-stat/functions.c:4352
 msgid "p:probability of success in any trial"
 msgstr "p:pravděpodobnost úspěchu v kterémkoliv pokusu"
 
-#: ../plugins/fn-stat/functions.c:4327
+#: ../plugins/fn-stat/functions.c:4354
 msgid "If @{k} < 0 this function returns a #NUM! error."
 msgstr "Pokud je @{k} < 0, tak tato funkce vrací chybu #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:4354
+#: ../plugins/fn-stat/functions.c:4381
 msgid "LOGISTIC:probability density function of the logistic distribution"
 msgstr "LOGISTIC:funkce hustoty pravděpodobnosti pro logistické rozdělení"
 
-#: ../plugins/fn-stat/functions.c:4385
+#: ../plugins/fn-stat/functions.c:4412
 msgid "PARETO:probability density function of the Pareto distribution"
 msgstr "PARETO:funkce hustoty pravděpodobnosti pro Paretovo rozdělení"
 
-#: ../plugins/fn-stat/functions.c:4387
+#: ../plugins/fn-stat/functions.c:4414
 msgid "a:exponent"
 msgstr "a:exponent"
 
-#: ../plugins/fn-stat/functions.c:4388 ../plugins/fn-stat/functions.c:4496
+#: ../plugins/fn-stat/functions.c:4415 ../plugins/fn-stat/functions.c:4523
 msgid "b:scale parameter"
 msgstr "b:koeficient měřítka"
 
-#: ../plugins/fn-stat/functions.c:4419
+#: ../plugins/fn-stat/functions.c:4446
 msgid "RAYLEIGH:probability density function of the Rayleigh distribution"
 msgstr "RAYLEIGH:funkce hustoty pravděpodobnosti pro Rayleighovo rozdělení"
 
-#: ../plugins/fn-stat/functions.c:4421 ../plugins/fn-stat/functions.c:4457
+#: ../plugins/fn-stat/functions.c:4448 ../plugins/fn-stat/functions.c:4484
 msgid "sigma:scale parameter"
 msgstr "sigma:koeficient měřítka"
 
-#: ../plugins/fn-stat/functions.c:4454
+#: ../plugins/fn-stat/functions.c:4481
 msgid ""
 "RAYLEIGHTAIL:probability density function of the Rayleigh tail distribution"
 msgstr ""
 "RAYLEIGHTAIL:funkce hustoty pravděpodobnosti pro Rayleighovo výběrové "
 "rozdělení"
 
-#: ../plugins/fn-stat/functions.c:4456
+#: ../plugins/fn-stat/functions.c:4483
 msgid "a:lower limit"
 msgstr "a:dolní limit"
 
-#: ../plugins/fn-stat/functions.c:4492
+#: ../plugins/fn-stat/functions.c:4519
 msgid ""
 "EXPPOWDIST:the probability density function of the Exponential Power "
 "distribution"
 msgstr "EXPPOWDIST:funkce hustoty pravděpodobnosti mocninného rozdělení"
 
-#: ../plugins/fn-stat/functions.c:4498
+#: ../plugins/fn-stat/functions.c:4525
 msgid ""
 "This distribution has been recommended for lifetime analysis when a U-shaped "
 "hazard function is desired. This corresponds to rapid failure once the "
@@ -10499,15 +10540,15 @@ msgstr ""
 "začne opotřebovávat po skončení období stability nebo i po zlepšení "
 "spolehlivosti."
 
-#: ../plugins/fn-stat/functions.c:4526
+#: ../plugins/fn-stat/functions.c:4553
 msgid "LAPLACE:probability density function of the Laplace distribution"
 msgstr "LAPLACE:funkce hustoty pravděpodobnosti pro Laplaceovo rozložení"
 
-#: ../plugins/fn-stat/functions.c:4528
+#: ../plugins/fn-stat/functions.c:4555
 msgid "a:mean"
 msgstr "a:střední hodnota"
 
-#: ../plugins/fn-stat/functions.c:4549
+#: ../plugins/fn-stat/functions.c:4576
 msgid ""
 "PERMUTATIONA:the number of permutations of @{y} objects chosen from @{x} "
 "objects with repetition allowed"
@@ -10515,36 +10556,36 @@ msgstr ""
 "PERMUTATIONA:počet variací (respektive permutací pro @{y} = @{x}) @{y} "
 "objektů vybíraných z @{x} objektů s opakováním"
 
-#: ../plugins/fn-stat/functions.c:4550
+#: ../plugins/fn-stat/functions.c:4577
 msgid "x:total number of objects"
 msgstr "x:celkový počet objektů"
 
-#: ../plugins/fn-stat/functions.c:4551
+#: ../plugins/fn-stat/functions.c:4578
 msgid "y:number of selected objects"
 msgstr "y:počet vybraných objektů"
 
-#: ../plugins/fn-stat/functions.c:4552
+#: ../plugins/fn-stat/functions.c:4579
 msgid "If both @{x} and @{y} equal 0, PERMUTATIONA returns 1."
 msgstr "Pokud se hodnoty @{x} i @{y} rovnají 0, funkce PERMUTATIONA vrací 1."
 
-#: ../plugins/fn-stat/functions.c:4553
+#: ../plugins/fn-stat/functions.c:4580
 msgid "If @{x} < 0 or @{y} < 0, PERMUTATIONA returns #NUM!"
 msgstr "Pokud je @{x} < 0 nebo @{y} < 0, funkce PERMUTATIONA vrací #ČÍSLO!."
 
-#: ../plugins/fn-stat/functions.c:4554
+#: ../plugins/fn-stat/functions.c:4581
 msgid "If @{x} or @{y} are not integers, they are truncated"
 msgstr "Pokud jsou hodnoty @{x} nebo @{y} neceločíselné, tak jsou oříznuty."
 
-#: ../plugins/fn-stat/functions.c:4582
+#: ../plugins/fn-stat/functions.c:4609
 msgid "LKSTEST:Lilliefors (Kolmogorov-Smirnov) Test of Normality"
 msgstr "LKSTEST:Lillieforsův (Kolmogorovův-Smirnovův) test dobré shody"
 
-#: ../plugins/fn-stat/functions.c:4583 ../plugins/fn-stat/functions.c:4700
-#: ../plugins/fn-stat/functions.c:4784 ../plugins/fn-stat/functions.c:4869
+#: ../plugins/fn-stat/functions.c:4610 ../plugins/fn-stat/functions.c:4727
+#: ../plugins/fn-stat/functions.c:4811 ../plugins/fn-stat/functions.c:4896
 msgid "x:array of sample values"
 msgstr "x:pole ukázkových hodnot"
 
-#: ../plugins/fn-stat/functions.c:4584
+#: ../plugins/fn-stat/functions.c:4611
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Lilliefors (Kolmogorov-Smirnov) Test, the second row the test statistic of "
@@ -10555,19 +10596,19 @@ msgstr ""
 "hodnotu testové statistiky testu a v třetím počet pozorovaných hodnot ve "
 "vzorku."
 
-#: ../plugins/fn-stat/functions.c:4586
+#: ../plugins/fn-stat/functions.c:4613
 msgid "If there are less than 5 sample values, LKSTEST returns #VALUE!"
 msgstr "Pokud je méně než 5 hodnot vzorků, funkce LKSTEST vrací #HODNOTA!."
 
-#: ../plugins/fn-stat/functions.c:4588
+#: ../plugins/fn-stat/functions.c:4615
 msgid "wiki:en:Lilliefors_test"
 msgstr "wiki:en:Lilliefors_test"
 
-#: ../plugins/fn-stat/functions.c:4699
+#: ../plugins/fn-stat/functions.c:4726
 msgid "SFTEST:Shapiro-Francia Test of Normality"
 msgstr "SFTEST:Shapiroův-Franciův test dobré shody"
 
-#: ../plugins/fn-stat/functions.c:4701
+#: ../plugins/fn-stat/functions.c:4728
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Shapiro-Francia Test, the second row the test statistic of the test, and the "
@@ -10577,7 +10618,7 @@ msgstr ""
 "Francisova testu dobré shody, v druhém řádku hodnotu testové statistiky "
 "testu a v třetím počet pozorovaných hodnot ve vzorku."
 
-#: ../plugins/fn-stat/functions.c:4703
+#: ../plugins/fn-stat/functions.c:4730
 msgid ""
 "If there are less than 5 or more than 5000 sample values, SFTEST returns "
 "#VALUE!"
@@ -10585,11 +10626,11 @@ msgstr ""
 "Pokud je hodnot vzorků méně než 5 nebo více než 5000, funkce SFTEST vrací "
 "#HODNOTA!."
 
-#: ../plugins/fn-stat/functions.c:4783
+#: ../plugins/fn-stat/functions.c:4810
 msgid "CVMTEST:Cramér-von Mises Test of Normality"
 msgstr "CVMTEST:Cramér-von Miseseův test dobré shody"
 
-#: ../plugins/fn-stat/functions.c:4785
+#: ../plugins/fn-stat/functions.c:4812
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Cramér-von Mises Test, the second row the test statistic of the test, and "
@@ -10599,19 +10640,19 @@ msgstr ""
 "Misesova testu dobré shody, v druhém řádku hodnotu testové statistiky testu "
 "a v třetím počet pozorovaných hodnot ve vzorku."
 
-#: ../plugins/fn-stat/functions.c:4787
+#: ../plugins/fn-stat/functions.c:4814
 msgid "If there are less than 8 sample values, CVMTEST returns #VALUE!"
 msgstr "Pokud je méně než 8 hodnot vzorků, funkce CVMTEST vrací #HODNOTA!."
 
-#: ../plugins/fn-stat/functions.c:4789
+#: ../plugins/fn-stat/functions.c:4816
 msgid "wiki:en:Cramér–von-Mises_criterion"
 msgstr "wiki:en:Cramér–von-Mises_criterion"
 
-#: ../plugins/fn-stat/functions.c:4868
+#: ../plugins/fn-stat/functions.c:4895
 msgid "ADTEST:Anderson-Darling Test of Normality"
 msgstr "ADTEST:Andersonův-Darlingův test dobré shody"
 
-#: ../plugins/fn-stat/functions.c:4870
+#: ../plugins/fn-stat/functions.c:4897
 msgid ""
 "This function returns an array with the first row giving the p-value of the "
 "Anderson-Darling Test, the second row the test statistic of the test, and "
@@ -10621,11 +10662,11 @@ msgstr ""
 "Darlingova testu dobré shody, v druhém řádku hodnotu testové statistiky "
 "testu a v třetím počet pozorovaných hodnot ve vzorku."
 
-#: ../plugins/fn-stat/functions.c:4872
+#: ../plugins/fn-stat/functions.c:4899
 msgid "If there are less than 8 sample values, ADTEST returns #VALUE!"
 msgstr "Pokud je hodnot vzorků méně než 8, funkce ADTEST vrací #HODNOTA!."
 
-#: ../plugins/fn-stat/functions.c:4874
+#: ../plugins/fn-stat/functions.c:4901
 msgid "wiki:en:Anderson–Darling_test"
 msgstr "wiki:en:Anderson–Darling_test"
 
@@ -11264,9 +11305,9 @@ msgstr ""
 "Když je použita interpolační metoda 1 („lineární s průměrováním“), 3 "
 "(„stupňovitá s průměrováním“) a 5 („přirozená kubická splajna s "
 "průměrováním“), je počet vrácených hodnot o jednu menší, než počet cílových "
-"hodnot a cílové hodnoty musí být zadány ve vzestupném pořadí. Vrácené hodnoty "
-"jsou průměrné výšky interpolační funkce na intervalech daných po sobě "
-"jdoucími cílovými hodnotami."
+"hodnot a cílové hodnoty musí být zadány ve vzestupném pořadí. Vrácené "
+"hodnoty jsou průměrné výšky interpolační funkce na intervalech daných po "
+"sobě jdoucími cílovými hodnotami."
 
 #: ../plugins/fn-tsa/functions.c:398 ../plugins/fn-tsa/functions.c:582
 msgid "Strings and empty cells in @{abscissae} and @{ordinates} are ignored."
@@ -11453,15 +11494,15 @@ msgstr "READDBTABLE:všechny řádky v tabulce @{table} v @{dsn}"
 msgid "table:SQL table to retrieve"
 msgstr "table:tabulka SQL, která se má získat"
 
-#: ../plugins/sample_datasource/sample_datasource.c:276
+#: ../plugins/sample_datasource/sample_datasource.c:274
 msgid "ATL_LAST:sample real-time data source"
 msgstr "ATL_LAST:příklad zdroje dat v reálném čase"
 
-#: ../plugins/sample_datasource/sample_datasource.c:277
+#: ../plugins/sample_datasource/sample_datasource.c:275
 msgid "tag:tag to watch"
 msgstr "tag:značka, která se má sledovat"
 
-#: ../plugins/sample_datasource/sample_datasource.c:278
+#: ../plugins/sample_datasource/sample_datasource.c:276
 msgid ""
 "ATL_LAST is a sample implementation of a real time data source.  It takes a "
 "string tag and monitors the named pipe ~/atl for changes to the value of "
@@ -11471,7 +11512,7 @@ msgstr ""
 "řetězcová značka a sledují se změny hodnoty této značky v pojmenované rouře "
 "~/atl ."
 
-#: ../plugins/sample_datasource/sample_datasource.c:279
+#: ../plugins/sample_datasource/sample_datasource.c:277
 msgid "This is not intended to be generally enabled and is OFF by default."
 msgstr ""
 "U tohoto není zamýšleno, aby to bylo všeobecně povolené a ve výchozím stavu "
