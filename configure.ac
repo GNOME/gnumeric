@@ -883,7 +883,10 @@ if test "x$python_msg" = xyes; then
     GNM_PY_CFLAGS="$PY_INCLUDES $PYGOBJECT_CFLAGS"
     GNM_PY_LDFLAGS="-L$PY_LIB_DIR -lpython$PY_VERSION $PYGOBJECT_LIBS"
     python_msg="yes (using $PYTHON)"
+elif test "x$with_python" = "xyes"; then
+		AC_MSG_ERROR([$python_msg])
 fi
+
 AC_SUBST(GNM_PY_CFLAGS)
 AC_SUBST(GNM_PY_LDFLAGS)
 AC_SUBST(GNM_PY_LIBADD)

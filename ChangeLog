@@ -1,3 +1,8 @@
+2013-02-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.ac: make configure --with-python fail when some dependency is
+	missing.
+
 2013-02-17  Morten Welinder  <terra@gnome.org>
 
 	* configure.ac (set_more_warnings): Improve support for clang.
