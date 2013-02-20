@@ -57,7 +57,6 @@ sv_selection_calc_simplification (SheetView const *sv)
 			      sv->selections->data != NULL,
 			      sv->selections);
 
-	ptr = sv->selections->next;
 	r_rm = sv->selections->data;
 
 	for (ptr = sv->selections->next; ptr != NULL; ptr = ptr->next) {

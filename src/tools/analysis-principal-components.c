@@ -36,7 +36,7 @@
 
 static gboolean
 analysis_tool_principal_components_engine_run (data_analysis_output_t *dao,
-				      analysis_tools_data_generic_t *info)
+					       analysis_tools_data_generic_t *info)
 {
 	int l = g_slist_length (info->input), i;
 	GSList *inputdata;

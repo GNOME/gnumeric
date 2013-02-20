@@ -163,7 +163,7 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WBCGtk *wbcg)
 	Sheet	  *target_sheet;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet	  *sheet = wbcg_cur_sheet (wbcg);
-	SheetView *sv	 = wb_control_cur_sheet_view (wbc);
+	SheetView *sv;
 	GnmValue *target;
 
 	if (!lnk->target) {
