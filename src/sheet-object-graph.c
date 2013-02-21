@@ -929,7 +929,7 @@ dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GuppiReadState *state = (GuppiReadState *) xin->user_state;
 	unsigned i, id = 0;
-	char const *name = NULL;
+	char const *name = "?";
 	GogMSDimType type = GOG_MS_DIM_LABELS;
 	GogPlotDesc const *desc = gog_plot_description (state->plot);
 	GError *err = NULL;

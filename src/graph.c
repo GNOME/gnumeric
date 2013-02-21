@@ -659,10 +659,11 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 	GnmEvalPos ep;
 	GnmRange r;
 	Sheet *start_sheet, *end_sheet;
-	int len = go_data_vector_get_len (dat); /* force calculation */
 	double *vals, minimum, maximum;
 	GnmValue *v;
 	struct assign_closure closure;
+
+	(void)go_data_vector_get_len (dat); /* force calculation */
 
 	if (dat->len <= 0 || !vec->dep.sheet) {
 		dat->values = NULL;
@@ -710,12 +711,12 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 		break;
 
 	case VALUE_ARRAY : {
-		int last= 0;
+		int last = 0;
+		int len = vec->as_col? vec->val->v_array.y: vec->val->v_array.x;
 		maximum = - G_MAXDOUBLE;
 		minimum = G_MAXDOUBLE;
-		len = vec->as_col? vec->val->v_array.y: vec->val->v_array.x;
 		while (len-- > 0) {
-			v = vec->as_col
+			GnmValue *v = vec->as_col
 				? vec->val->v_array.vals [0][len]
 				: vec->val->v_array.vals [len][0];
 

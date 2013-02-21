@@ -750,7 +750,6 @@ create_sheet_list (SheetManager *state)
 	gtk_tree_view_append_column (state->sheet_list, column);
 	state->row_max_column = column;
 
-	renderer = gnumeric_cell_renderer_toggle_new ();
 	column = gtk_tree_view_column_new_with_attributes
 		/*Translators: Table header for column with number of "Cols"*/
 		(C_("sheetlist", "Cols"),

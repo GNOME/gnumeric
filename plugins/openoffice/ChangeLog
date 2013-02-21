@@ -1,3 +1,7 @@
+2013-02-20  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-write.c (odf_write_sheet): Plug leak.
+
 2013-01-01  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-write.c (odf_attrs_as_string): Don't use deprecated

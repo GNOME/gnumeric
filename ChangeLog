@@ -1,7 +1,11 @@
+2013-02-20  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-graph.c (dim_start): Survive malformed xml.
+
 2013-02-20  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* configure.ac: make configure --with-python fail when some dependency is
-	missing.
+	* configure.ac: make configure --with-python fail when some
+	dependency is missing.
 
 2013-02-17  Morten Welinder  <terra@gnome.org>
 
@@ -14,8 +18,8 @@
 
 2013-02-16  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in: fixed default value
-	for stf export format.
+	* schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in: fixed
+	default value for stf export format.
 	* src/dependent.c: fix introspection warnings.
 	* src/sheet-style.c: ditto.
 

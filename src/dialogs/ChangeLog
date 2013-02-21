@@ -1,3 +1,8 @@
+2013-02-20  Morten Welinder  <terra@gnome.org>
+
+	* dialog-sheet-order.c (create_sheet_list): Don't leak a cell
+	rendered.
+
 2013-02-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tools.c (average_tool_update_sensitivity_cb): fix test

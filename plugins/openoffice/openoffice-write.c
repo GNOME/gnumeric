@@ -565,9 +565,9 @@ static char *
 odf_go_color_to_string (GOColor color)
 {
 	return g_strdup_printf ("#%.2x%.2x%.2x",
-					 GO_COLOR_UINT_R (color),
-					 GO_COLOR_UINT_G (color),
-					 GO_COLOR_UINT_B (color));
+				GO_COLOR_UINT_R (color),
+				GO_COLOR_UINT_G (color),
+				GO_COLOR_UINT_B (color));
 }
 
 static double
@@ -3652,7 +3652,7 @@ odf_write_sheet (GnmOOExport *state)
 	Sheet const *sheet = state->sheet;
 	int max_cols = gnm_sheet_get_max_cols (sheet);
 	int max_rows = gnm_sheet_get_max_rows (sheet);
-	GnmStyle **col_styles = g_new0 (GnmStyle *, max_cols);
+	GnmStyle **col_styles;
 	GnmRange r;
 	GSList *sheet_merges = NULL;
 	GnmPageBreaks *pb = sheet->print_info->page_breaks.v;
@@ -4162,7 +4162,7 @@ odf_validation_append_expression (GnmOOExport *state, GString *str, GnmExprTop c
 	char *formula;
 
 	formula = gnm_expr_top_as_string (texpr, pp, state->conv);
-	str = g_string_append (str, formula);
+	g_string_append (str, formula);
 	g_free (formula);
 }
 
@@ -4171,13 +4171,13 @@ odf_validation_append_expression_pair (GnmOOExport *state, GString *str,
 				       GnmValidation const *val,
 				       GnmParsePos *pp)
 {
-		str = g_string_append_c (str, '(');
+		g_string_append_c (str, '(');
 		odf_validation_append_expression (state, str,
 						  val->deps[0].texpr, pp);
-		str = g_string_append_c (str, ',');
+		g_string_append_c (str, ',');
 		odf_validation_append_expression (state, str,
 						  val->deps[1].texpr, pp);
-		str = g_string_append_c (str, ')');
+		g_string_append_c (str, ')');
 }
 
 
@@ -4189,42 +4189,42 @@ odf_validation_general (GnmOOExport *state, GnmValidation const *val,
 {
 	GString *str = g_string_new ("of:");
 
-	str = g_string_append (str, prefix);
+	g_string_append (str, prefix);
 
 	switch (val->op) {
 	case GNM_VALIDATION_OP_NONE:
-		str = g_string_append (str, "is-true-formula(1)");
+		g_string_append (str, "is-true-formula(1)");
 		break;
 	case GNM_VALIDATION_OP_BETWEEN:
-		str = g_string_append (str, "cell-content-is-between");
+		g_string_append (str, "cell-content-is-between");
 		odf_validation_append_expression_pair (state, str, val, pp);
 		break;
 	case GNM_VALIDATION_OP_NOT_BETWEEN:
-		str = g_string_append (str, "cell-content-is-not-between");
+		g_string_append (str, "cell-content-is-not-between");
 		odf_validation_append_expression_pair (state, str, val, pp);
 		break;
 	case GNM_VALIDATION_OP_EQUAL:
-		str = g_string_append (str, "cell-content() = ");
+		g_string_append (str, "cell-content() = ");
 		odf_validation_append_expression (state, str, val->deps[0].texpr, pp);
 		break;
 	case GNM_VALIDATION_OP_NOT_EQUAL:
-		str = g_string_append (str, "cell-content() != ");
+		g_string_append (str, "cell-content() != ");
 		odf_validation_append_expression (state, str, val->deps[0].texpr, pp);
 		break;
 	case GNM_VALIDATION_OP_GT:
-		str = g_string_append (str, "cell-content() > ");
+		g_string_append (str, "cell-content() > ");
 		odf_validation_append_expression (state, str, val->deps[0].texpr, pp);
 		break;
 	case GNM_VALIDATION_OP_LT:
-		str = g_string_append (str, "cell-content() < ");
+		g_string_append (str, "cell-content() < ");
 		odf_validation_append_expression (state, str, val->deps[0].texpr, pp);
 		break;
 	case GNM_VALIDATION_OP_GTE:
-		str = g_string_append (str, "cell-content() >= ");
+		g_string_append (str, "cell-content() >= ");
 		odf_validation_append_expression (state, str, val->deps[0].texpr, pp);
 		break;
 	case GNM_VALIDATION_OP_LTE:
-		str = g_string_append (str, "cell-content() <= ");
+		g_string_append (str, "cell-content() <= ");
 		odf_validation_append_expression (state, str, val->deps[0].texpr, pp);
 		break;
 	}
@@ -4242,38 +4242,38 @@ odf_validation_length (GnmOOExport *state, GnmValidation const *val,
 
 	switch (val->op) {
 	case GNM_VALIDATION_OP_NONE:
-		str = g_string_append (str, "is-true-formula(1)");
+		g_string_append (str, "is-true-formula(1)");
 		break;
 	case GNM_VALIDATION_OP_BETWEEN:
-		str = g_string_append (str, "cell-content-text-length-is-between");
+		g_string_append (str, "cell-content-text-length-is-between");
 		odf_validation_append_expression_pair (state, str, val, pp);
 		break;
 	case GNM_VALIDATION_OP_NOT_BETWEEN:
-		str = g_string_append (str, "cell-content-text-length-is-not-between");
+		g_string_append (str, "cell-content-text-length-is-not-between");
 		odf_validation_append_expression_pair (state, str, val, pp);
 		break;
 	case GNM_VALIDATION_OP_EQUAL:
-		str = g_string_append (str, "cell-content-text-length() = ");
+		g_string_append (str, "cell-content-text-length() = ");
 		odf_validation_append_expression (state, str, val->deps[0].texpr, pp);
 		break;
 	case GNM_VALIDATION_OP_NOT_EQUAL:
-		str = g_string_append (str, "cell-content-text-length() != ");
+		g_string_append (str, "cell-content-text-length() != ");
 		odf_validation_append_expression (state, str, val->deps[0].texpr, pp);
 		break;
 	case GNM_VALIDATION_OP_GT:
-		str = g_string_append (str, "cell-content-text-length() > ");
+		g_string_append (str, "cell-content-text-length() > ");
 		odf_validation_append_expression (state, str, val->deps[0].texpr, pp);
 		break;
 	case GNM_VALIDATION_OP_LT:
-		str = g_string_append (str, "cell-content-text-length() < ");
+		g_string_append (str, "cell-content-text-length() < ");
 		odf_validation_append_expression (state, str, val->deps[0].texpr, pp);
 		break;
 	case GNM_VALIDATION_OP_GTE:
-		str = g_string_append (str, "of:cell-content-text-length() >= ");
+		g_string_append (str, "of:cell-content-text-length() >= ");
 		odf_validation_append_expression (state, str, val->deps[0].texpr, pp);
 		break;
 	case GNM_VALIDATION_OP_LTE:
-		str = g_string_append (str, "cell-content-text-length() <= ");
+		g_string_append (str, "cell-content-text-length() <= ");
 		odf_validation_append_expression (state, str, val->deps[0].texpr, pp);
 		break;
 	}
@@ -4289,9 +4289,9 @@ odf_validation_custom (GnmOOExport *state, GnmValidation const *val,
 {
 	GString *str = g_string_new (NULL);
 
-	str = g_string_append (str, "of:is-true-formula(");
+	g_string_append (str, "of:is-true-formula(");
 	odf_validation_append_expression (state, str, val->deps[0].texpr, pp);
-	str = g_string_append_c (str, ')');
+	g_string_append_c (str, ')');
 
 	gsf_xml_out_add_cstr (state->xml, TABLE "condition", str->str);
 	g_string_free (str, TRUE);
@@ -4306,7 +4306,7 @@ odf_validation_in_list (GnmOOExport *state, GnmValidation const *val,
 
 	str = g_string_new ("of:cell-content-is-in-list(");
 	odf_validation_append_expression (state, str, val->deps[0].texpr, pp);
-	str = g_string_append_c (str, ')');
+	g_string_append_c (str, ')');
 
 	gsf_xml_out_add_cstr (state->xml, TABLE "condition", str->str);
 	g_string_free (str, TRUE);
