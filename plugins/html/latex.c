@@ -1031,11 +1031,15 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 			b = GO_COLOR_UINT_B (fore);
 		}
 		if (r != 0 || g != 0 || b != 0) {
-			char *locale;
-			locale = setlocale (LC_NUMERIC, "C");
-			gsf_output_printf (output, "{\\color[rgb]{%.2f,%.2f,%.2f} ",
-					   r/255.0, g/255.0, b/255.0);
-			locale = setlocale (LC_NUMERIC, locale);
+			gchar buffer[7] = {0};
+			gsf_output_printf (output, "{\\color[rgb]{");
+			g_ascii_formatd (buffer, 7, "%.2f",r/255.0);
+			gsf_output_printf (output, "%s,", buffer);
+			g_ascii_formatd (buffer, 7, "%.2f",g/255.0);
+			gsf_output_printf (output, "%s,", buffer);
+			g_ascii_formatd (buffer, 7, "%.2f",b/255.0);
+			gsf_output_printf (output, "%s", buffer);
+			gsf_output_printf (output, "} ");
 		}
 
 		/* Establish the font's style for the styles that can be addressed by LaTeX.
