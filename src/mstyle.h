@@ -85,6 +85,8 @@ gboolean    gnm_style_equal_header  (GnmStyle const *a, GnmStyle const *b,
 guint       gnm_style_hash          (gconstpointer style);
 guint       gnm_style_hash_XL	    (gconstpointer style);
 
+int         gnm_style_cmp           (GnmStyle const *a, GnmStyle const *b);
+
 unsigned int gnm_style_find_conflicts      (GnmStyle *accum, GnmStyle const *overlay,
 					    unsigned int conflicts);
 gboolean     gnm_style_is_complete	   (GnmStyle const *style);

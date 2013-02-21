@@ -22,6 +22,7 @@
 #include "ranges.h"
 #include "gnumeric-conf.h"
 #include <goffice/goffice.h>
+#include <string.h>
 
 #define DEBUG_STYLES
 #ifndef USE_MSTYLE_POOL
@@ -984,6 +985,103 @@ gnm_style_equal_XL (GnmStyle const *a, GnmStyle const *b)
 	});
 	return TRUE;
 }
+
+#define CMP_TRY_NUMBER_RAW(a_,b_)		\
+  do {						\
+    if ((a_) < (b_)) return -1;			\
+    if ((a_) > (b_)) return -1;			\
+  } while (0)
+
+#define CMP_TRY_NUMBER(e_,f_)			\
+  do {						\
+    if (elem_is_set (a, (e_)))			\
+      CMP_TRY_NUMBER_RAW(a->f_, b->f_);		\
+  } while (0)
+
+#define CMP_TRY_COLOR(e_,f_)					\
+  do {								\
+    if (elem_is_set (a, (e_))) {				\
+      CMP_TRY_NUMBER_RAW(a->f_->is_auto, b->f_->is_auto);	\
+      CMP_TRY_NUMBER_RAW(a->f_->go_color, b->f_->go_color);	\
+    }								\
+  } while (0)
+
+/*
+ * Ordering of GnmStyles.  Apart from FIXMEs, this shouldn't change
+ * from one run to the next.
+ */
+int
+gnm_style_cmp (GnmStyle const *a, GnmStyle const *b)
+{
+	GnmStyleElement e;
+
+	if (a == b)
+		return 0;
+
+	/*
+	 * Very quick comparison based on what is set.  This also allows
+	 * us to check on one elem_is_set below.
+	 */
+	CMP_TRY_NUMBER_RAW (a->set, b->set);
+
+	CMP_TRY_COLOR (MSTYLE_FONT_COLOR, color.font);
+	CMP_TRY_COLOR (MSTYLE_COLOR_BACK, color.back);
+	CMP_TRY_COLOR (MSTYLE_COLOR_PATTERN, color.pattern);
+	for (e = MSTYLE_BORDER_TOP; e <= MSTYLE_BORDER_DIAGONAL; e++) {
+		GnmBorder const *ba, *bb;
+		if (!elem_is_set (a, e))
+			continue;
+		ba = a->borders[e - MSTYLE_BORDER_TOP];
+		bb = b->borders[e - MSTYLE_BORDER_TOP];
+		CMP_TRY_NUMBER_RAW(ba->line_type, bb->line_type);
+		CMP_TRY_NUMBER_RAW(ba->color->go_color, bb->color->go_color);
+		CMP_TRY_NUMBER_RAW(ba->begin_margin, bb->begin_margin);
+		CMP_TRY_NUMBER_RAW(ba->end_margin, bb->end_margin);
+		CMP_TRY_NUMBER_RAW(ba->width, bb->width);
+	}
+	CMP_TRY_NUMBER (MSTYLE_PATTERN, pattern);
+	if (elem_is_set (a, MSTYLE_FONT_NAME)) {
+		/* Plain strcmp, not utf-8.  We need to see diffs.  */
+		int tmp = strcmp (a->font_detail.name->str,
+				  b->font_detail.name->str);
+		if (tmp)
+			return tmp;
+	}
+	CMP_TRY_NUMBER (MSTYLE_FONT_BOLD, font_detail.bold);
+	CMP_TRY_NUMBER (MSTYLE_FONT_ITALIC, font_detail.italic);
+	CMP_TRY_NUMBER (MSTYLE_FONT_UNDERLINE, font_detail.underline);
+	CMP_TRY_NUMBER (MSTYLE_FONT_STRIKETHROUGH, font_detail.strikethrough);
+	CMP_TRY_NUMBER (MSTYLE_FONT_SCRIPT, font_detail.script);
+	CMP_TRY_NUMBER (MSTYLE_FONT_SIZE, font_detail.size);
+	if (elem_is_set (a, MSTYLE_FORMAT)) {
+		/* Plain strcmp, not utf-8.  We need to see diffs.  */
+		int tmp = strcmp (go_format_as_XL (a->format),
+				  go_format_as_XL (b->format));
+		if (tmp)
+			return tmp;
+	}
+	CMP_TRY_NUMBER (MSTYLE_ALIGN_H, h_align);
+	CMP_TRY_NUMBER (MSTYLE_ALIGN_V, v_align);
+	CMP_TRY_NUMBER (MSTYLE_INDENT, indent);
+	CMP_TRY_NUMBER (MSTYLE_ROTATION, rotation);
+	CMP_TRY_NUMBER (MSTYLE_TEXT_DIR, text_dir);
+	CMP_TRY_NUMBER (MSTYLE_WRAP_TEXT, wrap_text);
+	CMP_TRY_NUMBER (MSTYLE_SHRINK_TO_FIT, shrink_to_fit);
+	CMP_TRY_NUMBER (MSTYLE_CONTENTS_LOCKED, contents_locked);
+	CMP_TRY_NUMBER (MSTYLE_CONTENTS_HIDDEN, contents_hidden);
+	/* FIXME: validation */
+	/* FIXME: hlink */
+	/* FIXME: input_msg */
+	/* FIXME: conditions */
+	/* FIXME: cond_styles */
+
+	/* Last resort: pointer comparison.  */
+	return a < b ? -1 : +1;
+}
+
+#undef CMP_TRY_NUMBER
+#undef CMP_TRY_COLOR
+
 
 /**
  * gnm_style_equal_header :
