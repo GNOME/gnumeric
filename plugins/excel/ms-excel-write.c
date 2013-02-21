@@ -2582,7 +2582,7 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 }
 
 static void
-cb_accum_styles (GnmStyle const *st, gconstpointer dummy, XLExportBase *xle)
+cb_accum_styles (GnmStyle const *st, XLExportBase *xle)
 {
 	ExcelStyleVariant *esv = g_new (ExcelStyleVariant, 1);
 	esv->style = st;
@@ -2602,8 +2602,7 @@ gather_styles (ExcelWriteState *ewb)
 		int col, cols = MIN (XLS_MaxCol, gnm_sheet_get_max_cols(sheet));
 		sheet_cell_foreach (sheet,
 			(GHFunc) cb_cell_pre_pass, &ewb->base);
-		sheet_style_foreach (sheet,
-			(GHFunc) cb_accum_styles, &ewb->base);
+		sheet_style_foreach (sheet, (GFunc)cb_accum_styles, &ewb->base);
 		for (col = 0; col < cols; col++) {
 			ExcelStyleVariant esv;
 			esv.style = esheet->col_style[col];

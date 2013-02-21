@@ -122,7 +122,7 @@ cb_index_cell (G_GNUC_UNUSED gpointer ignore,
 }
 
 static void
-cb_index_styles (GnmStyle *style, gconstpointer dummy, IndexerState *state)
+cb_index_styles (GnmStyle *style, IndexerState *state)
 {
 	if (gnm_style_is_element_set (style, MSTYLE_HLINK)) {
 		GnmHLink const *lnk = gnm_style_get_hlink (style);
@@ -217,7 +217,7 @@ ssindex (char const *file, GOIOContext *ioc)
 
 		/* Various stuff in styles.  */
 		sheet_style_foreach (state.sheet,
-				     (GHFunc)&cb_index_styles, &state);
+				     (GFunc)cb_index_styles, &state);
 
 		/* Local names.  */
 		gnm_sheet_foreach_name (state.sheet,

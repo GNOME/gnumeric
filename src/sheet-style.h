@@ -58,8 +58,8 @@ void     style_row_init			(GnmBorder const * * *prev_vert,
 					 gpointer mem, gboolean hide_grid);
 GnmHLink *sheet_style_region_contains_link (Sheet const *sheet, GnmRange const *r);
 void	  sheet_style_foreach (Sheet const *sheet,
-			       GHFunc	    func,
-			       gpointer    user_data);
+			       GFunc func,
+			       gpointer user_data);
 void	  sheet_style_range_foreach (Sheet const *sheet, GnmRange const *r,
 				     GHFunc	  func,
 				     gpointer     user_data);

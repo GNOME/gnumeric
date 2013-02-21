@@ -140,9 +140,7 @@ cb_sylk_write_cell (GnmCellIter const *iter, SylkWriter *state)
 }
 
 static void
-cb_sylk_collect_styles (GnmStyle const *st,
-			G_GNUC_UNUSED gconstpointer dummy,
-			SylkWriter *state)
+cb_sylk_collect_styles (GnmStyle const *st, SylkWriter *state)
 {
 }
 
@@ -160,9 +158,9 @@ sylk_write_sheet (SylkWriter *state)
 /* collect style and font info */
 	extent = sheet_get_extent (state->sheet, FALSE);
 	sheet_style_foreach (state->sheet,
-		(GHFunc) cb_sylk_collect_styles, state);
+			     (GFunc)cb_sylk_collect_styles, state);
 	sheet_cell_foreach (state->sheet,
-		(GHFunc) cb_sylk_collect_cell_styles, state);
+			    (GHFunc)cb_sylk_collect_cell_styles, state);
 
 	/*
 	 * 1) formats P;P.....

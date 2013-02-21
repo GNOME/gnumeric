@@ -107,21 +107,21 @@ sh_insert (GnmStyleHash *h, GnmStyle *st)
 	}
 }
 
-static void
-sh_foreach (GnmStyleHash *h, GHFunc func, gpointer user)
+static GSList *
+sh_all_styles (GnmStyleHash *h)
 {
 	GHashTableIter iter;
 	gpointer value;
+	GSList *res = NULL;
 
 	g_hash_table_iter_init (&iter, h);
 	while (g_hash_table_iter_next (&iter, NULL, &value)) {
 		GSList *l = value;
-		while (l) {
-			GnmStyle *st = l->data;
-			func (st, st, user);
-			l = l->next;
-		}
+		for (; l; l = l->next)
+			res = g_slist_prepend (res, l->data);
 	}
+
+	return res;
 }
 
 static GnmStyleHash *
@@ -737,13 +737,6 @@ sheet_style_resize (Sheet *sheet, int cols, int rows)
 	style_list_free	(styles);
 }
 
-static void
-cb_unlink (void *key, G_GNUC_UNUSED void *value, G_GNUC_UNUSED void *user)
-{
-	GnmStyle *style = key;
-	gnm_style_unlink (style);
-}
-
 #if USE_TILE_POOLS
 static void
 cb_tile_pool_leak (gpointer data, gpointer user)
@@ -781,7 +774,8 @@ sheet_style_shutdown (Sheet *sheet)
 	 */
 	table = sheet->style_data->style_hash;
 	sheet->style_data->style_hash = NULL;
-	sh_foreach (table, cb_unlink, NULL);
+	g_slist_free_full (sh_all_styles (table),
+			   (GDestroyNotify)gnm_style_unlink);
 	sh_destroy (table);
 	style_color_unref (sheet->style_data->auto_pattern_color);
 
@@ -3089,12 +3083,17 @@ sheet_style_region_contains_link (Sheet const *sheet, GnmRange const *r)
  * Executes @func for each style in the sheet.
  **/
 void
-sheet_style_foreach (Sheet const *sheet, GHFunc func, gpointer user_data)
+sheet_style_foreach (Sheet const *sheet, GFunc func, gpointer user_data)
 {
+	GSList *styles;
+
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->style_data != NULL);
 
-	sh_foreach (sheet->style_data->style_hash, func, user_data);
+	styles = sh_all_styles (sheet->style_data->style_hash);
+	styles = g_slist_sort (styles, (GCompareFunc)gnm_style_cmp);
+	g_slist_foreach (styles, func, user_data);
+	g_slist_free (styles);
 }
 
 /**
