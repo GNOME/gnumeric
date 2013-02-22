@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-02-07 16:38+0000\n"
-"PO-Revision-Date: 2013-02-07 19:49+0100\n"
+"POT-Creation-Date: 2013-02-22 20:48+0000\n"
+"PO-Revision-Date: 2013-02-22 22:18+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -140,7 +140,7 @@ msgid "Error while reading DIF file."
 msgstr "Napaka med branjem datoteke DIF."
 
 #: ../plugins/dif/dif.c:314 ../plugins/paradox/paradox.c:311
-#: ../plugins/sylk/sylk-write.c:235
+#: ../plugins/sylk/sylk-write.c:233
 msgid "Cannot get default sheet."
 msgstr "Ni mogoče pridobiti privzetega delovnega lista."
 
@@ -310,11 +310,11 @@ msgstr ""
 "določena."
 
 # book : workbook = zvezek : delovni zvezek
-#: ../plugins/excel/ms-excel-write.c:6300
+#: ../plugins/excel/ms-excel-write.c:6302
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Ni mogoče odpreti pretoka 'zvezka' za pisanje\n"
 
-#: ../plugins/excel/ms-excel-write.c:6322
+#: ../plugins/excel/ms-excel-write.c:6324
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Ni mogoče odpreti pretoka 'delovnega zvezka' za pisanje\n"
 
@@ -474,7 +474,7 @@ msgstr "Neznana barva teme %d"
 msgid "Undefined number format id '%s'"
 msgstr "Nedoločen zapis ID števila '%s'"
 
-#: ../plugins/excel/xlsx-read.c:1132 ../plugins/excel/xlsx-read.c:3159
+#: ../plugins/excel/xlsx-read.c:1132 ../plugins/excel/xlsx-read.c:3160
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Neveljaven zapis barve '%s' za atribut rgb"
@@ -513,55 +513,55 @@ msgstr "Določanje veljavnosti neveljavnih podatkov bo prezrto: %s"
 msgid "Undefined"
 msgstr "Nedoločeno"
 
-#: ../plugins/excel/xlsx-read.c:2236
+#: ../plugins/excel/xlsx-read.c:2237
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Neupravljan pogojni zapis za vrsto '%s' bo prezrt."
 
-#: ../plugins/excel/xlsx-read.c:2623
+#: ../plugins/excel/xlsx-read.c:2624
 msgid "Unknown type of hyperlink"
 msgstr "Neznana vrsta hiperpovezave"
 
-#: ../plugins/excel/xlsx-read.c:2885
+#: ../plugins/excel/xlsx-read.c:2886
 msgid "Ignoring a sheet without a name"
 msgstr "Delovni list brez imena je prezrt"
 
-#: ../plugins/excel/xlsx-read.c:2955
+#: ../plugins/excel/xlsx-read.c:2956
 #, c-format
 msgid "Failed to define name: %s"
 msgstr "Določevanje imena je spodletelo: %s"
 
-#: ../plugins/excel/xlsx-read.c:3349
+#: ../plugins/excel/xlsx-read.c:3350
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Manjka id-dela za delovni list '%s'"
 
-#: ../plugins/excel/xlsx-read.c:3374
+#: ../plugins/excel/xlsx-read.c:3375
 #, c-format
 msgid "Reading sheet '%s'..."
 msgstr "Branje delovnega lista'%s' ..."
 
-#: ../plugins/excel/xlsx-read.c:3382
+#: ../plugins/excel/xlsx-read.c:3383
 msgid "Reading comments..."
 msgstr "Branje opomb ..."
 
-#: ../plugins/excel/xlsx-read.c:4400
+#: ../plugins/excel/xlsx-read.c:4401
 msgid "Reading shared strings..."
 msgstr "Branje nizov v souporabi ..."
 
-#: ../plugins/excel/xlsx-read.c:4408
+#: ../plugins/excel/xlsx-read.c:4409
 msgid "Reading theme..."
 msgstr "Branje teme ..."
 
-#: ../plugins/excel/xlsx-read.c:4416
+#: ../plugins/excel/xlsx-read.c:4417
 msgid "Reading styles..."
 msgstr "Branje slogov ..."
 
-#: ../plugins/excel/xlsx-read.c:4421
+#: ../plugins/excel/xlsx-read.c:4422
 msgid "Reading workbook..."
 msgstr "Branje delovnega zvezka ..."
 
-#: ../plugins/excel/xlsx-read.c:4431
+#: ../plugins/excel/xlsx-read.c:4432
 msgid "No workbook stream found."
 msgstr "Ni mogoče najti pretoka preglednice"
 
@@ -4928,10 +4928,10 @@ msgid "No matching records were found."
 msgstr "Ni zadetkov skladnih s poizvedbo."
 
 #: ../src/dialogs/dialog-advanced-filter.c:173
-#: ../src/dialogs/dialog-analysis-tools.c:666
-#: ../src/dialogs/dialog-analysis-tools.c:786
-#: ../src/dialogs/dialog-analysis-tools.c:2198
-#: ../src/dialogs/dialog-analysis-tools.c:3644 ../src/tools/filter.c:252
+#: ../src/dialogs/dialog-analysis-tools.c:670
+#: ../src/dialogs/dialog-analysis-tools.c:790
+#: ../src/dialogs/dialog-analysis-tools.c:2202
+#: ../src/dialogs/dialog-analysis-tools.c:3652 ../src/tools/filter.c:252
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Prišlo je do nepričakovane napake: %d."
@@ -4951,14 +4951,14 @@ msgstr "Filtriraj na _mestu"
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:76
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:142
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:361
-#: ../src/dialogs/dialog-analysis-tools.c:587
-#: ../src/dialogs/dialog-analysis-tools.c:1134
-#: ../src/dialogs/dialog-analysis-tools.c:1847
-#: ../src/dialogs/dialog-analysis-tools.c:2544
-#: ../src/dialogs/dialog-analysis-tools.c:2902
-#: ../src/dialogs/dialog-analysis-tools.c:3190
-#: ../src/dialogs/dialog-analysis-tools.c:3471
-#: ../src/dialogs/dialog-analysis-tools.c:3684
+#: ../src/dialogs/dialog-analysis-tools.c:591
+#: ../src/dialogs/dialog-analysis-tools.c:1138
+#: ../src/dialogs/dialog-analysis-tools.c:1851
+#: ../src/dialogs/dialog-analysis-tools.c:2548
+#: ../src/dialogs/dialog-analysis-tools.c:2906
+#: ../src/dialogs/dialog-analysis-tools.c:3198
+#: ../src/dialogs/dialog-analysis-tools.c:3479
+#: ../src/dialogs/dialog-analysis-tools.c:3692
 #: ../src/dialogs/dialog-shuffle.c:74
 msgid "The input range is invalid."
 msgstr "Obseg dovoda ni veljaven."
@@ -4971,8 +4971,8 @@ msgstr "Vhodni obseg podatkov je premajhen."
 #: ../src/dialogs/dialog-analysis-tool-normality.c:109
 #: ../src/dialogs/dialog-analysis-tool-one-mean.c:100
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:102
-#: ../src/dialogs/dialog-analysis-tools.c:3482
-#: ../src/dialogs/dialog-analysis-tools.c:3695
+#: ../src/dialogs/dialog-analysis-tools.c:3490
+#: ../src/dialogs/dialog-analysis-tools.c:3703
 msgid "The alpha value should be a number between 0 and 1."
 msgstr "Vrednost alfa mora biti med 0 in 1."
 
@@ -4984,15 +4984,15 @@ msgstr "Vrednost alfa mora biti med 0 in 1."
 #: ../src/dialogs/dialog-analysis-tool-principal-components.c:85
 #: ../src/dialogs/dialog-analysis-tool-sign-test.c:111
 #: ../src/dialogs/dialog-analysis-tool-wilcoxon-mann-whitney.c:100
-#: ../src/dialogs/dialog-analysis-tools.c:596
-#: ../src/dialogs/dialog-analysis-tools.c:1185
-#: ../src/dialogs/dialog-analysis-tools.c:1895
-#: ../src/dialogs/dialog-analysis-tools.c:2321
-#: ../src/dialogs/dialog-analysis-tools.c:2598
-#: ../src/dialogs/dialog-analysis-tools.c:2933
-#: ../src/dialogs/dialog-analysis-tools.c:3218
-#: ../src/dialogs/dialog-analysis-tools.c:3491
-#: ../src/dialogs/dialog-analysis-tools.c:3716
+#: ../src/dialogs/dialog-analysis-tools.c:600
+#: ../src/dialogs/dialog-analysis-tools.c:1189
+#: ../src/dialogs/dialog-analysis-tools.c:1899
+#: ../src/dialogs/dialog-analysis-tools.c:2325
+#: ../src/dialogs/dialog-analysis-tools.c:2602
+#: ../src/dialogs/dialog-analysis-tools.c:2937
+#: ../src/dialogs/dialog-analysis-tools.c:3226
+#: ../src/dialogs/dialog-analysis-tools.c:3499
+#: ../src/dialogs/dialog-analysis-tools.c:3724
 #: ../src/dialogs/dialog-random-generator-cor.c:116
 msgid "The output specification is invalid."
 msgstr "Določilo odvoda je neveljavno."
@@ -5128,55 +5128,55 @@ msgstr ""
 "Ni mogoče ustvariti pogovornega okna orodja za Wilcoxon-Mann-Whitneyevo "
 "analizo"
 
-#: ../src/dialogs/dialog-analysis-tools.c:652
-#: ../src/dialogs/dialog-analysis-tools.c:772
+#: ../src/dialogs/dialog-analysis-tools.c:656
+#: ../src/dialogs/dialog-analysis-tools.c:776
 msgid "The selected input rows must have equal size!"
 msgstr "Izbrane vnosne vrstice morajo biti enake velikosti!"
 
-#: ../src/dialogs/dialog-analysis-tools.c:657
-#: ../src/dialogs/dialog-analysis-tools.c:777
+#: ../src/dialogs/dialog-analysis-tools.c:661
+#: ../src/dialogs/dialog-analysis-tools.c:781
 msgid "The selected input columns must have equal size!"
 msgstr "Izbrani vnosni stolpci morajo biti enake velikosti!"
 
-#: ../src/dialogs/dialog-analysis-tools.c:662
-#: ../src/dialogs/dialog-analysis-tools.c:782
+#: ../src/dialogs/dialog-analysis-tools.c:666
+#: ../src/dialogs/dialog-analysis-tools.c:786
 msgid "The selected input areas must have equal size!"
 msgstr "Izbrani dovodni obsegi celic morajo biti enake velikosti!"
 
-#: ../src/dialogs/dialog-analysis-tools.c:710
+#: ../src/dialogs/dialog-analysis-tools.c:714
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna soodnosnosti."
 
-#: ../src/dialogs/dialog-analysis-tools.c:830
+#: ../src/dialogs/dialog-analysis-tools.c:834
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja kovariance."
 
-#: ../src/dialogs/dialog-analysis-tools.c:922
+#: ../src/dialogs/dialog-analysis-tools.c:926
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja rangov in percentilov"
 
-#: ../src/dialogs/dialog-analysis-tools.c:1015
+#: ../src/dialogs/dialog-analysis-tools.c:1019
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja Fouriereve analize."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1143
+#: ../src/dialogs/dialog-analysis-tools.c:1147
 msgid "No statistics are selected."
 msgstr "Ni izbrane statistične funkcije."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1153
+#: ../src/dialogs/dialog-analysis-tools.c:1157
 msgid "The confidence level should be between 0 and 1."
 msgstr "Raven zaupanja mora biti med vrednostima 0 in 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1165
-#: ../src/dialogs/dialog-analysis-tools.c:1176
+#: ../src/dialogs/dialog-analysis-tools.c:1169
+#: ../src/dialogs/dialog-analysis-tools.c:1180
 msgid "K must be a positive integer."
 msgstr "K mora biti pozitivno celo število."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1227
+#: ../src/dialogs/dialog-analysis-tools.c:1231
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja opisne statistike."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1374
+#: ../src/dialogs/dialog-analysis-tools.c:1378
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -5184,7 +5184,7 @@ msgstr ""
 "Vnesite veljavno vrednost variance\n"
 "populacije za spremenljivko 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1383
+#: ../src/dialogs/dialog-analysis-tools.c:1387
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -5192,153 +5192,153 @@ msgstr ""
 "Vnesite veljavno vrednost variance\n"
 "populacije za spremenljivko 2."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1610
+#: ../src/dialogs/dialog-analysis-tools.c:1614
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja testa povprečja."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1797
+#: ../src/dialogs/dialog-analysis-tools.c:1801
 msgid "Could not create the FTest Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja FTest."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1857
+#: ../src/dialogs/dialog-analysis-tools.c:1861
 msgid "The requested number of samples is invalid."
 msgstr "Zahtevano število vzorcev je neveljavno."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1870
+#: ../src/dialogs/dialog-analysis-tools.c:1874
 msgid "The requested period is invalid."
 msgstr "Zahtevano obdobje ni veljavno."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1878
+#: ../src/dialogs/dialog-analysis-tools.c:1882
 msgid "The requested offset is invalid."
 msgstr "Zahtevan odmik ni veljaven."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1887
+#: ../src/dialogs/dialog-analysis-tools.c:1891
 msgid "The requested sample size is invalid."
 msgstr "Zahtevana velikost vzorca ni veljavna."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2052
+#: ../src/dialogs/dialog-analysis-tools.c:2056
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja vzorčenja."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2242
-#: ../src/dialogs/dialog-analysis-tools.c:2255
+#: ../src/dialogs/dialog-analysis-tools.c:2246
+#: ../src/dialogs/dialog-analysis-tools.c:2259
 msgid "The x variable range is invalid."
 msgstr "Obseg spremenljivke x ni veljaven."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2243
-#: ../src/dialogs/dialog-analysis-tools.c:2256
+#: ../src/dialogs/dialog-analysis-tools.c:2247
+#: ../src/dialogs/dialog-analysis-tools.c:2260
 msgid "The y variable range is invalid."
 msgstr "Obseg spremenljivke y ni veljaven."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2263
+#: ../src/dialogs/dialog-analysis-tools.c:2267
 msgid "The x variable range must be a vector (n by 1 or 1 by n)."
 msgstr "Podatkovna vrsta spremenljivke x mora biti vektor (n x 1 ali 1 x n)"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2264
+#: ../src/dialogs/dialog-analysis-tools.c:2268
 msgid "The y variable range must be a vector (n by 1 or 1 by n)."
 msgstr "Podatkovna vrsta spremenljivke y mora biti vektor (n x 1 ali 1 x n)"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2271
+#: ../src/dialogs/dialog-analysis-tools.c:2275
 msgid "The x variable range is too small"
 msgstr "Obseg podatkov x je premajhen."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2272
+#: ../src/dialogs/dialog-analysis-tools.c:2276
 msgid "The y variable range is too small"
 msgstr "Obseg podatkov y je premajhen."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2282
-#: ../src/dialogs/dialog-analysis-tools.c:2295
+#: ../src/dialogs/dialog-analysis-tools.c:2286
+#: ../src/dialogs/dialog-analysis-tools.c:2299
 msgid "The y variables range is invalid."
 msgstr "Obseg spremenljivk osi y ni veljaven."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2283
-#: ../src/dialogs/dialog-analysis-tools.c:2296
+#: ../src/dialogs/dialog-analysis-tools.c:2287
+#: ../src/dialogs/dialog-analysis-tools.c:2300
 msgid "The x variables range is invalid."
 msgstr "Obseg spremenljivk osi x ni veljaven."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2304
+#: ../src/dialogs/dialog-analysis-tools.c:2308
 msgid "The sizes of the y variable and x variables ranges do not match."
 msgstr "Velikost podatkovnih vrst spremenljivk x in y ni skladna."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2305
+#: ../src/dialogs/dialog-analysis-tools.c:2309
 msgid "The sizes of the x variable and y variables ranges do not match."
 msgstr "Velikost podatkovnih vrst spremenljivk y in x ni skladna."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2314
+#: ../src/dialogs/dialog-analysis-tools.c:2318
 msgid "The confidence level is invalid."
 msgstr "Raven zaupanja ni veljavna."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2366
+#: ../src/dialogs/dialog-analysis-tools.c:2370
 msgid "_Y variables:"
 msgstr "Spremenljivke _Y:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2368
+#: ../src/dialogs/dialog-analysis-tools.c:2372
 msgid "_X variable:"
 msgstr "Spremenljivka _X:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2371
+#: ../src/dialogs/dialog-analysis-tools.c:2375
 #: ../src/dialogs/regression.ui.h:5
 msgid "_X variables:"
 msgstr "Spremenljivke _X:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2373
+#: ../src/dialogs/dialog-analysis-tools.c:2377
 #: ../src/dialogs/regression.ui.h:6
 msgid "_Y variable:"
 msgstr "Spremenljivka _Y:"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2411
+#: ../src/dialogs/dialog-analysis-tools.c:2415
 msgid "Could not create the Regression Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja regresije."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2557
+#: ../src/dialogs/dialog-analysis-tools.c:2561
 msgid "The given seasonal damping factor is invalid."
 msgstr "Podan sezonski faktor dušenja je neveljaven."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2566
+#: ../src/dialogs/dialog-analysis-tools.c:2570
 msgid "The given seasonal period is invalid."
 msgstr "Podano sezonsko obdobje je neveljavno."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2577
+#: ../src/dialogs/dialog-analysis-tools.c:2581
 msgid "The given growth damping factor is invalid."
 msgstr "Podan faktor dušenja rasti je neveljaven."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2589
+#: ../src/dialogs/dialog-analysis-tools.c:2593
 msgid "The given damping factor is invalid."
 msgstr "Podan faktor dušenja je neveljaven."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2719
+#: ../src/dialogs/dialog-analysis-tools.c:2723
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja potenčnega glajenja."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2915
+#: ../src/dialogs/dialog-analysis-tools.c:2919
 msgid "The given interval is invalid."
 msgstr "Podan razmik med vrednostima ni veljavna."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2925
+#: ../src/dialogs/dialog-analysis-tools.c:2929
 msgid "The given offset is invalid."
 msgstr "Podan odmik ni veljaven."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3086
+#: ../src/dialogs/dialog-analysis-tools.c:3094
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja drsečega povprečja."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3204
+#: ../src/dialogs/dialog-analysis-tools.c:3212
 msgid "The cutoff range is not valid."
 msgstr "Obseg mejnih vrednosti ni veljaven."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3211
+#: ../src/dialogs/dialog-analysis-tools.c:3219
 msgid "The number of to be calculated cutoffs is invalid."
 msgstr "Število izračunanih mejnih vrednosti ni veljavno."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3354
+#: ../src/dialogs/dialog-analysis-tools.c:3362
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja histograma."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3531
+#: ../src/dialogs/dialog-analysis-tools.c:3539
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja ANOVA (enega faktorja)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3610
+#: ../src/dialogs/dialog-analysis-tools.c:3618
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -5346,7 +5346,7 @@ msgstr ""
 "Podana podatkovna vrsta mora vsebovati vsaj dva stolpca in dve vrstici "
 "podatkov in oznake."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3613
+#: ../src/dialogs/dialog-analysis-tools.c:3621
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -5354,37 +5354,37 @@ msgstr ""
 "Podana podatkovna vrsta mora vsebovati vsaj dva stolpca in dve vrstici "
 "podatkov."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3619
+#: ../src/dialogs/dialog-analysis-tools.c:3627
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 "Podana podatkovna vrsta mora vsebovati vsaj dva stolpca podatkov in oznake."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3622
+#: ../src/dialogs/dialog-analysis-tools.c:3630
 msgid "The given input range should contain at least two columns of data."
 msgstr "Podana podatkovna vrsta mora vsebovati vsaj dva stolpca podatkov."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3628
+#: ../src/dialogs/dialog-analysis-tools.c:3636
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
 "Podana podatkovna vrsta mora vsebovati vsaj dve vrstici podatkov in oznake."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3631
+#: ../src/dialogs/dialog-analysis-tools.c:3639
 msgid "The given input range should contain at least two rows of data."
 msgstr "Podana podatkovna vrsta mora vsebovati vsaj dve vrstici podatkov."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3638
+#: ../src/dialogs/dialog-analysis-tools.c:3646
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr "Število vrstic podatkov mora biti mnogokratnik kopiranega števila"
 
-#: ../src/dialogs/dialog-analysis-tools.c:3707
+#: ../src/dialogs/dialog-analysis-tools.c:3715
 msgid "The number of rows per sample should be a positive integer."
 msgstr "Število vrstic na vzorec mora biti pozitivno celo število."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3760
+#: ../src/dialogs/dialog-analysis-tools.c:3768
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna orodja ANOVA (dveh faktorjev)."
 
@@ -6054,7 +6054,7 @@ msgstr "Vrstica"
 msgid "Column"
 msgstr "Stolpec"
 
-#: ../src/dialogs/dialog-data-slicer.c:143 ../src/dialogs/dialog-stf.ui.h:30
+#: ../src/dialogs/dialog-data-slicer.c:143 ../src/dialogs/dialog-stf.ui.h:31
 msgid "Data"
 msgstr "Podatki"
 
@@ -7221,30 +7221,30 @@ msgid "Rows"
 msgstr "Vrstice"
 
 #. Translators: Table header for column with number of "Cols"
-#: ../src/dialogs/dialog-sheet-order.c:756
+#: ../src/dialogs/dialog-sheet-order.c:755
 msgctxt "sheetlist"
 msgid "Cols"
 msgstr "Stolpci"
 
-#: ../src/dialogs/dialog-sheet-order.c:764
+#: ../src/dialogs/dialog-sheet-order.c:763
 msgid "Current Name"
 msgstr "Trenutno ime"
 
-#: ../src/dialogs/dialog-sheet-order.c:777
+#: ../src/dialogs/dialog-sheet-order.c:776
 msgid "New Name"
 msgstr "Novo ime"
 
-#: ../src/dialogs/dialog-sheet-order.c:1120
+#: ../src/dialogs/dialog-sheet-order.c:1119
 #, c-format
 msgid "You may not call more than one sheet \"%s\"."
 msgstr "Več kot enega delovnega lista ni dovoljeno poimenovati \"%s\"."
 
-#: ../src/dialogs/dialog-sheet-order.c:1452
+#: ../src/dialogs/dialog-sheet-order.c:1451
 msgid "Another view is already managing sheets"
 msgstr "Drug pogled že upravlja z delovnimi listi."
 
-#: ../src/dialogs/dialog-sheet-order.c:1507
-#: ../src/dialogs/dialog-sheet-order.c:1518
+#: ../src/dialogs/dialog-sheet-order.c:1506
+#: ../src/dialogs/dialog-sheet-order.c:1517
 msgid "Default"
 msgstr "Privzeto"
 
@@ -8709,7 +8709,7 @@ msgstr "V _celice vnesi:"
 msgid "DataSlicer Guru : Gnumeric"
 msgstr "Pomočnik za vrtilne razpredelnice : Gnumeric"
 
-#: ../src/dialogs/data-slicer.ui.h:3 ../src/dialogs/dialog-stf.ui.h:59
+#: ../src/dialogs/data-slicer.ui.h:3 ../src/dialogs/dialog-stf.ui.h:60
 #: ../src/stf-export.c:583
 msgid "Format"
 msgstr "Oblika"
@@ -8996,26 +8996,34 @@ msgid "F_inish"
 msgstr "Konč_aj"
 
 #: ../src/dialogs/dialog-stf.ui.h:10
+msgid "Source Format"
+msgstr "Izvorni zapis"
+
+#: ../src/dialogs/dialog-stf.ui.h:11
 msgid "Encoding:"
 msgstr "Nabor znakov:"
 
-#: ../src/dialogs/dialog-stf.ui.h:11
+#: ../src/dialogs/dialog-stf.ui.h:12
 msgid "Line breaks:"
 msgstr "Prelomi vrstic:"
 
-#: ../src/dialogs/dialog-stf.ui.h:12
+#: ../src/dialogs/dialog-stf.ui.h:13
+msgid "Original data type:"
+msgstr "Izvorna vrsta podatkov:"
+
+#: ../src/dialogs/dialog-stf.ui.h:14
 msgid "_Unix (LF)"
 msgstr "_Unix (LF)"
 
-#: ../src/dialogs/dialog-stf.ui.h:13
+#: ../src/dialogs/dialog-stf.ui.h:15
 msgid "The line feed character (ASCII code 10) breaks lines"
 msgstr "Znak LF (v razpredelnici ASCII s kodo 10) prelomi vrstice"
 
-#: ../src/dialogs/dialog-stf.ui.h:14
+#: ../src/dialogs/dialog-stf.ui.h:16
 msgid "_Windows (CR+LF)"
 msgstr "_Windows (CR+LF)"
 
-#: ../src/dialogs/dialog-stf.ui.h:15
+#: ../src/dialogs/dialog-stf.ui.h:17
 msgid ""
 "The sequence of carriage return and line feed (ASCII codes 13 and 10) breaks "
 "lines"
@@ -9023,180 +9031,180 @@ msgstr ""
 "Zaporednje znakov CR in LF (v razpredelnici ASCII s kodama 13 in 10) prelomi "
 "vrstice"
 
-#: ../src/dialogs/dialog-stf.ui.h:16
+#: ../src/dialogs/dialog-stf.ui.h:18
 msgid "_Macintosh (CR)"
 msgstr "_Macintosh (CR)"
 
-#: ../src/dialogs/dialog-stf.ui.h:17
+#: ../src/dialogs/dialog-stf.ui.h:19
 msgid "The carriage return character (ASCII code 13) breaks lines"
 msgstr "Znak CR (v razpredelnici ASCII s kodo 13) prelomi vrstice"
 
-#: ../src/dialogs/dialog-stf.ui.h:18
-msgid "Original data type:"
-msgstr "Izvorna vrsta podatkov:"
-
-#: ../src/dialogs/dialog-stf.ui.h:19
+#: ../src/dialogs/dialog-stf.ui.h:20
 msgid "_Separated"
 msgstr "_Ločena razporeditev"
 
-#: ../src/dialogs/dialog-stf.ui.h:20
+#: ../src/dialogs/dialog-stf.ui.h:21
+msgid ""
+"Each column in the text is separated by a &apos;separation&apos; character, "
+"e.g. a semicolon."
+msgstr ""
+"Vsak stolpec v besedilu je ločen z &apos;ločilnim znakom&apos;, kot na "
+"primer podpičje."
+
+#: ../src/dialogs/dialog-stf.ui.h:22
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
 "Vsak stolpec v besedilu je ločen z 'ločilnim znakom', kot na primer podpičje."
 
-#: ../src/dialogs/dialog-stf.ui.h:21
+#: ../src/dialogs/dialog-stf.ui.h:23
 msgid "Fi_xed width"
 msgstr "Določena _širina"
 
-#: ../src/dialogs/dialog-stf.ui.h:22
+#: ../src/dialogs/dialog-stf.ui.h:24
 msgid "Define the width of each column manually."
 msgstr "Določi širino vsakega stolpca ročno."
 
-#: ../src/dialogs/dialog-stf.ui.h:23
-msgid "Source Format"
-msgstr "Izvorni zapis"
+#: ../src/dialogs/dialog-stf.ui.h:25
+msgid "Lines to import"
+msgstr "Vrstice za uvoz"
 
-#: ../src/dialogs/dialog-stf.ui.h:24
+#: ../src/dialogs/dialog-stf.ui.h:26
 msgid "Fr_om line:"
 msgstr "_Od vrstice:"
 
-#: ../src/dialogs/dialog-stf.ui.h:25
-msgid ""
-"Actual processing will start at this line, any previous lines will be "
-"ignored."
-msgstr ""
-"Izvajanje opravila se bo začelo s to vrstico, predhodne pa bodo prezrte."
-
-#: ../src/dialogs/dialog-stf.ui.h:26
+#: ../src/dialogs/dialog-stf.ui.h:27
 msgid "_To line: "
 msgstr "_Do vrstice:"
-
-#: ../src/dialogs/dialog-stf.ui.h:27
-msgid "Processing ends at this line, any subsequent lines will be ignored."
-msgstr "Opravilo se bo zaključilo s to vrstico, nadaljnje pa bodo prezrte."
 
 #: ../src/dialogs/dialog-stf.ui.h:28
 msgid "Number of lines to import"
 msgstr "Število vrstic za uvoz"
 
 #: ../src/dialogs/dialog-stf.ui.h:29
-msgid "Lines to import"
-msgstr "Vrstice za uvoz"
+msgid ""
+"Actual processing will start at this line, any previous lines will be "
+"ignored."
+msgstr ""
+"Izvajanje opravila se bo začelo s to vrstico, predhodne pa bodo prezrte."
 
-#: ../src/dialogs/dialog-stf.ui.h:31
+#: ../src/dialogs/dialog-stf.ui.h:30
+msgid "Processing ends at this line, any subsequent lines will be ignored."
+msgstr "Opravilo se bo zaključilo s to vrstico, nadaljnje pa bodo prezrte."
+
+#: ../src/dialogs/dialog-stf.ui.h:32
 msgid "Main"
 msgstr "Glavno"
 
-#: ../src/dialogs/dialog-stf.ui.h:32
-msgid "C_ustom"
-msgstr "Po _meri"
-
 #: ../src/dialogs/dialog-stf.ui.h:33
-msgid "_Hyphen (-)"
-msgstr "_Pomišljaj (-)"
-
-#: ../src/dialogs/dialog-stf.ui.h:34
-msgid "_Space"
-msgstr "_Presledek"
-
-#: ../src/dialogs/dialog-stf.ui.h:35
-msgid "_Tab"
-msgstr "_Tabulator"
-
-#: ../src/dialogs/dialog-stf.ui.h:36
-msgid "C_olon (:)"
-msgstr "_Dvopičje (:)"
-
-#: ../src/dialogs/dialog-stf.ui.h:37
-msgid "Custom separator, this can be any character."
-msgstr "Ločilnik po meri je lahko katerikoli znak."
-
-#: ../src/dialogs/dialog-stf.ui.h:38
-msgid "S_ee two separators as one"
-msgstr "_Izriši dva ločilnika kot enega"
-
-#: ../src/dialogs/dialog-stf.ui.h:39
-msgid "See two successive separators as one."
-msgstr "Izriši dva zaporedna ločilnika kot enega."
-
-#: ../src/dialogs/dialog-stf.ui.h:40
-msgid "_Comma (,)"
-msgstr "_Vejica (,)"
-
-#: ../src/dialogs/dialog-stf.ui.h:41
-msgid "Semicolo_n (;)"
-msgstr "_Podpičje (;)"
-
-#: ../src/dialogs/dialog-stf.ui.h:42
-msgid "_Ignore initial separators"
-msgstr "_Prezri začetne ločilnike"
-
-#: ../src/dialogs/dialog-stf.ui.h:43
-msgid "Ignore any separators at the beginning of lines"
-msgstr "Prezri ločilnike na začetku vrstic"
-
-#: ../src/dialogs/dialog-stf.ui.h:44
 msgid "Separators"
 msgstr "Ločilniki"
 
+#: ../src/dialogs/dialog-stf.ui.h:34
+msgid "Text indicator"
+msgstr "Kazalnik besedila"
+
+#: ../src/dialogs/dialog-stf.ui.h:35
+msgid "_Space"
+msgstr "_Presledek"
+
+#: ../src/dialogs/dialog-stf.ui.h:36
+msgid "_Tab"
+msgstr "_Tabulator"
+
+#: ../src/dialogs/dialog-stf.ui.h:37
+msgid "_Comma (,)"
+msgstr "_Vejica (,)"
+
+#: ../src/dialogs/dialog-stf.ui.h:38
+msgid "C_olon (:)"
+msgstr "_Dvopičje (:)"
+
+#: ../src/dialogs/dialog-stf.ui.h:39
+msgid "Semicolo_n (;)"
+msgstr "_Podpičje (;)"
+
+#: ../src/dialogs/dialog-stf.ui.h:40
+msgid "_Hyphen (-)"
+msgstr "_Pomišljaj (-)"
+
+#: ../src/dialogs/dialog-stf.ui.h:41
+msgid "C_ustom"
+msgstr "Po _meri"
+
+#: ../src/dialogs/dialog-stf.ui.h:42
+msgid "Custom separator, this can be any character."
+msgstr "Ločilnik po meri je lahko katerikoli znak."
+
+#: ../src/dialogs/dialog-stf.ui.h:43
+msgid "S_ee two separators as one"
+msgstr "_Izriši dva ločilnika kot enega"
+
+#: ../src/dialogs/dialog-stf.ui.h:44
+msgid "See two successive separators as one."
+msgstr "Izriši dva zaporedna ločilnika kot enega."
+
 #: ../src/dialogs/dialog-stf.ui.h:45
+msgid "_Ignore initial separators"
+msgstr "_Prezri začetne ločilnike"
+
+#: ../src/dialogs/dialog-stf.ui.h:46
+msgid "Ignore any separators at the beginning of lines"
+msgstr "Prezri ločilnike na začetku vrstic"
+
+#: ../src/dialogs/dialog-stf.ui.h:47
 msgid "Te_xt indicator: "
 msgstr "Kazalnik _besedila:"
 
-#: ../src/dialogs/dialog-stf.ui.h:46
+#: ../src/dialogs/dialog-stf.ui.h:48
 msgid "_Adjacent text indicators escaped"
 msgstr "_Zaporedna pokazatelja besedila kot poseben znak"
 
-#: ../src/dialogs/dialog-stf.ui.h:47
+#: ../src/dialogs/dialog-stf.ui.h:49
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
 "Dva zaporedna pokazatelja besedila spoznaj kot tistega, ki ne zaključi "
 "celice."
 
-#: ../src/dialogs/dialog-stf.ui.h:48
-msgid "Text indicator"
-msgstr "Kazalnik besedila"
-
-#: ../src/dialogs/dialog-stf.ui.h:49
+#: ../src/dialogs/dialog-stf.ui.h:50
 msgid "CSV"
 msgstr "CSV"
 
-#: ../src/dialogs/dialog-stf.ui.h:50
+#: ../src/dialogs/dialog-stf.ui.h:51
 msgid "_Auto Column Discovery"
 msgstr "Samodejno _odkrivanje stolpcev"
 
-#: ../src/dialogs/dialog-stf.ui.h:51
+#: ../src/dialogs/dialog-stf.ui.h:52
 msgid "Attempt to recognize columns in the text automatically."
 msgstr "Poskusi samodejno prepoznati ločilnike za stolpce v besedilu."
 
-#: ../src/dialogs/dialog-stf.ui.h:52
+#: ../src/dialogs/dialog-stf.ui.h:53
 msgid "_Clear"
 msgstr "_Počisti"
 
-#: ../src/dialogs/dialog-stf.ui.h:53
+#: ../src/dialogs/dialog-stf.ui.h:54
 msgid "Clear list of columns"
 msgstr "Počisti seznam stolpcev"
 
 #. Columns in imported text
-#: ../src/dialogs/dialog-stf.ui.h:55
+#: ../src/dialogs/dialog-stf.ui.h:56
 msgctxt "import"
 msgid "Columns"
 msgstr "Stolpci"
 
-#: ../src/dialogs/dialog-stf.ui.h:56
+#: ../src/dialogs/dialog-stf.ui.h:57
 msgid "Fixed"
 msgstr "Določeno"
-
-#: ../src/dialogs/dialog-stf.ui.h:57
-msgid "Source Locale:"
-msgstr "Izvorni jezik:"
 
 #: ../src/dialogs/dialog-stf.ui.h:58
 msgid "Trim:"
 msgstr "Robljenje:"
+
+#: ../src/dialogs/dialog-stf.ui.h:59
+msgid "Source Locale:"
+msgstr "Izvorni jezik:"
 
 #. ----- vertical -----
 #: ../src/dialogs/dialog-zoom.ui.h:1 ../src/wbc-gtk.c:2975
@@ -9928,7 +9936,7 @@ msgstr "_Stolpec cenzure:"
 msgid "Censored record labels from:"
 msgstr "Cenzurirane oznake zapisov so od:"
 
-#: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1517
+#: ../src/dialogs/kaplan-meier.ui.h:6 ../src/print.c:1518
 msgid "to:"
 msgstr "za:"
 
@@ -12017,7 +12025,7 @@ msgstr "Datoteka modula \"%s\" je neveljavno zapisana."
 msgid "File doesn't contain \"%s\" array."
 msgstr "Datoteka ne vsebuje podatkovnega polja \"%s\"."
 
-#: ../src/gnm-so-filled.c:176 ../src/gnm-so-path.c:196
+#: ../src/gnm-so-filled.c:176 ../src/gnm-so-path.c:195
 msgid "Filled Object Properties"
 msgstr "Lastnosti polnjenih predmetov"
 
@@ -12139,12 +12147,12 @@ msgstr ""
 msgid "Multiple errors\n"
 msgstr "Več napak\n"
 
-#: ../src/gui-util.c:1331
+#: ../src/gui-util.c:1321
 #, c-format
 msgid "The plugin with id %s is required but cannot be found."
 msgstr "Zahtevan je vstavek z ID %s, vendar ga ni mogoče najti."
 
-#: ../src/gui-util.c:1339
+#: ../src/gui-util.c:1329
 #, c-format
 msgid "The %s plugin is required but is not loaded."
 msgstr "Vstavek %s je zahtevan, vendar ni naložen."
@@ -12528,25 +12536,25 @@ msgstr ""
 "Izbranih je več kot 100 strani za predogled. Opravilo je lahko dolgotrajno. "
 "Ali res želite nadaljevati?"
 
-#: ../src/print.c:1316
+#: ../src/print.c:1317
 msgid "Preparing to preview"
 msgstr "Priprava na predogled"
 
-#: ../src/print.c:1317
+#: ../src/print.c:1318
 msgid "Preparing to print"
 msgstr "Priprava na tiskanje"
 
-#: ../src/print.c:1407
+#: ../src/print.c:1408
 #, c-format
 msgid "Creating preview of page %3d"
 msgstr "Ustvarjanje predogleda strani %3d"
 
-#: ../src/print.c:1408
+#: ../src/print.c:1409
 #, c-format
 msgid "Printing page %3d"
 msgstr "Tiskanje strani %3d"
 
-#: ../src/print.c:1412
+#: ../src/print.c:1413
 #, c-format
 msgid "Creating preview of page %3d of %3d page"
 msgid_plural "Creating preview of page %3d of %3d pages"
@@ -12555,7 +12563,7 @@ msgstr[1] "Ustvarjanje predogleda strani %3d od skupno %3d strani."
 msgstr[2] "Ustvarjanje predogleda strani %3d od skupno %3d strani."
 msgstr[3] "Ustvarjanje predogleda strani %3d od skupno %3d strani."
 
-#: ../src/print.c:1415
+#: ../src/print.c:1416
 #, c-format
 msgid "Printing page %3d of %3d page"
 msgid_plural "Printing page %3d of %3d pages"
@@ -12564,48 +12572,48 @@ msgstr[1] "Tiskanje strani %3d od skupno %3d strani."
 msgstr[2] "Tiskanje strani %3d od skupno %3d strani."
 msgstr[3] "Tiskanje strani %3d od skupno %3d strani."
 
-#: ../src/print.c:1480
+#: ../src/print.c:1481
 msgid "_All workbook sheets"
 msgstr "_Vsi delovni listi preglednice"
 
-#: ../src/print.c:1485
+#: ../src/print.c:1486
 msgid "Also print _hidden sheets"
 msgstr "natisni tudi _skrite delovne liste"
 
-#: ../src/print.c:1490
+#: ../src/print.c:1491
 msgid "A_ctive workbook sheet"
 msgstr "Dejavni delovni list preglednice"
 
-#: ../src/print.c:1495
+#: ../src/print.c:1496
 msgid "_Workbook sheets:"
 msgstr "_Delovni listi preglednice:"
 
-#: ../src/print.c:1500
+#: ../src/print.c:1501
 msgid "Current _selection only"
 msgstr "Le _trenutno izbiro"
 
-#: ../src/print.c:1505
+#: ../src/print.c:1506
 msgid "_Ignore defined print area"
 msgstr "_Prezri določeno območje tiskanja"
 
-#: ../src/print.c:1509
+#: ../src/print.c:1510
 msgid "from:"
 msgstr "od:"
 
-#: ../src/print.c:1530
+#: ../src/print.c:1531
 msgid "Ignore all _manual page breaks"
 msgstr "Prezri vse _ročne prelome strani"
 
-#: ../src/print.c:1827
+#: ../src/print.c:1828
 #, c-format
 msgid "Failed to create temporary file for printing: %s"
 msgstr "Napaka med ustvarjanjem začasne datoteke za tiskanje: %s"
 
-#: ../src/print.c:1845
+#: ../src/print.c:1846
 msgid "Gnumeric Print Range"
 msgstr "Obseg tiskanja Gnumeric"
 
-#: ../src/print.c:1861
+#: ../src/print.c:1862
 msgid "Print to File"
 msgstr "Natisni v datoteko"
 
@@ -12730,7 +12738,7 @@ msgstr "Obseg kot besedilo"
 msgid "The range in which to search."
 msgstr "Obseg iskanja."
 
-#: ../src/selection.c:416 ../src/wbc-gtk-actions.c:1274
+#: ../src/selection.c:415 ../src/wbc-gtk-actions.c:1274
 #, c-format
 msgid "%s does not support multiple ranges"
 msgstr "%s ne podpira večkratnih podatkovnih vrst"
