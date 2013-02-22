@@ -157,11 +157,11 @@ struct _GnmCellIter {
 	GnmParsePos  pp;
 	ColRowInfo  *ci, *ri;
 };
-GnmValue *sheet_foreach_cell_in_range	(Sheet *sheet, CellIterFlags flags,
-				  int start_col, int start_row,
-				  int end_col, int end_row,
-				  CellIterFunc callback,
-				  gpointer     closure);
+GnmValue *sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
+				       int start_col, int start_row,
+				       int end_col, int end_row,
+				       CellIterFunc callback,
+				       gpointer     closure);
 void	    sheet_cell_foreach	 (Sheet const *sheet,
 				  GHFunc callback, gpointer data);
 unsigned    sheet_cells_count	 (Sheet const *sheet);

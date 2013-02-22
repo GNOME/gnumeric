@@ -2499,7 +2499,7 @@ txomarkup_new (ExcelWriteState *ewb,
 /***************************************************************************/
 
 static void
-cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
+cb_cell_pre_pass (GnmCell const *cell, ExcelWriteState *ewb)
 {
 	GnmStyle const *style;
 	GOFormat const *fmt;
@@ -2600,8 +2600,11 @@ gather_styles (ExcelWriteState *ewb)
 		ExcelWriteSheet *esheet = g_ptr_array_index (ewb->esheets, i);
 		Sheet *sheet = esheet->gnum_sheet;
 		int col, cols = MIN (XLS_MaxCol, gnm_sheet_get_max_cols(sheet));
-		sheet_cell_foreach (sheet,
-			(GHFunc) cb_cell_pre_pass, &ewb->base);
+		GPtrArray *cells = sheet_cells (sheet, NULL);
+		g_ptr_array_foreach (cells,
+				     (GFunc)cb_cell_pre_pass,
+				     &ewb->base);
+		g_ptr_array_free (cells, TRUE);
 		sheet_style_foreach (sheet, (GFunc)cb_accum_styles, &ewb->base);
 		for (col = 0; col < cols; col++) {
 			ExcelStyleVariant esv;
