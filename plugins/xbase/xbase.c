@@ -11,7 +11,6 @@
 #include <goffice/goffice.h>
 
 #include <string.h>
-#include <stdio.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-msole-utils.h>

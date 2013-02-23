@@ -54,7 +54,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 

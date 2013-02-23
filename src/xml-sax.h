@@ -3,7 +3,6 @@
 # define _GNM_XML_SAX_H_
 
 #include <gnumeric.h>
-#include <gsf/gsf.h>
 #include <gsf/gsf-output-memory.h>
 
 G_BEGIN_DECLS

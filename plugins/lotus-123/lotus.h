@@ -4,7 +4,6 @@
 #define GNUMERIC_PLUGIN_LOTUS_123_LOTUS_H
 
 #include <gnumeric.h>
-#include <gsf/gsf.h>
 
 typedef enum {
 	LOTUS_VERSION_ORIG_123  = 0x0404,

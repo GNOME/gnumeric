@@ -33,7 +33,6 @@
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-utils.h>
 
-#include <stdio.h>
 #include <string.h>
 
 static void

@@ -35,7 +35,6 @@
 
 #include <sys/types.h>
 #include <string.h>
-#include <errno.h>
 #include <unistd.h>
 
 #define CXML2C(s) ((char const *)(s))

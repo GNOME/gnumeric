@@ -39,11 +39,9 @@
 #include <glib/gi18n-lib.h>
 
 #include <math.h>
-#include <errno.h>
 #include <stdlib.h>
 #include <float.h>
 #include <unistd.h>
-#include <locale.h>
 #include <string.h>
 #include <goffice/goffice.h>
 #include <glib/gstdio.h>

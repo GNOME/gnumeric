@@ -31,7 +31,6 @@
 #include "workbook-view.h"
 #include "workbook.h"
 
-#include <stdio.h>
 #include <string.h>
 
 GNM_PLUGIN_MODULE_HEADER;

@@ -23,6 +23,8 @@
 /*****************************************************************************/
 
 #include <gnumeric-config.h>
+#include <goffice/goffice.h>
+
 #include "ms-excel-write.h"
 #include "xlsx-utils.h"
 
@@ -55,8 +57,6 @@
 #include "expr-name.h"
 
 #include "go-val.h"
-
-#include <goffice/goffice.h>
 
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-outfile.h>

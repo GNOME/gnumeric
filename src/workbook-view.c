@@ -52,7 +52,6 @@
 #include "gnumeric-conf.h"
 
 #include <goffice/goffice.h>
-#include <gsf/gsf.h>
 #include <gsf/gsf-meta-names.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
@@ -61,7 +60,6 @@
 #include <glib/gstdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <errno.h>
 #include <stdlib.h>
 #include "mathfunc.h"
 

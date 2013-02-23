@@ -12,7 +12,6 @@
 #ifndef GNM_BIFF_H
 #define GNM_BIFF_H
 
-#include <gsf/gsf.h>
 #include "rc4.h"
 
 typedef enum { MS_BIFF_CRYPTO_NONE = 0,

@@ -17,7 +17,6 @@
 #include "ms-excel-util.h"
 #include <goffice/goffice.h>
 
-#include <stdio.h>
 #include <string.h>
 
 #ifdef HAVE_LANGINFO_H

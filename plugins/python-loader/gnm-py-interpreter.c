@@ -17,7 +17,6 @@
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
-#include <stdio.h>
 
 struct _GnmPyInterpreter {
 	GObject parent_instance;

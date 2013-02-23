@@ -30,7 +30,6 @@
 #include <glib.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
-#include <stdio.h>
 
 #undef RANGE_DEBUG
 #define UNICODE_ELLIPSIS "\xe2\x80\xa6"

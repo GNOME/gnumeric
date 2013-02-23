@@ -25,8 +25,6 @@
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include <string.h>
-#include <errno.h>
-#include <stdio.h>
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>
 #include "sheet-style.h"

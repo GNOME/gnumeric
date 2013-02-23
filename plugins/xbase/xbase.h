@@ -2,7 +2,6 @@
 #define GNUMERIC_PLUGIN_XBASE_XBASE_H
 
 #include <gnumeric.h>
-#include <gsf/gsf.h>
 
 typedef struct { /* field format */
 	gchar name[11]; /* name, including terminating '\0' */

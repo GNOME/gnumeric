@@ -3,7 +3,6 @@
 
 #include "gnumeric.h"
 #include <goffice/goffice.h>
-#include <stdio.h>
 #include <gsf/gsf-input.h>
 
 gboolean psiconv_read_header (GsfInput *input);

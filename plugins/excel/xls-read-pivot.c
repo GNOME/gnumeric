@@ -47,7 +47,6 @@
 
 #include <math.h>
 #include <string.h>
-#include <stdio.h>
 
 #undef NO_DEBUG_EXCEL
 #ifndef NO_DEBUG_EXCEL

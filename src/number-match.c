@@ -28,7 +28,6 @@
 #include "gnm-datetime.h"
 #include <goffice/goffice.h>
 
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>

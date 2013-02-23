@@ -22,7 +22,6 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <stdio.h>
 
 #include "hdate.h"
 

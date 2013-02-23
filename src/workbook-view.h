@@ -5,7 +5,6 @@
 #include "gnumeric.h"
 #include "dependent.h"
 #include <goffice/goffice.h>
-#include <gsf/gsf.h>
 
 G_BEGIN_DECLS
 
