@@ -67,6 +67,8 @@ setup_html_help() {
     install "${srcdir}/gtkrc" "etc/gtk-2.0"
 
     (cd "${JH_PREFIX}/deploy" && cp $srcdir/../../COPYING .)
+    (cd "${JH_PREFIX}/deploy" && cp $srcdir/../../COPYING-gpl2 .)
+    (cd "${JH_PREFIX}/deploy" && cp $srcdir/../../COPYING-gpl3 .)
 
     build_mkdir "${archive_dir}"
 
