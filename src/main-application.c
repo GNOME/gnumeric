@@ -41,7 +41,6 @@
 #include <glib/gstdio.h>
 
 #include <sys/types.h>
-#include <fcntl.h>
 #include <time.h>
 #include <string.h>
 #include <locale.h>

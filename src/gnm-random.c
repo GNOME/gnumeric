@@ -11,7 +11,6 @@
 #include <windows.h>
 #endif
 
-#include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
 
