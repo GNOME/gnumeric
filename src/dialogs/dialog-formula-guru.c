@@ -154,8 +154,8 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 	g_return_if_fail (!is_non_fun);
 	g_return_if_fail (fd != NULL);
 
-	text = g_string_append (text, gnm_func_get_name (fd, sheet_get_conventions (state->pos->sheet)->localized_function_names));
-	text = g_string_append (text, "(");
+	g_string_append (text, gnm_func_get_name (fd, sheet_get_conventions (state->pos->sheet)->localized_function_names));
+	g_string_append (text, "(");
 
 	if (gtk_tree_model_iter_children (GTK_TREE_MODEL(state->model), &iter, parent)) {
 		do {
@@ -169,7 +169,7 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 			}
 
 			if (not_first) {
-				text = g_string_append_c (text, go_locale_get_arg_sep ());
+				g_string_append_c (text, go_locale_get_arg_sep ());
 			}
 
 			if (find_origin && origin != NULL) {
@@ -191,18 +191,18 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 					 sheet_get_conventions (state->pos->sheet),
 					 NULL);
 				if (texpr == NULL) {
-					text = g_string_append_c (text, '"');
-					text = g_string_append (text, argument);
-					text = g_string_append_c (text, '"');
+					g_string_append_c (text, '"');
+					g_string_append (text, argument);
+					g_string_append_c (text, '"');
 				} else {
 					if ((GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_NAME)
 					    && expr_name_is_placeholder (texpr->expr->name.name)
 					    && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->quote_button))) {
-						text = g_string_append_c (text, '"');
-						text = g_string_append (text, argument);
-						text = g_string_append_c (text, '"');
+						g_string_append_c (text, '"');
+						g_string_append (text, argument);
+						g_string_append_c (text, '"');
 					} else
-						text = g_string_append (text, argument);
+						g_string_append (text, argument);
 					gnm_expr_top_unref (texpr);
 				}
 			}
@@ -213,7 +213,7 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 		} while (gtk_tree_model_iter_next (GTK_TREE_MODEL(state->model), &iter));
 	}
 
-	text = g_string_append_c (text, ')');
+	g_string_append_c (text, ')');
 
 	gtk_tree_store_set (state->model, parent,
 			    FUN_ARG_ENTRY, text->str,

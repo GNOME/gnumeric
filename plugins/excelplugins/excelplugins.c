@@ -711,7 +711,7 @@ actual_Excel4v (int xlfn, XLOPER* operRes, int count, XLOPER** opers)
 			case 'P':
 			case 'r':
 			case 'R':
-				argument_specifications = g_string_append_c (argument_specifications,'?');
+				g_string_append_c (argument_specifications,'?');
 				++number_of_arguments;
 				break;
 			case '\r': /* Various junk we may as well ignore. */
