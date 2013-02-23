@@ -144,7 +144,7 @@ typedef struct {
 	GOFormat const *date_long_fmt;
 
 	char const *object_name;
-	GogView const *root_view;
+	GogView *root_view;
 
 	/* for the manifest */
 	GSList *fill_image_files; /* image/png */
@@ -743,11 +743,11 @@ odf_get_gog_style_name_from_obj (GogObject const *obj)
 	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (obj));
 
 	if (NULL != g_object_class_find_property (klass, "style")) {
-		GOStyle const *style = NULL;
+		GOStyle *style = NULL;
 		gchar *name;
 		g_object_get (G_OBJECT (obj), "style", &style, NULL);
 		name = odf_get_gog_style_name (style, obj);
-		g_object_unref (G_OBJECT (style));
+		g_object_unref (style);
 		return name;
 	} else
 		return odf_get_gog_style_name (NULL, obj);
@@ -866,7 +866,7 @@ static char *
 odf_write_sheet_object_style (GnmOOExport *state, SheetObject *so)
 {
 	char *name = g_strdup_printf ("so-g-%p", so);
-	GOStyle const *style = NULL;
+	GOStyle *style = NULL;
 	GObjectClass *klass = G_OBJECT_GET_CLASS (G_OBJECT (so));
 	if (NULL != g_object_class_find_property (klass, "style"))
 		g_object_get (G_OBJECT (so), "style", &style, NULL);
@@ -881,7 +881,7 @@ odf_write_sheet_object_style (GnmOOExport *state, SheetObject *so)
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 
 	if (style != NULL)
-		g_object_unref (G_OBJECT (style));
+		g_object_unref (style);
 	return name;
 }
 
@@ -889,7 +889,7 @@ static char *
 odf_write_sheet_object_line_style (GnmOOExport *state, SheetObject *so)
 {
 	char *name = g_strdup_printf ("so-g-l-%p", so);
-	GOStyle const *style = NULL;
+	GOStyle *style = NULL;
 	GOArrow *start = NULL, *end = NULL;
 	char const *start_arrow_name = NULL;
 	char const *end_arrow_name = NULL;
@@ -919,7 +919,7 @@ odf_write_sheet_object_line_style (GnmOOExport *state, SheetObject *so)
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 
 	if (style != NULL)
-		g_object_unref (G_OBJECT (style));
+		g_object_unref (style);
 	return name;
 }
 
@@ -7114,11 +7114,11 @@ odf_write_gog_styles (GogObject const *obj, GnmOOExport *state)
 	GSList *children;
 
 	if (NULL != g_object_class_find_property (klass, "style")) {
-		GOStyle const *style = NULL;
+		GOStyle *style = NULL;
 		g_object_get (G_OBJECT (obj), "style", &style, NULL);
 		odf_write_gog_style (state, style, obj);
 		if (style != NULL) {
-			g_object_unref (G_OBJECT (style));
+			g_object_unref (style);
 		}
 	} else
 		odf_write_gog_style (state, NULL, obj);
@@ -7646,7 +7646,7 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so)
 			}
 			g_slist_free (charts);
 		}
-		g_object_unref (G_OBJECT (state->root_view));
+		g_object_unref (state->root_view);
 		state->root_view = NULL;
 		g_object_unref (renderer);
 	}
@@ -7689,7 +7689,7 @@ odf_write_images (SheetObjectImage *image, char const *name, GnmOOExport *state)
 	if (NULL != child) {
 		gsf_output_write (child, bytes->len, bytes->data);
 		gsf_output_close (child);
-		g_object_unref (G_OBJECT (child));
+		g_object_unref (child);
 	}
 
 	g_free (fullname);
@@ -7805,7 +7805,6 @@ odf_write_pie_point (GnmOOExport *state, G_GNUC_UNUSED GOStyle const *style,
 				     CHART "pie-offset",
 				     (separation * 100. + 0.5));
 	}
-
 }
 
 static void
@@ -7877,7 +7876,7 @@ odf_write_fill_images (GOImage *image, char const *name, GnmOOExport *state)
 					     child, "png",
 					     NULL, NULL);
 		gsf_output_close (child);
-		g_object_unref (G_OBJECT (child));
+		g_object_unref (child);
 	} else
 		g_free (manifest_name);
 
@@ -7897,9 +7896,10 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 
 	state->object_name = name;
 
-	child = gsf_outfile_new_child_full (state->outfile, name, TRUE,
-				"compression-level", GSF_ZIP_DEFLATED,
-					    NULL);
+	child = gsf_outfile_new_child_full
+		(state->outfile, name, TRUE,
+		 "compression-level", GSF_ZIP_DEFLATED,
+		 NULL);
 	if (NULL != child) {
 		char *fullname = g_strdup_printf ("%s/content.xml", name);
 		GsfOutput  *sec_child;
@@ -7914,7 +7914,7 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 		if (NULL != sec_child) {
 			odf_write_graph_content (state, sec_child, graph);
 			gsf_output_close (sec_child);
-			g_object_unref (G_OBJECT (sec_child));
+			g_object_unref (sec_child);
 		}
 		g_free (fullname);
 
@@ -7927,7 +7927,7 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 		if (NULL != sec_child) {
 			odf_write_meta_graph (state, sec_child);
 			gsf_output_close (sec_child);
-			g_object_unref (G_OBJECT (sec_child));
+			g_object_unref (sec_child);
 		}
 		g_free (fullname);
 		odf_update_progress (state, state->graph_progress / 2);
@@ -7939,7 +7939,7 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 		if (NULL != sec_child) {
 			odf_write_graph_styles (state, sec_child);
 			gsf_output_close (sec_child);
-			g_object_unref (G_OBJECT (sec_child));
+			g_object_unref (sec_child);
 		}
 		g_free (fullname);
 
@@ -7955,7 +7955,7 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 		odf_update_progress (state, state->graph_progress * (3./2.));
 
 		gsf_output_close (child);
-		g_object_unref (G_OBJECT (child));
+		g_object_unref (child);
 
 		fullname = g_strdup_printf ("Pictures/%s", name);
 		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
@@ -7966,7 +7966,7 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 			if (!gog_graph_export_image (gog, GO_IMAGE_FORMAT_SVG, sec_child, 100., 100.))
 				g_print ("Failed to create svg image of graph.\n");
 			gsf_output_close (sec_child);
-			g_object_unref (G_OBJECT (sec_child));
+			g_object_unref (sec_child);
 		}
 		g_free (fullname);
 
@@ -7981,7 +7981,7 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 			if (!gog_graph_export_image (gog, GO_IMAGE_FORMAT_PNG, sec_child, 100., 100.))
 				g_print ("Failed to create png image of graph.\n");
 			gsf_output_close (sec_child);
-			g_object_unref (G_OBJECT (sec_child));
+			g_object_unref (sec_child);
 		}
 		g_free (fullname);
 		odf_update_progress (state, state->graph_progress);
@@ -8001,23 +8001,24 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 	static struct {
 		void (*func) (GnmOOExport *state, GsfOutput *child);
 		char const *name;
+		gboolean inhibit_compression;
 	} const streams[] = {
-		/* Must be first element to ensure it is not compressed */
-		{ odf_write_mimetype,	"mimetype" },
+		/* Must be first */
+		{ odf_write_mimetype,	"mimetype",        TRUE  },
 
-		{ odf_write_content,	"content.xml" },
-		{ odf_write_styles,	"styles.xml" },
-		{ odf_write_meta,	"meta.xml" },
-		{ odf_write_settings,	"settings.xml" },
+		{ odf_write_content,	"content.xml",     FALSE },
+		{ odf_write_styles,	"styles.xml",      FALSE },
+		{ odf_write_meta,	"meta.xml",        FALSE },
+		{ odf_write_settings,	"settings.xml",    FALSE },
 	};
 
 	GnmOOExport state;
-	GnmLocale  *locale;
+	GnmLocale *locale;
 	GError *err;
 	unsigned i;
 	Sheet *sheet;
-	GsfOutput  *pictures;
-	GsfOutput  *child;
+	GsfOutput *pictures;
+	GsfOutput *manifest;
 	GnmStyle *style;
 
 	locale  = gnm_push_C_locale ();
@@ -8113,14 +8114,17 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 	}
 
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
-		child = gsf_outfile_new_child_full (state.outfile, streams[i].name, FALSE,
-				/* do not compress the mimetype */
-				"compression-level", ((0 == i) ? GSF_ZIP_STORED : GSF_ZIP_DEFLATED),
-				NULL);
+		int comp_level = streams[i].inhibit_compression
+			? GSF_ZIP_STORED
+			: GSF_ZIP_DEFLATED;
+		GsfOutput *child = gsf_outfile_new_child_full
+			(state.outfile, streams[i].name, FALSE,
+			 "compression-level", comp_level,
+			 NULL);
 		if (NULL != child) {
 			streams[i].func (&state, child);
 			gsf_output_close (child);
-			g_object_unref (G_OBJECT (child));
+			g_object_unref (child);
 		}
 		odf_update_progress (&state, state.sheet_progress);
 	}
@@ -8136,26 +8140,28 @@ openoffice_file_save_real (G_GNUC_UNUSED  GOFileSaver const *fs, GOIOContext *io
 	g_hash_table_foreach (state.images, (GHFunc) odf_write_images, &state);
 	if (NULL != pictures) {
 		gsf_output_close (pictures);
-		g_object_unref (G_OBJECT (pictures));
+		g_object_unref (pictures);
 	}
 
 	/* Need to write the manifest */
-	child = gsf_outfile_new_child_full (state.outfile, "META-INF/manifest.xml", FALSE,
-					    "compression-level", GSF_ZIP_DEFLATED,
-					    NULL);
-	if (NULL != child) {
-		odf_write_manifest (&state, child);
-		gsf_output_close (child);
-		g_object_unref (G_OBJECT (child));
+	manifest = gsf_outfile_new_child_full
+		(state.outfile, "META-INF/manifest.xml", FALSE,
+		 "compression-level", GSF_ZIP_DEFLATED,
+		 NULL);
+	if (manifest) {
+		odf_write_manifest (&state, manifest);
+		gsf_output_close (manifest);
+		g_object_unref (manifest);
+	} else {
+		/* Complain fiercely? */
 	}
-	/* manifest written */
 
 	g_free (state.conv);
 
 	go_io_value_progress_update (state.ioc, PROGRESS_STEPS);
 	go_io_progress_unset (state.ioc);
 	gsf_output_close (GSF_OUTPUT (state.outfile));
-	g_object_unref (G_OBJECT (state.outfile));
+	g_object_unref (state.outfile);
 
 	g_free (state.odf_version_string);
 
